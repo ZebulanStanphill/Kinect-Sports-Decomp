@@ -1,40 +1,33 @@
-#define true 1
-extern int fn_82FA5190();
+typedef struct Node_82FF52D8 {
+    struct Node_82FF52D8 *next;
+    int value;
+    unsigned int key;
+} Node_82FF52D8;
 
+typedef struct Table_82FF52D8 {
+    void *allocator;
+    Node_82FF52D8 *buckets[31];  /* 0x4 */
+    int count;                   /* 0x80 */
+} Table_82FF52D8;
 
-void fn_82FF52D8(unsigned int *param_1,unsigned __int64 param_2)
+extern void fn_82FA5190(void *allocator, void *p);
 
+void fn_82FF52D8(Table_82FF52D8 *t, unsigned int key)
 {
-  int *piVar1;
-  unsigned __int64 uVar2;
-  int iVar3;
-  int *piVar4;
-  int *piVar5;
-  
-  uVar2 = (param_2 & 0xffffffff) * 0x8421085 >> 0x20;
-  uVar2 = ((param_2 - uVar2 & 0xffffffff) >> 1) + uVar2 >> 4;
-  iVar3 = (int)(((param_2 - ((uVar2 & 0x7ffffff) * 0x20 - uVar2)) + 1 & 0xffffffff) << 2);
-  piVar1 = *(int **)(iVar3 + (int)param_1);
-  piVar4 = (int *)0x0;
-  if (piVar1 != (int *)0x0) {
-    while( true ) {
-      piVar5 = piVar1;
-      if ((unsigned __int64)(unsigned int)piVar5[2] == (param_2 & 0xffffffff)) break;
-      piVar1 = (int *)*piVar5;
-      piVar4 = piVar5;
-      if ((int *)*piVar5 == (int *)0x0) {
-        return;
-      }
+    unsigned int i = key % 31;
+    Node_82FF52D8 *n = t->buckets[i];
+    Node_82FF52D8 *prev = 0;
+    while (n != 0) {
+        if (n->key == key) {
+            if (prev != 0)
+                prev->next = n->next;
+            else
+                t->buckets[i] = n->next;
+            fn_82FA5190(t->allocator, n);
+            t->count--;
+            return;
+        }
+        prev = n;
+        n = n->next;
     }
-    if (piVar4 == (int *)0x0) {
-      *(int *)(iVar3 + (int)param_1) = *piVar5;
-    }
-    else {
-      *piVar4 = *piVar5;
-    }
-    fn_82FA5190(*param_1,piVar5);
-    param_1[0x20] = param_1[0x20] + -1;
-  }
-  return;
 }
-

@@ -1,55 +1,23 @@
-extern unsigned int lbl_83232478;
+struct Ctx_82CA0C90 {
+    char pad0[0xcc];
+    int dimCC;      /* 0xcc */
+    int dimD0;      /* 0xd0 */
+    int dimD4;      /* 0xd4 */
+    int dimD8;      /* 0xd8 */
+    char pad1[0xef8 - 0xdc];
+    unsigned char *plane0;  /* 0xef8 */
+    unsigned char *plane1;  /* 0xefc */
+    unsigned char *plane2;  /* 0xf00 */
+    char pad2[0x3a0c - 0xf04];
+    int mode;       /* 0x3a0c */
+};
 
+void fn_82CA0C00(unsigned char *plane0, unsigned char *plane1, unsigned char *plane2, int count0, int count12);
 
-void fn_82CA0C90(int param_1)
-
+void fn_82CA0C90(struct Ctx_82CA0C90 *ctx)
 {
-  int iVar1;
-  int iVar2;
-  __int64 lVar3;
-  __int64 lVar4;
-  int iVar5;
-  int iVar6;
-  int iVar7;
-  
-  iVar2 = lbl_83232478;
-  if (*(int *)(param_1 + 0x3a0c) != 1) {
-    return;
-  }
-  lVar4 = (__int64)*(int *)(param_1 + 0xd8) * (__int64)*(int *)(param_1 + 0xd0);
-  iVar1 = *(int *)(param_1 + 0xf00);
-  iVar7 = *(int *)(param_1 + 0xefc);
-  iVar6 = *(int *)(param_1 + 0xef8);
-  lVar3 = (__int64)*(int *)(param_1 + 0xd4) * (__int64)*(int *)(param_1 + 0xcc);
-  iVar5 = 0;
-  if (0 < (int)lVar3) {
-    do {
-      *(unsigned char *)(iVar5 + iVar6) =
-           *(unsigned char *)((*(unsigned char *)(iVar5 + iVar6) - 0x40) * 2 + iVar2);
-      iVar5 = iVar5 + 1;
-      lVar3 = lVar3 + -1;
-    } while (lVar3 != 0);
-  }
-  iVar6 = 0;
-  lVar3 = lVar4;
-  if (0 < (int)lVar4) {
-    do {
-      *(unsigned char *)(iVar6 + iVar7) =
-           *(unsigned char *)((*(unsigned char *)(iVar6 + iVar7) - 0x40) * 2 + iVar2);
-      iVar6 = iVar6 + 1;
-      lVar3 = lVar3 + -1;
-    } while (lVar3 != 0);
-  }
-  iVar7 = 0;
-  if (0 < (int)lVar4) {
-    do {
-      *(unsigned char *)(iVar7 + iVar1) =
-           *(unsigned char *)((*(unsigned char *)(iVar7 + iVar1) - 0x40) * 2 + iVar2);
-      iVar7 = iVar7 + 1;
-      lVar4 = lVar4 + -1;
-    } while (lVar4 != 0);
-    return;
-  }
-  return;
+    if (ctx->mode != 1) {
+        return;
+    }
+    fn_82CA0C00(ctx->plane0, ctx->plane1, ctx->plane2, ctx->dimD4 * ctx->dimCC, ctx->dimD8 * ctx->dimD0);
 }
-

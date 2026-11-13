@@ -1,28 +1,23 @@
-extern int fn_82CFD4F0();
-extern int fn_82D04AB8();
-extern int fn_82D04C78();
+extern char lbl_82196582[];
+extern char lbl_821AC4B4[];
 
+typedef struct Info_82E0E5A8 {
+    int id;
+    const char *name;   /* 0x4 */
+} Info_82E0E5A8;
 
-void fn_82E0E5A8(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+extern Info_82E0E5A8 *fn_82CFD4F0(int type);
+extern void fn_82D04AB8(void *str, const char *s);
+extern void fn_82D04C78(void *str, const char *s);
 
+void fn_82E0E5A8(int type, int subType, void *str)
 {
-  int iVar1;
-  
-  fn_82D04AB8(param_3,0xffffffff82196582);
-  iVar1 = (int)param_1;
-  if (((iVar1 < 1) || (0x12 < iVar1)) && (iVar1 != 0x1e)) {
-    if ((iVar1 == 0x18) || (iVar1 == 0x1f)) {
-      iVar1 = fn_82CFD4F0(param_2);
-      fn_82D04AB8(param_3,*(unsigned int *)(iVar1 + 4));
+    fn_82D04AB8(str, lbl_82196582);
+    if ((type >= 1 && type <= 0x12) || type == 0x1e) {
+        if (type == 1 || (type >= 0xc && type <= 0x12))
+            fn_82D04AB8(str, lbl_821AC4B4);
+        fn_82D04C78(str, fn_82CFD4F0(type)->name);
+    } else if (type == 0x18 || type == 0x1f) {
+        fn_82D04AB8(str, fn_82CFD4F0(subType)->name);
     }
-  }
-  else {
-    if ((iVar1 == 1) || ((0xb < iVar1 && (iVar1 < 0x13)))) {
-      fn_82D04AB8(param_3,0xffffffff821ac4b4);
-    }
-    iVar1 = fn_82CFD4F0(param_1);
-    fn_82D04C78(param_3,*(unsigned int *)(iVar1 + 4));
-  }
-  return;
 }
-

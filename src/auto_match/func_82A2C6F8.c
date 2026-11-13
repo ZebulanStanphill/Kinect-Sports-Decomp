@@ -1,25 +1,26 @@
-typedef unsigned char bool;
-extern unsigned int *auStack_1c;
-extern int fn_82A2BAF0();
-extern unsigned int iStack_20;
+typedef struct Page_82A2C6F8 {
+    int pad0;
+    unsigned char refs;
+    unsigned char pad5[3];
+} Page_82A2C6F8;
 
+typedef struct Heap_82A2C6F8 {
+    char pad0[0x30];
+    Page_82A2C6F8 *pages;
+    char *base;
+} Heap_82A2C6F8;
 
-bool fn_82A2C6F8(int param_1,unsigned __int64 param_2)
+extern unsigned int fn_82A2BAF0(Heap_82A2C6F8 *heap, void *p, int flag, char **block, int *info);
 
+int fn_82A2C6F8(Heap_82A2C6F8 *heap, void *p)
 {
-  int iVar1;
-  int iVar2;
-  unsigned int uVar3;
-  int iStack_20;
-  unsigned char auStack_1c [1];
-  
-  iVar2 = fn_82A2BAF0(param_1,param_2,1,&iStack_20,auStack_1c);
-  if (iVar2 != 0) {
-    uVar3 = iStack_20 - *(int *)(param_1 + 0x34);
-    iVar1 = (((int)uVar3 >> 0xc) + (unsigned int)((int)uVar3 < 0 && (uVar3 & 0xfff) != 0)) * 8 +
-            *(int *)(param_1 + 0x30);
-    *(char *)(iVar1 + 4) = *(char *)(iVar1 + 4) + -1;
-  }
-  return iVar2 != 0;
-}
+    char *block;
+    int info;
 
+    if (fn_82A2BAF0(heap, p, 1, &block, &info)) {
+        Page_82A2C6F8 *pg = &heap->pages[(block - heap->base) / 4096];
+        pg->refs--;
+        return 1;
+    }
+    return 0;
+}

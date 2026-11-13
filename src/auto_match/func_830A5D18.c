@@ -1,71 +1,30 @@
-void fn_830A5D18(int param_1,int param_2,int *param_3)
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Rotation_830A5D18 {
+    __vector4 col0;
+    __vector4 col1;
+    __vector4 col2;
+} Rotation_830A5D18;
+
+typedef struct Schema_830A5D18 {
+    Rotation_830A5D18 a;
+    Rotation_830A5D18 b;
+} Schema_830A5D18;
+
+void fn_830A5D18(const Rotation_830A5D18 *a, const Rotation_830A5D18 *b, Schema_830A5D18 **cursor)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  unsigned int *puVar3;
-  int in_r0;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  
-  iVar1 = *param_3;
-  puVar2 = (unsigned int *)(in_r0 + param_1 & 0xfffffff0);
-  uVar4 = puVar2[1];
-  uVar5 = puVar2[2];
-  uVar6 = puVar2[3];
-  puVar3 = (unsigned int *)(in_r0 + iVar1 & 0xfffffff0);
-  *puVar3 = *puVar2;
-  puVar3[1] = uVar4;
-  puVar3[2] = uVar5;
-  puVar3[3] = uVar6;
-  puVar2 = (unsigned int *)(param_1 + 0x10U & 0xfffffff0);
-  uVar4 = puVar2[1];
-  uVar5 = puVar2[2];
-  uVar6 = puVar2[3];
-  puVar3 = (unsigned int *)(iVar1 + 0x10U & 0xfffffff0);
-  *puVar3 = *puVar2;
-  puVar3[1] = uVar4;
-  puVar3[2] = uVar5;
-  puVar3[3] = uVar6;
-  puVar2 = (unsigned int *)(param_1 + 0x20U & 0xfffffff0);
-  uVar4 = puVar2[1];
-  uVar5 = puVar2[2];
-  uVar6 = puVar2[3];
-  puVar3 = (unsigned int *)(iVar1 + 0x20U & 0xfffffff0);
-  *puVar3 = *puVar2;
-  puVar3[1] = uVar4;
-  puVar3[2] = uVar5;
-  puVar3[3] = uVar6;
-  puVar2 = (unsigned int *)(in_r0 + param_2 & 0xfffffff0);
-  uVar4 = puVar2[1];
-  uVar5 = puVar2[2];
-  uVar6 = puVar2[3];
-  puVar3 = (unsigned int *)(in_r0 + iVar1 + 0x30 & 0xfffffff0);
-  *puVar3 = *puVar2;
-  puVar3[1] = uVar4;
-  puVar3[2] = uVar5;
-  puVar3[3] = uVar6;
-  puVar2 = (unsigned int *)(param_2 + 0x10U & 0xfffffff0);
-  uVar4 = puVar2[1];
-  uVar5 = puVar2[2];
-  uVar6 = puVar2[3];
-  puVar3 = (unsigned int *)(iVar1 + 0x40U & 0xfffffff0);
-  *puVar3 = *puVar2;
-  puVar3[1] = uVar4;
-  puVar3[2] = uVar5;
-  puVar3[3] = uVar6;
-  puVar2 = (unsigned int *)(param_2 + 0x20U & 0xfffffff0);
-  uVar4 = puVar2[1];
-  uVar5 = puVar2[2];
-  uVar6 = puVar2[3];
-  puVar3 = (unsigned int *)(iVar1 + 0x50U & 0xfffffff0);
-  *puVar3 = *puVar2;
-  puVar3[1] = uVar4;
-  puVar3[2] = uVar5;
-  puVar3[3] = uVar6;
-  *(unsigned char *)(iVar1 + 3) = 0x1b;
-  *param_3 = iVar1 + 0x60;
-  return;
-}
+    Schema_830A5D18 *s = *cursor;
+    Rotation_830A5D18 *d;
 
+    s->a.col0 = a->col0;
+    s->a.col1 = a->col1;
+    s->a.col2 = a->col2;
+    d = &s->b;
+    d->col0 = b->col0;
+    d->col1 = b->col1;
+    d->col2 = b->col2;
+    ((unsigned char *)s)[3] = 0x1b;
+    *cursor = s + 1;
+}

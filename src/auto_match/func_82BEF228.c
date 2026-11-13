@@ -1,37 +1,39 @@
-extern int fn_82BE5240();
+typedef struct Request_82BEF228 {
+    char pad0[0x10];
+    int status;            /* 0x10 */
+} Request_82BEF228;
 
+typedef struct Download_82BEF228 {
+    char pad0[0x10];
+    int state;             /* 0x10 */
+    char pad14[0x1c];
+    Request_82BEF228 *request;   /* 0x30 */
+    int mode;              /* 0x34 */
+} Download_82BEF228;
 
-unsigned __int64 fn_82BEF228(int param_1)
+extern char lbl_82196582[];
+extern int fn_82BE5240(Download_82BEF228 *self, int code, const char *message);
 
+int fn_82BEF228(Download_82BEF228 *self)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  unsigned int uVar3;
-  
-  if (*(int *)(param_1 + 0x30) == 0) {
-    *(unsigned int *)(param_1 + 0x10) = 1;
-    uVar2 = fn_82BE5240(param_1,0x193,0xffffffff820eb198);
-    return uVar2;
-  }
-  iVar1 = *(int *)(*(int *)(param_1 + 0x30) + 0x10);
-  if (iVar1 == 0x17) {
-    uVar3 = 0x12;
-  }
-  else {
-    if (iVar1 != 0x18) {
-      return 0;
+    if (self->request != 0) {
+        switch (self->request->status) {
+        case 0x17:
+            self->state = 0x12;
+            break;
+        case 0x18:
+            if (self->mode == 2) {
+                fn_82BE5240(self, 0x194, lbl_82196582);
+                self->request = 0;
+                self->state = 0;
+            } else {
+                fn_82BE5240(self, 0x194, lbl_82196582);
+                self->state = 0x14;
+            }
+            break;
+        }
+        return 0;
     }
-    if (*(int *)(param_1 + 0x34) == 2) {
-      fn_82BE5240(param_1,0x194,0xffffffff82196582);
-      uVar3 = 0;
-      *(unsigned int *)(param_1 + 0x30) = 0;
-    }
-    else {
-      fn_82BE5240(param_1,0x194,0xffffffff82196582);
-      uVar3 = 0x14;
-    }
-  }
-  *(unsigned int *)(param_1 + 0x10) = uVar3;
-  return 0;
+    self->state = 1;
+    return fn_82BE5240(self, 0x193, "Failed in Download");
 }
-

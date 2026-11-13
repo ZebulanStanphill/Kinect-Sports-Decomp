@@ -1,33 +1,36 @@
-extern int fn_8269F500();
+typedef struct Data_8269FD00 {
+    char pad[0x78];
+    char *base;            /* 0x78 */
+} Data_8269FD00;
 
+typedef struct Obj_8269FD00 Obj_8269FD00;
+typedef struct ObjVtbl_8269FD00 {
+    char pad[0x58];
+    Data_8269FD00 *(*GetData)(Obj_8269FD00 *self);   /* 0x58 */
+} ObjVtbl_8269FD00;
 
-__int64 fn_8269FD00(int *param_1)
+struct Obj_8269FD00 {
+    ObjVtbl_8269FD00 *vt;
+    char pad4[0x7c];
+    int cached;            /* 0x80 */
+};
 
+extern char *fn_8269F500(Obj_8269FD00 *self);
+
+static __forceinline char *Obj_GetCached(Obj_8269FD00 *self)
 {
-  unsigned __int64 uVar1;
-  __int64 lVar2;
-  int iVar3;
-  
-  uVar1 = (unsigned __int64)(unsigned int)param_1[0x20];
-  if (param_1[0x20] == 0) {
-    uVar1 = fn_8269F500(param_1);
-  }
-  if ((uVar1 & 0xffffffff) == 0) {
-    uVar1 = (unsigned __int64)(unsigned int)param_1[0x20];
-    if (param_1[0x20] == 0) {
-      uVar1 = fn_8269F500(param_1);
-    }
-    if ((uVar1 & 0xffffffff) == 0) {
-      iVar3 = (**(int (***)())(*param_1 + 0x58))(param_1);
-      lVar2 = (unsigned __int64)*(unsigned int *)(iVar3 + 0x78) + 8;
-    }
-    else {
-      lVar2 = uVar1 + 8;
-    }
-  }
-  else {
-    lVar2 = uVar1 + 0x10;
-  }
-  return lVar2;
+    if (self->cached != 0)
+        return (char *)self->cached;
+    return fn_8269F500(self);
 }
 
+char *fn_8269FD00(Obj_8269FD00 *self)
+{
+    char *p = Obj_GetCached(self);
+    if (p != 0)
+        return p + 0x10;
+    p = Obj_GetCached(self);
+    if (p != 0)
+        return p + 8;
+    return self->vt->GetData(self)->base + 8;
+}

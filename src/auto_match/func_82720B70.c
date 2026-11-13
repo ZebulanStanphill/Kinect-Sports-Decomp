@@ -1,45 +1,60 @@
-extern int fn_826957D0();
-extern int fn_826959C8();
-extern int fn_82697700();
-extern int fn_826A7398();
-extern int fn_826ADF90();
-extern unsigned int uStack_34;
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
+typedef struct Event_82720B70 {
+    int type;
+    unsigned char handled;
+    int unused;
+    int value;
+} Event_82720B70;
 
+typedef struct Handler_82720B70 Handler_82720B70;
+typedef struct HandlerVtbl_82720B70 {
+    void *dtor;
+    void (*HandleEvent)(Handler_82720B70 *self, void *movie, Event_82720B70 *event);
+} HandlerVtbl_82720B70;
+struct Handler_82720B70 {
+    HandlerVtbl_82720B70 *vt;
+};
 
-void fn_82720B70(int param_1)
+typedef struct Movie_82720B70 {
+    char pad0[0x10c];
+    Handler_82720B70 *handler;   /* 0x10c */
+} Movie_82720B70;
 
+typedef struct FnCall_82720B70 {
+    int pad0;
+    char *result;          /* 0x04 */
+    char pad8[0x10];
+    void *env;             /* 0x18 */
+    int argCount;          /* 0x1c */
+} FnCall_82720B70;
+
+extern void fn_826959C8(char *value);
+extern Movie_82720B70 *fn_826A7398(void *env);
+extern void *fn_826957D0(FnCall_82720B70 *call, int index);
+extern int fn_82697700(void *value, void *env);
+extern void fn_826ADF90(void *env, const char *format, ...);
+
+void fn_82720B70(FnCall_82720B70 *call)
 {
-  unsigned char *puVar1;
-  unsigned int uVar2;
-  int iVar4;
-  unsigned __int64 uVar3;
-  unsigned int uStack_40;
-  unsigned char uStack_3c;
-  unsigned int uStack_38;
-  unsigned int uStack_34;
-  
-  puVar1 = *(unsigned char **)(param_1 + 4);
-  fn_826959C8(puVar1);
-  *puVar1 = 0;
-  iVar4 = fn_826A7398(*(unsigned int *)(param_1 + 0x18));
-  if (*(int *)(iVar4 + 0x10c) == 0) {
-    fn_826ADF90(*(unsigned int *)(param_1 + 0x18),0xffffffff82010478);
-  }
-  else {
-    uStack_34 = 0;
-    if (0 < *(int *)(param_1 + 0x1c)) {
-      uVar2 = *(unsigned int *)(param_1 + 0x18);
-      uVar3 = fn_826957D0(param_1,0);
-      uStack_34 = fn_82697700(uVar3,uVar2);
-    }
-    uStack_3c = 0;
-    uStack_40 = 10;
-    uStack_38 = 0;
-    (**(int (***)())(**(int **)(iVar4 + 0x10c) + 4))(*(int **)(iVar4 + 0x10c),iVar4,&uStack_40);
-  }
-  return;
-}
+    char *result = call->result;
+    Movie_82720B70 *movie;
+    Handler_82720B70 *handler;
+    Event_82720B70 event;
+    int value;
 
+    fn_826959C8(result);
+    *result = 0;
+    movie = fn_826A7398(call->env);
+    if ((int)movie->handler != 0) {
+        value = 0;
+        if (call->argCount >= 1)
+            value = fn_82697700(fn_826957D0(call, 0), call->env);
+        handler = movie->handler;
+        event.handled = 0;
+        event.type = 10;
+        event.unused = 0;
+        event.value = value;
+        handler->vt->HandleEvent(handler, movie, &event);
+    } else {
+        fn_826ADF90(call->env, "Warning: no user event handler interface is installed; Mouse.show failed.\n");
+    }
+}

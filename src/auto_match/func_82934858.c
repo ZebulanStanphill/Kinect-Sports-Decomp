@@ -1,25 +1,19 @@
-extern int fn_8265C9E0();
-extern int fn_8265CA20();
-extern int fn_82F691F0();
+extern void *memset(void *dst, int value, unsigned int size);
+extern void *fn_8265C9E0(unsigned int size);
+extern void fn_8265CA20(void *p);
+extern int fn_829352D0(void *self, void *buf, unsigned int size, int kind, void *arg, int flags);
 
-
-unsigned __int64 fn_82934858(unsigned __int64 param_1,unsigned __int64 param_2)
-
+int fn_82934858(void *self, unsigned int count, void *arg)
 {
-  __int64 lVar1;
-  unsigned __int64 uVar2;
-  
-  uVar2 = (param_2 & 0x3fffffff) << 2;
-  lVar1 = (uVar2 & 0x3fffffff) << 2;
-  if (0x3fffffff < uVar2) {
-    lVar1 = -1;
-  }
-  lVar1 = fn_8265C9E0(lVar1);
-  if (lVar1 == 0) {
-    fn_8265CA20(0);
-    return 0xffffffff8007000e;
-  }
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0(lVar1,0,(param_2 & 0xfffffff) << 4);
+    unsigned int n = count * 4;
+    unsigned int *buf = (unsigned int *)fn_8265C9E0(n <= 0x3fffffff ? n * 4 : 0xffffffff);
+    int hr;
+    if (buf == 0) {
+        hr = 0x8007000e;
+    } else {
+        memset(buf, 0, count * 16);
+        hr = fn_829352D0(self, buf, count * 16, 6, arg, 0);
+    }
+    fn_8265CA20(buf);
+    return hr;
 }
-

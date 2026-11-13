@@ -1,24 +1,21 @@
-extern int fn_82591730();
-extern unsigned int uStack00000024;
+typedef struct Obj_82619258 {
+    int unk0;
+    int unk4;
+    float x8;    /* 0x08 */
+    float xc;    /* 0x0c */
+} Obj_82619258;
 
+extern int fn_82591730(Obj_82619258 *self, int param, unsigned int value);
 
-unsigned __int64 fn_82619258(int param_1,int param_2,unsigned int param_3)
-
+int fn_82619258(Obj_82619258 *self, int param, unsigned int value)
 {
-  unsigned __int64 uVar1;
-  unsigned int uStack00000024;
-  
-  if (param_2 == 2) {
-    *(unsigned int *)(param_1 + 8) = param_3;
-  }
-  else {
-    if (param_2 != 3) {
-      uStack00000024 = param_3;
-      uVar1 = fn_82591730();
-      return uVar1;
+    switch (param) {
+    case 2:
+        self->x8 = *(float *)&value;
+        return 1;
+    case 3:
+        self->xc = *(float *)&value;
+        return 1;
     }
-    *(unsigned int *)(param_1 + 0xc) = param_3;
-  }
-  return 1;
+    return fn_82591730(self, param, value);
 }
-

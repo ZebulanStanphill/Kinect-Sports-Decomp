@@ -1,11 +1,8 @@
-extern unsigned int lbl_82002C28;
-
-
-void fn_82783F98(double param_1,float *param_2)
-
+void fn_82783F98(float *out, float x)
 {
-  *param_2 = (float)param_1;
-  param_2[1] = (float)(param_1 * (double)lbl_82002C28) * (float)(param_1 * (double)lbl_82002C28);
-  return;
-}
+    float scaled;
 
+    out[0] = x;
+    scaled = x * 0.25f;
+    out[1] = scaled * scaled;
+}

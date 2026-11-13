@@ -1,33 +1,32 @@
-extern int fn_82E4FE40();
-extern int fn_82E50BE8();
+typedef struct Obj_82F3BA60 {
+    char pad0[0xc];
+    void *device;
+    char pad10[0x4c - 0x10];
+    unsigned int flags;
+    char pad50[0x6c - 0x50];
+    unsigned int count;
+    void *buffer;
+} Obj_82F3BA60;
 
+extern void fn_82E4FE40(void *p);
+extern void *fn_82E50BE8(unsigned int size, int a, int b, int c, int d);
 
-unsigned __int64 fn_82F3BA60(int param_1,unsigned __int64 param_2)
-
+int fn_82F3BA60(Obj_82F3BA60 *self, unsigned int count)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  
-  if (*(int *)(param_1 + 0xc) == 0) {
-    uVar1 = 0xffffffffc00d36b6;
-  }
-  else {
-    if (((*(unsigned int *)(param_1 + 0x4c) & 1) != 0) &&
-       ((unsigned __int64)*(unsigned int *)(param_1 + 0x6c) < (param_2 & 0xffffffff))) {
-      if (*(int *)(param_1 + 0x70) != 0) {
-        fn_82E4FE40();
-      }
-      *(unsigned int *)(param_1 + 0x70) = 0;
-      *(unsigned int *)(param_1 + 0x6c) = 0;
-      iVar2 = fn_82E50BE8(param_2 * 6,0,0,0,0);
-      *(int *)(param_1 + 0x70) = iVar2;
-      if (iVar2 == 0) {
-        return 0xffffffff8007000e;
-      }
+    if (self->device == 0) {
+        return 0xc00d36b6;
     }
-    *(int *)(param_1 + 0x6c) = (int)param_2;
-    uVar1 = 0;
-  }
-  return uVar1;
+    if ((self->flags & 1) != 0 && count > self->count) {
+        if (self->buffer != 0) {
+            fn_82E4FE40(self->buffer);
+        }
+        self->buffer = 0;
+        self->count = 0;
+        self->buffer = fn_82E50BE8(count * 6, 0, 0, 0, 0);
+        if (self->buffer == 0) {
+            return 0x8007000e;
+        }
+    }
+    self->count = count;
+    return 0;
 }
-

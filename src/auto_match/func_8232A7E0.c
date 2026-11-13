@@ -1,23 +1,28 @@
-extern unsigned int *auStack_58;
-extern int fn_828B5580();
-extern int fn_828B55B0();
+typedef void (*Target_8232A7E0)(char *self, int a, int b, int c, int d, int e, int f, float x, int g);
 
+typedef struct Method_8232A7E0 {
+    Target_8232A7E0 fn;
+    int adjust;
+} Method_8232A7E0;
 
-void fn_8232A7E0(unsigned __int64 param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5,unsigned __int64 param_6,unsigned __int64 param_7,unsigned __int64 param_8)
+typedef struct Delegate_8232A7E0 {
+    int pad[2];
+    Method_8232A7E0 method;
+    char *object;
+} Delegate_8232A7E0;
 
+typedef struct Temp_8232A7E0 {
+    int words[2];
+} Temp_8232A7E0;
+
+extern int fn_828B5580(Temp_8232A7E0 *tmp, int e);
+extern void fn_828B55B0(int e);
+
+void fn_8232A7E0(Delegate_8232A7E0 *self, int a, int b, int c, int d, int e, int f, float x, int g)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  int (**pcStack_60)();
-  unsigned char auStack_58 [88];
-  
-  uVar2 = *(unsigned __int64 *)(param_2 + 8);
-  uVar1 = fn_828B5580(auStack_58,param_7);
-  pcStack_60 = (int (**)())(uVar2 >> 0x20);
-  (*pcStack_60)(param_1,(unsigned __int64)*(unsigned int *)(param_2 + 0x10) + (uVar2 & 0xffffffff),param_3,param_4,
-                param_5,param_6,uVar1,param_8);
-  fn_828B55B0(param_7);
-  return;
-}
+    Method_8232A7E0 m = self->method;
+    Temp_8232A7E0 tmp;
 
+    m.fn(self->object + m.adjust, a, b, c, d, fn_828B5580(&tmp, e), f, x, g);
+    fn_828B55B0(e);
+}

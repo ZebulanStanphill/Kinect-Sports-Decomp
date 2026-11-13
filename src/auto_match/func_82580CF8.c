@@ -1,32 +1,26 @@
-typedef unsigned char bool;
-extern int fn_82BFE128();
-extern unsigned __int64 storeWordConditionalIndexed();
+long _InterlockedExchange(long volatile *target, long value);
 
+typedef struct Obj_82580CF8 {
+    int unk0;
+    void *event;   /* 0x04 */
+    int unk8;
+    long done;     /* 0x0c */
+} Obj_82580CF8;
 
-unsigned __int64 fn_82580CF8(__int64 param_1,unsigned __int64 param_2,int param_3)
+extern void fn_82BFE128(void *event);
 
+int fn_82580CF8(Obj_82580CF8 *self, int unused, int mark)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  if (*(int *)((int)param_1 + 0xc) == 0) {
-    uVar2 = 0;
-    if (param_3 != 0) {
-      do {
-        if (in_RESERVE != '\0') {
-          uVar1 = storeWordConditionalIndexed(1,0,param_1 + 0xc);
-          *(unsigned int *)(param_1 + 0xc) = uVar1;
-          in_cr0 = 2;
-        }
-      } while (!(bool)(in_cr0 >> 1 & 1));
-    }
-    fn_82BFE128(*(unsigned int *)((int)param_1 + 4));
-  }
-  else {
-    uVar2 = 1;
-  }
-  return uVar2;
-}
+    int result;
 
+    if (self->done == 0) {
+        result = 0;
+        if (mark != 0) {
+            _InterlockedExchange(&self->done, 1);
+        }
+        fn_82BFE128(self->event);
+    } else {
+        result = 1;
+    }
+    return result;
+}

@@ -1,18 +1,20 @@
-unsigned char fn_828385E0(int param_1)
+typedef struct Obj_828385E0 {
+    char pad0[0x1c];
+    unsigned int format;   /* 0x1c */
+} Obj_828385E0;
 
+int fn_828385E0(const Obj_828385E0 *self)
 {
-  int iVar1;
-  
-  iVar1 = *(int *)(param_1 + 0x1c);
-  if ((iVar1 == 0) || (iVar1 == 2)) {
-    return 0x3c;
-  }
-  if (iVar1 == 3) {
-    return 0x40;
-  }
-  if (iVar1 != 4) {
-    return -(iVar1 == 5) & 0x3c;
-  }
-  return 0x54;
-}
+    unsigned int format = self->format;
 
+    switch (format) {
+    case 0:
+    case 2:
+        return 0x3c;
+    case 3:
+        return 0x40;
+    case 4:
+        return 0x54;
+    }
+    return format == 5 ? 0x3c : 0;
+}

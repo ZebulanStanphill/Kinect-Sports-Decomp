@@ -1,25 +1,28 @@
-void fn_82A5C0A8(int *param_1,int param_2,int param_3)
+typedef struct Obj_82A5C0A8 Obj_82A5C0A8;
+typedef struct {
+    char pad[0x2c];
+    void (*on0)(Obj_82A5C0A8 *self);       /* 0x2c */
+    void (*on1)(Obj_82A5C0A8 *self);       /* 0x30 */
+    void (*onOther)(Obj_82A5C0A8 *self);   /* 0x34 */
+} Vtbl_82A5C0A8;
+struct Obj_82A5C0A8 {
+    Vtbl_82A5C0A8 *vt;
+    int pad[4];
+    int value;      /* 0x14 */
+};
 
+void fn_82A5C0A8(Obj_82A5C0A8 *self, unsigned int state, int value)
 {
-  int iVar1;
-  
-  iVar1 = *param_1;
-  param_1[5] = param_3;
-  if (param_2 == 0) {
-                    /* WARNING: Could not recover jumptable at 0x82a5c0dc. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-    (**(int (***)())(iVar1 + 0x2c))();
-    return;
-  }
-  if (param_2 != 1) {
-                    /* WARNING: Could not recover jumptable at 0x82a5c0c4. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-    (**(int (***)())(iVar1 + 0x34))();
-    return;
-  }
-                    /* WARNING: Could not recover jumptable at 0x82a5c0d0. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (**(int (***)())(iVar1 + 0x30))();
-  return;
+    self->value = value;
+    switch (state) {
+    case 0:
+        self->vt->on0(self);
+        break;
+    case 1:
+        self->vt->on1(self);
+        break;
+    default:
+        self->vt->onOther(self);
+        break;
+    }
 }
-

@@ -1,63 +1,74 @@
-typedef unsigned char bool;
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern int fn_822315A0();
-extern int fn_8223AAC0();
-extern int fn_82F63CA0();
-extern unsigned __int64 storeWordConditionalIndexed();
+long _InterlockedDecrement(long volatile *);
+extern void *memmove(void *d, const void *s, unsigned int n);
 
+typedef struct Rep_822C1A38 Rep_822C1A38;
+typedef struct RepVt_822C1A38 {
+    void (*destroy)(Rep_822C1A38 *);
+    void (*deleteThis)(Rep_822C1A38 *);
+} RepVt_822C1A38;
+struct Rep_822C1A38 {
+    RepVt_822C1A38 *vt;
+    long uses;
+    long weaks;
+};
 
-void fn_822C1A38(int *param_1)
+typedef struct Owner_822C1A38 Owner_822C1A38;
 
+typedef struct Handle_822C1A38 {
+    Owner_822C1A38 *owner;
+    Rep_822C1A38 *rep;
+} Handle_822C1A38;
+
+typedef struct Vec_822C1A38 {
+    Handle_822C1A38 **first;
+    Handle_822C1A38 **last;
+} Vec_822C1A38;
+
+struct Owner_822C1A38 {
+    int pad[2];
+    Vec_822C1A38 handles;   /* 0x8 */
+};
+
+extern unsigned char fn_8223AAC0(Rep_822C1A38 *);
+extern void fn_822315A0(Rep_822C1A38 *);
+
+static __forceinline void Decwref_822C1A38(Rep_822C1A38 *r)
 {
-  int iVar1;
-  int iVar2;
-  int *piVar3;
-  unsigned int uVar4;
-  char cVar6;
-  unsigned int *puVar5;
-  __int64 lVar7;
-  unsigned int *puVar8;
-  __int64 lVar9;
-  char in_RESERVE;
-  unsigned char bVar10;
-  
-  iVar1 = param_1[1];
-  iVar2 = *param_1;
-  if (iVar1 != 0) {
-    cVar6 = fn_8223AAC0(iVar1);
-    bVar10 = (cVar6 == '\0') << 1;
-    if (cVar6 != '\0') {
-      if (iVar2 != 0) {
-        for (puVar5 = *(unsigned int **)(iVar2 + 8);
-            (puVar5 != *(unsigned int **)(iVar2 + 0xc) && ((int *)*puVar5 != param_1));
-            puVar5 = puVar5 + 1) {
-        }
-        if (puVar5 != *(unsigned int **)(iVar2 + 0xc)) {
-          fn_82F63CA0(puVar5,puVar5 + 1,(*(int *)(iVar2 + 0xc) - (int)(puVar5 + 1) >> 2) << 2);
-          *(int *)(iVar2 + 0xc) = *(int *)(iVar2 + 0xc) + -4;
-        }
-        piVar3 = (int *)param_1[1];
-        if (ZEXT48(piVar3) != 0) {
-          lVar7 = ZEXT48(piVar3) + 8;
-          do {
-            puVar8 = (unsigned int *)lVar7;
-            lVar9 = (unsigned __int64)*puVar8 - 1;
-            if (in_RESERVE != '\0') {
-              uVar4 = storeWordConditionalIndexed(lVar9,0,lVar7);
-              *puVar8 = uVar4;
-              bVar10 = 2;
-            }
-          } while (!(bool)(bVar10 >> 1 & 1));
-          if ((int)lVar9 == 0) {
-            (**(int (***)())(*piVar3 + 4))();
-          }
-        }
-        param_1[1] = 0;
-        *param_1 = 0;
-      }
-      fn_822315A0(iVar1);
-    }
-  }
-  return;
+    if (_InterlockedDecrement(&r->weaks) == 0)
+        r->vt->deleteThis(r);
 }
 
+static __forceinline void Erase_822C1A38(Vec_822C1A38 *v, Handle_822C1A38 **p)
+{
+    Handle_822C1A38 **nx = p + 1;
+    memmove(p, nx, (v->last - nx) * sizeof(*p));
+    v->last--;
+}
+
+static __forceinline Handle_822C1A38 **Find_822C1A38(Owner_822C1A38 *o, Handle_822C1A38 *h)
+{
+    Handle_822C1A38 **last = o->handles.last;
+    Handle_822C1A38 **p;
+    for (p = o->handles.first; p != last; p++)
+        if (*p == h)
+            break;
+    return p;
+}
+
+void fn_822C1A38(Handle_822C1A38 *self)
+{
+    Rep_822C1A38 *rep = self->rep;
+    Owner_822C1A38 *owner = self->owner;
+    if (rep != 0 && fn_8223AAC0(rep)) {
+        if (owner != 0) {
+            Handle_822C1A38 **p = Find_822C1A38(owner, self);
+            if (p != owner->handles.last)
+                Erase_822C1A38(&owner->handles, p);
+            if (self->rep != 0)
+                Decwref_822C1A38(self->rep);
+            self->rep = 0;
+            self->owner = 0;
+        }
+        fn_822315A0(rep);
+    }
+}

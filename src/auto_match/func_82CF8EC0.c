@@ -1,15 +1,19 @@
-unsigned char fn_82CF8EC0(int param_1,__int64 param_2)
+/* hkFreeListAllocator vtable (??_7hkFreeListAllocator@@6B@) slot 9: updates the peak in-use
+   byte count and tells whether numBytes more stay under the soft limit. */
+typedef struct Allocator_82CF8EC0 {
+    char pad0[0x20];
+    unsigned int freeBytes;     /* 0x20 */
+    unsigned int peakInUse;     /* 0x24 */
+    char pad28[0xec - 0x28];
+    unsigned int totalBytes;    /* 0xec */
+    char padF0[0x8fc - 0xf0];
+    unsigned int softLimit;     /* 0x8fc */
+} Allocator_82CF8EC0;
 
+unsigned char fn_82CF8EC0(Allocator_82CF8EC0 *self, unsigned int numBytes)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  
-  uVar2 = (unsigned __int64)*(unsigned int *)(param_1 + 0xec) - (unsigned __int64)*(unsigned int *)(param_1 + 0x20);
-  uVar1 = (unsigned __int64)*(unsigned int *)(param_1 + 0x24);
-  if ((unsigned __int64)*(unsigned int *)(param_1 + 0x24) < (uVar2 & 0xffffffff)) {
-    uVar1 = uVar2;
-  }
-  *(int *)(param_1 + 0x24) = (int)uVar1;
-  return -(uVar2 < (unsigned __int64)*(unsigned int *)(param_1 + 0x8fc) - param_2) & 1;
-}
+    unsigned int inUse = self->totalBytes - self->freeBytes;
 
+    self->peakInUse = inUse > self->peakInUse ? inUse : self->peakInUse;
+    return inUse < self->softLimit - numBytes;
+}

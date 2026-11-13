@@ -1,58 +1,45 @@
-extern unsigned int *auStack_30;
-extern int fn_822CA5B0();
-extern int fn_822CB0A0();
-extern int fn_822CB140();
-extern int fn_8288B760();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Target_822FF780 {
+    char pad[0x80];
+    __vector4 position;   /* 0x80 */
+    __vector4 rotation;   /* 0x90 */
+} Target_822FF780;
 
-void fn_822FF780(int *param_1)
+typedef struct Obj_822FF780 Obj_822FF780;
+typedef struct ObjVt_822FF780 {
+    void *f0;
+    void *f4;
+    char *(*getState)(Obj_822FF780 *self);   /* 0x8 */
+} ObjVt_822FF780;
 
+struct Obj_822FF780 {
+    ObjVt_822FF780 *vt;
+    char pad[0xb8];
+    Target_822FF780 *target;   /* 0xbc */
+};
+
+extern unsigned char fn_8288B760(Obj_822FF780 *self);
+extern void fn_822CA5B0(Obj_822FF780 *self);
+extern void fn_822CB140(void *dst, __vector4 *value);
+extern void fn_822CB0A0(void *dst, __vector4 *value);
+
+void fn_822FF780(Obj_822FF780 *self)
 {
-  int iVar1;
-  int (**pcVar2)();
-  unsigned int *puVar3;
-  unsigned int *puVar4;
-  int in_r0;
-  char cVar6;
-  __int64 lVar5;
-  unsigned int uVar7;
-  unsigned int uVar8;
-  unsigned int uVar9;
-  unsigned char auStack_30 [24];
-  
-  iVar1 = param_1[0x2f];
-  if (iVar1 != 0) {
-    cVar6 = fn_8288B760();
-    if (cVar6 == '\0') {
-      fn_822CA5B0(param_1);
+    Target_822FF780 *target = self->target;
+    if (target != 0) {
+        if (fn_8288B760(self)) {
+            __vector4 v;
+            char *(*get)(Obj_822FF780 *) = self->vt->getState;
+            v = target->position;
+            fn_822CB140(get(self) + 0x144, &v);
+            get = self->vt->getState;
+            v = target->rotation;
+            fn_822CB0A0(get(self) + 0xf0, &v);
+        } else {
+            fn_822CA5B0(self);
+        }
     }
-    else {
-      pcVar2 = *(int (***)())(*param_1 + 8);
-      puVar3 = (unsigned int *)(iVar1 + 0x80U & 0xfffffff0);
-      uVar7 = puVar3[1];
-      uVar8 = puVar3[2];
-      uVar9 = puVar3[3];
-      puVar4 = (unsigned int *)((unsigned int)(auStack_30 + in_r0) & 0xfffffff0);
-      *puVar4 = *puVar3;
-      puVar4[1] = uVar7;
-      puVar4[2] = uVar8;
-      puVar4[3] = uVar9;
-      lVar5 = (*pcVar2)();
-      fn_822CB140(lVar5 + 0x144,auStack_30);
-      puVar3 = (unsigned int *)(iVar1 + 0x90U & 0xfffffff0);
-      uVar7 = puVar3[1];
-      uVar8 = puVar3[2];
-      uVar9 = puVar3[3];
-      pcVar2 = *(int (***)())(*param_1 + 8);
-      puVar4 = (unsigned int *)((unsigned int)(auStack_30 + in_r0) & 0xfffffff0);
-      *puVar4 = *puVar3;
-      puVar4[1] = uVar7;
-      puVar4[2] = uVar8;
-      puVar4[3] = uVar9;
-      lVar5 = (*pcVar2)(param_1);
-      fn_822CB0A0(lVar5 + 0xf0,auStack_30);
-    }
-  }
-  return;
 }
-

@@ -1,25 +1,30 @@
-extern int fn_82F655D8();
-extern unsigned int lbl_82005710;
-extern unsigned int lbl_82005720;
-extern unsigned int lbl_82005778;
-extern unsigned int lbl_82015618;
+typedef struct Target_83057D38 {
+    char pad[0x44];
+    float gainA;           /* 0x44 */
+    char pad48[0xc];
+    float gainB;           /* 0x54 */
+} Target_83057D38;
 
+typedef struct Obj_83057D38 {
+    unsigned int count;
+    unsigned int unk4;
+    Target_83057D38 *target;
+} Obj_83057D38;
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+extern const double lbl_82005710;
+extern const double lbl_82005778;
+extern double fn_82F655D8(double x, double y);
 
-void fn_83057D38(double param_1,unsigned __int64 param_2,double param_3,int param_4)
-
+void fn_83057D38(Obj_83057D38 *self, double t, double unused, double db)
 {
-  int iVar1;
-  double dVar2;
-  
-  if (param_1 < lbl_82005710) {
-    param_3 = param_3 - lbl_82005778;
-  }
-  dVar2 = (double)fn_82F655D8(lbl_82015618,param_3 * lbl_82005720);
-  iVar1 = *(int *)(param_4 + 8);
-  *(float *)(iVar1 + 0x54) = (float)dVar2;
-  *(float *)(iVar1 + 0x44) = (float)dVar2;
-  return;
-}
+    double v = db;
+    float gain;
+    Target_83057D38 *target;
 
+    if (t < lbl_82005710)
+        v = v - lbl_82005778;
+    gain = (float)fn_82F655D8(10.0, v * 0.05);
+    target = self->target;
+    target->gainB = gain;
+    target->gainA = gain;
+}

@@ -1,29 +1,44 @@
-extern int fn_82E50CB8();
-extern int fn_82E50F10();
-extern int fn_82E56C80();
+typedef struct Arr_82E570B0 {
+    int items[0x1a];
+    unsigned int count;    /* 0x68 */
+} Arr_82E570B0;
 
+typedef struct Obj_82E570B0 {
+    int pad0[2];
+    int lock[15];          /* 0x08 */
+    Arr_82E570B0 arr;      /* 0x44 */
+} Obj_82E570B0;
 
-unsigned __int64 fn_82E570B0(int param_1,unsigned __int64 param_2)
+extern void fn_82E50CB8(void *lock);
+extern void fn_82E50F10(void *lock);
+extern int fn_82E56C80(Arr_82E570B0 *a, unsigned int idx);
 
+static __forceinline int Arr_removeRange_82E570B0(Arr_82E570B0 *a, unsigned int idx, unsigned int n)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  
-  fn_82E50CB8(param_1 + 8);
-  if ((param_2 & 0xffffffff) < (unsigned __int64)*(unsigned int *)(param_1 + 0xac)) {
-    if (((unsigned __int64)*(unsigned int *)(param_1 + 0xac) < (param_2 + 1 & 0xffffffff)) ||
-       (iVar1 = fn_82E56C80(param_1 + 0x44,param_2), iVar1 < 0)) {
-      uVar2 = 0xffffffff8000ffff;
+    unsigned int i;
+    int hr;
+    if (idx + n > a->count)
+        return 0;
+    for (i = 0; i < n; i++) {
+        hr = fn_82E56C80(a, idx);
+        if (hr < 0)
+            break;
+        a->count--;
     }
-    else {
-      *(int *)(param_1 + 0xac) = *(int *)(param_1 + 0xac) + -1;
-      uVar2 = 0;
-    }
-  }
-  else {
-    uVar2 = 0xffffffff80070057;
-  }
-  fn_82E50F10(param_1 + 8);
-  return uVar2;
+    return hr >= 0;
 }
 
+int fn_82E570B0(Obj_82E570B0 *self, unsigned int idx)
+{
+    int hr;
+    void *lock = self->lock;
+    fn_82E50CB8(lock);
+    if (self->arr.count <= idx)
+        hr = 0x80070057;
+    else if (!Arr_removeRange_82E570B0(&self->arr, idx, 1))
+        hr = 0x8000FFFF;
+    else
+        hr = 0;
+    fn_82E50F10(lock);
+    return hr;
+}

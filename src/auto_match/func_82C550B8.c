@@ -1,10 +1,20 @@
-__int64 fn_82C550B8(int param_1)
+struct Obj_82C550B8 {
+    int unk0;
+    int unk4;
+    unsigned int count8;    /* 0x08 */
+    int factorC;            /* 0x0c */
+    int unk10;
+    unsigned int count14;   /* 0x14 */
+    int unk18;
+    int unk1c;
+    int factor20;           /* 0x20 */
+};
 
+unsigned int fn_82C550B8(struct Obj_82C550B8 *obj)
 {
-  if (param_1 == 0) {
-    return 0;
-  }
-  return ((unsigned __int64)*(unsigned int *)(param_1 + 0x14) + (unsigned __int64)*(unsigned int *)(param_1 + 8) + 10 & 0x3fffffff
-         ) * 4 + (__int64)*(int *)(param_1 + 0x20) * (__int64)*(int *)(param_1 + 0xc);
+    unsigned int size = 0;
+    if (obj != 0) {
+        size = (obj->count14 + obj->count8 + 10) * 4 + obj->factor20 * obj->factorC;
+    }
+    return size;
 }
-

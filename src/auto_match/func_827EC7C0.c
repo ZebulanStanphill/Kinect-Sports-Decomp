@@ -1,24 +1,19 @@
-extern unsigned int *auStack_30;
-extern int fn_82810280();
-extern int fn_82810308();
-extern int fn_82810328();
-extern unsigned int lbl_821AAD20;
+typedef struct Vec_827EC7C0 {
+    float x, y, z, w;
+} Vec_827EC7C0;
 
+extern void fn_82810328(const void *a, const void *b, Vec_827EC7C0 *out);
+extern float fn_82810280(const Vec_827EC7C0 *v, const void *c);
+extern float fn_82810308(const Vec_827EC7C0 *v);
 
-unsigned __int64 fn_827EC7C0(double param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4)
-
+int fn_827EC7C0(const void *a, const void *b, const void *c, float scale)
 {
-  double dVar1;
-  double dVar2;
-  unsigned char auStack_30 [1];
-  
-  fn_82810328(param_2,param_3,auStack_30);
-  dVar1 = (double)fn_82810280(auStack_30,param_4);
-  dVar1 = (double)(float)(dVar1 * param_1);
-  if (((double)lbl_821AAD20 < dVar1) &&
-     (dVar2 = (double)fn_82810308(auStack_30), dVar2 <= (double)(float)(dVar1 * dVar1))) {
-    return 1;
-  }
-  return 0;
-}
+    Vec_827EC7C0 d;
+    float limit;
 
+    fn_82810328(a, b, &d);
+    limit = fn_82810280(&d, c) * scale;
+    if (limit > 0.0f && limit * limit >= fn_82810308(&d))
+        return 1;
+    return 0;
+}

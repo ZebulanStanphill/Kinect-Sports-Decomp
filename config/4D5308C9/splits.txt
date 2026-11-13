@@ -38290,7 +38290,7 @@ auto_match/func_824F6020.c:
 	.pdata      start:0x821ED4B8 end:0x821ED4C0
 	.text       start:0x824F6020 end:0x824F6098
 
-auto_match/func_824F6098.c:
+auto_match/func_824F6098.cpp:
 	.pdata      start:0x821ED4C0 end:0x821ED4C8
 	.text       start:0x824F6098 end:0x824F6140
 
@@ -57067,7 +57067,7 @@ auto_match/func_82682C48.c:
 	.pdata      start:0x821F5308 end:0x821F5310
 	.text       start:0x82682C48 end:0x82682C94
 
-auto_match/func_82682C98.c:
+auto_match/func_82682C98.cpp:
 	.pdata      start:0x821F5310 end:0x821F5318
 	.text       start:0x82682C98 end:0x82682D2C
 
@@ -60704,7 +60704,7 @@ auto_match/func_826AB6A0.c:
 	.pdata      start:0x821F6A08 end:0x821F6A10
 	.text       start:0x826AB6A0 end:0x826AB6F8
 
-auto_match/func_826AB6F8.c:
+auto_match/func_826AB6F8.cpp:
 	.pdata      start:0x821F6A10 end:0x821F6A18
 	.text       start:0x826AB6F8 end:0x826AB78C
 
@@ -73176,7 +73176,7 @@ auto_match/func_8276A680.c:
 	.pdata      start:0x821FBCB8 end:0x821FBCC0
 	.text       start:0x8276A680 end:0x8276A6E8
 
-auto_match/func_8276A6E8.c:
+auto_match/func_8276A6E8.cpp:
 	.pdata      start:0x821FBCC0 end:0x821FBCC8
 	.text       start:0x8276A6E8 end:0x8276A7FC
 
@@ -141648,7 +141648,7 @@ Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0FE30
 	.pdata      start:0x82216978 end:0x82216980
 	.text       start:0x82D0FE30 end:0x82D0FE6C
 
-Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0FE70.c:
+Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0FE70.cpp:
 	.pdata      start:0x82216980 end:0x82216988
 	.text       start:0x82D0FE70 end:0x82D0FF18
 
@@ -155744,7 +155744,7 @@ auto_match/func_82DFAE90.c:
 	.pdata      start:0x8221AF30 end:0x8221AF38
 	.text       start:0x82DFAE90 end:0x82DFAFE0
 
-auto_match/func_82DFAFE0.c:
+auto_match/func_82DFAFE0.cpp:
 	.pdata      start:0x8221AF38 end:0x8221AF40
 	.text       start:0x82DFAFE0 end:0x82DFB0AC
 
@@ -155956,7 +155956,7 @@ auto_match/func_82DFE480.c:
 	.pdata      start:0x8221B048 end:0x8221B050
 	.text       start:0x82DFE480 end:0x82DFE6F4
 
-auto_match/func_82DFE6F8.c:
+auto_match/func_82DFE6F8.cpp:
 	.pdata      start:0x8221B050 end:0x8221B058
 	.text       start:0x82DFE6F8 end:0x82DFE874
 

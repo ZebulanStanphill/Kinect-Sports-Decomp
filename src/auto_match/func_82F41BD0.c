@@ -1,30 +1,28 @@
-extern int fn_82A3F758();
-extern int fn_82F41B70();
-extern int fn_82F64CE0();
+typedef struct Str_82F41BD0 {
+    char pad[0x16];
+    unsigned short capacity;   /* 0x16 */
+    unsigned short *buffer;    /* 0x18 */
+} Str_82F41BD0;
 
+extern unsigned int fn_82F64CE0(const unsigned short *s);
+extern int fn_82F41B70(Str_82F41BD0 *self, unsigned short capacity);
+extern int fn_82A3F758(unsigned short *dst, unsigned int cch, const unsigned short *src);
 
-unsigned __int64 fn_82F41BD0(int param_1,unsigned __int64 param_2)
-
+static __forceinline int StringCchCopy_82F41BD0(unsigned short *dst, unsigned int cch, const unsigned short *src)
 {
-  int iVar2;
-  unsigned __int64 uVar1;
-  
-  iVar2 = fn_82F64CE0(param_2);
-  if (iVar2 + 1U < 0x10000) {
-    uVar1 = fn_82F41B70(param_1,iVar2 + 1U & 0xffff);
-    if (-1 < (int)uVar1) {
-      if ((unsigned __int64)*(unsigned short *)(param_1 + 0x16) < 0x80000000) {
-        uVar1 = fn_82A3F758(*(unsigned int *)(param_1 + 0x18),(unsigned __int64)*(unsigned short *)(param_1 + 0x16),
-                             param_2);
-      }
-      else {
-        uVar1 = 0xffffffff80070057;
-      }
-    }
-  }
-  else {
-    uVar1 = 0xffffffff80004005;
-  }
-  return uVar1;
+    if (cch > 0x7fffffff)
+        return 0x80070057;
+    return fn_82A3F758(dst, cch, src);
 }
 
+int fn_82F41BD0(Str_82F41BD0 *self, const unsigned short *src)
+{
+    unsigned int n = fn_82F64CE0(src) + 1;
+    int hr;
+    if (n > 0xffff)
+        return 0x80004005;
+    hr = fn_82F41B70(self, (unsigned short)n);
+    if (hr < 0)
+        return hr;
+    return StringCchCopy_82F41BD0(self->buffer, self->capacity, src);
+}

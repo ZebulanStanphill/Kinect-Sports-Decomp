@@ -1,87 +1,45 @@
-#define CONCAT11(h,l) ((unsigned short)((((unsigned char)(h)) << 8) | ((unsigned char)(l))))
-#define CONCAT21(h,l) ((unsigned int)((((unsigned short)(h)) << 8) | ((unsigned char)(l))))
-#define CONCAT31(h,l) ((unsigned int)((((unsigned int)(h)) << 8) | ((unsigned char)(l))))
-
-
-void fn_82F27988(unsigned int *param_1,int param_2,int param_3,int param_4,int param_5)
-
+void fn_82F27988(unsigned int *dst, unsigned char *pred, short *src, int stride, unsigned char *lut)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  unsigned int uVar5;
-  unsigned __int64 uVar6;
-  short *psVar7;
-  unsigned char *pbVar8;
-  unsigned __int64 uVar9;
-  __int64 lVar10;
-  
-  psVar7 = (short *)(param_3 + 4);
-  pbVar8 = (unsigned char *)(param_2 + 2);
-  lVar10 = 8;
-  do {
-    uVar6 = (unsigned __int64)pbVar8[-2] + (__int64)psVar7[-2];
-    uVar9 = (unsigned __int64)pbVar8[-1] + (__int64)psVar7[-1];
-    uVar3 = (__int64)*psVar7 + (unsigned __int64)*pbVar8;
-    uVar4 = (unsigned __int64)pbVar8[1] + (__int64)psVar7[1];
-    if (0xff < (uVar6 & 0xffffffff)) {
-      uVar6 = ((uVar6 & 0xffffffff) >> 0x1f) - 1 & 0xff;
-    }
-    if (0xff < (uVar9 & 0xffffffff)) {
-      uVar9 = ((uVar9 & 0xffffffff) >> 0x1f) - 1 & 0xff;
-    }
-    if (0xff < (uVar3 & 0xffffffff)) {
-      uVar3 = ((uVar3 & 0xffffffff) >> 0x1f) - 1 & 0xff;
-    }
-    if (0xff < (uVar4 & 0xffffffff)) {
-      uVar4 = ((uVar4 & 0xffffffff) >> 0x1f) - 1 & 0xff;
-    }
-    uVar1 = (uVar4 & 0xffff) << 0x10;
-    uVar2 = (uVar3 & 0xffff) << 0x10 | uVar6;
-    if (((uVar1 | uVar9 | uVar2) & 0xff00ff00) == 0) {
-      uVar5 = (unsigned int)((uVar1 | uVar9 & 0xffffffff) << 8) | (unsigned int)uVar2;
-    }
-    else {
-      uVar5 = CONCAT31(CONCAT21(CONCAT11(*(unsigned char *)((int)uVar6 + param_5),
-                                         *(unsigned char *)((int)uVar9 + param_5)),
-                                *(unsigned char *)((int)uVar3 + param_5)),
-                       *(unsigned char *)((int)uVar4 + param_5));
-    }
-    *param_1 = uVar5;
-    uVar6 = (unsigned __int64)pbVar8[2] + (__int64)psVar7[2];
-    uVar9 = (unsigned __int64)pbVar8[3] + (__int64)psVar7[3];
-    uVar3 = (unsigned __int64)pbVar8[4] + (__int64)psVar7[4];
-    uVar4 = (unsigned __int64)pbVar8[5] + (__int64)psVar7[5];
-    if (0xff < (uVar6 & 0xffffffff)) {
-      uVar6 = ((uVar6 & 0xffffffff) >> 0x1f) - 1 & 0xff;
-    }
-    if (0xff < (uVar9 & 0xffffffff)) {
-      uVar9 = ((uVar9 & 0xffffffff) >> 0x1f) - 1 & 0xff;
-    }
-    if (0xff < (uVar3 & 0xffffffff)) {
-      uVar3 = ((uVar3 & 0xffffffff) >> 0x1f) - 1 & 0xff;
-    }
-    if (0xff < (uVar4 & 0xffffffff)) {
-      uVar4 = ((uVar4 & 0xffffffff) >> 0x1f) - 1 & 0xff;
-    }
-    uVar1 = (uVar4 & 0xffff) << 0x10;
-    uVar2 = (uVar3 & 0xffff) << 0x10 | uVar6;
-    if (((uVar1 | uVar9 | uVar2) & 0xff00ff00) == 0) {
-      uVar5 = (unsigned int)((uVar1 | uVar9 & 0xffffffff) << 8) | (unsigned int)uVar2;
-    }
-    else {
-      uVar5 = CONCAT31(CONCAT21(CONCAT11(*(unsigned char *)((int)uVar6 + param_5),
-                                         *(unsigned char *)((int)uVar9 + param_5)),
-                                *(unsigned char *)((int)uVar3 + param_5)),
-                       *(unsigned char *)((int)uVar4 + param_5));
-    }
-    param_1[1] = uVar5;
-    pbVar8 = pbVar8 + param_4;
-    param_1 = (unsigned int *)((int)param_1 + param_4);
-    psVar7 = psVar7 + 8;
-    lVar10 = lVar10 + -1;
-  } while (lVar10 != 0);
-  return;
-}
+    int i;
 
+    for (i = 0; i < 8; i++) {
+        int a, b, c, d;
+        unsigned int lo, hi;
+
+        a = pred[0] + src[0];
+        b = pred[1] + src[1];
+        c = pred[2] + src[2];
+        d = pred[3] + src[3];
+        if ((unsigned int)a > 255) a = (a < 0) ? 0 : 255;
+        if ((unsigned int)b > 255) b = (b < 0) ? 0 : 255;
+        if ((unsigned int)c > 255) c = (c < 0) ? 0 : 255;
+        if ((unsigned int)d > 255) d = (d < 0) ? 0 : 255;
+        lo = (c << 16) | a;
+        hi = (d << 16) | b;
+        if (((hi | lo) & 0xff00ff00) == 0) {
+            dst[0] = (hi << 8) | lo;
+        } else {
+            dst[0] = (((((lut[a] << 8) | lut[b]) << 8) | lut[c]) << 8) | lut[d];
+        }
+
+        a = pred[4] + src[4];
+        b = pred[5] + src[5];
+        c = pred[6] + src[6];
+        d = pred[7] + src[7];
+        if ((unsigned int)a > 255) a = (a < 0) ? 0 : 255;
+        if ((unsigned int)b > 255) b = (b < 0) ? 0 : 255;
+        if ((unsigned int)c > 255) c = (c < 0) ? 0 : 255;
+        if ((unsigned int)d > 255) d = (d < 0) ? 0 : 255;
+        lo = (c << 16) | a;
+        hi = (d << 16) | b;
+        if (((hi | lo) & 0xff00ff00) == 0) {
+            dst[1] = (hi << 8) | lo;
+        } else {
+            dst[1] = (((((lut[a] << 8) | lut[b]) << 8) | lut[c]) << 8) | lut[d];
+        }
+
+        pred += stride;
+        src += 8;
+        dst = (unsigned int *)((char *)dst + stride);
+    }
+}

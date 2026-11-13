@@ -1,28 +1,22 @@
-extern int fn_82F68CC0();
+unsigned long _byteswap_ulong(unsigned long value);
+unsigned short _byteswap_ushort(unsigned short value);
+extern void *memcpy(void *dst, const void *src, unsigned int n);
 
+typedef struct Guid_82E39C50 {
+    unsigned long data1;
+    unsigned short data2;
+    unsigned short data3;
+    unsigned char data4[8];
+} Guid_82E39C50;
 
-void fn_82E39C50(unsigned int *param_1,unsigned int *param_2)
-
+void fn_82E39C50(Guid_82E39C50 *guid, const unsigned char **pp)
 {
-  unsigned short uVar1;
-  unsigned char *pbVar2;
-  unsigned int uVar3;
-  
-  pbVar2 = (unsigned char *)*param_2;
-  *param_1 = (unsigned int)pbVar2[3] << 0x18 | (unsigned int)pbVar2[2] << 0x10 | (unsigned int)pbVar2[1] << 8 |
-             (unsigned int)*pbVar2;
-  uVar3 = *param_2;
-  *param_2 = uVar3 + 4;
-  uVar1 = *(unsigned short *)(uVar3 + 4);
-  *(unsigned short *)(param_1 + 1) = uVar1 << 8 | uVar1 >> 8;
-  uVar3 = *param_2;
-  *param_2 = uVar3 + 2;
-  uVar1 = *(unsigned short *)(uVar3 + 2);
-  *(unsigned short *)((int)param_1 + 6) = uVar1 << 8 | uVar1 >> 8;
-  uVar3 = *param_2;
-  *param_2 = (unsigned int)((unsigned __int64)uVar3 + 2);
-  fn_82F68CC0(param_1 + 2,(unsigned __int64)uVar3 + 2,8);
-  *param_2 = *param_2 + 8;
-  return;
+    guid->data1 = _byteswap_ulong(*(const unsigned long *)*pp);
+    *pp += 4;
+    guid->data2 = _byteswap_ushort(*(const unsigned short *)*pp);
+    *pp += 2;
+    guid->data3 = _byteswap_ushort(*(const unsigned short *)*pp);
+    *pp += 2;
+    memcpy(guid->data4, *pp, 8);
+    *pp += 8;
 }
-

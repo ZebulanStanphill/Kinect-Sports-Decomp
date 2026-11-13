@@ -1,38 +1,55 @@
-extern int fn_82F35400();
-extern int fn_82F37588();
+extern unsigned char lbl_8214C740[];
+typedef struct Ifc_82F36B38 Ifc_82F36B38;
+typedef struct IfcVt_82F36B38 {
+    int (*qi)(Ifc_82F36B38 *, void *, Ifc_82F36B38 **);
+    int (*addref)(Ifc_82F36B38 *);
+    int (*release)(Ifc_82F36B38 *);
+    int (*s3)(Ifc_82F36B38 *);
+    int (*f10)(Ifc_82F36B38 *);
+} IfcVt_82F36B38;
+struct Ifc_82F36B38 { IfcVt_82F36B38 *vt; };
+typedef struct Item_82F36B38 { Ifc_82F36B38 *p; } Item_82F36B38;
+typedef struct List_82F36B38 { int v[0x1a]; } List_82F36B38;
+typedef struct Items_82F36B38 {
+    List_82F36B38 list;  /* 0x0 */
+    unsigned int count;  /* 0x68 */
+} Items_82F36B38;
+typedef struct Self_82F36B38 {
+    char pad0[0x5c];
+    Items_82F36B38 items;  /* 0x5c */
+    char pad1[0x74];
+    int f13c;            /* 0x13c */
+} Self_82F36B38;
 
+extern void fn_82F35400(List_82F36B38 *list, unsigned int index, Item_82F36B38 **out);
+extern void fn_82F37588(List_82F36B38 *list, int arg);
 
-unsigned __int64 fn_82F36B38(int param_1)
-
+static __forceinline void Items_clear_82F36B38(Items_82F36B38 *w)
 {
-  unsigned int uVar1;
-  int *piVar2;
-  int iVar3;
-  unsigned __int64 uVar4;
-  int *piStack_50;
-  unsigned int *apuStack_4c [19];
-  
-  uVar1 = *(unsigned int *)(param_1 + 0xc4);
-  uVar4 = 0;
-  if (uVar1 != 0) {
-    do {
-      fn_82F35400(param_1 + 0x5c,uVar4,apuStack_4c);
-      piVar2 = (int *)*apuStack_4c[0];
-      iVar3 = (**(int (***)())*piVar2)(piVar2,0xffffffff8214c740,&piStack_50);
-      if (-1 < iVar3) {
-        (**(int (***)())(*piStack_50 + 0x10))();
-        if (piStack_50 != (int *)0x0) {
-          (**(int (***)())(*piStack_50 + 8))();
-          piStack_50 = (int *)0x0;
-        }
-      }
-      (**(int (***)())(*piVar2 + 8))(piVar2);
-      uVar4 = uVar4 + 1;
-    } while ((uVar4 & 0xffffffff) < (unsigned __int64)uVar1);
-  }
-  fn_82F37588(param_1 + 0x5c,0);
-  *(unsigned int *)(param_1 + 0xc4) = 0;
-  *(unsigned int *)(param_1 + 0x13c) = 0;
-  return 0;
+    fn_82F37588(&w->list, 0);
+    w->count = 0;
 }
 
+int fn_82F36B38(Self_82F36B38 *self)
+{
+    unsigned int count = self->items.count;
+    unsigned int i;
+    Item_82F36B38 *it;
+    Ifc_82F36B38 *q;
+    for (i = 0; i < count; i++) {
+        Ifc_82F36B38 *p;
+        fn_82F35400(&self->items.list, i, &it);
+        p = it->p;
+        if (p->vt->qi(p, lbl_8214C740, &q) >= 0) {
+            q->vt->f10(q);
+            if (q != 0) {
+                q->vt->release(q);
+                q = 0;
+            }
+        }
+        p->vt->release(p);
+    }
+    Items_clear_82F36B38(&self->items);
+    self->f13c = 0;
+    return 0;
+}

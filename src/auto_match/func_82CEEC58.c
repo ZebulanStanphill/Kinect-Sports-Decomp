@@ -1,51 +1,101 @@
-extern int fn_82CEEDF8();
-extern int fn_82CFD5A8();
+typedef struct Shape_82CEEC58 {
+    char pad0[0xc];
+    unsigned char type;
+    char padd[3];
+    unsigned short flags;
+} Shape_82CEEC58;
 
+extern Shape_82CEEC58 *fn_82CFD5A8(Shape_82CEEC58 *shape);
+extern unsigned char *fn_82CEEDF8(unsigned char *out, Shape_82CEEC58 *shape);
 
-unsigned char * fn_82CEEC58(unsigned char *param_1,int param_2)
-
+unsigned char *fn_82CEEC58(unsigned char *out, Shape_82CEEC58 *shape)
 {
-  unsigned __int64 uVar1;
-  unsigned char uVar2;
-  
-  if ((*(unsigned short *)(param_2 + 0x10) >> 9 & 1) == 0) {
-    switch(*(unsigned char *)(param_2 + 0xc)) {
-    case 1:
-    case 2:
-    case 3:
-    case 4:
-    case 5:
-    case 6:
-    case 7:
-    case 8:
-    case 9:
-    case 10:
-    case 0xb:
-    case 0xc:
-    case 0xd:
-    case 0xe:
-    case 0xf:
-    case 0x10:
-    case 0x11:
-    case 0x12:
-    case 0x15:
-    case 0x18:
-    case 0x1e:
-    case 0x1f:
-    case 0x20:
-      break;
-    default:
-      uVar2 = 0;
-      goto LAB_82ceed50;
-    case 0x19:
-      uVar1 = fn_82CFD5A8(param_2);
-      fn_82CEEDF8(param_1,uVar1);
-      return param_1;
-    }
-  }
-  uVar2 = 1;
-LAB_82ceed50:
-  *param_1 = uVar2;
-  return param_1;
-}
+    unsigned char result;
 
+    if ((unsigned char)((shape->flags >> 9) & 1) != 0) {
+        result = 1;
+    } else {
+        switch (shape->type) {
+        case 1:
+            result = 1;
+            break;
+        case 2:
+            result = 1;
+            break;
+        case 3:
+            result = 1;
+            break;
+        case 4:
+            result = 1;
+            break;
+        case 5:
+            result = 1;
+            break;
+        case 6:
+            result = 1;
+            break;
+        case 7:
+            result = 1;
+            break;
+        case 8:
+            result = 1;
+            break;
+        case 9:
+            result = 1;
+            break;
+        case 10:
+            result = 1;
+            break;
+        case 11:
+            result = 1;
+            break;
+        case 12:
+            result = 1;
+            break;
+        case 13:
+            result = 1;
+            break;
+        case 14:
+            result = 1;
+            break;
+        case 15:
+            result = 1;
+            break;
+        case 16:
+            result = 1;
+            break;
+        case 17:
+            result = 1;
+            break;
+        case 18:
+            result = 1;
+            break;
+        case 21:
+            result = 1;
+            break;
+        case 24:
+            result = 1;
+            break;
+        case 30:
+            result = 1;
+            break;
+        case 31:
+            result = 1;
+            break;
+        case 32:
+            result = 1;
+            break;
+        case 25:
+            fn_82CEEDF8(out, fn_82CFD5A8(shape));
+            return out;
+        case 33:
+            result = 0;
+            break;
+        default:
+            result = 0;
+            break;
+        }
+    }
+    *out = result;
+    return out;
+}

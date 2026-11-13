@@ -1,48 +1,48 @@
-extern int fn_8267AA50();
-extern int fn_8267BE38();
+typedef struct Listener_8267AC88 Listener_8267AC88;
 
+typedef struct List_8267AC88 {
+    Listener_8267AC88 **items;
+    unsigned int count;
+} List_8267AC88;
 
-void fn_8267AC88(char *param_1,int param_2)
+typedef struct Holder_8267AC88 {
+    unsigned char isList;
+    void *p;
+} Holder_8267AC88;
 
+extern void fn_8267AA50(List_8267AC88 *list, unsigned int index);
+extern void fn_8267BE38(void *p);
+
+#define LIST(s) ((List_8267AC88 *)(s)->p)
+#define ONE(s) ((Listener_8267AC88 *)(s)->p)
+
+static __forceinline void List_destroy_8267AC88(List_8267AC88 *list)
 {
-  unsigned int uVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  int *piVar4;
-  
-  if (*param_1 == '\0') {
-    if (*(int *)(param_1 + 4) == param_2) {
-      param_1[4] = '\0';
-      param_1[5] = '\0';
-      param_1[6] = '\0';
-      param_1[7] = '\0';
+    if (list != 0) {
+        fn_8267BE38(list->items);
+        fn_8267BE38(list);
     }
-  }
-  else {
-    piVar4 = *(int **)(param_1 + 4);
-    uVar3 = 0;
-    if (piVar4[1] != 0) {
-      iVar2 = 0;
-      do {
-        if (*(int *)(*piVar4 + iVar2) == param_2) {
-          fn_8267AA50(piVar4,uVar3);
-          piVar4 = *(int **)(param_1 + 4);
-          if (piVar4[1] == 1) {
-            uVar1 = *(unsigned int *)*piVar4;
-            if (piVar4 != (int *)0x0) {
-              fn_8267BE38((unsigned int *)*piVar4);
-              fn_8267BE38(piVar4);
-            }
-            *(unsigned int *)(param_1 + 4) = uVar1;
-            *param_1 = '\0';
-            return;
-          }
-        }
-        uVar3 = uVar3 + 1;
-        iVar2 = iVar2 + 4;
-      } while ((uVar3 & 0xffffffff) < (unsigned __int64)*(unsigned int *)(*(int *)(param_1 + 4) + 4));
-    }
-  }
-  return;
 }
 
+void fn_8267AC88(Holder_8267AC88 *self, Listener_8267AC88 *l)
+{
+    if (self->isList) {
+        List_8267AC88 *list = LIST(self);
+        unsigned int i;
+        for (i = 0; i < LIST(self)->count; i++) {
+            if (list->items[i] == l) {
+                fn_8267AA50(list, i);
+                list = LIST(self);
+                if (list->count == 1) {
+                    Listener_8267AC88 *one = list->items[0];
+                    List_destroy_8267AC88(LIST(self));
+                    self->p = one;
+                    self->isList = 0;
+                    return;
+                }
+            }
+        }
+    } else if (ONE(self) == l) {
+        self->p = 0;
+    }
+}

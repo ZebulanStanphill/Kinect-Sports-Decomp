@@ -1,27 +1,50 @@
-extern int fn_82EE82A0();
+typedef struct Link_82EE8830 {
+    struct Link_82EE8830 *next;
+    struct Link_82EE8830 *prev;
+} Link_82EE8830;
 
+typedef struct {
+    int unk0;
+    Link_82EE8830 head;
+} List_82EE8830;
 
-unsigned __int64 fn_82EE8830(int param_1,unsigned int param_2)
+typedef struct {
+    int unk0;
+    Link_82EE8830 link;
+} Entry_82EE8830;
 
+typedef struct {
+    char pad[0x50];
+    List_82EE8830 list;
+    char pad5c[0xa4 - 0x5c];
+    unsigned int value;
+} Owner_82EE8830;
+
+extern int fn_82EE82A0(Entry_82EE8830 *e, unsigned int value);
+
+static __forceinline Link_82EE8830 *List_82EE8830_first(List_82EE8830 *l)
 {
-  unsigned __int64 uVar1;
-  unsigned int *puVar2;
-  unsigned int *puVar3;
-  
-  *(unsigned int *)(param_1 + 0xa4) = param_2;
-  uVar1 = 0;
-  puVar3 = (unsigned int *)(-(unsigned int)(param_1 + 0x54U != *(unsigned int *)(param_1 + 0x54)) &
-                   *(unsigned int *)(param_1 + 0x54));
-  if (puVar3 != (unsigned int *)0x0) {
-    do {
-      puVar2 = puVar3 + -1;
-      puVar3 = (unsigned int *)(-(unsigned int)(param_1 + 0x54U != *puVar3) & *puVar3);
-      if ((puVar2 != (unsigned int *)0x0) &&
-         (uVar1 = fn_82EE82A0(puVar2,*(unsigned int *)(param_1 + 0xa4)), (int)uVar1 < 0)) {
-        return uVar1;
-      }
-    } while (puVar3 != (unsigned int *)0x0);
-  }
-  return uVar1;
+    return l->head.next != &l->head ? l->head.next : 0;
 }
 
+int fn_82EE8830(Owner_82EE8830 *self, unsigned int value)
+{
+    Link_82EE8830 *l;
+    int hr;
+
+    self->value = value;
+    hr = 0;
+    l = List_82EE8830_first(&self->list);
+    while (l != 0) {
+        Link_82EE8830 *cur = l;
+        Entry_82EE8830 *e;
+        l = l->next != &self->list.head ? l->next : 0;
+        e = (Entry_82EE8830 *)((char *)cur - 4);
+        if (e != 0) {
+            hr = fn_82EE82A0(e, self->value);
+            if (hr < 0)
+                return hr;
+        }
+    }
+    return hr;
+}

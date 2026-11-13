@@ -1,19 +1,12 @@
-extern int fn_82631290();
+extern void fn_82631290(void *device, unsigned int start, const int *data, unsigned int count);
 
-
-unsigned __int64
-fn_82917FF8(unsigned __int64 param_1,unsigned __int64 param_2,int param_3,unsigned int *param_4,__int64 param_5)
-
+int fn_82917FF8(void *device, unsigned int start, const int *data, int *flags, unsigned int count)
 {
-  if ((int)param_5 != 0) {
-    param_3 = param_3 - (int)param_4;
-    do {
-      *param_4 = (unsigned int)(*(int *)(param_3 + (int)param_4) != 0);
-      param_4 = param_4 + 1;
-      param_5 = param_5 + -1;
-    } while (param_5 != 0);
-  }
-  fn_82631290();
-  return 0;
-}
+    unsigned int i;
 
+    for (i = 0; i < count; i++) {
+        flags[i] = data[i] != 0;
+    }
+    fn_82631290(device, start, data, count);
+    return 0;
+}

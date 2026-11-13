@@ -1,50 +1,45 @@
-typedef unsigned char bool;
-extern int fn_822315A0();
-extern int fn_823AA970();
-extern int fn_8240D928();
-extern int fn_828DF3C8();
-extern int fn_828DF8D0();
-extern unsigned __int64 storeWordConditionalIndexed();
+long _InterlockedIncrement(long volatile *);
 
+typedef struct Rep_828E7670 { int pad; long uses; } Rep_828E7670;
+typedef struct Ptr_828E7670 {
+    void *ptr;
+    Rep_828E7670 *rep;
+} Ptr_828E7670;
 
-void fn_828E7670(int param_1,unsigned int *param_2)
+typedef struct Obj_828E7670 {
+    char pad[0x10];
+    Ptr_828E7670 source;   /* 0x10 */
+} Obj_828E7670;
 
+extern void fn_822315A0(Rep_828E7670 *);
+extern void *fn_8240D928(void *p);
+extern void *fn_823AA970(void *p);
+extern void *fn_828DF8D0(void *a, void *b);
+extern void fn_828DF3C8(Obj_828E7670 *self, void *v);
+
+static __forceinline void Swap_828E7670(Ptr_828E7670 *a, Ptr_828E7670 *b)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  int iVar3;
-  unsigned int uVar4;
-  unsigned __int64 uVar5;
-  unsigned __int64 uVar6;
-  __int64 lVar7;
-  unsigned int *puVar8;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  uVar1 = param_2[1];
-  uVar2 = *param_2;
-  if ((unsigned __int64)uVar1 != 0) {
-    lVar7 = (unsigned __int64)uVar1 + 4;
-    do {
-      puVar8 = (unsigned int *)lVar7;
-      if (in_RESERVE != '\0') {
-        uVar4 = storeWordConditionalIndexed((unsigned __int64)*puVar8 + 1,0,lVar7);
-        *puVar8 = uVar4;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-  }
-  iVar3 = *(int *)(param_1 + 0x14);
-  *(unsigned int *)(param_1 + 0x14) = uVar1;
-  *(unsigned int *)(param_1 + 0x10) = uVar2;
-  if (iVar3 != 0) {
-    fn_822315A0();
-  }
-  uVar2 = *param_2;
-  uVar5 = fn_8240D928(uVar2);
-  uVar6 = fn_823AA970(uVar2);
-  uVar5 = fn_828DF8D0(uVar6,uVar5);
-  fn_828DF3C8(param_1,uVar5);
-  return;
+    Rep_828E7670 *r = a->rep;
+    void *p = a->ptr;
+    a->rep = b->rep;
+    a->ptr = b->ptr;
+    b->rep = r;
+    b->ptr = p;
 }
 
+void fn_828E7670(Obj_828E7670 *self, Ptr_828E7670 *src)
+{
+    void *p;
+    {
+        Ptr_828E7670 tmp;
+        tmp.rep = src->rep;
+        tmp.ptr = src->ptr;
+        if (tmp.rep != 0)
+            _InterlockedIncrement(&tmp.rep->uses);
+        Swap_828E7670(&self->source, &tmp);
+        if (tmp.rep != 0)
+            fn_822315A0(tmp.rep);
+    }
+    p = src->ptr;
+    fn_828DF3C8(self, fn_828DF8D0(fn_823AA970(p), fn_8240D928(p)));
+}

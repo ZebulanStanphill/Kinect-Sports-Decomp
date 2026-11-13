@@ -1,60 +1,81 @@
-typedef unsigned char bool;
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern int fn_82230300();
-extern int fn_822315A0();
-extern int fn_822C7718();
-extern int fn_82558B08();
-extern int fn_8265CA20();
-extern unsigned int lbl_821ACFB8;
-extern unsigned __int64 storeWordConditionalIndexed();
+long _InterlockedDecrement(long volatile *);
 
+typedef struct Elem_822C71C8 {
+    int key;
+    void *obj;
+} Elem_822C71C8;
 
-void fn_822C71C8(unsigned int *param_1)
+typedef struct Vec_822C71C8 {
+    Elem_822C71C8 *first;
+    Elem_822C71C8 *last;
+    Elem_822C71C8 *end;
+} Vec_822C71C8;
 
+typedef struct Shared_822C71C8 Shared_822C71C8;
+typedef struct SharedVt_822C71C8 {
+    void (*destroy)(Shared_822C71C8 *);
+    void (*deleteThis)(Shared_822C71C8 *);
+} SharedVt_822C71C8;
+struct Shared_822C71C8 {
+    SharedVt_822C71C8 *vt;
+    long uses;
+    long weaks;
+};
+
+typedef struct Obj_822C71C8 {
+    void *vt;
+    char base4[0x28];
+    Shared_822C71C8 *rep;
+    Vec_822C71C8 vec;
+    int f3c;
+    char sub40[4];
+} Obj_822C71C8;
+
+extern char lbl_821ACFB8[];
+extern void fn_82558B08(Obj_822C71C8 *self);
+extern void fn_822C7718(void *p);
+extern void fn_822315A0(void *p);
+extern void fn_8265CA20(void *p);
+extern void fn_82230300(void *p, int a, int b);
+
+static __forceinline void Destroy_822C71C8(Elem_822C71C8 *f, Elem_822C71C8 *l)
 {
-  int iVar1;
-  int *piVar2;
-  unsigned int uVar3;
-  __int64 lVar4;
-  unsigned int *puVar5;
-  __int64 lVar6;
-  int iVar7;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  *param_1 = &lbl_821ACFB8;
-  fn_82558B08();
-  fn_822C7718(param_1 + 0x10);
-  iVar7 = param_1[0xc];
-  if (iVar7 != 0) {
-    iVar1 = param_1[0xd];
-    for (; iVar7 != iVar1; iVar7 = iVar7 + 8) {
-      if (*(int *)(iVar7 + 4) != 0) {
-        fn_822315A0();
-      }
+    for (; f != l; ++f) {
+        if (f->obj != 0) {
+            fn_822315A0(f->obj);
+        }
     }
-    fn_8265CA20(param_1[0xc]);
-  }
-  param_1[0xc] = 0;
-  param_1[0xd] = 0;
-  param_1[0xe] = 0;
-  piVar2 = (int *)param_1[0xb];
-  if (ZEXT48(piVar2) != 0) {
-    lVar4 = ZEXT48(piVar2) + 8;
-    do {
-      puVar5 = (unsigned int *)lVar4;
-      lVar6 = (unsigned __int64)*puVar5 - 1;
-      if (in_RESERVE != '\0') {
-        uVar3 = storeWordConditionalIndexed(lVar6,0,lVar4);
-        *puVar5 = uVar3;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-    if ((int)lVar6 == 0) {
-      (**(int (***)())(*piVar2 + 4))();
-    }
-  }
-  fn_82230300(param_1 + 1,1,0);
-  return;
 }
 
+static __forceinline void Tidy_822C71C8(Vec_822C71C8 *v)
+{
+    if (v->first != 0) {
+        Destroy_822C71C8(v->first, v->last);
+        fn_8265CA20(v->first);
+    }
+    v->first = 0;
+    v->last = 0;
+    v->end = 0;
+}
+
+static __forceinline void Decwref_822C71C8(Shared_822C71C8 *r)
+{
+    if (_InterlockedDecrement(&r->weaks) == 0)
+        r->vt->deleteThis(r);
+}
+
+static __forceinline void Release_822C71C8(Shared_822C71C8 **p)
+{
+    if (*p != 0)
+        Decwref_822C71C8(*p);
+}
+
+void fn_822C71C8(Obj_822C71C8 *self)
+{
+    self->vt = lbl_821ACFB8;
+    fn_82558B08(self);
+    fn_822C7718(self->sub40);
+    Tidy_822C71C8(&self->vec);
+    Release_822C71C8(&self->rep);
+    fn_82230300(self->base4, 1, 0);
+}

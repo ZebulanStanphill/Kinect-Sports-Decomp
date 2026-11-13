@@ -1,33 +1,38 @@
-extern int fn_82CE5410();
-extern int memcpy();
+extern void *memcpy(void *dst, const void *src, unsigned int n);
 
+typedef struct Allocator_83081A78 Allocator_83081A78;
+typedef struct AllocatorVt_83081A78 {
+    void *dtor;
+    void *(*blockAlloc)(Allocator_83081A78 *self, int numBytes);
+    void (*blockFree)(Allocator_83081A78 *self, void *p, int numBytes);
+} AllocatorVt_83081A78;
+struct Allocator_83081A78 { AllocatorVt_83081A78 *vt; };
 
-void fn_83081A78(unsigned int *param_1,int param_2)
+typedef struct Router_83081A78 {
+    char pad[0x10];
+    Allocator_83081A78 *heap;   /* 0x10 */
+} Router_83081A78;
 
+extern Router_83081A78 *fn_82CE5410(void);
+
+typedef struct SmallArray_83081A78 {
+    void *data;
+    unsigned short size;              /* 0x4 */
+    unsigned short capacityAndFlags;  /* 0x6 */
+} SmallArray_83081A78;
+
+void fn_83081A78(SmallArray_83081A78 *a, int elemSize)
 {
-  unsigned short uVar1;
-  unsigned int uVar2;
-  int iVar4;
-  unsigned __int64 uVar3;
-  int iVar5;
-  
-  iVar5 = (unsigned int)*(unsigned short *)(param_1 + 1) << 1;
-  if (*(unsigned short *)(param_1 + 1) == 0) {
-    iVar5 = 1;
-  }
-  iVar4 = fn_82CE5410();
-  uVar3 = (**(int (***)())(**(int **)(iVar4 + 0x10) + 4))
-                    (*(int **)(iVar4 + 0x10),(__int64)iVar5 * (__int64)param_2);
-  memcpy(uVar3,*param_1,(__int64)(int)(unsigned int)*(unsigned short *)(param_1 + 1) * (__int64)param_2);
-  uVar1 = *(unsigned short *)((int)param_1 + 6);
-  if ((uVar1 & 0x8000) == 0) {
-    uVar2 = *param_1;
-    iVar4 = fn_82CE5410();
-    (**(int (***)())(**(int **)(iVar4 + 0x10) + 8))
-              (*(int **)(iVar4 + 0x10),uVar2,(__int64)(int)(uVar1 & 0x3fff) * (__int64)param_2);
-  }
-  *param_1 = (int)uVar3;
-  *(unsigned short *)((int)param_1 + 6) = *(unsigned short *)((int)param_1 + 6) & 0x4000 | (unsigned short)iVar5;
-  return;
+    int cap = a->size ? a->size * 2 : 1;
+    Allocator_83081A78 *heap = fn_82CE5410()->heap;
+    void *p = heap->vt->blockAlloc(heap, cap * elemSize);
+    memcpy(p, a->data, a->size * elemSize);
+    if ((a->capacityAndFlags & 0x8000) == 0) {
+        void *old = a->data;
+        int n = (a->capacityAndFlags & 0x3fff) * elemSize;
+        Allocator_83081A78 *h = fn_82CE5410()->heap;
+        h->vt->blockFree(h, old, n);
+    }
+    a->data = p;
+    a->capacityAndFlags = (a->capacityAndFlags & 0x4000) | cap;
 }
-

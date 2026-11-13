@@ -1,17 +1,13 @@
-extern int fn_8306BC58();
+extern int fn_8306BC58(void *rng);
 
-
-__int64 fn_8306BD18(__int64 param_1,int param_2,unsigned __int64 param_3)
-
+int fn_8306BD18(int lo, int hi, void *rng)
 {
-  int iVar1;
-  __int64 lVar2;
-  
-  if (((int)param_1 <= param_2) &&
-     (lVar2 = ((__int64)param_2 - (__int64)(int)param_1) + 1, lVar2 != 1)) {
-    iVar1 = fn_8306BC58(param_3);
-    param_1 = (iVar1 - (int)((__int64)iVar1 / lVar2) * (int)lVar2) + param_1;
-  }
-  return param_1;
-}
+    __int64 range;
 
+    if (hi < lo)
+        return lo;
+    range = (__int64)hi - (__int64)lo + 1;
+    if (range == 1)
+        return lo;
+    return (int)(fn_8306BC58(rng) % range) + lo;
+}

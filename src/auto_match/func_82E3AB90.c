@@ -1,56 +1,56 @@
-extern int fn_82E62670();
-extern unsigned int uStack_4c;
+extern char lbl_82154B18[];
 
+typedef struct Unknown_82E3AB90 Unknown_82E3AB90;
+typedef struct UnknownVt_82E3AB90 {
+    int (*QueryInterface)(Unknown_82E3AB90 *, void *, void **);
+    unsigned int (*AddRef)(Unknown_82E3AB90 *);
+    unsigned int (*Release)(Unknown_82E3AB90 *);
+    int (*GetCount)(Unknown_82E3AB90 *, void *, unsigned int *);
+    int (*GetAt)(Unknown_82E3AB90 *, void *, unsigned int, Unknown_82E3AB90 **);
+} UnknownVt_82E3AB90;
+struct Unknown_82E3AB90 { UnknownVt_82E3AB90 *vt; };
 
-__int64 fn_82E3AB90(unsigned __int64 param_1,int *param_2,unsigned int *param_3)
+extern int fn_82E62670(Unknown_82E3AB90 *obj, unsigned int *out);
 
+int fn_82E3AB90(void *self, Unknown_82E3AB90 *src, int *out)
 {
-  __int64 lVar1;
-  int *piVar2;
-  int iVar3;
-  unsigned __int64 uVar4;
-  int *piStack_50;
-  unsigned int uStack_4c;
-  int aiStack_48 [18];
-  
-  if ((param_2 == (int *)0x0) || (param_3 == (unsigned int *)0x0)) {
-    lVar1 = -0x7fffbffd;
-  }
-  else {
-    *param_3 = 1;
-    piStack_50 = (int *)0x0;
-    uStack_4c = 0;
-    lVar1 = (**(int (***)())(*param_2 + 0xc))(param_2,0xffffffff82154b18,&uStack_4c);
-    piVar2 = piStack_50;
-    if (-1 < lVar1) {
-      iVar3 = 0;
-      uVar4 = 0;
-      do {
-        if ((unsigned __int64)uStack_4c <= (uVar4 & 0xffffffff)) break;
-        lVar1 = (**(int (***)())(*param_2 + 0x10))(param_2,0xffffffff82154b18,uVar4,&piStack_50);
-        piVar2 = piStack_50;
-        if (lVar1 < 0) goto LAB_82e3aca4;
-        aiStack_48[0] = 0;
-        lVar1 = fn_82E62670(piStack_50,aiStack_48);
-        piVar2 = piStack_50;
-        if (lVar1 < 0) goto LAB_82e3aca4;
-        if (aiStack_48[0] == -0x80000000) {
-          iVar3 = 1;
-        }
-        if (piStack_50 != (int *)0x0) {
-          (**(int (***)())(*piStack_50 + 8))();
-          piStack_50 = (int *)0x0;
-        }
-        piVar2 = (int *)0x0;
-        uVar4 = uVar4 + 1;
-      } while (iVar3 == 0);
-      *param_3 = (unsigned int)LZCOUNT(iVar3) >> 5;
+    Unknown_82E3AB90 *obj;
+    unsigned int count;
+    unsigned int value;
+    unsigned int i;
+    int found;
+    int hr;
+    if (src == 0 || out == 0)
+        return 0x80004003;
+    *out = 1;
+    obj = 0;
+    count = 0;
+    hr = src->vt->GetCount(src, lbl_82154B18, &count);
+    if (hr >= 0) {
+        found = 0;
+        i = 0;
+        do {
+            if (i >= count)
+                break;
+            hr = src->vt->GetAt(src, lbl_82154B18, i, &obj);
+            if (hr < 0)
+                goto done;
+            value = 0;
+            hr = fn_82E62670(obj, &value);
+            if (hr < 0)
+                goto done;
+            if (value == 0x80000000)
+                found = 1;
+            if (obj != 0) {
+                obj->vt->Release(obj);
+                obj = 0;
+            }
+            i++;
+        } while (found == 0);
+        *out = found == 0;
     }
-LAB_82e3aca4:
-    if (piVar2 != (int *)0x0) {
-      (**(int (***)())(*piVar2 + 8))();
-    }
-  }
-  return lVar1;
+done:
+    if (obj != 0)
+        obj->vt->Release(obj);
+    return hr;
 }
-

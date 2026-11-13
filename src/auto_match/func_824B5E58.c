@@ -1,24 +1,27 @@
-extern unsigned int *auStack_30;
-extern unsigned int fStack_2c;
-extern int fn_824B44C8();
-extern int fn_82539560();
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int lbl_831C3F8C;
-extern unsigned int lbl_831C3F90;
-extern unsigned int lbl_831C3F94;
+typedef struct Range_824B5E58 {
+    float lo;
+    float hi;
+    int key;
+} Range_824B5E58;
 
+typedef struct Vec_824B5E58 {
+    float x, y, z, w;
+} Vec_824B5E58;
 
-void fn_824B5E58(int param_1,unsigned __int64 param_2)
+typedef struct Obj_824B5E58 {
+    char pad[0x3c];
+    int alt;
+} Obj_824B5E58;
 
+extern Range_824B5E58 lbl_831C3F8C;
+extern const float lbl_821CA45C[2];
+extern Vec_824B5E58 *fn_824B44C8(Vec_824B5E58 *out, void *src, int key, int kind);
+extern float fn_82539560(float v, float inLo, float inHi, float outLo, float outHi);
+
+float fn_824B5E58(Obj_824B5E58 *self, void *src)
 {
-  unsigned char auStack_30 [4];
-  float fStack_2c;
-  
-  fn_824B44C8(auStack_30,param_2,lbl_831C3F94,
-                    (-(unsigned __int64)(*(int *)(param_1 + 0x3c) != 0) & 0xfffffffc) + 10);
-                    /* WARNING: Subroutine does not return */
-  fn_82539560((double)fStack_2c,(double)lbl_831C3F8C,(double)lbl_831C3F90,(double)ltcg_pool_0_0f,
-               (double)lbl_821CA460);
-}
+    Vec_824B5E58 v;
 
+    fn_824B44C8(&v, src, lbl_831C3F8C.key, self->alt ? 6 : 10);
+    return fn_82539560(v.y, lbl_831C3F8C.lo, lbl_831C3F8C.hi, 0.0f, lbl_821CA45C[1]);
+}

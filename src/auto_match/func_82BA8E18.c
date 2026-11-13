@@ -1,29 +1,26 @@
-extern int fn_82BC2EF0();
+typedef struct Inst_82BA8E18 {
+    char pad[0x50];
+    int opcode;            /* 0x50 */
+    char pad54[0x3b8 - 0x54];
+    int type;              /* 0x3b8 */
+} Inst_82BA8E18;
 
+extern int fn_82BC2EF0(int opcode, int type);
 
-unsigned __int64 fn_82BA8E18(int param_1)
-
+int fn_82BA8E18(Inst_82BA8E18 *inst)
 {
-  int iVar2;
-  unsigned __int64 uVar1;
-  
-  iVar2 = fn_82BC2EF0(*(unsigned int *)(param_1 + 0x50),*(unsigned int *)(param_1 + 0x3b8));
-  if (iVar2 == 4) {
-code_r0x82ba8e74:
-    uVar1 = 2;
-  }
-  else {
-    if (4 < iVar2) {
-      if (iVar2 < 7) {
+    switch (fn_82BC2EF0(inst->opcode, inst->type)) {
+    case 5:
+    case 6:
         return 1;
-      }
-      if (iVar2 < 9) goto code_r0x82ba8e74;
-      if ((0x2a < iVar2) && (iVar2 < 0x2d)) {
+    case 4:
+    case 7:
+    case 8:
+        return 2;
+    case 0x2b:
+    case 0x2c:
         return 3;
-      }
+    default:
+        return 0;
     }
-    uVar1 = 0;
-  }
-  return uVar1;
 }
-

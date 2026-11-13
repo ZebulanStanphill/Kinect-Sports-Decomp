@@ -1,57 +1,49 @@
-typedef unsigned char bool;
-extern int fn_82FA5190();
-extern int fn_82FF90A8();
-extern int fn_82FF9FA8();
-extern int fn_82FFB900();
-extern int fn_8302B530();
-extern int fn_8302B540();
-extern int fn_8302B660();
-extern unsigned int lbl_831BC768;
-extern unsigned int lbl_832642F0;
-extern unsigned __int64 storeWordConditionalIndexed();
+extern long _InterlockedDecrement(long *);
 
+typedef struct Obj_82FFBD98 Obj_82FFBD98;
+struct Obj_82FFBD98 {
+    void (**vt)(Obj_82FFBD98 *, int);
+    int pad4[2];
+    void *key;      /* 0x0c */
+    int pad10[12];
+    long refs;      /* 0x40 */
+    long pending;   /* 0x44 */
+};
 
-void fn_82FFBD98(__int64 param_1,char param_2)
+extern void fn_8302B530(void);
+extern void fn_8302B540(void);
+extern void fn_8302B660(void *table, void *key);
+extern void fn_82FF90A8(Obj_82FFBD98 *o);
+extern void fn_82FF9FA8(Obj_82FFBD98 *o);
+extern void fn_82FFB900(char *list, Obj_82FFBD98 *o);
+extern void fn_82FA5190(void *heap, void *p);
+extern void *lbl_831BC768;
+extern char *lbl_832642F0;
 
+void fn_82FFBD98(Obj_82FFBD98 *o, unsigned char force)
 {
-  unsigned int uVar1;
-  unsigned int *puVar2;
-  unsigned int uVar3;
-  __int64 lVar4;
-  unsigned int *puVar5;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  fn_8302B530();
-  puVar2 = (unsigned int *)param_1;
-  if (param_2 == '\0') {
-    do {
-      puVar5 = (unsigned int *)(param_1 + 0x44);
-      lVar4 = (unsigned __int64)*puVar5 - 1;
-      if (in_RESERVE != '\0') {
-        uVar1 = storeWordConditionalIndexed(lVar4,0,param_1 + 0x44);
-        *puVar5 = uVar1;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-    if (0 < (int)lVar4) goto LAB_82ffbe6c;
-  }
-  else {
-    puVar2[0x11] = 0;
-  }
-  fn_82FFB900(lbl_832642F0,param_1);
-  if ((int)puVar2[0x10] < 1) {
-    fn_8302B660((unsigned __int64)lbl_832642F0 + 0x39c,puVar2[3]);
-    fn_8302B540();
-    fn_82FF9FA8(param_1);
-    fn_82FF90A8(param_1);
-    uVar3 = lbl_831BC768;
-    (**(int (***)())*puVar2)(param_1,0);
-    fn_82FA5190(uVar3,param_1);
-    return;
-  }
-LAB_82ffbe6c:
-  fn_8302B540();
-  return;
-}
+    void *heap;
 
+    long n;
+    fn_8302B530();
+    if (force) {
+        o->pending = 0;
+        n = 0;
+    } else {
+        n = _InterlockedDecrement(&o->pending);
+    }
+    if (n <= 0) {
+        fn_82FFB900(lbl_832642F0, o);
+        if (o->refs <= 0) {
+            fn_8302B660(lbl_832642F0 + 0x39c, o->key);
+            fn_8302B540();
+            fn_82FF9FA8(o);
+            fn_82FF90A8(o);
+            heap = lbl_831BC768;
+            (*o->vt)(o, 0);
+            fn_82FA5190(heap, o);
+            return;
+        }
+    }
+    fn_8302B540();
+}
