@@ -1,41 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826993D0();
-extern int fn_8269EC68();
+typedef struct Iface_826C5848 {
+    void *vt;
+} Iface_826C5848;
 
+typedef struct Obj_826C5848 {
+    char pad[0x40];
+    char sub[1];
+} Obj_826C5848;
 
-void fn_826C5848(ulonglong param_1,undefined8 param_2,undefined8 param_3,ulonglong param_4)
+extern void fn_826993D0(void *sub, int b, unsigned int flags);
+extern void fn_8269EC68(Obj_826C5848 *o, int a, int b, unsigned int flags, Iface_826C5848 *iface);
 
+/* The last argument is the interface pointer of the object that contains o at offset 0x68
+   (null when that container pointer is null). */
+void fn_826C5848(Obj_826C5848 *o, int a, int b, unsigned int flags)
 {
-  if ((param_4 & 2) != 0) {
-    fn_826993D0(param_1 + 0x40,param_3,param_4);
-  }
-  fn_8269EC68(param_1,param_2,param_3,param_4,-(ulonglong)(param_1 != 0x68) & param_1);
-  return;
+    if (flags & 2) {
+        fn_826993D0(o->sub, b, flags);
+    }
+    fn_8269EC68(o, a, b, flags, (char *)o - 0x68 != 0 ? (Iface_826C5848 *)o : 0);
 }
-

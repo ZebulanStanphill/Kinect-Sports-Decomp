@@ -1,60 +1,61 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_82015514;
-extern unsigned int lbl_82015518;
+typedef struct Obj_8277DD60 {
+    char pad0[0x8];
+    unsigned char f08; /* 0x8 */
+    char pad9[0x27];
+    int f30; /* 0x30 */
+    char pad34[0xc];
+    int f40; /* 0x40 */
+    char pad44[0xc];
+    int f50; /* 0x50 */
+    char pad54[0xc];
+    int f60; /* 0x60 */
+    char pad64[0x10];
+    int f74; /* 0x74 */
+    char pad78[0x4];
+    int f7c; /* 0x7c */
+    char pad80[0x58];
+    int fd8; /* 0xd8 */
+    int fdc; /* 0xdc */
+    float fe0; /* 0xe0 */
+    float fe4; /* 0xe4 */
+    float fe8; /* 0xe8 */
+    float fec; /* 0xec */
+    char padf0[0x14];
+    int f104; /* 0x104 */
+    char pad108[0x4c];
+    int f154; /* 0x154 */
+    char pad158[0xc];
+    int f164; /* 0x164 */
+    char pad168[0xc];
+    int f174; /* 0x174 */
+    char pad178[0xc];
+    int f184; /* 0x184 */
+} Obj_8277DD60;
 
+extern float lbl_82015514[];
 
-void fn_8277DD60(int param_1)
-
+void fn_8277DD60(Obj_8277DD60 *o)
 {
-  undefined4 uVar1;
-  undefined4 uVar2;
-  
-  *(undefined4 *)(param_1 + 0x30) = 0;
-  *(undefined4 *)(param_1 + 0x40) = 0;
-  uVar1 = lbl_82015514;
-  *(undefined4 *)(param_1 + 0x50) = 0;
-  *(undefined4 *)(param_1 + 0xe8) = uVar1;
-  *(undefined4 *)(param_1 + 0x60) = 0;
-  uVar2 = lbl_82015518;
-  *(undefined4 *)(param_1 + 0x74) = 0;
-  *(undefined4 *)(param_1 + 0xe0) = uVar2;
-  *(undefined4 *)(param_1 + 0x7c) = 0;
-  *(undefined4 *)(param_1 + 0xe4) = uVar2;
-  *(undefined4 *)(param_1 + 0x104) = 0;
-  *(undefined4 *)(param_1 + 0xec) = uVar1;
-  *(undefined4 *)(param_1 + 0x154) = 0;
-  *(undefined4 *)(param_1 + 0x164) = 0;
-  *(undefined4 *)(param_1 + 0x174) = 0;
-  *(undefined4 *)(param_1 + 0x184) = 0;
-  *(undefined4 *)(param_1 + 0xd8) = 0;
-  *(undefined4 *)(param_1 + 0xdc) = 0;
-  *(undefined1 *)(param_1 + 8) = 0;
-  return;
-}
+    float a, b;
 
+    o->f30 = 0;
+    o->f40 = 0;
+    a = lbl_82015514[0];
+    o->f50 = 0;
+    o->fe8 = a;
+    o->f60 = 0;
+    b = lbl_82015514[1];
+    o->f74 = 0;
+    o->fe0 = b;
+    o->f7c = 0;
+    o->fe4 = b;
+    o->f104 = 0;
+    o->fec = a;
+    o->f154 = 0;
+    o->f164 = 0;
+    o->f174 = 0;
+    o->f184 = 0;
+    o->fd8 = 0;
+    o->fdc = 0;
+    o->f08 = 0;
+}

@@ -1,58 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Stream_82CFAE20 Stream_82CFAE20;
+typedef struct StreamVt_82CFAE20 {
+  void *f00, *f04, *f08, *f0c;
+  int (*Write)(Stream_82CFAE20 *s, int buf, int n);
+} StreamVt_82CFAE20;
+struct Stream_82CFAE20 { StreamVt_82CFAE20 *vt; };
+typedef struct Buffer_82CFAE20 {
+  int f00, f04;
+  Stream_82CFAE20 *stream;
+  int data;
+  int count;
+} Buffer_82CFAE20;
 
-
-longlong fn_82CFAE20(int param_1)
-
+int fn_82CFAE20(Buffer_82CFAE20 *b)
 {
-  uint uVar1;
-  longlong lVar2;
-  longlong lVar3;
-  
-  if (*(int *)(param_1 + 8) == 0) {
-    lVar3 = 0;
-  }
-  else {
-    uVar1 = *(uint *)(param_1 + 0x10);
-    lVar3 = 0;
-    if (0 < (int)uVar1) {
-      do {
-        lVar2 = (**(code **)(**(int **)(param_1 + 8) + 0x10))
-                          (*(int **)(param_1 + 8),lVar3 + (ulonglong)*(uint *)(param_1 + 0xc),
-                           (ulonglong)uVar1 - lVar3);
-        lVar3 = lVar2 + lVar3;
-        if ((int)lVar2 == 0) {
-          return lVar3;
-        }
-      } while ((int)lVar3 < (int)uVar1);
-    }
-    *(undefined4 *)(param_1 + 0x10) = 0;
-  }
-  return lVar3;
-}
+  int n;
+  int r;
+  int total;
 
+  if (b->stream != 0) {
+    n = b->count;
+    total = 0;
+    if (0 < n) {
+      do {
+        r = b->stream->vt->Write(b->stream, total + b->data, n - total);
+        total = r + total;
+        if (r == 0) {
+          return total;
+        }
+      } while (total < n);
+    }
+    b->count = 0;
+    return total;
+  }
+  return 0;
+}

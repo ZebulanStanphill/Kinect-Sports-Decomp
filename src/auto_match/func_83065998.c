@@ -1,51 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8305D3F8();
-extern int fn_83068418();
+extern void *fn_8305D3F8(void *list, void *node);
+extern unsigned char fn_83068418(void *node);
 
-
-ulonglong fn_83065998(undefined8 param_1,ulonglong param_2)
-
+void *fn_83065998(void *list, void *node)
 {
-  char cVar1;
-  
-  if ((param_2 & 0xffffffff) == 0) {
-    param_2 = 0;
-  }
-  else {
+  if (node != 0) {
     do {
-      param_2 = fn_8305D3F8(param_1,param_2);
-      if (param_2 == 0) {
-        return 0;
+      node = fn_8305D3F8(list, node);
+      if (node == 0) {
+        break;
       }
-      cVar1 = fn_83068418(param_2);
-    } while (cVar1 == '\0');
+    } while (!fn_83068418(node));
+    return node;
   }
-  return param_2;
+  return 0;
 }
-

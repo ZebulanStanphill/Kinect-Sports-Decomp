@@ -1,46 +1,23 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82692370();
+typedef struct _RTL_CRITICAL_SECTION { int w[7]; } RTL_CRITICAL_SECTION;
+extern void RtlEnterCriticalSection(RTL_CRITICAL_SECTION *cs);
+extern void RtlLeaveCriticalSection(RTL_CRITICAL_SECTION *cs);
+extern int fn_82692370(void *p, int a, int b);
 
+typedef struct Obj_8267B8F0 {
+  unsigned char pad[0x48];
+  RTL_CRITICAL_SECTION cs;
+  unsigned char locked;
+  void *impl;
+} Obj_8267B8F0;
 
-undefined8 fn_8267B8F0(int param_1,undefined8 param_2,undefined8 param_3)
-
+int fn_8267B8F0(Obj_8267B8F0 *o, int a, int b)
 {
-  undefined8 uVar1;
-  
-  if (*(char *)(param_1 + 100) == '\0') {
-    uVar1 = fn_82692370(*(undefined4 *)(param_1 + 0x68),param_2,param_3);
+  int r;
+  if (o->locked) {
+    RtlEnterCriticalSection(&o->cs);
+    r = fn_82692370(o->impl, a, b);
+    RtlLeaveCriticalSection(&o->cs);
+    return r;
   }
-  else {
-    RtlEnterCriticalSection(param_1 + 0x48);
-    uVar1 = fn_82692370(*(undefined4 *)(param_1 + 0x68),param_2,param_3);
-    RtlLeaveCriticalSection(param_1 + 0x48);
-  }
-  return uVar1;
+  return fn_82692370(o->impl, a, b);
 }
-

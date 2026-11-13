@@ -1,55 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BE5240();
-extern int fn_82BEB838();
+typedef struct Msg_82BE2820 {
+    char pad[0x14];
+    int id;
+} Msg_82BE2820;
 
+typedef struct Obj_82BE2820 {
+    char pad[0x10];
+    int f10;
+} Obj_82BE2820;
 
-void fn_82BE2820(int param_1,int param_2)
+extern char lbl_82196582[];
+extern void fn_82BE5240();
+extern void fn_82BEB838(Obj_82BE2820 *o, Msg_82BE2820 *m);
 
+void fn_82BE2820(Obj_82BE2820 *o, Msg_82BE2820 *m)
 {
-  int iVar1;
-  undefined8 uVar2;
-  
-  iVar1 = *(int *)(param_2 + 0x14);
-  if (iVar1 == 0x1011) {
-    uVar2 = 0xd2;
-  }
-  else if (iVar1 == 0x1023) {
-    uVar2 = 0xd3;
-  }
-  else {
-    if (iVar1 != 0x1073) goto LAB_82be2884;
-    uVar2 = 0xd4;
-  }
-  fn_82BE5240(param_1,uVar2,0xffffffff82196582);
-  *(undefined4 *)(param_1 + 0x10) = 0;
-LAB_82be2884:
-  fn_82BEB838(param_1,param_2);
-  return;
+    int code;
+    switch (m->id) {
+    case 0x1011: code = 0xd2; break;
+    case 0x1023: code = 0xd3; break;
+    case 0x1073: code = 0xd4; break;
+    default: goto done;
+    }
+    fn_82BE5240(o, code, lbl_82196582);
+    o->f10 = 0;
+done:
+    fn_82BEB838(o, m);
 }
-

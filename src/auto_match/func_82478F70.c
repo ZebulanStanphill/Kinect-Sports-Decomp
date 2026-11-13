@@ -1,42 +1,32 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_c0e;
-extern int fn_82F691F0();
-
-
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+typedef struct G_82478F70 { int pad0; int pad4; int h8; } G_82478F70;
+typedef struct New_82478F70 { char pad[0x41c]; void *vt; char pad2[0x14]; } New_82478F70;
+extern unsigned short lbl_820E975C;
+extern G_82478F70 lbl_83276728;
+extern New_82478F70 *lbl_832766E8;
+extern char lbl_821A8C90[];
+extern void fn_82528BF8(int, const char *, void *, int, int, int);
+extern void *fn_8265C9E0(int);
+extern void fn_824790D8(void);
+extern void fn_8229DCA8(void *, void *, void *, void *, void *, void (*)(void), void *, int, int);
+extern void *memset(void *, int, unsigned);
 
 void fn_82478F70(void)
-
 {
-  undefined1 auStack_c0e [3070];
-  
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0(auStack_c0e,0,0x1fe);
+  unsigned short title[0x100] = { lbl_820E975C };
+  unsigned short content[0x400] = { lbl_820E975C };
+  unsigned short yes[0x100] = { lbl_820E975C };
+  unsigned short no[0x100] = { lbl_820E975C };
+  New_82478F70 *n;
+  fn_82528BF8(lbl_83276728.h8, "exit_stadium_warning_title", title, 0x100, 0, 1);
+  fn_82528BF8(lbl_83276728.h8, "exit_stadium_warning_content", content, 0x400, 0, 1);
+  fn_82528BF8(lbl_83276728.h8, "yes", yes, 0x100, 0, 1);
+  fn_82528BF8(lbl_83276728.h8, "no", no, 0x100, 0, 1);
+  n = (New_82478F70 *)fn_8265C9E0(0x434);
+  if (n != 0) {
+    n->vt = lbl_821A8C90;
+    fn_8229DCA8(n, title, content, yes, no, fn_824790D8, 0, 1, 0);
+    lbl_832766E8 = n;
+  } else {
+    lbl_832766E8 = 0;
+  }
 }
-

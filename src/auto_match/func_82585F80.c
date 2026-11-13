@@ -1,42 +1,12 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82544528();
-extern int fn_8263CBB0();
+typedef struct Obj_82585F80 { int f00, f04; int inner; } Obj_82585F80;
+extern int fn_82544528(void);
+extern void fn_8263CBB0(unsigned int a, int b, int c, int d);
+extern void fn_825D8490(int, float, int, int);
 extern unsigned int lbl_8320A898;
 
-
-void fn_82585F80(void)
-
+void fn_82585F80(Obj_82585F80 *o, float v, int b)
 {
-  undefined8 uVar1;
-  
-  uVar1 = fn_82544528();
-                    /* WARNING: Subroutine does not return */
-  fn_8263CBB0(lbl_8320A898,1,uVar1,0x40000000);
+  int r = fn_82544528();
+  fn_8263CBB0(lbl_8320A898, 1, r, 0x40000000);
+  fn_825D8490(o->inner, v, b, 1);
 }
-

@@ -1,65 +1,60 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_825334E0();
-extern int fn_825735B8();
-extern int fn_825764F0();
+typedef struct Node Node;
+typedef struct Entity Entity;
 
+typedef struct NodeVtbl {
+    void *f0;
+    void *f4;
+    void (*notify)(Node *self, int msg, int arg);
+} NodeVtbl;
 
-void fn_824106F8(int param_1,int param_2,int param_3)
+struct Node {
+    NodeVtbl *vt;
+    Entity *ent;
+};
 
+struct Entity {
+    char pad0[0x190];
+    int flag;
+    char pad194[0x1b0 - 0x194];
+    Node *node;
+};
+
+typedef struct Obj {
+    char pad0[0x93c];
+    int enabled;
+} Obj;
+
+typedef struct Ctx_824106F8 {
+    char pad0[0x8c0];
+    char *mgr;
+} Ctx_824106F8;
+
+typedef struct Self_824106F8 {
+    char pad0[0x28];
+    Ctx_824106F8 *ctx;
+    char pad2c[0x268 - 0x2c];
+    int on;
+} Self_824106F8;
+
+extern Node *fn_825735B8(char *list, const char *key);
+extern Entity *fn_825764F0(char *list, const char *key, Entity *ent);
+extern void fn_825334E0(Obj *o, char *mgr, const char *key);
+
+void fn_824106F8(Self_824106F8 *self, int on, Obj *o)
 {
-  int *piVar1;
-  int iVar2;
-  longlong lVar3;
-  
-  if (param_2 == 0) {
-    if (*(int *)(param_3 + 0x93c) != 0) {
-      lVar3 = (ulonglong)*(uint *)(*(int *)(param_1 + 0x28) + 0x8c0) + 0x128;
-      piVar1 = (int *)fn_825735B8(lVar3,0xffffffff821b81e0);
-      while (piVar1 != (int *)0x0) {
-        (**(code **)(*piVar1 + 8))(piVar1,5,0);
-        if (piVar1[1] != 0) {
-          *(undefined4 *)(piVar1[1] + 400) = 0;
+    if (on != 0) {
+        fn_825334E0(o, self->ctx->mgr, "spinTrailLocator1");
+    } else if (o->enabled != 0) {
+        char *list = self->ctx->mgr + 0x128;
+        Node *n = fn_825735B8(list, "spinTrailLocator1");
+        while (n != 0) {
+            Entity *e;
+            n->vt->notify(n, 5, 0);
+            if (n->ent != 0)
+                n->ent->flag = 0;
+            e = fn_825764F0(list, "spinTrailLocator1", n->ent);
+            n = e != 0 ? e->node : 0;
         }
-        iVar2 = fn_825764F0(lVar3,0xffffffff821b81e0,piVar1[1]);
-        if (iVar2 == 0) {
-          piVar1 = (int *)0x0;
-        }
-        else {
-          piVar1 = *(int **)(iVar2 + 0x1b0);
-        }
-      }
     }
-  }
-  else {
-    fn_825334E0(param_3,*(undefined4 *)(*(int *)(param_1 + 0x28) + 0x8c0),0xffffffff821b81e0);
-  }
-  *(int *)(param_1 + 0x268) = param_2;
-  return;
+    self->on = on;
 }
-

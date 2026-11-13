@@ -1,43 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FEF4E0();
+typedef struct Node_8302C380 {
+    char pad[0x14];
+    struct Node_8302C380 *next;
+    char pad2[0x70 - 0x18];
+    unsigned int id;
+} Node_8302C380;
 
+typedef struct Owner_8302C380 {
+    char pad[0x7c];
+    Node_8302C380 *head;
+} Owner_8302C380;
 
-void fn_8302C380(int param_1,int param_2,ulonglong param_3)
+extern void fn_82FEF4E0(Node_8302C380 *n, int value);
 
+void fn_8302C380(Owner_8302C380 *o, unsigned int id, int value)
 {
-  int iVar1;
-  
-  for (iVar1 = *(int *)(param_1 + 0x7c); iVar1 != 0; iVar1 = *(int *)(iVar1 + 0x14)) {
-    if ((param_2 == 0) || (*(int *)(iVar1 + 0x70) == param_2)) {
-      fn_82FEF4E0(iVar1,((param_3 & 0xffffffff) >> 0x1f) - 1 & param_3);
+    Node_8302C380 *n;
+    int v = value < 0 ? 0 : value;
+    for (n = o->head; n != 0; n = n->next) {
+        if (id == 0 || n->id == id) {
+            fn_82FEF4E0(n, v);
+        }
     }
-  }
-  return;
 }
-

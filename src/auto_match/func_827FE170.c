@@ -1,41 +1,13 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_827FAB20();
-extern int fn_827FD998();
+typedef struct Obj_827FE170 {
+    char pad[0x98];
+    int f98;
+} Obj_827FE170;
 
+extern void fn_827FD998(int a, int b, int c, float f, int d);
+extern void fn_827FAB20(int a, int b, int c, float f);
 
-void fn_827FE170(undefined8 param_1,int param_2,undefined8 param_3,int param_4,undefined8 param_5,
-                  undefined8 param_6,int param_7,undefined8 param_8)
-
+void fn_827FE170(Obj_827FE170 *a, int b, Obj_827FE170 *c, int d, float f, Obj_827FE170 *e, int g)
 {
-  fn_827FD998(*(undefined4 *)(param_2 + 0x98),*(undefined4 *)(param_4 + 0x98),
-                *(undefined4 *)(param_7 + 0x98),param_5,0);
-  fn_827FAB20(param_1,param_3,param_5,param_8);
-  return;
+    fn_827FD998(a->f98, c->f98, e->f98, f, 0);
+    fn_827FAB20(b, d, g, f);
 }
-

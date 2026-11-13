@@ -1,57 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C940();
+typedef struct Node_828F5D48 {
+    int key;
+    struct Node_828F5D48 *next;
+    int flag;
+} Node_828F5D48;
 
+typedef struct Owner_828F5D48 {
+    char pad0[0x74];
+    Node_828F5D48 *head;
+    char pad78[0x2a0 - 0x78];
+    int last;
+} Owner_828F5D48;
 
-undefined8 fn_828F5D48(int param_1,undefined4 param_2)
+extern void *fn_8265C940(int size, int flags);
 
+static __forceinline Node_828F5D48 *Node_ctor_828F5D48(Node_828F5D48 *n, int key)
 {
-  undefined4 *puVar2;
-  undefined8 uVar1;
-  undefined4 *puVar3;
-  
-  puVar2 = (undefined4 *)fn_8265C940(0xc,0x24810000);
-  puVar3 = (undefined4 *)0x0;
-  if (puVar2 != (undefined4 *)0x0) {
-    puVar2[1] = 0;
-    *puVar2 = param_2;
-    puVar2[2] = 1;
-    puVar3 = puVar2;
-  }
-  if (puVar3 == (undefined4 *)0x0) {
-    uVar1 = 0xffffffff8007000e;
-  }
-  else {
-    uVar1 = 0;
-    puVar3[1] = *(undefined4 *)(param_1 + 0x74);
-    *(undefined4 **)(param_1 + 0x74) = puVar3;
-    *(undefined4 *)(param_1 + 0x2a0) = param_2;
-  }
-  return uVar1;
+    if (n != 0) {
+        n->next = 0;
+        n->key = key;
+        n->flag = 1;
+        return n;
+    }
+    return 0;
 }
 
+int fn_828F5D48(Owner_828F5D48 *param_1, int param_2)
+{
+    Node_828F5D48 *n;
+
+    n = Node_ctor_828F5D48((Node_828F5D48 *)fn_8265C940(0xc, 0x24810000), param_2);
+    if (n == 0) {
+        return 0x8007000E;
+    }
+    n->next = param_1->head;
+    param_1->head = n;
+    param_1->last = param_2;
+    return 0;
+}
