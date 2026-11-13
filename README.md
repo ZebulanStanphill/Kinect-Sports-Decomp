@@ -47,4 +47,4 @@ Without `--vc-include`, `configure.py` prints how many units it skipped. Those u
 
 ## Contributing
 
-Pick a function in `src/auto_match/` and compare changes with [objdiff](https://github.com/encounter/objdiff). See [CONTRIBUTING.md](CONTRIBUTING.md) for build and submission instructions.
+Pick a function in `src/auto_match/` and compare changes with [objdiff](https://github.com/encounter/objdiff). See [CONTRIBUTING.md](CONTRIBUTING.md) for build and submission instructions. [docs/credits.md](docs/credits.md) credits the tools, libraries and projects this one builds on.
