@@ -48363,7 +48363,7 @@ auto_match/func_825E8E60.c:
 	.pdata      start:0x821F1BC0 end:0x821F1BC8
 	.text       start:0x825E8E60 end:0x825E9498
 
-auto_match/func_825E9498.c:
+auto_match/func_825E9498.cpp:
 	.pdata      start:0x821F1BC8 end:0x821F1BD0
 	.text       start:0x825E9498 end:0x825E964C
 
