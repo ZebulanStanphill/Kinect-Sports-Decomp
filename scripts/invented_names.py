@@ -15,8 +15,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SYMBOLS = ROOT / "config/4D5308C9/symbols.txt"
 TABLE = ROOT / "docs/invented_names.tsv"
-# ?Method@Class_<address>@@...: a member function of a placeholder class
-MEMBER = re.compile(r"^\?(\w+)@([A-Za-z]\w*_[0-9A-F]{8})@@")
+# ?Method@Class_<address>@@...: a member function of a placeholder class;
+# ??0Class_<address>@@..., ??1..., ??_9...: one of its special members
+MEMBER = re.compile(r"^\?(?:(\w+)@|\?(_?[0-9A-Z]))([A-Za-z][A-Za-z0-9]*_[0-9A-F]{8})@@")
+SPECIAL = {"0": "(constructor)", "1": "(destructor)", "_9": "(virtual call thunk)",
+           "_G": "(scalar deleting destructor)", "_E": "(vector deleting destructor)"}
 
 
 def main():
@@ -27,7 +30,8 @@ def main():
             continue
         n = MEMBER.match(m.group(1))
         if n:
-            rows.append((int(m.group(2), 16), n.group(2), n.group(1), m.group(1)))
+            method = n.group(1) or SPECIAL.get(n.group(2), f"(operator ?{n.group(2)})")
+            rows.append((int(m.group(2), 16), n.group(3), method, m.group(1)))
     rows.sort()
     out = ["address\tclass\tmethod\tsymbol"]
     out += [f"0x{a:08X}\t{c}\t{meth}\t{s}" for a, c, meth, s in rows]

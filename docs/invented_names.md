@@ -21,7 +21,9 @@ function's symbol encodes its class and method names, so such a function needs b
 class is a placeholder, the method name is invented too.
 
 [`invented_names.tsv`](invented_names.tsv) lists every one of these: the function's address,
-the placeholder class, the method name and the symbol. A symbol is in the table when its class
+the placeholder class, the method name and the symbol. Constructors, destructors and the
+compiler's virtual-call thunks have no method name of their own and are listed by what they
+are. A symbol is in the table when its class
 has the `<Role>_<address>` form, so the symbol itself shows that the names are not the game's.
 Method names there (`Grow`, `Erase`, `Collect`, ...) describe what the code does; none comes
 from the game. Regenerate the table with `python3 scripts/invented_names.py` after adding or
