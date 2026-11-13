@@ -19,7 +19,7 @@ A decompilation of **Kinect Sports** for Xbox 360.
 | Functions with matching code | 34,516 |
 | Matched code | 3,698,808 / 15,705,500 (23.55104%) |
 | Fully linked code | 3,688,700 / 15,705,500 (23.48668%) |
-| Units with source | 54,020 |
+| Units with source | 54,004 |
 | Fuzzy match | 48.73197% |
 
 *Matched code* counts the code of functions that compile to exactly the original instructions. *Fully linked code* counts only units in which every function matches, since only those are linked into the rebuilt game. *Fuzzy match* is objdiff's average similarity over all code, including unmatched functions.
