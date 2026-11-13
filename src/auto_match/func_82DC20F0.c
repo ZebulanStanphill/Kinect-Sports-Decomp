@@ -1,40 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_82CE5088();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Obj_82DC20F0 {
+    unsigned char pad0[0x18];
+    unsigned char unk18;
+    unsigned char unk19;
+} Obj_82DC20F0;
 
-void fn_82DC20F0(undefined8 param_1,longlong param_2,undefined8 param_3,undefined8 param_4)
+typedef struct Body_82DC20F0 {
+    unsigned char pad0[0xf0];
+    unsigned char transform[0x40];
+} Body_82DC20F0;
 
+void fn_82CE5088(__vector4 *out, const void *t, const __vector4 *v);
+int fn_82DC1F50(Obj_82DC20F0 *self, const __vector4 *p);
+int fn_82DC2020(Obj_82DC20F0 *self, const __vector4 *p);
+
+int fn_82DC20F0(Obj_82DC20F0 *self, Body_82DC20F0 *a, Body_82DC20F0 *b, const __vector4 *v)
 {
-  undefined1 auStack_40 [48];
-  
-                    /* WARNING: Subroutine does not return */
-  fn_82CE5088(auStack_40,param_2 + 0xf0,param_4);
-}
+    __vector4 pa;
+    __vector4 pb;
+    int r;
 
+    fn_82CE5088(&pa, a->transform, v);
+    fn_82CE5088(&pb, b->transform, v);
+    r = fn_82DC1F50(self, &pa);
+    fn_82DC2020(self, &pb);
+    self->unk18 = 1;
+    self->unk19 = 1;
+    return r;
+}

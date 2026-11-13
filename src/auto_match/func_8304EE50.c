@@ -1,52 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int fStack_1c;
-extern int fn_83013E80();
-extern unsigned int lbl_83264308;
-extern unsigned int uStack_14;
-extern unsigned int uStack_18;
-extern unsigned int uStack_20;
+typedef struct { char pad[0x20]; int v; } Inner_8304EE50;
+typedef struct { char pad[0x50]; int h; char pad2[0x18]; Inner_8304EE50 *inner; } Obj_8304EE50;
+typedef struct { int a; float f; int b; int c; } Msg_8304EE50;
+extern int lbl_83264308;
+extern void fn_83013E80(int ctx, int h, Msg_8304EE50 *m, int r);
 
-
-void fn_8304EE50(double param_1,undefined8 param_2,int param_3,undefined8 param_4,
-                  undefined4 param_5,undefined4 param_6)
-
+void fn_8304EE50(int r, Obj_8304EE50 *o, float f, int a, int b)
 {
-  undefined4 uStack_20;
-  float fStack_1c;
-  undefined4 uStack_18;
-  undefined4 uStack_14;
-  
-  uStack_14 = *(undefined4 *)(*(int *)(param_3 + 0x6c) + 0x20);
-  fStack_1c = (float)param_1;
-  uStack_20 = param_5;
-  uStack_18 = param_6;
-  fn_83013E80(lbl_83264308,*(undefined4 *)(param_3 + 0x50),&uStack_20,param_2);
-  return;
+    Msg_8304EE50 m;
+    m.c = o->inner->v;
+    m.a = a;
+    m.f = f;
+    m.b = b;
+    fn_83013E80(lbl_83264308, o->h, &m, r);
 }
-

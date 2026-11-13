@@ -1,41 +1,22 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+/* GPU fetch constants (0x18 bytes each) addressed from the start of the device
+   block, like the fn_82838CE8 setters; the dirty mask is at +0x18. */
+typedef struct {
+  unsigned int pad0 : 30;
+  unsigned int f : 2;
+} W_82639A90;
+typedef struct {
+  unsigned int a[5];
+  W_82639A90 w;
+} Fetch_82639A90;
+typedef struct {
+  char pad[0x18];
+  unsigned __int64 dirty;
+} Dev_82639A90;
 
-
-void fn_82639A90(int param_1,int param_2,longlong param_3)
-
+void fn_82639A90(Dev_82639A90 *d, unsigned int i, unsigned int v)
 {
-  int iVar1;
-  
-  iVar1 = (param_2 + 0x30) * 0x18 + param_1;
-  *(uint *)(iVar1 + 0x14) = *(uint *)(iVar1 + 0x14) & 0xfffffffc | (uint)(param_3 != 0);
-  *(ulonglong *)(param_1 + 0x18) =
-       0x8000000000000000U >> (param_2 + 0x20U & 0x7f) | *(ulonglong *)(param_1 + 0x18);
-  return;
+  unsigned int k = i + 0x30;
+  Fetch_82639A90 *f = (Fetch_82639A90 *)d + k;
+  f->w.f = v != 0;
+  d->dirty |= 0x8000000000000000ULL >> (i + 32);
 }
-

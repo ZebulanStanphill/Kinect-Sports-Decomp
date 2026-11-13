@@ -1,54 +1,29 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_827B5EA8();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_821AAD20;
+typedef struct Sub_82784308 { int first; char pad[0xc]; } Sub_82784308;
+typedef struct Obj_82784308 {
+    char pad0[8];
+    Sub_82784308 a;      /* 0x08 */
+    Sub_82784308 b;      /* 0x18 */
+    int w28;             /* 0x28 */
+    int w2c;             /* 0x2c */
+    int w30;             /* 0x30 */
+    float f34;
+    float f38;
+    float f3c;
+    float f40;
+} Obj_82784308;
+extern void fn_827B5EA8(Sub_82784308 *s);
 
-
-void fn_82784308(int param_1)
-
+void fn_82784308(Obj_82784308 *p)
 {
-  undefined4 uVar1;
-  undefined4 uVar2;
-  
-  uVar2 = lbl_821AAD20;
-  uVar1 = lbl_82002AE0;
-  *(undefined4 *)(param_1 + 0x34) = lbl_82002AE0;
-  *(undefined4 *)(param_1 + 8) = 0;
-  *(undefined4 *)(param_1 + 0x38) = uVar1;
-  *(undefined4 *)(param_1 + 0x18) = 0;
-  *(undefined4 *)(param_1 + 0x3c) = uVar2;
-  *(undefined4 *)(param_1 + 0x28) = 0;
-  *(undefined4 *)(param_1 + 0x40) = uVar2;
-  *(undefined4 *)(param_1 + 0x2c) = 0x7fffffff;
-  *(undefined4 *)(param_1 + 0x30) = 0x80000001;
-  fn_827B5EA8(param_1 + 8);
-  fn_827B5EA8(param_1 + 0x18);
-  return;
+    p->f34 = 1.0f;
+    p->a.first = 0;
+    p->f38 = 1.0f;
+    p->b.first = 0;
+    p->f3c = 0.0f;
+    p->w28 = 0;
+    p->f40 = 0.0f;
+    p->w2c = 0x7fffffff;
+    p->w30 = 0x80000001;
+    fn_827B5EA8(&p->a);
+    fn_827B5EA8(&p->b);
 }
-

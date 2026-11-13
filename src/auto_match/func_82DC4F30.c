@@ -1,87 +1,68 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define TBLr 0
-extern int fn_82CE8E78();
-extern int fn_830AE0E8();
-extern unsigned int lbl_8202CF7C;
+extern unsigned __int64 __mftb();
+typedef struct { const char *name; unsigned time; int pad; const char *name2; } TimerEntryA;
+typedef struct { const char *name; unsigned time, pad; } TimerEntryB;
+typedef struct { void *pad; char *current; void *pad2; char *end; } TimerStream;
+extern TimerStream *KeTlsGetValue(unsigned int);
 extern unsigned int lbl_8323B4A0;
 
+typedef struct Block_82DC4F30 { int v[4]; } Block_82DC4F30;
+typedef struct Cfg_82DC4F30 {
+  char pad[0x8];
+  int f8, fc;
+  Block_82DC4F30 *blocks;
+  int f14;
+  unsigned int size;
+} Cfg_82DC4F30;
+typedef struct Arg_82DC4F30 {
+  char pad[0x20];
+  unsigned int f20;
+  int f24;
+  int f28;
+  Cfg_82DC4F30 *cfg;
+} Arg_82DC4F30;
 
-void fn_82DC4F30(uint *param_1,undefined8 param_2,int param_3)
+extern void fn_830AE0E8(char *solver, int a, int b, int c, int d, Block_82DC4F30 *blocks);
+extern void fn_82CE8E78(void *out, Arg_82DC4F30 *a, Arg_82DC4F30 *b, int flags);
 
+void fn_82DC4F30(char **self, void *out, Arg_82DC4F30 *a)
 {
-  undefined4 uVar1;
-  undefined4 uVar2;
-  int iVar3;
-  undefined8 uVar4;
-  int iVar5;
-  undefined4 *puVar6;
-  ulonglong uVar7;
-  
-  iVar5 = KeTlsGetValue(lbl_8323B4A0);
-  puVar6 = *(undefined4 **)(iVar5 + 4);
-  if (puVar6 < *(undefined4 **)(iVar5 + 0xc)) {
-    *puVar6 = "LtIntegrate";
-    puVar6[3] = "StSolve";
-    uVar4 = TBLr;
-    puVar6[1] = (int)uVar4;
-    *(undefined4 **)(iVar5 + 4) = puVar6 + 4;
+  TimerStream *s;
+  TimerEntryA *ea;
+  TimerEntryB *eb;
+  Cfg_82DC4F30 *c;
+  int f8, fc;
+  Block_82DC4F30 *blocks;
+  int i, n;
+
+  s = KeTlsGetValue(lbl_8323B4A0);
+  if (s->current < s->end) {
+    ea = (TimerEntryA *)s->current;
+    ea->name = "LtIntegrate";
+    ea->name2 = "StSolve";
+    ea->time = (unsigned)__mftb();
+    s->current = (char *)(ea + 1);
   }
-  iVar5 = *(int *)(param_3 + 0x2c);
-  uVar1 = *(undefined4 *)(iVar5 + 8);
-  uVar2 = *(undefined4 *)(iVar5 + 0xc);
-  iVar3 = *(int *)(iVar5 + 0x10);
-  *(undefined4 *)(param_3 + 0x24) = *(undefined4 *)(*param_1 + 0x2f8);
-  if (*(int *)(param_3 + 0x20) == 0) {
-    uVar7 = ((ulonglong)*(uint *)(iVar5 + 0x18) + 0xf & 0xffffffff) >> 4;
-    if ((int)uVar7 != 0) {
-      puVar6 = (undefined4 *)(iVar3 + -4);
-      do {
-        puVar6[1] = 0;
-        puVar6[2] = 0;
-        puVar6[3] = 0;
-        puVar6 = puVar6 + 4;
-        *puVar6 = 0;
-        uVar7 = uVar7 - 1;
-      } while (uVar7 != 0);
+  c = a->cfg;
+  f8 = c->f8;
+  fc = c->fc;
+  blocks = c->blocks;
+  a->f24 = *(int *)(*self + 0x2f8);
+  if (a->f20 == 0) {
+    n = (c->size + 15) >> 4;
+    for (i = 0; i < n; i++) {
+      blocks[i].v[0] = 0;
+      blocks[i].v[1] = 0;
+      blocks[i].v[2] = 0;
+      blocks[i].v[3] = 0;
     }
   }
-  fn_830AE0E8((ulonglong)*param_1 + 0x1e0,*(undefined4 *)(param_3 + 0x20),
-                    *(undefined4 *)(param_3 + 0x28),uVar2,uVar1);
-  iVar5 = KeTlsGetValue(lbl_8323B4A0);
-  puVar6 = *(undefined4 **)(iVar5 + 4);
-  if (puVar6 < *(undefined4 **)(iVar5 + 0xc)) {
-    *puVar6 = &lbl_8202CF7C;
-    uVar4 = TBLr;
-    puVar6[1] = (int)uVar4;
-    *(undefined4 **)(iVar5 + 4) = puVar6 + 3;
+  fn_830AE0E8(*self + 0x1e0, a->f20, a->f28, fc, f8, blocks);
+  s = KeTlsGetValue(lbl_8323B4A0);
+  if (s->current < s->end) {
+    eb = (TimerEntryB *)s->current;
+    eb->name = "lt";
+    eb->time = (unsigned)__mftb();
+    s->current = (char *)(eb + 1);
   }
-  fn_82CE8E78(param_2,param_3,param_3,0);
-  return;
+  fn_82CE8E78(out, a, a, 0);
 }
-

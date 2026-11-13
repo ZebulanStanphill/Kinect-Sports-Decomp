@@ -1,60 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C9E0();
-extern int fn_828AD0F8();
-extern int fn_828B6408();
-extern int fn_828B8408();
-extern int fn_82923B38();
+extern unsigned char fn_828AD0F8(void *a);
+extern void *fn_8265C9E0(unsigned int size);
+extern void *fn_828B8408(void *mem, void *a, int b, int c, int d, int e, int f);
+extern void fn_828B6408(void *out, void *p);
+extern void fn_82923B38(void *out);
 
-
-undefined8
-fn_828C3BF8(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-             undefined8 param_5,undefined8 param_6,undefined8 param_7)
-
+void *fn_828C3BF8(void *out, void *a, int b, int c, int d, int e, int f)
 {
-  char cVar3;
-  ulonglong uVar1;
-  undefined8 uVar2;
-  
-  cVar3 = fn_828AD0F8(param_2);
-  if (cVar3 == '\0') {
-    fn_82923B38(param_1);
+  if (fn_828AD0F8(a)) {
+    void *mem = fn_8265C9E0(0x54);
+    fn_828B6408(out, mem ? fn_828B8408(mem, a, b, c, d, e, f) : 0);
+    return out;
   }
-  else {
-    uVar1 = fn_8265C9E0(0x54);
-    if ((uVar1 & 0xffffffff) == 0) {
-      fn_828B6408(param_1,0);
-    }
-    else {
-      uVar2 = fn_828B8408(uVar1,param_2,param_3,param_4,param_5,param_6,param_7);
-      fn_828B6408(param_1,uVar2);
-    }
-  }
-  return param_1;
+  fn_82923B38(out);
+  return out;
 }
-

@@ -1,41 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A484F8();
+typedef struct Iface_fn_82A41480 Iface_fn_82A41480;
+typedef struct {
+    void *s0, *s4;
+    void (*f8)(Iface_fn_82A41480 *);
+    void *sc, *s10;
+    void (*f14)(Iface_fn_82A41480 *);
+} VT_fn_82A41480;
+struct Iface_fn_82A41480 {
+    VT_fn_82A41480 *vt;
+};
+typedef struct {
+    char pad[0x74];
+    Iface_fn_82A41480 sub;
+    char pad2[0x218 - 0x74 - 4];
+    char data[4];
+} Obj_fn_82A41480;
 
+int fn_82A484F8(void *p, void *arg);
 
-ulonglong fn_82A41480(int param_1,undefined8 param_2)
-
+long fn_82A41480(Obj_fn_82A41480 *self, void *arg)
 {
-  longlong lVar1;
-  
-  (**(code **)(*(int *)(param_1 + 0x74) + 8))(param_1 + 0x74);
-  lVar1 = fn_82A484F8(param_1 + 0x218,param_2);
-  (**(code **)(*(int *)(param_1 + 0x74) + 0x14))(param_1 + 0x74);
-  return -(ulonglong)(lVar1 == 0) & 0xffffffff8007000e;
+    Iface_fn_82A41480 *p = &self->sub;
+    long hr;
+    p->vt->f8(p);
+    hr = fn_82A484F8(self->data, arg) ? 0 : 0x8007000E;
+    p->vt->f14(p);
+    return hr;
 }
-

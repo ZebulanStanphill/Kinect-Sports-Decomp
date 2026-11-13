@@ -1,90 +1,97 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C9E0();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
+
+typedef struct Table_822C5BC8 {
+    int *entries;
+} Table_822C5BC8;
+
+typedef struct Source_822C5BC8 {
+    char pad0[0x2c];
+    int f2c;
+    char pad30[0x50];
+    __vector4 v80;
+    char pad90[0x84];
+    int f114;
+} Source_822C5BC8;
+
+typedef struct Owner_822C5BC8 {
+    char pad0[8];
+    Table_822C5BC8 *table;
+} Owner_822C5BC8;
+
+typedef struct Sub_822C5BC8 {
+    __vector4 v;
+    int entry;
+    int f24;
+    float f28;
+    int f2c;
+    int f30;
+    unsigned char b34;
+    unsigned char b35;
+} Sub_822C5BC8;
+
+typedef struct Obj_822C5BC8 {
+    void *vt;
+    int f4;
+    int f8;
+    Source_822C5BC8 *src;
+    Owner_822C5BC8 *owner;
+    Sub_822C5BC8 sub;
+} Obj_822C5BC8;
+
+typedef struct Block_822C5BC8 {
+    void *vt;
+    int uses;
+    int weaks;
+    Obj_822C5BC8 obj;
+} Block_822C5BC8;
+
+typedef struct Ptr_822C5BC8 {
+    Obj_822C5BC8 *obj;
+    Block_822C5BC8 *blk;
+} Ptr_822C5BC8;
+
+extern void *fn_8265C9E0(unsigned int size);
 extern unsigned int lbl_821A8D8C;
 extern unsigned int lbl_821AF3D0;
-extern unsigned int ltcg_pool_0_0f;
 
-
-undefined4 *
-fn_822C5BC8(undefined4 *param_1,int param_2,int param_3,undefined4 *param_4,undefined4 param_5,
-             undefined4 *param_6)
-
+Ptr_822C5BC8 *fn_822C5BC8(Ptr_822C5BC8 *out, Source_822C5BC8 *src, Owner_822C5BC8 *owner, int *a, int b, int *c)
 {
-  undefined4 uVar1;
-  undefined4 *puVar2;
-  undefined4 *puVar3;
-  int in_r0;
-  undefined4 *puVar4;
-  undefined4 uVar5;
-  undefined4 uVar6;
-  undefined4 uVar7;
-  
-  puVar4 = (undefined4 *)fn_8265C9E0(0x60);
-  if (puVar4 == (undefined4 *)0x0) {
-    puVar4 = (undefined4 *)0x0;
-  }
-  else {
-    puVar4[1] = 1;
-    *puVar4 = &lbl_821A8D8C;
-    puVar4[2] = 1;
-    if (puVar4 + 4 != (undefined4 *)0x0) {
-      uVar5 = *param_4;
-      uVar6 = *(undefined4 *)(param_2 + 0x114);
-      uVar1 = *param_6;
-      puVar4[7] = param_2;
-      puVar4[8] = param_3;
-      puVar4[5] = uVar5;
-      puVar4[6] = uVar6;
-      puVar4[4] = &lbl_821AF3D0;
-      puVar2 = (undefined4 *)(param_2 + 0x80U & 0xfffffff0);
-      uVar5 = puVar2[1];
-      uVar6 = puVar2[2];
-      uVar7 = puVar2[3];
-      puVar3 = (undefined4 *)((int)puVar4 + in_r0 + 0x30 & 0xfffffff0);
-      *puVar3 = *puVar2;
-      puVar3[1] = uVar5;
-      puVar3[2] = uVar6;
-      puVar3[3] = uVar7;
-      uVar5 = *(undefined4 *)
-               (((uint)LZCOUNT(*(undefined4 *)(param_2 + 0x2c)) >> 3 & 4) + **(int **)(param_3 + 8))
-      ;
-      puVar4[0x12] = ltcg_pool_0_0f;
-      puVar4[0x11] = param_5;
-      puVar4[0x13] = 0;
-      puVar4[0x14] = uVar1;
-      *(undefined1 *)(puVar4 + 0x15) = 0;
-      puVar4[0x10] = uVar5;
-      *(undefined1 *)((int)puVar4 + 0x55) = 0;
-    }
-  }
-  param_1[1] = puVar4;
-  *param_1 = puVar4 + 4;
-  return param_1;
-}
+    Block_822C5BC8 *p;
+    Obj_822C5BC8 *o;
 
+    p = (Block_822C5BC8 *)fn_8265C9E0(0x60);
+    if (p != 0) {
+        p->uses = 1;
+        p->vt = &lbl_821A8D8C;
+        p->weaks = 1;
+        o = &p->obj;
+        if (o != 0) {
+            int va = *a;
+            int f114 = src->f114;
+            int vc = *c;
+            Sub_822C5BC8 *s = &o->sub;
+            int e;
+            o->src = src;
+            o->owner = owner;
+            o->f4 = va;
+            o->f8 = f114;
+            o->vt = &lbl_821AF3D0;
+            s->v = src->v80;
+            e = owner->table->entries[src->f2c == 0];
+            s->f28 = 0.0f;
+            s->f24 = b;
+            s->f2c = 0;
+            s->f30 = vc;
+            s->b34 = 0;
+            s->entry = e;
+            s->b35 = 0;
+        }
+    } else {
+        p = 0;
+    }
+    out->blk = p;
+    out->obj = &p->obj;
+    return out;
+}

@@ -1,44 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_828FA8D8();
-extern int fn_828FAB00();
+typedef struct Compiler_828FCD28 {
+    void *log;
+    char pad4[0x48];
+    int failed;
+} Compiler_828FCD28;
 
+extern void fn_828FA8D8(void *log, int a, int b, const char *fmt, ...);
+extern void fn_828FAB00(void *log, int a, int b, const char *fmt, ...);
 
-void fn_828FCD28(undefined4 *param_1,int param_2,longlong param_3,undefined8 param_4)
-
+void fn_828FCD28(Compiler_828FCD28 *c, int isError, int base, const char *msg)
 {
-  if (param_2 == 0) {
-    fn_828FAB00(*param_1,0,param_3 + 0x44c,0xffffffff8202c584,param_4);
-  }
-  else {
-    fn_828FA8D8();
-    param_1[0x13] = 1;
-  }
-  return;
+    if (isError != 0) {
+        fn_828FA8D8(c->log, 0, base + 0x44c, "Microcode Compiler %s", msg);
+        c->failed = 1;
+    } else {
+        fn_828FAB00(c->log, 0, base + 0x44c, "Microcode Compiler %s", msg);
+    }
 }
-

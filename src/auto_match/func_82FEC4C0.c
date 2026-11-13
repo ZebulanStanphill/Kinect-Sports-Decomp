@@ -1,70 +1,49 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8301E4B8();
-extern int fn_83025190();
-extern unsigned int lbl_831BC774;
-extern unsigned int lbl_832643F4;
-extern unsigned int lbl_832643F8;
+typedef struct Sub_82FEC4C0 {
+  int f0;
+  float f4;
+  int f8, fc;
+  float f10;
+  float f14;
+  float f18;
+} Sub_82FEC4C0;
 
+typedef struct Node_82FEC4C0 {
+  struct Node_82FEC4C0 *next;
+  int f4;
+  char *obj;
+} Node_82FEC4C0;
 
-void fn_82FEC4C0(double param_1,int param_2)
+extern float fn_8301E4B8(float v);
+extern unsigned int fn_83025190(char *p);
+extern char **lbl_832643F4[];
+extern Node_82FEC4C0 *lbl_831BC774;
 
+static __forceinline void Sub_Set(Sub_82FEC4C0 *s, float v)
 {
-  int iVar1;
-  undefined4 *puVar2;
-  int iVar3;
-  int *piVar4;
-  double dVar5;
-  
-  piVar4 = lbl_832643F4;
-  puVar2 = lbl_831BC774;
-  if (lbl_832643F4 != lbl_832643F8) {
-    do {
-      iVar1 = *piVar4;
-      iVar3 = fn_83025190(iVar1 + 0x80);
-      if (iVar3 == param_2) {
-        *(float *)(iVar1 + 0x28) = (float)param_1;
-        dVar5 = (double)fn_8301E4B8(param_1);
-        *(float *)(iVar1 + 0x20) = (float)dVar5;
-      }
-      piVar4 = piVar4 + 1;
-      puVar2 = lbl_831BC774;
-    } while (piVar4 != lbl_832643F8);
-  }
-  for (; puVar2 != (undefined4 *)0x0; puVar2 = (undefined4 *)*puVar2) {
-    iVar1 = puVar2[2];
-    iVar3 = fn_83025190(iVar1 + 0x70);
-    if (iVar3 == param_2) {
-      *(float *)(iVar1 + 0x18) = (float)param_1;
-      dVar5 = (double)fn_8301E4B8(param_1);
-      *(float *)(iVar1 + 0x10) = (float)dVar5;
-    }
-  }
-  return;
+  s->f18 = v;
+  s->f10 = fn_8301E4B8(v);
 }
 
+void fn_82FEC4C0(unsigned int id, float v)
+{
+  char **it;
+  Node_82FEC4C0 *n;
+  char *o;
+
+  it = lbl_832643F4[0];
+  if (lbl_832643F4[0] != lbl_832643F4[1]) {
+    do {
+      o = *it;
+      if (fn_83025190(o + 0x80) == id) {
+        Sub_Set((Sub_82FEC4C0 *)(o + 0x10), v);
+      }
+      it = it + 1;
+    } while (it != lbl_832643F4[1]);
+  }
+  for (n = lbl_831BC774; n != 0; n = n->next) {
+    o = n->obj;
+    if (fn_83025190(o + 0x70) == id) {
+      Sub_Set((Sub_82FEC4C0 *)o, v);
+    }
+  }
+}

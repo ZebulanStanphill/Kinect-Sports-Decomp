@@ -1,49 +1,17 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F691F0();
+extern void fn_82B7BEB0(void *heap, void *p);
 
+typedef struct Node_82BC0878 { int f0, f4; struct Node_82BC0878 *next; } Node_82BC0878;
+typedef struct { int f0; Node_82BC0878 *head; } List_82BC0878;
+typedef struct { char pad[0x2c]; List_82BC0878 *list; } Obj_82BC0878;
 
-void fn_82BC0878(int param_1)
-
+void fn_82BC0878(Obj_82BC0878 *self)
 {
-  int iVar1;
-  int iVar2;
-  
-  iVar1 = *(int *)(*(int *)(param_1 + 0x2c) + 4);
-  if (iVar1 == 0) {
-    return;
-  }
-  *(undefined4 *)(*(int *)(param_1 + 0x2c) + 4) = *(undefined4 *)(iVar1 + 8);
-  iVar2 = *(int *)(iVar1 + -4);
-  if ((*(char *)(iVar2 + 0x28) != '\0') && (iVar1 + -4 == *(int *)(iVar2 + 0x14))) {
-                    /* WARNING: Subroutine does not return */
-    fn_82F691F0(iVar1 + -4,0,*(int *)(iVar2 + 8) - *(int *)(iVar2 + 0x14));
-  }
-  return;
+    List_82BC0878 *l = self->list;
+    Node_82BC0878 *n = l->head;
+    void **block;
+    if (n == 0)
+        return;
+    l->head = n->next;
+    block = (void **)n - 1;
+    fn_82B7BEB0(*block, block);
 }
-

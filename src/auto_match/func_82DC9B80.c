@@ -1,70 +1,32 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
 typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
-extern int fn_82CEA650();
-extern int fn_82CEA748();
-extern int fn_82CEAB20();
+typedef struct Thing { int x0, x4, x8, xc; void *x10; } Thing;
+extern U64 fn_82CEA748(void *map, U64 key, U64 def);
+extern Thing *fn_82CE5410(void);
+extern void fn_82CEA650(void *map, void *alloc, U64 key, U64 val);
+extern void fn_82CEAB20(void *map, U64 key);
 
-
-ulonglong fn_82DC9B80(longlong param_1,int param_2,int param_3)
-
+int fn_82DC9B80(char *self, int a, int b)
 {
-  longlong lVar1;
-  int iVar2;
-  ulonglong uVar3;
-  ulonglong uVar4;
-  longlong lVar5;
-  
-  uVar4 = (ulonglong)param_2;
-  uVar3 = (ulonglong)param_3;
-  if (uVar4 < uVar3) {
-    lVar5 = (uVar4 << 0x20) + uVar3;
-  }
-  else {
-    lVar5 = (uVar3 << 0x20) + uVar4;
-  }
-  param_1 = param_1 + 0x30;
-  lVar1 = fn_82CEA748(param_1,lVar5,0);
-  if (lVar1 == 0) {
-    uVar3 = 0;
-  }
-  else {
-    uVar3 = lVar1 - 1;
-    if (uVar3 == 0) {
-      fn_82CEAB20(param_1,lVar5);
-      uVar3 = 0;
+    U64 ua = (U64)a;
+    U64 ub = (U64)b;
+    U64 key;
+    U64 n;
+    Thing *t;
+    if (ua < ub) {
+        key = (ua << 32) + ub;
+    } else {
+        key = (ub << 32) + ua;
     }
-    else {
-      iVar2 = fn_82CE5410();
-      fn_82CEA650(param_1,*(undefined4 *)(iVar2 + 0x10),lVar5,uVar3);
-      uVar3 = uVar3 & 0xffffffff;
+    n = fn_82CEA748(self + 0x30, key, 0);
+    if (n == 0) {
+        return 0;
     }
-  }
-  return uVar3;
+    n = n - 1;
+    if (n > 0) {
+        t = fn_82CE5410();
+        fn_82CEA650(self + 0x30, t->x10, key, n);
+    } else {
+        fn_82CEAB20(self + 0x30, key);
+    }
+    return (int)n;
 }
-

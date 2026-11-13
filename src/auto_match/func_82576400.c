@@ -1,40 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82522D98();
+typedef struct Obj_82576400 Obj_82576400;
+struct Obj_82576400 { void (**vt)(Obj_82576400 *o, int flags); };
+typedef struct Node_82576400 { Obj_82576400 *obj; struct Node_82576400 *next; } Node_82576400;
+typedef struct { char pad[0x14]; Node_82576400 *head; } List_82576400;
+extern void *fn_82522D98(unsigned int size);
 
-
-void fn_82576400(undefined8 param_1,int param_2)
-
+void fn_82576400(List_82576400 *self, Obj_82576400 *obj)
 {
-  if (param_2 != 0) {
-                    /* WARNING: Subroutine does not return */
-    fn_82522D98(8);
+  if (obj != 0) {
+    Node_82576400 *n = (Node_82576400 *)fn_82522D98(8);
+    if (n != 0) {
+      n->obj = obj;
+      n->next = self->head;
+      self->head = n;
+    } else {
+      (*obj->vt)(obj, 1);
+    }
   }
-  return;
 }
-

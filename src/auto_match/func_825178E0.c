@@ -1,41 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_823F2E20();
+typedef struct Half_825178E0 {
+    int v[2];
+} Half_825178E0;
 
+typedef struct Pair_825178E0 {
+    Half_825178E0 first;
+    Half_825178E0 second;
+} Pair_825178E0;
 
-void fn_825178E0(ulonglong param_1,ulonglong param_2,longlong param_3)
+extern void fn_823F2E20(Half_825178E0 *dst, const Half_825178E0 *src);
 
+Pair_825178E0 *fn_825178E0(const Pair_825178E0 *first, const Pair_825178E0 *last, Pair_825178E0 *dest)
 {
-  for (; (param_1 & 0xffffffff) != (param_2 & 0xffffffff); param_1 = param_1 + 0x10) {
-    fn_823F2E20(param_3,param_1);
-    fn_823F2E20(param_3 + 8,param_1 + 8);
-    param_3 = param_3 + 0x10;
-  }
-  return;
+    for (; first != last; first++, dest++) {
+        fn_823F2E20(&dest->first, &first->first);
+        fn_823F2E20(&dest->second, &first->second);
+    }
+    return dest;
 }
-

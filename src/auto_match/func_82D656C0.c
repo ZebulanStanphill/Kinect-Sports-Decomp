@@ -1,101 +1,110 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define TBLr 0
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_80;
-extern unsigned int *auStack_90;
-extern unsigned int fStack_60;
-extern int fn_82D76758();
-extern int fn_82D76848();
-extern unsigned int lbl_82132BC4;
+// Havok: sphere/triangle penetration test. The sphere centre is moved into the triangle's
+// local space (inverse rotation of the offset from the triangle body's translation), the
+// closest-point query fn_82D76848 is run against the triangle vertices with the triangle
+// data from fn_82D76758, and the pair is reported to the collector when the distance is
+// below the sum of the radii. Wrapped in the "TtSphereTri" timer scope.
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
+
+__vector4 __vsubfp(__vector4 a, __vector4 b);
+__vector4 __vmsum3fp(__vector4 a, __vector4 b);
+__vector4 __vmrghw(__vector4 a, __vector4 b);
+
+typedef struct ProfTls_82D656C0 {
+    int unk0;
+    void **cur;
+    int unk8;
+    void **end;
+} ProfTls_82D656C0;
+
+typedef struct Transform_82D656C0 {
+    __vector4 col[4];
+} Transform_82D656C0;
+
+typedef struct Shape_82D656C0 {
+    char pad0[0x10];
+    float radius;            /* 0x10 */
+    char pad14[0xc];
+    __vector4 vertices[3];   /* 0x20 */
+} Shape_82D656C0;
+
+typedef struct Body_82D656C0 {
+    const Shape_82D656C0 *shape;           /* 0x00 */
+    int pad4;
+    const Transform_82D656C0 *transform;   /* 0x08 */
+} Body_82D656C0;
+
+typedef struct Result_82D656C0 {
+    __vector4 point;
+    float distance;
+} Result_82D656C0;
+
+struct Collector_82D656C0;
+
+typedef struct CollectorVt_82D656C0 {
+    void *s0;
+    void (*addCdBodyPair)(struct Collector_82D656C0 *self, const Body_82D656C0 *a, const Body_82D656C0 *b);
+} CollectorVt_82D656C0;
+
+typedef struct Collector_82D656C0 {
+    CollectorVt_82D656C0 *vt;
+} Collector_82D656C0;
+
 extern unsigned int lbl_8323B4A0;
-extern V16 vectorMergeHighWord();
-extern V16 vectorSubtractFloatingPoint();
-extern void *memcpy(void *, const void *, unsigned int);
+extern const __vector4 lbl_82132D00;   /* zero vector */
+void *KeTlsGetValue(unsigned int index);
+unsigned __int64 __mftb(void);
+void fn_82D76758(const __vector4 *vertices, __vector4 *out);
+int fn_82D76848(const __vector4 *point, const __vector4 *vertices, const __vector4 *info,
+                Result_82D656C0 *out, int flags);
 
-
-void fn_82D656C0(int *param_1,int *param_2,undefined8 param_3,int *param_4)
-
+static __forceinline __vector4 RotateInverse(const Transform_82D656C0 *m, __vector4 b)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  undefined8 uVar3;
-  int in_r0;
-  int iVar4;
-  int iVar5;
-  undefined1 in_vs32 [16];
-  undefined1 auVar6 [16];
-  undefined1 auVar7 [16];
-  undefined1 in_vs37 [16];
-  undefined1 in_vs38 [16];
-  undefined1 in_vs39 [16];
-  undefined1 in_vs44 [16];
-  undefined1 in_vs45 [16];
-  undefined4 in_register_00010020;
-  undefined4 in_register_00010024;
-  undefined4 in_register_00010028;
-  undefined4 in_vr2;
-  undefined1 auStack_90 [16];
-  undefined1 auStack_80 [1];
-  undefined1 auStack_70 [16];
-  float fStack_60;
-  
-  iVar4 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(undefined4 **)(iVar4 + 4);
-  if (puVar1 < *(undefined4 **)(iVar4 + 0xc)) {
-    *puVar1 = "TtSphereTri";
-    uVar3 = TBLr;
-    puVar1[1] = (int)uVar3;
-    *(undefined4 **)(iVar4 + 4) = puVar1 + 3;
-  }
-  iVar4 = *param_2;
-  iVar2 = *param_1;
-  iVar5 = iVar4 + 0x20;
-  fn_82D76758(iVar5,auStack_90);
-  vectorSubtractFloatingPoint(in_vs44,in_vs45);{ V16 _vt0 = vectorMergeHighWord(in_vs39,in_vs32); memcpy(auVar7, &_vt0, 16); }{ V16 _vt1 = vectorMergeHighWord(in_vs37,in_vs38); memcpy(auVar6, &_vt1, 16); }
-  vectorMergeHighWord(auVar6,auVar7);
-  puVar1 = (undefined4 *)((uint)(auStack_80 + in_r0) & 0xfffffff0);
-  *puVar1 = in_register_00010020;
-  puVar1[1] = in_register_00010024;
-  puVar1[2] = in_register_00010028;
-  puVar1[3] = in_vr2;
-  fn_82D76848(auStack_80,iVar5,auStack_90,auStack_70,0);
-  if (fStack_60 < *(float *)(iVar4 + 0x10) + *(float *)(iVar2 + 0x10)) {
-    (**(code **)(*param_4 + 4))(param_4,param_1,param_2);
-  }
-  iVar4 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(undefined4 **)(iVar4 + 4);
-  if (puVar1 < *(undefined4 **)(iVar4 + 0xc)) {
-    *puVar1 = &lbl_82132BC4;
-    uVar3 = TBLr;
-    puVar1[1] = (int)uVar3;
-    *(undefined4 **)(iVar4 + 4) = puVar1 + 3;
-  }
-  return;
+    __vector4 d0 = __vmsum3fp(m->col[0], b);
+    __vector4 d1 = __vmsum3fp(m->col[1], b);
+    __vector4 d2 = __vmsum3fp(m->col[2], b);
+    __vector4 xz = __vmrghw(d0, d2);
+    __vector4 y0 = __vmrghw(d1, lbl_82132D00);
+    return __vmrghw(xz, y0);
 }
 
+void fn_82D656C0(const Body_82D656C0 *sphere, const Body_82D656C0 *tri, const void *input,
+                 Collector_82D656C0 *collector)
+{
+    ProfTls_82D656C0 *t;
+    void **p;
+    const Shape_82D656C0 *sphereShape;
+    const Shape_82D656C0 *triShape;
+    const __vector4 *vertices;
+    const Transform_82D656C0 *m;
+    __vector4 info;
+    __vector4 local;
+    Result_82D656C0 result;
+
+    t = (ProfTls_82D656C0 *)KeTlsGetValue(lbl_8323B4A0);
+    p = t->cur;
+    if (p < t->end) {
+        p[0] = "TtSphereTri";
+        p[1] = (void *)(unsigned int)__mftb();
+        t->cur = p + 3;
+    }
+
+    sphereShape = sphere->shape;
+    triShape = tri->shape;
+    vertices = triShape->vertices;
+    fn_82D76758(vertices, &info);
+    m = tri->transform;
+    local = RotateInverse(m, __vsubfp(sphere->transform->col[3], m->col[3]));
+    fn_82D76848(&local, vertices, &info, &result, 0);
+    if (result.distance < triShape->radius + sphereShape->radius)
+        collector->vt->addCdBodyPair(collector, sphere, tri);
+
+    t = (ProfTls_82D656C0 *)KeTlsGetValue(lbl_8323B4A0);
+    p = t->cur;
+    if (p < t->end) {
+        p[0] = "Et";
+        p[1] = (void *)(unsigned int)__mftb();
+        t->cur = p + 3;
+    }
+}

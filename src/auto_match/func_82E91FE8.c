@@ -1,62 +1,54 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F691F0();
-extern unsigned int lbl_821AAD20;
+extern void *memset(void *, int, unsigned);
 
+typedef struct Sub_82E91FE8 {
+  int a;
+  int b;
+  int pad;
+  float x;
+  float y;
+  int c[5];
+  unsigned char buf[0x54];
+  int d;
+  float z;
+  int e;
+} Sub_82E91FE8;
 
-void fn_82E91FE8(undefined4 *param_1)
+typedef struct Obj_82E91FE8 {
+  int f[8];
+  int f20;
+  Sub_82E91FE8 s;
+  int fac;
+} Obj_82E91FE8;
 
+static __forceinline void Sub_Ctor(Sub_82E91FE8 *s)
 {
-  undefined4 uVar1;
-  
-  *param_1 = 0;
-  param_1[1] = 0;
-  param_1[2] = 0;
-  param_1[3] = 0;
-  param_1[4] = 0;
-  uVar1 = lbl_821AAD20;
-  param_1[5] = 0;
-  param_1[6] = 0;
-  param_1[7] = 0;
-  param_1[8] = 1;
-  param_1[0xc] = uVar1;
-  param_1[0xd] = uVar1;
-  param_1[9] = 0;
-  param_1[0x29] = uVar1;
-  param_1[10] = 0;
-  param_1[0xe] = 0;
-  param_1[0xf] = 0;
-  param_1[0x10] = 0;
-  param_1[0x11] = 0;
-  param_1[0x12] = 0;
-  param_1[0x28] = 0;
-  param_1[0x2a] = 0;
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0(param_1 + 0x13,0,0x54);
+  s->a = 0;
+  s->b = 0;
+  s->x = 0.0f;
+  s->y = 0.0f;
+  s->c[0] = 0;
+  s->c[1] = 0;
+  s->c[2] = 0;
+  s->c[3] = 0;
+  s->c[4] = 0;
+  s->d = 0;
+  s->z = 0.0f;
+  s->e = 0;
+  memset(s->buf, 0, sizeof(s->buf));
 }
 
+Obj_82E91FE8 *fn_82E91FE8(Obj_82E91FE8 *o)
+{
+  o->f[0] = 0;
+  o->f[1] = 0;
+  o->f[2] = 0;
+  o->f[3] = 0;
+  o->f[4] = 0;
+  o->f[5] = 0;
+  o->f[6] = 0;
+  o->f[7] = 0;
+  o->f20 = 1;
+  Sub_Ctor(&o->s);
+  o->fac = 0;
+  return o;
+}
