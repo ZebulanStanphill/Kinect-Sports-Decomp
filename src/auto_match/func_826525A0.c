@@ -61,7 +61,7 @@ undefined8 fn_826525A0(int param_1,char *param_2)
       return 0x2da0000;
     }
   }
-  sprintf(param_2,"PIX!NO");
+  xboxkrnl_sprintf(param_2,"PIX!NO");
   return 0x2da0000;
 }
 

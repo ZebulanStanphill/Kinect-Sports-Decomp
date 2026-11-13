@@ -33,7 +33,7 @@ extern int fn_82A99C98();
 extern int fn_82A99D88();
 extern int fn_82A9A810();
 extern int fn_82A9A860();
-extern int fn_82F63F40();
+extern int sprintf();
 extern unsigned int lbl_820D2870;
 extern unsigned int lbl_820D28E8;
 extern unsigned int lbl_820D2920;
@@ -112,7 +112,7 @@ void fn_82A9BA60(int param_1,int *param_2,uint *param_3)
                   for (; puVar7 < puVar5; puVar7 = puVar7 + 1) {
                     fn_82A99BC8(param_2);
                     fn_82A99B70(param_2,0xffffffff820d28b4,0xffffffff8204ee44);
-                    fn_82F63F40(auStack_b0,0xffffffff820d2aa4,*puVar7 >> 2,
+                    sprintf(auStack_b0,0xffffffff820d2aa4,*puVar7 >> 2,
                                       *(undefined4 *)(&lbl_820D2920 + (*puVar7 & 3) * 4));
                     fn_82A99D88(param_2,0xffffffff820d2938,auStack_b0);
                     fn_82A9A810(param_2);

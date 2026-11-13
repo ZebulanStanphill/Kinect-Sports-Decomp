@@ -38,7 +38,7 @@ extern int fn_8280D160();
 extern int fn_8280D180();
 extern int fn_8280DD50();
 extern int fn_8280DF98();
-extern int fn_82F63F40();
+extern int sprintf();
 extern int fn_82F691F0();
 extern unsigned int lbl_821954C8;
 extern unsigned int lbl_82195648;
@@ -89,7 +89,7 @@ void fn_8226B918(int param_1,int param_2)
   do {
     lVar11 = 0;
     do {
-      fn_82F63F40(auStack_b0,0xffffffff821a7e88,lVar11,lVar5);
+      sprintf(auStack_b0,0xffffffff821a7e88,lVar11,lVar5);
       piVar1 = *(int **)(*(int *)(param_1 + 4) + 0x1b4);
       iVar7 = (**(code **)(*piVar1 + 0x10))(piVar1,auStack_b0);
       if (-1 < iVar7) {
@@ -162,7 +162,7 @@ void fn_8226B918(int param_1,int param_2)
       if (0 < *(int *)(param_1 + 0x48)) {
         do {
           iVar9 = (int)lVar5 * *(int *)(param_1 + 0x48) + iVar7;
-          fn_82F63F40(auStack_90,0xffffffff821a7e88,iVar7,lVar5);
+          sprintf(auStack_90,0xffffffff821a7e88,iVar7,lVar5);
           uVar4 = (**(code **)(**(int **)(param_2 + 0x1b4) + 0x10))
                             (*(int **)(param_2 + 0x1b4),auStack_90);
           if ((-1 < (longlong)uVar4) && ((int)uVar4 < *(int *)(param_1 + 0x50))) {

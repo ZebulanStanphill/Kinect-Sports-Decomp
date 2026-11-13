@@ -77391,27 +77391,9 @@ Scaleform/jpeg-6b/jdmarker.c:
 	.pdata      start:0x821FD9A8 end:0x821FDA30
 	.text       start:0x827BB5D0 end:0x827BD8D0
 
-auto_match/func_827BD8D0.c:
-	.pdata      start:0x821FDA30 end:0x821FDA38
-	.text       start:0x827BD8D0 end:0x827BD904
-
-auto_match/func_827BD908.c:
-	.pdata      start:0x821FDA38 end:0x821FDA40
-	.text       start:0x827BD908 end:0x827BD950
-
-auto_match/func_827BD950.c:
-	.pdata      start:0x821FDA40 end:0x821FDA48
-	.text       start:0x827BD950 end:0x827BD9CC
-
-auto_match/func_827BD9D0.c:
-	.pdata      start:0x821FDA48 end:0x821FDA50
-	.text       start:0x827BD9D0 end:0x827BDAEC
-
-auto_match/func_827BDAF0.c:
-	.text       start:0x827BDAF0 end:0x827BDB08
-
-auto_match/func_827BDB08.c:
-	.text       start:0x827BDB08 end:0x827BDB78
+Scaleform/jpeg-6b/jerror.c:
+	.pdata      start:0x821FDA30 end:0x821FDA50
+	.text       start:0x827BD8D0 end:0x827BDB78
 
 Scaleform/jpeg-6b/jdapistd.c:
 	.pdata      start:0x821FDA50 end:0x821FDA80
@@ -174622,51 +174604,9 @@ zlib-1.2.3/compress.c:
 	.pdata      start:0x822222C8 end:0x822222D0
 	.text       start:0x82F89CA8 end:0x82F89D68
 
-auto_match/func_82F89D68.c:
-	.pdata      start:0x822222D0 end:0x822222D8
-	.text       start:0x82F89D68 end:0x82F89E24
-
-auto_match/func_82F89E28.c:
-	.pdata      start:0x822222D8 end:0x822222E0
-	.text       start:0x82F89E28 end:0x82F8A9AC
-
-auto_match/func_82F8A9B0.c:
-	.pdata      start:0x822222E0 end:0x822222E8
-	.text       start:0x82F8A9B0 end:0x82F8AAE4
-
-auto_match/func_82F8AAE8.c:
-	.pdata      start:0x822222E8 end:0x822222F0
-	.text       start:0x82F8AAE8 end:0x82F8AC9C
-
-auto_match/func_82F8ACA0.c:
-	.text       start:0x82F8ACA0 end:0x82F8AD98
-
-auto_match/func_82F8AD98.c:
-	.pdata      start:0x822222F0 end:0x822222F8
-	.text       start:0x82F8AD98 end:0x82F8AF8C
-
-auto_match/func_82F8AF90.c:
-	.pdata      start:0x822222F8 end:0x82222300
-	.text       start:0x82F8AF90 end:0x82F8B15C
-
-auto_match/func_82F8B160.c:
-	.pdata      start:0x82222300 end:0x82222308
-	.text       start:0x82F8B160 end:0x82F8B5C4
-
-auto_match/func_82F8B5C8.c:
-	.pdata      start:0x82222308 end:0x82222310
-	.text       start:0x82F8B5C8 end:0x82F8BB40
-
-auto_match/func_82F8BB40.c:
-	.pdata      start:0x82222310 end:0x82222318
-	.text       start:0x82F8BB40 end:0x82F8BCA4
-
-auto_match/func_82F8BCA8.c:
-	.pdata      start:0x82222318 end:0x82222320
-	.text       start:0x82F8BCA8 end:0x82F8BF40
-
-auto_match/func_82F8BF40.c:
-	.text       start:0x82F8BF40 end:0x82F8BF5C
+zlib-1.2.3/deflate.c:
+	.pdata      start:0x822222D0 end:0x82222320
+	.text       start:0x82F89D68 end:0x82F8BF5C
 
 zlib-1.2.3/trees.c:
 	.rdata      start:0x8216AC48 end:0x8216B680

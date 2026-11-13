@@ -118039,40 +118039,12 @@
           "/GF"
         ]
       },
-      "auto_match/func_827BD8D0.c": {
+      "Scaleform/jpeg-6b/jerror.c": {
         "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_827BD908.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_827BD950.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_827BD9D0.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_827BDAF0.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_827BDB08.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
+          "/Ox",
+          "/Os",
+          "/GF"
         ]
       },
       "Scaleform/jpeg-6b/jdapistd.c": {
@@ -273875,76 +273847,11 @@
           "/Gy-"
         ]
       },
-      "auto_match/func_82F89D68.c": {
+      "zlib-1.2.3/deflate.c": {
         "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_82F89E28.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_82F8A9B0.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_82F8AAE8.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_82F8ACA0.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_82F8AD98.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_82F8AF90.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_82F8B160.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_82F8B5C8.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_82F8BB40.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_82F8BCA8.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
-        ]
-      },
-      "auto_match/func_82F8BF40.c": {
-        "status": "Matching",
-        "extra_cflags": [
-          "/O1"
+          "/O1",
+          "/d2inlS100"
         ]
       },
       "zlib-1.2.3/trees.c": {

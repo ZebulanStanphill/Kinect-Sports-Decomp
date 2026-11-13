@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_b0;
 extern int fn_82B7C958();
-extern int fn_82F63F40();
+extern int sprintf();
 
 
 void fn_82B7CD20(int param_1)
@@ -46,7 +46,7 @@ void fn_82B7CD20(int param_1)
     puVar1 = (undefined4 *)((int)puVar4 + 0x24);
     puVar2 = puVar4 + 4;
     puVar4 = puVar4 + 3;
-    fn_82F63F40(auStack_b0,0xffffffff820db544,*puVar1,*(undefined4 *)puVar2,*puVar4);
+    sprintf(auStack_b0,0xffffffff820db544,*puVar1,*(undefined4 *)puVar2,*puVar4);
     fn_82B7C958(param_1,auStack_b0);
     lVar3 = lVar3 + -1;
   } while (lVar3 != 0);

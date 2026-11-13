@@ -28,7 +28,7 @@ typedef struct { U64 lo, hi; } V16;
 extern int fn_8265CA60();
 extern int fn_8265CAA0();
 extern int fn_82A1E0C0();
-extern int fn_82F63F40();
+extern int sprintf();
 extern int fn_82F672D8();
 extern int fn_82F68CC0();
 
@@ -68,7 +68,7 @@ void fn_828129A0(int param_1,char *param_2,undefined4 param_3)
       goto LAB_82812a74;
     }
   }
-  fn_82F63F40((ulonglong)*(uint *)(param_1 + 0xd0) * 0x30 +
+  sprintf((ulonglong)*(uint *)(param_1 + 0xd0) * 0x30 +
                     (ulonglong)*(uint *)(param_1 + 0xcc) + 0xc,0xffffffff8201e068);
 LAB_82812a74:
   *(undefined4 *)(*(int *)(param_1 + 0xd0) * 0x30 + *(int *)(param_1 + 0xcc) + 8) = param_3;

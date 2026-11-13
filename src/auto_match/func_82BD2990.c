@@ -26,7 +26,7 @@ typedef signed int S32;
 typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_60;
-extern int fn_82F63F40();
+extern int sprintf();
 extern unsigned int lbl_8200D898;
 extern unsigned int lbl_821AAD20;
 extern unsigned int uStack_57;
@@ -60,11 +60,11 @@ void fn_82BD2990(double param_1,undefined8 param_2,undefined8 param_3)
     dVar1 = (double)(float)(dVar6 - (double)(longlong)iVar3) * dVar5;
     dVar6 = (double)(float)dVar1;
     iVar3 = (int)dVar1;
-    fn_82F63F40(auStack_60 + iVar4,0xffffffff821aa66c,iVar3);
+    sprintf(auStack_60 + iVar4,0xffffffff821aa66c,iVar3);
     iVar4 = iVar4 + 1;
   } while (iVar4 < 9);
   uStack_57 = 0;
-  fn_82F63F40(param_3,0xffffffff820e8354,uVar2,(int)param_1,auStack_60);
+  sprintf(param_3,0xffffffff820e8354,uVar2,(int)param_1,auStack_60);
   return;
 }
 

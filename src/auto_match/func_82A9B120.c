@@ -31,7 +31,7 @@ extern int fn_82A99C28();
 extern int fn_82A99D88();
 extern int fn_82A9A810();
 extern int fn_82A9A860();
-extern int fn_82F63F40();
+extern int sprintf();
 extern unsigned int uStack_9c;
 
 
@@ -65,7 +65,7 @@ void fn_82A9B120(undefined8 param_1,undefined8 param_2,uint *param_3,longlong pa
       cStack_9e = "xyzw01?_DestSwizzle"[uVar1 >> 8 & 7];
       cStack_9d = "xyzw01?_DestSwizzle"[uVar1 >> 0xb & 7];
       fn_82A99D88(param_2,0xffffffff820d29ac,&cStack_a0);
-      fn_82F63F40(&cStack_a0,0xffffffff820d29b8,puVar3[1] >> 0x17 & 0xff);
+      sprintf(&cStack_a0,0xffffffff820d29b8,puVar3[1] >> 0x17 & 0xff);
       fn_82A99D88(param_2,0xffffffff820d29c0,&cStack_a0);
       uVar2 = 0xffffffff82196f18;
       if ((puVar3[1] & 0x400000) == 0) {

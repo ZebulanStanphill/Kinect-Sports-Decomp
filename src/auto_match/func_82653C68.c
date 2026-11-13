@@ -83,7 +83,7 @@ void fn_82653C68(int param_1)
     uVar3 = 0;
     if (*puVar10 != 0) {
       do {
-        sprintf(acStack_120,"%s 0x%02x: ",(ulonglong)puVar10[1],uVar3);
+        xboxkrnl_sprintf(acStack_120,"%s 0x%02x: ",(ulonglong)puVar10[1],uVar3);
         uVar8 = uVar3 + 8;
         while( true ) {
           uVar5 = (ulonglong)*puVar10;
@@ -99,7 +99,7 @@ void fn_82653C68(int param_1)
             cVar1 = *pcVar6;
             pcVar6 = pcVar6 + 1;
           } while (cVar1 != '\0');
-          sprintf(pcVar6 + (int)(acStack_120 + (-1 - (int)acStack_120)),"%08x ",uVar4);
+          xboxkrnl_sprintf(pcVar6 + (int)(acStack_120 + (-1 - (int)acStack_120)),"%08x ",uVar4);
           uVar3 = uVar3 + 1;
         }
         fn_82653BE8(param_1,0xffffffff821cc884,acStack_120);

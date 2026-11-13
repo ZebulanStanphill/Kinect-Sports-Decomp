@@ -32,7 +32,7 @@ extern int fn_82A99C28();
 extern int fn_82A99D88();
 extern int fn_82A9A810();
 extern int fn_82A9A860();
-extern int fn_82F63F40();
+extern int sprintf();
 
 
 void fn_82A9B2F0(undefined8 param_1,undefined8 param_2,int *param_3)
@@ -55,7 +55,7 @@ void fn_82A9B2F0(undefined8 param_1,undefined8 param_2,int *param_3)
       fn_82A99BC8(param_2);
       fn_82A99B70(param_2,0xffffffff820d28b4,0xffffffff820d29dc);
       fn_82A99B70(param_2,0xffffffff820d2864,0xffffffff820d2998,*puVar6 >> 0x14 & 0xf);
-      fn_82F63F40(auStack_a0,0xffffffff820d29b8,*(undefined1 *)puVar6);
+      sprintf(auStack_a0,0xffffffff820d29b8,*(undefined1 *)puVar6);
       fn_82A99D88(param_2,0xffffffff820d29c0,auStack_a0);
       uVar1 = *puVar6;
       uVar5 = 0xffffffff821ce364;
@@ -74,7 +74,7 @@ void fn_82A9B2F0(undefined8 param_1,undefined8 param_2,int *param_3)
       if ((uVar1 & 0x10000) == 0) {
         uVar2 = 0xffffffff82196582;
       }
-      fn_82F63F40(auStack_a0,0xffffffff820d29ec,uVar2,uVar3,uVar4,uVar5);
+      sprintf(auStack_a0,0xffffffff820d29ec,uVar2,uVar3,uVar4,uVar5);
       fn_82A99D88(param_2,0xffffffff82005da8,auStack_a0);
       fn_82A9A810(param_2);
       puVar6 = puVar6 + 1;

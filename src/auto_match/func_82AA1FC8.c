@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_16f;
 extern unsigned int *auStack_f0;
-extern int fn_82F63F40();
+extern int sprintf();
 extern int fn_82F691F0();
 extern unsigned int uStack_1fc;
 
@@ -56,13 +56,13 @@ void fn_82AA1FC8(undefined8 param_1,undefined8 param_2,int param_3)
   }
   uVar2 = (ulonglong)*(uint *)(param_3 + 0xc);
   if (uVar2 == 0) {
-    fn_82F63F40(auStack_f0,0xffffffff820d31d0,uStack_1fc);
+    sprintf(auStack_f0,0xffffffff820d31d0,uStack_1fc);
   }
   else if (uVar2 == 1) {
-    fn_82F63F40(auStack_f0,0xffffffff820d31c8,uStack_1fc);
+    sprintf(auStack_f0,0xffffffff820d31c8,uStack_1fc);
   }
   else {
-    fn_82F63F40(auStack_f0,0xffffffff820d31c0,uStack_1fc,(ulonglong)*(uint *)(param_3 + 8),
+    sprintf(auStack_f0,0xffffffff820d31c0,uStack_1fc,(ulonglong)*(uint *)(param_3 + 8),
                       *(uint *)(param_3 + 8) + uVar2 + -1);
   }
                     /* WARNING: Subroutine does not return */

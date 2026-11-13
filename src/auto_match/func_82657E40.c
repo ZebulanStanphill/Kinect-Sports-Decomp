@@ -46,7 +46,7 @@ int fn_82657E40(int param_1)
   if (lbl_83275D97 != '\0') {
     if ((*(byte *)(param_1 + 0x5e7c) & 0x10) == 0) {
       lVar2 = fn_82656DF8();
-      iVar3 = sprintf(acStack_110,"%s 0x%08X",0xffffffff821cd980,
+      iVar3 = xboxkrnl_sprintf(acStack_110,"%s 0x%08X",0xffffffff821cd980,
                       -(ulonglong)(lVar2 == 0) & 0xffffffff80004005);
       if ((int *)*__imp__KeCertMonitorData == (int *)0x0) {
         if (*__imp__KeDebugMonitorData == 0) {

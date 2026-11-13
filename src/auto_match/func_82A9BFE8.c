@@ -32,7 +32,7 @@ extern int fn_82A99C28();
 extern int fn_82A99D88();
 extern int fn_82A9A860();
 extern int fn_82A9BE60();
-extern int fn_82F63F40();
+extern int sprintf();
 
 
 void fn_82A9BFE8(undefined8 param_1,undefined8 param_2,longlong param_3,uint *param_4)
@@ -43,7 +43,7 @@ void fn_82A9BFE8(undefined8 param_1,undefined8 param_2,longlong param_3,uint *pa
   fn_82A99BC8(param_2);
   fn_82A99B70(param_2,0xffffffff820d28b4,0xffffffff820d2adc);
   if (*(short *)(param_4 + 2) != 0) {
-    fn_82F63F40(auStack_40,0xffffffff820d2ad0,"bicsconstant"[*(ushort *)(param_4 + 1)],
+    sprintf(auStack_40,0xffffffff820d2ad0,"bicsconstant"[*(ushort *)(param_4 + 1)],
                       *(undefined2 *)((int)param_4 + 6));
     fn_82A99D88(param_2,0xffffffff8204ee44,auStack_40);
     if (*(short *)(param_4 + 2) != 1) {

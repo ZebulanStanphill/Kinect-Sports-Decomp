@@ -1,7 +1,7 @@
 /* Corresponds to libjpeg 6b jerror.c format_message (open-source IJG libjpeg 6b), D3DX's copy. Generated from the Scaleform copy's unit: the upstream function with the declarations it uses, preprocessed, symbols renamed to the game's. */
 typedef int boolean;
 typedef unsigned int size_t;
-int fn_82F63F40(char *b, const char *fmt, ...);
+int sprintf(char *b, const char *fmt, ...);
 typedef unsigned char JSAMPLE;
 typedef short JCOEF;
 typedef unsigned int JDIMENSION;
@@ -107,9 +107,9 @@ d3dx_format_message (j_common_ptr cinfo, char * buffer)
   }
 
   if (isstring)
-    fn_82F63F40(buffer, msgtext, err->msg_parm.s);
+    sprintf(buffer, msgtext, err->msg_parm.s);
   else
-    fn_82F63F40(buffer, msgtext,
+    sprintf(buffer, msgtext,
 	    err->msg_parm.i[0], err->msg_parm.i[1],
 	    err->msg_parm.i[2], err->msg_parm.i[3],
 	    err->msg_parm.i[4], err->msg_parm.i[5],

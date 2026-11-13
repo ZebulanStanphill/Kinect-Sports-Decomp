@@ -17,7 +17,7 @@ This software is based in part on the work of the Independent JPEG Group.
 | Copy (span of its identified functions) | Owner (evidence) | Built with | Symbol names |
 | --- | --- | --- | --- |
 | libjpeg 6b, 0x827BAED0-0x827D196C | Scaleform GFx: called from the GFx image loaders at 0x826EA... | `/Ox /Os /GF` | upstream names |
-| zlib 1.2.3: inflate side 0x827D1B48-0x827D4F0C, deflate side 0x82F89CA8-0x82F8DB94 | the game's only zlib 1.2.3 (its deflate calls the crc32 and adler32 of the inflate side) | `/O1 /Gy-`; `trees.c` `/O1` | upstream names |
+| zlib 1.2.3: inflate side 0x827D1B48-0x827D4F0C, deflate side 0x82F89CA8-0x82F8DB94 | the game's only zlib 1.2.3 (its deflate calls the crc32 and adler32 of the inflate side) | `/O1 /Gy-`; `trees.c` `/O1`; `deflate.c` `/O1 /d2inlS100` (a slightly larger inline budget, which inlines `lm_init` into `deflateReset` as the game has it) | upstream names |
 | libjpeg 6b, 0x829ADEA0-0x829B7834 | D3DX: called from the D3DX texture-file loader, among D3DX's other code | `/O2` | `d3dx_` + upstream name |
 | zlib 1.1.4, 0x829B5140-0x829C5688 | D3DX: the zlib its libpng was built against | `/O1`, as C++ | `d3dx_` + upstream name |
 | libpng 1.0.5, altered by its owner (it has checks that 1.0.5 lacks), 0x829AE0D8-0x829B98E0 | D3DX | `/O1` | upstream names |
@@ -38,7 +38,9 @@ symbols.txt allows a name more than once. Data that upstream declares inside a f
 has MSVC's name for it, such as `?RGB_order@?1??select_ncolors@@9@9`. Pooled constants have
 MSVC's names, such as `__real@3ff0000000000000` for the double 1.0. Five C runtime
 functions that the library code calls are named after those calls: `malloc`, `free`,
-`exit`, `fprintf` and `__iob_func`.
+`exit`, `fprintf` and `__iob_func`. `sprintf` (0x82F63F40) is the statically linked C runtime's; the
+import thunk of xboxkrnl.exe's own `sprintf` export has the name `xboxkrnl_sprintf`, which
+was invented for this project so the two do not clash.
 
 ## How the units relate to upstream
 

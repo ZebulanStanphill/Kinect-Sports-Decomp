@@ -76,7 +76,7 @@ undefined8 fn_82656DF8(int param_1,undefined8 param_2)
       RtlInitAnsiString(auStack_2d8,acStack_2c1 + 1);
       iVar3 = ObCreateSymbolicLink(0xffffffff831be888,auStack_2d8);
       if (-1 < iVar3) {
-        sprintf(acStack_150,"%s:\\%s",0xffffffff821cd95c,pcVar4 + 1);
+        xboxkrnl_sprintf(acStack_150,"%s:\\%s",0xffffffff821cd95c,pcVar4 + 1);
         iVar3 = fn_82656570(param_1,param_2,acStack_150);
         if (-1 < iVar3) {
           fn_82F672D8(acStack_2c1 + 1,acStack_150,0x104);
@@ -102,7 +102,7 @@ undefined8 fn_82656DF8(int param_1,undefined8 param_2)
             puVar5 = (undefined4 *)(param_1 + 0x5c2c);
             do {
               if (lbl_83275D94 != '\0') goto LAB_82656e1c;
-              sprintf(__s,"%d%s",uVar6,__s + 0x170);
+              xboxkrnl_sprintf(__s,"%d%s",uVar6,__s + 0x170);
               uVar2 = fn_82A29DE8(acStack_2c1 + 1,0x40000000,0,0,2,0x68000000,0);
               puVar5[1] = (int)uVar2;
               if ((int)uVar2 == -1) goto LAB_82656e1c;
@@ -126,7 +126,7 @@ undefined8 fn_82656DF8(int param_1,undefined8 param_2)
                     );
           }
           do {
-            sprintf(__s,"%d%s",uVar6,__s + 0x170);
+            xboxkrnl_sprintf(__s,"%d%s",uVar6,__s + 0x170);
             uVar6 = uVar6 + 1;
             uVar2 = fn_82A2A958(acStack_2c1 + 1);
           } while ((int)uVar2 != 0);
