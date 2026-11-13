@@ -1,37 +1,8 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8263E9F0();
+extern void *fn_8263E9F0(void *self, unsigned int flags, void *a, int b, int c, int d, int e, int f, int g, int h,
+                         float value, int i, int j);
 
-
-void fn_8263FB38(void)
-
+void *fn_8263FB38(void *self, unsigned int flags, void *a, int d, int e, int f, int g, int h, float value, int i,
+                  int j)
 {
-  fn_8263E9F0();
-  return;
+    return fn_8263E9F0(self, flags, a, 0, 0, d, e, f, g, h, value, i, j);
 }
-

@@ -1,55 +1,45 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82359C18();
-extern unsigned int lbl_821C0744;
+typedef struct FuncImpl_824C2A28 FuncImpl_824C2A28;
+typedef struct {
+    FuncImpl_824C2A28 *(*clone)(FuncImpl_824C2A28 *self, void *where);
+} FuncImplVt_824C2A28;
+struct FuncImpl_824C2A28 { FuncImplVt_824C2A28 *vt; };
 
+typedef struct {
+    char storage[0x10];
+    FuncImpl_824C2A28 *impl;
+} Function_824C2A28;
 
-undefined4 * fn_824C2A28(undefined4 *param_1,undefined4 param_2,int param_3)
+typedef struct {
+    void *vt;
+    int value;
+    int state;
+    int pad0c;
+    Function_824C2A28 callback;
+} Obj_824C2A28;
 
+extern char lbl_821C0744[];
+extern void fn_82359C18(Function_824C2A28 *f);
+
+Obj_824C2A28 *fn_824C2A28(Obj_824C2A28 *self, int value, Function_824C2A28 *callback)
 {
-  undefined4 uVar1;
-  undefined4 *puVar2;
-  
-  param_1[1] = param_2;
-  *param_1 = &lbl_821C0744;
-  param_1[2] = 0;
-  puVar2 = param_1 + 4;
-  if (*(int *)(param_3 + 0x10) == 0) {
-    param_1[8] = 0;
-  }
-  else {
-    if (*(int *)(param_3 + 0x10) != param_3) {
-      puVar2 = (undefined4 *)0x0;
-    }
-    uVar1 = (**(code **)**(undefined4 **)(param_3 + 0x10))(*(undefined4 **)(param_3 + 0x10),puVar2);
-    param_1[8] = uVar1;
-  }
-  fn_82359C18(param_3);
-  return param_1;
-}
+    Function_824C2A28 *dst;
 
+    self->value = value;
+    self->vt = lbl_821C0744;
+    {
+        int *state = &self->state;
+        *state = 0;
+    }
+    dst = &self->callback;
+    if (callback->impl == 0) {
+        dst->impl = 0;
+    } else {
+        if ((void *)callback->impl == (void *)callback) {
+            dst->impl = callback->impl->vt->clone(callback->impl, dst);
+        } else {
+            dst->impl = callback->impl->vt->clone(callback->impl, 0);
+        }
+    }
+    fn_82359C18(callback);
+    return self;
+}

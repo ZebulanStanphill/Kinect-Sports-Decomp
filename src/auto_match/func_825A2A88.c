@@ -1,49 +1,47 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Entry_825A2A88 {
+    char pad[0x30];
+    int busy;               /* 0x30 */
+    int handle;             /* 0x34 */
+    int pad38;
+    unsigned int id;        /* 0x3c */
+    char pad40[0x20];
+} Entry_825A2A88;
 
+typedef struct Bank_825A2A88 {
+    int pad0;
+    void **items;           /* 0x04 */
+} Bank_825A2A88;
 
-undefined4 fn_825A2A88(int param_1,int param_2)
+typedef struct Store_825A2A88 {
+    char pad[0x7fc];
+    Bank_825A2A88 *banks[1];  /* 0x7fc */
+} Store_825A2A88;
 
+typedef struct Self_825A2A88 {
+    char pad[0x4c];
+    Store_825A2A88 *store;  /* 0x4c */
+    char pad50[0x230 - 0x50];
+    Entry_825A2A88 *first;  /* 0x230 */
+    Entry_825A2A88 *last;   /* 0x234 */
+} Self_825A2A88;
+
+static __forceinline Entry_825A2A88 *Find_825A2A88(Self_825A2A88 *self, unsigned int id)
 {
-  uint uVar1;
-  
-  for (uVar1 = *(uint *)(param_1 + 0x230); uVar1 < *(uint *)(param_1 + 0x234); uVar1 = uVar1 + 0x60)
-  {
-    if (*(int *)(uVar1 + 0x3c) == param_2) goto code_r0x825a2ab8;
-  }
-  uVar1 = 0;
-code_r0x825a2ab8:
-  if ((uVar1 != 0) && (*(int *)(uVar1 + 0x30) == 0)) {
-    return *(undefined4 *)
-            (*(int *)(*(int *)(((int)*(uint *)(uVar1 + 0x34) >> 8 & 0xffU) * 4 +
-                              *(int *)(param_1 + 0x4c) + 0x7fc) + 4) +
-            (*(uint *)(uVar1 + 0x34) & 0xff) * 4);
-  }
-  return 0;
+    Entry_825A2A88 *e;
+
+    for (e = self->first; e < self->last; e++) {
+        if (e->id == id)
+            return e;
+    }
+    return 0;
 }
 
+void *fn_825A2A88(Self_825A2A88 *self, unsigned int id)
+{
+    Bank_825A2A88 **banks = self->store->banks;
+    Entry_825A2A88 *e = Find_825A2A88(self, id);
+
+    if (e != 0 && e->busy == 0)
+        return banks[(e->handle >> 8) & 0xff]->items[e->handle & 0xff];
+    return 0;
+}

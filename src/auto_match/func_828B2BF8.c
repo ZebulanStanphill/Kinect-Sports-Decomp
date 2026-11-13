@@ -1,54 +1,32 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_8288C2E0();
-extern int atexit();
-extern unsigned int lbl_82024E1C;
-extern unsigned int lbl_8321402C;
-extern unsigned int lbl_83214030;
-extern unsigned int lbl_83214034;
+/* Returns a function-local static object, constructed on first use with the
+   compiler's guard bit lbl_83214044; fn_831411E8 destroys it at exit. The
+   object starts with its vtable lbl_82024E1C and two zero words, followed by
+   a container that fn_8288C2E0 builds from an empty allocator temporary. */
+typedef struct Static_828B2BF8 {
+    void *vtable;
+    int field04;
+    int field08;
+    char container[0xc];
+} Static_828B2BF8;
+
+extern int atexit(void (*function)(void));
+extern void fn_831411E8(void);
+extern void *fn_8288C2E0(void *self, void *allocator);
 extern unsigned int lbl_83214044;
+extern char lbl_82024E1C[];
+extern Static_828B2BF8 lbl_8321402C;
 
-
-undefined8 fn_828B2BF8(void)
-
+Static_828B2BF8 *fn_828B2BF8(void)
 {
-  undefined1 auStack_20 [16];
-  
-  if ((lbl_83214044 & 1) == 0) {
-    lbl_83214044 = lbl_83214044 | 1;
-    lbl_8321402C = &lbl_82024E1C;
-    lbl_83214030 = 0;
-    lbl_83214034 = 0;
-    fn_8288C2E0(0xffffffff83214038,auStack_20);
-    atexit(0xffffffff831411e8);
-    return 0xffffffff8321402c;
-  }
-  return 0xffffffff8321402c;
-}
+    char empty[8];
 
+    if ((lbl_83214044 & 1) == 0) {
+        lbl_83214044 |= 1;
+        lbl_8321402C.vtable = lbl_82024E1C;
+        lbl_8321402C.field04 = 0;
+        lbl_8321402C.field08 = 0;
+        fn_8288C2E0(lbl_8321402C.container, empty);
+        atexit(fn_831411E8);
+    }
+    return &lbl_8321402C;
+}

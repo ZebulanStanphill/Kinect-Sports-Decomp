@@ -1,90 +1,63 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_90;
-extern int fn_82CE5410();
-extern int fn_82DBFFD0();
-extern unsigned int uStack_14;
-extern unsigned int uStack_18;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
-extern unsigned int uStack_24;
-extern unsigned int uStack_28;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
-extern unsigned int uStack_34;
-extern unsigned int uStack_74;
-extern unsigned int uStack_78;
-extern unsigned int uStack_7c;
-extern unsigned int uStack_80;
-extern unsigned int uStack_84;
+struct Al_82DC0868;
+typedef struct {
+    void *p0;
+    void *p4;
+    void *p8;
+    void *pc;
+    void (*f10)(struct Al_82DC0868 *, void *, unsigned int, int);
+} AlVt_82DC0868;
+typedef struct Al_82DC0868 { AlVt_82DC0868 *vt; } Al_82DC0868;
+typedef struct { char pad[0x10]; Al_82DC0868 *al; } Heap_82DC0868;
+typedef struct { void *data; int size; unsigned int cap; } Vec_82DC0868;
 
+typedef struct Query_82DC0868 {
+    int pad0[3];
+    int a;                /* 0x0c */
+    int b;                /* 0x10 */
+    int c;                /* 0x14 */
+    int d;                /* 0x18 */
+    int e;                /* 0x1c */
+    int pad20[15];
+    Vec_82DC0868 results; /* 0x5c */
+    int f;                /* 0x68 */
+    int g;                /* 0x6c */
+    int h;                /* 0x70 */
+    int i;                /* 0x74 */
+    int j;                /* 0x78 */
+    short k;              /* 0x7c */
+} Query_82DC0868;
 
-undefined8 fn_82DC0868(undefined8 param_1)
+extern Heap_82DC0868 *fn_82CE5410(void);
+extern int fn_82DBFFD0(void *self, int a, int b, Query_82DC0868 *q);
 
+static __forceinline void ReleaseMemory_82DC0868(Vec_82DC0868 *v, int align)
 {
-  undefined8 uVar1;
-  int iVar2;
-  undefined1 auStack_90 [12];
-  undefined4 uStack_84;
-  undefined4 uStack_80;
-  undefined4 uStack_7c;
-  undefined4 uStack_78;
-  undefined4 uStack_74;
-  undefined4 uStack_34;
-  undefined4 uStack_30;
-  uint uStack_2c;
-  undefined4 uStack_28;
-  undefined4 uStack_24;
-  undefined4 uStack_20;
-  undefined4 uStack_1c;
-  undefined4 uStack_18;
-  undefined2 uStack_14;
-  
-  uStack_7c = 0;
-  uStack_84 = 1;
-  uStack_80 = 1;
-  uStack_78 = 0;
-  uStack_74 = 0;
-  uStack_34 = 0;
-  uStack_30 = 0;
-  uStack_2c = 0x80000000;
-  uStack_28 = 0;
-  uStack_24 = 0;
-  uStack_20 = 0;
-  uStack_1c = 0;
-  uStack_18 = 0;
-  uStack_14 = 0;
-  uVar1 = fn_82DBFFD0(param_1,0,0,auStack_90);
-  iVar2 = fn_82CE5410();
-  if ((uStack_2c & 0x80000000) == 0) {
-    (**(code **)(**(int **)(iVar2 + 0x10) + 0x10))
-              (*(int **)(iVar2 + 0x10),uStack_34,uStack_2c & 0x3fffffff,4);
-  }
-  return uVar1;
+    Al_82DC0868 *al = fn_82CE5410()->al;
+    if (((int)v->cap & (int)0x80000000) == 0) {
+        al->vt->f10(al, v->data, v->cap & 0x3fffffff, align);
+    }
 }
 
+int fn_82DC0868(void *self)
+{
+    Query_82DC0868 q;
+    int result;
+
+    q.c = 0;
+    q.a = 1;
+    q.b = 1;
+    q.d = 0;
+    q.e = 0;
+    q.results.data = 0;
+    q.results.size = 0;
+    q.results.cap = 0x80000000;
+    q.f = 0;
+    q.g = 0;
+    q.h = 0;
+    q.i = 0;
+    q.j = 0;
+    q.k = 0;
+    result = fn_82DBFFD0(self, 0, 0, &q);
+    ReleaseMemory_82DC0868(&q.results, 4);
+    return result;
+}

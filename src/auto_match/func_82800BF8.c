@@ -1,52 +1,22 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82809CB0();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_821AAD20;
+typedef struct Obj_82800BF8 {
+    char pad0[8];
+    float value;     /* 0x08 */
+    float angle;     /* 0x0c */
+} Obj_82800BF8;
 
+extern float fn_82809CB0(float v);
 
-void fn_82800BF8(double param_1,double param_2,int param_3)
-
+void fn_82800BF8(Obj_82800BF8 *self, float d, float x)
 {
-  double dVar1;
-  
-  dVar1 = (double)lbl_821AAD20;
-  if (param_1 != dVar1) {
-    *(float *)(param_3 + 8) = (float)((double)(float)((double)lbl_82002AE0 / param_1) * param_2);
-    if (dVar1 <= (double)*(float *)(param_3 + 0xc)) {
-      dVar1 = (double)fn_82809CB0();
-      *(float *)(param_3 + 0xc) = (float)dVar1;
-    }
-    else {
-      dVar1 = (double)fn_82809CB0();
-      *(float *)(param_3 + 0xc) = (float)-dVar1;
-    }
-  }
-  return;
-}
+    float inv;
 
+    if (d != 0.0f) {
+        inv = 1.0f / d;
+        self->value = inv * x;
+        if (self->angle < 0.0f) {
+            self->angle = -fn_82809CB0(inv);
+        } else {
+            self->angle = fn_82809CB0(inv);
+        }
+    }
+}

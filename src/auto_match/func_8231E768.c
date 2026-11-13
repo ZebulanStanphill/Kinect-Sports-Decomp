@@ -1,76 +1,57 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_82230110();
-extern int fn_82230300();
-extern int fn_822FB198();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct String_8231E768 {
+    char data[0x1c];
+} String_8231E768;
 
-void fn_8231E768(int param_1)
+typedef struct Anim_8231E768 {
+    char pad0[0xc0];
+    void *idleSet;
+} Anim_8231E768;
 
+typedef __declspec(align(16)) struct Owner_8231E768 {
+    char pad0[0x80];
+    __vector4 pos;              /* 0x80 */
+    __vector4 dir;              /* 0x90 */
+    char padA0[0x114 - 0xa0];
+    Anim_8231E768 *anim;        /* 0x114 */
+} Owner_8231E768;
+
+typedef struct State_8231E768 {
+    char pad0[0x58];
+    unsigned int mode;          /* 0x58 */
+} State_8231E768;
+
+typedef struct Obj_8231E768 {
+    char pad0[0xc];
+    Owner_8231E768 *owner;      /* 0x0c */
+    State_8231E768 *state;      /* 0x10 */
+    int pad14;
+    int a;                      /* 0x18 */
+    int b;                      /* 0x1c */
+    __vector4 pos;              /* 0x20 */
+    __vector4 dir;              /* 0x30 */
+} Obj_8231E768;
+
+extern void fn_82230110(String_8231E768 *s, const char *text);
+extern void fn_82230300(String_8231E768 *s, int a, int b);
+extern void fn_822FB198(void *set, String_8231E768 *name);
+
+void fn_8231E768(Obj_8231E768 *self)
 {
-  int iVar1;
-  int iVar2;
-  undefined4 *puVar3;
-  undefined4 *puVar4;
-  undefined4 uVar5;
-  undefined4 uVar6;
-  undefined4 uVar7;
-  undefined1 auStack_30 [32];
-  
-  iVar1 = *(int *)(param_1 + 0xc);
-  iVar2 = *(int *)(param_1 + 0x10);
-  *(undefined4 *)(param_1 + 0x18) = 3;
-  *(undefined4 *)(param_1 + 0x1c) = 8;
-  puVar3 = (undefined4 *)(iVar1 + 0x80U & 0xfffffff0);
-  uVar5 = puVar3[1];
-  uVar6 = puVar3[2];
-  uVar7 = puVar3[3];
-  puVar4 = (undefined4 *)(param_1 + 0x20U & 0xfffffff0);
-  *puVar4 = *puVar3;
-  puVar4[1] = uVar5;
-  puVar4[2] = uVar6;
-  puVar4[3] = uVar7;
-  puVar3 = (undefined4 *)(iVar1 + 0x90U & 0xfffffff0);
-  uVar5 = puVar3[1];
-  uVar6 = puVar3[2];
-  uVar7 = puVar3[3];
-  puVar4 = (undefined4 *)(param_1 + 0x30U & 0xfffffff0);
-  *puVar4 = *puVar3;
-  puVar4[1] = uVar5;
-  puVar4[2] = uVar6;
-  puVar4[3] = uVar7;
-  iVar1 = *(int *)(iVar2 + 0x58);
-  if ((iVar1 == 0x15) || (iVar1 == 3)) {
-    fn_82230110(auStack_30,0xffffffff821af980);
-    fn_822FB198(*(undefined4 *)(*(int *)(*(int *)(param_1 + 0xc) + 0x114) + 0xc0),auStack_30);
-    fn_82230300(auStack_30,1,0);
-  }
-  return;
-}
+    Owner_8231E768 *owner = self->owner;
+    State_8231E768 *state = self->state;
+    String_8231E768 name;
 
+    self->a = 3;
+    self->b = 8;
+    self->pos = owner->pos;
+    self->dir = owner->dir;
+    if (state->mode == 0x15 || state->mode == 3) {
+        fn_82230110(&name, "idleset_standready");
+        fn_822FB198(self->owner->anim->idleSet, &name);
+        fn_82230300(&name, 1, 0);
+    }
+}

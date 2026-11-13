@@ -1,48 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct ILInst_82BA73F0 {
+    unsigned int token;
+    unsigned short pad4;
+    unsigned short operand6;
+    unsigned short pad8;
+    unsigned short operandA;
+} ILInst_82BA73F0;
 
-
-undefined2 fn_82BA73F0(uint *param_1)
-
+static __forceinline int GetOpcode_82BA73F0(const ILInst_82BA73F0 *p)
 {
-  uint uVar1;
-  
-  uVar1 = -(uint)((*param_1 & 0xffff) < 100) & *param_1 & 0xffff;
-  if (uVar1 != 8) {
-    if (uVar1 != 9) {
-      if (uVar1 == 0x71) goto code_r0x82ba744c;
-      if (uVar1 != 0x72) {
-        return 0;
-      }
-    }
-    return *(undefined2 *)((int)param_1 + 10);
-  }
-code_r0x82ba744c:
-  return *(undefined2 *)((int)param_1 + 6);
+    int op = p->token & 0xffff;
+    /* The `& 1` is needed for the game's `clrlwi` of the test's result (as in func_82BA7790). */
+    return (op < 100) & 1 ? op : 0;
 }
 
+unsigned short fn_82BA73F0(const ILInst_82BA73F0 *p)
+{
+    switch (GetOpcode_82BA73F0(p)) {
+    case 0x8:
+    case 0x71:
+        return p->operand6;
+    case 0x9:
+    case 0x72:
+        return p->operandA;
+    }
+    return 0;
+}

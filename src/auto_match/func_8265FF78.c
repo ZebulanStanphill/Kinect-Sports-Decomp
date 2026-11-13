@@ -1,63 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265D5A8();
-extern int fn_82660558();
-extern int fn_82661A88();
-extern int fn_82F92218();
-extern int fn_82F953A8();
-extern int fn_82F953B8();
-extern unsigned int uStack00000014;
-extern unsigned int uStack0000001c;
-extern unsigned int uStack_10;
+/* std::_Tree<Traits>::_Erase(_Nodeptr) from Visual C++ 2010's <xtree>, built
+   without optimisation: frees a subtree recursively. The node accessors are
+   out-of-line calls: fn_82F953A8 is _Isnil, fn_82F953B8 _Right, fn_8265D5A8
+   _Left (folded with addressof, both return their argument), fn_82F92218
+   _Myval; fn_82661A88 destroys a value and fn_82660558 frees a node. */
+typedef struct Node_8265FF78 Node_8265FF78;
 
+typedef struct Tree_8265FF78 {
+    char pad0[0xc];
+    char alnod;
+    char alval;
+} Tree_8265FF78;
 
-void fn_8265FF78(uint param_1,undefined4 param_2)
+extern char *fn_82F953A8(Node_8265FF78 *node);
+extern Node_8265FF78 **fn_82F953B8(Node_8265FF78 *node);
+extern Node_8265FF78 **fn_8265D5A8(void *node);
+extern void *fn_82F92218(Node_8265FF78 *node);
+extern void fn_82661A88(char *alval, void *value);
+extern void fn_82660558(char *alnod, Node_8265FF78 *node, unsigned int count);
 
+void fn_8265FF78(Tree_8265FF78 *self, Node_8265FF78 *root)
 {
-  char *pcVar2;
-  undefined4 *puVar3;
-  undefined8 uVar1;
-  uint uStack00000014;
-  undefined4 uStack0000001c;
-  undefined4 uStack_10;
-  
-  uStack00000014 = param_1;
-  uStack_10 = param_2;
-  while (uStack0000001c = uStack_10, pcVar2 = (char *)fn_82F953A8(uStack_10), *pcVar2 == '\0') {
-    puVar3 = (undefined4 *)fn_82F953B8(uStack_10);
-    fn_8265FF78(uStack00000014,*puVar3);
-    puVar3 = (undefined4 *)fn_8265D5A8(uStack_10);
-    uStack_10 = *puVar3;
-    fn_82F92218(uStack0000001c);
-    uVar1 = fn_8265D5A8();
-    fn_82661A88((ulonglong)uStack00000014 + 0xd,uVar1);
-    fn_82660558((ulonglong)uStack00000014 + 0xc,uStack0000001c,1);
-  }
-  return;
-}
+    Node_8265FF78 *p;
 
+    for (p = root; !*fn_82F953A8(p); root = p) {
+        fn_8265FF78(self, *fn_82F953B8(p));
+        p = *fn_8265D5A8(p);
+        fn_82661A88(&self->alval, fn_8265D5A8(fn_82F92218(root)));
+        fn_82660558(&self->alnod, root, 1);
+    }
+}

@@ -1,63 +1,45 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_828E9D90();
-extern int fn_828E9DA8();
-extern int fn_828E9FF8();
-extern int fn_828EA268();
+typedef struct List_828E2B60 List_828E2B60;
+typedef struct ListVtbl_828E2B60 {
+    void *slot0[3];
+    unsigned int (*count)(List_828E2B60 *self);
+} ListVtbl_828E2B60;
+struct List_828E2B60 {
+    ListVtbl_828E2B60 *vt;
+};
 
+typedef struct Source_828E2B60 Source_828E2B60;
+typedef struct SourceVtbl_828E2B60 {
+    void *slot0[7];
+    List_828E2B60 *(*list)(Source_828E2B60 *self);
+} SourceVtbl_828E2B60;
+struct Source_828E2B60 {
+    SourceVtbl_828E2B60 *vt;
+};
 
-void fn_828E2B60(int param_1,undefined8 param_2)
+typedef struct Self_828E2B60 {
+    char pad0[0x10];
+    Source_828E2B60 *source;
+    int pad14;
+    int value;
+} Self_828E2B60;
 
+extern int fn_828EA268(unsigned int maxValue);
+extern int fn_828E9DA8(void *stream);
+extern int fn_828E9D90(void *stream);
+extern int fn_828E9FF8(void *stream, int bits);
+
+void fn_828E2B60(Self_828E2B60 *self, void *stream)
 {
-  int *piVar4;
-  ulonglong uVar1;
-  longlong lVar2;
-  undefined8 uVar3;
-  int iVar5;
-  int iVar6;
-  undefined4 uVar7;
-  
-  piVar4 = (int *)(**(code **)(**(int **)(param_1 + 0x10) + 0x1c))();
-  uVar1 = (**(code **)(*piVar4 + 0xc))();
-  lVar2 = uVar1 - 1;
-  if ((uVar1 & 0xffffffff) == 0) {
-    lVar2 = 0;
-  }
-  uVar3 = fn_828EA268(lVar2);
-  iVar5 = fn_828E9DA8(param_2);
-  iVar6 = fn_828E9D90(param_2);
-  if (iVar5 - iVar6 < (int)uVar3) {
-    *(undefined4 *)(param_1 + 0x18) = 0;
-  }
-  else {
-    uVar7 = fn_828E9FF8(param_2,uVar3);
-    *(undefined4 *)(param_1 + 0x18) = uVar7;
-  }
-  return;
-}
+    List_828E2B60 *list;
+    unsigned int count;
+    int bits;
 
+    list = self->source->vt->list(self->source);
+    count = list->vt->count(list);
+    bits = fn_828EA268(count != 0 ? count - 1 : 0);
+    if (bits <= fn_828E9DA8(stream) - fn_828E9D90(stream)) {
+        self->value = fn_828E9FF8(stream, bits);
+    } else {
+        self->value = 0;
+    }
+}

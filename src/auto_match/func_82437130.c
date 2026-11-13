@@ -1,57 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82526C70();
+typedef struct Event_82437130 {
+    char pad[0x114];
+    int kind;               /* 0x114 */
+} Event_82437130;
 
+typedef struct Self_82437130 {
+    char pad[0x40];
+    Event_82437130 *event;  /* 0x40 */
+} Self_82437130;
 
-undefined8 fn_82437130(int param_1,undefined8 param_2)
+extern char lbl_83297B48[];
+extern int fn_82526C70(char *buf, int size, const char *fmt, ...);
 
+char *fn_82437130(Self_82437130 *self, const char *name)
 {
-  int iVar1;
-  undefined8 uVar2;
-  
-  uVar2 = 0;
-  iVar1 = *(int *)(*(int *)(param_1 + 0x40) + 0x114);
-  if (iVar1 == 1) {
-    uVar2 = 0xffffffff821b92c8;
-  }
-  else if (iVar1 == 2) {
-    uVar2 = 0xffffffff821b92bc;
-  }
-  else if (iVar1 == 3) {
-    uVar2 = 0xffffffff821b92d0;
-  }
-  else if (iVar1 == 4) {
-    uVar2 = 0xffffffff821b92a8;
-  }
-  else if (iVar1 == 5) {
-    uVar2 = 0xffffffff821b92b0;
-  }
-  fn_82526C70(0xffffffff83297b48,0x40,0xffffffff821b0c70,uVar2,param_2);
-  return 0xffffffff83297b48;
-}
+    const char *prefix = 0;
 
+    switch (self->event->kind) {
+    case 1:
+        prefix = "race_";
+        break;
+    case 2:
+        prefix = "hurdles_";
+        break;
+    case 3:
+        prefix = "longjump_";
+        break;
+    case 4:
+        prefix = "discus_";
+        break;
+    case 5:
+        prefix = "javelin_";
+        break;
+    }
+    fn_82526C70(lbl_83297B48, 0x40, "%s%s", prefix, name);
+    return lbl_83297B48;
+}

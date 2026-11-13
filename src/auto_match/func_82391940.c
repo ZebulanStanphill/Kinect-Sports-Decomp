@@ -1,125 +1,72 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_160;
-extern unsigned int *auStack_1d0;
-extern unsigned int *auStack_1f0;
-extern unsigned int *auStack_210;
-extern unsigned int *auStack_230;
-extern unsigned int *auStack_250;
-extern unsigned int *auStack_270;
-extern unsigned int *auStack_2a0;
-extern unsigned int *auStack_2b0;
-extern unsigned int *auStack_2c0;
-extern unsigned int *auStack_2e0;
-extern unsigned int *auStack_f0;
-extern unsigned int fStack_290;
-extern int fn_822C5B18();
-extern int fn_82359C18();
-extern int fn_823927F0();
-extern unsigned int uStack_280;
+/* Builds a bound call object (a function object plus three vectors, a float and an int) in out:
+   the function object is copied down through the nested layers of the binder (fn_822C5B18 copies,
+   fn_82359C18 destroys), the arguments are stored as each layer finishes, and the result is copied
+   out through three more layers (fn_823927F0). The caller's fn is destroyed at the end. */
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Func_82391940 {
+    union {
+        double align;
+        char space[16];
+    } u;
+    void *impl;
+    int pad[3];
+} Func_82391940;
 
-undefined8
-fn_82391940(double param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-             undefined4 param_5)
+typedef __declspec(align(16)) struct BindObj_82391940 {
+    Func_82391940 fn;   /* 0x00 */
+    __vector4 v1;       /* 0x20 */
+    __vector4 v2;       /* 0x30 */
+    __vector4 v3;       /* 0x40 */
+    float f;            /* 0x50 */
+    char pad54[0xc];
+    int a;              /* 0x60 */
+    char pad64[0xc];
+} BindObj_82391940;
 
+extern Func_82391940 *fn_822C5B18(Func_82391940 *dst, const Func_82391940 *src);
+extern void fn_82359C18(void *obj);
+extern BindObj_82391940 *fn_823927F0(BindObj_82391940 *dst, const BindObj_82391940 *src);
+
+BindObj_82391940 *fn_82391940(BindObj_82391940 *out, Func_82391940 *fn, __vector4 v1, __vector4 v2,
+                              __vector4 v3, float f, int a)
 {
-  undefined4 *puVar1;
-  int in_r0;
-  undefined8 uVar2;
-  undefined8 uVar3;
-  undefined8 uVar4;
-  undefined8 uVar5;
-  undefined8 uVar6;
-  undefined4 in_register_00010010;
-  undefined4 in_register_00010014;
-  undefined4 in_register_00010018;
-  undefined4 in_vr1;
-  undefined4 in_register_00010020;
-  undefined4 in_register_00010024;
-  undefined4 in_register_00010028;
-  undefined4 in_vr2;
-  undefined4 in_register_00010030;
-  undefined4 in_register_00010034;
-  undefined4 in_register_00010038;
-  undefined4 in_vr3;
-  undefined1 auStack_2e0 [32];
-  undefined1 auStack_2c0 [16];
-  undefined1 auStack_2b0 [16];
-  undefined1 auStack_2a0 [16];
-  float fStack_290;
-  undefined4 uStack_280;
-  undefined1 auStack_270 [32];
-  undefined1 auStack_250 [32];
-  undefined1 auStack_230 [32];
-  undefined1 auStack_210 [32];
-  undefined1 auStack_1f0 [32];
-  undefined1 auStack_1d0 [80];
-  undefined1 auStack_160 [112];
-  undefined1 auStack_f0 [240];
-  
-  uVar2 = fn_822C5B18(auStack_210);
-  uVar3 = fn_822C5B18(auStack_250,uVar2);
-  uVar4 = fn_822C5B18(auStack_230,uVar3);
-  uVar5 = fn_822C5B18(auStack_1f0,uVar4);
-  uVar6 = fn_822C5B18(auStack_270,uVar5);
-  fn_822C5B18(auStack_2e0,uVar6);
-  puVar1 = (undefined4 *)((uint)(auStack_2c0 + in_r0) & 0xfffffff0);
-  *puVar1 = in_register_00010010;
-  puVar1[1] = in_register_00010014;
-  puVar1[2] = in_register_00010018;
-  puVar1[3] = in_vr1;
-  fn_82359C18(uVar6);
-  puVar1 = (undefined4 *)((uint)(auStack_2b0 + in_r0) & 0xfffffff0);
-  *puVar1 = in_register_00010020;
-  puVar1[1] = in_register_00010024;
-  puVar1[2] = in_register_00010028;
-  puVar1[3] = in_vr2;
-  fn_82359C18(uVar5);
-  puVar1 = (undefined4 *)((uint)(auStack_2a0 + in_r0) & 0xfffffff0);
-  *puVar1 = in_register_00010030;
-  puVar1[1] = in_register_00010034;
-  puVar1[2] = in_register_00010038;
-  puVar1[3] = in_vr3;
-  fn_82359C18(uVar4);
-  fStack_290 = (float)param_1;
-  fn_82359C18(uVar3);
-  uStack_280 = param_5;
-  fn_82359C18(uVar2);
-  uVar2 = fn_823927F0(auStack_160,auStack_2e0);
-  uVar3 = fn_823927F0(auStack_f0,uVar2);
-  fn_823927F0(auStack_1d0,uVar3);
-  fn_82359C18(uVar3);
-  fn_82359C18(uVar2);
-  fn_823927F0(param_2,auStack_1d0);
-  fn_82359C18(auStack_1d0);
-  fn_82359C18(auStack_2e0);
-  fn_82359C18(param_3);
-  return param_2;
-}
+    Func_82391940 t1, t2, t3, t4, t5;
+    BindObj_82391940 b0, b1, b2, b3;
+    Func_82391940 *p1;
+    Func_82391940 *p2;
+    Func_82391940 *p3;
+    Func_82391940 *p4;
+    Func_82391940 *p5;
+    BindObj_82391940 *q1;
+    BindObj_82391940 *q2;
 
+    p1 = fn_822C5B18(&t1, fn);
+    p2 = fn_822C5B18(&t2, p1);
+    p3 = fn_822C5B18(&t3, p2);
+    p4 = fn_822C5B18(&t4, p3);
+    p5 = fn_822C5B18(&t5, p4);
+    fn_822C5B18(&b0.fn, p5);
+    b0.v1 = v1;
+    fn_82359C18(p5);
+    b0.v2 = v2;
+    fn_82359C18(p4);
+    b0.v3 = v3;
+    fn_82359C18(p3);
+    b0.f = f;
+    fn_82359C18(p2);
+    b0.a = a;
+    fn_82359C18(p1);
+    q1 = fn_823927F0(&b1, &b0);
+    q2 = fn_823927F0(&b2, q1);
+    fn_823927F0(&b3, q2);
+    fn_82359C18(q2);
+    fn_82359C18(q1);
+    fn_823927F0(out, &b3);
+    fn_82359C18(&b3);
+    fn_82359C18(&b0);
+    fn_82359C18(fn);
+    return out;
+}

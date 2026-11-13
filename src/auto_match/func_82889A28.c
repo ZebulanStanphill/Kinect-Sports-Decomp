@@ -1,49 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_828889C0();
-extern int atexit();
-extern unsigned int lbl_83213E8C;
+/* Returns a function-local static object, constructed on first use with the
+   compiler's guard bit lbl_83213E90; fn_831408D8 destroys it at exit. The
+   container at its start is built by fn_828889C0 from the addresses of the
+   empty comparator and allocator temporaries; the word after it starts at 0. */
+typedef struct Static_82889A28 {
+    char container[0x10];
+    int value;
+} Static_82889A28;
+
+extern int atexit(void (*function)(void));
+extern void fn_831408D8(void);
+extern void *fn_828889C0(void *self, void *compare, void *allocator);
 extern unsigned int lbl_83213E90;
+extern Static_82889A28 lbl_83213E7C;
 
-
-undefined8 fn_82889A28(void)
-
+Static_82889A28 *fn_82889A28(void)
 {
-  undefined1 auStack_20 [16];
-  
-  if ((lbl_83213E90 & 1) == 0) {
-    lbl_83213E90 = lbl_83213E90 | 1;
-    fn_828889C0(0xffffffff83213e7c,auStack_20,auStack_20);
-    lbl_83213E8C = 0;
-    atexit(0xffffffff831408d8);
-    return 0xffffffff83213e7c;
-  }
-  return 0xffffffff83213e7c;
-}
+    char empty[8];
 
+    if ((lbl_83213E90 & 1) == 0) {
+        lbl_83213E90 |= 1;
+        fn_828889C0(&lbl_83213E7C, empty, empty);
+        lbl_83213E7C.value = 0;
+        atexit(fn_831408D8);
+    }
+    return &lbl_83213E7C;
+}

@@ -1,42 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Vec_8248A0A0 {
+    char pad[0x50];
+    unsigned int *first;    /* 0x50 */
+    unsigned int *last;     /* 0x54 */
+} Vec_8248A0A0;
 
+typedef struct Self_8248A0A0 {
+    char pad[0xc];
+    unsigned int id;        /* 0x0c */
+    Vec_8248A0A0 *list;     /* 0x10 */
+} Self_8248A0A0;
 
-bool fn_8248A0A0(int param_1)
-
+int fn_8248A0A0(Self_8248A0A0 *self)
 {
-  int *piVar1;
-  int *piVar2;
-  
-  piVar1 = *(int **)(*(int *)(param_1 + 0x10) + 0x54);
-  for (piVar2 = *(int **)(*(int *)(param_1 + 0x10) + 0x50);
-      (piVar2 != piVar1 && (*piVar2 != *(int *)(param_1 + 0xc))); piVar2 = piVar2 + 1) {
-  }
-  return piVar1 != piVar2;
-}
+    unsigned int id = self->id;
+    unsigned int *end = self->list->last;
+    unsigned int *p;
 
+    for (p = self->list->first; p != end; p++) {
+        if (*p == id)
+            break;
+    }
+    return p != end;
+}

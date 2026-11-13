@@ -1,51 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82C09F08();
-extern unsigned int iStack00000014;
+typedef struct Unk_82C032C0 Unk_82C032C0;
+typedef struct UnkVtbl_82C032C0 {
+    void *QueryInterface;
+    void *AddRef;
+    unsigned long (*Release)(Unk_82C032C0 *self);
+} UnkVtbl_82C032C0;
+struct Unk_82C032C0 { UnkVtbl_82C032C0 *vt; };
 
+typedef struct Obj_82C032C0 {
+    char pad0[0x34];
+    Unk_82C032C0 *unk;          /* 0x034 */
+    char pad38[0x298 - 0x38];
+    int a;                      /* 0x298 */
+    int b;                      /* 0x29c */
+    void *handle;               /* 0x2a0 */
+    int c;                      /* 0x2a4 */
+} Obj_82C032C0;
 
-undefined8 fn_82C032C0(int param_1)
+extern void fn_82C09F08(void **handle);
 
+int fn_82C032C0(Obj_82C032C0 *self)
 {
-  int iStack00000014;
-  
-  iStack00000014 = param_1;
-  if (*(int *)(param_1 + 0x2a0) != 0) {
-    fn_82C09F08(param_1 + 0x2a0);
-    *(undefined4 *)(param_1 + 0x2a0) = 0;
-  }
-  if (*(int **)(param_1 + 0x34) != (int *)0x0) {
-    (**(code **)(**(int **)(param_1 + 0x34) + 8))();
-    *(undefined4 *)(param_1 + 0x34) = 0;
-  }
-  *(undefined4 *)(param_1 + 0x2a4) = 0;
-  *(undefined4 *)(param_1 + 0x29c) = 0;
-  *(undefined4 *)(param_1 + 0x298) = 0;
-  return 0;
+    if (self->handle != 0) {
+        __try {
+            fn_82C09F08(&self->handle);
+        } __except (1) {
+        }
+        self->handle = 0;
+    }
+    if (self->unk != 0) {
+        self->unk->vt->Release(self->unk);
+        self->unk = 0;
+    }
+    self->c = 0;
+    self->b = 0;
+    self->a = 0;
+    return 0;
 }
-

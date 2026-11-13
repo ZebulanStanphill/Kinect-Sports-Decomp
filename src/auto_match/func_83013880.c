@@ -1,56 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_832645D8;
-extern unsigned int lbl_832645DC;
+typedef unsigned U;
+typedef int (*Handler_83013880)(const void *iid);
+typedef struct Value_83013880 {
+    int unk0;
+    Handler_83013880 handler;
+} Value_83013880;
+typedef struct Entry_83013880 {
+    U key;
+    Value_83013880 value;
+} Entry_83013880;
+typedef struct Table_83013880 {
+    Entry_83013880 *first;
+    Entry_83013880 *last;
+} Table_83013880;
 
+extern Table_83013880 lbl_832645D8;
 
-char fn_83013880(undefined8 param_1,int param_2,int *param_3)
-
+static __forceinline Value_83013880 *Find(Table_83013880 *self, U key)
 {
-  code *pcVar1;
-  int iVar2;
-  int *piVar3;
-  uint uVar4;
-  
-  *param_3 = 0;
-  for (piVar3 = lbl_832645D8; (piVar3 != lbl_832645DC && (*piVar3 != param_2)); piVar3 = piVar3 + 3)
-  {
-  }
-  uVar4 = -(uint)(lbl_832645DC != piVar3) & (uint)(piVar3 + 1);
-  if (uVar4 != 0) {
-    pcVar1 = *(code **)(uVar4 + 4);
-    if (pcVar1 != (code *)0x0) {
-      iVar2 = (*pcVar1)();
-      *param_3 = iVar2;
-      return (iVar2 == 0) + '\x01';
-    }
-    return '\x01';
-  }
-  return '\x02';
+    Entry_83013880 *end = self->last, *p = self->first;
+    for (; p != end && p->key != key; p++) {}
+    return (p != end) != 0 ? &p->value : 0;
 }
 
+int fn_83013880(const void *iid, U key, int *out)
+{
+    Value_83013880 *v;
+
+    *out = 0;
+    v = Find(&lbl_832645D8, key);
+    if (v == 0)
+        return 2;
+    if (v->handler == 0)
+        return 1;
+    *out = v->handler(iid);
+    return (*out == 0) + 1;
+}

@@ -1,83 +1,54 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
-extern int fn_82DEFF58();
+typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
+    float vector4_f32[4];
+    unsigned int vector4_u32[4];
+} __vector4;
 
+typedef struct Allocator_82DEFFD0 Allocator_82DEFFD0;
+typedef struct {
+    void *dtor;
+    void *(*blockAlloc)(Allocator_82DEFFD0 *self, int nbytes);
+} AllocatorVt_82DEFFD0;
+struct Allocator_82DEFFD0 { AllocatorVt_82DEFFD0 *vt; };
+typedef struct { char pad[0x10]; Allocator_82DEFFD0 *heap; } MemoryRouter_82DEFFD0;
 
-int fn_82DEFFD0(int param_1,int *param_2,int param_3)
+typedef struct { void *vt; unsigned short memSizeAndFlags; short referenceCount; } RefObject_82DEFFD0;
+typedef struct { __vector4 m_quad; } Vector4_82DEFFD0;
+typedef struct { void **data; int size; int capacity; } PtrArray_82DEFFD0;
 
+typedef struct DashpotAction_82DEFFD0 {
+    RefObject_82DEFFD0 base;
+    void *world;
+    void *island;
+    unsigned int userData;
+    char *name;
+    void *entityA;
+    void *entityB;
+    Vector4_82DEFFD0 point[2];   /* 0x20 */
+    float strength;              /* 0x40 */
+    float damping;               /* 0x44 */
+    Vector4_82DEFFD0 impulse;    /* 0x50 */
+} DashpotAction_82DEFFD0;
+
+extern MemoryRouter_82DEFFD0 *fn_82CE5410(void);
+extern DashpotAction_82DEFFD0 *fn_82DEFF58(void *mem, void *entityA, void *entityB, unsigned int userData);
+
+DashpotAction_82DEFFD0 *fn_82DEFFD0(DashpotAction_82DEFFD0 *self, PtrArray_82DEFFD0 *newEntities,
+                                    PtrArray_82DEFFD0 *newPhantoms)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  int iVar3;
-  undefined4 uVar4;
-  undefined4 uVar5;
-  undefined4 uVar6;
-  
-  if ((param_2[1] == 2) && (*(int *)(param_3 + 4) == 0)) {
-    iVar3 = fn_82CE5410();
-    iVar3 = (**(code **)(**(int **)(iVar3 + 0x10) + 4))(*(int **)(iVar3 + 0x10),0x60);
-    *(undefined2 *)(iVar3 + 4) = 0x60;
-    iVar3 = fn_82DEFF58(iVar3,*(undefined4 *)*param_2,((undefined4 *)*param_2)[1],
-                          *(undefined4 *)(param_1 + 0x10));
-    puVar1 = (undefined4 *)(param_1 + 0x20U & 0xfffffff0);
-    uVar4 = puVar1[1];
-    uVar5 = puVar1[2];
-    uVar6 = puVar1[3];
-    puVar2 = (undefined4 *)(iVar3 + 0x20U & 0xfffffff0);
-    *puVar2 = *puVar1;
-    puVar2[1] = uVar4;
-    puVar2[2] = uVar5;
-    puVar2[3] = uVar6;
-    puVar1 = (undefined4 *)(param_1 + 0x30U & 0xfffffff0);
-    uVar4 = puVar1[1];
-    uVar5 = puVar1[2];
-    uVar6 = puVar1[3];
-    puVar2 = (undefined4 *)(iVar3 + 0x30U & 0xfffffff0);
-    *puVar2 = *puVar1;
-    puVar2[1] = uVar4;
-    puVar2[2] = uVar5;
-    puVar2[3] = uVar6;
-    *(undefined4 *)(iVar3 + 0x40) = *(undefined4 *)(param_1 + 0x40);
-    *(undefined4 *)(iVar3 + 0x44) = *(undefined4 *)(param_1 + 0x44);
-    puVar1 = (undefined4 *)(param_1 + 0x50U & 0xfffffff0);
-    uVar4 = puVar1[1];
-    uVar5 = puVar1[2];
-    uVar6 = puVar1[3];
-    puVar2 = (undefined4 *)(iVar3 + 0x50U & 0xfffffff0);
-    *puVar2 = *puVar1;
-    puVar2[1] = uVar4;
-    puVar2[2] = uVar5;
-    puVar2[3] = uVar6;
-  }
-  else {
-    iVar3 = 0;
-  }
-  return iVar3;
-}
+    Allocator_82DEFFD0 *heap;
+    RefObject_82DEFFD0 *mem;
+    DashpotAction_82DEFFD0 *da;
 
+    if (newEntities->size != 2) return 0;
+    if (newPhantoms->size != 0) return 0;
+    heap = fn_82CE5410()->heap;
+    mem = (RefObject_82DEFFD0 *)heap->vt->blockAlloc(heap, 0x60);
+    mem->memSizeAndFlags = 0x60;
+    da = fn_82DEFF58(mem, newEntities->data[0], newEntities->data[1], self->userData);
+    da->point[0].m_quad = self->point[0].m_quad;
+    da->point[1].m_quad = self->point[1].m_quad;
+    da->strength = self->strength;
+    da->damping = self->damping;
+    da->impulse.m_quad = self->impulse.m_quad;
+    return da;
+}

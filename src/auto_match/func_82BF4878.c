@@ -1,57 +1,41 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Audio_82BF4878 {
+    void *vt;                   /* 0x00 */
+    char pad4[0x58];
+    float value;               /* 0x5c */
+} Audio_82BF4878;
+
+typedef struct Owner_82BF4878 {
+    char pad0[0x10];
+    int state;                  /* 0x10 */
+    const char *name;           /* 0x14 */
+    void *ctx;                  /* 0x18 */
+    char pad1c[0xc];
+    float value;               /* 0x28 */
+} Owner_82BF4878;
+
+extern char lbl_820EB83C[];
+extern void *fn_82BE56B0(unsigned int size);
+extern void fn_82BEECD0(Audio_82BF4878 *self, const char *name, void *ctx, int kind, void *ie);
 extern int fn_82BE5240();
-extern int fn_82BEECD0();
-extern unsigned int lbl_820EB83C;
 
-
-undefined4 * fn_82BF4878(int param_1,undefined8 param_2)
-
+static __forceinline Audio_82BF4878 *Audio_Construct(Audio_82BF4878 *m, const char *name, void *ctx,
+                                                      void *ie, float value)
 {
-  undefined4 *puVar1;
-  double dVar2;
-  
-  puVar1 = (undefined4 *)thunk_FUN_82be5550(0x60);
-  if (puVar1 == (undefined4 *)0x0) {
-    puVar1 = (undefined4 *)0x0;
-  }
-  else {
-    dVar2 = (double)*(float *)(param_1 + 0x28);
-    fn_82BEECD0(puVar1,*(undefined4 *)(param_1 + 0x14),*(undefined4 *)(param_1 + 0x18),0x10,
-                  param_2);
-    puVar1[0x17] = (float)dVar2;
-    *puVar1 = &lbl_820EB83C;
-  }
-  if (puVar1 == (undefined4 *)0x0) {
-    fn_82BE5240(param_1,0x65,0xffffffff820eb990,*(undefined4 *)(param_1 + 0x14));
-    puVar1 = (undefined4 *)0x0;
-    *(undefined4 *)(param_1 + 0x10) = 0;
-  }
-  return puVar1;
+    fn_82BEECD0(m, name, ctx, 0x10, ie);
+    m->value = value;
+    m->vt = lbl_820EB83C;
+    return m;
 }
 
+Audio_82BF4878 *fn_82BF4878(Owner_82BF4878 *self, void *ie)
+{
+    Audio_82BF4878 *mem = (Audio_82BF4878 *)fn_82BE56B0(0x60);
+    Audio_82BF4878 *audio = mem ? Audio_Construct(mem, self->name, self->ctx, ie, self->value) : 0;
+
+    if (audio == 0) {
+        fn_82BE5240(self, 0x65, "Dynamic CMassiveAdObjectAudio creation failed for IE: \"%s\"", self->name);
+        self->state = 0;
+        return 0;
+    }
+    return audio;
+}

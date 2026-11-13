@@ -1,39 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68B6C();
-extern unsigned int lbl_832642FC;
+typedef struct A_8303B890 {
+    char pad[0x1c];
+    int id;               /* 0x1c */
+    float value;          /* 0x20 */
+} A_8303B890;
 
+typedef struct B_8303B890 {
+    char pad[0x34];
+    int arg;              /* 0x34 */
+} B_8303B890;
 
-void fn_8303B890(int param_1,int param_2,undefined8 param_3)
+extern void *lbl_832642FC;
+extern void fn_83018CD8(void *mgr, int id, float value, int arg);
 
+void fn_8303B890(A_8303B890 *a, B_8303B890 *b)
 {
-  fn_82F68B6C((double)*(float *)(param_1 + 0x20),lbl_832642FC,*(undefined4 *)(param_1 + 0x1c),
-               param_3,*(undefined4 *)(param_2 + 0x34));
-  return;
+    fn_83018CD8(lbl_832642FC, a->id, a->value, b->arg);
 }
-

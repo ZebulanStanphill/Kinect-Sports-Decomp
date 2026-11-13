@@ -1,52 +1,22 @@
-extern int *piRam83219598;
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A33FC0();
-extern int fn_82A381F0();
+typedef struct VT_82A38FB0 {
+    void *s[4];
+    int (*f10)(unsigned int, int, unsigned int, int, int, int, int, int);
+} VT_82A38FB0;
+typedef struct Obj_82A38FB0 { VT_82A38FB0 *vt; char pad[0x4c]; char sub[4]; } Obj_82A38FB0;
+typedef struct Node_82A38FB0 Node_82A38FB0;
+extern Node_82A38FB0 *fn_82A381F0(void *, unsigned int, int);
+extern int fn_82A33FC0(Obj_82A38FB0 *, Node_82A38FB0 *, int, int, int, int, int, int, int);
+extern Obj_82A38FB0 *lbl_83219598;
 
-
-void fn_82A38FB0(undefined8 param_1,undefined8 param_2,ulonglong param_3,undefined8 param_4,
-                  undefined8 param_5,undefined8 param_6,undefined8 param_7,undefined8 param_8)
-
+int fn_82A38FB0(unsigned int handle, int a, unsigned int b, int c, int d, int e, int f, int g)
 {
-  int *piVar1;
-  longlong lVar2;
+    Obj_82A38FB0 *o = lbl_83219598;
+    Node_82A38FB0 *n = fn_82A381F0(o->sub, handle, 0);
 
-  piVar1 = piRam83219598;
-  lVar2 = fn_82A381F0(piRam83219598 + 0x14,param_1,0);
-  if (lVar2 == 0) {
-    (**(code **)(*piVar1 + 0x10))(param_1,param_2,param_3,param_4,param_5,param_6,param_7,param_8);
-  }
-  else if ((param_3 & 0xffffffff) == 0) {
-    fn_82A33FC0(piVar1,lVar2,param_6,param_7,param_5,param_8,param_2,0);
-  }
-  else {
-    fn_82A33FC0(piVar1,lVar2,param_6,param_7,param_5,param_8,param_2,param_4);
-  }
-  return;
+    if (n != 0) {
+        if (b == 0)
+            return fn_82A33FC0(o, n, e, f, d, g, a, 0, 0);
+        return fn_82A33FC0(o, n, e, f, d, g, a, c, 0);
+    }
+    return o->vt->f10(handle, a, b, c, d, e, f, g);
 }

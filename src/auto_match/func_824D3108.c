@@ -1,92 +1,76 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
-extern unsigned int *auStack_28;
-extern int fn_822315A0();
-extern int fn_824CC9E8();
-extern int fn_824D2AE8();
-extern int fn_824DBB48();
-extern int fn_82670C10();
-extern int fn_82F51468();
-extern int fn_82F52C20();
-extern unsigned int iStack_2c;
-extern unsigned int lbl_821C0C34;
-extern unsigned int lbl_821C0D00;
-extern unsigned int uStack_30;
-extern U64 storeWordConditionalIndexed();
+long _InterlockedDecrement(long volatile *);
 
+typedef struct Rep_824D3108 Rep_824D3108;
+typedef struct RepVt_824D3108 {
+    void (*destroy)(Rep_824D3108 *);
+    void (*deleteThis)(Rep_824D3108 *);
+} RepVt_824D3108;
+struct Rep_824D3108 {
+    RepVt_824D3108 *vt;
+    long uses;
+    long weaks;
+};
 
-void fn_824D3108(undefined4 *param_1)
+typedef struct Ptr_824D3108 {
+    void *px;
+    Rep_824D3108 *rep;
+} Ptr_824D3108;
 
+typedef struct Lists_824D3108 {
+    char pad0[0x14];
+    char a[0x20];         /* 0x14 */
+    char b[0x20];         /* 0x34 */
+} Lists_824D3108;
+
+typedef struct Obj_824D3108 {
+    void *vt;
+    char pad4[0x1c];
+    int id;               /* 0x20 */
+    char pad24[0xf0 - 0x24];
+    char setA[0x480];     /* 0xf0 */
+    char setB[0x480];     /* 0x570 */
+    Lists_824D3108 lists; /* 0x9f0 */
+    char pada44[0xa50 - 0xa44];
+    void *handle;         /* 0xa50 */
+} Obj_824D3108;
+
+extern void *lbl_821C0D00;
+extern void *lbl_821C0C34;
+extern Ptr_824D3108 *fn_82F51468(Ptr_824D3108 *out, int id);
+extern void fn_824D2AE8(Ptr_824D3108 *out, Ptr_824D3108 *src);
+extern void fn_82F52C20(void *a, void *b, int c);
+extern void fn_822315A0(Rep_824D3108 *rep);
+extern void fn_82670C10(void *p);
+extern void fn_824DBB48(void *p);
+extern void fn_824CC9E8(Obj_824D3108 *o);
+
+static __forceinline void Decwref_824D3108(Rep_824D3108 *r)
 {
-  uint uVar1;
-  undefined8 uVar2;
-  longlong lVar3;
-  longlong lVar4;
-  uint *puVar5;
-  char in_RESERVE;
-  byte in_cr0;
-  undefined4 uStack_30;
-  int iStack_2c;
-  undefined1 auStack_28 [4];
-  int *piStack_24;
-  
-  *param_1 = &lbl_821C0D00;
-  uVar2 = fn_82F51468(auStack_28,param_1[8]);
-  fn_824D2AE8(&uStack_30,uVar2);
-  if (ZEXT48(piStack_24) != 0) {
-    lVar4 = ZEXT48(piStack_24) + 8;
-    do {
-      puVar5 = (uint *)lVar4;
-      lVar3 = (ulonglong)*puVar5 - 1;
-      if (in_RESERVE != '\0') {
-        uVar1 = storeWordConditionalIndexed(lVar3,0,lVar4);
-        *puVar5 = uVar1;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-    if ((int)lVar3 == 0) {
-      (**(code **)(*piStack_24 + 4))();
-    }
-  }
-  if (param_1[0x294] != 0) {
-    fn_82F52C20(uStack_30,param_1[0x294],1);
-    param_1[0x294] = 0;
-  }
-  if (iStack_2c != 0) {
-    fn_822315A0();
-  }
-  fn_82670C10(param_1 + 0x289);
-  fn_82670C10(param_1 + 0x281);
-  fn_824DBB48(param_1 + 0x15c);
-  fn_824DBB48(param_1 + 0x3c);
-  *param_1 = &lbl_821C0C34;
-  fn_824CC9E8(param_1);
-  return;
+    if (_InterlockedDecrement(&r->weaks) == 0)
+        r->vt->deleteThis(r);
 }
 
+void fn_824D3108(Obj_824D3108 *self)
+{
+    Ptr_824D3108 sp;
+    Ptr_824D3108 wp;
+    Lists_824D3108 *lists;
+
+    self->vt = &lbl_821C0D00;
+    fn_824D2AE8(&sp, fn_82F51468(&wp, self->id));
+    if (wp.rep != 0)
+        Decwref_824D3108(wp.rep);
+    if (self->handle != 0) {
+        fn_82F52C20(sp.px, self->handle, 1);
+        self->handle = 0;
+    }
+    if (sp.rep != 0)
+        fn_822315A0(sp.rep);
+    lists = &self->lists;
+    fn_82670C10(lists->b);
+    fn_82670C10(lists->a);
+    fn_824DBB48(self->setB);
+    fn_824DBB48(self->setA);
+    self->vt = &lbl_821C0C34;
+    fn_824CC9E8(self);
+}

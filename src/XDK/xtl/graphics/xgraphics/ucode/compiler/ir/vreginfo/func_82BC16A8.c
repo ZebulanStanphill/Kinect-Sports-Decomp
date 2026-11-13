@@ -1,47 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AB15D0();
-extern int fn_82BC0928();
-extern unsigned int lbl_820E34F0;
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
+#define VREGINFO_ASSERT(e, line) \
+    if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\compiler\\ir\\vreginfo.cpp", line)
 
+typedef struct Context_82BC16A8 Context_82BC16A8;
 
-undefined4 * fn_82BC16A8(undefined4 *param_1,int param_2,int param_3)
+typedef struct VReg_82BC16A8 {
+    void *vt;
+    char pad4[0x10 - 0x4];
+    int key;    /* 0x10: (_type << 16) + _usage */
+} VReg_82BC16A8;
 
+extern char lbl_820E34F0[];
+extern void fn_82BC0928(VReg_82BC16A8 *o, int usage, int type, Context_82BC16A8 *context);
+
+VReg_82BC16A8 *fn_82BC16A8(VReg_82BC16A8 *o, int _usage, int _type, Context_82BC16A8 *context)
 {
-  fn_82BC0928();
-  *param_1 = &lbl_820E34F0;
-  if (0x7fff < param_3) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820e34e0,0xffffffff820e33a8,0x241);
-  }
-  if (0xffff < param_2) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820e34cc,0xffffffff820e33a8,0x242);
-  }
-  param_1[4] = param_3 * 0x10000 + param_2;
-  return param_1;
+    fn_82BC0928(o, _usage, _type, context);
+    o->vt = lbl_820E34F0;
+    VREGINFO_ASSERT(_type < (1<<15), 0x241);
+    VREGINFO_ASSERT(_usage < (1<<16), 0x242);
+    o->key = (_type << 16) + _usage;
+    return o;
 }
-

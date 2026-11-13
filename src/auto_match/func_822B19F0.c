@@ -1,54 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82359C18();
+/* Constructor: an empty circular list head (both links pointing at the object itself, count 0)
+   followed by a function object copy-constructed from callback, which is then destroyed
+   (fn_82359C18). */
+typedef struct FuncImpl_822B19F0 FuncImpl_822B19F0;
+typedef struct {
+    FuncImpl_822B19F0 *(*clone)(FuncImpl_822B19F0 *self, void *where);
+} FuncImplVt_822B19F0;
+struct FuncImpl_822B19F0 { FuncImplVt_822B19F0 *vt; };
 
+typedef struct {
+    char storage[0x10];
+    FuncImpl_822B19F0 *impl;
+} Function_822B19F0;
 
-int fn_822B19F0(int param_1,int param_2)
+typedef struct Obj_822B19F0 {
+    struct Obj_822B19F0 *next;
+    struct Obj_822B19F0 *prev;
+    int count;
+    int pad0c;
+    Function_822B19F0 callback;
+} Obj_822B19F0;
 
+extern void fn_82359C18(Function_822B19F0 *f);
+
+Obj_822B19F0 *fn_822B19F0(Obj_822B19F0 *self, Function_822B19F0 *callback)
 {
-  undefined4 uVar1;
-  int iVar2;
-  
-  *(int *)(param_1 + 4) = param_1;
-  *(int *)param_1 = param_1;
-  *(undefined4 *)(param_1 + 8) = 0;
-  iVar2 = param_1 + 0x10;
-  if (*(int *)(param_2 + 0x10) == 0) {
-    *(undefined4 *)(param_1 + 0x20) = 0;
-  }
-  else {
-    if (*(int *)(param_2 + 0x10) != param_2) {
-      iVar2 = 0;
-    }
-    uVar1 = (**(code **)**(undefined4 **)(param_2 + 0x10))(*(undefined4 **)(param_2 + 0x10),iVar2);
-    *(undefined4 *)(param_1 + 0x20) = uVar1;
-  }
-  fn_82359C18(param_2);
-  return param_1;
-}
+    Function_822B19F0 *dst;
 
+    self->prev = self;
+    self->next = self;
+    self->count = 0;
+    dst = &self->callback;
+    if (callback->impl == 0) {
+        dst->impl = 0;
+    } else {
+        if ((void *)callback->impl == (void *)callback)
+            dst->impl = callback->impl->vt->clone(callback->impl, dst);
+        else
+            dst->impl = callback->impl->vt->clone(callback->impl, 0);
+    }
+    fn_82359C18(callback);
+    return self;
+}

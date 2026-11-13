@@ -1,48 +1,32 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FF5D28();
+typedef struct Vec_8303F198 {
+    unsigned int *begin;
+    unsigned int *end;
+} Vec_8303F198;
 
+typedef struct Self_8303F198 {
+    char pad[0x1c];
+    Vec_8303F198 vec;       /* 0x1c */
+} Self_8303F198;
 
-char fn_8303F198(int param_1,int param_2)
+extern unsigned int *fn_82FF5D28(Vec_8303F198 *v);
 
+static __forceinline int VecFind_8303F198(Vec_8303F198 *v, unsigned int val)
 {
-  int *piVar1;
-  
-  for (piVar1 = *(int **)(param_1 + 0x1c);
-      (piVar1 != *(int **)(param_1 + 0x20) && (*piVar1 != param_2)); piVar1 = piVar1 + 1) {
-  }
-  if ((-(uint)(*(int **)(param_1 + 0x20) != piVar1) & (uint)piVar1) == 0) {
-    piVar1 = (int *)fn_82FF5D28();
-    if (piVar1 != (int *)0x0) {
-      *piVar1 = param_2;
+    unsigned int *it;
+    for (it = v->begin; it != v->end && *it != val; ++it) {
     }
-    return (piVar1 == (int *)0x0) + '\x01';
-  }
-  return '\x01';
+    return it != v->end ? (int)it : 0;
 }
 
+char fn_8303F198(Self_8303F198 *self, unsigned int val)
+{
+    unsigned int *slot;
+
+
+    if (VecFind_8303F198(&self->vec, val) != 0)
+        return 1;
+    slot = fn_82FF5D28(&self->vec);
+    if (slot != 0)
+        *slot = val;
+    return (slot == 0) + 1;
+}
