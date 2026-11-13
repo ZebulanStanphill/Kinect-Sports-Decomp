@@ -17,7 +17,7 @@ This software is based in part on the work of the Independent JPEG Group.
 | Copy (span of its identified functions) | Owner (evidence) | Built with | Symbol names |
 | --- | --- | --- | --- |
 | libjpeg 6b, 0x827BAED0-0x827D196C | Scaleform GFx: called from the GFx image loaders at 0x826EA... | `/Ox /Os /GF` | upstream names |
-| zlib 1.2.3: inflate side 0x827D1B48-0x827D4F0C, deflate side 0x82F89CA8-0x82F8DB94 | the game's only zlib 1.2.3 (its deflate calls the crc32 and adler32 of the inflate side) | `/O1 /Gy-` | upstream names |
+| zlib 1.2.3: inflate side 0x827D1B48-0x827D4F0C, deflate side 0x82F89CA8-0x82F8DB94 | the game's only zlib 1.2.3 (its deflate calls the crc32 and adler32 of the inflate side) | `/O1 /Gy-`; `trees.c` `/O1` | upstream names |
 | libjpeg 6b, 0x829ADEA0-0x829B7834 | D3DX: called from the D3DX texture-file loader, among D3DX's other code | `/O2` | `d3dx_` + upstream name |
 | zlib 1.1.4, 0x829B5140-0x829C5688 | D3DX: the zlib its libpng was built against | `/O1` | `d3dx_` + upstream name |
 | libpng 1.0.5, altered by its owner (it has checks that 1.0.5 lacks), 0x829AE0D8-0x829B98E0 | D3DX | | upstream names |
@@ -63,7 +63,11 @@ own), the unit also owns those tables' `.rdata` range in `splits.txt`, as the up
 object did: `jdhuff.c` and `jdphuff.c` (`extend_test`, `extend_offset`), `jmemmgr.c`
 (`first_pool_slop`, `extra_pool_slop`), and zlib 1.2.3's `inflate.c` (`fixedtables`'
 `lenfix` and `distfix`, and `inflate`'s `order`) and `inftrees.c` (`inflate_table`'s `lbase`, `lext`,
-`dbase` and `dext`). `symbols.txt` gives each of these tables its own symbol.
+`dbase` and `dext`), and zlib 1.2.3's `trees.c` (its static trees and code tables, in `.rdata`
+and `.data`). `symbols.txt` gives each of these tables its own symbol. At `/O1` the
+compiler also emits a COMDAT copy of each static helper it inlined everywhere (`trees.c`'s
+`bi_flush`, `gen_codes` and others); nothing calls those copies, so the linker dropped them
+and the game does not have them.
 
 Each of these units holds the upstream file as published, with only these changes:
 

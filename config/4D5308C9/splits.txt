@@ -174753,46 +174753,11 @@ auto_match/func_82F8BCA8.c:
 auto_match/func_82F8BF40.c:
 	.text       start:0x82F8BF40 end:0x82F8BF5C
 
-auto_match/func_82F8BF60.c:
-	.pdata      start:0x82222320 end:0x82222328
-	.text       start:0x82F8BF60 end:0x82F8C04C
-
-auto_match/func_82F8C050.c:
-	.pdata      start:0x82222328 end:0x82222330
-	.text       start:0x82F8C050 end:0x82F8C290
-
-auto_match/func_82F8C290.c:
-	.pdata      start:0x82222330 end:0x82222338
-	.text       start:0x82F8C290 end:0x82F8C3B8
-
-auto_match/func_82F8C3B8.c:
-	.pdata      start:0x82222338 end:0x82222340
-	.text       start:0x82F8C3B8 end:0x82F8C908
-
-auto_match/func_82F8C908.c:
-	.pdata      start:0x82222340 end:0x82222348
-	.text       start:0x82F8C908 end:0x82F8CBB8
-
-auto_match/func_82F8CBB8.c:
-	.pdata      start:0x82222348 end:0x82222350
-	.text       start:0x82F8CBB8 end:0x82F8CFE4
-
-auto_match/func_82F8CFE8.c:
-	.text       start:0x82F8CFE8 end:0x82F8D088
-
-auto_match/func_82F8D088.c:
-	.pdata      start:0x82222350 end:0x82222358
-	.text       start:0x82F8D088 end:0x82F8D350
-
-auto_match/func_82F8D350.c:
-	.text       start:0x82F8D350 end:0x82F8D4D8
-
-auto_match/func_82F8D4D8.c:
-	.text       start:0x82F8D4D8 end:0x82F8D804
-
-auto_match/func_82F8D808.c:
-	.pdata      start:0x82222358 end:0x82222360
-	.text       start:0x82F8D808 end:0x82F8DB94
+zlib-1.2.3/trees.c:
+	.rdata      start:0x8216AC48 end:0x8216B680
+	.pdata      start:0x82222320 end:0x82222360
+	.text       start:0x82F8BF60 end:0x82F8DB94
+	.data       start:0x831BC604 end:0x831BC640
 
 auto_match/func_82F8DBA0.c:
 	.pdata      start:0x82222360 end:0x82222378
