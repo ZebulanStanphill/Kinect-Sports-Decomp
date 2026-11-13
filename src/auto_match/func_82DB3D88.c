@@ -1,94 +1,78 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define TBLr 0
-extern int fn_82CE5410();
-extern int fn_82DB34D0();
-extern int fn_82DB3650();
-extern int fn_82DB38B8();
-extern unsigned int lbl_8202CF7C;
+extern unsigned __int64 __mftb();
+typedef struct { const char *name; unsigned time; int pad; const char *name2; } TimerEntryA;
+typedef struct { const char *name; unsigned time, pad; } TimerEntryB;
+typedef struct { void *pad; char *current; void *pad2; char *end; } TimerStream;
+extern TimerStream *KeTlsGetValue(unsigned int);
 extern unsigned int lbl_8323B4A0;
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
 
+struct Al_82DB3D88;
+typedef struct {
+  void *p0;
+  void *p4;
+  void *p8;
+  void *pc;
+  void (*f10)(struct Al_82DB3D88 *, void *, unsigned, int);
+} AlVt_82DB3D88;
+typedef struct Al_82DB3D88 { AlVt_82DB3D88 *vt; } Al_82DB3D88;
+typedef struct { char pad[0x10]; Al_82DB3D88 *al; } Heap_82DB3D88;
+typedef struct { void *data; int size; unsigned cap; } Array_82DB3D88;
 
-void fn_82DB3D88(int param_1,ulonglong param_2,ulonglong param_3)
+typedef struct Tree_82DB3D88 {
+  char pad0[0x10];
+  char sub[0x10];
+  unsigned char dirty;
+} Tree_82DB3D88;
 
+extern Heap_82DB3D88 *fn_82CE5410(void);
+extern void fn_82DB3650(Tree_82DB3D88 *t, Array_82DB3D88 *a);
+extern void fn_82DB34D0(Tree_82DB3D88 *t, void *sub, Array_82DB3D88 *a);
+extern void fn_82DB38B8(Tree_82DB3D88 *t, void *sub, Array_82DB3D88 *a, void *p, void *q);
+
+void fn_82DB3D88(Tree_82DB3D88 *t, void *p, void *q)
 {
-  undefined4 *puVar1;
-  undefined8 uVar2;
-  int iVar3;
-  struct { undefined4 first; undefined4 second; } stack_pair_40;
+  TimerStream *s;
+  TimerEntryA *ea;
+  TimerEntryB *eb;
+  Array_82DB3D88 arr;
+  Al_82DB3D88 *al;
+  void *sub;
 
-  uint uStack_38;
-  
-  iVar3 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(undefined4 **)(iVar3 + 4);
-  if (puVar1 < *(undefined4 **)(iVar3 + 0xc)) {
-    *puVar1 = "LtkdTreeUpdate";
-    puVar1[3] = "Stgather";
-    uVar2 = TBLr;
-    puVar1[1] = (int)uVar2;
-    *(undefined4 **)(iVar3 + 4) = puVar1 + 4;
+  s = KeTlsGetValue(lbl_8323B4A0);
+  if (s->current < s->end) {
+    ea = (TimerEntryA *)s->current;
+    ea->name = "LtkdTreeUpdate";
+    ea->name2 = "Stgather";
+    ea->time = (unsigned)__mftb();
+    s->current = (char *)(ea + 1);
   }
-  stack_pair_40.first = 0;
-  stack_pair_40.second = 0;
-  uStack_38 = 0x80000000;
-  fn_82DB3650(param_1,&stack_pair_40.first);
-  iVar3 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(undefined4 **)(iVar3 + 4);
-  if (puVar1 < *(undefined4 **)(iVar3 + 0xc)) {
-    *puVar1 = "Strebuild";
-    uVar2 = TBLr;
-    puVar1[1] = (int)uVar2;
-    *(undefined4 **)(iVar3 + 4) = puVar1 + 3;
+  arr.data = 0;
+  arr.size = 0;
+  arr.cap = 0x80000000;
+  fn_82DB3650(t, &arr);
+  s = KeTlsGetValue(lbl_8323B4A0);
+  if (s->current < s->end) {
+    eb = (TimerEntryB *)s->current;
+    eb->name = "Strebuild";
+    eb->time = (unsigned)__mftb();
+    s->current = (char *)(eb + 1);
   }
-  if (((param_2 & 0xffffffff) == 0) || ((param_3 & 0xffffffff) == 0)) {
-    fn_82DB34D0(param_1,param_1 + 0x10,&stack_pair_40.first);
+  sub = t->sub;
+  if (p != 0 && q != 0) {
+    fn_82DB38B8(t, sub, &arr, p, q);
+  } else {
+    fn_82DB34D0(t, sub, &arr);
   }
-  else {
-    fn_82DB38B8(param_1,param_1 + 0x10,&stack_pair_40.first,param_2,param_3);
+  t->dirty = 0;
+  s = KeTlsGetValue(lbl_8323B4A0);
+  if (s->current < s->end) {
+    eb = (TimerEntryB *)s->current;
+    eb->name = "lt";
+    eb->time = (unsigned)__mftb();
+    s->current = (char *)(eb + 1);
   }
-  *(undefined1 *)(param_1 + 0x20) = 0;
-  iVar3 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(undefined4 **)(iVar3 + 4);
-  if (puVar1 < *(undefined4 **)(iVar3 + 0xc)) {
-    *puVar1 = &lbl_8202CF7C;
-    uVar2 = TBLr;
-    puVar1[1] = (int)uVar2;
-    *(undefined4 **)(iVar3 + 4) = puVar1 + 3;
+  al = fn_82CE5410()->al;
+  arr.size = 0;
+  if (((int)arr.cap & (int)0x80000000) == 0) {
+    al->vt->f10(al, arr.data, arr.cap & 0x3fffffff, 4);
   }
-  iVar3 = fn_82CE5410();
-  stack_pair_40.second = 0;
-  if ((uStack_38 & 0x80000000) == 0) {
-    (**(code **)(**(int **)(iVar3 + 0x10) + 0x10))
-              (*(int **)(iVar3 + 0x10),stack_pair_40.first,uStack_38 & 0x3fffffff,4);
-  }
-  return;
 }
-

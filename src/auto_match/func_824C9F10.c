@@ -1,68 +1,60 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_824C9FB8();
-extern int fn_82F63108();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Vec_824C9F10 {
+    __vector4 v;
+} Vec_824C9F10;
 
-undefined8 fn_824C9F10(undefined8 param_1,int param_2,undefined8 param_3)
+typedef struct String_824C9F10 {
+    union {
+        char buf[16];
+        char *ptr;
+    } u;
+    unsigned int size;
+    unsigned int res;
+} String_824C9F10;
 
+typedef struct Key_824C9F10 {
+    int pad0[2];
+    String_824C9F10 name;    /* 0x08 */
+} Key_824C9F10;
+
+struct Impl_824C9F10;
+typedef struct {
+    void *f0;
+    Vec_824C9F10 *(*call)(Vec_824C9F10 *out, struct Impl_824C9F10 *self, const Vec_824C9F10 *arg);
+} ImplVtbl_824C9F10;
+typedef struct Impl_824C9F10 { ImplVtbl_824C9F10 *vt; } Impl_824C9F10;
+
+typedef struct Func_824C9F10 {
+    int pad[4];
+    Impl_824C9F10 *impl;     /* 0x10 */
+} Func_824C9F10;
+
+typedef struct Entry_824C9F10 {
+    char pad0[0x58];
+    Func_824C9F10 func;      /* 0x58 */
+} Entry_824C9F10;
+
+extern Entry_824C9F10 *fn_824C9FB8(Key_824C9F10 *key, const char *name);
+extern __declspec(noreturn) void fn_82F63108(void);
+
+static __forceinline const char *CStr(String_824C9F10 *s)
 {
-  undefined4 *puVar1;
-  int in_r0;
-  int iVar2;
-  undefined4 *puVar3;
-  undefined4 uVar4;
-  undefined4 uVar5;
-  undefined4 uVar6;
-  
-  puVar3 = (undefined4 *)(param_2 + 8);
-  if (0xf < *(uint *)(param_2 + 0x1c)) {
-    puVar3 = (undefined4 *)*puVar3;
-  }
-  iVar2 = fn_824C9FB8(param_2,puVar3);
-  if ((iVar2 == 0) || (*(int *)(iVar2 + 0x68) == 0)) {
-    puVar3 = (undefined4 *)(in_r0 + (int)param_3 & 0xfffffff0);
-    uVar4 = puVar3[1];
-    uVar5 = puVar3[2];
-    uVar6 = puVar3[3];
-    puVar1 = (undefined4 *)(in_r0 + (int)param_1 & 0xfffffff0);
-    *puVar1 = *puVar3;
-    puVar1[1] = uVar4;
-    puVar1[2] = uVar5;
-    puVar1[3] = uVar6;
-  }
-  else {
-    if (*(int *)(iVar2 + 0x68) == 0) {
-                    /* WARNING: Subroutine does not return */
-      fn_82F63108();
-    }
-    (**(code **)(**(int **)(iVar2 + 0x68) + 4))(param_1,*(int **)(iVar2 + 0x68),param_3);
-  }
-  return param_1;
+    return s->res < 0x10 ? s->u.buf : s->u.ptr;
 }
 
+Vec_824C9F10 *fn_824C9F10(Vec_824C9F10 *out, Key_824C9F10 *key, const Vec_824C9F10 *def)
+{
+    Entry_824C9F10 *e = fn_824C9FB8(key, CStr(&key->name));
+    if (e != 0 && e->func.impl != 0) {
+        Func_824C9F10 *f = &e->func;
+        if (f->impl == 0)
+            fn_82F63108();
+        f->impl->vt->call(out, f->impl, def);
+    } else {
+        out->v = def->v;
+    }
+    return out;
+}

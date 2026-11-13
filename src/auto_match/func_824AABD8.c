@@ -1,47 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_824AAC40();
-extern int fn_82539560();
-extern unsigned int lbl_821916FC;
-extern unsigned int lbl_82192480;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
+/* Stores the raw value from fn_824AAC40 remapped (fn_82539560) from [lbl_821916FC, lbl_82192438[18]]
+   to [0, 1] at offset 0x30. */
+typedef struct Self_824AABD8 {
+    char pad0[0x30];
+    float value;             /* 0x30 */
+} Self_824AABD8;
 
+extern float lbl_821916FC;
+extern float lbl_82192438[];
+extern float lbl_821CA45C[];
+extern float fn_824AAC40(Self_824AABD8 *self, void *source);
+extern float fn_82539560(float x, float inMin, float inMax, float outMin, float outMax);
 
-void fn_824AABD8(void)
-
+void fn_824AABD8(Self_824AABD8 *self, void *source)
 {
-  undefined8 uVar1;
-  double dVar2;
-  
-  dVar2 = (double)lbl_82192480;
-  uVar1 = fn_824AAC40();
-                    /* WARNING: Subroutine does not return */
-  fn_82539560(uVar1,(double)lbl_821916FC,dVar2,(double)ltcg_pool_0_0f,(double)lbl_821CA460);
+    float hi = lbl_82192438[18];
+    float x = fn_824AAC40(self, source);
+    float lo = lbl_821916FC;
+    self->value = fn_82539560(x, lo, hi, 0.0f, lbl_821CA45C[1]);
 }
-

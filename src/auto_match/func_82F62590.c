@@ -1,56 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_831BB124;
-extern U64 storeWordConditionalIndexed();
+typedef struct Lock_82F62590 { char cs[0x1c]; } Lock_82F62590;
+extern long _InterlockedIncrement(long *);
+extern long lbl_831BB124;
+extern Lock_82F62590 lbl_83263258[];
+extern void fn_82F63AC0(Lock_82F62590 *lock);
 
-
-undefined8 fn_82F62590(undefined8 param_1)
-
+void *fn_82F62590(void *self)
 {
-  ulonglong uVar1;
-  longlong lVar2;
-  char in_RESERVE;
-  byte in_cr0;
-  
-  do {
-    uVar1 = (ulonglong)lbl_831BB124;
-    if (in_RESERVE != '\0') {
-      lbl_831BB124 = storeWordConditionalIndexed(uVar1 + 1,0,0xffffffff831bb124);
-      in_cr0 = 2;
-    }
-  } while (!(bool)(in_cr0 >> 1 & 1));
-  if ((int)(uVar1 + 1) == 0) {
-    lVar2 = -0x7cd9cda8;
-    do {
-      RtlInitializeCriticalSection(lVar2);
-      lVar2 = lVar2 + 0x1c;
-    } while ((int)lVar2 < -0x7cd9cd38);
-  }
-  return param_1;
-}
+    int i;
 
+    if (_InterlockedIncrement(&lbl_831BB124) == 0) {
+        for (i = 0; i < 4; i++)
+            fn_82F63AC0(&lbl_83263258[i]);
+    }
+    return self;
+}

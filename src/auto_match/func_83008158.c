@@ -1,71 +1,32 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define _iStack00000020 ((*(U64*)&iStack00000020))
-#define _iStack00000028 ((*(U64*)&iStack00000028))
-extern int fn_82FF7E30();
-extern unsigned int iStack00000020;
-extern unsigned int iStack00000024;
-extern unsigned int iStack00000028;
+typedef struct Value_83008158 { int a; int b; int c; } Value_83008158;
+typedef struct Pair_83008158 { unsigned int key; Value_83008158 value; } Pair_83008158;
+typedef struct Vec_83008158 { Pair_83008158 *begin; Pair_83008158 *end; } Vec_83008158;
+extern Pair_83008158 *fn_82FF7E30(Vec_83008158 *v);
 
+static __forceinline int neq(Pair_83008158 *a, Pair_83008158 *b) { return a != b; }
 
-int * fn_83008158(undefined4 *param_1,int param_2,undefined8 param_3,undefined8 param_4)
-
+static __forceinline Value_83008158 *find(Vec_83008158 *v, unsigned int key)
 {
-  int *piVar1;
-  int *piVar2;
-  int iStack00000020;
-  int iStack00000024;
-  int iStack00000028;
-  
-  for (piVar2 = (int *)*param_1; (piVar2 != (int *)param_1[1] && (*piVar2 != param_2));
-      piVar2 = piVar2 + 4) {
-  }
-  piVar2 = (int *)(-(uint)((int *)param_1[1] != piVar2) & (uint)(piVar2 + 1));
-  if (piVar2 == (int *)0x0) {
-    _iStack00000020 = param_3;
-    _iStack00000028 = param_4;
-    piVar1 = (int *)fn_82FF7E30();
-    if (piVar1 != (int *)0x0) {
-      piVar2 = piVar1 + 1;
-      *piVar1 = param_2;
-      piVar1[1] = iStack00000020;
-      piVar1[2] = iStack00000024;
-      piVar1[3] = iStack00000028;
+    Pair_83008158 *it;
+    for (it = v->begin; it != v->end; it++) {
+        if (it->key == key)
+            break;
     }
-  }
-  else {
-    iStack00000020 = (int)((ulonglong)param_3 >> 0x20);
-    iStack00000024 = (int)param_3;
-    iStack00000028 = (int)((ulonglong)param_4 >> 0x20);
-    *piVar2 = iStack00000020;
-    piVar2[1] = iStack00000024;
-    piVar2[2] = iStack00000028;
-  }
-  return piVar2;
+    return neq(it, v->end) ? &it->value : 0;
 }
 
+Value_83008158 *fn_83008158(Vec_83008158 *v, unsigned int key, Value_83008158 value)
+{
+    Pair_83008158 *p;
+    Value_83008158 *r;
+
+    r = find(v, key);
+    if (r != 0) {
+        *r = value;
+    } else if ((p = fn_82FF7E30(v)) != 0) {
+        p->key = key;
+        p->value = value;
+        return &p->value;
+    }
+    return r;
+}

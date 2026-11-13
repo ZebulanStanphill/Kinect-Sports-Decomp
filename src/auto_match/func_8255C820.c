@@ -1,55 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_10;
-extern int fn_825BC0E0();
-extern int fn_825BBFA8();
-extern int fn_825BBD78();
+// Dispatches a point query on a shape by its kind (the unsigned short at offset 0):
+// kind 0 -> fn_825BBFA8, kind 1 -> fn_825BC0E0 (both with a discarded float out), kind 2 -> fn_825BBD78.
+extern int fn_825BBFA8(unsigned short *shape, void *point, float *out);
+extern int fn_825BC0E0(unsigned short *shape, void *point, float *out);
+extern int fn_825BBD78(unsigned short *shape, void *point, int flags);
 
-
-undefined8 fn_8255C820(undefined8 param_1,ushort *param_2)
-
+int fn_8255C820(void *point, unsigned short *shape)
 {
-  ushort uVar1;
-  undefined8 uVar2;
-  undefined1 auStack_10 [1];
-
-  uVar1 = *param_2;
-  if (uVar1 == 0) {
-    uVar2 = fn_825BBFA8(param_2,param_1,auStack_10);
-  }
-  else if (uVar1 == 1) {
-    uVar2 = fn_825BBD78(param_2,param_1,auStack_10);
-  }
-  else if (uVar1 < 3) {
-    uVar2 = fn_825BC0E0(param_2,param_1,1);
-  }
-  else {
-    uVar2 = 0;
-  }
-  return uVar2;
+    float unused;
+    int r;
+    switch (*shape) {
+    case 0:
+        r = fn_825BBFA8(shape, point, &unused);
+        break;
+    case 1:
+        r = fn_825BC0E0(shape, point, &unused);
+        break;
+    case 2:
+        r = fn_825BBD78(shape, point, 1);
+        break;
+    default:
+        r = 0;
+    }
+    return r;
 }

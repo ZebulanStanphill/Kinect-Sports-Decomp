@@ -1,49 +1,17 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_827F5730();
-extern unsigned int lbl_821917B4;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Obj_8234C320 {
+    int pad0[4];
+    int target;   /* 0x10 */
+    int pad14;
+    int enabled;    /* 0x18 */
+} Obj_8234C320;
+extern const float lbl_821CA45C[2];
+extern const float lbl_821917A8[];
+extern void fn_827F5730(int target, float value, float time);
 
-
-void fn_8234C320(int param_1,int param_2)
-
+void fn_8234C320(int enabled, Obj_8234C320 *self)
 {
-  float fVar1;
-  
-  if (*(int *)(param_2 + 0x10) != 0) {
-    fVar1 = ltcg_pool_0_0f;
-    if (param_1 != 0) {
-      fVar1 = lbl_821CA460;
+    if (self->target != 0) {
+        fn_827F5730(self->target, enabled ? lbl_821CA45C[1] : 0.0f, lbl_821917A8[3]);
     }
-    fn_827F5730((double)fVar1,(double)lbl_821917B4);
-  }
-  *(int *)(param_2 + 0x18) = param_1;
-  return;
+    self->enabled = enabled;
 }
-

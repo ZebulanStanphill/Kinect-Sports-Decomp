@@ -1,59 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826944C8();
-extern int fn_8273E508();
+typedef struct Rc_826B0E90 { int pad[2]; int rc; } Rc_826B0E90;
+typedef struct Key_826B0E90 { Rc_826B0E90 *p; } Key_826B0E90;
+typedef struct Entry_826B0E90 { int key; int value; } Entry_826B0E90;
+extern Entry_826B0E90 *fn_8273E508(void *hash, Key_826B0E90 *key);
+extern void fn_826944C8(Rc_826B0E90 *p);
 
-
-ulonglong fn_826B0E90(longlong param_1,int *param_2)
-
+static __forceinline void Release(Key_826B0E90 *k)
 {
-  int iVar1;
-  longlong lVar2;
-  ulonglong uVar3;
-  
-  lVar2 = fn_8273E508(param_1 + 0x280);
-  iVar1 = *param_2;
-  uVar3 = -(ulonglong)(lVar2 != 0) & lVar2 + 4U;
-  if (uVar3 == 0) {
-    lVar2 = (ulonglong)*(uint *)(iVar1 + 8) - 1;
-    *(int *)(iVar1 + 8) = (int)lVar2;
-    if (lVar2 == 0) {
-      fn_826944C8();
+    Rc_826B0E90 *p = k->p;
+    if (--p->rc == 0) {
+        fn_826944C8(p);
     }
-    uVar3 = 0;
-  }
-  else {
-    lVar2 = (ulonglong)*(uint *)(iVar1 + 8) - 1;
-    *(int *)(iVar1 + 8) = (int)lVar2;
-    if (lVar2 == 0) {
-      fn_826944C8();
-    }
-  }
-  return uVar3;
 }
 
+static __forceinline int *Get(void *hash, Key_826B0E90 *key)
+{
+    Entry_826B0E90 *e = fn_8273E508(hash, key);
+    return e ? &e->value : 0;
+}
+
+int *fn_826B0E90(char *self, Key_826B0E90 *key)
+{
+    int *v = Get(self + 0x280, key);
+    if (v != 0) {
+        Release(key);
+        return v;
+    }
+    Release(key);
+    return 0;
+}

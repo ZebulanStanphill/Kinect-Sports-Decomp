@@ -1,74 +1,51 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+struct Elem_82454710;
+typedef struct ElemVt_82454710 {
+    void (*dtor)(struct Elem_82454710 *e, int flags);
+} ElemVt_82454710;
 
-int * fn_82454710(int *param_1,int param_2,int param_3)
+typedef struct Elem_82454710 {
+    ElemVt_82454710 *vt;
+    int a;
+    int b;
+    int c;
+    __vector4 v;
+    float f;
+    unsigned char g;
+} Elem_82454710;
 
+typedef struct Vec_82454710 {
+    Elem_82454710 *first;
+    Elem_82454710 *last;
+} Vec_82454710;
+
+static __forceinline void Assign_82454710(Elem_82454710 *d, const Elem_82454710 *s)
 {
-  int iVar1;
-  undefined4 *puVar2;
-  int iVar3;
-  undefined4 *puVar4;
-  undefined4 *puVar5;
-  undefined4 uVar6;
-  undefined4 uVar7;
-  undefined4 uVar8;
-  
-  iVar1 = *(int *)(param_2 + 4);
-  iVar3 = param_3 + 0x30;
-  if (iVar3 != iVar1) {
-    puVar4 = (undefined4 *)(param_3 + 8);
-    do {
-      iVar3 = iVar3 + 0x30;
-      puVar4[-1] = puVar4[0xb];
-      *puVar4 = puVar4[0xc];
-      puVar4[1] = puVar4[0xd];
-      puVar5 = (undefined4 *)((uint)(puVar4 + 0xe) & 0xfffffff0);
-      uVar6 = puVar5[1];
-      uVar7 = puVar5[2];
-      uVar8 = puVar5[3];
-      puVar2 = (undefined4 *)((uint)(puVar4 + 2) & 0xfffffff0);
-      *puVar2 = *puVar5;
-      puVar2[1] = uVar6;
-      puVar2[2] = uVar7;
-      puVar2[3] = uVar8;
-      puVar4[6] = puVar4[0x12];
-      *(undefined1 *)(puVar4 + 7) = *(undefined1 *)(puVar4 + 0x13);
-      puVar4 = puVar4 + 0xc;
-    } while (iVar3 != iVar1);
-  }
-  puVar4 = *(undefined4 **)(param_2 + 4);
-  for (puVar5 = puVar4 + -0xc; puVar5 != puVar4; puVar5 = puVar5 + 0xc) {
-    (**(code **)*puVar5)(puVar5,0);
-  }
-  iVar1 = *(int *)(param_2 + 4);
-  *param_1 = param_3;
-  *(int *)(param_2 + 4) = iVar1 + -0x30;
-  return param_1;
+    d->a = s->a;
+    d->b = s->b;
+    d->c = s->c;
+    d->v = s->v;
+    d->f = s->f;
+    d->g = s->g;
 }
 
+Elem_82454710 **fn_82454710(Elem_82454710 **out, Vec_82454710 *v, Elem_82454710 *where)
+{
+    Elem_82454710 *end = v->last;
+    Elem_82454710 *p;
+
+    for (p = where + 1; p != end; p++) {
+        Assign_82454710(p - 1, p);
+    }
+    end = v->last;
+    for (p = end - 1; p != end; p++) {
+        p->vt->dtor(p, 0);
+    }
+    end = v->last;
+    *out = where;
+    v->last = end - 1;
+    return out;
+}

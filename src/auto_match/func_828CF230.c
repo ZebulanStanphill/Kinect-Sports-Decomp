@@ -1,49 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82897620();
-extern int fn_82897B18();
-extern int fn_8289F3A8();
+typedef struct Arg_828CF230 {
+    int pad0;
+    void *key;
+} Arg_828CF230;
 
+typedef struct Entry_828CF230 {
+    char pad[0x4c];
+    int target;
+} Entry_828CF230;
 
-undefined8 fn_828CF230(undefined8 param_1,undefined8 param_2,int param_3,undefined8 param_4)
+extern Entry_828CF230 *fn_8289F3A8(void *scope, void *key);
+extern void *fn_82897B18(void *v);
+extern int fn_82897620(int target, void *v);
 
+int fn_828CF230(void *self, void *scope, Arg_828CF230 *arg, void *value)
 {
-  int iVar2;
-  undefined8 uVar1;
-  
-  iVar2 = fn_8289F3A8(param_2,*(undefined4 *)(param_3 + 4));
-  if ((iVar2 == 0) || (iVar2 = *(int *)(iVar2 + 0x4c), iVar2 == 0)) {
-    uVar1 = 0;
-  }
-  else {
-    uVar1 = fn_82897B18(param_4);
-    uVar1 = fn_82897620(iVar2,uVar1);
-  }
-  return uVar1;
-}
+    Entry_828CF230 *e;
+    int target;
+    void *key = arg->key;
+    int result = 0;
 
+    e = fn_8289F3A8(scope, key);
+    if (e != 0 && (target = e->target) != 0) {
+        result = fn_82897620(target, fn_82897B18(value));
+    }
+    return result;
+}

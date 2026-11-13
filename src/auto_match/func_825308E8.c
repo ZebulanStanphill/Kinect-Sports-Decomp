@@ -1,44 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_825315E0();
-extern int fn_82A1BB18();
-extern unsigned int lbl_8320A898;
+/* Passes the global context to fn_825315E0 only when fn_82A1BB18() equals its id at +0x2a88 (else null),
+   then returns the entry at +0x2fc of the lbl_83296890 table. */
+typedef struct Context_825308E8 {
+    char pad0[0x2a88];
+    int id;                         /* 0x2a88 */
+} Context_825308E8;
 
+extern Context_825308E8 *lbl_8320A898;
+extern char lbl_83296890[];
+extern int fn_82A1BB18(void);
+extern void fn_825315E0(Context_825308E8 *ctx);
 
-undefined8 fn_825308E8(void)
-
+void *fn_825308E8(void)
 {
-  uint uVar1;
-  ulonglong uVar2;
-  
-  uVar1 = *(uint *)(lbl_8320A898 + 0x2a88);
-  uVar2 = fn_82A1BB18();
-  fn_825315E0(-(uint)(uVar2 == uVar1) & lbl_8320A898);
-  return 0xffffffff83296b8c;
+    int id = lbl_8320A898->id;
+    fn_825315E0(id == fn_82A1BB18() ? lbl_8320A898 : 0);
+    return lbl_83296890 + 0x2fc;
 }
-

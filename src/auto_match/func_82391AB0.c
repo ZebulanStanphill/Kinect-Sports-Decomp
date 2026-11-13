@@ -1,80 +1,55 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_140;
-extern unsigned int *auStack_1f0;
-extern unsigned int *auStack_2a0;
-extern unsigned int *auStack_350;
-extern unsigned int *auStack_370;
-extern unsigned int *auStack_390;
-extern unsigned int *auStack_3b0;
-extern unsigned int fStack_2b0;
-extern unsigned int fStack_2c0;
-extern int fn_822C5B18();
-extern int fn_82359C18();
-extern int fn_82392860();
-extern int fn_82392CE0();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Func_82391AB0 {
+    union {
+        double align;
+        char space[16];
+    } u;
+    void *impl;
+    int pad[3];
+} Func_82391AB0;
 
-undefined8
-fn_82391AB0(undefined8 param_1,double param_2,double param_3,undefined8 param_4,undefined8 param_5
-             ,undefined8 param_6,undefined8 param_7,undefined8 param_8,undefined8 param_9)
+typedef __declspec(align(16)) struct BindObj_82391AB0 {
+    char data[0x90];
+    float f;
+    char pad94[0xc];
+    float g;
+    char padA4[0xc];
+} BindObj_82391AB0;
 
+extern Func_82391AB0 *fn_822C5B18(Func_82391AB0 *dst, const Func_82391AB0 *src);
+extern void fn_82392CE0(BindObj_82391AB0 *out, Func_82391AB0 *fn, __vector4 v1, __vector4 v2, __vector4 v3,
+                        float f, int a, int b, int c);
+extern void fn_82359C18(void *obj);
+extern BindObj_82391AB0 *fn_82392860(BindObj_82391AB0 *dst, const BindObj_82391AB0 *src);
+
+BindObj_82391AB0 *fn_82391AB0(BindObj_82391AB0 *out, Func_82391AB0 *fn, __vector4 v1, __vector4 v2,
+                              __vector4 v3, float f1, int a, int b, int c, float f2, float f3)
 {
-  undefined8 uVar1;
-  undefined8 uVar2;
-  undefined8 uVar3;
-  undefined1 auStack_3b0 [32];
-  undefined1 auStack_390 [32];
-  undefined1 auStack_370 [32];
-  undefined1 auStack_350 [144];
-  float fStack_2c0;
-  float fStack_2b0;
-  undefined1 auStack_2a0 [176];
-  undefined1 auStack_1f0 [176];
-  undefined1 auStack_140 [320];
-  
-  uVar1 = fn_822C5B18(auStack_390);
-  uVar2 = fn_822C5B18(auStack_3b0,uVar1);
-  uVar3 = fn_822C5B18(auStack_370,uVar2);
-  fn_82392CE0(param_1,auStack_350,uVar3,param_6,param_7,param_8,param_9);
-  fStack_2c0 = (float)param_2;
-  fn_82359C18(uVar2);
-  fStack_2b0 = (float)param_3;
-  fn_82359C18(uVar1);
-  uVar1 = fn_82392860(auStack_1f0,auStack_350);
-  uVar2 = fn_82392860(auStack_140,uVar1);
-  fn_82392860(auStack_2a0,uVar2);
-  fn_82359C18(uVar2);
-  fn_82359C18(uVar1);
-  fn_82392860(param_4,auStack_2a0);
-  fn_82359C18(auStack_2a0);
-  fn_82359C18(auStack_350);
-  fn_82359C18(param_5);
-  return param_4;
-}
+    Func_82391AB0 t1, t2, t3;
+    BindObj_82391AB0 b0, b1, b2, b3;
+    Func_82391AB0 *p1;
+    Func_82391AB0 *p2;
+    BindObj_82391AB0 *q1;
+    BindObj_82391AB0 *q2;
 
+    p1 = fn_822C5B18(&t1, fn);
+    p2 = fn_822C5B18(&t2, p1);
+    fn_82392CE0(&b0, fn_822C5B18(&t3, p2), v1, v2, v3, f1, a, b, c);
+    b0.f = f2;
+    fn_82359C18(p2);
+    b0.g = f3;
+    fn_82359C18(p1);
+    q1 = fn_82392860(&b1, &b0);
+    q2 = fn_82392860(&b2, q1);
+    fn_82392860(&b3, q2);
+    fn_82359C18(q2);
+    fn_82359C18(q1);
+    fn_82392860(out, &b3);
+    fn_82359C18(&b3);
+    fn_82359C18(&b0);
+    fn_82359C18(fn);
+    return out;
+}

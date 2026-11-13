@@ -1,56 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Owner_82BE6590 {
+  char pad[0x24];
+  int flags;
+} Owner_82BE6590;
+
+typedef struct Request_82BE6590 {
+  char pad[0x18];
+  int status;
+  char pad1c[0x10];
+  Owner_82BE6590 *owner;
+} Request_82BE6590;
+
+extern void *lbl_8322B1D8;
+extern void fn_82BE64E0(Request_82BE6590 *r, int flags);
+extern int fn_82BE73C8(void *manager, Request_82BE6590 *r);
 extern int fn_82BE5240();
-extern int fn_82BE64E0();
-extern int fn_82BE73C8();
-extern unsigned int lbl_8322B1D8;
 
-
-undefined8 fn_82BE6590(int param_1)
-
+int fn_82BE6590(Request_82BE6590 *r)
 {
-  undefined8 uVar1;
-  longlong lVar2;
-  
-  if (*(int *)(param_1 + 0x18) == 2) {
-    fn_82BE64E0(param_1,*(undefined4 *)(*(int *)(param_1 + 0x2c) + 0x24));
-    lVar2 = 0;
-    if ((lbl_8322B1D8 == 0) || (lVar2 = fn_82BE73C8(lbl_8322B1D8,param_1), lVar2 != 0)) {
-      fn_82BE64E0(param_1,0x2000);
-      uVar1 = fn_82BE5240(param_1,lVar2,0xffffffff820e96ec);
-    }
-    else {
-      uVar1 = 0;
-    }
-  }
-  else {
-    uVar1 = fn_82BE5240(param_1,0x44e,0xffffffff820e9718);
-  }
-  return uVar1;
-}
+  int result;
 
+  if (r->status != 2) {
+    return fn_82BE5240(r, 0x44e, "Could not be submitted to RequestManager. Bad request status(%d).", r->status);
+  }
+  fn_82BE64E0(r, r->owner->flags);
+  result = 0;
+  if (lbl_8322B1D8 != 0) {
+    result = fn_82BE73C8(lbl_8322B1D8, r);
+    if (result == 0) {
+      return 0;
+    }
+  }
+  fn_82BE64E0(r, 0x2000);
+  return fn_82BE5240(r, result, "Could not be submitted to RequestManager.");
+}

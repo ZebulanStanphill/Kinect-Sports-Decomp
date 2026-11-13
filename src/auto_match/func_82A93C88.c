@@ -1,39 +1,8 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A93A10();
+extern void fn_82A93A10(unsigned int a, unsigned int b, unsigned int c, unsigned int d, int e, int f, int g, int h,
+                        int p9, int p10, int p11, int p12, int p13, int p14, int p15, int p16);
 
-
-void fn_82A93C88(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-                  undefined8 param_5,undefined8 param_6,ulonglong param_7)
-
+void fn_82A93C88(unsigned int a, unsigned int b, unsigned int c, unsigned int d, int e, int f,
+                 unsigned int flags, int p8, int p9, int p10, int p11, int p12, int p13)
 {
-  fn_82A93A10(param_1,param_2,1,param_3,param_4,param_5,~param_7 & 1,
-                (param_7 & 0xffffffff) >> 1 & 1);
-  return;
+    fn_82A93A10(a, b, 1, c, d, e, (flags & 1) == 0, (flags >> 1) & 1, f, p8, p9, p10, 3, p11, p12, p13);
 }
-

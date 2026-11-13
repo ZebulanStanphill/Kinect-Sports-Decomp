@@ -1,62 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define CONCAT44(h,l) ((U64)((((U32)(h)) << 32) | ((U32)(l))))
-#define _uStack_20 ((*(U64*)&uStack_20))
-extern int fn_829E0B08();
-extern int fn_829E11B8();
-extern int fn_829E14A8();
-extern unsigned int uStack_18;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
+void *memset(void *, int, unsigned int);
+typedef struct Args_829E19A8 { int a; int b; int c; int d; } Args_829E19A8;
+typedef struct Obj_829E19A8 { int pad[2]; __int64 handle; } Obj_829E19A8;
+extern int fn_829E0B08(__int64 handle);
+extern int fn_829E11B8(Args_829E19A8 *args);
+extern int fn_829E14A8(Obj_829E19A8 *self, Args_829E19A8 *args);
 
-
-undefined8 fn_829E19A8(int param_1,undefined4 param_2,undefined4 param_3)
-
+int fn_829E19A8(Obj_829E19A8 *self, int a, int b)
 {
-  undefined8 uVar1;
-  undefined4 uStack_20;
-  undefined4 uStack_1c;
-  undefined8 uStack_18;
-  
-  uStack_18 = 0;
-  _uStack_20 = CONCAT44(param_2,param_3);
-  uVar1 = fn_829E0B08(*(undefined8 *)(param_1 + 8));
-  if (-1 < (int)uVar1) {
-    if ((int)uVar1 == 1) {
-      uVar1 = 0xffffffff80004005;
+    Args_829E19A8 args;
+    int hr;
+    memset(&args, 0, sizeof(args));
+    args.a = a;
+    args.b = b;
+    hr = fn_829E0B08(self->handle);
+    if (hr >= 0) {
+        if (hr == 1) {
+            hr = 0x80004005;
+        } else {
+            hr = fn_829E11B8(&args);
+            if (hr >= 0) {
+                hr = fn_829E14A8(self, &args);
+            }
+        }
     }
-    else {
-      uVar1 = fn_829E11B8(&uStack_20);
-      if (-1 < (int)uVar1) {
-        uVar1 = fn_829E14A8(param_1,&uStack_20);
-      }
-    }
-  }
-  return uVar1;
+    return hr;
 }
-

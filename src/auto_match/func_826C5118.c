@@ -1,48 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82694700();
-extern unsigned int lbl_821AAD20;
+typedef struct Res_826C5118 {
+    int f0;
+    int f4;
+    int refs;
+} Res_826C5118;
 
+typedef struct Obj_826C5118 {
+    Res_826C5118 *res;
+    float f4;
+    char pad8[0x40];
+    int f48;
+    int f4c;
+    int f50;
+    int f54;
+    unsigned char f58;
+} Obj_826C5118;
 
-int * fn_826C5118(int *param_1,uint *param_2)
+extern Res_826C5118 *fn_82694700(char *table, int a);
 
+/* Same table lookup as func_82683020: the string table sits at +0x24c inside the sub-object at +8. */
+Obj_826C5118 *fn_826C5118(Obj_826C5118 *self, char **mgr)
 {
-  int iVar1;
-  
-  iVar1 = fn_82694700((ulonglong)*param_2 + 0x254,0);
-  *param_1 = iVar1;
-  *(int *)(iVar1 + 8) = *(int *)(iVar1 + 8) + 1;
-  param_1[1] = lbl_821AAD20;
-  param_1[0x12] = 0;
-  param_1[0x13] = 0;
-  param_1[0x14] = 0;
-  param_1[0x15] = 0;
-  *(undefined1 *)(param_1 + 0x16) = 0;
-  return param_1;
+    char *q = *mgr;
+    char *sub = q + 8;
+    Res_826C5118 *r = fn_82694700(sub + 0x24c, 0);
+    self->res = r;
+    r->refs++;
+    self->f4 = 0.0f;
+    self->f48 = 0;
+    self->f4c = 0;
+    self->f50 = 0;
+    self->f54 = 0;
+    self->f58 = 0;
+    return self;
 }
-

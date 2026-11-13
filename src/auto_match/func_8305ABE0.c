@@ -1,59 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_830572B0();
-extern int fn_8305A548();
-extern int fn_8305B958();
-extern int fn_8305BB58();
-extern unsigned int lbl_8217E478;
-extern unsigned int lbl_8217E47C;
+typedef struct { float a, b; } Pair_8305A4C0;
+extern void *fn_830572B0(unsigned int size);
+extern void fn_8305BB58(void *self);
+extern void fn_8305B958(void *p, float a, float b);
+extern int fn_8305A548(void *obj, void *a, void *b);
+extern Pair_8305A4C0 lbl_8217E478;
 
-
-undefined8 fn_8305ABE0(undefined4 *param_1,undefined8 param_2,undefined8 param_3)
-
+static __forceinline void *Construct(void *self)
 {
-  ulonglong uVar1;
-  undefined8 uVar2;
-  
-  uVar1 = fn_830572B0(0x14);
-  if ((uVar1 & 0xffffffff) == 0) {
-    uVar1 = 0;
-  }
-  else {
-    fn_8305BB58();
-    fn_8305B958((double)lbl_8217E478,(double)lbl_8217E47C,uVar1 + 0xc);
-  }
-  *param_1 = (int)uVar1;
-  if ((uVar1 & 0xffffffff) == 0) {
-    uVar2 = 0x34;
-  }
-  else {
-    uVar2 = fn_8305A548(uVar1,param_2,param_3);
-  }
-  return uVar2;
+    fn_8305BB58(self);
+    fn_8305B958((char *)self + 0xc, lbl_8217E478.a, lbl_8217E478.b);
+    return self;
 }
 
+int fn_8305ABE0(void **out, void *a, void *b)
+{
+    void *mem = fn_830572B0(0x14);
+    void *obj = mem ? Construct(mem) : 0;
+    *out = obj;
+    if (obj == 0) {
+        return 0x34;
+    }
+    return fn_8305A548(obj, a, b);
+}

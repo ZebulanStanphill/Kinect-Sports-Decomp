@@ -1,87 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_823AD158();
-extern int fn_823AD260();
-extern int fn_823AD468();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __VMXGetReg(int n);
 
-void fn_823ABFC0(undefined8 param_1,int *param_2)
+typedef struct Vec_823ABFC0 {
+    __vector4 v;
+} Vec_823ABFC0;
 
+typedef struct Obj_823ABFC0 {
+    void *target;
+    char pad4[0x1c];
+    __vector4 prev;
+    __vector4 cur;
+} Obj_823ABFC0;
+
+extern Vec_823ABFC0 fn_823AD468(Obj_823ABFC0 *self);
+extern void fn_823AD260(Obj_823ABFC0 *self, float dt);
+extern void fn_823AD158(Obj_823ABFC0 *self);
+
+static __forceinline void Store(__vector4 *d, __vector4 v)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  int in_r0;
-  int iVar3;
-  undefined4 uVar4;
-  undefined4 uVar5;
-  undefined4 uVar6;
-  undefined4 in_register_000104d0;
-  undefined4 in_register_000104d4;
-  undefined4 in_register_000104d8;
-  undefined4 in_vr77;
-  undefined1 auStack_30 [24];
-  
-  if (*param_2 == 0) {
-    puVar1 = (undefined4 *)((uint)(param_2 + 8) & 0xfffffff0);
-    *puVar1 = in_register_000104d0;
-    puVar1[1] = in_register_000104d4;
-    puVar1[2] = in_register_000104d8;
-    puVar1[3] = in_vr77;
-    puVar1 = (undefined4 *)((uint)(param_2 + 0xc) & 0xfffffff0);
-    *puVar1 = in_register_000104d0;
-    puVar1[1] = in_register_000104d4;
-    puVar1[2] = in_register_000104d8;
-    puVar1[3] = in_vr77;
-  }
-  else {
-    puVar1 = (undefined4 *)((int)param_2 + in_r0 + 0x30 & 0xfffffff0);
-    uVar4 = puVar1[1];
-    uVar5 = puVar1[2];
-    uVar6 = puVar1[3];
-    puVar2 = (undefined4 *)((uint)(param_2 + 8) & 0xfffffff0);
-    *puVar2 = *puVar1;
-    puVar2[1] = uVar4;
-    puVar2[2] = uVar5;
-    puVar2[3] = uVar6;
-    iVar3 = fn_823AD468(auStack_30);
-    puVar1 = (undefined4 *)(in_r0 + iVar3 & 0xfffffff0);
-    uVar4 = puVar1[1];
-    uVar5 = puVar1[2];
-    uVar6 = puVar1[3];
-    puVar2 = (undefined4 *)((int)param_2 + in_r0 + 0x30 & 0xfffffff0);
-    *puVar2 = *puVar1;
-    puVar2[1] = uVar4;
-    puVar2[2] = uVar5;
-    puVar2[3] = uVar6;
-  }
-  fn_823AD260(param_1,param_2);
-  fn_823AD158(param_2);
-  return;
+    *d = v;
 }
 
+void fn_823ABFC0(Obj_823ABFC0 *self, float dt)
+{
+    if (self->target != 0) {
+        self->prev = self->cur;
+        self->cur = fn_823AD468(self).v;
+    } else {
+        Store(&self->prev, __VMXGetReg(77));
+        Store(&self->cur, __VMXGetReg(77));
+    }
+    fn_823AD260(self, dt);
+    fn_823AD158(self);
+}

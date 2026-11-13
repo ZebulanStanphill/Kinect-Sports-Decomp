@@ -1,54 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_40;
-extern int fn_82810328();
-extern int fn_82810558();
-extern int fn_82810BE8();
-extern int fn_83060EC8();
-extern unsigned int lbl_82002C5C;
+typedef struct Vec3_83060FF8 {
+    float x, y, z;
+} Vec3_83060FF8;
 
+typedef struct Obj_83060FF8 {
+    char pad0[0xc];
+    int count;
+} Obj_83060FF8;
 
-void fn_83060FF8(int param_1,undefined8 param_2,float *param_3)
+extern void fn_83060EC8(Obj_83060FF8 *self, Vec3_83060FF8 *min, Vec3_83060FF8 *max);
+extern void fn_82810328(const Vec3_83060FF8 *a, const Vec3_83060FF8 *b, Vec3_83060FF8 *out);
+extern float fn_82810BE8(const Vec3_83060FF8 *v);
+extern void fn_82810558(Vec3_83060FF8 *out, const Vec3_83060FF8 *a, float s, const Vec3_83060FF8 *b);
 
+void fn_83060FF8(Obj_83060FF8 *self, Vec3_83060FF8 *center, float *radius)
 {
-  double dVar1;
-  double dVar2;
-  undefined1 auStack_40 [1];
-  undefined1 auStack_30 [16];
+    Vec3_83060FF8 min;
+    Vec3_83060FF8 max;
 
-  fn_83060EC8(param_1,auStack_40,auStack_30);
-  if (*(int *)(param_1 + 0xc) != 0) {
-    fn_82810328(auStack_30,auStack_40,param_2);
-    dVar2 = (double)fn_82810BE8(param_2);
-    dVar1 = (double)lbl_82002C5C;
-    *param_3 = (float)(dVar2 * dVar1);
-    fn_82810558(dVar1,param_2,auStack_40);
-  }
-  return;
+    fn_83060EC8(self, &min, &max);
+    if (self->count != 0) {
+        fn_82810328(&max, &min, center);
+        *radius = fn_82810BE8(center) * 0.5f;
+        fn_82810558(center, &min, 0.5f, center);
+    }
 }

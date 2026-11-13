@@ -1,84 +1,49 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82695468();
-extern int fn_826954C0();
-extern int fn_826957D0();
-extern int fn_826972E0();
-extern int fn_82739680();
-extern int fn_827396D0();
-extern unsigned int lbl_82011DF0;
+typedef struct Parser_8273B000 {
+    int a;
+    int b;
+    char *node;
+    char pad0c[0x18 - 0xc];
+    int ctx;
+    int count;
+} Parser_8273B000;
 
+typedef struct Date_8273B000 {
+    char pad0[0x30];
+    __int64 time;
+    int ms;
+    int year;
+    int yday;
+} Date_8273B000;
 
-void fn_8273B000(int param_1)
+extern unsigned char fn_82695468(Parser_8273B000 *p, int kind);
+extern void fn_826954C0(Parser_8273B000 *p, const char *name, int a, int b);
+extern int fn_826957D0(Parser_8273B000 *p, int index);
+extern double fn_826972E0(int arg, int ctx);
+extern unsigned char fn_82739680(int year);
+extern void fn_827396D0(Date_8273B000 *d);
+extern int lbl_82011DF0[];
 
+void fn_8273B000(Parser_8273B000 *p)
 {
-  undefined4 uVar1;
-  char cVar4;
-  undefined8 uVar2;
-  ulonglong uVar3;
-  ulonglong uVar5;
-  longlong lVar6;
-  longlong lVar7;
-  int iVar8;
-  int iVar9;
-  double dVar10;
-  
-  cVar4 = fn_82695468(param_1,0x23);
-  if (cVar4 == '\0') {
-    fn_826954C0(param_1,0xffffffff8200eeb4,0,0);
-  }
-  else {
-    iVar9 = *(int *)(param_1 + 8) + -0x10;
-    if (*(int *)(param_1 + 8) == 0) {
-      iVar9 = 0;
-    }
-    if (0 < *(int *)(param_1 + 0x1c)) {
-      uVar1 = *(undefined4 *)(param_1 + 0x18);
-      uVar2 = fn_826957D0(param_1,0);
-      dVar10 = (double)fn_826972E0(uVar2,uVar1);
-      uVar5 = (ulonglong)(uint)(int)dVar10;
-      lVar6 = 0;
-      uVar3 = fn_82739680(*(undefined4 *)(iVar9 + 0x3c));
-      lVar7 = (uVar3 & 0xff) * 0xc;
-      do {
-        if (*(int *)(iVar9 + 0x40) <
-            *(int *)(&lbl_82011DF0 + (int)((lVar7 + lVar6 & 0xffffffffU) << 2))) {
-          iVar8 = *(int *)(&lbl_82011DF0 + (int)((lVar7 + uVar5 & 0xffffffff) << 2)) -
-                  *(int *)(&lbl_82011DF0 + (int)((lVar7 + lVar6 & 0xffffffffU) << 2));
-          *(int *)(iVar9 + 0x40) = *(int *)(iVar9 + 0x40) + iVar8;
-          *(longlong *)(iVar9 + 0x30) = (longlong)iVar8 * 86400000 + *(longlong *)(iVar9 + 0x30);
-          fn_827396D0(iVar9);
-          return;
-        }
-        lVar6 = lVar6 + 1;
-      } while ((int)lVar6 < 0xc);
-    }
-  }
-  return;
-}
+    Date_8273B000 *d;
 
+    if (fn_82695468(p, 0x23) == 0) {
+        fn_826954C0(p, "Date", 0, 0);
+        return;
+    }
+    d = p->node ? (Date_8273B000 *)(p->node - 0x10) : 0;
+    if (p->count >= 1) {
+        int month = (int)fn_826972E0(fn_826957D0(p, 0), p->ctx);
+        int i = 0;
+        int leap = fn_82739680(d->year);
+        for (; i < 12; i++) {
+            if (d->yday < lbl_82011DF0[leap * 12 + i]) {
+                int delta = lbl_82011DF0[leap * 12 + month] - lbl_82011DF0[leap * 12 + i];
+                d->yday += delta;
+                d->time += (__int64)delta * 86400000;
+                fn_827396D0(d);
+                return;
+            }
+        }
+    }
+}
