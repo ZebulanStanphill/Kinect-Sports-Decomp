@@ -47,4 +47,4 @@ Without `--vc-include`, `configure.py` prints how many units it skipped. Those u
 
 ## Contributing
 
-Pick a function in `src/auto_match/` and compare changes with [objdiff](https://github.com/encounter/objdiff). See [CONTRIBUTING.md](CONTRIBUTING.md) for build and submission instructions. [docs/credits.md](docs/credits.md) credits the tools, libraries and projects this one builds on.
+Pick a function under `src/` and compare changes with [objdiff](https://github.com/encounter/objdiff). A function whose original source file is known is in a folder named after that file, such as `src/XDK/xtl/graphics/xgraphics/ucode/ssm/util/linkedlist/`; the rest are in `src/auto_match/`. See [CONTRIBUTING.md](CONTRIBUTING.md) for build and submission instructions. [docs/credits.md](docs/credits.md) credits the tools, libraries and projects this one builds on.

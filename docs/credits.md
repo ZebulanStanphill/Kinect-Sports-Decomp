@@ -35,6 +35,10 @@ their published source. Their licences and the details of each copy are in
 These were read or tested while working out how the game was built. No code from them is
 in this repository unless stated.
 
+- [sigmaco/havok-v6.6.0r1-b2009.07.04](https://github.com/sigmaco/havok-v6.6.0r1-b2009.07.04),
+  a mirror of Havok's 6.6.0 SDK release: only its list of file paths was read, to name the
+  product and class folders under `src/Havok/` ([source_files.md](source_files.md)). Havok
+  is the work of Havok (now part of Microsoft).
 - [xdzleo/xenon-jumptables](https://github.com/xdzleo/xenon-jumptables): Xbox 360 MSVC
   jump-table idioms, used when recovering switch statements
   ([decompiler-research.md](decompiler-research.md)).
