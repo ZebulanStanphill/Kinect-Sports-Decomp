@@ -1,41 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822AF138();
+typedef struct Pair_823DDF18 {
+    void *a;
+    void *b;
+} Pair_823DDF18;
 
+typedef struct Inner_823DDF18 {
+    int pad[3];
+    Pair_823DDF18 *pair;
+} Inner_823DDF18;
 
-void fn_823DDF18(int param_1)
+typedef struct Obj_823DDF18 {
+    int pad0;
+    unsigned int type;
+    Inner_823DDF18 *inner;
+    int fc;
+} Obj_823DDF18;
 
+extern void fn_822AF138(void *p, int v);
+
+void fn_823DDF18(Obj_823DDF18 *o)
 {
-  if ((*(int *)(param_1 + 4) != 8) && (*(int *)(param_1 + 4) != 4)) {
-    *(undefined4 *)(param_1 + 0xc) = 0;
-    return;
-  }
-                    /* WARNING: Subroutine does not return */
-  fn_822AF138(**(undefined4 **)(*(int *)(param_1 + 8) + 0xc),5);
+    if (o->type == 8 || o->type == 4) {
+        fn_822AF138(o->inner->pair->a, 5);
+        fn_822AF138(o->inner->pair->b, 5);
+    }
+    o->fc = 0;
 }
-

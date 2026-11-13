@@ -1,47 +1,17 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F906D0();
-extern unsigned int lbl_8216BC98;
-extern unsigned int uStack0000001c;
+typedef struct Obj_82F90628 {
+    char *vt;
+    int value;
+    int f8;
+} Obj_82F90628;
 
+extern char lbl_8216BC98[];
+extern void fn_82F906D0(Obj_82F90628 *self);
 
-undefined4 * fn_82F90628(undefined4 *param_1,undefined4 param_2)
-
+Obj_82F90628 *fn_82F90628(Obj_82F90628 *self, int value)
 {
-  undefined4 *puStack00000014;
-  undefined4 uStack0000001c;
-  
-  *param_1 = &lbl_8216BC98;
-  param_1[1] = param_2;
-  param_1[2] = 0;
-  puStack00000014 = param_1;
-  uStack0000001c = param_2;
-  fn_82F906D0(param_1);
-  return puStack00000014;
+    self->vt = lbl_8216BC98;
+    self->value = value;
+    self->f8 = 0;
+    fn_82F906D0(self);
+    return self;
 }
-

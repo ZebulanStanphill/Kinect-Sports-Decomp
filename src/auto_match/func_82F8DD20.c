@@ -1,46 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F8DEC0();
+// Constructor: base constructor fn_82F8DEC0, then three vtable pointers (multiple-inheritance
+// sub-objects at +0, +4 and +8).
+typedef struct Object_82F8DD20 {
+    void *vtable0;
+    void *vtable4;
+    void *vtable8;
+} Object_82F8DD20;
+
 extern unsigned int lbl_8216B700;
 extern unsigned int lbl_8216B72C;
 extern unsigned int lbl_8216B730;
+extern void *fn_82F8DEC0(void *);
 
-
-undefined4 * fn_82F8DD20(undefined4 *param_1)
-
+Object_82F8DD20 *fn_82F8DD20(Object_82F8DD20 *p)
 {
-  undefined4 *puStack00000014;
-  
-  puStack00000014 = param_1;
-  fn_82F8DEC0(param_1);
-  *puStack00000014 = &lbl_8216B730;
-  puStack00000014[1] = &lbl_8216B72C;
-  puStack00000014[2] = &lbl_8216B700;
-  return puStack00000014;
+    fn_82F8DEC0(p);
+    p->vtable0 = &lbl_8216B730;
+    p->vtable4 = &lbl_8216B72C;
+    p->vtable8 = &lbl_8216B700;
+    return p;
 }
-

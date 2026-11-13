@@ -1,94 +1,60 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AB15D0();
-extern int fn_82AB68E0();
-extern int fn_82B6B008();
-extern int fn_82B6C878();
-extern int fn_82B9F468();
+typedef void *(*Alloc_82B6CB80)(void *, int);
 
+typedef struct Recycler_82B6CB80 {
+    void *ctx;
+    Alloc_82B6CB80 alloc;
+    void *freeMem;
+    void *shaderStore;
+    void *registry;
+    void *tree;
+    void *lists;
+    void *pairs;
+} Recycler_82B6CB80;
 
-undefined4 *
-fn_82B6CB80(undefined8 param_1,code *param_2,ulonglong param_3,int param_4,int param_5)
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
+extern void *fn_82B9F468(void *ctx, Alloc_82B6CB80 alloc, void *freeMem, int n);
+extern void *fn_82AB68E0(void *ctx, Alloc_82B6CB80 alloc, void *freeMem, int n);
+extern void *fn_82B6B008(int n, int size, Alloc_82B6CB80 alloc, void *freeMem, void *ctx);
+extern void fn_82B6C878(Recycler_82B6CB80 *sr);
 
+#define SR_ASSERT(e, line) \
+    if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecompiler\\shaderrecycler.cpp", line)
+
+Recycler_82B6CB80 *fn_82B6CB80(void *ctx, Alloc_82B6CB80 AllocateSysMem, void *FreeSysMem, void *pShaderStore, void *pRegistry)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  undefined8 uVar3;
-  undefined8 uVar4;
-  
-  if (param_2 == (code *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d69d8,0xffffffff820d9c18,0xc9);
-  }
-  if ((param_3 & 0xffffffff) == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d69cc,0xffffffff820d9c18,0xca);
-  }
-  if (param_4 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d74d0,0xffffffff820d9c18,0xcb);
-  }
-  if (param_5 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d6bdc,0xffffffff820d9c18,0xcc);
-  }
-  puVar1 = (undefined4 *)(*param_2)(param_1,0x20);
-  if (puVar1 == (undefined4 *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d9da0,0xffffffff820d9c18,0xd2);
-  }
-  else {
-    *puVar1 = (int)param_1;
-    puVar1[1] = param_2;
-    puVar1[2] = (int)param_3;
-    puVar1[3] = param_4;
-    puVar1[4] = param_5;
-    iVar2 = fn_82B9F468(param_1,param_2,param_3,0x32);
-    puVar1[5] = iVar2;
-    if (iVar2 == 0) {
-      uVar4 = 0xe5;
-      uVar3 = 0xffffffff820d9d68;
-    }
-    else {
-      iVar2 = fn_82AB68E0(param_1,param_2,param_3,0x32);
-      puVar1[6] = iVar2;
-      if (iVar2 == 0) {
-        uVar4 = 0xf2;
-        uVar3 = 0xffffffff820d9d2c;
-      }
-      else {
-        iVar2 = fn_82B6B008(0x32,8,param_2,param_3,param_1);
-        puVar1[7] = iVar2;
-        if (iVar2 != 0) {
-          return puVar1;
-        }
-        uVar4 = 0xff;
-        uVar3 = 0xffffffff820d9cf0;
-      }
-    }
-    fn_82AB15D0(0,0xffffffff820d2ea4,uVar3,0xffffffff820d9c18,uVar4);
-    fn_82B6C878(puVar1);
-  }
-  return (undefined4 *)0x0;
-}
+    Recycler_82B6CB80 *sr;
 
+    SR_ASSERT(AllocateSysMem, 0xc9);
+    SR_ASSERT(FreeSysMem, 0xca);
+    SR_ASSERT(pShaderStore, 0xcb);
+    SR_ASSERT(pRegistry, 0xcc);
+    sr = (Recycler_82B6CB80 *)AllocateSysMem(ctx, 0x20);
+    if (sr == 0) {
+        SR_ASSERT(!"Failed to allocate a new Shader Recycler", 0xd2);
+        return 0;
+    }
+    sr->ctx = ctx;
+    sr->alloc = AllocateSysMem;
+    sr->freeMem = FreeSysMem;
+    sr->shaderStore = pShaderStore;
+    sr->registry = pRegistry;
+    sr->tree = fn_82B9F468(ctx, AllocateSysMem, FreeSysMem, 0x32);
+    if (sr->tree == 0) {
+        SR_ASSERT(!"SR_Create: Could not allocate Ternary Search Tree", 0xe5);
+        fn_82B6C878(sr);
+        return 0;
+    }
+    sr->lists = fn_82AB68E0(ctx, AllocateSysMem, FreeSysMem, 0x32);
+    if (sr->lists == 0) {
+        SR_ASSERT(!"SR_Create: Could not allocate Shader Lists Object List", 0xf2);
+        fn_82B6C878(sr);
+        return 0;
+    }
+    sr->pairs = fn_82B6B008(0x32, 8, AllocateSysMem, FreeSysMem, ctx);
+    if (sr->pairs == 0) {
+        SR_ASSERT(!"SR_Create: Could not preallocate Shader Pair strucutres", 0xff);
+        fn_82B6C878(sr);
+        return 0;
+    }
+    return sr;
+}

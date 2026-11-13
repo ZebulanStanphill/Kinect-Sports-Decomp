@@ -1,45 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_82CE5458();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_82134508;
-extern unsigned int lbl_83183E74;
+/* Static initialiser of a Havok global: an hkUFloat8 member set from 1.0f through
+   hkUFloat8::operator= (fn_82CE5458, see func_82D8B4B8.cpp), then a float limit. */
+typedef struct Global_83183E64 {
+    char pad[0xc];
+    unsigned char uf8;
+    char pad0d[3];
+    float limit;
+} Global_83183E64;
 
+extern void fn_82CE5458(unsigned char *self, const float *f);
+extern Global_83183E64 lbl_83183E64;
 
 void fn_831323F0(void)
-
 {
-  undefined4 auStack_20 [4];
-  
-  auStack_20[0] = lbl_82002AE0;
-  fn_82CE5458(0xffffffff83183e70,auStack_20);
-  lbl_83183E74 = lbl_82134508;
-  return;
+    float one = 1.0f;
+    fn_82CE5458(&lbl_83183E64.uf8, &one);
+    lbl_83183E64.limit = 3.40282002e+38f;
 }
-

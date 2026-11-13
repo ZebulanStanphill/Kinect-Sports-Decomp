@@ -1,59 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267B890();
-extern int fn_8267C4F0();
-extern int fn_82686228();
-extern int fn_8278ADD8();
-extern unsigned int lbl_831E7E64;
+extern void *fn_8267B890(void *heap, unsigned int size, unsigned int flags);
+extern void fn_8267C4F0(void *p);
+extern void fn_82686228(void *out, const char *name, void *obj);
+extern void *fn_8278ADD8(void *mem, void *a, void *b, void *c, void *heap);
+extern void *lbl_831E7E64;
+extern char lbl_83156A70[];
 
-
-undefined8
-fn_8278AF50(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-             ulonglong param_5)
-
+void *fn_8278AF50(void *out, void *a, void *b, void *c, void *heap)
 {
-  ulonglong uVar1;
-  
-  uVar1 = param_5;
-  if ((param_5 & 0xffffffff) == 0) {
-    uVar1 = (ulonglong)lbl_831E7E64;
-  }
-  uVar1 = fn_8267B890(uVar1,0x18,0);
-  if ((uVar1 & 0xffffffff) == 0) {
-    uVar1 = 0;
-  }
-  else {
-    uVar1 = fn_8278ADD8(uVar1,param_2,param_3,param_4,param_5);
-  }
-  fn_82686228(param_1,0xffffffff83156a70,uVar1);
-  if ((uVar1 & 0xffffffff) != 0) {
-    fn_8267C4F0(uVar1);
-  }
-  return param_1;
-}
+    void *mem;
+    void *obj;
 
+    mem = fn_8267B890(heap ? heap : lbl_831E7E64, 0x18, 0);
+    if (mem != 0) {
+        obj = fn_8278ADD8(mem, a, b, c, heap);
+    } else {
+        obj = 0;
+    }
+    fn_82686228(out, lbl_83156A70, obj);
+    if (obj != 0) {
+        fn_8267C4F0(obj);
+    }
+    return out;
+}

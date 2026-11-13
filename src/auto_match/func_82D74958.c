@@ -1,31 +1,5 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
 typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82D59328();
+
 extern int fn_82D74770();
 extern int fn_82D74788();
 extern int fn_82D747B0();
@@ -36,48 +10,46 @@ extern int fn_82D74820();
 extern int fn_82D74838();
 extern int fn_82D74850();
 extern int fn_82D74908();
-extern unsigned int uStack_2e;
-extern unsigned int uStack_2f;
-extern unsigned int uStack_30;
-extern unsigned int uStack_38;
-extern unsigned int uStack_58;
 
+typedef int (*Fn_82D74958)();
 
-void fn_82D74958(undefined8 param_1)
+typedef struct Table_82D74958 {
+  Fn_82D74958 f00;
+  Fn_82D74958 f04;
+  int f08;
+  Fn_82D74958 f0C;
+  Fn_82D74958 f10;
+  Fn_82D74958 f14;
+  Fn_82D74958 f18;
+  Fn_82D74958 f1C;
+  Fn_82D74958 f20;
+  Fn_82D74958 f24;
+  int f28;
+  Fn_82D74958 f2C;
+  U8 f30;
+  U8 f31;
+  U8 f32;
+} Table_82D74958;
 
+extern void fn_82D59328(void *self, Table_82D74958 *t, int a, int b);
+
+void fn_82D74958(void *self)
 {
-  code *pcStack_60;
-  code *pcStack_5c;
-  undefined4 uStack_58;
-  code *pcStack_54;
-  code *pcStack_50;
-  code *pcStack_4c;
-  code *pcStack_48;
-  code *pcStack_44;
-  code *pcStack_40;
-  code *pcStack_3c;
-  undefined4 uStack_38;
-  code *pcStack_34;
-  undefined1 uStack_30;
-  undefined1 uStack_2f;
-  undefined1 uStack_2e;
-  
-  pcStack_50 = fn_82D74820;
-  pcStack_4c = fn_82D74838;
-  pcStack_54 = fn_82D74808;
-  pcStack_60 = fn_82D74850;
-  uStack_2f = 0;
-  pcStack_34 = fn_82D74908;
-  pcStack_5c = fn_82D74770;
-  pcStack_48 = fn_82D74788;
-  uStack_2e = 0;
-  uStack_38 = 0;
-  uStack_58 = 0;
-  pcStack_44 = fn_82D747B0;
-  pcStack_40 = fn_82D747D8;
-  pcStack_3c = fn_82D747F0;
-  uStack_30 = 1;
-  fn_82D59328(param_1,&pcStack_60,0xffffffffffffffff,0xffffffffffffffff);
-  return;
+  Table_82D74958 t;
+  t.f10 = fn_82D74820;
+  t.f14 = fn_82D74838;
+  t.f0C = fn_82D74808;
+  t.f00 = fn_82D74850;
+  t.f31 = 0;
+  t.f2C = fn_82D74908;
+  t.f04 = fn_82D74770;
+  t.f18 = fn_82D74788;
+  t.f32 = 0;
+  t.f28 = 0;
+  t.f08 = 0;
+  t.f1C = fn_82D747B0;
+  t.f20 = fn_82D747D8;
+  t.f24 = fn_82D747F0;
+  t.f30 = 1;
+  fn_82D59328(self, &t, -1, -1);
 }
-

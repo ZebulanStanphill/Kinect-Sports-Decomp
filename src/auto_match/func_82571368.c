@@ -1,63 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8251E400();
-extern int fn_82522ED8();
+typedef struct Pair_82571368 {
+  void *a;
+  void *b;
+} Pair_82571368;
+typedef struct Quad_82571368 {
+  void *a;
+  void *b;
+  void *c;
+  void *d;
+} Quad_82571368;
+typedef struct Obj_82571368 {
+  char pad0[0x14];
+  char sub14[0x18];
+  Quad_82571368 q;
+  char pad3c[0x90 - 0x3c];
+  Pair_82571368 p;
+} Obj_82571368;
+extern void fn_82522ED8(void *);
+extern void fn_8251E400(void *);
 
-
-void fn_82571368(int param_1)
-
+void fn_82571368(Obj_82571368 *o)
 {
-  if (*(int *)(param_1 + 0x90) != 0) {
-    fn_82522ED8();
-    *(undefined4 *)(param_1 + 0x90) = 0;
-  }
-  if (*(int *)(param_1 + 0x94) != 0) {
-    fn_82522ED8();
-    *(undefined4 *)(param_1 + 0x94) = 0;
-  }
-  if (*(int *)(param_1 + 0x2c) != 0) {
-    fn_82522ED8();
-    *(undefined4 *)(param_1 + 0x2c) = 0;
-  }
-  if (*(int *)(param_1 + 0x30) != 0) {
-    fn_82522ED8();
-    *(undefined4 *)(param_1 + 0x30) = 0;
-  }
-  if (*(int *)(param_1 + 0x34) != 0) {
-    fn_82522ED8();
-    *(undefined4 *)(param_1 + 0x34) = 0;
-  }
-  if (*(int *)(param_1 + 0x38) != 0) {
-    fn_82522ED8();
-    *(undefined4 *)(param_1 + 0x38) = 0;
-  }
-  fn_8251E400(param_1 + 0x14);
-  fn_8251E400(param_1);
-  return;
+  Pair_82571368 *p = &o->p;
+  Quad_82571368 *q;
+  if (p->a != 0) { fn_82522ED8(p->a); p->a = 0; }
+  if (p->b != 0) { fn_82522ED8(p->b); p->b = 0; }
+  q = &o->q;
+  if (q->a != 0) { fn_82522ED8(q->a); q->a = 0; }
+  if (q->b != 0) { fn_82522ED8(q->b); q->b = 0; }
+  if (q->c != 0) { fn_82522ED8(q->c); q->c = 0; }
+  if (q->d != 0) { fn_82522ED8(q->d); q->d = 0; }
+  fn_8251E400(o->sub14);
+  fn_8251E400(o);
 }
-

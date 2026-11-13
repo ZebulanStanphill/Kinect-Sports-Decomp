@@ -1,42 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8255F7E8();
-extern int fn_827F3580();
-extern unsigned int ltcg_pool_0_0f;
+typedef struct {
+  char pad[0x110];
+  void *x110;
+  int x114;
+} Obj_8255F788;
+extern void fn_8255F7E8(Obj_8255F788 *o);
+extern void fn_827F3580(Obj_8255F788 *o, float a, float b, int c);
 
-
-void fn_8255F788(undefined8 param_1,int param_2,undefined8 param_3,undefined8 param_4)
-
+void fn_8255F788(Obj_8255F788 *o, float t)
 {
-  fn_8255F7E8();
-  fn_827F3580(param_1,(double)ltcg_pool_0_0f,param_2,param_3,param_4,0x12);
-  *(undefined4 *)(param_2 + 0x114) = 0;
-  *(undefined4 *)(param_2 + 0x110) = 0;
-  return;
+  fn_8255F7E8(o);
+  fn_827F3580(o, t, 0.0f, 0x12);
+  o->x114 = 0;
+  o->x110 = 0;
 }
-

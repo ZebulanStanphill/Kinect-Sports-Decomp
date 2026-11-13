@@ -1,37 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F691F0();
+typedef struct Vec_82F5C8D0 {
+    void **first;
+    void **last;
+    void **end;
+} Vec_82F5C8D0;
 
+typedef struct Obj_82F5C8D0 {
+    unsigned char data[0x1560];
+    struct Obj_82F5C8D0 *self;
+    Vec_82F5C8D0 vec;
+    char pad1570[0x10];
+    char sub1580[0x197c - 0x1580];
+    int ready;
+} Obj_82F5C8D0;
 
-void fn_82F5C8D0(undefined8 param_1)
+extern void *memset(void *dst, int c, unsigned int n);
+extern void **fn_82F5C868(void ***ret, Vec_82F5C8D0 *v, void **first, void **last);
+extern void fn_82F5BAF8(void *p);
 
+void fn_82F5C8D0(Obj_82F5C8D0 *o)
 {
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0(param_1,0,0x1560);
+    void **it;
+    memset(o, 0, 0x1560);
+    o->self = o;
+    fn_82F5C868(&it, &o->vec, o->vec.first, o->vec.last);
+    fn_82F5BAF8(o->sub1580);
+    o->ready = 1;
 }
-

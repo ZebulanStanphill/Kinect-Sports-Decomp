@@ -1,44 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826BC850();
+typedef struct Obj_826C5728 Obj_826C5728;
+typedef struct {
+  void *slots[23];
+  int (*get)(Obj_826C5728 *self);
+} Vtbl_826C5728;
+struct Obj_826C5728 {
+  Vtbl_826C5728 *vt;
+  char pad[0x62];
+  unsigned char flags;
+};
+extern void fn_826BC850(void *dst, int v);
 
-
-bool fn_826C5728(int *param_1,undefined8 param_2)
-
+int fn_826C5728(Obj_826C5728 *o, void *dst)
 {
-  bool bVar1;
-  undefined8 uVar2;
-  
-  bVar1 = (*(byte *)((int)param_1 + 0x66) & 0x10) == 0;
-  if (bVar1) {
-    uVar2 = (**(code **)(*param_1 + 0x5c))();
-    fn_826BC850(param_2,uVar2);
+  if ((o->flags & 0x10) == 0) {
+    fn_826BC850(dst, o->vt->get(o));
+    return 1;
   }
-  return bVar1;
+  return 0;
 }
-

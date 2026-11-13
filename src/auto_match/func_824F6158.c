@@ -1,44 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Obj_824F6158 Obj_824F6158;
+typedef struct Vtbl_824F6158 {
+    void (*update)(Obj_824F6158 *self, float t, void *arg);
+} Vtbl_824F6158;
+struct Obj_824F6158 {
+    Vtbl_824F6158 *vt;
+};
+typedef struct Node_824F6158 {
+    Obj_824F6158 *obj;
+    struct Node_824F6158 *next;
+} Node_824F6158;
+typedef struct Owner_824F6158 {
+    int pad[3];
+    Node_824F6158 *head;
+} Owner_824F6158;
 
-
-void fn_824F6158(undefined8 param_1,int param_2,undefined8 param_3,undefined8 param_4)
-
+void fn_824F6158(Owner_824F6158 *self, float t, void *arg)
 {
-  int *piVar1;
-  undefined4 *puVar2;
-  
-  for (piVar1 = *(int **)(param_2 + 0xc); piVar1 != (int *)0x0; piVar1 = (int *)piVar1[1]) {
-    puVar2 = (undefined4 *)*piVar1;
-    if (puVar2 != (undefined4 *)0x0) {
-      (**(code **)*puVar2)(param_1,puVar2,param_3,param_4);
+    Node_824F6158 *n;
+    for (n = self->head; n != 0; n = n->next) {
+        if (n->obj != 0)
+            n->obj->vt->update(n->obj, t, arg);
     }
-  }
-  return;
 }
-
