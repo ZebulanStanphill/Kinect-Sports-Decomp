@@ -36,9 +36,10 @@ upstream names even where two files of one copy use the same name (`start_pass_m
 `emit_bits`, `extend_test`, ...). They were local to their file in the original, and
 symbols.txt allows a name more than once. Data that upstream declares inside a function
 has MSVC's name for it, such as `?RGB_order@?1??select_ncolors@@9@9`. Pooled constants have
-MSVC's names, such as `__real@3ff0000000000000` for the double 1.0. Five C runtime
+MSVC's names, such as `__real@3ff0000000000000` for the double 1.0. Six C runtime
 functions that the library code calls are named after those calls: `malloc`, `free`,
-`exit`, `fprintf` and `__iob_func`. `sprintf` (0x82F63F40) is the statically linked C runtime's; the
+`exit`, `fprintf`, `__iob_func` and `setjmp` (0x82F6C150; libpng's `png_create_read_struct`
+and GFx's JPEG loaders only compile to the game's code when the call is to `setjmp`). `sprintf` (0x82F63F40) is the statically linked C runtime's; the
 import thunk of xboxkrnl.exe's own `sprintf` export has the name `xboxkrnl_sprintf`, which
 was invented for this project so the two do not clash.
 

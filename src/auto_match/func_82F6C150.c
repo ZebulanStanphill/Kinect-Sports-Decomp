@@ -31,7 +31,7 @@ extern unsigned int stack0x00000000;
 extern U64 storeVectorLeftIndexed128();
 
 
-undefined8 fn_82F6C150(undefined8 param_1)
+undefined8 setjmp(undefined8 param_1)
 
 {
   bool bVar1;

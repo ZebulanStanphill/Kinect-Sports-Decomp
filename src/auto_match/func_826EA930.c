@@ -27,7 +27,7 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int jpeg_read_scanlines();
 extern int jpeg_destroy();
-extern int fn_82F6C150();
+extern int setjmp();
 extern unsigned int iStack00000014;
 extern unsigned int stack0x0000001c;
 extern unsigned int uStack0000001c;
@@ -45,7 +45,7 @@ undefined8 fn_826EA930(int param_1,undefined4 param_2)
   if (*(char *)(param_1 + 0x309) == '\0') {
     iStack00000014 = param_1;
     uStack0000001c = param_2;
-    iVar3 = fn_82F6C150(*(undefined4 *)(param_1 + 0x304));
+    iVar3 = setjmp(*(undefined4 *)(param_1 + 0x304));
     iVar1 = iStack00000014;
     if (iVar3 == 0) {
       jpeg_read_scanlines(iStack00000014 + 8,&stack0x0000001c,1);

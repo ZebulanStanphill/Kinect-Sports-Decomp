@@ -42,7 +42,7 @@ extern int fn_82BA02A8();
 extern int fn_82BA71D8();
 extern int fn_82BA71F8();
 extern int fn_82F691F0();
-extern int fn_82F6C150();
+extern int setjmp();
 extern unsigned int iStack00000014;
 extern unsigned int uStack0000001c;
 extern unsigned int uStack00000024;
@@ -76,7 +76,7 @@ int fn_82B7D980(int param_1,undefined8 param_2,undefined4 param_3,undefined4 par
   uVar6 = fn_82B7D358(param_2,param_1);
   *(undefined4 *)(param_1 + 0x5d0) = uVar6;
   bVar4 = true;
-  iVar7 = fn_82F6C150(param_1 + 0x10);
+  iVar7 = setjmp(param_1 + 0x10);
   uVar6 = uStack0000001c;
   iVar5 = iStack00000014;
   uVar9 = 0;

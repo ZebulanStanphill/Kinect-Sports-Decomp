@@ -32,7 +32,7 @@ extern int fn_82AA6DC0();
 extern int fn_82AA6EA0();
 extern int fn_82AA6F30();
 extern int fn_82AA71F8();
-extern int fn_82F6C150();
+extern int setjmp();
 extern unsigned int iStack_20;
 extern unsigned int iStack_24;
 extern unsigned int iStack_34;
@@ -85,7 +85,7 @@ void fn_82AA7460(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefi
   do {
     iStack_34 = fn_82AA6150(&stack_pair_30.first,puStack00000034,pcStack_38);
     if (iStack_34 == 0) {
-      iStack_24 = fn_82F6C150((ulonglong)stack_pair_30.second + 0x470);
+      iStack_24 = setjmp((ulonglong)stack_pair_30.second + 0x470);
       iStack_20 = iStack_24;
       if (iStack_24 == 0) {
         uStack_28 = 1;

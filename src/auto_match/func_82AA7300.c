@@ -31,7 +31,7 @@ extern int fn_82AA6DC0();
 extern int fn_82AA6EA0();
 extern int fn_82AA6F30();
 extern int fn_82AA7010();
-extern int fn_82F6C150();
+extern int setjmp();
 extern unsigned int iStack_30;
 extern unsigned int uStack00000014;
 extern unsigned int uStack0000001c;
@@ -76,7 +76,7 @@ void fn_82AA7300(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefi
   do {
     iStack_30 = fn_82AA6150(&stack_pair_28.first,in_stack_0000005c,in_stack_00000064);
     if (iStack_30 == 0) {
-      iVar1 = fn_82F6C150((ulonglong)stack_pair_28.second + 0x470);
+      iVar1 = setjmp((ulonglong)stack_pair_28.second + 0x470);
       if (iVar1 == 0) {
         fn_82AA6F30(stack_pair_28.second,in_stack_0000005c,in_stack_00000064);
         fn_82AA7010(stack_pair_28.second,uStack00000014,stack_pair_28.first,uStack00000024,uStack0000002c,

@@ -51,7 +51,7 @@ extern int fn_829AF140();
 extern int fn_829AF2F0();
 extern int fn_829AF330();
 extern int fn_829B0F58();
-extern int fn_82F6C150();
+extern int setjmp();
 extern unsigned int iStack_a8;
 extern unsigned int iStack_ac;
 extern unsigned int iStack_b0;
@@ -110,7 +110,7 @@ undefined8 fn_8291F2D0(uint *param_1,undefined8 param_2,undefined4 param_3)
   uStack_c0 = fn_829AE308(0xffffffff8202e4c8,0,0xffffffff8291c8b8,0xffffffff82ba02a8);
   iVar2 = 0;
   if ((uStack_c0 == 0) || (iStack_bc = fn_829AB378(), iStack_bc == 0)) goto LAB_8291f78c;
-  iVar2 = fn_82F6C150(uStack_c0);
+  iVar2 = setjmp(uStack_c0);
   if (iVar2 == 0) {
     auStack_a0[4] = uStack0000001c;
     uStack_8c = uStack00000024;
