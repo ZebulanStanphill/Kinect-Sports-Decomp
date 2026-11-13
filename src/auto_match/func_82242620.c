@@ -1,51 +1,74 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82240DB8();
-extern int fn_8265C9E0();
-extern int fn_8288B300();
-extern int fn_82F691F0();
-extern unsigned int lbl_821974A4;
-extern unsigned int lbl_82197590;
+extern void fn_8288B300(void *p, int n);
+extern void fn_82240DB8(void *p, int n);
+extern void *fn_8265C9E0(unsigned int size);
+extern void fn_8223B8C8(void *p);
+extern void *memset(void *, int, unsigned int);
+extern char lbl_821974A4[];
+extern char lbl_82197590[];
+extern char lbl_82197524[];
+extern char lbl_82197534[];
 
+typedef struct Buf_82242620 {
+  int cap;
+  void *data;
+  int size;
+} Buf_82242620;
 
-void fn_82242620(undefined4 *param_1)
+typedef struct Sub_82242620 {
+  void *vt;
+  int f04;
+  Buf_82242620 buf;
+} Sub_82242620;
 
+typedef struct Sub2_82242620 {
+  void *vt;          /* 0xf4 */
+  int f04;
+  int f08;           /* 0xfc */
+  int f0c;           /* 0x100 */
+  char pad10[0x48];
+  unsigned char f58; /* 0x14c */
+  int f5c;           /* 0x150 */
+  int f60;           /* 0x154 */
+  int f64;           /* 0x158 */
+} Sub2_82242620;
+
+typedef struct Obj_82242620 {
+  void *vt;
+  char pad04[0x30];
+  Sub_82242620 s;    /* 0x34 */
+  char pad48[0x44];
+  char f8c[0x68];
+  Sub2_82242620 s2;  /* 0xf4 */
+} Obj_82242620;
+
+static __forceinline void BufInit_82242620(Buf_82242620 *b)
 {
-  undefined8 uVar1;
-  
-  fn_8288B300(param_1,1);
-  *param_1 = &lbl_821974A4;
-  fn_82240DB8(param_1 + 0xd,1);
-  param_1[0xd] = &lbl_82197590;
-  param_1[0xf] = 7;
-  param_1[0x11] = 0x3e;
-  uVar1 = fn_8265C9E0(0x3e);
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0(uVar1,0,0x3e);
+  void *d;
+  b->cap = 7;
+  b->size = 0x3e;
+  d = fn_8265C9E0(0x3e);
+  memset(d, 0, 0x3e);
+  b->data = d;
 }
 
+Obj_82242620 *fn_82242620(Obj_82242620 *p)
+{
+  Sub2_82242620 *s2;
+  fn_8288B300(p, 1);
+  p->vt = lbl_821974A4;
+  fn_82240DB8(&p->s, 1);
+  p->s.vt = lbl_82197590;
+  BufInit_82242620(&p->s.buf);
+  p->s.vt = lbl_82197524;
+  fn_8223B8C8(p->f8c);
+  fn_82240DB8(&p->s2, 3);
+  s2 = &p->s2;
+  s2->f58 = 0;
+  s2->f5c = 0;
+  s2->f60 = -1;
+  s2->f64 = 0x20;
+  s2->f08 = 4;
+  s2->f0c = 0;
+  p->s2.vt = lbl_82197534;
+  return p;
+}

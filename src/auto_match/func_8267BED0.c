@@ -1,51 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82692200();
-extern unsigned int lbl_831F129C;
+typedef struct _RTL_CRITICAL_SECTION { int w[7]; } RTL_CRITICAL_SECTION;
+extern void RtlEnterCriticalSection(RTL_CRITICAL_SECTION *cs);
+extern void RtlLeaveCriticalSection(RTL_CRITICAL_SECTION *cs);
+extern int fn_82692200(void *p, int a);
 
+typedef struct Obj_8267BED0 {
+    unsigned char pad[0x48];
+    RTL_CRITICAL_SECTION cs;
+    unsigned char locked;
+    void *impl;
+} Obj_8267BED0;
 
-undefined8 fn_8267BED0(ulonglong param_1,undefined8 param_2)
+typedef struct Item_8267BED0 {
+    unsigned char pad[0x14];
+    Obj_8267BED0 *obj;
+} Item_8267BED0;
 
+typedef struct Dir_8267BED0 {
+    int pad;
+    Item_8267BED0 **items;
+} Dir_8267BED0;
+
+extern Dir_8267BED0 *lbl_831F129C;
+
+int fn_8267BED0(unsigned int handle, int a)
 {
-  int iVar1;
-  undefined8 uVar2;
-  
-  iVar1 = *(int *)(*(int *)(*(int *)(((uint)((param_1 & 0xffffffff) >> 0x11) & 0x7ff8) +
-                                     lbl_831F129C + 4) +
-                           ((uint)((param_1 & 0xffffffff) >> 10) & 0x3fc)) + 0x14);
-  if (*(char *)(iVar1 + 100) == '\0') {
-    uVar2 = fn_82692200(*(undefined4 *)(iVar1 + 0x68),param_2);
-  }
-  else {
-    RtlEnterCriticalSection(iVar1 + 0x48);
-    uVar2 = fn_82692200(*(undefined4 *)(iVar1 + 0x68),param_2);
-    RtlLeaveCriticalSection(iVar1 + 0x48);
-  }
-  return uVar2;
+    Obj_8267BED0 *o = lbl_831F129C[handle >> 20].items[(handle >> 12) & 0xff]->obj;
+    int r;
+    if (o->locked) {
+        RtlEnterCriticalSection(&o->cs);
+        r = fn_82692200(o->impl, a);
+        RtlLeaveCriticalSection(&o->cs);
+        return r;
+    }
+    return fn_82692200(o->impl, a);
 }
-

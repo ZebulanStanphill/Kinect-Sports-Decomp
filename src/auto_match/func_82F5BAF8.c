@@ -1,38 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F691F0();
+typedef struct Obj_82F5BAF8 {
+    int count;                  /* 0x000 */
+    unsigned char a[0x50];      /* 0x004 */
+    unsigned char b[0x50];      /* 0x054 */
+    char padA4[0xc];            /* 0x0a4 */
+    unsigned char c[0x140];     /* 0x0b0 */
+    char pad1F0[0xe0];          /* 0x1f0 */
+    int f2d0;                   /* 0x2d0 */
+    char pad2D4[0x3c];          /* 0x2d4 */
+    int f310;                   /* 0x310 */
+    int f314;                   /* 0x314 */
+    char pad318[0x18];          /* 0x318 */
+    unsigned char d[0xc0];      /* 0x330 */
+} Obj_82F5BAF8;
 
+extern void *memset(void *dst, int c, unsigned int n);
 
-void fn_82F5BAF8(undefined4 *param_1)
-
+void fn_82F5BAF8(Obj_82F5BAF8 *self)
 {
-  *param_1 = 0;
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0(param_1 + 1,0,0x50);
+    self->count = 0;
+    memset(self->a, 0, sizeof(self->a));
+    memset(self->b, 0, sizeof(self->b));
+    memset(self->c, 0, sizeof(self->c));
+    memset(self->d, 0, sizeof(self->d));
+    self->f2d0 = 0;
+    self->f310 = 1;
+    self->f314 = 1;
 }
-

@@ -1,78 +1,64 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_822315A0();
-extern int fn_82365BD8();
-extern unsigned int iStack_1c;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Sp_823A9880 {
+    void *px;
+    void *rep;
+} Sp_823A9880;
 
-undefined4 * fn_823A9880(undefined4 *param_1,undefined4 *param_2)
+typedef struct Obj_823A9880 {
+    int f0;
+    int f4;
+    int f8;
+    __vector4 v10;
+    int f20;
+    float f24[6];
+    int f3c;
+    int f40;
+    Sp_823A9880 sp;
+} Obj_823A9880;
 
+extern Sp_823A9880 *fn_82365BD8(Sp_823A9880 *d, Sp_823A9880 *s);
+extern void fn_822315A0(void *rep);
+
+static __forceinline void SwapPtr(void **a, void **b)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  undefined4 uVar3;
-  undefined4 uVar4;
-  undefined4 uVar5;
-  undefined1 auStack_20 [4];
-  int iStack_1c;
-  
-  *param_1 = *param_2;
-  param_1[1] = param_2[1];
-  param_1[2] = param_2[2];
-  puVar2 = (undefined4 *)((uint)(param_2 + 4) & 0xfffffff0);
-  uVar3 = puVar2[1];
-  uVar4 = puVar2[2];
-  uVar5 = puVar2[3];
-  puVar1 = (undefined4 *)((uint)(param_1 + 4) & 0xfffffff0);
-  *puVar1 = *puVar2;
-  puVar1[1] = uVar3;
-  puVar1[2] = uVar4;
-  puVar1[3] = uVar5;
-  param_1[8] = param_2[8];
-  param_1[9] = param_2[9];
-  param_1[10] = param_2[10];
-  param_1[0xb] = param_2[0xb];
-  param_1[0xc] = param_2[0xc];
-  param_1[0xd] = param_2[0xd];
-  param_1[0xe] = param_2[0xe];
-  param_1[0xf] = param_2[0xf];
-  param_1[0x10] = param_2[0x10];
-  puVar2 = (undefined4 *)fn_82365BD8(auStack_20,param_2 + 0x11);
-  uVar3 = puVar2[1];
-  puVar2[1] = param_1[0x12];
-  param_1[0x12] = uVar3;
-  uVar3 = *puVar2;
-  *puVar2 = param_1[0x11];
-  param_1[0x11] = uVar3;
-  if (iStack_1c != 0) {
-    fn_822315A0();
-  }
-  return param_1;
+    void *t = *a;
+    *a = *b;
+    *b = t;
 }
 
+/* the count swap comes first, as in the original's operator= */
+static __forceinline void Sp_Swap(Sp_823A9880 *a, Sp_823A9880 *b)
+{
+    SwapPtr(&a->rep, &b->rep);
+    SwapPtr(&a->px, &b->px);
+}
+
+static __forceinline Sp_823A9880 *Sp_Assign(Sp_823A9880 *self, Sp_823A9880 *r)
+{
+    Sp_823A9880 tmp;
+    Sp_Swap(fn_82365BD8(&tmp, r), self);
+    if (tmp.rep != 0) fn_822315A0(tmp.rep);
+    return self;
+}
+
+Obj_823A9880 *fn_823A9880(Obj_823A9880 *d, Obj_823A9880 *s)
+{
+    d->f0 = s->f0;
+    d->f4 = s->f4;
+    d->f8 = s->f8;
+    d->v10 = s->v10;
+    d->f20 = s->f20;
+    d->f24[0] = s->f24[0];
+    d->f24[1] = s->f24[1];
+    d->f24[2] = s->f24[2];
+    d->f24[3] = s->f24[3];
+    d->f24[4] = s->f24[4];
+    d->f24[5] = s->f24[5];
+    d->f3c = s->f3c;
+    d->f40 = s->f40;
+    Sp_Assign(&d->sp, &s->sp);
+    return d;
+}

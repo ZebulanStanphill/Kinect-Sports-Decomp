@@ -1,75 +1,45 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AB15D0();
-extern int fn_82B6E5C0();
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
+extern void *fn_82B6E5C0(void *context, void *AllocateSysMem, void *FreeSysMem, void *pOLF, int count);
 
+#define SC_ASSERT(e, line) \
+    if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecache\\hashstatecache.cpp", line)
 
-undefined4 *
-fn_82B6AC48(undefined8 param_1,code *param_2,ulonglong param_3,int param_4,int param_5,int param_6
-             ,int param_7,ulonglong param_8)
+typedef void *(*AllocFn_82B6AC48)(void *context, unsigned int size);
+typedef void (*FreeFn_82B6AC48)(void *context, void *p);
 
+typedef struct StateCache_82B6AC48 {
+    void *context;
+    AllocFn_82B6AC48 AllocateSysMem;
+    FreeFn_82B6AC48 FreeSysMem;
+    void *pCompiler;
+    void *pProgramStore;
+    void *pPostProcessor;
+    void *hashTable;
+} StateCache_82B6AC48;
+
+StateCache_82B6AC48 *fn_82B6AC48(void *context, AllocFn_82B6AC48 AllocateSysMem,
+                                 FreeFn_82B6AC48 FreeSysMem, void *pCompiler,
+                                 void *pProgramStore, void *pPostProcessor,
+                                 void *pILF, void *pOLF)
 {
-  undefined4 *puVar1;
-  undefined4 uVar2;
-  
-  if (param_2 == (code *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d69d8,0xffffffff820d96f0,0x7f);
-  }
-  if ((param_3 & 0xffffffff) == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d69cc,0xffffffff820d96f0,0x80);
-  }
-  if ((param_8 & 0xffffffff) == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d96e4,0xffffffff820d96f0,0x81);
-  }
-  if (param_4 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d96d8,0xffffffff820d96f0,0x87);
-  }
-  if (param_5 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d77ac,0xffffffff820d96f0,0x88);
-  }
-  if (param_6 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d965c,0xffffffff820d96f0,0x89);
-  }
-  if (param_7 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d96d0,0xffffffff820d96f0,0x8a);
-  }
-  puVar1 = (undefined4 *)(*param_2)(param_1,0x1c);
-  if (puVar1 == (undefined4 *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d96c0,0xffffffff820d96f0,0x91);
-  }
-  *puVar1 = (int)param_1;
-  puVar1[1] = param_2;
-  puVar1[2] = (int)param_3;
-  puVar1[3] = param_4;
-  puVar1[4] = param_5;
-  puVar1[5] = param_6;
-  uVar2 = fn_82B6E5C0(param_1,param_2,param_3,param_8,100);
-  puVar1[6] = uVar2;
-  return puVar1;
-}
+    StateCache_82B6AC48 *pNewStateCache;
 
+    SC_ASSERT(AllocateSysMem, 0x7f);
+    SC_ASSERT(FreeSysMem, 0x80);
+    SC_ASSERT(pOLF, 0x81);
+    SC_ASSERT(pCompiler, 0x87);
+    SC_ASSERT(pProgramStore, 0x88);
+    SC_ASSERT(pPostProcessor, 0x89);
+    SC_ASSERT(pILF, 0x8a);
+    pNewStateCache = (StateCache_82B6AC48 *)AllocateSysMem(context, sizeof(StateCache_82B6AC48));
+    SC_ASSERT(pNewStateCache, 0x91);
+    pNewStateCache->context = context;
+    pNewStateCache->AllocateSysMem = AllocateSysMem;
+    pNewStateCache->FreeSysMem = FreeSysMem;
+    pNewStateCache->pCompiler = pCompiler;
+    pNewStateCache->pProgramStore = pProgramStore;
+    pNewStateCache->pPostProcessor = pPostProcessor;
+    pNewStateCache->hashTable = fn_82B6E5C0(context, AllocateSysMem, FreeSysMem, pOLF, 100);
+    return pNewStateCache;
+}

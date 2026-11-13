@@ -1,58 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82D71478();
-extern unsigned int uStack_48;
-extern unsigned int uStack_4c;
-extern unsigned int uStack_50;
-extern unsigned int uStack_54;
-extern unsigned int uStack_60;
+typedef struct Obj_82D5B300 { struct OVt_82D5B300 *vt; } Obj_82D5B300;
+struct OVt_82D5B300 { void *f0, *f4, *f8, *fc; int (*f10)(Obj_82D5B300 *); };
+typedef struct { int a; Obj_82D5B300 **b; int c; int d; int e; int f; int g; } Msg_82D5B300;
+typedef struct Sub_82D5B300 {
+  char pad0[0xb];
+  unsigned char flags;   /* 0x0B */
+  int pad0c;
+  char queue[1];         /* 0x10 */
+} Sub_82D5B300;
+extern void fn_82D71478(void *, Msg_82D5B300 *);
 
-
-void fn_82D5B300(undefined8 param_1,int param_2,undefined4 param_3,undefined4 *param_4,
-                  undefined4 param_5,undefined4 param_6,undefined4 param_7)
-
+void fn_82D5B300(void *self, Sub_82D5B300 *sub, int a, Obj_82D5B300 **o, int e, int f, int g)
 {
-  undefined4 uStack_60;
-  undefined4 *puStack_5c;
-  undefined4 uStack_54;
-  undefined4 uStack_50;
-  undefined4 uStack_4c;
-  undefined4 uStack_48;
-  
-  if ((*(byte *)(param_2 + 0xb) & 0x20) == 0) {
-    uStack_54 = (**(code **)(*(int *)*param_4 + 0x10))();
-    uStack_60 = param_3;
-    puStack_5c = param_4;
-    uStack_50 = param_5;
-    uStack_4c = param_6;
-    uStack_48 = param_7;
-    fn_82D71478(param_2 + 0x10,&uStack_60);
+  Msg_82D5B300 m;
+  if ((sub->flags & 0x20) == 0) {
+    m.d = (*o)->vt->f10(*o);
+    m.a = a;
+    m.b = o;
+    m.e = e;
+    m.f = f;
+    m.g = g;
+    fn_82D71478(sub->queue, &m);
   }
-  return;
 }
-

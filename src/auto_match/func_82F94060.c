@@ -1,49 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F91510();
-extern int fn_82F96B00();
-extern unsigned int lbl_8216C0F0;
-extern unsigned int lbl_8216C0FC;
+typedef struct Obj_82F94060 {
+    void *vt0;
+    void *vt4;
+    int f8;
+    int pad0c[2];
+    unsigned char f14;
+    char pad15[3];
+    int sink;
+} Obj_82F94060;
 
+extern char lbl_8216C0FC[];
+extern char lbl_8216C0F0[];
+extern void fn_82F96B00(void *base);
+extern void fn_82F91510(void *member);
 
-undefined4 * fn_82F94060(undefined4 *param_1)
-
+Obj_82F94060 *fn_82F94060(Obj_82F94060 *self)
 {
-  undefined4 *puStack00000014;
-  
-  puStack00000014 = param_1;
-  fn_82F96B00(param_1);
-  fn_82F96B00(puStack00000014 + 1);
-  *puStack00000014 = &lbl_8216C0FC;
-  puStack00000014[1] = &lbl_8216C0F0;
-  puStack00000014[2] = 0;
-  *(undefined1 *)(puStack00000014 + 5) = 0;
-  fn_82F91510(puStack00000014 + 6);
-  return puStack00000014;
+    fn_82F96B00(self);
+    fn_82F96B00(&self->vt4);
+    self->vt0 = lbl_8216C0FC;
+    self->vt4 = lbl_8216C0F0;
+    self->f8 = 0;
+    self->f14 = 0;
+    fn_82F91510(&self->sink);
+    return self;
 }
-

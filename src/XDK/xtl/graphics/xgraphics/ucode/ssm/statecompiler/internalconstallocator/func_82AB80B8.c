@@ -1,78 +1,54 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AB15D0();
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
 
+#define ICA_ASSERT(e, line) \
+    if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecompiler\\internalconstallocator.cpp", line)
 
-undefined4 * fn_82AB80B8(undefined8 param_1,code *param_2,int param_3,int param_4)
+typedef void *(*AllocFn_82AB80B8)(void *context, unsigned int size);
+typedef void (*FreeFn_82AB80B8)(void *context, void *p);
 
+typedef struct VecConst_82AB80B8 {
+    unsigned char index;
+    unsigned char pad[0x23];
+} VecConst_82AB80B8;
+
+typedef struct ScalarConst_82AB80B8 {
+    unsigned char index;
+    unsigned char pad[0xb];
+} ScalarConst_82AB80B8;
+
+typedef struct ICA_82AB80B8 {
+    void *context;
+    AllocFn_82AB80B8 AllocateSysMem;
+    FreeFn_82AB80B8 FreeSysMem;
+    void *pRegistry;
+    VecConst_82AB80B8 vecConsts[32];
+    ScalarConst_82AB80B8 scalarConsts[128];
+} ICA_82AB80B8;
+
+ICA_82AB80B8 *fn_82AB80B8(void *context, AllocFn_82AB80B8 AllocateSysMem, FreeFn_82AB80B8 FreeSysMem,
+                          void *pRegistry)
 {
-  undefined4 *puVar1;
-  char *pcVar2;
-  char cVar3;
-  longlong lVar4;
-  
-  if (param_2 == (code *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d69d8,0xffffffff820d6fa0,0x4a);
-  }
-  if (param_3 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d69cc,0xffffffff820d6fa0,0x4b);
-  }
-  if (param_4 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d6bdc,0xffffffff820d6fa0,0x4c);
-  }
-  puVar1 = (undefined4 *)(*param_2)(param_1,0xa90);
-  if (puVar1 == (undefined4 *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d6f98,0xffffffff820d6fa0,0x50);
-  }
-  else {
-    *puVar1 = (int)param_1;
-    puVar1[1] = param_2;
-    puVar1[2] = param_3;
-    pcVar2 = (char *)(puVar1 + -5);
-    puVar1[3] = param_4;
-    lVar4 = 0x20;
-    cVar3 = '\0';
-    do {
-      pcVar2 = pcVar2 + 0x24;
-      *pcVar2 = cVar3;
-      lVar4 = lVar4 + -1;
-      cVar3 = cVar3 + '\x01';
-    } while (lVar4 != 0);
-    pcVar2 = (char *)(puVar1 + 0x121);
-    lVar4 = 0x80;
-    cVar3 = '\0';
-    do {
-      pcVar2 = pcVar2 + 0xc;
-      *pcVar2 = cVar3;
-      lVar4 = lVar4 + -1;
-      cVar3 = cVar3 + '\x01';
-    } while (lVar4 != 0);
-  }
-  return puVar1;
-}
+    ICA_82AB80B8 *pICA;
+    unsigned int i;
 
+    ICA_ASSERT(AllocateSysMem, 0x4a);
+    ICA_ASSERT(FreeSysMem, 0x4b);
+    ICA_ASSERT(pRegistry, 0x4c);
+    pICA = (ICA_82AB80B8 *)AllocateSysMem(context, sizeof(ICA_82AB80B8));
+    if (pICA == 0) {
+        ICA_ASSERT(pICA, 0x50);
+    } else {
+        pICA->context = context;
+        pICA->AllocateSysMem = AllocateSysMem;
+        pICA->FreeSysMem = FreeSysMem;
+        pICA->pRegistry = pRegistry;
+        for (i = 0; i < 32; i++) {
+            pICA->vecConsts[i].index = (unsigned char)i;
+        }
+        for (i = 0; i < 128; i++) {
+            pICA->scalarConsts[i].index = (unsigned char)i;
+        }
+    }
+    return pICA;
+}

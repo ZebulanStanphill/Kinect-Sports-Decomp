@@ -1,70 +1,54 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
-extern int fn_828E8AC0();
-extern unsigned int lbl_82027424;
-extern unsigned int lbl_82027494;
-extern U64 storeWordConditionalIndexed();
+long _InterlockedDecrement(long volatile *);
 
+typedef struct Rep_828E8D48 Rep_828E8D48;
+typedef struct RepVt_828E8D48 {
+    void (*destroy)(Rep_828E8D48 *);
+    void (*deleteThis)(Rep_828E8D48 *);
+    void (*release)(Rep_828E8D48 *);
+} RepVt_828E8D48;
+struct Rep_828E8D48 {
+    RepVt_828E8D48 *vt;
+    long uses;
+    long refs;
+};
 
-void fn_828E8D48(undefined4 *param_1)
+typedef struct Obj_828E8D48 {
+    void *vt;
+    int f4;
+    int f8;
+    Rep_828E8D48 *rep;     /* 0xc */
+    char member[0x58];     /* 0x10 */
+    unsigned char active;  /* 0x68 */
+} Obj_828E8D48;
 
+extern char lbl_82027494[];
+extern char lbl_82027424[];
+extern void fn_828E8AC0(void *member);
+
+static __forceinline void Decref_828E8D48(Rep_828E8D48 *r)
 {
-  int *piVar1;
-  uint uVar2;
-  longlong lVar3;
-  uint *puVar4;
-  longlong lVar5;
-  char in_RESERVE;
-  byte in_cr0;
-  
-  *param_1 = &lbl_82027494;
-  if (*(char *)(param_1 + 0x1a) != '\0') {
-    *(undefined1 *)(param_1 + 0x1a) = 0;
-  }
-  fn_828E8AC0(param_1 + 4);
-  *param_1 = &lbl_82027424;
-  piVar1 = (int *)param_1[3];
-  if (ZEXT48(piVar1) != 0) {
-    lVar3 = ZEXT48(piVar1) + 8;
-    do {
-      puVar4 = (uint *)lVar3;
-      lVar5 = (ulonglong)*puVar4 - 1;
-      if (in_RESERVE != '\0') {
-        uVar2 = storeWordConditionalIndexed(lVar5,0,lVar3);
-        *puVar4 = uVar2;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-    if ((int)lVar5 == 0) {
-      (**(code **)(*piVar1 + 8))();
-    }
-  }
-  return;
+    if (_InterlockedDecrement(&r->refs) == 0)
+        r->vt->release(r);
 }
 
+static __forceinline void Release_828E8D48(Rep_828E8D48 **p)
+{
+    if (*p != 0)
+        Decref_828E8D48(*p);
+}
+
+static __forceinline void Stop_828E8D48(unsigned char *a)
+{
+    if (*a) {
+        *a = 0;
+    }
+}
+
+void fn_828E8D48(Obj_828E8D48 *o)
+{
+    o->vt = lbl_82027494;
+    Stop_828E8D48(&o->active);
+    fn_828E8AC0(o->member);
+    o->vt = lbl_82027424;
+    Release_828E8D48(&o->rep);
+}

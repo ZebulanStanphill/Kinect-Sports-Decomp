@@ -1,78 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef __declspec(align(16)) struct Item_824AE6C0 { __int64 v[8]; } Item_824AE6C0;
 
+typedef struct Ring_824AE6C0 { Item_824AE6C0 *beg; Item_824AE6C0 *end; Item_824AE6C0 *rd; Item_824AE6C0 *wr; unsigned int cnt; } Ring_824AE6C0;
 
-void fn_824AE6C0(int *param_1,int param_2)
-
+void fn_824AE6C0(Ring_824AE6C0 *r, Item_824AE6C0 *item)
 {
-  int iVar1;
-  undefined8 *puVar2;
-  undefined8 *puVar3;
-  longlong lVar4;
-  
-  if (param_1[1] - *param_1 >> 6 != param_1[4]) {
-    if (param_1[3] != 0) {
-      puVar2 = (undefined8 *)(param_2 + -8);
-      puVar3 = (undefined8 *)(param_1[3] + -8);
-      lVar4 = 8;
-      do {
-        puVar2 = puVar2 + 1;
-        puVar3 = puVar3 + 1;
-        *puVar3 = *puVar2;
-        lVar4 = lVar4 + -1;
-      } while (lVar4 != 0);
-    }
-    iVar1 = param_1[3];
-    param_1[3] = iVar1 + 0x40;
-    if (iVar1 + 0x40 == param_1[1]) {
-      param_1[3] = *param_1;
-    }
-    param_1[4] = param_1[4] + 1;
-    return;
-  }
-  if (param_1[4] == 0) {
-    return;
-  }
-  puVar2 = (undefined8 *)(param_2 + -8);
-  lVar4 = 8;
-  puVar3 = (undefined8 *)(param_1[3] + -8);
-  do {
-    puVar2 = puVar2 + 1;
-    puVar3 = puVar3 + 1;
-    *puVar3 = *puVar2;
-    lVar4 = lVar4 + -1;
-  } while (lVar4 != 0);
-  iVar1 = param_1[3];
-  param_1[3] = iVar1 + 0x40;
-  if (iVar1 + 0x40 == param_1[1]) {
-    param_1[3] = *param_1;
-  }
-  param_1[2] = param_1[3];
-  return;
-}
+    if ((unsigned int)(r->end - r->beg) == r->cnt) {
+        if (r->cnt != 0) {
+            *r->wr = *item;
+            { Item_824AE6C0 **pw = &r->wr; *pw += 1; if (*pw == r->end) *pw = r->beg; }
 
+            r->rd = r->wr;
+        }
+    } else {
+        if (r->wr != 0)
+            *r->wr = *item;
+        { Item_824AE6C0 **pw = &r->wr; *pw += 1; if (*pw == r->end) *pw = r->beg; }
+
+        r->cnt++;
+    }
+}

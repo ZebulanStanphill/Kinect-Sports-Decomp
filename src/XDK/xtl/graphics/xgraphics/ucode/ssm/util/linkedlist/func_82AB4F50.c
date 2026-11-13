@@ -1,54 +1,41 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AB15D0();
-extern int fn_82AB4A28();
-extern int fn_82AB4B88();
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
 
+#define LL_ASSERT(e, line) \
+    if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\util\\linkedlist.cpp", line)
 
-void fn_82AB4F50(undefined4 *param_1,undefined4 param_2,undefined4 param_3)
+typedef struct ListNode_82AB4F50 {
+    void *data;
+    struct ListNode_82AB4F50 *next;
+    struct ListNode_82AB4F50 *prev;
+    void *unkC;
+    void *unk10;
+} ListNode_82AB4F50;
 
+typedef struct UList_82AB4F50 {
+    void *pMemMgr;
+    void *ctx;
+    void *AllocateSysMem;
+    void *FreeSysMem;
+    ListNode_82AB4F50 *pSentinel;
+    unsigned int size;
+    ListNode_82AB4F50 *cur;
+} UList_82AB4F50;
+
+extern ListNode_82AB4F50 *fn_82AB4A28(void *pMemMgr);
+extern void fn_82AB4B88(ListNode_82AB4F50 *pItem, ListNode_82AB4F50 *pNewItem);
+
+void fn_82AB4F50(UList_82AB4F50 *pUList, void *a, void *b)
 {
-  int iVar1;
-  
-  if (param_1 == (undefined4 *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d69f4,0xffffffff820d68b0,0x23a);
-  }
-  iVar1 = fn_82AB4A28(*param_1);
-  if (iVar1 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d68a4,0xffffffff820d68b0,0x23f);
-  }
-  *(undefined4 *)(iVar1 + 0xc) = param_2;
-  *(undefined4 *)(iVar1 + 0x10) = param_3;
-  fn_82AB4B88(param_1[4],iVar1);
-  if (param_1[5] == 0) {
-    *(int *)(param_1[4] + 8) = iVar1;
-  }
-  param_1[5] = param_1[5] + 1;
-  return;
-}
+    ListNode_82AB4F50 *pNewItem;
 
+    LL_ASSERT(pUList, 0x23a);
+    pNewItem = fn_82AB4A28(pUList->pMemMgr);
+    LL_ASSERT(pNewItem, 0x23f);
+    pNewItem->unkC = a;
+    pNewItem->unk10 = b;
+    fn_82AB4B88(pUList->pSentinel, pNewItem);
+    if (pUList->size == 0)
+        pUList->pSentinel->prev = pNewItem;
+    pUList->size++;
+}

@@ -1,49 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_8216C038;
+typedef struct Lock_82F93840 {
+    char *vt;
+    char cs[0x1c];
+    int f20;
+} Lock_82F93840;
 
+extern char lbl_8216C038[];
+extern void RtlInitializeCriticalSection(void *cs);
 
-undefined4 * fn_82F93840(undefined4 *param_1)
-
+Lock_82F93840 *fn_82F93840(Lock_82F93840 *self)
 {
-  undefined4 *puStack00000014;
-  undefined4 *puStack_10;
-  
-  *param_1 = &lbl_8216C038;
-  param_1[8] = 0;
-  if (param_1 == (undefined4 *)0x0) {
-    puStack_10 = (undefined4 *)0x0;
-  }
-  else {
-    puStack_10 = param_1 + 1;
-  }
-  puStack00000014 = param_1;
-  RtlInitializeCriticalSection(puStack_10);
-  return puStack00000014;
+    self->vt = lbl_8216C038;
+    self->f20 = 0;
+    RtlInitializeCriticalSection(self ? self->cs : 0);
+    return self;
 }
-

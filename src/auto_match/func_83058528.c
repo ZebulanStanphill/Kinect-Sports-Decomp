@@ -1,47 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_8217E298;
-
-
-void fn_83058528(int *param_1,undefined4 *param_2)
-
+typedef struct Data_83058528 { char pad[0x3c]; float a; float b; int pad44[2]; float d; float c; int pad54[2]; float e; } Data_83058528;
+typedef struct Inner_83058528 { int pad[2]; Data_83058528 *data; } Inner_83058528;
+typedef struct Obj_83058528 { Inner_83058528 *inner; } Obj_83058528;
+typedef struct Out_83058528 { int kind; float v[5]; } Out_83058528;
+void fn_83058528(Obj_83058528 *o, Out_83058528 *out)
 {
-  int iVar1;
-  float fVar2;
-  
-  fVar2 = lbl_8217E298;
-  iVar1 = *(int *)(*param_1 + 8);
-  *param_2 = 2;
-  param_2[1] = *(undefined4 *)(iVar1 + 0x3c);
-  param_2[2] = *(float *)(iVar1 + 0x40) * fVar2;
-  param_2[3] = *(float *)(iVar1 + 0x50) * fVar2;
-  param_2[4] = *(undefined4 *)(iVar1 + 0x4c);
-  param_2[5] = *(undefined4 *)(iVar1 + 0x5c);
-  return;
+  Data_83058528 *d = o->inner->data;
+  float *p = out->v;
+  out->kind = 2;
+  *p++ = d->a;
+  *p++ = d->b * 3.98107171f;
+  *p++ = d->c * 3.98107171f;
+  *p++ = d->d;
+  *p = d->e;
 }
-

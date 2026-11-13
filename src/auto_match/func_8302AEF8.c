@@ -1,65 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_832642E8;
+typedef struct Child_8302AEF8 Child_8302AEF8;
+typedef struct { char pad[0xdc]; void (*fdc)(Child_8302AEF8 *); } VT_8302AEF8;
+struct Child_8302AEF8 { VT_8302AEF8 *vt; };
+typedef struct Obj_8302AEF8 {
+  char pad0[0xc];
+  unsigned int id;
+  float f10;
+  float f14;
+  float f18;
+  float f1c;
+  unsigned int f20;
+  Child_8302AEF8 *child;
+  unsigned int flags;
+} Obj_8302AEF8;
+extern int lbl_832642E8;
+void fn_82FF6258(int list, unsigned int id);
 
-
-void fn_8302AEF8(int param_1,int param_2)
-
+void fn_8302AEF8(Obj_8302AEF8 *o, unsigned int v)
 {
-  int iVar1;
-  undefined4 *puVar2;
-  int iVar3;
-  
-  *(uint *)(param_1 + 0x20) = param_2 << 0x1c | *(uint *)(param_1 + 0x20) & 0xfffffff;
-  if (*(int **)(param_1 + 0x24) != (int *)0x0) {
-                    /* WARNING: Could not recover jumptable at 0x8302af20. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-    (**(code **)(**(int **)(param_1 + 0x24) + 0xdc))();
+  o->f20 = (o->f20 & 0x0fffffff) | (v << 28);
+  if (o->child != 0) {
+    o->child->vt->fdc(o->child);
     return;
   }
-  if ((*(uint *)(param_1 + 0x28) & 0x80000000) != 0) {
-    iVar3 = *(int *)(lbl_832642E8 + 4);
-    if (iVar3 != *(int *)(lbl_832642E8 + 8)) {
-      while( true ) {
-        iVar1 = *(int *)(*(int *)(iVar3 + 4) + 0xc);
-        if ((iVar1 != 0) && (*(int *)(iVar1 + 0xc) == *(int *)(param_1 + 0xc))) break;
-        iVar3 = iVar3 + 8;
-        if (iVar3 == *(int *)(lbl_832642E8 + 8)) {
-          return;
-        }
-      }
-      for (puVar2 = *(undefined4 **)(*(int *)(iVar3 + 4) + 0x1c); puVar2 != (undefined4 *)0x0;
-          puVar2 = (undefined4 *)*puVar2) {
-        (**(code **)(*(int *)puVar2[1] + 0xdc))();
-      }
-    }
-    return;
+  if ((o->flags & 0x80000000) != 0) {
+    fn_82FF6258(lbl_832642E8, o->id);
   }
-  return;
 }
-

@@ -1,59 +1,22 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
-extern int fn_8267EC58();
-extern U64 storeWordConditionalIndexed();
+#define __lwsync() __emit(0x7C2004AC)
 
+long _InterlockedExchangeAdd(long volatile *addend, long value);
 
-void fn_8267D7C8(int param_1,int *param_2)
+typedef struct Ref_8267D7C8 { long refs; } Ref_8267D7C8;
+typedef struct Obj_8267D7C8 { int f0; int f4; Ref_8267D7C8 *ref; } Obj_8267D7C8;
 
+extern void fn_8267EC58(Ref_8267D7C8 *r);
+
+void fn_8267D7C8(Obj_8267D7C8 *self, Ref_8267D7C8 **out)
 {
-  uint *puVar1;
-  uint uVar2;
-  char in_RESERVE;
-  byte in_cr0;
-  
-  puVar1 = *(uint **)(param_1 + 8);
-  if (ZEXT48(puVar1) != 0) {
-    sync(1);
-    do {
-      if (in_RESERVE != '\0') {
-        uVar2 = storeWordConditionalIndexed((ulonglong)*puVar1 + 1,0,ZEXT48(puVar1));
-        *puVar1 = uVar2;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-    sync(1);
-    if (*param_2 != 0) {
-      fn_8267EC58();
+    if (self->ref != 0) {
+        Ref_8267D7C8 *r = self->ref;
+        __lwsync();
+        _InterlockedExchangeAdd(&r->refs, 1);
+        __lwsync();
+        if (*out != 0) {
+            fn_8267EC58(*out);
+        }
+        *out = r;
     }
-    *param_2 = (int)puVar1;
-  }
-  return;
 }
-

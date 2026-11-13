@@ -1,50 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CEA280();
+typedef struct Info_82E0A1C0 {
+    char pad00[0x20];
+    int width;      /* 0x20 */
+    int height;     /* 0x24 */
+} Info_82E0A1C0;
 
+typedef struct Obj_82E0A1C0 Obj_82E0A1C0;
+typedef struct ObjVt_82E0A1C0 {
+    void *slots[15];
+    int (*apply)(Obj_82E0A1C0 *self, int a, int b); /* 0x3c */
+} ObjVt_82E0A1C0;
 
-undefined8 fn_82E0A1C0(int *param_1)
+struct Obj_82E0A1C0 {
+    ObjVt_82E0A1C0 *vt;
+    char pad04[0x18];
+    Info_82E0A1C0 *info;    /* 0x1c */
+    char pad20[0x58];
+    void *override;         /* 0x78 */
+};
 
+extern int fn_82E16E28(void *p);
+
+int fn_82E0A1C0(Obj_82E0A1C0 *self)
 {
-  int iVar1;
-  undefined8 uVar2;
-  
-  iVar1 = param_1[0x1e];
-  if (iVar1 != 0) {
-    uVar2 = fn_82CEA280(iVar1 + 0x28,*(undefined4 *)(iVar1 + 0x34),0);
-    return uVar2;
-  }
-  if ((-1 < *(int *)(param_1[7] + 0x20)) && (-1 < *(int *)(param_1[7] + 0x24))) {
-                    /* WARNING: Could not recover jumptable at 0x82e0a1fc. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-    uVar2 = (**(code **)(*param_1 + 0x3c))();
-    return uVar2;
-  }
-  return 0;
-}
+    Info_82E0A1C0 *info;
+    int a;
+    int b;
 
+    if (self->override != 0) {
+        return fn_82E16E28(self->override);
+    }
+    info = self->info;
+    a = info->width;
+    b = info->height;
+    if (a >= 0 && b >= 0) {
+        return self->vt->apply(self, a, b);
+    }
+    return 0;
+}

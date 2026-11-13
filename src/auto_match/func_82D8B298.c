@@ -1,79 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Rotation_82D8B298 {
+    __vector4 col0;
+    __vector4 col1;
+    __vector4 col2;
+} Rotation_82D8B298;
 
-void fn_82D8B298(int param_1,int param_2)
+typedef struct Src_82D8B298 {
+    int f0;
+    float f4;
+    char pad08[0x8];
+    __vector4 v10;
+    Rotation_82D8B298 rot;
+} Src_82D8B298;
 
+typedef struct Dst_82D8B298 {
+    char pad00[0x50];
+    Rotation_82D8B298 rot;
+    __vector4 v80;
+    float f90;
+} Dst_82D8B298;
+
+void fn_82D8B298(Dst_82D8B298 *self, const Src_82D8B298 *src)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  int in_r0;
-  undefined4 uVar3;
-  undefined4 uVar4;
-  undefined4 uVar5;
-  
-  *(undefined4 *)(param_1 + 0x90) = *(undefined4 *)(param_2 + 4);
-  puVar1 = (undefined4 *)(in_r0 + param_2 + 0x20 & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (undefined4 *)(in_r0 + param_1 + 0x50 & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  puVar1 = (undefined4 *)(param_2 + 0x30U & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (undefined4 *)(param_1 + 0x60U & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  puVar1 = (undefined4 *)(param_2 + 0x40U & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (undefined4 *)(param_1 + 0x70U & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  puVar1 = (undefined4 *)(param_2 + 0x10U & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (undefined4 *)(param_1 + 0x80U & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  return;
-}
+    Rotation_82D8B298 *dst;
+    const Rotation_82D8B298 *rot;
 
+    self->f90 = src->f4;
+    dst = &self->rot;
+    rot = &src->rot;
+    dst->col0 = rot->col0;
+    dst->col1 = rot->col1;
+    dst->col2 = rot->col2;
+    self->v80 = src->v10;
+}

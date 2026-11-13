@@ -1,38 +1,13 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_82001D2C;
+extern char lbl_82001D2C[];
 
+typedef struct Obj_82662C68 {
+    void *vtable;
+    int value;
+} Obj_82662C68;
 
-undefined4 * fn_82662C68(undefined4 *param_1,undefined4 *param_2)
-
+Obj_82662C68 *fn_82662C68(Obj_82662C68 *self, const int *value)
 {
-  *param_1 = &lbl_82001D2C;
-  param_1[1] = *param_2;
-  return param_1;
+    self->vtable = lbl_82001D2C;
+    self->value = *value;
+    return self;
 }
-

@@ -1,69 +1,45 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E4FE08();
-extern int fn_82E50F00();
-extern int fn_82E51028();
-extern int fn_82E63500();
-extern int fn_82F64CE0();
-extern int fn_82F68CC0();
+typedef struct Var_82E530F8 { unsigned short vt; unsigned short r1; int r2; void *data; } Var_82E530F8;
+struct Store_82E530F8;
+typedef struct StoreVtbl_82E530F8 {
+    void *slots[19];
+    void (*Remove)(struct Store_82E530F8 *self, void *key);
+} StoreVtbl_82E530F8;
+typedef struct Store_82E530F8 { StoreVtbl_82E530F8 *vt; int lock; } Store_82E530F8;
+extern void fn_82E50F00(int *lock, int n);
+extern void fn_82E51028(int *lock, int n);
+extern Var_82E530F8 *fn_82E63500(Store_82E530F8 *self, void *key);
+extern void *fn_82E4FE08(unsigned int size);
+extern unsigned int fn_82F64CE0(const unsigned short *s);
+extern void *memcpy(void *, const void *, unsigned int);
 
-
-undefined8 fn_82E530F8(int *param_1,undefined8 param_2,undefined8 param_3)
-
+int fn_82E530F8(Store_82E530F8 *self, void *key, const unsigned short *str)
 {
-  undefined2 *puVar3;
-  longlong lVar1;
-  ulonglong uVar2;
-  undefined8 uVar4;
-  ulonglong uVar5;
-  
-  fn_82E50F00(param_1 + 1,1);
-  puVar3 = (undefined2 *)fn_82E63500(param_1,param_2);
-  uVar4 = 0;
-  if (puVar3 != (undefined2 *)0x0) {
-    lVar1 = fn_82F64CE0(param_3);
-    uVar5 = (lVar1 + 1U & 0x7fffffff) << 1;
-    if (0xfffffffe < uVar5) {
-      uVar4 = 0xffffffff80070057;
-      goto LAB_82e531ac;
-    }
-    uVar2 = fn_82E4FE08(uVar5);
-    *(int *)(puVar3 + 4) = (int)uVar2;
-    if ((uVar2 & 0xffffffff) != 0) {
-      fn_82F68CC0(uVar2,param_3,uVar5);
-      *puVar3 = 0x1f;
-      goto LAB_82e531ac;
-    }
-    (**(code **)(*param_1 + 0x4c))(param_1,param_2);
-  }
-  uVar4 = 0xffffffff8007000e;
-LAB_82e531ac:
-  fn_82E51028(param_1 + 1,1);
-  return uVar4;
-}
+    Var_82E530F8 *v;
+    int hr;
+    void *p;
+    unsigned int size;
 
+    fn_82E50F00(&self->lock, 1);
+    v = fn_82E63500(self, key);
+    hr = 0;
+    if (v == 0) {
+        hr = 0x8007000e;
+    } else {
+        size = (fn_82F64CE0(str) + 1) * 2;
+        if (size >= 0xffffffff) {
+            hr = 0x80070057;
+        } else {
+            p = fn_82E4FE08(size);
+            v->data = p;
+            if (p == 0) {
+                self->vt->Remove(self, key);
+                hr = 0x8007000e;
+            } else {
+                memcpy(p, str, size);
+                v->vt = 0x1f;
+            }
+        }
+    }
+    fn_82E51028(&self->lock, 1);
+    return hr;
+}

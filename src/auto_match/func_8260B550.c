@@ -1,47 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8260B5C0();
-extern int fn_8284D840();
-extern int fn_82851250();
+typedef struct Obj_8260B550 {
+    int a;
+    int b;
+} Obj_8260B550;
 
+extern void fn_82851250(int a, int b, float g, float h, int p, int q, int x);
+extern unsigned int fn_8284D840(int a);
+extern void fn_8260B5C0(Obj_8260B550 *o, void *y, void *z, float f);
 
-void fn_8260B550(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined4 *param_4,
-                  undefined8 param_5,undefined8 param_6,undefined8 param_7,undefined8 param_8,
-                  undefined8 param_9,undefined8 param_10)
-
+void fn_8260B550(Obj_8260B550 *o, int x, void *y, void *z, float f, int p, int q, float g, float h)
 {
-  ulonglong uVar1;
-  
-  fn_82851250(param_2,param_3,*param_4,param_4[1],param_6,param_7,param_9,param_10,param_5);
-  uVar1 = fn_8284D840(*param_4);
-  if ((uVar1 & 8) != 0) {
-    fn_8260B5C0(param_1,param_4,param_6,param_7);
-  }
-  return;
+    fn_82851250(o->a, o->b, g, h, p, q, x);
+    if (fn_8284D840(o->a) & 8) {
+        fn_8260B5C0(o, y, z, f);
+    }
 }
-

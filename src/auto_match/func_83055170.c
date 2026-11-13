@@ -1,54 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_83050528();
-extern int fn_83055CF0();
-extern int fn_83055EE8();
+extern void fn_83050528(char *o, int state);
+extern void fn_83055CF0(char *o);
+extern void fn_83055EE8(void *owner, char *o);
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
 
-
-void fn_83055170(int param_1)
-
+void fn_83055170(char *param_1)
 {
-  int iVar1;
-  int iVar2;
-  
-  iVar1 = param_1 + -0x40;
-  RtlEnterCriticalSection(iVar1);
-  if (*(char *)(param_1 + 0x28) == '\0') {
-    fn_83050528(param_1 + -0x78,3);
-    RtlLeaveCriticalSection(iVar1);
+  RtlEnterCriticalSection(param_1 - 0x40);
+  if (*(unsigned char *)(param_1 + 0x28) != 0) {
+    fn_83050528(param_1 - 0x78, 3);
+    fn_83055CF0(param_1 - 0x78);
+    RtlLeaveCriticalSection(param_1 - 0x40);
+    fn_83055EE8(*(void **)(param_1 - 0x18), param_1 - 0x78);
   }
   else {
-    iVar2 = param_1 + -0x78;
-    fn_83050528(iVar2,3);
-    fn_83055CF0(iVar2);
-    RtlLeaveCriticalSection(iVar1);
-    fn_83055EE8(*(undefined4 *)(param_1 + -0x18),iVar2);
+    fn_83050528(param_1 - 0x78, 3);
+    RtlLeaveCriticalSection(param_1 - 0x40);
   }
-  return;
 }
-

@@ -1,52 +1,13 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265CF50();
-extern int fn_82665688();
-extern unsigned int uStack00000014;
+extern char lbl_831E7A5C[];
+extern int fn_82665688(void *key);
+extern void **fn_8265CF50(void *vec, unsigned int index);
 
-
-undefined4 fn_82665628(undefined4 param_1)
-
+void *fn_82665628(void *key)
 {
-  int iVar1;
-  undefined4 *puVar2;
-  undefined4 uVar3;
-  undefined4 uStack00000014;
-  
-  uStack00000014 = param_1;
-  iVar1 = fn_82665688(param_1);
-  if (iVar1 < 0) {
-    uVar3 = 0;
-  }
-  else {
-    puVar2 = (undefined4 *)fn_8265CF50(0xffffffff831e7a60,iVar1);
-    uVar3 = *puVar2;
-  }
-  return uVar3;
+    int index = fn_82665688(key);
+    if (index >= 0) {
+        return *fn_8265CF50(lbl_831E7A5C + 4, index);
+    } else {
+        return 0;
+    }
 }
-
