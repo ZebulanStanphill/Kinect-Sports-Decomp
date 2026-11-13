@@ -4,7 +4,6 @@
 import argparse
 import json
 import os
-import re
 import shutil
 import subprocess
 import sys
@@ -16,6 +15,7 @@ from lab_paths import LAB as DEFAULT_LAB
 sys.path.insert(0, str(ROOT / "tools"))
 import coff_rename  # noqa: E402
 import ltcg_obj  # noqa: E402
+import unit_paths  # noqa: E402
 
 VC_DEFINES = ["/D_HAS_EXCEPTIONS=0", "/D_ALLOCA_S_MARKER_SIZE=8", "/D_JBLEN=64", "/D_JBTYPE=double"]
 
@@ -32,23 +32,27 @@ def symbol_name(address: int) -> str:
 
 def grouped_object(address: int):
     """Original object of the multi-function unit whose .text range contains the
-    address, if any: a source file grouped under its address (auto_match/file_*.c) or
-    under its original name (such as Scaleform/jpeg-6b/jdapimin.c)."""
-    text = (ROOT / "config/4D5308C9/splits.txt").read_text(encoding="utf-8")
-    for match in re.finditer(r"(?m)^(?!auto_match/func_)(\S+)\.(?:c|cpp):\n((?:\t.*\n)+)", text):
-        rng = re.search(r"\.text\s+start:0x([0-9A-Fa-f]+)\s+end:0x([0-9A-Fa-f]+)", match.group(2))
-        if rng and int(rng.group(1), 16) <= address < int(rng.group(2), 16):
-            return ROOT / "build/4D5308C9/obj" / f"{match.group(1)}.obj"
-    return None
+    address, if any: a source file grouped under its address (file_<ADDRESS>.c in its
+    folder) or under its original name (such as Scaleform/jpeg-6b/jdapimin.c)."""
+    name = unit_paths.containing_unit(ROOT, address, skip_function_units=True)
+    return unit_paths.original_object(ROOT, name) if name else None
+
+
+def function_config(address: int) -> dict:
+    """The objects.json entry of the function's own unit (func_<ADDRESS> in any folder), or
+    an empty one if it has none."""
+    name = unit_paths.function_unit(ROOT, address)
+    if name is None:
+        return {}
+    entry = unit_paths.objects(ROOT)[name]
+    return {"status": entry} if isinstance(entry, str) else entry
 
 
 def unit_config(name: str) -> dict:
     """The objects.json entry of a unit, such as auto_match/func_82526C70.c."""
-    objects = json.loads((ROOT / "config/4D5308C9/objects.json").read_text(encoding="utf-8"))
-    for lib in objects.values():
-        entry = lib["objects"].get(name)
-        if entry is not None:
-            return {"status": entry} if isinstance(entry, str) else entry
+    entry = unit_paths.objects(ROOT).get(name)
+    if entry is not None:
+        return {"status": entry} if isinstance(entry, str) else entry
     raise SystemExit(f"{name} is not a unit in config/4D5308C9/objects.json")
 
 
@@ -58,12 +62,7 @@ def ltcg_compile(args, source: Path, compiler: Path, stem: str, work: Path):
     units = args.ltcg
     if not units:
         # default to the function's own configured list
-        for suffix in (".c", ".cpp"):
-            try:
-                units = unit_config(f"auto_match/func_{stem}{suffix}").get("ltcg_units", [])
-                break
-            except SystemExit:
-                continue
+        units = function_config(int(stem, 16)).get("ltcg_units", [])
     others = []
     for name in units or []:
         entry = unit_config(name)
@@ -118,12 +117,16 @@ def main() -> int:
     address = int(args.address, 16)
     stem = f"{address:08X}"
     symbol = symbol_name(address)
-    original = ROOT / "build/4D5308C9/obj/auto_match" / f"func_{stem}.obj"
+    # the function's own unit, in the folder of its original source file or in auto_match
+    own = unit_paths.function_unit(ROOT, address)
+    original = unit_paths.original_object(ROOT, own or f"{unit_paths.NEW_UNIT_DIR}/func_{stem}.c")
     if address == 0x82FA5958:
         original = ROOT / "build/4D5308C9/obj/compiler_probe/add.obj"
-    if not original.is_file():
+    elif own is None:
         # a function grouped with the rest of its source file: pass the whole
-        # grouped source (src/auto_match/file_*.c or a named file) as the candidate
+        # grouped source (file_<ADDRESS>.c or a named file) as the candidate. The
+        # configuration decides, not the files: the build directory keeps the old
+        # per-function object of a function that was grouped later.
         original = grouped_object(address) or original
     if not original.is_file():
         parser.error(f"Missing isolated original object: {original}; run scripts/isolate_functions.py first")
@@ -161,12 +164,7 @@ def main() -> int:
     if result.returncode == 0:
         aliases = dict(a.split("=", 1) for a in args.pool_alias or [])
         if args.pool_alias is None:
-            for suffix in (".c", ".cpp"):
-                try:
-                    aliases = unit_config(f"auto_match/func_{stem}{suffix}").get("pool_aliases") or {}
-                    break
-                except SystemExit:
-                    continue
+            aliases = function_config(address).get("pool_aliases") or {}
         if aliases:
             obj = work / "candidate.obj"
             obj.write_bytes(coff_rename.rename(obj.read_bytes(), aliases, strict=False))

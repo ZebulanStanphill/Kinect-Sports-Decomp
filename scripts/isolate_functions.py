@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Add small Jeff split units for selected function addresses."""
+"""Add small Jeff split units for selected function addresses.
+
+A new unit is auto_match/func_<ADDRESS>.c: the folder for units whose original source file
+is not known. Units move to the folder of their original file once it is known
+(docs/source_files.md), and a split that already covers the address is found there too,
+because the ranges of every unit in splits.txt are read."""
 
 import argparse
 import json
