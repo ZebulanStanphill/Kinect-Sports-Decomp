@@ -27,7 +27,6 @@ typedef __int64 S64;
 typedef struct { U64 lo, hi; } V16;
 extern int fn_82F6A544();
 extern int fn_82F6A590();
-extern float lbl_82002C28;
 extern float lbl_820155AC;
 extern unsigned int lbl_820155B4;
 extern unsigned int lbl_820155B8;
@@ -55,7 +54,7 @@ void fn_82788C30(undefined8 param_1,float *param_2,int param_3,ulonglong param_4
   float *pfVar16;
   
   iVar14 = fn_82F6A544();
-  fVar13 = lbl_82002C28;
+  fVar13 = 0.25f;
   iVar12 = (int)((param_4 & 0xffffffff) << 2);
   fVar1 = param_5[1];
   fVar2 = *param_5;
@@ -79,7 +78,7 @@ void fn_82788C30(undefined8 param_1,float *param_2,int param_3,ulonglong param_4
       fVar11 = ((fVar6 - fVar8) * (fVar5 - fVar3) - (fVar7 - fVar3) * (fVar4 - fVar8)) / fVar11;
       fVar2 = (fVar2 - fVar7) * fVar11 + fVar7;
       fVar1 = (fVar1 - fVar6) * fVar11 + fVar6;
-      param_5[1] = (fVar6 - fVar1) * lbl_82002C28 + fVar1;
+      param_5[1] = (fVar6 - fVar1) * 0.25f + fVar1;
       *param_5 = (fVar7 - fVar2) * fVar13 + fVar2;
     }
   }

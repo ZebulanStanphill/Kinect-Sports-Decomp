@@ -33,7 +33,6 @@ extern int fn_82F65E18();
 extern int fn_82F6A530();
 extern int fn_82F6A57C();
 extern unsigned int lbl_82002AE0;
-extern float lbl_82002C28;
 extern unsigned int lbl_82005344;
 extern unsigned int lbl_8201559C;
 extern unsigned int uStack_118;
@@ -82,7 +81,7 @@ void fn_82785BF8(undefined8 param_1,float *param_2,float *param_3,undefined8 par
   dVar11 = (double)(float)dVar9;
   dVar10 = (double)(float)((double)(float)(dVar11 + (double)lbl_8201559C) - dVar11);
   dVar9 = (double)fn_82F65E18((double)(param_5[5] /
-                                       (*(float *)(iVar5 + 0x28) * lbl_82002C28 + param_5[5])));
+                                       (*(float *)(iVar5 + 0x28) * 0.25f + param_5[5])));
   iVar7 = (int)(dVar10 / (double)((float)dVar9 * lbl_82005344)) + 1;
   uStack_120 = (longlong)iVar7;
   dVar9 = (double)(float)((double)(float)(dVar10 / (double)uStack_120) + dVar11);

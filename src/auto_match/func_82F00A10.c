@@ -40,7 +40,6 @@ extern unsigned int iStack_f0;
 extern unsigned int iStack_f4;
 extern unsigned int iStack_f8;
 extern unsigned int iStack_fc;
-extern float lbl_82002C28;
 extern unsigned int lbl_82002C2C;
 extern unsigned int lbl_82005710;
 extern unsigned int lbl_82005730;
@@ -414,7 +413,7 @@ LAB_82f012ec:
     fVar9 = (float)(longlong)iVar21;
     dVar38 = (double)((float)(longlong)iStack_f8 / fVar9);
     dVar37 = (double)((float)(longlong)iStack_10c / fVar9);
-    dVar39 = (double)(((float)(longlong)iStack_f4 / fVar9) * lbl_82002C28);
+    dVar39 = (double)(((float)(longlong)iStack_f4 / fVar9) * 0.25f);
     if (dVar39 * lbl_820FC2C8 <= lbl_82005710) {
       dVar40 = dVar39 * lbl_820FC2C8 - dVar11;
     }

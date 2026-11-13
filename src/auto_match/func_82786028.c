@@ -38,7 +38,6 @@ extern int fn_82F65E18();
 extern int fn_82F6A548();
 extern int fn_82F6A594();
 extern unsigned int iStack_d8;
-extern float lbl_82002C28;
 extern unsigned int lbl_82005344;
 extern unsigned int lbl_82015468;
 extern unsigned int uStack_e0;
@@ -184,7 +183,7 @@ void fn_82786028(undefined8 param_1,float *param_2,int param_3,float *param_4)
       }
       dVar15 = (double)(float)(dVar16 - dVar14);
       dVar16 = (double)fn_82F65E18((double)(*(float *)(param_3 + 0x10) /
-                                            (*(float *)(iVar3 + 0x28) * lbl_82002C28 +
+                                            (*(float *)(iVar3 + 0x28) * 0.25f +
                                             *(float *)(param_3 + 0x10))));
       lVar4 = (ulonglong)(uint)(int)(dVar15 / (double)((float)dVar16 * lbl_82005344)) + 1;
       uStack_e0 = (longlong)(int)lVar4;
@@ -292,7 +291,7 @@ void fn_82786028(undefined8 param_1,float *param_2,int param_3,float *param_4)
       }
       dVar15 = (double)(float)(dVar14 - dVar16);
       dVar16 = (double)fn_82F65E18((double)(*(float *)(param_3 + 0xc) /
-                                            (*(float *)(iVar3 + 0x28) * lbl_82002C28 +
+                                            (*(float *)(iVar3 + 0x28) * 0.25f +
                                             *(float *)(param_3 + 0xc))));
       lVar4 = (ulonglong)(uint)(int)(dVar15 / (double)((float)dVar16 * lbl_82005344)) + 1;
       uStack_e0 = (longlong)(int)lVar4;

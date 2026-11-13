@@ -1,6 +1,5 @@
 extern float lbl_8201DD70; /* pi/2 */
 extern float lbl_8201DF4C; /* -pi/2 */
-extern float lbl_82002C28;
 extern float lbl_8201DF48;
 extern float lbl_8201DF44;
 extern float lbl_8201DF40;
@@ -20,7 +19,7 @@ float fn_82809730(float x)
         return lbl_8201DF4C;
     }
     x2 = x * x;
-    if (x2 <= lbl_82002C28) {
+    if (x2 <= 0.25f) {
         return x * ((((x2 * 0.0531649627f + lbl_8201DF48) * x2 + lbl_8201DF44) * x2 + lbl_8201DF40) * x2 + lbl_8201DF3C);
     }
     if (x > 0.5f) {

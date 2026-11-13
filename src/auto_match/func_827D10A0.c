@@ -28,7 +28,6 @@ typedef struct { U64 lo, hi; } V16;
 extern unsigned int *auStack_104;
 extern int fn_82F6A540();
 extern int fn_82F6A58C();
-extern float lbl_82017F04;
 extern unsigned int lbl_82017F08;
 extern unsigned int lbl_82017F0C;
 extern float lbl_82175460;
@@ -81,7 +80,7 @@ void fn_827D10A0(undefined8 param_1,int param_2,longlong param_3,longlong param_
   fVar21 = lbl_82175460;
   fVar20 = lbl_82017F0C;
   fVar19 = lbl_82017F08;
-  fVar18 = lbl_82017F04;
+  fVar18 = 1.84775901f;
   param_3 = param_3 + 0x6e;
   lVar22 = -0x7dff0000;
   lVar27 = 8;
@@ -130,7 +129,7 @@ void fn_827D10A0(undefined8 param_1,int param_2,longlong param_3,longlong param_
       fVar5 = fVar8 - fVar9;
       fVar9 = fVar9 + fVar8;
       fVar6 = fVar9 + fVar2;
-      fVar8 = (fVar5 + fVar7) * lbl_82017F04;
+      fVar8 = (fVar5 + fVar7) * 1.84775901f;
       *(float *)(puVar25 + -0x5c) = fVar6 + fVar11;
       *(float *)(puVar25 + 0x84) = fVar11 - fVar6;
       fVar6 = (fVar8 - fVar7 * lbl_82017F08) - fVar6;

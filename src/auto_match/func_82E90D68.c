@@ -40,7 +40,6 @@ extern int fn_82F00008();
 extern int fn_82F023B0();
 extern int fn_82F14D40();
 extern unsigned int lbl_82005730;
-extern float lbl_82017EF8;
 extern unsigned int uStack_70;
 
 
@@ -234,7 +233,7 @@ LAB_82e91240:
   *(int *)(param_1 + 0x1dcc) = *(int *)(param_1 + 0x1dcc) + 1;
   dVar11 = (double)(longlong)*(int *)(param_1 + 0x588);
   dVar12 = (double)(((0x27 - (ulonglong)*(uint *)(iVar4 + 0x10) & 0xffffffff) >> 3) +
-                    (ulonglong)*(uint *)(iVar4 + 4) & 0xffffffff) * lbl_82017EF8;
+                    (ulonglong)*(uint *)(iVar4 + 4) & 0xffffffff) * 8.0;
   if (*(int *)(param_1 + 0x590) != 0) {
     dVar11 = dVar11 + lbl_82005730;
   }

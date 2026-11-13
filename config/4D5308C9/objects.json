@@ -118390,10 +118390,7 @@
         "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ],
-        "pool_aliases": {
-          "__real@4020000000000000": "lbl_82017EF8"
-        }
+        ]
       },
       "auto_match/func_827CE568.c": {
         "status": "Matching",
@@ -118406,10 +118403,7 @@
         "extra_cflags": [
           "/O1",
           "/fp:precise"
-        ],
-        "pool_aliases": {
-          "__real@46800100": "lbl_82017F00"
-        }
+        ]
       },
       "Scaleform/jpeg-6b/jcprepct.c": {
         "status": "Matching",
@@ -167934,14 +167928,7 @@
         "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ],
-        "pool_aliases": {
-          "__real@3ef0001000100010": "lbl_82052598",
-          "__real@3f70000000000000": "lbl_820525A0",
-          "__real@3f70101010101010": "lbl_820525A8",
-          "__real@406fe00000000000": "lbl_820525B0",
-          "__real@40efffe000000000": "lbl_82052590"
-        }
+        ]
       },
       "auto_match/func_829B0BF8.c": {
         "status": "Matching",
@@ -168568,23 +168555,14 @@
         "extra_cflags": [
           "/O1",
           "/Oi"
-        ],
-        "pool_aliases": {
-          "__real@407f400000000000": "lbl_82054E10",
-          "__real@40e631e000000000": "lbl_82054E18"
-        }
+        ]
       },
       "auto_match/func_829BA2F8.c": {
         "status": "Matching",
         "extra_cflags": [
           "/O1",
           "/Oi"
-        ],
-        "pool_aliases": {
-          "__real@407f400000000000": "lbl_82054E10",
-          "__real@40e631e000000000": "lbl_82054E18",
-          "__real@47c35000": "lbl_82054EA0"
-        }
+        ]
       },
       "auto_match/func_829BA468.c": {
         "status": "Matching",
@@ -169145,10 +169123,7 @@
           "/O2"
         ],
         "pool_aliases": {
-          "__real@3f8a8bd4": "lbl_82017F0C",
-          "__real@3fb504f3": "lbl_82175460",
-          "__real@3fec835e": "lbl_82017F04",
-          "__real@40273d75": "lbl_82017F08"
+          "__real@3fb504f3": "lbl_82175460"
         }
       },
       "auto_match/func_829C3050.c": {
@@ -215285,10 +215260,7 @@
         "extra_cflags": [
           "/O2",
           "/QVMXReserve"
-        ],
-        "pool_aliases": {
-          "__real@3f7fbe77": "lbl_821327A0"
-        }
+        ]
       },
       "auto_match/func_82CE5C88.c": "MISSING",
       "auto_match/func_82CE5E80.c": "MISSING",
@@ -229809,10 +229781,7 @@
         "extra_cflags": [
           "/O2",
           "/QVMXReserve"
-        ],
-        "pool_aliases": {
-          "__real@c0000000": "lbl_82005340"
-        }
+        ]
       },
       "auto_match/func_82D702B0.c": {
         "status": "NonMatching",
@@ -236361,10 +236330,7 @@
           "/O2",
           "/QVMXReserve"
         ],
-        "vc_include": true,
-        "pool_aliases": {
-          "__real@3f7ae148": "lbl_821418B4"
-        }
+        "vc_include": true
       },
       "auto_match/func_82D9F968.c": {
         "status": "Matching",
@@ -240342,11 +240308,7 @@
           "/O2",
           "/QVMXReserve"
         ],
-        "vc_include": true,
-        "pool_aliases": {
-          "__real@3e800000": "lbl_82002C28",
-          "__real@3f666666": "lbl_8201DFF4"
-        }
+        "vc_include": true
       },
       "auto_match/func_82DDA788.c": "MISSING",
       "auto_match/func_82DDAA30.c": "MISSING",
@@ -300968,9 +300930,7 @@
           "/O1"
         ],
         "pool_aliases": {
-          "__real@3d75c28f": "lbl_8207F514",
-          "__real@3f8ccccd": "lbl_82186E18",
-          "__real@3fc00000": "lbl_820145BC"
+          "__real@3f8ccccd": "lbl_82186E18"
         }
       },
       "auto_match/func_83075CE0.c": {

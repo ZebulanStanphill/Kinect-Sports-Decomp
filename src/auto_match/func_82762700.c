@@ -51,7 +51,6 @@ extern int fn_8275F178();
 extern int fn_82783FB8();
 extern int fn_827840E8();
 extern unsigned int lbl_82002AE0;
-extern float lbl_82002C28;
 extern unsigned int lbl_820069B4;
 extern unsigned int lbl_821AAD20;
 extern unsigned int uStack_1cc;
@@ -158,7 +157,7 @@ LAB_827628bc:
       fn_8270E968(param_5,param_3,lVar5,auStack_230);
       fn_8275EC20(param_3,param_5);
     }
-    fn_827840E8((double)(*(float *)(param_2 + 8) * lbl_82002C28),param_3);
+    fn_827840E8((double)(*(float *)(param_2 + 8) * 0.25f),param_3);
     fn_826EE368(param_2,param_3,lVar5,auStack_230,param_4,*param_4);
   }
   return;

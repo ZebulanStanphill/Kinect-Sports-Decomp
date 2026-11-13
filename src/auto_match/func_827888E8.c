@@ -30,7 +30,6 @@ extern double sqrt(double);
 extern int fn_82F6A53C();
 extern int fn_82F6A588();
 extern unsigned int lbl_82002AE0;
-extern float lbl_82002C28;
 extern float lbl_820155AC;
 extern unsigned int lbl_820155B0;
 extern unsigned int lbl_820155B4;
@@ -132,8 +131,8 @@ void fn_827888E8(undefined8 param_1,double param_2)
     fVar2 = (fVar20 - fVar2) * fVar3 + fVar2;
   }
   else {
-    fVar15 = (fVar15 + fVar6 + fVar17 + fVar18) * lbl_82002C28;
-    fVar2 = (fVar2 + fVar20 + fVar8 + fVar1) * lbl_82002C28;
+    fVar15 = (fVar15 + fVar6 + fVar17 + fVar18) * 0.25f;
+    fVar2 = (fVar2 + fVar20 + fVar8 + fVar1) * 0.25f;
   }
   *in_r8 = fVar15;
   *in_r9 = fVar2;
