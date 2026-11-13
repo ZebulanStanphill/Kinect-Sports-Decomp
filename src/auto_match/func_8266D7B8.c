@@ -1,36 +1,23 @@
-extern int fn_8266D3E0();
-extern int fn_8266D5C0();
+typedef struct Elem_8266D7B8 { int v[3]; } Elem_8266D7B8;
 
+extern Elem_8266D7B8 *fn_8266D5C0(Elem_8266D7B8 *first1, Elem_8266D7B8 *last1, Elem_8266D7B8 *first2,
+                                  Elem_8266D7B8 *last2, Elem_8266D7B8 *dest);
+extern Elem_8266D7B8 *fn_8266D3E0(Elem_8266D7B8 *first, Elem_8266D7B8 *last, Elem_8266D7B8 *dest);
 
-void fn_8266D7B8(__int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  __int64 param_5)
-
+/* std::_Chunked_merge over 12-byte elements */
+void fn_8266D7B8(Elem_8266D7B8 *first, Elem_8266D7B8 *last, Elem_8266D7B8 *dest, int chunk, int count)
 {
-  __int64 lVar1;
-  __int64 lVar2;
-  int iVar3;
-  int iVar4;
-  
-  iVar3 = (int)(param_4 & 0x7fffffff) * 2;
-  iVar4 = (int)param_5;
-  if (iVar3 <= iVar4) {
-    lVar2 = param_1;
-    do {
-      lVar1 = param_4 * 0xc + lVar2;
-      param_1 = param_4 * 0xc + lVar1;
-      param_3 = fn_8266D5C0(lVar2,lVar1,lVar1,param_1,param_3);
-      param_5 = param_5 + (param_4 & 0x7fffffff) * -2;
-      iVar4 = (int)param_5;
-      lVar2 = param_1;
-    } while (iVar3 <= iVar4);
-  }
-  if ((int)param_4 < iVar4) {
-    lVar2 = param_4 * 0xc + param_1;
-    fn_8266D5C0(param_1,lVar2,lVar2,param_2,param_3);
-  }
-  else {
-    fn_8266D3E0(param_1,param_2);
-  }
-  return;
+    int chunk2;
+    for (chunk2 = chunk * 2; chunk2 <= count; count -= chunk2) {
+        Elem_8266D7B8 *mid1 = first + chunk;
+        Elem_8266D7B8 *mid2 = mid1 + chunk;
+        dest = fn_8266D5C0(first, mid1, mid1, mid2, dest);
+        first = mid2;
+    }
+    if (count <= chunk) {
+        fn_8266D3E0(first, last, dest);
+    } else {
+        Elem_8266D7B8 *mid = first + chunk;
+        fn_8266D5C0(first, mid, mid, last, dest);
+    }
 }
-

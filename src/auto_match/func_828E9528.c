@@ -1,36 +1,39 @@
-extern int fn_8265C9E0();
-extern int fn_828A7138();
-extern int fn_828A8008();
-extern int fn_828E38D8();
+typedef struct Node_828E9528 Node_828E9528;
+struct Node_828E9528 { Node_828E9528 *next; };
+typedef struct List_828E9528 { Node_828E9528 *head; } List_828E9528;
+typedef struct Owner_828E9528 { List_828E9528 *list; } Owner_828E9528;
+typedef struct Ref_828E9528 { int f0; int count; } Ref_828E9528;
 
+typedef struct Iter_828E9528 {
+    Owner_828E9528 *owner;
+    Ref_828E9528 *ref;
+    Node_828E9528 *cur;
+} Iter_828E9528;
 
-void fn_828E9528(unsigned int *param_1)
+extern void *fn_8265C9E0(unsigned int size);
+extern Ref_828E9528 *fn_828A8008(void *mem, Owner_828E9528 *owner, List_828E9528 *list);
+extern void fn_828E38D8(Iter_828E9528 *self, Ref_828E9528 *ref);
+extern void fn_828A7138(Iter_828E9528 *self, int n, Node_828E9528 **pos, int keep);
 
+static __forceinline int IsUnique(Iter_828E9528 *self)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  int aiStack_20 [4];
-  
-  if ((param_1[1] == 0) || (*(int *)(param_1[1] + 4) != 1)) {
-    uVar1 = fn_8265C9E0(0x10);
-    if ((uVar1 & 0xffffffff) == 0) {
-      uVar2 = 0;
-    }
-    else {
-      uVar2 = fn_828A8008(uVar1,(unsigned int *)*param_1,*(unsigned int *)*param_1);
-    }
-    fn_828E38D8(param_1,uVar2);
-    uVar2 = 0;
-    aiStack_20[0] = *(int *)**(unsigned int **)*param_1;
-  }
-  else {
-    aiStack_20[0] = param_1[2];
-    if ((int *)aiStack_20[0] == (int *)**(unsigned int **)*param_1) {
-      aiStack_20[0] = *(int *)**(unsigned int **)*param_1;
-    }
-    uVar2 = 1;
-  }
-  fn_828A7138(param_1,1,aiStack_20,uVar2);
-  return;
+    return self->ref != 0 && self->ref->count == 1;
 }
 
+void fn_828E9528(Iter_828E9528 *self)
+{
+    Node_828E9528 *pos;
+    int keep;
+
+    if (!IsUnique(self)) {
+        void *mem = fn_8265C9E0(0x10);
+        fn_828E38D8(self, mem ? fn_828A8008(mem, self->owner, self->owner->list) : 0);
+        pos = self->owner->list->head->next;
+        keep = 0;
+    } else {
+        Node_828E9528 *head = self->owner->list->head;
+        pos = self->cur == head ? head->next : self->cur;
+        keep = 1;
+    }
+    fn_828A7138(self, 1, &pos, keep);
+}

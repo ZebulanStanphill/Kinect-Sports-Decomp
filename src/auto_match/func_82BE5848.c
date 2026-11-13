@@ -1,33 +1,32 @@
-extern int fn_82BEA1F8();
-extern int fn_82BEA230();
-extern unsigned int lbl_831751CC;
-extern unsigned int lbl_831751D0;
-extern unsigned int lbl_831751D8;
-extern unsigned int lbl_8322B180;
-extern unsigned int lbl_8322B1BC;
-extern unsigned int lbl_8322B1C0;
+extern char lbl_8322B184[];
+extern int lbl_8322B180;
+extern void *lbl_8322B1BC;
+extern void *lbl_8322B1C0;
+extern void *lbl_831751CC;
+extern void *lbl_831751D0;
+extern int lbl_831751D8;
+extern void fn_82BEA1F8(void *lock, const char *name);
+extern void fn_82BEA230(void *lock, const char *name);
 
-
-unsigned __int64 fn_82BE5848(unsigned char *param_1,unsigned char *param_2,int param_3)
-
+int fn_82BE5848(void *allocFn, void *freeFn, int enable)
 {
-  unsigned __int64 uVar1;
-  
-  uVar1 = 0;
-  fn_82BEA1F8(0xffffffff8322b184,0xffffffff820e92ec);
-  if ((lbl_8322B180 == 0) && (lbl_831751D8 != 0)) {
-    lbl_831751D0 = param_1;
-    if (param_1 == (unsigned char *)0x0) {
-      lbl_831751D0 = lbl_8322B1BC;
-    }
-    lbl_831751CC = param_2;
-    if (param_2 == (unsigned char *)0x0) {
-      lbl_831751CC = lbl_8322B1C0;
-    }
-    uVar1 = 1;
-    lbl_831751D8 = param_3;
-  }
-  fn_82BEA230(0xffffffff8322b184,0xffffffff820e92ec);
-  return uVar1;
-}
+    int result = 0;
 
+    fn_82BEA1F8(lbl_8322B184, "MassiveAdClient3::SetMemoryFunctions");
+    if (lbl_8322B180 == 0 && lbl_831751D8 != 0) {
+        lbl_831751D8 = enable;
+        if (allocFn != 0) {
+            lbl_831751D0 = allocFn;
+        } else {
+            lbl_831751D0 = lbl_8322B1BC;
+        }
+        if (freeFn != 0) {
+            lbl_831751CC = freeFn;
+        } else {
+            lbl_831751CC = lbl_8322B1C0;
+        }
+        result = 1;
+    }
+    fn_82BEA230(lbl_8322B184, "MassiveAdClient3::SetMemoryFunctions");
+    return result;
+}

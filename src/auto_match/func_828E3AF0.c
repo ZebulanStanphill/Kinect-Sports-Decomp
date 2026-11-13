@@ -1,54 +1,36 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-
-
-unsigned int * fn_828E3AF0(int param_1,int *param_2)
-
+typedef struct Opt_828E3AF0 { unsigned char hasValue; int value; } Opt_828E3AF0;
+typedef struct Key_828E3AF0 { int id; Opt_828E3AF0 opt; } Key_828E3AF0;
+typedef struct Node_828E3AF0 {
+  struct Node_828E3AF0 *left, *parent, *right;
+  Key_828E3AF0 key;
+  int mapped;
+  char color;
+  unsigned char isnil;
+} Node_828E3AF0;
+typedef struct { int pad; Node_828E3AF0 *head; } Tree_828E3AF0;
+static unsigned char optLess(const Opt_828E3AF0 *a, const Opt_828E3AF0 *b)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  bool bVar3;
-  unsigned int *puVar4;
-  unsigned __int64 uVar5;
-  
-  puVar4 = *(unsigned int **)(param_1 + 4);
-  if (*(char *)((int)puVar4[1] + 0x1d) != '\0') {
-    return puVar4;
-  }
-  puVar1 = (unsigned int *)puVar4[1];
-  do {
-    if ((int)puVar1[3] < *param_2) {
-LAB_828e3b6c:
-      bVar3 = true;
-    }
-    else {
-      if ((int)puVar1[3] <= *param_2) {
-        uVar5 = 0;
-        if (*(char *)(param_2 + 1) != '\0') {
-          if (*(char *)(puVar1 + 4) == '\0') {
-            uVar5 = 1;
-          }
-          else {
-            uVar5 = ((~(unsigned __int64)(unsigned int)(param_2[2] ^ puVar1[5]) & 0xffffffff) >> 0x1f) +
-                    (unsigned __int64)((unsigned int)param_2[2] <= (unsigned int)puVar1[5]) & 1;
-          }
-        }
-        if (uVar5 != 0) goto LAB_828e3b6c;
-      }
-      bVar3 = false;
-    }
-    if (bVar3) {
-      puVar2 = (unsigned int *)puVar1[2];
-    }
-    else {
-      puVar2 = (unsigned int *)*puVar1;
-      puVar4 = puVar1;
-    }
-    puVar1 = puVar2;
-    if (*(char *)((int)puVar2 + 0x1d) != '\0') {
-      return puVar4;
-    }
-  } while( true );
+  if (!b->hasValue)
+    return 0;
+  if (!a->hasValue)
+    return 1;
+  return a->value < b->value;
 }
-
+static unsigned char keyLess(const Key_828E3AF0 *a, const Key_828E3AF0 *b)
+{
+  return a->id < b->id || (!(b->id < a->id) && optLess(&a->opt, &b->opt));
+}
+Node_828E3AF0 *fn_828E3AF0(Tree_828E3AF0 *t, Key_828E3AF0 *key)
+{
+  Node_828E3AF0 *where = t->head;
+  Node_828E3AF0 *node = where->parent;
+  while (node->isnil == 0) {
+    if (keyLess(&node->key, key)) {
+      node = node->right;
+    } else {
+      where = node;
+      node = node->left;
+    }
+  }
+  return where;
+}

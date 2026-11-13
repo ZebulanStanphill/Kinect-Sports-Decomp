@@ -1,32 +1,28 @@
-#define true 1
-extern int fn_82FECE48();
-extern int fn_82FECEE8();
-extern int fn_82FEF6B8();
-extern unsigned int lbl_831BC794;
+typedef struct Entry_82FECF60 {
+    struct Entry_82FECF60 *next;
+    unsigned int id;
+    int state;
+    int pad[2];
+    void *pending;
+} Entry_82FECF60;
 
+extern Entry_82FECF60 *lbl_831BC794;
+extern int fn_82FECEE8(int code, unsigned int id);
+extern void *fn_82FECE48(unsigned int id);
+extern void fn_82FEF6B8(void *p, int v);
 
-unsigned __int64 fn_82FECF60(unsigned __int64 param_1)
-
+int fn_82FECF60(unsigned int id)
 {
-  unsigned int *puVar1;
-  unsigned __int64 uVar2;
-  
-  puVar1 = lbl_831BC794;
-  do {
-    if (puVar1 == (unsigned int *)0x0) {
-LAB_82fecf94:
-      uVar2 = fn_82FECEE8(2,param_1);
-      return uVar2;
-    }
-    if ((unsigned __int64)(unsigned int)puVar1[1] == (param_1 & 0xffffffff)) {
-      if (((puVar1[2] == 0) || (puVar1[2] == 1)) && (puVar1[5] == 0)) {
-        uVar2 = fn_82FECE48();
-        fn_82FEF6B8(uVar2,1);
-        return 1;
-      }
-      goto LAB_82fecf94;
-    }
-    puVar1 = (unsigned int *)*puVar1;
-  } while( true );
-}
+    Entry_82FECF60 *e;
 
+    for (e = lbl_831BC794; e != 0; e = e->next) {
+        if (e->id == id) {
+            if ((e->state == 0 || e->state == 1) && e->pending == 0) {
+                fn_82FEF6B8(fn_82FECE48(id), 1);
+                return 1;
+            }
+            break;
+        }
+    }
+    return fn_82FECEE8(2, id);
+}

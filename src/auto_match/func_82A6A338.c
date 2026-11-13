@@ -1,20 +1,14 @@
-extern int _blkmov();
+extern int _blkmov(int, int, int);
 
-
-int fn_82A6A338(int param_1,unsigned __int64 param_2,int param_3,int param_4)
-
+int fn_82A6A338(int base, int n, int bits, int index)
 {
-  int iVar1;
-  int aiStack_20 [2];
-  
-  param_4 = (int)param_2 * param_4;
-  aiStack_20[0] = 0;
-  iVar1 = param_4 + param_1;
-  if (0 < (int)param_2) {
-    _blkmov((int)aiStack_20 + ((iVar1 - param_4) - param_1),iVar1,param_2);
+  int pad = (4 - n) * 8;
+  int shift = n * 8 - bits;
+  int m = n * index;
+  int value = 0;
+  int src = m + base;
+  if (0 < n) {
+    _blkmov((int)&value + ((src - m) - base), src, n);
   }
-  return aiStack_20[0] >>
-         (((int)((param_2 & 0xffffffff) << 3) - param_3) + (int)((4 - param_2 & 0xffffffff) << 3) &
-         0x3fU);
+  value >>= shift + pad; return value;
 }
-

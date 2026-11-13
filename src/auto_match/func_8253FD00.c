@@ -1,22 +1,17 @@
-extern int fn_82809400();
-extern unsigned int lbl_821916FC;
-extern unsigned int lbl_82192680;
-extern unsigned int lbl_821956B0;
-extern unsigned int lbl_831C1E78;
-extern unsigned int lbl_831C1E7C;
+typedef struct Entry_8253FD00 {
+  float a;
+  float numerator;
+  float defaultValue;
+} Entry_8253FD00;
 
+extern Entry_8253FD00 lbl_831C1E74[];
+extern const float lbl_82192680;
+extern const float lbl_821916FC;
+extern const float lbl_821954B0[];
+extern float fn_82809400(float x);
 
-void fn_8253FD00(double param_1,int param_2,float *param_3)
-
+void fn_8253FD00(int index, float *out, float value)
 {
-  double dVar1;
-  
-  if (param_1 == (double)lbl_82192680) {
-    param_1 = (double)*(float *)(&lbl_831C1E7C + param_2 * 0xc);
-  }
-  dVar1 = (double)fn_82809400((double)(*(float *)(&lbl_831C1E78 + param_2 * 0xc) /
-                                       (float)(param_1 * (double)lbl_821916FC)));
-  *param_3 = (float)(dVar1 * (double)lbl_821956B0);
-  return;
+  float num = lbl_831C1E74[index].numerator;
+  *out = fn_82809400(num / ((value == lbl_82192680 ? lbl_831C1E74[index].defaultValue : value) * lbl_821916FC)) * lbl_821954B0[0x80];
 }
-

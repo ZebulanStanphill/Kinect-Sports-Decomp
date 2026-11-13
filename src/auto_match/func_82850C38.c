@@ -1,35 +1,24 @@
-void fn_82850C38(unsigned int *param_1,char *param_2,unsigned int *param_3)
+int strcmp(const char *a, const char *b);
 
+typedef struct Entry_82850C38 {
+  int pad0;
+  const char *name;           /* 0x04 */
+  char pad8[0x48];
+} Entry_82850C38;
+
+typedef struct Table_82850C38 {
+  unsigned int count;
+  Entry_82850C38 *entries;
+} Table_82850C38;
+
+void fn_82850C38(Table_82850C38 *table, const char *name, unsigned int *out)
 {
-  char cVar1;
-  char cVar2;
-  unsigned int uVar3;
-  int iVar4;
-  char *pcVar5;
-  char *pcVar6;
-  
-  uVar3 = 0;
-  if (*param_1 != 0) {
-    iVar4 = 0;
-    do {
-      pcVar6 = *(char **)(iVar4 + param_1[1] + 4);
-      pcVar5 = param_2;
-      do {
-        cVar1 = *pcVar6;
-        cVar2 = *pcVar5;
-        if (cVar1 == '\0') break;
-        pcVar6 = pcVar6 + 1;
-        pcVar5 = pcVar5 + 1;
-      } while (cVar1 == cVar2);
-      if (cVar1 == cVar2) {
-        *param_3 = uVar3;
-        return;
-      }
-      uVar3 = uVar3 + 1;
-      iVar4 = iVar4 + 0x50;
-    } while (uVar3 < *param_1);
+  unsigned int i;
+  for (i = 0; i < table->count; i++) {
+    if (strcmp(table->entries[i].name, name) == 0) {
+      *out = i;
+      return;
+    }
   }
-  *param_3 = 0xffffffff;
-  return;
+  *out = 0xffffffff;
 }
-

@@ -1,30 +1,31 @@
-extern unsigned int *auStack_38;
-extern unsigned int *auStack_3c;
-extern int fn_827F7218();
-extern int fn_827F98C8();
-extern int fn_82800A48();
-extern int fn_8280CB70();
-extern unsigned int uStack_40;
+typedef struct Item_827F7608 {
+  char data[0x40];
+} Item_827F7608;
 
+typedef struct Self_827F7608 {
+  int pad0[3];
+  Item_827F7608 *items;     /* 0x0c */
+} Self_827F7608;
 
-void fn_827F7608(int param_1,unsigned __int64 param_2)
+extern void fn_827F98C8(Self_827F7608 *self, unsigned int index, int *out);
+extern unsigned int fn_827F7218(Self_827F7608 *self, unsigned int index);
+extern void fn_82800A48(Self_827F7608 *self, unsigned int index, int *out);
+extern void fn_8280CB70(Item_827F7608 *dst, int value, Item_827F7608 *src);
 
+void fn_827F7608(Self_827F7608 *self, unsigned int index)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  unsigned int uStack_40;
-  unsigned char auStack_3c [4];
-  unsigned char auStack_38 [56];
-  
-  fn_827F98C8(param_1,param_2,auStack_3c);
-  uVar1 = *(unsigned int *)(param_1 + 0xc);
-  uVar3 = fn_827F7218(param_1,param_2);
-  fn_827F98C8(param_1,uVar3,auStack_38);
-  uVar2 = *(unsigned int *)(param_1 + 0xc);
-  fn_82800A48(param_1,param_2,&uStack_40);
-  fn_8280CB70((uVar3 & 0x3ffffff) * 0x40 + (unsigned __int64)uVar2,uStack_40,
-               (param_2 & 0x3ffffff) * 0x40 + (unsigned __int64)uVar1);
-  return;
-}
+  int value;
+  int a;
+  int b;
+  Item_827F7608 *src;
+  Item_827F7608 *dst;
+  unsigned int other;
 
+  fn_827F98C8(self, index, &a);
+  src = &self->items[index];
+  other = fn_827F7218(self, index);
+  fn_827F98C8(self, other, &b);
+  dst = &self->items[other];
+  fn_82800A48(self, index, &value);
+  fn_8280CB70(dst, value, src);
+}

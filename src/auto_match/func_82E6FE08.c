@@ -1,36 +1,37 @@
-extern unsigned int *auStack_20;
+typedef struct Obj_82E6FE08 Obj_82E6FE08;
 
+typedef struct Vtbl_82E6FE08 {
+    void *slots[14];
+    int (*GetValue)(Obj_82E6FE08 *self, unsigned int *out); /* 0x38 */
+} Vtbl_82E6FE08;
 
-unsigned __int64 fn_82E6FE08(int *param_1)
+struct Obj_82E6FE08 {
+    Vtbl_82E6FE08 *vt;
+    int pad[0x16];
+    unsigned int rate;     /* 0x5c */
+    unsigned int interval; /* 0x60 */
+};
 
+int fn_82E6FE08(Obj_82E6FE08 *self)
 {
-  unsigned __int64 uVar1;
-  int iVar3;
-  unsigned __int64 uVar2;
-  unsigned int auStack_20 [4];
-  
-  if (param_1[0x17] == 0) {
-    uVar1 = 0xffffffffc00d36b2;
-  }
-  else {
-    auStack_20[0] = 0;
-    uVar1 = (**(int (***)())(*param_1 + 0x38))(param_1,auStack_20);
-    if (-1 < (int)uVar1) {
-      if (auStack_20[0] == 0) {
-        iVar3 = 500;
-      }
-      else {
-        trapDoubleWordImmediate(6,(unsigned __int64)auStack_20[0],0);
-        uVar2 = 4000000000 / (unsigned __int64)auStack_20[0];
-        iVar3 = (int)uVar2;
-        if (0xffffffff < uVar2) {
-          iVar3 = -1;
-        }
-      }
-      param_1[0x18] = iVar3;
-      uVar1 = 0;
-    }
-  }
-  return uVar1;
-}
+    unsigned int v;
+    unsigned __int64 q;
+    int hr;
 
+    if (self->rate == 0)
+        return 0xC00D36B2;
+    v = 0;
+    hr = self->vt->GetValue(self, &v);
+    if (hr >= 0) {
+        if (v == 0) {
+            self->interval = 500;
+        } else {
+            q = 4000000000ULL / v;
+            if (q > 0xffffffffULL)
+                q = 0xffffffffffffffffULL;
+            self->interval = (unsigned int)q;
+        }
+        hr = 0;
+    }
+    return hr;
+}

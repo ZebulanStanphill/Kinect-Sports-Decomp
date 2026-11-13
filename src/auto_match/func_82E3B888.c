@@ -1,36 +1,37 @@
-extern int fn_82E627B8();
+extern char lbl_82154AA8[];
 
+typedef struct Unknown_82E3B888 Unknown_82E3B888;
+typedef int (*Call_82E3B888)();
+struct Unknown_82E3B888 { Call_82E3B888 *vt; };
 
-__int64 fn_82E3B888(int *param_1,unsigned __int64 param_2,int *param_3)
+extern int fn_82E627B8(Unknown_82E3B888 *p, unsigned __int64 offset);
 
+int fn_82E3B888(Unknown_82E3B888 *self, void *name, Unknown_82E3B888 *target)
 {
-  __int64 lVar1;
-  int * apiStack_40;
-  __int64 lStack_38;
-  __int64 alStack_30 [1];
-  
-  if (((param_2 & 0xffffffff) == 0) || (param_3 == (int *)0x0)) {
-    lVar1 = -0x7fffbffd;
+  Unknown_82E3B888 *out;
+  unsigned __int64 offset;
+  unsigned __int64 base;
+  int hr;
+
+  if (name == 0 || target == 0) {
+    return 0x80004003;
   }
-  else {
-    apiStack_40 = (int *)0x0;
-    lStack_38 = 0;
-    lVar1 = (**(int (***)())(*param_1 + 0x18))(param_1,param_2,&lStack_38);
-    if (-1 < lVar1) {
-      alStack_30[0] = 0;
-      lVar1 = (**(int (***)())(*param_1 + 0x38))(param_1,alStack_30);
-      if (-1 < lVar1) {
-        lStack_38 = alStack_30[0] + lStack_38;
-        lVar1 = (**(int (***)())(*param_3 + 0x10))(param_3,0xffffffff82154aa8,0,&apiStack_40);
-        if (-1 < lVar1) {
-          lVar1 = fn_82E627B8(apiStack_40,lStack_38);
-        }
+  out = 0;
+  offset = 0;
+  hr = self->vt[6](self, name, &offset);
+  if (hr >= 0) {
+    base = 0;
+    hr = self->vt[14](self, &base);
+    if (hr >= 0) {
+      offset = base + offset;
+      hr = target->vt[4](target, lbl_82154AA8, 0, &out);
+      if (hr >= 0) {
+        hr = fn_82E627B8(out, offset);
       }
     }
-    if (apiStack_40 != (int *)0x0) {
-      (**(int (***)())(*apiStack_40 + 8))();
-    }
   }
-  return lVar1;
+  if (out != 0) {
+    out->vt[2](out);
+  }
+  return hr;
 }
-

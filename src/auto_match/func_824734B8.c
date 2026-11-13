@@ -1,26 +1,41 @@
-extern int fn_82473498();
-extern int fn_825521F0();
-extern unsigned int lbl_821917B4;
-extern unsigned int lbl_821B44EC;
-extern unsigned int lbl_821CA460;
-extern unsigned int lbl_831D450C;
+typedef struct Function_824734B8 {
+    const void *manager;
+    void (*fn)(void);
+    int pad[2];
+    struct Function_824734B8 *impl;
+} Function_824734B8;
 
+typedef struct Global_824734B8 {
+    char pad0[0x1c];
+    int current;                   /* 0x1c */
+} Global_824734B8;
 
-/* WARNING: Removing unreachable block (ram,0x824734ec) */
+typedef struct Self_824734B8 {
+    char pad0[0x34];
+    int fading;                    /* 0x34 */
+} Self_824734B8;
 
-void fn_824734B8(int param_1,unsigned __int64 param_2)
+extern Global_824734B8 lbl_831D44F0;
+extern const char lbl_821B44EC[];
+extern const float lbl_821917A8[];
+extern const float lbl_821CA45C[2];
 
+extern void fn_82473498(void);
+extern void fn_825521F0(float from, float to, Function_824734B8 *done);
+
+void fn_824734B8(Self_824734B8 *self)
 {
-  unsigned char **ppuStack_30;
-  int (**pcStack_2c)();
-  unsigned char ***pppuStack_20;
-  
-  lbl_831D450C = 0xffffffff;
-  pcStack_2c = fn_82473498;
-  pppuStack_20 = &ppuStack_30;
-  ppuStack_30 = &lbl_821B44EC;
-  fn_825521F0((double)lbl_821CA460,(double)lbl_821917B4,param_1,param_2,&ppuStack_30);
-  *(unsigned int *)(param_1 + 0x34) = 1;
-  return;
-}
+    Function_824734B8 done;
+    void (*fn)(void) = fn_82473498;
 
+    lbl_831D44F0.current = -1;
+    if (fn == 0) {
+        done.impl = 0;
+    } else {
+        done.manager = lbl_821B44EC;
+        done.fn = fn;
+        done.impl = &done;
+    }
+    fn_825521F0(lbl_821CA45C[1], lbl_821917A8[3], &done);
+    self->fading = 1;
+}

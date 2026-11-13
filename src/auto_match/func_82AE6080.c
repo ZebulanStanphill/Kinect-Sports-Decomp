@@ -1,23 +1,35 @@
-extern int fn_82AE51F8();
-extern int fn_82AE56A8();
+typedef struct BitSet_82AE6080 {
+  unsigned int bits[8];
+} BitSet_82AE6080;
 
+typedef struct Allocator_82AE6080 {
+  int unknown0;
+  int unknown4;
+  BitSet_82AE6080 used;
+} Allocator_82AE6080;
 
-__int64 fn_82AE6080(__int64 param_1,unsigned __int64 param_2,__int64 param_3)
+extern int fn_82AE51F8(BitSet_82AE6080 *set);
+extern int fn_82AE56A8(BitSet_82AE6080 *set, int first, int last);
 
+int fn_82AE6080(Allocator_82AE6080 *self, int unused, int count)
 {
-  __int64 lVar1;
-  __int64 lVar2;
-  
-  lVar1 = fn_82AE51F8(param_1 + 8);
-  if ((int)lVar1 != -1) {
-    while ((lVar1 + param_3 & 0xffffffffU) < 0x101) {
-      lVar2 = fn_82AE56A8(param_1 + 8,lVar1,(lVar1 + param_3) - 1);
-      if ((int)lVar2 == -1) {
-        return lVar1;
-      }
-      lVar1 = lVar2 + 1;
-    }
-  }
-  return -1;
-}
+  int start;
+  int hit;
+  unsigned int end;
 
+  start = fn_82AE51F8(&self->used);
+  if (start == -1) {
+    return -1;
+  }
+  for (;;) {
+    end = start + count;
+    if (end > 0x100) {
+      return -1;
+    }
+    hit = fn_82AE56A8(&self->used, start, end - 1);
+    if (hit == -1) {
+      return start;
+    }
+    start = hit + 1;
+  }
+}

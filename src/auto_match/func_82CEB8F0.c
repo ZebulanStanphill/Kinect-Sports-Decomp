@@ -1,20 +1,16 @@
-typedef unsigned char bool;
-extern int fn_82CFC050();
-extern int fn_82CFD4F0();
+typedef struct Info_82CEB8F0 { char pad[8]; unsigned short size; } Info_82CEB8F0;
+typedef struct Self_82CEB8F0 { void *type; int pad[3]; char data[0x40]; } Self_82CEB8F0;
 
+extern Info_82CEB8F0 *fn_82CFD4F0(void *type);
+extern void fn_82CFC050(void *dst, const void *src, int size);
 
-bool fn_82CEB8F0(unsigned int *param_1,unsigned __int64 param_2,unsigned __int64 param_3)
-
+int fn_82CEB8F0(Self_82CEB8F0 *self, const void *src, void *type)
 {
-  bool bVar1;
-  int iVar2;
-  
-  iVar2 = fn_82CFD4F0(param_3);
-  bVar1 = 0x40 < *(unsigned short *)(iVar2 + 8);
-  if (!bVar1) {
-    *param_1 = (int)param_3;
-    fn_82CFC050(param_1 + 4,param_2,*(unsigned short *)(iVar2 + 8));
-  }
-  return bVar1;
+    Info_82CEB8F0 *info = fn_82CFD4F0(type);
+    if (info->size <= 0x40) {
+        self->type = type;
+        fn_82CFC050(self->data, src, (short)info->size);
+        return 0;
+    }
+    return 1;
 }
-

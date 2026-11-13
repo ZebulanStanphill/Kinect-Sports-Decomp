@@ -1,11 +1,11 @@
-int fn_82F8FD60(int *param_1,int *param_2)
+typedef struct Iter_82F8FD60 {
+    void *cont;
+    int *ptr;
+} Iter_82F8FD60;
 
+int fn_82F8FD60(Iter_82F8FD60 *self, Iter_82F8FD60 *other)
 {
-  unsigned __int64 in_r0;
-  
-  if ((*param_1 == 0) || (*param_1 != *param_2)) {
-    trapWord(0x1f,in_r0,0x16);
-  }
-  return param_1[1] - param_2[1] >> 2;
+    if (self->cont == 0 || self->cont != other->cont)
+        __debugbreak();
+    return self->ptr - other->ptr;
 }
-

@@ -1,25 +1,23 @@
-extern unsigned int *auStack_30;
-extern int fn_82E50CB8();
-extern int fn_82E50F10();
-extern int fn_82E56A88();
+typedef struct Obj_82E56E00 {
+  int pad0[2];
+  char lock[0x3c];          /* 0x08 */
+  char table[0x68];         /* 0x44 */
+  unsigned int count;       /* 0xac */
+} Obj_82E56E00;
 
+extern void fn_82E50CB8(void *lock);
+extern void fn_82E50F10(void *lock);
+extern int fn_82E56A88(void *table, unsigned int key, void *out);
 
-unsigned __int64 fn_82E56E00(int param_1,unsigned __int64 param_2,unsigned __int64 param_3)
-
+long fn_82E56E00(Obj_82E56E00 *self, unsigned short a, unsigned short b)
 {
-  __int64 lVar1;
-  unsigned __int64 uVar2;
-  unsigned char auStack_30 [1];
-  
-  fn_82E50CB8(param_1 + 8);
-  if (*(unsigned int *)(param_1 + 0xac) < 0x7f) {
-    lVar1 = fn_82E56A88(param_1 + 0x44,(param_3 & 0xffff) << 0xf | param_2 & 0xffff,auStack_30);
-    uVar2 = -(unsigned __int64)(lVar1 == 0) & 0xffffffff8007000e;
-  }
-  else {
-    uVar2 = 0xffffffffc00d36b2;
-  }
-  fn_82E50F10(param_1 + 8);
-  return uVar2;
+  long hr;
+  char out[4];
+  fn_82E50CB8(self->lock);
+  if (self->count >= 0x7f)
+    hr = 0xc00d36b2;
+  else
+    hr = fn_82E56A88(self->table, (unsigned int)b << 15 | a, out) ? 0 : 0x8007000e;
+  fn_82E50F10(self->lock);
+  return hr;
 }
-

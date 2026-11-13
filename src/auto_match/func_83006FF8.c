@@ -1,28 +1,25 @@
-extern int fn_830069B8();
-extern int fn_83008158();
-extern unsigned int uStack_28;
-extern unsigned int uStack_30;
+typedef int (*Method_83006FF8)();
+typedef struct Callback_83006FF8 {
+    int *object;
+    unsigned int context;
+    unsigned char flag : 1;
+    unsigned char other : 7;
+    unsigned char pad[3];
+} Callback_83006FF8;
+extern unsigned char fn_830069B8(int *);
+extern unsigned int fn_83008158(unsigned int, unsigned int, Callback_83006FF8);
 
-
-unsigned __int64 fn_83006FF8(int *param_1,unsigned __int64 param_2)
-
+unsigned int fn_83006FF8(int *self, unsigned int target)
 {
-  char cVar2;
-  int iVar1;
-  unsigned __int64 uVar3;
-  unsigned __int64 uStack_30;
-  unsigned int uStack_28;
-  
-  (**(int (***)())(*param_1 + 0xd8))();
-  uVar3 = 2;
-  uStack_28 = uStack_28 | 0x80000000;
-  cVar2 = fn_830069B8(param_1);
-  if ((cVar2 != '\0') &&
-     (iVar1 = fn_83008158((unsigned __int64)(unsigned int)param_1[8] + 0x24,param_2,uStack_30,
-                                (unsigned __int64)uStack_28 << 0x20), iVar1 != 0)) {
-    uVar3 = 1;
-  }
-  (**(int (***)())(*param_1 + 0xdc))(param_1);
-  return uVar3;
-}
+    Callback_83006FF8 callback;
+    unsigned int result;
 
+    (*(Method_83006FF8 *)(*self + 0xd8))(self);
+    result = 2;
+    callback.flag = 1;
+    if (fn_830069B8(self) && fn_83008158(self[8] + 0x24, target, callback)) {
+        result = 1;
+    }
+    (*(Method_83006FF8 *)(*self + 0xdc))(self);
+    return result;
+}

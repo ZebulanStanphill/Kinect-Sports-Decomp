@@ -1,31 +1,19 @@
-extern int fn_83029B20();
-extern int fn_83029B30();
-extern unsigned int lbl_832642E4;
+typedef struct Obj_82FEFD08 {
+    char pad[0x17c];
+    void *item;
+} Obj_82FEFD08;
 
+extern void *lbl_832642F8;
+extern void fn_8301B488(void *mgr, void *item);
+extern void fn_8301B4D8(void *mgr, void *item);
 
-int fn_82FEFD08(int param_1,char param_2)
-
+void fn_82FEFD08(Obj_82FEFD08 *self, unsigned char add)
 {
-  int iVar1;
-  int iVar2;
-  
-  iVar1 = *(int *)(param_1 + 0x17c);
-  if (iVar1 == 0) {
-    return param_1;
-  }
-  if (param_2 != '\0') {
-    iVar2 = 0x26;
-    if (*(int *)(iVar1 + 4) == 1) {
-      fn_83029B20(iVar1,*(unsigned int *)(lbl_832642E4 + 0x90));
-      iVar2 = 1;
-    }
-    return iVar2;
-  }
-  iVar2 = 0x27;
-  if (*(int *)(iVar1 + 4) == 2) {
-    fn_83029B30(iVar1,*(unsigned int *)(lbl_832642E4 + 0x90));
-    iVar2 = 1;
-  }
-  return iVar2;
+    void *item = self->item;
+    if (item == 0)
+        return;
+    if (add)
+        fn_8301B488(lbl_832642F8, item);
+    else
+        fn_8301B4D8(lbl_832642F8, item);
 }
-

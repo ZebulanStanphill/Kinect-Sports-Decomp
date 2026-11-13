@@ -1,27 +1,43 @@
-extern int fn_826E3F28();
+typedef struct Vec3_826D81C8 { float x, y, z; } Vec3_826D81C8;
 
+typedef struct Buffer_826D81C8 {
+    void *data;
+    int capacity;
+    int size;
+    unsigned short stride;
+    int flags;
+} Buffer_826D81C8;
 
-unsigned int * fn_826D81C8(unsigned int *param_1,unsigned int *param_2)
+typedef struct Item_826D81C8 {
+    int id;
+    int type;
+    float weight;
+    Vec3_826D81C8 pos;
+    float radius;
+    int f1c;
+    int f20;
+    Buffer_826D81C8 buffer;
+} Item_826D81C8;
 
+extern void fn_826E3F28(Buffer_826D81C8 *dst, unsigned short stride, void *data, int size, int capacity, int flags);
+
+static __forceinline void SetPlacement(Item_826D81C8 *item, float x, float y, float z, float weight)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  
-  *param_1 = *param_2;
-  param_1[1] = param_2[1];
-  uVar1 = param_2[5];
-  uVar2 = param_2[4];
-  uVar3 = param_2[3];
-  param_1[2] = param_2[2];
-  param_1[3] = uVar3;
-  param_1[4] = uVar2;
-  param_1[5] = uVar1;
-  param_1[6] = param_2[6];
-  param_1[7] = param_2[7];
-  param_1[8] = param_2[8];
-  fn_826E3F28(param_1 + 9,*(unsigned short *)(param_2 + 0xc),param_2[9],param_2[0xb],param_2[10],
-                    param_2[0xd]);
-  return param_1;
+    item->weight = weight;
+    item->pos.x = x;
+    item->pos.y = y;
+    item->pos.z = z;
 }
 
+Item_826D81C8 *fn_826D81C8(Item_826D81C8 *self, const Item_826D81C8 *other)
+{
+    self->id = other->id;
+    self->type = other->type;
+    SetPlacement(self, other->pos.x, other->pos.y, other->pos.z, other->weight);
+    self->radius = other->radius;
+    self->f1c = other->f1c;
+    self->f20 = other->f20;
+    fn_826E3F28(&self->buffer, other->buffer.stride, other->buffer.data, other->buffer.size,
+                other->buffer.capacity, other->buffer.flags);
+    return self;
+}

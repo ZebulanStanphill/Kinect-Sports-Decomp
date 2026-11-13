@@ -1,51 +1,59 @@
-extern int fn_82CE5410();
-extern int fn_82CE6310();
-extern int fn_82E0F818();
-extern unsigned int iStack_3c;
-extern unsigned int iStack_40;
-extern unsigned int uStack_38;
+typedef struct Alloc_82E0FBA8 Alloc_82E0FBA8;
+typedef struct AllocVtbl_82E0FBA8 {
+    void *f0;
+    void *f4;
+    void *f8;
+    void *fc;
+    void (*Free)(Alloc_82E0FBA8 *, void *, int, int);
+} AllocVtbl_82E0FBA8;
+struct Alloc_82E0FBA8 {
+    AllocVtbl_82E0FBA8 *vtbl;
+};
+typedef struct Ctx_82E0FBA8 {
+    char pad[0xc];
+    Alloc_82E0FBA8 *alloc;
+} Ctx_82E0FBA8;
 
+typedef struct Array_82E0FBA8 {
+    int *data;
+    int size;
+    int capacity;
+} Array_82E0FBA8;
 
-unsigned __int64 fn_82E0FBA8(int param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+typedef struct Obj_82E0FBA8 {
+    int f0;
+    int count;
+} Obj_82E0FBA8;
 
+extern Ctx_82E0FBA8 *fn_82CE5410(void);
+extern void fn_82CE6310(Alloc_82E0FBA8 *alloc, Array_82E0FBA8 *array, int capacity, int elemSize);
+extern int fn_82E0F818(Obj_82E0FBA8 *self, void *a, Array_82E0FBA8 *indices, void *b);
+
+int fn_82E0FBA8(Obj_82E0FBA8 *self, void *a, void *b)
 {
-  int iVar2;
-  unsigned __int64 uVar1;
-  int iVar3;
-  int iVar4;
-  struct { int first; int second; } stack_pair_40;
+    Array_82E0FBA8 indices;
+    Alloc_82E0FBA8 *alloc;
+    int n = self->count;
+    int i;
+    int result;
 
-  unsigned int uStack_38;
-  
-  iVar3 = *(int *)(param_1 + 4);
-  stack_pair_40.first = 0;
-  stack_pair_40.second = 0;
-  uStack_38 = 0x80000000;
-  iVar2 = fn_82CE5410();
-  if ((int)(uStack_38 & 0x3fffffff) < iVar3) {
-    iVar4 = (uStack_38 & 0x3fffffff) << 1;
-    if (iVar4 <= iVar3) {
-      iVar4 = iVar3;
+    indices.data = 0;
+    indices.size = 0;
+    indices.capacity = 0x80000000;
+    alloc = fn_82CE5410()->alloc;
+    if ((indices.capacity & 0x3fffffff) < n) {
+        int cap = (indices.capacity & 0x3fffffff) * 2;
+        fn_82CE6310(alloc, &indices, n < cap ? cap : n, 4);
     }
-    fn_82CE6310(*(unsigned int *)(iVar2 + 0xc),&stack_pair_40.first,iVar4,4);
-  }
-  iVar2 = 0;
-  if (0 < *(int *)(param_1 + 4)) {
-    iVar4 = 0;
-    do {
-      *(int *)(iVar4 + stack_pair_40.first) = iVar2;
-      iVar2 = iVar2 + 1;
-      iVar4 = iVar4 + 4;
-    } while (iVar2 < *(int *)(param_1 + 4));
-  }
-  stack_pair_40.second = iVar3;
-  uVar1 = fn_82E0F818(param_1,param_2,&stack_pair_40.first,param_3);
-  iVar3 = fn_82CE5410();
-  stack_pair_40.second = 0;
-  if ((uStack_38 & 0x80000000) == 0) {
-    (**(int (***)())(**(int **)(iVar3 + 0xc) + 0x10))
-              (*(int **)(iVar3 + 0xc),stack_pair_40.first,uStack_38 & 0x3fffffff,4);
-  }
-  return uVar1;
+    indices.size = n;
+    for (i = 0; i < self->count; i++) {
+        indices.data[i] = i;
+    }
+    result = fn_82E0F818(self, a, &indices, b);
+    alloc = fn_82CE5410()->alloc;
+    indices.size = 0;
+    if ((indices.capacity & (1 << 31)) == 0) {
+        alloc->vtbl->Free(alloc, indices.data, indices.capacity & 0x3fffffff, 4);
+    }
+    return result;
 }
-

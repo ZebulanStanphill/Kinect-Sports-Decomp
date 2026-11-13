@@ -1,24 +1,48 @@
-extern int fn_82980328();
-extern int fn_82986C50();
+typedef struct Node_82986DF0 {
+  int f00;
+  int type;
+  int f08;
+  int f0c;
+  int f10;
+} Node_82986DF0;
 
+typedef struct Desc_82986DF0 {
+  int f00;
+  int f04;
+  char *data;
+} Desc_82986DF0;
 
-unsigned __int64 fn_82986DF0(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+typedef struct Obj_82986DF0 {
+  int f00[4];
+  Node_82986DF0 *node;
+  int f14[3];
+  Desc_82986DF0 *desc;
+  int f24[3];
+  int f30;
+} Obj_82986DF0;
 
+extern Obj_82986DF0 *fn_82986C50(void *ctx, void *source);
+extern int fn_82980328(void *ctx, void *out, void *data, int *value);
+
+int fn_82986DF0(void *ctx, void *source, void *out)
 {
-  int iVar1;
-  int iVar3;
-  unsigned __int64 uVar2;
-  
-  iVar3 = fn_82986C50();
-  if ((((iVar3 != 0) && (iVar1 = *(int *)(iVar3 + 0x10), iVar1 != 0)) && (*(int *)(iVar1 + 4) == 9))
-     && (*(int *)(iVar1 + 0x10) == 0)) {
-    uVar2 = fn_82980328(param_1,param_3,(unsigned __int64)*(unsigned int *)(*(int *)(iVar3 + 0x20) + 8) + 0x10,
-                          iVar3 + 0x30);
-    if ((int)uVar2 < 0) {
-      return uVar2;
-    }
-    return 0;
-  }
-  return 0xffffffff80004005;
-}
+  Obj_82986DF0 *obj;
+  Node_82986DF0 *node;
+  int hr;
 
+  obj = fn_82986C50(ctx, source);
+  if (obj != 0 && obj->node != 0 && obj->node->type == 9) {
+    node = obj->node;
+    if (node->type == 9 && node->f10 == 0) {
+      hr = fn_82980328(ctx, out, obj->desc->data + 0x10, &obj->f30);
+      if (hr < 0) {
+        goto done;
+      }
+      hr = 0;
+      goto done;
+    }
+  }
+  hr = 0x80004005;
+done:
+  return hr;
+}

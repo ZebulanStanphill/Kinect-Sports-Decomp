@@ -1,15 +1,17 @@
-extern unsigned int lbl_83223458;
+typedef struct Handle_82A823E0 {
+    unsigned short magic;   /* 0xf1ea */
+    unsigned short state;
+} Handle_82A823E0;
 
+extern unsigned char lbl_83223458;
 
-unsigned __int64 fn_82A823E0(short *param_1)
-
+int fn_82A823E0(Handle_82A823E0 *h)
 {
-  if ((lbl_83223458 != '\0') && (*param_1 == -0xe16)) {
-    if (param_1[1] != 3) {
-      param_1[1] = 2;
-    }
+    if (!lbl_83223458)
+        return 0x8000ffff;
+    if (h->magic != 0xf1ea)
+        return 0x8000ffff;
+    if (h->state != 3)
+        h->state = 2;
     return 0;
-  }
-  return 0xffffffff8000ffff;
 }
-

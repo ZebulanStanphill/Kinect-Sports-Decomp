@@ -1,12 +1,9 @@
-unsigned int fn_82F60638(int param_1,unsigned int param_2)
+typedef struct Arr_82F60638 { int pad; unsigned char valid; char pad2[7]; unsigned int count; int pad3[3]; unsigned int *data; } Arr_82F60638;
 
+unsigned int fn_82F60638(Arr_82F60638 *self, unsigned int index)
 {
-  if (*(char *)(param_1 + 4) == '\0') {
-    return 0;
-  }
-  if (*(unsigned int *)(param_1 + 0xc) <= param_2) {
-    return 0;
-  }
-  return *(unsigned int *)(*(int *)(param_1 + 0x1c) + param_2 * 4);
+    unsigned int r = 0;
+    if (self->valid && index < self->count)
+        r = self->data[index];
+    return r;
 }
-

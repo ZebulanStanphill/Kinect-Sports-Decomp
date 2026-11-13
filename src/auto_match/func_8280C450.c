@@ -1,42 +1,23 @@
-extern unsigned int *auStack_50;
-extern int fn_8280AC48();
-extern int fn_8280C348();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_821AAD20;
-extern unsigned int uStack_14;
-extern unsigned int uStack_24;
-extern unsigned int uStack_34;
-extern unsigned int uStack_44;
+typedef struct Matrix_8280C450 { float m[4][4]; } Matrix_8280C450;
 
+extern void fn_8280C348(const Matrix_8280C450 *src, Matrix_8280C450 *dst);
+extern void fn_8280AC48(const Matrix_8280C450 *src, Matrix_8280C450 *dst);
 
-void fn_8280C450(int param_1,int param_2)
-
+void fn_8280C450(const Matrix_8280C450 *src, Matrix_8280C450 *dst)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned char auStack_50 [12];
-  unsigned int uStack_44;
-  unsigned int uStack_34;
-  unsigned int uStack_24;
-  unsigned int uStack_14;
-  
-  if (param_1 == param_2) {
-    fn_8280C348(param_1,auStack_50);
-    uStack_44 = lbl_821AAD20;
-    uStack_34 = lbl_821AAD20;
-    uStack_24 = lbl_821AAD20;
-    uStack_14 = lbl_82002AE0;
-    fn_8280AC48(auStack_50,param_2);
-  }
-  else {
-    fn_8280C348(param_1,param_2);
-    uVar2 = lbl_821AAD20;
-    uVar1 = lbl_82002AE0;
-    *(unsigned int *)(param_2 + 0xc) = lbl_821AAD20;
-    *(unsigned int *)(param_2 + 0x1c) = uVar2;
-    *(unsigned int *)(param_2 + 0x2c) = uVar2;
-    *(unsigned int *)(param_2 + 0x3c) = uVar1;
-  }
-  return;
+    if (src == dst) {
+        Matrix_8280C450 tmp;
+        fn_8280C348(src, &tmp);
+        tmp.m[0][3] = 0.0f;
+        tmp.m[1][3] = 0.0f;
+        tmp.m[2][3] = 0.0f;
+        tmp.m[3][3] = 1.0f;
+        fn_8280AC48(&tmp, dst);
+    } else {
+        fn_8280C348(src, dst);
+        dst->m[0][3] = 0.0f;
+        dst->m[1][3] = 0.0f;
+        dst->m[2][3] = 0.0f;
+        dst->m[3][3] = 1.0f;
+    }
 }
-

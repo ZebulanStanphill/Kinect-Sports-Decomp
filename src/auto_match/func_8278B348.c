@@ -1,28 +1,23 @@
-unsigned __int64 fn_8278B348(int param_1,int param_2)
+int strcmp(const char *, const char *);
+typedef struct Name_8278B348 {
+  int refs;
+  int f04;
+  char text[1];
+} Name_8278B348;
 
+typedef struct Key_8278B348 {
+  int f00;
+  unsigned int a;
+  unsigned int c;
+  unsigned int name;
+  float value;
+  unsigned int b;
+  unsigned int d;
+} Key_8278B348;
+
+unsigned char fn_8278B348(Key_8278B348 *x, Key_8278B348 *y)
 {
-  char cVar1;
-  char cVar2;
-  char *pcVar3;
-  char *pcVar4;
-  
-  if (((*(int *)(param_1 + 4) == *(int *)(param_2 + 4)) &&
-      (*(int *)(param_1 + 0x14) == *(int *)(param_2 + 0x14))) &&
-     (*(int *)(param_1 + 8) == *(int *)(param_2 + 8))) {
-    pcVar3 = (char *)((*(unsigned int *)(param_2 + 0xc) & 0xfffffffc) + 8);
-    pcVar4 = (char *)((*(unsigned int *)(param_1 + 0xc) & 0xfffffffc) + 8);
-    do {
-      cVar1 = *pcVar4;
-      cVar2 = *pcVar3;
-      if (cVar1 == '\0') break;
-      pcVar4 = pcVar4 + 1;
-      pcVar3 = pcVar3 + 1;
-    } while (cVar1 == cVar2);
-    if (((cVar1 == cVar2) && (*(float *)(param_1 + 0x10) == *(float *)(param_2 + 0x10))) &&
-       (*(int *)(param_1 + 0x18) == *(int *)(param_2 + 0x18))) {
-      return 1;
-    }
-  }
-  return 0;
+  return x->a == y->a && x->b == y->b && x->c == y->c &&
+         strcmp(((Name_8278B348 *)(x->name & ~3u))->text, ((Name_8278B348 *)(y->name & ~3u))->text) == 0 &&
+         x->value == y->value && x->d == y->d;
 }
-

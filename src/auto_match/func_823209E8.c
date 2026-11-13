@@ -1,102 +1,93 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_825279F8();
-extern int fn_82528948();
-extern int fn_8252AD10();
-extern int fn_8252AEB8();
-extern int fn_82535F50();
-extern V16 vectorConditionalSelect();
-extern V16 vectorMultiplyAddFloatingPoint();
-extern void *memcpy(void *, const void *, unsigned int);
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vaddfp(__vector4 a, __vector4 b);
+__vector4 __vspltw(__vector4 v, unsigned int i);
+__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
+__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
+__vector4 __VMXGetReg(int n);
 
-void fn_823209E8(int param_1)
+typedef struct Matrix_823209E8 {
+    __vector4 r[4];
+} Matrix_823209E8;
 
+typedef struct Frame_823209E8 {
+    char pad0[0x50];
+    Matrix_823209E8 world;  /* 0x50 */
+} Frame_823209E8;
+
+typedef struct Mover_823209E8 {
+    char pad0[0x60];
+    __vector4 previous;     /* 0x60 */
+    __vector4 target;       /* 0x70 */
+    char pad80[0xf0];
+    int moving;             /* 0x170 */
+    char pad174[0x44];
+    Frame_823209E8 *frame;  /* 0x1b8 */
+} Mover_823209E8;
+
+extern int fn_825279F8(Mover_823209E8 *self);
+extern void fn_82528948(Mover_823209E8 *self);
+
+static __forceinline __vector4 Vector3Transform(__vector4 v, Matrix_823209E8 m)
 {
-  int iVar1;
-  float *pfVar2;
-  unsigned int *puVar3;
-  int in_r0;
-  int iVar4;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs38 [16];
-  unsigned char in_vs39 [16];
-  unsigned char in_vs40 [16];
-  unsigned char in_vs41 [16];
-  unsigned char in_vs42 [16];
-  unsigned char in_vs43 [16];
-  unsigned char in_vs44 [16];
-  unsigned char in_vs45 [16];
-  unsigned char auVar5 [16];
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned int uVar8;
-  unsigned int uVar9;
-  float in_register_00010010;
-  float in_register_00010014;
-  float in_register_00010018;
-  float in_vr1;
-  unsigned int in_register_00010430;
-  unsigned int in_register_00010434;
-  unsigned int in_register_00010438;
-  unsigned int in_vr67;
-  float fVar10;
-  float fVar11;
-  float fVar12;
-  float fVar13;
-  unsigned char auStack_40 [64];
-  
-  iVar1 = *(int *)(param_1 + 0x28);
-  if (iVar1 != 2) {
-    if (*(int *)(param_1 + 0x2c) == 0) {
-      fn_8252AD10(*(unsigned int *)(param_1 + 0x20),*(unsigned int *)(param_1 + 0x30),iVar1);
-    }
-    else {
-      fn_8252AEB8(*(unsigned int *)(param_1 + 0x20),iVar1,1);
-    }
-  }
-  iVar1 = *(int *)(param_1 + 0x20);
-  pfVar2 = (float *)(param_1 + 0x10U & 0xfffffff0);
-  fVar10 = in_register_00010010 + *pfVar2;
-  fVar11 = in_register_00010014 + pfVar2[1];
-  fVar12 = in_register_00010018 + pfVar2[2];
-  fVar13 = in_vr1 + pfVar2[3];
-  pfVar2 = (float *)((unsigned int)(auStack_40 + in_r0) & 0xfffffff0);
-  *pfVar2 = fVar10;
-  pfVar2[1] = fVar11;
-  pfVar2[2] = fVar12;
-  pfVar2[3] = fVar13;
-  iVar4 = fn_825279F8(iVar1);
-  if ((iVar4 == 0) || (iVar4 == 3)) {
-    pfVar2 = (float *)(in_r0 + iVar1 + 0x70 & 0xfffffff0);
-    *pfVar2 = fVar10;
-    pfVar2[1] = fVar11;
-    pfVar2[2] = fVar12;
-    pfVar2[3] = fVar13;
-  }
-  else {{ V16 _vt0 = vectorMultiplyAddFloatingPoint(in_vs43,in_vs38,in_vs45); memcpy(auVar5, &_vt0, 16); }{ V16 _vt1 = vectorMultiplyAddFloatingPoint(in_vs39,in_vs42,auVar5); memcpy(auVar5, &_vt1, 16); }{ V16 _vt2 = vectorMultiplyAddFloatingPoint(in_vs40,in_vs41,auVar5); memcpy(auVar5, &_vt2, 16); }
-    vectorConditionalSelect(auVar5,in_vs32,in_vs44);
-    puVar3 = (unsigned int *)(in_r0 + iVar1 + 0x70 & 0xfffffff0);
-    *puVar3 = in_register_00010430;
-    puVar3[1] = in_register_00010434;
-    puVar3[2] = in_register_00010438;
-    puVar3[3] = in_vr67;
-  }
-  puVar3 = (unsigned int *)(in_r0 + iVar1 + 0x70 & 0xfffffff0);
-  uVar6 = *puVar3;
-  uVar7 = puVar3[1];
-  uVar8 = puVar3[2];
-  uVar9 = puVar3[3];
-  *(unsigned int *)(iVar1 + 0x170) = 0;
-  puVar3 = (unsigned int *)(iVar1 + 0x60U & 0xfffffff0);
-  *puVar3 = uVar6;
-  puVar3[1] = uVar7;
-  puVar3[2] = uVar8;
-  puVar3[3] = uVar9;
-  fn_82528948(iVar1);
-  if (*(int *)(param_1 + 0x24) != 0) {
-    fn_82535F50(*(int *)(param_1 + 0x24),auStack_40);
-  }
-  return;
+    __vector4 x, y, z, result;
+
+    z = __vspltw(v, 2);
+    y = __vspltw(v, 1);
+    x = __vspltw(v, 0);
+    result = __vmaddfp(m.r[2], z, m.r[3]);
+    result = __vmaddfp(y, m.r[1], result);
+    result = __vmaddfp(x, m.r[0], result);
+    return result;
 }
 
+static __forceinline void SetTarget_823209E8(Mover_823209E8 *mover, __vector4 target)
+{
+    int state;
+
+    state = fn_825279F8(mover);
+    if (state != 0 && state != 3) {
+        __vector4 v, zero, mask;
+        v = Vector3Transform(target, mover->frame->world);
+        mask = __VMXGetReg(67);
+        zero = __VMXGetReg(77);
+        mover->target = __vsel(v, zero, mask);
+    } else {
+        mover->target = target;
+    }
+    mover->previous = mover->target;
+    mover->moving = 0;
+    fn_82528948(mover);
+}
+
+typedef struct Obj_823209E8 {
+    char pad0[0x10];
+    __vector4 offset;       /* 0x10 */
+    Mover_823209E8 *mover;  /* 0x20 */
+    void *listener;         /* 0x24 */
+    int mode;               /* 0x28 */
+    int immediate;          /* 0x2c */
+    int arg;                /* 0x30 */
+} Obj_823209E8;
+
+extern void fn_8252AD10(Mover_823209E8 *mover, int arg, int mode);
+extern void fn_8252AEB8(Mover_823209E8 *mover, int mode, int flag);
+extern void fn_82535F50(void *listener, __vector4 *position);
+
+void fn_823209E8(Obj_823209E8 *self, __vector4 position)
+{
+    __vector4 target;
+
+    if (self->mode != 2) {
+        if (self->immediate != 0)
+            fn_8252AEB8(self->mover, self->mode, 1);
+        else
+            fn_8252AD10(self->mover, self->arg, self->mode);
+    }
+    target = __vaddfp(position, self->offset);
+    SetTarget_823209E8(self->mover, target);
+    if (self->listener != 0)
+        fn_82535F50(self->listener, &target);
+}

@@ -1,48 +1,57 @@
-extern int fn_82AB15D0();
-extern int fn_82B6EB98();
-extern unsigned int iStack_3c;
-extern unsigned int uStack_40;
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
 
+#define XLT_ASSERT(e, line) \
+    if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\translator\\xltconvert.cpp", line)
 
-void fn_82B6F1B0(int param_1,unsigned int param_2)
+#define XLT_CF_ALLOC_BUFFSEL_UNDEF 0
+#define XLT_CF_ALLOC_BUFFSEL_PASS 3
 
+typedef struct AllocArgs_82B6F1B0 {
+    unsigned int bufSel;
+    int count;
+} AllocArgs_82B6F1B0;
+
+typedef struct Context_82B6F1B0 {
+    char pad0[0xc];
+    int fc;                         /* 0x000c */
+    char pad10[0x3360 - 0x10];
+    int list[3];                    /* 0x3360 */
+    int allocCount;                 /* 0x336c */
+    char pad3370[0x4190 - 0x3370];
+    unsigned int allocated[4];               /* 0x4190 */
+    char pad41a0[0x5aa4 - 0x41a0];
+    int positionCount;              /* 0x5aa4 */
+} Context_82B6F1B0;
+
+typedef struct Translator_82B6F1B0 {
+    char pad0[0x1c];
+    Context_82B6F1B0 *ctx;
+} Translator_82B6F1B0;
+
+extern void fn_82B6EB98(Translator_82B6F1B0 *self, int *list, int a, int count, AllocArgs_82B6F1B0 *args);
+
+void fn_82B6F1B0(Translator_82B6F1B0 *self, unsigned int bufSel)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  struct { unsigned int first; int second; } stack_pair_40;
+    Context_82B6F1B0 *ctx = self->ctx;
+    AllocArgs_82B6F1B0 args;
 
-  
-  iVar1 = *(int *)(param_1 + 0x1c);
-  if (3 < param_2) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820da494,0xffffffff820da3b8,0x5b5);
-  }
-  if (param_2 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820da46c,0xffffffff820da3b8,0x5b6);
-  }
-  iVar2 = (param_2 + 0x1064) * 4;
-  if (*(int *)(iVar2 + iVar1) != 0) {
-    return;
-  }
-  iVar3 = 0;
-  if (param_2 != 1) {
-    if (param_2 == 2) {
-      iVar3 = *(int *)(iVar1 + 0x5aa4) + -1;
+    XLT_ASSERT(bufSel <= XLT_CF_ALLOC_BUFFSEL_PASS, 0x5b5);
+    XLT_ASSERT(bufSel != XLT_CF_ALLOC_BUFFSEL_UNDEF, 0x5b6);
+    if (ctx->allocated[bufSel] != 0) {
+        return;
     }
-    else {
-      iVar3 = stack_pair_40.second;
-      if (param_2 == 3) {
-        stack_pair_40.second = 0;
-        goto LAB_82b6f24c;
-      }
+    args.bufSel = bufSel;
+    if (bufSel == 1) {
+        args.count = 0;
+    } else if (bufSel == 2) {
+        args.count = ctx->positionCount - 1;
+    } else if (bufSel == 3) {
+        args.count = 0;
     }
-  }
-  stack_pair_40.second = iVar3;
-  *(unsigned int *)(iVar2 + iVar1) = 1;
-LAB_82b6f24c:
-  stack_pair_40.first = param_2;
-  fn_82B6EB98(param_1,iVar1 + 0x3360,*(unsigned int *)(iVar1 + 0xc),1,&stack_pair_40.first);
-  *(int *)(iVar1 + 0x336c) = *(int *)(iVar1 + 0x336c) + 1;
-  return;
+    if (bufSel != 3) {
+        ctx->allocated[bufSel] = 1;
+    }
+    fn_82B6EB98(self, ctx->list, ctx->fc, 1, &args);
+    ctx->allocCount++;
 }
-

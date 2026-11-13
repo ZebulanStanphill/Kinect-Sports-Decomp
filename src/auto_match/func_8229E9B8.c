@@ -1,50 +1,54 @@
-extern unsigned int *auStack_50;
-extern int fn_822315A0();
-extern int fn_82273C88();
-extern int fn_82273CD8();
-extern int fn_823F2E20();
-extern int fn_8266EC60();
-extern int fn_8266EE08();
-extern int fn_8266F6A8();
-extern int fn_82672C20();
-extern unsigned int iStack_4c;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
+typedef struct Val_8229E9B8 { int w0; int type; union { void *p; unsigned char b; double d; } u; } Val_8229E9B8;
+typedef struct Ref_8229E9B8 { void *p; void *rc; } Ref_8229E9B8;
 
+typedef struct Inner_8229E9B8 { void *handle; void *rc; } Inner_8229E9B8;
 
-unsigned int * fn_8229E9B8(unsigned int *param_1,unsigned __int64 param_2)
-
+static __forceinline void Inner_init(Inner_8229E9B8 *in)
 {
-  unsigned __int64 uVar1;
-  unsigned int *puVar2;
-  unsigned char auStack_50 [4];
-  int iStack_4c;
-  unsigned int uStack_40;
-  unsigned int uStack_3c;
-  char *pcStack_38;
-  
-  *param_1 = 1;
-  param_1[1] = 2;
-  param_1[2] = 0;
-  param_1[3] = 0;
-  puVar2 = param_1 + 2;
-  uVar1 = fn_8266EC60();
-  uVar1 = fn_8266EE08(auStack_50,uVar1,param_2,0,1,0);
-  fn_823F2E20(puVar2,uVar1);
-  if (iStack_4c != 0) {
-    fn_822315A0();
-  }
-  fn_8266F6A8(*puVar2,3);
-  fn_82672C20(*puVar2,0xffffffff821ab560,0,0);
-  uStack_40 = 0;
-  uStack_3c = 0;
-  if (param_1[1] != 0) {
-    param_1[1] = 0;
-    fn_82273CD8(&uStack_40,4);
-    pcStack_38 = "single";
-    fn_82672C20(*puVar2,0xffffffff821ab578,&uStack_40,1);
-  }
-  fn_82273C88(&uStack_40);
-  return param_1;
+    in->handle = 0;
+    in->rc = 0;
 }
 
+typedef struct Obj_8229E9B8 {
+    int f0;
+    int pending;
+    Inner_8229E9B8 in;
+} Obj_8229E9B8;
+
+extern void *fn_8266EC60(void);
+extern Ref_8229E9B8 *fn_8266EE08(Ref_8229E9B8 *out, void *a, void *b, int c, int d, int e);
+extern void fn_823F2E20(void **dst, Ref_8229E9B8 *src);
+extern void fn_822315A0(void *p);
+extern void fn_8266F6A8(void *h, int v);
+extern void fn_82672C20(void *h, const char *name, Val_8229E9B8 *args, int n);
+extern void fn_82273CD8(Val_8229E9B8 *v, int type);
+extern void fn_82273C88(Val_8229E9B8 *v);
+extern char lbl_821AB570[];
+
+Obj_8229E9B8 *fn_8229E9B8(Obj_8229E9B8 *self, void *arg)
+{
+    Ref_8229E9B8 tmp;
+    Val_8229E9B8 v;
+    Inner_8229E9B8 *in;
+
+    in = &self->in;
+    self->f0 = 1;
+    self->pending = 2;
+    Inner_init(in);
+    fn_823F2E20(&in->handle, fn_8266EE08(&tmp, fn_8266EC60(), arg, 0, 1, 0));
+    if (tmp.rc != 0) {
+        fn_822315A0(tmp.rc);
+    }
+    fn_8266F6A8(in->handle, 3);
+    fn_82672C20(in->handle, "_root.transOut", 0, 0);
+    v.w0 = 0;
+    v.type = 0;
+    if (self->pending != 0) {
+        self->pending = 0;
+        fn_82273CD8(&v, 4);
+        v.u.p = lbl_821AB570;
+        fn_82672C20(in->handle, "_root.type", &v, 1);
+    }
+    fn_82273C88(&v);
+    return self;
+}

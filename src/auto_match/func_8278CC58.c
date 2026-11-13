@@ -1,34 +1,39 @@
-extern unsigned int *auStack_30;
-extern int fn_8267C4C8();
-extern int fn_8267C4F0();
-extern int fn_8278BA98();
-extern int fn_8278C400();
+typedef struct Table_8278CC58 {
+  int pad0;
+  unsigned int mask;        /* 0x04 */
+} Table_8278CC58;
 
+typedef struct Map_8278CC58 {
+  Table_8278CC58 *table;
+} Map_8278CC58;
 
-unsigned __int64 fn_8278CC58(int *param_1,int *param_2)
+typedef struct Key_8278CC58 {
+  void *obj;
+} Key_8278CC58;
 
+typedef struct Hasher_8278CC58 {
+  int unused;
+} Hasher_8278CC58;
+
+extern void fn_8267C4C8(void *obj);
+extern void fn_8267C4F0(void *obj);
+extern unsigned int fn_8278BA98(Hasher_8278CC58 *hasher, void *obj);
+extern int fn_8278C400(Map_8278CC58 *self, Key_8278CC58 *key, unsigned int index);
+
+int fn_8278CC58(Map_8278CC58 *self, Key_8278CC58 *key)
 {
-  int iVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  unsigned int uVar4;
-  unsigned char auStack_30 [48];
-  
-  if (*param_1 == 0) {
-    uVar3 = 0xffffffffffffffff;
-  }
-  else {
-    iVar1 = *param_2;
-    if (iVar1 != 0) {
-      fn_8267C4C8(iVar1);
-    }
-    uVar4 = fn_8278BA98(auStack_30,iVar1);
-    uVar2 = *(unsigned int *)(*param_1 + 4);
-    if (iVar1 != 0) {
-      fn_8267C4F0(iVar1);
-    }
-    uVar3 = fn_8278C400(param_1,param_2,uVar2 & uVar4);
-  }
-  return uVar3;
-}
+  Hasher_8278CC58 hasher;
+  void *obj;
+  unsigned int index;
 
+  if (self->table == 0)
+    return -1;
+  obj = key->obj;
+  if (obj != 0)
+    fn_8267C4C8(obj);
+  index = fn_8278BA98(&hasher, obj);
+  index &= self->table->mask;
+  if (obj != 0)
+    fn_8267C4F0(obj);
+  return fn_8278C400(self, key, index);
+}

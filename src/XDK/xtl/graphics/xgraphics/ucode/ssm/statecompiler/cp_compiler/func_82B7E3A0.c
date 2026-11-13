@@ -1,30 +1,28 @@
-typedef unsigned char bool;
-#define false 0
-extern int fn_82AB15D0();
-extern int fn_82AB6EC0();
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
+extern unsigned int fn_82AB6EC0(void *state, int reg);
 
+#define CP_ASSERT(e, line) \
+    if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecompiler\\cp_compiler.cpp", line)
 
-bool fn_82B7E3A0(unsigned __int64 param_1)
+enum {
+    AS_Z_SURFACE_FMT__DEPTH_D24_S8 = 0x1f,
+    AS_Z_SURFACE_FMT__DEPTH_D24_X8 = 0x20
+};
+enum {
+    AS_SURFACE_NUMERIC__URF = 0,
+    AS_SURFACE_NUMERIC__FLOAT = 0x40
+};
 
+int fn_82B7E3A0(void *state)
 {
-  unsigned int uVar1;
-  int iVar2;
-  bool bVar3;
-  
-  uVar1 = fn_82AB6EC0(param_1,0x31);
-  iVar2 = fn_82AB6EC0(param_1,0x32);
-  if ((uVar1 != 0x1f) && (uVar1 != 0x20)) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820dba10,0xffffffff820db938,0x180);
-  }
-  if ((iVar2 != 0) && (iVar2 != 0x40)) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820db9b8,0xffffffff820db938,0x184);
-  }
-  if ((uVar1 < 0x1f) || (0x20 < uVar1)) {
-    bVar3 = false;
-  }
-  else {
-    bVar3 = iVar2 == 0x40;
-  }
-  return bVar3;
-}
+    unsigned int asZformat = fn_82AB6EC0(state, 0x31);
+    unsigned int asZnumeric = fn_82AB6EC0(state, 0x32);
 
+    CP_ASSERT(asZformat == AS_Z_SURFACE_FMT__DEPTH_D24_S8 || asZformat == AS_Z_SURFACE_FMT__DEPTH_D24_X8, 0x180);
+    CP_ASSERT(asZnumeric == AS_SURFACE_NUMERIC__URF || asZnumeric == AS_SURFACE_NUMERIC__FLOAT, 0x184);
+    if (asZformat < AS_Z_SURFACE_FMT__DEPTH_D24_S8 || asZformat > AS_Z_SURFACE_FMT__DEPTH_D24_X8) {
+        return 0;
+    }
+    return asZnumeric == AS_SURFACE_NUMERIC__FLOAT;
+}

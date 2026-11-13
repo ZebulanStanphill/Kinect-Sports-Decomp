@@ -1,38 +1,38 @@
-extern int fn_8267C4C8();
-extern int fn_82687270();
-extern int fn_826DBE10();
-extern unsigned int iStack_3c;
-extern unsigned int iStack_40;
+typedef struct Entry_826DDC60 {
+  int inserted;
+  void *ref;
+} Entry_826DDC60;
 
+typedef struct Arg_826DDC60 {
+  unsigned int *key;
+  Entry_826DDC60 *entry;
+} Arg_826DDC60;
 
-void fn_826DDC60(int param_1,unsigned int *param_2,unsigned __int64 param_3)
+extern void RtlEnterCriticalSection(int);
+extern void RtlLeaveCriticalSection(int);
+extern void fn_8267C4C8(void *ref);
+extern void fn_82687270(void *ref);
+extern void fn_826DBE10(int table, int table2, Arg_826DDC60 *arg, unsigned int hash);
 
+void fn_826DDC60(int self, unsigned int *key, void *ref)
 {
-  int iVar1;
-  int iStack_40;
-  int iStack_3c;
-  unsigned int *puStack_38;
-  int *piStack_34;
-  
-  iVar1 = 0;
-  if (*(int *)(param_1 + 0x74) < 2) {
-    RtlEnterCriticalSection(param_1 + 0xac);
-    iVar1 = param_1;
-  }
-  iStack_3c = (int)param_3;
-  iStack_40 = 0;
-  if ((param_3 & 0xffffffff) != 0) {
-    fn_8267C4C8(param_3);
-  }
-  piStack_34 = &iStack_40;
-  puStack_38 = param_2;
-  fn_826DBE10(param_1 + 200,param_1 + 200,&puStack_38,*param_2 >> 8 ^ *param_2);
-  if ((iStack_40 == 0) && (iStack_3c != 0)) {
-    fn_82687270();
-  }
-  if (iVar1 != 0) {
-    RtlLeaveCriticalSection(iVar1 + 0xac);
-  }
-  return;
-}
+  unsigned int locked = 0;
+  Entry_826DDC60 entry;
+  Arg_826DDC60 arg;
 
+  if (*(int *)(self + 0x74) < 2) {
+    locked = self;
+    RtlEnterCriticalSection(self + 0xac);
+  }
+  entry.ref = ref;
+  entry.inserted = 0;
+  if (ref != 0)
+    fn_8267C4C8(ref);
+  arg.key = key;
+  arg.entry = &entry;
+  fn_826DBE10(self + 0xc8, self + 0xc8, &arg, *key >> 8 ^ *key);
+  if (entry.inserted == 0 && entry.ref != 0)
+    fn_82687270(entry.ref);
+  if (locked != 0)
+    RtlLeaveCriticalSection(locked + 0xac);
+}

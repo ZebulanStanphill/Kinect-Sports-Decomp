@@ -1,50 +1,81 @@
-extern int fn_822315A0();
-extern int fn_8223AAC0();
-extern int fn_822A9580();
-extern int fn_82526AF8();
-extern int fn_8265C9E0();
-extern unsigned int lbl_821AE598;
-extern unsigned int lbl_83265A38;
-extern unsigned int lbl_83265A3C;
+extern void fn_822315A0(void *rep);
+extern unsigned char fn_8223AAC0(void *rep);
+extern void *fn_8265C9E0(unsigned int size);
+extern void fn_822A9580(void *obj, void *src);
+extern int fn_82526AF8(int last, int *table, void *key);
+extern char lbl_821AE598[];
 
+typedef struct Names_822A9460 {
+  int f00[3];
+  int count;         /* 0x0c */
+  int *table;        /* 0x10 */
+} Names_822A9460;
+extern Names_822A9460 lbl_83265A2C;
 
-unsigned int * fn_822A9460(unsigned int *param_1,int param_2,__int64 param_3)
+typedef struct Source_822A9460 {
+  int f00;
+  char data[0x9c];   /* 0x04 */
+  char name[0x40];   /* 0xa0 */
+  char altName[1];   /* 0xe0 */
+} Source_822A9460;
 
+typedef struct Owner_822A9460 {
+  char pad0[0x3c];
+  unsigned int altIndex; /* 0x3c */
+} Owner_822A9460;
+
+typedef struct Entry_822A9460 {
+  char data[0xa0];
+  int index;         /* 0xa0 */
+} Entry_822A9460;
+
+typedef struct Rep_822A9460 {
+  const void *vt;
+  int uses;
+  int weaks;
+  Entry_822A9460 obj; /* 0x0c */
+} Rep_822A9460;
+
+typedef struct Ptr_822A9460 { Entry_822A9460 *ptr; Rep_822A9460 *rep; } Ptr_822A9460;
+
+static __forceinline int Lookup(void *key)
 {
-  unsigned int *puVar2;
-  __int64 lVar1;
-  char cVar3;
-  
-  puVar2 = (unsigned int *)fn_8265C9E0(0xb0);
-  if (puVar2 == (unsigned int *)0x0) {
-    puVar2 = (unsigned int *)0x0;
-  }
-  else {
-    puVar2[1] = 1;
-    *puVar2 = &lbl_821AE598;
-    puVar2[2] = 1;
-  }
-  fn_822A9580(puVar2 + 3,param_3 + 4);
-  lVar1 = fn_82526AF8((unsigned __int64)lbl_83265A38 - 1,(unsigned __int64)lbl_83265A3C + 4,param_3 + 0xa0);
-  puVar2[0x2b] = -(unsigned int)(lVar1 != -1) & (int)lVar1 + 1U;
-  if (*(int *)(param_2 + 0x3c) == 0) {
-    lVar1 = fn_82526AF8((unsigned __int64)lbl_83265A38 - 1,(unsigned __int64)lbl_83265A3C + 4,param_3 + 0xe0
-                             );
-    *(unsigned int *)(param_2 + 0x3c) = -(unsigned int)(lVar1 != -1) & (int)lVar1 + 1U;
-  }
-  *param_1 = 0;
-  param_1[1] = 0;
-  if (puVar2 != (unsigned int *)0x0) {
-    cVar3 = fn_8223AAC0(puVar2);
-    if (cVar3 != '\0') {
-      if (param_1[1] != 0) {
-        fn_822315A0();
-      }
-      param_1[1] = puVar2;
-      *param_1 = puVar2 + 3;
-    }
-    fn_822315A0(puVar2);
-  }
-  return param_1;
+  int i = fn_82526AF8(lbl_83265A2C.count - 1, lbl_83265A2C.table + 1, key);
+  return i != -1 ? i + 1 : 0;
 }
 
+Ptr_822A9460 *fn_822A9460(Ptr_822A9460 *out, Owner_822A9460 *owner, Source_822A9460 *src)
+{
+  Rep_822A9460 *rep;
+  Rep_822A9460 *mem;
+  Entry_822A9460 *obj;
+
+  mem = (Rep_822A9460 *)fn_8265C9E0(0xb0);
+  if (mem != 0) {
+    mem->uses = 1;
+    mem->vt = lbl_821AE598;
+    mem->weaks = 1;
+    rep = mem;
+  } else {
+    rep = 0;
+  }
+  obj = &rep->obj;
+  fn_822A9580(obj, src->data);
+  obj->index = Lookup(src->name);
+  if (owner->altIndex == 0) {
+    owner->altIndex = Lookup(src->altName);
+  }
+  out->ptr = 0;
+  out->rep = 0;
+  if (rep != 0) {
+    if (fn_8223AAC0(rep) != 0) {
+      if (out->rep != 0) {
+        fn_822315A0(out->rep);
+      }
+      out->rep = rep;
+      out->ptr = obj;
+    }
+    fn_822315A0(rep);
+  }
+  return out;
+}

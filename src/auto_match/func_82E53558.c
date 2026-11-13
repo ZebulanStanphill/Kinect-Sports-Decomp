@@ -1,53 +1,78 @@
-extern unsigned int *auStack_40;
-extern int fn_82E531C8();
-extern int fn_82F68CC0();
+#include <string.h>
 
+typedef struct Blob_82E53558 {
+    unsigned int size;
+    void *data;
+} Blob_82E53558;
 
-unsigned __int64
-fn_82E53558(int param_1,unsigned int param_2,unsigned int *param_3,unsigned short *param_4,unsigned __int64 param_5,
-             unsigned int *param_6)
+typedef struct Entry_82E53558 {
+    unsigned int guid[4];  /* 0x00 */
+    unsigned short type;   /* 0x10 */
+    Blob_82E53558 blob;    /* 0x14 */
+} Entry_82E53558;
 
+typedef struct Obj_82E53558 {
+    char pad0[0xa0];
+    char table[0x68];      /* 0xa0 */
+    unsigned int count;    /* 0x108 */
+} Obj_82E53558;
+
+extern int fn_82E531C8(void *table, unsigned int index, Entry_82E53558 **out);
+
+static __forceinline Entry_82E53558 *GetEntry(Obj_82E53558 *self, unsigned short index)
 {
-  __int64 lVar1;
-  unsigned int *puVar2;
-  unsigned __int64 uVar3;
-  unsigned int auStack_40;
-  
-  uVar3 = 0;
-  if ((param_3 == (unsigned int *)0x0) || (param_4 == (unsigned short *)0x0)) {
-    uVar3 = 0xffffffff80004003;
-  }
-  else if ((param_2 & 0xffff) < *(unsigned int *)(param_1 + 0x108)) {
-    lVar1 = fn_82E531C8(param_1 + 0xa0,param_2 & 0xffff,&auStack_40);
-    puVar2 = (unsigned int *)(-(unsigned int)(lVar1 != 0) & auStack_40);
-    if (puVar2 == (unsigned int *)0x0) {
-      uVar3 = 0xffffffffc00d36bb;
-    }
-    else {
-      *param_3 = *puVar2;
-      param_3[1] = puVar2[1];
-      param_3[2] = puVar2[2];
-      param_3[3] = puVar2[3];
-      *param_4 = *(unsigned short *)(puVar2 + 4);
-      if (param_6 != (unsigned int *)0x0) {
-        if ((param_5 & 0xffffffff) == 0) {
-          if (*param_6 != 0) {
-            return 0xffffffff80070057;
-          }
-        }
-        else if ((unsigned int)puVar2[5] <= *param_6) {
-          *param_6 = puVar2[5];
-          fn_82F68CC0(param_5,puVar2[6],puVar2[5]);
-          return 0;
-        }
-        uVar3 = 0xffffffffc00d36b1;
-        *param_6 = puVar2[5];
-      }
-    }
-  }
-  else {
-    uVar3 = 0xffffffffc00d36bf;
-  }
-  return uVar3;
+    Entry_82E53558 *found;
+    return fn_82E531C8(self->table, index, &found) ? found : 0;
 }
 
+int fn_82E53558(Obj_82E53558 *self, unsigned int index, unsigned int *guid, unsigned short *type,
+                void *buffer, unsigned int *size)
+{
+    Entry_82E53558 *e;
+    int hr = 0;
+    int valid;
+
+    valid = guid != 0 && type != 0;
+    if (!valid) {
+        hr = 0x80004003;
+        goto done;
+    }
+    if ((unsigned short)index >= self->count) {
+        hr = 0xC00D36BF;
+        goto done;
+    }
+    e = GetEntry(self, (unsigned short)index);
+    if (e == 0) {
+        hr = 0xC00D36BB;
+        goto done;
+    }
+    guid[0] = e->guid[0];
+    guid[1] = e->guid[1];
+    guid[2] = e->guid[2];
+    guid[3] = e->guid[3];
+    *type = e->type;
+    if (size != 0) {
+        if (buffer == 0) {
+            if (*size > 0) {
+                hr = 0x80070057;
+                goto done;
+            }
+            goto small;
+        } else {
+            unsigned int n = e->blob.size;
+            if (*size < n) {
+small:
+                hr = 0xC00D36B1;
+                *size = e->blob.size;
+                goto done;
+            }
+            *size = n;
+            {
+                Blob_82E53558 *b = &e->blob;
+                memcpy(buffer, b->data, b->size);
+            }
+        }
+    }
+done:
+    return hr;
+}
