@@ -1,55 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8225C590();
-extern int fn_8225CD18();
-extern int fn_824B8548();
-extern int fn_8258C000();
-extern int fn_82BE3F38();
-extern unsigned int lbl_83265A54;
-extern unsigned int lbl_8327FC08;
-
+typedef struct CS_824E40C8 { int cs[7]; } CS_824E40C8;
+typedef struct Mgr_824E40C8 {
+    CS_824E40C8 cs;
+    char pad1c[0x34 - 0x1c];
+    int f34;
+} Mgr_824E40C8;
+typedef struct G_824E40C8 { char pad[0x48]; int f48; } G_824E40C8;
+typedef struct Dev_824E40C8 {
+    char pad0[0x1a0];
+    void *f1A0;
+    char pad1a4[0x1f4 - 0x1a4];
+    int f1F4;
+    char pad1f8[4];
+    int f1FC;
+} Dev_824E40C8;
+extern G_824E40C8 lbl_8327FBC0;
+extern int lbl_83265A54;
+extern void fn_8225C590(void);
+extern void fn_8225CD18(void);
+extern Mgr_824E40C8 *fn_824B8548(void);
+extern Dev_824E40C8 *fn_8258C000(void);
+extern void fn_82BE3F38(Dev_824E40C8 *d);
+extern void RtlEnterCriticalSection(CS_824E40C8 *cs);
+extern void RtlLeaveCriticalSection(CS_824E40C8 *cs);
 
 void fn_824E40C8(void)
-
 {
-  int iVar1;
-  
-  fn_8225C590();
-  fn_8225CD18();
-  lbl_83265A54 = 1;
-  iVar1 = fn_824B8548();
-  RtlEnterCriticalSection();
-  *(undefined4 *)(iVar1 + 0x34) = 1;
-  RtlLeaveCriticalSection(iVar1);
-  if ((((lbl_8327FC08 != 0) && (iVar1 = fn_8258C000(), *(int *)(iVar1 + 0x1fc) != 0)) &&
-      (*(int *)(iVar1 + 500) != 0)) && (*(int *)(iVar1 + 0x1a0) != 0)) {
-    fn_82BE3F38();
-  }
-  return;
+    Mgr_824E40C8 *m;
+    Dev_824E40C8 *d;
+    fn_8225C590();
+    fn_8225CD18();
+    lbl_83265A54 = 1;
+    m = fn_824B8548();
+    RtlEnterCriticalSection(&m->cs);
+    m->f34 = 1;
+    RtlLeaveCriticalSection(&m->cs);
+    if (lbl_8327FBC0.f48 != 0) {
+        d = fn_8258C000();
+        if (d->f1FC != 0 && d->f1F4 != 0 && d->f1A0 != 0) {
+            fn_82BE3F38(d);
+        }
+    }
 }
-

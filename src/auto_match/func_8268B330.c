@@ -1,48 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_83155184;
-extern unsigned int lbl_83155188;
-extern U64 storeWordConditionalIndexed();
+extern long _InterlockedExchangeAdd(long *, long);
 
+typedef struct { int f0; long refs; int f8; } Obj_8268B330;
+typedef struct { Obj_8268B330 *p; } Ref_8268B330;
 
-void fn_8268B330(undefined4 *param_1)
+extern Obj_8268B330 lbl_83155184;
 
+/* Returns a counted reference to the global object through the hidden result pointer
+   (96 callers pass a stack slot). */
+Ref_8268B330 *fn_8268B330(Ref_8268B330 *out)
 {
-  char in_RESERVE;
-  byte in_cr0;
-  
-  *param_1 = &lbl_83155184;
-  do {
-    if (in_RESERVE != '\0') {
-      lbl_83155188 = storeWordConditionalIndexed((ulonglong)lbl_83155188 + 1,0,0xffffffff83155188);
-      in_cr0 = 2;
-    }
-  } while (!(bool)(in_cr0 >> 1 & 1));
-  return;
+    out->p = &lbl_83155184;
+    _InterlockedExchangeAdd(&lbl_83155184.refs, 1);
+    return out;
 }
-

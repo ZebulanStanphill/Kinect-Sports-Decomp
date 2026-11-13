@@ -1,39 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vmulfp(__vector4 a, __vector4 b);
 
-void fn_8306ED38(void)
-
+__vector4 fn_8306ED38(__vector4 v, float s)
 {
-  undefined1 in_vs32 [16];
-  undefined1 in_vs43 [16];
-  
-  altv207_13(in_vs32,in_vs43);
-  return;
+    __vector4 t;
+    t.vector4_f32[3] = s;
+    t.vector4_f32[2] = s;
+    t.vector4_f32[1] = s;
+    t.vector4_f32[0] = s;
+    return __vmulfp(v, t);
 }
-

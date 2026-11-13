@@ -1,48 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826BD758();
+typedef struct Data_8268ACE8 {
+  unsigned int done : 1;
+  unsigned int size : 31;
+  int f04;
+  char buf[1];
+} Data_8268ACE8;
+typedef struct Ref_8268ACE8 { unsigned int tagged; } Ref_8268ACE8;
+extern unsigned int fn_826BD758(void *p, unsigned int n);
 
-
-ulonglong fn_8268ACE8(uint *param_1)
-
+unsigned int fn_8268ACE8(Ref_8268ACE8 *r)
 {
-  bool bVar1;
-  uint *puVar2;
-  ulonglong uVar3;
-  ulonglong uVar4;
-  
-  puVar2 = (uint *)(*param_1 & 0xfffffffc);
-  uVar4 = (ulonglong)*puVar2 & 0x7fffffff;
-  if ((-1 < (int)*puVar2) &&
-     (uVar3 = fn_826BD758(puVar2 + 2,uVar4), bVar1 = (uVar3 & 0xffffffff) == uVar4,
-     uVar4 = uVar3, bVar1)) {
-    *puVar2 = *puVar2 | 0x80000000;
-  }
-  return uVar4;
-}
+  Data_8268ACE8 *d = (Data_8268ACE8 *)(r->tagged & ~3u);
+  unsigned int n = d->size;
+  unsigned int got;
 
+  if ((unsigned char)d->done != 0) {
+    return n;
+  }
+  got = fn_826BD758(d->buf, n);
+  if (got == n) {
+    d->done = 1;
+  }
+  return got;
+}

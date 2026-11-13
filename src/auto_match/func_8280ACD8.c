@@ -1,58 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_821AAD20;
-
-
-void fn_8280ACD8(undefined4 *param_1)
-
+static __forceinline void setMatrix44_8280ACD8(float *m, float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13, float m20, float m21, float m22, float m23, float m30, float m31, float m32, float m33)
 {
-  undefined4 uVar1;
-  undefined4 uVar2;
-  
-  uVar2 = lbl_821AAD20;
-  uVar1 = lbl_82002AE0;
-  *param_1 = lbl_82002AE0;
-  param_1[4] = uVar2;
-  param_1[8] = uVar2;
-  param_1[0xc] = uVar2;
-  param_1[1] = uVar2;
-  param_1[5] = uVar1;
-  param_1[9] = uVar2;
-  param_1[0xd] = uVar2;
-  param_1[2] = uVar2;
-  param_1[6] = uVar2;
-  param_1[10] = uVar1;
-  param_1[0xe] = uVar2;
-  param_1[3] = uVar2;
-  param_1[7] = uVar2;
-  param_1[0xb] = uVar2;
-  param_1[0xf] = uVar1;
-  return;
+    m[0] = m00;
+    m[4] = m01;
+    m[8] = m02;
+    m[12] = m03;
+    m[1] = m10;
+    m[5] = m11;
+    m[9] = m12;
+    m[13] = m13;
+    m[2] = m20;
+    m[6] = m21;
+    m[10] = m22;
+    m[14] = m23;
+    m[3] = m30;
+    m[7] = m31;
+    m[11] = m32;
+    m[15] = m33;
 }
 
+void fn_8280ACD8(float *m)
+{
+    setMatrix44_8280ACD8(m, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+}

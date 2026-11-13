@@ -1,71 +1,50 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+/* Open-addressing hash set findIndex (Scaleform-style HashSetBase::findIndexCore) with the
+   hash value cached in each entry; keys are tagged string pointers compared with strcmp,
+   the search key is reached through one more pointer. */
+typedef struct String_826CC0E8 {
+    unsigned int data;
+} String_826CC0E8;
 
+typedef struct Entry_826CC0E8 {
+    int next;
+    unsigned int hash;
+    String_826CC0E8 value;
+    int pad;
+} Entry_826CC0E8;
 
-ulonglong fn_826CC0E8(int *param_1,undefined4 *param_2,ulonglong param_3)
+typedef struct Table_826CC0E8 {
+    int entryCount;
+    unsigned int sizeMask;
+    Entry_826CC0E8 entries[1];
+} Table_826CC0E8;
 
+typedef struct Hash_826CC0E8 {
+    Table_826CC0E8 *table;
+} Hash_826CC0E8;
+
+static __forceinline const char *Chars_826CC0E8(unsigned int s)
 {
-  char cVar1;
-  char cVar2;
-  uint uVar3;
-  uint uVar4;
-  char *pcVar5;
-  char *pcVar6;
-  int iVar7;
-  uint *puVar8;
-  
-  uVar4 = (uint)param_3;
-  iVar7 = uVar4 * 0x10 + *param_1;
-  puVar8 = (uint *)(iVar7 + 8);
-  if ((*puVar8 == 0xfffffffe) || (*(uint *)(iVar7 + 0xc) != uVar4)) {
-    return 0xffffffffffffffff;
-  }
-  do {
-    if (puVar8[1] == uVar4) {
-      pcVar6 = (char *)((puVar8[2] & 0xfffffffc) + 8);
-      pcVar5 = (char *)((*(uint *)*param_2 & 0xfffffffc) + 8);
-      do {
-        cVar1 = *pcVar6;
-        cVar2 = *pcVar5;
-        if (cVar1 == '\0') break;
-        pcVar6 = pcVar6 + 1;
-        pcVar5 = pcVar5 + 1;
-      } while (cVar1 == cVar2);
-      if (cVar1 == cVar2) {
-        return param_3;
-      }
-    }
-    uVar3 = *puVar8;
-    param_3 = (ulonglong)uVar3;
-    if (uVar3 == 0xffffffff) {
-      return 0xffffffffffffffff;
-    }
-    puVar8 = (uint *)(uVar3 * 0x10 + *param_1 + 8);
-  } while( true );
+    return (const char *)(s & ~3u) + 8;
 }
 
+int strcmp(const char *a, const char *b);
+
+int fn_826CC0E8(Hash_826CC0E8 *h, String_826CC0E8 **key, unsigned int hashValue)
+{
+    int index = hashValue;
+    Entry_826CC0E8 *e = &h->table->entries[index];
+    if (e->next == -2 || e->hash != (unsigned int)index) {
+        return -1;
+    }
+    for (;;) {
+        if (e->hash == hashValue && strcmp(Chars_826CC0E8(e->value.data), Chars_826CC0E8((*key)->data)) == 0) {
+            return index;
+        }
+        index = e->next;
+        if (index == -1) {
+            break;
+        }
+        e = &h->table->entries[index];
+    }
+    return -1;
+}

@@ -1,65 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
-extern int fn_822D02B8();
-extern unsigned int lbl_821ADD98;
-extern U64 storeWordConditionalIndexed();
+long _InterlockedDecrement(long volatile *);
 
+typedef struct Rep_822E19D8 Rep_822E19D8;
+typedef struct RepVt_822E19D8 {
+    void (*destroy)(Rep_822E19D8 *);
+    void (*deleteThis)(Rep_822E19D8 *);
+} RepVt_822E19D8;
+struct Rep_822E19D8 {
+    RepVt_822E19D8 *vt;
+    long uses;
+    long weaks;
+};
 
-void fn_822E19D8(undefined4 *param_1)
+typedef struct Obj_822E19D8 {
+    void *vt;
+    int pad4[22];
+    Rep_822E19D8 *rep;     /* 0x5c */
+} Obj_822E19D8;
 
+extern char lbl_821ADD98[];
+extern void fn_822D02B8(Obj_822E19D8 *);
+
+static __forceinline void Decwref_822E19D8(Rep_822E19D8 *r)
 {
-  int *piVar1;
-  uint uVar2;
-  longlong lVar3;
-  uint *puVar4;
-  longlong lVar5;
-  char in_RESERVE;
-  byte in_cr0;
-  
-  *param_1 = &lbl_821ADD98;
-  piVar1 = (int *)param_1[0x17];
-  if (ZEXT48(piVar1) != 0) {
-    lVar3 = ZEXT48(piVar1) + 8;
-    do {
-      puVar4 = (uint *)lVar3;
-      lVar5 = (ulonglong)*puVar4 - 1;
-      if (in_RESERVE != '\0') {
-        uVar2 = storeWordConditionalIndexed(lVar5,0,lVar3);
-        *puVar4 = uVar2;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-    if ((int)lVar5 == 0) {
-      (**(code **)(*piVar1 + 4))();
-    }
-  }
-  fn_822D02B8(param_1);
-  return;
+    if (_InterlockedDecrement(&r->weaks) == 0)
+        r->vt->deleteThis(r);
 }
 
+static __forceinline void Release_822E19D8(Rep_822E19D8 **p)
+{
+    if (*p != 0)
+        Decwref_822E19D8(*p);
+}
+
+void fn_822E19D8(Obj_822E19D8 *o)
+{
+    o->vt = lbl_821ADD98;
+    Release_822E19D8(&o->rep);
+    fn_822D02B8(o);
+}

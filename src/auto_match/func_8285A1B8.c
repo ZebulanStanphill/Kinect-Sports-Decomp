@@ -1,55 +1,17 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8285A128();
-extern int fn_828624A8();
+int strcmp(const char *, const char *);
+extern void fn_8285A128(void *self, int match, void *arg);
+extern void fn_828624A8(void *p, void *arg);
+extern char lbl_8201F7C0[];
 
+typedef struct Obj_8285A1B8 {
+    char pad0[0xb];
+    char name[0x44 - 0xb];
+    void *f44;
+} Obj_8285A1B8;
 
-void fn_8285A1B8(int param_1,undefined8 param_2)
-
+void fn_8285A1B8(Obj_8285A1B8 *self, void *arg)
 {
-  char cVar1;
-  char cVar2;
-  char *pcVar3;
-  char *pcVar4;
-  
-  pcVar4 = (char *)(param_1 + 0xb);
-  pcVar3 = "04.05.05.0032";
-  do {
-    cVar1 = *pcVar4;
-    cVar2 = *pcVar3;
-    if (cVar1 == '\0') break;
-    pcVar4 = pcVar4 + 1;
-    pcVar3 = pcVar3 + 1;
-  } while (cVar1 == cVar2);
-  fn_8285A128(param_1,cVar1 == cVar2,param_2);
-  if (*(int *)(param_1 + 0x44) != 0) {
-    fn_828624A8(*(int *)(param_1 + 0x44),param_2);
-  }
-  return;
+    fn_8285A128(self, strcmp(self->name, lbl_8201F7C0) == 0, arg);
+    if (self->f44 != 0)
+        fn_828624A8(self->f44, arg);
 }
-

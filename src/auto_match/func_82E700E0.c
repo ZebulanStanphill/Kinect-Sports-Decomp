@@ -1,45 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82E6FAE0();
-extern unsigned int lbl_8215EEB0;
+extern void fn_82E6FAE0(void *self, void *a, int b, char *c, char *d, int e, int f, int g, int h);
+extern char lbl_8214C020[];
+extern char lbl_82154AE8[];
+extern char lbl_8215EEB0[];
 
+typedef struct Obj_82E700E0 {
+    char *vt;
+    int pad[0x19];
+    __int64 f68;
+    unsigned char f70;
+    short f72;
+    int f74;
+    __int64 f78;
+    unsigned short f80;
+} Obj_82E700E0;
 
-undefined4 * fn_82E700E0(undefined4 *param_1)
-
+Obj_82E700E0 *fn_82E700E0(Obj_82E700E0 *self, void *a, int b, int e, int f, int g, int h)
 {
-  fn_82E6FAE0();
-  *(undefined1 *)(param_1 + 0x1c) = 0;
-  *(undefined8 *)(param_1 + 0x1a) = 0xffffffffffffffff;
-  *param_1 = &lbl_8215EEB0;
-  *(undefined2 *)((int)param_1 + 0x72) = 0;
-  *(undefined8 *)(param_1 + 0x1e) = 0;
-  param_1[0x1d] = 0;
-  *(undefined2 *)(param_1 + 0x20) = 0xffff;
-  return param_1;
+    fn_82E6FAE0(self, a, b, lbl_8214C020, lbl_82154AE8, e, f, g, h);
+    self->vt = lbl_8215EEB0;
+    self->f68 = -1;
+    self->f70 = 0;
+    self->f72 = 0;
+    self->f78 = 0;
+    self->f74 = 0;
+    self->f80 = 0xffff;
+    return self;
 }
-

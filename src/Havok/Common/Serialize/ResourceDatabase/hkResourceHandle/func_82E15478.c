@@ -1,65 +1,54 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
-extern int fn_82E14BC8();
-extern unsigned int iStack_3c;
-extern unsigned int iStack_40;
-extern unsigned int uStack_38;
+typedef struct Obj_82E15478 Obj_82E15478;
+typedef struct ObjVtbl_82E15478 {
+  void *f[13];
+  void (*Visit)(Obj_82E15478 *, void *);
+} ObjVtbl_82E15478;
+struct Obj_82E15478 {
+  ObjVtbl_82E15478 *vtbl;
+};
 
+typedef struct Iface_82E15478 Iface_82E15478;
+typedef struct IfaceVtbl_82E15478 {
+  void *f0;
+  void *f4;
+  void *f8;
+  void *fc;
+  void (*Free)(Iface_82E15478 *, void *, int, int);
+} IfaceVtbl_82E15478;
+struct Iface_82E15478 {
+  IfaceVtbl_82E15478 *vtbl;
+};
+typedef struct Ctx_82E15478 {
+  char pad[0x10];
+  Iface_82E15478 *alloc;
+} Ctx_82E15478;
+extern Ctx_82E15478 *fn_82CE5410(void);
 
-void fn_82E15478(undefined8 param_1,undefined8 param_2)
+typedef struct Array_82E15478 {
+  Obj_82E15478 **data;
+  int count;
+  int capacity;
+} Array_82E15478;
 
+extern void fn_82E14BC8(void *self, Array_82E15478 *out);
+
+void fn_82E15478(void *self, void *arg)
 {
-  int iVar1;
-  int iVar2;
-  struct { int first; int second; } stack_pair_40;
+  Array_82E15478 arr;
+  Iface_82E15478 *it;
+  int i;
 
-  uint uStack_38;
-  
-  stack_pair_40.first = 0;
-  stack_pair_40.second = 0;
-  uStack_38 = 0x80000000;
-  fn_82E14BC8(param_1,&stack_pair_40.first);
-  iVar1 = 0;
-  if (0 < stack_pair_40.second) {
-    iVar2 = 0;
-    do {
-      (**(code **)(**(int **)(iVar2 + stack_pair_40.first) + 0x34))(*(int **)(iVar2 + stack_pair_40.first),param_2);
-      iVar1 = iVar1 + 1;
-      iVar2 = iVar2 + 4;
-    } while (iVar1 < stack_pair_40.second);
+  arr.data = 0;
+  arr.count = 0;
+  arr.capacity = 0x80000000;
+  fn_82E14BC8(self, &arr);
+  for (i = 0; i < arr.count; i++) {
+    Obj_82E15478 *o = arr.data[i];
+    o->vtbl->Visit(o, arg);
   }
-  iVar1 = fn_82CE5410();
-  stack_pair_40.second = 0;
-  if ((uStack_38 & 0x80000000) == 0) {
-    (**(code **)(**(int **)(iVar1 + 0x10) + 0x10))
-              (*(int **)(iVar1 + 0x10),stack_pair_40.first,uStack_38 & 0x3fffffff,4);
+  it = fn_82CE5410()->alloc;
+  arr.count = 0;
+  if ((arr.capacity & (1 << 31)) == 0) {
+    it->vtbl->Free(it, arr.data, arr.capacity & 0x3fffffff, 4);
   }
-  return;
 }
-

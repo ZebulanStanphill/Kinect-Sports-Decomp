@@ -1,115 +1,30 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_8202F1FC;
-extern unsigned int lbl_8214C740;
-extern unsigned int lbl_82154C18;
-extern unsigned int lbl_82154C48;
-extern unsigned int lbl_82154C58;
+typedef struct Obj_82F3C120 Obj_82F3C120;
+typedef struct { void *f0; unsigned long (*AddRef)(Obj_82F3C120 *); } Vt_82F3C120;
+struct Obj_82F3C120 { Vt_82F3C120 *vt; int pad[0x14]; void *f54; };
 
+extern int memcmp(const void *, const void *, unsigned);
+extern char lbl_82154C18[];
+extern char lbl_82154C58[];
+extern char lbl_8214C740[];
+extern char lbl_82154C48[];
+extern char lbl_8202F1FC[];
 
-undefined8 fn_82F3C120(int *param_1,byte *param_2,int *param_3)
-
+int fn_82F3C120(Obj_82F3C120 *o, const char *iid, void **out)
 {
-  byte bVar1;
-  byte bVar2;
-  byte *pbVar3;
-  byte *pbVar4;
-  int *piVar5;
-  
-  pbVar4 = &lbl_82154C18;
-  pbVar3 = param_2;
-  do {
-    bVar1 = *pbVar3;
-    bVar2 = *pbVar4;
-    if ((ulonglong)bVar1 - (ulonglong)bVar2 != 0) break;
-    pbVar3 = pbVar3 + 1;
-    pbVar4 = pbVar4 + 1;
-  } while (pbVar3 != param_2 + 0x10);
-  if ((int)((ulonglong)bVar1 - (ulonglong)bVar2) == 0) {
-    piVar5 = (int *)param_1[0x15];
-LAB_82f3c1ec:
-    *param_3 = (int)piVar5;
+  if (memcmp(iid, lbl_82154C18, 16) == 0) {
+    *out = o->f54;
+  } else if (memcmp(iid, lbl_82154C58, 16) == 0) {
+    *out = o;
+  } else if (memcmp(iid, lbl_8214C740, 16) == 0) {
+    *out = o != 0 ? (char *)o + 4 : 0;
+  } else if (memcmp(iid, lbl_82154C48, 16) == 0) {
+    *out = o;
+  } else if (memcmp(iid, lbl_8202F1FC, 16) == 0) {
+    *out = o;
+  } else {
+    *out = 0;
+    return 0x80004002;
   }
-  else {
-    pbVar4 = &lbl_82154C58;
-    pbVar3 = param_2;
-    do {
-      bVar1 = *pbVar3;
-      bVar2 = *pbVar4;
-      if ((ulonglong)bVar1 - (ulonglong)bVar2 != 0) break;
-      pbVar3 = pbVar3 + 1;
-      pbVar4 = pbVar4 + 1;
-    } while (pbVar3 != param_2 + 0x10);
-    if ((int)((ulonglong)bVar1 - (ulonglong)bVar2) != 0) {
-      pbVar4 = &lbl_8214C740;
-      pbVar3 = param_2;
-      do {
-        bVar1 = *pbVar3;
-        bVar2 = *pbVar4;
-        if ((ulonglong)bVar1 - (ulonglong)bVar2 != 0) break;
-        pbVar3 = pbVar3 + 1;
-        pbVar4 = pbVar4 + 1;
-      } while (pbVar3 != param_2 + 0x10);
-      if ((int)((ulonglong)bVar1 - (ulonglong)bVar2) == 0) {
-        piVar5 = param_1 + 1;
-        if (param_1 == (int *)0x0) {
-          piVar5 = (int *)0x0;
-        }
-        goto LAB_82f3c1ec;
-      }
-      pbVar4 = &lbl_82154C48;
-      pbVar3 = param_2;
-      do {
-        bVar1 = *pbVar3;
-        bVar2 = *pbVar4;
-        if ((ulonglong)bVar1 - (ulonglong)bVar2 != 0) break;
-        pbVar3 = pbVar3 + 1;
-        pbVar4 = pbVar4 + 1;
-      } while (pbVar3 != param_2 + 0x10);
-      if ((int)((ulonglong)bVar1 - (ulonglong)bVar2) != 0) {
-        pbVar4 = &lbl_8202F1FC;
-        pbVar3 = param_2 + 0x10;
-        do {
-          bVar1 = *param_2;
-          bVar2 = *pbVar4;
-          if ((ulonglong)bVar1 - (ulonglong)bVar2 != 0) break;
-          param_2 = param_2 + 1;
-          pbVar4 = pbVar4 + 1;
-        } while (param_2 != pbVar3);
-        if ((int)((ulonglong)bVar1 - (ulonglong)bVar2) != 0) {
-          *param_3 = 0;
-          return 0xffffffff80004002;
-        }
-      }
-    }
-    *param_3 = (int)param_1;
-  }
-  (**(code **)(*param_1 + 4))();
+  o->vt->AddRef(o);
   return 0;
 }
-

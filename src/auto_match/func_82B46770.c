@@ -1,52 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_70;
-extern int fn_82930F70();
-extern int fn_82AC6560();
-extern int fn_82B466F8();
+typedef struct { unsigned int w[13]; } Tmp_82B46770;
 
+extern unsigned int *fn_82AC6560(void *ctx, int size, int kind);
+extern void fn_82930F70(Tmp_82B46770 *);
+extern unsigned int fn_82B466F8(void *ctx, char *s);
 
-undefined4 *
-fn_82B46770(undefined8 param_1,undefined4 param_2,undefined8 param_3,undefined4 param_4)
-
+unsigned int *fn_82B46770(void *self, unsigned int a, char *s, unsigned int c)
 {
-  undefined4 *puVar1;
-  undefined4 uVar2;
-  undefined4 auStack_70 [16];
-  
-  puVar1 = (undefined4 *)fn_82AC6560(param_1,0x34,9);
-  fn_82930F70(auStack_70);
-  puVar1[4] = param_2;
-  puVar1[1] = 6;
-  *puVar1 = auStack_70[0];
-  uVar2 = fn_82B466F8(param_1,param_3);
-  puVar1[5] = uVar2;
-  puVar1[6] = param_4;
-  return puVar1;
+  Tmp_82B46770 t;
+  unsigned int v;
+  unsigned int *o;
+  o = fn_82AC6560(self, 0x34, 9);
+  fn_82930F70(&t);
+  v = t.w[0];
+  o[4] = a;
+  o[1] = 6;
+  o[0] = v;
+  o[5] = fn_82B466F8(self, s);
+  o[6] = c;
+  return o;
 }
-

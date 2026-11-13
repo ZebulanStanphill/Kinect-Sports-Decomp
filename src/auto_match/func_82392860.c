@@ -1,76 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822C5B18();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Obj_82392860 {
+    char base[0x20];
+    __vector4 a;        /* 0x20 */
+    __vector4 b;        /* 0x30 */
+    __vector4 c;        /* 0x40 */
+    float f50;          /* 0x50 */
+    int pad54[3];
+    int f60;            /* 0x60 */
+    int pad64[3];
+    int f70;            /* 0x70 */
+    int pad74[3];
+    int f80;            /* 0x80 */
+    int pad84[3];
+    float f90;          /* 0x90 */
+    int pad94[3];
+    float fa0;          /* 0xa0 */
+} Obj_82392860;
 
-int fn_82392860(int param_1,int param_2)
+extern void fn_822C5B18(Obj_82392860 *, const Obj_82392860 *);
 
+Obj_82392860 *fn_82392860(Obj_82392860 *self, const Obj_82392860 *o)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  undefined4 uVar3;
-  undefined4 uVar4;
-  undefined4 uVar5;
-  
-  fn_822C5B18();
-  puVar1 = (undefined4 *)(param_2 + 0x20U & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (undefined4 *)(param_1 + 0x20U & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  puVar1 = (undefined4 *)(param_2 + 0x30U & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (undefined4 *)(param_1 + 0x30U & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  puVar1 = (undefined4 *)(param_2 + 0x40U & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (undefined4 *)(param_1 + 0x40U & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  *(undefined4 *)(param_1 + 0x50) = *(undefined4 *)(param_2 + 0x50);
-  *(undefined4 *)(param_1 + 0x60) = *(undefined4 *)(param_2 + 0x60);
-  *(undefined4 *)(param_1 + 0x70) = *(undefined4 *)(param_2 + 0x70);
-  *(undefined4 *)(param_1 + 0x80) = *(undefined4 *)(param_2 + 0x80);
-  *(undefined4 *)(param_1 + 0x90) = *(undefined4 *)(param_2 + 0x90);
-  *(undefined4 *)(param_1 + 0xa0) = *(undefined4 *)(param_2 + 0xa0);
-  return param_1;
+    fn_822C5B18(self, o);
+    self->a = o->a;
+    self->b = o->b;
+    self->c = o->c;
+    self->f50 = o->f50;
+    self->f60 = o->f60;
+    self->f70 = o->f70;
+    self->f80 = o->f80;
+    self->f90 = o->f90;
+    self->fa0 = o->fa0;
+    return self;
 }
-

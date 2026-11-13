@@ -1,40 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_28;
-extern int fn_82A1EFC0();
+typedef struct Msg_82510070 {
+    int type;
+    int size;
+    float value;
+    int zero;
+    int a;
+    int b;
+} Msg_82510070;
 
+typedef struct Src_82510070 {
+    int a;
+    float value;
+    int b;
+} Src_82510070;
 
-void fn_82510070(void)
+typedef struct Target_82510070 Target_82510070;
+typedef struct TargetVt_82510070 {
+    void *f0, *f4, *f8;
+    void (*Send)(Target_82510070 *self, Msg_82510070 *msg);
+} TargetVt_82510070;
+struct Target_82510070 {
+    TargetVt_82510070 *vt;
+};
 
+typedef struct Obj_82510070 {
+    int f0;
+    Target_82510070 *target;
+} Obj_82510070;
+
+extern void fn_82A1EFC0(void *dst, int value, unsigned int size);
+
+void fn_82510070(Obj_82510070 *self, Src_82510070 *src)
 {
-  undefined1 auStack_28 [16];
-  
-                    /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(auStack_28,0,0x10);
+    Msg_82510070 m;
+    fn_82A1EFC0(&m.value, 0, 0x10);
+    m.type = 0xa;
+    m.size = 0x18;
+    m.value = src->value;
+    m.zero = 0;
+    m.a = src->a;
+    m.b = src->b;
+    self->target->vt->Send(self->target, &m);
 }
-
