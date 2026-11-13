@@ -1,56 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82EE6048();
+typedef struct Obj_82F48088 Obj_82F48088;
 
+typedef struct Vtbl_82F48088 {
+    void *slots[11];
+    int (*GetPosition)(Obj_82F48088 *self, int a, int b, int c, unsigned __int64 *pos);
+} Vtbl_82F48088;
 
-/* WARNING: Removing unreachable block (ram,0x82f480f8) */
+struct Obj_82F48088 {
+    Vtbl_82F48088 *vt;
+    char pad4[0x2c];
+    char buffer[0x18];
+    unsigned int size;
+};
 
-undefined8 fn_82F48088(int *param_1)
+extern int fn_82EE6048(void *buffer, unsigned int offset, unsigned int *out, unsigned int count);
 
+int fn_82F48088(Obj_82F48088 *self, int a, int b, int c, unsigned int *out)
 {
-  undefined8 uVar1;
-  undefined4 *in_r7;
-  
-  if (in_r7 == (undefined4 *)0x0) {
-    uVar1 = 0xffffffff80070057;
-  }
-  else {
-    *in_r7 = 0;
-    uVar1 = (**(code **)(*param_1 + 0x2c))(param_1);
-    if (-1 < (int)uVar1) {
-      if ((uint)param_1[0x12] < 4) {
-        uVar1 = 0xffffffffc00d3a9e;
-      }
-      else {
-        uVar1 = fn_82EE6048(param_1 + 0xc,0,in_r7,4);
-      }
-    }
-  }
-  return uVar1;
-}
+    unsigned __int64 pos;
+    int hr;
 
+    if (out == 0)
+        return 0x80070057;
+    *out = 0;
+    pos = 0;
+    hr = self->vt->GetPosition(self, a, b, c, &pos);
+    if (hr < 0)
+        return hr;
+    if (pos > 0xffffffff)
+        return 0xc00d36bb;
+    if (self->size < pos + 4)
+        return 0xc00d3a9e;
+    return fn_82EE6048(self->buffer, (unsigned int)pos, out, 4);
+}

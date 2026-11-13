@@ -1,48 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_828AC428();
-extern int fn_828AC4E8();
-extern int fn_828D0590();
+typedef struct Sub_828D0890 {
+    unsigned char a, b, c;
+    unsigned char pad3;
+    unsigned short h;
+    unsigned short pad6;
+    char x[0x18];
+    unsigned char f;
+} Sub_828D0890;
 
+typedef struct Obj_828D0890 {
+    char pad[8];
+    void *owner;
+    unsigned char m;
+    char pad2[3];
+    Sub_828D0890 s;
+} Obj_828D0890;
 
-int fn_828D0890(int param_1,undefined4 param_2)
+extern void fn_828AC428(void *p);
+extern void fn_828AC4E8(void *p);
+extern void fn_828D0590(Obj_828D0890 *p, int a);
 
+Obj_828D0890 *fn_828D0890(Obj_828D0890 *p, void *owner)
 {
-  *(undefined4 *)(param_1 + 8) = param_2;
-  *(undefined1 *)(param_1 + 0xc) = 0;
-  fn_828AC428(param_1 + 0x18);
-  *(undefined1 *)(param_1 + 0x10) = 0;
-  *(undefined1 *)(param_1 + 0x11) = 0;
-  *(undefined1 *)(param_1 + 0x12) = 0;
-  fn_828AC4E8(param_1 + 0x18);
-  *(undefined2 *)(param_1 + 0x14) = 0xffff;
-  *(undefined1 *)(param_1 + 0x30) = 0xff;
-  fn_828D0590(param_1,1);
-  return param_1;
+    Sub_828D0890 *s;
+    p->owner = owner;
+    p->m = 0;
+    fn_828AC428(p->s.x);
+    s = &p->s;
+    s->a = 0;
+    s->b = 0;
+    s->c = 0;
+    fn_828AC4E8(s->x);
+    s->h = 0xffff;
+    s->f = 0xff;
+    fn_828D0590(p, 1);
+    return p;
 }
-

@@ -1,51 +1,13 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A1BFB8();
+extern unsigned int fn_82A1BFB8(void *self, int id, int *value);
 
-
-ulonglong fn_828EA548(undefined8 param_1)
-
+int fn_828EA548(void *self)
 {
-  ulonglong uVar1;
-  int iVar2;
-  int aiStack_20 [4];
-  
-  aiStack_20[0] = 0;
-  uVar1 = fn_82A1BFB8(param_1,0xeb,aiStack_20);
-  if ((uVar1 & 0xffffffff) == 0) {
-    if (aiStack_20[0] != 0) {
-      return uVar1;
+    int value = 0;
+    unsigned int r = fn_82A1BFB8(self, 0xeb, &value);
+    if (r == 0) {
+        if (value != 0) return 0;
+        r = fn_82A1BFB8(self, 0xea, &value);
     }
-    iVar2 = fn_82A1BFB8(param_1,0xea,aiStack_20);
-    if (iVar2 == 0) {
-      return (ulonglong)(aiStack_20[0] == 0) + 1;
-    }
-  }
-  return 2;
+    if (r != 0) return 2;
+    return value == 0 ? 2 : 1;
 }
-

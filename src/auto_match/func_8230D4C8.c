@@ -1,55 +1,52 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8230D470();
-extern int fn_8265CA20();
-extern unsigned int lbl_821AF1C8;
-extern unsigned int lbl_821AF424;
+typedef struct Elem_8230D4C8 { int data[8]; } Elem_8230D4C8;
 
+typedef struct Vec_8230D4C8 {
+    Elem_8230D4C8 *first;
+    Elem_8230D4C8 *last;
+    Elem_8230D4C8 *end;
+} Vec_8230D4C8;
 
-void fn_8230D4C8(undefined4 *param_1)
+typedef struct Member_8230D4C8 { char data[0xb0]; } Member_8230D4C8;
 
+typedef struct Members_8230D4C8 {
+    char pad0[0x60];
+    Member_8230D4C8 a;            /* 0x060 */
+    Member_8230D4C8 b;            /* 0x110 */
+    Member_8230D4C8 c;            /* 0x1c0 */
+} Members_8230D4C8;
+
+typedef struct Obj_8230D4C8 {
+    void *vtable;                 /* 0x000 */
+    char pad4[0x15c];
+    Members_8230D4C8 m;           /* 0x160 */
+    char pad3d0[0x500 - 0x3d0];
+    Vec_8230D4C8 vec;             /* 0x500 */
+} Obj_8230D4C8;
+
+extern void fn_8265CA20(void *p);
+extern void fn_8230D470(Member_8230D4C8 *m);
+extern char lbl_821AF424[];
+extern char lbl_821AF1C8[];
+
+void fn_8230D4C8(Obj_8230D4C8 *self)
 {
-  int iVar1;
-  
-  *param_1 = &lbl_821AF424;
-  iVar1 = param_1[0x140];
-  if (iVar1 != 0) {
-    for (; iVar1 != param_1[0x141]; iVar1 = iVar1 + 0x20) {
-    }
-    fn_8265CA20();
-  }
-  param_1[0x140] = 0;
-  param_1[0x141] = 0;
-  param_1[0x142] = 0;
-  fn_8230D470(param_1 + 200);
-  fn_8230D470(param_1 + 0x9c);
-  fn_8230D470(param_1 + 0x70);
-  *param_1 = &lbl_821AF1C8;
-  return;
-}
+    Vec_8230D4C8 *v;
+    Members_8230D4C8 *m;
+    Elem_8230D4C8 *it;
 
+    self->vtable = lbl_821AF424;
+    v = &self->vec;
+    if (v->first != 0) {
+        for (it = v->first; it != v->last; it++) {
+        }
+        fn_8265CA20(v->first);
+    }
+    v->first = 0;
+    v->last = 0;
+    v->end = 0;
+    m = &self->m;
+    fn_8230D470(&m->c);
+    fn_8230D470(&m->b);
+    fn_8230D470(&m->a);
+    self->vtable = lbl_821AF1C8;
+}

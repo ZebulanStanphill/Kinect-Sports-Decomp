@@ -1,57 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_40;
-extern int fn_82681728();
-extern int fn_826944C8();
-extern int fn_826961B0();
-extern int fn_82696330();
-extern int fn_826C1BA0();
+typedef struct Str_8273CA78 { char pad[8]; int rc; } Str_8273CA78;
+typedef struct Value_8273CA78 { char data[0x10]; } Value_8273CA78;
+typedef struct Env_8273CA78 { char pad[0x78]; unsigned int strings; } Env_8273CA78;
+typedef struct Obj_8273CA78 { char pad[0x10]; char members[1]; } Obj_8273CA78;
 
+extern char lbl_82012158[];   /* "data" */
+extern void fn_82681728(Str_8273CA78 **out, unsigned int manager, const char *s);
+extern void fn_826944C8(Str_8273CA78 *s);
+extern Value_8273CA78 *fn_826961B0(Value_8273CA78 *self, void *obj);
+extern void fn_82696330(Value_8273CA78 *self);
+extern void fn_826C1BA0(void *members, Env_8273CA78 *env, Str_8273CA78 **name, Value_8273CA78 *value,
+                        unsigned char *flags);
 
-void fn_8273CA78(longlong param_1,int param_2,undefined8 param_3)
-
+void fn_8273CA78(Obj_8273CA78 *self, Env_8273CA78 *env, void *data)
 {
-  undefined8 uVar1;
-  longlong lVar2;
-  undefined1 auStack_40;
-  int aiStack_3c;
-  undefined1 auStack_30 [16];
-
-  auStack_40 = 0;
-  fn_82681728(&aiStack_3c,(ulonglong)*(uint *)(param_2 + 0x78) + 0x254,0xffffffff82012158);
-  uVar1 = fn_826961B0(auStack_30,param_3);
-  fn_826C1BA0(param_1 + 0x10,param_2,&aiStack_3c,uVar1,&auStack_40);
-  lVar2 = (ulonglong)*(uint *)(aiStack_3c + 8) - 1;
-  *(int *)(aiStack_3c + 8) = (int)lVar2;
-  if (lVar2 == 0) {
-    fn_826944C8(aiStack_3c);
-  }
-  fn_82696330(auStack_30);
-  return;
+    unsigned char flags = 0;
+    Str_8273CA78 *name;
+    Value_8273CA78 value;
+    Str_8273CA78 *p;
+    fn_82681728(&name, env->strings + 0x254, lbl_82012158);
+    fn_826C1BA0(self->members, env, &name, fn_826961B0(&value, data), &flags);
+    p = name;
+    if (--p->rc == 0)
+        fn_826944C8(p);
+    fn_82696330(&value);
 }

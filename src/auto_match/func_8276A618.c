@@ -1,48 +1,18 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82769728();
-extern unsigned int lbl_82014C48;
-extern unsigned int lbl_82014C4C;
+typedef struct Obj_8276A618 {
+    char pad0[0x28];
+    char timer[0x2c];
+    unsigned int count;
+} Obj_8276A618;
 
+extern float fn_82769728(void *timer, int index);
+extern float lbl_82014C48;
+extern float lbl_82014C4C;
 
-double fn_8276A618(int param_1,int param_2)
-
+float fn_8276A618(Obj_8276A618 *self, int index)
 {
-  uint uVar1;
-  float fVar2;
-  double dVar3;
-  
-  fVar2 = lbl_82014C48;
-  if (param_2 != -1) {
-    uVar1 = *(uint *)(param_1 + 0x54);
-    dVar3 = (double)fn_82769728(param_1 + 0x28);
-    fVar2 = (float)(dVar3 * (double)lbl_82014C4C) / (float)uVar1;
-  }
-  return (double)fVar2;
+    unsigned int count;
+    if (index == -1)
+        return lbl_82014C48;
+    count = self->count;
+    return fn_82769728(self->timer, index) * lbl_82014C4C / (float)count;
 }
-

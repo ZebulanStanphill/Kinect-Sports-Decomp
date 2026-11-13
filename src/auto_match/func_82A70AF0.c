@@ -1,37 +1,106 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int memset();
+typedef struct Header_82A70AF0 {
+    int w[0x78 / 4];
+} Header_82A70AF0;
 
+typedef struct Settings_82A70AF0 {
+    Header_82A70AF0 header;     /* 0x00 */
+    int f78;
+    int f7c;
+    float f80;
+    int f84;
+    int f88;
+    int f8c;
+    int f90;
+    int f94;
+    int f98;
+    int f9c;
+    int fa0;
+    int fa4;
+    int fa8;
+    int fac;
+    int fb0;
+    int fb4;
+    int fb8;
+    int fbc;
+    int fc0;
+    int fc4;
+    int fc8;
+    int fcc;
+    int fd0;
+    int fd4;
+    int fd8;
+    int fdc;
+    int fe0;
+    int fe4;
+    int fe8;
+    int fec;
+    int ff0;
+    int ff4;
+    int ff8;
+    int ffc;
+    int f100;
+    int f104;
+    int f108;
+    int f10c;
+    int f110;
+    int f114;
+    int f118;
+    int f11c;
+    int f120;
+    int f124;
+    int f128;
+    int f12c;
+} Settings_82A70AF0;
 
-void fn_82A70AF0(undefined8 param_1)
+extern void *memset(void *, int, unsigned int);
 
+void fn_82A70AF0(Settings_82A70AF0 *s)
 {
-                    /* WARNING: Subroutine does not return */
-  memset(param_1,0,0x130);
+    memset(s, 0, sizeof(*s));
+    memset(&s->header, 0, sizeof(s->header));
+    s->f78 = 0;
+    s->f7c = 0;
+    s->f84 = 0;
+    s->f80 = 0.0f;
+    s->f88 = 0;
+    s->f8c = 0;
+    s->f90 = 0;
+    s->f94 = 0;
+    s->f98 = 0;
+    s->f9c = 0;
+    s->fa0 = 0;
+    s->fa4 = 0;
+    s->fa8 = 0;
+    s->fac = 0;
+    s->fb0 = 0;
+    s->fb4 = 0;
+    s->fb8 = 0;
+    s->fbc = 0;
+    s->fc0 = 0;
+    s->fc4 = 0;
+    s->fc8 = 0;
+    s->fcc = 0;
+    s->fd0 = 0;
+    s->fd4 = 0;
+    s->fd8 = 0;
+    s->fdc = 0;
+    s->fe0 = 0;
+    s->fe4 = 0;
+    s->fec = 0;
+    s->fe8 = 0;
+    s->ff0 = 0;
+    s->ff4 = 0;
+    s->ff8 = 0;
+    s->ffc = 0;
+    s->f100 = 0;
+    s->f104 = 0;
+    s->f108 = 0;
+    s->f10c = 0;
+    s->f110 = 0;
+    s->f114 = 0;
+    s->f118 = 0;
+    s->f11c = 0;
+    s->f120 = 0;
+    s->f124 = 0;
+    s->f128 = 0;
 }
-

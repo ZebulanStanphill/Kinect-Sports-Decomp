@@ -1,53 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int uStack_14;
-extern unsigned int uStack_18;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
+typedef struct Message_82720CE0 {
+    int kind;
+    unsigned char handled;
+    int b;
+    int a;
+} Message_82720CE0;
 
+typedef struct Listener_82720CE0 Listener_82720CE0;
 
-bool fn_82720CE0(int param_1,undefined4 param_2,undefined4 param_3)
+typedef struct ListenerVtbl_82720CE0 {
+    void *slot0;
+    void (*notify)(Listener_82720CE0 *self, void *sender, Message_82720CE0 *msg);
+} ListenerVtbl_82720CE0;
 
+struct Listener_82720CE0 {
+    ListenerVtbl_82720CE0 *vt;
+};
+
+typedef struct Obj_82720CE0 {
+    char pad0[0x10c];
+    int listener;
+} Obj_82720CE0;
+
+int fn_82720CE0(Obj_82720CE0 *self, int a, int b)
 {
-  int *piVar1;
-  undefined4 uStack_20;
-  undefined1 uStack_1c;
-  undefined4 uStack_18;
-  undefined4 uStack_14;
-  
-  piVar1 = *(int **)(param_1 + 0x10c);
-  if (piVar1 != (int *)0x0) {
-    uStack_1c = 0;
-    uStack_20 = 0xc;
-    uStack_18 = param_3;
-    uStack_14 = param_2;
-    (**(code **)(*piVar1 + 4))(piVar1,param_1,&uStack_20);
-  }
-  return piVar1 != (int *)0x0;
-}
+    Message_82720CE0 msg;
+    int listener = self->listener;
 
+    if (listener != 0) {
+        msg.handled = 0;
+        msg.kind = 0xc;
+        msg.b = b;
+        msg.a = a;
+        ((Listener_82720CE0 *)listener)->vt->notify((Listener_82720CE0 *)listener, self, &msg);
+        return 1;
+    }
+    return 0;
+}

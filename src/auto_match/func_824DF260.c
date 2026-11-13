@@ -1,58 +1,46 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82359C18();
-extern unsigned int ltcg_pool_0_0f;
+typedef struct FuncImpl_824DF260 FuncImpl_824DF260;
+typedef struct {
+    FuncImpl_824DF260 *(*clone)(FuncImpl_824DF260 *self, void *where);
+} FuncImplVt_824DF260;
+struct FuncImpl_824DF260 { FuncImplVt_824DF260 *vt; };
 
+typedef struct {
+    char storage[0x10];
+    FuncImpl_824DF260 *impl;
+} Function_824DF260;
 
-undefined4 * fn_824DF260(double param_1,undefined4 *param_2,undefined8 param_3,int param_4)
+typedef struct {
+    int a;
+    int b;
+    int c;
+    int pad0c;
+    float rate;
+    int pad14[2];
+    float time;
+    Function_824DF260 callback;
+} Obj_824DF260;
 
+extern void fn_82359C18(Function_824DF260 *f);
+
+Obj_824DF260 *fn_824DF260(Obj_824DF260 *self, float rate, Function_824DF260 *callback)
 {
-  undefined4 uVar1;
-  undefined4 *puVar2;
-  
-  param_2[4] = (float)param_1;
-  *param_2 = 0;
-  param_2[1] = 0;
-  uVar1 = ltcg_pool_0_0f;
-  puVar2 = param_2 + 8;
-  param_2[2] = 0;
-  param_2[7] = uVar1;
-  if (*(int *)(param_4 + 0x10) == 0) {
-    param_2[0xc] = 0;
-  }
-  else {
-    if (*(int *)(param_4 + 0x10) != param_4) {
-      puVar2 = (undefined4 *)0x0;
-    }
-    uVar1 = (**(code **)**(undefined4 **)(param_4 + 0x10))(*(undefined4 **)(param_4 + 0x10),puVar2);
-    param_2[0xc] = uVar1;
-  }
-  fn_82359C18(param_4);
-  return param_2;
-}
+    Function_824DF260 *dst;
 
+    self->rate = rate;
+    self->a = 0;
+    self->b = 0;
+    dst = &self->callback;
+    self->c = 0;
+    self->time = 0.0f;
+    if (callback->impl == 0) {
+        dst->impl = 0;
+    } else {
+        if ((void *)callback->impl == (void *)callback) {
+            dst->impl = callback->impl->vt->clone(callback->impl, dst);
+        } else {
+            dst->impl = callback->impl->vt->clone(callback->impl, 0);
+        }
+    }
+    fn_82359C18(callback);
+    return self;
+}

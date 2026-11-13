@@ -1,64 +1,49 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AB15D0();
-extern int fn_82AB9918();
-extern int fn_82B6E398();
-extern int fn_82B6E770();
-extern int fn_82B6E830();
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
 
+#define SS_ASSERT(e, line) \
+    if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecache\\shaderstore.cpp", line)
 
-undefined8 fn_82AB9C00(int param_1,undefined8 param_2,ulonglong param_3,int *param_4)
+typedef struct SSItem_82AB9C00 {
+    unsigned int handle;
+    void *data;
+    unsigned int size;
+    int fc;
+    int refCount;
+} SSItem_82AB9C00;
 
+typedef struct ShaderStore_82AB9C00 {
+    char pad0[0x14];
+    void *handleTable;      /* 0x14 */
+    void *dataTable;        /* 0x18 */
+} ShaderStore_82AB9C00;
+
+extern SSItem_82AB9C00 *fn_82B6E830(void *table, const void *data, unsigned int count);
+extern SSItem_82AB9C00 *fn_82AB9918(ShaderStore_82AB9C00 *pShaderStore, const void *data, unsigned int size);
+extern void fn_82B6E398(void *table, unsigned int handle, SSItem_82AB9C00 *item);
+extern void fn_82B6E770(void *table, void *data, unsigned int size, SSItem_82AB9C00 *item);
+
+int fn_82AB9C00(ShaderStore_82AB9C00 *pShaderStore, const void *data, unsigned int size, unsigned int *pHandle)
 {
-  int *piVar1;
-  
-  if (param_1 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d74d0,0xffffffff820d74e0,0x1ed);
-  }
-  piVar1 = (int *)fn_82B6E830(*(undefined4 *)(param_1 + 0x18),param_2,
-                                    (param_3 & 0xffffffff) >> 2);
-  if (piVar1 == (int *)0x0) {
-    piVar1 = (int *)fn_82AB9918(param_1,param_2,param_3);
-    if (piVar1 == (int *)0x0) {
-      fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d7594,0xffffffff820d74e0,0x209);
-      return 0x10;
-    }
-    fn_82B6E398(*(undefined4 *)(param_1 + 0x14),*piVar1,piVar1);
-    fn_82B6E770(*(undefined4 *)(param_1 + 0x18),piVar1[1],piVar1[2],piVar1);
-    if (*piVar1 == 0) {
-      fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d75e8,0xffffffff820d74e0,0x217);
-    }
-    *param_4 = *piVar1;
-  }
-  else {
-    piVar1[4] = piVar1[4] + 1;
-    *param_4 = *piVar1;
-  }
-  return 0;
-}
+    SSItem_82AB9C00 *pSSItem;
+    SSItem_82AB9C00 *pNewSSItem;
+    unsigned int dwords = size >> 2;
 
+    SS_ASSERT(pShaderStore, 0x1ed);
+    pSSItem = fn_82B6E830(pShaderStore->dataTable, data, dwords);
+    if (pSSItem != 0) {
+        pSSItem->refCount++;
+        *pHandle = pSSItem->handle;
+        return 0;
+    }
+    pNewSSItem = fn_82AB9918(pShaderStore, data, size);
+    if (pNewSSItem == 0) {
+        SS_ASSERT(pNewSSItem, 0x209);
+        return 0x10;
+    }
+    fn_82B6E398(pShaderStore->handleTable, pNewSSItem->handle, pNewSSItem);
+    fn_82B6E770(pShaderStore->dataTable, pNewSSItem->data, pNewSSItem->size, pNewSSItem);
+    SS_ASSERT(pNewSSItem->handle > 0, 0x217);
+    *pHandle = pNewSSItem->handle;
+    return 0;
+}

@@ -1,45 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822ABA88();
-extern int fn_82F51EF0();
+typedef struct Target_8238A488 {
+    char pad0[0x20];
+    void *node;
+} Target_8238A488;
 
+typedef struct Entry_8238A488 {
+    char pad0[0x24];
+    int target;
+} Entry_8238A488;
 
-void fn_8238A488(int param_1,longlong param_2,int param_3,undefined8 param_4)
+typedef struct Slot_8238A488 {
+    void **maps;
+    int pad4[3];
+    int current;
+} Slot_8238A488;
 
+typedef struct List_8238A488 {
+    char pad0[0x8];
+    Slot_8238A488 ***slots;
+} List_8238A488;
+
+typedef struct Self_8238A488 {
+    char pad0[0x8];
+    List_8238A488 *list;
+} Self_8238A488;
+
+extern Entry_8238A488 *fn_822ABA88(void *map, unsigned int key);
+extern void fn_82F51EF0(void *node, unsigned char flag);
+
+void fn_8238A488(Self_8238A488 *self, int enable, int index, unsigned int key)
 {
-  int *piVar1;
-  int iVar2;
-  
-  piVar1 = *(int **)(**(int **)(*(int *)(param_1 + 8) + 8) + param_3 * 4);
-  iVar2 = fn_822ABA88(*(undefined4 *)(piVar1[4] * 4 + *piVar1),param_4);
-  if (*(int *)(iVar2 + 0x24) != 0) {
-    fn_82F51EF0(*(undefined4 *)(*(int *)(iVar2 + 0x24) + 0x20),param_2 != 0);
-  }
-  return;
-}
+    Slot_8238A488 *slot;
+    Entry_8238A488 *entry;
 
+    slot = (*self->list->slots)[index];
+    entry = fn_822ABA88(slot->maps[slot->current], key);
+    if (entry->target != 0) {
+        fn_82F51EF0(((Target_8238A488 *)entry->target)->node, enable != 0);
+    }
+}

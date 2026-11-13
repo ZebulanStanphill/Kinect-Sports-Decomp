@@ -1,37 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F691F0();
+typedef struct Node_8282E3B0 {
+    struct Node_8282E3B0 *left;     /* 0x00 */
+    struct Node_8282E3B0 *parent;   /* 0x04 */
+    struct Node_8282E3B0 *right;    /* 0x08 */
+    const void *data;               /* 0x0c */
+    unsigned int size;              /* 0x10 */
+    int pad14;
+    int offset;                     /* 0x18 */
+} Node_8282E3B0;
 
+typedef struct Map_8282E3B0 {
+    int pad0;
+    Node_8282E3B0 *head;            /* 0x04 */
+    unsigned int count;
+} Map_8282E3B0;
 
-void fn_8282E3B0(int param_1,undefined8 param_2)
+typedef struct Obj_8282E3B0 {
+    char pad0[0x14];
+    unsigned int size;              /* 0x14 */
+    char pad18[0x24];
+    Map_8282E3B0 *map;              /* 0x3c */
+} Obj_8282E3B0;
 
+extern void *memset(void *dst, int c, unsigned int n);
+extern void *memcpy(void *dst, const void *src, unsigned int n);
+extern void fn_82518FF0(Node_8282E3B0 **it);
+
+void fn_8282E3B0(Obj_8282E3B0 *self, char *buffer)
 {
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0(param_2,0,*(undefined4 *)(param_1 + 0x14));
+    Node_8282E3B0 *it;
+    Node_8282E3B0 *head;
+    memset(buffer, 0, self->size);
+    head = self->map->head;
+    it = head->left;
+    while (it != head) {
+        memcpy(buffer + it->offset, it->data, it->size);
+        fn_82518FF0(&it);
+        head = self->map->head;
+    }
 }
-

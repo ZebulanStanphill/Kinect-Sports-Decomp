@@ -1,57 +1,42 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Model_82BF4A68 {
+    void *vt;                   /* 0x00 */
+    char pad4[0x58];
+    unsigned short id;          /* 0x5c */
+    char pad5e[2];
+} Model_82BF4A68;
+
+typedef struct Owner_82BF4A68 {
+    char pad0[0x10];
+    int state;                  /* 0x10 */
+    const char *name;           /* 0x14 */
+    void *ctx;                  /* 0x18 */
+    char pad1c[0xc];
+    unsigned short id;          /* 0x28 */
+} Owner_82BF4A68;
+
+extern char lbl_820EB884[];
+extern void *fn_82BE56B0(unsigned int size);
+extern void fn_82BEECD0(Model_82BF4A68 *self, const char *name, void *ctx, int kind, void *ie);
 extern int fn_82BE5240();
-extern int fn_82BEECD0();
-extern unsigned int lbl_820EB884;
 
-
-undefined4 * fn_82BF4A68(int param_1,undefined8 param_2)
-
+static __forceinline Model_82BF4A68 *Model_Construct(Model_82BF4A68 *m, const char *name, void *ctx,
+                                                      void *ie, unsigned short id)
 {
-  undefined2 uVar1;
-  undefined4 *puVar2;
-  
-  puVar2 = (undefined4 *)thunk_FUN_82be5550(0x60);
-  if (puVar2 == (undefined4 *)0x0) {
-    puVar2 = (undefined4 *)0x0;
-  }
-  else {
-    uVar1 = *(undefined2 *)(param_1 + 0x28);
-    fn_82BEECD0(puVar2,*(undefined4 *)(param_1 + 0x14),*(undefined4 *)(param_1 + 0x18),0x10,
-                  param_2);
-    *(undefined2 *)(puVar2 + 0x17) = uVar1;
-    *puVar2 = &lbl_820EB884;
-  }
-  if (puVar2 == (undefined4 *)0x0) {
-    fn_82BE5240(param_1,0x65,0xffffffff820eba18,*(undefined4 *)(param_1 + 0x14));
-    puVar2 = (undefined4 *)0x0;
-    *(undefined4 *)(param_1 + 0x10) = 0;
-  }
-  return puVar2;
+    fn_82BEECD0(m, name, ctx, 0x10, ie);
+    m->id = id;
+    m->vt = lbl_820EB884;
+    return m;
 }
 
+Model_82BF4A68 *fn_82BF4A68(Owner_82BF4A68 *self, void *ie)
+{
+    Model_82BF4A68 *mem = (Model_82BF4A68 *)fn_82BE56B0(0x60);
+    Model_82BF4A68 *model = mem ? Model_Construct(mem, self->name, self->ctx, ie, self->id) : 0;
+
+    if (model == 0) {
+        fn_82BE5240(self, 0x65, "Dynamic CMassiveAdObjectModel creation failed for IE: \"%s\"", self->name);
+        self->state = 0;
+        return 0;
+    }
+    return model;
+}

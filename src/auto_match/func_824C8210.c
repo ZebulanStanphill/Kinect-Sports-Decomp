@@ -1,62 +1,44 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Node_824C8210 {
+    char pad0[0x30];
+    __vector4 color;    /* 0x30 */
+    int dirty;          /* 0x40 */
+} Node_824C8210;
 
-void fn_824C8210(undefined4 *param_1)
+typedef struct Item_824C8210 {
+    char pad0[0x34];
+    Node_824C8210 *node;
+} Item_824C8210;
 
+typedef struct Entry_824C8210 {
+    Item_824C8210 *item;
+    int pad4;
+} Entry_824C8210;
+
+typedef struct Group_824C8210 {
+    Entry_824C8210 *begin;
+    Entry_824C8210 *end;
+    char pad8[0x20 - 0x8];
+    __vector4 color;    /* 0x20 */
+    char pad30[0x40 - 0x30];
+    int dirty;          /* 0x40 */
+} Group_824C8210;
+
+void fn_824C8210(Group_824C8210 *self, __vector4 color)
 {
-  int *piVar1;
-  int iVar2;
-  undefined4 *puVar3;
-  int *piVar4;
-  undefined4 in_register_00010010;
-  undefined4 in_register_00010014;
-  undefined4 in_register_00010018;
-  undefined4 in_vr1;
-  
-  piVar1 = (int *)param_1[1];
-  for (piVar4 = (int *)*param_1; piVar4 != piVar1; piVar4 = piVar4 + 2) {
-    iVar2 = *(int *)(*piVar4 + 0x34);
-    if (iVar2 != 0) {
-      *(undefined4 *)(iVar2 + 0x40) = 1;
-      puVar3 = (undefined4 *)(iVar2 + 0x30U & 0xfffffff0);
-      *puVar3 = in_register_00010010;
-      puVar3[1] = in_register_00010014;
-      puVar3[2] = in_register_00010018;
-      puVar3[3] = in_vr1;
-    }
-  }
-  param_1[0x10] = 1;
-  puVar3 = (undefined4 *)((uint)(param_1 + 8) & 0xfffffff0);
-  *puVar3 = in_register_00010010;
-  puVar3[1] = in_register_00010014;
-  puVar3[2] = in_register_00010018;
-  puVar3[3] = in_vr1;
-  return;
-}
+    Entry_824C8210 *e = self->begin;
+    Entry_824C8210 *end = self->end;
 
+    for (; e != end; e++) {
+        Node_824C8210 *node = e->item->node;
+        if (node != 0) {
+            node->dirty = 1;
+            node->color = color;
+        }
+    }
+    self->dirty = 1;
+    self->color = color;
+}

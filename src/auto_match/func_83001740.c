@@ -1,69 +1,58 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_83004B48();
-extern int fn_8301B058();
-extern unsigned int lbl_832642EC;
+typedef struct Pair_83001740 {
+    unsigned int key;
+    void *value;
+} Pair_83001740;
 
+typedef struct Map_83001740 {
+    Pair_83001740 *begin;
+    Pair_83001740 *end;
+} Map_83001740;
 
-void fn_83001740(int param_1,int param_2,undefined8 param_3,undefined8 param_4)
+typedef struct Owner_83001740 {
+    char pad0[0x3c];
+    unsigned char slot;
+} Owner_83001740;
 
+typedef struct Obj_83001740 {
+    char pad0[0x24];
+    Owner_83001740 *owner;      /* 0x24 */
+    char pad28[0x54 - 0x28];
+    Map_83001740 *children;     /* 0x54 */
+} Obj_83001740;
+
+extern void *lbl_832642EC;
+extern void fn_8301B058(void *mgr, Obj_83001740 *o);
+extern void fn_83004B48(Obj_83001740 *o, void *target, int slot, int a, int b);
+
+static __inline int Found(Map_83001740 *m, Pair_83001740 *p) { return p != m->end; }
+static __inline void **Get(Map_83001740 *m, Pair_83001740 *p) { return Found(m, p) ? &p->value : 0; }
+
+void fn_83001740(Obj_83001740 *o, unsigned int key, int a, int b)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  int *piVar3;
-  
-  if (param_2 == 0) {
-    if (*(int *)(param_1 + 0x24) == 0) {
-      return;
-    }
-    if (*(char *)(*(int *)(param_1 + 0x24) + 0x3c) == -1) {
-      return;
-    }
-    fn_8301B058(lbl_832642EC,param_1);
-    iVar2 = *(int *)(param_1 + 0x24);
-  }
-  else {
-    puVar1 = *(undefined4 **)(param_1 + 0x54);
-    if (puVar1 == (undefined4 *)0x0) {
-      return;
-    }
-    for (piVar3 = (int *)*puVar1; (piVar3 != (int *)puVar1[1] && (*piVar3 != param_2));
-        piVar3 = piVar3 + 2) {
-    }
-    piVar3 = (int *)(-(uint)((int *)puVar1[1] != piVar3) & (uint)(piVar3 + 1));
-    if (piVar3 == (int *)0x0) {
-      return;
-    }
-    iVar2 = *piVar3;
-  }
-  if (iVar2 != 0) {
-    fn_83004B48(param_1,iVar2,0xff,param_3,param_4);
-  }
-  return;
-}
+    void *target;
 
+    if (key != 0) {
+        Map_83001740 *m = o->children;
+        Pair_83001740 *e;
+        void **v;
+        if (m == 0) {
+            return;
+        }
+        for (e = m->begin; e != m->end && e->key != key; e++) {
+        }
+        v = Get(m, e);
+        if (v == 0) {
+            return;
+        }
+        target = *v;
+    } else {
+        if (o->owner == 0 || o->owner->slot == 0xff) {
+            return;
+        }
+        fn_8301B058(lbl_832642EC, o);
+        target = o->owner;
+    }
+    if (target != 0) {
+        fn_83004B48(o, target, 0xff, a, b);
+    }
+}

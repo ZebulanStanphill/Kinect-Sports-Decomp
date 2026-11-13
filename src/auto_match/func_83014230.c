@@ -1,50 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FA5060();
-extern int fn_830394E8();
-extern unsigned int lbl_831BC768;
+typedef struct Owner_83014230 {
+    char pad0[0x5c];
+    int f5c;                 /* 0x5c */
+} Owner_83014230;
 
+typedef struct Desc_83014230 {
+    int f0;
+    int f4;                  /* 0x04 */
+    int f8;                  /* 0x08 */
+    int fc;
+    char sub10[0x18];        /* 0x10 */
+    char sub28[0x50];        /* 0x28 */
+    int f78;                 /* 0x78 */
+    int f7c;                 /* 0x7c */
+    unsigned char f80;
+    unsigned char f81;       /* 0x81 */
+} Desc_83014230;
 
-undefined8 fn_83014230(undefined8 param_1,undefined8 param_2,undefined8 param_3,int param_4)
+extern void *lbl_831BC768;
+extern void *fn_82FA5060(void *heap, int size);
+extern void *fn_830394E8(void *mem, int a, int b, int c, int d, void *e, void *f,
+                         unsigned char g, int h, int i, int j, int k);
 
+void *fn_83014230(Owner_83014230 *owner, int a, int b, Desc_83014230 *desc, int e)
 {
-  ulonglong uVar1;
-  undefined8 uVar2;
-  
-  uVar1 = fn_82FA5060(lbl_831BC768,0x1f8);
-  if ((uVar1 & 0xffffffff) == 0) {
-    uVar2 = 0;
-  }
-  else {
-    uVar2 = fn_830394E8(uVar1,param_2,param_3,*(undefined4 *)(param_4 + 8),
-                              *(undefined4 *)(param_4 + 0x78),param_4 + 0x10,param_4 + 0x28,
-                              *(undefined1 *)(param_4 + 0x81));
-  }
-  return uVar2;
+    void *mem = fn_82FA5060(lbl_831BC768, 0x1f8);
+    if (mem != 0)
+        return fn_830394E8(mem, a, b, desc->f8, desc->f78, desc->sub10, desc->sub28, desc->f81,
+                           desc->f7c, desc->f4, e, owner->f5c);
+    return 0;
 }
-

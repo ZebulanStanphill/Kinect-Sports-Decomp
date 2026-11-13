@@ -1,49 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_825FB360();
-extern int fn_82614908();
+typedef struct { char pad[0x14]; float time; } Event_825C4368;
+typedef struct EventNode_825C4368 EventNode_825C4368;
+struct EventNode_825C4368 { Event_825C4368 *event; int pad4; EventNode_825C4368 *next; };
+typedef struct UpdateNode_825C4368 UpdateNode_825C4368;
+struct UpdateNode_825C4368 { void *item; UpdateNode_825C4368 *next; };
+typedef struct {
+    char pad[0xb90];
+    EventNode_825C4368 *events;
+    UpdateNode_825C4368 *updates;
+} World_825C4368;
 
+extern void fn_825FB360(Event_825C4368 *event, World_825C4368 *world, float t);
+extern void fn_82614908(void *item, float t, float dt);
 
-void fn_825C4368(double param_1,undefined8 param_2,undefined8 param_3,int param_4)
-
+void fn_825C4368(void *self, World_825C4368 *world, float t, float dt)
 {
-  int *piVar1;
-  undefined4 *puVar2;
-  
-  for (piVar1 = *(int **)(param_4 + 0xb90); piVar1 != (int *)0x0; piVar1 = (int *)piVar1[2]) {
-    if (param_1 <= (double)*(float *)(*piVar1 + 0x14)) {
-      fn_825FB360(param_1,*piVar1,param_4);
-    }
-  }
-  for (puVar2 = *(undefined4 **)(param_4 + 0xb94); puVar2 != (undefined4 *)0x0;
-      puVar2 = (undefined4 *)puVar2[1]) {
-    fn_82614908(param_1,param_2,*puVar2);
-  }
-  return;
-}
+    EventNode_825C4368 *e;
+    UpdateNode_825C4368 *u;
 
+    for (e = world->events; e != 0; e = e->next) {
+        if (t <= e->event->time) {
+            fn_825FB360(e->event, world, t);
+        }
+    }
+    for (u = world->updates; u != 0; u = u->next) {
+        fn_82614908(u->item, t, dt);
+    }
+}

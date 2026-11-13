@@ -1,48 +1,32 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_82510F40();
-extern int fn_82560100();
-extern unsigned int ltcg_pool_0_0f;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Entry_82510EB8 {
+    char pad0[0x10];
+    void *target;           /* 0x10 */
+    unsigned short id;      /* 0x14 */
+    char pad16[2];
+    int kind;               /* 0x18 */
+} Entry_82510EB8;
 
-void fn_82510EB8(int param_1,int *param_2)
+typedef struct Self_82510EB8 {
+    void *f0;
+    void *context;          /* 0x04 */
+} Self_82510EB8;
 
+extern __vector4 *fn_82510F40(__vector4 *out, Self_82510EB8 *self, unsigned short id, short kind);
+extern int fn_82560100(void *context, void *target, __vector4 *position, float f, __vector4 *offset,
+                       int c, int d, int e);
+
+void fn_82510EB8(Self_82510EB8 *self, Entry_82510EB8 **entry)
 {
-  int iVar1;
-  undefined1 auStack_30 [8];
-  
-  iVar1 = *param_2;
-  if (*(int *)(iVar1 + 0x10) != 0) {
-    fn_82510F40(auStack_30,param_1,*(undefined2 *)(iVar1 + 0x14),
-                      (short)*(undefined4 *)(iVar1 + 0x18));
-    fn_82560100((double)ltcg_pool_0_0f,*(undefined4 *)(param_1 + 4),iVar1 + 0x10,auStack_30);
-  }
-  return;
-}
+    Entry_82510EB8 *e = *entry;
+    void **target = &e->target;
+    __vector4 position;
 
+    if (e->target != 0) {
+        fn_82510F40(&position, self, e->id, (short)e->kind);
+        fn_82560100(self->context, target, &position, 0.0f, 0, 0, 0, 0);
+    }
+}

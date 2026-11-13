@@ -1,43 +1,17 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8254E670();
-extern unsigned int lbl_82193AF0;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Obj_8254F110 {
+    int pad0;
+    void *target;
+    char pad8[0xe8];
+    int active;
+} Obj_8254F110;
 
+extern const float lbl_82193AD8[];
+extern void fn_8254E670(Obj_8254F110 *self, int a, int b, float time, float start, float y, float x);
 
-void fn_8254F110(undefined8 param_1,undefined8 param_2,int param_3,int param_4)
-
+void fn_8254F110(Obj_8254F110 *self, int frames, float x, float y)
 {
-  if (*(int *)(param_3 + 4) != 0) {
-    fn_8254E670((double)((float)(longlong)param_4 * lbl_82193AF0),(double)ltcg_pool_0_0f,param_2,
-                  param_1,param_3,5,9);
-    *(undefined4 *)(param_3 + 0xf0) = 1;
-  }
-  return;
+    if (self->target != 0) {
+        fn_8254E670(self, 5, 9, (float)frames * lbl_82193AD8[6], 0.0f, y, x);
+        self->active = 1;
+    }
 }
-

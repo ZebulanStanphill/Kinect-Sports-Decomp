@@ -1,55 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F68B7C();
+typedef struct String_82E1C280 {
+    union {
+        char buf[16];
+        char *ptr;
+    } u;
+    unsigned int size;
+    unsigned int res;
+} String_82E1C280;
 
+typedef struct Obj_82E1C280 {
+    char pad0[0x3c];
+    String_82E1C280 name;    /* 0x3c */
+} Obj_82E1C280;
 
-void fn_82E1C280(int param_1,char *param_2)
+extern unsigned int strlen(const char *s);
+extern String_82E1C280 *fn_82230360(String_82E1C280 *self, const char *s, unsigned int len);
 
+static __forceinline char *Ptr(String_82E1C280 *s)
 {
-  char cVar1;
-  undefined4 *puVar2;
-  char *pcVar3;
-  
-  pcVar3 = param_2;
-  if (param_2 != (char *)0x0) {
-    do {
-      cVar1 = *pcVar3;
-      pcVar3 = pcVar3 + 1;
-    } while (cVar1 != '\0');
-    fn_82F68B7C(param_1 + 0x3c,param_2,pcVar3 + (-1 - (int)param_2));
-    return;
-  }
-  puVar2 = (undefined4 *)(param_1 + 0x3c);
-  *(undefined4 *)(param_1 + 0x4c) = 0;
-  if (0xf < *(uint *)(param_1 + 0x50)) {
-    puVar2 = (undefined4 *)*puVar2;
-  }
-  *(undefined1 *)puVar2 = 0;
-  return;
+    return s->res < 0x10 ? s->u.buf : s->u.ptr;
 }
 
+static __forceinline void Eos(String_82E1C280 *s, unsigned int n)
+{
+    Ptr(s)[s->size = n] = 0;
+}
+
+void fn_82E1C280(Obj_82E1C280 *self, const char *s)
+{
+    if (s == 0) {
+        Eos(&self->name, 0);
+        return;
+    }
+    fn_82230360(&self->name, s, strlen(s));
+}

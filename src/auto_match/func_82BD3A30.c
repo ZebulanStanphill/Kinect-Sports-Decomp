@@ -1,37 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A1EFC0();
+typedef struct { int a; int b; void *c; int d; } Rec_82BD3A30;
+typedef struct N_82BD3A30 N_82BD3A30;
+struct N_82BD3A30 { Rec_82BD3A30 *rec; N_82BD3A30 *next; };
+typedef struct { N_82BD3A30 *head; N_82BD3A30 *tail; } Q_82BD3A30;
+typedef struct {
+    char pad0[8];
+    void *stream;
+    unsigned int kind;
+    char pad10[0x2c - 0x10];
+    Q_82BD3A30 queue;
+} Obj_82BD3A30;
 
+extern void fn_82A1EFC0(void *dst, int value, int size);
+extern int fn_82BD7AE8(void *stream, unsigned int kind, Rec_82BD3A30 *rec);
 
-void fn_82BD3A30(undefined8 param_1,int *param_2)
-
+void fn_82BD3A30(Obj_82BD3A30 *self, N_82BD3A30 *n)
 {
-                    /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(*(undefined4 *)(*param_2 + 8),0,*(undefined4 *)(*param_2 + 4));
-}
+    Q_82BD3A30 *q;
 
+    fn_82A1EFC0(n->rec->c, 0, n->rec->b);
+    if (fn_82BD7AE8(self->stream, self->kind, n->rec) < 0) {
+        n->rec->a = 0;
+        n->rec->b = n->rec->d;
+    }
+    n->next = 0;
+    q = &self->queue;
+    if (q->tail != 0) {
+        q->tail->next = n;
+    } else {
+        q->head = n;
+    }
+    q->tail = n;
+}

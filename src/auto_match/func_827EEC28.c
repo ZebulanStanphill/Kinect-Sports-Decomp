@@ -1,62 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_80;
-extern unsigned int *auStack_90;
-extern unsigned int *auStack_a0;
-extern unsigned int *auStack_b0;
-extern int fn_827EE7C8();
-extern int fn_82810328();
-extern int fn_82810530();
-extern int fn_828106A0();
-extern int fn_8281CAE8();
+typedef struct Vec4_827EEC28 {
+    float v[4];
+} Vec4_827EEC28;
 
+extern void fn_828106A0(Vec4_827EEC28 *out);
+extern void fn_82810328(void *a, void *b, Vec4_827EEC28 *out);
+extern void fn_8281CAE8(void *m, Vec4_827EEC28 *in, Vec4_827EEC28 *out);
+extern void fn_82810530(void *q, Vec4_827EEC28 *out);
+extern void fn_827EE7C8(Vec4_827EEC28 *a, float f1, Vec4_827EEC28 *b, Vec4_827EEC28 *q, void *rot,
+                        Vec4_827EEC28 *id, float f2, int flag);
 
-void fn_827EEC28(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-                  undefined8 param_5,undefined8 param_6,undefined8 param_7,undefined8 param_8,
-                  undefined8 param_9)
-
+void fn_827EEC28(void *p1, float f1, void *p3, void *p4, void *rot, void *m, void *p7, float f2, int flag)
 {
-  undefined1 auStack_b0 [16];
-  undefined1 auStack_a0 [16];
-  undefined1 auStack_90 [16];
-  undefined1 auStack_80 [16];
-  undefined1 auStack_70 [16];
-  undefined1 auStack_60 [96];
-  
-  fn_828106A0(auStack_90);
-  fn_82810328(param_5,param_9,auStack_a0);
-  fn_82810328(param_3,param_6,auStack_b0);
-  fn_8281CAE8(param_8,auStack_b0,auStack_60);
-  fn_8281CAE8(param_8,auStack_a0,auStack_70);
-  fn_82810530(param_7,auStack_80);
-  fn_827EE7C8(param_1,param_2,auStack_60);
-  return;
-}
+    Vec4_827EEC28 b;
+    Vec4_827EEC28 a;
+    Vec4_827EEC28 id;
+    Vec4_827EEC28 q;
+    Vec4_827EEC28 tb;
+    Vec4_827EEC28 ta;
 
+    fn_828106A0(&id);
+    fn_82810328(p3, p7, &a);
+    fn_82810328(p1, p4, &b);
+    fn_8281CAE8(m, &b, &ta);
+    fn_8281CAE8(m, &a, &tb);
+    fn_82810530(rot, &q);
+    fn_827EE7C8(&ta, f1, &tb, &q, rot, &id, f2, flag);
+}

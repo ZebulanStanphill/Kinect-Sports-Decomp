@@ -1,65 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_8265C9E0();
-extern int fn_82886518();
-extern int fn_8288F1E8();
-extern int fn_828940C0();
-extern int fn_828B5580();
-extern int fn_828BE158();
-extern int fn_828CBE98();
+typedef struct Obj_828C8948 {
+    char pad0[0x18];
+    void *f18;
+    char pad1c[0x50];
+    void *f6c;
+    char pad70[0x10];
+    int f80;
+    char f84[8];
+} Obj_828C8948;
 
+typedef struct Key_828C8948 {
+    int data[4];
+} Key_828C8948;
 
-undefined8 fn_828C8948(int param_1)
+extern void *fn_8265C9E0(int size);
+extern void fn_82886518(void *n, int a, int b);
+extern void *fn_8288F1E8(void *map, void *key);
+extern void fn_828940C0(void *n, void *a, unsigned char flag);
+extern Key_828C8948 *fn_828B5580(Key_828C8948 *out, void *key);
+extern void *fn_828CBE98(void *mem, Key_828C8948 *key, int flag);
+extern void fn_828BE158(void *map, void *n, void *a, int b);
 
+int fn_828C8948(Obj_828C8948 *o)
 {
-  undefined4 uVar1;
-  ulonglong uVar2;
-  undefined8 uVar3;
-  undefined1 auStack_30 [48];
-  
-  uVar2 = fn_8288F1E8(*(undefined4 *)(param_1 + 0x6c),param_1 + 0x84);
-  if ((uVar2 & 0xffffffff) == 0) {
-    uVar2 = fn_8265C9E0(0xa8);
-    if ((uVar2 & 0xffffffff) == 0) {
-      uVar3 = 0;
-    }
-    else {
-      uVar1 = *(undefined4 *)(param_1 + 0x80);
-      uVar3 = fn_828B5580(auStack_30,param_1 + 0x84);
-      uVar3 = fn_828CBE98(uVar2,uVar3,uVar1);
-    }
-    fn_82886518(uVar3,0xffffffffffffffff,0xffffffffffffffff);
-    fn_828BE158(*(undefined4 *)(param_1 + 0x6c),uVar3,*(undefined4 *)(param_1 + 0x18),0);
-  }
-  else {
-    fn_828940C0(uVar2,*(undefined4 *)(param_1 + 0x18),*(uint *)(param_1 + 0x80) & 0xff);
-  }
-  return 1;
-}
+    void *k;
+    void *mem;
+    void *n;
+    Key_828C8948 tmp;
 
+    k = fn_8288F1E8(o->f6c, o->f84);
+    if (k != 0) {
+        fn_828940C0(k, o->f18, (unsigned char)o->f80);
+        return 1;
+    }
+    mem = fn_8265C9E0(0xa8);
+    n = mem != 0 ? fn_828CBE98(mem, fn_828B5580(&tmp, o->f84), o->f80) : 0;
+    fn_82886518(n, -1, -1);
+    fn_828BE158(o->f6c, n, o->f18, 0);
+    return 1;
+}

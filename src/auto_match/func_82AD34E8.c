@@ -1,49 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct { unsigned prev; unsigned tag; } Link_82AD34E8;
 
-
-void fn_82AD34E8(uint *param_1,uint *param_2)
-
+void fn_82AD34E8(unsigned *h, Link_82AD34E8 *node)
 {
-  uint uVar1;
-  uint uVar2;
-  
-  if ((param_2[1] & 1) != 0) {
-    return;
-  }
-  uVar2 = param_2[1] & 0xfffffffe;
-  uVar1 = *param_2;
-  *(uint *)(uVar2 + 0x24) = *param_1;
-  *(uint *)(*param_1 & 0xfffffffe) = uVar2;
-  *(uint *)(uVar1 & 0xfffffffe) = (uint)(param_1 + -9) | 1;
-  *param_1 = uVar1 & 0xfffffffe;
-  param_2[1] = (uint)(param_2 + -9) | 1;
-  *param_2 = (uint)(param_2 + 1) | 1;
-  return;
-}
+    Link_82AD34E8 *n;
+    Link_82AD34E8 *p;
 
+    if ((node->tag & 1) != 0) {
+        return;
+    }
+    n = (Link_82AD34E8 *)((node->tag & 0xfffffffe) + 0x24);
+    p = (Link_82AD34E8 *)((node->prev & 0xfffffffe) - 4);
+    n->prev = *h;
+    *(unsigned *)(*h & 0xfffffffe) = (unsigned)n - 0x24;
+    p->tag = ((unsigned)h - 0x24) | 1;
+    *h = (unsigned)&p->tag;
+    node->tag = ((unsigned)node - 0x24) | 1;
+    node->prev = (unsigned)&node->tag | 1;
+}

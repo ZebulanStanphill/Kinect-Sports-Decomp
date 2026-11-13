@@ -1,50 +1,46 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
-extern int fn_82DF4A98();
+typedef struct Allocator_82DF4B08 Allocator_82DF4B08;
+typedef struct {
+    void *dtor;
+    void *(*blockAlloc)(Allocator_82DF4B08 *self, int nbytes);
+} AllocatorVt_82DF4B08;
+struct Allocator_82DF4B08 { AllocatorVt_82DF4B08 *vt; };
+typedef struct { char pad[0x10]; Allocator_82DF4B08 *heap; } MemoryRouter_82DF4B08;
 
+typedef struct { void *vt; unsigned short memSizeAndFlags; short referenceCount; } RefObject_82DF4B08;
+typedef struct { float v[4]; } Vector4_82DF4B08;
+typedef struct { void **data; int size; int capacity; } PtrArray_82DF4B08;
 
-int fn_82DF4B08(int param_1,undefined4 *param_2,int param_3)
+typedef struct ReorientAction_82DF4B08 {
+    RefObject_82DF4B08 base;
+    void *world;
+    void *island;
+    unsigned int userData;
+    char *name;
+    void *entity;
+    int pad1c;
+    Vector4_82DF4B08 rotationAxis;
+    Vector4_82DF4B08 upAxis;
+    float strength;
+    float damping;
+} ReorientAction_82DF4B08;
 
+extern MemoryRouter_82DF4B08 *fn_82CE5410(void);
+extern ReorientAction_82DF4B08 *fn_82DF4A98(void *mem, void *entity, Vector4_82DF4B08 *rotationAxis,
+                                             Vector4_82DF4B08 *upAxis, float strength, float damping);
+
+ReorientAction_82DF4B08 *fn_82DF4B08(ReorientAction_82DF4B08 *self, PtrArray_82DF4B08 *newEntities,
+                                     PtrArray_82DF4B08 *newPhantoms)
 {
-  int iVar1;
-  
-  if ((param_2[1] == 1) && (*(int *)(param_3 + 4) == 0)) {
-    iVar1 = fn_82CE5410();
-    iVar1 = (**(code **)(**(int **)(iVar1 + 0x10) + 4))(*(int **)(iVar1 + 0x10),0x50);
-    *(undefined2 *)(iVar1 + 4) = 0x50;
-    iVar1 = fn_82DF4A98((double)*(float *)(param_1 + 0x40),(double)*(float *)(param_1 + 0x44),
-                              iVar1,*(undefined4 *)*param_2,param_1 + 0x20,param_1 + 0x30);
-    *(undefined4 *)(iVar1 + 0x10) = *(undefined4 *)(param_1 + 0x10);
-  }
-  else {
-    iVar1 = 0;
-  }
-  return iVar1;
-}
+    Allocator_82DF4B08 *heap;
+    RefObject_82DF4B08 *mem;
+    ReorientAction_82DF4B08 *action;
 
+    if (newEntities->size != 1) return 0;
+    if (newPhantoms->size != 0) return 0;
+    heap = fn_82CE5410()->heap;
+    mem = (RefObject_82DF4B08 *)heap->vt->blockAlloc(heap, 0x50);
+    mem->memSizeAndFlags = 0x50;
+    action = fn_82DF4A98(mem, newEntities->data[0], &self->rotationAxis, &self->upAxis, self->strength, self->damping);
+    action->userData = self->userData;
+    return action;
+}
