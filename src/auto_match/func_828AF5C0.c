@@ -1,41 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+/* vector<Triple>::clear(): erase(begin(), end()) with the copy inlined (no destroy loop survives). */
+typedef struct Pair_828AF5C0 { int a; int b; int c; } Pair_828AF5C0;
+typedef struct Vec_828AF5C0 { Pair_828AF5C0 *first; Pair_828AF5C0 *last; } Vec_828AF5C0;
 
-
-/* WARNING: Removing unreachable block (ram,0x828af5dc) */
-
-void fn_828AF5C0(int *param_1)
-
+static __forceinline Pair_828AF5C0 *copy_828AF5C0(Pair_828AF5C0 *s, Pair_828AF5C0 *e, Pair_828AF5C0 *d)
 {
-  if (*param_1 != param_1[1]) {
-    param_1[1] = *param_1;
-    return;
+  for (; s != e; s++, d++) {
+    *d = *s;
   }
-  return;
+  return d;
 }
 
+static __forceinline void erase_828AF5C0(Vec_828AF5C0 *v, Pair_828AF5C0 *first, Pair_828AF5C0 *last)
+{
+  if (first != last) {
+    Pair_828AF5C0 *p = copy_828AF5C0(last, v->last, first);
+    v->last = p;
+  }
+}
+
+void fn_828AF5C0(Vec_828AF5C0 *v)
+{
+  erase_828AF5C0(v, v->first, v->last);
+}

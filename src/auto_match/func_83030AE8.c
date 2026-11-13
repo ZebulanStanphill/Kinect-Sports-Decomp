@@ -1,57 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
 typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_83031708();
+extern uint *fn_83031708(uint **self, uint key);
 
+typedef struct {
+    char pad[0xc4];
+    uint *map;
+} Obj_83030AE8;
 
-undefined8 fn_83030AE8(int param_1,int param_2)
-
+static uint *find(uint **self, uint key)
 {
-  undefined4 *puVar1;
-  int iVar3;
-  undefined8 uVar2;
-  
-  puVar1 = *(undefined4 **)(param_1 + 0xc4);
-  do {
-    if (puVar1 == (undefined4 *)0x0) {
-LAB_83030b34:
-      iVar3 = fn_83031708();
-      uVar2 = 2;
-      if (iVar3 != 0) {
-LAB_83030b44:
-        uVar2 = 1;
-      }
-      return uVar2;
+    uint *p = *self;
+    while (p) {
+        if (p[1] == key)
+            return p + 2;
+        p = (uint *)p[0];
     }
-    if (puVar1[1] == param_2) {
-      if (puVar1 != (undefined4 *)0xfffffff8) goto LAB_83030b44;
-      goto LAB_83030b34;
-    }
-    puVar1 = (undefined4 *)*puVar1;
-  } while( true );
+    return 0;
 }
 
+int fn_83030AE8(Obj_83030AE8 *o, uint key)
+{
+    int r = 1;
+    uint **m = &o->map;
+    uint *v = find(m, key);
+    if (v == 0) {
+        v = fn_83031708(m, key);
+        if (v == 0)
+            r = 2;
+    }
+    return r;
+}

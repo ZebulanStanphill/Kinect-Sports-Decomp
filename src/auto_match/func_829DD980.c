@@ -1,51 +1,15 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_829DD850();
-extern int fn_829DD910();
+#include <string.h>
+typedef struct R_829DD980 { unsigned char valid; float a; float b; } R_829DD980;
+extern float fn_829DD850(unsigned int *p);
+extern float fn_829DD910(unsigned int *p);
 
-
-void fn_829DD980(uint *param_1,undefined4 *param_2)
-
+void fn_829DD980(unsigned int *p, R_829DD980 *out)
 {
-  double dVar1;
-  
-  if (*param_1 < 2) {
-    *param_2 = 0;
-    param_2[1] = 0;
-    param_2[2] = 0;
+  if (*p > 1) {
+    out->valid = 1;
+    out->a = fn_829DD850(p);
+    out->b = fn_829DD910(p);
+  } else {
+    memset(out, 0, sizeof(*out));
   }
-  else {
-    *(undefined1 *)param_2 = 1;
-    dVar1 = (double)fn_829DD850();
-    param_2[1] = (float)dVar1;
-    dVar1 = (double)fn_829DD910(param_1);
-    param_2[2] = (float)dVar1;
-  }
-  return;
 }
-

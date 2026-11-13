@@ -1,43 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F63CA0();
+typedef struct Vec_828A3248 {
+    void **first;
+    void **last;
+} Vec_828A3248;
+extern void *memmove(void *dst, const void *src, unsigned int size);
 
-
-void fn_828A3248(int *param_1)
-
+static __forceinline void **moveRange(void **first, void **last, void **dest)
 {
-  int iVar1;
-  
-  iVar1 = *param_1;
-  if (iVar1 != param_1[1]) {
-    fn_82F63CA0(iVar1,param_1[1],0);
-    param_1[1] = iVar1;
-  }
-  return;
+    int n = last - first;
+    memmove(dest, first, n * sizeof(void *));
+    return dest + n;
 }
 
+static __forceinline void eraseRange(Vec_828A3248 *v, void **first, void **last)
+{
+    if (first != last) {
+        v->last = moveRange(last, v->last, first);
+    }
+}
+
+void fn_828A3248(Vec_828A3248 *v)
+{
+    eraseRange(v, v->first, v->last);
+}

@@ -1,60 +1,71 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82FAC568();
-extern unsigned int lbl_8216CBE4;
-extern unsigned int lbl_8216CBF8;
-extern unsigned int lbl_8216CC00;
-extern unsigned int lbl_8216CC18;
-extern unsigned int lbl_8216CC7C;
-extern unsigned int lbl_8217D040;
-extern unsigned int lbl_821968A4;
+extern char lbl_8217D040[];
+extern char lbl_8216CBE4[];
+extern char lbl_8216CBF8[];
+extern char lbl_8216CC00[];
+extern char lbl_8216CC18[];
+extern char lbl_8216CC7C[];
+extern char lbl_821968A4[];
 
+typedef struct Base4_82FA8E48 { void *vt; int pad[2]; } Base4_82FA8E48;
+extern void fn_82FAC568(Base4_82FA8E48 *b);
 
-undefined4 * fn_82FA8E48(undefined4 *param_1)
+typedef struct Base10_82FA8E48 { void *vt; int f14; } Base10_82FA8E48;
+typedef struct Base18_82FA8E48 { void *vt; } Base18_82FA8E48;
 
+static __forceinline void Base10_Ctor_82FA8E48(Base10_82FA8E48 *b)
 {
-  *param_1 = &lbl_8217D040;
-  fn_82FAC568(param_1 + 1);
-  param_1[5] = 0;
-  param_1[4] = &lbl_8216CBE4;
-  param_1[6] = &lbl_821968A4;
-  *param_1 = &lbl_8216CC18;
-  param_1[1] = &lbl_8216CC00;
-  param_1[4] = &lbl_8216CBF8;
-  param_1[6] = &lbl_8216CC7C;
-  param_1[7] = 0;
-  param_1[8] = 0;
-  *(byte *)(param_1 + 9) = *(byte *)(param_1 + 9) & 0x3f;
-  param_1[0xb] = 0;
-  *(undefined2 *)(param_1 + 0xc) = 0;
-  *(undefined1 *)((int)param_1 + 0x32) = 0;
-  *(undefined1 *)((int)param_1 + 0x33) = 0xff;
-  *(byte *)(param_1 + 0xd) = *(byte *)(param_1 + 0xd) & 0x3f;
-  return param_1;
+    b->f14 = 0;
+    b->vt = lbl_8216CBE4;
 }
 
+typedef struct Sub_82FA8E48 {
+    int a;
+    int b;
+    unsigned char f0 : 1;
+    unsigned char f1 : 1;
+} Sub_82FA8E48;
+
+typedef struct Obj_82FA8E48 {
+    void *vt;               /* 0x00 */
+    Base4_82FA8E48 base4;   /* 0x04 */
+    Base10_82FA8E48 base10; /* 0x10 */
+    Base18_82FA8E48 base18; /* 0x18 */
+    Sub_82FA8E48 sub;       /* 0x1c */
+    int f28;
+    int f2c;
+    short f30;
+    unsigned char f32;
+    unsigned char f33;
+    unsigned char g0 : 1;
+    unsigned char g1 : 1;
+} Obj_82FA8E48;
+
+static __forceinline void Sub_Init_82FA8E48(Sub_82FA8E48 *s)
+{
+    s->a = 0;
+    s->b = 0;
+    s->f0 = 0;
+    s->f1 = 0;
+}
+
+Obj_82FA8E48 *fn_82FA8E48(Obj_82FA8E48 *o)
+{
+    Base18_82FA8E48 *b18;
+    o->vt = lbl_8217D040;
+    fn_82FAC568(&o->base4);
+    b18 = &o->base18;
+    Base10_Ctor_82FA8E48(&o->base10);
+    b18->vt = lbl_821968A4;
+    o->vt = lbl_8216CC18;
+    o->base4.vt = lbl_8216CC00;
+    o->base10.vt = lbl_8216CBF8;
+    o->base18.vt = lbl_8216CC7C;
+    Sub_Init_82FA8E48(&o->sub);
+    o->f2c = 0;
+    o->f30 = 0;
+    o->f32 = 0;
+    o->f33 = 0xff;
+    o->g0 = 0;
+    o->g1 = 0;
+    return o;
+}

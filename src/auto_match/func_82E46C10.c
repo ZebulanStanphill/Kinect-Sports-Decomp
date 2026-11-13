@@ -1,50 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-undefined8 fn_82E46C10(int param_1,uint param_2,int *param_3)
-
+typedef struct Unk_82E46C10 Unk_82E46C10;
+typedef struct {
+  void *QueryInterface;
+  unsigned long (*AddRef)(Unk_82E46C10 *);
+} UnkVt_82E46C10;
+struct Unk_82E46C10 { UnkVt_82E46C10 *vt; };
+typedef struct {
+  char pad0[0x64];
+  unsigned int count;
+  char pad68[0xc];
+  Unk_82E46C10 **items;
+} Obj_82E46C10;
+long fn_82E46C10(Obj_82E46C10 *o, unsigned int i, Unk_82E46C10 **out)
 {
-  int *piVar1;
-  undefined8 uVar2;
-  
-  if ((param_2 < *(uint *)(param_1 + 100)) && (param_3 != (int *)0x0)) {
-    piVar1 = (int *)(*(int *)(param_1 + 0x74) + param_2 * 4);
-    if ((piVar1 != (int *)0x0) && (piVar1 = (int *)*piVar1, piVar1 != (int *)0x0)) {
-      *param_3 = (int)piVar1;
-      (**(code **)(*piVar1 + 4))();
-      return 0;
-    }
-    uVar2 = 0xffffffff8000ffff;
+  long hr = 0;
+  Unk_82E46C10 **slot;
+  Unk_82E46C10 *p;
+  if (i >= o->count) {
+    hr = 0x80070057;
+    goto done;
   }
-  else {
-    uVar2 = 0xffffffff80070057;
+  if (out == 0) {
+    hr = 0x80070057;
+    goto done;
   }
-  return uVar2;
+  slot = &o->items[i];
+  if (slot == 0 || (p = *slot) == 0) {
+    hr = 0x8000ffff;
+    goto done;
+  }
+  *out = p;
+  p->vt->AddRef(p);
+done:
+  return hr;
 }
-

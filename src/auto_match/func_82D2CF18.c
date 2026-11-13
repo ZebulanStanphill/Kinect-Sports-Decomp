@@ -1,79 +1,45 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_210;
-extern unsigned int *auStack_220;
-extern int fn_82CED958();
-extern int fn_82CEDB38();
-extern int fn_82CEE578();
-extern unsigned int lbl_82134504;
-extern unsigned int lbl_82134508;
-extern unsigned int *lbl_8323B464;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
+__vector4 __vspltw(__vector4 v, unsigned int i);
+void __debugbreak(void);
 
+typedef struct Aabb_82D2CF18 {
+    __vector4 min;
+    __vector4 max;
+} Aabb_82D2CF18;
 
-undefined4 * fn_82D2CF18(undefined4 *param_1)
+typedef struct Error_82D2CF18 Error_82D2CF18;
+struct Error_82D2CF18 {
+    struct {
+        void *slots[3];
+        int (*message)(Error_82D2CF18 *e, int kind, unsigned int id, const char *text, const char *file, int line);
+    } *vt;
+};
+typedef struct { unsigned char d[16]; } Stream_82D2CF18;
+extern Error_82D2CF18 *lbl_8323B464;
+extern void fn_82CEE578(Stream_82D2CF18 *s, char *buf, int size);
+extern Stream_82D2CF18 *fn_82CEDB38(Stream_82D2CF18 *s, const char *text);
+extern void fn_82CED958(Stream_82D2CF18 *s);
 
+static __forceinline void SetAll_82D2CF18(__vector4 *v, float x)
 {
-  undefined4 *puVar1;
-  undefined4 uVar2;
-  undefined8 in_r0;
-  int iVar3;
-  undefined4 in_register_000100b0;
-  undefined4 in_register_000100b4;
-  undefined4 in_register_000100b8;
-  undefined4 in_vr11;
-  undefined4 in_register_000100d0;
-  undefined4 in_register_000100d4;
-  undefined4 in_register_000100d8;
-  undefined4 in_vr13;
-  undefined1 auStack_220 [16];
-  undefined1 auStack_210 [464];
-  
-  fn_82CEE578(auStack_220,auStack_210,0x200);
-  fn_82CEDB38(auStack_220,0xffffffff82134a80);
-  iVar3 = (**(code **)(*lbl_8323B464 + 0xc))
-                    (lbl_8323B464,3,0xffffffffb6c47b76,auStack_210,0xffffffff82134a28,0x15a);
-  if (iVar3 != 0) {
-    trapWord(0x1f,in_r0,0x16);
-  }
-  fn_82CED958(auStack_220);
-  *param_1 = lbl_82134508;
-  uVar2 = lbl_82134504;
-  puVar1 = (undefined4 *)((int)in_r0 + (int)param_1 & 0xfffffff0);
-  *puVar1 = in_register_000100d0;
-  puVar1[1] = in_register_000100d4;
-  puVar1[2] = in_register_000100d8;
-  puVar1[3] = in_vr13;
-  param_1[4] = uVar2;
-  puVar1 = (undefined4 *)((int)param_1 + (int)in_r0 + 0x10 & 0xfffffff0);
-  *puVar1 = in_register_000100b0;
-  puVar1[1] = in_register_000100b4;
-  puVar1[2] = in_register_000100b8;
-  puVar1[3] = in_vr11;
-  return param_1;
+    v->vector4_f32[0] = x;
+    *v = __vspltw(*v, 0);
 }
 
+Aabb_82D2CF18 *fn_82D2CF18(Aabb_82D2CF18 *out)
+{
+    Stream_82D2CF18 s;
+    char buf[0x200];
+    fn_82CEE578(&s, buf, 0x200);
+    fn_82CEDB38(&s, "Unsupported operation");
+    if (lbl_8323B464->vt->message(lbl_8323B464, 3, 0xb6c47b76, buf,
+            "d:\\build\\20090926_024535\\Source\\Common/Internal/GeometryProcessing/Mesh/hkgpMesh.inl", 0x15a) != 0) {
+        __debugbreak();
+    }
+    fn_82CED958(&s);
+    SetAll_82D2CF18(&out->min, 3.40282e+38f);
+    SetAll_82D2CF18(&out->max, -3.40282e+38f);
+    return out;
+}

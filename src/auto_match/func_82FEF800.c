@@ -1,48 +1,19 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_83005980();
-
-
-undefined4 * fn_82FEF800(undefined4 *param_1,int param_2)
-
+typedef struct Dev_82FEF800 Dev_82FEF800;
+struct Dev_82FEF800 { void **vt; };
+typedef struct Obj_82FEF800 {
+  char pad[0x68];
+  Dev_82FEF800 *dev;
+  char pad6c[0xda - 0x6c];
+  unsigned char flags;
+} Obj_82FEF800;
+extern void *fn_83005980(Dev_82FEF800 *dev);
+void **fn_82FEF800(void **out, Obj_82FEF800 *o)
 {
-  byte bVar1;
-  undefined4 uVar2;
-  
-  bVar1 = *(byte *)(param_2 + 0xda);
-  *param_1 = 0;
-  if ((bVar1 & 2) == 0) {
-    uVar2 = (**(code **)(**(int **)(param_2 + 0x68) + 0x7c))();
-  }
-  else {
-    uVar2 = fn_83005980();
-  }
-  *param_1 = uVar2;
-  return param_1;
+  unsigned char f = o->flags;
+  *out = 0;
+  if (f & 2)
+    *out = fn_83005980(o->dev);
+  else
+    *out = ((void *(*)(Dev_82FEF800 *))o->dev->vt[0x7c / 4])(o->dev);
+  return out;
 }
-

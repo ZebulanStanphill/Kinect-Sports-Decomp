@@ -1,56 +1,42 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82230300();
+typedef struct Str_82326A28 { unsigned char bytes[0x1c]; } Str_82326A28;
+typedef struct Pair_82326A28 {
+    Str_82326A28 first;
+    Str_82326A28 second;
+} Pair_82326A28;
+typedef struct Vec_82326A28 {
+    Pair_82326A28 *first;
+    Pair_82326A28 *last;
+} Vec_82326A28;
+extern Str_82326A28 *fn_822402F8(Str_82326A28 *self, Str_82326A28 *right);
+extern void fn_82230300(Str_82326A28 *self, unsigned char built, unsigned int newsize);
 
-
-/* WARNING: Removing unreachable block (ram,0x82326a54) */
-/* WARNING: Removing unreachable block (ram,0x82326a58) */
-
-void fn_82326A28(uint *param_1)
-
+static __forceinline Pair_82326A28 *moveRange(Pair_82326A28 *first, Pair_82326A28 *last, Pair_82326A28 *dest)
 {
-  uint uVar1;
-  uint uVar2;
-  ulonglong uVar3;
-  
-  uVar1 = *param_1;
-  uVar3 = (ulonglong)uVar1;
-  if (uVar3 != param_1[1]) {
-    uVar2 = param_1[1];
-    if (uVar3 != uVar2) {
-      do {
-        fn_82230300(uVar3 + 0x1c,1,0);
-        fn_82230300(uVar3,1,0);
-        uVar3 = uVar3 + 0x38;
-      } while ((uVar3 & 0xffffffff) != (ulonglong)uVar2);
+    for (; first != last; first++, dest++) {
+        fn_822402F8(&dest->first, &first->first);
+        fn_822402F8(&dest->second, &first->second);
     }
-    param_1[1] = uVar1;
-  }
-  return;
+    return dest;
 }
 
+static __forceinline void destroyRange(Pair_82326A28 *first, Pair_82326A28 *last)
+{
+    for (; first != last; first++) {
+        fn_82230300(&first->second, 1, 0);
+        fn_82230300(&first->first, 1, 0);
+    }
+}
+
+static __forceinline void eraseRange(Vec_82326A28 *v, Pair_82326A28 *first, Pair_82326A28 *last)
+{
+    if (first != last) {
+        Pair_82326A28 *p = moveRange(last, v->last, first);
+        destroyRange(p, v->last);
+        v->last = p;
+    }
+}
+
+void fn_82326A28(Vec_82326A28 *v)
+{
+    eraseRange(v, v->first, v->last);
+}

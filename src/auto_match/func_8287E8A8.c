@@ -1,43 +1,49 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_825ACAC8();
+extern void fn_825ACAC8(void *self, void *alloc);
 
+typedef struct {
+  int f0;
+  char a[0x1c];
+  char b[0x14];
+} Sub_8287E8A8;
 
-void fn_8287E8A8(int param_1)
+typedef struct {
+  char pad0[0x10];
+  int f10;
+  int f14;
+  int f18;
+  char pad1c[0xc];
+  Sub_8287E8A8 sub;
+  char pad5c[8];
+  int f64;
+  int f68;
+  int f6c;
+  int pad70;
+  int f74;
+  int f78;
+  int f7c;
+  char pad80[0x4c];
+  int fcc;
+  int fd0;
+  int fd4;
+} Obj_8287E8A8;
 
+Obj_8287E8A8 *fn_8287E8A8(Obj_8287E8A8 *o)
 {
-  undefined1 auStack_30 [32];
-  
-  *(undefined4 *)(param_1 + 0x10) = 0;
-  *(undefined4 *)(param_1 + 0x14) = 0;
-  *(undefined4 *)(param_1 + 0x18) = 0;
-                    /* WARNING: Subroutine does not return */
-  fn_825ACAC8(param_1 + 0x2c,auStack_30);
+  char al;
+  Sub_8287E8A8 *s = &o->sub;
+  o->f10 = 0;
+  o->f14 = 0;
+  o->f18 = 0;
+  fn_825ACAC8(s->a, &al);
+  fn_825ACAC8(s->b, &al);
+  o->f64 = 0;
+  o->f68 = 0;
+  o->f6c = 0;
+  o->f74 = 0;
+  o->f78 = 0;
+  o->f7c = 0;
+  o->fcc = 0;
+  o->fd0 = 0;
+  o->fd4 = 0;
+  return o;
 }
-

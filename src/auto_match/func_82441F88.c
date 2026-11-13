@@ -1,98 +1,71 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_825279F8();
-extern int fn_82528948();
-extern V16 vectorConditionalSelect();
-extern V16 vectorMultiplyAddFloatingPoint();
-extern void *memcpy(void *, const void *, unsigned int);
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vspltw(__vector4 v, unsigned int i);
+__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
+__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
+__vector4 __VMXGetReg(int n);
 
-void fn_82441F88(int param_1)
+typedef struct Matrix_82441F88 {
+    __vector4 r[4];
+} Matrix_82441F88;
 
+typedef struct Frame_82441F88 {
+    char pad0[0x50];
+    Matrix_82441F88 world;  /* 0x50 */
+} Frame_82441F88;
+
+typedef struct Mover_82441F88 {
+    char pad0[0x60];
+    __vector4 previous;     /* 0x60 */
+    __vector4 target;       /* 0x70 */
+    char pad80[0xf0];
+    int moving;             /* 0x170 */
+    char pad174[0x44];
+    Frame_82441F88 *frame;  /* 0x1b8 */
+} Mover_82441F88;
+
+typedef struct Owner_82441F88 {
+    int pad0;
+    Mover_82441F88 **mover; /* 0x4 */
+} Owner_82441F88;
+
+extern int fn_825279F8(Mover_82441F88 *self);
+extern void fn_82528948(Mover_82441F88 *self);
+
+static __forceinline __vector4 Vector3Transform(__vector4 v, Matrix_82441F88 m)
 {
-  int iVar1;
-  undefined4 *puVar2;
-  int in_r0;
-  int iVar3;
-  undefined1 in_vs32 [16];
-  undefined1 in_vs38 [16];
-  undefined1 in_vs39 [16];
-  undefined1 in_vs40 [16];
-  undefined1 in_vs41 [16];
-  undefined1 in_vs42 [16];
-  undefined1 in_vs43 [16];
-  undefined1 in_vs44 [16];
-  undefined1 in_vs45 [16];
-  undefined1 auVar4 [16];
-  undefined4 uVar5;
-  undefined4 uVar6;
-  undefined4 uVar7;
-  undefined4 uVar8;
-  undefined4 in_register_00010010;
-  undefined4 in_register_00010014;
-  undefined4 in_register_00010018;
-  undefined4 in_vr1;
-  undefined4 in_register_00010430;
-  undefined4 in_register_00010434;
-  undefined4 in_register_00010438;
-  undefined4 in_vr67;
-  
-  iVar1 = **(int **)(param_1 + 4);
-  if (iVar1 != 0) {
-    iVar3 = fn_825279F8(iVar1);
-    if ((iVar3 == 0) || (iVar3 == 3)) {
-      puVar2 = (undefined4 *)(in_r0 + iVar1 + 0x70 & 0xfffffff0);
-      *puVar2 = in_register_00010010;
-      puVar2[1] = in_register_00010014;
-      puVar2[2] = in_register_00010018;
-      puVar2[3] = in_vr1;
-    }
-    else {{ V16 _vt0 = vectorMultiplyAddFloatingPoint(in_vs43,in_vs38,in_vs45); memcpy(auVar4, &_vt0, 16); }{ V16 _vt1 = vectorMultiplyAddFloatingPoint(in_vs39,in_vs42,auVar4); memcpy(auVar4, &_vt1, 16); }{ V16 _vt2 = vectorMultiplyAddFloatingPoint(in_vs40,in_vs41,auVar4); memcpy(auVar4, &_vt2, 16); }
-      vectorConditionalSelect(auVar4,in_vs32,in_vs44);
-      puVar2 = (undefined4 *)(in_r0 + iVar1 + 0x70 & 0xfffffff0);
-      *puVar2 = in_register_00010430;
-      puVar2[1] = in_register_00010434;
-      puVar2[2] = in_register_00010438;
-      puVar2[3] = in_vr67;
-    }
-    puVar2 = (undefined4 *)(in_r0 + iVar1 + 0x70 & 0xfffffff0);
-    uVar5 = *puVar2;
-    uVar6 = puVar2[1];
-    uVar7 = puVar2[2];
-    uVar8 = puVar2[3];
-    *(undefined4 *)(iVar1 + 0x170) = 0;
-    puVar2 = (undefined4 *)(iVar1 + 0x60U & 0xfffffff0);
-    *puVar2 = uVar5;
-    puVar2[1] = uVar6;
-    puVar2[2] = uVar7;
-    puVar2[3] = uVar8;
-    fn_82528948(iVar1);
-  }
-  return;
+    __vector4 x, y, z, result;
+
+    z = __vspltw(v, 2);
+    y = __vspltw(v, 1);
+    x = __vspltw(v, 0);
+    result = __vmaddfp(m.r[2], z, m.r[3]);
+    result = __vmaddfp(y, m.r[1], result);
+    result = __vmaddfp(x, m.r[0], result);
+    return result;
 }
 
+void fn_82441F88(Owner_82441F88 *self, __vector4 target)
+{
+    Mover_82441F88 *mover;
+    int state;
+
+    mover = *self->mover;
+    if (mover == 0)
+        return;
+    state = fn_825279F8(mover);
+    if (state != 0 && state != 3) {
+        __vector4 v, zero, mask;
+        v = Vector3Transform(target, mover->frame->world);
+        mask = __VMXGetReg(67);
+        zero = __VMXGetReg(77);
+        mover->target = __vsel(v, zero, mask);
+    } else {
+        mover->target = target;
+    }
+    mover->previous = mover->target;
+    mover->moving = 0;
+    fn_82528948(mover);
+}

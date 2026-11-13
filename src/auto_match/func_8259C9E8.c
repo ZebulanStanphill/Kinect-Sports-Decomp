@@ -1,40 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8263CBB0();
-extern unsigned int lbl_821C7E98;
-extern unsigned int lbl_8320A898;
+typedef struct Obj_8259C9E8 {
+  void *vt;
+  int pad04[6];
+  void *f1c;
+  void *f20;
+} Obj_8259C9E8;
+extern void fn_8263CBB0(void *a, unsigned int b, void *c, unsigned __int64 mask);
+extern void fn_8251FA58(void *p);
+extern void *lbl_8320A898;
+extern char lbl_821C7E98[];
+extern char lbl_821C7E88[];
 
-
-void fn_8259C9E8(undefined4 *param_1)
-
+void fn_8259C9E8(Obj_8259C9E8 *o)
 {
-  *param_1 = &lbl_821C7E98;
-                    /* WARNING: Subroutine does not return */
-  fn_8263CBB0(lbl_8320A898,6,0,0x2000000);
+  o->vt = lbl_821C7E98;
+  fn_8263CBB0(lbl_8320A898, 6, 0, 0x2000000);
+  fn_8263CBB0(lbl_8320A898, 7, 0, 0x1000000);
+  if (o->f1c) {
+    fn_8251FA58(o->f1c);
+    o->f1c = 0;
+  }
+  if (o->f20) {
+    fn_8251FA58(o->f20);
+    o->f20 = 0;
+  }
+  o->vt = lbl_821C7E88;
 }
-

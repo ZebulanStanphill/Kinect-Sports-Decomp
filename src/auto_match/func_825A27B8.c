@@ -1,50 +1,16 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Inner_825A27B8 { char pad[0x14]; void *value; } Inner_825A27B8;
+typedef struct Item_825A27B8 { char pad[0x10]; Inner_825A27B8 *inner; } Item_825A27B8;
+typedef struct Src_825A27B8 Src_825A27B8;
+typedef struct SrcVT_825A27B8 {
+    void *pad[7];
+    Item_825A27B8 *(*get)(Src_825A27B8 *);
+} SrcVT_825A27B8;
+struct Src_825A27B8 { SrcVT_825A27B8 *vt; };
+typedef struct Obj_825A27B8 { char pad[0x8c0]; Src_825A27B8 *src; } Obj_825A27B8;
 
-
-undefined4 fn_825A27B8(int param_1)
-
+void *fn_825A27B8(Obj_825A27B8 *o)
 {
-  int iVar1;
-  undefined4 uVar2;
-  
-  if (*(int **)(param_1 + 0x8c0) == (int *)0x0) {
-    iVar1 = 0;
-  }
-  else {
-    iVar1 = (**(code **)(**(int **)(param_1 + 0x8c0) + 0x1c))();
-  }
-  if (iVar1 == 0) {
-    uVar2 = 0;
-  }
-  else {
-    uVar2 = *(undefined4 *)(*(int *)(iVar1 + 0x10) + 0x14);
-  }
-  return uVar2;
+    Src_825A27B8 *src = o->src;
+    Item_825A27B8 *item = src ? src->vt->get(src) : 0;
+    return item ? item->inner->value : 0;
 }
-

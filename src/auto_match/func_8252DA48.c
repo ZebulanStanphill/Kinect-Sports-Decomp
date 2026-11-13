@@ -1,40 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_38;
-extern int fn_82A1EFC0();
+typedef struct Msg_8252DA48 {
+  int type;
+  int size;
+  float value;
+  int b;
+  int a;
+} Msg_8252DA48;
 
+typedef struct Target_8252DA48 Target_8252DA48;
+typedef struct Vtbl_8252DA48 {
+  void *slots[3];
+  void (*send)(Target_8252DA48 *self, Msg_8252DA48 *msg);
+} Vtbl_8252DA48;
+struct Target_8252DA48 { Vtbl_8252DA48 *vt; };
 
-void fn_8252DA48(void)
+extern void fn_82A1EFC0(void *p, int value, int size);
 
+void fn_8252DA48(int a, int b, float value, Target_8252DA48 *target)
 {
-  undefined1 auStack_38 [56];
-  
-                    /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(auStack_38,0,0xc);
+  Msg_8252DA48 msg;
+  fn_82A1EFC0(&msg.value, 0, 0xc);
+  msg.type = 0xb;
+  msg.size = 0x14;
+  msg.value = value;
+  msg.b = b;
+  msg.a = a;
+  target->vt->send(target, &msg);
 }
-

@@ -1,49 +1,13 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82696408();
-extern int fn_8269F500();
-
-
-void fn_82696480(undefined8 param_1,int param_2)
-
+typedef struct Obj_82696480 { char pad[0x80]; int handle; } Obj_82696480;
+extern int fn_8269F500(Obj_82696480 *o);
+extern void fn_82696408(void *self, int handle);
+static __forceinline int GetHandle_82696480(Obj_82696480 *o)
 {
-  ulonglong uVar1;
-  
-  if (param_2 == 0) {
-    uVar1 = 0;
-  }
-  else {
-    uVar1 = (ulonglong)*(uint *)(param_2 + 0x80);
-    if (*(uint *)(param_2 + 0x80) == 0) {
-      uVar1 = fn_8269F500(param_2);
-    }
-  }
-  fn_82696408(param_1,uVar1);
-  return;
+  if (o->handle == 0)
+    return fn_8269F500(o);
+  return o->handle;
 }
-
+void fn_82696480(void *self, Obj_82696480 *o)
+{
+  fn_82696408(self, o ? GetHandle_82696480(o) : 0);
+}

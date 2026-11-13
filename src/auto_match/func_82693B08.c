@@ -1,52 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_826BD078();
+typedef struct {
+  char *data;
+  int pad[2];
+  unsigned flags;
+} Str_82693B08;
 
+extern unsigned fn_826BD078(int *);
 
-ulonglong fn_82693B08(int *param_1,int param_2)
-
+unsigned fn_82693B08(Str_82693B08 **p, int n)
 {
-  ulonglong uVar1;
-  int aiStack_20 [4];
-  
-  aiStack_20[0] = *(int *)*param_1;
-  if ((((int *)*param_1)[3] & 0x8000000U) == 0) {
+  Str_82693B08 *s = *p;
+  char *data = s->data;
+  if (s->flags & 0x8000000) {
+    return data[n];
+  } else {
+    int it[4];
+    unsigned r;
+    int i = n;
+    it[0] = (int)data;
     do {
-      uVar1 = fn_826BD078(aiStack_20);
-      param_2 = param_2 + -1;
-      if ((uVar1 & 0xffffffff) == 0) {
+      r = fn_826BD078(it);
+      i--;
+      if (r == 0)
         return 0;
-      }
-    } while (-1 < param_2);
+    } while (i >= 0);
+    return r;
   }
-  else {
-    uVar1 = (ulonglong)*(char *)(aiStack_20[0] + param_2);
-  }
-  return uVar1;
 }
-

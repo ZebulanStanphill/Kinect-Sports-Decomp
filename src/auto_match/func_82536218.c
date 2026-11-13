@@ -1,47 +1,25 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_50;
-extern int fn_82864898();
-extern int fn_82864988();
-extern unsigned int *lbl_8327F848;
+typedef struct Obj_82536218 Obj_82536218;
 
+typedef struct Vtbl_82536218 {
+    void *slots[4];
+    void (*f10)(Obj_82536218 *self, void *arg, float f);
+} Vtbl_82536218;
 
-void fn_82536218(undefined8 param_1,undefined8 param_2)
+struct Obj_82536218 {
+    Vtbl_82536218 *vt;
+};
 
+typedef struct Temp_82536218 {
+    unsigned char data[0x28];
+} Temp_82536218;
+
+extern Obj_82536218 *lbl_8327F848;
+extern void *fn_82864988(Temp_82536218 *t, void *src);
+extern void fn_82864898(Temp_82536218 *t);
+
+void fn_82536218(void *src, float f)
 {
-  int iVar1;
-  undefined8 uVar2;
-  undefined1 auStack_50 [40];
-  
-  iVar1 = *lbl_8327F848;
-  uVar2 = fn_82864988(auStack_50,param_2);
-  (**(code **)(iVar1 + 0x10))(param_1,lbl_8327F848,uVar2);
-  fn_82864898(auStack_50);
-  return;
+    Temp_82536218 t;
+    lbl_8327F848->vt->f10(lbl_8327F848, fn_82864988(&t, src), f);
+    fn_82864898(&t);
 }
-

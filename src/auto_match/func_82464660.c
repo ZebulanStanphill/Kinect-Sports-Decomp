@@ -1,55 +1,54 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8252ACC0();
-extern int fn_82F63CA0();
+typedef struct Mgr_82464660 {
+    char pad0[0xB8];
+    char *b8;
+    char pad1[0x3E4 - 0xBC];
+    char *p3e4;
+    char pad3[0x8C4 - 0x3E8];
+    char *p8c4;
+} Mgr_82464660;
 
+typedef struct Vec_82464660 {
+    void **first;
+    void **last;
+    void **end;
+} Vec_82464660;
 
-void fn_82464660(int param_1)
+typedef struct Obj_82464660 {
+    char pad0[8];
+    Mgr_82464660 *mgr;
+    char pad1[0x54 - 0xC];
+    Vec_82464660 items;
+} Obj_82464660;
 
+extern void fn_8252ACC0(void *item, Mgr_82464660 *mgr);
+extern void *memmove(void *, const void *, unsigned int);
+
+static __forceinline void **Erase_82464660(Vec_82464660 *v, void **first, void **last)
 {
-  int iVar1;
-  undefined4 *puVar2;
-  
-  for (puVar2 = *(undefined4 **)(param_1 + 0x54); puVar2 != *(undefined4 **)(param_1 + 0x58);
-      puVar2 = puVar2 + 1) {
-    fn_8252ACC0(*puVar2,*(undefined4 *)(param_1 + 8));
-  }
-  iVar1 = *(int *)(param_1 + 0x54);
-  if (iVar1 != *(int *)(param_1 + 0x58)) {
-    fn_82F63CA0(iVar1,*(int *)(param_1 + 0x58),0);
-    *(int *)(param_1 + 0x58) = iVar1;
-  }
-  iVar1 = *(int *)(*(int *)(param_1 + 8) + 0x3e4);
-  if (iVar1 != 0) {
-    *(undefined4 *)(iVar1 + 0xb70) = 0;
-  }
-  *(undefined4 *)(*(int *)(*(int *)(param_1 + 8) + 0x8c4) + 0x2c) = 0;
-  *(undefined4 *)(*(int *)(*(int *)(param_1 + 8) + 0xb8) + 0x28) = 0;
-  return;
+    if (first != last) {
+        int n = v->last - last;
+        memmove(first, last, n * sizeof(void *));
+        v->last = first + n;
+    }
+    return first;
 }
 
+static __forceinline void Clear_82464660(Vec_82464660 *v)
+{
+    Erase_82464660(v, v->first, v->last);
+}
+
+void fn_82464660(Obj_82464660 *o)
+{
+    void **it;
+    char *p;
+
+    for (it = o->items.first; it != o->items.last; it++)
+        fn_8252ACC0(*it, o->mgr);
+    Clear_82464660(&o->items);
+    p = o->mgr->p3e4;
+    if (p != 0)
+        *(int *)(p + 0xb70) = 0;
+    *(int *)(o->mgr->p8c4 + 0x2c) = 0;
+    *(int *)(o->mgr->b8 + 0x28) = 0;
+}

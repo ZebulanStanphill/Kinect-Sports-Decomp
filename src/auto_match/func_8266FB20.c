@@ -1,46 +1,28 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_821AAD20;
+typedef struct Value_8266FB20 Value_8266FB20;
+typedef struct ValueVT_8266FB20 {
+    void *pad[7];
+    float (*get)(Value_8266FB20 *);
+} ValueVT_8266FB20;
+struct Value_8266FB20 { ValueVT_8266FB20 *vt; };
+typedef struct Source_8266FB20 Source_8266FB20;
+typedef struct SourceVT_8266FB20 {
+    void *pad0;
+    Value_8266FB20 *(*value)(Source_8266FB20 *);
+} SourceVT_8266FB20;
+struct Source_8266FB20 { SourceVT_8266FB20 *vt; };
+typedef struct Obj_8266FB20 {
+    char pad0[0x10];
+    Source_8266FB20 *source;
+    char pad14[0xdc];
+    int enabled;
+} Obj_8266FB20;
 
-
-double fn_8266FB20(int param_1)
-
+float fn_8266FB20(Obj_8266FB20 *o)
 {
-  int *piVar1;
-  double dVar2;
-  
-  if (*(int *)(param_1 + 0xf0) == 0) {
-    dVar2 = (double)lbl_821AAD20;
-  }
-  else {
-    piVar1 = (int *)(**(code **)(**(int **)(param_1 + 0x10) + 4))();
-    dVar2 = (double)(**(code **)(*piVar1 + 0x1c))();
-  }
-  return dVar2;
+    Value_8266FB20 *v;
+    if (o->enabled == 0) {
+        return 0.0f;
+    }
+    v = o->source->vt->value(o->source);
+    return v->vt->get(v);
 }
-

@@ -1,83 +1,49 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82359C18();
-extern unsigned int lbl_831D12E8;
-extern unsigned int *lbl_831D12F8;
-extern unsigned int lbl_831D1300;
-extern unsigned int *lbl_831D1310;
+typedef struct Impl_822A1CA8 Impl_822A1CA8;
+typedef struct Fn_822A1CA8 Fn_822A1CA8;
+extern void fn_82359C18(void *);
 
+struct Impl_822A1CA8 {
+  struct IVT_822A1CA8 {
+    Impl_822A1CA8 *(*clone)(Impl_822A1CA8 *, Fn_822A1CA8 *);
+    void *f4, *f8;
+    void (*del)(Impl_822A1CA8 *, int);
+  } *vt;
+};
+struct Fn_822A1CA8 {
+  int buf[4];
+  Impl_822A1CA8 *impl;
+  int pad;
+};
+typedef struct Globals_822A1CA8 {
+  char pad[0x50];
+  Fn_822A1CA8 a;
+  Fn_822A1CA8 b;
+} Globals_822A1CA8;
+extern Globals_822A1CA8 lbl_831D1298;
 
-void fn_822A1CA8(undefined *param_1,undefined *param_2)
-
+static __forceinline void Assign_822A1CA8(Fn_822A1CA8 *dst, Fn_822A1CA8 *src)
 {
-  undefined8 uVar1;
-  int iVar2;
-  
-  if (param_1 != &lbl_831D12E8) {
-    if (lbl_831D12F8 != (int *)0x0) {
-      iVar2 = (int)&lbl_831D12E8 + -(int)lbl_831D12F8;
-      (**(code **)(*lbl_831D12F8 + 0xc))
-                (lbl_831D12F8,iVar2 - (-(int)lbl_831D12F8 + -0x7ce2ed19 + (uint)(iVar2 == 0)));
-      lbl_831D12F8 = (int *)0x0;
+  if (dst != src) {
+    if (dst->impl != 0) {
+      dst->impl->vt->del(dst->impl, (void *)dst->impl != (void *)dst);
+      dst->impl = 0;
     }
-    if (*(undefined **)(param_1 + 0x10) == (undefined *)0x0) {
-      lbl_831D12F8 = (int *)0x0;
-    }
-    else {
-      uVar1 = 0xffffffff831d12e8;
-      if (*(undefined **)(param_1 + 0x10) != param_1) {
-        uVar1 = 0;
+    if (src->impl == 0) {
+      dst->impl = 0;
+    } else {
+      if ((void *)src->impl == (void *)src) {
+        dst->impl = src->impl->vt->clone(src->impl, dst);
+      } else {
+        dst->impl = src->impl->vt->clone(src->impl, 0);
       }
-      lbl_831D12F8 = (int *)(**(code **)**(undefined4 **)(param_1 + 0x10))
-                                      (*(undefined4 **)(param_1 + 0x10),uVar1);
     }
   }
-  if (param_2 != &lbl_831D1300) {
-    if (lbl_831D1310 != (int *)0x0) {
-      iVar2 = (int)&lbl_831D1300 + -(int)lbl_831D1310;
-      (**(code **)(*lbl_831D1310 + 0xc))
-                (lbl_831D1310,iVar2 - (-(int)lbl_831D1310 + -0x7ce2ed01 + (uint)(iVar2 == 0)));
-      lbl_831D1310 = (int *)0x0;
-    }
-    if (*(undefined **)(param_2 + 0x10) == (undefined *)0x0) {
-      lbl_831D1310 = (int *)0x0;
-    }
-    else {
-      uVar1 = 0xffffffff831d1300;
-      if (*(undefined **)(param_2 + 0x10) != param_2) {
-        uVar1 = 0;
-      }
-      lbl_831D1310 = (int *)(**(code **)**(undefined4 **)(param_2 + 0x10))
-                                      (*(undefined4 **)(param_2 + 0x10),uVar1);
-    }
-  }
-  fn_82359C18(param_1);
-  fn_82359C18(param_2);
-  return;
 }
 
+void fn_822A1CA8(Fn_822A1CA8 *a, Fn_822A1CA8 *b)
+{
+  Assign_822A1CA8(&lbl_831D1298.a, a);
+  Assign_822A1CA8(&lbl_831D1298.b, b);
+  fn_82359C18(a);
+  fn_82359C18(b);
+}

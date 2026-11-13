@@ -1,74 +1,90 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_822315A0();
-extern int fn_822F9B78();
-extern unsigned int iStack_2c;
+typedef struct Obj_822F5B38 Obj_822F5B38;
+typedef struct VT_822F5B38 {
+  int pad[6];
+  float (*f18)(Obj_822F5B38 *);
+  int pad1c[8];
+  unsigned int (*f3c)(Obj_822F5B38 *);
+} VT_822F5B38;
+struct Obj_822F5B38 {
+  VT_822F5B38 *vt;
+};
 
+typedef struct Ent_822F5B38 {
+  char pad0[0x178];
+  float f178;
+  char pad17c[8];
+  int f184;
+  char pad188[4];
+  int f18c;
+  char pad190[0x10];
+  int f1a0;
+} Ent_822F5B38;
 
-double fn_822F5B38(int param_1)
+typedef struct Mid_822F5B38 {
+  char pad0[0x1e4];
+  Ent_822F5B38 *ent;
+  char pad1e8[0xf8];
+  Obj_822F5B38 *obj;
+} Mid_822F5B38;
 
+typedef struct Cfg_822F5B38 {
+  char pad0[0x14];
+  float f14;
+  float f18;
+  float f1c;
+  float f20;
+} Cfg_822F5B38;
+
+typedef struct Flags_822F5B38 {
+  char pad0[0x24];
+  int f24;
+} Flags_822F5B38;
+
+typedef struct Rep_822F5B38 Rep_822F5B38;
+typedef struct SP_822F5B38 {
+  Obj_822F5B38 *ptr;
+  Rep_822F5B38 *rep;
+} SP_822F5B38;
+
+typedef struct Top_822F5B38 {
+  int f0;
+  int f4;
+  int f8;
+  Flags_822F5B38 *flags;
+  Mid_822F5B38 *mid;
+  Cfg_822F5B38 *cfg;
+  void *weak;
+} Top_822F5B38;
+
+extern SP_822F5B38 *fn_822F9B78(SP_822F5B38 *out, void *weak);
+extern void fn_822315A0(Rep_822F5B38 *r);
+
+double fn_822F5B38(Top_822F5B38 *p)
 {
-  float fVar1;
-  int iVar2;
-  int iVar3;
-  undefined4 *puVar4;
-  double dVar5;
-  undefined1 auStack_30 [4];
-  int iStack_2c;
-  
-  if (*(int *)(*(int *)(param_1 + 0xc) + 0x24) == 0) {
-    puVar4 = (undefined4 *)fn_822F9B78(auStack_30,*(undefined4 *)(param_1 + 0x18));
-    dVar5 = (double)(**(code **)(*(int *)*puVar4 + 0x18))();
-    if (iStack_2c != 0) {
-      fn_822315A0();
-    }
-  }
-  else {
-    iVar2 = *(int *)(*(int *)(param_1 + 0x10) + 0x1e4);
-    iVar3 = (**(code **)(**(int **)(*(int *)(param_1 + 0x10) + 0x2e0) + 0x3c))();
-    if (iVar3 == 0) {
-      dVar5 = (double)*(float *)(*(int *)(param_1 + 0x14) + 0x14);
-    }
-    else if (*(int *)(iVar2 + 0x184) == 0) {
-      if ((*(int *)(iVar2 + 0x1a0) == 0) || (*(int *)(iVar2 + 0x18c) == 0)) {
-        fVar1 = *(float *)(*(int *)(param_1 + 0x14) + 0x1c);
-        dVar5 = (double)((*(float *)(*(int *)(param_1 + 0x14) + 0x20) - fVar1) *
-                         *(float *)(iVar2 + 0x178) + fVar1);
-      }
-      else {
-        dVar5 = (double)*(float *)(*(int *)(param_1 + 0x14) + 0x18);
-      }
-    }
-    else {
-      dVar5 = (double)*(float *)(*(int *)(param_1 + 0x14) + 0x1c);
-    }
-  }
-  return dVar5;
-}
+  Ent_822F5B38 *e;
+  float r;
+  float a;
 
+  if (p->flags->f24 != 0) {
+    e = p->mid->ent;
+    if (p->mid->obj->vt->f3c(p->mid->obj) == 0) {
+      return p->cfg->f14;
+    } else if (e->f184 != 0) {
+      return p->cfg->f1c;
+    } else if (e->f1a0 == 0 || e->f18c == 0) {
+      a = p->cfg->f1c;
+      return (p->cfg->f20 - a) * e->f178 + a;
+    } else {
+      return p->cfg->f18;
+    }
+  } else {
+    SP_822F5B38 sp;
+    Obj_822F5B38 *o;
+    o = fn_822F9B78(&sp, p->weak)->ptr;
+    r = o->vt->f18(o);
+    if (sp.rep != 0) {
+      fn_822315A0(sp.rep);
+    }
+  }
+  return r;
+}

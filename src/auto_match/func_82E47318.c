@@ -1,77 +1,11 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_8202F1FC;
-extern unsigned int lbl_82153188;
+typedef struct Vt_82E47318 { void *f0; unsigned long (*AddRef)(void *); } Vt_82E47318;
+typedef struct Obj_82E47318 { Vt_82E47318 *vt; } Obj_82E47318;
+extern int memcmp(const void *, const void *, unsigned);
+extern char lbl_8202F1FC[], lbl_82153188[];
 
-
-undefined8 fn_82E47318(int *param_1,byte *param_2,undefined4 *param_3)
-
-{
-  byte bVar1;
-  byte bVar2;
-  byte *pbVar3;
-  byte *pbVar4;
-  undefined8 uVar5;
-  
-  uVar5 = 0;
-  if (param_3 == (undefined4 *)0x0) {
-    uVar5 = 0xffffffff80004003;
-  }
-  else {
-    pbVar4 = &lbl_8202F1FC;
-    pbVar3 = param_2;
-    do {
-      bVar1 = *pbVar3;
-      bVar2 = *pbVar4;
-      if ((ulonglong)bVar1 - (ulonglong)bVar2 != 0) break;
-      pbVar3 = pbVar3 + 1;
-      pbVar4 = pbVar4 + 1;
-    } while (pbVar3 != param_2 + 0x10);
-    if ((int)((ulonglong)bVar1 - (ulonglong)bVar2) != 0) {
-      pbVar4 = &lbl_82153188;
-      pbVar3 = param_2 + 0x10;
-      do {
-        bVar1 = *param_2;
-        bVar2 = *pbVar4;
-        if ((ulonglong)bVar1 - (ulonglong)bVar2 != 0) break;
-        param_2 = param_2 + 1;
-        pbVar4 = pbVar4 + 1;
-      } while (param_2 != pbVar3);
-      if ((int)((ulonglong)bVar1 - (ulonglong)bVar2) != 0) {
-        *param_3 = 0;
-        return 0xffffffff80004002;
-      }
-    }
-    if (param_1 != (int *)0x0) {
-      (**(code **)(*param_1 + 4))(param_1);
-      *param_3 = param_1;
-    }
-  }
-  return uVar5;
-}
-
+int fn_82E47318(Obj_82E47318 *self, const void *iid, void **out) {
+ int hr = 0;
+ if (out == 0) { hr = 0x80004003; }
+ else if (memcmp(iid, lbl_8202F1FC, 16) == 0 || memcmp(iid, lbl_82153188, 16) == 0) { if (self != 0) { self->vt->AddRef(self); *out = self; } }
+ else { *out = 0; hr = 0x80004002; }
+ return hr; }

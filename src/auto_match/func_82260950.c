@@ -1,99 +1,44 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8225F670();
-extern int fn_8225F6D0();
-extern int fn_8225FDE0();
-extern int fn_82E1CA30();
-extern int fn_82E1CAD0();
-extern int fn_82E1CB88();
-extern int fn_82E1CC60();
-extern int fn_82E1CCA8();
-extern int fn_82E1CD30();
-extern int fn_82F6A524();
-extern int fn_82F6A570();
+extern char *fn_8225F670(void);
+extern int fn_8225FDE0(int, int);
+extern unsigned char fn_82E1CAD0(int);
+extern void fn_82E1CD30(void);
+extern void fn_82E1CB88(const char *, int);
+extern void fn_82E1CC60(const char *, float);
+extern void fn_82E1CCA8(void);
+extern void fn_82E1CA30(void);
+extern void fn_8225F6D0(void);
 
-
-void fn_82260950(undefined8 param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4,
-                  undefined8 param_5,undefined8 param_6,undefined8 param_7,undefined8 param_8,
-                  undefined8 param_9,undefined8 param_10,undefined8 param_11,undefined8 param_12,
-                  undefined8 param_13)
-
+void fn_82260950(int id, float f1, float f2, float f3, float f4, float f5, float f6, float f7, float f8, float f9, float f10, float f11, float f12, float f13, float f14, float f15, float f16, float f17, float f18, float f19, float f20, float f21)
 {
-  undefined8 uVar1;
-  char *pcVar2;
-  int iVar3;
-  char cVar4;
-  undefined8 extraout_f1;
-  undefined8 uVar5;
-  float in_stack_00000084;
-  float in_stack_0000008c;
-  float in_stack_00000094;
-  float in_stack_0000009c;
-  float in_stack_000000a4;
-  float in_stack_000000ac;
-  float in_stack_000000b4;
-  float in_stack_000000bc;
-  
-  uVar1 = fn_82F6A524();
-  uVar5 = extraout_f1;
-  pcVar2 = (char *)fn_8225F670();
-  if (*pcVar2 != '\0') {
-    iVar3 = fn_8225FDE0(0x22,1);
-    if ((iVar3 == 0) && (cVar4 = fn_82E1CAD0(0x22), cVar4 != '\0')) {
+  char *p = fn_8225F670();
+  if (*p != 0) {
+    if (fn_8225FDE0(0x22, 1) == 0 && fn_82E1CAD0(0x22) != 0) {
       fn_82E1CD30();
-      fn_82E1CB88(0xffffffff821a6ba4,uVar1);
-      fn_82E1CC60(uVar5,0xffffffff821a6bb4);
-      fn_82E1CC60(param_2,0xffffffff821a6bc8);
-      fn_82E1CC60(param_3,0xffffffff821a6bdc);
-      fn_82E1CC60(param_4,0xffffffff821a6bf0);
-      fn_82E1CC60(param_5,0xffffffff821a6c04);
-      fn_82E1CC60(param_6,0xffffffff821a6c18);
-      fn_82E1CC60(param_7,0xffffffff821a6c2c);
-      fn_82E1CC60(param_8,0xffffffff821a6c40);
-      fn_82E1CC60(param_9,0xffffffff821a6c54);
-      fn_82E1CC60(param_10,0xffffffff821a6c68);
-      fn_82E1CC60(param_11,0xffffffff821a6c7c);
-      fn_82E1CC60(param_12,0xffffffff821a6c90);
-      fn_82E1CC60(param_13,0xffffffff821a6ca4);
-      fn_82E1CC60((double)in_stack_00000084,0xffffffff821a6cb8);
-      fn_82E1CC60((double)in_stack_0000008c,0xffffffff821a6ccc);
-      fn_82E1CC60((double)in_stack_00000094,0xffffffff821a6ce0);
-      fn_82E1CC60((double)in_stack_0000009c,0xffffffff821a6cf4);
-      fn_82E1CC60((double)in_stack_000000a4,0xffffffff821a6d08);
-      fn_82E1CC60((double)in_stack_000000ac,0xffffffff821a6d1c);
-      fn_82E1CC60((double)in_stack_000000b4,0xffffffff821a6d30);
-      fn_82E1CC60((double)in_stack_000000bc,0xffffffff821a6d44);
+      fn_82E1CB88("pentathlonId", id);
+      fn_82E1CC60("Player0Event1Score", f1);
+      fn_82E1CC60("Player0Event2Score", f2);
+      fn_82E1CC60("Player0Event3Score", f3);
+      fn_82E1CC60("Player0Event4Score", f4);
+      fn_82E1CC60("Player0Event5Score", f5);
+      fn_82E1CC60("Player1Event1Score", f6);
+      fn_82E1CC60("Player1Event2Score", f7);
+      fn_82E1CC60("Player1Event3Score", f8);
+      fn_82E1CC60("Player1Event4Score", f9);
+      fn_82E1CC60("Player1Event5Score", f10);
+      fn_82E1CC60("Player2Event1Score", f11);
+      fn_82E1CC60("Player2Event2Score", f12);
+      fn_82E1CC60("Player2Event3Score", f13);
+      fn_82E1CC60("Player2Event4Score", f14);
+      fn_82E1CC60("Player2Event5Score", f15);
+      fn_82E1CC60("Player3Event1Score", f16);
+      fn_82E1CC60("Player3Event2Score", f17);
+      fn_82E1CC60("Player3Event3Score", f18);
+      fn_82E1CC60("Player3Event4Score", f19);
+      fn_82E1CC60("Player3Event5Score", f20);
+      fn_82E1CC60("Duration", f21);
       fn_82E1CCA8();
       fn_82E1CA30();
     }
   }
   fn_8225F6D0();
-  fn_82F6A570();
-  return;
 }
-
