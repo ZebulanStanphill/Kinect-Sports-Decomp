@@ -1,46 +1,14 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82517978();
-extern int fn_8266F2D0();
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+typedef struct { int first; int second; } Pair_8229DA88;
+typedef struct { int pad0; int a; int b; } Src_8229DA88;
 
+extern void fn_82517978(Pair_8229DA88 *out, int a, int b, int c);
+extern void fn_8266F2D0(void *self, Pair_8229DA88 *pair, int b, float f, int d);
 
-void fn_8229DA88(undefined8 param_1,int param_2,undefined8 param_3,undefined8 param_4)
-
+void fn_8229DA88(Src_8229DA88 *src, void *self, int b, float f)
 {
-  struct { undefined4 first; undefined4 second; } stack_pair_30;
-
-  
-  stack_pair_30.first = 0;
-  stack_pair_30.second = 0;
-  fn_82517978(&stack_pair_30.first,*(undefined4 *)(param_2 + 4),*(undefined4 *)(param_2 + 8),0);
-  fn_8266F2D0(param_1,param_3,&stack_pair_30.first,param_4);
-  return;
+    Pair_8229DA88 pair;
+    pair.first = 0;
+    pair.second = 0;
+    fn_82517978(&pair, src->a, src->b, 0);
+    fn_8266F2D0(self, &pair, b, f, 0);
 }
-

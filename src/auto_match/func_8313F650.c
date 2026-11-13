@@ -1,56 +1,27 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_825BF428();
-extern int fn_8265CA20();
-extern unsigned int lbl_83297A8C;
-extern unsigned int lbl_83297A90;
-extern unsigned int lbl_83297A94;
-extern unsigned int lbl_83297A9C;
-extern unsigned int lbl_83297AA0;
-extern unsigned int lbl_83297AA4;
+typedef struct Vec_8313F650 { void *first; void *last; void *end; } Vec_8313F650;
+typedef struct Global_8313F650 {
+    char pad[0x10];
+    char sub[0x34];      /* 0x10 */
+    Vec_8313F650 a;      /* 0x44 */
+    int pad50;
+    Vec_8313F650 b;      /* 0x54 */
+} Global_8313F650;
+extern Global_8313F650 lbl_83297A48;
+extern void fn_8265CA20(void *p);
+extern void fn_825BF428(void *p);
 
-
-void fn_8313F650(void)
-
+static void Tidy_8313F650(Vec_8313F650 *v)
 {
-  if (lbl_83297A9C != 0) {
-    fn_8265CA20();
-  }
-  lbl_83297A9C = 0;
-  lbl_83297AA0 = 0;
-  lbl_83297AA4 = 0;
-  if (lbl_83297A8C != 0) {
-    fn_8265CA20();
-  }
-  lbl_83297A8C = 0;
-  lbl_83297A90 = 0;
-  lbl_83297A94 = 0;
-  fn_825BF428(0xffffffff83297a58);
-  return;
+    if (v->first != 0)
+        fn_8265CA20(v->first);
+    v->first = 0;
+    v->last = 0;
+    v->end = 0;
 }
 
+void fn_8313F650(void)
+{
+    Tidy_8313F650(&lbl_83297A48.b);
+    Tidy_8313F650(&lbl_83297A48.a);
+    fn_825BF428(lbl_83297A48.sub);
+}

@@ -1,60 +1,54 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_832642E8;
+typedef struct Value_83006E68 {
+    int data;
+    int pad4;
+    unsigned char flags;
+    char pad9[3];
+} Value_83006E68;
 
+typedef struct Entry_83006E68 {
+    unsigned int key;
+    Value_83006E68 value;
+} Entry_83006E68;
 
-undefined4 fn_83006E68(int param_1)
+typedef struct Map_83006E68 {
+    char pad[0x24];
+    Entry_83006E68 *first;  /* 0x24 */
+    Entry_83006E68 *last;   /* 0x28 */
+    int pad2c;
+    unsigned int group;     /* 0x30 */
+    unsigned int key;       /* 0x34 */
+} Map_83006E68;
 
+typedef struct Obj_83006E68 {
+    char pad[0x20];
+    Map_83006E68 *map;      /* 0x20 */
+} Obj_83006E68;
+
+extern void *lbl_832642E8;
+extern int fn_82FF6580(void *registry, unsigned int group);
+
+static int ne_83006E68(Entry_83006E68 *a, Entry_83006E68 *b) { return a != b; }
+
+static Value_83006E68 *find_83006E68(Obj_83006E68 *o)
 {
-  int iVar1;
-  int *piVar2;
-  undefined4 *puVar3;
-  
-  iVar1 = *(int *)(param_1 + 0x20);
-  if (iVar1 != 0) {
-    for (piVar2 = *(int **)(iVar1 + 0x24);
-        (piVar2 != *(int **)(iVar1 + 0x28) && (*piVar2 != *(int *)(iVar1 + 0x34)));
-        piVar2 = piVar2 + 4) {
-    }
-    puVar3 = (undefined4 *)(-(uint)(*(int **)(iVar1 + 0x28) != piVar2) & (uint)(piVar2 + 1));
-    if (puVar3 != (undefined4 *)0x0) {
-      if ((*(byte *)(puVar3 + 2) & 0x80) != 0) {
-        for (piVar2 = *(int **)(lbl_832642E8 + 4);
-            (piVar2 != *(int **)(lbl_832642E8 + 8) && (*piVar2 != *(int *)(iVar1 + 0x30)));
-            piVar2 = piVar2 + 2) {
-        }
-        return *(undefined4 *)
-                (*(int *)(-(uint)(*(int **)(lbl_832642E8 + 8) != piVar2) & (uint)(piVar2 + 1)) + 0xc
-                );
-      }
-      return *puVar3;
-    }
-  }
-  return 0;
+    Entry_83006E68 *e;
+    unsigned int key = o->map->key;
+    Map_83006E68 *m = o->map;
+    for (e = m->first; e != m->last && e->key != key; e++) {}
+    return ne_83006E68(e, m->last) ? &e->value : 0;
 }
 
+int fn_83006E68(Obj_83006E68 *o)
+{
+    Map_83006E68 *m = o->map;
+    Value_83006E68 *p;
+    if (m != 0) {
+        p = find_83006E68(o);
+        if (p != 0) {
+            if (p->flags & 0x80)
+                return fn_82FF6580(lbl_832642E8, m->group);
+            return p->data;
+        }
+    }
+    return 0;
+}

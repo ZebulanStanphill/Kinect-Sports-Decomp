@@ -1,64 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_823BE2A8();
-extern int fn_8265C9E0();
-extern unsigned int lbl_821B9B9C;
-extern unsigned int lbl_821B9BBC;
+/* boost::any::holder<NetworkSpectatorAthleticsHumanFrame>::clone() (see func_82446D40.cpp). */
+typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float v[4]; unsigned int u[4]; } __vector4;
 
+typedef struct Frame_82446E90 {
+    void *vtable;
+    char data[0x19c];
+    __vector4 vector;
+} Frame_82446E90;
 
-undefined4 * fn_82446E90(longlong param_1)
+typedef struct Holder_82446E90 {
+    void *vtable;
+    int pad[3];
+    Frame_82446E90 held;
+} Holder_82446E90;
 
+extern void *fn_8265C9E0(unsigned int size);
+extern Frame_82446E90 *fn_823BE2A8(Frame_82446E90 *self, const Frame_82446E90 *o);
+extern char lbl_821B9B9C[];
+extern char lbl_821B9BBC[];
+
+static __forceinline void Frame_CopyFrom(Frame_82446E90 *self, const Frame_82446E90 *o)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  undefined4 *puVar3;
-  undefined4 uVar4;
-  undefined4 uVar5;
-  undefined4 uVar6;
-  
-  puVar3 = (undefined4 *)fn_8265C9E0(0x1c0);
-  if (puVar3 == (undefined4 *)0x0) {
-    puVar3 = (undefined4 *)0x0;
-  }
-  else {
-    *puVar3 = &lbl_821B9BBC;
-    fn_823BE2A8(puVar3 + 4,param_1 + 0x10);
-    puVar3[4] = &lbl_821B9B9C;
-    puVar1 = (undefined4 *)((int)(param_1 + 0x10) + 0x1a0U & 0xfffffff0);
-    uVar4 = puVar1[1];
-    uVar5 = puVar1[2];
-    uVar6 = puVar1[3];
-    puVar2 = (undefined4 *)((uint)(puVar3 + 0x6c) & 0xfffffff0);
-    *puVar2 = *puVar1;
-    puVar2[1] = uVar4;
-    puVar2[2] = uVar5;
-    puVar2[3] = uVar6;
-  }
-  return puVar3;
+    fn_823BE2A8(self, o);
+    self->vtable = lbl_821B9B9C;
+    self->vector = o->vector;
 }
 
+Holder_82446E90 *fn_82446E90(const Holder_82446E90 *self)
+{
+    Holder_82446E90 *h = (Holder_82446E90 *)fn_8265C9E0(0x1c0);
+
+    if (h != 0) {
+        h->vtable = lbl_821B9BBC;
+        Frame_CopyFrom(&h->held, &self->held);
+        return h;
+    }
+    return 0;
+}

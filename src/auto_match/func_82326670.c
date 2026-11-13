@@ -1,51 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_50;
-extern int fn_82230300();
-extern int fn_8223B688();
-extern int fn_822C8B40();
-extern int fn_82326C58();
-extern unsigned int uStack_24;
+/* Insert {name copied from (*named)->name, value} into the map at +0xcc, then forward. */
+typedef struct String_82326670 { unsigned char data[0x1c]; } String_82326670;
 
+typedef struct Entry_82326670 {
+    String_82326670 name;
+    int value;
+} Entry_82326670;
 
-void fn_82326670(longlong param_1,uint *param_2,undefined4 param_3)
+typedef struct Named_82326670 {
+    int x0;
+    String_82326670 name;
+} Named_82326670;
 
+typedef struct InsertResult_82326670 { void *node; unsigned char inserted; } InsertResult_82326670;
+
+typedef struct Obj_82326670 {
+    char pad[0xcc];
+    int map;
+} Obj_82326670;
+
+extern void fn_8223B688(String_82326670 *self, const String_82326670 *src);
+extern void fn_82230300(String_82326670 *self, int built, unsigned int newsize);
+extern InsertResult_82326670 *fn_82326C58(InsertResult_82326670 *out, void *map, const Entry_82326670 *e);
+extern void fn_822C8B40(Obj_82326670 *self, Named_82326670 **named);
+
+void fn_82326670(Obj_82326670 *self, Named_82326670 **named, int value)
 {
-  undefined1 auStack_50 [16];
-  undefined1 auStack_40 [28];
-  undefined4 uStack_24;
-  
-  fn_8223B688(auStack_40,(ulonglong)*param_2 + 4);
-  uStack_24 = param_3;
-  fn_82326C58(auStack_50,param_1 + 0xcc,auStack_40);
-  fn_82230300(auStack_40,1,0);
-  fn_822C8B40(param_1,param_2);
-  return;
-}
+    InsertResult_82326670 r;
+    Entry_82326670 e;
 
+    fn_8223B688(&e.name, &(*named)->name);
+    e.value = value;
+    fn_82326C58(&r, &self->map, &e);
+    fn_82230300(&e.name, 1, 0);
+    fn_822C8B40(self, named);
+}

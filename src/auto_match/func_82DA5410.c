@@ -1,47 +1,41 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Out_82DA5410 {
+    float f0, f4, f8;
+    int fc, f10;
+    float f14, f18, f1c, f20, f24;
+    char pad28[0x18];
+    float f40, f44;
+} Out_82DA5410;
 
+typedef struct Src_82DA5410 {
+    int pad0;
+    float f4, f8;
+    char padc[0x48];
+    float f54;
+    int pad58;
+    float f5c;
+    char pad60[0xac];
+    float f10c, f110;
+    int pad114[2];
+    float f11c, f120;
+} Src_82DA5410;
 
-void fn_82DA5410(undefined4 *param_1,int param_2,int param_3)
+typedef struct Info_82DA5410 {
+    int pad[2];
+    int f8, fc;
+} Info_82DA5410;
 
+void fn_82DA5410(Out_82DA5410 *out, Src_82DA5410 *s, Info_82DA5410 *info)
 {
-  *param_1 = *(undefined4 *)(param_2 + 0x10c);
-  param_1[1] = *(float *)(param_2 + 0x11c) * *(float *)(param_2 + 0x10c);
-  param_1[2] = *(undefined4 *)(param_2 + 0x110);
-  param_1[5] = *(undefined4 *)(param_2 + 0x120);
-  param_1[6] = *(float *)(param_2 + 0x120) * *(float *)(param_2 + 0x11c);
-  param_1[0x10] = *(undefined4 *)(param_2 + 4);
-  param_1[0x11] = *(undefined4 *)(param_2 + 8);
-  param_1[7] = *(float *)(param_2 + 0x54) * *(float *)(param_2 + 0x110);
-  param_1[8] = *(undefined4 *)(param_2 + 8);
-  param_1[9] = *(float *)(param_2 + 0x5c) * *(float *)(param_2 + 0x110);
-  param_1[3] = *(undefined4 *)(param_3 + 8);
-  param_1[4] = *(undefined4 *)(param_3 + 0xc);
-  return;
+    out->f0 = s->f10c;
+    out->f4 = s->f11c * s->f10c;
+    out->f8 = s->f110;
+    out->f14 = s->f120;
+    out->f18 = s->f120 * s->f11c;
+    out->f40 = s->f4;
+    out->f44 = s->f8;
+    out->f1c = s->f54 * s->f110;
+    out->f20 = s->f8;
+    out->f24 = s->f5c * s->f110;
+    out->fc = info->f8;
+    out->f10 = info->fc;
 }
-

@@ -1,37 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int memset();
+typedef struct Params_82836CE0 {
+    int width;               /* 0x00 */
+    int height;              /* 0x04 */
+    int f08;
+    int f0c;
+    int f10;
+    int f14;
+    unsigned char b18, b19, b1a, b1b;
+    unsigned char b1c, b1d, b1e, b1f;
+    int f20;
+    int f24;
+    unsigned int fmt28;      /* 0x28 */
+    unsigned int fmt2c;      /* 0x2c */
+    int f30, f34;
+} Params_82836CE0;
 
+extern void *memset(void *, int, unsigned int);
 
-void fn_82836CE0(undefined8 param_1)
-
+void fn_82836CE0(Params_82836CE0 *p)
 {
-                    /* WARNING: Subroutine does not return */
-  memset(param_1,0,0x38);
+    memset(p, 0, sizeof(*p));
+    p->f14 = 0;
+    p->b1a = 1;
+    p->width = 0x280;
+    p->height = 0x1e0;
+    p->f0c = 1;
+    p->b18 = 1;
+    p->b1c = 0;
+    p->f10 = 0;
+    p->b1d = 0;
+    p->f20 = 0;
+    p->fmt28 = 0x18280186;
+    p->fmt2c = 0x18280106;
 }
-

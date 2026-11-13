@@ -1,57 +1,23 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82703910();
-extern int fn_827039E8();
-extern unsigned int iStack_18;
-extern unsigned int uStack_14;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
+typedef struct Iter_82704708 {
+    int state;
+    void *owner;
+    void *current;
+    int index;
+} Iter_82704708;
 
+extern unsigned int fn_827039E8(Iter_82704708 *it);
+extern void fn_82703910(void *owner, void *current);
 
-void fn_82704708(undefined4 param_1)
-
+void fn_82704708(void *owner)
 {
-  int iVar1;
-  struct { undefined4 first; undefined4 second; } stack_pair_20;
-
-  int iStack_18;
-  undefined4 uStack_14;
-  
-  stack_pair_20.first = 0;
-  uStack_14 = 0;
-  iStack_18 = 0;
-  stack_pair_20.second = param_1;
-  do {
-    iVar1 = fn_827039E8(&stack_pair_20.first);
-  } while (iVar1 != 0);
-  if (iStack_18 != 0) {
-    fn_82703910(stack_pair_20.second);
-  }
-  return;
+    Iter_82704708 it;
+    it.state = 0;
+    it.owner = owner;
+    it.index = 0;
+    it.current = 0;
+    while (fn_827039E8(&it) != 0) {
+    }
+    if (it.current != 0) {
+        fn_82703910(it.owner, it.current);
+    }
 }
-

@@ -1,47 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Node_82724448 Node_82724448;
+typedef struct ItemVt_82724448 {
+    void *pad[2];
+    int (*getType)(void *self);   /* 0x8 */
+} ItemVt_82724448;
+typedef struct Item_82724448 { ItemVt_82724448 *vt; } Item_82724448;
+struct Node_82724448 {
+    char pad0[0x10];
+    Item_82724448 item;      /* 0x10 */
+    Node_82724448 *parent;   /* 0x14 */
+    char pad18[0x1c];
+    void *value;             /* 0x34 */
+};
 
-
-undefined4 fn_82724448(int param_1)
-
+void *fn_82724448(Node_82724448 *n)
 {
-  int iVar1;
-  
-  iVar1 = *(int *)(param_1 + 0x34);
-  while( true ) {
-    if (iVar1 != 0) {
-      return *(undefined4 *)(param_1 + 0x34);
-    }
-    param_1 = *(int *)(param_1 + 0x14);
-    if ((param_1 == 0) ||
-       (iVar1 = (**(code **)(*(int *)(param_1 + 0x10) + 8))(param_1 + 0x10), iVar1 != 0xd)) break;
-    iVar1 = *(int *)(param_1 + 0x34);
-  }
-  return 0;
+    Node_82724448 *p;
+    if (n->value != 0)
+        return n->value;
+    p = n->parent;
+    if (p != 0 && p->item.vt->getType(&p->item) == 0xd)
+        return fn_82724448(p);
+    return 0;
 }
-

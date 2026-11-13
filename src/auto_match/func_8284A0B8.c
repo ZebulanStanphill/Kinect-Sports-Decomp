@@ -1,49 +1,13 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265CA60();
-extern int fn_82F68CC0();
-extern unsigned int iStack0000001c;
+typedef struct { void *data; int owned; } Buf_8284A0B8;
+typedef struct { char pad0[0x28]; void *data; unsigned int size; } Src_8284A0B8;
+extern void *fn_8265CA60(unsigned int size);
+extern void *memcpy(void *dst, const void *src, unsigned int n);
 
-
-undefined4 * fn_8284A0B8(undefined4 *param_1,int param_2)
-
+Buf_8284A0B8 *fn_8284A0B8(Buf_8284A0B8 *self, Src_8284A0B8 *src)
 {
-  undefined4 uVar1;
-  undefined4 *puStack00000014;
-  int iStack0000001c;
-  
-  puStack00000014 = param_1;
-  iStack0000001c = param_2;
-  uVar1 = fn_8265CA60(*(undefined4 *)(param_2 + 0x2c));
-  *puStack00000014 = uVar1;
-  fn_82F68CC0(*puStack00000014,*(undefined4 *)(iStack0000001c + 0x28),
-               *(undefined4 *)(iStack0000001c + 0x2c));
-  puStack00000014[1] = 1;
-  return puStack00000014;
+    void *p = fn_8265CA60(src->size);
+    self->data = p;
+    memcpy(self->data, src->data, src->size);
+    self->owned = 1;
+    return self;
 }
-
