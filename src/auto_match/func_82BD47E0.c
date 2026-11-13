@@ -1,23 +1,29 @@
-unsigned __int64 fn_82BD47E0(__int64 param_1,unsigned int param_2)
+typedef struct Lockable_82BD47E0 {
+    char pad[0xf0];
+    char lock[0x1c];
+} Lockable_82BD47E0;
 
+extern void RtlEnterCriticalSection(void *cs);
+extern int RtlTryEnterCriticalSection(void *cs);
+extern void RtlLeaveCriticalSection(void *cs);
+
+int fn_82BD47E0(Lockable_82BD47E0 *self, unsigned int op)
 {
-  __int64 lVar1;
-  unsigned __int64 uVar2;
-  
-  uVar2 = 0;
-  if (param_2 == 0) {
-    RtlEnterCriticalSection(param_1 + 0xf0);
-  }
-  else if (param_2 == 1) {
-    lVar1 = RtlTryEnterCriticalSection(param_1 + 0xf0);
-    uVar2 = -(unsigned __int64)(lVar1 != 1) & 0xffffffff80004004;
-  }
-  else if (param_2 < 3) {
-    RtlLeaveCriticalSection(param_1 + 0xf0);
-  }
-  else {
-    uVar2 = 0xffffffff80070057;
-  }
-  return uVar2;
-}
+    int hr = 0;
+    switch (op) {
+    case 0:
+        RtlEnterCriticalSection(self->lock);
+        break;
+    case 1:
+        hr = RtlTryEnterCriticalSection(self->lock) == 1 ? 0 : 0x80004004;
 
+        break;
+    case 2:
+        RtlLeaveCriticalSection(self->lock);
+        break;
+    default:
+        hr = 0x80070057;
+        break;
+    }
+    return hr;
+}

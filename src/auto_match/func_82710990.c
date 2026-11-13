@@ -1,71 +1,69 @@
-extern int fn_82681838();
-extern int fn_82693A98();
-extern int fn_82693B08();
-extern int fn_826944C8();
-extern int fn_82694928();
-extern int fn_82695468();
-extern int fn_826954C0();
-extern int fn_826957D0();
-extern int fn_826972E0();
-extern unsigned int iStack_2c;
-extern unsigned int iStack_30;
+typedef struct Str_82710990 {
+    char *text;
+    int f4;
+    int refs;
+} Str_82710990;
 
+typedef struct Holder_82710990 {
+    char pad[8];
+    Str_82710990 *empty;
+} Holder_82710990;
 
-void fn_82710990(int param_1)
+typedef struct Ctx_82710990 {
+    char pad[0x78];
+    Holder_82710990 *holder;
+} Ctx_82710990;
 
+typedef struct Obj_82710990 {
+    int pad0;
+    void *result;
+    char *buffer;
+    char pad0c[0x18 - 0xc];
+    Ctx_82710990 *ctx;
+    int count;
+} Obj_82710990;
+
+extern char lbl_82005EA4[];
+extern unsigned char fn_82695468(Obj_82710990 *p, int kind);
+extern void fn_826954C0(Obj_82710990 *p, const char *name, int a, int b);
+extern void *fn_826957D0(Obj_82710990 *p, int index);
+extern double fn_826972E0(void *arg, Ctx_82710990 *ctx);
+extern int fn_82693A98(char *p);
+extern int fn_82693B08(char *p, int index);
+extern Str_82710990 **fn_82694928(Str_82710990 **out, Str_82710990 **src, int ch);
+extern void fn_82681838(void *result, Str_82710990 **value);
+extern void fn_826944C8(Str_82710990 *r);
+
+static __forceinline void Release(Str_82710990 *s)
 {
-  int iVar1;
-  unsigned int uVar2;
-  char cVar6;
-  unsigned __int64 uVar3;
-  int iVar4;
-  int *piVar5;
-  __int64 lVar7;
-  double dVar8;
-  int iStack_30;
-  int iStack_2c;
-  __int64 lStack_28;
-  
-  cVar6 = fn_82695468(param_1,8);
-  if (cVar6 == '\0') {
-    fn_826954C0(param_1,0xffffffff82005ea4,0,0);
-  }
-  else {
-    lVar7 = (unsigned __int64)*(unsigned int *)(param_1 + 8) - 0x10;
-    if ((unsigned __int64)*(unsigned int *)(param_1 + 8) == 0) {
-      lVar7 = 0;
+    if (--s->refs == 0) {
+        fn_826944C8(s);
     }
-    iStack_30 = *(int *)(*(int *)(*(int *)(param_1 + 0x18) + 0x78) + 8);
-    *(int *)(iStack_30 + 8) = *(int *)(iStack_30 + 8) + 1;
-    uVar2 = *(unsigned int *)(param_1 + 0x18);
-    uVar3 = fn_826957D0(param_1,0);
-    dVar8 = (double)fn_826972E0(uVar3,uVar2);
-    iVar1 = (int)dVar8;
-    lStack_28 = (__int64)iVar1;
-    if ((-1 < iVar1) && (iVar4 = fn_82693A98(lVar7 + 0x30), iVar1 < iVar4)) {
-      uVar3 = fn_82693B08(lVar7 + 0x30,iVar1);
-      piVar5 = (int *)fn_82694928(&iStack_2c,&iStack_30,uVar3);
-      iVar1 = *piVar5;
-      *(int *)(iVar1 + 8) = *(int *)(iVar1 + 8) + 1;
-      lVar7 = (unsigned __int64)*(unsigned int *)(iStack_30 + 8) - 1;
-      *(int *)(iStack_30 + 8) = (int)lVar7;
-      if (lVar7 == 0) {
-        fn_826944C8(iStack_30);
-      }
-      lVar7 = (unsigned __int64)*(unsigned int *)(iStack_2c + 8) - 1;
-      *(int *)(iStack_2c + 8) = (int)lVar7;
-      iStack_30 = iVar1;
-      if (lVar7 == 0) {
-        fn_826944C8(iStack_2c);
-      }
-    }
-    fn_82681838(*(unsigned int *)(param_1 + 4),&iStack_30);
-    lVar7 = (unsigned __int64)*(unsigned int *)(iStack_30 + 8) - 1;
-    *(int *)(iStack_30 + 8) = (int)lVar7;
-    if (lVar7 == 0) {
-      fn_826944C8(iStack_30);
-    }
-  }
-  return;
 }
 
+void fn_82710990(Obj_82710990 *self)
+{
+    char *text;
+    Str_82710990 *str;
+    Str_82710990 *tmp;
+    Str_82710990 *s;
+    int index;
+
+    if (fn_82695468(self, 8) == 0) {
+        fn_826954C0(self, lbl_82005EA4, 0, 0);
+        return;
+    }
+    text = (self->buffer ? self->buffer - 0x10 : 0) + 0x30;
+    str = self->ctx->holder->empty;
+    str->refs++;
+    index = (int)fn_826972E0(fn_826957D0(self, 0), self->ctx);
+    if (index >= 0 && index < fn_82693A98(text)) {
+        s = *fn_82694928(&tmp, &str, fn_82693B08(text, index));
+        s->refs++;
+        Release(str);
+        str = s;
+        Release(tmp);
+    }
+    fn_82681838(self->result, &str);
+    Release(str);
+}

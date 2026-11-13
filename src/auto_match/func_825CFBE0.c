@@ -1,67 +1,89 @@
-#define true 1
-extern int fn_8251FA58();
-extern int fn_82522ED8();
-extern int fn_82545810();
-extern int fn_82545950();
-extern int fn_82545A90();
-extern int fn_8262F8D8();
-extern int fn_8262FEC8();
+typedef struct Buf_825CFBE0 {
+    char pad[0x18];
+    unsigned int f18;
+    unsigned int f1c;
+} Buf_825CFBE0;
 
+typedef struct Node_825CFBE0 {
+    int mapped;
+    Buf_825CFBE0 *buffer;
+    void *f8;
+    void *fc;
+    void *f10;
+    int f14;
+    struct Node_825CFBE0 *next;
+} Node_825CFBE0;
 
-void fn_825CFBE0(int param_1)
+typedef struct Obj_825CFBE0 {
+    char pad0[0x20];
+    void *f20, *f24, *f28, *f2c;
+    void *f30;
+    void *f34;
+    char pad38[0x50 - 0x38];
+    Node_825CFBE0 *nodes;
+} Obj_825CFBE0;
 
+extern void fn_82545950(void *);
+extern void fn_82545A90(void *);
+extern void fn_82545810(void *);
+extern void fn_8251FA58(void *);
+extern void fn_8262FEC8(void *);
+extern void fn_82522ED8(void *);
+extern int fn_8262F8D8(void *, int, int, unsigned int, int, unsigned int, unsigned int, int, int);
+extern void fn_8262FBD8(void *, unsigned int, int);
+
+void fn_825CFBE0(Obj_825CFBE0 *o)
 {
-  int iVar1;
-  int iVar2;
-  unsigned int uVar3;
-  int iVar4;
-  
-  if (*(int *)(param_1 + 0x20) != 0) {
-    fn_82545950(param_1 + 0x20);
-  }
-  if (*(int *)(param_1 + 0x24) != 0) {
-    fn_82545A90(param_1 + 0x24);
-  }
-  if (*(int *)(param_1 + 0x28) != 0) {
-    fn_82545950(param_1 + 0x28);
-  }
-  if (*(int *)(param_1 + 0x2c) != 0) {
-    fn_82545A90(param_1 + 0x2c);
-  }
-  if (*(int *)(param_1 + 0x34) != 0) {
-    fn_8251FA58();
-    *(unsigned int *)(param_1 + 0x34) = 0;
-  }
-  if (*(int *)(param_1 + 0x30) != 0) {
-    fn_82545810(param_1 + 0x30);
-  }
-  iVar4 = *(int *)(param_1 + 0x50);
-  while( true ) {
-    if (iVar4 == 0) {
-      *(unsigned int *)(param_1 + 0x50) = 0;
-      return;
-    }
-    iVar1 = *(int *)(iVar4 + 0x18);
-    if (*(int *)(iVar4 + 0xc) != 0) {
-      fn_8251FA58();
-      *(unsigned int *)(iVar4 + 0xc) = 0;
-    }
-    if (*(int *)(iVar4 + 0x10) != 0) {
-      fn_8251FA58();
-      *(unsigned int *)(iVar4 + 0x10) = 0;
-    }
-    iVar2 = *(int *)(iVar4 + 4);
-    if (iVar2 != 0) break;
-    if (*(int *)(iVar4 + 8) != 0) {
-      fn_8262FEC8();
-      *(unsigned int *)(iVar4 + 8) = 0;
-    }
-    *(unsigned int *)(iVar4 + 0x18) = 0;
-    fn_82522ED8(iVar4);
-    iVar4 = iVar1;
-  }
-  uVar3 = *(unsigned int *)(iVar2 + 0x18) & 0xfffffffc;
-                    /* WARNING: Subroutine does not return */
-  fn_8262F8D8(iVar2,10,0,uVar3,0,uVar3,*(unsigned int *)(iVar2 + 0x1c) & 0x3fffffc,0);
-}
+    Node_825CFBE0 *node;
+    Node_825CFBE0 *next;
+    Buf_825CFBE0 *b;
 
+    if (o->f20 != 0) {
+        fn_82545950(&o->f20);
+    }
+    if (o->f24 != 0) {
+        fn_82545A90(&o->f24);
+    }
+    if (o->f28 != 0) {
+        fn_82545950(&o->f28);
+    }
+    if (o->f2c != 0) {
+        fn_82545A90(&o->f2c);
+    }
+    if (o->f34 != 0) {
+        fn_8251FA58(o->f34);
+        o->f34 = 0;
+    }
+    if (o->f30 != 0) {
+        fn_82545810(&o->f30);
+    }
+    node = o->nodes;
+    while (node != 0) {
+        next = node->next;
+        if (node->fc != 0) {
+            fn_8251FA58(node->fc);
+            node->fc = 0;
+        }
+        if (node->f10 != 0) {
+            fn_8251FA58(node->f10);
+            node->f10 = 0;
+        }
+        b = node->buffer;
+        if (b != 0) {
+            unsigned int v = b->f18 & 0xfffffffc;
+            node->mapped = fn_8262F8D8(b, 10, 0, v, 0, v, b->f1c & 0x3fffffc, 0, 0x3000000);
+            fn_8262FBD8(node->buffer, node->buffer->f18 & 0xfffffffc, 0);
+            fn_8262FEC8(node->buffer);
+            node->buffer = 0;
+            node->mapped = 0;
+        }
+        if (node->f8 != 0) {
+            fn_8262FEC8(node->f8);
+            node->f8 = 0;
+        }
+        node->next = 0;
+        fn_82522ED8(node);
+        node = next;
+    }
+    o->nodes = 0;
+}

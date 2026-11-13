@@ -1,38 +1,22 @@
-extern int fn_8265CF70();
-extern int fn_8265D3F0();
-extern int fn_8265FE68();
-extern int fn_82660870();
-extern int fn_826660E8();
-extern int fn_82666F40();
-extern unsigned int iStack0000001c;
-extern unsigned int uStack00000014;
+/* std::vector<T>::_Reserve (VC10 <vector>) built at /O1 /Og- (no global optimisation): size(),
+   max_size(), _Xlen(), capacity(), _Grow_to() and reserve() stay calls. */
+typedef struct Vector_82666B78 Vector_82666B78;
 
+extern unsigned int fn_8265CF70(Vector_82666B78 *self);
+extern unsigned int fn_8265FE68(Vector_82666B78 *self);
+extern void fn_82660870(Vector_82666B78 *self);
+extern unsigned int fn_8265D3F0(Vector_82666B78 *self);
+extern unsigned int fn_82666F40(Vector_82666B78 *self, unsigned int count);
+extern void fn_826660E8(Vector_82666B78 *self, unsigned int count);
 
-void fn_82666B78(unsigned int param_1,int param_2)
-
+void fn_82666B78(Vector_82666B78 *self, unsigned int count)
 {
-  unsigned int uVar2;
-  int iVar3;
-  unsigned int uVar4;
-  unsigned __int64 uVar1;
-  unsigned int uStack00000014;
-  int iStack0000001c;
-  
-  uStack00000014 = param_1;
-  iStack0000001c = param_2;
-  uVar2 = fn_8265CF70(param_1);
-  iVar3 = fn_8265FE68(uStack00000014);
-  if ((unsigned int)(iVar3 - iStack0000001c) < uVar2) {
-    fn_82660870(uStack00000014);
-  }
-  else {
-    uVar2 = uVar2 + iStack0000001c;
-    uVar4 = fn_8265D3F0(uStack00000014);
-    if (uVar4 < uVar2) {
-      uVar1 = fn_82666F40(uStack00000014,uVar2);
-      fn_826660E8(uStack00000014,uVar1);
-    }
-  }
-  return;
-}
+    unsigned int size = fn_8265CF70(self);
 
+    if (fn_8265FE68(self) - count < size)
+        fn_82660870(self);
+    else if ((size += count) <= fn_8265D3F0(self))
+        ;
+    else
+        fn_826660E8(self, fn_82666F40(self, size));
+}

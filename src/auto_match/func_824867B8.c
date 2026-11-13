@@ -1,87 +1,93 @@
-extern int fn_8225F160();
+typedef struct Game_824867B8 {
+    char pad0[0x8];
+    unsigned int f8;
+    int fc;
+    char pad10[0x5c - 0x10];
+    int f5c;
+    char pad60[0x64 - 0x60];
+    int f64;
+} Game_824867B8;
 
+typedef struct Self_824867B8 {
+    char pad0[0x234];
+    unsigned char name[1];
+} Self_824867B8;
 
-unsigned __int64 fn_824867B8(int param_1)
-
+extern Game_824867B8 *fn_8225F160(void);
+int fn_824867B8(Self_824867B8 *self)
 {
-  int iVar2;
-  unsigned __int64 uVar1;
-  char *pcVar3;
-  char cVar4;
-  char cVar5;
-  char *pcVar6;
-  
-  iVar2 = fn_8225F160();
-  if (*(unsigned int *)(iVar2 + 8) < 2) {
-    iVar2 = fn_8225F160();
-    if (*(int *)(iVar2 + 0xc) == 1) goto LAB_824867e0;
-    iVar2 = fn_8225F160();
-    if (*(int *)(iVar2 + 0xc) != 2) {
-      iVar2 = fn_8225F160();
-      if ((*(int *)(iVar2 + 0xc) == 5) && (iVar2 = fn_8225F160(), *(int *)(iVar2 + 100) < 2))
-      {
-        return 2;
-      }
-      return 4;
-    }
-    iVar2 = fn_8225F160();
-    if (*(int *)(iVar2 + 100) < 2) goto LAB_824867f8;
-    cVar5 = *(char *)(param_1 + 0x234);
-    pcVar6 = (char *)(param_1 + 0x234);
-    cVar4 = 'a';
-    if (cVar5 == 'a') {
-      cVar5 = 'a';
-      pcVar3 = pcVar6;
-      do {
-        pcVar3 = pcVar3 + 1;
-        if (cVar5 == '\0') goto LAB_824867f0;
-        cVar4 = pcVar3[(int)"athletics_mini5" - (int)pcVar6];
-        cVar5 = *pcVar3;
-      } while (cVar5 == cVar4);
-    }
-    if (cVar5 != cVar4) {
-      cVar5 = *pcVar6;
-      cVar4 = 'a';
-      if (cVar5 == 'a') {
-        cVar5 = 'a';
-        pcVar3 = pcVar6;
-        do {
-          pcVar3 = pcVar3 + 1;
-          if (cVar5 == '\0') goto LAB_824867f0;
-          cVar4 = pcVar3[(int)"athletics_mini4" - (int)pcVar6];
-          cVar5 = *pcVar3;
-        } while (cVar5 == cVar4);
-      }
-      if (cVar5 != cVar4) {
-        cVar5 = *pcVar6;
-        cVar4 = 'a';
-        if (cVar5 == 'a') {
-          iVar2 = (int)"athletics_mini3" - (int)pcVar6;
-          cVar5 = 'a';
-          do {
-            pcVar6 = pcVar6 + 1;
-            if (cVar5 == '\0') goto LAB_824867f0;
-            cVar4 = pcVar6[iVar2];
-            cVar5 = *pcVar6;
-          } while (cVar5 == cVar4);
-        }
-        if (cVar5 != cVar4) {
-          return 4;
-        }
-      }
-    }
-LAB_824867f0:
-    uVar1 = 3;
-  }
-  else {
-    if (*(unsigned int *)(iVar2 + 8) == 2) {
-LAB_824867e0:
-      iVar2 = fn_8225F160();
-      if (1 < *(int *)(iVar2 + 0x5c)) goto LAB_824867f0;
-    }
-LAB_824867f8:
-    uVar1 = 2;
-  }
-  return uVar1;
-}
+    const unsigned char *p;
+    const unsigned char *q;
+    unsigned char c;
+    unsigned char b;
+    Game_824867B8 *game;
 
+    game = fn_8225F160();
+    if (game->f8 >= 2) {
+        if (game->f8 == 2) {
+            if (fn_8225F160()->f5c > 1) {
+                return 3;
+            }
+        }
+        return 2;
+    } else {
+        if (fn_8225F160()->fc == 1) {
+            if (fn_8225F160()->f5c > 1) {
+                return 3;
+            }
+            return 2;
+        }
+        if (fn_8225F160()->fc == 2) {
+            if (fn_8225F160()->f64 <= 1) {
+                return 2;
+            }
+            p = self->name;
+            q = self->name;
+            c = *q;
+            b = 0x61;
+            if (c == 0x61) {
+                int d = (int)"athletics_mini5" - (int)p;
+                do {
+                    q++;
+                    if (c == 0) goto mini;
+                    b = q[d];
+                    c = *q;
+                } while (c == b);
+            }
+            if (c - b == 0) goto mini;
+            q = self->name;
+            c = *q;
+            b = 0x61;
+            if (c == 0x61) {
+                int d = (int)"athletics_mini4" - (int)p;
+                do {
+                    q++;
+                    if (c == 0) goto mini;
+                    b = q[d];
+                    c = *q;
+                } while (c == b);
+            }
+            if (c - b == 0) goto mini;
+            q = self->name;
+            c = *q;
+            b = 0x61;
+            if (c == 0x61) {
+                int d = (int)"athletics_mini3" - (int)p;
+                do {
+                    q++;
+                    if (c == 0) goto mini;
+                    b = q[d];
+                    c = *q;
+                } while (c == b);
+            }
+            if (c - b == 0) goto mini;
+            return 4;
+mini:
+            return 3;
+        }
+        if (fn_8225F160()->fc == 5 && fn_8225F160()->f64 <= 1) {
+            return 2;
+        }
+        return 4;
+    }
+}

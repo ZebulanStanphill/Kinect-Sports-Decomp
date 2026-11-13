@@ -1,27 +1,29 @@
-unsigned __int64 fn_823AA8C8(int *param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+typedef struct Obj_823AA8C8 Obj_823AA8C8;
 
+typedef struct Vt_823AA8C8 {
+    void *pad0[0x7c / 4];
+    int (*f7c)(Obj_823AA8C8 *self, void *item);
+    void *pad80;
+    int (*f84)(Obj_823AA8C8 *self, void *item);
+    void *pad88[(0x9c - 0x88) / 4];
+    void (*f9c)(Obj_823AA8C8 *self, void *target, int value, int mode);
+} Vt_823AA8C8;
+
+struct Obj_823AA8C8 {
+    Vt_823AA8C8 *vt;
+    char pad4[0x30 - 0x4];
+    int f30;
+};
+
+int fn_823AA8C8(Obj_823AA8C8 *self, void *target, void *item)
 {
-  int (**pcVar1)();
-  int iVar3;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar4;
-  
-  iVar3 = (**(int (***)())(*param_1 + 0x84))(param_1,param_3);
-  if (iVar3 != 0) {
-    if (param_1[0xc] == 0) {
-      iVar3 = (**(int (***)())(*param_1 + 0x7c))(param_1,param_3);
-      uVar4 = 6;
-      uVar2 = (unsigned __int64)(iVar3 == 0);
-      pcVar1 = *(int (***)())(*param_1 + 0x9c);
+    if (self->vt->f84(self, item) != 0) {
+        if (self->f30 != 0) {
+            self->vt->f9c(self, target, self->vt->f7c(self, item), 1);
+        } else {
+            int missing = self->vt->f7c(self, item) == 0;
+            self->vt->f9c(self, target, missing, 6);
+        }
     }
-    else {
-      iVar3 = *param_1;
-      uVar2 = (**(int (***)())(iVar3 + 0x7c))();
-      pcVar1 = *(int (***)())(iVar3 + 0x9c);
-      uVar4 = 1;
-    }
-    (*pcVar1)(param_1,param_2,uVar2,uVar4);
-  }
-  return 1;
+    return 1;
 }
-

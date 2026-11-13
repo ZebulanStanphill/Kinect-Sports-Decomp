@@ -1,36 +1,21 @@
-void fn_8280B298(double param_1,double param_2,double param_3,float *param_4,float *param_5)
-
+void fn_8280B298(const float (*src)[4], float (*dst)[4], float x, float y, float z)
 {
-  if (param_4 != param_5) {
-    *param_5 = *param_4;
-    param_5[4] = param_4[4];
-    param_5[8] = param_4[8];
-    param_5[1] = param_4[1];
-    param_5[5] = param_4[5];
-    param_5[9] = param_4[9];
-    param_5[2] = param_4[2];
-    param_5[6] = param_4[6];
-    param_5[10] = param_4[10];
-    param_5[3] = param_4[3];
-    param_5[7] = param_4[7];
-    param_5[0xb] = param_4[0xb];
-  }
-  param_5[0xc] = (float)((double)*param_4 * param_1 +
-                        (double)(float)((double)param_4[4] * param_2 +
-                                       (double)(float)((double)param_4[8] * param_3))) +
-                 param_4[0xc];
-  param_5[0xd] = (float)((double)param_4[9] * param_3 +
-                        (double)(float)((double)param_4[1] * param_1 +
-                                       (double)(float)((double)param_4[5] * param_2))) +
-                 param_4[0xd];
-  param_5[0xe] = (float)((double)param_4[10] * param_3 +
-                        (double)(float)((double)param_4[2] * param_1 +
-                                       (double)(float)((double)param_4[6] * param_2))) +
-                 param_4[0xe];
-  param_5[0xf] = (float)((double)param_4[0xb] * param_3 +
-                        (double)(float)((double)param_4[3] * param_1 +
-                                       (double)(float)((double)param_4[7] * param_2))) +
-                 param_4[0xf];
-  return;
+    if (src != dst) {
+        dst[0][0] = src[0][0];
+        dst[1][0] = src[1][0];
+        dst[2][0] = src[2][0];
+        dst[0][1] = src[0][1];
+        dst[1][1] = src[1][1];
+        dst[2][1] = src[2][1];
+        dst[0][2] = src[0][2];
+        dst[1][2] = src[1][2];
+        dst[2][2] = src[2][2];
+        dst[0][3] = src[0][3];
+        dst[1][3] = src[1][3];
+        dst[2][3] = src[2][3];
+    }
+    dst[3][0] = src[0][0] * x + src[1][0] * y + src[2][0] * z + src[3][0];
+    dst[3][1] = src[0][1] * x + src[1][1] * y + src[2][1] * z + src[3][1];
+    dst[3][2] = src[0][2] * x + src[1][2] * y + src[2][2] * z + src[3][2];
+    dst[3][3] = src[0][3] * x + src[1][3] * y + src[2][3] * z + src[3][3];
 }
-

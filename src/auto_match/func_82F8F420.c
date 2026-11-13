@@ -1,40 +1,29 @@
-extern int fn_82F8F648();
-extern int fn_82F8FB10();
-extern int fn_82F8FBA8();
-extern unsigned int iStack00000014;
-extern unsigned int uStack0000001c;
+/* std::vector<T>::_Buy(size_type) from Visual C++ 2010's <vector>, built
+   without optimisation (4-byte elements). */
+typedef struct Vec_82F8F420 {
+    char alval;
+    void **first;
+    void **last;
+    void **end;
+} Vec_82F8F420;
 
+extern unsigned int fn_82F8F648(Vec_82F8F420 *self);
+extern void fn_82F8FB10(void);
+extern void **fn_82F8FBA8(Vec_82F8F420 *self, unsigned int count, int hint);
 
-unsigned __int64 fn_82F8F420(int param_1,unsigned int param_2)
-
+unsigned char fn_82F8F420(Vec_82F8F420 *self, unsigned int count)
 {
-  unsigned __int64 uVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  int iStack00000014;
-  unsigned int uStack0000001c;
-  
-  *(unsigned int *)(param_1 + 4) = 0;
-  *(unsigned int *)(param_1 + 8) = 0;
-  *(unsigned int *)(param_1 + 0xc) = 0;
-  if (param_2 == 0) {
-    uVar1 = 0;
-  }
-  else {
-    iStack00000014 = param_1;
-    uStack0000001c = param_2;
-    uVar2 = fn_82F8F648(param_1);
-    if (uVar2 < uStack0000001c) {
-      fn_82F8FB10();
+    self->first = 0;
+    self->last = 0;
+    self->end = 0;
+    if (count == 0) {
+        return 0;
+    } else if (fn_82F8F648(self) < count) {
+        fn_82F8FB10();
+    } else {
+        self->first = fn_82F8FBA8(self, count, 0);
+        self->last = self->first;
+        self->end = self->first + count;
     }
-    else {
-      uVar3 = fn_82F8FBA8(iStack00000014,uStack0000001c,0);
-      *(unsigned int *)(iStack00000014 + 4) = uVar3;
-      *(unsigned int *)(iStack00000014 + 8) = *(unsigned int *)(iStack00000014 + 4);
-      *(unsigned int *)(iStack00000014 + 0xc) = *(int *)(iStack00000014 + 4) + uStack0000001c * 4;
-    }
-    uVar1 = 1;
-  }
-  return uVar1;
+    return 1;
 }
-

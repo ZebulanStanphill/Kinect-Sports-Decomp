@@ -1,32 +1,43 @@
-extern int fn_82250A18();
-extern int fn_82358D38();
-extern unsigned int lbl_821B3008;
-extern unsigned int lbl_832975B0;
-extern unsigned int uStack_31;
+typedef struct Impl_8236C7F8 Impl_8236C7F8;
+typedef struct {
+    void *copy;
+    void *move;
+    void *call;
+    void (*delete_this)(Impl_8236C7F8 *, int);
+} ImplVt_8236C7F8;
+struct Impl_8236C7F8 {
+    ImplVt_8236C7F8 *vt;
+    unsigned char value;
+};
 
+typedef struct Fn_8236C7F8 {
+    union {
+        Impl_8236C7F8 impl;
+        char space[16];
+    } u;
+    Impl_8236C7F8 *impl;
+    int pad;
+} Fn_8236C7F8;
 
-void fn_8236C7F8(unsigned __int64 param_1)
+typedef struct Inst_8236C7F8 {
+    char pad0[4];
+    unsigned char active;
+} Inst_8236C7F8;
 
+extern ImplVt_8236C7F8 lbl_821B3008;
+extern Inst_8236C7F8 *lbl_832975B0;
+extern Inst_8236C7F8 *fn_82250A18(void);
+extern void fn_82358D38(void *self, Fn_8236C7F8 *fn);
+
+void fn_8236C7F8(void *self)
 {
-  int iVar1;
-  unsigned char uStack_31;
-  unsigned char **appuStack_30 [4];
-  unsigned char ***pppuStack_20;
-  
-  iVar1 = lbl_832975B0;
-  if (lbl_832975B0 == 0) {
-    iVar1 = fn_82250A18();
-  }
-  if (*(char *)(iVar1 + 4) != '\0') {
-    pppuStack_20 = appuStack_30;
-    appuStack_30[0] = &lbl_821B3008;
-    fn_82358D38(param_1,appuStack_30);
-    if (pppuStack_20 != (unsigned char ***)0x0) {
-      iVar1 = (int)appuStack_30 + -(int)pppuStack_20;
-      (*(int (**)())(*pppuStack_20)[3])
-                (pppuStack_20,iVar1 - (int)(&uStack_31 + (unsigned int)(iVar1 == 0) + -(int)pppuStack_20));
+    if ((lbl_832975B0 ? lbl_832975B0 : fn_82250A18())->active != 0) {
+        Fn_8236C7F8 f;
+        f.u.impl.vt = &lbl_821B3008;
+        f.impl = &f.u.impl;
+        fn_82358D38(self, &f);
+        if (f.impl != 0) {
+            f.impl->vt->delete_this(f.impl, f.impl != &f.u.impl);
+        }
     }
-  }
-  return;
 }
-

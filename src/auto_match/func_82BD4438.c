@@ -1,43 +1,54 @@
-extern int fn_82BD8BE8();
+typedef struct Format_82BD4438 {
+    char pad0[0x18];
+    unsigned int size;
+} Format_82BD4438;
 
+typedef struct Stream_82BD4438 {
+    char pad0[0x18];
+    Format_82BD4438 *format;
+} Stream_82BD4438;
 
-unsigned __int64 fn_82BD4438(int param_1,__int64 param_2,unsigned int *param_3)
+typedef struct Self_82BD4438 {
+    char pad0[8];
+    Stream_82BD4438 *stream;    /* 0x08 */
+    char pad0c[0x24 - 0xc];
+    int open;                   /* 0x24 */
+    char pad28[0x4c - 0x28];
+    void *sink;                 /* 0x4c */
+} Self_82BD4438;
 
+extern int fn_82BD8BE8(void *sink, char *data, unsigned int size);
+
+int fn_82BD4438(Self_82BD4438 *self, char *data, unsigned int *bytes)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  unsigned __int64 uVar6;
-  
-  uVar5 = 0;
-  uVar3 = 0;
-  if (*(int *)(param_1 + 0x24) == 0) {
-    uVar3 = 0xffffffff80004001;
-  }
-  else {
-    uVar1 = *param_3;
-    uVar2 = *(unsigned int *)(*(int *)(*(int *)(param_1 + 8) + 0x18) + 0x18);
-    *param_3 = 0;
-    uVar6 = (unsigned __int64)uVar2 + 2;
-    uVar4 = (unsigned __int64)uVar1 / (uVar6 & 0xffffffff);
-    trapWord(6,uVar6,0);
-    if ((int)uVar4 != 0) {
-      do {
-        uVar3 = fn_82BD8BE8(*(unsigned int *)(param_1 + 0x4c),param_2,uVar6);
-        if ((int)uVar3 < 0) {
-          return uVar3;
-        }
-        if ((int)uVar3 == 1) {
-          return uVar3;
-        }
-        uVar5 = uVar5 + 1;
-        param_2 = param_2 + uVar6;
-        *param_3 = *param_3 + (int)uVar6;
-      } while ((uVar5 & 0xffffffff) < uVar4);
-    }
-  }
-  return uVar3;
-}
+    unsigned int i;
+    int hr = 0;
+    unsigned int total;
+    unsigned int stride;
+    unsigned int count;
+    char *p;
 
+    if (self->open == 0) {
+        return 0x80004001;
+    }
+    total = *bytes;
+    stride = self->stream->format->size + 2;
+    *bytes = 0;
+    count = total / stride;
+    i = 0;
+    if (count != 0) {
+        p = data;
+        do {
+            hr = fn_82BD8BE8(self->sink, p, stride);
+            if (hr < 0) {
+                break;
+            }
+            if (hr == 1) {
+                break;
+            }
+            p += stride;
+            *bytes += stride;
+        } while (++i < count);
+    }
+    return hr;
+}

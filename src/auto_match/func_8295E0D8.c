@@ -1,26 +1,28 @@
-extern unsigned int *auStack_2c;
-extern int fn_8295D318();
-extern int fn_82963318();
-extern unsigned int uStack_30;
+typedef struct Info_8295E0D8 {
+    unsigned int header;
+    int pad4[2];
+    int fieldC;
+    int field10;
+} Info_8295E0D8;
 
+typedef struct Obj_8295E0D8 {
+    char pad[0x104];
+    Info_8295E0D8 *info;
+} Obj_8295E0D8;
 
-void fn_8295E0D8(int param_1)
+extern void fn_82963318(Info_8295E0D8 *info, int index, unsigned int **out);
+extern int fn_8295D318(Obj_8295E0D8 *self, int mode, int a, int b, unsigned int *list0, unsigned int *list1,
+                       unsigned int *list2, unsigned int count, int c, int d, int e, int f);
 
+void fn_8295E0D8(Obj_8295E0D8 *self)
 {
-  unsigned int *puVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uStack_30;
-  unsigned int auStack_2c [11];
-  
-  puVar1 = *(unsigned int **)(param_1 + 0x104);
-  uVar2 = *puVar1;
-  uVar3 = puVar1[3];
-  uVar4 = puVar1[4];
-  fn_82963318(puVar1,0,&uStack_30);
-  fn_82963318(*(unsigned int *)(param_1 + 0x104),1,auStack_2c);
-  fn_8295D318(param_1,0x10042,uVar4,uVar3,auStack_2c[0],uStack_30,0,uVar2 & 0xfffff);
-  return;
-}
+    Info_8295E0D8 *info = self->info;
+    unsigned int count = info->header & 0xfffff;
+    int b = info->fieldC;
+    int a = info->field10;
+    unsigned int *lists[2];
 
+    fn_82963318(info, 0, &lists[0]);
+    fn_82963318(self->info, 1, &lists[1]);
+    fn_8295D318(self, 0x10042, a, b, lists[1], lists[0], 0, count, 0, 0, 0, 0);
+}

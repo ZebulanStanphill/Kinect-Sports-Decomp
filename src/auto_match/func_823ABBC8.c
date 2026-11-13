@@ -1,35 +1,62 @@
-extern int fn_822315A0();
-extern int fn_82365BD8();
-extern unsigned int iStack_1c;
-extern unsigned int iStack_20;
+typedef struct Item_823ABBC8 {
+    unsigned int key;
+    unsigned int value;
+} Item_823ABBC8;
 
+typedef struct Ref_823ABBC8 {
+    Item_823ABBC8 *ptr;
+    void *ctrl;
+} Ref_823ABBC8;
 
-unsigned int fn_823ABBC8(int param_1,int param_2)
+typedef struct Vec_823ABBC8 {
+    Ref_823ABBC8 *first;
+    Ref_823ABBC8 *last;
+} Vec_823ABBC8;
 
+typedef struct Self_823ABBC8 {
+    char pad0[0x6c];
+    Vec_823ABBC8 a;
+    char pad74[0x7c - 0x74];
+    Vec_823ABBC8 b;
+} Self_823ABBC8;
+
+extern void fn_82365BD8(Ref_823ABBC8 *out, Ref_823ABBC8 *src);
+extern void fn_822315A0(void *ctrl);
+
+static __forceinline Ref_823ABBC8 *find_823ABBC8(Vec_823ABBC8 *v, unsigned int key)
 {
-  unsigned int uVar1;
-  unsigned int *puVar2;
-  int iStack_20;
-  int iStack_1c;
-  
-  for (puVar2 = *(unsigned int **)(param_1 + 0x6c);
-      (puVar2 != *(unsigned int **)(param_1 + 0x70) && (*(int *)*puVar2 != param_2));
-      puVar2 = puVar2 + 2) {
-  }
-  if (puVar2 == *(unsigned int **)(param_1 + 0x70)) {
-    for (puVar2 = *(unsigned int **)(param_1 + 0x7c);
-        (puVar2 != *(unsigned int **)(param_1 + 0x80) && (*(int *)*puVar2 != param_2));
-        puVar2 = puVar2 + 2) {
+    Ref_823ABBC8 *last = v->last;
+    Ref_823ABBC8 *e;
+    for (e = v->first; e != last; e++) {
+        if (e->ptr->key == key) break;
     }
-    if (puVar2 == *(unsigned int **)(param_1 + 0x80)) {
-      return 8;
-    }
-  }
-  fn_82365BD8(&iStack_20,puVar2);
-  uVar1 = *(unsigned int *)(iStack_20 + 4);
-  if (iStack_1c != 0) {
-    fn_822315A0();
-  }
-  return uVar1;
+    return e;
 }
 
+static __forceinline unsigned int get_823ABBC8(Ref_823ABBC8 *e)
+{
+    Ref_823ABBC8 ref;
+    unsigned int value;
+
+    fn_82365BD8(&ref, e);
+    value = ref.ptr->value;
+    if (ref.ctrl != 0) {
+        fn_822315A0(ref.ctrl);
+    }
+    return value;
+}
+
+unsigned int fn_823ABBC8(Self_823ABBC8 *self, unsigned int key)
+{
+    Ref_823ABBC8 *e;
+
+    e = find_823ABBC8(&self->a, key);
+    if (e != self->a.last) {
+        return get_823ABBC8(e);
+    }
+    e = find_823ABBC8(&self->b, key);
+    if (e != self->b.last) {
+        return get_823ABBC8(e);
+    }
+    return 8;
+}

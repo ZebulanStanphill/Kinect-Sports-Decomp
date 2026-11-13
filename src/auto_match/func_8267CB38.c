@@ -1,26 +1,20 @@
-unsigned __int64 fn_8267CB38(unsigned int param_1)
-
+int fn_8267CB38(unsigned int value)
 {
-  if (param_1 == 0) {
-    return 0xf;
-  }
-  if (param_1 == 1) {
-    return 2;
-  }
-  if (param_1 < 3) {
-    return 1;
-  }
-  if (param_1 != 3) {
-    if (param_1 < 5) {
-      return 0xffffffffffffffff;
+    switch (value) {
+    case 0:
+        return 15;
+    case 1:
+        return 2;
+    case 2:
+        return 1;
+    case 3:
+        return 0;
+    case 4:
+        return -1;
+    case 5:
+        return -2;
+    case 6:
+        return -15;
     }
-    if (param_1 == 5) {
-      return 0xfffffffffffffffe;
-    }
-    if (param_1 < 7) {
-      return 0xfffffffffffffff1;
-    }
-  }
-  return 0;
+    return 0;
 }
-

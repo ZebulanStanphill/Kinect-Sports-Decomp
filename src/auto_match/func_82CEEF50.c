@@ -1,66 +1,53 @@
-extern int fn_82CEE7F8();
-extern int fn_82CEEA70();
-extern int fn_82CEEB70();
-extern int fn_82CEEE70();
-extern int fn_82CFD5A8();
-extern int fn_82CFFA08();
+typedef struct Shape_82CEEF50 {
+    void *f0;
+    char pad4[0xd - 0x4];
+    unsigned char type;
+} Shape_82CEEF50;
 
+extern void *fn_82CFD5A8(Shape_82CEEF50 *shape);
+extern void *fn_82CEEB70(void *item, void *container);
+extern void fn_82CEE7F8(void *owner, void *item, void *container, void *ctx);
+extern void fn_82CEEE70(void *owner, void *container, void **items, int count, void *ctx);
+extern void fn_82CEEA70(Shape_82CEEF50 *shape, void *item, void *ctx);
+extern void fn_82CFFA08(void *ctx, void *owner, void **item);
 
-void fn_82CEEF50(unsigned int *param_1,int param_2,__int64 param_3,unsigned __int64 param_4)
-
+void fn_82CEEF50(Shape_82CEEF50 *shape, void **items, int count, void *ctx)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  int iVar3;
-  unsigned int *puVar4;
-  
-  iVar3 = (int)param_3;
-  if (0 < iVar3) {
-    switch(*(unsigned char *)((int)param_1 + 0xd)) {
-    case 0x14:
-      uVar2 = fn_82CFD5A8(param_1);
-      if (((uVar2 & 0xffffffff) != 0) && (0 < iVar3)) {
-        puVar4 = (unsigned int *)(param_2 + -4);
-        do {
-          uVar1 = fn_82CEEB70(puVar4[1],uVar2);
-          if ((uVar1 & 0xffffffff) == 0) {
-            uVar1 = (unsigned __int64)*param_1;
-          }
-          puVar4 = puVar4 + 1;
-          fn_82CEE7F8(uVar1,*puVar4,uVar2,param_4);
-          param_3 = param_3 + -1;
-        } while (param_3 != 0);
-        return;
-      }
-      break;
-    case 0x19:
-      uVar2 = fn_82CFD5A8(param_1);
-      if ((uVar2 & 0xffffffff) != 0) {
-        fn_82CEEE70(*param_1,uVar2,param_2,param_3,param_4);
-        return;
-      }
-      break;
-    case 0x1d:
-      if (0 < iVar3) {
-        puVar4 = (unsigned int *)(param_2 + -4);
-        do {
-          puVar4 = puVar4 + 1;
-          fn_82CEEA70(param_1,*puVar4,param_4);
-          param_3 = param_3 + -1;
-        } while (param_3 != 0);
-        return;
-      }
-      break;
-    case 0x21:
-      if (0 < iVar3) {
-        do {
-          fn_82CFFA08(param_4,*param_1,param_2);
-          param_3 = param_3 + -1;
-          param_2 = param_2 + 4;
-        } while (param_3 != 0);
-      }
-    }
-  }
-  return;
-}
+    void *container;
+    void *owner;
+    int i;
 
+    if (count <= 0) {
+        return;
+    }
+    switch (shape->type) {
+    case 0x14:
+        container = fn_82CFD5A8(shape);
+        if (container != 0) {
+            for (i = 0; i < count; i++) {
+                owner = fn_82CEEB70(items[i], container);
+                if (owner == 0) {
+                    owner = shape->f0;
+                }
+                fn_82CEE7F8(owner, items[i], container, ctx);
+            }
+        }
+        break;
+    case 0x19:
+        container = fn_82CFD5A8(shape);
+        if (container != 0) {
+            fn_82CEEE70(shape->f0, container, items, count, ctx);
+        }
+        break;
+    case 0x1d:
+        for (i = 0; i < count; i++) {
+            fn_82CEEA70(shape, items[i], ctx);
+        }
+        break;
+    case 0x21:
+        for (i = 0; i < count; i++) {
+            fn_82CFFA08(ctx, shape->f0, &items[i]);
+        }
+        break;
+    }
+}

@@ -1,29 +1,27 @@
-extern unsigned int lbl_82023970;
+extern void *lbl_82023970[];
 
+typedef struct Obj_82897458 {
+    void **vt;
+    int f4;
+    int f8;
+    int owner;
+    int f10;
+    int a[4];
+    int b[4];
+    unsigned char c[4];
+} Obj_82897458;
 
-void fn_82897458(unsigned int *param_1,unsigned int param_2)
-
+void fn_82897458(Obj_82897458 *self, int owner)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  __int64 lVar3;
-  
-  param_1[3] = param_2;
-  *param_1 = &lbl_82023970;
-  param_1[1] = 0;
-  iVar1 = 0;
-  param_1[2] = 0;
-  puVar2 = param_1 + 4;
-  param_1[4] = 0;
-  lVar3 = 4;
-  do {
-    puVar2[5] = 0;
-    puVar2 = puVar2 + 1;
-    *puVar2 = 0;
-    *(unsigned char *)((int)param_1 + iVar1 + 0x34) = 0;
-    iVar1 = iVar1 + 1;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  return;
+    int i;
+    self->owner = owner;
+    self->vt = lbl_82023970;
+    self->f4 = 0;
+    self->f8 = 0;
+    self->f10 = 0;
+    for (i = 0; i < 4; i++) {
+        self->b[i] = 0;
+        self->a[i] = 0;
+        self->c[i] = 0;
+    }
 }
-

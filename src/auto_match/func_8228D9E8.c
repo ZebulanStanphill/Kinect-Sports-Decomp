@@ -1,41 +1,33 @@
-extern unsigned int *auStack_40;
-extern int fn_822315A0();
-extern int fn_82273C88();
-extern int fn_82273CD8();
-extern int fn_82279C58();
-extern int fn_82672C20();
-extern unsigned int iStack_3c;
-extern unsigned int lbl_821CA460;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+typedef struct Ref_8228D9E8 { int a; void *ref; } Ref_8228D9E8;
+typedef struct Value_8228D9E8 { int first; int second; double number; } Value_8228D9E8;
+typedef struct Movie_8228D9E8 { int handle; char pad[0x418 - 4]; int state; } Movie_8228D9E8;
+typedef struct Obj_8228D9E8 { char pad[0x178]; Movie_8228D9E8 *movie; } Obj_8228D9E8;
 
+extern const float lbl_821CA45C[2];
+extern void fn_822315A0(void *);
+extern void fn_82273C88(Value_8228D9E8 *);
+extern void fn_82273CD8(Value_8228D9E8 *, int);
+extern int *fn_82279C58(Ref_8228D9E8 *, int);
+extern void fn_82672C20(int, const char *, Value_8228D9E8 *, int);
 
-void fn_8228D9E8(double param_1,int param_2)
-
+void fn_8228D9E8(Obj_8228D9E8 *self, float progress)
 {
-  unsigned int *puVar1;
-  unsigned char auStack_40 [4];
-  int iStack_3c;
-  unsigned int uStack_30;
-  unsigned int uStack_2c;
-  double dStack_28;
-  
-  puVar1 = *(unsigned int **)(param_2 + 0x178);
-  if ((puVar1 != (unsigned int *)0x0) && (puVar1[0x106] == 1)) {
-    if ((double)lbl_821CA460 < param_1) {
-      param_1 = (double)lbl_821CA460;
-    }
-    uStack_30 = 0;
-    uStack_2c = 0;
-    fn_82273CD8(&uStack_30,3);
-    dStack_28 = param_1;
-    puVar1 = (unsigned int *)fn_82279C58(auStack_40,*puVar1);
-    fn_82672C20(*puVar1,0xffffffff821ab508,&uStack_30,1);
-    if (iStack_3c != 0) {
-      fn_822315A0();
-    }
-    fn_82273C88(&uStack_30);
-  }
-  return;
-}
+    Movie_8228D9E8 *movie = self->movie;
+    Ref_8228D9E8 r;
+    Value_8228D9E8 v;
 
+    if (movie != 0 && movie->state == 1) {
+        if (progress > lbl_821CA45C[1]) {
+            progress = lbl_821CA45C[1];
+        }
+        v.first = 0;
+        v.second = 0;
+        fn_82273CD8(&v, 3);
+        v.number = progress;
+        fn_82672C20(*fn_82279C58(&r, movie->handle), "_root.SetProgress", &v, 1);
+        if (r.ref != 0) {
+            fn_822315A0(r.ref);
+        }
+        fn_82273C88(&v);
+    }
+}

@@ -1,23 +1,18 @@
-extern int fn_82B80258();
-extern int fn_82F6DF48();
-extern unsigned int lbl_82005710;
+extern const double lbl_82005710;
+extern float fn_82B80258(float x);
+extern double fn_82F6DF48(double x, double y);
 
-
-double fn_82B80C68(double param_1,unsigned __int64 param_2,unsigned __int64 param_3)
-
+float fn_82B80C68(float value, unsigned int flags)
 {
-  double dVar1;
-  
-  if ((param_3 & 1) != 0) {
-    param_1 = (double)fn_82B80258();
-  }
-  if ((param_3 & 2) != 0) {
-    dVar1 = (double)fn_82F6DF48(param_1,lbl_82005710);
-    param_1 = (double)(float)dVar1;
-  }
-  if ((param_3 & 4) != 0) {
-    param_1 = (double)-(float)param_1;
-  }
-  return param_1;
+    if (flags & 1) {
+        value = fn_82B80258(value);
+    }
+    if (flags & 2) {
+        value = (float)fn_82F6DF48(value, lbl_82005710);
+    }
+    if (flags & 4) {
+        float t = value;
+        *(unsigned int *)&value = *(unsigned int *)&t ^ 0x80000000;
+    }
+    return value;
 }
-

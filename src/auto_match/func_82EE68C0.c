@@ -1,46 +1,39 @@
-#define CONCAT22(h,l) ((unsigned int)((((unsigned short)(h)) << 16) | ((unsigned short)(l))))
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-extern int fn_82EE62E8();
-extern int fn_82EE6350();
-extern unsigned int uStack_3c;
-extern unsigned int uStack_3e;
+typedef struct Entry_82EE68C0 {
+    unsigned short key;
+    int value;
+} Entry_82EE68C0;
 
+typedef struct Map_82EE68C0 {
+    char pad0[0x48];
+    char list[0xbc];
+    unsigned int count;
+} Map_82EE68C0;
 
-unsigned __int64 fn_82EE68C0(int param_1,short param_2,unsigned int param_3)
+extern int fn_82EE6350(void *list, unsigned int index, Entry_82EE68C0 **out);
+extern int fn_82EE62E8(void *list, Entry_82EE68C0 entry, int flags);
 
+int fn_82EE68C0(Map_82EE68C0 *self, unsigned short key, int value)
 {
-  unsigned __int64 uVar1;
-  __int64 lVar2;
-  unsigned int uVar3;
-  short sStack_40;
-  unsigned short uStack_3e;
-  unsigned int uStack_3c;
-  
-  if (*(unsigned int *)(param_1 + 0x104) < 0xffff) {
-    if (*(unsigned int *)(param_1 + 0x104) != 0) {
-      uVar3 = 0;
-      do {
-        fn_82EE6350(param_1 + 0x48,uVar3,&sStack_40);
-        if (*(short *)CONCAT22(sStack_40,uStack_3e) == param_2) {
-          uVar1 = fn_82EE6350(param_1 + 0x48,uVar3,&sStack_40);
-          uVar1 = ((uVar1 & 0xffffffff) >> 0x1f) - 1 & (unsigned __int64)CONCAT22(sStack_40,uStack_3e);
-          if (uVar1 == 0) {
-            return 0xffffffff8000ffff;
-          }
-          *(unsigned int *)((int)uVar1 + 4) = param_3;
-          return 0;
-        }
-        uVar3 = uVar3 + 1 & 0xffff;
-      } while (uVar3 < *(unsigned int *)(param_1 + 0x104));
-    }
-    sStack_40 = param_2;
-    uStack_3c = param_3;
-    lVar2 = fn_82EE62E8(param_1 + 0x48,CONCAT44(CONCAT22(param_2,uStack_3e),param_3),0);
-    uVar1 = -(unsigned __int64)(lVar2 == 0) & 0xffffffff8007000e;
-  }
-  else {
-    uVar1 = 0xffffffffc00d3a9a;
-  }
-  return uVar1;
-}
+    unsigned short i;
 
+    if (self->count >= 0xffff)
+        return 0xC00D3A9A;
+    for (i = 0; i < self->count; i++) {
+        Entry_82EE68C0 *e;
+        fn_82EE6350(self->list, i, &e);
+        if (e->key == key) {
+            Entry_82EE68C0 *found;
+            found = fn_82EE6350(self->list, i, &e) >= 0 ? e : 0;
+            if (found == 0)
+                return 0x8000FFFF;
+            found->value = value;
+            return 0;
+        }
+    }
+    {
+        Entry_82EE68C0 entry;
+        entry.key = key;
+        entry.value = value;
+        return fn_82EE62E8(self->list, entry, 0) == 0 ? 0x8007000e : 0;
+    }
+}

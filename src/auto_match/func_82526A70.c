@@ -1,18 +1,22 @@
-extern int fn_82522D98();
+typedef struct Obj_82526A70 {
+    char *name;
+} Obj_82526A70;
 
+extern unsigned int strlen(const char *s);
+extern char *fn_82522D98(unsigned int size);
 
-void fn_82526A70(unsigned __int64 param_1,char *param_2)
-
+static __forceinline void CopyN(char *dst, const char *src, unsigned int n)
 {
-  char cVar1;
-  char *pcVar2;
-  
-  pcVar2 = param_2;
-  do {
-    cVar1 = *pcVar2;
-    pcVar2 = pcVar2 + 1;
-  } while (cVar1 != '\0');
-                    /* WARNING: Subroutine does not return */
-  fn_82522D98(pcVar2 + (1 - (int)param_2));
+    char *end = dst + n;
+    while (dst < end && (*dst++ = *src++) != 0)
+        ;
+    if (dst == end)
+        dst[-1] = 0;
 }
 
+void fn_82526A70(Obj_82526A70 *self, const char *s)
+{
+    unsigned int len = strlen(s) + 1;
+    self->name = fn_82522D98(len + 1);
+    CopyN(self->name, s, len);
+}

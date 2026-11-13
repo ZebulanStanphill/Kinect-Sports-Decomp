@@ -1,15 +1,21 @@
-extern int fn_82F68CC0();
+typedef struct Writer_828E9F90 {
+    unsigned int bitPos;
+    unsigned int pos;
+    unsigned char *buffer;
+    unsigned int capacity;
+} Writer_828E9F90;
 
+extern void *memcpy(void *dst, const void *src, unsigned int n);
 
-unsigned __int64 fn_828E9F90(int *param_1,unsigned __int64 param_2,__int64 param_3)
-
+int fn_828E9F90(Writer_828E9F90 *self, const void *src, unsigned int size)
 {
-  if ((*param_1 == 0) &&
-     (((unsigned __int64)(unsigned int)param_1[1] + param_3 & 0xffffffff) <= (unsigned __int64)(unsigned int)param_1[3])) {
-    fn_82F68CC0((unsigned __int64)(unsigned int)param_1[2] + (unsigned __int64)(unsigned int)param_1[1]);
-    param_1[1] = param_1[1] + (int)param_3;
-    return 1;
-  }
-  return 0;
-}
+    int ok = 1;
 
+    if (self->bitPos != 0 || self->pos + size > self->capacity)
+        ok = 0;
+    else {
+        memcpy(self->buffer + self->pos, src, size);
+        self->pos += size;
+    }
+    return ok;
+}

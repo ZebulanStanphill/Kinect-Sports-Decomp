@@ -1,25 +1,46 @@
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Src_8243C0C0 Src_8243C0C0;
+typedef struct {
+    void *f0;
+    void *f4;
+    void *f8;
+    int (*getState)(Src_8243C0C0 *, int);
+} SrcVt_8243C0C0;
+struct Src_8243C0C0 { SrcVt_8243C0C0 *vt; };
 
+typedef struct {
+    char pad[8];
+    int source;
+} Link_8243C0C0;
 
-void fn_8243C0C0(double param_1,int *param_2)
+typedef struct Obj_8243C0C0 Obj_8243C0C0;
+typedef struct {
+    void *f0;
+    void *f4;
+    void (*change)(Obj_8243C0C0 *, int, int);
+    void (*update)(Obj_8243C0C0 *, float);
+} ObjVt_8243C0C0;
+struct Obj_8243C0C0 {
+    ObjVt_8243C0C0 *vt;
+    int pad4[4];
+    int state;
+    int pending;
+    int pad1c[7];
+    float time;
+    Link_8243C0C0 *link;
+};
 
+void fn_8243C0C0(Obj_8243C0C0 *self, float dt)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  
-  uVar1 = (unsigned __int64)(unsigned int)param_2[6];
-  if (*(int **)(param_2[0xf] + 8) != (int *)0x0) {
-    uVar1 = (**(int (***)())(**(int **)(param_2[0xf] + 8) + 0xc))();
-  }
-  param_2[0xe] = (int)(float)((double)(float)param_2[0xe] + param_1);
-  iVar2 = (int)uVar1;
-  if (iVar2 != param_2[5]) {
-    (**(int (***)())(*param_2 + 8))(param_2,param_2[5],uVar1);
-    param_2[6] = iVar2;
-    param_2[5] = iVar2;
-    param_2[0xe] = ltcg_pool_0_0f;
-  }
-  (**(int (***)())(*param_2 + 0xc))(param_1,param_2);
-  return;
-}
+    int src = self->link->source;
+    int pending = self->pending;
+    int next = src != 0 ? ((Src_8243C0C0 *)src)->vt->getState((Src_8243C0C0 *)src, pending) : pending;
 
+    self->time = self->time + dt;
+    if (next != self->state) {
+        self->vt->change(self, self->state, next);
+        self->pending = next;
+        self->state = next;
+        self->time = 0.0f;
+    }
+    self->vt->update(self, dt);
+}

@@ -1,11 +1,14 @@
-unsigned __int64 fn_82610BF8(int param_1)
+extern int fn_827DBA00(unsigned int a, unsigned int b, int c, unsigned int d, unsigned int e, int f,
+                       void *g, void *h, int p9, int p10, int p11, void *p12);
+extern void fn_82599418(void);
 
+int fn_82610BF8(char *self, int arg1, int arg2)
 {
-  unsigned __int64 uVar1;
+    int result;
 
-  uVar1 = Function_827DBA00(*(unsigned int *)(param_1 + 0x14),*(unsigned int *)(param_1 + 0xc),1,
-                            *(unsigned int *)(param_1 + 0x24),*(unsigned int *)(param_1 + 0x28),0,
-                            param_1 + 0x1c,param_1 + 0x20);
-  Function_82599418();
-  return uVar1;
+    result = fn_827DBA00(*(unsigned int *)(self + 0x14), *(unsigned int *)(self + 0xc), 1,
+                         *(unsigned int *)(self + 0x24), *(unsigned int *)(self + 0x28), 0,
+                         self + 0x1c, self + 0x20, arg1, 0, arg2, self + 0x2c);
+    fn_82599418();
+    return result;
 }

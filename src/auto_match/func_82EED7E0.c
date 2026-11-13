@@ -1,19 +1,23 @@
-unsigned __int64 fn_82EED7E0(int *param_1)
+typedef struct Obj_82EED7E0 Obj_82EED7E0;
+typedef struct ObjVt_82EED7E0 {
+    void *pad[3];
+    int (*fc)(Obj_82EED7E0 *self);
+} ObjVt_82EED7E0;
+struct Obj_82EED7E0 {
+    ObjVt_82EED7E0 *vt;
+    int *vbtable;
+    char pad8[0x74 - 8];
+    int active;
+};
 
+int fn_82EED7E0(Obj_82EED7E0 *self)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  
-  if (param_1[0x1d] == 0) {
-    return 0;
-  }
-  iVar1 = *(int *)((int)param_1 + *(int *)(param_1[1] + 4) + 8);
-  if ((iVar1 != 3) && (iVar1 != 1)) {
-    return 0;
-  }
-                    /* WARNING: Could not recover jumptable at 0x82eed824. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  uVar2 = (**(int (***)())(*param_1 + 0xc))(param_1);
-  return uVar2;
+    int r = 0;
+    int state;
+    if (self->active != 0) {
+        state = *(int *)((char *)self + self->vbtable[1] + 8);
+        if (state == 3 || state == 1)
+            r = self->vt->fc(self);
+    }
+    return r;
 }
-

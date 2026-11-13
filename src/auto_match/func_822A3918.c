@@ -1,65 +1,74 @@
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_e0;
-extern int fn_822315A0();
-extern int fn_82273C88();
-extern int fn_82273CD8();
-extern int fn_82517978();
-extern int fn_822315A0();
-extern int fn_822315A0();
-extern unsigned int uStack_f0;
+typedef struct Value_822A3918 {
+    int a;
+    int b;
+    unsigned char flag;
+    char pad[7];
+} Value_822A3918;
 
+typedef struct Res_822A3918 {
+    int movie;
+    unsigned int ref;
+} Res_822A3918;
 
-void fn_822A3918(int param_1,int param_2)
+typedef struct View_822A3918 {
+    int a;
+    int b;
+} View_822A3918;
 
+typedef struct Obj_822A3918 {
+    int pad0;
+    View_822A3918 view;
+} Obj_822A3918;
+
+extern int fn_822315A0(unsigned int ref);
+extern void fn_82273C88(Value_822A3918 *v);
+extern void fn_82273CD8(Value_822A3918 *v, int type);
+extern int fn_82517978(Res_822A3918 *res, int a, int b, int c);
+extern int fn_82672C20(int movie, const char *method, void *args, int count);
+extern void fn_82672F30(int movie, const char *name, unsigned int type, void *values, unsigned int count, unsigned int index);
+
+static __forceinline void Value_setBool(Value_822A3918 *v, unsigned char flag)
 {
-  int iVar1;
-  int *piVar2;
-  unsigned char *puVar3;
-  __int64 lVar4;
-  unsigned int uStack_f0;
-  int aiStack_ec [3];
-  unsigned char auStack_e0 [80];
-  unsigned char auStack_40 [64];
+    fn_82273CD8(v, 2);
+    v->flag = flag;
+}
 
-  piVar2 = aiStack_ec;
-  lVar4 = 10;
-  do {
-    piVar2[3] = 0;
-    piVar2 = piVar2 + 4;
-    *piVar2 = 0;
-    lVar4 = lVar4 + -1;
-  } while (lVar4 != 0);
-  puVar3 = auStack_e0;
-  piVar2 = (int *)(param_2 + -4);
-  lVar4 = 10;
-  do {
-    piVar2 = piVar2 + 1;
-    iVar1 = *piVar2;
-    fn_82273CD8(puVar3,2);
-    puVar3[8] = iVar1 == 1;
-    lVar4 = lVar4 + -1;
-    puVar3 = puVar3 + 0x10;
-  } while (lVar4 != 0);
-  uStack_f0 = 0;
-  aiStack_ec[0] = 0;
-  fn_82517978(&uStack_f0,*(unsigned int *)(param_1 + 4),*(unsigned int *)(param_1 + 8),0);
-  fn_822315A0(uStack_f0,0xffffffff821ac068,0,auStack_e0,10,1);
-  if (aiStack_ec[0] != 0) {
-    fn_822315A0();
-  }
-  uStack_f0 = 0;
-  aiStack_ec[0] = 0;
-  fn_82517978(&uStack_f0,*(unsigned int *)(param_1 + 4),*(unsigned int *)(param_1 + 8),0);
-  fn_822315A0(uStack_f0,0xffffffff821ac088,0,0);
-  if (aiStack_ec[0] != 0) {
-    fn_822315A0();
-  }
-  puVar3 = auStack_40;
-  lVar4 = 9;
-  do {
-    puVar3 = puVar3 + -0x10;
-    fn_82273C88(puVar3);
-    lVar4 = lVar4 + -1;
-  } while (-1 < lVar4);
-  return;
+static __forceinline void GetMovie(Res_822A3918 *res, View_822A3918 *view)
+{
+    res->movie = 0;
+    res->ref = 0;
+    fn_82517978(res, view->a, view->b, 0);
+}
+
+void fn_822A3918(Obj_822A3918 *self, int *pins)
+{
+    Res_822A3918 res;
+    Value_822A3918 values[10];
+    Value_822A3918 *p;
+    int i;
+
+    for (i = 0; i < 10; i++) {
+        values[i].a = 0;
+        values[i].b = 0;
+    }
+    for (i = 0; i < 10; i++) {
+        Value_setBool(&values[i], pins[i] == 1);
+    }
+    GetMovie(&res, &self->view);
+    fn_82672F30(res.movie, "_root.mc_pindicator.pinsStatus", 0, values, 10, 1);
+    if (res.ref != 0) {
+        fn_822315A0(res.ref);
+    }
+    GetMovie(&res, &self->view);
+    fn_82672C20(res.movie, "_root.mc_pindicator.update", 0, 0);
+    if (res.ref != 0) {
+        fn_822315A0(res.ref);
+    }
+    p = values + 10;
+    i = 9;
+    do {
+        p--;
+        fn_82273C88(p);
+        i--;
+    } while (i >= 0);
 }

@@ -1,24 +1,21 @@
-extern unsigned int lbl_821AAD20;
+typedef struct Pair_82F970C0 {
+    float x;
+    float y;
+} Pair_82F970C0;
 
+typedef struct Obj_82F970C0 {
+    char pad0[0x18];
+    unsigned int count;
+    int pad1c;
+    Pair_82F970C0 *items;
+} Obj_82F970C0;
 
-unsigned __int64 fn_82F970C0(int param_1)
-
+int fn_82F970C0(Obj_82F970C0 *self)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  int iVar3;
-  
-  uVar1 = lbl_821AAD20;
-  uVar2 = 0;
-  if (*(int *)(param_1 + 0x18) != 0) {
-    iVar3 = 0;
-    do {
-      uVar2 = uVar2 + 1;
-      *(unsigned int *)(iVar3 + *(int *)(param_1 + 0x20)) = uVar1;
-      *(unsigned int *)(iVar3 + *(int *)(param_1 + 0x20) + 4) = uVar1;
-      iVar3 = iVar3 + 8;
-    } while (uVar2 < *(unsigned int *)(param_1 + 0x18));
-  }
-  return 1;
+    unsigned int i;
+    for (i = 0; i < self->count; i++) {
+        self->items[i].x = 0.0f;
+        self->items[i].y = 0.0f;
+    }
+    return 1;
 }
-

@@ -1,35 +1,63 @@
-extern int fn_822315A0();
-extern int fn_82365BD8();
-extern unsigned int iStack_1c;
-extern unsigned int iStack_20;
+typedef struct Item_823ABB08 {
+    unsigned int key;
+    unsigned int f4;
+    unsigned char value;
+} Item_823ABB08;
 
+typedef struct Ref_823ABB08 {
+    Item_823ABB08 *ptr;
+    void *ctrl;
+} Ref_823ABB08;
 
-unsigned char fn_823ABB08(int param_1,int param_2)
+typedef struct Vec_823ABB08 {
+    Ref_823ABB08 *first;
+    Ref_823ABB08 *last;
+} Vec_823ABB08;
 
+typedef struct Self_823ABB08 {
+    char pad0[0x6c];
+    Vec_823ABB08 a;
+    char pad74[0x7c - 0x74];
+    Vec_823ABB08 b;
+} Self_823ABB08;
+
+extern void fn_82365BD8(Ref_823ABB08 *out, Ref_823ABB08 *src);
+extern void fn_822315A0(void *ctrl);
+
+static __forceinline Ref_823ABB08 *find_823ABB08(Vec_823ABB08 *v, unsigned int key)
 {
-  unsigned char uVar1;
-  unsigned int *puVar2;
-  struct { int first; int second; } stack_pair_20;
-
-  
-  for (puVar2 = *(unsigned int **)(param_1 + 0x6c);
-      (puVar2 != *(unsigned int **)(param_1 + 0x70) && (*(int *)*puVar2 != param_2));
-      puVar2 = puVar2 + 2) {
-  }
-  if (puVar2 == *(unsigned int **)(param_1 + 0x70)) {
-    for (puVar2 = *(unsigned int **)(param_1 + 0x7c);
-        (puVar2 != *(unsigned int **)(param_1 + 0x80) && (*(int *)*puVar2 != param_2));
-        puVar2 = puVar2 + 2) {
+    Ref_823ABB08 *last = v->last;
+    Ref_823ABB08 *e;
+    for (e = v->first; e != last; e++) {
+        if (e->ptr->key == key) break;
     }
-    if (puVar2 == *(unsigned int **)(param_1 + 0x80)) {
-      return 0;
-    }
-  }
-  fn_82365BD8(&stack_pair_20.first,puVar2);
-  uVar1 = *(unsigned char *)(stack_pair_20.first + 8);
-  if (stack_pair_20.second != 0) {
-    fn_822315A0();
-  }
-  return uVar1;
+    return e;
 }
 
+static __forceinline unsigned char get_823ABB08(Ref_823ABB08 *e)
+{
+    Ref_823ABB08 ref;
+    unsigned char value;
+
+    fn_82365BD8(&ref, e);
+    value = ref.ptr->value;
+    if (ref.ctrl != 0) {
+        fn_822315A0(ref.ctrl);
+    }
+    return value;
+}
+
+unsigned char fn_823ABB08(Self_823ABB08 *self, unsigned int key)
+{
+    Ref_823ABB08 *e;
+
+    e = find_823ABB08(&self->a, key);
+    if (e != self->a.last) {
+        return get_823ABB08(e);
+    }
+    e = find_823ABB08(&self->b, key);
+    if (e != self->b.last) {
+        return get_823ABB08(e);
+    }
+    return 0;
+}

@@ -1,18 +1,18 @@
-extern int fn_82BEA200();
-extern int fn_82BEA230();
-extern unsigned int lbl_8317524C;
+typedef struct Server_82BE7988 {
+    int pad0;
+    unsigned short port;    /* 0x04 */
+    const char *hostName;   /* 0x08 */
+} Server_82BE7988;
 
+extern char lbl_8322B1EC[];
+extern Server_82BE7988 lbl_83175248[];
+extern int fn_82BEA200(void *lock, const char *name);
+extern void fn_82BEA230(void *lock, const char *name);
 
-void fn_82BE7988(unsigned int param_1,unsigned short param_2)
-
+void fn_82BE7988(unsigned int index, unsigned short port)
 {
-  int iVar1;
-  
-  if ((param_1 < 0x10) &&
-     (iVar1 = fn_82BEA200(0xffffffff8322b1ec,0xffffffff820e9a30), iVar1 != 0)) {
-    *(unsigned short *)(&lbl_8317524C + param_1 * 0xc) = param_2;
-    fn_82BEA230(0xffffffff8322b1ec,0xffffffff820e9a30);
-  }
-  return;
+    if (index <= 0xf && fn_82BEA200(lbl_8322B1EC, "CNetworkManager::SetServerPort") != 0) {
+        lbl_83175248[index].port = port;
+        fn_82BEA230(lbl_8322B1EC, "CNetworkManager::SetServerPort");
+    }
 }
-

@@ -1,23 +1,22 @@
-extern int fn_827F9DE0();
-extern int fn_827F9DF0();
-extern int fn_827F9F60();
-extern int fn_827F9F68();
-extern int fn_827F9F90();
-extern int fn_827FA120();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_821AAD20;
+typedef struct Obj_827F6188 {
+    char pad[0x24];
+    char state[1];
+} Obj_827F6188;
 
+extern void fn_827F9F90(void *state, int value);
+extern void fn_827F9DF0(void *state, int value);
+extern void fn_827F9DE0(void *state, int value);
+extern void fn_827F9F60(void *state, float value);
+extern void fn_827F9F68(void *state, float value);
+extern void fn_827FA120(void *state, float value);
 
-void fn_827F6188(unsigned __int64 param_1,__int64 param_2)
-
+void fn_827F6188(Obj_827F6188 *self, float value)
 {
-  param_2 = param_2 + 0x24;
-  fn_827F9F90(param_2,0);
-  fn_827F9DF0(param_2,0);
-  fn_827F9DE0(param_2,0);
-  fn_827F9F60(param_1,param_2);
-  fn_827F9F68((double)lbl_821AAD20,param_2);
-  fn_827FA120((double)lbl_82002AE0,param_2);
-  return;
+    void *state = self->state;
+    fn_827F9F90(state, 0);
+    fn_827F9DF0(state, 0);
+    fn_827F9DE0(state, 0);
+    fn_827F9F60(state, value);
+    fn_827F9F68(state, 0.0f);
+    fn_827FA120(state, 1.0f);
 }
-

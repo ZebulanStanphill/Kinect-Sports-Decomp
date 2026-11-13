@@ -1,36 +1,42 @@
-extern unsigned int lbl_832645F0;
-extern unsigned int lbl_832645F4;
+typedef struct Obj_83013A98 {
+    void **vt;
+} Obj_83013A98;
+typedef Obj_83013A98 *(*Factory_83013A98)(void *context);
+typedef struct Ent_83013A98 {
+    unsigned int key;
+    Factory_83013A98 create;
+} Ent_83013A98;
+typedef struct Vec_83013A98 {
+    Ent_83013A98 *begin;
+    Ent_83013A98 *end;
+} Vec_83013A98;
 
+extern Vec_83013A98 lbl_832645F0;
+extern char lbl_831BC7FC[];
 
-unsigned __int64
-fn_83013A98(int param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4,unsigned int *param_5,
-             unsigned __int64 param_6)
-
+static __forceinline Factory_83013A98 *get_(Ent_83013A98 *it, Ent_83013A98 *end)
 {
-  unsigned int uVar1;
-  int *piVar3;
-  unsigned __int64 uVar2;
-  unsigned int *puVar4;
-  
-  for (piVar3 = lbl_832645F0;
-      (piVar3 != lbl_832645F4 && (*piVar3 != (param_2 * 0x1000 + param_1) * 0x10 + 4));
-      piVar3 = piVar3 + 2) {
-  }
-  uVar1 = -(unsigned int)((lbl_832645F4 != piVar3) != 0);
-  puVar4 = (unsigned int *)(uVar1 & (unsigned int)(piVar3 + 1));
-  if (puVar4 != (unsigned int *)0x0) {
-    piVar3 = (int *)(*(int (**)())*puVar4)(0xffffffff831bc7fc,uVar1,param_3,
-                                       -(unsigned int)(lbl_832645F4 != piVar3));
-    *param_5 = piVar3;
-    if (piVar3 != (int *)0x0) {
-      uVar2 = (**(int (***)())(*piVar3 + 0x14))(piVar3,0xffffffff831bc7fc,param_3,param_4,param_6);
-      if ((int)uVar2 == 1) {
-        return uVar2;
-      }
-      (**(int (***)())(*(int *)*param_5 + 4))((int *)*param_5,0xffffffff831bc7fc);
-      *param_5 = 0;
-    }
-  }
-  return 2;
+    int f = it != end;
+    return f ? &it->create : 0;
 }
 
+int fn_83013A98(int type, int group, int arg3, int arg4, Obj_83013A98 **out, int arg6)
+{
+    unsigned int key = ((group << 12) + type) * 16 + 4;
+    Ent_83013A98 *e;
+    Factory_83013A98 *slot;
+    for (e = lbl_832645F0.begin; e != lbl_832645F0.end && e->key != key; e++) {
+    }
+    slot = get_(e, lbl_832645F0.end);
+    if (slot != 0) {
+        Obj_83013A98 *o = (*slot)(lbl_831BC7FC);
+        *out = o;
+        if (o != 0) {
+            if (((int (*)(Obj_83013A98 *, void *, int, int, int))o->vt[5])(o, lbl_831BC7FC, arg3, arg4, arg6) == 1)
+                return 1;
+            ((void (*)(Obj_83013A98 *, void *))(*out)->vt[1])(*out, lbl_831BC7FC);
+            *out = 0;
+        }
+    }
+    return 2;
+}

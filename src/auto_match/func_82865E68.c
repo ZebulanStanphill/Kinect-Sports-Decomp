@@ -1,23 +1,22 @@
-extern int fn_82865D68();
-extern unsigned int uStack_10;
+typedef struct Str_82865E68 {
+    union {
+        char buf[16];
+        char *ptr;
+    } u;
+    unsigned int size;
+    unsigned int capacity;
+} Str_82865E68;
 
+typedef struct Tag_82865E68 {
+    unsigned char unused;
+} Tag_82865E68;
 
-void fn_82865E68(unsigned int *param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+extern void fn_82865D68(Str_82865E68 *self, char *first, char *last, int a, int b, Tag_82865E68 tag);
 
+static __forceinline char *Ptr(Str_82865E68 *s) { return s->capacity >= 16 ? s->u.ptr : s->u.buf; }
+void fn_82865E68(Str_82865E68 *self, int a, int b)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  unsigned char uStack_10;
-  
-  puVar1 = param_1;
-  if (0xf < (unsigned int)param_1[5]) {
-    puVar1 = (unsigned int *)*param_1;
-  }
-  puVar2 = param_1;
-  if (0xf < (unsigned int)param_1[5]) {
-    puVar2 = (unsigned int *)*param_1;
-  }
-  fn_82865D68(param_1,puVar2,param_1[4] + (int)puVar1,param_2,param_3,uStack_10);
-  return;
+    Tag_82865E68 tag;
+    char *last = Ptr(self) + self->size;
+    fn_82865D68(self, Ptr(self), last, a, b, tag);
 }
-

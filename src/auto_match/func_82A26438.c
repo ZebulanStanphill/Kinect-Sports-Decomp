@@ -1,15 +1,21 @@
-unsigned __int64 fn_82A26438(unsigned __int64 param_1,unsigned __int64 param_2,int *param_3,unsigned __int64 param_4)
+typedef struct ContentData_82A26438 {
+    unsigned int deviceId;
+    unsigned int contentType;
+} ContentData_82A26438;
 
+extern unsigned int XamContentCreateEx(unsigned int userIndex, const char *rootName, const ContentData_82A26438 *data,
+                                       unsigned int flags, unsigned int *disposition, unsigned int *licenseMask,
+                                       unsigned int fileCacheSize, unsigned __int64 contentSize, void *overlapped);
+
+unsigned int fn_82A26438(unsigned int userIndex, const char *rootName, const ContentData_82A26438 *data,
+                         unsigned int flags, unsigned int *disposition, unsigned int *licenseMask,
+                         unsigned int fileCacheSize, unsigned __int64 contentSize, void *overlapped)
 {
-  unsigned __int64 uVar1;
-  
-  if ((((param_3 == (int *)0x0) || (*param_3 == 0)) || ((param_4 & 0x90) == 0x90)) ||
-     (((param_3[1] & 0xffffff00U) != 0 && ((param_4 & 0xf) != 3)))) {
-    uVar1 = 0x57;
-  }
-  else {
-    uVar1 = XamContentCreateEx();
-  }
-  return uVar1;
+    if (data == 0 || data->deviceId == 0 || (flags & 0x90) == 0x90)
+        return 0x57;
+    if (data->contentType == 1 && (flags & 0x80) == 0)
+        flags |= 0x10;
+    if ((data->contentType & 0xffffff00) != 0 && (flags & 0xf) != 3)
+        return 0x57;
+    return XamContentCreateEx(userIndex, rootName, data, flags, disposition, licenseMask, fileCacheSize, contentSize, overlapped);
 }
-

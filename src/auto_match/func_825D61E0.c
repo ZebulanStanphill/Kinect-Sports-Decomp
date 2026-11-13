@@ -1,27 +1,23 @@
-extern int fn_82526C70();
-extern unsigned int lbl_831BFEE8;
+typedef struct Entry_825D61E0 {
+    int id;
+    int a;
+    int b;
+} Entry_825D61E0;
 
+extern Entry_825D61E0 lbl_831BFEE8[];
+extern char lbl_83297A20[];
+extern int fn_82526C70(char *buf, int size, const char *fmt, ...);
 
-unsigned __int64 fn_825D61E0(unsigned __int64 param_1)
-
+int fn_825D61E0(int id)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  
-  iVar1 = (int)param_1;
-  if ((iVar1 != 0) && ((iVar1 < 0x3e4 || ((0x3e5 < iVar1 && (iVar1 != 0x4de)))))) {
-    iVar2 = 0;
-    iVar3 = lbl_831BFEE8;
-    while (iVar3 != 0) {
-      if (iVar3 == iVar1) {
-        return param_1;
-      }
-      iVar2 = iVar2 + 1;
-      iVar3 = (&lbl_831BFEE8)[iVar2 * 3];
-    }
-    fn_82526C70(0xffffffff83297a20,0x10,0xffffffff821aa66c,param_1);
-  }
-  return param_1;
-}
+    int i;
 
+    if (id != 0 && (id <= 0x3e3 || (id > 0x3e5 && id != 0x4de))) {
+        for (i = 0; lbl_831BFEE8[i].id != 0; i++) {
+            if (lbl_831BFEE8[i].id == id)
+                return id;
+        }
+        fn_82526C70(lbl_83297A20, 0x10, "%d", id);
+    }
+    return id;
+}

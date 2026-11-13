@@ -1,16 +1,14 @@
-extern int fn_8302A8F0();
-extern unsigned int lbl_83264368;
+typedef struct Curve_8302A9B8 Curve_8302A9B8;
 
+typedef struct CurveHolder_8302A9B8 {
+    Curve_8302A9B8 *curve;
+} CurveHolder_8302A9B8;
 
-void fn_8302A9B8(float *param_1,float *param_2)
+extern CurveHolder_8302A9B8 lbl_83264368;
+extern float fn_8302A8F0(Curve_8302A9B8 *curve, float x);
 
+void fn_8302A9B8(float *a, float *b)
 {
-  double dVar1;
-  
-  dVar1 = (double)fn_8302A8F0((double)*param_1,lbl_83264368);
-  *param_1 = (float)dVar1;
-  dVar1 = (double)fn_8302A8F0((double)*param_2,lbl_83264368);
-  *param_2 = (float)dVar1;
-  return;
+    *a = fn_8302A8F0(lbl_83264368.curve, *a);
+    *b = fn_8302A8F0(lbl_83264368.curve, *b);
 }
-
