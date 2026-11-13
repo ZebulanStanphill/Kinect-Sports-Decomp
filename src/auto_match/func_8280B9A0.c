@@ -1,54 +1,21 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-
-
-void fn_8280B9A0(double param_1,double param_2,double param_3,float *param_4,float *param_5)
-
+void fn_8280B9A0(const float (*src)[4], float (*dst)[4], float sx, float sy, float sz)
 {
-  *param_5 = (float)((double)*param_4 * param_1);
-  param_5[4] = (float)((double)param_4[4] * param_1);
-  param_5[8] = (float)((double)param_4[8] * param_1);
-  param_5[0xc] = (float)((double)param_4[0xc] * param_1);
-  param_5[1] = (float)((double)param_4[1] * param_2);
-  param_5[5] = (float)((double)param_4[5] * param_2);
-  param_5[9] = (float)((double)param_4[9] * param_2);
-  param_5[0xd] = (float)((double)param_4[0xd] * param_2);
-  param_5[2] = (float)((double)param_4[2] * param_3);
-  param_5[6] = (float)((double)param_4[6] * param_3);
-  param_5[10] = (float)((double)param_4[10] * param_3);
-  param_5[0xe] = (float)((double)param_4[0xe] * param_3);
-  if (param_5 == param_4) {
-    return;
-  }
-  param_5[3] = param_4[3];
-  param_5[7] = param_4[7];
-  param_5[0xb] = param_4[0xb];
-  param_5[0xf] = param_4[0xf];
-  return;
+    dst[0][0] = src[0][0] * sx;
+    dst[1][0] = src[1][0] * sx;
+    dst[2][0] = src[2][0] * sx;
+    dst[3][0] = src[3][0] * sx;
+    dst[0][1] = src[0][1] * sy;
+    dst[1][1] = src[1][1] * sy;
+    dst[2][1] = src[2][1] * sy;
+    dst[3][1] = src[3][1] * sy;
+    dst[0][2] = src[0][2] * sz;
+    dst[1][2] = src[1][2] * sz;
+    dst[2][2] = src[2][2] * sz;
+    dst[3][2] = src[3][2] * sz;
+    if (dst != src) {
+        dst[0][3] = src[0][3];
+        dst[1][3] = src[1][3];
+        dst[2][3] = src[2][3];
+        dst[3][3] = src[3][3];
+    }
 }
-

@@ -1,44 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
 typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AB15D0();
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
+#define IRINST_ASSERT(e, line) \
+    if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\compiler\\ir\\IRInst.hpp", line)
 
+typedef struct Context_82BA05E8 {
+    unsigned char pad[0x571];
+    unsigned char in_ssa_form;   /* 0x571 */
+} Context_82BA05E8;
 
-void fn_82BA05E8(int param_1,int param_2,undefined4 param_3)
+typedef struct IRInst_82BA05E8 {
+    U32 pad0[5];
+    int numInputs;               /* 0x14 */
+    U32 pad18[(0xe4 - 0x18) / 4];
+    U32 flagsHi : 22;            /* 0xe4 */
+    U32 hasPartialWriteInput : 1;
+    U32 flagsLo : 9;
+    void *inputs[(0x3b8 - 0xe8) / 4]; /* 0xe8 */
+    Context_82BA05E8 *context;   /* 0x3b8 */
+} IRInst_82BA05E8;
 
+/* IRInst member accessors spelled as macros so #e stringizes like the original member calls */
+#define NumInputs() (self->numInputs)
+#define HasPartialWriteInput() ((unsigned char)self->hasPartialWriteInput)
+
+void fn_82BA05E8(IRInst_82BA05E8 *self, int arg, void *value)
 {
-  if (*(int *)(param_1 + 0x14) < param_2) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820decb0,0xffffffff820dec00,0x799);
-  }
-  if (((*(char *)(*(int *)(param_1 + 0x3b8) + 0x571) != '\0') &&
-      (param_2 == *(int *)(param_1 + 0x14))) && ((*(uint *)(param_1 + 0xe4) >> 9 & 1) != 0)) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820dec68,0xffffffff820dec00,0x79c);
-  }
-  *(undefined4 *)((param_2 + 0x3a) * 4 + param_1) = param_3;
-  return;
+    Context_82BA05E8 *context;
+    IRINST_ASSERT(arg <= NumInputs(), 0x799);
+    context = self->context;
+    IRINST_ASSERT(!(context->in_ssa_form && arg == NumInputs() && HasPartialWriteInput()), 0x79c);
+    self->inputs[arg] = value;
 }
-

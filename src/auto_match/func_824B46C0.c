@@ -1,59 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_28;
-extern unsigned int iStack_2c;
-extern unsigned int uStack_30;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Vec_824B46C0 {
+    __vector4 v;
+} Vec_824B46C0;
 
-undefined8 fn_824B46C0(undefined8 param_1,int *param_2,int param_3)
+typedef struct Entry_824B46C0 {
+    Vec_824B46C0 pos;
+    char pad10[0x40 - 0x10];
+} Entry_824B46C0;
 
+typedef struct Data_824B46C0 {
+    char pad00[0x40];
+    Entry_824B46C0 *entries;
+} Data_824B46C0;
+
+typedef struct Src_824B46C0 Src_824B46C0;
+typedef struct SrcVt_824B46C0 {
+    void (*f0)(Src_824B46C0 *self, int *a, int *id);
+    void (*f4)(Src_824B46C0 *self, int id, Data_824B46C0 **out);
+} SrcVt_824B46C0;
+struct Src_824B46C0 {
+    SrcVt_824B46C0 *vt;
+};
+
+Vec_824B46C0 fn_824B46C0(Src_824B46C0 *src, int index)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  int in_r0;
-  undefined4 uVar3;
-  undefined4 uVar4;
-  undefined4 uVar5;
-  undefined4 uStack_30;
-  int iStack_2c;
-  undefined1 auStack_28 [40];
-  
-  (**(code **)*param_2)(param_2,auStack_28,&uStack_30);
-  (**(code **)(*param_2 + 4))(param_2,uStack_30,&iStack_2c);
-  puVar1 = (undefined4 *)(*(int *)(iStack_2c + 0x40) + param_3 * 0x40 & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (undefined4 *)(in_r0 + (int)param_1 & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  return param_1;
-}
+    int id;
+    Data_824B46C0 *data;
+    int a[2];
+    Vec_824B46C0 r;
 
+    src->vt->f0(src, a, &id);
+    src->vt->f4(src, id, &data);
+    r.v = data->entries[index].pos.v;
+    return r;
+}

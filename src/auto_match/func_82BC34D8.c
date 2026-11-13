@@ -1,37 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BC29D0();
+typedef struct Operand_82BC34D8 {
+    int kind;              /* 0 = float, 1 = int (see fn_82BC3530) */
+    union { float f; int i; } value;
+} Operand_82BC34D8;
+extern void fn_82BC29D0(void *a, void *b, void *c, Operand_82BC34D8 x, Operand_82BC34D8 y,
+                        Operand_82BC34D8 z, Operand_82BC34D8 w);
 
-
-void fn_82BC34D8(void)
-
+void fn_82BC34D8(void *a, void *b, void *c, float x, float y, float z, float w)
 {
-  fn_82BC29D0();
-  return;
+    Operand_82BC34D8 ox, oy, oz, ow;
+    ox.kind = 0;
+    ox.value.f = x;
+    oy.kind = 0;
+    oy.value.f = y;
+    oz.kind = 0;
+    oz.value.f = z;
+    ow.kind = 0;
+    ow.value.f = w;
+    fn_82BC29D0(a, b, c, ox, oy, oz, ow);
 }
-

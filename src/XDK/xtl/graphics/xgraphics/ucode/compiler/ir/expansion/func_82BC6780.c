@@ -1,47 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AB15D0();
-extern unsigned int lbl_8316EBC0;
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
+#define EXP_ASSERT(e, line) \
+    if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\compiler\\ir\\expansion.cpp", line)
 
+typedef int ILOpCode;
+#define IL_OP_EXT_LAST 0x88
 
-void fn_82BC6780(int param_1,int param_2)
+typedef void *(*Ctor_82BC6780)(void *info, void *arg);
 
+typedef struct Expansion_82BC6780 {
+    void *info;
+    int pad04[4];
+    Ctor_82BC6780 fpCtor;   /* 0x14 */
+    int pad18[3];
+} Expansion_82BC6780;
+
+typedef struct Ctx_82BC6780 {
+    int pad00[3];
+    void *arg;              /* 0x0c */
+} Ctx_82BC6780;
+
+extern Expansion_82BC6780 lbl_8316EBC0[];
+
+void *fn_82BC6780(Ctx_82BC6780 *ctx, ILOpCode il_op)
 {
-  code *pcVar1;
-  
-  if ((param_2 < 0) || (0x87 < param_2)) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820e7474,0xffffffff820e74a8,0x44);
-  }
-  pcVar1 = *(code **)(param_2 * 0x24 + -0x7ce9142c);
-  if (pcVar1 == (code *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820e7468,0xffffffff820e74a8,0x47);
-  }
-  (*pcVar1)(*(undefined4 *)(&lbl_8316EBC0 + param_2 * 0x24),*(undefined4 *)(param_1 + 0xc));
-  return;
-}
+    Ctor_82BC6780 fpCtor;
 
+    EXP_ASSERT((0 <= il_op) && (il_op < (ILOpCode)IL_OP_EXT_LAST), 0x44);
+    fpCtor = lbl_8316EBC0[il_op].fpCtor;
+    EXP_ASSERT(fpCtor != 0, 0x47);
+    return fpCtor(lbl_8316EBC0[il_op].info, ctx->arg);
+}

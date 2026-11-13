@@ -1,73 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_8267BE38();
-extern int fn_8268C6A8();
-extern int fn_827A7FD0();
-extern U64 storeWordConditionalIndexed();
+typedef struct Ref_827A8040 { int pad; long refs; } Ref_827A8040;
+typedef struct Str_827A8040 {
+    unsigned int tagged;
+} Str_827A8040;
+extern long _InterlockedExchangeAdd(long volatile *, long);
+extern unsigned int strlen(const char *s);
+extern void fn_8267BE38(void *p);
+extern void fn_8268C6A8(Str_827A8040 *s, const char *text, int len);
+extern void fn_827A7FD0(void *self, void *key, Str_827A8040 *s);
 
-
-void fn_827A8040(undefined8 param_1,undefined8 param_2,char *param_3,char *param_4)
-
+void fn_827A8040(void *self, void *key, const char *text, int len)
 {
-  char cVar1;
-  uint uVar2;
-  longlong lVar3;
-  uint *puVar4;
-  ulonglong uVar5;
-  char *pcVar6;
-  char in_RESERVE;
-  byte in_cr0;
-  uint auStack_20 [2];
-  
-  pcVar6 = param_3;
-  if (param_4 == (char *)0xffffffff) {
-    do {
-      cVar1 = *pcVar6;
-      pcVar6 = pcVar6 + 1;
-    } while (cVar1 != '\0');
-    param_4 = pcVar6 + (-1 - (int)param_3);
-  }
-  fn_8268C6A8(auStack_20,param_3,param_4);
-  fn_827A7FD0(param_1,param_2,auStack_20);
-  lVar3 = ((ulonglong)auStack_20[0] & 0xfffffffc) + 4;
-  do {
-    puVar4 = (uint *)lVar3;
-    uVar5 = (ulonglong)*puVar4;
-    if (in_RESERVE != '\0') {
-      uVar2 = storeWordConditionalIndexed(uVar5 - 1,0,lVar3);
-      *puVar4 = uVar2;
-      in_cr0 = 2;
-    }
-  } while (!(bool)(in_cr0 >> 1 & 1));
-  if (uVar5 == 1) {
-    fn_8267BE38();
-  }
-  return;
-}
+    Str_827A8040 s;
+    Ref_827A8040 *r;
 
+    if (len == -1)
+        len = strlen(text);
+    fn_8268C6A8(&s, text, len);
+    fn_827A7FD0(self, key, &s);
+    r = (Ref_827A8040 *)(s.tagged & ~3u);
+    if (_InterlockedExchangeAdd(&r->refs, -1) - 1 == 0) {
+        fn_8267BE38(r);
+    }
+}

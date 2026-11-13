@@ -1,54 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AB15D0();
-extern int fn_82BB5A58();
-extern int fn_82BB5AC0();
-extern int fn_82BBFE50();
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
+#define SCHED_ASSERT(e, line) \
+    if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\compiler\\opt\\sched.cpp", line)
 
+typedef struct SchedNode_82BB5C08 {
+    char pad0[0x1c];
+    int issue_cycle;     /* 0x1c */
+    char pad20[0x24 - 0x20];
+    int topdown_count;   /* 0x24 */
+} SchedNode_82BB5C08;
 
-void fn_82BB5C08(longlong param_1,int param_2)
+typedef struct Sched_82BB5C08 {
+    char pad0[0x3c];
+    char ready[1];       /* 0x3c */
+} Sched_82BB5C08;
 
+extern unsigned char fn_82BB5AC0(Sched_82BB5C08 *s, SchedNode_82BB5C08 *sn);
+extern void fn_82BB5A58(Sched_82BB5C08 *s, SchedNode_82BB5C08 *sn);
+extern void fn_82BBFE50(void *list, SchedNode_82BB5C08 *sn);
+
+void fn_82BB5C08(Sched_82BB5C08 *s, SchedNode_82BB5C08 *sn)
 {
-  char cVar1;
-  
-  if (*(int *)(param_2 + 0x1c) != -1) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820e035c,0xffffffff820e0168,0x58a);
-  }
-  if (*(int *)(param_2 + 0x24) != 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820e0344,0xffffffff820e0168,0x58b);
-  }
-  cVar1 = fn_82BB5AC0(param_1,param_2);
-  if (cVar1 == '\0') {
-    fn_82BBFE50(param_1 + 0x3c,param_2);
-  }
-  else {
-    fn_82BB5A58(param_1);
-  }
-  return;
+    SCHED_ASSERT(sn->issue_cycle == 0-1, 0x58a);
+    SCHED_ASSERT(sn->topdown_count == 0, 0x58b);
+    if (fn_82BB5AC0(s, sn)) {
+        fn_82BB5A58(s, sn);
+    } else {
+        fn_82BBFE50(s->ready, sn);
+    }
 }
-

@@ -1,65 +1,56 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_8200133C;
-extern unsigned int lbl_821AAD20;
+typedef struct Obj_827A8B38 {
+    int f0;
+    float f4;
+    float f8;
+    float fc;
+    float f10;
+    int f14;
+    float f18;
+    float f1c;
+    float f20;
+    float f24;
+    float f28;
+    float f2c;
+    float f30;
+    float f34;
+    float f38;
+    float f3c;
+    float f40;
+    float f44;
+    float f48;
+    float f4c;
+    float f50;
+    float f54;
+    float f58;
+    int f5c;
+    unsigned char f60;
+} Obj_827A8B38;
 
-
-void fn_827A8B38(undefined4 *param_1)
-
+void fn_827A8B38(Obj_827A8B38 *o)
 {
-  undefined4 uVar1;
-  
-  *param_1 = 0;
-  uVar1 = lbl_821AAD20;
-  param_1[1] = lbl_821AAD20;
-  param_1[2] = uVar1;
-  param_1[3] = uVar1;
-  param_1[4] = uVar1;
-  param_1[5] = 0;
-  param_1[6] = uVar1;
-  param_1[7] = uVar1;
-  param_1[8] = uVar1;
-  param_1[9] = uVar1;
-  param_1[10] = uVar1;
-  param_1[0xb] = uVar1;
-  param_1[0xc] = uVar1;
-  param_1[0xd] = uVar1;
-  param_1[0xe] = uVar1;
-  param_1[0xf] = uVar1;
-  param_1[0x10] = uVar1;
-  param_1[0x11] = uVar1;
-  param_1[0x12] = lbl_8200133C;
-  param_1[0x13] = uVar1;
-  param_1[0x14] = uVar1;
-  param_1[0x17] = 0;
-  param_1[0x15] = uVar1;
-  *(undefined1 *)(param_1 + 0x18) = 0;
-  param_1[0x16] = uVar1;
-  return;
+    o->f0 = 0;
+    { float *p = &o->f4; *p = 0.0f; }
+    { float *p = &o->f8; *p = 0.0f; }
+    { float *p = &o->fc; *p = 0.0f; }
+    { float *p = &o->f10; *p = 0.0f; }
+    o->f14 = 0;
+    { float *p = &o->f18; *p = 0.0f; }
+    { float *p = &o->f1c; *p = 0.0f; }
+    { float *p = &o->f20; *p = 0.0f; }
+    { float *p = &o->f24; *p = 0.0f; }
+    { float *p = &o->f28; *p = 0.0f; }
+    { float *p = &o->f2c; *p = 0.0f; }
+    { float *p = &o->f30; *p = 0.0f; }
+    { float *p = &o->f34; *p = 0.0f; }
+    { float *p = &o->f38; *p = 0.0f; }
+    { float *p = &o->f3c; *p = 0.0f; }
+    { float *p = &o->f40; *p = 0.0f; }
+    { float *p = &o->f44; *p = 0.0f; }
+    { float *p = &o->f48; *p = -1.0f; }
+    { float *p = &o->f4c; *p = 0.0f; }
+    { float *p = &o->f50; *p = 0.0f; }
+    o->f5c = 0;
+    { float *p = &o->f54; *p = 0.0f; }
+    o->f60 = 0;
+    { float *p = &o->f58; *p = 0.0f; }
 }
-

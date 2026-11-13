@@ -1,37 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82BC29D0();
+typedef struct Arg_82BC3530 {
+    int type;
+    int value;
+} Arg_82BC3530;
 
+typedef struct Args_82BC3530 {
+    Arg_82BC3530 v[4];
+} Args_82BC3530;
 
-void fn_82BC3530(void)
+extern void fn_82BC29D0(void *self, int a, int b, Args_82BC3530 args);
 
+void fn_82BC3530(void *self, int a, int b, int x, int y, int z, int w)
 {
-  fn_82BC29D0();
-  return;
+    Args_82BC3530 args;
+    args.v[0].type = 1;
+    args.v[0].value = x;
+    args.v[1].type = 1;
+    args.v[1].value = y;
+    args.v[2].type = 1;
+    args.v[2].value = z;
+    args.v[3].type = 1;
+    args.v[3].value = w;
+    fn_82BC29D0(self, a, b, args);
 }
-

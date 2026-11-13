@@ -1,66 +1,38 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82693410();
-extern int fn_826F75B8();
-extern int fn_82703910();
-extern int fn_827039E8();
-extern unsigned int iStack_28;
-extern unsigned int iStack_2c;
-extern unsigned int uStack_24;
-extern unsigned int uStack_30;
+typedef struct Iter_82703C40 {
+    int state;
+    void *owner;
+    void *current;
+    int index;
+} Iter_82703C40;
 
+typedef struct S_82703C40 {
+    char pad[0xa2c];
+    char table[0xb38 - 0xa2c];
+    __int64 time;
+} S_82703C40;
 
-void fn_82703C40(int param_1)
+extern __int64 fn_82693410(void);
+extern void *fn_827039E8(Iter_82703C40 *it);
+extern void fn_82703910(void *owner, void *current);
+extern void fn_826F75B8(void *item, S_82703C40 *self);
 
+void fn_82703C40(S_82703C40 *self)
 {
-  longlong lVar1;
-  ulonglong uVar2;
-  longlong lVar3;
-  struct { undefined4 first; int second; } stack_pair_30;
+    Iter_82703C40 it;
+    void *item;
+    __int64 start = fn_82693410();
+    __int64 elapsed;
 
-  int iStack_28;
-  undefined4 uStack_24;
-  
-  lVar1 = fn_82693410();
-  stack_pair_30.second = param_1 + 0xa2c;
-  stack_pair_30.first = 0;
-  uStack_24 = 0;
-  iStack_28 = 0;
-  while( true ) {
-    uVar2 = fn_827039E8(&stack_pair_30.first);
-    if ((uVar2 & 0xffffffff) == 0) break;
-    fn_826F75B8(uVar2,param_1);
-  }
-  if (iStack_28 != 0) {
-    fn_82703910(stack_pair_30.second);
-  }
-  lVar3 = fn_82693410();
-  *(longlong *)(param_1 + 0xb38) = *(longlong *)(param_1 + 0xb38) + (lVar3 - lVar1);
-  return;
+    it.state = 0;
+    it.owner = self->table;
+    it.index = 0;
+    it.current = 0;
+    while ((item = fn_827039E8(&it)) != 0) {
+        fn_826F75B8(item, self);
+    }
+    if (it.current != 0) {
+        fn_82703910(it.owner, it.current);
+    }
+    elapsed = fn_82693410() - start;
+    self->time += elapsed;
 }
-

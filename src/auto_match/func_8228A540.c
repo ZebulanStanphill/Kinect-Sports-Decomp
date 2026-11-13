@@ -1,45 +1,44 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_101e;
-extern int fn_82F691F0();
+extern void *memset(void *, int, unsigned);
+extern unsigned short lbl_820E975C;
 
+typedef struct Impl_8228A540 Impl_8228A540;
+struct Impl_8228A540 {
+    struct {
+        void *f0;
+        void (*call)(Impl_8228A540 *self, int a, int b, unsigned short *buf, int size);
+    } *vt;
+};
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+typedef struct {
+    char pad[0x10];
+    Impl_8228A540 *impl;
+} Func_8228A540;
 
-void fn_8228A540(int param_1)
+typedef struct {
+    char pad0[0x680];
+    Func_8228A540 getText;
+    char pad694[0x118];
+    void *text;
+} Obj_8228A540;
 
+extern __declspec(noreturn) void fn_82F63108(void);
+extern void fn_822A5480(void *obj, unsigned short *text);
+
+void fn_8228A540(Obj_8228A540 *self, int a)
 {
-  undefined1 auStack_101e [4102];
-  
-  if (*(int *)(param_1 + 0x7ac) != 0) {
-                    /* WARNING: Subroutine does not return */
-    fn_82F691F0(auStack_101e,0,0xffe);
-  }
-  return;
-}
+    unsigned short buf[0x800];
+    Func_8228A540 *f;
 
+    if (self->text != 0) {
+        buf[0] = lbl_820E975C;
+        memset(buf + 1, 0, 0xffe);
+        if (self->getText.impl != 0) {
+            f = &self->getText;
+            if (f->impl == 0) {
+                fn_82F63108();
+            }
+            f->impl->vt->call(f->impl, 0, a, buf, 0x800);
+        }
+        fn_822A5480(self->text, buf);
+    }
+}

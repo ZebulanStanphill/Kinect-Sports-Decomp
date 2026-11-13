@@ -1,141 +1,76 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-#define ZEXT48(x) ((U64)((U32)(x)))
-extern int fn_828647D8();
-extern unsigned int lbl_821C05A0;
-extern unsigned int lbl_8328111C;
-extern U64 storeWordConditionalIndexed();
+long _InterlockedIncrement(long volatile *);
 
+typedef struct Obj_824BC630 {
+    int f0;
+    long *videoCount;   /* 0x4 */
+    long *stillCount;   /* 0x8 */
+    long *flashCount;   /* 0xc */
+    int key;            /* 0x10 */
+} Obj_824BC630;
 
-undefined8 fn_824BC630(int param_1,int param_2,char *param_3)
+extern unsigned int fn_828647D8(int *key);
+extern int lbl_8328111C;
 
+int fn_824BC630(Obj_824BC630 *self, unsigned int id, const unsigned char *p)
 {
-  uint *puVar1;
-  uint uVar2;
-  int iVar3;
-  char *pcVar4;
-  char cVar5;
-  char cVar6;
-  char cVar7;
-  char in_RESERVE;
-  byte in_cr0;
-  
-  iVar3 = fn_828647D8(param_1 + 0x10);
-  if (iVar3 == param_2) {
-    cVar7 = *param_3;
-    cVar5 = 'v';
-    cVar6 = cVar7;
-    if (cVar7 == 'v') {
-      cVar6 = 'v';
-      pcVar4 = param_3;
-      do {
-        pcVar4 = pcVar4 + 1;
-        if (cVar6 == '\0') goto LAB_824bc6a8;
-        cVar5 = pcVar4[(int)&lbl_821C05A0 - (int)param_3];
-        cVar6 = *pcVar4;
-      } while (cVar6 == cVar5);
-    }
-    in_cr0 = (cVar6 == cVar5) << 1;
-    if (cVar6 == cVar5) {
-LAB_824bc6a8:
-      if (lbl_8328111C == 0) {
-        puVar1 = *(uint **)(param_1 + 8);
-        do {
-          if (in_RESERVE != '\0') {
-            uVar2 = storeWordConditionalIndexed((ulonglong)*puVar1 + 1,0,ZEXT48(puVar1));
-            *puVar1 = uVar2;
-            in_cr0 = 2;
-          }
-        } while (!(bool)(in_cr0 >> 1 & 1));
-      }
-      else {
-        puVar1 = *(uint **)(param_1 + 4);
-        do {
-          if (in_RESERVE != '\0') {
-            uVar2 = storeWordConditionalIndexed((ulonglong)*puVar1 + 1,0,ZEXT48(puVar1));
-            *puVar1 = uVar2;
-            in_cr0 = 2;
-          }
-        } while (!(bool)(in_cr0 >> 1 & 1));
-      }
-    }
-    else {
-      cVar5 = 's';
-      cVar6 = cVar7;
-      if (cVar7 == 's') {
-        cVar6 = 's';
-        pcVar4 = param_3;
-        do {
-          pcVar4 = pcVar4 + 1;
-          if (cVar6 == '\0') goto LAB_824bc74c;
-          cVar5 = pcVar4[(int)"still" - (int)param_3];
-          cVar6 = *pcVar4;
-        } while (cVar6 == cVar5);
-      }
-      in_cr0 = (cVar6 == cVar5) << 1;
-      if (cVar6 == cVar5) {
-LAB_824bc74c:
-        puVar1 = *(uint **)(param_1 + 8);
-        do {
-          if (in_RESERVE != '\0') {
-            uVar2 = storeWordConditionalIndexed((ulonglong)*puVar1 + 1,0,ZEXT48(puVar1));
-            *puVar1 = uVar2;
-            in_cr0 = 2;
-          }
-        } while (!(bool)(in_cr0 >> 1));
-      }
-      else {
-        cVar6 = 'f';
-        if (cVar7 == 'f') {
-          iVar3 = (int)"flash" - (int)param_3;
-          cVar7 = 'f';
-          do {
-            param_3 = param_3 + 1;
-            if (cVar7 == '\0') goto LAB_824bc7bc;
-            cVar6 = param_3[iVar3];
-            cVar7 = *param_3;
-          } while (cVar7 == cVar6);
-        }
-        in_cr0 = (cVar7 == cVar6) << 1;
-        if (cVar7 == cVar6) {
-LAB_824bc7bc:
-          puVar1 = *(uint **)(param_1 + 0xc);
-          do {
-            if (in_RESERVE != '\0') {
-              uVar2 = storeWordConditionalIndexed((ulonglong)*puVar1 + 1,0,ZEXT48(puVar1));
-              *puVar1 = uVar2;
-              in_cr0 = 2;
-            }
-          } while (!(bool)(in_cr0 >> 1));
-        }
-      }
-    }
-  }
-  return 0;
-}
+    const unsigned char *q;
+    unsigned char c;
+    unsigned char b;
 
+    if (fn_828647D8(&self->key) == id) {
+        q = p;
+        c = *p;
+        b = 0x76;
+        if (c == 0x76) {
+            int d = (int)"video" - (int)p;
+            do {
+                q++;
+                if (c == 0) goto video;
+                b = q[d];
+                c = *q;
+            } while (c == b);
+        }
+        if (c - b == 0) {
+video:
+            if (lbl_8328111C != 0)
+                _InterlockedIncrement(self->videoCount);
+            else
+                _InterlockedIncrement(self->stillCount);
+            return 0;
+        }
+        q = p;
+        c = *p;
+        b = 0x73;
+        if (c == 0x73) {
+            int d = (int)"still" - (int)p;
+            do {
+                q++;
+                if (c == 0) goto still;
+                b = q[d];
+                c = *q;
+            } while (c == b);
+        }
+        if (c - b == 0) {
+still:
+            _InterlockedIncrement(self->stillCount);
+            return 0;
+        }
+        q = p;
+        c = *p;
+        b = 0x66;
+        if (c == 0x66) {
+            int d = (int)"flash" - (int)p;
+            do {
+                q++;
+                if (c == 0) goto flash;
+                b = q[d];
+                c = *q;
+            } while (c == b);
+        }
+        if (c - b == 0) {
+flash:
+            _InterlockedIncrement(self->flashCount);
+        }
+    }
+    return 0;
+}

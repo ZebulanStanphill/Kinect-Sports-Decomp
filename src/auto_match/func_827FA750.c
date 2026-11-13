@@ -1,51 +1,29 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8280DD50();
-extern unsigned int lbl_821AAD20;
+typedef struct Vec3_827FA750 {
+    float x, y, z;
+} Vec3_827FA750;
 
+typedef struct Obj_827FA750 {
+    char pad0[0x34];
+    char a[0x10];           /* 0x34 */
+    Vec3_827FA750 aVec;     /* 0x44 */
+    char pad50[4];
+    char b[0x10];           /* 0x54 */
+    Vec3_827FA750 bVec;     /* 0x64 */
+    char pad70[4];
+    char c[0x10];           /* 0x74 */
+} Obj_827FA750;
 
-void fn_827FA750(int param_1)
+extern void fn_8280DD50(void *p);
 
+void fn_827FA750(Obj_827FA750 *self)
 {
-  float fVar1;
-  double dVar2;
-  
-  fn_8280DD50(param_1 + 0x54);
-  fVar1 = lbl_821AAD20;
-  dVar2 = (double)lbl_821AAD20;
-  *(float *)(param_1 + 100) = lbl_821AAD20;
-  *(float *)(param_1 + 0x68) = fVar1;
-  *(float *)(param_1 + 0x6c) = fVar1;
-  fn_8280DD50(param_1 + 0x34);
-  *(float *)(param_1 + 0x44) = (float)dVar2;
-  *(float *)(param_1 + 0x48) = (float)dVar2;
-  *(float *)(param_1 + 0x4c) = (float)dVar2;
-  fn_8280DD50(param_1 + 0x74);
-  return;
+    fn_8280DD50(self->b);
+    self->bVec.x = 0.0f;
+    self->bVec.y = 0.0f;
+    self->bVec.z = 0.0f;
+    fn_8280DD50(self->a);
+    self->aVec.x = 0.0f;
+    self->aVec.y = 0.0f;
+    self->aVec.z = 0.0f;
+    fn_8280DD50(self->c);
 }
-

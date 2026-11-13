@@ -1,69 +1,48 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Entry_82300E58 {
+    float cur;
+    float prev;
+    float pad[2];
+} Entry_82300E58;
 
+typedef struct Set_82300E58 {
+    Entry_82300E58 single[3];
+    Entry_82300E58 pair[5][2];
+} Set_82300E58;
 
-void fn_82300E58(undefined4 *param_1,int param_2)
+typedef struct Src_82300E58 {
+    char pad[0x14];
+    float f14;
+    float f18;
+    float f1c;
+    float f20;
+    float f24;
+    float f28;
+    float f2c;
+    float f30;
+} Src_82300E58;
 
+void fn_82300E58(Set_82300E58 *o, const Src_82300E58 *s)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  longlong lVar3;
-  
-  puVar2 = param_1 + -3;
-  lVar3 = 3;
-  do {
-    puVar1 = puVar2 + 3;
-    puVar2 = puVar2 + 4;
-    *puVar2 = *puVar1;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  puVar2 = param_1 + 9;
-  lVar3 = 5;
-  do {
-    puVar1 = puVar2 + 7;
-    puVar2[4] = puVar2[3];
-    puVar2 = puVar2 + 8;
-    *puVar2 = *puVar1;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  *param_1 = *(undefined4 *)(param_2 + 0x1c);
-  param_1[0xc] = *(undefined4 *)(param_2 + 0x14);
-  param_1[0x10] = *(undefined4 *)(param_2 + 0x14);
-  param_1[0x14] = *(undefined4 *)(param_2 + 0x18);
-  param_1[0x18] = *(undefined4 *)(param_2 + 0x18);
-  param_1[4] = *(undefined4 *)(param_2 + 0x20);
-  param_1[8] = *(undefined4 *)(param_2 + 0x24);
-  param_1[0x1c] = *(undefined4 *)(param_2 + 0x28);
-  param_1[0x20] = *(undefined4 *)(param_2 + 0x28);
-  param_1[0x24] = *(undefined4 *)(param_2 + 0x2c);
-  param_1[0x28] = *(undefined4 *)(param_2 + 0x2c);
-  param_1[0x2c] = *(undefined4 *)(param_2 + 0x30);
-  param_1[0x30] = *(undefined4 *)(param_2 + 0x30);
-  return;
-}
+    int i;
 
+    for (i = 0; i < 3; i++) {
+        o->single[i].prev = o->single[i].cur;
+    }
+    for (i = 0; i < 5; i++) {
+        o->pair[i][0].prev = o->pair[i][0].cur;
+        o->pair[i][1].prev = o->pair[i][1].cur;
+    }
+    o->single[0].cur = s->f1c;
+    o->pair[0][0].cur = s->f14;
+    o->pair[0][1].cur = s->f14;
+    o->pair[1][0].cur = s->f18;
+    o->pair[1][1].cur = s->f18;
+    o->single[1].cur = s->f20;
+    o->single[2].cur = s->f24;
+    o->pair[2][0].cur = s->f28;
+    o->pair[2][1].cur = s->f28;
+    o->pair[3][0].cur = s->f2c;
+    o->pair[3][1].cur = s->f2c;
+    o->pair[4][0].cur = s->f30;
+    o->pair[4][1].cur = s->f30;
+}

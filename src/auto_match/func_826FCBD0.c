@@ -1,83 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267BE38();
-extern int fn_8267C488();
-extern int fn_8267C4F0();
-extern unsigned int lbl_8200D398;
-extern U64 storeWordConditionalIndexed();
+typedef struct Ref_826FCBD0 { int pad; long refs; } Ref_826FCBD0;
+typedef struct Obj_826FCBD0 {
+    void *vtbl;
+    char pad4[0xc];
+    void *p10;
+    unsigned int tagged14;
+    unsigned int tagged18;
+    void *p1c;
+} Obj_826FCBD0;
+extern long _InterlockedExchangeAdd(long volatile *, long);
+extern void fn_8267BE38(void *p);
+extern void fn_8267C4F0(void *p);
+extern void fn_8267C488(void *p);
+extern char lbl_8200D398[];
 
-
-void fn_826FCBD0(undefined4 *param_1)
-
+void fn_826FCBD0(Obj_826FCBD0 *self)
 {
-  uint uVar1;
-  ulonglong uVar2;
-  longlong lVar3;
-  uint *puVar4;
-  char in_RESERVE;
-  byte in_cr0;
-  byte bVar5;
-  
-  if (param_1[7] != 0) {
-    fn_8267C4F0();
-  }
-  lVar3 = ((ulonglong)(uint)param_1[6] & 0xfffffffc) + 4;
-  do {
-    puVar4 = (uint *)lVar3;
-    uVar2 = (ulonglong)*puVar4;
-    if (in_RESERVE != '\0') {
-      uVar1 = storeWordConditionalIndexed(uVar2 - 1,0,lVar3);
-      *puVar4 = uVar1;
-      in_cr0 = 2;
-    }
-  } while (!(bool)(in_cr0 >> 1 & 1));
-  bVar5 = (uVar2 == 1) << 1;
-  if (uVar2 == 1) {
-    fn_8267BE38();
-  }
-  lVar3 = ((ulonglong)(uint)param_1[5] & 0xfffffffc) + 4;
-  do {
-    puVar4 = (uint *)lVar3;
-    uVar2 = (ulonglong)*puVar4;
-    if (in_RESERVE != '\0') {
-      uVar1 = storeWordConditionalIndexed(uVar2 - 1,0,lVar3);
-      *puVar4 = uVar1;
-      bVar5 = 2;
-    }
-  } while (!(bool)(bVar5 >> 1 & 1));
-  if (uVar2 == 1) {
-    fn_8267BE38();
-  }
-  if (param_1[4] != 0) {
-    fn_8267C4F0();
-  }
-  *param_1 = &lbl_8200D398;
-  fn_8267C488(param_1);
-  return;
-}
+    Ref_826FCBD0 *r;
 
+    if (self->p1c != 0) {
+        fn_8267C4F0(self->p1c);
+    }
+    r = (Ref_826FCBD0 *)(self->tagged18 & ~3u);
+    if (_InterlockedExchangeAdd(&r->refs, -1) - 1 == 0) {
+        fn_8267BE38(r);
+    }
+    r = (Ref_826FCBD0 *)(self->tagged14 & ~3u);
+    if (_InterlockedExchangeAdd(&r->refs, -1) - 1 == 0) {
+        fn_8267BE38(r);
+    }
+    if (self->p10 != 0) {
+        fn_8267C4F0(self->p10);
+    }
+    self->vtbl = lbl_8200D398;
+    fn_8267C488(self);
+}

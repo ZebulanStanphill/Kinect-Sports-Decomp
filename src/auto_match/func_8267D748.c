@@ -1,63 +1,23 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A1E438();
-extern U64 storeWordConditionalIndexed();
+#define __lwsync() __emit(0x7C2004AC)
+void __emit(unsigned int opcode);
 
+typedef struct Obj_8267D748 {
+    char pad[0x18];
+    unsigned int flags;    /* 0x18 */
+    long count;            /* 0x1c */
+    char pad20[0xc];
+    int handle;            /* 0x2c */
+} Obj_8267D748;
+extern long _InterlockedExchangeAdd(long volatile *, long);
+extern int fn_82A1E438(int handle);
 
-undefined8 fn_8267D748(longlong param_1)
-
+int fn_8267D748(Obj_8267D748 *self)
 {
-  uint uVar1;
-  bool bVar2;
-  int iVar4;
-  undefined8 uVar3;
-  uint *puVar5;
-  char in_RESERVE;
-  byte bVar6;
-  
-  bVar2 = (*(uint *)((int)param_1 + 0x18) & 1) == 0;
-  bVar6 = bVar2 << 1;
-  if ((bVar2) || (iVar4 = fn_82A1E438(*(undefined4 *)((int)param_1 + 0x2c)), iVar4 == -1)) {
-    uVar3 = 0;
-  }
-  else {
-    sync(1);
-    do {
-      puVar5 = (uint *)(param_1 + 0x1c);
-      if (in_RESERVE != '\0') {
-        uVar1 = storeWordConditionalIndexed((ulonglong)*puVar5 + 1,0,param_1 + 0x1c);
-        *puVar5 = uVar1;
-        bVar6 = 2;
-      }
-    } while (!(bool)(bVar6 >> 1 & 1));
-    sync(1);
-    uVar3 = 1;
-  }
-  return uVar3;
+    if ((self->flags & 1) != 0 && fn_82A1E438(self->handle) != -1) {
+        __lwsync();
+        _InterlockedExchangeAdd(&self->count, 1);
+        __lwsync();
+        return 1;
+    }
+    return 0;
 }
-

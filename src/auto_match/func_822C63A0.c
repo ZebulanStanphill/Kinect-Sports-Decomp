@@ -1,54 +1,37 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822315A0();
-extern int fn_8247B210();
-extern unsigned int iStack_2c;
+typedef struct Obj_822C63A0 {
+    struct {
+        char pad[0xc];
+        void (*fc)(struct Obj_822C63A0 *, float);
+    } *vt;
+} Obj_822C63A0;
+typedef struct { Obj_822C63A0 *p; void *rep; } Sp_822C63A0;
+typedef struct {
+    char pad[0x14];
+    unsigned int id;     /* 0x14 */
+} Ctx_822C63A0;
+typedef struct {
+    void *vt;
+    Ctx_822C63A0 ctx;    /* 0x4 */
+} Self_822C63A0;
+extern Sp_822C63A0 *fn_8247B210(Sp_822C63A0 *out, Ctx_822C63A0 *ctx, unsigned int id);
+extern void fn_822315A0(void *);
 
-
-void fn_822C63A0(undefined8 param_1,int param_2)
-
+void fn_822C63A0(Self_822C63A0 *self, float value)
 {
-  bool bVar1;
-  int *piStack_30;
-  int iStack_2c;
-  
-  fn_8247B210(&piStack_30,param_2 + 4,*(undefined4 *)(param_2 + 0x18));
-  bVar1 = piStack_30 != (int *)0x0;
-  if (iStack_2c != 0) {
-    fn_822315A0();
-  }
-  if (bVar1) {
-    fn_8247B210(&piStack_30,param_2 + 4,*(undefined4 *)(param_2 + 0x18));
-    (**(code **)(*piStack_30 + 0xc))(param_1);
-    if (iStack_2c != 0) {
-      fn_822315A0();
-    }
-  }
-  return;
-}
+    Sp_822C63A0 sp;
+    unsigned char ok;
+    Ctx_822C63A0 *ctx = &self->ctx;
 
+    fn_8247B210(&sp, ctx, ctx->id);
+    ok = sp.p != 0;
+    if (sp.rep != 0) {
+        fn_822315A0(sp.rep);
+    }
+    if (ok) {
+        fn_8247B210(&sp, ctx, ctx->id);
+        sp.p->vt->fc(sp.p, value);
+        if (sp.rep != 0) {
+            fn_822315A0(sp.rep);
+        }
+    }
+}

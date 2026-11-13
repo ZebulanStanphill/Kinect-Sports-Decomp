@@ -1,51 +1,32 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_832645D8;
-extern unsigned int lbl_832645DC;
+typedef unsigned U;
+typedef int (*Handler_830137C8)(const void *iid);
+typedef struct Entry_830137C8 {
+    U key;
+    Handler_830137C8 handler;
+    int extra;
+} Entry_830137C8;
+typedef struct Table_830137C8 {
+    Entry_830137C8 *first;
+    Entry_830137C8 *last;
+} Table_830137C8;
 
+extern Table_830137C8 lbl_832645D8;
 
-char fn_830137C8(undefined8 param_1,int param_2,int *param_3)
-
+static __forceinline Handler_830137C8 *Find(Table_830137C8 *self, U key)
 {
-  int iVar1;
-  int *piVar2;
-  undefined4 *puVar3;
-  
-  *param_3 = 0;
-  for (piVar2 = lbl_832645D8; (piVar2 != lbl_832645DC && (*piVar2 != param_2)); piVar2 = piVar2 + 3)
-  {
-  }
-  puVar3 = (undefined4 *)(-(uint)(lbl_832645DC != piVar2) & (uint)(piVar2 + 1));
-  if (puVar3 != (undefined4 *)0x0) {
-    iVar1 = (*(code *)*puVar3)();
-    *param_3 = iVar1;
-    return (iVar1 == 0) + '\x01';
-  }
-  return '\x02';
+    Entry_830137C8 *end = self->last, *p = self->first;
+    for (; p != end && p->key != key; p++) {}
+    return (p != end) != 0 ? &p->handler : 0;
 }
 
+int fn_830137C8(const void *iid, U key, int *out)
+{
+    Handler_830137C8 *h;
+
+    *out = 0;
+    h = Find(&lbl_832645D8, key);
+    if (h == 0)
+        return 2;
+    *out = (*h)(iid);
+    return (*out == 0) + 1;
+}

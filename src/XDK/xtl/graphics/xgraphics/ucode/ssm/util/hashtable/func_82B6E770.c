@@ -1,54 +1,31 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AB15D0();
-extern int fn_82AB54D0();
-extern int fn_82B9F880();
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
 
+#define HT_ASSERT(e, line) \
+    if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\util\\hashtable.cpp", line)
 
-void fn_82B6E770(int *param_1,undefined8 param_2,undefined8 param_3,undefined8 param_4)
+typedef struct ObjList_82B6E770 ObjList_82B6E770;
 
+typedef struct SHashTable_82B6E770 {
+    ObjList_82B6E770 **table;
+    void *ctx;
+    int pad8;
+    void (*dealloc)(void *, void *);
+    void *owner;
+    unsigned int numBuckets;
+} SHashTable_82B6E770;
+
+extern unsigned int fn_82B9F880(const void *data, unsigned int size, unsigned int seed);
+extern void fn_82AB54D0(ObjList_82B6E770 *pOList, unsigned int key, void *data);
+
+void fn_82B6E770(SHashTable_82B6E770 *pSHashTable, const void *str, unsigned int size, void *data)
 {
-  uint uVar1;
-  int iVar2;
-  ulonglong uVar3;
-  
-  if (param_1 == (int *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820da3a8,0xffffffff820da300,0x242);
-  }
-  uVar3 = fn_82B9F880(param_2,param_3,0);
-  uVar1 = param_1[5];
-  trapWord(6,(ulonglong)uVar1,0);
-  iVar2 = *(int *)((int)((uVar3 - (longlong)(int)((uVar3 & 0xffffffff) / (ulonglong)uVar1) *
-                                  (longlong)(int)uVar1 & 0xffffffff) << 2) + *param_1);
-  if (iVar2 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d6a6c,0xffffffff820da300,0x24d);
-  }
-  fn_82AB54D0(iVar2,uVar3,param_4);
-  return;
-}
+    ObjList_82B6E770 *pOList;
+    unsigned int key;
 
+    HT_ASSERT(pSHashTable, 0x242);
+    key = fn_82B9F880(str, size, 0);
+    pOList = pSHashTable->table[key % pSHashTable->numBuckets];
+    HT_ASSERT(pOList, 0x24d);
+    fn_82AB54D0(pOList, key, data);
+}

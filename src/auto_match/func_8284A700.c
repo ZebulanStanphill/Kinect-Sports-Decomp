@@ -1,59 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_8284A458();
-extern unsigned int iStack00000014;
-extern unsigned int uStack0000001c;
-extern unsigned int uStack00000024;
+typedef struct Node_8284A700 Node_8284A700;
+struct Node_8284A700 {
+    Node_8284A700 *left;
+    Node_8284A700 *parent;
+    Node_8284A700 *right;
+    char value[0x20];
+    char color;
+    char isnil;
+};
 
+typedef struct Tree_8284A700 {
+    int alval;
+    Node_8284A700 *head;
+    unsigned int size;
+} Tree_8284A700;
 
-int fn_8284A700(int param_1,undefined4 param_2,undefined4 param_3)
+extern Node_8284A700 *fn_8284A458(unsigned int count, Node_8284A700 *hint);
 
+static __forceinline Node_8284A700 **Left_8284A700(Node_8284A700 *p)
 {
-  undefined4 uVar1;
-  int iStack00000014;
-  undefined4 uStack0000001c;
-  undefined4 uStack00000024;
-  undefined1 auStack_30 [4];
-  undefined1 *puStack_2c;
-  
-  puStack_2c = auStack_30;
-  *(undefined4 *)(param_1 + 8) = 0;
-  iStack00000014 = param_1;
-  uStack0000001c = param_2;
-  uStack00000024 = param_3;
-  uVar1 = fn_8284A458(1,0);
-  *(undefined4 *)(param_1 + 4) = uVar1;
-  **(undefined4 **)(iStack00000014 + 4) = *(undefined4 *)(iStack00000014 + 4);
-  *(undefined4 *)(*(int *)(iStack00000014 + 4) + 4) = *(undefined4 *)(iStack00000014 + 4);
-  *(undefined4 *)(*(int *)(iStack00000014 + 4) + 8) = *(undefined4 *)(iStack00000014 + 4);
-  *(undefined1 *)(*(int *)(iStack00000014 + 4) + 0x2c) = 1;
-  *(undefined1 *)(*(int *)(iStack00000014 + 4) + 0x2d) = 1;
-  return iStack00000014;
+    return &p->left;
 }
 
+static __forceinline Node_8284A700 *Buynode_8284A700(void)
+{
+    return fn_8284A458(1, 0);
+}
+
+Tree_8284A700 *fn_8284A700(Tree_8284A700 *tree, void *comp, void *al)
+{
+    char tmp;
+    char *ptmp = &tmp;
+    int pad[3];
+
+    tree->size = 0;
+    tree->head = Buynode_8284A700();
+    *Left_8284A700(tree->head) = tree->head;
+    tree->head->parent = tree->head;
+    tree->head->right = tree->head;
+    tree->head->color = 1;
+    tree->head->isnil = 1;
+    return tree;
+}
