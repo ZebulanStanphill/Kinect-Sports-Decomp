@@ -1,57 +1,40 @@
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_80;
-extern unsigned int *auStack_90;
-extern int fn_82273C88();
-extern int fn_82273CD8();
-extern int fn_82528BF8();
-extern int fn_82672C20();
-extern unsigned int lbl_831E5F58;
-extern unsigned int uStack_a0;
+typedef struct Var_824A0808 {
+    int a;
+    int b;
+    union {
+        double d;
+        void *p;
+    } u;
+} Var_824A0808;
 
+typedef struct Obj_824A0808 {
+    char pad[0x50];
+    void *movie;
+    int pad54;
+    void *strings;
+} Obj_824A0808;
 
-void fn_824A0808(int param_1)
+extern void fn_82273CD8(Var_824A0808 *, int);
+extern void fn_82273C88(Var_824A0808 *);
+extern int fn_82528BF8(void *table, const char *key, unsigned short *buf, int size, int a, int b);
+extern void fn_82672C20(void *, const char *, Var_824A0808 *, int);
+extern const char *lbl_831E5F54[5];
 
+void fn_824A0808(Obj_824A0808 *self)
 {
-  unsigned int *puVar1;
-  int iVar2;
-  unsigned char **ppuVar3;
-  unsigned char *puVar4;
-  __int64 lVar5;
-  unsigned __int64 uStack_a0;
-  unsigned char auStack_90 [8];
-  double dStack_88;
-  unsigned char auStack_80 [8];
-  unsigned char *puStack_78;
-  unsigned char auStack_70 [112];
-  
-  puVar1 = (unsigned int *)((int)&uStack_a0 + 4);
-  lVar5 = 2;
-  do {
-    puVar1[3] = 0;
-    puVar1 = puVar1 + 4;
-    *puVar1 = 0;
-    lVar5 = lVar5 + -1;
-  } while (lVar5 != 0);
-  iVar2 = 1;
-  ppuVar3 = &lbl_831E5F58;
-  do {
-    fn_82528BF8(*(unsigned int *)(param_1 + 0x58),*ppuVar3,auStack_70,0x20,0,0);
-    fn_82273CD8(auStack_90,3);
-    uStack_a0 = (__int64)iVar2;
-    dStack_88 = (double)uStack_a0;
-    fn_82273CD8(auStack_80,5);
-    puStack_78 = auStack_70;
-    fn_82672C20(*(unsigned int *)(param_1 + 0x50),0xffffffff821a89ac,auStack_90,2);
-    ppuVar3 = ppuVar3 + 1;
-    iVar2 = iVar2 + 1;
-  } while ((int)ppuVar3 < -0x7ce1a098);
-  puVar4 = auStack_70;
-  lVar5 = 1;
-  do {
-    puVar4 = puVar4 + -0x10;
-    fn_82273C88(puVar4);
-    lVar5 = lVar5 + -1;
-  } while (-1 < lVar5);
-  return;
-}
+    Var_824A0808 v[2];
+    unsigned short text[0x20];
+    Var_824A0808 *p;
+    int i;
 
+    for (i = 0; i < 2; i++) { v[i].a = 0; v[i].b = 0; }
+    for (i = 1; i < 5; i++) {
+        fn_82528BF8(self->strings, lbl_831E5F54[i], text, 0x20, 0, 0);
+        fn_82273CD8(&v[0], 3);
+        v[0].u.d = (double)i;
+        fn_82273CD8(&v[1], 5);
+        v[1].u.p = text;
+        fn_82672C20(self->movie, "_root.SetText", v, 2);
+    }
+    p = v + 2; i = 1; do { p--; fn_82273C88(p); } while (--i >= 0);
+}

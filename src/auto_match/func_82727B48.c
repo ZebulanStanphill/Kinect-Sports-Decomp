@@ -1,85 +1,94 @@
-extern unsigned int fStack_44;
-extern unsigned int fStack_48;
-extern unsigned int fStack_4c;
-extern unsigned int fStack_50;
-extern int fn_8267B890();
-extern int fn_826824B0();
-extern int fn_826957D0();
-extern int fn_826959C8();
-extern int fn_82696BC8();
-extern int fn_826972E0();
-extern int fn_827451A8();
-extern int fn_82746C20();
-extern int fn_827A1930();
-extern unsigned int lbl_82005720;
-extern unsigned int lbl_821AAD20;
-extern unsigned int uStack_5c;
+struct B_82727B48;
+typedef struct {
+    int pad0;
+    int pad4;
+    int (*kind)(struct B_82727B48 *self);
+} Vt_82727B48;
+typedef struct B_82727B48 {
+    Vt_82727B48 *vt;
+} B_82727B48;
 
+typedef struct {
+    char pad0[0xa0];
+    void *character;   /* 0xa0 */
+} Base_82727B48;
 
-void fn_82727B48(int param_1)
+typedef struct {
+    char pad[0x78];
+    struct {
+        char pad[0x288];
+        int heap;
+    } *sub;
+} Env_82727B48;
 
+typedef struct {
+    int pad0;
+    unsigned char *out;     /* 0x04 */
+    B_82727B48 *b;          /* 0x08 */
+    char pad0c[0x18 - 0xc];
+    Env_82727B48 *env;      /* 0x18 */
+    int argc;               /* 0x1c */
+} Obj_82727B48;
+
+typedef struct {
+    float x0, y0, x1, y1;
+} Rect_82727B48;
+
+typedef struct {
+    double x0, y0, x1, y1;
+} RectD_82727B48;
+
+extern void *fn_8267B890(int heap, int size, int flags);
+extern void fn_826824B0(void *p);
+extern void *fn_826957D0(Obj_82727B48 *self, int index);
+extern double fn_826972E0(void *value, Env_82727B48 *env);
+extern void fn_826959C8(unsigned char *p);
+extern void fn_82696BC8(unsigned char *out, void *obj);
+extern unsigned char fn_827A1930(void *character, Rect_82727B48 *rect, unsigned int index);
+extern void *fn_82746C20(void *mem, Env_82727B48 *env);
+extern void fn_827451A8(void *obj, Env_82727B48 *env, RectD_82727B48 *rect);
+
+void fn_82727B48(Obj_82727B48 *self)
 {
-  unsigned int uVar1;
-  unsigned char *puVar2;
-  int iVar5;
-  unsigned __int64 uVar3;
-  char cVar6;
-  unsigned __int64 uVar4;
-  double dVar7;
-  unsigned int uStack_5c;
-  float fStack_50;
-  float fStack_4c;
-  float fStack_48;
-  float fStack_44;
-  double dStack_40;
-  double dStack_38;
-  double dStack_30;
-  double dStack_28;
-  
-  if (*(int **)(param_1 + 8) != (int *)0x0) {
-    iVar5 = (**(int (***)())(**(int **)(param_1 + 8) + 8))();
-    if (iVar5 == 4) {
-      iVar5 = *(int *)(param_1 + 8) + -0x68;
-      if (*(int *)(param_1 + 8) == 0) {
-        iVar5 = 0;
-      }
-      if (0 < *(int *)(param_1 + 0x1c)) {
-        uVar1 = *(unsigned int *)(param_1 + 0x18);
-        uVar3 = fn_826957D0(param_1,0);
-        dVar7 = (double)fn_826972E0(uVar3,uVar1);
-        uStack_5c = (unsigned int)(__int64)dVar7;
-        fStack_50 = lbl_821AAD20;
-        fStack_4c = lbl_821AAD20;
-        fStack_48 = lbl_821AAD20;
-        fStack_44 = lbl_821AAD20;
-        cVar6 = fn_827A1930(*(unsigned int *)(iVar5 + 0xa0),&fStack_50,uStack_5c);
-        if (cVar6 == '\0') {
-          puVar2 = *(unsigned char **)(param_1 + 4);
-          fn_826959C8(puVar2);
-          *puVar2 = 1;
-        }
-        else {
-          uVar4 = fn_8267B890(*(unsigned int *)
-                                     (*(int *)(*(int *)(param_1 + 0x18) + 0x78) + 0x288),0x30,0);
-          if ((uVar4 & 0xffffffff) == 0) {
-            uVar4 = 0;
-          }
-          else {
-            uVar4 = fn_82746C20(uVar4,*(unsigned int *)(param_1 + 0x18));
-          }
-          dStack_40 = (double)fStack_50 * lbl_82005720;
-          dStack_38 = (double)fStack_4c * lbl_82005720;
-          dStack_30 = (double)fStack_48 * lbl_82005720;
-          dStack_28 = (double)fStack_44 * lbl_82005720;
-          fn_827451A8(uVar4,*(unsigned int *)(param_1 + 0x18),&dStack_40);
-          fn_82696BC8(*(unsigned int *)(param_1 + 4),uVar4);
-          if ((uVar4 & 0xffffffff) != 0) {
-            fn_826824B0(uVar4);
-          }
-        }
-      }
-    }
-  }
-  return;
-}
+    Base_82727B48 *base;
+    Env_82727B48 *env;
+    unsigned int index;
+    Rect_82727B48 rect;
+    RectD_82727B48 r;
+    void *mem;
+    void *obj;
 
+    if (self->b == 0 || self->b->vt->kind(self->b) != 4)
+        return;
+    if (self->b != 0)
+        base = (Base_82727B48 *)((char *)self->b - 0x68);
+    else
+        base = 0;
+    if (self->argc < 1)
+        return;
+    env = self->env;
+    index = (unsigned int)fn_826972E0(fn_826957D0(self, 0), env);
+    rect.x0 = 0.0f;
+    rect.y0 = 0.0f;
+    rect.x1 = 0.0f;
+    rect.y1 = 0.0f;
+    if (fn_827A1930(base->character, &rect, index)) {
+        mem = fn_8267B890(self->env->sub->heap, 0x30, 0);
+        if (mem != 0)
+            obj = fn_82746C20(mem, self->env);
+        else
+            obj = 0;
+        r.x0 = rect.x0 * 0.05;
+        r.y0 = rect.y0 * 0.05;
+        r.x1 = rect.x1 * 0.05;
+        r.y1 = rect.y1 * 0.05;
+        fn_827451A8(obj, self->env, &r);
+        fn_82696BC8(self->out, obj);
+        if (obj != 0)
+            fn_826824B0(obj);
+    } else {
+        unsigned char *out = self->out;
+        fn_826959C8(out);
+        *out = 1;
+    }
+}

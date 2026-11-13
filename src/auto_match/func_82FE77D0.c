@@ -1,29 +1,38 @@
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-extern int fn_82FF9460();
-extern int fn_82FFA6E8();
-extern unsigned int lbl_832642F0;
-extern unsigned int uStack_40;
+typedef struct Message_82FE77D0 {
+    int kind;
+    int a;
+    int b;
+    int flag;
+    int v[5];
+} Message_82FE77D0;
 
+extern void *lbl_832642F0;
+extern int fn_82FF9460(void *data, unsigned int size);
+extern int fn_82FFA6E8(void *queue, Message_82FE77D0 m);
 
-unsigned __int64
-fn_82FE77D0(unsigned __int64 param_1,unsigned __int64 param_2,unsigned int param_3,unsigned int param_4,
-             unsigned int *param_5)
-
+static __forceinline int CheckBuffer(void *data, unsigned int size)
 {
-  unsigned __int64 uVar1;
-  unsigned int uVar2;
-  unsigned int uStack_40;
-  
-  if ((((param_1 & 0x7ff) == 0) && ((param_1 & 0xffffffff) != 0)) && (0x17 < (param_2 & 0xffffffff))
-     ) {
-    uVar2 = fn_82FF9460(param_1,param_2);
-    *param_5 = uVar2;
-    uVar1 = fn_82FFA6E8(lbl_832642F0,param_3,CONCAT44(param_4,1),CONCAT44(uVar2,0xffffffff),
-                              CONCAT44((int)param_1,(int)param_2),(unsigned __int64)uStack_40 << 0x20);
-  }
-  else {
-    uVar1 = 0x1f;
-  }
-  return uVar1;
+    if (((unsigned int)data & 0x7ff) == 0 && data != 0 && size >= 0x18)
+        return 1;
+    return 0x1f;
 }
 
+int fn_82FE77D0(void *data, unsigned int size, int a, int b, int *out)
+{
+    Message_82FE77D0 m;
+    int id;
+
+    if (CheckBuffer(data, size) != 1)
+        return 0x1f;
+    id = fn_82FF9460(data, size);
+    *out = id;
+    m.kind = 0;
+    m.v[0] = id;
+    m.a = a;
+    m.v[1] = -1;
+    m.b = b;
+    m.v[2] = (int)data;
+    m.v[3] = size;
+    m.flag = 1;
+    return fn_82FFA6E8(lbl_832642F0, m);
+}

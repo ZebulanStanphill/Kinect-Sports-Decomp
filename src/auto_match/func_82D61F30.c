@@ -1,17 +1,42 @@
-extern int fn_82D76368();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Shape_82D61F30 {
+    char pad0[0x20];
+    __vector4 vertices[3];   /* 0x20 */
+} Shape_82D61F30;
 
-unsigned short * fn_82D61F30(int param_1,int param_2,unsigned short *param_3)
+typedef struct Body_82D61F30 {
+    const Shape_82D61F30 *shape;   /* 0x00 */
+} Body_82D61F30;
 
+typedef struct Input_82D61F30 {
+    const Body_82D61F30 *bodyA;    /* 0x00 */
+    const Body_82D61F30 *bodyB;    /* 0x04 */
+} Input_82D61F30;
+
+typedef struct Entry_82D61F30 {
+    char pad0[2];
+    unsigned char numContactPoints;   /* 0x02 */
+} Entry_82D61F30;
+
+typedef struct Data_82D61F30 {
+    unsigned short contactPointId[3];   /* 0x00 */
+    unsigned short pad6;
+    char cache[0x18];                   /* 0x08 */
+} Data_82D61F30;
+
+void fn_82D76368(const __vector4 *vertices, void *cache);
+
+Data_82D61F30 *fn_82D61F30(const Input_82D61F30 *input, Entry_82D61F30 *entry, Data_82D61F30 *data)
 {
-  unsigned int uVar1;
-  
-  uVar1 = **(unsigned int **)(param_1 + 4);
-  *(unsigned char *)(param_2 + 2) = 0;
-  *param_3 = 0xffff;
-  param_3[1] = 0xffff;
-  param_3[2] = 0xffff;
-  fn_82D76368((unsigned __int64)uVar1 + 0x20,param_3 + 4,0xffff,0xffff);
-  return param_3 + 0x10;
-}
+    const Shape_82D61F30 *shape = input->bodyB->shape;
 
+    entry->numContactPoints = 0;
+    data->contactPointId[0] = 0xffff;
+    data->contactPointId[1] = 0xffff;
+    data->contactPointId[2] = 0xffff;
+    fn_82D76368(shape->vertices, data->cache);
+    return data + 1;
+}

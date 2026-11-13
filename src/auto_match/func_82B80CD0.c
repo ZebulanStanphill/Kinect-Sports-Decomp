@@ -1,27 +1,23 @@
-extern int fn_82B80258();
-extern int fn_82F6DF48();
-extern int fn_82F6DF80();
-extern unsigned int lbl_82005710;
-extern unsigned int lbl_82006268;
+extern const double lbl_82005710;
+extern const double lbl_82006268;
+extern double fn_82B80258(float x);
+extern double fn_82F6DF48(double x, double y);
+extern double fn_82F6DF80(double x);
 
-
-double fn_82B80CD0(double param_1,unsigned __int64 param_2,int param_3,unsigned __int64 param_4)
-
+double fn_82B80CD0(double value, int mode, unsigned int flags)
 {
-  if ((param_4 & 1) != 0) {
-    param_1 = (double)fn_82B80258((double)(float)param_1);
-  }
-  if ((param_4 & 2) != 0) {
-    param_1 = (double)fn_82F6DF48(param_1,lbl_82005710);
-  }
-  if ((param_4 & 4) != 0) {
-    if (param_3 == 2) {
-      param_1 = lbl_82006268 - param_1;
+    if (flags & 1) {
+        value = fn_82B80258((float)value);
     }
-    else {
-      param_1 = (double)fn_82F6DF80();
+    if (flags & 2) {
+        value = fn_82F6DF48(value, lbl_82005710);
     }
-  }
-  return param_1;
+    if (flags & 4) {
+        if (mode == 2) {
+            value = lbl_82006268 - value;
+        } else {
+            value = fn_82F6DF80(value);
+        }
+    }
+    return value;
 }
-

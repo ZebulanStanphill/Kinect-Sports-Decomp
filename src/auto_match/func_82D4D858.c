@@ -1,35 +1,40 @@
-extern unsigned int *auStack_30;
-extern int fn_82D6F590();
-extern unsigned int lbl_83182A98;
+typedef struct Vec4_82D4D858 {
+    float v[4];
+} Vec4_82D4D858;
 
+typedef struct Triangle_82D4D858 {
+    int a;
+    int b;
+    int c;
+    int material;
+} Triangle_82D4D858;
 
-__int64 fn_82D4D858(int param_1)
+typedef struct Mesh_82D4D858 {
+    char pad0[0x8];
+    Vec4_82D4D858 *vertices;
+    char pad1[0x8];
+    Triangle_82D4D858 *triangles;
+    int numTriangles;
+} Mesh_82D4D858;
 
+typedef struct Result_82D4D858 {
+    char ok;
+} Result_82D4D858;
+
+extern float lbl_83182A98;
+extern Result_82D4D858 *fn_82D6F590(Result_82D4D858 *out, Vec4_82D4D858 *v0,
+                                    Vec4_82D4D858 *v1, Vec4_82D4D858 *v2,
+                                    float tolerance);
+
+int fn_82D4D858(Mesh_82D4D858 *mesh)
 {
-  char *pcVar1;
-  unsigned __int64 uVar2;
-  unsigned int *puVar3;
-  __int64 lVar4;
-  int iVar5;
-  unsigned char auStack_30 [48];
-  
-  lVar4 = 0;
-  if (0 < *(int *)(param_1 + 0x18)) {
-    iVar5 = 0;
-    do {
-      uVar2 = (unsigned __int64)*(unsigned int *)(param_1 + 8);
-      puVar3 = (unsigned int *)(iVar5 + *(int *)(param_1 + 0x14));
-      pcVar1 = (char *)fn_82D6F590((double)lbl_83182A98,auStack_30,
-                                    ((unsigned __int64)*puVar3 & 0xfffffff) * 0x10 + uVar2,
-                                    ((unsigned __int64)puVar3[1] & 0xfffffff) * 0x10 + uVar2,
-                                    ((unsigned __int64)puVar3[2] & 0xfffffff) * 0x10 + uVar2);
-      if (*pcVar1 == '\0') {
-        return lVar4;
-      }
-      lVar4 = lVar4 + 1;
-      iVar5 = iVar5 + 0x10;
-    } while ((int)lVar4 < *(int *)(param_1 + 0x18));
-  }
-  return -1;
+    int i;
+    for (i = 0; i < mesh->numTriangles; i++) {
+        Result_82D4D858 res;
+        Vec4_82D4D858 *verts = mesh->vertices;
+        if (fn_82D6F590(&res, &verts[mesh->triangles[i].a], &verts[mesh->triangles[i].b], &verts[mesh->triangles[i].c], lbl_83182A98)->ok == 0) {
+            return i;
+        }
+    }
+    return -1;
 }
-

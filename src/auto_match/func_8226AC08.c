@@ -1,23 +1,25 @@
-extern int fn_82809558();
+typedef struct Vec_8226AC08 {
+    char pad0[0x10];
+    float x;   /* 0x10 */
+    float y;   /* 0x14 */
+} Vec_8226AC08;
 
+typedef struct Self_8226AC08 {
+    int unk0;
+    unsigned char inside;   /* 0x04 */
+    char pad5[0x23];
+    float radius;           /* 0x28 */
+    float unk2c;
+    float margin;           /* 0x30 */
+} Self_8226AC08;
 
-unsigned __int64 fn_8226AC08(int param_1,int param_2)
+extern float fn_82809558(float v);
 
+int fn_8226AC08(Self_8226AC08 *self, const Vec_8226AC08 *p)
 {
-  unsigned __int64 uVar1;
-  double dVar2;
-  
-  if (*(char *)(param_1 + 4) == '\0') {
-    dVar2 = (double)fn_82809558((double)(*(float *)(param_2 + 0x10) * *(float *)(param_2 + 0x10) +
-                                         *(float *)(param_2 + 0x14) * *(float *)(param_2 + 0x14)));
-    uVar1 = 1;
-    if ((double)(*(float *)(param_1 + 0x30) + *(float *)(param_1 + 0x28)) <= dVar2) {
-      uVar1 = 0;
-    }
-  }
-  else {
-    uVar1 = 1;
-  }
-  return uVar1;
+    float d;
+    if (self->inside != 0)
+        return 1;
+    d = fn_82809558(p->x * p->x + p->y * p->y);
+    return self->margin + self->radius > d;
 }
-

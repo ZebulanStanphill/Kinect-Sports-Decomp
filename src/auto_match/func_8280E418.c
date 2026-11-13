@@ -1,35 +1,31 @@
-extern int fn_8280A550();
-extern int fn_8280A5E8();
-extern unsigned int lbl_82002AE0;
+typedef struct Quat_8280E418 {
+    float x;
+    float y;
+    float z;
+    float w;
+} Quat_8280E418;
 
+extern int fn_8280A5E8(float x);
+extern float fn_8280A550(float x);
 
-void fn_8280E418(float *param_1,float *param_2)
-
+void fn_8280E418(const Quat_8280E418 *q, Quat_8280E418 *out)
 {
-  float fVar1;
-  int iVar2;
-  double dVar3;
-  
-  dVar3 = (double)(param_1[3] * param_1[3] +
-                  param_1[2] * param_1[2] + *param_1 * *param_1 + param_1[1] * param_1[1]);
-  iVar2 = fn_8280A5E8((double)(float)(dVar3 - (double)lbl_82002AE0));
-  if (iVar2 == 0) {
-    dVar3 = (double)fn_8280A550(dVar3);
-    *param_2 = (float)((double)*param_1 * dVar3);
-    param_2[1] = (float)((double)param_1[1] * dVar3);
-    param_2[2] = (float)((double)param_1[2] * dVar3);
-    fVar1 = (float)(dVar3 * (double)param_1[3]);
-  }
-  else {
-    if (param_1 == param_2) {
-      return;
-    }
-    *param_2 = *param_1;
-    param_2[1] = param_1[1];
-    param_2[2] = param_1[2];
-    fVar1 = param_1[3];
-  }
-  param_2[3] = fVar1;
-  return;
-}
+    float x2 = q->x * q->x;
+    float y2 = q->y * q->y;
+    float z2 = q->z * q->z;
+    float w2 = q->w * q->w;
+    float lengthSq = x2 + y2 + z2 + w2;
 
+    if (fn_8280A5E8(lengthSq - 1.0f) == 0) {
+        float scale = fn_8280A550(lengthSq);
+        out->x = q->x * scale;
+        out->y = q->y * scale;
+        out->z = q->z * scale;
+        out->w = scale * q->w;
+    } else if (q != out) {
+        out->x = q->x;
+        out->y = q->y;
+        out->z = q->z;
+        out->w = q->w;
+    }
+}

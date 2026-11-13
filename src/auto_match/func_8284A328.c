@@ -1,25 +1,37 @@
-void fn_8284A328(int param_1,int *param_2)
+typedef struct Node_8284A328 Node_8284A328;
+struct Node_8284A328 {
+    Node_8284A328 *left;
+    Node_8284A328 *parent;
+    Node_8284A328 *right;
+    char pad[0x2d - 0xc];
+    char isnil;
+};
 
+typedef struct Tree_8284A328 {
+    int alloc;
+    Node_8284A328 *head;
+    unsigned int size;
+} Tree_8284A328;
+
+static __forceinline Node_8284A328 **Left_8284A328(Node_8284A328 *p)
 {
-  int iVar1;
-  
-  iVar1 = *param_2;
-  *param_2 = *(int *)(iVar1 + 8);
-  if (*(char *)(*(int *)(iVar1 + 8) + 0x2d) == '\0') {
-    *(int **)(*(int *)(iVar1 + 8) + 4) = param_2;
-  }
-  *(int *)(iVar1 + 4) = param_2[1];
-  if (param_2 == *(int **)(*(int *)(param_1 + 4) + 4)) {
-    *(int *)(*(int *)(param_1 + 4) + 4) = iVar1;
-  }
-  else if (param_2 == *(int **)(param_2[1] + 8)) {
-    *(int *)(param_2[1] + 8) = iVar1;
-  }
-  else {
-    *(int *)param_2[1] = iVar1;
-  }
-  *(int **)(iVar1 + 8) = param_2;
-  param_2[1] = iVar1;
-  return;
+    return &p->left;
 }
 
+void fn_8284A328(Tree_8284A328 *self, Node_8284A328 *where)
+{
+    Node_8284A328 *pnode = where->left;
+
+    where->left = pnode->right;
+    if (!pnode->right->isnil)
+        pnode->right->parent = where;
+    pnode->parent = where->parent;
+    if (where == self->head->parent)
+        self->head->parent = pnode;
+    else if (where == where->parent->right)
+        where->parent->right = pnode;
+    else
+        *Left_8284A328(where->parent) = pnode;
+    pnode->right = where;
+    where->parent = pnode;
+}

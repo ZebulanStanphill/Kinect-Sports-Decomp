@@ -1,11 +1,15 @@
-extern unsigned int lbl_821954D0;
+typedef struct Obj_82637F58 {
+    char pad0[0x10];
+    unsigned __int64 dirty;     /* 0x10 */
+    char pad18[0x2904 - 0x18];
+    float value;                /* 0x2904 */
+} Obj_82637F58;
 
+extern const float lbl_821954B0[0x28a];
 
-void fn_82637F58(int param_1,unsigned int param_2)
-
+/* Stores a value in hundredths as a float (lbl_821954B0[8] is 0.01f) and marks it dirty. */
+void fn_82637F58(Obj_82637F58 *self, unsigned int value)
 {
-  *(float *)(param_1 + 0x2904) = (float)param_2 * lbl_821954D0;
-  *(unsigned __int64 *)(param_1 + 0x10) = *(unsigned __int64 *)(param_1 + 0x10) | 0x8000000;
-  return;
+    self->value = (float)value * lbl_821954B0[8];
+    { unsigned __int64 *d = &self->dirty; *d |= 0x8000000; }
 }
-

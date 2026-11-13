@@ -1,37 +1,45 @@
-typedef unsigned char bool;
-extern unsigned int lbl_82005BB4;
-extern unsigned int lbl_82005BEC;
-extern unsigned int lbl_82005BF8;
-extern unsigned __int64 storeWordConditionalIndexed();
+typedef struct Listener_82689370 {
+    void *vt;
+} Listener_82689370;
 
+typedef struct Source_82689370 Source_82689370;
 
-unsigned int * fn_82689370(unsigned int *param_1,unsigned __int64 param_2)
+typedef struct SourceVtbl_82689370 {
+    void *slots[11];
+    void (*AddListener)(Source_82689370 *self, Listener_82689370 *listener);
+} SourceVtbl_82689370;
 
+struct Source_82689370 {
+    SourceVtbl_82689370 *vt;
+    long refs;
+};
+
+typedef struct Obj_82689370 {
+    void *vt;
+    int refs;
+    Listener_82689370 listener;
+    Source_82689370 *source;
+    int active;
+} Obj_82689370;
+
+extern long _InterlockedExchangeAdd(long volatile *, long);
+extern char lbl_82005BB4[];
+extern char lbl_82005BF8[];
+extern char lbl_82005BEC[];
+
+Obj_82689370 *fn_82689370(Obj_82689370 *self, Source_82689370 *source)
 {
-  unsigned int uVar1;
-  unsigned int *puVar2;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  param_1[1] = 1;
-  param_1[2] = &lbl_82005BB4;
-  *param_1 = &lbl_82005BF8;
-  param_1[2] = &lbl_82005BEC;
-  if ((param_2 & 0xffffffff) != 0) {
-    do {
-      puVar2 = (unsigned int *)(param_2 + 4);
-      if (in_RESERVE != '\0') {
-        uVar1 = storeWordConditionalIndexed((unsigned __int64)*puVar2 + 1,0,param_2 + 4);
-        *puVar2 = uVar1;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-  }
-  param_1[3] = (int *)param_2;
-  if ((param_2 & 0xffffffff) != 0) {
-    (**(int (***)())(*(int *)param_2 + 0x2c))(param_2,param_1 + 2);
-  }
-  param_1[4] = 1;
-  return param_1;
+    Listener_82689370 *l;
+    self->refs = 1;
+    l = &self->listener;
+    l->vt = lbl_82005BB4;
+    self->vt = lbl_82005BF8;
+    self->listener.vt = lbl_82005BEC;
+    if (source != 0)
+        _InterlockedExchangeAdd(&source->refs, 1);
+    self->source = source;
+    if (source != 0)
+        source->vt->AddListener(source, &self->listener);
+    self->active = 1;
+    return self;
 }
-

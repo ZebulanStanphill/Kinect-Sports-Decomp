@@ -1,36 +1,30 @@
-extern int fn_82F54688();
-extern unsigned int lbl_821AAD20;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vspltisw(int value);
 
-void fn_82F547C8(int param_1)
+typedef struct Obj_82F547C8 {
+    int unk0;                /* 0x00 */
+    float a;                 /* 0x04 */
+    unsigned char flag;      /* 0x08 */
+    char pad9[7];
+    float b;                 /* 0x10 */
+    char pad14[0xc];
+    __vector4 v[2];          /* 0x20 */
+    char sub[1];             /* 0x40 */
+} Obj_82F547C8;
 
+extern void fn_82F54688(void *sub);
+
+void fn_82F547C8(Obj_82F547C8 *self)
 {
-  unsigned int *puVar1;
-  int in_r0;
-  int iVar2;
-  __int64 lVar3;
-  double dVar4;
-  unsigned int in_register_00010000;
-  unsigned int in_ACC;
-  unsigned int in_register_00010008;
-  unsigned int in_vr0;
-  
-  dVar4 = (double)lbl_821AAD20;
-  *(float *)(param_1 + 4) = lbl_821AAD20;
-  fn_82F54688(param_1 + 0x40);
-  *(float *)(param_1 + 0x10) = (float)dVar4;
-  iVar2 = param_1 + 0x20;
-  *(unsigned char *)(param_1 + 8) = 0;
-  lVar3 = 2;
-  do {
-    puVar1 = (unsigned int *)(in_r0 + iVar2 & 0xfffffff0);
-    *puVar1 = in_register_00010000;
-    puVar1[1] = in_ACC;
-    puVar1[2] = in_register_00010008;
-    puVar1[3] = in_vr0;
-    iVar2 = iVar2 + 0x10;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  return;
-}
+    int i;
 
+    self->a = 0.0f;
+    fn_82F54688(self->sub);
+    self->b = 0.0f;
+    self->flag = 0;
+    for (i = 0; i < 2; i++)
+        self->v[i] = __vspltisw(0);
+}

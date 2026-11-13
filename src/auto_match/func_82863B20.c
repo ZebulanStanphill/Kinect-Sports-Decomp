@@ -1,37 +1,34 @@
-extern unsigned int *auStack_38;
-extern int fn_8280A5D8();
-extern int fn_82810208();
-extern int fn_828102A8();
-extern int fn_828106A0();
-extern int fn_82862238();
-extern unsigned int lbl_832116B8;
-extern unsigned int lbl_832116BC;
+typedef struct { float v[3]; } Vec3_82863B20;
+typedef struct {
+    unsigned int f0;
+    unsigned int kind;
+    float scale;
+    int rest[7];
+} Glob_82863B20;
 
+typedef struct Mesh_82863B20 {
+    int f0;
+    void *data;
+    unsigned short count;
+} Mesh_82863B20;
 
-void fn_82863B20(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4)
+extern Glob_82863B20 lbl_832116B4;
+extern void fn_82862238(void *data, unsigned short count, unsigned int kind, float scale, int idx, Vec3_82863B20 *out);
+extern void fn_828106A0(Vec3_82863B20 *v);
+extern void fn_82810208(const Vec3_82863B20 *a, const Vec3_82863B20 *b, Vec3_82863B20 *out);
+extern float fn_8280A5D8(float v);
+extern void fn_828102A8(const Vec3_82863B20 *v, Vec3_82863B20 *out, float s);
 
+void fn_82863B20(Mesh_82863B20 *mesh, Vec3_82863B20 *out)
 {
-  unsigned short uVar1;
-  unsigned short uVar2;
-  __int64 lVar3;
-  unsigned char auStack_38 [56];
-  
-  fn_828106A0(param_2);
-  uVar2 = *(unsigned short *)(param_1 + 8);
-  lVar3 = 0;
-  uVar1 = 0;
-  if (uVar2 != 0) {
-    do {
-      fn_82862238((double)lbl_832116BC,*(unsigned int *)(param_1 + 4),uVar2,lbl_832116B8,param_4
-                        ,lVar3,auStack_38);
-      fn_82810208(param_2,auStack_38,param_2);
-      uVar1 = *(unsigned short *)(param_1 + 8);
-      lVar3 = lVar3 + 1;
-      uVar2 = uVar1;
-    } while ((int)lVar3 < (int)(unsigned int)uVar1);
-  }
-  fn_8280A5D8((double)uVar1);
-  fn_828102A8(param_2,param_2);
-  return;
+    Vec3_82863B20 p;
+    int i;
+    float n;
+    fn_828106A0(out);
+    for (i = 0; i < mesh->count; i++) {
+        fn_82862238(mesh->data, mesh->count, lbl_832116B4.kind, lbl_832116B4.scale, i, &p);
+        fn_82810208(out, &p, out);
+    }
+    n = mesh->count;
+    fn_828102A8(out, out, fn_8280A5D8(n));
 }
-

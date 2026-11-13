@@ -1,36 +1,35 @@
-extern int fn_8280A550();
-extern int fn_8280A668();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_8201DCB8;
+typedef struct Quat_8280DB80 {
+    float x;
+    float y;
+    float z;
+    float w;
+} Quat_8280DB80;
 
+extern float fn_8280A550(float x); /* 1 / sqrt(x) */
+extern void fn_8280A668(float angle, float *s, float *c); /* sincos */
 
-void fn_8280DB80(float *param_1,float *param_2)
-
+/* Quaternion exponential of the vector part of v. */
+void fn_8280DB80(const Quat_8280DB80 *v, Quat_8280DB80 *out)
 {
-  float fVar1;
-  unsigned __int64 uVar2;
-  double extraout_f1;
-  double dVar3;
-  double dVar4;
-  float afStack_30;
-  
-  dVar4 = (double)(param_1[2] * param_1[2] + *param_1 * *param_1 + param_1[1] * param_1[1]);
-  if (dVar4 <= (double)lbl_8201DCB8) {
-    param_2[3] = lbl_82002AE0;
-    *param_2 = *param_1;
-    param_2[1] = param_1[1];
-    fVar1 = param_1[2];
-  }
-  else {
-    uVar2 = fn_8280A550(dVar4);
-    dVar3 = extraout_f1;
-    fn_8280A668((double)(float)(extraout_f1 * dVar4),uVar2,&afStack_30,param_2 + 3);
-    fVar1 = (float)((double)afStack_30 * dVar3);
-    *param_2 = *param_1 * fVar1;
-    param_2[1] = param_1[1] * fVar1;
-    fVar1 = fVar1 * param_1[2];
-  }
-  param_2[2] = fVar1;
-  return;
-}
+    float x2 = v->x * v->x;
+    float y2 = v->y * v->y;
+    float z2 = v->z * v->z;
+    float lenSq = x2 + y2 + z2;
 
+    if (lenSq > 1e-05f) {
+        float invLen = fn_8280A550(lenSq);
+        float s;
+        float scale;
+
+        fn_8280A668(invLen * lenSq, &s, &out->w);
+        scale = s * invLen;
+        out->x = v->x * scale;
+        out->y = v->y * scale;
+        out->z = scale * v->z;
+    } else {
+        out->w = 1.0f;
+        out->x = v->x;
+        out->y = v->y;
+        out->z = v->z;
+    }
+}

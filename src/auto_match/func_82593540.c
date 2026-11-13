@@ -1,25 +1,16 @@
-extern int fn_82526AF8();
+unsigned int strlen(const char *s);
 
+extern const char *lbl_831C08E8[];
+extern int fn_82526AF8(int count, const char **names, const char *name);
 
-__int64 fn_82593540(char *param_1)
-
+int fn_82593540(const char *name)
 {
-  char cVar1;
-  __int64 lVar2;
-  char *pcVar3;
-  
-  pcVar3 = param_1;
-  do {
-    cVar1 = *pcVar3;
-    pcVar3 = pcVar3 + 1;
-  } while (cVar1 != '\0');
-  if (((int)pcVar3 - (int)param_1 == 1) ||
-     (lVar2 = fn_82526AF8(0x9d,0xffffffff831c08ec), (int)lVar2 == -1)) {
-    lVar2 = 0;
-  }
-  else {
-    lVar2 = lVar2 + 1;
-  }
-  return lVar2;
-}
+    int index;
 
+    if (strlen(name) == 0)
+        return 0;
+    index = fn_82526AF8(0x9d, &lbl_831C08E8[1], name);
+    if (index == -1)
+        return 0;
+    return index + 1;
+}

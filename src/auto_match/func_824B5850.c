@@ -1,20 +1,25 @@
-extern int fn_824B58A8();
-extern int iRam831c4624;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int lbl_831C4618;
+typedef struct Settings_824B5850 {
+    int pad[2];
+    int previous;   /* 0x8 */
+    int pad2[2];
+    int current;    /* 0x14 */
+} Settings_824B5850;
 
+typedef struct Obj_824B5850 {
+    char pad[0x48];
+    float currentValue;    /* 0x48 */
+    float previousValue;   /* 0x4c */
+} Obj_824B5850;
 
-double fn_824B5850(int param_1,unsigned __int64 param_2)
+extern Settings_824B5850 lbl_831C4610;
+extern float fn_824B58A8(Obj_824B5850 *self, int key, int mode);
 
+float fn_824B5850(Obj_824B5850 *self, int key)
 {
-  double dVar1;
-  
-  dVar1 = (double)fn_824B58A8(param_1,param_2,iRam831c4624);
-  *(float *)(param_1 + 0x48) = (float)dVar1;
-  if (lbl_831C4618 != iRam831c4624) {
-    dVar1 = (double)fn_824B58A8(param_1,param_2);
-  }
-  *(float *)(param_1 + 0x4c) = (float)dVar1;
-  return (double)ltcg_pool_0_0f;
+    float value = fn_824B58A8(self, key, lbl_831C4610.current);
+    self->currentValue = value;
+    if (lbl_831C4610.previous != lbl_831C4610.current)
+        value = fn_824B58A8(self, key, lbl_831C4610.previous);
+    self->previousValue = value;
+    return 0.0f;
 }
-

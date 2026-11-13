@@ -1,30 +1,27 @@
-extern int fn_82FF7438();
-extern int fn_82FF74B8();
-extern int fn_830178D8();
-extern int fn_83018220();
-extern unsigned int lbl_832642E8;
-extern unsigned int lbl_832642FC;
+extern int fn_830178D8(void *mgr, int id);
+extern int fn_82FF74B8(void *mgr, int id);
+extern int fn_83018220(void *mgr, int id, void *data, int flags);
+extern int fn_82FF7438(void *mgr, int id, void *data);
+extern void *lbl_832642E8;
+extern void *lbl_832642FC;
 
-
-unsigned __int64 fn_8300CA50(unsigned __int64 param_1,unsigned __int64 param_2,int param_3)
-
+int fn_8300CA50(int id, void *data, unsigned int kind)
 {
-  unsigned __int64 uVar1;
-  
-  fn_830178D8(lbl_832642FC,param_1);
-  fn_82FF74B8(lbl_832642E8,param_1);
-  if ((param_2 & 0xffffffff) == 0) {
-    uVar1 = 1;
-  }
-  else if (param_3 == 0) {
-    uVar1 = fn_83018220(lbl_832642FC,param_1,param_2,0);
-  }
-  else if (param_3 == 1) {
-    uVar1 = fn_82FF7438(lbl_832642E8,param_1,param_2);
-  }
-  else {
-    uVar1 = 0x1f;
-  }
-  return uVar1;
+    int result = 1;
+    fn_830178D8(lbl_832642FC, id);
+    fn_82FF74B8(lbl_832642E8, id);
+    if (data != 0) {
+        switch (kind) {
+        case 0:
+            result = fn_83018220(lbl_832642FC, id, data, 0);
+            break;
+        case 1:
+            result = fn_82FF7438(lbl_832642E8, id, data);
+            break;
+        default:
+            result = 0x1f;
+            break;
+        }
+    }
+    return result;
 }
-

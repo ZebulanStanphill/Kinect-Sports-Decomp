@@ -1,30 +1,27 @@
-void fn_82B47660(int param_1,unsigned __int64 param_2)
+typedef struct Block_82B47660 {
+    int unk0;
+    unsigned int next;    /* 0x04, low bit set: no next block */
+    unsigned int count;   /* 0x08 */
+} Block_82B47660;
 
+typedef struct Iter_82B47660 {
+    int unk0;
+    unsigned int block;   /* 0x04 */
+    unsigned int index;   /* 0x08 */
+} Iter_82B47660;
+
+void fn_82B47660(Iter_82B47660 *it, unsigned int n)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  int iVar4;
-  
-  if ((param_2 & 0xffffffff) == 0) {
-    return;
-  }
-  do {
-    uVar1 = *(unsigned int *)(param_1 + 4);
-    uVar3 = (unsigned __int64)*(unsigned int *)(uVar1 + 8) - (unsigned __int64)*(unsigned int *)(param_1 + 8);
-    uVar2 = param_2;
-    if ((uVar3 & 0xffffffff) <= (param_2 & 0xffffffff)) {
-      uVar2 = uVar3;
+    while (n != 0) {
+        Block_82B47660 *b = (Block_82B47660 *)it->block;
+        unsigned int left = b->count - it->index;
+        unsigned int step = n < left ? n : left;
+        it->index += step;
+        if (it->index == b->count) {
+            unsigned int next = ((Block_82B47660 *)(it->block & ~1u))->next;
+            it->index = 0;
+            it->block = (next & 1) ? 0 : next;
+        }
+        n -= step;
     }
-    iVar4 = *(unsigned int *)(param_1 + 8) + (int)uVar2;
-    *(int *)(param_1 + 8) = iVar4;
-    if (iVar4 == *(int *)(uVar1 + 8)) {
-      uVar1 = *(unsigned int *)((uVar1 & 0xfffffffe) + 4);
-      *(unsigned int *)(param_1 + 8) = 0;
-      *(unsigned int *)(param_1 + 4) = -(unsigned int)((uVar1 & 1) == 0) & uVar1;
-    }
-    param_2 = param_2 - uVar2;
-  } while (param_2 != 0);
-  return;
 }
-

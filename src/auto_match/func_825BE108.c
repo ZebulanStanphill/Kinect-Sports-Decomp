@@ -1,39 +1,34 @@
-typedef unsigned char bool;
-extern int fn_8259BB38();
-extern int fn_827D96A0();
-extern unsigned int uStack_30;
-extern unsigned __int64 storeWordConditionalIndexed();
+typedef struct Node_825BE108 Node_825BE108;
+typedef struct Hash_825BE108 {
+    int pad0;
+    Node_825BE108 *end;            /* 0x04 */
+} Hash_825BE108;
 
+typedef struct Self_825BE108 {
+    char pad0[0x5c];
+    Hash_825BE108 table;           /* 0x5c */
+    char pad64[0x178];
+    long pending;                  /* 0x1dc */
+    char pad1e0[0x18];
+    char id[4];                    /* 0x1f8 */
+} Self_825BE108;
 
-unsigned __int64 fn_825BE108(__int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+extern long _InterlockedDecrement(long volatile *p);
+extern unsigned int fn_827D96A0(void *p);
+extern Node_825BE108 **fn_8259BB38(Node_825BE108 **out, Hash_825BE108 *h, unsigned int *key);
 
+int fn_825BE108(Self_825BE108 *self, void *owner, void *item)
 {
-  unsigned int uVar1;
-  int iVar2;
-  int iVar3;
-  unsigned int *puVar4;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  unsigned int uStack_30;
-  int aiStack_2c [11];
-  
-  iVar2 = fn_827D96A0(param_1 + 0x1f8);
-  iVar3 = fn_827D96A0(param_2);
-  if (iVar3 == iVar2) {
-    uStack_30 = fn_827D96A0(param_3);
-    fn_8259BB38(aiStack_2c,param_1 + 0x5c,&uStack_30);
-    if (aiStack_2c[0] != *(int *)((int)param_1 + 0x60)) {
-      do {
-        puVar4 = (unsigned int *)(param_1 + 0x1dc);
-        if (in_RESERVE != '\0') {
-          uVar1 = storeWordConditionalIndexed((unsigned __int64)*puVar4 - 1,0,param_1 + 0x1dc);
-          *puVar4 = uVar1;
-          in_cr0 = 2;
-        }
-      } while (!(bool)(in_cr0 >> 1 & 1));
-      return 1;
-    }
-  }
-  return 0;
-}
+    unsigned int key;
+    Node_825BE108 *it;
 
+    if (fn_827D96A0(owner) == fn_827D96A0(self->id)) {
+        key = fn_827D96A0(item);
+        fn_8259BB38(&it, &self->table, &key);
+        if (it != self->table.end) {
+            _InterlockedDecrement(&self->pending);
+            return 1;
+        }
+    }
+    return 0;
+}

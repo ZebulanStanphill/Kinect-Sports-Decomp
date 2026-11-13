@@ -1,30 +1,33 @@
-extern unsigned int *auStack_30;
-extern int fn_826A6A38();
-extern int fn_826D8EA8();
-extern int fn_826DFA28();
-extern int fn_826DFA28();
+typedef struct Stream_826E03B8 Stream_826E03B8;
+typedef struct Resources_826E03B8 Resources_826E03B8;
 
+typedef struct Loader_826E03B8 {
+    char pad0[0x14];
+    char log[0xc];                   /* 0x14 */
+    Resources_826E03B8 *resources;   /* 0x20 */
+    int unk24;
+    char stream[0x2ec];              /* 0x28 */
+    Stream_826E03B8 *altStream;      /* 0x314 */
+} Loader_826E03B8;
 
-void fn_826E03B8(int param_1,unsigned int *param_2)
+extern unsigned short fn_826A6A38(Loader_826E03B8 *loader);
+extern void *fn_826D8EA8(Resources_826E03B8 *resources, unsigned int *id);
+extern void fn_8276E270(void *font, Stream_826E03B8 *stream, int tag);
+extern void fn_826DFA28(void *log, const char *format, ...);
 
+void fn_826E03B8(Loader_826E03B8 *self, int *tag)
 {
-  unsigned int uVar2;
-  unsigned __int64 uVar1;
-  int iVar3;
-  unsigned int auStack_30;
+    unsigned int id = fn_826A6A38(self);
+    unsigned int key = id;
+    void *font = fn_826D8EA8(self->resources, &key);
+    Stream_826E03B8 *stream;
 
-  uVar2 = fn_826A6A38();
-  auStack_30 = uVar2 & 0xffff;
-  uVar1 = fn_826D8EA8(*(unsigned int *)(param_1 + 0x20),&auStack_30);
-  if ((uVar1 & 0xffffffff) == 0) {
-    fn_826DFA28(param_1 + 0x14,0xffffffff8200ca94,uVar2 & 0xffff);
-  }
-  else {
-    iVar3 = *(int *)(param_1 + 0x314);
-    if (iVar3 == 0) {
-      iVar3 = param_1 + 0x28;
+    if (font != 0) {
+        stream = self->altStream;
+        if (stream == 0)
+            stream = (Stream_826E03B8 *)self->stream;
+        fn_8276E270(font, stream, *tag);
+    } else {
+        fn_826DFA28(self->log, "GFx_DefineFontInfoLoader: can't find GFxFontResource w/ id %d\n", id);
     }
-    fn_826DFA28(uVar1,iVar3,*param_2);
-  }
-  return;
 }

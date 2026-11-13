@@ -1,30 +1,34 @@
-extern unsigned int *auStack_20;
-extern unsigned int fStack_28;
-extern int fn_827FA7B8();
-extern int fn_827FA918();
-extern int fn_82809D40();
-extern int fn_8280DF98();
-extern unsigned int lbl_821AAD20;
+typedef struct Vec3_827F3F30 {
+    float x;
+    float y;
+    float z;
+} Vec3_827F3F30;
 
+typedef __declspec(align(16)) struct Quat_827F3F30 {
+    float v[4];
+} Quat_827F3F30;
 
-double fn_827F3F30(int param_1)
+typedef struct Self_827F3F30 {
+    int pad0[2];
+    void *node;                    /* 0x08 */
+} Self_827F3F30;
 
+extern void fn_827FA918(void *node, Quat_827F3F30 *out);
+extern unsigned int fn_827FA7B8(void *node);
+extern void fn_8280DF98(Quat_827F3F30 *q, const Vec3_827F3F30 *v, Vec3_827F3F30 *out);
+extern float fn_82809D40(float x, float z);
+
+extern const Vec3_827F3F30 lbl_8219609C;
+
+float fn_827F3F30(Self_827F3F30 *self)
 {
-  unsigned __int64 uVar1;
-  double dVar2;
-  float afStack_30 [2];
-  float fStack_28;
-  unsigned char auStack_20 [16];
-  
-  fn_827FA918(*(unsigned int *)(param_1 + 8),auStack_20);
-  uVar1 = fn_827FA7B8(*(unsigned int *)(param_1 + 8));
-  if ((uVar1 & 0xf) == 0) {
-    dVar2 = (double)lbl_821AAD20;
-  }
-  else {
-    fn_8280DF98(auStack_20,0xffffffff8219609c,afStack_30);
-    dVar2 = (double)fn_82809D40((double)afStack_30[0],(double)fStack_28);
-  }
-  return dVar2;
-}
+    Quat_827F3F30 q;
+    Vec3_827F3F30 dir;
 
+    fn_827FA918(self->node, &q);
+    if ((fn_827FA7B8(self->node) & 0xf) != 0) {
+        fn_8280DF98(&q, &lbl_8219609C, &dir);
+        return fn_82809D40(dir.x, dir.z);
+    }
+    return 0.0f;
+}

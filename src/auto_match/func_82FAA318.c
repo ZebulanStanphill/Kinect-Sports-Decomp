@@ -1,32 +1,64 @@
-extern int fn_82FAC5E8();
-extern unsigned int lbl_8216CC50;
+typedef struct Owner_82FAA318 {
+    int pad[11];
+    int refs;
+} Owner_82FAA318;
 
+typedef struct Buffer_82FAA318 {
+    int data;
+    int pad[3];
+    unsigned short count;
+    unsigned short owned : 1;
+    unsigned short capacity : 15;
+    int size;
+} Buffer_82FAA318;
 
-unsigned int * fn_82FAA318(unsigned int *param_1,unsigned int param_2,int param_3)
+typedef struct Obj_82FAA318 {
+    void *vt;
+    int a;
+    int b;
+    int id;
+    unsigned char enabled;
+    int c;
+    int d;
+    int e;
+    Buffer_82FAA318 buf;
+    int pad;
+    int pad2;
+    int owner;
+    int f;
+    int g;
+    unsigned char h;
+} Obj_82FAA318;
 
+extern char lbl_8216CC50[];
+extern void fn_82FAC5E8(int owner, Obj_82FAA318 *self);
+
+static __forceinline void InitBuffer(Buffer_82FAA318 *b)
 {
-  param_1[3] = param_2;
-  param_1[1] = 0;
-  *param_1 = &lbl_8216CC50;
-  param_1[2] = 0;
-  *(unsigned char *)(param_1 + 4) = 1;
-  param_1[5] = 0;
-  param_1[6] = 0;
-  param_1[7] = 0;
-  param_1[8] = 0;
-  *(unsigned short *)(param_1 + 0xc) = 0;
-  *(unsigned short *)((int)param_1 + 0x32) = *(unsigned short *)((int)param_1 + 0x32) & 0x7fff;
-  param_1[0xd] = 0;
-  param_1[0x10] = param_3;
-  if (param_3 != 0) {
-    *(int *)(param_3 + 0x2c) = *(int *)(param_3 + 0x2c) + 1;
-  }
-  param_1[0x11] = 0;
-  param_1[0x12] = 0;
-  *(unsigned char *)(param_1 + 0x13) = 0;
-  if (param_1[0x10] != 0) {
-    fn_82FAC5E8(param_1[0x10],param_1);
-  }
-  return param_1;
+    b->data = 0;
+    b->count = 0;
+    b->owned = 0;
+    b->size = 0;
 }
 
+Obj_82FAA318 *fn_82FAA318(Obj_82FAA318 *self, int id, Owner_82FAA318 *owner)
+{
+    self->id = id;
+    self->a = 0;
+    self->vt = lbl_8216CC50;
+    self->b = 0;
+    self->enabled = 1;
+    self->c = 0;
+    self->d = 0;
+    self->e = 0;
+    InitBuffer(&self->buf);
+    self->owner = (int)owner;
+    if (owner != 0)
+        owner->refs++;
+    self->f = 0;
+    self->g = 0;
+    self->h = 0;
+    if (self->owner != 0)
+        fn_82FAC5E8(self->owner, self);
+    return self;
+}

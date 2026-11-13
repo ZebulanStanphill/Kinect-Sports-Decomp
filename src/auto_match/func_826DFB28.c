@@ -1,33 +1,38 @@
-extern int fn_826D69D0();
-extern int fn_826F7EF0();
+typedef struct Pool_826DFB28 {
+    char *cur;
+    unsigned int left;
+} Pool_826DFB28;
 
+typedef struct Arena_826DFB28 {
+    char pad0[8];
+    Pool_826DFB28 pool;
+} Arena_826DFB28;
 
-unsigned __int64 fn_826DFB28(int param_1,int param_2)
+typedef struct Owner_826DFB28 {
+    char pad0[0x20];
+    Arena_826DFB28 *arena;
+} Owner_826DFB28;
 
+extern void *fn_826D69D0(Pool_826DFB28 *pool, unsigned int size);
+extern void *fn_826F7EF0(void *node);
+
+static __forceinline void *Alloc(Pool_826DFB28 *pool, unsigned int size)
 {
-  int iVar1;
-  unsigned int uVar2;
-  int iVar4;
-  unsigned __int64 uVar3;
-  int *piVar5;
-  
-  iVar1 = *(int *)(param_1 + 0x20);
-  piVar5 = (int *)(iVar1 + 8);
-  uVar2 = param_2 + 10U & 0xfffffffc;
-  if (*(unsigned int *)(iVar1 + 0xc) < uVar2) {
-    iVar4 = fn_826D69D0(piVar5);
-  }
-  else {
-    iVar4 = *piVar5;
-    *(unsigned int *)(iVar1 + 0xc) = *(unsigned int *)(iVar1 + 0xc) - uVar2;
-    *piVar5 = iVar4 + uVar2;
-  }
-  if (iVar4 == 0) {
-    uVar3 = 0;
-  }
-  else {
-    uVar3 = fn_826F7EF0();
-  }
-  return uVar3;
+    char *mem;
+
+    if (size <= pool->left) {
+        mem = pool->cur;
+        pool->cur += size;
+        pool->left -= size;
+    } else {
+        mem = (char *)fn_826D69D0(pool, size);
+    }
+    return mem;
 }
 
+void *fn_826DFB28(Owner_826DFB28 *self, int count)
+{
+    void *node = Alloc(&self->arena->pool, (count + 10) & ~3);
+
+    return node ? fn_826F7EF0(node) : 0;
+}

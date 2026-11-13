@@ -1,42 +1,48 @@
-extern int fn_823BF078();
-extern int fn_82F4DA20();
-extern int fn_82F4ECF8();
-extern int fn_82F50D98();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Handle_824E1718 {
+    int id;
+} Handle_824E1718;
 
-void fn_824E1718(int param_1,unsigned __int64 param_2)
+typedef struct Body_824E1718 {
+    char pad0[0x90];
+    __vector4 pos;      /* 0x90 */
+    __vector4 rot;      /* 0xa0 */
+} Body_824E1718;
 
+typedef struct Part_824E1718 {
+    char pad0[0xc];
+    Body_824E1718 *body; /* 0x0c */
+} Part_824E1718;
+
+typedef struct Owner_824E1718 {
+    Handle_824E1718 handle; /* 0x00 */
+    char pad4[0xd0 - 4];
+    Part_824E1718 part; /* 0xd0 */
+} Owner_824E1718;
+
+typedef struct Out_824E1718 {
+    char pad0[0x180];
+    __vector4 pos;      /* 0x180 */
+    char pad190[0x10];
+    __vector4 rot;      /* 0x1a0 */
+} Out_824E1718;
+
+extern int fn_82F4DA20(int kind);
+extern void fn_82F50D98(Handle_824E1718 handle);
+extern int fn_82F4ECF8(void);
+extern void fn_823BF078(Out_824E1718 *out, int a, int b);
+
+void fn_824E1718(Part_824E1718 *part, Out_824E1718 *out)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  
-  uVar3 = fn_82F4DA20(2);
-  fn_82F50D98(*(unsigned int *)(param_1 + -0xd0));
-  uVar4 = fn_82F4ECF8();
-  fn_823BF078(param_2,uVar3,uVar4);
-  puVar1 = (unsigned int *)(*(int *)(param_1 + 0xc) + 0x90U & 0xfffffff0);
-  uVar5 = puVar1[1];
-  uVar6 = puVar1[2];
-  uVar7 = puVar1[3];
-  puVar2 = (unsigned int *)((int)param_2 + 0x180U & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar5;
-  puVar2[2] = uVar6;
-  puVar2[3] = uVar7;
-  puVar1 = (unsigned int *)(*(int *)(param_1 + 0xc) + 0xa0U & 0xfffffff0);
-  uVar5 = puVar1[1];
-  uVar6 = puVar1[2];
-  uVar7 = puVar1[3];
-  puVar2 = (unsigned int *)((int)param_2 + 0x1a0U & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar5;
-  puVar2[2] = uVar6;
-  puVar2[3] = uVar7;
-  return;
-}
+    Owner_824E1718 *owner = (Owner_824E1718 *)((char *)part - 0xd0);
+    int a = fn_82F4DA20(2);
+    Handle_824E1718 h = owner->handle;
 
+    fn_82F50D98(h);
+    fn_823BF078(out, a, fn_82F4ECF8());
+    out->pos = part->body->pos;
+    out->rot = part->body->rot;
+}

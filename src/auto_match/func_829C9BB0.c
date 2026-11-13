@@ -1,31 +1,48 @@
-extern unsigned int *auStack_20;
-extern int fn_829C9B88();
-extern unsigned int lbl_8315C3E8;
-extern unsigned int uStack_10;
-extern unsigned int uStack_1c;
+extern long KeWaitForSingleObject(void *object, int reason, char mode, unsigned char alertable, void *timeout);
+extern void fn_829C9B88(void);
 
+typedef struct ListEntry_829C9BB0 {
+    struct ListEntry_829C9BB0 *flink;
+    struct ListEntry_829C9BB0 *blink;
+} ListEntry_829C9BB0;
 
-unsigned __int64 fn_829C9BB0(int param_1)
+typedef struct {
+    unsigned char type;
+    unsigned char absolute;
+    unsigned char size;
+    unsigned char inserted;
+    long signalState;
+    ListEntry_829C9BB0 waitList;
+} Event_829C9BB0;
 
+typedef struct {
+    Event_829C9BB0 event;
+    long status;
+} Wait_829C9BB0;
+
+typedef struct {
+    char pad[0x10];
+    Wait_829C9BB0 *wait;
+    void (*complete)(void);
+} Request_829C9BB0;
+
+extern long (*lbl_8315C3E8)(Request_829C9BB0 *request);
+
+long fn_829C9BB0(Request_829C9BB0 *request)
 {
-  unsigned __int64 uVar1;
-  unsigned char auStack_20 [4];
-  unsigned int uStack_1c;
-  unsigned int ***pppuStack_18;
-  unsigned int ***pppuStack_14;
-  unsigned int uStack_10;
-  
-  auStack_20[0] = 0;
-  pppuStack_18 = &pppuStack_18;
-  *(unsigned char **)(param_1 + 0x10) = auStack_20;
-  pppuStack_14 = &pppuStack_18;
-  *(int (***)())(param_1 + 0x14) = fn_829C9B88;
-  uStack_1c = 0;
-  uVar1 = (*(int (**)())lbl_8315C3E8)();
-  if ((int)uVar1 == 0x103) {
-    KeWaitForSingleObject(auStack_20,3,0,0,0);
-    uVar1 = (unsigned __int64)uStack_10;
-  }
-  return uVar1;
-}
+    Wait_829C9BB0 wait;
+    long status;
 
+    wait.event.type = 0;
+    request->wait = &wait;
+    request->complete = fn_829C9B88;
+    wait.event.signalState = 0;
+    wait.event.waitList.flink = &wait.event.waitList;
+    wait.event.waitList.blink = &wait.event.waitList;
+    status = lbl_8315C3E8(request);
+    if (status == 0x103) {
+        KeWaitForSingleObject(&wait, 3, 0, 0, 0);
+        status = wait.status;
+    }
+    return status;
+}

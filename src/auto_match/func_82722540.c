@@ -1,72 +1,29 @@
-unsigned __int64 fn_82722540(unsigned int *param_1)
+#include <string.h>
 
+typedef struct Attribute_82722540 {
+    char *name;
+} Attribute_82722540;
+
+extern char lbl_82010C58[]; /* "compositionSegment" */
+extern char lbl_82010C48[]; /* "clauseSegment" */
+extern char lbl_82010C34[]; /* "convertedSegment" */
+extern char lbl_82010C24[]; /* "phraseLengthAdj" */
+extern char lbl_82010C14[]; /* "lowConfSegment" */
+
+int fn_82722540(Attribute_82722540 **attribute)
 {
-  char cVar1;
-  char cVar2;
-  char *pcVar3;
-  char *pcVar4;
-  char *pcVar5;
-  
-  pcVar3 = "compositionSegment";
-  pcVar5 = *(char **)*param_1;
-  pcVar4 = pcVar5;
-  do {
-    cVar1 = *pcVar4;
-    cVar2 = *pcVar3;
-    if (cVar1 == '\0') break;
-    pcVar4 = pcVar4 + 1;
-    pcVar3 = pcVar3 + 1;
-  } while (cVar1 == cVar2);
-  if (cVar1 == cVar2) {
-    return 0;
-  }
-  pcVar3 = "clauseSegment";
-  pcVar4 = pcVar5;
-  do {
-    cVar1 = *pcVar4;
-    cVar2 = *pcVar3;
-    if (cVar1 == '\0') break;
-    pcVar4 = pcVar4 + 1;
-    pcVar3 = pcVar3 + 1;
-  } while (cVar1 == cVar2);
-  if (cVar1 == cVar2) {
-    return 1;
-  }
-  pcVar3 = "convertedSegment";
-  pcVar4 = pcVar5;
-  do {
-    cVar1 = *pcVar4;
-    cVar2 = *pcVar3;
-    if (cVar1 == '\0') break;
-    pcVar4 = pcVar4 + 1;
-    pcVar3 = pcVar3 + 1;
-  } while (cVar1 == cVar2);
-  if (cVar1 == cVar2) {
-    return 2;
-  }
-  pcVar3 = "phraseLengthAdj";
-  pcVar4 = pcVar5;
-  do {
-    cVar1 = *pcVar4;
-    cVar2 = *pcVar3;
-    if (cVar1 == '\0') break;
-    pcVar4 = pcVar4 + 1;
-    pcVar3 = pcVar3 + 1;
-  } while (cVar1 == cVar2);
-  if (cVar1 == cVar2) {
-    return 3;
-  }
-  pcVar4 = "lowConfSegment";
-  do {
-    cVar1 = *pcVar5;
-    cVar2 = *pcVar4;
-    if (cVar1 == '\0') break;
-    pcVar5 = pcVar5 + 1;
-    pcVar4 = pcVar4 + 1;
-  } while (cVar1 == cVar2);
-  if (cVar1 != cVar2) {
-    return 5;
-  }
-  return 4;
-}
+    const char *name = (*attribute)->name;
+    int type = 5;
 
+    if (strcmp(name, lbl_82010C58) == 0)
+        type = 0;
+    else if (strcmp(name, lbl_82010C48) == 0)
+        type = 1;
+    else if (strcmp(name, lbl_82010C34) == 0)
+        type = 2;
+    else if (strcmp(name, lbl_82010C24) == 0)
+        type = 3;
+    else if (strcmp(name, lbl_82010C14) == 0)
+        type = 4;
+    return type;
+}

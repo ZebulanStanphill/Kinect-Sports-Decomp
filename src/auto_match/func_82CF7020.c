@@ -1,66 +1,74 @@
-extern unsigned int *auStack_50;
-extern unsigned int iStack_54;
+typedef struct Node_82CF7020 {
+    struct Node_82CF7020 *next;
+} Node_82CF7020;
 
+typedef struct List_82CF7020 {
+    Node_82CF7020 *head;
+    int count;
+} List_82CF7020;
 
-void fn_82CF7020(int param_1,int param_2,int *param_3)
+struct Obj_82CF7020;
 
+typedef struct Vt_82CF7020 {
+    void *slots[2];
+    void (*Release)(struct Obj_82CF7020 *self, Node_82CF7020 *item, int ctx);
+    void *slots2[4];
+    void (*Process)(struct Obj_82CF7020 *self, Node_82CF7020 **items, int n, int ctx);
+} Vt_82CF7020;
+
+typedef struct Obj_82CF7020 {
+    Vt_82CF7020 *vt;
+} Obj_82CF7020;
+
+typedef struct Owner_82CF7020 {
+    int field_0;
+    Obj_82CF7020 *obj;
+    int capacity;
+} Owner_82CF7020;
+
+static __forceinline Node_82CF7020 *Pop_82CF7020(List_82CF7020 *l)
 {
-  unsigned int uVar1;
-  int *piVar2;
-  int iVar4;
-  __int64 lVar3;
-  int *piVar5;
-  __int64 lVar6;
-  unsigned __int64 uVar7;
-  unsigned int uVar8;
-  int *piVar9;
-  __int64 lVar10;
-  int iStack_54;
-  unsigned char auStack_50 [1];
-  
-  uVar8 = *(unsigned int *)(param_1 + 8);
-  uVar1 = *(unsigned int *)((param_2 + 0x25) * 4 + param_1);
-  if (uVar8 == 0) {
-    (**(int (***)())(**(int **)(param_1 + 4) + 8))(*(int **)(param_1 + 4),param_3,uVar1);
-  }
-  else {
-    iVar4 = param_2 * 8 + param_1;
-    lVar6 = (__int64)((int)uVar8 >> 1) + (unsigned __int64)((int)uVar8 < 0 && (uVar8 & 1) != 0);
-    piVar9 = (int *)(iVar4 + 0xc);
-    uVar8 = *(unsigned int *)(iVar4 + 0x10);
-    uVar7 = (unsigned __int64)uVar8;
-    while ((int)lVar6 < (int)uVar8) {
-      lVar3 = uVar7 - lVar6;
-      if ((int)lVar3 < 5) {
-        if (0 < (int)lVar3) goto LAB_82cf70b0;
-      }
-      else {
-        lVar3 = 4;
-LAB_82cf70b0:
-        piVar2 = &iStack_54;
-        lVar10 = lVar3;
-        do {
-          piVar5 = (int *)*piVar9;
-          if (piVar5 == (int *)0x0) {
-            piVar5 = (int *)0x0;
-          }
-          else {
-            *(int *)(iVar4 + 0x10) = *(int *)(iVar4 + 0x10) + -1;
-            *piVar9 = *piVar5;
-          }
-          piVar2 = piVar2 + 1;
-          *piVar2 = (int)piVar5;
-          lVar10 = lVar10 + -1;
-        } while (lVar10 != 0);
-      }
-      uVar7 = uVar7 - lVar3;
-      (**(int (***)())(**(int **)(param_1 + 4) + 0x1c))(*(int **)(param_1 + 4),auStack_50,lVar3,uVar1);
-      uVar8 = (unsigned int)uVar7;
+    Node_82CF7020 *n = l->head;
+    if (n != 0) {
+        l->count--;
+        l->head = n->next;
+        return n;
     }
-    *(int *)(iVar4 + 0x10) = *(int *)(iVar4 + 0x10) + 1;
-    *param_3 = *piVar9;
-    *piVar9 = (int)param_3;
-  }
-  return;
+    return 0;
 }
 
+static __forceinline void Push_82CF7020(List_82CF7020 *l, Node_82CF7020 *n)
+{
+    l->count++;
+    n->next = l->head;
+    l->head = n;
+}
+
+void fn_82CF7020(Owner_82CF7020 *p, int idx, Node_82CF7020 *item)
+{
+    List_82CF7020 *list;
+    int remaining;
+    int keep;
+    int ctx;
+    int n;
+    int i;
+    Node_82CF7020 *items[4];
+
+    ctx = ((int *)p)[idx + 0x25];
+    if (p->capacity == 0) {
+        p->obj->vt->Release(p->obj, item, ctx);
+        return;
+    }
+    list = (List_82CF7020 *)((char *)p + idx * 8 + 0xc);
+    keep = p->capacity / 2;
+    remaining = list->count;
+    while (remaining > keep) {
+        n = remaining - keep > 4 ? 4 : remaining - keep;
+        for (i = 0; i < n; i++) {
+            items[i] = Pop_82CF7020(list);
+        }
+        remaining -= n;
+        p->obj->vt->Process(p->obj, items, n, ctx);
+    }
+    Push_82CF7020(list, item);
+}

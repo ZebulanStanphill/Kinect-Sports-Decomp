@@ -1,30 +1,29 @@
-extern unsigned int *auStack_30;
-extern int fn_822315A0();
-extern int fn_8229CE78();
-extern int fn_823F2E20();
-extern int fn_8266EC60();
-extern int fn_8266ECF0();
-extern int fn_8266F6A8();
-extern unsigned int iStack_2c;
+typedef struct Ref_8229CDE0 { int handle; unsigned int owner; } Ref_8229CDE0;
 
+typedef struct Obj_8229CDE0 {
+    int f0;
+    int f4;
+    Ref_8229CDE0 texture;
+} Obj_8229CDE0;
 
-int fn_8229CDE0(int param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+extern int fn_8266EC60(void);
+extern Ref_8229CDE0 *fn_8266ECF0(Ref_8229CDE0 *out, int device, int name, int a, int b, int c, int d, int flags);
+extern void fn_823F2E20(Ref_8229CDE0 *dst, Ref_8229CDE0 *src);
+extern void fn_822315A0(unsigned int owner);
+extern void fn_8266F6A8(int handle, int flags);
+extern void fn_8229CE78(Obj_8229CDE0 *self, int arg);
 
+Obj_8229CDE0 *fn_8229CDE0(Obj_8229CDE0 *self, int name, int arg)
 {
-  unsigned __int64 uVar1;
-  unsigned char auStack_30 [4];
-  int iStack_2c;
-  
-  *(unsigned int *)(param_1 + 8) = 0;
-  *(unsigned int *)(param_1 + 0xc) = 0;
-  uVar1 = fn_8266EC60();
-  uVar1 = fn_8266ECF0(auStack_30,uVar1,param_2,1,0,0xffffffffffffffff,0,0x18280143);
-  fn_823F2E20((unsigned int *)(param_1 + 8),uVar1);
-  if (iStack_2c != 0) {
-    fn_822315A0();
-  }
-  fn_8266F6A8(*(unsigned int *)(param_1 + 8),0x80);
-  fn_8229CE78(param_1,param_3);
-  return param_1;
+    Ref_8229CDE0 tmp;
+    Ref_8229CDE0 *tex = &self->texture;
+    tex->handle = 0;
+    tex->owner = 0;
+    fn_823F2E20(tex, fn_8266ECF0(&tmp, fn_8266EC60(), name, 1, 0, -1, 0, 0x18280143));
+    if (tmp.owner != 0) {
+        fn_822315A0(tmp.owner);
+    }
+    fn_8266F6A8(tex->handle, 0x80);
+    fn_8229CE78(self, arg);
+    return self;
 }
-

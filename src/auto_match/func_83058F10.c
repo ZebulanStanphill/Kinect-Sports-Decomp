@@ -1,22 +1,21 @@
-extern int fn_82F655D8();
-extern unsigned int lbl_82005710;
-extern unsigned int lbl_82005720;
-extern unsigned int lbl_82005778;
-extern unsigned int lbl_82015618;
+typedef struct Target_83058F10 {
+    char pad[0x3c];
+    float gain;            /* 0x3c */
+} Target_83058F10;
 
+typedef struct Obj_83058F10 {
+    unsigned int count;
+    unsigned int unk4;
+    Target_83058F10 *target;
+} Obj_83058F10;
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+extern const double lbl_82005710;
+extern const double lbl_82005778;
+extern double fn_82F655D8(double x, double y);
 
-void fn_83058F10(double param_1,double param_2,int param_3)
-
+void fn_83058F10(Obj_83058F10 *self, double db, double t)
 {
-  double dVar1;
-  
-  if (param_2 < lbl_82005710) {
-    param_1 = param_1 - lbl_82005778;
-  }
-  dVar1 = (double)fn_82F655D8(lbl_82015618,param_1 * lbl_82005720);
-  *(float *)(*(int *)(param_3 + 8) + 0x3c) = (float)dVar1;
-  return;
+    if (t < lbl_82005710)
+        db = db - lbl_82005778;
+    self->target->gain = (float)fn_82F655D8(10.0, db * 0.05);
 }
-

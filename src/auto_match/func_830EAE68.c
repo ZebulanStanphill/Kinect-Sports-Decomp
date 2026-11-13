@@ -1,20 +1,25 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern int fn_830E29C0();
-extern V16 vectorSplatHalfWord();
-extern V16 vectorSplatImmediateSignedHalfWord();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vspltish(int value);
+__vector4 __vsplth(__vector4 v, unsigned int i);
 
-unsigned __int64 fn_830EAE68(__int64 param_1,__int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4)
+typedef struct Context_830EAE68 {
+    char pad000[0x470];
+    int rounding;   // 0x470
+} Context_830EAE68;
 
+extern int fn_830E29C0(unsigned char *src, int stride, unsigned char *dst, int dstStride,
+                       int count, int shift, int height, __vector4 weight, __vector4 rounding);
+
+int fn_830EAE68(unsigned char *src, int stride, unsigned char *dst, int dstStride,
+                Context_830EAE68 *context, int unused6, int unused7, int shift, int height)
 {
-  unsigned __int64 in_r10;
-  unsigned char in_vs32 [16];
-  unsigned int in_stack_00000054;
-  
-  vectorSplatImmediateSignedHalfWord(6);
-  vectorSplatHalfWord(in_vs32,1);
-  fn_830E29C0(param_1 - param_2,param_2,param_3,param_4,2 << ((unsigned int)in_r10 & 0x3f),in_r10,
-               in_stack_00000054);
-  return 0;
-}
+    __vector4 rounding;
+    *(int *)&rounding = context->rounding;
 
+    fn_830E29C0(src - stride, stride, dst, dstStride, 2 << shift, shift, height, __vspltish(6),
+                __vsplth(rounding, 1));
+    return 0;
+}

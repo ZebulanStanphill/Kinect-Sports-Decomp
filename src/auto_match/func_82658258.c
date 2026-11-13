@@ -1,26 +1,19 @@
-typedef unsigned char bool;
-extern unsigned int lbl_8327609C;
-extern unsigned __int64 storeWordConditionalIndexed();
+long _InterlockedAnd(long volatile *target, long value);
+extern int KeSetEvent(void *event, int increment, unsigned char wait);
 
+typedef struct Ctx_82658258 {
+    char pad0[0x350];
+    void (*callback)(void *arg);   /* 0x350 */
+    void *arg;                     /* 0x354 */
+} Ctx_82658258;
 
-void fn_82658258(unsigned __int64 param_1,unsigned __int64 param_2,int param_3,unsigned __int64 param_4)
+extern long lbl_8327609C;
+extern char lbl_831BD848[];
 
+void fn_82658258(int a, int b, Ctx_82658258 *ctx, unsigned long mask)
 {
-  unsigned __int64 uVar1;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  (**(int (***)())(param_3 + 0x350))(*(unsigned int *)(param_3 + 0x354));
-  do {
-    uVar1 = (unsigned __int64)lbl_8327609C;
-    if (in_RESERVE != '\0') {
-      lbl_8327609C = storeWordConditionalIndexed(~param_4 & uVar1,0,0xffffffff8327609c);
-      in_cr0 = 2;
+    ctx->callback(ctx->arg);
+    if ((unsigned long)_InterlockedAnd(&lbl_8327609C, ~mask) == mask) {
+        KeSetEvent(lbl_831BD848, 1, 0);
     }
-  } while (!(bool)(in_cr0 >> 1 & 1));
-  if (uVar1 == (param_4 & 0xffffffff)) {
-    KeSetEvent(0xffffffff831bd848,1,0);
-  }
-  return;
 }
-

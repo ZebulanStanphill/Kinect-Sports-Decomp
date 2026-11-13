@@ -1,43 +1,55 @@
-typedef unsigned char bool;
-extern int fn_82670230();
-extern int fn_8267C498();
-extern unsigned __int64 storeWordConditionalIndexed();
+typedef struct Item_82689768 Item_82689768;
 
+typedef struct ItemVt_82689768 {
+    void *slots[11];
+    void (*attach)(Item_82689768 *self, void *link);   /* 0x2c */
+    void (*detach)(Item_82689768 *self, void *link);   /* 0x30 */
+} ItemVt_82689768;
 
-void fn_82689768(int param_1,unsigned __int64 param_2)
+struct Item_82689768 {
+    ItemVt_82689768 *vt;
+    long refs;                  /* 0x04 */
+};
 
+typedef struct Obj_82689768 {
+    int pad0;
+    int pad4;
+    char link[4];               /* 0x08 */
+    Item_82689768 *item;        /* 0x0c */
+    int pad10;
+    void *pending;              /* 0x14 */
+} Obj_82689768;
+
+extern long _InterlockedExchangeAdd(long volatile *target, long value);
+extern void fn_8267C498(void *p);
+extern void fn_82670230(Item_82689768 *item);
+
+static __forceinline void Set_82689768(Item_82689768 **slot, Item_82689768 *p)
 {
-  int *piVar1;
-  unsigned int uVar2;
-  unsigned int *puVar3;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  if ((unsigned __int64)*(unsigned int *)(param_1 + 0xc) != (param_2 & 0xffffffff)) {
-    if (*(int *)(param_1 + 0x14) != 0) {
-      fn_8267C498();
-    }
-    *(unsigned int *)(param_1 + 0x14) = 0;
-    piVar1 = *(int **)(param_1 + 0xc);
-    if (piVar1 != (int *)0x0) {
-      (**(int (***)())(*piVar1 + 0x30))(piVar1,param_1 + 8);
-    }
-    if (((param_2 & 0xffffffff) != 0) &&
-       ((**(int (***)())(*(int *)param_2 + 0x2c))(param_2,param_1 + 8), (param_2 & 0xffffffff) != 0)) {
-      do {
-        puVar3 = (unsigned int *)(param_2 + 4);
-        if (in_RESERVE != '\0') {
-          uVar2 = storeWordConditionalIndexed((unsigned __int64)*puVar3 + 1,0,param_2 + 4);
-          *puVar3 = uVar2;
-          in_cr0 = 2;
-        }
-      } while (!(bool)(in_cr0 >> 1 & 1));
-    }
-    if (*(int *)(param_1 + 0xc) != 0) {
-      fn_82670230();
-    }
-    *(int **)(param_1 + 0xc) = (int *)param_2;
-  }
-  return;
+    if (p != 0)
+        _InterlockedExchangeAdd(&p->refs, 1);
+    if (*slot != 0)
+        fn_82670230(*slot);
+    *slot = p;
 }
 
+void fn_82689768(Obj_82689768 *self, Item_82689768 *item)
+{
+    if (self->item != item) {
+        {
+            void **p = &self->pending;
+            if (*p != 0)
+                fn_8267C498(*p);
+            *p = 0;
+        }
+        {
+            Item_82689768 *cur = self->item;
+            if ((int)cur != 0)
+                cur->vt->detach(cur, self->link);
+        }
+        if (item != 0) {
+            item->vt->attach(item, self->link);
+        }
+        Set_82689768(&self->item, item);
+    }
+}

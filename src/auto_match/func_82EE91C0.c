@@ -1,25 +1,26 @@
-extern int fn_8306C5D0();
+typedef struct Obj_82EE91C0 {
+    char pad0[0x4c];
+    int closed;
+    char lock[0x1c];
+    void *buffer;
+    void *handle;
+} Obj_82EE91C0;
 
+extern void RtlEnterCriticalSection(void *cs);
+extern void RtlLeaveCriticalSection(void *cs);
+extern unsigned int fn_8306C5D0(void *src, void *handle, int flags, void *buffer);
+extern int fn_82A1F470(void);
 
-unsigned __int64 fn_82EE91C0(int param_1,unsigned __int64 param_2)
-
+int fn_82EE91C0(Obj_82EE91C0 *self, void *src)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  
-  uVar2 = 0;
-  RtlEnterCriticalSection(param_1 + 0x50);
-  if (*(int *)(param_1 + 0x4c) == 0) {
-    iVar1 = fn_8306C5D0(param_2,*(unsigned int *)(param_1 + 0x70),0,
-                              *(unsigned int *)(param_1 + 0x6c));
-    if ((iVar1 == 0) && (uVar2 = thunk_FUN_82a2b798(), 0 < (int)uVar2)) {
-      uVar2 = uVar2 & 0xffff | 0x80070000;
+    int hr = 0;
+    RtlEnterCriticalSection(self->lock);
+    if (self->closed != 0) {
+        hr = 0x8000FFFF;
+    } else if (fn_8306C5D0(src, self->handle, 0, self->buffer) == 0) {
+        int err = fn_82A1F470();
+        hr = err <= 0 ? err : (err & 0xffff) | 0x80070000;
     }
-  }
-  else {
-    uVar2 = 0xffffffff8000ffff;
-  }
-  RtlLeaveCriticalSection(param_1 + 0x50);
-  return uVar2;
+    RtlLeaveCriticalSection(self->lock);
+    return hr;
 }
-

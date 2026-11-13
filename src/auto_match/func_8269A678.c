@@ -1,22 +1,16 @@
-extern int fn_826A98D8();
+typedef struct Obj_8269A678 {
+    char pad0[4];
+    unsigned int value;     /* 0x04 */
+    char pad8[4];
+    char sub[4];            /* 0x0c */
+} Obj_8269A678;
 
+extern unsigned int fn_826F5BA0(void *ctx, void *sub);
 
-unsigned __int64 fn_8269A678(int param_1,int param_2)
-
+unsigned int fn_8269A678(Obj_8269A678 *obj, void *ctx)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  
-  if ((unsigned __int64)*(unsigned int *)(param_1 + 4) != 0) {
-    return (unsigned __int64)*(unsigned int *)(param_1 + 4);
-  }
-  if ((*(int *)(param_2 + 0x68) == 0) || (*(int *)(*(int *)(param_1 + 0xc) + 0x10) == 0)) {
-    uVar2 = 0;
-  }
-  else {
-    uVar1 = (**(int (***)())(**(int **)(param_2 + 0x68) + 0x5c))();
-    uVar2 = fn_826A98D8(uVar1,(int *)(param_1 + 0xc),0);
-  }
-  return uVar2;
+    if (obj->value != 0) {
+        return obj->value;
+    }
+    return fn_826F5BA0(ctx, obj->sub);
 }
-

@@ -1,31 +1,38 @@
-void fn_83014FE0(int *param_1,int param_2,unsigned int param_3)
+typedef struct Node_83014FE0 {
+    struct Node_83014FE0 *next;
+    unsigned int key;
+} Node_83014FE0;
 
+typedef struct Table_83014FE0 {
+    int unk0;
+    Node_83014FE0 *buckets[31];
+} Table_83014FE0;
+
+typedef struct Iter_83014FE0 {
+    Node_83014FE0 **buckets;
+    unsigned int index;
+    Node_83014FE0 *node;
+    Node_83014FE0 *prev;
+} Iter_83014FE0;
+
+void fn_83014FE0(Iter_83014FE0 *it, Table_83014FE0 *table, unsigned int key)
 {
-  int *piVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  __int64 lVar4;
-  
-  *param_1 = param_2 + 4;
-  uVar3 = (unsigned __int64)param_3 * 0x8421085 >> 0x20;
-  param_1[3] = 0;
-  uVar3 = ((param_3 - uVar3 & 0xffffffff) >> 1) + uVar3 >> 4;
-  lVar4 = (unsigned __int64)param_3 - ((uVar3 & 0x7ffffff) * 0x20 - uVar3);
-  param_1[1] = (int)lVar4;
-  iVar2 = *(int *)((int)((lVar4 + 1U & 0xffffffff) << 2) + param_2);
-  param_1[2] = iVar2;
-  if (iVar2 == 0) {
-    return;
-  }
-  do {
-    piVar1 = (int *)param_1[2];
-    if (piVar1[1] == param_3) {
-      return;
-    }
-    iVar2 = *piVar1;
-    param_1[3] = (int)piVar1;
-    param_1[2] = iVar2;
-  } while (iVar2 != 0);
-  return;
-}
+    unsigned int index;
 
+    it->buckets = table->buckets;
+    it->prev = 0;
+    index = key % 31;
+    it->index = index;
+    it->node = table->buckets[index];
+    while (it->node != 0) {
+        Node_83014FE0 *n = it->node;
+        if (n->key == key) {
+            return;
+        }
+        {
+            Node_83014FE0 *next = n->next;
+            it->prev = n;
+            it->node = next;
+        }
+    }
+}
