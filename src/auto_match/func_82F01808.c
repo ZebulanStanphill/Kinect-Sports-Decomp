@@ -1,63 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+typedef struct Buf_82F01808 {
+    char pad0[0x40];
+    int f40;
+    char pad44[0x14];
+    int f58;
+    char pad5c[0x14];
+    int f70;
+} Buf_82F01808;
 
+typedef struct Obj_82F01808 {
+    char pad0[0x300];
+    Buf_82F01808 *f300;
+    Buf_82F01808 *f304;
+    char pad308[0x574 - 0x308];
+    int f574;
+    int f578;
+    char pad57c[0x4a94 - 0x57c];
+    int f4a94;
+    int f4a98;
+    int f4a9c;
+} Obj_82F01808;
 
-void fn_82F01808(int param_1)
+void fn_82F00330(Obj_82F01808 *o);
 
+void fn_82F01808(Obj_82F01808 *o)
 {
-  int iVar1;
-  int iVar2;
-  undefined4 uVar3;
-  int iVar4;
-  
-  iVar2 = *(int *)(param_1 + 0x300);
-  uVar3 = *(undefined4 *)(param_1 + 0x304);
-  *(int *)(param_1 + 0x304) = iVar2;
-  *(undefined4 *)(param_1 + 0x300) = uVar3;
-  *(int *)(param_1 + 0x4a94) = *(int *)(iVar2 + 0x40) + *(int *)(param_1 + 0x574);
-  *(int *)(param_1 + 0x4a98) = *(int *)(iVar2 + 0x58) + *(int *)(param_1 + 0x578);
-  *(int *)(param_1 + 0x4a9c) = *(int *)(iVar2 + 0x70) + *(int *)(param_1 + 0x578);
-  iVar2 = *(int *)(param_1 + 0x300);
-  iVar1 = *(int *)(iVar2 + 0x40);
-  *(int *)(param_1 + 0x14) = iVar1;
-  iVar4 = *(int *)(param_1 + 0x574) + iVar1;
-  *(undefined4 *)(param_1 + 0x18) = *(undefined4 *)(iVar2 + 0x58);
-  *(undefined4 *)(param_1 + 0x1c) = *(undefined4 *)(iVar2 + 0x70);
-  *(int *)(param_1 + 0x310) = iVar4;
-  if ((1 < *(uint *)(param_1 + 0x658)) &&
-     (*(int *)(param_1 + 0x113c) = *(int *)(param_1 + 0x1144) + iVar4,
-     3 < *(uint *)(param_1 + 0x658))) {
-    *(int *)(param_1 + 0x1504) = *(int *)(param_1 + 0x150c) + iVar4;
-    *(int *)(param_1 + 0x18cc) = *(int *)(param_1 + 0x18d4) + iVar4;
-  }
-  *(int *)(param_1 + 0x4ed8) = iVar1;
-  *(undefined4 *)(param_1 + 0x4edc) = *(undefined4 *)(param_1 + 0x18);
-  *(undefined4 *)(param_1 + 0x4ee0) = *(undefined4 *)(param_1 + 0x1c);
-  return;
+    Buf_82F01808 *t = o->f304;
+    o->f304 = o->f300;
+    o->f300 = t;
+    o->f4a94 = o->f304->f40 + o->f574;
+    o->f4a98 = o->f304->f58 + o->f578;
+    o->f4a9c = o->f304->f70 + o->f578;
+    fn_82F00330(o);
 }
-

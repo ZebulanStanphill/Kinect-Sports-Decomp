@@ -1,48 +1,32 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A45808();
+typedef struct {
+    int a;
+    int b;
+    int c;
+} Acc_82A47678;
 
+typedef struct {
+    char pad[0x134];
+    unsigned int count;
+    int pad138;
+    Acc_82A47678 acc;
+    int pad148;
+    void *list;
+} Obj_82A47678;
 
-void fn_82A47678(int param_1)
+extern void fn_82A45808(void *list, unsigned int i, Acc_82A47678 *acc);
 
+static __forceinline void Clear_82A47678(Acc_82A47678 *p)
 {
-  ulonglong uVar1;
-  
-  uVar1 = 0;
-  *(undefined4 *)(param_1 + 0x13c) = 0;
-  *(undefined4 *)(param_1 + 0x140) = 0;
-  *(undefined4 *)(param_1 + 0x144) = 0;
-  if (*(int *)(param_1 + 0x134) != 0) {
-    do {
-      fn_82A45808(*(undefined4 *)(param_1 + 0x14c),uVar1,param_1 + 0x13c);
-      uVar1 = uVar1 + 1;
-    } while ((uVar1 & 0xffffffff) < (ulonglong)*(uint *)(param_1 + 0x134));
-  }
-  return;
+    p->a = 0;
+    p->b = 0;
+    p->c = 0;
 }
 
+void fn_82A47678(Obj_82A47678 *self)
+{
+    unsigned int i;
+    Clear_82A47678(&self->acc);
+    for (i = 0; i < self->count; i++) {
+        fn_82A45808(self->list, i, &self->acc);
+    }
+}

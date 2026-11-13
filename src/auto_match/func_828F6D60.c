@@ -1,57 +1,34 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8265C940();
-extern int fn_828F6C70();
+typedef struct Node_828F6D60 {
+    int key;
+    int a;
+    int b;
+    int c;
+    int d;
+} Node_828F6D60;
 
+extern void *fn_8265C940(int size, int flags);
+extern int fn_828F6C70(void *self, Node_828F6D60 *n);
 
-undefined8 fn_828F6D60(undefined8 param_1,undefined4 param_2)
-
+static __forceinline Node_828F6D60 *Node_ctor_828F6D60(Node_828F6D60 *n, int key)
 {
-  undefined4 *puVar2;
-  undefined8 uVar1;
-  
-  puVar2 = (undefined4 *)fn_8265C940(0x14,0x24810000);
-  if (puVar2 == (undefined4 *)0x0) {
-    puVar2 = (undefined4 *)0x0;
-  }
-  else {
-    *puVar2 = param_2;
-    puVar2[1] = 0;
-    puVar2[2] = 0;
-    puVar2[3] = 0;
-    puVar2[4] = 0;
-  }
-  if (puVar2 == (undefined4 *)0x0) {
-    uVar1 = 0xffffffff8007000e;
-  }
-  else {
-    uVar1 = fn_828F6C70(param_1);
-  }
-  return uVar1;
+    if (n != 0) {
+        n->key = key;
+        n->a = 0;
+        n->b = 0;
+        n->c = 0;
+        n->d = 0;
+        return n;
+    }
+    return 0;
 }
 
+int fn_828F6D60(void *self, int key)
+{
+    Node_828F6D60 *n;
+
+    n = Node_ctor_828F6D60((Node_828F6D60 *)fn_8265C940(0x14, 0x24810000), key);
+    if (n == 0) {
+        return 0x8007000E;
+    }
+    return fn_828F6C70(self, n);
+}

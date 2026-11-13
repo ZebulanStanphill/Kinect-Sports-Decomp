@@ -1,60 +1,29 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AB15D0();
-extern int fn_82AB6368();
-extern int fn_82AB9468();
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
 
+#define SS_ASSERT(e, line) \
+    if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecache\\shaderstore.cpp", line)
 
-undefined8 fn_82AB97B8(ulonglong param_1,undefined8 param_2,ulonglong param_3)
+typedef struct SSItem_82AB97B8 { int f0; int f4; int f8; void *list; } SSItem_82AB97B8;
+extern SSItem_82AB97B8 *fn_82AB9468(void *pShaderStore, int key);
+extern void *fn_82AB6368(void *list, void *pCS);
 
+int fn_82AB97B8(void *pShaderStore, int key, void *pCS)
 {
-  int iVar2;
-  undefined8 uVar1;
-  
-  if ((param_1 & 0xffffffff) == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d74d0,0xffffffff820d74e0,0x2eb);
-  }
-  if ((param_3 & 0xffffffff) == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d683c,0xffffffff820d74e0,0x2ec);
-  }
-  iVar2 = fn_82AB9468(param_1,param_2);
-  if (iVar2 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d74c8,0xffffffff820d74e0,0x2f4);
-    uVar1 = 0x13;
-  }
-  else {
-    iVar2 = fn_82AB6368(*(undefined4 *)(iVar2 + 0xc),param_3);
-    uVar1 = 0;
-    if (iVar2 == 0) {
-      fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d755c,0xffffffff820d74e0,0x2fe);
-      uVar1 = 0x10;
-    }
-  }
-  return uVar1;
-}
+    SSItem_82AB97B8 *pSSItem;
+    void *pNewListItem;
 
+    SS_ASSERT(pShaderStore, 0x2eb);
+    SS_ASSERT(pCS, 0x2ec);
+    pSSItem = fn_82AB9468(pShaderStore, key);
+    if (pSSItem == 0) {
+        SS_ASSERT(pSSItem, 0x2f4);
+        return 0x13;
+    }
+    pNewListItem = fn_82AB6368(pSSItem->list, pCS);
+    if (pNewListItem == 0) {
+        SS_ASSERT(pNewListItem, 0x2fe);
+        return 0x10;
+    }
+    return 0;
+}

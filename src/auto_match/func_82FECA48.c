@@ -1,57 +1,29 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_831BC774;
+typedef struct Obj_82FECA48 {
+    char pad[0x74];
+    int state;
+} Obj_82FECA48;
+typedef struct { Obj_82FECA48 *obj; } Value_82FECA48;
+typedef struct Node_82FECA48 {
+    struct Node_82FECA48 *next;
+    unsigned key;
+    Value_82FECA48 value;
+} Node_82FECA48;
 
+extern Node_82FECA48 *lbl_831BC774;
+extern int fn_83024AA0(Obj_82FECA48 *obj, unsigned key, int c);
 
-undefined4 fn_82FECA48(int param_1)
-
+int fn_82FECA48(unsigned key)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  
-  puVar1 = lbl_831BC774;
-  while( true ) {
-    if (puVar1 == (undefined4 *)0x0) {
-      return 0;
+    Node_82FECA48 *n = lbl_831BC774;
+    Value_82FECA48 *v;
+    Obj_82FECA48 *o;
+    while (n && n->key != key)
+        n = n->next;
+    v = n ? &n->value : 0;
+    if (v) {
+        o = v->obj;
+        if (o->state != 2)
+            return fn_83024AA0(o, key, 0);
     }
-    if (puVar1[1] == param_1) break;
-    puVar1 = (undefined4 *)*puVar1;
-  }
-  if (puVar1 + 2 == (int *)0x0) {
     return 0;
-  }
-  iVar2 = puVar1[2];
-  if (*(int *)(iVar2 + 0x74) == 2) {
-    return 0;
-  }
-  if ((param_1 != *(int *)(iVar2 + 0x1c)) && (param_1 != *(int *)(iVar2 + 0x16c))) {
-    return 0;
-  }
-  return *(undefined4 *)(iVar2 + 0x20);
 }
-

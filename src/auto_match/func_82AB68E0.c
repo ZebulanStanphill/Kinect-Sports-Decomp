@@ -1,60 +1,40 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82AB15D0();
-extern int fn_82AB5EC0();
-extern int fn_82B6B008();
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
 
+#define LL_ASSERT(e, line) \
+    if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\util\\linkedlist.cpp", line)
 
-int fn_82AB68E0(undefined8 param_1,code *param_2,ulonglong param_3,undefined8 param_4)
+typedef void *(*AllocFn_82AB68E0)(void *ctx, unsigned int size);
+typedef void (*FreeFn_82AB68E0)(void *ctx, void *p);
 
+typedef struct ObjList_82AB68E0 {
+    void *pMemMgr;
+    void *ctx;
+    AllocFn_82AB68E0 AllocateSysMem;
+    FreeFn_82AB68E0 FreeSysMem;
+    void *pSentinel;
+    unsigned int size;
+    unsigned int valid;
+} ObjList_82AB68E0;
+
+extern void *fn_82B6B008(void *heap, unsigned int size, AllocFn_82AB68E0 alloc, FreeFn_82AB68E0 free, void *ctx);
+extern void fn_82AB5EC0(ObjList_82AB68E0 *pObjList, void *pMemMgr);
+
+ObjList_82AB68E0 *fn_82AB68E0(void *ctx, AllocFn_82AB68E0 AllocateSysMem, FreeFn_82AB68E0 FreeSysMem, void *heap)
 {
-  int iVar2;
-  longlong lVar1;
-  
-  if (param_2 == (code *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d69d8,0xffffffff820d68b0,0xb2c);
-  }
-  if ((param_3 & 0xffffffff) == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d69cc,0xffffffff820d68b0,0xb2d);
-  }
-  iVar2 = (*param_2)(param_1,0x1c);
-  if (iVar2 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d69c0,0xffffffff820d68b0,0xb33);
-  }
-  *(int *)(iVar2 + 4) = (int)param_1;
-  *(code **)(iVar2 + 8) = param_2;
-  *(int *)(iVar2 + 0xc) = (int)param_3;
-  lVar1 = fn_82B6B008(param_4,0x10,param_2,param_3,param_1);
-  if (lVar1 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d6a64,0xffffffff820d68b0,0xb3e);
-  }
-  fn_82AB5EC0(iVar2,lVar1);
-  *(undefined4 *)(iVar2 + 0x18) = 0;
-  return iVar2;
-}
+    ObjList_82AB68E0 *pNewList;
+    void *pMemMgr;
 
+    LL_ASSERT(AllocateSysMem, 0xb2c);
+    LL_ASSERT(FreeSysMem, 0xb2d);
+    pNewList = (ObjList_82AB68E0 *)AllocateSysMem(ctx, 0x1c);
+    LL_ASSERT(pNewList, 0xb33);
+    pNewList->ctx = ctx;
+    pNewList->AllocateSysMem = AllocateSysMem;
+    pNewList->FreeSysMem = FreeSysMem;
+    pMemMgr = fn_82B6B008(heap, 0x10, AllocateSysMem, FreeSysMem, ctx);
+    LL_ASSERT(pMemMgr, 0xb3e);
+    fn_82AB5EC0(pNewList, pMemMgr);
+    pNewList->valid = 0;
+    return pNewList;
+}

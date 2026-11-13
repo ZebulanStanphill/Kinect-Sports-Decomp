@@ -1,46 +1,36 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82592430();
-extern int fn_8261D758();
-extern int fn_8261D808();
+typedef struct {
+    int f0;
+    int f4;
+    int state;
+} Sub_825DA250;
 
+typedef struct {
+    char pad[0xb60];
+    Sub_825DA250 sub;
+} Obj_825DA250;
 
-void fn_825DA250(int param_1)
+extern void fn_82592430(void *self, int b);
+extern void fn_8261D808(Sub_825DA250 *s);
+extern void fn_8261D758(Sub_825DA250 *s);
 
+static __forceinline void SetState_825DA250(Sub_825DA250 *s, int state)
 {
-  fn_82592430();
-  if (*(int *)(param_1 + 0xb68) == 1) {
-    *(undefined4 *)(param_1 + 0xb68) = 2;
-  }
-  else if (*(int *)(param_1 + 0xb68) == 2) {
-    fn_8261D808(param_1 + 0xb60);
-    fn_8261D758(param_1 + 0xb60);
-  }
-  return;
+    if (s->state != state)
+        s->state = state;
 }
 
+void fn_825DA250(Obj_825DA250 *self, int b)
+{
+    Sub_825DA250 *s;
+    fn_82592430(self, b);
+    s = &self->sub;
+    switch (s->state) {
+    case 1:
+        SetState_825DA250(s, 2);
+        break;
+    case 2:
+        fn_8261D808(s);
+        fn_8261D758(s);
+        break;
+    }
+}

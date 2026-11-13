@@ -1,60 +1,33 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern int fn_82273C88();
-extern int fn_82273CD8();
-extern int fn_82528EE0();
-extern int fn_82672C20();
-extern unsigned int lbl_82196582;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
+/* Formats two numbers as L"%02d.%02d" and passes it to the movie's _root.SetScore, then clears
+   _root.SetScoreRecord (the func_82278E58 argument-holder shape). */
+typedef struct { int first; int second; void *p; } Arg_82291DD0;
 
+typedef struct Obj_82291DD0 {
+    char pad00[0x3c];
+    int movie;
+} Obj_82291DD0;
 
-void fn_82291DD0(int param_1,undefined8 param_2,undefined8 param_3)
+extern void fn_82273C88(Arg_82291DD0 *h);
+extern void fn_82273CD8(Arg_82291DD0 *h, int kind);
+extern int fn_82528EE0(unsigned short *buf, int size, const unsigned short *fmt, ...);
+extern void fn_82672C20(int movie, const char *name, Arg_82291DD0 *args, int count);
+extern char lbl_82196582[];
 
+void fn_82291DD0(Obj_82291DD0 *o, int a, int b)
 {
-  struct { undefined4 first; undefined4 second; } stack_pair_40;
+    Arg_82291DD0 h;
+    unsigned short buf[10];
 
-  undefined1 *puStack_38;
-  undefined1 auStack_30 [32];
-  
-  fn_82528EE0(auStack_30,10,0xffffffff821aa210,param_2,param_3);
-  if (*(int *)(param_1 + 0x3c) != 0) {
-    stack_pair_40.first = 0;
-    stack_pair_40.second = 0;
-    fn_82273CD8(&stack_pair_40.first,5);
-    puStack_38 = auStack_30;
-    fn_82672C20(*(undefined4 *)(param_1 + 0x3c),0xffffffff821aa200,&stack_pair_40.first,1);
-    fn_82273CD8(&stack_pair_40.first,4);
-    puStack_38 = &lbl_82196582;
-    fn_82672C20(*(undefined4 *)(param_1 + 0x3c),0xffffffff821aa1e8,&stack_pair_40.first,1);
-    fn_82273C88(&stack_pair_40.first);
-  }
-  return;
+    fn_82528EE0(buf, 10, L"%02d.%02d", a, b);
+    if (o->movie != 0) {
+        h.first = 0;
+        h.second = 0;
+        fn_82273CD8(&h, 5);
+        h.p = buf;
+        fn_82672C20(o->movie, "_root.SetScore", &h, 1);
+        fn_82273CD8(&h, 4);
+        h.p = lbl_82196582;
+        fn_82672C20(o->movie, "_root.SetScoreRecord", &h, 1);
+        fn_82273C88(&h);
+    }
 }
-

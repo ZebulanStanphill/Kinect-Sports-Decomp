@@ -1,41 +1,9 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82797C78();
-extern int fn_82797D20();
+typedef struct Obj_8279A130 { int f0; int f4; void *f8; } Obj_8279A130;
+extern void fn_82797D20(void *a, unsigned int start, unsigned int count);
+extern void fn_82797C78(void *a, int b, unsigned int start, int d, int e);
 
-
-void fn_8279A130(int param_1,undefined8 param_2,ulonglong param_3,ulonglong param_4,
-                  undefined8 param_5)
-
+void fn_8279A130(Obj_8279A130 *self, int b, unsigned int start, unsigned int end, int d)
 {
-  fn_82797D20(*(undefined4 *)(param_1 + 8),param_3,
-                -(ulonglong)(param_3 <= param_4) & param_4 - param_3);
-  fn_82797C78(*(undefined4 *)(param_1 + 8),param_2,param_3,param_5,1);
-  return;
+    unsigned int n = end - start; if (end < start) n = 0; fn_82797D20(self->f8, start, n);
+    fn_82797C78(self->f8, b, start, d, 1);
 }
-

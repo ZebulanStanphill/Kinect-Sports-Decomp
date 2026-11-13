@@ -1,37 +1,14 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_822DB878();
+typedef struct Elem_822DC518 { int v[5]; } Elem_822DC518;
+typedef struct Range_822DC518 { Elem_822DC518 *first; Elem_822DC518 *last; } Range_822DC518;
+typedef struct Pred_822DC518 { int a; int b; } Pred_822DC518;
+typedef struct Obj_822DC518 { int pad0; Pred_822DC518 pred; } Obj_822DC518;
 
+extern void fn_822DB878(Elem_822DC518 *first, Elem_822DC518 *last, int count, Pred_822DC518 pred);
 
-void fn_822DC518(int param_1,int *param_2)
-
+void fn_822DC518(Obj_822DC518 *self, Range_822DC518 *r)
 {
-  fn_822DB878(*param_2,param_2[1],(param_2[1] - *param_2) / 0x14,*(undefined8 *)(param_1 + 4));
-  return;
+    Pred_822DC518 p;
+    p.a = self->pred.a;
+    p.b = self->pred.b;
+    fn_822DB878(r->first, r->last, r->last - r->first, p);
 }
-

@@ -1,41 +1,39 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82A1E658();
-extern int fn_82A1EFC0();
+typedef struct Req_8261C080 {
+    int f0;
+    int f4;
+    int f8;
+    void *handle;
+    int f10;
+    int f14;
+    int f18;
+} Req_8261C080;
 
+typedef struct Obj_8261C080 {
+    char pad0[0x138];
+    char ctx[0x100];
+    int done;           /* 0x238 */
+    Req_8261C080 req;   /* 0x23c */
+    int result;         /* 0x258 */
+} Obj_8261C080;
 
-void fn_8261C080(int param_1)
+extern void fn_82A1E658(void *handle);
+extern void fn_82A1EFC0(void *dst, int c, unsigned int n);
+extern int fn_82A264C8(void *ctx, Req_8261C080 *req);
 
+static __forceinline void Reset_8261C080(Obj_8261C080 *self)
 {
-  if (*(int *)(param_1 + 0x248) != 0) {
-    fn_82A1E658();
-  }
-                    /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(param_1 + 0x23c,0,0x1c);
+    if (self->req.handle != 0) {
+        fn_82A1E658(self->req.handle);
+    }
+    fn_82A1EFC0(&self->req, 0, sizeof(Req_8261C080));
 }
 
+void fn_8261C080(Obj_8261C080 *self)
+{
+    Reset_8261C080(self);
+    Reset_8261C080(self);
+    self->result = fn_82A264C8(self->ctx, &self->req);
+    if (self->result == 0x3e5) {
+        self->done = 1;
+    }
+}

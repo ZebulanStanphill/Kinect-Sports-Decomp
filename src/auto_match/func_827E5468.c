@@ -1,49 +1,35 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82517978();
-extern int fn_827DC3E8();
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
+/* Builds a {0, 0} pair from the two words at 0x14/0x18 (fn_82517978) and passes it with the stored
+   parameters to fn_827DC3E8 (the func_822CC118 shape). */
+typedef struct { int first; int second; } Pair_827E5468;
 
+typedef struct Obj_827E5468 {
+    char pad00[0x14];
+    int f14;
+    int f18;
+    int pad1c;
+    int f20;
+    char pad24[0x30 - 0x24];
+    unsigned char f30;
+    unsigned char f31;
+    char pad32[2];
+    int f34;
+    int f38;
+    float f3c;
+    float f40;
+    float f44;
+    unsigned char f48;
+} Obj_827E5468;
 
-void fn_827E5468(int param_1)
+extern void fn_82517978(Pair_827E5468 *p, int a, int b, int c);
+extern void fn_827DC3E8(int a, unsigned char b, unsigned char c, int d, int e, float x, float y, float z,
+                        unsigned char f, Pair_827E5468 *pair);
 
+void fn_827E5468(Obj_827E5468 *o)
 {
-  struct { undefined4 first; undefined4 second; } stack_pair_20;
+    Pair_827E5468 pair;
 
-  
-  stack_pair_20.first = 0;
-  stack_pair_20.second = 0;
-  fn_82517978(&stack_pair_20.first,*(undefined4 *)(param_1 + 0x14),*(undefined4 *)(param_1 + 0x18),0);
-  fn_827DC3E8((double)*(float *)(param_1 + 0x3c),(double)*(float *)(param_1 + 0x40),
-                    (double)*(float *)(param_1 + 0x44),*(undefined4 *)(param_1 + 0x20),
-                    *(undefined1 *)(param_1 + 0x30),*(undefined1 *)(param_1 + 0x31),
-                    *(undefined4 *)(param_1 + 0x34),*(undefined4 *)(param_1 + 0x38));
-  return;
+    pair.first = 0;
+    pair.second = 0;
+    fn_82517978(&pair, o->f14, o->f18, 0);
+    fn_827DC3E8(o->f20, o->f30, o->f31, o->f34, o->f38, o->f3c, o->f40, o->f44, o->f48, &pair);
 }
-

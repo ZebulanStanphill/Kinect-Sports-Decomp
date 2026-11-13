@@ -1,51 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82F41C68();
-extern int fn_82F64CE0();
+/* Writes a wide string (null -> the empty string) including its terminator through fn_82F41C68;
+   E_UNEXPECTED when the object is not open. */
+typedef struct Obj_82F417A0 {
+    char pad00[0x5c];
+    int open;
+    int f60;
+    int f64;
+} Obj_82F417A0;
 
+extern unsigned int fn_82F64CE0(const unsigned short *s);
+extern int fn_82F41C68(const unsigned short *s, unsigned int size, int a, int b);
+extern unsigned short lbl_820E975C[];
 
-undefined8 fn_82F417A0(int param_1,ulonglong param_2)
-
+int fn_82F417A0(Obj_82F417A0 *o, const unsigned short *s)
 {
-  longlong lVar1;
-  undefined8 uVar2;
-  
-  if ((param_2 & 0xffffffff) == 0) {
-    param_2 = 0xffffffff820e975c;
-  }
-  lVar1 = fn_82F64CE0(param_2);
-  if (*(int *)(param_1 + 0x5c) == 0) {
-    uVar2 = 0xffffffff8000ffff;
-  }
-  else {
-    uVar2 = fn_82F41C68(param_2,(lVar1 + 1U & 0x7fffffff) << 1,*(undefined4 *)(param_1 + 0x60),
-                          *(undefined4 *)(param_1 + 100));
-  }
-  return uVar2;
-}
+    unsigned int size;
 
+    if (s == 0) {
+        s = lbl_820E975C;
+    }
+    size = (fn_82F64CE0(s) + 1) * 2;
+    if (o->open != 0) {
+        return fn_82F41C68(s, size, o->f60, o->f64);
+    }
+    return 0x8000ffff;
+}

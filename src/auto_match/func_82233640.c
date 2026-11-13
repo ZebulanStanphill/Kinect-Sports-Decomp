@@ -1,60 +1,79 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8223B930();
-extern int fn_82240DB8();
-extern int fn_8265C9E0();
-extern int fn_8288B300();
-extern int fn_82F691F0();
-extern unsigned int lbl_82196CA0;
-extern unsigned int lbl_82196D80;
-extern unsigned int lbl_82196D88;
+extern void fn_8288B300(void *p, int n);
+extern void fn_8223B930(void *p);
+extern void fn_82240DB8(void *p, int n);
+extern void *fn_8265C9E0(unsigned int size);
+extern void *memset(void *, int, unsigned int);
+extern char lbl_82196D80[];
+extern char lbl_82196CA0[];
+extern char lbl_82196D88[];
+extern char lbl_82196CD0[];
+extern char lbl_82196D28[];
 
+typedef struct Sub_82233640 {
+  void *vtbl;
+  int pad;
+  int a;
+  int b;
+  int n;
+  char rest[0x44];
+} Sub_82233640;
 
-void fn_82233640(undefined4 *param_1)
+typedef struct Buf_82233640 {
+  int cap;
+  void *data;
+  int size;
+} Buf_82233640;
 
+typedef struct BufSub_82233640 {
+  void *vt;
+  int f04;
+  Buf_82233640 buf;
+  char rest[0x44];
+} BufSub_82233640;
+
+typedef struct Obj_82233640 {
+  void *vt;
+  char pad04[0x30];
+  char f34[0x68];
+  char f9c[0x68];
+  Sub_82233640 s1;
+  BufSub_82233640 s2;
+  Sub_82233640 s3;
+} Obj_82233640;
+
+static __forceinline void BufInit_82233640(Buf_82233640 *b)
 {
-  undefined8 uVar1;
-  
-  fn_8288B300(param_1,1);
-  *param_1 = &lbl_82196D80;
-  fn_8223B930(param_1 + 0xd);
-  fn_8223B930(param_1 + 0x27);
-  fn_82240DB8(param_1 + 0x41,1);
-  param_1[0x43] = 7;
-  param_1[0x45] = 4;
-  param_1[0x44] = 0;
-  param_1[0x41] = &lbl_82196CA0;
-  fn_82240DB8(param_1 + 0x57,1);
-  param_1[0x57] = &lbl_82196D88;
-  param_1[0x59] = 7;
-  param_1[0x5b] = 8;
-  uVar1 = fn_8265C9E0(8);
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0(uVar1,0,8);
+  void *d;
+  b->cap = 7;
+  b->size = 8;
+  d = fn_8265C9E0(8);
+  memset(d, 0, 8);
+  b->data = d;
 }
 
+Obj_82233640 *fn_82233640(Obj_82233640 *p)
+{
+  Sub_82233640 *s;
+
+  fn_8288B300(p, 1);
+  p->vt = lbl_82196D80;
+  fn_8223B930(p->f34);
+  fn_8223B930(p->f9c);
+  s = &p->s1;
+  fn_82240DB8(s, 1);
+  s->a = 7;
+  s->n = 4;
+  s->b = 0;
+  p->s1.vtbl = lbl_82196CA0;
+  fn_82240DB8(&p->s2, 1);
+  p->s2.vt = lbl_82196D88;
+  BufInit_82233640(&p->s2.buf);
+  p->s2.vt = lbl_82196CD0;
+  s = &p->s3;
+  fn_82240DB8(s, 1);
+  s->a = 7;
+  s->n = 4;
+  s->b = 0;
+  p->s3.vtbl = lbl_82196D28;
+  return p;
+}

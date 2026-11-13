@@ -1,62 +1,26 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_8267C6C8();
-extern unsigned int uStack_14;
-extern unsigned int uStack_18;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
-extern unsigned int uStack_24;
-extern unsigned int uStack_28;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+typedef struct Params_82230890 {
+    int a;
+    int b;
+    int c;
+    int d;
+    int e;
+    int f;
+    int g;
+    int h;
+} Params_82230890;
+extern void fn_8267C6C8(Params_82230890 *p, void *arg);
 
-
-void fn_82230890(undefined8 param_1)
-
+void fn_82230890(void *arg)
 {
-  struct { undefined4 first; undefined4 second; } stack_pair_30;
+    Params_82230890 p;
 
-  undefined4 uStack_28;
-  undefined4 uStack_24;
-  undefined4 uStack_20;
-  undefined4 uStack_1c;
-  undefined4 uStack_18;
-  undefined4 uStack_14;
-  
-  stack_pair_30.first = 0;
-  uStack_28 = 0x4000;
-  stack_pair_30.second = 0x10;
-  uStack_24 = 0x4000;
-  uStack_20 = 0x40000;
-  uStack_1c = 0;
-  uStack_18 = 1;
-  uStack_14 = 0;
-  fn_8267C6C8(&stack_pair_30.first,param_1);
-  return;
+    p.a = 0;
+    p.c = 0x4000;
+    p.b = 0x10;
+    p.d = 0x4000;
+    p.e = 0x40000;
+    p.f = 0;
+    p.g = 1;
+    p.h = 0;
+    fn_8267C6C8(&p, arg);
 }
-

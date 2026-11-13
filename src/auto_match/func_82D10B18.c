@@ -1,69 +1,57 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_82CE5410();
-extern int fn_82D10A80();
-extern unsigned int iStack_2c;
-extern unsigned int iStack_30;
-extern unsigned int uStack_28;
+/* Collects objects into a local hkArray (fn_82D10A80), deletes each one through its virtual
+   destructor, then frees the array storage through the thread memory allocator. */
+typedef struct Obj_82D10B18 Obj_82D10B18;
+typedef struct ObjVtbl_82D10B18 {
+  void (*Delete)(Obj_82D10B18 *, int);
+} ObjVtbl_82D10B18;
+struct Obj_82D10B18 {
+  ObjVtbl_82D10B18 *vtbl;
+};
 
+typedef struct Iface_82D10B18 Iface_82D10B18;
+typedef struct IfaceVtbl_82D10B18 {
+  void *f0;
+  void *f4;
+  void *f8;
+  void *fc;
+  void (*Free)(Iface_82D10B18 *, void *, int, int);
+} IfaceVtbl_82D10B18;
+struct Iface_82D10B18 {
+  IfaceVtbl_82D10B18 *vtbl;
+};
+typedef struct Ctx_82D10B18 {
+  char pad[0x10];
+  Iface_82D10B18 *alloc;
+} Ctx_82D10B18;
+extern Ctx_82D10B18 *fn_82CE5410(void);
 
-void fn_82D10B18(undefined8 param_1,undefined8 param_2,undefined8 param_3)
+typedef struct Array_82D10B18 {
+  Obj_82D10B18 **data;
+  int count;
+  int capacity;
+} Array_82D10B18;
 
+extern void fn_82D10A80(void *a, void *b, Array_82D10B18 *out, void *c);
+
+void fn_82D10B18(void *a, void *b, void *c)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  int iVar3;
-  struct { int first; int second; } stack_pair_30;
+  Array_82D10B18 arr;
+  Iface_82D10B18 *it;
+  int i;
 
-  uint uStack_28;
-  
-  stack_pair_30.first = 0;
-  stack_pair_30.second = 0;
-  uStack_28 = 0x80000000;
-  fn_82D10A80(param_1,param_2,&stack_pair_30.first,param_3);
-  iVar2 = 0;
-  if (0 < stack_pair_30.second) {
-    iVar3 = 0;
-    do {
-      puVar1 = *(undefined4 **)(iVar3 + stack_pair_30.first);
-      if (puVar1 != (undefined4 *)0x0) {
-        (**(code **)*puVar1)(puVar1,1);
-      }
-      iVar2 = iVar2 + 1;
-      iVar3 = iVar3 + 4;
-    } while (iVar2 < stack_pair_30.second);
+  arr.data = 0;
+  arr.count = 0;
+  arr.capacity = 0x80000000;
+  fn_82D10A80(a, b, &arr, c);
+  for (i = 0; i < arr.count; i++) {
+    Obj_82D10B18 *o = arr.data[i];
+    if (o != 0) {
+      o->vtbl->Delete(o, 1);
+    }
   }
-  iVar2 = fn_82CE5410();
-  stack_pair_30.second = 0;
-  if ((uStack_28 & 0x80000000) == 0) {
-    (**(code **)(**(int **)(iVar2 + 0x10) + 0x10))
-              (*(int **)(iVar2 + 0x10),stack_pair_30.first,uStack_28 & 0x3fffffff,4);
+  it = fn_82CE5410()->alloc;
+  arr.count = 0;
+  if ((arr.capacity & (1 << 31)) == 0) {
+    it->vtbl->Free(it, arr.data, arr.capacity & 0x3fffffff, 4);
   }
-  return;
 }
-

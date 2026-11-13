@@ -1,74 +1,63 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
 typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
 extern int fn_82AB15D0();
 
+#define FCA_ASSERT(e, line) if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \
+    "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecompiler\\fetchconstallocator.cpp", line)
+#define E_FA_DECREMENTAL 1
 
-undefined4 *
-fn_82B6BE30(undefined8 param_1,code *param_2,int param_3,int param_4,int param_5,
-             undefined4 param_6)
+typedef void *(*AllocFn_82B6BE30)(void *context, uint size);
+typedef void (*FreeFn_82B6BE30)(void *context, void *p);
 
+typedef struct FetchBlock_82B6BE30 {
+    uint bIsUsed;
+    int kind;
+    uint count;
+    int eType[3];
+    uint value[3];
+} FetchBlock_82B6BE30;
+
+typedef struct FCA_82B6BE30 {
+    void *context;
+    AllocFn_82B6BE30 AllocateSysMem;
+    FreeFn_82B6BE30 FreeSysMem;
+    void *pRegistry;
+    int eMode;
+    int f14;
+    FetchBlock_82B6BE30 blocks[32];
+    int f498;
+    int f49c;
+    int f4a0;
+    uint nUsed;
+} FCA_82B6BE30;
+
+FCA_82B6BE30 *fn_82B6BE30(void *context, AllocFn_82B6BE30 AllocateSysMem, FreeFn_82B6BE30 FreeSysMem,
+                          void *pRegistry, int eMode, int f14)
 {
-  undefined4 *puVar1;
-  
-  if (param_2 == (code *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d69d8,0xffffffff820d9998,0x9a);
-  }
-  if (param_3 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d69cc,0xffffffff820d9998,0x9b);
-  }
-  if (param_4 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d6bdc,0xffffffff820d9998,0x9c);
-  }
-  puVar1 = (undefined4 *)(*param_2)(param_1,0x4a8);
-  if (puVar1 == (undefined4 *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d9990,0xffffffff820d9998,0xa2);
-    puVar1 = (undefined4 *)0x0;
-  }
-  else {
-    *puVar1 = (int)param_1;
-    puVar1[1] = param_2;
-    puVar1[2] = param_3;
-    puVar1[3] = param_4;
-    puVar1[4] = param_5;
-    puVar1[5] = param_6;
-    if (param_5 == 0) {
-      puVar1[0x126] = 0xffffffff;
+    FCA_82B6BE30 *pFCA;
+
+    FCA_ASSERT(AllocateSysMem, 0x9a);
+    FCA_ASSERT(FreeSysMem, 0x9b);
+    FCA_ASSERT(pRegistry, 0x9c);
+    pFCA = (FCA_82B6BE30 *)AllocateSysMem(context, sizeof(FCA_82B6BE30));
+    if (pFCA == 0) {
+        FCA_ASSERT(pFCA, 0xa2);
+        return 0;
+    }
+    pFCA->context = context;
+    pFCA->AllocateSysMem = AllocateSysMem;
+    pFCA->FreeSysMem = FreeSysMem;
+    pFCA->pRegistry = pRegistry;
+    pFCA->eMode = eMode;
+    pFCA->f14 = f14;
+    if (eMode == 0) {
+        pFCA->f498 = -1;
     }
     else {
-      if (param_5 != 1) {
-        fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d9974,0xffffffff820d9998,0xba);
-      }
-      puVar1[0x126] = 0x20;
+        FCA_ASSERT(eMode == E_FA_DECREMENTAL, 0xba);
+        pFCA->f498 = 0x20;
     }
-    puVar1[0x127] = 0xffffffff;
-    puVar1[0x128] = 0;
-    puVar1[0x129] = 0;
-  }
-  return puVar1;
+    pFCA->f49c = -1;
+    pFCA->f4a0 = 0;
+    pFCA->nUsed = 0;
+    return pFCA;
 }
-

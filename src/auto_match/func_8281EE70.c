@@ -1,44 +1,20 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_828106A0();
-extern unsigned int lbl_82002AE0;
+typedef struct Vec3_8281EE70 {
+    float x, y, z;
+} Vec3_8281EE70;
 
+typedef struct Obj_8281EE70 {
+    char pad[0xc];
+    Vec3_8281EE70 scale;
+} Obj_8281EE70;
 
-void fn_8281EE70(int param_1)
+extern void fn_828106A0(Obj_8281EE70 *self);
 
+void fn_8281EE70(Obj_8281EE70 *self)
 {
-  undefined4 uVar1;
-  
-  uVar1 = lbl_82002AE0;
-  *(undefined4 *)(param_1 + 0x14) = lbl_82002AE0;
-  *(undefined4 *)(param_1 + 0x10) = uVar1;
-  *(undefined4 *)(param_1 + 0xc) = uVar1;
-  fn_828106A0();
-  return;
+    Vec3_8281EE70 one;
+    one.x = 1.0f;
+    one.y = 1.0f;
+    one.z = 1.0f;
+    self->scale = one;
+    fn_828106A0(self);
 }
-

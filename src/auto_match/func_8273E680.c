@@ -1,52 +1,24 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern unsigned int lbl_820121E0;
-
-
-void fn_8273E680(int *param_1,longlong param_2)
-
+typedef struct Cnt_8273E680 { int a; int b; int rc; } Cnt_8273E680;
+typedef struct Ref_8273E680 { Cnt_8273E680 *p; } Ref_8273E680;
+typedef struct Sub_8273E680 { int x; Ref_8273E680 y; } Sub_8273E680;
+typedef struct Src_8273E680 { Cnt_8273E680 *a; Sub_8273E680 b; } Src_8273E680;
+typedef struct Obj_8273E680 { void *vt; Ref_8273E680 y; } Obj_8273E680;
+typedef struct Dst_8273E680 { Cnt_8273E680 *a; Obj_8273E680 b; } Dst_8273E680;
+extern char lbl_820121E0[];
+void fn_8273E680(Dst_8273E680 *d, Src_8273E680 *s)
 {
-  int iVar1;
-  int *piVar2;
-  
-  iVar1 = *(int *)param_2;
-  *param_1 = iVar1;
-  *(int *)(iVar1 + 8) = *(int *)(iVar1 + 8) + 1;
-  piVar2 = (int *)param_2 + 2;
-  if (param_2 == -4) {
-    piVar2 = (int *)0x0;
-  }
-  iVar1 = *piVar2;
-  if (iVar1 != 0) {
-    *(uint *)(iVar1 + 8) = *(int *)(iVar1 + 8) + 1U & 0x8fffffff;
-  }
-  param_1[2] = *piVar2;
-  param_1[1] = (int)&lbl_820121E0;
-  return;
+    Sub_8273E680 *sb;
+    Ref_8273E680 *r, *ty;
+    Obj_8273E680 *o;
+    Cnt_8273E680 *c;
+    d->a = s->a;
+    d->a->rc = d->a->rc + 1;
+    o = &d->b;
+    sb = &s->b;
+    r = sb ? &sb->y : 0;
+    ty = &o->y;
+    c = r->p;
+    if (c != 0) c->rc = (c->rc + 1) & 0x8fffffff;
+    ty->p = r->p;
+    o->vt = lbl_820121E0;
 }
-

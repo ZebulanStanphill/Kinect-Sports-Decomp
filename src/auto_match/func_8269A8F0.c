@@ -1,50 +1,23 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
+/* Visibility-style flag query: answered from the two flag bits 0x180 at 0x8c when either is set,
+   otherwise from the object returned by vtable slot 0x54 (1 when it is the object itself). */
+typedef struct VObj_8269A8F0 VObj_8269A8F0;
+struct VObj_8269A8F0 {
+    int (**vt)();
+    char pad04[0x8c - 0x4];
+    unsigned int flags;
+};
 
-
-ulonglong fn_8269A8F0(int *param_1)
-
+int fn_8269A8F0(VObj_8269A8F0 *self)
 {
-  int *piVar2;
-  ulonglong uVar1;
-  
-  if ((param_1[0x23] & 0x180U) == 0) {
-    piVar2 = (int *)(**(code **)(*param_1 + 0x54))(param_1,1);
-    if (piVar2 == param_1) {
-      uVar1 = 1;
-    }
-    else {
-      uVar1 = (**(code **)(*piVar2 + 0xb8))();
-    }
-  }
-  else {
-    uVar1 = (ulonglong)((param_1[0x23] & 0x180U) == 0x180);
-  }
-  return uVar1;
-}
+    unsigned int f = self->flags & 0x180;
+    VObj_8269A8F0 *o;
 
+    if (f != 0) {
+        return f == 0x180;
+    }
+    o = (VObj_8269A8F0 *)self->vt[0x54 / 4](self, 1);
+    if (o != self) {
+        return o->vt[0xb8 / 4](o);
+    }
+    return 1;
+}

@@ -1,57 +1,43 @@
-typedef unsigned char undefined1;
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef unsigned short undefined2;
-typedef unsigned short ushort;
-typedef unsigned short word;
-typedef unsigned int undefined4;
-typedef unsigned int uint;
-typedef unsigned int dword;
-typedef unsigned int ulong;
-typedef unsigned __int64 undefined8;
-typedef unsigned __int64 ulonglong;
-typedef unsigned __int64 qword;
-typedef __int64 longlong;
-typedef int (*code)();
-typedef unsigned char U8;
-typedef unsigned short U16;
-typedef unsigned int U32;
-typedef unsigned __int64 U64;
-typedef signed char S8;
-typedef signed short S16;
-typedef signed int S32;
-typedef __int64 S64;
-typedef struct { U64 lo, hi; } V16;
-extern int fn_823CD840();
-extern int fn_8288B760();
+typedef struct Obj_82312830 {
+    char pad0[0x28];
+    unsigned int f28;
+    int f2c;
+    char pad30[0x168 - 0x30];
+    void *f168;
+    int f16c;
+} Obj_82312830;
 
+typedef struct Mgr_82312830 {
+    char pad0[0xde0];
+    int fde0;
+    unsigned int fde4;
+} Mgr_82312830;
 
-void fn_82312830(int param_1)
+typedef struct Self_82312830 {
+    char pad0[0xc];
+    Obj_82312830 *obj;
+    Mgr_82312830 *mgr;
+} Self_82312830;
 
+extern void fn_823CD840(Mgr_82312830 *m, unsigned int a, int b);
+extern unsigned char fn_8288B760(void *p);
+
+static __forceinline int getState_82312830(Obj_82312830 *o)
 {
-  int iVar1;
-  uint uVar2;
-  
-  iVar1 = *(int *)(param_1 + 0xc);
-  if (*(int *)(iVar1 + 0x28) == *(int *)(*(int *)(param_1 + 0x10) + 0xde4)) {
-    if (*(int *)(iVar1 + 0x2c) == *(int *)(*(int *)(param_1 + 0x10) + 0xde0)) {
-      if (*(int *)(iVar1 + 0x168) == 0) {
-        uVar2 = *(uint *)(iVar1 + 0x16c);
-      }
-      else {
-        uVar2 = fn_8288B760();
-        uVar2 = uVar2 & 0xff;
-      }
-      if (uVar2 != 0) {
-        fn_823CD840(*(undefined4 *)(param_1 + 0x10),
-                          *(undefined4 *)(*(int *)(param_1 + 0xc) + 0x28),
-                          *(undefined4 *)(*(int *)(param_1 + 0xc) + 0x2c));
-      }
+    int v;
+    if (o->f168 != 0) {
+        v = fn_8288B760(o->f168);
+    } else {
+        v = o->f16c;
     }
-  }
-  return;
+    return v;
 }
 
+void fn_82312830(Self_82312830 *self)
+{
+    if (self->obj->f28 == self->mgr->fde4 && self->obj->f2c == self->mgr->fde0) {
+        if (getState_82312830(self->obj) != 0) {
+            fn_823CD840(self->mgr, self->obj->f28, self->obj->f2c);
+        }
+    }
+}
