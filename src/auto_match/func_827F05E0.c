@@ -1,35 +1,25 @@
-extern int fn_827F3C30();
-extern int fn_827F3C48();
+typedef struct Owner_827F05E0 {
+    char pad0[0xa0];
+    unsigned int items[0x12];               /* 0xa0 */
+    unsigned short count;                   /* 0xe8 */
+} Owner_827F05E0;
 
+extern unsigned short fn_827F3C30(unsigned int item);
+extern unsigned int fn_827F3C48(unsigned int item, unsigned short index);
 
-unsigned __int64 fn_827F05E0(__int64 param_1,unsigned int param_2)
-
+int fn_827F05E0(Owner_827F05E0 *self, unsigned short index)
 {
-  int iVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  __int64 lVar4;
-  
-  uVar3 = (unsigned __int64)*(unsigned short *)((int)param_1 + 0xe8);
-  lVar4 = uVar3 - 1;
-  iVar1 = *(int *)(((param_2 & 0xffff) + 0x28) * 4 + (int)param_1);
-  if (-1 < lVar4) {
-    param_1 = (uVar3 + 0x27) * 4 + param_1;
-    do {
-      if ((unsigned int)lVar4 != (param_2 & 0xffff)) {
-        uVar3 = fn_827F3C30(*(unsigned int *)param_1);
-        uVar3 = uVar3 & 0xffff;
-        while (uVar3 = uVar3 - 1, -1 < (__int64)uVar3) {
-          iVar2 = fn_827F3C48(*(unsigned int *)param_1,uVar3 & 0xffff);
-          if (iVar2 == iVar1) {
-            return 1;
-          }
-        }
-      }
-      lVar4 = lVar4 + -1;
-      param_1 = param_1 + -4;
-    } while (-1 < lVar4);
-  }
-  return 0;
-}
+    unsigned int target = self->items[index];
+    int i;
+    int j;
 
+    for (i = self->count - 1; i >= 0; i--) {
+        if (i != index) {
+            for (j = fn_827F3C30(self->items[i]) - 1; j >= 0; j--) {
+                if (fn_827F3C48(self->items[i], (unsigned short)j) == target)
+                    return 1;
+            }
+        }
+    }
+    return 0;
+}

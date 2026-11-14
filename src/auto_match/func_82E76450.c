@@ -1,27 +1,23 @@
-unsigned __int64 fn_82E76450(unsigned __int64 param_1,char param_2,unsigned short *param_3,int *param_4)
+unsigned short _byteswap_ushort(unsigned short value);
+unsigned long _byteswap_ulong(unsigned long value);
 
+unsigned int fn_82E76450(void *self, unsigned char size, const void *data, int *pos)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  
-  if (param_2 == '\x01') {
-    uVar1 = (unsigned __int64)*(unsigned char *)param_3;
-    iVar2 = *param_4 + 1;
-  }
-  else if (param_2 == '\x02') {
-    iVar2 = *param_4 + 2;
-    uVar1 = ((unsigned __int64)*param_3 & 0xff) << 8 | (unsigned __int64)(*param_3 >> 8);
-  }
-  else {
-    if (param_2 != '\x03') {
-      return 0;
-    }
-    uVar1 = (unsigned __int64)*(unsigned char *)((int)param_3 + 3) << 0x18 |
-            (unsigned __int64)*(unsigned char *)(param_3 + 1) << 0x10 | (unsigned __int64)(unsigned char)*param_3 << 8 |
-            (unsigned __int64)*(unsigned char *)param_3;
-    iVar2 = *param_4 + 4;
-  }
-  *param_4 = iVar2;
-  return uVar1;
-}
+    unsigned int value = 0;
 
+    switch (size) {
+    case 1:
+        value = *(const unsigned char *)data;
+        *pos += 1;
+        break;
+    case 2:
+        value = _byteswap_ushort(*(const unsigned short *)data);
+        *pos += 2;
+        break;
+    case 3:
+        value = _byteswap_ulong(*(const unsigned long *)data);
+        *pos += 4;
+        break;
+    }
+    return value;
+}

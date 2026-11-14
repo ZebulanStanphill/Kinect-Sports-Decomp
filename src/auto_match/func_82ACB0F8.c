@@ -1,27 +1,27 @@
-unsigned __int64 fn_82ACB0F8(unsigned int param_1,unsigned int param_2)
+typedef struct Node_82ACB0F8 {
+    char pad0[0x10];
+    unsigned char flags;
+    char pad11[3];
+    unsigned int depth;
+    char pad18[0x10];
+    unsigned int link;
+} Node_82ACB0F8;
 
+extern unsigned char fn_82B85910(Node_82ACB0F8 *node, Node_82ACB0F8 *target);
+
+unsigned char fn_82ACB0F8(Node_82ACB0F8 *a, Node_82ACB0F8 *b)
 {
-  unsigned int uVar1;
-  
-  if (((*(unsigned char *)(param_1 + 0x10) & 1) == 0) || ((*(unsigned char *)(param_2 + 0x10) & 1) == 0)) {
-    while ((uVar1 = *(unsigned int *)((param_2 & 0xfffffffe) + 0x24), (uVar1 & 1) == 0 &&
-           (param_2 = (uVar1 & 0xfffffffe) - 0x28, param_2 != 0))) {
-      if (param_2 == param_1) {
+    if ((a->flags & 1) != 0 && (b->flags & 1) != 0) {
+        unsigned int depth = a->depth & 0x1fff;
+        Node_82ACB0F8 *n = a;
+        if (depth > (b->depth & 0x1fff))
+            return 1;
+        do {
+            n = (Node_82ACB0F8 *)((Node_82ACB0F8 *)((unsigned int)n & ~1u))->link;
+            if (((unsigned int)n & 1) != 0 || n == 0 || (n->depth & 0x1fff) < depth)
+                return 0;
+        } while (n != b);
         return 1;
-      }
     }
-    return 0;
-  }
-  uVar1 = *(unsigned int *)(param_1 + 0x14) & 0x1fff;
-  if (uVar1 <= (*(unsigned int *)(param_2 + 0x14) & 0x1fff)) {
-    do {
-      param_1 = *(unsigned int *)((param_1 & 0xfffffffe) + 0x28);
-      if ((((param_1 & 1) != 0) || (param_1 == 0)) || ((*(unsigned int *)(param_1 + 0x14) & 0x1fff) < uVar1)
-         ) {
-        return 0;
-      }
-    } while (param_1 != param_2);
-  }
-  return 1;
+    return fn_82B85910(b, a);
 }
-

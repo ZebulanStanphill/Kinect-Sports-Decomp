@@ -1,63 +1,62 @@
-extern int fn_82CE5410();
-extern int fn_82CE6310();
-extern int fn_82D04B20();
+// Havok string buffer: cut the path at its last '/' or '\\' (keeping the directory part), or
+// clear it when there is no separator. The searches and the setLength are inlined.
+typedef struct Mem_82D05070 {
+    int f0;
+    int f4;
+    int f8;
+    void *heap;         // 0x0c
+} Mem_82D05070;
 
+typedef struct Str_82D05070 {
+    char *data;
+    int len;            // including the terminator
+    int cap;            // capacity in the low 30 bits, flags above
+} Str_82D05070;
 
-void fn_82D05070(int *param_1)
+extern Mem_82D05070 *fn_82CE5410(void);
+extern void fn_82CE6310(void *heap, Str_82D05070 *s, int capacity, int elemSize);
+extern void fn_82D04B20(Str_82D05070 *s);
 
+static __forceinline int LastIndexOf(Str_82D05070 *s, char c, int start, int end)
 {
-  int iVar1;
-  __int64 lVar2;
-  __int64 lVar3;
-  __int64 lVar4;
-  int iVar5;
-  
-  lVar2 = (unsigned __int64)(unsigned int)param_1[1] - 1;
-  lVar4 = 0x7fffffff;
-  if ((int)lVar2 < 0x7fffffff) {
-    lVar4 = lVar2;
-  }
-  lVar4 = lVar4 + -1;
-  if (-1 < lVar4) {
-    do {
-      if (*(char *)(*param_1 + (int)lVar4) == '/') goto LAB_82d050c4;
-      lVar4 = lVar4 + -1;
-    } while (-1 < lVar4);
-  }
-  lVar4 = -1;
-LAB_82d050c4:
-  lVar3 = 0x7fffffff;
-  if ((int)lVar2 < 0x7fffffff) {
-    lVar3 = lVar2;
-  }
-  lVar3 = lVar3 + -1;
-  if (-1 < lVar3) {
-    do {
-      if (*(char *)(*param_1 + (int)lVar3) == '\\') goto LAB_82d050f8;
-      lVar3 = lVar3 + -1;
-    } while (-1 < lVar3);
-  }
-  lVar3 = -1;
-LAB_82d050f8:
-  if ((int)lVar3 <= (int)lVar4) {
-    lVar3 = lVar4;
-  }
-  if ((int)lVar3 < 0) {
-    fn_82D04B20(param_1);
-  }
-  else {
-    iVar1 = fn_82CE5410();
-    iVar5 = (int)(lVar3 + 1);
-    if ((int)(param_1[2] & 0x3fffffffU) < iVar5) {
-      lVar4 = ((unsigned __int64)(unsigned int)param_1[2] & 0x3fffffff) << 1;
-      if ((int)lVar4 <= iVar5) {
-        lVar4 = lVar3 + 1;
-      }
-      fn_82CE6310(*(unsigned int *)(iVar1 + 0xc),param_1,lVar4,1);
+    int lim = s->len - 1;
+    int i;
+
+    if (lim < end)
+        end = lim;
+    for (i = end - 1; i >= start; i--) {
+        if (s->data[i] == c)
+            return i;
     }
-    param_1[1] = iVar5;
-    *(unsigned char *)(*param_1 + (int)lVar3) = 0;
-  }
-  return;
+    return -1;
 }
 
+static __forceinline void Reserve(Str_82D05070 *s, int n)
+{
+    void *heap = fn_82CE5410()->heap;
+    int cap = s->cap & 0x3fffffff;
+
+    if (cap < n) {
+        int newCap = cap * 2;
+        fn_82CE6310(heap, s, n < newCap ? newCap : n, 1);
+    }
+}
+
+static __forceinline void SetLength(Str_82D05070 *s, int len)
+{
+    Reserve(s, len + 1);
+    s->len = len + 1;
+    s->data[len] = 0;
+}
+
+void fn_82D05070(Str_82D05070 *s)
+{
+    int slash = LastIndexOf(s, '/', 0, 0x7fffffff);
+    int backslash = LastIndexOf(s, '\\', 0, 0x7fffffff);
+    int last = backslash > slash ? backslash : slash;
+
+    if (last >= 0)
+        SetLength(s, last);
+    else
+        fn_82D04B20(s);
+}

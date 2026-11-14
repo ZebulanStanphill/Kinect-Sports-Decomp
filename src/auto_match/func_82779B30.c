@@ -1,30 +1,27 @@
-extern unsigned int *auStack_34;
-extern int fn_82779AA8();
-extern unsigned int uStack_28;
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
+typedef struct Color_82779B30 {
+    unsigned char a;
+    unsigned char r;
+    unsigned char g;
+    unsigned char b;
+} Color_82779B30;
 
+typedef struct Sink_82779B30 {
+    int kind;
+    unsigned int target;
+    int flags;
+} Sink_82779B30;
 
-/* WARNING: Type propagation algorithm not settling */
+extern int fn_82779AA8(Sink_82779B30 *sink, const char *format, unsigned int *a0, unsigned int *a1, unsigned int *a2, unsigned int *a3);
 
-void fn_82779B30(unsigned char *param_1,unsigned int param_2)
-
+void fn_82779B30(Color_82779B30 *color, unsigned int target)
 {
-  unsigned int uStack_40;
-  struct { unsigned int first; unsigned int second; } stack_pair_3c;
-
-  unsigned int auStack_34 [3];
-  unsigned int uStack_28;
-  
-  uStack_40 = (unsigned int)*param_1;
-  auStack_34[1] = 2;
-  stack_pair_3c.first = (unsigned int)param_1[3];
-  stack_pair_3c.second = (unsigned int)param_1[2];
-  uStack_28 = 0x200;
-  auStack_34[0] = (unsigned int)param_1[1];
-  auStack_34[2] = param_2;
-  fn_82779AA8(auStack_34 + 1,0xffffffff82015440,auStack_34,&stack_pair_3c.second,&stack_pair_3c.first,&uStack_40);
-  return;
+    unsigned int a = color->a;
+    unsigned int b = color->b;
+    unsigned int g = color->g;
+    unsigned int r = color->r;
+    Sink_82779B30 sink;
+    sink.kind = 2;
+    sink.target = target;
+    sink.flags = 0x200;
+    fn_82779AA8(&sink, "RGBA: {0} {1} {2} {3}\n", &r, &g, &b, &a);
 }
-

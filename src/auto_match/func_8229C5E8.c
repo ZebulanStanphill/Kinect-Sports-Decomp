@@ -1,53 +1,64 @@
-extern int fn_8229CAD0();
-extern int fn_8229CB40();
-extern int fn_8249ABC0();
+typedef struct WString_8229C5E8 {
+  union {
+    unsigned short buf[8];
+    unsigned short *ptr;
+  } bx;
+  unsigned int size;
+  unsigned int res;
+  int alloc;
+} WString_8229C5E8;
 
+typedef struct Info_8229C5E8 {
+  char pad0[0x34];
+  int value;
+} Info_8229C5E8;
 
-unsigned __int64 fn_8229C5E8(int param_1)
+typedef struct Mgr_8229C5E8 {
+  char pad0[0x24];
+  int ready;
+  char pad28[0x110 - 0x28];
+  Info_8229C5E8 *info;
+} Mgr_8229C5E8;
 
+typedef struct Obj_8229C5E8 {
+  char pad0[0x10];
+  int mode;
+  char pad14[0x5c - 0x14];
+  int value;
+  char pad60[0x68 - 0x60];
+  int pending;
+  int waiting;
+  WString_8229C5E8 first;
+  WString_8229C5E8 second;
+} Obj_8229C5E8;
+
+extern Mgr_8229C5E8 *fn_8249ABC0(void);
+extern void fn_8229CAD0(Obj_8229C5E8 *self, const unsigned short *a);
+extern void fn_8229CB40(Obj_8229C5E8 *self, const unsigned short *a, const unsigned short *b);
+
+static __forceinline const unsigned short *CStr(const WString_8229C5E8 *s)
 {
-  int iVar2;
-  unsigned __int64 uVar1;
-  unsigned int *puVar3;
-  unsigned int *puVar4;
-  
-  if (*(int *)(param_1 + 0x6c) == 0) {
-LAB_8229c654:
-    if (*(int *)(param_1 + 0x68) != 0) {
-      if (*(int *)(param_1 + 0x10) == 0) {
-        puVar3 = (unsigned int *)(param_1 + 0x70);
-        if (7 < *(unsigned int *)(param_1 + 0x84)) {
-          puVar3 = (unsigned int *)*puVar3;
-        }
-        fn_8229CAD0(param_1,puVar3);
-      }
-      else {
-        puVar3 = (unsigned int *)(param_1 + 0x8c);
-        if (7 < *(unsigned int *)(param_1 + 0xa0)) {
-          puVar3 = (unsigned int *)*puVar3;
-        }
-        puVar4 = (unsigned int *)(param_1 + 0x70);
-        if (7 < *(unsigned int *)(param_1 + 0x84)) {
-          puVar4 = (unsigned int *)*puVar4;
-        }
-        fn_8229CB40(param_1,puVar4,puVar3);
-      }
-      *(unsigned int *)(param_1 + 0x68) = 0;
-    }
-    uVar1 = 1;
-  }
-  else {
-    if ((*(int *)(param_1 + 0x5c) == 0) &&
-       (iVar2 = fn_8249ABC0(), *(int *)(iVar2 + 0x24) != 0)) {
-      iVar2 = fn_8249ABC0();
-      *(unsigned int *)(param_1 + 0x5c) = *(unsigned int *)(*(int *)(iVar2 + 0x110) + 0x34);
-    }
-    else {
-      iVar2 = fn_8249ABC0();
-      if (*(int *)(*(int *)(iVar2 + 0x110) + 0x34) == 0) goto LAB_8229c654;
-    }
-    uVar1 = 0;
-  }
-  return uVar1;
+  return 8 <= s->res ? s->bx.ptr : s->bx.buf;
 }
 
+int fn_8229C5E8(Obj_8229C5E8 *self)
+{
+  if (self->waiting != 0) {
+    if (self->value == 0 && fn_8249ABC0()->ready != 0) {
+      self->value = fn_8249ABC0()->info->value;
+    } else if (fn_8249ABC0()->info->value == 0) {
+      goto ready;
+    }
+    return 0;
+  }
+ready:
+  if (self->pending != 0) {
+    if (self->mode != 0) {
+      fn_8229CB40(self, CStr(&self->first), CStr(&self->second));
+    } else {
+      fn_8229CAD0(self, CStr(&self->first));
+    }
+    self->pending = 0;
+  }
+  return 1;
+}

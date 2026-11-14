@@ -1,42 +1,26 @@
-#define NAN(x) ((x) != (x))
-extern unsigned int INFINITY;
-extern double _seed_nan;
-extern unsigned int fStack0000001c;
-extern int fn_82AA1C90();
+extern void fn_82AA1C90(void *out, const char *format, ...);
 
-
-void fn_82AA1F00(double param_1,unsigned __int64 param_2)
-
+void fn_82AA1F00(void *out, float value)
 {
-  unsigned __int64 uVar1;
-  float fStack0000001c;
-  
-  fStack0000001c = (float)param_1;
-  if (fStack0000001c == -0.0) {
-    uVar1 = 0xffffffff820d3160;
-  }
-  else {
-    if (((unsigned int)fStack0000001c & 0x7f800000) != 0x7f800000) {
-      fn_82AA1C90(param_2,0xffffffff820083a0,param_1);
-      return;
+    unsigned int bits = *(unsigned int *)&value;
+    const char *text;
+    if (bits == 0x80000000) {
+        text = "-0";
+    } else if ((bits & 0x7f800000) == 0x7f800000) {
+        if (bits == 0x7f800000) {
+            text = "1.#INF";
+        } else if (bits == 0xff800000) {
+            text = "-1.#INF";
+        } else if (bits == 0xffc00000) {
+            text = "1.#IND";
+        } else if (bits & 0x400000) {
+            text = "1.#QNAN";
+        } else {
+            text = "1.#SNAN";
+        }
+    } else {
+        fn_82AA1C90(out, "%.9g", value);
+        return;
     }
-    if (fStack0000001c == INFINITY) {
-      uVar1 = 0xffffffff82029748;
-    }
-    else if (fStack0000001c == -INFINITY) {
-      uVar1 = 0xffffffff820d3158;
-    }
-    else if (fStack0000001c == -(_seed_nan)) {
-      uVar1 = 0xffffffff82029750;
-    }
-    else if (((unsigned int)fStack0000001c & 0x400000) == 0) {
-      uVar1 = 0xffffffff82029738;
-    }
-    else {
-      uVar1 = 0xffffffff82029740;
-    }
-  }
-  fn_82AA1C90(param_2,uVar1);
-  return;
+    fn_82AA1C90(out, text);
 }
-

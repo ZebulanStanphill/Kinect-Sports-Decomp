@@ -1,34 +1,39 @@
-extern int fn_82536590();
-extern unsigned int lbl_821CA460;
+extern const float lbl_821CA45C[2];
 
+typedef struct Game_82360850 {
+    char pad0[0x1488];
+    int timer;
+    char pad1[0x2b20 - 0x148c];
+    void *player;
+    char pad2[0x2c9c - 0x2b24];
+    int state;
+    float fade;
+} Game_82360850;
 
-void fn_82360850(int param_1,int param_2,int param_3,int param_4)
+extern void fn_82536590(int *timer, int value);
 
+void fn_82360850(Game_82360850 *self, void *player, int pressed, int keep)
 {
-  int iVar1;
-  unsigned int uVar2;
-  
-  if (param_2 == *(int *)(param_1 + 0x2b20)) {
-    iVar1 = *(int *)(param_1 + 0x2c9c);
-    if (param_3 == 0) {
-      if (iVar1 == 3) {
-        if (param_4 == 0) {
-          *(unsigned int *)(param_1 + 0x2c9c) = 0;
-          *(unsigned int *)(param_1 + 0x2ca0) = lbl_821CA460;
-          return;
-        }
-        fn_82536590(param_1 + 0x1488,0);
-      }
-      uVar2 = 1;
-    }
-    else {
-      if ((iVar1 != 1) && (iVar1 != 0)) {
+    int state;
+    if (player != self->player) {
         return;
-      }
-      uVar2 = 2;
     }
-    *(unsigned int *)(param_1 + 0x2c9c) = uVar2;
-  }
-  return;
+    state = self->state;
+    if (pressed != 0) {
+        if (state != 1 && state != 0) {
+            return;
+        }
+        self->state = 2;
+    } else {
+        if (state == 3) {
+            if (keep != 0) {
+                fn_82536590(&self->timer, 0);
+            } else {
+                self->state = 0;
+                self->fade = lbl_821CA45C[1];
+                return;
+            }
+        }
+        self->state = 1;
+    }
 }
-

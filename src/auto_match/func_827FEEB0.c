@@ -1,31 +1,35 @@
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_821AAD20;
+typedef struct Quat_827FEEB0 {
+    float x, y, z, w;
+} Quat_827FEEB0;
 
+typedef struct Data_827FEEB0 {
+    char pad0[0xc];
+    Quat_827FEEB0 rotation;
+    char pad1c[3];
+    unsigned char flags[4];
+} Data_827FEEB0;
 
-void fn_827FEEB0(int *param_1,unsigned int *param_2)
+typedef struct Node_827FEEB0 {
+    char pad0[0x30];
+    Data_827FEEB0 *data;
+} Node_827FEEB0;
 
+typedef struct Handle_827FEEB0 {
+    Node_827FEEB0 *node;
+} Handle_827FEEB0;
+
+extern void fn_8280DD50(Quat_827FEEB0 *q);
+
+void fn_827FEEB0(Handle_827FEEB0 *self, Quat_827FEEB0 *out)
 {
-  int iVar1;
-  int iVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  
-  uVar4 = lbl_821AAD20;
-  uVar3 = lbl_82002AE0;
-  iVar1 = *param_1;
-  iVar2 = *(int *)(iVar1 + 0x30);
-  if ((((*(char *)(iVar2 + 0x1f) == '\0') && (*(char *)(iVar2 + 0x20) == '\0')) &&
-      (*(char *)(iVar2 + 0x21) == '\0')) && (*(char *)(iVar2 + 0x22) == '\0')) {
-    *param_2 = lbl_821AAD20;
-    param_2[1] = uVar4;
-    param_2[2] = uVar4;
-    param_2[3] = uVar3;
-    return;
-  }
-  *param_2 = *(unsigned int *)(*(int *)(iVar1 + 0x30) + 0xc);
-  param_2[1] = *(unsigned int *)(*(int *)(iVar1 + 0x30) + 0x10);
-  param_2[2] = *(unsigned int *)(*(int *)(iVar1 + 0x30) + 0x14);
-  param_2[3] = *(unsigned int *)(*(int *)(iVar1 + 0x30) + 0x18);
-  return;
+    Node_827FEEB0 *node = self->node;
+    Data_827FEEB0 *data = node->data;
+    if (data->flags[0] == 0 && data->flags[1] == 0 && data->flags[2] == 0 && data->flags[3] == 0) {
+        fn_8280DD50(out);
+        return;
+    }
+    out->x = node->data->rotation.x;
+    out->y = node->data->rotation.y;
+    out->z = node->data->rotation.z;
+    out->w = node->data->rotation.w;
 }
-

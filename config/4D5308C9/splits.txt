@@ -74732,7 +74732,7 @@ auto_match/func_8278B3F0.c:
 	.pdata      start:0x821FC730 end:0x821FC738
 	.text       start:0x8278B3F0 end:0x8278B458
 
-auto_match/func_8278B458.c:
+auto_match/func_8278B458.cpp:
 	.pdata      start:0x821FC738 end:0x821FC740
 	.text       start:0x8278B458 end:0x8278B4F8
 
@@ -175300,7 +175300,7 @@ auto_match/func_82F949D0.c:
 	.pdata      start:0x822229A8 end:0x822229B8
 	.text       start:0x82F949D0 end:0x82F95200
 
-auto_match/func_82F95200.c:
+auto_match/func_82F95200.cpp:
 	.pdata      start:0x822229B8 end:0x822229C0
 	.text       start:0x82F95200 end:0x82F952BC
 

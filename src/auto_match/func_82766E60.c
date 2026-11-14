@@ -1,39 +1,34 @@
-#define CONCAT11(h,l) ((unsigned short)((((unsigned char)(h)) << 8) | ((unsigned char)(l))))
+typedef struct Paged_82766E60 {
+    int pad0[3];
+    unsigned char **pages; /* 0x0c: 4 KB pages */
+} Paged_82766E60;
 
+typedef struct Table_82766E60 {
+    int pad0[2];
+    Paged_82766E60 *data; /* 0x08 */
+    int count;            /* 0x0c */
+    int offset;           /* 0x10 */
+} Table_82766E60;
 
-__int64 fn_82766E60(int param_1,unsigned short param_2)
-
+static __forceinline unsigned char ByteAt(Paged_82766E60 *p, unsigned int pos)
 {
-  int iVar1;
-  unsigned short uVar2;
-  __int64 lVar3;
-  __int64 lVar4;
-  __int64 lVar5;
-  unsigned int uVar6;
-  
-  lVar4 = 0;
-  lVar5 = (unsigned __int64)*(unsigned int *)(param_1 + 0xc) - 1;
-  if (-1 < lVar5) {
-    iVar1 = *(int *)(*(int *)(param_1 + 8) + 0xc);
-    do {
-      uVar6 = (int)lVar4 + (int)lVar5;
-      lVar3 = (__int64)((int)uVar6 >> 1) + (unsigned __int64)((int)uVar6 < 0 && (uVar6 & 1) != 0);
-      uVar6 = (int)lVar3 * 8 + *(int *)(param_1 + 0x10);
-      uVar2 = CONCAT11(*(unsigned char *)
-                        (*(int *)((uVar6 + 1 >> 10 & 0x3ffffc) + iVar1) + (uVar6 + 1 & 0xfff)),
-                       *(unsigned char *)(*(int *)((uVar6 >> 10 & 0x3ffffc) + iVar1) + (uVar6 & 0xfff))
-                      );
-      if (param_2 == uVar2) {
-        return lVar3;
-      }
-      if (param_2 < uVar2) {
-        lVar5 = lVar3 + -1;
-      }
-      else {
-        lVar4 = lVar3 + 1;
-      }
-    } while ((int)lVar4 <= (int)lVar5);
-  }
-  return -1;
+    return p->pages[pos >> 12][pos & 0xfff];
 }
 
+int fn_82766E60(Table_82766E60 *self, unsigned short key)
+{
+    int hi = self->count - 1;
+    int lo = 0;
+    while (lo <= hi) {
+        int mid = (lo + hi) / 2;
+        int idx = self->offset + mid * 8;
+        unsigned int k = ByteAt(self->data, idx) | (ByteAt(self->data, idx + 1) << 8);
+        if (key == k)
+            return mid;
+        if (key < k)
+            hi = mid - 1;
+        else
+            lo = mid + 1;
+    }
+    return -1;
+}

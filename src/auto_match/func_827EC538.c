@@ -1,26 +1,18 @@
-extern unsigned int lbl_821AAD20;
-
-
-unsigned __int64
-fn_827EC538(double param_1,double param_2,double param_3,double param_4,double param_5,
-             double param_6)
-
+/* do the three 2-D cross products of (a,b), (c,d), (e,f) share one sign,
+   with the first one at least the sum of the other two */
+int fn_827EC538(float a, float b, float c, float d, float e, float f)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  
-  fVar1 = (float)(param_1 * param_4 - (double)(float)(param_2 * param_3));
-  fVar2 = (float)(param_1 * param_6 - (double)(float)(param_2 * param_5));
-  fVar3 = (float)(param_4 * param_5 - (double)(float)(param_3 * param_6));
-  if (lbl_821AAD20 <= fVar1) {
-    if (((fVar3 + fVar2 <= fVar1) && (lbl_821AAD20 <= fVar2)) && (lbl_821AAD20 <= fVar3)) {
-      return 1;
+    float ad = a * d - b * c;
+    float af = a * f - b * e;
+    float de = d * e - c * f;
+    if (ad < 0.0f) {
+        if (de + af < ad || af > 0.0f || de > 0.0f) {
+            return 0;
+        }
+    } else {
+        if (de + af > ad || af < 0.0f || de < 0.0f) {
+            return 0;
+        }
     }
-  }
-  else if (((fVar1 <= fVar3 + fVar2) && (fVar2 <= lbl_821AAD20)) && (fVar3 <= lbl_821AAD20)) {
     return 1;
-  }
-  return 0;
 }
-

@@ -1,53 +1,29 @@
-extern int fn_82311AB8();
-extern int fn_82F69290();
-extern unsigned int lbl_82167E64;
+typedef struct String_8260D428 {
+    union {
+        char buf[16];
+        char *ptr;
+    } bx;
+    unsigned int size;
+    unsigned int res;
+} String_8260D428;
 
+extern __declspec(noreturn) void fn_82F622E0(const char *message);
+int memcmp(const void *a, const void *b, unsigned int n);
 
-unsigned __int64 fn_8260D428(unsigned int *param_1,unsigned int param_2,unsigned int param_3,unsigned char *param_4,unsigned int param_5)
-
+static __forceinline const char *Ptr(const String_8260D428 *s)
 {
-  unsigned char *pbVar1;
-  unsigned __int64 uVar2;
-  unsigned int uVar3;
-  unsigned char *pbVar4;
-  unsigned char **appuStack_20 [8];
-  
-  if ((unsigned int)param_1[4] < param_2) {
-    fn_82311AB8(appuStack_20,0xffffffff821961fc);
-    appuStack_20[0] = &lbl_82167E64;
-                    /* WARNING: Subroutine does not return */
-    fn_82F69290(appuStack_20,0xffffffff821dda18);
-  }
-  uVar3 = param_1[4] - param_2;
-  if (uVar3 < param_3) {
-    param_3 = uVar3;
-  }
-  uVar3 = param_3;
-  if (param_5 <= param_3) {
-    uVar3 = param_5;
-  }
-  if (0xf < (unsigned int)param_1[5]) {
-    param_1 = (unsigned int *)*param_1;
-  }
-  pbVar4 = (unsigned char *)((int)param_1 + param_2);
-  uVar2 = 0;
-  if (uVar3 != 0) {
-    pbVar1 = pbVar4 + uVar3;
-    do {
-      uVar2 = (unsigned __int64)*pbVar4 - (unsigned __int64)*param_4;
-      if (uVar2 != 0) break;
-      pbVar4 = pbVar4 + 1;
-      param_4 = param_4 + 1;
-    } while (pbVar4 != pbVar1);
-  }
-  if ((uVar2 & 0xffffffff) == 0) {
-    if (param_3 < param_5) {
-      uVar2 = 0xffffffffffffffff;
-    }
-    else {
-      uVar2 = (unsigned __int64)(param_5 != param_3);
-    }
-  }
-  return uVar2;
+    return 16 <= s->res ? s->bx.ptr : s->bx.buf;
 }
 
+int fn_8260D428(const String_8260D428 *self, unsigned int off, unsigned int n0,
+                const char *ptr, unsigned int count)
+{
+    unsigned int ans;
+    if (self->size < off) {
+        fn_82F622E0("invalid string position");
+    }
+    if (self->size - off < n0)
+        n0 = self->size - off;
+    ans = memcmp(Ptr(self) + off, ptr, n0 < count ? n0 : count);
+    return ans != 0 ? (int)ans : n0 < count ? -1 : n0 == count ? 0 : 1;
+}

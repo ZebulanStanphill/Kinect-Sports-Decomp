@@ -1,26 +1,27 @@
-extern unsigned int fStack_18;
-extern int fn_8249ABC0();
-extern int fn_8249CED0();
+typedef struct Rect_823850E0 {
+    float left;
+    float top;
+    float right;
+    float bottom;
+} Rect_823850E0;
 
+typedef struct View_823850E0 {
+    char pad0[0xec];
+    Rect_823850E0 *rect;
+} View_823850E0;
 
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
+extern View_823850E0 *fn_8249ABC0(void);
+extern void fn_8249CED0(Rect_823850E0 *out, Rect_823850E0 *rect);
 
-double fn_823850E0(double param_1,unsigned __int64 param_2,int param_3)
-
+float fn_823850E0(float scale, int raw)
 {
-  int iVar1;
-  float afStack_20 [2];
-  float fStack_18;
-  
-  if (param_3 == 0) {
-    iVar1 = fn_8249ABC0();
-    fn_8249CED0(afStack_20,*(unsigned int *)(iVar1 + 0xec));
-  }
-  else {
-    iVar1 = fn_8249ABC0();
-    afStack_20[0] = **(float **)(iVar1 + 0xec);
-    fStack_18 = (*(float **)(iVar1 + 0xec))[2];
-  }
-  return (double)(float)((double)(fStack_18 - afStack_20[0]) * param_1);
+    if (raw != 0) {
+        Rect_823850E0 rect = *fn_8249ABC0()->rect;
+        return (rect.right - rect.left) * scale;
+    } else {
+        Rect_823850E0 rect;
+        View_823850E0 *view = fn_8249ABC0();
+        fn_8249CED0(&rect, view->rect);
+        return (rect.right - rect.left) * scale;
+    }
 }
-

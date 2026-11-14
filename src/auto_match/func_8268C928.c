@@ -1,46 +1,43 @@
-typedef unsigned char bool;
-extern int fn_8268ACE8();
-extern int fn_8268C6A8();
-extern int fn_826BD7D0();
-extern unsigned int lbl_83155184;
-extern unsigned int lbl_83155188;
-extern unsigned __int64 storeWordConditionalIndexed();
+extern long _InterlockedExchangeAdd(long *, long);
 
+typedef struct DataDesc_8268C928 {
+    unsigned int size;
+    long refs;
+    char data[1];
+} DataDesc_8268C928;
 
-unsigned int * fn_8268C928(unsigned int *param_1,unsigned int *param_2,unsigned int param_3,unsigned int param_4)
+typedef struct String_8268C928 {
+    unsigned int data;
+} String_8268C928;
 
+typedef struct Ref_8268C928 {
+    DataDesc_8268C928 *p;
+} Ref_8268C928;
+
+extern DataDesc_8268C928 lbl_83155184;
+extern unsigned int fn_8268ACE8(String_8268C928 *s);
+extern int fn_826BD7D0(int index, const char *utf8, int length);
+extern void fn_8268C6A8(Ref_8268C928 *out, const char *text, unsigned int size);
+
+static __forceinline unsigned char IsAscii(DataDesc_8268C928 *d)
 {
-  int *piVar1;
-  unsigned int uVar2;
-  int iVar3;
-  int iVar4;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  uVar2 = fn_8268ACE8(param_2);
-  if ((param_3 < uVar2) && (param_3 < param_4)) {
-    piVar1 = (int *)(*param_2 & 0xfffffffc);
-    if (*piVar1 < 0) {
-      iVar3 = param_4 - param_3;
-      iVar4 = (int)piVar1 + param_3 + 8;
-    }
-    else {
-      iVar3 = fn_826BD7D0(param_3,piVar1 + 2,0xffffffffffffffff);
-      iVar4 = (int)piVar1 + iVar3 + 8;
-      iVar3 = fn_826BD7D0(param_4 - param_3,iVar4,0xffffffffffffffff);
-    }
-    fn_8268C6A8(param_1,iVar4,iVar3);
-  }
-  else {
-    *param_1 = &lbl_83155184;
-    do {
-      if (in_RESERVE != '\0') {
-        lbl_83155188 = storeWordConditionalIndexed((unsigned __int64)lbl_83155188 + 1,0,0xffffffff83155188)
-        ;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-  }
-  return param_1;
+    return (unsigned char)(d->size >> 31);
 }
 
+Ref_8268C928 *fn_8268C928(Ref_8268C928 *out, String_8268C928 *s, unsigned int start, unsigned int end)
+{
+    if (start < fn_8268ACE8(s) && start < end) {
+        DataDesc_8268C928 *desc = (DataDesc_8268C928 *)(s->data & ~3u);
+        if (IsAscii(desc)) {
+            fn_8268C6A8(out, desc->data + start, end - start);
+            return out;
+        } else {
+            int i = fn_826BD7D0(start, desc->data, -1);
+            fn_8268C6A8(out, desc->data + i, fn_826BD7D0(end - start, desc->data + i, -1));
+        }
+        return out;
+    }
+    out->p = &lbl_83155184;
+    _InterlockedExchangeAdd(&lbl_83155184.refs, 1);
+    return out;
+}

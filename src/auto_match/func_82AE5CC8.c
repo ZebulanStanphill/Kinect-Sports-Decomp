@@ -1,41 +1,20 @@
-extern int fn_82AA64F8();
-extern unsigned int stack0x00000020;
-extern unsigned int uStack00000020;
-extern unsigned int uStack00000028;
-extern unsigned int uStack00000030;
-extern unsigned int uStack00000038;
-extern unsigned int uStack00000040;
+typedef struct Regs_82AE5CC8 {
+    int context;                    /* 0x00 */
+    unsigned int words[32];         /* 0x04 */
+} Regs_82AE5CC8;
 
+extern void fn_82AA66A8(int context, int code, unsigned int index);
 
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
-
-void fn_82AE5CC8(unsigned int *param_1,unsigned int param_2,unsigned __int64 param_3,unsigned __int64 param_4)
-
+void fn_82AE5CC8(Regs_82AE5CC8 *self, unsigned int reg)
 {
-  int iVar1;
-  unsigned int uVar2;
-  unsigned __int64 uStack00000020;
-  unsigned __int64 uStack00000028;
-  unsigned __int64 uStack00000030;
-  unsigned __int64 uStack00000038;
-  unsigned __int64 uStack00000040;
-  __int64 lStack00000048;
-  
-  uVar2 = param_2 >> 4 & 0x1f;
-  lStack00000048 = ((unsigned __int64)(param_2 >> 9) + 1) * 4;
-  iVar1 = (int)lStack00000048;
-  uStack00000030 = (unsigned __int64)*(unsigned int *)(iVar1 + (int)param_1);
-  uStack00000040 = (unsigned __int64)param_2 & 0xf;
-  uStack00000020 = (unsigned __int64)(param_2 >> 4);
-  uStack00000038 =
-       uStack00000040 & ((2 << uVar2) - 1U & -1 << uVar2 & *(unsigned int *)(iVar1 + (int)param_1)) >> uVar2
-  ;
-  if (uStack00000038 != 0) {
-    uStack00000028 = param_4;
-                    /* WARNING: Subroutine does not return */
-    fn_82AA64F8(*param_1,0xdc6,&stack0x00000020);
-  }
-  *(unsigned int *)(iVar1 + (int)param_1) = (int)uStack00000040 << uVar2 | *(unsigned int *)(iVar1 + (int)param_1);
-  return;
+    unsigned int first = reg >> 4;
+    unsigned int last = first;
+    unsigned int high = (2U << (last & 31)) - 1;
+    unsigned int low = ~0U << (first & 31);
+    unsigned int bits = reg & 0xf;
+    if ((((high & low) & self->words[first >> 5]) >> (first & 31)) & bits) {
+        fn_82AA66A8(self->context, 0xdc6, reg >> 4);
+        return;
+    }
+    self->words[first >> 5] |= bits << (first & 31);
 }
-

@@ -1,40 +1,81 @@
-#define true 1
-extern unsigned int *auStack_20;
-extern int fn_82FAE140();
-extern unsigned int uStack_18;
+typedef struct Doc_82FAA060 Doc_82FAA060;
+typedef struct Node_82FAA060 Node_82FAA060;
+typedef struct List_82FAA060 List_82FAA060;
 
+typedef struct Item_82FAA060 {
+    char pad0[0x5c];
+    unsigned int base;
+    void *source;
+} Item_82FAA060;
 
-unsigned __int64 fn_82FAA060(int param_1)
+typedef struct Info_82FAA060 {
+    char pad0[0xac];
+    unsigned int value;
+} Info_82FAA060;
 
+typedef struct Iter_82FAA060 {
+    List_82FAA060 *list;
+    Node_82FAA060 *node;
+} Iter_82FAA060;
+
+typedef struct NodeVt_82FAA060 {
+    void *pad0[3];
+    Node_82FAA060 *(*Next)(Node_82FAA060 *self, Doc_82FAA060 *doc, Iter_82FAA060 *it, void *state);
+} NodeVt_82FAA060;
+
+struct Node_82FAA060 {
+    NodeVt_82FAA060 *vt;
+    char pad4[0x3c];
+    Item_82FAA060 *item;
+};
+
+struct List_82FAA060 {
+    void *pad0;
+    Node_82FAA060 *first;
+};
+
+typedef struct DocVt_82FAA060 {
+    void *pad0[6];
+    List_82FAA060 *(*GetList)(Doc_82FAA060 *self);
+    void *pad1c;
+    Info_82FAA060 *(*GetInfo)(Doc_82FAA060 *self);
+} DocVt_82FAA060;
+
+struct Doc_82FAA060 { DocVt_82FAA060 *vt; };
+
+typedef struct Self_82FAA060 {
+    char pad0[8];
+    Doc_82FAA060 *doc;
+} Self_82FAA060;
+
+extern unsigned int fn_82FAE140(void *source);
+
+unsigned int fn_82FAA060(Self_82FAA060 *self)
 {
-  unsigned int uVar1;
-  __int64 lVar2;
-  int iVar3;
-  unsigned char auStack_20 [8];
-  unsigned int uStack_18;
-  int *piStack_14;
-  
-  uStack_18 = (**(int (***)())(**(int **)(param_1 + 8) + 0x18))();
-  if (uStack_18 != 0) {
-    piStack_14 = *(int **)(uStack_18 + 4);
-    if (piStack_14 != (int *)0x0) {
-      iVar3 = piStack_14[0x10];
-      while( true ) {
-        if (iVar3 != 0) {
-          uVar1 = *(unsigned int *)(iVar3 + 0x5c);
-          lVar2 = fn_82FAE140(*(unsigned int *)(iVar3 + 0x60));
-          return lVar2 + (unsigned __int64)uVar1;
-        }
-        piStack_14 = (int *)(**(int (***)())(*piStack_14 + 0xc))
-                                      (piStack_14,*(unsigned int *)(param_1 + 8),&uStack_18,auStack_20
-                                      );
-        if (piStack_14 == (int *)0x0) break;
-        iVar3 = piStack_14[0x10];
-      }
-      iVar3 = (**(int (***)())(**(int **)(param_1 + 8) + 0x20))();
-      return (unsigned __int64)*(unsigned int *)(iVar3 + 0xac);
-    }
-  }
-  return 0;
-}
+    Iter_82FAA060 it;
+    int state;
+    Item_82FAA060 *item;
+    List_82FAA060 *list;
+    Node_82FAA060 *node;
 
+    list = self->doc->vt->GetList(self->doc);
+    if (list == 0)
+        return 0;
+    node = list->first;
+    if (node == 0)
+        return 0;
+    it.list = list;
+    it.node = node;
+    for (;;) {
+        item = it.node->item;
+        if (item != 0) {
+            void *source = item->source;
+            unsigned int base = item->base;
+            return base + fn_82FAE140(source);
+        }
+        it.node = it.node->vt->Next(it.node, self->doc, &it, &state);
+        if (it.node == 0)
+            break;
+    }
+    return self->doc->vt->GetInfo(self->doc)->value;
+}

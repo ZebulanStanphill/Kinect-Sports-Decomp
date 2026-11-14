@@ -1,52 +1,47 @@
-typedef unsigned char bool;
-#define false 0
-extern int fn_829E92B8();
+int memcmp(const void *a, const void *b, unsigned int n);
 
+typedef struct Entry_829E9368 {
+    unsigned int f00;
+    unsigned int f04;
+    unsigned int f08;
+    unsigned int size;
+} Entry_829E9368;
 
-bool fn_829E9368(unsigned char *param_1,unsigned __int64 param_2)
+typedef struct Header_829E9368 {
+    unsigned char digest[16];
+    unsigned int version;
+    unsigned int size;
+    unsigned int f18;
+    unsigned int f1c;
+    unsigned int f20;
+    unsigned int count;
+    unsigned char pad28[0x20];
+    Entry_829E9368 entries[1];
+} Header_829E9368;
 
+extern int fn_829E92B8(Header_829E9368 *h, unsigned int size, unsigned char *digest, unsigned int digestSize);
+
+int fn_829E9368(Header_829E9368 *h, unsigned int size)
 {
-  unsigned char bVar1;
-  unsigned char bVar2;
-  unsigned int uVar3;
-  int iVar4;
-  unsigned int uVar5;
-  unsigned char *pbVar6;
-  unsigned int *puVar7;
-  unsigned char *pbVar9;
-  unsigned __int64 uVar8;
-  unsigned char abStack_30 [16];
-  
-  if (((param_1 != (unsigned char *)0x0) && (0x57 < (param_2 & 0xffffffff))) &&
-     (iVar4 = fn_829E92B8(param_1,param_2,abStack_30,0x10), -1 < iVar4)) {
-    pbVar6 = abStack_30;
-    pbVar9 = param_1;
-    do {
-      bVar1 = *pbVar9;
-      bVar2 = *pbVar6;
-      if ((unsigned __int64)bVar1 - (unsigned __int64)bVar2 != 0) break;
-      pbVar9 = pbVar9 + 1;
-      pbVar6 = pbVar6 + 1;
-    } while (pbVar9 != param_1 + 0x10);
-    if ((((int)((unsigned __int64)bVar1 - (unsigned __int64)bVar2) == 0) &&
-        ((param_2 & 0xffffffff) == (unsigned __int64)*(unsigned int *)(param_1 + 0x14))) &&
-       ((*(int *)(param_1 + 0x10) == 100 && (uVar3 = *(unsigned int *)(param_1 + 0x24), uVar3 != 0)))) {
-      uVar5 = 0;
-      uVar8 = ((unsigned __int64)(uVar3 - 1) & 0xfffffff) * 0x10 + 0x58;
-      if (uVar3 != 0) {
-        puVar7 = (unsigned int *)(param_1 + 0x54);
-        do {
-          uVar8 = *puVar7 + uVar8;
-          if ((param_2 & 0xffffffff) < (uVar8 & 0xffffffff)) {
-            return false;
-          }
-          uVar5 = uVar5 + 1;
-          puVar7 = puVar7 + 4;
-        } while (uVar5 < uVar3);
-      }
-      return (uVar8 & 0xffffffff) == (param_2 & 0xffffffff);
-    }
-  }
-  return false;
-}
+    unsigned char digest[16];
+    unsigned int count;
+    unsigned int total;
+    unsigned int i;
+    int ok = 0;
 
+    if (h == 0) return 0;
+    if (size < sizeof(Header_829E9368)) return 0;
+    if (fn_829E92B8(h, size, digest, 0x10) < 0) return 0;
+    if (memcmp(h, digest, 0x10) != 0) return 0;
+    if (size != h->size) return 0;
+    if (h->version != 100) return 0;
+    count = h->count;
+    if (count < 1) return 0;
+    total = sizeof(Header_829E9368) + (count - 1) * sizeof(Entry_829E9368);
+    for (i = 0; i < count; i++) {
+        total += h->entries[i].size;
+        if (total > size) return 0;
+    }
+    if (total == size) ok = 1;
+    return ok;
+}

@@ -1,25 +1,49 @@
-extern unsigned int *auStack_40;
-extern int fn_82F4EBE8();
-extern int fn_82F52188();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Obj_824A0C20 Obj_824A0C20;
 
-unsigned __int64 fn_824A0C20(unsigned __int64 param_1,int param_2)
+typedef struct {
+    void *f0;
+    int (*test)(Obj_824A0C20 *self);
+} ObjVtbl_824A0C20;
 
+struct Obj_824A0C20 { ObjVtbl_824A0C20 *vt; };
+
+typedef struct Manager_824A0C20 {
+    char pad0[0xec];
+    void *table;            // 0xec
+} Manager_824A0C20;
+
+extern Obj_824A0C20 *fn_82F4EBE8(int id);
+extern void fn_82F52188(__vector4 *out, Obj_824A0C20 *obj, int mode);
+extern Manager_824A0C20 *fn_8249ABC0(void);
+extern void fn_8249CF88(__vector4 *out, void *table, int id);
+
+int fn_824A0C20(void *self, char *p)
 {
-  int *piVar1;
-  int iVar2;
-  unsigned char auStack_40 [40];
-  
-  if (*(int *)(param_2 + 0x20) < 0) {
-    piVar1 = (int *)0x0;
-  }
-  else {
-    piVar1 = (int *)fn_82F4EBE8();
-  }
-  if ((piVar1 != (int *)0x0) && (iVar2 = (**(int (***)())(*piVar1 + 4))(piVar1), iVar2 != 0)) {
-                    /* WARNING: Subroutine does not return */
-    fn_82F52188(auStack_40,piVar1,1);
-  }
-  return 0;
-}
+    int result = 0;
+    int id = *(int *)(p + 0x20);
+    Obj_824A0C20 *o;
+    __vector4 pos;
+    __vector4 limit;
+    int i;
+    Manager_824A0C20 *m;
 
+    if (id >= 0)
+        o = fn_82F4EBE8(id);
+    else
+        o = 0;
+    if (o && o->vt->test(o)) {
+        fn_82F52188(&pos, o, 1);
+        for (i = 0; i < 2 && result == 0; i++) {
+            m = fn_8249ABC0();
+            fn_8249CF88(&limit, m->table, i);
+            result = 1;
+            if (pos.vector4_f32[2] > limit.vector4_f32[2])
+                result = 0;
+        }
+    }
+    return result;
+}

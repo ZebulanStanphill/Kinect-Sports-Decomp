@@ -1,76 +1,68 @@
-unsigned __int64
-fn_82960A30(int *param_1,int param_2,unsigned int *param_3,unsigned int *param_4,unsigned int *param_5)
+typedef struct Reader_82960A30 Reader_82960A30;
+typedef struct {
+    char pad0[0x70];
+    unsigned int (*getType)(Reader_82960A30 *self, unsigned int token);
+    unsigned int (*getNumber)(Reader_82960A30 *self, unsigned int token);
+} ReaderVtbl_82960A30;
+struct Reader_82960A30 {
+    ReaderVtbl_82960A30 *vt;
+    char pad4[0x70 - 4];
+    unsigned int flags; /* 0x70 */
+};
+typedef struct {
+    char pad0[0xc];
+    unsigned int index; /* 0x0c */
+    char pad10[0x6c - 0x10];
+    unsigned int token; /* 0x6c */
+} Instr_82960A30;
 
+int fn_82960A30(Reader_82960A30 *self, Instr_82960A30 *instr, unsigned int *number, unsigned int *file,
+                unsigned int *present)
 {
-  int iVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  
-  iVar1 = (**(int (***)())(*param_1 + 0x70))(param_1,*(unsigned int *)(param_2 + 0x6c));
-  uVar2 = (**(int (***)())(*param_1 + 0x74))(param_1,*(unsigned int *)(param_2 + 0x6c));
-  *param_3 = uVar2;
-  uVar4 = 0;
-  if ((param_1[0x1c] & 0x1000000U) == 0) {
-    if (iVar1 == 0xb) {
-      if (3 < uVar2) {
-        return 0xffffffff80004005;
-      }
-      uVar3 = 8;
-      uVar4 = 0;
-    }
-    else {
-      if (iVar1 != 0xd) {
-        if (iVar1 == 0x11) {
-          if (uVar2 != 0) {
-            return 0xffffffff80004005;
-          }
-          *param_4 = 0x11;
-          *param_3 = 1;
+    unsigned int type = self->vt->getType(self, instr->token);
+    unsigned int extra;
+    *number = self->vt->getNumber(self, instr->token);
+    if (self->flags & 0x1000000) {
+        if (present != 0)
+            *present = 0;
+        if (type == 5 && *number == 0 && present != 0)
+            *present = 1;
+        if (type == 0xffff) {
+            *file = 0;
+        } else {
+            *file = 6;
+            *number = instr->index;
         }
-        else if (iVar1 == 0x12) {
-          if (uVar2 != 0) {
-            return 0xffffffff80004005;
-          }
-          *param_4 = 0x11;
-          *param_3 = 0;
+    } else {
+        extra = 0;
+        if (type == 0xb) {
+            if (*number >= 4)
+                goto fail;
+            *file = 8;
+        } else if (type == 0xd) {
+            if (*number != 0)
+                goto fail;
+            extra = 1;
+            *file = 9;
+        } else if (type == 0x11) {
+            if (*number != 0)
+                goto fail;
+            *file = 0x11;
+            *number = 1;
+        } else if (type == 0x12) {
+            if (*number != 0)
+                goto fail;
+            *file = 0x11;
+            *number = 0;
+        } else if (type == 0xffff) {
+            *file = 0;
+        } else {
+            goto fail;
         }
-        else {
-          if (iVar1 != 0xffff) {
-            return 0xffffffff80004005;
-          }
-          *param_4 = 0;
-        }
-        goto LAB_82960b70;
-      }
-      if (uVar2 != 0) {
-        return 0xffffffff80004005;
-      }
-      uVar3 = 9;
-      uVar4 = 1;
+        if (present != 0)
+            *present = extra;
     }
-    *param_4 = uVar3;
-LAB_82960b70:
-    if (param_5 == (unsigned int *)0x0) {
-      return 0;
-    }
-    *param_5 = uVar4;
     return 0;
-  }
-  if (param_5 != (unsigned int *)0x0) {
-    *param_5 = 0;
-  }
-  if (iVar1 == 5) {
-    if ((*param_3 != 0) || (param_5 == (unsigned int *)0x0)) goto LAB_82960ad4;
-    *param_5 = 1;
-  }
-  if (iVar1 == 0xffff) {
-    *param_4 = 0;
-    return 0;
-  }
-LAB_82960ad4:
-  *param_4 = 6;
-  *param_3 = *(unsigned int *)(param_2 + 0xc);
-  return 0;
+fail:
+    return 0x80004005;
 }
-

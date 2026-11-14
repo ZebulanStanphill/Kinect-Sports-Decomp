@@ -1,45 +1,53 @@
-extern int fn_82CE5410();
-extern int fn_82CE6310();
+typedef void (*vfn)(void *, void *, int, int);
+typedef struct { vfn f[8]; } VT_82D52258;
+typedef struct { VT_82D52258 *vt; } Allocator_82D52258;
+typedef struct {
+    void *data;
+    int size;
+    int capacityAndFlags;
+} Array_82D52258;
+typedef struct {
+    char pad0[0x10];
+    int height;
+    int width;
+} Info_82D52258;
+typedef struct {
+    char pad0[0x18];
+    Info_82D52258 *info;
+    char pad1[0x24 - 0x1c];
+    Array_82D52258 arr;
+} Obj_82D52258;
 
+extern int fn_82CE5410(void);
+extern void fn_82CE6310(void *alloc, Array_82D52258 *arr, int capacity, int elemSize);
 
-void fn_82D52258(int param_1,int param_2)
-
+void fn_82D52258(Obj_82D52258 *self, int mode)
 {
-  int *piVar1;
-  int iVar2;
-  __int64 lVar3;
-  __int64 lVar4;
-  int iVar5;
-  
-  if (param_2 == 6) {
-    iVar2 = fn_82CE5410();
-    piVar1 = *(int **)(iVar2 + 0x10);
-    *(unsigned int *)(param_1 + 0x28) = 0;
-    if ((*(unsigned int *)(param_1 + 0x2c) & 0x80000000) == 0) {
-      (**(int (***)())(*piVar1 + 0x10))
-                (piVar1,*(unsigned int *)(param_1 + 0x24),*(unsigned int *)(param_1 + 0x2c) & 0x3fffffff,2);
+    if (mode != 6) {
+        int n = (self->info->width * 2 - 2) * (self->info->height - 1);
+        Array_82D52258 *a = &self->arr;
+        int g = fn_82CE5410();
+        if ((a->capacityAndFlags & 0x3fffffff) < n) {
+            fn_82CE6310(*(void **)(g + 0x10), a, n, 2);
+        }
+        g = fn_82CE5410();
+        {
+            void *alloc = *(void **)(g + 0x10);
+            int cap = a->capacityAndFlags & 0x3fffffff;
+            if (cap < n) {
+                int c = cap * 2;
+                fn_82CE6310(alloc, a, n < c ? c : n, 2);
+            }
+        }
+        a->size = n;
+    } else {
+        Array_82D52258 *a = &self->arr;
+        Allocator_82D52258 *o = *(Allocator_82D52258 **)(fn_82CE5410() + 0x10);
+        a->size = 0;
+        if ((a->capacityAndFlags & (int)0x80000000) == 0) {
+            o->vt->f[4](o, a->data, a->capacityAndFlags & 0x3fffffff, 2);
+        }
+        a->data = 0;
+        a->capacityAndFlags = 0x80000000;
     }
-    *(unsigned int *)(param_1 + 0x24) = 0;
-    *(unsigned int *)(param_1 + 0x2c) = 0x80000000;
-  }
-  else {
-    lVar4 = (__int64)(*(int *)(*(int *)(param_1 + 0x18) + 0x14) * 2 + -2) *
-            (__int64)(*(int *)(*(int *)(param_1 + 0x18) + 0x10) + -1);
-    iVar2 = fn_82CE5410();
-    iVar5 = (int)lVar4;
-    if ((int)(*(unsigned int *)(param_1 + 0x2c) & 0x3fffffff) < iVar5) {
-      fn_82CE6310(*(unsigned int *)(iVar2 + 0x10),param_1 + 0x24,lVar4,2);
-    }
-    iVar2 = fn_82CE5410();
-    if ((int)(*(unsigned int *)(param_1 + 0x2c) & 0x3fffffff) < iVar5) {
-      lVar3 = ((unsigned __int64)*(unsigned int *)(param_1 + 0x2c) & 0x3fffffff) << 1;
-      if ((int)lVar3 <= iVar5) {
-        lVar3 = lVar4;
-      }
-      fn_82CE6310(*(unsigned int *)(iVar2 + 0x10),param_1 + 0x24,lVar3,2);
-    }
-    *(int *)(param_1 + 0x28) = iVar5;
-  }
-  return;
 }
-

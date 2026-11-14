@@ -1,37 +1,43 @@
-void fn_824D78A0(int param_1,unsigned int param_2)
+typedef struct Widget_824D78A0 {
+    char pad0[0x3c];
+    int visible;
+} Widget_824D78A0;
 
+typedef struct Screen_824D78A0 {
+    char pad0[0xf8];
+    Widget_824D78A0 *on0;
+    Widget_824D78A0 *off0;
+    Widget_824D78A0 *on1;
+    Widget_824D78A0 *off1;
+    Widget_824D78A0 *on2;
+    Widget_824D78A0 *off2;
+    Widget_824D78A0 *on3;
+    Widget_824D78A0 *off3;
+    Widget_824D78A0 *on4;
+    Widget_824D78A0 *other;
+    Widget_824D78A0 *on5;
+} Screen_824D78A0;
+
+void fn_824D78A0(Screen_824D78A0 *self, int visible)
 {
-  if (*(int *)(param_1 + 0xf8) != 0) {
-    *(unsigned int *)(*(int *)(param_1 + 0xf8) + 0x3c) = param_2;
-  }
-  if (*(int *)(param_1 + 0xfc) != 0) {
-    *(unsigned int *)(*(int *)(param_1 + 0xfc) + 0x3c) = (unsigned int)LZCOUNT(param_2) >> 5;
-  }
-  if (*(int *)(param_1 + 0x100) != 0) {
-    *(unsigned int *)(*(int *)(param_1 + 0x100) + 0x3c) = param_2;
-  }
-  if (*(int *)(param_1 + 0x104) != 0) {
-    *(unsigned int *)(*(int *)(param_1 + 0x104) + 0x3c) = (unsigned int)LZCOUNT(param_2) >> 5;
-  }
-  if (*(int *)(param_1 + 0x108) != 0) {
-    *(unsigned int *)(*(int *)(param_1 + 0x108) + 0x3c) = param_2;
-  }
-  if (*(int *)(param_1 + 0x10c) != 0) {
-    *(unsigned int *)(*(int *)(param_1 + 0x10c) + 0x3c) = (unsigned int)LZCOUNT(param_2) >> 5;
-  }
-  if (*(int *)(param_1 + 0x110) != 0) {
-    *(unsigned int *)(*(int *)(param_1 + 0x110) + 0x3c) = param_2;
-  }
-  if (*(int *)(param_1 + 0x114) != 0) {
-    *(unsigned int *)(*(int *)(param_1 + 0x114) + 0x3c) = (unsigned int)LZCOUNT(param_2) >> 5;
-  }
-  if (*(int *)(param_1 + 0x118) != 0) {
-    *(unsigned int *)(*(int *)(param_1 + 0x118) + 0x3c) = param_2;
-  }
-  if (*(int *)(param_1 + 0x120) == 0) {
-    return;
-  }
-  *(unsigned int *)(*(int *)(param_1 + 0x120) + 0x3c) = param_2;
-  return;
+    if (self->on0 != 0)
+        self->on0->visible = visible;
+    if (self->off0 != 0)
+        self->off0->visible = !visible;
+    if (self->on1 != 0)
+        self->on1->visible = visible;
+    if (self->off1 != 0)
+        self->off1->visible = !visible;
+    if (self->on2 != 0)
+        self->on2->visible = visible;
+    if (self->off2 != 0)
+        self->off2->visible = !visible;
+    if (self->on3 != 0)
+        self->on3->visible = visible;
+    if (self->off3 != 0)
+        self->off3->visible = !visible;
+    if (self->on4 != 0)
+        self->on4->visible = visible;
+    if (self->on5 != 0)
+        self->on5->visible = visible;
 }
-

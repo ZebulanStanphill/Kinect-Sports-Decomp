@@ -1,53 +1,43 @@
-extern unsigned int *auStack_38;
-extern unsigned int *auStack_40;
-extern int fn_822315A0();
-extern int fn_8255BB98();
-extern int fn_8255BFC0();
-extern int fn_825BBCA0();
-extern int fn_828ACCE8();
-extern int fn_828AD740();
-extern unsigned int iStack_34;
-extern unsigned int iStack_3c;
+typedef struct Info_8255C2E8 { int pad0[2]; void *handle; } Info_8255C2E8;
+typedef struct Ref_8255C2E8 { Info_8255C2E8 *info; void *ref; } Ref_8255C2E8;
+typedef struct Player_8255C2E8 Player_8255C2E8;
+typedef struct User_8255C2E8 {
+    char pad0[0x2fc];
+    void *table;              /* 0x2fc */
+    char pad300[0xd48 - 0x300];
+    Player_8255C2E8 *player;  /* 0xd48 */
+} User_8255C2E8;
+typedef struct Item_8255C2E8 { char pad0[0x94]; unsigned int flags; } Item_8255C2E8;
+typedef struct Self_8255C2E8 { char pad0[0xa]; unsigned short id; } Self_8255C2E8;
 
+extern Ref_8255C2E8 *fn_8255BB98(Ref_8255C2E8 *out, Player_8255C2E8 *player);
+extern void fn_822315A0(void *ref);
+extern void *fn_8255BFC0(void *table, unsigned short id);
+extern unsigned char fn_825BBCA0(User_8255C2E8 *user, void *entry);
+extern unsigned char fn_828ACCE8(void *handle);
+extern unsigned char fn_828AD740(void *handle);
 
-unsigned __int64 fn_8255C2E8(int param_1,int param_2,int param_3)
-
+/* fn_8255BB98 returns a reference-counted handle {info, ref} through the
+   hidden pointer; each temporary is released after use */
+unsigned char fn_8255C2E8(Self_8255C2E8 *self, User_8255C2E8 *user, Item_8255C2E8 *item)
 {
-  unsigned int uVar1;
-  int iVar2;
-  int *piVar4;
-  unsigned __int64 uVar3;
-  char cVar5;
-  unsigned char auStack_40 [4];
-  int iStack_3c;
-  unsigned char auStack_38 [4];
-  int iStack_34;
-  
-  uVar1 = *(unsigned int *)(param_2 + 0xd48);
-  piVar4 = (int *)fn_8255BB98(auStack_40,uVar1);
-  iVar2 = *piVar4;
-  if (iStack_3c != 0) {
-    fn_822315A0(iStack_3c);
-  }
-  if ((iVar2 == 0) || ((param_3 != 0 && ((*(unsigned int *)(param_3 + 0x94) & 0x2000000) == 0)))) {
-    uVar3 = 1;
-  }
-  else if (*(short *)(param_1 + 10) == 0) {
-    piVar4 = (int *)fn_8255BB98(auStack_38,uVar1);
-    uVar1 = *(unsigned int *)(*piVar4 + 8);
-    if (iStack_34 != 0) {
-      fn_822315A0(iStack_34);
+    Player_8255C2E8 *player = user->player;
+    unsigned char missing;
+    Ref_8255C2E8 ref;
+    Ref_8255C2E8 ref2;
+    missing = fn_8255BB98(&ref, player)->info == 0;
+    if (ref.ref != 0)
+        fn_822315A0(ref.ref);
+    if (missing)
+        return 1;
+    if (item != 0 && (item->flags & 0x2000000) == 0)
+        return 1;
+    if (self->id != 0)
+        return fn_825BBCA0(user, fn_8255BFC0(user->table, self->id));
+    {
+        void *handle = fn_8255BB98(&ref2, player)->info->handle;
+        if (ref2.ref != 0)
+            fn_822315A0(ref2.ref);
+        return fn_828ACCE8(handle) && fn_828AD740(handle);
     }
-    cVar5 = fn_828ACCE8(uVar1);
-    if ((cVar5 != '\0') && (cVar5 = fn_828AD740(uVar1), cVar5 != '\0')) {
-      return 1;
-    }
-    uVar3 = 0;
-  }
-  else {
-    uVar3 = fn_8255BFC0(*(unsigned int *)(param_2 + 0x2fc));
-    uVar3 = fn_825BBCA0(param_2,uVar3);
-  }
-  return uVar3;
 }
-

@@ -1,19 +1,26 @@
-extern int fn_82F68B5C();
-extern unsigned int lbl_832642FC;
+typedef struct Slot_82FEFC50 {
+    int f00;
+    int f04;
+    int f08;
+    void *handle;
+} Slot_82FEFC50;
 
+typedef struct Obj_82FEFC50 {
+    char pad0[0xe0];
+    Slot_82FEFC50 slots[4];
+    char pad120[8];
+    unsigned int current;
+    void *currentHandle;
+} Obj_82FEFC50;
 
-void fn_82FEFC50(int param_1,int param_2,int param_3,unsigned __int64 param_4,unsigned __int64 param_5)
+extern void *lbl_832642FC;
+extern void fn_830182F0(void *mgr, void *handle, int a, int b, unsigned char *out);
 
+void fn_82FEFC50(Obj_82FEFC50 *self, unsigned int id, int index, int a, int b)
 {
-  unsigned int uVar1;
-  
-  if (*(int *)(param_1 + 0x128) == param_2) {
-    uVar1 = *(unsigned int *)(param_1 + 300);
-  }
-  else {
-    uVar1 = *(unsigned int *)(param_3 * 0x10 + param_1 + 0xec);
-  }
-  fn_82F68B5C(lbl_832642FC,uVar1,param_4,param_5,0);
-  return;
+    if (self->current == id) {
+        fn_830182F0(lbl_832642FC, self->currentHandle, a, b, 0);
+    } else {
+        fn_830182F0(lbl_832642FC, self->slots[index].handle, a, b, 0);
+    }
 }
-

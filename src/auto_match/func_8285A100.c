@@ -1,38 +1,27 @@
-extern int fn_82F68B78();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_821AAD20;
+typedef struct Matrix_8285A100 {
+    float m[4][4];
+} Matrix_8285A100;
 
+typedef struct Entry_8285A100 {
+    char pad0[0x10];
+    Matrix_8285A100 matrix;
+    Matrix_8285A100 *source;
+} Entry_8285A100;
 
-void fn_8285A100(int param_1,int param_2,unsigned __int64 param_3)
+typedef struct Owner_8285A100 {
+    char pad0[0x50];
+    char *entries;
+} Owner_8285A100;
 
+extern void fn_8280CED8(Matrix_8285A100 *src, Matrix_8285A100 *dst);
+extern void fn_8280ACD8(Matrix_8285A100 *m);
+
+void fn_8285A100(Owner_8285A100 *self, int offset, Matrix_8285A100 *source)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  
-  param_2 = *(int *)(param_1 + 0x50) + param_2;
-  *(int *)(param_2 + 0x50) = (int)param_3;
-  uVar2 = lbl_821AAD20;
-  uVar1 = lbl_82002AE0;
-  if ((int)param_3 != 0) {
-    fn_82F68B78(param_3,param_2 + 0x10);
-    return;
-  }
-  *(unsigned int *)(param_2 + 0x10) = lbl_82002AE0;
-  *(unsigned int *)(param_2 + 0x20) = uVar2;
-  *(unsigned int *)(param_2 + 0x30) = uVar2;
-  *(unsigned int *)(param_2 + 0x40) = uVar2;
-  *(unsigned int *)(param_2 + 0x14) = uVar2;
-  *(unsigned int *)(param_2 + 0x24) = uVar1;
-  *(unsigned int *)(param_2 + 0x34) = uVar2;
-  *(unsigned int *)(param_2 + 0x44) = uVar2;
-  *(unsigned int *)(param_2 + 0x18) = uVar2;
-  *(unsigned int *)(param_2 + 0x28) = uVar2;
-  *(unsigned int *)(param_2 + 0x38) = uVar1;
-  *(unsigned int *)(param_2 + 0x48) = uVar2;
-  *(unsigned int *)(param_2 + 0x1c) = uVar2;
-  *(unsigned int *)(param_2 + 0x2c) = uVar2;
-  *(unsigned int *)(param_2 + 0x3c) = uVar2;
-  *(unsigned int *)(param_2 + 0x4c) = uVar1;
-  return;
+    Entry_8285A100 *e = (Entry_8285A100 *)(self->entries + offset);
+    e->source = source;
+    if (source != 0)
+        fn_8280CED8(source, &e->matrix);
+    else
+        fn_8280ACD8(&e->matrix);
 }
-

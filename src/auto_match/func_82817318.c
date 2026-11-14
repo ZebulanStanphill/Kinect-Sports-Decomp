@@ -1,23 +1,10 @@
-extern unsigned int lbl_82002C5C;
-extern unsigned int lbl_82005344;
-
-
-double fn_82817318(double param_1,double param_2,double param_3,double param_4,double param_5)
-
+// Catmull-Rom spline through p0..p3 at t (between p1 and p2).
+float fn_82817318(float t, float p0, float p1, float p2, float p3)
 {
-  double dVar1;
-  double dVar2;
-  
-  dVar2 = (double)(float)(param_4 - param_3);
-  dVar1 = (double)lbl_82002C5C;
-  return (double)(float)((double)(float)((double)(float)((double)(float)((double)(float)((double)(
-                                                  float)(param_5 - param_2) - dVar2) * dVar1 - dVar2
-                                                  ) * param_1 +
-                                                  -(double)(float)((double)(float)(param_3 + param_5
-                                                                                  ) * dVar1 -
-                                                                  (double)(float)(dVar2 * (double)
-                                                  lbl_82005344 + param_2))) * param_1 +
-                                        (double)(float)((double)(float)(param_4 - param_2) * dVar1))
-                         * param_1 + param_3);
-}
+    float d = p2 - p1;
+    float a = ((p3 - p0) - d) * 0.5f - d;
+    float b = (d * 2.0f + p0) - (p1 + p3) * 0.5f;
+    float c = (p2 - p0) * 0.5f;
 
+    return ((a * t + b) * t + c) * t + p1;
+}

@@ -1,42 +1,37 @@
-extern int fn_82E50CB8();
-extern int fn_82E50F10();
-extern int fn_82F68CC0();
-extern int fn_82F691F0();
+extern void fn_82E50CB8(void *lock);
+extern void fn_82E50F10(void *lock);
+extern void *memcpy(void *dst, const void *src, unsigned int size);
+extern void *memset(void *dst, int value, unsigned int size);
 
+typedef struct Text_82E55E50 {
+    char pad0[8];
+    char lock[0x5c - 8];
+    unsigned int length;
+    int f60;
+    unsigned short *data;
+} Text_82E55E50;
 
-unsigned __int64 fn_82E55E50(int param_1,unsigned __int64 param_2,unsigned int *param_3)
-
+int fn_82E55E50(Text_82E55E50 *self, unsigned short *buffer, unsigned int *size)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  
-  uVar2 = 0;
-  if (param_3 == (unsigned int *)0x0) {
-    uVar2 = 0xffffffff80070057;
-  }
-  else {
-    fn_82E50CB8(param_1 + 8);
-    uVar1 = *param_3;
-    uVar3 = (unsigned __int64)uVar1;
-    *param_3 = *(unsigned int *)(param_1 + 0x5c);
-    if ((param_2 & 0xffffffff) != 0) {
-      if (uVar3 < *(unsigned int *)(param_1 + 0x5c)) {
-        fn_82F68CC0(param_2,*(unsigned int *)(param_1 + 100),uVar1 << 1);
-        uVar2 = 0xffffffffc00d36b1;
-      }
-      else {
-        fn_82F68CC0(param_2,*(unsigned int *)(param_1 + 100),*(unsigned int *)(param_1 + 0x5c) << 1);
-        uVar1 = *(unsigned int *)(param_1 + 0x5c);
-        if (uVar1 < uVar3) {
-                    /* WARNING: Subroutine does not return */
-          fn_82F691F0(((unsigned __int64)uVar1 & 0x7fffffff) * 2 + param_2,0,
-                       (uVar3 - uVar1 & 0x7fffffff) << 1);
-        }
-      }
+    int hr = 0;
+    unsigned int capacity;
+    if (size == 0) {
+        return 0x80070057;
     }
-    fn_82E50F10(param_1 + 8);
-  }
-  return uVar2;
+    fn_82E50CB8(self->lock);
+    capacity = *size;
+    *size = self->length;
+    if (buffer != 0) {
+        if (capacity >= self->length) {
+            memcpy(buffer, self->data, self->length * 2);
+            if (capacity > self->length) {
+                memset(buffer + self->length, 0, (capacity - self->length) * 2);
+            }
+        } else {
+            memcpy(buffer, self->data, capacity * 2);
+            hr = 0xc00d36b1;
+        }
+    }
+    fn_82E50F10(self->lock);
+    return hr;
 }
-

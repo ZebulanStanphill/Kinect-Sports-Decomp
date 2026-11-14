@@ -1,38 +1,50 @@
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-extern int fn_83016E90();
-extern int fn_83017DA0();
-extern int fn_83019690();
+typedef struct Key_83018CD8 {
+    unsigned int a;
+    unsigned int b;
+} Key_83018CD8;
 
+typedef struct Self_83018CD8 {
+    int f0;
+    char table[0x618];          /* 0x004 */
+    char floats[0x104];         /* 0x61c */
+    char lock[0x1c];            /* 0x720 */
+} Self_83018CD8;
 
-unsigned __int64
-fn_83018CD8(double param_1,__int64 param_2,__int64 param_3,unsigned __int64 param_4,__int64 param_5)
+extern void RtlEnterCriticalSection(void *cs);
+extern void RtlLeaveCriticalSection(void *cs);
+extern float *fn_83016E90(void *table, Key_83018CD8 key, unsigned int index);
+extern void fn_83017DA0(Self_83018CD8 *self, unsigned int a, float *entry, float value, unsigned int b);
+extern float *fn_83019690(void *table, Key_83018CD8 key);
 
+/* sets the value stored for (a, b), adding an entry when there is none:
+   returns 1, or 2 when the entry could not be added */
+int fn_83018CD8(Self_83018CD8 *self, unsigned int a, float value, unsigned int b)
 {
-  unsigned __int64 uVar1;
-  float *pfVar2;
-  __int64 lVar3;
-  
-  lVar3 = param_2 + 0x720;
-  RtlEnterCriticalSection(lVar3);
-  uVar1 = CONCAT44((int)param_3,(int)param_5);
-  pfVar2 = (float *)fn_83016E90(param_2 + 4,uVar1,
-                                 param_3 + param_5 +
-                                 ((param_3 + param_5 & 0xffffffffU) / 0xc1) * -0xc1);
-  if ((pfVar2 == (float *)0x0) || ((double)*pfVar2 != param_1)) {
-    fn_83017DA0(param_1,param_2,param_3,pfVar2);
-    if (pfVar2 == (float *)0x0) {
-      pfVar2 = (float *)fn_83019690(param_2 + 4,uVar1);
-      if (pfVar2 != (float *)0x0) {
-        *pfVar2 = (float)param_1;
-        RtlLeaveCriticalSection(lVar3);
-        return 1;
-      }
-      RtlLeaveCriticalSection(lVar3);
-      return 2;
-    }
-    *pfVar2 = (float)param_1;
-  }
-  RtlLeaveCriticalSection(lVar3);
-  return 1;
-}
+    Key_83018CD8 key;
+    float *entry;
 
+    RtlEnterCriticalSection(self->lock);
+    key.b = b;
+    key.a = a;
+    entry = fn_83016E90(self->table, key, (key.a + key.b) % 193);
+    if (entry == 0 || *entry != value) {
+        fn_83017DA0(self, a, entry, value, b);
+        if (entry != 0) {
+            *entry = value;
+            RtlLeaveCriticalSection(self->lock);
+            return 1;
+        } else {
+            entry = fn_83019690(self->table, key);
+            if (entry != 0) {
+                *entry = value;
+                RtlLeaveCriticalSection(self->lock);
+                return 1;
+            }
+            RtlLeaveCriticalSection(self->lock);
+            return 2;
+        }
+    } else {
+        RtlLeaveCriticalSection(self->lock);
+        return 1;
+    }
+}

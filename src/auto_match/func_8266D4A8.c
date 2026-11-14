@@ -1,70 +1,59 @@
-typedef unsigned char bool;
-extern int fn_8256E1D8();
-extern int fn_8266CB08();
-extern int fn_8266D210();
-extern unsigned int uStack_48;
-extern unsigned int uStack_4c;
-extern unsigned int uStack_50;
-extern unsigned __int64 storeWordConditionalIndexed();
+long _InterlockedDecrement(long volatile *);
 
+typedef struct Rep_8266D4A8 Rep_8266D4A8;
+typedef struct RepVt_8266D4A8 {
+    void (*destroy)(Rep_8266D4A8 *);
+    void (*deleteThis)(Rep_8266D4A8 *);
+} RepVt_8266D4A8;
+struct Rep_8266D4A8 {
+    RepVt_8266D4A8 *vt;
+    long uses;
+    long weaks;
+};
 
-void fn_8266D4A8(unsigned int *param_1,unsigned int *param_2)
+typedef struct Entry_8266D4A8 {
+    void *ptr;
+    Rep_8266D4A8 *rep;
+    unsigned int key;
+} Entry_8266D4A8;
 
+extern Entry_8266D4A8 *fn_8266CB08(Entry_8266D4A8 *dst, Entry_8266D4A8 *src);
+extern void fn_8256E1D8(Entry_8266D4A8 *self, void *p, Rep_8266D4A8 *r);
+extern void fn_8266D210(Entry_8266D4A8 *first, Entry_8266D4A8 *last, Entry_8266D4A8 *dest);
+
+static __forceinline void Decwref_8266D4A8(Rep_8266D4A8 *r)
 {
-  unsigned int uVar1;
-  __int64 lVar2;
-  unsigned int uVar3;
-  unsigned int *puVar4;
-  unsigned int *puVar5;
-  unsigned __int64 uVar6;
-  unsigned int *puVar7;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  struct { unsigned int first; unsigned int second; } stack_pair_50;
-
-  unsigned int uStack_48;
-  
-  puVar5 = param_1;
-  if (param_1 != param_2) {
-    while (puVar7 = puVar5 + 3, puVar7 != param_2) {
-      fn_8266CB08(&stack_pair_50.first,puVar7);
-      uVar1 = uStack_48;
-      if (uStack_48 < (unsigned int)param_1[2]) {
-        fn_8266D210(param_1,puVar7,puVar5 + 6);
-        uVar6 = (unsigned __int64)stack_pair_50.second;
-        fn_8256E1D8(param_1,stack_pair_50.first,uVar6);
-        param_1[2] = uVar1;
-      }
-      else {
-        uVar3 = puVar5[2];
-        puVar5 = puVar7;
-        while (uVar1 < uVar3) {
-          fn_8256E1D8(puVar5,puVar5[-3],puVar5[-2]);
-          puVar5[2] = puVar5[-1];
-          uVar3 = puVar5[-4];
-          puVar5 = puVar5 + -3;
-        }
-        uVar6 = (unsigned __int64)stack_pair_50.second;
-        fn_8256E1D8(puVar5,stack_pair_50.first,uVar6);
-        puVar5[2] = uVar1;
-      }
-      puVar5 = puVar7;
-      if (uVar6 != 0) {
-        do {
-          puVar4 = (unsigned int *)(uVar6 + 8);
-          lVar2 = (unsigned __int64)*puVar4 - 1;
-          if (in_RESERVE != '\0') {
-            uVar1 = storeWordConditionalIndexed(lVar2,0,uVar6 + 8);
-            *puVar4 = uVar1;
-            in_cr0 = 2;
-          }
-        } while (!(bool)(in_cr0 >> 1 & 1));
-        if ((int)lVar2 == 0) {
-          (**(int (***)())(*(int *)uVar6 + 4))(uVar6);
-        }
-      }
-    }
-  }
-  return;
+    if (_InterlockedDecrement(&r->weaks) == 0)
+        r->vt->deleteThis(r);
 }
 
+void fn_8266D4A8(Entry_8266D4A8 *first, Entry_8266D4A8 *last)
+{
+    Entry_8266D4A8 *next;
+    Rep_8266D4A8 *rep;
+
+    if (first != last) {
+        for (next = first; ++next != last; ) {
+            Entry_8266D4A8 *next1 = next;
+            Entry_8266D4A8 val;
+            fn_8266CB08(&val, next);
+            if (val.key < first->key) {
+                fn_8266D210(first, next, ++next1);
+                rep = val.rep;
+                fn_8256E1D8(first, val.ptr, rep);
+                first->key = val.key;
+            } else {
+                Entry_8266D4A8 *first1;
+                for (first1 = next1; val.key < (--first1)->key; next1 = first1) {
+                    fn_8256E1D8(next1, first1->ptr, first1->rep);
+                    next1->key = first1->key;
+                }
+                rep = val.rep;
+                fn_8256E1D8(next1, val.ptr, rep);
+                next1->key = val.key;
+            }
+            if (rep != 0)
+                Decwref_8266D4A8(rep);
+        }
+    }
+}

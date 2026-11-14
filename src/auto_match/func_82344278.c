@@ -1,47 +1,100 @@
-extern int fn_8233D980();
-extern int fn_82344720();
-extern int fn_82348D60();
-extern int fn_8288B760();
+typedef struct Mgr_82344278 {
+    char pad0[0x1c4];
+    void **players;
+    char pad1c8[0xc];
+    int current;
+} Mgr_82344278;
 
+typedef struct Sub_82344278 {
+    char pad0[0x40];
+    Mgr_82344278 *mgr;
+} Sub_82344278;
 
-void fn_82344278(int param_1)
+typedef struct Ctx_82344278 {
+    char pad0[0x174];
+    char *game;
+} Ctx_82344278;
 
+typedef struct Info_82344278 {
+    char pad0[0xc];
+    Ctx_82344278 *ctx;
+} Info_82344278;
+
+typedef struct Target_82344278 Target_82344278;
+typedef struct TargetVt_82344278 {
+    void *pad0[2];
+    char *(*GetBase)(Target_82344278 *self);
+} TargetVt_82344278;
+struct Target_82344278 { TargetVt_82344278 *vt; };
+
+typedef struct Obj_82344278 {
+    char pad0[0x24];
+    void *busy;
+    char pad28[0x140];
+    Target_82344278 *target;
+    int idle;
+    char pad170[0x30];
+    Info_82344278 *info;
+} Obj_82344278;
+
+typedef struct State_82344278 {
+    Obj_82344278 *obj;
+    int kind;
+} State_82344278;
+
+typedef struct Self_82344278 {
+    char pad0[0xc];
+    State_82344278 *state;
+    char pad10[4];
+    char *data;
+} Self_82344278;
+
+extern void fn_82348D60(Self_82344278 *self);
+extern void fn_82344720(Self_82344278 *self);
+extern unsigned char fn_8288B760(Target_82344278 *target);
+extern void fn_8233D980(char *a, char *b);
+
+static __forceinline Obj_82344278 *GetObj(Self_82344278 *s)
 {
-  int iVar1;
-  int *piVar2;
-  unsigned int uVar4;
-  __int64 lVar3;
-  
-  fn_82348D60();
-  iVar1 = *(int *)(*(int *)(*(int *)(**(int **)(param_1 + 0xc) + 0x1a0) + 0xc) + 0x174);
-  if ((*(int *)(*(int *)(iVar1 + 0x5c) + 0x1d4) != -1) &&
-     (iVar1 = *(int *)(iVar1 + 0x5c),
-     *(int *)(*(int *)(iVar1 + 0x1d4) * 4 + *(int *)(iVar1 + 0x1c4)) != 0)) {
-    iVar1 = (*(int **)(param_1 + 0xc))[1];
-    if (iVar1 == 2) {
-      if (*(int *)(**(int **)(param_1 + 0xc) + 0x24) == 0) {
-        fn_82344720(param_1);
-      }
-    }
-    else if (iVar1 == 9) {
-      iVar1 = **(int **)(param_1 + 0xc);
-      if (*(int *)(iVar1 + 0x168) == 0) {
-        uVar4 = *(unsigned int *)(iVar1 + 0x16c);
-      }
-      else {
-        uVar4 = fn_8288B760();
-        uVar4 = uVar4 & 0xff;
-      }
-      if (uVar4 == 0) {
-        piVar2 = *(int **)(**(int **)(param_1 + 0xc) + 0x168);
-        if (piVar2 != (int *)0x0) {
-          uVar4 = *(unsigned int *)(param_1 + 0x14);
-          lVar3 = (**(int (***)())(*piVar2 + 8))();
-          fn_8233D980(lVar3 + 0x534,(unsigned __int64)uVar4 + 0x4c);
-        }
-      }
-    }
-  }
-  return;
+    return s->state->obj;
 }
 
+static __forceinline void *GetCurrent(Ctx_82344278 *ctx)
+{
+    Sub_82344278 *s = (Sub_82344278 *)(ctx->game + 0x1c);
+    if (s->mgr->current == -1)
+        return 0;
+    return s->mgr->players[s->mgr->current];
+}
+
+void fn_82344278(Self_82344278 *self)
+{
+    Obj_82344278 *obj;
+    Info_82344278 *info;
+    void *busy;
+    int idle;
+
+    fn_82348D60(self);
+    info = GetObj(self)->info;
+    busy = GetObj(self)->busy;
+    if (GetCurrent(info->ctx) == 0)
+        return;
+    switch (self->state->kind) {
+    case 2:
+        if (busy == 0)
+            fn_82344720(self);
+        break;
+    case 9:
+        obj = self->state->obj;
+        if (obj->target != 0)
+            idle = fn_8288B760(obj->target);
+        else
+            idle = obj->idle;
+        if (idle == 0) {
+            Target_82344278 *target = self->state->obj->target;
+            if (target != 0)
+                fn_8233D980(target->vt->GetBase(target) + 0x534, self->data + 0x4c);
+        }
+        break;
+    }
+}

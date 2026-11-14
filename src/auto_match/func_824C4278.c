@@ -1,43 +1,36 @@
-extern int fn_823AB478();
-extern int fn_82A1BFA8();
-extern unsigned int lbl_83265988;
+typedef struct List_824C4278 {
+  char pad0[0x10];
+  void **begin;
+  void **end;
+} List_824C4278;
 
+extern void *lbl_83265988;
+extern unsigned int fn_823AB478(void *p);
+extern int fn_82A1BFA8(unsigned int id);
 
-char fn_824C4278(int param_1,unsigned __int64 param_2,int param_3)
-
+int fn_824C4278(int index, unsigned int id, List_824C4278 *list)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  char cVar3;
-  
-  iVar2 = *(int *)(param_3 + 0x14) - *(int *)(param_3 + 0x10) >> 2;
-  if (param_1 == iVar2) {
-    if ((lbl_83265988 != 0) &&
-       (uVar1 = fn_823AB478(), (uVar1 & 0xffffffff) == (param_2 & 0xffffffff))) {
-      return '\0';
+  int count = list->end - list->begin;
+  if (index == count) {
+    if (lbl_83265988 != 0 && fn_823AB478(lbl_83265988) == id) {
+      return 0;
     }
-  }
-  else {
-    if (param_1 <= iVar2) {
-      if ((lbl_83265988 != 0) &&
-         (uVar1 = fn_823AB478(), (uVar1 & 0xffffffff) == (param_2 & 0xffffffff))) {
-        return '\x02';
-      }
-      iVar2 = fn_82A1BFA8(param_2);
-      return (iVar2 != 2) + '\x05';
+    if (fn_82A1BFA8(id) == 2) {
+      return (index == 1) + 4;
     }
-    if ((lbl_83265988 != 0) &&
-       (uVar1 = fn_823AB478(), (uVar1 & 0xffffffff) == (param_2 & 0xffffffff))) {
-      return '\x01';
+    return 6;
+  }
+  if (index > count) {
+    if (lbl_83265988 != 0 && fn_823AB478(lbl_83265988) == id) {
+      return 1;
     }
+    if (fn_82A1BFA8(id) == 2) {
+      return (index == 1) + 4;
+    }
+    return 6;
   }
-  iVar2 = fn_82A1BFA8(param_2);
-  if (iVar2 == 2) {
-    cVar3 = (param_1 == 1) + '\x04';
+  if (lbl_83265988 != 0 && fn_823AB478(lbl_83265988) == id) {
+    return 2;
   }
-  else {
-    cVar3 = '\x06';
-  }
-  return cVar3;
+  return (fn_82A1BFA8(id) == 2 ? 5 : 6);
 }
-

@@ -1,83 +1,95 @@
-extern int fn_82AB15D0();
-extern int fn_82BAFE48();
-extern int fn_82BC0DD8();
-extern int fn_82BC24F0();
-extern int fn_82BC2958();
-extern int fn_82BC5628();
+typedef struct Inst_82BA1A40 Inst_82BA1A40;
+struct Inst_82BA1A40 {
+    char pad0[8];
+    Inst_82BA1A40 *next;
+    char padc[8];
+    int count;
+    char pad18[8];
+    Inst_82BA1A40 *src[13];
+    int type[13];
+    char pad88[0x5c];
+    unsigned int flags;
+    char pade8[0x2cc];
+    void *block;
+};
 
+typedef struct Block_82BA1A40 Block_82BA1A40;
+struct Block_82BA1A40 {
+    char pad0[8];
+    Block_82BA1A40 *next;
+    char padc[0x10];
+    Inst_82BA1A40 *insts;
+};
 
-void fn_82BA1A40(int param_1)
+typedef struct Context_82BA1A40 {
+    char pad0[0x5e4];
+    int pending;
+} Context_82BA1A40;
 
+typedef struct Compiler_82BA1A40 {
+    char pad0[0xc];
+    Context_82BA1A40 *ctx;
+    char pad10[0x78];
+    Block_82BA1A40 *blocks;
+    char pad8c[0x20];
+    void *regs;
+} Compiler_82BA1A40;
+
+extern void fn_82AB15D0(int level, const char *format, ...);
+extern Inst_82BA1A40 *fn_82BC24F0(int op, Context_82BA1A40 *ctx);
+extern Inst_82BA1A40 *fn_82BAFE48(void *regs, int kind, int index);
+extern void fn_82BC2958(Inst_82BA1A40 *inst, int index, Inst_82BA1A40 *value);
+extern void fn_82BC0DD8(Inst_82BA1A40 *src, Inst_82BA1A40 *inst, Inst_82BA1A40 *mov);
+extern void fn_82BC5628(void *block, Inst_82BA1A40 *inst, Inst_82BA1A40 *mov);
+
+void fn_82BA1A40(Compiler_82BA1A40 *self)
 {
-  int iVar1;
-  int iVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned __int64 uVar5;
-  unsigned __int64 uVar6;
-  int *piVar7;
-  unsigned __int64 uVar8;
-  unsigned __int64 uVar9;
-  int iVar10;
-  unsigned __int64 uVar11;
-  __int64 lVar12;
-  unsigned int *puVar13;
-  
-  iVar1 = *(int *)(param_1 + 0x88);
-  iVar2 = *(int *)(iVar1 + 8);
-  while (iVar2 != 0) {
-    for (iVar2 = *(int *)(iVar1 + 0x1c); *(int *)(iVar2 + 8) != 0; iVar2 = *(int *)(iVar2 + 8)) {
-      if ((*(unsigned int *)(iVar2 + 0xe4) & 1) != 0) {
-        uVar3 = *(unsigned int *)(iVar2 + 0x14);
-        uVar11 = (unsigned __int64)uVar3;
-        uVar9 = 0;
-        uVar8 = 0;
-        if (0 < (int)uVar3) {
-          piVar7 = (int *)(iVar2 + 0x54);
-          do {
-            iVar10 = *piVar7;
-            if (((iVar10 == 1) || (iVar10 == 2)) || (iVar10 == 3)) {
-              uVar8 = uVar8 + 1;
-            }
-            else if (iVar10 == 0xb) {
-              uVar9 = uVar9 + 1;
-            }
-            piVar7 = piVar7 + 1;
-            uVar11 = uVar11 - 1;
-          } while (uVar11 != 0);
-          if (((int)uVar8 != 0) && (iVar10 = (int)uVar9, iVar10 != 0)) {
-            uVar9 = ((uVar8 & 0xffffffff) >> 0x1f) + (__int64)(iVar10 >> 0x1f) +
-                    (unsigned __int64)(uVar8 <= uVar9);
-            if ((iVar10 != 1) && ((int)uVar8 != 1)) {
-              fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820ded50,0xffffffff820deb50,0x77b);
-            }
-            lVar12 = 0;
-            puVar13 = (unsigned int *)(iVar2 + 0x20);
-            do {
-              iVar10 = puVar13[0xd];
-              if (((((iVar10 == 1) || (iVar10 == 2)) || (iVar10 == 3)) && ((uVar9 & 0xff) != 0)) ||
-                 ((iVar10 == 0xb && ((uVar9 & 0xff) == 0)))) {
-                uVar5 = fn_82BC24F0(0x31,*(unsigned int *)(param_1 + 0xc));
-                uVar4 = *puVar13;
-                *(int *)(*(int *)(param_1 + 0xc) + 0x5e4) =
-                     *(int *)(*(int *)(param_1 + 0xc) + 0x5e4) + -1;
-                uVar6 = fn_82BAFE48(*(unsigned int *)(param_1 + 0xac),0);
-                fn_82BC2958(uVar5,0,uVar6);
-                fn_82BC2958(uVar5,1,uVar4);
-                fn_82BC0DD8(uVar4,iVar2,uVar5);
-                fn_82BC2958(iVar2,lVar12 + 1,uVar6);
-                fn_82BC5628(*(unsigned int *)(iVar2 + 0x3b4),iVar2,uVar5);
-              }
-              lVar12 = lVar12 + 1;
-              puVar13 = puVar13 + 1;
-            } while ((int)lVar12 < (int)uVar3);
-          }
-        }
-      }
-    }
-    iVar1 = *(int *)(iVar1 + 8);
-    iVar2 = *(int *)(iVar1 + 8);
-  }
-  return;
-}
+    Block_82BA1A40 *block;
+    Inst_82BA1A40 *inst;
 
+    for (block = self->blocks; (int)block->next != 0; block = block->next) {
+        for (inst = block->insts; (int)inst->next != 0; inst = inst->next) {
+            int count;
+            int external_const_count;
+            int internal_const_count;
+            int i;
+            int use_internal;
+
+            if ((inst->flags & 1) == 0)
+                continue;
+            count = inst->count;
+            internal_const_count = 0;
+            external_const_count = 0;
+            if (count <= 0)
+                continue;
+            for (i = 0; i < count; i++) {
+                int type = inst->type[i];
+                if (type == 1 || type == 2 || type == 3)
+                    external_const_count++;
+                else if (type == 0xb)
+                    internal_const_count++;
+            }
+            if (external_const_count == 0 || internal_const_count == 0)
+                continue;
+            use_internal = external_const_count <= internal_const_count;
+            if (!(1 == internal_const_count || 1 == external_const_count))
+                fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "1 == internal_const_count || 1 == external_const_count",
+                            "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\compiler\\ir\\cfg.cpp", 0x77b);
+            for (i = 0; i < count; i++) {
+                int type = inst->type[i];
+                if (((type == 1 || type == 2 || type == 3) && (unsigned char)use_internal != 0) || (type == 0xb && (unsigned char)use_internal == 0)) {
+                    Inst_82BA1A40 *mov = fn_82BC24F0(0x31, self->ctx);
+                    Inst_82BA1A40 *src = inst->src[i];
+                    Inst_82BA1A40 *reg;
+                    Context_82BA1A40 *ctx = self->ctx;
+                    reg = fn_82BAFE48(self->regs, 0, --ctx->pending);
+                    fn_82BC2958(mov, 0, reg);
+                    fn_82BC2958(mov, 1, src);
+                    fn_82BC0DD8(src, inst, mov);
+                    fn_82BC2958(inst, i + 1, reg);
+                    fn_82BC5628(inst->block, inst, mov);
+                }
+            }
+        }
+    }
+}

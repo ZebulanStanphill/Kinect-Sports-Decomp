@@ -1,35 +1,28 @@
-typedef unsigned char bool;
-#define false 0
-extern int fn_825BC5E0();
+typedef struct Target_825BC748 {
+    char pad0[0xc];
+    void *first;
+    void *second;
+} Target_825BC748;
 
+extern void fn_825BC5E0(void *self, Target_825BC748 *target, void *source, int index,
+                        float x, float y, int flag, int mode);
 
-void fn_825BC748(unsigned __int64 param_1,int param_2)
-
+static __forceinline int IsSet(void **p)
 {
-  int *piVar1;
-  bool bVar2;
-  
-  fn_825BC5E0();
-  piVar1 = (int *)(param_2 + 0xc);
-  if (piVar1 == (int *)0x0) {
-    bVar2 = false;
-  }
-  else {
-    bVar2 = *piVar1 != 0;
-  }
-  if ((bVar2) && (*piVar1 != 0)) {
-    *piVar1 = 0;
-  }
-  piVar1 = (int *)(param_2 + 0x10);
-  if (piVar1 == (int *)0x0) {
-    bVar2 = false;
-  }
-  else {
-    bVar2 = *piVar1 != 0;
-  }
-  if (bVar2) {
-    *piVar1 = 0;
-  }
-  return;
+    int result;
+    result = p != 0 ? *p != 0 : 0;
+    return result;
 }
-
+static __forceinline void Reset(void **p, void *v)
+{
+    if (*p == v && IsSet(p))
+        *p = 0;
+}
+void fn_825BC748(void *self, Target_825BC748 *target, void *source, int index, float x, float y)
+{
+    fn_825BC5E0(self, target, source, index, x, y, 1, 0);
+    if (IsSet(&target->first))
+        Reset(&target->first, target->first);
+    if (IsSet(&target->second))
+        target->second = 0;
+}

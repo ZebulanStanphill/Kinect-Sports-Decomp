@@ -1,75 +1,91 @@
-typedef unsigned char bool;
-extern unsigned int *auStack_220;
-extern unsigned int *auStack_230;
-extern int fn_82CED958();
-extern int fn_82CEDB38();
-extern int fn_82CEE578();
-extern unsigned int *lbl_8323B464;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Data_82DED480 Data_82DED480;
 
-unsigned __int64 fn_82DED480(int param_1,int param_2,int param_3)
+typedef struct DataVt_82DED480 {
+    void *slots[8];
+    int (*getType)(Data_82DED480 *self);
+} DataVt_82DED480;
 
+struct Data_82DED480 {
+    DataVt_82DED480 *vt;
+};
+
+/* hkpBallAndSocketConstraintData: m_atoms.m_pivots.m_translationA/B */
+typedef struct BallSocket_82DED480 {
+    char pad0[0x20];
+    __vector4 translationA;
+    __vector4 translationB;
+} BallSocket_82DED480;
+
+/* hkpHingeConstraintData and the other transform-based datas: m_atoms.m_transforms translations */
+typedef struct Transforms_82DED480 {
+    char pad0[0x50];
+    __vector4 translationA;
+    char pad60[0x90 - 0x60];
+    __vector4 translationB;
+} Transforms_82DED480;
+
+typedef struct Instance_82DED480 {
+    char pad0[0xc];
+    Data_82DED480 *data;
+} Instance_82DED480;
+
+typedef struct Err_82DED480 Err_82DED480;
+
+typedef struct ErrVt_82DED480 {
+    void *slots[3];
+    int (*message)(Err_82DED480 *self, int level, unsigned int id,
+                   const char *text, const char *file, int line);
+} ErrVt_82DED480;
+
+struct Err_82DED480 {
+    ErrVt_82DED480 *vt;
+};
+
+typedef struct Ostream_82DED480 {
+    int words[4];
+} Ostream_82DED480;
+
+extern Err_82DED480 *lbl_8323B464;
+
+extern void fn_82CEE578(Ostream_82DED480 *os, char *buf, int size);
+extern void fn_82CEDB38(Ostream_82DED480 *os, const char *text);
+extern void fn_82CED958(Ostream_82DED480 *os);
+
+/* hkpConstraintUtils.cpp: copy a constraint's two pivots by constraint data type */
+int fn_82DED480(Instance_82DED480 *constraint, __vector4 *pivotInA, __vector4 *pivotInB)
 {
-  bool bVar1;
-  int *piVar2;
-  unsigned int *puVar3;
-  unsigned int *puVar4;
-  int in_r0;
-  unsigned __int64 uVar5;
-  unsigned __int64 uVar6;
-  int iVar7;
-  int iVar8;
-  unsigned int uVar9;
-  unsigned int uVar10;
-  unsigned int uVar11;
-  unsigned char auStack_230 [1];
-  unsigned char auStack_220 [512];
+    Data_82DED480 *data = constraint->data;
+    Ostream_82DED480 os;
+    char buf[512];
 
-  piVar2 = *(int **)(param_1 + 0xc);
-  uVar5 = (**(int (***)())(*piVar2 + 0x20))(piVar2);
-  if ((uVar5 & 0xffffffff) < 8) {
-    bVar1 = (int)uVar5 != 0;
-    if ((uVar5 == 1 && bVar1) || (uVar5 == 2 && bVar1)) {
-LAB_82ded4e4:
-      iVar8 = 0x50;
-      iVar7 = 0x90;
+    switch (data->vt->getType(data)) {
+    case 0:
+        *pivotInA = ((BallSocket_82DED480 *)data)->translationA;
+        *pivotInB = ((BallSocket_82DED480 *)data)->translationB;
+        break;
+    case 1:
+        *pivotInA = ((Transforms_82DED480 *)data)->translationA;
+        *pivotInB = ((Transforms_82DED480 *)data)->translationB;
+        break;
+    case 2:
+        *pivotInA = ((Transforms_82DED480 *)data)->translationA;
+        *pivotInB = ((Transforms_82DED480 *)data)->translationB;
+        break;
+    case 7:
+        *pivotInA = ((Transforms_82DED480 *)data)->translationA;
+        *pivotInB = ((Transforms_82DED480 *)data)->translationB;
+        break;
+    default:
+        fn_82CEE578(&os, buf, 0x200);
+        fn_82CEDB38(&os, "Unsupported type of constraint in prepareSystemForRagdoll()");
+        lbl_8323B464->vt->message(lbl_8323B464, 1, 0xabbabf3b, buf,
+                                  ".\\Constraint\\Bilateral\\hkpConstraintUtils.cpp", 0xe2);
+        fn_82CED958(&os);
+        return 1;
     }
-    else {
-      if ((uVar5 == 3 && bVar1) ||
-         (((uVar5 == 4 && bVar1 || (uVar5 == 5 && bVar1)) || (uVar5 == 6 && bVar1))))
-      goto LAB_82ded508;
-      if (bVar1) goto LAB_82ded4e4;
-      iVar8 = 0x20;
-      iVar7 = 0x30;
-    }
-    puVar3 = (unsigned int *)((int)piVar2 + iVar8 & 0xfffffff0);
-    uVar9 = puVar3[1];
-    uVar10 = puVar3[2];
-    uVar11 = puVar3[3];
-    uVar6 = 0;
-    puVar4 = (unsigned int *)(in_r0 + param_2 & 0xfffffff0);
-    *puVar4 = *puVar3;
-    puVar4[1] = uVar9;
-    puVar4[2] = uVar10;
-    puVar4[3] = uVar11;
-    puVar3 = (unsigned int *)((int)piVar2 + iVar7 & 0xfffffff0);
-    uVar9 = puVar3[1];
-    uVar10 = puVar3[2];
-    uVar11 = puVar3[3];
-    puVar4 = (unsigned int *)(in_r0 + param_3 & 0xfffffff0);
-    *puVar4 = *puVar3;
-    puVar4[1] = uVar9;
-    puVar4[2] = uVar10;
-    puVar4[3] = uVar11;
-  }
-  else {
-LAB_82ded508:
-    fn_82CEE578(auStack_230,auStack_220,0x200);
-    fn_82CEDB38(auStack_230,0xffffffff821453b0);
-    (**(int (***)())(*lbl_8323B464 + 0xc))
-              (lbl_8323B464,1,0xffffffffabbabf3b,auStack_220,0xffffffff82145380,0xe2);
-    fn_82CED958(auStack_230);
-    uVar6 = 1;
-  }
-  return uVar6;
+    return 0;
 }
