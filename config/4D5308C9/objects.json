@@ -61294,8 +61294,10 @@
       "auto_match/func_8251B5E8.cpp": {
         "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/d2inlS1000"
+        ],
+        "vc_include": true
       },
       "auto_match/func_8251B708.c": {
         "status": "NonMatching",
@@ -61345,14 +61347,18 @@
       "auto_match/func_8251BC68.cpp": {
         "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/d2inlS1000"
+        ],
+        "vc_include": true
       },
-      "auto_match/func_8251BD48.c": {
-        "status": "NonMatching",
+      "auto_match/func_8251BD48.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/d2inlS1000"
+        ],
+        "vc_include": true
       },
       "auto_match/func_8251BFC0.cpp": {
         "status": "Matching",
@@ -137615,12 +137621,13 @@
           "/Og-"
         ]
       },
-      "auto_match/func_8284A128.c": {
+      "auto_match/func_8284A128.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O1",
           "/Og-"
-        ]
+        ],
+        "vc_include": true
       },
       "auto_match/func_8284A218.c": {
         "status": "Matching",
@@ -137755,11 +137762,13 @@
           "/Og-"
         ]
       },
-      "auto_match/func_8284C020.c": {
-        "status": "NonMatching",
+      "auto_match/func_8284C020.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/Og-"
+        ],
+        "vc_include": true
       },
       "auto_match/func_8284C1A0.c": {
         "status": "Matching",
@@ -137773,7 +137782,8 @@
         "extra_cflags": [
           "/O1",
           "/Og-"
-        ]
+        ],
+        "vc_include": true
       },
       "auto_match/func_8284C288.c": {
         "status": "NonMatching",
@@ -222712,11 +222722,14 @@
           "/O2"
         ]
       },
-      "Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0FF18.c": {
-        "status": "NonMatching",
+      "Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0FF18.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
-        ]
+        ],
+        "pool_aliases": {
+          "__real@3f7ff972": "lbl_821344F4"
+        }
       },
       "Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D102A8.c": {
         "status": "NonMatching",

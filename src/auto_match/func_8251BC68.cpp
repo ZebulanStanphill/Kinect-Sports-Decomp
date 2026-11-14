@@ -1,104 +1,43 @@
-#include "stdext/exception.h"
+// std::_Tree<Traits>::insert(const_iterator, _Valty&&) from Visual C++ 2010's
+// <xtree>, for the tree of game/Element_8251C118.h: builds a node holding the
+// moved value (the key is const and is copied) and links it in next to the
+// hint through _Insert(const_iterator, _Nodeptr), func_8251BD48.cpp.
+//
+// The game was built with link-time code generation, which inlined _Buynode
+// and the allocator; /d2inlS1000 (in objects.json) lets the compiler inline as
+// much. That limit would also inline stdext::exception::_Raise, which the
+// original calls, so it is marked noinline while <exception> is read.
+// std::string's copy constructor and operator new keep the names that C units
+// use.
+#define _Raise __declspec(noinline) _Raise
+#include <exception>
+#undef _Raise
+#include "game/Element_8251C118.h"
 
-extern "C" void *fn_8265C9E0(unsigned int);
+typedef Set_8251C118::_Mybase Tree;
+typedef Tree::_Node Node;
 
-inline void *operator new(unsigned int, void *where) throw() { return where; }
+extern "C" {
+void *fn_8265C9E0(unsigned int size);
+void fn_8223B688(std::string *self, const std::string *right);
+}
 
-template<class T> inline T *_Allocate(unsigned int count, T *)
+template <> __forceinline std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(
+    const std::basic_string<char, std::char_traits<char>, std::allocator<char> > &right)
 {
-    void *p = 0;
+    fn_8223B688(this, &right);
+}
+
+template <> __forceinline Node *std::_Allocate(size_t count, Node *)
+{
+    void *ptr = 0;
     if (count <= 0)
         count = 0;
-    else if ((unsigned int)(-1) / sizeof(T) < count
-             || (p = fn_8265C9E0(count * sizeof(T))) == 0)
+    else if ((size_t)-1 / sizeof(Node) < count || (ptr = fn_8265C9E0(count * sizeof(Node))) == 0)
         stdext::bad_alloc(0)._Raise();
-    return (T *)p;
+    return (Node *)ptr;
 }
 
-template<class T> inline void _Swap(T &a, T &b)
-{
-    T tmp = a;
-    a = b;
-    b = tmp;
-}
+template <> Tree::iterator Tree::_Insert(Tree::const_iterator, Tree::_Nodeptr);
 
-struct String;
-extern "C" void fn_8223B688(String *self, const String *src);
-
-struct String {
-    int data[7];
-    String(const String &right) { fn_8223B688(this, &right); }
-};
-
-struct PtrBase {
-    void *ptr;
-    void *rep;
-    PtrBase(PtrBase &right) : ptr(0), rep(0) { _Assign_rv(right); }
-    void _Assign_rv(PtrBase &right)
-    {
-        if (this != &right)
-            _Swap2(right);
-    }
-    void _Swap2(PtrBase &right)
-    {
-        _Swap(rep, right.rep);
-        _Swap(ptr, right.ptr);
-    }
-};
-
-struct Mapped {
-    PtrBase sp;
-    bool flag;
-    Mapped(Mapped &right) : sp(right.sp), flag(right.flag) {}
-};
-
-struct Value {
-    String first;
-    Mapped second;
-    Value(Value &right) : first(right.first), second(right.second) {}
-};
-
-struct Node {
-    Node *left;
-    Node *parent;
-    Node *right;
-    Value value;
-    char color;
-    char isnil;
-};
-
-struct Tree {
-    int alloc;
-    Node *head;
-};
-
-struct Iterator {
-    Node *ptr;
-};
-
-extern "C" Iterator *fn_8251BD48(Iterator *ret, Tree *self, unsigned int where, Node *node);
-
-extern "C" Iterator *fn_8251BC68(Iterator *ret, Tree *self, unsigned int where, Value &val)
-{
-    Node *p = _Allocate(1, (Node *)0);
-    p->left = self->head;
-    p->parent = self->head;
-    p->right = self->head;
-    p->color = 0;
-    p->isnil = 0;
-    {
-        void *vp = &p->value;
-        if (vp != 0) {
-            Value *v = (Value *)vp;
-            Mapped *r = &val.second;
-            fn_8223B688(&v->first, &val.first);
-            Mapped *m = &v->second;
-            m->sp.ptr = 0;
-            m->sp.rep = 0;
-            m->sp._Assign_rv(r->sp);
-            m->flag = r->flag;
-        }
-    }
-    fn_8251BD48(ret, self, where, p);
-    return ret;
-}
+template Tree::iterator Tree::insert<Element_8251C118>(Tree::const_iterator, Element_8251C118 &&);

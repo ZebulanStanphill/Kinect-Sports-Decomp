@@ -1,93 +1,79 @@
-// std::map<std::string, Mapped>::operator[] with the global key string lbl_8329EA40
-// ("ScriptID"); the insert of the default value stays the out-of-line fn_8251BC68.
-struct String;
-struct RefCount;
+// std::map<std::string, Mapped_8251C118>::operator[] for the key held in the
+// global string lbl_8329EA40 ("ScriptID"): link-time code generation built
+// this copy of operator[] for the one key it is called with. It finds the
+// lower bound, inserts a default value when the key is missing (through
+// _Tree::insert(const_iterator, _Valty&&), func_8251BC68.cpp) and returns the
+// mapped value.
+//
+// The tree is the std::set of game/Element_8251C118.h, which orders whole
+// elements, so the search by key is written out here as map::lower_bound does
+// it. std::string's copy constructor, comparison and _Tidy and the shared
+// pointer's _Decref keep the names that C units use.
+#include "game/Element_8251C118.h"
+
+typedef Set_8251C118::_Mybase Tree;
+
 extern "C" {
-String *fn_8223B688(String *self, const String *src);
-void fn_82230300(String *self, int built, unsigned int newsize);
-int fn_8260D428(const String *self, unsigned int pos, unsigned int n0, const char *ptr, unsigned int count);
-void fn_822315A0(RefCount *rep);
+void fn_8223B688(std::string *self, const std::string *right);
+void fn_82230300(std::string *self, bool built, unsigned int newsize);
+int fn_8260D428(const std::string *self, unsigned int off, unsigned int n0, const char *ptr,
+                unsigned int count);
+void fn_822315A0(std::tr1::_Ref_count_base *rep);
+extern std::string lbl_8329EA40;
 }
 
-struct String {
-    union {
-        char buf[16];
-        char *ptr;
-    } bx;
-    unsigned int size;
-    unsigned int res;
-    char alval;
-    String(const String &o) { fn_8223B688(this, &o); }
-    ~String() { fn_82230300(this, 1, 0); }
-    const char *myptr() const { return 16 <= res ? bx.ptr : bx.buf; }
-    unsigned int length() const { return size; }
-    int compare(const String &r) const { return fn_8260D428(this, 0, size, r.myptr(), r.length()); }
-};
+template <> __forceinline std::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(
+    const std::basic_string<char, std::char_traits<char>, std::allocator<char> > &right)
+{
+    fn_8223B688(this, &right);
+}
 
-static inline bool less(const String &a, const String &b) { return a.compare(b) < 0; }
+template <> __forceinline void std::string::_Tidy(bool built, std::string::size_type newsize)
+{
+    fn_82230300(this, built, newsize);
+}
 
-struct Ptr_8251B5E8 {
-    void *ptr;
-    RefCount *rep;
-    Ptr_8251B5E8() { rep = 0; ptr = 0; }
-    ~Ptr_8251B5E8() { if (rep != 0) fn_822315A0(rep); }
-};
+template <> __forceinline int std::string::compare(std::string::size_type off, std::string::size_type n0,
+                                                   const char *ptr, std::string::size_type count) const
+{
+    return fn_8260D428(this, off, n0, ptr, count);
+}
 
-struct Mapped_8251B5E8 {
-    Ptr_8251B5E8 object;
-    unsigned char flag;
-    Mapped_8251B5E8() : flag(0) {}
-};
+template <> __forceinline void std::tr1::_Ptr_base<Mapped_8251C118::Object>::_Decref()
+{
+    if (_Rep != 0)
+        fn_822315A0(_Rep);
+}
 
-struct Value {
-    String first;
-    Mapped_8251B5E8 second;
-    Value(const String &k) : first(k) {}
-};
+template <> template <>
+Tree::iterator Tree::insert<Element_8251C118>(Tree::const_iterator, Element_8251C118 &&);
 
-struct Node {
-    Node *left;
-    Node *parent;
-    Node *right;
-    Value value;
-    char color;
-    char isnil;
-};
-
-struct It {
-    Node *p;
-};
-
-struct Map;
-extern "C" It *fn_8251BC68(It *ret, Map *self, Node *where, Value &val);
-extern "C" String lbl_8329EA40;
-
-struct Map {
-    int alloc;
-    Node *head;
-    unsigned int size;
-    __forceinline Node *lbound(const String &key)
+struct Map_8251B5E8 : Tree {
+    __forceinline _Nodeptr LowerBound(const std::string &key)
     {
-        Node *p = head->parent;
-        Node *where = head;
-        while (!p->isnil) {
-            if (less(p->value.first, key))
-                p = p->right;
+        _Nodeptr node = _Root();
+        _Nodeptr where = _Myhead;
+        while (!_Isnil(node)) {
+            if (_Myval(node).first < key)
+                node = _Right(node);
             else {
-                where = p;
-                p = p->left;
+                where = node;
+                node = _Left(node);
             }
         }
         return where;
     }
+
+    __forceinline Mapped_8251C118 *Get(const std::string &key)
+    {
+        _Nodeptr where = LowerBound(key);
+        if (where == _Myhead || key < _Myval(where).first)
+            where = insert(const_iterator(where, this), Element_8251C118(key))._Mynode();
+        return &_Myval(where).second;
+    }
 };
 
-extern "C" Mapped_8251B5E8 *fn_8251B5E8(Map *self)
+extern "C" Mapped_8251C118 *fn_8251B5E8(Map_8251B5E8 *self)
 {
-    Node *where = self->lbound(lbl_8329EA40);
-    if (where == self->head || less(lbl_8329EA40, where->value.first)) {
-        It r;
-        where = fn_8251BC68(&r, self, where, Value(lbl_8329EA40))->p;
-    }
-    return &where->value.second;
+    return self->Get(lbl_8329EA40);
 }

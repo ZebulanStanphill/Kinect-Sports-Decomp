@@ -39937,7 +39937,7 @@ auto_match/func_8251BC68.cpp:
 	.pdata      start:0x821EE0D8 end:0x821EE0E0
 	.text       start:0x8251BC68 end:0x8251BD48
 
-auto_match/func_8251BD48.c:
+auto_match/func_8251BD48.cpp:
 	.pdata      start:0x821EE0E0 end:0x821EE0E8
 	.text       start:0x8251BD48 end:0x8251BFC0
 
@@ -88321,7 +88321,7 @@ auto_match/func_8284A0B8.c:
 	.pdata      start:0x82201A88 end:0x82201A90
 	.text       start:0x8284A0B8 end:0x8284A124
 
-auto_match/func_8284A128.c:
+auto_match/func_8284A128.cpp:
 	.text       start:0x8284A128 end:0x8284A214
 
 auto_match/func_8284A218.c:
@@ -88397,7 +88397,7 @@ auto_match/func_8284BFC0.c:
 	.pdata      start:0x82201B08 end:0x82201B10
 	.text       start:0x8284BFC0 end:0x8284C020
 
-auto_match/func_8284C020.c:
+auto_match/func_8284C020.cpp:
 	.pdata      start:0x82201B10 end:0x82201B18
 	.text       start:0x8284C020 end:0x8284C19C
 
@@ -141652,7 +141652,7 @@ Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0FE70
 	.pdata      start:0x82216980 end:0x82216988
 	.text       start:0x82D0FE70 end:0x82D0FF18
 
-Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0FF18.c:
+Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0FF18.cpp:
 	.pdata      start:0x82216988 end:0x82216990
 	.text       start:0x82D0FF18 end:0x82D102A4
 

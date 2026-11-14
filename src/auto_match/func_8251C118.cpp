@@ -1,8 +1,8 @@
 // std::_Tree<Traits>::_Insert(bool, _Nodeptr, _Nodeptr) from Visual C++ 2010's
 // <xtree>, which std::set and std::map share. It links a new node into the tree
-// and rebalances the tree. Element_8251C118 is a placeholder for the game's
-// 40-byte value type, which has a std::string at 0x0 and a std::tr1::shared_ptr
-// at 0x1c.
+// and rebalances the tree. Element_8251C118 (game/Element_8251C118.h) is a
+// placeholder for the game's 40-byte value type, which has a std::string at
+// 0x0 and a std::tr1::shared_ptr at 0x1c.
 //
 // The game was built with link-time code generation, which inlined more than
 // the compiler does by itself; /d2inlS1000 (in objects.json) lets it inline as
@@ -20,6 +20,7 @@ extern "C" __declspec(noreturn) void fn_82F622A8(const char *message);
 #include <set>
 #include <string>
 #undef _Xlength_error
+#include "game/Element_8251C118.h"
 
 extern "C" {
 void fn_822315A0(std::tr1::_Ref_count_base *rep);
@@ -31,21 +32,13 @@ template <> __forceinline void std::string::_Tidy(bool built, std::string::size_
     fn_82230300(this, built, newsize);
 }
 
-struct Element_8251C118 {
-    struct Object;
-    std::string unk0;
-    std::tr1::shared_ptr<Object> unk1C;
-    int unk24;
-};
-
-template <> __forceinline void std::tr1::_Ptr_base<Element_8251C118::Object>::_Decref()
+template <> __forceinline void std::tr1::_Ptr_base<Mapped_8251C118::Object>::_Decref()
 {
     if (_Rep != 0)
         fn_822315A0(_Rep);
 }
 
-typedef std::set<Element_8251C118> Set;
-typedef Set::_Mybase Tree;
+typedef Set_8251C118::_Mybase Tree;
 typedef Tree::_Node Node;
 
 extern "C" {
