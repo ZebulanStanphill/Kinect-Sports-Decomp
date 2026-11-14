@@ -1,18 +1,36 @@
-extern int fn_82230218();
-extern unsigned int lbl_82025418;
+typedef struct Str_828BB5B0 {
+    union {
+        char buf[16];
+        char *ptr;
+    } bx;
+    unsigned int size;
+    unsigned int res;
+} Str_828BB5B0;
 
+typedef struct Obj_828BB5B0 {
+    void *vtable;
+    int a;
+    int b;
+    Str_828BB5B0 str;
+} Obj_828BB5B0;
 
-unsigned int *
-fn_828BB5B0(unsigned int *param_1,unsigned int param_2,unsigned int param_3,unsigned __int64 param_4)
+extern Str_828BB5B0 *fn_82230218(Str_828BB5B0 *self, const Str_828BB5B0 *src,
+                                 unsigned int pos, unsigned int count);
+extern char lbl_82025418[];
 
+static __forceinline void Str_Tidy_828BB5B0(Str_828BB5B0 *s)
 {
-  param_1[1] = param_3;
-  param_1[2] = param_2;
-  *param_1 = &lbl_82025418;
-  param_1[8] = 0xf;
-  param_1[7] = 0;
-  *(unsigned char *)(param_1 + 3) = 0;
-  fn_82230218(param_1 + 3,param_4,0,0xffffffffffffffff);
-  return param_1;
+    s->res = 15;
+    s->size = 0;
+    s->bx.buf[0] = 0;
 }
 
+Obj_828BB5B0 *fn_828BB5B0(Obj_828BB5B0 *self, int b, int a, const Str_828BB5B0 *src)
+{
+    self->a = a;
+    self->b = b;
+    self->vtable = lbl_82025418;
+    Str_Tidy_828BB5B0(&self->str);
+    fn_82230218(&self->str, src, 0, 0xffffffffu);
+    return self;
+}

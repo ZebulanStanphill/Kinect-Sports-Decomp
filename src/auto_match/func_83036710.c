@@ -1,29 +1,19 @@
-extern int fn_83024AD8();
+extern void fn_83024AD8(void *);
+typedef struct E_83036710 { void *a; void *b; int pad[2]; } E_83036710;
+typedef struct Vec_83036710 { E_83036710 *first; E_83036710 *last; } Vec_83036710;
 
+static unsigned int size(Vec_83036710 *v) { return v->last - v->first; }
 
-void fn_83036710(int *param_1)
-
+void fn_83036710(Vec_83036710 *v)
 {
-  int iVar1;
-  unsigned int uVar2;
-  int iVar3;
-  
-  iVar1 = *param_1;
-  uVar2 = 0;
-  if (param_1[1] - iVar1 >> 4 != 0) {
-    iVar3 = 0;
-    do {
-      if (*(int *)(iVar3 + iVar1) != 0) {
-        fn_83024AD8();
-      }
-      if (*(int *)(iVar3 + iVar1 + 4) != 0) {
-        fn_83024AD8();
-      }
-      iVar1 = *param_1;
-      uVar2 = uVar2 + 1;
-      iVar3 = iVar3 + 0x10;
-    } while (uVar2 < (unsigned int)(param_1[1] - iVar1 >> 4));
+  unsigned int i;
+  for (i = 0; i < size(v); i++) {
+    E_83036710 *e = v->first + i;
+    if (e->a != 0) {
+      fn_83024AD8(e->a);
+    }
+    if (e->b != 0) {
+      fn_83024AD8(e->b);
+    }
   }
-  return;
 }
-

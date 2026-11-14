@@ -1,22 +1,15 @@
-extern int fn_8265C9E0();
-extern int fn_828AA9B8();
-extern int fn_828EA600();
+extern void *fn_8265C9E0(unsigned int size);
+extern void *fn_828AA9B8(void *self, void *a, void *b, void *c);
+extern int fn_828EA600(void *p);
 
-
-unsigned __int64 fn_828AAC10(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3)
-
+void *fn_828AAC10(void *param_1, void *param_2, void *param_3)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  
-  fn_828EA600(param_2);
-  uVar1 = fn_8265C9E0(0x70);
-  if ((uVar1 & 0xffffffff) == 0) {
-    uVar2 = 0;
-  }
-  else {
-    uVar2 = fn_828AA9B8(uVar1,param_1,param_2,param_3);
-  }
-  return uVar2;
-}
+    void *mem;
 
+    fn_828EA600(param_2);
+    mem = fn_8265C9E0(0x70);
+    if (mem != 0) {
+        return fn_828AA9B8(mem, param_1, param_2, param_3);
+    }
+    return 0;
+}

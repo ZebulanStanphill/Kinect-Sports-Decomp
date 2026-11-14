@@ -1,24 +1,15 @@
-extern int fn_83007620();
-extern int fn_83008F08();
+typedef struct Obj_82FB0820 {
+    int pad[5];
+    int sub;  /* 0x14 */
+} Obj_82FB0820;
 
+extern unsigned char fn_83007620(Obj_82FB0820 *p, int a, int b);
+extern unsigned char fn_83008F08(int sub, int a, int b);
 
-unsigned __int64 fn_82FB0820(int param_1,unsigned __int64 param_2,unsigned __int64 param_3)
-
+int fn_82FB0820(Obj_82FB0820 *p, int a, int b)
 {
-  char cVar2;
-  unsigned __int64 uVar1;
-  
-  cVar2 = fn_83007620();
-  if (cVar2 == '\0') {
-    if ((*(int *)(param_1 + 0x14) != 0) &&
-       (cVar2 = fn_83008F08(*(int *)(param_1 + 0x14),param_2,param_3), cVar2 != '\0')) {
-      return 1;
+    if (fn_83007620(p, a, b) != 0) {
+        return 1;
     }
-    uVar1 = 0;
-  }
-  else {
-    uVar1 = 1;
-  }
-  return uVar1;
+    return p->sub != 0 && fn_83008F08(p->sub, a, b) != 0;
 }
-

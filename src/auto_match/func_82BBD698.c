@@ -1,16 +1,9 @@
-extern int fn_82BBD158();
-extern int fn_82BBD528();
+extern int fn_82BBD158(void *c);
+extern void fn_82BBD528(void *a);
 
-
-void fn_82BBD698(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3)
-
+void fn_82BBD698(void *a, void *b, void *c)
 {
-  int iVar1;
-  
-  iVar1 = fn_82BBD158(param_3);
-  if (iVar1 != 0) {
-    fn_82BBD528(param_1);
-  }
-  return;
+    if (fn_82BBD158(c) != 0) {
+        fn_82BBD528(a);
+    }
 }
-

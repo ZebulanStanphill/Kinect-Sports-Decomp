@@ -1,37 +1,50 @@
-unsigned __int64 fn_8302C908(int param_1,unsigned short *param_2)
+typedef struct Iface_8302C908 Iface_8302C908;
 
+typedef struct IfaceVtbl_8302C908 {
+    void *slot0;
+    void *slot4;
+    void *slot8;
+    unsigned int (*GetCount)(Iface_8302C908 *self);
+    unsigned int (*GetId)(Iface_8302C908 *self, unsigned short index);
+    void *slot14;
+    void *slot18;
+    void *slot1c;
+    void *slot20;
+    void *slot24;
+    unsigned char (*GetFlag)(Iface_8302C908 *self, unsigned short index);
+} IfaceVtbl_8302C908;
+
+struct Iface_8302C908 {
+    IfaceVtbl_8302C908 *vt;
+};
+
+typedef struct Owner_8302C908 {
+    unsigned char pad[0x88];
+    Iface_8302C908 *iface;
+} Owner_8302C908;
+
+int fn_8302C908(Owner_8302C908 *self, unsigned short *data)
 {
-  char cVar1;
-  int iVar2;
-  unsigned int uVar4;
-  unsigned __int64 uVar3;
-  int iVar5;
-  char cVar6;
-  unsigned int uVar7;
-  
-  uVar7 = (unsigned int)*param_2;
-  param_2 = param_2 + 1;
-  uVar4 = (**(int (***)())(**(int **)(param_1 + 0x88) + 0xc))();
-  if (uVar7 == uVar4) {
-    uVar4 = 0;
-    if (uVar7 != 0) {
-      do {
-        iVar2 = *(int *)param_2;
-        cVar1 = *(char *)(param_2 + 2);
-        param_2 = (unsigned short *)((int)param_2 + 5);
-        iVar5 = (**(int (***)())(**(int **)(param_1 + 0x88) + 0x10))(*(int **)(param_1 + 0x88),uVar4);
-        if ((iVar5 != iVar2) ||
-           (cVar6 = (**(int (***)())(**(int **)(param_1 + 0x88) + 0x28))
-                              (*(int **)(param_1 + 0x88),uVar4), cVar6 != cVar1)) goto LAB_8302c93c;
-        uVar4 = uVar4 + 1 & 0xffff;
-      } while (uVar4 < uVar7);
-    }
-    uVar3 = 0;
-  }
-  else {
-LAB_8302c93c:
-    uVar3 = 1;
-  }
-  return uVar3;
-}
+    unsigned short count;
+    unsigned short i;
+    unsigned char *p;
+    unsigned int id;
+    unsigned char flag;
 
+    count = *data;
+    p = (unsigned char *)(data + 1);
+    if (count != self->iface->vt->GetCount(self->iface)) {
+        return 1;
+    }
+    for (i = 0; i < count; i++) {
+        id = *(unsigned int *)p;
+        p += 4;
+        flag = *p;
+        p++;
+        if (self->iface->vt->GetId(self->iface, i) != id ||
+            self->iface->vt->GetFlag(self->iface, i) != flag) {
+            return 1;
+        }
+    }
+    return 0;
+}

@@ -1,21 +1,15 @@
-extern int fn_82FA5CA0();
+extern void fn_82FA5CA0(void *, void *);
 
-
-int fn_82FA5F18(unsigned __int64 param_1,int param_2)
-
+char *fn_82FA5F18(void *heap, char *p)
 {
-  int iVar1;
-  int iVar2;
-  unsigned int uVar3;
-  
-  iVar2 = (*(unsigned int *)(param_2 + 4) & 0xfffffffc) + param_2;
-  iVar1 = iVar2 + 4;
-  if ((*(unsigned int *)(iVar2 + 8) & 1) != 0) {
-    fn_82FA5CA0();
-    uVar3 = (*(unsigned int *)(iVar1 + 4) & 0xfffffffc) + *(int *)(param_2 + 4) + 4;
-    *(unsigned int *)(param_2 + 4) = uVar3;
-    *(int *)((uVar3 & 0xfffffffc) + param_2 + 4) = param_2;
+  char *next = p + (*(unsigned int *)(p + 4) & 0xfffffffc);
+  char *c = next + 4;
+  if ((*(int *)(next + 8) & 1) != 0) {
+    unsigned int sz;
+    fn_82FA5CA0(heap, c);
+    sz = (*(unsigned int *)(c + 4) & 0xfffffffc) + *(unsigned int *)(p + 4) + 4;
+    *(unsigned int *)(p + 4) = sz;
+    *(char **)(p + (sz & 0xfffffffc) + 4) = p;
   }
-  return param_2;
+  return p;
 }
-

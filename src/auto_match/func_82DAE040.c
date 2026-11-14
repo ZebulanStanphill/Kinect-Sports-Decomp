@@ -1,48 +1,66 @@
-#define TBLr 0
-extern int fn_82DAD5A8();
-extern unsigned int lbl_82132BC4;
+typedef struct ProfEntry_82DAE040 {
+    const char *name;
+    unsigned int time;
+    int pad;
+} ProfEntry_82DAE040;
+
+typedef struct ProfStack_82DAE040 {
+    int pad0;
+    ProfEntry_82DAE040 *cur;
+    int pad8;
+    ProfEntry_82DAE040 *end;
+} ProfStack_82DAE040;
+
+typedef struct Obj_82DAE040 Obj_82DAE040;
+
+typedef struct ObjVtbl_82DAE040 {
+    void *slot0;
+    void *slot4;
+    void *slot8;
+    void *slotC;
+    void *slot10;
+    void (*f14)(Obj_82DAE040 *self, void *arg);
+} ObjVtbl_82DAE040;
+
+struct Obj_82DAE040 {
+    ObjVtbl_82DAE040 *vt;
+};
+
+typedef struct Vec_82DAE040 {
+    Obj_82DAE040 **data;
+    int count;
+} Vec_82DAE040;
+
+unsigned __int64 __mftb(void);
+extern void *KeTlsGetValue(unsigned int index);
+extern int fn_82DAD5A8(Vec_82DAE040 *v);
 extern unsigned int lbl_8323B4A0;
 
-
-void fn_82DAE040(int param_1,unsigned __int64 param_2)
-
+static __forceinline void ProfMark_82DAE040(const char *name)
 {
-  unsigned int *puVar1;
-  int *piVar2;
-  unsigned __int64 uVar3;
-  int iVar4;
-  __int64 lVar5;
-  unsigned __int64 uVar6;
-  
-  uVar6 = (unsigned __int64)*(unsigned int *)(param_1 + 0x148) - 1;
-  if (-1 < (__int64)uVar6) {
-    lVar5 = (uVar6 & 0x3fffffff) << 2;
-    do {
-      piVar2 = *(int **)(*(int *)(param_1 + 0x144) + (int)lVar5);
-      if (piVar2 != (int *)0x0) {
-        iVar4 = KeTlsGetValue(lbl_8323B4A0);
-        puVar1 = *(unsigned int **)(iVar4 + 4);
-        if (puVar1 < *(unsigned int **)(iVar4 + 0xc)) {
-          *puVar1 = "TtconRepairedCb";
-          uVar3 = TBLr;
-          puVar1[1] = (int)uVar3;
-          *(unsigned int **)(iVar4 + 4) = puVar1 + 3;
-        }
-        (**(int (***)())(*piVar2 + 0x14))(piVar2,param_2);
-        iVar4 = KeTlsGetValue(lbl_8323B4A0);
-        puVar1 = *(unsigned int **)(iVar4 + 4);
-        if (puVar1 < *(unsigned int **)(iVar4 + 0xc)) {
-          *puVar1 = &lbl_82132BC4;
-          uVar3 = TBLr;
-          puVar1[1] = (int)uVar3;
-          *(unsigned int **)(iVar4 + 4) = puVar1 + 3;
-        }
-      }
-      uVar6 = uVar6 - 1;
-      lVar5 = lVar5 + -4;
-    } while (-1 < (__int64)uVar6);
-  }
-  fn_82DAD5A8((int *)(param_1 + 0x144));
-  return;
+    ProfStack_82DAE040 *ts = (ProfStack_82DAE040 *)KeTlsGetValue(lbl_8323B4A0);
+    ProfEntry_82DAE040 *e = ts->cur;
+    if (e < ts->end) {
+        e->name = name;
+        e->time = (unsigned int)__mftb();
+        ts->cur = e + 1;
+    }
 }
 
+void fn_82DAE040(int param_1, void *param_2)
+{
+    Vec_82DAE040 *v = (Vec_82DAE040 *)(param_1 + 0x144);
+    int i = v->count - 1;
+    if (i >= 0) {
+        do {
+            Obj_82DAE040 *o = v->data[i];
+            if (o != 0) {
+                ProfMark_82DAE040("TtconRepairedCb");
+                o->vt->f14(o, param_2);
+                ProfMark_82DAE040("Et");
+            }
+            i--;
+        } while (i >= 0);
+    }
+    fn_82DAD5A8(v);
+}

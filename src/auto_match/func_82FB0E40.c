@@ -1,38 +1,42 @@
-extern int fn_82FA5190();
-extern int fn_82FB0C10();
-extern int fn_82FB1A08();
+typedef struct Item_82FB0E40 {
+    unsigned int w[10];
+} Item_82FB0E40;
+
+typedef struct Vec_82FB0E40 {
+    void *begin;
+    void *end;
+    void *cap;
+} Vec_82FB0E40;
+
+typedef struct Obj_82FB0E40 {
+    unsigned char pad[0x94];
+    unsigned int mode;
+    Vec_82FB0E40 vec;
+} Obj_82FB0E40;
+
+extern void fn_82FA5190(unsigned int heap, void *ptr);
+extern void fn_82FB0C10(Obj_82FB0E40 *self, Item_82FB0E40 *item);
+extern int fn_82FB1A08(Vec_82FB0E40 *vec, unsigned int count);
 extern unsigned int lbl_831BC768;
 
-
-unsigned __int64 fn_82FB0E40(int param_1,unsigned __int64 param_2,__int64 param_3,unsigned int param_4)
-
+int fn_82FB0E40(Obj_82FB0E40 *self, unsigned int count, Item_82FB0E40 *items, unsigned int mode)
 {
-  unsigned __int64 uVar1;
-  int iVar3;
-  unsigned __int64 uVar2;
-  
-  if (*(int *)(param_1 + 0x98) != 0) {
-    *(int *)(param_1 + 0x9c) = *(int *)(param_1 + 0x98);
-    fn_82FA5190(lbl_831BC768);
-    *(unsigned int *)(param_1 + 0x98) = 0;
-    *(unsigned int *)(param_1 + 0x9c) = 0;
-    *(unsigned int *)(param_1 + 0xa0) = 0;
-  }
-  *(unsigned int *)(param_1 + 0x94) = param_4;
-  iVar3 = fn_82FB1A08((unsigned int *)(param_1 + 0x98),param_2);
-  if (iVar3 == 1) {
-    uVar1 = param_2 & 0xffffffff;
-    while (uVar1 != 0) {
-      fn_82FB0C10(param_1,param_3);
-      param_3 = param_3 + 0x28;
-      param_2 = param_2 - 1;
-      uVar1 = param_2;
-    }
-    uVar2 = 1;
-  }
-  else {
-    uVar2 = 2;
-  }
-  return uVar2;
-}
+    Vec_82FB0E40 *v = &self->vec;
+    unsigned int i;
 
+    if (v->begin != 0) {
+        v->end = v->begin;
+        fn_82FA5190(lbl_831BC768, v->begin);
+        v->begin = 0;
+        v->end = 0;
+        v->cap = 0;
+    }
+    self->mode = mode;
+    if (fn_82FB1A08(v, count) != 1) {
+        return 2;
+    }
+    for (i = 0; i < count; i++) {
+        fn_82FB0C10(self, &items[i]);
+    }
+    return 1;
+}

@@ -1,38 +1,34 @@
-extern unsigned int *auStack_30;
-extern int fn_8265C9E0();
-extern int fn_82886518();
-extern int fn_82897BD0();
-extern int fn_8289F350();
-extern int fn_828B5580();
-extern int fn_828B55B0();
-extern int fn_828BE158();
-extern int fn_828C6CD0();
+extern void *fn_8265C9E0(unsigned int size);
+extern void fn_82886518(void *obj, int a, int b);
+extern void *fn_82897BD0(void *p);
+extern void *fn_8289F350(void *self, void *key);
+extern void *fn_828B5580(void *dst, void *src);
+extern void fn_828B55B0(void *p);
+extern void fn_828BE158(void *self, void *obj, void *info, int flag);
+extern void *fn_828C6CD0(void *mem, void *arg);
 
+typedef struct Temp_8288B6C0 {
+    int a;
+    int b;
+} Temp_8288B6C0;
 
-void fn_8288B6C0(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3)
-
+void fn_8288B6C0(void *self, void *param_2, void *param_3)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  unsigned char auStack_30 [48];
-  
-  uVar1 = fn_8289F350(param_1,param_3);
-  if ((uVar1 & 0xffffffff) != 0) {
-    uVar2 = fn_8265C9E0(0xa8);
-    if ((uVar2 & 0xffffffff) == 0) {
-      uVar3 = 0;
-    }
-    else {
-      uVar3 = fn_828B5580(auStack_30,param_2);
-      uVar3 = fn_828C6CD0(uVar2,uVar3);
-    }
-    fn_82886518(uVar3,0xffffffffffffffff,0xffffffffffffffff);
-    uVar4 = fn_82897BD0(uVar1);
-    fn_828BE158(param_1,uVar3,uVar4,0);
-  }
-  fn_828B55B0(param_2);
-  return;
-}
+    void *found;
+    void *mem;
+    void *obj;
+    Temp_8288B6C0 tmp;
 
+    found = fn_8289F350(self, param_3);
+    if (found != 0) {
+        mem = fn_8265C9E0(0xa8);
+        if (mem != 0) {
+            obj = fn_828C6CD0(mem, fn_828B5580(&tmp, param_2));
+        } else {
+            obj = 0;
+        }
+        fn_82886518(obj, -1, -1);
+        fn_828BE158(self, obj, fn_82897BD0(found), 0);
+    }
+    fn_828B55B0(param_2);
+}

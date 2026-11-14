@@ -1,26 +1,31 @@
-extern int fn_83049D68();
-extern int fn_8307DE78();
-extern int fn_8307E060();
-extern int fn_8307E600();
-extern int fn_8307E6E0();
+typedef struct Obj_8304AA48 {
+    char pad0[0x28];
+    int handle;          /* 0x28 */
+    char pad2c[0x60 - 0x2C];
+    int value;           /* 0x60 */
+} Obj_8304AA48;
 
+extern int fn_83049D68(Obj_8304AA48 *self, int a, int b);
+extern int fn_8307DE78(int h);
+extern int fn_8307E060(int h);
+extern int fn_8307E600(int h, int z, int a, int b);
+extern int fn_8307E6E0(int h);
 
-char fn_8304AA48(int param_1,unsigned __int64 param_2,unsigned __int64 param_3)
-
+int fn_8304AA48(Obj_8304AA48 *self, int param_2, int param_3)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  
-  puVar2 = (unsigned int *)(param_1 + 0x28);
-  if (param_1 == 0) {
-    puVar2 = (unsigned int *)0x0;
-  }
-  fn_8307DE78(*puVar2);
-  fn_8307E6E0(*puVar2);
-  *(int *)(param_1 + 0x60) = (int)param_2;
-  fn_83049D68(param_1,param_3,param_2);
-  iVar1 = fn_8307E600(*(unsigned int *)(param_1 + 0x28),0,param_2,param_3);
-  fn_8307E060(*puVar2);
-  return (iVar1 != 0) + '\x01';
-}
+    int *ph;
+    int r;
 
+    if (self != 0) {
+        ph = &self->handle;
+    } else {
+        ph = 0;
+    }
+    fn_8307DE78(*ph);
+    fn_8307E6E0(*ph);
+    self->value = param_2;
+    fn_83049D68(self, param_3, param_2);
+    r = fn_8307E600(self->handle, 0, param_2, param_3);
+    fn_8307E060(*ph);
+    return ((r == 0) ^ 1) + 1;
+}

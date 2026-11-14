@@ -1,29 +1,41 @@
-extern int fn_82CFF8D0();
+extern int fn_82CFF8D0(int a, int b);
 
+struct Sink_82DFA2F8;
+typedef struct SinkVt_82DFA2F8 {
+  void *slots[5];
+  void (*Write)(struct Sink_82DFA2F8 *, int, const char *, int, int, int);
+} SinkVt_82DFA2F8;
+typedef struct Sink_82DFA2F8 { SinkVt_82DFA2F8 *vt; } Sink_82DFA2F8;
+typedef struct Item_82DFA2F8 {
+  char pad[0x10];
+  int data;
+  int n;
+  int flags;
+} Item_82DFA2F8;
+typedef struct Self_82DFA2F8 {
+  char pad[0x10];
+  Item_82DFA2F8 **arr;
+  int count;
+} Self_82DFA2F8;
 
-void fn_82DFA2F8(int param_1,int *param_2)
-
+void fn_82DFA2F8(Self_82DFA2F8 *param_1, Sink_82DFA2F8 *param_2)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  int iVar3;
-  int iVar4;
-  
-  iVar3 = 0;
-  if (0 < *(int *)(param_1 + 0x14)) {
-    iVar4 = 0;
-    do {
-      iVar1 = *(int *)(iVar4 + *(int *)(param_1 + 0x10));
-      if ((*(unsigned int *)(iVar1 + 0x18) & 0x80000000) == 0) {
-        uVar2 = fn_82CFF8D0(*(unsigned int *)(iVar1 + 0x10),*(unsigned int *)(iVar1 + 0x18) << 5);
-        (**(int (***)())(*param_2 + 0x14))
-                  (param_2,3,0xffffffff821b8000,*(unsigned int *)(iVar1 + 0x10),
-                   *(int *)(iVar1 + 0x14) << 5,uVar2);
-      }
-      iVar3 = iVar3 + 1;
-      iVar4 = iVar4 + 4;
-    } while (iVar3 < *(int *)(param_1 + 0x14));
-  }
-  return;
-}
+  Item_82DFA2F8 *it;
+  int r;
+  int i;
+  int off;
 
+  i = 0;
+  if (0 < param_1->count) {
+    off = 0;
+    do {
+      it = *(Item_82DFA2F8 **)(off + (int)param_1->arr);
+      if ((it->flags & (int)0x80000000) == 0) {
+        r = fn_82CFF8D0(it->data, it->flags << 5);
+        param_2->vt->Write(param_2, 3, "Points", it->data, it->n << 5, r);
+      }
+      i++;
+      off += 4;
+    } while (i < param_1->count);
+  }
+}

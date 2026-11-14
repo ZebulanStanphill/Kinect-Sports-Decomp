@@ -1,24 +1,33 @@
-extern int fn_82526C70();
+typedef struct Slot_822A34C8 {
+    int used;
+    char text[0x58];
+} Slot_822A34C8;
 
+typedef struct Group_822A34C8 {
+    int active;
+    Slot_822A34C8 slots[10];
+} Group_822A34C8;
 
-void fn_822A34C8(int param_1,int param_2,int param_3,int param_4)
+typedef struct Obj_822A34C8 {
+    unsigned char pad0[0x1188];
+    Group_822A34C8 groups[4];
+    int dirty;
+} Obj_822A34C8;
 
+extern int fn_82526C70(char *buf, int size, const char *fmt, ...);
+extern char lbl_82196582[];
+
+void fn_822A34C8(Obj_822A34C8 *self, int group, int slot, int value)
 {
-  int iVar1;
-  int iVar2;
-  
-  iVar2 = param_2 * 0x39c + param_1;
-  iVar1 = param_3 * 0x5c + iVar2 + 0x1188;
-  *(unsigned int *)(iVar2 + 0x1188) = 1;
-  *(unsigned int *)(iVar1 + -0x58) = 1;
-  iVar1 = iVar1 + -0x54;
-  if (param_4 < 1) {
-    fn_82526C70(iVar1,0x10,0xffffffff82196582);
-  }
-  else {
-    fn_82526C70(iVar1,0x10,0xffffffff821aa66c);
-  }
-  *(unsigned int *)(param_1 + 0x1ff8) = 1;
-  return;
-}
+    Group_822A34C8 *g = &self->groups[group];
+    Slot_822A34C8 *s = &g->slots[slot - 1];
 
+    g->active = 1;
+    s->used = 1;
+    if (value < 1) {
+        fn_82526C70(s->text, 0x10, lbl_82196582);
+    } else {
+        fn_82526C70(s->text, 0x10, "%d", value);
+    }
+    self->dirty = 1;
+}

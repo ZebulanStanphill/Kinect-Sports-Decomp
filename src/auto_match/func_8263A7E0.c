@@ -1,15 +1,15 @@
-extern int fn_8262FE50();
+typedef struct Obj {
+    unsigned char pad[0x3148];
+    void *slots[1];
+} Obj;
 
+extern void fn_8262FE50(void *p);
 
-unsigned __int64 fn_8263A7E0(int param_1,int param_2)
-
+void *fn_8263A7E0(Obj *o, int i)
 {
-  unsigned __int64 uVar1;
-  
-  uVar1 = (unsigned __int64)*(unsigned int *)((param_2 + 0xc52) * 4 + param_1);
-  if (uVar1 != 0) {
-    fn_8262FE50(uVar1);
-  }
-  return uVar1;
+    void *p = o->slots[i];
+    if (p != 0) {
+        fn_8262FE50(p);
+    }
+    return p;
 }
-

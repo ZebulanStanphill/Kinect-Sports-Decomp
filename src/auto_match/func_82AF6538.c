@@ -1,32 +1,43 @@
-extern int fn_82ABE250();
-extern int fn_82AF5350();
-extern int fn_82AF53F0();
+typedef struct Node_func_82AF6538 {
+  unsigned *item;
+  struct Node_func_82AF6538 *next;
+} Node_func_82AF6538;
 
+typedef struct {
+  char pad[0x14];
+  Node_func_82AF6538 *list;
+} Owner_func_82AF6538;
 
-void fn_82AF6538(unsigned __int64 param_1,unsigned int *param_2,int param_3,int param_4)
+typedef struct {
+  unsigned *owner;
+  unsigned flag;
+} Ref_func_82AF6538;
 
+extern void *fn_82ABE250(void *, int, int);
+extern unsigned char fn_82AF5350(void *, unsigned *, void *);
+extern void fn_82AF53F0(void *, unsigned *);
+
+void fn_82AF6538(void *a, unsigned *p, char *o, int n)
 {
-  int *piVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  unsigned int *puVar4;
-  
-  param_2[2] = param_2[2] | 0x4000;
-  *param_2 = *param_2 & 0xe0001fff | (*param_2 & 0xffffe000) + param_4 * 0x2000 & 0x1fffe000;
-  piVar1 = *(int **)(param_3 + 0x20);
-  if ((piVar1 != (int *)0x0) && (piVar1[1] == 0)) {
-    iVar2 = *piVar1;
-    if ((*(unsigned int *)(iVar2 + 8) & 0x2000) != 0) {
-      uVar3 = fn_82AF5350(param_1,param_2,iVar2);
-      fn_82AF53F0(param_1,param_2);
-      if ((uVar3 & 0xff) == 0) {
-        puVar4 = (unsigned int *)fn_82ABE250(param_1,8,0x31);
-        *puVar4 = param_2;
-        puVar4[1] = *(unsigned int *)(iVar2 + 0x14);
-        *(unsigned int **)(iVar2 + 0x14) = puVar4;
+  Ref_func_82AF6538 *r;
+  Owner_func_82AF6538 *ow;
+  Node_func_82AF6538 *node;
+  unsigned char ok;
+
+  p[2] = p[2] | 0x4000;
+  *p = (*p & 0xe0001fff) | (((*p & 0xffffe000) + n * 0x2000) & 0x1fffe000);
+  r = *(Ref_func_82AF6538 **)(o + 0x20);
+  if (r != 0 && r->flag == 0) {
+    ow = (Owner_func_82AF6538 *)r->owner;
+    if ((((unsigned *)ow)[2] & 0x2000) != 0) {
+      ok = fn_82AF5350(a, p, ow);
+      fn_82AF53F0(a, p);
+      if (ok == 0) {
+        node = (Node_func_82AF6538 *)fn_82ABE250(a, 8, 0x31);
+        node->item = p;
+        node->next = ow->list;
+        ow->list = node;
       }
     }
   }
-  return;
 }
-

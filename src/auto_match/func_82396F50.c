@@ -1,41 +1,57 @@
-extern int fn_822ABA88();
+typedef struct Tgt_82396F50 Tgt_82396F50;
+typedef struct Vt_82396F50 { char pad[0x24]; void (*f24)(Tgt_82396F50 *, unsigned); } Vt_82396F50;
+typedef struct Ctx_82396F50 { char pad[0x8c0]; char pad2[0x90 - 0]; } Ctx_82396F50;
+typedef struct Win_82396F50 { char pad[0x8c0]; struct { char pad[0x90]; unsigned f90; } *f8c0; } Win_82396F50;
+struct Tgt_82396F50 {
+  Vt_82396F50 *vt;
+  char pad[0x10];
+  Win_82396F50 *f14;
+  char pad2[0x24 - 0x18];
+  unsigned f24;
+};
+typedef struct Obj_82396F50 { void **data; int pad[3]; int idx; } Obj_82396F50;
+typedef struct Row_82396F50 { unsigned *begin; unsigned *end; } Row_82396F50;
+typedef struct Self_82396F50 {
+  char pad[8];
+  Obj_82396F50 ***objs;
+  char pad2[0x20 - 0xc];
+  Row_82396F50 **rows;
+  Row_82396F50 **rowsEnd;
+} Self_82396F50;
+extern Tgt_82396F50 *fn_822ABA88();
 
-
-void fn_82396F50(int param_1)
-
+void fn_82396F50(Self_82396F50 *param_1)
 {
-  int *piVar1;
-  int *piVar2;
-  unsigned __int64 uVar3;
-  int iVar4;
-  int *piVar5;
-  __int64 lVar6;
-  unsigned int *puVar7;
-  
-  piVar5 = *(int **)(param_1 + 0x20);
-  if (piVar5 != *(int **)(param_1 + 0x24)) {
-    iVar4 = 0;
-    do {
-      lVar6 = 0;
-      puVar7 = *(unsigned int **)*piVar5;
-      piVar1 = *(int **)(**(int **)(param_1 + 8) + iVar4);
-      if (puVar7 != (unsigned int *)((int *)*piVar5)[1]) {
-        do {
-          uVar3 = (unsigned __int64)*puVar7;
-          piVar2 = (int *)fn_822ABA88(*(unsigned int *)(piVar1[4] * 4 + *piVar1),lVar6);
-          if ((unsigned __int64)(unsigned int)piVar2[9] != (uVar3 & 0xffffffff)) {
-            piVar2[9] = (int)uVar3;
-            *(unsigned int *)(*(int *)(piVar2[5] + 0x8c0) + 0x90) = (unsigned int)((uVar3 & 0xffffffff) != 0);
-            (**(int (***)())(*piVar2 + 0x24))(piVar2,uVar3);
-          }
-          puVar7 = puVar7 + 1;
-          lVar6 = lVar6 + 1;
-        } while (puVar7 != *(unsigned int **)(*piVar5 + 4));
-      }
-      piVar5 = piVar5 + 1;
-      iVar4 = iVar4 + 4;
-    } while (piVar5 != *(int **)(param_1 + 0x24));
-  }
-  return;
-}
+  Row_82396F50 **r;
+  unsigned *p;
+  int off;
+  int j;
+  Obj_82396F50 *o;
+  Tgt_82396F50 *t;
+  unsigned v;
 
+  r = param_1->rows;
+  if (r != param_1->rowsEnd) {
+    off = 0;
+    do {
+      j = 0;
+      p = (*r)->begin;
+      o = *(Obj_82396F50 **)((char *)*param_1->objs + off);
+      if (p != (*r)->end) {
+        do {
+          v = *p;
+          t = fn_822ABA88(o->data[o->idx], j);
+          if (t->f24 != v) {
+            t->f24 = v;
+            if (v != 0) t->f14->f8c0->f90 = 1; else t->f14->f8c0->f90 = 0;
+            t->vt->f24(t, v);
+          }
+          p++;
+          j++;
+        } while (p != (*r)->end);
+      }
+      r++;
+      off += 4;
+    } while (r != param_1->rowsEnd);
+  }
+}

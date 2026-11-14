@@ -1,57 +1,51 @@
-extern unsigned int *auStack_38;
-extern unsigned int *auStack_40;
-extern int fn_822315A0();
-extern int fn_8265C9E0();
-extern int fn_828BAB20();
-extern int fn_828BCA78();
-extern int fn_828C23A8();
-extern int fn_828C35A0();
-extern unsigned int iStack_3c;
-extern unsigned int stack0x00000000;
+typedef struct SP_828C37F0 {
+    void *ptr;
+    void *ctrl;
+} SP_828C37F0;
 
+extern void fn_822315A0(void *ctrl);
+extern void *fn_8265C9E0(unsigned int size);
+extern SP_828C37F0 *fn_828BAB20(SP_828C37F0 *out, void *obj);
+extern SP_828C37F0 *fn_828BCA78(void *owner, int key);
+extern void *fn_828C23A8(void *mem, int a, int b);
+extern void *fn_828C35A0(void *p);
 
-void fn_828C37F0(__int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4)
-
+static __forceinline void swap_828C37F0(void **a, void **b)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  unsigned int *puVar5;
-  unsigned int *puVar6;
-  unsigned int uVar7;
-  unsigned int uVar8;
-  unsigned char auStack_40 [4];
-  int iStack_3c;
-  unsigned int auStack_38 [14];
-  
-  uVar2 = fn_828C35A0(param_1 + 0xe8);
-  uVar3 = fn_8265C9E0(0x24);
-  if ((uVar3 & 0xffffffff) == 0) {
-    uVar4 = 0;
-  }
-  else {
-    uVar4 = fn_828C23A8(uVar3,param_3,param_4);
-  }
-  puVar5 = (unsigned int *)fn_828BAB20(&stack0x00000000 + -0x40,uVar4);
-  puVar6 = (unsigned int *)fn_828BCA78(uVar2,param_4);
-  uVar7 = 0;
-  uVar8 = 0;
-  if ((unsigned int *)(&stack0x00000000 + -0x38) != puVar5) {
-    uVar8 = puVar5[1];
-    puVar5[1] = 0;
-    uVar7 = *puVar5;
-    *puVar5 = 0;
-  }
-  iVar1 = puVar6[1];
-  puVar6[1] = uVar8;
-  *puVar6 = uVar7;
-  if (iVar1 != 0) {
-    fn_822315A0();
-  }
-  if (iStack_3c != 0) {
-    fn_822315A0();
-  }
-  return;
+    void *t = *a;
+    *a = *b;
+    *b = t;
 }
 
+void fn_828C37F0(char *self, int unused, int a, int b)
+{
+    void *owner;
+    void *mem;
+    void *obj;
+    SP_828C37F0 made;
+    SP_828C37F0 tmp;
+    SP_828C37F0 *src;
+    SP_828C37F0 *dst;
+    void *old;
+
+    owner = fn_828C35A0(self + 0xe8);
+    mem = fn_8265C9E0(0x24);
+    obj = mem ? fn_828C23A8(mem, a, b) : 0;
+    src = fn_828BAB20(&made, obj);
+    dst = fn_828BCA78(owner, b);
+    tmp.ptr = 0;
+    tmp.ctrl = 0;
+    if (&tmp != src) {
+        swap_828C37F0(&tmp.ctrl, &src->ctrl);
+        swap_828C37F0(&tmp.ptr, &src->ptr);
+    }
+    old = dst->ctrl;
+    dst->ctrl = tmp.ctrl;
+    dst->ptr = tmp.ptr;
+    if (old != 0) {
+        fn_822315A0(old);
+    }
+    if (made.ctrl != 0) {
+        fn_822315A0(made.ctrl);
+    }
+}

@@ -1,18 +1,28 @@
-void fn_82DFF010(int param_1)
+typedef struct Obj_82DFF010 Obj_82DFF010;
 
+typedef struct VTable_82DFF010 {
+    void *slots[10];
+    void (*f28)(Obj_82DFF010 *self);
+} VTable_82DFF010;
+
+struct Obj_82DFF010 {
+    VTable_82DFF010 *vt;
+};
+
+typedef struct Owner_82DFF010 {
+    int pad0;
+    int pad4;
+    Obj_82DFF010 **items;
+    int count;
+} Owner_82DFF010;
+
+void fn_82DFF010(Owner_82DFF010 *p)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  
-  uVar2 = (unsigned __int64)*(unsigned int *)(param_1 + 0xc);
-  if (0 < (int)*(unsigned int *)(param_1 + 0xc)) {
-    iVar1 = 0;
-    do {
-      (**(int (***)())(**(int **)(*(int *)(param_1 + 8) + iVar1) + 0x28))();
-      uVar2 = uVar2 - 1;
-      iVar1 = iVar1 + 4;
-    } while (uVar2 != 0);
-  }
-  return;
-}
+    int n = p->count;
+    int i;
 
+    for (i = 0; i < n; i++) {
+        Obj_82DFF010 *o = p->items[i];
+        o->vt->f28(o);
+    }
+}

@@ -1,46 +1,33 @@
-typedef unsigned char bool;
-extern int fn_82D015D8();
-extern int fn_82D029B8();
+typedef struct S_82CF9318 {
+    char pad0[0x2c];
+    char sub[0x150];
+    char *items[35];
+    int count;
+    char *top;
+} S_82CF9318;
 
+extern void fn_82D015D8(char *e);
+extern void fn_82D029B8(void *p);
 
-void fn_82CF9318(int param_1)
-
+void fn_82CF9318(S_82CF9318 *s)
 {
-  bool bVar1;
-  int iVar2;
-  int iVar3;
-  int *piVar4;
-  int *piVar5;
-  int iVar6;
-  
-  if (0 < *(int *)(param_1 + 0x208)) {
-    piVar5 = (int *)(param_1 + 0x17c);
-    iVar6 = 1;
-    do {
-      iVar2 = *piVar5;
-      if (iVar2 != 0) {
-        fn_82D015D8(iVar2);
-        if (iVar2 + 0x34 == *(int *)(param_1 + 0x20c)) {
-          *(int *)(param_1 + 0x20c) = *(int *)(param_1 + 0x20c) + -0x34;
-        }
-        piVar4 = piVar5;
-        iVar3 = iVar6;
-        if (iVar6 < *(int *)(param_1 + 0x208)) {
-          do {
-            piVar4 = piVar4 + 1;
-            if (*piVar4 == iVar2) {
-              *piVar4 = 0;
-            }
-            iVar3 = iVar3 + 1;
-          } while (iVar3 < *(int *)(param_1 + 0x208));
-        }
-      }
-      piVar5 = piVar5 + 1;
-      bVar1 = iVar6 < *(int *)(param_1 + 0x208);
-      iVar6 = iVar6 + 1;
-    } while (bVar1);
-  }
-  fn_82D029B8(param_1 + 0x2c);
-  return;
-}
+    int i;
+    int j;
+    char *e;
 
+    for (i = 0; i < s->count; i++) {
+        e = s->items[i];
+        if (e != 0) {
+            fn_82D015D8(e);
+            if (e + 0x34 == s->top) {
+                s->top -= 0x34;
+            }
+            for (j = i + 1; j < s->count; j++) {
+                if (s->items[j] == e) {
+                    s->items[j] = 0;
+                }
+            }
+        }
+    }
+    fn_82D029B8(s->sub);
+}

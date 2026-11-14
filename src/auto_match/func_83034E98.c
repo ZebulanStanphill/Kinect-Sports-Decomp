@@ -1,13 +1,14 @@
-extern int fn_83018DD8();
+typedef struct Obj_83034E98 {
+    unsigned int pad[7];
+    unsigned int mask;   /* 0x1c */
+} Obj_83034E98;
+
+extern int fn_83018DD8(unsigned int ctx, Obj_83034E98 *obj, int a, int b, int c,
+                       int d, int e, int f, int g, int h);
 extern unsigned int lbl_832642FC;
 
-
-void fn_83034E98(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5,unsigned __int64 param_6,unsigned __int64 param_7)
-
+void fn_83034E98(Obj_83034E98 *obj, int a, int b, int c, int d, int e, int f)
 {
-  *(unsigned int *)(param_1 + 0x1c) = 1 << ((unsigned int)param_3 & 0x3f) | *(unsigned int *)(param_1 + 0x1c);
-  fn_83018DD8(lbl_832642FC,param_1,param_2,param_3,param_4,param_5,param_6,param_7);
-  return;
+    obj->mask = (1 << b) | obj->mask;
+    fn_83018DD8(lbl_832642FC, obj, a, b, c, d, e, f, 0, 3);
 }
-

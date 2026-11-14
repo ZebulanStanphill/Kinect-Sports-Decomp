@@ -1,22 +1,35 @@
-unsigned int fn_828ED780(int *param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned char *param_4)
+typedef struct Res_828ED780 {
+  char pad0[8];
+  unsigned char kind;
+  char pad9[7];
+  unsigned val;
+} Res_828ED780;
 
+typedef struct Obj_828ED780 Obj_828ED780;
+typedef struct {
+  void *f0[4];
+  Res_828ED780 *(*f10)(Obj_828ED780 *);
+} Vt_828ED780;
+struct Obj_828ED780 {
+  Vt_828ED780 *vt;
+};
+
+unsigned fn_828ED780(Obj_828ED780 *self, int a, int b, unsigned char *out)
 {
-  int iVar1;
-  unsigned int uVar2;
-  
-  iVar1 = (**(int (***)())(*param_1 + 0x10))();
-  if ((iVar1 == 0) || (*(char *)(iVar1 + 8) != '\x01')) {
-    uVar2 = 0;
-    if (param_4 != (unsigned char *)0x0) {
-      *param_4 = 0;
-    }
-  }
-  else {
-    uVar2 = *(unsigned int *)(iVar1 + 0x10);
-    if (param_4 != (unsigned char *)0x0) {
-      *param_4 = 1;
-    }
-  }
-  return uVar2;
-}
+  Res_828ED780 *r;
+  unsigned v;
 
+  v = 0;
+  r = self->vt->f10(self);
+  if (r != 0 && r->kind == 1) {
+    v = r->val;
+    if (out != 0) {
+      *out = r->kind;
+    }
+  } else {
+    if (out != 0) {
+      *out = 0;
+    }
+  }
+  return v;
+}

@@ -1,69 +1,77 @@
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_80;
-extern int fn_8223C478();
-extern int fn_8265CA20();
-extern int fn_828B0720();
-extern int fn_828B0828();
-extern int fn_828E9D28();
-extern int fn_828E9D90();
-extern int fn_828E9DA8();
-extern int fn_828E9DB8();
-extern int fn_828E9FF8();
-extern unsigned int iStack_48;
-extern unsigned int lbl_82024DA0;
-extern unsigned int lbl_82024DDC;
-extern unsigned int uStack_40;
-extern unsigned int uStack_44;
-extern unsigned int uStack_4c;
+typedef struct Vtbl_828B1218 Vtbl_828B1218;
 
+typedef struct Obj_828B1218 {
+    Vtbl_828B1218 *vt;
+} Obj_828B1218;
 
-void fn_828B1218(int *param_1,unsigned __int64 param_2,int param_3,unsigned __int64 param_4)
+struct Vtbl_828B1218 {
+    void *pad00[14];
+    void (*f38)(Obj_828B1218 *self, unsigned char *buf, void *p);
+    void *pad3c;
+    void (*f40)(Obj_828B1218 *self, unsigned char *buf);
+};
 
+typedef struct Reader_828B1218 {
+    int state[4];
+    unsigned char *ptr;
+    int size;
+    void *mem;
+    int f1c;
+    int f20;
+} Reader_828B1218;
+
+extern unsigned int lbl_82024DA0[];
+extern unsigned int lbl_82024DDC[];
+
+extern void fn_8223C478(Reader_828B1218 *r, unsigned int n, int z);
+extern void fn_8265CA20(void *p);
+extern void fn_828B0720(Obj_828B1218 *self, unsigned char *buf, void *p);
+extern void fn_828B0828(Obj_828B1218 *self, unsigned char *buf);
+extern void fn_828E9D28(Reader_828B1218 *r, unsigned char *ptr, int size);
+extern int fn_828E9D90(Reader_828B1218 *r);
+extern int fn_828E9DA8(Reader_828B1218 *r);
+extern void fn_828E9DB8(Reader_828B1218 *r, int value, unsigned int n);
+extern void fn_828E9FF8(Reader_828B1218 *r, unsigned int bits);
+
+void fn_828B1218(Obj_828B1218 *obj, int value, int index, void *p)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  int iVar3;
-  int iVar4;
-  unsigned char auStack_80 [32];
-  unsigned char auStack_60 [16];
-  unsigned char *puStack_50;
-  unsigned int uStack_4c;
-  int iStack_48;
-  unsigned int uStack_44;
-  unsigned int uStack_40;
-  
-  uVar1 = *(unsigned int *)(&lbl_82024DA0 + param_3 * 4);
-  if ((int)param_4 == 0) {
-    (**(int (***)())(*param_1 + 0x40))(param_1,auStack_80);
-  }
-  else {
-    (**(int (***)())(*param_1 + 0x38))(param_1,auStack_80,param_4);
-  }
-  puStack_50 = auStack_80 + (uVar1 >> 3);
-  iStack_48 = 0;
-  uStack_44 = 0;
-  uStack_40 = 0;
-  uStack_4c = 0x19;
-  fn_828E9D28(auStack_60,puStack_50,0x19);
-  if ((uVar1 & 7) != 0) {
-    iVar3 = fn_828E9DA8(auStack_60);
-    iVar4 = fn_828E9D90(auStack_60);
-    if ((int)(uVar1 & 7) <= iVar3 - iVar4) {
-      fn_828E9FF8(auStack_60,uVar1 & 7);
-    }
-  }
-  uVar2 = *(unsigned int *)(&lbl_82024DDC + param_3 * 4);
-  fn_8223C478(auStack_60,uVar2,0);
-  fn_828E9DB8(auStack_60,param_2,uVar2);
-  if ((int)param_4 == 0) {
-    fn_828B0828(param_1,auStack_80);
-  }
-  else {
-    fn_828B0720(param_1,auStack_80,param_4);
-  }
-  if (iStack_48 != 0) {
-    fn_8265CA20();
-  }
-  return;
-}
+    unsigned char buf[32];
+    Reader_828B1218 r;
+    unsigned int v;
+    unsigned int off;
+    unsigned int bits;
+    unsigned int n;
+    unsigned char *ptr;
 
+    v = lbl_82024DA0[index];
+    off = v >> 3;
+    bits = v & 7;
+    if (p != 0) {
+        obj->vt->f38(obj, buf, p);
+    } else {
+        obj->vt->f40(obj, buf);
+    }
+    ptr = buf + off;
+    r.ptr = ptr;
+    r.mem = 0;
+    r.f1c = 0;
+    r.f20 = 0;
+    r.size = 0x19;
+    fn_828E9D28(&r, ptr, 0x19);
+    if (bits != 0) {
+        if ((int)bits <= fn_828E9DA8(&r) - fn_828E9D90(&r)) {
+            fn_828E9FF8(&r, bits);
+        }
+    }
+    n = lbl_82024DDC[index];
+    fn_8223C478(&r, n, 0);
+    fn_828E9DB8(&r, value, n);
+    if (p != 0) {
+        fn_828B0720(obj, buf, p);
+    } else {
+        fn_828B0828(obj, buf);
+    }
+    if (r.mem != 0) {
+        fn_8265CA20(r.mem);
+    }
+}

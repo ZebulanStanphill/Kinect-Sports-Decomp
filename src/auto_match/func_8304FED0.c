@@ -1,43 +1,43 @@
-extern int fn_82FA5060();
+typedef struct Blk5_8304FED0 {
+    int v[5];
+} Blk5_8304FED0;
+
+typedef struct Item_8304FED0 {
+    int f0;                    /* 0x00 */
+    Blk5_8304FED0 data;        /* 0x04 */
+    int f18;                   /* 0x18 */
+    unsigned int flags;        /* 0x1c */
+    int f20;                   /* 0x20 */
+} Item_8304FED0;
+
+typedef struct Owner_8304FED0 {
+    int pad0[4];               /* 0x00 */
+    Item_8304FED0 *item;       /* 0x10 */
+    int pad14[24];             /* 0x14 */
+    unsigned int flags;        /* 0x74 */
+} Owner_8304FED0;
+
+extern void *fn_82FA5060(unsigned int heap, unsigned int size);
 extern unsigned int lbl_831BC978;
 
-
-unsigned __int64 fn_8304FED0(int param_1,unsigned int param_2,int param_3,unsigned int param_4)
-
+int fn_8304FED0(Owner_8304FED0 *o, int a, Blk5_8304FED0 *src, int b)
 {
-  int iVar2;
-  unsigned __int64 uVar1;
-  unsigned int *puVar3;
-  unsigned int *puVar4;
-  __int64 lVar5;
-  
-  *(unsigned int *)(param_1 + 0x74) = *(unsigned int *)(param_1 + 0x74) & 0xfbffffff;
-  iVar2 = fn_82FA5060(lbl_831BC978,0x24);
-  *(int *)(param_1 + 0x10) = iVar2;
-  if (iVar2 == 0) {
-    uVar1 = 2;
-  }
-  else {
-    *(unsigned int *)(iVar2 + 0x1c) = *(unsigned int *)(iVar2 + 0x1c) & 0x7fffffff;
-    if (param_3 == 0) {
-      *(unsigned int *)(*(int *)(param_1 + 0x10) + 0x20) = 0;
-    }
-    else {
-      puVar4 = (unsigned int *)(param_3 + -4);
-      *(unsigned int *)(*(int *)(param_1 + 0x10) + 0x20) = 1;
-      lVar5 = 5;
-      puVar3 = *(unsigned int **)(param_1 + 0x10);
-      do {
-        puVar4 = puVar4 + 1;
-        puVar3 = puVar3 + 1;
-        *puVar3 = *puVar4;
-        lVar5 = lVar5 + -1;
-      } while (lVar5 != 0);
-    }
-    uVar1 = 1;
-    **(unsigned int **)(param_1 + 0x10) = param_2;
-    *(unsigned int *)(*(int *)(param_1 + 0x10) + 0x18) = param_4;
-  }
-  return uVar1;
-}
+    Item_8304FED0 *p;
 
+    o->flags &= 0xfbffffff;
+    p = (Item_8304FED0 *)fn_82FA5060(lbl_831BC978, 0x24);
+    o->item = p;
+    if (p != 0) {
+        p->flags &= 0x7fffffff;
+        if (src != 0) {
+            o->item->f20 = 1;
+            o->item->data = *src;
+        } else {
+            o->item->f20 = 0;
+        }
+        o->item->f0 = a;
+        o->item->f18 = b;
+        return 1;
+    }
+    return 2;
+}

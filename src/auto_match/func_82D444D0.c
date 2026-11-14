@@ -1,44 +1,79 @@
-#define TBLr 0
-extern unsigned int iStack_34;
-extern unsigned int lbl_82132BC4;
-extern unsigned int lbl_82138628;
+typedef struct Entry_82D444D0 {
+    const char *name;
+    unsigned int time;
+    unsigned int pad;
+} Entry_82D444D0;
+
+typedef struct Buf_82D444D0 {
+    int unk0;
+    Entry_82D444D0 *cur;
+    int unk8;
+    Entry_82D444D0 *end;
+} Buf_82D444D0;
+
+typedef struct Src_82D444D0 {
+    int unk0;
+    int unk4;
+    int value;
+} Src_82D444D0;
+
+struct Obj_82D444D0;
+
+typedef struct Args_82D444D0 {
+    struct Obj_82D444D0 *obj;
+    int zero;
+    int value;
+    Src_82D444D0 *src;
+} Args_82D444D0;
+
+typedef struct Vt_82D444D0 {
+    void *slots[9];
+    void (*f24)(struct Obj_82D444D0 *, int, Args_82D444D0 *, int);
+} Vt_82D444D0;
+
+typedef struct Obj_82D444D0 {
+    Vt_82D444D0 *vt;
+} Obj_82D444D0;
+
+typedef struct Self_82D444D0 {
+    int pad[6];
+    Obj_82D444D0 *obj;
+} Self_82D444D0;
+
 extern unsigned int lbl_8323B4A0;
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
+void *KeTlsGetValue(unsigned int index);
+unsigned __int64 __mftb(void);
 
-
-void fn_82D444D0(int param_1,unsigned __int64 param_2,int param_3,unsigned __int64 param_4)
-
+static __forceinline void Trace_82D444D0(const char *name)
 {
-  unsigned int *puVar1;
-  unsigned __int64 uVar2;
-  int iVar3;
-  int *piStack_40;
-  unsigned int uStack_3c;
-  unsigned int uStack_38;
-  int iStack_34;
-  
-  iVar3 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(unsigned int **)(iVar3 + 4);
-  if (puVar1 < *(unsigned int **)(iVar3 + 0xc)) {
-    *puVar1 = &lbl_82138628;
-    uVar2 = TBLr;
-    puVar1[1] = (int)uVar2;
-    *(unsigned int **)(iVar3 + 4) = puVar1 + 3;
-  }
-  piStack_40 = *(int **)(param_1 + 0x18);
-  uStack_38 = *(unsigned int *)(param_3 + 8);
-  uStack_3c = 0;
-  iStack_34 = param_3;
-  (**(int (***)())(*piStack_40 + 0x24))(piStack_40,param_2,&piStack_40,param_4);
-  iVar3 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(unsigned int **)(iVar3 + 4);
-  if (puVar1 < *(unsigned int **)(iVar3 + 0xc)) {
-    *puVar1 = &lbl_82132BC4;
-    uVar2 = TBLr;
-    puVar1[1] = (int)uVar2;
-    *(unsigned int **)(iVar3 + 4) = puVar1 + 3;
-  }
-  return;
+    Buf_82D444D0 *buf;
+    Entry_82D444D0 *e;
+
+    buf = (Buf_82D444D0 *)KeTlsGetValue(lbl_8323B4A0);
+    e = buf->cur;
+    if (e < buf->end) {
+        e->name = name;
+        e->time = (unsigned int)__mftb();
+        buf->cur = e + 1;
+    }
 }
 
+static __forceinline void Call_82D444D0(Obj_82D444D0 *o, int a, Args_82D444D0 *args, int b)
+{
+    o->vt->f24(o, a, args, b);
+}
+
+void fn_82D444D0(Self_82D444D0 *self, int a, Src_82D444D0 *src, int b)
+{
+    Args_82D444D0 args;
+
+    Trace_82D444D0("TtrcBvShape");
+
+    args.src = src;
+    args.zero = 0;
+    args.obj = self->obj;
+    args.value = src->value;
+    Call_82D444D0(args.obj, a, &args, b);
+
+    Trace_82D444D0("Et");
+}

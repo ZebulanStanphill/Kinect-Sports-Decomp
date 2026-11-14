@@ -1,21 +1,42 @@
-extern int fn_822315A0();
-extern int fn_8265CA20();
-extern unsigned int lbl_8219689C;
+typedef struct Str_828E3228 {
+    union {
+        char buf[16];
+        char *ptr;
+    } u;
+    unsigned int size;
+    unsigned int cap;
+} Str_828E3228;
 
+typedef struct Obj_828E3228 {
+    void *vt;
+    int field4;
+    void *p8;
+    Str_828E3228 s;
+} Obj_828E3228;
 
-void fn_828E3228(unsigned int *param_1)
+extern void fn_822315A0(void *p);
+extern void fn_8265CA20(void *p);
+extern char lbl_8219689C[];
 
+static __forceinline void Str_Tidy_828E3228(Str_828E3228 *s)
 {
-  *param_1 = &lbl_8219689C;
-  if (0xf < (unsigned int)param_1[8]) {
-    fn_8265CA20(param_1[3]);
-  }
-  param_1[7] = 0;
-  param_1[8] = 0xf;
-  *(unsigned char *)(param_1 + 3) = 0;
-  if (param_1[2] != 0) {
-    fn_822315A0();
-  }
-  return;
+    if (s->cap >= 0x10) {
+        fn_8265CA20(s->u.ptr);
+    }
+    s->cap = 0xf;
+    s->u.buf[s->size = 0] = 0;
 }
 
+static __forceinline void Ref_Release_828E3228(void **pp)
+{
+    if (*pp != 0) {
+        fn_822315A0(*pp);
+    }
+}
+
+void fn_828E3228(Obj_828E3228 *o)
+{
+    o->vt = lbl_8219689C;
+    Str_Tidy_828E3228(&o->s);
+    Ref_Release_828E3228(&o->p8);
+}

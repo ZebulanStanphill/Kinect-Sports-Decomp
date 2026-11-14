@@ -1,26 +1,41 @@
-extern int fn_82CEFB20();
-extern int fn_82DBB778();
+typedef struct Obj_82D8CCD0 {
+    char pad0[0x20];
+    unsigned short id;
+    char pad22[6];
+    unsigned __int64 value;
+} Obj_82D8CCD0;
 
+typedef struct Holder_82D8CCD0 {
+    char pad0[0xcc];
+    Obj_82D8CCD0 *obj;
+} Holder_82D8CCD0;
 
-void fn_82D8CCD0(int param_1)
+typedef struct Self_82D8CCD0 {
+    int pad0;
+    Holder_82D8CCD0 *a;
+    Holder_82D8CCD0 *b;
+    int target;
+    int mode;
+} Self_82D8CCD0;
 
+extern int fn_82CEFB20(unsigned __int64 *p);
+extern int fn_82DBB778(int target, Obj_82D8CCD0 *obj);
+
+void fn_82D8CCD0(Self_82D8CCD0 *self)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  
-  iVar1 = *(int *)(*(int *)(param_1 + 4) + 0xcc);
-  if (*(short *)(iVar1 + 0x20) == -1) {
-    iVar1 = *(int *)(*(int *)(param_1 + 8) + 0xcc);
-  }
-  if (*(int *)(param_1 + 0x10) == 2) {
-    uVar2 = *(unsigned __int64 *)(iVar1 + 0x28);
-    fn_82CEFB20(iVar1 + 0x28);
-    fn_82DBB778(*(unsigned int *)(param_1 + 0xc),iVar1);
-    *(unsigned __int64 *)(iVar1 + 0x28) = uVar2;
-  }
-  else {
-    fn_82DBB778(*(unsigned int *)(param_1 + 0xc),iVar1);
-  }
-  return;
-}
+    Obj_82D8CCD0 *o;
+    unsigned __int64 saved;
 
+    o = self->a->obj;
+    if (o->id == 0xffff) {
+        o = self->b->obj;
+    }
+    if (self->mode != 2) {
+        fn_82DBB778(self->target, o);
+        return;
+    }
+    saved = o->value;
+    fn_82CEFB20(&o->value);
+    fn_82DBB778(self->target, o);
+    o->value = saved;
+}

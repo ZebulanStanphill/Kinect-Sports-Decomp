@@ -1,42 +1,38 @@
-extern unsigned int *auStack_2740;
-extern int fn_82CFBE40();
-extern unsigned int stack0x00000020;
-extern unsigned int uStack00000020;
-extern unsigned int uStack00000028;
-extern unsigned int uStack00000030;
-extern unsigned int uStack00000038;
-extern unsigned int uStack00000040;
-extern unsigned int uStack00000048;
+typedef char *va_list;
 
+extern void __cdecl __va_start(va_list *, ...);
 
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
+typedef struct Sink_82CEDE90 Sink_82CEDE90;
 
-void fn_82CEDE90(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5,unsigned __int64 param_6,unsigned __int64 param_7,unsigned __int64 param_8)
+typedef struct SinkVtbl_82CEDE90 {
+    void *slot0;
+    void *slot1;
+    void *slot2;
+    void *slot3;
+    void (*Write)(Sink_82CEDE90 *self, const char *text, int len);
+} SinkVtbl_82CEDE90;
 
+struct Sink_82CEDE90 {
+    SinkVtbl_82CEDE90 *vt;
+};
+
+typedef struct Owner_82CEDE90 {
+    int field0;
+    int field4;
+    Sink_82CEDE90 *sink;
+} Owner_82CEDE90;
+
+extern int fn_82CFBB58(char *buf, int size, const char *fmt, va_list ap);
+extern int fn_82CFBE40(const char *s);
+
+void fn_82CEDE90(Owner_82CEDE90 *self, const char *fmt, ...)
 {
-  int *piVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uStack00000020;
-  unsigned __int64 uStack00000028;
-  unsigned __int64 uStack00000030;
-  unsigned __int64 uStack00000038;
-  unsigned __int64 uStack00000040;
-  unsigned __int64 uStack00000048;
-  unsigned char auStack_2740 [10024];
-  
-  uStack00000020 = param_3;
-  uStack00000028 = param_4;
-  uStack00000030 = param_5;
-  uStack00000038 = param_6;
-  uStack00000040 = param_7;
-  uStack00000048 = param_8;
-  thunk_FUN_82f6ede8(auStack_2740,0x2728,param_2,&stack0x00000020);
-  piVar1 = *(int **)(param_1 + 8);
-  iVar2 = *piVar1;
-  uVar3 = fn_82CFBE40(auStack_2740);
-  (**(int (***)())(iVar2 + 0x10))(piVar1,auStack_2740,uVar3);
-  return;
-}
+    va_list ap;
+    char buf[10024];
+    Sink_82CEDE90 *sink;
 
+    __va_start(&ap, fmt);
+    fn_82CFBB58(buf, 0x2728, fmt, ap);
+    sink = self->sink;
+    sink->vt->Write(sink, buf, fn_82CFBE40(buf));
+}
