@@ -1,32 +1,17 @@
-extern int fn_82A1F160();
-extern unsigned int lbl_82005710;
-extern unsigned int lbl_82005758;
-extern unsigned int lbl_83218C50;
-extern unsigned int lbl_83218C58;
-extern unsigned int lbl_83218C60;
-extern unsigned int lbl_83218C68;
-extern unsigned int lbl_83218C70;
-extern unsigned int lbl_83218C78;
-extern unsigned int lbl_83218C80;
-extern unsigned int lbl_83218C88;
-extern unsigned int lbl_83218C8C;
-
-
+typedef struct { __int64 a; double b; __int64 c; __int64 d; double e, f, g; int h, i; } Timer_83129D18;
+extern Timer_83129D18 lbl_83218C50;
+extern int fn_82A1F160(__int64 *);
 void fn_83129D18(void)
-
 {
-  __int64 alStack_10 [2];
-  
-  fn_82A1F160(alStack_10);
-  lbl_83218C70 = lbl_82005710;
-  lbl_83218C78 = lbl_82005710;
-  lbl_83218C80 = lbl_82005710;
-  lbl_83218C50 = 0;
-  lbl_83218C60 = 0;
-  lbl_83218C68 = 0;
-  lbl_83218C88 = 0;
-  lbl_83218C8C = 0;
-  lbl_83218C58 = lbl_82005758 / (double)alStack_10[0];
-  return;
+  __int64 freq;
+  fn_82A1F160(&freq);
+  lbl_83218C50.e = 0.0;
+  lbl_83218C50.f = 0.0;
+  lbl_83218C50.g = 0.0;
+  lbl_83218C50.a = 0;
+  lbl_83218C50.c = 0;
+  lbl_83218C50.d = 0;
+  lbl_83218C50.h = 0;
+  lbl_83218C50.i = 0;
+  lbl_83218C50.b = 1.0 / (double)freq;
 }
-

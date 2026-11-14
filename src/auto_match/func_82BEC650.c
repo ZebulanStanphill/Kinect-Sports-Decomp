@@ -1,27 +1,18 @@
-extern int fn_82BE6720();
-extern int fn_82BE67E0();
-extern int fn_82BE6A00();
-extern int fn_82BE6C60();
-extern unsigned int lbl_8322B1C8;
-extern unsigned int lbl_8322B1D0;
+extern int fn_82BE6720(void *p, int c, int f);
+extern int fn_82BE67E0(void *p, __int64 v, int f);
+extern int fn_82BE6A00(void *p);
+extern int fn_82BE6C60(void *p, int c, int a, int b);
 
-
-unsigned __int64 fn_82BEC650(unsigned __int64 param_1)
-
+extern __int64 lbl_8322B1C8;
+extern __int64 lbl_8322B1D0;
+int fn_82BEC650(void *p)
 {
-  int iVar2;
-  unsigned __int64 uVar1;
-  
-  iVar2 = fn_82BE67E0(param_1,lbl_8322B1C8,1);
-  if ((((iVar2 == 0) || (iVar2 = fn_82BE6720(param_1,0x2b,1), iVar2 == 0)) ||
-      (iVar2 = fn_82BE67E0(param_1,lbl_8322B1D0,1), iVar2 == 0)) ||
-     ((iVar2 = fn_82BE6720(param_1,0x2a,1), iVar2 == 0 ||
-      (iVar2 = fn_82BE6A00(param_1), iVar2 == 0)))) {
-    uVar1 = 0;
-  }
-  else {
-    uVar1 = fn_82BE6C60(param_1,0xd8,1,1);
-  }
-  return uVar1;
+    if (fn_82BE67E0(p, lbl_8322B1C8, 1) == 0 ||
+        fn_82BE6720(p, 0x2b, 1) == 0 ||
+        fn_82BE67E0(p, lbl_8322B1D0, 1) == 0 ||
+        fn_82BE6720(p, 0x2a, 1) == 0 ||
+        fn_82BE6A00(p) == 0) {
+        return 0;
+    }
+    return fn_82BE6C60(p, 0xd8, 1, 1);
 }
-

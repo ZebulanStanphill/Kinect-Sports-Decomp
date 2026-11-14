@@ -1,17 +1,14 @@
-extern int fn_82A1E968();
-extern int fn_82F6B030();
-extern unsigned int lbl_832767D8;
-extern unsigned int lbl_832767E0;
+typedef struct Timer_832767D8 {
+    __int64 start;
+    __int64 frequency;
+} Timer_832767D8;
 
+extern Timer_832767D8 lbl_832767D8;
+extern void fn_82A1E968(unsigned __int64 *now);
 
-double fn_82522FF0(void)
-
+float fn_82522FF0(void)
 {
-  double dVar1;
-  __int64 alStack_20 [2];
-  
-  fn_82A1E968(alStack_20);
-  dVar1 = (double)fn_82F6B030(alStack_20[0] - lbl_832767D8);
-  return (double)(float)(dVar1 / (double)lbl_832767E0);
+    unsigned __int64 now;
+    fn_82A1E968(&now);
+    return (float)((double)(now - lbl_832767D8.start) / (double)lbl_832767D8.frequency);
 }
-

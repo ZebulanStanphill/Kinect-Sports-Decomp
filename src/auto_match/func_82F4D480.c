@@ -1,48 +1,23 @@
-extern unsigned int lbl_83261840;
-extern unsigned int uRam83261848;
-extern unsigned int uRam8326184c;
-extern unsigned int uRam83261850;
-extern unsigned int uRam83261854;
-extern unsigned int uRam83261858;
-extern unsigned int uRam8326185c;
-extern unsigned int uRam83261860;
-extern unsigned int uRam83261864;
-extern unsigned int uRam83261868;
-extern unsigned int uRam8326186c;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct State_82F4D480 {
+    __int64 id;
+    int c, d;
+    __vector4 v0;
+    __vector4 v1;
+} State_82F4D480;
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+extern State_82F4D480 lbl_83261840;
 
-void fn_82F4D480(unsigned __int64 param_1,unsigned __int64 *param_2)
-
+void fn_82F4D480(void *self, State_82F4D480 *out)
 {
-  unsigned int *puVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  
-  if (param_2 == (unsigned __int64 *)0x0) {
-    return;
-  }
-  *param_2 = lbl_83261840;
-  *(unsigned int *)(param_2 + 1) = uRam83261848;
-  *(unsigned int *)((int)param_2 + 0xc) = uRam8326184c;
-  uVar4 = uRam8326185c;
-  uVar3 = uRam83261858;
-  uVar2 = uRam83261854;
-  puVar1 = (unsigned int *)((unsigned int)(param_2 + 2) & 0xfffffff0);
-  *puVar1 = uRam83261850;
-  puVar1[1] = uVar2;
-  puVar1[2] = uVar3;
-  puVar1[3] = uVar4;
-  uVar4 = uRam8326186c;
-  uVar3 = uRam83261868;
-  uVar2 = uRam83261864;
-  puVar1 = (unsigned int *)((unsigned int)(param_2 + 4) & 0xfffffff0);
-  *puVar1 = uRam83261860;
-  puVar1[1] = uVar2;
-  puVar1[2] = uVar3;
-  puVar1[3] = uVar4;
-  return;
+    if (out == 0)
+        return;
+    out->id = lbl_83261840.id;
+    out->c = lbl_83261840.c;
+    out->d = lbl_83261840.d;
+    out->v0 = lbl_83261840.v0;
+    out->v1 = lbl_83261840.v1;
 }
-
