@@ -1518,7 +1518,9 @@ def generate_build_ninja(
     n.comment("Split XEX into relocatable objects")
     n.rule(
         name="split",
-        command=f"{dtk} xex split $in $out_dir",
+        # tools/split_fixups.py restores what the splitter loses in the objects it writes
+        # (the sub-opcode bits of a relocated lwa/ldu/stdu).
+        command=f"{CHAIN}{dtk} xex split $in $out_dir && $python tools/split_fixups.py $in $out_dir",
         description="SPLIT $in",
         depfile="$out_dir/dep",
         deps="gcc",
@@ -1527,7 +1529,7 @@ def generate_build_ninja(
         inputs=config.config_path,
         outputs=build_config_path,
         rule="split",
-        implicit=dtk,
+        implicit=[dtk, "tools/split_fixups.py"],
         variables={"out_dir": build_path},
     )
     n.newline()

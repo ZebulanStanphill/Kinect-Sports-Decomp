@@ -1,38 +1,32 @@
-extern int fn_8267AE38();
-extern int fn_8268E898();
-extern unsigned int lbl_82005448;
+extern char lbl_82005448[];
+extern void *fn_8268E898(void *buffer, int size);
+extern void fn_8267AE38(void *self, const char *name, void *value);
 
+typedef struct Table_8267B100 {
+    void *vtable;
+    int capacity;
+    int f8;
+    void *buffer;
+    char storage[0xa0];
+    int fb0;
+} Table_8267B100;
 
-unsigned int *
-fn_8267B100(unsigned int *param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-             unsigned __int64 param_5,unsigned __int64 param_6,unsigned __int64 param_7,unsigned __int64 param_8)
-
+Table_8267B100 *fn_8267B100(Table_8267B100 *self, const char *name1, void *value1, const char *name2, void *value2,
+                            const char *name3, void *value3, const char *name4, void *value4)
 {
-  unsigned int uVar1;
-  unsigned int in_stack_00000054;
-  
-  uVar1 = 0;
-  param_1[2] = 0;
-  param_1[3] = 0;
-  *param_1 = &lbl_82005448;
-  param_1[1] = 0x1000;
-  param_1[0x2c] = 0;
-  if (param_1 + 4 != (unsigned int *)0x0) {
-    uVar1 = fn_8268E898(param_1 + 4,0x1000);
-  }
-  param_1[3] = uVar1;
-  if ((param_2 & 0xffffffff) != 0) {
-    fn_8267AE38(param_1,param_2,param_3);
-  }
-  if ((param_4 & 0xffffffff) != 0) {
-    fn_8267AE38(param_1,param_4,param_5);
-  }
-  if ((param_6 & 0xffffffff) != 0) {
-    fn_8267AE38(param_1,param_6,param_7);
-  }
-  if ((param_8 & 0xffffffff) != 0) {
-    fn_8267AE38(param_1,param_8,in_stack_00000054);
-  }
-  return param_1;
+    self->f8 = 0;
+    self->buffer = 0;
+    self->vtable = lbl_82005448;
+    self->capacity = 0x1000;
+    self->fb0 = 0;
+    self->buffer = self->storage != 0 ? fn_8268E898(self->storage, 0x1000) : 0;
+    if (name1 != 0)
+        fn_8267AE38(self, name1, value1);
+    if (name2 != 0)
+        fn_8267AE38(self, name2, value2);
+    if (name3 != 0)
+        fn_8267AE38(self, name3, value3);
+    if (name4 != 0)
+        fn_8267AE38(self, name4, value4);
+    return self;
 }
-

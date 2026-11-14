@@ -1,22 +1,22 @@
-extern int fn_8268E898();
-extern unsigned int lbl_82005448;
+extern char lbl_82005448[];
+extern void *fn_8268E898(void *buffer, int size);
 
+typedef struct Table_8267ADD8 {
+    void *vtable;
+    int capacity;
+    int f8;
+    void *buffer;
+    char storage[0xa0];
+    int fb0;
+} Table_8267ADD8;
 
-unsigned int * fn_8267ADD8(unsigned int *param_1,unsigned int param_2)
-
+Table_8267ADD8 *fn_8267ADD8(Table_8267ADD8 *self, int capacity)
 {
-  unsigned int uVar1;
-  
-  param_1[1] = param_2;
-  uVar1 = 0;
-  param_1[2] = 0;
-  *param_1 = &lbl_82005448;
-  param_1[3] = 0;
-  param_1[0x2c] = 0;
-  if (param_1 != (unsigned int *)0xfffffff0) {
-    uVar1 = fn_8268E898();
-  }
-  param_1[3] = uVar1;
-  return param_1;
+    self->capacity = capacity;
+    self->f8 = 0;
+    self->vtable = lbl_82005448;
+    self->buffer = 0;
+    self->fb0 = 0;
+    self->buffer = self->storage != 0 ? fn_8268E898(self->storage, capacity) : 0;
+    return self;
 }
-

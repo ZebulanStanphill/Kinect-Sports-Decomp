@@ -30,8 +30,8 @@ Two limits of the splitter decide the rest:
   cuts the symbol that contains the address there (the old symbol keeps the bytes in front, the new
   `lbl_<address>` takes the rest), or names the bytes when no symbol contains them.
 - It clears all 16 displacement bits of a relocated instruction, the two opcode bits included, so a
-  relocated `lwa`, `ldu` or `stdu` would turn into `ld`/`std`. Those sites are listed as skipped and
-  get no relocation.
+  relocated `lwa`, `ldu` or `stdu` turns into `ld`/`std` in the object. tools/split_fixups.py, which
+  the build runs right after the splitter, puts those two bits back; such a site is marked in --list.
 
 Run it (with --symbols first) after a split that changed code or data symbols; ninja re-splits when
 config.yml or symbols.txt changes.
@@ -308,10 +308,7 @@ def build(sites, data, low, high, manual, ours):
         if s['addr'] in manual:
             listing.append(text + '  (hand-written entry)')
             continue
-        if s['xo']:
-            listing.append(text + '  (skipped: the splitter would clear the opcode bits of %s)' % s['mnem'])
-            continue
-        listing.append(text)
+        listing.append(text + ('  (opcode bits of %s restored by tools/split_fixups.py)' % s['mnem'] if s['xo'] else ''))
         if offset != 0:
             problems.append('0x%08X (%s at 0x%08X, %s) has no symbol of its own%s: run with --symbols' % (
                 s['target'], s['mnem'], s['addr'], s['unit'], '' if offset is None else ', it is %s+0x%X' % (record[2], offset)))
@@ -345,7 +342,7 @@ def main():
     data, low, high, sym_lines = load_symbols(symbols)
     sites = scan(ASM)
     if '--symbols' in args:
-        done = add_symbols([s for s in sites if not s['xo']], data, low, high, sym_lines)
+        done = add_symbols(sites, data, low, high, sym_lines)
         for line in done:
             print('symbol:', line)
         if done:
@@ -359,9 +356,9 @@ def main():
     for p in problems:
         print('PROBLEM:', p)
     inside = [s for s in sites if low <= s['target'] < high]
-    print('%d DS-form sites in %d functions of %d units (%d hand-written, %d skipped); %d entries (%d ha, %d l)' % (
+    print('%d DS-form sites in %d functions of %d units (%d hand-written, %d with opcode bits to restore); %d entries (%d ha, %d l)' % (
         len(inside), len({(s['unit'], s['fn']) for s in inside}), len({s['unit'] for s in inside}),
-        sum(1 for t in listing if 'hand-written' in t), sum(1 for t in listing if 'skipped' in t),
+        sum(1 for t in listing if 'hand-written' in t), sum(1 for t in listing if 'restored by' in t),
         sum(1 for line in lines if line.startswith('- source')),
         sum(1 for line in lines if line == '  type: ha'), sum(1 for line in lines if line == '  type: l')))
     if problems:

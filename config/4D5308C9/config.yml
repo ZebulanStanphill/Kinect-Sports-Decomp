@@ -334,6 +334,10 @@ add_relocations:
 - source: 0x82523014
   type: l
   target: lbl_832767D8
+# fn_8258B3F8 (func_8258B3F8)
+- source: 0x8258B410
+  type: l
+  target: lbl_831C08DC
 # fn_825AEE70 (func_825AEE70)
 - source: 0x825AEE90
   type: ha
