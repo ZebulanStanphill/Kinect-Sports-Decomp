@@ -1,30 +1,34 @@
-typedef unsigned char bool;
+typedef struct Child_8227F7B8 {
+    char pad[0x34];
+    int active;
+} Child_8227F7B8;
 
+typedef struct Obj_8227F7B8 {
+    char pad[0x6c];
+    unsigned int other : 30;
+    unsigned int hidden : 1;
+    unsigned int disabled : 1;
+    Child_8227F7B8 *child;
+} Obj_8227F7B8;
 
-void fn_8227F7B8(int param_1,int param_2)
-
+static __forceinline unsigned char IsEnabled(Obj_8227F7B8 *self)
 {
-  bool bVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  
-  uVar2 = *(unsigned int *)(param_1 + 0x6c);
-  bVar1 = (~uVar2 & 1) == 0;
-  if (param_2 == 0) {
-    if (bVar1) goto LAB_8227f7e4;
-    uVar2 = uVar2 | 1;
-  }
-  else {
-    if (!bVar1) goto LAB_8227f7e4;
-    uVar2 = uVar2 & 0xfffffffe;
-  }
-  *(unsigned int *)(param_1 + 0x6c) = uVar2;
-LAB_8227f7e4:
-  if ((((~(unsigned __int64)*(unsigned int *)(param_1 + 0x6c) & 0xffffffff) >> 1 & 1) == 0) ||
-     (uVar3 = 1, (~(unsigned __int64)*(unsigned int *)(param_1 + 0x6c) & 1) == 0)) {
-    uVar3 = 0;
-  }
-  *(unsigned int *)(*(int *)(param_1 + 0x70) + 0x34) = uVar3;
-  return;
+    return !self->disabled;
 }
 
+static __forceinline unsigned char IsVisible(Obj_8227F7B8 *self)
+{
+    return !self->hidden;
+}
+
+void fn_8227F7B8(Obj_8227F7B8 *self, int enable)
+{
+    if (enable != 0) {
+        if (!IsEnabled(self))
+            self->disabled = 0;
+    } else {
+        if (IsEnabled(self))
+            self->disabled = 1;
+    }
+    self->child->active = IsVisible(self) && IsEnabled(self);
+}

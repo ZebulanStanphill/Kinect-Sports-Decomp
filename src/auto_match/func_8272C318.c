@@ -1,23 +1,24 @@
-void fn_8272C318(int *param_1,unsigned __int64 param_2,char param_3)
+typedef struct Obj_8272C318 Obj_8272C318;
 
+typedef struct Vtbl_8272C318 {
+    void *slots[107];
+    void (*setState)(Obj_8272C318 *self, int state, unsigned char on, int notify);
+} Vtbl_8272C318;
+
+struct Obj_8272C318 {
+    Vtbl_8272C318 *vt;
+    char pad[0xc8 - 4];
+    unsigned short flags;
+};
+
+void fn_8272C318(Obj_8272C318 *self, int state, unsigned char on)
 {
-  unsigned short uVar1;
-  unsigned short uVar2;
-  
-  uVar2 = *(unsigned short *)(param_1 + 0x32);
-  uVar1 = uVar2 >> 1 & 1;
-  if ((param_3 == '\0') || (uVar1 != 0)) {
-    if ((param_3 != '\0') || (uVar1 == 0)) goto LAB_8272c350;
-    uVar2 = uVar2 & 0xfffd;
-  }
-  else {
-    uVar2 = uVar2 | 2;
-  }
-  *(unsigned short *)(param_1 + 0x32) = uVar2;
-LAB_8272c350:
-                    /* WARNING: Could not recover jumptable at 0x8272c360. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (**(int (***)())(*param_1 + 0x1ac))();
-  return;
-}
+    unsigned short flags = self->flags;
+    unsigned char cur = (flags >> 1) & 1;
 
+    if (on && !cur)
+        self->flags = flags | 2;
+    else if (!on && cur)
+        self->flags = flags & ~2;
+    self->vt->setState(self, state, on, 1);
+}

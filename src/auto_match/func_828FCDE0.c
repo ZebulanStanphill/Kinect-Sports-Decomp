@@ -1,44 +1,44 @@
-extern int fn_8265C940();
-extern int fn_828FC3D0();
-extern int fn_82F68CC0();
+typedef struct Entry_828FCDE0 {
+    char *name;
+    unsigned int a;
+    unsigned int b;
+    unsigned int fc;
+    char pad10[0x10];
+    struct Entry_828FCDE0 *next;
+} Entry_828FCDE0;
 
+extern void *fn_8265C940(unsigned int size, unsigned int flags);
+extern unsigned int fn_828FC3D0(const char *name);
+extern void *memcpy(void *, const void *, unsigned int);
+extern unsigned int strlen(const char *);
 
-unsigned __int64 fn_828FCDE0(int param_1,char *param_2,unsigned int param_3,unsigned int param_4)
-
+static __forceinline Entry_828FCDE0 *InitEntry(Entry_828FCDE0 *e, char *name, unsigned int a, unsigned int b, Entry_828FCDE0 *next)
 {
-  char cVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  __int64 lVar4;
-  unsigned int *puVar5;
-  char *pcVar6;
-  
-  uVar3 = fn_828FC3D0(param_2);
-  pcVar6 = param_2;
-  do {
-    cVar1 = *pcVar6;
-    pcVar6 = pcVar6 + 1;
-  } while (cVar1 != '\0');
-  lVar4 = fn_8265C940((int)pcVar6 - (int)param_2,0x24810000);
-  if (lVar4 != 0) {
-    fn_82F68CC0(lVar4,param_2,(int)pcVar6 - (int)param_2);
-    puVar5 = (unsigned int *)fn_8265C940(0x24,0x24810000);
-    if (puVar5 == (unsigned int *)0x0) {
-      puVar5 = (unsigned int *)0x0;
-    }
-    else {
-      uVar2 = *(unsigned int *)((int)((uVar3 & 0xffffffff) << 2) + param_1);
-      puVar5[3] = 0;
-      *puVar5 = (int)lVar4;
-      puVar5[1] = param_3;
-      puVar5[2] = param_4;
-      puVar5[8] = uVar2;
-    }
-    if (puVar5 != (unsigned int *)0x0) {
-      *(unsigned int **)((int)((uVar3 & 0xffffffff) << 2) + param_1) = puVar5;
-      return 0;
-    }
-  }
-  return 0xffffffff8007000e;
+    e->fc = 0;
+    e->name = name;
+    e->a = a;
+    e->b = b;
+    e->next = next;
+    return e;
 }
 
+int fn_828FCDE0(Entry_828FCDE0 **buckets, const char *name, unsigned int a, unsigned int b)
+{
+    unsigned int bucket = fn_828FC3D0(name);
+    unsigned int n = strlen(name) + 1;
+    char *copy = (char *)fn_8265C940(n, 0x24810000);
+    Entry_828FCDE0 *mem;
+    Entry_828FCDE0 *e;
+    if (copy == 0)
+        return 0x8007000e;
+    memcpy(copy, name, n);
+    mem = (Entry_828FCDE0 *)fn_8265C940(sizeof(Entry_828FCDE0), 0x24810000);
+    if (mem != 0)
+        e = InitEntry(mem, copy, a, b, buckets[bucket]);
+    else
+        e = 0;
+    if (e == 0)
+        return 0x8007000e;
+    buckets[bucket] = e;
+    return 0;
+}

@@ -1,28 +1,42 @@
-extern int fn_82521AB0();
-extern int fn_82522D98();
-extern int fn_828EA610();
-extern unsigned __int64 storeWordConditionalIndexed();
+long _InterlockedIncrement(long volatile *p);
 
+typedef struct Task_82521A10 {
+    char pad0[0xd8];
+    unsigned char started;
+    char pad_d9[0x11c - 0xd9];
+    int queued;
+} Task_82521A10;
 
-void fn_82521A10(__int64 param_1,int param_2)
+typedef struct Job_82521A10 {
+    Task_82521A10 *task;
+    int state;
+    int arg;
+    int refs;
+    int next;
+} Job_82521A10;
 
+typedef struct Sched_82521A10 {
+    char pad0[0xa0];
+    long pending;
+} Sched_82521A10;
+
+extern unsigned char fn_828EA610(Task_82521A10 *task);
+extern void fn_82521AB0(Task_82521A10 *task);
+extern void *fn_82522D98(unsigned int size);
+extern void fn_8259C2A0(Task_82521A10 *task, int flags, Job_82521A10 *job);
+
+void fn_82521A10(Sched_82521A10 *self, Task_82521A10 *task, int arg)
 {
-  unsigned int uVar1;
-  char cVar2;
-  unsigned int *puVar3;
-  char in_RESERVE;
-  
-  if ((*(char *)(param_2 + 0xd8) == '\0') && (cVar2 = fn_828EA610(param_2), cVar2 == '\0')) {
-    *(unsigned int *)(param_2 + 0x11c) = 1;
-    puVar3 = (unsigned int *)(param_1 + 0xa0);
-    if (in_RESERVE != '\0') {
-      uVar1 = storeWordConditionalIndexed((unsigned __int64)*puVar3 + 1,0,param_1 + 0xa0);
-      *puVar3 = uVar1;
+    if (task->started == 0 && fn_828EA610(task) == 0) {
+        Job_82521A10 *job;
+        task->queued = 1;
+        _InterlockedIncrement(&self->pending);
+        fn_82521AB0(task);
+        job = (Job_82521A10 *)fn_82522D98(sizeof(Job_82521A10));
+        job->task = task;
+        job->state = 0;
+        job->arg = arg;
+        job->refs = 1;
+        fn_8259C2A0(task, 0, job);
     }
-    fn_82521AB0(param_2);
-                    /* WARNING: Subroutine does not return */
-    fn_82522D98(0x14);
-  }
-  return;
 }
-

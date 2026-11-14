@@ -1,20 +1,20 @@
-void fn_82E57888(int *param_1,unsigned short *param_2,unsigned __int64 param_3)
+unsigned short _byteswap_ushort(unsigned short v);
+typedef struct Writer_82E57888 {
+    unsigned char *cur;
+} Writer_82E57888;
 
+void fn_82E57888(Writer_82E57888 *w, const unsigned short *src, unsigned int size)
 {
-  unsigned short uVar1;
-  unsigned __int64 uVar2;
-  
-  for (uVar2 = (param_3 & 0xffffffff) >> 1; uVar2 != 0; uVar2 = uVar2 - 1) {
-    uVar1 = *param_2;
-    param_2 = param_2 + 1;
-    *(unsigned short *)*param_1 = uVar1 << 8 | uVar1 >> 8;
-    *param_1 = *param_1 + 2;
-  }
-  if ((param_3 & 1) == 0) {
-    return;
-  }
-  *(unsigned char *)*param_1 = *(unsigned char *)param_2;
-  *param_1 = *param_1 + 1;
-  return;
-}
+    unsigned int n = size >> 1;
+    unsigned int odd = size & 1;
 
+    for (; n != 0; n--) {
+        unsigned short v = *src++;
+        *(unsigned short *)w->cur = _byteswap_ushort(v);
+        w->cur += 2;
+    }
+    if (odd) {
+        *w->cur = *(const unsigned char *)src;
+        w->cur += 1;
+    }
+}

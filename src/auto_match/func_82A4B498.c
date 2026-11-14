@@ -1,59 +1,60 @@
-typedef unsigned char bool;
-#define true 1
-extern int fn_82A4B0D8();
-extern int fn_82A59DB0();
-extern int fn_82A5CC60();
-extern unsigned __int64 storeWordConditionalIndexed();
+extern long _InterlockedCompareExchange(long volatile *dest, long exchange, long comparand);
 
+typedef struct Lockable_82A4B498 Lockable_82A4B498;
+typedef struct LockableVtbl_82A4B498 {
+    void *pad0[2];
+    void (*lock)(Lockable_82A4B498 *self);          /* 0x08 */
+    void *pad0c[2];
+    void (*unlock)(Lockable_82A4B498 *self);        /* 0x14 */
+} LockableVtbl_82A4B498;
+struct Lockable_82A4B498 {
+    LockableVtbl_82A4B498 *vt;
+};
 
-unsigned __int64 fn_82A4B498(__int64 param_1,unsigned int param_2)
+typedef struct Callback_82A4B498 Callback_82A4B498;
+typedef struct CallbackVtbl_82A4B498 {
+    void *pad0[2];
+    void (*complete)(Callback_82A4B498 *self, long hr);  /* 0x08 */
+} CallbackVtbl_82A4B498;
+struct Callback_82A4B498 {
+    CallbackVtbl_82A4B498 *vt;
+};
 
+typedef struct Obj_82A4B498 {
+    char pad0[0x1c];
+    Lockable_82A4B498 lock;         /* 0x1c */
+    char pad20[0x40 - 0x20];
+    long status;                    /* 0x40 */
+    int pad44;
+    void *device;                   /* 0x48 */
+    void *stream;                   /* 0x4c */
+    Callback_82A4B498 *callback;    /* 0x50 */
+} Obj_82A4B498;
+
+extern void fn_82A59DB0(void *device, unsigned int enable);
+extern long fn_82A5CC60(void *stream);
+extern long fn_82A4B0D8(Obj_82A4B498 *self, int mode, int arg);
+
+int fn_82A4B498(Obj_82A4B498 *self, unsigned int flags)
 {
-  bool bVar1;
-  unsigned int uVar2;
-  int *piVar3;
-  unsigned int uVar4;
-  int iVar5;
-  unsigned __int64 uVar6;
-  int iVar7;
-  unsigned int *puVar8;
-  __int64 lVar9;
-  char in_RESERVE;
-  
-  iVar5 = (int)param_1;
-  fn_82A59DB0(*(unsigned int *)(iVar5 + 0x48),param_2 & 1);
-  lVar9 = param_1 + 0x1c;
-  (**(int (***)())(*(int *)(iVar5 + 0x1c) + 8))(lVar9);
-  uVar6 = fn_82A5CC60(*(unsigned int *)(iVar5 + 0x4c));
-  iVar7 = (int)uVar6;
-  if (-1 < iVar7) {
-    uVar6 = fn_82A4B0D8(param_1,((param_2 & 1) == 0) + '\x01',0);
-    iVar7 = (int)uVar6;
-    if (-1 < iVar7) goto LAB_82a4b568;
-  }
-  bVar1 = iVar7 == 0;
-  param_1 = param_1 + 0x40;
-  do {
-    puVar8 = (unsigned int *)param_1;
-    uVar2 = *puVar8;
-    if (uVar2 != 0) {
-      if (in_RESERVE != '\0') {
-        uVar4 = storeWordConditionalIndexed((unsigned __int64)uVar2,0,param_1);
-        *puVar8 = uVar4;
-      }
-      break;
-    }
-    if (in_RESERVE != '\0') {
-      uVar4 = storeWordConditionalIndexed(uVar6,0,param_1);
-      *puVar8 = uVar4;
-      bVar1 = true;
-    }
-  } while (!bVar1);
-  if ((-1 < (int)uVar2) && (piVar3 = *(int **)(iVar5 + 0x50), piVar3 != (int *)0x0)) {
-    (**(int (***)())(*piVar3 + 8))(piVar3,uVar6);
-  }
-LAB_82a4b568:
-  (**(int (***)())(*(int *)lVar9 + 0x14))(lVar9);
-  return 0;
-}
+    unsigned int enable = flags & 1;
+    Lockable_82A4B498 *lock;
+    long hr;
 
+    fn_82A59DB0(self->device, enable);
+    lock = &self->lock;
+    lock->vt->lock(lock);
+    hr = fn_82A5CC60(self->stream);
+    if (hr >= 0) {
+        hr = fn_82A4B0D8(self, (enable == 0) + 1, 0);
+        if (hr >= 0)
+            goto done;
+    }
+    if (_InterlockedCompareExchange(&self->status, hr, 0) >= 0) {
+        if (self->callback != 0)
+            self->callback->vt->complete(self->callback, hr);
+    }
+done:
+    lock->vt->unlock(lock);
+    return 0;
+}

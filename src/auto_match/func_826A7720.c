@@ -1,60 +1,59 @@
-unsigned char fn_826A7720(int param_1)
+typedef struct Key_826A7720 {
+    char pad[8];
+    unsigned short code;
+    unsigned char ch;
+} Key_826A7720;
 
+unsigned char fn_826A7720(const Key_826A7720 *key)
 {
-  unsigned short uVar1;
-  unsigned char bVar2;
-  
-  uVar1 = *(unsigned short *)(param_1 + 8);
-  if (uVar1 < 0x25) {
-    if (uVar1 == 0x24) {
-      return 3;
+    unsigned char result = 0;
+    switch (key->code) {
+    case 0x8:
+        result = 0x8;
+        break;
+    case 0x9:
+        result = 0x12;
+        break;
+    case 0xd:
+        result = 0xd;
+        break;
+    case 0x1b:
+        result = 0x13;
+        break;
+    case 0x21:
+        result = 0x10;
+        break;
+    case 0x22:
+        result = 0x11;
+        break;
+    case 0x23:
+        result = 0x4;
+        break;
+    case 0x24:
+        result = 0x3;
+        break;
+    case 0x25:
+        result = 0x1;
+        break;
+    case 0x26:
+        result = 0xe;
+        break;
+    case 0x27:
+        result = 0x2;
+        break;
+    case 0x28:
+        result = 0xf;
+        break;
+    case 0x2d:
+        result = 0x5;
+        break;
+    case 0x2e:
+        result = 0x6;
+        break;
+    default:
+        if (key->ch >= 0x20)
+            result = key->ch;
+        break;
     }
-    if (uVar1 == 8) {
-      return 8;
-    }
-    if (uVar1 == 9) {
-      return 0x12;
-    }
-    if (uVar1 == 0xd) {
-      return 0xd;
-    }
-    if (uVar1 == 0x1b) {
-      return 0x13;
-    }
-    if (uVar1 == 0x21) {
-      return 0x10;
-    }
-    if (uVar1 == 0x22) {
-      return 0x11;
-    }
-    if (uVar1 == 0x23) {
-      return 4;
-    }
-  }
-  else {
-    if (uVar1 == 0x25) {
-      return 1;
-    }
-    if (uVar1 == 0x26) {
-      return 0xe;
-    }
-    if (uVar1 == 0x27) {
-      return 2;
-    }
-    if (uVar1 == 0x28) {
-      return 0xf;
-    }
-    if (uVar1 == 0x2d) {
-      return 5;
-    }
-    if (uVar1 == 0x2e) {
-      return 6;
-    }
-  }
-  bVar2 = 0;
-  if (0x1f < *(unsigned char *)(param_1 + 10)) {
-    bVar2 = *(unsigned char *)(param_1 + 10);
-  }
-  return bVar2;
+    return result;
 }
-

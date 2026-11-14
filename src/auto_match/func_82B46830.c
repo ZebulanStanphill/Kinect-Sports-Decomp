@@ -1,37 +1,47 @@
-extern unsigned int *auStack_80;
-extern int fn_829333E0();
-extern int fn_82AC6560();
-extern int fn_82B467D8();
-extern unsigned int stack0x00000000;
+typedef struct Tmp_82B46830 {
+    unsigned int w[16];
+} Tmp_82B46830;
 
+typedef struct Value_82B46830 {
+    unsigned int id;
+    unsigned int type;
+    unsigned int pad[2];
+    unsigned int kind;
+    unsigned int pad2;
+    double value;
+} Value_82B46830;
 
-unsigned int fn_82B46830(unsigned __int64 param_1,int param_2,unsigned __int64 param_3)
+typedef struct Item_82B46830 {
+    unsigned int id;
+    unsigned int type;
+    void *value;
+    struct Item_82B46830 *next;
+    const char *name;
+} Item_82B46830;
 
+extern Value_82B46830 *fn_82AC6560(void *ctx, int size, int kind);
+extern void fn_829333E0(Tmp_82B46830 *);
+extern Item_82B46830 *fn_82B467D8(void *ctx, void *value, Item_82B46830 *next, const char *name);
+
+Item_82B46830 *fn_82B46830(void *ctx, const float *values, unsigned int count)
 {
-  unsigned int *puVar1;
-  int iVar2;
-  int *piVar3;
-  float *pfVar4;
-  int aiStack_90 [4];
-  unsigned int auStack_80 [20];
-  
-  piVar3 = (int *)(&stack0x00000000 + -0x90);
-  if ((param_3 & 0xffffffff) != 0) {
-    pfVar4 = (float *)(param_2 + -4);
-    do {
-      puVar1 = (unsigned int *)fn_82AC6560(param_1,0x40,0x13);
-      fn_829333E0(&stack0x00000000 + -0x80);
-      puVar1[1] = 0xf;
-      puVar1[4] = 3;
-      *puVar1 = auStack_80[0];
-      pfVar4 = pfVar4 + 1;
-      *(double *)(puVar1 + 6) = (double)*pfVar4;
-      iVar2 = fn_82B467D8(param_1,puVar1,0,0xffffffff8204e254);
-      *piVar3 = iVar2;
-      param_3 = param_3 - 1;
-      piVar3 = (int *)(iVar2 + 0xc);
-    } while (param_3 != 0);
-  }
-  return 0;
+    Item_82B46830 *head = 0;
+    Item_82B46830 **link = &head;
+    unsigned int i;
+    for (i = 0; i < count; i++) {
+        Tmp_82B46830 t;
+        unsigned int id;
+        Item_82B46830 *item;
+        Value_82B46830 *v = fn_82AC6560(ctx, 0x40, 0x13);
+        fn_829333E0(&t);
+        id = t.w[0];
+        v->type = 0xf;
+        v->kind = 3;
+        v->id = id;
+        v->value = values[i];
+        item = fn_82B467D8(ctx, v, 0, "Values");
+        *link = item;
+        link = &item->next;
+    }
+    return head;
 }
-

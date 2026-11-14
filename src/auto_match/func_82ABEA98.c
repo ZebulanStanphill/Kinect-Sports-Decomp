@@ -1,38 +1,48 @@
-extern int fn_82ABDF50();
-extern int fn_82ABE8C8();
-extern int fn_82F691F0();
+typedef struct FreeNode_82ABEA98 { struct FreeNode_82ABEA98 *next; } FreeNode_82ABEA98;
+typedef struct Pool_82ABEA98 {
+    FreeNode_82ABEA98 *free[0x23];
+    unsigned int end;    /* 0x8c */
+    unsigned int cur;    /* 0x90 */
+} Pool_82ABEA98;
 
+typedef struct Self_82ABEA98 { char pad[0x3cc]; Pool_82ABEA98 pool; } Self_82ABEA98;
 
-unsigned __int64 fn_82ABEA98(int param_1,__int64 param_2)
+extern void *memset(void *dst, int c, unsigned int n);
+extern void *fn_82ABDF50(Pool_82ABEA98 *pool, unsigned int size);
+extern void *fn_82ABE8C8(Pool_82ABEA98 *pool, unsigned int size);
 
+static __forceinline void *Alloc(Pool_82ABEA98 *pool, unsigned int size)
 {
-  unsigned int *puVar1;
-  unsigned __int64 uVar2;
-  int iVar3;
-  unsigned __int64 uVar4;
-  int iVar5;
-  
-  iVar5 = param_1 + 0x3cc;
-  uVar2 = param_2 + 3U & 0xfffffffc;
-  if (uVar2 < 0x85) {
-    uVar4 = (unsigned __int64)*(unsigned int *)(param_1 + 0x45c);
-    if (((*(unsigned int *)(param_1 + 0x458) - uVar4) + 0x1000 & 0xffffffff) < uVar2) {
-      iVar3 = (int)(((uVar2 >> 2) - 1 & 0xffffffff) << 2);
-      puVar1 = *(unsigned int **)(iVar3 + iVar5);
-      if (puVar1 != (unsigned int *)0x0) {
-        *(unsigned int *)(iVar3 + iVar5) = *puVar1;
-                    /* WARNING: Subroutine does not return */
-        fn_82F691F0(puVar1,0,uVar2);
-      }
-      uVar4 = fn_82ABDF50(iVar5);
+    FreeNode_82ABEA98 *node;
+    void *result;
+    int idx;
+
+    if (pool->end - pool->cur + 0x1000 >= size) {
+        result = (void *)pool->cur;
+        pool->cur += size;
+    } else {
+        idx = (size >> 2) - 1;
+        node = pool->free[idx];
+        if (node != 0) {
+            pool->free[idx] = node->next;
+            memset(node, 0, size);
+            result = node;
+        } else {
+            result = fn_82ABDF50(pool, size);
+        }
     }
-    else {
-      *(unsigned int *)(param_1 + 0x45c) = *(unsigned int *)(param_1 + 0x45c) + (int)uVar2;
-    }
-  }
-  else {
-    uVar4 = fn_82ABE8C8(iVar5);
-  }
-  return uVar4;
+    return result;
 }
 
+void *fn_82ABEA98(Self_82ABEA98 *self, unsigned int size)
+{
+    Pool_82ABEA98 *pool = &self->pool;
+    void *p;
+
+    size = (size + 3) & ~3u;
+    if (size > 0x84)
+        p = fn_82ABE8C8(pool, size);
+    else
+        p = Alloc(pool, size);
+    return p;
+}

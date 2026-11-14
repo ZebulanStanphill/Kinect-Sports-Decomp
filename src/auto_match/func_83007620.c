@@ -1,51 +1,58 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_830080D8();
+typedef struct IntVector_83007620 {
+    int *begin;
+    int *end;
+    int *capacity;
+} IntVector_83007620;
 
+typedef struct Owner_83007620 {
+    char pad0[0x30];
+    unsigned int id;
+} Owner_83007620;
 
-unsigned __int64 fn_83007620(int param_1,int param_2,int *param_3)
+typedef struct Obj_83007620 {
+    char pad0[0x20];
+    Owner_83007620 *owner;
+    char pad24[0x1a];
+    unsigned char top : 2;
+    unsigned char kind : 5;
+    unsigned char low : 1;
+} Obj_83007620;
 
+extern int *fn_830080D8(IntVector_83007620 *v);
+
+static __forceinline void PushBack(IntVector_83007620 *v, int value)
 {
-  unsigned char bVar1;
-  unsigned int *puVar2;
-  bool bVar3;
-  int iVar4;
-  unsigned int uVar5;
-  
-  if (*(int *)(param_1 + 0x20) == 0) {
-    iVar4 = 0;
-  }
-  else {
-    iVar4 = *(int *)(*(int *)(param_1 + 0x20) + 0x30);
-  }
-  if (param_2 == iVar4) {
-    bVar1 = *(unsigned char *)(param_1 + 0x3e) >> 1;
-    uVar5 = bVar1 & 0x1f;
-    puVar2 = (unsigned int *)*param_3;
-    if ((bVar1 & 0x1f) == 0) {
-      param_3[1] = (int)puVar2;
-      bVar1 = *(unsigned char *)(param_1 + 0x3e);
-      puVar2 = (unsigned int *)fn_830080D8();
-      if (puVar2 != (unsigned int *)0x0) {
-        *puVar2 = bVar1 >> 1 & 0x1f;
-      }
-      return 1;
+    int *slot = fn_830080D8(v);
+    if (slot != 0) {
+        *slot = value;
     }
-    bVar3 = false;
-    if (puVar2 != (unsigned int *)param_3[1]) {
-      do {
-        if (*puVar2 == uVar5) {
-          bVar3 = true;
-          break;
-        }
-        puVar2 = puVar2 + 1;
-      } while (puVar2 != (unsigned int *)param_3[1]);
-    }
-    if ((!bVar3) && (puVar2 = (unsigned int *)fn_830080D8(), puVar2 != (unsigned int *)0x0)) {
-      *puVar2 = uVar5;
-    }
-  }
-  return 0;
 }
 
+int fn_83007620(Obj_83007620 *self, unsigned int id, IntVector_83007620 *kinds)
+{
+    unsigned int ownerId;
+    unsigned int kind;
+    int *p;
+    unsigned char found;
+
+    ownerId = self->owner != 0 ? self->owner->id : 0;
+    if (id == ownerId) {
+        kind = self->kind;
+        if (kind == 0) {
+            kinds->end = kinds->begin;
+            PushBack(kinds, self->kind);
+            return 1;
+        }
+        found = 0;
+        for (p = kinds->begin; p != kinds->end; p++) {
+            if (*p == (int)kind) {
+                found = 1;
+                break;
+            }
+        }
+        if (!found) {
+            PushBack(kinds, kind);
+        }
+    }
+    return 0;
+}

@@ -1,31 +1,34 @@
-extern int fn_827A8420();
-extern int fn_827A9B08();
+typedef struct Node_827A9C58 {
+    unsigned int flags;
+    unsigned int key;
+    char pad8[0x14];
+    unsigned char shortKey;
+} Node_827A9C58;
 
+extern Node_827A9C58 *fn_827A8420(void *pool, unsigned int size, int big);
+extern void fn_827A9B08(void *self, int parent, Node_827A9C58 **node);
 
-int * fn_827A9C58(__int64 param_1,unsigned __int64 param_2,unsigned int param_3,unsigned __int64 param_4,
-                   __int64 param_5)
-
+static __forceinline unsigned char IsShort_827A9C58(Node_827A9C58 *n)
 {
-  int *piVar1;
-  int * apiStack_30;
-  
-  piVar1 = (int *)fn_827A8420(param_1 + 0xc0,
-                                (((unsigned __int64)param_3 & 0x1fffffff) * 8 +
-                                 (-(unsigned __int64)(param_5 != 0) & 0xc) + 0x21 & 0xfffffffc) +
-                                (param_4 & 0x3fffffff) * 4,param_5);
-  if (piVar1 == (int *)0x0) {
-    piVar1 = (int *)0x0;
-  }
-  else {
-    if (*piVar1 < 0) {
-      *(char *)(piVar1 + 7) = (char)param_3;
-    }
-    else {
-      piVar1[1] = param_3;
-    }
-    apiStack_30 = piVar1;
-    fn_827A9B08(param_1,param_2,&apiStack_30);
-  }
-  return piVar1;
+    return (unsigned char)(n->flags >> 31);
 }
-
+Node_827A9C58 *fn_827A9C58(char *self, int parent, unsigned int key, unsigned int extra, int big)
+{
+    unsigned int header;
+    Node_827A9C58 *node;
+    Node_827A9C58 *tmp;
+    if (big)
+        header = 0x26;
+    else
+        header = 0x1a;
+    node = fn_827A8420(self + 0xc0, ((key * 8 + header + 7) & ~3) + extra * 4, big);
+    tmp = node;
+    if (node == 0)
+        return 0;
+    if (IsShort_827A9C58(node))
+        node->shortKey = (unsigned char)key;
+    else
+        node->key = key;
+    fn_827A9B08(self, parent, &tmp);
+    return node;
+}

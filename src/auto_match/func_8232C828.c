@@ -1,34 +1,33 @@
-extern unsigned int lbl_821CA460;
+typedef struct Range_8232C828 {
+    float end;
+    float start;
+} Range_8232C828;
+
+typedef struct Chances_8232C828 {
+    Range_8232C828 ranges[3];
+    float scale;
+} Chances_8232C828;
+
 extern unsigned int lbl_83265A28;
+extern int fn_82520780(unsigned int *seed, float chance);
 
-
-unsigned __int64 fn_8232C828(double param_1,unsigned __int64 param_2,unsigned int param_3,float *param_4)
-
+static __forceinline float Lerp(const Range_8232C828 *r, float t, float scale)
 {
-  float fVar1;
-  
-  if (param_3 == 0) {
-    return 0;
-  }
-  if (param_3 == 1) {
-    fVar1 = (float)((double)(float)((double)*param_4 - (double)param_4[1]) * param_1 +
-                   (double)param_4[1]) * param_4[6];
-  }
-  else if (param_3 < 3) {
-    fVar1 = (float)((double)(float)((double)param_4[2] - (double)param_4[3]) * param_1 +
-                   (double)param_4[3]) * param_4[6];
-  }
-  else {
-    if (param_3 != 3) {
-      return 0;
-    }
-    fVar1 = (float)((double)(float)((double)param_4[4] - (double)param_4[5]) * param_1 +
-                   (double)param_4[5]) * param_4[6];
-  }
-  lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
-  if (fVar1 < (float)(lbl_83265A28 & 0x7fffff | 0x3f800000) - lbl_821CA460) {
-    return 0;
-  }
-  return 1;
+    return ((r->end - r->start) * t + r->start) * scale;
 }
 
+int fn_8232C828(float t, unsigned int which, const Chances_8232C828 *chances)
+{
+    switch (which) {
+    case 0:
+        return 0;
+    case 1:
+        return fn_82520780(&lbl_83265A28, Lerp(&chances->ranges[0], t, chances->scale));
+    case 2:
+        return fn_82520780(&lbl_83265A28, Lerp(&chances->ranges[1], t, chances->scale));
+    case 3:
+        return fn_82520780(&lbl_83265A28, Lerp(&chances->ranges[2], t, chances->scale));
+    default:
+        return 0;
+    }
+}

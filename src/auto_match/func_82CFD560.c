@@ -1,15 +1,24 @@
-extern int fn_82F68B70();
-extern int fn_82F68B7C();
+typedef struct TypeInfo_82CFD560 {
+    int id;
+    const char *name;
+    int size;
+} TypeInfo_82CFD560;
 
+typedef struct String_82CFD560 {
+    char *data;
+    int size;
+    unsigned int capacity;
+} String_82CFD560;
 
-void fn_82CFD560(int param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+extern TypeInfo_82CFD560 lbl_8317F680[35];
+extern String_82CFD560 *fn_82D04AB8(String_82CFD560 *s, const char *text);
+extern void fn_82D04B90(String_82CFD560 *s, const char *fmt, ...);
 
+void fn_82CFD560(int type, int count, String_82CFD560 *out)
 {
-  if ((int)param_2 == 0) {
-    fn_82F68B7C(param_3,*(unsigned int *)(param_1 * 0xc + -0x7ce8097c));
-    return;
-  }
-  fn_82F68B70(param_3,0xffffffff82133c0c,*(unsigned int *)(param_1 * 0xc + -0x7ce8097c),param_2);
-  return;
+    if (count == 0) {
+        fn_82D04AB8(out, lbl_8317F680[type].name);
+    } else {
+        fn_82D04B90(out, "%s[%i]", lbl_8317F680[type].name, count);
+    }
 }
-

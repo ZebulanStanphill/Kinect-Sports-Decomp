@@ -1,12 +1,28 @@
-void fn_82639F28(int param_1,unsigned int *param_2)
+typedef struct Viewport_82639F28 {
+    unsigned int x;
+    unsigned int y;
+    unsigned int width;
+    unsigned int height;
+    float minZ;
+    float maxZ;
+} Viewport_82639F28;
 
+typedef struct Obj_82639F28 {
+    char pad0[0x3218];
+    float x;
+    float y;
+    float width;
+    float height;
+    float minZ;
+    float maxZ;
+} Obj_82639F28;
+
+void fn_82639F28(Obj_82639F28 *self, Viewport_82639F28 *out)
 {
-  *param_2 = (int)(__int64)*(float *)(param_1 + 0x3218);
-  param_2[1] = (int)(__int64)*(float *)(param_1 + 0x321c);
-  param_2[2] = (int)(__int64)*(float *)(param_1 + 0x3220);
-  param_2[3] = (int)(__int64)*(float *)(param_1 + 0x3224);
-  param_2[4] = *(unsigned int *)(param_1 + 0x3228);
-  param_2[5] = *(unsigned int *)(param_1 + 0x322c);
-  return;
+    out->x = (unsigned int)self->x;
+    out->y = (unsigned int)self->y;
+    out->width = (unsigned int)self->width;
+    out->height = (unsigned int)self->height;
+    out->minZ = self->minZ;
+    out->maxZ = self->maxZ;
 }
-

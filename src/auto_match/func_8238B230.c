@@ -1,53 +1,46 @@
-extern unsigned int *auStack_20;
-extern int fn_822AF200();
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Inner_8238B230 {
+    char pad0[0xc];
+    int busy;                   /* 0x0c */
+} Inner_8238B230;
 
+typedef struct Mid_8238B230 {
+    char pad0[0x18];
+    Inner_8238B230 *inner;      /* 0x18 */
+} Mid_8238B230;
 
-void fn_8238B230(double param_1,int param_2)
+typedef struct Owner_8238B230 {
+    char pad0[0xd4];
+    Mid_8238B230 *mid;          /* 0xd4 */
+    char padd8[0x204 - 0xd8];
+    unsigned int mode;          /* 0x204 */
+} Owner_8238B230;
 
+typedef struct Timer_8238B230 {
+    char pad0[8];
+    Owner_8238B230 *owner;      /* 0x08 */
+    float remaining;            /* 0x0c */
+} Timer_8238B230;
+
+extern void fn_82359698(Owner_8238B230 *owner, int state);
+
+void fn_8238B230(Timer_8238B230 *self, float dt)
 {
-  float fVar1;
-  int *piVar2;
-  int iVar3;
-  unsigned int uVar4;
-  char cVar5;
-  unsigned int uVar6;
-  unsigned int auStack_20 [2];
-  
-  iVar3 = *(int *)(param_2 + 8);
-  if (*(int *)(*(int *)(*(int *)(iVar3 + 0xd4) + 0x18) + 0xc) != 0) {
-    return;
-  }
-  fVar1 = (float)((double)*(float *)(param_2 + 0xc) - param_1);
-  *(float *)(param_2 + 0xc) = fVar1;
-  if (ltcg_pool_0_0f < fVar1) {
-    return;
-  }
-  uVar4 = *(unsigned int *)(iVar3 + 0x204);
-  if (uVar4 == 0) {
-    uVar6 = 2;
-  }
-  else if (uVar4 == 1) {
-    uVar6 = 0x10;
-  }
-  else {
-    if (2 < uVar4) {
-      return;
-    }
-    uVar6 = 0x11;
-  }
-  auStack_20[0] = 0;
-  fn_822AF200(iVar3 + 0x80,auStack_20);
-  piVar2 = *(int **)(*(int *)(iVar3 + 0x7c) + 8);
-  if (piVar2 == (int *)0x0) {
-    cVar5 = '\x01';
-  }
-  else {
-    cVar5 = (**(int (***)())(*piVar2 + 8))(piVar2,uVar6);
-  }
-  if (cVar5 != '\0') {
-    *(unsigned int *)(iVar3 + 0x58) = uVar6;
-  }
-  return;
-}
+    Owner_8238B230 *owner = self->owner;
 
+    if (owner->mid->inner->busy != 0)
+        return;
+    self->remaining -= dt;
+    if (self->remaining > 0.0f)
+        return;
+    switch (owner->mode) {
+    case 0:
+        fn_82359698(owner, 2);
+        break;
+    case 1:
+        fn_82359698(owner, 0x10);
+        break;
+    case 2:
+        fn_82359698(owner, 0x11);
+        break;
+    }
+}

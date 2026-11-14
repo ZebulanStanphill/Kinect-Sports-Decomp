@@ -1,41 +1,46 @@
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-extern unsigned int *auStack_40;
-extern int fn_82F819D0();
-extern int fn_82F86B68();
-extern unsigned int uStack_44;
-extern unsigned int uStack_48;
+typedef struct Bits64_82F81918 {
+    unsigned int hi;
+    unsigned int lo;
+} Bits64_82F81918;
 
+typedef struct Ld12_82F81918 {
+    unsigned char bytes[12];
+} Ld12_82F81918;
 
-unsigned int * fn_82F81918(unsigned int *param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+typedef struct FloatResult_82F81918 {
+    int flags;
+    int length;
+    int unused[2];
+    Bits64_82F81918 value;
+} FloatResult_82F81918;
 
+extern unsigned int fn_82F819D0(Ld12_82F81918 *out, const char **end, const char *text,
+                                int a, int b, int c, int d, void *locale);
+extern int fn_82F86B68(Ld12_82F81918 *value, Bits64_82F81918 *out);
+
+FloatResult_82F81918 *fn_82F81918(FloatResult_82F81918 *result, const char *text, void *locale)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  unsigned int uVar3;
-  int aiStack_50 [2];
-  unsigned int uStack_48;
-  unsigned int uStack_44;
-  unsigned char auStack_40 [64];
-  
-  uVar3 = 0;
-  uVar1 = fn_82F819D0(auStack_40,aiStack_50,param_2,0,0,0,0,param_3);
-  if ((uVar1 & 4) == 0) {
-    iVar2 = fn_82F86B68(auStack_40,&uStack_48);
-    if (((uVar1 & 2) != 0) || (iVar2 == 1)) {
-      uVar3 = 0x80;
-    }
-    if (((uVar1 & 1) != 0) || (iVar2 == 2)) {
-      uVar3 = uVar3 | 0x100;
-    }
-  }
-  else {
-    uVar3 = 0x200;
-    uStack_48 = 0;
-    uStack_44 = 0;
-  }
-  *param_1 = uVar3;
-  param_1[1] = aiStack_50[0] - (int)param_2;
-  *(unsigned __int64 *)(param_1 + 4) = CONCAT44(uStack_48,uStack_44);
-  return param_1;
-}
+    Ld12_82F81918 parsed;
+    Bits64_82F81918 value;
+    const char *end;
+    unsigned int scan;
+    int status;
+    int flags = 0;
 
+    scan = fn_82F819D0(&parsed, &end, text, 0, 0, 0, 0, locale);
+    if (scan & 4) {
+        flags = 0x200;
+        value.hi = 0;
+        value.lo = 0;
+    } else {
+        status = fn_82F86B68(&parsed, &value);
+        if ((scan & 2) || status == 1)
+            flags = 0x80;
+        if ((scan & 1) || status == 2)
+            flags |= 0x100;
+    }
+    result->flags = flags;
+    result->length = end - text;
+    result->value = value;
+    return result;
+}

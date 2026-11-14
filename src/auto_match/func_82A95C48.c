@@ -1,44 +1,43 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern int fn_82AA75B8();
-extern unsigned int stack0x00000000;
-extern unsigned int uStack_4c;
-extern V16 loadVectorLeftIndexed128();
-extern V16 vectorSplatHalfWord();
-extern V16 vectorUnpackD3D128();
-extern void *memcpy(void *, const void *, unsigned int);
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float f[4]; } __vector4;
 
+__vector4 __lvlx(const void *base, int offset);
+__vector4 __lvrx(const void *base, int offset);
+__vector4 __vor(__vector4 a, __vector4 b);
+__vector4 __vsplth(__vector4 v, unsigned int i);
+__vector4 __vupkd3d(__vector4 v, unsigned int type);
+void __stvewx(__vector4 v, void *base, int offset);
 
-void fn_82A95C48(__int64 param_1,int param_2)
+typedef struct Fields_82A95C48 {
+    char pad[0xc];
+    unsigned int index[4];
+    unsigned int mask[4];
+    unsigned int shift[4];
+} Fields_82A95C48;
 
+extern void fn_82AA7710(void *dst, const void *src, unsigned int format);
+
+/* XMConvertHalfToFloat: splat the half, unpack it as a float16 (vupkd3d type 5), store element 0. */
+static __forceinline float HalfToFloat(unsigned short half)
 {
-  unsigned __int64 in_r0;
-  unsigned __int64 uVar1;
-  __int64 lVar2;
-  __int64 lVar3;
-  unsigned char auVar4 [16];
-  unsigned char in_vs41 [16];
-  unsigned char in_vs42 [16];
-  unsigned char in_vs43 [16];
-  unsigned char in_vr0 [16];
-  unsigned int uStack_4c;
-  
-  uVar1 = ZEXT48(&stack0x00000000);
-  param_2 = param_2 + 0x18;
-  lVar2 = uVar1 - 0x44;
-  lVar3 = 4;
-  do {
-    fn_82AA75B8(uVar1 - 0x48,((unsigned __int64)*(unsigned int *)(param_2 + -0xc) & 0x3fffffff) * 4 + param_1
-                      ,0x40001);
-    param_2 = param_2 + 4;
-    lVar3 = lVar3 + -1;{ V16 _vt0 = loadVectorLeftIndexed128(in_r0,uVar1 - 0x50); memcpy(auVar4, &_vt0, 16); }{ V16 _vt1 = vectorSplatHalfWord(auVar4,0); memcpy(auVar4, &_vt1, 16); }
-    vectorUnpackD3D128(in_vr0,0x14);
-    altv300_30(auVar4,in_vs41);
-    lVar2 = lVar2 + 4;
-    *(unsigned int *)lVar2 = uStack_4c;
-  } while (lVar3 != 0);
-  altv300_23(in_vs42,in_vs43);
-  altv300_21(auVar4,in_vs41);
-  return;
+    __vector4 v;
+    float result;
+
+    v = __lvlx(&half, 0);
+    v = __vsplth(v, 0);
+    v = __vupkd3d(v, 5);
+    __stvewx(v, &result, 0);
+    return result;
 }
 
+__vector4 fn_82A95C48(const unsigned int *data, const Fields_82A95C48 *fields)
+{
+    unsigned int value;
+    float out[4];
+    int i;
+
+    for (i = 0; i < 4; i++) {
+        fn_82AA7710(&value, data + fields->index[i], 0x40001);
+        out[i] = HalfToFloat((unsigned short)((fields->mask[i] & value) >> fields->shift[i]));
+    }
+    return __vor(__lvlx(out, 0), __lvrx(out, 16));
+}

@@ -1,53 +1,63 @@
-void fn_82BD8558(int param_1,unsigned int param_2)
+typedef struct Node_82BD8558 {
+    int pad0;
+    struct Node_82BD8558 *next;     /* 0x04 */
+} Node_82BD8558;
 
+typedef struct List_82BD8558 {
+    Node_82BD8558 *head;
+    Node_82BD8558 *tail;
+} List_82BD8558;
+
+typedef struct Obj_82BD8558 {
+    char pad0[0x10];
+    __int64 pending;            /* 0x10 */
+    __int64 total;              /* 0x18 */
+    short phase;                /* 0x20 */
+    char pad22[0x44 - 0x22];
+    unsigned short base;        /* 0x44 */
+    char pad46[0x130 - 0x46];
+    int f130;                   /* 0x130 */
+    int pad134;
+    int f138;                   /* 0x138 */
+    char pad13c[0x180 - 0x13c];
+    List_82BD8558 freeList;     /* 0x180 */
+    List_82BD8558 busyList;     /* 0x188 */
+} Obj_82BD8558;
+
+static __forceinline Node_82BD8558 *PopHead(List_82BD8558 *list)
 {
-  unsigned int uVar1;
-  int *piVar2;
-  __int64 lVar3;
-  int iVar4;
-  
-  lVar3 = *(__int64 *)(param_1 + 0x10);
-  *(unsigned __int64 *)(param_1 + 0x10) = 0;
-  piVar2 = (int *)(param_1 + 0x188);
-  uVar1 = ((param_2 & 0xffff) - (unsigned int)*(unsigned short *)(param_1 + 0x44)) + 0x800;
-  *(unsigned int *)(param_1 + 0x138) = 0;
-  *(unsigned int *)(param_1 + 0x130) = 0;
-  *(__int64 *)(param_1 + 0x18) = lVar3 + *(__int64 *)(param_1 + 0x18);
-  *(short *)(param_1 + 0x20) =
-       (short)uVar1 -
-       (short)(((__int64)((int)uVar1 >> 0xb) + (unsigned __int64)((int)uVar1 < 0 && (uVar1 & 0x7ff) != 0)
-               & 0xffffffff) << 0xb);
-  iVar4 = *(int *)(param_1 + 0x188);
-  if (iVar4 == 0) {
-    return;
-  }
-  if (iVar4 == *(int *)(param_1 + 0x18c)) {
-    *(unsigned int *)(param_1 + 0x18c) = 0;
-  }
-  *piVar2 = *(int *)(iVar4 + 4);
-  *(unsigned int *)(iVar4 + 4) = 0;
-  if (iVar4 == 0) {
-    return;
-  }
-  do {
-    *(unsigned int *)(iVar4 + 4) = 0;
-    if (*(int *)(param_1 + 0x184) == 0) {
-      *(int *)(param_1 + 0x180) = iVar4;
+    Node_82BD8558 *n = list->head;
+    if (n != 0) {
+        if (n == list->tail)
+            list->tail = 0;
+        list->head = n->next;
+        n->next = 0;
     }
-    else {
-      *(int *)(*(int *)(param_1 + 0x184) + 4) = iVar4;
-    }
-    *(int *)(param_1 + 0x184) = iVar4;
-    iVar4 = *piVar2;
-    if (iVar4 == 0) {
-      return;
-    }
-    if (iVar4 == *(int *)(param_1 + 0x18c)) {
-      *(unsigned int *)(param_1 + 0x18c) = 0;
-    }
-    *piVar2 = *(int *)(iVar4 + 4);
-    *(unsigned int *)(iVar4 + 4) = 0;
-  } while (iVar4 != 0);
-  return;
+    return n;
 }
 
+static __forceinline void PushTail(List_82BD8558 *list, Node_82BD8558 *n)
+{
+    n->next = 0;
+    if (list->tail != 0)
+        list->tail->next = n;
+    else
+        list->head = n;
+    list->tail = n;
+}
+
+void fn_82BD8558(Obj_82BD8558 *self, unsigned short seq)
+{
+    Node_82BD8558 *n;
+
+    self->total += self->pending;
+    self->pending = 0;
+    self->f138 = 0;
+    self->f130 = 0;
+    self->phase = (short)(((seq - self->base) + 0x800) % 0x800);
+    n = PopHead(&self->busyList);
+    while (n != 0) {
+        PushTail(&self->freeList, n);
+        n = PopHead(&self->busyList);
+    }
+}

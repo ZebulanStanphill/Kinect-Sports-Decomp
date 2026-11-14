@@ -1,41 +1,40 @@
-extern int fn_82D02880();
+typedef struct Block_82D02F08 {
+    unsigned int prev;
+    unsigned int head;
+    unsigned int pad[2];
+    struct Block_82D02F08 *left;
+    struct Block_82D02F08 *right;
+} Block_82D02F08;
 
+typedef struct Heap_82D02F08 {
+    char pad[0x14];
+    unsigned int minSize;
+    Block_82D02F08 *bins[32];
+} Heap_82D02F08;
 
-unsigned int fn_82D02F08(int param_1)
+extern int fn_82D02880(unsigned int size);
 
+static __forceinline unsigned int TreeMaxSize(Block_82D02F08 *b, unsigned int best)
 {
-  unsigned int uVar1;
-  int iVar2;
-  unsigned int uVar3;
-  int iVar4;
-  int *piVar5;
-  int iVar6;
-  
-  uVar3 = *(unsigned int *)(param_1 + 0x14);
-  iVar2 = fn_82D02880(uVar3);
-  iVar4 = 0x1f;
-  if (iVar2 < 0x20) {
-    piVar5 = (int *)(param_1 + 0x94);
     do {
-      iVar6 = *piVar5;
-      if (iVar6 != 0) {
-        do {
-          uVar1 = *(unsigned int *)(iVar6 + 4) & 0xfffffffc;
-          if (uVar3 < uVar1) {
-            uVar3 = uVar1;
-          }
-          iVar2 = *(int *)(iVar6 + 0x14);
-          if (*(int *)(iVar6 + 0x14) == 0) {
-            iVar2 = *(int *)(iVar6 + 0x10);
-          }
-          iVar6 = iVar2;
-        } while (iVar6 != 0);
-        return uVar3;
-      }
-      iVar4 = iVar4 + -1;
-      piVar5 = piVar5 + -1;
-    } while (iVar2 <= iVar4);
-  }
-  return uVar3;
+        unsigned int size = b->head & ~3u;
+        if (size > best)
+            best = size;
+        b = b->right != 0 ? b->right : b->left;
+    } while (b != 0);
+    return best;
 }
 
+unsigned int fn_82D02F08(Heap_82D02F08 *self)
+{
+    unsigned int best = self->minSize;
+    int first = fn_82D02880(best);
+    int i;
+
+    for (i = 31; i >= first; i--) {
+        Block_82D02F08 *b = self->bins[i];
+        if (b != 0)
+            return TreeMaxSize(b, best);
+    }
+    return best;
+}

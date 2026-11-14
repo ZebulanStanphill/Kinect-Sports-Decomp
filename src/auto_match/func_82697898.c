@@ -1,34 +1,25 @@
-extern int fn_82681898();
-extern int fn_826972E0();
-extern int fn_826BC950();
-extern int fn_826BC960();
-extern int fn_826BC970();
-extern unsigned int lbl_82005710;
+extern const double lbl_82005710;
+extern double fn_826972E0(void *value, void *env);
+extern double fn_826BC950(void);
+extern double fn_826BC960(void);
+extern double fn_826BC970(void);
+extern void fn_82681898(void *value, double number);
 
-
-void fn_82697898(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3)
-
+void fn_82697898(void *self, void *env, void *other)
 {
-  double dVar1;
-  double dVar2;
-  
-  dVar1 = (double)fn_826972E0();
-  dVar2 = (double)fn_826972E0(param_3,param_2);
-  if (dVar2 == lbl_82005710) {
-    if (dVar1 == lbl_82005710) {
-      dVar1 = (double)fn_826BC950();
-    }
-    else if (dVar1 < lbl_82005710) {
-      dVar1 = (double)fn_826BC970();
-    }
-    else {
-      dVar1 = (double)fn_826BC960();
-    }
-  }
-  else {
-    dVar1 = dVar1 / dVar2;
-  }
-  fn_82681898(dVar1,param_1);
-  return;
-}
+    double a = fn_826972E0(self, env);
+    double b = fn_826972E0(other, env);
+    double r;
 
+    if (b == lbl_82005710) {
+        if (a == lbl_82005710)
+            r = fn_826BC950();
+        else if (a >= lbl_82005710)
+            r = fn_826BC960();
+        else
+            r = fn_826BC970();
+    } else {
+        r = a / b;
+    }
+    fn_82681898(self, r);
+}

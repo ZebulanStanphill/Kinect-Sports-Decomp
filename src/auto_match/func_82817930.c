@@ -1,47 +1,38 @@
-void fn_82817930(unsigned int *param_1,int (**param_2)(),int (**param_3)(),int param_4)
+typedef struct Fixup_82817930 {
+    int offset;
+    int value;
+} Fixup_82817930;
 
+typedef struct Template_82817930 {
+    int size;
+    int pad4;
+    unsigned int data;          /* 0x08 */
+    int relocate;               /* 0x0c */
+    int count;                  /* 0x10 */
+    int pad14;
+    Fixup_82817930 fixups[1];   /* 0x18 */
+} Template_82817930;
+
+void fn_82817930(Template_82817930 *t, void (*fill)(int dst, int value, int size),
+                 void (*copy)(int dst, unsigned int src, int size), int base)
 {
-  int *piVar1;
-  int iVar2;
-  int *piVar3;
-  unsigned int *puVar4;
-  
-  if (param_1[2] == 0) {
-    (*param_2)(param_4,0,*param_1);
-    iVar2 = 0;
-    if (param_1[3] == 0) {
-      if (0 < (int)param_1[4]) {
-        puVar4 = param_1 + 5;
-        do {
-          piVar3 = puVar4 + 1;
-          iVar2 = iVar2 + 1;
-          puVar4 = puVar4 + 2;
-          *(unsigned int *)(*piVar3 + param_4) = *puVar4;
-        } while (iVar2 < (int)param_1[4]);
-      }
-    }
-    else if (0 < (int)param_1[4]) {
-      piVar3 = param_1 + 5;
-      do {
-        piVar1 = piVar3 + 1;
-        iVar2 = iVar2 + 1;
-        piVar3 = piVar3 + 2;
-        *(int *)(*piVar1 + param_4) = *piVar3 + param_4;
-      } while (iVar2 < (int)param_1[4]);
-    }
-  }
-  else {
-    (*param_3)();
-    if ((param_1[3] != 0) && (iVar2 = 0, 0 < (int)param_1[4])) {
-      piVar3 = param_1 + 5;
-      do {
-        piVar1 = piVar3 + 1;
-        iVar2 = iVar2 + 1;
-        piVar3 = piVar3 + 2;
-        *(int *)(*piVar1 + param_4) = *piVar3 + param_4;
-      } while (iVar2 < (int)param_1[4]);
-    }
-  }
-  return;
-}
+    int i;
+    Fixup_82817930 *e;
 
+    if (t->data != 0) {
+        copy(base, t->data, t->size);
+        if (t->relocate != 0) {
+            for (e = t->fixups, i = 0; i < t->count; i++, e++)
+                *(int *)(e->offset + base) = e->value + base;
+        }
+    } else {
+        fill(base, 0, t->size);
+        if (t->relocate != 0) {
+            for (i = 0, e = t->fixups; i < t->count; i++, e++)
+                *(int *)(e->offset + base) = e->value + base;
+        } else {
+            for (i = 0, e = t->fixups; i < t->count; i++, e++)
+                *(int *)(e->offset + base) = e->value;
+        }
+    }
+}

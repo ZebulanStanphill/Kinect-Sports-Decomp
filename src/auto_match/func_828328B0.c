@@ -1,47 +1,61 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_82824308();
-extern int fn_82824338();
-extern int fn_828243B8();
-extern int fn_828243E8();
-extern int fn_82833628();
-extern unsigned int iStack_30;
-extern unsigned int uStack_28;
-extern unsigned int uStack_2c;
+typedef struct Entry_828328B0 {
+    char pad0[0x10];
+    unsigned int f10;
+    char pad14[0xc];
+} Entry_828328B0;
 
+typedef struct Table_828328B0 {
+    char pad0[0x388];
+    Entry_828328B0 **entries;
+} Table_828328B0;
 
-bool fn_828328B0(unsigned __int64 param_1,int param_2,unsigned __int64 param_3,int *param_4)
+typedef struct Owner_828328B0 {
+    char pad0[8];
+    Table_828328B0 *table;
+    char padc[0x44];
+    void *counts;
+} Owner_828328B0;
 
+typedef struct Ctx_828328B0 {
+    Owner_828328B0 *owner;
+    int index;
+    int pad8;
+    unsigned int fc;
+} Ctx_828328B0;
+
+typedef struct Node_828328B0 {
+    char pad0[0x10];
+    unsigned int count;
+    int f14;
+} Node_828328B0;
+
+typedef struct Key_828328B0 {
+    unsigned int a;
+    unsigned int b;
+    unsigned int c;
+} Key_828328B0;
+
+extern unsigned char fn_82824338(Node_828328B0 *node);
+extern unsigned char fn_828243E8(Node_828328B0 *node);
+extern unsigned char fn_82824308(Node_828328B0 *node);
+extern unsigned char fn_828243B8(Node_828328B0 *node);
+extern int *fn_82833628(void *map, Key_828328B0 *key);
+
+unsigned char fn_828328B0(void *self, Node_828328B0 *node, void *unused, Ctx_828328B0 *ctx)
 {
-  int iVar1;
-  int iVar2;
-  char cVar4;
-  int *piVar3;
-  int iStack_30;
-  unsigned int uStack_2c;
-  unsigned int uStack_28;
-  
-  iVar1 = param_4[1];
-  iVar2 = **(int **)(*(int *)(*param_4 + 8) + 0x388);
-  cVar4 = fn_82824338(param_2);
-  if (cVar4 == '\0') {
-    cVar4 = fn_828243E8(param_2);
-    if (cVar4 != '\0') {
-      return *(int *)(param_2 + 0x14) == 0;
+    Entry_828328B0 *entry = &(*ctx->owner->table->entries)[ctx->index];
+    if (!fn_82824338(node)) {
+        if (fn_828243E8(node))
+            return node->f14 == 0;
+        if (!fn_82824308(node) && !fn_828243B8(node))
+            return 1;
+        if (node->count > 1) {
+            Key_828328B0 key;
+            key.c = entry->f10;
+            key.a = ctx->fc;
+            key.b = node->count;
+            ++*fn_82833628(ctx->owner->counts, &key);
+        }
     }
-    cVar4 = fn_82824308(param_2);
-    if ((cVar4 == '\0') && (cVar4 = fn_828243B8(param_2), cVar4 == '\0')) {
-      return true;
-    }
-    uStack_2c = *(unsigned int *)(param_2 + 0x10);
-    if (1 < uStack_2c) {
-      uStack_28 = *(unsigned int *)(iVar2 + iVar1 * 0x20 + 0x10);
-      iStack_30 = param_4[3];
-      piVar3 = (int *)fn_82833628(*(unsigned int *)(*param_4 + 0x50),&iStack_30);
-      *piVar3 = *piVar3 + 1;
-    }
-  }
-  return false;
+    return 0;
 }
-

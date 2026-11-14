@@ -1,45 +1,45 @@
-unsigned int fn_823692A0(int param_1,int param_2,int param_3)
+typedef struct Map_823692A0 {
+    int pad0;
+    void *head;
+    unsigned int size;
+} Map_823692A0;
 
+typedef struct Group_823692A0 {
+    Map_823692A0 **maps;
+    int pad4[3];
+    int current;
+} Group_823692A0;
+
+typedef struct Groups_823692A0 {
+    Group_823692A0 **side;
+} Groups_823692A0;
+
+typedef struct Slot_823692A0 {
+    unsigned int id;
+    char pad4[0x2c];
+} Slot_823692A0;
+
+typedef struct Obj_823692A0 {
+    int pad0[2];
+    Groups_823692A0 *groups;
+    char padC[0x10b0 - 0xc];
+    Slot_823692A0 slots[2][7];
+} Obj_823692A0;
+
+extern int fn_822ABA88(Map_823692A0 *map, unsigned int key);
+
+int fn_823692A0(Obj_823692A0 *self, int index, int side)
 {
-  int *piVar1;
-  int iVar2;
-  unsigned int *puVar3;
-  unsigned int uVar4;
-  unsigned int *puVar5;
-  unsigned int **ppuVar6;
-  unsigned int *puStack_10;
-  unsigned int *apuStack_c [3];
-  
-  piVar1 = *(int **)(**(int **)(param_1 + 8) + (unsigned int)(param_3 == 0) * 4);
-  uVar4 = 0;
-  iVar2 = *(int *)(piVar1[4] * 4 + *piVar1);
-  if (*(unsigned int *)(iVar2 + 8) != 0) {
-    do {
-      if (*(int *)(((unsigned int)(param_3 == 0) * 7 + 0x59 + uVar4) * 0x30 + param_1) ==
-          *(int *)((param_3 * 7 + param_2 + 0x59) * 0x30 + param_1)) {
-        puVar3 = (unsigned int *)(*(unsigned int **)(iVar2 + 4))[1];
-        puStack_10 = *(unsigned int **)(iVar2 + 4);
-        while (puVar5 = puVar3, *(char *)((int)puVar5 + 0x15) == '\0') {
-          if ((unsigned int)puVar5[3] < uVar4) {
-            puVar3 = (unsigned int *)puVar5[2];
-          }
-          else {
-            puVar3 = (unsigned int *)*puVar5;
-            puStack_10 = puVar5;
-          }
-        }
-        if ((puStack_10 == *(unsigned int **)(iVar2 + 4)) || (uVar4 < (unsigned int)puStack_10[3])) {
-          apuStack_c[0] = *(unsigned int **)(iVar2 + 4);
-          ppuVar6 = apuStack_c;
-        }
-        else {
-          ppuVar6 = &puStack_10;
-        }
-        return (*ppuVar6)[4];
-      }
-      uVar4 = uVar4 + 1;
-    } while (uVar4 < *(unsigned int *)(iVar2 + 8));
-  }
-  return 0;
-}
+    int other = side == 0;
+    Group_823692A0 *g = self->groups->side[other];
+    unsigned int id = self->slots[side][index].id;
+    Map_823692A0 *map = g->maps[g->current];
+    unsigned int i;
 
+    for (i = 0; i < map->size; i++) {
+        if (self->slots[other][i].id == id) {
+            return fn_822ABA88(map, i);
+        }
+    }
+    return 0;
+}

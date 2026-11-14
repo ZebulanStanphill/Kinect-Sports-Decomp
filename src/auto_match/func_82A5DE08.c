@@ -1,49 +1,52 @@
-extern unsigned int lbl_8315F708;
+typedef struct Stream_82A5DE08 {
+    unsigned int bytesPerSec;
+    unsigned int sampleRate;
+    unsigned int loopStart;
+    unsigned int loopEnd;
+    unsigned char subframes;
+    unsigned char channels;
+    unsigned short channelMask;
+} Stream_82A5DE08;
 
+typedef struct Format_82A5DE08 {
+    unsigned short tag;
+    unsigned short channels;
+    unsigned short pad[2];
+    unsigned short numStreams;
+    unsigned char loopCount;
+    unsigned char version;
+    union {
+        Stream_82A5DE08 streams[1];
+        struct {
+            unsigned int pad2[2];
+            unsigned int channelMask;
+        } ext;
+    } u;
+} Format_82A5DE08;
 
-unsigned int fn_82A5DE08(short *param_1,int param_2)
+extern const unsigned int lbl_8315F70C[];
 
+unsigned int fn_82A5DE08(const Format_82A5DE08 *fmt, int useDefault)
 {
-  short sVar1;
-  unsigned short uVar2;
-  unsigned int uVar3;
-  unsigned short *puVar4;
-  int iVar5;
-  
-  sVar1 = *param_1;
-  uVar3 = 0;
-  if (sVar1 == 0x165) {
-    iVar5 = 0;
-    if ((unsigned short)param_1[4] == 0) {
-      return uVar3;
+    unsigned int mask = 0;
+    if (fmt->tag == 0x165) {
+        int i;
+        for (i = 0; i < fmt->numStreams; i++) {
+            unsigned short m = fmt->u.streams[i].channelMask;
+            mask |= (m & 0xff) | (m >> 8);
+        }
+    } else if (fmt->tag == 0x166) {
+        mask = fmt->u.ext.channelMask;
+    } else if (fmt->tag == 0xfffe) {
+        mask = fmt->u.ext.channelMask;
+    } else if (fmt->channels == 1) {
+        mask = 4;
+    } else if (fmt->channels == 2) {
+        mask = 3;
+    } else if (useDefault != 0) {
+        mask = 0;
+        if (fmt->channels >= 1 && fmt->channels <= 8)
+            mask = lbl_8315F70C[fmt->channels - 1];
     }
-    puVar4 = (unsigned short *)(param_1 + 5);
-    do {
-      puVar4 = puVar4 + 10;
-      iVar5 = iVar5 + 1;
-      uVar3 = *puVar4 & 0xff | (unsigned int)(*puVar4 >> 8) | uVar3;
-    } while (iVar5 < (int)(unsigned int)(unsigned short)param_1[4]);
-    return uVar3;
-  }
-  if ((sVar1 == 0x166) || (sVar1 == -2)) {
-    return *(unsigned int *)(param_1 + 10);
-  }
-  uVar2 = param_1[1];
-  if (uVar2 == 1) {
-    return 4;
-  }
-  if (uVar2 == 2) {
-    return 3;
-  }
-  if (param_2 == 0) {
-    return uVar3;
-  }
-  if (uVar2 == 0) {
-    return 0;
-  }
-  if (8 < uVar2) {
-    return 0;
-  }
-  return *(unsigned int *)(&lbl_8315F708 + (unsigned int)uVar2 * 4);
+    return mask;
 }
-

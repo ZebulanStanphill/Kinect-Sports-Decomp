@@ -1,35 +1,41 @@
-extern unsigned int *auStack_2c;
-extern int fn_82BF72C8();
-extern int fn_82BF74D0();
-extern int fn_82BF77B8();
-extern unsigned int iStack_30;
+typedef struct Entry_82BF7890 {
+    char pad0[0xc];
+    int value;
+    struct Entry_82BF7890 *next;
+    unsigned int hash;
+} Entry_82BF7890;
 
+typedef struct Table_82BF7890 {
+    char pad0[8];
+    Entry_82BF7890 **buckets;
+    unsigned int size;
+} Table_82BF7890;
 
-unsigned __int64 fn_82BF7890(int param_1,unsigned __int64 param_2,unsigned int param_3)
+extern Entry_82BF7890 *fn_82BF74D0(Table_82BF7890 *t, const void *key, unsigned int *bucket, unsigned int *hash);
+extern int fn_82BF72C8(Table_82BF7890 *t, unsigned int size, int flag);
+extern Entry_82BF7890 *fn_82BF77B8(Table_82BF7890 *t, const void *key);
 
+int fn_82BF7890(Table_82BF7890 *t, const void *key, int value)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  int iStack_30;
-  unsigned int auStack_2c;
-  
-  if (param_1 == 0) {
-LAB_82bf78b0:
-    uVar1 = 0;
-  }
-  else {
-    iVar2 = fn_82BF74D0(param_1,param_2,&iStack_30,&auStack_2c);
-    if (iVar2 == 0) {
-      if (((*(int *)(param_1 + 8) == 0) &&
-          (iVar2 = fn_82BF72C8(param_1,*(unsigned int *)(param_1 + 0xc),1), iVar2 == 0)) ||
-         (iVar2 = fn_82BF77B8(param_1,param_2), iVar2 == 0)) goto LAB_82bf78b0;
-      *(unsigned int *)(iVar2 + 0x14) = auStack_2c;
-      *(unsigned int *)(iVar2 + 0x10) = *(unsigned int *)(*(int *)(param_1 + 8) + iStack_30 * 4);
-      *(int *)(*(int *)(param_1 + 8) + iStack_30 * 4) = iVar2;
+    unsigned int bucket;
+    unsigned int hash;
+    Entry_82BF7890 *e;
+    if (t == 0)
+        return 0;
+    e = fn_82BF74D0(t, key, &bucket, &hash);
+    if (e == 0) {
+        if (t->buckets == 0 && fn_82BF72C8(t, t->size, 1) == 0)
+            return 0;
+        e = fn_82BF77B8(t, key);
+        if (e == 0)
+            return 0;
+        {
+            unsigned int i = bucket;
+            e->hash = hash;
+            e->next = t->buckets[i];
+            t->buckets[i] = e;
+        }
     }
-    *(unsigned int *)(iVar2 + 0xc) = param_3;
-    uVar1 = 1;
-  }
-  return uVar1;
+    e->value = value;
+    return 1;
 }
-

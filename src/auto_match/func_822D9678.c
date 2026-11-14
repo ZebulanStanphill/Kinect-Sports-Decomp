@@ -1,58 +1,90 @@
-typedef unsigned char bool;
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern int fn_8265CA20();
-extern unsigned __int64 storeWordConditionalIndexed();
+long _InterlockedDecrement(long volatile *);
 
+typedef struct Rep_822D9678 Rep_822D9678;
+typedef struct RepVt_822D9678 {
+    void (*destroy)(Rep_822D9678 *);
+    void (*deleteThis)(Rep_822D9678 *);
+} RepVt_822D9678;
+struct Rep_822D9678 {
+    RepVt_822D9678 *vt;
+    long uses;
+    long weaks;
+};
 
-void fn_822D9678(int *param_1)
+typedef struct Inner_822D9678 {
+    char data[0x20];
+} Inner_822D9678;
 
+typedef struct InnerVec_822D9678 {
+    Inner_822D9678 *first;
+    Inner_822D9678 *last;
+    Inner_822D9678 *end;
+} InnerVec_822D9678;
+
+typedef struct Elem_822D9678 {
+    char pad0[0x10];
+    InnerVec_822D9678 items;    /* 0x10 */
+    int pad1c;
+} Elem_822D9678;
+
+typedef struct Vec_822D9678 {
+    Elem_822D9678 *first;
+    Elem_822D9678 *last;
+    Elem_822D9678 *end;
+} Vec_822D9678;
+
+typedef struct Obj_822D9678 {
+    Vec_822D9678 elems;         /* 0x00 */
+    char pad0c[0x18 - 0x0c];
+    void *ptr;                  /* 0x18 */
+    Rep_822D9678 *rep;          /* 0x1c */
+} Obj_822D9678;
+
+extern void fn_8265CA20(void *p);
+
+static __forceinline void DestroyInner(Inner_822D9678 *first, Inner_822D9678 *last)
 {
-  int *piVar1;
-  int iVar2;
-  unsigned int uVar3;
-  __int64 lVar4;
-  unsigned int *puVar5;
-  __int64 lVar6;
-  int iVar7;
-  int iVar8;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  piVar1 = (int *)param_1[7];
-  if (ZEXT48(piVar1) != 0) {
-    lVar4 = ZEXT48(piVar1) + 8;
-    do {
-      puVar5 = (unsigned int *)lVar4;
-      lVar6 = (unsigned __int64)*puVar5 - 1;
-      if (in_RESERVE != '\0') {
-        uVar3 = storeWordConditionalIndexed(lVar6,0,lVar4);
-        *puVar5 = uVar3;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-    if ((int)lVar6 == 0) {
-      (**(int (***)())(*piVar1 + 4))();
-    }
-  }
-  iVar8 = *param_1;
-  if (iVar8 != 0) {
-    iVar2 = param_1[1];
-    for (; iVar8 != iVar2; iVar8 = iVar8 + 0x20) {
-      iVar7 = *(int *)(iVar8 + 0x10);
-      if (iVar7 != 0) {
-        for (; iVar7 != *(int *)(iVar8 + 0x14); iVar7 = iVar7 + 0x20) {
-        }
-        fn_8265CA20(*(unsigned int *)(iVar8 + 0x10));
-      }
-      *(unsigned int *)(iVar8 + 0x10) = 0;
-      *(unsigned int *)(iVar8 + 0x14) = 0;
-      *(unsigned int *)(iVar8 + 0x18) = 0;
-    }
-    fn_8265CA20(*param_1);
-  }
-  *param_1 = 0;
-  param_1[1] = 0;
-  param_1[2] = 0;
-  return;
+    for (; first != last; ++first)
+        ;
 }
 
+static __forceinline void TidyInner(InnerVec_822D9678 *v)
+{
+    if (v->first != 0) {
+        DestroyInner(v->first, v->last);
+        fn_8265CA20(v->first);
+    }
+    v->first = 0;
+    v->last = 0;
+    v->end = 0;
+}
+
+static __forceinline void DestroyElems(Elem_822D9678 *first, Elem_822D9678 *last)
+{
+    for (; first != last; ++first)
+        TidyInner(&first->items);
+}
+
+static __forceinline void Decwref(Rep_822D9678 *r)
+{
+    if (_InterlockedDecrement(&r->weaks) == 0)
+        r->vt->deleteThis(r);
+}
+
+static __forceinline void Release(Rep_822D9678 **p)
+{
+    if (*p != 0)
+        Decwref(*p);
+}
+
+void fn_822D9678(Obj_822D9678 *self)
+{
+    Release(&self->rep);
+    if (self->elems.first != 0) {
+        DestroyElems(self->elems.first, self->elems.last);
+        fn_8265CA20(self->elems.first);
+    }
+    self->elems.first = 0;
+    self->elems.last = 0;
+    self->elems.end = 0;
+}

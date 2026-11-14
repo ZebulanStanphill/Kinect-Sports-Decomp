@@ -1,29 +1,49 @@
-unsigned int fn_8307E188(int param_1,int param_2)
+typedef struct Desc_8307E188 {
+    unsigned int first : 5;
+    unsigned int count : 5;
+    unsigned int pad0 : 22;
+    unsigned int wrapped : 1;
+    unsigned int pad1 : 1;
+    unsigned int halved : 1;
+    unsigned int pad2 : 29;
+    int pad8[7];
+    unsigned int pad3 : 27;
+    unsigned int base : 5;
+} Desc_8307E188;
 
+typedef struct Elem_8307E188 {
+    Desc_8307E188 desc;
+    char pad28[0x18];
+    Desc_8307E188 *external;
+    char pad44[0xe];
+    unsigned short offset;
+    char pad54[0xc];
+} Elem_8307E188;
+
+typedef struct Table_8307E188 {
+    int pad0;
+    unsigned int flags;
+    Elem_8307E188 *elems;
+} Table_8307E188;
+
+unsigned int fn_8307E188(Table_8307E188 *self, int index)
 {
-  unsigned int uVar1;
-  unsigned int *puVar2;
-  unsigned int *puVar3;
-  unsigned int uVar4;
-  
-  puVar2 = (unsigned int *)(param_2 * 0x60 + *(int *)(param_1 + 8));
-  puVar3 = puVar2;
-  if ((*(unsigned int *)(param_1 + 4) & 0x20000) == 0) {
-    puVar3 = (unsigned int *)puVar2[0x10];
-  }
-  if ((puVar3[1] & 0x80000000) == 0) {
-    uVar4 = *puVar3 >> 0x16 & 0x1f;
-  }
-  else {
-    uVar4 = *puVar3 >> 0x1b;
-    uVar1 = puVar3[9] & 0x1f;
-    if (uVar4 < uVar1) {
-      uVar4 = ((*puVar3 >> 0x16 & 0x1f) - uVar1) + uVar4;
-    }
-    else {
-      uVar4 = uVar4 - uVar1;
-    }
-  }
-  return uVar4 * 0x100 - (unsigned int)*(unsigned short *)((int)puVar2 + 0x52) >> (puVar3[1] >> 0x1d & 1) + 1;
-}
+    Elem_8307E188 *e;
+    Desc_8307E188 *d;
+    unsigned int v;
 
+    if (self->flags & 0x20000)
+        d = &self->elems[index].desc;
+    else
+        d = self->elems[index].external;
+    e = &self->elems[index];
+    if (d->wrapped) {
+        if (d->first >= d->base)
+            v = d->first - d->base;
+        else
+            v = d->count - d->base + d->first;
+    } else {
+        v = d->count;
+    }
+    return ((v << 8) - e->offset) >> (d->halved + 1);
+}

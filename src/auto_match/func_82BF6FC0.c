@@ -1,43 +1,45 @@
-extern int fn_82BF6E50();
-extern int fn_82BF6EE8();
-extern int fn_82F63CA0();
-extern int fn_82F68CC0();
+typedef struct Buffer_82BF6FC0 {
+    int pad0;
+    int pad4;
+    unsigned char *data;    // 0x08
+    unsigned int used;      // 0x0c
+    unsigned int capacity;  // 0x10
+    unsigned int minSize;   // 0x14
+    int growMode;           // 0x18
+} Buffer_82BF6FC0;
 
+extern void *memmove(void *dst, const void *src, unsigned int n);
+extern void *memcpy(void *dst, const void *src, unsigned int n);
+extern int fn_82BF6E50(Buffer_82BF6FC0 *buf, unsigned int size);
+extern int fn_82BF6EE8(Buffer_82BF6FC0 *buf, unsigned int size);
 
-unsigned __int64 fn_82BF6FC0(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,__int64 param_4)
-
+static __forceinline int IsEmpty(Buffer_82BF6FC0 *buf)
 {
-  int iVar2;
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar3;
-  __int64 lVar4;
-  
-  if (((param_3 & 0xffffffff) == 0) || ((int)param_4 == 0)) {
-LAB_82bf702c:
-    uVar1 = 0;
-  }
-  else {
-    uVar3 = (unsigned __int64)*(unsigned int *)(param_1 + 0xc) + param_4;
-    if ((*(int *)(param_1 + 8) == 0) || (*(unsigned int *)(param_1 + 0x10) == 0)) {
-      if ((uVar3 & 0xffffffff) <= (unsigned __int64)*(unsigned int *)(param_1 + 0x14)) {
-        uVar3 = (unsigned __int64)*(unsigned int *)(param_1 + 0x14);
-      }
-      iVar2 = fn_82BF6E50(param_1,uVar3);
-LAB_82bf7024:
-      if (iVar2 == 0) goto LAB_82bf702c;
-    }
-    else if ((unsigned __int64)*(unsigned int *)(param_1 + 0x10) < (uVar3 & 0xffffffff)) {
-      iVar2 = fn_82BF6EE8(param_1);
-      goto LAB_82bf7024;
-    }
-    if ((param_2 & 0xffffffff) < (unsigned __int64)*(unsigned int *)(param_1 + 0xc)) {
-      lVar4 = *(unsigned int *)(param_1 + 8) + param_2;
-      fn_82F63CA0(lVar4 + param_4,lVar4,*(unsigned int *)(param_1 + 0xc) - param_2);
-    }
-    fn_82F68CC0(*(unsigned int *)(param_1 + 8) + param_2,param_3,param_4);
-    uVar1 = 1;
-    *(int *)(param_1 + 0xc) = *(int *)(param_1 + 0xc) + (int)param_4;
-  }
-  return uVar1;
+    if (buf->data == 0 || buf->capacity == 0)
+        return 1;
+    return 0;
 }
 
+int fn_82BF6FC0(Buffer_82BF6FC0 *buf, unsigned int pos, const void *src, unsigned int size)
+{
+    unsigned int needed;
+
+    if (src == 0 || size == 0)
+        return 0;
+    needed = buf->used + size;
+    if (IsEmpty(buf)) {
+        if (needed <= buf->minSize)
+            needed = buf->minSize;
+        if (!fn_82BF6E50(buf, needed))
+            return 0;
+    } else if (needed > buf->capacity) {
+        if (!fn_82BF6EE8(buf, needed))
+            return 0;
+    }
+    if (pos < buf->used) {
+        memmove(buf->data + pos + size, buf->data + pos, buf->used - pos);
+    }
+    memcpy(buf->data + pos, src, size);
+    buf->used += size;
+    return 1;
+}

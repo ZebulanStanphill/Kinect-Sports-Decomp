@@ -1,33 +1,52 @@
-extern int fn_82C27E48();
+typedef struct Stream_82C28428 {
+    int (*Seek)(struct Stream_82C28428 *self, __int64 position);
+} Stream_82C28428;
 
+typedef struct State_82C28428 {
+    char pad0[0xc];
+    unsigned int fc;
+    char pad10[8];
+    unsigned int f18;
+    char pad1c[4];
+    __int64 f20;
+    __int64 f28;
+    char pad30[0x10];
+    __int64 f40;
+    char pad48[4];
+    Stream_82C28428 *stream;
+    __int64 pendingPosition;
+    unsigned int pending;
+    unsigned int busy;
+    __int64 f60;
+} State_82C28428;
 
-unsigned __int64 fn_82C28428(int param_1,unsigned __int64 param_2)
+typedef struct Owner_82C28428 {
+    char pad0[0x2c];
+    State_82C28428 *state;
+} Owner_82C28428;
 
+extern void fn_82C27E48(Owner_82C28428 *self);
+
+int fn_82C28428(Owner_82C28428 *self, __int64 position)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  
-  iVar1 = *(int *)(param_1 + 0x2c);
-  uVar2 = 0;
-  if (*(int *)(iVar1 + 0x5c) == 0) {
-    uVar2 = (*(int (**)())**(unsigned int **)(iVar1 + 0x4c))(*(unsigned int **)(iVar1 + 0x4c),param_2);
-    if (-1 < (int)uVar2) {
-      *(unsigned __int64 *)(iVar1 + 0x20) = param_2;
-      *(unsigned __int64 *)(iVar1 + 0x40) = param_2;
-      *(unsigned __int64 *)(iVar1 + 0x50) = 0;
-      *(unsigned int *)(iVar1 + 0x58) = 0;
-      *(unsigned __int64 *)(iVar1 + 0x28) = param_2;
-      *(unsigned int *)(iVar1 + 0x5c) = 0;
-      *(unsigned __int64 *)(iVar1 + 0x60) = 0;
-      if ((*(int *)(iVar1 + 0xc) == 0) && (*(int *)(iVar1 + 0x18) != 0)) {
-        fn_82C27E48(param_1);
-      }
+    State_82C28428 *s = self->state;
+    int hr = 0;
+    if (s->busy > 0) {
+        s->pendingPosition = position;
+        s->pending = 1;
+    } else {
+        hr = s->stream->Seek(s->stream, position);
+        if (hr >= 0) {
+            s->f20 = position;
+            s->f40 = position;
+            s->pendingPosition = 0;
+            s->pending = 0;
+            s->f28 = position;
+            s->busy = 0;
+            s->f60 = 0;
+            if (s->fc == 0 && s->f18 > 0)
+                fn_82C27E48(self);
+        }
     }
-  }
-  else {
-    *(unsigned __int64 *)(iVar1 + 0x50) = param_2;
-    *(unsigned int *)(iVar1 + 0x58) = 1;
-  }
-  return uVar2;
+    return hr;
 }
-

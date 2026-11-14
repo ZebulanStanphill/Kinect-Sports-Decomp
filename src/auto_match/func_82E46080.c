@@ -1,52 +1,54 @@
-extern unsigned int *auStack_3c;
-extern int fn_82E32040();
-extern int fn_82E44C10();
-extern int fn_82E44F90();
+struct Unknown_82E46080;
+typedef struct UnknownVtbl_82E46080 {
+    int (*QueryInterface)(struct Unknown_82E46080 *self, const void *iid, void **out);
+    unsigned int (*AddRef)(struct Unknown_82E46080 *self);
+    unsigned int (*Release)(struct Unknown_82E46080 *self);
+} UnknownVtbl_82E46080;
+typedef struct Unknown_82E46080 {
+    UnknownVtbl_82E46080 *vt;
+} Unknown_82E46080;
 
+extern int fn_82E44F90(char *table, unsigned int index, Unknown_82E46080 **out);
+extern int fn_82E32040(Unknown_82E46080 **out);
+extern int fn_82E44C10(char *table, unsigned int index, Unknown_82E46080 *item);
 
-__int64 fn_82E46080(__int64 param_1,unsigned short param_2,unsigned int *param_3)
-
+static __forceinline Unknown_82E46080 *SelectFound(int ok, Unknown_82E46080 *value)
 {
-  __int64 lVar1;
-  int *piVar2;
-  int iVar3;
-  __int64 lVar4;
-  int *piStack_40;
-  unsigned int auStack_3c;
-  
-  piStack_40 = (int *)0x0;
-  lVar4 = 0;
-  if (param_3 == (unsigned int *)0x0) {
-    lVar4 = -0x7fffbffd;
-  }
-  else {
-    *param_3 = 0;
-    lVar1 = fn_82E44F90(param_1 + 0x84,param_2,&auStack_3c);
-    piVar2 = (int *)(-(unsigned int)(lVar1 != 0) & auStack_3c);
-    if (piVar2 == (int *)0x0) {
-      lVar4 = fn_82E32040(&piStack_40);
-      if (-1 < lVar4) {
-        iVar3 = fn_82E44C10(param_1 + 0x84,param_2,piStack_40);
-        if (iVar3 == 0) {
-          lVar4 = -0x7ff8fff2;
-        }
-        else {
-          *param_3 = piStack_40;
-          if (piStack_40 != (int *)0x0) {
-            (**(int (***)())(*piStack_40 + 4))();
-          }
-          piStack_40 = (int *)0x0;
-        }
-      }
-    }
-    else {
-      *param_3 = piVar2;
-      (**(int (***)())(*piVar2 + 4))();
-    }
-    if (piStack_40 != (int *)0x0) {
-      (**(int (***)())(*piStack_40 + 8))();
-    }
-  }
-  return lVar4;
+    return ok ? value : 0;
 }
 
+int fn_82E46080(char *self, unsigned short index, Unknown_82E46080 **out)
+{
+    Unknown_82E46080 *created = 0;
+    Unknown_82E46080 *found;
+    Unknown_82E46080 *item;
+    int hr = 0;
+    int ok;
+
+    if (out == 0) {
+        hr = 0x80004003;
+    } else {
+        *out = 0;
+        ok = fn_82E44F90(self + 0x84, index, &found);
+        item = SelectFound(ok, found);
+        if (item != 0) {
+            *out = item;
+            item->vt->AddRef(item);
+        } else {
+            hr = fn_82E32040(&created);
+            if (hr >= 0) {
+                if (fn_82E44C10(self + 0x84, index, created) == 0) {
+                    hr = 0x8007000e;
+                } else {
+                    *out = created;
+                    if (created != 0)
+                        created->vt->AddRef(created);
+                    created = 0;
+                }
+            }
+        }
+        if (created != 0)
+            created->vt->Release(created);
+    }
+    return hr;
+}

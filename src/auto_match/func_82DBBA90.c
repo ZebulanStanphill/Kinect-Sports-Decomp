@@ -1,27 +1,49 @@
-void fn_82DBBA90(int param_1,int param_2,unsigned int param_3,unsigned short param_4)
+typedef struct Node_82DBBA90 {
+    char pad[0x12];
+    unsigned short info;
+    struct Node_82DBBA90 *next;
+} Node_82DBBA90;
 
+typedef struct Tail_82DBBA90 {
+    char pad[0xc];
+    Node_82DBBA90 *first;
+    unsigned short info;
+} Tail_82DBBA90;
+
+typedef struct Owner_82DBBA90 {
+    char pad[0x10];
+    Node_82DBBA90 *head;
+    char pad2[0x1c];
+    Tail_82DBBA90 *tail;
+} Owner_82DBBA90;
+
+/* Replaces `node` in the owner's singly linked list by `next`. */
+void fn_82DBBA90(Owner_82DBBA90 *self, Node_82DBBA90 *node, Node_82DBBA90 *next, unsigned short info)
 {
-  int iVar1;
-  int iVar2;
-  
-  iVar1 = *(int *)(param_1 + 0x10);
-  iVar2 = *(int *)(param_1 + 0x30);
-  if (iVar1 != 0) {
-    if (iVar1 != param_2) {
-      for (iVar2 = *(int *)(iVar1 + 0x14); iVar2 != param_2; iVar2 = *(int *)(iVar2 + 0x14)) {
-        iVar1 = iVar2;
-      }
-      *(unsigned int *)(iVar1 + 0x14) = param_3;
-      *(unsigned short *)(iVar1 + 0x12) = param_4;
-      return;
-    }
-    *(unsigned int *)(param_1 + 0x10) = param_3;
-  }
-  if (iVar2 != 0) {
-    *(unsigned int *)(iVar2 + 0xc) = param_3;
-    *(unsigned short *)(iVar2 + 0x10) = param_4;
-    return;
-  }
-  return;
-}
+    Node_82DBBA90 *n = self->head;
+    Tail_82DBBA90 *tail = self->tail;
 
+    if (n == 0) {
+    } else if (n == node) {
+        self->head = next;
+    } else {
+        Node_82DBBA90 *prev;
+        Node_82DBBA90 **link;
+
+        prev = n;
+        link = &n->next;
+        n = *link;
+        while (n != node) {
+            prev = n;
+            link = &n->next;
+            n = *link;
+        }
+        *link = next;
+        prev->info = info;
+        return;
+    }
+    if (tail != 0) {
+        tail->first = next;
+        tail->info = info;
+    }
+}

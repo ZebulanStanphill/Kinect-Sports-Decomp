@@ -1,39 +1,37 @@
-extern int fn_82A30780();
-extern int fn_82A30800();
-extern int fn_82A30870();
-extern int fn_82A30910();
+typedef struct Region_82A30A08 {
+    char pad0[0x14];
+    unsigned int size;
+    char pad18[0x1d];
+    unsigned char flags;
+} Region_82A30A08;
 
+extern int fn_82A30780(void *ctx, Region_82A30A08 *r);
+extern int fn_82A30800(void *ctx, Region_82A30A08 *r);
+extern int fn_82A30870(void *ctx, Region_82A30A08 *r, unsigned int size);
+extern int fn_82A30910(void *ctx, Region_82A30A08 *r, unsigned int size);
 
-unsigned __int64 fn_82A30A08(unsigned __int64 param_1,int param_2,unsigned int param_3,int param_4)
-
+int fn_82A30A08(void *ctx, Region_82A30A08 *r, unsigned int size, unsigned int noShrink)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  
-  if (param_3 < 0xfffff001) {
-    uVar2 = 0;
-    uVar1 = param_3 + 0xfff & 0xfffff000;
-    if (*(unsigned int *)(param_2 + 0x14) != uVar1) {
-      if ((((*(unsigned char *)(param_2 + 0x35) & 4) != 0) || ((*(unsigned char *)(param_2 + 0x35) & 0x20) != 0)) ||
-         (uVar2 = fn_82A30780(param_1,param_2), -1 < (int)uVar2)) {
-        if (uVar1 == 0) {
-          uVar2 = fn_82A30800(param_1,param_2);
-        }
-        else if (*(unsigned int *)(param_2 + 0x14) < uVar1) {
-          uVar2 = fn_82A30910(param_1,param_2,uVar1);
-        }
-        else if ((param_4 == 0) && (uVar1 < *(unsigned int *)(param_2 + 0x14))) {
-          uVar2 = fn_82A30870(param_1,param_2,uVar1);
-        }
-        else {
-          uVar2 = 0;
-        }
-      }
-    }
-  }
-  else {
-    uVar2 = 0xffffffffc000007f;
-  }
-  return uVar2;
-}
+    unsigned int aligned;
+    int hr;
 
+    if (size > 0xfffff000) {
+        return 0xc000007f;
+    }
+    aligned = (size + 0xfff) & 0xfffff000;
+    hr = 0;
+    if (r->size != aligned) {
+        if ((r->flags & 4) != 0 || (r->flags & 0x20) != 0 || (hr = fn_82A30780(ctx, r)) >= 0) {
+            if (aligned == 0) {
+                hr = fn_82A30800(ctx, r);
+            } else if (r->size < aligned) {
+                hr = fn_82A30910(ctx, r, aligned);
+            } else if (noShrink == 0 && r->size > aligned) {
+                hr = fn_82A30870(ctx, r, aligned);
+            } else {
+                hr = 0;
+            }
+        }
+    }
+    return hr;
+}
