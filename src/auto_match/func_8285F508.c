@@ -1,23 +1,24 @@
-extern float fRam832115f0;
-extern int fn_82F68B64();
-extern int fn_82F68B78();
-extern int iRam832115e0;
+typedef struct Settings_8285F508 {
+    char pad0[0x10];
+    unsigned int kind;                      /* 0x10 */
+    unsigned char mask[0xc];                /* 0x14 */
+    float scale;                            /* 0x20 */
+    float low[3];                           /* 0x24 */
+    float high[3];                          /* 0x30 */
+} Settings_8285F508;
 
+extern Settings_8285F508 lbl_832115D0;
 
-unsigned __int64
-fn_8285F508(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4)
+extern int fn_827EB2B0(int target, unsigned char *bits, unsigned char *mask, float scale, unsigned char *format);
+extern int fn_827EB518(int target, unsigned char *bits, float *low, float *high, unsigned char *format);
 
+int fn_8285F508(int target, unsigned char *bits, unsigned char *format)
 {
-  unsigned __int64 uVar1;
-  
-  if (iRam832115e0 == 0) {
-    uVar1 = fn_82F68B64((double)fRam832115f0,param_1,param_2,0xffffffff832115e4,param_4,param_3);
-    return uVar1;
-  }
-  if (iRam832115e0 != 1) {
+    switch (lbl_832115D0.kind) {
+    case 0:
+        return fn_827EB2B0(target, bits, lbl_832115D0.mask, lbl_832115D0.scale, format);
+    case 1:
+        return fn_827EB518(target, bits, lbl_832115D0.low, lbl_832115D0.high, format);
+    }
     return 2;
-  }
-  uVar1 = fn_82F68B78(param_1,param_2,0xffffffff832115f4,0xffffffff83211600);
-  return uVar1;
 }
-

@@ -1,16 +1,23 @@
-unsigned int fn_827E3AA8(int param_1)
+typedef struct {
+    unsigned int *begin;
+    unsigned int *end;
+} Stack_827E3AA8;
 
+typedef struct {
+    char pad0[0x64];
+    Stack_827E3AA8 stack;   /* 0x64 */
+} Owner_827E3AA8;
+
+static __forceinline unsigned int Size(const Stack_827E3AA8 *s) { return s->end - s->begin; }
+static __forceinline unsigned int Back(const Stack_827E3AA8 *s) { return s->end[-1]; }
+static __forceinline void PopBack(Stack_827E3AA8 *s) { if (s->begin != s->end) s->end--; }
+
+unsigned int fn_827E3AA8(Owner_827E3AA8 *self)
 {
-  unsigned int uVar1;
-  
-  if (*(int *)(param_1 + 0x68) - *(int *)(param_1 + 100) >> 2 == 0) {
+    if (Size(&self->stack) > 0) {
+        unsigned int top = Back(&self->stack);
+        PopBack(&self->stack);
+        return top;
+    }
     return 0;
-  }
-  uVar1 = *(unsigned int *)(*(int *)(param_1 + 0x68) + -4);
-  if (*(int *)(param_1 + 100) == *(int *)(param_1 + 0x68)) {
-    return uVar1;
-  }
-  *(int *)(param_1 + 0x68) = *(int *)(param_1 + 0x68) + -4;
-  return uVar1;
 }
-

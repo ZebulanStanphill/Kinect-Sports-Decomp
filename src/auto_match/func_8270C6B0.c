@@ -1,28 +1,13 @@
-#define true 1
+#include <string.h>
 
-
-char * fn_8270C6B0(char *param_1)
-
+const char *fn_8270C6B0(const char *path)
 {
-  char cVar1;
-  char *pcVar2;
-  
-  pcVar2 = param_1;
-  do {
-    cVar1 = *pcVar2;
-    pcVar2 = pcVar2 + 1;
-  } while (cVar1 != '\0');
-  pcVar2 = pcVar2 + (-1 - (int)param_1);
-  if (pcVar2 == (char *)0x0) {
-    return param_1;
-  }
-  while( true ) {
-    if ((param_1[(int)pcVar2] == '\\') || (param_1[(int)pcVar2] == '/')) break;
-    pcVar2 = pcVar2 + -1;
-    if (pcVar2 == (char *)0x0) {
-      return param_1;
+    unsigned int i = strlen(path);
+    while (i != 0) {
+        if (path[i] == '\\' || path[i] == '/') {
+            return path + i + 1;
+        }
+        i--;
     }
-  }
-  return param_1 + (int)(pcVar2 + 1);
+    return path;
 }
-

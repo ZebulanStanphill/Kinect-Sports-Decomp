@@ -1,40 +1,56 @@
-void fn_8257E0B8(int param_1,unsigned __int64 param_2)
+struct Obj_8257E0B8;
+typedef struct {
+    int pad[6];
+    void (*fn18)(struct Obj_8257E0B8 *self, int arg);
+} Vt_8257E0B8;
+typedef struct Link_8257E0B8 {
+    int pad;
+    struct Link_8257E0B8 *next;
+} Link_8257E0B8;
+typedef struct Obj_8257E0B8 {
+    Vt_8257E0B8 *vt;
+    int pad4[3];
+    Link_8257E0B8 link;
+} Obj_8257E0B8;
+typedef struct {
+    struct {
+        int pad;
+        Link_8257E0B8 *head;
+    } slot[36];
+    int pad120;
+    Link_8257E0B8 *head2;
+    int pad128;
+    Link_8257E0B8 *head3;
+} Owner_8257E0B8;
+typedef struct {
+    int pad;
+    Owner_8257E0B8 *owner;
+} Top_8257E0B8;
 
+static Obj_8257E0B8 *objOf(Link_8257E0B8 *l)
 {
-  int iVar1;
-  int iVar2;
-  int *piVar3;
-  __int64 lVar4;
-  int *piVar5;
-  
-  iVar1 = *(int *)(param_1 + 4);
-  lVar4 = 0x24;
-  piVar5 = (int *)(iVar1 + 4);
-  do {
-    for (iVar2 = *piVar5; iVar2 != 0; iVar2 = *(int *)(iVar2 + 4)) {
-      piVar3 = (int *)(iVar2 + -0x10);
-      if (iVar2 == 0) {
-        piVar3 = (int *)0x0;
-      }
-      (**(int (***)())(*piVar3 + 0x18))(piVar3,param_2);
-    }
-    lVar4 = lVar4 + -1;
-    piVar5 = piVar5 + 2;
-  } while (lVar4 != 0);
-  for (iVar2 = *(int *)(iVar1 + 300); iVar2 != 0; iVar2 = *(int *)(iVar2 + 4)) {
-    piVar5 = (int *)(iVar2 + -0x10);
-    if (iVar2 == 0) {
-      piVar5 = (int *)0x0;
-    }
-    (**(int (***)())(*piVar5 + 0x18))(piVar5,param_2);
-  }
-  for (iVar1 = *(int *)(iVar1 + 0x124); iVar1 != 0; iVar1 = *(int *)(iVar1 + 4)) {
-    piVar5 = (int *)(iVar1 + -0x10);
-    if (iVar1 == 0) {
-      piVar5 = (int *)0x0;
-    }
-    (**(int (***)())(*piVar5 + 0x18))(piVar5,param_2);
-  }
-  return;
+    if (l != 0)
+        return (Obj_8257E0B8 *)((char *)l - 0x10);
+    return 0;
 }
 
+void fn_8257E0B8(Top_8257E0B8 *top, int arg)
+{
+    Owner_8257E0B8 *o = top->owner;
+    int i;
+    Link_8257E0B8 *l;
+    for (i = 0; i < 36; i++) {
+        for (l = o->slot[i].head; l != 0; l = l->next) {
+            Obj_8257E0B8 *obj = objOf(l);
+            obj->vt->fn18(obj, arg);
+        }
+    }
+    for (l = o->head3; l != 0; l = l->next) {
+        Obj_8257E0B8 *obj = objOf(l);
+        obj->vt->fn18(obj, arg);
+    }
+    for (l = o->head2; l != 0; l = l->next) {
+        Obj_8257E0B8 *obj = objOf(l);
+        obj->vt->fn18(obj, arg);
+    }
+}

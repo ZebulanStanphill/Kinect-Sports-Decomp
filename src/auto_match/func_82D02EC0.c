@@ -1,23 +1,23 @@
-void fn_82D02EC0(unsigned __int64 param_1,int param_2,unsigned int param_3)
+typedef struct Node_82D02EC0 {
+    int pad0;
+    unsigned int sizeAndFlags;
+    char pad8[8];
+    struct Node_82D02EC0 *next;
+    struct Node_82D02EC0 *child;
+} Node_82D02EC0;
 
+unsigned int fn_82D02EC0(void *self, Node_82D02EC0 *node, unsigned int maxSize)
 {
-  unsigned int uVar1;
-  int iVar2;
-  
-  if (param_2 != 0) {
-    do {
-      uVar1 = *(unsigned int *)(param_2 + 4) & 0xfffffffc;
-      if (param_3 < uVar1) {
-        param_3 = uVar1;
-      }
-      iVar2 = *(int *)(param_2 + 0x14);
-      if (*(int *)(param_2 + 0x14) == 0) {
-        iVar2 = *(int *)(param_2 + 0x10);
-      }
-      param_2 = iVar2;
-    } while (param_2 != 0);
-    return;
-  }
-  return;
+    while (node != 0) {
+        unsigned int size = node->sizeAndFlags & ~3;
+        if (size > maxSize) {
+            maxSize = size;
+        }
+        if (node->child != 0) {
+            node = node->child;
+        } else {
+            node = node->next;
+        }
+    }
+    return maxSize;
 }
-

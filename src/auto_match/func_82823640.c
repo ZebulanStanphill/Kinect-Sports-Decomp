@@ -1,25 +1,39 @@
-extern int fn_82822510();
+typedef struct Heap_82823640 Heap_82823640;
+typedef struct HeapFuncs_82823640 {
+    void *slot0;
+    void *slot4;
+    void *slot8;
+    void *slotc;
+    int (*size)(Heap_82823640 *heap, char *p);
+} HeapFuncs_82823640;
+struct Heap_82823640 {
+    char pad0[0xc];
+    unsigned int flags;
+    HeapFuncs_82823640 *funcs;
+    char pad14[0x64];
+    int header;
+};
 
+extern char lbl_8320A5DC[];
+extern void fn_82823440(void);
+extern void fn_82822510(void *table, void (*cb)(void), void *arg, Heap_82823640 **out);
 
-__int64 fn_82823640(__int64 param_1)
-
+int fn_82823640(char *p)
 {
-  __int64 lVar1;
-  int aiStack_30 [8];
-  
-  fn_82822510(0xffffffff8320a5dc,0xffffffff82823440,param_1,aiStack_30);
-  if (aiStack_30[0] == 0) {
-    lVar1 = 0;
-  }
-  else {
-    if ((*(unsigned int *)(aiStack_30[0] + 0xc) & 4) != 0) {
-      param_1 = param_1 - (unsigned __int64)*(unsigned int *)(aiStack_30[0] + 0x78);
+    Heap_82823640 *found;
+    fn_82822510(lbl_8320A5DC, fn_82823440, p, &found);
+    if (found != 0) {
+        Heap_82823640 *heap = found;
+        char *q = p;
+        int size;
+        if (heap->flags & 4) {
+            q = p - heap->header;
+        }
+        size = heap->funcs->size(heap, q);
+        if (heap->flags & 4) {
+            size -= heap->header * 2;
+        }
+        return size;
     }
-    lVar1 = (**(int (***)())(*(int *)(aiStack_30[0] + 0x10) + 0x10))(aiStack_30[0],param_1);
-    if ((*(unsigned int *)(aiStack_30[0] + 0xc) & 4) != 0) {
-      lVar1 = lVar1 + ((unsigned __int64)*(unsigned int *)(aiStack_30[0] + 0x78) & 0x7fffffff) * -2;
-    }
-  }
-  return lVar1;
+    return 0;
 }
-

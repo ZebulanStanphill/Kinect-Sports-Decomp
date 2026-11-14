@@ -1,45 +1,41 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
+typedef struct Node_82ACA698 { unsigned int w; int pad4; struct Node_82ACA698 *next; int padc; unsigned int f10; } Node_82ACA698;
+typedef struct List_82ACA698 { int pad; Node_82ACA698 *head; struct { unsigned int pad:25; unsigned int active:1; unsigned int low:6; } flags; } List_82ACA698;
+typedef struct Obj_82ACA698 { char pad[0x30]; unsigned int mask; } Obj_82ACA698;
 
-
-void fn_82ACA698(int param_1,int param_2,char param_3)
-
+static int notNull(Node_82ACA698 *p)
 {
-  unsigned int *puVar1;
-  bool bVar2;
-  unsigned int uVar3;
-  
-  if ((*(unsigned int *)(param_2 + 8) >> 6 & 1) == 0) {
-    return;
-  }
-  puVar1 = *(unsigned int **)(param_2 + 4);
-  do {
-    if (puVar1 == (unsigned int *)0x0) {
-      return;
-    }
-    if (puVar1[4] != 0) {
-      uVar3 = *puVar1;
-      if ((uVar3 & 0x40000000) == 0) {
-LAB_82aca6d8:
-        bVar2 = false;
-      }
-      else {
-        bVar2 = true;
-        if ((uVar3 & 0xe000000) != 0) goto LAB_82aca6d8;
-      }
-      if (bVar2) {
-        uVar3 = 1 << (uVar3 >> 0xd & 0x3f);
-        if (param_3 == '\0') {
-          uVar3 = *(unsigned int *)(param_1 + 0x30) & ~uVar3;
-        }
-        else {
-          uVar3 = uVar3 | *(unsigned int *)(param_1 + 0x30);
-        }
-        *(unsigned int *)(param_1 + 0x30) = uVar3;
-      }
-    }
-    puVar1 = (unsigned int *)puVar1[2];
-  } while( true );
+    if (p) return 1;
+    return 0;
 }
 
+void fn_82ACA698(Obj_82ACA698 *self, List_82ACA698 *list, unsigned char set)
+{
+    Node_82ACA698 *p;
+    unsigned char ok;
+    unsigned int w;
+    unsigned int bit;
+    if (!(unsigned char)list->flags.active) {
+        return;
+    }
+    p = list->head;
+    while (notNull(p)) {
+        if (p->f10 != 0) {
+            w = p->w;
+            if ((w & 0x40000000) != 0 && (w & 0xe000000) == 0) {
+                ok = 1;
+            } else {
+                ok = 0;
+            }
+            if (ok) {
+                if (set) {
+                    bit = 1 << ((w >> 13) & 0xfff);
+                    self->mask = self->mask | bit;
+                } else {
+                    bit = 1 << ((w >> 13) & 0xfff);
+                    self->mask = self->mask & ~bit;
+                }
+            }
+        }
+        p = p->next;
+    }
+}

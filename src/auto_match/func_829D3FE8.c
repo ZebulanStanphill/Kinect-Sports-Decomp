@@ -1,19 +1,27 @@
-unsigned __int64 fn_829D3FE8(int param_1,int param_2,unsigned int *param_3)
+typedef struct Slot_829D3FE8 {
+    char pad0[0x144];
+    unsigned int id;
+    int state;
+    int pad14c;
+} Slot_829D3FE8;
 
+typedef struct Owner_829D3FE8 {
+    char pad0[0xc0];
+    Slot_829D3FE8 slots[6];
+} Owner_829D3FE8;
+
+int fn_829D3FE8(unsigned int id, Owner_829D3FE8 *owner, unsigned int *index)
 {
-  unsigned int uVar1;
-  int *piVar2;
-  
-  uVar1 = 0;
-  piVar2 = (int *)(param_2 + 0x208);
-  while ((piVar2[-1] != param_1 || (*piVar2 != 2))) {
-    uVar1 = uVar1 + 1;
-    piVar2 = piVar2 + 0x54;
-    if (5 < uVar1) {
-      return 0;
-    }
-  }
-  *param_3 = uVar1;
-  return 1;
-}
+    Slot_829D3FE8 *slots = owner->slots;
+    int found = 0;
+    unsigned int i;
 
+    for (i = 0; i < 6; i++) {
+        if (slots[i].id == id && slots[i].state == 2) {
+            *index = i;
+            found = 1;
+            break;
+        }
+    }
+    return found;
+}

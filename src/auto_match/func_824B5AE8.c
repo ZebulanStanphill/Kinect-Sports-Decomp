@@ -1,10 +1,11 @@
-extern unsigned int lbl_831C4618;
+typedef struct Settings_824B5AE8 {
+    int pad[2];
+    int previous;   /* 0x8 */
+} Settings_824B5AE8;
 
+extern Settings_824B5AE8 lbl_831C4610;
 
-__int64 fn_824B5AE8(void)
-
+int fn_824B5AE8(void)
 {
-  return (__int64)((int)lbl_831C4618 >> 1) +
-         (unsigned __int64)((int)lbl_831C4618 < 0 && (lbl_831C4618 & 1) != 0);
+    return lbl_831C4610.previous / 2;
 }
-

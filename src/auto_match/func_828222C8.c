@@ -1,18 +1,19 @@
-void fn_828222C8(int *param_1,unsigned int *param_2)
+typedef struct Node_828222C8 {
+    struct Node_828222C8 *parent;
+    struct Node_828222C8 *child;
+} Node_828222C8;
 
+void fn_828222C8(Node_828222C8 *node, Node_828222C8 *item)
 {
-  unsigned int *puVar1;
-  
-  for (; *param_1 != 0; param_1 = (int *)*param_1) {
-  }
-  puVar1 = (unsigned int *)param_1[1];
-  param_1[1] = (int)param_2;
-  *param_2 = param_1;
-  param_2[1] = puVar1;
-  if (puVar1 == (unsigned int *)0x0) {
-    return;
-  }
-  *puVar1 = param_2;
-  return;
-}
+    Node_828222C8 *root = node;
+    Node_828222C8 *next;
 
+    while (root->parent != 0)
+        root = root->parent;
+    next = root->child;
+    root->child = item;
+    item->parent = root;
+    item->child = next;
+    if (next != 0)
+        next->parent = item;
+}

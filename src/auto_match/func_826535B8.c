@@ -1,14 +1,10 @@
-extern unsigned int uRam7fc83214;
-extern unsigned int uRam7fc83408;
-
+void __emit(unsigned int);
+#define __eieio() __emit(0x7C0006AC)
 
 void fn_826535B8(void)
-
 {
-  uRam7fc83214 = 7;
-  enforceInOrderExecutionIO();
-  uRam7fc83408 = 0x800;
-  enforceInOrderExecutionIO();
-  return;
+    *(unsigned int *)0x7fc83214 = 7;
+    __eieio();
+    *(unsigned int *)0x7fc83408 = 0x800;
+    __eieio();
 }
-

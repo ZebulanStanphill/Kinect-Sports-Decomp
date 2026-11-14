@@ -1,16 +1,12 @@
-void fn_828622E8(int param_1,unsigned __int64 param_2,int param_3,unsigned __int64 param_4,int param_5,
-                  unsigned int *param_6)
+typedef struct {
+    unsigned int v[3];
+} Triple_828622E8;
 
+extern void fn_82810360(const Triple_828622E8 *src, Triple_828622E8 *dst);
+
+void fn_828622E8(Triple_828622E8 *items, int unused1, int kind, int unused3, int index,
+                 const Triple_828622E8 *value)
 {
-  unsigned int *puVar1;
-  
-  if (param_3 != 1) {
-    return;
-  }
-  puVar1 = (unsigned int *)(param_5 * 0xc + param_1);
-  *puVar1 = *param_6;
-  puVar1[1] = param_6[1];
-  puVar1[2] = param_6[2];
-  return;
+    if (kind == 1)
+        fn_82810360(value, &items[index]);
 }
-

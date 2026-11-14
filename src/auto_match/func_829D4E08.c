@@ -1,29 +1,32 @@
-extern unsigned int lbl_832179FC;
+typedef struct Entry_829D4E08 {
+    unsigned char data[0x54];
+} Entry_829D4E08;
 
+typedef struct Table_829D4E08 {
+    unsigned char head[0x1c];
+    Entry_829D4E08 entries[4];
+} Table_829D4E08;
 
-__int64 fn_829D4E08(int param_1,unsigned __int64 param_2)
+extern char *lbl_832179FC;
 
+Entry_829D4E08 *fn_829D4E08(int kind, unsigned int flags)
 {
-  __int64 lVar1;
-  
-  if ((param_2 & 0xffffffff) >> 0x1f == 0) {
-    lVar1 = (unsigned __int64)lbl_832179FC + 0x8f274;
-  }
-  else {
-    lVar1 = (unsigned __int64)lbl_832179FC + 0x8f108;
-  }
-  if (param_1 == 1) {
-    return lVar1 + 0x1c;
-  }
-  if (param_1 == 2) {
-    return lVar1 + 0x70;
-  }
-  if (param_1 != 4) {
-    if (param_1 != 6) {
-      return 0;
+    Table_829D4E08 *table;
+    unsigned char high = (unsigned char)(flags >> 31);
+    if (high) {
+        table = (Table_829D4E08 *)(lbl_832179FC + 0x8f108);
+    } else {
+        table = (Table_829D4E08 *)(lbl_832179FC + 0x8f274);
     }
-    return lVar1 + 0x118;
-  }
-  return lVar1 + 0xc4;
+    switch (kind) {
+    case 1:
+        return &table->entries[0];
+    case 2:
+        return &table->entries[1];
+    case 4:
+        return &table->entries[2];
+    case 6:
+        return &table->entries[3];
+    }
+    return 0;
 }
-

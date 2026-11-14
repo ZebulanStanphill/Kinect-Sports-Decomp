@@ -1,26 +1,14 @@
-extern unsigned int *auStack_40;
-extern int fn_8282EB50();
+typedef unsigned int Item_8282EBF8;
+extern void fn_8282EB50(Item_8282EBF8 *first, int hole, int bottom, Item_8282EBF8 *value, int pred);
 
-
-void fn_8282EBF8(__int64 param_1,int param_2,unsigned __int64 param_3)
-
+void fn_8282EBF8(Item_8282EBF8 *first, Item_8282EBF8 *last, int pred)
 {
-  unsigned int uVar1;
-  __int64 lVar2;
-  unsigned __int64 uVar3;
-  unsigned int auStack_40;
-
-  param_2 = param_2 - (int)param_1;
-  uVar1 = param_2 >> 2;
-  uVar3 = (__int64)(param_2 >> 3) + (unsigned __int64)((int)uVar1 < 0 && (uVar1 & 1) != 0);
-  if (0 < (__int64)uVar3) {
-    lVar2 = (uVar3 & 0x3fffffff) * 4 + param_1;
-    do {
-      lVar2 = lVar2 + -4;
-      auStack_40 = *(unsigned int *)lVar2;
-      uVar3 = uVar3 - 1;
-      fn_8282EB50(param_1,uVar3,uVar1,&auStack_40,param_3);
-    } while (0 < (int)uVar3);
-  }
-  return;
+    int bottom = last - first;
+    int hole;
+    for (hole = bottom / 2; 0 < hole;) {
+        Item_8282EBF8 value;
+        --hole;
+        value = first[hole];
+        fn_8282EB50(first, hole, bottom, &value, pred);
+    }
 }

@@ -1,26 +1,28 @@
-extern unsigned int lbl_83264660;
+typedef struct Desc_8301EEA8 {
+    int words[9];
+} Desc_8301EEA8;
 
+typedef struct Block_8301EEA8 {
+    int words[6];
+} Block_8301EEA8;
 
-unsigned __int64 fn_8301EEA8(unsigned int param_1,unsigned char *param_2,int param_3)
+typedef struct Entry_8301EEA8 {
+    Desc_8301EEA8 desc;
+    char pad24[0x30 - 0x24];
+    Block_8301EEA8 block;
+    char pad48[0x50 - 0x48];
+    unsigned char kind;
+    char rest[0x90 - 0x51];
+} Entry_8301EEA8;
 
+extern Entry_8301EEA8 lbl_83264610[8];
+
+int fn_8301EEA8(unsigned int index, unsigned char *kind, Block_8301EEA8 *out)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  __int64 lVar3;
-  
-  if (7 < param_1) {
-    return 0x1f;
-  }
-  puVar1 = (unsigned int *)(param_3 + -4);
-  lVar3 = 6;
-  puVar2 = (unsigned int *)(param_1 * 0x90 + -0x7cd9b9c4);
-  *param_2 = (&lbl_83264660)[param_1 * 0x90];
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  return 1;
+    if (index >= 8) {
+        return 0x1f;
+    }
+    *kind = lbl_83264610[index].kind;
+    *out = lbl_83264610[index].block;
+    return 1;
 }
-

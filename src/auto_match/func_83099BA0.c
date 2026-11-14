@@ -1,10 +1,14 @@
-void fn_83099BA0(unsigned char *param_1,int param_2)
+typedef struct Info_83099BA0 {
+    char pad0[0x14];
+    int count;
+} Info_83099BA0;
 
+typedef struct Object_83099BA0 {
+    char pad0[0x18];
+    Info_83099BA0 *info;
+} Object_83099BA0;
+
+void fn_83099BA0(unsigned char *result, Object_83099BA0 *self)
 {
-  unsigned int uVar1;
-  
-  uVar1 = *(unsigned int *)(*(int *)(param_2 + 0x18) + 0x14);
-  *param_1 = (unsigned char)((unsigned char)(-(unsigned __int64)uVar1 >> 0x18) & ~(unsigned char)(uVar1 >> 0x18)) >> 7;
-  return;
+    *result = self->info->count > 0;
 }
-

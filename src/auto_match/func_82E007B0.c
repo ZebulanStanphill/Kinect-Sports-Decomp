@@ -1,24 +1,29 @@
-void fn_82E007B0(int param_1,unsigned int param_2)
+typedef struct Target_82E007B0 {
+    char pad0[0x2c];
+    int value;                              /* 0x2c */
+} Target_82E007B0;
 
+typedef struct Entry_82E007B0 {
+    Target_82E007B0 *target;                /* 0x00 */
+    char pad4[0x5c];
+} Entry_82E007B0;
+
+typedef struct Owner_82E007B0 {
+    char pad0[0xc];
+    int value;                              /* 0x0c */
+    Entry_82E007B0 *entries;                /* 0x10 */
+    int count;                              /* 0x14 */
+} Owner_82E007B0;
+
+void fn_82E007B0(Owner_82E007B0 *self, int value)
 {
-  int iVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  
-  uVar3 = (unsigned __int64)*(unsigned int *)(param_1 + 0x14);
-  *(unsigned int *)(param_1 + 0xc) = param_2;
-  if ((int)*(unsigned int *)(param_1 + 0x14) < 1) {
-    return;
-  }
-  iVar2 = 0;
-  do {
-    iVar1 = *(int *)(*(int *)(param_1 + 0x10) + iVar2);
-    if (iVar1 != 0) {
-      *(unsigned int *)(iVar1 + 0x2c) = param_2;
+    int i;
+    int count = self->count;
+    self->value = value;
+    for (i = 0; i < count; i++) {
+        Target_82E007B0 *target = self->entries[i].target;
+        if (target != 0) {
+            target->value = value;
+        }
     }
-    iVar2 = iVar2 + 0x60;
-    uVar3 = uVar3 - 1;
-  } while (uVar3 != 0);
-  return;
 }
-

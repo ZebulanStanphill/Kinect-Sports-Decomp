@@ -1,22 +1,22 @@
-void fn_82B4C2F8(int *param_1)
+typedef struct Link_82B4C2F8 {
+    unsigned int next;      /* 0x0: tagged pointer, bit 0 = end */
+    unsigned int flags;     /* 0x4 */
+} Link_82B4C2F8;
 
+typedef struct Item_82B4C2F8 {
+    int pad;
+    unsigned int next;      /* 0x4: its link starts here */
+    void *data;             /* 0x8 */
+} Item_82B4C2F8;
+
+typedef struct Iter_82B4C2F8 {
+    Link_82B4C2F8 *link;    /* 0x0 */
+    Item_82B4C2F8 *item;    /* 0x4 */
+    void *data;             /* 0x8 */
+} Iter_82B4C2F8;
+
+void fn_82B4C2F8(Iter_82B4C2F8 *it)
 {
-  int iVar1;
-  
-  if ((((unsigned int *)*param_1)[1] & 1) == 0) {
-    iVar1 = (*(unsigned int *)*param_1 & 0xfffffffe) - 4;
-  }
-  else {
-    iVar1 = 0;
-  }
-  param_1[1] = iVar1;
-  if (iVar1 == 0) {
-    iVar1 = 0;
-  }
-  else {
-    iVar1 = *(int *)(iVar1 + 8);
-  }
-  param_1[2] = iVar1;
-  return;
+    it->item = (it->link->flags & 1) ? 0 : (Item_82B4C2F8 *)((it->link->next & ~1u) - 4);
+    it->data = it->item ? it->item->data : 0;
 }
-

@@ -1,31 +1,30 @@
-extern int fn_82BD6300();
+struct Obj_82BD6B68;
+typedef struct ObjVt_82BD6B68 {
+    void *slot0;
+    void *slot4;
+    void (*apply)(struct Obj_82BD6B68 *self);
+} ObjVt_82BD6B68;
+typedef struct Obj_82BD6B68 {
+    ObjVt_82BD6B68 *vt;
+} Obj_82BD6B68;
 
+typedef struct Self_82BD6B68 {
+    char pad0[0x24];
+    int applied[1];
+} Self_82BD6B68;
 
-void fn_82BD6B68(int param_1,int param_2,int *param_3,__int64 param_4)
+extern Obj_82BD6B68 *fn_82BD6300(Self_82BD6B68 *self, unsigned int key);
 
+void fn_82BD6B68(Self_82BD6B68 *self, unsigned int *keys, int *enable, unsigned int count)
 {
-  int *piVar1;
-  unsigned int uVar2;
-  unsigned int *puVar3;
-  
-  if ((int)param_4 != 0) {
-    puVar3 = (unsigned int *)(param_1 + 0x24);
-    param_2 = param_2 - (int)param_3;
-    do {
-      piVar1 = (int *)fn_82BD6300(param_1,*(unsigned int *)(param_2 + (int)param_3));
-      if ((piVar1 == (int *)0x0) || (*param_3 == 0)) {
-        uVar2 = 0;
-      }
-      else {
-        (**(int (***)())(*piVar1 + 8))();
-        uVar2 = 1;
-      }
-      *puVar3 = uVar2;
-      param_4 = param_4 + -1;
-      param_3 = param_3 + 1;
-      puVar3 = puVar3 + 1;
-    } while (param_4 != 0);
-  }
-  return;
+    unsigned int i;
+    for (i = 0; i < count; i++) {
+        Obj_82BD6B68 *obj = fn_82BD6300(self, keys[i]);
+        if (obj != 0 && enable[i] != 0) {
+            obj->vt->apply(obj);
+            self->applied[i] = 1;
+        } else {
+            self->applied[i] = 0;
+        }
+    }
 }
-

@@ -1,21 +1,28 @@
-extern int XMemSet();
+typedef struct Buffer_82FE1178 {
+    unsigned int *data;
+    unsigned int mask;
+    int pad8;
+    unsigned short stride;
+    unsigned short offset;
+} Buffer_82FE1178;
 
+extern void *XMemSet(void *dst, int value, unsigned int size);
 
-void fn_82FE1178(unsigned __int64 param_1,unsigned int *param_2,unsigned __int64 param_3)
-
+static int CountBits(unsigned int mask)
 {
-  unsigned int uVar1;
-  int iVar2;
-  
-  iVar2 = 0;
-  for (uVar1 = param_2[1]; uVar1 != 0; uVar1 = uVar1 - 1 & uVar1) {
-    iVar2 = iVar2 + 1;
-  }
-  if (iVar2 == 0) {
-    return;
-  }
-                    /* WARNING: Subroutine does not return */
-  XMemSet((unsigned __int64)*(unsigned short *)((int)param_2 + 0xe) * 4 + (unsigned __int64)*param_2,0,
-                    (param_3 & 0x3fffffff) << 2);
+    int n = 0;
+    while (mask != 0) {
+        n++;
+        mask = (mask - 1) & mask;
+    }
+    return n;
 }
 
+void fn_82FE1178(void *self, Buffer_82FE1178 *buf, unsigned int count)
+{
+    unsigned int n = CountBits(buf->mask);
+    unsigned int i;
+    for (i = 0; i < n; i++) {
+        XMemSet(buf->data + (buf->stride * i + buf->offset), 0, count * 4);
+    }
+}

@@ -1,27 +1,21 @@
-void fn_82DFA210(int param_1)
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vxor(__vector4 a, __vector4 b);
+
+typedef struct Pair_82DFA210 {
+    __vector4 a;
+    __vector4 b;
+} Pair_82DFA210;
+
+static __forceinline void SetZero(__vector4 *v)
 {
-  unsigned int *puVar1;
-  int in_r0;
-  unsigned int in_register_000100b0;
-  unsigned int in_register_000100b4;
-  unsigned int in_register_000100b8;
-  unsigned int in_vr11;
-  unsigned int in_register_000100d0;
-  unsigned int in_register_000100d4;
-  unsigned int in_register_000100d8;
-  unsigned int in_vr13;
-  
-  puVar1 = (unsigned int *)(in_r0 + param_1 & 0xfffffff0);
-  *puVar1 = in_register_000100d0;
-  puVar1[1] = in_register_000100d4;
-  puVar1[2] = in_register_000100d8;
-  puVar1[3] = in_vr13;
-  puVar1 = (unsigned int *)(in_r0 + param_1 + 0x10 & 0xfffffff0);
-  *puVar1 = in_register_000100b0;
-  puVar1[1] = in_register_000100b4;
-  puVar1[2] = in_register_000100b8;
-  puVar1[3] = in_vr11;
-  return;
+    *v = __vxor(*v, *v);
 }
 
+void fn_82DFA210(Pair_82DFA210 *self)
+{
+    SetZero(&self->a);
+    SetZero(&self->b);
+}

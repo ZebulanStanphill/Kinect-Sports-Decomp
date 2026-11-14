@@ -1,8 +1,5 @@
-/* WARNING: Removing unreachable block (ram,0x82f93328) */
-
-unsigned int fn_82F93300(void)
-
+unsigned int fn_82F93300(void *self)
 {
-  return 0x3fffffff;
+    unsigned int count = (unsigned int)-1 / 4;
+    return 0 < count ? count : 1;
 }
-

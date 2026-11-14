@@ -1,11 +1,8 @@
-extern int fn_82A1E9A0();
+extern void XapiCallThreadNotifyRoutines(int create);
+extern __declspec(noreturn) void ExTerminateThread(unsigned int exitCode);
 
-
-void fn_8306C3B8(unsigned __int64 param_1)
-
+void fn_8306C3B8(unsigned int exitCode)
 {
-  fn_82A1E9A0(0);
-                    /* WARNING: Subroutine does not return */
-  ExTerminateThread(param_1);
+    XapiCallThreadNotifyRoutines(0);
+    ExTerminateThread(exitCode);
 }
-

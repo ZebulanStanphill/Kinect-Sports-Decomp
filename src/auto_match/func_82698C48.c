@@ -1,23 +1,26 @@
-__int64 fn_82698C48(unsigned int *param_1,__int64 param_2,__int64 param_3,unsigned int *param_4,
-                      int (**param_5)())
+typedef struct Elem_82698C48 {
+    int value;
+} Elem_82698C48;
 
+typedef struct Array_82698C48 {
+    Elem_82698C48 *data;
+} Array_82698C48;
+
+typedef int (*Less_82698C48)(Elem_82698C48 *elem, int key);
+
+int fn_82698C48(Array_82698C48 *array, int begin, int end, int *key, Less_82698C48 less)
 {
-  int iVar1;
-  __int64 lVar2;
-  __int64 lVar3;
-  
-  lVar3 = param_3 - param_2;
-  if (0 < param_3 - param_2) {
-    do {
-      lVar2 = (__int64)((int)lVar3 >> 1);
-      iVar1 = (*param_5)((lVar2 + param_2 & 0x3fffffffU) * 4 + (unsigned __int64)*param_1,*param_4);
-      if (iVar1 != 0) {
-        param_2 = lVar2 + param_2 + 1;
-        lVar2 = (lVar3 - lVar2) + -1;
-      }
-      lVar3 = lVar2;
-    } while (0 < (int)lVar2);
-  }
-  return param_2;
+    int first = begin;
+    int count = end - begin;
+    while (count > 0) {
+        int half = count >> 1;
+        int mid = first + half;
+        if (less(&array->data[mid], *key)) {
+            first = mid + 1;
+            count = count - half - 1;
+        } else {
+            count = half;
+        }
+    }
+    return first;
 }
-

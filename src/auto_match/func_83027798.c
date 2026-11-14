@@ -1,44 +1,39 @@
-void fn_83027798(int param_1)
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Pair_83027798 {
+    __vector4 a;
+    __vector4 b;
+} Pair_83027798;
+
+typedef struct Entry_83027798 {
+    Pair_83027798 current;          // 0x00
+    Pair_83027798 saved;            // 0x20
+} Entry_83027798;
+
+typedef struct Object_83027798 {
+    char pad0[0x2e];
+    unsigned short cols : 3;        // 0x2e, bits 15..13
+    unsigned short rows : 2;        // bits 12..11
+    unsigned short other : 11;
+    Entry_83027798 entries[1];      // 0x30
+} Object_83027798;
+
+void fn_83027798(Object_83027798 *self)
 {
-  unsigned int *puVar1;
-  int iVar2;
-  int in_r0;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs40 [16];
-  unsigned char in_vs42 [16];
-  unsigned int in_register_000103e0;
-  unsigned int in_register_000103e4;
-  unsigned int in_register_000103e8;
-  unsigned int in_vr62;
-  unsigned int in_register_000103f0;
-  unsigned int in_register_000103f4;
-  unsigned int in_register_000103f8;
-  unsigned int in_vr63;
-  
-  uVar3 = (*(unsigned short *)(param_1 + 0x2e) >> 0xb & 3) * (unsigned int)(*(unsigned short *)(param_1 + 0x2e) >> 0xd);
-  if (uVar3 == 0) {
-    return;
-  }
-  uVar4 = 0;
-  do {
-    iVar2 = uVar4 * 0x40 + param_1;
-    uVar4 = uVar4 + 1 & 0xffff;
-    altv207_13(in_vs32,in_vs42);
-    puVar1 = (unsigned int *)(in_r0 + iVar2 + 0x50 & 0xfffffff0);
-    *puVar1 = in_register_000103f0;
-    puVar1[1] = in_register_000103f4;
-    puVar1[2] = in_register_000103f8;
-    puVar1[3] = in_vr63;
-    altv207_13(in_vs42,in_vs40);
-    puVar1 = (unsigned int *)(iVar2 + 0x60U & 0xfffffff0);
-    *puVar1 = in_register_000103e0;
-    puVar1[1] = in_register_000103e4;
-    puVar1[2] = in_register_000103e8;
-    puVar1[3] = in_vr62;
-  } while (uVar4 < uVar3);
-  return;
-}
+    unsigned short count = self->rows * self->cols;
+    unsigned short i;
 
+    if (count != 0) {
+        i = 0;
+        do {
+            Pair_83027798 *src = &self->entries[i].current;
+            Pair_83027798 *dst = &self->entries[i].saved;
+
+            dst->a = src->a;
+            dst->b = src->b;
+            i++;
+        } while (i < count);
+    }
+}

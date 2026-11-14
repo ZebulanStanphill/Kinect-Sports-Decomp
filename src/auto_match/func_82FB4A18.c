@@ -1,44 +1,27 @@
-extern int fn_82FA5190();
-extern int fn_82FA7508();
-extern int fn_82FA9208();
-extern int fn_82FA92C0();
-extern unsigned int lbl_831BC768;
-extern unsigned int lbl_83264230;
+typedef struct Object_82FB4A18 Object_82FB4A18;
 
+typedef struct Holder_82FB4A18 {
+    char pad0[0x1c];
+    Object_82FB4A18 *object;        /* 0x1c */
+    char pad20[0x10];
+    unsigned int flags;             /* 0x30 */
+    char pad34[0x10];
+    unsigned char active;           /* 0x44 */
+} Holder_82FB4A18;
 
-void fn_82FB4A18(int param_1)
+extern void fn_82FA9208(Object_82FB4A18 *object);
 
+static __forceinline void ResetObject(Object_82FB4A18 **slot)
 {
-  unsigned int uVar1;
-  unsigned int *puVar2;
-  unsigned int uVar3;
-  int iVar4;
-  unsigned __int64 uVar5;
-  
-  *(unsigned char *)(param_1 + 0x44) = 0;
-  *(unsigned int *)(param_1 + 0x30) = *(unsigned int *)(param_1 + 0x30) & 0x7fffffff;
-  puVar2 = *(unsigned int **)(param_1 + 0x1c);
-  *(unsigned int *)(param_1 + 0x1c) = 0;
-  if (puVar2 == (unsigned int *)0x0) {
-    return;
-  }
-  uVar1 = puVar2[0xb];
-  puVar2[0xb] = (int)((unsigned __int64)uVar1 - 1);
-  if ((unsigned __int64)uVar1 - 1 == 0) {
-    uVar5 = (unsigned __int64)(unsigned int)puVar2[3];
-    if (uVar5 == 0) {
-      fn_82FA7508(lbl_83264230,puVar2);
-    }
-    else {
-      iVar4 = fn_82FA92C0(uVar5 + 0x28,puVar2 + 1);
-      if (iVar4 == 1) {
-        fn_82FA9208(uVar5);
-      }
-    }
-    uVar3 = lbl_831BC768;
-    (**(int (***)())*puVar2)(puVar2,0);
-    fn_82FA5190(uVar3,puVar2);
-  }
-  return;
+    Object_82FB4A18 *object = *slot;
+    *slot = 0;
+    if (object != 0)
+        fn_82FA9208(object);
 }
 
+void fn_82FB4A18(Holder_82FB4A18 *self)
+{
+    self->active = 0;
+    self->flags &= 0x7fffffff;
+    ResetObject(&self->object);
+}

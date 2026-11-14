@@ -1,20 +1,36 @@
-unsigned __int64 fn_82AD1590(int param_1)
+typedef struct Node_82AD1590 {
+    unsigned int pad0 : 4;
+    unsigned int kind : 3;
+    unsigned int code : 8;
+    unsigned int pad1 : 17;
+    int unk4;
+    struct Node_82AD1590 *next;
+} Node_82AD1590;
 
+typedef struct {
+    int unk0;
+    Node_82AD1590 *first;
+    unsigned int pad0 : 26;
+    unsigned int active : 1;
+    unsigned int pad1 : 5;
+} List_82AD1590;
+
+static __forceinline int NotNull(const Node_82AD1590 *node)
 {
-  unsigned int *puVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  
-  if ((*(unsigned int *)(param_1 + 8) >> 5 & 1) == 0) {
+    if (node)
+        return 1;
     return 0;
-  }
-  for (puVar1 = *(unsigned int **)(param_1 + 4); (puVar1 != (unsigned int *)0x0 && ((*puVar1 & 0xe000000) == 0));
-      puVar1 = (unsigned int *)puVar1[2]) {
-  }
-  uVar2 = *puVar1 >> 0x11 & 0xff;
-  if ((uVar2 < 0x20) || (uVar3 = 1, 0x25 < uVar2)) {
-    uVar3 = 0;
-  }
-  return uVar3;
 }
 
+unsigned char fn_82AD1590(List_82AD1590 *list)
+{
+    Node_82AD1590 *node;
+    unsigned int code;
+    if (!(unsigned char)list->active)
+        return 0;
+    for (node = list->first; NotNull(node); node = node->next)
+        if (node->kind != 0)
+            break;
+    code = node->code;
+    return code >= 0x20 && code <= 0x25;
+}

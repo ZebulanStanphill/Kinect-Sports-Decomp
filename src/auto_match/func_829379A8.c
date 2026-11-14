@@ -1,23 +1,16 @@
-extern unsigned int *auStack_30;
-extern int fn_82936290();
-extern int fn_829362F0();
+/* strsafe StringCchCatA: length of dst, then StringCchCopyA (fn_82936290) behind it. */
+extern int fn_829362F0(char *dst, unsigned int cch, unsigned int *length);
+extern int fn_82936290(char *dst, unsigned int cch, const char *src);
 
-
-unsigned __int64 fn_829379A8(__int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3)
-
+int fn_829379A8(char *dst, unsigned int cch, const char *src)
 {
-  unsigned __int64 uVar1;
-  unsigned int auStack_30;
-  
-  if ((param_2 & 0xffffffff) < 0x80000000) {
-    uVar1 = fn_829362F0(param_1,param_2,&auStack_30);
-    if (-1 < (int)uVar1) {
-      uVar1 = fn_82936290((unsigned __int64)auStack_30 + param_1,param_2 - auStack_30,param_3);
-    }
-  }
-  else {
-    uVar1 = 0xffffffff80070057;
-  }
-  return uVar1;
-}
+    unsigned int length;
+    int hr;
 
+    if (cch > 0x7fffffff)
+        return 0x80070057;
+    hr = fn_829362F0(dst, cch, &length);
+    if (hr < 0)
+        return hr;
+    return fn_82936290(dst + length, cch - length, src);
+}

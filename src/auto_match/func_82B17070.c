@@ -1,23 +1,17 @@
-__int64 fn_82B17070(unsigned int *param_1,unsigned int param_2)
+typedef struct BitSet_82B17070 {
+    unsigned int words[1];
+} BitSet_82B17070;
 
+unsigned int fn_82B17070(BitSet_82B17070 *set, unsigned int start)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  
-  uVar1 = -1 << (param_2 & 0x1f);
-  if (param_2 >> 5 != 0) {
-    return -1;
-  }
-  uVar2 = 0;
-  do {
-    uVar1 = *param_1 & uVar1;
-    if (uVar1 != 0) {
-      return ((uVar2 & 0x7ffffff) * 0x20 - LZCOUNT(uVar1 & ~(uVar1 - 1))) + 0x1f;
+    unsigned int mask = ~0U << (start & 31);
+    unsigned int i;
+    for (i = start >> 5; i < 1; i++) {
+        unsigned int x = set->words[i] & mask;
+        if (x != 0) {
+            return i * 32 + 31 - _CountLeadingZeros(x & ~(x - 1));
+        }
+        mask = ~0U;
     }
-    uVar2 = uVar2 + 1;
-    uVar1 = 0xffffffff;
-    param_1 = param_1 + 1;
-  } while ((uVar2 & 0xffffffff) == 0);
-  return -1;
+    return 0xffffffff;
 }
-

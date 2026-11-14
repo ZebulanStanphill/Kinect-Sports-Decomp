@@ -1,28 +1,20 @@
-__int64 fn_82AE52C8(unsigned int *param_1,unsigned int param_2,unsigned int *param_3)
+typedef struct BitSet_82AE52C8 {
+    unsigned int words[1];
+} BitSet_82AE52C8;
 
+unsigned int fn_82AE52C8(BitSet_82AE52C8 *set, unsigned int start, unsigned int *value)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  __int64 lVar4;
-  
-  uVar2 = (unsigned __int64)(unsigned int)(-1 << (param_2 & 0x1f));
-  if (param_2 >> 5 != 0) {
-    return -1;
-  }
-  uVar3 = 0;
-  do {
-    uVar2 = uVar2 & ~(unsigned __int64)*param_1;
-    if (uVar2 != 0) {
-      uVar1 = (unsigned int)uVar2;
-      lVar4 = 0x1f - LZCOUNT(uVar1 & ~(uVar1 - 1));
-      *param_3 = *param_1 >> ((unsigned int)lVar4 & 0x3c) & 0xf;
-      return (uVar3 & 0x7ffffff) * 0x20 + lVar4;
+    unsigned int mask = ~0u << (start & 31);
+    unsigned int i;
+    for (i = start >> 5; i < 1; i++) {
+        unsigned int w = set->words[i];
+        unsigned int x = ~w & mask;
+        if (x != 0) {
+            unsigned int bit = 31 - _CountLeadingZeros(x & ~(x - 1));
+            *value = (w >> (bit & ~3)) & 0xf;
+            return i * 32 + bit;
+        }
+        mask = ~0u;
     }
-    uVar3 = uVar3 + 1;
-    uVar2 = 0xffffffffffffffff;
-    param_1 = param_1 + 1;
-  } while ((uVar3 & 0xffffffff) == 0);
-  return -1;
+    return 0xffffffff;
 }
-

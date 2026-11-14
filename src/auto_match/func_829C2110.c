@@ -1,25 +1,16 @@
-extern int fn_8265C940();
-extern int fn_82F691F0();
+/* zlib zcalloc for the D3DX allocator: tagged allocation, alignment check, zero fill. */
+extern void *memset(void *dst, int value, unsigned int size);
+extern void *fn_8265C940(unsigned int size, unsigned int tag);
 
-
-unsigned __int64 d3dx_zcalloc(unsigned __int64 param_1,int param_2,unsigned __int64 param_3)
-
+void *d3dx_zcalloc(void *opaque, unsigned int items, unsigned int size)
 {
-  unsigned __int64 in_r0;
-  unsigned __int64 uVar1;
-  __int64 lVar2;
-  
-  lVar2 = (__int64)param_2 * (__int64)(int)param_3;
-  uVar1 = fn_8265C940(lVar2,0x24810000);
-  if (uVar1 != 0) {
-    trapWord(6,param_3,0);
-    if (uVar1 != (__int64)(int)((uVar1 & 0xffffffff) / (param_3 & 0xffffffff)) *
-                 (__int64)(int)param_3) {
-      trapWord(0x1f,in_r0,0x16);
-    }
-                    /* WARNING: Subroutine does not return */
-    fn_82F691F0(uVar1,0,lVar2);
-  }
-  return 0;
-}
+    unsigned int bytes = items * size;
+    void *p = fn_8265C940(bytes, 0x24810000);
 
+    if (p != 0) {
+        if ((unsigned int)p % size != 0)
+            __debugbreak();
+        memset(p, 0, bytes);
+    }
+    return p;
+}

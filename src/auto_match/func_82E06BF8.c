@@ -1,24 +1,46 @@
-__int64 fn_82E06BF8(int param_1,unsigned int *param_2)
+typedef struct Buffers_82E06BF8 {
+    char pad[0x8];
+    char *base8;        /* 0x8 */
+    char padc[0x8];
+    char *base14;       /* 0x14 */
+    char pad18[0x8];
+    char *base20;       /* 0x20 */
+    char pad24[0x8];
+    char *base2c;       /* 0x2c */
+    char pad30[0x8];
+    char *base38;       /* 0x38 */
+} Buffers_82E06BF8;
 
+typedef struct Element_82E06BF8 {
+    unsigned int offset;    /* 0x0 */
+    unsigned short type;    /* 0x4 */
+} Element_82E06BF8;
+
+void *fn_82E06BF8(Buffers_82E06BF8 *self, Element_82E06BF8 *element)
 {
-  unsigned int uVar1;
-  
-  uVar1 = (unsigned int)*(unsigned short *)(param_2 + 1);
-  if (6 < uVar1 - 1) {
-    return 0;
-  }
-  if (uVar1 == 2) {
-    return (unsigned __int64)*param_2 + (unsigned __int64)*(unsigned int *)(param_1 + 0x2c);
-  }
-  if (uVar1 == 3) {
-    return (unsigned __int64)*param_2 + (unsigned __int64)*(unsigned int *)(param_1 + 0x20);
-  }
-  if ((uVar1 != 4) && (uVar1 != 5)) {
-    if ((uVar1 != 6) && (uVar1 == 1)) {
-      return (unsigned __int64)*param_2 + (unsigned __int64)*(unsigned int *)(param_1 + 0x38);
+    char *base;
+
+    switch (element->type) {
+    case 1:
+        base = self->base38;
+        break;
+    case 2:
+        base = self->base2c;
+        break;
+    case 3:
+        base = self->base20;
+        break;
+    case 4:
+    case 5:
+        base = self->base14;
+        break;
+    case 6:
+    case 7:
+        base = self->base8;
+        break;
+    default:
+        return 0;
     }
-    return (unsigned __int64)*param_2 + (unsigned __int64)*(unsigned int *)(param_1 + 8);
-  }
-  return (unsigned __int64)*param_2 + (unsigned __int64)*(unsigned int *)(param_1 + 0x14);
+    return base + element->offset;
 }
 

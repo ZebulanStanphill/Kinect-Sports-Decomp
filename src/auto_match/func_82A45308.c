@@ -1,17 +1,24 @@
-typedef unsigned char bool;
-
-
-bool fn_82A45308(int param_1,int param_2)
-
+typedef struct Entry_82A45308 {
+    unsigned int desc;
+    char pad4[0x3c];
+    unsigned int *descPtr;
+    char pad44[0x1c];
+} Entry_82A45308;
+typedef struct Table_82A45308 {
+    int pad0;
+    unsigned int flags;
+    Entry_82A45308 *entries;
+} Table_82A45308;
+static __forceinline unsigned char GetFormatKind(Table_82A45308 *self, int index)
 {
-  unsigned int uVar1;
-  
-  if ((*(unsigned int *)(param_1 + 4) & 0x20000) == 0) {
-    uVar1 = **(unsigned int **)(param_2 * 0x60 + *(int *)(param_1 + 8) + 0x40);
-  }
-  else {
-    uVar1 = *(unsigned int *)(param_2 * 0x60 + *(int *)(param_1 + 8));
-  }
-  return (uVar1 >> 0x14 & 3) == 0;
+    unsigned int desc;
+    if ((self->flags & 0x20000) != 0)
+        desc = self->entries[index].desc;
+    else
+        desc = *self->entries[index].descPtr;
+    return (desc >> 20) & 3;
 }
-
+unsigned char fn_82A45308(Table_82A45308 *self, int index)
+{
+    return 0 == GetFormatKind(self, index);
+}

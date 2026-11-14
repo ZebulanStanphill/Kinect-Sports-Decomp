@@ -1,33 +1,33 @@
-extern int fn_82B7BD28();
+typedef struct Entry_82BC08A0 {
+    int value;                          /* 0x0 */
+    int key;                            /* 0x4 */
+    struct Entry_82BC08A0 *next;        /* 0x8 */
+} Entry_82BC08A0;
 
+typedef struct List_82BC08A0 {
+    void *owner;                        /* 0x0 */
+    Entry_82BC08A0 *head;               /* 0x4 */
+} List_82BC08A0;
 
-void fn_82BC08A0(int param_1,int param_2,unsigned int param_3)
+typedef struct Self_82BC08A0 {
+    char pad[0x2c];
+    List_82BC08A0 *list;                /* 0x2c */
+} Self_82BC08A0;
 
+extern void fn_82BC0810(List_82BC08A0 *list, int key, int value);
+
+void fn_82BC08A0(Self_82BC08A0 *self, int key, int value)
 {
-  unsigned int uVar1;
-  int *piVar2;
-  unsigned int *puVar3;
-  unsigned int *puVar4;
-  
-  piVar2 = *(int **)(param_1 + 0x2c);
-  if ((piVar2[1] != 0) && (param_2 == ((unsigned int *)piVar2[1])[1])) {
-    *(unsigned int *)piVar2[1] = param_3;
-    return;
-  }
-  uVar1 = *(unsigned int *)(*piVar2 + 0x5ac);
-  puVar3 = (unsigned int *)fn_82B7BD28(uVar1,0x10);
-  puVar4 = puVar3 + 1;
-  *puVar3 = uVar1;
-  if (puVar4 == (unsigned int *)0x0) {
-    puVar4 = (unsigned int *)0x0;
-  }
-  else {
-    *puVar4 = param_3;
-    puVar3[2] = param_2;
-    puVar3[3] = 0;
-  }
-  puVar4[2] = piVar2[1];
-  piVar2[1] = (int)puVar4;
-  return;
+    List_82BC08A0 *list = self->list;
+
+    if (list->head == 0) {
+        fn_82BC0810(list, key, value);
+        return;
+    }
+    if (key == self->list->head->key) {
+        self->list->head->value = value;
+        return;
+    }
+    fn_82BC0810(list, key, value);
 }
 

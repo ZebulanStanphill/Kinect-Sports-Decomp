@@ -1,13 +1,21 @@
-unsigned int fn_823AA2E8(int param_1,unsigned int param_2,unsigned int param_3)
+typedef struct Grid_823AA2E8 {
+    char pad0[0x10];
+    int value;                              /* 0x10 */
+    char pad14[4];
+    unsigned int used;                      /* 0x18 */
+    unsigned int capacity;                  /* 0x1c */
+    char pad20[8];
+    int size;                               /* 0x28 */
+} Grid_823AA2E8;
 
+int fn_823AA2E8(Grid_823AA2E8 *self, unsigned int x, unsigned int y)
 {
-  unsigned int uVar1;
-  
-  uVar1 = *(int *)(param_1 + 0x28) - 1;
-  if (((param_2 < uVar1) || (param_3 < uVar1)) &&
-     (*(unsigned int *)(param_1 + 0x18) < *(unsigned int *)(param_1 + 0x1c))) {
-    return *(unsigned int *)(param_1 + 0x10);
-  }
-  return (unsigned int)(*(int *)(param_1 + 0x10) == 0);
+    unsigned int last = self->size - 1;
+    if (x >= last && y >= last) {
+        return self->value == 0;
+    }
+    if (self->used >= self->capacity) {
+        return self->value == 0;
+    }
+    return self->value;
 }
-

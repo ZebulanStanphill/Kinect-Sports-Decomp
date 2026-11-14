@@ -1,15 +1,18 @@
-typedef unsigned char bool;
+typedef struct Handler_828BE8C0 {
+    unsigned int id;
+    void (*handler)(void);
+    unsigned int a;
+    unsigned char b;
+    unsigned char c;
+    const char *name;
+    unsigned int sendMask;
+    unsigned int recvMask;
+} Handler_828BE8C0;
 
-
-bool fn_828BE8C0(int param_1,char param_2)
-
+extern Handler_828BE8C0 lbl_83214058[27];
+unsigned char fn_828BE8C0(int id, unsigned char send)
 {
-  int iVar1;
-  
-  iVar1 = -0x7cdebf94;
-  if (param_2 == '\0') {
-    iVar1 = -0x7cdebf90;
-  }
-  return (*(unsigned int *)(param_1 * 0x1c + iVar1) & 4) != 0;
+    if (send)
+        return (lbl_83214058[id].sendMask & 4) > 0;
+    return (lbl_83214058[id].recvMask & 4) > 0;
 }
-

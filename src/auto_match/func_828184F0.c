@@ -1,15 +1,9 @@
-short fn_828184F0(char *param_1,__int64 param_2)
-
+unsigned short fn_828184F0(const char *text, unsigned int length)
 {
-  short sVar1;
-  
-  sVar1 = 0;
-  if ((int)param_2 != 0) {
-    do {
-      sVar1 = sVar1 * 0x21 + (short)*param_1;
-      param_2 = param_2 + -1;
-    } while (param_2 != 0);
-  }
-  return sVar1;
-}
+    unsigned int hash = 0;
+    unsigned int i;
 
+    for (i = 0; i < length; i++)
+        hash = hash * 33 + *text;
+    return (unsigned short)hash;
+}

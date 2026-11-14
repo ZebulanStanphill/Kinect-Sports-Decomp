@@ -1,21 +1,16 @@
-unsigned __int64 fn_827F07F8(__int64 param_1,int param_2)
+typedef struct Owner_827F07F8 {
+    char pad0[0xa0];
+    unsigned int items[0x12];               /* 0xa0 */
+    unsigned short count;                   /* 0xe8 */
+} Owner_827F07F8;
 
+unsigned short fn_827F07F8(Owner_827F07F8 *self, unsigned int item)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  
-  uVar1 = (unsigned __int64)*(unsigned short *)((int)param_1 + 0xe8);
-  uVar2 = uVar1 - 1;
-  if (-1 < (__int64)uVar2) {
-    param_1 = (uVar1 + 0x27) * 4 + param_1;
-    do {
-      if (*(int *)param_1 == param_2) {
-        return uVar2 & 0xffff;
-      }
-      uVar2 = uVar2 - 1;
-      param_1 = param_1 + -4;
-    } while (-1 < (__int64)uVar2);
-  }
-  return 0xffffffffffffffff;
+    int i;
+    for (i = self->count - 1; i >= 0; i--) {
+        if (self->items[i] == item) {
+            return (unsigned short)i;
+        }
+    }
+    return 0xffff;
 }
-

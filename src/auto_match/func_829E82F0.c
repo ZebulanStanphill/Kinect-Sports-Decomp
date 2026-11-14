@@ -1,31 +1,14 @@
-#define true 1
-extern unsigned int lbl_82057BCC;
+extern unsigned int lbl_82057BCC[];
 
-
-unsigned __int64 fn_829E82F0(unsigned __int64 param_1,unsigned int param_2,unsigned int param_3)
-
+unsigned int fn_829E82F0(void *self, unsigned int width, unsigned int height)
 {
-  unsigned __int64 uVar1;
-  unsigned int *puVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  
-  puVar2 = (unsigned int *)&lbl_82057BCC;
-  uVar1 = 0;
-  uVar3 = 0;
-  while( true ) {
-    if (param_2 < *puVar2) {
-      return uVar1;
+    unsigned int level = 0;
+    unsigned int i;
+    for (i = 0; i < 8; i++) {
+        if (lbl_82057BCC[i] > width || lbl_82057BCC[i] > height) {
+            return level;
+        }
+        level = i;
     }
-    if (param_3 < *puVar2) break;
-    uVar4 = uVar3 + 1;
-    puVar2 = puVar2 + 1;
-    uVar1 = uVar3;
-    uVar3 = uVar4;
-    if (7 < (uVar4 & 0xffffffff)) {
-      return 7;
-    }
-  }
-  return uVar1;
+    return 7;
 }
-

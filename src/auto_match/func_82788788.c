@@ -1,27 +1,25 @@
-typedef unsigned char bool;
+typedef struct {
+    unsigned int key;
+    unsigned int subkey;
+    int value;
+} Entry_82788788;
 
+typedef struct {
+    int unk0[3];
+    Entry_82788788 **pages;
+} Table_82788788;
 
-unsigned char fn_82788788(int param_1,unsigned int param_2,unsigned int param_3)
+typedef struct {
+    int unk0;
+    Table_82788788 *table;
+} Owner_82788788;
 
+unsigned char fn_82788788(Owner_82788788 *self, unsigned int a, unsigned int b)
 {
-  int iVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned int *puVar4;
-  unsigned int *puVar5;
-  bool bVar6;
-  
-  iVar1 = *(int *)(*(int *)(param_1 + 4) + 0xc);
-  puVar5 = (unsigned int *)(*(int *)((param_2 >> 8 & 0xfffffc) + iVar1) + (param_2 & 0x3ff) * 0xc);
-  puVar4 = (unsigned int *)(*(int *)((param_3 >> 8 & 0xfffffc) + iVar1) + (param_3 & 0x3ff) * 0xc);
-  uVar2 = *puVar5;
-  uVar3 = *puVar4;
-  if (uVar2 == uVar3) {
-    bVar6 = puVar4[1] <= puVar5[1];
-  }
-  else {
-    bVar6 = uVar3 <= uVar2;
-  }
-  return -!bVar6 & 1;
+    Entry_82788788 **pages = self->table->pages;
+    Entry_82788788 *ea = &pages[a >> 10][a & 0x3ff];
+    Entry_82788788 *eb = &pages[b >> 10][b & 0x3ff];
+    if (ea->key != eb->key)
+        return ea->key < eb->key;
+    return ea->subkey < eb->subkey;
 }
-

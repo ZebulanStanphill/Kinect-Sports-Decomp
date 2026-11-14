@@ -1,18 +1,16 @@
-extern unsigned int lbl_82196288;
-extern unsigned int lbl_821AAD20;
+typedef struct Queue_827F2328 {
+    char pad[0x30];
+    void *entries[4];           /* 0x30 */
+    char pad40[0x53 - 0x40];
+    unsigned char head;         /* 0x53 */
+    unsigned char tail;         /* 0x54 */
+} Queue_827F2328;
 
+extern float fn_827F4970(void *entry);
 
-double fn_827F2328(int param_1)
-
+float fn_827F2328(Queue_827F2328 *self)
 {
-  int iVar1;
-  float fVar2;
-  
-  if ((unsigned int)*(unsigned char *)(param_1 + 0x54) == (unsigned int)*(unsigned char *)(param_1 + 0x53)) {
-    return (double)lbl_821AAD20;
-  }
-  iVar1 = *(int *)(((*(unsigned char *)(param_1 + 0x53) - 1 & 3) + 0xc) * 4 + param_1);
-  fVar2 = *(float *)(iVar1 + 0x2c) - *(float *)(iVar1 + 0x30);
-  return (double)((float)(lbl_82196288 <= fVar2) * fVar2);
+    if (self->tail == self->head)
+        return 0.0f;
+    return fn_827F4970(self->entries[(self->head - 1) & 3]);
 }
-

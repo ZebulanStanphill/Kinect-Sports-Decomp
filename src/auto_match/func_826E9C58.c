@@ -1,31 +1,41 @@
-extern int fn_82F6C060();
+typedef struct Stream_826E9C58 Stream_826E9C58;
 
+typedef struct StreamVtbl_826E9C58 {
+    void *slot0;
+    void *slot1;
+    void *slot2;
+    void *slot3;
+    int (*Tell)(Stream_826E9C58 *self);
+} StreamVtbl_826E9C58;
 
-unsigned __int64 fn_826E9C58(int *param_1,unsigned __int64 param_2,unsigned int param_3)
+struct Stream_826E9C58 {
+    StreamVtbl_826E9C58 *vt;
+    int pad4;
+    int pad8;
+    int padc;
+    void *file;                     /* 0x10 */
+};
 
+extern int fn_82F6C060(void *file, int offset, int whence);
+
+int fn_826E9C58(Stream_826E9C58 *self, int offset, unsigned int origin)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  
-  if (param_3 == 0) {
-LAB_826e9c98:
-    uVar2 = 0;
-    iVar1 = (**(int (***)())(*param_1 + 0x10))(param_1);
-    if ((int)param_2 == iVar1) goto LAB_826e9cd4;
-  }
-  else if (param_3 == 1) {
-    uVar2 = 1;
-  }
-  else {
-    if (2 < param_3) goto LAB_826e9c98;
-    uVar2 = 2;
-  }
-  iVar1 = fn_82F6C060(param_1[4],param_2,uVar2);
-  if (iVar1 != 0) {
-    return 0xffffffffffffffff;
-  }
-LAB_826e9cd4:
-  uVar2 = (**(int (***)())(*param_1 + 0x10))(param_1);
-  return uVar2;
-}
+    int whence = 0;
 
+    switch (origin) {
+    case 0:
+        whence = 0;
+        break;
+    case 1:
+        whence = 1;
+        break;
+    case 2:
+        whence = 2;
+        break;
+    }
+    if (whence == 0 && offset == self->vt->Tell(self))
+        return self->vt->Tell(self);
+    if (fn_82F6C060(self->file, offset, whence) != 0)
+        return -1;
+    return self->vt->Tell(self);
+}

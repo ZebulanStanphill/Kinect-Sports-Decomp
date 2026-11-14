@@ -1,33 +1,18 @@
-extern int fn_822C69F0();
-extern int fn_822C6D68();
-extern int fn_822CA5B0();
-extern int fn_8288B760();
-extern int fn_82F68B7C();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Self_8230D210 {
+    char pad0[0xc];
+    void *target;                           /* 0x0c */
+    char pad10[0x10];
+    __vector4 position;                     /* 0x20 */
+    __vector4 direction;                    /* 0x30 */
+} Self_8230D210;
 
-void fn_8230D210(int param_1)
+extern void fn_822C4DB0(void *target, __vector4 position, __vector4 direction);
 
+void fn_8230D210(Self_8230D210 *self)
 {
-  int iVar1;
-  unsigned int uVar2;
-  __int64 lVar3;
-  
-  iVar1 = fn_82F68B7C(*(unsigned int *)(param_1 + 0xc));
-  if (*(int *)(iVar1 + 0x168) == 0) {
-    uVar2 = *(unsigned int *)(iVar1 + 0x16c);
-  }
-  else {
-    uVar2 = fn_8288B760();
-    uVar2 = uVar2 & 0xff;
-  }
-  if ((uVar2 == 0) && (*(int *)(iVar1 + 0x168) != 0)) {
-    fn_822CA5B0();
-  }
-  else {
-    lVar3 = (unsigned __int64)*(unsigned int *)(iVar1 + 0x114) + 0x50;
-    fn_822C6D68(lVar3,iVar1 + 0x80,iVar1 + 0xc0);
-    fn_822C69F0(lVar3,iVar1 + 0x80,iVar1 + 0xc0);
-  }
-  return;
+    fn_822C4DB0(self->target, self->position, self->direction);
 }
-
