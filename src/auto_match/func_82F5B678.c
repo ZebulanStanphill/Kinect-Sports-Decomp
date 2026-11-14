@@ -1,22 +1,20 @@
-extern int fn_82630040();
+extern void *fn_82630040(unsigned int size, unsigned int align, int flags);
 
-
-unsigned int fn_82F5B678(unsigned int *param_1)
-
+static __forceinline long Alloc(void **p)
 {
-  __int64 lVar1;
-  unsigned int uVar2;
-  
-  lVar1 = fn_82630040(0x50,8,1);
-  *param_1 = (int)lVar1;
-  if ((__int64)-(unsigned __int64)(lVar1 == 0) < 0) {
-    uVar2 = 0x80004005;
-  }
-  else {
-    lVar1 = fn_82630040(0x50,8,1);
-    param_1[1] = (int)lVar1;
-    uVar2 = (int)-(unsigned int)(lVar1 == 0) >> 0x1f & 0x80004005;
-  }
-  return uVar2;
+    *p = fn_82630040(0x50, 8, 1);
+    return *p != 0 ? 0 : 0x8007000e;
 }
 
+int fn_82F5B678(void **out)
+{
+    int hr;
+
+    hr = Alloc(&out[0]);
+    if (hr < 0)
+        return 0x80004005;
+    hr = Alloc(&out[1]);
+    if (hr < 0)
+        return 0x80004005;
+    return 0;
+}

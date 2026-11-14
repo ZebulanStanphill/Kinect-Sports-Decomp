@@ -1,17 +1,8 @@
-extern int fn_8280AB50();
+extern int fn_8280AB50(float a, float b, float tolerance);
 
-
-unsigned __int64 fn_82810380(unsigned __int64 param_1,float *param_2,float *param_3)
-
+int fn_82810380(const float *a, const float *b, float tolerance)
 {
-  int iVar1;
-  
-  iVar1 = fn_8280AB50((double)*param_2,(double)*param_3,param_1);
-  if (((iVar1 != 0) &&
-      (iVar1 = fn_8280AB50((double)param_2[1],(double)param_3[1],param_1), iVar1 != 0)) &&
-     (iVar1 = fn_8280AB50((double)param_2[2],(double)param_3[2],param_1), iVar1 != 0)) {
-    return 1;
-  }
-  return 0;
+    return fn_8280AB50(a[0], b[0], tolerance) &&
+           fn_8280AB50(a[1], b[1], tolerance) &&
+           fn_8280AB50(a[2], b[2], tolerance);
 }
-

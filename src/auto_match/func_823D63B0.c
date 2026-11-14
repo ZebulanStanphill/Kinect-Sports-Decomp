@@ -1,35 +1,27 @@
-extern unsigned int ltcg_pool_0_0f;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+/* v77 is the game's reserved zero vector, read with __VMXGetReg (/QVMXReserve). */
+__vector4 __VMXGetReg(int n);
 
-void fn_823D63B0(int param_1)
+typedef struct Self_823D63B0 {
+    __vector4 v[2];
+    int f20;
+    float f24;
+    int f28;
+    int f2c;
+} Self_823D63B0;
 
+void fn_823D63B0(Self_823D63B0 *self)
 {
-  unsigned int *puVar1;
-  unsigned int uVar2;
-  int in_r0;
-  int iVar3;
-  unsigned int in_register_000104d0;
-  unsigned int in_register_000104d4;
-  unsigned int in_register_000104d8;
-  unsigned int in_vr77;
-  
-  *(unsigned int *)(param_1 + 0x20) = 0;
-  *(unsigned int *)(param_1 + 0x2c) = 0;
-  uVar2 = ltcg_pool_0_0f;
-  *(unsigned int *)(param_1 + 0x28) = 2;
-  *(unsigned int *)(param_1 + 0x24) = uVar2;
-  iVar3 = param_1;
-  if (param_1 == param_1 + 0x20) {
-    return;
-  }
-  do {
-    puVar1 = (unsigned int *)(in_r0 + iVar3 & 0xfffffff0);
-    *puVar1 = in_register_000104d0;
-    puVar1[1] = in_register_000104d4;
-    puVar1[2] = in_register_000104d8;
-    puVar1[3] = in_vr77;
-    iVar3 = iVar3 + 0x10;
-  } while (iVar3 != param_1 + 0x20);
-  return;
-}
+    __vector4 *p;
+    __vector4 zero = __VMXGetReg(77);
 
+    self->f20 = 0;
+    self->f28 = 2;
+    self->f2c = 0;
+    self->f24 = 0.0f;
+    for (p = self->v; p != self->v + 2; p++)
+        *p = zero;
+}

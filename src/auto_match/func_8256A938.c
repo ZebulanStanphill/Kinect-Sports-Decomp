@@ -1,48 +1,46 @@
-typedef unsigned char bool;
-#define true 1
-extern int fn_82558B08();
-extern int fn_82569B10();
-extern int fn_8259C5D8();
-extern int fn_8259C738();
-extern int fn_82A1BB18();
-extern unsigned int *lbl_8327F84C;
-extern unsigned __int64 storeWordConditionalIndexed();
+#define __lwsync() __emit(0x7C2004AC)
 
+typedef struct Manager_8256A938 Manager_8256A938;
+typedef struct ManagerVtbl_8256A938 {
+    void *slots[9];
+    unsigned char (*isReady)(Manager_8256A938 *self);
+} ManagerVtbl_8256A938;
+struct Manager_8256A938 {
+    ManagerVtbl_8256A938 *vt;
+};
 
-void fn_8256A938(void)
+typedef struct Device_8256A938 {
+    char pad[0x78];
+    long pending;   /* 0x78 */
+} Device_8256A938;
 
+extern long _InterlockedExchangeAdd(long volatile *, long);
+extern Manager_8256A938 *lbl_8327F84C;
+extern Device_8256A938 *fn_82569B10(void);
+extern int fn_82A1BB18(void);
+extern void fn_82558B08(void);
+extern void fn_8259C5D8(Device_8256A938 *device, int a, int b);
+extern void fn_8259C738(Device_8256A938 *device);
+
+static __forceinline void Start_8256A938(Device_8256A938 *device)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  __int64 lVar3;
-  char cVar5;
-  unsigned __int64 uVar4;
-  unsigned int *puVar6;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  while( true ) {
-    lVar3 = fn_82569B10();
-    do {
-      puVar6 = (unsigned int *)(lVar3 + 0x78);
-      uVar1 = *puVar6;
-      if (in_RESERVE != '\0') {
-        uVar2 = storeWordConditionalIndexed((unsigned __int64)uVar1,0,lVar3 + 0x78);
-        *puVar6 = uVar2;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-    if ((uVar1 == 0) && (cVar5 = (**(int (***)())(*lbl_8327F84C + 0x24))(), cVar5 == '\x01')) break;
-    fn_82558B08();
-  }
-  sync(1);
-  uVar4 = fn_82569B10();
-  lVar3 = fn_82A1BB18();
-  fn_8259C5D8(uVar4,0,lVar3 + 1);
-  fn_82558B08();
-  uVar4 = fn_82569B10();
-  fn_82A1BB18();
-  fn_8259C738(uVar4);
-  return;
+    fn_8259C5D8(device, 0, fn_82A1BB18() + 1);
 }
 
+void fn_8256A938(void)
+{
+    Device_8256A938 *device;
+
+    for (;;) {
+        long *pending = &fn_82569B10()->pending;
+        if (_InterlockedExchangeAdd(pending, 0) == 0 && lbl_8327F84C->vt->isReady(lbl_8327F84C) == 1)
+            break;
+        fn_82558B08();
+    }
+    __lwsync();
+    Start_8256A938(fn_82569B10());
+    fn_82558B08();
+    device = fn_82569B10();
+    fn_82A1BB18();
+    fn_8259C738(device);
+}

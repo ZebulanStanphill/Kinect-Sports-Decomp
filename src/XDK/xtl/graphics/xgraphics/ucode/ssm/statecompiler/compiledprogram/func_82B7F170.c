@@ -1,48 +1,52 @@
-extern int fn_82AB15D0();
-extern int fn_82AB6BC8();
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
 
+#define CP_ASSERT(e, line) \
+    if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecompiler\\compiledprogram.cpp", line)
 
-unsigned __int64 fn_82B7F170(unsigned int *param_1)
+typedef struct CompiledProgram_82B7F170 {
+    void *ctx;
+    void *(*AllocateSysMem)(void *ctx, unsigned int size);
+    void (*FreeSysMem)(void *ctx, void *p);
+    char padC[0x18 - 0xc];
+    void *buffers[6];
+    void *pCS_ps;
+    void *pCS_vs;
+    void *pCode0;
+    void *pCode1;
+    char pad40[0x48 - 0x40];
+    unsigned int refCount;
+} CompiledProgram_82B7F170;
 
+extern void fn_82AB6BC8(void *pCS);
+
+int fn_82B7F170(CompiledProgram_82B7F170 *pCP)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  __int64 lVar3;
-  int *piVar4;
-  
-  if (param_1 == (unsigned int *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d9f38,0xffffffff820dbba0,0xcb);
-  }
-  if (param_1[0x12] == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820dbb88,0xffffffff820dbba0,0xcc);
-  }
-  uVar1 = param_1[0x12];
-  param_1[0x12] = (int)((unsigned __int64)uVar1 - 1);
-  if ((unsigned __int64)uVar1 - 1 == 0) {
-    uVar2 = *param_1;
-    if (param_1[0xe] != 0) {
-      (*(int (**)())param_1[2])(uVar2);
-    }
-    if (param_1[0xf] != 0) {
-      (*(int (**)())param_1[2])(uVar2);
-    }
-    if (param_1[0xc] != 0) {
-      fn_82AB6BC8();
-    }
-    if (param_1[0xd] != 0) {
-      fn_82AB6BC8();
-    }
-    piVar4 = param_1 + 6;
-    lVar3 = 6;
-    do {
-      if (*piVar4 != 0) {
-        (*(int (**)())param_1[2])(uVar2);
-      }
-      lVar3 = lVar3 + -1;
-      piVar4 = piVar4 + 1;
-    } while (lVar3 != 0);
-    (*(int (**)())param_1[2])(uVar2,param_1);
-  }
-  return 0;
-}
+    void *ctx;
+    int i;
 
+    CP_ASSERT(pCP, 0xcb);
+    CP_ASSERT(pCP->refCount > 0, 0xcc);
+    if (--pCP->refCount == 0) {
+        ctx = pCP->ctx;
+        if (pCP->pCode0 != 0) {
+            pCP->FreeSysMem(ctx, pCP->pCode0);
+        }
+        if (pCP->pCode1 != 0) {
+            pCP->FreeSysMem(ctx, pCP->pCode1);
+        }
+        if (pCP->pCS_ps != 0) {
+            fn_82AB6BC8(pCP->pCS_ps);
+        }
+        if (pCP->pCS_vs != 0) {
+            fn_82AB6BC8(pCP->pCS_vs);
+        }
+        for (i = 0; i < 6; i++) {
+            if (pCP->buffers[i] != 0) {
+                pCP->FreeSysMem(ctx, pCP->buffers[i]);
+            }
+        }
+        pCP->FreeSysMem(ctx, pCP);
+    }
+    return 0;
+}

@@ -1,15 +1,19 @@
-extern unsigned int lbl_821AAD20;
+typedef struct Timer_82DF3E40 Timer_82DF3E40;
+typedef struct Timer_82DF3E40_vt {
+    void *slots[10];
+    void (*update)(Timer_82DF3E40 *self, float dt);
+} Timer_82DF3E40_vt;
 
+struct Timer_82DF3E40 {
+    Timer_82DF3E40_vt *vt;
+    char pad4[0x24];
+    float remaining;
+};
 
-void fn_82DF3E40(double param_1,int *param_2)
-
+void fn_82DF3E40(Timer_82DF3E40 *self, float dt)
 {
-  if ((double)lbl_821AAD20 < (double)(float)param_2[10]) {
-    param_2[10] = (int)(float)((double)(float)param_2[10] - param_1);
-  }
-                    /* WARNING: Could not recover jumptable at 0x82df3e68. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (**(int (***)())(*param_2 + 0x28))();
-  return;
+    if (self->remaining > 0.0f) {
+        self->remaining -= dt;
+    }
+    self->vt->update(self, dt);
 }
-

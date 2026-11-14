@@ -1,32 +1,29 @@
-extern int fn_824CCFC8();
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Value_824D77E8 Value_824D77E8;
+typedef struct Value_824D77E8_vt {
+    void *slots[5];
+    float (*get)(Value_824D77E8 *self);
+} Value_824D77E8_vt;
+struct Value_824D77E8 {
+    Value_824D77E8_vt *vt;
+};
 
+typedef struct Obj_824D77E8 {
+    char pad0[0x108];
+    Value_824D77E8 *a1;   /* 0x108 */
+    Value_824D77E8 *a0;   /* 0x10c */
+    Value_824D77E8 *b1;   /* 0x110 */
+    Value_824D77E8 *b0;   /* 0x114 */
+} Obj_824D77E8;
 
-double fn_824D77E8(int param_1,int param_2)
+extern int fn_824CCFC8(Obj_824D77E8 *self);
 
+float fn_824D77E8(Obj_824D77E8 *self, int which)
 {
-  int *piVar1;
-  int *piVar2;
-  float fVar3;
-  int iVar4;
-  double dVar5;
-  double dVar6;
-  
-  if (param_2 == 0) {
-    piVar1 = *(int **)(param_1 + 0x10c);
-    piVar2 = *(int **)(param_1 + 0x114);
-  }
-  else {
-    piVar1 = *(int **)(param_1 + 0x108);
-    piVar2 = *(int **)(param_1 + 0x110);
-  }
-  fVar3 = ltcg_pool_0_0f;
-  if (((piVar1 != (int *)0x0) && (piVar2 != (int *)0x0)) &&
-     (iVar4 = fn_824CCFC8(), fVar3 = ltcg_pool_0_0f, iVar4 != 0)) {
-    dVar5 = (double)(**(int (***)())(*piVar1 + 0x14))(piVar1);
-    dVar6 = (double)(**(int (***)())(*piVar2 + 0x14))(piVar2);
-    fVar3 = (float)(dVar5 - dVar6);
-  }
-  return (double)fVar3;
-}
+    Value_824D77E8 *a = which != 0 ? self->a1 : self->a0;
+    Value_824D77E8 *b = which != 0 ? self->b1 : self->b0;
 
+    if (a != 0 && b != 0 && fn_824CCFC8(self) != 0) {
+        return a->vt->get(a) - b->vt->get(b);
+    }
+    return 0.0f;
+}

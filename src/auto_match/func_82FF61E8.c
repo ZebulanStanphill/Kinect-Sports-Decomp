@@ -1,23 +1,32 @@
-extern int fn_82FF5DA8();
-extern int fn_82FF5E70();
-extern unsigned int lbl_831BC768;
+typedef struct Pool_82FF61E8 {
+    int words[8];
+} Pool_82FF61E8;
 
+typedef struct Self_82FF61E8 {
+    char pad0[0x10];
+    Pool_82FF61E8 nodes;
+    Pool_82FF61E8 extra;
+    char pad50[0x6c - 0x50];
+    int f6c;
+    int f70;
+    int f74;
+    int f78;
+    int f7c;
+    int f80;
+} Self_82FF61E8;
 
-void fn_82FF61E8(int param_1)
+extern void *lbl_831BC768;
+extern int fn_82FF5DA8(Pool_82FF61E8 *pool, unsigned int count, unsigned int a, void *heap);
+extern int fn_82FF5E70(Pool_82FF61E8 *pool, unsigned int count, unsigned int a, void *heap);
 
+void fn_82FF61E8(Self_82FF61E8 *self)
 {
-  int iVar1;
-  
-  iVar1 = fn_82FF5DA8(param_1 + 0x10,8,0xffffffffffffffff,lbl_831BC768);
-  if (iVar1 == 1) {
-    fn_82FF5E70(param_1 + 0x30,8,0xffffffffffffffff,lbl_831BC768);
-  }
-  *(unsigned int *)(param_1 + 0x6c) = 0;
-  *(unsigned int *)(param_1 + 0x70) = 0;
-  *(unsigned int *)(param_1 + 0x74) = 0;
-  *(unsigned int *)(param_1 + 0x78) = 0;
-  *(unsigned int *)(param_1 + 0x7c) = 0;
-  *(unsigned int *)(param_1 + 0x80) = 0;
-  return;
+    if (fn_82FF5DA8(&self->nodes, 8, 0xffffffff, lbl_831BC768) == 1)
+        fn_82FF5E70(&self->extra, 8, 0xffffffff, lbl_831BC768);
+    self->f6c = 0;
+    self->f70 = 0;
+    self->f74 = 0;
+    self->f78 = 0;
+    self->f7c = 0;
+    self->f80 = 0;
 }
-

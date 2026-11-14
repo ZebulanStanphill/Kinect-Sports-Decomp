@@ -1,16 +1,21 @@
-extern int fn_82A1BB18();
+typedef union Id_82812268 {
+    __int64 value;
+    struct {
+        unsigned int high;
+        unsigned int low;
+    } part;
+} Id_82812268;
 
+extern unsigned int fn_82A1BB18(void);
 
-unsigned __int64 fn_82812268(unsigned __int64 *param_1)
-
+static __forceinline unsigned char IsSet(const Id_82812268 *id)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  
-  uVar2 = *param_1;
-  if ((uVar2 != 0) && (uVar1 = fn_82A1BB18(), (uVar2 & 0xffffffff) == (uVar1 & 0xffffffff))) {
-    return 1;
-  }
-  return 0;
+    return id->value != 0;
 }
 
+unsigned char fn_82812268(const Id_82812268 *p)
+{
+    Id_82812268 id = *p;
+
+    return IsSet(&id) && id.part.low == fn_82A1BB18();
+}

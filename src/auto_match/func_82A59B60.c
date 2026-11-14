@@ -1,42 +1,26 @@
-typedef unsigned char bool;
-extern unsigned __int64 storeWordConditionalIndexed();
+/* Reads a value (the default one for index -1) under the module's critical section, after an interlocked read that
+   synchronises with the object's state word. */
+typedef struct Obj_82A59B60 {
+    int pad0[3];
+    long state;             /* 0x0c */
+    int defaultValue;       /* 0x10 */
+    int values[1];          /* 0x14 */
+} Obj_82A59B60;
 
+extern char lbl_83219D50[];
 
-unsigned __int64 fn_82A59B60(__int64 param_1,int param_2,unsigned int *param_3)
+extern long _InterlockedCompareExchange(long volatile *target, long exchange, long comparand);
+extern void RtlEnterCriticalSection(void *cs);
+extern void RtlLeaveCriticalSection(void *cs);
 
+int fn_82A59B60(Obj_82A59B60 *self, int index, int *out)
 {
-  unsigned int uVar1;
-  __int64 lVar2;
-  unsigned int *puVar3;
-  unsigned int uVar4;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  lVar2 = param_1 + 0xc;
-  do {
-    puVar3 = (unsigned int *)lVar2;
-    if (*puVar3 != 0) {
-      if (in_RESERVE != '\0') {
-        uVar1 = storeWordConditionalIndexed((unsigned __int64)*puVar3,0,lVar2);
-        *puVar3 = uVar1;
-      }
-      break;
-    }
-    if (in_RESERVE != '\0') {
-      uVar1 = storeWordConditionalIndexed(0,0,lVar2);
-      *puVar3 = uVar1;
-      in_cr0 = 2;
-    }
-  } while (!(bool)(in_cr0 >> 1 & 1));
-  RtlEnterCriticalSection(0xffffffff83219da4);
-  if (param_2 == -1) {
-    uVar4 = *(unsigned int *)((int)param_1 + 0x10);
-  }
-  else {
-    uVar4 = *(unsigned int *)((param_2 + 5) * 4 + (int)param_1);
-  }
-  *param_3 = uVar4;
-  RtlLeaveCriticalSection(0xffffffff83219da4);
-  return 0;
+    _InterlockedCompareExchange(&self->state, 0, 0);
+    RtlEnterCriticalSection(lbl_83219D50 + 0x54);
+    if (index == -1)
+        *out = self->defaultValue;
+    else
+        *out = self->values[index];
+    RtlLeaveCriticalSection(lbl_83219D50 + 0x54);
+    return 0;
 }
-

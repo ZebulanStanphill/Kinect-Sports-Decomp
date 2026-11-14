@@ -1,35 +1,23 @@
-extern unsigned int *auStack_90;
-extern int fn_82F68CC0();
-extern unsigned int stack0x00000070;
-extern unsigned int uStack00000050;
-extern unsigned int uStack00000058;
-extern unsigned int uStack00000060;
-extern unsigned int uStack00000068;
-extern unsigned int uStack_69;
+/* Delegate forwarder: calls the bound function on the bound object with all arguments, among them a 4x4 vector
+   matrix passed by value (r7-r10 and four stack slots, copied with memcpy) and a byte flag. */
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Matrix_823FE940 {
+    __vector4 rows[4];
+} Matrix_823FE940;
 
-void fn_823FE940(unsigned __int64 param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5,unsigned __int64 param_6,unsigned __int64 param_7,unsigned __int64 param_8,
-                  unsigned __int64 param_9)
+typedef void (*Target_823FE940)(void *object, int a, int b, __vector4 v, float x, Matrix_823FE940 m,
+                                unsigned char flag);
 
+typedef struct Delegate_823FE940 {
+    int pad0;
+    Target_823FE940 fn;     /* 0x04 */
+    void *object;           /* 0x08 */
+} Delegate_823FE940;
+
+void fn_823FE940(Delegate_823FE940 *self, int a, int b, __vector4 v, float x, Matrix_823FE940 m, unsigned char flag)
 {
-  unsigned __int64 uStack00000050;
-  unsigned __int64 uStack00000058;
-  unsigned __int64 uStack00000060;
-  unsigned __int64 uStack00000068;
-  unsigned char in_stack_00000097;
-  unsigned char auStack_90 [39];
-  unsigned char uStack_69;
-  
-  uStack_69 = in_stack_00000097;
-  uStack00000050 = param_6;
-  uStack00000058 = param_7;
-  uStack00000060 = param_8;
-  uStack00000068 = param_9;
-  fn_82F68CC0(auStack_90,&stack0x00000070,0x20);
-  (**(int (***)())(param_2 + 4))
-            (param_1,*(unsigned int *)(param_2 + 8),param_3,param_4,param_5,param_6,param_7,param_8,
-             param_9);
-  return;
+    self->fn(self->object, a, b, v, x, m, flag);
 }
-

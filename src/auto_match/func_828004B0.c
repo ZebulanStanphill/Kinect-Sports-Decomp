@@ -1,37 +1,24 @@
-#define true 1
-extern int fn_82F672D8();
-extern unsigned char lbl_83156AF0[];
+int strcmp(const char *a, const char *b);
+char *strncpy(char *dst, const char *src, unsigned int n);
 
+typedef struct Entry_828004B0 {
+    char name[0x18];
+    int value;           /* 0x18 */
+    char pad1c[8];
+} Entry_828004B0;
 
-unsigned int fn_828004B0(unsigned __int64 param_1,unsigned int param_2)
+extern Entry_828004B0 lbl_83156AF0[8];
+extern char lbl_8201DEC8[];
 
+unsigned short fn_828004B0(const char *name, int value)
 {
-  char cVar1;
-  char cVar2;
-  char *pcVar3;
-  char *pcVar4;
-  unsigned int uVar5;
-  
-  uVar5 = 0;
-  do {
-    pcVar4 = lbl_83156AF0 + uVar5 * 0x24;
-    pcVar3 = "";
-    do {
-      cVar1 = *pcVar4;
-      cVar2 = *pcVar3;
-      if (cVar1 == '\0') break;
-      pcVar4 = pcVar4 + 1;
-      pcVar3 = pcVar3 + 1;
-    } while (cVar1 == cVar2);
-    if (cVar1 == cVar2) {
-      fn_82F672D8(lbl_83156AF0 + uVar5 * 0x24,param_1,0x15);
-      *(unsigned int *)(uVar5 * 0x24 + -0x7cea94f8) = param_2;
-      return uVar5;
+    unsigned short i;
+    for (i = 0; i < 8; i++) {
+        if (strcmp(lbl_83156AF0[i].name, lbl_8201DEC8) == 0) {
+            strncpy(lbl_83156AF0[i].name, name, 0x15);
+            lbl_83156AF0[i].value = value;
+            return i;
+        }
     }
-    uVar5 = uVar5 + 1 & 0xffff;
-    if (7 < uVar5) {
-      return 0;
-    }
-  } while( true );
+    return 0;
 }
-

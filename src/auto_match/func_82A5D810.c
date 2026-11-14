@@ -1,27 +1,25 @@
-extern int fn_82A5D4A0();
-extern int iRam8321a308;
+extern char lbl_8315F6E0[];
+extern char lbl_8315F6F0[];
+extern void *lbl_8321A2E8[8];
+extern int lbl_8321A308;
 
+extern void RtlEnterCriticalSection(void *cs);
+extern void RtlLeaveCriticalSection(void *cs);
+extern void ExRegisterTitleTerminateNotification(void *reg, int create);
+extern void fn_82A5D4A0(void *entry);
 
 void fn_82A5D810(void)
-
 {
-  __int64 lVar1;
-  int *piVar2;
-  
-  RtlEnterCriticalSection(0xffffffff8315f6f0);
-  ExRegisterTitleTerminateNotification(0xffffffff8315f6e0,0);
-  lVar1 = 8;
-  piVar2 = (int *)0x8321a2e8;
-  do {
-    if (*piVar2 != 0) {
-      fn_82A5D4A0();
-      iRam8321a308 = iRam8321a308 + -1;
-      *piVar2 = 0;
-    }
-    lVar1 = lVar1 + -1;
-    piVar2 = piVar2 + 1;
-  } while (lVar1 != 0);
-  RtlLeaveCriticalSection(0xffffffff8315f6f0);
-  return;
-}
+    unsigned int i;
 
+    RtlEnterCriticalSection(lbl_8315F6F0);
+    ExRegisterTitleTerminateNotification(lbl_8315F6E0, 0);
+    for (i = 0; i < 8; i++) {
+        if (lbl_8321A2E8[i] != 0) {
+            fn_82A5D4A0(lbl_8321A2E8[i]);
+            lbl_8321A308--;
+            lbl_8321A2E8[i] = 0;
+        }
+    }
+    RtlLeaveCriticalSection(lbl_8315F6F0);
+}

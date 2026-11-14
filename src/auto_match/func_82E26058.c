@@ -1,26 +1,24 @@
-extern unsigned int lbl_8208E054;
+/* Format tag of a WAVEFORMATEXTENSIBLE sub-format GUID: Data1's low word when the remaining 12 bytes match the
+   base sub-format GUID lbl_8208E050, else 0. */
+typedef struct Guid_82E26058 {
+    unsigned long Data1;
+    unsigned short Data2;
+    unsigned short Data3;
+    unsigned char Data4[8];
+} Guid_82E26058;
 
+extern const Guid_82E26058 lbl_8208E050;
 
-unsigned int fn_82E26058(unsigned int *param_1)
+int memcmp(const void *a, const void *b, unsigned int n);
 
+static __forceinline int IsWaveFormatGuid(const Guid_82E26058 *guid)
 {
-  unsigned char bVar1;
-  unsigned char bVar2;
-  unsigned char *pbVar3;
-  unsigned int *puVar4;
-  
-  puVar4 = param_1 + 1;
-  pbVar3 = (unsigned char *)&lbl_8208E054;
-  do {
-    bVar1 = *(unsigned char *)puVar4;
-    bVar2 = *pbVar3;
-    if ((unsigned __int64)bVar1 - (unsigned __int64)bVar2 != 0) break;
-    puVar4 = (unsigned int *)((int)puVar4 + 1);
-    pbVar3 = pbVar3 + 1;
-  } while (puVar4 != param_1 + 4);
-  if ((int)((unsigned __int64)bVar1 - (unsigned __int64)bVar2) != 0) {
-    return 0;
-  }
-  return *param_1 & 0xffff;
+    return memcmp((const unsigned long *)guid + 1, (const unsigned long *)&lbl_8208E050 + 1, sizeof(Guid_82E26058) - sizeof(unsigned long)) == 0;
 }
 
+unsigned short fn_82E26058(const Guid_82E26058 *guid)
+{
+    if (!IsWaveFormatGuid(guid))
+        return 0;
+    return (unsigned short)guid->Data1;
+}

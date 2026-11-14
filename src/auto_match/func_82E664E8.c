@@ -1,52 +1,32 @@
-typedef unsigned char bool;
-#define true 1
-extern int fn_82A1E108();
-extern unsigned __int64 storeWordConditionalIndexed();
+/* Writer lock acquire (the counterpart of the reader lock fn_82E66440): waits while a writer holds the lock, sets the
+   writer-waiting bit, and takes the lock (bit 31) once no readers are left. */
+#define __lwsync() __emit(0x7C2004AC)
+long _InterlockedCompareExchange(long volatile *dest, long exchange, long comparand);
 
+typedef struct Lock_82E664E8 {
+    long state;
+} Lock_82E664E8;
 
-void fn_82E664E8(unsigned __int64 param_1)
+extern void fn_82A1E108(unsigned int ms);
 
+void fn_82E664E8(Lock_82E664E8 *lock)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  bool bVar4;
-  unsigned int *puVar5;
-  unsigned __int64 uVar6;
-  char in_RESERVE;
-  
-  do {
-    do {
-      while( true ) {
-        puVar5 = (unsigned int *)param_1;
-        uVar2 = *puVar5;
-        if ((uVar2 & 0x80000000) == 0) break;
-        fn_82A1E108(10);
-      }
-      bVar4 = (uVar2 & 0x3fffffff) == 0;
-      uVar6 = (unsigned __int64)uVar2 | 0x40000000;
-      if (bVar4) {
-        uVar6 = (unsigned __int64)uVar2 | 0xc0000000;
-      }
-    } while ((unsigned int)uVar6 == uVar2);
-    do {
-      uVar1 = *puVar5;
-      if (uVar1 != uVar2) {
-        if (in_RESERVE != '\0') {
-          uVar3 = storeWordConditionalIndexed((unsigned __int64)uVar1,0,param_1);
-          *puVar5 = uVar3;
+    for (;;) {
+        long state = lock->state;
+        long next;
+        if ((state & 0x80000000) != 0) {
+            fn_82A1E108(10);
+            continue;
         }
-        break;
-      }
-      if (in_RESERVE != '\0') {
-        uVar3 = storeWordConditionalIndexed(uVar6,0,param_1);
-        *puVar5 = uVar3;
-        bVar4 = true;
-      }
-    } while (!bVar4);
-    if ((uVar1 == uVar2) && (sync(1), (uVar6 & 0x80000000) != 0)) {
-      return;
+        next = state | 0x40000000;
+        if ((state & 0x3fffffff) == 0)
+            next |= 0x80000000;
+        if (next == state)
+            continue;
+        if (_InterlockedCompareExchange(&lock->state, next, state) == state) {
+            __lwsync();
+            if ((next & 0x80000000) != 0)
+                break;
+        }
     }
-  } while( true );
 }
-

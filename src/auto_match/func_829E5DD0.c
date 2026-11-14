@@ -1,30 +1,14 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_829E5BC0();
-extern unsigned int lbl_82005344;
-extern unsigned int lbl_82005748;
-extern unsigned int lbl_82057B94;
+extern float lbl_82057B94;
+extern unsigned char fn_829E5BC0(void *obj, float a);
 
-
-unsigned __int64 fn_829E5DD0(double param_1,double param_2)
-
+unsigned char fn_829E5DD0(void *obj, float a, float b)
 {
-  bool bVar1;
-  char cVar2;
-  double dVar3;
-  
-  dVar3 = (double)lbl_82057B94;
-  if ((double)lbl_82057B94 <= param_2) {
-    dVar3 = param_2;
-  }
-  if ((param_1 <= (double)lbl_82005748) || (bVar1 = true, (float)(param_1 / dVar3) <= lbl_82005344))
-  {
-    bVar1 = false;
-  }
-  if ((!bVar1) && (cVar2 = fn_829E5BC0(), cVar2 == '\0')) {
-    return 0;
-  }
-  return 1;
-}
+    float d = lbl_82057B94;
+    unsigned char big;
 
+    if (b >= d) {
+        d = b;
+    }
+    big = a > 100.0f && a / d > 2.0f;
+    return big || fn_829E5BC0(obj, a);
+}

@@ -1,24 +1,40 @@
-extern unsigned int *auStack_20;
-extern int fn_82633918();
-extern int fn_826339C8();
-extern unsigned int uStack_18;
+#include <string.h>
 
+typedef struct Device_82634AE0 {
+    char pad0[0x4db4];
+    unsigned int flags;
+} Device_82634AE0;
 
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
+typedef struct Context_82634AE0 {
+    Device_82634AE0 *device;
+    char pad4[0x7c - 4];
+    unsigned char enabled;
+} Context_82634AE0;
 
-void fn_82634AE0(int *param_1)
+typedef struct Packet_82634AE0 {
+    unsigned int type : 6;
+    unsigned int rest0 : 26;
+    unsigned int word1;
+    unsigned int pad2 : 3;
+    unsigned int count : 4;
+    unsigned int flag : 1;
+    unsigned int rest2 : 24;
+} Packet_82634AE0;
 
+extern int fn_82633918(Context_82634AE0 *ctx, Packet_82634AE0 *packet);
+extern void fn_826339C8(Context_82634AE0 *ctx, int index, int flag);
+
+void fn_82634AE0(Context_82634AE0 *ctx)
 {
-  unsigned __int64 uVar1;
-  unsigned char auStack_20 [8];
-  unsigned int uStack_18;
-  
-  if ((((~(unsigned __int64)*(unsigned int *)(*param_1 + 0x4db4) & 0xffffffff) >> 5 & 1) != 0) &&
-     (*(char *)(param_1 + 0x1f) != '\0')) {
-    uStack_18 = 0x2000000;
-    uVar1 = fn_82633918(param_1,auStack_20);
-    fn_826339C8(param_1,uVar1,1);
-  }
-  return;
-}
+    if ((unsigned char)(~ctx->device->flags >> 5 & 1) != 0 && ctx->enabled != 0) {
+        Packet_82634AE0 packet;
+        int index;
 
+        memset(&packet, 0, sizeof(packet));
+        packet.count = 1;
+        packet.flag = 0;
+        packet.type = 0x32;
+        index = fn_82633918(ctx, &packet);
+        fn_826339C8(ctx, index, 1);
+    }
+}

@@ -1,18 +1,24 @@
-unsigned __int64 fn_829E90F0(int param_1,unsigned int *param_2)
+typedef struct Iface_829E90F0 Iface_829E90F0;
+struct Iface_829E90F0 {
+    struct {
+        void *f0;
+        int (*f4)(Iface_829E90F0 *self);
+    } *vt;
+};
 
+typedef struct Self_829E90F0 {
+    char pad0[0x20];
+    Iface_829E90F0 *inner;
+} Self_829E90F0;
+
+int fn_829E90F0(Self_829E90F0 *self, void **out)
 {
-  unsigned __int64 uVar1;
-  
-  if (param_2 == (unsigned int *)0x0) {
-    return 0xffffffff80070057;
-  }
-  *param_2 = 0;
-  if (*(int **)(param_1 + 0x20) == (int *)0x0) {
-    return 0xffffffff80004005;
-  }
-                    /* WARNING: Could not recover jumptable at 0x829e9134. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  uVar1 = (**(int (***)())(**(int **)(param_1 + 0x20) + 4))();
-  return uVar1;
-}
+    int hr = 0x80004005;
 
+    if (out == 0)
+        return 0x80070057;
+    *out = 0;
+    if (self->inner != 0)
+        hr = self->inner->vt->f4(self->inner);
+    return hr;
+}

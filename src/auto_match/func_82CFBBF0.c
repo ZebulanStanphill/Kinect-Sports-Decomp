@@ -1,18 +1,6 @@
-void fn_82CFBBF0(char *param_1,char *param_2)
+extern int strcmp(const char *, const char *);
 
+int fn_82CFBBF0(const char *a, const char *b)
 {
-  char cVar1;
-  char cVar2;
-  
-  do {
-    cVar1 = *param_1;
-    cVar2 = *param_2;
-    if (cVar1 == '\0') {
-      return;
-    }
-    param_1 = param_1 + 1;
-    param_2 = param_2 + 1;
-  } while (cVar1 == cVar2);
-  return;
+    return strcmp(a, b);
 }
-

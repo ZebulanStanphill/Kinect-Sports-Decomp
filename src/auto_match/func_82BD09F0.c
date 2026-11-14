@@ -1,12 +1,18 @@
-extern unsigned int lbl_83223EC0;
+typedef struct Item_82BD09F0 {
+    char pad0[0x38];
+    int index;
+    char pad3c[0xe4 - 0x3c];
+    unsigned int pad : 24;
+    unsigned int mapped : 1;
+} Item_82BD09F0;
 
+extern int *lbl_83223EC0;
 
-int fn_82BD09F0(unsigned __int64 param_1,int param_2)
-
+int fn_82BD09F0(void *self, Item_82BD09F0 *item)
 {
-  if ((*(unsigned int *)(param_2 + 0xe4) >> 7 & 1) == 0) {
-    return *(int *)(param_2 + 0x38);
-  }
-  return *(int *)(*(int *)(param_2 + 0x38) * 4 + lbl_83223EC0);
+    int index = item->index;
+    if ((unsigned char)item->mapped) {
+        return lbl_83223EC0[index];
+    }
+    return index;
 }
-

@@ -1,44 +1,64 @@
-extern int fn_82CE5410();
-extern int fn_82D08138();
-extern int fn_82D1BCD8();
-extern unsigned int iStack_2c;
-extern unsigned int iStack_3c;
-extern unsigned int uStack_28;
-extern unsigned int uStack_30;
-extern unsigned int uStack_38;
-extern unsigned int uStack_40;
+typedef struct Iface_82D098D8 Iface_82D098D8;
+typedef struct IfaceVtbl_82D098D8 {
+    void *f0;
+    void *f4;
+    void *f8;
+    void *fc;
+    void (*Free)(Iface_82D098D8 *, void *, int, int);
+} IfaceVtbl_82D098D8;
+struct Iface_82D098D8 {
+    IfaceVtbl_82D098D8 *vtbl;
+};
+typedef struct Ctx_82D098D8 {
+    char pad[0x10];
+    Iface_82D098D8 *alloc;
+} Ctx_82D098D8;
 
+typedef struct Array_82D098D8 {
+    void *data;
+    int count;
+    int capacity;
+} Array_82D098D8;
 
-void fn_82D098D8(unsigned __int64 param_1,int param_2)
+typedef struct Strided_82D098D8 {
+    void *vertices;
+    int numVertices;
+    int striding;
+} Strided_82D098D8;
 
+typedef struct Out_82D098D8 {
+    int f0;
+    int count;          /* 0x04 */
+    char pad8[8];
+    void *data;         /* 0x10 */
+} Out_82D098D8;
+
+extern Ctx_82D098D8 *fn_82CE5410(void);
+extern void fn_82D1BCD8(void *self, Array_82D098D8 *out);
+extern void fn_82D08138(Strided_82D098D8 *verts, Out_82D098D8 *out);
+
+void fn_82D098D8(void *self, Out_82D098D8 *out)
 {
-  int iVar1;
-  struct { unsigned int first; int second; } stack_pair_40;
+    Array_82D098D8 arr;
+    Iface_82D098D8 *it;
 
-  unsigned int uStack_38;
-  struct { unsigned int first; int second; } stack_pair_30;
-
-  unsigned int uStack_28;
-
-  stack_pair_40.first = 0;
-  stack_pair_40.second = 0;
-  uStack_38 = 0x80000000;
-  fn_82D1BCD8(param_1,&stack_pair_40.first);
-  if (stack_pair_40.second < 1) {
-    *(unsigned int *)(param_2 + 0x10) = 0;
-    *(unsigned int *)(param_2 + 4) = 0;
-  }
-  else {
-    stack_pair_30.second = stack_pair_40.second;
-    uStack_28 = 0x10;
-    stack_pair_30.first = stack_pair_40.first;
-    fn_82D08138(&stack_pair_30.first,param_2);
-  }
-  iVar1 = fn_82CE5410();
-  stack_pair_40.second = 0;
-  if ((uStack_38 & 0x80000000) == 0) {
-    (**(int (***)())(**(int **)(iVar1 + 0x10) + 0x10))
-              (*(int **)(iVar1 + 0x10),stack_pair_40.first,uStack_38 & 0x3fffffff,0x10);
-  }
-  return;
+    arr.data = 0;
+    arr.count = 0;
+    arr.capacity = 0x80000000;
+    fn_82D1BCD8(self, &arr);
+    if (arr.count > 0) {
+        Strided_82D098D8 s;
+        s.numVertices = arr.count;
+        s.striding = 0x10;
+        s.vertices = arr.data;
+        fn_82D08138(&s, out);
+    } else {
+        out->data = 0;
+        out->count = 0;
+    }
+    it = fn_82CE5410()->alloc;
+    arr.count = 0;
+    if ((arr.capacity & (1 << 31)) == 0) {
+        it->vtbl->Free(it, arr.data, arr.capacity & 0x3fffffff, 0x10);
+    }
 }

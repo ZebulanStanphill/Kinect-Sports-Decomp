@@ -1,34 +1,28 @@
-void fn_825AC0D8(int param_1,int param_2)
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __VMXGetReg(int n);
+
+typedef struct Source_825AC0D8 {
+    char pad0[0x50];
+    __vector4 value;
+} Source_825AC0D8;
+
+typedef struct Owner_825AC0D8 {
+    char pad0[0x80];
+    Source_825AC0D8 *source;
+} Owner_825AC0D8;
+
+typedef struct Out_825AC0D8 {
+    char pad0[0x10];
+    __vector4 value;
+} Out_825AC0D8;
+
+void fn_825AC0D8(Owner_825AC0D8 *self, Out_825AC0D8 *out)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int in_r0;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int in_register_000104d0;
-  unsigned int in_register_000104d4;
-  unsigned int in_register_000104d8;
-  unsigned int in_vr77;
-  
-  puVar1 = (unsigned int *)(in_r0 + param_2 + 0x10 & 0xfffffff0);
-  *puVar1 = in_register_000104d0;
-  puVar1[1] = in_register_000104d4;
-  puVar1[2] = in_register_000104d8;
-  puVar1[3] = in_vr77;
-  if (*(int *)(param_1 + 0x80) == 0) {
-    return;
-  }
-  puVar1 = (unsigned int *)(*(int *)(param_1 + 0x80) + 0x50U & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (unsigned int *)(in_r0 + param_2 + 0x10 & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  return;
+    out->value = __VMXGetReg(77);
+    if (self->source != 0) {
+        out->value = self->source->value;
+    }
 }
-

@@ -1,28 +1,27 @@
-extern unsigned int __imp__VdGlobalDevice;
-extern unsigned int __imp__VdGlobalXamDevice;
-extern int fn_82645110();
+extern int KeGetCurrentProcessType(void);
+extern void **__imp_VdGlobalDevice;
+extern void **__imp_VdGlobalXamDevice;
+extern void fn_82645110(void *device);
 
+typedef struct Device_826457A8 {
+    char pad0[0x2a90];
+    unsigned int *begin;
+    char pad1[0x2a9c - 0x2a94];
+    unsigned int end;
+} Device_826457A8;
 
-unsigned __int64 fn_826457A8(unsigned __int64 param_1)
-
+/* Returns whether p lies inside the device's range [*begin, end); p equal to end flushes first. */
+int fn_826457A8(unsigned int p)
 {
-  int *piVar1;
-  int iVar2;
-  
-  if ((param_1 & 0xffffffff) != 0) {
-    iVar2 = KeGetCurrentProcessType();
-    piVar1 = __imp__VdGlobalDevice;
-    if (iVar2 == 2) {
-      piVar1 = __imp__VdGlobalXamDevice;
-    }
-    iVar2 = *piVar1;
-    if ((param_1 & 0xffffffff) == (unsigned __int64)*(unsigned int *)(iVar2 + 0x2a9c)) {
-      fn_82645110(iVar2);
-    }
-    param_1 = -(unsigned __int64)
-               (*(unsigned int *)(iVar2 + 0x2a9c) - param_1 <
-               (unsigned __int64)*(unsigned int *)(iVar2 + 0x2a9c) - (unsigned __int64)**(unsigned int **)(iVar2 + 0x2a90)) & 1;
-  }
-  return param_1;
-}
+    Device_826457A8 *dev;
 
+    if (p == 0)
+        return 0;
+    if (KeGetCurrentProcessType() == 2)
+        dev = *__imp_VdGlobalXamDevice;
+    else
+        dev = *__imp_VdGlobalDevice;
+    if (p == dev->end)
+        fn_82645110(dev);
+    return dev->end - p < dev->end - *dev->begin;
+}

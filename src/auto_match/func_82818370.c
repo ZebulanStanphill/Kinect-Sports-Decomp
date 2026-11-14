@@ -1,15 +1,4 @@
-extern unsigned int lbl_82002C5C;
-
-
-int fn_82818370(double param_1)
-
+int fn_82818370(float value)
 {
-  double dVar1;
-  
-  dVar1 = param_1 + (double)lbl_82002C5C;
-  if (param_1 < 0.0) {
-    dVar1 = param_1 - (double)lbl_82002C5C;
-  }
-  return (int)dVar1;
+    return (int)(value >= 0.0f ? value + 0.5f : value - 0.5f);
 }
-

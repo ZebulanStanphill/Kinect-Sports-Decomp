@@ -1,44 +1,49 @@
-extern int fn_824CD030();
-extern unsigned int lbl_821955D4;
-extern unsigned int ltcg_pool_0_0f;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+/* v77 is the game's reserved zero vector, read with __VMXGetReg (/QVMXReserve). */
+__vector4 __VMXGetReg(int n);
 
-void fn_824D7EC0(int param_1,int param_2)
+typedef struct State_824D7EC0 {
+    char pad0[0x10];
+    int f10;
+    char pad14[0x20 - 0x14];
+    __vector4 v[2];
+    char pad40[0x54 - 0x40];
+    int f54;
+    int f58;
+    float f5c;
+    char pad60[4];
+    float f64;
+} State_824D7EC0;
 
+typedef struct Owner_824D7EC0 {
+    char pad0[0xf4];
+    State_824D7EC0 *state;
+} Owner_824D7EC0;
+
+typedef struct Self_824D7EC0 {
+    char pad0[0x14];
+    float f14;
+} Self_824D7EC0;
+
+extern const float lbl_821954B0[0xa28 / 4];
+extern int fn_824CD030(Owner_824D7EC0 *owner);
+
+void fn_824D7EC0(Self_824D7EC0 *self, Owner_824D7EC0 *owner)
 {
-  unsigned int *puVar1;
-  int in_r0;
-  int iVar2;
-  int iVar3;
-  __int64 lVar4;
-  double dVar5;
-  unsigned int in_register_000104d0;
-  unsigned int in_register_000104d4;
-  unsigned int in_register_000104d8;
-  unsigned int in_vr77;
-  
-  dVar5 = (double)ltcg_pool_0_0f;
-  *(float *)(param_1 + 0x14) = ltcg_pool_0_0f;
-  iVar2 = fn_824CD030(param_2);
-  if (iVar2 != 0) {
-    iVar2 = *(int *)(param_2 + 0xf4);
-    iVar3 = iVar2 + 0x20;
-    *(unsigned int *)(iVar2 + 0x10) = 0;
-    lVar4 = 2;
-    do {
-      puVar1 = (unsigned int *)(in_r0 + iVar3 & 0xfffffff0);
-      *puVar1 = in_register_000104d0;
-      puVar1[1] = in_register_000104d4;
-      puVar1[2] = in_register_000104d8;
-      puVar1[3] = in_vr77;
-      iVar3 = iVar3 + 0x10;
-      lVar4 = lVar4 + -1;
-    } while (lVar4 != 0);
-    *(float *)(iVar2 + 100) = (float)dVar5;
-    *(unsigned int *)(iVar2 + 0x54) = 1;
-    *(unsigned int *)(iVar2 + 0x58) = 1;
-    *(unsigned int *)(iVar2 + 0x5c) = lbl_821955D4;
-  }
-  return;
-}
+    self->f14 = 0.0f;
+    if (fn_824CD030(owner) != 0) {
+        State_824D7EC0 *s = owner->state;
+        int i;
 
+        s->f10 = 0;
+        for (i = 0; i < 2; i++)
+            s->v[i] = __VMXGetReg(77);
+        s->f64 = 0.0f;
+        s->f54 = 1;
+        s->f58 = 1;
+        s->f5c = lbl_821954B0[0x124 / 4];
+    }
+}

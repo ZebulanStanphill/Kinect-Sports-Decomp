@@ -1,43 +1,29 @@
-extern unsigned int *auStack_10;
-extern unsigned int lbl_82002AE0;
+/* Havok: diagonal 3x3 matrix with the inverse of one scalar of the object (offset 0xc0) on the diagonal; the zero
+   columns are hkVector4::setZero4 (vxor of an uninitialised local). */
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vxor(__vector4 a, __vector4 b);
 
-void fn_82D9C9A8(int param_1,float *param_2)
+typedef struct Matrix3_82D9C9A8 {
+    __vector4 col[3];
+} Matrix3_82D9C9A8;
 
+typedef struct Object_82D9C9A8 {
+    char pad[0xc0];
+    float value;
+} Object_82D9C9A8;
+
+void fn_82D9C9A8(Object_82D9C9A8 *self, Matrix3_82D9C9A8 *m)
 {
-  float fVar1;
-  unsigned int *puVar2;
-  int in_r0;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned char auStack_10 [16];
-  
-  puVar2 = (unsigned int *)((unsigned int)(auStack_10 + in_r0) & 0xfffffff0);
-  uVar3 = *puVar2;
-  uVar4 = puVar2[1];
-  uVar5 = puVar2[2];
-  uVar6 = puVar2[3];
-  fVar1 = lbl_82002AE0 / *(float *)(param_1 + 0xc0);
-  puVar2 = (unsigned int *)(in_r0 + (int)param_2 & 0xfffffff0);
-  *puVar2 = uVar3;
-  puVar2[1] = uVar4;
-  puVar2[2] = uVar5;
-  puVar2[3] = uVar6;
-  puVar2 = (unsigned int *)((unsigned int)(param_2 + 4) & 0xfffffff0);
-  *puVar2 = uVar3;
-  puVar2[1] = uVar4;
-  puVar2[2] = uVar5;
-  puVar2[3] = uVar6;
-  puVar2 = (unsigned int *)((unsigned int)(param_2 + 8) & 0xfffffff0);
-  *puVar2 = uVar3;
-  puVar2[1] = uVar4;
-  puVar2[2] = uVar5;
-  puVar2[3] = uVar6;
-  *param_2 = fVar1;
-  param_2[5] = fVar1;
-  param_2[10] = fVar1;
-  return;
+    float t = 1.0f / self->value;
+    __vector4 zero;
+    zero = __vxor(zero, zero);
+    m->col[0] = zero;
+    m->col[1] = zero;
+    m->col[2] = zero;
+    m->col[0].vector4_f32[0] = t;
+    m->col[1].vector4_f32[1] = t;
+    m->col[2].vector4_f32[2] = t;
 }
-

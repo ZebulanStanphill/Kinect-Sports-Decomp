@@ -1,23 +1,12 @@
-typedef unsigned char bool;
+/* Name comparator: compares the names at offset 9 of two records (strcmp(b, a) == 0). */
+int strcmp(const char *a, const char *b);
 
+typedef struct Rec_82F64538 {
+    char pad0[9];
+    char name[1];   /* 0x09 */
+} Rec_82F64538;
 
-bool fn_82F64538(int param_1,int param_2)
-
+int fn_82F64538(const Rec_82F64538 *a, const Rec_82F64538 *b)
 {
-  char cVar1;
-  char cVar2;
-  char *pcVar3;
-  char *pcVar4;
-  
-  pcVar3 = (char *)(param_1 + 9);
-  pcVar4 = (char *)(param_2 + 9);
-  do {
-    cVar1 = *pcVar4;
-    cVar2 = *pcVar3;
-    if (cVar1 == '\0') break;
-    pcVar4 = pcVar4 + 1;
-    pcVar3 = pcVar3 + 1;
-  } while (cVar1 == cVar2);
-  return cVar1 == cVar2;
+    return strcmp(b->name, a->name) == 0;
 }
-

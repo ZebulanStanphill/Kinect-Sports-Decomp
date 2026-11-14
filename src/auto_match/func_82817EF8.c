@@ -1,19 +1,12 @@
-typedef unsigned char bool;
+/* Name test: does the object's inline name (offset 0xc) differ from the given string? */
+int strcmp(const char *a, const char *b);
 
+typedef struct Obj_82817EF8 {
+    char pad0[0xc];
+    char name[1];   /* 0x0c */
+} Obj_82817EF8;
 
-bool fn_82817EF8(int param_1,unsigned char *param_2)
-
+int fn_82817EF8(const Obj_82817EF8 *self, const char *name)
 {
-  __int64 lVar1;
-  unsigned char *pbVar2;
-  
-  pbVar2 = (unsigned char *)(param_1 + 0xc);
-  do {
-    lVar1 = (unsigned __int64)*pbVar2 - (unsigned __int64)*param_2;
-    if (*pbVar2 == 0) break;
-    pbVar2 = pbVar2 + 1;
-    param_2 = param_2 + 1;
-  } while ((int)lVar1 == 0);
-  return lVar1 != 0;
+    return strcmp(self->name, name) != 0;
 }
-

@@ -1,26 +1,38 @@
-typedef unsigned char bool;
-extern int fn_82AB15D0();
-extern unsigned int lbl_8316FF54;
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
 
+#define IR_ASSERT(e, line) \
+    if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\compiler\\ir\\irinst.cpp", line)
 
-bool fn_82BC32F0(int param_1)
+#define OP_UNKNOWN 0
+#define GetArgNegate(i) (self->argNegate[i])
 
+typedef struct OpInfo_82BC32F0 {
+    int f0;
+    int swappedOp;      /* 0x04 */
+    int rest[11];
+} OpInfo_82BC32F0;
+
+typedef struct Inst_82BC32F0 {
+    char pad00[0x18];
+    int op;                     /* 0x18 */
+    char pad1c[0x98 - 0x1c];
+    unsigned char argNegate[3]; /* 0x98 */
+} Inst_82BC32F0;
+
+extern OpInfo_82BC32F0 lbl_8316FF50[];
+
+unsigned char fn_82BC32F0(Inst_82BC32F0 *self)
 {
-  int iVar1;
-  int iVar2;
-  
-  iVar1 = *(int *)(param_1 + 0x18);
-  iVar2 = *(int *)(&lbl_8316FF54 + iVar1 * 0x34);
-  *(int *)(param_1 + 0x18) = iVar2;
-  if (iVar2 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820e3ca8,0xffffffff820e3b18,0x5b9);
-  }
-  if (iVar1 == 0x35) {
-    if (*(char *)(param_1 + 0x99) != *(char *)(param_1 + 0x9a)) {
-      fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820e3c6c,0xffffffff820e3b18,0x5bc);
-    }
-    *(bool *)(param_1 + 0x9a) = *(char *)(param_1 + 0x9a) == '\0';
-  }
-  return iVar1 == 0x35;
-}
+    int op = self->op;
+    int eOp = lbl_8316FF50[op].swappedOp;
+    unsigned char negate = op == 0x35;
 
+    self->op = eOp;
+    IR_ASSERT(eOp != OP_UNKNOWN, 0x5b9);
+    if (negate) {
+        IR_ASSERT(GetArgNegate(1) == GetArgNegate(2), 0x5bc);
+        self->argNegate[2] = !self->argNegate[2];
+    }
+    return negate;
+}

@@ -1,21 +1,13 @@
-typedef unsigned char bool;
+/* Name test: does the object's name (pointer at offset 8) equal the given string? */
+int strcmp(const char *a, const char *b);
 
+typedef struct Obj_82827948 {
+    int pad0;
+    int pad4;
+    const char *name;   /* 0x08 */
+} Obj_82827948;
 
-bool fn_82827948(int param_1,char *param_2)
-
+int fn_82827948(const Obj_82827948 *self, const char *name)
 {
-  char cVar1;
-  char cVar2;
-  char *pcVar3;
-  
-  pcVar3 = *(char **)(param_1 + 8);
-  do {
-    cVar1 = *pcVar3;
-    cVar2 = *param_2;
-    if (cVar1 == '\0') break;
-    pcVar3 = pcVar3 + 1;
-    param_2 = param_2 + 1;
-  } while (cVar1 == cVar2);
-  return cVar1 == cVar2;
+    return strcmp(self->name, name) == 0;
 }
-

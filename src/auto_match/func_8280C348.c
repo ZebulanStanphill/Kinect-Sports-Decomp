@@ -1,45 +1,33 @@
-extern unsigned int *auStack_20;
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_40;
-extern unsigned int fStack_48;
-extern unsigned int fStack_4c;
-extern unsigned int fStack_50;
-extern int fn_82810280();
-extern int fn_828105C8();
+typedef struct Vec3_8280C348 {
+    float x, y, z;
+} Vec3_8280C348;
 
+extern void fn_828105C8(Vec3_8280C348 *out, float x, float y, float z);
+extern float fn_82810280(const Vec3_8280C348 *a, const Vec3_8280C348 *b);
 
-void fn_8280C348(float *param_1,float *param_2)
-
+void fn_8280C348(const float *src, float *dst)
 {
-  double dVar1;
-  struct { float first; float second; } stack_pair_50;
+    Vec3_8280C348 pos;
+    Vec3_8280C348 axisX;
+    Vec3_8280C348 axisY;
+    Vec3_8280C348 axisZ;
 
-  float fStack_48;
-  unsigned char auStack_40 [16];
-  unsigned char auStack_30 [16];
-  unsigned char auStack_20 [16];
-  
-  stack_pair_50.first = param_1[0xc];
-  stack_pair_50.second = param_1[0xd];
-  fStack_48 = param_1[0xe];
-  *param_2 = *param_1;
-  param_2[4] = param_1[1];
-  param_2[8] = param_1[2];
-  param_2[1] = param_1[4];
-  param_2[5] = param_1[5];
-  param_2[9] = param_1[6];
-  param_2[2] = param_1[8];
-  param_2[6] = param_1[9];
-  param_2[10] = param_1[10];
-  fn_828105C8((double)*param_2,(double)param_2[4],(double)param_2[8],auStack_40);
-  fn_828105C8((double)param_2[1],(double)param_2[5],(double)param_2[9],auStack_30);
-  fn_828105C8((double)param_2[2],(double)param_2[6],(double)param_2[10],auStack_20);
-  dVar1 = (double)fn_82810280(&stack_pair_50.first,auStack_40);
-  param_2[0xc] = (float)-dVar1;
-  dVar1 = (double)fn_82810280(&stack_pair_50.first,auStack_30);
-  param_2[0xd] = (float)-dVar1;
-  dVar1 = (double)fn_82810280(&stack_pair_50.first,auStack_20);
-  param_2[0xe] = (float)-dVar1;
-  return;
+    pos.x = src[12];
+    pos.y = src[13];
+    pos.z = src[14];
+    dst[0] = src[0];
+    dst[4] = src[1];
+    dst[8] = src[2];
+    dst[1] = src[4];
+    dst[5] = src[5];
+    dst[9] = src[6];
+    dst[2] = src[8];
+    dst[6] = src[9];
+    dst[10] = src[10];
+    fn_828105C8(&axisX, dst[0], dst[4], dst[8]);
+    fn_828105C8(&axisY, dst[1], dst[5], dst[9]);
+    fn_828105C8(&axisZ, dst[2], dst[6], dst[10]);
+    dst[12] = -fn_82810280(&pos, &axisX);
+    dst[13] = -fn_82810280(&pos, &axisY);
+    dst[14] = -fn_82810280(&pos, &axisZ);
 }
-

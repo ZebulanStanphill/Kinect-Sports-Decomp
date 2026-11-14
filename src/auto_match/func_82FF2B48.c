@@ -1,28 +1,36 @@
-extern int fn_82FEFF00();
-extern int fn_82FF0A80();
-extern unsigned int lbl_83264574;
-extern unsigned int lbl_83264578;
-extern unsigned int lbl_8326457C;
+typedef struct Node_82FF2B48 {
+    char pad0[0x10];
+    struct Node_82FF2B48 *next;
+} Node_82FF2B48;
+typedef struct List_82FF2B48 {
+    Node_82FF2B48 *head;
+    Node_82FF2B48 *tail;
+    int count;
+} List_82FF2B48;
+extern List_82FF2B48 lbl_83264574;
+extern char lbl_83264580[];
+extern void RtlEnterCriticalSection(void *cs);
+extern void RtlLeaveCriticalSection(void *cs);
+extern void fn_82FEFF00(Node_82FF2B48 *n);
+extern void fn_82FF0A80(Node_82FF2B48 *n, int arg, int flag, int extra);
 
-
-void fn_82FF2B48(int param_1,unsigned __int64 param_2,int param_3)
-
+void fn_82FF2B48(Node_82FF2B48 *n, int arg, int mode)
 {
-  int iVar1;
-  
-  RtlEnterCriticalSection(0xffffffff83264580);
-  *(unsigned int *)(param_1 + 0x10) = 0;
-  iVar1 = param_1;
-  if (lbl_83264578 != 0) {
-    *(int *)(lbl_83264578 + 0x10) = param_1;
-    iVar1 = lbl_83264574;
-  }
-  lbl_83264574 = iVar1;
-  lbl_8326457C = lbl_8326457C + 1;
-  lbl_83264578 = param_1;
-  RtlLeaveCriticalSection(0xffffffff83264580);
-  fn_82FEFF00(param_1);
-  fn_82FF0A80(param_1,param_2,param_3 == 1,0);
-  return;
-}
+    int flag;
 
+    RtlEnterCriticalSection(lbl_83264580);
+    n->next = 0;
+    if (lbl_83264574.tail == 0) {
+        lbl_83264574.head = n;
+    } else {
+        lbl_83264574.tail->next = n;
+    }
+    lbl_83264574.tail = n;
+    lbl_83264574.count++;
+    RtlLeaveCriticalSection(lbl_83264580);
+    fn_82FEFF00(n);
+    flag = 0;
+    if (mode == 1)
+        flag = 1;
+    fn_82FF0A80(n, arg, flag, 0);
+}

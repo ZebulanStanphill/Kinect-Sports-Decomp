@@ -1,17 +1,10 @@
-extern int fn_82F655D8();
-extern int fn_82F68918();
-extern unsigned int lbl_82002C5C;
-extern unsigned int lbl_82005CCC;
-extern unsigned int lbl_8200DD28;
+extern double fn_82F655D8(double x, double y);  /* pow */
+extern double fn_82F68918(double x);            /* floor */
 
-
-unsigned __int64 fn_827591D8(unsigned __int64 param_1,unsigned short param_2)
-
+/* Gamma-corrects a 16-bit channel value and returns it as an 8-bit one. */
+unsigned char fn_827591D8(unsigned short value, float gamma)
 {
-  double dVar1;
-  
-  dVar1 = (double)fn_82F655D8((double)((float)param_2 * lbl_8200DD28),param_1);
-  dVar1 = (double)fn_82F68918((double)((float)dVar1 * lbl_82005CCC + lbl_82002C5C));
-  return (__int64)dVar1 & 0xff;
-}
+    float v = (float)fn_82F655D8(value * (1.0f / 65535.0f), gamma);
 
+    return (unsigned char)fn_82F68918(v * 255.0f + 0.5f);
+}
