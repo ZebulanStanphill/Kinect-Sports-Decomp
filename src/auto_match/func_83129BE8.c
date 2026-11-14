@@ -1,24 +1,12 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern unsigned int lbl_83218C10;
-extern V16 vectorSplatImmediateSignedHalfWord();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vspltish(int value);
+
+extern __vector4 lbl_83218C10;
 
 void fn_83129BE8(void)
-
 {
-  unsigned int *puVar1;
-  int in_r0;
-  unsigned int in_register_00010000;
-  unsigned int in_ACC;
-  unsigned int in_register_00010008;
-  unsigned int in_vr0;
-  
-  vectorSplatImmediateSignedHalfWord(3);
-  puVar1 = (unsigned int *)((unsigned int)(&lbl_83218C10 + in_r0) & 0xfffffff0);
-  *puVar1 = in_register_00010000;
-  puVar1[1] = in_ACC;
-  puVar1[2] = in_register_00010008;
-  puVar1[3] = in_vr0;
-  return;
+    lbl_83218C10 = __vspltish(3);
 }
-

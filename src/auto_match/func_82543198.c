@@ -1,68 +1,92 @@
-extern int fn_82543308();
-extern int fn_82543440();
-extern int fn_82543628();
-extern int fn_82543940();
-extern int fn_8262FE50();
-extern int fn_8262FEC8();
-extern int fn_82631578();
-extern int fn_82631920();
-extern int fn_82637FF0();
-extern int fn_82639F78();
+typedef struct Ctx_82543198 {
+  char pad0[0x3244];
+  void *res3244;
+  void *res3248;
+} Ctx_82543198;
 
+typedef struct Dev_82543198 {
+  Ctx_82543198 *ctx;   /* 0x00 */
+  int pad04[4];
+  unsigned int v14;    /* 0x14 */
+  int v18;             /* 0x18 */
+  int pad1c[2];
+  unsigned int *v24;   /* 0x24 */
+  unsigned int v28;    /* 0x28 */
+  unsigned int v2c;    /* 0x2c */
+} Dev_82543198;
 
-void fn_82543198(unsigned int *param_1,unsigned __int64 param_2,int *param_3,int param_4)
+typedef struct Viewport_82543198 {
+  int a;
+  int b;
+} Viewport_82543198;
 
+typedef struct State_82543198 {
+  Viewport_82543198 *viewport;   /* 0x00 */
+  unsigned int v4;
+  void **p8;
+  void **pc;
+  unsigned int *v10;
+  unsigned int v14;
+  unsigned int v18;
+  int v1c;
+} State_82543198;
+
+extern void fn_82543308(Dev_82543198 *d, void *p, unsigned int v);
+extern void fn_82543440(Dev_82543198 *d, void *p, unsigned int v);
+extern void fn_82543628(Dev_82543198 *d, void *p, unsigned int v);
+extern void fn_82543940(Dev_82543198 *d, int v);
+extern void fn_8262FE50(void *r);
+extern void fn_8262FEC8(void *r);
+extern void fn_82631578(Ctx_82543198 *c, void *r);
+extern void fn_82631920(Ctx_82543198 *c, void *r);
+extern void fn_82637FF0(Ctx_82543198 *c, unsigned int v);
+extern void fn_82639F78(Ctx_82543198 *c, int a, int b, int c2, int d, int e);
+
+void fn_82543198(Dev_82543198 *d, void *p, State_82543198 *s, int mode)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  
-  uVar2 = (unsigned __int64)*param_1;
-  uVar3 = (unsigned __int64)*(unsigned int *)(*param_1 + 0x3244);
-  uVar1 = (unsigned __int64)*(unsigned int *)param_3[3];
-  if (uVar3 != 0) {
-    fn_8262FE50(uVar3);
+  Ctx_82543198 *ctx = d->ctx;
+  void *cur = ctx->res3244;
+  void *want = *s->pc;
+  if (cur != 0) {
+    fn_8262FE50(cur);
   }
-  if (uVar3 != (uVar1 & 0xffffffff)) {
-                    /* WARNING: Subroutine does not return */
-    fn_82631578(uVar2);
+  if (cur != want) {
+    fn_82631578(ctx, want);
   }
-  if (uVar3 != 0) {
-    fn_8262FEC8(uVar3);
+  if (cur != 0) {
+    fn_8262FEC8(cur);
   }
-  if (param_1[0xb] != param_3[6]) {
-    fn_82543440(param_1,param_2);
-    param_1[0xb] = param_3[6];
+  if (d->v2c != s->v18) {
+    fn_82543440(d, p, s->v18);
+    d->v2c = s->v18;
   }
-  if ((unsigned int *)param_1[9] != (unsigned int *)param_3[4]) {
-    if (param_4 == 3) {
-      fn_82637FF0(*param_1,*(unsigned int *)param_3[4]);
+  if (d->v24 != s->v10) {
+    if (mode == 3) {
+      fn_82637FF0(d->ctx, *s->v10);
     }
-    param_1[9] = param_3[4];
+    d->v24 = s->v10;
   }
-  if (param_1[10] != param_3[5]) {
-    fn_82543628(param_1,param_2);
-    param_1[10] = param_3[5];
+  if (d->v28 != s->v14) {
+    fn_82543628(d, p, s->v14);
+    d->v28 = s->v14;
   }
-  uVar2 = (unsigned __int64)*param_1;
-  uVar3 = (unsigned __int64)*(unsigned int *)(*param_1 + 0x3248);
-  uVar1 = (unsigned __int64)*(unsigned int *)param_3[2];
-  if (uVar3 != 0) {
-    fn_8262FE50(uVar3);
+  ctx = d->ctx;
+  cur = ctx->res3248;
+  want = *s->p8;
+  if (cur != 0) {
+    fn_8262FE50(cur);
   }
-  if (uVar3 != (uVar1 & 0xffffffff)) {
-    fn_82631920(uVar2);
+  if (cur != want) {
+    fn_82631920(ctx, want);
   }
-  if (uVar3 != 0) {
-    fn_8262FEC8(uVar3);
+  if (cur != 0) {
+    fn_8262FEC8(cur);
   }
-  if (param_1[5] != param_3[1]) {
-    fn_82543308(param_1,param_2);
-    param_1[5] = param_3[1];
+  if (d->v14 != s->v4) {
+    fn_82543308(d, p, s->v4);
+    d->v14 = s->v4;
   }
-  param_1[6] = 0xffffffff;
-  fn_82639F78(*param_1,0,*(unsigned int *)*param_3,0,((unsigned int *)*param_3)[1],1);
-  fn_82543940(param_1,param_3[7]);
-  return;
+  d->v18 = -1;
+  fn_82639F78(d->ctx, 0, s->viewport->a, 0, s->viewport->b, 1);
+  fn_82543940(d, s->v1c);
 }
-

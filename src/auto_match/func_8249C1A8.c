@@ -1,87 +1,95 @@
-extern int fn_8225F160();
-extern int fn_8225F3C0();
-extern int fn_82381BC0();
-extern int fn_8249ABC0();
-extern int fn_825200A8();
+extern int fn_8225F160(void);
+extern int fn_8225F3C0(int);
+extern void fn_82381BC0(void *);
+extern char *fn_8249ABC0(void);
+extern int fn_825200A8(void *a, void *b);
+extern char lbl_8326597C[];
 extern unsigned int lbl_832765BC;
 
+typedef struct { int pad[9]; unsigned int f24; } Ent_8249C1A8;
+typedef struct Link_8249C1A8 { struct Link_8249C1A8 *next; int pad[2]; unsigned int mask; } Link_8249C1A8;
+typedef struct {
+  char pad0[8]; int f8; char pad1[0x14 - 0xc]; Ent_8249C1A8 *e[2]; char pad2[0x20 - 0x1c]; int f20;
+  char pad3[0x38 - 0x24]; Link_8249C1A8 *head; char pad4[0x6c - 0x3c]; unsigned int f6c;
+} Obj_8249C1A8;
+typedef struct { char pad[0x2c]; int f2c; } W_8249C1A8;
+typedef struct { char pad[8]; int k8; char pad2[0x2c - 0xc]; W_8249C1A8 *k2c; } Q_8249C1A8;
+typedef struct { int pad; Q_8249C1A8 *q4; int v8; } P_8249C1A8;
 
-unsigned int fn_8249C1A8(int param_1)
-
+static __forceinline int IsReady(P_8249C1A8 *p)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  int iVar3;
-  int iVar4;
-  int iVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  int iVar8;
-  int *piVar9;
-  int aiStack_60;
-  
-  uVar7 = 0;
-  aiStack_60 = **(int **)(param_1 + 0x38);
-  if ((int *)aiStack_60 != *(int **)(param_1 + 0x38)) {
-    do {
-      uVar1 = *(unsigned int *)(aiStack_60 + 0xc);
-      iVar8 = 0;
-      iVar4 = 0;
-      piVar9 = (int *)(param_1 + 0x14);
-      do {
-        if ((*(unsigned int *)(*piVar9 + 0x24) & uVar1) != 0) {
-          if ((uVar1 & *(unsigned int *)(param_1 + 0x6c)) == 0) {
-            fn_8225F160();
-            iVar3 = fn_8225F3C0();
-            if ((((*(int *)(param_1 + 8) == 2) || (*(int *)(param_1 + 8) == 1)) ||
-                ((uVar1 & *(unsigned int *)(param_1 + 0x6c)) != 0)) ||
-               ((iVar3 != 1 || (iVar4 != *(int *)(param_1 + 0x20))))) {
-              iVar8 = iVar8 + 1;
-              goto LAB_8249c24c;
-            }
-          }
-          iVar8 = 2;
-          break;
-        }
-LAB_8249c24c:
-        iVar4 = iVar4 + 1;
-        piVar9 = piVar9 + 1;
-      } while (iVar4 < 2);
-      fn_8225F160();
-      iVar4 = fn_8225F3C0();
-      if (1 < iVar4) {
-        iVar3 = fn_8249ABC0();
-        iVar3 = *(int *)(iVar3 + 0x70);
-        if ((iVar3 != 0) && (*(int *)(*(int *)(iVar3 + 0x844) + 0x358) == 0)) {
-          iVar5 = fn_825200A8(0xffffffff8326597c);
-          if (iVar5 != 0) goto LAB_8249c324;
-          uVar2 = *(unsigned int *)(iVar3 + 0xd54);
-          if ((unsigned __int64)uVar2 != 0xfffffffffffffff0) {
-            if (*(int *)(uVar2 + 0x18) == 0) {
-              iVar3 = *(int *)(uVar2 + 0x14);
-              if (iVar3 != 0) {
-                uVar6 = (unsigned int)(*(int *)(iVar3 + 8) == 9);
-                if (*(int *)(iVar3 + 0x2c) != 0) {
-                  uVar6 = (unsigned int)LZCOUNT(*(unsigned int *)(*(int *)(iVar3 + 0x2c) + 0x2c)) >> 5 & uVar6
-                  ;
-                }
-                if (uVar6 != 0) goto LAB_8249c324;
-              }
-              if (*(int *)(uVar2 + 0x14) != 0) goto LAB_8249c320;
-            }
-            if (lbl_832765BC != 0) goto LAB_8249c324;
-          }
-        }
-LAB_8249c320:
-        iVar4 = 1;
-      }
-LAB_8249c324:
-      if (2 - iVar8 < iVar4) {
-        uVar7 = uVar1 | uVar7;
-      }
-      fn_82381BC0(&aiStack_60);
-    } while (aiStack_60 != *(int *)(param_1 + 0x38));
-  }
-  return uVar7;
+  Q_8249C1A8 *q;
+  int b;
+  if (p->v8 != 0) return 0;
+  q = p->q4;
+  if (q == 0) return 0;
+  b = (q->k8 == 9);
+  if (q->k2c != 0) b = (q->k2c->f2c == 0) & b;
+  return b;
 }
 
+static __forceinline int HasQuery(P_8249C1A8 *p)
+{
+  return p->v8 == 0 && p->q4 != 0;
+}
+
+unsigned int fn_8249C1A8(Obj_8249C1A8 *o)
+{
+  unsigned int result;
+  Link_8249C1A8 *cur;
+  unsigned int mask;
+  int count;
+  int i;
+  int n;
+  int n2;
+  char *t;
+  char *r4;
+  P_8249C1A8 *p;
+  Q_8249C1A8 *q;
+  int v8;
+  int b;
+
+  result = 0;
+  cur = o->head->next;
+  while (cur != o->head) {
+      mask = cur->mask;
+      count = 0;
+      for (i = 0; i < 2; i++) {
+        if ((o->e[i]->f24 & mask) != 0) {
+          if ((mask & o->f6c) != 0) {
+            count = 2;
+            break;
+          }
+          n = fn_8225F3C0(fn_8225F160());
+          if (o->f8 == 2 || o->f8 == 1 || (mask & o->f6c) != 0 || n != 1 || i != o->f20) {
+            count++;
+          } else {
+            count = 2;
+            break;
+          }
+        }
+      }
+      n2 = fn_8225F3C0(fn_8225F160());
+      if (n2 > 1) {
+        t = fn_8249ABC0();
+        r4 = *(char **)(t + 0x70);
+        if (r4 != 0 && *(unsigned int *)(*(int *)(r4 + 0x844) + 0x358) == 0) {
+          if (fn_825200A8(lbl_8326597C, r4) != 0) goto done;
+          p = (P_8249C1A8 *)(*(int *)(r4 + 0xd54) + 0x10);
+          if (p != 0) {
+            if (IsReady(p)) goto done;
+            if (HasQuery(p)) goto one;
+            if (lbl_832765BC != 0) goto done;
+          }
+        }
+one:
+        n2 = 1;
+      }
+done:
+      if (2 - count < n2) {
+        result = mask | result;
+      }
+    fn_82381BC0(&cur);
+  }
+  return result;
+}

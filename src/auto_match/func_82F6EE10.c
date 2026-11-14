@@ -1,43 +1,29 @@
-void fn_82F6EE10(unsigned __int64 param_1,char *param_2,unsigned __int64 param_3,int param_4)
-
+void fn_82F6EE10(unsigned int value, char *out, unsigned int radix, int negative)
 {
-  unsigned __int64 uVar1;
-  char cVar2;
-  char *pcVar3;
-  char *pcVar4;
-  
-  pcVar3 = param_2;
-  if (param_4 != 0) {
-    pcVar3 = param_2 + 1;
-    *param_2 = '-';
-    param_1 = -param_1;
-    param_2 = pcVar3;
-  }
-  do {
-    pcVar4 = param_2;
-    trapWord(6,param_3,0);
-    uVar1 = param_1 - (__int64)(int)((param_1 & 0xffffffff) / (param_3 & 0xffffffff)) *
-                      (__int64)(int)param_3;
-    param_1 = (param_1 & 0xffffffff) / (param_3 & 0xffffffff);
-    trapWord(6,param_3,0);
-    cVar2 = (char)uVar1;
-    if ((uVar1 & 0xffffffff) < 10) {
-      cVar2 = cVar2 + '0';
-    }
-    else {
-      cVar2 = cVar2 + 'W';
-    }
-    *pcVar4 = cVar2;
-    param_2 = pcVar4 + 1;
-  } while (param_1 != 0);
-  pcVar4[1] = '\0';
-  do {
-    cVar2 = *pcVar4;
-    *pcVar4 = *pcVar3;
-    pcVar4 = pcVar4 + -1;
-    *pcVar3 = cVar2;
-    pcVar3 = pcVar3 + 1;
-  } while (pcVar3 < pcVar4);
-  return;
-}
+  char *p = out;
+  char *start;
+  char swap;
+  unsigned int digit;
 
+  if (negative) {
+    *p++ = '-';
+    value = (unsigned int)-(int)value;
+  }
+  start = p;
+  do {
+    digit = value % radix;
+    value /= radix;
+    if (digit > 9)
+      *p++ = (char)(digit + 'a' - 10);
+    else
+      *p++ = (char)(digit + '0');
+  } while (value > 0);
+  *p-- = 0;
+  do {
+    swap = *p;
+    *p = *start;
+    *start = swap;
+    p--;
+    start++;
+  } while (start < p);
+}

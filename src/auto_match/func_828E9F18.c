@@ -1,24 +1,23 @@
-extern int fn_828E9DB8();
+typedef struct Writer_828E9F18 {
+    unsigned int bitPos;
+    unsigned int pos;
+    unsigned char *buffer;
+    unsigned int capacity;
+} Writer_828E9F18;
 
+extern void fn_828E9DB8(Writer_828E9F18 *self, unsigned int value, int bits);
 
-unsigned __int64 fn_828E9F18(unsigned int *param_1,unsigned __int64 param_2,__int64 param_3)
-
+int fn_828E9F18(Writer_828E9F18 *self, unsigned __int64 value, int bits)
 {
-  unsigned __int64 uVar1;
-  
-  if ((unsigned __int64)param_1[3] <
-      ((((unsigned __int64)*param_1 + param_3 + 7 & 0xffffffff) >> 3) + (unsigned __int64)param_1[1] & 0xffffffff)
-     ) {
-    uVar1 = 0;
-  }
-  else {
-    if (0x20 < (int)param_3) {
-      fn_828E9DB8(param_1,param_2 >> 0x20,param_3 + -0x20);
-      param_3 = 0x20;
-    }
-    fn_828E9DB8(param_1,param_2 & 0xffffffff,param_3);
-    uVar1 = 1;
-  }
-  return uVar1;
-}
+    int ok = 1;
 
+    if (((self->bitPos + bits + 7) >> 3) + self->pos <= self->capacity) {
+        if (bits > 32) {
+            fn_828E9DB8(self, (unsigned int)(value >> 32), bits - 32);
+            bits = 32;
+        }
+        fn_828E9DB8(self, (unsigned int)value, bits);
+    } else
+        ok = 0;
+    return ok;
+}

@@ -1,22 +1,15 @@
-extern int fn_825200A8();
+extern int lbl_83283E3C[2];
+extern int fn_825200A8(int *entry);
 
-
-unsigned __int64 fn_825087D8(void)
-
+int fn_825087D8(void)
 {
-  unsigned __int64 uVar1;
-  __int64 lVar2;
-  __int64 lVar3;
-  
-  lVar2 = -0x7cd7c1c4;
-  lVar3 = lVar2;
-  do {
-    uVar1 = fn_825200A8(lVar3);
-    if ((int)uVar1 != 0) {
-      return 1;
-    }
-    lVar3 = lVar3 + 4;
-  } while ((int)lVar3 < (int)lVar2 + 8);
-  return uVar1;
-}
+    int i;
+    int result;
 
+    for (i = 0; i < 2; i++) {
+        result = fn_825200A8(&lbl_83283E3C[i]);
+        if (result != 0)
+            return 1;
+    }
+    return result;
+}

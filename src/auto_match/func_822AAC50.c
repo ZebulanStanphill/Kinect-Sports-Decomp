@@ -1,77 +1,65 @@
-extern int fn_8251F720();
-extern int fn_8251FA58();
-extern int fn_825200A8();
-extern unsigned int lbl_821CA460;
-extern unsigned int lbl_83265A28;
+typedef struct Pool_822AAC50 { unsigned first; } Pool_822AAC50;
+typedef struct Picker_822AAC50 {
+  char pad0[0x4c];
+  unsigned defaults[4];      /* 0x4c */
+  Pool_822AAC50 pools[4];        /* 0x5c */
+  int enabled;               /* 0x6c */
+  unsigned slots[7];         /* 0x70 */
+  int count;                 /* 0x8c */
+} Picker_822AAC50;
+typedef union Bits_822AAC50 { unsigned u; float f; } Bits_822AAC50;
+extern unsigned **fn_8251F720(Pool_822AAC50 *pool, int n);
+extern void fn_8251FA58(unsigned **list);
+extern int fn_825200A8(unsigned *slot, unsigned **pick);
+extern unsigned lbl_83265A28;
+extern float lbl_821CA45C[];
 
-
-int fn_822AAC50(int param_1)
-
+static __forceinline int Valid(Pool_822AAC50 *pool)
 {
-  unsigned int *puVar2;
-  unsigned __int64 uVar1;
-  int iVar3;
-  __int64 lVar4;
-  unsigned __int64 uVar5;
-  int iVar6;
-  unsigned __int64 uVar7;
-  unsigned __int64 uVar8;
-  double dVar9;
-  double dVar10;
-  
-  if (*(int *)(param_1 + 0x6c) == 0) {
-    param_1 = param_1 + 0x54;
-  }
-  else {
-    puVar2 = (unsigned int *)(param_1 + 100);
-    if ((puVar2 == (unsigned int *)0x0) ||
-       (uVar7 = (unsigned __int64)*puVar2, uVar7 == (uVar7 - 1) + (unsigned __int64)(uVar7 == 0))) {
-      param_1 = 0;
-    }
-    else if (*(int *)(param_1 + 0x8c) < 7) {
-      uVar1 = fn_8251F720(puVar2,1);
-      iVar6 = 0;
-      uVar8 = uVar1;
-      uVar7 = uVar1;
-      while ((uVar7 != 0 && (*(int *)uVar8 != 0))) {
-        iVar6 = iVar6 + 1;
-        uVar8 = -(unsigned __int64)(((int *)uVar8)[1] != 0) & uVar8 + 4;
-        uVar7 = uVar8 & 0xffffffff;
-      }
-      dVar10 = (double)(__int64)iVar6;
-      uVar7 = (unsigned __int64)lbl_83265A28;
-      dVar9 = (double)lbl_821CA460;
-      do {
-        lVar4 = 0;
-        uVar7 = (__int64)(int)uVar7 * 0x19660d + 0x3c6ef35f;
-        lbl_83265A28 = (unsigned int)uVar7;
-        uVar5 = (unsigned __int64)*(unsigned int *)(param_1 + 0x8c);
-        uVar8 = ((unsigned __int64)
-                 (unsigned int)(int)((double)(float)((double)(float)(lbl_83265A28 & 0x7fffff | 0x3f800000) -
-                                            dVar9) * dVar10) & 0x3fffffff) * 4 + uVar1;
-        if (0 < (int)*(unsigned int *)(param_1 + 0x8c)) {
-          iVar6 = param_1 + 0x70;
-          do {
-            iVar3 = fn_825200A8(iVar6);
-            if (iVar3 != 0) {
-              uVar8 = 0;
-              break;
-            }
-            lVar4 = lVar4 + 1;
-            iVar6 = iVar6 + 4;
-          } while ((int)lVar4 < *(int *)(param_1 + 0x8c));
-        }
-      } while ((uVar8 & 0xffffffff) == 0);
-      *(unsigned int *)((int)((uVar5 + 0x1c & 0xffffffff) << 2) + param_1) = *(unsigned int *)uVar8;
-      fn_8251FA58(uVar1);
-      iVar6 = *(int *)(param_1 + 0x8c);
-      *(int *)(param_1 + 0x8c) = iVar6 + 1;
-      param_1 = (iVar6 + 0x1c) * 4 + param_1;
-    }
-    else {
-      param_1 = param_1 + 0x88;
-    }
-  }
-  return param_1;
+  if (pool == 0) return 0;
+  return pool->first != 0;
 }
 
+/* Picks a random entry of pools[2] that is not in slots yet and appends it. */
+unsigned *fn_822AAC50(Picker_822AAC50 *o)
+{
+  unsigned **list;
+  unsigned **pick;
+  unsigned **p;
+  int n;
+  int i;
+  float count;
+  Bits_822AAC50 r;
+
+  if (o->enabled != 0) {
+    if (Valid(&o->pools[2])) {
+      if (o->count < 7) {
+        list = fn_8251F720(&o->pools[2], 1);
+        n = 0;
+        p = list;
+        while (p != 0 && *p != 0) {
+          n++;
+          p = p[1] != 0 ? p + 1 : 0;
+        }
+        count = (float)n;
+        do {
+          lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
+          r.u = (lbl_83265A28 & 0x7fffff) | 0x3f800000;
+          pick = list + (int)((r.f - lbl_821CA45C[1]) * count);
+          for (i = 0; i < o->count; i++) {
+            if (fn_825200A8(&o->slots[i], pick) != 0) {
+              pick = 0;
+              break;
+            }
+          }
+        } while (pick == 0);
+        o->slots[o->count] = (unsigned)*pick;
+        fn_8251FA58(list);
+        return &o->slots[o->count++];
+      }
+      return &o->slots[6];
+    }
+    return 0;
+  }
+  return &o->defaults[2];
+}

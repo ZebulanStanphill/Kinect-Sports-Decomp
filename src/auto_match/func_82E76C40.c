@@ -1,48 +1,28 @@
-__int64 fn_82E76C40(int param_1)
+typedef struct Obj_82E76C40 {
+  char pad[0x151];
+  unsigned char a;
+  unsigned char b;
+  unsigned char c;
+  int flag;
+} Obj_82E76C40;
 
+static __forceinline unsigned char SizeOf(unsigned char kind)
 {
-  char cVar1;
-  __int64 lVar2;
-  __int64 lVar3;
-  __int64 lVar4;
-  
-  cVar1 = *(char *)(param_1 + 0x151);
-  lVar2 = 0;
-  if (cVar1 == '\x01') {
-    lVar2 = 1;
+  unsigned char n = 0;
+  switch (kind) {
+  case 1: n = 1; break;
+  case 2: n = 2; break;
+  case 3: n = 4; break;
   }
-  else if (cVar1 == '\x02') {
-    lVar2 = 2;
-  }
-  else if (cVar1 == '\x03') {
-    lVar2 = 4;
-  }
-  cVar1 = *(char *)(param_1 + 0x153);
-  lVar3 = 0;
-  if (cVar1 == '\x01') {
-    lVar3 = 1;
-  }
-  else if (cVar1 == '\x02') {
-    lVar3 = 2;
-  }
-  else if (cVar1 == '\x03') {
-    lVar3 = 4;
-  }
-  cVar1 = *(char *)(param_1 + 0x152);
-  lVar4 = 0;
-  if (cVar1 == '\x01') {
-    lVar4 = 1;
-  }
-  else if (cVar1 == '\x02') {
-    lVar4 = 2;
-  }
-  else if (cVar1 == '\x03') {
-    lVar4 = 4;
-  }
-  lVar4 = lVar4 + lVar3 + lVar2;
-  if (*(int *)(param_1 + 0x154) == 0) {
-    return lVar4 + 8;
-  }
-  return lVar4 + 9;
+  return n;
 }
 
+int fn_82E76C40(Obj_82E76C40 *o)
+{
+  int n = SizeOf(o->a) + 2;
+  n += SizeOf(o->c);
+  n += SizeOf(o->b);
+  n += 6;
+  if (o->flag != 0) n += 1;
+  return n;
+}

@@ -1,27 +1,25 @@
-void fn_83081D68(unsigned int *param_1)
+typedef struct Array_83081D68 {
+    int *data;
+} Array_83081D68;
 
+typedef struct Sets_83081D68 {
+    Array_83081D68 *parents;
+    int count;
+} Sets_83081D68;
+
+static __forceinline int Parent(Sets_83081D68 *s, int i)
 {
-  int iVar1;
-  int *piVar2;
-  int *piVar3;
-  int *piVar4;
-  
-  piVar4 = *(int **)*param_1;
-  piVar2 = piVar4 + param_1[1];
-  piVar3 = piVar4;
-  if (piVar4 != piVar2) {
-    do {
-      if (-1 < *piVar4) {
-        for (iVar1 = piVar3[*piVar4]; -1 < iVar1; iVar1 = piVar3[iVar1]) {
-          iVar1 = piVar3[*piVar4];
-          *piVar4 = iVar1;
-          piVar3 = *(int **)*param_1;
-        }
-      }
-      piVar4 = piVar4 + 1;
-    } while (piVar4 != piVar2);
-    return;
-  }
-  return;
+    return s->parents->data[i];
 }
 
+void fn_83081D68(Sets_83081D68 *s)
+{
+    int *e = s->parents->data;
+    int *end = e + s->count;
+    for (; e != end; e++) {
+        if (*e >= 0) {
+            while (Parent(s, *e) >= 0)
+                *e = Parent(s, *e);
+        }
+    }
+}

@@ -1,67 +1,58 @@
-typedef unsigned char bool;
-extern int fn_8264D6C0();
-extern unsigned __int64 storeWordConditionalIndexed();
+#define __sync() __emit(0x7C0004AC)
 
+long _InterlockedExchangeAdd(long volatile *target, long value);
 
-void fn_8262FBD8(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+typedef struct Surface_8262FBD8 {
+    unsigned int flags;         /* 0x00 */
+    char pad4[0x10];
+    unsigned int dirty0;        /* 0x14 */
+    unsigned int dirty1;        /* 0x18 */
+} Surface_8262FBD8;
 
+extern void fn_8264D6C0(unsigned int start, unsigned int end, int flags);
+
+static __forceinline unsigned int GpuAddress(unsigned int a)
 {
-  unsigned int uVar1;
-  bool bVar2;
-  unsigned int *puVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  puVar3 = (unsigned int *)param_1;
-  if ((*puVar3 & 0xf00) == 0x100) {
-    uVar1 = puVar3[5];
-    if (uVar1 != 0xffff0000) {
-      uVar4 = ((unsigned __int64)(uVar1 >> 0x10) & 0x7fff) << 4;
-      if ((uVar1 >> 0x10 & 0x8000) == 0) {
-        uVar4 = (unsigned __int64)(uVar1 >> 0x10);
-      }
-      uVar5 = ((unsigned __int64)uVar1 & 0x7fff) << 4;
-      if ((uVar1 & 0x8000) == 0) {
-        uVar5 = (unsigned __int64)uVar1 & 0xffff;
-      }
-      bVar2 = (*puVar3 & 0x200000) == 0;
-      in_cr0 = bVar2 << 1;
-      puVar3[5] = 0xffff0000;
-      if (bVar2) {
-        param_2 = ((((param_2 & 0xffffffff) >> 0x14) + 0x200 & 0x1000) + (param_2 & 0x1fffffff)) -
-                  0x40000000;
-      }
-      fn_8264D6C0(uVar4 * 0x80 + (param_2 & 0xffffff80),uVar5 * 0x80 + (param_2 & 0xffffff80),0);
-    }
-    if (((param_3 & 0xffffffff) != 0) && (uVar1 = puVar3[6], uVar1 != 0xffff0000)) {
-      uVar4 = ((unsigned __int64)(uVar1 >> 0x10) & 0x7fff) << 4;
-      if ((uVar1 >> 0x10 & 0x8000) == 0) {
-        uVar4 = (unsigned __int64)(uVar1 >> 0x10);
-      }
-      uVar5 = ((unsigned __int64)uVar1 & 0x7fff) << 4;
-      if ((uVar1 & 0x8000) == 0) {
-        uVar5 = (unsigned __int64)uVar1 & 0xffff;
-      }
-      puVar3[6] = 0xffff0000;
-      bVar2 = (*puVar3 & 0x200000) == 0;
-      in_cr0 = bVar2 << 1;
-      if (bVar2) {
-        param_3 = ((((param_3 & 0xffffffff) >> 0x14) + 0x200 & 0x1000) + (param_3 & 0x1fffffff)) -
-                  0x40000000;
-      }
-      fn_8264D6C0(uVar4 * 0x80 + (param_3 & 0xffffff80),uVar5 * 0x80 + (param_3 & 0xffffff80),0);
-    }
-  }
-  sync(0);
-  do {
-    if (in_RESERVE != '\0') {
-      uVar1 = storeWordConditionalIndexed((unsigned __int64)*puVar3 - 0x100,0,param_1);
-      *puVar3 = uVar1;
-      in_cr0 = 2;
-    }
-  } while (!(bool)(in_cr0 >> 1 & 1));
-  return;
+    return (((a >> 20) + 0x200) & 0x1000) + (a & 0x1fffffff) - 0x40000000;
 }
 
+static __forceinline void Range(unsigned int dirty, unsigned int *first, unsigned int *last)
+{
+    unsigned int hi = dirty >> 16;
+    unsigned int lo = dirty & 0xffff;
+    *first = (hi & 0x8000) ? (hi & 0x7fff) << 4 : hi;
+    *last = (lo & 0x8000) ? (lo & 0x7fff) << 4 : lo;
+}
+
+void fn_8262FBD8(Surface_8262FBD8 *surface, unsigned int base0, unsigned int base1)
+{
+    unsigned int flags = surface->flags;
+    unsigned int dirty;
+    unsigned int first;
+    unsigned int last;
+
+    if ((flags & 0xf00) == 0x100) {
+        dirty = surface->dirty0;
+        if (dirty != 0xffff0000) {
+            Range(dirty, &first, &last);
+            surface->dirty0 = 0xffff0000;
+            if ((flags & 0x200000) == 0)
+                base0 = GpuAddress(base0);
+            base0 &= ~0x7f;
+            fn_8264D6C0(first * 0x80 + base0, last * 0x80 + base0, 0);
+        }
+        if (base1 != 0) {
+            dirty = surface->dirty1;
+            if (dirty != 0xffff0000) {
+                Range(dirty, &first, &last);
+                surface->dirty1 = 0xffff0000;
+                if ((surface->flags & 0x200000) == 0)
+                    base1 = GpuAddress(base1);
+                base1 &= ~0x7f;
+                fn_8264D6C0(first * 0x80 + base1, last * 0x80 + base1, 0);
+            }
+        }
+    }
+    __sync();
+    _InterlockedExchangeAdd((long volatile *)&surface->flags, -0x100);
+}

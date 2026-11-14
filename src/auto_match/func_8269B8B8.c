@@ -1,26 +1,30 @@
-extern int fn_8269AE08();
+typedef struct Node_8269B8B8 {
+    char pad0[0x70];
+    struct Node_8269B8B8 *next;
+    struct Node_8269B8B8 *prev;
+} Node_8269B8B8;
 
+typedef struct Owner_8269B8B8 {
+    char pad0[0xaf4];
+    Node_8269B8B8 *head;
+    char padAF8[8];
+    unsigned int flags;
+} Owner_8269B8B8;
 
-void fn_8269B8B8(unsigned __int64 param_1,int param_2)
+extern void fn_8269AE08(Node_8269B8B8 *node, Owner_8269B8B8 *owner);
 
+void fn_8269B8B8(Node_8269B8B8 *node, Owner_8269B8B8 *owner)
 {
-  int iVar1;
-  
-  iVar1 = fn_8269AE08();
-  if (*(int *)(iVar1 + 0x70) != 0) {
-    *(unsigned int *)(*(int *)(iVar1 + 0x70) + 0x74) = *(unsigned int *)(iVar1 + 0x74);
-  }
-  if (*(int *)(iVar1 + 0x74) == 0) {
-    if (*(int *)(param_2 + 0xaf4) == iVar1) {
-      *(unsigned int *)(param_2 + 0xaf4) = *(unsigned int *)(iVar1 + 0x70);
+    fn_8269AE08(node, owner);
+    if (node->next != 0) {
+        node->next->prev = node->prev;
     }
-  }
-  else {
-    *(unsigned int *)(*(int *)(iVar1 + 0x74) + 0x70) = *(unsigned int *)(iVar1 + 0x70);
-  }
-  *(unsigned int *)(iVar1 + 0x74) = 0;
-  *(unsigned int *)(iVar1 + 0x70) = 0;
-  *(unsigned int *)(param_2 + 0xb00) = *(unsigned int *)(param_2 + 0xb00) | 0x400;
-  return;
+    if (node->prev != 0) {
+        node->prev->next = node->next;
+    } else if (owner->head == node) {
+        owner->head = node->next;
+    }
+    node->prev = 0;
+    node->next = 0;
+    owner->flags |= 0x400;
 }
-

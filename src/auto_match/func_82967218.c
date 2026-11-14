@@ -1,45 +1,44 @@
-extern int fn_82967188();
+typedef struct Node_82967218 {
+    char pad0[0x14];
+    unsigned int count;     /* 0x14 */
+    int *links;             /* 0x18 */
+    char pad1c[0x24 - 0x1c];
+    unsigned int done;      /* 0x24 */
+    char pad28[0x38 - 0x28];
+    unsigned int id;        /* 0x38 */
+} Node_82967218;
 
+typedef struct Graph_82967218 {
+    char pad0[0xc];
+    unsigned int count;     /* 0x0c */
+    char pad10[0x18 - 0x10];
+    Node_82967218 **nodes;  /* 0x18 */
+} Graph_82967218;
 
-void fn_82967218(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,int *param_4,int param_5)
+extern void fn_82967188(Graph_82967218 *graph, int a, int b, unsigned int id);
 
+void fn_82967218(Graph_82967218 *self, int a, int b, int *score, unsigned int id)
 {
-  int iVar1;
-  unsigned int uVar2;
-  int iVar3;
-  unsigned int uVar4;
-  int iVar5;
-  int iVar6;
-  
-  fn_82967188();
-  uVar2 = 0;
-  if (*(int *)(param_1 + 0xc) != 0) {
-    iVar3 = 0;
-    do {
-      iVar1 = *(int *)(*(int *)(param_1 + 0x18) + iVar3);
-      if ((*(int *)(iVar1 + 0x24) == 0) && (uVar4 = 0, *(int *)(iVar1 + 0x14) != 0)) {
-        iVar5 = 0;
-        do {
-          iVar6 = *(int *)(*(int *)(*(int *)(iVar1 + 0x18) + iVar5) * 4 + *(int *)(param_1 + 0x18));
-          if (param_5 == *(int *)(iVar1 + 0x38)) {
-            if (*(int *)(iVar6 + 0x24) != 0) {
-              iVar6 = *param_4 + -0x10000;
-LAB_829672c0:
-              *param_4 = iVar6;
-            }
-          }
-          else if (param_5 == *(int *)(iVar6 + 0x38)) {
-            iVar6 = *param_4 + 0x10000;
-            goto LAB_829672c0;
-          }
-          uVar4 = uVar4 + 1;
-          iVar5 = iVar5 + 4;
-        } while (uVar4 < *(unsigned int *)(iVar1 + 0x14));
-      }
-      uVar2 = uVar2 + 1;
-      iVar3 = iVar3 + 4;
-    } while (uVar2 < *(unsigned int *)(param_1 + 0xc));
-  }
-  return;
-}
+    unsigned int i;
+    unsigned int j;
+    Node_82967218 *node;
+    Node_82967218 *other;
 
+    Graph_82967218 *graph = self;
+
+    fn_82967188(self, a, b, id);
+    for (i = 0; i < graph->count; i++) {
+        node = graph->nodes[i];
+        if (node->done == 0) {
+            for (j = 0; j < node->count; j++) {
+                other = graph->nodes[node->links[j]];
+                if (id == node->id) {
+                    if (other->done != 0)
+                        *score -= 0x10000;
+                } else if (id == other->id) {
+                    *score += 0x10000;
+                }
+            }
+        }
+    }
+}

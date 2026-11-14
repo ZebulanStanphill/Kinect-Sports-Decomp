@@ -1,42 +1,53 @@
-unsigned int fn_82417F58(int *param_1)
+typedef struct Group_82417F58 {
+    char pad0[0x8];
+    unsigned int count;         /* 0x08 */
+} Group_82417F58;
 
+typedef struct List_82417F58 {
+    Group_82417F58 **groups;    /* 0x00 */
+    char pad4[0xc];
+    int current;                /* 0x10 */
+} List_82417F58;
+
+typedef struct ListVec_82417F58 {
+    List_82417F58 **begin;      /* 0x00 */
+    List_82417F58 **end;        /* 0x04 */
+} ListVec_82417F58;
+
+typedef struct Owner_82417F58 {
+    char pad0[0x8];
+    ListVec_82417F58 *lists;    /* 0x08 */
+} Owner_82417F58;
+
+typedef struct Slot_82417F58 {
+    int list;                   /* 0x000 */
+    char pad4[0x1a8];
+} Slot_82417F58;
+
+typedef struct Self_82417F58 {
+    Owner_82417F58 *owner;      /* 0x00 */
+    char pad4[0x4];
+    Slot_82417F58 *slots;       /* 0x08 */
+    char padC[0xc];
+    int slot;                   /* 0x18 */
+    unsigned int index;         /* 0x1c */
+} Self_82417F58;
+
+extern void *fn_822ABA88(Group_82417F58 *group, unsigned int index);
+
+
+void *fn_82417F58(Self_82417F58 *self)
 {
-  unsigned int uVar1;
-  int iVar2;
-  int iVar3;
-  int *piVar4;
-  unsigned int *puVar5;
-  unsigned int *puVar6;
-  unsigned int **ppuVar7;
-  unsigned int *puStack_10;
-  unsigned int *apuStack_c [3];
-  
-  uVar1 = param_1[7];
-  iVar3 = *(int *)(param_1[6] * 0x1ac + param_1[2]);
-  iVar2 = **(int **)(*param_1 + 8);
-  if ((iVar3 < (*(int **)(*param_1 + 8))[1] - iVar2 >> 2) &&
-     (piVar4 = *(int **)(iVar3 * 4 + iVar2), iVar2 = *(int *)(piVar4[4] * 4 + *piVar4),
-     uVar1 < *(unsigned int *)(iVar2 + 8))) {
-    puVar5 = (unsigned int *)(*(unsigned int **)(iVar2 + 4))[1];
-    puStack_10 = *(unsigned int **)(iVar2 + 4);
-    while (puVar6 = puVar5, *(char *)((int)puVar6 + 0x15) == '\0') {
-      if ((unsigned int)puVar6[3] < uVar1) {
-        puVar5 = (unsigned int *)puVar6[2];
-      }
-      else {
-        puVar5 = (unsigned int *)*puVar6;
-        puStack_10 = puVar6;
-      }
-    }
-    if ((puStack_10 == *(unsigned int **)(iVar2 + 4)) || (uVar1 < (unsigned int)puStack_10[3])) {
-      apuStack_c[0] = *(unsigned int **)(iVar2 + 4);
-      ppuVar7 = apuStack_c;
-    }
-    else {
-      ppuVar7 = &puStack_10;
-    }
-    return (*ppuVar7)[4];
-  }
-  return 0;
-}
+    ListVec_82417F58 *lists = self->owner->lists;
+    int list = self->slots[self->slot].list;
+    unsigned int index = self->index;
+    Group_82417F58 *group;
 
+    if (list < lists->end - lists->begin) {
+        List_82417F58 *l = self->owner->lists->begin[list];
+        group = l->groups[l->current];
+        if (index < group->count)
+            return fn_822ABA88(group, index);
+    }
+    return 0;
+}

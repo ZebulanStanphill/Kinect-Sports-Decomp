@@ -1,26 +1,23 @@
-extern int fn_825580C0();
-extern int fn_828EB518();
-extern unsigned int lbl_83265988;
+extern unsigned int fn_825580C0(unsigned int index, unsigned int mask);
+extern int fn_828EB518(unsigned int index);
+extern int lbl_83265988;
 
-
-unsigned __int64 fn_8260E070(void)
-
+static __forceinline int Resolve(unsigned int i)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  
-  uVar2 = 0;
-  do {
-    uVar1 = fn_825580C0(uVar2);
-    if ((int)uVar1 != 0) {
-      if ((uVar2 & 0xffffffff) == 0xff) {
-        return (unsigned __int64)lbl_83265988;
-      }
-      uVar2 = fn_828EB518(uVar2);
-      return uVar2;
-    }
-    uVar2 = uVar2 + 1;
-  } while ((int)uVar2 < 4);
-  return uVar1;
+    if (i == 0xff)
+        return lbl_83265988;
+    return fn_828EB518(i);
 }
 
+int fn_8260E070(void *context, unsigned int mask)
+{
+    int i;
+    int found;
+
+    for (i = 0; i < 4; i++) {
+        found = (int)fn_825580C0(i, mask);
+        if (found != 0)
+            return Resolve(i);
+    }
+    return found;
+}

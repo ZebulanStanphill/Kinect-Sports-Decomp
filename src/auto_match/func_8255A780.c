@@ -1,18 +1,12 @@
-extern float lbl_82195590;
-extern float lbl_821955A0;
+extern double __fctid(double);
+extern double __fcfid(double);
+/* float pool: [0x38] = 1/(2*pi); as doubles, [0x1e] = 2*pi */
+extern const float lbl_821954B0[];
 
-
-unsigned __int64 fn_8255A780(double param_1,double param_2,double param_3)
-
+/* is the angle from a to b within +-tolerance, after wrapping it to one turn */
+int fn_8255A780(float a, float b, float tolerance)
 {
-  float fVar1;
-  double dVar2;
-  
-  fVar1 = (float)(param_2 - param_1) * lbl_82195590;
-  dVar2 = (double)(float)(((double)fVar1 - (double)(__int64)fVar1) * lbl_821955A0);
-  if ((-param_3 <= dVar2) && (dVar2 <= param_3)) {
-    return 1;
-  }
-  return 0;
+    double turns = (float)((b - a) * lbl_821954B0[0x38]);
+    float angle = (float)((turns - (float)__fcfid(__fctid(turns))) * ((const double *)lbl_821954B0)[0x1e]);
+    return angle >= -tolerance && angle <= tolerance;
 }
-

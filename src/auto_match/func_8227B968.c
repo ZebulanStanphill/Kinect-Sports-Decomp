@@ -1,46 +1,34 @@
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_48;
-extern unsigned int *auStack_50;
-extern int fn_822315A0();
-extern int fn_82279C58();
-extern int fn_82526C70();
-extern int fn_8266F6B8();
-extern int fn_826728E8();
-extern unsigned int iStack_44;
-extern unsigned int iStack_4c;
+// Puts the avatar textures "avatar_00".."avatar_07" and "tex_background" on the movie.
+typedef struct Rep_8227B968 Rep_8227B968;
 
+typedef struct Ref_8227B968 {
+    void *ptr;
+    Rep_8227B968 *rep;
+} Ref_8227B968;
 
-void fn_8227B968(unsigned __int64 param_1)
+extern int fn_82526C70(char *buf, int size, const char *fmt, ...);
+extern void **fn_82279C58(Ref_8227B968 *ref, void *self);
+extern int fn_8266F6B8(void);
+extern void fn_826728E8(void *movie, const char *name, int value);
+extern void fn_822315A0(Rep_8227B968 *rep);
 
+void fn_8227B968(void *self)
 {
-  unsigned int uVar1;
-  unsigned int *puVar3;
-  unsigned __int64 uVar2;
-  __int64 lVar4;
-  unsigned char auStack_50 [4];
-  int iStack_4c;
-  unsigned char auStack_48 [4];
-  int iStack_44;
-  unsigned char auStack_40 [48];
+    char name[16];
+    Ref_8227B968 ref;
+    Ref_8227B968 bg;
+    void *movie;
+    int i;
 
-  lVar4 = 0;
-  do {
-    fn_82526C70(auStack_40,0x10,0xffffffff821a84f0,lVar4);
-    puVar3 = (unsigned int *)fn_82279C58(auStack_50,param_1);
-    uVar1 = *puVar3;
-    uVar2 = fn_8266F6B8();
-    fn_826728E8(uVar1,auStack_40,uVar2);
-    if (iStack_4c != 0) {
-      fn_822315A0();
+    for (i = 0; i < 8; i++) {
+        fn_82526C70(name, 0x10, "avatar_0%d", i);
+        movie = *fn_82279C58(&ref, self);
+        fn_826728E8(movie, name, fn_8266F6B8());
+        if (ref.rep != 0)
+            fn_822315A0(ref.rep);
     }
-    lVar4 = lVar4 + 1;
-  } while ((int)lVar4 < 8);
-  puVar3 = (unsigned int *)fn_82279C58(auStack_48,param_1);
-  uVar1 = *puVar3;
-  uVar2 = fn_8266F6B8();
-  fn_826728E8(uVar1,0xffffffff821a84fc,uVar2);
-  if (iStack_44 != 0) {
-    fn_822315A0();
-  }
-  return;
+    movie = *fn_82279C58(&bg, self);
+    fn_826728E8(movie, "tex_background", fn_8266F6B8());
+    if (bg.rep != 0)
+        fn_822315A0(bg.rep);
 }

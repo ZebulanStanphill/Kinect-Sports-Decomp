@@ -1,53 +1,59 @@
-extern unsigned int *auStack_230;
-extern unsigned int *auStack_240;
-extern int fn_82CED958();
-extern int fn_82CEDB38();
-extern int fn_82CEE128();
-extern int fn_82CEE578();
-extern int fn_82E07840();
-extern unsigned int *lbl_8323B464;
+/* hkxAttributeGroup::getVectorValue(name, warnIfNotFound, value): returns 0 (HK_SUCCESS) when found; the original message text says "Float attribute". */
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct ErrorVtbl_82E07DE0 {
+    void *slot0;
+    void *slot1;
+    void *slot2;
+    int (*message)(void *self, int type, unsigned int id, const char *text, const char *file, int line);
+} ErrorVtbl_82E07DE0;
 
-unsigned __int64 fn_82E07DE0(unsigned __int64 param_1,unsigned __int64 param_2,char param_3,int param_4)
+typedef struct Error_82E07DE0 {
+    ErrorVtbl_82E07DE0 *vt;
+} Error_82E07DE0;
 
+typedef struct Ostream_82E07DE0 {
+    unsigned char data[16];
+} Ostream_82E07DE0;
+
+typedef struct Attribute_82E07DE0 {
+    const char *name;
+    void *object;
+    __vector4 *value;
+} Attribute_82E07DE0;
+
+typedef struct AttributeGroup_82E07DE0 {
+    const char *name;
+} AttributeGroup_82E07DE0;
+
+extern Error_82E07DE0 *lbl_8323B464;
+extern char lbl_8323F34C[];
+extern Attribute_82E07DE0 *fn_82E07840(const AttributeGroup_82E07DE0 *group, const char *name, const void *klass);
+extern void fn_82CEE578(Ostream_82E07DE0 *os, char *buf, int size);
+extern Ostream_82E07DE0 *fn_82CEDB38(Ostream_82E07DE0 *os, const char *s);
+extern Ostream_82E07DE0 *fn_82CEE128(Ostream_82E07DE0 *os, const AttributeGroup_82E07DE0 *name);
+extern void fn_82CED958(Ostream_82E07DE0 *os);
+
+int fn_82E07DE0(const AttributeGroup_82E07DE0 *self, const char *name, unsigned char warnIfNotFound, __vector4 *value)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int in_r0;
-  int iVar4;
-  unsigned __int64 uVar3;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned char auStack_240 [1];
-  unsigned char auStack_230 [512];
+    Attribute_82E07DE0 *attribute = fn_82E07840(self, name, lbl_8323F34C);
 
-  iVar4 = fn_82E07840(param_1,param_2,0xffffffff8323f34c);
-  if (iVar4 == 0) {
-    if (param_3 != '\0') {
-      fn_82CEE578(auStack_240,auStack_230,0x200);
-      uVar3 = fn_82CEDB38(auStack_240,0xffffffff82149f10);
-      uVar3 = fn_82CEDB38(uVar3,param_2);
-      uVar3 = fn_82CEDB38(uVar3,0xffffffff82149ec8);
-      uVar3 = fn_82CEE128(uVar3,param_1);
-      fn_82CEDB38(uVar3,0xffffffff82149eb4);
-      (**(int (***)())(*lbl_8323B464 + 0xc))
-                (lbl_8323B464,1,0xffffffffabbaab81,auStack_230,0xffffffff82149e90,0xa2);
-      fn_82CED958(auStack_240);
+    if (attribute != 0) {
+        *value = *attribute->value;
+        return 0;
     }
-    uVar3 = 1;
-  }
-  else {
-    uVar3 = 0;
-    puVar1 = (unsigned int *)(in_r0 + *(int *)(iVar4 + 8) & 0xfffffff0);
-    uVar5 = puVar1[1];
-    uVar6 = puVar1[2];
-    uVar7 = puVar1[3];
-    puVar2 = (unsigned int *)(in_r0 + param_4 & 0xfffffff0);
-    *puVar2 = *puVar1;
-    puVar2[1] = uVar5;
-    puVar2[2] = uVar6;
-    puVar2[3] = uVar7;
-  }
-  return uVar3;
+    if (warnIfNotFound) {
+        Ostream_82E07DE0 os;
+        char buf[512];
+
+        fn_82CEE578(&os, buf, 0x200);
+        fn_82CEDB38(fn_82CEE128(fn_82CEDB38(fn_82CEDB38(fn_82CEDB38(&os, "Float attribute "), name),
+                                            " not found in "), self),
+                    " attribute group");
+        lbl_8323B464->vt->message(lbl_8323B464, 1, 0xabbaab81, buf, ".\\Attributes\\hkxAttributeGroup.cpp", 0xa2);
+        fn_82CED958(&os);
+    }
+    return 1;
 }

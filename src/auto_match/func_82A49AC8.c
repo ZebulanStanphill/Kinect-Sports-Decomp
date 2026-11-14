@@ -1,29 +1,39 @@
-extern unsigned int lbl_8208E054;
+typedef struct Guid_82A49AC8 {
+    unsigned long Data1;
+    unsigned short Data2;
+    unsigned short Data3;
+    unsigned char Data4[8];
+} Guid_82A49AC8;
 
+typedef struct WaveFormat_82A49AC8 {
+    unsigned short wFormatTag;
+    unsigned short nChannels;
+    unsigned long nSamplesPerSec;
+    unsigned long nAvgBytesPerSec;
+    unsigned short nBlockAlign;
+    unsigned short wBitsPerSample;
+    unsigned short cbSize;
+    unsigned short wValidBitsPerSample;
+    unsigned long dwChannelMask;
+    Guid_82A49AC8 SubFormat;        /* 0x18 */
+} WaveFormat_82A49AC8;
 
-unsigned int fn_82A49AC8(unsigned short *param_1)
+extern const Guid_82A49AC8 lbl_8208E050;
 
+int memcmp(const void *a, const void *b, unsigned int n);
+
+static __forceinline int IsWaveFormatGuid(const Guid_82A49AC8 *guid)
 {
-  unsigned char bVar1;
-  unsigned char bVar2;
-  unsigned char *pbVar3;
-  unsigned short *puVar4;
-  
-  if (*param_1 != 0xfffe) {
-    return (unsigned int)*param_1;
-  }
-  puVar4 = param_1 + 0xe;
-  pbVar3 = (unsigned char *)&lbl_8208E054;
-  do {
-    bVar1 = *(unsigned char *)puVar4;
-    bVar2 = *pbVar3;
-    if ((unsigned __int64)bVar1 - (unsigned __int64)bVar2 != 0) break;
-    puVar4 = (unsigned short *)((int)puVar4 + 1);
-    pbVar3 = pbVar3 + 1;
-  } while (puVar4 != param_1 + 0x14);
-  if ((int)((unsigned __int64)bVar1 - (unsigned __int64)bVar2) == 0) {
-    return *(unsigned int *)(param_1 + 0xc) & 0xffff;
-  }
-  return 0;
+    return memcmp((const unsigned long *)guid + 1, (const unsigned long *)&lbl_8208E050 + 1, sizeof(Guid_82A49AC8) - sizeof(unsigned long)) == 0;
 }
 
+unsigned short fn_82A49AC8(const WaveFormat_82A49AC8 *format)
+{
+    const Guid_82A49AC8 *guid;
+    if (format->wFormatTag != 0xfffe)
+        return format->wFormatTag;
+    guid = &format->SubFormat;
+    if (IsWaveFormatGuid(guid))
+        return (unsigned short)guid->Data1;
+    return 0;
+}

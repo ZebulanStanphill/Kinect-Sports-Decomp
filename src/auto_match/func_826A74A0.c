@@ -1,86 +1,36 @@
-extern unsigned int lbl_83155A28;
+extern const unsigned int lbl_83155A28[];
 
-
-unsigned int fn_826A74A0(unsigned int *param_1)
-
+/* number of significant bits of x (0 for 0), as a balanced binary search */
+static __forceinline unsigned char BitWidth_826A74A0(unsigned int x)
 {
-  unsigned __int64 uVar1;
-  
-  uVar1 = (unsigned __int64)*param_1;
-  if (uVar1 < 0x40001) {
-    if (uVar1 < 0x8000) {
-      if (uVar1 < 0x80) {
-        if (uVar1 < 8) {
-          if (uVar1 < 2) {
-            uVar1 = -((unsigned __int64)(uVar1 == 0) - 1);
-          }
-          else {
-            uVar1 = 3 - (unsigned __int64)(uVar1 < 4);
-          }
-        }
-        else if (uVar1 < 0x20) {
-          uVar1 = 5 - (unsigned __int64)(uVar1 < 0x10);
-        }
-        else {
-          uVar1 = 7 - (unsigned __int64)(uVar1 < 0x40);
-        }
-      }
-      else if (uVar1 < 0x800) {
-        if (uVar1 < 0x200) {
-          uVar1 = 9 - (unsigned __int64)(uVar1 < 0x100);
-        }
-        else {
-          uVar1 = 0xb - (unsigned __int64)(uVar1 < 0x400);
-        }
-      }
-      else if (uVar1 < 0x2000) {
-        uVar1 = 0xd - (unsigned __int64)(uVar1 < 0x1000);
-      }
-      else {
-        uVar1 = 0xf - (unsigned __int64)(uVar1 < 0x4000);
-      }
-    }
-    else if (uVar1 < 0x800000) {
-      if (uVar1 < 0x80000) {
-        if (uVar1 < 0x20000) {
-          uVar1 = 0x11 - (unsigned __int64)(uVar1 < 0x10000);
-        }
-        else {
-          uVar1 = 0x13 - (unsigned __int64)(uVar1 < 0x40000);
-        }
-      }
-      else if (uVar1 < 0x200000) {
-        uVar1 = 0x15 - (unsigned __int64)(uVar1 < 0x100000);
-      }
-      else {
-        uVar1 = 0x17 - (unsigned __int64)(uVar1 < 0x400000);
-      }
-    }
-    else if (uVar1 < 0x8000000) {
-      if (uVar1 < 0x2000000) {
-        uVar1 = 0x19 - (unsigned __int64)(uVar1 < 0x1000000);
-      }
-      else {
-        uVar1 = 0x1b - (unsigned __int64)(uVar1 < 0x4000000);
-      }
-    }
-    else if (uVar1 < 0x20000000) {
-      uVar1 = 0x1d - (unsigned __int64)(uVar1 < 0x10000000);
-    }
-    else if (uVar1 < 0x40000000) {
-      uVar1 = 0x1e;
-    }
-    else {
-      uVar1 = 0x20 - (unsigned __int64)(uVar1 < 0xffffffff80000000);
-    }
-    uVar1 = uVar1 & 0xff;
-  }
-  else {
-    uVar1 = uVar1 - 0x7ffec;
-  }
-  if (((uVar1 & 0xffffffff) != 0) && ((uVar1 & 0xffffffff) < 0x1e)) {
-    return *(unsigned int *)(&lbl_83155A28 + (int)((uVar1 & 0xffffffff) << 2));
-  }
-  return 0x2c;
+    return x < 0x8000
+        ? (x < 0x80
+            ? (x < 0x8
+                ? (x < 0x2 ? (x < 0x1 ? 0 : 1) : (x < 0x4 ? 2 : 3))
+                : (x < 0x20 ? (x < 0x10 ? 4 : 5) : (x < 0x40 ? 6 : 7)))
+            : (x < 0x800
+                ? (x < 0x200 ? (x < 0x100 ? 8 : 9) : (x < 0x400 ? 10 : 11))
+                : (x < 0x2000 ? (x < 0x1000 ? 12 : 13) : (x < 0x4000 ? 14 : 15))))
+        : (x < 0x800000
+            ? (x < 0x80000
+                ? (x < 0x20000 ? (x < 0x10000 ? 16 : 17) : (x < 0x40000 ? 18 : 19))
+                : (x < 0x200000 ? (x < 0x100000 ? 20 : 21) : (x < 0x400000 ? 22 : 23)))
+            : (x < 0x8000000
+                ? (x < 0x2000000 ? (x < 0x1000000 ? 24 : 25) : (x < 0x4000000 ? 26 : 27))
+                : (x < 0x20000000 ? (x < 0x10000000 ? 28 : 29)
+                    : (x < 0x40000000 ? 30 : (x < 0x80000000 ? 31 : 32)))));
 }
 
+unsigned int fn_826A74A0(const unsigned int *flags)
+{
+    unsigned int value = *flags;
+    unsigned int index;
+
+    if (value <= 0x40000)
+        index = BitWidth_826A74A0(value);
+    else
+        index = value - 0x80000 + 0x14;
+    if (index != 0 && index < 0x1e)
+        return lbl_83155A28[index];
+    return 0x2c;
+}

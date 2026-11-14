@@ -1,19 +1,11 @@
-extern int fn_82F643F8();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_8217EB68;
-extern unsigned int lbl_821AAD20;
+extern double fn_82F643F8(double x);
 
-
-void fn_8306EC10(double param_1)
-
+float fn_8306EC10(float x)
 {
-  double dVar1;
-  
-  dVar1 = (double)lbl_821AAD20;
-  if ((param_1 < dVar1) || (dVar1 = (double)lbl_82002AE0, dVar1 < param_1)) {
-    param_1 = dVar1;
-  }
-                    /* WARNING: Subroutine does not return */
-  fn_82F643F8((double)(float)(param_1 * (double)lbl_8217EB68));
+    if (x < 0.0f) {
+        x = 0.0f;
+    } else if (x > 1.0f) {
+        x = 1.0f;
+    }
+    return 0.5f - (float)fn_82F643F8(3.14159274f * x) * 0.5f;
 }
-

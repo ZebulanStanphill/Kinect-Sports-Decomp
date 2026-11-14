@@ -1,40 +1,33 @@
-extern int fn_82975B00();
-extern int fn_82996970();
+extern int fn_82975B00(void *, int, int, const char *);
+extern int fn_82996970(unsigned int);
 
+typedef struct Node_8299BD58 {
+    unsigned int flags;
+    char pad4[0x14 - 4];
+    unsigned int count;
+    int *kids;
+    char pad1c[0x3c - 0x1c];
+    int loc;
+} Node_8299BD58;
 
-unsigned __int64 fn_8299BD58(int param_1,unsigned int *param_2,unsigned __int64 param_3)
+typedef struct Ctx_8299BD58 {
+    char pad[0x18];
+    Node_8299BD58 **nodes;
+} Ctx_8299BD58;
 
+int fn_8299BD58(Ctx_8299BD58 *ctx, Node_8299BD58 *node, unsigned int depth)
 {
-  int iVar1;
-  int iVar2;
-  unsigned int *puVar3;
-  unsigned __int64 uVar4;
-  unsigned int uVar5;
-  
-  uVar4 = param_3;
-  puVar3 = param_2;
-  iVar1 = fn_82996970(*param_2 & 0xfff00000);
-  if ((iVar1 != 0) && (puVar3[5] != 0)) {
-    if ((uVar4 & 0xffffffff) != 0) {
-      fn_82975B00(param_1,puVar3[0xf],0x1194,0xffffffff820512b4);
-      return 0;
+    unsigned int i;
+    Node_8299BD58 *n = node;
+    if (fn_82996970(n->flags & 0xfff00000) != 0 && n->count != 0) {
+        if (depth >= 1) {
+            fn_82975B00(ctx, n->loc, 0x1194, "dependent texture read chain cannot exceed 1 in ps_1_4");
+            return 0;
+        }
+        depth = depth + 1;
     }
-    param_3 = param_3 + 1;
-  }
-  uVar5 = 0;
-  if (param_2[5] != 0) {
-    iVar1 = 0;
-    do {
-      iVar2 = fn_8299BD58(param_1,*(unsigned int *)
-                                     (*(int *)(param_2[6] + iVar1) * 4 + *(int *)(param_1 + 0x18)),
-                            param_3);
-      if (iVar2 == 0) {
-        return 0;
-      }
-      uVar5 = uVar5 + 1;
-      iVar1 = iVar1 + 4;
-    } while (uVar5 < param_2[5]);
-  }
-  return 1;
+    for (i = 0; i < n->count; i++) {
+        if (fn_8299BD58(ctx, ctx->nodes[n->kids[i]], depth) == 0) return 0;
+    }
+    return 1;
 }
-

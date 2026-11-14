@@ -1,33 +1,37 @@
-void fn_8264D6C0(unsigned int param_1,int param_2)
+/* Flushes the data cache lines of [start, end) and syncs; addresses in
+   0x7F100000-0x86FFFFFF are not cached and are left alone. */
+#define __sync() __emit(0x7C0004AC)
 
+void __dcbf(int offset, void const *base);
+
+void fn_8264D6C0(unsigned int start, unsigned int end)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  
-  if ((0x7f0fffff < param_1) && (param_1 < 0x87000000)) {
-    return;
-  }
-  uVar2 = (unsigned __int64)param_1 & 0xffffff80;
-  uVar1 = (int)((param_2 + 0x7fU & 0xffffff80) - (int)uVar2) >> 7;
-  uVar4 = (__int64)(int)uVar1 & 7;
-  for (uVar3 = (unsigned __int64)(uVar1 >> 3); uVar3 != 0; uVar3 = uVar3 - 1) {
-    dataCacheBlockFlush(uVar2);
-    dataCacheBlockFlush(uVar2 + 0x80);
-    dataCacheBlockFlush(uVar2 + 0x100);
-    dataCacheBlockFlush(uVar2 + 0x180);
-    dataCacheBlockFlush(uVar2 + 0x200);
-    dataCacheBlockFlush(uVar2 + 0x280);
-    dataCacheBlockFlush(uVar2 + 0x300);
-    dataCacheBlockFlush(uVar2 + 0x380);
-    uVar2 = uVar2 + 0x400;
-  }
-  for (; uVar4 != 0; uVar4 = uVar4 - 1) {
-    dataCacheBlockFlush(uVar2);
-    uVar2 = uVar2 + 0x80;
-  }
-  sync(0);
-  return;
-}
+    char *p;
+    unsigned int lines;
+    unsigned int blocks;
 
+    if (start >= 0x7f100000 && start < 0x87000000)
+        return;
+    start &= ~0x7f;
+    end = (end + 0x7f) & ~0x7f;
+    p = (char *)start;
+    lines = (int)(end - start) / 0x80;
+    blocks = lines >> 3;
+    lines &= 7;
+    for (; blocks != 0; blocks--) {
+        __dcbf(0, p);
+        __dcbf(0x80, p);
+        __dcbf(0x100, p);
+        __dcbf(0x180, p);
+        __dcbf(0x200, p);
+        __dcbf(0x280, p);
+        __dcbf(0x300, p);
+        __dcbf(0x380, p);
+        p += 0x400;
+    }
+    for (; lines != 0; lines--) {
+        __dcbf(0, p);
+        p += 0x80;
+    }
+    __sync();
+}

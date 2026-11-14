@@ -1,44 +1,42 @@
-extern int fn_8267BE38();
-extern int fn_8278FD18();
-extern int fn_82790FA0();
-extern int fn_82794B38();
-extern int fn_82794B88();
-extern int fn_82794C10();
-extern int fn_82796170();
+typedef struct Item_82796498 { char pad[4]; unsigned f4; char pad2[0x14]; unsigned f1c; } Item_82796498;
+typedef struct Obj_82796498 { char pad[8]; int f8; Item_82796498 **arr; unsigned count; unsigned f14; unsigned f18; } Obj_82796498;
+extern void fn_8267BE38(void *);
+extern unsigned char fn_8278FD18(Item_82796498 *);
+extern void fn_82790FA0(Item_82796498 *, int, unsigned);
+extern void fn_82794B38(void *);
+extern void fn_82794B88(Obj_82796498 *);
+extern void *fn_82794C10(void);
+extern void fn_82796170(void *, void **);
 
-
-int fn_82796498(int param_1,unsigned __int64 param_2)
-
+Item_82796498 *fn_82796498(Obj_82796498 *o, unsigned n)
 {
-  char cVar1;
-  int iVar2;
-  int iVar3;
-  int aiStack_40;
-  
-  iVar3 = 0;
-  if (*(int *)(param_1 + 0x10) != 0) {
-    iVar2 = *(int *)(*(int *)(param_1 + 0x10) * 4 + *(int *)(param_1 + 0xc) + -4);
-    iVar3 = *(int *)(iVar2 + 4);
-    iVar2 = *(int *)(iVar2 + 0x1c);
-    if ((iVar3 != 0) && (cVar1 = fn_8278FD18(), cVar1 != '\0')) {
-      iVar3 = iVar3 + -1;
+  unsigned total = 0;
+  Item_82796498 *e;
+  unsigned cnt;
+  unsigned extra;
+  unsigned len;
+  void *tmp;
+  void *p;
+  if (o->count != 0) {
+    e = o->arr[o->count - 1];
+    cnt = e->f4;
+    extra = e->f1c;
+    len = cnt;
+    if (cnt != 0 && fn_8278FD18(e) != 0) {
+      len = cnt - 1;
     }
-    iVar3 = iVar3 + iVar2;
+    total = len + extra;
   }
-  fn_82794B88(param_1);
-  aiStack_40 = fn_82794C10();
-  fn_82796170((int *)(param_1 + 0xc),&aiStack_40);
-  iVar2 = aiStack_40;
-  if (aiStack_40 != 0) {
-    fn_82794B38(aiStack_40);
-    fn_8267BE38(iVar2);
+  fn_82794B88(o);
+  tmp = fn_82794C10();
+  fn_82796170(&o->arr, &tmp);
+  if (tmp != 0) {
+    p = tmp;
+    fn_82794B38(p);
+    fn_8267BE38(p);
   }
-  iVar2 = *(int *)(*(int *)(param_1 + 0x10) * 4 + *(int *)(param_1 + 0xc) + -4);
-  if ((param_2 & 0xffffffff) == 0) {
-    param_2 = (unsigned __int64)*(unsigned int *)(param_1 + 0x18);
-  }
-  fn_82790FA0(iVar2,*(unsigned int *)(param_1 + 8),param_2);
-  *(int *)(iVar2 + 0x1c) = iVar3;
-  return iVar2;
+  e = o->arr[o->count - 1];
+  fn_82790FA0(e, o->f8, n == 0 ? o->f18 : n);
+  e->f1c = total;
+  return e;
 }
-

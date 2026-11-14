@@ -1,23 +1,24 @@
-extern int fn_82359108();
-extern int fn_82359200();
-extern int fn_82417F58();
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Mode_82360C90 {
+    char pad0[0x40];
+    unsigned int kind;          /* 0x40 */
+} Mode_82360C90;
 
+typedef struct Obj_82360C90 {
+    char pad0[0xa0];
+    Mode_82360C90 *mode;        /* 0x0a0 */
+    char padA4[0x2b20 - 0xa4];
+    void *player;               /* 0x2b20 */
+} Obj_82360C90;
 
-void fn_82360C90(unsigned __int64 param_1,unsigned __int64 param_2)
+extern void fn_82359108(Obj_82360C90 *self, void *item, int b, float f, void *arg);
+extern void fn_82359200(Obj_82360C90 *self, float f, void *arg);
+extern void *fn_82417F58(void *player);
 
+void fn_82360C90(Obj_82360C90 *self, void *arg)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  
-  iVar1 = *(int *)((int)param_1 + 0xa0);
-  if ((iVar1 == 0) || (*(int *)(iVar1 + 0x40) != 1)) {
-    uVar2 = fn_82417F58((double)ltcg_pool_0_0f,*(unsigned int *)((int)param_1 + 0x2b20));
-    fn_82359108(param_1,uVar2,0);
-  }
-  else {
-    fn_82359200((double)ltcg_pool_0_0f,param_1,param_2,param_2);
-  }
-  return;
+    if ((int)self->mode != 0 && self->mode->kind == 1) {
+        fn_82359200(self, 0.0f, arg);
+    } else {
+        fn_82359108(self, fn_82417F58(self->player), 0, 0.0f, arg);
+    }
 }
-

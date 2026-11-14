@@ -1,77 +1,101 @@
-extern int fn_8223A7A8();
-extern int fn_8265C9E0();
-extern int fn_828E3508();
-extern unsigned int lbl_82196E48;
-extern unsigned int lbl_82197924;
-extern unsigned int lbl_82197FE4;
-extern unsigned int lbl_821B7114;
-extern unsigned int lbl_821B7234;
-extern unsigned int lbl_821B724C;
+typedef struct Item_823F2810 {
+    char *vt;
+    int value;
+} Item_823F2810;
 
+typedef struct SharedPtr_823F2810 {
+    void *ptr;
+    void *rep;
+} SharedPtr_823F2810;
 
-unsigned int * fn_823F2810(unsigned int *param_1)
+typedef struct Sub_823F2810 {
+    int first;
+    char pad04[0x18 - 0x4];
+    int last;
+} Sub_823F2810;
 
+typedef struct Obj_823F2810 {
+    char *vt;
+    char pad04[0x48 - 0x4];
+    Sub_823F2810 sub;
+    int pad64;
+    SharedPtr_823F2810 a;
+    SharedPtr_823F2810 b;
+    SharedPtr_823F2810 c;
+    SharedPtr_823F2810 d;
+    SharedPtr_823F2810 e;
+    SharedPtr_823F2810 f;
+} Obj_823F2810;
+
+extern void fn_828E3508(Obj_823F2810 *o);
+extern void *fn_8265C9E0(int size);
+extern SharedPtr_823F2810 *fn_8223A7A8(SharedPtr_823F2810 *sp, void *p);
+extern char lbl_82197FE4[], lbl_82196E48[], lbl_821B7234[], lbl_82197924[], lbl_821B7114[], lbl_821B724C[];
+
+Obj_823F2810 *fn_823F2810(Obj_823F2810 *o)
 {
-  unsigned int *puVar1;
-  
-  fn_828E3508();
-  param_1[0x12] = 0;
-  param_1[0x18] = 0;
-  *param_1 = &lbl_82197FE4;
-  puVar1 = (unsigned int *)fn_8265C9E0(8);
-  if (puVar1 == (unsigned int *)0x0) {
-    puVar1 = (unsigned int *)0x0;
-  }
-  else {
-    puVar1[1] = 0;
-    *puVar1 = &lbl_82196E48;
-  }
-  fn_8223A7A8(param_1 + 0x1a,puVar1);
-  puVar1 = (unsigned int *)fn_8265C9E0(8);
-  if (puVar1 == (unsigned int *)0x0) {
-    puVar1 = (unsigned int *)0x0;
-  }
-  else {
-    puVar1[1] = 0;
-    *puVar1 = &lbl_821B7234;
-  }
-  fn_8223A7A8(param_1 + 0x1c,puVar1);
-  puVar1 = (unsigned int *)fn_8265C9E0(8);
-  if (puVar1 == (unsigned int *)0x0) {
-    puVar1 = (unsigned int *)0x0;
-  }
-  else {
-    puVar1[1] = 0;
-    *puVar1 = &lbl_82197924;
-  }
-  fn_8223A7A8(param_1 + 0x1e,puVar1);
-  puVar1 = (unsigned int *)fn_8265C9E0(8);
-  if (puVar1 == (unsigned int *)0x0) {
-    puVar1 = (unsigned int *)0x0;
-  }
-  else {
-    puVar1[1] = 0;
-    *puVar1 = &lbl_82197924;
-  }
-  fn_8223A7A8(param_1 + 0x20,puVar1);
-  puVar1 = (unsigned int *)fn_8265C9E0(8);
-  if (puVar1 == (unsigned int *)0x0) {
-    puVar1 = (unsigned int *)0x0;
-  }
-  else {
-    puVar1[1] = 0;
-    *puVar1 = &lbl_821B7114;
-  }
-  fn_8223A7A8(param_1 + 0x22,puVar1);
-  puVar1 = (unsigned int *)fn_8265C9E0(8);
-  if (puVar1 == (unsigned int *)0x0) {
-    puVar1 = (unsigned int *)0x0;
-  }
-  else {
-    puVar1[1] = 0;
-    *puVar1 = &lbl_821B724C;
-  }
-  fn_8223A7A8(param_1 + 0x24,puVar1);
-  return param_1;
-}
+    Item_823F2810 *m;
+    void *r;
+    Sub_823F2810 *s;
 
+    fn_828E3508(o);
+    s = &o->sub;
+    s->first = 0;
+    s->last = 0;
+    o->vt = lbl_82197FE4;
+    m = (Item_823F2810 *)fn_8265C9E0(8);
+    if (m != 0) {
+        { int *pv = &m->value; *pv = 0; }
+        m->vt = lbl_82196E48;
+        r = m;
+    } else {
+        r = 0;
+    }
+    fn_8223A7A8(&o->a, r);
+    m = (Item_823F2810 *)fn_8265C9E0(8);
+    if (m != 0) {
+        { int *pv = &m->value; *pv = 0; }
+        m->vt = lbl_821B7234;
+        r = m;
+    } else {
+        r = 0;
+    }
+    fn_8223A7A8(&o->b, r);
+    m = (Item_823F2810 *)fn_8265C9E0(8);
+    if (m != 0) {
+        { int *pv = &m->value; *pv = 0; }
+        m->vt = lbl_82197924;
+        r = m;
+    } else {
+        r = 0;
+    }
+    fn_8223A7A8(&o->c, r);
+    m = (Item_823F2810 *)fn_8265C9E0(8);
+    if (m != 0) {
+        { int *pv = &m->value; *pv = 0; }
+        m->vt = lbl_82197924;
+        r = m;
+    } else {
+        r = 0;
+    }
+    fn_8223A7A8(&o->d, r);
+    m = (Item_823F2810 *)fn_8265C9E0(8);
+    if (m != 0) {
+        { int *pv = &m->value; *pv = 0; }
+        m->vt = lbl_821B7114;
+        r = m;
+    } else {
+        r = 0;
+    }
+    fn_8223A7A8(&o->e, r);
+    m = (Item_823F2810 *)fn_8265C9E0(8);
+    if (m != 0) {
+        { int *pv = &m->value; *pv = 0; }
+        m->vt = lbl_821B724C;
+        r = m;
+    } else {
+        r = 0;
+    }
+    fn_8223A7A8(&o->f, r);
+    return o;
+}

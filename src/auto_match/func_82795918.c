@@ -1,23 +1,22 @@
-extern int fn_8278FD18();
-extern int fn_827923E8();
-extern int fn_827954C0();
+typedef struct Text_82795918 {
+    unsigned short *data;
+    unsigned int count;
+    char pad8[8];
+    char attrs[1];
+} Text_82795918;
 
+extern unsigned char fn_8278FD18(Text_82795918 *text);
+extern void fn_827923E8(void *attrs, unsigned int at, int n);
+extern void fn_827954C0(void *attrs, unsigned int at, int n);
 
-void fn_82795918(__int64 param_1)
-
+void fn_82795918(Text_82795918 *text)
 {
-  char cVar1;
-  unsigned __int64 uVar2;
-  
-  cVar1 = fn_8278FD18();
-  if (cVar1 != '\0') {
-    uVar2 = (unsigned __int64)*(unsigned int *)((int)param_1 + 4);
-    if ((uVar2 != 0) && (cVar1 = fn_8278FD18(param_1), cVar1 != '\0')) {
-      uVar2 = uVar2 - 1;
+    if (fn_8278FD18(text)) {
+        unsigned int count = text->count;
+        unsigned int len = count;
+        if (count != 0 && fn_8278FD18(text))
+            len = count - 1;
+        fn_827923E8(text->attrs, len, 1);
+        fn_827954C0(text->attrs, len + 1, 1);
     }
-    fn_827923E8(param_1 + 0x10,uVar2,1);
-    fn_827954C0(param_1 + 0x10,uVar2 + 1,1);
-  }
-  return;
 }
-

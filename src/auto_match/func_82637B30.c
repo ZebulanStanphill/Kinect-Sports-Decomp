@@ -1,28 +1,46 @@
-void fn_82637B30(int param_1,int param_2)
+typedef struct Device_82637EC0 {
+    char pad0[0x10];
+    unsigned __int64 dirty;         /* 0x10 */
+    char pad18[0x2938 - 0x18];
+    unsigned int state2938;         /* 0x2938 */
+    char pad293c[0x2958 - 0x293c];
+    unsigned int state2958[3];      /* 0x2958 */
+    char pad2964[0x2ef8 - 0x2964];
+    unsigned int value;             /* 0x2ef8 */
+    unsigned int bits;              /* 0x2efc */
+} Device_82637EC0;
 
+static __forceinline void SetDirty(unsigned __int64 *p, unsigned __int64 m)
 {
-  unsigned int uVar1;
-  unsigned int uVar3;
-  unsigned __int64 uVar2;
-  
-  uVar1 = *(unsigned int *)(param_1 + 0x2efc);
-  *(unsigned int *)(param_1 + 0x2efc) = param_2 << 0x1f | uVar1 & 0x7fffffff;
-  uVar3 = *(unsigned int *)(param_1 + 0x2ef8);
-  if ((uVar1 & 0x40000000) == 0) {
-    uVar3 = (uVar3 & 0x1010 | (uVar3 & 0xefef) << 4) << 0xc | uVar3 & 0xffff;
-  }
-  if (param_2 == 0) {
-    uVar3 = 0x10001;
-  }
-  *(unsigned int *)(param_1 + 0x295c) = uVar3;
-  *(unsigned int *)(param_1 + 0x2938) = uVar3;
-  *(unsigned int *)(param_1 + 0x2958) = uVar3;
-  *(unsigned int *)(param_1 + 0x2960) = uVar3;
-  uVar2 = *(unsigned __int64 *)(param_1 + 0x10);
-  *(unsigned __int64 *)(param_1 + 0x10) = uVar2 | 0x400;
-  *(unsigned __int64 *)(param_1 + 0x10) = uVar2 | 0x404;
-  *(unsigned __int64 *)(param_1 + 0x10) = uVar2 | 0x406;
-  *(unsigned __int64 *)(param_1 + 0x10) = uVar2 | 0x407;
-  return;
+    *p |= m;
 }
 
+static __forceinline unsigned int SetBit31(unsigned int *p, int enable)
+{
+    unsigned int b = (*p & 0x7fffffff) | (enable << 31);
+    *p = b;
+    return b;
+}
+
+void fn_82637B30(Device_82637EC0 *d, int enable)
+{
+    unsigned int v;
+    int top;
+
+    top = SetBit31(&d->bits, enable) & 0x40000000;
+    v = d->value;
+    if (top == 0) {
+        unsigned int lo = v & 0xffff;
+        v = (((v & 0x1010) | (lo << 4)) << 12 & 0xffff0000 & ~0x10100000) | lo;
+    }
+    if (enable == 0)
+        v = 0x10001;
+    d->state2938 = v;
+    d->state2958[0] = v;
+    d->state2958[1] = v;
+    d->state2958[2] = v;
+    SetDirty(&d->dirty, 0x400);
+    SetDirty(&d->dirty, 0x4);
+    SetDirty(&d->dirty, 0x2);
+    SetDirty(&d->dirty, 0x1);
+}

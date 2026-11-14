@@ -1,121 +1,68 @@
-extern unsigned int lbl_83265988;
+// Records a value for the sport whose main movie is named by the object's name string
+// (boxing, football, volleyball, table tennis, bowling, athletics).
+char *strstr(const char *s, const char *sub);
 
+typedef struct Results_82484998 {
+    char pad0[0x108];
+    unsigned int athletics;     /* 0x108 */
+    unsigned int bowling;       /* 0x10c */
+    unsigned int boxing;        /* 0x110 */
+    unsigned int football;      /* 0x114 */
+    unsigned int tableTennis;   /* 0x118 */
+    unsigned int volleyball;    /* 0x11c */
+} Results_82484998;
 
-void fn_82484998(int param_1,int param_2)
+typedef struct Game_82484998 {
+    char pad0[0x100];
+    Results_82484998 *results;
+} Game_82484998;
 
+typedef struct Obj_82484998 {
+    char pad0[0x234];
+    char name[1];
+} Obj_82484998;
+
+extern Game_82484998 *lbl_83265988;
+
+static __forceinline int Compare(const unsigned char *p, const char *lit)
 {
-  int iVar1;
-  char *pcVar2;
-  char *pcVar3;
-  char cVar4;
-  char cVar5;
-  
-  iVar1 = lbl_83265988;
-  pcVar2 = (char *)(param_1 + 0x234);
-  cVar4 = 'b';
-  cVar5 = *pcVar2;
-  if (cVar5 == 'b') {
-    cVar5 = 'b';
-    pcVar3 = pcVar2;
-    do {
-      pcVar3 = pcVar3 + 1;
-      if (cVar5 == '\0') goto LAB_82484a08;
-      cVar4 = pcVar3[(int)"boxing_main" - (int)pcVar2];
-      cVar5 = *pcVar3;
-    } while (cVar5 == cVar4);
-  }
-  if (cVar5 == cVar4) {
-LAB_82484a08:
-    if (*(int *)(*(int *)(lbl_83265988 + 0x100) + 0x110) != param_2) {
-      *(int *)(*(int *)(lbl_83265988 + 0x100) + 0x110) = param_2;
-    }
-  }
-  else {
-    cVar5 = *pcVar2;
-    cVar4 = 'f';
-    if (cVar5 == 'f') {
-      cVar5 = 'f';
-      pcVar3 = pcVar2;
-      do {
-        pcVar3 = pcVar3 + 1;
-        if (cVar5 == '\0') goto LAB_82484a6c;
-        cVar4 = pcVar3[(int)"football_main" - (int)pcVar2];
-        cVar5 = *pcVar3;
-      } while (cVar5 == cVar4);
-    }
-    if (cVar5 == cVar4) {
-LAB_82484a6c:
-      if (*(int *)(*(int *)(lbl_83265988 + 0x100) + 0x114) != param_2) {
-        *(int *)(*(int *)(lbl_83265988 + 0x100) + 0x114) = param_2;
-      }
-    }
-    else {
-      cVar5 = *pcVar2;
-      cVar4 = 'v';
-      if (cVar5 == 'v') {
-        cVar5 = 'v';
-        pcVar3 = pcVar2;
+    const unsigned char *q = p;
+    unsigned char c = *q;
+    unsigned char b = (unsigned char)lit[0];
+    if (c == b) {
+        int d = (int)lit - (int)p;
         do {
-          pcVar3 = pcVar3 + 1;
-          if (cVar5 == '\0') goto LAB_82484ad0;
-          cVar4 = pcVar3[(int)"volleyball_main" - (int)pcVar2];
-          cVar5 = *pcVar3;
-        } while (cVar5 == cVar4);
-      }
-      if (cVar5 == cVar4) {
-LAB_82484ad0:
-        if (*(int *)(*(int *)(lbl_83265988 + 0x100) + 0x11c) != param_2) {
-          *(int *)(*(int *)(lbl_83265988 + 0x100) + 0x11c) = param_2;
-        }
-      }
-      else {
-        cVar5 = *pcVar2;
-        cVar4 = 't';
-        if (cVar5 == 't') {
-          cVar5 = 't';
-          pcVar3 = pcVar2;
-          do {
-            pcVar3 = pcVar3 + 1;
-            if (cVar5 == '\0') goto LAB_82484b34;
-            cVar4 = pcVar3[(int)"tabletennis_main" - (int)pcVar2];
-            cVar5 = *pcVar3;
-          } while (cVar5 == cVar4);
-        }
-        if (cVar5 == cVar4) {
-LAB_82484b34:
-          if (*(int *)(*(int *)(lbl_83265988 + 0x100) + 0x118) != param_2) {
-            *(int *)(*(int *)(lbl_83265988 + 0x100) + 0x118) = param_2;
-          }
-        }
-        else {
-          cVar5 = *pcVar2;
-          cVar4 = 'b';
-          if (cVar5 == 'b') {
-            cVar5 = 'b';
-            pcVar3 = pcVar2;
-            do {
-              pcVar3 = pcVar3 + 1;
-              if (cVar5 == '\0') goto LAB_82484b98;
-              cVar4 = pcVar3[(int)"bowling_main" - (int)pcVar2];
-              cVar5 = *pcVar3;
-            } while (cVar5 == cVar4);
-          }
-          if (cVar5 == cVar4) {
-LAB_82484b98:
-            if (*(int *)(*(int *)(lbl_83265988 + 0x100) + 0x10c) != param_2) {
-              *(int *)(*(int *)(lbl_83265988 + 0x100) + 0x10c) = param_2;
-            }
-          }
-          else {
-            pcVar2 = strstr(pcVar2,"athletics_main");
-            if ((pcVar2 != (char *)0x0) && (*(int *)(*(int *)(iVar1 + 0x100) + 0x108) != param_2)) {
-              *(int *)(*(int *)(iVar1 + 0x100) + 0x108) = param_2;
-            }
-          }
-        }
-      }
+            q++;
+            if (c == 0)
+                return 0;
+            b = q[d];
+            c = *q;
+        } while (c == b);
     }
-  }
-  return;
+    return c - b;
 }
 
+void fn_82484998(Obj_82484998 *self, unsigned int value)
+{
+    Game_82484998 *game = lbl_83265988;
+
+    if (Compare((const unsigned char *)self->name, "boxing_main") == 0) {
+        if (game->results->boxing != value)
+            game->results->boxing = value;
+    } else if (Compare((const unsigned char *)self->name, "football_main") == 0) {
+        if (game->results->football != value)
+            game->results->football = value;
+    } else if (Compare((const unsigned char *)self->name, "volleyball_main") == 0) {
+        if (game->results->volleyball != value)
+            game->results->volleyball = value;
+    } else if (Compare((const unsigned char *)self->name, "tabletennis_main") == 0) {
+        if (game->results->tableTennis != value)
+            game->results->tableTennis = value;
+    } else if (Compare((const unsigned char *)self->name, "bowling_main") == 0) {
+        if (game->results->bowling != value)
+            game->results->bowling = value;
+    } else if (strstr(self->name, "athletics_main") != 0) {
+        if (game->results->athletics != value)
+            game->results->athletics = value;
+    }
+}

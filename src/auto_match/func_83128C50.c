@@ -1,36 +1,72 @@
-extern int fn_828B0300();
+typedef struct Handler_83128C50 {
+    unsigned int id;
+    void (*handler)(void);
+    unsigned int a;
+    unsigned char b;
+    unsigned char c;
+    const char *name;
+    unsigned int d;
+    unsigned int e;
+} Handler_83128C50;
 
+extern Handler_83128C50 lbl_83214058[27];
+extern void fn_828B0300(Handler_83128C50 *h, unsigned int id, void (*handler)(void), unsigned int a, unsigned char b,
+                        unsigned char c, const char *name, unsigned int d, unsigned int e);
+extern void fn_828BE9C8(void);
+extern void fn_828BEA10(void);
+extern void fn_828BEA58(void);
+extern void fn_828BEAC8(void);
+extern void fn_828BEB38(void);
+extern void fn_828BEBA8(void);
+extern void fn_828BEC20(void);
+extern void fn_828BEC68(void);
+extern void fn_828BECE8(void);
+extern void fn_828BED58(void);
+extern void fn_828BEDA0(void);
+extern void fn_828BEE10(void);
+extern void fn_828BEE88(void);
+extern void fn_828BEEF8(void);
+extern void fn_828BF070(void);
+extern void fn_828BF0E0(void);
+extern void fn_828BF200(void);
+extern void fn_828BF380(void);
+extern void fn_828BF408(void);
+extern void fn_828BF608(void);
+extern void fn_828BF650(void);
+extern void fn_828BF840(void);
+extern void fn_828BF8C0(void);
+extern void fn_828BF908(void);
+extern void fn_828BFB90(void);
+extern void fn_828BFC10(void);
+extern void fn_828BFFF0(void);
 
 void fn_83128C50(void)
-
 {
-  fn_828B0300(0xffffffff83214058,0,0xffffffff828be9c8,0,0,1,0xffffffff82025f08,0x1f);
-  fn_828B0300(0xffffffff83214074,1,0xffffffff828bea10,0,0,1,0xffffffff82025efc,0x1f);
-  fn_828B0300(0xffffffff83214090,2,0xffffffff828bf070,0,0,0,0xffffffff82025ef0,0x1f);
-  fn_828B0300(0xffffffff832140ac,3,0xffffffff828bf0e0,0,0,0,0xffffffff82025ee4,0x1f);
-  fn_828B0300(0xffffffff832140c8,4,0xffffffff828bf380,0,0,0,0xffffffff82025ed8,2);
-  fn_828B0300(0xffffffff832140e4,5,0xffffffff828bfff0,0,0,0,0xffffffff82025ecc,0x10);
-  fn_828B0300(0xffffffff83214100,6,0xffffffff828bea58,0,0,0,0xffffffff82025ec4,2);
-  fn_828B0300(0xffffffff8321411c,7,0xffffffff828beac8,0,0,0,0xffffffff82025eb8,2);
-  fn_828B0300(0xffffffff83214138,8,0xffffffff828bf408,0,0,0,0xffffffff82025eac,0x1f);
-  fn_828B0300(0xffffffff83214154,9,0xffffffff828bf840,0,0,0,0xffffffff82025e9c,0x1f);
-  fn_828B0300(0xffffffff83214170,10,0xffffffff828beb38,0,0,0,0xffffffff82025e90,0x1f);
-  fn_828B0300(0xffffffff8321418c,0xb,0xffffffff828bfb90,0,0,0,0xffffffff82025e84,0x1f);
-  fn_828B0300(0xffffffff832141a8,0xc,0xffffffff828bf200,0,0,0,0xffffffff82025e78,2);
-  fn_828B0300(0xffffffff832141c4,0xd,0xffffffff828bf8c0,0,0,0,0xffffffff82025e70,2);
-  fn_828B0300(0xffffffff832141e0,0xe,0xffffffff828bf908,0,0,0,0xffffffff82025e64,2);
-  fn_828B0300(0xffffffff832141fc,0xf,0xffffffff828beba8,0,0,0,0xffffffff82025e54,2);
-  fn_828B0300(0xffffffff83214218,0x10,0xffffffff828bf608,0,0,0,0xffffffff82025e44,2);
-  fn_828B0300(0xffffffff83214234,0x11,0xffffffff828bec20,0,0,0,0xffffffff82025e38,2);
-  fn_828B0300(0xffffffff83214250,0x12,0xffffffff828bf650,0,0,0,0xffffffff82025e24,2);
-  fn_828B0300(0xffffffff8321426c,0x13,0xffffffff828bec68,0,0,0,0xffffffff82025e10,2);
-  fn_828B0300(0xffffffff83214288,0x14,0xffffffff828bfc10,0,0,0,0xffffffff82025e08,0x1f);
-  fn_828B0300(0xffffffff832142a4,0x15,0xffffffff828bece8,0,0,0,0xffffffff82025dfc,0x1f);
-  fn_828B0300(0xffffffff832142c0,0x16,0xffffffff828bed58,0,0,0,0xffffffff82025df0,0x1f);
-  fn_828B0300(0xffffffff832142dc,0x17,0xffffffff828beda0,0,0,0,0xffffffff82025de4,0x1f);
-  fn_828B0300(0xffffffff832142f8,0x18,0xffffffff828bee10,0,0,0,0xffffffff821977ac,0);
-  fn_828B0300(0xffffffff83214314,0x19,0xffffffff828bee88,0,0,1,0xffffffff82025dd8,0x1f);
-  fn_828B0300(0xffffffff83214330,0x1a,0xffffffff828beef8,0,0,0,0xffffffff821ac0f4,0x1f);
-  return;
+    fn_828B0300(&lbl_83214058[0], 0, fn_828BE9C8, 0, 0, 1, "SL Find>", 0x1f, 0x1f);
+    fn_828B0300(&lbl_83214058[1], 1, fn_828BEA10, 0, 0, 1, "SL Find<", 0x1f, 0x1f);
+    fn_828B0300(&lbl_83214058[2], 2, fn_828BF070, 0, 0, 0, "Auto-Req", 0x1f, 0x1f);
+    fn_828B0300(&lbl_83214058[3], 3, fn_828BF0E0, 0, 0, 0, "Auto-Rcpt", 0x1f, 0x1f);
+    fn_828B0300(&lbl_83214058[4], 4, fn_828BF380, 0, 0, 0, "Join Req", 2, 0x1f);
+    fn_828B0300(&lbl_83214058[5], 5, fn_828BFFF0, 0, 0, 0, "Join Reply", 0x10, 2);
+    fn_828B0300(&lbl_83214058[6], 6, fn_828BEA58, 0, 0, 0, "Ping", 2, 0x1f);
+    fn_828B0300(&lbl_83214058[7], 7, fn_828BEAC8, 0, 0, 0, "Conn Err", 2, 0);
+    fn_828B0300(&lbl_83214058[8], 8, fn_828BF408, 0, 0, 0, "Sync Mach", 0x1f, 0x1f);
+    fn_828B0300(&lbl_83214058[9], 9, fn_828BF840, 0, 0, 0, "Sync Mach List", 0x1f, 0x1f);
+    fn_828B0300(&lbl_83214058[10], 0xa, fn_828BEB38, 0, 0, 0, "Leave Game", 0x1f, 0x1f);
+    fn_828B0300(&lbl_83214058[11], 0xb, fn_828BFB90, 0, 0, 0, "Conn Query", 0x1f, 0x1f);
+    fn_828B0300(&lbl_83214058[12], 0xc, fn_828BF200, 0, 0, 0, "Net Vars", 2, 2);
+    fn_828B0300(&lbl_83214058[13], 0xd, fn_828BF8C0, 0, 0, 0, "Net Obj", 2, 2);
+    fn_828B0300(&lbl_83214058[14], 0xe, fn_828BF908, 0, 0, 0, "Net Spam", 2, 2);
+    fn_828B0300(&lbl_83214058[15], 0xf, fn_828BEBA8, 0, 0, 0, "Owner Request", 2, 2);
+    fn_828B0300(&lbl_83214058[16], 0x10, fn_828BF608, 0, 0, 0, "Owner Transfer", 2, 2);
+    fn_828B0300(&lbl_83214058[17], 0x11, fn_828BEC20, 0, 0, 0, "New Owner", 2, 2);
+    fn_828B0300(&lbl_83214058[18], 0x12, fn_828BF650, 0, 0, 0, "Owner VarState sync", 2, 2);
+    fn_828B0300(&lbl_83214058[19], 0x13, fn_828BEC68, 0, 0, 0, "Forward Net Obj Msg", 2, 2);
+    fn_828B0300(&lbl_83214058[20], 0x14, fn_828BFC10, 0, 0, 0, "Voice", 0x1f, 0x1f);
+    fn_828B0300(&lbl_83214058[21], 0x15, fn_828BECE8, 0, 0, 0, "Voice Mute", 0x1f, 0x1f);
+    fn_828B0300(&lbl_83214058[22], 0x16, fn_828BED58, 0, 0, 0, "Party QOS", 0x1f, 0x1f);
+    fn_828B0300(&lbl_83214058[23], 0x17, fn_828BEDA0, 0, 0, 0, "Sync Time", 0x1f, 0x1f);
+    fn_828B0300(&lbl_83214058[24], 0x18, fn_828BEE10, 0, 0, 0, "Arbitration", 0, 0);
+    fn_828B0300(&lbl_83214058[25], 0x19, fn_828BEE88, 0, 0, 1, "Terminator", 0x1f, 0x1f);
+    fn_828B0300(&lbl_83214058[26], 0x1a, fn_828BEEF8, 0, 0, 0, "Split", 0x1f, 0x1f);
 }
-

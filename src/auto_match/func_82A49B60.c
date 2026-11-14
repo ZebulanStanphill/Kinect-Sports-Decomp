@@ -1,21 +1,15 @@
-extern int fn_82A49AC8();
-extern int fn_82F691F0();
+typedef struct Format_82A49B60 {
+    char pad0[0xe];
+    unsigned short bitsPerSample;   /* 0x0e */
+} Format_82A49B60;
 
+extern unsigned short fn_82A49AC8(Format_82A49B60 *format);
+extern void *memset(void *dst, int value, unsigned int size);
 
-void fn_82A49B60(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3)
-
+void fn_82A49B60(void *buffer, unsigned int size, Format_82A49B60 *format)
 {
-  short sVar1;
-  unsigned char bVar2;
-  
-  sVar1 = fn_82A49AC8(param_3);
-  if ((sVar1 == 1) || (sVar1 = fn_82A49AC8(param_3), sVar1 == 3)) {
-    bVar2 = -(*(short *)((int)param_3 + 0xe) == 8) & 0x80;
-  }
-  else {
-    bVar2 = 0;
-  }
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0(param_1,bVar2,param_2);
+    if (fn_82A49AC8(format) == 1 || fn_82A49AC8(format) == 3)
+        memset(buffer, format->bitsPerSample == 8 ? 0x80 : 0, size);
+    else
+        memset(buffer, 0, size);
 }
-

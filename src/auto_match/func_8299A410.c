@@ -1,80 +1,70 @@
-extern int fn_82964628();
-extern int fn_82975B00();
-extern int fn_82996970();
-extern unsigned int lbl_82005710;
+typedef struct El_8299A410 {
+  int pad0;
+  unsigned int f4;
+  char pad8[8];
+  unsigned int f10;
+  char pad14[0x38 - 0x14];
+  int f38;
+  unsigned int f3c;
+  char pad40[0x6e - 0x40];
+  unsigned char f6e;
+  unsigned char f6f;
+} El_8299A410;
+typedef struct Grp_8299A410 { unsigned int w; unsigned int count; int *idx; } Grp_8299A410;
+typedef struct Ctx_8299A410 {
+  char pad0[0x14];
+  El_8299A410 **tab;
+  char pad18[0x80 - 0x18];
+  unsigned int f80;
+  int pad84;
+  int f88;
+} Ctx_8299A410;
+extern double lbl_82005710;
+extern int fn_82964628(Ctx_8299A410 *, int, int, int, double);
+extern void fn_82975B00(Ctx_8299A410 *, int, int, const char *);
+extern int fn_82996970(unsigned int);
 
-
-unsigned __int64
-fn_8299A410(int param_1,int *param_2,unsigned int param_3,unsigned int param_4,unsigned int param_5,unsigned int param_6,
-             int *param_7)
-
+int fn_8299A410(Ctx_8299A410 *c, Grp_8299A410 **groups, unsigned int ng, unsigned int a, unsigned int b, unsigned int nm, int *map)
 {
-  unsigned int *puVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  int iVar5;
-  unsigned __int64 uVar6;
-  int *piVar7;
-  unsigned int uVar8;
-  unsigned int uVar9;
-  int iVar10;
-  unsigned int uVar11;
-  unsigned __int64 uVar12;
-  
-  uVar8 = 0;
-  uVar12 = lbl_82005710;
-  if (param_3 != 0) {
-    do {
-      puVar1 = (unsigned int *)*param_2;
-      if ((puVar1 != (unsigned int *)0x0) && (*puVar1 != 0)) {
-        uVar6 = (unsigned __int64)*puVar1 & 0xfff00000;
-        iVar4 = fn_82996970(uVar6);
-        if ((uVar6 & 0xffffffff) == 0x11000000) {
-          iVar4 = 1;
-        }
-        uVar9 = 0;
-        if (puVar1[1] != 0) {
-          iVar10 = 0;
-          do {
-            iVar2 = *(int *)(*(int *)(iVar10 + puVar1[2]) * 4 + *(int *)(param_1 + 0x14));
-            if ((((*(int *)(iVar2 + 4) == *(int *)(param_1 + 0x80)) &&
-                 (*(unsigned char *)(iVar2 + 0x6f) == param_4)) && (param_5 == *(unsigned char *)(iVar2 + 0x6e))) &&
-               ((iVar4 == 0 || (*(int *)(iVar2 + 0x3c) != 0)))) {
-              uVar11 = 0;
-              if (param_6 != 0) {
-                piVar7 = param_7;
-                do {
-                  if (*(int *)(iVar2 + 0x10) ==
-                      *(int *)(*(int *)(*piVar7 * 4 + *(int *)(param_1 + 0x14)) + 0x10)) {
-                    iVar5 = fn_82964628(uVar12,param_1,*(unsigned int *)(param_1 + 0x88),0);
-                    if (iVar5 == -1) {
-                      return 0xffffffff8007000e;
-                    }
-                    iVar3 = *(int *)(iVar5 * 4 + *(int *)(param_1 + 0x14));
-                    *(unsigned int *)(iVar3 + 0x3c) = *(unsigned int *)(iVar2 + 0x3c);
-                    *(int *)(iVar3 + 0x38) = param_7[uVar11];
-                    *(int *)(iVar10 + puVar1[2]) = iVar5;
-                    break;
-                  }
-                  uVar11 = uVar11 + 1;
-                  piVar7 = piVar7 + 1;
-                } while (uVar11 < param_6);
-              }
-              if (uVar11 == param_6) {
-                fn_82975B00(param_1,0,0x12c1,0xffffffff82050f18);
-                return 0xffffffff80004005;
-              }
+  unsigned int i, j, k;
+  Grp_8299A410 *g;
+  El_8299A410 *e, *ne;
+  unsigned int top;
+  int flag, nidx;
+
+  double d;
+  i = 0;
+  if (ng != 0) {
+  d = lbl_82005710;
+  do {
+    g = groups[i];
+    if (g != 0 && g->w != 0) {
+      top = g->w & 0xfff00000;
+      flag = fn_82996970(top);
+      if (top == 0x11000000) flag = 1;
+      for (j = 0; j < g->count; j++) {
+        e = c->tab[g->idx[j]];
+        if (e->f4 == c->f80 && e->f6f == a && b == e->f6e && (flag == 0 || e->f3c != 0)) {
+          for (k = 0; k < nm; k++) {
+            if (e->f10 == c->tab[map[k]]->f10) {
+              nidx = fn_82964628(c, c->f88, 0, e->f10, d);
+              if (nidx == -1) return 0x8007000e;
+              ne = c->tab[nidx];
+              ne->f3c = e->f3c;
+              ne->f38 = map[k];
+              g->idx[j] = nidx;
+              break;
             }
-            uVar9 = uVar9 + 1;
-            iVar10 = iVar10 + 4;
-          } while (uVar9 < puVar1[1]);
+          }
+          if (k == nm) {
+            fn_82975B00(c, 0, 0x12c1, "internal error: InputRemap component matchup failed");
+            return 0x80004005;
+          }
         }
       }
-      uVar8 = uVar8 + 1;
-      param_2 = param_2 + 1;
-    } while (uVar8 < param_3);
+    }
+    i++;
+  } while (i < ng);
   }
   return 0;
 }
-

@@ -1,40 +1,46 @@
-extern unsigned int *auStack_34;
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_74;
-extern unsigned int *auStack_90;
-extern int fn_82230110();
-extern int fn_82230300();
-extern int fn_822C1730();
-extern int fn_82417F58();
+typedef struct String_82417FC0 {
+    unsigned char bytes[0x1c];
+} String_82417FC0;
 
+typedef struct Pair_82417FC0 {
+    String_82417FC0 first;      /* 0x00 */
+    String_82417FC0 second;     /* 0x1c */
+} Pair_82417FC0;
 
-void fn_82417FC0(unsigned __int64 param_1,unsigned __int64 param_2)
+typedef struct Item_82417FC0 {
+    char pad0[0x24];
+    int active;                 /* 0x24 */
+} Item_82417FC0;
 
+typedef struct Game_82417FC0 {
+    char pad0[0x2b20];
+    struct Player_82417FC0 *player;     /* 0x2b20 */
+} Game_82417FC0;
+
+typedef struct Player_82417FC0 {
+    Game_82417FC0 *game;        /* 0x00 */
+} Player_82417FC0;
+
+extern void fn_82230110(String_82417FC0 *self, const char *text);
+extern void fn_82230300(String_82417FC0 *self, int release, unsigned int size);
+extern void fn_822C1730(void *vec, Pair_82417FC0 *pair);
+extern Item_82417FC0 *fn_82417F58(Player_82417FC0 *player);
+
+void fn_82417FC0(Player_82417FC0 *self, void *tags)
 {
-  int iVar1;
-  unsigned char *puVar2;
-  unsigned char auStack_90 [28];
-  unsigned char auStack_74 [36];
-  unsigned char auStack_50 [28];
-  unsigned char auStack_34 [36];
-  
-  if ((((param_1 & 0xffffffff) == (unsigned __int64)*(unsigned int *)(*(int *)param_1 + 0x2b20)) &&
-      (iVar1 = fn_82417F58(), iVar1 != 0)) &&
-     (iVar1 = fn_82417F58(param_1), *(int *)(iVar1 + 0x24) != 0)) {
-    fn_82230110(auStack_90,0xffffffff821b829c);
-    fn_82230110(auStack_74,0xffffffff821b8294);
-    fn_822C1730(param_2,auStack_90);
-    fn_82230300(auStack_74,1,0);
-    puVar2 = auStack_90;
-  }
-  else {
-    fn_82230110(auStack_50,0xffffffff821b829c);
-    fn_82230110(auStack_34,0xffffffff821b82a8);
-    fn_822C1730(param_2,auStack_50);
-    fn_82230300(auStack_34,1,0);
-    puVar2 = auStack_50;
-  }
-  fn_82230300(puVar2,1,0);
-  return;
+    Pair_82417FC0 player;
+    Pair_82417FC0 ai;
+    if (self == self->game->player && fn_82417F58(self) != 0 && fn_82417F58(self)->active != 0) {
+        fn_82230110(&player.first, "zone_player");
+        fn_82230110(&player.second, "player");
+        fn_822C1730(tags, &player);
+        fn_82230300(&player.second, 1, 0);
+        fn_82230300(&player.first, 1, 0);
+    } else {
+        fn_82230110(&ai.first, "zone_player");
+        fn_82230110(&ai.second, "ai");
+        fn_822C1730(tags, &ai);
+        fn_82230300(&ai.second, 1, 0);
+        fn_82230300(&ai.first, 1, 0);
+    }
 }
-

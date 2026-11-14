@@ -1,35 +1,50 @@
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-extern int fn_822C6B30();
-extern int fn_822E58E8();
-extern int fn_8255A780();
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int lbl_831D9208;
+typedef struct Vec3_822E5710 {
+    float x, y, z;
+} Vec3_822E5710;
 
+typedef struct Target_822E5710 { char pad0[0x14]; float angle; } Target_822E5710;
+typedef struct Targets_822E5710 {
+    Target_822E5710 **items;
+    char pad4[0xc];
+    int current;
+} Targets_822E5710;
+typedef struct Owner_822E5710 { char pad0[0x50]; char sub[1]; } Owner_822E5710;
 
-void fn_822E5710(int param_1)
+typedef struct Self_822E5710 {
+    char pad0[0x1c];
+    Targets_822E5710 *targets;
+    char pad20[0x60];
+    char f80[0x40];
+    char fc0[0x54];
+    Owner_822E5710 *owner;
+    char pad118[0x2a0 - 0x118];
+    float angle;
+    int pad2a4;
+    int settled;
+} Self_822E5710;
 
+extern float lbl_831D9208;
+extern int fn_8255A780(float a, float b, float tolerance);
+extern int fn_822E58E8(Self_822E5710 *self);
+extern void fn_822C6B30(void *sub, void *a, void *b, Vec3_822E5710 v);
+
+void fn_822E5710(Self_822E5710 *self)
 {
-  int iVar1;
-  double dVar2;
-  
-  dVar2 = (double)*(float *)(*(int *)((*(int **)(param_1 + 0x1c))[4] * 4 +
-                                     **(int **)(param_1 + 0x1c)) + 0x14);
-  iVar1 = fn_8255A780((double)*(float *)(param_1 + 0x2a0),dVar2,(double)lbl_831D9208);
-  if (iVar1 == 0) {
-    *(float *)(param_1 + 0x2a0) = (float)dVar2;
-    *(unsigned int *)(param_1 + 0x2a8) = 0;
-  }
-  if (*(int *)(param_1 + 0x2a8) == 0) {
-    iVar1 = fn_822E58E8(param_1);
-    if (iVar1 == 0) {
-      fn_822C6B30((unsigned __int64)*(unsigned int *)(param_1 + 0x114) + 0x50,param_1 + 0x80,param_1 + 0xc0,
-                        CONCAT44(ltcg_pool_0_0f,*(unsigned int *)(param_1 + 0x2a0)),
-                        (unsigned __int64)ltcg_pool_0_0f << 0x20);
-    }
-    else {
-      *(unsigned int *)(param_1 + 0x2a8) = 1;
-    }
-  }
-  return;
-}
+    float target = self->targets->items[self->targets->current]->angle;
 
+    if (!fn_8255A780(self->angle, target, lbl_831D9208)) {
+        self->angle = target;
+        self->settled = 0;
+    }
+    if (self->settled == 0) {
+        if (fn_822E58E8(self)) {
+            self->settled = 1;
+        } else {
+            Vec3_822E5710 v;
+            v.y = self->angle;
+            v.x = 0.0f;
+            v.z = 0.0f;
+            fn_822C6B30(self->owner->sub, self->f80, self->fc0, v);
+        }
+    }
+}
