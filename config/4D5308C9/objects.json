@@ -3925,7 +3925,12 @@
         ]
       },
       "auto_match/func_8262CEC0.c": "MISSING",
-      "auto_match/func_8262D0D0.c": "MISSING",
+      "auto_match/func_8262D0B0.c": {
+        "status": "Matching",
+        "extra_cflags": [
+          "/O1"
+        ]
+      },
       "auto_match/func_824E35E0.c": {
         "status": "Matching",
         "extra_cflags": [
@@ -76578,7 +76583,12 @@
         ]
       },
       "auto_match/func_8262D138.c": "MISSING",
-      "auto_match/func_8262D1B0.c": "MISSING",
+      "auto_match/func_8262D190.c": {
+        "status": "Matching",
+        "extra_cflags": [
+          "/O1"
+        ]
+      },
       "auto_match/func_8262D218.c": {
         "status": "NonMatching",
         "extra_cflags": [

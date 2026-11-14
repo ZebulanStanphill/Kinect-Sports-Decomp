@@ -2120,8 +2120,8 @@ auto_match/func_82627E18.c:
 auto_match/func_8262CEC0.c:
 	.text       start:0x8262CEC0 end:0x8262CF24
 
-auto_match/func_8262D0D0.c:
-	.text       start:0x8262D0D0 end:0x8262D134
+auto_match/func_8262D0B0.c:
+	.text       start:0x8262D0B0 end:0x8262D134
 
 auto_match/func_824E35E0.c:
 	.pdata      start:0x821ED0D0 end:0x821ED0D8
@@ -50682,8 +50682,8 @@ auto_match/func_8262D0A0.c:
 auto_match/func_8262D138.c:
 	.text       start:0x8262D138 end:0x8262D18C
 
-auto_match/func_8262D1B0.c:
-	.text       start:0x8262D1B0 end:0x8262D214
+auto_match/func_8262D190.c:
+	.text       start:0x8262D190 end:0x8262D214
 
 auto_match/func_8262D218.c:
 	.pdata      start:0x821F2DD8 end:0x821F2DE0
