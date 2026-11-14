@@ -1,28 +1,36 @@
-unsigned __int64 fn_82E6F308(int *param_1,unsigned __int64 param_2)
+typedef struct Reader_82E6F308 Reader_82E6F308;
+typedef struct ReaderVtbl_82E6F308 {
+    void *slots0[5];
+    int (*flush)(Reader_82E6F308 *self);                            /* 0x14 */
+    void *slots1[5];
+    int (*process)(Reader_82E6F308 *self, unsigned __int64 index);  /* 0x2c */
+} ReaderVtbl_82E6F308;
 
+struct Reader_82E6F308 {
+    ReaderVtbl_82E6F308 *vt;
+    char pad4[0x34];
+    int autoFlush;             /* 0x38 */
+    char pad3c[0xc];
+    unsigned __int64 position; /* 0x48 */
+};
+
+int fn_82E6F308(Reader_82E6F308 *self, unsigned __int64 target)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  
-  uVar2 = *(unsigned __int64 *)(param_1 + 0x12);
-  if (param_2 < uVar2) {
-    uVar1 = 0xffffffff80070057;
-  }
-  else {
-    uVar1 = 0;
-    if (uVar2 < param_2) {
-      while (uVar1 = (**(int (***)())(*param_1 + 0x2c))(param_1,uVar2), -1 < (int)uVar1) {
-        if ((param_1[0xe] != 0) && (uVar1 = (**(int (***)())(*param_1 + 0x14))(param_1), (int)uVar1 < 0)
-           ) {
-          return uVar1;
-        }
-        uVar2 = uVar2 + 1;
-        if (param_2 <= uVar2) {
-          return uVar1;
-        }
-      }
-    }
-  }
-  return uVar1;
-}
+    unsigned __int64 i;
+    int hr;
 
+    if (target < self->position)
+        return 0x80070057;
+    hr = 0;
+    for (i = self->position; i < target; i++) {
+        hr = self->vt->process(self, i);
+        if (hr < 0)
+            break;
+        if (self->autoFlush != 0) {
+            hr = self->vt->flush(self);
+            if (hr < 0)
+                break;
+        }
+    }
+    return hr;
+}

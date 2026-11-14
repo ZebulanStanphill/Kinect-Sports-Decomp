@@ -1,49 +1,56 @@
-extern int fn_82E57620();
-extern int fn_82E576A8();
-extern int fn_82EE5E28();
+typedef struct Obj_82E72C18 Obj_82E72C18;
+typedef struct Vtbl_82E72C18 {
+  char pad0[0x2c];
+  unsigned __int64 (*getSize)(Obj_82E72C18 *self);
+} Vtbl_82E72C18;
 
+struct Obj_82E72C18 {
+  Vtbl_82E72C18 *vt;
+  int pad4[2];
+  void *source;
+  char f10[0x10];
+  unsigned __int64 size;
+  char f28[0x18];
+  unsigned int avail;
+};
 
-unsigned __int64 fn_82E72C18(int *param_1,unsigned int *param_2)
+extern void fn_82E57620(void *, void *);
+extern void fn_82E576A8(void *, void *);
+extern int fn_82EE5E28(void *, unsigned int);
 
+int fn_82E72C18(Obj_82E72C18 *o, unsigned int *out)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  int *piVar4;
-  
-  if (param_1[3] == 0) {
-    return 0xffffffffc00d36b6;
+  unsigned int avail;
+  unsigned __int64 size;
+  int hr;
+  void *stream;
+  if (o->source == 0)
+    return 0xC00D36B6;
+  if (out == 0)
+    return 0x80070057;
+  *out = 0;
+  avail = o->avail;
+  if (avail < 0x18) {
+    *out = 0x18;
+    return 0xC00D36B1;
   }
-  if (param_2 == (unsigned int *)0x0) {
-    return 0xffffffff80070057;
+  stream = o->f28;
+  fn_82E57620(o->f10, stream);
+  fn_82E576A8(&o->size, stream);
+  size = o->size;
+  if (size > 0xffffffff)
+    return 0xC00D3A9A;
+  if (size < 0x18)
+    return 0xC00D3A9A;
+  if (o->avail < size - 0x18) {
+    *out = (unsigned int)size;
+    return 0xC00D36B1;
   }
-  *param_2 = 0;
-  uVar1 = param_1[0x10];
-  if (uVar1 < 0x18) {
-    uVar3 = 0x18;
-LAB_82e72c70:
-    *param_2 = (unsigned int)uVar3;
-    uVar2 = 0xffffffffc00d36b1;
-  }
-  else {
-    piVar4 = param_1 + 10;
-    fn_82E57620(param_1 + 4,piVar4);
-    fn_82E576A8(param_1 + 8,piVar4);
-    uVar3 = *(unsigned __int64 *)(param_1 + 8);
-    if ((uVar3 < 0x100000000) && (0x17 < uVar3)) {
-      if ((unsigned __int64)(unsigned int)param_1[0x10] < uVar3 - 0x18) goto LAB_82e72c70;
-      uVar2 = fn_82EE5E28(piVar4,(uVar3 & 0xffffffff) - 0x18);
-      if ((int)uVar2 < 0) {
-        return uVar2;
-      }
-      *param_2 = uVar1 - param_1[0x10];
-      uVar3 = (**(int (***)())(*param_1 + 0x2c))(param_1);
-      if (uVar3 == *param_2) {
-        return 0;
-      }
-    }
-    uVar2 = 0xffffffffc00d3a9a;
-  }
-  return uVar2;
+  hr = fn_82EE5E28(stream, (unsigned int)size - 0x18);
+  if (hr < 0)
+    return hr;
+  *out = avail - o->avail;
+  if (o->vt->getSize(o) != *out)
+    return 0xC00D3A9A;
+  return 0;
 }
-

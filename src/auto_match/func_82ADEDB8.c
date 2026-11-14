@@ -1,27 +1,21 @@
-extern int fn_82AE5A50();
+typedef struct Map_82ADEDB8 {
+    int header[2];
+    unsigned __int64 bits[1];
+} Map_82ADEDB8;
 
+extern void fn_82AE5A50(Map_82ADEDB8 *map, unsigned int entry);
 
-void fn_82ADEDB8(int param_1,unsigned __int64 param_2,__int64 param_3)
-
+void fn_82ADEDB8(Map_82ADEDB8 *map, unsigned int first, unsigned int count)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  
-  uVar2 = param_2 + param_3;
-  if ((param_2 & 0xffffffff) < (uVar2 & 0xffffffff)) {
-    uVar3 = (param_2 & 0x3fffffff) << 2;
-    do {
-      uVar1 = 0xf - (((2L << (uVar3 + 3 & 0x3f)) - 1U &
-                      *(unsigned __int64 *)(((int)((uVar3 & 0xffffffff) >> 6) + 1) * 8 + param_1) &
-                     -1L << (uVar3 & 0x3f)) >> (uVar3 & 0x3f) & 0xffffffff);
-      if ((uVar1 & 0xffffffff) != 0) {
-        fn_82AE5A50(param_1,(param_2 & 0xfffffff) << 4 | uVar1 & 0xffffffff0000000f);
-      }
-      param_2 = param_2 + 1;
-      uVar3 = uVar3 + 4;
-    } while ((param_2 & 0xffffffff) < (uVar2 & 0xffffffff));
-  }
-  return;
+    unsigned int end = first + count;
+    unsigned int i;
+    for (i = first; i < end; i++) {
+        int pos = i * 4;
+        __int64 lo = pos & 63;
+        __int64 hi = (pos + 3) & 63;
+        unsigned int v = 15 - (unsigned int)((map->bits[(unsigned int)pos >> 6] & ((2ULL << hi) - 1) & (~0ULL << lo)) >> lo);
+        if (v != 0) {
+            fn_82AE5A50(map, (i << 4) | (v & 0xf));
+        }
+    }
 }
-

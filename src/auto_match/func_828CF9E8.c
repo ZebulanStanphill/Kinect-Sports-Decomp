@@ -1,21 +1,18 @@
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_8202676C;
+extern float lbl_8202676C;
 extern float lbl_8202677C;
-extern unsigned int lbl_821AAD20;
 
+typedef struct Obj_828CF9E8 {
+    char pad0[0xa6];
+    unsigned short value;   /* 0xa6 */
+} Obj_828CF9E8;
 
-double fn_828CF9E8(int param_1)
-
+float fn_828CF9E8(Obj_828CF9E8 *self)
 {
-  double dVar1;
-  
-  dVar1 = (double)(((float)*(unsigned short *)(param_1 + 0xa6) - lbl_8202676C) * lbl_8202677C);
-  if ((double)lbl_82002AE0 < dVar1) {
-    return (double)lbl_82002AE0;
-  }
-  if (dVar1 < (double)lbl_821AAD20) {
-    return (double)lbl_821AAD20;
-  }
-  return dVar1;
-}
+    float v = ((float)self->value - lbl_8202676C) * lbl_8202677C;
 
+    if (v > 1.0f)
+        v = 1.0f;
+    else if (v < 0.0f)
+        v = 0.0f;
+    return v;
+}

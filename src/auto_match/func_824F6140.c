@@ -1,10 +1,16 @@
-void fn_824F6140(int param_1)
+typedef struct Node_824F6140 {
+    int pad;
+    struct Node_824F6140 *next;
+} Node_824F6140;
 
+typedef struct List_824F6140 {
+    char pad[0xc];
+    Node_824F6140 *head;
+} List_824F6140;
+
+void fn_824F6140(List_824F6140 *self)
 {
-  int iVar1;
-  
-  for (iVar1 = *(int *)(param_1 + 0xc); iVar1 != 0; iVar1 = *(int *)(iVar1 + 4)) {
-  }
-  return;
+    Node_824F6140 *node;
+    for (node = self->head; node != 0; node = node->next) {
+    }
 }
-

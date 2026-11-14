@@ -1,50 +1,38 @@
-#define true 1
-extern int fn_830198B8();
-extern int fn_83019B78();
+typedef struct Node_8301B058 {
+  struct Node_8301B058 *next;
+  unsigned int key;
+} Node_8301B058;
 
+typedef struct List_8301B058 {
+  Node_8301B058 *head;
+} List_8301B058;
 
-unsigned int * fn_8301B058(int param_1,int param_2)
+typedef struct Mgr_8301B058 {
+  int f0;
+  List_8301B058 list;
+} Mgr_8301B058;
 
+typedef struct Obj_8301B058 {
+  char pad0[0xc];
+  unsigned int key;
+} Obj_8301B058;
+
+extern unsigned int *fn_83019B78(List_8301B058 *list, unsigned int key);
+
+static __forceinline unsigned int *Find(List_8301B058 *list, unsigned int key)
 {
-  int iVar1;
-  char cVar4;
-  unsigned int *puVar2;
-  unsigned int *puVar3;
-  
-  puVar3 = (unsigned int *)(param_1 + 4);
-  iVar1 = *(int *)(param_2 + 0xc);
-  puVar2 = (unsigned int *)*puVar3;
-  do {
-    if (puVar2 == (unsigned int *)0x0) {
-fn_83019B78:
-      cVar4 = fn_830198B8();
-      if (cVar4 == '\0') {
-        puVar2 = (unsigned int *)0x0;
-      }
-      else {
-        if (*(unsigned int **)(param_1 + 8) == (unsigned int *)0x0) {
-          *puVar3 = *(unsigned int *)(param_1 + 0xc);
-        }
-        else {
-          **(unsigned int **)(param_1 + 8) = *(unsigned int *)(param_1 + 0xc);
-        }
-        puVar2 = *(unsigned int **)(param_1 + 0xc);
-        *(unsigned int **)(param_1 + 8) = puVar2;
-        *(unsigned int *)(param_1 + 0xc) = *puVar2;
-        *puVar2 = 0;
-        *(int *)(param_1 + 0x18) = *(int *)(param_1 + 0x18) + 1;
-        puVar2 = (unsigned int *)(*(int *)(param_1 + 8) + 4);
-        *(int *)(*(int *)(param_1 + 8) + 4) = iVar1;
-      }
-      return puVar2;
-    }
-    if (puVar2[1] == iVar1) {
-      if (puVar2 != (unsigned int *)0xfffffffc) {
-        return puVar3;
-      }
-      goto fn_83019B78;
-    }
-    puVar2 = (unsigned int *)*puVar2;
-  } while( true );
+  Node_8301B058 *n;
+  for (n = list->head; n != 0; n = n->next) {
+    if (n->key == key)
+      return &n->key;
+  }
+  return 0;
 }
 
+void fn_8301B058(Mgr_8301B058 *self, Obj_8301B058 *o)
+{
+  List_8301B058 *list = &self->list;
+  unsigned int key = o->key;
+  if (Find(list, key) == 0)
+    fn_83019B78(list, key);
+}

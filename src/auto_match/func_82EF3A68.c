@@ -1,49 +1,34 @@
-unsigned __int64 fn_82EF3A68(int param_1,__int64 *param_2,__int64 *param_3)
+unsigned int strlen(const char *s);
 
+typedef struct Obj_82EF3A68 {
+  char pad0[0xc];
+  void *source;
+  char pad10[0x20 - 0x10];
+  unsigned __int64 totalSize;
+  char pad28[0x48 - 0x28];
+  const char *name;
+  const char *value;
+  int pad50;
+  unsigned int extra;
+  const char *text;
+} Obj_82EF3A68;
+
+int fn_82EF3A68(Obj_82EF3A68 *self, unsigned __int64 *outSize, unsigned __int64 *outSize2)
 {
-  char cVar1;
-  char *pcVar2;
-  char *pcVar3;
-  __int64 lVar4;
-  
-  if (*(int *)(param_1 + 0xc) != 0) {
-    pcVar2 = *(char **)(param_1 + 0x48);
-    lVar4 = (unsigned __int64)*(unsigned int *)(param_1 + 0x54) + 0x28;
-    pcVar3 = pcVar2;
-    if (pcVar2 != (char *)0x0) {
-      do {
-        cVar1 = *pcVar3;
-        pcVar3 = pcVar3 + 1;
-      } while (cVar1 != '\0');
-      lVar4 = (unsigned __int64)(unsigned int)((int)pcVar3 - (int)pcVar2) + lVar4;
-    }
-    pcVar2 = *(char **)(param_1 + 0x4c);
-    pcVar3 = pcVar2;
-    if (pcVar2 != (char *)0x0) {
-      do {
-        cVar1 = *pcVar3;
-        pcVar3 = pcVar3 + 1;
-      } while (cVar1 != '\0');
-      lVar4 = (unsigned __int64)(unsigned int)((int)pcVar3 - (int)pcVar2) + lVar4;
-    }
-    pcVar2 = *(char **)(param_1 + 0x58);
-    pcVar3 = pcVar2;
-    if (pcVar2 != (char *)0x0) {
-      do {
-        cVar1 = *pcVar3;
-        pcVar3 = pcVar3 + 1;
-      } while (cVar1 != '\0');
-      lVar4 = (unsigned __int64)(unsigned int)((int)pcVar3 - (int)pcVar2) + lVar4;
-    }
-    if (param_2 != (__int64 *)0x0) {
-      *param_2 = lVar4;
-    }
-    if (param_3 != (__int64 *)0x0) {
-      *param_3 = lVar4;
-    }
-    *(__int64 *)(param_1 + 0x20) = lVar4;
-    return 0;
-  }
-  return 0xffffffffc00d36b6;
+  unsigned __int64 size;
+  if (self->source == 0)
+    return 0xc00d36b6;
+  size = (unsigned __int64)self->extra + 0x28;
+  if (self->name != 0)
+    size += strlen(self->name) + 1;
+  if (self->value != 0)
+    size += strlen(self->value) + 1;
+  if (self->text != 0)
+    size += strlen(self->text) + 1;
+  if (outSize != 0)
+    *outSize = size;
+  if (outSize2 != 0)
+    *outSize2 = size;
+  self->totalSize = size;
+  return 0;
 }
-

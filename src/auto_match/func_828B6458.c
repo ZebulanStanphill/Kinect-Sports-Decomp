@@ -1,19 +1,26 @@
-unsigned __int64 fn_828B6458(int *param_1)
+typedef struct Object_828B6458 Object_828B6458;
+typedef struct Object_828B6458Vtbl {
+    void *slot0;
+    void *slot1;
+    int (*IsReady)(Object_828B6458 *self);
+} Object_828B6458Vtbl;
+struct Object_828B6458 {
+    Object_828B6458Vtbl *vt;
+    char pad[0x1c];
+    unsigned int state;
+};
 
+int fn_828B6458(Object_828B6458 *self)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  
-  uVar1 = param_1[8];
-  if ((uVar1 < 4) && (uVar1 != 0)) {
-    if (uVar1 != 1) {
-      return 1;
+    switch (self->state) {
+    case 0:
+        return 0;
+    case 1:
+        return self->vt->IsReady(self);
+    case 2:
+        return 1;
+    case 3:
+        return 1;
     }
-                    /* WARNING: Could not recover jumptable at 0x828b6488. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-    uVar2 = (**(int (***)())(*param_1 + 8))();
-    return uVar2;
-  }
-  return 0;
+    return 0;
 }
-

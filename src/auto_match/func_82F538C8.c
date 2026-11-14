@@ -1,22 +1,22 @@
-void fn_82F538C8(int param_1,int param_2,int param_3)
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Vec_82F538C8 {
+    __vector4 v;
+} Vec_82F538C8;
+
+typedef struct Entry_82F538C8 {
+    __vector4 v0;
+    __vector4 v1;
+    __vector4 v2;
+    __vector4 v3;
+    __vector4 v4;
+} Entry_82F538C8;
+
+Vec_82F538C8 fn_82F538C8(Entry_82F538C8 *entries, int index)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int in_r0;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  
-  puVar1 = (unsigned int *)(param_3 * 0x50 + param_2 + 0x20U & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (unsigned int *)(in_r0 + param_1 & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  return;
+    Vec_82F538C8 r;
+    r.v = entries[index].v2;
+    return r;
 }
-

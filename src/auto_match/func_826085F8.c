@@ -1,18 +1,15 @@
-__int64 fn_826085F8(__int64 param_1,unsigned int param_2)
-
+char *fn_826085F8(char *self, unsigned int index)
 {
-  if (param_2 == 0) {
-    return param_1 + 0x274;
-  }
-  if (param_2 == 1) {
-    return param_1 + 0x288;
-  }
-  if (param_2 < 3) {
-    return param_1 + 0x29c;
-  }
-  if (param_2 != 3) {
-    return 0;
-  }
-  return param_1 + 0x2b0;
+    switch (index) {
+    case 0:
+        return self + 0x274;
+    case 1:
+        return self + 0x288;
+    case 2:
+        return self + 0x29c;
+    case 3:
+        return self + 0x2b0;
+    default:
+        return 0;
+    }
 }
-

@@ -1,22 +1,18 @@
-extern int fn_82A2B760();
+typedef struct Waiter_83055E98 {
+  char pad0[0x38];
+  void *event;
+  int pad3c;
+  int waiting;
+  unsigned char signalPending;
+} Waiter_83055E98;
 
+extern unsigned char fn_82A1E810(void *event);
 
-unsigned int fn_83055E98(unsigned int param_1)
-
+void fn_83055E98(Waiter_83055E98 *self)
 {
-  int iVar1;
-  
-  if (*(char *)(param_1 + 0x44) == '\0') {
-    return param_1;
-  }
-  *(unsigned char *)(param_1 + 0x44) = 0;
-  if (0 < *(int *)(param_1 + 0x40)) {
-    iVar1 = NtSetEvent(*(unsigned int *)(param_1 + 0x38),0);
-    if (iVar1 < 0) {
-      fn_82A2B760();
-    }
-    return (unsigned int)(iVar1 >= 0);
-  }
-  return param_1;
+  if (self->signalPending == 0)
+    return;
+  self->signalPending = 0;
+  if (self->waiting > 0)
+    fn_82A1E810(self->event);
 }
-

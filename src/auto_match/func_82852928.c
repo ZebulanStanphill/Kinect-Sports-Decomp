@@ -1,23 +1,34 @@
-extern int fn_82639F78();
+typedef struct Entry_82852928 {
+    int f0;
+    int f4;
+    int pad8[2];
+} Entry_82852928;
 
+typedef struct Array_82852928 {
+    unsigned char *indices;
+    Entry_82852928 *entries;
+    unsigned short count;
+} Array_82852928;
 
-void fn_82852928(int param_1,int param_2)
+typedef struct List_82852928 {
+    int f0;
+    Array_82852928 arr;
+} List_82852928;
 
+typedef struct Obj_82852928 {
+    int f0;
+    int f4;
+} Obj_82852928;
+
+extern void fn_82639F78(int a, int index, int b, int c, int d, unsigned __int64 mask);
+
+void fn_82852928(Obj_82852928 *self, List_82852928 *list)
 {
-  unsigned int *puVar1;
-  __int64 lVar2;
-  
-  lVar2 = 0;
-  if (*(short *)(param_2 + 0xc) != 0) {
-    do {
-      puVar1 = (unsigned int *)
-               ((unsigned int)*(unsigned char *)(*(int *)(param_2 + 4) + (int)lVar2) * 0x10 + *(int *)(param_2 + 8));
-      fn_82639F78(*(unsigned int *)(param_1 + 4),lVar2,puVar1[1],0,*puVar1,
-                        0x8000000000000000 >>
-                        ((((0x5f - lVar2) * 0x5556 & 0xffffffffU) >> 0x10) + 0x20 & 0x7f));
-      lVar2 = lVar2 + 1;
-    } while ((int)lVar2 < (int)(unsigned int)*(unsigned short *)(param_2 + 0xc));
-  }
-  return;
+    Array_82852928 *arr = &list->arr;
+    int i;
+    for (i = 0; i < arr->count; i++) {
+        Entry_82852928 *e = &arr->entries[arr->indices[i]];
+        fn_82639F78(self->f4, i, e->f4, 0, e->f0,
+                    0x8000000000000000ULL >> ((((unsigned)((0x5f - i) * 0x5556)) >> 16) + 32));
+    }
 }
-

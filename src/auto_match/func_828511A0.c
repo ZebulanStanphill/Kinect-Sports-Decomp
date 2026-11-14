@@ -1,30 +1,16 @@
-typedef unsigned char bool;
+int memcmp(const void *a, const void *b, unsigned int n);
 
+typedef struct Frame_828511A0 {
+  char pad0[0x40];
+  unsigned char *planes[1];
+} Frame_828511A0;
 
-bool fn_828511A0(int param_1,int param_2,int param_3,int param_4)
+typedef struct Ctx_828511A0 {
+  char pad0[0x178];
+  int words;
+} Ctx_828511A0;
 
+int fn_828511A0(Ctx_828511A0 *self, Frame_828511A0 *a, Frame_828511A0 *b, int plane)
 {
-  int iVar1;
-  int iVar2;
-  __int64 lVar3;
-  unsigned char *pbVar4;
-  unsigned char *pbVar5;
-  unsigned char *pbVar6;
-  
-  lVar3 = 0;
-  iVar1 = (param_4 + 0x10) * 4;
-  iVar2 = *(int *)(param_1 + 0x178) * 4;
-  pbVar4 = *(unsigned char **)(iVar1 + param_3);
-  pbVar6 = *(unsigned char **)(iVar1 + param_2);
-  if (iVar2 != 0) {
-    pbVar5 = pbVar6 + iVar2;
-    do {
-      lVar3 = (unsigned __int64)*pbVar6 - (unsigned __int64)*pbVar4;
-      if (lVar3 != 0) break;
-      pbVar6 = pbVar6 + 1;
-      pbVar4 = pbVar4 + 1;
-    } while (pbVar6 != pbVar5);
-  }
-  return (int)lVar3 == 0;
+  return memcmp(a->planes[plane], b->planes[plane], self->words * 4) == 0;
 }
-

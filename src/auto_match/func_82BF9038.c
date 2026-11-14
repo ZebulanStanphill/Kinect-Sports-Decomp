@@ -1,27 +1,35 @@
-extern unsigned int *auStack_18;
-extern unsigned int lbl_8322FD10;
-extern unsigned int lbl_8322FD18;
-extern unsigned int uStack_14;
+typedef struct IoStatus_82BF9038 {
+    long status;
+    unsigned int information;
+} IoStatus_82BF9038;
 
+typedef struct Backing_82BF9038 {
+    int pad[2];
+    __int64 base;
+    void *handle;
+} Backing_82BF9038;
 
-unsigned int fn_82BF9038(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,int param_4)
+extern Backing_82BF9038 lbl_8322FD08;
 
+extern long NtReadFile(void *file, void *event, void *apc, void *apcContext, IoStatus_82BF9038 *iosb,
+                       void *buffer, unsigned int length, __int64 *offset);
+extern long NtWriteFile(void *file, void *event, void *apc, void *apcContext, IoStatus_82BF9038 *iosb,
+                        void *buffer, unsigned int length, __int64 *offset);
+
+int fn_82BF9038(void *buffer, unsigned int length, unsigned int offset, int read)
 {
-  unsigned int uVar1;
-  __int64 lStack_20;
-  unsigned char auStack_18 [4];
-  unsigned int uStack_14;
-  
-  lStack_20 = (param_3 & 0xffffffff) + lbl_8322FD10;
-  if (param_4 == 0) {
-    uVar1 = NtWriteFile(lbl_8322FD18,0,0,0,auStack_18,param_1,param_2,&lStack_20);
-  }
-  else {
-    uVar1 = NtReadFile();
-  }
-  if ((-1 < (int)uVar1) && ((param_2 & 0xffffffff) != (unsigned __int64)uStack_14)) {
-    uVar1 = 0xc0000185;
-  }
-  return uVar1 >> 0x1f ^ 1;
-}
+    __int64 position;
+    IoStatus_82BF9038 iosb;
+    long status;
 
+    position = offset + lbl_8322FD08.base;
+    if (read != 0) {
+        status = NtReadFile(lbl_8322FD08.handle, 0, 0, 0, &iosb, buffer, length, &position);
+    } else {
+        status = NtWriteFile(lbl_8322FD08.handle, 0, 0, 0, &iosb, buffer, length, &position);
+    }
+    if (status >= 0 && length != iosb.information) {
+        status = 0xc0000185;
+    }
+    return status >= 0;
+}

@@ -1,17 +1,19 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern V16 vectorMultiplyAddFloatingPoint();
+// Returns a + b * scale (scale replicated to all four components).
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __lvlx(const void *base, int offset);
+__vector4 __vspltw(__vector4 v, unsigned int i);
+__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
 
-void fn_8306ED58(void)
-
+static __forceinline __vector4 Replicate(float value)
 {
-  unsigned char in_vs32 [16];
-  unsigned char in_vs33 [16];
-  unsigned char in_vs34 [16];
-  unsigned char in_vs43 [16];
-  
-  altv300_21(in_vs32,in_vs43);
-  vectorMultiplyAddFloatingPoint(in_vs34,in_vs32,in_vs33);
-  return;
+    __vector4 v = __lvlx(&value, 0);
+    return __vspltw(v, 0);
 }
 
+__vector4 fn_8306ED58(__vector4 a, __vector4 b, float scale)
+{
+    return __vmaddfp(b, Replicate(scale), a);
+}

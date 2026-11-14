@@ -1,39 +1,62 @@
-#define true 1
-#define CONCAT13(h,l) ((unsigned int)((((unsigned char)(h)) << 24) | ((unsigned int)(l))))
-extern int fn_83031460();
-extern unsigned int uStack_18;
+typedef struct Value_83030780 {
+    int a;
+    int b;
+    unsigned char mode : 3;
+    unsigned char flag : 1;
+    unsigned char other : 1;
+    unsigned char rest : 3;
+} Value_83030780;
 
+typedef struct Pair_83030780 {
+    unsigned int key;
+    Value_83030780 value;
+} Pair_83030780;
 
-unsigned __int64 fn_83030780(int param_1,int param_2,unsigned __int64 param_3)
+typedef struct Node_83030780 {
+    struct Node_83030780 *next;
+    Pair_83030780 pair;
+} Node_83030780;
 
+typedef struct List_83030780 {
+    Node_83030780 *head;
+} List_83030780;
+
+typedef struct Object_83030780 {
+    char pad[0xe4];
+    List_83030780 list;
+} Object_83030780;
+
+extern Value_83030780 *fn_83031460(List_83030780 *l, unsigned int key, Value_83030780 value);
+
+static __forceinline Value_83030780 *List_find(List_83030780 *l, unsigned int key)
 {
-  unsigned int *puVar1;
-  int iVar3;
-  unsigned __int64 uVar2;
-  unsigned int uStack_18;
-  
-  puVar1 = *(unsigned int **)(param_1 + 0xe4);
-  do {
-    if (puVar1 == (unsigned int *)0x0) {
-LAB_830307b4:
-      uStack_18 = CONCAT13((((unsigned __int64)(uStack_18) >> 0) & 0xFF) & 7 | (unsigned char)((param_3 & 0xffffffff) << 5),(((unsigned __int64)(uStack_18) >> 8) & 0xFFFFFF)
-                          );
-      iVar3 = fn_83031460((unsigned int *)(param_1 + 0xe4),param_2,0,
-                                (unsigned __int64)uStack_18 << 0x20);
-      uVar2 = 2;
-      if (iVar3 != 0) {
-        uVar2 = 1;
-      }
-      return uVar2;
+    Node_83030780 *n;
+
+    for (n = l->head; n != 0; n = n->next) {
+        if (n->pair.key == key) {
+            return &n->pair.value;
+        }
     }
-    if (puVar1[1] == param_2) {
-      if (puVar1 != (unsigned int *)0xfffffff8) {
-        *(unsigned char *)(puVar1 + 4) = (unsigned char)((param_3 & 0xffffffff) << 5) | *(unsigned char *)(puVar1 + 4) & 0x1f;
-        return 1;
-      }
-      goto LAB_830307b4;
-    }
-    puVar1 = (unsigned int *)*puVar1;
-  } while( true );
+    return 0;
 }
 
+__int64 fn_83030780(Object_83030780 *self, unsigned int key, unsigned int mode)
+{
+    Value_83030780 *v;
+    Value_83030780 value;
+
+    v = List_find(&self->list, key);
+    if (v != 0) {
+        v->mode = mode;
+        return 1;
+    }
+    value.b = 0;
+    value.a = 0;
+    value.other = 0;
+    value.flag = 0;
+    value.mode = mode;
+    if (fn_83031460(&self->list, key, value) == 0) {
+        return 2;
+    }
+    return 1;
+}

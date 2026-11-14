@@ -1,21 +1,18 @@
-extern int fn_82F68B6C();
-extern unsigned int lbl_8322B224;
+typedef struct Mgr_82BE8A38 {
+    char pad[0x58];
+    int state;
+} Mgr_82BE8A38;
 
+extern Mgr_82BE8A38 *lbl_8322B224;
+extern int fn_82BED938(Mgr_82BE8A38 *mgr, void *item);
 
-unsigned __int64 fn_82BE8A38(unsigned __int64 param_1)
-
+int fn_82BE8A38(char *obj)
 {
-  unsigned __int64 uVar1;
-  __int64 lVar2;
-  
-  if ((lbl_8322B224 != 0) && (*(int *)(lbl_8322B224 + 0x58) == 2)) {
-    lVar2 = param_1 + 0x2c;
-    if ((param_1 & 0xffffffff) == 0) {
-      lVar2 = 0;
+    if (lbl_8322B224 == 0) {
+        return 0;
     }
-    uVar1 = fn_82F68B6C(lbl_8322B224,lVar2);
-    return uVar1;
-  }
-  return 0;
+    if (lbl_8322B224->state != 2) {
+        return 0;
+    }
+    return fn_82BED938(lbl_8322B224, obj != 0 ? obj + 0x2c : 0);
 }
-

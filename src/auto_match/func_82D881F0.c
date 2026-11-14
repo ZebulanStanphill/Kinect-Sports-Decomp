@@ -1,97 +1,170 @@
-#define TBLr 0
-extern unsigned int *auStack_464;
-extern unsigned int *auStack_490;
-extern unsigned int *auStack_4a0;
-extern int fn_82CE5410();
-extern unsigned int lbl_8202CF7C;
-extern unsigned int lbl_821AAD20;
+/* hkpWorld::getPenetrations(const hkpCollidable *collA, const hkpCollisionInput &input,
+   hkpCdBodyPairCollector &collector) (Physics/Dynamics/World/hkpWorld.cpp). */
+extern unsigned __int64 __mftb();
+typedef struct { const char *name; unsigned time; int pad; const char *name2; } TimerEntryA;
+typedef struct { const char *name; unsigned time, pad; } TimerEntryB;
+typedef struct { void *pad; char *current; void *pad2; char *end; } TimerStream;
+extern TimerStream *KeTlsGetValue(unsigned int);
 extern unsigned int lbl_8323B4A0;
-extern unsigned int uStack_468;
-extern unsigned int uStack_46c;
 
+struct Al_82D881F0;
+typedef struct {
+    void *p0;
+    void *p4;
+    void *p8;
+    void *pc;
+    void (*f10)(struct Al_82D881F0 *, void *, unsigned, int);
+} AlVt_82D881F0;
+typedef struct Al_82D881F0 { AlVt_82D881F0 *vt; } Al_82D881F0;
+typedef struct { char pad[0x10]; Al_82D881F0 *al; } Heap_82D881F0;
+extern Heap_82D881F0 *fn_82CE5410(void);
 
-void fn_82D881F0(int param_1,int *param_2,int *param_3,int param_4)
+typedef struct { float min[4]; float max[4]; } Aabb_82D881F0;
 
+double __fsel(double a, double b, double c);
+static __forceinline float max2(float x, float y) { return (float)__fsel(x - y, x, y); }
+
+struct Shape_82D881F0;
+typedef struct {
+    void *slots[7];
+    void (*getAabb)(struct Shape_82D881F0 *, const void *transform, float tolerance, Aabb_82D881F0 *out);   /* +0x1c */
+} ShapeVt_82D881F0;
+typedef struct Shape_82D881F0 {
+    ShapeVt_82D881F0 *vt;
+    int pad4[2];
+    unsigned int type;   /* +0xc */
+} Shape_82D881F0;
+
+typedef struct Collidable_82D881F0 {
+    Shape_82D881F0 *shape;   /* +0x0 */
+    int shapeKey;            /* +0x4 */
+    const void *motion;      /* +0x8 */
+} Collidable_82D881F0;
+
+typedef struct Handle_82D881F0 {
+    int id;
+    char type;
+    signed char ownerOffset;   /* +0x5 */
+} Handle_82D881F0;
+
+typedef struct { Handle_82D881F0 *a; Handle_82D881F0 *b; } HandlePair_82D881F0;
+
+typedef struct {
+    HandlePair_82D881F0 *data;
+    int size;
+    int capacityAndFlags;
+    HandlePair_82D881F0 storage[128];
+} HitArray_82D881F0;
+
+struct BroadPhase_82D881F0;
+typedef struct {
+    void *slots[17];
+    void (*querySingleAabb)(struct BroadPhase_82D881F0 *, const Aabb_82D881F0 *, HitArray_82D881F0 *);   /* +0x44 */
+} BroadPhaseVt_82D881F0;
+typedef struct BroadPhase_82D881F0 { BroadPhaseVt_82D881F0 *vt; } BroadPhase_82D881F0;
+
+struct Filter_82D881F0;
+typedef struct {
+    void *p0;
+    unsigned char *(*isCollisionEnabled)(unsigned char *result, struct Filter_82D881F0 *,
+                                         const Collidable_82D881F0 *, const Collidable_82D881F0 *);   /* +0x4 */
+} FilterVt_82D881F0;
+typedef struct Filter_82D881F0 { FilterVt_82D881F0 *vt; } Filter_82D881F0;
+typedef struct { char pad[8]; Filter_82D881F0 collidableFilter; } CollisionFilter_82D881F0;
+
+typedef struct { char pad[4]; unsigned char earlyOut; } Collector_82D881F0;
+typedef void (*GetPenetrationsFunc_82D881F0)(const Collidable_82D881F0 *, const Collidable_82D881F0 *,
+                                             const void *input, Collector_82D881F0 *collector);
+typedef struct {
+    GetPenetrationsFunc_82D881F0 getPenetrations;
+    void *other[4];
+} AgentFuncs_82D881F0;
+typedef struct {
+    char pad0[0x1a0];
+    unsigned char agent2Types[32][32];       /* +0x1a0 */
+    char pad5a0[0x9a4 - 0x5a0];
+    AgentFuncs_82D881F0 agent2Func[1];       /* +0x9a4 */
+} Dispatcher_82D881F0;
+
+typedef struct {
+    Dispatcher_82D881F0 *dispatcher;   /* +0x0 */
+    int pad4;
+    float tolerance;                   /* +0x8 */
+} CollisionInput_82D881F0;
+
+typedef struct { char pad[8]; float extent; } Quality_82D881F0;
+
+typedef struct World_82D881F0 {
+    char pad0[0x58];
+    BroadPhase_82D881F0 *broadPhase;            /* +0x58 */
+    char pad5c[0x78 - 0x5c];
+    Quality_82D881F0 *quality;                  /* +0x78 */
+    CollisionFilter_82D881F0 *collisionFilter;  /* +0x7c */
+} World_82D881F0;
+
+void fn_82D881F0(World_82D881F0 *self, const Collidable_82D881F0 *collA, const CollisionInput_82D881F0 *input,
+                 Collector_82D881F0 *collector)
 {
-  unsigned int *puVar1;
-  unsigned __int64 uVar2;
-  unsigned char *puVar3;
-  int iVar4;
-  int iVar5;
-  char *pcVar6;
-  __int64 lVar7;
-  int *piVar8;
-  int *piVar9;
-  double dVar10;
-  double dVar11;
-  unsigned char auStack_4a0 [16];
-  unsigned char auStack_490 [32];
-  unsigned char *puStack_470;
-  unsigned int uStack_46c;
-  unsigned int uStack_468;
-  unsigned char auStack_464 [1076];
-  
-  iVar4 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(unsigned int **)(iVar4 + 4);
-  if (puVar1 < *(unsigned int **)(iVar4 + 0xc)) {
-    *puVar1 = "LthkpWorld::getPenetrations";
-    puVar1[3] = "Stbroadphase";
-    uVar2 = TBLr;
-    puVar1[1] = (int)uVar2;
-    *(unsigned int **)(iVar4 + 4) = puVar1 + 4;
-  }
-  dVar11 = -(double)(*(float *)(*(int *)(param_1 + 0x78) + 8) * 0.5f - (float)param_3[2]);
-  dVar10 = (double)lbl_821AAD20;
-  if (-dVar11 < 0.0) {
-    dVar10 = dVar11;
-  }
-  (**(int (***)())(*(int *)*param_2 + 0x1c))(dVar10,(int *)*param_2,param_2[2]);
-  puStack_470 = auStack_464;
-  uStack_468 = 0x80000080;
-  uStack_46c = 0;
-  (**(int (***)())(**(int **)(param_1 + 0x58) + 0x44))
-            (*(int **)(param_1 + 0x58),auStack_490,&puStack_470);
-  puVar3 = puStack_470;
-  iVar4 = *(int *)(*param_2 + 0xc);
-  iVar5 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(unsigned int **)(iVar5 + 4);
-  if (puVar1 < *(unsigned int **)(iVar5 + 0xc)) {
-    *puVar1 = "Stnarrowphase";
-    uVar2 = TBLr;
-    puVar1[1] = (int)uVar2;
-    *(unsigned int **)(iVar5 + 4) = puVar1 + 3;
-  }
-  lVar7 = (unsigned __int64)uStack_46c - 1;
-  if (-1 < lVar7) {
-    piVar8 = (int *)(puVar3 + 4);
-    do {
-      piVar9 = (int *)((int)*(char *)(*piVar8 + 5) + *piVar8);
-      if (((param_2 != piVar9) &&
-          (pcVar6 = (char *)(**(int (***)())(*(int *)(*(int *)(param_1 + 0x7c) + 8) + 4))
-                                      (auStack_4a0,*(int *)(param_1 + 0x7c) + 8,param_2,piVar9),
-          *pcVar6 != '\0')) && (*piVar9 != 0)) {
-        (**(int (***)())((unsigned int)*(unsigned char *)((iVar4 + 0xd) * 0x20 + *(int *)(*piVar9 + 0xc) + *param_3) *
-                     0x14 + *param_3 + 0x9a4))(param_2,piVar9,param_3,param_4);
-        if (*(char *)(param_4 + 4) != '\0') break;
-      }
-      lVar7 = lVar7 + -1;
-      piVar8 = piVar8 + 2;
-    } while (-1 < lVar7);
-  }
-  iVar4 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(unsigned int **)(iVar4 + 4);
-  if (puVar1 < *(unsigned int **)(iVar4 + 0xc)) {
-    *puVar1 = &lbl_8202CF7C;
-    uVar2 = TBLr;
-    puVar1[1] = (int)uVar2;
-    *(unsigned int **)(iVar4 + 4) = puVar1 + 3;
-  }
-  iVar4 = fn_82CE5410();
-  uStack_46c = 0;
-  if ((uStack_468 & 0x80000000) == 0) {
-    (**(int (***)())(**(int **)(iVar4 + 0x10) + 0x10))
-              (*(int **)(iVar4 + 0x10),puStack_470,uStack_468 & 0x3fffffff,8);
-  }
-  return;
-}
+    TimerStream *s;
+    TimerEntryA *ea;
+    TimerEntryB *eb;
+    Aabb_82D881F0 aabb;
+    HitArray_82D881F0 hits;
+    HandlePair_82D881F0 *p;
+    unsigned int typeA;
+    int i;
+    Al_82D881F0 *al;
 
+    s = KeTlsGetValue(lbl_8323B4A0);
+    if (s->current < s->end) {
+        ea = (TimerEntryA *)s->current;
+        ea->name = "LthkpWorld::getPenetrations";
+        ea->name2 = "Stbroadphase";
+        ea->time = (unsigned)__mftb();
+        s->current = (char *)(ea + 1);
+    }
+    collA->shape->vt->getAabb(collA->shape, collA->motion, max2(0.0f, input->tolerance - self->quality->extent * 0.5f), &aabb);
+    hits.data = hits.storage;
+    hits.size = 0;
+    hits.capacityAndFlags = 0x80000080;
+    self->broadPhase->vt->querySingleAabb(self->broadPhase, &aabb, &hits);
+    p = hits.data;
+    typeA = collA->shape->type;
+    s = KeTlsGetValue(lbl_8323B4A0);
+    if (s->current < s->end) {
+        eb = (TimerEntryB *)s->current;
+        eb->name = "Stnarrowphase";
+        eb->time = (unsigned)__mftb();
+        s->current = (char *)(eb + 1);
+    }
+    for (i = hits.size - 1; i >= 0; p++, i--) {
+        const Collidable_82D881F0 *collB =
+            (const Collidable_82D881F0 *)((char *)p->b + p->b->ownerOffset);
+        unsigned char enabled;
+        Filter_82D881F0 *filter;
+        if (collA == collB)
+            continue;
+        filter = &self->collisionFilter->collidableFilter;
+        if (*filter->vt->isCollisionEnabled(&enabled, filter, collA, collB) == 0)
+            continue;
+        if (collB->shape == 0)
+            continue;
+        {
+            Dispatcher_82D881F0 *d = input->dispatcher;
+            d->agent2Func[d->agent2Types[typeA][collB->shape->type]].getPenetrations(collA, collB, input, collector);
+            if (collector->earlyOut)
+                break;
+        }
+    }
+    s = KeTlsGetValue(lbl_8323B4A0);
+    if (s->current < s->end) {
+        eb = (TimerEntryB *)s->current;
+        eb->name = "lt";
+        eb->time = (unsigned)__mftb();
+        s->current = (char *)(eb + 1);
+    }
+    al = fn_82CE5410()->al;
+    hits.size = 0;
+    if ((hits.capacityAndFlags & (int)0x80000000) == 0)
+        al->vt->f10(al, hits.data, hits.capacityAndFlags & 0x3fffffff, 8);
+}

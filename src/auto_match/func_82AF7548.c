@@ -1,15 +1,19 @@
-unsigned __int64 fn_82AF7548(int param_1)
+typedef struct Link_82AF7548 {
+    unsigned int prev;
+    unsigned int next;
+} Link_82AF7548;
 
+typedef struct List_82AF7548 {
+    int unk0;
+    unsigned int head;
+    void *begin;
+    void *end;
+} List_82AF7548;
+
+unsigned char fn_82AF7548(List_82AF7548 *self)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  
-  uVar1 = *(unsigned int *)((-(unsigned int)((*(unsigned int *)(param_1 + 4) & 1) == 0) & *(unsigned int *)(param_1 + 4) &
-                    0xfffffffe) + 4);
-  if ((((uVar1 & 1) == 0) && (uVar1 != 0)) ||
-     (uVar2 = 1, *(int *)(param_1 + 8) != *(int *)(param_1 + 0xc))) {
-    uVar2 = 0;
-  }
-  return uVar2;
+    unsigned int head = self->head;
+    Link_82AF7548 *first = (Link_82AF7548 *)(((head & 1) == 0 ? head : 0) & ~1u);
+    unsigned int next = first->next;
+    return ((next & 1) != 0 || next == 0) && self->begin == self->end;
 }
-

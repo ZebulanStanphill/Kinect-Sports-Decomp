@@ -1,32 +1,18 @@
-extern int fn_82522838();
-extern int fn_82522A48();
-extern int fn_8280A620();
-extern int fn_82A1F198();
-extern unsigned int lbl_832767CC;
-extern unsigned int lbl_83297844;
+typedef struct Heap_825227E0 {
+    int type;
+    int f4;
+    int f8;
+    int fC;
+    int align;
+} Heap_825227E0;
 
+extern void *fn_82522D98(unsigned int size);
+extern void *fn_82549798(unsigned int size, int align, int flags, int extra);
 
-void fn_825227E0(unsigned __int64 param_1,unsigned __int64 param_2,int *param_3)
-
+void *fn_825227E0(void *self, unsigned int size, Heap_825227E0 *heap)
 {
-  unsigned __int64 in_r0;
-  unsigned __int64 uVar1;
-  
-  if (*param_3 == 0) {
-    if (lbl_832767CC == 0) {
-      fn_82522838();
-      if (lbl_832767CC == 0) {
-        fn_82522838();
-      }
+    if (heap->type == 0) {
+        return fn_82522D98(size);
     }
-    fn_82522A48(lbl_832767CC,param_2);
-    return;
-  }
-  if ((lbl_83297844 != 0) && ((unsigned __int64)lbl_83297844 == (param_2 & 0xffffffff))) {
-    trapWord(0x1f,in_r0,0x16);
-  }
-  uVar1 = fn_8280A620(param_3[4],param_3[4],4,0);
-  fn_82A1F198(param_2,0xffffffffffffffff,uVar1,4);
-  return;
+    return fn_82549798(size, heap->align, 4, 0);
 }
-

@@ -1,23 +1,17 @@
-__int64 fn_82AE51F8(__int64 param_1,unsigned __int64 param_2)
+typedef struct BitSet_82AE51F8 {
+    unsigned __int64 words[4];
+} BitSet_82AE51F8;
 
+unsigned int fn_82AE51F8(BitSet_82AE51F8 *set, unsigned int start)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  
-  uVar2 = (param_2 & 0xffffffff) >> 6;
-  uVar1 = -1L << (param_2 & 0x3f);
-  if (uVar2 < 4) {
-    param_1 = uVar2 * 8 + param_1;
-    do {
-      uVar1 = uVar1 & ~*(unsigned __int64 *)param_1;
-      if (uVar1 != 0) {
-        return ((uVar2 & 0x3ffffff) * 0x40 - LZCOUNT(uVar1 & ~(uVar1 - 1))) + 0x3f;
-      }
-      uVar2 = uVar2 + 1;
-      uVar1 = 0xffffffffffffffff;
-      param_1 = param_1 + 8;
-    } while ((uVar2 & 0xffffffff) < 4);
-  }
-  return -1;
+    unsigned __int64 mask = ~0ULL << (start & 63);
+    unsigned int i;
+    for (i = start >> 6; i < 4; i++) {
+        unsigned __int64 x = ~set->words[i] & mask;
+        if (x != 0) {
+            return i * 64 + 63 - _CountLeadingZeros64(x & ~(x - 1));
+        }
+        mask = ~0ULL;
+    }
+    return 0xffffffff;
 }
-

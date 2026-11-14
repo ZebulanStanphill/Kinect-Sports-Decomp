@@ -1,45 +1,19 @@
-extern int fn_82F68B58();
-extern unsigned int lbl_8320A898;
+typedef struct Binding_828389E0 {
+    char pad0[0x1c];
+    unsigned int type;      /* 0x1c */
+    char pad20[0x14];
+    void *data;             /* 0x34 */
+} Binding_828389E0;
 
+extern void *lbl_8320A898;
+extern void fn_8263CBB0(void *device, unsigned int reg, void *value, unsigned __int64 mask);
+extern void fn_82838650(Binding_828389E0 *self, unsigned int reg);
 
-void fn_828389E0(int param_1,__int64 param_2,int param_3)
-
+void fn_828389E0(Binding_828389E0 *self, unsigned int reg, int index)
 {
-  int iVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  
-  if (*(int *)(param_1 + 0x1c) == 4) {
-    uVar3 = 0x8000000000000000 >> (param_2 + 0x20U & 0x7f);
-    uVar2 = *(unsigned int *)(*(int *)(param_1 + 0x34) + param_3 * 4);
-  }
-  else {
-    iVar1 = *(int *)(param_1 + 0x1c);
-    if (iVar1 == 0) {
-      uVar2 = *(unsigned int *)(param_1 + 0x34);
-      uVar3 = 0x8000000000000000 >> (param_2 + 0x20U & 0x7f);
-    }
-    else if (iVar1 == 2) {
-      uVar2 = *(unsigned int *)(param_1 + 0x34);
-      uVar3 = 0x8000000000000000 >> (param_2 + 0x20U & 0x7f);
-    }
-    else if (iVar1 == 3) {
-      uVar2 = *(unsigned int *)(param_1 + 0x34);
-      uVar3 = 0x8000000000000000 >> (param_2 + 0x20U & 0x7f);
-    }
-    else if (iVar1 == 4) {
-      uVar2 = **(unsigned int **)(param_1 + 0x34);
-      uVar3 = 0x8000000000000000 >> (param_2 + 0x20U & 0x7f);
-    }
-    else {
-      if (iVar1 != 5) {
+    if (self->type == 4) {
+        fn_8263CBB0(lbl_8320A898, reg, ((void **)self->data)[index], 0x8000000000000000ULL >> (reg + 32));
         return;
-      }
-      uVar2 = *(unsigned int *)(param_1 + 0x34);
-      uVar3 = 0x8000000000000000 >> (param_2 + 0x20U & 0x7f);
     }
-  }
-  fn_82F68B58(lbl_8320A898,param_2,uVar2,uVar3);
-  return;
+    fn_82838650(self, reg);
 }
-

@@ -1,25 +1,30 @@
-unsigned int fn_8227C0A8(int param_1)
+typedef struct State_8227C0A8 {
+    char pad[0xa6c];
+    int a;
+    int b;
+    int c;
+    char pad2[0xa84 - 0xa78];
+    int mode;
+} State_8227C0A8;
 
+int fn_8227C0A8(State_8227C0A8 *self)
 {
-  int iVar1;
-  
-  iVar1 = *(int *)(param_1 + 0xa84);
-  if (iVar1 != 1) {
-    if (iVar1 == 3) {
-      if ((*(int *)(param_1 + 0xa6c) != 0) &&
-         ((*(int *)(param_1 + 0xa70) != 0 || (*(int *)(param_1 + 0xa74) != 0)))) {
-        return 1;
-      }
+    switch (self->mode) {
+    case 1:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+        return self->a;
+    case 3:
+        if (self->a != 0 && (self->b != 0 || self->c != 0)) {
+            return 1;
+        }
+        return 0;
+    case 15:
+        return self->c;
+    default:
+        return 0;
     }
-    else if (3 < iVar1) {
-      if (iVar1 < 9) goto LAB_8227c10c;
-      if (iVar1 == 0xf) {
-        return *(unsigned int *)(param_1 + 0xa74);
-      }
-    }
-    return 0;
-  }
-LAB_8227c10c:
-  return *(unsigned int *)(param_1 + 0xa6c);
 }
-

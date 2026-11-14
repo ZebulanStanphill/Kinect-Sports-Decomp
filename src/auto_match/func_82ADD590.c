@@ -1,8 +1,10 @@
-unsigned __int64 fn_82ADD590(int param_1,unsigned int param_2)
+typedef struct Self_82ADD590 {
+    char pad[0x2b4];
+    unsigned __int64 *bits;     /* 0x2b4: 2 bits per entry */
+} Self_82ADD590;
 
+unsigned int fn_82ADD590(Self_82ADD590 *self, unsigned int index)
 {
-  return *(unsigned __int64 *)((param_2 >> 2 & 0x1ffffff8) + *(int *)(param_1 + 0x2b4)) >>
-         (((unsigned __int64)param_2 & 0x7fffffff) * 2 + ((unsigned __int64)param_2 & 0x7fffffe0) * -2 & 0x7f) & 3
-  ;
+    unsigned int bit = index * 2;
+    return (unsigned int)(self->bits[bit / 64] >> (bit - (bit / 64) * 64)) & 3;
 }
-

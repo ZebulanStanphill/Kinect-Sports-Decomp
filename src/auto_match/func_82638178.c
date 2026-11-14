@@ -1,9 +1,11 @@
-extern float lbl_82195668;
+extern float lbl_821954B0[];
 
-
-float fn_82638178(int param_1)
-
+unsigned int fn_82638178(char *self)
 {
-  return (float)*(unsigned short *)(param_1 + 0x296e) * lbl_82195668;
+    union {
+        float f;
+        unsigned int u;
+    } x;
+    x.f = (float)*(unsigned short *)(self + 0x296e) * lbl_821954B0[0x6e];
+    return x.u;
 }
-

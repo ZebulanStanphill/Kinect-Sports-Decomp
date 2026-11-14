@@ -1,27 +1,23 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
+typedef struct Link_82237E40 {
+  struct Link_82237E40 *next;
+  int prev;
+} Link_82237E40;
 
-
-bool fn_82237E40(int *param_1)
-
+int fn_82237E40(Link_82237E40 *self)
 {
-  int *piVar1;
-  unsigned int *puVar2;
-  
-  piVar1 = (int *)*param_1;
-  if (piVar1 != param_1) {
-    if ((int *)*piVar1 != param_1) {
-      return false;
-    }
-    puVar2 = (unsigned int *)param_1[1];
-    if (puVar2 == (unsigned int *)0x0) {
-      return false;
-    }
-    if (piVar1 != puVar2) {
-      return (int *)*puVar2 != param_1;
+  int r = 0;
+  Link_82237E40 *next = self->next;
+  int prev;
+  if (next == self)
+    return 1;
+  if (next->next == self) {
+    prev = self->prev;
+    if (prev != 0) {
+      if (((Link_82237E40 *)prev)->next != self)
+        r = 1;
+      if ((int)next == prev)
+        return 1;
     }
   }
-  return true;
+  return r;
 }
-

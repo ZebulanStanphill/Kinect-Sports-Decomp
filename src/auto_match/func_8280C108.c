@@ -1,14 +1,6 @@
-double fn_8280C108(double param_1,double param_2,double param_3,double param_4,double param_5,
-                    double param_6,double param_7,double param_8,double param_9)
-
+float fn_8280C108(float m00, float m01, float m02, float m10, float m11, float m12,
+                  float m20, float m21, float m22)
 {
-  return (double)(float)((double)(float)(param_2 * param_6 - (double)(float)(param_3 * param_5)) *
-                         param_7 +
-                        (double)(float)((double)(float)(param_5 * param_9 -
-                                                       (double)(float)(param_6 * param_8)) * param_1
-                                       - (double)(float)((double)(float)(param_2 * param_9 -
-                                                                        (double)(float)(param_3 *
-                                                                                       param_8)) *
-                                                        param_4)));
+    return (m01 * m12 - m02 * m11) * m20
+         + ((m11 * m22 - m12 * m21) * m00 - (m01 * m22 - m02 * m21) * m10);
 }
-

@@ -1,21 +1,12 @@
-extern int fn_82F63DC0();
-extern unsigned int lbl_83296E14;
+extern void *lbl_83296E18[6];
+extern void fn_8313F6D8(void);
+extern int atexit(void (*func)(void));
 
-
-__int64 fn_83125288(void)
-
+void fn_83125288(void)
 {
-  unsigned int *puVar1;
-  __int64 lVar2;
-  
-  puVar1 = &lbl_83296E14;
-  lVar2 = 6;
-  do {
-    puVar1 = puVar1 + 1;
-    *puVar1 = 0;
-    lVar2 = lVar2 + -1;
-  } while (lVar2 != 0);
-  lVar2 = fn_82F63DC0(0xffffffff8313f6d8);
-  return -(unsigned __int64)(lVar2 == 0);
+    int i;
+    for (i = 0; i < 6; i++) {
+        lbl_83296E18[i] = 0;
+    }
+    atexit(fn_8313F6D8);
 }
-

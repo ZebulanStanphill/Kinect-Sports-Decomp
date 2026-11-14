@@ -1,43 +1,29 @@
-extern unsigned int *auStack_20;
-extern int fn_822AF200();
+typedef struct State_824C3460 {
+    char pad0[0x5c];
+    void *pending;          /* 0x5c */
+    unsigned __int64 time;  /* 0x60 */
+    int busy;               /* 0x68 */
+} State_824C3460;
 
+typedef struct Self_824C3460 {
+    void *vt;
+    State_824C3460 *state;
+} Self_824C3460;
 
-unsigned int fn_824C3460(int param_1)
+extern int fn_824C04E0(State_824C3460 *state, int next);
 
+void fn_824C3460(Self_824C3460 *self)
 {
-  int *piVar1;
-  unsigned int uVar2;
-  char cVar3;
-  unsigned int uVar4;
-  unsigned int auStack_20 [2];
-  
-  uVar2 = *(unsigned int *)(param_1 + 4);
-  if (*(int *)(uVar2 + 0x68) == 0) {
-    if (*(int *)(uVar2 + 0x5c) == 0) {
-      return uVar2;
-    }
-    if (*(__int64 *)(uVar2 + 0x60) == 0) {
-      uVar4 = 5;
-    }
-    else {
-      uVar4 = 2;
-    }
-  }
-  else {
-    uVar4 = 4;
-  }
-  auStack_20[0] = 0;
-  fn_822AF200(uVar2 + 0x40,auStack_20);
-  piVar1 = *(int **)(*(int *)(uVar2 + 0x3c) + 8);
-  if (piVar1 == (int *)0x0) {
-    cVar3 = '\x01';
-  }
-  else {
-    cVar3 = (**(int (***)())(*piVar1 + 8))(piVar1,uVar4);
-  }
-  if (cVar3 != '\0') {
-    *(unsigned int *)(uVar2 + 0x18) = uVar4;
-  }
-  return (unsigned int)(cVar3 != '\0');
-}
+    State_824C3460 *s = self->state;
 
+    if (s->busy != 0) {
+        fn_824C04E0(s, 4);
+        return;
+    }
+    if (s->pending == 0)
+        return;
+    if (s->time == 0)
+        fn_824C04E0(s, 5);
+    else
+        fn_824C04E0(s, 2);
+}

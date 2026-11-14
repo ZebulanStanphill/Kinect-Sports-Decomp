@@ -1,12 +1,20 @@
-void fn_82BE5320(int *param_1,int param_2)
+typedef struct Node_82BE5320 {
+    struct Node_82BE5320 *next;
+    int pad4;
+    unsigned int key;           /* 0x8 */
+} Node_82BE5320;
 
+typedef struct List_82BE5320 {
+    Node_82BE5320 *head;
+} List_82BE5320;
+
+Node_82BE5320 *fn_82BE5320(List_82BE5320 *list, unsigned int key)
 {
-  do {
-    param_1 = (int *)*param_1;
-    if (param_1 == (int *)0x0) {
-      return;
+    Node_82BE5320 *n = list->head;
+    while (n) {
+        if (n->key == key)
+            return n;
+        n = n->next;
     }
-  } while (param_1[2] != param_2);
-  return;
+    return n;
 }
-

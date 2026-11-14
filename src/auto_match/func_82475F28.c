@@ -1,14 +1,20 @@
-extern int fn_82F68B70();
+typedef struct Sub_82475F28 {
+    char pad[0xa4];
+    int value;
+} Sub_82475F28;
 
+typedef struct Obj_82475F28 {
+    char pad[0x10];
+    Sub_82475F28 sub;
+} Obj_82475F28;
 
-void fn_82475F28(int param_1,unsigned __int64 param_2,int param_3)
+extern void fn_82474840(Sub_82475F28 *sub, float dt);
 
+void fn_82475F28(Obj_82475F28 *self, float dt, int value)
 {
-  *(int *)(param_1 + 0xb4) = param_3;
-  if (param_3 == 0) {
-    return;
-  }
-  fn_82F68B70();
-  return;
+    Sub_82475F28 *sub = &self->sub;
+    sub->value = value;
+    if (value != 0) {
+        fn_82474840(sub, dt);
+    }
 }
-

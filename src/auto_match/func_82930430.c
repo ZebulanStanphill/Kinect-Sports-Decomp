@@ -1,14 +1,12 @@
-unsigned __int64 fn_82930430(unsigned int *param_1,int param_2)
+typedef struct Iface_82930430 Iface_82930430;
+typedef struct Vtbl_82930430 {
+  int (*check)(Iface_82930430 *self, int value);
+} Vtbl_82930430;
+struct Iface_82930430 { Vtbl_82930430 *vt; };
 
+int fn_82930430(Iface_82930430 *obj, int value)
 {
-  unsigned __int64 uVar1;
-  
-  if (param_1 != (unsigned int *)0x0) {
-                    /* WARNING: Could not recover jumptable at 0x82930444. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-    uVar1 = (**(int (***)())*param_1)();
-    return uVar1;
-  }
-  return (unsigned __int64)(param_2 == 0);
+  if (obj != 0)
+    return obj->vt->check(obj, value);
+  return 0 == value;
 }
-

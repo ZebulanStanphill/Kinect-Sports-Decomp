@@ -1,18 +1,26 @@
-__int64 fn_82607BE8(__int64 param_1,unsigned int param_2)
+typedef struct Slot_82607BE8 {
+  char data[0x14];
+} Slot_82607BE8;
 
+typedef struct Obj_82607BE8 {
+  char pad0[0x260];
+  Slot_82607BE8 slot0;
+  Slot_82607BE8 slot1;
+  Slot_82607BE8 slot2;
+  Slot_82607BE8 slot3;
+} Obj_82607BE8;
+
+Slot_82607BE8 *fn_82607BE8(Obj_82607BE8 *self, unsigned int which)
 {
-  if (param_2 == 0) {
-    return param_1 + 0x260;
+  switch (which) {
+  case 0:
+    return &self->slot0;
+  case 1:
+    return &self->slot1;
+  case 2:
+    return &self->slot2;
+  case 3:
+    return &self->slot3;
   }
-  if (param_2 == 1) {
-    return param_1 + 0x274;
-  }
-  if (param_2 < 3) {
-    return param_1 + 0x288;
-  }
-  if (param_2 != 3) {
-    return 0;
-  }
-  return param_1 + 0x29c;
+  return 0;
 }
-

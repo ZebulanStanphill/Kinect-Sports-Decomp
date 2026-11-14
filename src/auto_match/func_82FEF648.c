@@ -1,18 +1,16 @@
-extern int fn_82F68B7C();
+typedef struct Obj_82FEF648 {
+  char pad0[0x68];
+  void *target;
+} Obj_82FEF648;
 
+extern int fn_83000748(void *target, void *item, int a, int b);
 
-unsigned __int64 fn_82FEF648(int param_1,int param_2)
-
+int fn_82FEF648(Obj_82FEF648 *self, void *item)
 {
-  unsigned __int64 uVar1;
-  
-  if (param_2 == 0) {
+  int r = 0;
+  if (item == 0)
     return 1;
-  }
-  if (*(int *)(param_1 + 0x68) == 0) {
-    return 0;
-  }
-  uVar1 = fn_82F68B7C(*(int *)(param_1 + 0x68),param_2,0,0);
-  return uVar1;
+  if (self->target != 0)
+    r = fn_83000748(self->target, item, 0, 0);
+  return r;
 }
-

@@ -1,15 +1,12 @@
-void fn_82706A50(int param_1,char param_2)
+typedef struct Obj_82706A50 {
+    char pad[0xb00];
+    unsigned int flags;
+} Obj_82706A50;
 
+void fn_82706A50(Obj_82706A50 *self, unsigned char enable)
 {
-  unsigned int uVar1;
-  
-  if (param_2 == '\0') {
-    uVar1 = *(unsigned int *)(param_1 + 0xb00) & 0xfffffffb;
-  }
-  else {
-    uVar1 = *(unsigned int *)(param_1 + 0xb00) | 4;
-  }
-  *(unsigned int *)(param_1 + 0xb00) = uVar1;
-  return;
+    if (enable)
+        self->flags |= 4;
+    else
+        self->flags &= ~4;
 }
-

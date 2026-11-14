@@ -1,45 +1,22 @@
-typedef unsigned char bool;
-#define true 1
-extern unsigned __int64 storeWordConditionalIndexed();
+long _InterlockedCompareExchange(long volatile *dest, long exchange, long comparand);
 
+typedef struct RefCountBase_8289DDD0 {
+  void *vt;
+  long uses;
+  long weaks;
+} RefCountBase_8289DDD0;
 
-unsigned __int64 fn_8289DDD0(__int64 param_1)
-
+/* std::tr1::_Ref_count_base::_Incref_nz: take a use count unless it is already zero
+   (weak_ptr::lock). */
+unsigned char fn_8289DDD0(RefCountBase_8289DDD0 *self)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned int *puVar4;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  uVar2 = *(unsigned int *)((int)param_1 + 4);
-  param_1 = param_1 + 4;
-  do {
-    if (uVar2 == 0) {
+  for (;;) {
+    long count = *(volatile long *)&self->uses;
+    if (count == 0) {
       return 0;
     }
-    do {
-      puVar4 = (unsigned int *)param_1;
-      uVar1 = *puVar4;
-      if (uVar1 != uVar2) {
-        if (in_RESERVE != '\0') {
-          uVar3 = storeWordConditionalIndexed((unsigned __int64)uVar1,0,param_1);
-          *puVar4 = uVar3;
-          in_cr0 = 2;
-        }
-        break;
-      }
-      if (in_RESERVE != '\0') {
-        uVar3 = storeWordConditionalIndexed((unsigned __int64)uVar2 + 1,0,param_1);
-        *puVar4 = uVar3;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-    if (uVar1 == uVar2) {
+    if (_InterlockedCompareExchange(&self->uses, count + 1, count) == count) {
       return 1;
     }
-    uVar2 = *puVar4;
-  } while( true );
+  }
 }
-

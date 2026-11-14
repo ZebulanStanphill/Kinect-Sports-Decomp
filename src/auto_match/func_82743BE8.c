@@ -1,15 +1,14 @@
-extern int fn_82F68B6C();
+typedef struct Object_82743BE8 {
+    unsigned char pad[0x30];
+    unsigned char children[4];
+} Object_82743BE8;
 
+extern unsigned char fn_826BF878(void *children, void *what, void *target);
 
-unsigned __int64 fn_82743BE8(unsigned __int64 param_1,unsigned __int64 param_2,unsigned int param_3)
-
+unsigned char fn_82743BE8(Object_82743BE8 *self, void *what, void *target)
 {
-  unsigned __int64 uVar1;
-  
-  if ((param_1 & 0xffffffff) == (unsigned __int64)param_3) {
-    return 1;
-  }
-  uVar1 = fn_82F68B6C(param_1 + 0x30);
-  return uVar1;
+    if (self == target) {
+        return 1;
+    }
+    return fn_826BF878(self->children, what, target);
 }
-

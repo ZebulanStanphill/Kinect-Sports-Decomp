@@ -1,9 +1,9 @@
-__int64 fn_82811680(unsigned int param_1)
-
+int fn_82811680(unsigned int value)
 {
-  if (param_1 != 0) {
-    return ((unsigned __int64)((unsigned int)(float)param_1 >> 0x17) & 0xff) - 0x7f;
-  }
-  return -1;
+    if (value != 0) {
+        union { float f; unsigned int u; } v;
+        v.f = (float)value;
+        return ((v.u >> 23) & 0xff) - 127;
+    }
+    return -1;
 }
-

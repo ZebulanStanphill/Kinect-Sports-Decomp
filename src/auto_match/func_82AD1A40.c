@@ -1,61 +1,54 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_82AC6560();
-extern int fn_82AD1978();
+typedef struct Node_82AD1A40 {
+    unsigned int w;
+    struct Node_82AD1A40 *next;
+    int pad8;
+    void *owner;
+} Node_82AD1A40;
 
+typedef struct List_82AD1A40 {
+    Node_82AD1A40 *head;
+} List_82AD1A40;
 
-unsigned int * fn_82AD1A40(int *param_1,unsigned int param_2,unsigned __int64 param_3)
+extern Node_82AD1A40 *fn_82AD19D8(List_82AD1A40 *l, void *owner, void *arena);
 
+static int notNull(Node_82AD1A40 *p)
 {
-  unsigned int uVar1;
-  bool bVar2;
-  unsigned int uVar3;
-  int iVar4;
-  unsigned int *puVar5;
-  
-  puVar5 = (unsigned int *)*param_1;
-  do {
-    if (puVar5 == (unsigned int *)0x0) {
-      iVar4 = fn_82AC6560(param_3,0x14,0x1a);
-      *(unsigned int *)(iVar4 + 0xc) = param_2;
-      *(unsigned int *)(iVar4 + 8) = *(unsigned int *)(param_2 + 4);
-      *(int *)(param_2 + 4) = iVar4;
-      puVar5 = (unsigned int *)fn_82AD1978(param_1,iVar4);
-      return puVar5;
-    }
-    uVar1 = *puVar5;
-    uVar3 = uVar1 >> 0x1e & 1;
-    if (uVar3 == 0) {
-      bVar2 = true;
-      if ((uVar1 & 0xe000000) != 0) goto LAB_82ad1a64;
-    }
-    else {
-LAB_82ad1a64:
-      bVar2 = false;
-    }
-    if ((bVar2) && (puVar5[3] == param_2)) {
-      if (uVar3 == 0) {
-        bVar2 = true;
-        if ((uVar1 & 0xe000000) != 0) goto LAB_82ad1a90;
-      }
-      else {
-LAB_82ad1a90:
-        bVar2 = false;
-      }
-      if (bVar2) {
-        bVar2 = true;
-        if ((uVar1 & 0x1ffe000) == 0) goto LAB_82ad1aa8;
-      }
-      else {
-LAB_82ad1aa8:
-        bVar2 = false;
-      }
-      if (!bVar2) {
-        return puVar5;
-      }
-    }
-    puVar5 = (unsigned int *)puVar5[1];
-  } while( true );
+    if (p) return 1;
+    return 0;
 }
 
+Node_82AD1A40 *fn_82AD1A40(List_82AD1A40 *l, void *owner, void *arena)
+{
+    Node_82AD1A40 *p;
+    unsigned char ok;
+    unsigned int w;
+    unsigned int bit;
+
+    p = l->head;
+    while (notNull(p)) {
+        w = p->w;
+        bit = (w >> 30) & 1;
+        if (bit == 0 && (w & 0xe000000) == 0) {
+            ok = 1;
+        } else {
+            ok = 0;
+        }
+        if (ok && p->owner == owner) {
+            if (bit == 0 && (w & 0xe000000) == 0) {
+                ok = 1;
+            } else {
+                ok = 0;
+            }
+            if (ok && (w & 0x1ffe000) != 0) {
+                ok = 1;
+            } else {
+                ok = 0;
+            }
+            if (!ok) {
+                return p;
+            }
+        }
+        p = p->next;
+    }
+    return fn_82AD19D8(l, owner, arena);
+}

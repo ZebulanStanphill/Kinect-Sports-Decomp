@@ -1,10 +1,16 @@
-void fn_825C6838(int param_1)
+typedef struct Node_825C6838 {
+    int pad;
+    struct Node_825C6838 *next;
+} Node_825C6838;
 
+typedef struct List_825C6838 {
+    char pad[0x8];
+    Node_825C6838 *head;
+} List_825C6838;
+
+void fn_825C6838(List_825C6838 *self)
 {
-  int iVar1;
-  
-  for (iVar1 = *(int *)(param_1 + 8); iVar1 != 0; iVar1 = *(int *)(iVar1 + 4)) {
-  }
-  return;
+    Node_825C6838 *node;
+    for (node = self->head; node != 0; node = node->next) {
+    }
 }
-

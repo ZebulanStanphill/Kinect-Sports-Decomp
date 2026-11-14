@@ -1,13 +1,8 @@
-extern int fn_82F68B64();
+extern int fn_82D38600(void *self, void *a, void *b, void *c, void *d);
 
-
-void fn_82D38870(int param_1)
-
+int fn_82D38870(void *self, void *a, void *b)
 {
-  if (param_1 == 0) {
-    return;
-  }
-  fn_82F68B64();
-  return;
+    if (self == 0)
+        return 0;
+    return fn_82D38600(self, a, b, 0, 0);
 }
-

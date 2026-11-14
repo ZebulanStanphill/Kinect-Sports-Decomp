@@ -1,43 +1,52 @@
-extern int fn_826310E0();
+typedef struct Param_828539A0 {
+    int pad0;
+    float value;            /* 0x04 */
+    unsigned char kind;     /* 0x08 */
+    unsigned char count;    /* 0x09 */
+} Param_828539A0;
 
+typedef struct State_828539A0 {
+    int pad0;
+    void *device;           /* 0x04 */
+    char pad8[0x7c];
+    int f84;                /* 0x84 */
+    int f88;                /* 0x88 */
+    int pad8c[3];
+    int f98;                /* 0x98 */
+    int f9c;                /* 0x9c */
+    int fa0;                /* 0xa0 */
+    int regs[1];            /* 0xa4 */
+} State_828539A0;
 
-void fn_828539A0(int param_1,int param_2)
+extern void fn_826310E0(void *p, unsigned int start, void *src, unsigned int count, unsigned __int64 mask);
 
+void fn_828539A0(State_828539A0 *self, Param_828539A0 *param)
 {
-  unsigned int uVar1;
-  unsigned char bVar2;
-  int iVar3;
-  
-  bVar2 = *(unsigned char *)(param_2 + 8);
-  if (bVar2 == 0) {
-    iVar3 = 0x84;
-  }
-  else if (bVar2 == 1) {
-    iVar3 = 0x88;
-  }
-  else if (bVar2 < 3) {
-    iVar3 = 0x98;
-  }
-  else if (bVar2 == 3) {
-    iVar3 = 0x9c;
-  }
-  else {
-    if (bVar2 < 5) {
-      uVar1 = (unsigned int)*(float *)(param_2 + 4);
-      fn_826310E0(*(unsigned int *)(param_1 + 4),(unsigned __int64)uVar1,param_1 + 0xa4,
-                   (unsigned __int64)*(unsigned char *)(param_2 + 9),
-                   (unsigned __int64)
-                   (-0x8000000000000000 >>
-                   (((((unsigned __int64)uVar1 + (unsigned __int64)*(unsigned char *)(param_2 + 9)) - 1 & 0xffffffff) >> 2)
-                    - (unsigned __int64)(uVar1 >> 2) & 0x7f)) >> ((unsigned __int64)(uVar1 >> 2) & 0x7f));
-      return;
-    }
-    if (bVar2 != 5) {
-      return;
-    }
-    iVar3 = 0xa0;
-  }
-  *(int *)(param_1 + iVar3) = (int)*(float *)(param_2 + 4);
-  return;
-}
+    switch (param->kind) {
+    case 0:
+        self->f84 = (int)param->value;
+        break;
+    case 1:
+        self->f88 = (int)param->value;
+        break;
+    case 2:
+        self->f98 = (int)param->value;
+        break;
+    case 3:
+        self->f9c = (int)param->value;
+        break;
+    case 4: {
+        unsigned int count = param->count;
+        unsigned int start = (int)param->value;
+        unsigned int first = start / 4;
+        unsigned int last = (start + count - 1) / 4;
 
+        fn_826310E0(self->device, start, self->regs, count,
+                    (unsigned __int64)((__int64)0x8000000000000000ULL >> (last - first)) >> first);
+        break;
+    }
+    case 5:
+        self->fa0 = (int)param->value;
+        break;
+    }
+}

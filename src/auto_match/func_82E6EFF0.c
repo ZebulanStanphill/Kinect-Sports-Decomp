@@ -1,52 +1,74 @@
-extern unsigned int *auStack_48;
-extern unsigned int *auStack_50;
-extern int fn_82E4FE40();
-extern int fn_82E50BE8();
+typedef struct Stream_82E6EFF0 Stream_82E6EFF0;
+typedef struct StreamVt_82E6EFF0 {
+    void *slots[5];
+    int (*GetLength)(Stream_82E6EFF0 *self, unsigned __int64 *length, int flags);
+    void *slot18;
+    int (*Read)(Stream_82E6EFF0 *self, void *buf, unsigned int size, unsigned int *done);
+} StreamVt_82E6EFF0;
+struct Stream_82E6EFF0 {
+    StreamVt_82E6EFF0 *vt;
+};
 
+typedef struct Target_82E6EFF0 Target_82E6EFF0;
+typedef struct TargetVt_82E6EFF0 {
+    void *slots[7];
+    int (*SetPosition)(Target_82E6EFF0 *self, unsigned __int64 position);
+    void *slots20[4];
+    int (*Write)(Target_82E6EFF0 *self, void *buf, unsigned int size, unsigned int *done);
+} TargetVt_82E6EFF0;
+struct Target_82E6EFF0 {
+    TargetVt_82E6EFF0 *vt;
+};
 
-__int64 fn_82E6EFF0(int param_1,int *param_2)
+typedef struct Obj_82E6EFF0 {
+    char pad[0x2c];
+    Target_82E6EFF0 *target;
+    unsigned __int64 position;
+} Obj_82E6EFF0;
 
+extern void *fn_82E50BE8(unsigned int size, int a, int b, int c, int d);
+extern void fn_82E4FE40(void *p);
+
+int fn_82E6EFF0(Obj_82E6EFF0 *self, Stream_82E6EFF0 *source)
 {
-  unsigned __int64 uVar1;
-  __int64 lVar2;
-  __int64 lVar3;
-  unsigned int auStack_50 [2];
-  unsigned __int64 auStack_48;
-  
-  if (param_2 == (int *)0x0) {
-    lVar2 = -0x7fffbffd;
-  }
-  else {
-    auStack_48 = 0;
-    lVar2 = (**(int (***)())(*param_2 + 0x14))(param_2,&auStack_48,0);
-    if (-1 < lVar2) {
-      if (auStack_48 < 0x100000000) {
-        uVar1 = auStack_48 & 0xffffffff;
-        lVar3 = fn_82E50BE8(uVar1,0,0,0,0);
-        if (lVar3 == 0) {
-          lVar2 = -0x7ff8fff2;
-        }
-        else {
-          auStack_50[0] = 0;
-          lVar2 = (**(int (***)())(*param_2 + 0x1c))(param_2,lVar3,uVar1,auStack_50);
-          if ((-1 < lVar2) &&
-             ((uVar1 != auStack_50[0] ||
-              (((lVar2 = (**(int (***)())(**(int **)(param_1 + 0x2c) + 0x1c))
-                                   (*(int **)(param_1 + 0x2c),*(unsigned __int64 *)(param_1 + 0x30)),
-                -1 < lVar2 &&
-                (lVar2 = (**(int (***)())(**(int **)(param_1 + 0x2c) + 0x30))
-                                   (*(int **)(param_1 + 0x2c),lVar3,uVar1,auStack_50), -1 < lVar2))
-               && (uVar1 != auStack_50[0])))))) {
-            lVar2 = -0x3ff2c945;
-          }
-          fn_82E4FE40(lVar3);
-        }
-      }
-      else {
-        lVar2 = -0x3ff2c945;
-      }
-    }
-  }
-  return lVar2;
-}
+    int hr;
+    unsigned __int64 length;
+    unsigned int size;
+    unsigned int done;
+    void *buf;
 
+    if (source == 0) {
+        return 0x80004003;
+    }
+    length = 0;
+    hr = source->vt->GetLength(source, &length, 0);
+    if (hr >= 0) {
+        if (length > 0xffffffff) {
+            hr = 0xc00d36bb;
+        } else {
+            size = (unsigned int)length;
+            buf = fn_82E50BE8(size, 0, 0, 0, 0);
+            if (buf == 0) {
+                hr = 0x8007000e;
+            } else {
+                done = 0;
+                hr = source->vt->Read(source, buf, size, &done);
+                if (hr >= 0) {
+                    if (size != done) {
+                        hr = 0xc00d36bb;
+                    } else {
+                        hr = self->target->vt->SetPosition(self->target, self->position);
+                        if (hr >= 0) {
+                            hr = self->target->vt->Write(self->target, buf, size, &done);
+                            if (hr >= 0 && size != done) {
+                                hr = 0xc00d36bb;
+                            }
+                        }
+                    }
+                }
+                fn_82E4FE40(buf);
+            }
+        }
+    }
+    return hr;
+}

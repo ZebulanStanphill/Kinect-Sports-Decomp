@@ -1,37 +1,56 @@
-#define true 1
-extern int fn_83031460();
-extern unsigned int uStack_18;
+typedef struct Value_83030640 {
+    int a;
+    int b;
+    unsigned char type : 5;
+    unsigned char flags : 3;
+    unsigned char pad[3];
+} Value_83030640;
 
+typedef struct Pair_83030640 {
+    unsigned int key;
+    Value_83030640 value;
+} Pair_83030640;
 
-unsigned __int64 fn_83030640(int param_1,int param_2,unsigned int param_3)
+typedef struct Node_83030640 {
+    struct Node_83030640 *next;
+    Pair_83030640 pair;
+} Node_83030640;
 
+typedef struct List_83030640 {
+    Node_83030640 *head;
+} List_83030640;
+
+typedef struct Obj_83030640 {
+    char pad[0xe4];
+    List_83030640 list;
+} Obj_83030640;
+
+extern Value_83030640 *fn_83031460(List_83030640 *l, unsigned int key, Value_83030640 value);
+
+static Value_83030640 *List_find(List_83030640 *l, unsigned int key)
 {
-  unsigned int *puVar1;
-  int iVar3;
-  unsigned __int64 uVar2;
-  unsigned int uStack_18;
-  
-  puVar1 = *(unsigned int **)(param_1 + 0xe4);
-  do {
-    if (puVar1 == (unsigned int *)0x0) {
-LAB_83030674:
-      uStack_18 = uStack_18 & 0x7ffffff;
-      iVar3 = fn_83031460((unsigned int *)(param_1 + 0xe4),param_2,param_3,
-                                (unsigned __int64)uStack_18 << 0x20);
-      uVar2 = 2;
-      if (iVar3 != 0) {
-        uVar2 = 1;
-      }
-      return uVar2;
+    Node_83030640 *n;
+
+    for (n = l->head; n != 0; n = n->next) {
+        if (n->pair.key == key) {
+            return &n->pair.value;
+        }
     }
-    if (puVar1[1] == param_2) {
-      if (puVar1 != (unsigned int *)0xfffffff8) {
-        puVar1[3] = param_3;
-        return 1;
-      }
-      goto LAB_83030674;
-    }
-    puVar1 = (unsigned int *)*puVar1;
-  } while( true );
+    return 0;
 }
 
+int fn_83030640(Obj_83030640 *self, unsigned int key, int b)
+{
+    Value_83030640 *v = List_find(&self->list, key);
+    if (v != 0) {
+        v->b = b;
+    } else {
+        Value_83030640 value;
+        value.a = 0;
+        value.b = b;
+        value.type = 0;
+        if (fn_83031460(&self->list, key, value) == 0)
+            return 2;
+    }
+    return 1;
+}

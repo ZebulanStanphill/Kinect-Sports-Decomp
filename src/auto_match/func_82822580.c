@@ -1,20 +1,25 @@
-__int64 fn_82822580(unsigned int *param_1)
+typedef struct Item_82822580 {
+    int value;
+    struct Item_82822580 *next;
+} Item_82822580;
 
+typedef struct Node_82822580 {
+    struct Node_82822580 *parent;
+    Item_82822580 *items;
+} Node_82822580;
+
+int fn_82822580(Node_82822580 *node)
 {
-  unsigned int *puVar1;
-  int iVar2;
-  unsigned int *puVar3;
-  __int64 lVar4;
-  
-  puVar3 = (unsigned int *)*param_1;
-  while (puVar1 = puVar3, puVar1 != (unsigned int *)0x0) {
-    param_1 = puVar1;
-    puVar3 = (unsigned int *)*puVar1;
-  }
-  lVar4 = 0;
-  for (iVar2 = param_1[1]; iVar2 != 0; iVar2 = *(int *)(iVar2 + 4)) {
-    lVar4 = lVar4 + 1;
-  }
-  return lVar4;
-}
+    Node_82822580 *p;
+    Item_82822580 *item;
+    int count;
 
+    for (p = node->parent; p != 0; p = p->parent) {
+        node = p;
+    }
+    count = 0;
+    for (item = node->items; item != 0; item = item->next) {
+        count++;
+    }
+    return count;
+}

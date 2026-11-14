@@ -1,12 +1,6 @@
-unsigned __int64 fn_824A0CF0(void)
-
+int fn_824A0CF0(void *self, int a, int b, int c, int d)
 {
-  int in_r6;
-  int in_r7;
-  
-  if ((in_r7 == 0) && (in_r6 == 0)) {
+  if (d == 0 && c == 0)
     return 1;
-  }
   return 0;
 }
-

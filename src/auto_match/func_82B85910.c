@@ -1,22 +1,19 @@
-#define true 1
+typedef struct Node_82B85910 {
+  char pad0[0x24];
+  unsigned int parentLink;
+  char pad28[8];
+} Node_82B85910;
 
-
-unsigned __int64 fn_82B85910(unsigned __int64 param_1,unsigned int param_2)
-
+int fn_82B85910(Node_82B85910 *node, Node_82B85910 *target)
 {
-  unsigned int uVar1;
-  
-  while( true ) {
-    uVar1 = *(unsigned int *)(((unsigned int)param_1 & 0xfffffffe) + 0x24);
-    if ((uVar1 & 1) != 0) {
+  Node_82B85910 *n = node;
+  do {
+    unsigned int link = ((Node_82B85910 *)((unsigned int)n & ~1u))->parentLink;
+    if (link & 1)
       return 0;
-    }
-    param_1 = ((unsigned __int64)uVar1 & 0xfffffffe) - 0x28;
-    if (param_1 == 0) break;
-    if ((param_1 & 0xffffffff) == (unsigned __int64)param_2) {
-      return 1;
-    }
-  }
-  return 0;
+    n = (Node_82B85910 *)((link & ~1u) - 0x28);
+    if (n == 0)
+      return 0;
+  } while (n != target);
+  return 1;
 }
-
