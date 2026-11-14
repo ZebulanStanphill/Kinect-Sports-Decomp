@@ -4,7 +4,7 @@ extern int fn_822C5B18();
 extern int fn_824816F0();
 extern int fn_824C1BF8();
 extern int fn_8265C9E0();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int fn_82BA02A8();
 extern int memcpy();
 extern unsigned int lbl_821A8C90;
@@ -80,6 +80,6 @@ code_r0x8247e94c:
   }
   param_1[5] = uVar3;
                     /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(param_1 + 0x19,0,0x10);
+  XMemSet(param_1 + 0x19,0,0x10);
 }
 

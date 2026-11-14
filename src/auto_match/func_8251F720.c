@@ -4,7 +4,7 @@ extern int fn_825200F0();
 extern int fn_8256BF18();
 extern int fn_8256CC50();
 extern int fn_8259BB38();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int lbl_8329618C;
 extern unsigned int uRam832767b4;
 extern unsigned int uStack_1ac;
@@ -47,6 +47,6 @@ unsigned __int64 fn_8251F720(int *param_1)
   uStack_4c = 0;
   uStack_48 = 0;
                     /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(auStack_180,0,0x148);
+  XMemSet(auStack_180,0,0x148);
 }
 

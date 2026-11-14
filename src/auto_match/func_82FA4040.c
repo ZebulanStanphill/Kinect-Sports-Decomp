@@ -1,4 +1,4 @@
-extern void *fn_82A1EFC0(void *dst, int value, unsigned int size);
+extern void *XMemSet(void *dst, int value, unsigned int size);
 extern char lbl_8216CB10[];
 
 typedef struct Obj_82FA4040 {
@@ -25,18 +25,18 @@ Obj_82FA4040 *fn_82FA4040(Obj_82FA4040 *o)
 {
     o->f8 = 0;
     o->vt = lbl_8216CB10;
-    fn_82A1EFC0(o->blockC, 0, 0x60);
+    XMemSet(o->blockC, 0, 0x60);
     o->f4 = 0;
     o->f74 = 0;
     o->f78 = 0;
     o->f7c = 0;
-    fn_82A1EFC0(o->block110, 0, 0x10);
-    fn_82A1EFC0(o->block130, 0, 0x10);
-    fn_82A1EFC0(o->blockD0, 0, 0x40);
-    fn_82A1EFC0(o->block120, 0, 0x10);
-    fn_82A1EFC0(o->block90, 0, 0x40);
-    fn_82A1EFC0(o->block140, 0, 0x40);
-    fn_82A1EFC0(o->block180, 0, 0x40);
-    fn_82A1EFC0(o->block1C0, 0, 0x40);
+    XMemSet(o->block110, 0, 0x10);
+    XMemSet(o->block130, 0, 0x10);
+    XMemSet(o->blockD0, 0, 0x40);
+    XMemSet(o->block120, 0, 0x10);
+    XMemSet(o->block90, 0, 0x40);
+    XMemSet(o->block140, 0, 0x40);
+    XMemSet(o->block180, 0, 0x40);
+    XMemSet(o->block1C0, 0, 0x40);
     return o;
 }

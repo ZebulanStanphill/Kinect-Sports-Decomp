@@ -5,7 +5,7 @@ extern "C" {
 extern void *lbl_8214B708[];
 void fn_82230300(void *str, unsigned char built, unsigned int newsize);   // std::string::_Tidy
 void fn_82E1C8D0(void *self);                                             // base constructor
-void fn_82A1EFC0(void *dst, int value, unsigned int size);                // memset
+void XMemSet(void *dst, int value, unsigned int size);                // memset
 }
 
 struct VinceString {
@@ -29,6 +29,6 @@ extern "C" VinceEventParam *fn_82E1C410(VinceEventParam *self)
     self->m_20 = 0;
     fn_82230300(&self->m_b, 0, 0);
     self->m_50 = 0x50;
-    fn_82A1EFC0(self->m_40, 0, 0x10);
+    XMemSet(self->m_40, 0, 0x10);
     return self;
 }

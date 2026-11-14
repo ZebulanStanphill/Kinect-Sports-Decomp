@@ -9,14 +9,14 @@ typedef struct Obj_8261C390 {
 } Obj_8261C390;
 
 void fn_82A1E658(void *handle);
-void fn_82A1EFC0(void *dst, int value, unsigned int size);
+void XMemSet(void *dst, int value, unsigned int size);
 
 void fn_8261C390(Obj_8261C390 *self)
 {
     if (self->handle31c != 0) {
         fn_82A1E658(self->handle31c);
     }
-    fn_82A1EFC0(self->block30c, 0, 0x14);
+    XMemSet(self->block30c, 0, 0x14);
     self->unk314 = 0;
     if (self->handle != (void *)-1) {
         fn_82A1E658(self->handle);

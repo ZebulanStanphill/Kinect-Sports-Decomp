@@ -1,6 +1,6 @@
 typedef unsigned char bool;
 typedef struct { unsigned __int64 lo, hi; } V16;
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int fn_82F6A544();
 extern int fn_82F6A590();
 extern int fn_82FC8FD0();
@@ -209,7 +209,7 @@ void fn_82FD3ED0(unsigned __int64 param_1,unsigned __int64 param_2)
     if ((*(unsigned short *)(puVar19 + 3) - uVar16 & 0xffffffff) <= (unsigned __int64)*(unsigned int *)(iVar17 + 0x1a0)) {
       uVar24 = *(unsigned short *)(puVar19 + 3) - uVar16;
     }
-    fn_82A1EFC0(uVar16 * 4 + uVar39,0,(uVar24 & 0x3fffffff) << 2);
+    XMemSet(uVar16 * 4 + uVar39,0,(uVar24 & 0x3fffffff) << 2);
     uVar16 = uVar24 + uVar16;
     lVar42 = *(unsigned int *)(iVar17 + 0x1a0) - uVar24;
     *(int *)(iVar17 + 0x1a0) = (int)lVar42;

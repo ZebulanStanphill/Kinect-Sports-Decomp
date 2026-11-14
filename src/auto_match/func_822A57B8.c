@@ -5,7 +5,7 @@ extern int fn_82523340();
 extern int fn_82549960();
 extern int fn_8265C9E0();
 extern int fn_82A1DD38();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int fn_82F68CC0();
 extern unsigned int lbl_82195E58;
 extern unsigned int lbl_82195E5C;
@@ -64,13 +64,13 @@ int fn_822A57B8(double param_1,int param_2,unsigned __int64 param_3,unsigned int
   iVar3 = param_2 + 0x118;
   *(unsigned int *)(param_2 + 0x114) = *param_4;
   if ((param_5 & 0xffffffff) == 0) {
-    fn_82A1EFC0(iVar3,0,1000);
+    XMemSet(iVar3,0,1000);
   }
   else {
     fn_82A1DD38(iVar3,param_5);
   }
   if (*(int *)(param_2 + 0x52c) == 0) {
-    fn_82A1EFC0(param_2 + 0x554,0,0x48);
+    XMemSet(param_2 + 0x554,0,0x48);
     uVar1 = fn_8265C9E0(0x200);
     if ((uVar1 & 0xffffffff) != 0) {
       uVar2 = fn_82549960(uVar1,param_2 + 0x114,0,0,0,0);

@@ -2,7 +2,7 @@ extern int fn_82230110();
 extern int fn_82230300();
 extern int fn_822B2888();
 extern int fn_82579B78();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int lbl_82195518;
 extern unsigned int lbl_82195A80;
 extern unsigned int lbl_82195A88;
@@ -86,6 +86,6 @@ void fn_8245B248(int param_1)
   *(unsigned int *)(param_1 + 0x71c) = 0;
   *(unsigned int *)(param_1 + 0x718) = 3;
                     /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(param_1 + 0x590,0,0x28);
+  XMemSet(param_1 + 0x590,0,0x28);
 }
 

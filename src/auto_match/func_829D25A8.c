@@ -1,5 +1,5 @@
 extern int fn_82A1DDC0();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int lbl_832177AC;
 extern unsigned int lbl_832177B0;
 
@@ -21,7 +21,7 @@ void fn_829D25A8(int param_1,int param_2,int param_3)
   unsigned int in_register_000103f8;
   unsigned int in_vr63;
   
-  fn_82A1EFC0(param_1,0,0xa80);
+  XMemSet(param_1,0,0xa80);
   piVar5 = (int *)(param_1 + 4);
   puVar3 = (unsigned int *)(param_3 + 0x88);
   lVar7 = 6;

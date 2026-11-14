@@ -9,7 +9,7 @@ extern int fn_82631290();
 extern int fn_82631578();
 extern int fn_82631920();
 extern int fn_82645EA8();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int fn_82F65E20();
 extern unsigned int lbl_8218E8E8;
 extern unsigned int lbl_821955F0;
@@ -97,6 +97,6 @@ void fn_82586448(double param_1,int param_2)
     fn_82631578(lbl_8320A898,*(unsigned int *)(param_2 + 0xa8));
   }
                     /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(&uStack_60,0,0x20);
+  XMemSet(&uStack_60,0,0x20);
 }
 

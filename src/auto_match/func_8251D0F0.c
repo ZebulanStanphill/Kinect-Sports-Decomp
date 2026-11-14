@@ -5,7 +5,7 @@ extern int fn_8251D060();
 extern int fn_8251D290();
 extern int fn_82596630();
 extern int fn_8265CA20();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int *lbl_83296188;
 extern unsigned int *lbl_8329618C;
 extern int (*lbl_832961C0)();
@@ -74,6 +74,6 @@ void fn_8251D0F0(void)
     return;
   }
                     /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(auStack_38,0,8);
+  XMemSet(auStack_38,0,8);
 }
 

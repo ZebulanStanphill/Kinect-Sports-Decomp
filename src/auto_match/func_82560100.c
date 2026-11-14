@@ -3,7 +3,7 @@ extern unsigned int *auStack_150;
 extern unsigned int *auStack_b0;
 extern unsigned int *auStack_c0;
 extern int fn_82575FA8();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int lbl_82192734;
 extern unsigned int ltcg_pool_0_0f;
 extern unsigned int uStack_60;
@@ -40,7 +40,7 @@ void fn_82560100(double param_1,int param_2,unsigned __int64 param_3,int param_4
   unsigned int uStack_60;
   
   dVar3 = (double)*(float *)(param_2 + 0x828);
-  fn_82A1EFC0(auStack_150,0,0x100);
+  XMemSet(auStack_150,0,0x100);
   puVar1 = (unsigned int *)(in_r0 + param_4 & 0xfffffff0);
   uVar4 = *puVar1;
   uVar5 = puVar1[1];

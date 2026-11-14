@@ -1,5 +1,5 @@
 extern int fn_824BF8A8(void *, void *);
-extern int fn_82A1EFC0(void *, int, int);
+extern int XMemSet(void *, int, int);
 
 typedef struct Ev_823876D0 {
   const char *name;
@@ -71,5 +71,5 @@ void fn_823876D0(int *p, void *q)
     ev.type = 8;
     fn_824BF8A8(q, &ev);
   }
-  fn_82A1EFC0(p, 0, 0x30);
+  XMemSet(p, 0, 0x30);
 }

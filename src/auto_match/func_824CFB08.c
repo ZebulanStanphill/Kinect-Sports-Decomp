@@ -1,4 +1,4 @@
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int lbl_821962C0;
 extern unsigned int lbl_821962F0;
 extern unsigned int ltcg_pool_0_0f;
@@ -259,8 +259,8 @@ void fn_824CFB08(int param_1)
     puVar1[1] = uVar10;
     puVar1[2] = uVar11;
     puVar1[3] = uVar12;
-    fn_82A1EFC0(iVar7 + 0x260,0,0x20);
-    fn_82A1EFC0(iVar7 + 0x280,0,0x30);
+    XMemSet(iVar7 + 0x260,0,0x20);
+    XMemSet(iVar7 + 0x280,0,0x30);
     iVar3 = (int)in_r0;
     puVar1 = (unsigned int *)(iVar3 + iVar6 & 0xfffffff0);
     uVar9 = puVar1[1];
@@ -295,13 +295,13 @@ void fn_824CFB08(int param_1)
     puVar1[1] = uVar10;
     puVar1[2] = uVar11;
     puVar1[3] = uVar12;
-    fn_82A1EFC0(iVar7 + 0x2d0,0,0x1900);
+    XMemSet(iVar7 + 0x2d0,0,0x1900);
     *(unsigned int *)(iVar7 + 0x1bd0) = 0;
     *(unsigned int *)(iVar7 + 0x1bd4) = 0;
     lVar5 = lVar5 + -1;
     iVar7 = iVar7 + 0x1c10;
   } while (lVar5 != 0);
-  fn_82A1EFC0(param_1 + 0x39b0,0,0x50);
+  XMemSet(param_1 + 0x39b0,0,0x50);
   return;
 }
 

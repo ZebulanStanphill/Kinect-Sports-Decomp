@@ -21,7 +21,7 @@ extern int fn_82526C70();
 extern int fn_82528EE0();
 extern int fn_826728E8();
 extern int fn_82672C20();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int iStack0000001c;
 extern unsigned int iStack_430;
 extern unsigned int iStack_43c;
@@ -150,7 +150,7 @@ void fn_822A3EC0(unsigned int *param_1,int param_2,int param_3,int param_4,int p
     if (iVar6 == 1) {
       if ((*(int *)(param_3 + 8) - *(int *)(param_3 + 4)) / 0x5c != 0) {
                     /* WARNING: Subroutine does not return */
-        fn_82A1EFC0(auStack_220,0,0xc0);
+        XMemSet(auStack_220,0,0xc0);
       }
     }
     else {
@@ -218,7 +218,7 @@ void fn_822A3EC0(unsigned int *param_1,int param_2,int param_3,int param_4,int p
       if ((*(int *)(param_3 + 8) - *(int *)(param_3 + 4)) / 0x5c != 0) {
         uStack_2a0 = 0;
                     /* WARNING: Subroutine does not return */
-        fn_82A1EFC0(auStack_160,0,0xc0);
+        XMemSet(auStack_160,0,0xc0);
       }
     }
   }

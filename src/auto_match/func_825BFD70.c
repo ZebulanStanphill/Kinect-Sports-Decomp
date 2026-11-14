@@ -24,7 +24,7 @@ typedef struct Target_825BFD70 {
     int id;
 } Target_825BFD70;
 
-extern void fn_82A1EFC0(void *dst, int value, unsigned int size);
+extern void XMemSet(void *dst, int value, unsigned int size);
 
 int fn_825BFD70(Obj_825BFD70 *self, Target_825BFD70 *target, int arg, __vector4 value)
 {
@@ -32,7 +32,7 @@ int fn_825BFD70(Obj_825BFD70 *self, Target_825BFD70 *target, int arg, __vector4 
     int id = target->id;
 
     if (id == -2) {
-        fn_82A1EFC0(&msg.arg, 0, sizeof(msg) - 8);
+        XMemSet(&msg.arg, 0, sizeof(msg) - 8);
         msg.type = 0x1e;
         msg.size = sizeof(msg);
         msg.value = value;

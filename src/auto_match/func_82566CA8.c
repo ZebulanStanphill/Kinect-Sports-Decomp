@@ -9,7 +9,7 @@ extern int fn_82568980();
 extern int fn_82568A30();
 extern int fn_82569A68();
 extern int fn_8265B648();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 
 
 unsigned __int64
@@ -54,6 +54,6 @@ fn_82566CA8(unsigned __int64 param_1,unsigned int *param_2,int *param_3,unsigned
   }
   fn_82569A68(iVar2,1);
                     /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(auStack_60,0,4);
+  XMemSet(auStack_60,0,4);
 }
 

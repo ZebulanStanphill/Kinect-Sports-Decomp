@@ -1,5 +1,5 @@
 extern int fn_828B00A0();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 
 
 /* WARNING: Removing unreachable block (ram,0x823bf06c) */
@@ -244,7 +244,7 @@ void fn_823BEEA0(int param_1,unsigned __int64 *param_2,unsigned int param_3)
   *(unsigned int *)(param_2 + 7) = 0;
   *(unsigned int *)((int)param_2 + 0x34) = 0;
   *(unsigned int *)(param_2 + 6) = -(unsigned int)(cVar1 != '\0') & 2;
-  fn_82A1EFC0(param_2 + 0x3e,0,0x8c0);
+  XMemSet(param_2 + 0x3e,0,0x8c0);
   return;
 }
 

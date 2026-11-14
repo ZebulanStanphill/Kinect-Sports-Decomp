@@ -1,5 +1,5 @@
 extern unsigned int *auStack_40;
-extern int fn_82A1EFC0();
+extern int XMemSet();
 
 
 void fn_82BD5740(__int64 param_1)
@@ -9,6 +9,6 @@ void fn_82BD5740(__int64 param_1)
   
   RtlEnterCriticalSection(param_1 + 0xf0);
                     /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(auStack_40,0,8);
+  XMemSet(auStack_40,0,8);
 }
 

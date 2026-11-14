@@ -1,5 +1,5 @@
 extern int fn_82A1DDC0();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int fn_82FA5100();
 extern int fn_82FA52E0();
 extern int fn_8303A930();
@@ -44,7 +44,7 @@ unsigned __int64 fn_83021E80(int param_1,int param_2)
     if (7 < *(unsigned int *)(param_1 + 0x1c)) {
       if ((uVar3 & 0xff) != 0) {
                     /* WARNING: Subroutine does not return */
-        fn_82A1EFC0(*(unsigned int *)(param_1 + 0x28),0,lVar5);
+        XMemSet(*(unsigned int *)(param_1 + 0x28),0,lVar5);
       }
       fn_8303AA38((double)afStack_30,uVar3,param_1 + 4);
     }

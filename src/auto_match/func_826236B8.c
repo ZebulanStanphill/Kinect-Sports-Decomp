@@ -12,13 +12,13 @@ typedef struct Buf_826236B8 {
     int f28;
 } Buf_826236B8;
 
-extern int fn_82A1EFC0(void *, int, int);
+extern int XMemSet(void *, int, int);
 extern void *fn_82522D98(unsigned int size);
 
 void fn_826236B8(Buf_826236B8 *b, unsigned int size)
 {
     void *p;
-    fn_82A1EFC0(b, 0, 0x2c);
+    XMemSet(b, 0, 0x2c);
     b->size = size;
     b->f00 = 0;
     b->f04 = 0;

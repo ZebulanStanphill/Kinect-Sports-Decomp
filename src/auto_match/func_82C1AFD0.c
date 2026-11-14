@@ -1,5 +1,5 @@
 extern int fn_82C1AE70();
-extern int fn_82F643F8();
+extern int cos();
 extern int fn_82F64F30();
 extern int fn_82F6A538();
 extern int fn_82F6A584();
@@ -329,7 +329,7 @@ code_r0x82c1b578:
     afStack_110[0] = (float)(dVar22 + dVar23);
   }
                     /* WARNING: Subroutine does not return */
-  fn_82F643F8((double)((float)((double)(float)(dVar22 / (double)*(float *)((int)afStack_294 +
+  cos((double)((float)((double)(float)(dVar22 / (double)*(float *)((int)afStack_294 +
                                                                                 iVar17 + 4)) *
                                     dVar19) * fVar1));
 }

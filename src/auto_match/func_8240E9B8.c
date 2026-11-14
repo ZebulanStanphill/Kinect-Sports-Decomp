@@ -3,7 +3,7 @@ extern int fn_82536288();
 extern int fn_825735B8();
 extern int fn_82573868();
 extern int fn_82575DF0();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int lbl_82195530;
 extern unsigned int lbl_821962C0;
 extern unsigned int ltcg_pool_0_0f;
@@ -197,7 +197,7 @@ void fn_8240E9B8(int param_1)
   if (iVar6 != 0) {
     fn_82573868(*(unsigned int *)(param_1 + 0x28),param_1 + 0x1f0);
   }
-  fn_82A1EFC0(param_1 + 0x1f0,0,0x68);
+  XMemSet(param_1 + 0x1f0,0,0x68);
   *(unsigned int *)(param_1 + 600) = 0;
   if (*(int *)(param_1 + 0x264) != 0) {
     fn_82575DF0(*(unsigned int *)(*(int *)(*(int *)(param_1 + 0x28) + 0x4c) + 0x93c));

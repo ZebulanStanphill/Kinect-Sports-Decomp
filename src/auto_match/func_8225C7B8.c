@@ -1,6 +1,6 @@
 extern int fn_82381BC0();
 extern int fn_82A1C098();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int lbl_8327F640;
 
 
@@ -32,7 +32,7 @@ void fn_8225C7B8(int param_1)
         }
         if ((0 < *(int *)(iVar2 + 0x40c)) && ((iVar4 != 0 || ((int)lVar5 != 0)))) {
                     /* WARNING: Subroutine does not return */
-          fn_82A1EFC0(iVar2,0,1000);
+          XMemSet(iVar2,0,1000);
         }
       }
       fn_82381BC0(apuStack_30);

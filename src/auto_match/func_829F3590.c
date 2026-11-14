@@ -1,5 +1,5 @@
 extern float fRam83218bf4;
-extern int fn_82F67DE8();
+extern int tan();
 extern unsigned int lbl_82002AE0;
 extern unsigned int lbl_82015BD0;
 extern unsigned int lbl_82015BD8;
@@ -20,7 +20,7 @@ void fn_829F3590(double param_1,double param_2,double param_3)
   
   if ((uRam83218bf8 & 1) == 0) {
     uRam83218bf8 = uRam83218bf8 | 1;
-    dVar3 = (double)fn_82F67DE8(lbl_82079FB0);
+    dVar3 = (double)tan(lbl_82079FB0);
     fRam83218bf4 = (float)dVar3 * lbl_82079F24;
   }
   fVar2 = lbl_82002AE0;

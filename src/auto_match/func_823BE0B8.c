@@ -4,8 +4,8 @@ extern double sqrt(double);
 extern unsigned int fStack_68;
 extern int fn_8223C610();
 extern int fn_823B4900();
-extern int fn_82F64318();
-extern int fn_82F643F8();
+extern int sin();
+extern int cos();
 extern int fn_82F6A548();
 extern int fn_82F6A594();
 extern int fn_82F6B030();
@@ -72,13 +72,13 @@ void fn_823BE0B8(void)
   dVar10 = dVar10 + dVar9;
   dVar11 = (double)fn_82F6B030(lbl_832976B8);
   dVar9 = lbl_82195528;
-  dVar10 = (double)fn_82F64318((double)(float)((lbl_82195528 - dVar10 / dVar11) * dVar13));
+  dVar10 = (double)sin((double)(float)((lbl_82195528 - dVar10 / dVar11) * dVar13));
   dVar13 = (double)(float)dVar10;
   dVar11 = (double)(float)dVar12;
   dVar10 = SQRT(dVar9 - (double)(float)(dVar13 * dVar13));
-  dVar9 = (double)fn_82F643F8(dVar11);
+  dVar9 = (double)cos(dVar11);
   dVar12 = (double)(float)((double)(float)dVar9 * dVar10);
-  dVar9 = (double)fn_82F64318(dVar11);
+  dVar9 = (double)sin(dVar11);
   fStack_68 = (float)((double)(float)dVar9 * dVar10);
   if (lVar3 != 0) {
     dVar12 = -dVar12;

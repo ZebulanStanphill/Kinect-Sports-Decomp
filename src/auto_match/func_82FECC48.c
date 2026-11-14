@@ -1,4 +1,4 @@
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int fn_82FA4EB8();
 extern int fn_82FA5060();
 extern int fn_82FEBDE8();
@@ -88,7 +88,7 @@ unsigned __int64 fn_82FECC48(void)
         uVar2 = fn_82FA5060(lbl_831BC770,lVar5);
         if ((uVar2 & 0xffffffff) != 0) {
                     /* WARNING: Subroutine does not return */
-          fn_82A1EFC0(uVar2,0,lVar5);
+          XMemSet(uVar2,0,lVar5);
         }
       }
       return 0x34;

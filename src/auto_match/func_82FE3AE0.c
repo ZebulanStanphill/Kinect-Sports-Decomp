@@ -1,8 +1,8 @@
 #define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-extern int fn_82F64318();
-extern int fn_82F643F8();
+extern int sin();
+extern int cos();
 extern int fn_82F655D8();
-extern int fn_82F67DE8();
+extern int tan();
 extern int fn_82F6A548();
 extern int fn_82F6A594();
 extern unsigned int lbl_82002AE0;
@@ -46,28 +46,28 @@ void fn_82FE3AE0(unsigned __int64 param_1,double param_2,unsigned __int64 param_
     if (uVar9 == 0) {
       fn_82F655D8(lbl_82015618,(double)(float)(param_2 * (double)lbl_82079FB8));
                     /* WARNING: Subroutine does not return */
-      fn_82F64318((double)(float)((double)(float)(dVar10 * (double)lbl_82015468) / dVar11));
+      sin((double)(float)((double)(float)(dVar10 * (double)lbl_82015468) / dVar11));
     }
     if (lVar2 == 1) {
                     /* WARNING: Subroutine does not return */
-      fn_82F643F8((double)(float)((double)(float)(dVar10 * (double)lbl_82015468) / dVar11));
+      cos((double)(float)((double)(float)(dVar10 * (double)lbl_82015468) / dVar11));
     }
     if (lVar2 == 2) {
       fn_82F655D8(lbl_82015618,(double)(float)(param_2 * (double)lbl_82079FB8));
                     /* WARNING: Subroutine does not return */
-      fn_82F64318((double)(float)((double)(float)(dVar10 * (double)lbl_82015468) / dVar11));
+      sin((double)(float)((double)(float)(dVar10 * (double)lbl_82015468) / dVar11));
     }
     if (lVar2 != 3) {
       if (lVar2 != 4) {
         if (lVar2 != 5) {
                     /* WARNING: Subroutine does not return */
-          fn_82F643F8((double)(float)((double)(float)(dVar10 * (double)lbl_82015468) / dVar11)
+          cos((double)(float)((double)(float)(dVar10 * (double)lbl_82015468) / dVar11)
                            );
         }
                     /* WARNING: Subroutine does not return */
-        fn_82F643F8((double)(float)((double)(float)(dVar10 * (double)lbl_82015468) / dVar11));
+        cos((double)(float)((double)(float)(dVar10 * (double)lbl_82015468) / dVar11));
       }
-      dVar10 = (double)fn_82F67DE8((double)(float)((double)(float)(dVar10 * (double)lbl_8201DD74) /
+      dVar10 = (double)tan((double)(float)((double)(float)(dVar10 * (double)lbl_8201DD74) /
                                                    dVar11));
       fVar1 = (float)dVar10;
       fVar3 = fVar1 * fVar1 + lbl_82002AE0;
@@ -78,7 +78,7 @@ void fn_82FE3AE0(unsigned __int64 param_1,double param_2,unsigned __int64 param_
       goto code_r0x82fe3f40;
     }
   }
-  dVar10 = (double)fn_82F67DE8((double)(float)((double)(float)(dVar10 * (double)lbl_8201DD74) /
+  dVar10 = (double)tan((double)(float)((double)(float)(dVar10 * (double)lbl_8201DD74) /
                                                dVar11));
   fVar1 = lbl_82002AE0 / (float)dVar10;
   fVar3 = fVar1 * fVar1 + lbl_82002AE0;

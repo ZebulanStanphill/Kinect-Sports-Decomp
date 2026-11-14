@@ -1,5 +1,5 @@
 extern int fn_82521DC8();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int iRam832660bc;
 extern int iRam832660d0;
 extern int iRam832821fc;
@@ -79,6 +79,6 @@ void fn_8259C2A0(int param_1,int param_2,unsigned int param_3)
   iRam832660bc = param_1;
   iRam832660d0 = iVar2 + -0x7cd7ec94;
                     /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(0xffffffff832660a0,0,0x1c);
+  XMemSet(0xffffffff832660a0,0,0x1c);
 }
 

@@ -2,7 +2,7 @@ typedef unsigned char bool;
 #define true 1
 #define false 0
 #define CONCAT22(h,l) ((unsigned int)((((unsigned short)(h)) << 16) | ((unsigned short)(l))))
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int fn_82C4E3B0();
 extern int fn_82C4E470();
 extern int fn_82C4E5E8();
@@ -329,7 +329,7 @@ fn_830CED00(int param_1,int *param_2,unsigned int *param_3,int param_4,unsigned 
     *(unsigned short *)((int)param_3 + 0x12) = 0;
     param_3[8] = iVar52 * iVar28 * 4 + iVar27;
                     /* WARNING: Subroutine does not return */
-    fn_82A1EFC0(param_2[0x58],0,iVar22 * 4);
+    XMemSet(param_2[0x58],0,iVar22 * 4);
   }
   uStack_1fc = (unsigned int)param_5;
   puVar50 = (unsigned int *)(param_2 + (param_4 + 0x5c) * 4);

@@ -6,7 +6,7 @@ extern void fn_8259C5D8(int *, int, int);
 extern void fn_8259C738(int *);
 extern int fn_82A1BB18(void);
 extern int fn_82549798(void *, int, int, int);
-extern void fn_82A1EFC0(int, int, void *);
+extern void XMemSet(int, int, void *);
 extern int lbl_8326B7D0[];
 extern int *lbl_832767CC;
 
@@ -58,6 +58,6 @@ void fn_825A2688(Obj_825A2688 *o)
     fn_8259C738(piVar1 + 2);
     o->f14 = r;
     o->f8 = r;
-    fn_82A1EFC0(r, 0, o->f20);
+    XMemSet(r, 0, o->f20);
   }
 }

@@ -1,5 +1,5 @@
 extern int fn_82BEEC58();
-extern int fn_82F67DE8();
+extern int tan();
 extern int fn_82F6A544();
 extern int fn_82F6A590();
 extern unsigned int lbl_82002AE0;
@@ -23,7 +23,7 @@ void fn_82BE97E0(unsigned __int64 param_1,double param_2,double param_3)
                                           *(int *)(lbl_8322B22C + 0xbc)) /
                            (double)(unsigned int)(*(int *)(lbl_8322B22C + 200) -
                                          *(int *)(lbl_8322B22C + 0xc0)));
-    dVar3 = (double)fn_82F67DE8((double)(float)(dVar3 * (double)lbl_82002C5C));
+    dVar3 = (double)tan((double)(float)(dVar3 * (double)lbl_82002C5C));
     dVar4 = (double)lbl_82002AE0;
     dVar3 = (double)(float)(dVar4 / (double)(float)dVar3);
     pfVar1 = (float *)fn_82BEEC58(lbl_8322B22C + 0x58,0);

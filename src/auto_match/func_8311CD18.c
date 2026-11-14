@@ -13,7 +13,7 @@ typedef struct Entry_8311CD18 {
 } Entry_8311CD18;
 
 extern void fn_82230110(String_8311CD18 *s, const char *text);
-extern void fn_82A1EFC0(void *dst, int value, unsigned int size);
+extern void XMemSet(void *dst, int value, unsigned int size);
 extern int atexit(void (*)(void));
 extern void fn_8313E028(void);
 extern char lbl_83290060[];
@@ -32,7 +32,7 @@ void fn_8311CD18(void)
         e->time = 0;
         fn_82230110(&e->name, lbl_82196582);
         e->flag = 0;
-        fn_82A1EFC0(e->buffer, 0, 1000);
+        XMemSet(e->buffer, 0, 1000);
         e++;
     }
     atexit(fn_8313E028);

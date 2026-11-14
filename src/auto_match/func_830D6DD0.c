@@ -1,4 +1,4 @@
-extern int fn_82A1EFC0();
+extern int XMemSet();
 
 
 void fn_830D6DD0(int param_1,int param_2,int param_3)
@@ -20,6 +20,6 @@ void fn_830D6DD0(int param_1,int param_2,int param_3)
   *(int *)(param_3 + 0x18) = iVar2 * iVar3 * 4 + iVar1;
   *(int *)(param_3 + 0x20) = *(int *)(param_2 + 0x558) * iVar3 * 4 + *(int *)(param_1 + 0x5708);
                     /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(*(unsigned int *)(param_2 + 0x160),0,iVar5 * 4);
+  XMemSet(*(unsigned int *)(param_2 + 0x160),0,iVar5 * 4);
 }
 

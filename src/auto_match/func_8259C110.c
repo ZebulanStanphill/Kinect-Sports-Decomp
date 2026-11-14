@@ -1,4 +1,4 @@
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int iRam832660d0;
 extern int iRam832821fc;
 extern unsigned int lbl_83265A5C;
@@ -63,7 +63,7 @@ void fn_8259C110(void)
         uRam83281158 = 0;
         iRam832821fc = 1;
                     /* WARNING: Subroutine does not return */
-        fn_82A1EFC0(0xffffffff832660a0,0,0x1c,0xffffffff8328136c,1,0,0);
+        XMemSet(0xffffffff832660a0,0,0x1c,0xffffffff8328136c,1,0,0);
       }
       piVar2 = piVar2 + 0x85;
       iVar3 = iVar3 + 1;

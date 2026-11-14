@@ -972,8 +972,8 @@ extern int fn_8265C990();
 extern int fn_8297FBF0();
 extern int fn_829803A8();
 extern __int64 fn_829860E0();
-extern int fn_82F64318();
-extern int fn_82F643F8();
+extern int sin();
+extern int cos();
 extern int fn_82F64A40();
 extern int fn_82F64F30();
 extern int fn_82F65018();
@@ -981,7 +981,7 @@ extern int fn_82F655D8();
 extern int fn_82F65D50();
 extern int fn_82F65E18();
 extern int fn_82F65E20();
-extern int fn_82F67DE8();
+extern int tan();
 extern int fn_82F68918();
 extern int fn_82F6A548();
 extern int fn_82F6A594();
@@ -1261,7 +1261,7 @@ LAB_82983364:
   case 0xb:
     if ((uVar19 & 0xffffffff) != 0) {
                     /* WARNING: Subroutine does not return */
-      fn_82F643F8(*(unsigned __int64 *)((((unsigned __int64)(uStack_b0) >> 0) & 0xFFFFFFFF) + 8));
+      cos(*(unsigned __int64 *)((((unsigned __int64)(uStack_b0) >> 0) & 0xFFFFFFFF) + 8));
     }
     break;
   case 0xc:
@@ -1969,7 +1969,7 @@ LAB_829820b4:
   case 0x44:
     if ((uVar19 & 0xffffffff) != 0) {
                     /* WARNING: Subroutine does not return */
-      fn_82F64318(*(unsigned __int64 *)((((unsigned __int64)(uStack_b0) >> 0) & 0xFFFFFFFF) + 8));
+      sin(*(unsigned __int64 *)((((unsigned __int64)(uStack_b0) >> 0) & 0xFFFFFFFF) + 8));
     }
     break;
   case 0x46:
@@ -2045,7 +2045,7 @@ LAB_829820b4:
       iVar18 = (((unsigned __int64)(uStack_b0) >> 0) & 0xFFFFFFFF) - iVar18;
       uVar12 = uVar19;
       do {
-        uVar25 = fn_82F67DE8(*(unsigned __int64 *)((int)(unsigned __int64 *)lVar4 + iVar18));
+        uVar25 = tan(*(unsigned __int64 *)((int)(unsigned __int64 *)lVar4 + iVar18));
         *(unsigned __int64 *)lVar4 = uVar25;
         uVar12 = uVar12 - 1;
         lVar4 = lVar4 + 0x10;
@@ -4354,8 +4354,8 @@ extern int fn_8265C990();
 extern int fn_8297FBF0();
 extern int fn_829803A8();
 extern __int64 fn_829860E0();
-extern int fn_82F64318();
-extern int fn_82F643F8();
+extern int sin();
+extern int cos();
 extern int fn_82F64A40();
 extern int fn_82F64F30();
 extern int fn_82F65018();
@@ -4363,7 +4363,7 @@ extern int fn_82F655D8();
 extern int fn_82F65D50();
 extern int fn_82F65E18();
 extern int fn_82F65E20();
-extern int fn_82F67DE8();
+extern int tan();
 extern int fn_82F68918();
 extern int fn_82F6A548();
 extern int fn_82F6A594();

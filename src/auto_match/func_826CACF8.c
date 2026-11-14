@@ -23,7 +23,7 @@ extern int fn_82697700();
 extern int fn_82741A50();
 extern int fn_827599C0();
 extern int fn_8275A528();
-extern int fn_82F643F8();
+extern int cos();
 extern int fn_82F6A53C();
 extern int fn_82F6A588();
 extern unsigned int iStack_114;
@@ -177,7 +177,7 @@ LAB_826caf7c:
                 dVar26 = (double)(float)dVar26;
               }
                     /* WARNING: Subroutine does not return */
-              fn_82F643F8(dVar26);
+              cos(dVar26);
             }
             cVar15 = fn_82681B80(iVar21,lVar20,0xffffffff8200befc,auStack_100);
             if (cVar15 != '\0') {

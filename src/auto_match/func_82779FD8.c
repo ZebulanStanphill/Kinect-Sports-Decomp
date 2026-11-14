@@ -1,6 +1,6 @@
 #define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
 extern int fn_826EBD10();
-extern int fn_82F64318();
+extern int sin();
 extern int fn_82F65018();
 extern int fn_82F65E18();
 extern int fn_82F6A538();
@@ -44,7 +44,7 @@ void fn_82779FD8(unsigned __int64 param_1,double param_2,double param_3,double p
   uStack_70 = (__int64)(iVar1 + 1);
   if (0 < iVar1) {
                     /* WARNING: Subroutine does not return */
-    fn_82F64318((double)(float)((double)(float)((double)(float)(dVar6 - dVar5) /
+    sin((double)(float)((double)(float)((double)(float)(dVar6 - dVar5) /
                                                      (double)uStack_70) + dVar5));
   }
   uStack_70 = CONCAT44((float)(dVar4 + param_5),(float)(param_2 + param_6));

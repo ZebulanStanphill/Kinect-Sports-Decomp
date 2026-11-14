@@ -2,7 +2,7 @@
    object in place (base ctor fn_8227AD00, own vtable, cleared tables). */
 extern void fn_8227AD00(void *self, int a2, int a3, int a4, int a1, int zero, int one, int a5, int a6,
                         int zero2, int a7, int a8);
-void *fn_82A1EFC0(void *dst, int c, unsigned int n);
+void *XMemSet(void *dst, int c, unsigned int n);
 extern char lbl_821A8D8C[];
 extern char lbl_821AC05C[];
 
@@ -39,7 +39,7 @@ RefCount_82361D00 *fn_82361D00(RefCount_82361D00 *rc, const int *a1, int a2, con
         fn_8227AD00(o, a2, *a3, *a4, *a1, 0, 1, *a5, *a6, 0, *a7, *a8);
         o->f1ff8 = 1;
         o->vt = lbl_821AC05C;
-        fn_82A1EFC0(o->table, 0, 0xe70);
+        XMemSet(o->table, 0, 0xe70);
         o->fa48 = 0;
         o->fa84 = 0xf;
         o->fa4c = 0.0f;

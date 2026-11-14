@@ -10,8 +10,8 @@ extern int fn_8263C7D8();
 extern int fn_8263C7F0();
 extern int fn_82A84F08();
 extern int fn_82A8BD58();
-extern int fn_82F64318();
-extern int fn_82F643F8();
+extern int sin();
+extern int cos();
 extern int memset();
 extern int fn_82F6A540();
 extern int fn_82F6A58C();
@@ -1208,10 +1208,10 @@ LAB_82a85ec4:
                           XeCryptRandom(auStack_3f0,4);
                           dVar20 = (double)(float)((double)(float)((double)(auStack_3f0[0] >> 0x20)
                                                                    * dVar23 - dVar26) * dVar22);
-                          dVar19 = (double)fn_82F643F8(dVar20);
+                          dVar19 = (double)cos(dVar20);
                           dVar21 = (double)(float)((double)(float)((double)(float)dVar19 + dVar26) *
                                                   dVar25);
-                          dVar19 = (double)fn_82F64318(dVar20);
+                          dVar19 = (double)sin(dVar20);
                           lVar17 = lVar17 + -1;
                           sStack_42a = (short)(__int64)(dVar21 * dVar24);
                           sVar3 = sStack_42a;

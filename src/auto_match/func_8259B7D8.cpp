@@ -121,7 +121,7 @@ int fn_827D5088(Buf *);
 Buf *fn_827D5070(Buf *);
 int fn_82F67FE8(const char *, const char *, char *, int, int *);
 unsigned int fn_8265BF48(const char *, int);
-void *fn_82A1EFC0(void *, int, unsigned int);
+void *XMemSet(void *, int, unsigned int);
 void *fn_82A1DD38(void *, const void *, unsigned int);
 int fn_827D96A0(Entry *);
 Pairib *fn_8259C040(Pairib *, Hash *, const Value *);
@@ -153,7 +153,7 @@ extern "C" void fn_8259B7D8(Self *self, Shared *sp, Cfg *cfg)
         fn_82F67FE8(line, "%s %d", name, 0x100, (int *)&n);
         unsigned int hash = fn_8265BF48(name, 0);
         Data tmp;
-        fn_82A1EFC0(&tmp, 0, 0x134);
+        XMemSet(&tmp, 0, 0x134);
         fn_82A1DD38(&tmp, &cfg->data, 0x134);
         Entry *e = new Entry(fn_825200F0(&hash), tmp);
         Hash *list = &self->list;
@@ -176,7 +176,7 @@ extern "C" void fn_8259B7D8(Self *self, Shared *sp, Cfg *cfg)
         if (n != 0) {
             Sym key = fn_825200F0(&hash);
             Obj2 *o = (Obj2 *)fn_82522D98(0x148);
-            fn_82A1EFC0(o, 0, 0x148);
+            XMemSet(o, 0, 0x148);
             SPair sp2;
             sp2.ptr = 0;
             sp2.owner = 0;

@@ -1,30 +1,33 @@
-#define true 1
+typedef struct Node_8267C9A0 {
+  int unknown0;
+  struct Node_8267C9A0 *next;
+  struct Node_8267C9A0 *prev;
+} Node_8267C9A0;
 
+typedef struct List_8267C9A0 {
+  char pad[0x20];
+  Node_8267C9A0 *head;
+  Node_8267C9A0 *tail;
+} List_8267C9A0;
 
-void fn_8267C9A0(int param_1,int param_2)
-
+/* Unlinks `node` from the list if it is in it. */
+void fn_8267C9A0(List_8267C9A0 *list, Node_8267C9A0 *node)
 {
-  int iVar1;
-  
-  iVar1 = *(int *)(param_1 + 0x20);
-  while( true ) {
-    if (iVar1 == 0) {
+  Node_8267C9A0 *it;
+
+  for (it = list->head; it != 0; it = it->next) {
+    if (it == node) {
+      if (node->prev != 0) {
+        node->prev->next = node->next;
+      } else {
+        list->head = node->next;
+      }
+      if (node->next != 0) {
+        node->next->prev = node->prev;
+      } else {
+        list->tail = node->prev;
+      }
       return;
     }
-    if (iVar1 == param_2) break;
-    iVar1 = *(int *)(iVar1 + 4);
   }
-  if (*(int *)(param_2 + 8) == 0) {
-    *(unsigned int *)(param_1 + 0x20) = *(unsigned int *)(param_2 + 4);
-  }
-  else {
-    *(unsigned int *)(*(int *)(param_2 + 8) + 4) = *(unsigned int *)(param_2 + 4);
-  }
-  if (*(int *)(param_2 + 4) != 0) {
-    *(unsigned int *)(*(int *)(param_2 + 4) + 8) = *(unsigned int *)(param_2 + 8);
-    return;
-  }
-  *(unsigned int *)(param_1 + 0x24) = *(unsigned int *)(param_2 + 8);
-  return;
 }
-

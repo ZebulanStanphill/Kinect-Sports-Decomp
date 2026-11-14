@@ -18,7 +18,7 @@ extern unsigned int lbl_831BB308;
 extern unsigned int lbl_831BB920;
 
 
-double fn_82F643F8(double param_1)
+double cos(double param_1)
 
 {
   double dVar1;

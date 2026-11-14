@@ -5,7 +5,7 @@ extern unsigned int fStack_98;
 extern unsigned int fStack_9c;
 extern unsigned int fStack_a0;
 extern int fn_827856F0();
-extern int fn_82F643F8();
+extern int cos();
 extern int fn_82F65018();
 extern int fn_82F65E18();
 extern int fn_82F6A548();
@@ -162,7 +162,7 @@ void fn_82786028(unsigned __int64 param_1,float *param_2,int param_3,float *para
       uStack_e0 = (__int64)(int)lVar4;
       if (lVar4 != 0) {
                     /* WARNING: Subroutine does not return */
-        fn_82F643F8((double)(float)((double)(float)(dVar15 / (double)uStack_e0) + dVar14));
+        cos((double)(float)((double)(float)(dVar15 / (double)uStack_e0) + dVar14));
       }
     }
   }
@@ -270,7 +270,7 @@ void fn_82786028(unsigned __int64 param_1,float *param_2,int param_3,float *para
       uStack_e0 = (__int64)(int)lVar4;
       if (lVar4 != 0) {
                     /* WARNING: Subroutine does not return */
-        fn_82F643F8((double)(float)(dVar14 - (double)(float)(dVar15 / (double)uStack_e0)));
+        cos((double)(float)(dVar14 - (double)(float)(dVar15 / (double)uStack_e0)));
       }
     }
   }

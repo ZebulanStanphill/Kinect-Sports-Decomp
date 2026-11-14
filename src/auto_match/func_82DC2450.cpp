@@ -48,7 +48,7 @@ struct Host_82DC2450 {
     Obj_82DC2450 *o;
 };
 
-extern "C" double fn_82F643F8(double x);
+extern "C" double cos(double x);
 
 static __forceinline void bump(Host_82DC2450 *h)
 {
@@ -64,7 +64,7 @@ extern "C" int fn_82DC2450(Host_82DC2450 *self, unsigned char type, float x)
     V4_82DC2450 v;
     self->o->list.pushBack(0x12);
     self->o->list.pushBack(type);
-    v.vector4_f32[0] = (float)fn_82F643F8(x); v.vector4_f32[1] = 100.0f; v.vector4_f32[2] = 0.0f; v.vector4_f32[3] = 0.0f;
+    v.vector4_f32[0] = (float)cos(x); v.vector4_f32[1] = 100.0f; v.vector4_f32[2] = 0.0f; v.vector4_f32[3] = 0.0f;
     r = self->o->vecs.m_size;
     self->o->vecs.pushBack(v);
     bump(self);

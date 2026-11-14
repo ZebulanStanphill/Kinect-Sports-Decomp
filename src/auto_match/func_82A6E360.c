@@ -1,4 +1,4 @@
-extern int fn_82F64318();
+extern int sin();
 extern int fn_82F6A540();
 extern int fn_82F6A58C();
 extern unsigned int lbl_82005344;
@@ -35,7 +35,7 @@ void fn_82A6E360(void)
       if ((sVar6 < 0x40) || (0x800 < sVar6)) {
 LAB_82a6e450:
                     /* WARNING: Subroutine does not return */
-        fn_82F64318((dVar4 / (double)(__int64)(int)sVar6) * dVar3);
+        sin((dVar4 / (double)(__int64)(int)sVar6) * dVar3);
       }
       if (((int)sVar6 - 1U & (int)sVar6) != 0) goto LAB_82a6e450;
       pfVar1 = (float *)(&lbl_820AA5E0)[(int)sVar6 >> 7];

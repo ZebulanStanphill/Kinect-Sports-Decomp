@@ -20,7 +20,7 @@ typedef struct {
     Sink_8241F200 *sink;
 } Obj_8241F200;
 
-extern void fn_82A1EFC0(void *dst, int value, unsigned int size);
+extern void XMemSet(void *dst, int value, unsigned int size);
 
 void fn_8241F200(Obj_8241F200 *self, Desc_8241F200 *desc)
 {
@@ -36,7 +36,7 @@ void fn_8241F200(Obj_8241F200 *self, Desc_8241F200 *desc)
     desc->f10[8] = 0;
     desc->f10[9] = 0;
     desc->f10[10] = 0;
-    fn_82A1EFC0(desc->block1, 0, sizeof(desc->block1));
-    fn_82A1EFC0(desc->block2, 0, sizeof(desc->block2));
+    XMemSet(desc->block1, 0, sizeof(desc->block1));
+    XMemSet(desc->block2, 0, sizeof(desc->block2));
     self->sink->vt->Submit(self->sink, desc);
 }

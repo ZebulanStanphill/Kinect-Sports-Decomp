@@ -1,5 +1,5 @@
 extern int fn_82A1DDC0();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int fn_82F6A538();
 extern int fn_82F6A584();
 extern int fn_82FE09B8();
@@ -87,7 +87,7 @@ void fn_82FE2018(unsigned __int64 param_1,unsigned __int64 param_2)
       } while (lVar7 != 0);
       fn_82FE0A58(iVar3,lVar9,uVar5);
                     /* WARNING: Subroutine does not return */
-      fn_82A1EFC0(uVar2 + 0x800,0,0x1800);
+      XMemSet(uVar2 + 0x800,0,0x1800);
     }
     (**(int (***)())(**(int **)(iVar3 + 0x1a0) + 8))(*(int **)(iVar3 + 0x1a0),uVar2);
     fn_82F6A584(1);

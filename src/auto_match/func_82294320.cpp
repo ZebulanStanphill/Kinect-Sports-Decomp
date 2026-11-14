@@ -18,7 +18,7 @@ struct Ctx_82294320 {
   char pad1[0x68 - 0x20]; char f68[1];
 };
 
-extern "C" void fn_82294320(Ctx_82294320 *c, wchar_t ch)
+extern "C" void fn_82294320(Ctx_82294320 *c, unsigned short round)
 {
   char raw[sizeof(std::wostringstream)];
   std::wostringstream &os = *(std::wostringstream *)raw;
@@ -27,7 +27,7 @@ extern "C" void fn_82294320(Ctx_82294320 *c, wchar_t ch)
   fn_82358FD8(c->h1c, buf, 0x400, "caption_round");
   os << buf;
   os << " ";
-  os << ch;
+  os << round;
   {
     std::wstring s = os.str();
     fn_82299AC8(c->f68, s.c_str());

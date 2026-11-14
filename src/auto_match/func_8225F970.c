@@ -4,7 +4,7 @@ extern int fn_8225F670();
 extern int fn_8225F748();
 extern int fn_825122A8();
 extern int fn_82A1C048();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int fn_82E1CAD0();
 extern unsigned int lbl_83265988;
 extern unsigned int lbl_832659CD;
@@ -37,7 +37,7 @@ void fn_8225F970(void)
     fn_825122A8(iVar2,auStack_80);
     fn_82A1C048();
                     /* WARNING: Subroutine does not return */
-    fn_82A1EFC0(auStack_70,0,0x20);
+    XMemSet(auStack_70,0,0x20);
   }
   return;
 }

@@ -5,7 +5,7 @@ extern int fn_8234E6D8();
 extern int fn_8251F720();
 extern int fn_8251FBA8();
 extern int fn_8265C9E0();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int lbl_82002B04;
 extern unsigned int lbl_82196750;
 extern unsigned int lbl_821ACB04;
@@ -157,8 +157,8 @@ unsigned int * fn_822BA2E8(unsigned int *param_1,int param_2)
     puVar6[1] = in_register_000104d4;
     puVar6[2] = in_register_000104d8;
     puVar6[3] = in_vr77;
-    fn_82A1EFC0(param_1 + 0xac,0,0x40);
-    fn_82A1EFC0(param_1 + 0xbc,0,0x20);
+    XMemSet(param_1 + 0xac,0,0x40);
+    XMemSet(param_1 + 0xbc,0,0x20);
     return param_1;
   }
   uStack_7c = 0;

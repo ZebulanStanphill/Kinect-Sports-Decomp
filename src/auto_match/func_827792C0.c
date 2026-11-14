@@ -1,6 +1,6 @@
 extern double sqrt(double);
 #define SQRT(x) sqrt(x)
-extern int fn_82F67DE8();
+extern int tan();
 extern unsigned int lbl_82005710;
 extern unsigned int lbl_82005730;
 extern unsigned int lbl_82005758;
@@ -30,14 +30,14 @@ void fn_827792C0(double param_1,double param_2,double param_3)
   if (param_1 != lbl_82005710) {
     if ((param_1 <= lbl_82005710) || (lbl_82015418 <= param_1)) {
       if ((param_1 < lbl_82015418) || (lbl_82015400 <= param_1)) {
-        dVar3 = (double)fn_82F67DE8(param_1 - lbl_820153F8);
+        dVar3 = (double)tan(param_1 - lbl_820153F8);
         dVar3 = (dVar3 / SQRT(lbl_820105A0)) * lbl_82015408;
         param_3 = (lbl_82005758 - param_2) * dVar1;
         dVar3 = (dVar3 + lbl_82015408) * dVar1 - (dVar3 + lbl_82005730) * param_3;
         dVar1 = (dVar1 * lbl_820105A0 - dVar3) - param_3;
       }
       else {
-        dVar1 = (double)fn_82F67DE8(param_1 - lbl_8200F058);
+        dVar1 = (double)tan(param_1 - lbl_8200F058);
         dVar1 = (dVar1 / SQRT(lbl_820105A0)) * lbl_82015408;
         dVar3 = (lbl_82005758 - param_2) * param_3;
         dVar1 = (dVar1 + lbl_82015408) * param_3 - (dVar1 + lbl_82005730) * dVar3;
@@ -45,7 +45,7 @@ void fn_827792C0(double param_1,double param_2,double param_3)
       }
     }
     else {
-      dVar1 = (double)fn_82F67DE8(param_1 - lbl_82015410);
+      dVar1 = (double)tan(param_1 - lbl_82015410);
       dVar2 = (dVar1 / SQRT(lbl_820105A0)) * lbl_82015408;
       dVar1 = (lbl_82005758 - param_2) * dVar3;
       param_3 = (dVar2 + lbl_82015408) * dVar3 - (dVar2 + lbl_82005730) * dVar1;

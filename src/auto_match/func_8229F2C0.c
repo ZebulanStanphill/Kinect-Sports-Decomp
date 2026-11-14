@@ -26,7 +26,7 @@ extern void *fn_8266EC60(void);
 extern void *fn_8266EE08(SP_8229F2C0 *, void *, L8_8229F2C0 *, int, int, int);
 extern void fn_8266F6A8(void *, int);
 extern void fn_82673A28(void *, void (*)(void), void *);
-extern void fn_82A1EFC0(void *dst, int value, unsigned int size);
+extern void XMemSet(void *dst, int value, unsigned int size);
 extern void fn_822A0360(void);
 extern void fn_8229F4F8(Scoreboard_8229F2C0 *self, int arg);
 
@@ -46,9 +46,9 @@ Scoreboard_8229F2C0 *fn_8229F2C0(Scoreboard_8229F2C0 *p)
     p->f130 = 0;
     for (i = 0; i < 8; i++)
         p->values[i] = 0;
-    fn_82A1EFC0(p->text0, 0, 0x20);
-    fn_82A1EFC0(p->text2, 0, 0x20);
-    fn_82A1EFC0(p->text1, 0, 0x20);
+    XMemSet(p->text0, 0, 0x20);
+    XMemSet(p->text2, 0, 0x20);
+    XMemSet(p->text1, 0, 0x20);
     fn_82520158("ui_scoreboard", &name, 0);
     fn_823F2E20(p, fn_8266EE08(&ref, fn_8266EC60(), &name, 0, 1, 0));
     if (ref.rc != 0)

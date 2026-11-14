@@ -6,7 +6,7 @@ extern int fn_8259C5D8();
 extern int fn_8265CA20();
 extern int fn_827D96A0();
 extern int fn_82A1BB18();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 
 
 void fn_8259B240(int param_1,unsigned __int64 param_2)
@@ -28,6 +28,6 @@ void fn_8259B240(int param_1,unsigned __int64 param_2)
     fn_8259BA48(aiStack_180,param_1 + 0x34,aiStack_180[0]);
   }
                     /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(auStack_170,0,0x134);
+  XMemSet(auStack_170,0,0x134);
 }
 

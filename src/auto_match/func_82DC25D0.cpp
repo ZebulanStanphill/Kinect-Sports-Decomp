@@ -55,7 +55,7 @@ struct Host_82DC25D0 {
     Obj_82DC25D0 *o;
 };
 
-extern "C" double fn_82F64318(double x);
+extern "C" double sin(double x);
 static __forceinline void bump(Host_82DC25D0 *h)
 {
     Obj_82DC25D0 *o = h->o;
@@ -70,7 +70,7 @@ extern "C" int fn_82DC25D0(Host_82DC25D0 *self, unsigned char a, unsigned char b
     self->o->list.pushBack(0x13);
     self->o->list.pushBack(a);
     self->o->list.pushBack(b);
-    set4(v, (float)fn_82F64318(x), (float)fn_82F64318(y), 0.0f, 0.0f);
+    set4(v, (float)sin(x), (float)sin(y), 0.0f, 0.0f);
     r = self->o->vecs.m_size;
     self->o->vecs.pushBack(v);
     bump(self);

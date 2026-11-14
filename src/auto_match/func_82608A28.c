@@ -5,7 +5,7 @@ extern int fn_82605258();
 extern int fn_82605798();
 extern int fn_82605AF8();
 extern int fn_82605B90();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_821CE8A0;
 extern unsigned int lbl_831BF6F0;
@@ -64,7 +64,7 @@ LAB_82608ab8:
   if ((bVar5) || (bVar5 = false, bVar7)) {
     bVar5 = true;
   }
-  fn_82A1EFC0(param_2 + 0x160,0,0x100);
+  XMemSet(param_2 + 0x160,0,0x100);
   uVar9 = *(unsigned int *)(param_2 + 0xa0);
   puVar12 = (unsigned int *)(param_2 + 0xa0);
   if (uVar9 < *(unsigned int *)(param_2 + 0xa4)) {

@@ -7,7 +7,7 @@ extern unsigned int fn_8259A230(void);
 extern unsigned int fn_825B1978(unsigned int attributes);
 extern void *fn_82549798(unsigned int size, unsigned int alignment, unsigned int protect, int flags);
 extern void *fn_82522E60(unsigned int size, unsigned int alignment);
-extern void fn_82A1EFC0(void *dst, int value, unsigned int size);
+extern void XMemSet(void *dst, int value, unsigned int size);
 
 static __forceinline unsigned int protect_825B16A8(unsigned int attributes)
 {
@@ -82,7 +82,7 @@ void *fn_825B16A8(unsigned int size, unsigned int attributes)
         p = fn_82522E60(size, alignment_825B16A8(attributes));
     }
     if (attributes & 0x40000000) {
-        fn_82A1EFC0(p, 0, size);
+        XMemSet(p, 0, size);
     }
     return p;
 }

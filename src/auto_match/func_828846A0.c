@@ -15,7 +15,7 @@ extern int fn_82887EF0();
 extern int fn_82888170();
 extern int fn_8289F160();
 extern int fn_828D5330();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int memcpy();
 extern unsigned int iStack_4c;
 extern unsigned int lbl_82022FD4;
@@ -90,7 +90,7 @@ void fn_828846A0(int *param_1,unsigned __int64 param_2)
     uVar3 = fn_8265C9E0(lbl_832129F8);
     *(int *)(iVar8 + 0xb8) = (int)uVar3;
                     /* WARNING: Subroutine does not return */
-    fn_82A1EFC0(uVar3,0,lbl_832129F8);
+    XMemSet(uVar3,0,lbl_832129F8);
   }
   fn_82887EF0(param_2);
   fn_82888170(param_2,2,0x1f,1);

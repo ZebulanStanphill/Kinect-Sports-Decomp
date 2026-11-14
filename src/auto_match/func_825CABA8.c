@@ -1,4 +1,4 @@
-extern int fn_82F64318();
+extern int sin();
 extern float lbl_8219564C;
 extern unsigned int lbl_821CA460;
 extern unsigned int ltcg_pool_0_0f;
@@ -13,7 +13,7 @@ double fn_825CABA8(int param_1)
   if (*(int *)(param_1 + 0x2c) != 0) {
     if (*(float *)(param_1 + 0x44) < *(float *)(param_1 + 0x48)) {
                     /* WARNING: Subroutine does not return */
-      fn_82F64318((double)((*(float *)(param_1 + 0x44) / *(float *)(param_1 + 0x48)) *
+      sin((double)((*(float *)(param_1 + 0x44) / *(float *)(param_1 + 0x48)) *
                                 lbl_8219564C));
     }
     fVar1 = *(float *)(param_1 + 0x44) / *(float *)(param_1 + 0x40);

@@ -3,8 +3,8 @@ extern double sqrt(double);
 extern int fn_82902280();
 extern int fn_82902360();
 extern int fn_829025C0();
-extern int fn_82F64318();
-extern int fn_82F643F8();
+extern int sin();
+extern int cos();
 extern int fn_82F64F30();
 extern int fn_82F65018();
 extern int fn_82F655D8();
@@ -183,7 +183,7 @@ LAB_82902998:
                 {
 LAB_82902c34:
                     /* WARNING: Subroutine does not return */
-                  fn_82F64318(dStack_90);
+                  sin(dStack_90);
                 }
               }
               else if (uVar12 == 0x10900000) {
@@ -192,7 +192,7 @@ LAB_82902c34:
                 {
 LAB_82902c08:
                     /* WARNING: Subroutine does not return */
-                  fn_82F643F8(dStack_90);
+                  cos(dStack_90);
                 }
               }
               else if (uVar12 == 0x10a00000) {

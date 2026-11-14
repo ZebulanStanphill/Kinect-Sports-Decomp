@@ -103,6 +103,9 @@ block_relocations:
 # A word in the block of random-looking data at 0x820BC6A0 that happens to
 # equal 0x82055E77, an odd address inside zlib's fixed_tl table.
 - source: 0x820C155C
+# Another word of that block: it equals 0x8322F416, an odd address inside the
+# codec work buffer lbl_8322BCF8 (0x4000 bytes).
+- source: 0x820C283C
 
 # A function address whose high half the code spills to the stack before the
 # low half is added, so the splitter does not pair the lis with the subi.

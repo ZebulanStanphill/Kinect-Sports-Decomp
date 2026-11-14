@@ -17,7 +17,7 @@ typedef struct Obj_8261C080 {
 } Obj_8261C080;
 
 extern void fn_82A1E658(void *handle);
-extern void fn_82A1EFC0(void *dst, int c, unsigned int n);
+extern void XMemSet(void *dst, int c, unsigned int n);
 extern int fn_82A264C8(void *ctx, Req_8261C080 *req);
 
 static __forceinline void Reset_8261C080(Obj_8261C080 *self)
@@ -25,7 +25,7 @@ static __forceinline void Reset_8261C080(Obj_8261C080 *self)
     if (self->req.handle != 0) {
         fn_82A1E658(self->req.handle);
     }
-    fn_82A1EFC0(&self->req, 0, sizeof(Req_8261C080));
+    XMemSet(&self->req, 0, sizeof(Req_8261C080));
 }
 
 void fn_8261C080(Obj_8261C080 *self)

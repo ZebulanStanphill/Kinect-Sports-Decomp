@@ -1,4 +1,4 @@
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int fn_82F68CC0();
 
 
@@ -24,7 +24,7 @@ void fn_82BDBE00(int *param_1,int param_2,int param_3)
   if (*(int *)(*param_1 + 0x28) != 0) {
     if ((*(unsigned int *)(param_1[1] + 0xd0) & 1) != 0) {
                     /* WARNING: Subroutine does not return */
-      fn_82A1EFC0(iVar1,0,*(unsigned int *)(param_2 + 0xc));
+      XMemSet(iVar1,0,*(unsigned int *)(param_2 + 0xc));
     }
     (**(int (***)())(*param_1 + 0x28))
               (*(unsigned int *)param_1[1],*(unsigned int *)(param_2 + 8),*(unsigned int *)(param_2 + 0xc)

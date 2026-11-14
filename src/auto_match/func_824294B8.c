@@ -13,7 +13,7 @@ extern int fn_82429BA8();
 extern int fn_828ABBC0();
 extern int fn_828ABF58();
 extern int fn_828E5538();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int fn_82F68CC0();
 extern unsigned int lbl_821B8BAC;
 extern unsigned int lbl_821B8BC4;
@@ -77,7 +77,7 @@ void fn_824294B8(unsigned __int64 param_1,unsigned __int64 param_2,int param_3)
   fn_828ABBC0(auStack_40,param_2,auStack_f0);
   ppuVar3 = ppuStack_100;
   if (ppuStack_100 == (unsigned char **)0x1) {
-    fn_82A1EFC0(auStack_e0,0,0x40);
+    XMemSet(auStack_e0,0,0x40);
     puVar1 = (unsigned int *)((int)&ppuStack_100 + in_r0 & 0xfffffff0);
     *puVar1 = in_register_000104d0;
     puVar1[1] = in_register_000104d4;
@@ -134,7 +134,7 @@ void fn_824294B8(unsigned __int64 param_1,unsigned __int64 param_2,int param_3)
     fn_82F68CC0(param_3 + 0x10,auStack_e0,0x40);
   }
   else if (ppuStack_100 == (unsigned char **)0x2) {
-    fn_82A1EFC0(&uStack_60,0,0x20);
+    XMemSet(&uStack_60,0,0x20);
     fStack_fc = 0.0;
     ppuStack_100 = &lbl_821B8BDC;
     fn_82429BA8(&ppuStack_100,param_2,&uStack_48);

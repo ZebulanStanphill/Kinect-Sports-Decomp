@@ -1,7 +1,7 @@
 extern int fn_8265CA20();
 extern int fn_8265CA60();
 extern int fn_8265CAA0();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 
 
 void fn_8245CEB0(int param_1)
@@ -35,6 +35,6 @@ void fn_8245CEB0(int param_1)
   uVar2 = fn_8265CA60(lVar1);
   *(int *)(param_1 + 4) = (int)uVar2;
                     /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(uVar2,0,*(int *)(param_1 + 0x10) << 5);
+  XMemSet(uVar2,0,*(int *)(param_1 + 0x10) << 5);
 }
 

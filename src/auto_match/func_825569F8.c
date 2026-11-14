@@ -21,7 +21,7 @@ extern int fn_827F62A8();
 extern int fn_827F6318();
 extern int fn_827F6430();
 extern int fn_82837D98();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int fn_82A81CD0();
 extern int fn_82BA02A8();
 extern unsigned int iStack_4b0;
@@ -96,7 +96,7 @@ void fn_825569F8(double param_1,double param_2,int param_3,unsigned int *param_4
   }
   if (uVar7 != 0x6f) {
                     /* WARNING: Subroutine does not return */
-    fn_82A1EFC0(param_4 + 0x54,0,0x48);
+    XMemSet(param_4 + 0x54,0,0x48);
   }
   iVar6 = fn_8251F720(param_5,0);
   if (*(int *)(iVar6 + 0x1c) < 0) {
@@ -118,7 +118,7 @@ void fn_825569F8(double param_1,double param_2,int param_3,unsigned int *param_4
     if ((pcVar1 == (int (**)())0x0) ||
        (iVar2 = *(int *)(*(int *)(in_stack_00000094 + 0x844) + 0x370), iVar2 == 0)) {
                     /* WARNING: Subroutine does not return */
-      fn_82A1EFC0(auStack_460,0,1000);
+      XMemSet(auStack_460,0,1000);
     }
     (*pcVar1)(iVar2,*(unsigned int *)(iVar6 + 0x1c),auStack_460,auStack_4ac,auStack_4b4,auStack_4a8,
               auStack_4bc,auStack_4b8);

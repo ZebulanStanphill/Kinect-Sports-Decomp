@@ -2,7 +2,7 @@ extern unsigned int *auStack_80;
 extern unsigned int *auStack_90;
 extern int fn_827F1148();
 extern int fn_82811438();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int lbl_821C4CB8;
 extern unsigned int *lbl_832823E0;
 
@@ -75,6 +75,6 @@ void fn_82554260(unsigned int *param_1,unsigned __int64 param_2,unsigned __int64
   fn_82811438(auStack_80,auStack_90,0x10);
   uVar1 = (**(int (***)())(*lbl_832823E0 + 0xc))(lbl_832823E0,lVar6,auStack_80);
                     /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(uVar1,0,lVar6);
+  XMemSet(uVar1,0,lVar6);
 }
 

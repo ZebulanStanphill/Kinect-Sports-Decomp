@@ -1,7 +1,7 @@
 extern unsigned int *auStack_50;
 extern unsigned int fStack_40;
 extern unsigned int *fStack_44;
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int fn_82F64A40();
 extern int fn_82FBAA10();
 extern int fn_82FBAB20();
@@ -55,7 +55,7 @@ void fn_82FBBA90(int param_1,unsigned int *param_2)
     }
     if (*(int *)(param_1 + 0x10) != 0) {
                     /* WARNING: Subroutine does not return */
-      fn_82A1EFC0((unsigned __int64)*(unsigned short *)((int)param_2 + 0xe) * 4 + (unsigned __int64)*param_2,0,
+      XMemSet((unsigned __int64)*(unsigned short *)((int)param_2 + 0xe) * 4 + (unsigned __int64)*param_2,0,
                         (uVar4 & 0x3fffffff) << 2);
     }
     *(short *)((int)param_2 + 0xe) = *(short *)((int)param_2 + 0xe) + (short)uVar4;

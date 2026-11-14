@@ -1,5 +1,5 @@
 extern unsigned int *auStack_50;
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int uStack_48;
 
 
@@ -14,6 +14,6 @@ void fn_82BDA238(unsigned __int64 param_1)
   auStack_50[0] = 0;
   uStack_48 = 1;
                     /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(param_1,0,8);
+  XMemSet(param_1,0,8);
 }
 

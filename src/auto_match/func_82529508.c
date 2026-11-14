@@ -3,7 +3,7 @@ extern int fn_82526C70();
 extern int fn_82558150();
 extern int fn_82558210();
 extern int fn_82587B68();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int lbl_8218E8E8;
 extern unsigned int lbl_82196582;
 extern unsigned int lbl_821CA460;
@@ -120,7 +120,7 @@ LAB_825296a4:
     pcVar11[-1] = '\0';
   }
   *(unsigned int *)(puVar8 + 0x76) = 0;
-  fn_82A1EFC0(param_1 + 0xf0,0,1000);
+  XMemSet(param_1 + 0xf0,0,1000);
   *(unsigned int *)(puVar8 + 0x26e) = 0;
   *(unsigned int *)(puVar8 + 0x26c) = 1;
   return;

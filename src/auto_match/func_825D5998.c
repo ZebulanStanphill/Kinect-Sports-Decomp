@@ -8,7 +8,7 @@ extern int fn_82631488();
 extern int fn_82631830();
 extern int fn_82631BF8();
 extern int fn_826438C0();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 
 
 void fn_825D5998(int *param_1)
@@ -35,7 +35,7 @@ void fn_825D5998(int *param_1)
     fn_826438C0(*param_1,0,uVar1,auStack_3c,0);
     fn_8262FEC8(uVar1);
                     /* WARNING: Subroutine does not return */
-    fn_82A1EFC0(param_1 + 2,0,0x60);
+    XMemSet(param_1 + 2,0,0x60);
   }
   return;
 }

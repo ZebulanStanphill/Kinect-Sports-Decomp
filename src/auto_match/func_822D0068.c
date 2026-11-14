@@ -17,7 +17,7 @@ typedef struct {
 
 extern unsigned char fn_8223AAC0(void *);
 extern void fn_822315A0(void *);
-extern void fn_82A1EFC0(void *dst, int value, unsigned int size);
+extern void XMemSet(void *dst, int value, unsigned int size);
 extern void fn_822E37E0(Sub_822D0068 *sub, Pair_822D0068 *ref, unsigned int key);
 extern char lbl_821AE598[];
 
@@ -44,8 +44,8 @@ Obj_822D0068 *fn_822D0068(Obj_822D0068 *self, Pair_822D0068 *src, unsigned int *
       tmp.first = f;
     }
     k = *key;
-    fn_82A1EFC0(sub->a, 0, 0x5c);
-    fn_82A1EFC0(sub->b, 0, 0x5c);
+    XMemSet(sub->a, 0, 0x5c);
+    XMemSet(sub->b, 0, 0x5c);
     arg.first = 0;
     arg.second = 0;
     if (tmp.second != 0 && fn_8223AAC0(tmp.second)) {

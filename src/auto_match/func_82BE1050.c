@@ -1,4 +1,4 @@
-extern int fn_82F643F8();
+extern int cos();
 extern int fn_82F6A548();
 extern int fn_82F6A594();
 extern unsigned int lbl_82005730;
@@ -19,13 +19,13 @@ void fn_82BE1050(void)
   dVar1 = lbl_820E88E0 / (double)(__int64)(in_r6 << 2);
   if (0 < in_r6) {
                     /* WARNING: Subroutine does not return */
-    fn_82F643F8((lbl_82005730 + 0.0) * dVar1);
+    cos((lbl_82005730 + 0.0) * dVar1);
   }
   if (in_r6 < 1) {
     fn_82F6A594();
     return;
   }
                     /* WARNING: Subroutine does not return */
-  fn_82F643F8((lbl_82005730 + 0.0) * dVar1);
+  cos((lbl_82005730 + 0.0) * dVar1);
 }
 

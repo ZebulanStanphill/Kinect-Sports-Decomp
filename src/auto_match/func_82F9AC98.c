@@ -1,4 +1,4 @@
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int lbl_821AAD20;
 
 
@@ -13,7 +13,7 @@ unsigned __int64 fn_82F9AC98(int param_1)
   uVar1 = lbl_821AAD20;
   if (*(int *)(param_1 + 0x74) != 0) {
                     /* WARNING: Subroutine does not return */
-    fn_82A1EFC0(*(int *)(param_1 + 0x74),0,*(int *)(param_1 + 0x80) << 2);
+    XMemSet(*(int *)(param_1 + 0x74),0,*(int *)(param_1 + 0x80) << 2);
   }
   uVar2 = 0;
   *(unsigned int *)(param_1 + 0x8c) = lbl_821AAD20;
@@ -27,7 +27,7 @@ unsigned __int64 fn_82F9AC98(int param_1)
       puVar4[2] = uVar1;
       if (*piVar3 != 0) {
                     /* WARNING: Subroutine does not return */
-        fn_82A1EFC0(*piVar3,0,puVar4[-0x4a] << 4);
+        XMemSet(*piVar3,0,puVar4[-0x4a] << 4);
       }
       uVar2 = uVar2 + 1;
       piVar3 = piVar3 + 1;

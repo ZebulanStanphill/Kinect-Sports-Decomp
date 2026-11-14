@@ -1,6 +1,6 @@
 extern int fn_82606610();
 extern int fn_826066A0();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_821CE890;
 extern unsigned int lbl_831BF720;
@@ -66,7 +66,7 @@ void fn_82606730(int param_1)
   } while (lVar5 != 0);
   *(unsigned short *)(param_1 + 0xb0) = 0;
   *(unsigned int *)(param_1 + 0xa4) = *(unsigned int *)(param_1 + 0xa0);
-  fn_82A1EFC0(param_1 + 0x160,0,0x100);
+  XMemSet(param_1 + 0x160,0,0x100);
   return;
 }
 

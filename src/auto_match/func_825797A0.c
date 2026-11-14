@@ -24,13 +24,13 @@ typedef struct Node_825797A0 {
 
 extern void **fn_825CD068(Slot_825797A0 *slot);
 extern Node_825797A0 *fn_825A2410(void **pool);
-extern void fn_82A1EFC0(void *dst, int value, int size);
+extern void XMemSet(void *dst, int value, int size);
 
 Node_825797A0 *fn_825797A0(Obj_825797A0 *self)
 {
     Node_825797A0 *node = fn_825A2410(fn_825CD068(&self->slots[self->current]));
 
-    fn_82A1EFC0(node, 0, 0x80);
+    XMemSet(node, 0, 0x80);
     node->flag = 0;
     node->f28 = 0;
     node->f70 = 0;

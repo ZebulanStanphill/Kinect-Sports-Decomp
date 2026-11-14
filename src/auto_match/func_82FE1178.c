@@ -1,4 +1,4 @@
-extern int fn_82A1EFC0();
+extern int XMemSet();
 
 
 void fn_82FE1178(unsigned __int64 param_1,unsigned int *param_2,unsigned __int64 param_3)
@@ -15,7 +15,7 @@ void fn_82FE1178(unsigned __int64 param_1,unsigned int *param_2,unsigned __int64
     return;
   }
                     /* WARNING: Subroutine does not return */
-  fn_82A1EFC0((unsigned __int64)*(unsigned short *)((int)param_2 + 0xe) * 4 + (unsigned __int64)*param_2,0,
+  XMemSet((unsigned __int64)*(unsigned short *)((int)param_2 + 0xe) * 4 + (unsigned __int64)*param_2,0,
                     (param_3 & 0x3fffffff) << 2);
 }
 

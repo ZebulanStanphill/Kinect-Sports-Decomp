@@ -1,25 +1,37 @@
-#define true 1
+typedef struct Use_82B17020 {
+  int unknown0;
+  void *target;
+  struct Use_82B17020 *next;
+} Use_82B17020;
 
+typedef struct Block_82B17020 {
+  Use_82B17020 *uses;
+  int unknown4;
+  int unknown8;
+  unsigned int flags;
+  int unknown10;
+  struct Block_82B17020 *next;
+} Block_82B17020;
 
-unsigned __int64 fn_82B17020(unsigned __int64 param_1,int param_2,int param_3)
+typedef struct Owner_82B17020 {
+  char pad[0x40];
+  Block_82B17020 *blocks;
+} Owner_82B17020;
 
+/* Is `target` in the use list of any block that has flag 0x04000000? */
+int fn_82B17020(void *self, Owner_82B17020 *owner, void *target)
 {
-  int *piVar1;
-  int iVar2;
-  
-  piVar1 = *(int **)(param_2 + 0x40);
-  do {
-    if (piVar1 == (int *)0x0) {
-      return 0;
-    }
-    if ((piVar1[3] & 0x4000000U) != 0) {
-      for (iVar2 = *piVar1; iVar2 != 0; iVar2 = *(int *)(iVar2 + 8)) {
-        if (*(int *)(iVar2 + 4) == param_3) {
+  Block_82B17020 *block;
+  Use_82B17020 *use;
+
+  for (block = owner->blocks; block != 0; block = block->next) {
+    if ((block->flags & 0x04000000) != 0) {
+      for (use = block->uses; use != 0; use = use->next) {
+        if (use->target == target) {
           return 1;
         }
       }
     }
-    piVar1 = (int *)piVar1[5];
-  } while( true );
+  }
+  return 0;
 }
-

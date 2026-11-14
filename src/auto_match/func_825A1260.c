@@ -2,7 +2,7 @@ extern int fn_8251E4D0();
 extern int fn_82522D98();
 extern int fn_825A1388();
 extern int fn_825A1440();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int lbl_83297910;
 extern unsigned int lbl_83297920;
 
@@ -26,14 +26,14 @@ int * fn_825A1260(unsigned __int64 param_1,int param_2,int param_3,int param_4,u
   if (*(int *)(param_2 + 0xb28) != 0) {
     iVar4 = *(int *)(param_2 + 0xb28);
   }
-  fn_82A1EFC0(piVar2,0,0x140);
+  XMemSet(piVar2,0,0x140);
   *piVar2 = param_2;
   piVar2[1] = param_3;
   piVar2[4] = 0;
   piVar2[3] = param_4;
   piVar2[0x4c] = 0;
   piVar2[5] = iVar4;
-  fn_82A1EFC0(piVar2 + 8,0,0xc0);
+  XMemSet(piVar2 + 8,0,0xc0);
   piVar3 = piVar2 + 0x14;
   lVar5 = 0x20;
   do {

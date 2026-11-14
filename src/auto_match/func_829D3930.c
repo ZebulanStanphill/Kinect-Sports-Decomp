@@ -1,5 +1,5 @@
 extern unsigned int *auStack_a0;
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int fn_82A29DE8();
 
 
@@ -14,6 +14,6 @@ unsigned __int64 fn_829D3930(unsigned __int64 param_1)
     return 0xffffffff80004005;
   }
                     /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(auStack_a0,0,0x80);
+  XMemSet(auStack_a0,0,0x80);
 }
 

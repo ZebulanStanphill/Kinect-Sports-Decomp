@@ -5,7 +5,7 @@ extern int fn_8259C458();
 extern int fn_8259C5D8();
 extern int fn_8259C738();
 extern int fn_82A1BB18();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int lbl_8326B7D0;
 extern unsigned int *lbl_832767CC;
 
@@ -44,6 +44,6 @@ void fn_82540308(void)
   fn_82A1BB18();
   fn_8259C738(piVar1 + 2);
                     /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(uVar3,0,0xac40);
+  XMemSet(uVar3,0,0xac40);
 }
 

@@ -16,7 +16,7 @@ typedef struct Arena_826237C0 {
 
 extern void *fn_82522D98(int size);
 extern void *fn_82522DF8(int size);
-extern void *fn_82A1EFC0(void *dst, int value, unsigned int size);
+extern void *XMemSet(void *dst, int value, unsigned int size);
 
 void *fn_826237C0(Arena_826237C0 *arena, int size, int align)
 {
@@ -78,7 +78,7 @@ void *fn_826237C0(Arena_826237C0 *arena, int size, int align)
     nb->cur = p + size;
 done:
     if (arena->noClear == 0) {
-        fn_82A1EFC0(p, 0, block->cur - p);
+        XMemSet(p, 0, block->cur - p);
     }
     return p;
 }

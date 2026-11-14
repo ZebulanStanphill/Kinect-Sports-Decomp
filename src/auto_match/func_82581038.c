@@ -17,7 +17,7 @@ typedef struct Obj_82581038 {
 } Obj_82581038;
 
 extern char lbl_821C5F0C[];
-extern void *fn_82A1EFC0(void *dst, int value, unsigned int size);
+extern void *XMemSet(void *dst, int value, unsigned int size);
 extern void fn_82520158(const char *name, unsigned int *id, int flag);
 extern Res_82581038 *fn_8251F720(unsigned int *id, int flags);
 extern void fn_82837D98(void *texture, int b, unsigned int *out);
@@ -28,8 +28,8 @@ Obj_82581038 *fn_82581038(Obj_82581038 *self, int owner, int param)
 
     self->owner = owner;
     self->vt = lbl_821C5F0C;
-    fn_82A1EFC0(self->a, 0, 0x7c);
-    fn_82A1EFC0(self->b, 0, 0x58);
+    XMemSet(self->a, 0, 0x7c);
+    XMemSet(self->b, 0, 0x58);
     self->param = param;
     self->fdc = 0;
     self->fe0 = 0;

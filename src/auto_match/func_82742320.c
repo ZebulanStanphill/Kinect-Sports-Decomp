@@ -4,7 +4,7 @@ extern int fn_82695468();
 extern int fn_826954C0();
 extern int fn_826957D0();
 extern int fn_826972E0();
-extern int fn_82F643F8();
+extern int cos();
 extern int fn_82F6A53C();
 extern int fn_82F6A588();
 extern unsigned int lbl_821AAD20;
@@ -57,7 +57,7 @@ void fn_82742320(void)
         }
       }
                     /* WARNING: Subroutine does not return */
-      fn_82F643F8(dVar6);
+      cos(dVar6);
     }
   }
   fn_82F6A588();

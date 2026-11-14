@@ -27,12 +27,12 @@ typedef struct Obj_82510070 {
     Target_82510070 *target;
 } Obj_82510070;
 
-extern void fn_82A1EFC0(void *dst, int value, unsigned int size);
+extern void XMemSet(void *dst, int value, unsigned int size);
 
 void fn_82510070(Obj_82510070 *self, Src_82510070 *src)
 {
     Msg_82510070 m;
-    fn_82A1EFC0(&m.value, 0, 0x10);
+    XMemSet(&m.value, 0, 0x10);
     m.type = 0xa;
     m.size = 0x18;
     m.value = src->value;

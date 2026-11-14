@@ -4,7 +4,7 @@ extern void fn_82525F28(void *, void *);
 extern void fn_8259CA88(void);
 extern unsigned int fn_8265C940(int, int);
 extern void *fn_8265C9E0(int);
-extern void fn_82A1EFC0(void *, int, int);
+extern void XMemSet(void *, int, int);
 extern int fn_82A81FE8(int, int, int, int, unsigned int);
 extern int fn_82A822A8(int, int, int, unsigned int);
 extern unsigned int lbl_821C3058;
@@ -40,7 +40,7 @@ int fn_82523998(void)
     fn_82520158("XAvatarDefaultShadowLODModelMale", buf1c, 1);
     fn_82520158("XAvatarDefaultShadowLODModelFemale", buf20, 1);
     fn_82525F28(buf1c, buf20);
-    fn_82A1EFC0(lbl_832767F0, 0, 0x8a60);
+    XMemSet(lbl_832767F0, 0, 0x8a60);
     lbl_8327F640 = 1;
     iVar2 = 0;
   }

@@ -31,7 +31,7 @@ extern int fn_8241FB38();
 extern int fn_82429260();
 extern int fn_824D2888();
 extern int fn_82547C80();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int memcpy();
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821B9BC8;
@@ -196,7 +196,7 @@ LAB_82418b90:
       if (iVar8 == 2) {
         if (iVar6 != 0) {
           fn_8241A418(param_2,iVar6,iVar7);
-          fn_82A1EFC0(auStack_120,0,0x40);
+          XMemSet(auStack_120,0,0x40);
           iVar8 = *param_2;
           fVar1 = (float)param_2[0x75];
           puVar2 = (unsigned int *)((int)in_r0 + iVar7 + 0x290 & 0xfffffff0);
@@ -218,7 +218,7 @@ LAB_82418b90:
           iVar8 = fn_822BC358(iVar6,auStack_120,*(unsigned int *)(iVar7 + 0x40));
           if (iVar8 != 0) {
             piVar9 = param_2 + 0xd4;
-            fn_82A1EFC0(piVar9,0,0x90);
+            XMemSet(piVar9,0,0x90);
             puVar2 = (unsigned int *)(iVar6 + 0x80U & 0xfffffff0);
             uVar10 = puVar2[1];
             uVar17 = puVar2[2];

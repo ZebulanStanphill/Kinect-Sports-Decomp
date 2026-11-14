@@ -1,5 +1,5 @@
 typedef unsigned char bool;
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int fn_82F6A548();
 extern int fn_82F6A594();
 extern int fn_82FC8FD0();
@@ -253,12 +253,12 @@ void fn_82FDDD60(unsigned __int64 param_1,unsigned int *param_2)
     }
     lVar35 = (uVar23 & 0x3fffffff) << 2;
     lVar52 = uVar34 * 4;
-    fn_82A1EFC0(lVar52 + uVar28,0,lVar35);
-    fn_82A1EFC0(lVar52 + lVar48,0,lVar35);
-    fn_82A1EFC0(lVar52 + lVar46,0,lVar35);
-    fn_82A1EFC0(lVar52 + lVar44,0,lVar35);
-    fn_82A1EFC0(lVar52 + lVar42,0,lVar35);
-    fn_82A1EFC0(lVar52 + lVar40,0,lVar35);
+    XMemSet(lVar52 + uVar28,0,lVar35);
+    XMemSet(lVar52 + lVar48,0,lVar35);
+    XMemSet(lVar52 + lVar46,0,lVar35);
+    XMemSet(lVar52 + lVar44,0,lVar35);
+    XMemSet(lVar52 + lVar42,0,lVar35);
+    XMemSet(lVar52 + lVar40,0,lVar35);
     uVar34 = uVar23 + uVar34;
     lVar52 = *(unsigned int *)(iVar18 + 0x1a0) - uVar23;
     uStack_ca = (unsigned short)uVar34;

@@ -1,5 +1,5 @@
 extern unsigned int *auStack_58;
-extern int fn_82A1EFC0();
+extern int XMemSet();
 
 
 void fn_8251DD18(int param_1)
@@ -9,7 +9,7 @@ void fn_8251DD18(int param_1)
   
   if (*(int *)(param_1 + 0xe0) != 0) {
                     /* WARNING: Subroutine does not return */
-    fn_82A1EFC0(auStack_58,0,8);
+    XMemSet(auStack_58,0,8);
   }
   return;
 }

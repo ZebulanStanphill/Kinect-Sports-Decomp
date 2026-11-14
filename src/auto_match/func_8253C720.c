@@ -1,6 +1,6 @@
 extern unsigned int *auStack_38;
 extern int fn_82599A38();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 
 
 void fn_8253C720(int param_1,__int64 param_2)
@@ -16,7 +16,7 @@ void fn_8253C720(int param_1,__int64 param_2)
     do {
       if (*(int *)(*(int *)(iVar2 + *(int *)(param_1 + 0x44)) + 0x4c) != 0) {
                     /* WARNING: Subroutine does not return */
-        fn_82A1EFC0(auStack_38,0,8);
+        XMemSet(auStack_38,0,8);
       }
       iVar1 = iVar1 + 1;
       iVar2 = iVar2 + 4;

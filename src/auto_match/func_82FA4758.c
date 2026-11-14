@@ -1,7 +1,7 @@
 typedef unsigned char bool;
 #define true 1
 #define false 0
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int fn_82F98E98();
 extern int fn_82F9AD50();
 extern int fn_82FE1178();
@@ -32,7 +32,7 @@ void fn_82FA4758(int param_1,int param_2)
     uVar2 = *(unsigned short *)(param_2 + 0xe);
     uVar7 = fn_82F98E98(param_2);
                     /* WARNING: Subroutine does not return */
-    fn_82A1EFC0(uVar7,0,(unsigned __int64)uVar2 << 2);
+    XMemSet(uVar7,0,(unsigned __int64)uVar2 << 2);
   }
   if (*(int *)(param_1 + 0x21c) != 0) {
     iVar3 = *(int *)(param_1 + 8);

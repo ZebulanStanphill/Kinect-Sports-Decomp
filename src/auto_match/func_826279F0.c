@@ -1,4 +1,4 @@
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int lbl_82192734;
 extern unsigned int lbl_82195644;
 extern unsigned int lbl_821CA460;
@@ -95,7 +95,7 @@ void fn_826279F0(int param_1)
   *(unsigned int *)(param_1 + 0x1b4) = uVar4;
   *(unsigned int *)(param_1 + 0x1b8) = uVar4;
   *(unsigned int *)(param_1 + 0x1bc) = uVar4;
-  fn_82A1EFC0(param_1,0,0xa0);
+  XMemSet(param_1,0,0xa0);
   *(float *)(param_1 + 0x74) = (float)dVar6;
   *(float *)(param_1 + 0x78) = (float)dVar6;
   *(unsigned char *)(param_1 + 0x95) = 1;

@@ -1,7 +1,7 @@
 extern int fn_822315A0();
 extern int fn_8261BF58();
 extern int fn_82A1E658();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int iRam83281150;
 
 
@@ -24,6 +24,6 @@ unsigned __int64 fn_825FD748(int param_1,unsigned __int64 param_2,int param_3)
     fn_82A1E658();
   }
                     /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(aiStack_40[0] + 0x23c,0,0x1c);
+  XMemSet(aiStack_40[0] + 0x23c,0,0x1c);
 }
 

@@ -15,15 +15,15 @@ typedef struct Obj_824CD4E8 {
 } Obj_824CD4E8;
 
 extern void fn_82F53BF0(Obj_824CD4E8 *self);
-extern void fn_82A1EFC0(void *dst, int c, unsigned int n);
+extern void XMemSet(void *dst, int c, unsigned int n);
 extern char lbl_821C0C28[];
 
 Obj_824CD4E8 *fn_824CD4E8(Obj_824CD4E8 *self)
 {
     fn_82F53BF0(self);
     self->vtbl = lbl_821C0C28;
-    fn_82A1EFC0(self->data, 0, 0x1c0);
-    fn_82A1EFC0(self->data2, 0, 8);
+    XMemSet(self->data, 0, 0x1c0);
+    XMemSet(self->data2, 0, 8);
     self->a = 0;
     self->b = 0;
     self->v0 = __vspltisw(0);

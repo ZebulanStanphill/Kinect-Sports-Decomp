@@ -18,7 +18,7 @@ typedef struct VideoTutorial_8228F738 {
 
 extern Glob_83276774 lbl_83276774;
 extern const float lbl_8218E8E8;
-extern void fn_825521F0(void *self, void *effect, Function_8228F738 *done, float from, float to);
+extern void fn_825521F0(float from, float to, Function_8228F738 *done);
 
 void fn_8228F738(VideoTutorial_8228F738 *self, int effect)
 {
@@ -27,7 +27,7 @@ void fn_8228F738(VideoTutorial_8228F738 *self, int effect)
             if (effect != 0) {
                 Function_8228F738 done;
                 done.impl = 0;
-                fn_825521F0(self, (void *)effect, &done, 0.0f, lbl_8218E8E8);
+                fn_825521F0(0.0f, lbl_8218E8E8, &done);
             }
         } else {
             if (lbl_83276774.traceFn != 0) {

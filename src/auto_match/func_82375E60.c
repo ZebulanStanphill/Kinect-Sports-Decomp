@@ -1,7 +1,7 @@
 extern int fn_822AEA70();
 extern int fn_82373840();
 extern int fn_82373B70();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int lbl_821B37CC;
 extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_83265A28;
@@ -54,6 +54,6 @@ void fn_82375E60(int param_1)
   appuStack_30[0] = &lbl_821B37CC;
   fn_822AEA70(*(unsigned int *)(param_1 + 8),appuStack_30);
                     /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(*(unsigned int *)(param_1 + 0x7dc),0,0x30);
+  XMemSet(*(unsigned int *)(param_1 + 0x7dc),0,0x30);
 }
 

@@ -12,7 +12,7 @@ extern int fn_8257ECD0();
 extern int fn_825F2A38();
 extern int fn_825F98C8();
 extern int fn_82A1DD38();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831BF284;
 extern unsigned int lbl_831C01B8;
@@ -107,7 +107,7 @@ void fn_82596240(__int64 param_1)
     iVar6 = fn_825602B8(lVar7);
     uVar4 = lbl_8320A898;
     if (iVar6 == 0) {
-      fn_82A1EFC0(lVar9,0,0xa8);
+      XMemSet(lVar9,0,0xa8);
     }
     else {
       lbl_83296AE0 = (unsigned char *)*puVar8;

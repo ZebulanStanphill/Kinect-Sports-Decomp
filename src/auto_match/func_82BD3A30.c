@@ -10,14 +10,14 @@ typedef struct {
     Q_82BD3A30 queue;
 } Obj_82BD3A30;
 
-extern void fn_82A1EFC0(void *dst, int value, int size);
+extern void XMemSet(void *dst, int value, int size);
 extern int fn_82BD7AE8(void *stream, unsigned int kind, Rec_82BD3A30 *rec);
 
 void fn_82BD3A30(Obj_82BD3A30 *self, N_82BD3A30 *n)
 {
     Q_82BD3A30 *q;
 
-    fn_82A1EFC0(n->rec->c, 0, n->rec->b);
+    XMemSet(n->rec->c, 0, n->rec->b);
     if (fn_82BD7AE8(self->stream, self->kind, n->rec) < 0) {
         n->rec->a = 0;
         n->rec->b = n->rec->d;

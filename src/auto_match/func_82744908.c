@@ -6,8 +6,8 @@ extern void *fn_82744378(void *, void *);
 extern void *fn_826957D0(void *, int);
 extern void fn_82695DA0(void *, void *);
 extern double fn_826972E0(void *, void *);
-extern double fn_82F64318(double x);
-extern double fn_82F643F8(double x);
+extern double sin(double x);
+extern double cos(double x);
 extern void fn_82743888(void *, void *, V2_82744908 *);
 extern void fn_82696330(void *);
 extern void fn_82743808(void *, void *, void *);
@@ -36,8 +36,8 @@ void fn_82744908(Self_82744908 *self)
     radius = fn_826972E0(radiusArg, self->ctx);
     angle = fn_826972E0(angleArg, self->ctx);
     {
-      double s = fn_82F64318(angle);
-      v.x = fn_82F643F8(angle) * radius;
+      double s = sin(angle);
+      v.x = cos(angle) * radius;
       v.y = s * radius;
     }
     fn_82743888(obj, self->ctx, &v);

@@ -1,4 +1,4 @@
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int fn_82FA5100();
 extern unsigned int lbl_821AAD20;
 extern unsigned int lbl_831BC770;
@@ -50,6 +50,6 @@ LAB_830220a4:
     return 0x34;
   }
                     /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(uVar2,0,lVar5);
+  XMemSet(uVar2,0,lVar5);
 }
 

@@ -5,7 +5,7 @@ extern int fn_8251FA58();
 extern int fn_82520158();
 extern int fn_82864988();
 extern int fn_82A1DD38();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int lbl_821CA460;
 extern unsigned int ltcg_pool_0_0f;
 
@@ -89,6 +89,6 @@ void fn_824BCA38(int param_1)
   fn_82A1DD38(param_1 + 0x4e0,uVar3,0x28);
   fn_8251FA58(uVar3);
                     /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(param_1 + 0x90,0,0x34);
+  XMemSet(param_1 + 0x90,0,0x34);
 }
 

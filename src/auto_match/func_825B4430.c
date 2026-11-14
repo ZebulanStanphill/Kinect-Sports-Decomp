@@ -1,7 +1,7 @@
 extern int fn_8251E4D0();
 extern int fn_825711A0();
 extern int fn_8265BF48();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int fn_82D93128();
 extern unsigned int ltcg_pool_0_0f;
 extern unsigned int stack0x00000050;
@@ -44,7 +44,7 @@ int fn_825B4430(double param_1,int param_2,__int64 param_3,unsigned int param_4,
   
   uStack00000050 = param_9;
   iVar2 = fn_8251E4D0(param_2 + 0x758);
-  fn_82A1EFC0(iVar2,0,0x3f0);
+  XMemSet(iVar2,0,0x3f0);
   *(unsigned int *)(iVar2 + 0xf4) = param_5;
   *(float *)(iVar2 + 0x3e0) = (float)param_1;
   *(int *)(iVar2 + 0xd4) = (int)param_3;

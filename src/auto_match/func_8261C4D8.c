@@ -1,6 +1,6 @@
 extern unsigned int *auStack_40;
 extern int fn_82A1E658();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int fn_82A29FE0();
 
 
@@ -16,7 +16,7 @@ void fn_8261C4D8(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,i
       fn_82A1E658();
     }
                     /* WARNING: Subroutine does not return */
-    fn_82A1EFC0(param_1 + 0x30c,0,0x14);
+    XMemSet(param_1 + 0x30c,0,0x14);
   }
   if (*(int *)(param_1 + 0x304) == -1) {
     uVar2 = thunk_FUN_82a2b798();

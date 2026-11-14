@@ -7,7 +7,7 @@ extern int fn_8241F838();
 extern int fn_8241F978();
 extern int fn_824D2888();
 extern int fn_82809400();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int fn_82F6A548();
 extern int fn_82F6A594();
 extern unsigned int ltcg_pool_0_0f;
@@ -55,7 +55,7 @@ void fn_8241A418(unsigned __int64 param_1,unsigned __int64 param_2,int param_3)
   puVar2[3] = uVar13;
   dVar10 = (double)ltcg_pool_0_0f;
   fStack_bc = ltcg_pool_0_0f;
-  fn_82A1EFC0(&uStack_b0,0,0x20);
+  XMemSet(&uStack_b0,0,0x20);
   dVar9 = (double)fStack_b8;
   dVar8 = (double)fStack_c0;
   dVar7 = (double)((float)piVar4[0x88] - *(float *)(*piVar4 + 0x2a8));

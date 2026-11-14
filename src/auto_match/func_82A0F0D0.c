@@ -1,6 +1,6 @@
 extern double sqrt(double);
 #define SQRT(x) sqrt(x)
-extern int fn_82F67DE8();
+extern int tan();
 extern unsigned int lbl_82002AE0;
 extern unsigned int lbl_82002C5C;
 extern unsigned int lbl_82006848;
@@ -27,7 +27,7 @@ void fn_82A0F0D0(unsigned int *param_1,unsigned int param_2,unsigned int param_3
   param_1[0x16] = lbl_8207F718;
   param_1[0x17] = uVar5;
   param_1[0x18] = uVar4;
-  dVar6 = (double)fn_82F67DE8(lbl_8207F710);
+  dVar6 = (double)tan(lbl_8207F710);
   param_1[8] = param_1[0x18];
   uVar4 = lbl_821AAD20;
   fVar2 = lbl_82002C5C;

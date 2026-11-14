@@ -2,7 +2,7 @@ extern unsigned int *auStack_80;
 extern unsigned int *auStack_b0;
 extern int fn_8248A9A8();
 extern int fn_824BE400();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int iRam831c6308;
 
 
@@ -22,10 +22,10 @@ unsigned __int64 fn_824BD858(int *param_1)
   iVar2 = fn_824BE400(uVar3,param_1);
   if ((iVar2 != 0) && (lVar1 = (**(int (***)())(*(int *)*param_1 + 0x10))(), -1 < lVar1)) {
                     /* WARNING: Subroutine does not return */
-    fn_82A1EFC0(auStack_b0,0,0x28);
+    XMemSet(auStack_b0,0,0x28);
   }
   iRam831c6308 = iRam831c6308 + 1;
                     /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(auStack_80,0,0x2c);
+  XMemSet(auStack_80,0,0x2c);
 }
 

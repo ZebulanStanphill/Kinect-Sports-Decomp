@@ -1,7 +1,7 @@
-extern int fn_82F64318();
-extern int fn_82F643F8();
+extern int sin();
+extern int cos();
 extern int fn_82F655D8();
-extern int fn_82F67DE8();
+extern int tan();
 extern int fn_82F6A548();
 extern int fn_82F6A594();
 extern unsigned int lbl_82002AE0;
@@ -40,7 +40,7 @@ void fn_82FB9918(unsigned __int64 param_1,int param_2,unsigned int *param_3)
   if (uVar5 < 7) {
     dVar9 = dVar10;
     if (uVar5 == 1) {
-      dVar8 = (double)fn_82F67DE8((double)((float)(dVar8 * (double)lbl_8201DD74) / fVar3));
+      dVar8 = (double)tan((double)((float)(dVar8 * (double)lbl_8201DD74) / fVar3));
       fVar2 = (float)dVar8;
       fVar1 = (float)((double)(fVar2 * fVar2) + dVar9);
       fVar3 = (float)(dVar9 / (double)(fVar1 + fVar2 * lbl_82175460));
@@ -52,29 +52,29 @@ void fn_82FB9918(unsigned __int64 param_1,int param_2,unsigned int *param_3)
     else {
       if (uVar5 == 2) {
                     /* WARNING: Subroutine does not return */
-        fn_82F643F8((double)((float)(dVar8 * (double)lbl_82015468) / fVar3));
+        cos((double)((float)(dVar8 * (double)lbl_82015468) / fVar3));
       }
       if (uVar5 == 3) {
                     /* WARNING: Subroutine does not return */
-        fn_82F643F8((double)((float)(dVar8 * (double)lbl_82015468) / fVar3));
+        cos((double)((float)(dVar8 * (double)lbl_82015468) / fVar3));
       }
       if (uVar5 == 4) {
         fn_82F655D8(lbl_82015618,(double)((float)param_3[1] * lbl_82079FB8));
                     /* WARNING: Subroutine does not return */
-        fn_82F64318((double)((float)(dVar8 * (double)lbl_82015468) /
+        sin((double)((float)(dVar8 * (double)lbl_82015468) /
                                   (float)*(unsigned int *)(iVar7 + 0x48)));
       }
       if (uVar5 == 5) {
         fn_82F655D8(lbl_82015618,(double)((float)param_3[1] * lbl_82079FB8));
                     /* WARNING: Subroutine does not return */
-        fn_82F64318((double)((float)(dVar8 * (double)lbl_82015468) /
+        sin((double)((float)(dVar8 * (double)lbl_82015468) /
                                   (float)*(unsigned int *)(iVar7 + 0x48)));
       }
       if (uVar5 != 0) {
                     /* WARNING: Subroutine does not return */
-        fn_82F643F8((double)((float)(dVar8 * (double)lbl_82015468) / fVar3));
+        cos((double)((float)(dVar8 * (double)lbl_82015468) / fVar3));
       }
-      dVar8 = (double)fn_82F67DE8((double)((float)(dVar8 * (double)lbl_8201DD74) / fVar3));
+      dVar8 = (double)tan((double)((float)(dVar8 * (double)lbl_8201DD74) / fVar3));
       fVar2 = (float)(dVar9 / (double)(float)dVar8);
       fVar1 = (float)((double)(fVar2 * fVar2) + dVar9);
       fVar3 = (float)(dVar9 / (double)(fVar1 + fVar2 * lbl_82175460));

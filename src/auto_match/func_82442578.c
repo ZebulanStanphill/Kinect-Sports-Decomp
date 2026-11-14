@@ -1,5 +1,5 @@
 extern int fn_82441BD0();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int lbl_821917C0;
 extern unsigned int lbl_82191F78;
 extern unsigned int lbl_82192510;
@@ -133,7 +133,7 @@ int fn_82442578(int param_1,unsigned __int64 param_2)
     *pfVar12 = (float)dVar15;
     lVar13 = lVar13 + -1;
   } while (lVar13 != 0);
-  fn_82A1EFC0(param_1 + 0x13c,0,0x68);
+  XMemSet(param_1 + 0x13c,0,0x68);
   *(unsigned int *)(param_1 + 0x110) = 0x80;
   *(unsigned int *)(param_1 + 0xf4) = 0x83;
   *(unsigned int *)(param_1 + 0xf8) = 0x84;

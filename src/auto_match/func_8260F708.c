@@ -11,13 +11,13 @@ typedef struct Obj_8260F708 {
     char pad[0x60];
     void **target;
 } Obj_8260F708;
-extern void fn_82A1EFC0(void *dst, int value, unsigned int size);
+extern void XMemSet(void *dst, int value, unsigned int size);
 extern void fn_8257C8F0(void *target, Msg_8260F708 *msg);
 
 void fn_8260F708(Obj_8260F708 *self, int unused, Src_8260F708 *src)
 {
     Msg_8260F708 m;
-    fn_82A1EFC0(m.data, 0, 0x10);
+    XMemSet(m.data, 0, 0x10);
     m.type = 0x2b;
     m.size = 0x18;
     m.data[0] = src->a;

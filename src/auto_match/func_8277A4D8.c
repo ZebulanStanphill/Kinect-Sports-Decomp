@@ -1,7 +1,7 @@
 extern unsigned int fStack_6c;
 extern unsigned int fStack_70;
 extern int fn_826EBD10();
-extern int fn_82F64318();
+extern int sin();
 extern int fn_82F65018();
 extern int fn_82F65E18();
 extern int fn_82F6A540();
@@ -50,7 +50,7 @@ void fn_8277A4D8(unsigned __int64 param_1,__int64 param_2,float *param_3,float *
     *(int *)((int)pfVar1[10] + 4) = *(int *)((int)pfVar1[10] + 4) + 1;
     if (0 < iVar2) {
                     /* WARNING: Subroutine does not return */
-      fn_82F64318(dVar3);
+      sin(dVar3);
     }
     dVar6 = (double)*param_3 + dVar6;
     dVar3 = (double)param_3[1] + dVar7;

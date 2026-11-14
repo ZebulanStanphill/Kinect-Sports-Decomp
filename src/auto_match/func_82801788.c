@@ -1,6 +1,6 @@
 typedef struct { unsigned __int64 lo, hi; } V16;
 extern int fn_82805520();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern V16 loadVectorLeftIndexed128();
 extern V16 loadVectorRightIndexed128();
 
@@ -34,7 +34,7 @@ void fn_82801788(unsigned short *param_1,__int64 param_2,int param_3,unsigned in
   dataCacheBlockTouch(lVar6 + 0x80);
   param_4 = param_4 & 0xffff;
   uVar5 = 0x80;
-  fn_82A1EFC0(param_2,0,param_4 * 0x30);
+  XMemSet(param_2,0,param_4 * 0x30);
   uVar4 = 0;
   if (param_4 != 0) {
     lVar3 = (param_5 & 0xffff) * 4;

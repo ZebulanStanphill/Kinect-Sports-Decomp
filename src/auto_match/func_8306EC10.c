@@ -1,4 +1,4 @@
-extern double fn_82F643F8(double x);
+extern double cos(double x);
 
 float fn_8306EC10(float x)
 {
@@ -7,5 +7,5 @@ float fn_8306EC10(float x)
     } else if (x > 1.0f) {
         x = 1.0f;
     }
-    return 0.5f - (float)fn_82F643F8(3.14159274f * x) * 0.5f;
+    return 0.5f - (float)cos(3.14159274f * x) * 0.5f;
 }

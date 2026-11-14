@@ -1,7 +1,7 @@
 #define true 1
 extern unsigned int *auStack_18;
 extern int fn_8251E530();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int fn_82D81078();
 
 
@@ -16,7 +16,7 @@ void fn_8253D4E8(int param_1,int param_2,unsigned __int64 param_3,int param_4)
     if (*(unsigned int **)(param_1 + 0x68) <= puVar1) {
       fn_82D81078(*(unsigned int *)(param_2 + 0x1f8),param_3,param_4 == 0);
                     /* WARNING: Subroutine does not return */
-      fn_82A1EFC0(auStack_18,0,4);
+      XMemSet(auStack_18,0,4);
     }
     if ((unsigned __int64)*puVar1 == (param_3 & 0xffffffff)) break;
     puVar1 = puVar1 + 1;

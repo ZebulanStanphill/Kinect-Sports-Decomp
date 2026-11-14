@@ -1,6 +1,6 @@
 typedef unsigned char bool;
 #define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int fn_82F6A548();
 extern int fn_82F6A594();
 extern int fn_82FC8FD0();
@@ -219,8 +219,8 @@ void fn_82FDAC20(unsigned __int64 param_1,unsigned int *param_2)
       uVar22 = *(unsigned short *)(param_2 + 3) - uVar17;
     }
     lVar41 = (uVar22 & 0x3fffffff) << 2;
-    fn_82A1EFC0(uVar17 * 4 + ZEXT48(pfStack_c8),0,lVar41);
-    fn_82A1EFC0(uVar17 * 4 + lVar38,0,lVar41);
+    XMemSet(uVar17 * 4 + ZEXT48(pfStack_c8),0,lVar41);
+    XMemSet(uVar17 * 4 + lVar38,0,lVar41);
     uVar17 = uVar22 + uVar17;
     lVar38 = *(unsigned int *)(iVar18 + 0x1a0) - uVar22;
     *(int *)(iVar18 + 0x1a0) = (int)lVar38;

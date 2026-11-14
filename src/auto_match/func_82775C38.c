@@ -1,7 +1,7 @@
 extern int fn_8267ADA8();
 extern int fn_8268CC00();
 extern int fn_827B9178();
-extern int fn_82F67DE8();
+extern int tan();
 extern int fn_82F6A548();
 extern int fn_82F6A594();
 extern unsigned int lbl_82002AE0;
@@ -123,9 +123,9 @@ void fn_82775C38(unsigned __int64 param_1,unsigned int param_2)
   fn_8268CC00(puVar5 + 0x273);
   fn_8267ADA8(puVar5 + 0x279,0);
   dVar12 = -(double)(float)puVar5[0x271];
-  dVar10 = (double)fn_82F67DE8(lbl_82005710);
+  dVar10 = (double)tan(lbl_82005710);
   dVar11 = (double)(float)dVar10;
-  dVar10 = (double)fn_82F67DE8(dVar12);
+  dVar10 = (double)tan(dVar12);
   puVar5[0x273] = (float)dVar14;
   puVar5[0x275] = (float)dVar13;
   puVar5[0x274] = (float)dVar10;

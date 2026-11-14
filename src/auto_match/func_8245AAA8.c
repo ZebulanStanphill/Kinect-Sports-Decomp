@@ -29,7 +29,7 @@ typedef struct Mgr {
 extern void RtlEnterCriticalSection(CS *cs);
 extern void RtlLeaveCriticalSection(CS *cs);
 extern Mgr *fn_8245B458(void);
-extern void fn_82A1EFC0(void *p, int c, unsigned int n);
+extern void XMemSet(void *p, int c, unsigned int n);
 
 void fn_8245AAA8(Obj *o, int arg)
 {
@@ -52,5 +52,5 @@ void fn_8245AAA8(Obj *o, int arg)
     RtlLeaveCriticalSection(&m->cs);
     if (cs)
         RtlLeaveCriticalSection(cs);
-    fn_82A1EFC0((char *)o + 0xc, 0, 0x8005a);
+    XMemSet((char *)o + 0xc, 0, 0x8005a);
 }

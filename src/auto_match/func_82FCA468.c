@@ -1,7 +1,7 @@
 typedef unsigned char bool;
 typedef struct { unsigned __int64 lo, hi; } V16;
 extern unsigned int fStack_c0;
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int fn_82F6A548();
 extern int fn_82F6A594();
 extern unsigned int lbl_82002AE0;
@@ -309,8 +309,8 @@ void fn_82FCA468(unsigned __int64 param_1,unsigned int *param_2)
       uVar33 = *(unsigned short *)(param_2 + 3) - uVar35;
     }
     lVar53 = (uVar33 & 0x3fffffff) << 2;
-    fn_82A1EFC0(uVar35 * 4 + uVar60,0,lVar53);
-    fn_82A1EFC0(uVar35 * 4 + lVar59,0,lVar53);
+    XMemSet(uVar35 * 4 + uVar60,0,lVar53);
+    XMemSet(uVar35 * 4 + lVar59,0,lVar53);
     uVar35 = uVar33 + uVar35;
     lVar53 = *(unsigned int *)(iVar29 + 0x108) - uVar33;
     uStack_11c = (unsigned int)uVar35;

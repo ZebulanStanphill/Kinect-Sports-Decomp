@@ -1,5 +1,5 @@
 extern int fn_8265C940();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int lbl_83217B8C;
 extern unsigned int lbl_83217B90;
 extern unsigned int lbl_83217B94;
@@ -20,7 +20,7 @@ unsigned __int64 fn_829E1C28(void)
   if ((((lbl_83217B94 != 0) && (lbl_83217B8C != 0)) && (lbl_83217B90 != 0)) &&
      (((lbl_83217B98 != 0 && (lbl_83217B9C != 0)) && (lbl_83217BA0 != 0)))) {
                     /* WARNING: Subroutine does not return */
-    fn_82A1EFC0(lbl_83217B94,0,4);
+    XMemSet(lbl_83217B94,0,4);
   }
   return 0xffffffff8007000e;
 }

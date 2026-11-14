@@ -1,20 +1,20 @@
-#define true 1
-extern int fn_82B45740();
+typedef struct Node_82B457C0 {
+  int unknown0;
+  int kind;
+  struct Node_82B457C0 *inner;
+  void *extra;
+} Node_82B457C0;
 
+extern int fn_82B45740(void *self, Node_82B457C0 *node, int *count, int *type);
 
-unsigned __int64 fn_82B457C0(unsigned __int64 param_1,int param_2)
-
+/* Skips wrapper nodes (kind 1) that carry nothing extra, then asks fn_82B45740. */
+int fn_82B457C0(void *self, Node_82B457C0 *node, int *count, int *type)
 {
-  unsigned __int64 uVar1;
-  
-  while( true ) {
-    if (*(int *)(param_2 + 4) != 1) {
-      uVar1 = fn_82B45740();
-      return uVar1;
+  while (node->kind == 1) {
+    if (node->extra != 0) {
+      return 0;
     }
-    if (*(int *)(param_2 + 0xc) != 0) break;
-    param_2 = *(int *)(param_2 + 8);
+    node = node->inner;
   }
-  return 0;
+  return fn_82B45740(self, node, count, type);
 }
-

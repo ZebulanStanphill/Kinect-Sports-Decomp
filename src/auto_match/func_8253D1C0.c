@@ -1,7 +1,7 @@
 extern unsigned int *auStack_40;
 extern unsigned int *auStack_50;
 extern int fn_8253D630();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int fn_82D81078();
 extern int fn_82D85E48();
 extern int fn_82D86288();
@@ -24,7 +24,7 @@ void fn_8253D1C0(int param_1,int param_2)
      (*(unsigned int **)(param_1 + 0x50) < *(unsigned int **)(param_1 + 0x54))) {
     fn_82D81078(*(unsigned int *)(param_2 + 0x1f8),**(unsigned int **)(param_1 + 0x50),1);
                     /* WARNING: Subroutine does not return */
-    fn_82A1EFC0(auStack_40,0,4);
+    XMemSet(auStack_40,0,4);
   }
   *(unsigned short *)(param_1 + 0x60) = 0;
   *(unsigned int *)(param_1 + 0x54) = *(unsigned int *)(param_1 + 0x50);

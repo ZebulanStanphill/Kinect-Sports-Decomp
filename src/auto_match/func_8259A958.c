@@ -14,7 +14,7 @@ extern int fn_827D5158();
 extern int fn_827D9670();
 extern int fn_827DE858();
 extern int fn_82811400();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int fn_82F67FE8();
 extern unsigned int iStack_1bc;
 extern unsigned int iStack_1d8;
@@ -112,7 +112,7 @@ unsigned __int64 fn_8259A958(int param_1,__int64 param_2)
       fn_82F67FE8(param_2 + 0x108,0xffffffff821c557c,&auStack_1f8);
       stack_pair_200.first = auStack_1f8;
                     /* WARNING: Subroutine does not return */
-      fn_82A1EFC0(auStack_170,0,0x134);
+      XMemSet(auStack_170,0,0x134);
     }
     uVar2 = 0;
   }

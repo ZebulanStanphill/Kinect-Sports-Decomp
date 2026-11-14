@@ -10,12 +10,12 @@ typedef struct Vec2_82773EC0 {
     float y;
 } Vec2_82773EC0;
 
-extern double fn_82F67DE8(double x); /* tan */
+extern double tan(double x); /* tan */
 
 static __forceinline void Skew_82773EC0(float *m, const Vec2_82773EC0 *s)
 {
-    float tx = (float)fn_82F67DE8(s->x);
-    float ty = (float)fn_82F67DE8(s->y);
+    float tx = (float)tan(s->x);
+    float ty = (float)tan(s->y);
 
     m[1] = ty;
     m[3] = tx;

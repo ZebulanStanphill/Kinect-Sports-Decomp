@@ -2,7 +2,7 @@
 extern int fn_8258B170();
 extern int fn_8258B3F8();
 extern int fn_826237C0();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int iStack_a8;
 extern unsigned int uStack_ac;
 extern unsigned int uStack_b0;
@@ -83,7 +83,7 @@ LAB_8258b068:
                 *(int *)(param_1 + 0x44) = *(int *)(param_1 + 0x44) + -1;
               }
                     /* WARNING: Subroutine does not return */
-              fn_82A1EFC0(puVar9,0,0x80);
+              XMemSet(puVar9,0,0x80);
             }
             iVar10 = *piVar14;
             if (iVar10 == 0) {

@@ -1,4 +1,4 @@
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int fn_82A1F2F8();
 extern int fn_82BD7B10();
 extern int fn_82BDA7C0();
@@ -47,7 +47,7 @@ unsigned __int64 fn_82BDC1F0(int *param_1)
         piVar4[3] = piVar4[3] << 2;
       }
                     /* WARNING: Subroutine does not return */
-      fn_82A1EFC0(piVar4[2],0,piVar4[3]);
+      XMemSet(piVar4[2],0,piVar4[3]);
     }
     if (iVar18 == 1) {
       uVar13 = (unsigned __int64)(unsigned int)piVar4[2];
@@ -91,7 +91,7 @@ LAB_82bdc398:
         puVar15 = (unsigned int *)0x0;
       }
                     /* WARNING: Subroutine does not return */
-      fn_82A1EFC0(*puVar15,0,0x18);
+      XMemSet(*puVar15,0,0x18);
     }
     iVar18 = *piVar8;
     if (iVar18 != 0) {

@@ -30,7 +30,7 @@ typedef struct Pose_82801870 {
     __vector4 scale;            /* 0x20 */
 } Pose_82801870;
 
-extern void fn_82A1EFC0(void *dst, int value, int size);
+extern void XMemSet(void *dst, int value, int size);
 extern __vector4 fn_82805520(__vector4 q);
 extern __vector4 fn_828042C0(__vector4 q0, __vector4 q1, __vector4 t);
 
@@ -62,7 +62,7 @@ void fn_82801870(Track_82801870 *track, Pose_82801870 *out, Keys_82801870 *keys,
     tv.vector4_f32[3] = t;
     tv = __vspltw(tv, 3);
     prefetched = 0x80;
-    fn_82A1EFC0(out, 0, count * sizeof(Pose_82801870));
+    XMemSet(out, 0, count * sizeof(Pose_82801870));
     for (i = 0; i < count; i++) {
         __vector4 q0, q1, q, a0, a1, b0, b1, v;
 

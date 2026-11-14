@@ -1,4 +1,4 @@
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int lbl_821917C0;
 extern unsigned int lbl_821C8024;
 extern unsigned int lbl_821CA460;
@@ -30,6 +30,6 @@ void fn_825A6210(unsigned int *param_1,unsigned int param_2)
   param_1[0x56] = 0;
   *(unsigned char *)(param_1 + 0x30) = 0;
                     /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(param_1 + 0x18,0,0x60);
+  XMemSet(param_1 + 0x18,0,0x60);
 }
 

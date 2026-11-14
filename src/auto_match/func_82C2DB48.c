@@ -6,8 +6,8 @@ extern int fn_82A810C8();
 extern int fn_82C2B580();
 extern int fn_82C2B590();
 extern int fn_82C449E8();
-extern int fn_82F64318();
-extern int fn_82F643F8();
+extern int sin();
+extern int cos();
 extern int fn_82F64A40();
 extern int fn_82F655D8();
 extern int fn_82F6A52C();
@@ -92,7 +92,7 @@ void fn_82C2DB48(unsigned __int64 param_1,unsigned __int64 param_2,int param_3,u
       do {
         if ((int)uVar13 != 0) {
                     /* WARNING: Subroutine does not return */
-          fn_82F64318((double)(__int64)(int)((uVar13 & 0xffffffff) << 1) * dVar19);
+          sin((double)(__int64)(int)((uVar13 & 0xffffffff) << 1) * dVar19);
         }
         *(double *)((iVar6 - (int)pdVar7) + (int)pdVar16) = dVar28 / dVar27;
         *pdVar16 = dVar23;
@@ -123,7 +123,7 @@ void fn_82C2DB48(unsigned __int64 param_1,unsigned __int64 param_2,int param_3,u
                    *(double *)((int)((uVar10 & 0xffffffff) << 3) + iVar6) + *pdVar16;
       }
                     /* WARNING: Subroutine does not return */
-      fn_82F643F8(((double)(__int64)(int)lVar12 / (double)(__int64)iVar8) * dVar19);
+      cos(((double)(__int64)(int)lVar12 / (double)(__int64)iVar8) * dVar19);
     }
     uVar4 = lbl_82015618;
     dVar19 = (double)fn_82F655D8(lbl_82015618,lbl_820570B0);

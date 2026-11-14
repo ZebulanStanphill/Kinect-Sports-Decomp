@@ -3,8 +3,8 @@ extern double sqrt(double);
 #define SQRT(x) sqrt(x)
 extern int fn_82964628();
 extern int fn_82975B00();
-extern int fn_82F64318();
-extern int fn_82F643F8();
+extern int sin();
+extern int cos();
 extern int fn_82F64F30();
 extern int fn_82F655D8();
 extern int fn_82F65D50();
@@ -234,7 +234,7 @@ LAB_82979234:
   if (0x10800000 < uVar3) {
     if (uVar3 == 0x10900000) {
                     /* WARNING: Subroutine does not return */
-      fn_82F643F8(*(unsigned __int64 *)(puVar2 + 8));
+      cos(*(unsigned __int64 *)(puVar2 + 8));
     }
     if (uVar3 == 0x10a00000) {
       if (((uVar10 & 0x40) != 0) ||
@@ -270,7 +270,7 @@ LAB_82979024:
   }
   if (uVar3 == 0x10800000) {
                     /* WARNING: Subroutine does not return */
-    fn_82F64318(*(unsigned __int64 *)(puVar2 + 8));
+    sin(*(unsigned __int64 *)(puVar2 + 8));
   }
   if (uVar3 == 0x10100000) {
     dVar17 = -*(double *)(puVar2 + 8);

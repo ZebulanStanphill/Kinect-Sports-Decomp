@@ -1,6 +1,6 @@
 extern unsigned int *auStack_50;
 extern unsigned int *auStack_60;
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int fn_82FA5060();
 extern int fn_830224F0();
 extern unsigned int lbl_82002AE0;
@@ -99,12 +99,12 @@ unsigned __int64 fn_83024C50(int param_1,unsigned int param_2,unsigned short par
     uVar4 = 0x34;
   }
   else {
-    fn_82A1EFC0(uVar5,0,*(unsigned int *)(param_1 + 0x168));
+    XMemSet(uVar5,0,*(unsigned int *)(param_1 + 0x168));
     *(int *)(param_1 + 0x100) = (int)uVar5;
     *(unsigned short *)(param_1 + 0x10c) = param_3;
     *(unsigned short *)(param_1 + 0x10e) = 0;
     *(unsigned int *)(param_1 + 0x104) = param_2;
-    fn_82A1EFC0(param_1 + 0x110,0,0x40);
+    XMemSet(param_1 + 0x110,0,0x40);
   }
   return uVar4;
 }

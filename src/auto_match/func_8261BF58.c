@@ -1,6 +1,6 @@
 extern int fn_82522DF8();
 extern int fn_82A1E658();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 
 
 void fn_8261BF58(int *param_1,unsigned int param_2)
@@ -19,6 +19,6 @@ void fn_8261BF58(int *param_1,unsigned int param_2)
     fn_82A1E658();
   }
                     /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(iVar1 + 0x23c,0,0x1c);
+  XMemSet(iVar1 + 0x23c,0,0x1c);
 }
 

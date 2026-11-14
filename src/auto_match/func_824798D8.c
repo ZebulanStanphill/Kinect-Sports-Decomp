@@ -21,7 +21,7 @@ extern int fn_8265C9E0();
 extern int fn_8266EC60();
 extern int fn_8266EF20();
 extern int fn_82A1DD38();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int fn_82F4DE00();
 extern unsigned int iStack_6c;
 extern unsigned int iStack_74;
@@ -83,7 +83,7 @@ unsigned int * fn_824798D8(unsigned int *param_1,int param_2)
   uRam832766f5 = 0;
   if (cRam832766f1 == '\0') {
                     /* WARNING: Subroutine does not return */
-    fn_82A1EFC0(0xffffffff8328e788,0,0x18d8);
+    XMemSet(0xffffffff8328e788,0,0x18d8);
   }
   fn_82A1DD38(puVar5,0xffffffff8328e788);
   if (cRam832766f0 != '\0') {

@@ -7,7 +7,7 @@ extern int fn_82279C58();
 extern int fn_8266F768();
 extern int fn_82671A40();
 extern int fn_82673A28();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int iStack_314;
 extern unsigned int iStack_31c;
 extern unsigned int iStack_324;
@@ -76,6 +76,6 @@ void fn_8227AD00(unsigned int *param_1,unsigned __int64 param_2)
     fn_822315A0();
   }
                     /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(param_1 + 0x2a2,0,0x6e0);
+  XMemSet(param_1 + 0x2a2,0,0x6e0);
 }
 

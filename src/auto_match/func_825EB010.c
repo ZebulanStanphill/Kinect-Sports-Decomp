@@ -8,7 +8,7 @@ extern int fn_825E5218();
 extern int fn_825E52F8();
 extern int fn_825E5678();
 extern int fn_825E57E8();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int lbl_831BFAA4;
 extern unsigned int lbl_83296908;
 extern unsigned int lbl_83296910;
@@ -89,7 +89,7 @@ void fn_825EB010(int param_1)
   do {
     iVar5 = *(int *)(*piVar11 + 0x50);
     if (iVar5 != 0) {
-      fn_82A1EFC0(iVar5,0,*(int *)(*piVar11 + 0x54) << 2);
+      XMemSet(iVar5,0,*(int *)(*piVar11 + 0x54) << 2);
     }
     iVar5 = (int)in_r0;
     lVar10 = lVar10 + -1;

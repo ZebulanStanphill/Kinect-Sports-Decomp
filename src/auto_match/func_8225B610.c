@@ -2,7 +2,7 @@ extern int fn_8225B538();
 extern int fn_82522ED8();
 extern int fn_825231B8();
 extern int fn_82A1DD38();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int lbl_821CA460;
 extern unsigned int lbl_83265A38;
 extern unsigned int lbl_83265A40;
@@ -43,7 +43,7 @@ unsigned __int64 fn_8225B610(int param_1,unsigned int *param_2)
   iVar2 = fn_825231B8(uVar4 << 3);
   if (iVar2 != 0) {
                     /* WARNING: Subroutine does not return */
-    fn_82A1EFC0(*(unsigned int *)(iVar2 + 8),0,*(unsigned int *)(iVar2 + 4));
+    XMemSet(*(unsigned int *)(iVar2 + 8),0,*(unsigned int *)(iVar2 + 4));
   }
   fn_82A1DD38(iVar1 * 4 + iVar3,uRam00000008,uVar4);
   fn_82522ED8(0);

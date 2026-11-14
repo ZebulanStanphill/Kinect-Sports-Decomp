@@ -1,26 +1,35 @@
-#define true 1
-extern unsigned int *lbl_8327F874;
+typedef struct Group_82536358 {
+  char pad[0x24];
+  void **begin;
+  void **end;
+} Group_82536358;
 
+typedef struct Registry_82536358 {
+  Group_82536358 **begin;
+  Group_82536358 **end;
+} Registry_82536358;
 
-unsigned __int64 fn_82536358(int param_1)
+extern Registry_82536358 *lbl_8327F874;
 
+static __forceinline void **Find(void **first, void **last, void *item)
 {
-  int *piVar1;
-  int *piVar2;
-  int *piVar3;
-  
-  piVar2 = (int *)*lbl_8327F874;
-  while( true ) {
-    if (piVar2 == (int *)lbl_8327F874[1]) {
-      return 0;
+  for (; first != last; first++) {
+    if (*first == item) {
+      break;
     }
-    piVar1 = *(int **)(*piVar2 + 0x28);
-    for (piVar3 = *(int **)(*piVar2 + 0x24); (piVar3 != piVar1 && (*piVar3 != param_1));
-        piVar3 = piVar3 + 1) {
-    }
-    if (piVar3 != piVar1) break;
-    piVar2 = piVar2 + 1;
   }
-  return 1;
+  return first;
 }
 
+/* Is `item` listed in any group of the registry? */
+int fn_82536358(void *item)
+{
+  Group_82536358 **group;
+
+  for (group = lbl_8327F874->begin; group != lbl_8327F874->end; group++) {
+    if (Find((*group)->begin, (*group)->end, item) != (*group)->end) {
+      return 1;
+    }
+  }
+  return 0;
+}

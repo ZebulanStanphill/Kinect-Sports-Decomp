@@ -1,4 +1,4 @@
-extern int fn_82A1EFC0(int, int, int);
+extern int XMemSet(int, int, int);
 
 int fn_83023D40(int param_1)
 {
@@ -10,7 +10,7 @@ int fn_83023D40(int param_1)
   }
   *(int *)(param_1 + 0x108) = 0x11;
   if (*(unsigned int *)(param_1 + 0x100) != 0) {
-    fn_82A1EFC0(*(int *)(param_1 + 0x100), 0, *(int *)(param_1 + 0x150));
+    XMemSet(*(int *)(param_1 + 0x100), 0, *(int *)(param_1 + 0x150));
   }
   return 1;
 }

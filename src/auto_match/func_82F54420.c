@@ -22,7 +22,7 @@ extern float lbl_831BADA8[];
 
 float fn_82F593C8(float a, float b);
 float fn_82F59428(float x);
-double fn_82F643F8(double x);
+double cos(double x);
 
 static __forceinline __vector4 Length3(__vector4 v)
 {
@@ -56,7 +56,7 @@ float fn_82F54420(void *self, const __vector4 *joints, float limit, int index)
     lc = Length3(__vsubfp(p2, p0));
     a = la.vector4_f32[0];
     b = lb.vector4_f32[0];
-    cosRef = (float)fn_82F643F8(lbl_831BADA8[17]);
+    cosRef = (float)cos(lbl_831BADA8[17]);
     sq = a * a + b * b;
     reach = fn_82F593C8((float)sqrt(sq - cosRef * b * a * 2.0f), b + a);
     c = lc.vector4_f32[0];

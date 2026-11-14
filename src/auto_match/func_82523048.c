@@ -1,7 +1,7 @@
 extern unsigned int *auStack_38;
 extern int fn_8251E370();
 extern int fn_82522DF8();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int lbl_83266100;
 
 
@@ -31,6 +31,6 @@ void fn_82523048(unsigned int *param_1)
     *puVar1 = puVar2;
   }
                     /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(auStack_38,0,4);
+  XMemSet(auStack_38,0,4);
 }
 

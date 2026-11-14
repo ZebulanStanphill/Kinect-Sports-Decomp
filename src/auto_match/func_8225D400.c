@@ -6,7 +6,7 @@ extern int fn_82526608();
 extern int fn_8265C9E0();
 extern int fn_82829120();
 extern int fn_82A1DD38();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int iStack0000001c;
 extern unsigned int iStack_40;
 extern unsigned int stack0x0000001c;
@@ -35,7 +35,7 @@ void fn_8225D400(int param_1,int param_2,unsigned __int64 param_3)
       *(unsigned int *)(iVar4 + 0x408) = 0;
       *(unsigned int *)(iVar4 + 0x40c) = 3;
                     /* WARNING: Subroutine does not return */
-      fn_82A1EFC0(iVar4,0,1000);
+      XMemSet(iVar4,0,1000);
     }
     iVar4 = 0;
     aiStack_3c[0] = param_2;

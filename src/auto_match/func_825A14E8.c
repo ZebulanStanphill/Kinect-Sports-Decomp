@@ -20,7 +20,7 @@ typedef struct Obj_825A14E8 {
     int count;
 } Obj_825A14E8;
 
-extern void fn_82A1EFC0(void *dst, int value, int size);
+extern void XMemSet(void *dst, int value, int size);
 extern void fn_8257C8F0(Owner_825A14E8 *owner, Event_825A14E8 *e);
 extern void fn_8257CB40(void *dispatcher, Event_825A14E8 *e, unsigned char all);
 
@@ -29,7 +29,7 @@ void fn_825A14E8(Obj_825A14E8 *self)
     if (self->count == 0) {
         Owner_825A14E8 *owner = self->context->owner;
         Event_825A14E8 e;
-        fn_82A1EFC0(&e.data, 0, 8);
+        XMemSet(&e.data, 0, 8);
         e.type = 0x55;
         e.size = 0x10;
         e.data.sender = self;

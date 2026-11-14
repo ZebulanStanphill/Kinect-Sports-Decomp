@@ -16,7 +16,7 @@ typedef struct Obj_827F7090 {
 } Obj_827F7090;
 
 extern unsigned int fn_827F7028(Obj_827F7090 *self);
-extern void *fn_82A1EFC0(void *dst, int value, unsigned int size);
+extern void *XMemSet(void *dst, int value, unsigned int size);
 
 void fn_827F7090(Obj_827F7090 *self)
 {
@@ -24,7 +24,7 @@ void fn_827F7090(Obj_827F7090 *self)
     Elem_827F7090 *e = self->elems;
     unsigned short i;
 
-    fn_82A1EFC0(e, 0, fn_827F7028(self));
+    XMemSet(e, 0, fn_827F7028(self));
     for (i = 0; i < count; i++) {
         e->w = 1.0f;
         e->x = 1.0f;

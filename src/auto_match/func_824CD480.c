@@ -1,4 +1,4 @@
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int lbl_821912A4;
 extern unsigned int lbl_821917B4;
 extern unsigned int lbl_821929B0;
@@ -28,7 +28,7 @@ int fn_824CD480(int param_1)
   *(unsigned int *)(param_1 + 0x54) = uVar3;
   *(unsigned int *)(param_1 + 0x58) = uVar3;
   *(unsigned int *)(param_1 + 0x5c) = uVar2;
-  fn_82A1EFC0(param_1 + 0x10,0,0x40);
+  XMemSet(param_1 + 0x10,0,0x40);
   return param_1;
 }
 

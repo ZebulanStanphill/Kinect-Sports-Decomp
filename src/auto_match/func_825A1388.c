@@ -1,5 +1,5 @@
 extern unsigned int *auStack_28;
-extern int fn_82A1EFC0();
+extern int XMemSet();
 
 
 void fn_825A1388(void)
@@ -8,6 +8,6 @@ void fn_825A1388(void)
   unsigned char auStack_28 [40];
   
                     /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(auStack_28,0,8);
+  XMemSet(auStack_28,0,8);
 }
 

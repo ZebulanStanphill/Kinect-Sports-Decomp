@@ -16,7 +16,7 @@ __vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
 __vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
 
 extern float fn_82F53608(__vector4 a, __vector4 b);
-extern double fn_82F64318(double x); /* sin */
+extern double sin(double x); /* sin */
 
 static __forceinline __vector4 Replicate(float value)
 {
@@ -44,14 +44,14 @@ static __forceinline __vector4 Normalize3(__vector4 v)
 __vector4 fn_82F53668(__vector4 a, __vector4 b, float t)
 {
     float angle = fn_82F53608(a, b);
-    float s = (float)fn_82F64318(angle);
+    float s = (float)sin(angle);
     float s0, s1, inv;
     __vector4 r;
 
     if (s < 0.0001f)
         return Normalize3(__vaddfp(a, b));
-    s0 = (float)fn_82F64318(t * angle);
-    s1 = (float)fn_82F64318((1.0f - t) * angle);
+    s0 = (float)sin(t * angle);
+    s1 = (float)sin((1.0f - t) * angle);
     r = __vmaddfp(a, Replicate(s1), __vmulfp(b, Replicate(s0)));
     inv = 1.0f / s;
     return __vmulfp(r, Replicate(inv));

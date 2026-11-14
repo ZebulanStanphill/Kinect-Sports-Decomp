@@ -1,4 +1,4 @@
-extern int fn_82F64318();
+extern int sin();
 extern int fn_82F691F0();
 extern unsigned int lbl_82005770;
 extern unsigned int lbl_82022E5C;
@@ -25,7 +25,7 @@ fn_82C709D8(int *param_1,int param_2,int param_3,int param_4,int param_5,int par
         param_1[0xd] = (int)(fVar1 - lbl_82022E5C);
       }
                     /* WARNING: Subroutine does not return */
-      fn_82F64318((double)(float)param_1[0xd] * lbl_82005770);
+      sin((double)(float)param_1[0xd] * lbl_82005770);
     }
                     /* WARNING: Subroutine does not return */
     fn_82F691F0(param_8,0,(__int64)param_1[1] * (__int64)*param_1);

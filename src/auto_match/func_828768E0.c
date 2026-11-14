@@ -1,21 +1,11 @@
-#define true 1
-
-
-void fn_828768E0(char *param_1)
-
+/* Cuts the string at its first '.'. */
+void fn_828768E0(char *text)
 {
-  char cVar1;
-  
-  cVar1 = *param_1;
-  while( true ) {
-    if (cVar1 == '\0') {
+  while (*text != 0) {
+    if (*text == '.') {
+      *text = 0;
       return;
     }
-    if (*param_1 == '.') break;
-    param_1 = param_1 + 1;
-    cVar1 = *param_1;
+    text++;
   }
-  *param_1 = '\0';
-  return;
 }
-

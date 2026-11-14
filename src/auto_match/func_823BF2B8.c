@@ -48,7 +48,7 @@ extern int fn_825603C8();
 extern int fn_825604A0();
 extern int fn_826728E8();
 extern int fn_82672C20();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int iStack_114;
 extern unsigned int iStack_11c;
 extern unsigned int iStack_124;
@@ -205,7 +205,7 @@ void fn_823BF2B8(int *param_1,int param_2,int param_3)
   puVar9[1] = uVar24;
   puVar9[2] = uVar25;
   puVar9[3] = uVar26;
-  fn_82A1EFC0(param_1 + 0x424,0,0x2a0);
+  XMemSet(param_1 + 0x424,0,0x2a0);
   param_1[0x352] = -1;
   iVar6 = 0;
   param_1[0x389] = 0;

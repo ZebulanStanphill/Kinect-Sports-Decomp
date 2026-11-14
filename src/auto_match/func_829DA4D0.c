@@ -1,5 +1,5 @@
 extern int fn_82A1DDC0();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 
 
 void fn_829DA4D0(unsigned __int64 *param_1,unsigned int *param_2,unsigned int *param_3,unsigned __int64 *param_4)
@@ -18,7 +18,7 @@ void fn_829DA4D0(unsigned __int64 *param_1,unsigned int *param_2,unsigned int *p
   unsigned int in_register_000103f8;
   unsigned int in_vr63;
   
-  fn_82A1EFC0(param_4,0,0xae0);
+  XMemSet(param_4,0,0xae0);
   *param_4 = 5;
   param_4[1] = 0x2dff;
   param_4[0x156] = *param_1;

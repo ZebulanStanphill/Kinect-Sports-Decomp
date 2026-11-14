@@ -1,4 +1,4 @@
-extern int fn_82F643F8();
+extern int cos();
 extern unsigned int lbl_8200133C;
 extern unsigned int lbl_82002AE0;
 extern unsigned int lbl_82002C5C;
@@ -56,7 +56,7 @@ void fn_82A7E020(unsigned __int64 param_1,__int64 param_2,unsigned int param_3,i
   uVar7 = 1 << (param_3 & 0x3f);
   if (0xf < (int)param_3) {
                     /* WARNING: Subroutine does not return */
-    fn_82F643F8((lbl_82005758 / (double)(__int64)(int)uVar7) * lbl_820A80C0);
+    cos((lbl_82005758 / (double)(__int64)(int)uVar7) * lbl_820A80C0);
   }
   fVar8 = *(float *)(&lbl_820A8108 + param_3 * 4) * lbl_82005344;
   if (param_4 == 1) {

@@ -1,4 +1,4 @@
-extern int fn_82A1EFC0();
+extern int XMemSet();
 
 
 void fn_82266230(double param_1,double param_2,char *param_3,int param_4,unsigned int param_5,
@@ -97,7 +97,7 @@ LAB_822662f0:
   param_3[0x76] = '\0';
   param_3[0x77] = '\0';
 LAB_82266344:
-  fn_82A1EFC0(param_3 + 0xa4,0,0x24);
+  XMemSet(param_3 + 0xa4,0,0x24);
   return;
 }
 

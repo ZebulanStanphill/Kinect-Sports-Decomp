@@ -8,7 +8,7 @@ extern int fn_82755588();
 extern int fn_827555D8();
 extern int fn_82756488();
 extern int fn_82756F70();
-extern int fn_82F643F8();
+extern int cos();
 extern int fn_82F6A53C();
 extern int fn_82F6A588();
 extern unsigned int iStack_c4;
@@ -97,7 +97,7 @@ void fn_82757688(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __in
               fn_8268CC00(auStack_170);
               dVar13 = (double)fn_8268CEB0(iVar1 + 0x44);
                     /* WARNING: Subroutine does not return */
-              fn_82F643F8((double)(float)dVar13);
+              cos((double)(float)dVar13);
             }
             uVar8 = (unsigned int)*(unsigned short *)(uStack_110 + 2);
             if ((*(unsigned short *)(uStack_110 + 6) >> 6 & 1) != 0) {

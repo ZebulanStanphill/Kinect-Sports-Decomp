@@ -1,4 +1,4 @@
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int fn_82BD82D0();
 extern int fn_82BD8860();
 extern int fn_82F68CC0();
@@ -103,7 +103,7 @@ LAB_82bd8b18:
     *(int *)(*piVar1 + 0xc) = *(int *)(*piVar1 + 0xc) + 2;
     *(unsigned int *)(*piVar1 + 4) = 0;
                     /* WARNING: Subroutine does not return */
-    fn_82A1EFC0(*(unsigned int *)(*piVar1 + 8),0,*(unsigned int *)(*piVar1 + 0xc));
+    XMemSet(*(unsigned int *)(*piVar1 + 8),0,*(unsigned int *)(*piVar1 + 0xc));
   }
   return 0;
 }

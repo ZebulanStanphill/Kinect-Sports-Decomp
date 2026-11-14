@@ -9,7 +9,7 @@ typedef struct SharedPtr_825A4D38 {
 } SharedPtr_825A4D38;
 
 extern Obj_825A4D38 *fn_827D5070(void *p);
-extern void fn_82A1EFC0(void *dst, int value, unsigned int size);
+extern void XMemSet(void *dst, int value, unsigned int size);
 extern int fn_825A23C0(int a, int b);
 extern void fn_825A51B8(Obj_825A4D38 *o);
 extern void fn_825A4F20(Obj_825A4D38 *o);
@@ -20,7 +20,7 @@ extern void fn_822315A0(void *rep);
 void fn_825A4D38(SharedPtr_825A4D38 *sp)
 {
     Obj_825A4D38 *o = fn_827D5070(sp->ptr);
-    fn_82A1EFC0(o->data, 0, 0x14);
+    XMemSet(o->data, 0, 0x14);
     o->data[3] = fn_825A23C0(4, 4);
     o->data[1] = 0;
     fn_825A51B8(o);

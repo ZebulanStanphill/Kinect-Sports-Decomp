@@ -1,5 +1,5 @@
 extern unsigned int *auStack_d0;
-extern int fn_82A1EFC0();
+extern int XMemSet();
 
 
 void fn_82436CB8(int param_1)
@@ -13,6 +13,6 @@ void fn_82436CB8(int param_1)
     return;
   }
                     /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(auStack_d0,0,0x40);
+  XMemSet(auStack_d0,0,0x40);
 }
 

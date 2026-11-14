@@ -1,5 +1,5 @@
 extern int fn_82273CD8();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int uStack_2c;
 extern unsigned int uStack_30;
 
@@ -19,7 +19,7 @@ void fn_8229F4F8(int param_1,int param_2)
     *(unsigned short *)(param_1 + 0x9c) = 0;
     dStack_28 = (double)(__int64)param_2;
                     /* WARNING: Subroutine does not return */
-    fn_82A1EFC0(param_1 + 0x14,0,0x20);
+    XMemSet(param_1 + 0x14,0,0x20);
   }
   return;
 }

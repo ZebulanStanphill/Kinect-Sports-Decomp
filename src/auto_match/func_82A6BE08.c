@@ -1,4 +1,4 @@
-extern int fn_82F643F8();
+extern int cos();
 extern int fn_82F64F30();
 extern int fn_82F6A520();
 extern int fn_82F6A56C();
@@ -89,7 +89,7 @@ void fn_82A6BE08(void)
         dVar4 = (double)fn_82F64F30(uVar6);
         if (0 < iVar3) {
                     /* WARNING: Subroutine does not return */
-          fn_82F643F8((double)(((float)(dVar7 + 0.0) * 0.0 *
+          cos((double)(((float)(dVar7 + 0.0) * 0.0 *
                                      (float)((double)(float)dVar4 * dVar5)) / (float)(__int64)iVar3
                                     ));
         }

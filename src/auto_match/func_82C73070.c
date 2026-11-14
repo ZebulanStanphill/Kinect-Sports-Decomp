@@ -1,4 +1,4 @@
-extern int fn_82F67DE8();
+extern int tan();
 extern unsigned int lbl_82002AE0;
 extern unsigned int lbl_82005730;
 extern unsigned int lbl_82005770;
@@ -32,7 +32,7 @@ unsigned __int64 fn_82C73070(double param_1,double param_2,double param_3,int *p
   if ((double)lbl_821AAD20 < param_3) {
     if (param_3 < (double)lbl_8202303C) {
       dVar16 = (double)(float)((double)(__int64)param_4[1] / (double)(__int64)*param_4);
-      dVar15 = (double)fn_82F67DE8(param_3 * lbl_82005770);
+      dVar15 = (double)tan(param_3 * lbl_82005770);
       dVar14 = lbl_82005730;
       dVar15 = (double)(float)dVar15;
       if (dVar16 <= dVar15) {

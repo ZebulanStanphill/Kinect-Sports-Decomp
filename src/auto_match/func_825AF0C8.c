@@ -2,7 +2,7 @@ extern double sqrt(double);
 #define SQRT(x) sqrt(x)
 extern int fn_8223C610();
 extern int fn_823B4900();
-extern int fn_82F64318();
+extern int sin();
 extern int fn_82F6A548();
 extern int fn_82F6B030();
 extern unsigned int lbl_82195520;
@@ -49,6 +49,6 @@ void fn_825AF0C8(unsigned __int64 param_1,unsigned __int64 param_2)
   dVar5 = dVar5 + dVar4;
   dVar4 = (double)fn_82F6B030(lbl_83297860);
                     /* WARNING: Subroutine does not return */
-  fn_82F64318((double)(float)((lbl_82195528 - dVar5 / dVar4) * dVar6));
+  sin((double)(float)((lbl_82195528 - dVar5 / dVar4) * dVar6));
 }
 

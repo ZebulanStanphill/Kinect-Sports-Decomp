@@ -19,7 +19,7 @@ void __stvewx(__vector4 v, void *base, int offset);
 double sqrt(double);
 extern const hkQuadReal lbl_82132D70;   // Havok's global vector of four 0.5s
 float fn_82CE55B8(float x);             // hkMath::acos
-double fn_82F64318(double x);           // sin
+double sin(double x);           // sin
 }
 
 class hkSimdReal {
@@ -73,8 +73,8 @@ extern "C" void fn_82CE5B10(hkQuaternion *self, const hkQuaternion &q0, const hk
         float theta = fn_82CE55B8(cosTheta);
         float iSinTheta = 1.0f / (float)sqrt(1.0f - cosTheta * cosTheta);
         float tTheta = t * theta;
-        float t0 = (float)fn_82F64318(theta - tTheta) * iSinTheta;
-        float t1 = (float)fn_82F64318(tTheta) * iSinTheta * signOfT1;
+        float t0 = (float)sin(theta - tTheta) * iSinTheta;
+        float t1 = (float)sin(tTheta) * iSinTheta * signOfT1;
         slerp.setMul4(t0, q0.m_vec);
         slerp.addMul4(t1, q1.m_vec);
     } else {

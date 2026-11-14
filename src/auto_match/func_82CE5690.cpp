@@ -8,8 +8,8 @@ extern "C" {
 __vector4 __lvlx(const void *base, int offset);
 __vector4 __vspltw(__vector4 v, unsigned int i);
 __vector4 __vmulfp(__vector4 a, __vector4 b);
-double fn_82F64318(double x);           // sin
-double fn_82F643F8(double x);           // cos
+double sin(double x);           // sin
+double cos(double x);           // cos
 }
 
 class hkSimdReal {
@@ -33,7 +33,7 @@ public:
 extern "C" void fn_82CE5690(hkQuaternion *self, const hkVector4 &axis, float angle)
 {
     float halfAngle = 0.5f * angle;
-    float sinHalf = (float)fn_82F64318(halfAngle);
+    float sinHalf = (float)sin(halfAngle);
     self->m_vec.setMul4(sinHalf, axis);
-    self->m_vec(3) = (float)fn_82F643F8(halfAngle);
+    self->m_vec(3) = (float)cos(halfAngle);
 }

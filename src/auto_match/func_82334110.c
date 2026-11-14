@@ -1,4 +1,4 @@
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int lbl_821917D4;
 extern unsigned int lbl_821962C0;
 extern unsigned int lbl_82196750;
@@ -78,9 +78,9 @@ fn_82334110(unsigned int *param_1,unsigned int param_2,unsigned int param_3,unsi
   lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
   param_1[0x88] =
        (unsigned int)((float)(lbl_83265A28 & 0x7fffff | 0x3f800000) - lbl_821CA460 < lbl_821917D4);
-  fn_82A1EFC0(param_1 + 8,0,0xd4);
-  fn_82A1EFC0(param_1 + 0x3d,0,0xa0);
-  fn_82A1EFC0(param_1 + 0x65,0,0x48);
+  XMemSet(param_1 + 8,0,0xd4);
+  XMemSet(param_1 + 0x3d,0,0xa0);
+  XMemSet(param_1 + 0x65,0,0x48);
   param_1[0x97] = 0;
   param_1[0x98] = 0;
   param_1[0x99] = 0;

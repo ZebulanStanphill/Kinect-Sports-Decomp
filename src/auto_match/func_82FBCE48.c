@@ -6,7 +6,7 @@ extern unsigned int fStack_c4;
 extern unsigned int fStack_c8;
 extern unsigned int fStack_cc;
 extern unsigned int fStack_d0;
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int lbl_82002AE0;
 extern unsigned int lbl_82002C5C;
 extern unsigned int lbl_82005344;
@@ -251,7 +251,7 @@ unsigned __int64 fn_82FBCE48(int param_1,unsigned int *param_2)
     if ((*(unsigned short *)(param_2 + 3) - uVar18 & 0xffffffff) <= (unsigned __int64)*(unsigned int *)(param_1 + 0x108)) {
       uVar29 = *(unsigned short *)(param_2 + 3) - uVar18;
     }
-    uVar42 = fn_82A1EFC0(uVar18 * 4 + uVar20,0,(uVar29 & 0x3fffffff) << 2);
+    uVar42 = XMemSet(uVar18 * 4 + uVar20,0,(uVar29 & 0x3fffffff) << 2);
     uVar18 = uVar29 + uVar18;
     lVar41 = *(unsigned int *)(param_1 + 0x108) - uVar29;
     uStack_11c = (unsigned int)uVar18;

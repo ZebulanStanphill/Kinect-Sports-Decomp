@@ -18,7 +18,7 @@ extern int fn_827D59F0();
 extern int fn_82A1E650();
 extern int fn_82A1E658();
 extern int fn_82A1E6A0();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int fn_82A1F4F8();
 extern unsigned int iStack_184;
 extern unsigned int iStack_190;
@@ -134,7 +134,7 @@ void fn_825B7780(void)
           fn_8256BF18();
           fn_8256C7E8();
                     /* WARNING: Subroutine does not return */
-          fn_82A1EFC0(0xffffffff8326ba00,0,0x200);
+          XMemSet(0xffffffff8326ba00,0,0x200);
         }
 LAB_825b79c0:
         uVar5 = uVar5 - 1;

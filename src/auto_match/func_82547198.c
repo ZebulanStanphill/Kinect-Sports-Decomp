@@ -22,11 +22,11 @@ typedef struct {
     char pad[0x2c];
     int flag;
 } Obj_82547198;
-extern void fn_82A1EFC0(void *dst, int c, unsigned int n);
+extern void XMemSet(void *dst, int c, unsigned int n);
 
 void fn_82547198(Obj_82547198 *self, PresentParams_82547198 *pp)
 {
-    fn_82A1EFC0(pp, 0, sizeof(*pp));
+    XMemSet(pp, 0, sizeof(*pp));
     pp->width = 0x500;
     pp->height = 0x2d0;
     pp->f3c = 1;

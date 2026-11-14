@@ -1,4 +1,4 @@
-extern void fn_82A1EFC0(void *p, int v, int n);
+extern void XMemSet(void *p, int v, int n);
 extern char lbl_82079EEC[];
 
 typedef struct Obj_829ECFE0 {
@@ -58,8 +58,8 @@ Obj_829ECFE0 *fn_829ECFE0(Obj_829ECFE0 *p)
   p->f48 = 0;
   p->f4c = 0;
   p->f50 = 0;
-  fn_82A1EFC0(p->buf54, 0, 0x20);
-  fn_82A1EFC0(p->buf74, 0, 0x20);
+  XMemSet(p->buf54, 0, 0x20);
+  XMemSet(p->buf74, 0, 0x20);
   p->f94 = 0;
   p->f98 = 0;
   return p;

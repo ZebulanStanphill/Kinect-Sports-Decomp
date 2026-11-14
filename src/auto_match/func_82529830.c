@@ -1,7 +1,7 @@
 extern int fn_82522838();
 extern int fn_82522A48();
 extern int fn_82587B68();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int lbl_832767CC;
 extern unsigned int uStack_1c;
 extern unsigned int uStack_20;
@@ -32,7 +32,7 @@ unsigned __int64 fn_82529830(void)
   lVar2 = fn_82522A48(lbl_832767CC,uVar1);
   if (lVar2 != 0) {
                     /* WARNING: Subroutine does not return */
-    fn_82A1EFC0(lVar2,0,uVar1);
+    XMemSet(lVar2,0,uVar1);
   }
   return 0;
 }

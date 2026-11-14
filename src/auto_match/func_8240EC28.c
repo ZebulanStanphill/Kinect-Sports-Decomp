@@ -39,7 +39,7 @@ typedef struct Self_8240EC28 {
 extern Found_8240EC28 *fn_825735B8(void *nodes, const char *name);
 extern void fn_82573868(Owner_8240EC28 *owner, void *trail);
 extern void fn_82575DF0(void *trails, void *effect);
-extern void fn_82A1EFC0(void *p, int value, unsigned int size);
+extern void XMemSet(void *p, int value, unsigned int size);
 extern void fn_824106F8(void *self, int flag, int world);
 
 void fn_8240EC28(Self_8240EC28 *self)
@@ -56,7 +56,7 @@ void fn_8240EC28(Self_8240EC28 *self)
     if (self->registered != 0) {
         fn_82573868(self->owner, self->trail);
     }
-    fn_82A1EFC0(self->trail, 0, 0x68);
+    XMemSet(self->trail, 0, 0x68);
     self->registered = 0;
     if (self->effect != 0) {
         fn_82575DF0(self->owner->world->trails, self->effect);

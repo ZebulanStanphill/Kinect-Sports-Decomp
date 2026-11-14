@@ -20,8 +20,8 @@ typedef struct {
 Obj_82455848;
 extern char lbl_821BA96C[];
 extern void fn_82455990(void);
-extern void fn_825521F0(void *,void *,Out_82455848 *,float,float);
-void fn_82455848(Obj_82455848 *p,void *q) {
+extern void fn_825521F0(float,float,Out_82455848 *);
+void fn_82455848(Obj_82455848 *p) {
     if(p->state==3){
         Bound_82455848 b;
         Out_82455848 out;
@@ -30,7 +30,7 @@ void fn_82455848(Obj_82455848 *p,void *q) {
         b.self=p;
         out.bound=b;
         out.obj=&out;
-        fn_825521F0(p,q,&out,0.0f,p->value);
+        fn_825521F0(0.0f,p->value,&out);
         p->elapsed=0.0f;
         p->state=2;
     }

@@ -4,7 +4,7 @@ extern unsigned int *auStack_150;
 extern unsigned int *auStack_a0;
 extern int fn_82520158();
 extern int fn_82575FA8();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int lbl_82192734;
 extern unsigned int lbl_821C8EA8;
 extern unsigned int uStack_50;
@@ -35,7 +35,7 @@ unsigned int * fn_825C3C00(unsigned int *param_1,int *param_2)
   param_1[1] = param_2;
   *param_1 = &lbl_821C8EA8;
   dVar4 = (double)*(float *)(*param_2 + 0x828);
-  fn_82A1EFC0(auStack_140,0,0x100);
+  XMemSet(auStack_140,0,0x100);
   uStack_50 = 0xfeeb1e0;
   puVar2 = (unsigned int *)((unsigned int)(auStack_a0 + in_r0) & 0xfffffff0);
   *puVar2 = in_register_00010480;

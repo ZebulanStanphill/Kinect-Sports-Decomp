@@ -3,7 +3,7 @@ extern double sqrt(double);
 extern int fn_82BE50B0();
 extern int fn_82BE5240();
 extern int fn_82BF0438();
-extern int fn_82F643F8();
+extern int cos();
 extern int memcpy();
 extern unsigned int iStack_5c;
 extern float lbl_8200F038;
@@ -96,7 +96,7 @@ LAB_82bf08b4:
       piVar4[6] = (int)(float)(dVar8 * (double)lbl_820EB3AC);
     }
                     /* WARNING: Subroutine does not return */
-    fn_82F643F8();
+    cos();
   }
   dVar7 = (double)(float)piVar4[6];
   if ((dVar7 < (double)lbl_820EB368) || (dVar9 < dVar7)) {

@@ -1,4 +1,4 @@
-extern int fn_82F643F8();
+extern int cos();
 extern int fn_82F6A534();
 extern unsigned int lbl_82002AE0;
 extern unsigned int lbl_8201DD74;
@@ -18,7 +18,7 @@ void fn_8308A0E0(unsigned __int64 param_1,double param_2)
   dVar2 = (double)(float)((double)lbl_821878A8 * 0.0 - (double)lbl_8201DD74);
   if ((double)lbl_821AAD20 <= dVar2) {
                     /* WARNING: Subroutine does not return */
-    fn_82F643F8(dVar2);
+    cos(dVar2);
   }
   lbl_8323C860 = lbl_82002AE0;
   lbl_8323C864 = lbl_821AAD20;
@@ -27,6 +27,6 @@ void fn_8308A0E0(unsigned __int64 param_1,double param_2)
     param_2 = (double)lbl_821AAD20;
   }
                     /* WARNING: Subroutine does not return */
-  fn_82F643F8(param_2);
+  cos(param_2);
 }
 

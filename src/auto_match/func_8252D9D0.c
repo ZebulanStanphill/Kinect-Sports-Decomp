@@ -14,12 +14,12 @@ typedef struct Vtbl_8252D9D0 {
 } Vtbl_8252D9D0;
 struct Target_8252D9D0 { Vtbl_8252D9D0 *vt; };
 
-extern void fn_82A1EFC0(void *p, int value, int size);
+extern void XMemSet(void *p, int value, int size);
 
 void fn_8252D9D0(int a, int b, float value, Target_8252D9D0 *target, int c)
 {
   Msg_8252D9D0 msg;
-  fn_82A1EFC0(&msg.value, 0, 0x10);
+  XMemSet(&msg.value, 0, 0x10);
   msg.type = 0xa;
   msg.size = 0x18;
   msg.value = value;

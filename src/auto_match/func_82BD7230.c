@@ -1,6 +1,6 @@
 extern unsigned int *auStack_90;
 extern int fn_8265C940();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int fn_82BD7080();
 extern int fn_82BD81E0();
 extern float lbl_82021544;
@@ -54,7 +54,7 @@ __int64 fn_82BD7230(unsigned int param_1)
           lVar5 = lVar5 + -1;
         } while (lVar5 != 0);
                     /* WARNING: Subroutine does not return */
-        fn_82A1EFC0(auStack_90,0,0x18);
+        XMemSet(auStack_90,0,0x18);
       }
       goto LAB_82bd75a4;
     }

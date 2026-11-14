@@ -1,5 +1,5 @@
 extern int fn_828AAAA0();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int lbl_82197CE0;
 extern unsigned int lbl_82197CE8;
 extern unsigned int lbl_82197D3C;
@@ -22,6 +22,6 @@ void fn_8224CA90(unsigned int *param_1)
   param_1[0x219] = 0;
   param_1[0x21a] = 0;
                     /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(param_1 + 0x22,0,1000);
+  XMemSet(param_1 + 0x22,0,1000);
 }
 

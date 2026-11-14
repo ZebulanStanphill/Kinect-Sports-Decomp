@@ -14,13 +14,13 @@ typedef struct Obj_8260FA78 {
     Owner_8260FA78 **owner;
 } Obj_8260FA78;
 
-extern void fn_82A1EFC0(void *dst, int value, int size);
+extern void XMemSet(void *dst, int value, int size);
 extern void fn_8257CB40(void *dispatcher, Event_8260FA78 *e, unsigned char all);
 
 void fn_8260FA78(Obj_8260FA78 *self, int unused, char *src)
 {
     Event_8260FA78 e;
-    fn_82A1EFC0(&e.data, 0, 4);
+    XMemSet(&e.data, 0, 4);
     e.type = 0x58;
     e.size = 0xc;
     e.data = src + 0x10;

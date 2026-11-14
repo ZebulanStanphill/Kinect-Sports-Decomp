@@ -1,4 +1,4 @@
-extern int fn_82F67DE8();
+extern int tan();
 extern unsigned int lbl_82002AE0;
 extern unsigned int lbl_82005340;
 extern unsigned int lbl_82005344;
@@ -17,7 +17,7 @@ void fn_8303AA38(double param_1,unsigned __int64 param_2,float *param_3)
   float fVar6;
   double dVar7;
   
-  dVar7 = (double)fn_82F67DE8((double)(float)(param_1 * (double)lbl_8217D35C));
+  dVar7 = (double)tan((double)(float)(param_1 * (double)lbl_8217D35C));
   fVar6 = lbl_82005344;
   fVar5 = lbl_82005340;
   fVar1 = lbl_82002AE0 / (float)dVar7;

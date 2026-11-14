@@ -1,4 +1,4 @@
-extern int fn_82F67DE8();
+extern int tan();
 extern unsigned int lbl_82002AE0;
 extern unsigned int lbl_82015B38;
 extern unsigned int lbl_82079FB0;
@@ -18,7 +18,7 @@ void fn_829F3670(double param_1,double param_2,double param_3)
   
   if ((lbl_83218C00 & 1) == 0) {
     lbl_83218C00 = lbl_83218C00 | 1;
-    dVar3 = (double)fn_82F67DE8(lbl_82079FB0);
+    dVar3 = (double)tan(lbl_82079FB0);
     lbl_83218BFC = (float)dVar3 * lbl_82079FB8;
   }
   fVar2 = lbl_82002AE0;

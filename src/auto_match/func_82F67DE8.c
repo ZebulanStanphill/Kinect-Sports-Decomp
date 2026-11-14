@@ -16,7 +16,7 @@ extern unsigned int lbl_831BB920;
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-double fn_82F67DE8(double param_1)
+double tan(double param_1)
 
 {
   double dVar1;

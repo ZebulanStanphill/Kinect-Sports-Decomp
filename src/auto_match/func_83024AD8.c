@@ -1,4 +1,4 @@
-extern void *fn_82A1EFC0(void *, int, unsigned);
+extern void *XMemSet(void *, int, unsigned);
 
 typedef struct Obj_83024AD8 {
   char pad0[0x74];
@@ -20,5 +20,5 @@ void fn_83024AD8(Obj_83024AD8 *o)
     o->f108 = 0x11;
     o->f10e = 0;
   }
-  fn_82A1EFC0(o->f100, 0, o->f168);
+  XMemSet(o->f100, 0, o->f168);
 }

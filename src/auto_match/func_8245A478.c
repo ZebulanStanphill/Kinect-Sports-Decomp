@@ -1,5 +1,5 @@
 extern int fn_82230300(void *, int, int);
-extern int fn_82A1EFC0(void *, int, int);
+extern int XMemSet(void *, int, int);
 extern char lbl_821BABCC[];
 
 unsigned *fn_8245A478(unsigned *p)
@@ -17,7 +17,7 @@ unsigned *fn_8245A478(unsigned *p)
   p[0x2002f] = 0;
   *(unsigned __int64 *)(p + 0x20030) = 0;
   fn_82230300(p + 0x20032, 0, 0);
-  fn_82A1EFC0(p + 3, 0, 0x8005a);
+  XMemSet(p + 3, 0, 0x8005a);
   p[0x2002b] = 0;
   return p;
 }

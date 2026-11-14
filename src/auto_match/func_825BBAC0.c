@@ -52,7 +52,7 @@ extern void *lbl_83265A24;
 extern const float lbl_82192730[7];
 extern Name_825BBAC0 *fn_825200F0(Name_825BBAC0 *out, unsigned int *name);
 extern unsigned char fn_827D6968(void *table, Name_825BBAC0 *name, int index);
-extern void fn_82A1EFC0(void *dst, int value, unsigned int size);
+extern void XMemSet(void *dst, int value, unsigned int size);
 extern __vector4 fn_8255ACE0(const float *angles, __vector4 v);
 extern void fn_82575FA8(void *effects, unsigned int *name, Desc_825BBAC0 *desc, int a, int id, float scale, int b, float c, int d, int e);
 
@@ -84,7 +84,7 @@ void fn_825BBAC0(Emitter_825BBAC0 *self, Owner_825BBAC0 *owner)
         fn_825200F0(&name, &self->name);
         if (fn_827D6968(lbl_83265A24, &name, -1)) {
             scale = owner->scale;
-            fn_82A1EFC0(&desc, 0, sizeof(desc));
+            XMemSet(&desc, 0, sizeof(desc));
             desc.flagA = 1;
             desc.color = 0x0feeb1e0;
             desc.flagB = 1;

@@ -23,7 +23,7 @@ extern double lbl_82012408;
 
 extern double fn_82F64F30(double x);
 extern double fn_82F68918(double x);
-extern double fn_82F67DE8(double x);
+extern double tan(double x);
 extern double fn_82F65018(double x, double y);
 
 void fn_829C5A38(void)
@@ -46,7 +46,7 @@ void fn_829C5A38(void)
             }
             lbl_83214DB0.f64 = n;
         } else {
-            t = (float)fn_82F67DE8(((float)lbl_83214DB0.f1bc + lbl_8205709C) * 0.0174532924f);
+            t = (float)tan(((float)lbl_83214DB0.f1bc + lbl_8205709C) * 0.0174532924f);
             lbl_83214DB0.f68 = t * 2200.0f + lbl_83214DB0.f18c;
         }
     } else {

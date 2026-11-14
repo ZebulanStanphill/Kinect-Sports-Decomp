@@ -1,6 +1,6 @@
 #define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
 extern int fn_827856F0();
-extern int fn_82F643F8();
+extern int cos();
 extern int fn_82F65018();
 extern int fn_82F65E18();
 extern int fn_82F6A530();
@@ -85,6 +85,6 @@ void fn_82785BF8(unsigned __int64 param_1,float *param_2,float *param_3,unsigned
     return;
   }
                     /* WARNING: Subroutine does not return */
-  fn_82F643F8(dVar9);
+  cos(dVar9);
 }
 

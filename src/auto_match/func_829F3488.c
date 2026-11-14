@@ -1,6 +1,6 @@
 extern unsigned int *auStack_40;
 extern unsigned int fStack_38;
-extern int fn_82F67DE8();
+extern int tan();
 extern unsigned int lbl_82002AE0;
 extern unsigned int lbl_8200DFF4;
 extern unsigned int lbl_82015B38;
@@ -39,7 +39,7 @@ void fn_829F3488(int *param_1)
   dVar5 = (double)lbl_820885C8;
   if ((uVar3 & 1) == 0) {
     lbl_83218BF0 = uVar3 | 1;
-    dVar4 = (double)fn_82F67DE8(lbl_82079FB0);
+    dVar4 = (double)tan(lbl_82079FB0);
     lbl_83218BEC = (float)(dVar5 / (double)(float)dVar4);
   }
   in_stack_00000010 = lbl_83218BEC * in_stack_00000010;

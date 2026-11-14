@@ -3,7 +3,7 @@ typedef unsigned char bool;
 #define false 0
 extern int fn_8265C940();
 extern int fn_8265C990();
-extern int fn_82F643F8();
+extern int cos();
 extern int fn_82F68918();
 extern int fn_82F6A53C();
 extern int fn_82F6A588();
@@ -221,7 +221,7 @@ void fn_82A5E338(unsigned __int64 param_1,unsigned __int64 param_2,__int64 param
               if ((int)uVar17 != (int)uVar27) {
                 if (dVar35 != dVar33) {
                     /* WARNING: Subroutine does not return */
-                  fn_82F643F8((double)(float)(-(double)(float)((double)(float)dVar28 * dVar31
+                  cos((double)(float)(-(double)(float)((double)(float)dVar28 * dVar31
                                                                     - dVar34) / dVar35) * dVar29);
                 }
                 uVar21 = 0xffffffff80070057;

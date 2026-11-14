@@ -21,13 +21,13 @@ typedef struct Pool_825A1660 {
     int numBlocks;
 } Pool_825A1660;
 
-extern void fn_82A1EFC0(void *dst, int value, unsigned int size);
+extern void XMemSet(void *dst, int value, unsigned int size);
 
 Entry_825A1660 *fn_825A1660(Pool_825A1660 *pool)
 {
     Entry_825A1660 *e = &pool->entries[pool->numEntries++];
     Block_825A1660 *b;
-    fn_82A1EFC0(e, 0, sizeof(Entry_825A1660));
+    XMemSet(e, 0, sizeof(Entry_825A1660));
     b = &pool->blocks[pool->numBlocks++];
     e->f70 = -1;
     e->kind = 2;

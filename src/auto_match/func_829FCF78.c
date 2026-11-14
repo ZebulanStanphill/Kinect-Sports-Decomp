@@ -1,7 +1,7 @@
 extern unsigned int fStack00000010;
 extern unsigned int fStack00000014;
 extern unsigned int fStack00000018;
-extern int fn_82F67DE8();
+extern int tan();
 extern unsigned int lbl_82015B38;
 extern unsigned int lbl_8207F260;
 extern unsigned int lbl_820885C8;
@@ -26,7 +26,7 @@ void fn_829FCF78(int *param_1,int *param_2)
   fStack00000018 = in_register_00010018;
   if ((lbl_83218DD4 & 1) == 0) {
     lbl_83218DD4 = lbl_83218DD4 | 1;
-    dVar2 = (double)fn_82F67DE8(lbl_8207F260);
+    dVar2 = (double)tan(lbl_8207F260);
     lbl_83218DD0 = lbl_820885C8 / (float)dVar2;
   }
   fVar1 = lbl_82015B38;

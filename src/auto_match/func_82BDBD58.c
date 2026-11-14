@@ -4,7 +4,7 @@ typedef struct Obj_82BDBD58 {
     char pad[0xcc];
     unsigned int flags;
 } Obj_82BDBD58;
-extern int fn_82A1EFC0(int, int, int);
+extern int XMemSet(int, int, int);
 extern int fn_82BD38E8(int, float *);
 extern int fn_82BD62B8(Obj_82BDBD58 *);
 
@@ -30,7 +30,7 @@ int fn_82BDBD58(int **param_1, int *param_2)
         v = tmp[0];
     }
     if ((o->flags & 1) != 0) {
-        fn_82A1EFC0(param_2[2], 0, param_2[3]);
+        XMemSet(param_2[2], 0, param_2[3]);
     }
     c = param_2[3];
     a = o->a;

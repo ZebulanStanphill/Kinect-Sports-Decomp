@@ -18,7 +18,7 @@ typedef struct Out_83021FA0 {
     unsigned char f6c;
 } Out_83021FA0;
 
-extern void fn_82A1EFC0(void *dst, int value, unsigned int size);
+extern void XMemSet(void *dst, int value, unsigned int size);
 extern void fn_82A1DDC0(void *dst, const void *src, unsigned int n);
 
 void fn_83021FA0(Src_83021FA0 *self, Out_83021FA0 *out)
@@ -26,7 +26,7 @@ void fn_83021FA0(Src_83021FA0 *self, Out_83021FA0 *out)
     int count;
     unsigned int m;
 
-    fn_82A1EFC0(out, 0, 0x60);
+    XMemSet(out, 0, 0x60);
     count = 0;
     for (m = self->mask; m != 0; m = (m - 1) & m) {
         count++;

@@ -22,7 +22,7 @@ typedef struct Obj_82293BF0 {
 extern Ptr_82293BF0 *fn_8229AE10(Ptr_82293BF0 *out, Obj_82293BF0 *o);
 extern void fn_82672C20(void *movie, const char *path, int a, int b);
 extern void fn_822315A0(void *rep);
-extern void fn_82A1EFC0(void *p, int v, int n);
+extern void XMemSet(void *p, int v, int n);
 
 void fn_82293BF0(Obj_82293BF0 *o)
 {
@@ -37,7 +37,7 @@ void fn_82293BF0(Obj_82293BF0 *o)
     fn_82672C20(m->movie, "_root.mainCtrl.reset", 0, 0);
     m->f10 = 0;
     m->f9C = 0;
-    fn_82A1EFC0(m->f14, 0, 0x20);
-    fn_82A1EFC0(m->f54, 0, 0x20);
-    fn_82A1EFC0(m->f34, 0, 0x20);
+    XMemSet(m->f14, 0, 0x20);
+    XMemSet(m->f54, 0, 0x20);
+    XMemSet(m->f34, 0, 0x20);
 }

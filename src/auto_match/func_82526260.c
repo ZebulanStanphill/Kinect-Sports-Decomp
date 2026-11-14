@@ -1,5 +1,5 @@
 extern int fn_8265C990();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int fn_82A1F238();
 extern int fn_82A81CD0();
 
@@ -29,7 +29,7 @@ void fn_82526260(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __in
             fn_82A1F238(param_3);
           }
                     /* WARNING: Subroutine does not return */
-          fn_82A1EFC0(puVar4,0,0x3f4);
+          XMemSet(puVar4,0,0x3f4);
         }
       }
     }

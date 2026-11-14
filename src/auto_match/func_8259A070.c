@@ -5,7 +5,7 @@ extern int fn_82522ED8();
 extern int fn_82816600();
 extern int fn_82816F98();
 extern int fn_828171A0();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int iStack_58;
 extern unsigned int uStack_5c;
 
@@ -27,7 +27,7 @@ fn_8259A070(unsigned int *param_1,unsigned int *param_2,unsigned int *param_3,un
   iStack_58 = 0;
   if (param_7 == 0) {
                     /* WARNING: Subroutine does not return */
-    fn_82A1EFC0(auStack_190,0,0x148);
+    XMemSet(auStack_190,0,0x148);
   }
   *(unsigned int *)(param_7 + 4) = *param_1;
   fn_82816600(0xffffffff821c7b80,0xffffffff82ba02a8,param_7,auStack_1a0,1);

@@ -1,5 +1,5 @@
 typedef struct { unsigned __int64 lo, hi; } V16;
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern V16 vectorSplatImmediateSignedWord128();
 extern void *memcpy(void *, const void *, unsigned int);
 
@@ -19,7 +19,7 @@ void fn_829DD9F0(int param_1)
   do {
     *(unsigned int *)(iVar2 + 600) = 0;
     *(unsigned int *)(iVar2 + -4) = 0;
-    fn_82A1EFC0(iVar2,0,600);
+    XMemSet(iVar2,0,600);
     lVar1 = lVar1 + -1;
     iVar2 = iVar2 + 0x260;
   } while (lVar1 != 0);

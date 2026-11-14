@@ -4,7 +4,7 @@ extern int fn_8252D970();
 extern int fn_8257C8F0();
 extern int fn_8257CB40();
 extern int fn_825BC5E0();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int ltcg_pool_0_0f;
 extern float lbl_8327F894;
 extern unsigned int uStack_6c;
@@ -76,7 +76,7 @@ void fn_82569598(double param_1,int param_2,int param_3,unsigned __int64 param_4
       iVar7 = iVar7 + 0x30;
     } while (iVar6 < *(int *)(param_2 + 0xd4));
   }
-  fn_82A1EFC0(&afStack_68,0,4);
+  XMemSet(&afStack_68,0,4);
   afStack_68 = (float)param_1;
   uStack_70 = 0x49;
   uStack_6c = 0xc;

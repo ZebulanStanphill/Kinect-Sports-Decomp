@@ -1,7 +1,7 @@
 extern int fn_82BE5240();
 extern int fn_82BEB750();
 extern int fn_82BF8848();
-extern int fn_82F643F8();
+extern int cos();
 extern int fn_82F68CC0();
 extern unsigned int lbl_820EB3E4;
 extern unsigned int lbl_820EB3F4;
@@ -78,7 +78,7 @@ fn_82BF0C00(double param_1,double param_2,unsigned int *param_3,unsigned __int64
       }
     }
                     /* WARNING: Subroutine does not return */
-    fn_82F643F8(param_1);
+    cos(param_1);
   }
   return param_3;
 }

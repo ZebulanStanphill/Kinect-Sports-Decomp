@@ -1,32 +1,31 @@
-extern int fn_82BF9038();
-extern unsigned int lbl_8322FD2F;
-extern unsigned int lbl_8322FD30;
+typedef struct Global_82BFA0C0 {
+    char pad[0x27];
+    unsigned char pending;      /* 0x27 */
+    unsigned char busy;         /* 0x28 */
+} Global_82BFA0C0;
 
+extern Global_82BFA0C0 lbl_8322FD08;
+extern unsigned char lbl_8322BCF8[];
+extern int fn_82BF9038(void *buffer, unsigned int size, unsigned int offset, int flags);
 
 void fn_82BFA0C0(void)
-
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  
-  if (lbl_8322FD30 == '\0') {
-    if (lbl_8322FD2F == '\0') {
-      uVar3 = 0x800;
-      uVar4 = 0x3800;
-      uVar1 = 0xffffffff8322f4f8;
-    }
-    else {
-      uVar3 = 0x4000;
-      uVar1 = 0xffffffff8322bcf8;
-      uVar4 = 0;
-    }
-    iVar2 = fn_82BF9038(uVar1,uVar3,uVar4,0);
-    if (iVar2 != 0) {
-      lbl_8322FD2F = '\0';
-    }
-  }
-  return;
-}
+    Global_82BFA0C0 *g = &lbl_8322FD08;
+    unsigned char *buffer;
+    unsigned int size;
+    unsigned int offset;
 
+    if (g->busy == 0) {
+        if (g->pending != 0) {
+            size = 0x4000;
+            buffer = lbl_8322BCF8;
+            offset = 0;
+        } else {
+            size = 0x800;
+            offset = 0x3800;
+            buffer = lbl_8322BCF8 + 0x3800;
+        }
+        if (fn_82BF9038(buffer, size, offset, 0) != 0)
+            g->pending = 0;
+    }
+}

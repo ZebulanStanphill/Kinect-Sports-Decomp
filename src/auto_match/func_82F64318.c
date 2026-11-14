@@ -16,7 +16,7 @@ extern unsigned int lbl_831BB308;
 extern unsigned int lbl_831BB920;
 
 
-double fn_82F64318(double param_1)
+double sin(double param_1)
 
 {
   float fVar1;

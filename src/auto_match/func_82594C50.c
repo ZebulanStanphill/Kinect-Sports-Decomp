@@ -9,7 +9,7 @@ extern int fn_82381BC0();
 extern int fn_8255BB98();
 extern int fn_828ACC40();
 extern int fn_828ACCE8();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern int iRam8329700c;
 extern unsigned int iStack_5c;
 extern unsigned int iStack_64;
@@ -84,7 +84,7 @@ LAB_82594d44:
       }
       if (bVar2) {
                     /* WARNING: Subroutine does not return */
-        fn_82A1EFC0(auStack_50,0,4);
+        XMemSet(auStack_50,0,4);
       }
       fn_82381BC0(apiStack_70);
     } while (apiStack_70[0] != lbl_83297008);

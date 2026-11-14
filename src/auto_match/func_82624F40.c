@@ -1,6 +1,6 @@
 extern int fn_82522D98();
 extern int fn_82624D70();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int lbl_82192734;
 extern unsigned int lbl_821954D4;
 extern unsigned int lbl_821CA460;
@@ -25,7 +25,7 @@ fn_82624F40(unsigned int param_1,unsigned __int64 param_2,unsigned __int64 param
   
   lVar6 = (unsigned __int64)param_4 * 0x1d0 + 0x470;
   puVar3 = (unsigned int *)fn_82522D98(lVar6);
-  fn_82A1EFC0(puVar3,0,lVar6);
+  XMemSet(puVar3,0,lVar6);
   *puVar3 = param_1;
   *(unsigned short *)((int)puVar3 + 6) = param_4;
   uVar9 = lbl_821CA460;

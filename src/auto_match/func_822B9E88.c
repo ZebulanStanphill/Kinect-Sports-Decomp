@@ -9,7 +9,7 @@ extern int fn_827EF828();
 extern int fn_827EFAE8();
 extern int fn_827EFFE8();
 extern int fn_827F0180();
-extern int fn_82A1EFC0();
+extern int XMemSet();
 extern unsigned int lbl_8218E8E8;
 extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8320A898;
@@ -171,7 +171,7 @@ void fn_822B9E88(int *param_1)
       else if (param_1[9] == 0) {
         uVar6 = (**(int (***)())(*piVar13 + 0xa8))(piVar13,param_1[6]);
         if ((uVar6 & 0xffffffff) != 0) {
-          fn_82A1EFC0(uVar6,0,0x14);
+          XMemSet(uVar6,0,0x14);
         }
         uVar6 = 0;
         do {
