@@ -1,25 +1,14 @@
-extern int fn_82FFF510();
-extern int fn_83011A38();
-extern int fn_83011B20();
-extern int fn_8302D080();
-extern unsigned int lbl_832642E4;
+typedef struct Object_8302E128 {
+    char pad0[0x11c];
+    unsigned short state;
+} Object_8302E128;
 
+extern void fn_8302D408(Object_8302E128 *self);
 
-void fn_8302E128(int param_1,short param_2)
-
+void fn_8302E128(Object_8302E128 *self, unsigned short state)
 {
-  if (*(short *)(param_1 + 0x11c) == param_2) {
-    return;
-  }
-  *(short *)(param_1 + 0x11c) = param_2;
-  fn_8302D080();
-  if (*(char *)(param_1 + 0x122) != '\0') {
-    if (lbl_832642E4 != 0) {
-      fn_83011B20(lbl_832642E4,*(unsigned int *)(param_1 + 0xc));
-      fn_83011A38(lbl_832642E4,*(unsigned int *)(param_1 + 0xc));
-    }
-    fn_82FFF510(param_1,0,0);
-  }
-  return;
+    if (self->state == state)
+        return;
+    self->state = state;
+    fn_8302D408(self);
 }
-

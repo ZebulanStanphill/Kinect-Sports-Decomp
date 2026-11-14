@@ -1,18 +1,14 @@
-extern int (*lbl_83263380)();
+typedef void (*InvalidParameterHandler_82F63BA0)(const unsigned short *expression, const unsigned short *function,
+                                                 const unsigned short *file, unsigned int line, unsigned int reserved);
 
+extern InvalidParameterHandler_82F63BA0 __pInvalidArgHandler;
 
-void fn_82F63BA0(void)
-
+void _invalid_parameter_noinfo(void)
 {
-  unsigned __int64 in_r0;
-  
-  if (lbl_83263380 != (int (**)())0x0) {
-                    /* WARNING: Could not recover jumptable at 0x82f63bc8. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-    (*lbl_83263380)(0,0,0,0,0);
-    return;
-  }
-  trapWord(0x1f,in_r0,0x16);
-  return;
+    InvalidParameterHandler_82F63BA0 handler = __pInvalidArgHandler;
+    if (handler != 0) {
+        handler(0, 0, 0, 0, 0);
+        return;
+    }
+    __debugbreak();
 }
-

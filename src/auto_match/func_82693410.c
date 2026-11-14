@@ -1,28 +1,19 @@
-extern int fn_82A1E968();
-extern int fn_82A1F160();
-extern unsigned int lbl_831F12A0;
-extern unsigned int lbl_831F12A8;
-extern unsigned int uStack_20;
-
+extern __int64 lbl_831F12A0;
+extern unsigned char lbl_831F12A8;
+extern int fn_82A1F160(__int64 *frequency);
+extern int fn_82A1E968(__int64 *counter);
 
 __int64 fn_82693410(void)
-
 {
-  unsigned __int64 uStack_20;
-  
-  if (lbl_831F12A8 == '\0') {
-    fn_82A1F160(0xffffffff831f12a0);
-    lbl_831F12A8 = '\x01';
-    lbl_831F12A0 = (__int64)lbl_831F12A0 / 0x1e84;
-    if (lbl_831F12A0 == 0) {
-      lbl_831F12A0 = 1;
+    __int64 counter;
+    if (lbl_831F12A8 == 0) {
+        fn_82A1F160(&lbl_831F12A0);
+        lbl_831F12A8 = 1;
+        lbl_831F12A0 = lbl_831F12A0 / 7812;
+        if (lbl_831F12A0 == 0) {
+            lbl_831F12A0 = 1;
+        }
     }
-  }
-  fn_82A1E968(&uStack_20);
-  trapDoubleWordImmediate(6,lbl_831F12A0,0);
-  trapDoubleWordImmediate
-            (5,lbl_831F12A0 & ~((uStack_20 << 8 | (uStack_20 & 0x1ffffffffffffff) >> 0x38) - 1),
-             0xffff);
-  return (__int64)(uStack_20 << 7) / (__int64)lbl_831F12A0;
+    fn_82A1E968(&counter);
+    return (counter * 128) / lbl_831F12A0;
 }
-

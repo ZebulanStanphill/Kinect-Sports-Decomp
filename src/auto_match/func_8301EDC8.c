@@ -1,22 +1,19 @@
-unsigned __int64 fn_8301EDC8(unsigned int param_1,int param_2)
+typedef struct Desc_8301EDC8 {
+    int words[9];
+} Desc_8301EDC8;
 
+typedef struct Entry_8301EDC8 {
+    Desc_8301EDC8 desc;
+    char rest[0x90 - 0x24];
+} Entry_8301EDC8;
+
+extern Entry_8301EDC8 lbl_83264610[8];
+
+int fn_8301EDC8(unsigned int index, Desc_8301EDC8 *out)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  __int64 lVar3;
-  
-  if (7 < param_1) {
-    return 0x1f;
-  }
-  puVar1 = (unsigned int *)(param_2 + -4);
-  puVar2 = (unsigned int *)(param_1 * 0x90 + -0x7cd9b9f4);
-  lVar3 = 9;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  return 1;
+    if (index >= 8) {
+        return 0x1f;
+    }
+    *out = lbl_83264610[index].desc;
+    return 1;
 }
-

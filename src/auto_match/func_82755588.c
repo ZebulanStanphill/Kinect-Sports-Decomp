@@ -1,15 +1,13 @@
-extern unsigned int lbl_8200D8DC;
+typedef struct {
+    int unk0;
+    unsigned short value;
+    unsigned short flags;
+} Fixed_82755588;
 
-
-double fn_82755588(int param_1)
-
+float fn_82755588(const Fixed_82755588 *f)
 {
-  unsigned short uVar1;
-  
-  uVar1 = *(unsigned short *)(param_1 + 4) & 0xfff;
-  if ((*(unsigned short *)(param_1 + 6) & 0x10) == 0) {
-    return (double)uVar1;
-  }
-  return (double)((float)uVar1 * lbl_8200D8DC);
+    unsigned int value = f->value & 0xfff;
+    if ((f->flags & 0x10) == 0)
+        return (float)value;
+    return (float)value * 0.0625f;
 }
-

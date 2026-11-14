@@ -1,28 +1,23 @@
-unsigned __int64 fn_82BB2C90(int param_1)
+typedef struct Obj_82BB2C90 {
+    char pad0[0x14];
+    int count;
+    char pad18[0xe8 - 0x18];
+    struct Obj_82BB2C90 *links[1];
+} Obj_82BB2C90;
 
+int fn_82BB2C90(Obj_82BB2C90 *self)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  int *piVar5;
-  
-  iVar4 = 1;
-  if (0 < *(int *)(param_1 + 0x14)) {
-    piVar5 = (int *)(param_1 + 0xec);
-    iVar2 = 0;
-    do {
-      iVar1 = *piVar5;
-      iVar3 = iVar2;
-      if ((((iVar1 != 0) && (iVar1 != param_1)) && (iVar3 = iVar1, iVar2 != 0)) &&
-         (iVar3 = iVar2, iVar2 != iVar1)) {
-        return 0;
-      }
-      iVar4 = iVar4 + 1;
-      piVar5 = piVar5 + 1;
-      iVar2 = iVar3;
-    } while (iVar4 <= *(int *)(param_1 + 0x14));
-  }
-  return 1;
+    Obj_82BB2C90 *found = 0;
+    int i;
+    for (i = 1; i <= self->count; i++) {
+        Obj_82BB2C90 *link = self->links[i];
+        if (link != 0 && link != self) {
+            if (found == 0) {
+                found = link;
+            } else if (found != link) {
+                return 0;
+            }
+        }
+    }
+    return 1;
 }
-

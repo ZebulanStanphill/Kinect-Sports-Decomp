@@ -1,24 +1,33 @@
-extern unsigned int lbl_82005718;
-extern unsigned int lbl_82014C48;
-extern unsigned int lbl_821AAD20;
+extern const float lbl_82014C48;
 
+typedef struct Entry_82766A48 {
+    int pad0[2];
+    unsigned short ticks;
+    unsigned short padA;
+} Entry_82766A48;
 
-double fn_82766A48(int *param_1,unsigned int param_2)
+typedef struct Track_82766A48 Track_82766A48;
+typedef struct TrackVtbl_82766A48 {
+    void *slots[8];
+    float (*getDefaultTime)(Track_82766A48 *self);
+} TrackVtbl_82766A48;
 
+struct Track_82766A48 {
+    TrackVtbl_82766A48 *vt;
+    int pad4[11];
+    Entry_82766A48 *entries;
+    unsigned int count;
+};
+
+float fn_82766A48(Track_82766A48 *self, int index)
 {
-  double dVar1;
-  
-  if (param_2 == 0xffffffff) {
-    dVar1 = (double)lbl_82014C48;
-  }
-  else {
-    if ((param_2 < (unsigned int)param_1[0xd]) &&
-       (dVar1 = (double)((float)*(unsigned short *)(param_1[0xc] + param_2 * 0xc + 8) * lbl_82005718),
-       dVar1 != (double)lbl_821AAD20)) {
-      return dVar1;
+    float time;
+    if (index == -1)
+        return lbl_82014C48;
+    if (index < self->count) {
+        time = self->entries[index].ticks * 0.05f;
+        if (time != 0.0f)
+            return time;
     }
-    dVar1 = (double)(**(int (***)())(*param_1 + 0x20))();
-  }
-  return dVar1;
+    return self->vt->getDefaultTime(self);
 }
-

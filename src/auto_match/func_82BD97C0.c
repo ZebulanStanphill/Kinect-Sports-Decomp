@@ -1,20 +1,20 @@
-void fn_82BD97C0(int param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4,unsigned __int64 param_5)
+typedef struct Target_82BD97C0 Target_82BD97C0;
+typedef struct {
+    void *slot[6];
+    void (*submit)(Target_82BD97C0 *self, void *a, void *b, void *c, int flags);
+} TargetVtbl_82BD97C0;
+struct Target_82BD97C0 {
+    TargetVtbl_82BD97C0 *vt;
+};
 
+typedef struct {
+    unsigned char pad0[0x48];
+    Target_82BD97C0 *primary;
+    int pad4c;
+    Target_82BD97C0 *secondary;
+} Owner_82BD97C0;
+
+void fn_82BD97C0(Owner_82BD97C0 *self, int secondary, void *a, void *b, void *c)
 {
-  unsigned int uVar1;
-  int *piVar2;
-  
-  if (param_2 == 0) {
-    uVar1 = *(unsigned int *)(param_1 + 0x48);
-    piVar2 = *(int **)(param_1 + 0x48);
-  }
-  else {
-    uVar1 = *(unsigned int *)(param_1 + 0x50);
-    piVar2 = *(int **)(param_1 + 0x50);
-  }
-                    /* WARNING: Could not recover jumptable at 0x82bd980c. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (**(int (***)())(*piVar2 + 0x18))(uVar1,param_3,param_4,param_5,0);
-  return;
+    (secondary ? self->secondary : self->primary)->vt->submit(secondary ? self->secondary : self->primary, a, b, c, 0);
 }
-

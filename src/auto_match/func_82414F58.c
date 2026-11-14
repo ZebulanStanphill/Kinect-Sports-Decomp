@@ -1,37 +1,35 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
+typedef struct Inner_82414F58 {
+    int unk0;
+    int unk4;
+    int value;
+} Inner_82414F58;
 
+typedef struct Node_82414F58 {
+    unsigned int value;
+    int unk4;
+    int inner;
+} Node_82414F58;
 
-unsigned __int64 fn_82414F58(unsigned int *param_1)
+typedef struct Expr_82414F58 Expr_82414F58;
+typedef struct {
+    unsigned char (*evaluate)(Expr_82414F58 *self);
+} ExprVtbl_82414F58;
 
+struct Expr_82414F58 {
+    ExprVtbl_82414F58 *vt;
+    Node_82414F58 *left;
+    Node_82414F58 *right;
+};
+
+unsigned char fn_82414F58(Expr_82414F58 *self)
 {
-  int *piVar1;
-  bool bVar2;
-  unsigned __int64 uVar3;
-  
-  piVar1 = (int *)param_1[1];
-  if ((piVar1 != (int *)0x0) && ((int *)param_1[2] != (int *)0x0)) {
-    bVar2 = true;
-    if (*(int *)param_1[2] + *piVar1 == 10) goto LAB_82414f8c;
-  }
-  bVar2 = false;
-LAB_82414f8c:
-  if (bVar2) {
-    return (unsigned __int64)(*(int *)(param_1[2] + 8) != 0);
-  }
-  if ((piVar1 == (int *)0x0) || (bVar2 = true, *piVar1 != 10)) {
-    bVar2 = false;
-  }
-  if (bVar2) {
-    if ((piVar1[2] == 0) || (uVar3 = 1, *(int *)(piVar1[2] + 8) == 0)) {
-      uVar3 = 0;
-    }
-    return uVar3;
-  }
-                    /* WARNING: Could not recover jumptable at 0x82415000. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  uVar3 = (**(int (***)())*param_1)();
-  return uVar3;
+    Node_82414F58 *left = self->left;
+    unsigned char sum = left != 0 && self->right != 0 && self->right->value + left->value == 10;
+    unsigned char single;
+    if (sum)
+        return self->right->inner != 0;
+    single = left != 0 && left->value == 10;
+    if (single)
+        return left->inner != 0 && ((Inner_82414F58 *)left->inner)->value != 0;
+    return self->vt->evaluate(self);
 }
-

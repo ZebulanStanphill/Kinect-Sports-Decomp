@@ -1,19 +1,6 @@
-__int64 fn_822462B0(unsigned char *param_1,unsigned char *param_2,int param_3)
+#include <string.h>
 
+int fn_822462B0(const void *a, const void *b, unsigned int size)
 {
-  unsigned char *pbVar1;
-  
-  if (param_3 == 0) {
-    return 0;
-  }
-  pbVar1 = param_1 + param_3;
-  do {
-    if ((unsigned __int64)*param_1 - (unsigned __int64)*param_2 != 0) {
-      return (unsigned __int64)*param_1 - (unsigned __int64)*param_2;
-    }
-    param_1 = param_1 + 1;
-    param_2 = param_2 + 1;
-  } while (param_1 != pbVar1);
-  return 0;
+    return memcmp(a, b, size);
 }
-

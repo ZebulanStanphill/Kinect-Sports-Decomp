@@ -1,17 +1,22 @@
-double fn_82799C40(int *param_1)
+typedef struct Item_82799C40 {
+    unsigned int flags;
+    char pad4[0x12];
+    unsigned short childX;
+    union {
+        int x;
+        struct {
+            unsigned short pad18;
+            unsigned short childY;
+        } c;
+    } u;
+    char pad1c[0xa];
+    unsigned short y;
+} Item_82799C40;
 
+float fn_82799C40(Item_82799C40 *item)
 {
-  unsigned short uVar1;
-  unsigned int uVar2;
-  
-  if (*param_1 < 0) {
-    uVar2 = (unsigned int)*(unsigned short *)((int)param_1 + 0x16);
-    uVar1 = *(unsigned short *)((int)param_1 + 0x1a);
-  }
-  else {
-    uVar2 = param_1[6];
-    uVar1 = *(unsigned short *)((int)param_1 + 0x26);
-  }
-  return (double)((float)(__int64)(int)uVar2 - (float)uVar1);
+    unsigned int child = item->flags >> 31;
+    int x = child ? item->childX : item->u.x;
+    float y = child ? (float)item->u.c.childY : (float)item->y;
+    return (float)x - y;
 }
-

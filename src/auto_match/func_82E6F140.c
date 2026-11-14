@@ -1,69 +1,83 @@
-extern unsigned int iStack_5c;
-extern unsigned int uStack_60;
+typedef struct Header_82E6F140 {
+    unsigned short streamId;
+} Header_82E6F140;
 
+typedef struct Writer_82E6F140 Writer_82E6F140;
+typedef struct Writer_82E6F140Vtbl {
+    void *slot0;
+    void *slot4;
+    int (*GetPacketSize)(Writer_82E6F140 *self, unsigned int *size);             /* 0x08 */
+    void *slotC;
+    void *slot10;
+    int (*Flush)(Writer_82E6F140 *self);                                         /* 0x14 */
+    void *slot18;
+    void *slot1C;
+    Writer_82E6F140 *(*GetNext)(Writer_82E6F140 *self);                          /* 0x20 */
+    void *slot24;
+    int (*GetLength)(Writer_82E6F140 *self, Header_82E6F140 *header, unsigned __int64 *length); /* 0x28 */
+    int (*WritePacket)(Writer_82E6F140 *self, unsigned __int64 index);           /* 0x2c */
+    int (*Write)(Writer_82E6F140 *self, void *a, void *b, Header_82E6F140 *header, int *written); /* 0x30 */
+} Writer_82E6F140Vtbl;
 
-__int64 fn_82E6F140(int *param_1,unsigned __int64 param_2,unsigned __int64 param_3,short *param_4)
+struct Writer_82E6F140 {
+    Writer_82E6F140Vtbl *vt;
+    int pad4;
+    unsigned short streamId;        /* 0x08 */
+    char padA[0x38 - 0xa];
+    int autoFlush;                  /* 0x38 */
+    char pad3C[0x48 - 0x3c];
+    unsigned __int64 packetIndex;   /* 0x48 */
+    unsigned __int64 count;         /* 0x50 */
+};
 
+int fn_82E6F140(Writer_82E6F140 *self, void *a, void *b, Header_82E6F140 *header)
 {
-  __int64 lVar1;
-  unsigned __int64 uVar2;
-  __int64 lVar3;
-  unsigned int uStack_60;
-  int iStack_5c;
-  __int64 alStack_58;
-  
-  if (param_4 == (short *)0x0) {
-    lVar1 = -0x7fffbffd;
-  }
-  else if (*(short *)(param_1 + 2) == *param_4) {
-    alStack_58 = 0;
-    lVar1 = (**(int (***)())(*param_1 + 0x28))(param_1,param_4,&alStack_58);
-    if (-1 < lVar1) {
-      uStack_60 = 0;
-      lVar1 = (**(int (***)())(*param_1 + 8))(param_1,&uStack_60);
-      if (-1 < lVar1) {
-        if (alStack_58 != 0) {
-          uVar2 = (alStack_58 - 1U) / (unsigned __int64)uStack_60;
-          trapDoubleWordImmediate(6,(unsigned __int64)uStack_60,0);
-          if ((*(unsigned __int64 *)(param_1 + 0x12) < uVar2 + 1) && (*(__int64 *)(param_1 + 0x14) != 0))
-          {
-            lVar3 = uVar2 - *(unsigned __int64 *)(param_1 + 0x12);
-            uVar2 = 0;
-            if (lVar3 != -1) {
-              do {
-                lVar1 = (**(int (***)())(*param_1 + 0x2c))(param_1,*(unsigned __int64 *)(param_1 + 0x12));
-                if (lVar1 < 0) {
-                  return lVar1;
-                }
-                if ((param_1[0xe] != 0) &&
-                   (lVar1 = (**(int (***)())(*param_1 + 0x14))(param_1), lVar1 < 0)) {
-                  return lVar1;
-                }
-                uVar2 = uVar2 + 1;
-              } while (uVar2 < lVar3 + 1U);
-            }
-            if ((int)lVar1 < 0) {
-              return lVar1;
-            }
-          }
-        }
-        iStack_5c = 0;
-        lVar1 = (**(int (***)())(*param_1 + 0x30))(param_1,param_2,param_3,param_4,&iStack_5c);
-        if (-1 < lVar1) {
-          if (iStack_5c != 0) {
-            *(__int64 *)(param_1 + 0x14) = *(__int64 *)(param_1 + 0x14) + 1;
-          }
-          uVar2 = (**(int (***)())(*param_1 + 0x20))(param_1);
-          if ((uVar2 & 0xffffffff) != 0) {
-            lVar1 = fn_82E6F140(uVar2,param_2,param_3,param_4);
-          }
-        }
-      }
-    }
-  }
-  else {
-    lVar1 = -0x3ff2c94d;
-  }
-  return lVar1;
-}
+    int hr;
+    unsigned __int64 length;
+    unsigned int packetSize;
+    int written;
+    Writer_82E6F140 *next;
 
+    if (header == 0)
+        return 0x80004003;
+    if (self->streamId != header->streamId)
+        return 0xc00d36b3;
+
+    length = 0;
+    hr = self->vt->GetLength(self, header, &length);
+    if (hr >= 0) {
+        packetSize = 0;
+        hr = self->vt->GetPacketSize(self, &packetSize);
+        if (hr >= 0) {
+            if (length > 0) {
+                unsigned __int64 last = (length - 1) / packetSize;
+                if (last + 1 > self->packetIndex && self->count > 0) {
+                    unsigned __int64 n = last - self->packetIndex + 1;
+                    unsigned __int64 i;
+                    for (i = 0; i < n; i++) {
+                        hr = self->vt->WritePacket(self, self->packetIndex);
+                        if (hr < 0)
+                            return hr;
+                        if (self->autoFlush != 0) {
+                            hr = self->vt->Flush(self);
+                            if (hr < 0)
+                                return hr;
+                        }
+                    }
+                    if (hr < 0)
+                        return hr;
+                }
+            }
+            written = 0;
+            hr = self->vt->Write(self, a, b, header, &written);
+            if (hr >= 0) {
+                if (written != 0)
+                    self->count++;
+                next = self->vt->GetNext(self);
+                if (next != 0)
+                    hr = fn_82E6F140(next, a, b, header);
+            }
+        }
+    }
+    return hr;
+}

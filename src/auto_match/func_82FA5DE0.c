@@ -1,6 +1,9 @@
-__int64 fn_82FA5DE0(int param_1,__int64 param_2)
+typedef struct {
+    int unk0;
+    unsigned int sizeAndFlags;
+} Block_82FA5DE0;
 
+int fn_82FA5DE0(Block_82FA5DE0 *block, unsigned int size)
 {
-  return -((unsigned __int64)(((unsigned __int64)*(unsigned int *)(param_1 + 4) & 0xfffffffc) < param_2 + 0x10U) - 1);
+    return (block->sizeAndFlags & ~3u) >= size + 0x10;
 }
-

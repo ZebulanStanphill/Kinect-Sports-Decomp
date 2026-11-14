@@ -1,18 +1,10 @@
-unsigned __int64 fn_82FA5A40(unsigned __int64 param_1,__int64 param_2)
-
+unsigned int fn_82FA5A40(unsigned int size, unsigned int alignment)
 {
-  unsigned __int64 uVar1;
-  
-  if ((param_1 & 0xffffffff) == 0) {
-    return 0;
-  }
-  if (0x3fffffff < (param_1 & 0xffffffff)) {
-    return 0;
-  }
-  uVar1 = (param_1 + param_2) - 1 & ~(param_2 - 1U);
-  if (0xc < (uVar1 & 0xffffffff)) {
-    return uVar1;
-  }
-  return 0xc;
+    unsigned int aligned = 0;
+    if (size != 0 && size < 0x40000000) {
+        aligned = (size + alignment - 1) & ~(alignment - 1);
+        if (aligned <= 0xc)
+            aligned = 0xc;
+    }
+    return aligned;
 }
-

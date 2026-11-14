@@ -1,42 +1,36 @@
-extern int fn_82F691F0();
+typedef struct Game_82266CC0 {
+    char pad0[0x62c];
+    unsigned int mode;              /* 0x62c */
+} Game_82266CC0;
 
+typedef struct Filter_82266CC0 {
+    unsigned int modeMask;
+    int pad4;
+    Game_82266CC0 *game;            /* 0x08 */
+} Filter_82266CC0;
 
-void fn_82266CC0(unsigned int *param_1)
+extern void fn_82266C00(Game_82266CC0 *game);
 
+void fn_82266CC0(Filter_82266CC0 *self)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  
-  uVar1 = param_1[2];
-  uVar2 = *(unsigned int *)(uVar1 + 0x62c);
-  if (uVar2 == 0) {
-    if ((*param_1 & 1) == 0) {
-      return;
-    }
-  }
-  else if (uVar2 == 1) {
-    if ((*param_1 & 2) == 0) {
-      return;
-    }
-  }
-  else if (uVar2 < 3) {
-    if ((*param_1 & 4) == 0) {
-      return;
-    }
-  }
-  else {
-    if (uVar2 != 3) {
-      return;
-    }
-    if ((*param_1 & 8) == 0) {
-      return;
-    }
-  }
-  if (*(int *)(uVar1 + 0x104) == 0x3e5) {
-    *(unsigned int *)(uVar1 + 0x630) = 1;
-    return;
-  }
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0(uVar1 + 0x104,0,0x1c);
-}
+    Game_82266CC0 *game = self->game;
 
+    switch (game->mode) {
+    case 0:
+        if (self->modeMask & 1)
+            fn_82266C00(game);
+        break;
+    case 1:
+        if (self->modeMask & 2)
+            fn_82266C00(game);
+        break;
+    case 2:
+        if (self->modeMask & 4)
+            fn_82266C00(game);
+        break;
+    case 3:
+        if (self->modeMask & 8)
+            fn_82266C00(game);
+        break;
+    }
+}

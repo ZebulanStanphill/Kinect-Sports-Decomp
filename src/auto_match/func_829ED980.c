@@ -1,36 +1,38 @@
-extern int fn_829ECB08();
-extern int fn_829ECD48();
-extern int fn_82A28568();
-extern unsigned int lbl_832179FC;
+typedef struct Globals_829ED980 {
+    char pad[0x8f4cc];
+    void *heap;                 /* 0x8f4cc */
+} Globals_829ED980;
 
+typedef struct Self_829ED980 {
+    char pad0[8];
+    unsigned int *items;        /* 0x08 */
+    unsigned int count;         /* 0x0c */
+} Self_829ED980;
 
-unsigned __int64 fn_829ED980(int param_1,unsigned __int64 param_2,unsigned __int64 param_3)
-
+extern Globals_829ED980 *lbl_832179FC;
+extern int fn_829ECB08(Self_829ED980 *self, const void *data, unsigned int size, int flags);
+extern unsigned int fn_829ECD48(Self_829ED980 *self);
+extern void *fn_82A28568(void *heap, unsigned int flags, unsigned int size);
+int fn_829ED980(Self_829ED980 *self, const void *data, unsigned __int64 size)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  __int64 lVar3;
-  
-  if (((param_2 & 0xffffffff) == 0) || (0xffffffff < param_3)) {
-    uVar1 = 0xffffffff80070057;
-  }
-  else {
-    iVar2 = fn_829ECB08(param_1,param_2,param_3 & 0xffffffff,0);
-    if (iVar2 != 0) {
-      uVar1 = fn_829ECD48(param_1);
-      *(int *)(param_1 + 0xc) = (int)uVar1;
-      if ((uVar1 & 0xffffffff) != 0) {
-        lVar3 = (uVar1 & 0x3fffffff) << 2;
-        if (0x3fffffff < (uVar1 & 0xffffffff)) {
-          lVar3 = -1;
-        }
-        lVar3 = fn_82A28568(*(unsigned int *)(lbl_832179FC + 0x8f4cc),0,lVar3);
-        *(int *)(param_1 + 8) = (int)lVar3;
-        return -(unsigned __int64)(lVar3 == 0) & 0xffffffff8007000e;
-      }
-    }
-    uVar1 = 0xffffffff80004005;
-  }
-  return uVar1;
-}
+    unsigned int count;
+    unsigned int bytes;
+    unsigned int *items;
 
+    if (data == 0)
+        return 0x80070057;
+    if (size > 0xffffffff)
+        return 0x80070057;
+    if (fn_829ECB08(self, data, (unsigned int)size, 0) == 0)
+        return 0x80004005;
+    count = fn_829ECD48(self);
+    self->count = count;
+    if (count == 0)
+        return 0x80004005;
+    bytes = count * 4;
+    if (count > 0x3fffffff)
+        bytes = 0xffffffff;
+    items = (unsigned int *)fn_82A28568(lbl_832179FC->heap, 0, bytes);
+    self->items = items;
+    return items != 0 ? 0 : 0x8007000e;
+}

@@ -1,20 +1,17 @@
-extern unsigned int lbl_821CA460;
-extern unsigned int uStack_c;
+typedef struct Curve_825B99F8 {
+    unsigned short count;
+    short pad2;
+    float range;                    /* 0x04 */
+    float *values;                  /* 0x08 */
+} Curve_825B99F8;
 
+extern const float lbl_821CA45C[2];
 
-double fn_825B99F8(double param_1,unsigned short *param_2)
-
+float fn_825B99F8(Curve_825B99F8 *self, float t)
 {
-  unsigned short uVar1;
-  unsigned int uStack_c;
-  
-  uVar1 = *param_2;
-  uStack_c = (unsigned int)(__int64)
-                   ((float)(param_1 / (double)*(float *)(param_2 + 2)) *
-                   ((float)(__int64)(int)(unsigned int)uVar1 - lbl_821CA460));
-  if (uVar1 <= uStack_c) {
-    uStack_c = uVar1 - 1;
-  }
-  return (double)*(float *)(uStack_c * 4 + *(int *)(param_2 + 4));
+    float fraction = t / self->range;
+    unsigned int index = (unsigned int)(fraction * ((float)self->count - lbl_821CA45C[1]));
+    if (index >= self->count)
+        index = self->count - 1;
+    return self->values[index];
 }
-

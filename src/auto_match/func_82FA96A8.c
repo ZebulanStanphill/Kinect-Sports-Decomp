@@ -1,20 +1,14 @@
-extern int fn_82FF8358();
-extern unsigned int lbl_832642E8;
+typedef struct Obj_82FA96A8 {
+    int vtable;
+    int base;
+    char pad8[0x20];
+    void *arg;
+} Obj_82FA96A8;
 
+extern void *lbl_832642E8;
+extern void fn_82FF7820(void *mgr, void *object, void *arg);
 
-char fn_82FA96A8(int param_1)
-
+void fn_82FA96A8(Obj_82FA96A8 *self)
 {
-  int iVar1;
-  int aiStack_20 [8];
-  
-  aiStack_20[0] = param_1 + 4;
-  if (param_1 == 0) {
-    aiStack_20[0] = 0;
-  }
-  aiStack_20[2] = *(unsigned int *)(param_1 + 0x28);
-  aiStack_20[1] = 0;
-  iVar1 = fn_82FF8358((unsigned __int64)lbl_832642E8 + 0x30,aiStack_20);
-  return (iVar1 == 0) + '\x01';
+    fn_82FF7820(lbl_832642E8, self != 0 ? &self->base : 0, self->arg);
 }
-

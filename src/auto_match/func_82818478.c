@@ -1,16 +1,8 @@
-short fn_82818478(short *param_1)
-
+unsigned short fn_82818478(const unsigned short *s)
 {
-  short sVar1;
-  short sVar2;
-  
-  sVar2 = 0;
-  sVar1 = *param_1;
-  while (sVar1 != 0) {
-    param_1 = param_1 + 1;
-    sVar2 = sVar2 * 0x21 + sVar1;
-    sVar1 = *param_1;
-  }
-  return sVar2;
+    unsigned int h = 0;
+    unsigned short c;
+    while ((c = *s++) != 0)
+        h = h * 33 + c;
+    return (unsigned short)h;
 }
-

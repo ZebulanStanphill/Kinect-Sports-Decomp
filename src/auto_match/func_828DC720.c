@@ -1,7 +1,14 @@
-__int64 fn_828DC720(int param_1)
+typedef struct Elem_828DC720 {
+    char data[0x34];
+} Elem_828DC720;
 
+typedef struct Self_828DC720 {
+    char pad[0x88];
+    Elem_828DC720 *begin;   /* 0x88 */
+    Elem_828DC720 *end;     /* 0x8c */
+} Self_828DC720;
+
+unsigned char fn_828DC720(Self_828DC720 *self)
 {
-  return -((unsigned __int64)((unsigned int)((*(int *)(param_1 + 0x8c) - *(int *)(param_1 + 0x88)) / 0x34) < 10) -
-          1);
+    return (unsigned int)(self->end - self->begin) >= 10;
 }
-

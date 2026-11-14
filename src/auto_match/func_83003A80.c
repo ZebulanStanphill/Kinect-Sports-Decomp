@@ -1,21 +1,23 @@
-extern int fn_82F68B74();
+typedef struct Node_83003A80 {
+    char pad0[0x10];
+    struct Node_83003A80 *parent;   /* 0x10 */
+    char pad14[0x3d - 0x14];
+    unsigned char flags;            /* 0x3d */
+} Node_83003A80;
 
-
-unsigned __int64 fn_83003A80(int param_1)
-
+extern void *fn_83002E80(Node_83003A80 *node);
+void *fn_83003A80(Node_83003A80 *node)
 {
-  int *piVar1;
-  unsigned __int64 uVar2;
-  
-  if (param_1 == 0) {
-    return 0;
-  }
-  do {
-    piVar1 = (int *)(param_1 + 0x10);
-    if ((*(unsigned char *)(param_1 + 0x3d) & 1) != 0) break;
-    param_1 = *piVar1;
-  } while (*piVar1 != 0);
-  uVar2 = fn_82F68B74();
-  return uVar2;
-}
+    Node_83003A80 *cur;
 
+    if (node != 0) {
+        do {
+            cur = node;
+            node = node->parent;
+            if ((cur->flags & 1) != 0)
+                break;
+        } while (node != 0);
+        return fn_83002E80(cur);
+    }
+    return 0;
+}

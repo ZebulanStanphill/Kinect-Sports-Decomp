@@ -1,47 +1,58 @@
-extern unsigned int *auStack_30;
-extern int fn_82EEAE00();
+typedef struct {
+    unsigned char pad0[0x5b0];
+    unsigned __int64 minTime;
+} Source_82E74E58;
 
+typedef struct Clock_82E74E58 Clock_82E74E58;
+typedef struct {
+    void *slot0;
+    void *slot4;
+    void *slot8;
+    int (*convert)(Clock_82E74E58 *self, void *arg);
+} ClockVtbl_82E74E58;
 
-unsigned __int64 fn_82E74E58(int *param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 *param_4)
+struct Clock_82E74E58 {
+    ClockVtbl_82E74E58 *vt;
+    int unk4;
+    unsigned __int64 start;
+    Source_82E74E58 *source;
+    unsigned char pad14[0x1c - 0x14];
+    unsigned int offset;
+    unsigned char pad20[0x38 - 0x20];
+    unsigned __int64 lag;
+    unsigned char pad40[0x5c - 0x40];
+    void *timeline;
+};
 
+extern int fn_82EEAE00(void *timeline, int value, unsigned __int64 time, unsigned __int64 minTime, unsigned __int64 *out);
+
+int fn_82E74E58(Clock_82E74E58 *self, unsigned __int64 time, void *arg, unsigned __int64 *out)
 {
-  unsigned __int64 uVar1;
-  __int64 lVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 auStack_30;
-  
-  if (param_4 == (unsigned __int64 *)0x0) {
-    uVar1 = 0xffffffff80004003;
-  }
-  else {
-    lVar2 = *(__int64 *)(param_1 + 2);
-    uVar1 = 0;
-    if ((unsigned __int64)(*(__int64 *)(param_1 + 0xe) * 10000) <= param_2 + lVar2 * -10000) {
-      *(unsigned __int64 *)(param_1 + 0xe) = param_2 / 10000 - lVar2;
+    int hr;
+    unsigned __int64 start;
+    unsigned __int64 minTime;
+    unsigned __int64 result;
+    if (out == 0)
+        return 0x80004003;
+    start = self->start;
+    hr = 0;
+    if (time - start * 10000 >= self->lag * 10000)
+        self->lag = time / 10000 - start;
+    minTime = self->source->minTime;
+    if (time < minTime && start > 0)
+        return 0xc00d4652;
+    if (self->timeline != 0) {
+        result = 0;
+        hr = fn_82EEAE00(self->timeline, self->vt->convert(self, arg), time, minTime, &result);
+        if (hr < 0)
+            return hr;
+        *out = result;
+    } else {
+        result = time - self->offset * 10000;
+        if (result >= minTime)
+            *out = result;
+        else
+            *out = minTime;
     }
-    uVar3 = *(unsigned __int64 *)(param_1[4] + 0x5b0);
-    if ((param_2 < uVar3) && (lVar2 != 0)) {
-      uVar1 = 0xffffffffc00d4652;
-    }
-    else {
-      if (param_1[0x17] == 0) {
-        auStack_30 = param_2 - ((unsigned __int64)(unsigned int)param_1[7] * 10000 & 0xffffffff);
-        if (auStack_30 < uVar3) {
-          *param_4 = uVar3;
-          return 0;
-        }
-      }
-      else {
-        auStack_30 = 0;
-        uVar1 = (**(int (***)())(*param_1 + 0xc))(param_1,param_3);
-        uVar1 = fn_82EEAE00(param_1[0x17],uVar1,param_2,uVar3,&auStack_30);
-        if ((int)uVar1 < 0) {
-          return uVar1;
-        }
-      }
-      *param_4 = auStack_30;
-    }
-  }
-  return uVar1;
+    return hr;
 }
-

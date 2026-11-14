@@ -1,33 +1,17 @@
-typedef unsigned char bool;
-#define false 0
-extern int fn_82535298();
-extern int fn_82536288();
+typedef struct Owner_8260E140 {
+    char pad[0x60];
+    void **target;
+} Owner_8260E140;
 
+typedef struct Event_8260E140 {
+    char pad[0x10];
+    int data;
+} Event_8260E140;
 
-void fn_8260E140(int param_1,unsigned __int64 param_2,int param_3,unsigned __int64 param_4,int param_5)
+extern void fn_8260E0D0(void *target, int *data);
 
+void fn_8260E140(Owner_8260E140 *self, int unused1, Event_8260E140 *event, int unused2, int handled)
 {
-  int *piVar1;
-  bool bVar2;
-  int aiStack_10 [4];
-  
-  if (param_5 != 0) {
-    return;
-  }
-  piVar1 = (int *)(param_3 + 0x10);
-  if (piVar1 == (int *)0x0) {
-    bVar2 = false;
-  }
-  else {
-    bVar2 = *piVar1 != 0;
-  }
-  if (bVar2) {
-    aiStack_10[0] = *piVar1;
-    aiStack_10[0] =
-         fn_82535298(aiStack_10,*(unsigned int *)(**(int **)(param_1 + 0x60) + 0x84c),
-                           0xffffffff83296bc0,0xffffffff83296bd0);
-    fn_82536288(aiStack_10);
-  }
-  return;
+    if (handled == 0)
+        fn_8260E0D0(*self->target, &event->data);
 }
-

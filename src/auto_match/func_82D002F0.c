@@ -1,8 +1,12 @@
-void fn_82D002F0(char *param_1,int param_2,unsigned __int64 param_3)
+/* Hash map iterator check: the iterator (a slot index) is valid while it does not pass hashMod.
+   The hkBool result is returned through r3. */
+typedef struct Map_82D002F0 {
+    void *elems;    /* 0x00 */
+    int numElems;   /* 0x04 */
+    int hashMod;    /* 0x08 */
+} Map_82D002F0;
 
+void fn_82D002F0(char *result, const Map_82D002F0 *self, int it)
 {
-  *param_1 = ((char)((int)*(unsigned int *)(param_2 + 8) >> 0x1f) - ((char)(param_3 >> 0x18) >> 7)) +
-             (param_3 <= *(unsigned int *)(param_2 + 8));
-  return;
+    *result = it <= self->hashMod;
 }
-

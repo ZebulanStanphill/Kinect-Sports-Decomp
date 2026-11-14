@@ -1,24 +1,22 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
+typedef struct {
+    unsigned char pad0[8];
+    unsigned char hosting;
+    unsigned char pad9[0x59 - 9];
+    unsigned char busy;
+    unsigned char pad5a[0x74 - 0x5a];
+    unsigned char closing;
+    unsigned char pad75[0x89 - 0x75];
+    unsigned char ready;
+    unsigned char pad8a[0xd8 - 0x8a];
+    unsigned char failed;
+} Session_828EA840;
 
-
-bool fn_828EA840(int param_1)
-
+static __forceinline unsigned char IsOpen(const Session_828EA840 *s)
 {
-  bool bVar1;
-  
-  if (*(char *)(param_1 + 8) == '\0') {
-    bVar1 = *(char *)(param_1 + 0x89) != '\0';
-  }
-  else {
-    if ((*(char *)(param_1 + 0x74) != '\0') || (bVar1 = true, *(char *)(param_1 + 0xd8) != '\0')) {
-      bVar1 = false;
-    }
-    if ((!bVar1) || (bVar1 = true, *(char *)(param_1 + 0x59) != '\0')) {
-      return false;
-    }
-  }
-  return bVar1;
+    return (unsigned char)(!s->closing & 1) && !s->failed;
 }
 
+unsigned char fn_828EA840(const Session_828EA840 *s)
+{
+    return s->hosting ? (unsigned char)(IsOpen(s) && !s->busy) : (unsigned char)(s->ready != 0);
+}

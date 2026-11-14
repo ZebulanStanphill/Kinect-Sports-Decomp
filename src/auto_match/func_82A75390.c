@@ -1,21 +1,22 @@
-unsigned __int64 fn_82A75390(unsigned int param_1)
-
+int fn_82A75390(unsigned short format)
 {
-  param_1 = param_1 & 0xffff;
-  if (7 < param_1 - 0x160) {
+    switch (format) {
+    case 0x160:
+        return 1;
+    case 0x161:
+        return 2;
+    case 0x162:
+        return 3;
+    case 0x163:
+        return 3;
+    case 0x164:
+        return 3;
+    case 0x165:
+        return 2;
+    case 0x166:
+        return 3;
+    case 0x167:
+        return 3;
+    }
     return 0;
-  }
-  if (param_1 == 0x161) {
-    return 2;
-  }
-  if (((param_1 != 0x162) && (param_1 != 0x163)) && (param_1 != 0x164)) {
-    if (param_1 == 0x165) {
-      return 2;
-    }
-    if ((param_1 != 0x166) && (param_1 == 0x160)) {
-      return 1;
-    }
-  }
-  return 3;
 }
-

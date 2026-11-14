@@ -1,32 +1,40 @@
-extern int fn_82C53960();
-extern int memset();
+typedef struct Heap_82C56228 {
+    void *lock;
+} Heap_82C56228;
 
+extern void RtlEnterCriticalSection(void *cs);
+extern void RtlLeaveCriticalSection(void *cs);
+extern void *fn_82C53960(unsigned int size, int flags);
+extern void *memset(void *dst, int c, unsigned int n);
 
-unsigned __int64 fn_82C56228(unsigned int *param_1,int param_2,int param_3)
-
+static __forceinline void *AllocZeroed(unsigned int bytes)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  
-  if ((unsigned int)(param_2 * param_3) < 0xfffffffb) {
-    uVar1 = param_2 * param_3 + 3U & 0xfffffffc;
-    RtlEnterCriticalSection(*param_1);
-    if (uVar1 == 0xffffffff) {
-      RtlLeaveCriticalSection(*param_1);
-      uVar2 = 0;
-    }
-    else {
-      uVar2 = fn_82C53960(uVar1,0);
-      if ((uVar2 & 0xffffffff) != 0) {
-                    /* WARNING: Subroutine does not return */
-        memset(uVar2,0,uVar1);
-      }
-      RtlLeaveCriticalSection(*param_1);
-    }
-  }
-  else {
-    uVar2 = 0;
-  }
-  return uVar2;
+    void *p;
+    if (bytes >= 0xffffffff)
+        return 0;
+    p = fn_82C53960(bytes, 0);
+    if (p != 0)
+        memset(p, 0, bytes);
+    return p;
 }
 
+static __forceinline void *Alloc(Heap_82C56228 *heap, unsigned int bytes)
+{
+    void *result;
+    RtlEnterCriticalSection(heap->lock);
+    result = AllocZeroed(bytes);
+    if (result != 0) {
+        RtlEnterCriticalSection(heap->lock);
+        RtlLeaveCriticalSection(heap->lock);
+    }
+    RtlLeaveCriticalSection(heap->lock);
+    return result;
+}
+
+void *fn_82C56228(Heap_82C56228 *heap, unsigned int count, unsigned int size)
+{
+    unsigned __int64 total = (unsigned __int64)count * size;
+    if ((unsigned int)total == total && (unsigned int)total < 0xfffffffb)
+        return Alloc(heap, ((unsigned int)total + 3) & ~3);
+    return 0;
+}

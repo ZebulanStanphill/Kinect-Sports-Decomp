@@ -1,29 +1,16 @@
-extern unsigned int *auStack_10;
-extern unsigned int fStack_4;
-extern unsigned int lbl_8326183C;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Global_82F4E1F8 {
+    char pad[0xb00];
+    __vector4 value;
+} Global_82F4E1F8;
 
-double fn_82F4E1F8(void)
+extern Global_82F4E1F8 *lbl_8326183C;
 
+float fn_82F4E1F8(void)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int in_r0;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned char auStack_10 [12];
-  float fStack_4;
-  
-  puVar1 = (unsigned int *)(lbl_8326183C + 0xb00U & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (unsigned int *)((unsigned int)(auStack_10 + in_r0) & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  return (double)fStack_4;
+    __vector4 v = lbl_8326183C->value;
+    return v.vector4_f32[3];
 }
-
