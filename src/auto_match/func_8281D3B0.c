@@ -1,15 +1,9 @@
-typedef unsigned char bool;
-
-
-bool fn_8281D3B0(double param_1,float *param_2,float *param_3)
-
+int fn_8281D3B0(float *a, float *b, float radius)
 {
-  float fVar1;
-  
-  fVar1 = (float)(param_1 * param_1);
-  return (param_2[3] - param_3[3]) * (param_2[3] - param_3[3]) <= fVar1 &&
-         ((param_2[2] - param_3[2]) * (param_2[2] - param_3[2]) <= fVar1 &&
-         ((param_2[1] - param_3[1]) * (param_2[1] - param_3[1]) <= fVar1 &&
-         (*param_2 - *param_3) * (*param_2 - *param_3) <= fVar1));
+    float r2 = radius * radius;
+    int inside = (a[0] - b[0]) * (a[0] - b[0]) <= r2;
+    inside &= (a[1] - b[1]) * (a[1] - b[1]) <= r2;
+    inside &= (a[2] - b[2]) * (a[2] - b[2]) <= r2;
+    inside &= (a[3] - b[3]) * (a[3] - b[3]) <= r2;
+    return inside;
 }
-

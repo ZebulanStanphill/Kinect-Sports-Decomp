@@ -1,40 +1,43 @@
-extern int fn_82A1DDC0();
-extern int fn_82FA5060();
-extern int fn_82FA5190();
-extern unsigned int lbl_831BC768;
+typedef struct Entry_830195D8 {
+    int v[3];
+} Entry_830195D8;
 
+typedef struct Array_830195D8 {
+    Entry_830195D8 *data;
+    unsigned int count;
+    int tag;
+} Array_830195D8;
 
-unsigned __int64 fn_830195D8(int *param_1,unsigned __int64 param_2,unsigned __int64 param_3,int param_4)
+extern void *fn_82FA5060(void *heap, unsigned int size);
+extern void fn_82FA5190(void *heap, void *p);
+extern void fn_82A1DDC0(void *dst, const void *src, unsigned int size);
+extern void *lbl_831BC768;
 
+int fn_830195D8(Array_830195D8 *self, const Entry_830195D8 *src, unsigned int count, int tag)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  __int64 lVar3;
-  
-  if (*param_1 != 0) {
-    fn_82FA5190(lbl_831BC768);
-    *param_1 = 0;
-  }
-  param_1[1] = 0;
-  param_1[2] = 0;
-  if (((param_2 & 0xffffffff) == 0) || ((param_3 & 0xffffffff) == 0)) {
-    uVar2 = 0x1f;
-  }
-  else {
-    lVar3 = (param_3 + (param_3 & 0x7fffffff) * 2 & 0x3fffffff) << 2;
-    uVar1 = fn_82FA5060(lbl_831BC768,lVar3);
-    *param_1 = (int)uVar1;
-    if ((uVar1 & 0xffffffff) == 0) {
-      uVar2 = 0x34;
-      param_1[1] = 0;
-    }
-    else {
-      fn_82A1DDC0(uVar1,param_2,lVar3);
-      uVar2 = 1;
-      param_1[1] = (int)param_3;
-      param_1[2] = param_4;
-    }
-  }
-  return uVar2;
-}
+    int result = 0x1f;
+    unsigned int size;
+    Entry_830195D8 *p;
 
+    if (self->data != 0) {
+        fn_82FA5190(lbl_831BC768, self->data);
+        self->data = 0;
+    }
+    self->count = 0;
+    self->tag = 0;
+    if (src != 0 && count != 0) {
+        size = count * sizeof(Entry_830195D8);
+        p = (Entry_830195D8 *)fn_82FA5060(lbl_831BC768, size);
+        self->data = p;
+        if (p != 0) {
+            fn_82A1DDC0(p, src, size);
+            result = 1;
+            self->count = count;
+            self->tag = tag;
+        } else {
+            result = 0x34;
+            self->count = 0;
+        }
+    }
+    return result;
+}

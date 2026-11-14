@@ -1,47 +1,36 @@
-extern unsigned int *auStack_c0;
-extern int fn_82755020();
-extern int fn_82F66368();
-extern int fn_82F66570();
-extern unsigned int stack0x00000000;
+extern char *strchr(const char *s, int c);
+extern int fn_82F66368(char *dst, unsigned int size, const char *src, unsigned int count);
+extern int fn_82755020(void *self, const char *name, void *arg, void *extra);
 
-
-__int64 fn_827553F0(unsigned __int64 param_1,unsigned char *param_2,unsigned __int64 param_3,char param_4,
-                      unsigned __int64 param_5)
-
+int fn_827553F0(void *self, const char *names, void *arg, unsigned char isList, void *extra)
 {
-  __int64 lVar1;
-  int iVar2;
-  unsigned char *puVar3;
-  unsigned int uVar4;
-  unsigned char auStack_c0 [192];
-  
-  if (param_4 == '\0') {
-    lVar1 = fn_82755020();
-  }
-  else {
-    lVar1 = 0;
-    do {
-      iVar2 = fn_82F66570(param_2,0x2c);
-      puVar3 = param_2;
-      if (iVar2 == 0) {
-LAB_82755478:
-        lVar1 = fn_82755020(param_1,puVar3,param_3,param_5);
-        if (lVar1 != 0) {
-          return lVar1;
-        }
-      }
-      else {
-        uVar4 = iVar2 - (int)param_2;
-        if (uVar4 < 0x80) {
-          fn_82F66368(&stack0x00000000 + -0xc0,0x7f,param_2,uVar4);
-          param_2 = param_2 + uVar4 + 1;
-          auStack_c0[uVar4] = 0;
-          puVar3 = &stack0x00000000 + -0xc0;
-          goto LAB_82755478;
-        }
-      }
-    } while (iVar2 != 0);
-  }
-  return lVar1;
-}
+    int result;
+    char *comma;
+    const char *cur;
+    char name[128];
 
+    if (!isList) {
+        return fn_82755020(self, names, arg, extra);
+    }
+    result = 0;
+    do {
+        comma = strchr(names, ',');
+        if (comma != 0) {
+            unsigned int len = comma - names;
+            if (len > 0x7f) {
+                continue;
+            }
+            fn_82F66368(name, 0x7f, names, len);
+            cur = name;
+            names = names + len + 1;
+            name[len] = 0;
+        } else {
+            cur = names;
+        }
+        result = fn_82755020(self, cur, arg, extra);
+        if (result != 0) {
+            break;
+        }
+    } while (comma != 0);
+    return result;
+}

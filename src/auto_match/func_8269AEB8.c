@@ -1,51 +1,53 @@
-extern int fn_82693A98();
-extern int fn_82693B08();
-extern int fn_826944C8();
-extern int fn_82695128();
+typedef struct Obj_8269AEB8 {
+    int f0;
+    int f4;
+    int count;
+    unsigned int pad0 : 2;
+    unsigned int isFrozen : 1;
+    unsigned int isType : 1;
+    unsigned int rest : 28;
+} Obj_8269AEB8;
 
+typedef struct Ref_8269AEB8 {
+    Obj_8269AEB8 *obj;
+} Ref_8269AEB8;
 
-unsigned __int64 fn_8269AEB8(int *param_1,int *param_2)
+extern unsigned int fn_82693A98(Ref_8269AEB8 *ref);
+extern unsigned int fn_82693B08(Ref_8269AEB8 *ref, int index);
+extern void fn_82695128(Ref_8269AEB8 *out, Ref_8269AEB8 *ref);
+extern void fn_826944C8(Obj_8269AEB8 *obj);
 
+static __forceinline void Release(Ref_8269AEB8 *ref)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  __int64 lVar3;
-  int aiStack_20 [2];
-  
-  if ((*(unsigned int *)(*param_1 + 0xc) >> 0x1d & 1) == 0) {
-    iVar2 = fn_82693A98(param_1);
-    if ((iVar2 != 0) && (iVar2 = fn_82693B08(param_1,0), iVar2 == 0x5f)) {
-      fn_82695128(aiStack_20,param_1);
-      iVar2 = aiStack_20[0];
-      if ((*(unsigned int *)(aiStack_20[0] + 0xc) >> 0x1c & 1) != 0) {
-        if (param_2 != (int *)0x0) {
-          *(int *)(aiStack_20[0] + 8) = *(int *)(aiStack_20[0] + 8) + 1;
-          lVar3 = (unsigned __int64)*(unsigned int *)(*param_2 + 8) - 1;
-          *(int *)(*param_2 + 8) = (int)lVar3;
-          if (lVar3 == 0) {
-            fn_826944C8();
-          }
-          *param_2 = iVar2;
-        }
-        lVar3 = (unsigned __int64)*(unsigned int *)(aiStack_20[0] + 8) - 1;
-        *(int *)(aiStack_20[0] + 8) = (int)lVar3;
-        if (lVar3 == 0) {
-          fn_826944C8(aiStack_20[0]);
-        }
-        goto LAB_8269aee4;
-      }
-      lVar3 = (unsigned __int64)*(unsigned int *)(aiStack_20[0] + 8) - 1;
-      *(int *)(aiStack_20[0] + 8) = (int)lVar3;
-      if (lVar3 == 0) {
-        fn_826944C8(aiStack_20[0]);
-      }
-    }
-    uVar1 = 0;
-  }
-  else {
-LAB_8269aee4:
-    uVar1 = 1;
-  }
-  return uVar1;
+    Obj_8269AEB8 *obj = ref->obj;
+    if (--obj->count == 0)
+        fn_826944C8(obj);
 }
 
+static __forceinline void Assign(Ref_8269AEB8 *dst, Ref_8269AEB8 *src)
+{
+    Obj_8269AEB8 *obj = src->obj;
+    obj->count++;
+    Release(dst);
+    dst->obj = obj;
+}
+
+int fn_8269AEB8(Ref_8269AEB8 *self, Ref_8269AEB8 *out)
+{
+    Ref_8269AEB8 item;
+    if ((unsigned char)self->obj->isFrozen)
+        return 1;
+    if (fn_82693A98(self) == 0)
+        return 0;
+    if (fn_82693B08(self, 0) != 0x5f)
+        return 0;
+    fn_82695128(&item, self);
+    if ((unsigned char)item.obj->isType) {
+        if (out != 0)
+            Assign(out, &item);
+        Release(&item);
+        return 1;
+    }
+    Release(&item);
+    return 0;
+}

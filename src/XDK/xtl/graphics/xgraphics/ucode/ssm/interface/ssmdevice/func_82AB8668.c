@@ -1,32 +1,30 @@
-extern int fn_82AB15D0();
-extern int fn_82AB50D0();
-extern int fn_82AB5180();
-extern int fn_82AB92B8();
+typedef struct {
+    char pad0[0x48];
+    void *objects;
+    unsigned int CurrentKey;
+} SSMDevice_82AB8668;
 
+extern void fn_82AB15D0(int level, const char *fmt, ...);
+extern void *fn_82AB50D0(void *objects, unsigned int key);
+extern void fn_82AB5180(void *objects, unsigned int key);
+extern int fn_82AB92B8(void *hObj);
 
-void fn_82AB8668(int param_1)
+#define E_SSM_OK 0
+#define ASSERT(e, line) if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\interface\\ssmdevice.cpp", line)
 
+void fn_82AB8668(SSMDevice_82AB8668 *pSSMDev)
 {
-  __int64 lVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  
-  uVar3 = 0;
-  do {
-    lVar1 = fn_82AB50D0(*(unsigned int *)(param_1 + 0x48),uVar3);
-    if (lVar1 != 0) {
-      if (((uVar3 & 0xffffffff) == 0) ||
-         ((unsigned __int64)*(unsigned int *)(param_1 + 0x4c) < (uVar3 & 0xffffffff))) {
-        fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d70f0,0xffffffff820d7090,0x298);
-      }
-      fn_82AB5180(*(unsigned int *)(param_1 + 0x48),uVar3);
-      iVar2 = fn_82AB92B8(lVar1);
-      if (iVar2 != 0) {
-        fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d6840,0xffffffff820d7090,0x29e);
-      }
-    }
-    uVar3 = uVar3 + 1;
-  } while ((uVar3 & 0xffffffff) <= (unsigned __int64)(*(int *)(param_1 + 0x4c) + 1));
-  return;
-}
+    unsigned int key;
+    void *hObj;
+    int hRet;
 
+    for (key = 0; key <= pSSMDev->CurrentKey + 1; key++) {
+        hObj = fn_82AB50D0(pSSMDev->objects, key);
+        if (hObj != 0) {
+            ASSERT(key != 0 && key <= pSSMDev->CurrentKey, 0x298);
+            fn_82AB5180(pSSMDev->objects, key);
+            hRet = fn_82AB92B8(hObj);
+            ASSERT(hRet == E_SSM_OK, 0x29e);
+        }
+    }
+}

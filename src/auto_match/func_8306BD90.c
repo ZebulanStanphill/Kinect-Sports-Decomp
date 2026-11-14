@@ -1,17 +1,26 @@
-__int64 fn_8306BD90(int param_1)
+typedef struct Random_8306BD90 {
+    int f0;
+    unsigned int seed;
+    char pad8[0x3f8 - 8];
+    unsigned char locked;
+} Random_8306BD90;
 
+extern void RtlEnterCriticalSection(void *cs);
+extern void RtlLeaveCriticalSection(void *cs);
+extern char lbl_83265098[];
+
+unsigned int fn_8306BD90(Random_8306BD90 *self)
 {
-  unsigned int uVar1;
-  
-  if (*(char *)(param_1 + 0x3f8) != '\0') {
-    RtlEnterCriticalSection(0xffffffff83265098);
-  }
-  uVar1 = *(unsigned int *)(param_1 + 4);
-  *(unsigned int *)(param_1 + 4) = uVar1 * 0x41c64e6d + 0x3039;
-  if (*(char *)(param_1 + 0x3f8) != '\0') {
-    RtlLeaveCriticalSection(0xffffffff83265098);
-  }
-  return (((unsigned __int64)uVar1 & 0xffff) * 0x4e6d + 0x3039 >> 0x10) +
-         ((unsigned __int64)uVar1 & 0xffff) * 0x41c6 + (__int64)((int)uVar1 >> 0x10) * 0x41c64e6d;
+    unsigned int seed;
+    unsigned int lo;
+    int hi;
+    if (self->locked)
+        RtlEnterCriticalSection(lbl_83265098);
+    seed = self->seed;
+    lo = seed & 0xffff;
+    hi = (int)seed >> 16;
+    self->seed = seed * 0x41c64e6d + 0x3039;
+    if (self->locked)
+        RtlLeaveCriticalSection(lbl_83265098);
+    return ((lo * 0x4e6d + 0x3039) >> 16) + lo * 0x41c6 + hi * 0x41c64e6d;
 }
-

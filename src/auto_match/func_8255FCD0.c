@@ -1,29 +1,32 @@
-extern unsigned int *auStack_70;
-extern int fn_82526C70();
-extern int fn_82560010();
+typedef struct Name_8255FCD0 {
+    char text[0x40];
+} Name_8255FCD0;
 
+typedef struct NameList_8255FCD0 {
+    int x0;
+    Name_8255FCD0 *begin;
+    Name_8255FCD0 *end;
+} NameList_8255FCD0;
 
-void fn_8255FCD0(unsigned __int64 param_1,unsigned __int64 param_2,int *param_3)
+extern int fn_82526C70(char *buf, int size, const char *fmt, ...);
+extern void *fn_82560010(void *self, const char *name);
 
+void *fn_8255FCD0(void *self, const char *name, NameList_8255FCD0 **prefixes)
 {
-  char *pcVar1;
-  int iVar2;
-  char *pcVar3;
-  unsigned char auStack_70 [112];
-  
-  if ((param_3 != (int *)0x0) && (iVar2 = *param_3, iVar2 != 0)) {
-    pcVar1 = *(char **)(iVar2 + 8);
-    for (pcVar3 = *(char **)(iVar2 + 4); pcVar3 < pcVar1; pcVar3 = pcVar3 + 0x40) {
-      if ((pcVar3 != (char *)0x0) && (*pcVar3 != '\0')) {
-        fn_82526C70(auStack_70,0x40,0xffffffff821b0c70,pcVar3,param_2);
-        iVar2 = fn_82560010(param_1,auStack_70);
-        if (iVar2 != 0) {
-          return;
+    if (prefixes != 0 && *prefixes != 0) {
+        Name_8255FCD0 *p = (*prefixes)->begin;
+        Name_8255FCD0 *end = (*prefixes)->end;
+        for (; p < end; p++) {
+            if (p != 0 && p->text[0] != 0) {
+                char full[0x40];
+                void *found;
+                fn_82526C70(full, 0x40, "%s%s", p->text, name);
+                found = fn_82560010(self, full);
+                if (found != 0) {
+                    return found;
+                }
+            }
         }
-      }
     }
-  }
-  fn_82560010(param_1,param_2);
-  return;
+    return fn_82560010(self, name);
 }
-

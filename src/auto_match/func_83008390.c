@@ -1,40 +1,45 @@
-extern int fn_82FF2AA0();
-extern int fn_83013880();
+typedef struct Obj Obj;
+typedef struct ObjVt {
+    void *f0;
+    int (*Start)(Obj *self, int a, int b, int c);
+    void *f8;
+    int (*Init)(Obj *self, const void *iid, int a, int b);
+} ObjVt;
+struct Obj { ObjVt *vt; };
+typedef struct Self_83008390 {
+    char pad[0x18];
+    Obj *obj;
+    unsigned int id;
+} Self_83008390;
 
+extern const char lbl_831BC7F4[];
+extern int fn_83013880(const void *iid, unsigned int id, Obj **out);
+extern int fn_82FF2AA0(Obj *obj, int a, int b, int c);
 
-unsigned __int64
-fn_83008390(int param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4,unsigned __int64 param_5)
-
+int fn_83008390(Self_83008390 *self, unsigned int id, int a, int b, int c)
 {
-  int *piVar1;
-  unsigned __int64 uVar2;
-  int *apiStack_40 [16];
-  
-  uVar2 = 1;
-  if (*(int *)(param_1 + 0x1c) == param_2) {
-    if (*(int *)(param_1 + 0x18) == 0) {
-      apiStack_40[0] = (int *)0x0;
-      uVar2 = fn_83013880(0xffffffff831bc7f4,*(int *)(param_1 + 0x1c),apiStack_40);
-      if ((int)uVar2 != 1) {
-        return uVar2;
-      }
-      if (apiStack_40[0] != (int *)0x0) {
-        *(int **)(param_1 + 0x18) = apiStack_40[0];
-        uVar2 = (**(int (***)())(*apiStack_40[0] + 0xc))(apiStack_40[0],0xffffffff831bc7f4,0,0);
-        if ((int)uVar2 != 1) {
-          return uVar2;
-        }
-      }
-    }
-    piVar1 = *(int **)(param_1 + 0x18);
-    if ((piVar1 != (int *)0x0) &&
-       (uVar2 = (**(int (***)())(*piVar1 + 4))(piVar1,param_3,param_4,param_5), (int)uVar2 == 1)) {
-      uVar2 = fn_82FF2AA0(piVar1,param_3,param_4,param_5);
-    }
-  }
-  else {
-    uVar2 = 2;
-  }
-  return uVar2;
-}
+    int hr = 1;
+    Obj *obj;
 
+    if (self->id != id)
+        return 2;
+    if (self->obj == 0) {
+        Obj *created = 0;
+        hr = fn_83013880(lbl_831BC7F4, self->id, &created);
+        if (hr != 1)
+            return hr;
+        if (created != 0) {
+            self->obj = created;
+            hr = created->vt->Init(created, lbl_831BC7F4, 0, 0);
+            if (hr != 1)
+                return hr;
+        }
+    }
+    obj = self->obj;
+    if (obj != 0) {
+        hr = obj->vt->Start(obj, a, b, c);
+        if (hr == 1)
+            hr = fn_82FF2AA0(obj, a, b, c);
+    }
+    return hr;
+}

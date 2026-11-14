@@ -1,26 +1,27 @@
-extern unsigned int iStack_c;
+typedef struct Curve_8302A5B8 {
+    int unk0;
+    float *values; /* 0x4 */
+    int unk8;
+    float end;     /* 0xc */
+    float start;   /* 0x10 */
+    int count;     /* 0x14 */
+    float scale;   /* 0x18 */
+} Curve_8302A5B8;
 
-
-double fn_8302A8F0(double param_1,int param_2)
-
+float fn_8302A8F0(Curve_8302A5B8 *self, float x)
 {
-  float fVar1;
-  float *pfVar2;
-  float fVar3;
-  unsigned __int64 uVar4;
-  int iStack_c;
-  
-  pfVar2 = *(float **)(param_2 + 4);
-  if ((double)*(float *)(param_2 + 0xc) <= param_1) {
-    return (double)pfVar2[*(int *)(param_2 + 0x14) + -1];
-  }
-  if (param_1 <= (double)*(float *)(param_2 + 0x10)) {
-    return (double)*pfVar2;
-  }
-  fVar3 = (float)(param_1 - (double)*(float *)(param_2 + 0x10)) * *(float *)(param_2 + 0x18);
-  uVar4 = (unsigned __int64)fVar3;
-  iStack_c = (int)uVar4;
-  fVar1 = pfVar2[iStack_c];
-  return (double)((fVar3 - (float)(uVar4 & 0xffffffff)) * ((pfVar2 + iStack_c)[1] - fVar1) + fVar1);
+    float *values = self->values;
+    float f;
+    float *e;
+    float first;
+    if (x >= self->end) {
+        return values[self->count - 1];
+    }
+    if (x <= self->start) {
+        return values[0];
+    }
+    f = (x - self->start) * self->scale;
+    e = &values[(unsigned int)f];
+    first = e[0];
+    return (f - (float)(unsigned int)f) * (e[1] - first) + first;
 }
-

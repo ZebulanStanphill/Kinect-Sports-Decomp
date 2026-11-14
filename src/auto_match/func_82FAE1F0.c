@@ -1,29 +1,37 @@
-unsigned __int64 fn_82FAE1F0(int param_1,int param_2,int *param_3)
+typedef struct Entry_82FAE1F0 {
+    unsigned int key;
+    unsigned int pos;
+} Entry_82FAE1F0;
 
+typedef struct Vector_82FAE1F0 {
+    Entry_82FAE1F0 *begin;
+    Entry_82FAE1F0 *end;
+} Vector_82FAE1F0;
+
+typedef struct Obj_82FAE1F0 {
+    unsigned char pad[0xa0];
+    Vector_82FAE1F0 entries; /* 0xa0 */
+} Obj_82FAE1F0;
+
+static __forceinline unsigned int Size(const Vector_82FAE1F0 *v)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  unsigned int uVar5;
-  
-  iVar1 = *(int *)(param_1 + 0xa0);
-  uVar5 = 1;
-  iVar2 = *(int *)(param_1 + 0xa4) - iVar1 >> 3;
-  if (iVar2 != 2) {
-    iVar4 = 8;
-    iVar3 = iVar1 + 8;
-    do {
-      if ((unsigned int)(*(int *)(iVar1 + 4) + param_2) < *(unsigned int *)(iVar3 + 4)) {
-        *param_3 = *(int *)(uVar5 * 8 + *(int *)(param_1 + 0xa0) + 4) -
-                   *(int *)(*(int *)(param_1 + 0xa0) + 4);
-        return 1;
-      }
-      uVar5 = uVar5 + 1;
-      iVar4 = iVar4 + 8;
-      iVar3 = iVar4 + iVar1;
-    } while (uVar5 <= iVar2 - 2U);
-  }
-  return 2;
+    return v->end - v->begin;
 }
 
+static __forceinline Entry_82FAE1F0 *At(const Vector_82FAE1F0 *v, unsigned int i)
+{
+    return v->begin + i;
+}
+
+int fn_82FAE1F0(Obj_82FAE1F0 *self, unsigned int offset, unsigned int *out)
+{
+    unsigned int i;
+    unsigned int limit = At(&self->entries, 0)->pos + offset;
+    for (i = 1; i <= Size(&self->entries) - 2; i++) {
+        if (At(&self->entries, i)->pos > limit) {
+            *out = At(&self->entries, i)->pos - At(&self->entries, 0)->pos;
+            return 1;
+        }
+    }
+    return 2;
+}

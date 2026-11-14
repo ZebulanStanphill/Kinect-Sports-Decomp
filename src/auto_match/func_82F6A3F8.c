@@ -1,41 +1,35 @@
-extern int fn_82F63BA0();
-extern int fn_82F68240();
-extern int fn_82F68CC0();
-extern int fn_82F691F0();
+/* memcpy_s: copy count bytes into a buffer of size bytes */
+extern int *_errno(void);
+extern void _invalid_parameter_noinfo(void);
+extern void *memcpy(void *dst, const void *src, unsigned int n);
+extern void *memset(void *dst, int c, unsigned int n);
 
-
-unsigned int fn_82F6A3F8(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4)
-
+int fn_82F6A3F8(void *dst, unsigned int size, const void *src, unsigned int count)
 {
-  unsigned int *puVar1;
-  unsigned int uVar2;
-  
-  if ((int)param_4 != 0) {
-    if ((param_1 & 0xffffffff) == 0) {
-      puVar1 = (unsigned int *)fn_82F68240();
-      *puVar1 = 0x16;
-      fn_82F63BA0();
-      return 0x16;
+    if (count == 0) {
+        return 0;
     }
-    if (((param_3 & 0xffffffff) == 0) || ((param_2 & 0xffffffff) < (param_4 & 0xffffffff))) {
-      fn_82F691F0(param_1,0,param_2);
-      if ((param_3 & 0xffffffff) == 0) {
-        puVar1 = (unsigned int *)fn_82F68240();
-        uVar2 = 0x16;
-      }
-      else {
-        if ((param_4 & 0xffffffff) <= (param_2 & 0xffffffff)) {
-          return 0x16;
-        }
-        puVar1 = (unsigned int *)fn_82F68240();
-        uVar2 = 0x22;
-      }
-      *puVar1 = uVar2;
-      fn_82F63BA0();
-      return uVar2;
+    if (dst == 0) {
+        *_errno() = 22;
+        _invalid_parameter_noinfo();
+        return 22;
     }
-    fn_82F68CC0(param_1,param_3,param_4);
-  }
-  return 0;
+    if (src != 0 && size >= count) {
+        memcpy(dst, src, count);
+        return 0;
+    }
+    memset(dst, 0, size);
+    if (src == 0) {
+        int e = 22;
+        *_errno() = e;
+        _invalid_parameter_noinfo();
+        return e;
+    }
+    if (size < count) {
+        int e = 34;
+        *_errno() = e;
+        _invalid_parameter_noinfo();
+        return e;
+    }
+    return 22;
 }
-

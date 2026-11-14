@@ -1,39 +1,40 @@
-unsigned __int64 fn_82591730(int param_1,int param_2,int param_3)
+typedef struct Target_82591730 {
+    char pad0[0x190];
+    unsigned int value;
+    float scale;
+    char pad198[0x1a9 - 0x198];
+    unsigned char enabled[1];
+} Target_82591730;
 
+typedef struct Owner_82591730 {
+    int x0;
+    Target_82591730 *target;
+} Owner_82591730;
+
+int fn_82591730(Owner_82591730 *self, unsigned int prop, unsigned int value)
 {
-  unsigned char uVar1;
-  int iVar2;
-  
-  if (param_2 == 0) {
-    if (*(int *)(param_1 + 4) == 0) {
-      return 0;
+    switch (prop) {
+    case 0:
+        if (self->target != 0) {
+            self->target->value = value;
+            return 1;
+        }
+        break;
+    case 0x14:
+        if (self->target != 0) {
+            self->target->enabled[value] = 0;
+        }
+        break;
+    case 1:
+        if (self->target != 0) {
+            self->target->scale = *(float *)&value;
+        }
+        /* fall through */
+    case 0x13:
+        if (self->target != 0) {
+            self->target->enabled[value] = 1;
+        }
+        break;
     }
-    *(int *)(*(int *)(param_1 + 4) + 400) = param_3;
-    return 1;
-  }
-  if (param_2 == 1) {
-    if (*(int *)(param_1 + 4) != 0) {
-      *(int *)(*(int *)(param_1 + 4) + 0x194) = param_3;
-    }
-  }
-  else if (param_2 != 0x13) {
-    if (param_2 != 0x14) {
-      return 0;
-    }
-    iVar2 = *(int *)(param_1 + 4);
-    if (iVar2 == 0) {
-      return 0;
-    }
-    uVar1 = 0;
-    goto LAB_82591760;
-  }
-  iVar2 = *(int *)(param_1 + 4);
-  if (iVar2 == 0) {
     return 0;
-  }
-  uVar1 = 1;
-LAB_82591760:
-  *(unsigned char *)(iVar2 + param_3 + 0x1a9) = uVar1;
-  return 0;
 }
-

@@ -1,35 +1,44 @@
-extern unsigned int **ppuRam83297954;
-extern unsigned int *puRam83297958;
-extern unsigned int lbl_821C250C;
-extern unsigned int uRam8329795c;
-extern unsigned int uRam83297960;
-extern unsigned int uRam83297964;
+typedef struct Node_8313F0B0 {
+    struct Node_8313F0B0 *p;
+    struct Node_8313F0B0 *a;
+    struct Node_8313F0B0 *b;
+} Node_8313F0B0;
 
+typedef struct Tree_8313F0B0 {
+    Node_8313F0B0 *root;
+    Node_8313F0B0 *first;
+    Node_8313F0B0 *last;
+    unsigned int n;
+} Tree_8313F0B0;
+
+typedef struct Object_8313F0B0 {
+    void *vt;
+    Tree_8313F0B0 tree;
+} Object_8313F0B0;
+
+extern char lbl_821C250C[];
+extern Object_8313F0B0 lbl_83297954;
 
 void fn_8313F0B0(void)
-
 {
-  unsigned int *puVar1;
-
-  while (puRam83297958 != (unsigned int *)0x0) {
-    puVar1 = (unsigned int *)puRam83297958[1];
-    if (puVar1 == (unsigned int *)0x0) {
-      puVar1 = (unsigned int *)puRam83297958[2];
-      *puRam83297958 = 0;
-      puRam83297958[1] = 0;
-      puRam83297958[2] = 0;
-      puRam83297958 = puVar1;
+    Tree_8313F0B0 *h = &lbl_83297954.tree;
+    Node_8313F0B0 *p = h->root;
+    while (p != 0) {
+        Node_8313F0B0 *a = p->a;
+        if (a != 0) {
+            p->a = a->b;
+            a->b = p;
+        } else {
+            a = p->b;
+            p->p = 0;
+            p->a = 0;
+            p->b = 0;
+        }
+        p = a;
     }
-    else {
-      puRam83297958[1] = puVar1[2];
-      puVar1[2] = puRam83297958;
-      puRam83297958 = puVar1;
-    }
-  }
-  puRam83297958 = (unsigned int *)0x0;
-  uRam83297964 = 0;
-  ppuRam83297954 = &lbl_821C250C;
-  uRam83297960 = 0x83297958;
-  uRam8329795c = 0x83297958;
-  return;
+    h->root = 0;
+    h->first = (Node_8313F0B0 *)h;
+    h->last = (Node_8313F0B0 *)h;
+    h->n = 0;
+    lbl_83297954.vt = lbl_821C250C;
 }

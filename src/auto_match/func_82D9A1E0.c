@@ -1,34 +1,35 @@
-void fn_82D9A1E0(int param_1)
+typedef struct PtrArray_82D9A1E0 {
+    void **data;
+    int size;
+    int capacityAndFlags;
+} PtrArray_82D9A1E0;
 
+typedef struct Owner_82D9A1E0 {
+    char pad[0x98];
+    PtrArray_82D9A1E0 items;
+} Owner_82D9A1E0;
+
+static __forceinline void MemCpy4(void *dst, const void *src, int nbytes)
 {
-  __int64 lVar1;
-  unsigned __int64 uVar2;
-  __int64 lVar3;
-  __int64 lVar4;
-  
-  uVar2 = (unsigned __int64)*(unsigned int *)(param_1 + 0x9c) - 1;
-  if ((__int64)uVar2 < 0) {
-    return;
-  }
-  lVar1 = (uVar2 & 0x3fffffff) << 2;
-  do {
-    if (*(int *)(*(int *)(param_1 + 0x98) + (int)lVar1) == 0) {
-      lVar3 = (unsigned __int64)*(unsigned int *)(param_1 + 0x9c) - 1;
-      lVar4 = (unsigned __int64)*(unsigned int *)(param_1 + 0x98) + lVar1;
-      *(int *)(param_1 + 0x9c) = (int)lVar3;
-      lVar3 = (lVar3 - uVar2 & 0x3fffffff) * 4;
-      if (0 < (int)lVar3) {
-        lVar3 = ((lVar3 - 1U & 0xffffffff) >> 2) + 1;
-        do {
-          *(unsigned int *)lVar4 = ((unsigned int *)lVar4)[1];
-          lVar4 = lVar4 + 4;
-          lVar3 = lVar3 + -1;
-        } while (lVar3 != 0);
-      }
+    int i;
+    for (i = 0; i < nbytes; i += 4) {
+        *(int *)((char *)dst + i) = *(const int *)((const char *)src + i);
     }
-    uVar2 = uVar2 - 1;
-    lVar1 = lVar1 + -4;
-  } while (-1 < (__int64)uVar2);
-  return;
 }
 
+static __forceinline void RemoveAtAndCopy(PtrArray_82D9A1E0 *a, int index)
+{
+    PtrArray_82D9A1E0 *arr = a;
+    arr->size--;
+    MemCpy4(arr->data + index, arr->data + index + 1, (arr->size - index) * 4);
+}
+
+void fn_82D9A1E0(Owner_82D9A1E0 *self)
+{
+    int i;
+    for (i = self->items.size - 1; i >= 0; i--) {
+        if (self->items.data[i] == 0) {
+            RemoveAtAndCopy(&self->items, i);
+        }
+    }
+}

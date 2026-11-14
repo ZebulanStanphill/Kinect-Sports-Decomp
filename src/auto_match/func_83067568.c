@@ -1,51 +1,35 @@
-extern int fn_82F664B0();
-extern int fn_83065B90();
-extern int fn_83065BA8();
+typedef struct Obj_83067568 {
+    int f0;
+    char *name;          /* 0x04 */
+    char *value;         /* 0x08 */
+    unsigned int flags;  /* 0x0c */
+} Obj_83067568;
 
+unsigned int strlen(const char *s);
+extern void fn_83065BA8(void *p);
+extern char *fn_83065B90(unsigned int size);
+extern int fn_82F664B0(char *dst, unsigned int size, const char *src);
 
-void fn_83067568(int param_1,char *param_2,char *param_3,unsigned int param_4)
-
+void fn_83067568(Obj_83067568 *self, const char *name, const char *value, unsigned int flags)
 {
-  char cVar1;
-  unsigned __int64 uVar2;
-  char *pcVar3;
-  int iVar4;
-  
-  if (*(int *)(param_1 + 4) != 0) {
-    fn_83065BA8();
-  }
-  if (*(int *)(param_1 + 8) != 0) {
-    fn_83065BA8();
-  }
-  pcVar3 = param_2;
-  if (param_2 == (char *)0x0) {
-    *(unsigned int *)(param_1 + 4) = 0;
-  }
-  else {
-    do {
-      cVar1 = *pcVar3;
-      pcVar3 = pcVar3 + 1;
-    } while (cVar1 != '\0');
-    iVar4 = (int)pcVar3 - (int)param_2;
-    uVar2 = fn_83065B90(iVar4);
-    *(int *)(param_1 + 4) = (int)uVar2;
-    fn_82F664B0(uVar2,iVar4,param_2);
-  }
-  pcVar3 = param_3;
-  if (param_3 == (char *)0x0) {
-    *(unsigned int *)(param_1 + 8) = 0;
-  }
-  else {
-    do {
-      cVar1 = *pcVar3;
-      pcVar3 = pcVar3 + 1;
-    } while (cVar1 != '\0');
-    iVar4 = (int)pcVar3 - (int)param_3;
-    uVar2 = fn_83065B90(iVar4);
-    *(int *)(param_1 + 8) = (int)uVar2;
-    fn_82F664B0(uVar2,iVar4,param_3);
-  }
-  *(unsigned int *)(param_1 + 0xc) = param_4;
-  return;
+    unsigned int size;
+    if (self->name != 0)
+        fn_83065BA8(self->name);
+    if (self->value != 0)
+        fn_83065BA8(self->value);
+    if (name != 0) {
+        size = strlen(name) + 1;
+        self->name = fn_83065B90(size);
+        fn_82F664B0(self->name, size, name);
+    } else {
+        self->name = 0;
+    }
+    if (value != 0) {
+        size = strlen(value) + 1;
+        self->value = fn_83065B90(size);
+        fn_82F664B0(self->value, size, value);
+    } else {
+        self->value = 0;
+    }
+    self->flags = flags;
 }
-

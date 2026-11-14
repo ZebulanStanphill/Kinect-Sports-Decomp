@@ -1,13 +1,11 @@
-extern unsigned int lbl_82002C5C;
+typedef struct Clock_8303A128 {
+    char pad0[0x24];
+    unsigned int rate;      /* 0x24 */
+} Clock_8303A128;
+
 extern float lbl_82054148;
 
-
-void fn_8303A128(int param_1,unsigned int *param_2)
-
+void fn_8303A128(Clock_8303A128 *self, unsigned int *value)
 {
-  *param_2 = (unsigned int)(__int64)
-                   ((float)*param_2 / ((float)*(unsigned int *)(param_1 + 0x24) * lbl_82054148) +
-                   lbl_82002C5C);
-  return;
+    *value = (unsigned int)((float)*value / ((float)self->rate * lbl_82054148) + 0.5f);
 }
-

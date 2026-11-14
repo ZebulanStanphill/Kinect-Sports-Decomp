@@ -1,29 +1,41 @@
-extern int fn_82BF2490();
-extern int fn_82F691F0();
+typedef struct Stream_82BF2560 {
+    int f0;
+    unsigned int id;
+    int f8;
+    char padC[0x20 - 0xc];
+    char *buffer;
+    char *cursor;
+    int f28;
+    int size;
+    int f30;
+    int f34;
+    int f38;
+    int f3c;
+    int f40;
+} Stream_82BF2560;
 
+extern void fn_82BF2490(Stream_82BF2560 *s, int size);
+extern void *memset(void *dst, int value, unsigned int size);
 
-unsigned __int64 fn_82BF2560(int param_1,int param_2)
-
+int fn_82BF2560(Stream_82BF2560 *s, unsigned int id)
 {
-  unsigned __int64 uVar1;
-  
-  if (param_2 == 0) {
-    uVar1 = 900;
-    *(unsigned int *)(param_1 + 4) = 0;
-  }
-  else {
-    if (param_2 != *(int *)(param_1 + 4)) {
-      if ((*(int *)(param_1 + 0x20) == 0) || (*(int *)(param_1 + 0x2c) == 0)) {
-        fn_82BF2490(param_1,0x400);
-      }
-      *(int *)(param_1 + 4) = param_2;
-      *(unsigned int *)(param_1 + 0x30) = 0;
-      *(unsigned int *)(param_1 + 8) = 0;
-                    /* WARNING: Subroutine does not return */
-      fn_82F691F0(*(unsigned int *)(param_1 + 0x20),0,*(unsigned int *)(param_1 + 0x2c));
+    if (id == 0) {
+        s->id = 0;
+        return 900;
     }
-    uVar1 = 0;
-  }
-  return uVar1;
+    if (id != s->id) {
+        if (s->buffer == 0 || s->size == 0)
+            fn_82BF2490(s, 0x400);
+        s->id = id;
+        s->f30 = 0;
+        s->f8 = 0;
+        memset(s->buffer, 0, s->size);
+        s->f28 = 0;
+        s->f34 = 0;
+        s->f38 = 0;
+        s->f3c = 0;
+        s->f40 = 0;
+        s->cursor = s->buffer;
+    }
+    return 0;
 }
-

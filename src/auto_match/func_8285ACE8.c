@@ -1,18 +1,38 @@
-extern int fn_82F691F0();
-extern int iRam83211334;
-extern int iRam83211338;
+typedef struct Node_8285ACE8 Node_8285ACE8;
 
+typedef struct Graph_8285ACE8 {
+    char pad[0x5c];
+    unsigned int visitedSize;
+    int x60;
+    int slotOffset;
+    char *nodes;
+} Graph_8285ACE8;
 
-unsigned __int64 fn_8285ACE8(int param_1,int param_2,int param_3)
+typedef struct Ctx_8285ACE8 {
+    int x0;
+    int x4;
+    int nodeOffset;
+} Ctx_8285ACE8;
 
+extern unsigned lbl_83211334[];
+extern void *memset(void *dst, int c, unsigned int n);
+extern int fn_8285AC20(Node_8285ACE8 *n);
+
+/* is target reachable from the context's node? */
+int fn_8285ACE8(Node_8285ACE8 *target, Graph_8285ACE8 *graph, Ctx_8285ACE8 *ctx)
 {
-  iRam83211338 = param_1;
-  iRam83211334 = param_3;
-  if (*(int *)(*(int *)(param_2 + 0x68) + *(int *)(param_3 + 8)) == param_1) {
-    return 1;
-  }
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0(*(unsigned int *)(*(int *)(param_2 + 100) + param_3 + 0xac),0,
-               *(unsigned int *)(param_2 + 0x5c));
+    char *nodes;
+    int offset = ctx->nodeOffset;
+    char *slot = (char *)ctx + graph->slotOffset;
+    Node_8285ACE8 *start = *(Node_8285ACE8 **)(graph->nodes + offset);
+    nodes = graph->nodes;
+    lbl_83211334[1] = (unsigned)target;
+    lbl_83211334[0] = (unsigned)ctx;
+    if (start == target) {
+        return 1;
+    }
+    memset(*(void **)(slot + 0xac), 0, graph->visitedSize);
+    start = *(Node_8285ACE8 **)(nodes + offset);
+    lbl_83211334[2] = *(unsigned *)(slot + 0xac);
+    return fn_8285AC20(start);
 }
-

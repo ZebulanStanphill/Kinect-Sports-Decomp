@@ -1,42 +1,50 @@
-extern unsigned int *auStack_4c;
-extern int fn_82A82160();
-extern int fn_8314303C();
-extern unsigned int lbl_8322344C;
-extern unsigned int uStack_50;
+typedef struct XOverlapped_82A821B0 {
+    unsigned int InternalLow;
+    unsigned int InternalHigh;
+    unsigned int InternalContext;
+    void *hEvent;
+    void *pCompletionRoutine;
+    unsigned int dwCompletionContext;
+    int dwExtendedError;
+} XOverlapped_82A821B0;
 
+extern unsigned char lbl_8322344C;
 
-unsigned __int64 fn_82A821B0(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned int param_4,
-                       unsigned __int64 param_5,unsigned int param_6,unsigned __int64 param_7,int param_8)
+int fn_82A82160(unsigned int flags, unsigned int *resultSize, unsigned int *assetSize);
+int XamAvatarGetAssets(void *request, unsigned int flags, unsigned int options, void *result,
+                       void *assets, XOverlapped_82A821B0 *overlapped);
+void fn_82A2A370(int hr);
 
+unsigned int fn_82A821B0(void *request, unsigned int flags, unsigned int options,
+                         unsigned int resultBytes, void *result, unsigned int assetBytes,
+                         void *assets, XOverlapped_82A821B0 *overlapped)
 {
-  int iVar1;
-  unsigned int uStack_50;
-  unsigned int auStack_4c [19];
-  
-  if (lbl_8322344C == '\0') {
-    iVar1 = -0x7fff0001;
-  }
-  else {
-    fn_82A82160(param_2,&uStack_50,auStack_4c);
-    if (((((param_1 & 0xffffffff) == 0) || ((param_2 & 0xffff) == 0)) || ((param_2 & 0xe000) != 0))
-       || (((param_4 < uStack_50 || ((param_5 & 0xffffffff) == 0)) ||
-           ((param_6 < auStack_4c[0] || ((param_7 & 0xffffffff) == 0)))))) {
-      iVar1 = -0x7ff8ffa9;
+    int hr;
+    unsigned int resultSize;
+    unsigned int assetSize;
+
+    if (lbl_8322344C == 0) {
+        hr = (int)0x8000FFFF;
     }
     else {
-      iVar1 = fn_8314303C(param_1,param_2,param_3 << 0x20 | param_3 & 0xfe00ffff,param_5,param_7
-                              ,param_8);
+        fn_82A82160(flags, &resultSize, &assetSize);
+        if (request != 0 && (unsigned short)flags && !((unsigned short)flags & ~0x1fff)
+            && resultBytes >= resultSize && result != 0
+            && assetBytes >= assetSize && assets != 0) {
+            hr = XamAvatarGetAssets(request, flags, options & 0xfe00ffff, result, assets, overlapped);
+        }
+        else {
+            hr = (int)0x80070057;
+        }
+        if (hr >= 0) {
+            return overlapped ? 0x3e5 : 0;
+        }
     }
-    if (-1 < iVar1) {
-      return -(unsigned __int64)(param_8 != 0) & 0x3e5;
+    if (overlapped != 0) {
+        overlapped->dwExtendedError = hr;
     }
-  }
-  if (param_8 == 0) {
-    thunk_FUN_82a2b748();
-  }
-  else {
-    *(int *)(param_8 + 0x18) = iVar1;
-  }
-  return 0x65b;
+    else {
+        fn_82A2A370(hr);
+    }
+    return 0x65b;
 }
-

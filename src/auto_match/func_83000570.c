@@ -1,33 +1,40 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_830066E0();
-extern unsigned int lbl_821AAD20;
+typedef struct Control_83000570 Control_83000570;
 
+typedef struct ControlVtbl_83000570 {
+    void *slots[0x12];
+    void (*SetValue)(Control_83000570 *self, float value, int id, int a, int b);
+} ControlVtbl_83000570;
 
-void fn_83000570(int *param_1,int param_2,unsigned __int64 param_3,int param_4)
+struct Control_83000570 {
+    ControlVtbl_83000570 *vt;
+    int pad4[0x15];
+    float value14;
+    float value15;
+    int pad60;
+    void *bound;
+};
 
+extern void fn_830066E0(Control_83000570 *self, unsigned int handled, int arg, int id, int extra);
+
+void fn_83000570(Control_83000570 *self, unsigned int handled, int arg, int id, int extra)
 {
-  bool bVar1;
-  double dVar2;
-  
-  fn_830066E0();
-  if ((param_1[0x19] != 0) && (param_2 == 0)) {
-    bVar1 = true;
-    dVar2 = (double)lbl_821AAD20;
-    if (param_4 == 0x14) {
-      dVar2 = (double)(float)param_1[0x16];
+    fn_830066E0(self, handled, arg, id, extra);
+    if (self->bound != 0 && handled == 0) {
+        unsigned char known = 1;
+        float value = 0.0f;
+        switch (id) {
+        case 0x14:
+            value = self->value14;
+            break;
+        case 0x15:
+            value = self->value15;
+            break;
+        default:
+            known = 0;
+            break;
+        }
+        if (known) {
+            self->vt->SetValue(self, value, id, 0, 0);
+        }
     }
-    else if (param_4 == 0x15) {
-      dVar2 = (double)(float)param_1[0x17];
-    }
-    else {
-      bVar1 = false;
-    }
-    if (bVar1) {
-      (**(int (***)())(*param_1 + 0x48))(dVar2,param_1);
-    }
-  }
-  return;
 }
-

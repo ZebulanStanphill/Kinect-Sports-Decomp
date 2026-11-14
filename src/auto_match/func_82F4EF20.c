@@ -1,61 +1,42 @@
-extern unsigned int *auStack_30;
-extern int fn_82F4EEC0();
-extern int fn_82F53780();
-extern int fn_8306ED28();
-extern int fn_8306ED70();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Euler_82F4EF20 {
+    float x;
+    float y;
+    float z;
+} Euler_82F4EF20;
 
-unsigned __int64 fn_82F4EF20(unsigned __int64 param_1,__int64 param_2,char param_3,char param_4)
+typedef struct Node_82F4EF20 {
+    __vector4 rotation;
+    char pad10[0xcc0 - 0x10];
+    __vector4 position;
+    __vector4 scale;
+    Euler_82F4EF20 angles;
+} Node_82F4EF20;
 
+extern __vector4 *fn_82F4EEC0(__vector4 *out, const __vector4 *in);
+extern __vector4 fn_82F53780(const Euler_82F4EF20 *angles, __vector4 v);
+extern __vector4 fn_8306ED70(__vector4 a, __vector4 b);
+extern __vector4 fn_8306ED28(__vector4 a, __vector4 b);
+
+__vector4 *fn_82F4EF20(__vector4 *out, Node_82F4EF20 *node, unsigned char transform, unsigned char scaled)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int in_r0;
-  int iVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned char auStack_30 [24];
-  
-  if (param_3 == '\0') {
-    puVar1 = (unsigned int *)((int)param_2 + 0xcc0U & 0xfffffff0);
-    uVar4 = puVar1[1];
-    uVar5 = puVar1[2];
-    uVar6 = puVar1[3];
-    puVar2 = (unsigned int *)(in_r0 + (int)param_1 & 0xfffffff0);
-    *puVar2 = *puVar1;
-    puVar2[1] = uVar4;
-    puVar2[2] = uVar5;
-    puVar2[3] = uVar6;
-  }
-  else {
-    if (param_4 == '\0') {
-      fn_82F4EEC0(auStack_30,param_2);
-      fn_82F53780(param_2 + 0xce0);
-      puVar1 = (unsigned int *)((int)param_2 + 0xcc0U & 0xfffffff0);
-      uVar4 = *puVar1;
-      uVar5 = puVar1[1];
-      uVar6 = puVar1[2];
-      uVar7 = puVar1[3];
+    __vector4 tmp;
+    __vector4 v;
+    if (!transform) {
+        *out = node->position;
+        return out;
     }
-    else {
-      iVar3 = fn_82F4EEC0(auStack_30,param_2);
-      puVar1 = (unsigned int *)(in_r0 + iVar3 & 0xfffffff0);
-      uVar4 = *puVar1;
-      uVar5 = puVar1[1];
-      uVar6 = puVar1[2];
-      uVar7 = puVar1[3];
-      fn_8306ED70();
-      fn_82F53780(param_2 + 0xce0);
+    if (!scaled) {
+        v = fn_82F53780(&node->angles, *fn_82F4EEC0(&tmp, &node->rotation));
+        v = fn_8306ED28(node->position, v);
+    } else {
+        v = fn_8306ED70(*fn_82F4EEC0(&tmp, &node->rotation), node->scale);
+        v = fn_82F53780(&node->angles, v);
+        v = fn_8306ED28(v, node->position);
     }
-    fn_8306ED28();
-    puVar1 = (unsigned int *)(in_r0 + (int)param_1 & 0xfffffff0);
-    *puVar1 = uVar4;
-    puVar1[1] = uVar5;
-    puVar1[2] = uVar6;
-    puVar1[3] = uVar7;
-  }
-  return param_1;
+    *out = v;
+    return out;
 }
-

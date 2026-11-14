@@ -1,53 +1,71 @@
-#define true 1
-extern int fn_82FFCAC8();
-extern unsigned int lbl_832642E0;
+typedef struct Node_82FFCF20 Node_82FFCF20;
+typedef struct NodeVt_82FFCF20 {
+    void *slot0;
+    void (*addRef)(Node_82FFCF20 *self);
+    void (*release)(Node_82FFCF20 *self);
+} NodeVt_82FFCF20;
+struct Node_82FFCF20 {
+    NodeVt_82FFCF20 *vt;
+    int f4;
+    Node_82FFCF20 *next;
+    int pad[4];
+    void *owner;
+};
 
+typedef struct Hash_82FFCF20 {
+    Node_82FFCF20 *buckets[0xc1];
+} Hash_82FFCF20;
 
-void fn_82FFCF20(unsigned __int64 param_1)
+typedef struct Registry_82FFCF20 {
+    unsigned char cs[0x1c];
+    Hash_82FFCF20 hash;
+} Registry_82FFCF20;
 
+typedef struct Iter_82FFCF20 {
+    Hash_82FFCF20 *hash;
+    unsigned int bucket;
+    Node_82FFCF20 *node;
+} Iter_82FFCF20;
+
+extern char *lbl_832642E0;
+extern unsigned char lbl_8326434C[];
+extern void RtlEnterCriticalSection(void *cs);
+extern void RtlLeaveCriticalSection(void *cs);
+extern void fn_82FFCAC8(void *self, Node_82FFCF20 *node, int flag);
+
+static __forceinline void Skip(Iter_82FFCF20 *it)
 {
-  int *piVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  unsigned int uVar5;
-  int *piVar6;
-  
-  iVar2 = lbl_832642E0;
-  iVar3 = lbl_832642E0 + 0x674;
-  RtlEnterCriticalSection(0xffffffff8326434c);
-  RtlEnterCriticalSection(iVar3);
-  iVar4 = iVar2 + 0x690;
-  uVar5 = 0;
-  piVar6 = *(int **)(iVar2 + 0x690);
-  while (piVar6 == (int *)0x0) {
-    uVar5 = uVar5 + 1;
-    if (0xc0 < uVar5) goto joined_r0x82ffcf8c;
-    piVar6 = *(int **)(uVar5 * 4 + iVar4);
-  }
-  do {
-    while (piVar6[7] != 0) {
-      (**(int (***)())(*piVar6 + 4))(piVar6);
-      fn_82FFCAC8(param_1,piVar6,1);
-      piVar1 = (int *)piVar6[2];
-      while ((piVar1 == (int *)0x0 && (uVar5 = uVar5 + 1, uVar5 < 0xc1))) {
-        piVar1 = *(int **)(uVar5 * 4 + iVar4);
-      }
-      (**(int (***)())(*piVar6 + 8))(piVar6);
-      piVar6 = piVar1;
-joined_r0x82ffcf8c:
-      if (piVar6 == (int *)0x0) {
-        RtlLeaveCriticalSection(iVar3);
-        RtlLeaveCriticalSection(0xffffffff8326434c);
-        return;
-      }
+    while (it->node == 0) {
+        if (++it->bucket >= 0xc1) break;
+        it->node = it->hash->buckets[it->bucket];
     }
-    piVar6 = (int *)piVar6[2];
-    while (piVar6 == (int *)0x0) {
-      uVar5 = uVar5 + 1;
-      if (0xc0 < uVar5) goto joined_r0x82ffcf8c;
-      piVar6 = *(int **)(uVar5 * 4 + iVar4);
-    }
-  } while( true );
 }
 
+void fn_82FFCF20(void *self)
+{
+    Registry_82FFCF20 *reg = (Registry_82FFCF20 *)(lbl_832642E0 + 0x674);
+    Iter_82FFCF20 it;
+    Node_82FFCF20 *cur;
+
+    RtlEnterCriticalSection(lbl_8326434C);
+    RtlEnterCriticalSection(reg->cs);
+    it.hash = &reg->hash;
+    it.bucket = 0;
+    it.node = reg->hash.buckets[0];
+    Skip(&it);
+    while (it.node != 0) {
+        cur = it.node;
+        if (cur->owner != 0) {
+            cur->vt->addRef(cur);
+            fn_82FFCAC8(self, cur, 1);
+            it.node = cur->next;
+            Skip(&it);
+            cur->vt->release(cur);
+        } else {
+            it.node = cur->next;
+            Skip(&it);
+        }
+    }
+    RtlLeaveCriticalSection(reg->cs);
+    RtlLeaveCriticalSection(lbl_8326434C);
+}

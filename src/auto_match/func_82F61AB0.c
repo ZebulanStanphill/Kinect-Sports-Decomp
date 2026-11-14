@@ -1,63 +1,26 @@
-typedef unsigned char bool;
-extern int fn_82A1BB18();
-extern unsigned __int64 storeWordConditionalIndexed();
+long _InterlockedCompareExchange(long volatile *dest, long exchange, long comparand);
+#define __lwsync() __emit(0x7C2004AC)
 
+typedef struct Lock_82F61AB0 {
+    long owner;         /* 0x00 */
+    int pad4[5];
+    int count;          /* 0x18 */
+    int recursion;      /* 0x1c */
+} Lock_82F61AB0;
 
-unsigned __int64 fn_82F61AB0(unsigned __int64 param_1)
+extern long fn_82A1BB18(void);
 
+int fn_82F61AB0(Lock_82F61AB0 *self)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  unsigned int *puVar4;
-  unsigned int uVar5;
-  unsigned __int64 uVar6;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  uVar6 = 0;
-  uVar3 = fn_82A1BB18();
-  do {
-    puVar4 = (unsigned int *)param_1;
-    uVar1 = *puVar4;
-    uVar5 = (unsigned int)uVar3;
-    if (uVar1 != uVar5) {
-      if (in_RESERVE != '\0') {
-        uVar2 = storeWordConditionalIndexed((unsigned __int64)uVar1,0,param_1);
-        *puVar4 = uVar2;
-        in_cr0 = 2;
-      }
-      break;
+    int hr = 0;
+    long thread = fn_82A1BB18();
+    if (_InterlockedCompareExchange(&self->owner, thread, thread) == thread) {
+        self->recursion = 0;
+        self->count = 0;
+        __lwsync();
+        _InterlockedCompareExchange(&self->owner, 0, thread);
+    } else {
+        hr = 0x82240400;
     }
-    if (in_RESERVE != '\0') {
-      uVar2 = storeWordConditionalIndexed(uVar3,0,param_1);
-      *puVar4 = uVar2;
-      in_cr0 = 2;
-    }
-  } while (!(bool)(in_cr0 >> 1 & 1));
-  if (uVar1 == uVar5) {
-    puVar4[7] = 0;
-    puVar4[6] = 0;
-    sync(1);
-    do {
-      if (*puVar4 != uVar5) {
-        if (in_RESERVE == '\0') {
-          return 0;
-        }
-        uVar1 = storeWordConditionalIndexed((unsigned __int64)*puVar4,0,param_1);
-        *puVar4 = uVar1;
-        return 0;
-      }
-      if (in_RESERVE != '\0') {
-        uVar1 = storeWordConditionalIndexed(0,0,param_1);
-        *puVar4 = uVar1;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-  }
-  else {
-    uVar6 = 0xffffffff82240400;
-  }
-  return uVar6;
+    return hr;
 }
-

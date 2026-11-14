@@ -1,46 +1,37 @@
-int fn_8268AE58(char *param_1,char *param_2,int param_3)
+unsigned int strlen(const char *s);
 
+static __forceinline int ToLower(int c)
 {
-  char cVar1;
-  char *pcVar2;
-  int iVar3;
-  int iVar4;
-  int iVar5;
-  char *pcVar6;
-  
-  pcVar2 = param_2;
-  iVar3 = param_3;
-  if (param_3 == 0) {
-    do {
-      cVar1 = *pcVar2;
-      pcVar2 = pcVar2 + 1;
-    } while (cVar1 != '\0');
-    return -(int)(pcVar2 + (-1 - (int)param_2));
-  }
-  do {
-    cVar1 = *param_1;
-    if ((cVar1 < 'A') || (iVar4 = cVar1 + 0x20, 'Z' < cVar1)) {
-      iVar4 = (int)cVar1;
+    if (c >= 'A' && c <= 'Z') {
+        return c + 0x20;
     }
-    cVar1 = *pcVar2;
-    param_1 = param_1 + 1;
-    iVar5 = (int)cVar1;
-    if (('@' < cVar1) && (cVar1 < '[')) {
-      iVar5 = iVar5 + 0x20;
-    }
-    iVar3 = iVar3 + -1;
-    pcVar2 = pcVar2 + 1;
-    if ((iVar3 == 0) || (iVar4 == 0)) break;
-    if (iVar4 != iVar5) goto code_r0x8268af14;
-  } while (*pcVar2 != '\0');
-  if ((iVar4 == iVar5) && ((pcVar6 = param_2, iVar3 != 0 || (*pcVar2 != '\0')))) {
-    do {
-      cVar1 = *pcVar6;
-      pcVar6 = pcVar6 + 1;
-    } while (cVar1 != '\0');
-    return param_3 - (int)(pcVar6 + (-1 - (int)param_2));
-  }
-code_r0x8268af14:
-  return iVar4 - iVar5;
+    return c;
 }
 
+int fn_8268AE58(const char *a, const char *b, int len)
+{
+    int origLen;
+    const char *origB;
+    int c1;
+    int c2;
+
+    if (len != 0) {
+        origLen = len;
+        origB = b;
+        do {
+            c1 = ToLower(*a++);
+            c2 = ToLower(*b++);
+            if (--len == 0 || c1 == 0) {
+                break;
+            }
+            if (c1 != c2) {
+                return c1 - c2;
+            }
+        } while (*b != 0);
+        if (c1 == c2 && (len != 0 || *b != 0)) {
+            return origLen - strlen(origB);
+        }
+        return c1 - c2;
+    }
+    return -(int)strlen(b);
+}

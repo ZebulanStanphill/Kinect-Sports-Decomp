@@ -1,59 +1,92 @@
-extern int fn_82547C80();
+typedef struct Player_8235DA80 Player_8235DA80;
 
+typedef struct PlayerVtbl_8235DA80 {
+    void *f0;
+    void (*Update)(Player_8235DA80 *self);
+    void (*Start)(Player_8235DA80 *self, int arg);
+} PlayerVtbl_8235DA80;
 
-void fn_8235DA80(int param_1)
+typedef struct PlayerData_8235DA80 {
+    char pad0[0xd0];
+    int queue;
+} PlayerData_8235DA80;
 
+struct Player_8235DA80 {
+    PlayerVtbl_8235DA80 *vt;
+    int x4;
+    int x8;
+    PlayerData_8235DA80 *data;
+    int x10;
+    int x14;
+    int busy;
+};
+
+typedef struct Config_8235DA80 {
+    char pad0[0x1fc];
+    unsigned char enabled;
+    char pad1fd[3];
+    int mode;
+} Config_8235DA80;
+
+typedef struct Scene_8235DA80 {
+    char pad0[0x194];
+    Config_8235DA80 *config;
+    char pad198[0xc14 - 0x198];
+    int active;
+    char padc18[0x2b40 - 0xc18];
+    int blocked;
+    char pad2b44[0x2ba8 - 0x2b44];
+    Player_8235DA80 *player;
+    int startArg;
+    unsigned int state;
+} Scene_8235DA80;
+
+extern void fn_82547C80(int *queue, int a, int b);
+
+void fn_8235DA80(Scene_8235DA80 *self)
 {
-  unsigned int uVar1;
-  int iVar2;
-  int *piVar3;
-  unsigned int uVar4;
-  char cVar5;
-  
-  if (*(int *)(param_1 + 0xc14) == 0) {
-    return;
-  }
-  if (*(int **)(param_1 + 0x2ba8) != (int *)0x0) {
-    (**(int (***)())(**(int **)(param_1 + 0x2ba8) + 4))();
-  }
-  uVar1 = *(unsigned int *)(param_1 + 0x2bb0);
-  if (uVar1 == 0) {
-    iVar2 = *(int *)(*(int *)(param_1 + 0x194) + 0x200);
-    if (iVar2 == 5) {
-      cVar5 = '\0';
+    if (self->active == 0) {
+        return;
     }
-    else if (((iVar2 == 2) || (iVar2 == 3)) || (cVar5 = '\x01', iVar2 == 1)) {
-      cVar5 = *(char *)(*(int *)(param_1 + 0x194) + 0x1fc);
+    if (self->player != 0) {
+        self->player->vt->Update(self->player);
     }
-    if (cVar5 == '\0') {
-      return;
+    switch (self->state) {
+    case 0: {
+        Config_8235DA80 *config = self->config;
+        int mode = config->mode;
+        unsigned char enabled;
+        if (mode == 5) {
+            enabled = 0;
+        } else if (mode == 2 || mode == 3 || mode == 1) {
+            enabled = config->enabled;
+        } else {
+            enabled = 1;
+        }
+        if (!enabled) {
+            return;
+        }
+        if (self->blocked != 0) {
+            return;
+        }
+        if (self->player == 0) {
+            return;
+        }
+        self->player->vt->Start(self->player, self->startArg);
+        self->state = 1;
+        break;
     }
-    if (*(int *)(param_1 + 0x2b40) != 0) {
-      return;
+    case 1:
+        if (self->player != 0 && self->player->busy != 0) {
+            return;
+        }
+        self->state = 2;
+        break;
+    case 2:
+        if (self->player != 0) {
+            fn_82547C80(&self->player->data->queue, 0, 0);
+        }
+        self->state = 3;
+        break;
     }
-    piVar3 = *(int **)(param_1 + 0x2ba8);
-    if (piVar3 == (int *)0x0) {
-      return;
-    }
-    (**(int (***)())(*piVar3 + 8))(piVar3,*(unsigned int *)(param_1 + 0x2bac));
-    uVar4 = 1;
-  }
-  else if (uVar1 == 1) {
-    if ((*(int *)(param_1 + 0x2ba8) != 0) && (*(int *)(*(int *)(param_1 + 0x2ba8) + 0x18) != 0)) {
-      return;
-    }
-    uVar4 = 2;
-  }
-  else {
-    if (2 < uVar1) {
-      return;
-    }
-    if (*(int *)(param_1 + 0x2ba8) != 0) {
-      fn_82547C80((unsigned __int64)*(unsigned int *)(*(int *)(param_1 + 0x2ba8) + 0xc) + 0xd0,0,0);
-    }
-    uVar4 = 3;
-  }
-  *(unsigned int *)(param_1 + 0x2bb0) = uVar4;
-  return;
 }
-

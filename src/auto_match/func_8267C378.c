@@ -1,30 +1,31 @@
-extern unsigned int *auStack_50;
-extern int fn_8267C0B8();
-extern int memcpy();
-extern unsigned int lbl_831E7E60;
-extern unsigned int lbl_831E7E64;
-extern unsigned int uStack_38;
+typedef struct Desc_8267C378 {
+    int words[6];
+    int global;
+    int pad;
+} Desc_8267C378;
 
+extern void RtlEnterCriticalSection(void *cs);
+extern void RtlLeaveCriticalSection(void *cs);
+extern void *fn_8267C0B8(char *mgr, const char *name, int flags, Desc_8267C378 *desc);
+extern char *lbl_831E7E60;
+extern void *lbl_831E7E64;
 
-unsigned int fn_8267C378(unsigned __int64 param_1)
-
+void *fn_8267C378(const Desc_8267C378 *desc)
 {
-  __int64 lVar1;
-  unsigned char auStack_50 [24];
-  unsigned int uStack_38;
-  
-  if ((unsigned __int64)lbl_831E7E60 != 0) {
-    lVar1 = (unsigned __int64)lbl_831E7E60 + 0x2c4;
-    RtlEnterCriticalSection(lVar1);
-    if (lbl_831E7E64 == 0) {
-      memcpy(auStack_50,param_1,0x20);
-      uStack_38 = 1;
-      lbl_831E7E64 = fn_8267C0B8(lbl_831E7E60,0xffffffff821c2764,0,auStack_50);
-      RtlLeaveCriticalSection(lVar1);
-      return lbl_831E7E64;
-    }
-    RtlLeaveCriticalSection(lVar1);
-  }
-  return 0;
-}
+    void *cs;
+    Desc_8267C378 local;
 
+    if (lbl_831E7E60 == 0)
+        return 0;
+    cs = lbl_831E7E60 + 0x2c4;
+    RtlEnterCriticalSection(cs);
+    if (lbl_831E7E64 != 0) {
+        RtlLeaveCriticalSection(cs);
+        return 0;
+    }
+    local = *desc;
+    local.global = 1;
+    lbl_831E7E64 = fn_8267C0B8(lbl_831E7E60, "Global", 0, &local);
+    RtlLeaveCriticalSection(cs);
+    return lbl_831E7E64;
+}

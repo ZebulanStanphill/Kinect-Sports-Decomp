@@ -1,53 +1,33 @@
-typedef unsigned char bool;
-extern int fn_82BE5240();
-extern unsigned __int64 storeWordConditionalIndexed();
+long _InterlockedCompareExchange(long volatile *dest, long exchange, long comparand);
 
+typedef struct Request_82BF5E80 {
+    char pad00[0x18];
+    int status;             /* 0x18 */
+    char pad1c[0x50 - 0x1c];
+    long dataAvailable;     /* 0x50 */
+    void *mao;              /* 0x54 */
+    void *order;            /* 0x58 */
+    int pad5c;
+    void *assets;           /* 0x60 */
+    int pad64;
+    void *orderInfo;        /* 0x68 */
+} Request_82BF5E80;
 
-unsigned __int64
-fn_82BF5E80(__int64 param_1,unsigned int *param_2,unsigned int *param_3,unsigned int *param_4,
-             unsigned int *param_5)
+extern void fn_82BE5240(Request_82BF5E80 *self, int code, const char *format, ...);
 
+int fn_82BF5E80(Request_82BF5E80 *self, void **mao, void **order, void **orderInfo, void **assets)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  int iVar3;
-  __int64 lVar4;
-  unsigned int *puVar5;
-  unsigned __int64 in_MSR;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  iVar3 = (int)param_1;
-  if (*(int *)(iVar3 + 0x18) == 0x4000) {
-    lVar4 = param_1 + 0x50;
-    do {
-      puVar5 = (unsigned int *)lVar4;
-      uVar1 = *puVar5;
-      if (uVar1 != 1) {
-        if (in_RESERVE != '\0') {
-          uVar2 = storeWordConditionalIndexed((unsigned __int64)uVar1,0,lVar4);
-          *puVar5 = uVar2;
-        }
-        break;
-      }
-      if (in_RESERVE != '\0') {
-        uVar2 = storeWordConditionalIndexed(0,0,lVar4);
-        *puVar5 = uVar2;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-    if (uVar1 != 0) {
-      *param_2 = *(unsigned int *)(iVar3 + 0x54);
-      *param_3 = *(unsigned int *)(iVar3 + 0x58);
-      *param_4 = *(unsigned int *)(iVar3 + 0x68);
-      *param_5 = *(unsigned int *)(iVar3 + 0x60);
-      return 1;
+    if (self->status != 0x4000) {
+        fn_82BE5240(self, 0x450, ": Request status is not REQUEST_STATUS_COMPLETE_PARSED, instead it is: %d", self->status);
+        return 0;
     }
-    fn_82BE5240(param_1,0x450,0xffffffff820ebacc,param_4,param_5,in_MSR);
-  }
-  else {
-    fn_82BE5240(param_1,0x450,0xffffffff820e9378,*(int *)(iVar3 + 0x18));
-  }
-  return 0;
+    if (_InterlockedCompareExchange(&self->dataAvailable, 0, 1) != 0) {
+        *mao = self->mao;
+        *order = self->order;
+        *orderInfo = self->orderInfo;
+        *assets = self->assets;
+        return 1;
+    }
+    fn_82BE5240(self, 0x450, " of MAO, Order, and Asset lists. Ownership not available");
+    return 0;
 }
-

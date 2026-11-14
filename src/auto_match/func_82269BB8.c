@@ -1,40 +1,35 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_8225C590();
-extern int fn_822750C8();
-extern int fn_823AB470();
-extern int fn_82A1C0C8();
-extern unsigned int lbl_83265988;
-extern unsigned int lbl_832659CD;
-extern unsigned int lbl_832659D4;
+typedef struct Globals_82269BB8 {
+    void *device;
+    char pad4[0x45 - 4];
+    unsigned char enabled;
+    char pad46[0x4c - 0x46];
+    unsigned char dirty;
+    char pad4d[0x6c - 0x4d];
+} Globals_82269BB8;
 
+typedef struct Self_82269BB8 {
+    char pad0[0x364];
+    int mode;
+} Self_82269BB8;
 
-void fn_82269BB8(int param_1)
+extern Globals_82269BB8 lbl_83265988;
+extern void fn_8225C590(void);
+extern int fn_823AB470(void *device);
+extern int fn_822750C8(void);
+extern void fn_82A1C0C8(int target, unsigned int flags);
 
+void fn_82269BB8(Self_82269BB8 *self)
 {
-  bool bVar1;
-  int iVar3;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar4;
-  
-  fn_8225C590();
-  bVar1 = false;
-  if ((((*(int *)(param_1 + 0x364) == 0) && (lbl_832659CD != '\0')) && (lbl_83265988 != 0)) &&
-     (iVar3 = fn_823AB470(), iVar3 != 0)) {
-    bVar1 = true;
-  }
-  if ((*(int *)(param_1 + 0x364) == 0) && (bVar1)) {
-    lbl_832659D4 = 1;
-    uVar2 = fn_822750C8();
-    uVar4 = 0x80000;
-  }
-  else {
-    lbl_832659D4 = 1;
-    uVar2 = fn_822750C8();
-    uVar4 = 0x1000000;
-  }
-  fn_82A1C0C8(uVar2,uVar4);
-  return;
+    int ready;
+    fn_8225C590();
+    ready = 0;
+    if (self->mode == 0 && lbl_83265988.enabled && lbl_83265988.device != 0 && fn_823AB470(lbl_83265988.device) != 0)
+        ready = 1;
+    if (self->mode == 0 && ready) {
+        lbl_83265988.dirty = 1;
+        fn_82A1C0C8(fn_822750C8(), 0x80000);
+    } else {
+        lbl_83265988.dirty = 1;
+        fn_82A1C0C8(fn_822750C8(), 0x1000000);
+    }
 }
-

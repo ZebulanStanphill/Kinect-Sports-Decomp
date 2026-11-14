@@ -1,42 +1,69 @@
-extern int fn_82ACA920();
-extern int fn_82AD1270();
-extern int fn_82AD1978();
-extern int fn_82B859E8();
-extern int fn_82B85A88();
-extern int fn_82B85B28();
-extern int fn_82B85BC8();
+typedef struct Node_82B88A48 {
+    unsigned int pad0 : 4;
+    unsigned int kind : 3;
+    unsigned int pad7 : 25;
+    struct Node_82B88A48 *next;
+} Node_82B88A48;
 
+typedef struct Operand_82B88A48 {
+    char pad0[0xc];
+    int size;
+} Operand_82B88A48;
 
-unsigned __int64 fn_82B88A48(int *param_1,unsigned __int64 param_2)
+typedef struct Instr_82B88A48 {
+    Node_82B88A48 *uses;
+    int f4;
+    unsigned int pad8 : 18;
+    unsigned int opcode : 7;
+    unsigned int pad25 : 7;
+    char padC[0x1c - 0xc];
+    void *dest;
+    char pad20[0x2c - 0x20];
+    Operand_82B88A48 *src;
+} Instr_82B88A48;
 
+extern void *fn_82ACA920(void *ctx, Operand_82B88A48 *src, int size);
+extern void fn_82AD1270(void *value, int n);
+extern void fn_82AD1978(void *value, Node_82B88A48 *use);
+extern void *fn_82B85A88(void *ctx, void *dest, Operand_82B88A48 *src);
+extern void *fn_82B859E8(void *ctx, void *dest, Operand_82B88A48 *src);
+extern void *fn_82B85BC8(void *ctx, void *dest, void *value);
+extern void *fn_82B85B28(void *ctx, void *dest, void *value);
+
+static __forceinline int NotNull(Node_82B88A48 *n)
 {
-  unsigned int *puVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  
-  uVar2 = (unsigned int)param_1[2] >> 7 & 0x7f;
-  uVar3 = 0;
-  if (uVar2 == 0x3b) {
-    uVar3 = fn_82B85A88(param_2,param_1[7],param_1[0xb]);
-  }
-  else if (uVar2 == 0x3c) {
-    uVar3 = fn_82B859E8(param_2,param_1[7],param_1[0xb]);
-  }
-  else if (uVar2 == 0x3d) {
-    uVar3 = fn_82ACA920(param_2,param_1[0xb],*(unsigned int *)(param_1[0xb] + 0xc));
-    fn_82AD1270(uVar3,4);
-    uVar3 = fn_82B85BC8(param_2,param_1[7],uVar3);
-  }
-  else if (uVar2 == 0x3e) {
-    uVar3 = fn_82ACA920(param_2,param_1[0xb],*(unsigned int *)(param_1[0xb] + 0xc));
-    fn_82AD1270(uVar3,4);
-    uVar3 = fn_82B85B28(param_2,param_1[7],uVar3);
-  }
-  for (puVar1 = (unsigned int *)*param_1; puVar1 != (unsigned int *)0x0; puVar1 = (unsigned int *)puVar1[1]) {
-    if ((*puVar1 & 0xe000000) == 0) {
-      fn_82AD1978(uVar3,puVar1);
-    }
-  }
-  return uVar3;
+    if (n)
+        return 1;
+    return 0;
 }
 
+void *fn_82B88A48(Instr_82B88A48 *instr, void *ctx)
+{
+    void *value = 0;
+    void *tmp;
+    Node_82B88A48 *n;
+
+    switch (instr->opcode) {
+    case 0x3b:
+        value = fn_82B85A88(ctx, instr->dest, instr->src);
+        break;
+    case 0x3c:
+        value = fn_82B859E8(ctx, instr->dest, instr->src);
+        break;
+    case 0x3d:
+        tmp = fn_82ACA920(ctx, instr->src, instr->src->size);
+        fn_82AD1270(tmp, 4);
+        value = fn_82B85BC8(ctx, instr->dest, tmp);
+        break;
+    case 0x3e:
+        tmp = fn_82ACA920(ctx, instr->src, instr->src->size);
+        fn_82AD1270(tmp, 4);
+        value = fn_82B85B28(ctx, instr->dest, tmp);
+        break;
+    }
+    for (n = instr->uses; NotNull(n); n = n->next) {
+        if (n->kind == 0)
+            fn_82AD1978(value, n);
+    }
+    return value;
+}

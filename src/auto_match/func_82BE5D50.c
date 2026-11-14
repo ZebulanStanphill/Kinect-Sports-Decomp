@@ -1,21 +1,25 @@
-extern int fn_82BA02A8();
-extern unsigned int lbl_821AAD20;
+typedef struct Reader_82BE5D50 {
+    char pad[0x1c];
+    unsigned char *data;
+    int pos;
+    int end;
+    int count;
+} Reader_82BE5D50;
 
+extern float fn_82BA02A8(float value);
 
-double fn_82BE5D50(int param_1)
-
+static __forceinline int CanRead(Reader_82BE5D50 *r, int n)
 {
-  int iVar1;
-  float fVar2;
-  double dVar3;
-  
-  if (((*(int *)(param_1 + 0x1c) != 0) && (0 < *(int *)(param_1 + 0x28))) &&
-     (iVar1 = *(int *)(param_1 + 0x20), 3 < *(int *)(param_1 + 0x24) - iVar1)) {
-    fVar2 = *(float *)(iVar1 + *(int *)(param_1 + 0x1c));
-    *(int *)(param_1 + 0x20) = iVar1 + 4;
-    dVar3 = (double)fn_82BA02A8((double)fVar2);
-    return dVar3;
-  }
-  return (double)lbl_821AAD20;
+    return r->data != 0 && r->count > 0 && r->end - r->pos >= n;
 }
 
+float fn_82BE5D50(Reader_82BE5D50 *r)
+{
+    unsigned int raw;
+    if (!CanRead(r, 4)) {
+        return 0.0f;
+    }
+    raw = *(unsigned int *)(r->data + r->pos);
+    r->pos += 4;
+    return fn_82BA02A8(*(float *)&raw);
+}

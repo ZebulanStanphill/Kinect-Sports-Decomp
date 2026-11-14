@@ -1,42 +1,38 @@
-extern unsigned int lbl_82014E48;
-extern unsigned int lbl_82014E4C;
-extern unsigned int lbl_821AAD20;
+typedef struct Info_8279A488 {
+    int pad0[2];
+    float width;   /* 0x08 */
+    float height;  /* 0x0c */
+    float depth;   /* 0x10 */
+} Info_8279A488;
 
+typedef struct Src_8279A488 {
+    int pad0[3];
+    Info_8279A488 *info; /* 0x0c */
+} Src_8279A488;
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+typedef struct Obj_8279A488 {
+    int pad0[16];
+    float maxWidth;  /* 0x40 */
+    float maxHeight; /* 0x44 */
+    float maxDepth;  /* 0x48 */
+} Obj_8279A488;
 
-void fn_8279A488(double param_1,int param_2,int param_3)
+extern float lbl_82014E48;
+extern float lbl_82014E4C;
 
+void fn_8279A488(Obj_8279A488 *self, Src_8279A488 *src, float scale)
 {
-  float fVar1;
-  int iVar2;
-  double dVar3;
-  double dVar4;
-  
-  dVar3 = (double)*(float *)(*(int *)(param_3 + 0xc) + 8);
-  dVar4 = (double)*(float *)(*(int *)(param_3 + 0xc) + 0xc);
-  if (dVar3 == (double)lbl_821AAD20) {
-    dVar3 = (double)lbl_82014E4C;
-  }
-  if (dVar4 == (double)lbl_821AAD20) {
-    dVar4 = (double)lbl_82014E48;
-  }
-  fVar1 = *(float *)(param_2 + 0x40);
-  if (*(float *)(param_2 + 0x40) <= (float)(dVar3 * param_1)) {
-    fVar1 = (float)(dVar3 * param_1);
-  }
-  *(float *)(param_2 + 0x40) = fVar1;
-  fVar1 = (float)(dVar4 * param_1);
-  if ((float)(dVar4 * param_1) < *(float *)(param_2 + 0x44)) {
-    fVar1 = *(float *)(param_2 + 0x44);
-  }
-  iVar2 = *(int *)(param_3 + 0xc);
-  *(float *)(param_2 + 0x44) = fVar1;
-  fVar1 = (float)((double)*(float *)(iVar2 + 0x10) * param_1);
-  if (fVar1 < *(float *)(param_2 + 0x48)) {
-    fVar1 = *(float *)(param_2 + 0x48);
-  }
-  *(float *)(param_2 + 0x48) = fVar1;
-  return;
+    float width = src->info->width;
+    float height = src->info->height;
+    float v;
+    if (width == 0.0f)
+        width = lbl_82014E4C;
+    if (height == 0.0f)
+        height = lbl_82014E48;
+    v = width * scale;
+    self->maxWidth = v < self->maxWidth ? self->maxWidth : v;
+    v = height * scale;
+    self->maxHeight = v >= self->maxHeight ? v : self->maxHeight;
+    v = src->info->depth * scale;
+    self->maxDepth = v >= self->maxDepth ? v : self->maxDepth;
 }
-

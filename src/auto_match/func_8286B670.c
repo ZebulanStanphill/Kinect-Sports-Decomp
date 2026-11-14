@@ -1,57 +1,62 @@
-#define true 1
-extern unsigned int *auStack_50;
-extern int fn_82230300();
-extern int fn_822402F8();
-extern int fn_82240378();
-extern int fn_8260D428();
-extern unsigned int uStack_40;
+/* std::_Insertion_sort1 over std::string elements ordered by operator< (VC10 <algorithm>). */
+typedef struct String_8286B670 {
+    union {
+        char buf[16];
+        char *ptr;
+    } bx;
+    unsigned int size;
+    unsigned int res;
+    char alval;
+} String_8286B670;
 
+extern int fn_8260D428(const String_8286B670 *self, unsigned int off, unsigned int n0, const char *ptr, unsigned int count);
+extern void fn_82240378(String_8286B670 *self, String_8286B670 *right);
+extern String_8286B670 *fn_822402F8(String_8286B670 *self, String_8286B670 *right);
+extern void fn_82230300(String_8286B670 *self, unsigned char built, unsigned int newsize);
 
-void fn_8286B670(unsigned int *param_1,unsigned int *param_2)
-
+static __forceinline const char *Myptr(const String_8286B670 *s)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  unsigned int *puVar3;
-  unsigned int *puVar4;
-  unsigned int *puVar5;
-  unsigned char auStack_50 [16];
-  unsigned int uStack_40;
-  
-  puVar4 = param_1;
-  if (param_1 != param_2) {
-    while (puVar4 = puVar4 + 7, puVar4 != param_2) {
-      fn_82240378(auStack_50,puVar4);
-      puVar3 = param_1;
-      if (0xf < (unsigned int)param_1[5]) {
-        puVar3 = (unsigned int *)*param_1;
-      }
-      iVar1 = fn_8260D428(auStack_50,0,uStack_40,puVar3,param_1[4]);
-      puVar2 = puVar4;
-      puVar3 = puVar4;
-      if (iVar1 < 0) {
-        while (puVar2 = param_1, param_1 != puVar3) {
-          fn_822402F8(puVar3,puVar3 + -7);
-          puVar3 = puVar3 + -7;
-        }
-      }
-      else {
-        while( true ) {
-          puVar5 = puVar2 + -7;
-          puVar3 = puVar5;
-          if (0xf < (unsigned int)puVar2[-2]) {
-            puVar3 = (unsigned int *)*puVar5;
-          }
-          iVar1 = fn_8260D428(auStack_50,0,uStack_40,puVar3,puVar2[-3]);
-          if (-1 < iVar1) break;
-          fn_822402F8(puVar2,puVar5);
-          puVar2 = puVar5;
-        }
-      }
-      fn_822402F8(puVar2,auStack_50);
-      fn_82230300(auStack_50,1,0);
-    }
-  }
-  return;
+    return 16 <= s->res ? s->bx.ptr : s->bx.buf;
 }
 
+static __forceinline unsigned int Size(const String_8286B670 *s)
+{
+    return s->size;
+}
+
+static __forceinline int Compare(const String_8286B670 *l, const String_8286B670 *r)
+{
+    return fn_8260D428(l, 0, l->size, Myptr(r), Size(r));
+}
+
+static __forceinline int Less(const String_8286B670 *l, const String_8286B670 *r)
+{
+    return Compare(l, r) < 0;
+}
+
+void fn_8286B670(String_8286B670 *first, String_8286B670 *last)
+{
+    String_8286B670 *next;
+    if (first != last) {
+        for (next = first; ++next != last; ) {
+            String_8286B670 *next1 = next;
+            String_8286B670 val;
+            fn_82240378(&val, next);
+            if (Less(&val, first)) {
+                String_8286B670 *dest = ++next1;
+                String_8286B670 *src = next;
+                while (first != src) {
+                    fn_822402F8(--dest, --src);
+                }
+                fn_822402F8(first, &val);
+            } else {
+                String_8286B670 *first1;
+                for (first1 = next1; Less(&val, --first1); next1 = first1) {
+                    fn_822402F8(next1, first1);
+                }
+                fn_822402F8(next1, &val);
+            }
+            fn_82230300(&val, 1, 0);
+        }
+    }
+}

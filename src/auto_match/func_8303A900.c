@@ -1,14 +1,18 @@
-extern unsigned int lbl_8217BA98;
+/* 1e-18f is .rdata lbl_8217BA98: score with --alias __real@219392ef=lbl_8217BA98 */
+typedef struct Pair_8303A900 {
+    int x0;
+    int x4;
+    float a;
+    float b;
+} Pair_8303A900;
 
-
-void fn_8303A900(int param_1)
-
+static __forceinline void Flush(float *x)
 {
-  float fVar1;
-  
-  fVar1 = lbl_8217BA98;
-  *(float *)(param_1 + 8) = (*(float *)(param_1 + 8) + lbl_8217BA98) - lbl_8217BA98;
-  *(float *)(param_1 + 0xc) = (*(float *)(param_1 + 0xc) + fVar1) - fVar1;
-  return;
+    *x = (*x + 1e-18f) - 1e-18f;
 }
 
+void fn_8303A900(Pair_8303A900 *self)
+{
+    Flush(&self->a);
+    Flush(&self->b);
+}

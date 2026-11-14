@@ -1,39 +1,70 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
+typedef struct Sub_82B10048 {
+    int f0;
+    void *data;
+} Sub_82B10048;
 
+typedef struct Owner_82B10048 {
+    char pad0[0x28];
+    unsigned int *bits;
+} Owner_82B10048;
 
-int * fn_82B10048(unsigned __int64 param_1,int param_2,int param_3,unsigned int param_4,unsigned int param_5)
+typedef struct Item_82B10048 {
+    Sub_82B10048 *sub;
+    int f4;
+    unsigned int flags;
+    char padC[0x1c - 0xc];
+    Owner_82B10048 *owner;
+} Item_82B10048;
 
+typedef struct Node_82B10048 {
+    unsigned int pad0 : 4;
+    unsigned int kind : 3;
+    unsigned int pad7 : 18;
+    unsigned int slot : 2;
+    unsigned int index : 5;
+    int f4;
+    struct Node_82B10048 *next;
+    int fc;
+    Item_82B10048 *item;
+} Node_82B10048;
+
+typedef struct Info_82B10048 {
+    char pad0[0x30];
+    unsigned int id;
+} Info_82B10048;
+
+typedef struct Ctx_82B10048 {
+    int f0;
+    Node_82B10048 *first;
+    char pad8[0x1c - 8];
+    Info_82B10048 *info;
+} Ctx_82B10048;
+
+static __forceinline int NotNull(Node_82B10048 *n)
 {
-  unsigned int *puVar1;
-  int *piVar2;
-  unsigned int uVar3;
-  unsigned __int64 uVar4;
-  bool bVar5;
-  
-  puVar1 = *(unsigned int **)(param_3 + 4);
-  do {
-    if (puVar1 == (unsigned int *)0x0) {
-      return (int *)0x0;
-    }
-    piVar2 = (int *)puVar1[4];
-    if ((((piVar2 != (int *)0x0) && (uVar3 = *puVar1, (uVar3 & 0xe000000) != 0)) &&
-        ((piVar2[2] & 0x3f80U) == 0x3800)) && (piVar2[7] == param_2)) {
-      uVar4 = (unsigned __int64)*(unsigned int *)(*(int *)(param_3 + 0x1c) + 0x30) & 0x7ffff;
-      if ((*(unsigned int *)(((int)(uVar4 >> 5) + 1) * 4 + *(int *)(param_2 + 0x28)) &
-          1 << ((unsigned int)uVar4 & 0x1f)) != 0) {
-        if ((*piVar2 == 0) || (bVar5 = true, *(int *)(*piVar2 + 4) == 0)) {
-          bVar5 = false;
-        }
-        if (bVar5) goto code_r0x82b10104;
-      }
-      if (((uVar3 >> 5 & 3) == param_4) && ((uVar3 & 0x1f) == param_5)) {
-        return piVar2;
-      }
-    }
-code_r0x82b10104:
-    puVar1 = (unsigned int *)puVar1[2];
-  } while( true );
+    if (n)
+        return 1;
+    return 0;
 }
 
+static __forceinline unsigned char HasData(Item_82B10048 *item)
+{
+    return item->sub != 0 && item->sub->data != 0;
+}
+
+Item_82B10048 *fn_82B10048(void *self, Owner_82B10048 *owner, Ctx_82B10048 *ctx, int slot, unsigned int index)
+{
+    Node_82B10048 *n;
+    for (n = ctx->first; NotNull(n); n = n->next) {
+        Item_82B10048 *item = n->item;
+        unsigned int id;
+        if (item == 0 || n->kind == 0 || (item->flags & 0x3f80) != 0x3800 || item->owner != owner)
+            continue;
+        id = ctx->info->id & 0x7ffff;
+        if ((owner->bits[(id >> 5) + 1] & (1 << (id & 0x1f))) != 0 && HasData(item))
+            continue;
+        if ((int)n->slot == slot && n->index == index)
+            return item;
+    }
+    return 0;
+}

@@ -1,40 +1,37 @@
-void fn_82E16378(int param_1,int param_2)
+typedef struct {
+  unsigned int value;  /* 0x00 */
+  unsigned int id;     /* 0x04 */
+} Elem_82E16378;
+typedef struct {
+  char pad[0x58];
+  Elem_82E16378 *arr;  /* 0x58 */
+  int count;           /* 0x5c */
+} Self_82E16378;
 
+static __forceinline int Decrement(int *p) { return --*p; }
+
+static __forceinline void Copy4(void *dst, const void *src, int nwords)
 {
-  unsigned int uVar1;
-  int iVar2;
-  int iVar3;
-  __int64 lVar4;
-  unsigned __int64 uVar5;
-  __int64 lVar6;
-  
-  uVar5 = (unsigned __int64)*(unsigned int *)(param_1 + 0x5c) - 1;
-  if ((__int64)uVar5 < 0) {
-    return;
-  }
-  lVar4 = (uVar5 & 0x1fffffff) * 8 + (unsigned __int64)*(unsigned int *)(param_1 + 0x58) + 4;
-  do {
-    if (*(int *)lVar4 == param_2) {
-      iVar3 = *(int *)(param_1 + 0x5c) + -1;
-      *(int *)(param_1 + 0x5c) = iVar3;
-      if (iVar3 == (int)uVar5) {
-        return;
-      }
-      uVar1 = *(unsigned int *)(param_1 + 0x58);
-      lVar4 = (uVar5 & 0x1fffffff) * 8 + (unsigned __int64)uVar1;
-      iVar2 = (int)lVar4;
-      lVar6 = 2;
-      do {
-        *(unsigned int *)lVar4 =
-             *(unsigned int *)(((iVar3 * 8 + uVar1) - iVar2) + (int)(unsigned int *)lVar4);
-        lVar4 = lVar4 + 4;
-        lVar6 = lVar6 + -1;
-      } while (lVar6 != 0);
-      return;
-    }
-    uVar5 = uVar5 - 1;
-    lVar4 = lVar4 + -8;
-  } while (-1 < (__int64)uVar5);
-  return;
+  char *d = (char *)dst;
+  const char *s = (const char *)src;
+  int i;
+  for (i = 0; i < nwords * 4; i += 4) *(unsigned int *)(d + i) = *(const unsigned int *)(s + i);
 }
 
+void fn_82E16378(Self_82E16378 *self, unsigned int id)
+{
+  int i, last;
+  Elem_82E16378 *data;
+  i = self->count - 1;
+  if (i < 0) return;
+  data = self->arr;
+  for (; i >= 0; i--) {
+    if (data[i].id == id) {
+      last = Decrement(&self->count);
+      if (last != i) {
+        Copy4(&self->arr[i], &self->arr[last], 2);
+      }
+      return;
+    }
+  }
+}

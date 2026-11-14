@@ -1,43 +1,47 @@
-#define true 1
+typedef struct Entry_82876858 {
+    unsigned int key;       /* 0x00 */
+    int data[4];            /* 0x04 */
+    unsigned int sub;       /* 0x14 */
+} Entry_82876858;
 
+typedef struct Table_82876858 {
+    int count;                      /* 0x00 */
+    Entry_82876858 entries[1];      /* 0x04 */
+} Table_82876858;
 
-int * fn_82876858(int param_1,unsigned int param_2,int *param_3,char param_4)
+typedef struct Owner_82876858 {
+    int unk0;
+    unsigned short id;      /* 0x04 */
+} Owner_82876858;
 
+Entry_82876858 *fn_82876858(Owner_82876858 *owner, unsigned int key, Table_82876858 *table, unsigned char useId)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  
-  if (param_4 == '\0') {
-    uVar5 = 0;
-  }
-  else {
-    uVar5 = (unsigned int)*(unsigned short *)(param_1 + 4);
-  }
-  iVar3 = 0;
-  iVar1 = *param_3 + -1;
-  do {
-    uVar4 = iVar1 - iVar3;
-    iVar2 = ((int)uVar4 >> 1) + (unsigned int)((int)uVar4 < 0 && (uVar4 & 1) != 0) + iVar3;
-    if (param_2 < (unsigned int)param_3[iVar2 * 6 + 1]) {
-LAB_828768b8:
-      iVar1 = iVar2 + -1;
-    }
-    else {
-      if (param_2 <= (unsigned int)param_3[iVar2 * 6 + 1]) {
-        uVar4 = (param_3 + iVar2 * 6 + 1)[5];
-        if (uVar5 < uVar4) goto LAB_828768b8;
-        if (uVar5 <= uVar4) {
-          return param_3 + iVar2 * 6 + 1;
-        }
-      }
-      iVar3 = iVar2 + 1;
-    }
-    if (iVar1 < iVar3) {
-      return (int *)0x0;
-    }
-  } while( true );
-}
+    unsigned short sub;
+    int lo, hi, mid;
+    Entry_82876858 *e;
+    Entry_82876858 *entries = table->entries;
 
+    if (useId) {
+        sub = owner->id;
+    } else {
+        sub = 0;
+    }
+    lo = 0;
+    hi = table->count - 1;
+    do {
+        mid = (hi - lo) / 2 + lo;
+        e = &entries[mid];
+        if (e->key > key) {
+            hi = mid - 1;
+        } else if (e->key < key) {
+            lo = mid + 1;
+        } else if (e->sub > sub) {
+            hi = mid - 1;
+        } else if (e->sub < sub) {
+            lo = mid + 1;
+        } else {
+            return e;
+        }
+    } while (lo <= hi);
+    return 0;
+}

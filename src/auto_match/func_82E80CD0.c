@@ -1,45 +1,48 @@
-extern int fn_82E80A08();
-extern int fn_82E80A68();
+typedef struct Chunk_82E80CD0 {
+    unsigned int size;
+    unsigned int offset;
+    int f8;
+    struct Chunk_82E80CD0 *next;
+} Chunk_82E80CD0;
 
+typedef struct Stream_82E80CD0 {
+    void *vt;
+    unsigned int size;
+    unsigned int pos;
+    int fc;
+    Chunk_82E80CD0 *last;
+    Chunk_82E80CD0 *cur;
+} Stream_82E80CD0;
 
-unsigned __int64 fn_82E80CD0(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,int *param_4)
+extern void fn_82E80A68(Stream_82E80CD0 *self);
+extern unsigned int fn_82E80A08(Chunk_82E80CD0 *chunk, unsigned char *dst, unsigned int offset, unsigned int size);
 
+int fn_82E80CD0(Stream_82E80CD0 *self, unsigned char *buffer, unsigned int size, unsigned int *read)
 {
-  unsigned int *puVar1;
-  __int64 lVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  
-  uVar4 = 0;
-  if (((param_2 & 0xffffffff) == 0) || (param_4 == (int *)0x0)) {
-    uVar4 = 0xffffffff80004003;
-  }
-  else {
-    if ((*(int *)(param_1 + 0x14) == 0) && (*(int *)(param_1 + 0x10) != 0)) {
-      fn_82E80A68(param_1);
-    }
-    if ((unsigned __int64)*(unsigned int *)(param_1 + 4) < (*(unsigned int *)(param_1 + 8) + param_3 & 0xffffffff)) {
-      param_3 = (unsigned __int64)*(unsigned int *)(param_1 + 4) - (unsigned __int64)*(unsigned int *)(param_1 + 8);
-    }
-    *param_4 = 0;
-    if ((param_3 & 0xffffffff) != 0) {
-      uVar3 = (unsigned __int64)*(unsigned int *)(param_1 + 8);
-      do {
-        lVar2 = fn_82E80A08(*(int *)(param_1 + 0x14),param_2,
-                              uVar3 - *(unsigned int *)(*(int *)(param_1 + 0x14) + 4),param_3);
-        param_3 = param_3 - lVar2;
-        param_2 = lVar2 + param_2;
-        *(int *)(param_1 + 8) = *(int *)(param_1 + 8) + (int)lVar2;
-        *param_4 = *param_4 + (int)lVar2;
-        puVar1 = *(unsigned int **)(param_1 + 0x14);
-        uVar3 = (unsigned __int64)*(unsigned int *)(param_1 + 8);
-        if ((((unsigned __int64)puVar1[1] + (unsigned __int64)*puVar1 & 0xffffffff) <= uVar3) &&
-           (puVar1 != *(unsigned int **)(param_1 + 0x10))) {
-          *(unsigned int *)(param_1 + 0x14) = puVar1[3];
-        }
-      } while ((param_3 & 0xffffffff) != 0);
-    }
-  }
-  return uVar4;
-}
+    int hr = 0;
 
+    if (buffer == 0) {
+        hr = 0x80004003;
+        goto done;
+    }
+    if (read == 0) {
+        hr = 0x80004003;
+        goto done;
+    }
+    if (self->cur == 0 && self->last != 0)
+        fn_82E80A68(self);
+    if (self->pos + size > self->size)
+        size = self->size - self->pos;
+    *read = hr;
+    while (size != 0) {
+        unsigned int n = fn_82E80A08(self->cur, buffer, self->pos - self->cur->offset, size);
+        size -= n;
+        buffer += n;
+        self->pos += n;
+        *read += n;
+        if (self->pos >= self->cur->offset + self->cur->size && self->cur != self->last)
+            self->cur = self->cur->next;
+    }
+done:
+    return hr;
+}
