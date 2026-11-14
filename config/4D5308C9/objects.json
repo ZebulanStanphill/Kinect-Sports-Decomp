@@ -7198,9 +7198,12 @@
         ]
       },
       "auto_match/func_82244A90.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
+        ],
+        "ltcg_units": [
+          "auto_match/func_82381BC0.c"
         ]
       },
       "auto_match/func_82244B58.c": {
@@ -81409,13 +81412,19 @@
           "/Od"
         ]
       },
-      "auto_match/func_8265F798.c": {
-        "status": "NonMatching",
+      "auto_match/func_8265F798.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1",
           "/Og-",
           "/Ob0"
-        ]
+        ],
+        "pool_aliases": {
+          "??0Pair_8265F798@@QAA@ABH0@Z": "fn_826600F8",
+          "?end@Tree_8265F798@@QAA?AUIter_8265F798@@XZ": "fn_8265F8D8",
+          "?insert@Tree_8265F798@@QAA?AUIter_8265F798@@UConstIter_8265F798@@ABUPair_8265F798@@@Z": "fn_826619F0",
+          "?lower_bound@Tree_8265F798@@QAA?AUIter_8265F798@@PBH@Z": "fn_8265FF20"
+        }
       },
       "auto_match/func_8265F858.c": {
         "status": "Matching",
@@ -135485,9 +135494,12 @@
         ]
       },
       "auto_match/func_8282A380.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
+        ],
+        "ltcg_units": [
+          "auto_match/func_82381BC0.c"
         ]
       },
       "auto_match/func_8282A428.c": {
@@ -239687,7 +239699,7 @@
         ]
       },
       "auto_match/func_82DB0380.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
@@ -257837,9 +257849,9 @@
         ]
       },
       "auto_match/func_82E6A5F8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
+          "/O2"
         ]
       },
       "auto_match/func_82E6A6A8.c": {
@@ -270680,9 +270692,13 @@
         ]
       },
       "auto_match/func_82F56C88.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
+        ],
+        "ltcg_units": [
+          "auto_match/func_822509A0.c",
+          "auto_match/func_82518FF0.c"
         ]
       },
       "auto_match/func_82F56D40.cpp": {
@@ -280125,7 +280141,7 @@
         ]
       },
       "auto_match/func_82FB2DD0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]

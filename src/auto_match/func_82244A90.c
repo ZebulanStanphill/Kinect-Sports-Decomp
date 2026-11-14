@@ -1,43 +1,71 @@
-#define true 1
-extern int fn_82381BC0();
-extern int fn_82A4AAA8();
+typedef struct Node_82244A90 {
+    struct Node_82244A90 *left; /* 0x0 */
+    struct Node_82244A90 *parent;
+    struct Node_82244A90 *right;
+    int key;                    /* 0xc */
+    void *value;                /* 0x10 */
+    char color;
+    char isnil;                 /* 0x15 */
+} Node_82244A90;
 
+typedef struct Registry_82244A90 {
+    char pad0[0x230];
+    Node_82244A90 *head; /* 0x230 */
+} Registry_82244A90;
 
-__int64 fn_82244A90(int *param_1,int param_2)
+struct Lookup_82244A90;
+typedef struct LookupVt_82244A90 {
+    void *pad[14];
+    int (*find)(struct Lookup_82244A90 *self, void *value); /* 0x38 */
+} LookupVt_82244A90;
+typedef struct Lookup_82244A90 {
+    LookupVt_82244A90 *vt;
+} Lookup_82244A90;
 
+typedef struct Context_82244A90 {
+    char pad0[0x9c];
+    Lookup_82244A90 lookup; /* 0x9c */
+} Context_82244A90;
+
+struct Owner_82244A90;
+typedef struct OwnerVt_82244A90 {
+    void *pad0;
+    Context_82244A90 *(*getContext)(struct Owner_82244A90 *self); /* 0x4 */
+} OwnerVt_82244A90;
+typedef struct Owner_82244A90 {
+    OwnerVt_82244A90 *vt;
+    char pad4[0xc];
+    Registry_82244A90 *registry; /* 0x10 */
+} Owner_82244A90;
+
+void fn_82381BC0(Node_82244A90 **it);
+unsigned int fn_82A4AAA8(void *value);
+
+unsigned char fn_82244A90(Owner_82244A90 *self, int id)
 {
-  unsigned int *puVar1;
-  unsigned int uVar2;
-  unsigned int *puVar3;
-  unsigned int uVar4;
-  int iVar5;
-  __int64 lVar6;
-  unsigned int *apuStack_30 [12];
-  
-  lVar6 = 1;
-  puVar1 = *(unsigned int **)(param_1[4] + 0x230);
-  apuStack_30[0] = (unsigned int *)*puVar1;
-  do {
-    puVar3 = apuStack_30[0];
-    if (apuStack_30[0] == puVar1) {
-      return lVar6;
-    }
-    uVar4 = fn_82A4AAA8(apuStack_30[0][4]);
-    if (uVar4 == 0) {
-LAB_82244ad8:
-      lVar6 = 0;
-    }
-    else if (uVar4 == 1) {
-      uVar2 = puVar3[4];
-      iVar5 = (**(int (***)())(*param_1 + 4))(param_1);
-      iVar5 = (**(int (***)())(*(int *)(iVar5 + 0x9c) + 0x38))((int *)(iVar5 + 0x9c),uVar2);
-      if ((lVar6 == 0) || (lVar6 = 1, iVar5 != param_2)) {
-        lVar6 = 0;
-      }
-    }
-    else if (2 < uVar4) goto LAB_82244ad8;
-    fn_82381BC0(apuStack_30);
-    puVar1 = *(unsigned int **)(param_1[4] + 0x230);
-  } while( true );
-}
+    unsigned char ok = 1;
+    Node_82244A90 *it = self->registry->head->left;
 
+    while (it != self->registry->head) {
+        Node_82244A90 *node = it;
+        switch (fn_82A4AAA8(node->value)) {
+        case 0:
+            ok = 0;
+            break;
+        case 1: {
+            void *value = node->value;
+            Lookup_82244A90 *lookup = &self->vt->getContext(self)->lookup;
+            int found = lookup->vt->find(lookup, value);
+            ok = ok && found == id;
+            break;
+        }
+        case 2:
+            break;
+        default:
+            ok = 0;
+            break;
+        }
+        fn_82381BC0(&it);
+    }
+    return ok;
+}

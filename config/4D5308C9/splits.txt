@@ -53513,7 +53513,7 @@ auto_match/func_8265F758.c:
 	.pdata      start:0x821F3B50 end:0x821F3B58
 	.text       start:0x8265F758 end:0x8265F794
 
-auto_match/func_8265F798.c:
+auto_match/func_8265F798.cpp:
 	.pdata      start:0x821F3B58 end:0x821F3B60
 	.text       start:0x8265F798 end:0x8265F858
 

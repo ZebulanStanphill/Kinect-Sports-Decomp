@@ -1,38 +1,45 @@
-#define true 1
-extern int fn_822509A0();
-extern int fn_82518FF0();
-extern int fn_82F63108();
+typedef struct Callable_82F56C88 Callable_82F56C88;
+typedef struct {
+  void *slot0;
+  void (*call)(Callable_82F56C88 *self, float dt);
+} CallableVt_82F56C88;
+struct Callable_82F56C88 { CallableVt_82F56C88 *vt; };
+typedef struct {
+  char pad[0x10];
+  Callable_82F56C88 *impl;  /* 0x10 */
+} Function_82F56C88;
+typedef struct InnerNode_82F56C88 {
+  struct InnerNode_82F56C88 *left;
+  char pad[0x2c];
+  Function_82F56C88 fn;     /* 0x30 */
+} InnerNode_82F56C88;
+typedef struct OuterNode_82F56C88 {
+  struct OuterNode_82F56C88 *left;
+  char pad[0x10];
+  InnerNode_82F56C88 *innerHead;  /* 0x14 */
+} OuterNode_82F56C88;
+typedef struct { int pad; OuterNode_82F56C88 *head; } Map_82F56C88;
+extern __declspec(noreturn) void fn_82F63108(void);
+extern void fn_822509A0(InnerNode_82F56C88 **it);
+extern void fn_82518FF0(OuterNode_82F56C88 **it);
 
-
-void fn_82F56C88(unsigned __int64 param_1,int param_2)
-
+void fn_82F56C88(Map_82F56C88 *self, float dt)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  unsigned int *puStack_30;
-  unsigned int *apuStack_2c [5];
-  
-  puVar1 = *(unsigned int **)(param_2 + 4);
-  apuStack_2c[0] = (unsigned int *)*puVar1;
-  do {
-    puVar2 = apuStack_2c[0];
-    if (apuStack_2c[0] == puVar1) {
-      return;
+  OuterNode_82F56C88 *head = self->head;
+  OuterNode_82F56C88 *it = head->left;
+  OuterNode_82F56C88 *cur = it;
+  while (cur != head) {
+    InnerNode_82F56C88 *ihead = cur->innerHead;
+    InnerNode_82F56C88 *jt = ihead->left;
+    while (jt != ihead) {
+      Function_82F56C88 *f = &jt->fn;
+      if (f->impl == 0) fn_82F63108();
+      f->impl->vt->call(f->impl, dt);
+      fn_822509A0(&jt);
+      ihead = cur->innerHead;
     }
-    puVar1 = (unsigned int *)apuStack_2c[0][5];
-    puStack_30 = (unsigned int *)*puVar1;
-    while( true ) {
-      if (puStack_30 == puVar1) break;
-      if ((int *)puStack_30[0x10] == (int *)0x0) {
-                    /* WARNING: Subroutine does not return */
-        fn_82F63108();
-      }
-      (**(int (***)())(*(int *)puStack_30[0x10] + 4))(param_1);
-      fn_822509A0(&puStack_30);
-      puVar1 = (unsigned int *)puVar2[5];
-    }
-    fn_82518FF0(apuStack_2c);
-    puVar1 = *(unsigned int **)(param_2 + 4);
-  } while( true );
+    fn_82518FF0(&it);
+    head = self->head;
+    cur = it;
+  }
 }
-
