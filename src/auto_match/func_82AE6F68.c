@@ -1,28 +1,21 @@
-void fn_82AE6F68(int param_1,unsigned int param_2,__int64 param_3)
+typedef struct Map_82AE6F68 {
+    int header[2];
+    unsigned __int64 bits[1];
+} Map_82AE6F68;
 
+static __forceinline void Release(Map_82AE6F68 *map, unsigned int entry)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  
-  uVar2 = (unsigned __int64)param_2;
-  if (((unsigned __int64)param_2 + param_3 & 0xffffffff) <= (unsigned __int64)param_2) {
-    return;
-  }
-  uVar3 = ((unsigned __int64)param_2 & 0x3fffffff) << 2;
-  do {
-    uVar4 = ((2L << (uVar3 + 3 & 0x3f)) - 1U &
-             *(unsigned __int64 *)(((int)((uVar3 & 0xffffffff) >> 6) + 1) * 8 + param_1) &
-            -1L << (uVar3 & 0x3f)) >> (uVar3 & 0x3f);
-    if ((uVar4 & 0xffffffff) != 0) {
-      iVar1 = ((int)((uVar2 & 0xfffffff) >> 4) + 1) * 8;
-      *(unsigned __int64 *)(iVar1 + param_1) =
-           *(__int64 *)(iVar1 + param_1) - ((uVar4 & 0xf) << ((uVar2 & 0xf) << 2));
-    }
-    uVar2 = uVar2 + 1;
-    uVar3 = uVar3 + 4;
-  } while ((uVar2 & 0xffffffff) < ((unsigned __int64)param_2 + param_3 & 0xffffffff));
-  return;
+    unsigned int sh = (entry >> 4) * 4;
+    map->bits[sh >> 6] -= (unsigned __int64)(entry & 0xf) << (sh & 0x3f);
 }
-
+void fn_82AE6F68(Map_82AE6F68 *map, unsigned int first, unsigned int count)
+{
+    unsigned int i;
+    for (i = first; i < first + count; i++) {
+        unsigned int pos = i * 4;
+        unsigned int v = (unsigned int)((map->bits[pos >> 6] & ((2ULL << ((pos + 3) & 0x3f)) - 1) & (~0ULL << (pos & 0x3f))) >> (pos & 0x3f));
+        if (v != 0) {
+            Release(map, (i << 4) | (v & 0xf));
+        }
+    }
+}

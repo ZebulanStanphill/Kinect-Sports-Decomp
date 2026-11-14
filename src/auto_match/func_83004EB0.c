@@ -1,23 +1,35 @@
-unsigned __int64
-fn_83004EB0(int param_1,unsigned __int64 param_2,int param_3,unsigned __int64 param_4,unsigned __int64 param_5,
-             unsigned __int64 param_6)
+typedef struct Handler_83004EB0 Handler_83004EB0;
 
+typedef struct {
+    void *slot0;
+    int (*Handle)(Handler_83004EB0 *self, int a, int b, int c);
+} HandlerVtbl_83004EB0;
+
+struct Handler_83004EB0 {
+    HandlerVtbl_83004EB0 *vt;
+};
+
+typedef struct {
+    int id;
+    Handler_83004EB0 *handler;
+    int extra;
+} Entry_83004EB0;
+
+typedef struct {
+    char pad[0x28];
+    Entry_83004EB0 *entries;
+} Obj_83004EB0;
+
+int fn_83004EB0(Obj_83004EB0 *self, int unused, int index, int a, int b, int c)
 {
-  int *piVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  
-  if (*(int *)(param_1 + 0x28) == 0) {
-    return 2;
-  }
-  iVar2 = (param_3 + 1) * 0xc + *(int *)(param_1 + 0x28);
-  if (*(int *)(iVar2 + 4) == 0) {
-    return 0x1f;
-  }
-  piVar1 = *(int **)(iVar2 + 4);
-                    /* WARNING: Could not recover jumptable at 0x83004f0c. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  uVar3 = (**(int (***)())(*piVar1 + 4))(piVar1,param_4,param_5,param_6);
-  return uVar3;
-}
+    Entry_83004EB0 *e;
 
+    if (self->entries == 0) {
+        return 2;
+    }
+    e = &self->entries[index + 1];
+    if (e->handler == 0) {
+        return 0x1f;
+    }
+    return e->handler->vt->Handle(e->handler, a, b, c);
+}

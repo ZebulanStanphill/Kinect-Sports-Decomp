@@ -1,40 +1,35 @@
-extern int fn_823737B8();
-extern int fn_823814C0();
-extern int fn_823815D0();
-extern unsigned int lbl_831CB188;
+typedef struct Info_823813F8 {
+    int a;
+    int b;
+    int enabled;        /* 0x08 */
+    int c;
+} Info_823813F8;
 
+typedef struct Self_823813F8 {
+    int pad0;
+    void *world;        /* 0x04 */
+} Self_823813F8;
 
-void fn_823813F8(int param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4,unsigned __int64 param_5,
-                  int param_6)
+extern Info_823813F8 lbl_831CB180[];
+extern unsigned int fn_823737B8(void *world, int id);
+extern int fn_823814C0(Self_823813F8 *self, int id);
+extern void fn_823815D0(Self_823813F8 *self, int id, int value, int mode);
 
+void fn_823813F8(Self_823813F8 *self, int type, int value, int id, int value2, int force)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  
-  iVar1 = fn_823737B8(*(unsigned int *)(param_1 + 4),param_4);
-  if (param_6 == 0) {
-    if (iVar1 != 0) goto LAB_8238145c;
-    uVar2 = 4;
-  }
-  else {
-    uVar2 = 5;
-  }
-  fn_823815D0(param_1,param_4,param_5,uVar2);
-LAB_8238145c:
-  if (param_2 == 0xc) {
-    uVar2 = 2;
-    param_3 = 0xffffffffffffffff;
-  }
-  else {
-    iVar1 = fn_823814C0(param_1,param_4);
-    if (*(int *)(&lbl_831CB188 + iVar1 * 0x10) == 0) {
-      uVar2 = 0xf;
-    }
-    else {
-      uVar2 = 0x10;
-    }
-  }
-  fn_823815D0(param_1,(int)param_4 == 0,param_3,uVar2);
-  return;
-}
+    int isZero = id == 0;
+    unsigned int exists = fn_823737B8(self->world, id);
 
+    if (force != 0)
+        fn_823815D0(self, id, value2, 5);
+    else if (exists == 0)
+        fn_823815D0(self, id, value2, 4);
+    if (type != 0xc) {
+        if (lbl_831CB180[fn_823814C0(self, id)].enabled != 0)
+            fn_823815D0(self, isZero, value, 0x10);
+        else
+            fn_823815D0(self, isZero, value, 0xf);
+    } else {
+        fn_823815D0(self, isZero, -1, 2);
+    }
+}

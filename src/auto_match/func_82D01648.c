@@ -1,28 +1,35 @@
-__int64 fn_82D01648(unsigned int *param_1)
+typedef struct Elem_82D01648 {
+    struct Elem_82D01648 *next;
+} Elem_82D01648;
 
+typedef struct Block_82D01648 {
+    struct Block_82D01648 *next;
+    int pad4[2];
+    int numElems;
+} Block_82D01648;
+
+typedef struct FreeList_82D01648 {
+    Elem_82D01648 *free;
+    unsigned int elemSize;
+    int pad8[2];
+    Block_82D01648 *blocks;
+    int pad14[3];
+    char *top;
+    char *blockEnd;
+} FreeList_82D01648;
+
+int fn_82D01648(FreeList_82D01648 *self)
 {
-  unsigned int *puVar1;
-  int *piVar2;
-  unsigned int *puVar3;
-  __int64 lVar4;
-  
-  lVar4 = 0;
-  for (puVar1 = (unsigned int *)*param_1; puVar1 != (unsigned int *)0x0; puVar1 = (unsigned int *)*puVar1)
-  {
-    lVar4 = lVar4 + 1;
-  }
-  piVar2 = (int *)param_1[4];
-  trapWord(6,(unsigned __int64)(unsigned int)param_1[1],0);
-  lVar4 = ((unsigned __int64)(unsigned int)param_1[9] - (unsigned __int64)(unsigned int)param_1[8] & 0xffffffff) /
-          (unsigned __int64)(unsigned int)param_1[1] + lVar4;
-  if (piVar2 != (int *)0x0) {
-    do {
-      puVar3 = (unsigned int *)(piVar2 + 3);
-      piVar2 = (int *)*piVar2;
-      lVar4 = (unsigned __int64)*puVar3 + lVar4;
-    } while (piVar2 != (int *)0x0);
-    return lVar4;
-  }
-  return lVar4;
-}
+    int count = 0;
+    Elem_82D01648 *e;
+    Block_82D01648 *b;
 
+    for (e = self->free; e != 0; e = e->next) {
+        count++;
+    }
+    count += (unsigned int)(self->blockEnd - self->top) / self->elemSize;
+    for (b = self->blocks; b != 0; b = b->next) {
+        count += b->numElems;
+    }
+    return count;
+}

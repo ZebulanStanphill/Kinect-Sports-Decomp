@@ -1,42 +1,40 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_82593540();
-extern int fn_825C3A68();
+typedef struct Record_825C39A8 Record_825C39A8;
+struct Record_825C39A8 {
+    unsigned short size;        /* 0x00 */
+    unsigned short repeat;      /* 0x02 */
+    unsigned short more;        /* 0x04 */
+    unsigned short pad6;
+    char name[0x44];            /* 0x08 */
+    Record_825C39A8 *next;      /* 0x4c */
+};
+typedef void (*Handler_825C39A8)(Record_825C39A8 *rec, void *a, void *b, void *c);
+extern int fn_82593540(const char *name);
+extern void fn_825C3A68(Record_825C39A8 *rec, void *a, void *b, void *c);
 
-
-int fn_825C39A8(unsigned short *param_1,int param_2,int (**param_3)(),unsigned __int64 param_4,unsigned __int64 param_5,
-                 unsigned __int64 param_6)
-
+int fn_825C39A8(Record_825C39A8 *rec, int id, Handler_825C39A8 handler, void *a, void *b, void *c)
 {
-  bool bVar1;
-  int iVar2;
-  int iVar3;
-  
-  if (param_3 == (int (**)())0x0) {
-    param_3 = fn_825C3A68;
-  }
-  iVar3 = 0;
-  while( true ) {
-    bVar1 = false;
-    while( true ) {
-      if (param_1 == (unsigned short *)0x0) {
-        return iVar3;
-      }
-      iVar2 = fn_82593540(param_1 + 4);
-      if (iVar2 == param_2) {
-        (*param_3)(param_1,param_4,param_5,param_6);
-        iVar3 = 1;
-        if (param_1[1] != 0) {
-          bVar1 = true;
-        }
-      }
-      if (param_1[2] == 0) break;
-      param_1 = (unsigned short *)((unsigned int)*param_1 + (int)param_1);
-    }
-    if ((iVar3 != 0) && (!bVar1)) break;
-    param_1 = *(unsigned short **)(param_1 + 0x26);
-  }
-  return iVar3;
-}
+    int found;
+    int again;
 
+    if (handler == 0)
+        handler = fn_825C3A68;
+    found = 0;
+    again = 0;
+    while (rec != 0) {
+        if (fn_82593540(rec->name) == id) {
+            handler(rec, a, b, c);
+            found = 1;
+            if (rec->repeat != 0)
+                again = 1;
+        }
+        if (rec->more == 0) {
+            if (found && !again)
+                break;
+            rec = rec->next;
+            again = 0;
+        } else {
+            rec = (Record_825C39A8 *)((char *)rec + rec->size);
+        }
+    }
+    return found;
+}

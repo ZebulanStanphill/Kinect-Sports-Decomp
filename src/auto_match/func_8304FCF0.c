@@ -1,16 +1,22 @@
-void fn_8304FCF0(int param_1,unsigned int param_2)
+typedef struct Obj_8304FCF0 {
+    char pad0[0x74];
+    unsigned int pad74 : 3;
+    unsigned int active : 1;
+    unsigned int locked : 1;
+    unsigned int pad74b : 2;
+    unsigned int pending : 1;
+    unsigned int pad74c : 24;
+    char pad78[0xa9 - 0x78];
+    unsigned char enabled : 1;
+} Obj_8304FCF0;
 
+static __forceinline unsigned char ShouldPend(const Obj_8304FCF0 *self, unsigned char active)
 {
-  unsigned int uVar1;
-  int iVar2;
-  
-  uVar1 = *(unsigned int *)(param_1 + 0x74);
-  *(unsigned int *)(param_1 + 0x74) = (param_2 & 1) << 0x1c | uVar1 & 0xefffffff;
-  if ((((*(unsigned char *)(param_1 + 0xa9) & 0x80) == 0) || ((param_2 & 0xff) != 0)) ||
-     (iVar2 = 1, (uVar1 & 0x8000000) != 0)) {
-    iVar2 = 0;
-  }
-  *(unsigned int *)(param_1 + 0x74) = iVar2 << 0x18 | *(unsigned int *)(param_1 + 0x74) & 0xfeffffff;
-  return;
+    return self->enabled && !active && !self->locked;
 }
 
+void fn_8304FCF0(Obj_8304FCF0 *self, unsigned char active)
+{
+    self->active = active;
+    self->pending = ShouldPend(self, active);
+}

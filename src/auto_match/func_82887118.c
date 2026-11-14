@@ -1,27 +1,33 @@
-extern int fn_82880BD8();
-extern unsigned int lbl_83212A18;
-extern unsigned int lbl_83212A20;
-extern unsigned int lbl_83212A24;
-extern int (*lbl_83212A28)();
+typedef int (*Handler_82887118)(int);
 
+typedef struct {
+    Handler_82887118 *handlers;
+    int pad4;
+    unsigned char *allowed;
+    int count;
+} Registry_82887118;
 
-unsigned __int64 fn_82887118(unsigned __int64 param_1,int param_2)
+extern Registry_82887118 lbl_83212A18;
+extern int (*lbl_83212A28)(void);
+extern int fn_82880BD8(void);
 
+static __forceinline int CallHandler(int i)
 {
-  int (**pcVar1)();
-  int iVar3;
-  int iVar4;
-  unsigned __int64 uVar2;
-  
-  iVar3 = (*lbl_83212A28)();
-  if ((((iVar3 < 0) || (lbl_83212A24 <= iVar3)) ||
-      ((iVar4 = fn_82880BD8(), param_2 == iVar4 && (*(char *)(lbl_83212A20 + iVar3) == '\0')))
-      ) || (pcVar1 = *(int (***)())(iVar3 * 4 + lbl_83212A18), pcVar1 == (int (**)())0x0)) {
-    uVar2 = 0;
-  }
-  else {
-    uVar2 = (*pcVar1)(0);
-  }
-  return uVar2;
+    Handler_82887118 f = lbl_83212A18.handlers[i];
+    if (f != 0) {
+        return f(0);
+    }
+    return 0;
 }
 
+int fn_82887118(void *unused, int owner)
+{
+    int r = 0;
+    int i = lbl_83212A28();
+    if (i >= 0 && i < lbl_83212A18.count) {
+        if (owner != fn_82880BD8() || lbl_83212A18.allowed[i] != 0) {
+            r = CallHandler(i);
+        }
+    }
+    return r;
+}

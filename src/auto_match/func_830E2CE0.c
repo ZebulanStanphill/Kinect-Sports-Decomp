@@ -1,21 +1,21 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern int fn_830E2788();
-extern V16 vectorAddSignedHalfWordSaturate();
-extern V16 vectorSplatImmediateSignedHalfWord();
-extern void *memcpy(void *, const void *, unsigned int);
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vspltish(int value);
+__vector4 __vaddshs(__vector4 a, __vector4 b);
 
-unsigned __int64
-fn_830E2CE0(__int64 param_1,__int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-             unsigned __int64 param_5)
+typedef struct Context_830E2CE0 {
+    char pad000[0x460];
+    __vector4 rounding;     /* 0x460 */
+} Context_830E2CE0;
 
+extern int fn_830E2788(unsigned char *src, int stride, unsigned char *dst, int dstStride,
+                       int count, int shift, __vector4 weight, __vector4 rounding, int height);
+
+int fn_830E2CE0(unsigned char *src, int stride, unsigned char *dst, Context_830E2CE0 *context, int shift)
 {
-  unsigned char auVar1 [16];
-  unsigned char in_vs45 [16];{ V16 _vt0 = vectorSplatImmediateSignedHalfWord(7); memcpy(auVar1, &_vt0, 16); }
-  vectorSplatImmediateSignedHalfWord(4);
-  vectorAddSignedHalfWordSaturate(auVar1,in_vs45);
-  fn_830E2788(param_1 - param_2,param_2,param_3,param_2,2 << ((unsigned int)param_5 & 0x3f),param_5,0)
-  ;
-  return 0;
+    fn_830E2788(src - stride, stride, dst, stride, 2 << shift, shift, __vspltish(4),
+                __vaddshs(__vspltish(7), context->rounding), 0);
+    return 0;
 }
-

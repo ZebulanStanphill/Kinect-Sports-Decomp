@@ -1,29 +1,43 @@
-extern int fn_83023090();
-extern int fn_830230D0();
-extern int fn_83023E60();
+typedef struct {
+    int pad0;
+    unsigned int type;
+    char pad8[6];
+    unsigned short count;
+} Packet_83024258;
 
+typedef struct {
+    char pad[0x70];
+    int state;
+    char pad74[0x80 - 0x74];
+    char stream[0x80];
+    char extra[8];
+    int error;
+} Decoder_83024258;
 
-unsigned __int64 fn_83024258(int param_1,int *param_2)
+extern int fn_83023E60(Decoder_83024258 *self);
+extern void fn_83023090(void *stream, Packet_83024258 *pkt, void *extra);
+extern void fn_830230D0(void *stream, Packet_83024258 *pkt, void *extra);
 
+int fn_83024258(Decoder_83024258 *self, Packet_83024258 **pkt)
 {
-  int iVar1;
-  
-  if (*(short *)(*param_2 + 0xe) != 0) {
-    *(unsigned int *)(param_1 + 0x108) = 0x2d;
-    if (*(int *)(param_1 + 0x70) == 2) {
-      fn_83023E60();
+    int r = 1;
+    if ((*pkt)->count != 0) {
+        self->error = 0x2d;
+        if (self->state == 2) {
+            fn_83023E60(self);
+        }
+        self->state = 1;
+        switch ((*pkt)->type) {
+        case 3:
+            fn_83023090(self->stream, *pkt, self->extra);
+            break;
+        case 0x3f:
+            fn_830230D0(self->stream, *pkt, self->extra);
+            break;
+        default:
+            r = 0x2e;
+            break;
+        }
     }
-    *(unsigned int *)(param_1 + 0x70) = 1;
-    iVar1 = *param_2;
-    if (*(int *)(iVar1 + 4) != 3) {
-      if (*(int *)(iVar1 + 4) != 0x3f) {
-        return 0x2e;
-      }
-      fn_830230D0(param_1 + 0x80,iVar1,param_1 + 0x100);
-      return 1;
-    }
-    fn_83023090(param_1 + 0x80,iVar1,param_1 + 0x100);
-  }
-  return 1;
+    return r;
 }
-

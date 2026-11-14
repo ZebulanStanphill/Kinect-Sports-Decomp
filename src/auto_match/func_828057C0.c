@@ -1,21 +1,17 @@
-__int64 fn_828057C0(int param_1,unsigned __int64 param_2,unsigned int param_3)
+typedef struct { char pad[0x1e]; unsigned short count; } Obj_828057C0;
 
+int fn_828057C0(Obj_828057C0 *self, unsigned char bits, unsigned int pos)
 {
-  __int64 lVar1;
-  unsigned __int64 uVar2;
-  
-  lVar1 = 0;
-  uVar2 = 0x80;
-  do {
-    if (*(unsigned short *)(param_1 + 0x1e) <= param_3) {
-      return lVar1;
+    int n = 0;
+    unsigned int mask;
+    for (mask = 0x80; mask != 0x10; mask >>= 1) {
+        if (pos >= self->count) {
+            return n;
+        }
+        if ((bits & mask) != 0 && (bits & (mask >> 3)) == 0) {
+            n++;
+        }
+        pos++;
     }
-    if (((param_2 & 0xff & uVar2) != 0) && ((param_2 & 0xff & uVar2 >> 3) == 0)) {
-      lVar1 = lVar1 + 1;
-    }
-    uVar2 = uVar2 >> 1;
-    param_3 = param_3 + 1;
-  } while (uVar2 != 0x10);
-  return lVar1;
+    return n;
 }
-

@@ -1,48 +1,34 @@
-typedef unsigned char bool;
-#define true 1
-extern unsigned int lbl_82197CE0;
-extern unsigned __int64 storeWordConditionalIndexed();
-
-
-void fn_8224BFA0(__int64 param_1)
-
+#define __lwsync() __emit(0x7C2004AC)
+long _InterlockedCompareExchange(long volatile *dest, long exchange, long comparand);
+extern char lbl_82197CE0[];
+typedef struct Node_8224BFA0 {
+  struct Node_8224BFA0 *prev;
+  struct Node_8224BFA0 *next;
+  int owner;
+} Node_8224BFA0;
+typedef struct Head_8224BFA0 {
+  Node_8224BFA0 *prev;
+  Node_8224BFA0 *next;
+} Head_8224BFA0;
+typedef struct List_8224BFA0 {
+  Head_8224BFA0 head;
+  long lock;
+} List_8224BFA0;
+typedef struct Registry_8224BFA0 {
+  void *vt;
+  List_8224BFA0 list;
+} Registry_8224BFA0;
+void fn_8224BFA0(Registry_8224BFA0 *self)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  __int64 lVar3;
-  unsigned int *puVar4;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  lVar3 = param_1 + 0xc;
-  *(unsigned int *)param_1 = &lbl_82197CE0;
-LAB_8224bfbc:
-  do {
-    puVar4 = (unsigned int *)lVar3;
-    uVar1 = *puVar4;
-    if (uVar1 == 0) {
-      if (in_RESERVE != '\0') {
-        uVar2 = storeWordConditionalIndexed(1,0,lVar3);
-        *puVar4 = uVar2;
-        in_cr0 = 2;
-      }
-      if (!(bool)(in_cr0 >> 1 & 1)) goto LAB_8224bfbc;
-    }
-    else if (in_RESERVE != '\0') {
-      uVar2 = storeWordConditionalIndexed((unsigned __int64)uVar1,0,lVar3);
-      *puVar4 = uVar2;
-      in_cr0 = 2;
-    }
-    if (uVar1 == 0) {
-      sync(1);
-      for (uVar1 = ((unsigned int *)param_1)[2]; (unsigned __int64)uVar1 != (param_1 + 4U & 0xffffffff);
-          uVar1 = *(unsigned int *)(uVar1 + 4)) {
-        *(unsigned int *)(uVar1 + 8) = 0;
-      }
-      sync(1);
-      *puVar4 = 0;
-      return;
-    }
-  } while( true );
+  Node_8224BFA0 *node;
+  List_8224BFA0 *list = &self->list;
+  self->vt = lbl_82197CE0;
+  while (_InterlockedCompareExchange(&list->lock, 1, 0) != 0) {
+  }
+  __lwsync();
+  for (node = self->list.head.next; node != (Node_8224BFA0 *)list; node = node->next) {
+    node->owner = 0;
+  }
+  __lwsync();
+  list->lock = 0;
 }
-

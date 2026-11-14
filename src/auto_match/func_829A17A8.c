@@ -1,38 +1,29 @@
-unsigned __int64
-fn_829A17A8(unsigned __int64 param_1,int param_2,unsigned int *param_3,unsigned int *param_4,unsigned int *param_5)
-
+typedef struct Param_829A17A8 {
+    char pad0[0x6e];
+    unsigned char index;
+    unsigned char kind;
+} Param_829A17A8;
+long fn_829A17A8(void *dev, Param_829A17A8 *param, unsigned int *index,
+                 unsigned int *count, unsigned int *flag)
 {
-  unsigned char bVar1;
-  char cVar2;
-  unsigned int uVar3;
-  
-  bVar1 = *(unsigned char *)(param_2 + 0x6e);
-  cVar2 = *(char *)(param_2 + 0x6f);
-  *param_3 = (unsigned int)bVar1;
-  if (cVar2 == '\x01') {
-    if (bVar1 != 0) {
-      return 0xffffffff80004005;
-    }
-    uVar3 = 0;
-    *param_4 = 0;
-    if (param_5 == (unsigned int *)0x0) {
-      return 0;
-    }
-  }
-  else {
-    if (cVar2 != '\x02') {
-      return 0xffffffff80004005;
-    }
-    if (bVar1 != 0) {
-      return 0xffffffff80004005;
-    }
-    *param_4 = 9;
-    if (param_5 == (unsigned int *)0x0) {
-      return 0;
-    }
-    uVar3 = 1;
-  }
-  *param_5 = uVar3;
-  return 0;
-}
+    unsigned int i = param->index;
+    unsigned char k = param->kind;
 
+    *index = i;
+    if (k == 1) {
+        if (i >= 1)
+            return 0x80004005;
+        *count = 0;
+        if (flag != 0)
+            *flag = 0;
+    } else if (k == 2) {
+        if (i != 0)
+            return 0x80004005;
+        *count = 9;
+        if (flag != 0)
+            *flag = 1;
+    } else {
+        return 0x80004005;
+    }
+    return 0;
+}

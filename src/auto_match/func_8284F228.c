@@ -1,49 +1,36 @@
-unsigned __int64 fn_8284F228(int *param_1,char *param_2,char *param_3,int *param_4)
+int strcmp(const char *a, const char *b);
 
+typedef struct Entry_8284F228 {
+    const char *group;          /* 0x00 */
+    const char *name;           /* 0x04 */
+    char pad8[0x64 - 8];
+} Entry_8284F228;
+
+typedef struct Desc_8284F228 {
+    char pad0[8];
+    int count;                  /* 0x08 */
+    Entry_8284F228 *entries;    /* 0x0c */
+} Desc_8284F228;
+
+typedef struct Item_8284F228 {
+    char data[0xf0];
+} Item_8284F228;
+
+typedef struct Self_8284F228 {
+    Desc_8284F228 *desc;        /* 0x00 */
+    int pad4;
+    Item_8284F228 *items;       /* 0x08 */
+} Self_8284F228;
+
+int fn_8284F228(Self_8284F228 *self, const char *group, const char *name, Item_8284F228 **out)
 {
-  char cVar1;
-  char cVar2;
-  int iVar3;
-  int iVar4;
-  char *pcVar5;
-  char *pcVar6;
-  int iVar7;
-  int iVar8;
-  
-  iVar7 = 0;
-  iVar3 = *(int *)(*param_1 + 8);
-  if (0 < iVar3) {
-    iVar8 = 0;
-    do {
-      iVar4 = *(int *)(*param_1 + 0xc);
-      pcVar6 = *(char **)(iVar4 + iVar8);
-      pcVar5 = param_2;
-      do {
-        cVar1 = *pcVar6;
-        cVar2 = *pcVar5;
-        if (cVar1 == '\0') break;
-        pcVar6 = pcVar6 + 1;
-        pcVar5 = pcVar5 + 1;
-      } while (cVar1 == cVar2);
-      if (cVar1 == cVar2) {
-        pcVar6 = *(char **)(iVar4 + iVar8 + 4);
-        pcVar5 = param_3;
-        do {
-          cVar1 = *pcVar6;
-          cVar2 = *pcVar5;
-          if (cVar1 == '\0') break;
-          pcVar6 = pcVar6 + 1;
-          pcVar5 = pcVar5 + 1;
-        } while (cVar1 == cVar2);
-        if (cVar1 == cVar2) {
-          *param_4 = iVar7 * 0xf0 + param_1[2];
-          return 1;
-        }
-      }
-      iVar7 = iVar7 + 1;
-      iVar8 = iVar8 + 100;
-    } while (iVar7 < iVar3);
-  }
-  return 0;
-}
+    int i;
 
+    for (i = 0; i < self->desc->count; i++) {
+        if (strcmp(self->desc->entries[i].group, group) == 0 && strcmp(self->desc->entries[i].name, name) == 0) {
+            *out = &self->items[i];
+            return 1;
+        }
+    }
+    return 0;
+}

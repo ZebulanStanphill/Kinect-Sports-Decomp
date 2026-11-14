@@ -1,31 +1,22 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_82ABDD90();
+typedef struct Src_82B176C0 {
+    char pad[8];
+    unsigned p10 : 10;
+    unsigned a : 3;
+    unsigned p2 : 2;
+    unsigned b : 3;
+    unsigned c : 7;
+    unsigned rest : 7;
+} Src_82B176C0;
+extern int fn_82ABDD90(void *, unsigned, unsigned, unsigned);
 
-
-bool fn_82B176C0(unsigned __int64 param_1,int param_2)
-
+unsigned char fn_82B176C0(void *ctx, Src_82B176C0 *s)
 {
-  int iVar1;
-  unsigned int uVar2;
-  
-  uVar2 = *(unsigned int *)(param_2 + 8) >> 7 & 0x7f;
-  if (4 < uVar2) {
-    if (uVar2 < 9) {
-      return true;
+    switch ((int)s->c) {
+    case 5: case 6: case 7: case 8:
+    case 0x19: case 0x1a: case 0x1b: case 0x1c:
+        return 1;
+    case 0x7c:
+        return 0x20000000 == (*(unsigned int *)((char *)s - 8 + fn_82ABDD90(ctx, s->c, s->a, s->b)) & 0x60000000);
     }
-    if (0x18 < uVar2) {
-      if (uVar2 < 0x1d) {
-        return true;
-      }
-      if (uVar2 == 0x7c) {
-        uVar2 = *(unsigned int *)(param_2 + 8);
-        iVar1 = fn_82ABDD90(param_1,uVar2 >> 7 & 0x7f,uVar2 >> 0x13 & 7,uVar2 >> 0xe & 7);
-        return (*(unsigned int *)(iVar1 + param_2 + -8) & 0x60000000) == 0x20000000;
-      }
-    }
-  }
-  return false;
+    return 0;
 }
-

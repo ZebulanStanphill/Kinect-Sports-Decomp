@@ -1,36 +1,49 @@
-extern int fn_82696330();
-extern int fn_826BFF48();
-extern unsigned int uStack_3f;
-extern unsigned int uStack_40;
+typedef struct Value_826C0568 {
+    unsigned char type;
+    unsigned char flags;
+    char pad[14];
+} Value_826C0568;
 
+typedef struct Iface_826C0568 Iface_826C0568;
+typedef struct IfaceVt_826C0568 {
+    void *slots[9];
+    unsigned char (*get)(Iface_826C0568 *self, void *a, void *name, int b);
+} IfaceVt_826C0568;
+struct Iface_826C0568 {
+    IfaceVt_826C0568 *vt;
+};
 
-unsigned __int64 fn_826C0568(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,char param_4)
+typedef struct Proto_826C0568 {
+    int pad0[4];
+    Iface_826C0568 iface;
+} Proto_826C0568;
 
+typedef struct Obj_826C0568 {
+    int pad0;
+    int proto;
+    char members[1];
+} Obj_826C0568;
+
+extern unsigned char fn_826BFF48(void *members, void *name, Value_826C0568 *out);
+extern void fn_82696330(Value_826C0568 *v);
+
+unsigned char fn_826C0568(Obj_826C0568 *self, void *a, void *name, unsigned char searchProto)
 {
-  int iVar1;
-  char cVar2;
-  unsigned __int64 uVar3;
-  unsigned char uStack_40;
-  unsigned char uStack_3f;
-  
-  uStack_40 = 0;
-  uStack_3f = 0;
-  cVar2 = fn_826BFF48(param_1 + 8,param_3,&uStack_40);
-  if (cVar2 == '\0') {
-    if (param_4 != '\0') {
-      iVar1 = *(int *)(param_1 + 4);
-      if (iVar1 != 0) {
-        uVar3 = (**(int (***)())(*(int *)(iVar1 + 0x10) + 0x24))(iVar1 + 0x10,param_2,param_3,1);
-        goto LAB_826c05ac;
-      }
-    }
-    uVar3 = 0;
-  }
-  else {
-    uVar3 = 1;
-  }
-LAB_826c05ac:
-  fn_82696330(&uStack_40);
-  return uVar3;
-}
+    Value_826C0568 v;
+    unsigned char result;
 
+    v.type = 0;
+    v.flags = 0;
+    if (fn_826BFF48(self->members, name, &v)) {
+        fn_82696330(&v);
+        return 1;
+    }
+    if (searchProto && self->proto != 0) {
+        Iface_826C0568 *iface = &((Proto_826C0568 *)self->proto)->iface;
+        result = iface->vt->get(iface, a, name, 1);
+        fn_82696330(&v);
+        return result;
+    }
+    fn_82696330(&v);
+    return 0;
+}

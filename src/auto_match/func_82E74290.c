@@ -1,32 +1,37 @@
-#define true 1
-extern unsigned int *auStack_28;
-extern int fn_82E2D9C0();
-extern int fn_82E73470();
-extern int fn_82E740C0();
+typedef struct Unknown_82E74290 Unknown_82E74290;
+struct Unknown_82E74290 {
+    struct {
+        void *QueryInterface;
+        void *AddRef;
+        unsigned int (*Release)(Unknown_82E74290 *self);
+    } *vt;
+};
 
+typedef struct Self_82E74290 {
+    char pad0[0x10];
+    char list[0x10];                /* 0x10 */
+    char lock[0x1d8 - 0x20];        /* 0x20 */
+    Unknown_82E74290 *object;       /* 0x1d8 */
+} Self_82E74290;
 
-void fn_82E74290(int param_1)
+extern int fn_82E740C0(void *list, int flags, unsigned __int64 *pos, void **item);
+extern void fn_82E73470(void *item);
+extern void fn_82E2D9C0(void *lock);
 
+void fn_82E74290(Self_82E74290 *self)
 {
-  int iVar1;
-  int aiStack_30 [2];
-  unsigned __int64 auStack_28;
-  
-  auStack_28 = 0;
-  do {
-    aiStack_30[0] = 0;
-    do {
-      iVar1 = fn_82E740C0(param_1 + 0x10,0,&auStack_28,aiStack_30);
-      if (iVar1 == 0) {
-        if (*(int **)(param_1 + 0x1d8) != (int *)0x0) {
-          (**(int (***)())(**(int **)(param_1 + 0x1d8) + 8))();
-          *(unsigned int *)(param_1 + 0x1d8) = 0;
-        }
-        fn_82E2D9C0(param_1 + 0x20);
-        return;
-      }
-    } while (aiStack_30[0] == 0);
-    fn_82E73470();
-  } while( true );
-}
+    unsigned __int64 pos = 0;
+    void *item = 0;
 
+    while (fn_82E740C0(self->list, 0, &pos, &item)) {
+        if (item != 0) {
+            fn_82E73470(item);
+            item = 0;
+        }
+    }
+    if (self->object != 0) {
+        self->object->vt->Release(self->object);
+        self->object = 0;
+    }
+    fn_82E2D9C0(self->lock);
+}

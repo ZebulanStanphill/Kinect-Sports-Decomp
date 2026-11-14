@@ -1,25 +1,55 @@
-void fn_826F49B0(int param_1,int param_2)
+#define __lwsync() __emit(0x7C2004AC)
 
+typedef struct Item_826F49B0 {
+    char pad[0x14];
+    int id;
+    struct Item_826F49B0 *next;
+} Item_826F49B0;
+
+typedef struct {
+    char pad[8];
+    Item_826F49B0 *head;
+    Item_826F49B0 *tail;
+} Queue_826F49B0;
+
+typedef struct {
+    char pad[0x88];
+    Queue_826F49B0 queue;
+} Owner_826F49B0;
+
+typedef struct {
+    char pad[0x20];
+    Owner_826F49B0 *owner;
+    char pad24[0x2bc - 0x24];
+    int nextId;
+    char pad2c0[4];
+    int pending;
+    char pad2c8[0x2d4 - 0x2c8];
+    Item_826F49B0 *first;
+} Obj_826F49B0;
+
+static __forceinline void Push(Queue_826F49B0 *q, Item_826F49B0 *item)
 {
-  int iVar1;
-  
-  *(unsigned int *)(param_2 + 0x14) = *(unsigned int *)(param_1 + 700);
-  *(int *)(param_1 + 700) = *(int *)(param_1 + 700) + 1;
-  if (*(int *)(param_1 + 0x2d4) == 0) {
-    *(int *)(param_1 + 0x2d4) = param_2;
-  }
-  iVar1 = *(int *)(param_1 + 0x20);
-  sync(1);
-  if (*(int *)(iVar1 + 0x90) == 0) {
-    sync(1);
-    *(int *)(iVar1 + 0x90) = param_2;
-  }
-  else {
-    sync(1);
-    *(int *)(*(int *)(iVar1 + 0x94) + 0x18) = param_2;
-  }
-  *(int *)(iVar1 + 0x94) = param_2;
-  *(int *)(param_1 + 0x2c4) = *(int *)(param_1 + 0x2c4) + 1;
-  return;
+    Item_826F49B0 *head = q->head;
+    __lwsync();
+    if (head == 0) {
+        __lwsync();
+        q->head = item;
+    } else {
+        Item_826F49B0 *tail = q->tail;
+        __lwsync();
+        tail->next = item;
+    }
+    q->tail = item;
 }
 
+void fn_826F49B0(Obj_826F49B0 *self, Item_826F49B0 *item)
+{
+    item->id = self->nextId;
+    self->nextId++;
+    if (self->first == 0) {
+        self->first = item;
+    }
+    Push(&self->owner->queue, item);
+    self->pending++;
+}

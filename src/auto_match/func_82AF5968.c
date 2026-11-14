@@ -1,28 +1,33 @@
-extern unsigned int iStack00000010;
+typedef struct Item_82AF5968 { char pad[8]; unsigned int type; } Item_82AF5968;
+typedef struct Node_82AF5968 { int flags; int pad; struct Node_82AF5968 *next; int pad2; Item_82AF5968 *item; } Node_82AF5968;
+typedef union Flags_82AF5968 {
+    unsigned int word;
+    struct { unsigned int pad : 8; unsigned int locked : 1; unsigned int rest : 23; } bits;
+} Flags_82AF5968;
+typedef struct Obj_82AF5968 { int pad; Node_82AF5968 *head; Flags_82AF5968 flags; } Obj_82AF5968;
+typedef struct Ref_82AF5968 { Obj_82AF5968 *obj; int extra; } Ref_82AF5968;
+typedef struct Mode_82AF5968 { unsigned int flags; int extra; } Mode_82AF5968;
 
+static __forceinline int alive(Node_82AF5968 *n) { if (n) return 1; return 0; }
 
-unsigned __int64 fn_82AF5968(unsigned __int64 param_1,unsigned __int64 param_2)
-
+static __forceinline Item_82AF5968 *FindItem(Obj_82AF5968 *o)
 {
-  unsigned int *puVar1;
-  unsigned int uVar2;
-  int iStack00000010;
-  
-  iStack00000010 = (int)((unsigned __int64)param_1 >> 0x20);
-  if ((((*(unsigned int *)(iStack00000010 + 8) >> 0x17 & 1) == 0) &&
-      ((*(unsigned int *)(iStack00000010 + 8) & 0x1c000) == 0x4000)) && ((param_2 & 0x1e00000000) == 0)) {
-    for (puVar1 = *(unsigned int **)(iStack00000010 + 4); puVar1 != (unsigned int *)0x0; puVar1 = (unsigned int *)puVar1[2])
-    {
-      uVar2 = puVar1[4];
-      if (((uVar2 != 0) && ((*(unsigned int *)(uVar2 + 8) & 0x3f80) == 0x3700)) &&
-         ((*puVar1 & 0xe000000) != 0)) goto LAB_82af59d8;
+    Node_82AF5968 *n = o->head;
+    Item_82AF5968 *item;
+
+    while (alive(n)) {
+        item = n->item;
+        if (item && (item->type & 0x3f80) == 0x3700 && (n->flags & 0xe000000u))
+            return item;
+        n = n->next;
     }
-    uVar2 = 0;
-LAB_82af59d8:
-    if (uVar2 == 0) {
-      return 1;
-    }
-  }
-  return 0;
+    return 0;
 }
 
+unsigned char fn_82AF5968(Ref_82AF5968 ref, Mode_82AF5968 mode)
+{
+    Obj_82AF5968 *o = ref.obj;
+
+    return !(unsigned char)o->flags.bits.locked && (o->flags.word & 0x1c000) == 0x4000 && (mode.flags & 0x1e) == 0
+        && FindItem(o) == 0;
+}

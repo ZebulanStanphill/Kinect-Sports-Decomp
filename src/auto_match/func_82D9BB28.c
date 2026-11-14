@@ -1,28 +1,51 @@
-void fn_82D9BB28(int param_1,int param_2,unsigned __int64 param_3)
+typedef struct Listener_82D9BB28 Listener_82D9BB28;
 
+typedef struct Result_82D9BB28 {
+    int pad0;
+    unsigned char done;
+} Result_82D9BB28;
+
+typedef struct ListenerVtbl_82D9BB28 {
+    void *pad0[3];
+    void (*process)(Listener_82D9BB28 *self, void *source, void *data, unsigned int filter, Result_82D9BB28 *result);
+} ListenerVtbl_82D9BB28;
+
+struct Listener_82D9BB28 {
+    ListenerVtbl_82D9BB28 *vt;
+};
+
+typedef struct Entry_82D9BB28 {
+    Listener_82D9BB28 *listener;
+    void *data;
+} Entry_82D9BB28;
+
+typedef struct World_82D9BB28 {
+    char pad0[0x78];
+    unsigned int filter;
+} World_82D9BB28;
+
+typedef struct Self_82D9BB28 {
+    char pad0[8];
+    World_82D9BB28 *world;
+    int pad0C;
+    char source[0x150];
+    Entry_82D9BB28 *entries;
+    int count;
+} Self_82D9BB28;
+
+void fn_82D9BB28(Self_82D9BB28 *self, Result_82D9BB28 *result, unsigned int filter)
 {
-  int *piVar1;
-  unsigned int *puVar2;
-  unsigned __int64 uVar3;
-  __int64 lVar4;
-  
-  if ((param_3 & 0xffffffff) == 0) {
-    param_3 = (unsigned __int64)*(unsigned int *)(*(int *)(param_1 + 8) + 0x78);
-  }
-  uVar3 = (unsigned __int64)*(unsigned int *)(param_1 + 0x164) - 1;
-  if (-1 < (__int64)uVar3) {
-    lVar4 = (uVar3 & 0x1fffffff) << 3;
-    do {
-      puVar2 = (unsigned int *)((int)lVar4 + *(int *)(param_1 + 0x160));
-      piVar1 = (int *)*puVar2;
-      (**(int (***)())(*piVar1 + 0xc))(piVar1,param_1 + 0x10,puVar2[1],param_3,param_2);
-      if (*(char *)(param_2 + 4) != '\0') {
-        return;
-      }
-      uVar3 = uVar3 - 1;
-      lVar4 = lVar4 + -8;
-    } while (-1 < (__int64)uVar3);
-  }
-  return;
-}
+    int i;
+    Entry_82D9BB28 *e;
 
+    if (filter == 0) {
+        filter = self->world->filter;
+    }
+    for (i = self->count - 1; i >= 0; i--) {
+        e = &self->entries[i];
+        e->listener->vt->process(e->listener, self->source, e->data, filter, result);
+        if (result->done) {
+            return;
+        }
+    }
+}

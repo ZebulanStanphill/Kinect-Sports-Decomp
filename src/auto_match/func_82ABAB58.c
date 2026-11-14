@@ -1,42 +1,23 @@
-#define true 1
-
-
-unsigned int fn_82ABAB58(unsigned int param_1)
-
+static __forceinline unsigned int Convert_82ABAB58(unsigned int x)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  int iVar6;
-  
-  uVar3 = 0;
-  uVar4 = 0;
-  uVar5 = 0x10;
-  do {
-    uVar1 = param_1 >> (uVar5 & 0x3f);
-    uVar2 = uVar1 & 3;
-    if ((uVar1 & 3) == 0) {
-LAB_82abab9c:
-      iVar6 = 0;
+    switch (x) {
+    case 0: return 0;
+    case 1: return 1;
+    case 2: return 2;
+    case 3: return 3;
     }
-    else if (uVar2 == 1) {
-      iVar6 = 1;
-    }
-    else if (uVar2 < 3) {
-      iVar6 = 2;
-    }
-    else {
-      if (uVar2 != 3) goto LAB_82abab9c;
-      iVar6 = 3;
-    }
-    uVar5 = uVar5 + 2;
-    uVar3 = iVar6 << (uVar4 & 0x3f) | uVar3;
-    uVar4 = uVar4 + 4;
-    if (0x17 < uVar5) {
-      return uVar3;
-    }
-  } while( true );
+    return 0;
 }
 
+unsigned int fn_82ABAB58(unsigned int v)
+{
+    unsigned int result = 0;
+    unsigned int pos = 0;
+    unsigned int shift;
+
+    for (shift = 0x10; shift < 0x18; shift += 2) {
+        result |= Convert_82ABAB58((v >> shift) & 3) << pos;
+        pos += 4;
+    }
+    return result;
+}

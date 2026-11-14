@@ -1,33 +1,11 @@
-extern unsigned int stack0x00000020;
-extern unsigned int stack0x00000030;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
-
-void fn_824B5DA8(int param_1)
-
+void fn_824B5DA8(__vector4 *out, __vector4 a, __vector4 b)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int in_r0;
-  unsigned char *puVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  float in_register_00010014;
-  float in_register_00010024;
-  
-  puVar3 = &stack0x00000020;
-  if (in_register_00010014 <= in_register_00010024) {
-    puVar3 = &stack0x00000030;
-  }
-  puVar1 = (unsigned int *)((unsigned int)(puVar3 + in_r0) & 0xfffffff0);
-  uVar4 = puVar1[1];
-  uVar5 = puVar1[2];
-  uVar6 = puVar1[3];
-  puVar2 = (unsigned int *)(in_r0 + param_1 & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar4;
-  puVar2[2] = uVar5;
-  puVar2[3] = uVar6;
-  return;
+    const __vector4 *p = &a;
+    if (a.vector4_f32[1] <= b.vector4_f32[1])
+        p = &b;
+    *out = *p;
 }
-

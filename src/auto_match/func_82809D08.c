@@ -1,9 +1,9 @@
-double fn_82809D08(double param_1,double param_2)
+#include <math.h>
 
+float fn_82809D08(float a, float b)
 {
-  if (ABS(param_1) < ABS(param_2)) {
-    return param_1;
-  }
-  return -(double)(float)((double)(__int64)(int)(param_1 / param_2) * param_2 - param_1);
+    if (fabsf(b) > fabsf(a)) {
+        return a;
+    }
+    return a - (float)(int)(a / b) * b;
 }
-

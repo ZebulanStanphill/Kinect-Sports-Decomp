@@ -1,20 +1,26 @@
-unsigned int fn_8267A3D8(int param_1,int param_2,unsigned int param_3)
+typedef struct Buffer_8267A3D8 {
+    char pad0[8];
+    int size;               /* 0x08 */
+} Buffer_8267A3D8;
 
+typedef struct Stream_8267A3D8 {
+    char pad0[8];
+    Buffer_8267A3D8 *buffer;    /* 0x08 */
+    int pos;                    /* 0x0c */
+} Stream_8267A3D8;
+
+int fn_8267A3D8(Stream_8267A3D8 *self, int offset, unsigned int origin)
 {
-  if (param_3 == 0) {
-    *(int *)(param_1 + 0xc) = param_2;
-  }
-  else {
-    if (param_3 == 1) {
-      param_2 = param_2 + *(int *)(param_1 + 0xc);
+    switch (origin) {
+    case 0:
+        self->pos = offset;
+        break;
+    case 1:
+        self->pos += offset;
+        break;
+    case 2:
+        self->pos = self->buffer->size - self->pos;
+        break;
     }
-    else {
-      if (2 < param_3) goto LAB_8267a414;
-      param_2 = *(int *)(*(int *)(param_1 + 8) + 8) - *(int *)(param_1 + 0xc);
-    }
-    *(int *)(param_1 + 0xc) = param_2;
-  }
-LAB_8267a414:
-  return *(unsigned int *)(param_1 + 0xc);
+    return self->pos;
 }
-

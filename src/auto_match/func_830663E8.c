@@ -1,35 +1,61 @@
-extern int fn_83066088();
-extern int fn_83068650();
+typedef struct Node_830663E8 {
+    struct Node_830663E8 *next;
+} Node_830663E8;
 
+typedef struct Source_830663E8 Source_830663E8;
+typedef struct {
+    void *f0;
+    int (*capacity)(Source_830663E8 *self, int count);
+} SourceVtbl_830663E8;
+struct Source_830663E8 {
+    SourceVtbl_830663E8 *vt;
+};
 
-unsigned __int64 fn_830663E8(int *param_1)
+typedef struct {
+    Node_830663E8 *freeList;
+    int pad4[2];
+    Source_830663E8 *source;
+    int pad10;
+    int count;
+} Pool_830663E8;
 
+extern void fn_83066088(Pool_830663E8 *self, int count);
+extern void *fn_83068650(void *mem);
+
+static __forceinline Node_830663E8 *Pop(Pool_830663E8 *self)
 {
-  __int64 lVar1;
-  int *piVar3;
-  unsigned __int64 uVar2;
-  
-  piVar3 = (int *)*param_1;
-  if (piVar3 == (int *)0x0) {
-    lVar1 = (**(int (***)())(*(int *)param_1[3] + 4))((int *)param_1[3],param_1[5]);
-    if ((int)lVar1 <= param_1[5]) {
-      return 0;
+    Node_830663E8 *n = self->freeList;
+    if (n != 0) {
+        self->freeList = n->next;
     }
-    fn_83066088(param_1,lVar1 - (unsigned __int64)(unsigned int)param_1[5]);
-    piVar3 = (int *)*param_1;
-    if (piVar3 == (int *)0x0) {
-      return 0;
-    }
-    *param_1 = *piVar3;
-  }
-  else {
-    *param_1 = *piVar3;
-  }
-  param_1[5] = param_1[5] + 1;
-  if (piVar3 == (int *)0x0) {
-    return 0;
-  }
-  uVar2 = fn_83068650();
-  return uVar2;
+    return n;
 }
 
+static __forceinline void *Alloc(Pool_830663E8 *self)
+{
+    Node_830663E8 *n = Pop(self);
+    int cap;
+
+    if (n == 0) {
+        cap = self->source->vt->capacity(self->source, self->count);
+        if (cap <= self->count) {
+            return 0;
+        }
+        fn_83066088(self, cap - self->count);
+        n = Pop(self);
+        if (n == 0) {
+            return 0;
+        }
+    }
+    self->count++;
+    return n;
+}
+
+void *fn_830663E8(Pool_830663E8 *self)
+{
+    void *mem = Alloc(self);
+    if (mem != 0) {
+        return fn_83068650(mem);
+    }
+    return 0;
+}

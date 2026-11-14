@@ -1,31 +1,43 @@
-extern int fn_826AB1B8();
-extern int fn_826AF6F8();
-extern int fn_826C3768();
+typedef struct Item_826B0F10 {
+    int pad0;
+    unsigned char type;
+} Item_826B0F10;
 
+typedef struct Obj_826B0F10 {
+    char pad0[0x27c];
+    char table[4];
+} Obj_826B0F10;
 
-unsigned __int64 fn_826B0F10(__int64 param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4)
+typedef struct Entry_826B0F10 {
+    int key;
+    int value;
+} Entry_826B0F10;
 
+extern Entry_826B0F10 *fn_826AB1B8(void *table, int *key);
+extern int *fn_826AF6F8(void *table, int *key);
+extern void fn_826C3768(void *dst, int *src);
+
+static __forceinline int *Find(void *table, int *key)
 {
-  __int64 lVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  
-  if (*(unsigned char *)(param_2 + 4) < 7) {
-    uVar3 = fn_826AF6F8(param_1 + 0x27c,param_3);
-  }
-  else {
-    lVar1 = fn_826AB1B8();
-    uVar3 = -(unsigned __int64)(lVar1 != 0) & lVar1 + 4U;
-  }
-  if ((uVar3 & 0xffffffff) == 0) {
-    uVar2 = 0;
-  }
-  else {
-    if ((param_4 & 0xffffffff) != 0) {
-      fn_826C3768(param_4);
-    }
-    uVar2 = 1;
-  }
-  return uVar2;
+    Entry_826B0F10 *e = fn_826AB1B8(table, key);
+    return e ? &e->value : 0;
 }
 
+int fn_826B0F10(Obj_826B0F10 *self, Item_826B0F10 *item, int *key, void *out)
+{
+    void *table = self->table;
+    int *found;
+
+    if (item->type > 6) {
+        found = Find(table, key);
+    } else {
+        found = fn_826AF6F8(table, key);
+    }
+    if (found == 0) {
+        return 0;
+    }
+    if (out != 0) {
+        fn_826C3768(out, found);
+    }
+    return 1;
+}

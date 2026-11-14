@@ -1,37 +1,35 @@
-extern int fn_822ABA88();
-
-
-__int64 fn_82359AC8(int param_1)
-
+typedef struct Player_82359AC8 {
+  char pad0[0x74];
+  int active;
+} Player_82359AC8;
+typedef struct Map_82359AC8 {
+  int unk0;
+  int head;
+  unsigned int size;
+} Map_82359AC8;
+typedef struct Vec_82359AC8 {
+  Map_82359AC8 **begin;
+  Map_82359AC8 **end;
+} Vec_82359AC8;
+typedef struct Self_82359AC8 {
+  char pad0[8];
+  Vec_82359AC8 ***teams;
+} Self_82359AC8;
+extern Player_82359AC8 *fn_822ABA88(Map_82359AC8 *map, unsigned int key);
+int fn_82359AC8(Self_82359AC8 *self)
 {
-  unsigned int uVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  __int64 lVar6;
-  unsigned __int64 uVar7;
-  __int64 lVar8;
-  
-  lVar8 = 0;
-  uVar1 = **(unsigned int **)**(unsigned int **)(param_1 + 8);
-  uVar7 = (unsigned __int64)uVar1;
-  for (lVar6 = (__int64)((int)((*(unsigned int **)**(unsigned int **)(param_1 + 8))[1] - uVar1) >> 2);
-      lVar6 != 0; lVar6 = lVar6 + -1) {
-    uVar5 = (unsigned __int64)*(unsigned int *)uVar7;
-    uVar3 = 0;
-    uVar4 = (unsigned __int64)*(unsigned int *)(*(unsigned int *)uVar7 + 8);
-    if (uVar4 != 0) {
-      do {
-        iVar2 = fn_822ABA88(uVar5);
-        if (*(int *)(iVar2 + 0x74) != 0) {
-          lVar8 = lVar8 + 1;
-        }
-        uVar3 = uVar3 + 1;
-      } while ((uVar3 & 0xffffffff) < (uVar4 & 0xffffffff));
+  int count = 0;
+  Vec_82359AC8 *v = **self->teams;
+  unsigned int n = v->end - v->begin;
+  unsigned int j;
+  for (j = 0; j < n; j++) {
+    Map_82359AC8 *m = v->begin[j];
+    unsigned int i;
+    for (i = 0; i < m->size; i++) {
+      if (fn_822ABA88(m, i)->active != 0) {
+        count++;
+      }
     }
-    uVar7 = uVar7 + 4;
   }
-  return lVar8;
+  return count;
 }
-

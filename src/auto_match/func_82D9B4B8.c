@@ -1,12 +1,13 @@
-extern unsigned int lbl_82002AE0;
+typedef struct Obj_82D9B4B8 Obj_82D9B4B8;
+typedef struct ObjVtbl_82D9B4B8 {
+    void *slot0[4];
+    void (*SetValue)(Obj_82D9B4B8 *self, float value);
+} ObjVtbl_82D9B4B8;
+struct Obj_82D9B4B8 {
+    ObjVtbl_82D9B4B8 *vt;
+};
 
-
-void fn_82D9B4B8(double param_1,int *param_2)
-
+void fn_82D9B4B8(Obj_82D9B4B8 *self, float value)
 {
-                    /* WARNING: Could not recover jumptable at 0x82d9b4d0. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (**(int (***)())(*param_2 + 0x10))((double)(float)((double)lbl_82002AE0 / param_1));
-  return;
+    self->vt->SetValue(self, 1.0f / value);
 }
-

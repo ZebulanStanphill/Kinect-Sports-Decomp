@@ -1,22 +1,13 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-
-
-double fn_82B453A0(double param_1)
-
+static __forceinline unsigned char IsNormalOrZero(float x)
 {
-  bool bVar1;
-  
-  if (ABS((float)param_1) != 0.0) {
-    bVar1 = false;
-    if (((unsigned int)(float)param_1 & 0x7f800000) == 0) goto LAB_82b453c4;
-  }
-  bVar1 = true;
-LAB_82b453c4:
-  if (bVar1) {
-    return param_1;
-  }
-  return (double)(float)((unsigned int)(float)param_1 & 0x80000000);
+  unsigned int bits = *(unsigned int *)&x;
+  return (bits & 0x7fffffff) == 0 || (bits & 0x7f800000) != 0;
 }
-
+float fn_82B453A0(float x)
+{
+  if (IsNormalOrZero(x)) {
+    return x;
+  }
+  *(unsigned int *)&x &= 0x80000000;
+  return x;
+}

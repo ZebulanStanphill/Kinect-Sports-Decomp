@@ -1,18 +1,20 @@
-unsigned __int64 fn_82CF98E8(int param_1,unsigned __int64 param_2)
-
+typedef struct Block_82CF98E8 {
+  int unk0;
+  unsigned int minSize;
+  char *cur;
+  char *end;
+} Block_82CF98E8;
+unsigned int fn_82CF98E8(Block_82CF98E8 *self, unsigned int size)
 {
-  unsigned __int64 uVar1;
-  
-  if ((unsigned __int64)*(unsigned int *)(param_1 + 0xc) == 0) {
-    if ((param_2 & 0xffffffff) < (unsigned __int64)*(unsigned int *)(param_1 + 4)) {
-      return (unsigned __int64)*(unsigned int *)(param_1 + 4);
+  if (self->end != 0) {
+    unsigned int avail = self->end - self->cur;
+    if (avail >= size) {
+      return avail;
     }
-    return param_2 + 0x7fff & 0xffff8000;
+    return size;
   }
-  uVar1 = (unsigned __int64)*(unsigned int *)(param_1 + 0xc) - (unsigned __int64)*(unsigned int *)(param_1 + 8);
-  if ((param_2 & 0xffffffff) <= (uVar1 & 0xffffffff)) {
-    return uVar1;
+  if (size < self->minSize) {
+    return self->minSize;
   }
-  return param_2;
+  return (size + 0x7fff) & ~0x7fff;
 }
-

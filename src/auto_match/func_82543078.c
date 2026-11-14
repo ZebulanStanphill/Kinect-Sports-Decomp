@@ -1,50 +1,48 @@
-extern int fn_828116B8();
+typedef struct {
+    unsigned int count;
+    unsigned int *ids;
+} IdList_82543078;
 
+typedef struct {
+    int pad0;
+    void **entries;
+} Table_82543078;
 
-unsigned __int64 fn_82543078(int param_1,int param_2,unsigned int *param_3)
+typedef struct {
+    char pad0[0x34];
+    int anyMode;
+    int wildcard;
+    char pad3c[0xabb8 - 0x3c];
+    int slot;
+} Self_82543078;
 
+extern int fn_828116B8(void *entry, unsigned int id);
+
+int fn_82543078(Self_82543078 *self, Table_82543078 *table, IdList_82543078 *list)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  unsigned int uVar3;
-  int iVar4;
-  
-  if (*(int *)(param_1 + 0x34) == 0) {
-    if ((*(int *)param_3[1] != -1) && (uVar3 = 0, *param_3 != 0)) {
-      iVar4 = 0;
-      do {
-        iVar1 = fn_828116B8(*(unsigned int *)
-                              ((*(int *)(param_1 + 0xabb8) + 2) * 4 + *(int *)(param_2 + 4)),
-                             *(unsigned int *)(iVar4 + param_3[1]));
-        if (iVar1 == 0) {
-          return 0;
-        }
-        uVar3 = uVar3 + 1;
-        iVar4 = iVar4 + 4;
-      } while (uVar3 < *param_3);
-    }
-    uVar2 = 1;
-  }
-  else {
-    uVar2 = 0;
-    uVar3 = 0;
-    if (*param_3 != 0) {
-      iVar4 = 0;
-      do {
-        if (*(int *)(iVar4 + param_3[1]) == *(int *)(param_1 + 0x38)) {
-          uVar2 = 1;
-        }
-        else if ((*(int *)(iVar4 + param_3[1]) != -1) &&
-                (iVar1 = fn_828116B8(*(unsigned int *)
-                                       ((*(int *)(param_1 + 0xabb8) + 2) * 4 + *(int *)(param_2 + 4)
-                                       )), iVar1 == 0)) {
-          return 0;
-        }
-        uVar3 = uVar3 + 1;
-        iVar4 = iVar4 + 4;
-      } while (uVar3 < *param_3);
-    }
-  }
-  return uVar2;
-}
+    unsigned int i;
+    int found;
 
+    if (self->anyMode != 0) {
+        found = 0;
+        for (i = 0; i < list->count; i++) {
+            unsigned int id = list->ids[i];
+            if (id == self->wildcard) {
+                found = 1;
+            } else if (id != 0xffffffff) {
+                if (fn_828116B8(table->entries[self->slot + 2], id) == 0) {
+                    return 0;
+                }
+            }
+        }
+        return found;
+    }
+    if (list->ids[0] != 0xffffffff) {
+        for (i = 0; i < list->count; i++) {
+            if (fn_828116B8(table->entries[self->slot + 2], list->ids[i]) == 0) {
+                return 0;
+            }
+        }
+    }
+    return 1;
+}

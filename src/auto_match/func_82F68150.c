@@ -1,32 +1,23 @@
-extern int fn_82F63BA0();
-extern int fn_82F63C78();
-extern int fn_82F66368();
-extern int fn_82F68048();
-extern int fn_82F68240();
+extern int *_errno(void);
+extern void _invalid_parameter_noinfo(void);
+extern char *fn_82F68048(int errnum);
+extern int fn_82F66368(char *dst, unsigned int size, const char *src, unsigned int count);
+extern __declspec(noreturn) void fn_82F63C78(const void *expr, const void *func, const void *file, unsigned int line, unsigned int reserved);
 
-
-unsigned __int64 fn_82F68150(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3)
-
+int fn_82F68150(char *buffer, unsigned int size, int errnum)
 {
-  unsigned int *puVar2;
-  unsigned __int64 uVar1;
-  int iVar3;
-  
-  if (((param_1 & 0xffffffff) == 0) || ((param_2 & 0xffffffff) == 0)) {
-    puVar2 = (unsigned int *)fn_82F68240();
-    *puVar2 = 0x16;
-    fn_82F63BA0();
-    uVar1 = 0x16;
-  }
-  else {
-    uVar1 = fn_82F68048(param_3);
-    iVar3 = fn_82F66368(param_1,param_2,uVar1,param_2 - 1);
-    uVar1 = 0;
-    if (iVar3 != 0) {
-                    /* WARNING: Subroutine does not return */
-      fn_82F63C78(0,0,0,0,0);
+    if (buffer == 0) {
+        *_errno() = 0x16;
+        _invalid_parameter_noinfo();
+        return 0x16;
     }
-  }
-  return uVar1;
+    if (size == 0) {
+        *_errno() = 0x16;
+        _invalid_parameter_noinfo();
+        return 0x16;
+    }
+    if (fn_82F66368(buffer, size, fn_82F68048(errnum), size - 1) != 0) {
+        fn_82F63C78(0, 0, 0, 0, 0);
+    }
+    return 0;
 }
-

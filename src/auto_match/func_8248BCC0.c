@@ -1,29 +1,47 @@
-extern int fn_8248DBA8();
+typedef struct Clock_8248BCC0 Clock_8248BCC0;
+typedef struct ClockVt_8248BCC0 {
+    void *pad0[2];
+    void (*update)(Clock_8248BCC0 *self, float dt);
+} ClockVt_8248BCC0;
+struct Clock_8248BCC0 {
+    ClockVt_8248BCC0 *vt;
+};
 
+typedef struct Item_8248BCC0 {
+    char data[0x68];
+} Item_8248BCC0;
 
-unsigned char fn_8248BCC0(unsigned __int64 param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4)
+typedef struct Obj_8248BCC0 {
+    int pad0;
+    int f4;
+    int f8;
+    Clock_8248BCC0 *clock;
+    int pad10;
+    Item_8248BCC0 *main;
+    Item_8248BCC0 *begin;
+    Item_8248BCC0 *end;
+} Obj_8248BCC0;
 
+extern int fn_8248DBA8(Item_8248BCC0 *item, float dt, int arg);
+
+static __forceinline int IsBusy(Obj_8248BCC0 *o)
 {
-  __int64 lVar1;
-  unsigned char bVar2;
-  unsigned __int64 uVar3;
-  
-  if ((*(int *)(param_2 + 4) == 0) || (*(int *)(param_2 + 8) != 0)) {
-    bVar2 = 0;
-  }
-  else {
-    (**(int (***)())(**(int **)(param_2 + 0xc) + 8))(param_1);
-    fn_8248DBA8(param_1,*(unsigned int *)(param_2 + 0x14),param_3,param_4);
-    bVar2 = 1;
-    uVar3 = (unsigned __int64)*(unsigned int *)(param_2 + 0x18);
-    if (uVar3 != *(unsigned int *)(param_2 + 0x1c)) {
-      do {
-        lVar1 = fn_8248DBA8(param_1,uVar3,param_3,param_4);
-        uVar3 = uVar3 + 0x68;
-        bVar2 = -(lVar1 != 0) & bVar2;
-      } while ((uVar3 & 0xffffffff) != (unsigned __int64)*(unsigned int *)(param_2 + 0x1c));
-    }
-  }
-  return bVar2;
+    return o->f4 == 0 || o->f8 != 0;
 }
 
+int fn_8248BCC0(Obj_8248BCC0 *self, float dt, int arg)
+{
+    Item_8248BCC0 *it;
+    int ok;
+
+    if (IsBusy(self))
+        return 0;
+    self->clock->vt->update(self->clock, dt);
+    fn_8248DBA8(self->main, dt, arg);
+    ok = 1;
+    for (it = self->begin; it != self->end; it++) {
+        if (!fn_8248DBA8(it, dt, arg))
+            ok = 0;
+    }
+    return ok;
+}

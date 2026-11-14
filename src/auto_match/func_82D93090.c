@@ -1,19 +1,23 @@
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_821AAD20;
+/* hkpMotion vtable slot 3 (also hkpSphereMotion): stores the inverse of the mass. */
+typedef struct Obj_82D93090 Obj_82D93090;
 
+typedef struct ObjVtbl_82D93090 {
+    void *pad0[4];
+    void (*setInverse)(Obj_82D93090 *self, float inverse);
+} ObjVtbl_82D93090;
 
-void fn_82D93090(double param_1,int *param_2)
+struct Obj_82D93090 {
+    ObjVtbl_82D93090 *vt;
+};
 
+void fn_82D93090(Obj_82D93090 *self, float value)
 {
-  double dVar1;
-  
-  dVar1 = (double)lbl_821AAD20;
-  if (param_1 != dVar1) {
-    dVar1 = (double)(float)((double)lbl_82002AE0 / param_1);
-  }
-                    /* WARNING: Could not recover jumptable at 0x82d930c0. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (**(int (***)())(*param_2 + 0x10))(dVar1);
-  return;
-}
+    float inverse;
 
+    if (value == 0.0f) {
+        inverse = 0.0f;
+    } else {
+        inverse = 1.0f / value;
+    }
+    self->vt->setInverse(self, inverse);
+}

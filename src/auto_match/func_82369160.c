@@ -1,14 +1,25 @@
-unsigned char fn_82369160(int param_1,int param_2)
+typedef struct Slot_82369160 {
+    char pad0[0xc];
+    unsigned int score;
+    char pad10[0x84 - 0x10];
+} Slot_82369160;
 
+typedef struct Obj_82369160 {
+    char pad0[0x4bc];
+    Slot_82369160 *slots;
+} Obj_82369160;
+
+int fn_82369160(Obj_82369160 *self, int player)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  
-  uVar1 = *(unsigned int *)(param_2 * 0x84 + *(int *)(param_1 + 0x4bc) + 0xc);
-  uVar2 = *(unsigned int *)(((unsigned int)LZCOUNT(param_2) >> 5) * 0x84 + *(int *)(param_1 + 0x4bc) + 0xc);
-  if (uVar2 < uVar1) {
-    return 2;
-  }
-  return -(uVar2 <= uVar1) & 1;
-}
+    unsigned int mine = self->slots[player].score;
+    unsigned int other = self->slots[player == 0].score;
+    int result = 1;
 
+    if (mine > other) {
+        return 2;
+    }
+    if (mine < other) {
+        result = 0;
+    }
+    return result;
+}

@@ -1,21 +1,17 @@
-extern int fn_82F69148();
-extern int fn_8301CFE8();
+typedef struct {
+    char pad0[0xc];
+    void *items[2];
+} Slots_8301D3E8;
 
+extern void fn_8301CFE8(void *item, void *arg);
 
-void fn_8301D3E8(int param_1,int param_2,unsigned __int64 param_3)
-
+void fn_8301D3E8(Slots_8301D3E8 *self, unsigned int index, void *arg)
 {
-  int iVar1;
-  
-  iVar1 = (param_2 + 3) * 4;
-  fn_8301CFE8(*(unsigned int *)(iVar1 + param_1),param_3);
-  if (param_2 == 0) {
-    fn_82F69148(iVar1 + param_1,param_1 + 0x10,1);
-    *(unsigned int *)(param_1 + 0x10) = 0;
-  }
-  else {
-    *(unsigned int *)(param_1 + 0x10) = 0;
-  }
-  return;
-}
+    unsigned int i;
 
+    fn_8301CFE8(self->items[index], arg);
+    for (i = index; i < 1; i++) {
+        self->items[i] = self->items[i + 1];
+    }
+    self->items[1] = 0;
+}

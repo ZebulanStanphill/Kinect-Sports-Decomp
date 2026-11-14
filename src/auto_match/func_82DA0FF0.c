@@ -1,11 +1,10 @@
-void fn_82DA0FF0(int param_1,unsigned __int64 param_2,int *param_3)
+typedef struct { char pad[0x1c]; int count; } Obj_82DA0FF0;
+typedef struct { int size; int extra; } Stats_82DA0FF0;
 
+void fn_82DA0FF0(Obj_82DA0FF0 *self, void *unused, Stats_82DA0FF0 *out)
 {
-  int iVar1;
-  
-  iVar1 = *(int *)(param_1 + 0x1c);
-  param_3[1] = iVar1 * 6;
-  *param_3 = iVar1 * 0x40 + (iVar1 + 3U & 0xfffffffc);
-  return;
+    int n = self->count;
+    int e = n * 6;
+    out->extra = e;
+    out->size = (n * 2 + e) * 8 + ((n + 3) & ~3);
 }
-

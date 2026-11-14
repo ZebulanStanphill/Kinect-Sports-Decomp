@@ -1,34 +1,32 @@
-extern int fn_827F7210();
-extern int fn_827F98C8();
+typedef struct Item_827F9A10 {
+    char pad0[0x32];
+    unsigned char level;
+} Item_827F9A10;
 
+typedef struct Obj_827F9A10 {
+    char pad0[8];
+    void *data;
+} Obj_827F9A10;
 
-__int64 fn_827F9A10(int param_1)
+extern unsigned short fn_827F7210(Obj_827F9A10 *self);
+extern void fn_827F98C8(Obj_827F9A10 *self, unsigned int index, Item_827F9A10 **out);
 
+unsigned short fn_827F9A10(Obj_827F9A10 *self)
 {
-  __int64 lVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  int aiStack_30;
-  
-  if (*(int *)(param_1 + 8) == 0) {
-    lVar1 = -1;
-  }
-  else {
-    uVar2 = fn_827F7210(param_1);
-    uVar4 = 0;
-    uVar3 = 0;
-    if ((uVar2 & 0xffff) != 0) {
-      do {
-        fn_827F98C8(param_1,uVar4,&aiStack_30);
-        if (uVar3 < *(unsigned char *)(aiStack_30 + 0x32)) {
-          uVar3 = (unsigned __int64)*(unsigned char *)(aiStack_30 + 0x32);
-        }
-        uVar4 = uVar4 + 1;
-      } while ((uVar4 & 0xffffffff) < (uVar2 & 0xffff));
-    }
-    lVar1 = uVar3 + 1;
-  }
-  return lVar1;
-}
+    unsigned short count;
+    unsigned short best;
+    unsigned int i;
+    Item_827F9A10 *item;
 
+    if (self->data == 0) {
+        return 0xffff;
+    }
+    count = fn_827F7210(self);
+    for (i = 0, best = 0; i < count; i++) {
+        fn_827F98C8(self, i, &item);
+        if (item->level > best) {
+            best = item->level;
+        }
+    }
+    return best + 1;
+}

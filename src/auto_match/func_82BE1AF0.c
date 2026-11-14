@@ -1,41 +1,39 @@
-extern int fn_82BE71C8();
-extern int fn_82BEA200();
-extern int fn_82BEA230();
-extern int fn_82BEA858();
-extern unsigned int lbl_8322B130;
-extern unsigned int lbl_8322B1D8;
+typedef struct {
+    char pad0[0x10];
+    int state;
+    char pad14[0x180 - 0x14];
+    void *session;
+} Client_82BE1AF0;
 
+extern char lbl_8322B13C[];
+extern Client_82BE1AF0 *lbl_8322B130;
+extern void *lbl_8322B1D8;
+extern int fn_82BEA200(void *lock, const char *name);
+extern void fn_82BEA230(void *lock, const char *name);
+extern int fn_82BEA858(void *session);
+extern void *fn_82BE71C8(void *manager);
 
-unsigned __int64 fn_82BE1AF0(void)
-
+int fn_82BE1AF0(void)
 {
-  int iVar2;
-  unsigned __int64 uVar1;
-  
-  iVar2 = fn_82BEA200(0xffffffff8322b13c,0xffffffff820e89b8);
-  if (iVar2 == 0) {
-    uVar1 = 0x69;
-  }
-  else {
+    if (fn_82BEA200(lbl_8322B13C, "XMassiveAdClient::ResumeAll") == 0)
+        return 0x69;
     if (lbl_8322B130 == 0) {
-      uVar1 = 200;
+        fn_82BEA230(lbl_8322B13C, "XMassiveAdClient::ResumeAll");
+        return 0xc8;
     }
-    else if (*(int *)(lbl_8322B130 + 0x10) == 3) {
-      if (((*(int *)(lbl_8322B130 + 0x180) == 0) ||
-          (iVar2 = fn_82BEA858(*(int *)(lbl_8322B130 + 0x180)), iVar2 != 0)) &&
-         (iVar2 = fn_82BE71C8(lbl_8322B1D8), iVar2 == 0)) {
-        uVar1 = 0;
-        *(unsigned int *)(lbl_8322B130 + 0x10) = 2;
-      }
-      else {
-        uVar1 = 100;
-      }
+    if (lbl_8322B130->state != 3) {
+        fn_82BEA230(lbl_8322B13C, "XMassiveAdClient::ResumeAll");
+        return 0xce;
     }
-    else {
-      uVar1 = 0xce;
+    if (lbl_8322B130->session != 0 && fn_82BEA858(lbl_8322B130->session) == 0) {
+        fn_82BEA230(lbl_8322B13C, "XMassiveAdClient::ResumeAll");
+        return 100;
     }
-    fn_82BEA230(0xffffffff8322b13c,0xffffffff820e89b8);
-  }
-  return uVar1;
+    if (fn_82BE71C8(lbl_8322B1D8) != 0) {
+        fn_82BEA230(lbl_8322B13C, "XMassiveAdClient::ResumeAll");
+        return 100;
+    }
+    lbl_8322B130->state = 2;
+    fn_82BEA230(lbl_8322B13C, "XMassiveAdClient::ResumeAll");
+    return 0;
 }
-

@@ -1,31 +1,14 @@
-extern unsigned int iStack00000010;
-extern unsigned int iStack00000014;
-
-
-unsigned __int64 fn_82F71860(unsigned __int64 param_1)
-
+/* Classifies a double: 1 +infinity, 2 -infinity, 3 quiet NaN, 4 signalling NaN, 0 otherwise. */
+int fn_82F71860(double x)
 {
-  unsigned __int64 uVar1;
-  int iStack00000010;
-  int iStack00000014;
-  
-  iStack00000010 = (int)(param_1 >> 0x20);
-  iStack00000014 = (int)param_1;
-  if (iStack00000010 == 0x7ff00000) {
-    if (iStack00000014 == 0) {
-      return 1;
-    }
-  }
-  else if ((iStack00000010 == -0x100000) && (iStack00000014 == 0)) {
-    return 2;
-  }
-  uVar1 = param_1 >> 0x30 & 0x7ff8;
-  if (uVar1 == 0x7ff8) {
-    return 3;
-  }
-  if ((uVar1 == 0x7ff0) && (((param_1 & 0x7ffff00000000) != 0 || (iStack00000014 != 0)))) {
-    return 4;
-  }
-  return 0;
+    if (((unsigned int *)&x)[0] == 0x7ff00000 && ((unsigned int *)&x)[1] == 0)
+        return 1;
+    if (((unsigned int *)&x)[0] == 0xfff00000 && ((unsigned int *)&x)[1] == 0)
+        return 2;
+    if ((*(unsigned short *)&x & 0x7ff8) == 0x7ff8)
+        return 3;
+    if ((*(unsigned short *)&x & 0x7ff8) == 0x7ff0
+        && ((((unsigned int *)&x)[0] & 0x7ffff) != 0 || ((unsigned int *)&x)[1] != 0))
+        return 4;
+    return 0;
 }
-

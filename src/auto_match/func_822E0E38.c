@@ -1,28 +1,31 @@
-extern int fn_822315A0();
-extern unsigned int lbl_831CD618;
-extern unsigned int lbl_831CD61C;
-extern unsigned int lbl_831CD620;
+typedef struct Game_822E0E38 {
+    char pad0[0xd8];
+    int fd8;
+    char padDC[0x2184 - 0xdc];
+    int f2184;
+} Game_822E0E38;
 
+typedef struct Self_822E0E38 {
+    Game_822E0E38 *game;
+    void *handle;
+} Self_822E0E38;
 
-double fn_822E0E38(int *param_1)
+extern float lbl_831CD598[51];
+extern void fn_822315A0(void *handle);
 
+float fn_822E0E38(Self_822E0E38 *self)
 {
-  double dVar1;
-  
-  if (*(int *)(*param_1 + 0xd8) == 0) {
-    if (*(int *)(*param_1 + 0x2184) == 0) {
-      dVar1 = (double)lbl_831CD618;
-    }
-    else {
-      dVar1 = (double)lbl_831CD620;
-    }
-  }
-  else {
-    dVar1 = (double)lbl_831CD61C;
-  }
-  if (param_1[1] != 0) {
-    fn_822315A0();
-  }
-  return dVar1;
-}
+    float value;
 
+    if (self->game->fd8 != 0) {
+        value = lbl_831CD598[33];
+    } else if (self->game->f2184 != 0) {
+        value = lbl_831CD598[34];
+    } else {
+        value = lbl_831CD598[32];
+    }
+    if (self->handle != 0) {
+        fn_822315A0(self->handle);
+    }
+    return value;
+}

@@ -1,38 +1,51 @@
-extern int fn_822ABA88();
+typedef struct Map_823CBF20 {
+    void *head_alloc;
+    void *head;
+    unsigned int size;
+} Map_823CBF20;
 
+typedef struct Layer_823CBF20 {
+    Map_823CBF20 **maps;
+    int unk4[3];
+    int current;
+} Layer_823CBF20;
 
-int fn_823CBF20(int param_1)
+typedef struct Item_823CBF20 {
+    char pad0[0x120];
+    int active;
+    char pad124[0x240 - 0x124];
+    int pending;
+} Item_823CBF20;
 
+typedef struct LayerList_823CBF20 {
+    Layer_823CBF20 **items;
+} LayerList_823CBF20;
+
+typedef struct Scene_823CBF20 {
+    char pad0[8];
+    LayerList_823CBF20 *layers;
+} Scene_823CBF20;
+
+typedef struct Self_823CBF20 {
+    char pad0[0x240];
+    Scene_823CBF20 *scene;
+} Self_823CBF20;
+
+extern Item_823CBF20 *fn_822ABA88(Map_823CBF20 *map, unsigned int key);
+
+Item_823CBF20 *fn_823CBF20(Self_823CBF20 *self)
 {
-  unsigned int uVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  __int64 lVar4;
-  unsigned __int64 uVar5;
-  unsigned __int64 uVar6;
-  unsigned __int64 uVar7;
-  int iVar8;
-  
-  iVar8 = 0;
-  lVar4 = 2;
-  uVar5 = (unsigned __int64)**(unsigned int **)(*(int *)(param_1 + 0x240) + 8);
-  do {
-    uVar3 = 0;
-    uVar1 = *(unsigned int *)(((int *)*(int *)uVar5)[4] * 4 + *(int *)*(int *)uVar5);
-    uVar7 = (unsigned __int64)uVar1;
-    uVar6 = (unsigned __int64)*(unsigned int *)(uVar1 + 8);
-    if (uVar6 != 0) {
-      do {
-        iVar2 = fn_822ABA88(uVar7);
-        if ((*(int *)(iVar2 + 0x120) != 0) || (*(int *)(iVar2 + 0x240) != 0)) {
-          iVar8 = iVar2;
+    Item_823CBF20 *found = 0;
+    Layer_823CBF20 **layer = self->scene->layers->items;
+    int n;
+    for (n = 2; n != 0; n--, layer++) {
+        Map_823CBF20 *map = (*layer)->maps[(*layer)->current];
+        unsigned int i;
+        for (i = 0; i < map->size; i++) {
+            Item_823CBF20 *item = fn_822ABA88(map, i);
+            if (item->active != 0 || item->pending != 0)
+                found = item;
         }
-        uVar3 = uVar3 + 1;
-      } while ((uVar3 & 0xffffffff) < (uVar6 & 0xffffffff));
     }
-    lVar4 = lVar4 + -1;
-    uVar5 = uVar5 + 4;
-  } while (lVar4 != 0);
-  return iVar8;
+    return found;
 }
-

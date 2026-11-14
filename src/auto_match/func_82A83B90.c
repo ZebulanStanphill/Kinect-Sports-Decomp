@@ -1,108 +1,47 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_82A83B30();
+/* Compares two tables: header, block at 0x300, the first `count` entries as an unordered set, then 0x380..0x38d. */
+typedef struct Entry_82A83B90 {
+    unsigned char bytes[0x20];
+} Entry_82A83B90;
 
+typedef struct Table_82A83B90 {
+    unsigned char header[0x160];
+    Entry_82A83B90 entries[13];     /* 0x160 */
+    unsigned char extra[0x80];      /* 0x300 */
+    unsigned char tail[8];          /* 0x380 */
+    unsigned char tail2[5];         /* 0x388 */
+} Table_82A83B90;
 
-bool fn_82A83B90(unsigned int *param_1,unsigned int *param_2)
+typedef struct Self_82A83B90 {
+    Table_82A83B90 *table;
+} Self_82A83B90;
 
+int memcmp(const void *a, const void *b, unsigned int n);
+extern unsigned int fn_82A83B30(Self_82A83B90 *self);
+
+unsigned char fn_82A83B90(Self_82A83B90 *a, Self_82A83B90 *b)
 {
-  unsigned char bVar1;
-  unsigned char bVar2;
-  unsigned char *pbVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  bool bVar6;
-  unsigned int uVar7;
-  unsigned char *pbVar8;
-  int iVar9;
-  unsigned char *pbVar10;
-  unsigned char *pbVar11;
-  unsigned char *pbVar12;
-  unsigned char *pbVar13;
-  
-  pbVar3 = (unsigned char *)*param_1;
-  pbVar10 = (unsigned char *)*param_2;
-  if (pbVar3 == pbVar10) {
-    bVar6 = true;
-  }
-  else {
-    pbVar13 = pbVar3;
-    pbVar11 = pbVar10;
-    do {
-      bVar1 = *pbVar13;
-      bVar2 = *pbVar11;
-      if ((unsigned __int64)bVar1 - (unsigned __int64)bVar2 != 0) break;
-      pbVar13 = pbVar13 + 1;
-      pbVar11 = pbVar11 + 1;
-    } while (pbVar13 != pbVar3 + 0x160);
-    if ((int)((unsigned __int64)bVar1 - (unsigned __int64)bVar2) == 0) {
-      pbVar11 = pbVar3 + 0x300;
-      pbVar13 = pbVar10 + 0x300;
-      do {
-        bVar1 = *pbVar11;
-        bVar2 = *pbVar13;
-        if ((unsigned __int64)bVar1 - (unsigned __int64)bVar2 != 0) break;
-        pbVar11 = pbVar11 + 1;
-        pbVar13 = pbVar13 + 1;
-      } while (pbVar11 != pbVar3 + 0x380);
-      if ((int)((unsigned __int64)bVar1 - (unsigned __int64)bVar2) == 0) {
-        uVar4 = fn_82A83B30(param_2);
-        uVar5 = fn_82A83B30(param_1);
-        if (uVar4 == uVar5) {
-          uVar5 = 0;
-          if (uVar4 != 0) {
-            pbVar13 = pbVar10 + 0x160;
-            do {
-              uVar7 = 0;
-              iVar9 = 0x160;
-              do {
-                pbVar12 = pbVar3 + iVar9;
-                pbVar8 = pbVar12 + 0x20;
-                pbVar11 = pbVar13;
-                do {
-                  bVar1 = *pbVar12;
-                  bVar2 = *pbVar11;
-                  if ((unsigned __int64)bVar1 - (unsigned __int64)bVar2 != 0) break;
-                  pbVar12 = pbVar12 + 1;
-                  pbVar11 = pbVar11 + 1;
-                } while (pbVar12 != pbVar8);
-                if ((int)((unsigned __int64)bVar1 - (unsigned __int64)bVar2) == 0) break;
-                uVar7 = uVar7 + 1;
-                iVar9 = iVar9 + 0x20;
-              } while (uVar7 < uVar4);
-              if (uVar7 == uVar4) goto LAB_82a83bec;
-              uVar5 = uVar5 + 1;
-              pbVar13 = pbVar13 + 0x20;
-            } while (uVar5 < uVar4);
-          }
-          pbVar11 = pbVar3 + 0x380;
-          pbVar13 = pbVar10 + 0x380;
-          do {
-            bVar1 = *pbVar11;
-            bVar2 = *pbVar13;
-            if ((unsigned __int64)bVar1 - (unsigned __int64)bVar2 != 0) break;
-            pbVar11 = pbVar11 + 1;
-            pbVar13 = pbVar13 + 1;
-          } while (pbVar11 != pbVar3 + 0x388);
-          if ((int)((unsigned __int64)bVar1 - (unsigned __int64)bVar2) == 0) {
-            pbVar13 = pbVar3 + 0x388;
-            pbVar10 = pbVar10 + 0x388;
-            do {
-              bVar1 = *pbVar13;
-              bVar2 = *pbVar10;
-              if ((unsigned __int64)bVar1 - (unsigned __int64)bVar2 != 0) break;
-              pbVar13 = pbVar13 + 1;
-              pbVar10 = pbVar10 + 1;
-            } while (pbVar13 != pbVar3 + 0x38d);
-            return (int)((unsigned __int64)bVar1 - (unsigned __int64)bVar2) == 0;
-          }
-        }
-      }
-    }
-LAB_82a83bec:
-    bVar6 = false;
-  }
-  return bVar6;
-}
+    unsigned int count;
+    unsigned int i;
+    unsigned int j;
 
+    if (a->table == b->table)
+        return 1;
+    if (memcmp(a->table->header, b->table->header, sizeof(a->table->header)) != 0)
+        return 0;
+    if (memcmp(a->table->extra, b->table->extra, sizeof(a->table->extra)) != 0)
+        return 0;
+    count = fn_82A83B30(b);
+    if (count != fn_82A83B30(a))
+        return 0;
+    for (j = 0; j < count; j++) {
+        for (i = 0; i < count; i++) {
+            if (memcmp(&a->table->entries[i], &b->table->entries[j], sizeof(Entry_82A83B90)) == 0)
+                break;
+        }
+        if (i == count)
+            return 0;
+    }
+    if (memcmp(a->table->tail, b->table->tail, sizeof(a->table->tail)) != 0)
+        return 0;
+    return memcmp(a->table->tail2, b->table->tail2, sizeof(a->table->tail2)) == 0;
+}

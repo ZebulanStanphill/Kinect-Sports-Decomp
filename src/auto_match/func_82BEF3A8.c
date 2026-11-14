@@ -1,37 +1,42 @@
-extern int fn_82BE5340();
-extern int fn_82BE5378();
+typedef struct Ided_82BEF3A8 Ided_82BEF3A8;
+typedef struct { void *f0; unsigned int (*getId)(Ided_82BEF3A8 *p); } IdedVt_82BEF3A8;
+struct Ided_82BEF3A8 { IdedVt_82BEF3A8 *vt; };
+typedef struct { int f0; int f4; Ided_82BEF3A8 *ided; } Ref_82BEF3A8;
+typedef struct { char pad[0x2c]; Ref_82BEF3A8 ref; } Owner_82BEF3A8;
+typedef struct { int a; int b; int count; } List_82BEF3A8;
+typedef struct {
+    char pad0[0x10];
+    unsigned int status;
+    char pad14[0x2c - 0x14];
+    Owner_82BEF3A8 *owner;
+    char pad30[4];
+    int mode;
+    char pad38[0x4c - 0x38];
+    List_82BEF3A8 list;
+    unsigned int state;
+} Obj_82BEF3A8;
 
+extern void fn_82BE5340(List_82BEF3A8 *l);
+extern unsigned int *fn_82BE5378(List_82BEF3A8 *l);
 
-unsigned __int64 fn_82BEF3A8(int param_1)
+static __forceinline unsigned int refId(Ref_82BEF3A8 *r) { return r->ided ? r->ided->vt->getId(r->ided) : 0; }
 
+int fn_82BEF3A8(Obj_82BEF3A8 *o)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  int *piVar3;
-  unsigned int uVar4;
-  
-  if ((*(int *)(param_1 + 0x34) == 2) || (*(unsigned int *)(param_1 + 0x58) < 2)) {
-    fn_82BE5340(param_1 + 0x4c);
-    if ((*(int *)(param_1 + 0x54) != 0) && (*(int *)(param_1 + 0x2c) != 0)) {
-      piVar3 = *(int **)(*(int *)(param_1 + 0x2c) + 0x34);
-      if (piVar3 == (int *)0x0) {
-        iVar2 = 0;
-      }
-      else {
-        iVar2 = (**(int (***)())(*piVar3 + 4))();
-      }
-      piVar3 = (int *)fn_82BE5378(param_1 + 0x4c);
-      if (*piVar3 != iVar2) goto LAB_82bef3d0;
-    }
-    uVar4 = 2;
-    uVar1 = 0x195;
-  }
-  else {
-LAB_82bef3d0:
-    uVar4 = 0x10;
-    uVar1 = 0;
-  }
-  *(unsigned int *)(param_1 + 0x10) = uVar4;
-  return uVar1;
-}
+    unsigned int id;
 
+    if (o->mode != 2 && o->state >= 2) {
+        o->status = 0x10;
+        return 0;
+    }
+    fn_82BE5340(&o->list);
+    if (o->list.count != 0 && o->owner != 0) {
+        id = refId(&o->owner->ref);
+        if (*fn_82BE5378(&o->list) != id) {
+            o->status = 0x10;
+            return 0;
+        }
+    }
+    o->status = 2;
+    return 0x195;
+}

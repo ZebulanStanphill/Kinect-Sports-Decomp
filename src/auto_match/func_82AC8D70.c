@@ -1,46 +1,47 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_82ABE6D0();
-extern int fn_82AE91E8();
+typedef struct Node_82AC8D70 {
+    char pad0[8];
+    unsigned int pad8_hi : 18;
+    unsigned int kind : 7;          /* +0x08 */
+    unsigned int pad8_b : 1;
+    unsigned int detached : 1;
+    unsigned int pad8_lo : 5;
+    char padc[0x24 - 0xc];
+    unsigned int link;              /* +0x24 */
+} Node_82AC8D70;
 
+extern Node_82AC8D70 *fn_82ABE6D0(Node_82AC8D70 *);
+extern unsigned char fn_82AE91E8(Node_82AC8D70 *);
 
-unsigned __int64 fn_82AC8D70(unsigned __int64 param_1,unsigned int param_2)
-
+static __forceinline unsigned char InA(Node_82AC8D70 *n)
 {
-  bool bVar1;
-  unsigned __int64 uVar2;
-  char cVar5;
-  int iVar3;
-  unsigned int uVar4;
-  
-  if (((*(unsigned int *)(param_2 + 8) >> 5 & 1) == 0) && (cVar5 = fn_82AE91E8(param_2), cVar5 != '\0')) {
-    uVar4 = *(unsigned int *)(param_2 + 8) >> 7 & 0x7f;
-    if ((uVar4 == 0) || (bVar1 = true, 0x1f < uVar4)) {
-      bVar1 = false;
-    }
-    if (bVar1) {
-      iVar3 = fn_82ABE6D0(param_2);
-      if (iVar3 != 0) goto LAB_82ac8d90;
-    }
-    else {
-      uVar4 = *(unsigned int *)((param_2 & 0xfffffffe) + 0x24);
-      if (((uVar4 & 1) == 0) && (uVar4 = uVar4 & 0xfffffffe, uVar4 != 0x28)) {
-        uVar4 = *(unsigned int *)(uVar4 - 0x20) >> 7 & 0x7f;
-        if ((uVar4 == 0) || (bVar1 = true, 0x1f < uVar4)) {
-          bVar1 = false;
-        }
-        if ((bVar1) && (uVar4 = fn_82ABE6D0(), param_2 == uVar4)) {
-          return 0;
-        }
-      }
-    }
-    uVar2 = 1;
-  }
-  else {
-LAB_82ac8d90:
-    uVar2 = 0;
-  }
-  return uVar2;
+    unsigned char ok;
+    if (n->kind < 1 || n->kind > 0x1f)
+        ok = 0;
+    else
+        ok = 1;
+    return ok;
 }
+#define L(n) ((Node_82AC8D70 *)((unsigned int)(n) & 0xfffffffe))
 
+unsigned char fn_82AC8D70(void *ctx, Node_82AC8D70 *node)
+{
+    Node_82AC8D70 *parent;
+
+    if ((unsigned char)node->detached) {
+        return 0;
+    }
+    if (!fn_82AE91E8(node)) {
+        return 0;
+    }
+    if (InA(node)) {
+        if (fn_82ABE6D0(node) != 0) {
+            return 0;
+        }
+    } else if ((L(node)->link & 1) == 0) {
+        parent = (Node_82AC8D70 *)((L(node)->link & 0xfffffffe) - 0x28);
+        if (parent != 0 && InA(parent) && node == fn_82ABE6D0(parent)) {
+            return 0;
+        }
+    }
+    return 1;
+}

@@ -1,22 +1,16 @@
-#define true 1
+typedef struct Node_83008D30 {
+    char pad0[0xc];
+    int id;                 /* 0x0c */
+    char pad10[4];
+    int parent;             /* 0x14 */
+    char pad18[0x3d - 0x18];
+    unsigned char flags;    /* 0x3d */
+} Node_83008D30;
 
-
-void fn_83008D30(int param_1,int param_2)
-
+unsigned char fn_83008D30(Node_83008D30 *node, int id)
 {
-  unsigned char *pbVar1;
-  
-  while( true ) {
-    if (*(int *)(param_1 + 0xc) == param_2) {
-      return;
-    }
-    if (*(int *)(param_1 + 0x14) == 0) break;
-    pbVar1 = (unsigned char *)(param_1 + 0x3d);
-    param_1 = *(int *)(param_1 + 0x14);
-    if ((*pbVar1 & 0x20) != 0) {
-      return;
-    }
-  }
-  return;
+    unsigned char r = id == node->id;
+    if (!r && node->parent != 0 && !(node->flags & 0x20))
+        r = fn_83008D30((Node_83008D30 *)node->parent, id);
+    return r;
 }
-

@@ -1,25 +1,29 @@
-#define true 1
-extern unsigned int lbl_82FA6348;
+typedef void (*WalkFunc_82FA6380)(void *ptr, unsigned int size, int used, void *user, const char *file, int line);
 
+typedef struct Chunk_82FA6380 {
+    unsigned int prevFoot;
+    unsigned int head;
+} Chunk_82FA6380;
 
-void fn_82FA6380(int param_1,int (**param_2)(),unsigned __int64 param_3)
+typedef struct {
+    char pad0[0xc60];
+    Chunk_82FA6380 first;
+} Heap_82FA6380;
 
+extern void fn_82FA6348(void *ptr, unsigned int size, int used, void *user);
+
+void fn_82FA6380(Heap_82FA6380 *heap, WalkFunc_82FA6380 func, void *user)
 {
-  unsigned int uVar1;
-  
-  if (param_2 == (int (**)())0x0) {
-    param_2 = (int (**)())&lbl_82FA6348;
-  }
-  param_1 = param_1 + 0xc60;
-  while( true ) {
-    if (param_1 == 0) {
-      return;
-    }
-    uVar1 = *(unsigned int *)(param_1 + 4);
-    if ((uVar1 & 0xfffffffc) == 0) break;
-    (*param_2)(param_1 + 8,uVar1 & 0xfffffffc,~uVar1 & 1,param_3,0xffffffff8216cb74,0);
-    param_1 = (*(unsigned int *)(param_1 + 4) & 0xfffffffc) + param_1 + 4;
-  }
-  return;
-}
+    Chunk_82FA6380 *c;
+    unsigned int size;
+    WalkFunc_82FA6380 f;
 
+    f = func != 0 ? func : (WalkFunc_82FA6380)fn_82FA6348;
+    for (c = &heap->first; c != 0; c = (Chunk_82FA6380 *)((char *)&c->head + (c->head & ~3))) {
+        size = c->head & ~3;
+        if (size == 0) {
+            break;
+        }
+        f(c + 1, size, ~c->head & 1, user, "Unknown File", 0);
+    }
+}

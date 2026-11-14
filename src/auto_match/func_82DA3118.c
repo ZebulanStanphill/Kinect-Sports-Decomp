@@ -1,25 +1,18 @@
-extern unsigned int lbl_8200133C;
+#include <math.h>
 
+typedef struct Limiter_82DA3118 {
+    char pad0[0x18];
+    float value;
+    float unk1c;
+    float limit;
+    float snap;
+} Limiter_82DA3118;
 
-double fn_82DA3118(int param_1)
-
+float fn_82DA3118(Limiter_82DA3118 *self)
 {
-  double dVar1;
-  double dVar2;
-  
-  dVar2 = (double)lbl_8200133C;
-  if (((double)*(float *)(param_1 + 0x20) != dVar2) &&
-     (ABS((float)((double)*(float *)(param_1 + 0x20) - (double)*(float *)(param_1 + 0x18))) <
-      *(float *)(param_1 + 0x24))) {
-    *(float *)(param_1 + 0x20) = *(float *)(param_1 + 0x18);
-  }
-  dVar1 = (double)*(float *)(param_1 + 0x20);
-  if (dVar1 == dVar2) {
-    return (double)*(float *)(param_1 + 0x18);
-  }
-  if ((float)((double)*(float *)(param_1 + 0x18) - dVar1) < 0.0) {
-    dVar1 = (double)*(float *)(param_1 + 0x18);
-  }
-  return dVar1;
+    if (self->limit != -1.0f && fabsf(self->limit - self->value) < self->snap)
+        self->limit = self->value;
+    if (self->limit == -1.0f)
+        return self->value;
+    return self->value - self->limit >= 0.0f ? self->limit : self->value;
 }
-

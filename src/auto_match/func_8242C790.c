@@ -1,20 +1,27 @@
-__int64 fn_8242C790(int param_1)
-
+typedef struct Vec_8242C790 {
+    int *begin;
+    int *end;
+    int *cap;
+} Vec_8242C790;
+typedef struct Data_8242C790 {
+    char pad0[0x1c4];
+    Vec_8242C790 items;
+} Data_8242C790;
+typedef struct Mgr_8242C790 {
+    char pad0[0x5c];
+    Data_8242C790 *data;
+} Mgr_8242C790;
+typedef struct Obj_8242C790 {
+    char pad0[0x174];
+    Mgr_8242C790 *mgr;
+} Obj_8242C790;
+static __forceinline unsigned int Size(Vec_8242C790 *v) { return v->end - v->begin; }
+int fn_8242C790(Obj_8242C790 *self)
 {
-  int iVar1;
-  __int64 lVar2;
-  unsigned int uVar3;
-  
-  lVar2 = 0;
-  uVar3 = 0;
-  iVar1 = *(int *)(*(int *)(param_1 + 0x174) + 0x5c);
-  if (*(int *)(iVar1 + 0x1c8) - *(int *)(iVar1 + 0x1c4) >> 2 == 0) {
-    return lVar2;
-  }
-  do {
-    uVar3 = uVar3 + 1;
-    lVar2 = lVar2 + 100000;
-  } while (uVar3 < (unsigned int)(*(int *)(iVar1 + 0x1c8) - *(int *)(iVar1 + 0x1c4) >> 2));
-  return lVar2;
+    int total = 0;
+    unsigned int i;
+    for (i = 0; i < Size(&self->mgr->data->items); i++) {
+        total += 100000;
+    }
+    return total;
 }
-
