@@ -20,7 +20,7 @@ This software is based in part on the work of the Independent JPEG Group.
 | zlib 1.2.3: inflate side 0x827D1B48-0x827D4F0C, deflate side 0x82F89CA8-0x82F8DB94 | the game's only zlib 1.2.3 (its deflate calls the crc32 and adler32 of the inflate side) | `/O1 /Gy-`; `trees.c` `/O1`; `deflate.c` `/O1 /d2inlS100` (a slightly larger inline budget, which inlines `lm_init` into `deflateReset` as the game has it) | upstream names |
 | libjpeg 6b, 0x829ADEA0-0x829B7834 | D3DX: called from the D3DX texture-file loader, among D3DX's other code | `/O2` | `d3dx_` + upstream name |
 | zlib 1.1.4, 0x829B5140-0x829C5688 | D3DX: the zlib its libpng was built against | `/O1`, as C++ | `d3dx_` + upstream name |
-| libpng 1.0.5, altered by its owner (it has checks that 1.0.5 lacks), 0x829AE0D8-0x829B98E0, and `png_sig_cmp` and `png_chunk_error` at 0x829AB140-0x829AB250 | D3DX | `/O1` | upstream names |
+| libpng 1.0.5, altered by its owner (it has checks that 1.0.5 lacks), 0x829AE0D8-0x829B98E0, and `png_chunk_error` (0x829AB140) and `png_sig_cmp` (0x829AB1D8) | D3DX | `/O1` | upstream names |
 
 The flags are the ones the game's code matches with. The owners are inferred from callers
 and neighbouring code, not from any symbol. GFx's libjpeg was also built with `NO_GETENV`:

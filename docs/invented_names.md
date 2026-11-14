@@ -62,6 +62,23 @@ one template instantiation (`func_825507B0` and `func_82675040.cpp` are both the
 `std::_Tree::_Insert`): `symbols.txt` gives the real name to one copy, and the other unit
 maps its definition onto its `fn_` symbol.
 
+## Names that exist only in one unit
+
+The same `"pool_aliases"` entry maps three more kinds of names that a unit's source needs and
+the game does not have. None of them appears in `symbols.txt`:
+
+* A member function of the unit's own placeholder class that stands for a folded or plain C
+  function, as above (`Tree_8265F9A0::lower_bound` for `fn_8265FF20`).
+* A constant object. Code that reads a constant from memory at every use, or takes its
+  address, was written with a constant object and not a literal. The unit declares
+  `static const float kLevel_829E3148 = 100.0f;` or `static const unsigned int
+  kMinSize_828D4D68 = 0x20;` and its entry maps that name onto the game's copy of the value
+  (`__real@42c80000`, `lbl_82026D68`).
+* The vtable of a class without RTTI. `func_8267B370`, `func_8267B3E8` and `func_8267B4A8`
+  construct or destroy objects whose vtables have no class name. Each declares a placeholder
+  class (`Node_8267B370`, `Node_8267B3E8`) and maps its vtable (`??_7Node_8267B370@@6B@`) onto
+  the table's `lbl_` symbol.
+
 ## Other invented names
 
 | Name | Why |
