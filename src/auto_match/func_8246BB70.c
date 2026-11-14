@@ -1,50 +1,50 @@
-extern int fn_8251FA58();
-extern int fn_825200A8();
-extern int fn_82837D98();
+extern int fn_8251FA58(void *obj);
+extern int fn_825200A8(void *a, void *b);
+extern void fn_82837D98(int key, int flags, unsigned *out);
 
+typedef struct Res_8246BB70 { char pad[0x14]; int key; } Res_8246BB70;
+typedef struct Node_8246BB70 {
+  struct Node_8246BB70 *next;
+  int pad4[2];
+  Res_8246BB70 *res;
+  int pad10[2];
+  int handle;
+  Res_8246BB70 *res2;
+} Node_8246BB70;
+typedef struct { unsigned owner; Node_8246BB70 *head; int pad[3]; } Group_8246BB70;
+typedef struct {
+  Group_8246BB70 groups[2];
+  int h28;
+  int h2c;
+  int active;
+  int h34;
+} Mgr_8246BB70;
 
-void fn_8246BB70(int param_1)
-
+void fn_8246BB70(Mgr_8246BB70 *self)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int iVar3;
-  __int64 lVar4;
-  unsigned int *puVar5;
-  int aiStack_40;
-  
-  puVar5 = (unsigned int *)(param_1 + 4);
-  lVar4 = 2;
-  do {
-    puVar1 = (unsigned int *)*puVar5;
-    for (puVar2 = (unsigned int *)*puVar1; puVar2 != puVar1; puVar2 = (unsigned int *)*puVar2) {
-      if (*(int *)(param_1 + 0x30) != 0) {
-        iVar3 = fn_825200A8(param_1 + 0x28,puVar2 + 6);
-        if (iVar3 == 0) {
-          iVar3 = fn_825200A8(param_1 + 0x2c);
-          if (iVar3 == 0) {
-            iVar3 = fn_825200A8(param_1 + 0x34);
-            if (iVar3 == 0) {
-              fn_82837D98(*(unsigned int *)(puVar2[3] + 0x14),0,&aiStack_40);
-              if (puVar5[-1] != aiStack_40) {
-                if (puVar2[3] != 0) {
-                  fn_8251FA58();
-                  puVar2[3] = 0;
-                }
-                if (puVar2[7] != 0) {
-                  fn_8251FA58();
-                  puVar2[7] = 0;
-                }
-              }
-            }
+  Group_8246BB70 *g;
+  Node_8246BB70 *n;
+  int i;
+  unsigned owner;
+
+  for (i = 0, g = self->groups; i < 2; i++, g++) {
+    for (n = g->head->next; n != g->head; n = n->next) {
+      if (self->active != 0
+          && fn_825200A8(&self->h28, &n->handle) == 0
+          && fn_825200A8(&self->h2c, &n->handle) == 0
+          && fn_825200A8(&self->h34, &n->handle) == 0) {
+        fn_82837D98(n->res->key, 0, &owner);
+        if (g->owner != owner) {
+          if (n->res != 0) {
+            fn_8251FA58(n->res);
+            n->res = 0;
+          }
+          if (n->res2 != 0) {
+            fn_8251FA58(n->res2);
+            n->res2 = 0;
           }
         }
       }
-      puVar1 = (unsigned int *)*puVar5;
     }
-    lVar4 = lVar4 + -1;
-    puVar5 = puVar5 + 5;
-  } while (lVar4 != 0);
-  return;
+  }
 }
-

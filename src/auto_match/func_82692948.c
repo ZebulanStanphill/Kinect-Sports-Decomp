@@ -1,15 +1,15 @@
-extern int fn_82691DB0();
+/* Stores size rounded up to the alignment returned by fn_82691DB0 at +0x220. */
+typedef struct Self_82692948 {
+    char pad0[0x220];
+    unsigned int alignedSize;       /* 0x220 */
+} Self_82692948;
 
+extern unsigned int fn_82691DB0(Self_82692948 *self);
 
-void fn_82692948(int param_1,__int64 param_2)
-
+unsigned int fn_82692948(Self_82692948 *self, unsigned int size)
 {
-  unsigned __int64 uVar1;
-  
-  uVar1 = fn_82691DB0();
-  trapWord(6,uVar1,0);
-  *(int *)(param_1 + 0x220) =
-       (int)(((uVar1 + param_2) - 1 & 0xffffffff) / (uVar1 & 0xffffffff)) * (int)uVar1;
-  return;
+    unsigned int align = fn_82691DB0(self);
+    size = (size + align - 1) / align * align;
+    self->alignedSize = size;
+    return size;
 }
-

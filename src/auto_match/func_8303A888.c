@@ -1,45 +1,25 @@
-void fn_8303A888(float *param_1,float *param_2,unsigned int *param_3,__int64 param_4)
-
+void fn_8303A888(float *state, const float *coef, float **pbuf, unsigned int count)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  float fVar5;
-  float fVar6;
-  float fVar7;
-  float *pfVar8;
-  float fVar9;
-  float fVar10;
-  
-  fVar1 = *param_1;
-  fVar2 = *param_2;
-  fVar3 = param_2[1];
-  fVar4 = param_2[2];
-  fVar5 = param_1[1];
-  fVar6 = param_1[2];
-  fVar7 = param_1[3];
-  fVar9 = fVar5;
-  fVar10 = fVar7;
-  if ((int)param_4 != 0) {
-    do {
-      fVar7 = fVar6;
-      fVar5 = fVar1;
-      pfVar8 = (float *)*param_3;
-      fVar6 = param_2[3];
-      *param_3 = pfVar8 + 1;
-      fVar1 = *pfVar8;
-      fVar6 = fVar4 * fVar7 + fVar10 * fVar6 + (fVar1 + fVar9) * fVar2 + fVar3 * fVar5;
-      *pfVar8 = fVar6;
-      param_4 = param_4 + -1;
-      fVar9 = fVar5;
-      fVar10 = fVar7;
-    } while (param_4 != 0);
-  }
-  *param_1 = fVar1;
-  param_1[1] = fVar5;
-  param_1[2] = fVar6;
-  param_1[3] = fVar7;
-  return;
-}
+  float x1 = state[0];
+  float x2 = state[1];
+  float y1 = state[2];
+  float y2 = state[3];
+  float b0 = coef[0];
+  float b1 = coef[1];
+  float a1 = coef[2];
 
+  while (count--) {
+    float *s = (*pbuf)++;
+    float in = *s;
+    float out = a1 * y1 + (y2 * coef[3] + ((in + x2) * b0 + b1 * x1));
+    x2 = x1;
+    x1 = in;
+    y2 = y1;
+    y1 = out;
+    *s = out;
+  }
+  state[0] = x1;
+  state[1] = x2;
+  state[2] = y1;
+  state[3] = y2;
+}

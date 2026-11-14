@@ -1,54 +1,53 @@
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern unsigned int *auStack_30;
-extern int fn_82469C10();
-extern int fn_82469CD8();
-extern int fn_825200A8();
-extern int fn_82837D98();
+extern int fn_825200A8(void *a, void *b);
+extern void fn_82837D98(int key, int flags, unsigned *out);
+extern void fn_82469C10(int listener, unsigned owner);
+extern void fn_82469CD8(int listener, unsigned owner);
 
+typedef struct Res_8246FD50 { char pad[0x14]; int key; } Res_8246FD50;
+typedef struct Node_8246FD50 {
+  struct Node_8246FD50 *next;
+  int pad4;
+  int handle;
+  Res_8246FD50 *res;
+} Node_8246FD50;
+typedef struct { unsigned owner; Node_8246FD50 *head; int pad[2]; int handle; } Group_8246FD50;
+typedef struct {
+  char pad0[0x90];
+  Group_8246FD50 *groups;      /* 0x90 */
+  char pad94[0x310 - 0x94];
+  int listener;              /* 0x310 */
+} Self_8246FD50;
 
-void fn_8246FD50(int param_1,unsigned __int64 param_2,unsigned __int64 param_3)
-
+static __forceinline int Valid(int *handle)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  unsigned int uVar3;
-  unsigned int *puVar4;
-  int iVar5;
-  __int64 lVar6;
-  unsigned __int64 uVar7;
-  __int64 lVar8;
-  unsigned int auStack_30 [12];
-  
-  if (((param_3 & 0xffffffff) != 0) && (iVar1 = *(int *)param_3, iVar1 != 0)) {
-    lVar8 = param_2 * 0x14 + (unsigned __int64)*(unsigned int *)(param_1 + 0x90);
-    lVar6 = lVar8 + 0x10;
-    iVar5 = fn_825200A8(param_3,lVar6);
-    if (iVar5 == 0) {
-      puVar4 = (unsigned int *)lVar8;
-      puVar2 = (unsigned int *)puVar4[1];
-      uVar3 = *puVar2;
-      while (uVar7 = (unsigned __int64)uVar3, uVar7 != ZEXT48(puVar2)) {
-        iVar5 = fn_825200A8(uVar7 + 8,param_3);
-        if (iVar5 != 0) {
-          *(int *)lVar6 = iVar1;
-          fn_82837D98(*(unsigned int *)(((unsigned int *)uVar7)[3] + 0x14),0,auStack_30);
-          *puVar4 = auStack_30[0];
+  if (handle == 0) return 0;
+  return *handle != 0;
+}
+
+void fn_8246FD50(Self_8246FD50 *self, unsigned int which, int *handle)
+{
+  Group_8246FD50 *groups = self->groups;
+  Group_8246FD50 *g;
+  Node_8246FD50 *n;
+  unsigned owner;
+
+  if (Valid(handle)) {
+    g = &groups[which];
+    if (fn_825200A8(handle, &g->handle) == 0) {
+      for (n = g->head->next; n != g->head; n = n->next) {
+        if (fn_825200A8(&n->handle, handle) != 0) {
+          g->handle = *handle;
+          fn_82837D98(n->res->key, 0, &owner);
+          g->owner = owner;
           break;
         }
-        puVar2 = (unsigned int *)puVar4[1];
-        uVar3 = *(unsigned int *)uVar7;
       }
-      iVar1 = *(int *)(param_1 + 0x310);
-      if (iVar1 != 0) {
-        if ((param_2 & 0xffffffff) == 0) {
-          fn_82469C10(iVar1,**(unsigned int **)(param_1 + 0x90));
-        }
-        else {
-          fn_82469CD8(iVar1,(*(unsigned int **)(param_1 + 0x90))[5]);
-        }
+      if (self->listener != 0) {
+        if (which == 0)
+          fn_82469C10(self->listener, self->groups[0].owner);
+        else
+          fn_82469CD8(self->listener, self->groups[1].owner);
       }
     }
   }
-  return;
 }
-
