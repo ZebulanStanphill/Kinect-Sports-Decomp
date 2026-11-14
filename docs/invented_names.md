@@ -32,6 +32,36 @@ renaming such a function.
 When a class's real name turns up, rename the class and its methods in `symbols.txt` and the
 sources, and the rows leave the table.
 
+## Folded functions
+
+The game was linked with identical functions folded together, so one address can stand for
+the same member function of several classes or template instantiations. Two cases:
+
+* `fn_8277D098` grows a paged array. One caller uses it for 16-byte elements and another for
+  4-byte ones; the code itself never mentions the element size.
+* The lip-sync library's `std::vector<T>::_Make_iter` at `0x8266A4A8` serves a vector of
+  12-byte elements and a vector of 4-byte ones.
+
+Such a function cannot take one class's name. Its symbol keeps the `fn_` placeholder, or, as
+for `0x8266A4A8`, takes a member name on a placeholder base class that stands for the fold
+(`VectorBase_8266A4A8::MakeIter`).
+
+Some callers only compile to the game's code when they call the folded function as a member
+(the compiler then sets up the hidden result pointer before `this`). Such a unit declares the
+member on a placeholder class of its own, and its `objects.json` entry maps the name the
+compiler emits onto the folded function's symbol with `"pool_aliases"`, the same mechanism
+that maps a pooled constant (see "C++ classes" in [CONTRIBUTING.md](../CONTRIBUTING.md)):
+
+```json
+"pool_aliases": { "?begin@Tree_82660020@@QAA?AUIter_82660020@@XZ": "fn_8265F888" }
+```
+
+The class and method names on the left exist only in that unit's source; they are invented
+and do not appear in `symbols.txt`. The same entry is used where the game has two copies of
+one template instantiation (`func_825507B0` and `func_82675040.cpp` are both the same
+`std::_Tree::_Insert`): `symbols.txt` gives the real name to one copy, and the other unit
+maps its definition onto its `fn_` symbol.
+
 ## Other invented names
 
 | Name | Why |
