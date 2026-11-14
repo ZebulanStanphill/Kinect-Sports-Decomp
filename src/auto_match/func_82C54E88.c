@@ -1,31 +1,33 @@
-extern int fn_82A29A38();
-extern int malloc();
-extern int fn_82F691F0();
+void *malloc(unsigned int);
+void *memset(void *, int, unsigned int);
+void *memcpy(void *, const void *, unsigned int);
+void free(void *);
+extern void fn_82A29A38(void);
 
+typedef struct Array_82C54E88 {
+    unsigned int *data;
+    unsigned int capacity, count;
+} Array_82C54E88;
 
-unsigned __int64 fn_82C54E88(int *param_1,unsigned int param_2)
-
+unsigned int fn_82C54E88(Array_82C54E88 *self, unsigned int value)
 {
-  unsigned __int64 uVar1;
-  __int64 lVar2;
-  
-  if (param_1[2] == param_1[1]) {
-    lVar2 = ((unsigned __int64)(param_1[1] + 4) & 0x1fffffff) << 3;
-    uVar1 = malloc(lVar2);
-    if ((uVar1 & 0xffffffff) != 0) {
-                    /* WARNING: Subroutine does not return */
-      fn_82F691F0(uVar1,0,lVar2);
+    unsigned int index;
+    if (self->count == self->capacity) {
+        unsigned int capacity = (self->capacity + 4) * 2;
+        unsigned int bytes = capacity * 4;
+        unsigned int *data = malloc(bytes);
+        if (!data)
+            return -1;
+        memset(data, 0, bytes);
+        memcpy(data, self->data, self->count * 4);
+        free(self->data);
+        self->data = data;
+        self->capacity = capacity;
     }
-    uVar1 = 0xffffffffffffffff;
-  }
-  else {
-    if ((unsigned int)param_1[1] <= (unsigned int)param_1[2]) {
-      fn_82A29A38();
-    }
-    *(unsigned int *)(param_1[2] * 4 + *param_1) = param_2;
-    uVar1 = (unsigned __int64)(unsigned int)param_1[2];
-    param_1[2] = param_1[2] + 1;
-  }
-  return uVar1;
+    if (self->count >= self->capacity)
+        fn_82A29A38();
+    self->data[self->count] = value;
+    index = self->count;
+    self->count = index + 1;
+    return index;
 }
-

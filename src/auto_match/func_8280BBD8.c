@@ -1,30 +1,27 @@
-extern int fn_82809558();
+typedef struct Vec3_8280BBD8 {
+    float x, y, z;
+} Vec3_8280BBD8;
 
+typedef struct Mat3_8280BBD8 {
+    float m[3][4];
+} Mat3_8280BBD8;
 
-void fn_8280BBD8(float *param_1,float *param_2)
+extern void fn_828106A0(Vec3_8280BBD8 *v);
+extern float fn_82809558(float v);
 
+void fn_8280BBD8(Mat3_8280BBD8 *self, Vec3_8280BBD8 *out)
 {
-  __int64 lVar1;
-  double dVar2;
-  
-  *param_2 = *param_1 * *param_1;
-  param_2[1] = param_1[4] * param_1[4];
-  param_2[2] = param_1[8] * param_1[8];
-  param_1 = param_1 + 8;
-  lVar1 = 2;
-  do {
-    *param_2 = param_1[-7] * param_1[-7] + *param_2;
-    param_2[1] = param_1[-3] * param_1[-3] + param_2[1];
-    param_1 = param_1 + 1;
-    param_2[2] = *param_1 * *param_1 + param_2[2];
-    lVar1 = lVar1 + -1;
-  } while (lVar1 != 0);
-  dVar2 = (double)fn_82809558((double)*param_2);
-  *param_2 = (float)dVar2;
-  dVar2 = (double)fn_82809558((double)param_2[1]);
-  param_2[1] = (float)dVar2;
-  dVar2 = (double)fn_82809558((double)param_2[2]);
-  param_2[2] = (float)dVar2;
-  return;
-}
+    int i;
 
+    out->x = self->m[0][0] * self->m[0][0];
+    out->y = self->m[1][0] * self->m[1][0];
+    out->z = self->m[2][0] * self->m[2][0];
+    for (i = 1; i < 3; i++) {
+        out->x += self->m[0][i] * self->m[0][i];
+        out->y += self->m[1][i] * self->m[1][i];
+        out->z += self->m[2][i] * self->m[2][i];
+    }
+    out->x = fn_82809558(out->x);
+    out->y = fn_82809558(out->y);
+    out->z = fn_82809558(out->z);
+}

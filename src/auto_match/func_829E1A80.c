@@ -1,25 +1,19 @@
-typedef unsigned char bool;
 extern unsigned int *lbl_83217B88;
 extern unsigned int *lbl_83217BA4;
 
-
-bool fn_829E1A80(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned int *param_4,
-                  unsigned int *param_5,unsigned __int64 param_6,unsigned int *param_7)
-
+unsigned char fn_829E1A80(unsigned int a, unsigned int b, unsigned int c, unsigned int *pair,
+                          unsigned int *out, unsigned int flags, unsigned int *err)
 {
-  int iVar1;
-  
-  iVar1 = (**(int (***)())(*lbl_83217BA4 + 4))
-                    (lbl_83217BA4,param_1,param_2,param_3,*param_4,param_4[1],param_6,lbl_83217B88);
-  if (-1 < iVar1) {
-    *param_5 = *lbl_83217B88;
-    param_5[2] = lbl_83217B88[2];
-    param_5[1] = lbl_83217B88[1];
-    param_5[3] = lbl_83217B88[3];
-  }
-  else {
-    *param_7 = *param_7 | 1;
-  }
-  return -1 < iVar1;
+    int hr = (*(int (**)(void *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int,
+                         unsigned int, void *))(*(int *)lbl_83217BA4 + 4))(lbl_83217BA4, a, b, c, pair[0],
+                                                                           pair[1], flags, lbl_83217B88);
+    if (hr < 0) {
+        *err |= 1;
+        return 0;
+    }
+    *out = *lbl_83217B88;
+    out[2] = lbl_83217B88[2];
+    out[1] = lbl_83217B88[1];
+    out[3] = lbl_83217B88[3];
+    return 1;
 }
-

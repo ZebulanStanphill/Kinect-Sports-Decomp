@@ -1,57 +1,39 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_82F68CC0();
+/* std::_Adjust_heap over 0x5c-byte entries (VC10 <algorithm>), _Push_heap inlined. */
+typedef struct Entry_82440418 {
+    int id;
+    int pad[17];
+    int key;
+    int valid;
+    int rest[3];
+} Entry_82440418;
 
-
-void fn_82440418(int param_1,int param_2,int param_3,int *param_4)
-
+static __forceinline unsigned char Less(const Entry_82440418 *a, const Entry_82440418 *b)
 {
-  bool bVar1;
-  int *piVar2;
-  int iVar3;
-  unsigned int uVar4;
-  int iVar5;
-  
-  iVar3 = param_2;
-  while( true ) {
-    iVar5 = (iVar3 + 1) * 2;
-    if (param_3 <= iVar5) break;
-    piVar2 = (int *)((iVar3 + 1) * 0xb8 + param_1);
-    if ((piVar2[-5] < piVar2[0x12]) || ((piVar2[0x12] == piVar2[-5] && (*piVar2 < piVar2[-0x17]))))
-    {
-      bVar1 = true;
-    }
-    else {
-      bVar1 = false;
-    }
-    if (bVar1) {
-      iVar5 = iVar5 + -1;
-    }
-    fn_82F68CC0(iVar3 * 0x5c + param_1,iVar5 * 0x5c + param_1,0x5c);
-    iVar3 = iVar5;
-  }
-  if (iVar5 == param_3) {
-    fn_82F68CC0(iVar3 * 0x5c + param_1,param_3 * 0x5c + param_1 + -0x5c,0x5c);
-    iVar3 = param_3 + -1;
-  }
-  while( true ) {
-    uVar4 = iVar3 - 1;
-    iVar5 = ((int)uVar4 >> 1) + (unsigned int)((int)uVar4 < 0 && (uVar4 & 1) != 0);
-    if (iVar3 <= param_2) break;
-    piVar2 = (int *)(iVar5 * 0x5c + param_1);
-    if ((param_4[0x12] < piVar2[0x12]) || ((piVar2[0x12] == param_4[0x12] && (*piVar2 < *param_4))))
-    {
-      bVar1 = true;
-    }
-    else {
-      bVar1 = false;
-    }
-    if (!bVar1) break;
-    fn_82F68CC0(iVar3 * 0x5c + param_1,piVar2,0x5c);
-    iVar3 = iVar5;
-  }
-  fn_82F68CC0(iVar3 * 0x5c + param_1,param_4,0x5c);
-  return;
+    return a->key > b->key || (a->key == b->key && a->id < b->id);
 }
 
+static __forceinline void Push_heap(Entry_82440418 *first, int hole, int top, Entry_82440418 *val)
+{
+    int idx;
+    for (idx = (hole - 1) / 2; top < hole && Less(&first[idx], val); idx = (hole - 1) / 2) {
+        first[hole] = first[idx];
+        hole = idx;
+    }
+    first[hole] = *val;
+}
+
+void fn_82440418(Entry_82440418 *first, int hole, int bottom, Entry_82440418 *val)
+{
+    int top = hole;
+    int idx;
+    for (idx = 2 * hole + 2; idx < bottom; idx = 2 * idx + 2) {
+        if (Less(&first[idx], &first[idx - 1]))
+            --idx;
+        first[hole] = first[idx], hole = idx;
+    }
+    if (idx == bottom) {
+        first[hole] = first[bottom - 1];
+        hole = bottom - 1;
+    }
+    Push_heap(first, hole, top, val);
+}

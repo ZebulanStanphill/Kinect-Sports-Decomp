@@ -1,42 +1,29 @@
-extern int fn_82AC3438();
-extern int memcpy();
+extern void *memcpy(void *, const void *, unsigned int);
+extern int fn_82AC3438(unsigned int, unsigned int, unsigned int, unsigned int, const char *);
 
-
-unsigned __int64
-fn_82AC3770(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-             unsigned __int64 param_5)
-
+int fn_82AC3770(unsigned int a, unsigned int b, unsigned int c, unsigned int d, const char *text)
 {
-  unsigned __int64 uVar1;
-  char *pcVar2;
-  int iVar3;
-  int iVar4;
-  char acStack_40 [16];
-  
-  if (((param_5 & 0xffffffff) == 0) || (memcpy(acStack_40,param_5,9), acStack_40[0] == '\"'))
-  {
-code_r0x82ac3794:
-    uVar1 = 0xffffffff80004005;
-  }
-  else {
-    pcVar2 = acStack_40;
-    iVar4 = 0;
-    do {
-      iVar3 = iVar4;
-      if (7 < iVar3) goto code_r0x82ac3794;
-      iVar4 = iVar3 + 1;
-      *pcVar2 = pcVar2[1];
-      pcVar2 = pcVar2 + 1;
-    } while (*pcVar2 != '\"');
-    if (iVar4 < 9) {
-      pcVar2 = acStack_40 + iVar3;
-      for (iVar4 = 9 - iVar4; iVar4 != 0; iVar4 = iVar4 + -1) {
-        pcVar2 = pcVar2 + 1;
-        *pcVar2 = '\0';
-      }
-    }
-    uVar1 = fn_82AC3438(param_1,param_2,param_3,param_4,acStack_40);
-  }
-  return uVar1;
-}
+    struct Text_82AC3770 {
+        char data[9];
+    } local;
 
+    char *buf = local.data;
+    char *p;
+    int i;
+    if (!text)
+        return 0x80004005;
+    local = *(const struct Text_82AC3770 *)text;
+    if (buf[0] == '"')
+        return 0x80004005;
+    i = 0;
+    p = buf;
+    do {
+        if (i >= 8)
+            return 0x80004005;
+        *p = p[1];
+        p++;
+    } while (buf[++i] != '"');
+    for (; i < 9; i++)
+        buf[i] = 0;
+    return fn_82AC3438(a, b, c, d, buf);
+}

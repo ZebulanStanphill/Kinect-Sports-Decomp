@@ -1,39 +1,23 @@
-#define true 1
-extern int fn_828342A8();
+// Matching callers func_828344D0 and func_828346D0 pass pred in r7.
+typedef struct Entry_82834388 {
+    unsigned int a, key, c;
+} Entry_82834388;
 
+extern void fn_828342A8(Entry_82834388 *, int, int, Entry_82834388 *, unsigned int);
 
-void fn_82834388(int param_1,int param_2,int param_3)
-
+void fn_82834388(Entry_82834388 *first, int hole, int bottom, Entry_82834388 *value, unsigned int pred)
 {
-  int iVar1;
-  int iVar2;
-  unsigned int *puVar3;
-  int iVar4;
-  
-  iVar2 = param_2;
-  while( true ) {
-    iVar4 = (iVar2 + 1) * 2;
-    if (param_3 <= iVar4) break;
-    iVar1 = (iVar2 + 1) * 0x18 + param_1;
-    if (*(unsigned int *)(iVar1 + 4) < *(unsigned int *)(iVar1 + -8)) {
-      iVar4 = iVar4 + -1;
+    int top = hole, child = 2 * (hole + 1);
+    while (child < bottom) {
+        if (first[child].key < first[child - 1].key)
+            child--;
+        first[hole] = first[child];
+        hole = child;
+        child = 2 * (child + 1);
     }
-    puVar3 = (unsigned int *)(iVar4 * 0xc + param_1);
-    iVar1 = iVar2 * 0xc + param_1;
-    *(unsigned int *)(iVar2 * 0xc + param_1) = *puVar3;
-    *(unsigned int *)(iVar1 + 4) = puVar3[1];
-    *(unsigned int *)(iVar1 + 8) = puVar3[2];
-    iVar2 = iVar4;
-  }
-  if (iVar4 == param_3) {
-    iVar4 = param_3 * 0xc + param_1;
-    iVar1 = iVar2 * 0xc + param_1;
-    *(unsigned int *)(iVar2 * 0xc + param_1) = *(unsigned int *)(iVar4 + -0xc);
-    iVar2 = param_3 + -1;
-    *(unsigned int *)(iVar1 + 4) = *(unsigned int *)(iVar4 + -8);
-    *(unsigned int *)(iVar1 + 8) = *(unsigned int *)(iVar4 + -4);
-  }
-  fn_828342A8(param_1,iVar2,param_2);
-  return;
+    if (child == bottom) {
+        first[hole] = first[bottom - 1];
+        hole = bottom - 1;
+    }
+    fn_828342A8(first, hole, top, value, pred);
 }
-

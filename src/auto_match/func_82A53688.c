@@ -1,20 +1,11 @@
-unsigned __int64 fn_82A53688(int param_1,unsigned __int64 param_2)
 
+int fn_82A53688(int *self, int value)
 {
-  int iVar1;
-  
-  iVar1 = (int)param_2;
-  if ((*(int *)(param_1 + 0x13c) != 0) && (0 < iVar1)) {
-    return (param_2 & 0x7fffffff) << 1;
-  }
-  if (*(int *)(param_1 + 0x144) == 0) {
-    return param_2;
-  }
-  if (iVar1 < 1) {
-    return param_2;
-  }
-  return (__int64)
-         ((*(int *)(param_1 + 0x14c) * iVar1 - *(int *)(param_1 + 0x154)) /
-         *(int *)(param_1 + 0x148)) + 1;
+    if (self[0x13c / 4] != 0 && value > 0)
+        return value * 2;
+    if (self[0x144 / 4] == 0)
+        return value;
+    if (value <= 0)
+        return value;
+    return (self[0x14c / 4] * value - self[0x154 / 4]) / self[0x148 / 4] + 1;
 }
-

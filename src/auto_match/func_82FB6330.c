@@ -1,30 +1,29 @@
-extern unsigned int lbl_83264268;
-extern unsigned int lbl_8326426C;
-extern unsigned int lbl_83264270;
-extern unsigned int lbl_83264278;
-extern unsigned int lbl_8326427C;
-extern unsigned int lbl_83264280;
-extern unsigned int lbl_83264288;
-extern unsigned int lbl_8326428C;
-extern unsigned int lbl_83264290;
-extern unsigned int lbl_83264294;
-extern unsigned int lbl_83264298;
+typedef struct State_82FB6330 {
+    unsigned int a, b, c, d, e;
+    unsigned int high : 6;
+    unsigned int low : 26;
+    int g, h, i, j, k;
+    unsigned short highBits : 4;
+    unsigned short bits : 12;
+    unsigned short pad;
+    int m;
+} State_82FB6330;
 
+extern State_82FB6330 lbl_83264268;
 
-unsigned __int64 fn_82FB6330(void)
-
+State_82FB6330 *fn_82FB6330(void)
 {
-  lbl_83264268 = 0xffffffff;
-  lbl_83264270 = 0;
-  lbl_83264278 = 0;
-  lbl_83264294 = lbl_83264294 & 0xfff;
-  lbl_8326426C = 0xffffffff;
-  lbl_83264280 = 0;
-  lbl_8326427C = lbl_8326427C & 0x3ffffff | 0x3c000000;
-  lbl_83264288 = 0;
-  lbl_8326428C = 0;
-  lbl_83264290 = 0;
-  lbl_83264298 = 0;
-  return 0xffffffff83264268;
+    State_82FB6330 *s = &lbl_83264268;
+    s->a = -1;
+    s->c = 0;
+    s->e = 0;
+    s->b = -1;
+    s->high = 15;
+    s->highBits = 0;
+    s->g = 0;
+    s->i = 0;
+    s->j = 0;
+    s->k = 0;
+    s->m = 0;
+    return s;
 }
-

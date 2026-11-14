@@ -1,23 +1,21 @@
-void fn_82A96960(int param_1)
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float f[4];
+} __vector4;
 
+__vector4 __lvlx(const void *base, int offset);
+__vector4 __lvrx(const void *base, int offset);
+__vector4 __vor(__vector4 a, __vector4 b);
+
+static __forceinline unsigned int Mask(int ok, unsigned int value)
 {
-  int *piVar1;
-  __int64 lVar2;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs41 [16];
-  unsigned char in_vs42 [16];
-  unsigned char in_vs43 [16];
-  int aiStack_10 [4];
-  
-  piVar1 = aiStack_10;
-  lVar2 = 4;
-  do {
-    *piVar1 = -(unsigned int)(*(int *)((param_1 - (int)aiStack_10) + (int)piVar1) == 3);
-    piVar1 = piVar1 + 1;
-    lVar2 = lVar2 + -1;
-  } while (lVar2 != 0);
-  altv300_23(in_vs42,in_vs43);
-  altv300_21(in_vs32,in_vs41);
-  return;
+    return ok ? value : 0;
 }
 
+__vector4 fn_82A96960(const unsigned int *data)
+{
+    unsigned int out[4];
+    int i;
+    for (i = 0; i < 4; i++)
+        out[i] = Mask(data[i] == 3, ~0u);
+    return __vor(__lvlx(out, 0), __lvrx(out, 16));
+}

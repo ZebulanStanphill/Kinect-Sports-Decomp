@@ -1,65 +1,45 @@
-typedef unsigned char bool;
+typedef struct Vec_83067180 {
+    float x, y, z;
+} Vec_83067180;
 
-
-void fn_83067180(unsigned int *param_1,__int64 param_2,unsigned int *param_3)
-
+void fn_83067180(const Vec_83067180 *bounds, unsigned int corner, Vec_83067180 *out)
 {
-  bool bVar1;
-  unsigned int uVar2;
-  
-  if (7 < (unsigned int)param_2) {
-    return;
-  }
-  bVar1 = (unsigned int)param_2 != 0;
-  if (param_2 == 1 && bVar1) {
-    *param_3 = param_1[3];
-    uVar2 = param_1[1];
-  }
-  else {
-    if (param_2 == 2 && bVar1) {
-      uVar2 = param_1[3];
+    switch (corner) {
+    case 0:
+        *out = bounds[0];
+        break;
+    case 1:
+        out->x = bounds[1].x;
+        out->y = bounds[0].y;
+        out->z = bounds[0].z;
+        break;
+    case 2:
+        out->x = bounds[1].x;
+        out->y = bounds[1].y;
+        out->z = bounds[0].z;
+        break;
+    case 3:
+        out->x = bounds[0].x;
+        out->y = bounds[1].y;
+        out->z = bounds[0].z;
+        break;
+    case 4:
+        out->x = bounds[0].x;
+        out->y = bounds[1].y;
+        out->z = bounds[1].z;
+        break;
+    case 5:
+        out->x = bounds[1].x;
+        out->y = bounds[0].y;
+        out->z = bounds[1].z;
+        break;
+    case 6:
+        *out = bounds[1];
+        break;
+    case 7:
+        out->x = bounds[0].x;
+        out->y = bounds[1].y;
+        out->z = bounds[1].z;
+        break;
     }
-    else {
-      if (param_2 != 3 || !bVar1) {
-        if (param_2 == 4 && bVar1) {
-code_r0x83067220:
-          *param_3 = *param_1;
-          uVar2 = param_1[4];
-        }
-        else {
-          if (param_2 != 5 || !bVar1) {
-            if (param_2 == 6 && bVar1) {
-              *param_3 = param_1[3];
-              param_3[1] = param_1[4];
-              uVar2 = param_1[5];
-code_r0x830671c0:
-              param_3[2] = uVar2;
-              return;
-            }
-            if (!bVar1) {
-              *param_3 = *param_1;
-              param_3[1] = param_1[1];
-              uVar2 = param_1[2];
-              goto code_r0x830671c0;
-            }
-            goto code_r0x83067220;
-          }
-          *param_3 = param_1[3];
-          uVar2 = param_1[1];
-        }
-        param_3[1] = uVar2;
-        uVar2 = param_1[5];
-        goto code_r0x83067234;
-      }
-      uVar2 = *param_1;
-    }
-    *param_3 = uVar2;
-    uVar2 = param_1[4];
-  }
-  param_3[1] = uVar2;
-  uVar2 = param_1[2];
-code_r0x83067234:
-  param_3[2] = uVar2;
-  return;
 }
-

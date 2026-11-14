@@ -1,39 +1,38 @@
-typedef unsigned char bool;
-extern unsigned __int64 storeWordConditionalIndexed();
+extern long _InterlockedExchange(long *, long);
+#define __lwsync() __emit(0x7C2004AC)
 
+typedef struct Block_82A77548 {
+    unsigned int begin, size;
+    unsigned __int64 stamp;
+} Block_82A77548;
 
-void fn_82A77548(__int64 param_1)
+typedef struct Page_82A77548 {
+    unsigned int base, data;
+} Page_82A77548;
 
+typedef struct Obj_82A77548 {
+    char pad[0xb8];
+    Page_82A77548 *page;
+    unsigned int end;
+    char gap[8];
+    unsigned __int64 stamp;
+    char rest[0x20];
+    Block_82A77548 *free;
+    unsigned int unused, ready;
+} Obj_82A77548;
+
+void fn_82A77548(Obj_82A77548 *self)
 {
-  unsigned int *puVar1;
-  unsigned int uVar2;
-  int iVar3;
-  unsigned int *puVar4;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  do {
-    puVar4 = (unsigned int *)(param_1 + 0xf0);
-    puVar1 = (unsigned int *)*puVar4;
-    if (in_RESERVE != '\0') {
-      uVar2 = storeWordConditionalIndexed(0,0,param_1 + 0xf0);
-      *puVar4 = uVar2;
-      in_cr0 = 2;
+    Block_82A77548 *block = (Block_82A77548 *)_InterlockedExchange((long *)&self->free, 0);
+    if (self->page) {
+        block->begin = self->page->data;
+        block->size = self->end - self->page->base;
+    } else {
+        block->begin = 0;
+        block->size = 0;
     }
-  } while (!(bool)(in_cr0 >> 1 & 1));
-  iVar3 = (int)param_1;
-  if (*(int *)(iVar3 + 0xb8) == 0) {
-    *puVar1 = 0;
-    puVar1[1] = 0;
-  }
-  else {
-    *puVar1 = *(unsigned int *)(*(int *)(iVar3 + 0xb8) + 4);
-    puVar1[1] = *(int *)(iVar3 + 0xbc) - **(int **)(iVar3 + 0xb8);
-  }
-  *(unsigned __int64 *)(puVar1 + 2) = *(unsigned __int64 *)(iVar3 + 200);
-  sync(1);
-  *puVar4 = puVar1;
-  *(unsigned int *)(iVar3 + 0xf8) = 1;
-  return;
+    block->stamp = self->stamp;
+    __lwsync();
+    self->free = block;
+    self->ready = 1;
 }
-

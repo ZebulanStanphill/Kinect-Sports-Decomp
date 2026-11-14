@@ -1,24 +1,46 @@
-extern int fn_827C9958();
-extern int fn_82F691F0();
+typedef struct Info_827C9BB0 Info_827C9BB0;
 
+typedef struct Memory_827C9BB0 {
+    void *(*alloc_small)(Info_827C9BB0 *cinfo, int pool_id, unsigned int size);
+} Memory_827C9BB0;
 
-void fn_827C9BB0(int param_1)
+typedef struct Component_827C9BB0 {
+    char pad[0x50];
+    unsigned char *table;
+} Component_827C9BB0;
 
+typedef struct Entropy_827C9BB0 {
+    void (*start_pass)(void);
+    char pad[0x2c - 4];
+    int last[10];
+} Entropy_827C9BB0;
+
+struct Info_827C9BB0 {
+    int f0;
+    Memory_827C9BB0 *mem;
+    char pad8[0x24 - 8];
+    int num_components;
+    char pad28[0xc4 - 0x28];
+    Component_827C9BB0 *comp_info;
+    char padE0[0x19c - 0xc8];
+    Entropy_827C9BB0 *entropy;
+};
+
+extern void fn_827C9958(void);
+void *memset(void *dst, int c, unsigned int n);
+
+void fn_827C9BB0(Info_827C9BB0 *cinfo)
 {
-  int iVar1;
-  unsigned int *puVar3;
-  unsigned __int64 uVar2;
-  
-  puVar3 = (unsigned int *)(*(int (**)())**(unsigned int **)(param_1 + 4))(param_1,1,0x54);
-  *(unsigned int **)(param_1 + 0x19c) = puVar3;
-  *puVar3 = fn_827C9958;
-  iVar1 = *(int *)(param_1 + 0xc4);
-  if (0 < *(int *)(param_1 + 0x24)) {
-    uVar2 = (*(int (**)())**(unsigned int **)(param_1 + 4))(param_1,1,0x100);
-    *(int *)(iVar1 + 0x50) = (int)uVar2;
-                    /* WARNING: Subroutine does not return */
-    fn_82F691F0(uVar2,0,0x100);
-  }
-  return;
-}
+    Entropy_827C9BB0 *entropy;
+    Component_827C9BB0 *compptr;
+    int ci;
 
+    entropy = (Entropy_827C9BB0 *)(*cinfo->mem->alloc_small)(cinfo, 1, 0x54);
+    cinfo->entropy = entropy;
+    entropy->start_pass = fn_827C9958;
+    for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components; ci++, compptr++) {
+        compptr->table = (unsigned char *)(*cinfo->mem->alloc_small)(cinfo, 1, 0x100);
+        memset(compptr->table, 0, 0x100);
+        entropy->last[ci] = -1;
+    }
+}

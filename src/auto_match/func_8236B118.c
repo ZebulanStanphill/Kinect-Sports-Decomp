@@ -1,66 +1,65 @@
-extern int fn_8236B080();
-extern int fn_8255AE78();
+// Exact under LTCG with Matching func_8236B080.c and /O1 /QVMXReserve.
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float v[4];
+} __vector4;
 
+typedef struct Input_8236B118 {
+    int kind;
+    char pad[12];
+    __vector4 position;
+    unsigned char enabled;
+    char gap[15];
+    float angle;
+    char more[12];
+    __vector4 direction;
+} Input_8236B118;
 
-void fn_8236B118(int param_1,unsigned int *param_2)
+typedef struct Item_8236B118 {
+    unsigned short kind;
+    char pad[30];
+    __vector4 value;
+} Item_8236B118;
 
+typedef struct Obj_8236B118 {
+    char pad[0x1c];
+    float **data;
+    char gap[0x264];
+    Item_8236B118 *items[2];
+    char rest[0xc74];
+    int kind;
+    char align[12];
+    __vector4 a, b, c, d, e;
+    int enabled;
+} Obj_8236B118;
+
+extern void fn_8236B080(Obj_8236B118 *);
+extern __vector4 __VMXGetReg(int);
+extern __vector4 fn_8255AE78(__vector4, float);
+
+void fn_8236B118(Obj_8236B118 *self, const Input_8236B118 *input)
 {
-  unsigned short uVar1;
-  unsigned short *puVar2;
-  unsigned int *puVar3;
-  unsigned int *puVar4;
-  int in_r0;
-  int iVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned int uVar8;
-  unsigned int in_register_00010470;
-  unsigned int in_register_00010474;
-  unsigned int in_register_00010478;
-  unsigned int in_vr71;
-  
-  iVar5 = fn_8236B080();
-  *(unsigned int *)(iVar5 + 0xf00) = *param_2;
-  puVar3 = (unsigned int *)((unsigned int)(param_2 + 4) & 0xfffffff0);
-  uVar6 = puVar3[1];
-  uVar7 = puVar3[2];
-  uVar8 = puVar3[3];
-  puVar4 = (unsigned int *)(iVar5 + 0xf10U & 0xfffffff0);
-  *puVar4 = *puVar3;
-  puVar4[1] = uVar6;
-  puVar4[2] = uVar7;
-  puVar4[3] = uVar8;
-  puVar3 = (unsigned int *)((unsigned int)(param_2 + 0x10) & 0xfffffff0);
-  uVar6 = puVar3[1];
-  uVar7 = puVar3[2];
-  uVar8 = puVar3[3];
-  puVar4 = (unsigned int *)(iVar5 + 0xf40U & 0xfffffff0);
-  *puVar4 = *puVar3;
-  puVar4[1] = uVar6;
-  puVar4[2] = uVar7;
-  puVar4[3] = uVar8;
-  fn_8255AE78((double)(float)param_2[0xc]);
-  iVar5 = *(int *)(param_1 + 0xf00);
-  puVar3 = (unsigned int *)(param_1 + 0xf50U & 0xfffffff0);
-  *puVar3 = in_register_00010470;
-  puVar3[1] = in_register_00010474;
-  puVar3[2] = in_register_00010478;
-  puVar3[3] = in_vr71;
-  *(unsigned int *)(param_1 + 0xf60) = (unsigned int)*(unsigned char *)(param_2 + 8);
-  puVar2 = *(unsigned short **)(((iVar5 == 0) + 0xa1) * 4 + param_1);
-  uVar1 = *puVar2;
-  if (((uVar1 == 0) || (uVar1 == 1)) || (uVar1 < 3)) {
-    puVar3 = (unsigned int *)((unsigned int)(puVar2 + 0x10) & 0xfffffff0);
-    uVar6 = puVar3[1];
-    uVar7 = puVar3[2];
-    uVar8 = puVar3[3];
-    puVar4 = (unsigned int *)(in_r0 + param_1 + 0xf20 & 0xfffffff0);
-    *puVar4 = *puVar3;
-    puVar4[1] = uVar6;
-    puVar4[2] = uVar7;
-    puVar4[3] = uVar8;
-  }
-  *(unsigned int *)(param_1 + 0xf24) = *(unsigned int *)(*(int *)(*(int *)(param_1 + 0x1c) + 4) + 4);
-  return;
+    Obj_8236B118 *dest = self;
+    Item_8236B118 *item;
+    __vector4 *out;
+    fn_8236B080(self);
+    dest->kind = input->kind;
+    dest->a = input->position;
+    dest->d = input->direction;
+    self->e = fn_8255AE78(__VMXGetReg(71), input->angle);
+    self->enabled = input->enabled;
+    out = &self->b;
+    item = self->items[(self->kind == 0)];
+    switch (item->kind) {
+    case 0:
+        *out = item->value;
+        break;
+    case 1:
+        *out = item->value;
+        break;
+    default:
+        if (item->kind < 3)
+            *out = item->value;
+        break;
+    }
+    self->b.v[1] = self->data[1][1];
 }
-

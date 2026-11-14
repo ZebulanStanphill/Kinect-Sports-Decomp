@@ -1,28 +1,24 @@
-#define true 1
-extern int fn_82F68B6C();
+extern char lbl_82196F10[];
+extern __declspec(noreturn) void fn_82AB15D0(int, const char *, const char *, const char *, unsigned int);
 
-
-void fn_82BA7310(int *param_1,int param_2)
-
+void fn_82BA7310(int *values, int value)
 {
-  int iVar1;
-  int *piVar2;
-  
-  iVar1 = 0;
-  piVar2 = param_1;
-  while( true ) {
-    if (*piVar2 == param_2) {
-      return;
+    int index = 0;
+    int *p = values;
+    for (;;) {
+        if (*p == value)
+            return;
+        if (*p == -1)
+            break;
+        ++index;
+        ++p;
+        if (index < 64)
+            continue;
+        fn_82AB15D0(
+            0, "Assertion failed: %s (%s:%u)", lbl_82196F10,
+            "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\compiler\\il\\ilinstiterator.cpp",
+            214);
+        return;
     }
-    if (*piVar2 == -1) break;
-    iVar1 = iVar1 + 1;
-    piVar2 = piVar2 + 1;
-    if (0x3f < iVar1) {
-      fn_82F68B6C(0,0xffffffff820d2ea4,0xffffffff82196f10,0xffffffff820defa8,0xd6);
-      return;
-    }
-  }
-  param_1[iVar1] = param_2;
-  return;
+    values[index] = value;
 }
-

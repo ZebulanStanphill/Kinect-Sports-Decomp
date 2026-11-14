@@ -1,29 +1,13 @@
-extern int fn_827E9E08();
-extern unsigned int lbl_821AAD20;
+extern int fn_827E9E08(void *, void *, void *, void *, void *, float *, float *);
 
-
-unsigned __int64 fn_827EA030(double param_1)
-
+int fn_827EA030(void *a, void *b, void *c, void *d, void *e, float limit, float *out)
 {
-  float fVar1;
-  float fVar2;
-  int iVar3;
-  float *in_r9;
-  double dVar4;
-  double dVar5;
-  
-  fVar2 = lbl_821AAD20;
-  fVar1 = (float)param_1;
-  dVar5 = (double)lbl_821AAD20;
-  iVar3 = fn_827E9E08();
-  if (iVar3 != 0) {
-    dVar4 = (double)fVar2;
-    if ((((dVar4 <= (double)fVar1) && (dVar4 <= param_1)) && (dVar5 <= (double)fVar1)) &&
-       (dVar5 <= dVar4)) {
-      *in_r9 = fVar2;
-      return 1;
+    float lower = 0.0f, upper = limit;
+    if (fn_827E9E08(a, b, c, d, e, &lower, &upper)) {
+        if (lower <= upper && lower <= limit && upper >= 0.0f && lower >= 0.0f) {
+            *out = lower;
+            return 1;
+        }
     }
-  }
-  return 0;
+    return 0;
 }
-

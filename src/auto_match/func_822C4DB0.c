@@ -1,30 +1,34 @@
-extern int fn_822C69F0();
-extern int fn_822C6D68();
-extern int fn_822CA5B0();
-extern int fn_8288B760();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float v[4];
+} __vector4;
 
+extern unsigned char fn_8288B760(void *);
+extern void fn_822CA5B0(void *);
+extern void fn_822C6D68(void *, void *, void *, __vector4);
+extern void fn_822C69F0(void *, void *, void *, __vector4);
 
-void fn_822C4DB0(int param_1)
+typedef struct State_822C4DB0 {
+    char pad[0x114];
+    char *object;
+    char gap[0x50];
+    void *handle;
+    int active;
+} State_822C4DB0;
 
+void fn_822C4DB0(State_822C4DB0 *self, __vector4 a, __vector4 b)
 {
-  unsigned int uVar1;
-  __int64 lVar2;
-  
-  if (*(int *)(param_1 + 0x168) == 0) {
-    uVar1 = *(unsigned int *)(param_1 + 0x16c);
-  }
-  else {
-    uVar1 = fn_8288B760();
-    uVar1 = uVar1 & 0xff;
-  }
-  if ((uVar1 == 0) && (*(int *)(param_1 + 0x168) != 0)) {
-    fn_822CA5B0();
-  }
-  else {
-    lVar2 = (unsigned __int64)*(unsigned int *)(param_1 + 0x114) + 0x50;
-    fn_822C6D68(lVar2,param_1 + 0x80,param_1 + 0xc0);
-    fn_822C69F0(lVar2,param_1 + 0x80,param_1 + 0xc0);
-  }
-  return;
+    int active;
+    if (self->handle)
+        active = fn_8288B760(self->handle);
+    else
+        active = self->active;
+    if (!active && self->handle)
+        fn_822CA5B0(self->handle);
+    else {
+        void *object = self->object + 0x50;
+        void *last = (char *)self + 0xc0;
+        void *first = (char *)self + 0x80;
+        fn_822C6D68(object, first, last, a);
+        fn_822C69F0(object, first, last, b);
+    }
 }
-

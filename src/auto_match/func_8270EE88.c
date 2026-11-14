@@ -1,18 +1,18 @@
-__int64 fn_8270EE88(int param_1,__int64 param_2,unsigned __int64 param_3)
+typedef struct Timer_8270EE88 {
+    char pad[0x24];
+    unsigned int interval;
+    unsigned __int64 origin;
+} Timer_8270EE88;
 
+unsigned __int64 fn_8270EE88(Timer_8270EE88 *self, unsigned __int64 time, unsigned __int64 duration)
 {
-  unsigned __int64 uVar1;
-  unsigned int uVar2;
-  
-  uVar2 = *(unsigned int *)(param_1 + 0x24);
-  if ((unsigned __int64)uVar2 < param_3 / 10) {
-    uVar2 = (unsigned int)(param_3 / 10);
-  }
-  if (uVar2 == 0) {
-    return 0;
-  }
-  uVar1 = (unsigned __int64)(int)uVar2;
-  trapDoubleWordImmediate(6,uVar1,0);
-  return (((uVar1 - *(__int64 *)(param_1 + 0x28)) + param_2) / uVar1) * uVar1;
+    unsigned int interval = self->interval;
+    if ((unsigned __int64)interval < duration / 10)
+        interval = (unsigned int)(duration / 10);
+    if ((int)interval == 0)
+        return 0;
+    {
+        unsigned __int64 step = (int)interval;
+        return (step - self->origin + time) / step * step;
+    }
 }
-

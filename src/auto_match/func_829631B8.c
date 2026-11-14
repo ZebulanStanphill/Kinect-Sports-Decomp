@@ -1,26 +1,19 @@
-extern int fn_828F6FA8();
-extern int fn_82954BA8();
-extern int fn_82975A18();
+extern int fn_828F6FA8(char *out, int size, const char *fmt, ...);
+extern unsigned int *fn_82954BA8(int *self, void *table, unsigned int key);
+extern void fn_82975A18(int *self, unsigned int *item, char *out, int size);
+extern char lbl_8315B868[];
 
-
-void fn_829631B8(int *param_1,int param_2,int param_3,int param_4)
-
+void fn_829631B8(int *self, unsigned int *item, char *out, int size)
 {
-  unsigned __int64 uVar1;
-  unsigned int *puVar2;
-  
-  if ((*(int *)(param_2 + 4) == param_1[0x20]) || (*(int *)(param_2 + 4) == param_1[0x21])) {
-    uVar1 = (**(int (***)())(*param_1 + 0x70))(param_1,*(unsigned int *)(param_2 + 0x6c));
-    puVar2 = (unsigned int *)fn_82954BA8(param_1,0xffffffff8315b868,uVar1);
-    if (puVar2[4] != -1) {
-      uVar1 = (**(int (***)())(*param_1 + 0x74))(param_1,*(unsigned int *)(param_2 + 0x6c));
-      fn_828F6FA8(param_3,param_4,0xffffffff82038784,
-                        **(unsigned int **)(*(int *)(param_2 + 4) * 4 + param_1[4]),*puVar2,uVar1);
-      *(unsigned char *)(param_3 + param_4 + -1) = 0;
-      return;
+    unsigned int *entry;
+    if ((item[1] != (unsigned int)self[0x20] && item[1] != (unsigned int)self[0x21]) ||
+        ((entry = fn_82954BA8(self, lbl_8315B868,
+                              (*(unsigned int (**)(int *, unsigned int))(*self + 0x70))(self, item[0x1b]))),
+         entry[4] == -1)) {
+        fn_82975A18(self, item, out, size);
+    } else {
+        unsigned int value = (*(unsigned int (**)(int *, unsigned int))(*self + 0x74))(self, item[0x1b]);
+        fn_828F6FA8(out, size, "%s%s%u", **(unsigned int **)(self[4] + item[1] * 4), *entry, value);
+        out[size - 1] = 0;
     }
-  }
-  fn_82975A18(param_1,param_2,param_3,param_4);
-  return;
 }
-

@@ -1,63 +1,63 @@
-extern int fn_8251A808();
-extern int fn_8251A8D0();
-extern int fn_828C40D8();
 
+typedef struct Owner_82519DD0 Owner_82519DD0;
 
-void fn_82519DD0(unsigned __int64 param_1,int *param_2)
+typedef struct Vt_82519DD0 {
+    void *pad[6];
+    void (*a)(Owner_82519DD0 *, float);
+    void (*b)(Owner_82519DD0 *, float);
+    void (*c)(Owner_82519DD0 *, float);
+    void (*d)(Owner_82519DD0 *, float);
+} Vt_82519DD0;
 
+struct Owner_82519DD0 {
+    Vt_82519DD0 *vt;
+    int *context;
+    int pad8;
+    int value;
+    char pad10[0x40];
+    unsigned state, pad54, previous;
+    unsigned char active;
+};
+
+extern void fn_8251A808(Owner_82519DD0 *);
+extern void fn_8251A8D0(Owner_82519DD0 *);
+extern void fn_828C40D8(int);
+
+void fn_82519DD0(Owner_82519DD0 *self, float delta)
 {
-  unsigned int uVar1;
-  int (**pcVar2)();
-  
-  uVar1 = param_2[0x14];
-  if (uVar1 == 0) {
-    fn_8251A808(param_2);
-    return;
-  }
-  if (uVar1 == 1) {
-    return;
-  }
-  if (uVar1 < 3) {
-    if (param_2[0x16] != 2) {
-      return;
-    }
-    if (*(char *)(param_2 + 0x17) == '\0') {
-      return;
-    }
-    param_2[3] = 0;
-    return;
-  }
-  if (uVar1 == 3) {
-    if (param_2[0x16] == 3) {
-      if (*(char *)(param_2 + 0x17) != '\0') {
-        pcVar2 = *(int (***)())(*param_2 + 0x20);
-        goto LAB_82519e7c;
-      }
-    }
-    else {
-      (**(int (***)())(*param_2 + 0x18))(param_1,param_2);
-    }
-    pcVar2 = *(int (***)())(*param_2 + 0x1c);
-  }
-  else {
-    if (4 < uVar1) {
-      if (uVar1 != 5) {
+    void (*call)(Owner_82519DD0 *, float);
+    switch (self->state) {
+    case 0:
+        fn_8251A808(self);
+        break;
+    case 1:
         return;
-      }
-      fn_8251A8D0();
-      return;
+    case 2:
+        if (self->previous == 2 && self->active)
+            self->value = 0;
+        break;
+    case 3:
+        if (self->previous != 3)
+            self->vt->a(self, delta);
+        else if (self->active) {
+            call = self->vt->c;
+            goto invoke;
+        }
+        call = self->vt->b;
+        goto invoke;
+        break;
+    case 4:
+        if (self->previous != 4) {
+            call = self->vt->d;
+            goto invoke;
+        } else if (self->active)
+            fn_828C40D8(self->context[2]);
+        break;
+    case 5:
+        fn_8251A8D0(self);
+        break;
     }
-    if (param_2[0x16] == 4) {
-      if (*(char *)(param_2 + 0x17) == '\0') {
-        return;
-      }
-      fn_828C40D8(*(unsigned int *)(param_2[1] + 8));
-      return;
-    }
-    pcVar2 = *(int (***)())(*param_2 + 0x24);
-  }
-LAB_82519e7c:
-  (*pcVar2)(param_1,param_2);
-  return;
+    return;
+invoke:
+    call(self, delta);
 }
-

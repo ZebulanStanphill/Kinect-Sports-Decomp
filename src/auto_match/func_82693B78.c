@@ -1,61 +1,39 @@
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern int fn_8267B890();
-extern int fn_8267BE38();
-extern int fn_82693A98();
-extern int fn_826BD6B0();
-extern int fn_82F6ADA8();
-extern int fn_82F6AE58();
-extern unsigned int lbl_831E7E64;
-extern unsigned int stack0x00000000;
 
+#include <string.h>
+extern void *lbl_831E7E64;
+extern unsigned fn_82693A98(void *);
+extern void *fn_8267B890(void *, unsigned, int);
+extern void fn_8267BE38(void *);
+extern void fn_826BD6B0(char *, const char *, unsigned);
+extern int fn_82F6ADA8(const char *, const char *);
+extern int _stricmp_l(const char *, const char *);
 
-unsigned __int64 fn_82693B78(unsigned int *param_1,char *param_2,char *param_3,char param_4)
-
+int fn_82693B78(char ***self, const char *text, unsigned length, unsigned char ignoreCase)
 {
-  char cVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  unsigned __int64 uVar6;
-  char *pcVar7;
-  
-  uVar2 = ZEXT48(&stack0x00000000);
-  pcVar7 = param_2;
-  if (param_3 == (char *)0xffffffff) {
-    do {
-      cVar1 = *pcVar7;
-      pcVar7 = pcVar7 + 1;
-    } while (cVar1 != '\0');
-    param_3 = pcVar7 + (-1 - (int)param_2);
-  }
-  uVar3 = fn_82693A98(param_1);
-  if ((uVar3 & 0xffffffff) < 0xfa) {
-    uVar4 = uVar2 - 0x440;
-  }
-  else {
-    uVar4 = fn_8267B890(lbl_831E7E64,(uVar3 + 1 & 0x7fffffff) << 1,0);
-  }
-  if (param_3 < (char *)0xfa) {
-    uVar5 = uVar2 - 0x240;
-  }
-  else {
-    uVar5 = fn_8267B890(lbl_831E7E64,(unsigned int)(param_3 + 1) & 0x7fffffff,0);
-  }
-  fn_826BD6B0(uVar4,*(unsigned int *)*param_1,uVar3);
-  fn_826BD6B0(uVar5,param_2,param_3);
-  if (param_4 == '\0') {
-    uVar6 = fn_82F6ADA8(uVar4,uVar5);
-  }
-  else {
-    uVar6 = fn_82F6AE58();
-  }
-  if ((uVar4 & 0xffffffff) != (uVar2 - 0x440 & 0xffffffff)) {
-    fn_8267BE38(uVar4);
-  }
-  if ((uVar5 & 0xffffffff) != (uVar2 - 0x240 & 0xffffffff)) {
-    fn_8267BE38(uVar5);
-  }
-  return uVar6;
+    char a[512], b[512];
+    char *left, *right;
+    unsigned n;
+    int result;
+    if (length == -1)
+        length = strlen(text);
+    n = fn_82693A98(self);
+    if (n >= 250)
+        left = fn_8267B890(lbl_831E7E64, (n + 1) * 2, 0);
+    else
+        left = a;
+    if (length >= 250)
+        right = fn_8267B890(lbl_831E7E64, (length + 1) * 2, 0);
+    else
+        right = b;
+    fn_826BD6B0(left, **self, n);
+    fn_826BD6B0(right, text, length);
+    if (ignoreCase)
+        result = _stricmp_l(left, right);
+    else
+        result = fn_82F6ADA8(left, right);
+    if (left != a)
+        fn_8267BE38(left);
+    if (right != b)
+        fn_8267BE38(right);
+    return result;
 }
-

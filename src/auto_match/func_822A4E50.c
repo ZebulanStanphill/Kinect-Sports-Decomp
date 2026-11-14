@@ -1,42 +1,29 @@
-extern unsigned int *auStack_60;
-extern int fn_82358FD8();
-extern int fn_82440810();
-extern int fn_82528EE0();
 
+extern void fn_82528EE0(unsigned short *, int, const unsigned short *, ...);
+extern void fn_82358FD8(void *, unsigned short *, int, const char *);
+extern void fn_82440810(int *, unsigned short *, void *);
 
-void fn_822A4E50(unsigned __int64 param_1,int param_2,int param_3,unsigned __int64 param_4)
-
+void fn_822A4E50(void *self, int *entry, int time, unsigned short *out)
 {
-  int iVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  unsigned char auStack_60 [72];
-  
-  iVar1 = *(int *)(param_2 + 0x4c);
-  if (iVar1 == 1) {
-    if (param_3 == 0) {
-      fn_82440810((unsigned int *)(param_2 + 0x48),param_4,param_1);
+    unsigned short postfix[32];
+    int status = entry[0x4c / 4];
+    if (status == 1) {
+        int *value = &entry[0x48 / 4];
+        if (time) {
+            fn_82528EE0(out, 32, L"%i.%.2i", *value / 100, *value % 100);
+            fn_82358FD8(self, postfix, 32, "leaderboard_postfix_time");
+            fn_82528EE0(out, 32, L"%ls%ls", out, postfix);
+        } else
+            fn_82440810(value, out, self);
+    } else {
+        const char *key;
+        if (status == 0)
+            key = "leaderboard_unfinished";
+        else {
+            if (status != 2)
+                return;
+            key = "leaderboard_foul";
+        }
+        fn_82358FD8(self, out, 32, key);
     }
-    else {
-      uVar2 = *(unsigned int *)(param_2 + 0x48);
-      fn_82528EE0(param_4,0x20,0xffffffff821b96c0,(int)uVar2 / 100,
-                        (unsigned __int64)uVar2 + (__int64)((int)uVar2 / 100) * -100);
-      fn_82358FD8(param_1,auStack_60,0x20,0xffffffff821b96d0);
-      fn_82528EE0(param_4,0x20,0xffffffff821b96ec,param_4,auStack_60);
-    }
-  }
-  else {
-    if (iVar1 == 0) {
-      uVar3 = 0xffffffff821a82d4;
-    }
-    else {
-      if (iVar1 != 2) {
-        return;
-      }
-      uVar3 = 0xffffffff821a82c0;
-    }
-    fn_82358FD8(param_1,param_4,0x20,uVar3);
-  }
-  return;
 }
-

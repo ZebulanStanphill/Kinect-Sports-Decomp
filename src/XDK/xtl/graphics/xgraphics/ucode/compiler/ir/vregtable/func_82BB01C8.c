@@ -1,44 +1,39 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-#define _iStack00000018 ((*(unsigned __int64*)&iStack00000018))
-extern int fn_82AB15D0();
-extern int fn_82BC0088();
-extern unsigned int iStack00000018;
+typedef struct Key_82BB01C8 {
+    unsigned int high, low;
+} Key_82BB01C8;
 
+typedef struct Table_82BB01C8 {
+    int pad;
+    unsigned int count;
+    Key_82BB01C8 **items;
+} Table_82BB01C8;
 
-unsigned __int64 fn_82BB01C8(int param_1,unsigned __int64 param_2)
+extern Key_82BB01C8 **fn_82BC0088(Table_82BB01C8 *self, unsigned int index);
+extern void fn_82AB15D0(int, const char *, const char *, const char *, int);
+extern char lbl_82196F10[];
 
+static __forceinline unsigned char Equal(Key_82BB01C8 *a, Key_82BB01C8 *b)
 {
-  bool bVar1;
-  int *piVar2;
-  int iVar3;
-  unsigned __int64 uVar4;
-  int iStack00000018;
-  
-  uVar4 = 0;
-  _iStack00000018 = param_2;
-  if (*(int *)(param_1 + 4) != 0) {
-    iVar3 = 0;
-    if (*(int *)(param_1 + 4) == 0) {
-      piVar2 = (int *)fn_82BC0088(param_1,0);
-      goto LAB_82bb0210;
-    }
-    do {
-      piVar2 = (int *)(*(int *)(param_1 + 8) + iVar3);
-LAB_82bb0210:
-      if ((*(int *)*piVar2 != iStack00000018) ||
-         (bVar1 = true, (unsigned __int64)(unsigned int)((int *)*piVar2)[1] != (_iStack00000018 & 0xffffffff))) {
-        bVar1 = false;
-      }
-      if (bVar1) {
-        return uVar4;
-      }
-      uVar4 = uVar4 + 1;
-      iVar3 = iVar3 + 4;
-    } while ((uVar4 & 0xffffffff) < (unsigned __int64)*(unsigned int *)(param_1 + 4));
-  }
-  fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff82196f10,0xffffffff820dfb20,0x23c);
-  return (unsigned __int64)*(unsigned int *)(param_1 + 4);
+    if (a->high == b->high && a->low == b->low)
+        return 1;
+    return 0;
 }
 
+unsigned int fn_82BB01C8(Table_82BB01C8 *self, Key_82BB01C8 key)
+{
+    unsigned int i = 0;
+    for (; i < self->count; i++) {
+        Key_82BB01C8 **slot;
+        if (i < self->count)
+            slot = &self->items[i];
+        else
+            slot = fn_82BC0088(self, i);
+        if (Equal(*slot, &key))
+            return i;
+    }
+    fn_82AB15D0(
+        0, "Assertion failed: %s (%s:%u)", lbl_82196F10,
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\compiler\\ir\\vregtable.cpp",
+        0x23c);
+    return self->count;
+}

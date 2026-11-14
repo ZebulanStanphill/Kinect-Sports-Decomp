@@ -1,10 +1,7 @@
-extern unsigned int lbl_8218E8E8;
-extern float lbl_82195644;
+extern const float lbl_821954B0[0xa28 / 4];
+extern const float lbl_8218E8E8;
 
-
-unsigned __int64 fn_82637F90(int param_1)
-
+unsigned int fn_82637F90(char *self)
 {
-  return (__int64)(*(float *)(param_1 + 0x2904) * lbl_82195644 + lbl_8218E8E8) & 0xffffffff;
+    return (unsigned int)(*(float *)(self + 0x2904) * lbl_821954B0[0x194 / 4] + lbl_8218E8E8);
 }
-

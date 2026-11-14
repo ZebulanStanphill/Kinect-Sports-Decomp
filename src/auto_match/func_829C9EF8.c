@@ -1,49 +1,26 @@
-typedef unsigned char bool;
-extern unsigned int lbl_8315C3E8;
-extern unsigned int lbl_83215018;
-extern unsigned int lbl_83215280;
-extern unsigned __int64 storeWordConditionalIndexed();
+extern int lbl_83215000[];
+extern int (*lbl_8315C3E8)(void *);
+extern long _InterlockedIncrement(long *);
+extern long _InterlockedDecrement(long *);
+extern void KeSetEvent(void *, int, int);
 
-
-unsigned __int64 fn_829C9EF8(unsigned int *param_1)
-
+int fn_829C9EF8(unsigned int *request)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  if (lbl_83215018 == 0) {
-    *param_1 = 1;
-    do {
-      if (in_RESERVE != '\0') {
-        lbl_83215280 = storeWordConditionalIndexed((unsigned __int64)lbl_83215280 + 1,0,0xffffffff83215280)
-        ;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-    uVar1 = (*(int (**)())lbl_8315C3E8)(param_1 + 2);
-    if ((int)uVar1 == 0x103) {
-      uVar1 = 0;
-    }
-    else if ((int)uVar1 != 0) {
-      *param_1 = 0;
-      do {
-        uVar2 = (unsigned __int64)lbl_83215280;
-        if (in_RESERVE != '\0') {
-          lbl_83215280 = storeWordConditionalIndexed(uVar2 - 1,0,0xffffffff83215280);
-          in_cr0 = 2;
+    int hr;
+    if (!lbl_83215000[6]) {
+        *request = 1;
+        _InterlockedIncrement((long *)&lbl_83215000[0x280 / 4]);
+        hr = lbl_8315C3E8(request + 2);
+        if (hr == 0x103)
+            return 0;
+        if (hr) {
+            *request = 0;
+            if (_InterlockedDecrement((long *)&lbl_83215000[0x280 / 4]) == 0) {
+                __emit(0x7C0004AC);
+                KeSetEvent(&lbl_83215000[0x618 / 4], 1, 0);
+            }
         }
-      } while (!(bool)(in_cr0 >> 1 & 1));
-      if ((int)(uVar2 - 1) == 0) {
-        sync(0);
-        KeSetEvent(0xffffffff83215618,1,0);
-      }
+        return hr;
     }
-  }
-  else {
-    uVar1 = 0xffffffffc000004b;
-  }
-  return uVar1;
+    return 0xc000004b;
 }
-

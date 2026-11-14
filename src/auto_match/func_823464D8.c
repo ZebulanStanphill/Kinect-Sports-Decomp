@@ -1,16 +1,14 @@
-extern float lbl_821954EC;
-extern unsigned int ltcg_pool_0_0f;
+extern const float lbl_821954B0[0xa28 / 4];
 
+typedef struct Vec_823464D8 {
+    float x, y, z;
+} Vec_823464D8;
 
-void fn_823464D8(float *param_1,int param_2)
-
+void fn_823464D8(Vec_823464D8 *out, char *self)
 {
-  float fVar1;
-  
-  fVar1 = ltcg_pool_0_0f;
-  *param_1 = *(float *)(*(int *)(param_2 + 0x10) + 8) * lbl_821954EC;
-  param_1[2] = fVar1;
-  param_1[1] = fVar1;
-  return;
+    Vec_823464D8 result;
+    result.x = *(float *)(*(char **)(self + 0x10) + 8) * lbl_821954B0[15];
+    result.y = 0.0f;
+    result.z = 0.0f;
+    *out = result;
 }
-

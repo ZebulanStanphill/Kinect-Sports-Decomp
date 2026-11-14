@@ -1,38 +1,63 @@
-extern unsigned int *auStack_28;
-extern int XMemSet();
+typedef struct Entry_82571050 {
+    char pad[0xd4];
+    void *key;
+    char rest[0x3f0 - 0xd8];
+} Entry_82571050;
 
+typedef struct Event_82571050 {
+    int type, size;
+    unsigned int value;
+    int result;
+} Event_82571050;
 
-int fn_82571050(int param_1,int param_2,unsigned __int64 param_3,int param_4)
+typedef struct Self_82571050 {
+    void (**vt)();
+    char pad[0x37c];
+    char defaults[0x3d8];
+    Entry_82571050 *begin, *end;
+} Self_82571050;
 
+extern void *XMemSet(void *, int, unsigned int);
+
+static __forceinline Entry_82571050 *Find(Self_82571050 *self, void *key)
 {
-  int iVar1;
-  unsigned int uVar2;
-  unsigned char auStack_28 [16];
-  
-  if (param_4 == 0) {
-    if (param_2 != 0) {
-      for (uVar2 = *(unsigned int *)(param_1 + 0x758); uVar2 < *(unsigned int *)(param_1 + 0x75c);
-          uVar2 = uVar2 + 0x3f0) {
-        if (param_2 == *(int *)(uVar2 + 0xd4)) goto LAB_825710a4;
-      }
-      uVar2 = 0;
-LAB_825710a4:
-      param_4 = uVar2 + 0x2d0;
-      if (uVar2 != 0) goto LAB_825710b4;
+    Entry_82571050 *it = self->begin, *end = self->end;
+    while (it < end) {
+        if (key == it->key)
+            return it;
+        ++it;
     }
-    param_4 = param_1 + 0x380;
-  }
-LAB_825710b4:
-  if (param_4 == param_1 + 0x380) {
-    iVar1 = *(int *)(param_1 + 0x444);
-    if (iVar1 == -3) {
-                    /* WARNING: Subroutine does not return */
-      XMemSet(auStack_28,0,8);
-    }
-  }
-  else {
-    iVar1 = *(int *)(param_4 + 0xc4);
-  }
-  return iVar1;
+    return 0;
 }
 
+int fn_82571050(Self_82571050 *self, void *key, unsigned int value, char *object)
+{
+    int result;
+    if (!object) {
+        if (key) {
+            Entry_82571050 *found = Find(self, key);
+            if (found) {
+                object = (char *)found + 0x2d0;
+                goto ready;
+            }
+        }
+        object = self->defaults;
+    }
+ready:
+    if (object != self->defaults)
+        result = *(int *)(object + 0xc4);
+    else {
+        result = *(int *)((char *)self + 0x444);
+        if (result == -3) {
+            Event_82571050 event;
+            XMemSet(&event.value, 0, 8);
+            event.value = value;
+            event.type = 0x18;
+            event.size = 0x10;
+            event.result = 0;
+            self->vt[3](self, &event);
+            result = event.result;
+        }
+    }
+    return result;
+}

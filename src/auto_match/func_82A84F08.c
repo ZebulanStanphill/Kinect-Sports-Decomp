@@ -1,40 +1,21 @@
-unsigned __int64 fn_82A84F08(int param_1,unsigned int param_2,int *param_3)
+typedef struct Owner_82A84F08 {
+    char pad[0x2fc];
+    int sum[11];
+} Owner_82A84F08;
 
+int fn_82A84F08(Owner_82A84F08 *self, unsigned int count, const int *input)
 {
-  int iVar1;
-  int iVar2;
-  int *piVar3;
-  unsigned int *puVar4;
-  
-  if (param_2 != 0) {
-    if (param_3 == (int *)0x0) {
-      return 0xffffffff80070057;
+    unsigned int i;
+    if (count) {
+        if (!input)
+            return 0x80070057;
+        if (count >= 11)
+            count = 11;
+        self->sum[0] = input[0];
+        for (i = 1; i < count; i++)
+            self->sum[i] = self->sum[i - 1] + input[i];
+        for (i = count; i < 11; i++)
+            self->sum[i] = self->sum[count - 1];
     }
-    if (10 < param_2) {
-      param_2 = 0xb;
-    }
-    *(int *)(param_1 + 0x2fc) = *param_3;
-    if (1 < param_2) {
-      iVar2 = param_2 - 1;
-      piVar3 = (int *)(param_1 + 0x2fc);
-      do {
-        iVar1 = *piVar3;
-        param_3 = param_3 + 1;
-        piVar3 = piVar3 + 1;
-        *piVar3 = iVar1 + *param_3;
-        iVar2 = iVar2 + -1;
-      } while (iVar2 != 0);
-    }
-    if (param_2 < 0xb) {
-      iVar2 = 0xb - param_2;
-      puVar4 = (unsigned int *)((param_2 + 0xbe) * 4 + param_1);
-      do {
-        puVar4 = puVar4 + 1;
-        *puVar4 = *(unsigned int *)((param_2 + 0xbe) * 4 + param_1);
-        iVar2 = iVar2 + -1;
-      } while (iVar2 != 0);
-    }
-  }
-  return 0;
+    return 0;
 }
-

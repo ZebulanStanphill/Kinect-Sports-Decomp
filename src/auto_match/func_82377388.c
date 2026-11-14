@@ -1,37 +1,74 @@
-extern int fn_82250A18();
-extern int fn_822ABA88();
-extern int fn_82390DC0();
-extern int fn_8288B760();
-extern unsigned int lbl_832975B0;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Config_82377388 {
+    char pad[4];
+    unsigned char enabled;
+} Config_82377388;
 
-void fn_82377388(unsigned __int64 param_1,unsigned __int64 param_2,int param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5,int param_6,unsigned __int64 param_7)
+typedef struct Target_82377388 {
+    char pad[0x78];
+    char *base;
+} Target_82377388;
 
+typedef struct Link_82377388 {
+    char pad[0x88];
+    Target_82377388 *target;
+} Link_82377388;
+
+typedef struct Self_82377388 {
+    char pad[0x84];
+    Link_82377388 *link;
+} Self_82377388;
+
+extern Config_82377388 *lbl_832975B0;
+extern Config_82377388 *fn_82250A18(void);
+
+typedef struct Entry_82377388 {
+    void **items;
+    char pad[0xc];
+    unsigned int current;
+} Entry_82377388;
+
+typedef struct Table_82377388 {
+    Entry_82377388 **entries;
+} Table_82377388;
+
+typedef struct Value_82377388 {
+    char pad[0x168];
+    void *dynamic;
+    int enabled;
+} Value_82377388;
+
+extern Value_82377388 *fn_822ABA88(void *obj, int key);
+extern unsigned char fn_8288B760(void *obj);
+extern void fn_82390DC0(void *obj, __vector4 a, __vector4 b, __vector4 c, float t, int value, int index,
+                        int key, float u);
+
+static __forceinline Config_82377388 *GetConfig(void)
 {
-  int *piVar1;
-  int iVar2;
-  int iVar3;
-  unsigned int uVar4;
-  
-  iVar2 = lbl_832975B0;
-  if (lbl_832975B0 == 0) {
-    iVar2 = fn_82250A18();
-  }
-  if ((*(char *)(iVar2 + 4) != '\0') && (iVar2 = *(int *)(param_3 + 0x84), iVar2 != 0)) {
-    piVar1 = *(int **)(**(int **)(param_3 + 8) + param_6 * 4);
-    iVar3 = fn_822ABA88(*(unsigned int *)(piVar1[4] * 4 + *piVar1),param_7);
-    if (*(int *)(iVar3 + 0x168) == 0) {
-      uVar4 = *(unsigned int *)(iVar3 + 0x16c);
-    }
-    else {
-      uVar4 = fn_8288B760();
-      uVar4 = uVar4 & 0xff;
-    }
-    if ((uVar4 != 0) && (iVar2 = *(int *)(iVar2 + 0x88), iVar2 != 0)) {
-      fn_82390DC0(param_1,param_2,(unsigned __int64)*(unsigned int *)(iVar2 + 0x78) + 0xc0);
-    }
-  }
-  return;
+    if (lbl_832975B0)
+        return lbl_832975B0;
+    return fn_82250A18();
 }
 
+void fn_82377388(Self_82377388 *self, __vector4 a, __vector4 b, __vector4 c, float t, int value, int index,
+                 int key, float u)
+{
+    if (GetConfig()->enabled) {
+        Link_82377388 *link = self->link;
+        if (link) {
+            Table_82377388 *table = *(Table_82377388 **)((char *)self + 8);
+            Entry_82377388 *entry = table->entries[index];
+            Value_82377388 *v = fn_822ABA88(entry->items[entry->current], key);
+            int enabled;
+            if (v->dynamic)
+                enabled = fn_8288B760(v->dynamic);
+            else
+                enabled = v->enabled;
+            if (enabled && link->target)
+                fn_82390DC0(link->target->base + 0xc0, a, b, c, t, value, index, key, u);
+        }
+    }
+}

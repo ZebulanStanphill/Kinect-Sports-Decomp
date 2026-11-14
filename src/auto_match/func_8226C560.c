@@ -1,33 +1,44 @@
-extern int fn_8280A580();
-extern unsigned int lbl_82193E50;
+typedef struct Item_8226C560 {
+    char pad[0xc0];
+    float value;
+    char pad2[0x20];
+    unsigned int mask;
+    float copy;
+    int pad3;
+} Item_8226C560;
 
+typedef struct Owner_8226C560 {
+    char pad[0x40];
+    Item_8226C560 *items;
+    int count;
+} Owner_8226C560;
 
-void fn_8226C560(int param_1,unsigned int param_2)
+extern float lbl_82193E50;
+extern float fn_8280A580(float value);
 
+static __forceinline void Add(float *value, float step)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  double dVar4;
-  double dVar5;
-  
-  iVar2 = 0;
-  if (0 < *(int *)(param_1 + 0x44)) {
-    iVar3 = 0;
-    dVar5 = (double)lbl_82193E50;
-    do {
-      if ((*(unsigned int *)(*(int *)(param_1 + 0x40) + iVar3 + 0xe4) & param_2) != 0) {
-        iVar1 = *(int *)(param_1 + 0x40) + iVar3;
-        *(float *)(iVar1 + 0xc0) = (float)((double)*(float *)(iVar1 + 0xc0) + dVar5);
-        dVar4 = (double)fn_8280A580((double)*(float *)(*(int *)(param_1 + 0x40) + iVar3 + 0xc0));
-        *(float *)(*(int *)(param_1 + 0x40) + iVar3 + 0xc0) = (float)dVar4;
-        iVar1 = *(int *)(param_1 + 0x40) + iVar3;
-        *(unsigned int *)(iVar1 + 0xe8) = *(unsigned int *)(iVar1 + 0xc0);
-      }
-      iVar2 = iVar2 + 1;
-      iVar3 = iVar3 + 0xf0;
-    } while (iVar2 < *(int *)(param_1 + 0x44));
-  }
-  return;
+    *value += step;
 }
 
+void fn_8226C560(Owner_8226C560 *self, unsigned int mask)
+{
+    Owner_8226C560 *selfCopy = self;
+    int i = 0;
+    if (0 < selfCopy->count) {
+        int off = 0;
+        float step = lbl_82193E50;
+        do {
+            if (((Item_8226C560 *)((char *)selfCopy->items + off))->mask & mask) {
+                Item_8226C560 *item = (Item_8226C560 *)((char *)selfCopy->items + off);
+                Add(&item->value, step);
+                ((Item_8226C560 *)((char *)selfCopy->items + off))->value =
+                    fn_8280A580(((Item_8226C560 *)((char *)selfCopy->items + off))->value);
+                item = (Item_8226C560 *)((char *)selfCopy->items + off);
+                item->copy = item->value;
+            }
+            i++;
+            off += 0xf0;
+        } while (i < selfCopy->count);
+    }
+}

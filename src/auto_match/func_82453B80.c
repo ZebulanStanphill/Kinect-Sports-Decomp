@@ -1,42 +1,44 @@
-#define true 1
-extern unsigned int *auStack_10;
-extern int fn_82454710();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float v[4];
+} __vector4;
 
+typedef struct Entry_82453B80 {
+    int unused, a, key, c;
+    __vector4 vector;
+    float value;
+    unsigned char flag;
+    char pad[11];
+} Entry_82453B80;
 
-unsigned __int64 fn_82453B80(int param_1,int param_2,int param_3)
+typedef struct Table_82453B80 {
+    char pad[0x6c];
+    Entry_82453B80 *begin, *end;
+} Table_82453B80;
 
+typedef struct State_82453B80 {
+    char pad[0x44];
+    Table_82453B80 *table;
+} State_82453B80;
+
+extern void fn_82454710(void *, void *, Entry_82453B80 *);
+
+int fn_82453B80(State_82453B80 *self, int key, Entry_82453B80 *out)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int iVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned char auStack_10 [1];
-  
-  iVar3 = *(int *)(*(int *)(param_1 + 0x44) + 0x6c);
-  while( true ) {
-    if (iVar3 == *(int *)(*(int *)(param_1 + 0x44) + 0x70)) {
-      return 0;
+    Entry_82453B80 *it = self->table->begin;
+    Entry_82453B80 *end = self->table->end;
+    int result;
+    while (it != end) {
+        if (it->key == key) {
+            out->a = it->a;
+            out->key = it->key;
+            out->c = it->c;
+            out->vector = it->vector;
+            out->value = it->value;
+            out->flag = it->flag;
+            fn_82454710(&result, &self->table->begin, it);
+            return 1;
+        }
+        ++it;
     }
-    if (*(int *)(iVar3 + 8) == param_2) break;
-    iVar3 = iVar3 + 0x30;
-  }
-  *(unsigned int *)(param_3 + 4) = *(unsigned int *)(iVar3 + 4);
-  *(unsigned int *)(param_3 + 8) = *(unsigned int *)(iVar3 + 8);
-  *(unsigned int *)(param_3 + 0xc) = *(unsigned int *)(iVar3 + 0xc);
-  puVar1 = (unsigned int *)(iVar3 + 0x10U & 0xfffffff0);
-  uVar4 = puVar1[1];
-  uVar5 = puVar1[2];
-  uVar6 = puVar1[3];
-  puVar2 = (unsigned int *)(param_3 + 0x10U & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar4;
-  puVar2[2] = uVar5;
-  puVar2[3] = uVar6;
-  *(unsigned int *)(param_3 + 0x20) = *(unsigned int *)(iVar3 + 0x20);
-  *(unsigned char *)(param_3 + 0x24) = *(unsigned char *)(iVar3 + 0x24);
-  fn_82454710(auStack_10,(unsigned __int64)*(unsigned int *)(param_1 + 0x44) + 0x6c);
-  return 1;
+    return 0;
 }
-

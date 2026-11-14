@@ -1,48 +1,68 @@
-extern int *piRam83296d40;
-extern unsigned int *auStack_40;
-extern int fn_82549610();
-extern int fn_82549660();
-extern int fn_82549798();
-extern int fn_8259C738();
-extern int fn_825B49E8();
-extern int fn_82A1BB18();
 
+typedef struct Cached_82599CD8 {
+    int enabled, pad;
+    void *cached;
+} Cached_82599CD8;
 
-void fn_82599CD8(int param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+typedef struct State_82599CD8 {
+    char pad[0x14];
+    Cached_82599CD8 *cache;
+    char pad18[0x144 - 0x18];
+    int enabled;
+} State_82599CD8;
 
+typedef struct Global_82599CD8 {
+    int *pool;
+    char pad[8];
+    int lock;
+} Global_82599CD8;
+
+extern Global_82599CD8 lbl_83296D40;
+extern void fn_82549610(int *, int *);
+extern void fn_82549660(unsigned, int);
+extern void fn_82A1BB18(void);
+extern void fn_8259C738(int);
+extern void *fn_825B49E8(int *, unsigned);
+extern void *fn_82549798(unsigned, void *, int, int);
+
+static __forceinline void *Acquire(Cached_82599CD8 *cache, unsigned size, int *token)
 {
-  int *piVar1;
-  int iVar2;
-  unsigned int auStack_40;
-
-  if (((*(int *)(param_1 + 0x144) != 0) &&
-      (piVar1 = *(int **)(param_1 + 0x14), piVar1 != (int *)0x0)) && (*piVar1 != 0)) {
-    fn_82549610(&auStack_40,0xffffffff83296d4c);
-    if (piRam83296d40 == (int *)0x0) {
-      fn_82549660(0x200000,1);
-    }
-    iVar2 = *piRam83296d40;
-    fn_82A1BB18();
-    fn_8259C738(auStack_40);
-    if ((param_2 & 0xffffffff) <= (unsigned __int64)(unsigned int)(0x1000 << (iVar2 - 1U & 0x3f))) {
-      iVar2 = piVar1[2];
-      if (iVar2 == 0) {
-        fn_82549610(&auStack_40,0xffffffff83296d4c);
-        if (piRam83296d40 == (int *)0x0) {
-          fn_82549660(0x200000,1);
-        }
-        iVar2 = fn_825B49E8(piRam83296d40,param_2);
+    void *cached = cache->cached;
+    if (cached) {
+        cache->cached = 0;
+        return cached;
+    } else {
+        void *allocated;
+        fn_82549610(token, &lbl_83296D40.lock);
+        if (!lbl_83296D40.pool)
+            fn_82549660(0x200000, 1);
+        allocated = fn_825B49E8(lbl_83296D40.pool, size);
         fn_82A1BB18();
-        fn_8259C738(auStack_40);
-      }
-      else {
-        piVar1[2] = 0;
-      }
-      if (iVar2 != 0) {
-        return;
-      }
+        fn_8259C738(*token);
+        return allocated;
     }
-  }
-  fn_82549798(param_2,param_3,0x404,0);
-  return;
+}
+
+void *fn_82599CD8(State_82599CD8 *self, unsigned size, void *arg)
+{
+    Cached_82599CD8 *cache;
+    unsigned max;
+    int token;
+    void *result;
+    if (self->enabled && (cache = self->cache) != 0 && cache->enabled) {
+        fn_82549610(&token, &lbl_83296D40.lock);
+        if (!lbl_83296D40.pool)
+            fn_82549660(0x200000, 1);
+        max = 0x1000u << (*lbl_83296D40.pool - 1);
+        fn_82A1BB18();
+        fn_8259C738(token);
+        if (size <= max) {
+            result = Acquire(cache, size, &token);
+            if (result)
+                goto done;
+        }
+    }
+    result = fn_82549798(size, arg, 0x404, 0);
+done:
+    return result;
 }

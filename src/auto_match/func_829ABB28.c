@@ -1,28 +1,58 @@
-int fn_829ABB28(int *param_1,unsigned __int64 param_2,unsigned __int64 param_3)
 
+typedef struct Jpeg_829ABB28 Jpeg_829ABB28;
+
+typedef struct Error_829ABB28 {
+    void (*exit)(Jpeg_829ABB28 *);
+    void (*emit)(Jpeg_829ABB28 *, int);
+    char pad[12];
+    int code;
+    int arg;
+} Error_829ABB28;
+
+typedef struct Progress_829ABB28 {
+    void (*monitor)(Jpeg_829ABB28 *);
+    unsigned counter, limit;
+} Progress_829ABB28;
+
+typedef struct Main_829ABB28 {
+    void *pad;
+    void (*process)(Jpeg_829ABB28 *, void *, unsigned *, unsigned);
+} Main_829ABB28;
+
+struct Jpeg_829ABB28 {
+    Error_829ABB28 *err;
+    void *mem;
+    Progress_829ABB28 *progress;
+    char padc[8];
+    int state;
+    char pad18[0x74 - 0x18];
+    unsigned height;
+    char pad78[0x8c - 0x78];
+    unsigned scanline;
+    char pad90[0x1ac - 0x90];
+    Main_829ABB28 *main;
+};
+
+unsigned fn_829ABB28(Jpeg_829ABB28 *self, void *scanlines, unsigned count)
 {
-  int aiStack_30;
-  
-  if (param_1[5] != 0xcd) {
-    *(unsigned int *)(*param_1 + 0x14) = 0x14;
-    *(int *)(*param_1 + 0x18) = param_1[5];
-    (**(int (***)())*param_1)();
-  }
-  if ((unsigned int)param_1[0x23] < (unsigned int)param_1[0x1d]) {
-    if (param_1[2] != 0) {
-      *(int *)(param_1[2] + 4) = param_1[0x23];
-      *(int *)(param_1[2] + 8) = param_1[0x1d];
-      (**(int (***)())param_1[2])(param_1);
+    unsigned rows;
+    if (self->state != 0xcd) {
+        self->err->code = 0x14;
+        self->err->arg = self->state;
+        self->err->exit(self);
     }
-    aiStack_30 = 0;
-    (**(int (***)())(param_1[0x6b] + 4))(param_1,param_2,&aiStack_30,param_3);
-    param_1[0x23] = aiStack_30 + param_1[0x23];
-  }
-  else {
-    *(unsigned int *)(*param_1 + 0x14) = 0x7b;
-    (**(int (***)())(*param_1 + 4))(param_1,0xffffffffffffffff);
-    aiStack_30 = 0;
-  }
-  return aiStack_30;
+    if (self->scanline >= self->height) {
+        self->err->code = 0x7b;
+        self->err->emit(self, -1);
+        return 0;
+    }
+    if (self->progress) {
+        self->progress->counter = self->scanline;
+        self->progress->limit = self->height;
+        self->progress->monitor(self);
+    }
+    rows = 0;
+    self->main->process(self, scanlines, &rows, count);
+    self->scanline += rows;
+    return rows;
 }
-

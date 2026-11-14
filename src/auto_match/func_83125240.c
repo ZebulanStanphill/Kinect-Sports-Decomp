@@ -1,14 +1,9 @@
-extern unsigned int lbl_8326B430;
-extern unsigned int lbl_8326B434;
-extern unsigned int lbl_83296E10;
-extern unsigned int lbl_83296E14;
-
+extern int lbl_8326B370[82];
+extern float lbl_83296E10[2];
 
 void fn_83125240(void)
-
 {
-  lbl_83296E14 = (float)(__int64)lbl_8326B434;
-  lbl_83296E10 = (float)(__int64)lbl_8326B430;
-  return;
+    float second = (float)lbl_8326B370[49];
+    lbl_83296E10[0] = (float)lbl_8326B370[48];
+    lbl_83296E10[1] = second;
 }
-

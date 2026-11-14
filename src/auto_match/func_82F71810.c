@@ -1,6 +1,4 @@
-short fn_82F71810(unsigned __int64 param_1)
-
+int fn_82F71810(double value)
 {
-  return ((unsigned short)((unsigned __int64)param_1 >> 0x34) & 0x7ff) - 0x3fe;
+    return (short)(((*(unsigned short *)&value >> 4) & 0x7ff) - 0x3fe);
 }
-

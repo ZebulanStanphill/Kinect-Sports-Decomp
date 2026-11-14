@@ -1,42 +1,32 @@
-extern int fn_82A91338();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float v[4];
+} __vector4;
 
+typedef struct Obj_82A8B960 {
+    struct Vtable_82A8B960 *vt;
+    char pad[0x20];
+} Obj_82A8B960;
 
-__int64 fn_82A8B960(int *param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                      unsigned __int64 param_5)
+typedef struct Vtable_82A8B960 {
+    void *a, *b;
+    int (*check)(Obj_82A8B960 *, unsigned int, unsigned int, __vector4 *, __vector4 *);
+} Vtable_82A8B960;
 
+extern __vector4 lbl_820D2760;
+extern void fn_82A91338(void *, unsigned int, unsigned int, __vector4 *, __vector4 *);
+
+int fn_82A8B960(Obj_82A8B960 *self, unsigned int a, unsigned int b, __vector4 *out1, __vector4 *out2)
 {
-  unsigned int *puVar1;
-  int in_r0;
-  __int64 lVar2;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs43 [16];
-  unsigned int in_register_000103f0;
-  unsigned int in_register_000103f4;
-  unsigned int in_register_000103f8;
-  unsigned int in_vr63;
-  
-  if (((param_4 & 0xffffffff) == 0) || ((param_5 & 0xffffffff) == 0)) {
-    lVar2 = -0x7ff8ffa9;
-  }
-  else {
-    lVar2 = (**(int (***)())(*param_1 + 8))();
-    if (lVar2 < 0) {
-      altv207_13(in_vs32,in_vs43);
-      puVar1 = (unsigned int *)(in_r0 + (int)param_5 & 0xfffffff0);
-      *puVar1 = in_register_000103f0;
-      puVar1[1] = in_register_000103f4;
-      puVar1[2] = in_register_000103f8;
-      puVar1[3] = in_vr63;
-      puVar1 = (unsigned int *)(in_r0 + (int)param_4 & 0xfffffff0);
-      *puVar1 = in_register_000103f0;
-      puVar1[1] = in_register_000103f4;
-      puVar1[2] = in_register_000103f8;
-      puVar1[3] = in_vr63;
-    }
+    int result;
+    if (!out1 || !out2)
+        return 0x80070057;
+    result = self->vt->check(self, a, b, out1, out2);
+    if (result >= 0)
+        fn_82A91338((char *)self + 0x24, a, b, out1, out2);
     else {
-      fn_82A91338(param_1 + 9,param_2,param_3,param_4,param_5);
+        __vector4 empty = lbl_820D2760;
+        *out2 = empty;
+        *out1 = empty;
     }
-  }
-  return lVar2;
+    return result;
 }
-
