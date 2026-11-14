@@ -1,46 +1,30 @@
-typedef unsigned char bool;
-extern int fn_82A1BB18();
-extern unsigned __int64 storeWordConditionalIndexed();
+#define __lwsync() __emit(0x7C2004AC)
 
+typedef struct Lock_82F61A28 {
+    long owner;             /* 0x00 */
+    int pad4;
+    int a;                  /* 0x08 */
+    int b;                  /* 0x0c */
+    int pad10[2];
+    int savedA;             /* 0x18 */
+    int savedB;             /* 0x1c */
+} Lock_82F61A28;
 
-unsigned __int64 fn_82F61A28(unsigned __int64 param_1,unsigned int *param_2)
+extern long _InterlockedCompareExchange(long volatile *target, long exchange, long comparand);
+extern long fn_82A1BB18(void);
 
+long fn_82F61A28(Lock_82F61A28 *self, int *out)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  unsigned int *puVar4;
-  unsigned __int64 uVar5;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  uVar5 = 0;
-  uVar3 = fn_82A1BB18();
-  do {
-    puVar4 = (unsigned int *)param_1;
-    uVar1 = *puVar4;
-    if (uVar1 != 0) {
-      if (in_RESERVE != '\0') {
-        uVar2 = storeWordConditionalIndexed((unsigned __int64)uVar1,0,param_1);
-        *puVar4 = uVar2;
-      }
-      break;
-    }
-    if (in_RESERVE != '\0') {
-      uVar2 = storeWordConditionalIndexed(uVar3,0,param_1);
-      *puVar4 = uVar2;
-      in_cr0 = 2;
-    }
-  } while (!(bool)(in_cr0 >> 1 & 1));
-  sync(1);
-  if (uVar1 == 0) {
-    puVar4[7] = puVar4[3];
-    puVar4[6] = puVar4[2];
-    *param_2 = puVar4[3];
-  }
-  else {
-    uVar5 = 0xffffffff82240400;
-  }
-  return uVar5;
-}
+    long hr = 0;
+    long prev = _InterlockedCompareExchange(&self->owner, fn_82A1BB18(), 0);
 
+    __lwsync();
+    if (prev == 0) {
+        self->savedB = self->b;
+        self->savedA = self->a;
+        *out = self->b;
+    } else {
+        hr = 0x82240400;
+    }
+    return hr;
+}

@@ -1,31 +1,21 @@
-extern int fn_826959C8();
-extern int fn_826C0330();
+typedef struct Ctx_826A83A8 { char pad[0x11c]; unsigned int id; } Ctx_826A83A8;
+typedef struct Info_826A83A8 { char pad[0x2a4]; unsigned char mode; } Info_826A83A8;
+typedef struct Self_826A83A8 { char pad[0x20]; Info_826A83A8 *info; } Self_826A83A8;
+typedef struct Value_826A83A8 { unsigned char type; char pad[3]; unsigned char b; } Value_826A83A8;
+extern void fn_826959C8(Value_826A83A8 *v);
+extern unsigned char fn_826C0330(Self_826A83A8 *self, Ctx_826A83A8 **ctx, unsigned int *id, Value_826A83A8 *out);
 
-
-unsigned __int64 fn_826A83A8(int param_1,int *param_2,int *param_3,unsigned char *param_4)
-
+static __forceinline void SetBool(Value_826A83A8 *v, unsigned char b) { fn_826959C8(v); v->type = 2; v->b = b; }
+static __forceinline void SetNone(Value_826A83A8 *v) { fn_826959C8(v); v->type = 0; }
+unsigned char fn_826A83A8(Self_826A83A8 *self, Ctx_826A83A8 **ctx, unsigned int *id, Value_826A83A8 *out)
 {
-  char cVar1;
-  unsigned __int64 uVar2;
-  unsigned char uVar3;
-  
-  if (*param_3 == *(int *)(*param_2 + 0x11c)) {
-    cVar1 = *(char *)(*(int *)(param_1 + 0x20) + 0x2a4);
-    if (cVar1 == '\0') {
-      fn_826959C8(param_4);
-      uVar3 = 0;
+    if (*id == (*ctx)->id) {
+        if (self->info->mode != 0) {
+            SetBool(out, self->info->mode == 1);
+            return 1;
+        }
+        SetNone(out);
+        return 0;
     }
-    else {
-      fn_826959C8(param_4);
-      uVar3 = 2;
-      param_4[4] = cVar1 == '\x01';
-    }
-    uVar2 = (unsigned __int64)(cVar1 != '\0');
-    *param_4 = uVar3;
-  }
-  else {
-    uVar2 = fn_826C0330();
-  }
-  return uVar2;
+    return fn_826C0330(self, ctx, id, out);
 }
-

@@ -1,46 +1,31 @@
-extern unsigned int *auStack_10;
+/* Havok: diagonal 3x3 matrix with the three scalars of the object (offset 0xc0) on the diagonal; the zero columns are
+   hkVector4::setZero4 (vxor of an uninitialised local). */
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vxor(__vector4 a, __vector4 b);
 
-void fn_82D9B600(int param_1,unsigned int *param_2)
+typedef struct Matrix3_82D9B600 {
+    __vector4 col[3];
+} Matrix3_82D9B600;
 
+typedef struct Object_82D9B600 {
+    char pad[0xc0];
+    float value[3];
+} Object_82D9B600;
+
+void fn_82D9B600(Object_82D9B600 *self, Matrix3_82D9B600 *m)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned int *puVar4;
-  int in_r0;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned int uVar8;
-  unsigned char auStack_10 [16];
-  
-  uVar1 = *(unsigned int *)(param_1 + 0xc0);
-  uVar2 = *(unsigned int *)(param_1 + 0xc4);
-  uVar3 = *(unsigned int *)(param_1 + 200);
-  puVar4 = (unsigned int *)((unsigned int)(auStack_10 + in_r0) & 0xfffffff0);
-  uVar5 = *puVar4;
-  uVar6 = puVar4[1];
-  uVar7 = puVar4[2];
-  uVar8 = puVar4[3];
-  puVar4 = (unsigned int *)(in_r0 + (int)param_2 & 0xfffffff0);
-  *puVar4 = uVar5;
-  puVar4[1] = uVar6;
-  puVar4[2] = uVar7;
-  puVar4[3] = uVar8;
-  puVar4 = (unsigned int *)((unsigned int)(param_2 + 4) & 0xfffffff0);
-  *puVar4 = uVar5;
-  puVar4[1] = uVar6;
-  puVar4[2] = uVar7;
-  puVar4[3] = uVar8;
-  puVar4 = (unsigned int *)((unsigned int)(param_2 + 8) & 0xfffffff0);
-  *puVar4 = uVar5;
-  puVar4[1] = uVar6;
-  puVar4[2] = uVar7;
-  puVar4[3] = uVar8;
-  *param_2 = uVar1;
-  param_2[5] = uVar2;
-  param_2[10] = uVar3;
-  return;
+    float x = self->value[0];
+    float y = self->value[1];
+    float z = self->value[2];
+    __vector4 zero;
+    zero = __vxor(zero, zero);
+    m->col[0] = zero;
+    m->col[1] = zero;
+    m->col[2] = zero;
+    m->col[0].vector4_f32[0] = x;
+    m->col[1].vector4_f32[1] = y;
+    m->col[2].vector4_f32[2] = z;
 }
-

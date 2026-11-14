@@ -1,36 +1,35 @@
-extern int fn_82AE5AC8();
+typedef struct Device_82AC8E50 {
+    char pad[0x318];
+    unsigned int reserved;      /* 0x318 */
+} Device_82AC8E50;
 
+typedef struct Alloc_82AC8E50 {
+    Device_82AC8E50 *device;    /* 0x00 */
+    int pad4;
+    unsigned __int64 a[4];      /* 0x08 */
+    unsigned __int64 b[4];      /* 0x28 */
+    unsigned int count;         /* 0x48 */
+} Alloc_82AC8E50;
 
-void fn_82AC8E50(int *param_1,int param_2)
+extern void fn_82AE5AC8(Alloc_82AC8E50 *self, unsigned int start, unsigned int count);
 
+void fn_82AC8E50(Alloc_82AC8E50 *self, Device_82AC8E50 *device)
 {
-  unsigned __int64 uVar1;
-  
-  *param_1 = param_2;
-  param_1[2] = 0;
-  param_1[3] = 0;
-  param_1[4] = 0;
-  param_1[5] = 0;
-  param_1[6] = 0;
-  param_1[7] = 0;
-  param_1[8] = 0;
-  param_1[9] = 0;
-  uVar1 = (unsigned __int64)*(unsigned int *)(param_2 + 0x318);
-  if (uVar1 == 0) {
-    uVar1 = 0x20;
-  }
-  if (uVar1 < 0x40) {
-    fn_82AE5AC8(param_1,uVar1,0x40 - uVar1);
-  }
-  param_1[10] = 0;
-  param_1[0xb] = 0;
-  param_1[0xc] = 0;
-  param_1[0xd] = 0;
-  param_1[0xe] = 0;
-  param_1[0xf] = 0;
-  param_1[0x10] = 0;
-  param_1[0x11] = 0;
-  param_1[0x12] = 0;
-  return;
-}
+    unsigned int start;
 
+    self->device = device;
+    self->a[0] = 0;
+    self->a[1] = 0;
+    self->a[2] = 0;
+    self->a[3] = 0;
+    start = device->reserved;
+    if (start == 0)
+        start = 0x20;
+    if (start < 0x40)
+        fn_82AE5AC8(self, start, 0x40 - start);
+    self->b[0] = 0;
+    self->b[1] = 0;
+    self->b[2] = 0;
+    self->b[3] = 0;
+    self->count = 0;
+}

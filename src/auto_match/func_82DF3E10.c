@@ -1,16 +1,21 @@
-extern unsigned int lbl_821AAD20;
+typedef struct Timer_82DF3E10 Timer_82DF3E10;
+typedef struct Timer_82DF3E10_vt {
+    void *slots[9];
+    void (*expire)(Timer_82DF3E10 *self);
+} Timer_82DF3E10_vt;
 
+struct Timer_82DF3E10 {
+    Timer_82DF3E10_vt *vt;
+    char pad4[0x20];
+    float period;
+    float remaining;
+};
 
-void fn_82DF3E10(int *param_1)
-
+void fn_82DF3E10(Timer_82DF3E10 *self)
 {
-  if (lbl_821AAD20 < (float)param_1[10]) {
-    return;
-  }
-  param_1[10] = param_1[9];
-                    /* WARNING: Could not recover jumptable at 0x82df3e38. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (**(int (***)())(*param_1 + 0x24))();
-  return;
+    if (self->remaining > 0.0f) {
+        return;
+    }
+    self->remaining = self->period;
+    self->vt->expire(self);
 }
-

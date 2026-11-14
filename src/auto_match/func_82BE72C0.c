@@ -1,39 +1,41 @@
-extern int fn_82BE5340();
-extern int fn_82BE5350();
-extern int fn_82BE5378();
-extern int fn_82BE5398();
-extern int fn_82BE5B58();
-extern int fn_82BE64E0();
-extern int fn_82BEA200();
-extern int fn_82BEA230();
+typedef struct { char data[8]; } Iter_82BE72C0;
+typedef struct {
+  char pad0[0x14];
+  Iter_82BE72C0 requests; /* 0x14 */
+  void *owner;            /* 0x1c */
+  char pad20[0x8];
+  int paused;             /* 0x28 */
+  char lock[4];           /* 0x2c */
+} Manager_82BE72C0;
 
+extern int fn_82BEA200(void *lock, const char *name);
+extern void fn_82BEA230(void *lock, const char *name);
+extern void fn_82BE5340(Iter_82BE72C0 *it);
+extern void fn_82BE5350(Iter_82BE72C0 *it);
+extern void *fn_82BE5378(Iter_82BE72C0 *it);
+extern void fn_82BE5398(Iter_82BE72C0 *it, void *owner, int flag);
+extern int fn_82BE5B58(void *request);
+extern void fn_82BE64E0(void *request, int state);
 
-__int64 fn_82BE72C0(int param_1)
-
+void *fn_82BE72C0(Manager_82BE72C0 *self)
 {
-  __int64 lVar1;
-  int iVar2;
-  int iVar3;
-  
-  lVar1 = fn_82BEA200(param_1 + 0x2c,0xffffffff820e98b0);
-  if ((int)lVar1 != 0) {
-    if (*(int *)(param_1 + 0x28) == 0) {
-      iVar3 = param_1 + 0x14;
-      fn_82BE5340(iVar3);
-      while (lVar1 = fn_82BE5378(iVar3), lVar1 != 0) {
-        iVar2 = fn_82BE5B58(lVar1);
-        if (iVar2 != 0) {
-          fn_82BE5398(iVar3,*(unsigned int *)(param_1 + 0x1c),1);
-          fn_82BE64E0(lVar1,0x100);
-          goto LAB_82be7308;
-        }
-        fn_82BE5350();
-      }
-    }
-    lVar1 = 0;
-LAB_82be7308:
-    fn_82BEA230(param_1 + 0x2c,0xffffffff820e98b0);
+  void *cur;
+  if (fn_82BEA200(self->lock, "CRequestManager::GetNextRequest") == 0)
+    return 0;
+  if (self->paused != 0) {
+    fn_82BEA230(self->lock, "CRequestManager::GetNextRequest");
+    return 0;
   }
-  return lVar1;
+  fn_82BE5340(&self->requests);
+  while ((cur = fn_82BE5378(&self->requests)) != 0) {
+    if (fn_82BE5B58(cur) != 0) {
+      fn_82BE5398(&self->requests, self->owner, 1);
+      fn_82BE64E0(cur, 0x100);
+      fn_82BEA230(self->lock, "CRequestManager::GetNextRequest");
+      return cur;
+    }
+    fn_82BE5350(&self->requests);
+  }
+  fn_82BEA230(self->lock, "CRequestManager::GetNextRequest");
+  return 0;
 }
-

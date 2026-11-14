@@ -1,61 +1,64 @@
-typedef unsigned char bool;
-extern int fn_82A1BB18();
-extern int fn_82A4B0D8();
-extern unsigned __int64 storeWordConditionalIndexed();
+typedef struct Lock_82A4B188 Lock_82A4B188;
+typedef struct LockVt_82A4B188 {
+    void *f0;
+    void *f4;
+    void (*enter)(Lock_82A4B188 *self);
+    void *fc;
+    void *f10;
+    void (*leave)(Lock_82A4B188 *self);
+} LockVt_82A4B188;
+struct Lock_82A4B188 { LockVt_82A4B188 *vt; };
 
+typedef struct Sink_82A4B188 Sink_82A4B188;
+typedef struct SinkVt_82A4B188 {
+    void *f0;
+    void *f4;
+    void (*notify)(Sink_82A4B188 *self, long value);
+} SinkVt_82A4B188;
+struct Sink_82A4B188 { SinkVt_82A4B188 *vt; };
 
-void fn_82A4B188(__int64 param_1,unsigned __int64 param_2)
+typedef struct Thread_82A4B188 { char pad[0x10]; unsigned int id; } Thread_82A4B188;
 
+typedef struct Outer_82A4B188 Outer_82A4B188;
+typedef struct OuterVt_82A4B188 {
+    char pad[0x3c];
+    void (*close)(Outer_82A4B188 *self, int flag);
+} OuterVt_82A4B188;
+struct Outer_82A4B188 { OuterVt_82A4B188 *vt; };
+
+typedef struct Self_82A4B188 {
+    char pad0[0xc];
+    int open;                   /* 0x0c */
+    Lock_82A4B188 lock;         /* 0x10 */
+    char pad14[0x20];
+    long result;                /* 0x34 */
+    char pad38[4];
+    Thread_82A4B188 *thread;    /* 0x3c */
+    char pad40[4];
+    Sink_82A4B188 *sink;        /* 0x44 */
+} Self_82A4B188;
+
+#define OUTER(s) ((Outer_82A4B188 *)((char *)(s) - 0xc))
+
+extern long _InterlockedCompareExchange(long volatile *target, long exchange, long comparand);
+extern unsigned int fn_82A1BB18(void);
+extern void fn_82A4B0D8(Outer_82A4B188 *self, int flag, int extra);
+
+void fn_82A4B188(Self_82A4B188 *self, long value)
 {
-  unsigned int uVar1;
-  int iVar2;
-  int *piVar3;
-  unsigned int uVar4;
-  int iVar5;
-  int iVar6;
-  __int64 lVar7;
-  unsigned int *puVar8;
-  __int64 lVar9;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  iVar5 = (int)param_1;
-  lVar9 = param_1 + 0x10;
-  (**(int (***)())(*(int *)(iVar5 + 0x10) + 8))(lVar9);
-  lVar7 = param_1 + 0x34;
-  do {
-    puVar8 = (unsigned int *)lVar7;
-    uVar1 = *puVar8;
-    if (uVar1 != 0) {
-      if (in_RESERVE != '\0') {
-        uVar4 = storeWordConditionalIndexed((unsigned __int64)uVar1,0,lVar7);
-        *puVar8 = uVar4;
-      }
-      break;
-    }
-    if (in_RESERVE != '\0') {
-      uVar4 = storeWordConditionalIndexed(param_2,0,lVar7);
-      *puVar8 = uVar4;
-      in_cr0 = 2;
-    }
-  } while (!(bool)(in_cr0 >> 1 & 1));
-  if (-1 < (int)uVar1) {
-    if (*(int *)(iVar5 + 0xc) != 0) {
-      iVar2 = *(int *)(*(int *)(iVar5 + 0x3c) + 0x10);
-      iVar6 = fn_82A1BB18();
-      if (iVar6 == iVar2) {
-        fn_82A4B0D8(param_1 + -0xc,1,0);
-      }
-      else {
-        (**(int (***)())(*(int *)(iVar5 + -0xc) + 0x3c))();
-      }
-    }
-    piVar3 = *(int **)(iVar5 + 0x44);
-    if (piVar3 != (int *)0x0) {
-      (**(int (***)())(*piVar3 + 8))(piVar3,param_2);
-    }
-  }
-  (**(int (***)())(*(int *)lVar9 + 0x14))(lVar9);
-  return;
-}
+    Lock_82A4B188 *lock = &self->lock;
 
+    lock->vt->enter(lock);
+    if (_InterlockedCompareExchange(&self->result, value, 0) >= 0) {
+        if (self->open != 0) {
+            unsigned int id = self->thread->id;
+            if (fn_82A1BB18() != id)
+                OUTER(self)->vt->close(OUTER(self), 1);
+            else
+                fn_82A4B0D8(OUTER(self), 1, 0);
+        }
+        if (self->sink != 0)
+            self->sink->vt->notify(self->sink, value);
+    }
+    lock->vt->leave(lock);
+}

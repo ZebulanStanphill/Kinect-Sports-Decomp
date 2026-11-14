@@ -1,36 +1,32 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern V16 vectorAddFloatingPoint();
+typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float f[4]; unsigned int u[4]; } __vector4;
+__vector4 __vaddfp(__vector4, __vector4);
 
+typedef struct ConvexShape_82D49FE0 ConvexShape_82D49FE0;
+typedef struct {
+    void *slots[11];
+    int (*getNumCollisionSpheres)(const ConvexShape_82D49FE0 *);
+    const __vector4 *(*getCollisionSpheres)(const ConvexShape_82D49FE0 *, __vector4 *);
+} ConvexShapeVtbl_82D49FE0;
+struct ConvexShape_82D49FE0 { ConvexShapeVtbl_82D49FE0 *vtbl; };
 
-__int64 fn_82D49FE0(int param_1,__int64 param_2)
+/* hkpConvexTranslateShape */
+typedef struct {
+    char pad0[0x18];
+    const ConvexShape_82D49FE0 *childShape;
+    int childShapeSize;
+    __vector4 translation;
+} TranslateShape_82D49FE0;
 
+/* hkpConvexTranslateShape::getCollisionSpheres */
+const __vector4 *fn_82D49FE0(const TranslateShape_82D49FE0 *self, __vector4 *sphereBuffer)
 {
-  unsigned int *puVar1;
-  int in_r0;
-  __int64 lVar2;
-  __int64 lVar3;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs45 [16];
-  unsigned int in_register_000100c0;
-  unsigned int in_register_000100c4;
-  unsigned int in_register_000100c8;
-  unsigned int in_vr12;
-  
-  (**(int (***)())(**(int **)(param_1 + 0x18) + 0x30))();
-  lVar2 = (**(int (***)())(**(int **)(param_1 + 0x18) + 0x2c))(*(int **)(param_1 + 0x18));
-  lVar3 = param_2;
-  if (0 < (int)lVar2) {
-    do {
-      vectorAddFloatingPoint(in_vs32,in_vs45);
-      puVar1 = (unsigned int *)(in_r0 + (int)lVar3 & 0xfffffff0);
-      *puVar1 = in_register_000100c0;
-      puVar1[1] = in_register_000100c4;
-      puVar1[2] = in_register_000100c8;
-      puVar1[3] = in_vr12;
-      lVar2 = lVar2 + -1;
-      lVar3 = lVar3 + 0x10;
-    } while (lVar2 != 0);
-  }
-  return param_2;
-}
+    const __vector4 *spheres = self->childShape->vtbl->getCollisionSpheres(self->childShape, sphereBuffer);
+    __vector4 *out = sphereBuffer;
+    int numSpheres = self->childShape->vtbl->getNumCollisionSpheres(self->childShape);
+    int i;
 
+    for (i = 0; i < numSpheres; i++) {
+        *out++ = __vaddfp(*spheres++, self->translation);
+    }
+    return sphereBuffer;
+}

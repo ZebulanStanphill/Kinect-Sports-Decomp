@@ -1,19 +1,18 @@
-void fn_82822300(int param_1,int *param_2)
+typedef struct Node_82822300 Node_82822300;
+struct Node_82822300 {
+    Node_82822300 *prev;
+    Node_82822300 *next;
+};
 
+void fn_82822300(Node_82822300 *self, Node_82822300 *node)
 {
-  int iVar1;
-  int *piVar2;
-  
-  piVar2 = (int *)(param_1 + 4);
-  iVar1 = *piVar2;
-  while (iVar1 != 0) {
-    param_1 = *piVar2;
-    piVar2 = (int *)(param_1 + 4);
-    iVar1 = *(int *)(param_1 + 4);
-  }
-  *piVar2 = (int)param_2;
-  *param_2 = param_1;
-  param_2[1] = 0;
-  return;
+    Node_82822300 **link = &self->next;
+    Node_82822300 *last = self;
+    while (*link != 0) {
+        last = *link;
+        link = &last->next;
+    }
+    *link = node;
+    node->prev = last;
+    node->next = 0;
 }
-

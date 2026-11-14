@@ -1,31 +1,23 @@
-extern unsigned int fStack_30;
-extern int fn_82623B60();
-extern int fn_82623C90();
-extern int fn_82623D60();
-extern unsigned int lbl_83296890;
-extern unsigned int lbl_83296C20;
-extern unsigned int lbl_83296C80;
+typedef struct Slot_82623E40 {
+    float pad0[0x10];
+    float data[0x18];       /* 0x40 */
+    int active;             /* 0xa0 */
+    int padA4[3];
+} Slot_82623E40;
 
+extern Slot_82623E40 lbl_83296BE0[2];
+extern float lbl_83296890[];
 
-void fn_82623E40(unsigned __int64 param_1)
+extern void fn_82623B60(float *table, void *target);
+extern void fn_82623C90(void *self, int a, int b, float *x, float *y);
+extern void fn_82623D60(float x, float y, float *v);
 
+void fn_82623E40(void *self, void *target, float *v, int unused, int b, int a, int index)
 {
-  unsigned __int64 *puVar1;
-  unsigned __int64 in_r7;
-  unsigned __int64 in_r8;
-  int in_r9;
-  float fStack_30;
-  float afStack_2c [11];
-  
-  if (*(int *)(&lbl_83296C80 + in_r9 * 0xb0) == 0) {
-    puVar1 = &lbl_83296890;
-  }
-  else {
-    puVar1 = (unsigned __int64 *)(&lbl_83296C20 + in_r9 * 0xb0);
-  }
-  fn_82623B60(puVar1);
-  fn_82623C90(param_1,in_r8,in_r7,afStack_2c,&fStack_30);
-  fn_82623D60((double)afStack_2c[0],(double)fStack_30);
-  return;
-}
+    float y;
+    float x;
 
+    fn_82623B60(lbl_83296BE0[index].active != 0 ? lbl_83296BE0[index].data : lbl_83296890, target);
+    fn_82623C90(self, a, b, &x, &y);
+    fn_82623D60(x, y, v);
+}

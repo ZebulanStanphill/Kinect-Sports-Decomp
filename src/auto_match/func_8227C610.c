@@ -1,118 +1,96 @@
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_80;
-extern unsigned int *auStack_90;
-extern unsigned int *auStack_a0;
-extern unsigned int *auStack_b0;
-extern unsigned int *auStack_c0;
-extern unsigned int *auStack_c8;
-extern int fn_822315A0();
-extern int fn_82273C88();
-extern int fn_82273CD8();
-extern int fn_82279C58();
-extern int fn_8227C0A8();
-extern int fn_8227C118();
-extern int fn_82672C20();
-extern unsigned int iStack_48;
-extern unsigned int iStack_c4;
-extern unsigned int lbl_82195528;
-extern unsigned int lbl_821955B8;
-extern unsigned int lbl_82195830;
-extern unsigned int lbl_821958F0;
-extern unsigned int uStack_98;
-extern unsigned int uStack_a8;
-extern unsigned int uStack_d0;
+typedef struct Var_8227C610 {
+    int a;
+    int b;
+    union {
+        double d;
+        int i;
+        unsigned char b;
+        const void *p;
+    } u;
+} Var_8227C610;
 
+typedef struct Ref_8227C610 {
+    void *p;
+    void *rc;
+} Ref_8227C610;
 
-void fn_8227C610(int param_1,unsigned __int64 param_2,int param_3,unsigned int param_4,__int64 param_5,
-                  __int64 param_6)
+typedef struct Obj_8227C610 {
+    char pad0[0x270];
+    char name[0xa6c - 0x270];   /* 0x270 */
+    int a6c;                    /* 0xa6c */
+    int a70;                    /* 0xa70 */
+} Obj_8227C610;
 
+extern const double lbl_821954B0[];
+extern void fn_82273CD8(Var_8227C610 *, int);
+extern void fn_82273C88(Var_8227C610 *);
+extern Ref_8227C610 *fn_82279C58(Ref_8227C610 *, Obj_8227C610 *);
+extern void fn_82672C20(void *, const char *, Var_8227C610 *, int);
+extern void fn_822315A0(void *);
+extern int fn_8227C118(Obj_8227C610 *self, unsigned int row);
+extern int fn_8227C0A8(Obj_8227C610 *self);
+
+static __forceinline void SetNumber(Var_8227C610 *v, double d)
 {
-  int iVar1;
-  int iVar2;
-  unsigned int *puVar3;
-  unsigned char *puVar4;
-  __int64 lVar5;
-  unsigned __int64 uStack_d0;
-  unsigned char auStack_c8 [4];
-  int iStack_c4;
-  unsigned char auStack_c0 [8];
-  double dStack_b8;
-  unsigned char auStack_b0 [8];
-  unsigned __int64 uStack_a8;
-  unsigned char auStack_a0 [8];
-  unsigned int uStack_98;
-  unsigned char auStack_90 [8];
-  char cStack_88;
-  unsigned char auStack_80 [8];
-  double dStack_78;
-  unsigned char auStack_70 [8];
-  char cStack_68;
-  unsigned char auStack_50 [8];
-  int iStack_48;
-  unsigned char auStack_40 [64];
-  
-  puVar3 = (unsigned int *)((int)&uStack_d0 + 4);
-  lVar5 = 8;
-  do {
-    puVar3[3] = 0;
-    puVar3 = puVar3 + 4;
-    *puVar3 = 0;
-    lVar5 = lVar5 + -1;
-  } while (lVar5 != 0);
-  fn_82273CD8(auStack_c0,3);
-  uStack_d0 = param_2 & 0xffffffff;
-  dStack_b8 = (double)uStack_d0;
-  fn_82273CD8(auStack_a0,5);
-  iVar1 = *(int *)(param_1 + 0xa6c);
-  uStack_98 = param_4;
-  fn_82273CD8(auStack_90,2);
-  cStack_88 = '\x01' - (iVar1 == 0);
-  fn_82273CD8(auStack_80,3);
-  uStack_d0 = param_5 + 1U & 0xffffffff;
-  dStack_78 = (double)uStack_d0;
-  fn_82273CD8(auStack_70,2);
-  cStack_68 = '\x01' - (param_6 == 0);
-  iVar1 = fn_8227C118(param_1,param_2);
-  if (param_3 == 1) {
-    fn_82273CD8(auStack_b0,3);
-    uStack_a8 = lbl_82195830;
-  }
-  else if (param_3 == 2) {
-    fn_82273CD8(auStack_b0,3);
-    uStack_a8 = lbl_82195528;
-  }
-  else {
-    iVar2 = fn_8227C0A8(param_1);
-    if ((iVar2 == 0) || (iVar1 == 0)) {
-      fn_82273CD8(auStack_b0,3);
-      uStack_a8 = lbl_821958F0;
-    }
-    else {
-      fn_82273CD8(auStack_b0,3);
-      uStack_a8 = lbl_821955B8;
-    }
-  }
-  if ((*(int *)(param_1 + 0xa70) == 0) || (iVar1 == 0)) {
-    fn_82273CD8(auStack_50,0);
-  }
-  else {
-    fn_82273CD8(auStack_50,5);
-    iStack_48 = param_1 + 0x270;
-  }
-  puVar3 = (unsigned int *)fn_82279C58(auStack_c8,param_1);
-  fn_82672C20(*puVar3,0xffffffff821a86b0,auStack_c0,8);
-  if (iStack_c4 != 0) {
-    fn_822315A0();
-  }
-  puVar4 = auStack_40;
-  lVar5 = 7;
-  do {
-    puVar4 = puVar4 + -0x10;
-    fn_82273C88(puVar4);
-    lVar5 = lVar5 + -1;
-  } while (-1 < lVar5);
-  return;
+    fn_82273CD8(v, 3);
+    v->u.d = d;
 }
 
+static __forceinline void SetBool(Var_8227C610 *v, unsigned char b)
+{
+    fn_82273CD8(v, 2);
+    v->u.b = b;
+}
+
+static __forceinline void SetInt(Var_8227C610 *v, int i)
+{
+    fn_82273CD8(v, 5);
+    v->u.i = i;
+}
+
+void fn_8227C610(Obj_8227C610 *self, unsigned int row, int mode, int value, unsigned int index, int flag)
+{
+    Ref_8227C610 r;
+    Var_8227C610 v[8];
+    Var_8227C610 *p;
+    int ready;
+    int i;
+
+    for (i = 0; i < 8; i++) { v[i].a = 0; v[i].b = 0; }
+    SetNumber(&v[0], (double)row);
+    SetInt(&v[2], value);
+    SetBool(&v[3], self->a6c != 0);
+    SetNumber(&v[4], (double)(index + 1));
+    SetBool(&v[5], flag != 0);
+    ready = fn_8227C118(self, row);
+    switch (mode) {
+    case 1:
+        fn_82273CD8(&v[1], 3);
+        v[1].u.d = lbl_821954B0[112];
+        break;
+    case 2:
+        fn_82273CD8(&v[1], 3);
+        v[1].u.d = lbl_821954B0[15];
+        break;
+    default:
+        if (fn_8227C0A8(self) != 0 && ready != 0) {
+            fn_82273CD8(&v[1], 3);
+            v[1].u.d = lbl_821954B0[33];
+        } else {
+            fn_82273CD8(&v[1], 3);
+            v[1].u.d = lbl_821954B0[136];
+        }
+        break;
+    }
+    if (self->a70 != 0 && ready != 0) {
+        fn_82273CD8(&v[7], 5);
+        v[7].u.p = self->name;
+    } else {
+        fn_82273CD8(&v[7], 0);
+    }
+    fn_82672C20(fn_82279C58(&r, self)->p, "_root.mainCtrl.setupRow", v, 8);
+    if (r.rc != 0) {
+        fn_822315A0(r.rc);
+    }
+    p = v + 8; i = 7; do { p--; fn_82273C88(p); } while (--i >= 0);
+}

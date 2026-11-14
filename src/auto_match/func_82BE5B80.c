@@ -1,38 +1,33 @@
-typedef unsigned char bool;
-#define false 0
-extern int fn_82BF1CA0();
-extern int fn_82F6D460();
-extern unsigned int lbl_831751CC;
+typedef struct Obj_82BE5B80 {
+    char pad0[0x1c];
+    void *file;             /* 0x1c */
+    int pad20;
+    int id;                 /* 0x24 */
+    int pad28[2];
+    unsigned char *hash;    /* 0x30 */
+} Obj_82BE5B80;
 
+extern unsigned int fn_82F6D460(const char *str, unsigned int max);
+extern unsigned char *fn_82BF1CA0(void *file, int id, const char *key, unsigned int len);
+extern void (*lbl_831751CC)(void *p);
+extern int memcmp(const void *, const void *, unsigned int);
 
-bool fn_82BE5B80(int param_1)
-
+unsigned char fn_82BE5B80(Obj_82BE5B80 *self)
 {
-  unsigned char bVar1;
-  unsigned char bVar2;
-  unsigned __int64 uVar3;
-  unsigned char *pbVar4;
-  bool bVar5;
-  unsigned char *pbVar6;
-  unsigned char *pbVar7;
-  
-  uVar3 = fn_82F6D460(0xffffffff831751f0,0x21);
-  pbVar4 = (unsigned char *)fn_82BF1CA0(*(unsigned int *)(param_1 + 0x1c),*(unsigned int *)(param_1 + 0x24),
-                                   0xffffffff831751f0,uVar3);
-  bVar5 = false;
-  if (pbVar4 != (unsigned char *)0x0) {
-    pbVar7 = *(unsigned char **)(param_1 + 0x30);
-    pbVar6 = pbVar7 + 0x14;
-    do {
-      bVar1 = *pbVar7;
-      bVar2 = *pbVar4;
-      if ((unsigned __int64)bVar1 - (unsigned __int64)bVar2 != 0) break;
-      pbVar7 = pbVar7 + 1;
-      pbVar4 = pbVar4 + 1;
-    } while (pbVar7 != pbVar6);
-    bVar5 = (int)((unsigned __int64)bVar1 - (unsigned __int64)bVar2) == 0;
-    (*(int (**)())lbl_831751CC)();
-  }
-  return bVar5;
+    const char *key = "11111111111111111111111111111111";
+    unsigned char *digest;
+    unsigned int len;
+    void *file;
+    unsigned char same;
+    len = fn_82F6D460(key, 0x21);
+    file = self->file;
+    digest = fn_82BF1CA0(file, self->id, key, len);
+    if (digest == 0)
+        return 0;
+    if (memcmp(self->hash, digest, 0x14) == 0)
+        same = 1;
+    else
+        same = 0;
+    lbl_831751CC(digest);
+    return same;
 }
-

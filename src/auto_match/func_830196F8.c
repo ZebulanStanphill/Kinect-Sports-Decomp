@@ -1,51 +1,43 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_82FA5190();
-extern unsigned int uStack00000018;
+typedef struct Key_830196F8 {
+    unsigned int a;
+    unsigned int b;
+} Key_830196F8;
 
+typedef struct Node_830196F8 {
+    struct Node_830196F8 *next;
+    Key_830196F8 key;
+} Node_830196F8;
 
-void fn_830196F8(unsigned int *param_1,unsigned __int64 param_2)
+typedef struct Table_830196F8 {
+    void *allocator;
+    Node_830196F8 *buckets[193];  /* 0x4 */
+    int count;                    /* 0x308 */
+} Table_830196F8;
 
+extern void fn_82FA5190(void *allocator, void *p);
+
+static __forceinline unsigned char KeyEqual(const Key_830196F8 *x, const Key_830196F8 *y)
 {
-  int *piVar1;
-  int *piVar2;
-  bool bVar3;
-  int iVar4;
-  int *piVar5;
-  unsigned __int64 uVar6;
-  unsigned __int64 uStack00000018;
-  
-  uVar6 = (param_2 & 0xffffffff) + (param_2 >> 0x20);
-  iVar4 = (int)((uVar6 + ((uVar6 & 0xffffffff) / 0xc1) * -0xc1 + 1 & 0xffffffff) << 2);
-  piVar2 = *(int **)(iVar4 + (int)param_1);
-  piVar5 = (int *)0x0;
-  if (piVar2 != (int *)0x0) {
-    while( true ) {
-      if (((unsigned __int64)(unsigned int)piVar2[1] != param_2 >> 0x20) ||
-         (bVar3 = true, (unsigned __int64)(unsigned int)piVar2[2] != (param_2 & 0xffffffff))) {
-        bVar3 = false;
-      }
-      if (bVar3) break;
-      piVar1 = (int *)*piVar2;
-      piVar5 = piVar2;
-      piVar2 = piVar1;
-      if (piVar1 == (int *)0x0) {
-        return;
-      }
-    }
-    if (piVar2 != (int *)0x0) {
-      if (piVar5 == (int *)0x0) {
-        *(int *)(iVar4 + (int)param_1) = *piVar2;
-      }
-      else {
-        *piVar5 = *piVar2;
-      }
-      uStack00000018 = param_2;
-      fn_82FA5190(*param_1);
-      param_1[0xc2] = param_1[0xc2] + -1;
-    }
-  }
-  return;
+    return x->a == y->a && x->b == y->b;
 }
 
+void fn_830196F8(Table_830196F8 *t, Key_830196F8 key)
+{
+    unsigned int i = (key.a + key.b) % 193;
+    Node_830196F8 *n = t->buckets[i];
+    Node_830196F8 *prev = 0;
+    while (n != 0) {
+        if (KeyEqual(&n->key, &key))
+            break;
+        prev = n;
+        n = n->next;
+    }
+    if (n != 0) {
+        if (prev != 0)
+            prev->next = n->next;
+        else
+            t->buckets[i] = n->next;
+        fn_82FA5190(t->allocator, n);
+        t->count--;
+    }
+}

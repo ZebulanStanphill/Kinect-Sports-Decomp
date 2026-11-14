@@ -1,13 +1,12 @@
-extern unsigned int lbl_821AAD20;
+typedef struct Obj_82800EA0 {
+    char pad[0xc];
+    float value;
+} Obj_82800EA0;
 
-
-void fn_82800EA0(int param_1)
-
+void fn_82800EA0(Obj_82800EA0 *self)
 {
-  if (lbl_821AAD20 <= *(float *)(param_1 + 0xc)) {
-    return;
-  }
-  *(float *)(param_1 + 0xc) = -*(float *)(param_1 + 0xc);
-  return;
+    if (self->value >= 0.0f) {
+        return;
+    }
+    self->value = -self->value;
 }
-

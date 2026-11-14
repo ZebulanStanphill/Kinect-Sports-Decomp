@@ -1,30 +1,26 @@
-extern unsigned int *auStack_30;
-extern int fn_82809CB0();
-extern int fn_82810280();
-extern int fn_82810328();
-extern unsigned int lbl_821AAD20;
+typedef struct Vec_83066788 {
+    float x, y, z, w;
+} Vec_83066788;
 
+typedef struct Plane_83066788 {
+    float normal[3];
+    float origin[3];    /* 0xc */
+} Plane_83066788;
 
-unsigned __int64 fn_83066788(double param_1,__int64 param_2,unsigned __int64 param_3)
+extern void fn_82810328(const void *a, const void *b, Vec_83066788 *out);
+extern float fn_82810280(const Vec_83066788 *v, const void *c);
+extern float fn_82809CB0(float x);
 
+int fn_83066788(const Plane_83066788 *plane, const void *point, float epsilon)
 {
-  unsigned __int64 uVar1;
-  double dVar2;
-  double dVar3;
-  unsigned char auStack_30 [1];
-  
-  fn_82810328(param_3,param_2 + 0xc,auStack_30);
-  dVar2 = (double)fn_82810280(auStack_30,param_2);
-  dVar3 = (double)fn_82809CB0();
-  if (param_1 <= dVar3) {
-    uVar1 = 1;
-    if ((double)lbl_821AAD20 <= dVar2) {
-      uVar1 = 0;
-    }
-  }
-  else {
-    uVar1 = 2;
-  }
-  return uVar1;
-}
+    Vec_83066788 d;
+    float dist;
 
+    fn_82810328(point, plane->origin, &d);
+    dist = fn_82810280(&d, plane);
+    if (fn_82809CB0(dist) < epsilon)
+        return 2;
+    if (dist < 0.0f)
+        return 1;
+    return 0;
+}

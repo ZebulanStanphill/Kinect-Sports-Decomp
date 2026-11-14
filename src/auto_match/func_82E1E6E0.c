@@ -1,25 +1,31 @@
-extern int fn_82E20270();
-extern int fn_82F67988();
-extern int fn_82F67CF8();
+typedef struct Sink_82E1E6E0 Sink_82E1E6E0;
+typedef struct SinkVt_82E1E6E0 {
+    void *f0;
+    void (*write)(Sink_82E1E6E0 *self, const char *path, const void *data, unsigned int size);
+} SinkVt_82E1E6E0;
+struct Sink_82E1E6E0 { SinkVt_82E1E6E0 *vt; };
 
+typedef struct Log_82E1E6E0 {
+    const char *path;           /* 0x00 */
+    char pad4[0x4c];
+    Sink_82E1E6E0 *sink;        /* 0x50 */
+} Log_82E1E6E0;
 
-void fn_82E1E6E0(unsigned int *param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+extern void *fn_82E20270(const char *path, const char *mode, int share);
+extern unsigned int fn_82F67CF8(const void *data, unsigned int size, unsigned int count, void *file);
+extern int fn_82F67988(void *file);
 
+void fn_82E1E6E0(Log_82E1E6E0 *self, const void *data, unsigned int size)
 {
-  int *piVar1;
-  __int64 lVar2;
-  
-  piVar1 = (int *)param_1[0x14];
-  if (piVar1 == (int *)0x0) {
-    lVar2 = fn_82E20270(*param_1,0xffffffff8200d788,1);
-    if (lVar2 != 0) {
-      fn_82F67CF8(param_2,1,param_3,lVar2);
-      fn_82F67988(lVar2);
-    }
-  }
-  else {
-    (**(int (***)())(*piVar1 + 4))(piVar1,*param_1,param_2,param_3);
-  }
-  return;
-}
+    void *file;
 
+    if (self->sink != 0) {
+        self->sink->vt->write(self->sink, self->path, data, size);
+        return;
+    }
+    file = fn_82E20270(self->path, "a+b", 1);
+    if (file != 0) {
+        fn_82F67CF8(data, 1, size, file);
+        fn_82F67988(file);
+    }
+}

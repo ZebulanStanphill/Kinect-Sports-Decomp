@@ -1,35 +1,26 @@
-unsigned int fn_8281FDF0(int param_1,char *param_2)
+int strcmp(const char *a, const char *b);
 
+typedef struct Header_8281FDF0 {
+    char pad[0x51];
+    unsigned char count;     /* 0x51 */
+} Header_8281FDF0;
+
+typedef struct Table_8281FDF0 {
+    char pad0[0x1c];
+    Header_8281FDF0 *header; /* 0x1c */
+    char pad20[0x10];
+    unsigned char (*entries)[0x21]; /* 0x30: 0x21-byte records, name offset first */
+    char *names;             /* 0x34 */
+} Table_8281FDF0;
+
+unsigned char fn_8281FDF0(Table_8281FDF0 *table, const char *name)
 {
-  char cVar1;
-  char cVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  char *pcVar5;
-  char *pcVar6;
-  
-  uVar3 = (unsigned int)*(unsigned char *)(*(int *)(param_1 + 0x1c) + 0x51);
-  if (uVar3 != 0) {
-    uVar4 = 0;
-    do {
-      pcVar6 = (char *)(*(int *)(uVar4 * 0x21 + *(int *)(param_1 + 0x30)) + *(int *)(param_1 + 0x34)
-                       );
-      pcVar5 = param_2;
-      if (*pcVar6 != '\0') {
-        do {
-          cVar1 = *pcVar6;
-          cVar2 = *pcVar5;
-          if (cVar1 == '\0') break;
-          pcVar6 = pcVar6 + 1;
-          pcVar5 = pcVar5 + 1;
-        } while (cVar1 == cVar2);
-        if (cVar1 == cVar2) {
-          return uVar4 + 1 & 0xff;
-        }
-      }
-      uVar4 = uVar4 + 1 & 0xff;
-    } while (uVar4 < uVar3);
-  }
-  return 0;
-}
+    unsigned char i;
 
+    for (i = 0; i < table->header->count; i++) {
+        const char *s = table->names + *(int *)table->entries[i];
+        if (*s != 0 && strcmp(s, name) == 0)
+            return i + 1;
+    }
+    return 0;
+}

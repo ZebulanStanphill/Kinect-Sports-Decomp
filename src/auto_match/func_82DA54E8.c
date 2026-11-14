@@ -1,54 +1,31 @@
-extern unsigned int *auStack_10;
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_82057518;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+double __fsel(double a, double b, double c);
+__vector4 __vxor(__vector4 a, __vector4 b);
 
-void fn_82DA54E8(int param_1,float *param_2)
+static __forceinline float max2(float x, float y) { return (float)__fsel(x - y, x, y); }
 
+typedef struct Matrix3_82DA54E8 {
+    __vector4 col[3];
+} Matrix3_82DA54E8;
+
+typedef struct Obj_82DA54E8 {
+    char pad[0xc0];
+    float value; /* 0xc0 */
+} Obj_82DA54E8;
+
+/* out = identity / max(value, FLT_EPSILON) */
+void fn_82DA54E8(const Obj_82DA54E8 *self, Matrix3_82DA54E8 *out)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  unsigned int *puVar5;
-  int in_r0;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned int uVar8;
-  unsigned int uVar9;
-  unsigned char auStack_10 [16];
-  
-  fVar3 = lbl_82057518;
-  fVar4 = lbl_82002AE0;
-  fVar1 = *(float *)(param_1 + 0xc0);
-  fVar2 = lbl_82057518 - fVar1;
-  puVar5 = (unsigned int *)((unsigned int)(auStack_10 + in_r0) & 0xfffffff0);
-  uVar6 = *puVar5;
-  uVar7 = puVar5[1];
-  uVar8 = puVar5[2];
-  uVar9 = puVar5[3];
-  puVar5 = (unsigned int *)(in_r0 + (int)param_2 & 0xfffffff0);
-  *puVar5 = uVar6;
-  puVar5[1] = uVar7;
-  puVar5[2] = uVar8;
-  puVar5[3] = uVar9;
-  puVar5 = (unsigned int *)((unsigned int)(param_2 + 4) & 0xfffffff0);
-  *puVar5 = uVar6;
-  puVar5[1] = uVar7;
-  puVar5[2] = uVar8;
-  puVar5[3] = uVar9;
-  puVar5 = (unsigned int *)((unsigned int)(param_2 + 8) & 0xfffffff0);
-  *puVar5 = uVar6;
-  puVar5[1] = uVar7;
-  puVar5[2] = uVar8;
-  puVar5[3] = uVar9;
-  if (fVar2 < 0.0) {
-    fVar3 = fVar1;
-  }
-  fVar4 = fVar4 / fVar3;
-  *param_2 = fVar4;
-  param_2[5] = fVar4;
-  param_2[10] = fVar4;
-  return;
+    float d = 1.0f / max2(1.1920929e-7f, self->value);
+    __vector4 zero;
+    zero = __vxor(zero, zero);
+    out->col[0] = zero;
+    out->col[1] = zero;
+    out->col[2] = zero;
+    out->col[0].vector4_f32[0] = d;
+    out->col[1].vector4_f32[1] = d;
+    out->col[2].vector4_f32[2] = d;
 }
-

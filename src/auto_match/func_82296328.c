@@ -1,25 +1,16 @@
-#define CONCAT17(h,l) ((unsigned __int64)((((unsigned char)(h)) << 56) | ((unsigned __int64)(l))))
-extern int fn_82296E38();
-extern unsigned int uStack00000018;
+typedef struct Result_82296328 {
+    unsigned char failed;
+    void *handle;
+} Result_82296328;
 
+extern unsigned short fn_82296E38(void *handle, int arg);
 
-unsigned __int64 * fn_82296328(unsigned __int64 *param_1,unsigned __int64 param_2,unsigned __int64 param_3,__int64 param_4)
-
+Result_82296328 *fn_82296328(Result_82296328 *out, Result_82296328 result, int arg, unsigned int count)
 {
-  short sVar1;
-  unsigned __int64 uStack00000018;
-  
-  uStack00000018 = param_2;
-  if ((int)param_4 != 0) {
-    do {
-      if (((param_2 & 0xffffffff) == 0) ||
-         (sVar1 = fn_82296E38(param_2 & 0xffffffff,param_3), sVar1 == -1)) {
-        uStack00000018 = CONCAT17(1,(((unsigned __int64)(uStack00000018) >> 8) & 0xFFFFFFFFFFFFFF));
-      }
-      param_4 = param_4 + -1;
-    } while (param_4 != 0);
-  }
-  *param_1 = uStack00000018;
-  return param_1;
+    for (; count != 0; count--) {
+        if (result.handle == 0 || fn_82296E38(result.handle, arg) == 0xffff)
+            result.failed = 1;
+    }
+    *out = result;
+    return out;
 }
-

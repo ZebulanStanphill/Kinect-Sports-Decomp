@@ -1,54 +1,84 @@
-extern int fn_8251FA58();
-extern int fn_82545950();
-extern int fn_82545A90();
-extern int fn_82552B50();
-extern int fn_8262F8D8();
-extern int fn_8262FEC8();
-extern unsigned int lbl_821C6058;
+typedef struct Buf_82582FE0 {
+    char pad[0x18];
+    unsigned int f18;
+    unsigned int f1c;
+} Buf_82582FE0;
 
+typedef struct Obj_82582FE0 {
+    void *vt;
+    char pad4[0x80];
+    Buf_82582FE0 *buf84;        /* 0x84 */
+    void *map88;                /* 0x88 */
+    void *f8c;
+    void *f90;
+    void *f94;
+    Buf_82582FE0 *buf98;        /* 0x98 */
+    void *map9c;                /* 0x9c */
+    unsigned int counta0;       /* 0xa0 */
+    void *fa4;
+    void *fa8;
+    char padac[0xec - 0xac];
+    void *fec;                  /* 0xec */
+    char padf0[0x8];
+    char ff8[0x16];             /* 0xf8 */
+    unsigned char f10e;         /* 0x10e */
+} Obj_82582FE0;
 
-void fn_82582FE0(unsigned int *param_1)
+extern char lbl_821C6058[];
+extern void fn_82545950(void *);
+extern void fn_82545A90(void *);
+extern void fn_8251FA58(void *);
+extern void fn_8262FEC8(void *);
+extern void fn_82552B50(void *, int);
+extern void *fn_8262F8D8(void *, int, int, unsigned int, int, unsigned int, unsigned int, int, int);
+extern void fn_8262FBD8(void *, unsigned int, int);
+extern void *memset(void *, int, unsigned int);
 
+void fn_82582FE0(Obj_82582FE0 *self)
 {
-  int iVar1;
-  unsigned int uVar2;
-  
-  *param_1 = &lbl_821C6058;
-  if (param_1[0x3b] != 0) {
-    fn_8262FEC8();
-    param_1[0x3b] = 0;
-  }
-  iVar1 = param_1[0x26];
-  if (iVar1 != 0) {
-    uVar2 = *(unsigned int *)(iVar1 + 0x18) & 0xfffffffc;
-                    /* WARNING: Subroutine does not return */
-    fn_8262F8D8(iVar1,10,0,uVar2,0,uVar2,*(unsigned int *)(iVar1 + 0x1c) & 0x3fffffc,0);
-  }
-  if (param_1[0x29] != 0) {
-    fn_82545950(param_1 + 0x29);
-  }
-  if (param_1[0x2a] != 0) {
-    fn_82545A90(param_1 + 0x2a);
-  }
-  if (param_1[0x25] != 0) {
-    fn_8251FA58();
-    param_1[0x25] = 0;
-  }
-  iVar1 = param_1[0x21];
-  if (iVar1 != 0) {
-    uVar2 = *(unsigned int *)(iVar1 + 0x18) & 0xfffffffc;
-                    /* WARNING: Subroutine does not return */
-    fn_8262F8D8(iVar1,10,0,uVar2,0,uVar2,*(unsigned int *)(iVar1 + 0x1c) & 0x3fffffc,0);
-  }
-  if (param_1[0x23] != 0) {
-    fn_82545950(param_1 + 0x23);
-  }
-  if (param_1[0x24] != 0) {
-    fn_82545A90(param_1 + 0x24);
-  }
-  if (*(char *)((int)param_1 + 0x10e) != '\0') {
-    fn_82552B50(param_1 + 0x3e,1);
-  }
-  return;
-}
+    Buf_82582FE0 *b;
 
+    self->vt = lbl_821C6058;
+    if (self->fec != 0) {
+        fn_8262FEC8(self->fec);
+        self->fec = 0;
+    }
+    b = self->buf98;
+    if (b != 0) {
+        unsigned int v = b->f18 & 0xfffffffc;
+        self->map9c = fn_8262F8D8(b, 10, 0, v, 0, v, b->f1c & 0x3fffffc, 0, 0x3000000);
+        memset(self->map9c, 0, self->counta0 * 32);
+        fn_8262FBD8(self->buf98, self->buf98->f18 & 0xfffffffc, 0);
+        fn_8262FEC8(self->buf98);
+        self->buf98 = 0;
+        self->map9c = 0;
+    }
+    if (self->fa4 != 0) {
+        fn_82545950(&self->fa4);
+    }
+    if (self->fa8 != 0) {
+        fn_82545A90(&self->fa8);
+    }
+    if (self->f94 != 0) {
+        fn_8251FA58(self->f94);
+        self->f94 = 0;
+    }
+    b = self->buf84;
+    if (b != 0) {
+        unsigned int v = b->f18 & 0xfffffffc;
+        self->map88 = fn_8262F8D8(b, 10, 0, v, 0, v, b->f1c & 0x3fffffc, 0, 0x3000000);
+        fn_8262FBD8(self->buf84, self->buf84->f18 & 0xfffffffc, 0);
+        fn_8262FEC8(self->buf84);
+        self->buf84 = 0;
+        self->map88 = 0;
+    }
+    if (self->f8c != 0) {
+        fn_82545950(&self->f8c);
+    }
+    if (self->f90 != 0) {
+        fn_82545A90(&self->f90);
+    }
+    if (self->f10e != 0) {
+        fn_82552B50(self->ff8, 1);
+    }
+}

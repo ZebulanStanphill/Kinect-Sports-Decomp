@@ -1,8 +1,14 @@
-unsigned __int64 fn_824A58A8(int param_1)
+typedef struct Timer_824A58A8 {
+    char pad0[0x50];
+    float start;
+    int pad54;
+    float current;
+    int elapsed;
+} Timer_824A58A8;
 
+int fn_824A58A8(Timer_824A58A8 *self)
 {
-  *(unsigned int *)(param_1 + 0x58) = *(unsigned int *)(param_1 + 0x50);
-  *(unsigned int *)(param_1 + 0x5c) = 0;
-  return 0;
+    self->current = self->start;
+    self->elapsed = 0;
+    return 0;
 }
-

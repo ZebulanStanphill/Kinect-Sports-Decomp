@@ -1,106 +1,78 @@
-extern int fn_828FAF58();
-extern int fn_828FBB60();
+#include <string.h>
 
+typedef struct Obj_828F4C10 {
+    char pad0[0x3c];
+    int packMatrix;               /* 0x3c */
+    char pad40[0x4c - 0x40];
+    int done;                     /* 0x4c */
+    char pad50[0x278 - 0x50];
+    int handle;                   /* 0x278 */
+    char pad27c[0x4];
+    int state;                    /* 0x280 */
+    char pad284[0x4];
+    union {
+        char text[4];
+        char *name;
+    } token;                      /* 0x288 */
+    char pad28c[0x29c - 0x28c];
+    int flag;                     /* 0x29c */
+    int arg;                      /* 0x2a0 */
+} Obj_828F4C10;
 
-unsigned __int64 fn_828F4C10(int param_1)
+extern char lbl_82027240[]; /* "(" */
+extern char lbl_821C24F0[]; /* ")" */
+extern char lbl_820292F8[]; /* "row_major" */
+extern char lbl_820292E8[]; /* "column_major" */
 
+extern int fn_828FBB60(int handle, int arg, int *state);
+extern int fn_828FAF58(int handle, int x);
+
+int fn_828F4C10(Obj_828F4C10 *o)
 {
-  char cVar1;
-  char cVar2;
-  unsigned __int64 uVar3;
-  int iVar4;
-  char *pcVar5;
-  char *pcVar6;
-  unsigned int uVar7;
-  char *pcVar8;
-  int *piVar9;
-  
-  piVar9 = (int *)(param_1 + 0x280);
-  uVar3 = fn_828FBB60(*(unsigned int *)(param_1 + 0x278),*(unsigned int *)(param_1 + 0x2a0),piVar9
-                           );
-  if ((int)uVar3 < 0) goto LAB_828f4df8;
-  iVar4 = *piVar9;
-  if (iVar4 == 1) {
-    pcVar5 = (char *)(param_1 + 0x288);
-    pcVar6 = "(";
-    pcVar8 = pcVar5;
-    do {
-      cVar1 = *pcVar8;
-      cVar2 = *pcVar6;
-      if (cVar1 == '\0') break;
-      pcVar8 = pcVar8 + 1;
-      pcVar6 = pcVar6 + 1;
-    } while (cVar1 == cVar2);
-    if (cVar1 != cVar2) goto LAB_828f4dd4;
-    uVar3 = fn_828FBB60(*(unsigned int *)(param_1 + 0x278),*(unsigned int *)(param_1 + 0x2a0),
-                              piVar9);
-    if ((int)uVar3 < 0) goto LAB_828f4df8;
-    if (*piVar9 == 9) {
-      pcVar8 = *(char **)pcVar5;
-      uVar3 = fn_828FBB60(*(unsigned int *)(param_1 + 0x278),*(unsigned int *)(param_1 + 0x2a0),
-                                piVar9);
-      if ((int)uVar3 < 0) goto LAB_828f4df8;
-    }
-    else {
-      pcVar8 = (char *)0x0;
-    }
-    iVar4 = *piVar9;
-    if (iVar4 != 1) goto LAB_828f4dd4;
-    pcVar6 = ")";
-    do {
-      cVar1 = *pcVar5;
-      cVar2 = *pcVar6;
-      if (cVar1 == '\0') break;
-      pcVar5 = pcVar5 + 1;
-      pcVar6 = pcVar6 + 1;
-    } while (cVar1 == cVar2);
-    if (cVar1 != cVar2) goto LAB_828f4dd4;
-    uVar3 = fn_828FBB60(*(unsigned int *)(param_1 + 0x278),*(unsigned int *)(param_1 + 0x2a0),
-                              piVar9);
-    if ((int)uVar3 < 0) goto LAB_828f4df8;
-    iVar4 = *piVar9;
-    if ((iVar4 != 0xc) && (iVar4 != 0xd)) goto LAB_828f4dd4;
-    if (pcVar8 == (char *)0x0) {
-      *(unsigned int *)(param_1 + 0x3c) = 0;
-    }
-    else {
-      pcVar5 = "row_major";
-      pcVar6 = pcVar8;
-      do {
-        cVar1 = *pcVar6;
-        cVar2 = *pcVar5;
-        if (cVar1 == '\0') break;
-        pcVar6 = pcVar6 + 1;
-        pcVar5 = pcVar5 + 1;
-      } while (cVar1 == cVar2);
-      if (cVar1 == cVar2) {
-        uVar7 = 0x400;
-      }
-      else {
-        pcVar6 = "column_major";
-        do {
-          cVar1 = *pcVar8;
-          cVar2 = *pcVar6;
-          if (cVar1 == '\0') break;
-          pcVar8 = pcVar8 + 1;
-          pcVar6 = pcVar6 + 1;
-        } while (cVar1 == cVar2);
-        if (cVar1 != cVar2) goto LAB_828f4dd4;
-        uVar7 = 0x800;
-      }
-      *(unsigned int *)(param_1 + 0x3c) = uVar7;
-    }
-  }
-  else {
-LAB_828f4dd4:
-    if ((iVar4 != 0xc) && (iVar4 != 0xd)) {
-      fn_828FAF58(*(unsigned int *)(param_1 + 0x278),0);
-    }
-    *(unsigned int *)(param_1 + 0x29c) = 0;
-  }
-  uVar3 = 0;
-LAB_828f4df8:
-  *(unsigned int *)(param_1 + 0x4c) = 1;
-  return uVar3;
-}
+    int hr;
+    int *state = &o->state;
+    char *mode;
 
+    hr = fn_828FBB60(o->handle, o->arg, state);
+    if (hr < 0)
+        goto done;
+    if (*state != 1 || strcmp(o->token.text, lbl_82027240) != 0)
+        goto bad;
+    hr = fn_828FBB60(o->handle, o->arg, state);
+    if (hr < 0)
+        goto done;
+    if (*state == 9) {
+        mode = o->token.name;
+        hr = fn_828FBB60(o->handle, o->arg, state);
+        if (hr < 0)
+            goto done;
+    } else {
+        mode = 0;
+    }
+    if (*state != 1 || strcmp(o->token.text, lbl_821C24F0) != 0)
+        goto bad;
+    hr = fn_828FBB60(o->handle, o->arg, state);
+    if (hr < 0)
+        goto done;
+    if (*state != 0xc && *state != 0xd)
+        goto bad;
+    if (mode == 0) {
+        o->packMatrix = 0;
+    } else if (strcmp(mode, lbl_820292F8) == 0) {
+        o->packMatrix = 0x400;
+    } else if (strcmp(mode, lbl_820292E8) == 0) {
+        o->packMatrix = 0x800;
+    } else {
+        goto bad;
+    }
+    hr = 0;
+    goto done;
+bad:
+    if (*state != 0xc && *state != 0xd)
+        fn_828FAF58(o->handle, 0);
+    o->flag = 0;
+    hr = 0;
+done:
+    o->done = 1;
+    return hr;
+}

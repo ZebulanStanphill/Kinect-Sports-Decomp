@@ -1,29 +1,44 @@
-extern unsigned int *auStack_40;
-extern int fn_82FA7F30();
-extern int fn_82FAB260();
-extern unsigned int lbl_83264234;
+typedef struct Owner_82FA7340 {
+    char pad0[0x20];
+    unsigned int id;
+} Owner_82FA7340;
 
+typedef struct Entry_82FA7340 Entry_82FA7340;
+typedef struct Entry_82FA7340_vt {
+    void *slots[3];
+    int (*query)(Entry_82FA7340 *self, void *out);
+} Entry_82FA7340_vt;
+
+struct Entry_82FA7340 {
+    Entry_82FA7340_vt *vt;
+    char pad4[0x10];
+    unsigned int flags;
+    char pad18[0x20];
+    Owner_82FA7340 *owner;
+    Entry_82FA7340 *next;
+};
+
+typedef struct Info_82FA7340 {
+    char data[0x20];
+} Info_82FA7340;
+
+extern Entry_82FA7340 *lbl_83264234;
+extern char lbl_83264240[];
+extern void fn_82FA7F30(void *table, unsigned int id, Info_82FA7340 *info);
+extern void fn_82FAB260(Owner_82FA7340 *owner);
 
 void fn_82FA7340(void)
-
 {
-  int *piVar1;
-  int iVar2;
-  int *piVar3;
-  int iVar4;
-  unsigned char auStack_40 [32];
-  
-  piVar3 = lbl_83264234;
-  while (piVar3 != (int *)0x0) {
-    piVar1 = (int *)piVar3[0xf];
-    iVar2 = piVar3[0xe];
-    if (((piVar3[5] & 0x20000U) != 0) &&
-       (iVar4 = (**(int (***)())(*piVar3 + 0xc))(piVar3,auStack_40), iVar4 == 1)) {
-      fn_82FA7F30(0xffffffff83264240,*(unsigned int *)(iVar2 + 0x20),auStack_40);
+    Entry_82FA7340 *e = lbl_83264234;
+    while (e != 0) {
+        Entry_82FA7340 *cur = e;
+        Owner_82FA7340 *owner;
+        Info_82FA7340 info;
+        e = cur->next;
+        owner = cur->owner;
+        if ((cur->flags & 0x20000) != 0 && cur->vt->query(cur, &info) == 1) {
+            fn_82FA7F30(lbl_83264240, owner->id, &info);
+        }
+        fn_82FAB260(owner);
     }
-    fn_82FAB260(iVar2);
-    piVar3 = piVar1;
-  }
-  return;
 }
-

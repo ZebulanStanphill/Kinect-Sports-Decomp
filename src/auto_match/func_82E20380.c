@@ -1,29 +1,26 @@
-extern unsigned int *auStack_40;
-extern int fn_82E1F690();
-extern int fn_82F64068();
-extern int fn_8306C4F8();
-extern unsigned int uStack_23;
-extern unsigned int uStack_48;
-extern unsigned int uStack_4a;
-extern unsigned int uStack_4e;
-extern unsigned int uStack_50;
+typedef struct Time_82E20380 {
+    unsigned short year;
+    unsigned short month;
+    unsigned short dayOfWeek;
+    unsigned short day;
+    unsigned short hour;
+    unsigned short minute;
+    unsigned short second;
+    unsigned short milliseconds;
+} Time_82E20380;
 
+extern void fn_8306C4F8(Time_82E20380 *time);
+extern int fn_82F64068(char *buffer, unsigned int size, unsigned int count, const char *format, ...);
+extern void fn_82E1F690(const char *text);
 
 void fn_82E20380(void)
-
 {
-  unsigned short uStack_50;
-  unsigned short uStack_4e;
-  unsigned short uStack_4a;
-  unsigned short uStack_48;
-  unsigned char auStack_40 [29];
-  unsigned char uStack_23;
-  
-  fn_8306C4F8(&uStack_50);
-  fn_82F64068(auStack_40,0x1e,0x1d,0xffffffff8214bb54,uStack_4e,uStack_4a,uStack_50,uStack_48)
-  ;
-  uStack_23 = 0;
-  fn_82E1F690(auStack_40);
-  return;
-}
+    Time_82E20380 now;
+    char text[30];
 
+    fn_8306C4F8(&now);
+    fn_82F64068(text, 30, 29, "%d/%d/%d %d:%2.2d:%2.2d", now.month, now.day, now.year, now.hour,
+                now.minute, now.second);
+    text[29] = 0;
+    fn_82E1F690(text);
+}

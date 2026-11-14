@@ -1,23 +1,24 @@
-extern int fn_82BEA200();
-extern int fn_82BEA230();
-extern unsigned int lbl_8317523C;
+typedef struct Server_82BE7908 {
+    unsigned int address;   /* 0x00 */
+    unsigned short port;    /* 0x04 */
+    const char *hostName;   /* 0x08 */
+} Server_82BE7908;
 
+extern int lbl_8317523C;
+extern char lbl_8322B1EC[];
+extern Server_82BE7908 lbl_83175248[];
+extern int fn_82BEA200(void *lock, const char *name);
+extern void fn_82BEA230(void *lock, const char *name);
 
-unsigned __int64 fn_82BE7908(int param_1,unsigned int *param_2)
-
+int fn_82BE7908(unsigned int index, unsigned int *address)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  
-  if ((lbl_8317523C == 0) &&
-     (iVar2 = fn_82BEA200(0xffffffff8322b1ec,0xffffffff820e9a0c), iVar2 != 0)) {
-    *param_2 = *(unsigned int *)(param_1 * 0xc + -0x7ce8adb8);
-    fn_82BEA230(0xffffffff8322b1ec,0xffffffff820e9a0c);
-    uVar1 = 1;
-  }
-  else {
-    uVar1 = 0;
-  }
-  return uVar1;
+    if (lbl_8317523C != 0) {
+        return 0;
+    }
+    if (fn_82BEA200(lbl_8322B1EC, "NetworkManager::GetServerAddressU32") == 0) {
+        return 0;
+    }
+    *address = lbl_83175248[index].address;
+    fn_82BEA230(lbl_8322B1EC, "NetworkManager::GetServerAddressU32");
+    return 1;
 }
-

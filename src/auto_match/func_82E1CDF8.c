@@ -1,24 +1,19 @@
-extern int fn_82E1F690();
+typedef struct Obj_82E1CDF8 {
+    char pad[0x18];
+    unsigned char ready;    /* 0x18 */
+    unsigned char *flags;   /* 0x1c */
+    int *first;             /* 0x20 */
+    int *second;            /* 0x24 */
+} Obj_82E1CDF8;
 
+extern int fn_82E1F690(void *value);
 
-unsigned __int64
-fn_82E1CDF8(int param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4,unsigned char param_5)
-
+int fn_82E1CDF8(Obj_82E1CDF8 *self, int index, void *a, void *b, unsigned char flag)
 {
-  unsigned __int64 uVar1;
-  unsigned int uVar2;
-  
-  if (*(char *)(param_1 + 0x18) == '\0') {
-    uVar1 = 0xffffffff80004005;
-  }
-  else {
-    uVar2 = fn_82E1F690(param_3);
-    *(unsigned int *)(*(int *)(param_1 + 0x20) + param_2 * 4) = uVar2;
-    uVar2 = fn_82E1F690(param_4);
-    *(unsigned int *)(*(int *)(param_1 + 0x24) + param_2 * 4) = uVar2;
-    uVar1 = 0;
-    *(unsigned char *)(*(int *)(param_1 + 0x1c) + param_2) = param_5;
-  }
-  return uVar1;
+    if (self->ready == 0)
+        return 0x80004005;
+    self->first[index] = fn_82E1F690(a);
+    self->second[index] = fn_82E1F690(b);
+    self->flags[index] = flag;
+    return 0;
 }
-

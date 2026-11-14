@@ -1,28 +1,14 @@
-extern int fn_82F68B64();
+int strcmp(const char *a, const char *b);
 
+typedef struct Str_8273CA30 { const char *chars; char pad4[4]; int rc; } Str_8273CA30;
 
-unsigned __int64 fn_8273CA30(unsigned __int64 param_1,unsigned __int64 param_2,unsigned int *param_3)
+extern char lbl_82012158[];   /* "data" */
+extern int fn_826C1BA0(void *members, void *env, Str_8273CA30 **name, void *value, unsigned char *flags);
 
+int fn_8273CA30(void *members, void *env, Str_8273CA30 **name, void *value, unsigned char *flags)
 {
-  char cVar1;
-  char cVar2;
-  unsigned __int64 uVar3;
-  char *pcVar4;
-  char *pcVar5;
-  
-  pcVar4 = "data";
-  pcVar5 = *(char **)*param_3;
-  do {
-    cVar1 = *pcVar5;
-    cVar2 = *pcVar4;
-    if (cVar1 == '\0') break;
-    pcVar5 = pcVar5 + 1;
-    pcVar4 = pcVar4 + 1;
-  } while (cVar1 == cVar2);
-  if (cVar1 == cVar2) {
-    return 1;
-  }
-  uVar3 = fn_82F68B64();
-  return uVar3;
+    if (strcmp((*name)->chars, lbl_82012158) == 0) {
+        return 1;
+    }
+    return fn_826C1BA0(members, env, name, value, flags);
 }
-

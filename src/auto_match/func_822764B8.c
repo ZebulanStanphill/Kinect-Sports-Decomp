@@ -1,55 +1,47 @@
-extern unsigned int *auStack_28;
-extern unsigned int *auStack_30;
-extern int fn_822315A0();
-extern int fn_82279AF0();
-extern int fn_82279C58();
-extern int fn_8251FA58();
-extern int fn_8265CA20();
-extern int fn_8266F6B8();
-extern int fn_826728E8();
-extern unsigned int iStack_24;
-extern unsigned int iStack_2c;
-extern unsigned int lbl_821A8118;
-extern unsigned int lbl_821A89BC;
+typedef struct SP_822764B8 { void *p; void *rc; } SP_822764B8;
 
+typedef struct Credits_822764B8 {
+    void *vt;               /* 0x000 */
+    char pad4[0x12c];
+    void *texture;          /* 0x130 */
+    int alternate;          /* 0x134 */
+} Credits_822764B8;
 
-unsigned int * fn_822764B8(unsigned int *param_1,unsigned __int64 param_2)
+extern char lbl_821A8118[];
+extern char lbl_821A89BC[];
+extern SP_822764B8 *fn_82279C58(SP_822764B8 *out, Credits_822764B8 *self);
+extern void *fn_8266F6B8(void);
+extern void fn_826728E8(void *scene, const char *name, void *context);
+extern void fn_822315A0(void *rc);
+extern void fn_8251FA58(void *texture);
+extern void fn_82279AF0(Credits_822764B8 *self);
+extern void fn_8265CA20(void *p);
 
+Credits_822764B8 *fn_822764B8(Credits_822764B8 *self, unsigned int flags)
 {
-  unsigned int uVar1;
-  unsigned int *puVar3;
-  unsigned __int64 uVar2;
-  unsigned char auStack_30 [4];
-  int iStack_2c;
-  unsigned char auStack_28 [4];
-  int iStack_24;
-  
-  *param_1 = &lbl_821A8118;
-  if (param_1[0x4d] == 0) {
-    puVar3 = (unsigned int *)fn_82279C58(auStack_28,param_1);
-    uVar1 = *puVar3;
-    uVar2 = fn_8266F6B8();
-    fn_826728E8(uVar1,0xffffffff821a807c,uVar2);
-    iStack_2c = iStack_24;
-  }
-  else {
-    puVar3 = (unsigned int *)fn_82279C58(auStack_30,param_1);
-    uVar1 = *puVar3;
-    uVar2 = fn_8266F6B8();
-    fn_826728E8(uVar1,0xffffffff821a806c,uVar2);
-  }
-  if (iStack_2c != 0) {
-    fn_822315A0();
-  }
-  if (param_1[0x4c] != 0) {
-    fn_8251FA58();
-    param_1[0x4c] = 0;
-  }
-  *param_1 = &lbl_821A89BC;
-  fn_82279AF0(param_1);
-  if ((param_2 & 1) != 0) {
-    fn_8265CA20(param_1);
-  }
-  return param_1;
-}
+    SP_822764B8 a;
+    SP_822764B8 b;
+    void *scene;
 
+    self->vt = lbl_821A8118;
+    if (self->alternate != 0) {
+        scene = fn_82279C58(&a, self)->p;
+        fn_826728E8(scene, "credits_texture", fn_8266F6B8());
+        if (a.rc != 0)
+            fn_822315A0(a.rc);
+    } else {
+        scene = fn_82279C58(&b, self)->p;
+        fn_826728E8(scene, "credits_texture2", fn_8266F6B8());
+        if (b.rc != 0)
+            fn_822315A0(b.rc);
+    }
+    if (self->texture != 0) {
+        fn_8251FA58(self->texture);
+        self->texture = 0;
+    }
+    self->vt = lbl_821A89BC;
+    fn_82279AF0(self);
+    if (flags & 1)
+        fn_8265CA20(self);
+    return self;
+}

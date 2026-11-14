@@ -1,32 +1,43 @@
-typedef unsigned char bool;
-#define false 0
+typedef struct Impl_82930718 Impl_82930718;
 
+typedef struct ImplVtbl_82930718 {
+    int (*equals)(Impl_82930718 *self, Impl_82930718 *other);
+} ImplVtbl_82930718;
 
-bool fn_82930718(int param_1,int param_2)
+struct Impl_82930718 {
+    ImplVtbl_82930718 *vt;
+};
 
+typedef struct Obj_82930718 {
+    int pad0;
+    int type;               /* 0x04 */
+    Impl_82930718 *first;   /* 0x08 */
+    Impl_82930718 *second;  /* 0x0c */
+    unsigned int id0;       /* 0x10 */
+    unsigned int id1;       /* 0x14 */
+} Obj_82930718;
+
+static __forceinline int ImplEquals(Impl_82930718 *a, Impl_82930718 *b)
 {
-  unsigned int uVar2;
-  unsigned __int64 uVar1;
-  
-  if ((((param_2 != 0) && (*(int *)(param_2 + 4) == *(int *)(param_1 + 4))) &&
-      (*(int *)(param_1 + 0x10) == *(int *)(param_2 + 0x10))) &&
-     (*(int *)(param_1 + 0x14) == *(int *)(param_2 + 0x14))) {
-    if (*(unsigned int **)(param_1 + 8) == (unsigned int *)0x0) {
-      uVar2 = (unsigned int)LZCOUNT(*(unsigned int *)(param_2 + 8)) >> 5;
-    }
-    else {
-      uVar2 = (**(int (***)())**(unsigned int **)(param_1 + 8))();
-    }
-    if (uVar2 != 0) {
-      if (*(unsigned int **)(param_1 + 0xc) == (unsigned int *)0x0) {
-        uVar1 = (unsigned __int64)(*(int *)(param_2 + 0xc) == 0);
-      }
-      else {
-        uVar1 = (**(int (***)())**(unsigned int **)(param_1 + 0xc))();
-      }
-      return uVar1 != 0;
-    }
-  }
-  return false;
+    if (a != 0)
+        return a->vt->equals(a, b);
+    return 0 == b;
 }
 
+static __forceinline int SameType(Obj_82930718 *self, Obj_82930718 *other)
+{
+    return other != 0 && other->type == self->type;
+}
+
+unsigned char fn_82930718(Obj_82930718 *self, Obj_82930718 *other)
+{
+    if (!SameType(self, other))
+        return 0;
+    if (self->id0 != other->id0)
+        return 0;
+    if (self->id1 != other->id1)
+        return 0;
+    if (!ImplEquals(self->first, other->first))
+        return 0;
+    return ImplEquals(self->second, other->second) != 0;
+}

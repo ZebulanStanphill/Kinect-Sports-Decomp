@@ -1,46 +1,29 @@
-extern int fn_822300F8();
-extern int fn_8265DAB8();
-extern int fn_8265DDA0();
-extern int fn_82663F28();
-extern unsigned int iStack00000014;
-extern unsigned int uStack0000001c;
-extern unsigned int uStack00000024;
+/* std::string::erase(size_type off, size_type count) (VC10, out of line, /Og-). */
+typedef struct String_8265DDD8 {
+    char pad[0x10];
+    unsigned int size;      /* 0x10 */
+    unsigned int capacity;  /* 0x14 */
+} String_8265DDD8;
 
+extern void fn_82663F28(String_8265DDD8 *self);
+extern char *fn_8265DDA0(String_8265DDD8 *self);
+extern char *fn_822300F8(char *dst, const char *src, unsigned int count);
+extern void fn_8265DAB8(String_8265DDD8 *self, unsigned int size);
 
-int fn_8265DDD8(int param_1,unsigned int param_2,unsigned int param_3)
-
+String_8265DDD8 *fn_8265DDD8(String_8265DDD8 *self, unsigned int offset, unsigned int count)
 {
-  unsigned int uVar1;
-  __int64 lVar2;
-  __int64 lVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  unsigned __int64 uVar6;
-  unsigned __int64 uVar7;
-  int iStack00000014;
-  unsigned int uStack0000001c;
-  unsigned int uStack00000024;
-  
-  iStack00000014 = param_1;
-  uStack0000001c = param_2;
-  uStack00000024 = param_3;
-  if (*(unsigned int *)(param_1 + 0x10) < param_2) {
-    fn_82663F28(param_1);
-  }
-  if (*(int *)(iStack00000014 + 0x10) - uStack0000001c < uStack00000024) {
-    uStack00000024 = *(int *)(iStack00000014 + 0x10) - uStack0000001c;
-  }
-  if (uStack00000024 != 0) {
-    uVar1 = *(unsigned int *)(iStack00000014 + 0x10);
-    uVar4 = (unsigned __int64)uStack0000001c;
-    uVar5 = (unsigned __int64)uStack00000024;
-    lVar2 = fn_8265DDA0(iStack00000014);
-    uVar7 = (unsigned __int64)uStack0000001c;
-    uVar6 = (unsigned __int64)uStack00000024;
-    lVar3 = fn_8265DDA0(iStack00000014);
-    fn_822300F8(lVar3 + (unsigned __int64)uStack0000001c,lVar2 + uVar7 + uVar6,(uVar1 - uVar4) - uVar5);
-    fn_8265DAB8(iStack00000014,*(int *)(iStack00000014 + 0x10) - uStack00000024);
-  }
-  return iStack00000014;
-}
+    unsigned int newSize;
 
+    if (self->size < offset) {
+        fn_82663F28(self);
+    }
+    if (self->size - offset < count) {
+        count = self->size - offset;
+    }
+    if (0 < count) {
+        fn_822300F8(fn_8265DDA0(self) + offset, fn_8265DDA0(self) + offset + count, self->size - offset - count);
+        newSize = self->size - count;
+        fn_8265DAB8(self, newSize);
+    }
+    return self;
+}

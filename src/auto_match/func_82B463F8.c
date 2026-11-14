@@ -1,65 +1,34 @@
-extern int fn_82AA64F8();
-extern unsigned int lbl_83160F20;
-extern unsigned int stack0x00000020;
-extern unsigned int uStack00000020;
-extern unsigned int uStack00000028;
-extern unsigned int uStack00000030;
-extern unsigned int uStack00000038;
-extern unsigned int uStack00000040;
-extern unsigned int uStack00000048;
+int strcmp(const char *a, const char *b);
 
+typedef struct Info_82B463F8 {
+    int pad0;
+    int type;           /* 0x04 */
+    char pad8[0x8];
+    int kind;           /* 0x10 */
+    int pad14;
+    const char *name;   /* 0x18 */
+} Info_82B463F8;
 
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
+typedef struct Obj_82B463F8 {
+    char pad[0x10];
+    Info_82B463F8 *info; /* 0x10 */
+} Obj_82B463F8;
 
-__int64 fn_82B463F8(unsigned __int64 param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                      unsigned __int64 param_5,unsigned __int64 param_6,unsigned __int64 param_7,unsigned __int64 param_8)
+extern const char *lbl_83160F20[23];
+__declspec(noreturn) extern void fn_82AA66A8(void *, int, ...);
 
+unsigned int fn_82B463F8(void *ctx, Obj_82B463F8 *obj)
 {
-  char cVar1;
-  char cVar2;
-  int iVar3;
-  unsigned __int64 uVar4;
-  unsigned char **ppuVar5;
-  char *pcVar6;
-  char *pcVar7;
-  unsigned __int64 uStack00000020;
-  unsigned __int64 uStack00000028;
-  unsigned __int64 uStack00000030;
-  unsigned __int64 uStack00000038;
-  unsigned __int64 uStack00000040;
-  unsigned __int64 uStack00000048;
-  
-  iVar3 = *(int *)(param_2 + 0x10);
-  if (((iVar3 == 0) || (param_8 = (unsigned __int64)*(unsigned int *)(iVar3 + 4), *(unsigned int *)(iVar3 + 4) != 3)) ||
-     (param_8 = (unsigned __int64)*(unsigned int *)(iVar3 + 0x10), *(unsigned int *)(iVar3 + 0x10) != 9)) {
-    uStack00000020 = param_3;
-    uStack00000028 = param_4;
-    uStack00000030 = param_5;
-    uStack00000038 = param_6;
-    uStack00000040 = param_7;
-    uStack00000048 = param_8;
-                    /* WARNING: Subroutine does not return */
-    fn_82AA64F8(param_1,0x12c1,&stack0x00000020);
-  }
-  uVar4 = 0;
-  ppuVar5 = &lbl_83160F20;
-  do {
-    pcVar7 = *ppuVar5;
-    pcVar6 = *(char **)(iVar3 + 0x18);
-    do {
-      cVar1 = *pcVar7;
-      cVar2 = *pcVar6;
-      if (cVar1 == '\0') break;
-      pcVar7 = pcVar7 + 1;
-      pcVar6 = pcVar6 + 1;
-    } while (cVar1 == cVar2);
-    if (cVar1 == cVar2) break;
-    uVar4 = uVar4 + 1;
-    ppuVar5 = ppuVar5 + 1;
-  } while ((uVar4 & 0xffffffff) < 0x17);
-  if ((uVar4 & 0xffffffff) != 0x17) {
-    return uVar4 + 1;
-  }
-  return 0;
-}
+    Info_82B463F8 *info = obj->info;
+    unsigned int i;
 
+    if (info == 0 || info->type != 3)
+        fn_82AA66A8(ctx, 0x12c1);
+    if (info->kind != 9)
+        fn_82AA66A8(ctx, 0x12c1);
+    for (i = 0; i < 23; i++) {
+        if (strcmp(lbl_83160F20[i], info->name) == 0)
+            break;
+    }
+    return i == 23 ? 0 : i + 1;
+}

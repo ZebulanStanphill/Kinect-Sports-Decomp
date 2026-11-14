@@ -1,35 +1,30 @@
-void fn_8302B738(int param_1,unsigned int param_2)
+typedef struct Node_8302B738 {
+    int value;
+    unsigned int key;
+    struct Node_8302B738 *next;
+} Node_8302B738;
 
+typedef struct Table_8302B738 {
+    Node_8302B738 *buckets[31];
+    int count;                   /* 0x7c */
+} Table_8302B738;
+
+Node_8302B738 *fn_8302B738(Table_8302B738 *t, unsigned int key)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  int iVar3;
-  int iVar4;
-  int iVar5;
-  
-  uVar2 = (unsigned __int64)param_2 * 0x8421085 >> 0x20;
-  uVar2 = ((param_2 - uVar2 & 0xffffffff) >> 1) + uVar2 >> 4;
-  iVar3 = (int)(((unsigned __int64)param_2 - ((uVar2 & 0x7ffffff) * 0x20 - uVar2) & 0xffffffff) << 2);
-  iVar1 = *(int *)(iVar3 + param_1);
-  iVar5 = 0;
-  if (iVar1 == 0) {
-    return;
-  }
-  do {
-    iVar4 = iVar1;
-    if (*(unsigned int *)(iVar4 + 4) == param_2) {
-      if (iVar5 != 0) {
-        *(unsigned int *)(iVar5 + 8) = *(unsigned int *)(iVar4 + 8);
-        *(int *)(param_1 + 0x7c) = *(int *)(param_1 + 0x7c) + -1;
-        return;
-      }
-      *(unsigned int *)(iVar3 + param_1) = *(unsigned int *)(iVar4 + 8);
-      *(int *)(param_1 + 0x7c) = *(int *)(param_1 + 0x7c) + -1;
-      return;
+    unsigned int i = key % 31;
+    Node_8302B738 *n = t->buckets[i];
+    Node_8302B738 *prev = 0;
+    while (n != 0) {
+        if (n->key == key) {
+            if (prev != 0)
+                prev->next = n->next;
+            else
+                t->buckets[i] = n->next;
+            t->count--;
+            return n;
+        }
+        prev = n;
+        n = n->next;
     }
-    iVar1 = *(int *)(iVar4 + 8);
-    iVar5 = iVar4;
-  } while (*(int *)(iVar4 + 8) != 0);
-  return;
+    return n;
 }
-
