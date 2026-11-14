@@ -1,11 +1,5 @@
-extern unsigned int lbl_82015438;
-extern float lbl_8201DFF0;
-
-
-double fn_8301E178(double param_1)
-
+/* Degrees to radians after subtracting the whole-turn count (x / 360 truncated) from the angle. */
+float fn_8301E178(float degrees)
 {
-  return (double)((float)(param_1 - (double)(__int64)(int)(param_1 * (double)lbl_82015438)) *
-                 lbl_8201DFF0);
+    return (degrees - (float)(int)(degrees * 0.0027777778f)) * 0.017453292f;
 }
-

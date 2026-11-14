@@ -1,42 +1,68 @@
-extern int fn_82522ED8();
+typedef struct Item_825FA398 {
+    char pad0[0x28];
+    struct Item_825FA398 *next;
+} Item_825FA398;
 
+typedef struct Sub_825FA398 {
+    char pad0[0x18];
+    struct Sub_825FA398 *next;
+} Sub_825FA398;
 
-void fn_825FA398(unsigned int *param_1)
+typedef struct Group_825FA398 {
+    char pad0[0x1c];
+    Sub_825FA398 *subs;
+    struct Group_825FA398 *next;
+} Group_825FA398;
 
+typedef struct Bucket_825FA398 {
+    int count;
+    Item_825FA398 *head;
+    int f8;
+} Bucket_825FA398;
+
+typedef struct Pool_825FA398 {
+    int count;
+    int f4;
+    Group_825FA398 *groups;
+    int fc;
+    Bucket_825FA398 buckets[3];
+} Pool_825FA398;
+
+extern void fn_82522ED8(void *p);
+
+void fn_825FA398(Pool_825FA398 *self)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  __int64 lVar4;
-  unsigned int *puVar5;
-  
-  puVar5 = param_1 + 2;
-  lVar4 = 3;
-  do {
-    iVar1 = puVar5[3];
-    while (iVar1 != 0) {
-      iVar1 = *(int *)(iVar1 + 0x28);
-      fn_82522ED8();
-    }
-    puVar5[2] = 0;
-    lVar4 = lVar4 + -1;
-    puVar5 = puVar5 + 3;
-    *puVar5 = 0;
-  } while (lVar4 != 0);
-  iVar1 = param_1[2];
-  while (iVar1 != 0) {
-    iVar2 = *(int *)(iVar1 + 0x1c);
-    iVar3 = *(int *)(iVar1 + 0x20);
-    while (iVar2 != 0) {
-      iVar2 = *(int *)(iVar2 + 0x18);
-      fn_82522ED8();
-    }
-    *(unsigned int *)(iVar1 + 0x1c) = 0;
-    fn_82522ED8(iVar1);
-    iVar1 = iVar3;
-  }
-  *param_1 = 0;
-  param_1[2] = 0;
-  return;
-}
+    int i;
+    Item_825FA398 *item;
+    Item_825FA398 *nextItem;
+    Group_825FA398 *group;
+    Group_825FA398 *nextGroup;
+    Sub_825FA398 *sub;
+    Sub_825FA398 *nextSub;
 
+    for (i = 0; i < 3; i++) {
+        item = self->buckets[i].head;
+        while (item != 0) {
+            nextItem = item->next;
+            fn_82522ED8(item);
+            item = nextItem;
+        }
+        self->buckets[i].count = 0;
+        self->buckets[i].head = 0;
+    }
+    group = self->groups;
+    while (group != 0) {
+        sub = group->subs;
+        nextGroup = group->next;
+        while (sub != 0) {
+            nextSub = sub->next;
+            fn_82522ED8(sub);
+            sub = nextSub;
+        }
+        group->subs = 0;
+        fn_82522ED8(group);
+        group = nextGroup;
+    }
+    self->count = 0;
+    self->groups = 0;
+}

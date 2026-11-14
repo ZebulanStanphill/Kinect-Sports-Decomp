@@ -1,44 +1,33 @@
-extern unsigned int *auStack_40;
-extern int fn_8300F200();
-extern int fn_8300F208();
+typedef struct Pair_82FE6DE8 { unsigned int lo; unsigned int hi; } Pair_82FE6DE8;
+typedef struct Message_82FE6DE8 {
+    unsigned short type;
+    unsigned short size;
+    unsigned int value;
+    unsigned int seq;
+    Pair_82FE6DE8 time;
+    unsigned int f14;
+    unsigned int f18;
+    unsigned int first;
+    unsigned int second;
+    unsigned int f24;
+    unsigned char reserved[4];
+} Message_82FE6DE8;
+
 extern unsigned int lbl_832642E4;
 extern unsigned int lbl_83264348;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
-extern unsigned int uStack_24;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_34;
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_3e;
+extern unsigned int fn_8300F200(void);
+extern int fn_8300F208(unsigned int queue, Message_82FE6DE8 *m, unsigned short id);
 
-
-unsigned int fn_82FE6DE8(unsigned int param_1,unsigned int param_2,unsigned int param_3)
-
+unsigned int fn_82FE6DE8(unsigned int a, unsigned int b, unsigned int c)
 {
-  unsigned short uVar2;
-  __int64 lVar1;
-  unsigned char auStack_40 [2];
-  unsigned short uStack_3e;
-  unsigned int uStack_3c;
-  unsigned int uStack_38;
-  unsigned __int64 uStack_34;
-  unsigned int uStack_2c;
-  unsigned int uStack_24;
-  unsigned int uStack_20;
-  unsigned int uStack_1c;
-  
-  uStack_2c = 0;
-  uStack_3e = 0x24;
-  uStack_1c = 0;
-  lbl_83264348 = lbl_83264348 + 1;
-  uStack_34 = 0;
-  uStack_3c = param_3;
-  uStack_38 = lbl_83264348;
-  uStack_24 = param_1;
-  uStack_20 = param_2;
-  uVar2 = fn_8300F200();
-  lVar1 = fn_8300F208(lbl_832642E4,auStack_40,uVar2);
-  return -(unsigned int)(lVar1 == 1) & uStack_38;
+    Message_82FE6DE8 m;
+    m.first = a;
+    m.second = b;
+    *(unsigned __int64 *)&m.time = 0;
+    m.size = 0x24;
+    m.f14 = 0;
+    m.seq = ++lbl_83264348;
+    m.value = c;
+    m.f24 = 0;
+    return fn_8300F208(lbl_832642E4, &m, fn_8300F200()) == 1 ? m.seq : 0;
 }
-

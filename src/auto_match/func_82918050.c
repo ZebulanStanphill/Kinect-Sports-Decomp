@@ -1,23 +1,12 @@
-extern int fn_82631290();
-extern unsigned int lbl_821AAD20;
+extern void fn_82631290(void *device, unsigned int start, const float *data, unsigned int count);
 
-
-unsigned __int64
-fn_82918050(unsigned __int64 param_1,unsigned __int64 param_2,int param_3,unsigned int *param_4,__int64 param_5)
-
+int fn_82918050(void *device, unsigned int start, const float *data, int *flags, unsigned int count)
 {
-  float fVar1;
-  
-  fVar1 = lbl_821AAD20;
-  if ((int)param_5 != 0) {
-    param_3 = param_3 - (int)param_4;
-    do {
-      *param_4 = (unsigned int)(*(float *)(param_3 + (int)param_4) != fVar1);
-      param_4 = param_4 + 1;
-      param_5 = param_5 + -1;
-    } while (param_5 != 0);
-  }
-  fn_82631290();
-  return 0;
-}
+    unsigned int i;
 
+    for (i = 0; i < count; i++) {
+        flags[i] = data[i] != 0.0f;
+    }
+    fn_82631290(device, start, data, count);
+    return 0;
+}

@@ -1,40 +1,44 @@
-extern int fn_8267B890();
-extern int fn_8267C498();
-extern int fn_826E4B08();
-extern int fn_826E4CA8();
-extern int fn_826E4D70();
+typedef struct Loader_826E5600 Loader_826E5600;
+typedef struct LoaderVtbl_826E5600 {
+    void *pad0;
+    void *(*load)(Loader_826E5600 *self, const char *name);
+} LoaderVtbl_826E5600;
+struct Loader_826E5600 {
+    LoaderVtbl_826E5600 *vt;
+};
 
+typedef struct Log_826E5600 {
+    char pad0[0xc];
+    char sink[4];           /* 0xc */
+} Log_826E5600;
 
-unsigned __int64 fn_826E5600(unsigned __int64 param_1,int *param_2,unsigned __int64 param_3,unsigned __int64 param_4)
+extern void *fn_8267B890(void *heap, unsigned int size, int flags);
+extern void fn_8267C498(void *image);
+extern void *fn_826E4B08(void);
+extern void fn_826E4CA8(void *sink, const char *fmt, ...);
+extern void *fn_826E4D70(void *mem, void *image, int owns);
 
+void *fn_826E5600(const char *name, Loader_826E5600 *loader, Log_826E5600 *log, void *heap)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  
-  if (param_2 == (int *)0x0) {
-LAB_826e5640:
-    if ((param_3 & 0xffffffff) != 0) {
-      fn_826E4CA8(param_3 + 0xc,0xffffffff8200d5d8,param_1);
-    }
-    uVar1 = fn_826E4B08();
-    if (uVar1 != 0) goto LAB_826e5668;
-  }
-  else {
-    uVar1 = (**(int (***)())(*param_2 + 4))(param_2,param_1);
-    if (uVar1 == 0) goto LAB_826e5640;
-LAB_826e5668:
-    uVar2 = fn_8267B890(param_4,0x1c,0);
-    if ((uVar2 & 0xffffffff) != 0) {
-      uVar3 = fn_826E4D70(uVar2,uVar1,1);
-      goto LAB_826e5698;
-    }
-  }
-  uVar3 = 0;
-LAB_826e5698:
-  if ((uVar1 & 0xffffffff) != 0) {
-    fn_8267C498(uVar1);
-  }
-  return uVar3;
-}
+    void *image;
+    void *result;
+    void *mem;
 
+    if (loader == 0 || (image = loader->vt->load(loader, name)) == 0) {
+        if (log != 0)
+            fn_826E4CA8(log->sink, "Could not load user image \"%s\" - GFxImageLoader failed or not specified\n", name);
+        image = fn_826E4B08();
+        if (image == 0)
+            goto fail;
+    }
+    mem = fn_8267B890(heap, 0x1c, 0);
+    if (mem != 0) {
+        result = fn_826E4D70(mem, image, 1);
+    } else {
+fail:
+        result = 0;
+    }
+    if (image != 0)
+        fn_8267C498(image);
+    return result;
+}

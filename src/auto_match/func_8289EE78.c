@@ -1,35 +1,24 @@
-typedef unsigned char bool;
-extern unsigned __int64 storeWordConditionalIndexed();
+extern long _InterlockedIncrement(long *);
+typedef struct Rep_8289EE78 {
+    void *vt;
+    long uses;
+    long weaks;
+} Rep_8289EE78;
+typedef struct Ptr_8289EE78 {
+    void *px;
+    Rep_8289EE78 *rep;
+} Ptr_8289EE78;
 
-
-unsigned int * fn_8289EE78(unsigned int *param_1,unsigned int *param_2,unsigned int *param_3)
-
+Ptr_8289EE78 *fn_8289EE78(Ptr_8289EE78 *first, Ptr_8289EE78 *last, Ptr_8289EE78 *dest)
 {
-  unsigned int uVar1;
-  __int64 lVar2;
-  unsigned int *puVar3;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  for (; param_1 != param_2; param_1 = param_1 + 2) {
-    if (param_3 != (unsigned int *)0x0) {
-      *param_3 = *param_1;
-      uVar1 = param_1[1];
-      param_3[1] = uVar1;
-      if ((unsigned __int64)uVar1 != 0) {
-        lVar2 = (unsigned __int64)uVar1 + 4;
-        do {
-          puVar3 = (unsigned int *)lVar2;
-          if (in_RESERVE != '\0') {
-            uVar1 = storeWordConditionalIndexed((unsigned __int64)*puVar3 + 1,0,lVar2);
-            *puVar3 = uVar1;
-            in_cr0 = 2;
-          }
-        } while (!(bool)(in_cr0 >> 1 & 1));
-      }
+    for (; first != last; first++, dest++) {
+        if (dest != 0) {
+            dest->px = first->px;
+            dest->rep = first->rep;
+            if (dest->rep != 0) {
+                _InterlockedIncrement(&dest->rep->uses);
+            }
+        }
     }
-    param_3 = param_3 + 2;
-  }
-  return param_3;
+    return dest;
 }
-

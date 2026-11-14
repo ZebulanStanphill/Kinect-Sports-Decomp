@@ -1,31 +1,44 @@
-#define true 1
-extern int fn_827E36D0();
-extern int fn_827E3840();
-extern int fn_827E3AF8();
-extern int fn_82F63CA0();
+typedef struct Child_827DAC00 Child_827DAC00;
 
+typedef struct Vec_827DAC00 {
+    Child_827DAC00 **first;
+    Child_827DAC00 **last;
+} Vec_827DAC00;
 
-void fn_827DAC00(int param_1,unsigned __int64 param_2)
+typedef struct Owner_827DAC00 {
+    int f0;
+    Vec_827DAC00 children;
+} Owner_827DAC00;
 
+extern void fn_827E3840(Child_827DAC00 *child, int parent);
+extern void fn_827E3AF8(Child_827DAC00 *child);
+extern void fn_827E36D0(Child_827DAC00 *child);
+extern void *memmove(void *dst, const void *src, unsigned int n);
+
+static __forceinline void Erase(Vec_827DAC00 *v, Child_827DAC00 **p)
 {
-  unsigned int *puVar1;
-  
-  fn_827E3840(param_2,0);
-  puVar1 = *(unsigned int **)(param_1 + 4);
-  while( true ) {
-    if (puVar1 == *(unsigned int **)(param_1 + 8)) {
-      return;
-    }
-    if ((unsigned __int64)*puVar1 == (param_2 & 0xffffffff)) break;
-    puVar1 = puVar1 + 1;
-  }
-  fn_82F63CA0(puVar1,puVar1 + 1,(*(int *)(param_1 + 8) - (int)(puVar1 + 1) >> 2) << 2);
-  *(int *)(param_1 + 8) = *(int *)(param_1 + 8) + -4;
-  if ((param_2 & 0xffffffff) == 0) {
-    return;
-  }
-  fn_827E3AF8(param_2);
-  fn_827E36D0(param_2);
-  return;
+    Child_827DAC00 **next = p + 1;
+
+    memmove(p, next, (v->last - next) * sizeof(Child_827DAC00 *));
+    v->last--;
 }
 
+void fn_827DAC00(Owner_827DAC00 *self, Child_827DAC00 *child)
+{
+    Child_827DAC00 **p;
+    Child_827DAC00 **last;
+
+    fn_827E3840(child, 0);
+    p = self->children.first;
+    last = self->children.last;
+    for (; p != last; p++) {
+        if (*p == child) {
+            Erase(&self->children, p);
+            if (child != 0) {
+                fn_827E3AF8(child);
+                fn_827E36D0(child);
+            }
+            return;
+        }
+    }
+}

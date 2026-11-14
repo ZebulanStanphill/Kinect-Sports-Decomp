@@ -1,53 +1,11 @@
-typedef unsigned char bool;
-
-
-unsigned __int64 fn_8297F458(int param_1,int param_2)
-
+int fn_8297F458(int kind, int other)
 {
-  bool bVar1;
-  
-  if (param_1 == 0x18) {
-    if (param_2 == 0x18) {
-      return 1;
+    if (kind == 0x18) {
+        if (other == 0x18 || other == 0x19 || other == 0x1b || other == 0x1d || other == 0x1e || other == 0x1a || other == 0x1c)
+            return 1;
+    } else if (kind == 0x21) {
+        if (other == 0x21 || other == 0x22 || other == 0x23 || other == 0x24 || other == 0x25)
+            return 1;
     }
-    if (param_2 == 0x19) {
-      return 1;
-    }
-    if (param_2 == 0x1b) {
-      return 1;
-    }
-    if (param_2 == 0x1d) {
-      return 1;
-    }
-    if (param_2 == 0x1e) {
-      return 1;
-    }
-    if (param_2 == 0x1a) {
-      return 1;
-    }
-    bVar1 = param_2 == 0x1c;
-  }
-  else {
-    if (param_1 != 0x21) {
-      return 0;
-    }
-    if (param_2 == 0x21) {
-      return 1;
-    }
-    if (param_2 == 0x22) {
-      return 1;
-    }
-    if (param_2 == 0x23) {
-      return 1;
-    }
-    if (param_2 == 0x24) {
-      return 1;
-    }
-    bVar1 = param_2 == 0x25;
-  }
-  if (bVar1) {
-    return 1;
-  }
-  return 0;
+    return 0;
 }
-

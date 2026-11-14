@@ -1,25 +1,33 @@
-extern int fn_82C10AD0();
-extern int fn_82C10B28();
-extern int memset();
+typedef struct Obj_82C10DA0 {
+    char pad0[0x1fc];
+    void *owner;            /* 0x1fc */
+    int f200;
+    int d;                  /* 0x204 */
+    int b;                  /* 0x208 */
+    int c;                  /* 0x20c */
+} Obj_82C10DA0;
 
+extern int fn_82C10AD0(void *ctx, int pool, unsigned int size, Obj_82C10DA0 **out);
+extern void fn_82C10B28(void *ctx, int pool, Obj_82C10DA0 **p);
+extern void *memset(void *dst, int value, unsigned int size);
 
-unsigned __int64 fn_82C10DA0(unsigned __int64 param_1)
-
+int fn_82C10DA0(void *ctx, int b, int c, int d, Obj_82C10DA0 **out)
 {
-  unsigned __int64 uVar1;
-  unsigned int *in_r7;
-  int aiStack_40;
-  
-  *in_r7 = 0;
-  aiStack_40 = 0;
-  uVar1 = fn_82C10AD0(param_1,2,0x210,&aiStack_40);
-  if (-1 < (int)uVar1) {
-                    /* WARNING: Subroutine does not return */
-    memset(aiStack_40,0,0x210);
-  }
-  if (aiStack_40 != 0) {
-    fn_82C10B28(param_1,2,&aiStack_40);
-  }
-  return uVar1;
-}
+    Obj_82C10DA0 *obj;
+    int hr;
 
+    *out = 0;
+    obj = 0;
+    hr = fn_82C10AD0(ctx, 2, sizeof(Obj_82C10DA0), &obj);
+    if (hr >= 0) {
+        memset(obj, 0, sizeof(Obj_82C10DA0));
+        obj->owner = ctx;
+        obj->b = b;
+        obj->c = c;
+        obj->d = d;
+        *out = obj;
+    } else if (obj != 0) {
+        fn_82C10B28(ctx, 2, &obj);
+    }
+    return hr;
+}

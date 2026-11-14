@@ -1,40 +1,37 @@
-extern int fn_82810360();
-extern int fn_8285A830();
-extern int fn_8285AAF0();
-extern int fn_8285D2C0();
-extern int fn_8285E650();
-extern int fn_828602F8();
-extern int fn_82860750();
+typedef struct State_8285E748 {
+    char pad[0x10];
+    unsigned int phase;
+    char data[0xc];
+    char extra[4];
+} State_8285E748;
 
+extern State_8285E748 *fn_8285A830(void *a, void *b); /* a->f68 + b->f8 */
+extern void fn_82810360(void *data, void *extra);
+extern void fn_8285D2C0(void *data);
+extern void fn_8285AAF0(void *a, void *b, void *data);
+extern int fn_82860750(void *a, void *b, void *data);
+extern void fn_828602F8(void *a, void *b, void *extra, void *data);
+extern void fn_8285E650(void *a, void *b);
 
-void fn_8285E748(unsigned __int64 param_1,unsigned __int64 param_2)
-
+void fn_8285E748(void *a, void *b)
 {
-  int iVar1;
-  int iVar2;
-  
-  iVar1 = fn_8285A830();
-  if (*(int *)(iVar1 + 0x10) == 0) {
-    iVar2 = iVar1 + 0x14;
-    fn_8285D2C0(iVar2);
-    fn_8285AAF0(param_1,param_2,iVar2);
-    iVar2 = fn_82860750(param_1,param_2,iVar2);
-    if (iVar2 == 0) {
-      return;
+    State_8285E748 *s = fn_8285A830(a, b);
+    switch (s->phase) {
+    case 0:
+        fn_8285D2C0(s->data);
+        fn_8285AAF0(a, b, s->data);
+        if (fn_82860750(a, b, s->data) == 0)
+            return;
+        s->phase = 1;
+        break;
+    case 1:
+        fn_82810360(s->data, s->extra);
+        fn_8285D2C0(s->data);
+        fn_8285AAF0(a, b, s->data);
+        fn_828602F8(a, b, s->extra, s->data);
+        break;
+    default:
+        return;
     }
-    *(unsigned int *)(iVar1 + 0x10) = 1;
-  }
-  else {
-    if (*(int *)(iVar1 + 0x10) != 1) {
-      return;
-    }
-    iVar2 = iVar1 + 0x14;
-    fn_82810360(iVar2,iVar1 + 0x20);
-    fn_8285D2C0(iVar2);
-    fn_8285AAF0(param_1,param_2,iVar2);
-    fn_828602F8(param_1,param_2,iVar1 + 0x20,iVar2);
-  }
-  fn_8285E650(param_1,param_2);
-  return;
+    fn_8285E650(a, b);
 }
-

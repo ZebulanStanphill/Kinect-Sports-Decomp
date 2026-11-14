@@ -1,38 +1,27 @@
-extern unsigned int ltcg_pool_0_0f;
-extern int (*lbl_8327677C)();
-extern int (*lbl_83276794)();
+typedef struct {
+    void *f0;
+    void *f4;
+    void (*trace)(const char *func, const char *file, int line);
+    void *pad[5];
+    int (*query)(void);
+} Glob_8236B578;
+extern Glob_8236B578 lbl_83276774;
 
+typedef struct { char pad[0xd4]; int f_d4; float f_d8; } Sub_8236B578;
+typedef struct { char pad[0x4b0]; Sub_8236B578 *ui; } Obj_8236B578;
 
-unsigned __int64 fn_8236B578(int param_1)
-
+int fn_8236B578(Obj_8236B578 *obj)
 {
-  int iVar1;
-  int iVar3;
-  unsigned __int64 uVar2;
-  
-  iVar1 = *(int *)(param_1 + 0x4b0);
-  if (*(int *)(iVar1 + 0xd4) == 0) {
-LAB_8236b614:
-    uVar2 = 1;
-  }
-  else {
-    if (*(float *)(iVar1 + 0xd8) <= ltcg_pool_0_0f) {
-      if (lbl_83276794 == (int (**)())0x0) {
-        iVar3 = 0;
-      }
-      else {
-        iVar3 = (*lbl_83276794)();
-      }
-      if (iVar3 != 0) {
-        *(unsigned int *)(iVar1 + 0xd4) = 0;
-        if (lbl_8327677C != (int (**)())0x0) {
-          (*lbl_8327677C)(0xffffffff821b6748,0xffffffff821b66a8,0x1e5);
+    Sub_8236B578 *s = obj->ui;
+    if (s->f_d4 != 0) {
+        if (s->f_d8 <= 0.0f && (lbl_83276774.query != 0 ? lbl_83276774.query() : 0) != 0) {
+            s->f_d4 = 0;
+            if (lbl_83276774.trace != 0)
+                lbl_83276774.trace("olympus::sport::football::FootballUI::CloseSwipe",
+                "D:\\Work\\Incubation\\Olympus_Testing\\Incubation\\game\\sport\\controller\\football\\sport_controller_football_ui.cpp", 0x1e5);
+        } else {
+            return 0;
         }
-        goto LAB_8236b614;
-      }
     }
-    uVar2 = 0;
-  }
-  return uVar2;
+    return 1;
 }
-

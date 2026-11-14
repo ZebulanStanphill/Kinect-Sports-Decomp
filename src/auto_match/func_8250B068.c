@@ -1,53 +1,54 @@
-extern int fn_822315A0();
-extern int fn_8223AAC0();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Ref_8250B068 Ref_8250B068;
 
-unsigned int * fn_8250B068(unsigned int *param_1,unsigned int *param_2)
+extern unsigned char fn_8223AAC0(Ref_8250B068 *ref);
+extern void fn_822315A0(Ref_8250B068 *ref);
 
+typedef struct {
+    void *ptr;
+    Ref_8250B068 *ref;
+} Handle_8250B068;
+
+typedef struct {
+    unsigned int a;
+    unsigned int b;
+    __vector4 v0;
+    float f20;
+    __vector4 v1;
+    float x;
+    float y;
+    float z;
+    Handle_8250B068 handle;
+} Item_8250B068;
+
+Item_8250B068 *fn_8250B068(Item_8250B068 *self, Item_8250B068 *other)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  unsigned int *puVar3;
-  char cVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  
-  *param_1 = *param_2;
-  param_1[1] = param_2[1];
-  puVar2 = (unsigned int *)((unsigned int)(param_2 + 4) & 0xfffffff0);
-  uVar5 = puVar2[1];
-  uVar6 = puVar2[2];
-  uVar7 = puVar2[3];
-  puVar3 = (unsigned int *)((unsigned int)(param_1 + 4) & 0xfffffff0);
-  *puVar3 = *puVar2;
-  puVar3[1] = uVar5;
-  puVar3[2] = uVar6;
-  puVar3[3] = uVar7;
-  param_1[8] = param_2[8];
-  puVar2 = (unsigned int *)((unsigned int)(param_2 + 0xc) & 0xfffffff0);
-  uVar5 = puVar2[1];
-  uVar6 = puVar2[2];
-  uVar7 = puVar2[3];
-  puVar3 = (unsigned int *)((unsigned int)(param_1 + 0xc) & 0xfffffff0);
-  *puVar3 = *puVar2;
-  puVar3[1] = uVar5;
-  puVar3[2] = uVar6;
-  puVar3[3] = uVar7;
-  param_1[0x10] = param_2[0x10];
-  param_1[0x11] = param_2[0x11];
-  param_1[0x12] = param_2[0x12];
-  param_1[0x13] = 0;
-  param_1[0x14] = 0;
-  iVar1 = param_2[0x14];
-  uVar5 = param_2[0x13];
-  if ((iVar1 != 0) && (cVar4 = fn_8223AAC0(iVar1), cVar4 != '\0')) {
-    if (param_1[0x14] != 0) {
-      fn_822315A0();
-    }
-    param_1[0x14] = iVar1;
-    param_1[0x13] = uVar5;
-  }
-  return param_1;
-}
+    Handle_8250B068 *h;
+    Ref_8250B068 *ref;
+    void *ptr;
 
+    self->a = other->a;
+    self->b = other->b;
+    self->v0 = other->v0;
+    self->f20 = other->f20;
+    self->v1 = other->v1;
+    self->x = other->x;
+    self->y = other->y;
+    self->z = other->z;
+    h = &self->handle;
+    h->ptr = 0;
+    h->ref = 0;
+    ref = other->handle.ref;
+    ptr = other->handle.ptr;
+    if (ref != 0 && fn_8223AAC0(ref)) {
+        if (h->ref != 0) {
+            fn_822315A0(h->ref);
+        }
+        h->ref = ref;
+        h->ptr = ptr;
+    }
+    return self;
+}

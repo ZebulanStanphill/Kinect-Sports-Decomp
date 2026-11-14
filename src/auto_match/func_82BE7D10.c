@@ -1,38 +1,49 @@
-extern int fn_82BE56B0();
-extern int fn_82BE6590();
-extern int fn_82BE66A0();
-extern int fn_82BEB9B8();
-extern int fn_82BF31A0();
-extern int fn_82BF34B8();
+typedef struct Element_82BE7D10 Element_82BE7D10;
+typedef struct ElementVtbl_82BE7D10 {
+    void (*destroy)(Element_82BE7D10 *self, int flags);
+} ElementVtbl_82BE7D10;
+struct Element_82BE7D10 {
+    ElementVtbl_82BE7D10 *vt;
+};
+typedef struct Request_82BE7D10 {
+    char pad[0x88];
+    Element_82BE7D10 *element;
+} Request_82BE7D10;
 
+extern void *fn_82BE56B0(unsigned int size);
+extern Element_82BE7D10 *fn_82BF31A0(void *mem);
+extern int fn_82BF34B8(Element_82BE7D10 *element, Request_82BE7D10 *r);
+extern void *fn_82BE6590(Element_82BE7D10 *element);
+extern void *fn_82BEB9B8(Request_82BE7D10 *r, Element_82BE7D10 *element);
+extern void fn_82BE66A0(Element_82BE7D10 *element);
 
-void fn_82BE7D10(int param_1)
-
+void fn_82BE7D10(Request_82BE7D10 *r)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  
-  if (*(int *)(param_1 + 0x88) == 0) {
-    iVar1 = fn_82BE56B0(0x50);
-    if (iVar1 == 0) {
-      puVar2 = (unsigned int *)0x0;
-    }
-    else {
-      puVar2 = (unsigned int *)fn_82BF31A0();
-    }
-    if (puVar2 != (unsigned int *)0x0) {
-      iVar1 = fn_82BF34B8(puVar2,param_1);
-      if ((iVar1 != 0) && (iVar1 = fn_82BE6590(puVar2), iVar1 == 0)) {
-        iVar1 = fn_82BEB9B8(param_1,puVar2);
-        if (iVar1 == 0) {
-          *(unsigned int **)(param_1 + 0x88) = puVar2;
-          return;
-        }
-        fn_82BE66A0(puVar2);
-      }
-      (**(int (***)())*puVar2)(puVar2,1);
-    }
-  }
-  return;
-}
+    void *mem;
+    Element_82BE7D10 *element;
 
+    if (r->element == 0) {
+        mem = fn_82BE56B0(0x50);
+        if (mem != 0) {
+            element = fn_82BF31A0(mem);
+        } else {
+            element = 0;
+        }
+        if (element != 0) {
+            if (fn_82BF34B8(element, r) == 0) {
+                element->vt->destroy(element, 1);
+                return;
+            }
+            if (fn_82BE6590(element) != 0) {
+                element->vt->destroy(element, 1);
+                return;
+            }
+            if (fn_82BEB9B8(r, element) != 0) {
+                fn_82BE66A0(element);
+                element->vt->destroy(element, 1);
+                return;
+            }
+            r->element = element;
+        }
+    }
+}

@@ -1,29 +1,34 @@
-extern int fn_8223C478();
-extern int fn_828E9DB8();
-extern int fn_828EA268();
+typedef struct Coder_828AC330 {
+    char pad0[8];
+    unsigned char raw;
+    char pad9[3];
+    unsigned int base;
+    int pad10;
+    int bits;
+} Coder_828AC330;
 
+extern void fn_8223C478(void *stream, int value, int bits);
+extern void fn_828E9DB8(void *stream, unsigned int value, int bits);
+extern int fn_828EA268(unsigned int value);
 
-void fn_828AC330(int param_1,unsigned __int64 param_2,unsigned int *param_3)
-
+static __forceinline void WriteValue(void *stream, unsigned int value, int bits)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  
-  if (*(char *)(param_1 + 8) == '\0') {
-    uVar1 = (unsigned __int64)*(unsigned int *)(param_1 + 0x14);
-    uVar2 = (unsigned __int64)*param_3 - (unsigned __int64)*(unsigned int *)(param_1 + 0xc);
-  }
-  else {
-    uVar1 = fn_828EA268(*param_3);
-    if ((int)uVar1 == 0) {
-      uVar1 = 1;
-    }
-    fn_8223C478(param_2,5,0);
-    fn_828E9DB8(param_2,uVar1 - 1,5);
-    uVar2 = (unsigned __int64)*param_3;
-  }
-  fn_8223C478(param_2,uVar1,0);
-  fn_828E9DB8(param_2,uVar2,uVar1);
-  return;
+    fn_8223C478(stream, bits, 0);
+    fn_828E9DB8(stream, value, bits);
 }
 
+void fn_828AC330(Coder_828AC330 *self, void *stream, unsigned int *value)
+{
+    int bits;
+
+    if (self->raw != 0) {
+        bits = fn_828EA268(*value);
+        if (bits == 0)
+            bits = 1;
+        bits--;
+        WriteValue(stream, bits, 5);
+        WriteValue(stream, *value, bits + 1);
+    } else {
+        WriteValue(stream, *value - self->base, self->bits);
+    }
+}

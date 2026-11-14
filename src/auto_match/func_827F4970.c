@@ -1,12 +1,11 @@
-extern unsigned int lbl_82196288;
+typedef struct {
+    int pad[11];
+    float value;
+    float threshold;
+} Range_827F4970;
 
-
-double fn_827F4970(int param_1)
-
+float fn_827F4970(Range_827F4970 *self)
 {
-  float fVar1;
-  
-  fVar1 = *(float *)(param_1 + 0x2c) - *(float *)(param_1 + 0x30);
-  return (double)((float)(lbl_82196288 <= fVar1) * fVar1);
+    float diff = self->value - self->threshold;
+    return (float)(diff >= 0.0f) * diff;
 }
-

@@ -1,28 +1,20 @@
-#define true 1
-extern unsigned int *auStack_30;
-extern int fn_82A2B760();
-extern int fn_82A36058();
+extern int NtWaitForSingleObjectEx(void *handle, char waitMode, unsigned char alertable, __int64 *timeout);
+extern __int64 *fn_82A36058(__int64 *out, unsigned int milliseconds);
+extern void fn_82A2B760(int status);
 
-
-unsigned __int64 fn_82A2AF70(unsigned __int64 param_1,unsigned __int64 param_2,unsigned int param_3)
-
+int fn_82A2AF70(void *handle, unsigned int milliseconds, int alertable)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  unsigned char auStack_30 [1];
-  
-  uVar1 = fn_82A36058(auStack_30);
-  while( true ) {
-    uVar2 = NtWaitForSingleObjectEx(param_1,1,param_3 & 0xff,uVar1);
-    if ((int)uVar2 < 0) {
-      fn_82A2B760();
-      return 0xffffffffffffffff;
-    }
-    if (param_3 == 0) break;
-    if ((int)uVar2 != 0x101) {
-      return uVar2;
-    }
-  }
-  return uVar2;
-}
+    __int64 time;
+    __int64 *timeout;
+    int status;
 
+    timeout = fn_82A36058(&time, milliseconds);
+    do {
+        status = NtWaitForSingleObjectEx(handle, 1, (unsigned char)alertable, timeout);
+        if (status < 0) {
+            fn_82A2B760(status);
+            return -1;
+        }
+    } while (alertable != 0 && status == 0x101);
+    return status;
+}

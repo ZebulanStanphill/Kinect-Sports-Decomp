@@ -1,25 +1,68 @@
-extern int fn_825735B8();
-extern int fn_82573868();
-extern int fn_82A1EFC0();
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Locator_8240EC28 {
+    char pad0[0x190];
+    int active;                 /* 0x190 */
+} Locator_8240EC28;
 
+typedef struct Found_8240EC28 {
+    int pad0;
+    Locator_8240EC28 *locator;  /* 0x4 */
+} Found_8240EC28;
 
-void fn_8240EC28(int param_1)
+typedef struct Model_8240EC28 {
+    char pad0[0x128];
+    char nodes[4];              /* 0x128 */
+} Model_8240EC28;
 
+typedef struct World_8240EC28 {
+    char pad0[0x93c];
+    void *trails;               /* 0x93c */
+} World_8240EC28;
+
+typedef struct Owner_8240EC28 {
+    char pad0[0x4c];
+    World_8240EC28 *world;      /* 0x4c */
+    char pad50[0x8c0 - 0x50];
+    Model_8240EC28 *model;      /* 0x8c0 */
+} Owner_8240EC28;
+
+typedef struct Self_8240EC28 {
+    char pad0[0x28];
+    Owner_8240EC28 *owner;      /* 0x28 */
+    char pad2c[0x1f0 - 0x2c];
+    char trail[0x68];           /* 0x1f0 */
+    int registered;             /* 0x258 */
+    float time;                 /* 0x25c */
+    int count;                  /* 0x260 */
+    void *effect;               /* 0x264 */
+} Self_8240EC28;
+
+extern Found_8240EC28 *fn_825735B8(void *nodes, const char *name);
+extern void fn_82573868(Owner_8240EC28 *owner, void *trail);
+extern void fn_82575DF0(void *trails, void *effect);
+extern void fn_82A1EFC0(void *p, int value, unsigned int size);
+extern void fn_824106F8(void *self, int flag, int world);
+
+void fn_8240EC28(Self_8240EC28 *self)
 {
-  __int64 lVar1;
-  int iVar2;
-  
-  lVar1 = (unsigned __int64)*(unsigned int *)(*(int *)(param_1 + 0x28) + 0x8c0) + 0x128;
-  if ((lVar1 != 0) && (iVar2 = fn_825735B8(lVar1,0xffffffff821b81f4), iVar2 != 0)) {
-    *(unsigned int *)(*(int *)(iVar2 + 4) + 400) = 0;
-  }
-  *(unsigned int *)(param_1 + 0x260) = 0;
-  *(unsigned int *)(param_1 + 0x25c) = ltcg_pool_0_0f;
-  if (*(int *)(param_1 + 600) != 0) {
-    fn_82573868(*(unsigned int *)(param_1 + 0x28),param_1 + 0x1f0);
-  }
-                    /* WARNING: Subroutine does not return */
-  fn_82A1EFC0(param_1 + 0x1f0,0,0x68);
+    void *nodes = self->owner->model->nodes;
+    if (nodes != 0) {
+        Found_8240EC28 *found = fn_825735B8(nodes, "trailLocator1");
+        if (found != 0) {
+            found->locator->active = 0;
+        }
+    }
+    self->count = 0;
+    self->time = 0.0f;
+    if (self->registered != 0) {
+        fn_82573868(self->owner, self->trail);
+    }
+    fn_82A1EFC0(self->trail, 0, 0x68);
+    self->registered = 0;
+    if (self->effect != 0) {
+        fn_82575DF0(self->owner->world->trails, self->effect);
+        self->effect = 0;
+    }
+    if ((int)self->owner->world != 0) {
+        fn_824106F8(self, 0, (int)self->owner->world);
+    }
 }
-

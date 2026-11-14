@@ -1,27 +1,33 @@
-extern int fn_82784708();
-extern int fn_82784920();
+typedef struct Point_82771150 {
+    float x;
+    float y;
+    float z;
+    float w;
+} Point_82771150;
 
+typedef struct Elem_82771150 {
+    int sizeX;
+    int sizeY;
+    int sizeZ;
+    float a;
+    float b;
+    Point_82771150 *points;
+    unsigned int count;
+    int pad1c[2];
+} Elem_82771150;
 
-void fn_82771150(unsigned int *param_1,unsigned __int64 param_2)
+extern void fn_82784708(void *p, int x, int y, int z, float a, float b);
+extern void fn_82784920(void *p, float x, float y, float z, float w);
 
+void fn_82771150(Elem_82771150 *e, void *p)
 {
-  float *pfVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  
-  fn_82784708((double)(float)param_1[3],(double)(float)param_1[4],param_2,
-                    (unsigned __int64)*param_1 - 1,(unsigned __int64)param_1[1] - 1,(unsigned __int64)param_1[2] - 1);
-  uVar3 = (unsigned __int64)param_1[6];
-  if (uVar3 != 0) {
-    iVar2 = 0;
-    do {
-      pfVar1 = (float *)(param_1[5] + iVar2);
-      fn_82784920((double)*pfVar1,(double)pfVar1[1],(double)pfVar1[2],(double)pfVar1[3],
-                        param_2);
-      uVar3 = uVar3 - 1;
-      iVar2 = iVar2 + 0x10;
-    } while (uVar3 != 0);
-  }
-  return;
-}
+    unsigned int n;
+    unsigned int i;
 
+    fn_82784708(p, e->sizeX - 1, e->sizeY - 1, e->sizeZ - 1, e->a, e->b);
+    n = e->count;
+    for (i = 0; i < n; i++) {
+        Point_82771150 *pt = &e->points[i];
+        fn_82784920(p, pt->x, pt->y, pt->z, pt->w);
+    }
+}

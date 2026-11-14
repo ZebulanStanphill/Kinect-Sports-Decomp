@@ -1,65 +1,42 @@
-extern int fn_822B98F8();
-extern int fn_82554860();
-extern unsigned int lbl_821917C0;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
-extern unsigned int uStack_34;
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
-extern unsigned int uStack_44;
-extern unsigned int uStack_48;
-extern unsigned int uStack_4c;
-extern unsigned int uStack_50;
-extern unsigned int uStack_54;
-extern unsigned int uStack_58;
-extern unsigned int uStack_5c;
-extern unsigned int uStack_60;
+typedef struct Msg_822B99C0 {
+    unsigned int tag;     /* 0x00 */
+    float a;              /* 0x04 */
+    float b;              /* 0x08 */
+    int n1;               /* 0x0c */
+    float c;              /* 0x10 */
+    float d;              /* 0x14 */
+    int flag;             /* 0x18 */
+    int n2;               /* 0x1c */
+    float e;              /* 0x20 */
+    int z[5];             /* 0x24 */
+    int reserved;         /* 0x38: never set here; the frame needs the struct at least 0x3c bytes */
+} Msg_822B99C0;
 
+typedef struct Voice_822B99C0 {
+    char pad0[0x1c];
+    void *source;         /* 0x1c */
+    void *mixer;          /* 0x20 */
+    int started;          /* 0x24 */
+    void *disabled;       /* 0x28 */
+} Voice_822B99C0;
 
-void fn_822B99C0(int param_1,unsigned __int64 param_2)
+extern const float lbl_821CA45C[2];
+extern const float lbl_821917A8[];
+extern void fn_822B98F8(Voice_822B99C0 *v);
+extern int fn_82554860(void *mixer, int kind, void *target, Msg_822B99C0 *msg);
 
+void fn_822B99C0(Voice_822B99C0 *v, void *target)
 {
-  struct { unsigned int first; unsigned int second; } stack_pair_60;
+    Msg_822B99C0 m;
 
-  unsigned int uStack_58;
-  unsigned int uStack_54;
-  unsigned int uStack_50;
-  unsigned int uStack_4c;
-  unsigned int uStack_48;
-  unsigned int uStack_44;
-  unsigned int uStack_40;
-  unsigned int uStack_3c;
-  unsigned int uStack_38;
-  unsigned int uStack_34;
-  unsigned int uStack_30;
-  unsigned int uStack_2c;
-  
-  if (*(int *)(param_1 + 0x28) == 0) {
-    if (*(int *)(param_1 + 0x1c) == 0) {
-      fn_822B98F8();
+    if (v->disabled == 0) {
+        if (v->source == 0) {
+            fn_822B98F8(v);
+        }
+        if (v->source != 0 && v->mixer != 0) {
+            m.a = lbl_821CA45C[1]; m.b = 0.0f; m.tag = 0x4d697850; m.d = 0.0f; m.n1 = 0x20; m.c = lbl_821917A8[6]; m.flag = 0; m.n2 = 0x40; m.e = lbl_821917A8[6]; m.z[0] = 0; m.z[3] = 0; m.z[4] = 0; m.z[1] = 0; m.z[2] = 0;
+            fn_82554860(v->mixer, 0, target, &m);
+            v->started = 1;
+        }
     }
-    if ((*(int *)(param_1 + 0x1c) != 0) && (*(int *)(param_1 + 0x20) != 0)) {
-      stack_pair_60.second = lbl_821CA460;
-      uStack_58 = ltcg_pool_0_0f;
-      stack_pair_60.first = 0x4d697850;
-      uStack_4c = ltcg_pool_0_0f;
-      uStack_54 = 0x20;
-      uStack_50 = lbl_821917C0;
-      uStack_48 = 0;
-      uStack_40 = lbl_821917C0;
-      uStack_44 = 0x40;
-      uStack_3c = 0;
-      uStack_30 = 0;
-      uStack_2c = 0;
-      uStack_38 = 0;
-      uStack_34 = 0;
-      fn_82554860(*(int *)(param_1 + 0x20),0,param_2,&stack_pair_60.first);
-      *(unsigned int *)(param_1 + 0x24) = 1;
-    }
-  }
-  return;
 }
-

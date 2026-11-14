@@ -1,30 +1,41 @@
-extern unsigned int *auStack_220;
-extern unsigned int *auStack_230;
-extern int fn_82D6F590();
-extern unsigned int lbl_83182A98;
+typedef struct Stream_82D41FB0 Stream_82D41FB0;
+typedef struct Info_82D41FB0 {
+    int pad0[3];
+    int kind;
+    int pad10[4];
+    char a[0x10];
+    char b[0x10];
+    char c[0x10];
+} Info_82D41FB0;
+typedef struct StreamVtbl_82D41FB0 {
+    void *pad0[3];
+    unsigned int (*seek)(Stream_82D41FB0 *self, unsigned int mode);
+    void *pad10;
+    Info_82D41FB0 *(*getInfo)(Stream_82D41FB0 *self, unsigned int mode, char *buffer);
+} StreamVtbl_82D41FB0;
+struct Stream_82D41FB0 {
+    StreamVtbl_82D41FB0 *vt;
+    int pad4[41];
+    unsigned int countA;
+    int padAC[2];
+    unsigned int countB;
+};
+extern char *fn_82D6F590(char *out, char *a, char *b, char *c, float scale);
+extern float lbl_83182A98;
 
-
-unsigned __int64 fn_82D41FB0(int *param_1)
-
+unsigned int fn_82D41FB0(Stream_82D41FB0 *self)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  char *pcVar3;
-  unsigned char auStack_230 [1];
-  unsigned char auStack_220 [520];
-  
-  if ((unsigned __int64)(unsigned int)param_1[0x2d] + (unsigned __int64)(unsigned int)param_1[0x2a] == 0) {
-    uVar1 = 0xffffffffffffffff;
-  }
-  else {
-    uVar1 = -(unsigned __int64)((unsigned __int64)(unsigned int)param_1[0x2a] == 0) & 0xffffffff80000000;
-    iVar2 = (**(int (***)())(*param_1 + 0x14))(param_1,uVar1,auStack_220);
-    if ((*(int *)(iVar2 + 0xc) == 3) &&
-       (pcVar3 = (char *)fn_82D6F590((double)lbl_83182A98,auStack_230,iVar2 + 0x20,iVar2 + 0x30,
-                                      iVar2 + 0x40), *pcVar3 != '\0')) {
-      uVar1 = (**(int (***)())(*param_1 + 0xc))(param_1,uVar1);
-    }
-  }
-  return uVar1;
-}
+    unsigned int mode;
+    Info_82D41FB0 *info;
+    char result[16];
+    char buffer[512];
 
+    if (self->countB + self->countA == 0) {
+        return 0xffffffff;
+    }
+    mode = self->countA == 0 ? 0x80000000 : 0;
+    info = self->vt->getInfo(self, mode, buffer);
+    if (info->kind != 3) return mode;
+    if (*fn_82D6F590(result, info->a, info->b, info->c, lbl_83182A98) == 0) return mode;
+    return self->vt->seek(self, mode);
+}

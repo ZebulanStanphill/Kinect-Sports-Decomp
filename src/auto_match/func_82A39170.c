@@ -1,38 +1,53 @@
-extern int *piRam83219598;
-extern unsigned int *auStack_40;
-extern int fn_82A37888();
-extern int fn_82A37BC8();
-extern int fn_82A381F0();
-extern int fn_82A383C0();
+typedef struct Vtbl_82A39170 {
+    void *slot0;
+    unsigned int (*fallback)(unsigned int id);
+} Vtbl_82A39170;
 
+typedef struct Entry_82A39170 {
+    int f0;
+    unsigned int a;
+    int f8;
+    int fc;
+    unsigned int b;
+} Entry_82A39170;
 
-unsigned __int64 fn_82A39170(unsigned __int64 param_1)
+typedef struct Ctx_82A39170 {
+    Vtbl_82A39170 *vt;
+    char pad04[0x38];
+    int (*begin)(const char *, unsigned int, int, int, int, int, int, unsigned int *);
+    void (*end)(unsigned int, unsigned int);
+    char pad44[0xc];
+    char cache[0x3c];
+    char b[0x38];
+    char a[1];
+} Ctx_82A39170;
 
+extern Ctx_82A39170 *lbl_83219598;
+extern Entry_82A39170 *fn_82A381F0(void *cache, unsigned int id, int flag);
+extern void fn_82A37888(void *p, unsigned int v);
+extern void fn_82A37BC8(void *p, unsigned int v);
+extern unsigned int fn_82A383C0(void *cache, unsigned int id);
+
+unsigned int fn_82A39170(unsigned int id)
 {
-  int *piVar1;
-  int iVar3;
-  int iVar4;
-  unsigned __int64 uVar2;
-  int *piVar5;
-  unsigned int auStack_40;
+    Ctx_82A39170 *ctx;
+    Entry_82A39170 *e;
+    int hr;
+    unsigned int result;
+    unsigned int token;
 
-  piVar1 = piRam83219598;
-  piVar5 = piRam83219598 + 0x14;
-  iVar3 = fn_82A381F0(piVar5,param_1,0);
-  if (iVar3 == 0) {
-    uVar2 = (**(int (***)())(*piVar1 + 4))(param_1);
-  }
-  else {
-    iVar4 = -0x3fffffff;
-    if ((int (**)())piVar1[0xf] != (int (**)())0x0) {
-      iVar4 = (*(int (**)())piVar1[0xf])(0xffffffff820893a4,param_1,5,0,0,0,0,&auStack_40);
+    ctx = lbl_83219598;
+    e = fn_82A381F0(ctx->cache, id, 0);
+    if (e != 0) {
+        hr = 0xc0000001;
+        if (ctx->begin != 0)
+            hr = ctx->begin("XctdDecompression", id, 5, 0, 0, 0, 0, &token);
+        fn_82A37888(ctx->a, e->a);
+        fn_82A37BC8(ctx->b, e->b);
+        result = fn_82A383C0(ctx->cache, id);
+        if (ctx->end != 0 && hr >= 0)
+            ctx->end(result, token);
+        return result;
     }
-    fn_82A37888(piVar1 + 0x31,*(unsigned int *)(iVar3 + 4));
-    fn_82A37BC8(piVar1 + 0x23,*(unsigned int *)(iVar3 + 0x10));
-    uVar2 = fn_82A383C0(piVar5,param_1);
-    if (((int (**)())piVar1[0x10] != (int (**)())0x0) && (-1 < iVar4)) {
-      (*(int (**)())piVar1[0x10])(uVar2,auStack_40);
-    }
-  }
-  return uVar2;
+    return ctx->vt->fallback(id);
 }

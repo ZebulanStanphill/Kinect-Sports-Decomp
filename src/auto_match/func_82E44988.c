@@ -1,44 +1,46 @@
-extern int fn_82E50BE8();
-extern int fn_82E7E500();
+typedef struct Unk_82E44988 Unk_82E44988;
+typedef struct UnkVt_82E44988 {
+    int (*QueryInterface)(Unk_82E44988 *self, const void *iid, void **out);
+    unsigned int (*AddRef)(Unk_82E44988 *self);
+    unsigned int (*Release)(Unk_82E44988 *self);
+} UnkVt_82E44988;
+struct Unk_82E44988 { UnkVt_82E44988 *vt; };
 
+typedef struct Obj_82E44988 {
+    Unk_82E44988 base;
+    Unk_82E44988 iface;
+    Unk_82E44988 other;
+} Obj_82E44988;
 
-unsigned __int64 fn_82E44988(int param_1,unsigned __int64 param_2,unsigned int param_3,int param_4,int *param_5)
+extern char lbl_82153E5C[];
+extern void *fn_82E50BE8(unsigned int size, int a, int b, int c, int d);
+extern Unk_82E44988 *fn_82E7E500(void *mem, Obj_82E44988 *owner, unsigned short index);
 
+#define OBJ(p) ((Obj_82E44988 *)((char *)(p) - 4))
+
+int fn_82E44988(Unk_82E44988 *self, int unused, unsigned int index, unsigned int flags, void **out)
 {
-  int (**pcVar1)();
-  unsigned __int64 uVar2;
-  int *piVar3;
-  int iVar4;
-  unsigned __int64 uVar5;
-  
-  uVar5 = 0;
-  if (((param_5 == (int *)0x0) || (*param_5 = 0, param_4 != 0)) || (9999 < param_3)) {
-    return 0xffffffff80070057;
-  }
-  if (param_3 == 0) {
-    iVar4 = param_1 + 4;
-    if (param_1 == 4) {
-      iVar4 = 0;
-    }
-    *param_5 = iVar4;
-    piVar3 = (int *)(param_1 + -4);
-    pcVar1 = *(int (***)())(*(int *)(param_1 + -4) + 4);
-  }
-  else {
-    uVar2 = fn_82E50BE8(0x14,0,0,0,0);
-    if ((uVar2 & 0xffffffff) == 0) {
-      piVar3 = (int *)0x0;
-    }
-    else {
-      piVar3 = (int *)fn_82E7E500(uVar2,param_1 + -4,param_3 & 0xffff);
-    }
-    if (piVar3 == (int *)0x0) {
-      return 0xffffffff8007000e;
-    }
-    uVar5 = (**(int (***)())*piVar3)(piVar3,0xffffffff82153e5c,param_5);
-    pcVar1 = *(int (***)())(*piVar3 + 8);
-  }
-  (*pcVar1)(piVar3);
-  return uVar5;
-}
+    Unk_82E44988 *item;
+    void *mem;
+    int hr = 0;
 
+    if (out == 0) { hr = 0x80070057; goto done; }
+    *out = 0;
+    if (flags != 0) { hr = 0x80070057; goto done; }
+    if (index > 9999) { hr = 0x80070057; goto done; }
+    if (index == 0) {
+        *out = OBJ(self) ? &OBJ(self)->other : 0;
+        OBJ(self)->base.vt->AddRef(&OBJ(self)->base);
+    } else {
+        mem = fn_82E50BE8(0x14, 0, 0, 0, 0);
+        item = mem ? fn_82E7E500(mem, OBJ(self), (unsigned short)index) : 0;
+        if (item == 0) {
+            hr = 0x8007000E;
+            goto done;
+        }
+        hr = item->vt->QueryInterface(item, lbl_82153E5C, out);
+        item->vt->Release(item);
+    }
+done:
+    return hr;
+}

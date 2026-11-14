@@ -1,28 +1,27 @@
-typedef unsigned char bool;
+typedef struct Obj_82F40CF0 Obj_82F40CF0;
+typedef struct ObjVtbl_82F40CF0 {
+    void *pad0[3];
+    int (*query)(Obj_82F40CF0 *self);
+} ObjVtbl_82F40CF0;
+struct Obj_82F40CF0 {
+    ObjVtbl_82F40CF0 *vt;
+};
 
-
-__int64 fn_82F40CF0(int *param_1,short param_2,int param_3)
-
+int fn_82F40CF0(Obj_82F40CF0 *self, unsigned short id, int value)
 {
-  bool bVar1;
-  __int64 lVar2;
-  
-  lVar2 = 0;
-  if (param_2 != 0) {
-    if (param_2 == -1) {
-      bVar1 = param_3 == 0;
-    }
-    else {
-      lVar2 = (**(int (***)())(*param_1 + 0xc))();
-      if (lVar2 < 0) {
-        return lVar2;
-      }
-      bVar1 = (int)lVar2 == 1;
-    }
-    if (bVar1) {
-      lVar2 = -0x7ff8ffa9;
-    }
-  }
-  return lVar2;
-}
+    int hr = 0;
 
+    if (id != 0) {
+        if (id == 0xffff) {
+            if (value == 0) {
+                hr = 0x80070057;
+            }
+        } else {
+            hr = self->vt->query(self);
+            if (hr >= 0 && hr == 1) {
+                hr = 0x80070057;
+            }
+        }
+    }
+    return hr;
+}

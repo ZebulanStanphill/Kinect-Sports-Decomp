@@ -1,40 +1,44 @@
-extern int fn_82F63CA0();
+typedef struct Item_8282EC60 {
+    int f0;
+    unsigned int a;
+    int f8;
+    unsigned int b;
+} Item_8282EC60;
 
+extern void *memmove(void *, const void *, unsigned int);
 
-void fn_8282EC60(int *param_1,int *param_2)
-
+static __forceinline int Less(Item_8282EC60 *x, Item_8282EC60 *y)
 {
-  int iVar1;
-  int iVar2;
-  int *piVar3;
-  unsigned int uVar4;
-  int *piVar5;
-  int *piVar6;
-  
-  if ((param_1 != param_2) && (piVar6 = param_1 + 1, piVar6 != param_2)) {
-    do {
-      iVar1 = *piVar6;
-      uVar4 = *(int *)(iVar1 + 4) + *(int *)(iVar1 + 0xc);
-      if (*(unsigned int *)(*param_1 + 0xc) < uVar4) {
-        iVar2 = piVar6[-1];
-        piVar3 = piVar6;
-        piVar5 = piVar6 + -1;
-        while (uVar4 <= *(unsigned int *)(iVar2 + 0xc)) {
-          *piVar3 = iVar2;
-          iVar2 = piVar5[-1];
-          piVar3 = piVar5;
-          piVar5 = piVar5 + -1;
-          uVar4 = *(int *)(iVar1 + 4) + *(int *)(iVar1 + 0xc);
-        }
-        *piVar3 = iVar1;
-      }
-      else {
-        fn_82F63CA0(piVar6 + (1 - ((int)piVar6 - (int)param_1 >> 2)),param_1);
-        *param_1 = iVar1;
-      }
-      piVar6 = piVar6 + 1;
-    } while (piVar6 != param_2);
-  }
-  return;
+    return x->a + x->b <= y->b;
 }
 
+void fn_8282EC60(Item_8282EC60 **first, Item_8282EC60 **last)
+{
+    Item_8282EC60 **next;
+    Item_8282EC60 **next1;
+    Item_8282EC60 **first1;
+    Item_8282EC60 *val;
+    int cnt;
+    if (first != last) {
+        next = first + 1;
+        if (next != last) {
+            do {
+                next1 = next;
+                val = *next;
+                if (Less(val, *first)) {
+                    cnt = (int)(next1 - first);
+                    memmove(next1 + 1 - cnt, first, cnt * 4);
+                    *first = val;
+                } else {
+                    first1 = next1;
+                    while (Less(val, *--first1)) {
+                        *next1 = *first1;
+                        next1 = first1;
+                    }
+                    *next1 = val;
+                }
+                next++;
+            } while (next != last);
+        }
+    }
+}

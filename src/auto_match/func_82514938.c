@@ -1,33 +1,44 @@
-extern int fn_822315A0();
-extern int fn_82511928();
-extern int fn_82513A80();
-extern int fn_82514AD8();
-extern unsigned int iStack_2c;
-extern unsigned int lbl_83297810;
+typedef struct Obj_82514938 Obj_82514938;
+typedef struct Target_82514938 Target_82514938;
 
+typedef struct ObjVt_82514938 {
+    void *slots[29];
+    unsigned char (*isActive)(Obj_82514938 *self);
+} ObjVt_82514938;
 
-void fn_82514938(int *param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+struct Obj_82514938 {
+    ObjVt_82514938 *vt;
+};
 
+typedef struct TargetVt_82514938 {
+    void *slot0;
+    void (*handle)(Target_82514938 *self, int a, int b);
+} TargetVt_82514938;
+
+struct Target_82514938 {
+    TargetVt_82514938 *vt;
+};
+
+typedef struct Handle_82514938 {
+    Target_82514938 *obj;
+    void *ref;
+} Handle_82514938;
+
+extern void *lbl_83297810;
+extern void *fn_82511928(void);
+extern void fn_82514AD8(Obj_82514938 *self, int flag);
+extern void fn_82513A80(Handle_82514938 *out, void *mgr, Obj_82514938 *self);
+extern void fn_822315A0(void *ref);
+
+void fn_82514938(Obj_82514938 *self, int a, int b)
 {
-  char cVar1;
-  unsigned __int64 uVar2;
-  int *piStack_30;
-  int iStack_2c;
-  
-  if (((int)param_3 == 2) && (cVar1 = (**(int (***)())(*param_1 + 0x74))(), cVar1 != '\0')) {
-    fn_82514AD8(param_1,1);
-  }
-  uVar2 = (unsigned __int64)lbl_83297810;
-  if (uVar2 == 0) {
-    uVar2 = fn_82511928();
-  }
-  fn_82513A80(&piStack_30,uVar2,param_1);
-  if (piStack_30 != (int *)0x0) {
-    (**(int (***)())(*piStack_30 + 4))(piStack_30,param_2,param_3);
-  }
-  if (iStack_2c != 0) {
-    fn_822315A0();
-  }
-  return;
-}
+    Handle_82514938 h;
 
+    if (b == 2 && self->vt->isActive(self) != 0)
+        fn_82514AD8(self, 1);
+    fn_82513A80(&h, lbl_83297810 ? lbl_83297810 : fn_82511928(), self);
+    if (h.obj != 0)
+        h.obj->vt->handle(h.obj, a, b);
+    if (h.ref != 0)
+        fn_822315A0(h.ref);
+}

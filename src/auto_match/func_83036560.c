@@ -1,25 +1,31 @@
-extern int fn_83009C10();
-extern int fn_83009C40();
-extern unsigned int lbl_821AAD20;
+typedef struct Target_83036560 Target_83036560;
+typedef struct {
+    void *slots[15];
+    void (*apply)(Target_83036560 *self, int a, float delta, int b, int c);   /* 0x3c */
+} TargetVtbl_83036560;
+struct Target_83036560 { TargetVtbl_83036560 *vtbl; };
 
+typedef struct Ctl_83036560 {
+    int pad0;
+    Target_83036560 *target;    /* 0x04 */
+    int pending;                /* 0x08 */
+    float value;                /* 0x0c */
+} Ctl_83036560;
 
-void fn_83036560(double param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4,char param_5)
+extern float fn_83009C40(Target_83036560 *t);
+extern void fn_83009C10(Target_83036560 *t);
 
+void fn_83036560(Ctl_83036560 *self, float value, int unused, unsigned char reset)
 {
-  double dVar1;
-  double dVar2;
-  
-  dVar1 = (double)fn_83009C40(*(unsigned int *)(param_2 + 4));
-  *(float *)(param_2 + 0xc) = (float)param_1;
-  dVar2 = (double)fn_83009C40(*(unsigned int *)(param_2 + 4));
-  dVar1 = (double)(float)(dVar2 - dVar1);
-  if (param_5 != '\0') {
-    fn_83009C10(*(unsigned int *)(param_2 + 4));
-    *(unsigned int *)(param_2 + 8) = 0;
-  }
-  if (dVar1 != (double)lbl_821AAD20) {
-    (**(int (***)())(**(int **)(param_2 + 4) + 0x3c))(dVar1,*(int **)(param_2 + 4),0,param_4,0,0);
-  }
-  return;
-}
+    float before = fn_83009C40(self->target);
+    float delta;
 
+    self->value = value;
+    delta = fn_83009C40(self->target) - before;
+    if (reset) {
+        fn_83009C10(self->target);
+        self->pending = 0;
+    }
+    if (delta != 0.0f)
+        self->target->vtbl->apply(self->target, 0, delta, 0, 0);
+}
