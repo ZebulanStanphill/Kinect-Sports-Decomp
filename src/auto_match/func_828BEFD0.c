@@ -1,39 +1,31 @@
-extern unsigned int *auStack_28;
-extern unsigned int *auStack_30;
-extern int fn_8288A398();
-extern int fn_828C4348();
-extern int fn_828C4370();
-extern int fn_828C6408();
-extern int fn_828C6AF0();
-extern int fn_828E9D60();
-extern int fn_828E9D90();
+typedef struct Iter_828BEFD0 {
+    void *a;
+    void *b;
+} Iter_828BEFD0;
 
+extern char lbl_8321434C[];
+extern void *fn_8288A398(void);
+extern void fn_828C4370(Iter_828BEFD0 *out, void *map);
+extern void *fn_828C4348(Iter_828BEFD0 *out, Iter_828BEFD0 *it);
+extern void fn_828C6408(void *map, void *where, void *buf);
+extern void fn_828C6AF0(void *map, int id, void *buf);
+extern unsigned int fn_828E9D90(void *buf);
+extern void fn_828E9D60(void *buf, unsigned int size);
 
-void fn_828BEFD0(unsigned __int64 param_1,unsigned __int64 param_2)
-
+void fn_828BEFD0(int id, void *buf)
 {
-  unsigned int uVar1;
-  int iVar3;
-  unsigned __int64 uVar2;
-  unsigned int uVar4;
-  unsigned char auStack_30 [8];
-  unsigned char auStack_28 [8];
-  
-  if ((int)param_1 == 0x19) {
-    fn_8288A398();
-    fn_828C4370(auStack_30,0xffffffff8321434c);
-    iVar3 = fn_828E9D90(param_2);
-    uVar1 = iVar3 + 7U & 0xfffffff8;
-    uVar2 = fn_828C4348(auStack_28,auStack_30);
-    fn_828C6408(0xffffffff8321434c,uVar2,param_2);
-    uVar4 = fn_828E9D90(param_2);
-    if (uVar1 < uVar4) {
-      fn_828E9D60(param_2,uVar1);
+    if (id == 0x19) {
+        Iter_828BEFD0 it;
+        Iter_828BEFD0 it2;
+        unsigned int aligned;
+        fn_8288A398();
+        fn_828C4370(&it, lbl_8321434C);
+        aligned = (fn_828E9D90(buf) + 7) & ~7u;
+        fn_828C6408(lbl_8321434C, fn_828C4348(&it2, &it), buf);
+        if (fn_828E9D90(buf) > aligned) {
+            fn_828E9D60(buf, aligned);
+        }
+    } else {
+        fn_828C6AF0(lbl_8321434C, id, buf);
     }
-  }
-  else {
-    fn_828C6AF0(0xffffffff8321434c,param_1,param_2);
-  }
-  return;
 }
-

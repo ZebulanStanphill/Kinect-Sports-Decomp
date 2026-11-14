@@ -1,50 +1,55 @@
-extern unsigned int *auStack_50;
-extern int fn_8265C940();
-extern int fn_828F59D0();
-extern int fn_828F6C70();
-extern int fn_82930318();
-extern int fn_82930940();
-extern unsigned int uStack_48;
+typedef struct Item_828F6DE8 {
+  int key;
+  int x4;
+  void *obj;
+  int xc;
+  int x10;
+} Item_828F6DE8;
 
+typedef struct Desc_828F6DE8 {
+  int type;
+  int pad4;
+  int value;
+  int padc[5];
+} Desc_828F6DE8;
 
-unsigned __int64 fn_828F6DE8(unsigned __int64 param_1,unsigned int param_2,unsigned int param_3)
+extern void *fn_8265C940(unsigned int size, unsigned int flags);
+extern void *fn_82930318(unsigned int size);
+extern void *fn_82930940(void *mem, Desc_828F6DE8 *desc);
+extern void fn_828F59D0(Item_828F6DE8 *item, int flags);
+extern int fn_828F6C70(void *self, Item_828F6DE8 *item);
 
+static __forceinline Item_828F6DE8 *construct(Item_828F6DE8 *p, int key)
 {
-  unsigned int *puVar3;
-  unsigned __int64 uVar1;
-  int iVar4;
-  unsigned __int64 uVar2;
-  unsigned int auStack_50 [2];
-  unsigned int uStack_48;
-  
-  puVar3 = (unsigned int *)fn_8265C940(0x14,0x24810000);
-  if (puVar3 == (unsigned int *)0x0) {
-    puVar3 = (unsigned int *)0x0;
-  }
-  else {
-    *puVar3 = param_2;
-    puVar3[1] = 0;
-    puVar3[2] = 0;
-    puVar3[3] = 0;
-    puVar3[4] = 0;
-  }
-  if (puVar3 != (unsigned int *)0x0) {
-    auStack_50[0] = 2;
-    uStack_48 = param_3;
-    uVar1 = fn_82930318(0x30);
-    if ((uVar1 & 0xffffffff) == 0) {
-      iVar4 = 0;
-    }
-    else {
-      iVar4 = fn_82930940(uVar1,auStack_50);
-    }
-    puVar3[2] = iVar4;
-    if (iVar4 != 0) {
-      uVar2 = fn_828F6C70(param_1,puVar3);
-      return uVar2;
-    }
-    fn_828F59D0(puVar3,1);
-  }
-  return 0xffffffff8007000e;
+  p->key = key;
+  p->x4 = 0;
+  p->obj = 0;
+  p->xc = 0;
+  p->x10 = 0;
+  return p;
 }
 
+int fn_828F6DE8(void *self, int key, int value)
+{
+  Item_828F6DE8 *item;
+  void *m;
+
+  m = fn_8265C940(0x14, 0x24810000);
+  item = m != 0 ? construct((Item_828F6DE8 *)m, key) : 0;
+  if (item == 0)
+    return 0x8007000e;
+  {
+    Desc_828F6DE8 desc;
+    void *obj;
+    desc.type = 2;
+    desc.value = value;
+    m = fn_82930318(0x30);
+    obj = m != 0 ? fn_82930940(m, &desc) : 0;
+    item->obj = obj;
+    if (obj == 0) {
+      fn_828F59D0(item, 1);
+      return 0x8007000e;
+    }
+  }
+  return fn_828F6C70(self, item);
+}

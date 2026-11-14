@@ -1,20 +1,12 @@
-__int64 fn_82BB2BE8(int param_1,int param_2)
+/* Comparator (stored as a function pointer by fn_82BB4080): 0 when the 0xf0-byte blocks at +0x14 are equal, else -1. */
+int memcmp(const void *a, const void *b, unsigned int n);
 
+typedef struct Obj_82BB2BE8 {
+    char pad0[0x14];
+    unsigned char data[0xf0];   /* 0x14 */
+} Obj_82BB2BE8;
+
+int fn_82BB2BE8(const Obj_82BB2BE8 *a, const Obj_82BB2BE8 *b)
 {
-  char cVar1;
-  char cVar2;
-  char *pcVar3;
-  char *pcVar4;
-  
-  pcVar4 = (char *)(param_1 + 0x14);
-  pcVar3 = (char *)(param_2 + 0x14);
-  do {
-    cVar1 = *pcVar4;
-    cVar2 = *pcVar3;
-    if (cVar1 != cVar2) break;
-    pcVar4 = pcVar4 + 1;
-    pcVar3 = pcVar3 + 1;
-  } while (pcVar4 != (char *)(param_1 + 0x104));
-  return -(unsigned __int64)(cVar1 != cVar2);
+    return memcmp(a->data, b->data, sizeof(a->data)) != 0 ? -1 : 0;
 }
-

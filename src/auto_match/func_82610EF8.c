@@ -1,24 +1,23 @@
-extern int fn_827D9698();
-extern int fn_827D9ED8();
-extern int fn_827DBA00();
-extern unsigned int lbl_8326B7C8;
+typedef struct Obj_82610EF8 {
+  int pad0[3];
+  char *res;     /* 0x0c */
+  int x10;       /* 0x10 */
+  int active;    /* 0x14 */
+  int x18;       /* 0x18 */
+} Obj_82610EF8;
 
+extern void *lbl_8326B7C8;
+extern int fn_827D9698(char *p);
+extern int fn_827D9ED8(char *p);
+extern void fn_827DBA00(void *mgr, int id, int flag, int offset, int a, int b, int c, int d, int e, int f, int g, int h);
 
-void fn_82610EF8(int param_1,__int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5,unsigned __int64 param_6)
-
+void fn_82610EF8(Obj_82610EF8 *self, int offset, int a, int b, int c, int d, int f, int g)
 {
-  unsigned int uVar1;
-  __int64 lVar2;
-  __int64 lVar3;
-  
-  if (*(int *)(param_1 + 0x14) != 0) {
-    uVar1 = *(unsigned int *)(param_1 + 0xc);
-    lVar2 = fn_827D9698((unsigned __int64)uVar1 + 0x70);
-    lVar3 = fn_827D9ED8((unsigned __int64)uVar1);
-    fn_827DBA00(lbl_8326B7C8,*(unsigned int *)(param_1 + 0x18),-(lVar2 != 0x36) & 1,
-                      lVar3 + param_2,param_3,param_4,param_5,param_6);
+  if (self->active != 0) {
+    char *res = self->res;
+    int flag = 1;
+    if (fn_827D9698(res + 0x70) == 0x36)
+      flag = 0;
+    fn_827DBA00(lbl_8326B7C8, self->x18, flag, fn_827D9ED8(res) + offset, a, b, c, d, self->x10, f, g, 0);
   }
-  return;
 }
-

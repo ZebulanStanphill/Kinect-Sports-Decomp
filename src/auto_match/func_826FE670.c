@@ -1,33 +1,44 @@
-extern int fn_8267C498();
-extern int fn_8269CEE0();
-extern int fn_826FD490();
+typedef struct Node_826FE670 Node_826FE670;
+typedef struct NodeVt_826FE670 {
+    void *pad[0xcc / 4];
+    void (*fcc)(Node_826FE670 *self);
+    unsigned char (*fd0)(Node_826FE670 *self, Node_826FE670 *other, int mode);
+} NodeVt_826FE670;
+struct Node_826FE670 {
+    NodeVt_826FE670 *vt;
+    int refs;
+    char pad8[0x18];
+    int m20;
+};
+typedef struct Tmp_826FE670 { Node_826FE670 *p; int pad4; } Tmp_826FE670;
+typedef struct Obj_826FE670 { char pad0[0xad8]; char mad8[8]; } Obj_826FE670;
 
+extern void fn_8267C498(void *p);
+extern void fn_8269CEE0(void *out, void *src);
+extern void fn_826FD490(Obj_826FE670 *self, Node_826FE670 *node, int mode);
 
-void fn_826FE670(__int64 param_1,int *param_2)
-
+void fn_826FE670(Obj_826FE670 *self, Node_826FE670 *node)
 {
-  char cVar1;
-  int *apiStack_30 [12];
-  
-  fn_8269CEE0(apiStack_30,param_1 + 0xad8);
-  if (apiStack_30[0] != (int *)0x0) {
-    apiStack_30[0][1] = apiStack_30[0][1] + 1;
-    fn_8267C498(apiStack_30[0]);
-  }
-  if (apiStack_30[0] != param_2) {
-    if (((apiStack_30[0] != (int *)0x0) && (apiStack_30[0][8] != 0)) &&
-       (cVar1 = (**(int (***)())(*apiStack_30[0] + 0xd0))(apiStack_30[0],param_2,2), cVar1 == '\0'))
-    goto LAB_826fe724;
-    fn_826FD490(param_1,param_2,2);
-    if (param_2 != (int *)0x0) {
-      (**(int (***)())(*param_2 + 0xcc))(param_2);
-    }
-  }
-  if (apiStack_30[0] == (int *)0x0) {
-    return;
-  }
-LAB_826fe724:
-  fn_8267C498(apiStack_30[0]);
-  return;
-}
+    Tmp_826FE670 t;
+    Node_826FE670 *cur;
 
+    fn_8269CEE0(&t, self->mad8);
+    cur = t.p;
+    if (cur != 0) {
+        cur->refs = cur->refs + 1;
+        fn_8267C498(cur);
+    }
+    if (cur != node) {
+        if (cur != 0 && cur->m20 != 0 && cur->vt->fd0(cur, node, 2) == 0) {
+            fn_8267C498(cur);
+            return;
+        }
+        fn_826FD490(self, node, 2);
+        if (node != 0) {
+            node->vt->fcc(node);
+        }
+    }
+    if (cur != 0) {
+        fn_8267C498(cur);
+    }
+}

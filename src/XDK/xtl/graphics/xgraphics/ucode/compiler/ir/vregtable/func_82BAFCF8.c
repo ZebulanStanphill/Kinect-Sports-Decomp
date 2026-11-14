@@ -1,48 +1,53 @@
-#define true 1
-extern unsigned int *auStack_40;
-extern int fn_82B7BD28();
-extern int fn_82B7BEB0();
-extern int fn_82BAF3D8();
-extern int fn_82BC05A8();
-extern int fn_82BC0618();
-extern int fn_82BC06D0();
+typedef struct Item_82BAFCF8 Item_82BAFCF8;
+typedef struct { void (*Delete)(Item_82BAFCF8 *self, int flags); } ItemVt_82BAFCF8;
+struct Item_82BAFCF8 { ItemVt_82BAFCF8 *vt; };
+typedef struct {
+    int f0;
+    int f4;
+    int f8;
+    int fc;
+    Item_82BAFCF8 *cur;
+    Item_82BAFCF8 *item;
+} Iter_82BAFCF8;
+typedef struct {
+    char pad0[0x5ac];
+    void *heap;
+} Context_82BAFCF8;
+typedef struct { Context_82BAFCF8 *ctx; char *list; } Self_82BAFCF8;
 
+extern void fn_82BC06D0(Iter_82BAFCF8 *it, char *list);
+extern void fn_82BC0618(Iter_82BAFCF8 *it);
+extern void fn_82BC05A8(char *list);
+extern void fn_82B7BEB0(void *heap, void *p);
+extern void *fn_82B7BD28(void *heap, unsigned int size);
+extern void fn_82BAF3D8(char *list, void *heap, void *hash, void *compare, int buckets);
+extern void fn_82BAF468(void);
+extern void fn_82BAF478(void);
 
-void fn_82BAFCF8(int *param_1)
-
+void fn_82BAFCF8(Self_82BAFCF8 *self)
 {
-  int iVar1;
-  unsigned int uVar2;
-  unsigned int *puVar3;
-  unsigned int *puVar4;
-  unsigned char auStack_40 [16];
-  unsigned int *puStack_30;
-  unsigned int *puStack_2c;
-  
-  fn_82BC06D0(auStack_40,param_1[1]);
-  while( true ) {
-    puStack_2c = puStack_30;
-    if (puStack_30 == (unsigned int *)0x0) break;
-    (**(int (***)())*puStack_30)(puStack_30,1);
-    fn_82BC0618(auStack_40);
-  }
-  iVar1 = param_1[1];
-  if (iVar1 != 0) {
-    fn_82BC05A8(iVar1);
-    fn_82B7BEB0(*(unsigned int *)(iVar1 + -4),iVar1 + -4);
-  }
-  uVar2 = *(unsigned int *)(*param_1 + 0x5ac);
-  puVar3 = (unsigned int *)fn_82B7BD28(uVar2,0x1c);
-  puVar4 = puVar3 + 1;
-  *puVar3 = uVar2;
-  if (puVar4 == (unsigned int *)0x0) {
-    puVar4 = (unsigned int *)0x0;
-  }
-  else {
-    fn_82BAF3D8(puVar4,*(unsigned int *)(*param_1 + 0x5ac),0xffffffff82baf478,0xffffffff82baf468,
-                  0x10);
-  }
-  param_1[1] = (int)puVar4;
-  return;
-}
+    Iter_82BAFCF8 it;
+    char *list;
+    void *heap;
+    void **mem;
 
+    fn_82BC06D0(&it, self->list);
+    while ((it.item = it.cur) != 0) {
+        it.item->vt->Delete(it.item, 1);
+        fn_82BC0618(&it);
+    }
+    list = self->list;
+    if (list != 0) {
+        fn_82BC05A8(list);
+        fn_82B7BEB0(*(void **)(list - 4), list - 4);
+    }
+    heap = self->ctx->heap;
+    mem = (void **)fn_82B7BD28(heap, 0x1c);
+    list = (char *)(mem + 1);
+    *mem = heap;
+    if (list != 0)
+        fn_82BAF3D8(list, self->ctx->heap, fn_82BAF478, fn_82BAF468, 0x10);
+    else
+        list = 0;
+    self->list = list;
+}

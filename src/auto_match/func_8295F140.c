@@ -1,36 +1,28 @@
-extern int fn_8295D318();
+typedef struct Desc_8295F140 {
+    unsigned int flags;         /* 0x00 */
+    int pad4;
+    char *data;                 /* 0x08 */
+    unsigned int countC;        /* 0x0c */
+    int *index;                 /* 0x10 */
+} Desc_8295F140;
 
+typedef struct Obj_8295F140 {
+    char pad[0x104];
+    Desc_8295F140 *desc;        /* 0x104 */
+} Obj_8295F140;
 
-unsigned __int64 fn_8295F140(int param_1)
+extern int fn_8295D318(Obj_8295F140 *, int, int *, unsigned int, void *, void *, void *, unsigned int, int, int, int, int);
 
+int fn_8295F140(Obj_8295F140 *o)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  __int64 lVar6;
-  __int64 lVar7;
-  
-  uVar5 = 0;
-  uVar1 = **(unsigned int **)(param_1 + 0x104);
-  uVar2 = (unsigned __int64)uVar1 & 0xfffff;
-  if ((uVar1 & 0xfffff) != 0) {
-    lVar7 = 0;
-    lVar6 = ((unsigned __int64)uVar1 & 0xfffff) << 2;
-    do {
-      uVar4 = (unsigned __int64)*(unsigned int *)(*(int *)(param_1 + 0x104) + 8);
-      uVar3 = fn_8295D318(param_1,0x20,
-                                (unsigned __int64)*(unsigned int *)(*(int *)(param_1 + 0x104) + 0x10) + lVar7,1,
-                                lVar7 + uVar4,lVar6 + uVar4,0,uVar2);
-      if ((int)uVar3 < 0) {
-        return uVar3;
-      }
-      uVar5 = uVar5 + 1;
-      lVar7 = lVar7 + 4;
-      lVar6 = lVar6 + 4;
-    } while ((uVar5 & 0xffffffff) < uVar2);
-  }
-  return 0;
-}
+    unsigned int n = o->desc->flags & 0xfffff;
+    unsigned int i;
+    int hr;
 
+    for (i = 0; i < n; i++) {
+        hr = fn_8295D318(o, 0x20, o->desc->index + i, 1, o->desc->data + i * 4, o->desc->data + (n + i) * 4, 0, n, 0, 0, 0, 0);
+        if (hr < 0)
+            return hr;
+    }
+    return 0;
+}

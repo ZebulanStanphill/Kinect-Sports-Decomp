@@ -1,19 +1,23 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern V16 vectorMultiplyAddFloatingPoint();
-extern V16 vectorSubtractFloatingPoint();
-extern void *memcpy(void *, const void *, unsigned int);
+// Linear interpolation: a + (b - a) * t.
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __lvlx(const void *base, int offset);
+__vector4 __vspltw(__vector4 v, unsigned int i);
+__vector4 __vsubfp(__vector4 a, __vector4 b);
+__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
 
-void fn_8306EC70(void)
-
+static __forceinline __vector4 Replicate(float value)
 {
-  unsigned char in_vs32 [16];
-  unsigned char in_vs33 [16];
-  unsigned char in_vs34 [16];
-  unsigned char in_vs43 [16];
-  unsigned char auVar1 [16];{ V16 _vt0 = vectorSubtractFloatingPoint(in_vs34,in_vs33); memcpy(auVar1, &_vt0, 16); }
-  altv300_21(in_vs32,in_vs43);
-  vectorMultiplyAddFloatingPoint(auVar1,in_vs32,in_vs33);
-  return;
+    __vector4 v = __lvlx(&value, 0);
+    return __vspltw(v, 0);
 }
 
+__vector4 fn_8306EC70(__vector4 a, __vector4 b, float t)
+{
+    __vector4 d;
+
+    d = __vsubfp(b, a);
+    return __vmaddfp(d, Replicate(t), a);
+}

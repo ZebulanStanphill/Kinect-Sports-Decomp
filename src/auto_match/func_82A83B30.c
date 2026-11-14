@@ -1,39 +1,37 @@
-#define true 1
-extern unsigned int lbl_8202E618;
+/* Index of the first of the 13 table entries whose GUID is lbl_8202E618, or 13 when none is. */
+typedef struct Guid_82A83B30 {
+    unsigned long Data1;
+    unsigned short Data2;
+    unsigned short Data3;
+    unsigned char Data4[8];
+} Guid_82A83B30;
 
+typedef struct Entry_82A83B30 {
+    Guid_82A83B30 id;
+    char pad10[0x10];
+} Entry_82A83B30;
 
-__int64 fn_82A83B30(int *param_1)
+typedef struct Table_82A83B30 {
+    char pad0[0x160];
+    Entry_82A83B30 entries[13];     /* 0x160 */
+} Table_82A83B30;
 
+typedef struct Self_82A83B30 {
+    Table_82A83B30 *table;
+} Self_82A83B30;
+
+extern const Guid_82A83B30 lbl_8202E618;
+
+int memcmp(const void *a, const void *b, unsigned int n);
+
+unsigned int fn_82A83B30(Self_82A83B30 *self)
 {
-  unsigned char bVar1;
-  unsigned char bVar2;
-  __int64 lVar3;
-  unsigned char *pbVar4;
-  unsigned int uVar5;
-  unsigned char *pbVar6;
-  unsigned char *pbVar7;
-  
-  lVar3 = 0;
-  uVar5 = 0x160;
-  do {
-    pbVar7 = (unsigned char *)(uVar5 + *param_1);
-    pbVar4 = pbVar7 + 0x10;
-    pbVar6 = (unsigned char *)&lbl_8202E618;
-    do {
-      bVar1 = *pbVar7;
-      bVar2 = *pbVar6;
-      if ((unsigned __int64)bVar1 - (unsigned __int64)bVar2 != 0) break;
-      pbVar7 = pbVar7 + 1;
-      pbVar6 = pbVar6 + 1;
-    } while (pbVar7 != pbVar4);
-    if ((int)((unsigned __int64)bVar1 - (unsigned __int64)bVar2) == 0) {
-      return lVar3;
-    }
-    uVar5 = uVar5 + 0x20;
-    lVar3 = lVar3 + 1;
-    if (0x2ff < uVar5) {
-      return 0xd;
-    }
-  } while( true );
-}
+    unsigned int i;
 
+    for (i = 0; i < 13; i++) {
+        if (memcmp(&self->table->entries[i].id, &lbl_8202E618, sizeof(Guid_82A83B30)) == 0) {
+            return i;
+        }
+    }
+    return 13;
+}

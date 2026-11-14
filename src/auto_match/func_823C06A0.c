@@ -1,30 +1,27 @@
-extern int fn_8236CE28();
-extern int fn_823C2230();
+typedef struct Obj_823C06A0 {
+    char pad0[0x4c0];
+    void *mode;            /* +0x4c0 */
+    char pad4c4[0xe10 - 0x4c4];
+    void *current;         /* +0xe10 */
+    void *others[3];       /* +0xe14 */
+} Obj_823C06A0;
 
+extern void fn_823C2230(Obj_823C06A0 *self, void *item);
+extern void fn_8236CE28(Obj_823C06A0 *self, float dt);
 
-void fn_823C06A0(unsigned __int64 param_1,int param_2,unsigned __int64 param_3,int param_4)
-
+void fn_823C06A0(Obj_823C06A0 *self, float dt, int enable)
 {
-  __int64 lVar1;
-  int *piVar2;
-  
-  if (param_4 != 0) {
-    fn_823C2230(param_2,*(unsigned int *)(param_2 + 0xe10));
-    if (*(int *)(param_2 + 0x4c0) == 0) {
-      fn_8236CE28(param_1,param_2);
-    }
-    else {
-      piVar2 = (int *)(param_2 + 0xe14);
-      lVar1 = 3;
-      do {
-        if (*piVar2 != *(int *)(param_2 + 0xe10)) {
-          fn_823C2230(param_2);
-        }
-        lVar1 = lVar1 + -1;
-        piVar2 = piVar2 + 1;
-      } while (lVar1 != 0);
-    }
-  }
-  return;
-}
+    int i;
 
+    if (enable != 0) {
+        fn_823C2230(self, self->current);
+        if (self->mode != 0) {
+            for (i = 0; i < 3; i++) {
+                if (self->others[i] != self->current)
+                    fn_823C2230(self, self->others[i]);
+            }
+        } else {
+            fn_8236CE28(self, dt);
+        }
+    }
+}

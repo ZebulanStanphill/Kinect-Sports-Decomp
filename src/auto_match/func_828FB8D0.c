@@ -1,19 +1,20 @@
-extern int fn_828FB358();
+typedef struct Parser_828FB8D0 {
+    const char *start;
+    const char *end;
+} Parser_828FB8D0;
 
+extern unsigned int fn_828FB358(Parser_828FB8D0 *self, const char *p);
 
-char * fn_828FB8D0(int param_1,char *param_2)
-
+unsigned int fn_828FB8D0(Parser_828FB8D0 *self, const char *p)
 {
-  int iVar1;
-  char *pcVar2;
-  
-  if ((param_2 < *(char **)(param_1 + 4)) && (*param_2 == '\'')) {
-    iVar1 = fn_828FB358(param_1,param_2 + 1);
-    if ((iVar1 != 0) &&
-       ((pcVar2 = param_2 + 1 + iVar1, pcVar2 < *(char **)(param_1 + 4) && (*pcVar2 == '\'')))) {
-      return pcVar2 + (1 - (int)param_2);
+    if (p < self->end && *p == '\'') {
+        const char *q = p + 1;
+        unsigned int n = fn_828FB358(self, q);
+        if (n != 0) {
+            const char *e = n + q;
+            if (e < self->end && *e == '\'')
+                return e - p + 1;
+        }
     }
-  }
-  return (char *)0x0;
+    return 0;
 }
-

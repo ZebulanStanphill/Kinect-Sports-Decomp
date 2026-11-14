@@ -1,8 +1,11 @@
-__int64 fn_82A8B4B8(int param_1,__int64 param_2)
+typedef struct Buf_82A8B4B8 {
+    int pad0;
+    unsigned int size;          /* 0x04 */
+    char pad8[8];
+    unsigned int used;          /* 0x10 */
+} Buf_82A8B4B8;
 
+int fn_82A8B4B8(Buf_82A8B4B8 *self, unsigned int count)
 {
-  return -((unsigned __int64)
-           ((unsigned __int64)*(unsigned int *)(param_1 + 4) < (unsigned __int64)*(unsigned int *)(param_1 + 0x10) + param_2) - 1)
-  ;
+    return self->used + count <= self->size;
 }
-

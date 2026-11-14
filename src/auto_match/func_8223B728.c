@@ -1,80 +1,101 @@
-extern unsigned int *auStack_40;
-extern int fn_8223FD30();
-extern int fn_8223FE60();
-extern int fn_8223FFB8();
-extern int fn_82240070();
+typedef __int64 streamsize;
 
+typedef struct Streambuf Streambuf;
+typedef struct {
+  char pad0[0x24];
+  streamsize (*xsputn)(Streambuf *, const char *, streamsize);
+} StreambufVtbl;
+struct Streambuf {
+  StreambufVtbl *vtbl;
+};
 
-int * fn_8223B728(int *param_1,unsigned int *param_2)
+typedef struct {
+  char pad0[0xc];
+  int state;          /* 0x0c */
+  int pad10;
+  int fmtfl;          /* 0x14 */
+  int pad18[2];
+  streamsize wide;    /* 0x20 */
+  char pad28[0x10];
+  Streambuf *strbuf;  /* 0x38 */
+  int pad3c;
+  char fill;          /* 0x40 */
+} Ios;
 
+typedef struct {
+  int *vbtbl;
+} Ostream;
+
+typedef struct {
+  Ostream *ostr;
+  unsigned char ok;
+} Sentry;
+
+typedef struct {
+  union {
+    char buf[16];
+    char *ptr;
+  } bx;
+  unsigned int size;  /* 0x10 */
+  unsigned int res;   /* 0x14 */
+} String;
+
+#define IOS(o) ((Ios *)((char *)(o) + (o)->vbtbl[1]))
+
+extern void fn_8223FD30(Sentry *s, Ostream *o);
+extern void fn_8223FE60(Sentry *s);
+extern int fn_8223FFB8(Streambuf *sb, char c);
+extern void fn_82240070(Ios *ios, int state, int reraise);
+
+static void ios_clear(Ios *ios, int st, int reraise)
 {
-  unsigned int uVar1;
-  int *piVar2;
-  int iVar3;
-  unsigned __int64 uVar4;
-  unsigned int uVar5;
-  unsigned __int64 uVar6;
-  unsigned char auStack_40 [4];
-  char cStack_3c;
-  
-  uVar1 = param_2[4];
-  uVar5 = 0;
-  uVar4 = *(unsigned __int64 *)((int)param_1 + *(int *)(*param_1 + 4) + 0x20);
-  if (((__int64)uVar4 < 1) || (uVar4 = uVar4 & 0xffffffff, uVar6 = uVar4 - uVar1, uVar4 <= uVar1))
-  {
-    uVar6 = 0;
-  }
-  fn_8223FD30(auStack_40,param_1);
-  if (cStack_3c == '\0') {
-    uVar5 = 4;
-  }
-  else {
-    if ((*(unsigned int *)((int)param_1 + *(int *)(*param_1 + 4) + 0x14) & 0x1c0) != 0x40) {
-      uVar4 = uVar6 & 0xffffffff;
-      while (uVar4 != 0) {
-        iVar3 = fn_8223FFB8(*(unsigned int *)((int)param_1 + *(int *)(*param_1 + 4) + 0x38),
-                                *(unsigned char *)((int)param_1 + *(int *)(*param_1 + 4) + 0x40));
-        if (iVar3 == -1) {
-          uVar5 = 4;
-          goto LAB_8223b7f4;
-        }
-        uVar6 = uVar6 - 1;
-        uVar4 = uVar6;
-      }
-    }
-    if (0xf < (unsigned int)param_2[5]) {
-      param_2 = (unsigned int *)*param_2;
-    }
-    piVar2 = *(int **)((int)param_1 + *(int *)(*param_1 + 4) + 0x38);
-    uVar4 = (**(int (***)())(*piVar2 + 0x24))(piVar2,param_2,(unsigned __int64)uVar1);
-    if (uVar4 == uVar1) {
-LAB_8223b7f4:
-      uVar4 = uVar6 & 0xffffffff;
-      while (uVar4 != 0) {
-        iVar3 = fn_8223FFB8(*(unsigned int *)((int)param_1 + *(int *)(*param_1 + 4) + 0x38),
-                                *(unsigned char *)((int)param_1 + *(int *)(*param_1 + 4) + 0x40));
-        if (iVar3 == -1) {
-          uVar5 = 4;
-          break;
-        }
-        uVar6 = uVar6 - 1;
-        uVar4 = uVar6;
-      }
-    }
-    else {
-      uVar5 = 4;
-    }
-    *(unsigned __int64 *)((int)param_1 + *(int *)(*param_1 + 4) + 0x20) = 0;
-  }
-  iVar3 = *(int *)(*param_1 + 4) + (int)param_1;
-  if (uVar5 != 0) {
-    uVar5 = *(unsigned int *)(iVar3 + 0xc) | uVar5;
-    if (*(int *)(iVar3 + 0x38) == 0) {
-      uVar5 = uVar5 | 4;
-    }
-    fn_82240070(iVar3,uVar5,0);
-  }
-  fn_8223FE60(auStack_40);
-  return param_1;
+  fn_82240070(ios, ios->strbuf == 0 ? st | 4 : st, reraise);
 }
 
+static void ios_setstate(Ios *ios, int st)
+{
+  if (st != 0)
+    ios_clear(ios, ios->state | st, 0);
+}
+
+static __forceinline const char *str_data(const String *s)
+{
+  return 16 <= s->res ? s->bx.ptr : s->bx.buf;
+}
+
+Ostream *fn_8223B728(Ostream *out, const String *str)
+{
+  int state = 0;
+  unsigned int size = str->size;
+  unsigned int pad;
+  Sentry ok;
+
+  pad = IOS(out)->wide <= 0 || (unsigned int)IOS(out)->wide <= size ? 0 : (unsigned int)IOS(out)->wide - size;
+  fn_8223FD30(&ok, out);
+  if (!ok.ok) {
+    state |= 4;
+  } else {
+    if ((IOS(out)->fmtfl & 0x1c0) != 0x40) {
+      for (; 0 < pad; --pad) {
+        if (fn_8223FFB8(IOS(out)->strbuf, IOS(out)->fill) == -1) {
+          state |= 4;
+          break;
+        }
+      }
+    }
+    if (state == 0 && IOS(out)->strbuf->vtbl->xsputn(IOS(out)->strbuf, str_data(str), (streamsize)size) != (streamsize)size) {
+      state |= 4;
+    } else {
+      for (; 0 < pad; --pad) {
+        if (fn_8223FFB8(IOS(out)->strbuf, IOS(out)->fill) == -1) {
+          state |= 4;
+          break;
+        }
+      }
+    }
+    IOS(out)->wide = 0;
+  }
+  ios_setstate(IOS(out), state);
+  fn_8223FE60(&ok);
+  return out;
+}

@@ -1,34 +1,29 @@
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_54;
-extern unsigned int *auStack_58;
-extern unsigned int *auStack_5c;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_64;
-extern int fn_8263B958();
-extern int memcpy();
-extern unsigned int uStack_20;
-extern unsigned int uStack_30;
-extern unsigned int uStack_70;
+typedef struct Desc_82A94048 {
+    unsigned int words[8];
+    unsigned int m20;
+    unsigned int pad24[3];
+    unsigned int m30;
+} Desc_82A94048;
 
+extern void fn_8263B958(Desc_82A94048 *desc, void *a, void *b, unsigned int *o0, unsigned int *o1,
+                        unsigned int *o2, unsigned int *o3, unsigned int *o4, unsigned int *o5,
+                        unsigned int *o6, unsigned int *o7);
 
-unsigned int fn_82A94048(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3)
-
+unsigned int fn_82A94048(const Desc_82A94048 *src, void *a, void *b)
 {
-  unsigned int uStack_70;
-  unsigned char auStack_64 [4];
-  unsigned char auStack_60 [4];
-  unsigned char auStack_5c [4];
-  unsigned char auStack_58 [4];
-  unsigned char auStack_54 [4];
-  unsigned char auStack_50 [32];
-  unsigned int uStack_30;
-  unsigned int uStack_20;
-  
-  memcpy(auStack_50,param_1,0x34);
-  uStack_30 = uStack_30 & 0xfff;
-  uStack_20 = uStack_20 & 0xfff;
-  fn_8263B958(auStack_50,param_2,param_3,auStack_54,auStack_58,auStack_5c,auStack_60,
-                    auStack_64);
-  return uStack_70;
-}
+    Desc_82A94048 desc;
+    unsigned int o0;
+    unsigned int o1;
+    unsigned int o2;
+    unsigned int o3;
+    unsigned int o4;
+    unsigned int o5;
+    unsigned int o6;
+    unsigned int o7;
 
+    desc = *src;
+    desc.m20 &= 0xfff;
+    desc.m30 &= 0xfff;
+    fn_8263B958(&desc, a, b, &o0, &o1, &o2, &o3, &o4, &o5, &o6, &o7);
+    return o7;
+}

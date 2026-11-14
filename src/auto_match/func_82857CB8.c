@@ -1,27 +1,33 @@
-extern unsigned int *auStack_30;
-extern int fn_82851B40();
+typedef void (*Callback_82857CB8)(int context, int handle, int a, int b, int data);
 
+typedef struct Entry_82857CB8 {
+    int f0;
+    Callback_82857CB8 callback;   /* +0x4 */
+    int f8;
+    int data;                     /* +0xc */
+    unsigned short a;             /* +0x10 */
+    unsigned short b;             /* +0x12 */
+} Entry_82857CB8;
 
-void fn_82857CB8(unsigned int *param_1,int param_2)
+typedef struct Table_82857CB8 {
+    char pad0[0xc];
+    int key;                      /* +0xc */
+    Entry_82857CB8 *entries;      /* +0x10 */
+    char pad14[0xe];
+    unsigned short count;         /* +0x22 */
+} Table_82857CB8;
 
+extern void fn_82851B40(int *self, int key, int *handle);
+
+void fn_82857CB8(int *self, Table_82857CB8 *table)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  unsigned int auStack_30;
-  
-  fn_82851B40(param_1,*(unsigned int *)(param_2 + 0xc),&auStack_30);
-  iVar1 = 0;
-  if (*(short *)(param_2 + 0x22) != 0) {
-    puVar2 = (unsigned int *)(*(int *)(param_2 + 0x10) + 4);
-    do {
-      if ((int (**)())*puVar2 != (int (**)())0x0) {
-        (*(int (**)())*puVar2)(*param_1,auStack_30,*(unsigned short *)(puVar2 + 3),
-                           *(unsigned short *)((int)puVar2 + 0xe),puVar2[2]);
-      }
-      iVar1 = iVar1 + 1;
-      puVar2 = puVar2 + 5;
-    } while (iVar1 < (int)(unsigned int)*(unsigned short *)(param_2 + 0x22));
-  }
-  return;
-}
+    int handle;
+    int i;
+    Entry_82857CB8 *e;
 
+    fn_82851B40(self, table->key, &handle);
+    for (i = 0, e = table->entries; i < table->count; i++, e++) {
+        if (e->callback != 0)
+            e->callback(*self, handle, e->a, e->b, e->data);
+    }
+}

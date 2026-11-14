@@ -1,39 +1,18 @@
-extern int fn_82810380();
-extern unsigned int lbl_8201DCB8;
-extern unsigned int uStack_28;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
+typedef struct Vec3_8281F1B0 {
+    float x, y, z;
+} Vec3_8281F1B0;
 
+typedef struct Box_8281F1B0 {
+    Vec3_8281F1B0 min;          /* 0x00 */
+    Vec3_8281F1B0 max;          /* 0x0c */
+} Box_8281F1B0;
 
-unsigned __int64 fn_8281F1B0(__int64 param_1,unsigned int *param_2)
+extern int fn_82810380(const Vec3_8281F1B0 *a, const Vec3_8281F1B0 *b, float tolerance);
 
+int fn_8281F1B0(const Box_8281F1B0 *self, const Box_8281F1B0 *other)
 {
-  int iVar2;
-  unsigned __int64 uVar1;
-  double dVar3;
-  struct { unsigned int first; unsigned int second; } stack_pair_40;
+    Vec3_8281F1B0 min = other->min;
+    Vec3_8281F1B0 max = other->max;
 
-  unsigned int uStack_38;
-  struct { unsigned int first; unsigned int second; } stack_pair_30;
-
-  unsigned int uStack_28;
-
-  stack_pair_40.first = *param_2;
-  stack_pair_40.second = param_2[1];
-  uStack_38 = param_2[2];
-  stack_pair_30.first = param_2[3];
-  dVar3 = (double)lbl_8201DCB8;
-  stack_pair_30.second = param_2[4];
-  uStack_28 = param_2[5];
-  iVar2 = fn_82810380(dVar3,param_1,&stack_pair_40.first);
-  if (iVar2 == 0) {
-    uVar1 = 0;
-  }
-  else {
-    uVar1 = fn_82810380(dVar3,param_1 + 0xc,&stack_pair_30.first);
-  }
-  return uVar1;
+    return fn_82810380(&self->min, &min, 1e-5f) ? fn_82810380(&self->max, &max, 1e-5f) : 0;
 }

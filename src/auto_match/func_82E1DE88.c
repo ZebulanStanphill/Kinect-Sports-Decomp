@@ -1,26 +1,26 @@
-extern unsigned int *auStack_30;
-extern int fn_82E1D978();
-extern int fn_82E1DA50();
-extern int fn_82F67FE8();
+typedef struct Node_82E1DE88 {
+    char *key;
+    char *value;
+} Node_82E1DE88;
 
+typedef struct Settings_82E1DE88 Settings_82E1DE88;
 
-unsigned __int64 fn_82E1DE88(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+extern Node_82E1DE88 *fn_82E1D978(Settings_82E1DE88 *s, const char *key);
+extern void fn_82E1DA50(Settings_82E1DE88 *s, const char *msg, const char *key);
+extern int fn_82F67FE8(const char *text, const char *format, ...);
 
+int fn_82E1DE88(Settings_82E1DE88 *s, const char *key, int def)
 {
-  int iVar1;
-  unsigned int auStack_30 [12];
-  
-  iVar1 = fn_82E1D978();
-  if (iVar1 != 0) {
-    auStack_30[0] = 0;
-    iVar1 = fn_82F67FE8(*(unsigned int *)(iVar1 + 4),0xffffffff821c54fc,auStack_30);
-    if (iVar1 == 1) {
-      param_3 = (unsigned __int64)auStack_30[0];
+    Node_82E1DE88 *n = fn_82E1D978(s, key);
+    const char *text;
+    int value;
+    if (n == 0)
+        return def;
+    text = n->value;
+    value = 0;
+    if (fn_82F67FE8(text, "%i", &value) != 1) {
+        fn_82E1DA50(s, "Improper format for integer value", key);
+        return def;
     }
-    else {
-      fn_82E1DA50(param_1,0xffffffff8214b9a0,param_2);
-    }
-  }
-  return param_3;
+    return value;
 }
-

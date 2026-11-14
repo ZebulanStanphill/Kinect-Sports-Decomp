@@ -1,33 +1,29 @@
-extern int fn_82C53960();
-extern int fn_82C53970();
+#include <string.h>
 
+typedef struct Buffer_82CABB00 {
+    int width;                  /* 0x00 */
+    int height;                 /* 0x04 */
+    int kind;                   /* 0x08 */
+    void *data;                 /* 0x0c */
+} Buffer_82CABB00;
 
-int * fn_82CABB00(int param_1,int param_2)
+extern void *fn_82C53960(unsigned int size, int flags);
+extern void fn_82C53970(void *p);
 
+Buffer_82CABB00 *fn_82CABB00(int height, int width)
 {
-  int *piVar1;
-  int iVar2;
-  
-  piVar1 = (int *)fn_82C53960(0x10,0);
-  if (piVar1 != (int *)0x0) {
-    *piVar1 = 0;
-    piVar1[1] = 0;
-    piVar1[2] = 0;
-    piVar1[3] = 0;
-    *piVar1 = param_2;
-    piVar1[1] = param_1;
-    iVar2 = fn_82C53960((__int64)param_1 * (__int64)param_2,3);
-    piVar1[3] = iVar2;
-    if (iVar2 != 0) {
-      iVar2 = 2;
-      if (piVar1[1] < 3) {
-        iVar2 = 1;
-      }
-      piVar1[2] = iVar2;
-      return piVar1;
-    }
-    fn_82C53970(piVar1);
-  }
-  return (int *)0x0;
-}
+    Buffer_82CABB00 *b = (Buffer_82CABB00 *)fn_82C53960(sizeof(Buffer_82CABB00), 0);
 
+    if (b == 0)
+        return 0;
+    memset(b, 0, sizeof(Buffer_82CABB00));
+    b->width = width;
+    b->height = height;
+    b->data = fn_82C53960(height * width, 3);
+    if (b->data == 0) {
+        fn_82C53970(b);
+        return 0;
+    }
+    b->kind = b->height > 2 ? 2 : 1;
+    return b;
+}

@@ -1,37 +1,23 @@
-typedef unsigned char bool;
-#define true 1
-extern int fn_82A1E2C0();
-extern unsigned __int64 storeWordConditionalIndexed();
+#define __lwsync() __emit(0x7C2004AC)
+extern long _InterlockedExchangeAdd(long volatile *, long);
+extern int fn_82A1E2C0(void *handle);
 
+typedef struct S_8267D4E0 {
+    char pad0[0x18];
+    unsigned int flags;   /* +0x18 */
+    long count;           /* +0x1c */
+    char pad20[0xc];
+    void *handle;         /* +0x2c */
+} S_8267D4E0;
 
-unsigned __int64 fn_8267D4E0(__int64 param_1)
-
+int fn_8267D4E0(S_8267D4E0 *self)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  bool bVar3;
-  int iVar4;
-  unsigned int *puVar5;
-  char in_RESERVE;
-  
-  bVar3 = (*(unsigned int *)((int)param_1 + 0x18) & 1) == 0;
-  if (!bVar3) {
-    do {
-      puVar5 = (unsigned int *)(param_1 + 0x1c);
-      uVar1 = *puVar5;
-      if (in_RESERVE != '\0') {
-        uVar2 = storeWordConditionalIndexed((unsigned __int64)uVar1 - 1,0,param_1 + 0x1c);
-        *puVar5 = uVar2;
-        bVar3 = true;
-      }
-    } while (!bVar3);
-    sync(1);
-    if ((0 < (int)uVar1) &&
-       ((uVar1 != 1 ||
-        (iVar4 = fn_82A1E2C0(*(unsigned int *)((int)param_1 + 0x2c)), iVar4 != -1)))) {
-      return 1;
-    }
-  }
-  return 0;
+    long old;
+    if ((self->flags & 1) == 0)
+        return 0;
+    old = _InterlockedExchangeAdd(&self->count, -1);
+    __lwsync();
+    if (old >= 1 && (old != 1 || fn_82A1E2C0(self->handle) != -1))
+        return 1;
+    return 0;
 }
-

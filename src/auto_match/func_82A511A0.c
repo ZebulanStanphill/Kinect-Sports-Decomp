@@ -1,39 +1,43 @@
-extern int fn_82A3FF60();
-extern int fn_82A4F4E0();
-extern int fn_82A68C48();
-extern int fn_82A68C70();
-extern int fn_82A68E28();
+typedef struct Desc_82A511A0 {
+    char pad0[0x3c];
+    void *m3c;
+    char pad40[8];
+    float m48;
+} Desc_82A511A0;
 
+typedef struct Obj_82A511A0 {
+    void *a;
+    Desc_82A511A0 *desc;
+    void *impl;
+} Obj_82A511A0;
 
-__int64 fn_82A511A0(unsigned int *param_1,unsigned int param_2,int param_3,unsigned __int64 param_4,
-                      unsigned __int64 param_5)
+extern char lbl_83219D50[];
+extern void *fn_82A3FF60(void *heap, int size, int flags, int zero);
+extern void *fn_82A68C48(void *mem, void *b, void *c, void *d);
+extern int fn_82A68C70(void *impl, float value, int zero);
+extern void fn_82A68E28(void *impl);
+extern void fn_82A4F4E0(void *p);
 
+int fn_82A511A0(Obj_82A511A0 *self, void *a, Desc_82A511A0 *desc, void *b, void *c)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  __int64 lVar3;
-  
-  param_1[1] = param_3;
-  *param_1 = param_2;
-  uVar1 = fn_82A3FF60(0xffffffff83219d50,0x1c,0x20970005,0);
-  if ((uVar1 & 0xffffffff) == 0) {
-    iVar2 = 0;
-  }
-  else {
-    iVar2 = fn_82A68C48(uVar1,param_4,param_5,*(unsigned int *)(param_3 + 0x3c));
-  }
-  param_1[2] = iVar2;
-  if (iVar2 == 0) {
-    lVar3 = -0x7ff8fff2;
-  }
-  else {
-    lVar3 = fn_82A68C70((double)*(float *)(param_3 + 0x48));
-    if ((lVar3 < 0) && (iVar2 = param_1[2], iVar2 != 0)) {
-      fn_82A68E28(iVar2);
-      fn_82A4F4E0(iVar2);
-      param_1[2] = 0;
+    void *m;
+    int hr;
+    self->desc = desc;
+    self->a = a;
+    m = fn_82A3FF60(lbl_83219D50, 0x1c, 0x20970005, 0);
+    self->impl = m != 0 ? fn_82A68C48(m, b, c, desc->m3c) : 0;
+    if (self->impl == 0) {
+        hr = 0x8007000e;
+    } else {
+        hr = fn_82A68C70(self->impl, desc->m48, 0);
+        if (hr < 0) {
+            void *impl = self->impl;
+            if (impl != 0) {
+                fn_82A68E28(impl);
+                fn_82A4F4E0(impl);
+                self->impl = 0;
+            }
+        }
     }
-  }
-  return lVar3;
+    return hr;
 }
-

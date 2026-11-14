@@ -1,36 +1,40 @@
-extern int fn_8223C478();
-extern int fn_828AFF88();
-extern int fn_828B00A0();
-extern int fn_828E9DB8();
-extern int fn_828E9F18();
+typedef struct Writer_828DA8D8 Writer_828DA8D8;
+typedef struct Clock_828DA8D8 { char pad[0x278]; char timer[1]; } Clock_828DA8D8;
 
+typedef struct Obj_828DA8D8 {
+    char pad0[0x6c];
+    Clock_828DA8D8 *clock;     /* +0x6c */
+    char pad70[0x10];
+    unsigned char isHost;      /* +0x80 */
+    char pad81[7];
+    __int64 baseTime;          /* +0x88 */
+    __int64 f90;
+    __int64 startTime;         /* +0x98 */
+} Obj_828DA8D8;
 
-void fn_828DA8D8(int param_1,unsigned __int64 param_2)
+extern __int64 fn_828AFF88(void *timer);
+extern __int64 fn_828B00A0(void *timer);
+extern void fn_8223C478(Writer_828DA8D8 *w, int bits, int a);
+extern void fn_828E9DB8(Writer_828DA8D8 *w, int value, int bits);
+extern void fn_828E9F18(Writer_828DA8D8 *w, __int64 value, int bits);
 
+void fn_828DA8D8(Obj_828DA8D8 *self, Writer_828DA8D8 *w)
 {
-  char cVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  __int64 lVar4;
-  
-  uVar2 = fn_828AFF88((unsigned __int64)*(unsigned int *)(param_1 + 0x6c) + 0x278);
-  cVar1 = *(char *)(param_1 + 0x80);
-  fn_8223C478(param_2,1,0);
-  fn_828E9DB8(param_2,cVar1 != '\0',1);
-  if (*(char *)(param_1 + 0x80) == '\0') {
-    uVar3 = *(unsigned __int64 *)(param_1 + 0x98);
-    lVar4 = *(__int64 *)(param_1 + 0x88);
-    fn_8223C478(param_2,0x1e,0);
-    fn_828E9F18(param_2,((int)uVar2 - (int)uVar3) + lVar4 + 100000,0x1e);
-    uVar2 = fn_828B00A0((unsigned __int64)*(unsigned int *)(param_1 + 0x6c) + 0x278);
-    fn_8223C478(param_2,0x1e,0);
-    fn_828E9F18(param_2,uVar2,0x1e);
-  }
-  else {
-    *(unsigned __int64 *)(param_1 + 0x88) = uVar2;
-    fn_8223C478(param_2,0x1e,0);
-    fn_828E9F18(param_2,uVar2,0x1e);
-  }
-  return;
+    __int64 now = fn_828AFF88(self->clock->timer);
+    unsigned char isHost = self->isHost;
+    fn_8223C478(w, 1, 0);
+    fn_828E9DB8(w, isHost != 0, 1);
+    if (self->isHost) {
+        self->baseTime = now;
+        fn_8223C478(w, 0x1e, 0);
+        fn_828E9F18(w, now, 0x1e);
+    } else {
+        __int64 t = (int)now - (int)self->startTime + self->baseTime + 100000;
+        __int64 u;
+        fn_8223C478(w, 0x1e, 0);
+        fn_828E9F18(w, t, 0x1e);
+        u = fn_828B00A0(self->clock->timer);
+        fn_8223C478(w, 0x1e, 0);
+        fn_828E9F18(w, u, 0x1e);
+    }
 }
-

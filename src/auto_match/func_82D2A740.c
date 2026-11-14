@@ -1,55 +1,48 @@
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_40;
-extern int fn_82D1CE60();
-extern unsigned int lbl_82002AE0;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Vertex_82D2A740 {
+    char pad0[0x10];
+    __vector4 pos;              /* 0x10 */
+} Vertex_82D2A740;
 
-double fn_82D2A740(int param_1,int param_2)
+typedef struct Triangle_82D2A740 {
+    char pad0[0x8];
+    Vertex_82D2A740 *v[3];      /* 0x08 */
+} Triangle_82D2A740;
 
+typedef struct Hit_82D2A740 {
+    char pad0[0x20];
+    Triangle_82D2A740 *triangle;    /* 0x20 */
+} Hit_82D2A740;
+
+typedef struct Self_82D2A740 {
+    char pad0[0x10];
+    __vector4 point;            /* 0x10 */
+    float closest;              /* 0x20 */
+    char pad24[0xc];
+    __vector4 a;                /* 0x30 */
+    __vector4 b;                /* 0x40 */
+    Triangle_82D2A740 *triangle;    /* 0x50 */
+} Self_82D2A740;
+
+extern float fn_82D1CE60(const __vector4 *p, const __vector4 *v0, const __vector4 *v1, const __vector4 *v2,
+                         __vector4 *outA, __vector4 *outB);
+
+float fn_82D2A740(Self_82D2A740 *self, Hit_82D2A740 *hit)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  unsigned int *puVar3;
-  int in_r0;
-  double dVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned int uVar8;
-  unsigned int uVar9;
-  unsigned int uVar10;
-  unsigned int uVar11;
-  unsigned char auStack_40 [1];
-  unsigned char auStack_30 [24];
-  
-  iVar1 = *(int *)(param_2 + 0x20);
-  dVar4 = (double)fn_82D1CE60(param_1 + 0x10,(unsigned __int64)*(unsigned int *)(iVar1 + 8) + 0x10,
-                                    (unsigned __int64)*(unsigned int *)(iVar1 + 0xc) + 0x10,
-                                    (unsigned __int64)*(unsigned int *)(iVar1 + 0x10) + 0x10,auStack_40,auStack_30)
-  ;
-  if (dVar4 < (double)*(float *)(param_1 + 0x20)) {
-    *(float *)(param_1 + 0x20) = (float)dVar4;
-    *(int *)(param_1 + 0x50) = iVar1;
-    puVar2 = (unsigned int *)((unsigned int)(auStack_40 + in_r0) & 0xfffffff0);
-    uVar5 = puVar2[1];
-    uVar6 = puVar2[2];
-    uVar7 = puVar2[3];
-    puVar3 = (unsigned int *)((unsigned int)(auStack_30 + in_r0) & 0xfffffff0);
-    uVar8 = *puVar3;
-    uVar9 = puVar3[1];
-    uVar10 = puVar3[2];
-    uVar11 = puVar3[3];
-    puVar3 = (unsigned int *)(param_1 + 0x30U & 0xfffffff0);
-    *puVar3 = *puVar2;
-    puVar3[1] = uVar5;
-    puVar3[2] = uVar6;
-    puVar3[3] = uVar7;
-    puVar2 = (unsigned int *)(param_1 + 0x40U & 0xfffffff0);
-    *puVar2 = uVar8;
-    puVar2[1] = uVar9;
-    puVar2[2] = uVar10;
-    puVar2[3] = uVar11;
-  }
-  return (double)lbl_82002AE0;
-}
+    Triangle_82D2A740 *triangle = hit->triangle;
+    __vector4 a;
+    __vector4 b;
+    float d;
 
+    d = fn_82D1CE60(&self->point, &triangle->v[0]->pos, &triangle->v[1]->pos, &triangle->v[2]->pos, &a, &b);
+    if (d < self->closest) {
+        self->closest = d;
+        self->triangle = triangle;
+        self->a = a;
+        self->b = b;
+    }
+    return 1.0f;
+}

@@ -1,24 +1,20 @@
-extern int fn_8265C940();
-extern int fn_82F93A00();
-extern unsigned int uStack00000014;
+typedef struct Allocator_82F93910 Allocator_82F93910;
+typedef struct {
+    void *slot[2];
+    void *(*alloc)(Allocator_82F93910 *self, unsigned int size);  /* 0x08 */
+    void (*free)(Allocator_82F93910 *self, void *p);               /* 0x0c */
+} AllocatorVtbl_82F93910;
+struct Allocator_82F93910 { AllocatorVtbl_82F93910 *vt; };
 
+extern char lbl_832641A4[];
+extern Allocator_82F93910 *fn_82F93A00(void *holder);
+extern void *fn_8265C940(unsigned int size, unsigned int flags);
 
-void fn_82F93910(unsigned int param_1)
-
+void *fn_82F93910(unsigned int size)
 {
-  int iVar1;
-  int *piVar2;
-  unsigned int uStack00000014;
-  
-  uStack00000014 = param_1;
-  iVar1 = fn_82F93A00(0xffffffff832641a4);
-  if (iVar1 == 0) {
-    fn_8265C940(uStack00000014,0x20ff4000);
-  }
-  else {
-    piVar2 = (int *)fn_82F93A00(0xffffffff832641a4);
-    (**(int (***)())(*piVar2 + 8))(piVar2,uStack00000014);
-  }
-  return;
+    if (fn_82F93A00(lbl_832641A4) != 0) {
+        Allocator_82F93910 *allocator = fn_82F93A00(lbl_832641A4);
+        return allocator->vt->alloc(allocator, size);
+    }
+    return fn_8265C940(size, 0x20ff4000);
 }
-

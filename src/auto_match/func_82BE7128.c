@@ -1,36 +1,41 @@
-#define true 1
-extern int fn_82BE5340();
-extern int fn_82BE5350();
-extern int fn_82BE5378();
-extern int fn_82BE66A0();
-extern int fn_82BEA200();
-extern int fn_82BEA230();
+typedef struct { char data[8]; } Iter_82BE7128;
+typedef struct {
+  char pad0[0x14];
+  int type;
+} Request_82BE7128;
+typedef struct {
+  char pad0[0x14];
+  Iter_82BE7128 requests;
+  int count;
+  char pad20[4];
+  int shutdown;
+  char pad28[4];
+  char lock[4];
+} Manager_82BE7128;
 
+extern int fn_82BEA200(void *lock, const char *name);
+extern void fn_82BEA230(void *lock, const char *name);
+extern void fn_82BE5340(Iter_82BE7128 *it);
+extern void fn_82BE5350(Iter_82BE7128 *it);
+extern Request_82BE7128 *fn_82BE5378(Iter_82BE7128 *it);
+extern void fn_82BE66A0(Request_82BE7128 *request);
 
-unsigned __int64 fn_82BE7128(int param_1)
-
+int fn_82BE7128(Manager_82BE7128 *self)
 {
-  int iVar1;
-  int iVar2;
-  
-  *(unsigned int *)(param_1 + 0x24) = 0;
-  iVar1 = fn_82BEA200(param_1 + 0x2c,0xffffffff820e9850);
-  if (iVar1 == 0) {
+  Request_82BE7128 *cur;
+  self->shutdown = 0;
+  if (fn_82BEA200(self->lock, "CRequestManager::PrepareForShutdown") == 0)
     return 0x2c0;
-  }
-  iVar1 = param_1 + 0x14;
-  do {
-    fn_82BE5340(iVar1);
-    while( true ) {
-      if (*(int *)(param_1 + 0x1c) == 0) {
-        fn_82BEA230(param_1 + 0x2c,0xffffffff820e9850);
-        return 0;
-      }
-      iVar2 = fn_82BE5378(iVar1);
-      if ((*(int *)(iVar2 + 0x14) != 0x1065) && (*(int *)(iVar2 + 0x14) != 0x1073)) break;
-      fn_82BE5350(iVar1);
+  fn_82BE5340(&self->requests);
+  while (self->count != 0) {
+    cur = fn_82BE5378(&self->requests);
+    if (cur->type == 0x1065 || cur->type == 0x1073) {
+      fn_82BE5350(&self->requests);
+    } else {
+      fn_82BE66A0(cur);
+      fn_82BE5340(&self->requests);
     }
-    fn_82BE66A0();
-  } while( true );
+  }
+  fn_82BEA230(self->lock, "CRequestManager::PrepareForShutdown");
+  return 0;
 }
-

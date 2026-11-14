@@ -1,30 +1,39 @@
-extern int fn_8267BE38();
+typedef struct Object_8269CEE0 {
+    void *vt;
+    int refs;
+} Object_8269CEE0;
 
+typedef struct Proxy_8269CEE0 {
+    int refs;
+    Object_8269CEE0 *object;
+} Proxy_8269CEE0;
 
-unsigned int * fn_8269CEE0(unsigned int *param_1,int *param_2)
+typedef struct WeakPtr_8269CEE0 {
+    Proxy_8269CEE0 *proxy;
+} WeakPtr_8269CEE0;
 
+typedef struct Ptr_8269CEE0 {
+    Object_8269CEE0 *p;
+} Ptr_8269CEE0;
+
+extern void fn_8267BE38(void *p);
+
+static __forceinline int IsAlive(Proxy_8269CEE0 *p) { return p->object != 0; }
+static __forceinline Object_8269CEE0 *GetObj(Proxy_8269CEE0 *p) { return p->object; }
+static __forceinline void Release(Proxy_8269CEE0 *p) { if (--p->refs == 0) fn_8267BE38(p); }
+Ptr_8269CEE0 *fn_8269CEE0(Ptr_8269CEE0 *result, WeakPtr_8269CEE0 *weak)
 {
-  unsigned int *puVar1;
-  unsigned int uVar2;
-  
-  puVar1 = (unsigned int *)*param_2;
-  uVar2 = 0;
-  if (puVar1 != (unsigned int *)0x0) {
-    uVar2 = puVar1[1];
-    if (uVar2 == 0) {
-      uVar2 = *puVar1;
-      *puVar1 = (unsigned int)((unsigned __int64)uVar2 - 1);
-      if ((unsigned __int64)uVar2 - 1 == 0) {
-        fn_8267BE38();
-      }
-      *param_2 = 0;
-      uVar2 = 0;
+    Object_8269CEE0 *obj = 0;
+    if ((int)weak->proxy != 0) {
+        if (IsAlive(weak->proxy)) {
+            obj = GetObj(weak->proxy);
+        } else {
+            Release(weak->proxy);
+            weak->proxy = 0;
+        }
     }
-    if (uVar2 != 0) {
-      *(int *)(uVar2 + 4) = *(int *)(uVar2 + 4) + 1;
-    }
-  }
-  *param_1 = uVar2;
-  return param_1;
+    if (obj != 0)
+        obj->refs++;
+    result->p = obj;
+    return result;
 }
-

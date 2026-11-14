@@ -1,31 +1,23 @@
-extern int fn_827DF1D0();
-extern int fn_827DFB88();
-extern int fn_827E25C8();
-extern int fn_827E25F8();
-extern int fn_827E2600();
+typedef struct Mgr_827E0008 Mgr_827E0008;
+typedef struct Item_827E0008 Item_827E0008;
 
+extern Item_827E0008 *fn_827DF1D0(Mgr_827E0008 *self, int key);
+extern int fn_827E25F8(Item_827E0008 *item);
+extern void fn_827E25C8(Item_827E0008 *item);
+extern unsigned char fn_827E2600(Item_827E0008 *item);
+extern void fn_827DFB88(Mgr_827E0008 *self, Item_827E0008 *item);
 
-unsigned __int64 fn_827E0008(unsigned __int64 param_1,unsigned __int64 param_2,int *param_3)
-
+int fn_827E0008(Mgr_827E0008 *self, int key, Item_827E0008 **out)
 {
-  int iVar1;
-  short sVar2;
-  char cVar3;
-  unsigned __int64 uVar4;
-  
-  uVar4 = 0xffff;
-  iVar1 = fn_827DF1D0();
-  *param_3 = iVar1;
-  if (iVar1 != 0) {
-    sVar2 = fn_827E25F8();
-    if (sVar2 != 0) {
-      fn_827E25C8(*param_3);
-      uVar4 = fn_827E25F8(*param_3);
-      if (((uVar4 & 0xffff) == 0) && (cVar3 = fn_827E2600(*param_3), cVar3 != '\0')) {
-        fn_827DFB88(param_1,*param_3);
-      }
+    unsigned int result = 0xffff;
+    *out = fn_827DF1D0(self, key);
+    if (*out != 0) {
+        if ((unsigned short)fn_827E25F8(*out) == 0)
+            return result;
+        fn_827E25C8(*out);
+        result = fn_827E25F8(*out);
+        if ((unsigned short)result == 0 && fn_827E2600(*out) != 0)
+            fn_827DFB88(self, *out);
     }
-  }
-  return uVar4;
+    return result;
 }
-

@@ -1,30 +1,15 @@
-extern int fn_82A36B70();
+typedef struct Object_82A1BC10 {
+    int unk0;
+    int state;
+} Object_82A1BC10;
 
+extern int fn_82A2B6B0(Object_82A1BC10 *self, void *buffer, unsigned int *size, void *source, unsigned int max);
 
-unsigned __int64
-fn_82A1BC10(int param_1,unsigned __int64 param_2,unsigned int *param_3,unsigned __int64 param_4,int param_5)
-
+int fn_82A1BC10(Object_82A1BC10 *self, void *buffer, unsigned int *size, void *source, unsigned int max)
 {
-  int iVar1;
-  
-  if (*(int *)(param_1 + 4) != 1) {
-    return 0xffffffff80004005;
-  }
-  if (param_5 == 0) {
-    *param_3 = 0;
-  }
-  else {
-    iVar1 = fn_82A36B70(param_1);
-    if (iVar1 != 0) {
-      if (iVar1 == 1) {
-        return 0xffffffff8007000e;
-      }
-      if (iVar1 != 6) {
-        return 0xffffffff80004005;
-      }
-      return 0xffffffff81de2001;
+    int hr = 0x80004005;
+    if (self->state == 1) {
+        hr = fn_82A2B6B0(self, buffer, size, source, max);
     }
-  }
-  return 0;
+    return hr;
 }
-

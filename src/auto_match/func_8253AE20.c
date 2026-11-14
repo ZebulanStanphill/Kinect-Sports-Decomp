@@ -1,31 +1,19 @@
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
+extern const float lbl_821CA45C[2];
 
-
-unsigned __int64 fn_8253AE20(float *param_1,float *param_2,float *param_3,float *param_4,float *param_5)
-
+int fn_8253AE20(float *a, float *b, float *c, float *d, float *out)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  float fVar5;
-  float fVar6;
-  float fVar7;
-  
-  fVar1 = *param_1 - *param_2;
-  fVar4 = param_4[2] - param_3[2];
-  fVar2 = param_2[2] - param_1[2];
-  fVar5 = *param_3 - *param_4;
-  fVar3 = *param_2 * param_1[2] - *param_1 * param_2[2];
-  fVar6 = *param_4 * param_3[2] - *param_3 * param_4[2];
-  fVar7 = fVar5 * fVar2 - fVar4 * fVar1;
-  if (fVar7 == ltcg_pool_0_0f) {
+  float dz1 = b[2] - a[2];
+  float dx1 = a[0] - b[0];
+  float c1 = b[0] * a[2] - a[0] * b[2];
+  float dz2 = d[2] - c[2];
+  float dx2 = c[0] - d[0];
+  float c2 = d[0] * c[2] - c[0] * d[2];
+  float det = dx2 * dz1 - dz2 * dx1;
+  float inv;
+  if (det == 0.0f)
     return 0;
-  }
-  fVar7 = lbl_821CA460 / fVar7;
-  param_5[2] = (fVar4 * fVar3 - fVar6 * fVar2) * fVar7;
-  *param_5 = (fVar6 * fVar1 - fVar5 * fVar3) * fVar7;
+  inv = lbl_821CA45C[1] / det;
+  out[2] = (dz2 * c1 - c2 * dz1) * inv;
+  out[0] = (c2 * dx1 - dx2 * c1) * inv;
   return 1;
 }
-

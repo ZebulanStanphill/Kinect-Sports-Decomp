@@ -1,42 +1,39 @@
-extern int fn_82AB15D0();
-extern int fn_82B6B340();
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
 
+#define HT_ASSERT(e, line) \
+    if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\util\\hashtable.cpp", line)
 
-int * fn_82B6E5C0(unsigned __int64 param_1,int (**param_2)(),int param_3,unsigned __int64 param_4,
-                   unsigned __int64 param_5)
+typedef void *(*Alloc_82B6E5C0)(void *context, unsigned int size);
 
+typedef struct SHashTable_82B6E5C0 {
+    void **pHashTable;
+    void *context;
+    Alloc_82B6E5C0 alloc;
+    void *free;
+    void *listContext;
+    unsigned int size;
+} SHashTable_82B6E5C0;
+
+extern void *fn_82B6B340(void *listContext);
+
+SHashTable_82B6E5C0 *fn_82B6E5C0(void *context, Alloc_82B6E5C0 alloc, void *free, void *listContext, unsigned int size)
 {
-  int *piVar2;
-  unsigned __int64 uVar1;
-  unsigned int uVar3;
-  int iVar4;
-  
-  piVar2 = (int *)(*param_2)(param_1,0x18);
-  if (piVar2 == (int *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820da3a8,0xffffffff820da300,0x1e0);
-  }
-  piVar2[1] = (int)param_1;
-  piVar2[2] = (int)param_2;
-  piVar2[3] = param_3;
-  piVar2[4] = (int)param_4;
-  piVar2[5] = (int)param_5;
-  uVar1 = (*param_2)(param_1,(param_5 & 0x3fffffff) << 2);
-  *piVar2 = (int)uVar1;
-  if ((uVar1 & 0xffffffff) == 0) {
-    fn_82AB15D0(uVar1,0xffffffff820d2ea4,0xffffffff820da390,0xffffffff820da300,0x1ed);
-  }
-  if ((param_5 & 0xffffffff) != 0) {
-    iVar4 = 0;
-    do {
-      uVar3 = fn_82B6B340(param_4);
-      *(unsigned int *)(*piVar2 + iVar4) = uVar3;
-      if (*(int *)(*piVar2 + iVar4) == 0) {
-        fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820da374,0xffffffff820da300,500);
-      }
-      param_5 = param_5 - 1;
-      iVar4 = iVar4 + 4;
-    } while (param_5 != 0);
-  }
-  return piVar2;
-}
+    SHashTable_82B6E5C0 *pSHashTable;
+    unsigned int i;
 
+    pSHashTable = (SHashTable_82B6E5C0 *)alloc(context, sizeof(SHashTable_82B6E5C0));
+    HT_ASSERT(pSHashTable, 0x1e0);
+    pSHashTable->context = context;
+    pSHashTable->alloc = alloc;
+    pSHashTable->free = free;
+    pSHashTable->listContext = listContext;
+    pSHashTable->size = size;
+    pSHashTable->pHashTable = (void **)alloc(context, size * sizeof(void *));
+    HT_ASSERT(pSHashTable->pHashTable, 0x1ed);
+    for (i = 0; i < size; i++) {
+        pSHashTable->pHashTable[i] = fn_82B6B340(listContext);
+        HT_ASSERT(pSHashTable->pHashTable[i], 0x1f4);
+    }
+    return pSHashTable;
+}

@@ -1,54 +1,70 @@
-extern unsigned int *auStack_40;
-extern int fn_82E50330();
-extern unsigned int uStack_38;
+typedef struct Unknown_82E51DE8 Unknown_82E51DE8;
 
+typedef struct Desc_82E51DE8 {
+    char pad0[8];
+    unsigned int bits;
+    char padc[0x88 - 0xc];
+    unsigned __int64 size;
+} Desc_82E51DE8;
 
-unsigned __int64 fn_82E51DE8(unsigned __int64 param_1,unsigned int *param_2,int *param_3,unsigned int *param_4)
+typedef struct UnknownVtbl_82E51DE8 {
+    int (*QueryInterface)(Unknown_82E51DE8 *self, const void *iid, void *out);
+    unsigned int (*AddRef)(Unknown_82E51DE8 *self);
+    unsigned int (*Release)(Unknown_82E51DE8 *self);
+    void *slots[0x98 / 4 - 3];
+    Desc_82E51DE8 *(*GetDesc)(Unknown_82E51DE8 *self);
+} UnknownVtbl_82E51DE8;
 
+struct Unknown_82E51DE8 {
+    UnknownVtbl_82E51DE8 *vt;
+};
+
+typedef struct Variant_82E51DE8 {
+    __int64 words[2];
+} Variant_82E51DE8;
+
+extern char lbl_821531C8[];
+extern char lbl_821531D8[];
+extern int fn_82E50330(Variant_82E51DE8 *v);
+extern void *memset(void *, int, unsigned int);
+
+int fn_82E51DE8(void *self, Unknown_82E51DE8 *source, unsigned int *size, unsigned int *other)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  int *piStack_50;
-  int * apiStack_4c;
-  unsigned char auStack_40 [8];
-  unsigned __int64 uStack_38;
-  
-  if (((param_2 == (unsigned int *)0x0) || (param_3 == (int *)0x0)) || (param_4 == (unsigned int *)0x0))
-  {
-    return 0xffffffff80004003;
-  }
-  *param_3 = 0;
-  *param_4 = 0;
-  piStack_50 = (int *)0x0;
-  uVar2 = 0;
-  uStack_38 = 0;
-  apiStack_4c = (int *)0x0;
-  iVar1 = (**(int (***)())*param_2)(param_2,0xffffffff821531c8,&piStack_50);
-  if (iVar1 < 0) {
-    iVar1 = (**(int (***)())*param_2)(param_2,0xffffffff821531d8,&apiStack_4c);
-    if (iVar1 < 0) goto LAB_82e51ee4;
-    iVar1 = (**(int (***)())(*apiStack_4c + 0x98))();
-    iVar1 = (int)*(unsigned __int64 *)(iVar1 + 0x88);
-  }
-  else {
-    iVar1 = (**(int (***)())(*piStack_50 + 0x98))();
-    if ((*(unsigned int *)(iVar1 + 8) & 0x7fffff00) == 0x7fffff00) {
-      uVar2 = 0xffffffffc00d3aa0;
-      goto LAB_82e51ee4;
-    }
-    iVar1 = *(unsigned int *)(iVar1 + 8) << 3;
-  }
-  *param_3 = iVar1;
-LAB_82e51ee4:
-  if (piStack_50 != (int *)0x0) {
-    (**(int (***)())(*piStack_50 + 8))();
-    piStack_50 = (int *)0x0;
-  }
-  if (apiStack_4c != (int *)0x0) {
-    (**(int (***)())(*apiStack_4c + 8))();
-    apiStack_4c = (int *)0x0;
-  }
-  fn_82E50330(auStack_40);
-  return uVar2;
-}
+    Unknown_82E51DE8 *a;
+    Unknown_82E51DE8 *b;
+    Variant_82E51DE8 var;
+    int hr;
+    Desc_82E51DE8 *d;
 
+    if (source == 0 || size == 0 || other == 0)
+        return 0x80004003;
+    *size = 0;
+    *other = 0;
+    a = 0;
+    memset(&var, 0, sizeof(var));
+    hr = 0;
+    b = 0;
+    if (source->vt->QueryInterface(source, lbl_821531C8, &a) >= 0) {
+        d = a->vt->GetDesc(a);
+        if ((d->bits & 0x7fffff00) == 0x7fffff00) {
+            hr = 0xc00d3aa0;
+            goto done;
+        }
+        *size = d->bits << 3;
+    } else {
+        if (source->vt->QueryInterface(source, lbl_821531D8, &b) < 0)
+            goto done;
+        *size = (unsigned int)b->vt->GetDesc(b)->size;
+    }
+done:
+    if (a != 0) {
+        a->vt->Release(a);
+        a = 0;
+    }
+    if (b != 0) {
+        b->vt->Release(b);
+        b = 0;
+    }
+    fn_82E50330(&var);
+    return hr;
+}

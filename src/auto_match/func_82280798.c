@@ -1,41 +1,50 @@
-extern int fn_82279DA8();
-extern int fn_82280B40();
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Ref_82280798 {
+    void *ptr;
+    int count;
+} Ref_82280798;
 
+typedef struct Self_82280798 {
+    char pad0[0x50];
+    int f50;
+    int pad54;
+    int f58;
+    char pad5c[0x64 - 0x5c];
+    Ref_82280798 ref;
+    int f6c;
+    float range[2];
+    unsigned char hasRange;
+    unsigned char f79;
+} Self_82280798;
 
-void fn_82280798(int param_1,unsigned int *param_2,unsigned int *param_3,char param_4)
+extern void fn_82280B40(Ref_82280798 *ref);
+extern void fn_82279DA8(void *ptr, int flags);
 
+void fn_82280798(Self_82280798 *self, Ref_82280798 *src, float *range, unsigned char flag)
 {
-  unsigned int uVar1;
-  unsigned int *puVar2;
-  
-  puVar2 = (unsigned int *)(param_1 + 100);
-  if (*(int *)(param_1 + 100) == 0) {
-    *(unsigned int *)(param_1 + 0x68) = 0;
-  }
-  else {
-    fn_82280B40(puVar2);
-  }
-  *(unsigned int *)(param_1 + 0x6c) = 1;
-  *puVar2 = *param_2;
-  *(unsigned int *)(param_1 + 0x68) = param_2[1];
-  uVar1 = ltcg_pool_0_0f;
-  if (param_3 == (unsigned int *)0x0) {
-    *(unsigned int *)(param_1 + 0x74) = ltcg_pool_0_0f;
-    *(unsigned int *)(param_1 + 0x70) = uVar1;
-    *(unsigned char *)(param_1 + 0x78) = 0;
-  }
-  else {
-    *(unsigned int *)(param_1 + 0x70) = *param_3;
-    *(unsigned int *)(param_1 + 0x74) = param_3[1];
-    *(unsigned char *)(param_1 + 0x78) = 1;
-  }
-  *(char *)(param_1 + 0x79) = param_4;
-  fn_82279DA8(*puVar2,0);
-  if (param_4 != '\0') {
-    *(unsigned int *)(param_1 + 0x50) = 0;
-    *(unsigned int *)(param_1 + 0x58) = 0;
-  }
-  return;
-}
+    Ref_82280798 *ref = &self->ref;
 
+    if (ref->ptr != 0)
+        fn_82280B40(ref);
+    else
+        ref->count = 0;
+    self->f6c = 1;
+    ref->ptr = src->ptr;
+    ref->count = src->count;
+    if (range != 0) {
+        float *r = self->range;
+        r[0] = range[0];
+        r[1] = range[1];
+        self->hasRange = 1;
+    } else {
+        float *r = self->range;
+        r[1] = 0.0f;
+        r[0] = 0.0f;
+        self->hasRange = 0;
+    }
+    self->f79 = flag;
+    fn_82279DA8(ref->ptr, 0);
+    if (flag) {
+        self->f50 = 0;
+        self->f58 = 0;
+    }
+}

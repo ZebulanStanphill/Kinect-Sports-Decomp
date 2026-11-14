@@ -1,18 +1,23 @@
-unsigned __int64 fn_83000608(int param_1)
+typedef struct Node_83000608 Node_83000608;
+typedef struct {
+    void *slot[0x3f];
+    int (*getValue)(Node_83000608 *self);      /* 0xfc */
+} NodeVtbl_83000608;
+struct Node_83000608 {
+    NodeVtbl_83000608 *vt;
+    char pad4[0xc];
+    int parent;                 /* 0x10 */
+    char pad14[0x14];
+    int value;                  /* 0x28 */
+    char pad2c[0x12];
+    unsigned char flags;        /* 0x3e */
+};
 
+int fn_83000608(Node_83000608 *self)
 {
-  int *piVar1;
-  unsigned __int64 uVar2;
-  
-  if ((*(unsigned char *)(param_1 + 0x3e) & 0x80) == 0) {
-    piVar1 = *(int **)(param_1 + 0x10);
-    if (piVar1 != (int *)0x0) {
-                    /* WARNING: Could not recover jumptable at 0x83000634. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-      uVar2 = (**(int (***)())(*piVar1 + 0xfc))(piVar1);
-      return uVar2;
-    }
-  }
-  return (unsigned __int64)*(unsigned int *)(param_1 + 0x28);
-}
+    int parent;
 
+    if ((self->flags & 0x80) == 0 && (parent = self->parent) != 0)
+        return ((Node_83000608 *)parent)->vt->getValue((Node_83000608 *)parent);
+    return self->value;
+}

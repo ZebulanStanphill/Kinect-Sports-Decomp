@@ -1,24 +1,26 @@
-extern int fn_8267BE38();
-extern int fn_8278BC88();
-extern int fn_82F68CC0();
+typedef struct Data_8278BCF0 {
+    unsigned int count;
+    int items[1];
+} Data_8278BCF0;
 
+typedef struct Obj_8278BCF0 {
+    int pad0[2];
+    Data_8278BCF0 *data;
+} Obj_8278BCF0;
 
-void fn_8278BCF0(int param_1,int *param_2)
+extern void fn_8278BC88(Obj_8278BCF0 *self, unsigned int count);
+extern void fn_8267BE38(void *p);
+extern void *memcpy(void *dst, const void *src, unsigned int size);
 
+void fn_8278BCF0(Obj_8278BCF0 *self, const Data_8278BCF0 *src)
 {
-  int iVar1;
-  
-  if (param_2 == (int *)0x0) {
-    fn_8267BE38(*(unsigned int *)(param_1 + 8));
-    *(unsigned int *)(param_1 + 8) = 0;
-  }
-  else {
-    iVar1 = *param_2;
-    if ((*(int **)(param_1 + 8) == (int *)0x0) || (**(int **)(param_1 + 8) != iVar1)) {
-      fn_8278BC88(param_1,iVar1);
+    if (src != 0) {
+        unsigned int count = src->count;
+        if (self->data == 0 || self->data->count != count)
+            fn_8278BC88(self, count);
+        memcpy(self->data->items, src->items, count * 4);
+    } else {
+        fn_8267BE38(self->data);
+        self->data = 0;
     }
-    fn_82F68CC0((unsigned __int64)*(unsigned int *)(param_1 + 8) + 4,param_2 + 1,iVar1 << 2);
-  }
-  return;
 }
-

@@ -1,63 +1,51 @@
-extern unsigned int ltcg_pool_0_0f;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __VMXGetReg(int n);
 
-void fn_8236B080(int param_1)
+typedef struct Obj_8236B080 {
+    char pad0[0xf00];
+    int fF00;                   /* 0xf00 */
+    char padF04[0xc];
+    __vector4 v[5];             /* 0xf10 */
+    int fF60;                   /* 0xf60 */
+    char padF64[0xc];
+    __vector4 w[2];             /* 0xf70 */
+    float fF90;                 /* 0xf90 */
+    int fF94;
+    int fF98;
+    int fF9C;
+    int fFA0;
+    int fFA4;
+    float fFA8;                 /* 0xfa8 */
+    float fFAC;
+    float fFB0;
+} Obj_8236B080;
 
+static __forceinline void Store(__vector4 *d, __vector4 v)
 {
-  unsigned int *puVar1;
-  unsigned int uVar2;
-  unsigned int in_register_000104d0;
-  unsigned int in_register_000104d4;
-  unsigned int in_register_000104d8;
-  unsigned int in_vr77;
-  
-  uVar2 = ltcg_pool_0_0f;
-  *(unsigned int *)(param_1 + 0xf90) = ltcg_pool_0_0f;
-  *(unsigned int *)(param_1 + 0xfa8) = uVar2;
-  *(unsigned int *)(param_1 + 0xfac) = uVar2;
-  *(unsigned int *)(param_1 + 0xfb0) = uVar2;
-  *(unsigned int *)(param_1 + 0xf60) = 0;
-  puVar1 = (unsigned int *)(param_1 + 0xf10U & 0xfffffff0);
-  *puVar1 = in_register_000104d0;
-  puVar1[1] = in_register_000104d4;
-  puVar1[2] = in_register_000104d8;
-  puVar1[3] = in_vr77;
-  *(unsigned int *)(param_1 + 0xf00) = 0xffffffff;
-  puVar1 = (unsigned int *)(param_1 + 0xf20U & 0xfffffff0);
-  *puVar1 = in_register_000104d0;
-  puVar1[1] = in_register_000104d4;
-  puVar1[2] = in_register_000104d8;
-  puVar1[3] = in_vr77;
-  *(unsigned int *)(param_1 + 0xf94) = 0;
-  puVar1 = (unsigned int *)(param_1 + 0xf30U & 0xfffffff0);
-  *puVar1 = in_register_000104d0;
-  puVar1[1] = in_register_000104d4;
-  puVar1[2] = in_register_000104d8;
-  puVar1[3] = in_vr77;
-  *(unsigned int *)(param_1 + 0xf98) = 0;
-  puVar1 = (unsigned int *)(param_1 + 0xf40U & 0xfffffff0);
-  *puVar1 = in_register_000104d0;
-  puVar1[1] = in_register_000104d4;
-  puVar1[2] = in_register_000104d8;
-  puVar1[3] = in_vr77;
-  *(unsigned int *)(param_1 + 0xf9c) = 0;
-  puVar1 = (unsigned int *)(param_1 + 0xf50U & 0xfffffff0);
-  *puVar1 = in_register_000104d0;
-  puVar1[1] = in_register_000104d4;
-  puVar1[2] = in_register_000104d8;
-  puVar1[3] = in_vr77;
-  *(unsigned int *)(param_1 + 4000) = 0;
-  puVar1 = (unsigned int *)(param_1 + 0xf70U & 0xfffffff0);
-  *puVar1 = in_register_000104d0;
-  puVar1[1] = in_register_000104d4;
-  puVar1[2] = in_register_000104d8;
-  puVar1[3] = in_vr77;
-  *(unsigned int *)(param_1 + 0xfa4) = 0;
-  puVar1 = (unsigned int *)(param_1 + 0xf80U & 0xfffffff0);
-  *puVar1 = in_register_000104d0;
-  puVar1[1] = in_register_000104d4;
-  puVar1[2] = in_register_000104d8;
-  puVar1[3] = in_vr77;
-  return;
+    *d = v;
 }
 
+void fn_8236B080(Obj_8236B080 *self)
+{
+    self->fF90 = 0.0f;
+    self->fFA8 = 0.0f;
+    self->fFAC = 0.0f;
+    self->fFB0 = 0.0f;
+    self->fF60 = 0;
+    Store(&self->v[0], __VMXGetReg(77));
+    self->fF00 = -1;
+    Store(&self->v[1], __VMXGetReg(77));
+    self->fF94 = 0;
+    Store(&self->v[2], __VMXGetReg(77));
+    self->fF98 = 0;
+    Store(&self->v[3], __VMXGetReg(77));
+    self->fF9C = 0;
+    Store(&self->v[4], __VMXGetReg(77));
+    self->fFA0 = 0;
+    Store(&self->w[0], __VMXGetReg(77));
+    self->fFA4 = 0;
+    Store(&self->w[1], __VMXGetReg(77));
+}

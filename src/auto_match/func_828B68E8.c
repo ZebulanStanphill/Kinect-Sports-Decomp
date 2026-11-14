@@ -1,46 +1,34 @@
-extern int fn_828B9180();
+typedef struct Elem_828B68E8 {
+  int key;
+  int value;
+} Elem_828B68E8;
 
+extern float fn_828B9180(int key);
 
-void fn_828B68E8(unsigned int *param_1,unsigned int *param_2,unsigned int *param_3)
-
+static __forceinline unsigned char Pred(int l, int r)
 {
-  unsigned int uVar1;
-  double dVar2;
-  double dVar3;
-  
-  uVar1 = *param_1;
-  dVar2 = (double)fn_828B9180(*param_2);
-  dVar3 = (double)fn_828B9180(uVar1);
-  if (dVar3 < dVar2) {
-    uVar1 = param_2[1];
-    param_2[1] = param_1[1];
-    param_1[1] = uVar1;
-    uVar1 = *param_2;
-    *param_2 = *param_1;
-    *param_1 = uVar1;
-  }
-  uVar1 = *param_2;
-  dVar2 = (double)fn_828B9180(*param_3);
-  dVar3 = (double)fn_828B9180(uVar1);
-  if (dVar3 < dVar2) {
-    uVar1 = param_3[1];
-    param_3[1] = param_2[1];
-    param_2[1] = uVar1;
-    uVar1 = *param_3;
-    *param_3 = *param_2;
-    *param_2 = uVar1;
-  }
-  uVar1 = *param_1;
-  dVar2 = (double)fn_828B9180(*param_2);
-  dVar3 = (double)fn_828B9180(uVar1);
-  if (dVar3 < dVar2) {
-    uVar1 = param_2[1];
-    param_2[1] = param_1[1];
-    param_1[1] = uVar1;
-    uVar1 = *param_2;
-    *param_2 = *param_1;
-    *param_1 = uVar1;
-  }
-  return;
+  return fn_828B9180(l) > fn_828B9180(r);
 }
 
+static __forceinline void swap_int(int *x, int *y)
+{
+  int t = *x;
+  *x = *y;
+  *y = t;
+}
+
+void fn_828B68E8(Elem_828B68E8 *a, Elem_828B68E8 *b, Elem_828B68E8 *c)
+{
+  if (Pred(b->key, a->key)) {
+    swap_int(&b->value, &a->value);
+    swap_int(&b->key, &a->key);
+  }
+  if (Pred(c->key, b->key)) {
+    swap_int(&c->value, &b->value);
+    swap_int(&c->key, &b->key);
+  }
+  if (Pred(b->key, a->key)) {
+    swap_int(&b->value, &a->value);
+    swap_int(&b->key, &a->key);
+  }
+}

@@ -1,41 +1,27 @@
-typedef unsigned char bool;
-extern int fn_82812380();
-extern int fn_82A1E7D8();
-extern unsigned __int64 storeWordConditionalIndexed();
+#define __lwsync() __emit(0x7C2004AC)
+typedef struct _RTL_CRITICAL_SECTION RTL_CRITICAL_SECTION;
+extern void RtlEnterCriticalSection(RTL_CRITICAL_SECTION *cs);
+extern void RtlLeaveCriticalSection(RTL_CRITICAL_SECTION *cs);
+extern long _InterlockedIncrement(long volatile *);
+extern long fn_82812380(long *count, long limit);
+extern void fn_82A1E7D8(void *event);
 
+typedef struct Lock_828133A8 {
+    long count;       /* +0x0 */
+    char cs[0x1c];    /* +0x4 */
+    void *event;      /* +0x20 */
+} Lock_828133A8;
 
-void fn_828133A8(__int64 param_1)
-
+void fn_828133A8(Lock_828133A8 *self)
 {
-  unsigned int uVar1;
-  bool bVar2;
-  unsigned __int64 uVar3;
-  unsigned int *puVar4;
-  char in_RESERVE;
-  unsigned char bVar5;
-  
-  uVar3 = fn_82812380(param_1,0x10000);
-  bVar2 = (uVar3 & 0xffff0000) == 0;
-  bVar5 = bVar2 << 1;
-  puVar4 = (unsigned int *)param_1;
-  if (bVar2) {
-    sync(1);
-  }
-  else {
-    RtlEnterCriticalSection(param_1 + 4);
-    do {
-      uVar3 = (unsigned __int64)*puVar4 + 1;
-      if (in_RESERVE != '\0') {
-        uVar1 = storeWordConditionalIndexed(uVar3,0,param_1);
-        *puVar4 = uVar1;
-        bVar5 = 2;
-      }
-    } while (!(bool)(bVar5 >> 1 & 1));
-    RtlLeaveCriticalSection(param_1 + 4);
-  }
-  if (((unsigned int)uVar3 & 0xffff) == 1) {
-    fn_82A1E7D8(puVar4[8]);
-  }
-  return;
+    long count = fn_82812380(&self->count, 0x10000);
+    if ((count & 0xffff0000) == 0) {
+        __lwsync();
+    } else {
+        RtlEnterCriticalSection((RTL_CRITICAL_SECTION *)self->cs);
+        count = _InterlockedIncrement(&self->count);
+        RtlLeaveCriticalSection((RTL_CRITICAL_SECTION *)self->cs);
+    }
+    if ((count & 0xffff) == 1)
+        fn_82A1E7D8(self->event);
 }
-

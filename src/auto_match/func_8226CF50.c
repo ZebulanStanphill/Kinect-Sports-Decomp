@@ -1,124 +1,33 @@
-void fn_8226CF50(double param_1,double param_2,int param_3,int param_4,int param_5,int param_6)
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Matrix_8226CF50 {
+    __vector4 r[4];
+} Matrix_8226CF50;
+
+typedef struct Obj_8226CF50 {
+    char pad0[0x75];
+    unsigned char dirty;
+    char pad76[0x80 - 0x76];
+    Matrix_8226CF50 world;
+    Matrix_8226CF50 view;
+    Matrix_8226CF50 proj;
+    float nearZ;
+    float farZ;
+} Obj_8226CF50;
+
+static __forceinline void Copy(Matrix_8226CF50 *d, const Matrix_8226CF50 *s)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int in_r0;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  
-  *(unsigned char *)(param_3 + 0x75) = 1;
-  puVar1 = (unsigned int *)(in_r0 + param_4 & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (unsigned int *)(in_r0 + param_3 + 0x80 & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  puVar1 = (unsigned int *)(param_4 + 0x10U & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (unsigned int *)(param_3 + 0x90U & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  puVar1 = (unsigned int *)(param_4 + 0x20U & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (unsigned int *)(param_3 + 0xa0U & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  puVar1 = (unsigned int *)(param_4 + 0x30U & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (unsigned int *)(param_3 + 0xb0U & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  puVar1 = (unsigned int *)(in_r0 + param_5 & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (unsigned int *)(in_r0 + param_3 + 0xc0 & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  puVar1 = (unsigned int *)(param_5 + 0x10U & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (unsigned int *)(param_3 + 0xd0U & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  puVar1 = (unsigned int *)(param_5 + 0x20U & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (unsigned int *)(param_3 + 0xe0U & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  puVar1 = (unsigned int *)(param_5 + 0x30U & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (unsigned int *)(param_3 + 0xf0U & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  puVar1 = (unsigned int *)(in_r0 + param_6 & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (unsigned int *)(in_r0 + param_3 + 0x100 & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  puVar1 = (unsigned int *)(param_6 + 0x10U & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (unsigned int *)(param_3 + 0x110U & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  puVar1 = (unsigned int *)(param_6 + 0x20U & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (unsigned int *)(param_3 + 0x120U & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  puVar1 = (unsigned int *)(param_6 + 0x30U & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (unsigned int *)(param_3 + 0x130U & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  *(float *)(param_3 + 0x140) = (float)param_1;
-  *(float *)(param_3 + 0x144) = (float)param_2;
-  return;
+    d->r[0] = s->r[0]; d->r[1] = s->r[1]; d->r[2] = s->r[2]; d->r[3] = s->r[3];
 }
-
+void fn_8226CF50(Obj_8226CF50 *self, const Matrix_8226CF50 *world, const Matrix_8226CF50 *view,
+                 const Matrix_8226CF50 *proj, float nearZ, float farZ)
+{
+    self->dirty = 1;
+    Copy(&self->world, world);
+    Copy(&self->view, view);
+    Copy(&self->proj, proj);
+    self->nearZ = nearZ;
+    self->farZ = farZ;
+}

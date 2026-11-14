@@ -1,29 +1,9 @@
-typedef unsigned char bool;
-extern unsigned int lbl_820082F4;
-extern unsigned int stack0x00000010;
-extern unsigned int stack0x00000018;
-extern unsigned int uStack00000010;
+/* Is the value negative zero (bit-identical to the double -0.0 at lbl_820082F4)? */
+int memcmp(const void *a, const void *b, unsigned int n);
 
+extern const double lbl_820082F4;
 
-bool fn_826BC9E0(unsigned __int64 param_1)
-
+int fn_826BC9E0(double value)
 {
-  unsigned char bVar1;
-  unsigned char bVar2;
-  unsigned char *pbVar3;
-  unsigned char *pbVar4;
-  unsigned __int64 uStack00000010;
-  
-  uStack00000010 = param_1;
-  pbVar4 = (unsigned char *)&stack0x00000010;
-  pbVar3 = &lbl_820082F4;
-  do {
-    bVar1 = *pbVar4;
-    bVar2 = *pbVar3;
-    if ((unsigned __int64)bVar1 - (unsigned __int64)bVar2 != 0) break;
-    pbVar4 = pbVar4 + 1;
-    pbVar3 = pbVar3 + 1;
-  } while (pbVar4 != &stack0x00000018);
-  return (int)((unsigned __int64)bVar1 - (unsigned __int64)bVar2) == 0;
+    return memcmp(&value, &lbl_820082F4, sizeof(double)) == 0;
 }
-

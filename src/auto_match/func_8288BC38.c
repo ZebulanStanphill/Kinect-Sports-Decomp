@@ -1,36 +1,25 @@
-extern int fn_82897620();
-extern int fn_8289B608();
-extern int fn_82F622E0();
+typedef struct ListHdr_8288BC38 { int f0; int f4; unsigned int count; } ListHdr_8288BC38;
+typedef struct List_8288BC38 { char pad[0x10]; ListHdr_8288BC38 *hdr; } List_8288BC38;
+struct Owner_8288BC38;
+typedef struct OwnerVt_8288BC38 { void *f0; void *f4; List_8288BC38 *(*getList)(struct Owner_8288BC38 *); } OwnerVt_8288BC38;
+typedef struct Owner_8288BC38 { OwnerVt_8288BC38 *vt; } Owner_8288BC38;
+typedef struct Vec_8288BC38 { void **first; void **last; void **end; } Vec_8288BC38;
 
+extern void *fn_82897620(List_8288BC38 *l, unsigned int i);
+extern void fn_8289B608(void *item, void *value);
+extern __declspec(noreturn) void fn_82F622E0(const char *msg);
 
-void fn_8288BC38(int *param_1,int *param_2)
-
+void fn_8288BC38(Owner_8288BC38 *o, Vec_8288BC38 *v)
 {
-  int iVar2;
-  unsigned __int64 uVar1;
-  int iVar3;
-  unsigned __int64 uVar4;
-  
-  uVar4 = 0;
-  iVar2 = (**(int (***)())(*param_1 + 8))();
-  if (*(int *)(*(int *)(iVar2 + 0x10) + 8) != 0) {
-    iVar2 = 0;
-    do {
-      if ((unsigned __int64)(unsigned int)(param_2[1] - *param_2 >> 2) <= (uVar4 & 0xffffffff)) {
-                    /* WARNING: Subroutine does not return */
-        fn_82F622E0(0xffffffff821ae698);
-      }
-      iVar3 = *(int *)(iVar2 + *param_2);
-      if (iVar3 != 0) {
-        uVar1 = (**(int (***)())(*param_1 + 8))(param_1);
-        uVar1 = fn_82897620(uVar1,uVar4);
-        fn_8289B608(uVar1,iVar3);
-      }
-      uVar4 = uVar4 + 1;
-      iVar2 = iVar2 + 4;
-      iVar3 = (**(int (***)())(*param_1 + 8))(param_1);
-    } while ((uVar4 & 0xffffffff) < (unsigned __int64)*(unsigned int *)(*(int *)(iVar3 + 0x10) + 8));
-  }
-  return;
+    unsigned int i;
+    for (i = 0; i < o->vt->getList(o)->hdr->count; i++) {
+        void *e;
+        if ((unsigned int)(v->last - v->first) <= i) {
+            fn_82F622E0("invalid vector<T> subscript");
+        }
+        e = v->first[i];
+        if (e != 0) {
+            fn_8289B608(fn_82897620(o->vt->getList(o), i), e);
+        }
+    }
 }
-

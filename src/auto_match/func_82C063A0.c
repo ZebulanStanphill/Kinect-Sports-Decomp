@@ -1,29 +1,21 @@
-typedef unsigned char bool;
-extern unsigned __int64 storeWordConditionalIndexed();
+extern long _InterlockedDecrement(long volatile *);
 
+typedef struct Obj_82C063A0 Obj_82C063A0;
+typedef struct ObjVtbl_82C063A0 {
+    void (*destroy)(Obj_82C063A0 *self, int flags);
+} ObjVtbl_82C063A0;
 
-__int64 fn_82C063A0(__int64 param_1)
+struct Obj_82C063A0 {
+    ObjVtbl_82C063A0 *vtbl;
+    int pad4[2];
+    unsigned long refs;
+};
 
+unsigned long fn_82C063A0(Obj_82C063A0 *self)
 {
-  unsigned int uVar1;
-  __int64 lVar2;
-  unsigned int *puVar3;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  if (((unsigned int *)param_1)[3] == 1) {
-    (**(int (***)())*(unsigned int *)param_1)(param_1,1);
-    return 0;
-  }
-  do {
-    puVar3 = (unsigned int *)(param_1 + 0xc);
-    lVar2 = (unsigned __int64)*puVar3 - 1;
-    if (in_RESERVE != '\0') {
-      uVar1 = storeWordConditionalIndexed(lVar2,0,param_1 + 0xc);
-      *puVar3 = uVar1;
-      in_cr0 = 2;
+    if (self->refs == 1) {
+        self->vtbl->destroy(self, 1);
+        return 0;
     }
-  } while (!(bool)(in_cr0 >> 1 & 1));
-  return lVar2;
+    return _InterlockedDecrement((long *)&self->refs);
 }
-

@@ -1,17 +1,23 @@
-unsigned __int64 fn_829EC618(int param_1,unsigned int *param_2)
+typedef struct Self_829EC618 {
+    char pad0[8];
+    void *data;             /* 0x08 */
+    char padc[8];
+    unsigned short count;   /* 0x14 */
+    char pad16[0x16];
+    unsigned short *ids;    /* 0x2c */
+} Self_829EC618;
 
+int fn_829EC618(Self_829EC618 *self, unsigned int *out)
 {
-  if (param_2 == (unsigned int *)0x0) {
-    return 0xffffffff80070057;
-  }
-  *param_2 = 0;
-  if (*(int *)(param_1 + 8) == 0) {
-    return 0xffffffff80004005;
-  }
-  if (*(short *)(param_1 + 0x14) == 0) {
-    return 0xffffffff80004005;
-  }
-  *param_2 = (unsigned int)**(unsigned short **)(param_1 + 0x2c);
-  return 0;
+    int hr = 0x80004005;
+
+    if (out == 0)
+        return 0x80070057;
+    *out = 0;
+    if (self->data != 0 && self->count != 0) {
+        *out = *self->ids;
+        hr = 0;
+    }
+    return hr;
 }
 

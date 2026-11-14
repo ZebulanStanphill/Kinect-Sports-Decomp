@@ -1,32 +1,33 @@
-extern int fn_8265CF70();
-extern int fn_8265ED50();
-extern int fn_8265F570();
-extern unsigned int lbl_831E7A98;
-extern unsigned int uStack00000014;
-extern unsigned int uStack_10;
-extern unsigned int uStack_c;
+typedef struct Table_8266B430 {
+    unsigned int size;
+    char list[0x58];
+} Table_8266B430;
 
+typedef struct Global_8266B430 {
+    int head;
+    char sub[0x10];
+} Global_8266B430;
 
-int fn_8266B430(unsigned int param_1)
+extern Table_8266B430 lbl_831E7A98;
+extern Global_8266B430 lbl_831E7AF4;
+extern void *fn_8265ED50(void *it);
+extern void *fn_8265F570(void *p);
+extern int fn_8265CF70(void *sub);
 
+int fn_8266B430(int arg)
 {
-  unsigned int uStack00000014;
-  unsigned int uStack_10;
-  unsigned int uStack_c;
-  
-  uStack_10 = 0;
-  uStack00000014 = param_1;
-  if (lbl_831E7A98 == 0x5c) {
-    uStack_c = fn_8265ED50(0xffffffff831e7a9c);
-    while (uStack_c != 0) {
-      uStack_10 = uStack_10 + 1;
-      fn_8265F570((unsigned __int64)uStack_c + 0x3c);
-      uStack_c = fn_8265ED50();
-    }
-  }
-  else {
-    uStack_10 = fn_8265CF70(0xffffffff831e7af8);
-  }
-  return uStack_10;
-}
+    int count;
+    void *node;
 
+    count = 0;
+    if (lbl_831E7A98.size == 0x5c) {
+        node = fn_8265ED50(lbl_831E7A98.list);
+        while (node != 0) {
+            count++;
+            node = fn_8265ED50(fn_8265F570((char *)node + 0x3c));
+        }
+    } else {
+        count = fn_8265CF70(lbl_831E7AF4.sub);
+    }
+    return count;
+}

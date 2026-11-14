@@ -1,68 +1,38 @@
-extern int fn_82F666D0();
-extern unsigned int stack0x00000028;
-extern unsigned int uStack00000028;
-extern unsigned int uStack00000030;
-extern unsigned int uStack00000038;
-extern unsigned int uStack00000040;
-extern unsigned int uStack00000048;
+extern int fn_82F64020(char *buf, unsigned n, const char *fmt, ...);
 
-
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
-
-void fn_82486CA8(unsigned int param_1,unsigned char *param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5,unsigned __int64 param_6,unsigned __int64 param_7)
-
+void fn_82486CA8(int state, char *name)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uStack00000028;
-  unsigned __int64 uStack00000030;
-  unsigned __int64 uStack00000038;
-  unsigned __int64 uStack00000040;
-  unsigned __int64 uStack00000048;
-  
-  *param_2 = 0;
-  switch(param_1) {
+  name[0] = 0;
+  switch (state) {
   case 0:
-    uVar1 = 0xffffffff821be7b0;
+    fn_82F64020(name, 0x14, "No State");
     break;
   case 1:
-    uVar1 = 0xffffffff821be7bc;
+    fn_82F64020(name, 0x14, "Attract Sequence");
     break;
   case 2:
-    uVar1 = 0xffffffff821be7d0;
+    fn_82F64020(name, 0x14, "Calibration");
     break;
   case 3:
-    uVar1 = 0xffffffff821be7dc;
+    fn_82F64020(name, 0x14, "Outside Stadium");
     break;
   case 4:
-    uVar1 = 0xffffffff821be7ec;
+    fn_82F64020(name, 0x14, "Conduct Crowd");
     break;
   case 5:
-    uVar1 = 0xffffffff821be7fc;
+    fn_82F64020(name, 0x14, "Main Flow");
     break;
   case 6:
-    uVar1 = 0xffffffff821be808;
+    fn_82F64020(name, 0x14, "Team Select");
     break;
   case 7:
-    uVar1 = 0xffffffff821be814;
+    fn_82F64020(name, 0x14, "Review Flow");
     break;
   case 8:
-    uVar1 = 0xffffffff821be820;
+    fn_82F64020(name, 0x14, "E3 Flow");
     break;
-  case 9:
-    return;
   case 10:
-    uVar1 = 0xffffffff821be828;
+    fn_82F64020(name, 0x14, "Starting Game");
     break;
-  default:
-    return;
   }
-  uStack00000048 = 0;
-  uStack00000028 = param_4;
-  uStack00000030 = param_5;
-  uStack00000038 = param_6;
-  uStack00000040 = param_7;
-  fn_82F666D0(param_2,0x14,uVar1,0,&stack0x00000028);
-  return;
 }
-
