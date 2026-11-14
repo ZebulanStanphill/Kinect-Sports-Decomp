@@ -1,27 +1,31 @@
-extern unsigned int *auStack_90;
-extern int fn_82817C98();
-extern int fn_828182C0();
-extern int fn_82F6DCE0();
-extern unsigned int uStack_2d;
+typedef struct Scene_8284D890 {
+    char pad0[0x28];
+    void *root;
+} Scene_8284D890;
 
+typedef struct Obj_8284D890 {
+    char pad0[0x138];
+    Scene_8284D890 *scene;
+} Obj_8284D890;
 
-unsigned __int64 fn_8284D890(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4)
+extern int fn_82F6DCE0(char *buf, unsigned int size, const char *fmt, ...);
+extern void fn_828182C0(void *root, const char *path, int flags, void **out);
+extern void fn_82817C98(void *node, void *arg);
 
+int fn_8284D890(Obj_8284D890 *self, const char *a, const char *b, void *arg)
 {
-  int iVar1;
-  int aiStack_a0 [4];
-  unsigned char auStack_90 [99];
-  unsigned char uStack_2d;
-  
-  aiStack_a0[0] = 0;
-  fn_82F6DCE0(auStack_90,100,0xffffffff8201f554,param_2,param_3);
-  uStack_2d = 0;
-  if (((*(int *)(param_1 + 0x138) != 0) &&
-      (iVar1 = *(int *)(*(int *)(param_1 + 0x138) + 0x28), iVar1 != 0)) &&
-     (fn_828182C0(iVar1,auStack_90,0,aiStack_a0), aiStack_a0[0] != 0)) {
-    fn_82817C98(aiStack_a0[0],param_4);
-    return 1;
-  }
-  return 0;
-}
+    void *node = 0;
+    char path[100];
 
+    fn_82F6DCE0(path, 100, "%s.%s", a, b);
+    path[99] = 0;
+    if (self->scene != 0 && self->scene->root != 0) {
+        Scene_8284D890 *scene = self->scene;
+        fn_828182C0(scene->root, path, 0, &node);
+        if (node != 0) {
+            fn_82817C98(node, arg);
+            return 1;
+        }
+    }
+    return 0;
+}

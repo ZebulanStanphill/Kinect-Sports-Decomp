@@ -1,27 +1,33 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern int XMemSet();
-extern V16 vectorSplatImmediateSignedWord128();
-extern void *memcpy(void *, const void *, unsigned int);
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vspltisw(int value);
+extern void *XMemSet(void *dst, int value, unsigned int size);
 
-void fn_829DD9F0(int param_1)
+typedef struct {
+    int header;
+    unsigned char data[600];
+    int count;
+} Slot_829DD9F0;
 
+typedef struct {
+    __vector4 v;
+    int x10;
+    int x14;
+    Slot_829DD9F0 slots[8];
+} Obj_829DD9F0;
+
+void fn_829DD9F0(Obj_829DD9F0 *self)
 {
-  int in_r0;
-  __int64 lVar1;
-  int iVar2;
-  unsigned char auVar3 [16];{ V16 _vt0 = vectorSplatImmediateSignedWord128(0); memcpy(auVar3, &_vt0, 16); }
-  iVar2 = param_1 + 0x1c;
-  *(unsigned int *)(param_1 + 0x10) = 0;
-  lVar1 = 8;
-  *(unsigned int *)(param_1 + 0x14) = 0;
-  memcpy((void *)((const void *)(in_r0 + param_1 & 0xfffffff0)), auVar3, 16);
-  do {
-    *(unsigned int *)(iVar2 + 600) = 0;
-    *(unsigned int *)(iVar2 + -4) = 0;
-    XMemSet(iVar2,0,600);
-    lVar1 = lVar1 + -1;
-    iVar2 = iVar2 + 0x260;
-  } while (lVar1 != 0);
-  return;
+    int i;
+    self->x10 = 0;
+    self->x14 = 0;
+    self->v = __vspltisw(0);
+    for (i = 0; i < 8; i++) {
+        Slot_829DD9F0 *s = &self->slots[i];
+        s->count = 0;
+        s->header = 0;
+        XMemSet(s->data, 0, 600);
+    }
 }

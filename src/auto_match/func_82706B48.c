@@ -1,17 +1,13 @@
-extern unsigned int lbl_82005CCC;
-extern unsigned int uStack_9;
+typedef struct Obj_82706B48 {
+    char pad0[0x940];
+    unsigned char alpha;
+} Obj_82706B48;
 
-
-void fn_82706B48(double param_1,int param_2)
-
+void fn_82706B48(Obj_82706B48 *self, float value)
 {
-  unsigned char uStack_9;
-  
-  uStack_9 = (char)(__int64)(param_1 * (double)lbl_82005CCC);
-  if (uStack_9 == -1) {
-    uStack_9 = -1;
-  }
-  *(char *)(param_2 + 0x940) = uStack_9;
-  return;
+    unsigned char a = (unsigned char)(value * 255.0f);
+    if (a >= 0xff) {
+        a = 0xff;
+    }
+    self->alpha = a;
 }
-

@@ -1,28 +1,23 @@
-extern int fn_82FF5CB8();
-extern int fn_8301B6D8();
+typedef struct Node_8301B970 {
+    char pad0[0x24];
+    char lock[0xc];
+    unsigned char pinned;   /* 0x30 */
+    unsigned char refs;     /* 0x31 */
+} Node_8301B970;
 
+extern int fn_82FF5CB8(void *lock, void *arg);
+extern int fn_8301B6D8(void *ctx, Node_8301B970 *node);
 
-unsigned __int64 fn_8301B970(unsigned __int64 param_1,int param_2,unsigned __int64 param_3)
-
+int fn_8301B970(void *ctx, Node_8301B970 *node, void *arg)
 {
-  int iVar2;
-  unsigned __int64 uVar1;
-  char cVar3;
-  
-  iVar2 = fn_82FF5CB8(param_2 + 0x24,param_3);
-  if (iVar2 == 1) {
-    cVar3 = *(char *)(param_2 + 0x31) + -1;
-    *(char *)(param_2 + 0x31) = cVar3;
-    if ((*(char *)(param_2 + 0x30) == '\0') && (cVar3 == '\0')) {
-      uVar1 = fn_8301B6D8(param_1,param_2);
+    int result = 0x29;
+    if (fn_82FF5CB8(node->lock, arg) == 1) {
+        unsigned char refs = --node->refs;
+        if (node->pinned == 0 && refs == 0) {
+            result = fn_8301B6D8(ctx, node);
+        } else {
+            result = 1;
+        }
     }
-    else {
-      uVar1 = 1;
-    }
-  }
-  else {
-    uVar1 = 0x29;
-  }
-  return uVar1;
+    return result;
 }
-

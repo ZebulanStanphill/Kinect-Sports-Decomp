@@ -1,41 +1,34 @@
-extern int fn_8267BE38();
-extern int fn_8267C4F0();
-extern int fn_826824B0();
-extern int fn_826944C8();
-extern int fn_8269A608();
-extern int fn_826BD8C8();
+typedef struct Item_82682748 { int pad0; int flags; } Item_82682748;
+typedef struct Counter_82682748 { int pad[2]; unsigned int count; } Counter_82682748;
+typedef struct Stats_82682748 { int a; int pad4; int b; } Stats_82682748;
 
+extern void fn_8267C4F0(void *p);
+extern Counter_82682748 *fn_826BD8C8(Stats_82682748 *stats);
+extern void fn_826824B0(Counter_82682748 *c);
+extern void fn_826944C8(Stats_82682748 *stats);
+extern void fn_8269A608(Stats_82682748 *stats);
+extern void fn_8267BE38(Stats_82682748 *stats);
 
-void fn_82682748(unsigned __int64 param_1,int param_2,unsigned int *param_3)
-
+/* Release counterpart of Matching fn_82681FE0. */
+void fn_82682748(void *self, Item_82682748 *item, Stats_82682748 *stats)
 {
-  unsigned int uVar1;
-  
-  uVar1 = *(unsigned int *)(param_2 + 4) & 0x8f;
-  if (uVar1 == 4) {
-    uVar1 = param_3[2];
-    param_3[2] = (unsigned int)((unsigned __int64)uVar1 - 1);
-    if ((unsigned __int64)uVar1 - 1 == 0) {
-      fn_826944C8(param_3);
+    switch (item->flags & 0x8f) {
+    case 4:
+        if (--stats->b == 0)
+            fn_826944C8(stats);
+        break;
+    case 5:
+        fn_8267C4F0((char *)stats - 0xc);
+        break;
+    case 6:
+    case 7:
+        fn_826824B0(fn_826BD8C8(stats));
+        break;
+    case 8:
+        if (--stats->a <= 0) {
+            fn_8269A608(stats);
+            fn_8267BE38(stats);
+        }
+        break;
     }
-  }
-  else if (uVar1 == 5) {
-    fn_8267C4F0(param_3 + -3);
-  }
-  else if (5 < uVar1) {
-    if (uVar1 < 8) {
-      fn_826BD8C8(param_3);
-      fn_826824B0();
-    }
-    else if (uVar1 == 8) {
-      uVar1 = *param_3;
-      *param_3 = (unsigned int)((unsigned __int64)uVar1 - 1);
-      if ((__int64)((unsigned __int64)uVar1 - 1) < 1) {
-        fn_8269A608(param_3);
-        fn_8267BE38(param_3);
-      }
-    }
-  }
-  return;
 }
-

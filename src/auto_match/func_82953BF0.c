@@ -1,37 +1,32 @@
-#define true 1
+typedef struct Type_82953BF0 {
+    int pad0;
+    int kind;
+    struct Type_82953BF0 *second;
+    struct Type_82953BF0 *first;
+    struct Type_82953BF0 *element;
+    int count;
+    struct Type_82953BF0 *base;
+    int rows;
+    int columns;
+    char pad24[0x30 - 0x24];
+    struct Type_82953BF0 *target;
+} Type_82953BF0;
 
-
-__int64 fn_82953BF0(int param_1)
-
+int fn_82953BF0(Type_82953BF0 *type)
 {
-  int iVar3;
-  __int64 lVar1;
-  __int64 lVar2;
-  
-  while( true ) {
-    while( true ) {
-      if (param_1 == 0) {
+    if (type == 0)
         return 0;
-      }
-      iVar3 = *(int *)(param_1 + 4);
-      if (iVar3 == 1) {
-        lVar1 = fn_82953BF0(*(unsigned int *)(param_1 + 0xc));
-        lVar2 = fn_82953BF0(*(unsigned int *)(param_1 + 8));
-        return lVar1 + lVar2;
-      }
-      if (iVar3 != 6) break;
-      param_1 = *(int *)(param_1 + 0x18);
+    switch (type->kind) {
+    case 1:
+        return fn_82953BF0(type->first) + fn_82953BF0(type->second);
+    case 6:
+        return fn_82953BF0(type->base);
+    case 8:
+        return fn_82953BF0(type->element) * type->count;
+    case 9:
+        return type->columns * type->rows;
+    case 0xb:
+        return fn_82953BF0(type->target);
     }
-    if (iVar3 == 8) {
-      iVar3 = fn_82953BF0(*(unsigned int *)(param_1 + 0x10));
-      return (__int64)iVar3 * (__int64)*(int *)(param_1 + 0x14);
-    }
-    if (iVar3 == 9) break;
-    if (iVar3 != 0xb) {
-      return 0;
-    }
-    param_1 = *(int *)(param_1 + 0x30);
-  }
-  return (__int64)*(int *)(param_1 + 0x20) * (__int64)*(int *)(param_1 + 0x1c);
+    return 0;
 }
-

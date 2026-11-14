@@ -1,44 +1,43 @@
-typedef unsigned char bool;
-extern int fn_82A34678();
-extern int fn_82A37B08();
-extern unsigned __int64 storeWordConditionalIndexed();
+typedef struct Record_82A37E70 {
+    unsigned int id;
+    unsigned short words;
+    unsigned short pad6;
+    char data[1];
+} Record_82A37E70;
 
+typedef struct Queue_82A37E70 {
+    void *owner;
+    Record_82A37E70 *begin;
+    Record_82A37E70 *end;
+    unsigned int count;
+    char pad10[0x2c - 0x10];
+    void *event;
+    long pending;
+} Queue_82A37E70;
 
-unsigned __int64 fn_82A37E70(__int64 param_1,int param_2,unsigned __int64 param_3)
+extern long _InterlockedDecrement(long *);
+extern long NtSetEvent(void *event, long *previous);
+extern void fn_82A37B08(Queue_82A37E70 *self);
+extern int fn_82A34678(void *owner, void *data, int arg);
 
+int fn_82A37E70(Queue_82A37E70 *self, unsigned int id, int arg)
 {
-  unsigned int uVar1;
-  unsigned int *puVar2;
-  __int64 lVar3;
-  int *piVar4;
-  unsigned int *puVar5;
-  unsigned __int64 uVar6;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  puVar2 = (unsigned int *)param_1;
-  uVar6 = 0xffffffffffffffff;
-  if (puVar2[3] != 0) {
-    fn_82A37B08();
-    for (piVar4 = (int *)puVar2[1]; (piVar4 != (int *)puVar2[2] && (*piVar4 != param_2));
-        piVar4 = piVar4 + *(unsigned short *)(piVar4 + 1)) {
-    }
-    if (piVar4 != (int *)puVar2[2]) {
-      uVar6 = fn_82A34678(*puVar2,piVar4 + 2,param_3);
-    }
-    do {
-      puVar5 = (unsigned int *)(param_1 + 0x30);
-      lVar3 = (unsigned __int64)*puVar5 - 1;
-      if (in_RESERVE != '\0') {
-        uVar1 = storeWordConditionalIndexed(lVar3,0,param_1 + 0x30);
-        *puVar5 = uVar1;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-    if ((int)lVar3 == 0) {
-      NtSetEvent(puVar2[0xb],0);
-    }
-  }
-  return uVar6;
-}
+    int result = -1;
+    Record_82A37E70 *r;
 
+    if (self->count > 0) {
+        fn_82A37B08(self);
+        for (r = self->begin; r != self->end; r = (Record_82A37E70 *)((unsigned int *)r + r->words)) {
+            if (r->id == id) {
+                break;
+            }
+        }
+        if (r != self->end) {
+            result = fn_82A34678(self->owner, r->data, arg);
+        }
+        if (_InterlockedDecrement(&self->pending) == 0) {
+            NtSetEvent(self->event, 0);
+        }
+    }
+    return result;
+}

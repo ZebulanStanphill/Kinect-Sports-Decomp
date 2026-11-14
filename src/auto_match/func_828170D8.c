@@ -1,29 +1,27 @@
-extern int fn_82817088();
-extern int fn_8281FEB0();
+typedef struct Entry_828170D8 {
+    char pad[4];
+    unsigned int value;
+} Entry_828170D8;
 
+typedef struct Reader_828170D8 {
+    char pad[0x70];
+    int remaining;
+} Reader_828170D8;
 
-void fn_828170D8(int param_1,unsigned int *param_2)
+extern int fn_8281FEB0(Reader_828170D8 *self);
+extern unsigned char fn_82817088(Reader_828170D8 *self, Entry_828170D8 **out);
 
+void fn_828170D8(Reader_828170D8 *self, unsigned int *out)
 {
-  int iVar1;
-  char cVar2;
-  unsigned int uVar3;
-  int aiStack_20 [2];
-  
-  iVar1 = fn_8281FEB0();
-  if (iVar1 == 0) {
-LAB_82817100:
-    uVar3 = 0;
-  }
-  else {
-    do {
-      if (*(int *)(param_1 + 0x70) < 1) goto LAB_82817100;
-      *(int *)(param_1 + 0x70) = *(int *)(param_1 + 0x70) + -1;
-      cVar2 = fn_82817088(param_1,aiStack_20);
-    } while (cVar2 == '\0');
-    uVar3 = *(unsigned int *)(aiStack_20[0] + 4);
-  }
-  *param_2 = uVar3;
-  return;
+    Entry_828170D8 *e;
+    if (fn_8281FEB0(self) != 0) {
+        while (self->remaining > 0) {
+            self->remaining--;
+            if (fn_82817088(self, &e)) {
+                *out = e->value;
+                return;
+            }
+        }
+    }
+    *out = 0;
 }
-

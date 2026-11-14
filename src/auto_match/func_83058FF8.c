@@ -1,10 +1,11 @@
-extern int fn_82F68B7C();
+typedef struct Owner_83058FF8 {
+    char pad0[8];
+    char *data; /* 0x08 */
+} Owner_83058FF8;
 
+extern void fn_8305B9A0(void *state, int count, double a, double b);
 
-void fn_83058FF8(unsigned __int64 param_1,unsigned __int64 param_2,int param_3)
-
+void fn_83058FF8(Owner_83058FF8 *self, double a, double b)
 {
-  fn_82F68B7C(param_2,param_1,(unsigned __int64)*(unsigned int *)(param_3 + 8) + 0xcc4,600);
-  return;
+    fn_8305B9A0(self->data + 0xcc4, 600, b, a);
 }
-

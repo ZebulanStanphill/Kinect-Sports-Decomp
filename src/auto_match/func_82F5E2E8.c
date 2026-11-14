@@ -1,28 +1,24 @@
-void fn_82F5E2E8(unsigned int *param_1,char param_2,unsigned int param_3)
+typedef struct {
+    int state;
+    int value;
+    int result;
+    int count;
+} State_82F5E2E8;
 
+void fn_82F5E2E8(State_82F5E2E8 *s, unsigned char start, int state)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  
-  if (param_2 == '\0') {
-    uVar1 = param_1[3];
-    param_1[3] = (int)((unsigned __int64)uVar1 - 1);
-    if ((__int64)((unsigned __int64)uVar1 - 1) < 0) {
-      uVar2 = 0;
-      param_1[1] = 0;
-      *param_1 = 0xe;
+    int value;
+    if (start) {
+        value = 1;
+        s->state = state;
+        s->value = 1;
+        s->count = 2;
+    } else if (--s->count < 0) {
+        s->value = 0;
+        value = 0;
+        s->state = 0xe;
+    } else {
+        value = s->value;
     }
-    else {
-      uVar2 = param_1[1];
-    }
-  }
-  else {
-    uVar2 = 1;
-    *param_1 = param_3;
-    param_1[1] = 1;
-    param_1[3] = 2;
-  }
-  param_1[2] = uVar2;
-  return;
+    s->result = value;
 }
-

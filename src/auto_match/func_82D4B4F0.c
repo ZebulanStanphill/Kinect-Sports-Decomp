@@ -1,13 +1,12 @@
-void fn_82D4B4F0(int param_1,unsigned int param_2,unsigned int param_3)
+/* hkpGroupFilter::enableCollisionsBetween(layerA, layerB) (pair of Matching fn_82D4B528). */
+typedef struct GroupFilter_82D4B4F0 {
+    char pad0[0x30];
+    int m_nextFreeSystemGroup;                  /* 0x30 */
+    unsigned int m_collisionLookupTable[32];    /* 0x34 */
+} GroupFilter_82D4B4F0;
 
+void fn_82D4B4F0(GroupFilter_82D4B4F0 *self, int layerA, int layerB)
 {
-  int iVar1;
-  int iVar2;
-  
-  iVar1 = (param_2 + 0xd) * 4;
-  iVar2 = (param_3 + 0xd) * 4;
-  *(unsigned int *)(iVar1 + param_1) = 1 << (param_3 & 0x3f) | *(unsigned int *)(iVar1 + param_1);
-  *(unsigned int *)(iVar2 + param_1) = 1 << (param_2 & 0x3f) | *(unsigned int *)(iVar2 + param_1);
-  return;
+    self->m_collisionLookupTable[layerA] |= 1 << layerB;
+    self->m_collisionLookupTable[layerB] |= 1 << layerA;
 }
-

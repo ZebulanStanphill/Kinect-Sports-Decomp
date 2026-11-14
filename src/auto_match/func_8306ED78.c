@@ -1,15 +1,13 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern V16 vectorNegativeMultiplySubtractFloatingPoint();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vmulfp(__vector4 a, __vector4 b);
+__vector4 __vnmsubfp(__vector4 a, __vector4 c, __vector4 b);
+__vector4 __vpermwi(__vector4 v, int control);
 
-void fn_8306ED78(void)
-
+/* Cross product: a.yzx * b.zxy - a.zxy * b.yzx. */
+__vector4 fn_8306ED78(__vector4 a, __vector4 b)
 {
-  unsigned char in_vs32 [16];
-  unsigned char in_vs44 [16];
-  unsigned char in_vs45 [16];
-  
-  vectorNegativeMultiplySubtractFloatingPoint(in_vs45,in_vs32,in_vs44);
-  return;
+    return __vnmsubfp(__vpermwi(a, 135), __vpermwi(b, 99), __vmulfp(__vpermwi(a, 99), __vpermwi(b, 135)));
 }
-

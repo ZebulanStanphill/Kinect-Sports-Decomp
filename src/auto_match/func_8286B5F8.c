@@ -1,28 +1,20 @@
-extern unsigned int *auStack_50;
-extern int fn_82230300();
-extern int fn_82240378();
-extern int fn_8286B448();
+typedef struct {
+    unsigned char bytes[0x1c];
+} String_8286B5F8;
 
+extern void fn_82240378(String_8286B5F8 *dst, const String_8286B5F8 *src);
+extern void fn_8286B448(String_8286B5F8 *first, int hole, int bottom, String_8286B5F8 *value);
+extern void fn_82230300(String_8286B5F8 *s, int built, unsigned int new_size);
 
-void fn_8286B5F8(__int64 param_1,int param_2)
-
+void fn_8286B5F8(String_8286B5F8 *first, String_8286B5F8 *last)
 {
-  unsigned int uVar1;
-  __int64 lVar2;
-  __int64 lVar3;
-  unsigned char auStack_50 [32];
-
-  uVar1 = (param_2 - (int)param_1) / 0x1c;
-  lVar3 = (__int64)((int)uVar1 >> 1) + (unsigned __int64)((int)uVar1 < 0 && (uVar1 & 1) != 0);
-  if (0 < lVar3) {
-    lVar2 = lVar3 * 0x1c + param_1;
-    do {
-      lVar2 = lVar2 + -0x1c;
-      lVar3 = lVar3 + -1;
-      fn_82240378(auStack_50,lVar2);
-      fn_8286B448(param_1,lVar3,uVar1,auStack_50);
-      fn_82230300(auStack_50,1,0);
-    } while (0 < (int)lVar3);
-  }
-  return;
+    int bottom = last - first;
+    int hole;
+    for (hole = bottom / 2; 0 < hole;) {
+        String_8286B5F8 value;
+        --hole;
+        fn_82240378(&value, first + hole);
+        fn_8286B448(first, hole, bottom, &value);
+        fn_82230300(&value, 1, 0);
+    }
 }

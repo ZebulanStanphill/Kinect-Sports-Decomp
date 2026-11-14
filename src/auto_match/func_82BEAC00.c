@@ -1,44 +1,42 @@
-extern int fn_82BE5240();
-extern int fn_82BE52B8();
-extern int fn_82BE56B0();
-extern int fn_82BEB628();
+typedef struct Zone_82BEAC00 {
+    char pad00[0x10];
+    int ok;                 /* 0x10 */
+    char pad14[0x38 - 0x14];
+    const char *name;       /* 0x38 */
+    char pad3c[0x40 - 0x3c];
+    void *maoList;          /* 0x40 */
+} Zone_82BEAC00;
 
+extern void fn_82BE5240(Zone_82BEAC00 *self, int code, const char *format, ...);
+extern int fn_82BE52B8(void *list, void *node);
+extern void *fn_82BE56B0(unsigned int size);
+extern void *fn_82BEB628(void *mem, void *item);
 
-unsigned __int64 fn_82BEAC00(int param_1,unsigned __int64 param_2)
-
+int fn_82BEAC00(Zone_82BEAC00 *self, void *mao)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  
-  if (((param_2 & 0xffffffff) == 0) || (*(int *)(param_1 + 0x40) == 0)) {
-    fn_82BE5240(param_1,0x130,0xffffffff820ead08,*(unsigned int *)(param_1 + 0x38));
-    *(unsigned int *)(param_1 + 0x10) = 0;
-  }
-  else {
-    uVar1 = fn_82BE56B0(0xc);
-    if ((uVar1 & 0xffffffff) == 0) {
-      iVar2 = 0;
-    }
-    else {
-      iVar2 = fn_82BEB628(uVar1,param_2);
-    }
-    if (iVar2 == 0) {
-      uVar3 = 0x65;
-      uVar4 = 0xffffffff820ead74;
-    }
-    else {
-      iVar2 = fn_82BE52B8(*(unsigned int *)(param_1 + 0x40));
-      if (iVar2 != 0) {
-        return 1;
-      }
-      uVar3 = 100;
-      uVar4 = 0xffffffff820ead4c;
-    }
-    fn_82BE5240(param_1,uVar3,uVar4);
-    *(unsigned int *)(param_1 + 0x10) = 0;
-  }
-  return 0;
-}
+    void *mem;
+    void *node;
 
+    if (mao != 0 && self->maoList != 0) {
+        mem = fn_82BE56B0(0xc);
+        if (mem != 0) {
+            node = fn_82BEB628(mem, mao);
+        } else {
+            node = 0;
+        }
+        if (node == 0) {
+            fn_82BE5240(self, 0x65, "CMassiveListNode in AddMAO()");
+            self->ok = 0;
+            return 0;
+        }
+        if (fn_82BE52B8(self->maoList, node) == 0) {
+            fn_82BE5240(self, 0x64, "Could not append list node to MAO list");
+            self->ok = 0;
+            return 0;
+        }
+        return 1;
+    }
+    fn_82BE5240(self, 0x130, "Could not add MAO to zone \"%s\" because the zone's MAO list is NULL", self->name);
+    self->ok = 0;
+    return 0;
+}

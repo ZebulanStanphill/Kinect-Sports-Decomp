@@ -1,66 +1,46 @@
-#define true 1
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern int fn_82AA64F8();
-extern int fn_82AA66A8();
-extern unsigned int stack0x00000020;
-extern unsigned int uStack00000020;
-extern unsigned int uStack00000028;
-extern unsigned int uStack00000030;
-extern unsigned int uStack00000038;
-extern unsigned int uStack00000040;
-extern unsigned int uStack00000048;
+typedef struct Decl_82AD14F0 { unsigned int pad0; unsigned int pad4; unsigned int bits; } Decl_82AD14F0;
+typedef struct Item_82AD14F0 { unsigned int pad0; unsigned int pad4; struct Item_82AD14F0 *next; unsigned int padc; Decl_82AD14F0 *decl; } Item_82AD14F0;
+typedef struct Group_82AD14F0 { unsigned int pad0; Item_82AD14F0 *first; } Group_82AD14F0;
+typedef struct Node_82AD14F0 { unsigned int flags; unsigned int pad4; struct Node_82AD14F0 *next; unsigned int padc; Group_82AD14F0 *group; } Node_82AD14F0;
+typedef struct List_82AD14F0 { unsigned int pad0; Node_82AD14F0 *first; } List_82AD14F0;
 
+extern void fn_82AA66A8(void *ctx, int code);
 
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
-
-void fn_82AD14F0(unsigned __int64 param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5)
-
+static __forceinline int NotNull(const void *p)
 {
-  unsigned int *puVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned __int64 uStack00000020;
-  unsigned __int64 uStack00000028;
-  unsigned __int64 uStack00000030;
-  unsigned __int64 uStack00000038;
-  unsigned __int64 uStack00000040;
-  unsigned __int64 uStack00000048;
-  
-  puVar1 = *(unsigned int **)(param_2 + 4);
-  do {
-    uStack00000038 = ZEXT48(puVar1);
-    if (uStack00000038 == 0) {
-      return;
-    }
-    if ((puVar1[4] != 0) && ((*puVar1 & 0xe000000) != 0)) {
-      for (uVar2 = *(unsigned int *)(puVar1[4] + 4); uStack00000040 = (unsigned __int64)uVar2, uStack00000040 != 0;
-          uVar2 = *(unsigned int *)(uVar2 + 8)) {
-        uVar3 = *(unsigned int *)(uVar2 + 0x10);
-        if (uVar3 != 0) {
-          uVar4 = *(unsigned int *)(uVar3 + 8) >> 7 & 0x7f;
-          if (uVar4 == 0x40) {
-            uStack00000048 = (unsigned __int64)*(unsigned int *)param_4;
-            if (uStack00000048 != 0) {
-fn_82AA66A8:
-              uStack00000020 = param_3;
-              uStack00000028 = param_4;
-              uStack00000030 = param_5;
-                    /* WARNING: Subroutine does not return */
-              fn_82AA64F8(param_1,0x12c0,&stack0x00000020);
-            }
-            *(unsigned int *)param_4 = uVar3;
-          }
-          else if (uVar4 == 0x3f) {
-            uStack00000048 = (unsigned __int64)*(unsigned int *)param_3;
-            if (uStack00000048 != 0) goto fn_82AA66A8;
-            *(unsigned int *)param_3 = uVar3;
-          }
-        }
-      }
-    }
-    puVar1 = (unsigned int *)puVar1[2];
-  } while( true );
+    if (p)
+        return 1;
+    return 0;
 }
 
+void fn_82AD14F0(void *ctx, List_82AD14F0 *list, Decl_82AD14F0 **outA, Decl_82AD14F0 **outB)
+{
+    Node_82AD14F0 *node;
+    Item_82AD14F0 *item;
+    Decl_82AD14F0 *decl;
+    unsigned int kind;
+
+    for (node = list->first; NotNull(node); node = node->next) {
+        if (node->group != 0 && (node->flags & 0xe000000) != 0) {
+            for (item = node->group->first; NotNull(item); item = item->next) {
+                decl = item->decl;
+                if (decl != 0) {
+                    kind = (decl->bits >> 7) & 0x7f;
+                    if (kind == 0x40) {
+                        if (*outB != 0) {
+                            fn_82AA66A8(ctx, 0x12c0);
+                            return;
+                        }
+                        *outB = decl;
+                    } else if (kind == 0x3f) {
+                        if (*outA != 0) {
+                            fn_82AA66A8(ctx, 0x12c0);
+                            return;
+                        }
+                        *outA = decl;
+                    }
+                }
+            }
+        }
+    }
+}

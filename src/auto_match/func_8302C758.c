@@ -1,23 +1,19 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-
-
-bool fn_8302C758(unsigned __int64 param_1,short *param_2)
-
+typedef struct Ref_8302C758 {
+    short count;
+    unsigned char owned : 1;
+    unsigned char fixed : 1;
+} Ref_8302C758;
+unsigned char fn_8302C758(void *self, Ref_8302C758 *ref)
 {
-  short sVar1;
-  
-  if (param_2 != (short *)0x0) {
-    if ((*(unsigned char *)(param_2 + 1) & 0x80) == 0) {
-      return false;
+    unsigned char r = 0;
+    if (ref == 0) {
+        r = 1;
+    } else if (ref->owned) {
+        if (ref->fixed) {
+            r = 1;
+        } else {
+            r = --ref->count != 0;
+        }
     }
-    if ((*(unsigned char *)(param_2 + 1) & 0x40) == 0) {
-      sVar1 = *param_2;
-      *param_2 = sVar1 + -1;
-      return (short)(sVar1 + -1) != 0;
-    }
-  }
-  return true;
+    return r;
 }
-

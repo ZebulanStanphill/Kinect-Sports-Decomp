@@ -1,34 +1,33 @@
-#define true 1
-extern int fn_82D01190();
+typedef struct Set_82D01370 {
+    unsigned int *data;
+    int pad4;
+    int count;
+} Set_82D01370;
 
+extern void fn_82D01190(Set_82D01370 *set);
 
-void fn_82D01370(unsigned int *param_1,int *param_2)
-
+void fn_82D01370(Set_82D01370 *a, Set_82D01370 *b)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  unsigned int *puVar3;
-  unsigned int *puVar4;
-  
-  fn_82D01190();
-  fn_82D01190(param_2);
-  puVar4 = (unsigned int *)*param_1;
-  puVar3 = (unsigned int *)*param_2;
-  puVar2 = puVar4 + param_1[2];
-  puVar1 = puVar3 + param_2[2];
-  do {
-    while( true ) {
-      if ((puVar2 <= puVar4) || (puVar1 <= puVar3)) {
-        return;
-      }
-      if (*puVar4 != *puVar3) break;
-      *puVar4 = 0;
-      puVar4 = puVar4 + 1;
-LAB_82d013e4:
-      puVar3 = puVar3 + 1;
-    }
-    if (*puVar3 <= *puVar4) goto LAB_82d013e4;
-    puVar4 = puVar4 + 1;
-  } while( true );
-}
+    unsigned int *p;
+    unsigned int *pEnd;
+    unsigned int *q;
+    unsigned int *qEnd;
 
+    fn_82D01190(a);
+    fn_82D01190(b);
+    p = a->data;
+    pEnd = p + a->count;
+    q = b->data;
+    qEnd = q + b->count;
+    while (p < pEnd && q < qEnd) {
+        if (*p == *q) {
+            *p = 0;
+            p++;
+            q++;
+        } else if (*p < *q) {
+            p++;
+        } else {
+            q++;
+        }
+    }
+}

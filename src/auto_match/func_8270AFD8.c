@@ -1,50 +1,30 @@
-void fn_8270AFD8(unsigned int *param_1,int *param_2)
+typedef struct Node_8270AFD8 {
+    struct Node_8270AFD8 *parent;
+    struct Node_8270AFD8 *kid[2];
+} Node_8270AFD8;
 
+extern void fn_8270AF50(Node_8270AFD8 **root, Node_8270AFD8 *node, Node_8270AFD8 *repl);
+
+void fn_8270AFD8(Node_8270AFD8 **root, Node_8270AFD8 *node)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  int *piVar3;
-  int *piVar4;
-  int *piVar5;
-  
-  piVar4 = (int *)param_2[2];
-  piVar5 = param_2 + 2;
-  if (piVar4 == (int *)0x0) {
-    piVar4 = (int *)param_2[1];
-    piVar5 = param_2 + 1;
-    if (piVar4 == (int *)0x0) goto code_r0x8270b02c;
-  }
-  while ((piVar3 = piVar4 + 2, piVar4[2] != 0 || (piVar3 = piVar4 + 1, piVar4[1] != 0))) {
-    piVar5 = piVar3;
-    piVar4 = (int *)*piVar5;
-  }
-  *piVar5 = 0;
-code_r0x8270b02c:
-  iVar1 = *param_2;
-  if (iVar1 != 0) {
-    if (param_2 == (int *)*param_1) {
-      *param_1 = piVar4;
+    Node_8270AFD8 **link = &node->kid[1];
+    Node_8270AFD8 *leaf = *link;
+    if (leaf == 0) {
+        link = &node->kid[0];
+        leaf = *link;
     }
-    else {
-      *(int **)((2 - (unsigned int)(param_2 == *(int **)(iVar1 + 4))) * 4 + iVar1) = piVar4;
+    if (leaf != 0) {
+        for (;;) {
+            Node_8270AFD8 **next = &leaf->kid[1];
+            if (*next == 0) {
+                next = &leaf->kid[0];
+                if (*next == 0)
+                    break;
+            }
+            link = next;
+            leaf = *link;
+        }
+        *link = 0;
     }
-    if (piVar4 != (int *)0x0) {
-      *piVar4 = iVar1;
-      puVar2 = (unsigned int *)param_2[1];
-      if (puVar2 != (unsigned int *)0x0) {
-        piVar4[1] = (int)puVar2;
-        *puVar2 = piVar4;
-      }
-      puVar2 = (unsigned int *)param_2[2];
-      if (puVar2 != (unsigned int *)0x0) {
-        piVar4[2] = (int)puVar2;
-        *puVar2 = piVar4;
-      }
-    }
-  }
-  param_2[2] = 0;
-  param_2[1] = 0;
-  *param_2 = 0;
-  return;
+    fn_8270AF50(root, node, leaf);
 }
-

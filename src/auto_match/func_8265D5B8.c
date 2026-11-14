@@ -1,12 +1,5 @@
-void fn_8265D5B8(unsigned int *param_1,unsigned int *param_2,unsigned int *param_3)
-
+void fn_8265D5B8(unsigned int *first, unsigned int *last, const unsigned int *val)
 {
-  unsigned int *puStack00000014;
-  
-  for (puStack00000014 = param_1; puStack00000014 != param_2; puStack00000014 = puStack00000014 + 1)
-  {
-    *puStack00000014 = *param_3;
-  }
-  return;
+    for (; first != last; ++first)
+        *first = *val;
 }
-

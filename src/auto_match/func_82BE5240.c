@@ -1,13 +1,13 @@
-unsigned __int64 fn_82BE5240(int param_1,unsigned __int64 param_2)
+typedef struct Self_82BE5240 {
+    int pad0;
+    unsigned int value;     /* 0x04 */
+    unsigned int current;   /* 0x08 */
+} Self_82BE5240;
 
+unsigned int fn_82BE5240(Self_82BE5240 *self, unsigned int value, int unused, ...)
 {
-  int iVar1;
-  
-  iVar1 = (int)param_2;
-  *(int *)(param_1 + 4) = iVar1;
-  if (*(int *)(param_1 + 8) != iVar1) {
-    *(int *)(param_1 + 8) = iVar1;
-  }
-  return param_2;
+    self->value = value;
+    if (self->current != value)
+        self->current = value;
+    return value;
 }
-

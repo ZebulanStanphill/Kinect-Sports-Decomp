@@ -1,24 +1,33 @@
-unsigned __int64 fn_82B6B230(int param_1,unsigned int *param_2)
+typedef struct Block_82B6B230 {
+    unsigned char pad[0xc];
+    void **base;
+    int elemSize;
+    int count;
+    int freeCount;
+    struct Block_82B6B230 *next;
+} Block_82B6B230;
 
+static __forceinline Block_82B6B230 *FindBlock(Block_82B6B230 *block, void **item)
 {
-  unsigned int *puVar1;
-  int *piVar2;
-  
-  piVar2 = (int *)(param_1 + 0x10);
-  do {
-    if ((*(unsigned int **)(param_1 + 0xc) <= param_2) &&
-       (param_2 <=
-        (unsigned int *)(*(int *)(param_1 + 0x14) * *piVar2 + (int)*(unsigned int **)(param_1 + 0xc))))
-    break;
-    param_1 = *(int *)(param_1 + 0x1c);
-  } while (param_1 != 0);
-  if (param_1 != 0) {
-    puVar1 = *(unsigned int **)(param_1 + 0xc);
-    *param_2 = *puVar1;
-    *puVar1 = param_2;
-    *(int *)(param_1 + 0x18) = *(int *)(param_1 + 0x18) + 1;
+    int elemSize = block->elemSize;
+    do {
+        if ((char *)item >= (char *)block->base && (char *)item <= (char *)block->base + block->count * elemSize)
+            return block;
+        block = block->next;
+    } while (block != 0);
     return 0;
-  }
-  return 1;
+}
+
+int fn_82B6B230(Block_82B6B230 *block, void **item)
+{
+    Block_82B6B230 *b = FindBlock(block, item);
+    if (b != 0) {
+        void **head = b->base;
+        *item = *head;
+        *head = item;
+        b->freeCount++;
+        return 0;
+    }
+    return 1;
 }
 

@@ -1,38 +1,29 @@
-extern int fn_82311AB8();
-extern int fn_82F69290();
-extern unsigned int lbl_82167E64;
+typedef struct Queue_828E1FA0 {
+    void *proxy;
+    void **map;
+    unsigned int mapSize;
+    unsigned int off;
+    unsigned int size;      /* 0x10 */
+} Queue_828E1FA0;
 
+typedef struct Entry_828E1FA0 {
+    int id;
+    Queue_828E1FA0 queue;   /* 0x04 */
+    char pad18[4];
+} Entry_828E1FA0;
 
-void fn_828E1FA0(int param_1,unsigned int param_2)
+typedef struct Self_828E1FA0 {
+    char pad0[0xc];
+    Entry_828E1FA0 *first;
+    Entry_828E1FA0 *last;
+} Self_828E1FA0;
 
+extern void fn_828B3640(Queue_828E1FA0 *queue);
+extern __declspec(noreturn) void fn_82F622E0(const char *message);
+
+void fn_828E1FA0(Self_828E1FA0 *self, unsigned int index)
 {
-  unsigned int *puVar1;
-  unsigned int uVar3;
-  __int64 lVar2;
-  int iVar4;
-  unsigned char **appuStack_20 [4];
-  
-  if ((unsigned int)((*(int *)(param_1 + 0x10) - *(int *)(param_1 + 0xc)) / 0x1c) <= param_2) {
-    fn_82311AB8(appuStack_20,0xffffffff821ae698);
-    appuStack_20[0] = &lbl_82167E64;
-                    /* WARNING: Subroutine does not return */
-    fn_82F69290(appuStack_20,0xffffffff821dda18);
-  }
-  iVar4 = param_2 * 0x1c + *(int *)(param_1 + 0xc);
-  if (*(int *)(iVar4 + 0x14) != 0) {
-    puVar1 = *(unsigned int **)(*(int *)(iVar4 + 8) + *(int *)(iVar4 + 0x10) * 4);
-    (**(int (***)())*puVar1)(puVar1,0);
-    uVar3 = *(int *)(iVar4 + 0x10) + 1;
-    *(unsigned int *)(iVar4 + 0x10) = uVar3;
-    if (*(unsigned int *)(iVar4 + 0xc) <= uVar3) {
-      *(unsigned int *)(iVar4 + 0x10) = 0;
-    }
-    lVar2 = (unsigned __int64)*(unsigned int *)(iVar4 + 0x14) - 1;
-    *(int *)(iVar4 + 0x14) = (int)lVar2;
-    if (lVar2 == 0) {
-      *(unsigned int *)(iVar4 + 0x10) = 0;
-    }
-  }
-  return;
+    if ((unsigned int)(self->last - self->first) <= index)
+        fn_82F622E0("invalid vector<T> subscript");
+    fn_828B3640(&self->first[index].queue);
 }
-

@@ -1,45 +1,26 @@
-void fn_82DDCA38(int param_1,int param_2)
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct {
+    __vector4 a;
+    __vector4 b;
+    __vector4 c;
+} Item_82DDCA38;
+
+typedef struct {
+    char pad[0x60];
+    __vector4 *b;
+    __vector4 *c;
+    __vector4 *a;
+    int count;
+} Obj_82DDCA38;
+
+void fn_82DDCA38(Obj_82DDCA38 *self, const Item_82DDCA38 *item)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  unsigned int *puVar3;
-  int iVar4;
-  int in_r0;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  
-  iVar1 = *(int *)(param_1 + 0x6c);
-  puVar2 = (unsigned int *)(in_r0 + param_2 & 0xfffffff0);
-  uVar5 = puVar2[1];
-  uVar6 = puVar2[2];
-  uVar7 = puVar2[3];
-  iVar4 = iVar1 * 0x10;
-  puVar3 = (unsigned int *)(*(int *)(param_1 + 0x68) + iVar4 & 0xfffffff0);
-  *puVar3 = *puVar2;
-  puVar3[1] = uVar5;
-  puVar3[2] = uVar6;
-  puVar3[3] = uVar7;
-  puVar2 = (unsigned int *)(param_2 + 0x10U & 0xfffffff0);
-  uVar5 = puVar2[1];
-  uVar6 = puVar2[2];
-  uVar7 = puVar2[3];
-  puVar3 = (unsigned int *)(*(int *)(param_1 + 0x60) + iVar4 & 0xfffffff0);
-  *puVar3 = *puVar2;
-  puVar3[1] = uVar5;
-  puVar3[2] = uVar6;
-  puVar3[3] = uVar7;
-  puVar2 = (unsigned int *)(param_2 + 0x20U & 0xfffffff0);
-  uVar5 = puVar2[1];
-  uVar6 = puVar2[2];
-  uVar7 = puVar2[3];
-  puVar3 = (unsigned int *)(*(int *)(param_1 + 100) + iVar4 & 0xfffffff0);
-  *puVar3 = *puVar2;
-  puVar3[1] = uVar5;
-  puVar3[2] = uVar6;
-  puVar3[3] = uVar7;
-  *(int *)(param_1 + 0x6c) = iVar1 + 1;
-  return;
+    int n = self->count;
+    self->a[n] = item->a;
+    self->b[n] = item->b;
+    self->c[n] = item->c;
+    self->count = n + 1;
 }
-

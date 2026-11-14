@@ -1,34 +1,26 @@
-unsigned int *
-fn_82275D00(unsigned int *param_1,unsigned int *param_2,unsigned int *param_3,unsigned int *param_4,
-             unsigned int *param_5)
+typedef struct Elem_82275D00 {
+    int id;
+    int key;
+} Elem_82275D00;
 
+static __forceinline Elem_82275D00 *Copy(Elem_82275D00 *s, Elem_82275D00 *e, Elem_82275D00 *d)
 {
-  unsigned int uVar1;
-  
-  while ((param_1 != param_2 && (param_3 != param_4))) {
-    if ((int)param_3[1] < (int)param_1[1]) {
-      *param_5 = *param_3;
-      uVar1 = param_3[1];
-      param_3 = param_3 + 2;
-    }
-    else {
-      *param_5 = *param_1;
-      uVar1 = param_1[1];
-      param_1 = param_1 + 2;
-    }
-    param_5[1] = uVar1;
-    param_5 = param_5 + 2;
-  }
-  for (; param_1 != param_2; param_1 = param_1 + 2) {
-    *param_5 = *param_1;
-    param_5[1] = param_1[1];
-    param_5 = param_5 + 2;
-  }
-  for (; param_3 != param_4; param_3 = param_3 + 2) {
-    *param_5 = *param_3;
-    param_5[1] = param_3[1];
-    param_5 = param_5 + 2;
-  }
-  return param_5;
+    for (; s != e; s++, d++)
+        *d = *s;
+    return d;
 }
 
+Elem_82275D00 *fn_82275D00(Elem_82275D00 *first1, Elem_82275D00 *last1, Elem_82275D00 *first2, Elem_82275D00 *last2, Elem_82275D00 *dest)
+{
+    for (; first1 != last1 && first2 != last2; dest++) {
+        if (first2->key < first1->key) {
+            *dest = *first2;
+            first2++;
+        } else {
+            *dest = *first1;
+            first1++;
+        }
+    }
+    dest = Copy(first1, last1, dest);
+    return Copy(first2, last2, dest);
+}

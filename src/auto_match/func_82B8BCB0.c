@@ -1,44 +1,45 @@
-extern int fn_82AEB338();
-extern int fn_82AF4968();
-extern int fn_82B8B580();
+typedef struct Node_82B8BCB0 {
+    char pad0[0x1c];
+    int owner;                  /* 0x1c */
+    char pad20[4];
+    unsigned int parentLink;    /* 0x24: tagged parent pointer */
+    char pad28[8];
+} Node_82B8BCB0;
 
+extern unsigned char fn_82AEB338(Node_82B8BCB0 *node);
+extern unsigned char fn_82AF4968(Node_82B8BCB0 *node, Node_82B8BCB0 *target);
+extern unsigned char fn_82B8B580(void *ctx, Node_82B8BCB0 *node, Node_82B8BCB0 *other, int flag, unsigned char direct);
 
-unsigned __int64 fn_82B8BCB0(unsigned __int64 param_1,unsigned int param_2,unsigned int param_3,unsigned __int64 param_4)
-
+static __forceinline unsigned char IsBelow(Node_82B8BCB0 *node, Node_82B8BCB0 *target)
 {
-  unsigned __int64 uVar1;
-  char cVar2;
-  unsigned int uVar3;
-  
-  if ((*(int *)(param_2 + 0x1c) == *(int *)(param_3 + 0x1c)) &&
-     (cVar2 = fn_82AEB338(param_3), cVar2 != '\0')) {
-    cVar2 = fn_82AEB338(param_2);
-    if (cVar2 != '\0') {
-      uVar3 = param_3;
-      if ((param_4 & 0xff) == 0) {
-        do {
-          uVar3 = *(unsigned int *)((uVar3 & 0xfffffffe) + 0x24);
-          if (((uVar3 & 1) != 0) || (uVar3 = (uVar3 & 0xfffffffe) - 0x28, uVar3 == 0)) {
-            cVar2 = '\0';
-            goto LAB_82b8bd50;
-          }
-        } while (uVar3 != param_2);
-        cVar2 = '\x01';
-      }
-      else {
-        cVar2 = fn_82AF4968(param_3,param_2);
-      }
-LAB_82b8bd50:
-      if (cVar2 == '\0') {
-        uVar1 = fn_82B8B580(param_1,param_2,param_3,1,param_4);
-        return uVar1;
-      }
-    }
-    uVar1 = 1;
-  }
-  else {
-    uVar1 = 0;
-  }
-  return uVar1;
+    Node_82B8BCB0 *n = node;
+    do {
+        unsigned int link = ((Node_82B8BCB0 *)((unsigned int)n & ~1u))->parentLink;
+        if (link & 1)
+            return 0;
+        n = (Node_82B8BCB0 *)((link & ~1u) - 0x28);
+        if (n == 0)
+            return 0;
+    } while (n != target);
+    return 1;
 }
 
+/* Sibling of Matching fn_82B8D488. */
+unsigned char fn_82B8BCB0(void *ctx, Node_82B8BCB0 *node, Node_82B8BCB0 *other, unsigned char direct)
+{
+    unsigned char found;
+
+    if (node->owner != other->owner)
+        return 0;
+    if (!fn_82AEB338(other))
+        return 0;
+    if (!fn_82AEB338(node))
+        return 1;
+    if (direct)
+        found = fn_82AF4968(other, node);
+    else
+        found = IsBelow(other, node);
+    if (found)
+        return 1;
+    return fn_82B8B580(ctx, node, other, 1, direct);
+}

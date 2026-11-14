@@ -1,19 +1,14 @@
-extern unsigned int lbl_82015468;
-extern unsigned int lbl_8201DD74;
-extern unsigned int lbl_82022E60;
+extern const float lbl_82015468;    /* 6.2831855f (2 pi) */
 
-
-double fn_8287C0F0(double param_1,double param_2)
-
+/* Signed difference to - from in radians, wrapped into (-pi, pi]. */
+float fn_8287C0F0(float from, float to)
 {
-  if ((float)(param_1 - param_2) < lbl_8201DD74) {
-    if ((float)(param_1 - param_2) <= lbl_82022E60) {
-      param_2 = (double)(float)(param_2 - (double)lbl_82015468);
-    }
-  }
-  else {
-    param_1 = (double)(float)(param_1 - (double)lbl_82015468);
-  }
-  return (double)(float)(param_2 - param_1);
-}
+    float diff = from - to;
 
+    if (diff >= 3.14159274f) {
+        from -= lbl_82015468;
+    } else if (diff <= -3.14159274f) {
+        to -= lbl_82015468;
+    }
+    return to - from;
+}

@@ -1,26 +1,23 @@
-unsigned __int64 fn_8223FFB8(int *param_1,unsigned char param_2)
+/* basic_streambuf<char>::sputc (sibling of Matching fn_822EF538, sbumpc). */
+typedef struct StreamBuf_8223FFB8 StreamBuf_8223FFB8;
 
+typedef struct StreamBufVtbl_8223FFB8 {
+    void *slots[3];
+    int (*overflow)(StreamBuf_8223FFB8 *self, int ch);    /* 0x0c */
+} StreamBufVtbl_8223FFB8;
+
+struct StreamBuf_8223FFB8 {
+    StreamBufVtbl_8223FFB8 *vt;  /* 0x00 */
+    char pad4[0x24 - 0x4];
+    char **pnext;                /* 0x24 */
+    char pad28[0x34 - 0x28];
+    int *pcount;                 /* 0x34 */
+};
+
+static __forceinline int Pnavail(StreamBuf_8223FFB8 *self) { return *self->pnext != 0 ? *self->pcount : 0; }
+static __forceinline char *Pninc(StreamBuf_8223FFB8 *self) { --*self->pcount; return (*self->pnext)++; }
+
+int fn_8223FFB8(StreamBuf_8223FFB8 *self, char ch)
 {
-  unsigned char *pbVar1;
-  unsigned __int64 uVar2;
-  int iVar3;
-  
-  if (*(int *)param_1[9] == 0) {
-    iVar3 = 0;
-  }
-  else {
-    iVar3 = *(int *)param_1[0xd];
-  }
-  if (0 < iVar3) {
-    *(int *)param_1[0xd] = *(int *)param_1[0xd] + -1;
-    pbVar1 = *(unsigned char **)param_1[9];
-    *(unsigned char **)param_1[9] = pbVar1 + 1;
-    *pbVar1 = param_2;
-    return (unsigned __int64)param_2;
-  }
-                    /* WARNING: Could not recover jumptable at 0x82240024. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  uVar2 = (**(int (***)())(*param_1 + 0xc))(param_1,param_2);
-  return uVar2;
+    return 0 < Pnavail(self) ? (unsigned char)(*Pninc(self) = ch) : self->vt->overflow(self, (unsigned char)ch);
 }
-

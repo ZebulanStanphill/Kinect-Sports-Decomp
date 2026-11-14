@@ -1,32 +1,24 @@
-extern int fn_82FE89F8();
+typedef struct Table_8301E708 {
+    char pad0[0x14];
+    unsigned int count;
+} Table_8301E708;
 
+extern int fn_82FE89F8(const char *name);
 
-unsigned __int64 fn_8301E708(int param_1,unsigned int *param_2,int param_3,__int64 param_4)
-
+int fn_8301E708(Table_8301E708 *self, const char **names, int *out, unsigned int count)
 {
-  unsigned __int64 uVar1;
-  __int64 lVar2;
-  unsigned int uVar3;
-  
-  if ((int)param_4 == *(int *)(param_1 + 0x14)) {
-    if ((int)param_4 != 0) {
-      param_3 = param_3 - (int)param_2;
-      do {
-        uVar3 = 0;
-        if (*(char *)*param_2 != '\0') {
-          lVar2 = fn_82FE89F8();
-          uVar3 = -(unsigned int)(lVar2 != 0) & (unsigned int)lVar2;
-        }
-        *(unsigned int *)(param_3 + (int)param_2) = uVar3;
-        param_4 = param_4 + -1;
-        param_2 = param_2 + 1;
-      } while (param_4 != 0);
-    }
-    uVar1 = 1;
-  }
-  else {
-    uVar1 = 2;
-  }
-  return uVar1;
-}
+    unsigned int i;
 
+    if (count != self->count) {
+        return 2;
+    }
+    for (i = 0; i < count; i++) {
+        int v = 0;
+        if (names[i][0] != 0) {
+            v = fn_82FE89F8(names[i]);
+            v = v ? v : 0;
+        }
+        out[i] = v;
+    }
+    return 1;
+}

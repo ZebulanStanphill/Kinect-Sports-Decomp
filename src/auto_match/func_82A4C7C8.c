@@ -1,25 +1,13 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_82005730;
-extern unsigned int lbl_82005758;
+typedef struct Self_82A4C7C8 {
+    char pad0[0x34];
+    float scale;
+    float x;
+    float y;
+} Self_82A4C7C8;
 
-
-unsigned __int64 fn_82A4C7C8(int param_1,unsigned int param_2)
-
+extern unsigned int fn_82A46138(unsigned int value, float factor, int round);
+unsigned int fn_82A4C7C8(Self_82A4C7C8 *self, unsigned int value)
 {
-  bool bVar1;
-  double dVar2;
-  
-  if ((*(float *)(param_1 + 0x38) != lbl_82002AE0) ||
-     (bVar1 = false, *(float *)(param_1 + 0x3c) != lbl_82002AE0)) {
-    bVar1 = true;
-  }
-  dVar2 = (double)((float)param_2 * *(float *)(param_1 + 0x34) * *(float *)(param_1 + 0x3c));
-  if (bVar1) {
-    return ((__int64)(dVar2 + lbl_82005758) & 0xffffffffU) + 1;
-  }
-  return (__int64)(dVar2 + lbl_82005730) & 0xffffffff;
+    float f = self->scale * self->y;
+    return fn_82A46138(value, f, self->x != 1.0f || self->y != 1.0f);
 }
-

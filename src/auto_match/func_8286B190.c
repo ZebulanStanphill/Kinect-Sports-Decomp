@@ -1,32 +1,31 @@
-#define true 1
-extern int fn_822402F8();
-extern int fn_8260D428();
+typedef struct Str_8286B190 {
+    union { char buf[16]; char *ptr; } u;
+    unsigned int len;
+    unsigned int cap;
+    unsigned char alloc;
+} Str_8286B190;
 
 
-void fn_8286B190(int param_1,int param_2,int param_3,unsigned int *param_4)
+extern int fn_8260D428(Str_8286B190 *self, unsigned int pos, unsigned int count, const char *s, unsigned int n);
+extern void fn_822402F8(Str_8286B190 *dst, Str_8286B190 *src);
 
+static __forceinline int Compare(Str_8286B190 *a, Str_8286B190 *b)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  unsigned int uVar3;
-  int iVar4;
-  int iVar5;
-  
-  while( true ) {
-    uVar3 = param_2 - 1;
-    iVar5 = ((int)uVar3 >> 1) + (unsigned int)((int)uVar3 < 0 && (uVar3 & 1) != 0);
-    if (param_2 <= param_3) break;
-    iVar4 = iVar5 * 0x1c + param_1;
-    puVar2 = param_4;
-    if (0xf < (unsigned int)param_4[5]) {
-      puVar2 = (unsigned int *)*param_4;
-    }
-    iVar1 = fn_8260D428(iVar4,0,*(unsigned int *)(iVar4 + 0x10),puVar2,param_4[4]);
-    if (-1 < iVar1) break;
-    fn_822402F8(param_2 * 0x1c + param_1,iVar4);
-    param_2 = iVar5;
-  }
-  fn_822402F8(param_2 * 0x1c + param_1,param_4);
-  return;
+    unsigned int n = b->len;
+    const char *s;
+    if (b->cap >= 16)
+        s = b->u.ptr;
+    else
+        s = b->u.buf;
+    return fn_8260D428(a, 0, a->len, s, n);
 }
 
+void fn_8286B190(Str_8286B190 *first, int hole, int top, Str_8286B190 *value)
+{
+    int idx;
+    for (idx = (hole - 1) / 2; top < hole && Compare(&first[idx], value) < 0; idx = (hole - 1) / 2) {
+        fn_822402F8(&first[hole], &first[idx]);
+        hole = idx;
+    }
+    fn_822402F8(&first[hole], value);
+}

@@ -1,20 +1,28 @@
-typedef unsigned char bool;
-extern int fn_82311AB8();
-extern int fn_82F69290();
-extern unsigned int lbl_82167E64;
+typedef struct Queue_828E1F60 {
+    void *proxy;
+    void **map;
+    unsigned int mapSize;
+    unsigned int off;
+    unsigned int size;      /* 0x10 */
+} Queue_828E1F60;
 
+typedef struct Entry_828E1F60 {
+    int id;
+    Queue_828E1F60 queue;   /* 0x04 */
+    char pad18[4];
+} Entry_828E1F60;
 
-bool fn_828E1F60(int param_1,unsigned int param_2)
+typedef struct Self_828E1F60 {
+    char pad0[0xc];
+    Entry_828E1F60 *first;
+    Entry_828E1F60 *last;
+} Self_828E1F60;
 
+extern __declspec(noreturn) void fn_82F622E0(const char *message);
+
+unsigned char fn_828E1F60(Self_828E1F60 *self, unsigned int index)
 {
-  unsigned char **appuStack_20 [8];
-  
-  if ((unsigned int)((*(int *)(param_1 + 0x10) - *(int *)(param_1 + 0xc)) / 0x1c) <= param_2) {
-    fn_82311AB8(appuStack_20,0xffffffff821ae698);
-    appuStack_20[0] = &lbl_82167E64;
-                    /* WARNING: Subroutine does not return */
-    fn_82F69290(appuStack_20,0xffffffff821dda18);
-  }
-  return *(int *)(param_2 * 0x1c + *(int *)(param_1 + 0xc) + 0x14) != 0;
+    if ((unsigned int)(self->last - self->first) <= index)
+        fn_82F622E0("invalid vector<T> subscript");
+    return self->first[index].queue.size != 0;
 }
-

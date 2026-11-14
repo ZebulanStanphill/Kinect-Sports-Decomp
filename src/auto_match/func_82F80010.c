@@ -1,26 +1,18 @@
-extern int fn_82F68B70();
-extern int fn_82F68B78();
-extern int fn_82F68B7C();
+extern int fn_82F7F760(double *value, char *buffer, unsigned int size, int precision, int caps, void *locale);
+extern int fn_82F7FE10(double *value, char *buffer, unsigned int size, int precision, void *locale);
+extern int fn_82F7F850(double *value, char *buffer, unsigned int size, int precision, int caps, void *locale);
+extern int fn_82F7FEE0(double *value, char *buffer, unsigned int size, int precision, int caps, void *locale);
 
-
-void fn_82F80010(void)
-
+int fn_82F80010(double *value, char *buffer, unsigned int size, int format, int precision, int caps, void *locale)
 {
-  int in_r6;
-  
-  if ((in_r6 == 0x65) || (in_r6 == 0x45)) {
-    fn_82F68B78();
-    return;
-  }
-  if (in_r6 == 0x66) {
-    fn_82F68B7C();
-    return;
-  }
-  if ((in_r6 != 0x61) && (in_r6 != 0x41)) {
-    fn_82F68B70();
-    return;
-  }
-  fn_82F68B70();
-  return;
+    if (format == 'e' || format == 'E') {
+        return fn_82F7F760(value, buffer, size, precision, caps, locale);
+    }
+    if (format == 'f') {
+        return fn_82F7FE10(value, buffer, size, precision, locale);
+    }
+    if (format == 'a' || format == 'A') {
+        return fn_82F7F850(value, buffer, size, precision, caps, locale);
+    }
+    return fn_82F7FEE0(value, buffer, size, precision, caps, locale);
 }
-

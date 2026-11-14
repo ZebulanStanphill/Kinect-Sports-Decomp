@@ -1,33 +1,29 @@
-extern int fn_82A9D590();
+typedef struct Desc_82A9D7B8 {
+    unsigned int f0;
+    int pad4[3];
+    unsigned int f10;
+    int pad14[3];
+    unsigned int f20;
+    unsigned int f24;
+    unsigned int f28;
+    unsigned int f2c;
+    unsigned int f30;
+    unsigned int f34;
+} Desc_82A9D7B8;
 
+extern void fn_82A9D590(void *a, void *b, unsigned int f0, unsigned int f10, unsigned int f20,
+                        unsigned int f24, unsigned int f28, unsigned int f2c, unsigned int f34,
+                        unsigned int f30);
 
-void fn_82A9D7B8(unsigned __int64 param_1,unsigned __int64 param_2,unsigned int *param_3)
-
+void fn_82A9D7B8(void *a, void *b, Desc_82A9D7B8 *d)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  
-  if (param_3 == (unsigned int *)0x0) {
-    uVar6 = 0;
-    uVar5 = 0;
-    uVar4 = 0;
-    uVar3 = 0;
-    uVar2 = 0;
-    uVar1 = 0;
-  }
-  else {
-    uVar6 = param_3[0xb];
-    uVar5 = param_3[10];
-    uVar4 = param_3[9];
-    uVar3 = param_3[8];
-    uVar2 = param_3[4];
-    uVar1 = *param_3;
-  }
-  fn_82A9D590(param_1,param_2,uVar1,uVar2,uVar3,uVar4,uVar5,uVar6);
-  return;
+    fn_82A9D590(a, b,
+                d ? d->f0 : 0,
+                d ? d->f10 : 0,
+                d ? d->f20 : 0,
+                d ? d->f24 : 0,
+                d ? d->f28 : 0,
+                d ? d->f2c : 0,
+                d ? d->f34 : 0,
+                d ? d->f30 : 0);
 }
-

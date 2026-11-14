@@ -1,52 +1,91 @@
-#define true 1
-extern int fn_82AA66A8();
-extern int fn_82B4E578();
+typedef struct Value_82B4FEB0 {
+    int pad0;
+    int kind;               /* 0x4: 0xb */
+    char pad8[0x10 - 0x8];
+    void *data;             /* 0x10 */
+    void *buffer;           /* 0x14 */
+    char pad18[0x2c - 0x18];
+    unsigned int flags;     /* 0x2c */
+} Value_82B4FEB0;
 
+typedef struct Item_82B4FEB0 {
+    int pad0;
+    int kind;               /* 0x4: 6 */
+    char pad8[0x10 - 0x8];
+    int count;              /* 0x10 */
+    char pad14[0x18 - 0x14];
+    Value_82B4FEB0 *value;  /* 0x18 */
+} Item_82B4FEB0;
 
-void fn_82B4FEB0(int param_1,int param_2,int param_3,unsigned __int64 param_4)
+typedef struct Node_82B4FEB0 {
+    int pad0;
+    int kind;               /* 0x4: 1 */
+    Item_82B4FEB0 *item;    /* 0x8 */
+    struct Node_82B4FEB0 *next; /* 0xc */
+} Node_82B4FEB0;
 
+typedef struct Owner_82B4FEB0 {
+    char pad0[0x10];
+    void *data;             /* 0x10 */
+    char pad14[0x2c - 0x14];
+    Node_82B4FEB0 *list;    /* 0x2c */
+} Owner_82B4FEB0;
+
+typedef struct Ref_82B4FEB0 {
+    int pad0;
+    Owner_82B4FEB0 *owner;  /* 0x4 */
+} Ref_82B4FEB0;
+
+typedef struct Slot_82B4FEB0 {
+    char pad0[8];
+    void *value;            /* 0x8 */
+    struct Slot_82B4FEB0 *next; /* 0xc */
+} Slot_82B4FEB0;
+
+typedef struct Slots_82B4FEB0 {
+    char pad0[8];
+    Slot_82B4FEB0 *first;   /* 0x8 */
+} Slots_82B4FEB0;
+
+typedef struct Ctx_82B4FEB0 {
+    char pad0[0x10];
+    void *data;             /* 0x10 */
+} Ctx_82B4FEB0;
+
+extern __declspec(noreturn) void fn_82AA66A8(void *ctx, int code, ...);
+extern void fn_82B4E578(Ctx_82B4FEB0 *ctx, void *arg, void *data, void *value);
+
+static __forceinline Node_82B4FEB0 *AsNode(void *ctx, Node_82B4FEB0 *n)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  int iVar5;
-  
-  iVar1 = *(int *)(param_2 + 4);
-  iVar5 = *(int *)(param_3 + 8);
-  iVar4 = *(int *)(iVar1 + 0x2c);
-  if ((iVar4 != 0) && (*(int *)(iVar4 + 4) != 1)) {
-                    /* WARNING: Subroutine does not return */
-    fn_82AA66A8(param_1,0x12c1);
-  }
-  do {
-    if (iVar4 == 0) {
-      return;
-    }
-    iVar2 = *(int *)(iVar4 + 8);
-    if (*(int *)(iVar2 + 4) == 6) {
-      if (*(int *)(iVar2 + 0x10) != 1) {
-                    /* WARNING: Subroutine does not return */
-        fn_82AA66A8(param_1,0x12c1);
-      }
-      iVar2 = *(int *)(iVar2 + 0x18);
-      if ((iVar2 == 0) || (*(int *)(iVar2 + 4) != 0xb)) {
-                    /* WARNING: Subroutine does not return */
-        fn_82AA66A8(param_1,0x12c1);
-      }
-      iVar3 = *(int *)(iVar2 + 0x10);
-      if ((((iVar3 != *(int *)(iVar1 + 0x10)) && (iVar3 != *(int *)(param_1 + 0x10))) &&
-          (*(int *)(iVar2 + 0x14) != 0)) &&
-         (((*(unsigned int *)(iVar2 + 0x2c) & 0x40) != 0 && (iVar5 != 0)))) {
-        fn_82B4E578(param_1,param_4,iVar3,*(unsigned int *)(iVar5 + 8));
-        iVar5 = *(int *)(iVar5 + 0xc);
-      }
-    }
-    iVar4 = *(int *)(iVar4 + 0xc);
-    if ((iVar4 != 0) && (*(int *)(iVar4 + 4) != 1)) {
-                    /* WARNING: Subroutine does not return */
-      fn_82AA66A8(param_1,0x12c1);
-    }
-  } while( true );
+    if (n != 0 && n->kind != 1)
+        fn_82AA66A8(ctx, 0x12c1);
+    return n;
+}
+static __forceinline Value_82B4FEB0 *AsValue(void *ctx, Value_82B4FEB0 *v)
+{
+    if (v == 0 || v->kind != 0xb)
+        fn_82AA66A8(ctx, 0x12c1);
+    return v;
 }
 
+/* Sibling of Matching fn_82B53448. */
+void fn_82B4FEB0(Ctx_82B4FEB0 *ctx, Ref_82B4FEB0 *ref, Slots_82B4FEB0 *slots, void *arg)
+{
+    Owner_82B4FEB0 *owner = ref->owner;
+    Slot_82B4FEB0 *slot = slots->first;
+    Node_82B4FEB0 *node;
+    Value_82B4FEB0 *value;
+
+    for (node = AsNode(ctx, owner->list); node != 0; node = AsNode(ctx, node->next)) {
+        if (node->item->kind == 6) {
+            if (node->item->count != 1)
+                fn_82AA66A8(ctx, 0x12c1);
+            value = AsValue(ctx, node->item->value);
+            if (value->data != owner->data && value->data != ctx->data && value->buffer != 0
+                && (value->flags & 0x40) != 0 && slot != 0) {
+                fn_82B4E578(ctx, arg, value->data, slot->value);
+                slot = slot->next;
+            }
+        }
+    }
+}

@@ -1,25 +1,28 @@
-void fn_82B24700(unsigned int *param_1,unsigned int *param_2)
+typedef struct Link_82B24700 {
+    unsigned int next;      /* 0x0: tagged pointer, bit 0 = end */
+    unsigned int flags;     /* 0x4 */
+} Link_82B24700;
 
+typedef struct Item_82B24700 {
+    int pad;
+    unsigned int next;      /* 0x4 */
+    void *data;             /* 0x8 */
+} Item_82B24700;
+
+typedef struct Iter_82B24700 {
+    Link_82B24700 *link;    /* 0x0 */
+    Item_82B24700 *item;    /* 0x4 */
+    void *data;             /* 0x8 */
+} Iter_82B24700;
+
+void fn_82B24700(Iter_82B24700 *it, Link_82B24700 *link)
 {
-  unsigned int uVar1;
-  int iVar2;
-  
-  *param_1 = param_2;
-  uVar1 = param_2[1];
-  param_1[2] = 0;
-  param_1[1] = -(unsigned int)((uVar1 & 1) == 0) & uVar1;
-  if ((param_2[1] & 1) == 0) {
-    iVar2 = (*param_2 & 0xfffffffe) - 4;
-  }
-  else {
-    iVar2 = 0;
-  }
-  param_1[1] = iVar2;
-  if (iVar2 != 0) {
-    param_1[2] = *(unsigned int *)(iVar2 + 8);
-    return;
-  }
-  param_1[2] = 0;
-  return;
+    it->link = link;
+    it->item = (Item_82B24700 *)((link->flags & 1) ? 0 : link->flags);
+    it->data = 0;
+    it->item = (it->link->flags & 1) ? 0 : (Item_82B24700 *)((it->link->next & ~1u) - 4);
+    if (it->item)
+        it->data = it->item->data;
+    else
+        it->data = 0;
 }
-

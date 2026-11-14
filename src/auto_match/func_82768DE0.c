@@ -1,25 +1,36 @@
-void fn_82768DE0(unsigned int *param_1,int *param_2)
+typedef struct Entry_82768DE0 {
+    int nextInChain;
+    unsigned char value[0x4];
+} Entry_82768DE0;
 
+typedef struct Table_82768DE0 {
+    unsigned int entryCount;
+    unsigned int sizeMask;
+    Entry_82768DE0 entries[1];
+} Table_82768DE0;
+
+typedef struct Hash_82768DE0 {
+    Table_82768DE0 *table;
+} Hash_82768DE0;
+
+typedef struct Iter_82768DE0 {
+    Hash_82768DE0 *hash;
+    unsigned int index;
+} Iter_82768DE0;
+
+void fn_82768DE0(Iter_82768DE0 *out, Hash_82768DE0 *self)
 {
-  int iVar1;
-  int iVar2;
-  unsigned int uVar3;
-  
-  iVar1 = *param_2;
-  iVar2 = 0;
-  if (iVar1 == 0) {
-    *param_1 = 0;
-    param_1[1] = 0;
-    return;
-  }
-  uVar3 = 0;
-  do {
-    if (*(int *)(iVar2 + iVar1 + 8) != -2) break;
-    uVar3 = uVar3 + 1;
-    iVar2 = iVar2 + 8;
-  } while (uVar3 <= *(unsigned int *)(iVar1 + 4));
-  *param_1 = param_2;
-  param_1[1] = uVar3;
-  return;
-}
+    unsigned int i;
 
+    if (self->table == 0) {
+        out->hash = 0;
+        out->index = 0;
+        return;
+    }
+    i = 0;
+    while (i <= self->table->sizeMask && self->table->entries[i].nextInChain == -2) {
+        i++;
+    }
+    out->hash = self;
+    out->index = i;
+}

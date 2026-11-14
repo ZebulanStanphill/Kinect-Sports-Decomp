@@ -1,26 +1,21 @@
-/* WARNING: Removing unreachable block (ram,0x82ae535c) */
+typedef struct BitSet_82AE5340 {
+    unsigned int words[1];
+} BitSet_82AE5340;
 
-__int64 fn_82AE5340(__int64 param_1,unsigned int param_2,unsigned int *param_3)
-
+/* Reverse search; 32-bit sibling of Matching fn_82AE5188, mirror of fn_82AE52C8. */
+unsigned int fn_82AE5340(BitSet_82AE5340 *set, unsigned int start, unsigned int *value)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  __int64 lVar3;
-  
-  uVar2 = (unsigned __int64)(param_2 >> 5);
-  uVar1 = (unsigned __int64)(unsigned int)(2 << (param_2 & 0x1f)) - 1;
-  param_1 = uVar2 * 4 + param_1;
-  do {
-    uVar1 = uVar1 & ~(unsigned __int64)*(unsigned int *)param_1;
-    if (uVar1 != 0) {
-      lVar3 = 0x1f - LZCOUNT((int)uVar1);
-      *param_3 = *(unsigned int *)param_1 >> ((unsigned int)lVar3 & 0x3c) & 0xf;
-      return (uVar2 & 0x7ffffff) * 0x20 + lVar3;
+    unsigned int mask = (2u << (start & 31)) - 1;
+    int i;
+    for (i = start >> 5; i >= 0; i--) {
+        unsigned int w = set->words[i];
+        unsigned int x = ~w & mask;
+        if (x != 0) {
+            unsigned int bit = 31 - _CountLeadingZeros(x);
+            *value = (w >> (bit & ~3)) & 0xf;
+            return i * 32 + bit;
+        }
+        mask = ~0u;
     }
-    uVar2 = uVar2 - 1;
-    uVar1 = 0xffffffffffffffff;
-    param_1 = param_1 + -4;
-  } while (-1 < (__int64)uVar2);
-  return -1;
+    return 0xffffffff;
 }
-

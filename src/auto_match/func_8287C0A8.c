@@ -1,19 +1,16 @@
-extern unsigned int lbl_8201543C;
-extern unsigned int lbl_82022E58;
-extern unsigned int lbl_82022E5C;
+extern const float lbl_82022E5C;    /* 180.0f */
+extern const float lbl_82022E58;    /* -180.0f */
+extern const float lbl_8201543C;    /* 360.0f */
 
-
-double fn_8287C0A8(double param_1,double param_2)
-
+/* Signed difference to - from in degrees, wrapped into (-180, 180]. */
+float fn_8287C0A8(float from, float to)
 {
-  if ((float)(param_1 - param_2) < lbl_82022E5C) {
-    if ((float)(param_1 - param_2) <= lbl_82022E58) {
-      param_2 = (double)(float)(param_2 - (double)lbl_8201543C);
-    }
-  }
-  else {
-    param_1 = (double)(float)(param_1 - (double)lbl_8201543C);
-  }
-  return (double)(float)(param_2 - param_1);
-}
+    float diff = from - to;
 
+    if (diff >= lbl_82022E5C) {
+        from -= lbl_8201543C;
+    } else if (diff <= lbl_82022E58) {
+        to -= lbl_8201543C;
+    }
+    return to - from;
+}

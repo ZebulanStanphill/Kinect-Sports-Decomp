@@ -1,9 +1,15 @@
-unsigned __int64 fn_82CFA878(int param_1,unsigned __int64 param_2)
+typedef struct Obj_82CFA878 {
+    char pad0[0x10];
+    int base;               /* 0x10 */
+    int pad14;
+    int limit;              /* 0x18 */
+    int current;            /* 0x1c */
+    int requested;          /* 0x20 */
+} Obj_82CFA878;
 
+int fn_82CFA878(Obj_82CFA878 *self, int value)
 {
-  *(int *)(param_1 + 0x20) = (int)param_2;
-  *(unsigned int *)(param_1 + 0x1c) = *(unsigned int *)(param_1 + 0x10);
-  return ((~(param_2 ^ *(unsigned int *)(param_1 + 0x18)) & 0xffffffff) >> 0x1f) +
-         (unsigned __int64)(param_2 <= *(unsigned int *)(param_1 + 0x18)) & 1;
+    self->requested = value;
+    self->current = self->base;
+    return value > self->limit;
 }
-

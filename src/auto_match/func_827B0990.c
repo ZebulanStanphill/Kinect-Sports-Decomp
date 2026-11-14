@@ -1,36 +1,33 @@
-extern unsigned int *auStack_40;
-extern int fn_827664B0();
-extern int fn_827668B8();
+typedef struct Reader_827B0990 {
+    int unused;
+} Reader_827B0990;
 
+typedef struct Table_827B0990 {
+    char pad0[0xc];
+    Reader_827B0990 reader;     /* 0x0c */
+} Table_827B0990;
 
-unsigned __int64 fn_827B0990(__int64 param_1,__int64 param_2)
+extern unsigned int fn_827664B0(Reader_827B0990 *reader, unsigned int pos, unsigned int *out);
+extern unsigned int fn_827668B8(Reader_827B0990 *reader, unsigned int pos, unsigned char *out);
 
+unsigned int fn_827B0990(Table_827B0990 *self, unsigned int pos)
 {
-  unsigned __int64 uVar1;
-  __int64 lVar2;
-  unsigned __int64 uVar3;
-  int iVar4;
-  unsigned __int64 uVar5;
-  unsigned int auStack_40 [2];
-  unsigned char abStack_38 [56];
-  
-  uVar5 = 0;
-  lVar2 = fn_827664B0(param_1 + 0xc,param_2,auStack_40);
-  lVar2 = lVar2 + param_2;
-  auStack_40[0] = auStack_40[0] >> 1;
-  while (auStack_40[0] != 0) {
-    auStack_40[0] = auStack_40[0] - 1;
-    uVar3 = fn_827668B8(param_1 + 0xc,lVar2,abStack_38);
-    iVar4 = 0;
-    lVar2 = uVar3 + lVar2;
-    uVar1 = uVar3 & 0xffffffff;
-    while (uVar1 != 0) {
-      uVar5 = (unsigned __int64)abStack_38[iVar4] ^ uVar5 * 0x21;
-      iVar4 = iVar4 + 1;
-      uVar3 = uVar3 - 1;
-      uVar1 = uVar3;
-    }
-  }
-  return uVar5;
-}
+    unsigned int hash = 0;
+    unsigned int length;
+    unsigned int count;
+    unsigned int n;
+    unsigned int i;
+    unsigned char bytes[8];
 
+    pos += fn_827664B0(&self->reader, pos, &length);
+    count = length >> 1;
+    while (count != 0) {
+        count--;
+        n = fn_827668B8(&self->reader, pos, bytes);
+        pos += n;
+        for (i = 0; i < n; i++) {
+            hash = hash * 33 ^ bytes[i];
+        }
+    }
+    return hash;
+}

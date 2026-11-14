@@ -1,32 +1,20 @@
-void fn_82AB0350(unsigned __int64 param_1,unsigned int *param_2,unsigned int *param_3,unsigned int *param_4,
-                  unsigned int *param_5,unsigned int *param_6)
-
+void fn_82AB0350(unsigned int flags, const unsigned int *src, unsigned int *a, unsigned int *b,
+                 unsigned int *c, unsigned int *d)
 {
-  unsigned int uVar1;
-  
-  uVar1 = 0;
-  if ((param_1 & 0x10000) == 0) {
-    *param_3 = 0;
-  }
-  else {
-    *param_3 = *param_2;
-  }
-  if ((param_1 & 0x20000) == 0) {
-    *param_4 = 0;
-  }
-  else {
-    *param_4 = param_2[1];
-  }
-  if ((param_1 & 0x40000) == 0) {
-    *param_5 = 0;
-  }
-  else {
-    *param_5 = param_2[2];
-  }
-  if ((param_1 & 0x80000) != 0) {
-    uVar1 = param_2[3];
-  }
-  *param_6 = uVar1;
-  return;
+    if (flags & 0x10000)
+        *a = src[0];
+    else
+        *a = 0;
+    if (flags & 0x20000)
+        *b = src[1];
+    else
+        *b = 0;
+    if (flags & 0x40000)
+        *c = src[2];
+    else
+        *c = 0;
+    if (flags & 0x80000)
+        *d = src[3];
+    else
+        *d = 0;
 }
-

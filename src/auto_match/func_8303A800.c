@@ -1,32 +1,41 @@
-extern unsigned int uStack_39c;
-extern unsigned int uStack_3a0;
-extern unsigned int uStack_3a2;
-extern unsigned int uStack_3a4;
-extern unsigned int uStack_70;
+typedef struct Query_8303A800 {
+    unsigned int found;
+    int pad04[2];
+    unsigned short in;
+    unsigned short out;
+    unsigned short f10;
+    unsigned short pad12;
+    int f14;
+    char pad18[0x340 - 0x18];
+    int result;
+    char pad344[0x390 - 0x344];
+} Query_8303A800;
 
+typedef struct Obj_8303A800 Obj_8303A800;
+typedef struct ObjVt_8303A800 {
+    void *pad00[2];
+    void (*release)(Obj_8303A800 *self);
+    void *pad0c[7];
+    void (*query)(Obj_8303A800 *self, Query_8303A800 *q);
+} ObjVt_8303A800;
+struct Obj_8303A800 {
+    ObjVt_8303A800 *vt;
+};
 
-unsigned int fn_8303A800(int *param_1,unsigned int *param_2)
-
+int fn_8303A800(Obj_8303A800 *self, unsigned int *value)
 {
-  int aiStack_3b0;
-  unsigned short uStack_3a4;
-  unsigned short uStack_3a2;
-  unsigned short uStack_3a0;
-  unsigned int uStack_39c;
-  unsigned int uStack_70;
-  
-  aiStack_3b0 = 0;
-  uStack_3a0 = 0;
-  uStack_39c = 0;
-  uStack_3a4 = (unsigned short)*param_2;
-  (**(int (***)())(*param_1 + 0x28))(param_1,&aiStack_3b0);
-  if (aiStack_3b0 == 0) {
-    *param_2 = 0;
-  }
-  else {
-    *param_2 = (unsigned int)uStack_3a2;
-    (**(int (***)())(*param_1 + 8))(param_1);
-  }
-  return uStack_70;
-}
+    Query_8303A800 q;
 
+    q.found = 0;
+    q.f10 = 0;
+    q.f14 = 0;
+    q.in = (unsigned short)*value;
+    self->vt->query(self, &q);
+    if (q.found != 0) {
+        *value = q.out;
+        self->vt->release(self);
+    } else {
+        *value = 0;
+    }
+    return q.result;
+}

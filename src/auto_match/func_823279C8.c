@@ -1,41 +1,51 @@
-extern int fn_822D6AB8();
-extern int fn_8265CA20();
-extern int fn_8288B760();
+typedef struct Node_823279C8 {
+    struct Node_823279C8 *next;
+    struct Node_823279C8 *prev;
+    unsigned int value;
+} Node_823279C8;
 
+typedef struct {
+    Node_823279C8 *head;
+    int size;
+} List_823279C8;
 
-void fn_823279C8(int *param_1,unsigned __int64 param_2)
+struct Obj_823279C8;
 
+typedef struct {
+    void *slots[20];
+    char *(*getOwner)(struct Obj_823279C8 *self);
+} Vtbl_823279C8;
+
+typedef struct Obj_823279C8 {
+    Vtbl_823279C8 *vt;
+    unsigned char pad[0xcc];
+    List_823279C8 list;
+} Obj_823279C8;
+
+extern unsigned char fn_8288B760(void *obj);
+extern void fn_822D6AB8(void *target, unsigned int value);
+extern void fn_8265CA20(void *p);
+
+void fn_823279C8(Obj_823279C8 *self, unsigned int value)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  unsigned int *puVar3;
-  char cVar5;
-  __int64 lVar4;
-  unsigned int *puVar6;
-  
-  cVar5 = fn_8288B760();
-  if (cVar5 == '\0') {
-    puVar1 = (unsigned int *)param_1[0x34];
-    puVar6 = (unsigned int *)*puVar1;
-    while (puVar6 != puVar1) {
-      if ((unsigned __int64)(unsigned int)puVar6[2] == (param_2 & 0xffffffff)) {
-        puVar2 = (unsigned int *)puVar6[1];
-        puVar3 = (unsigned int *)*puVar6;
-        *puVar2 = puVar3;
-        puVar3[1] = puVar2;
-        fn_8265CA20(puVar6);
-        param_1[0x35] = param_1[0x35] + -1;
-        puVar6 = puVar3;
-      }
-      else {
-        puVar6 = (unsigned int *)*puVar6;
-      }
+    if (fn_8288B760(self)) {
+        fn_822D6AB8(self->vt->getOwner(self) + 0x178, value);
+    } else {
+        List_823279C8 *list = &self->list;
+        Node_823279C8 *head = list->head;
+        Node_823279C8 *n = head->next;
+        while (n != head) {
+            if (n->value == value) {
+                Node_823279C8 *dead = n;
+                Node_823279C8 *prev = dead->prev;
+                n = dead->next;
+                prev->next = n;
+                n->prev = prev;
+                fn_8265CA20(dead);
+                list->size--;
+            } else {
+                n = n->next;
+            }
+        }
     }
-  }
-  else {
-    lVar4 = (**(int (***)())(*param_1 + 0x50))(param_1);
-    fn_822D6AB8(lVar4 + 0x178,param_2);
-  }
-  return;
 }
-

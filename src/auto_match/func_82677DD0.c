@@ -1,47 +1,43 @@
-extern int fn_8262FEC8();
-extern int fn_82631578();
-extern int fn_82631920();
+typedef struct Obj_82677DD0 {
+    char pad0[0x28];
+    void *items[19];
+    void *extras[19];
+    void *others[5];
+    int padD4;
+    void *player;
+} Obj_82677DD0;
 
+extern void fn_82631920(void *player, int arg);
+extern void fn_82631578(void *player, int arg);
+extern void fn_82631AF0(void *player, int arg);
+extern void fn_8262FEC8(void *p);
 
-void fn_82677DD0(int param_1)
-
+static __forceinline void Release_82677DD0(void **slot)
 {
-  __int64 lVar1;
-  int *piVar2;
-  
-  if (*(int *)(param_1 + 0xd8) != 0) {
-    fn_82631920(*(int *)(param_1 + 0xd8),0);
-                    /* WARNING: Subroutine does not return */
-    fn_82631578(*(unsigned int *)(param_1 + 0xd8),0);
-  }
-  piVar2 = (int *)(param_1 + 0x28);
-  lVar1 = 0x13;
-  do {
-    if (*piVar2 != 0) {
-      if (*piVar2 != 0) {
-        fn_8262FEC8();
-      }
-      *piVar2 = 0;
-      if (piVar2[0x13] != 0) {
-        fn_8262FEC8();
-      }
-      piVar2[0x13] = 0;
+    if (*slot != 0) {
+        fn_8262FEC8(*slot);
     }
-    lVar1 = lVar1 + -1;
-    piVar2 = piVar2 + 1;
-  } while (lVar1 != 0);
-  piVar2 = (int *)(param_1 + 0xc0);
-  lVar1 = 5;
-  do {
-    if (*piVar2 != 0) {
-      if (*piVar2 != 0) {
-        fn_8262FEC8();
-      }
-      *piVar2 = 0;
-    }
-    lVar1 = lVar1 + -1;
-    piVar2 = piVar2 + 1;
-  } while (lVar1 != 0);
-  return;
+    *slot = 0;
 }
 
+void fn_82677DD0(Obj_82677DD0 *self)
+{
+    int i;
+
+    if (self->player != 0) {
+        fn_82631920(self->player, 0);
+        fn_82631578(self->player, 0);
+        fn_82631AF0(self->player, 0);
+    }
+    for (i = 0; i < 19; i++) {
+        if ((int)self->items[i] != 0) {
+            Release_82677DD0(&self->items[i]);
+            Release_82677DD0(&self->extras[i]);
+        }
+    }
+    for (i = 0; i < 5; i++) {
+        if ((int)self->others[i] != 0) {
+            Release_82677DD0(&self->others[i]);
+        }
+    }
+}
