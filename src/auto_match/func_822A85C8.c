@@ -1,54 +1,50 @@
-extern int fn_822A5A40();
-extern int fn_822A5B48();
-extern int fn_8265CA20();
+typedef struct Object_822A85C8 {
+    char pad0[0x54c];
+    int finished;
+} Object_822A85C8;
 
+typedef struct __declspec(align(16)) Entry_822A85C8 {
+    __int64 pad0[4];
+    int pad20;
+    Object_822A85C8 *object;
+    __int64 pad28;
+} Entry_822A85C8;
 
-void fn_822A85C8(unsigned __int64 param_1,int *param_2)
+typedef struct Vector_822A85C8 {
+    Entry_822A85C8 *begin;
+    Entry_822A85C8 *end;
+} Vector_822A85C8;
 
+extern void fn_822A5A40(Object_822A85C8 *object);
+extern void fn_822A5B48(Object_822A85C8 *object, float dt);
+extern void fn_8265CA20(void *p);
+
+void fn_822A85C8(Vector_822A85C8 *list, float dt)
 {
-  int iVar1;
-  unsigned __int64 *puVar2;
-  unsigned __int64 *puVar3;
-  int iVar4;
-  int iVar5;
-  int iVar6;
-  __int64 lVar7;
-  
-  iVar6 = *param_2;
-  while (iVar6 != param_2[1]) {
-    iVar4 = *(int *)(iVar6 + 0x24);
-    if (*(int *)(iVar4 + 0x54c) == 0) {
-      fn_822A5B48(param_1,iVar4);
-      iVar6 = iVar6 + 0x30;
+    Entry_822A85C8 *it = list->begin;
+    while (it != list->end) {
+        Object_822A85C8 *object;
+        if (it->object->finished != 0) {
+            Entry_822A85C8 *dst;
+            Entry_822A85C8 *src;
+            Entry_822A85C8 *last;
+            Entry_822A85C8 *p;
+            object = it->object;
+            if (object != 0) {
+                fn_822A5A40(object);
+                fn_8265CA20(object);
+            }
+            it->object = 0;
+            last = list->end;
+            for (dst = it, src = it + 1; src != last; dst++, src++)
+                *dst = *src;
+            last = list->end - 1;
+            for (p = last; p != list->end; p++) {
+            }
+            list->end = last;
+        } else {
+            fn_822A5B48(it->object, dt);
+            it++;
+        }
     }
-    else {
-      if (iVar4 != 0) {
-        fn_822A5A40(iVar4);
-        fn_8265CA20(iVar4);
-      }
-      *(unsigned int *)(iVar6 + 0x24) = 0;
-      iVar4 = param_2[1];
-      iVar5 = iVar6;
-      iVar1 = iVar6;
-      while (iVar1 + 0x30 != iVar4) {
-        puVar3 = (unsigned __int64 *)(iVar1 + 0x28);
-        puVar2 = (unsigned __int64 *)(iVar5 + -8);
-        lVar7 = 6;
-        do {
-          puVar3 = puVar3 + 1;
-          puVar2 = puVar2 + 1;
-          *puVar2 = *puVar3;
-          lVar7 = lVar7 + -1;
-        } while (lVar7 != 0);
-        iVar5 = iVar5 + 0x30;
-        iVar1 = iVar1 + 0x30;
-      }
-      iVar5 = param_2[1] + -0x30;
-      for (iVar4 = iVar5; iVar4 != param_2[1]; iVar4 = iVar4 + 0x30) {
-      }
-      param_2[1] = iVar5;
-    }
-  }
-  return;
 }
-

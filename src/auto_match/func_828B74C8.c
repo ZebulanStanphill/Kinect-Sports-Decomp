@@ -1,40 +1,29 @@
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern int fn_822315A0();
-extern int fn_828B7258();
-extern unsigned int stack0x00000000;
-extern unsigned int uStack_3c;
+typedef struct { int px; void *rc; } SP_828B74C8;
+extern void fn_822315A0(void *);
+extern void fn_828B7258(SP_828B74C8 *, int, int, SP_828B74C8 *, int);
 
-
-void fn_828B74C8(__int64 param_1,int param_2,unsigned __int64 param_3)
-
+static void SwapRc(void **a, void **b) { void *t = *a; *a = *b; *b = t; }
+static void SwapPx(int *a, int *b) { int t = *a; *a = *b; *b = t; }
+static void Swap(SP_828B74C8 *a, SP_828B74C8 *b)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar4;
-  unsigned int uStack_3c;
-  unsigned __int64 uVar3;
-  
-  param_2 = param_2 - (int)param_1;
-  uVar1 = param_2 >> 3;
-  uVar4 = (__int64)(param_2 >> 4) + (unsigned __int64)((int)uVar1 < 0 && (uVar1 & 1) != 0);
-  if (0 < (__int64)uVar4) {
-    uVar3 = (uVar4 & 0x1fffffff) * 8 + param_1;
-    do {
-      uVar2 = uVar3 - 8;
-      uStack_3c = 0;
-      uVar4 = uVar4 - 1;
-      if ((ZEXT48(&stack0x00000000) - 0x40 & 0xffffffff) != (uVar2 & 0xffffffff)) {
-        uStack_3c = *(int *)((int)uVar3 + -4);
-        *(unsigned int *)((int)uVar3 + -4) = 0;
-        *(unsigned int *)uVar2 = 0;
-      }
-      fn_828B7258(param_1,uVar4,uVar1,ZEXT48(&stack0x00000000) - 0x40,param_3);
-      if (uStack_3c != 0) {
-        fn_822315A0();
-      }
-      uVar3 = uVar2;
-    } while (0 < (int)uVar4);
-  }
-  return;
+  SwapRc(&a->rc, &b->rc);
+  SwapPx(&a->px, &b->px);
 }
-
+static void Ctor(SP_828B74C8 *d, SP_828B74C8 *s)
+{
+  d->px = 0;
+  d->rc = 0;
+  if (d != s) Swap(d, s);
+}
+void fn_828B74C8(SP_828B74C8 *first, SP_828B74C8 *last, int pred)
+{
+  int bottom = last - first;
+  int hole;
+  for (hole = bottom / 2; 0 < hole;) {
+    SP_828B74C8 value;
+    --hole;
+    Ctor(&value, &first[hole]);
+    fn_828B7258(first, hole, bottom, &value, pred);
+    if (value.rc != 0) fn_822315A0(value.rc);
+  }
+}

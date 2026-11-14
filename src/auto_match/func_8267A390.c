@@ -1,15 +1,20 @@
-__int64 fn_8267A390(int param_1,__int64 param_2)
+typedef struct Buffer_8267A390 {
+    int pad0;
+    char *data;
+    unsigned int size;
+} Buffer_8267A390;
 
+typedef struct Stream_8267A390 {
+    char pad0[8];
+    Buffer_8267A390 *buffer;
+    unsigned int pos;
+} Stream_8267A390;
+
+int fn_8267A390(Stream_8267A390 *self, int count)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  
-  uVar1 = *(unsigned int *)(param_1 + 0xc);
-  uVar2 = (unsigned __int64)*(unsigned int *)(*(int *)(param_1 + 8) + 8);
-  if (uVar2 < ((unsigned __int64)uVar1 + param_2 & 0xffffffff)) {
-    param_2 = uVar2 - uVar1;
-  }
-  *(unsigned int *)(param_1 + 0xc) = uVar1 + (int)param_2;
-  return param_2;
+    unsigned int pos = self->pos;
+    if (pos + count > self->buffer->size)
+        count = self->buffer->size - pos;
+    self->pos = pos + count;
+    return count;
 }
-

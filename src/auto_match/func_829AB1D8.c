@@ -1,40 +1,19 @@
-extern unsigned int lbl_820520F4;
+#include <string.h>
 
+extern const unsigned char lbl_820520F4[8];
 
-__int64 fn_829AB1D8(int param_1,unsigned int param_2,unsigned int param_3)
-
+int fn_829AB1D8(unsigned char *sig, unsigned int start, unsigned int num_to_check)
 {
-  unsigned char *pbVar1;
-  unsigned char *pbVar2;
-  unsigned char *pbVar3;
-  
-  if (param_3 < 9) {
-    if (param_3 == 0) {
-      return 0;
+    if (num_to_check > 8) {
+        num_to_check = 8;
+    } else if (num_to_check < 1) {
+        return 0;
     }
-  }
-  else {
-    param_3 = 8;
-  }
-  if (7 < param_2) {
-    return 0;
-  }
-  if (8 < param_2 + param_3) {
-    param_3 = 8 - param_2;
-  }
-  pbVar3 = (unsigned char *)(param_1 + param_2);
-  pbVar2 = &lbl_820520F4 + param_2;
-  if (param_3 != 0) {
-    pbVar1 = pbVar3 + param_3;
-    do {
-      if ((unsigned __int64)*pbVar3 - (unsigned __int64)*pbVar2 != 0) {
-        return (unsigned __int64)*pbVar3 - (unsigned __int64)*pbVar2;
-      }
-      pbVar3 = pbVar3 + 1;
-      pbVar2 = pbVar2 + 1;
-    } while (pbVar3 != pbVar1);
-    return 0;
-  }
-  return 0;
+    if (start > 7) {
+        return 0;
+    }
+    if (start + num_to_check > 8) {
+        num_to_check = 8 - start;
+    }
+    return memcmp(&sig[start], &lbl_820520F4[start], num_to_check);
 }
-

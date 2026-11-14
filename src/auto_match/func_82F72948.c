@@ -1,32 +1,36 @@
-extern int fn_82F72318();
+typedef struct Source_82F72948 Source_82F72948;
+typedef struct SourceVtbl_82F72948 {
+    int (*length)(Source_82F72948 *self);
+    void *s4;
+    char *(*copy)(Source_82F72948 *self, char *dst, char *last);
+} SourceVtbl_82F72948;
+struct Source_82F72948 { SourceVtbl_82F72948 *vt; };
 
+typedef struct Holder_82F72948 {
+    Source_82F72948 *source;
+} Holder_82F72948;
 
-unsigned char * fn_82F72948(int *param_1,unsigned char *param_2,int param_3)
+extern char *fn_82F72318(void *heap, int size, int flags);
+extern char lbl_832635A0[];
 
+char *fn_82F72948(Holder_82F72948 *self, char *buf, int size)
 {
-  unsigned char *puVar1;
-  
-  if ((unsigned int *)*param_1 == (unsigned int *)0x0) {
-    if (param_2 != (unsigned char *)0x0) {
-      *param_2 = 0;
+    if (self->source != 0) {
+        char *end;
+        if (buf == 0) {
+            size = self->source->vt->length(self->source) + 1;
+            buf = fn_82F72318(lbl_832635A0, size, 0);
+        }
+        if (buf != 0) {
+            if (self->source == 0) {
+                end = buf;
+            } else {
+                end = self->source->vt->copy(self->source, buf, buf + size - 1);
+            }
+            *end = 0;
+        }
+    } else if (buf != 0) {
+        *buf = 0;
     }
-  }
-  else {
-    if (param_2 == (unsigned char *)0x0) {
-      param_3 = (*(int (**)())**(unsigned int **)*param_1)();
-      param_3 = param_3 + 1;
-      param_2 = (unsigned char *)fn_82F72318(0xffffffff832635a0,param_3,0);
-      if (param_2 == (unsigned char *)0x0) {
-        return (unsigned char *)0x0;
-      }
-    }
-    param_1 = (int *)*param_1;
-    puVar1 = param_2;
-    if (param_1 != (int *)0x0) {
-      puVar1 = (unsigned char *)(**(int (***)())(*param_1 + 8))(param_1,param_2,param_2 + param_3 + -1);
-    }
-    *puVar1 = 0;
-  }
-  return param_2;
+    return buf;
 }
-

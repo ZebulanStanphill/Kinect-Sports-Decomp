@@ -1,18 +1,20 @@
-extern unsigned int lbl_821AAD20;
+typedef struct Obj_829E53C0 {
+    int pad0;
+    float x;
+    float y;
+    float z;
+} Obj_829E53C0;
 
-
-unsigned __int64 fn_829E53C0(double param_1,double param_2,double param_3,int param_4)
-
+long fn_829E53C0(Obj_829E53C0 *self, float x, float y, float z)
 {
-  double dVar1;
-  
-  dVar1 = (double)lbl_821AAD20;
-  if (((dVar1 <= param_1) && (dVar1 < param_2)) && (dVar1 < param_3)) {
-    *(float *)(param_4 + 4) = (float)param_1;
-    *(float *)(param_4 + 8) = (float)param_2;
-    *(float *)(param_4 + 0xc) = (float)param_3;
+    if (x < 0.0f)
+        return 0x80070057;
+    if (y <= 0.0f)
+        return 0x80070057;
+    if (z <= 0.0f)
+        return 0x80070057;
+    self->x = x;
+    self->y = y;
+    self->z = z;
     return 0;
-  }
-  return 0xffffffff80070057;
 }
-

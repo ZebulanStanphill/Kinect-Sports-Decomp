@@ -1,24 +1,25 @@
-extern int fn_82F691F0();
-extern unsigned int lbl_832178A8;
+typedef struct Entry_829C95E8 {
+    int words[19];
+} Entry_829C95E8;
 
+extern unsigned char lbl_83215000[];
+extern void *memset(void *, int, unsigned int);
 
-unsigned __int64 fn_829C95E8(void)
+#define IN_USE ((int *)(lbl_83215000 + 0x28a8))
+#define ENTRIES ((Entry_829C95E8 *)(lbl_83215000 + 0x27c4))
 
+Entry_829C95E8 *fn_829C95E8(void)
 {
-  int *piVar1;
-  unsigned int uVar2;
-  
-  uVar2 = 0;
-  piVar1 = (int *)&lbl_832178A8;
-  do {
-    if (*piVar1 == 0) {
-      *(unsigned int *)(&lbl_832178A8 + uVar2 * 4) = 1;
-                    /* WARNING: Subroutine does not return */
-      fn_82F691F0(uVar2 * 0x4c + -0x7cde883c,0,0x4c);
-    }
-    uVar2 = uVar2 + 1;
-    piVar1 = piVar1 + 1;
-  } while (uVar2 < 3);
-  return 0;
-}
+    unsigned int i;
+    Entry_829C95E8 *entry;
 
+    for (i = 0; i < 3; i++) {
+        if (IN_USE[i] == 0) {
+            IN_USE[i] = 1;
+            entry = &ENTRIES[i];
+            memset(entry, 0, sizeof(Entry_829C95E8));
+            return entry;
+        }
+    }
+    return 0;
+}

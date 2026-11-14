@@ -1,31 +1,41 @@
-extern int fn_82AA3400();
-extern int fn_82AA3680();
+typedef struct Section_82AA3AA8 {
+    unsigned int offset;
+    unsigned int size;
+} Section_82AA3AA8;
 
+typedef struct Header_82AA3AA8 {
+    char pad0[0x18];
+    Section_82AA3AA8 sections[1];
+} Header_82AA3AA8;
 
-unsigned __int64
-fn_82AA3AA8(unsigned __int64 param_1,int param_2,int param_3,unsigned int param_4,unsigned __int64 param_5,
-             unsigned __int64 param_6,unsigned __int64 param_7,int param_8)
+extern long fn_82AA3400(void *data, void *a2, void *a3, void *a4, void *a5);
+extern long fn_82AA3680(void *data, void *a2, void *a3, void *a4, void *a5);
 
+long fn_82AA3AA8(void *context, unsigned int kind, Header_82AA3AA8 *header, unsigned int size,
+                 void *a3, void *a4, void *a2, int index)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  
-  uVar1 = 0;
-  if (param_4 < 0x24) {
-    uVar1 = 0xffffffff80070057;
-  }
-  iVar2 = *(int *)((param_8 + 3) * 8 + param_3);
-  if ((iVar2 != 0) && (iVar2 = iVar2 + param_3, -1 < (int)uVar1)) {
-    if (param_2 == 0) {
-      uVar1 = fn_82AA3400(iVar2,param_7,param_5,param_6,param_1);
-    }
-    else if (param_2 == 1) {
-      uVar1 = fn_82AA3680(iVar2,param_7,param_5,param_6,param_1);
-    }
-    else {
-      uVar1 = 0xffffffff80070057;
-    }
-  }
-  return uVar1;
-}
+    long hr = 0;
+    unsigned int offset;
+    void *data;
 
+    if (size < 0x24)
+        hr = 0x80070057;
+    offset = header->sections[index].offset;
+    if (offset != 0) {
+        data = (char *)header + offset;
+        if (hr >= 0) {
+            switch (kind) {
+            case 0:
+                hr = fn_82AA3400(data, a2, a3, a4, context);
+                break;
+            case 1:
+                hr = fn_82AA3680(data, a2, a3, a4, context);
+                break;
+            default:
+                return 0x80070057;
+            }
+        }
+        return hr;
+    }
+    return hr;
+}

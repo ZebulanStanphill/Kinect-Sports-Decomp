@@ -1,39 +1,27 @@
-extern unsigned int *auStack_40;
-extern int fn_8306ED30();
-extern int fn_83075D30();
-extern int fn_83075D80();
-extern unsigned int lbl_821AAD20;
+typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
+    float vector4_f32[4];
+    unsigned int vector4_u32[4];
+} __vector4;
 
+typedef struct {
+    __vector4 v;
+} Vec;
 
-void fn_8306DA38(int param_1,unsigned __int64 param_2)
+typedef struct Path_8306DA38 {
+    char pad0[0x1a60];
+    __vector4 origin;
+} Path_8306DA38;
 
+extern Vec fn_83075D30(void *src, int i);
+extern __vector4 fn_8306ED30(__vector4 a, __vector4 b);
+extern void fn_83075D80(void *dst, int i, __vector4 v);
+
+void fn_8306DA38(Path_8306DA38 *self, void *points)
 {
-  unsigned int *puVar1;
-  int in_r0;
-  __int64 lVar2;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs35 [16];
-  unsigned int in_register_000103f0;
-  unsigned int in_register_000103f4;
-  unsigned int in_register_000103f8;
-  unsigned int in_vr63;
-  unsigned char auStack_40 [1];
-  
-  fn_83075D30(auStack_40,param_2,0);
-  altv207_13(in_vs32,in_vs35);
-  lVar2 = 0;
-  puVar1 = (unsigned int *)(in_r0 + param_1 + 0x1a60 & 0xfffffff0);
-  *puVar1 = in_register_000103f0;
-  puVar1[1] = in_register_000103f4;
-  puVar1[2] = in_register_000103f8;
-  puVar1[3] = in_vr63;
-  *(unsigned int *)(param_1 + 0x1a64) = lbl_821AAD20;
-  do {
-    fn_83075D30(auStack_40,param_2,lVar2);
-    fn_8306ED30();
-    fn_83075D80(param_2,lVar2);
-    lVar2 = lVar2 + 1;
-  } while ((int)lVar2 < 0x14);
-  return;
+    int i;
+    self->origin = fn_83075D30(points, 0).v;
+    self->origin.vector4_f32[1] = 0.0f;
+    for (i = 0; i < 20; i++) {
+        fn_83075D80(points, i, fn_8306ED30(fn_83075D30(points, i).v, self->origin));
+    }
 }
-

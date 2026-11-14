@@ -1,13 +1,16 @@
-extern unsigned int lbl_82002AE0;
-extern unsigned int uRam83263180;
+typedef struct Obj_82F58C88 {
+    int unk0[12];
+    int count;
+    int unk34;
+    int enabled;
+} Obj_82F58C88;
 
+extern unsigned int lbl_83263180;
 
-double fn_82F58C88(int param_1)
-
+float fn_82F58C88(Obj_82F58C88 *self)
 {
-  if (*(int *)(param_1 + 0x38) == 0) {
-    return (double)lbl_82002AE0;
-  }
-  return (double)((float)(__int64)*(int *)(param_1 + 0x30) / (float)uRam83263180);
+    if (self->enabled == 0) {
+        return 1.0f;
+    }
+    return (float)self->count / (float)lbl_83263180;
 }
-

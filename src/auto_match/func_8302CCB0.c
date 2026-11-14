@@ -1,52 +1,51 @@
-extern int fn_82FA5060();
-extern int fn_82FFF750();
-extern int fn_8303E5A8();
-extern int fn_8303E600();
-extern unsigned int lbl_831BC768;
+typedef struct Codec_8302CCB0 Codec_8302CCB0;
+typedef struct CodecVtbl_8302CCB0 {
+    void *s0;
+    int (*init)(Codec_8302CCB0 *self);
+} CodecVtbl_8302CCB0;
+struct Codec_8302CCB0 { CodecVtbl_8302CCB0 *vt; };
 
+typedef struct Decoder_8302CCB0 {
+    unsigned char pad[0x88];
+    Codec_8302CCB0 *codec;
+    int slots[31];
+    int count;
+    unsigned char pad10c[0x13];
+    unsigned char format;
+} Decoder_8302CCB0;
 
-unsigned __int64 fn_8302CCB0(int param_1)
+extern int fn_82FFF750(Decoder_8302CCB0 *self);
+extern void *fn_82FA5060(int heap, int size);
+extern Codec_8302CCB0 *fn_8303E5A8(void *mem);
+extern Codec_8302CCB0 *fn_8303E600(void *mem);
+extern int lbl_831BC768;
 
+int fn_8302CCB0(Decoder_8302CCB0 *self)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  int *piVar3;
-  unsigned int *puVar4;
-  __int64 lVar5;
-  
-  uVar1 = fn_82FFF750();
-  if ((int)uVar1 != 1) {
-    return uVar1;
-  }
-  puVar4 = (unsigned int *)(param_1 + 0x88);
-  *(unsigned int *)(param_1 + 0x108) = 0;
-  lVar5 = 0x1f;
-  do {
-    puVar4 = puVar4 + 1;
-    *puVar4 = 0;
-    lVar5 = lVar5 + -1;
-  } while (lVar5 != 0);
-  if ((*(unsigned char *)(param_1 + 0x11f) & 0xe0) == 0x20) {
-    iVar2 = fn_82FA5060(lbl_831BC768,0x10);
-    if (iVar2 != 0) {
-      piVar3 = (int *)fn_8303E5A8();
-      goto LAB_8302cd38;
-    }
-  }
-  else {
-    iVar2 = fn_82FA5060(lbl_831BC768,0x10);
-    if (iVar2 != 0) {
-      piVar3 = (int *)fn_8303E600();
-      goto LAB_8302cd38;
-    }
-  }
-  piVar3 = (int *)0x0;
-LAB_8302cd38:
-  *(int **)(param_1 + 0x88) = piVar3;
-  if (piVar3 == (int *)0x0) {
-    return 2;
-  }
-  uVar1 = (**(int (***)())(*piVar3 + 4))();
-  return uVar1;
-}
+    int result;
+    int i;
+    void *mem;
 
+    result = fn_82FFF750(self);
+    if (result != 1) {
+        return result;
+    }
+    {
+        int *p = self->slots;
+        self->count = 0;
+        for (i = 0; i < 31; i++) {
+            p[i] = 0;
+        }
+    }
+    if ((self->format & 0xe0) == 0x20) {
+        mem = fn_82FA5060(lbl_831BC768, 0x10);
+        self->codec = mem ? fn_8303E5A8(mem) : 0;
+    } else {
+        mem = fn_82FA5060(lbl_831BC768, 0x10);
+        self->codec = mem ? fn_8303E600(mem) : 0;
+    }
+    if (self->codec != 0) {
+        return self->codec->vt->init(self->codec);
+    }
+    return 2;
+}

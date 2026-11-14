@@ -1,31 +1,25 @@
-extern int fn_82273C88();
-extern int fn_82273CD8();
-extern int fn_82672C20();
-extern unsigned int uStack_28;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+typedef struct Val_8229EAA8 { int w0; int type; unsigned int value; } Val_8229EAA8;
+typedef struct Obj_8229EAA8 { int pending; int f4; void *handle; } Obj_8229EAA8;
 
+extern void fn_82672C20(void *h, const char *name, Val_8229EAA8 *args, int n);
+extern void fn_82273CD8(Val_8229EAA8 *v, int type);
+extern void fn_82273C88(Val_8229EAA8 *v);
 
-void fn_8229EAA8(int *param_1,unsigned int param_2)
-
+void fn_8229EAA8(Obj_8229EAA8 *self, unsigned int value)
 {
-  struct { unsigned int first; unsigned int second; } stack_pair_30;
+    Val_8229EAA8 v;
 
-  unsigned int uStack_28;
-  
-  if (*param_1 != 0) {
-    *param_1 = 0;
-    fn_82672C20(param_1[2],0xffffffff821ab58c,0,0);
-    if (*param_1 != 0) {
-      return;
+    if (self->pending != 0) {
+        self->pending = 0;
+        fn_82672C20(self->handle, "_root.transIn", 0, 0);
+        if (self->pending != 0) {
+            return;
+        }
     }
-  }
-  stack_pair_30.first = 0;
-  stack_pair_30.second = 0;
-  fn_82273CD8(&stack_pair_30.first,5);
-  uStack_28 = param_2;
-  fn_82672C20(param_1[2],0xffffffff821ab59c,&stack_pair_30.first,1);
-  fn_82273C88(&stack_pair_30.first);
-  return;
+    v.w0 = 0;
+    v.type = 0;
+    fn_82273CD8(&v, 5);
+    v.value = value;
+    fn_82672C20(self->handle, "_root.infoText", &v, 1);
+    fn_82273C88(&v);
 }
-

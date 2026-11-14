@@ -1,47 +1,48 @@
-#define true 1
+typedef struct Item_824C5838 Item_824C5838;
+typedef struct ItemVt_824C5838 {
+    void *slots[3];
+    int (*isReady)(Item_824C5838 *self);
+} ItemVt_824C5838;
+struct Item_824C5838 { ItemVt_824C5838 *vt; };
 
+typedef struct Entry_824C5838 {
+    union { Item_824C5838 *item; int id; };
+    int data;
+} Entry_824C5838;
 
-int * fn_824C5838(int param_1)
+typedef struct Obj_824C5838 {
+    unsigned char pad[0x28];
+    Entry_824C5838 *begin;
+    Entry_824C5838 *end;
+    int pad30[2];
+    Entry_824C5838 current;
+} Obj_824C5838;
 
+static __forceinline Entry_824C5838 *Next(Entry_824C5838 *it, Entry_824C5838 *begin, Entry_824C5838 **end, Entry_824C5838 *start)
 {
-  int *piVar1;
-  int *piVar2;
-  int iVar3;
-  int **ppiVar4;
-  int *piVar5;
-  int *piVar6;
-  int *piStack_40;
-  int *apiStack_3c [1];
-  
-  piVar1 = *(int **)(param_1 + 0x2c);
-  piVar2 = *(int **)(param_1 + 0x28);
-  apiStack_3c[0] = piVar1;
-  piVar5 = piVar2;
-  piVar6 = piVar2;
-  if (piVar2 != piVar1) {
-    do {
-      piVar6 = piVar5;
-      if (*piVar5 == *(int *)(param_1 + 0x38)) break;
-      piVar5 = piVar5 + 2;
-      piVar6 = piVar5;
-    } while (piVar5 != piVar1);
-  }
-  while( true ) {
-    piStack_40 = piVar5 + 2;
-    if (piStack_40 == piVar1) {
-      piStack_40 = piVar2;
+    Entry_824C5838 *next = it + 1;
+    if (next == *end) {
+        next = begin;
     }
-    ppiVar4 = apiStack_3c;
-    if (piStack_40 != piVar6) {
-      ppiVar4 = &piStack_40;
-    }
-    piVar5 = *ppiVar4;
-    if (piVar5 == piVar1) break;
-    iVar3 = (**(int (***)())(*(int *)*piVar5 + 0xc))();
-    if (iVar3 != 0) {
-      return piVar5;
-    }
-  }
-  return (int *)(param_1 + 0x38);
+    return *(next == start ? end : &next);
 }
 
+Entry_824C5838 *fn_824C5838(Obj_824C5838 *self)
+{
+    Entry_824C5838 *end = self->end;
+    Entry_824C5838 *begin = self->begin;
+    Entry_824C5838 *start;
+    Entry_824C5838 *it;
+
+    for (start = begin; start != end; start++) {
+        if (start->id == self->current.id) {
+            break;
+        }
+    }
+    for (it = Next(start, begin, &end, start); it != end; it = Next(it, begin, &end, start)) {
+        if (it->item->vt->isReady(it->item) != 0) {
+            return it;
+        }
+    }
+    return &self->current;
+}

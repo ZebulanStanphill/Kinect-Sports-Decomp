@@ -1,36 +1,31 @@
-extern int fn_82F69F30();
-extern int fn_82F6ADA8();
+extern int fn_82F6ADA8(const unsigned short *a, const unsigned short *b);
+extern int fn_82F69F30(const unsigned short *s, unsigned short **end, int base);
 
-
-unsigned __int64
-fn_82F41048(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,int param_4,unsigned int *param_5)
-
+int fn_82F41048(void *self, const unsigned short *name, int stream, unsigned int type, unsigned char *value)
 {
-  int iVar1;
-  unsigned int uVar2;
-  
-  iVar1 = fn_82F6ADA8(param_2,0xffffffff82163024);
-  if (iVar1 != 0) {
-    return 0;
-  }
-  if (param_4 == 0) {
-    uVar2 = *param_5;
-  }
-  else if (param_4 == 1) {
-    uVar2 = fn_82F69F30(param_5,0,10);
-  }
-  else if (param_4 == 4) {
-    uVar2 = (unsigned int)*(unsigned __int64 *)param_5;
-  }
-  else {
-    if (param_4 != 5) {
-      return 0xffffffff80070057;
+    int hr = 0;
+    if (fn_82F6ADA8(name, L"WM/TrackNumber") == 0) {
+        int number;
+        switch (type) {
+        case 0:
+            number = *(unsigned int *)value;
+            break;
+        case 1:
+            number = fn_82F69F30((unsigned short *)value, 0, 10);
+            break;
+        case 4:
+            number = (int)*(unsigned __int64 *)value;
+            break;
+        case 5:
+            number = *(unsigned short *)value;
+            break;
+        default:
+            number = 0;
+            break;
+        }
+        if (number <= 0) {
+            hr = 0x80070057;
+        }
     }
-    uVar2 = (unsigned int)*(unsigned short *)param_5;
-  }
-  if ((int)uVar2 < 1) {
-    return 0xffffffff80070057;
-  }
-  return 0;
+    return hr;
 }
-

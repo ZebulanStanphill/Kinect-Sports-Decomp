@@ -1,29 +1,38 @@
-#define true 1
-extern unsigned int lbl_831B9FE0;
+extern unsigned char lbl_831B9FE0[];
 
+typedef struct Item_82F39D20 {
+    int words[2];
+} Item_82F39D20;
 
-unsigned __int64 fn_82F39D20(int param_1,unsigned int param_2,int *param_3)
+typedef struct Pool_82F39D20 {
+    int unk0;
+    unsigned int first;
+    int unk8[3];
+    unsigned char used[4];
+    Item_82F39D20 items[20];
+    struct Pool_82F39D20 *next;
+} Pool_82F39D20;
 
+long fn_82F39D20(Pool_82F39D20 *pool, unsigned int index, Item_82F39D20 **out)
 {
-  unsigned int uVar1;
-  
-  if (param_3 == (int *)0x0) {
-    return 0xffffffff80070057;
-  }
-  *param_3 = 0;
-  while( true ) {
-    if (param_1 == 0) {
-      return 0xffffffff80004005;
-    }
-    uVar1 = *(unsigned int *)(param_1 + 4);
-    if ((uVar1 <= param_2) && (param_2 < uVar1 + 0x14)) break;
-    param_1 = *(int *)(param_1 + 0xb8);
-  }
-  param_2 = param_2 - uVar1;
-  if ((*(unsigned char *)((param_2 >> 3) + param_1 + 0x14) & (&lbl_831B9FE0)[param_2 & 7]) == 0) {
-    return 0xffffffff80004005;
-  }
-  *param_3 = (param_2 + 3) * 8 + param_1;
-  return 0;
-}
+    long hr;
+    Pool_82F39D20 *p;
 
+    if (out == 0) {
+        return 0x80070057;
+    }
+    p = pool;
+    *out = 0;
+    hr = 0x80004005;
+    for (; p != 0; p = p->next) {
+        if (index >= p->first && index < p->first + 20) {
+            index -= p->first;
+            if (p->used[index >> 3] & lbl_831B9FE0[index & 7]) {
+                *out = &p->items[index];
+                hr = 0;
+            }
+            break;
+        }
+    }
+    return hr;
+}

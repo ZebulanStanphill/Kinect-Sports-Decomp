@@ -1,30 +1,35 @@
-extern int fn_822ABAF8();
-extern int fn_822ABF20();
-extern int fn_82526C70();
+extern int fn_82526C70(char *buf, int size, const char *fmt, ...);
+extern const char *fn_822ABF20(void *item);
+extern void fn_822ABAF8(void *item, const char *state);
+extern char lbl_821AC494[];
 
+typedef struct Item_822AE9D8 {
+    char pad0[0x18];
+    int current;
+    char pad1C[0x28 - 0x1c];
+    char name[0x20];
+} Item_822AE9D8;
 
-void fn_822AE9D8(unsigned int *param_1)
+typedef struct Slot_822AE9D8 {
+    Item_822AE9D8 **items;
+    int pad4[3];
+    int index;
+} Slot_822AE9D8;
 
+typedef struct SlotList_822AE9D8 {
+    Slot_822AE9D8 **begin;
+    Slot_822AE9D8 **end;
+} SlotList_822AE9D8;
+
+void fn_822AE9D8(SlotList_822AE9D8 *self)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  int *piVar3;
-  
-  piVar3 = (int *)*param_1;
-  if (piVar3 < (int *)param_1[1]) {
-    do {
-      iVar1 = *(int *)(((int *)*piVar3)[4] * 4 + *(int *)*piVar3);
-      fn_82526C70(iVar1 + 0x28,0x20,0xffffffff821ac494);
-      if (*(int *)(iVar1 + 0x18) == 0) {
-        uVar2 = 0xffffffff821ac49c;
-      }
-      else {
-        uVar2 = fn_822ABF20(iVar1);
-      }
-      fn_822ABAF8(iVar1,uVar2);
-      piVar3 = piVar3 + 1;
-    } while (piVar3 < (int *)param_1[1]);
-  }
-  return;
+    Slot_822AE9D8 **it;
+    for (it = self->begin; it < self->end; it++) {
+        Item_822AE9D8 *item = (*it)->items[(*it)->index];
+        fn_82526C70(item->name, 0x20, lbl_821AC494);
+        if (item->current != 0)
+            fn_822ABAF8(item, fn_822ABF20(item));
+        else
+            fn_822ABAF8(item, "start");
+    }
 }
-

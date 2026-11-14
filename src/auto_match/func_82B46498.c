@@ -1,23 +1,25 @@
-void fn_82B46498(int param_1,int param_2)
+typedef struct Desc_82B46498 {
+    int pad0;
+    int value;
+    unsigned int flags;
+} Desc_82B46498;
 
+typedef struct State_82B46498 {
+    char pad0[0x20];
+    int value;
+    int pad24;
+    unsigned int flags;
+} State_82B46498;
+
+void fn_82B46498(State_82B46498 *self, const Desc_82B46498 *desc)
 {
-  unsigned int uVar1;
-  
-  *(unsigned int *)(param_1 + 0x20) = *(unsigned int *)(param_2 + 4);
-  if ((*(unsigned int *)(param_2 + 8) & 1) == 0) {
-    uVar1 = *(unsigned int *)(param_1 + 0x28) & 0xdfffffff;
-  }
-  else {
-    uVar1 = *(unsigned int *)(param_1 + 0x28) | 0x20000000;
-  }
-  *(unsigned int *)(param_1 + 0x28) = uVar1;
-  if ((*(unsigned int *)(param_2 + 8) & 2) == 0) {
-    uVar1 = *(unsigned int *)(param_1 + 0x28) & 0xfffffffd;
-  }
-  else {
-    uVar1 = *(unsigned int *)(param_1 + 0x28) | 2;
-  }
-  *(unsigned int *)(param_1 + 0x28) = uVar1;
-  return;
+    self->value = desc->value;
+    if (desc->flags & 1)
+        self->flags |= 0x20000000;
+    else
+        self->flags &= ~0x20000000;
+    if (desc->flags & 2)
+        self->flags |= 2;
+    else
+        self->flags &= ~2;
 }
-

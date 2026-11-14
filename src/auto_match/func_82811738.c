@@ -1,10 +1,7 @@
-typedef unsigned char bool;
-
-
-bool fn_82811738(double param_1,float *param_2,float *param_3)
-
+int fn_82811738(float *a, float *b, float radius)
 {
-  return (param_2[1] - param_3[1]) * (param_2[1] - param_3[1]) <= (float)(param_1 * param_1) &&
-         (*param_2 - *param_3) * (*param_2 - *param_3) <= (float)(param_1 * param_1);
+    float r2 = radius * radius;
+    int inX = (a[0] - b[0]) * (a[0] - b[0]) <= r2;
+    int inY = (a[1] - b[1]) * (a[1] - b[1]) <= r2;
+    return inY & inX;
 }
-

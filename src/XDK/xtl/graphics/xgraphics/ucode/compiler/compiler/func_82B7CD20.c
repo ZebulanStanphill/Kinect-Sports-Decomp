@@ -1,28 +1,27 @@
-extern unsigned int *auStack_b0;
-extern int fn_82B7C958();
-extern int sprintf();
+typedef struct Counter_82B7CD20 {
+    unsigned __int64 cycles;
+    int calls;
+    const char *name;
+    int pad;
+} Counter_82B7CD20;
 
+typedef struct Compiler_82B7CD20 {
+    unsigned char pad[0x860];
+    Counter_82B7CD20 counters[16];
+} Compiler_82B7CD20;
 
-void fn_82B7CD20(int param_1)
+extern void fn_82B7C958(Compiler_82B7CD20 *self, const char *fmt, ...);
+extern int sprintf(char *buf, const char *fmt, ...);
 
+void fn_82B7CD20(Compiler_82B7CD20 *self)
 {
-  unsigned int *puVar1;
-  unsigned __int64 *puVar2;
-  __int64 lVar3;
-  unsigned __int64 *puVar4;
-  unsigned char auStack_b0 [176];
-  
-  fn_82B7C958(param_1,0xffffffff820db560,0xffffffff820db584,0xffffffff820db58c);
-  puVar4 = (unsigned __int64 *)(param_1 + 0x848);
-  lVar3 = 0x10;
-  do {
-    puVar1 = (unsigned int *)((int)puVar4 + 0x24);
-    puVar2 = puVar4 + 4;
-    puVar4 = puVar4 + 3;
-    sprintf(auStack_b0,0xffffffff820db544,*puVar1,*(unsigned int *)puVar2,*puVar4);
-    fn_82B7C958(param_1,auStack_b0);
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  return;
-}
+    char line[128];
+    int i;
 
+    fn_82B7C958(self, "Cpu Usage :           %6s  %20s\n", "called", "cycles");
+    for (i = 0; i < 16; i++) {
+        sprintf(line, "  %15s :   %6d  %20I64d\n", self->counters[i].name, self->counters[i].calls,
+                self->counters[i].cycles);
+        fn_82B7C958(self, line);
+    }
+}

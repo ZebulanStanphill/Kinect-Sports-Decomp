@@ -1,26 +1,25 @@
-extern int fn_8265C940();
-extern int memset();
 extern unsigned int lbl_8315D2EC;
+extern void *fn_8265C940(unsigned int size, unsigned int tag);
+extern void fn_8265C990(void *p, unsigned int tag);
+extern void fn_82A1DDC0(void *dst, const void *src, unsigned int size);
+extern void *memset(void *dst, int c, unsigned int size);
 
-
-unsigned __int64 fn_82A20570(unsigned __int64 param_1,unsigned int *param_2,unsigned int *param_3,unsigned int param_4)
-
+int fn_82A20570(unsigned int **items, unsigned int *count, unsigned int *capacity, unsigned int newCapacity)
 {
-  __int64 lVar1;
-  unsigned __int64 uVar2;
-  
-  if (*param_3 < param_4) {
-    lVar1 = fn_8265C940(((unsigned __int64)param_4 & 0x3fffffff) << 2,lbl_8315D2EC);
-    if (lVar1 != 0) {
-                    /* WARNING: Subroutine does not return */
-      memset(((unsigned __int64)*param_2 & 0x3fffffff) * 4 + lVar1,0,
-                   ((unsigned __int64)param_4 - (unsigned __int64)*param_3 & 0x3fffffff) << 2);
-    }
-    uVar2 = 8;
-  }
-  else {
-    uVar2 = 0;
-  }
-  return uVar2;
-}
+    unsigned int *grown;
 
+    if (*capacity < newCapacity) {
+        grown = (unsigned int *)fn_8265C940(newCapacity * 4, lbl_8315D2EC);
+        if (grown == 0) {
+            return 8;
+        }
+        memset(grown + *count, 0, (newCapacity - *capacity) * 4);
+        fn_82A1DDC0(grown, *items, *count * 4);
+        if (*items != 0) {
+            fn_8265C990(*items, lbl_8315D2EC);
+        }
+        *items = grown;
+        *capacity = newCapacity;
+    }
+    return 0;
+}

@@ -1,16 +1,10 @@
-#define TBLr 0
-
-
-unsigned __int64 fn_82A1E968(unsigned __int64 *param_1)
-
+int fn_82A1E968(__int64 *out)
 {
-  unsigned __int64 uVar1;
-  
-  uVar1 = TBLr;
-  if ((uVar1 & 0xffffffff) == 0) {
-    uVar1 = TBLr;
-  }
-  *param_1 = uVar1;
-  return 1;
+    __int64 t;
+    t = __mftb();
+    if ((unsigned int)t == 0) {
+        t = __mftb();
+    }
+    *out = t;
+    return 1;
 }
-

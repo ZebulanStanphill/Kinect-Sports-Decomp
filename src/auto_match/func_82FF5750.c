@@ -1,29 +1,35 @@
-unsigned __int64 fn_82FF5750(unsigned __int64 param_1,int param_2,int param_3)
+typedef struct Vec_82FF5750 {
+    unsigned int *begin;
+    unsigned int *end;
+} Vec_82FF5750;
 
+typedef struct Group_82FF5750 {
+    char pad0[0x28];
+    Vec_82FF5750 members;
+    char pad30[4];
+    int state;
+    unsigned char unk38;
+    unsigned char count;
+} Group_82FF5750;
+
+int fn_82FF5750(void *self, Group_82FF5750 *group, unsigned int id)
 {
-  char cVar1;
-  int *piVar2;
-  
-  piVar2 = *(int **)(param_2 + 0x28);
-  if (piVar2 == *(int **)(param_2 + 0x2c)) {
-    return 0x1d;
-  }
-  while (*piVar2 != param_3) {
-    piVar2 = piVar2 + 1;
-    if (piVar2 == *(int **)(param_2 + 0x2c)) {
-      return 0x1d;
-    }
-  }
-  if (1 < (unsigned int)(*(int *)(param_2 + 0x2c) - *(int *)(param_2 + 0x28) >> 2)) {
-    *piVar2 = *(int *)(*(int *)(param_2 + 0x2c) + -4);
-  }
-  *(int *)(param_2 + 0x2c) = *(int *)(param_2 + 0x2c) + -4;
-  cVar1 = *(char *)(param_2 + 0x39) + -1;
-  *(char *)(param_2 + 0x39) = cVar1;
-  if (cVar1 != '\0') {
-    return 1;
-  }
-  *(unsigned int *)(param_2 + 0x34) = 6;
-  return 1;
-}
+    Vec_82FF5750 *v = &group->members;
+    unsigned int *p;
+    int result = 0x1d;
 
+    for (p = group->members.begin; p != group->members.end; p++) {
+        if (*p == id) {
+            result = 1;
+            if ((unsigned int)(v->end - v->begin) > 1) {
+                *p = v->end[-1];
+            }
+            v->end--;
+            if (--group->count == 0) {
+                group->state = 6;
+            }
+            break;
+        }
+    }
+    return result;
+}

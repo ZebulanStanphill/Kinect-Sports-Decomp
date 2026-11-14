@@ -1,45 +1,25 @@
-typedef unsigned char bool;
-extern int fn_82BE5240();
-extern unsigned __int64 storeWordConditionalIndexed();
+long _InterlockedCompareExchange(long volatile *dest, long exchange, long comparand);
 
+typedef struct Request_82BE5A90 {
+    char pad00[0x18];
+    int status;             /* 0x18 */
+    void *data;             /* 0x1c */
+    char pad20[0x44 - 0x20];
+    long dataAvailable;     /* 0x44 */
+} Request_82BE5A90;
 
-unsigned __int64 fn_82BE5A90(__int64 param_1,unsigned int *param_2)
+extern void fn_82BE5240(Request_82BE5A90 *self, int code, const char *format, ...);
 
+int fn_82BE5A90(Request_82BE5A90 *self, void **out)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  __int64 lVar3;
-  unsigned int *puVar4;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  if (*(int *)((int)param_1 + 0x18) == 0x4000) {
-    lVar3 = param_1 + 0x44;
-    do {
-      puVar4 = (unsigned int *)lVar3;
-      uVar1 = *puVar4;
-      if (uVar1 != 1) {
-        if (in_RESERVE != '\0') {
-          uVar2 = storeWordConditionalIndexed((unsigned __int64)uVar1,0,lVar3);
-          *puVar4 = uVar2;
-        }
-        break;
-      }
-      if (in_RESERVE != '\0') {
-        uVar2 = storeWordConditionalIndexed(0,0,lVar3);
-        *puVar4 = uVar2;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-    if (uVar1 != 0) {
-      *param_2 = *(unsigned int *)((int)param_1 + 0x1c);
-      return 1;
+    if (self->status != 0x4000) {
+        fn_82BE5240(self, 0x450, ": Request status is not REQUEST_STATUS_COMPLETE_PARSED, instead it is: %d", self->status);
+        return 0;
     }
-    fn_82BE5240(param_1,0x450,0xffffffff820e9344);
-  }
-  else {
-    fn_82BE5240(param_1,0x450,0xffffffff820e9378);
-  }
-  return 0;
+    if (_InterlockedCompareExchange(&self->dataAvailable, 0, 1) != 0) {
+        *out = self->data;
+        return 1;
+    }
+    fn_82BE5240(self, 0x450, " of RequestObject Data. Ownership not available");
+    return 0;
 }
-

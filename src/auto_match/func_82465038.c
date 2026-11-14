@@ -1,22 +1,24 @@
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Obj_82465038 {
+    int f0;
+    int state;
+    int pad[2];
+    float blend;
+} Obj_82465038;
 
+extern const float lbl_821CA45C[2];
 
-void fn_82465038(int param_1,int param_2)
-
+void fn_82465038(Obj_82465038 *self, int state)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  
-  uVar2 = ltcg_pool_0_0f;
-  if ((*(int *)(param_1 + 4) == 7) && (param_2 != 0xb)) {
-    *(unsigned int *)(param_1 + 0x10) = ltcg_pool_0_0f;
-  }
-  uVar1 = lbl_821CA460;
-  if ((param_2 == 7) || (uVar1 = uVar2, param_2 == 0xc)) {
-    *(unsigned int *)(param_1 + 0x10) = uVar1;
-  }
-  *(int *)(param_1 + 4) = param_2;
-  return;
+    if (self->state == 7 && state != 11) {
+        self->blend = 0.0f;
+    }
+    switch (state) {
+    case 7:
+        self->blend = lbl_821CA45C[1];
+        break;
+    case 12:
+        self->blend = 0.0f;
+        break;
+    }
+    self->state = state;
 }
-

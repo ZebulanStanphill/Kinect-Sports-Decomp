@@ -1,18 +1,14 @@
-unsigned __int64 fn_823D2ED0(__int64 param_1)
+extern const float lbl_821922C0[0x1c];
 
+const float *fn_823D2ED0(int kind)
 {
-  int iVar1;
-  
-  iVar1 = (int)param_1;
-  if (iVar1 == 5) {
-    return 0xffffffff821922e0;
-  }
-  if (iVar1 != 6) {
-    if (iVar1 != 7) {
-      return -(unsigned __int64)(param_1 == 8) & 0xffffffff82192304;
+    switch (kind) {
+    case 5:
+        return &lbl_821922C0[8];
+    case 6:
+        return &lbl_821922C0[11];
+    case 7:
+        return &lbl_821922C0[14];
     }
-    return 0xffffffff821922f8;
-  }
-  return 0xffffffff821922ec;
+    return kind == 8 ? &lbl_821922C0[17] : 0;
 }
-

@@ -1,29 +1,38 @@
-#define true 1
-extern unsigned int lbl_8318A6E8;
+typedef struct Item_82EE6350 {
+    int data[2];
+} Item_82EE6350;
 
+typedef struct Block_82EE6350 {
+    unsigned char unk0[0x4];
+    unsigned int base;
+    unsigned char unk8[0xc];
+    unsigned char used[0x4];
+    Item_82EE6350 items[20];
+    struct Block_82EE6350 *next;
+} Block_82EE6350;
 
-unsigned __int64 fn_82EE6350(int param_1,unsigned int param_2,int *param_3)
+extern unsigned char lbl_8318A6E8[8];
 
+int fn_82EE6350(Block_82EE6350 *head, unsigned int index, Item_82EE6350 **out)
 {
-  unsigned int uVar1;
-  
-  if (param_3 == (int *)0x0) {
-    return 0xffffffff80070057;
-  }
-  *param_3 = 0;
-  while( true ) {
-    if (param_1 == 0) {
-      return 0xffffffff80004005;
-    }
-    uVar1 = *(unsigned int *)(param_1 + 4);
-    if ((uVar1 <= param_2) && (param_2 < uVar1 + 0x14)) break;
-    param_1 = *(int *)(param_1 + 0xb8);
-  }
-  param_2 = param_2 - uVar1;
-  if ((*(unsigned char *)((param_2 >> 3) + param_1 + 0x14) & (&lbl_8318A6E8)[param_2 & 7]) == 0) {
-    return 0xffffffff80004005;
-  }
-  *param_3 = (param_2 + 3) * 8 + param_1;
-  return 0;
-}
+    int hr;
+    Block_82EE6350 *block;
 
+    if (out == 0) {
+        return 0x80070057;
+    }
+    *out = 0;
+    block = head;
+    hr = 0x80004005;
+    for (; block != 0; block = block->next) {
+        if (index >= block->base && index < block->base + 20) {
+            index -= block->base;
+            if (block->used[index >> 3] & lbl_8318A6E8[index & 7]) {
+                *out = &block->items[index];
+                hr = 0;
+            }
+            break;
+        }
+    }
+    return hr;
+}

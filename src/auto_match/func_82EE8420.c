@@ -1,41 +1,54 @@
-extern int fn_82A1E338();
-extern int fn_82A1E3B8();
-extern int fn_82E50CB8();
-extern int fn_82E50F10();
+typedef struct Unknown_82EE8420 Unknown_82EE8420;
+typedef struct UnknownVtbl_82EE8420 {
+    long (*QueryInterface)(Unknown_82EE8420 *self, const void *iid, void **out);
+    unsigned long (*AddRef)(Unknown_82EE8420 *self);
+    unsigned long (*Release)(Unknown_82EE8420 *self);
+} UnknownVtbl_82EE8420;
+struct Unknown_82EE8420 {
+    UnknownVtbl_82EE8420 *vt;
+};
 
+typedef struct Worker_82EE8420 {
+    char pad0[0x10];
+    int thread;
+    char pad14[0x24 - 0x14];
+    char lock[0x60 - 0x24];
+    Unknown_82EE8420 *callback;
+    int savedPriority;
+    int boostPriority;
+} Worker_82EE8420;
 
-unsigned __int64 fn_82EE8420(int param_1,int param_2,int *param_3)
+extern void fn_82E50CB8(void *lock);
+extern void fn_82E50F10(void *lock);
+extern int fn_82A1E3B8(int thread);
+extern int fn_82A1E338(int thread, int priority);
 
+long fn_82EE8420(Worker_82EE8420 *self, int boost, Unknown_82EE8420 *callback)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  
-  uVar2 = 0;
-  fn_82E50CB8(param_1 + 0x24);
-  if (*(int *)(param_1 + 0x10) != -1) {
-    if (param_2 == 0) {
-      fn_82A1E338(*(int *)(param_1 + 0x10),*(unsigned int *)(param_1 + 100));
-      *(unsigned int *)(param_1 + 100) = 0xffffffff;
-    }
-    else {
-      if (*(int *)(param_1 + 100) == -1) {
-        uVar1 = fn_82A1E3B8();
-        *(unsigned int *)(param_1 + 100) = uVar1;
-      }
-      if (*(int *)(param_1 + 0x68) != -1) {
-        fn_82A1E338(*(unsigned int *)(param_1 + 0x10));
-      }
-    }
-    if (param_3 == (int *)0x0) goto LAB_82ee84d0;
-    if (*(int *)(param_1 + 0x60) == 0) {
-      *(int **)(param_1 + 0x60) = param_3;
-      (**(int (***)())(*param_3 + 4))(param_3);
-      goto LAB_82ee84d0;
-    }
-  }
-  uVar2 = 0xffffffff8000ffff;
-LAB_82ee84d0:
-  fn_82E50F10(param_1 + 0x24);
-  return uVar2;
-}
+    long hr = 0;
 
+    fn_82E50CB8(self->lock);
+    if (self->thread == -1)
+        goto fail;
+    if (boost != 0) {
+        if (self->savedPriority == -1)
+        self->savedPriority = fn_82A1E3B8(self->thread);
+        if (self->boostPriority != -1)
+        fn_82A1E338(self->thread, self->boostPriority);
+    } else {
+        fn_82A1E338(self->thread, self->savedPriority);
+        self->savedPriority = -1;
+    }
+    if (callback != 0) {
+        if (self->callback != 0)
+            goto fail;
+        self->callback = callback;
+        callback->vt->AddRef(callback);
+    }
+    goto done;
+fail:
+    hr = 0x8000ffff;
+done:
+    fn_82E50F10(self->lock);
+    return hr;
+}

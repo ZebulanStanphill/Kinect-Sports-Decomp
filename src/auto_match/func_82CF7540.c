@@ -1,10 +1,10 @@
-unsigned __int64 fn_82CF7540(int param_1,unsigned __int64 param_2)
+typedef struct Range_82CF7540 {
+    int unk0;
+    int begin;
+    int end;
+} Range_82CF7540;
 
+unsigned char fn_82CF7540(Range_82CF7540 *self, int value)
 {
-  unsigned __int64 uVar1;
-  
-  uVar1 = (unsigned __int64)*(unsigned int *)(param_1 + 8) - (unsigned __int64)*(unsigned int *)(param_1 + 4);
-  return ((param_2 & 0xffffffff) >> 0x1f) + (__int64)((int)uVar1 >> 0x1f) +
-         (unsigned __int64)(param_2 <= uVar1) & 0xff;
+    return value <= self->end - self->begin;
 }
-

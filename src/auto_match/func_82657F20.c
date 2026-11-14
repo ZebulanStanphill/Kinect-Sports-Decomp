@@ -1,16 +1,15 @@
-extern unsigned int *__imp__VdGlobalDevice;
+typedef struct Device_82657F20 {
+    char pad0[0x5e88];
+    unsigned int flags;
+} Device_82657F20;
 
+extern Device_82657F20 **__imp_VdGlobalDevice;
 
-unsigned __int64 fn_82657F20(int *param_1)
-
+long fn_82657F20(Device_82657F20 **out)
 {
-  int iVar1;
-  
-  iVar1 = *__imp__VdGlobalDevice;
-  *param_1 = iVar1;
-  if (iVar1 == 0) {
-    return 0xffffffff80004005;
-  }
-  return -(unsigned __int64)((*(unsigned int *)(iVar1 + 0x5e88) & 0x100) != 0) & 0xffffffff80004005;
+    Device_82657F20 *device = *__imp_VdGlobalDevice;
+    *out = device;
+    if (device == 0)
+        return 0x80004005;
+    return (device->flags & 0x100) ? 0x80004005 : 0;
 }
-

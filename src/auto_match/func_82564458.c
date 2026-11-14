@@ -1,45 +1,56 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_82593540();
-extern int fn_825C3A68();
+typedef struct Record_825C39A8 Record_825C39A8;
+struct Record_825C39A8 {
+    unsigned short size;        /* 0x00 */
+    unsigned short repeat;      /* 0x02 */
+    unsigned short more;        /* 0x04 */
+    unsigned short pad6;
+    char name[0x44];            /* 0x08 */
+    Record_825C39A8 *next;      /* 0x4c */
+};
 
+typedef struct RecordList_82564458 {
+    Record_825C39A8 *first;
+} RecordList_82564458;
 
-int fn_82564458(int param_1,int param_2,unsigned __int64 param_3)
+typedef struct Owner_82564458 {
+    char pad0[0x4c];
+    void *count;
+    char pad50[0x1bc - 0x50];
+    RecordList_82564458 records;
+} Owner_82564458;
 
+extern int fn_82593540(const char *name);
+extern void fn_825C3A68(Record_825C39A8 *rec, void *a, void *b, void *c);
+
+int fn_82564458(Owner_82564458 *self, int id, void *arg)
 {
-  bool bVar1;
-  int iVar2;
-  int iVar3;
-  unsigned short *puVar4;
-  
-  if (((unsigned int *)(param_1 + 0x1bc) == (unsigned int *)0x0) || (*(int *)(param_1 + 0x4c) == 0)) {
-    iVar3 = 0;
-  }
-  else {
-    puVar4 = *(unsigned short **)(param_1 + 0x1bc);
-    iVar3 = 0;
-    while( true ) {
-      bVar1 = false;
-      while( true ) {
-        if (puVar4 == (unsigned short *)0x0) {
-          return iVar3;
-        }
-        iVar2 = fn_82593540(puVar4 + 4);
-        if (iVar2 == param_2) {
-          fn_825C3A68(puVar4,param_3,param_1,0);
-          iVar3 = 1;
-          if (puVar4[1] != 0) {
-            bVar1 = true;
-          }
-        }
-        if (puVar4[2] == 0) break;
-        puVar4 = (unsigned short *)((unsigned int)*puVar4 + (int)puVar4);
-      }
-      if ((iVar3 != 0) && (!bVar1)) break;
-      puVar4 = *(unsigned short **)(puVar4 + 0x26);
-    }
-  }
-  return iVar3;
-}
+    RecordList_82564458 *list = &self->records;
+    Record_825C39A8 *rec;
+    int found;
+    int again;
 
+    if (list == 0)
+        return 0;
+    if (self->count == 0)
+        return 0;
+    rec = list->first;
+    found = 0;
+    again = 0;
+    while (rec != 0) {
+        if (fn_82593540(rec->name) == id) {
+            fn_825C3A68(rec, arg, self, 0);
+            found = 1;
+            if (rec->repeat != 0)
+                again = 1;
+        }
+        if (rec->more == 0) {
+            if (found && !again)
+                break;
+            rec = rec->next;
+            again = 0;
+        } else {
+            rec = (Record_825C39A8 *)((char *)rec + rec->size);
+        }
+    }
+    return found;
+}

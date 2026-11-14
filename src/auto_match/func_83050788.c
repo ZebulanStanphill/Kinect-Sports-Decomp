@@ -1,13 +1,14 @@
-extern unsigned int lbl_82054EA0;
-extern unsigned int lbl_821AAD20;
+typedef struct Stats_83050788 {
+    unsigned char pad[0x88];
+    float elapsed;
+    unsigned char pad8c[0xc];
+    unsigned int count;
+} Stats_83050788;
 
-
-double fn_83050788(int param_1)
-
+float fn_83050788(Stats_83050788 *self)
 {
-  if (*(float *)(param_1 + 0x88) == lbl_821AAD20) {
-    return (double)lbl_82054EA0;
-  }
-  return (double)((float)*(unsigned int *)(param_1 + 0x98) / *(float *)(param_1 + 0x88));
+    if (self->elapsed == 0.0f) {
+        return 100000.0f;
+    }
+    return (float)self->count / self->elapsed;
 }
-

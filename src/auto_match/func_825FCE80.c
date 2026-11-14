@@ -1,40 +1,34 @@
-#define true 1
-extern unsigned int lbl_8218DBA8;
-extern unsigned int lbl_8218DBB0;
+typedef struct TypeEntry_825FCE80 {
+    int type;
+    int parent;
+    int offset;
+} TypeEntry_825FCE80;
 
+typedef struct Object_825FCE80 {
+    void *vt;
+    int type;
+} Object_825FCE80;
 
-int fn_825FCE80(int param_1,int param_2)
+extern TypeEntry_825FCE80 lbl_8218DBA8[0x51];
 
+static __forceinline int FindType(int type)
 {
-  int iVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  int *piVar4;
-  
-  iVar1 = *(int *)(param_1 + 4);
-  if (iVar1 == param_2) {
-    return param_1;
-  }
-  do {
-    if (iVar1 == 2) {
-      return 0;
+    unsigned int i;
+    for (i = 0; i < sizeof(lbl_8218DBA8) / sizeof(lbl_8218DBA8[0]); i++) {
+        if (lbl_8218DBA8[i].type == type) {
+            return i;
+        }
     }
-    iVar2 = 0;
-    uVar3 = 0;
-    piVar4 = (int *)&lbl_8218DBA8;
-    do {
-      if (*piVar4 == iVar1) goto LAB_825fcecc;
-      uVar3 = uVar3 + 0xc;
-      iVar2 = iVar2 + 1;
-      piVar4 = piVar4 + 3;
-    } while ((uVar3 & 0xffffffff) < 0x3cc);
-    iVar2 = -1;
-LAB_825fcecc:
-    param_1 = *(int *)(&lbl_8218DBB0 + iVar2 * 0xc) + param_1;
-    iVar1 = *(int *)(param_1 + 4);
-    if (iVar1 == param_2) {
-      return param_1;
-    }
-  } while( true );
+    return -1;
 }
 
+Object_825FCE80 *fn_825FCE80(Object_825FCE80 *obj, int type)
+{
+    while (obj->type != type) {
+        if (obj->type == 2) {
+            return 0;
+        }
+        obj = (Object_825FCE80 *)((char *)obj + lbl_8218DBA8[FindType(obj->type)].offset);
+    }
+    return obj;
+}

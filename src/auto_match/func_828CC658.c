@@ -1,9 +1,12 @@
-/* WARNING: Removing unreachable block (ram,0x828cc670) */
+typedef struct Obj_828CC658 {
+    unsigned char pad[9];
+    unsigned char counter;
+} Obj_828CC658;
 
-void fn_828CC658(int param_1)
-
+void fn_828CC658(Obj_828CC658 *self)
 {
-  *(char *)(param_1 + 9) = *(char *)(param_1 + 9) + '\x01';
-  return;
+    self->counter++;
+    if (self->counter >= 0x100U) {
+        self->counter = 0;
+    }
 }
-

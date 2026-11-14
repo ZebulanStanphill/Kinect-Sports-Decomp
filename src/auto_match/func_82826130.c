@@ -1,25 +1,32 @@
-void fn_82826130(int param_1,unsigned __int64 param_2,int (**param_3)())
+typedef struct Entry_82826130 {
+    int key;
+    int value;
+    int extra;
+} Entry_82826130;
 
+typedef struct Vec_82826130 {
+    Entry_82826130 *begin;
+    Entry_82826130 *end;
+} Vec_82826130;
+
+typedef struct Obj_82826130 {
+    char pad0[0xc];
+    Vec_82826130 *entries;
+} Obj_82826130;
+
+typedef unsigned char (*Visit_82826130)(Obj_82826130 *self, int key, int value, void *context);
+
+void fn_82826130(Obj_82826130 *self, void *context, Visit_82826130 visit)
 {
-  unsigned int *puVar1;
-  char cVar2;
-  __int64 lVar3;
-  __int64 lVar4;
-  
-  cVar2 = '\x01';
-  lVar4 = (__int64)(((*(int **)(param_1 + 0xc))[1] - **(int **)(param_1 + 0xc)) / 0xc) + -1;
-  if (-1 < lVar4) {
-    lVar3 = lVar4 * 0xc;
-    do {
-      if (cVar2 == '\0') {
-        return;
-      }
-      puVar1 = (unsigned int *)(**(int **)(param_1 + 0xc) + (int)lVar3);
-      cVar2 = (*param_3)(param_1,*puVar1,puVar1[1],param_2);
-      lVar4 = lVar4 + -1;
-      lVar3 = lVar3 + -0xc;
-    } while (-1 < lVar4);
-  }
-  return;
-}
+    unsigned char ok = 1;
+    int i;
 
+    for (i = (int)(self->entries->end - self->entries->begin) - 1; i >= 0; i--) {
+        Entry_82826130 *e;
+        if (!ok) {
+            return;
+        }
+        e = &self->entries->begin[i];
+        ok = visit(self, e->key, e->value, context);
+    }
+}

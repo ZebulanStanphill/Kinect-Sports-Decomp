@@ -1,26 +1,16 @@
-extern int fn_82916830();
+extern long fn_82916830(const void *src, unsigned int srcLen, const void *defines, const char *name,
+                        void *a5, void *a6, void *a7, const char *entry, const char *profile,
+                        unsigned int flags, void **shader, void **errors, void *table);
 
-
-unsigned __int64 fn_82917790(void)
-
+long fn_82917790(const void *src, unsigned int srcLen, const void *defines, const char *name,
+                 const char *entry, const char *profile, unsigned int flags, void **shader,
+                 void **errors, void *table)
 {
-  unsigned __int64 uVar1;
-  int in_r6;
-  unsigned int *in_r10;
-  unsigned int *in_stack_00000054;
-  
-  if (in_r10 != (unsigned int *)0x0) {
-    *in_r10 = 0;
-  }
-  if (in_stack_00000054 != (unsigned int *)0x0) {
-    *in_stack_00000054 = 0;
-  }
-  if (in_r6 == 0) {
-    uVar1 = 0xffffffff8876086c;
-  }
-  else {
-    uVar1 = fn_82916830();
-  }
-  return uVar1;
+    if (shader != 0)
+        *shader = 0;
+    if (errors != 0)
+        *errors = 0;
+    if (name == 0)
+        return 0x8876086c;
+    return fn_82916830(src, srcLen, defines, name, 0, 0, 0, entry, profile, flags, shader, errors, table);
 }
-

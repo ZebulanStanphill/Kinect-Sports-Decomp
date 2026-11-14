@@ -1,34 +1,44 @@
-typedef unsigned char bool;
-extern int fn_830069B8();
+typedef struct State_83006B48 {
+    unsigned char pad[0x14];
+    void *slot0;
+    void *slot2;
+    void *slot1;
+    void *slot3;
+} State_83006B48;
 
+typedef struct Widget_83006B48 Widget_83006B48;
+typedef struct WidgetVtbl_83006B48 {
+    void *s[0x25];
+    void (*invalidate)(Widget_83006B48 *self, int what);
+} WidgetVtbl_83006B48;
+struct Widget_83006B48 {
+    WidgetVtbl_83006B48 *vt;
+    unsigned char pad4[0x1c];
+    State_83006B48 *state;
+};
 
-void fn_83006B48(int *param_1,int param_2,unsigned __int64 param_3)
+extern unsigned char fn_830069B8(Widget_83006B48 *self);
 
+void fn_83006B48(Widget_83006B48 *self, void *value, unsigned int which)
 {
-  bool bVar1;
-  char cVar2;
-  
-  cVar2 = fn_830069B8();
-  if (cVar2 != '\0') {
-    if (param_2 != 0) {
-      (**(int (***)())(*param_1 + 0x94))(param_1,3);
+    if (fn_830069B8(self) == 0) {
+        return;
     }
-    if ((param_3 & 0xffffffff) < 4) {
-      bVar1 = (int)param_3 != 0;
-      if (param_3 == 1 && bVar1) {
-        *(int *)(param_1[8] + 0x1c) = param_2;
-      }
-      else if (param_3 == 2 && bVar1) {
-        *(int *)(param_1[8] + 0x18) = param_2;
-      }
-      else if (bVar1) {
-        *(int *)(param_1[8] + 0x20) = param_2;
-      }
-      else {
-        *(int *)(param_1[8] + 0x14) = param_2;
-      }
+    if (value != 0) {
+        self->vt->invalidate(self, 3);
     }
-  }
-  return;
+    switch (which) {
+    case 0:
+        self->state->slot0 = value;
+        break;
+    case 2:
+        self->state->slot2 = value;
+        break;
+    case 1:
+        self->state->slot1 = value;
+        break;
+    case 3:
+        self->state->slot3 = value;
+        break;
+    }
 }
-

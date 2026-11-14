@@ -1,23 +1,27 @@
-extern int fn_82C9F2F0();
-extern int fn_82C9F4B0();
-extern int fn_82CA0CC8();
-extern int fn_82CA0E40();
-extern unsigned int uRam8329f138;
-extern unsigned int uRam8329f13c;
+extern void fn_82C9F2F0(void);
+extern void fn_82C9F4B0(void);
+extern void fn_82CA0CC8(void);
+extern void fn_82CA0E40(void);
+extern unsigned int lbl_8329F138;
+extern unsigned int lbl_8329F13C;
 
+typedef struct Decoder_82CA2398 {
+    char pad0[0x3e2c];
+    void (*fnB)(void);
+    void (*fnA)(void);
+    char pad3e34[0x4fb0 - 0x3e34];
+    unsigned int value0;
+    unsigned int value1;
+} Decoder_82CA2398;
 
-void fn_82CA2398(int param_1,int param_2)
-
+void fn_82CA2398(Decoder_82CA2398 *self, int alt)
 {
-  uRam8329f13c = *(unsigned int *)(param_1 + 0x4fb0);
-  *(int (***)())(param_1 + 0x3e30) = fn_82CA0CC8;
-  *(int (***)())(param_1 + 0x3e2c) = fn_82CA0E40;
-  uRam8329f138 = *(unsigned int *)(param_1 + 0x4fb4);
-  if (param_2 == 0) {
-    return;
-  }
-  *(int (***)())(param_1 + 0x3e30) = fn_82C9F2F0;
-  *(int (***)())(param_1 + 0x3e2c) = fn_82C9F4B0;
-  return;
+    self->fnA = fn_82CA0CC8;
+    self->fnB = fn_82CA0E40;
+    lbl_8329F13C = self->value0;
+    lbl_8329F138 = self->value1;
+    if (alt != 0) {
+        self->fnA = fn_82C9F2F0;
+        self->fnB = fn_82C9F4B0;
+    }
 }
-
