@@ -16,7 +16,7 @@ extern int fn_82BC0088();
 extern int fn_82BC5AC0();
 extern int fn_82BD24B8();
 extern int fn_82F68CC0();
-extern int fn_82F6C420();
+extern int longjmp();
 extern unsigned int iStack_7c;
 extern unsigned int uStack_a4;
 extern unsigned int uStack_a8;
@@ -133,7 +133,7 @@ void fn_82BAED58(char *param_1,unsigned int *param_2,unsigned __int64 param_3)
              )) {
       *(unsigned int *)(iVar4 + 0x554) = 0x17;
                     /* WARNING: Subroutine does not return */
-      fn_82F6C420(iVar4 + 0x10,1);
+      longjmp(iVar4 + 0x10,1);
     }
     lVar7 = (unsigned __int64)uStack_a4 * 0xc + lVar13;
     *param_2 = (unsigned int)lVar7;

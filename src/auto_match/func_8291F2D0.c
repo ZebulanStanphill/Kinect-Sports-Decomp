@@ -3,7 +3,7 @@ extern unsigned int *auStack_88;
 extern unsigned int *auStack_a0;
 extern int fn_8265C940();
 extern int fn_8265C990();
-extern int fn_829AB1D8();
+extern int png_sig_cmp();
 extern int fn_829AB378();
 extern int png_set_sRGB();
 extern int fn_829AE308();
@@ -76,7 +76,7 @@ unsigned __int64 fn_8291F2D0(unsigned int *param_1,unsigned __int64 param_2,unsi
   stack_pair_ac.second = 0;
   puStack00000014 = param_1;
   uStack00000024 = param_3;
-  iVar2 = fn_829AB1D8(param_2,0);
+  iVar2 = png_sig_cmp(param_2,0);
   if (iVar2 != 0) {
     return 0xffffffff80004005;
   }

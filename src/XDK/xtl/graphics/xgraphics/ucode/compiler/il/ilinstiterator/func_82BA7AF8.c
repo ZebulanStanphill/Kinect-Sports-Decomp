@@ -15,7 +15,7 @@ extern int fn_82BA7790();
 extern int fn_82BA7800();
 extern int fn_82BC0088();
 extern int fn_82BC7368();
-extern int fn_82F6C420();
+extern int longjmp();
 extern unsigned int lbl_820DEF90;
 
 
@@ -84,7 +84,7 @@ LAB_82ba893c:
         if (*(int *)(*(int *)(iVar7 + 0x550) + 0x10) < param_1[0xe]) {
           *(unsigned int *)(iVar7 + 0x554) = 0x1b;
                     /* WARNING: Subroutine does not return */
-          fn_82F6C420(iVar7 + 0x10,1);
+          longjmp(iVar7 + 0x10,1);
         }
         uVar16 = fn_82BA73F0(puVar9);
         puVar10 = (unsigned int *)fn_82BC0088(param_1[0xf],*(unsigned int *)(param_1[0xf] + 4));
@@ -109,7 +109,7 @@ LAB_82ba893c:
         if (*(int *)(*(int *)(iVar7 + 0x550) + 0x10) < param_1[0xe]) {
           *(unsigned int *)(iVar7 + 0x554) = 0x1b;
                     /* WARNING: Subroutine does not return */
-          fn_82F6C420(iVar7 + 0x10,1);
+          longjmp(iVar7 + 0x10,1);
         }
         piVar8 = *(int **)(param_1[3] + 8);
         piVar17 = piVar8;
@@ -368,7 +368,7 @@ LAB_82ba8814:
           if (*(int *)(*(int *)(iVar7 + 0x550) + 0x10) < param_1[0xe]) {
             *(unsigned int *)(iVar7 + 0x554) = 0x1b;
                     /* WARNING: Subroutine does not return */
-            fn_82F6C420(iVar7 + 0x10,1);
+            longjmp(iVar7 + 0x10,1);
           }
           puVar11 = (unsigned int *)fn_82B7BD28(*(unsigned int *)(iVar7 + 0x5b0),20000);
           puVar10 = (unsigned int *)

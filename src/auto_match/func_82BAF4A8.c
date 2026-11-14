@@ -13,7 +13,7 @@ typedef struct {
     int value;
 } Obj_82BAF4A8;
 
-extern __declspec(noreturn) void fn_82F6C420(void *jb, int v);
+extern __declspec(noreturn) void longjmp(void *jb, int v);
 int fn_82BAF4A8(Obj_82BAF4A8 *o)
 {
     int v;
@@ -26,7 +26,7 @@ int fn_82BAF4A8(Obj_82BAF4A8 *o)
     c = o->ctx;
     if (v < c->range->min || v > c->range->max) {
         c->error = 0x1f;
-        fn_82F6C420(c->jb, 1);
+        longjmp(c->jb, 1);
     }
     return v;
 }

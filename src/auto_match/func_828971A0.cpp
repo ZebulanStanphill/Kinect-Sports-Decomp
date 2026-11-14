@@ -15,6 +15,7 @@ extern "C" __declspec(noreturn) void fn_82F622E0(const char *message);
 #include "game/Element_82896D88.h"
 #include "game/Element_82887890.h"
 #include "game/Element_8288E4B0.h"
+#include "game/Element_8224ED20.h"
 struct Node_828971A0 { Node_828971A0 *next; };
 struct Iterator_828971A0 { Node_828971A0 *node; };
 static Iterator_828971A0 iter(Node_828971A0 *n) { Iterator_828971A0 i = {n}; return i; }
@@ -23,18 +24,19 @@ typedef std::set<Element_828960C0>::_Mybase Tree_828960C0;
 typedef std::set<Element_82896D88>::_Mybase Tree_82896D88;
 typedef std::set<Element_82887890>::_Mybase Tree_82887890;
 typedef std::set<Element_8288E4B0>::_Mybase Tree_8288E4B0;
+typedef std::set<Element_8224ED20>::_Mybase Tree_8224ED20;
 template <> Tree_828957B0::iterator Tree_828957B0::erase(const_iterator, const_iterator);
 template <> Tree_828960C0::iterator Tree_828960C0::erase(const_iterator, const_iterator);
 template <> Tree_82896D88::iterator Tree_82896D88::erase(const_iterator, const_iterator);
 template <> Tree_82887890::iterator Tree_82887890::erase(const_iterator, const_iterator);
 template <> Tree_8288E4B0::iterator Tree_8288E4B0::erase(const_iterator, const_iterator);
+template <> Tree_8224ED20::iterator Tree_8224ED20::erase(const_iterator, const_iterator);
 extern "C" {
 extern unsigned int lbl_8202396C;
 void fn_8265CA20(Node_828971A0 *);
 void fn_828C5F28(void *);
 void fn_828B22F0(void *);
 void fn_82825F40(void *, void *, Iterator_828971A0, Iterator_828971A0);
-void fn_8224ED20(void *, void *, Iterator_828971A0, Iterator_828971A0);
 }
 static void clear_last(void *result, Node_828971A0 **tree) { fn_82825F40(result, tree, iter(tree[1]->next), iter(tree[1])); }
 template <class Tree> static void erase_all(void *result, Tree *t) { new (result) typename Tree::iterator(t->erase(t->begin(), t->end())); }
@@ -65,11 +67,11 @@ extern "C" void fn_828971A0(Node_828971A0 **param_1)
   fn_8265CA20(param_1[0x11]);
   erase_all(auStack_20, (Tree_82896D88 *)(param_1 + 0xd));
   fn_8265CA20(param_1[0xe]);
-  fn_8224ED20(auStack_20,param_1 + 9,iter(param_1[10]->next),iter(param_1[10]));
+  erase_all(auStack_20, (Tree_8224ED20 *)(param_1 + 9));
   fn_8265CA20(param_1[10]);
   erase_all(auStack_20, (Tree_82896D88 *)(param_1 + 5));
   fn_8265CA20(param_1[6]);
-  fn_8224ED20(auStack_20,param_1 + 1,iter(param_1[2]->next),iter(param_1[2]));
+  erase_all(auStack_20, (Tree_8224ED20 *)(param_1 + 1));
   fn_8265CA20(param_1[2]);
   return;
 }

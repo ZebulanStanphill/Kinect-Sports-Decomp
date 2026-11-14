@@ -1,6 +1,6 @@
 extern unsigned int *auStack_120;
 extern int fn_82AA62B8();
-extern int fn_82F6C420();
+extern int longjmp();
 
 
 void fn_82AA64F8(int param_1,__int64 param_2,unsigned __int64 param_3)
@@ -34,6 +34,6 @@ void fn_82AA64F8(int param_1,__int64 param_2,unsigned __int64 param_3)
   *(unsigned int *)(param_1 + 0x9b0) = uVar1;
 LAB_82aa65a0:
                     /* WARNING: Subroutine does not return */
-  fn_82F6C420(param_1 + 0x470,param_2);
+  longjmp(param_1 + 0x470,param_2);
 }
 

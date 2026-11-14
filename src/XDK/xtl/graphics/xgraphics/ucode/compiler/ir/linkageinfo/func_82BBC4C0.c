@@ -1,5 +1,5 @@
 #define true 1
-extern int fn_82F6C420();
+extern int longjmp();
 
 
 __int64 fn_82BBC4C0(__int64 param_1,unsigned __int64 param_2)
@@ -52,7 +52,7 @@ __int64 fn_82BBC4C0(__int64 param_1,unsigned __int64 param_2)
           iVar1 = *(int *)(iVar1 + 0x754);
           *(unsigned int *)(iVar1 + 0x554) = 0x18;
                     /* WARNING: Subroutine does not return */
-          fn_82F6C420(iVar1 + 0x10,1);
+          longjmp(iVar1 + 0x10,1);
         }
       }
       else if (((int *)lVar4)[0x10] == *(int *)((int)((param_2 + 0x10 & 0xffffffff) << 2) + iVar1))

@@ -20,7 +20,7 @@ This software is based in part on the work of the Independent JPEG Group.
 | zlib 1.2.3: inflate side 0x827D1B48-0x827D4F0C, deflate side 0x82F89CA8-0x82F8DB94 | the game's only zlib 1.2.3 (its deflate calls the crc32 and adler32 of the inflate side) | `/O1 /Gy-`; `trees.c` `/O1`; `deflate.c` `/O1 /d2inlS100` (a slightly larger inline budget, which inlines `lm_init` into `deflateReset` as the game has it) | upstream names |
 | libjpeg 6b, 0x829ADEA0-0x829B7834 | D3DX: called from the D3DX texture-file loader, among D3DX's other code | `/O2` | `d3dx_` + upstream name |
 | zlib 1.1.4, 0x829B5140-0x829C5688 | D3DX: the zlib its libpng was built against | `/O1`, as C++ | `d3dx_` + upstream name |
-| libpng 1.0.5, altered by its owner (it has checks that 1.0.5 lacks), 0x829AE0D8-0x829B98E0 | D3DX | `/O1` | upstream names |
+| libpng 1.0.5, altered by its owner (it has checks that 1.0.5 lacks), 0x829AE0D8-0x829B98E0, and `png_sig_cmp` and `png_chunk_error` at 0x829AB140-0x829AB250 | D3DX | `/O1` | upstream names |
 
 The flags are the ones the game's code matches with. The owners are inferred from callers
 and neighbouring code, not from any symbol. GFx's libjpeg was also built with `NO_GETENV`:
@@ -36,9 +36,9 @@ upstream names even where two files of one copy use the same name (`start_pass_m
 `emit_bits`, `extend_test`, ...). They were local to their file in the original, and
 symbols.txt allows a name more than once. Data that upstream declares inside a function
 has MSVC's name for it, such as `?RGB_order@?1??select_ncolors@@9@9`. Pooled constants have
-MSVC's names, such as `__real@3ff0000000000000` for the double 1.0. Six C runtime
+MSVC's names, such as `__real@3ff0000000000000` for the double 1.0. Seven C runtime
 functions that the library code calls are named after those calls: `malloc`, `free`,
-`exit`, `fprintf`, `__iob_func` and `setjmp` (0x82F6C150; libpng's `png_create_read_struct`
+`exit`, `fprintf`, `__iob_func`, `longjmp` (0x82F6C420, hand-written assembly) and `setjmp` (0x82F6C150; libpng's `png_create_read_struct`
 and GFx's JPEG loaders only compile to the game's code when the call is to `setjmp`). `sprintf` (0x82F63F40) is the statically linked C runtime's; the
 import thunk of xboxkrnl.exe's own `sprintf` export has the name `xboxkrnl_sprintf`, which
 was invented for this project so the two do not clash.

@@ -13,7 +13,7 @@ extern int fn_82BB53C0();
 extern int fn_82BC0088();
 extern int fn_82BC7368();
 extern int fn_82BD11A0();
-extern int fn_82F6C420();
+extern int longjmp();
 extern unsigned int lbl_83223EC0;
 extern unsigned int lbl_83223EC4;
 extern unsigned int uStack_a0;
@@ -283,7 +283,7 @@ LAB_82bd156c:
         iVar17 = *(int *)(param_1 + 8);
         *(unsigned int *)(iVar17 + 0x554) = 0x16;
                     /* WARNING: Subroutine does not return */
-        fn_82F6C420(iVar17 + 0x10,1);
+        longjmp(iVar17 + 0x10,1);
       }
       *(int *)(uVar8 * 4 + lbl_83223EC0) = (int)uVar16;
       fn_82BB1BE8(iVar22,uVar16);

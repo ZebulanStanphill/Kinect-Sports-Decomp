@@ -3,7 +3,7 @@ extern void fn_82BC0928();
 extern void fn_82BC0A30(void *, int);
 extern void fn_82BC2958(int, int, void *);
 extern int fn_82BC3948(void *, void *, int);
-extern __declspec(noreturn) void fn_82F6C420(int, int);
+extern __declspec(noreturn) void longjmp(int, int);
 extern unsigned int lbl_820E3444;
 
 unsigned int * fn_82BC1280(unsigned int *param_1,int param_2,int param_3,int param_4)
@@ -21,19 +21,19 @@ unsigned int * fn_82BC1280(unsigned int *param_1,int param_2,int param_3,int par
   case 3:
     if (param_2 >= *(int *)(*(int *)(param_4 + 0x550) + 0x24)) {
       *(int *)(param_4 + 0x554) = 0x1e;
-      fn_82F6C420(param_4 + 0x10,1);
+      longjmp(param_4 + 0x10,1);
     }
     break;
   case 2:
     if (param_2 >= *(int *)(*(int *)(param_4 + 0x550) + 0x20)) {
       *(int *)(param_4 + 0x554) = 0x1c;
-      fn_82F6C420(param_4 + 0x10,1);
+      longjmp(param_4 + 0x10,1);
     }
     break;
   case 1:
     if (param_2 >= *(int *)(*(int *)(param_4 + 0x550) + 0x28)) {
       *(int *)(param_4 + 0x554) = 0x1d;
-      fn_82F6C420(param_4 + 0x10,1);
+      longjmp(param_4 + 0x10,1);
     }
     break;
   }

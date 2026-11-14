@@ -1,7 +1,7 @@
 extern int fn_82F82D40();
 
 
-unsigned __int64 fn_82F6C420(unsigned int *param_1,unsigned __int64 param_2)
+unsigned __int64 longjmp(unsigned int *param_1,unsigned __int64 param_2)
 
 {
   unsigned __int64 uVar1;

@@ -1,37 +1,30 @@
-extern unsigned int *auStack_2c;
-extern int fn_82930318();
-extern int fn_82931D88();
-extern int fn_82980C18();
-extern int fn_82986DF0();
-extern unsigned int uStack_30;
+typedef struct Type_829881B8 {
+    int f00[5];
+    int scalar;
+} Type_829881B8;
 
+extern int fn_82986DF0(void *ctx, void *expr, unsigned int *out);
+extern void fn_82980C18(void *ctx, void *loc, int code, const char *fmt, ...);
+extern void *fn_82930318(unsigned int size);
+extern void *fn_82931D88(void *self, int kind, int scalar, int a, unsigned int rows,
+                         unsigned int cols, int b);
 
-unsigned __int64 fn_829881B8(__int64 param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4)
-
+void *fn_829881B8(char *ctx, Type_829881B8 *type, void *rowsExpr, void *colsExpr)
 {
-  int iVar3;
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  unsigned int uStack_30;
-  unsigned int auStack_2c [11];
-  
-  if (param_2 != 0) {
-    iVar3 = fn_82986DF0(param_1,param_3,&uStack_30);
-    if ((iVar3 < 0) || (iVar3 = fn_82986DF0(param_1,param_4,auStack_2c), iVar3 < 0)) {
-      fn_82980C18(param_1,param_1 + 0x28,0xbf5,0xffffffff8204e6cc);
-    }
-    else if ((((uStack_30 == 0) || (4 < uStack_30)) || (auStack_2c[0] == 0)) || (4 < auStack_2c[0]))
-    {
-      fn_82980C18(param_1,param_1 + 0x28,0xbed,0xffffffff8204e704,4);
-    }
-    else {
-      uVar1 = fn_82930318(0x28);
-      if ((uVar1 & 0xffffffff) != 0) {
-        uVar2 = fn_82931D88(uVar1,2,*(unsigned int *)(param_2 + 0x14),0,uStack_30,auStack_2c[0],0);
-        return uVar2;
-      }
-    }
-  }
-  return 0;
-}
+    unsigned int rows;
+    unsigned int cols;
+    void *mem;
 
+    if (type != 0) {
+        if (fn_82986DF0(ctx, rowsExpr, &rows) < 0 || fn_82986DF0(ctx, colsExpr, &cols) < 0) {
+            fn_82980C18(ctx, ctx + 0x28, 0xbf5, "matrix dimensions must be literal scalar expressions");
+        } else if (rows < 1 || rows > 4 || cols < 1 || cols > 4) {
+            fn_82980C18(ctx, ctx + 0x28, 0xbed, "matrix dimensions must be between 1 and %u", 4);
+        } else {
+            mem = fn_82930318(0x28);
+            if (mem != 0)
+                return fn_82931D88(mem, 2, type->scalar, 0, rows, cols, 0);
+        }
+    }
+    return 0;
+}

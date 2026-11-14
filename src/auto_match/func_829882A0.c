@@ -1,46 +1,44 @@
-extern unsigned int *auStack_20;
-extern int fn_82930318();
-extern int fn_82931BC0();
-extern int fn_82980C18();
-extern int fn_82986DF0();
-extern unsigned int iStack0000001c;
-extern unsigned int stack0x0000001c;
+typedef struct Type_829882A0 {
+    int x0;
+    int kind;
+    int x8;
+    int xc;
+    struct Type_829882A0 *next;
+    int x14;
+} Type_829882A0;
 
+extern void *fn_82930318(int size);
+extern Type_829882A0 *fn_82931BC0(void *mem, int kind, unsigned int count);
+extern int fn_82986DF0(void *ctx, void *expr, unsigned int *value);
+extern void fn_82980C18(void *ctx, void *loc, int code, const char *fmt, ...);
 
-int fn_829882A0(unsigned __int64 param_1,int param_2,unsigned __int64 param_3)
-
+/* wrap a type in an array dimension: the new array node goes after the
+   existing array (kind 8) nodes of the chain */
+Type_829882A0 *fn_829882A0(void *ctx, Type_829882A0 *type, void *dimExpr)
 {
-  int iVar1;
-  int iVar3;
-  unsigned __int64 uVar2;
-  int *piVar4;
-  int iStack0000001c;
-  unsigned int auStack_20 [2];
-  
-  iStack0000001c = param_2;
-  iVar3 = fn_82986DF0(param_1,param_3,auStack_20);
-  if (iVar3 < 0) {
-    fn_82980C18(param_1,0,0xbf2,0xffffffff8204e730);
-  }
-  else {
-    uVar2 = fn_82930318(0x18);
-    if ((uVar2 & 0xffffffff) == 0) {
-      iVar3 = 0;
-    }
-    else {
-      iVar3 = fn_82931BC0(uVar2,0,auStack_20[0]);
-    }
-    if (iVar3 != 0) {
-      piVar4 = &stack0x0000001c;
-      while ((param_2 != 0 && (iVar1 = *piVar4, *(int *)(iVar1 + 4) == 8))) {
-        param_2 = *(int *)(iVar1 + 0x10);
-        piVar4 = (int *)(iVar1 + 0x10);
-      }
-      *(int *)(iVar3 + 0x10) = *piVar4;
-      *piVar4 = iVar3;
-      return iStack0000001c;
-    }
-  }
-  return 0;
-}
+    unsigned int count;
+    void *mem;
+    Type_829882A0 *array;
+    Type_829882A0 **link;
 
+    if (fn_82986DF0(ctx, dimExpr, &count) < 0) {
+        fn_82980C18(ctx, 0, 0xbf2, "array dimensions must be literal scalar expressions");
+        return 0;
+    }
+    mem = fn_82930318(0x18);
+    if (mem != 0) {
+        array = fn_82931BC0(mem, 0, count);
+    } else {
+        array = 0;
+    }
+    if (array == 0) {
+        return 0;
+    }
+    link = &type;
+    while (*link != 0 && (*link)->kind == 8) {
+        link = &(*link)->next;
+    }
+    array->next = *link;
+    *link = array;
+    return type;
+}

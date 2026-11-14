@@ -355,6 +355,7 @@ address	function	unit	original_file	evidence
 0x828EB920	fn_828EB920	R1SDK/NetworkLibrary/NetworkLibrary/PlayerProfile/PlayerProfile/func_828EB920.cpp	D:\Work\R1SDK\Olympus_testing\NetworkLibrary\NetworkLibrary\PlayerProfile\PlayerProfile.cpp	assert
 0x828EBB90	fn_828EBB90	R1SDK/NetworkLibrary/NetworkLibrary/PlayerProfile/PlayerProfile/func_828EBB90.c	D:\Work\R1SDK\Olympus_testing\NetworkLibrary\NetworkLibrary\PlayerProfile\PlayerProfile.cpp	assert
 0x828EBF50	fn_828EBF50	R1SDK/NetworkLibrary/NetworkLibrary/PlayerProfile/PlayerProfile/func_828EBF50.c	D:\Work\R1SDK\Olympus_testing\NetworkLibrary\NetworkLibrary\PlayerProfile\PlayerProfile.cpp	assert
+0x829AB1D8	png_sig_cmp	D3DX/libpng-1.0.5/png/func_829AB1D8.c	D3DX/libpng-1.0.5/png.c	upstream
 0x829ADEA0	d3dx_emit_message	D3DX/jpeg-6b/jerror/func_829ADEA0.c	D3DX/jpeg-6b/jerror.c	upstream
 0x829AE050	d3dx_reset_error_mgr	D3DX/jpeg-6b/jerror/func_829AE050.c	D3DX/jpeg-6b/jerror.c	upstream
 0x829AE068	d3dx_jpeg_std_error	D3DX/jpeg-6b/jerror/func_829AE068.c	D3DX/jpeg-6b/jerror.c	upstream

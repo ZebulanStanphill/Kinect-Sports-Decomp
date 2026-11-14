@@ -8,6 +8,7 @@ D3DX/jpeg-6b/jmemmgr/func_829B5A80.c	D3DX/jpeg-6b/jmemmgr.c	upstream	direct
 D3DX/jpeg-6b/jmemmgr/func_829B5C58.c	D3DX/jpeg-6b/jmemmgr.c	upstream	direct
 D3DX/jpeg-6b/jmemmgr/func_829B5D78.c	D3DX/jpeg-6b/jmemmgr.c	upstream	direct
 D3DX/jpeg-6b/jmemmgr/func_829B5E58.c	D3DX/jpeg-6b/jmemmgr.c	upstream	direct
+D3DX/libpng-1.0.5/png/func_829AB1D8.c	D3DX/libpng-1.0.5/png.c	upstream	direct
 Havok/Common/Base/DebugUtil/TraceStream/hkTraceStreamClass/func_82CE4AD0.cpp	Havok/Common/Base/DebugUtil/TraceStream/hkTraceStreamClass.cpp	havok-typeinfo	strong
 Havok/Common/Base/DebugUtil/TraceStream/hkTraceStreamClass/func_82CE4AE8.c	Havok/Common/Base/DebugUtil/TraceStream/hkTraceStreamClass.cpp	between-anchors	strong
 Havok/Common/Base/DebugUtil/TraceStream/hkTraceStreamClass/func_82CE4AF8.cpp	Havok/Common/Base/DebugUtil/TraceStream/hkTraceStreamClass.cpp	havok-typeinfo	strong

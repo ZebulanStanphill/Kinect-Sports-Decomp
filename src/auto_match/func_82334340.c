@@ -1,157 +1,162 @@
-extern int fn_822C72E0();
-extern int fn_823345C0();
-extern int fn_82334668();
-extern int fn_82334868();
-extern int fn_823349C0();
-extern int fn_82334A70();
-extern int fn_82334E28();
-extern int fn_82334FD0();
-extern int fn_82335158();
-extern int fn_82335838();
-extern int fn_82336398();
-extern int fn_823364B8();
-extern int fn_82417F58();
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned char switchdataD_82195038[];
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __VMXGetReg(int n);
 
-void fn_82334340(double param_1,int param_2)
+typedef struct Motion_82334340 {
+    __vector4 velocity;     /* 0x00 */
+    __vector4 spin;         /* 0x10 */
+    char pad20[0xc];
+    int bounces;            /* 0x2c */
+} Motion_82334340;
 
+typedef struct Body_82334340 {
+    char pad0[0x50];
+    Motion_82334340 motion; /* 0x50 */
+} Body_82334340;
+
+typedef struct Tuning_82334340 {
+    char pad0[0x928];
+    float holdTime;         /* 0x928 */
+} Tuning_82334340;
+
+typedef struct Ball_82334340 {
+    char pad0[0x24];
+    int busy;               /* 0x024 */
+    char pad28[0x114 - 0x28];
+    Body_82334340 *body;    /* 0x114 */
+    char pad118[0x238 - 0x118];
+    void *player;           /* 0x238 */
+    Tuning_82334340 *tuning;    /* 0x23c */
+    char pad240[0x280 - 0x240];
+    int ready;              /* 0x280 */
+} Ball_82334340;
+
+typedef struct Scene_82334340 {
+    char pad0[0x20];
+    void *animator;         /* 0x20 */
+} Scene_82334340;
+
+typedef struct Self_82334340 {
+    char pad0[0x8];
+    Scene_82334340 *scene;  /* 0x008 */
+    char padC[0x14 - 0xc];
+    int active;             /* 0x014 */
+    char pad18[0x184 - 0x18];
+    int leftHanded;         /* 0x184 */
+    char pad188[0x190 - 0x188];
+    int countThrows;        /* 0x190 */
+    char pad194[0x198 - 0x194];
+    char anim198[0x1e0 - 0x198];    /* 0x198 */
+    __vector4 target1e0;    /* 0x1e0 */
+    __vector4 target1f0;    /* 0x1f0 */
+    char pad200[0x210 - 0x200];
+    int launched;           /* 0x210 */
+    char pad214[0x21c - 0x214];
+    int throws;             /* 0x21c */
+    char pad220[0x224 - 0x220];
+    unsigned int state;     /* 0x224 */
+    float time;             /* 0x228 */
+    float prevTime;         /* 0x22c */
+    Ball_82334340 *ball;    /* 0x230 */
+    char pad234[0x238 - 0x234];
+    float holdTime;         /* 0x238 */
+} Self_82334340;
+
+extern Ball_82334340 *fn_82417F58(void *player);
+extern void fn_823345C0(Self_82334340 *self);
+extern void fn_82334668(Self_82334340 *self);
+extern void fn_82334868(Self_82334340 *self);
+extern void fn_823349C0(Self_82334340 *self);
+extern void fn_82334A70(Self_82334340 *self);
+extern void fn_82334E28(Self_82334340 *self);
+extern void fn_82334FD0(Self_82334340 *self);
+extern void fn_82335158(Self_82334340 *self);
+extern void fn_82335838(Self_82334340 *self, void *player);
+extern int fn_823364B8(Self_82334340 *self, __vector4 *target, int left);
+extern int fn_82336398(Self_82334340 *self, __vector4 *target);
+extern void fn_822C72E0(void *animator, const char *name);
+
+static __forceinline void SetState(Self_82334340 *self, unsigned int state)
 {
-  unsigned int uVar1;
-  unsigned int *puVar2;
-  float fVar3;
-  unsigned __int64 uVar4;
-  int iVar5;
-  int iVar6;
-  unsigned __int64 uVar7;
-  unsigned __int64 uVar8;
-  unsigned __int64 uVar9;
-  unsigned int uVar10;
-  double dVar11;
-  unsigned int in_register_000104d0;
-  unsigned int in_register_000104d4;
-  unsigned int in_register_000104d8;
-  unsigned int in_vr77;
-  
-  uVar1 = *(unsigned int *)(param_2 + 0x230);
-  uVar8 = (unsigned __int64)uVar1;
-  *(float *)(param_2 + 0x22c) = *(float *)(param_2 + 0x228);
-  *(float *)(param_2 + 0x228) = (float)((double)*(float *)(param_2 + 0x228) + param_1);
-  uVar9 = (unsigned __int64)*(unsigned int *)(uVar1 + 0x238);
-  if (uVar9 == 0) {
-    return;
-  }
-  if (((*(int *)(uVar1 + 0x24) != 0) || (*(int *)(uVar1 + 0x280) == 0)) ||
-     (uVar4 = fn_82417F58(uVar9), fVar3 = ltcg_pool_0_0f,
-     (uVar4 & 0xffffffff) != (uVar8 & 0xffffffff))) {
-    uVar9 = fn_82417F58(uVar9);
-    if ((uVar9 & 0xffffffff) == (uVar8 & 0xffffffff)) {
-      return;
-    }
-    *(unsigned int *)(param_2 + 0x14) = 0;
-    return;
-  }
-  dVar11 = (double)ltcg_pool_0_0f;
-  if (*(int *)(param_2 + 0x14) == 0) {
-    *(float *)(param_2 + 0x228) = ltcg_pool_0_0f;
-    *(unsigned int *)(param_2 + 0x224) = 1;
-    *(float *)(param_2 + 0x22c) = fVar3;
-  }
-  *(unsigned int *)(param_2 + 0x14) = 1;
-  uVar1 = *(unsigned int *)(param_2 + 0x224);
-  if (0xb < uVar1) {
-    return;
-  }
-  iVar6 = (unsigned int)(switchdataD_82195038)[uVar1] * 4;
-  switch(uVar1) {
-  case 0:
-    fn_823345C0(param_2);
-    break;
-  case 1:
-    fn_82334668(param_2);
-    break;
-  case 2:
-    iVar6 = fn_823364B8(param_2,param_2 + 0x1f0,0);
-    if (iVar6 == 0) {
-      return;
-    }
-    fn_822C72E0(*(unsigned int *)(*(int *)(param_2 + 8) + 0x20),param_2 + 0x198);
-    uVar10 = 3;
-    goto LAB_82334440;
-  case 3:
-    fn_82334868(param_2);
-    break;
-  case 4:
-    iVar6 = fn_823364B8(param_2,param_2 + 0x1e0,1);
-    if (iVar6 == 0) {
-      return;
-    }
-    if (*(int *)(param_2 + 0x184) == 0) {
-      uVar7 = 0xffffffff821b09cc;
-    }
-    else {
-      uVar7 = 0xffffffff821b09b4;
-    }
-    fn_822C72E0(*(unsigned int *)(*(int *)(param_2 + 8) + 0x20),uVar7);
-    uVar10 = 5;
-LAB_82334440:
-    *(float *)(param_2 + 0x228) = (float)dVar11;
-    *(unsigned int *)(param_2 + 0x224) = uVar10;
-    *(float *)(param_2 + 0x22c) = (float)dVar11;
-    break;
-  case 5:
-    iVar6 = fn_82336398(param_2,param_2 + 0x1e0);
-    if (iVar6 == 0) {
-      return;
-    }
-    if (*(int *)(param_2 + 400) != 0) {
-      *(int *)(param_2 + 0x21c) = *(int *)(param_2 + 0x21c) + 1;
-    }
-    uVar10 = *(unsigned int *)(*(int *)(*(int *)(param_2 + 0x230) + 0x23c) + 0x928);
-    *(unsigned int *)(param_2 + 0x224) = 6;
-    *(unsigned int *)(param_2 + 0x238) = uVar10;
-    goto LAB_823344a4;
-  case 6:
-    fn_823349C0(param_2);
-    break;
-  case 7:
-    fn_82334A70(param_2);
-    break;
-  case 8:
-    if (*(int *)(param_2 + 0x210) == 0) {
-      fn_82335838(param_2,*(unsigned int *)((int)uVar8 + 0x238));
-    }
-    iVar5 = fn_82336398(param_2,param_2 + 0x1e0);
-    if (iVar5 == 0) {
-      return;
-    }
-    iVar5 = *(int *)(*(int *)(param_2 + 0x230) + 0x114);
-    puVar2 = (unsigned int *)(iVar6 + iVar5 + 0x50 & 0xfffffff0);
-    *puVar2 = in_register_000104d0;
-    puVar2[1] = in_register_000104d4;
-    puVar2[2] = in_register_000104d8;
-    puVar2[3] = in_vr77;
-    *(unsigned int *)(iVar5 + 0x7c) = 0;
-    puVar2 = (unsigned int *)(iVar5 + 0x60U & 0xfffffff0);
-    *puVar2 = in_register_000104d0;
-    puVar2[1] = in_register_000104d4;
-    puVar2[2] = in_register_000104d8;
-    puVar2[3] = in_vr77;
-    *(unsigned int *)(param_2 + 0x224) = 3;
-LAB_823344a4:
-    *(float *)(param_2 + 0x228) = (float)dVar11;
-    *(float *)(param_2 + 0x22c) = (float)dVar11;
-    break;
-  case 9:
-    fn_82334E28(param_2);
-    break;
-  case 10:
-    fn_82334FD0(param_2);
-    break;
-  case 0xb:
-    fn_82335158(param_2);
-  }
-  return;
+    self->time = 0.0f;
+    self->state = state;
+    self->prevTime = 0.0f;
 }
 
+void fn_82334340(Self_82334340 *self, float dt)
+{
+    Ball_82334340 *ball = self->ball;
+    void *player;
+
+    self->prevTime = self->time;
+    self->time = self->time + dt;
+    player = ball->player;
+    if (player == 0)
+        return;
+    if (ball->busy == 0 && ball->ready != 0 && fn_82417F58(player) == ball) {
+        if (self->active == 0)
+            SetState(self, 1);
+        self->active = 1;
+        switch (self->state) {
+        case 0:
+            fn_823345C0(self);
+            break;
+        case 1:
+            fn_82334668(self);
+            break;
+        case 2:
+            if (fn_823364B8(self, &self->target1f0, 0) != 0) {
+                fn_822C72E0(self->scene->animator, (const char *)self->anim198);
+                SetState(self, 3);
+            }
+            break;
+        case 8:
+            if (self->launched == 0)
+                fn_82335838(self, ball->player);
+            if (fn_82336398(self, &self->target1e0) != 0) {
+                Motion_82334340 *m = &self->ball->body->motion;
+                m->velocity = __VMXGetReg(77);
+                m->bounces = 0;
+                m->spin = __VMXGetReg(77);
+                SetState(self, 3);
+            }
+            break;
+        case 3:
+            fn_82334868(self);
+            break;
+        case 4:
+            if (fn_823364B8(self, &self->target1e0, 1) != 0) {
+                fn_822C72E0(self->scene->animator, self->leftHanded ? "lefthand_idlewithball" : "righthand_idlewithball");
+                SetState(self, 5);
+            }
+            break;
+        case 5:
+            if (fn_82336398(self, &self->target1e0) != 0) {
+                if (self->countThrows != 0)
+                    self->throws++;
+                self->holdTime = self->ball->tuning->holdTime;
+                SetState(self, 6);
+            }
+            break;
+        case 6:
+            fn_823349C0(self);
+            break;
+        case 7:
+            fn_82334A70(self);
+            break;
+        case 9:
+            fn_82334E28(self);
+            break;
+        case 10:
+            fn_82334FD0(self);
+            break;
+        case 11:
+            fn_82335158(self);
+            break;
+        }
+    } else if (fn_82417F58(player) != ball) {
+        self->active = 0;
+    }
+}

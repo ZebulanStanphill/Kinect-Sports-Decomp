@@ -7,7 +7,7 @@
 //
 // The game was built with link-time code generation, which inlined more than
 // the compiler does by itself; /d2inlS1000 (in objects.json) lets it inline as
-// much. The inner set's erase(first, last) stays a call to fn_8224ED20 (it
+// much. The inner set's erase(first, last) stays a call of that member (func_8224ED20; it
 // returns its iterator through a pointer that nothing reads), and the tree's
 // rotations stay calls to fn_828C0218 and fn_8288B838. They, operator delete
 // and std::_Xlength_error keep the names that C units use. This copy of
@@ -20,14 +20,10 @@ extern "C" __declspec(noreturn) void fn_82F622A8(const char *message);
 #define _Xlength_error fn_82F622A8
 #include <set>
 #undef _Xlength_error
+#include "game/Element_8224ED20.h"
 
-// The inner set's 12-byte value type (a placeholder; the member at 0x0 has a
-// destructor, which only fn_8224ED20 calls).
-struct Inner_828961F0 {
-    int data[3];
-};
 
-typedef std::set<Inner_828961F0> InnerSet;
+typedef std::set<Element_8224ED20> InnerSet;
 typedef InnerSet::_Mybase InnerTree;
 
 struct Element_828961F0 {
@@ -41,18 +37,11 @@ typedef Tree::_Node Node;
 
 extern "C" {
 void fn_8265CA20(void *ptr);
-void fn_8224ED20(InnerTree::_Nodeptr *result, InnerTree *self, InnerTree::const_iterator first,
-                 InnerTree::const_iterator last);
 void fn_828C0218(Tree *self, Node *node);
 void fn_8288B838(Tree *self, Node *node);
 }
 
-template <> __forceinline InnerTree::iterator InnerTree::erase(const_iterator first, const_iterator last)
-{
-    _Nodeptr result;
-    fn_8224ED20(&result, this, first, last);
-    return iterator(result, this);
-}
+template <> InnerTree::iterator InnerTree::erase(const_iterator first, const_iterator last);
 
 template <> void std::allocator<InnerTree::_Node>::deallocate(pointer ptr, size_type)
 {

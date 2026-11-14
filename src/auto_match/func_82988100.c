@@ -1,34 +1,37 @@
-extern unsigned int *auStack_30;
-extern int fn_82930318();
-extern int fn_82931D88();
-extern int fn_82980C18();
-extern int fn_82986DF0();
+typedef struct Compiler_82988100 {
+    char pad0[0x28];
+    int loc;                /* 0x28 */
+} Compiler_82988100;
 
+typedef struct Node_82988100 {
+    char pad0[0x14];
+    void *type;             /* 0x14 */
+} Node_82988100;
 
-unsigned __int64 fn_82988100(__int64 param_1,int param_2,unsigned __int64 param_3)
+extern int fn_82986DF0(Compiler_82988100 *c, void *source, unsigned int *out);
+extern void fn_82980C18(Compiler_82988100 *c, void *loc, int code, const char *fmt, ...);
+extern void *fn_82930318(unsigned int size);
+extern void *fn_82931D88(void *p, int a, void *b, int c, int d, unsigned int e, int f);
 
+void *fn_82988100(Compiler_82988100 *c, Node_82988100 *base, void *dimExpr)
 {
-  int iVar3;
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  unsigned int auStack_30 [12];
-  
-  if (param_2 != 0) {
-    iVar3 = fn_82986DF0(param_1,param_3,auStack_30);
-    if (iVar3 < 0) {
-      fn_82980C18(param_1,param_1 + 0x28,0xbf4,0xffffffff8204e694);
-    }
-    else if ((auStack_30[0] == 0) || (4 < auStack_30[0])) {
-      fn_82980C18(param_1,param_1 + 0x28,0xbec,0xffffffff8204e668,4);
-    }
-    else {
-      uVar1 = fn_82930318(0x28);
-      if ((uVar1 & 0xffffffff) != 0) {
-        uVar2 = fn_82931D88(uVar1,1,*(unsigned int *)(param_2 + 0x14),0,1,auStack_30[0],0);
-        return uVar2;
-      }
-    }
-  }
-  return 0;
-}
+    unsigned int value;
+    unsigned int dim;
+    void *p;
 
+    if (base != 0) {
+        if (fn_82986DF0(c, dimExpr, &value) < 0) {
+            fn_82980C18(c, &c->loc, 0xbf4, "vector dimension must be a literal scalar expression");
+            return 0;
+        }
+        dim = value;
+        if (dim < 1 || dim > 4) {
+            fn_82980C18(c, &c->loc, 0xbec, "vector dimension must be between 1 and %u", 4);
+            return 0;
+        }
+        p = fn_82930318(0x28);
+        if (p != 0)
+            return fn_82931D88(p, 1, base->type, 0, 1, dim, 0);
+    }
+    return 0;
+}

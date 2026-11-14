@@ -1,6 +1,6 @@
 extern unsigned int *auStack_40;
 extern int fn_829AB0F0();
-extern int fn_829AB1D8();
+extern int png_sig_cmp();
 extern int fn_829AB2C8();
 extern int png_read_data();
 extern int png_crc_read();
@@ -41,10 +41,10 @@ void fn_829AE470(int param_1,__int64 param_2)
     lVar8 = -uVar9 + 8;
     png_read_data(param_1,uVar9 + param_2 + 0x20,lVar8);
     *(unsigned char *)(param_1 + 0x61c) = 8;
-    iVar3 = fn_829AB1D8(param_2 + 0x20,uVar9,lVar8);
+    iVar3 = png_sig_cmp(param_2 + 0x20,uVar9,lVar8);
     if (iVar3 != 0) {
       if (uVar9 < 4) {
-        iVar3 = fn_829AB1D8(param_2 + 0x20,uVar9,-uVar9 + 4);
+        iVar3 = png_sig_cmp(param_2 + 0x20,uVar9,-uVar9 + 4);
         if (iVar3 == 0) goto LAB_829ae4f4;
         uVar4 = 0xffffffff820524e4;
       }

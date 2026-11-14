@@ -13,7 +13,7 @@ extern int fn_82BBC618();
 extern int fn_82BC0088();
 extern int fn_82BC37B8();
 extern int fn_82BC5538();
-extern int fn_82F6C420();
+extern int longjmp();
 extern unsigned int uStack_a1;
 extern unsigned int uStack_b0;
 
@@ -124,7 +124,7 @@ __int64 fn_82BBCB40(__int64 param_1,int param_2,int param_3,int param_4,int para
             iVar7 = *(int *)(iVar7 + 0x754);
             *(unsigned int *)(iVar7 + 0x554) = 0x18;
                     /* WARNING: Subroutine does not return */
-            fn_82F6C420(iVar7 + 0x10,1);
+            longjmp(iVar7 + 0x10,1);
           }
           if (iVar5 != iVar18) {
             if ((*(char *)(iVar7 + 0x380 + iVar18) != '\0') ||
