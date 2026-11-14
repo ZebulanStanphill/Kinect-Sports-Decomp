@@ -1,29 +1,26 @@
-typedef unsigned char bool;
-#define false 0
-extern int fn_82536358();
+typedef struct Obj_825529B0 Obj_825529B0;
+typedef struct ObjVt_825529B0 {
+    void *slot0;
+    unsigned char (*isBusy)(Obj_825529B0 *self);    /* 0x4 */
+} ObjVt_825529B0;
+struct Obj_825529B0 {
+    ObjVt_825529B0 *vt;
+};
 
+extern unsigned char fn_82536358(Obj_825529B0 *obj);
 
-bool fn_825529B0(unsigned int *param_1)
-
+unsigned char fn_825529B0(Obj_825529B0 **holder)
 {
-  char cVar1;
-  bool bVar2;
-  unsigned __int64 uVar3;
-  
-  uVar3 = (unsigned __int64)*param_1;
-  if (uVar3 == 0) {
-    cVar1 = '\0';
-  }
-  else {
-    cVar1 = fn_82536358(uVar3);
-  }
-  if (cVar1 == '\0') {
-    bVar2 = false;
-  }
-  else {
-    cVar1 = (**(int (***)())(*(int *)uVar3 + 4))(uVar3);
-    bVar2 = cVar1 == '\0';
-  }
-  return bVar2;
-}
+    Obj_825529B0 *obj = *holder;
+    unsigned char ok;
 
+    if (obj != 0) {
+        ok = fn_82536358(obj);
+    } else {
+        ok = 0;
+    }
+    if (!ok) {
+        return 0;
+    }
+    return obj->vt->isBusy(obj) == 0;
+}

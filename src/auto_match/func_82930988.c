@@ -1,21 +1,24 @@
-typedef unsigned char bool;
-#define false 0
-extern int fn_82930800();
+typedef struct Key_82930988 {
+    int words[2];
+} Key_82930988;
 
+typedef struct Obj_82930988 {
+    int pad0;
+    int type;               /* 0x04 */
+    int pad8[2];
+    Key_82930988 key;       /* 0x10 */
+} Obj_82930988;
 
-bool fn_82930988(int param_1,int param_2)
+extern int fn_82930800(Key_82930988 *a, Key_82930988 *b);
 
+static __forceinline int SameType(Obj_82930988 *self, Obj_82930988 *other)
 {
-  __int64 lVar1;
-  bool bVar2;
-  
-  if ((param_2 == 0) || (*(int *)(param_2 + 4) != *(int *)(param_1 + 4))) {
-    bVar2 = false;
-  }
-  else {
-    lVar1 = fn_82930800(param_1 + 0x10,param_2 + 0x10);
-    bVar2 = lVar1 != 0;
-  }
-  return bVar2;
+    return other != 0 && other->type == self->type;
 }
 
+unsigned char fn_82930988(Obj_82930988 *self, Obj_82930988 *other)
+{
+    if (!SameType(self, other))
+        return 0;
+    return fn_82930800(&self->key, &other->key) != 0;
+}

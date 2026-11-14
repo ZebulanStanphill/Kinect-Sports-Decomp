@@ -1,36 +1,46 @@
-#define true 1
-extern int fn_83031460();
+typedef struct Value_830308E8 {
+    int a;
+    int b;
+    int c;
+} Value_830308E8;
 
+typedef struct Node_830308E8 {
+    struct Node_830308E8 *next;
+    unsigned int key;
+    Value_830308E8 value;
+} Node_830308E8;
 
-unsigned __int64 fn_830308E8(int param_1,int param_2,unsigned __int64 *param_3)
+typedef struct List_830308E8 {
+    Node_830308E8 *head;
+} List_830308E8;
 
+typedef struct Obj_830308E8 {
+    char pad[0xe4];
+    List_830308E8 list;
+} Obj_830308E8;
+
+extern void *fn_83031460(List_830308E8 *l, unsigned int key, Value_830308E8 value);
+
+static Value_830308E8 *List_find(List_830308E8 *l, unsigned int key)
 {
-  unsigned int *puVar1;
-  int iVar3;
-  unsigned __int64 uVar2;
-  
-  puVar1 = *(unsigned int **)(param_1 + 0xe4);
-  do {
-    if (puVar1 == (unsigned int *)0x0) {
-LAB_8303091c:
-      iVar3 = fn_83031460((unsigned int *)(param_1 + 0xe4),param_2,*param_3,
-                                (unsigned __int64)*(unsigned int *)(param_3 + 1) << 0x20);
-      uVar2 = 2;
-      if (iVar3 != 0) {
-        uVar2 = 1;
-      }
-      return uVar2;
+    Node_830308E8 *n;
+
+    for (n = l->head; n != 0; n = n->next) {
+        if (n->key == key) {
+            return &n->value;
+        }
     }
-    if (puVar1[1] == param_2) {
-      if (puVar1 + 2 != (unsigned int *)0x0) {
-        puVar1[2] = *(unsigned int *)param_3;
-        puVar1[3] = *(unsigned int *)((int)param_3 + 4);
-        puVar1[4] = *(unsigned int *)(param_3 + 1);
-        return 1;
-      }
-      goto LAB_8303091c;
-    }
-    puVar1 = (unsigned int *)*puVar1;
-  } while( true );
+    return 0;
 }
 
+int fn_830308E8(Obj_830308E8 *self, unsigned int key, const Value_830308E8 *value)
+{
+    Value_830308E8 *v = List_find(&self->list, key);
+    if (v != 0) {
+        *v = *value;
+    } else {
+        if (fn_83031460(&self->list, key, *value) == 0)
+            return 2;
+    }
+    return 1;
+}

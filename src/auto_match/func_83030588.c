@@ -1,38 +1,59 @@
-#define true 1
-#define CONCAT13(h,l) ((unsigned int)((((unsigned char)(h)) << 24) | ((unsigned int)(l))))
-extern int fn_83031460();
-extern unsigned int uStack_18;
+typedef struct Node_83030588 Node_83030588;
 
+typedef struct Flags_83030588 {
+    unsigned char a : 4;
+    unsigned char flag : 1;
+    unsigned char c : 3;
+    unsigned char pad[3];
+} Flags_83030588;
 
-unsigned __int64 fn_83030588(int param_1,int param_2,unsigned __int64 param_3)
+typedef struct Value_83030588 {
+    int a;
+    int b;
+    Flags_83030588 fl;
+} Value_83030588;
 
+struct Node_83030588 {
+    Node_83030588 *next;
+    unsigned int key;
+    Value_83030588 val;
+};
+
+typedef struct List_83030588 {
+    Node_83030588 *head;
+} List_83030588;
+
+typedef struct Obj_83030588 {
+    char pad[0xe4];
+    List_83030588 list;
+} Obj_83030588;
+
+extern void *fn_83031460(List_83030588 *list, unsigned int key,
+                         Value_83030588 v);
+
+static __forceinline Value_83030588 *find_83030588(List_83030588 *l, unsigned int key)
 {
-  unsigned int *puVar1;
-  int iVar3;
-  unsigned __int64 uVar2;
-  unsigned int uStack_18;
-  
-  puVar1 = *(unsigned int **)(param_1 + 0xe4);
-  do {
-    if (puVar1 == (unsigned int *)0x0) {
-LAB_830305bc:
-      uStack_18 = CONCAT13((unsigned char)((param_3 & 1) << 3) | (((unsigned __int64)(uStack_18) >> 0) & 0xFF) & 7,(((unsigned __int64)(uStack_18) >> 8) & 0xFFFFFF));
-      iVar3 = fn_83031460((unsigned int *)(param_1 + 0xe4),param_2,0,
-                                (unsigned __int64)uStack_18 << 0x20);
-      uVar2 = 2;
-      if (iVar3 != 0) {
-        uVar2 = 1;
-      }
-      return uVar2;
+    Node_83030588 *n;
+    for (n = l->head; n != 0; n = n->next) {
+        if (n->key == key)
+            return &n->val;
     }
-    if (puVar1[1] == param_2) {
-      if (puVar1 != (unsigned int *)0xfffffff8) {
-        *(unsigned char *)(puVar1 + 4) = (unsigned char)((param_3 & 0xff) << 3) & 8 | *(unsigned char *)(puVar1 + 4) & 0xf7;
-        return 1;
-      }
-      goto LAB_830305bc;
-    }
-    puVar1 = (unsigned int *)*puVar1;
-  } while( true );
+    return 0;
 }
 
+int fn_83030588(Obj_83030588 *o, unsigned int key, unsigned char flag)
+{
+    Value_83030588 *v = find_83030588(&o->list, key);
+    if (v != 0) {
+        v->fl.flag = flag;
+    } else {
+        Value_83030588 nv;
+        nv.b = 0;
+        nv.a = 0;
+        nv.fl.flag = flag;
+        nv.fl.a = 0;
+        if (fn_83031460(&o->list, key, nv) == 0)
+            return 2;
+    }
+    return 1;
+}

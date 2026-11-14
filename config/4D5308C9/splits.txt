@@ -41381,7 +41381,7 @@ auto_match/func_82536288.cpp:
 	.pdata      start:0x821EEAD8 end:0x821EEAE0
 	.text       start:0x82536288 end:0x82536358
 
-auto_match/func_82536358.c:
+auto_match/func_82536358.cpp:
 	.text       start:0x82536358 end:0x825363B8
 
 R1SDK/red/Ghoulies/game/audio/audio_main/func_825363B8.c:
@@ -74196,7 +74196,7 @@ auto_match/func_8277DDC0.c:
 	.pdata      start:0x821FC3A0 end:0x821FC3A8
 	.text       start:0x8277DDC0 end:0x8277E0D8
 
-auto_match/func_8277E0D8.c:
+auto_match/func_8277E0D8.cpp:
 	.pdata      start:0x821FC3A8 end:0x821FC3B0
 	.text       start:0x8277E0D8 end:0x8277E150
 
@@ -78137,7 +78137,7 @@ auto_match/func_827D9300.c:
 	.pdata      start:0x821FE6B0 end:0x821FE6B8
 	.text       start:0x827D9300 end:0x827D9350
 
-auto_match/func_827D9350.c:
+auto_match/func_827D9350.cpp:
 	.pdata      start:0x821FE6B8 end:0x821FE6C0
 	.text       start:0x827D9350 end:0x827D93B0
 

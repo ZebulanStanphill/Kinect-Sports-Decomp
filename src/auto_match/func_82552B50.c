@@ -1,29 +1,32 @@
-extern int fn_82536288();
-extern int fn_82536358();
+typedef struct Obj_82552B50 Obj_82552B50;
+struct Obj_82552B50 {
+    void (**vt)(Obj_82552B50 *);
+};
+typedef struct Handle_82552B50 {
+    Obj_82552B50 *obj;
+    int f4;
+    int f8;
+} Handle_82552B50;
+extern unsigned char fn_82536358(void *item);
+extern void fn_82536288(Handle_82552B50 *h);
 
-
-void fn_82552B50(unsigned int *param_1,unsigned __int64 param_2)
-
+static __forceinline unsigned char IsValid(Obj_82552B50 *o)
 {
-  char cVar1;
-  unsigned __int64 uVar2;
-  
-  uVar2 = (unsigned __int64)*param_1;
-  if (uVar2 == 0) {
-    cVar1 = '\0';
-  }
-  else {
-    cVar1 = fn_82536358(uVar2);
-  }
-  if (cVar1 != '\0') {
-    if (((param_2 & 0xff) != 0) && ((uVar2 & 0xffffffff) != 0)) {
-      (**(int (***)())*(unsigned int *)uVar2)(uVar2);
-    }
-    fn_82536288(param_1);
-    *param_1 = 0;
-    param_1[2] = 0xffffffff;
-    param_1[1] = 0;
-  }
-  return;
+    if (o != 0)
+        return fn_82536358(o);
+    return 0;
 }
 
+void fn_82552B50(Handle_82552B50 *h, unsigned char destroy)
+{
+    Obj_82552B50 *o = h->obj;
+    if (IsValid(o)) {
+        if (destroy && o != 0) {
+            o->vt[0](o);
+        }
+        fn_82536288(h);
+        h->obj = 0;
+        h->f8 = -1;
+        h->f4 = 0;
+    }
+}
