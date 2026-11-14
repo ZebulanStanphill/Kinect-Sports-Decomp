@@ -1,57 +1,50 @@
-extern int fn_82598D50();
-extern int iRam8326c2bc;
-extern unsigned int iStack_20;
-extern unsigned int lbl_8326C2AC;
-extern unsigned int lbl_8329618C;
-extern unsigned int uRam8326c2b4;
+typedef struct Device_82593D90 {
+    char pad0[0xd48];
+    unsigned char *busy;
+} Device_82593D90;
 
+typedef struct Node_82593D90 {
+    char pad0[4];
+    Device_82593D90 *device;
+} Node_82593D90;
 
-unsigned __int64 fn_82593D90(void)
+typedef struct Globals_82593D90 {
+    char pad0[0xec];
+    Node_82593D90 *node;
+} Globals_82593D90;
 
+typedef struct State_82593D90 {
+    unsigned int mode;
+    int f4;
+    int partial;
+    int fc;
+    int f10;
+} State_82593D90;
+
+extern Globals_82593D90 lbl_832960A0;
+extern State_82593D90 lbl_8326C2AC;
+extern void fn_82598D50(Device_82593D90 *device, void **a, void **b);
+
+static __forceinline Device_82593D90 *GetDevice(void)
 {
-  unsigned int uVar1;
-  int iVar2;
-  int iStack_20;
-  int aiStack_1c [3];
-  
-  if ((lbl_8326C2AC != 1) || (iRam8326c2bc != 0)) {
-    return 0;
-  }
-  if (lbl_8329618C == 0) {
-    iVar2 = 0;
-  }
-  else {
-    iVar2 = *(int *)(lbl_8329618C + 4);
-  }
-  if (iVar2 != 0) {
-    if (lbl_8329618C == 0) {
-      iVar2 = 0;
-    }
-    else {
-      iVar2 = *(int *)(lbl_8329618C + 4);
-    }
-    if (**(char **)(iVar2 + 0xd48) == '\0') {
-      if (lbl_8329618C == 0) {
-        uVar1 = 0;
-      }
-      else {
-        uVar1 = *(unsigned int *)(lbl_8329618C + 4);
-      }
-      fn_82598D50(uVar1,aiStack_1c,&iStack_20);
-      if (aiStack_1c[0] == 0) {
-        if (iStack_20 == 0) {
-          return 0;
-        }
-      }
-      else if (iStack_20 != 0) {
-        uRam8326c2b4 = 0;
-        return 1;
-      }
-      uRam8326c2b4 = 1;
-      return 1;
-    }
-    return 0;
-  }
-  return 0;
+    return lbl_832960A0.node ? lbl_832960A0.node->device : 0;
 }
 
+int fn_82593D90(void)
+{
+    void *a;
+    void *b;
+
+    if (lbl_8326C2AC.mode == 1 && lbl_8326C2AC.f10 == 0 && GetDevice() != 0 && *GetDevice()->busy == 0) {
+        fn_82598D50(GetDevice(), &a, &b);
+        if (a != 0 && b != 0) {
+            lbl_8326C2AC.partial = 0;
+            return 1;
+        }
+        if (a != 0 || b != 0) {
+            lbl_8326C2AC.partial = 1;
+            return 1;
+        }
+    }
+    return 0;
+}

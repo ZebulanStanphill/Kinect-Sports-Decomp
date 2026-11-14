@@ -1,38 +1,31 @@
-extern int fn_82A99B70();
+extern void fn_82A99B70(void *out, const char *format, ...);
 
-
-void fn_82A99D88(unsigned __int64 param_1,unsigned __int64 param_2,char *param_3)
-
+void fn_82A99D88(void *out, const char *name, const char *value)
 {
-  char cVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  
-  fn_82A99B70(param_1,0xffffffff820d288c,param_2);
-  if (*param_3 != '\0') {
-    do {
-      cVar1 = *param_3;
-      if (cVar1 == '\"') {
-        uVar3 = 0xffffffff82005c50;
-LAB_82a99e58:
-        fn_82A99B70(param_1,uVar3);
-      }
-      else {
-        if (cVar1 == '&') {
-          uVar2 = 0xffffffff82005c60;
-        }
-        else {
-          uVar2 = 0xffffffff82005c58;
-          if (((cVar1 != '\'') && (uVar2 = 0xffffffff82005c40, cVar1 != '<')) &&
-             (uVar2 = 0xffffffff82005c48, uVar3 = 0xffffffff821ce318, cVar1 != '>'))
-          goto LAB_82a99e58;
-        }
-        fn_82A99B70(param_1,uVar2);
-      }
-      param_3 = param_3 + 1;
-    } while (*param_3 != '\0');
+  const char *p;
+  fn_82A99B70(out, " %s=\"", name);
+  for (p = value; *p != 0; p++) {
+    char c = *p;
+    switch (c) {
+    case '<':
+      fn_82A99B70(out, "&lt;");
+      break;
+    case '>':
+      fn_82A99B70(out, "&gt;");
+      break;
+    case '&':
+      fn_82A99B70(out, "&amp;");
+      break;
+    case '\'':
+      fn_82A99B70(out, "&apos;");
+      break;
+    case '"':
+      fn_82A99B70(out, "&quot;", c);
+      break;
+    default:
+      fn_82A99B70(out, "%c", c);
+      break;
+    }
   }
-  fn_82A99B70(param_1,0xffffffff8200c4f8);
-  return;
+  fn_82A99B70(out, "\"");
 }
-

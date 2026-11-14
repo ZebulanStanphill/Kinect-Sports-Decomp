@@ -1,37 +1,43 @@
-void fn_82A86C40(int param_1,int param_2,unsigned int *param_3)
+void *memcpy(void *dst, const void *src, unsigned int n);
+typedef struct Value_82A86C40 {
+    unsigned int v[4];
+} Value_82A86C40;
 
+typedef struct Entry_82A86C40 {
+    int unk0;
+    int key;              /* 0x4 */
+    Value_82A86C40 value; /* 0x8 */
+} Entry_82A86C40;
+
+typedef struct Item_82A86C40 {
+    int unk0;
+    Entry_82A86C40 entries[20]; /* 0x4 */
+    char pad1e4[0x1c];
+} Item_82A86C40;
+
+typedef struct Owner_82A86C40 {
+    char pad0[0x14];
+    int count;               /* 0x14 */
+    char pad18[0x14];
+    Item_82A86C40 *items;    /* 0x2c */
+} Owner_82A86C40;
+
+static __forceinline void SetValue(Item_82A86C40 *item, int key, const Value_82A86C40 *value)
 {
-  unsigned int *puVar1;
-  unsigned __int64 uVar2;
-  __int64 lVar3;
-  __int64 lVar4;
-  __int64 lVar5;
-  
-  if (param_2 == 0) {
-    return;
-  }
-  uVar2 = (unsigned __int64)*(unsigned int *)(param_1 + 0x14) - 1;
-  if ((__int64)uVar2 < 0) {
-    return;
-  }
-  lVar3 = (uVar2 & 0x7fffff) << 9;
-  do {
-    lVar4 = 0x14;
-    lVar5 = (unsigned __int64)*(unsigned int *)(param_1 + 0x2c) + lVar3 + 0x1d4;
-    do {
-      puVar1 = (unsigned int *)lVar5;
-      if (puVar1[-1] == param_2) {
-        *puVar1 = *param_3;
-        puVar1[1] = param_3[1];
-        puVar1[2] = param_3[2];
-        puVar1[3] = param_3[3];
-      }
-      lVar4 = lVar4 + -1;
-      lVar5 = lVar5 + -0x18;
-    } while (lVar4 != 0);
-    uVar2 = uVar2 - 1;
-    lVar3 = lVar3 + -0x200;
-  } while (-1 < (__int64)uVar2);
-  return;
+    int j;
+    for (j = 19; j >= 0; j--) {
+        Entry_82A86C40 *e = &item->entries[j];
+        if (e->key == key)
+            memcpy(&e->value, value, sizeof(e->value));
+    }
 }
 
+void fn_82A86C40(Owner_82A86C40 *self, int key, const Value_82A86C40 *value)
+{
+    int i;
+
+    if (key == 0)
+        return;
+    for (i = self->count - 1; i >= 0; i--)
+        SetValue(&self->items[i], key, value);
+}

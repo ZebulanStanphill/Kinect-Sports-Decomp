@@ -1,37 +1,63 @@
-extern int fn_8302EB70();
-extern int fn_83032D88();
-extern int fn_83033AB8();
+typedef struct Size_83033B60 {
+    unsigned short width;
+    unsigned short height;
+} Size_83033B60;
 
+typedef struct Desc_83033B60 {
+    char pad0[8];
+    Size_83033B60 size;
+} Desc_83033B60;
 
-unsigned __int64 fn_83033B60(unsigned __int64 param_1,int param_2,int param_3,int *param_4)
+typedef struct Inner_83033B60 {
+    char pad0[4];
+    Desc_83033B60 *desc;
+} Inner_83033B60;
 
+typedef struct Info_83033B60 {
+    char pad0[0x10];
+    Inner_83033B60 *inner;
+} Info_83033B60;
+
+typedef struct Ctx_83033B60 {
+    char pad0[0x78];
+    Info_83033B60 *info;
+} Ctx_83033B60;
+
+typedef struct Node_83033B60 {
+    char pad0[8];
+    Size_83033B60 size;
+    int owner;
+    void *ref;
+} Node_83033B60;
+
+typedef struct Holder_83033B60 {
+    char pad0[0x10];
+    void *ref;
+} Holder_83033B60;
+
+extern Node_83033B60 *fn_8302EB70(void *p);
+extern void fn_83032D88(void *p);
+extern int fn_83033AB8(int owner, void *ref);
+
+int fn_83033B60(int owner, Holder_83033B60 *holder, Ctx_83033B60 *ctx, void **ref)
 {
-  int iVar1;
-  int iVar2;
-  int iVar4;
-  unsigned __int64 uVar3;
-  
-  iVar4 = fn_8302EB70((unsigned __int64)*(unsigned int *)(param_2 + 0x10) + 4);
-  if (iVar4 == 0) {
-    iVar4 = *(int *)(param_2 + 0x10);
-    *(unsigned int *)(param_2 + 0x10) = 0;
-    if (iVar4 != 0) {
-      fn_83032D88();
-    }
-    uVar3 = 0x34;
-  }
-  else {
-    iVar1 = *param_4;
-    *(int *)(iVar4 + 0xc) = (int)param_1;
-    *(int *)(iVar4 + 0x10) = iVar1;
-    iVar2 = *(int *)(*(int *)(*(int *)(param_3 + 0x78) + 0x10) + 4);
-    *(unsigned short *)(iVar4 + 8) = *(unsigned short *)(iVar2 + 8);
-    *(unsigned short *)(iVar4 + 10) = *(unsigned short *)(iVar2 + 10);
-    if (iVar1 != 0) {
-      fn_83033AB8(param_1);
-    }
-    uVar3 = 1;
-  }
-  return uVar3;
-}
+    Node_83033B60 *node;
+    void *old;
 
+    node = fn_8302EB70((char *)holder->ref + 4);
+    if (node != 0) {
+        node->ref = *ref;
+        node->owner = owner;
+        node->size = ctx->info->inner->desc->size;
+        if (node->ref != 0) {
+            fn_83033AB8(owner, node->ref);
+        }
+        return 1;
+    }
+    old = holder->ref;
+    holder->ref = 0;
+    if (old != 0) {
+        fn_83032D88(old);
+    }
+    return 0x34;
+}

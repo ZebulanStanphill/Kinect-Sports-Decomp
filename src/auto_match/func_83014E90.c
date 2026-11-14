@@ -1,42 +1,37 @@
-extern int fn_82F68B78();
+typedef struct Obj_83014E90 {
+    char pad0[0x38];
+    int state;
+    unsigned int owner;
+    char pad40[0x2c];
+    int f6c;
+    char pad70[8];
+    unsigned int count;
+} Obj_83014E90;
 
+extern void fn_83014BF8(Obj_83014E90 *self);
 
-void fn_83014E90(int param_1,unsigned int param_2,int param_3)
-
+void fn_83014E90(Obj_83014E90 *self, unsigned int op, unsigned int owner)
 {
-  __int64 lVar1;
-  
-  if ((*(int *)(param_1 + 0x3c) != param_3) && (param_3 != 0)) {
-    return;
-  }
-  if (param_2 == 0) {
-    *(unsigned int *)(param_1 + 0x38) = 0;
-    *(unsigned int *)(param_1 + 0x6c) = 0;
-    *(unsigned int *)(param_1 + 0x78) = 0;
-    return;
-  }
-  if (param_2 == 1) {
-    if (*(int *)(param_1 + 0x38) == 0) {
-      return;
+    if (self->owner != owner && owner != 0) {
+        return;
     }
-    *(int *)(param_1 + 0x78) = *(int *)(param_1 + 0x78) + 1;
-    return;
-  }
-  if (2 < param_2) {
-    return;
-  }
-  if ((unsigned __int64)*(unsigned int *)(param_1 + 0x78) == 0) {
-    return;
-  }
-  lVar1 = (unsigned __int64)*(unsigned int *)(param_1 + 0x78) - 1;
-  *(int *)(param_1 + 0x78) = (int)lVar1;
-  if (lVar1 != 0) {
-    return;
-  }
-  if (*(int *)(param_1 + 0x38) == 1) {
-    return;
-  }
-  fn_82F68B78();
-  return;
+    switch (op) {
+    case 0:
+        self->state = 0;
+        self->f6c = 0;
+        self->count = 0;
+        break;
+    case 1:
+        if (self->state != 0) {
+            self->count++;
+        }
+        break;
+    case 2:
+        if (self->count != 0) {
+            if (--self->count == 0 && self->state != 1) {
+                fn_83014BF8(self);
+            }
+        }
+        break;
+    }
 }
-

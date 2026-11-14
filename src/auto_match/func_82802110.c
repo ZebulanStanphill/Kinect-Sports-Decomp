@@ -1,12 +1,10 @@
-void fn_82802110(double param_1,double param_2,double param_3,int param_4)
+typedef struct Range_82802110 {
+    int pad0;
+    unsigned int min;   /* 0x04 */
+    unsigned int max;   /* 0x08 */
+} Range_82802110;
 
+void fn_82802110(Range_82802110 *range, float t, float scale, float offset, float *out)
 {
-  float *in_r7;
-  
-  *in_r7 = (float)((double)(float)((double)(float)((double)(float)((double)*(unsigned int *)(param_4 + 8) -
-                                                                  (double)*(unsigned int *)(param_4 + 4)) *
-                                                   param_1 + (double)*(unsigned int *)(param_4 + 4)) +
-                                  param_3) * param_2);
-  return;
+    *out = (((float)range->max - (float)range->min) * t + (float)range->min + offset) * scale;
 }
-

@@ -1,20 +1,17 @@
-extern unsigned int iStack_c;
+typedef struct Curve_8302A5B8 {
+    int unk0;
+    float *values; /* 0x4 */
+    int unk8;
+    int unkc;
+    float start;   /* 0x10 */
+    int unk14;
+    float scale;   /* 0x18 */
+} Curve_8302A5B8;
 
-
-double fn_8302A5B8(double param_1,int param_2)
-
+float fn_8302A5B8(Curve_8302A5B8 *self, float x)
 {
-  float fVar1;
-  float fVar2;
-  float *pfVar3;
-  unsigned __int64 uVar4;
-  int iStack_c;
-  
-  fVar2 = (float)(param_1 - (double)*(float *)(param_2 + 0x10)) * *(float *)(param_2 + 0x18);
-  uVar4 = (unsigned __int64)fVar2;
-  iStack_c = (int)uVar4;
-  pfVar3 = (float *)(iStack_c * 4 + *(int *)(param_2 + 4));
-  fVar1 = *pfVar3;
-  return (double)((fVar2 - (float)(uVar4 & 0xffffffff)) * (pfVar3[1] - fVar1) + fVar1);
+    float f = (x - self->start) * self->scale;
+    float *e = &self->values[(unsigned int)f];
+    float first = e[0];
+    return (f - (float)(unsigned int)f) * (e[1] - first) + first;
 }
-

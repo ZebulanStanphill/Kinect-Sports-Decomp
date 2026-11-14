@@ -1,28 +1,25 @@
-extern int fn_82FEC7F0();
+typedef struct {
+  void *data;            /* 0x0 */
+  unsigned int mask;     /* 0x4 */
+  int pad8;
+  unsigned short count;  /* 0xc */
+  unsigned short used;   /* 0xe */
+} Table_83037510;
+extern void *fn_82FEC7F0(unsigned int size);
 
-
-unsigned __int64 fn_83037510(int *param_1,unsigned short param_2,unsigned int param_3)
-
+int fn_83037510(Table_83037510 *t, unsigned short count, unsigned int mask)
 {
-  int iVar2;
-  unsigned __int64 uVar1;
-  unsigned int uVar3;
-  
-  iVar2 = 0;
-  for (uVar3 = param_3; uVar3 != 0; uVar3 = uVar3 - 1 & uVar3) {
-    iVar2 = iVar2 + 1;
+  unsigned int m = mask;
+  int bits = 0;
+  void *data;
+  while (m != 0) { bits++; m &= m - 1; }
+  data = fn_82FEC7F0(count * bits * 4);
+  if (data != 0) {
+  t->data = data;
+  t->count = count;
+  t->mask = mask;
+  t->used = 0;
+    return 1;
   }
-  iVar2 = fn_82FEC7F0(((__int64)(int)(unsigned int)param_2 * (__int64)iVar2 & 0x3fffffffU) << 2);
-  if (iVar2 == 0) {
-    uVar1 = 0x34;
-  }
-  else {
-    *param_1 = iVar2;
-    uVar1 = 1;
-    *(unsigned short *)(param_1 + 3) = param_2;
-    param_1[1] = param_3;
-    *(unsigned short *)((int)param_1 + 0xe) = 0;
-  }
-  return uVar1;
+  return 0x34;
 }
-

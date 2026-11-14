@@ -1,55 +1,54 @@
-extern int fn_82BE1A10();
-extern int fn_82BE1FA0();
-extern int fn_82BE5240();
-extern int fn_82BE56B0();
-extern int fn_82BF4D90();
-extern int fn_82BF4DF8();
+typedef struct Request_82BEA590 Request_82BEA590;
+typedef struct RequestVt_82BEA590 {
+    void (*Destroy)(Request_82BEA590 *self, unsigned int flags);
+} RequestVt_82BEA590;
+struct Request_82BEA590 {
+    RequestVt_82BEA590 *vt;
+};
 
+typedef struct Core_82BEA590 {
+    char pad[0x10];
+    int state;
+} Core_82BEA590;
 
-unsigned __int64 fn_82BEA590(int param_1)
+typedef struct Client_82BEA590 {
+    char pad00[0x10];
+    int ok;
+    char pad14[0x4c - 0x14];
+    Request_82BEA590 *request;
+} Client_82BEA590;
 
+extern int fn_82BE5240(Client_82BEA590 *self, int code, const char *format, ...);
+extern Core_82BEA590 *fn_82BE1A10(void);
+extern void *fn_82BE1FA0(Core_82BEA590 *core);
+extern void *fn_82BE56B0(unsigned int size);
+extern Request_82BEA590 *fn_82BF4D90(void *mem);
+extern int fn_82BF4DF8(Request_82BEA590 *request, Client_82BEA590 *client, void *context);
+
+int fn_82BEA590(Client_82BEA590 *self)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  
-  if (*(int *)(param_1 + 0x4c) == 0) {
-    iVar1 = fn_82BE1A10();
-    if (*(int *)(iVar1 + 0x10) == 4) {
-      return 0x12d;
-    }
-    iVar1 = fn_82BE56B0(0x58);
-    if (iVar1 == 0) {
-      puVar2 = (unsigned int *)0x0;
-    }
-    else {
-      puVar2 = (unsigned int *)fn_82BF4D90();
-    }
-    if (puVar2 == (unsigned int *)0x0) {
-      *(unsigned int *)(param_1 + 0x10) = 0;
-      uVar3 = 0x65;
-      uVar4 = 0xffffffff820eab8c;
-    }
-    else {
-      fn_82BE1A10();
-      uVar3 = fn_82BE1FA0();
-      iVar1 = fn_82BF4DF8(puVar2,param_1,uVar3);
-      if (iVar1 != 0) {
-        *(unsigned int **)(param_1 + 0x4c) = puVar2;
-        goto LAB_82bea65c;
-      }
-      *(unsigned int *)(param_1 + 0x10) = 0;
-      (**(int (***)())*puVar2)(puVar2,1);
-      uVar3 = 0x452;
-      uVar4 = 0xffffffff820eab60;
-    }
-    uVar3 = fn_82BE5240(param_1,uVar3,uVar4);
-  }
-  else {
-LAB_82bea65c:
-    uVar3 = 0;
-  }
-  return uVar3;
-}
+    void *mem;
+    Request_82BEA590 *request;
 
+    if (self->request != 0)
+        return 0;
+    if (fn_82BE1A10()->state == 4)
+        return 0x12d;
+    mem = fn_82BE56B0(0x58);
+    if (mem != 0) {
+        request = fn_82BF4D90(mem);
+    } else {
+        request = 0;
+    }
+    if (request == 0) {
+        self->ok = 0;
+        return fn_82BE5240(self, 0x65, "ALLOCATION Failed for CRequestImpressionUpdate");
+    }
+    if (fn_82BF4DF8(request, self, fn_82BE1FA0(fn_82BE1A10())) == 0) {
+        self->ok = 0;
+        request->vt->Destroy(request, 1);
+        return fn_82BE5240(self, 0x452, ": Failed To Create ImpressionUpdate Request");
+    }
+    self->request = request;
+    return 0;
+}

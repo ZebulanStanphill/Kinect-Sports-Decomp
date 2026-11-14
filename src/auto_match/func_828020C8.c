@@ -1,13 +1,14 @@
-void fn_828020C8(unsigned __int64 param_1,double param_2,double param_3,int param_4)
+/* Entry of a function table at lbl_83156C40 (all entries share the signature; f1 is unused here). */
+typedef struct Grid_828020C8 {
+    int pad0;
+    unsigned int x;     /* 0x04 */
+    unsigned int y;     /* 0x08 */
+} Grid_828020C8;
 
+void fn_828020C8(const Grid_828020C8 *grid, float unused, float scale, float offset, float *outX, float *outY)
 {
-  unsigned int uVar1;
-  float *in_r7;
-  float *in_r8;
-  
-  uVar1 = *(unsigned int *)(param_4 + 8);
-  *in_r7 = (float)((double)(float)((double)*(unsigned int *)(param_4 + 4) + param_3) * param_2);
-  *in_r8 = (float)((double)(float)((double)uVar1 + param_3) * param_2);
-  return;
+    float y = (float)grid->y;
+    float x = (float)grid->x;
+    *outX = (x + offset) * scale;
+    *outY = (y + offset) * scale;
 }
-

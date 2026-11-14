@@ -1,17 +1,10 @@
-extern unsigned int iStack0000001c;
+typedef struct Tag_82F90478 {
+    unsigned char unused;
+} Tag_82F90478;
 
-
-void fn_82F90478(unsigned int *param_1,int param_2,unsigned int *param_3)
-
+void fn_82F90478(unsigned int *first, unsigned int count, const unsigned int *value, unsigned char tag)
 {
-  unsigned int *puStack00000014;
-  int iStack0000001c;
-  
-  puStack00000014 = param_1;
-  for (iStack0000001c = param_2; iStack0000001c != 0; iStack0000001c = iStack0000001c + -1) {
-    *puStack00000014 = *param_3;
-    puStack00000014 = puStack00000014 + 1;
-  }
-  return;
+    for (; 0 < count; --count, ++first) {
+        *first = *value;
+    }
 }
-

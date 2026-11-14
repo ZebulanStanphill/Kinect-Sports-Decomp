@@ -1,50 +1,36 @@
-extern int memchr();
+/* std::string::find(const char *ptr, size_type off, size_type count) (VC10 <xstring>). */
+typedef struct String_822C1928 {
+    union {
+        char buf[16];
+        char *ptr;
+    } bx;
+    unsigned int size;
+    unsigned int res;
+    char alval;
+} String_822C1928;
 
+extern void *memchr(const void *buf, int c, unsigned int count);
+extern int memcmp(const void *a, const void *b, unsigned int n);
 
-unsigned int fn_822C1928(unsigned int *param_1,unsigned char *param_2,unsigned int param_3,unsigned int param_4)
-
+static __forceinline const char *Myptr(const String_822C1928 *s)
 {
-  unsigned char *pbVar1;
-  __int64 lVar2;
-  unsigned char *pbVar3;
-  unsigned int uVar4;
-  unsigned int *puVar5;
-  unsigned char *pbVar6;
-  unsigned char *pbVar7;
-  unsigned char *pbVar8;
-  
-  if ((param_4 != 0) || ((unsigned int)param_1[4] < param_3)) {
-    if ((param_3 < (unsigned int)param_1[4]) && (uVar4 = param_1[4] - param_3, param_4 <= uVar4)) {
-      pbVar7 = (unsigned char *)((uVar4 - param_4) + 1);
-      puVar5 = param_1;
-      if (0xf < (unsigned int)param_1[5]) {
-        puVar5 = (unsigned int *)*param_1;
-      }
-      pbVar8 = (unsigned char *)((int)puVar5 + param_3);
-      while (pbVar1 = (unsigned char *)memchr(pbVar8,*param_2,pbVar7), pbVar1 != (unsigned char *)0x0) {
-        lVar2 = 0;
-        if (param_4 != 0) {
-          pbVar3 = param_2;
-          pbVar6 = pbVar1;
-          do {
-            lVar2 = (unsigned __int64)*pbVar6 - (unsigned __int64)*pbVar3;
-            if (lVar2 != 0) break;
-            pbVar6 = pbVar6 + 1;
-            pbVar3 = pbVar3 + 1;
-          } while (pbVar6 != pbVar1 + param_4);
-        }
-        if ((int)lVar2 == 0) {
-          if (0xf < (unsigned int)param_1[5]) {
-            param_1 = (unsigned int *)*param_1;
-          }
-          return (int)pbVar1 - (int)param_1;
-        }
-        pbVar7 = pbVar8 + (int)(pbVar7 + (-1 - (int)pbVar1));
-        pbVar8 = pbVar1 + 1;
-      }
-    }
-    param_3 = 0xffffffff;
-  }
-  return param_3;
+    return 16 <= s->res ? s->bx.ptr : s->bx.buf;
 }
 
+unsigned int fn_822C1928(const String_822C1928 *self, const char *ptr, unsigned int off, unsigned int count)
+{
+    unsigned int nm;
+    if (count == 0 && off <= self->size)
+        return off;
+
+    if (off < self->size && count <= (nm = self->size - off)) {
+        const char *uptr;
+        const char *vptr;
+        for (nm -= count - 1, vptr = Myptr(self) + off;
+             (uptr = (const char *)memchr(vptr, *ptr, nm)) != 0;
+             nm -= uptr - vptr + 1, vptr = uptr + 1)
+            if (memcmp(uptr, ptr, count) == 0)
+                return uptr - Myptr(self);
+    }
+    return (unsigned int)-1;
+}

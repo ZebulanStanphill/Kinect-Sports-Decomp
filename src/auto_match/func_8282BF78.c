@@ -1,33 +1,30 @@
-extern char *pcRam8320a794;
-extern int fn_8282BE80();
-extern int fn_8282BEC8();
-extern int fn_8282BF18();
-extern int fn_8282BF48();
-extern int iRam8320a784;
-extern int iRam8320a788;
-extern int iRam8320a78c;
-extern int iRam8320a790;
+typedef struct Callbacks_8282BF78 {
+    void *context;
+    void *alloc;
+    void *realloc;
+    void *free;
+    void *size;
+} Callbacks_8282BF78;
 
+extern Callbacks_8282BF78 lbl_8320A784;
+extern void fn_8282BE80(void);
+extern void fn_8282BEC8(void);
+extern void fn_8282BF18(void);
+extern void fn_8282BF48(void);
 
-void fn_8282BF78(int param_1,int *param_2)
-
+void fn_8282BF78(char *self, Callbacks_8282BF78 *out)
 {
-  int (**pcVar1)();
-
-  if (iRam8320a788 == 0) {
-    param_2[1] = (int)fn_8282BE80;
-    *param_2 = param_1 + 0xd8;
-    param_2[2] = (int)fn_8282BEC8;
-    param_2[3] = (int)fn_8282BF18;
-    pcVar1 = fn_8282BF48;
-  }
-  else {
-    *param_2 = iRam8320a784;
-    param_2[1] = iRam8320a788;
-    param_2[2] = iRam8320a78c;
-    param_2[3] = iRam8320a790;
-    pcVar1 = pcRam8320a794;
-  }
-  param_2[4] = (int)pcVar1;
-  return;
+    if (lbl_8320A784.alloc == 0) {
+        out->context = self + 0xd8;
+        out->alloc = (void *)fn_8282BE80;
+        out->realloc = (void *)fn_8282BEC8;
+        out->free = (void *)fn_8282BF18;
+        out->size = (void *)fn_8282BF48;
+    } else {
+        out->context = lbl_8320A784.context;
+        out->alloc = lbl_8320A784.alloc;
+        out->realloc = lbl_8320A784.realloc;
+        out->free = lbl_8320A784.free;
+        out->size = lbl_8320A784.size;
+    }
 }

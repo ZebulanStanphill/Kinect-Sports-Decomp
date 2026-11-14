@@ -1,30 +1,38 @@
-extern int fn_827D7460();
-extern int fn_827D98C0();
+typedef struct Obj_827E3380 Obj_827E3380;
+typedef struct {
+  void *slots[12];
+  void (*release)(Obj_827E3380 *, unsigned int);
+} ObjVtbl_827E3380;
+struct Obj_827E3380 { ObjVtbl_827E3380 *vt; };
 
+typedef void (*Callback_827E3380)(void *ctx, unsigned int data, unsigned int count, unsigned int user);
 
-void fn_827E3380(int param_1,unsigned __int64 param_2)
+typedef struct {
+  int f0;
+  int f4;
+  unsigned int user;
+  int fc[3];
+  int ctx[6];
+  unsigned int f30;
+  Obj_827E3380 *obj;
+  int f38;
+  unsigned int count;
+  Callback_827E3380 callback;
+} Self_827E3380;
 
+extern void fn_827D7460(unsigned int a, void *ctx, unsigned int b, Obj_827E3380 **obj, unsigned int *count, unsigned int user, int z);
+extern unsigned int fn_827D98C0(Obj_827E3380 *obj);
+
+void fn_827E3380(Self_827E3380 *self, unsigned int arg)
 {
-  int iVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  int iVar4;
-  unsigned int *puVar5;
-  
-  puVar5 = (unsigned int *)(param_1 + 0x34);
-  iVar4 = param_1 + 0x18;
-  fn_827D7460(param_2,iVar4,*(unsigned int *)(param_1 + 0x30),puVar5,
-                    (unsigned int *)(param_1 + 0x3c),*(unsigned int *)(param_1 + 8),0);
-  iVar1 = *(int *)(param_1 + 0x3c);
-  if (iVar1 == 0) {
-    (**(int (***)())(param_1 + 0x40))(iVar4,0xffffffffffffffff,0,*(unsigned int *)(param_1 + 8));
+  unsigned int count;
+  fn_827D7460(arg, self->ctx, self->f30, &self->obj, &self->count, self->user, 0);
+  count = self->count;
+  if (count != 0) {
+    Obj_827E3380 *obj = self->obj;
+    self->callback(self->ctx, fn_827D98C0(obj), count, self->user);
+    self->obj->vt->release(self->obj, self->count);
+  } else {
+    self->callback(self->ctx, 0xffffffff, 0, self->user);
   }
-  else {
-    uVar2 = *(unsigned int *)(param_1 + 8);
-    uVar3 = fn_827D98C0(*puVar5);
-    (**(int (***)())(param_1 + 0x40))(iVar4,uVar3,iVar1,uVar2);
-    (**(int (***)())(*(int *)*puVar5 + 0x30))((int *)*puVar5,*(unsigned int *)(param_1 + 0x3c));
-  }
-  return;
 }
-

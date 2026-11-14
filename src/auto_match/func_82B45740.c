@@ -1,81 +1,52 @@
-extern int fn_82AA64F8();
-extern int fn_82AA66A8();
-extern unsigned int stack0x00000020;
-extern unsigned int uStack00000020;
-extern unsigned int uStack00000028;
-extern unsigned int uStack00000030;
-extern unsigned int uStack00000038;
-extern unsigned int uStack00000040;
-extern unsigned int uStack00000048;
+typedef struct Type_82B45740 {
+    int unknown0;
+    int kind;               /* 0x04 */
+    int pad8;
+    int pad0c;
+    int format;    /* 0x10 */
+    int width;              /* 0x14 */
+    int height;             /* 0x18 */
+    unsigned int count;             /* 0x1c */
+} Type_82B45740;
 
+typedef struct Entry_82B45740 {
+    char pad0[0x14];
+    Type_82B45740 *type;    /* 0x14 */
+    char pad18[0x28 - 0x18];
+} Entry_82B45740;
 
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
+typedef struct Ctx_82B45740 {
+    char pad0[0xc];
+    Entry_82B45740 *entries;  /* 0x0c */
+} Ctx_82B45740;
 
-unsigned __int64
-fn_82B45740(int param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4,unsigned __int64 param_5,
-             unsigned __int64 param_6,unsigned __int64 param_7)
+extern unsigned char fn_82B45698(Ctx_82B45740 *self, Type_82B45740 *type, int *width, int *height);
 
+unsigned char fn_82B45740(Ctx_82B45740 *self, Type_82B45740 *type, int *width, int *height)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  unsigned int uVar3;
-  unsigned __int64 uStack00000020;
-  unsigned __int64 uStack00000028;
-  unsigned __int64 uStack00000030;
-  unsigned __int64 uStack00000038;
-  unsigned __int64 uStack00000040;
-  unsigned __int64 uStack00000048;
-  
-  puVar2 = (unsigned int *)param_3;
-  if (*(int *)(param_2 + 4) == 0xe) {
-    *puVar2 = *(unsigned int *)(param_2 + 0x14);
-    uVar3 = *(unsigned int *)(param_2 + 0x18);
-  }
-  else {
-    if (*(int *)(param_2 + 4) != 0xf) {
-      return 0;
-    }
-    if (*(unsigned int *)(param_2 + 0x10) < 4) {
-      uVar3 = 1;
-    }
-    else {
-      if (*(unsigned int *)(param_2 + 0x10) != 6) {
-        return 0;
-      }
-      uVar3 = 0;
-      if (*(int *)(param_2 + 0x1c) != 0) {
-        uStack00000048 = (unsigned __int64)*(unsigned int *)(param_1 + 0xc);
-        for (iVar1 = *(int *)(*(int *)(param_2 + 0x18) * 0x28 + *(unsigned int *)(param_1 + 0xc) + 0x14);
-            *(int *)(iVar1 + 4) == 1; iVar1 = *(int *)(iVar1 + 0x30)) {
-          if (*(int *)(iVar1 + 0xc) != 0) {
-            return 0;
-          }
-          iVar1 = *(int *)(iVar1 + 8);
-          if ((((iVar1 == 0) ||
-               (uStack00000048 = (unsigned __int64)*(unsigned int *)(iVar1 + 4), *(unsigned int *)(iVar1 + 4) != 6)) ||
-              (uStack00000048 = (unsigned __int64)*(unsigned int *)(iVar1 + 0x10), *(unsigned int *)(iVar1 + 0x10) != 1))
-             || ((iVar1 = *(int *)(iVar1 + 0x18), iVar1 == 0 ||
-                 (uStack00000048 = (unsigned __int64)*(unsigned int *)(iVar1 + 4), *(unsigned int *)(iVar1 + 4) != 0xb))))
-          goto fn_82AA66A8;
+    switch (type->kind) {
+    case 0xe:
+        *width = type->width;
+        *height = type->height;
+        return 1;
+    case 0xf:
+        switch (type->format) {
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+            *width = 1;
+            *height = 1;
+            return 1;
+        case 6:
+            if (type->count == 0) {
+                *width = 0;
+                *height = 0;
+                return 1;
+            }
+            return fn_82B45698(self, self->entries[type->height].type, width, height);
         }
-        if (*(int *)(iVar1 + 4) == 9) {
-          *puVar2 = *(unsigned int *)(iVar1 + 0x1c);
-          *(unsigned int *)param_4 = *(unsigned int *)(iVar1 + 0x20);
-          return 1;
-        }
-fn_82AA66A8:
-        uStack00000020 = param_3;
-        uStack00000028 = param_4;
-        uStack00000030 = param_5;
-        uStack00000038 = param_6;
-        uStack00000040 = param_7;
-                    /* WARNING: Subroutine does not return */
-        fn_82AA64F8(param_1,0x12c1,&stack0x00000020);
-      }
+        break;
     }
-    *puVar2 = uVar3;
-  }
-  *(unsigned int *)param_4 = uVar3;
-  return 1;
+    return 0;
 }
-

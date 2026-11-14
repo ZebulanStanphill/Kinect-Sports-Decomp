@@ -1,27 +1,43 @@
-extern int fn_82359698();
-extern int fn_8236B4F0();
-extern unsigned int lbl_821CA460;
-extern unsigned int lbl_831D1A54;
+typedef struct Tuning_823DF3F0 {
+    char pad0[0x1ac];
+    float timeLimit;                /* 0x1ac */
+} Tuning_823DF3F0;
 
+typedef struct Info_823DF3F0 {
+    char pad0[0xd4];
+    int count;                      /* 0xd4 */
+} Info_823DF3F0;
 
-void fn_823DF3F0(double param_1,int param_2)
+typedef struct Game_823DF3F0 {
+    char pad0[0x4b0];
+    Info_823DF3F0 *info;            /* 0x4b0 */
+    char pad4b4[0xef0 - 0x4b4];
+    float timer;                    /* 0xef0 */
+    char padef4[0x134c - 0xef4];
+    unsigned char flag;             /* 0x134c */
+} Game_823DF3F0;
 
+typedef struct State_823DF3F0 {
+    char pad0[0x8];
+    Game_823DF3F0 *game;            /* 0x08 */
+} State_823DF3F0;
+
+extern Tuning_823DF3F0 lbl_831D18A8;
+extern const float lbl_821CA45C[2];
+extern void fn_82359698(Game_823DF3F0 *game, int state);
+extern void fn_8236B4F0(Game_823DF3F0 *game, float value);
+
+void fn_823DF3F0(State_823DF3F0 *self, float dt)
 {
-  float fVar1;
-  int iVar2;
-  
-  iVar2 = *(int *)(param_2 + 8);
-  fVar1 = (float)((double)*(float *)(iVar2 + 0xef0) + param_1);
-  *(float *)(iVar2 + 0xef0) = fVar1;
-  if (lbl_831D1A54 < fVar1) {
-    if (*(char *)(iVar2 + 0x134c) != '\0') {
-      *(unsigned char *)(iVar2 + 0x134c) = 0;
+    Game_823DF3F0 *game = self->game;
+    game->timer += dt;
+    if (game->timer > lbl_831D18A8.timeLimit) {
+        if (game->flag) {
+            game->flag = 0;
+        }
+        fn_82359698(game, 7);
+        if (game->info->count == 0) {
+            fn_8236B4F0(game, lbl_821CA45C[1]);
+        }
     }
-    fn_82359698(iVar2,7);
-    if (*(int *)(*(int *)(iVar2 + 0x4b0) + 0xd4) == 0) {
-      fn_8236B4F0((double)lbl_821CA460,iVar2);
-    }
-  }
-  return;
 }
-

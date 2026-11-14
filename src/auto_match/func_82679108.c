@@ -1,31 +1,36 @@
-extern int fn_82647448();
-extern int fn_82647460();
-extern int fn_82677DD0();
-extern int fn_82678FA0();
-extern int fn_82F68CC0();
+typedef struct {
+  char pad0[0x10];
+  unsigned char ready;       /* 0x10 */
+  char pad11[0x24 - 0x11];
+  int mode;                  /* 0x24 */
+  char pad28[0xd8 - 0x28];
+  void *resource;            /* 0xd8 */
+  char padDC[0x1e0 - 0xdc];
+  unsigned char desc[0x7c];  /* 0x1e0 */
+  int flags;                 /* 0x25c */
+} Player_82679108;
+extern void fn_82647448(void *resource);
+extern void fn_82647460(void *resource);
+extern unsigned char fn_82678FA0(Player_82679108 *self);
+extern void fn_82677DD0(Player_82679108 *self);
+void *memcpy(void *dst, const void *src, unsigned int size);
 
-
-unsigned __int64
-fn_82679108(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned int param_4,unsigned int param_5)
-
+int fn_82679108(Player_82679108 *self, void *resource, const void *desc, int mode, int flags)
 {
-  char cVar1;
-  
-  if (((param_2 & 0xffffffff) != 0) && ((param_3 & 0xffffffff) != 0)) {
-    *(int *)(param_1 + 0xd8) = (int)param_2;
-    fn_82647448(param_2);
-    cVar1 = fn_82678FA0(param_1);
-    if (cVar1 != '\0') {
-      *(unsigned int *)(param_1 + 0x24) = param_4;
-      fn_82F68CC0(param_1 + 0x1e0,param_3,0x7c);
-      *(unsigned int *)(param_1 + 0x25c) = param_5;
-      *(unsigned char *)(param_1 + 0x10) = 1;
-      return 1;
+  if (resource != 0 && desc != 0) {
+    self->resource = resource;
+    fn_82647448(resource);
+    if (!fn_82678FA0(self)) {
+    fn_82677DD0(self);
+    fn_82647460(self->resource);
+    self->resource = 0;
+      return 0;
     }
-    fn_82677DD0(param_1);
-    fn_82647460(*(unsigned int *)(param_1 + 0xd8));
-    *(unsigned int *)(param_1 + 0xd8) = 0;
+      self->mode = mode;
+      memcpy(self->desc, desc, 0x7c);
+      self->flags = flags;
+      self->ready = 1;
+    return 1;
   }
   return 0;
 }
-

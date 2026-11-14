@@ -1,48 +1,36 @@
-extern unsigned int uStack_2e;
-extern unsigned int uStack_30;
+typedef struct Sample24_82C40D20 {
+    unsigned short hi;
+    unsigned char lo;
+} Sample24_82C40D20;
 
+typedef union Word_82C40D20 {
+    int i;
+    Sample24_82C40D20 s;
+} Word_82C40D20;
 
-void fn_82C40D20(unsigned __int64 param_1,unsigned int *param_2,__int64 param_3,unsigned int *param_4,
-                  int *param_5,int *param_6,int param_7)
-
+void fn_82C40D20(void *param_1, int *pos, int end, short **pcount,
+                 unsigned char **pout, int **pin, int stride)
 {
-  short *psVar1;
-  unsigned int uVar2;
-  int *piVar3;
-  unsigned short *puVar4;
-  int iVar5;
-  unsigned short uStack_30;
-  unsigned char uStack_2e;
-  
-  uVar2 = *param_2;
-  psVar1 = (short *)*param_4;
-  puVar4 = (unsigned short *)*param_5;
-  if ((int)uVar2 < (int)param_3) {
-    param_3 = param_3 - (unsigned __int64)uVar2;
-    iVar5 = uVar2 * 4;
-    uVar2 = (int)param_3 + uVar2;
-    piVar3 = (int *)(iVar5 + *param_6);
-    do {
-      iVar5 = *piVar3;
-      if (iVar5 < -0x80000) {
-        iVar5 = -0x80000;
-      }
-      else if (0x7ffff < iVar5) {
-        iVar5 = 0x7ffff;
-      }
-      piVar3 = piVar3 + 1;
-      uStack_2e = (unsigned char)((unsigned int)(iVar5 << 4) >> 8);
-      uStack_30 = (unsigned short)((unsigned int)(iVar5 << 4) >> 0x10);
-      *puVar4 = uStack_30;
-      *(unsigned char *)(puVar4 + 1) = uStack_2e;
-      puVar4 = (unsigned short *)(param_7 * 3 + (int)puVar4);
-      *psVar1 = *psVar1 + 1;
-      param_3 = param_3 + -1;
-    } while (param_3 != 0);
-  }
-  *param_2 = uVar2;
-  *param_4 = psVar1;
-  *param_5 = (int)puVar4;
-  return;
-}
+    int i = *pos;
+    short *cnt = *pcount;
+    unsigned char *out = *pout;
+    int *src = *pin;
 
+    for (; i < end; i++) {
+        int v = src[i];
+        Word_82C40D20 w;
+        if (v < -0x80000) {
+            v = -0x80000;
+        } else if (v > 0x7ffff) {
+            v = 0x7ffff;
+        }
+        w.i = v << 4;
+        *(unsigned short *)out = w.s.hi;
+        out[2] = w.s.lo;
+        out += stride * 3;
+        (*cnt)++;
+    }
+    *pos = i;
+    *pcount = cnt;
+    *pout = out;
+}

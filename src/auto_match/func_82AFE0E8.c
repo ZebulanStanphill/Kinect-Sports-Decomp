@@ -1,37 +1,50 @@
-extern int fn_82AFA478();
+typedef struct Node_82AFE0E8 {
+    unsigned int flags;          /* 0x0 */
+    int unk4;
+    struct Node_82AFE0E8 *next;  /* 0x8 */
+    int unkc;
+    unsigned int owner;          /* 0x10 */
+} Node_82AFE0E8;
 
+typedef struct List_82AFE0E8 {
+    int unk0;
+    Node_82AFE0E8 *first; /* 0x4 */
+} List_82AFE0E8;
 
-unsigned __int64 fn_82AFE0E8(int param_1,int param_2,unsigned __int64 param_3,__int64 param_4,unsigned int param_5)
+typedef struct Device_82AFE0E8 {
+    char pad0[0x28];
+    unsigned int flags;    /* 0x28 */
+    char pad2c[0x26c];
+    unsigned int level;    /* 0x298 */
+} Device_82AFE0E8;
 
+void fn_82AFA478(Device_82AFE0E8 *dev, unsigned int owner, unsigned int level);
+
+static __forceinline int NotNull(Node_82AFE0E8 *p)
 {
-  unsigned int *puVar1;
-  unsigned __int64 uVar2;
-  unsigned int uVar3;
-  
-  uVar3 = (unsigned int)param_4;
-  if ((param_5 < uVar3) && (*(unsigned int *)(param_1 + 0x298) < uVar3)) {
-    if (uVar3 < 0x14) {
-      if ((*(unsigned int *)(param_1 + 0x28) & 0x2000000) == 0) {
-        if (uVar3 <= *(unsigned int *)(param_1 + 0x298) + 10) {
-          for (puVar1 = *(unsigned int **)(param_2 + 4); puVar1 != (unsigned int *)0x0; puVar1 = (unsigned int *)puVar1[2])
-          {
-            if (((puVar1[4] != 0) && ((*puVar1 & 0xe000000) != 0)) &&
-               ((unsigned __int64)puVar1[4] != (param_3 & 0xffffffff))) goto LAB_82afe118;
-          }
-          goto LAB_82afe178;
-        }
-      }
-      else {
-        fn_82AFA478(param_1,param_3,param_4 + -10);
-      }
-    }
-LAB_82afe118:
-    uVar2 = 0;
-  }
-  else {
-LAB_82afe178:
-    uVar2 = 1;
-  }
-  return uVar2;
+    if (p)
+        return 1;
+    return 0;
 }
 
+int fn_82AFE0E8(Device_82AFE0E8 *dev, List_82AFE0E8 *list, unsigned int owner, unsigned int level,
+                unsigned int minLevel)
+{
+    Node_82AFE0E8 *n;
+
+    if (level <= minLevel || level <= dev->level)
+        return 1;
+    if (level >= 0x14)
+        return 0;
+    if ((dev->flags & 0x2000000) != 0) {
+        fn_82AFA478(dev, owner, level - 10);
+        return 0;
+    }
+    if (level > dev->level + 10)
+        return 0;
+    for (n = list->first; NotNull(n); n = n->next) {
+        if (n->owner != 0 && (n->flags & 0xe000000) != 0 && n->owner != owner)
+            return 0;
+    }
+    return 1;
+}

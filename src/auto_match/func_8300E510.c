@@ -1,26 +1,23 @@
-int fn_8300E510(unsigned __int64 param_1,int param_2,int param_3,unsigned int param_4)
+typedef struct Entry_8300E510 {
+    unsigned int key;
+    int value0;
+    int value1;
+} Entry_8300E510;
 
+Entry_8300E510 *fn_8300E510(void *self, Entry_8300E510 *table, int count, unsigned int key)
 {
-  int iVar1;
-  unsigned int uVar2;
-  int iVar3;
-  
-  iVar1 = 0;
-  param_3 = param_3 + -1;
-  do {
-    uVar2 = param_3 - iVar1;
-    iVar3 = ((int)uVar2 >> 1) + (unsigned int)((int)uVar2 < 0 && (uVar2 & 1) != 0) + iVar1;
-    uVar2 = *(unsigned int *)(iVar3 * 0xc + param_2);
-    if (param_4 < uVar2) {
-      param_3 = iVar3 + -1;
-    }
-    else {
-      if (param_4 <= uVar2) {
-        return iVar3 * 0xc + param_2;
-      }
-      iVar1 = iVar3 + 1;
-    }
-  } while (iVar1 <= param_3);
-  return 0;
+    int lo = 0;
+    int hi = count - 1;
+    do {
+        int mid = (hi - lo) / 2 + lo;
+        Entry_8300E510 *e = &table[mid];
+        if (e->key > key) {
+            hi = mid - 1;
+        } else if (e->key < key) {
+            lo = mid + 1;
+        } else {
+            return e;
+        }
+    } while (lo <= hi);
+    return 0;
 }
-

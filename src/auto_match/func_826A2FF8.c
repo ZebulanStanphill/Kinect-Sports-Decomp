@@ -1,47 +1,26 @@
-extern int fn_8267BE38();
-extern int fn_82696330();
-extern int fn_827A9810();
+typedef struct {
+  char pad[0x34];
+  void **data;         /* 0x34 */
+  unsigned int size;   /* 0x38 */
+} Owner_826A2FF8;
+extern void fn_82696330(void *item);
+extern void fn_8267BE38(void *item);
+extern void fn_827A9810(void ***array, int newSize);
 
-
-void fn_826A2FF8(int param_1,unsigned __int64 param_2,__int64 param_3)
-
+void fn_826A2FF8(Owner_826A2FF8 *self, int index, int count)
 {
-  unsigned int uVar1;
-  int iVar2;
-  __int64 lVar3;
-  __int64 lVar4;
-  
-  if (*(int *)(param_1 + 0x38) != 0) {
-    if (0 < (int)param_3) {
-      lVar4 = (param_2 & 0x3fffffff) << 2;
-      lVar3 = param_3;
-      do {
-        iVar2 = *(int *)(*(int *)(param_1 + 0x34) + (int)lVar4);
-        if (iVar2 != 0) {
-          fn_82696330(iVar2);
-          fn_8267BE38(iVar2);
-        }
-        lVar3 = lVar3 + -1;
-        lVar4 = lVar4 + 4;
-      } while (lVar3 != 0);
+  int i;
+  if (self->size == 0) return;
+  for (i = 0; i < count; i++) {
+    void *item = self->data[index + i];
+    if (item != 0) {
+      fn_82696330(item);
+      fn_8267BE38(item);
     }
-    uVar1 = *(unsigned int *)(param_1 + 0x38);
-    param_2 = param_2 + param_3;
-    if ((int)param_2 < (int)uVar1) {
-      lVar4 = (param_2 & 0x3fffffff) << 2;
-      lVar3 = (param_2 - param_3 & 0x3fffffff) << 2;
-      do {
-        param_2 = param_2 + 1;
-        *(unsigned int *)((int)lVar3 + *(int *)(param_1 + 0x34)) =
-             *(unsigned int *)((int)lVar4 + *(int *)(param_1 + 0x34));
-        lVar3 = lVar3 + 4;
-        *(unsigned int *)(*(int *)(param_1 + 0x34) + (int)lVar4) = 0;
-        lVar4 = lVar4 + 4;
-        uVar1 = *(unsigned int *)(param_1 + 0x38);
-      } while ((int)param_2 < (int)uVar1);
-    }
-    fn_827A9810(param_1 + 0x34,(unsigned __int64)uVar1 - param_3);
   }
-  return;
+  for (i = index + count; i < (int)self->size; i++) {
+    self->data[i - count] = self->data[i];
+    self->data[i] = 0;
+  }
+  fn_827A9810(&self->data, self->size - count);
 }
-

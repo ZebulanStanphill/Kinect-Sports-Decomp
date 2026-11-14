@@ -1,34 +1,24 @@
-extern int fn_82F63BA0();
-extern int fn_82F68240();
-extern int fn_82F7B6D0();
+extern int *_errno(void);
+extern void _invalid_parameter_noinfo(void);
+extern unsigned int fn_82F7B6D0(const unsigned short *s, unsigned int max);
 
-
-unsigned __int64 fn_82F69F40(unsigned short *param_1,unsigned __int64 param_2)
-
+int fn_82F69F40(unsigned short *s, unsigned int size)
 {
-  unsigned short uVar1;
-  unsigned int *puVar3;
-  unsigned __int64 uVar2;
-  
-  if (param_1 != (unsigned short *)0x0) {
-    uVar2 = fn_82F7B6D0(param_1,param_2);
-    if ((uVar2 & 0xffffffff) < (param_2 & 0xffffffff)) {
-      uVar1 = *param_1;
-      while (uVar1 != 0) {
-        uVar1 = *param_1;
-        if ((0x40 < uVar1) && (uVar1 < 0x5b)) {
-          *param_1 = uVar1 + 0x20;
-        }
-        param_1 = param_1 + 1;
-        uVar1 = *param_1;
-      }
-      return 0;
+    if (s == 0) {
+        *_errno() = 0x16;
+        _invalid_parameter_noinfo();
+        return 0x16;
     }
-    *param_1 = 0;
-  }
-  puVar3 = (unsigned int *)fn_82F68240();
-  *puVar3 = 0x16;
-  fn_82F63BA0();
-  return 0x16;
+    if (fn_82F7B6D0(s, size) >= size) {
+        *s = 0;
+        *_errno() = 0x16;
+        _invalid_parameter_noinfo();
+        return 0x16;
+    }
+    for (; *s != 0; s++) {
+        if (*s >= 0x41 && *s <= 0x5a) {
+            *s += 0x20;
+        }
+    }
+    return 0;
 }
-

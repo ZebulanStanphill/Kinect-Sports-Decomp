@@ -1,38 +1,48 @@
-typedef unsigned char bool;
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern unsigned int *auStack_20;
-extern int fn_82F4EBC0();
-extern int fn_82F4EEC0();
-extern int fn_82F4EFF8();
-extern V16 vectorCompareGreaterThanFloatingPoint();
-extern void *memcpy(void *, const void *, unsigned int);
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vpermwi(__vector4 v, int control);
+__vector4 __vcmpgtfpR(__vector4 a, __vector4 b, unsigned int *cr);
 
-unsigned __int64 fn_82462DF8(void)
+typedef struct Vec_82462DF8 {
+    __vector4 v;
+} Vec_82462DF8;
 
+typedef struct Zone_82462DF8 {
+    char pad0[0x1c0];
+    __vector4 min;          /* 0x1c0 */
+    __vector4 max;          /* 0x1d0 */
+} Zone_82462DF8;
+
+extern void *fn_82F4EBC0(unsigned char id);
+extern unsigned char fn_82F4EFF8(void *device);
+extern void fn_82F4EEC0(__vector4 *out, void *device);
+
+static __forceinline int Vector3Greater(__vector4 a, __vector4 b)
 {
-  int iVar2;
-  char cVar3;
-  unsigned __int64 uVar1;
-  unsigned char in_cr6;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs44 [16];
-  unsigned char auVar4 [16];
-  unsigned char auStack_20 [16];
-  
-  iVar2 = fn_82F4EBC0(0);
-  if (iVar2 != 0) {
-    fn_82F4EBC0(0);
-    cVar3 = fn_82F4EFF8();
-    if (cVar3 != '\0') {
-      uVar1 = fn_82F4EBC0(0);
-      fn_82F4EEC0(auStack_20,uVar1);{ V16 _vt0 = vectorCompareGreaterThanFloatingPoint(in_vs32,in_vs44); memcpy(auVar4, &_vt0, 16); }
-      if (((bool)(in_cr6 >> 3 & 1)) &&
-         (vectorCompareGreaterThanFloatingPoint(auVar4,in_vs32), (bool)(in_cr6 >> 3 & 1))) {
-        return 1;
-      }
-    }
-  }
-  return 0;
+    unsigned int cr = 0;
+
+    a = __vpermwi(a, 24);
+    b = __vpermwi(b, 24);
+    __vcmpgtfpR(a, b, &cr);
+    return (cr & 0x80) != 0;
 }
 
+unsigned char fn_82462DF8(Zone_82462DF8 *self)
+{
+    __vector4 pos;
+
+    if (fn_82F4EBC0(0) == 0) {
+        return 0;
+    }
+    if (fn_82F4EFF8(fn_82F4EBC0(0))) {
+    } else {
+        return 0;
+    }
+    fn_82F4EEC0(&pos, fn_82F4EBC0(0));
+    if (Vector3Greater(pos, self->min) && Vector3Greater(self->max, pos)) {
+        return 1;
+    }
+    return 0;
+}

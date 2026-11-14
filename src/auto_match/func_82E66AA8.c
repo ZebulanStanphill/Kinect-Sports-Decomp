@@ -1,49 +1,50 @@
-typedef unsigned char bool;
-extern int fn_82E66440();
-extern int fn_82E66A50();
-extern unsigned __int64 storeWordConditionalIndexed();
+#define __lwsync() __emit(0x7C2004AC)
+long _InterlockedDecrement(long volatile *addend);
 
+typedef struct Lock_82E66AA8 {
+    long state;
+} Lock_82E66AA8;
 
-unsigned __int64 fn_82E66AA8(__int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+typedef struct Item_82E66AA8 Item_82E66AA8;
+typedef struct ItemVtbl_82E66AA8 {
+    void *f0;
+    void *f4;
+    void *f8;
+    int (*Invoke)(Item_82E66AA8 *self, int arg, int a, int b);
+} ItemVtbl_82E66AA8;
+struct Item_82E66AA8 {
+    ItemVtbl_82E66AA8 *vt;
+};
 
+typedef struct Obj_82E66AA8 {
+    char pad0[0x214];
+    int count;
+    char pad218[4];
+    Lock_82E66AA8 lock;
+} Obj_82E66AA8;
+
+extern int fn_82E66440(Lock_82E66AA8 *lock);
+extern Item_82E66AA8 *fn_82E66A50(Obj_82E66AA8 *self, int key);
+
+int fn_82E66AA8(Obj_82E66AA8 *self, int key, int arg)
 {
-  unsigned int uVar1;
-  int iVar3;
-  unsigned __int64 uVar2;
-  int *piVar4;
-  __int64 lVar5;
-  char in_RESERVE;
-  unsigned char bVar6;
-  
-  lVar5 = param_1 + 0x21c;
-  iVar3 = fn_82E66440(lVar5);
-  bVar6 = (iVar3 == 0) << 1;
-  if (iVar3 == 0) {
-    uVar2 = 0xffffffffc00d3e85;
-  }
-  else {
-    if (*(int *)((int)param_1 + 0x214) < 1) {
-      uVar2 = 0xffffffffc00d3e85;
-    }
-    else {
-      piVar4 = (int *)fn_82E66A50(param_1,param_2);
-      bVar6 = (piVar4 == (int *)0x0) << 1;
-      if (piVar4 == (int *)0x0) {
-        uVar2 = 0xffffffffc00d36bb;
-      }
-      else {
-        uVar2 = (**(int (***)())(*piVar4 + 0xc))(piVar4,param_3,0,0);
-      }
-    }
-    sync(1);
-    do {
-      if (in_RESERVE != '\0') {
-        uVar1 = storeWordConditionalIndexed((unsigned __int64)*(unsigned int *)lVar5 - 1,0,lVar5);
-        *(unsigned int *)lVar5 = uVar1;
-        bVar6 = 2;
-      }
-    } while (!(bool)(bVar6 >> 1 & 1));
-  }
-  return uVar2;
-}
+    int hr;
+    Item_82E66AA8 *item;
 
+    if (fn_82E66440(&self->lock) == 0) {
+        return 0xc00d3e85;
+    }
+    if (self->count <= 0) {
+        hr = 0xc00d3e85;
+    } else {
+        item = fn_82E66A50(self, key);
+        if (item == 0) {
+            hr = 0xc00d36bb;
+        } else {
+            hr = item->vt->Invoke(item, arg, 0, 0);
+        }
+    }
+    __lwsync();
+    _InterlockedDecrement(&self->lock.state);
+    return hr;
+}

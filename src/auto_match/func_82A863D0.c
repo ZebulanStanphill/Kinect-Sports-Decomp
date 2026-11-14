@@ -1,30 +1,22 @@
-extern int fn_82A93C18();
-extern unsigned int iStack_10;
+extern int fn_82A93C18(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8,
+                       int a9, void *a10, void *a11, void *a12);
 
-
-unsigned int fn_82A863D0(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4)
-
+unsigned int fn_82A863D0(int format, unsigned int width, unsigned int height, unsigned int levels)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  int iStack_10;
-  
-  uVar1 = param_2 & 0xffffffff;
-  uVar2 = param_3 & 0xffffffff;
-  uVar4 = 1;
-  uVar3 = param_4;
-  if (1 < (param_4 & 0xffffffff)) {
-    do {
-      uVar1 = uVar1 >> 1;
-      uVar2 = uVar2 >> 1;
-      if ((uVar1 == 0) && (uVar3 = uVar4, uVar2 == 0)) break;
-      uVar4 = uVar4 + 1;
-      uVar3 = param_4;
-    } while ((uVar4 & 0xffffffff) < (param_4 & 0xffffffff));
-  }
-  fn_82A93C18(param_2,param_3,uVar3,0,param_1,0,0,0);
-  return iStack_10 + 0xfffU & 0xfffff000;
-}
+    unsigned int size;
+    int align;
+    unsigned int w = width >> 1;
+    unsigned int h = height >> 1;
+    unsigned int i;
 
+    for (i = 1; i < levels; i++) {
+        if (w == 0 && h == 0) {
+            levels = i;
+            break;
+        }
+        w >>= 1;
+        h >>= 1;
+    }
+    fn_82A93C18(width, height, levels, 0, format, 0, 0, 0, 0, 0, &align, &size);
+    return (size + 0xfff) & ~0xfff;
+}

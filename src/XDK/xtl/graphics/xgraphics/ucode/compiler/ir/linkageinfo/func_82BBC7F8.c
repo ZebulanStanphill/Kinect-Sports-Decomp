@@ -1,43 +1,42 @@
-extern int fn_82AB15D0();
-extern int fn_82BBC410();
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
 
+#define LINKAGE_ASSERT(e, line) \
+    if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\compiler\\ir\\linkageinfo.cpp", line)
 
-unsigned __int64 fn_82BBC7F8(int *param_1,int param_2,int param_3,int *param_4)
+#define REGTYPE_PSIN_VSOUT 0x21
 
+typedef struct LinkageInfo_82BBC7F8 {
+    int types[16];
+    int indices[16];
+    char pad80[0x3d0 - 0x80];
+    int altTypes[16];
+    int altIndices[16];
+    char pad450[0x750 - 0x450];
+    unsigned char useSlots;
+} LinkageInfo_82BBC7F8;
+
+extern unsigned char fn_82BBC410(LinkageInfo_82BBC7F8 *self, int slot);
+
+unsigned char fn_82BBC7F8(LinkageInfo_82BBC7F8 *self, int type, int index, int *slot)
 {
-  char cVar1;
-  int iVar2;
-  int *piVar3;
-  __int64 lVar4;
-  
-  if (param_2 == 0x21) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820e0da8,0xffffffff820e0c10,0x219);
-  }
-  if (*(char *)(param_1 + 0x1d4) == '\0') {
-    iVar2 = 0;
-    param_1 = param_1 + 0x104;
-    do {
-      if ((param_1[-0x10] == param_2) && (*param_1 == param_3)) {
-        *param_4 = iVar2;
-        return 1;
-      }
-      iVar2 = iVar2 + 1;
-      param_1 = param_1 + 1;
-    } while (iVar2 < 0x10);
-  }
-  else {
-    lVar4 = 0;
-    piVar3 = param_1;
-    do {
-      cVar1 = fn_82BBC410(param_1,lVar4);
-      if (((cVar1 != '\0') && (*piVar3 == param_2)) && (piVar3[0x10] == param_3)) {
-        *param_4 = (int)lVar4;
-        return 1;
-      }
-      lVar4 = lVar4 + 1;
-      piVar3 = piVar3 + 1;
-    } while ((int)lVar4 < 0x10);
-  }
-  return 0;
-}
+    int i;
 
+    LINKAGE_ASSERT(type != REGTYPE_PSIN_VSOUT, 0x219);
+    if (self->useSlots) {
+        for (i = 0; i < 16; i++) {
+            if (fn_82BBC410(self, i) && self->types[i] == type && self->indices[i] == index) {
+                *slot = i;
+                return 1;
+            }
+        }
+    } else {
+        for (i = 0; i < 16; i++) {
+            if (self->altTypes[i] == type && self->altIndices[i] == index) {
+                *slot = i;
+                return 1;
+            }
+        }
+    }
+    return 0;
+}

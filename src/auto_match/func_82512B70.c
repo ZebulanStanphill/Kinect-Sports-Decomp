@@ -1,37 +1,31 @@
-extern int fn_82512C30();
-extern int fn_82512CC8();
+typedef struct { unsigned int id; int a; int b; } Entry_82512C30;
+typedef struct { Entry_82512C30 *begin; Entry_82512C30 *end; Entry_82512C30 *cap; } Vector_82512C30;
+typedef struct { char pad[0x14]; Vector_82512C30 listA; char pad2[4]; Vector_82512C30 listB; } Registry_82512C30;
+extern Registry_82512C30 *fn_82512C30(void);
+extern void fn_82512CC8(Registry_82512C30 *registry);
 
-
-void fn_82512B70(int param_1)
-
+static __forceinline void Erase(Vector_82512C30 *v, Entry_82512C30 *it)
 {
-  int *piVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  int *piVar5;
-  int *piVar6;
-  
-  iVar3 = fn_82512C30();
-  piVar6 = *(int **)(iVar3 + 0x14);
-  do {
-    piVar5 = piVar6;
-    if (piVar5 == *(int **)(iVar3 + 0x18)) goto LAB_82512c14;
-    piVar6 = piVar5 + 3;
-  } while (*piVar5 != param_1);
-  piVar1 = *(int **)(iVar3 + 0x18);
-  for (; piVar6 != piVar1; piVar6 = piVar6 + 3) {
-    *piVar5 = *piVar6;
-    piVar5[1] = piVar6[1];
-    piVar5[2] = piVar6[2];
-    piVar5 = piVar5 + 3;
+  Entry_82512C30 *src, *dst, *last = v->end;
+  for (dst = it, src = it + 1; src != last; src++, dst++) *dst = *src;
+  {
+    Entry_82512C30 *ne = v->end - 1;
+    Entry_82512C30 *p;
+    for (p = ne; p != v->end; p++) {}
+    v->end = ne;
   }
-  iVar2 = *(int *)(iVar3 + 0x18);
-  for (iVar4 = iVar2 + -0xc; iVar4 != iVar2; iVar4 = iVar4 + 0xc) {
-  }
-  *(int *)(iVar3 + 0x18) = iVar2 + -0xc;
-LAB_82512c14:
-  fn_82512CC8();
-  return;
 }
 
+void fn_82512B70(unsigned int id)
+{
+  Registry_82512C30 *m = fn_82512C30();
+  Entry_82512C30 *end = m->listA.end;
+  Entry_82512C30 *it;
+  for (it = m->listA.begin; it != end; it++) {
+    if (it->id == id) {
+      Erase(&m->listA, it);
+      break;
+    }
+  }
+  fn_82512CC8(m);
+}

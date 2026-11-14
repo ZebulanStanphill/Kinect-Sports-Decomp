@@ -1,20 +1,23 @@
-__int64 fn_8268F7F8(int param_1,unsigned int param_2)
+typedef struct { unsigned int key; int a; int b; } Item_8268F7F8;
+typedef struct {
+  char pad[0x1c];
+  Item_8268F7F8 items[0x20];  /* 0x1c */
+  int count;                  /* 0x19c */
+} Table_8268F7F8;
 
+int fn_8268F7F8(Table_8268F7F8 *t, unsigned int key)
 {
-  __int64 lVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  int iVar4;
-  
-  lVar1 = 0;
-  uVar2 = (unsigned __int64)*(unsigned int *)(param_1 + 0x19c);
-  while (uVar3 = uVar2, iVar4 = (int)uVar3, 0 < iVar4) {
-    uVar2 = (unsigned __int64)(iVar4 >> 1);
-    if (*(unsigned int *)((int)(uVar2 + lVar1) * 0xc + param_1 + 0x1c) < param_2) {
-      lVar1 = uVar2 + lVar1 + 1;
-      uVar2 = (uVar3 - uVar2) - 1;
+  int first = 0;
+  int count = t->count;
+  while (count > 0) {
+    int half = count >> 1;
+    int mid = first + half;
+    if (t->items[mid].key < key) {
+      first = mid + 1;
+      count = count - half - 1;
+    } else {
+      count = half;
     }
   }
-  return lVar1;
+  return first;
 }
-

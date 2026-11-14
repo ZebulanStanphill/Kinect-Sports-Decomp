@@ -1,46 +1,73 @@
-extern unsigned int *auStack_40;
-extern int fn_822315A0();
-extern int fn_822C72E0();
-extern int fn_822CEA78();
-extern int fn_822D5D20();
-extern int fn_82365BD8();
-extern int fn_8288B760();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __VMXGetReg(int n);
 
-unsigned __int64 fn_822CEB28(int param_1,int *param_2,unsigned int *param_3,unsigned __int64 param_4)
+typedef struct String_822CEB28 {
+    union {
+        char buf[16];
+        char *ptr;
+    } u;
+    unsigned int size;
+    unsigned int cap;
+} String_822CEB28;
 
+typedef struct SharedPtr_822CEB28 {
+    char *px;
+    int *rep;
+} SharedPtr_822CEB28;
+
+typedef struct Context_822CEB28 {
+    char pad[0x20];
+    void *lookup;
+} Context_822CEB28;
+
+typedef struct Config_822CEB28 {
+    char pad[0x84];
+    void *target;
+} Config_822CEB28;
+
+typedef struct Self_822CEB28 {
+    char pad0[0x114];
+    Context_822CEB28 *context;
+    char pad118[0x168 - 0x118];
+    void *listener;
+    char pad16c[0x1c0 - 0x16c];
+    Config_822CEB28 *config;
+    char pad1c4[0x220 - 0x1c4];
+    __vector4 colour;
+} Self_822CEB28;
+
+extern int fn_822C72E0(void *lookup, const char *name);
+extern SharedPtr_822CEB28 *fn_82365BD8(SharedPtr_822CEB28 *dst, SharedPtr_822CEB28 *src);
+extern void fn_822CEA78(Self_822CEB28 *self, SharedPtr_822CEB28 *item, String_822CEB28 *name, unsigned int useColour);
+extern unsigned char fn_8288B760(void *listener);
+extern void fn_822D5D20(void *listener, int arg, String_822CEB28 *name, __vector4 v);
+extern void fn_822315A0(int *rep);
+
+static __forceinline const char *c_str_822CEB28(String_822CEB28 *s)
 {
-  int iVar1;
-  int iVar3;
-  unsigned __int64 uVar2;
-  char cVar4;
-  unsigned int *puVar5;
-  unsigned char auStack_40 [16];
-  
-  puVar5 = param_3;
-  if (0xf < (unsigned int)param_3[5]) {
-    puVar5 = (unsigned int *)*param_3;
-  }
-  iVar3 = fn_822C72E0(*(unsigned int *)(*(int *)(param_1 + 0x114) + 0x20),puVar5);
-  if (iVar3 == 0) {
-    if (param_2[1] != 0) {
-      fn_822315A0();
-    }
-    uVar2 = 0;
-  }
-  else {
-    uVar2 = fn_82365BD8(auStack_40,param_2);
-    fn_822CEA78(param_1,uVar2,param_3,param_4);
-    iVar3 = *(int *)(param_1 + 0x168);
-    iVar1 = *(int *)(*(int *)(param_1 + 0x1c0) + 0x84);
-    if (((iVar3 != 0) && (cVar4 = fn_8288B760(iVar3), cVar4 != '\0')) && (iVar1 != 0)) {
-      fn_822D5D20(iVar3,*(unsigned int *)(*param_2 + 0x217c),param_3);
-    }
-    if (param_2[1] != 0) {
-      fn_822315A0();
-    }
-    uVar2 = 1;
-  }
-  return uVar2;
+    return s->cap >= 16 ? s->u.ptr : s->u.buf;
 }
 
+unsigned char fn_822CEB28(Self_822CEB28 *self, SharedPtr_822CEB28 *item, String_822CEB28 *name, unsigned int useColour)
+{
+    SharedPtr_822CEB28 copy;
+    void *listener;
+    void *target;
+
+    if (fn_822C72E0(self->context->lookup, c_str_822CEB28(name)) != 0) {
+    fn_822CEA78(self, fn_82365BD8(&copy, item), name, useColour);
+    listener = self->listener;
+    target = self->config->target;
+    if (listener != 0 && fn_8288B760(listener) && target != 0)
+        fn_822D5D20(listener, *(int *)(item->px + 0x217c), name, useColour ? self->colour : __VMXGetReg(77));
+    if (item->rep != 0)
+        fn_822315A0(item->rep);
+        return 1;
+    }
+    if (item->rep != 0)
+        fn_822315A0(item->rep);
+    return 0;
+}

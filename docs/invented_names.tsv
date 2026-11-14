@@ -110,6 +110,7 @@ address	class	method	symbol
 0x82D0FE70	Hull_82D0FE70	subtract	?subtract@Hull_82D0FE70@@QAA_NPAXPAUObjectArray_82D0FE70@@M@Z
 0x82D4D2B0	BitSet_82D4D2B0	get	?get@BitSet_82D4D2B0@@QAA?AVBitResult@@H@Z
 0x82DC13F0	Host_82DC13F0	addVertex	?addVertex@Host_82DC13F0@@QAAHPBU__vector4@@H@Z
+0x82DEDDB0	GroupTable_82DEDDB0	setGroupVector	?setGroupVector@GroupTable_82DEDDB0@@QAAXHPBU__vector4@@@Z
 0x82E04B98	Unit_82E04B98	get	?get@Unit_82E04B98@@QAAIH@Z
 0x82E14430	V_82E14430	Find	?Find@V_82E14430@@QAAIHI@Z
 0x82E4FF40	VarTypeInfo_82E4FF40	typeFlags	?typeFlags@VarTypeInfo_82E4FF40@@QAAEH@Z

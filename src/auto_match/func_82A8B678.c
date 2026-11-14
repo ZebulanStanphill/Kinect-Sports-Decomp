@@ -1,24 +1,27 @@
-extern int fn_82A92220();
+typedef struct Renderer_82A8B678 Renderer_82A8B678;
+typedef struct RendererVt_82A8B678 {
+    void *f0;
+    void *f4;
+    int (*Prepare)(Renderer_82A8B678 *self);
+} RendererVt_82A8B678;
+struct Renderer_82A8B678 {
+    RendererVt_82A8B678 *vt;
+    char pad4[0x20];
+    char impl[1];
+};
 
+extern void fn_82A92220(void *impl, void *desc, float t, void *a, void *b, unsigned int c, void *d,
+                        unsigned int e, void *f, void *g, void *h);
 
-__int64 fn_82A8B678(unsigned __int64 param_1,int *param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                      unsigned __int64 param_5,unsigned __int64 param_6,unsigned __int64 param_7,unsigned __int64 param_8,
-                      unsigned __int64 param_9)
-
+int fn_82A8B678(Renderer_82A8B678 *self, void *desc, float t, void *a, void *b, unsigned int c, void *d,
+                unsigned int e, void *f, void *g, void *h)
 {
-  __int64 lVar1;
-  unsigned int in_stack_0000005c;
-  
-  if ((param_3 & 0xffffffff) == 0) {
-    lVar1 = -0x7ff8ffa9;
-  }
-  else {
-    lVar1 = (**(int (***)())(*param_2 + 8))(param_2);
-    if (-1 < lVar1) {
-      fn_82A92220(param_1,param_2 + 9,param_3,in_stack_0000005c,param_5,param_6,param_7,param_8,
-                      param_9);
-    }
-  }
-  return lVar1;
-}
+    int hr;
 
+    if (desc == 0)
+        return 0x80070057;
+    hr = self->vt->Prepare(self);
+    if (hr >= 0)
+        fn_82A92220(self->impl, desc, t, a, b, c, d, e, f, g, h);
+    return hr;
+}

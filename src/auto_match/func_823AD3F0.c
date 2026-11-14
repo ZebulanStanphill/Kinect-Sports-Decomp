@@ -1,25 +1,31 @@
-extern unsigned int lbl_831D2C98;
-extern unsigned int lbl_831D2CB8;
-extern unsigned int lbl_831D2CD8;
-extern unsigned int lbl_831D2CF8;
-extern unsigned int lbl_831D2D18;
-extern unsigned int lbl_831D2D38;
+typedef struct Obj_823AD3F0 {
+    char pad0[0x48];
+    float t;
+    char pad4c[4];
+    int mode50;
+    int mode54;
+} Obj_823AD3F0;
 
+extern const float lbl_831D2C60[0x3a];
 
-double fn_823AD3F0(int param_1)
-
+float fn_823AD3F0(Obj_823AD3F0 *self)
 {
-  float fVar1;
-  float fVar2;
-  
-  fVar1 = lbl_831D2D38;
-  if ((*(int *)(param_1 + 0x50) == 0) && (fVar1 = lbl_831D2CB8, *(int *)(param_1 + 0x54) != 0)) {
-    fVar1 = lbl_831D2CF8;
-  }
-  fVar2 = lbl_831D2D18;
-  if ((*(int *)(param_1 + 0x50) == 0) && (fVar2 = lbl_831D2C98, *(int *)(param_1 + 0x54) != 0)) {
-    fVar2 = lbl_831D2CD8;
-  }
-  return (double)((fVar1 - fVar2) * *(float *)(param_1 + 0x48) + fVar2);
-}
+    float hi;
+    float lo;
 
+    if (self->mode50 != 0) {
+        hi = lbl_831D2C60[54];
+    } else if (self->mode54 != 0) {
+        hi = lbl_831D2C60[38];
+    } else {
+        hi = lbl_831D2C60[22];
+    }
+    if (self->mode50 != 0) {
+        lo = lbl_831D2C60[46];
+    } else if (self->mode54 != 0) {
+        lo = lbl_831D2C60[30];
+    } else {
+        lo = lbl_831D2C60[14];
+    }
+    return (hi - lo) * self->t + lo;
+}

@@ -1,36 +1,38 @@
-void fn_822F8E58(unsigned int *param_1,unsigned int *param_2,unsigned int *param_3)
+typedef struct Pair_822F8E58 {
+    int first;
+    float second;
+} Pair_822F8E58;
 
+static __forceinline unsigned char Greater(const Pair_822F8E58 *a, const Pair_822F8E58 *b)
 {
-  unsigned int uVar1;
-  
-  if (((float)param_1[1] < (float)param_2[1]) && (param_2 != param_1)) {
-    uVar1 = *param_2;
-    *param_2 = *param_1;
-    *param_1 = uVar1;
-    uVar1 = param_2[1];
-    param_2[1] = param_1[1];
-    param_1[1] = uVar1;
-  }
-  if (((float)param_2[1] < (float)param_3[1]) && (param_3 != param_2)) {
-    uVar1 = *param_3;
-    *param_3 = *param_2;
-    *param_2 = uVar1;
-    uVar1 = param_3[1];
-    param_3[1] = param_2[1];
-    param_2[1] = uVar1;
-  }
-  if ((float)param_2[1] <= (float)param_1[1]) {
-    return;
-  }
-  if (param_2 == param_1) {
-    return;
-  }
-  uVar1 = *param_2;
-  *param_2 = *param_1;
-  *param_1 = uVar1;
-  uVar1 = param_2[1];
-  param_2[1] = param_1[1];
-  param_1[1] = uVar1;
-  return;
+    return a->second > b->second;
 }
 
+static __forceinline void SwapInt(int *a, int *b)
+{
+    int t = *a;
+    *a = *b;
+    *b = t;
+}
+
+static __forceinline void SwapFloat(float *a, float *b)
+{
+    float t = *a;
+    *a = *b;
+    *b = t;
+}
+
+static __forceinline void SwapPair(Pair_822F8E58 *a, Pair_822F8E58 *b)
+{
+    if (a != b) {
+        SwapInt(&a->first, &b->first);
+        SwapFloat(&a->second, &b->second);
+    }
+}
+
+void fn_822F8E58(Pair_822F8E58 *p, Pair_822F8E58 *q, Pair_822F8E58 *r)
+{
+    if (Greater(q, p)) SwapPair(q, p);
+    if (Greater(r, q)) SwapPair(r, q);
+    if (Greater(q, p)) SwapPair(q, p);
+}

@@ -1,48 +1,46 @@
-extern int fn_82859CE0();
-extern int fn_8285F118();
-extern int fn_8285F128();
-extern unsigned int lbl_8321132C;
-extern unsigned int lbl_83211330;
+typedef struct Parent_8285A3A8 {
+    char pad0[0x44];
+    unsigned int base;
+} Parent_8285A3A8;
 
+typedef struct Block_8285A3A8 {
+    void *data;
+    unsigned char inlineData[4];
+} Block_8285A3A8;
 
-void fn_8285A3A8(int param_1,unsigned __int64 param_2,int param_3)
+typedef struct Self_8285A3A8 {
+    char pad0[0x34];
+    unsigned int items;
+    char pad38[0xc];
+    Parent_8285A3A8 *parent;
+    char pad48[0xc];
+    char *base;
+} Self_8285A3A8;
 
+typedef struct Desc_8285A3A8 {
+    char pad0[8];
+    int offset;
+} Desc_8285A3A8;
+
+extern void fn_8285A300(unsigned int items, unsigned char useInline, Desc_8285A3A8 *desc);
+extern unsigned int lbl_8321132C[];
+
+void fn_8285A3A8(Self_8285A3A8 *self, unsigned char useInline, Desc_8285A3A8 *desc)
 {
-  int iVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  int iVar4;
-  int *piVar5;
-  
-  piVar5 = (int *)(*(int *)(param_1 + 0x54) + *(int *)(param_3 + 8));
-  lbl_83211330 = *(unsigned int *)(param_1 + 0x34);
-  if ((param_2 & 0xff) != 0) {
-    *piVar5 = (int)(piVar5 + 1);
-  }
-  lbl_8321132C = 0;
-  if (*(int *)(param_1 + 0x44) != 0) {
-    lbl_8321132C = *(unsigned int *)(*(int *)(param_1 + 0x44) + 0x44);
-  }
-  iVar1 = *(int *)(param_1 + 0x34);
-  if (iVar1 != 0) {
-    iVar2 = fn_8285F128();
-    piVar5 = (int *)(iVar2 + *(int *)(param_3 + 8));
-    if ((param_2 & 0xff) != 0) {
-      *piVar5 = (int)(piVar5 + 1);
-    }
-    iVar2 = 0;
-    uVar3 = (unsigned __int64)lbl_8321132C;
-    *(unsigned char *)*piVar5 = 0;
-    for (; uVar3 != 0; uVar3 = uVar3 - 1) {
-      iVar4 = *piVar5 + iVar2;
-      iVar2 = iVar2 + 1;
-      *(unsigned char *)(iVar4 + 1) = 0;
-    }
-    iVar2 = fn_8285F118(iVar1);
-    if (iVar2 == 0) {
-      fn_82859CE0(iVar1,param_2,param_3);
-    }
-  }
-  return;
-}
+    Block_8285A3A8 *block = (Block_8285A3A8 *)(self->base + desc->offset);
+    void *data;
+    Parent_8285A3A8 *parent;
 
+    lbl_8321132C[1] = self->items;
+    data = useInline ? block->inlineData : 0;
+    if (useInline)
+        block->data = data;
+    {
+        Parent_8285A3A8 *parent = self->parent;
+        lbl_8321132C[0] = 0;
+        if (parent != 0) {
+            lbl_8321132C[0] = parent->base;
+        }
+    }
+    fn_8285A300(self->items, useInline, desc);
+}

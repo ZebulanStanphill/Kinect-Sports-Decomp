@@ -1,14 +1,22 @@
-__int64 fn_826A8DA8(int *param_1,unsigned int param_2)
+typedef struct { int v[4]; } Elem_826A8DA8;
 
+typedef struct {
+    Elem_826A8DA8 *cur;
+    Elem_826A8DA8 *blockBegin;
+    int f8;
+    int fc;
+    Elem_826A8DA8 **blocks;
+    unsigned int blockCount;
+} Pool_826A8DA8;
+
+Elem_826A8DA8 *fn_826A8DA8(Pool_826A8DA8 *pool, unsigned int back)
 {
-  unsigned __int64 uVar1;
-  
-  uVar1 = (__int64)(*param_1 - param_1[1] >> 4) +
-          ((unsigned __int64)(unsigned int)param_1[5] - 1 & 0x7ffffff) * 0x20;
-  if ((uVar1 & 0xffffffff) < (unsigned __int64)param_2) {
-    return 0;
-  }
-  uVar1 = uVar1 - param_2;
-  return (unsigned __int64)*(unsigned int *)(((unsigned int)uVar1 >> 3 & 0x1ffffffc) + param_1[4]) + (uVar1 & 0x1f) * 0x10;
+    unsigned int count = (pool->cur - pool->blockBegin) + (pool->blockCount - 1) * 32;
+    Elem_826A8DA8 *result = 0;
+    unsigned int index;
+    if (back <= count) {
+        index = count - back;
+        result = pool->blocks[index >> 5] + (index & 31);
+    }
+    return result;
 }
-

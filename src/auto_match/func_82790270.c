@@ -1,49 +1,31 @@
-extern int fn_826BCF78();
+unsigned int strlen(const char *s);
 
+extern int fn_826BCF78(unsigned short c);
 
-int fn_82790270(int param_1,char *param_2,int param_3)
-
+int fn_82790270(const unsigned short *a, const char *b, unsigned int lenA)
 {
-  char cVar1;
-  int iVar2;
-  int iVar3;
-  char *pcVar4;
-  unsigned short *puVar5;
-  int iVar6;
-  char *pcVar7;
-  
-  pcVar7 = param_2;
-  if (param_3 == 0) {
-    do {
-      cVar1 = *pcVar7;
-      pcVar7 = pcVar7 + 1;
-    } while (cVar1 != '\0');
-    param_3 = -(int)(pcVar7 + (-1 - (int)param_2));
-  }
-  else {
-    puVar5 = (unsigned short *)(param_1 + -2);
-    iVar6 = param_3;
-    do {
-      puVar5 = puVar5 + 1;
-      iVar2 = fn_826BCF78(*puVar5);
-      iVar3 = fn_826BCF78(*pcVar7);
-      iVar6 = iVar6 + -1;
-      pcVar7 = pcVar7 + 1;
-      if ((iVar6 == 0) || (iVar2 == 0)) break;
-      if (iVar2 != iVar3) goto LAB_82790320;
-    } while (*pcVar7 != '\0');
-    if ((iVar2 == iVar3) && ((pcVar4 = param_2, iVar6 != 0 || (*pcVar7 != '\0')))) {
-      do {
-        cVar1 = *pcVar4;
-        pcVar4 = pcVar4 + 1;
-      } while (cVar1 != '\0');
-      param_3 = param_3 - (int)(pcVar4 + (-1 - (int)param_2));
-    }
-    else {
-LAB_82790320:
-      param_3 = iVar2 - iVar3;
-    }
-  }
-  return param_3;
-}
+    unsigned int origA;
+    const char *origB;
+    int c1;
+    int c2;
 
+    if (lenA != 0) {
+        origA = lenA;
+        origB = b;
+        do {
+            c1 = fn_826BCF78(*a++);
+            c2 = fn_826BCF78(*b++);
+            if (--lenA == 0 || c1 == 0) {
+                break;
+            }
+            if (c1 != c2) {
+                return c1 - c2;
+            }
+        } while (*b != 0);
+        if (c1 == c2 && (lenA != 0 || *b != 0)) {
+            return origA - strlen(origB);
+        }
+        return c1 - c2;
+    }
+    return -(int)strlen(b);
+}

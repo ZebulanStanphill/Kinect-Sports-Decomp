@@ -1,25 +1,27 @@
-void fn_8275EB90(int param_1)
+typedef struct Block_8275EB90 {
+    struct Block_8275EB90 *next;
+    int size; /* 0x4 */
+} Block_8275EB90;
 
+typedef struct Pool_8275EB90 {
+    int unk0;
+    char *begin;           /* 0x4 */
+    char *cur;             /* 0x8 */
+    int unkc;
+    int unk10;
+    unsigned short offset; /* 0x14 */
+} Pool_8275EB90;
+
+void fn_8275EB90(Pool_8275EB90 *self)
 {
-  int iVar1;
-  int iVar2;
-  int *piVar3;
-  
-  piVar3 = (int *)(*(int *)(param_1 + 8) - (unsigned int)*(unsigned short *)(param_1 + 0x14));
-  if ((*(int *)(param_1 + 4) - (int)piVar3) + -8 < piVar3[1]) {
-    return;
-  }
-  iVar1 = *piVar3;
-  iVar2 = iVar1 + 8;
-  if (iVar1 == 0) {
-    iVar2 = 0;
-  }
-  *(int *)(param_1 + 4) = iVar2;
-  if (iVar1 == 0) {
-    return;
-  }
-  *(int *)(param_1 + 8) = iVar2;
-  *(short *)(param_1 + 0x14) = (short)iVar2 - (short)iVar1;
-  return;
-}
+    Block_8275EB90 *block = (Block_8275EB90 *)(self->cur - self->offset);
 
+    if (self->begin - (char *)block - 8 < block->size)
+        return;
+    block = block->next;
+    { char **pBegin = &self->begin; *pBegin = block ? (char *)block + 8 : 0; }
+    if (block) {
+        self->cur = self->begin;
+        self->offset = self->cur - (char *)block;
+    }
+}

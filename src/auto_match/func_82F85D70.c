@@ -1,34 +1,31 @@
-extern int fn_82F63BA0();
-extern int fn_82F68240();
-extern int fn_82F68278();
+typedef struct { int handle; unsigned char flags; char pad[0x48 - 5]; } FileInfo_82F85D70;
+extern FileInfo_82F85D70 *lbl_8329F620[];
 extern unsigned int lbl_8329F60C;
-extern unsigned int lbl_8329F620;
+extern unsigned long *fn_82F68278(void);
+extern int *_errno(void);
+extern void _invalid_parameter_noinfo(void);
 
-
-unsigned __int64 fn_82F85D70(unsigned int param_1)
-
+int fn_82F85D70(int fh)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  
-  if (param_1 == 0xfffffffe) {
-    puVar1 = (unsigned int *)fn_82F68278();
-    *puVar1 = 0;
-    puVar1 = (unsigned int *)fn_82F68240();
-    *puVar1 = 9;
+  int ok;
+  if (fh == -2) {
+    *fn_82F68278() = 0;
+    *_errno() = 9;
+    return -1;
   }
-  else {
-    if (((-1 < (int)param_1) && (param_1 < lbl_8329F60C)) &&
-       (puVar2 = (unsigned int *)((&lbl_8329F620)[(int)param_1 >> 5] + (param_1 & 0x1f) * 0x48),
-       (puVar2[1] & 0x1000000) != 0)) {
-      return (unsigned __int64)*puVar2;
-    }
-    puVar1 = (unsigned int *)fn_82F68278();
-    *puVar1 = 0;
-    puVar1 = (unsigned int *)fn_82F68240();
-    *puVar1 = 9;
-    fn_82F63BA0();
+  ok = fh >= 0 && (unsigned int)fh < lbl_8329F60C;
+  if (!ok) {
+    *fn_82F68278() = 0;
+    *_errno() = 9;
+    _invalid_parameter_noinfo();
+    return -1;
   }
-  return 0xffffffffffffffff;
+  ok = (lbl_8329F620[fh >> 5][fh & 0x1f].flags & 1) != 0;
+  if (!ok) {
+    *fn_82F68278() = 0;
+    *_errno() = 9;
+    _invalid_parameter_noinfo();
+    return -1;
+  }
+  return lbl_8329F620[fh >> 5][fh & 0x1f].handle;
 }
-
