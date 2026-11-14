@@ -1,53 +1,19 @@
-extern unsigned int fStack_28;
-extern unsigned int fStack_2c;
-extern unsigned int fStack_30;
-extern int fn_828E5660();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Quant_82237058 { int base; int shift; } Quant_82237058;
+typedef struct Self_82237058 { int f0; int f4; Quant_82237058 q[3]; } Self_82237058;
 
-void fn_82237058(int param_1,unsigned __int64 param_2,int param_3)
+extern unsigned char fn_828E5660(void *stream, float value, int base, int shift);
 
+static __forceinline float GetX(__vector4 v) { return v.vector4_f32[0]; }
+static __forceinline float GetY(__vector4 v) { return v.vector4_f32[1]; }
+static __forceinline float GetZ(__vector4 v) { return v.vector4_f32[2]; }
+
+void fn_82237058(Self_82237058 *self, void *stream, const __vector4 *v)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int in_r0;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  float fStack_30;
-  float fStack_2c;
-  float fStack_28;
-  
-  puVar1 = (unsigned int *)(in_r0 + param_3 & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (unsigned int *)((int)&fStack_30 + in_r0 & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  fn_828E5660((double)fStack_30,param_2,param_2,*(unsigned int *)(param_1 + 8),
-                    *(unsigned int *)(param_1 + 0xc));
-  puVar1 = (unsigned int *)(in_r0 + param_3 & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (unsigned int *)((int)&fStack_30 + in_r0 & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  fn_828E5660((double)fStack_2c,param_2);
-  puVar1 = (unsigned int *)(in_r0 + param_3 & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (unsigned int *)((int)&fStack_30 + in_r0 & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  fn_828E5660((double)fStack_28,param_2);
-  return;
+    fn_828E5660(stream, GetX(*v), self->q[0].base, self->q[0].shift);
+    fn_828E5660(stream, GetY(*v), self->q[1].base, self->q[1].shift);
+    fn_828E5660(stream, GetZ(*v), self->q[2].base, self->q[2].shift);
 }
-

@@ -1,26 +1,19 @@
-extern int fn_8280A580();
+typedef struct Axis_8226B170 { float rate; char pad[0x14]; } Axis_8226B170;
+typedef struct Obj_8226B170 {
+    char pad0[0x1c];
+    float angle[3];          /* 0x1c */
+    char pad28[0x20];
+    Axis_8226B170 axis[3];   /* 0x48 */
+} Obj_8226B170;
 
+extern float fn_8280A580(float angle);
 
-void fn_8226B170(double param_1,int param_2)
-
+void fn_8226B170(Obj_8226B170 *self, float dt)
 {
-  float fVar1;
-  double dVar2;
-  
-  *(float *)(param_2 + 0x1c) =
-       (float)((double)*(float *)(param_2 + 0x48) * param_1 + (double)*(float *)(param_2 + 0x1c));
-  dVar2 = (double)fn_8280A580();
-  fVar1 = (float)((double)*(float *)(param_2 + 0x60) * param_1 + (double)*(float *)(param_2 + 0x20))
-  ;
-  *(float *)(param_2 + 0x1c) = (float)dVar2;
-  *(float *)(param_2 + 0x20) = fVar1;
-  dVar2 = (double)fn_8280A580((double)fVar1);
-  fVar1 = (float)((double)*(float *)(param_2 + 0x78) * param_1 + (double)*(float *)(param_2 + 0x24))
-  ;
-  *(float *)(param_2 + 0x20) = (float)dVar2;
-  *(float *)(param_2 + 0x24) = fVar1;
-  dVar2 = (double)fn_8280A580((double)fVar1);
-  *(float *)(param_2 + 0x24) = (float)dVar2;
-  return;
+    self->angle[0] += self->axis[0].rate * dt;
+    self->angle[0] = fn_8280A580(self->angle[0]);
+    self->angle[1] += self->axis[1].rate * dt;
+    self->angle[1] = fn_8280A580(self->angle[1]);
+    self->angle[2] += self->axis[2].rate * dt;
+    self->angle[2] = fn_8280A580(self->angle[2]);
 }
-

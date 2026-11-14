@@ -1,23 +1,15 @@
-extern unsigned int lbl_83265988;
+typedef struct Flags_82471A68 { char pad[8]; unsigned char bits; } Flags_82471A68;
+typedef struct Inner_82471A68 { char pad[8]; Flags_82471A68 *flags; } Inner_82471A68;
+typedef struct Game_82471A68 { char pad[0xf0]; Inner_82471A68 *inner; } Game_82471A68;
+typedef struct Owner_82471A68 { char pad[0x67c]; int dirty; } Owner_82471A68;
+typedef struct Self_82471A68 { int f0; Owner_82471A68 *owner; } Self_82471A68;
+extern Game_82471A68 *lbl_83265988;
 
-
-void fn_82471A68(int param_1)
-
+void fn_82471A68(Self_82471A68 *self)
 {
-  int iVar1;
-  int iVar2;
-  unsigned char bVar3;
-  
-  iVar1 = *(int *)(param_1 + 4);
-  iVar2 = *(int *)(*(int *)(lbl_83265988 + 0xf0) + 8);
-  if ((*(unsigned char *)(iVar2 + 8) & 8) == 0) {
-    bVar3 = *(unsigned char *)(iVar2 + 8) | 8;
-  }
-  else {
-    bVar3 = *(unsigned char *)(iVar2 + 8) & 0xf7;
-  }
-  *(unsigned char *)(iVar2 + 8) = bVar3;
-  *(unsigned int *)(iVar1 + 0x67c) = 1;
-  return;
+    Owner_82471A68 *owner = self->owner;
+    Flags_82471A68 *f = lbl_83265988->inner->flags;
+    unsigned char *b = &f->bits;
+    if (f->bits & 8) *b &= ~8; else *b |= 8;
+    owner->dirty = 1;
 }
-

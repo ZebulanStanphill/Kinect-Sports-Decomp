@@ -1,26 +1,20 @@
-void fn_82807DA8(int param_1,unsigned int *param_2)
+typedef struct Unpacked_82807DA8 {
+    unsigned int pointers[4];
+    char pad10[0x10];
+    unsigned char shifts[4];
+} Unpacked_82807DA8;
 
+void fn_82807DA8(Unpacked_82807DA8 *out, const unsigned int *tagged)
 {
-  int iVar1;
-  int iVar2;
-  __int64 lVar3;
-  
-  iVar2 = 0;
-  iVar1 = param_1 - (int)param_2;
-  lVar3 = 4;
-  do {
-    if (*param_2 == 0) {
-      *(unsigned int *)(iVar1 + (int)param_2) = 0;
-      *(unsigned char *)(param_1 + 0x20 + iVar2) = 0;
-    }
-    else {
-      *(unsigned int *)(iVar1 + (int)param_2) = *param_2 & 0xfffffffc;
-      *(unsigned char *)(param_1 + 0x20 + iVar2) = ((unsigned char)*param_2 & 3) << 3;
-    }
-    iVar2 = iVar2 + 1;
-    param_2 = param_2 + 1;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  return;
-}
+    int i;
 
+    for (i = 0; i < 4; i++) {
+        if (tagged[i] != 0) {
+            out->pointers[i] = tagged[i] & ~3u;
+            out->shifts[i] = (unsigned char)((tagged[i] & 3) << 3);
+        } else {
+            out->pointers[i] = 0;
+            out->shifts[i] = 0;
+        }
+    }
+}

@@ -1,49 +1,21 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern V16 vectorAddFloatingPoint();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vaddfp(__vector4 a, __vector4 b);
 
-void fn_82CEC2C0(int param_1)
+typedef struct Matrix3_82CEC2C0 {
+    __vector4 col[3];
+} Matrix3_82CEC2C0;
 
+static __forceinline void Add4(__vector4 *self, const __vector4 *v)
 {
-  unsigned int *puVar1;
-  int in_r0;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs39 [16];
-  unsigned char in_vs40 [16];
-  unsigned char in_vs42 [16];
-  unsigned char in_vs43 [16];
-  unsigned char in_vs45 [16];
-  unsigned int in_register_00010060;
-  unsigned int in_register_00010064;
-  unsigned int in_register_00010068;
-  unsigned int in_vr6;
-  unsigned int in_register_00010090;
-  unsigned int in_register_00010094;
-  unsigned int in_register_00010098;
-  unsigned int in_vr9;
-  unsigned int in_register_000100c0;
-  unsigned int in_register_000100c4;
-  unsigned int in_register_000100c8;
-  unsigned int in_vr12;
-  
-  vectorAddFloatingPoint(in_vs45,in_vs32);
-  puVar1 = (unsigned int *)(in_r0 + param_1 & 0xfffffff0);
-  *puVar1 = in_register_000100c0;
-  puVar1[1] = in_register_000100c4;
-  puVar1[2] = in_register_000100c8;
-  puVar1[3] = in_vr12;
-  vectorAddFloatingPoint(in_vs42,in_vs43);
-  puVar1 = (unsigned int *)(in_r0 + param_1 + 0x10 & 0xfffffff0);
-  *puVar1 = in_register_00010090;
-  puVar1[1] = in_register_00010094;
-  puVar1[2] = in_register_00010098;
-  puVar1[3] = in_vr9;
-  vectorAddFloatingPoint(in_vs39,in_vs40);
-  puVar1 = (unsigned int *)(in_r0 + param_1 + 0x20 & 0xfffffff0);
-  *puVar1 = in_register_00010060;
-  puVar1[1] = in_register_00010064;
-  puVar1[2] = in_register_00010068;
-  puVar1[3] = in_vr6;
-  return;
+    *self = __vaddfp(*self, *v);
 }
 
+void fn_82CEC2C0(Matrix3_82CEC2C0 *self, const Matrix3_82CEC2C0 *other)
+{
+    Add4(&self->col[0], &other->col[0]);
+    Add4(&self->col[1], &other->col[1]);
+    Add4(&self->col[2], &other->col[2]);
+}

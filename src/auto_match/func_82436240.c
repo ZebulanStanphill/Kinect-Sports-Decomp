@@ -1,27 +1,18 @@
-extern unsigned int *auStack_70;
-extern int fn_82292100();
-extern int fn_82292100();
-extern int fn_82358FD8();
+typedef struct Board_82436240 { char pad[0xd4]; void *ui; } Board_82436240;
+typedef struct Ctx_82436240 { Board_82436240 *board; char pad[0xf4]; int isTime; } Ctx_82436240;
+typedef struct Self_82436240 { char pad[0x40]; Ctx_82436240 *ctx; } Self_82436240;
+extern void fn_82358FD8(Board_82436240 *strings, unsigned short *buf, int size, const char *id);
+extern void fn_82291F90(void *ui, int slot, int whole, int frac, const char *name);
+extern void fn_82292100(void *ui, int slot, int whole, int frac, unsigned short *suffix, const char *name);
 
-
-void fn_82436240(int param_1,unsigned __int64 param_2,unsigned int *param_3,unsigned __int64 param_4)
-
+void fn_82436240(Self_82436240 *self, int slot, int *value, const char *name)
 {
-  int *piVar1;
-  unsigned int uVar2;
-  unsigned char auStack_70 [64];
-
-  piVar1 = *(int **)(param_1 + 0x40);
-  if (piVar1[0x3e] == 0) {
-    fn_82358FD8(*piVar1,auStack_70,0x20,0xffffffff821aa224);
-    uVar2 = *param_3;
-    fn_82292100(*(unsigned int *)(**(int **)(param_1 + 0x40) + 0xd4),param_2,(int)uVar2 / 100,
-                    (unsigned __int64)uVar2 + (__int64)((int)uVar2 / 100) * -100,auStack_70,param_4);
-  }
-  else {
-    uVar2 = *param_3;
-    fn_82292100(*(unsigned int *)(*piVar1 + 0xd4),param_2,(int)uVar2 / 100,
-                    (unsigned __int64)uVar2 + (__int64)((int)uVar2 / 100) * -100,param_4);
-  }
-  return;
+    Ctx_82436240 *ctx = self->ctx;
+    if (ctx->isTime != 0) {
+        fn_82291F90(ctx->board->ui, slot, *value / 100, *value % 100, name);
+    } else {
+        unsigned short suffix[32];
+        fn_82358FD8(ctx->board, suffix, 0x20, "leaderboard_postfix_distance");
+        fn_82292100(self->ctx->board->ui, slot, *value / 100, *value % 100, suffix, name);
+    }
 }

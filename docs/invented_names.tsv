@@ -99,6 +99,7 @@ address	class	method	symbol
 0x82940BC8	Vcall_82940BC8	(virtual call thunk)	??_9Vcall_82940BC8@@$BCHE@AA
 0x82940BD8	Vcall_82940BD8	(virtual call thunk)	??_9Vcall_82940BD8@@$BCIE@AA
 0x829576E0	Owner_829576E0	Contains	?Contains@Owner_829576E0@@QAAHI@Z
+0x829A9D58	Ctx_829A9D58	AddUse	?AddUse@Ctx_829A9D58@@QAAHHH@Z
 0x829B3860	Obj_829B3860	Walk	?Walk@Obj_829B3860@@QAAXHH@Z
 0x829B3900	Obj_829B3860	Collect	?Collect@Obj_829B3860@@QAAXHH@Z
 0x82ABE0E8	Node_82ABE0E8	GetValue	?GetValue@Node_82ABE0E8@@QAAIPAX@Z

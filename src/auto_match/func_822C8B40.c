@@ -1,47 +1,97 @@
-extern unsigned int *auStack_40;
-extern int fn_822315A0();
-extern int fn_822C9D68();
-extern int fn_82365BD8();
-extern int fn_8260D428();
-extern unsigned int iStack_3c;
+typedef struct Str_822C8B40 {
+    union {
+        char *p;
+        char buf[16];
+    } u;
+    unsigned int size;
+    unsigned int cap;
+    int alloc;
+} Str_822C8B40;
 
+typedef struct Item_822C8B40 {
+    int pad0;
+    Str_822C8B40 name;
+} Item_822C8B40;
 
-void fn_822C8B40(int param_1,int *param_2)
+typedef struct RefCount_822C8B40 RefCount_822C8B40;
 
+typedef struct ItemPtr_822C8B40 {
+    Item_822C8B40 *ptr;
+    RefCount_822C8B40 *rep;
+} ItemPtr_822C8B40;
+
+typedef struct Vec_822C8B40 {
+    ItemPtr_822C8B40 *first;
+    ItemPtr_822C8B40 *last;
+    ItemPtr_822C8B40 *end;
+} Vec_822C8B40;
+
+typedef struct Self_822C8B40 {
+    char pad0[0x10];
+    Vec_822C8B40 items;
+} Self_822C8B40;
+
+extern int fn_8260D428(Str_822C8B40 *, int, unsigned int, const char *, unsigned int);
+extern ItemPtr_822C8B40 *fn_82365BD8(ItemPtr_822C8B40 *out, ItemPtr_822C8B40 *src);
+extern void fn_822315A0(RefCount_822C8B40 *rep);
+extern void fn_822C9D68(Vec_822C8B40 *vec, ItemPtr_822C8B40 *item);
+
+static __forceinline const char *cstr(Str_822C8B40 *s)
 {
-  int iVar1;
-  int *piVar2;
-  unsigned int *puVar3;
-  int *piVar4;
-  unsigned char auStack_40 [4];
-  int iStack_3c;
-  
-  piVar2 = *(int **)(param_1 + 0x14);
-  for (piVar4 = *(int **)(param_1 + 0x10); piVar4 != piVar2; piVar4 = piVar4 + 2) {
-    iVar1 = *param_2;
-    puVar3 = (unsigned int *)(iVar1 + 4);
-    if (0xf < *(unsigned int *)(iVar1 + 0x18)) {
-      puVar3 = (unsigned int *)*puVar3;
-    }
-    iVar1 = fn_8260D428(*piVar4 + 4,0,*(unsigned int *)(*piVar4 + 0x14),puVar3,
-                         *(unsigned int *)(iVar1 + 0x14));
-    if (iVar1 == 0) break;
-  }
-  if (piVar4 == *(int **)(param_1 + 0x14)) {
-    fn_822C9D68(param_1 + 0x10,param_2);
-  }
-  else {
-    piVar2 = (int *)fn_82365BD8(auStack_40);
-    iVar1 = piVar2[1];
-    piVar2[1] = piVar4[1];
-    piVar4[1] = iVar1;
-    iVar1 = *piVar2;
-    *piVar2 = *piVar4;
-    *piVar4 = iVar1;
-    if (iStack_3c != 0) {
-      fn_822315A0();
-    }
-  }
-  return;
+    return s->cap >= 0x10 ? s->u.p : s->u.buf;
 }
 
+static __forceinline int cmp(Str_822C8B40 *a, Str_822C8B40 *b)
+{
+    unsigned int len = b->size;
+    const char *p = cstr(b);
+    return fn_8260D428(a, 0, a->size, p, len);
+}
+
+static __forceinline void SwapRep(RefCount_822C8B40 **a, RefCount_822C8B40 **b)
+{
+    RefCount_822C8B40 *t = *a;
+    *a = *b;
+    *b = t;
+}
+
+static __forceinline void SwapPtr(Item_822C8B40 **a, Item_822C8B40 **b)
+{
+    Item_822C8B40 *t = *a;
+    *a = *b;
+    *b = t;
+}
+
+static __forceinline void Swap(ItemPtr_822C8B40 *a, ItemPtr_822C8B40 *b)
+{
+    SwapRep(&a->rep, &b->rep);
+    SwapPtr(&a->ptr, &b->ptr);
+}
+
+static __forceinline void Release(ItemPtr_822C8B40 *p)
+{
+    if (p->rep != 0) {
+        fn_822315A0(p->rep);
+    }
+}
+
+void fn_822C8B40(Self_822C8B40 *self, ItemPtr_822C8B40 *item)
+{
+    ItemPtr_822C8B40 *last = self->items.last;
+    ItemPtr_822C8B40 *it;
+    for (it = self->items.first; it != last; it++) {
+        if (cmp(&it->ptr->name, &item->ptr->name) == 0) {
+            break;
+        }
+    }
+    if (it != self->items.last) {
+        ItemPtr_822C8B40 tmp;
+        ItemPtr_822C8B40 *t = fn_82365BD8(&tmp, item);
+        RefCount_822C8B40 *rep;
+        Item_822C8B40 *ptr;
+        Swap(t, it);
+        Release(&tmp);
+    } else {
+        fn_822C9D68(&self->items, item);
+    }
+}

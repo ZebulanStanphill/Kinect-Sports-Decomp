@@ -1,36 +1,40 @@
-#define true 1
-extern int fn_82791560();
+typedef struct Reader_82791850 {
+    unsigned int pos;
+    int pad;
+    unsigned int end;
+    unsigned int ch;
+} Reader_82791850;
 
+typedef struct Parser_82791850 {
+    char pad[8];
+    Reader_82791850 reader;
+} Parser_82791850;
 
-void fn_82791850(int param_1)
+extern void fn_82791560(Reader_82791850 *reader);
 
+static __forceinline int HasMore(Reader_82791850 *r)
 {
-  int iVar1;
-  int iVar2;
-  
-  iVar1 = *(int *)(param_1 + 0x14);
-  do {
-    iVar2 = 0;
-    while( true ) {
-      while( true ) {
-        if ((iVar1 == 0) || (iVar2 == 3)) {
-          if ((*(unsigned int *)(param_1 + 8) < *(unsigned int *)(param_1 + 0x10)) && (iVar2 == 3)) {
-            fn_82791560(param_1 + 8);
-          }
-          return;
-        }
-        fn_82791560(param_1 + 8);
-        iVar1 = *(int *)(param_1 + 0x14);
-        if (iVar1 != 0x2d) break;
-        if (iVar2 < 2) {
-          iVar2 = iVar2 + 1;
-        }
-      }
-      if (iVar1 != 0x3e) break;
-      if (iVar2 == 2) {
-        iVar2 = 3;
-      }
-    }
-  } while( true );
+    return r->pos < r->end;
 }
 
+void fn_82791850(Parser_82791850 *self)
+{
+    int state = 0;
+    while (self->reader.ch != 0 && state != 3) {
+        fn_82791560(&self->reader);
+        if (self->reader.ch == '-') {
+            if (state < 2) {
+                state++;
+            }
+        } else if (self->reader.ch == '>') {
+            if (state == 2) {
+                state = 3;
+            }
+        } else {
+            state = 0;
+        }
+    }
+    if (HasMore(&self->reader) && state == 3) {
+        fn_82791560(&self->reader);
+    }
+}

@@ -1,25 +1,21 @@
-extern int fn_82FFF510();
-extern int fn_83011A38();
-extern int fn_83011B20();
-extern int fn_8302D080();
-extern unsigned int lbl_832642E4;
+typedef struct Object_8302E070 {
+    char pad0[0x11f];
+    unsigned char b7 : 1;
+    unsigned char b6 : 1;
+    unsigned char b5 : 1;
+    unsigned char b4 : 1;
+    unsigned char b3 : 1;
+    unsigned char b2 : 1;
+    unsigned char b1 : 1;
+    unsigned char b0 : 1;
+} Object_8302E070;
 
+extern void fn_8302D408(Object_8302E070 *self);
 
-void fn_8302E070(int param_1,unsigned char param_2)
-
+void fn_8302E070(Object_8302E070 *self, unsigned char value)
 {
-  if ((*(unsigned char *)(param_1 + 0x11f) >> 1 & 1) == param_2) {
-    return;
-  }
-  *(unsigned char *)(param_1 + 0x11f) = (param_2 & 1) << 1 | *(unsigned char *)(param_1 + 0x11f) & 0xfd;
-  fn_8302D080();
-  if (*(char *)(param_1 + 0x122) != '\0') {
-    if (lbl_832642E4 != 0) {
-      fn_83011B20(lbl_832642E4,*(unsigned int *)(param_1 + 0xc));
-      fn_83011A38(lbl_832642E4,*(unsigned int *)(param_1 + 0xc));
-    }
-    fn_82FFF510(param_1,0,0);
-  }
-  return;
+    if (self->b1 == value)
+        return;
+    self->b1 = value;
+    fn_8302D408(self);
 }
-

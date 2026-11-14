@@ -1,72 +1,34 @@
-typedef unsigned char bool;
-#define true 1
-extern unsigned int *auStack_60;
-extern int fn_82F68CC0();
-extern unsigned int uStack_4c;
-extern unsigned int uStack_50;
+/* std::_Insertion_sort1 over 24-byte entries ordered by (major, minor) (VC10 <algorithm>). */
+typedef struct Entry_825519F8 { int v[4]; int major; int minor; } Entry_825519F8;
 
-
-void fn_825519F8(unsigned int *param_1,unsigned int *param_2)
-
+static __forceinline unsigned char Less(const Entry_825519F8 *a, const Entry_825519F8 *b)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned int *puVar4;
-  unsigned int *puVar5;
-  unsigned int *puVar6;
-  unsigned int *puVar7;
-  bool bVar8;
-  unsigned char auStack_60 [16];
-  unsigned int uStack_50;
-  unsigned int uStack_4c;
-  
-  puVar4 = param_1;
-  if (param_1 != param_2) {
-    while (puVar5 = puVar4 + 6, puVar5 != param_2) {
-      fn_82F68CC0(auStack_60,puVar5,0x18);
-      uVar3 = uStack_4c;
-      uVar2 = uStack_50;
-      uVar1 = param_1[4];
-      if (uStack_50 == uVar1) {
-        bVar8 = param_1[5] <= uStack_4c;
-        uVar1 = param_1[5] ^ uStack_4c;
-      }
-      else {
-        bVar8 = uVar1 <= uStack_50;
-        uVar1 = uVar1 ^ uStack_50;
-      }
-      puVar7 = puVar5;
-      if ((((~(unsigned __int64)uVar1 & 0xffffffff) >> 0x1f) + (unsigned __int64)bVar8 & 1) == 0) {
-        puVar7 = puVar4 + 10;
-        puVar4 = puVar5;
-        while( true ) {
-          uVar1 = puVar7[-6];
-          if (uVar2 == uVar1) {
-            bVar8 = puVar7[-5] <= uVar3;
-            uVar1 = puVar7[-5] ^ uVar3;
-          }
-          else {
-            bVar8 = uVar1 <= uVar2;
-            uVar1 = uVar1 ^ uVar2;
-          }
-          if ((((~(unsigned __int64)uVar1 & 0xffffffff) >> 0x1f) + (unsigned __int64)bVar8 & 1) == 0) break;
-          puVar6 = puVar7 + -10;
-          fn_82F68CC0(puVar4,puVar6,0x18);
-          puVar7 = puVar7 + -6;
-          puVar4 = puVar6;
-        }
-      }
-      else {
-        while (puVar4 = param_1, param_1 != puVar7) {
-          fn_82F68CC0(puVar7,puVar7 + -6,0x18);
-          puVar7 = puVar7 + -6;
-        }
-      }
-      fn_82F68CC0(puVar4,auStack_60,0x18);
-      puVar4 = puVar5;
-    }
-  }
-  return;
+    if (a->major == b->major)
+        return a->minor < b->minor;
+    return a->major < b->major;
 }
 
+void fn_825519F8(Entry_825519F8 *first, Entry_825519F8 *last)
+{
+    Entry_825519F8 *next;
+    if (first != last) {
+        for (next = first; ++next != last; ) {
+            Entry_825519F8 *next1 = next;
+            Entry_825519F8 val = *next;
+            if (Less(&val, first)) {
+                Entry_825519F8 *dest = ++next1;
+                Entry_825519F8 *src = next;
+                while (first != src) {
+                    *--dest = *--src;
+                }
+                *first = val;
+            } else {
+                Entry_825519F8 *first1;
+                for (first1 = next1; Less(&val, --first1); next1 = first1) {
+                    *next1 = *first1;
+                }
+                *next1 = val;
+            }
+        }
+    }
+}

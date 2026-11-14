@@ -1,24 +1,23 @@
-extern unsigned int lbl_8200133C;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vxor(__vector4 a, __vector4 b);
 
-void fn_82D74A38(int param_1)
+typedef struct Obj_82D74A38 {
+    char pad0[0x18];
+    float value;
+    char pad1c[4];
+    __vector4 vec;
+} Obj_82D74A38;
 
+static __forceinline void SetZero(__vector4 *v)
 {
-  unsigned int *puVar1;
-  unsigned int uVar2;
-  int in_r0;
-  unsigned int in_register_000100d0;
-  unsigned int in_register_000100d4;
-  unsigned int in_register_000100d8;
-  unsigned int in_vr13;
-  
-  uVar2 = lbl_8200133C;
-  puVar1 = (unsigned int *)(in_r0 + param_1 + 0x20 & 0xfffffff0);
-  *puVar1 = in_register_000100d0;
-  puVar1[1] = in_register_000100d4;
-  puVar1[2] = in_register_000100d8;
-  puVar1[3] = in_vr13;
-  *(unsigned int *)(param_1 + 0x18) = uVar2;
-  return;
+    *v = __vxor(*v, *v);
 }
 
+void fn_82D74A38(Obj_82D74A38 *self)
+{
+    SetZero(&self->vec);
+    self->value = -1.0f;
+}

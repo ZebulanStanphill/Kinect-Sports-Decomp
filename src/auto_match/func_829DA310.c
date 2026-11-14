@@ -1,34 +1,33 @@
-extern int fn_829D4EB8();
-extern int fn_82A1E0C0();
-extern int fn_82A1E2C0();
-extern int fn_82A1E508();
-extern unsigned int lbl_832179FC;
+typedef struct State_829DA310 {
+    char pad[0x8f4b0];
+    void *thread;
+    unsigned long threadId;
+} State_829DA310;
 
+extern State_829DA310 *lbl_832179FC;
 
-unsigned __int64 fn_829DA310(unsigned __int64 param_1)
+extern void *fn_82A1E0C0(void *attributes, unsigned long stackSize, unsigned long (*start)(void *),
+                         void *param, unsigned long flags, unsigned long *threadId);
+extern unsigned long fn_82A1E508(void *thread, unsigned long processor);
+extern unsigned long fn_82A1E2C0(void *thread);
+extern unsigned long fn_82A1F470(void);
+extern void fn_829D4EB8(void);
+extern unsigned long fn_829D9FF8(void *param);
 
+long fn_829DA310(unsigned long processor)
 {
-  unsigned int uVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  
-  uVar1 = fn_82A1E0C0(0,0x8000,0xffffffff829d9ff8,0,4,lbl_832179FC + 0x8f4b4);
-  *(unsigned int *)(lbl_832179FC + 0x8f4b0) = uVar1;
-  if (*(int *)(lbl_832179FC + 0x8f4b0) == 0) {
-    uVar3 = 0xffffffff8007000e;
-  }
-  else {
-    iVar2 = fn_82A1E508(*(int *)(lbl_832179FC + 0x8f4b0),param_1);
-    if (iVar2 != -1) {
-      fn_82A1E2C0(*(unsigned int *)(lbl_832179FC + 0x8f4b0));
-      return 0;
-    }
-    uVar3 = thunk_FUN_82a2b798();
-    if (0 < (int)uVar3) {
-      uVar3 = uVar3 & 0xffff | 0x80070000;
-    }
-  }
-  fn_829D4EB8();
-  return uVar3;
-}
+    long hr;
 
+    lbl_832179FC->thread = fn_82A1E0C0(0, 0x8000, fn_829D9FF8, 0, 4, &lbl_832179FC->threadId);
+    if (lbl_832179FC->thread == 0) {
+        hr = 0x8007000e;
+    } else if (fn_82A1E508(lbl_832179FC->thread, processor) == (unsigned long)-1) {
+        long err = fn_82A1F470();
+        hr = err <= 0 ? err : (long)((err & 0xffff) | 0x80070000);
+    } else {
+        fn_82A1E2C0(lbl_832179FC->thread);
+        return 0;
+    }
+    fn_829D4EB8();
+    return hr;
+}

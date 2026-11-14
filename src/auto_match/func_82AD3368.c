@@ -1,31 +1,60 @@
-extern int fn_82ABDAA0();
+typedef struct Link_82AD3368 {
+    unsigned int prev;
+    unsigned int next;
+} Link_82AD3368;
 
+typedef struct Inst_82AD3368 {
+    int pad0;
+    int pad4;
+    unsigned int flags;
+    char pad[0x24 - 0xc];
+    Link_82AD3368 link;
+} Inst_82AD3368;
 
-unsigned __int64 fn_82AD3368(unsigned __int64 param_1,int param_2)
+typedef struct Block_82AD3368 {
+    char pad[0x10];
+    Link_82AD3368 a;
+    Link_82AD3368 b;
+    Link_82AD3368 c;
+} Block_82AD3368;
 
+extern unsigned char fn_82ABDAA0(Inst_82AD3368 *inst);
+
+static __forceinline Inst_82AD3368 *First_82AD3368(Link_82AD3368 *list)
 {
-  unsigned int uVar1;
-  char cVar2;
-  
-  for (uVar1 = *(unsigned int *)(param_2 + 0x14); ((uVar1 & 1) == 0 && (uVar1 != 0));
-      uVar1 = *(unsigned int *)((uVar1 & 0xfffffffe) + 0x28)) {
-    if ((*(unsigned int *)(uVar1 + 8) & 0x3f80) != 0x3800) {
-      return 0;
+    if (list->next & 1) {
+        return 0;
     }
-  }
-  for (uVar1 = *(unsigned int *)(param_2 + 0x1c); ((uVar1 & 1) == 0 && (uVar1 != 0));
-      uVar1 = *(unsigned int *)((uVar1 & 0xfffffffe) + 0x28)) {
-    if ((*(unsigned int *)(uVar1 + 8) >> 0x19 & 1) != 0) {
-      return 0;
-    }
-  }
-  for (uVar1 = *(unsigned int *)(param_2 + 0x24); ((uVar1 & 1) == 0 && (uVar1 != 0));
-      uVar1 = *(unsigned int *)((uVar1 & 0xfffffffe) + 0x28)) {
-    cVar2 = fn_82ABDAA0(uVar1);
-    if (cVar2 == '\0') {
-      return 0;
-    }
-  }
-  return 1;
+    return (Inst_82AD3368 *)list->next;
 }
 
+static __forceinline Inst_82AD3368 *Next_82AD3368(Inst_82AD3368 *n)
+{
+    unsigned int p = ((Inst_82AD3368 *)((unsigned int)n & ~1u))->link.next;
+    if (p & 1) {
+        return 0;
+    }
+    return (Inst_82AD3368 *)p;
+}
+
+unsigned char fn_82AD3368(void *self, Block_82AD3368 *block)
+{
+    Inst_82AD3368 *n;
+
+    for (n = First_82AD3368(&block->a); n != 0; n = Next_82AD3368(n)) {
+        if ((n->flags & 0x3f80) != 0x3800) {
+            return 0;
+        }
+    }
+    for (n = First_82AD3368(&block->b); n != 0; n = Next_82AD3368(n)) {
+        if ((unsigned char)((n->flags >> 25) & 1)) {
+            return 0;
+        }
+    }
+    for (n = First_82AD3368(&block->c); n != 0; n = Next_82AD3368(n)) {
+        if (!fn_82ABDAA0(n)) {
+            return 0;
+        }
+    }
+    return 1;
+}

@@ -1,61 +1,84 @@
-extern int fn_82F68CC0();
-extern unsigned int uStack_4c;
-extern unsigned int uStack_50;
+void *memcpy(void *dst, const void *src, unsigned int size);
 
+typedef struct Span_826F1238 {
+    const void *data;
+    unsigned int size;
+} Span_826F1238;
 
-void fn_826F1238(int param_1,__int64 param_2,unsigned __int64 param_3)
+typedef struct Source_826F1238 Source_826F1238;
 
+typedef struct SourceVtbl_826F1238 {
+    void *slots[4];
+    void (*getSpan)(Span_826F1238 *out, Source_826F1238 *self);
+} SourceVtbl_826F1238;
+
+struct Source_826F1238 {
+    SourceVtbl_826F1238 *vt;
+};
+
+typedef struct Chunk_826F1238 {
+    int type;
+    void *ptr;
+    unsigned char size;
+    char pad[3];
+} Chunk_826F1238;
+
+typedef struct ChunkArray_826F1238 {
+    unsigned int count;
+    Chunk_826F1238 *extra;
+    char pad[8];
+    Chunk_826F1238 local[16];
+} ChunkArray_826F1238;
+
+typedef struct Message_826F1238 {
+    char pad[0x24];
+    ChunkArray_826F1238 chunks;
+} Message_826F1238;
+
+static __forceinline Chunk_826F1238 *At_826F1238(ChunkArray_826F1238 *a, unsigned int i)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  int iVar3;
-  int *piVar4;
-  unsigned int uVar5;
-  int iVar6;
-  unsigned __int64 uVar7;
-  unsigned int uStack_50;
-  unsigned int uStack_4c;
-  
-  uVar1 = *(unsigned int *)(param_1 + 0x24);
-  uVar5 = 0;
-  if ((param_3 & 0xffffffff) != 0) {
-    iVar6 = 0;
-    do {
-      if (uVar1 <= uVar5) {
-        return;
-      }
-      if (uVar5 < 0x10) {
-        iVar3 = iVar6 + param_1 + 0x24 + 0x10;
-        piVar4 = (int *)(iVar6 + param_1 + 0x24 + 0x10);
-      }
-      else {
-        iVar3 = *(int *)(param_1 + 0x28) + iVar6 + -0xc0;
-        piVar4 = (int *)(*(int *)(param_1 + 0x28) + iVar6 + -0xc0);
-      }
-      if (*piVar4 == 0) {
-        uVar7 = (unsigned __int64)*(unsigned char *)(iVar3 + 8);
-        if ((param_3 & 0xffffffff) < (unsigned __int64)*(unsigned char *)(iVar3 + 8)) {
-          uVar7 = param_3;
-        }
-        uVar2 = *(unsigned int *)(iVar3 + 4);
-LAB_826f130c:
-        fn_82F68CC0(param_2,uVar2,uVar7);
-        param_2 = uVar7 + param_2;
-        param_3 = param_3 - uVar7;
-      }
-      else if ((*piVar4 == 2) && (*(int **)(iVar3 + 4) != (int *)0x0)) {
-        (**(int (***)())(**(int **)(iVar3 + 4) + 0x10))(&uStack_50);
-        uVar7 = (unsigned __int64)uStack_4c;
-        uVar2 = uStack_50;
-        if ((param_3 & 0xffffffff) < (unsigned __int64)uStack_4c) {
-          uVar7 = param_3;
-        }
-        goto LAB_826f130c;
-      }
-      uVar5 = uVar5 + 1;
-      iVar6 = iVar6 + 0xc;
-    } while ((param_3 & 0xffffffff) != 0);
-  }
-  return;
+    unsigned int off = i * sizeof(Chunk_826F1238);
+    if (i < 16)
+        return (Chunk_826F1238 *)((char *)a->local + off);
+    return (Chunk_826F1238 *)((char *)a->extra + off - 16 * sizeof(Chunk_826F1238));
 }
 
+void fn_826F1238(Message_826F1238 *self, char *dst, unsigned int size)
+{
+    ChunkArray_826F1238 *chunks = &self->chunks;
+    unsigned int count = chunks->count;
+    unsigned int remaining = size;
+    unsigned int i = 0;
+
+    while (remaining != 0) {
+        Chunk_826F1238 *c;
+        unsigned int n;
+        if (i >= count)
+            return;
+        c = At_826F1238(chunks, i);
+        switch (At_826F1238(chunks, i)->type) {
+        case 0:
+            n = c->size;
+            if (remaining < n)
+                n = remaining;
+            memcpy(dst, c->ptr, n);
+            remaining -= n;
+            dst += n;
+            break;
+        case 2:
+            if (c->ptr != 0) {
+                Source_826F1238 *src = (Source_826F1238 *)c->ptr;
+                Span_826F1238 span;
+                src->vt->getSpan(&span, src);
+                n = span.size;
+                if (remaining < n)
+                    n = remaining;
+                memcpy(dst, span.data, n);
+                dst += n;
+                remaining -= n;
+            }
+            break;
+        }
+        i++;
+    }
+}

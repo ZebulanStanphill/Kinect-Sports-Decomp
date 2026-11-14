@@ -1,53 +1,57 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_82AA66A8();
-extern int fn_82ABDD90();
-extern int fn_82AD11D0();
+typedef struct Inst_82AD2680 {
+    int pad0;
+    int pad4;
+    union {
+        unsigned int word;
+        struct {
+            unsigned int pad : 10;
+            unsigned int a : 3;
+            unsigned int pad2 : 2;
+            unsigned int b : 3;
+            unsigned int op : 7;
+            unsigned int rest : 7;
+        } f;
+    } u;
+} Inst_82AD2680;
 
+typedef struct Block_82AD2680 {
+    char pad[0x20];
+    unsigned int head;
+    unsigned int tail;
+    char pad2[0x30 - 0x28];
+    unsigned int flags;
+} Block_82AD2680;
 
-void fn_82AD2680(unsigned __int64 param_1,int param_2,int param_3)
+extern __declspec(noreturn) void fn_82AA66A8(void *ctx, int code);
+extern char *fn_82ABDD90(void *ctx, unsigned int op, unsigned int a, unsigned int b);
+extern unsigned char fn_82AD11D0(Inst_82AD2680 *inst);
 
+void fn_82AD2680(void *ctx, Block_82AD2680 *block, unsigned int value)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  bool bVar3;
-  int iVar4;
-  char cVar5;
-  int iVar6;
-  
-  iVar4 = 0;
-  if ((*(unsigned int *)(param_2 + 0x24) & 1) == 0) {
-    uVar2 = *(unsigned int *)(param_2 + 0x20) & 0xfffffffe;
-    iVar6 = uVar2 - 0x28;
-    if (iVar6 != 0) {
-      uVar1 = *(unsigned int *)(uVar2 - 0x20) >> 7 & 0x7f;
-      if ((((uVar1 == 0x56) || (uVar1 == 0x57)) || (uVar1 == 0x59)) ||
-         (((uVar1 == 0x5a || (uVar1 == 0x54)) || (bVar3 = false, uVar1 == 0x55)))) {
-        bVar3 = true;
-      }
-      if (bVar3) {
-        uVar1 = *(unsigned int *)(uVar2 - 0x20);
-        iVar4 = fn_82ABDD90(param_1,uVar1 >> 7 & 0x7f,uVar1 >> 0x13 & 7,uVar1 >> 0xe & 7);
-        iVar4 = *(int *)(iVar4 + (uVar2 - 0x38));
-      }
-    }
-  }
-  else {
-    iVar6 = 0;
-  }
-  if (param_3 == iVar4) {
-    cVar5 = fn_82AD11D0(iVar6);
-    if (cVar5 == '\0') {
-      if ((*(unsigned int *)(iVar6 + 8) & 0x3f80) != 0x2a00) {
-                    /* WARNING: Subroutine does not return */
-        fn_82AA66A8(param_1,0x12c0);
-      }
-    }
-    else {
-      *(unsigned int *)(param_2 + 0x30) = *(unsigned int *)(param_2 + 0x30) | 0x4000000;
-    }
-  }
-  return;
-}
+    Inst_82AD2680 *inst;
+    unsigned int found = 0;
 
+    if (block->tail & 1) {
+        inst = 0;
+    } else {
+        inst = (Inst_82AD2680 *)((block->head & ~1u) - 0x28);
+        if (inst != 0) {
+            unsigned int op = inst->u.f.op;
+            unsigned char match;
+            if (op == 0x56 || op == 0x57 || op == 0x59 || op == 0x5a || op == 0x54 || op == 0x55)
+                match = 1;
+            else
+                match = 0;
+            if (match) {
+                found = *(unsigned int *)(fn_82ABDD90(ctx, inst->u.f.op, inst->u.f.a, inst->u.f.b) + ((int)inst - 0x10));
+            }
+        }
+    }
+    if (value == found) {
+        if (fn_82AD11D0(inst)) {
+            block->flags |= 0x4000000;
+        } else if ((inst->u.word & 0x3f80) != 0x2a00) {
+            fn_82AA66A8(ctx, 0x12c0);
+        }
+    }
+}

@@ -1,33 +1,28 @@
-extern int fn_82AB15D0();
+/* sched.cpp: a member function of the scheduler state; the assert texts name members
+   (cur_state, yield_disabler) without "this->", so the text is passed separately. */
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
+extern char lbl_82196F10[];
+#define SCHED_FILE "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\compiler\\opt\\sched.cpp"
+#define SCHED_ASSERT_TEXT(e, text, line) \
+    if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", text, SCHED_FILE, line)
 
+enum { SP_NORMAL = 1, SP_NOYIELD = 3 };
 
-void fn_82BB5308(int *param_1,int param_2)
+typedef struct YieldState_82BB5308 {
+    void *yield_disabler;
+    int cur_state;
+} YieldState_82BB5308;
 
+void fn_82BB5308(YieldState_82BB5308 *self, void *mova_sn)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  
-  if ((param_1[1] != 1) && (param_1[1] != 3)) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820e01e0,0xffffffff820e0168,0x1d2);
-  }
-  if (param_1[1] == 1) {
-    *param_1 = param_2;
-    param_1[1] = 3;
-  }
-  else {
-    if (param_1[1] == 3) {
-      if (*param_1 == param_2) {
-        return;
-      }
-      uVar2 = 0x1d8;
-      uVar1 = 0xffffffff820e01c4;
+    SCHED_ASSERT_TEXT(self->cur_state == SP_NORMAL || self->cur_state == SP_NOYIELD,
+                      "cur_state == SP_NORMAL || cur_state == SP_NOYIELD", 0x1d2);
+    if (self->cur_state == SP_NORMAL) {
+        self->yield_disabler = mova_sn;
+        self->cur_state = SP_NOYIELD;
+    } else if (self->cur_state == SP_NOYIELD) {
+        SCHED_ASSERT_TEXT(self->yield_disabler == mova_sn, "yield_disabler == mova_sn", 0x1d8);
+    } else {
+        fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", lbl_82196F10, SCHED_FILE, 0x1da);
     }
-    else {
-      uVar2 = 0x1da;
-      uVar1 = 0xffffffff82196f10;
-    }
-    fn_82AB15D0(0,0xffffffff820d2ea4,uVar1,0xffffffff820e0168,uVar2);
-  }
-  return;
 }
-

@@ -1,39 +1,69 @@
-extern unsigned int *auStack_50;
-extern int fn_82FAA780();
-extern int fn_82FAD0A8();
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
-extern unsigned int uStack_48;
+typedef struct Node_82FAABA8 Node_82FAABA8;
+typedef struct Source_82FAABA8 Source_82FAABA8;
 
+typedef struct Cursor_82FAABA8 {
+    unsigned int root;
+    Node_82FAABA8 *node;
+} Cursor_82FAABA8;
 
-unsigned __int64 fn_82FAABA8(int param_1,unsigned int param_2,unsigned __int64 param_3,unsigned int param_4)
+typedef struct NodeVtbl_82FAABA8 {
+    void *slot0;
+    void *slot4;
+    void *slot8;
+    Node_82FAABA8 *(*Next)(Node_82FAABA8 *self, Source_82FAABA8 *source, Cursor_82FAABA8 *cursor, unsigned int *extra);
+} NodeVtbl_82FAABA8;
 
+struct Node_82FAABA8 {
+    NodeVtbl_82FAABA8 *vt;
+};
+
+typedef struct SourceVtbl_82FAABA8 {
+    void *slots[6];
+    unsigned int (*GetRoot)(Source_82FAABA8 *self);
+} SourceVtbl_82FAABA8;
+
+struct Source_82FAABA8 {
+    SourceVtbl_82FAABA8 *vt;
+};
+
+typedef struct Self_82FAABA8 {
+    int pad0;
+    int pad4;
+    Source_82FAABA8 *source;
+} Self_82FAABA8;
+
+typedef struct Request_82FAABA8 {
+    unsigned int value;
+    int flag;
+    unsigned int key;
+    int padc;
+} Request_82FAABA8;
+
+extern Node_82FAABA8 *fn_82FAD0A8(void);
+extern int fn_82FAA780(Node_82FAABA8 *node, Request_82FAABA8 *request);
+
+int fn_82FAABA8(Self_82FAABA8 *self, unsigned int key, unsigned int count, unsigned int value)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  unsigned char auStack_50 [8];
-  unsigned int uStack_48;
-  int *piStack_44;
-  struct { unsigned int first; unsigned int second; } stack_pair_40;
+    unsigned int extra;
+    Cursor_82FAABA8 cursor;
+    Request_82FAABA8 request;
+    int result;
 
-  unsigned int uStack_38;
-  
-  uStack_48 = (**(int (***)())(**(int **)(param_1 + 8) + 0x18))();
-  if ((uStack_48 != 0) && (piStack_44 = (int *)fn_82FAD0A8(), piStack_44 != (int *)0x0)) {
-    uVar1 = param_3 & 0xffffffff;
-    while (uVar1 != 0) {
-      piStack_44 = (int *)(**(int (***)())(*piStack_44 + 0xc))
-                                    (piStack_44,*(unsigned int *)(param_1 + 8),&uStack_48,auStack_50);
-      param_3 = param_3 - 1;
-      uVar1 = param_3;
+    cursor.root = self->source->vt->GetRoot(self->source);
+    if (cursor.root == 0) {
+        result = 2;
+    } else {
+        if ((cursor.node = fn_82FAD0A8()) == 0) {
+            return 2;
+        }
+    while (count != 0) {
+        cursor.node = cursor.node->vt->Next(cursor.node, self->source, &cursor, &extra);
+        count--;
     }
-    stack_pair_40.second = 1;
-    stack_pair_40.first = param_4;
-    uStack_38 = param_2;
-    uVar2 = fn_82FAA780(piStack_44,&stack_pair_40.first);
-    return uVar2;
-  }
-  return 2;
+    request.value = value;
+    request.flag = 1;
+    request.key = key;
+        result = fn_82FAA780(cursor.node, &request);
+    }
+    return result;
 }
-

@@ -1,30 +1,19 @@
-unsigned __int64 fn_82F41D68(unsigned char *param_1,unsigned char *param_2)
-
+static __forceinline char Upper(char c)
 {
-  unsigned char bVar1;
-  unsigned char bVar2;
-  unsigned char bVar3;
-  
-  bVar3 = *param_1;
-  while (bVar3 != 0) {
-    bVar1 = *param_2;
-    if (bVar3 != bVar1) {
-      bVar2 = bVar3;
-      if (('`' < (char)bVar3) && ((char)bVar3 < '{')) {
-        bVar2 = bVar3 & 0xdf;
-      }
-      if (('`' < (char)bVar1) && ((char)bVar1 < '{')) {
-        bVar1 = bVar1 & 0xdf;
-      }
-      if (bVar2 != bVar1) break;
-    }
-    param_1 = param_1 + 1;
-    param_2 = param_2 + 1;
-    bVar3 = *param_1;
-  }
-  if ((bVar3 == 0) && (*param_2 == 0)) {
-    return 1;
-  }
-  return 0;
+    if (c >= 'a' && c <= 'z')
+        c &= ~0x20;
+    return c;
 }
 
+int fn_82F41D68(const char *a, const char *b)
+{
+    while (*a != 0) {
+        if (*a != *b && Upper(*a) != Upper(*b))
+            break;
+        a++;
+        b++;
+    }
+    if (*a == 0 && 0 == *b)
+        return 1;
+    return 0;
+}

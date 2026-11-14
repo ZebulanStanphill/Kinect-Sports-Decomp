@@ -1,46 +1,87 @@
-#define true 1
+typedef struct Desc_82B8F208 Desc_82B8F208;
 
+typedef struct Link_82B8F208 {
+    Desc_82B8F208 *desc;
+    struct Link_82B8F208 *next;
+} Link_82B8F208;
 
-void fn_82B8F208(int *param_1,int param_2)
+typedef struct Info_82B8F208 {
+    char pad[0x10];
+    Link_82B8F208 head;
+} Info_82B8F208;
 
+struct Desc_82B8F208 {
+    char pad[0x30];
+    unsigned int pad9 : 9;
+    unsigned int hidden : 1;
+    unsigned int pad10 : 1;
+    unsigned int visible : 1;
+    unsigned int disabled : 1;
+    unsigned int rest : 19;
+    char pad2[0x74 - 0x34];
+    Info_82B8F208 *info;
+};
+
+typedef struct Node_82B8F208 {
+    Desc_82B8F208 *desc;
+    int pad4;
+    struct Node_82B8F208 *next;
+} Node_82B8F208;
+
+typedef struct GroupData_82B8F208 {
+    char pad[0xc];
+    Node_82B8F208 *nodes;
+} GroupData_82B8F208;
+
+typedef struct Group_82B8F208 {
+    int pad0;
+    GroupData_82B8F208 *data;
+} Group_82B8F208;
+
+typedef struct Iter_82B8F208 {
+    Desc_82B8F208 *desc;
+    Group_82B8F208 *group;
+    Link_82B8F208 *cur;
+    int pad0c;
+    Desc_82B8F208 *found;
+    GroupData_82B8F208 *data;
+    unsigned char saved;
+    unsigned char valid;
+} Iter_82B8F208;
+
+static __forceinline int NotNull(Node_82B8F208 *p) { if (p) return 1; return 0; }
+
+void fn_82B8F208(Iter_82B8F208 *self, Group_82B8F208 *group)
 {
-  int iVar1;
-  int iVar2;
-  unsigned int uVar3;
-  int *piVar4;
-  
-  param_1[1] = param_2;
-  *(unsigned char *)((int)param_1 + 0x19) = 0;
-  if (param_2 == 0) {
-    return;
-  }
-  if ((*(unsigned int *)(*param_1 + 0x30) >> 0x13 & 1) != 0) {
-    return;
-  }
-  iVar1 = *(int *)(param_2 + 4);
-  piVar4 = *(int **)(iVar1 + 0xc);
-  while( true ) {
-    if (piVar4 == (int *)0x0) {
-      return;
-    }
-    iVar2 = *piVar4;
-    if ((*(unsigned int *)(iVar2 + 0x30) >> 0x13 & 1) != 0) break;
-    piVar4 = (int *)piVar4[2];
-  }
-  piVar4 = (int *)(*(int *)(iVar2 + 0x74) + 0x10);
-  if (*piVar4 == 0) {
-    return;
-  }
-  param_1[4] = iVar2;
-  param_1[5] = iVar1;
-  param_1[2] = (int)piVar4;
-  while (piVar4 != (int *)0x0) {
-    uVar3 = *(unsigned int *)(*(int *)param_1[2] + 0x30);
-    if (((uVar3 >> 0x16 & 1) == 0) && ((uVar3 >> 0x14 & 1) != 0)) break;
-    piVar4 = (int *)((int *)param_1[2])[1];
-    param_1[2] = (int)piVar4;
-  }
-  *(unsigned char *)((int)param_1 + 0x19) = *(unsigned char *)(param_1 + 6);
-  return;
-}
+    GroupData_82B8F208 *data;
+    Node_82B8F208 *node;
+    Desc_82B8F208 *desc;
+    Link_82B8F208 *link;
 
+    self->group = group;
+    self->valid = 0;
+    if (group == 0)
+        return;
+    if ((unsigned char)self->desc->disabled)
+        return;
+    data = group->data;
+    for (node = data->nodes; ; node = node->next) {
+        if (!NotNull(node))
+            return;
+        desc = node->desc;
+        if ((unsigned char)desc->disabled)
+            break;
+    }
+    link = &desc->info->head;
+    if (desc->info->head.desc == 0)
+        return;
+    self->found = desc;
+    self->data = data;
+    self->cur = link;
+    for (; self->cur != 0; self->cur = self->cur->next) {
+        Desc_82B8F208 *d = self->cur->desc;
+        if (!(unsigned char)d->hidden && (unsigned char)d->visible)
+            break;
+    }
+    self->valid = self->saved;
+}

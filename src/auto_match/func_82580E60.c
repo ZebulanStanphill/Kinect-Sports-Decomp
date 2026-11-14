@@ -1,30 +1,30 @@
-typedef unsigned char bool;
-extern unsigned int *auStack_30;
-extern int fn_82230300();
-extern int fn_8251F720();
-extern int fn_8251FA58();
-extern int fn_82520158();
-extern int fn_82631830();
+typedef struct Str_82580E60 { union { char *p; char buf[16]; } u; unsigned int size; unsigned int cap; } Str_82580E60;
+extern void fn_82520158(const char *path, int *resource, int flags);
+extern void *fn_8251F720(int *resource, int flags);
+extern void *fn_82631830(void *data);
+extern void fn_8251FA58(void *data);
+extern void fn_82230300(Str_82580E60 *s, int a, int b);
 
-
-bool fn_82580E60(unsigned int *param_1,unsigned int *param_2)
-
+static __forceinline char *cstr(Str_82580E60 *s)
 {
-  unsigned int *puVar3;
-  unsigned __int64 uVar1;
-  __int64 lVar2;
-  unsigned char auStack_30 [1];
-  
-  puVar3 = param_1;
-  if (0xf < (unsigned int)param_1[5]) {
-    puVar3 = (unsigned int *)*param_1;
-  }
-  fn_82520158(puVar3,auStack_30,0);
-  uVar1 = fn_8251F720(auStack_30,0);
-  lVar2 = fn_82631830();
-  *param_2 = (int)lVar2;
-  fn_8251FA58(uVar1);
-  fn_82230300(param_1,1,0);
-  return -1 < (__int64)-(unsigned __int64)(lVar2 == 0);
+  if (s->cap >= 0x10) return s->u.p;
+  return s->u.buf;
 }
 
+static __forceinline int Check(void *p) { return p ? 0 : (int)0x8007000E; }
+
+unsigned char fn_82580E60(Str_82580E60 *name, void **out)
+{
+  int resource;
+  void *data;
+  void *obj;
+  unsigned char ok = 0;
+  fn_82520158(cstr(name), &resource, 0);
+  data = fn_8251F720(&resource, 0);
+  obj = fn_82631830(data);
+  *out = obj;
+  if (Check(obj) >= 0) ok = 1;
+  fn_8251FA58(data);
+  fn_82230300(name, 1, 0);
+  return ok;
+}

@@ -1,24 +1,20 @@
-extern int fn_82F534D8();
-extern int fn_82F538F8();
-extern unsigned int lbl_82165968;
-extern unsigned int lbl_8216596C;
-extern unsigned int lbl_82165970;
-extern unsigned int lbl_821AAD20;
+typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
+    float vector4_f32[4];
+    unsigned int vector4_u32[4];
+} __vector4;
 
+extern const float lbl_82165968[25][3];
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+extern unsigned char fn_82F538F8(void *src);
+extern __vector4 fn_82F534D8(float x, float y, float z, float w);
+extern void fn_82F53900(void *p, int i, __vector4 v);
 
-void fn_82F4FBE8(unsigned __int64 param_1,unsigned __int64 param_2)
-
+void fn_82F4FBE8(void *self, void *src)
 {
-  char cVar1;
-  
-  cVar1 = fn_82F538F8(param_2);
-  if (cVar1 == '\0') {
-                    /* WARNING: Subroutine does not return */
-    fn_82F534D8((double)lbl_82165968,(double)lbl_8216596C,(double)lbl_82165970,
-                 (double)lbl_821AAD20);
-  }
-  return;
+    int i;
+    if (fn_82F538F8(src) == 0) {
+        for (i = 0; i < 25; i++) {
+            fn_82F53900(src, i, fn_82F534D8(lbl_82165968[i][0], lbl_82165968[i][1], lbl_82165968[i][2], 0.0f));
+        }
+    }
 }
-

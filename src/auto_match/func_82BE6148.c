@@ -1,46 +1,60 @@
-extern int fn_82BE5240();
-extern int fn_82BE6050();
-extern int fn_82F68CC0();
-extern unsigned int lbl_831751CC;
-extern unsigned int lbl_831751D0;
+typedef struct Buffer_82BE6148 Buffer_82BE6148;
+typedef struct {
+    void *f0;
+    void *f4;
+    void *f8;
+    int (*maxSize)(Buffer_82BE6148 *);
+} BufferVt_82BE6148;
 
+struct Buffer_82BE6148 {
+    BufferVt_82BE6148 *vt;
+    char pad4[0x14];
+    int growMode;
+    void *data;
+    int pad20;
+    unsigned int used;
+    int capacity;
+};
 
-unsigned __int64 fn_82BE6148(int *param_1,__int64 param_2,__int64 param_3)
+extern void *(*lbl_831751D0)(int size);
+extern void (*lbl_831751CC)(void *p);
+extern void *memcpy(void *dst, const void *src, unsigned int n);
+extern int fn_82BE6050(Buffer_82BE6148 *buf, int size);
+extern void fn_82BE5240(Buffer_82BE6148 *buf, int code, const char *message);
 
+static __forceinline int IsEmpty(Buffer_82BE6148 *b)
 {
-  int iVar2;
-  __int64 lVar1;
-  int iVar3;
-  unsigned __int64 uVar4;
-  
-  iVar3 = (int)param_2;
-  if (iVar3 < 1) {
-    uVar4 = 0xffffffff820e9504;
-  }
-  else {
-    if ((param_1[7] == 0) || (param_1[10] < 1)) {
-      uVar4 = fn_82BE6050(param_1,param_2);
-      return uVar4;
-    }
-    if ((0 < (int)param_3) && (iVar2 = fn_82BE6148(param_1,param_2 + param_3,0), iVar2 != 0)) {
-      return 1;
-    }
-    if ((param_1[6] == 1) && (iVar2 = (**(int (***)())(*param_1 + 0xc))(param_1), iVar2 < iVar3)) {
-      uVar4 = 0xffffffff820e9418;
-    }
-    else {
-      lVar1 = (*(int (**)())lbl_831751D0)(param_2);
-      if (lVar1 != 0) {
-        fn_82F68CC0(lVar1,param_1[7],param_1[9]);
-        (*(int (**)())lbl_831751CC)(param_1[7]);
-        param_1[7] = (int)lVar1;
-        param_1[10] = iVar3;
+    if (b->data == 0 || b->capacity <= 0)
         return 1;
-      }
-      uVar4 = 0xffffffff820e94c8;
-    }
-  }
-  fn_82BE5240(param_1,0x65,uVar4);
-  return 0;
+    return 0;
 }
 
+int fn_82BE6148(Buffer_82BE6148 *buf, int size, int extra)
+{
+    const char *message;
+    void *data;
+
+    if (size <= 0) {
+        message = "Can't reallocate buffer where new size is 0 or negative size.";
+    } else {
+        if (IsEmpty(buf))
+            return fn_82BE6050(buf, size);
+        if (extra > 0 && fn_82BE6148(buf, size + extra, 0) != 0)
+            return 1;
+        if (buf->growMode == 1 && size > buf->vt->maxSize(buf)) {
+            message = "Requested buffer size will exceed request maximum.";
+        } else {
+            data = lbl_831751D0(size);
+            if (data != 0) {
+                memcpy(data, buf->data, buf->used);
+                lbl_831751CC(buf->data);
+                buf->data = data;
+                buf->capacity = size;
+                return 1;
+            }
+            message = "Could not reallocate buffer, leaving old buffer untouched.";
+        }
+    }
+    fn_82BE5240(buf, 0x65, message);
+    return 0;
+}

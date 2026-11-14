@@ -1,37 +1,42 @@
-unsigned __int64 fn_8277D1C8(int *param_1,int (**param_2)())
+typedef struct Entry_8277D1C8 {
+    int key;
+    int value;
+} Entry_8277D1C8;
 
+typedef struct Table_8277D1C8 {
+    int f00;
+    int f04;
+    int f08;
+    Entry_8277D1C8 **blocks;
+} Table_8277D1C8;
+
+typedef struct Iter_8277D1C8 {
+    Table_8277D1C8 *table;
+    unsigned int index;
+    unsigned int remaining;
+    int endKey;
+    Entry_8277D1C8 *cur;
+    int key;
+    int nextKey;
+    int value;
+    unsigned char done;
+} Iter_8277D1C8;
+
+int fn_8277D1C8(Iter_8277D1C8 *it, int (*get)(Entry_8277D1C8 *e))
 {
-  unsigned int uVar1;
-  int iVar3;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar4;
-  __int64 lVar5;
-  
-  *(unsigned char *)(param_1 + 8) = 0;
-  if ((unsigned __int64)(unsigned int)param_1[2] == 0) {
-    uVar2 = 0;
-  }
-  else {
-    uVar1 = param_1[1];
-    lVar5 = (unsigned __int64)(unsigned int)param_1[2] - 1;
-    uVar4 = (unsigned __int64)uVar1 + 1;
-    param_1[2] = (int)lVar5;
-    param_1[1] = (int)uVar4;
-    param_1[5] = param_1[6];
-    param_1[4] = *(int *)((uVar1 >> 2 & 0x3ffffffc) + *(int *)(*param_1 + 0xc)) + (uVar1 & 0xf) * 8;
-    if (lVar5 == 0) {
-      iVar3 = param_1[3];
+    it->done = 0;
+    if (it->remaining != 0) {
+        unsigned int index = it->index;
+        it->remaining--;
+        it->index = index + 1;
+        it->key = it->nextKey;
+        it->cur = &it->table->blocks[index >> 4][index & 15];
+        if (it->remaining != 0)
+            it->nextKey = it->table->blocks[it->index >> 4][it->index & 15].key;
+        else
+            it->nextKey = it->endKey;
+        it->value = get(it->cur);
+        return 1;
     }
-    else {
-      iVar3 = *(int *)(*(int *)(((unsigned int)((uVar4 & 0xffffffff) >> 2) & 0x3ffffffc) +
-                               *(int *)(*param_1 + 0xc)) +
-                      ((unsigned int)((uVar4 & 0xffffffff) << 3) & 0x78));
-    }
-    param_1[6] = iVar3;
-    iVar3 = (*param_2)(param_1[4]);
-    param_1[7] = iVar3;
-    uVar2 = 1;
-  }
-  return uVar2;
+    return 0;
 }
-

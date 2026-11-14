@@ -1,48 +1,42 @@
-extern int fn_82486278();
-extern int fn_82A1DD38();
+typedef struct Slot_82486628 {
+    int state;
+    char data[0x41c];
+} Slot_82486628;
 
+typedef struct Self_82486628 {
+    char pad0[0xc58];
+    Slot_82486628 slots[3];      /* 0xc58 */
+    char pad1918[0x18c0 - 0xc58 - 3 * 0x420];
+    unsigned int mode;           /* 0x18c0 */
+} Self_82486628;
 
-void fn_82486628(int param_1)
+extern void fn_82486278(Self_82486628 *self);
+extern void fn_82A1DD38(void *dst, const void *src, unsigned int size);
 
+void fn_82486628(Self_82486628 *self)
 {
-  int *piVar1;
-  int *piVar2;
-  unsigned int *puVar3;
-  __int64 lVar4;
-  
-  if (*(int *)(param_1 + 0x18c0) == 0) {
-    piVar1 = (int *)(param_1 + 0xc58);
-    lVar4 = 3;
-    piVar2 = piVar1;
-    do {
-      if (*piVar2 == 2) {
-        *piVar2 = 4;
-      }
-      piVar2 = piVar2 + 0x108;
-      lVar4 = lVar4 + -1;
-    } while (lVar4 != 0);
-    lVar4 = 3;
-    do {
-      if (*piVar1 == 3) {
-        *piVar1 = 4;
-      }
-      piVar1 = piVar1 + 0x108;
-      lVar4 = lVar4 + -1;
-    } while (lVar4 != 0);
-    puVar3 = (unsigned int *)(param_1 + 0x1078);
-    lVar4 = 2;
-    do {
-      if (puVar3[-0x108] == 4) {
-        fn_82A1DD38(puVar3 + -0x108,puVar3,0x420);
-        *puVar3 = 4;
-      }
-      lVar4 = lVar4 + -1;
-      puVar3 = puVar3 + 0x108;
-    } while (lVar4 != 0);
-  }
-  else if (*(int *)(param_1 + 0x18c0) != 1) {
-    fn_82486278();
-  }
-  return;
+    int i;
+    switch (self->mode) {
+    case 0:
+        for (i = 0; i < 3; i++) {
+            if (self->slots[i].state == 2)
+                self->slots[i].state = 4;
+        }
+        for (i = 0; i < 3; i++) {
+            if (self->slots[i].state == 3)
+                self->slots[i].state = 4;
+        }
+        for (i = 0; i < 2; i++) {
+            if (self->slots[i].state == 4) {
+                fn_82A1DD38(&self->slots[i], &self->slots[i + 1], sizeof(Slot_82486628));
+                self->slots[i + 1].state = 4;
+            }
+        }
+        break;
+    case 1:
+        break;
+    default:
+        fn_82486278(self);
+        break;
+    }
 }
-

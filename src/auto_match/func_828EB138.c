@@ -1,30 +1,38 @@
-typedef unsigned char bool;
-extern int fn_828B30E8();
-extern int fn_828B3DF8();
-extern int fn_82CE1210();
+typedef struct Map_828EB138 {
+    int pad0;
+    unsigned int end;
+} Map_828EB138;
 
+typedef struct Self_828EB138 {
+    char pad[0x5c];
+    Map_828EB138 map;
+    char pad64[0xc];
+    void *table;
+} Self_828EB138;
 
-unsigned char fn_828EB138(int param_1,unsigned __int64 *param_2)
+extern unsigned int fn_82CE1210(void *table, unsigned __int64 key, unsigned int *value);
+extern void fn_828B3DF8(unsigned int *out, Map_828EB138 *map, unsigned __int64 *key);
+extern void fn_828B30E8(unsigned int *out, Map_828EB138 *map, unsigned int it);
 
+unsigned char fn_828EB138(Self_828EB138 *self, unsigned __int64 *key)
 {
-  int iVar1;
-  unsigned char bVar2;
-  bool bVar3;
-  int aiStack_30;
-  
-  iVar1 = fn_82CE1210(*(unsigned int *)(param_1 + 0x70),*param_2,&aiStack_30);
-  bVar3 = aiStack_30 == 0;
-  fn_828B3DF8(&aiStack_30,param_1 + 0x5c,param_2);
-  if (aiStack_30 == *(int *)(param_1 + 0x60)) {
-    bVar2 = -(iVar1 != 0 || bVar3) & 2;
-  }
-  else if (iVar1 != 0 || bVar3) {
-    bVar2 = 1;
-  }
-  else {
-    fn_828B30E8(&aiStack_30,param_1 + 0x5c);
-    bVar2 = 0;
-  }
-  return bVar2;
+    unsigned char ok;
+    Map_828EB138 *map;
+    {
+        unsigned int value;
+        if (fn_82CE1210(self->table, *key, &value) == 0) ok = value != 0; else ok = 0;
+    }
+    map = &self->map;
+    {
+        unsigned int it;
+        fn_828B3DF8(&it, map, key);
+        if (it == self->map.end) {
+            return ok ? 0 : 2;
+        }
+        if (ok) {
+            fn_828B30E8(&it, map, it);
+            return 0;
+        }
+        return 1;
+    }
 }
-

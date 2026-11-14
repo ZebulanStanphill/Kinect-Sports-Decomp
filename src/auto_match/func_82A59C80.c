@@ -1,35 +1,32 @@
-extern unsigned int *auStack_610;
-extern unsigned int *auStack_710;
-extern unsigned int uStack_708;
-extern unsigned int uStack_70c;
+typedef struct WaitBlock_82A59C80 { int w[6]; } WaitBlock_82A59C80;
+typedef struct Self_82A59C80 { char pad[0x18]; void *handles[3]; } Self_82A59C80;
 
+extern unsigned int KeWaitForMultipleObjects(unsigned int count, void **objects, int waitType,
+    int reason, int mode, int alertable, __int64 *timeout, WaitBlock_82A59C80 *waitBlocks);
 
-unsigned __int64 fn_82A59C80(int param_1,unsigned int param_2)
-
+int fn_82A59C80(Self_82A59C80 *self, unsigned int ms)
 {
-  int iVar2;
-  unsigned __int64 uVar1;
-  __int64 *plVar3;
-  __int64 alStack_720 [2];
-  unsigned char auStack_710 [4];
-  unsigned int uStack_70c;
-  unsigned int uStack_708;
-  unsigned char auStack_610 [1536];
-  
-  uStack_70c = *(unsigned int *)(param_1 + 0x1c);
-  uStack_708 = *(unsigned int *)(param_1 + 0x20);
-  if (param_2 == 0xffffffff) goto LAB_82a59ce8;
-  plVar3 = alStack_720;
-  alStack_720[0] = (unsigned __int64)param_2 * -10000;
-  while (iVar2 = KeWaitForMultipleObjects(3,auStack_710,1,3,1,0,plVar3,auStack_610), iVar2 == 1) {
-    uStack_70c = *(unsigned int *)(param_1 + 0x1c);
-    uStack_708 = *(unsigned int *)(param_1 + 0x20);
-LAB_82a59ce8:
-    plVar3 = (__int64 *)0x0;
-  }
-  if ((iVar2 == 0x102) || (uVar1 = 0, iVar2 == 2)) {
-    uVar1 = 1;
-  }
-  return uVar1;
-}
+    __int64 timeout;
+    __int64 *pt;
+    void *objects[64];
+    WaitBlock_82A59C80 blocks[64];
+    unsigned int status;
+    int i;
 
+    for (i = 0; i < 3; i++)
+        objects[i] = self->handles[i];
+    if (ms != 0xffffffff) {
+        timeout = (__int64)ms * -10000;
+        pt = &timeout;
+    } else {
+        pt = 0;
+    }
+    while ((status = KeWaitForMultipleObjects(3, objects, 1, 3, 1, 0, pt, blocks)) == 1) {
+        for (i = 0; i < 3; i++)
+            objects[i] = self->handles[i];
+        pt = 0;
+    }
+    if (status == 0x102 || status == 2)
+        return 1;
+    return 0;
+}

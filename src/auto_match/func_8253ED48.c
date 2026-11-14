@@ -1,58 +1,54 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern unsigned int *auStack_20;
-extern unsigned int *auStack_30;
-extern int fn_822E83E0();
-extern int fn_8240DEC0();
-extern int fn_82D8B6C8();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __VMXGetReg(int n);
 
-void fn_8253ED48(int param_1)
+typedef struct {
+    char pad0[0xe8];
+    unsigned char motionType;
+} Body_8253ED48;
 
+typedef struct {
+    char pad0[0x7c0];
+    Body_8253ED48 *body;
+    char pad7C4[0x7d8 - 0x7c4];
+    unsigned int frozen;
+    char pad7DC[0x7e0 - 0x7dc];
+    int savedMotionType;
+} Object_8253ED48;
+
+extern void fn_82D8B6C8(Body_8253ED48 *, int, int, int);
+extern void fn_822E83E0(Body_8253ED48 *, const __vector4 *);
+extern void fn_8240DEC0(Body_8253ED48 *, const __vector4 *);
+
+void fn_8253ED48(Object_8253ED48 *self)
 {
-  int iVar1;
-  int iVar2;
-  unsigned int *puVar3;
-  int in_r0;
-  bool bVar4;
-  unsigned int uVar5;
-  unsigned int in_register_000104d0;
-  unsigned int in_register_000104d4;
-  unsigned int in_register_000104d8;
-  unsigned int in_vr77;
-  unsigned char auStack_30 [16];
-  unsigned char auStack_20 [16];
-  
-  iVar1 = *(int *)(param_1 + 0x7c0);
-  if (iVar1 != 0) {
-    uVar5 = (unsigned int)*(unsigned char *)(iVar1 + 0xe8);
-    if (*(int *)(param_1 + 0x7d8) == 0) {
-      iVar2 = *(int *)(param_1 + 0x7e0);
-      if ((iVar2 == 4) || (bVar4 = true, iVar2 == 0)) {
-        bVar4 = false;
-      }
-      if ((uVar5 == 4) && (bVar4)) {
-        fn_82D8B6C8(iVar1,iVar2,1,0);
-      }
-    }
-    else if ((uVar5 != 5) && (uVar5 != 4)) {
-      *(unsigned int *)(param_1 + 0x7e0) = uVar5;
-      fn_82D8B6C8(iVar1,4,1,0);
-      puVar3 = (unsigned int *)((unsigned int)(auStack_30 + in_r0) & 0xfffffff0);
-      *puVar3 = in_register_000104d0;
-      puVar3[1] = in_register_000104d4;
-      puVar3[2] = in_register_000104d8;
-      puVar3[3] = in_vr77;
-      fn_822E83E0(iVar1,auStack_30);
-      puVar3 = (unsigned int *)((unsigned int)(auStack_20 + in_r0) & 0xfffffff0);
-      *puVar3 = in_register_000104d0;
-      puVar3[1] = in_register_000104d4;
-      puVar3[2] = in_register_000104d8;
-      puVar3[3] = in_vr77;
-      fn_8240DEC0(iVar1,auStack_20);
-    }
-  }
-  return;
-}
+    Body_8253ED48 *body = self->body;
+    int type;
+    __vector4 linear;
+    __vector4 angular;
 
+    if (body != 0) {
+        type = body->motionType;
+        if (self->frozen != 0) {
+            if (type != 5 && type != 4) {
+                self->savedMotionType = type;
+                fn_82D8B6C8(body, 4, 1, 0);
+                linear = __VMXGetReg(77);
+                fn_822E83E0(body, &linear);
+                angular = __VMXGetReg(77);
+                fn_8240DEC0(body, &angular);
+            }
+        } else {
+            int saved = self->savedMotionType;
+            int ok;
+            if (saved == 4 || saved == 0)
+                ok = 0;
+            else
+                ok = 1;
+            if (type == 4 && ok)
+                fn_82D8B6C8(body, saved, 1, 0);
+        }
+    }
+}

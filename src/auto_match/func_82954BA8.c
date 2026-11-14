@@ -1,9 +1,12 @@
-int fn_82954BA8(unsigned __int64 param_1,int param_2,int param_3)
+typedef struct Entry_82954BA8 {
+    char pad[0x10];
+    unsigned int id;
+    char pad14[0x10];
+} Entry_82954BA8;
 
+Entry_82954BA8 *fn_82954BA8(void *self, Entry_82954BA8 *entry, unsigned int id)
 {
-  for (; (*(int *)(param_2 + 0x10) != -1 && (*(int *)(param_2 + 0x10) != param_3));
-      param_2 = param_2 + 0x24) {
-  }
-  return param_2;
+    for (; entry->id != 0xffffffff && entry->id != id; entry++) {
+    }
+    return entry;
 }
-

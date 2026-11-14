@@ -1,44 +1,49 @@
-__int64 fn_82560010(unsigned int *param_1,unsigned char *param_2)
+typedef struct Entry_82560010 {
+    unsigned char name[0x5c];
+} Entry_82560010;
 
+typedef struct Table_82560010 {
+    unsigned int count;
+    Entry_82560010 *entries;
+} Table_82560010;
+
+/* Binary search of a table sorted by name; returns the entry or 0. */
+Entry_82560010 *fn_82560010(Table_82560010 *table, const unsigned char *key)
 {
-  __int64 lVar1;
-  __int64 lVar2;
-  __int64 lVar3;
-  __int64 lVar4;
-  unsigned __int64 uVar5;
-  __int64 lVar6;
-  unsigned __int64 uVar7;
-  
-  lVar2 = 0;
-  lVar3 = (unsigned __int64)*param_1 - 1;
-  if (-1 < lVar3) {
-    do {
-      lVar4 = (__int64)((int)lVar2 + (int)lVar3 >> 1);
-      uVar5 = (unsigned __int64)*(unsigned char *)((int)(lVar4 * 0x5c) + param_1[1]);
-      lVar1 = lVar4 * 0x5c + (unsigned __int64)param_1[1];
-      uVar7 = (unsigned __int64)*param_2;
-      if (uVar5 == *param_2) {
-        lVar6 = lVar1;
-        do {
-          lVar6 = lVar6 + 1;
-          if (uVar5 == 0) {
-            return lVar1;
-          }
-          uVar5 = (unsigned __int64)*(unsigned char *)lVar6;
-          uVar7 = (unsigned __int64)((unsigned char *)lVar6)[(int)param_2 - (int)lVar1];
-        } while (uVar5 == uVar7);
-      }
-      if ((__int64)(uVar5 - uVar7) < 0) {
-        lVar2 = lVar4 + 1;
-      }
-      else {
-        if ((int)(uVar5 - uVar7) < 1) {
-          return lVar1;
-        }
-        lVar3 = lVar4 + -1;
-      }
-    } while ((int)lVar2 <= (int)lVar3);
-  }
-  return 0;
-}
+    int lo;
+    int hi;
+    int mid;
+    int cmp;
+    unsigned char a;
+    unsigned char b;
+    const unsigned char *s;
+    Entry_82560010 *entry;
 
+    hi = table->count - 1;
+    lo = 0;
+    while (lo <= hi) {
+        mid = (lo + hi) >> 1;
+        b = *key;
+        entry = &table->entries[mid];
+        s = entry->name;
+        a = *s;
+        if (a == b) {
+            int offset = key - s;
+            do {
+                s++;
+                if (a == 0)
+                    return entry;
+                a = *s;
+                b = s[offset];
+            } while (a == b);
+        }
+        cmp = a - b;
+        if (cmp < 0)
+            lo = mid + 1;
+        else if (cmp > 0)
+            hi = mid - 1;
+        else
+            return entry;
+    }
+    return 0;
+}

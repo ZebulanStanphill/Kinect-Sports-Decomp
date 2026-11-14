@@ -1,83 +1,53 @@
-extern int fn_82F63BA0();
-extern int fn_82F68240();
+extern int *_errno(void);
+extern void _invalid_parameter_noinfo(void);
 
-
-unsigned int fn_82F64840(short *param_1,unsigned __int64 param_2,short *param_3,unsigned __int64 param_4)
-
+int fn_82F64840(unsigned short *dst, unsigned int size, const unsigned short *src, unsigned int count)
 {
-  short sVar1;
-  unsigned int *puVar2;
-  int iVar3;
-  int iVar4;
-  short *psVar5;
-  unsigned int uVar6;
-  
-  iVar3 = (int)param_2;
-  if ((param_4 & 0xffffffff) == 0) {
-    if (param_1 == (short *)0x0) {
-      if (iVar3 != 0) goto LAB_82f64894;
-    }
-    else {
-LAB_82f6488c:
-      if (iVar3 == 0) goto LAB_82f64894;
-      if ((param_4 & 0xffffffff) == 0) {
-        *param_1 = 0;
-      }
-      else {
-        if (param_3 == (short *)0x0) {
-          *param_1 = 0;
-          puVar2 = (unsigned int *)fn_82F68240();
-          uVar6 = 0x16;
-LAB_82f648d8:
-          *puVar2 = uVar6;
-          fn_82F63BA0();
-          return uVar6;
-        }
-        if ((int)param_4 == -1) {
-          iVar4 = (int)param_1 - (int)param_3;
-          do {
-            sVar1 = *param_3;
-            *(short *)(iVar4 + (int)param_3) = sVar1;
-            param_3 = param_3 + 1;
-            if (sVar1 == 0) break;
-            param_2 = param_2 - 1;
-          } while (param_2 != 0);
-        }
-        else {
-          psVar5 = param_1;
-          do {
-            sVar1 = *(short *)(((int)param_3 - (int)param_1) + (int)psVar5);
-            *psVar5 = sVar1;
-            psVar5 = psVar5 + 1;
-            if ((sVar1 == 0) || (param_2 = param_2 - 1, param_2 == 0)) break;
-            param_4 = param_4 - 1;
-          } while (param_4 != 0);
-          if ((param_4 & 0xffffffff) == 0) {
-            *psVar5 = 0;
-          }
-        }
-        if ((param_2 & 0xffffffff) == 0) {
-          if ((int)param_4 == -1) {
-            param_1[iVar3 + -1] = 0;
-            return 0x50;
-          }
-          *param_1 = 0;
-          puVar2 = (unsigned int *)fn_82F68240();
-          uVar6 = 0x22;
-          goto LAB_82f648d8;
-        }
-      }
-    }
-    uVar6 = 0;
-  }
-  else {
-    if (param_1 != (short *)0x0) goto LAB_82f6488c;
-LAB_82f64894:
-    puVar2 = (unsigned int *)fn_82F68240();
-    *puVar2 = 0x16;
-    fn_82F63BA0();
-    uVar6 = 0x16;
-  }
-  return uVar6;
-}
+    unsigned short *p;
+    unsigned int available;
+    int valid;
 
+    if (count == 0 && dst == 0 && size == 0) {
+        return 0;
+    }
+    valid = dst != 0 && size > 0;
+    if (!valid) {
+        *_errno() = 0x16;
+        _invalid_parameter_noinfo();
+        return 0x16;
+    }
+    if (count == 0) {
+        *dst = 0;
+        return 0;
+    }
+    valid = src != 0;
+    if (!valid) {
+        *dst = 0;
+        *_errno() = 0x16;
+        _invalid_parameter_noinfo();
+        return 0x16;
+    }
+    p = dst;
+    available = size;
+    if (count == (unsigned int)-1) {
+        while ((*p++ = *src++) != 0 && --available != 0) {
+        }
+    } else {
+        while ((*p++ = *src++) != 0 && --available != 0 && --count != 0) {
+        }
+        if (count == 0) {
+            *p = 0;
+        }
+    }
+    if (available == 0) {
+        if (count == (unsigned int)-1) {
+            dst[size - 1] = 0;
+            return 0x50;
+        }
+        *dst = 0;
+        *_errno() = 0x22;
+        _invalid_parameter_noinfo();
+        return 0x22;
+    }
+    return 0;
+}

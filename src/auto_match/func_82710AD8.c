@@ -1,28 +1,48 @@
-extern int fn_82693A98();
-extern int fn_826949A8();
+typedef struct Data_82710AD8 {
+    int f0;
+    int f4;
+    int refcount;
+} Data_82710AD8;
 
+typedef struct Header_82710AD8 {
+    char pad0[0x18];
+    Data_82710AD8 *empty;
+} Header_82710AD8;
 
-int * fn_82710AD8(int *param_1,unsigned int *param_2,unsigned __int64 param_3,__int64 param_4)
+typedef struct Page_82710AD8 {
+    Header_82710AD8 *hdr;
+} Page_82710AD8;
 
+typedef struct String_82710AD8 {
+    Data_82710AD8 *data;
+} String_82710AD8;
+
+extern unsigned int fn_82693A98(String_82710AD8 *s);
+extern void fn_826949A8(String_82710AD8 *out, String_82710AD8 *s, int start, int end);
+
+static __forceinline void SetEmpty_82710AD8(String_82710AD8 *out, String_82710AD8 *s)
 {
-  __int64 lVar1;
-  int iVar2;
-  
-  iVar2 = (int)param_4;
-  if (iVar2 != 0) {
-    param_3 = ((param_3 & 0xffffffff) >> 0x1f) - 1 & param_3;
-    lVar1 = fn_82693A98(param_2);
-    if ((int)param_3 < (int)lVar1) {
-      if ((iVar2 < 0) || ((int)lVar1 < (int)param_3 + iVar2)) {
-        param_4 = lVar1 - param_3;
-      }
-      fn_826949A8(param_1,param_2,param_3,param_3 + param_4);
-      return param_1;
-    }
-  }
-  iVar2 = *(int *)(*(int *)(*param_2 & 0xfffffc00) + 0x18);
-  *param_1 = iVar2;
-  *(int *)(iVar2 + 8) = *(int *)(iVar2 + 8) + 1;
-  return param_1;
+    Data_82710AD8 *d = ((Page_82710AD8 *)((unsigned int)s->data & 0xfffffc00))->hdr->empty;
+    out->data = d;
+    d->refcount++;
 }
 
+String_82710AD8 *fn_82710AD8(String_82710AD8 *out, String_82710AD8 *s, int start, int length)
+{
+    int size;
+
+    if (length == 0) {
+        SetEmpty_82710AD8(out, s);
+        return out;
+    }
+    start = start < 0 ? 0 : start;
+    size = fn_82693A98(s);
+    if (start >= size) {
+        SetEmpty_82710AD8(out, s);
+        return out;
+    }
+    if (length < 0 || start + length > size)
+        length = size - start;
+    fn_826949A8(out, s, start, start + length);
+    return out;
+}
