@@ -1,17 +1,20 @@
-extern int fn_82F68B70();
+typedef struct Obj_8302EC90 {
+    char pad[0xa8];
+    char sub[0x10];
+    int height;
+    unsigned int width;
+} Obj_8302EC90;
+
+extern int fn_8300CA50(void *sub);
 
 
-unsigned __int64 fn_8302EC90(int param_1,int param_2,int param_3)
-
+int fn_8302EC90(Obj_8302EC90 *self, unsigned int width, int height)
 {
-  unsigned __int64 uVar1;
-  
-  if ((param_2 == *(int *)(param_1 + 0xbc)) && (param_3 == *(int *)(param_1 + 0xb8))) {
-    return 1;
-  }
-  *(int *)(param_1 + 0xbc) = param_2;
-  *(int *)(param_1 + 0xb8) = param_3;
-  uVar1 = fn_82F68B70(param_1 + 0xa8);
-  return uVar1;
+    int r = 1;
+    if (width != self->width || height != self->height) {
+        self->width = width;
+        self->height = height;
+        r = fn_8300CA50(self->sub);
+    }
+    return r;
 }
-

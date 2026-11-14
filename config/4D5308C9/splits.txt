@@ -8056,7 +8056,7 @@ auto_match/func_82284D28.c:
 	.pdata      start:0x821E0620 end:0x821E0628
 	.text       start:0x82284D28 end:0x82284F34
 
-auto_match/func_82284F38.c:
+auto_match/func_82284F38.cpp:
 	.text       start:0x82284F38 end:0x82284FD0
 
 auto_match/func_82284FD0.cpp:
@@ -28984,7 +28984,7 @@ auto_match/func_8243E0D8.c:
 	.pdata      start:0x821E9638 end:0x821E9640
 	.text       start:0x8243E0D8 end:0x8243E14C
 
-auto_match/func_8243E150.c:
+auto_match/func_8243E150.cpp:
 	.text       start:0x8243E150 end:0x8243E1C0
 
 auto_match/func_8243E1C0.c:
@@ -65192,7 +65192,7 @@ auto_match/func_826EC518.c:
 	.pdata      start:0x821F88B8 end:0x821F88C0
 	.text       start:0x826EC518 end:0x826EC574
 
-auto_match/func_826EC578.c:
+auto_match/func_826EC578.cpp:
 	.text       start:0x826EC578 end:0x826EC5CC
 
 auto_match/func_826EC5D0.c:
@@ -126884,7 +126884,7 @@ XDK/xtl/graphics/xgraphics/ucode/compiler/opt/sched/func_82BB6190.c:
 	.pdata      start:0x822113B8 end:0x822113C0
 	.text       start:0x82BB6190 end:0x82BB61FC
 
-XDK/xtl/graphics/xgraphics/ucode/compiler/opt/sched/func_82BB6200.c:
+XDK/xtl/graphics/xgraphics/ucode/compiler/opt/sched/func_82BB6200.cpp:
 	.pdata      start:0x822113C0 end:0x822113C8
 	.text       start:0x82BB6200 end:0x82BB62E0
 
@@ -155740,7 +155740,7 @@ auto_match/func_82DFB9C8.c:
 auto_match/func_82DFBAC0.c:
 	.text       start:0x82DFBAC0 end:0x82DFBB00
 
-auto_match/func_82DFBB00.c:
+auto_match/func_82DFBB00.cpp:
 	.text       start:0x82DFBB00 end:0x82DFBB34
 
 auto_match/func_82DFBB38.c:
@@ -172957,11 +172957,11 @@ auto_match/func_82F69370.cpp:
 auto_match/func_82F69390.c:
 	.text       start:0x82F69390 end:0x82F69398
 
-auto_match/func_82F69398.c:
+auto_match/func_82F69398.cpp:
 	.pdata      start:0x82221810 end:0x82221818
 	.text       start:0x82F69398 end:0x82F6941C
 
-auto_match/func_82F69420.c:
+auto_match/func_82F69420.cpp:
 	.pdata      start:0x82221818 end:0x82221820
 	.text       start:0x82F69420 end:0x82F694D8
 

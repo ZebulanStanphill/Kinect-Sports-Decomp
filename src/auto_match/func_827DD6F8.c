@@ -1,40 +1,37 @@
-extern int fn_827D50B8();
-extern int fn_827D9ED0();
-extern int fn_82A1E810();
-extern int fn_82A29AC0();
+typedef struct Overlapped_827DD6F8 {
+    char pad0[0x10];
+    void *event;           /* 0x10, OVERLAPPED.hEvent */
+} Overlapped_827DD6F8;
 
+typedef struct Request_827DD6F8 {
+    void *file;            /* 0x00 */
+    void *op;              /* 0x04 */
+    char pad8[0x18 - 0x8];
+    unsigned int transferred;        /* 0x18 */
+    Overlapped_827DD6F8 *overlapped; /* 0x1c */
+} Request_827DD6F8;
 
-unsigned __int64 fn_827DD6F8(unsigned __int64 param_1,unsigned int *param_2)
+extern void *fn_827D9ED0(void *file);
+extern int fn_827D50B8(void *op);
+extern int fn_82A29AC0(void *handle, Overlapped_827DD6F8 *overlapped, unsigned int *transferred, int wait);
+extern unsigned int fn_82A1F470(void);
+extern int fn_82A1E810(void *handle);
 
+unsigned int fn_827DD6F8(void *self, Request_827DD6F8 *req)
 {
-  unsigned int uVar1;
-  int iVar4;
-  unsigned __int64 uVar2;
-  int iVar5;
-  unsigned __int64 uVar3;
-  
-  uVar1 = *param_2;
-  iVar5 = param_2[7];
-  iVar4 = fn_827D9ED0(uVar1);
-  if ((iVar4 == -1) ||
-     ((iVar4 = fn_827D50B8(param_2[1]), iVar4 != 0x3e5 &&
-      (iVar4 = fn_827D50B8(param_2[1]), iVar4 != 0x3e4)))) {
-    if (*(int *)(iVar5 + 0x10) != 0) {
-      fn_82A1E810();
-    }
-    uVar3 = 6;
-  }
-  else {
-    uVar2 = fn_827D9ED0(uVar1);
-    iVar5 = fn_82A29AC0(uVar2,iVar5,param_2 + 6,0);
-    if (iVar5 == 0) {
-      uVar3 = thunk_FUN_82a2b798();
-      uVar3 = -(unsigned __int64)(uVar3 != 0x26) & uVar3;
-    }
-    else {
-      uVar3 = 0;
-    }
-  }
-  return uVar3;
-}
+    void *file = req->file;
+    Overlapped_827DD6F8 *overlapped = req->overlapped;
+    unsigned int err;
 
+    if (fn_827D9ED0(file) != (void *)-1 &&
+        (fn_827D50B8(req->op) == 0x3e5 || fn_827D50B8(req->op) == 0x3e4)) {
+        if (fn_82A29AC0(fn_827D9ED0(file), overlapped, &req->transferred, 0) == 0) {
+            err = fn_82A1F470();
+            return err == 0x26 ? 0 : err;
+        }
+        return 0;
+    }
+    if (overlapped->event != 0)
+        fn_82A1E810(overlapped->event);
+    return 6;
+}

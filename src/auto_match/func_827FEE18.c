@@ -1,12 +1,15 @@
-void fn_827FEE18(int *param_1,unsigned int *param_2,unsigned int *param_3,unsigned int *param_4)
+typedef struct Body_827FEE18 {
+    char pad0[0x30];
+    float *position;        /* 0x30 */
+} Body_827FEE18;
 
+typedef struct Handle_827FEE18 {
+    Body_827FEE18 *body;    /* 0x0 */
+} Handle_827FEE18;
+
+void fn_827FEE18(Handle_827FEE18 *self, float *x, float *y, float *z)
 {
-  int iVar1;
-  
-  iVar1 = *param_1;
-  *param_2 = **(unsigned int **)(iVar1 + 0x30);
-  *param_3 = *(unsigned int *)(*(int *)(iVar1 + 0x30) + 4);
-  *param_4 = *(unsigned int *)(*(int *)(iVar1 + 0x30) + 8);
-  return;
+    *x = self->body->position[0];
+    *y = self->body->position[1];
+    *z = self->body->position[2];
 }
-

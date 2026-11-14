@@ -1,15 +1,9 @@
-__int64 fn_82CA6768(__int64 param_1,__int64 param_2)
-
+int fn_82CA6768(int value, int divisor)
 {
-  __int64 lVar1;
-  __int64 lVar2;
-  
-  lVar1 = 0;
-  do {
-    lVar2 = lVar1;
-    param_1 = param_1 - param_2;
-    lVar1 = lVar2 + 1;
-  } while (-1 < param_1);
-  return lVar2;
+    int n = 0;
+    do {
+        value -= divisor;
+        n++;
+    } while (value >= 0);
+    return n - 1;
 }
-

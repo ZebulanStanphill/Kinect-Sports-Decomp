@@ -1,23 +1,18 @@
-unsigned __int64 fn_82BBC038(int param_1,int param_2,int param_3)
+typedef struct {
+    char pad0[0x3d0];
+    int depth[0x10];
+    int order[0x10];
+} Linkage_82BBC038;
 
+int fn_82BBC038(Linkage_82BBC038 *self, int a, int b)
 {
-  int iVar1;
-  int iVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  
-  iVar1 = *(int *)((param_2 + 0xf4) * 4 + param_1);
-  iVar2 = *(int *)((param_3 + 0xf4) * 4 + param_1);
-  if (iVar2 <= iVar1) {
-    if (iVar2 < iVar1) {
-      return 1;
-    }
-    uVar3 = *(unsigned int *)((param_2 + 0x104) * 4 + param_1);
-    uVar4 = *(unsigned int *)((param_3 + 0x104) * 4 + param_1);
-    if ((int)uVar3 <= (int)uVar4) {
-      return ((~(unsigned __int64)(uVar4 ^ uVar3) & 0xffffffff) >> 0x1f) + (unsigned __int64)(uVar4 <= uVar3) & 1;
-    }
-  }
-  return 0xffffffffffffffff;
+    if (self->depth[a] < self->depth[b])
+        return -1;
+    if (self->depth[a] > self->depth[b])
+        return 1;
+    if (self->order[a] > self->order[b])
+        return -1;
+    if (self->order[a] < self->order[b])
+        return 1;
+    return 0;
 }
-

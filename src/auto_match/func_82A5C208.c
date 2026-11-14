@@ -1,38 +1,46 @@
-extern int fn_82A5C130();
-extern int fn_82A5C188();
+struct Sink_82A5C208;
+typedef struct SinkVt_82A5C208 {
+    void *pad[6];
+    void (*write)(struct Sink_82A5C208 *self, int a, void *data, int b);   /* 0x18 */
+    void *pad1c;
+    void (*begin)(struct Sink_82A5C208 *self, int a);                     /* 0x20 */
+    void (*end)(struct Sink_82A5C208 *self, int a);                       /* 0x24 */
+} SinkVt_82A5C208;
+typedef struct Sink_82A5C208 { SinkVt_82A5C208 *vt; } Sink_82A5C208;
 
+typedef struct Payload_82A5C208 { int a; int b; char data[8]; } Payload_82A5C208;
+typedef struct Msg_82A5C208 {
+    int pad0;
+    int pad4;
+    unsigned int kind;
+    int padc;
+    Payload_82A5C208 payload;
+} Msg_82A5C208;
+typedef struct Obj_82A5C208 { int pad0; Sink_82A5C208 *sink; } Obj_82A5C208;
 
-unsigned __int64 fn_82A5C208(int param_1,int param_2)
+extern void fn_82A5C130(Obj_82A5C208 *self, Msg_82A5C208 *msg);
+extern void fn_82A5C188(Obj_82A5C208 *self, Msg_82A5C208 *msg);
 
+int fn_82A5C208(Obj_82A5C208 *self, Msg_82A5C208 *msg)
 {
-  unsigned int uVar1;
-  int *piVar2;
-  int (**pcVar3)();
-  
-  uVar1 = *(unsigned int *)(param_2 + 8);
-  if (uVar1 == 0) {
-    fn_82A5C130();
-  }
-  else if (uVar1 == 1) {
-    fn_82A5C188();
-  }
-  else {
-    piVar2 = *(int **)(param_1 + 4);
-    if (uVar1 < 3) {
-      (**(int (***)())(*piVar2 + 0x18))
-                (piVar2,*(unsigned int *)(param_2 + 0x10),param_2 + 0x18,
-                 *(unsigned int *)(param_2 + 0x14));
+    switch (msg->kind) {
+    case 0:
+        fn_82A5C130(self, msg);
+        break;
+    case 1:
+        fn_82A5C188(self, msg);
+        break;
+    case 2: {
+        Payload_82A5C208 *p = &msg->payload;
+        self->sink->vt->write(self->sink, p->a, p->data, p->b);
+        break;
     }
-    else {
-      if (uVar1 == 3) {
-        pcVar3 = *(int (***)())(*piVar2 + 0x20);
-      }
-      else {
-        pcVar3 = *(int (***)())(*piVar2 + 0x24);
-      }
-      (*pcVar3)(piVar2,*(unsigned int *)(param_2 + 0x10));
+    case 3:
+        self->sink->vt->begin(self->sink, msg->payload.a);
+        break;
+    default:
+        self->sink->vt->end(self->sink, msg->payload.a);
+        break;
     }
-  }
-  return 0;
+    return 0;
 }
-

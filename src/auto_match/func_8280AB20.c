@@ -1,11 +1,9 @@
-extern float lbl_8201DFE0;
-extern unsigned int lbl_8201DFE8;
+extern double __fctid(double);
+extern double __fcfid(double);
 
-
-double fn_8280AB20(double param_1)
-
+/* wrap an angle to one turn: fractional part of x / (2*pi), times 2*pi */
+float fn_8280AB20(float x)
 {
-  return (double)(float)(((double)(float)(param_1 * (double)lbl_8201DFE8) -
-                         (double)(__int64)(param_1 * (double)lbl_8201DFE8)) * lbl_8201DFE0);
+    double turns = (float)(x * 0.15915494f);
+    return (float)((turns - __fcfid(__fctid(turns))) * (double)6.2831855f);
 }
-

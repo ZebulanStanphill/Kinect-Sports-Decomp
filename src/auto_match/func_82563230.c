@@ -1,29 +1,40 @@
-typedef unsigned char bool;
-#define false 0
-extern int fn_82552720();
+typedef struct Slot_82563230 {
+    char pad0[0x14];
+    int userData;           /* 0x14 */
+} Slot_82563230;
 
+typedef struct Owner_82563230 {
+    char pad0[0x38];
+    int disabled;           /* 0x38 */
+    char pad3c[0x4c - 0x3c];
+    char *system;           /* 0x4c */
+    char pad50[0xa30 - 0x50];
+    Slot_82563230 slots[9]; /* 0xa30 */
+} Owner_82563230;
 
-unsigned __int64 fn_82563230(int param_1,int param_2,int *param_3,unsigned __int64 param_4,unsigned int param_5)
+extern void fn_82552720(void *list, Slot_82563230 *slot, int *handle, Owner_82563230 *owner, int index, int arg, int flags);
 
+int fn_82563230(Owner_82563230 *self, int index, int *handle, int arg, int userData)
 {
-  int iVar1;
-  bool bVar2;
-  
-  if (*(int *)(param_1 + 0x38) == 0) {
-    if (param_3 == (int *)0x0) {
-      bVar2 = false;
-    }
-    else {
-      bVar2 = *param_3 != 0;
-    }
-    if (((bVar2) && (-1 < param_2)) && (param_2 < 9)) {
-      iVar1 = param_2 * 0x18 + param_1 + 0xa30;
-      fn_82552720((unsigned __int64)*(unsigned int *)(param_1 + 0x4c) + 0x84c,iVar1,param_3,param_1,param_2,
-                    param_4,0);
-      *(unsigned int *)(iVar1 + 0x14) = param_5;
-      return 1;
-    }
-  }
-  return 0;
-}
+    Slot_82563230 *slot;
+    char *system;
+    Slot_82563230 *slots;
+    int valid;
 
+    if (self->disabled == 0) {
+        system = self->system;
+        valid = handle != 0 ? *handle != 0 : 0;
+        if (valid) {
+            int inRange;
+            slots = self->slots;
+            inRange = index >= 0 && index < 9;
+            if (inRange) {
+                slot = &slots[index];
+                fn_82552720(system + 0x84c, slot, handle, self, index, arg, 0);
+                slot->userData = userData;
+                return 1;
+            }
+        }
+    }
+    return 0;
+}

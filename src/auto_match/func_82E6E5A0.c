@@ -1,22 +1,25 @@
-unsigned __int64 fn_82E6E5A0(int *param_1,int param_2,__int64 param_3,unsigned __int64 param_4,int param_5)
+typedef struct Stream_82E6E5A0 Stream_82E6E5A0;
+typedef struct {
+    void *slots[7];
+    long (*SetPosition)(Stream_82E6E5A0 *self, __int64 pos);
+} StreamVtbl_82E6E5A0;
+struct Stream_82E6E5A0 {
+    StreamVtbl_82E6E5A0 *vt;
+    int pad[5];
+    __int64 position;
+};
 
+long fn_82E6E5A0(Stream_82E6E5A0 *self, int origin, __int64 offset, int reserved, void *out)
 {
-  unsigned __int64 uVar1;
-  __int64 lVar2;
-  
-  if (param_5 == 0) {
-    return 0xffffffff80004003;
-  }
-  if ((param_2 != 0) && (param_2 != 1)) {
-    return 0xffffffff80070057;
-  }
-  lVar2 = param_3;
-  if ((param_2 != 0) && (lVar2 = 0, param_2 == 1)) {
-    lVar2 = *(__int64 *)(param_1 + 6) + param_3;
-  }
-                    /* WARNING: Could not recover jumptable at 0x82e6e604. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  uVar1 = (**(int (***)())(*param_1 + 0x1c))(param_1,lVar2);
-  return uVar1;
+    __int64 pos;
+    if (out == 0)
+        return 0x80004003;
+    if (origin != 0 && origin != 1)
+        return 0x80070057;
+    pos = 0;
+    if (origin == 0)
+        pos = offset;
+    else if (origin == 1)
+        pos = self->position + offset;
+    return self->vt->SetPosition(self, pos);
 }
-

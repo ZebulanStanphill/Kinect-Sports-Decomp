@@ -1,35 +1,35 @@
-extern unsigned int *auStack_230;
-extern int fn_82CFC050();
+struct Stream_82CFE538;
+struct StreamVtbl_82CFE538 {
+    void *slots[4];
+    int (*write)(struct Stream_82CFE538 *self, const void *data, int size);
+};
+struct Stream_82CFE538 { struct StreamVtbl_82CFE538 *vt; };
+struct Writer_82CFE538 { void *vt; int pad; struct Stream_82CFE538 *stream; unsigned char swap; };
 
+extern void fn_82CFC050(void *dst, const void *src, int size);
 
-void fn_82CFE538(int param_1,__int64 param_2,unsigned __int64 param_3)
-
+void fn_82CFE538(struct Writer_82CFE538 *self, const unsigned char *data, int size)
 {
-  int iVar1;
-  __int64 lVar2;
-  __int64 lVar3;
-  unsigned char auStack_230 [512];
-  
-  if (*(char *)(param_1 + 0xc) == '\0') {
-    (**(int (***)())(**(int **)(param_1 + 8) + 0x10))();
-  }
-  else {
-    iVar1 = (int)param_3;
-    lVar3 = 0x200;
-    lVar2 = param_3 + ((__int64)(iVar1 >> 9) + (unsigned __int64)(iVar1 < 0 && (param_3 & 0x1ff) != 0) &
-                      0x7fffff) * -0x200;
-    if (0 < iVar1) {
-      do {
-        if ((int)param_3 < 0x200) {
-          lVar3 = lVar2;
-        }
-        fn_82CFC050(auStack_230,param_2,lVar3);
-        (**(int (***)())(**(int **)(param_1 + 8) + 0x10))(*(int **)(param_1 + 8),auStack_230,lVar3);
-        param_3 = param_3 - lVar3;
-        param_2 = lVar3 + param_2;
-      } while (0 < (__int64)param_3);
-    }
-  }
-  return;
-}
+    unsigned char buffer[0x200];
+    int chunk;
+    int last;
+    int left;
+    const unsigned char *p;
 
+    if (!self->swap) {
+        self->stream->vt->write(self->stream, data, size);
+        return;
+    }
+    last = size % 0x200;
+    p = data;
+    left = size;
+    chunk = 0x200;
+    for (; left > 0; left -= chunk) {
+        if (left < 0x200) {
+            chunk = last;
+        }
+        fn_82CFC050(buffer, p, chunk);
+        self->stream->vt->write(self->stream, buffer, chunk);
+        p += chunk;
+    }
+}

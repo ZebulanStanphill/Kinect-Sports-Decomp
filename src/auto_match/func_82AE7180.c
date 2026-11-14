@@ -1,36 +1,30 @@
-#define true 1
-extern int fn_82ADEDB8();
-extern int fn_82AE5040();
-extern int fn_82AE5400();
+typedef struct Alloc_82AE7180 {
+    char pad0[0x8];
+    unsigned int used[8];   /* 0x8: bitmap */
+} Alloc_82AE7180;
 
+extern unsigned int fn_82AE5040(unsigned int *bits, unsigned int start);
+extern unsigned int fn_82AE5400(Alloc_82AE7180 *self, unsigned int start, int set, int step);
+extern void fn_82ADEDB8(Alloc_82AE7180 *self, unsigned int start, unsigned int count);
 
-void fn_82AE7180(unsigned __int64 param_1,__int64 param_2)
-
+void fn_82AE7180(void *unused, Alloc_82AE7180 *self)
 {
-  unsigned __int64 uVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned __int64 uVar4;
-  
-  uVar4 = 0;
-  while( true ) {
-    uVar2 = fn_82AE5040(param_2 + 8,uVar4 << 2);
-    if (uVar2 == 0xffffffff) {
-      return;
-    }
-    uVar2 = uVar2 >> 2;
-    if (uVar2 == 0xffffffff) break;
-    uVar3 = fn_82AE5400(param_2,(unsigned __int64)uVar2,1,4);
-    uVar4 = 0x100;
-    if (uVar3 != 0xffffffff) {
-      uVar4 = (unsigned __int64)(uVar3 >> 4);
-    }
-    uVar1 = (unsigned __int64)uVar2 & 0x3ffffffc;
-    fn_82ADEDB8(param_2,uVar1,(uVar4 + 3 & 0xfffffffc) - uVar1);
-    if (0xff < uVar4) {
-      return;
-    }
-  }
-  return;
-}
+    unsigned int pos = 0;
+    unsigned int next;
+    unsigned int bit;
+    unsigned int start;
+    unsigned int end;
 
+    do {
+        bit = fn_82AE5040(self->used, pos * 4);
+        if (bit == (unsigned int)-1)
+            return;
+        start = bit >> 2;
+        if (start == (unsigned int)-1)
+            return;
+        end = fn_82AE5400(self, start, 1, 4);
+        next = end == (unsigned int)-1 ? 0x100 : end >> 4;
+        fn_82ADEDB8(self, start & ~3, ((next + 3) & ~3) - (start & ~3));
+        pos = next;
+    } while (pos < 0x100);
+}

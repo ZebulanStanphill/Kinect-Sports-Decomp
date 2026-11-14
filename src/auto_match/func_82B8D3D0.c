@@ -1,41 +1,35 @@
-#define true 1
-extern int fn_82AF4968();
-extern int fn_82B8B8A0();
+typedef struct Node_82B8D3D0 {
+    char pad[0x24];
+    unsigned int parentLink;
+} Node_82B8D3D0;
 
+extern unsigned char fn_82AF4968(Node_82B8D3D0 *node, Node_82B8D3D0 *ancestor);
+extern void fn_82B8B8A0(void *self, Node_82B8D3D0 *a, Node_82B8D3D0 *b, unsigned char swapped, unsigned char slow);
 
-void fn_82B8D3D0(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5)
-
+static __forceinline unsigned char IsAncestor(Node_82B8D3D0 *node, Node_82B8D3D0 *ancestor)
 {
-  unsigned int uVar1;
-  char cVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  
-  do {
-    uVar4 = param_3;
-    uVar3 = uVar4;
-    if ((param_5 & 0xff) == 0) {
-      do {
-        uVar1 = *(unsigned int *)(((unsigned int)uVar3 & 0xfffffffe) + 0x24);
-        if (((uVar1 & 1) != 0) || (uVar3 = ((unsigned __int64)uVar1 & 0xfffffffe) - 0x28, uVar3 == 0)) {
-          cVar2 = '\0';
-          goto LAB_82b8d438;
-        }
-      } while ((uVar3 & 0xffffffff) != (param_2 & 0xffffffff));
-      cVar2 = '\x01';
-    }
-    else {
-      cVar2 = fn_82AF4968(uVar4,param_2);
-    }
-LAB_82b8d438:
-    if (cVar2 == '\0') {
-      fn_82B8B8A0(param_1,param_2,uVar4,param_4,param_5);
-      return;
-    }
-    param_4 = (unsigned __int64)((param_4 & 0xff) == 0);
-    param_3 = param_2;
-    param_2 = uVar4;
-  } while( true );
+    Node_82B8D3D0 *n = node;
+    do {
+        unsigned int link = ((Node_82B8D3D0 *)((unsigned int)n & ~1u))->parentLink;
+        if (link & 1)
+            return 0;
+        n = (Node_82B8D3D0 *)((link & ~1u) - 0x28);
+        if (n == 0)
+            return 0;
+    } while (n != ancestor);
+    return 1;
 }
 
+void fn_82B8D3D0(void *self, Node_82B8D3D0 *a, Node_82B8D3D0 *b, unsigned char swapped, unsigned char slow)
+{
+    unsigned char ok;
+    if (slow)
+        ok = fn_82AF4968(b, a);
+    else
+        ok = IsAncestor(b, a);
+    if (ok) {
+        fn_82B8D3D0(self, b, a, !swapped, slow);
+        return;
+    }
+    fn_82B8B8A0(self, a, b, swapped, slow);
+}

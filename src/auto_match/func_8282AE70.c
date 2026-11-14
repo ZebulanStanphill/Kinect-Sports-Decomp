@@ -1,18 +1,13 @@
-extern int fn_82F68B70();
+typedef struct Obj_8282AE70 { char pad[0x344]; char list[4]; } Obj_8282AE70;
 
+extern void fn_8282AD28(void);
+extern void fn_8282ADC8(void);
+extern void fn_8282D640(Obj_8282AE70 *self, void *list, void (*callback)(void), int arg);
 
-void fn_8282AE70(__int64 param_1,char param_2)
-
+void fn_8282AE70(Obj_8282AE70 *self, unsigned char enable)
 {
-  unsigned __int64 uVar1;
-  
-  if (param_2 == '\0') {
-    uVar1 = 0xffffffff8282ad28;
-  }
-  else {
-    uVar1 = 0xffffffff8282adc8;
-  }
-  fn_82F68B70(param_1,param_1 + 0x344,uVar1,0);
-  return;
+    if (enable)
+        fn_8282D640(self, self->list, fn_8282ADC8, 0);
+    else
+        fn_8282D640(self, self->list, fn_8282AD28, 0);
 }
-

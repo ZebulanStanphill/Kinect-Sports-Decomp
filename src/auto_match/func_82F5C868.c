@@ -1,21 +1,34 @@
-void fn_82F5C868(unsigned int *param_1,int param_2,unsigned int *param_3,unsigned int *param_4)
+/* vector<pair-of-ints>::erase(first, last): copy the tail down, destroy the rest (trivial). */
+typedef struct Pair_82F5C868 {
+    int first;
+    int second;
+} Pair_82F5C868;
 
+typedef struct Vector_82F5C868 {
+    Pair_82F5C868 *begin;   /* 0x0 */
+    Pair_82F5C868 *end;     /* 0x4 */
+} Vector_82F5C868;
+
+static __forceinline Pair_82F5C868 *Copy(Pair_82F5C868 *src, Pair_82F5C868 *end, Pair_82F5C868 *dst)
 {
-  unsigned int *puVar1;
-  
-  *param_1 = param_3;
-  if (param_3 == param_4) {
-    return;
-  }
-  puVar1 = *(unsigned int **)(param_2 + 4);
-  for (; param_4 != puVar1; param_4 = param_4 + 2) {
-    *param_3 = *param_4;
-    param_3[1] = param_4[1];
-    param_3 = param_3 + 2;
-  }
-  for (puVar1 = param_3; puVar1 != *(unsigned int **)(param_2 + 4); puVar1 = puVar1 + 2) {
-  }
-  *(unsigned int **)(param_2 + 4) = param_3;
-  return;
+    for (; src != end; ++dst, ++src)
+        *dst = *src;
+    return dst;
 }
+static __forceinline void Destroy(Pair_82F5C868 *p, Pair_82F5C868 *end)
+{
+    for (; p != end; ++p)
+        ;
+}
+Pair_82F5C868 **fn_82F5C868(Pair_82F5C868 **result, Vector_82F5C868 *v, Pair_82F5C868 *first, Pair_82F5C868 *last)
+{
+    Pair_82F5C868 *p;
 
+    *result = first;
+    if (first != last) {
+        p = Copy(last, v->end, first);
+        Destroy(p, v->end);
+        v->end = p;
+    }
+    return result;
+}

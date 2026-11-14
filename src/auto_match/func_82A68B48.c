@@ -1,26 +1,19 @@
-extern unsigned int lbl_8315F75C;
+extern void *lbl_8315F75C[];
 
-
-unsigned char * fn_82A68B48(int param_1,int param_2)
-
+static __forceinline int Depth(unsigned int bits)
 {
-  int iVar1;
-  
-  if (param_2 == 8) {
-    iVar1 = 0;
-  }
-  else if (param_2 == 0x10) {
-    iVar1 = 1;
-  }
-  else {
-    if (param_2 != 0x20) {
-      return (unsigned char *)0x0;
-    }
-    iVar1 = 2;
-  }
-  if ((param_1 != 1) && (param_1 != 2)) {
-    return (unsigned char *)0x0;
-  }
-  return (&lbl_8315F75C)[param_1 * 3 + iVar1 + -3];
+    if (bits == 8) return 0;
+    if (bits == 16) return 1;
+    if (bits == 32) return 2;
+    return -1;
 }
-
+/* table entry for channel count (1 or 2) and bit depth (8, 16, 32) */
+void *fn_82A68B48(unsigned int channels, unsigned int bits)
+{
+    int depth = Depth(bits);
+    if (depth < 0)
+        return 0;
+    if (channels != 1 && channels != 2)
+        return 0;
+    return lbl_8315F75C[channels * 3 + depth - 3];
+}

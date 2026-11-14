@@ -1,24 +1,25 @@
-extern unsigned int lbl_82192604;
+typedef struct State_82360BB0 {
+    char pad[0x1fc];
+    unsigned char enabled;
+    char pad1fd[3];
+    int mode;
+    char pad204[8];
+    float level;
+} State_82360BB0;
+typedef struct Owner_82360BB0 { char pad[0x194]; State_82360BB0 *state; } Owner_82360BB0;
+extern const float lbl_82192604;
 
-
-unsigned char fn_82360BB0(int param_1)
-
+unsigned char fn_82360BB0(Owner_82360BB0 *self)
 {
-  int iVar1;
-  int iVar2;
-  unsigned char uVar3;
-  
-  iVar1 = *(int *)(param_1 + 0x194);
-  if ((*(int *)(iVar1 + 0x200) != 5) && (lbl_82192604 < *(float *)(iVar1 + 0x20c))) {
-    return 1;
-  }
-  iVar2 = *(int *)(iVar1 + 0x200);
-  if (iVar2 == 5) {
-    uVar3 = 0;
-  }
-  else if (((iVar2 == 2) || (iVar2 == 3)) || (uVar3 = 1, iVar2 == 1)) {
-    uVar3 = *(unsigned char *)(iVar1 + 0x1fc);
-  }
-  return uVar3;
+    State_82360BB0 *s = self->state;
+    int r;
+    if (self->state->mode != 5 && s->level > lbl_82192604)
+        return 1;
+    if (s->mode == 5)
+        r = 0;
+    else if (s->mode == 2 || s->mode == 3 || s->mode == 1)
+        r = s->enabled;
+    else
+        r = 1;
+    return r;
 }
-

@@ -1,29 +1,35 @@
-unsigned __int64 fn_829A1750(int param_1,int param_2,unsigned int *param_3,unsigned int *param_4)
+typedef struct Device_829A1750 {
+    char pad0[0x28];
+    unsigned int count1;
+    char pad2c[0x3c - 0x2c];
+    unsigned int count3;
+} Device_829A1750;
 
+typedef struct Param_829A1750 {
+    char pad0[0x6e];
+    unsigned char index;
+    unsigned char kind;
+} Param_829A1750;
+
+long fn_829A1750(Device_829A1750 *dev, Param_829A1750 *param, unsigned int *index,
+                 unsigned int *kind)
 {
-  unsigned char bVar1;
-  char cVar2;
-  unsigned int uVar3;
-  
-  bVar1 = *(unsigned char *)(param_2 + 0x6e);
-  cVar2 = *(char *)(param_2 + 0x6f);
-  *param_3 = (unsigned int)bVar1;
-  if (cVar2 == '\x01') {
-    if (*(unsigned int *)(param_1 + 0x28) <= (unsigned int)bVar1) {
-      return 0xffffffff80004005;
-    }
-    uVar3 = 1;
-  }
-  else {
-    if (cVar2 != '\x03') {
-      return 0xffffffff80004005;
-    }
-    if (*(unsigned int *)(param_1 + 0x3c) <= (unsigned int)bVar1) {
-      return 0xffffffff80004005;
-    }
-    uVar3 = 3;
-  }
-  *param_4 = uVar3;
-  return 0;
-}
+    unsigned int i = param->index;
+    unsigned char k = param->kind;
+    unsigned int result;
 
+    *index = i;
+    if (k == 1) {
+        if (i >= dev->count1)
+            return 0x80004005;
+        result = 1;
+    } else if (k == 3) {
+        if (i >= dev->count3)
+            return 0x80004005;
+        result = 3;
+    } else {
+        return 0x80004005;
+    }
+    *kind = result;
+    return 0;
+}

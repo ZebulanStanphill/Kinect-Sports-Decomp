@@ -1,40 +1,38 @@
-extern int fn_82756F70();
-extern int fn_82775520();
-extern int fn_827A84D0();
+typedef struct Entry_82775B80 {
+    unsigned isShort : 1;
+    unsigned pad : 31;
+    unsigned int length;
+    unsigned int id;
+} Entry_82775B80;
 
+extern int fn_82756F70(void *self, Entry_82775B80 *entry);
+extern unsigned int fn_827A84D0(void *entry);
+extern void fn_82775520(void *self, char *name, unsigned int length, unsigned int data, unsigned int flag, int id);
 
-unsigned __int64 fn_82775B80(unsigned __int64 param_1,int *param_2,unsigned __int64 param_3)
-
+void *fn_82775B80(void *self, Entry_82775B80 *entry, unsigned int flag)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  unsigned int uVar3;
-  int iVar4;
-  
-  if ((param_3 & 0xffffffff) == 0) {
-    fn_82756F70(param_1);
-  }
-  else {
-    if (*param_2 < 0) {
-      uVar2 = (unsigned __int64)(unsigned int)param_2[2] & 0xffffff;
-      if (uVar2 == 0xffffff) {
-        uVar2 = 0xffffffffffffffff;
-      }
+    if (flag != 0) {
+        unsigned int length;
+        char *name;
+        int id;
+        unsigned int isShort = entry->isShort;
+        if (isShort) {
+            unsigned int v = entry->id & 0xffffff;
+            if (v == 0xffffff)
+                id = -1;
+            else
+                id = v;
+        } else {
+            id = entry->id;
+        }
+        if (isShort)
+            length = *((unsigned char *)entry + 0x1c);
+        else
+            length = entry->length;
+        if (isShort != 0) name = (char *)entry + 0x1e; else name = (char *)entry + 0x2a;
+        fn_82775520(self, name, length, fn_827A84D0(entry), flag, id);
+    } else {
+        fn_82756F70(self, entry);
     }
-    else {
-      uVar2 = (unsigned __int64)(unsigned int)param_2[2];
-    }
-    iVar4 = (int)param_2 + 0x1e;
-    if (*param_2 < 0) {
-      uVar3 = (unsigned int)*(unsigned char *)(param_2 + 7);
-    }
-    else {
-      uVar3 = param_2[1];
-      iVar4 = (int)param_2 + 0x2a;
-    }
-    uVar1 = fn_827A84D0(param_2);
-    fn_82775520(param_1,iVar4,uVar3,uVar1,param_3,uVar2);
-  }
-  return param_1;
+    return self;
 }
-

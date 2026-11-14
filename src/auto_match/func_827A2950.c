@@ -1,24 +1,36 @@
-extern int fn_82797D20();
-extern int fn_827A2850();
+typedef struct Owner_827A2950 {
+    char pad0[0x8];
+    void *target;          /* 0x8 */
+} Owner_827A2950;
 
+typedef struct Range_827A2950 {
+    char pad0[0x8];
+    Owner_827A2950 *owner;  /* 0x8 */
+    int active;             /* 0xc */
+    char pad10[0x68 - 0x10];
+    unsigned short flags;   /* 0x68 */
+} Range_827A2950;
 
-void fn_827A2950(int param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+extern void fn_827A2850(Range_827A2950 *self, unsigned int first, unsigned int last);
+extern void fn_82797D20(void *target, unsigned int first, unsigned int count);
 
+void fn_827A2950(Range_827A2950 *self, unsigned int first, unsigned int last)
 {
-  unsigned __int64 uVar1;
-  
-  if (*(int *)(param_1 + 0xc) != 0) {
-    uVar1 = param_3;
-    if ((param_3 & 0xffffffff) < (param_2 & 0xffffffff)) {
-      uVar1 = param_2;
-      param_2 = param_3;
-    }
-    fn_827A2850(param_1,param_2,uVar1);
-    if ((*(unsigned short *)(param_1 + 0x68) & 1) == 0) {
-      fn_82797D20(*(unsigned int *)(*(int *)(param_1 + 8) + 8),param_2,
-                        -(unsigned __int64)(param_2 <= uVar1) & uVar1 - param_2);
-    }
-  }
-  return;
-}
+    unsigned int t;
+    unsigned int count;
 
+    if (self->active == 0)
+        return;
+    if (last < first) {
+        t = last;
+        last = first;
+        first = t;
+    }
+    fn_827A2850(self, first, last);
+    if ((self->flags & 1) == 0) {
+        count = last - first;
+        if (last < first)
+            count = 0;
+        fn_82797D20(self->owner->target, first, count);
+    }
+}

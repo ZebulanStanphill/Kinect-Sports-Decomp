@@ -1,34 +1,32 @@
-unsigned __int64 fn_82BD3510(unsigned int *param_1,unsigned int param_2)
+typedef struct Desc_82BD3510 {
+    unsigned int flags;
+    unsigned int modes;
+} Desc_82BD3510;
 
+int fn_82BD3510(const Desc_82BD3510 *desc, unsigned int index)
 {
-  if ((*param_1 & 0x400000) == 0) {
-    if (param_2 == 0) {
-      return 0;
+    if (desc->flags & 0x400000) {
+        switch (index) {
+        case 0:
+            return desc->modes & 7;
+        case 1:
+            return (desc->modes >> 4) & 7;
+        case 2:
+            return (desc->modes >> 8) & 7;
+        case 3:
+            return (desc->modes >> 12) & 7;
+        }
+    } else {
+        switch (index) {
+        case 0:
+            return 0;
+        case 1:
+            return 1;
+        case 2:
+            return 2;
+        case 3:
+            return 3;
+        }
     }
-    if (param_2 == 1) {
-      return 1;
-    }
-    if (param_2 < 3) {
-      return 2;
-    }
-    if (param_2 == 3) {
-      return 3;
-    }
-  }
-  else {
-    if (param_2 == 0) {
-      return (unsigned __int64)param_1[1] & 7;
-    }
-    if (param_2 == 1) {
-      return (unsigned __int64)(param_1[1] >> 4) & 7;
-    }
-    if (param_2 < 3) {
-      return (unsigned __int64)(param_1[1] >> 8) & 7;
-    }
-    if (param_2 == 3) {
-      return (unsigned __int64)(param_1[1] >> 0xc) & 7;
-    }
-  }
-  return 0xffffffffffffffff;
+    return -1;
 }
-

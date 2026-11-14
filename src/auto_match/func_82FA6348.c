@@ -1,18 +1,6 @@
-extern int fn_82F68B7C();
+extern int fn_82F6E7A8(const char *format, ...);
 
-
-void fn_82FA6348(unsigned __int64 param_1,unsigned __int64 param_2,int param_3)
-
+void fn_82FA6348(void *ptr, unsigned int size, int used, void *user)
 {
-  unsigned __int64 uVar1;
-  
-  if (param_3 == 0) {
-    uVar1 = 0xffffffff8216cb64;
-  }
-  else {
-    uVar1 = 0xffffffff8216cb6c;
-  }
-  fn_82F68B7C(0xffffffff8216cb50,param_1,uVar1,param_2);
-  return;
+    fn_82F6E7A8("\t%p %s size: %x\n", ptr, used ? "used" : "free", size);
 }
-

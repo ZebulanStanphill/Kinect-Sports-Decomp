@@ -1,20 +1,16 @@
-int fn_826F3420(int param_1,unsigned __int64 param_2)
+struct Item_826F3420 { int pad[3]; unsigned char busy; };
+struct Inner_826F3420 { int pad[4]; int item; };
+struct Owner_826F3420 { int pad[2]; struct Inner_826F3420 *inner; };
 
+int fn_826F3420(struct Owner_826F3420 *self, unsigned int flags)
 {
-  int iVar1;
-  int iVar2;
-  
-  iVar2 = 0;
-  if ((param_2 & 0x80) != 0) {
-    return iVar2;
-  }
-  iVar1 = *(int *)(*(int *)(param_1 + 8) + 0x10);
-  if (iVar1 == 0) {
-    return iVar2;
-  }
-  if (*(char *)(iVar1 + 0xc) != '\0') {
-    return iVar2;
-  }
-  return iVar1;
+    int result = 0;
+    int item;
+    if ((flags & 0x80) == 0) {
+        item = self->inner->item;
+        if (item != 0 && ((struct Item_826F3420 *)item)->busy == 0) {
+            result = item;
+        }
+    }
+    return result;
 }
-

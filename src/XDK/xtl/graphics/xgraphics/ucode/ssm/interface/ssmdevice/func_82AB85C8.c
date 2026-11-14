@@ -1,28 +1,28 @@
-extern int fn_82AB15D0();
-extern int fn_82AB50D0();
-extern int fn_82AB5180();
+typedef struct {
+    char pad0[0x48];
+    void *objects;
+    unsigned int CurrentKey;
+} SSMDevice_82AB85C8;
 
+extern void fn_82AB15D0(int level, const char *fmt, ...);
+extern void *fn_82AB50D0(void *objects, unsigned int key);
+extern void fn_82AB5180(void *objects, unsigned int key);
 
-void fn_82AB85C8(int param_1,int param_2)
+#define SSM_NULL 0
+#define ASSERT(e, line) if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\interface\\ssmdevice.cpp", line)
 
+void fn_82AB85C8(SSMDevice_82AB85C8 *pSSMDev, void *handle)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  
-  uVar2 = 0;
-  iVar1 = 0;
-  if (param_2 != 0) {
-    do {
-      if ((unsigned __int64)*(unsigned int *)(param_1 + 0x4c) < (uVar2 & 0xffffffff)) break;
-      uVar2 = uVar2 + 1;
-      iVar1 = fn_82AB50D0(*(unsigned int *)(param_1 + 0x48),uVar2);
-    } while (iVar1 != param_2);
-    if (((iVar1 != 0) && ((uVar2 & 0xffffffff) != 0)) &&
-       ((uVar2 & 0xffffffff) <= (unsigned __int64)*(unsigned int *)(param_1 + 0x4c))) goto LAB_82ab8650;
-  }
-  fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d7054,0xffffffff820d7090,0x282);
-LAB_82ab8650:
-  fn_82AB5180(*(unsigned int *)(param_1 + 0x48),uVar2);
-  return;
+    unsigned int key = 0;
+    void *hObj = SSM_NULL;
+    if (handle != SSM_NULL) {
+        do {
+            if (key > pSSMDev->CurrentKey)
+                break;
+            key++;
+            hObj = fn_82AB50D0(pSSMDev->objects, key);
+        } while (hObj != handle);
+    }
+    ASSERT(hObj != SSM_NULL && key > 0 && key <= pSSMDev->CurrentKey, 0x282);
+    fn_82AB5180(pSSMDev->objects, key);
 }
-

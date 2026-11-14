@@ -1,41 +1,49 @@
-extern int fn_82AB15D0();
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
 
+#define TT_ASSERT(e, line) \
+    if (!(e)) fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, \
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\util\\ternary.cpp", line)
 
-unsigned __int64 fn_82B9F338(int *param_1,unsigned int *param_2,unsigned int *param_3,unsigned int *param_4)
+typedef struct TNode_82B9F338 {
+    unsigned int key;
+    struct TNode_82B9F338 *lo;
+    struct TNode_82B9F338 *hi;
+    struct TNode_82B9F338 *eq;
+} TNode_82B9F338;
 
+typedef struct Tree_82B9F338 {
+    TNode_82B9F338 *root;
+} Tree_82B9F338;
+
+/* look up a key string of count words; on success *out is the node after the last word */
+int fn_82B9F338(Tree_82B9F338 *pTree, const unsigned int *keys, unsigned int count, TNode_82B9F338 **out)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  unsigned int *puVar3;
-  
-  puVar3 = (unsigned int *)0x0;
-  if (param_1 == (int *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820dddb8,0xffffffff820dddc0,0x2ab);
-  }
-  puVar1 = (unsigned int *)*param_1;
-  puVar2 = param_3;
-  if (puVar1 != (unsigned int *)0x0) {
-    while (puVar2 != (unsigned int *)0x0) {
-      if (*param_2 == *puVar1) {
-        puVar3 = (unsigned int *)((int)puVar3 + 1);
-        puVar1 = (unsigned int *)puVar1[3];
-        param_2 = param_2 + 1;
-        puVar2 = puVar1;
-        if (puVar3 == param_3) {
-          *param_4 = (unsigned int)puVar1;
-          return 1;
+    int found = 0;
+    unsigned int i = 0;
+    TNode_82B9F338 *node;
+    const unsigned int *key;
+    TT_ASSERT(pTree, 0x2ab);
+    node = pTree->root;
+    if (node == 0)
+        return 0;
+    if (count == 0)
+        return 0;
+    key = keys;
+    do {
+        if (*key == node->key) {
+            i++;
+            node = node->eq;
+            key++;
+            if (i == count) {
+                found = 1;
+                *out = node;
+                break;
+            }
+        } else if (*key < node->key) {
+            node = node->lo;
+        } else {
+            node = node->hi;
         }
-      }
-      else if (*param_2 < *puVar1) {
-        puVar1 = (unsigned int *)puVar1[1];
-        puVar2 = puVar1;
-      }
-      else {
-        puVar1 = (unsigned int *)puVar1[2];
-        puVar2 = puVar1;
-      }
-    }
-  }
-  return 0;
+    } while (node != 0);
+    return found;
 }
-

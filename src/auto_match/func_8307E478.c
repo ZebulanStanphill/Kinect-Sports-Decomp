@@ -1,12 +1,16 @@
-unsigned int fn_8307E478(int param_1,int param_2)
+struct Info_8307E478 {
+    int pad0[2];
+    unsigned int pad1 : 1;
+    unsigned int kind : 5;
+    unsigned int pad2 : 26;
+};
+struct Elem_8307E478 { struct Info_8307E478 info; char pad[0x34]; struct Info_8307E478 *external; char pad2[0x1c]; };
+struct Table_8307E478 { int pad0; unsigned int flags; struct Elem_8307E478 *elems; };
 
+unsigned int fn_8307E478(struct Table_8307E478 *self, int index)
 {
-  int iVar1;
-  
-  iVar1 = param_2 * 0x60 + *(int *)(param_1 + 8);
-  if ((*(unsigned int *)(param_1 + 4) & 0x20000) != 0) {
-    return *(unsigned int *)(iVar1 + 8) >> 0x1a & 0x1f;
-  }
-  return *(unsigned int *)(*(int *)(iVar1 + 0x40) + 8) >> 0x1a & 0x1f;
+    if (self->flags & 0x20000) {
+        return self->elems[index].info.kind;
+    }
+    return self->elems[index].external->kind;
 }
-

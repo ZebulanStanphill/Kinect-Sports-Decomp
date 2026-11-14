@@ -1,18 +1,11 @@
-extern int fn_829C90F0();
-extern int fn_82F5E0A0();
-extern int fn_82F5E1B8();
+extern unsigned char fn_82F5E0A0(void *self, unsigned int *state);
+extern int fn_829C90F0(unsigned int a, unsigned int b, unsigned int c);
+extern unsigned char fn_82F5E1B8(void *self, unsigned int *state);
 
-
-unsigned char fn_82F5E290(unsigned __int64 param_1,unsigned int *param_2)
-
+unsigned char fn_82F5E290(void *self, unsigned int *state)
 {
-  unsigned char bVar2;
-  int iVar1;
-  unsigned char bVar3;
-  
-  bVar2 = fn_82F5E0A0();
-  iVar1 = fn_829C90F0(0,0,*param_2);
-  bVar3 = fn_82F5E1B8(param_1,param_2);
-  return bVar3 & bVar2 & 1 & iVar1 == 0;
+    unsigned char ok = fn_82F5E0A0(self, state) & 1;
+    ok &= fn_829C90F0(0, 0, *state) == 0;
+    ok &= fn_82F5E1B8(self, state);
+    return ok;
 }
-

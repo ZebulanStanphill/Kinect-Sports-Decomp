@@ -1,46 +1,25 @@
-void fn_82B4DE28(int *param_1,unsigned __int64 param_2)
+typedef struct Link_82B4DE28 {
+    unsigned int next;      /* 0x0: tagged pointer, bit 0 = end */
+    unsigned int flags;     /* 0x4 */
+} Link_82B4DE28;
 
+typedef struct Item_82B4DE28 {
+    int pad;
+    unsigned int next;      /* 0x4: its link starts here */
+    void *data;             /* 0x8 */
+} Item_82B4DE28;
+
+typedef struct Iter_82B4DE28 {
+    Link_82B4DE28 *link;    /* 0x0 */
+    Item_82B4DE28 *item;    /* 0x4 */
+    void *data;             /* 0x8 */
+} Iter_82B4DE28;
+
+extern void fn_82B4B1D8(Iter_82B4DE28 *it, unsigned int n);
+
+void fn_82B4DE28(Iter_82B4DE28 *it, unsigned int n)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  int iVar3;
-  
-  if ((((unsigned int *)*param_1)[1] & 1) == 0) {
-    iVar3 = (*(unsigned int *)*param_1 & 0xfffffffe) - 4;
-  }
-  else {
-    iVar3 = 0;
-  }
-  param_1[1] = iVar3;
-  if (iVar3 == 0) {
-    iVar3 = 0;
-  }
-  else {
-    iVar3 = *(int *)(iVar3 + 8);
-  }
-  param_1[2] = iVar3;
-  if ((param_2 & 0xffffffff) == 0) {
-    return;
-  }
-  do {
-    if (param_1[2] == 0) {
-      if ((*(unsigned int *)(param_1[1] & 0xfffffffe) & 1) == 0) {
-        iVar3 = (*(unsigned int *)(param_1[1] & 0xfffffffe) & 0xfffffffe) - 4;
-      }
-      else {
-        iVar3 = 0;
-      }
-      param_1[1] = iVar3;
-      param_1[2] = *(int *)(iVar3 + 8);
-    }
-    uVar1 = param_1[2];
-    uVar2 = param_2;
-    if ((unsigned __int64)uVar1 <= (param_2 & 0xffffffff)) {
-      uVar2 = (unsigned __int64)uVar1;
-    }
-    param_2 = param_2 - uVar2;
-    param_1[2] = uVar1 - (int)uVar2;
-  } while (param_2 != 0);
-  return;
+    it->item = (it->link->flags & 1) ? 0 : (Item_82B4DE28 *)((it->link->next & ~1u) - 4);
+    it->data = it->item ? it->item->data : 0;
+    fn_82B4B1D8(it, n);
 }
-

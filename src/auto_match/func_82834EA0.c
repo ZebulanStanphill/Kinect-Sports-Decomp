@@ -1,22 +1,27 @@
-void fn_82834EA0(unsigned int *param_1,int param_2,unsigned int *param_3,unsigned int *param_4)
+typedef struct { int a, b, c; } Elem_82834EA0;
+typedef struct { Elem_82834EA0 *first; Elem_82834EA0 *last; } Vec_82834EA0;
+typedef struct { Elem_82834EA0 *ptr; } Iter_82834EA0;
 
+static __forceinline Elem_82834EA0 *Copy(Elem_82834EA0 *s, Elem_82834EA0 *e, Elem_82834EA0 *d)
 {
-  unsigned int *puVar1;
-  
-  *param_1 = param_3;
-  if (param_3 == param_4) {
-    return;
-  }
-  puVar1 = *(unsigned int **)(param_2 + 4);
-  for (; param_4 != puVar1; param_4 = param_4 + 3) {
-    *param_3 = *param_4;
-    param_3[1] = param_4[1];
-    param_3[2] = param_4[2];
-    param_3 = param_3 + 3;
-  }
-  for (puVar1 = param_3; puVar1 != *(unsigned int **)(param_2 + 4); puVar1 = puVar1 + 3) {
-  }
-  *(unsigned int **)(param_2 + 4) = param_3;
-  return;
+    for (; s != e; s++, d++)
+        *d = *s;
+    return d;
 }
 
+static __forceinline void Destroy(Elem_82834EA0 *p, Elem_82834EA0 *e)
+{
+    for (; p != e; p++)
+        ;
+}
+
+Iter_82834EA0 *fn_82834EA0(Iter_82834EA0 *out, Vec_82834EA0 *v, Elem_82834EA0 *first, Elem_82834EA0 *last)
+{
+    out->ptr = first;
+    if (first != last) {
+        Elem_82834EA0 *p = Copy(last, v->last, first);
+        Destroy(p, v->last);
+        v->last = p;
+    }
+    return out;
+}

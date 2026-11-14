@@ -1,26 +1,29 @@
-unsigned __int64 fn_82FB2590(int param_1,int param_2,unsigned int *param_3)
+struct Entry_82FB2590 { unsigned int key; unsigned int value; };
+struct Table_82FB2590 { char pad[0xb8]; struct Entry_82FB2590 *first; struct Entry_82FB2590 *last; int pad2[2]; unsigned int defaultKey; };
 
+static __forceinline unsigned int *Find(struct Table_82FB2590 *self, unsigned int key)
 {
-  int *piVar1;
-  int *piVar2;
-  unsigned int *puVar3;
-  int *piVar4;
-  
-  piVar1 = *(int **)(param_1 + 0xbc);
-  piVar4 = *(int **)(param_1 + 0xb8);
-  for (piVar2 = piVar4; (piVar2 != piVar1 && (*piVar2 != param_2)); piVar2 = piVar2 + 2) {
-  }
-  puVar3 = (unsigned int *)(-(unsigned int)(piVar1 != piVar2) & (unsigned int)(piVar2 + 1));
-  if (puVar3 == (unsigned int *)0x0) {
-    for (; (piVar4 != piVar1 && (*piVar4 != *(int *)(param_1 + 200))); piVar4 = piVar4 + 2) {
+    struct Entry_82FB2590 *e = self->first;
+    struct Entry_82FB2590 *end = self->last;
+    for (; e != end && e->key != key; e++) {
     }
-    puVar3 = (unsigned int *)(-(unsigned int)(piVar1 != piVar4) & (unsigned int)(piVar4 + 1));
-    if (puVar3 == (unsigned int *)0x0) {
-      *param_3 = 0;
-      return 0x39;
-    }
-  }
-  *param_3 = *puVar3;
-  return 1;
+    return (e != end) != 0 ? &e->value : 0;
 }
 
+int fn_82FB2590(struct Table_82FB2590 *self, unsigned int key, unsigned int *out)
+{
+    unsigned int *value = Find(self, key);
+    unsigned int fallback;
+    if (value != 0) {
+        *out = *value;
+        return 1;
+    }
+    fallback = self->defaultKey;
+    value = Find(self, fallback);
+    if (value != 0) {
+        *out = *value;
+        return 1;
+    }
+    *out = 0;
+    return 0x39;
+}

@@ -1,36 +1,43 @@
-typedef unsigned char bool;
-#define true 1
+typedef struct Slot_82814560 {
+    int pad0;
+    void *owner;            /* 0x4 */
+    char pad8[0x14 - 0x8];
+} Slot_82814560;
 
+typedef struct Info_82814560 {
+    char pad0[0x51];
+    unsigned char count;    /* 0x51 */
+    char pad52[0x58 - 0x52];
+    Slot_82814560 slots[2]; /* 0x58 */
+} Info_82814560;
 
-void fn_82814560(int param_1,int param_2)
+typedef struct Object_82814560 {
+    char pad0[0x1c];
+    Info_82814560 *info;    /* 0x1c */
+    char pad20[0x30 - 0x20];
+    unsigned char (*entries)[0x21]; /* 0x30: packed records, owner at +0xd */
+} Object_82814560;
 
+int fn_82814560(Object_82814560 *self, void *owner)
 {
-  bool bVar1;
-  int iVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  
-  bVar1 = param_2 == param_1;
-  iVar2 = *(int *)(param_1 + 0x1c);
-  uVar4 = iVar2 + 0x58;
-  while ((uVar4 < iVar2 + 0x80U && (!bVar1))) {
-    if (param_2 == *(int *)(uVar4 + 4)) {
-      bVar1 = true;
-    }
-    uVar4 = uVar4 + 0x14;
-  }
-  uVar4 = *(unsigned int *)(param_1 + 0x30);
-  uVar3 = (unsigned int)*(unsigned char *)(iVar2 + 0x51) * 0x21 + uVar4;
-  while( true ) {
-    if (uVar3 <= uVar4) {
-      return;
-    }
-    if (bVar1) break;
-    if (param_2 == *(int *)(uVar4 + 0xd)) {
-      bVar1 = true;
-    }
-    uVar4 = uVar4 + 0x21;
-  }
-  return;
-}
+    int found = 0;
+    Info_82814560 *info;
+    Slot_82814560 *slot;
+    Slot_82814560 *end;
+    unsigned char (*e)[0x21];
 
+    if (owner == self)
+        found = 1;
+    info = self->info;
+    slot = info->slots;
+    end = slot + 2;
+    for (; slot < end && !found; slot++) {
+        if (owner == slot->owner)
+            found = 1;
+    }
+    for (e = self->entries; e < self->entries + info->count && !found; e++) {
+        if (owner == *(void **)(*e + 0xd))
+            found = 1;
+    }
+    return found;
+}

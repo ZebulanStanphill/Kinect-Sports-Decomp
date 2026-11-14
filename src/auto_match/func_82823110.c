@@ -1,24 +1,21 @@
-extern unsigned int lbl_8320A778;
+typedef struct Node {
+    struct Node *parent;
+    struct Node *left;
+    struct Node *right;
+} Node;
 
+extern Node *lbl_8320A778;
 
-void fn_82823110(int param_1,int *param_2)
-
+void fn_82823110(Node *n, Node **out)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  
-  iVar2 = lbl_8320A778;
-  do {
-    iVar3 = param_1;
-    iVar1 = *(int *)(iVar3 + 8);
-    *param_2 = iVar1;
-    if (iVar1 == iVar2) {
-      *param_2 = 0;
+    Node *nil = lbl_8320A778;
+    for (;;) {
+        *out = n->right;
+        if (*out == nil)
+            *out = 0;
+        if (*out == 0)
+            break;
+        n = *out;
     }
-    param_1 = *param_2;
-  } while (*param_2 != 0);
-  *param_2 = iVar3;
-  return;
+    *out = n;
 }
-

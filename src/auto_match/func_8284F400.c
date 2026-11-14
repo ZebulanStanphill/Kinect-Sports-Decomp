@@ -1,25 +1,21 @@
-extern unsigned int lbl_821AAD20;
+typedef struct Object_8284F400 {
+    char pad0[0x8c];
+    float fraction;
+    char pad90[0xb0 - 0x90];
+    float length;
+} Object_8284F400;
 
-
-double fn_8284F400(int param_1)
-
+float fn_8284F400(Object_8284F400 *self)
 {
-  double dVar1;
-  double dVar2;
-  double dVar3;
-  
-  dVar3 = (double)*(float *)(param_1 + 0xb0);
-  dVar2 = (double)lbl_821AAD20;
-  if (dVar3 == dVar2) {
-    return dVar2;
-  }
-  dVar1 = (double)(float)((double)*(float *)(param_1 + 0x8c) * dVar3);
-  if (dVar1 < dVar2) {
-    dVar1 = dVar2;
-  }
-  if (dVar3 <= dVar1) {
-    dVar1 = dVar3;
-  }
-  return dVar1;
-}
+    float length = self->length;
+    float value;
 
+    if (length == 0.0f)
+        return 0.0f;
+    value = self->fraction * length;
+    if (value < 0.0f)
+        value = 0.0f;
+    if (value >= length)
+        value = length;
+    return value;
+}

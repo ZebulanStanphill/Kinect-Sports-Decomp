@@ -1,32 +1,38 @@
-unsigned __int64 fn_82994310(int *param_1,int param_2,unsigned int *param_3,unsigned int *param_4)
+typedef struct Reader_82994310 Reader_82994310;
+typedef struct {
+    char pad0[0x70];
+    unsigned int (*getType)(Reader_82994310 *self, unsigned int token);
+    unsigned int (*getNumber)(Reader_82994310 *self, unsigned int token);
+} ReaderVtbl_82994310;
+struct Reader_82994310 {
+    ReaderVtbl_82994310 *vt;
+    char pad4[0x28 - 4];
+    unsigned int numTemps;
+};
+typedef struct {
+    char pad0[0x6c];
+    unsigned int token;
+} Instr_82994310;
 
+int fn_82994310(Reader_82994310 *self, Instr_82994310 *instr, unsigned int *number, unsigned int *file)
 {
-  int iVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  
-  iVar1 = (**(int (***)())(*param_1 + 0x70))(param_1,*(unsigned int *)(param_2 + 0x6c));
-  uVar2 = (**(int (***)())(*param_1 + 0x74))(param_1,*(unsigned int *)(param_2 + 0x6c));
-  *param_3 = uVar2;
-  if (iVar1 == 0xb) {
-    if ((unsigned int)param_1[10] <= uVar2) {
-      return 0xffffffff80004005;
+    unsigned int type = self->vt->getType(self, instr->token);
+    unsigned int n = self->vt->getNumber(self, instr->token);
+    unsigned int f;
+    *number = n;
+    if (type == 0xb) {
+        if (n >= self->numTemps)
+            return 0x80004005;
+        f = 1;
+    } else if (type == 6) {
+        if (n >= 8)
+            return 0x80004005;
+        f = 3;
+    } else if (type == 0xffff) {
+        f = 0;
+    } else {
+        return 0x80004005;
     }
-    uVar3 = 1;
-  }
-  else if (iVar1 == 6) {
-    if (7 < uVar2) {
-      return 0xffffffff80004005;
-    }
-    uVar3 = 3;
-  }
-  else {
-    if (iVar1 != 0xffff) {
-      return 0xffffffff80004005;
-    }
-    uVar3 = 0;
-  }
-  *param_4 = uVar3;
-  return 0;
+    *file = f;
+    return 0;
 }
-

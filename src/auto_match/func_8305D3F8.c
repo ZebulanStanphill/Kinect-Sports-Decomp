@@ -1,28 +1,39 @@
-int fn_8305D3F8(int param_1,int param_2)
+typedef struct Node_8305D3F8 {
+    char pad0[0x2c];
+    struct Node_8305D3F8 *parent;
+    struct Node_8305D3F8 *next;
+    struct Node_8305D3F8 *child;
+} Node_8305D3F8;
 
+typedef struct Tree_8305D3F8 {
+    int pad0;
+    Node_8305D3F8 *root;
+} Tree_8305D3F8;
+
+Node_8305D3F8 *fn_8305D3F8(Tree_8305D3F8 *self, Node_8305D3F8 *node)
 {
-  int iVar1;
-  int iVar2;
-  
-  if (param_2 != 0) {
-    iVar2 = *(int *)(param_2 + 0x34);
-    if ((iVar2 != 0) || (iVar2 = *(int *)(param_2 + 0x30), iVar2 != 0)) {
-      return iVar2;
+    Node_8305D3F8 *parent;
+    Node_8305D3F8 **link;
+    if (node == 0) {
+        return 0;
     }
-    if (*(int *)(param_2 + 0x2c) != 0) {
-      do {
-        if (param_2 == *(int *)(param_1 + 4)) {
-          return 0;
-        }
-        iVar2 = *(int *)(param_2 + 0x2c);
-        iVar1 = *(int *)(iVar2 + 0x30);
-        if ((iVar1 != 0) && (iVar1 != param_2)) {
-          return iVar1;
-        }
-        param_2 = iVar2;
-      } while (*(int *)(iVar2 + 0x2c) != 0);
+    if (node->child != 0) {
+        return node->child;
     }
-  }
-  return 0;
+    if (node->next != 0) {
+        return node->next;
+    }
+    link = &node->parent;
+    while (node->parent != 0) {
+        if (node == self->root) {
+            return 0;
+        }
+        parent = *link;
+        if (parent->next != 0 && parent->next != node) {
+            return parent->next;
+        }
+        node = parent;
+        link = &node->parent;
+    }
+    return 0;
 }
-

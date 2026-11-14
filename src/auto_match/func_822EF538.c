@@ -1,25 +1,21 @@
-unsigned __int64 fn_822EF538(int *param_1)
+typedef struct StreamBuf_822EF538 StreamBuf_822EF538;
 
+typedef struct StreamBufVtbl_822EF538 {
+    void *slots[7];
+    int (*uflow)(StreamBuf_822EF538 *self);    /* 0x1c */
+} StreamBufVtbl_822EF538;
+
+struct StreamBuf_822EF538 {
+    StreamBufVtbl_822EF538 *vt;  /* 0x00 */
+    char pad4[0x20 - 0x4];
+    unsigned char **next;        /* 0x20 */
+    char pad24[0x30 - 0x24];
+    int *count;                  /* 0x30 */
+};
+
+static __forceinline int Gnavail(StreamBuf_822EF538 *self) { return *self->next != 0 ? *self->count : 0; }
+static __forceinline unsigned char *Gninc(StreamBuf_822EF538 *self) { --*self->count; return (*self->next)++; }
+int fn_822EF538(StreamBuf_822EF538 *self)
 {
-  unsigned char *pbVar1;
-  unsigned __int64 uVar2;
-  int iVar3;
-  
-  if (*(int *)param_1[8] == 0) {
-    iVar3 = 0;
-  }
-  else {
-    iVar3 = *(int *)param_1[0xc];
-  }
-  if (0 < iVar3) {
-    *(int *)param_1[0xc] = *(int *)param_1[0xc] + -1;
-    pbVar1 = *(unsigned char **)param_1[8];
-    *(unsigned char **)param_1[8] = pbVar1 + 1;
-    return (unsigned __int64)*pbVar1;
-  }
-                    /* WARNING: Could not recover jumptable at 0x822ef594. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  uVar2 = (**(int (***)())(*param_1 + 0x1c))();
-  return uVar2;
+    return 0 < Gnavail(self) ? *Gninc(self) : self->vt->uflow(self);
 }
-

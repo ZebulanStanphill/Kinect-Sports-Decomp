@@ -1,17 +1,13 @@
-unsigned __int64 fn_82A05D20(int param_1,int param_2,int param_3)
+typedef struct Entry_82A05D20 { unsigned int flags; char pad[0x1ec]; } Entry_82A05D20;
+typedef struct Obj_82A05D20 { char pad[0x4f0]; Entry_82A05D20 entries[1]; } Obj_82A05D20;
 
+static __forceinline int GetMode(Obj_82A05D20 *o, int i) { if (o->entries[i].flags & 3) return 1; return 2; }
+
+int fn_82A05D20(Obj_82A05D20 *self, int a, int b)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  
-  uVar1 = (unsigned int)LZCOUNT(*(unsigned int *)(param_2 * 0x1f0 + param_1 + 0x4f0) & 3) >> 5;
-  uVar2 = (unsigned int)LZCOUNT(*(unsigned int *)(param_3 * 0x1f0 + param_1 + 0x4f0) & 3) >> 5;
-  if ((uVar1 == 1) || (uVar2 == 1)) {
-    return 2;
-  }
-  if ((uVar1 != 0) && (uVar2 != 0)) {
+    int ma = GetMode(self, a);
+    int mb = GetMode(self, b);
+    if (ma == 2 || mb == 2) return 2;
+    if (ma == 1 || mb == 1) return 1;
     return 0;
-  }
-  return 1;
 }
-

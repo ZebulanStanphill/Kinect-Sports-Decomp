@@ -1,50 +1,20 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern unsigned int lbl_8200571C;
+struct List_82773E60 { void *items; unsigned int count; };
+struct Cursor_82773E60 { struct List_82773E60 *list; int pad; int index; float offset; unsigned char done; };
 
+extern unsigned char fn_827A87F0(struct List_82773E60 *list, int index, float offset);
 
-unsigned __int64 fn_82773E60(int *param_1)
-
+static __forceinline unsigned char IsInvalid(struct Cursor_82773E60 *c)
 {
-  int *piVar1;
-  int *piVar2;
-  unsigned int uVar3;
-  bool bVar4;
-  
-  piVar1 = (int *)*param_1;
-  if (((piVar1 == (int *)0x0) || ((unsigned int)piVar1[1] <= (unsigned int)param_1[2])) ||
-     (bVar4 = false, param_1[2] < 0)) {
-    bVar4 = true;
-  }
-  if (bVar4) {
-    return 0;
-  }
-  if (*(char *)(param_1 + 4) != '\0') {
-    return 1;
-  }
-  uVar3 = param_1[2];
-  piVar2 = *(int **)(uVar3 * 4 + *piVar1);
-  if (uVar3 == piVar1[5]) {
-    bVar4 = ((float)piVar1[9] - (float)piVar1[7]) + lbl_8200571C <
-            (float)(__int64)piVar2[4] + (float)param_1[3];
-  }
-  else {
-    if (uVar3 <= (unsigned int)piVar1[5]) {
-      return 0;
-    }
-    if (*piVar2 < 0) {
-      uVar3 = (unsigned int)*(unsigned short *)((int)piVar2 + 0x16);
-    }
-    else {
-      uVar3 = piVar2[6];
-    }
-    bVar4 = ((float)piVar1[9] - (float)piVar1[7]) + lbl_8200571C <
-            (float)(__int64)(int)(uVar3 + piVar2[4]) + (float)param_1[3];
-  }
-  if (bVar4) {
-    return 0;
-  }
-  return 1;
+    return c->list == 0 || (unsigned int)c->index >= c->list->count || c->index < 0;
 }
 
+unsigned char fn_82773E60(struct Cursor_82773E60 *self)
+{
+    if (!IsInvalid(self)) {
+        if (self->done) {
+            return 1;
+        }
+        return fn_827A87F0(self->list, self->index, self->offset);
+    }
+    return 0;
+}

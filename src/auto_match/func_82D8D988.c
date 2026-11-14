@@ -1,33 +1,34 @@
-extern unsigned int iStack_30;
-extern unsigned int uStack_28;
-extern unsigned int uStack_2c;
+struct Listener_82D8D988;
+typedef struct ListenerVt_82D8D988 {
+    void *dtor;
+    void (*handle)(struct Listener_82D8D988 *self, void *event);
+} ListenerVt_82D8D988;
+typedef struct Listener_82D8D988 { ListenerVt_82D8D988 *vt; } Listener_82D8D988;
 
+typedef struct Obj_82D8D988 {
+    char pad[0x8c];
+    Listener_82D8D988 **listeners;
+    int count;
+} Obj_82D8D988;
 
-void fn_82D8D988(int param_1,unsigned int param_2,unsigned char param_3)
+typedef struct Event_82D8D988 {
+    Obj_82D8D988 *source;
+    unsigned int value;
+    unsigned char flag;
+} Event_82D8D988;
 
+void fn_82D8D988(Obj_82D8D988 *self, unsigned int value, unsigned char flag)
 {
-  int *piVar1;
-  unsigned __int64 uVar2;
-  __int64 lVar3;
-  int iStack_30;
-  unsigned int uStack_2c;
-  unsigned char uStack_28;
-  
-  uVar2 = (unsigned __int64)*(unsigned int *)(param_1 + 0x90) - 1;
-  if (-1 < (__int64)uVar2) {
-    lVar3 = (uVar2 & 0x3fffffff) << 2;
-    iStack_30 = param_1;
-    uStack_2c = param_2;
-    uStack_28 = param_3;
-    do {
-      piVar1 = *(int **)(*(int *)(param_1 + 0x8c) + (int)lVar3);
-      if (piVar1 != (int *)0x0) {
-        (**(int (***)())(*piVar1 + 4))(piVar1,&iStack_30);
-      }
-      uVar2 = uVar2 - 1;
-      lVar3 = lVar3 + -4;
-    } while (-1 < (__int64)uVar2);
-  }
-  return;
-}
+    Event_82D8D988 event;
+    int i;
 
+    event.value = value;
+    event.source = self;
+    event.flag = flag;
+    for (i = self->count - 1; i >= 0; i--) {
+        if (self->listeners[i] != 0) {
+            Listener_82D8D988 *l = self->listeners[i];
+            l->vt->handle(l, &event);
+        }
+    }
+}

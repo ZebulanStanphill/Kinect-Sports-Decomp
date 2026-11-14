@@ -1,41 +1,40 @@
-extern unsigned int *auStack_40;
-extern int fn_82CE5410();
-extern int fn_82D81240();
+typedef struct Entity_82D9D100 { char pad[0xd0]; signed char quality; } Entity_82D9D100;
+typedef struct World_82D9D100 World_82D9D100;
+typedef struct Owner_82D9D100 {
+    char pad0[0x18];
+    World_82D9D100 *world;
+    char pad1c[0x2c];
+    Entity_82D9D100 **entities;
+    int count;
+} Owner_82D9D100;
 
+typedef struct Listener_82D9D100 Listener_82D9D100;
+typedef struct ListenerVtbl_82D9D100 {
+    void *slots[9];
+    unsigned char (*onRemoved)(Listener_82D9D100 *self, void *arg);
+} ListenerVtbl_82D9D100;
+struct Listener_82D9D100 { ListenerVtbl_82D9D100 *vt; };
+typedef struct Context_82D9D100 { char pad[0x10]; Listener_82D9D100 *listener; } Context_82D9D100;
 
-void fn_82D9D100(int param_1,int param_2,unsigned __int64 param_3,int *param_4)
+extern unsigned char *fn_82D81240(unsigned char *ret, World_82D9D100 *world, Entity_82D9D100 *entity);
+extern Context_82D9D100 *fn_82CE5410(void);
 
+/* remove every entity of at least minQuality (stopping when the listener refuses); track the highest quality kept */
+void fn_82D9D100(Owner_82D9D100 *self, int minQuality, void *arg, int *maxQuality)
 {
-  int iVar1;
-  char cVar2;
-  unsigned __int64 uVar3;
-  __int64 lVar4;
-  unsigned char auStack_40 [1];
-  
-  uVar3 = (unsigned __int64)*(unsigned int *)(param_1 + 0x4c) - 1;
-  if (-1 < (__int64)uVar3) {
-    lVar4 = (uVar3 & 0x3fffffff) << 2;
-    do {
-      cVar2 = *(char *)(*(int *)(*(int *)(param_1 + 0x48) + (int)lVar4) + 0xd0);
-      if (cVar2 < param_2) {
-        iVar1 = (int)cVar2;
-        if ((int)cVar2 < *param_4) {
-          iVar1 = *param_4;
+    int i;
+    for (i = self->count - 1; i >= 0; i--) {
+        Entity_82D9D100 *e = self->entities[i];
+        int q = e->quality;
+        if (q >= minQuality) {
+            unsigned char removed;
+            Listener_82D9D100 *l;
+            fn_82D81240(&removed, self->world, e);
+            l = fn_82CE5410()->listener;
+            if (!l->vt->onRemoved(l, arg))
+                return;
+        } else {
+            *maxQuality = *maxQuality > q ? *maxQuality : q;
         }
-        *param_4 = iVar1;
-      }
-      else {
-        fn_82D81240(auStack_40,*(unsigned int *)(param_1 + 0x18));
-        iVar1 = fn_82CE5410();
-        cVar2 = (**(int (***)())(**(int **)(iVar1 + 0x10) + 0x24))(*(int **)(iVar1 + 0x10),param_3);
-        if (cVar2 == '\0') {
-          return;
-        }
-      }
-      uVar3 = uVar3 - 1;
-      lVar4 = lVar4 + -4;
-    } while (-1 < (__int64)uVar3);
-  }
-  return;
+    }
 }
-
