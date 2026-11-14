@@ -72362,7 +72362,7 @@
         ]
       },
       "auto_match/func_825C7348.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
