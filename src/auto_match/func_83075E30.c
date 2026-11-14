@@ -1,14 +1,12 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern V16 vectorSplatImmediateSignedWord128();
-extern V16 vectorUnpackD3D128();
-extern void *memcpy(void *, const void *, unsigned int);
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vspltisw(int value);
+__vector4 __vupkd3d(__vector4 v, int type);
+__vector4 __vpermwi(__vector4 v, int control);
 
-void fn_83075E30(void)
-
+__vector4 fn_83075E30(void)
 {
-  unsigned char auVar1 [16];{ V16 _vt0 = vectorSplatImmediateSignedWord128(0); memcpy(auVar1, &_vt0, 16); }
-  vectorUnpackD3D128(auVar1,4);
-  return;
+    return __vpermwi(__vupkd3d(__vspltisw(0), 1), 171);
 }
-

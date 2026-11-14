@@ -1,9 +1,9 @@
-__int64 fn_828207F8(int param_1)
+typedef struct Obj_828207F8 {
+    char pad[0x39];
+    unsigned char state;
+} Obj_828207F8;
 
+int fn_828207F8(Obj_828207F8 *self)
 {
-  __int64 lVar1;
-  
-  lVar1 = (unsigned __int64)*(unsigned char *)(param_1 + 0x39) - 1;
-  return lVar1 - (((unsigned __int64)*(unsigned char *)(param_1 + 0x39) - 2) + (unsigned __int64)(lVar1 == 0));
+    return self->state != 1;
 }
-

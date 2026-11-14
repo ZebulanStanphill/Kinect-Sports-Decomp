@@ -1,6 +1,4 @@
-__int64 fn_82E21BB0(unsigned __int64 param_1,unsigned __int64 param_2,__int64 param_3)
-
+int fn_82E21BB0(int a, int b, int n)
 {
-  return (int)param_3 / 1000 + param_3 + 0x10;
+    return n / 1000 + n + 0x10;
 }
-

@@ -1,18 +1,10 @@
-void fn_82D3C570(unsigned __int64 param_1,unsigned __int64 param_2,int param_3)
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vxor(__vector4 a, __vector4 b);
+
+void fn_82D3C570(void *self, void *unused, __vector4 *v)
 {
-  unsigned int *puVar1;
-  int in_r0;
-  unsigned int in_register_000100d0;
-  unsigned int in_register_000100d4;
-  unsigned int in_register_000100d8;
-  unsigned int in_vr13;
-  
-  puVar1 = (unsigned int *)(in_r0 + param_3 & 0xfffffff0);
-  *puVar1 = in_register_000100d0;
-  puVar1[1] = in_register_000100d4;
-  puVar1[2] = in_register_000100d8;
-  puVar1[3] = in_vr13;
-  return;
+    *v = __vxor(*v, *v);
 }
-

@@ -1,21 +1,13 @@
-void fn_8306D678(int param_1)
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Obj_8306D678 {
+    char pad0[0x1a50];
+    __vector4 value; /* 0x1a50 */
+} Obj_8306D678;
+
+void fn_8306D678(__vector4 *out, Obj_8306D678 *self)
 {
-  unsigned int *puVar1;
-  int in_r0;
-  unsigned char in_vs36 [16];
-  unsigned char in_vs43 [16];
-  unsigned int in_register_000103f0;
-  unsigned int in_register_000103f4;
-  unsigned int in_register_000103f8;
-  unsigned int in_vr63;
-  
-  altv207_13(in_vs36,in_vs43);
-  puVar1 = (unsigned int *)(in_r0 + param_1 & 0xfffffff0);
-  *puVar1 = in_register_000103f0;
-  puVar1[1] = in_register_000103f4;
-  puVar1[2] = in_register_000103f8;
-  puVar1[3] = in_vr63;
-  return;
+    *out = self->value;
 }
-

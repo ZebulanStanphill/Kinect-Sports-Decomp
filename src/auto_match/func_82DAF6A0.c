@@ -1,14 +1,17 @@
-extern int fn_82DADE90();
-extern int fn_82DBBDA8();
+typedef struct Inner_82DAF6A0 {
+    int f0;
+    int f4;
+    void *obj;
+} Inner_82DAF6A0;
 
+typedef struct Arg_82DAF6A0 {
+    char pad[0x14];
+    Inner_82DAF6A0 *inner;
+} Arg_82DAF6A0;
 
-void fn_82DAF6A0(unsigned __int64 param_1,int param_2)
+extern void fn_82D8EA98(void *obj);
 
+void fn_82DAF6A0(void *self, Arg_82DAF6A0 *arg)
 {
-  if (*(int *)(*(int *)(*(int *)(param_2 + 0x14) + 8) + 0x148) != 0) {
-    fn_82DADE90();
-  }
-  fn_82DBBDA8(param_2);
-  return;
+    fn_82D8EA98(arg->inner->obj);
 }
-

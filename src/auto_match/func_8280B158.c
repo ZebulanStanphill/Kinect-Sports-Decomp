@@ -1,17 +1,8 @@
-void fn_8280B158(int param_1,int param_2)
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+void fn_8280B158(char *base, int offset, __vector4 value)
 {
-  unsigned int *puVar1;
-  unsigned int in_register_00010010;
-  unsigned int in_register_00010014;
-  unsigned int in_register_00010018;
-  unsigned int in_vr1;
-  
-  puVar1 = (unsigned int *)(param_1 + param_2 & 0xfffffff0);
-  *puVar1 = in_register_00010010;
-  puVar1[1] = in_register_00010014;
-  puVar1[2] = in_register_00010018;
-  puVar1[3] = in_vr1;
-  return;
+    *(__vector4 *)(base + offset) = value;
 }
-

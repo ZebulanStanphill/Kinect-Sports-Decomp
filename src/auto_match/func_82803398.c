@@ -1,17 +1,12 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern V16 vectorShiftLeft();
-extern V16 vectorShiftLeftByOctet();
-extern V16 vectorSubtractUnsignedWordModulo();
-extern void *memcpy(void *, const void *, unsigned int);
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vslo(__vector4 a, __vector4 b);
+__vector4 __vsl(__vector4 a, __vector4 b);
+__vector4 __vsubuwm(__vector4 a, __vector4 b);
 
-void fn_82803398(void)
-
+__vector4 fn_82803398(__vector4 shift, __vector4 v)
 {
-  unsigned char auVar1 [16];
-  unsigned char in_vs33 [16];
-  unsigned char in_vs34 [16];{ V16 _vt0 = vectorShiftLeftByOctet(in_vs34,in_vs33); memcpy(auVar1, &_vt0, 16); }{ V16 _vt1 = vectorShiftLeft(auVar1,in_vs33); memcpy(auVar1, &_vt1, 16); }
-  vectorSubtractUnsignedWordModulo(auVar1,in_vs34);
-  return;
+    return __vsubuwm(__vsl(__vslo(v, shift), shift), v);
 }
-

@@ -1,11 +1,6 @@
-extern double sqrt(double);
-#define SQRT(x) sqrt(x)
-extern unsigned int lbl_82002AE0;
+#include <math.h>
 
-
-double fn_83025620(double param_1)
-
+float fn_83025620(float x)
 {
-  return (double)SQRT(-(float)(param_1 * param_1 - (double)lbl_82002AE0));
+    return sqrtf(1.0f - x * x);
 }
-

@@ -1,13 +1,6 @@
-extern int fn_8262F658();
+extern void fn_8265C990(void *p, unsigned int flags);
 
-
-void fn_82E23B80(unsigned __int64 param_1)
-
+void fn_82E23B80(void *p)
 {
-  int (**pcVar1)();
-  
-  pcVar1 = (int (**)())fn_8262F658();
-  (*pcVar1)(param_1,0x208c804d);
-  return;
+    fn_8265C990(p, 0x208C804D);
 }
-

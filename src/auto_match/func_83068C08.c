@@ -1,7 +1,6 @@
-unsigned __int64 fn_83068C08(int param_1)
+typedef struct Obj_83068C08 { char pad[0x8]; int count; } Obj_83068C08;
 
+int fn_83068C08(Obj_83068C08 *self)
 {
-  return (-(unsigned __int64)*(unsigned int *)(param_1 + 8) & ~(unsigned __int64)*(unsigned int *)(param_1 + 8) & 0xffffffff) >>
-         0x1f;
+    return self->count > 0;
 }
-

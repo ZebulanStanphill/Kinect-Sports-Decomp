@@ -1,6 +1,4 @@
-unsigned int fn_8265D5A8(unsigned int param_1)
-
+unsigned int fn_8265D5A8(unsigned int value)
 {
-  return param_1;
+    return value;
 }
-

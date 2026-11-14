@@ -1,20 +1,8 @@
-void fn_82DB0B38(int param_1)
+typedef struct Obj_82DB0B38 { char pad[0x50]; char sub[0x19]; unsigned char flag; } Obj_82DB0B38;
+extern void fn_82CEA480(void *sub);
 
+void fn_82DB0B38(Obj_82DB0B38 *self)
 {
-  __int64 lVar1;
-  int iVar2;
-  
-  *(unsigned char *)(param_1 + 0x69) = 0;
-  lVar1 = (unsigned __int64)*(unsigned int *)(param_1 + 0x58) + 1;
-  if (lVar1 != 0) {
-    iVar2 = 0;
-    do {
-      *(unsigned int *)(iVar2 + *(int *)(param_1 + 0x50)) = 0xffffffff;
-      iVar2 = iVar2 + 8;
-      lVar1 = lVar1 + -1;
-    } while (lVar1 != 0);
-  }
-  *(unsigned int *)(param_1 + 0x54) = *(unsigned int *)(param_1 + 0x54) & 0x80000000;
-  return;
+    self->flag = 0;
+    fn_82CEA480(self->sub);
 }
-

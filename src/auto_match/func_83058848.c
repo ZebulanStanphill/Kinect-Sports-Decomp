@@ -1,9 +1,4 @@
-double fn_83058848(double param_1,double param_2)
-
+float fn_83058848(float a, float b)
 {
-  if ((float)(param_1 - param_2) < 0.0) {
-    param_1 = param_2;
-  }
-  return param_1;
+    return a - b >= 0.0f ? a : b;
 }
-

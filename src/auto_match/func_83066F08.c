@@ -1,11 +1,4 @@
-extern unsigned int lbl_820F9280;
-
-
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
-
-double fn_83066F08(double param_1)
-
+float fn_83066F08(float x)
 {
-  return (double)(float)(param_1 * (double)lbl_820F9280);
+    return x * 4.76837158203125e-07f;
 }
-

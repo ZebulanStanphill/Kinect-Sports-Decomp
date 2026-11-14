@@ -1,11 +1,4 @@
-typedef unsigned char bool;
-
-
-bool fn_82314130(void)
-
+int fn_82314130(void *a, void *b, void *c, void *d)
 {
-  __int64 in_r6;
-  
-  return in_r6 != 0;
+    return d != 0;
 }
-

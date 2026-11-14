@@ -1,13 +1,12 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern int fn_82F68B7C();
-extern V16 vectorSplatImmediateSignedHalfWord();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vspltish(int value);
 
-void fn_82CC6078(unsigned __int64 param_1,unsigned __int64 param_2)
+extern void fn_82CC5DC8(void *p, int a, __vector4 v);
 
+void fn_82CC6078(void *self, void *p)
 {
-  vectorSplatImmediateSignedHalfWord(1);
-  fn_82F68B7C(param_2,0);
-  return;
+    fn_82CC5DC8(p, 0, __vspltish(1));
 }
-

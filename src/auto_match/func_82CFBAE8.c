@@ -1,16 +1,10 @@
-typedef unsigned char bool;
-extern int fn_82A2B760();
+typedef struct Obj_82CFBAE8 {
+    void *handle;
+} Obj_82CFBAE8;
 
+extern int fn_82A2A618(void *handle, void *arg, int flag);
 
-bool fn_82CFBAE8(unsigned int *param_1,unsigned __int64 param_2)
-
+int fn_82CFBAE8(Obj_82CFBAE8 *self, void *arg)
 {
-  int iVar1;
-  
-  iVar1 = NtReleaseSemaphore(*param_1,param_2,0);
-  if (iVar1 < 0) {
-    fn_82A2B760();
-  }
-  return iVar1 >= 0;
+    return fn_82A2A618(self->handle, arg, 0);
 }
-

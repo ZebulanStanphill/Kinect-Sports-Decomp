@@ -1,22 +1,12 @@
-extern int fn_8289F160();
-extern unsigned int uStack_20;
+typedef struct Obj_828B0488 {
+    char pad[0x10];
+    void *b;
+    void *a;
+} Obj_828B0488;
 
+extern void fn_8289F350(void *a, void *b);
 
-unsigned int fn_828B0488(int param_1)
-
+void fn_828B0488(Obj_828B0488 *self)
 {
-  int iVar1;
-  unsigned int uVar2;
-  unsigned int uStack_20;
-  int aiStack_1c [3];
-  
-  uStack_20 = *(unsigned int *)(param_1 + 0x10);
-  iVar1 = *(int *)(param_1 + 0x14);
-  fn_8289F160(aiStack_1c,iVar1 + 0x21c,&uStack_20);
-  uVar2 = 0;
-  if (aiStack_1c[0] != *(int *)(iVar1 + 0x220)) {
-    uVar2 = *(unsigned int *)(aiStack_1c[0] + 0x10);
-  }
-  return uVar2;
+    fn_8289F350(self->a, self->b);
 }
-

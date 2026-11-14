@@ -1,12 +1,15 @@
-void fn_827F94D8(int param_1,int param_2,unsigned int *param_3)
+typedef struct Entry_827F94D8 {
+    char data[0x34];
+} Entry_827F94D8;
 
+typedef struct Obj_827F94D8 {
+    char pad0[0x8];
+    Entry_827F94D8 *entries; /* 0x8 */
+} Obj_827F94D8;
+
+extern void fn_82810360(Entry_827F94D8 *entry, void *out);
+
+void fn_827F94D8(Obj_827F94D8 *self, int index, void *out)
 {
-  unsigned int *puVar1;
-  
-  puVar1 = (unsigned int *)(param_2 * 0x34 + *(int *)(param_1 + 8));
-  *param_3 = *puVar1;
-  param_3[1] = puVar1[1];
-  param_3[2] = puVar1[2];
-  return;
+    fn_82810360(&self->entries[index], out);
 }
-

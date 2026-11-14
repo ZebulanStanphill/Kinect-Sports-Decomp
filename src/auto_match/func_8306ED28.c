@@ -1,14 +1,9 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern V16 vectorAddFloatingPoint();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
+__vector4 __vaddfp(__vector4 a, __vector4 b);
 
-
-void fn_8306ED28(void)
-
+__vector4 fn_8306ED28(__vector4 a, __vector4 b)
 {
-  unsigned char in_vs33 [16];
-  unsigned char in_vs34 [16];
-  
-  vectorAddFloatingPoint(in_vs33,in_vs34);
-  return;
+    return __vaddfp(a, b);
 }
-

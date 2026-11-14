@@ -1,7 +1,6 @@
-void fn_828000E0(int param_1,unsigned short param_2)
+extern void fn_82800C68(void *p, unsigned short value);
 
+void fn_828000E0(char *self, int value)
 {
-  *(unsigned short *)(param_1 + 0xb8) = param_2;
-  return;
+    fn_82800C68(self + 0xa4, (unsigned short)value);
 }
-

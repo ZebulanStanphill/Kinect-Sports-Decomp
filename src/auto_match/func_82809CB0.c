@@ -1,6 +1,6 @@
-double fn_82809CB0(double param_1)
+double fabs(double);
 
+float fn_82809CB0(float x)
 {
-  return ABS(param_1);
+    return (float)fabs(x);
 }
-

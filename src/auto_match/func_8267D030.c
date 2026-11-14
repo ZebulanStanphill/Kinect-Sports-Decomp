@@ -1,6 +1,6 @@
-unsigned __int64 fn_8267D030(int param_1)
+typedef struct Obj_8267D030 { char pad[0x1c]; int count; } Obj_8267D030;
 
+int fn_8267D030(Obj_8267D030 *self)
 {
-  return (-(unsigned __int64)*(unsigned int *)(param_1 + 0x1c) & ~(unsigned __int64)*(unsigned int *)(param_1 + 0x1c) & 0xffffffff
-         ) >> 0x1f;
+    return self->count > 0;
 }

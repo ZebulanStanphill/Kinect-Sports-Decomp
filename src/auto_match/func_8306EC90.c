@@ -1,10 +1,12 @@
-void fn_8306EC90(void)
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __lvlx(const void *base, int offset);
+__vector4 __vspltw(__vector4 v, unsigned int i);
+
+__vector4 fn_8306EC90(float value)
 {
-  unsigned char in_vs32 [16];
-  unsigned char in_vs43 [16];
-  
-  altv300_21(in_vs32,in_vs43);
-  return;
+    __vector4 v = __lvlx(&value, 0);
+    return __vspltw(v, 0);
 }
-

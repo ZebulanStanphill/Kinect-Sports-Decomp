@@ -1,14 +1,6 @@
-void fn_83059A38(double param_1,double param_2,double param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5,float *param_6)
+double __fsel(double a, double b, double c);
 
+void fn_83059A38(float a, float b, float *out, float c)
 {
-  double dVar1;
-  
-  dVar1 = (double)*param_6;
-  if ((float)(param_2 - param_1) < 0.0) {
-    dVar1 = param_3;
-  }
-  *param_6 = (float)dVar1;
-  return;
+    *out = (float)__fsel(b - a, *out, c);
 }
-

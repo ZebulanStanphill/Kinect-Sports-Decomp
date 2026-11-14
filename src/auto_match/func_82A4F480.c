@@ -1,8 +1,12 @@
-/* WARNING: Removing unreachable block (ram,0x82a68c34) */
+typedef struct Obj_82A4F480 {
+    int unk0;
+    unsigned short unit;  /* 0x4 */
+    unsigned short value; /* 0x6 */
+} Obj_82A4F480;
 
-void fn_82A4F480(void)
+extern unsigned int fn_82A68BE8(unsigned short value, unsigned short unit, unsigned int size, unsigned int *padding);
 
+unsigned int fn_82A4F480(Obj_82A4F480 *self, unsigned int size)
 {
-  return;
+    return fn_82A68BE8(self->value, self->unit, size, 0);
 }
-

@@ -1,17 +1,14 @@
-void fn_82F53928(int param_1,int param_2)
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Entry_82F53928 {
+    char pad0[0x10];
+    __vector4 value; /* 0x10 */
+    char pad20[0x30];
+} Entry_82F53928;
+
+void fn_82F53928(Entry_82F53928 *entries, int index, __vector4 value)
 {
-  unsigned int *puVar1;
-  unsigned int in_register_00010010;
-  unsigned int in_register_00010014;
-  unsigned int in_register_00010018;
-  unsigned int in_vr1;
-  
-  puVar1 = (unsigned int *)(param_2 * 0x50 + param_1 + 0x10U & 0xfffffff0);
-  *puVar1 = in_register_00010010;
-  puVar1[1] = in_register_00010014;
-  puVar1[2] = in_register_00010018;
-  puVar1[3] = in_vr1;
-  return;
+    entries[index].value = value;
 }
-

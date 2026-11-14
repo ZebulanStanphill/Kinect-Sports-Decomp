@@ -1,22 +1,14 @@
-void fn_8232BAF8(int param_1,int param_2)
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct { __vector4 v; } Vec_8232BAF8;
+typedef struct Data_8232BAF8 { char pad[0x90]; __vector4 v; } Data_8232BAF8;
+typedef struct Obj_8232BAF8 { char pad[4]; Data_8232BAF8 *data; } Obj_8232BAF8;
+
+Vec_8232BAF8 fn_8232BAF8(Obj_8232BAF8 *self)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int in_r0;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  
-  puVar1 = (unsigned int *)(*(int *)(param_2 + 4) + 0x90U & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (unsigned int *)(in_r0 + param_1 & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  return;
+    Vec_8232BAF8 r;
+    r.v = self->data->v;
+    return r;
 }
-

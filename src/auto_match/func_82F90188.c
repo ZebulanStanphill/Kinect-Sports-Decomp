@@ -1,6 +1,4 @@
-unsigned int fn_82F90188(unsigned int param_1)
-
+void *fn_82F90188(void *first, void *last, void *alloc)
 {
-  return param_1;
+    return first;
 }
-

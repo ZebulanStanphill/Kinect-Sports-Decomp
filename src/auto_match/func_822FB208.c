@@ -1,40 +1,16 @@
-extern int fn_822B83D0();
-extern int fn_8255FD70();
-extern int fn_8265CA20();
-extern int fn_82F68B74();
-extern unsigned int lbl_821CA460;
-extern unsigned int lbl_83265A28;
-extern unsigned int uStack_30;
+typedef struct Obj_822FB208 {
+    char pad[0x88];
+    void *target;
+} Obj_822FB208;
 
+extern void fn_822FB2C8(Obj_822FB208 *self);
+extern void fn_822FB3B8(Obj_822FB208 *self);
 
-void fn_822FB208(int param_1)
-
+void fn_822FB208(Obj_822FB208 *self)
 {
-  int iVar1;
-  int iVar2;
-  unsigned int *puVar3;
-  unsigned __int64 uStack_30;
-  
-  if (*(int *)(param_1 + 0x88) != 0) {
-    puVar3 = (unsigned int *)(param_1 + 0x78);
-    if (0xf < *(unsigned int *)(param_1 + 0x8c)) {
-      puVar3 = (unsigned int *)*puVar3;
+    if (self->target != 0) {
+        fn_822FB2C8(self);
+    } else {
+        fn_822FB3B8(self);
     }
-    fn_8255FD70(&uStack_30,**(unsigned int **)(param_1 + 0x58),puVar3);
-    iVar2 = (((unsigned __int64)(uStack_30) >> 0) & 0xFFFFFFFF);
-    lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
-    iVar1 = (int)((float)(__int64)((((unsigned __int64)(uStack_30) >> 32) & 0xFFFFFFFF) - (((unsigned __int64)(uStack_30) >> 0) & 0xFFFFFFFF) >> 2) *
-                 ((float)(lbl_83265A28 & 0x7fffff | 0x3f800000) - lbl_821CA460));
-    puVar3 = (unsigned int *)(iVar1 * 4 + (((unsigned __int64)(uStack_30) >> 0) & 0xFFFFFFFF));
-    uStack_30 = (__int64)iVar1;
-    fn_822B83D0(*(unsigned int *)(param_1 + 0x54),*puVar3);
-    *(unsigned int *)(param_1 + 0x94) = 1;
-    if (iVar2 != 0) {
-      fn_8265CA20(iVar2);
-    }
-    return;
-  }
-  fn_82F68B74();
-  return;
 }
-

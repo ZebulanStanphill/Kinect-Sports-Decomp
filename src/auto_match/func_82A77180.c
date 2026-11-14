@@ -1,9 +1,10 @@
-unsigned int fn_82A77180(int param_1,int param_2)
+typedef struct Obj_82A77180 { char pad[0x104]; int value; } Obj_82A77180;
+extern int fn_82CE4720(Obj_82A77180 *self);
 
+int fn_82A77180(Obj_82A77180 *self, unsigned int which)
 {
-  if (param_2 == 0) {
-    return *(unsigned int *)(param_1 + 0x60);
-  }
-  return *(unsigned int *)(param_1 + 0x104);
+    if (which == 0) {
+        return fn_82CE4720(self);
+    }
+    return self->value;
 }
-

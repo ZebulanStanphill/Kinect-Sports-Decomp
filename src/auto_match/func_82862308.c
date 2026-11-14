@@ -1,12 +1,17 @@
-void fn_82862308(int param_1,int param_2,unsigned int *param_3)
+typedef struct Obj_82862308 {
+    char pad[0x54];
+    char *base;
+} Obj_82862308;
 
+typedef struct Ref_82862308 {
+    int f0;
+    int f4;
+    int offset;
+} Ref_82862308;
+
+extern void fn_82810360(void *out, char *src);
+
+void fn_82862308(Obj_82862308 *self, Ref_82862308 *ref, void *out)
 {
-  unsigned int *puVar1;
-  
-  puVar1 = (unsigned int *)(*(int *)(param_1 + 0x54) + *(int *)(param_2 + 8));
-  *puVar1 = *param_3;
-  puVar1[1] = param_3[1];
-  puVar1[2] = param_3[2];
-  return;
+    fn_82810360(out, self->base + ref->offset);
 }
-

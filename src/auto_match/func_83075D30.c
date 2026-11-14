@@ -1,21 +1,13 @@
-void fn_83075D30(int param_1)
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Entry_83075D30 {
+    __vector4 v;
+    char pad[0x10];
+} Entry_83075D30;
+
+void fn_83075D30(__vector4 *out, Entry_83075D30 *entries, int i)
 {
-  unsigned int *puVar1;
-  int in_r0;
-  unsigned char in_vs36 [16];
-  unsigned char in_vs43 [16];
-  unsigned int in_register_000103f0;
-  unsigned int in_register_000103f4;
-  unsigned int in_register_000103f8;
-  unsigned int in_vr63;
-  
-  altv207_13(in_vs43,in_vs36);
-  puVar1 = (unsigned int *)(in_r0 + param_1 & 0xfffffff0);
-  *puVar1 = in_register_000103f0;
-  puVar1[1] = in_register_000103f4;
-  puVar1[2] = in_register_000103f8;
-  puVar1[3] = in_vr63;
-  return;
+    *out = entries[i].v;
 }
-

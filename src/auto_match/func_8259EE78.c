@@ -1,18 +1,10 @@
-void fn_8259EE78(unsigned __int64 param_1,int param_2)
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __VMXGetReg(int n);
+
+void fn_8259EE78(void *self, __vector4 *out)
 {
-  unsigned int *puVar1;
-  int in_r0;
-  unsigned int in_register_000104d0;
-  unsigned int in_register_000104d4;
-  unsigned int in_register_000104d8;
-  unsigned int in_vr77;
-  
-  puVar1 = (unsigned int *)(in_r0 + param_2 & 0xfffffff0);
-  *puVar1 = in_register_000104d0;
-  puVar1[1] = in_register_000104d4;
-  puVar1[2] = in_register_000104d8;
-  puVar1[3] = in_vr77;
-  return;
+    *out = __VMXGetReg(77);
 }
-

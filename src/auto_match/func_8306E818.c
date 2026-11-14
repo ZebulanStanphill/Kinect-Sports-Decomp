@@ -1,6 +1,4 @@
-double fn_8306E818(double param_1,double param_2,double param_3)
-
+float fn_8306E818(float a, float b, float t)
 {
-  return (double)(float)((double)(float)(param_2 - param_1) * param_3 + param_1);
+    return (b - a) * t + a;
 }
-

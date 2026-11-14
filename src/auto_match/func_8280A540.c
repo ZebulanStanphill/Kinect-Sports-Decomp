@@ -1,10 +1,6 @@
-extern double sqrt(double);
-#define SQRT(x) sqrt(x)
+double __frsqrte(double x);
 
-
-double fn_8280A540(double param_1)
-
+float fn_8280A540(float x)
 {
-  return (double)(float)(1.0 / SQRT(param_1));
+    return (float)__frsqrte(x);
 }
-

@@ -1,66 +1,6 @@
-extern unsigned int *auStack_60;
-extern int fn_82822F60();
-extern int fn_828233A8();
-extern int fn_828252E8();
-extern int fn_828299A8();
-extern unsigned int iStack_74;
-extern unsigned int iStack_78;
-extern unsigned int iStack_7c;
-extern unsigned int iStack_80;
-extern unsigned int uStack_44;
-extern unsigned int uStack_48;
-extern unsigned int uStack_4c;
-extern unsigned int uStack_6c;
+extern int fn_8282BA08(void *self, void *buffer, int offset, unsigned int size, unsigned int stride, unsigned int count);
 
-
-void fn_8282BC70(int param_1,int *param_2,unsigned __int64 param_3,unsigned int param_4)
-
+int fn_8282BC70(void *self, void *buffer, unsigned int bytes, unsigned int size)
 {
-  unsigned int uVar1;
-  int iVar2;
-  int iStack_80;
-  int iStack_7c;
-  int iStack_78;
-  int iStack_74;
-  int *piStack_70;
-  unsigned int uStack_6c;
-  char cStack_68;
-  unsigned char auStack_60 [16];
-  int *piStack_50;
-  unsigned int uStack_4c;
-  unsigned int uStack_48;
-  unsigned int uStack_44;
-  
-  if (param_4 != 1) {
-    uStack_6c = 0;
-    piStack_70 = param_2;
-    fn_828299A8(&piStack_70,param_1,&iStack_7c);
-    uVar1 = uStack_6c;
-    if (cStack_68 == '\0') {
-      if (((param_4 == 4) && (piStack_70 = (int *)*param_2, piStack_70 != (int *)0x0)) &&
-         (fn_828299A8(&piStack_70,param_1,&iStack_78), iStack_78 != 0)) {
-        uStack_44 = uVar1;
-        uStack_4c = *(unsigned int *)(iStack_7c + 0xc);
-        uStack_48 = *(unsigned int *)(iStack_78 + 0xc);
-        piStack_50 = param_2;
-        fn_828233A8(param_1 + 0x344,&iStack_74,0xffffffff8282af88,auStack_60);
-        if (iStack_74 != 0) {
-          return;
-        }
-      }
-      iStack_80 = fn_828252E8(param_1,0x28);
-      *(int **)(iStack_80 + 0x18) = param_2;
-      *(unsigned int *)(iStack_80 + 0x20) = param_4;
-      *(unsigned int *)(iStack_80 + 0x10) = *(unsigned int *)(iStack_7c + 0xc);
-      *(unsigned int *)(iStack_80 + 0x14) = uVar1;
-      *(int *)(iStack_80 + 0x1c) = (int)((param_3 & 0xffffffff) / (unsigned __int64)param_4);
-      *(unsigned int *)(iStack_80 + 0x24) = param_4;
-      iVar2 = fn_82822F60(param_1 + 0x318,iStack_80,0xffffffff8282b948,&iStack_80);
-      if (iVar2 != 0) {
-        *(int *)(param_1 + 0x30) = *(int *)(param_1 + 0x30) + 1;
-      }
-    }
-  }
-  return;
+    return fn_8282BA08(self, buffer, 0, size, size, bytes / size);
 }
-

@@ -1,25 +1,8 @@
-extern int fn_82809CB0();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_821AAD20;
+typedef struct Def_827FA130 { char pad[0x1c]; float value; } Def_827FA130;
+typedef struct Obj_827FA130 { Def_827FA130 *def; char pad[0xa0]; char sub[4]; } Obj_827FA130;
+extern void fn_82800BF8(void *sub, float x, float y);
 
-
-void fn_827FA130(double param_1,int *param_2)
-
+void fn_827FA130(Obj_827FA130 *self, float x)
 {
-  double dVar1;
-  
-  dVar1 = (double)lbl_821AAD20;
-  if (param_1 != dVar1) {
-    param_2[0x2b] = (int)((float)((double)lbl_82002AE0 / param_1) * *(float *)(*param_2 + 0x1c));
-    if (dVar1 <= (double)(float)param_2[0x2c]) {
-      dVar1 = (double)fn_82809CB0();
-      param_2[0x2c] = (int)(float)dVar1;
-    }
-    else {
-      dVar1 = (double)fn_82809CB0();
-      param_2[0x2c] = (int)(float)-dVar1;
-    }
-  }
-  return;
+    fn_82800BF8(self->sub, x, self->def->value);
 }
-

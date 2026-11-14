@@ -1,10 +1,6 @@
-extern int fn_82F68B7C();
+extern void *fn_8267BED0(void *pool, unsigned int size, int flags);
 
-
-void fn_826E6BB0(unsigned __int64 param_1,int param_2,int param_3)
-
+void *fn_826E6BB0(void *pool, unsigned int count, unsigned int size)
 {
-  fn_82F68B7C(param_1,(__int64)param_2 * (__int64)param_3,0);
-  return;
+    return fn_8267BED0(pool, count * size, 0);
 }
-

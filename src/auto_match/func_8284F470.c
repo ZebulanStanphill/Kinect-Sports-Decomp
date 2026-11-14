@@ -1,9 +1,4 @@
-extern unsigned int lbl_8201F590;
-
-
-double fn_8284F470(float *param_1)
-
+float fn_8284F470(float *angle)
 {
-  return (double)(*param_1 * lbl_8201F590);
+    return *angle * 57.295776f;
 }
-

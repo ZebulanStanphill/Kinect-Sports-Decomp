@@ -1,17 +1,13 @@
-typedef unsigned char bool;
-extern int fn_82A2B760();
+typedef struct Waiter_83055EF8 {
+    int unk0;
+    void *event;          /* 0x4 */
+    unsigned char waiting; /* 0x8 */
+} Waiter_83055EF8;
 
+extern int fn_82A1E810(void *event);
 
-bool fn_83055EF8(unsigned __int64 param_1,int param_2)
-
+int fn_83055EF8(void *self, Waiter_83055EF8 *waiter)
 {
-  int iVar1;
-  
-  *(unsigned char *)(param_2 + 8) = 0;
-  iVar1 = NtSetEvent(*(unsigned int *)(param_2 + 4),0);
-  if (iVar1 < 0) {
-    fn_82A2B760();
-  }
-  return iVar1 >= 0;
+    waiter->waiting = 0;
+    return fn_82A1E810(waiter->event);
 }
-

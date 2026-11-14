@@ -1,10 +1,6 @@
-extern int fn_82F68B50();
+extern int fn_82F4B8A0(int a0, int a1, int a2, int a3, int a4, int a5);
 
-
-void fn_82F4D1C8(void)
-
+int fn_82F4D1C8(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7)
 {
-  fn_82F68B50();
-  return;
+    return fn_82F4B8A0(a0, a1, a2, a3, a6, 8 - a7);
 }
-

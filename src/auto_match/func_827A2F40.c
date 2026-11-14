@@ -1,18 +1,12 @@
-extern int fn_827A2DE8();
+typedef struct Obj_827A2F40 {
+    char pad0[0x30];
+    int value; /* 0x30 */
+} Obj_827A2F40;
 
+extern void fn_827A2E70(Obj_827A2F40 *self);
 
-void fn_827A2F40(int param_1,unsigned int param_2)
-
+void fn_827A2F40(Obj_827A2F40 *self, int value)
 {
-  int iVar1;
-  
-  *(unsigned int *)(param_1 + 0x30) = param_2;
-  iVar1 = fn_827A2DE8();
-  if (iVar1 != 0) {
-    *(short *)(iVar1 + 0x24) = *(short *)(iVar1 + 0x24) + 1;
-    iVar1 = *(int *)(*(int *)(param_1 + 0xc) + 8);
-    *(unsigned char *)(iVar1 + 0x13f) = *(unsigned char *)(iVar1 + 0x13f) | 1;
-  }
-  return;
+    self->value = value;
+    fn_827A2E70(self);
 }
-

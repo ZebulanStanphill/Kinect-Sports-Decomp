@@ -1,12 +1,10 @@
-unsigned int fn_82800630(int *param_1,int param_2)
+typedef struct Obj_82800630 {
+    void **items;
+} Obj_82800630;
 
+extern int fn_82817B08(void *p);
+
+int fn_82800630(Obj_82800630 *self, int i)
 {
-  unsigned int *puVar1;
-  
-  puVar1 = *(unsigned int **)((param_2 + 0xe) * 4 + *param_1);
-  if (puVar1 != (unsigned int *)0x0) {
-    return *puVar1;
-  }
-  return 0;
+    return fn_82817B08(self->items[i + 14]);
 }
-

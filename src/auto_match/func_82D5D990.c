@@ -1,11 +1,6 @@
-extern int fn_82F68B74();
+extern void fn_82D6FF00(void *list, float a, float b, void *out);
 
-
-void fn_82D5D990(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5)
-
+void fn_82D5D990(void *self, void *list, float a, float b, void *out)
 {
-  fn_82F68B74(param_2,param_2,param_3,param_5);
-  return;
+    fn_82D6FF00(list, a, b, out);
 }
-

@@ -1,9 +1,11 @@
-unsigned int fn_82A33C40(int param_1)
+typedef struct Obj_82A33C40 {
+    unsigned short id;
+    void *target;
+} Obj_82A33C40;
 
+extern void fn_82A37170(void *target, unsigned int id);
+
+void fn_82A33C40(Obj_82A33C40 *self)
 {
-  unsigned __int64 in_r0;
-  
-  trapWord(0x1f,in_r0,0x14);
-  return *(unsigned int *)(param_1 + 4);
+    fn_82A37170(self->target, self->id);
 }
-

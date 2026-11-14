@@ -1,8 +1,12 @@
-void fn_83080B30(double param_1,double param_2,unsigned __int64 param_3,unsigned __int64 param_4,int param_5)
+typedef struct Obj_83080B30 {
+    char pad[0x4c];
+    float a;
+    char pad50[0xc];
+    float b;
+} Obj_83080B30;
 
+void fn_83080B30(float a, float b, Obj_83080B30 *o)
 {
-  *(float *)(param_5 + 0x4c) = (float)param_1;
-  *(float *)(param_5 + 0x5c) = (float)param_2;
-  return;
+    o->a = a;
+    o->b = b;
 }
-

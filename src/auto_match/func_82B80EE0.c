@@ -1,24 +1,11 @@
-extern int fn_82B80258();
-extern int fn_82F6DF48();
-extern unsigned int lbl_82005710;
+typedef struct Obj_82B80EE0 {
+    char pad0[0x2c];
+    float values[1]; /* 0x2c */
+} Obj_82B80EE0;
 
+extern int fn_82B80C68(float value, int arg);
 
-double fn_82B80EE0(int param_1,int param_2,unsigned __int64 param_3)
-
+int fn_82B80EE0(Obj_82B80EE0 *self, int index, int arg)
 {
-  double dVar1;
-  
-  dVar1 = (double)*(float *)((param_2 + 0xb) * 4 + param_1);
-  if ((param_3 & 1) != 0) {
-    dVar1 = (double)fn_82B80258();
-  }
-  if ((param_3 & 2) != 0) {
-    dVar1 = (double)fn_82F6DF48(dVar1,lbl_82005710);
-    dVar1 = (double)(float)dVar1;
-  }
-  if ((param_3 & 4) != 0) {
-    dVar1 = (double)-(float)dVar1;
-  }
-  return dVar1;
+    return fn_82B80C68(self->values[index], arg);
 }
-

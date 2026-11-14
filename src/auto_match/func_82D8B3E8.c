@@ -1,9 +1,9 @@
-__int64 fn_82D8B3E8(int param_1)
+typedef struct Obj_82D8B3E8 {
+    char pad[0xe9];
+    unsigned char index;
+} Obj_82D8B3E8;
 
+int fn_82D8B3E8(Obj_82D8B3E8 *self)
 {
-  __int64 lVar1;
-  
-  lVar1 = (unsigned __int64)*(unsigned char *)(param_1 + 0xe9) - 0xff;
-  return lVar1 - (((unsigned __int64)*(unsigned char *)(param_1 + 0xe9) - 0x100) + (unsigned __int64)(lVar1 == 0));
+    return self->index != 0xff;
 }
-

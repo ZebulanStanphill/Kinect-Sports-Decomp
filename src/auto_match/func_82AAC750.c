@@ -1,13 +1,6 @@
-extern int fn_8262F648();
+extern void *fn_8265C940(unsigned int size, unsigned int flags);
 
-
-void fn_82AAC750(unsigned __int64 param_1,unsigned __int64 param_2)
-
+void *fn_82AAC750(void *opaque, unsigned int size)
 {
-  int (**pcVar1)();
-  
-  pcVar1 = (int (**)())fn_8262F648();
-  (*pcVar1)(param_2,0x64870000);
-  return;
+    return fn_8265C940(size, 0x64870000);
 }
-

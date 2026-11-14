@@ -1,10 +1,11 @@
-extern int fn_82F68B7C();
+typedef struct Obj_826954C0 {
+    char pad[0x18];
+    void *log;
+} Obj_826954C0;
 
+extern void fn_826ADE60(void *log, const char *format, ...);
 
-void fn_826954C0(int param_1,unsigned __int64 param_2)
-
+void fn_826954C0(Obj_826954C0 *self, const char *className)
 {
-  fn_82F68B7C(*(unsigned int *)(param_1 + 0x18),0xffffffff820060e8,param_2);
-  return;
+    fn_826ADE60(self->log, "Error: Null or invalid 'this' is used for a method of %s class.\n", className);
 }
-

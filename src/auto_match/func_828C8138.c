@@ -1,8 +1,12 @@
-void fn_828C8138(int param_1,int param_2)
+typedef struct Obj_828C8138 {
+    char pad[0x6c];
+    void *child;
+} Obj_828C8138;
 
+extern void fn_828B0338(void *child);
+
+void fn_828C8138(Obj_828C8138 *self, void *child)
 {
-  *(int *)(param_1 + 0x6c) = param_2;
-  *(int *)(param_2 + 0x5c) = *(int *)(param_2 + 0x5c) + 1;
-  return;
+    self->child = child;
+    fn_828B0338(child);
 }
-

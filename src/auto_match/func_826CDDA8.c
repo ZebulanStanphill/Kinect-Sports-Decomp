@@ -1,20 +1,14 @@
-extern int fn_826CBE10();
+typedef struct Obj_826CDDA8 {
+    char pad[0x18];
+    int active;
+    int f1c;
+    char sub[4];
+} Obj_826CDDA8;
 
+extern void fn_826CD260(void *sub, int flag);
 
-void fn_826CDDA8(int param_1)
-
+void fn_826CDDA8(Obj_826CDDA8 *self)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  
-  *(unsigned int *)(param_1 + 0x18) = 1;
-  puVar2 = (unsigned int *)(param_1 + 0x20);
-  iVar1 = *(int *)(param_1 + 0x24);
-  fn_826CBE10(puVar2,puVar2,1);
-  if ((iVar1 == 0) && (puVar2 = (unsigned int *)*puVar2, puVar2 != (unsigned int *)0x0)) {
-    *puVar2 = 0;
-    puVar2[1] = 0;
-  }
-  return;
+    self->active = 1;
+    fn_826CD260(self->sub, 1);
 }
-

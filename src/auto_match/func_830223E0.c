@@ -1,15 +1,8 @@
-extern int fn_82FA5190();
-extern unsigned int lbl_831BC770;
+typedef struct Obj_830223E0 { char pad[8]; int count; char list[4]; } Obj_830223E0;
+extern void fn_83022140(void *list);
 
-
-void fn_830223E0(int param_1)
-
+void fn_830223E0(Obj_830223E0 *self)
 {
-  *(unsigned int *)(param_1 + 8) = 0;
-  if (*(int *)(param_1 + 0x34) != 0) {
-    fn_82FA5190(lbl_831BC770);
-    *(unsigned int *)(param_1 + 0x34) = 0;
-  }
-  return;
+    self->count = 0;
+    fn_83022140(self->list);
 }
-

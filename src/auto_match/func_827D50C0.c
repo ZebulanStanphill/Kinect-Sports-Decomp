@@ -1,8 +1,7 @@
-void fn_827D50C0(int param_1,unsigned int param_2)
+#define __lwsync() __emit(0x7C2004AC)
 
+void fn_827D50C0(int *values, int value)
 {
-  sync(1);
-  *(unsigned int *)(param_1 + 0xc) = param_2;
-  return;
+    __lwsync();
+    values[3] = value;
 }
-

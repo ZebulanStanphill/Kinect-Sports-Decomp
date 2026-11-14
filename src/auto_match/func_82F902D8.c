@@ -1,6 +1,4 @@
-unsigned int fn_82F902D8(unsigned int *param_1)
-
+unsigned int fn_82F902D8(unsigned int *p, unsigned char unused)
 {
-  return *param_1;
+    return *p;
 }
-

@@ -1,10 +1,7 @@
-extern int fn_82F68B7C();
+typedef struct Item_8234B400 { char pad[0x10]; char key[0x20]; float value; } Item_8234B400;
+extern void fn_8234B0C8(void *self, void *key, float value);
 
-
-void fn_8234B400(unsigned __int64 param_1,int *param_2)
-
+void fn_8234B400(void *self, Item_8234B400 **item)
 {
-  fn_82F68B7C((double)*(float *)(*param_2 + 0x30),param_1,*param_2 + 0x10);
-  return;
+    fn_8234B0C8(self, (*item)->key, (*item)->value);
 }
-

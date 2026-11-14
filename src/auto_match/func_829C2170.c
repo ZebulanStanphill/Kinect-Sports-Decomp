@@ -1,13 +1,6 @@
-extern int fn_8262F658();
+extern void fn_8265C990(void *p, unsigned int flags);
 
-
-void d3dx_zcfree(unsigned __int64 param_1,unsigned __int64 param_2)
-
+void d3dx_zcfree(void *opaque, void *p)
 {
-  int (**pcVar1)();
-  
-  pcVar1 = (int (**)())fn_8262F658();
-  (*pcVar1)(param_2,0x24810000);
-  return;
+    fn_8265C990(p, 0x24810000);
 }
-

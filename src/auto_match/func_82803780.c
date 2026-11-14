@@ -1,20 +1,15 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern V16 vectorMultiplyAddFloatingPoint();
-extern void *memcpy(void *, const void *, unsigned int);
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vmulfp(__vector4 a, __vector4 b);
+__vector4 __vmaddfp(__vector4 a, __vector4 b, __vector4 c);
 
-void fn_82803780(void)
-
+__vector4 fn_82803780(__vector4 x, __vector4 y, __vector4 z, __vector4 w,
+                      __vector4 r0, __vector4 r1, __vector4 r2, __vector4 r3)
 {
-  unsigned char in_vs32 [16];
-  unsigned char auVar1 [16];
-  unsigned char in_vs34 [16];
-  unsigned char in_vs35 [16];
-  unsigned char in_vs36 [16];
-  unsigned char in_vs38 [16];
-  unsigned char in_vs39 [16];
-  unsigned char in_vs40 [16];{ V16 _vt0 = vectorMultiplyAddFloatingPoint(in_vs38,in_vs34,in_vs32); memcpy(auVar1, &_vt0, 16); }{ V16 _vt1 = vectorMultiplyAddFloatingPoint(in_vs39,in_vs35,auVar1); memcpy(auVar1, &_vt1, 16); }
-  vectorMultiplyAddFloatingPoint(in_vs40,in_vs36,auVar1);
-  return;
+    __vector4 v = __vmulfp(r0, x);
+    v = __vmaddfp(r1, y, v);
+    v = __vmaddfp(r2, z, v);
+    return __vmaddfp(r3, w, v);
 }
-

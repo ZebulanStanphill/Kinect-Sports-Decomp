@@ -1,21 +1,8 @@
-unsigned int fn_827D5460(char *param_1,unsigned int param_2)
+extern unsigned int fn_82F6D460(const char *str, unsigned int max);
 
+unsigned int fn_827D5460(const char *str, unsigned int max)
 {
-  unsigned int uVar1;
-  
-  if (param_1 == (char *)0x0) {
-    return 0;
-  }
-  uVar1 = 0;
-  if (param_2 != 0) {
-    do {
-      if (*param_1 == '\0') {
-        return uVar1;
-      }
-      uVar1 = uVar1 + 1;
-      param_1 = param_1 + 1;
-    } while (uVar1 < param_2);
-  }
-  return uVar1;
+    if (str == 0)
+        return 0;
+    return fn_82F6D460(str, max);
 }
-

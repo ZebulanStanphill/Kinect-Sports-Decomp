@@ -1,27 +1,11 @@
-extern int fn_827F7210();
-extern int fn_827FB050();
-extern int fn_827FB300();
-extern int fn_827FBE80();
+typedef struct Obj_827FE1F0 {
+    char pad[0x98];
+    void *impl;
+} Obj_827FE1F0;
 
+extern void fn_827FD758(void *a, void *b, void *c, void *d, void *e, int f);
 
-void fn_827FE1F0(unsigned __int64 param_1,int param_2,int param_3,int param_4,unsigned __int64 param_5,
-                  unsigned __int64 param_6)
-
+void fn_827FE1F0(Obj_827FE1F0 *a, Obj_827FE1F0 *b, Obj_827FE1F0 *c, void *d, void *e)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  short sVar4;
-  
-  uVar1 = *(unsigned int *)(param_4 + 0x98);
-  uVar2 = *(unsigned int *)(param_3 + 0x98);
-  uVar3 = *(unsigned int *)(param_2 + 0x98);
-  sVar4 = fn_827F7210();
-  if (sVar4 != 0) {
-    fn_827FBE80(param_1,uVar3,uVar2,uVar1,param_5,param_6);
-  }
-  fn_827FB300(param_1,uVar3,uVar2,uVar1,param_5,0);
-  fn_827FB050(uVar3,uVar2,uVar1);
-  return;
+    fn_827FD758(a->impl, b->impl, c->impl, d, e, 0);
 }
-
