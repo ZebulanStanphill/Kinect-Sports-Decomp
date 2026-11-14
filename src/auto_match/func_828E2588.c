@@ -1,35 +1,37 @@
-extern unsigned int *auStack_30;
-extern int fn_828D81E8();
-extern int fn_828E24D8();
-extern int fn_82F622E0();
+typedef struct Elem_828E2588 { int f0; char pad[0x18]; } Elem_828E2588;
+typedef struct Vec_828E2588 { Elem_828E2588 *first; Elem_828E2588 *last; Elem_828E2588 *end; } Vec_828E2588;
+typedef struct Iter_828E2588 { Elem_828E2588 *ptr; } Iter_828E2588;
+typedef struct Self_828E2588 {
+  char pad0[8];
+  unsigned int count;
+  Vec_828E2588 items;
+} Self_828E2588;
+extern void fn_828D81E8(Iter_828E2588 *out, Vec_828E2588 *v, Elem_828E2588 *first, Elem_828E2588 *last);
+extern void fn_828E24D8(Vec_828E2588 *v, unsigned int n);
+extern __declspec(noreturn) void fn_82F622E0(const char *msg);
 
-
-void fn_828E2588(int param_1,unsigned __int64 param_2)
-
+static __forceinline Elem_828E2588 *At_828E2588(Vec_828E2588 *v, unsigned int i)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  int *piVar3;
-  unsigned char auStack_30 [48];
-  
-  piVar3 = (int *)(param_1 + 0xc);
-  fn_828D81E8(auStack_30,piVar3,*(unsigned int *)(param_1 + 0xc),*(unsigned int *)(param_1 + 0x10)
-                   );
-  fn_828E24D8(piVar3,param_2);
-  uVar2 = 0;
-  if ((param_2 & 0xffffffff) != 0) {
-    iVar1 = 0;
-    do {
-      if ((unsigned __int64)(unsigned int)((*(int *)(param_1 + 0x10) - *piVar3) / 0x1c) <= (uVar2 & 0xffffffff)) {
-                    /* WARNING: Subroutine does not return */
-        fn_82F622E0(0xffffffff821ae698);
-      }
-      uVar2 = uVar2 + 1;
-      *(unsigned int *)(iVar1 + *piVar3) = 0;
-      iVar1 = iVar1 + 0x1c;
-    } while ((uVar2 & 0xffffffff) < (param_2 & 0xffffffff));
+  if ((unsigned int)(v->last - v->first) <= i) {
+    fn_82F622E0("invalid vector<T> subscript");
   }
-  *(int *)(param_1 + 8) = (int)param_2;
-  return;
+  return &v->first[i];
 }
 
+static __forceinline void Clear_828E2588(Vec_828E2588 *v)
+{
+  Iter_828E2588 it;
+  fn_828D81E8(&it, v, v->first, v->last);
+}
+
+void fn_828E2588(Self_828E2588 *self, unsigned int n)
+{
+  unsigned int i;
+
+  Clear_828E2588(&self->items);
+  fn_828E24D8(&self->items, n);
+  for (i = 0; i < n; i++) {
+    At_828E2588(&self->items, i)->f0 = 0;
+  }
+  self->count = n;
+}

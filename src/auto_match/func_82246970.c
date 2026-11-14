@@ -1,56 +1,48 @@
-extern int fn_82247000();
-extern int fn_82247068();
-extern int fn_822471C8();
-extern int fn_822474A8();
-extern int fn_8288D868();
-extern int fn_8288E940();
-extern int fn_828AE818();
-extern int fn_828B1340();
+typedef struct Self_82246970 {
+    char pad0[8];
+    void *owner;
+    char padc[0x38 - 0xc];
+    void *controller;
+    char pad3c[0x44 - 0x3c];
+    unsigned char pending;
+} Self_82246970;
 
+extern int fn_82247000(void *controller);
+extern unsigned char fn_8288D868(void *controller);
+extern unsigned char fn_8288E940(void *controller);
+extern unsigned char fn_828B1340(void *owner);
+extern unsigned char fn_82247068(void *controller, int mode);
+extern void fn_822471C8(void *controller, int value);
+extern void fn_822474A8(void *controller);
+extern void fn_828AE818(void *owner, int message);
 
-void fn_82246970(int param_1)
-
+void fn_82246970(Self_82246970 *self)
 {
-  int iVar1;
-  char cVar3;
-  char cVar4;
-  char cVar5;
-  unsigned int uVar2;
-  
-  iVar1 = fn_82247000(*(unsigned int *)(param_1 + 0x38));
-  cVar3 = fn_8288D868(*(unsigned int *)(param_1 + 0x38));
-  cVar4 = fn_8288E940(*(unsigned int *)(param_1 + 0x38));
-  cVar5 = fn_828B1340(*(unsigned int *)(param_1 + 8));
-  if (cVar3 == '\0') {
-    return;
-  }
-  if (cVar4 == '\0') {
-    return;
-  }
-  if (cVar5 != '\0') {
-    return;
-  }
-  if (iVar1 == 0) {
-    cVar3 = fn_82247068(*(unsigned int *)(param_1 + 0x38),1);
-    if (cVar3 == '\0') goto LAB_82246a2c;
-    uVar2 = *(unsigned int *)(param_1 + 0x38);
-  }
-  else {
-    if (iVar1 == 2) {
-      fn_828AE818(*(unsigned int *)(param_1 + 8),0x1c);
-      goto LAB_82246a2c;
-    }
-    if (iVar1 != 3) goto LAB_82246a2c;
-    cVar3 = fn_82247068(*(unsigned int *)(param_1 + 0x38),4);
-    uVar2 = *(unsigned int *)(param_1 + 0x38);
-    if (cVar3 == '\0') {
-      fn_822474A8();
-      goto LAB_82246a2c;
-    }
-  }
-  fn_822471C8(uVar2,1);
-LAB_82246a2c:
-  *(unsigned char *)(param_1 + 0x44) = 0;
-  return;
-}
+    int state = fn_82247000(self->controller);
+    unsigned char ready = fn_8288D868(self->controller);
+    unsigned char active = fn_8288E940(self->controller);
+    unsigned char busy = fn_828B1340(self->owner);
 
+    if (ready == 0)
+        return;
+    if (active == 0)
+        return;
+    if (busy != 0)
+        return;
+    switch (state) {
+    case 0:
+        if (fn_82247068(self->controller, 1))
+            fn_822471C8(self->controller, 1);
+        break;
+    case 2:
+        fn_828AE818(self->owner, 0x1c);
+        break;
+    case 3:
+        if (fn_82247068(self->controller, 4))
+            fn_822471C8(self->controller, 1);
+        else
+            fn_822474A8(self->controller);
+        break;
+    }
+    self->pending = 0;
+}

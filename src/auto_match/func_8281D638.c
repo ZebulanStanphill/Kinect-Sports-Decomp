@@ -1,20 +1,14 @@
-typedef unsigned char bool;
-
-
-bool fn_8281D638(double param_1,float *param_2,float *param_3)
-
+int fn_8281D638(float *a, float *b, float radius)
 {
-  float fVar1;
-  
-  fVar1 = (float)(param_1 * param_1);
-  return (param_2[8] - param_3[8]) * (param_2[8] - param_3[8]) <= fVar1 &&
-         ((param_2[5] - param_3[5]) * (param_2[5] - param_3[5]) <= fVar1 &&
-         ((param_2[2] - param_3[2]) * (param_2[2] - param_3[2]) <= fVar1 &&
-         ((param_2[7] - param_3[7]) * (param_2[7] - param_3[7]) <= fVar1 &&
-         ((param_2[4] - param_3[4]) * (param_2[4] - param_3[4]) <= fVar1 &&
-         ((param_2[1] - param_3[1]) * (param_2[1] - param_3[1]) <= fVar1 &&
-         ((param_2[6] - param_3[6]) * (param_2[6] - param_3[6]) <= fVar1 &&
-         ((param_2[3] - param_3[3]) * (param_2[3] - param_3[3]) <= fVar1 &&
-         (*param_2 - *param_3) * (*param_2 - *param_3) <= fVar1)))))));
+    float r2 = radius * radius;
+    int inside = (a[0] - b[0]) * (a[0] - b[0]) <= r2;
+    inside &= (a[3] - b[3]) * (a[3] - b[3]) <= r2;
+    inside &= (a[6] - b[6]) * (a[6] - b[6]) <= r2;
+    inside &= (a[1] - b[1]) * (a[1] - b[1]) <= r2;
+    inside &= (a[4] - b[4]) * (a[4] - b[4]) <= r2;
+    inside &= (a[7] - b[7]) * (a[7] - b[7]) <= r2;
+    inside &= (a[2] - b[2]) * (a[2] - b[2]) <= r2;
+    inside &= (a[5] - b[5]) * (a[5] - b[5]) <= r2;
+    inside &= (a[8] - b[8]) * (a[8] - b[8]) <= r2;
+    return inside;
 }
-

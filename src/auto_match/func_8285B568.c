@@ -1,40 +1,34 @@
-void fn_8285B568(int param_1,int param_2)
+typedef struct Leaf_8285B568 { char pad[0x44]; unsigned int size; } Leaf_8285B568;
+typedef struct Mid_8285B568 { char pad[0x44]; Leaf_8285B568 *leaf; } Mid_8285B568;
+typedef struct Part_8285B568 { char pad[0x40]; Mid_8285B568 *mid; } Part_8285B568;
+typedef struct Buf_8285B568 { char *str; char text[1]; } Buf_8285B568;
+typedef struct Item_8285B568 { char pad[8]; int offset; } Item_8285B568;
+typedef struct Self_8285B568 {
+  char pad0[0x34];
+  Part_8285B568 *parts[2];
+  char pad1[0x44 - 0x3c];
+  char *base;
+} Self_8285B568;
 
+void fn_8285B568(Self_8285B568 *self, Item_8285B568 *item)
 {
-  int iVar1;
-  int *piVar2;
-  int *piVar3;
-  unsigned __int64 uVar4;
-  int iVar5;
-  __int64 lVar6;
-  int aiStack_10 [4];
-  
-  piVar2 = aiStack_10;
-  piVar3 = (int *)(*(int *)(param_1 + 0x44) + *(int *)(param_2 + 8));
-  uVar4 = 0;
-  lVar6 = 2;
-  aiStack_10[0] = *(int *)(param_1 + 0x34);
-  aiStack_10[1] = *(unsigned int *)(param_1 + 0x38);
-  do {
-    if ((*(int *)(*piVar2 + 0x40) != 0) &&
-       (iVar5 = *(int *)(*(int *)(*piVar2 + 0x40) + 0x44), iVar5 != 0)) {
-      uVar4 = *(unsigned int *)(iVar5 + 0x44) + uVar4;
-    }
-    piVar2 = piVar2 + 1;
-    lVar6 = lVar6 + -1;
-  } while (lVar6 != 0);
-  *piVar3 = (int)(piVar3 + 1);
-  iVar5 = 0;
-  *(unsigned char *)(piVar3 + 1) = 0;
-  if ((uVar4 & 0xffffffff) != 0) {
-    do {
-      iVar1 = *piVar3 + iVar5;
-      iVar5 = iVar5 + 1;
-      *(unsigned char *)(iVar1 + 1) = 0;
-      uVar4 = uVar4 - 1;
-    } while (uVar4 != 0);
-    return;
-  }
-  return;
-}
+  Buf_8285B568 *buf = (Buf_8285B568 *)(self->base + item->offset);
+  char *text = buf->text;
+  unsigned int total = 0;
+  unsigned int i;
+  int j;
+  Part_8285B568 *parts[2];
 
+  parts[0] = self->parts[0];
+  parts[1] = self->parts[1];
+  for (j = 0; j < 2; j++) {
+    if (parts[j]->mid != 0 && parts[j]->mid->leaf != 0) {
+      total += parts[j]->mid->leaf->size;
+    }
+  }
+  buf->str = text;
+  *text = 0;
+  for (i = 0; i < total; i++) {
+    buf->str[i + 1] = 0;
+  }
+}

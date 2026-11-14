@@ -1,33 +1,37 @@
-#define true 1
+typedef struct Block_828194A0 {
+    char pad0[0x20];
+    unsigned int addr;
+    unsigned int size;
+    char pad28[8];
+    short next;
+    char pad32[0xe];
+} Block_828194A0;
 
+typedef struct Heap_828194A0 {
+    char pad0[0x7c];
+    Block_828194A0 *blocks;
+    int pad80;
+    short freeHead;
+} Heap_828194A0;
 
-void fn_828194A0(int param_1,__int64 param_2,unsigned __int64 param_3,__int64 param_4)
-
+/* First free block that can hold `size` bytes at `offset` with the alignment. */
+short fn_828194A0(Heap_828194A0 *self, unsigned int size, unsigned short align, int offset)
 {
-  short sVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  __int64 lVar4;
-  unsigned __int64 uVar5;
-  
-  sVar1 = *(short *)(param_1 + 0x84);
-  do {
-    if (sVar1 == -1) {
-      return;
-    }
-    iVar2 = sVar1 * 0x40 + *(int *)(param_1 + 0x7c);
-    lVar4 = (unsigned __int64)*(unsigned int *)(iVar2 + 0x24) - param_2;
-    if (-1 < lVar4) {
-      uVar5 = (unsigned __int64)*(unsigned int *)(iVar2 + 0x20) + param_4;
-      if (((param_3 & 0xffff) - 1 & uVar5) != 0) {
-        uVar3 = (param_3 & 0xffff) - 1;
-        lVar4 = (uVar5 - (uVar3 + uVar5 & ~uVar3)) + lVar4;
-      }
-      if (-1 < (int)lVar4) {
-        return;
-      }
-    }
-    sVar1 = *(short *)(iVar2 + 0x30);
-  } while( true );
-}
+    short i = self->freeHead;
+    Block_828194A0 *blocks = self->blocks;
 
+    while (i != -1) {
+        Block_828194A0 *b = &blocks[i];
+        int left = b->size - size;
+        if (left >= 0) {
+            unsigned int start = b->addr + offset;
+            if (((align - 1) & start) != 0) {
+                left += start - ((align - 1 + start) & ~(align - 1));
+            }
+            if (left >= 0)
+                break;
+        }
+        i = b->next;
+    }
+    return i;
+}

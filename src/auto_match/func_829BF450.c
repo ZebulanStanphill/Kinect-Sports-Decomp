@@ -1,44 +1,36 @@
-void fn_829BF450(int param_1,int *param_2,int param_3,int *param_4,__int64 param_5)
+/* libjpeg 6b jdcolor.c: null_convert */
+typedef unsigned char JSAMPLE;
+typedef JSAMPLE *JSAMPROW;
+typedef JSAMPROW *JSAMPARRAY;
+typedef JSAMPARRAY *JSAMPIMAGE;
+typedef unsigned int JDIMENSION;
 
+typedef struct DecompressInfo_829BF450 {
+    char pad0[0x24];
+    int num_components;
+    char pad28[0x70 - 0x28];
+    JDIMENSION output_width;
+} DecompressInfo_829BF450;
+
+void fn_829BF450(DecompressInfo_829BF450 *cinfo, JSAMPIMAGE input_buf, JDIMENSION input_row,
+                 JSAMPARRAY output_buf, int num_rows)
 {
-  int iVar1;
-  unsigned int uVar2;
-  int *piVar3;
-  int iVar4;
-  unsigned char *puVar5;
-  unsigned char *puVar6;
-  unsigned __int64 uVar7;
-  
-  param_5 = param_5 + -1;
-  iVar1 = *(int *)(param_1 + 0x24);
-  uVar2 = *(unsigned int *)(param_1 + 0x70);
-  if (-1 < param_5) {
-    param_3 = param_3 << 2;
-    do {
-      iVar4 = 0;
-      piVar3 = param_2;
-      if (0 < iVar1) {
-        do {
-          if ((unsigned __int64)uVar2 != 0) {
-            puVar5 = (unsigned char *)((*param_4 + iVar4) - iVar1);
-            puVar6 = (unsigned char *)(*(int *)(*piVar3 + param_3) + -1);
-            uVar7 = (unsigned __int64)uVar2;
-            do {
-              puVar6 = puVar6 + 1;
-              puVar5 = puVar5 + iVar1;
-              *puVar5 = *puVar6;
-              uVar7 = uVar7 - 1;
-            } while (uVar7 != 0);
-          }
-          iVar4 = iVar4 + 1;
-          piVar3 = piVar3 + 1;
-        } while (iVar4 < iVar1);
-      }
-      param_5 = param_5 + -1;
-      param_3 = param_3 + 4;
-      param_4 = param_4 + 1;
-    } while (-1 < param_5);
-  }
-  return;
-}
+    register JSAMPROW inptr, outptr;
+    register JDIMENSION count;
+    register int num_components = cinfo->num_components;
+    JDIMENSION num_cols = cinfo->output_width;
+    int ci;
 
+    while (--num_rows >= 0) {
+        for (ci = 0; ci < num_components; ci++) {
+            inptr = input_buf[ci][input_row];
+            outptr = output_buf[0] + ci;
+            for (count = num_cols; count > 0; count--) {
+                *outptr = *inptr++;
+                outptr += num_components;
+            }
+        }
+        input_row++;
+        output_buf++;
+    }
+}

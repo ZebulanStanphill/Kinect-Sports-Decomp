@@ -1,32 +1,49 @@
-extern int fn_82C2A938();
+typedef struct Stream_82C2AE18 {
+    int (*Seek)(struct Stream_82C2AE18 *self, __int64 position);
+} Stream_82C2AE18;
 
+typedef struct State_82C2AE18 {
+    char pad0[0xc];
+    unsigned int fc;
+    char pad10[8];
+    unsigned int f18;
+    char pad1c[4];
+    __int64 f20;
+    __int64 f28;
+    char pad30[4];
+    Stream_82C2AE18 *stream;
+    __int64 pendingPosition;
+    unsigned int pending;
+    unsigned int busy;
+    __int64 f48;
+} State_82C2AE18;
 
-unsigned __int64 fn_82C2AE18(int param_1,unsigned __int64 param_2)
+typedef struct Owner_82C2AE18 {
+    char pad0[0x2c];
+    State_82C2AE18 *state;
+} Owner_82C2AE18;
 
+extern void fn_82C2A938(Owner_82C2AE18 *self);
+
+int fn_82C2AE18(Owner_82C2AE18 *self, __int64 position)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  
-  iVar1 = *(int *)(param_1 + 0x2c);
-  uVar2 = 0;
-  if (*(int *)(iVar1 + 0x44) == 0) {
-    uVar2 = (*(int (**)())**(unsigned int **)(iVar1 + 0x34))(*(unsigned int **)(iVar1 + 0x34),param_2);
-    if (-1 < (int)uVar2) {
-      *(unsigned __int64 *)(iVar1 + 0x20) = param_2;
-      *(unsigned __int64 *)(iVar1 + 0x28) = param_2;
-      *(unsigned __int64 *)(iVar1 + 0x38) = 0;
-      *(unsigned int *)(iVar1 + 0x40) = 0;
-      *(unsigned int *)(iVar1 + 0x44) = 0;
-      *(unsigned __int64 *)(iVar1 + 0x48) = 0;
-      if ((*(int *)(iVar1 + 0xc) == 0) && (*(int *)(iVar1 + 0x18) != 0)) {
-        fn_82C2A938(param_1);
-      }
+    State_82C2AE18 *s = self->state;
+    int hr = 0;
+    if (s->busy > 0) {
+        s->pendingPosition = position;
+        s->pending = 1;
+    } else {
+        hr = s->stream->Seek(s->stream, position);
+        if (hr >= 0) {
+            s->f20 = position;
+            s->f28 = position;
+            s->pendingPosition = 0;
+            s->pending = 0;
+            s->busy = 0;
+            s->f48 = 0;
+            if (s->fc == 0 && s->f18 > 0)
+                fn_82C2A938(self);
+        }
     }
-  }
-  else {
-    *(unsigned __int64 *)(iVar1 + 0x38) = param_2;
-    *(unsigned int *)(iVar1 + 0x40) = 1;
-  }
-  return uVar2;
+    return hr;
 }
-

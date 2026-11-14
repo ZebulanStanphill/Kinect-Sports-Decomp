@@ -1,20 +1,18 @@
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_82006848;
+#include <math.h>
+typedef struct Self_8269A6B0 {
+  char pad0[0x3c];
+  float x;
+  float y;
+  char pad1[0x8c - 0x44];
+  unsigned int flags;
+} Self_8269A6B0;
+extern float lbl_82006848;
 
-
-void fn_8269A6B0(int param_1)
-
+void fn_8269A6B0(Self_8269A6B0 *self)
 {
-  unsigned int uVar1;
-  
-  if ((lbl_82006848 <= ABS(*(float *)(param_1 + 0x3c))) ||
-     (lbl_82002AE0 <= ABS(*(float *)(param_1 + 0x40)))) {
-    uVar1 = *(unsigned int *)(param_1 + 0x8c) & 0xfffffffd;
+  if (fabsf(self->x) < lbl_82006848 && fabsf(self->y) < 1.0f) {
+    self->flags |= 2;
+  } else {
+    self->flags &= ~2;
   }
-  else {
-    uVar1 = *(unsigned int *)(param_1 + 0x8c) | 2;
-  }
-  *(unsigned int *)(param_1 + 0x8c) = uVar1;
-  return;
 }
-

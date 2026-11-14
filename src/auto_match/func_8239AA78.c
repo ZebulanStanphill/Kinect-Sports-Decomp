@@ -1,51 +1,40 @@
-extern unsigned int fStack_8;
-extern unsigned int ltcg_pool_0_0f;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Obj_8239AA78 {
+    char pad0[0x20];
+    __vector4 dir;          /* 0x20 */
+    __vector4 pos;          /* 0x30 */
+    __vector4 min;          /* 0x40 */
+    __vector4 max;          /* 0x50 */
+    char pad60[0x48];
+    int fa8;                /* 0xa8 */
+    char padac[0x68];
+    int f114;               /* 0x114 */
+    char pad118[0x3c];
+    int f154;               /* 0x154 */
+} Obj_8239AA78;
 
-unsigned __int64 fn_8239AA78(int param_1,int param_2)
+typedef struct Self_8239AA78 {
+    char pad[0x178];
+    int mode;               /* 0x178 */
+} Self_8239AA78;
 
+int fn_8239AA78(Self_8239AA78 *self, Obj_8239AA78 *obj)
 {
-  float fVar1;
-  unsigned int *puVar2;
-  unsigned int *puVar3;
-  int in_r0;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  float afStack_10 [2];
-  float fStack_8;
-  
-  if (((*(int *)(param_2 + 0xa8) != 0) && (*(int *)(param_2 + 0x154) != 0)) &&
-     (*(int *)(param_2 + 0x114) != 0)) {
-    fVar1 = *(float *)(param_2 + 0x40);
-    puVar2 = (unsigned int *)(param_2 + 0x30U & 0xfffffff0);
-    uVar4 = puVar2[1];
-    uVar5 = puVar2[2];
-    uVar6 = puVar2[3];
-    puVar3 = (unsigned int *)((int)afStack_10 + in_r0 & 0xfffffff0);
-    *puVar3 = *puVar2;
-    puVar3[1] = uVar4;
-    puVar3[2] = uVar5;
-    puVar3[3] = uVar6;
-    if (((fVar1 <= afStack_10[0]) && (afStack_10[0] < *(float *)(param_2 + 0x50))) &&
-       ((*(float *)(param_2 + 0x48) <= fStack_8 && (fStack_8 < *(float *)(param_2 + 0x58))))) {
-      if (*(int *)(param_1 + 0x178) != 2) {
-        return 1;
-      }
-      puVar2 = (unsigned int *)(param_2 + 0x20U & 0xfffffff0);
-      uVar4 = puVar2[1];
-      uVar5 = puVar2[2];
-      uVar6 = puVar2[3];
-      puVar3 = (unsigned int *)((int)afStack_10 + in_r0 & 0xfffffff0);
-      *puVar3 = *puVar2;
-      puVar3[1] = uVar4;
-      puVar3[2] = uVar5;
-      puVar3[3] = uVar6;
-      if (fStack_8 < ltcg_pool_0_0f) {
-        return 1;
-      }
-    }
-  }
-  return 0;
-}
+    __vector4 v;
 
+    if (obj->fa8 != 0 && obj->f154 != 0 && obj->f114 != 0) {
+        v = obj->pos;
+        if (v.vector4_f32[0] >= obj->min.vector4_f32[0] && v.vector4_f32[0] < obj->max.vector4_f32[0]
+            && v.vector4_f32[2] >= obj->min.vector4_f32[2] && v.vector4_f32[2] < obj->max.vector4_f32[2]) {
+            if (self->mode != 2)
+                return 1;
+            v = obj->dir;
+            if (v.vector4_f32[2] < 0.0f)
+                return 1;
+        }
+    }
+    return 0;
+}

@@ -1,30 +1,42 @@
-#define true 1
+typedef struct Link_82AF7650 {
+  unsigned int prev;
+  unsigned int next;
+} Link_82AF7650;
 
+typedef struct List_82AF7650 {
+  int unk0;
+  unsigned int head;
+  void *begin;
+  void *end;
+} List_82AF7650;
 
-void fn_82AF7650(unsigned int param_1)
+typedef struct Pool_82AF7650 {
+  char pad[0x2c];
+  unsigned int *free;
+} Pool_82AF7650;
 
+void fn_82AF7650(List_82AF7650 *self)
 {
-  unsigned int uVar1;
-  int iVar2;
-  unsigned int *puVar3;
-  unsigned int *puVar4;
-  
-  *(unsigned int *)(param_1 + 8) = 0;
-  *(unsigned int *)(param_1 + 0xc) = 0;
-  while( true ) {
-    puVar4 = (unsigned int *)(-(unsigned int)((*(unsigned int *)(param_1 + 4) & 1) == 0) & *(unsigned int *)(param_1 + 4));
-    puVar3 = (unsigned int *)((unsigned int)puVar4 & 0xfffffffe);
-    uVar1 = puVar3[1];
-    if ((uVar1 & 1) != 0) {
+  unsigned int head;
+  unsigned int *node;
+  Link_82AF7650 *link;
+  unsigned int next;
+  Pool_82AF7650 *pool;
+
+  self->begin = 0;
+  self->end = 0;
+  for (;;) {
+    head = self->head;
+    node = (unsigned int *)((head & 1) == 0 ? head : 0);
+    link = (Link_82AF7650 *)((unsigned int)node & ~1u);
+    next = link->next;
+    if ((next & 1) != 0 || next == 0) {
       return;
     }
-    if (uVar1 == 0) break;
-    *(unsigned int *)(uVar1 & 0xfffffffe) = *puVar3;
-    *(unsigned int *)(*puVar3 & 0xfffffffe) = puVar3[1];
-    iVar2 = *(int *)(param_1 & 0xfffff000);
-    *puVar4 = *(unsigned int *)(iVar2 + 0x2c);
-    *(unsigned int **)(iVar2 + 0x2c) = puVar4;
+    *(unsigned int *)(link->next & ~1u) = link->prev;
+    *(unsigned int *)(link->prev & ~1u) = link->next;
+    pool = *(Pool_82AF7650 **)((unsigned int)self & ~0xfffu);
+    *node = (unsigned int)pool->free;
+    pool->free = node;
   }
-  return;
 }
-

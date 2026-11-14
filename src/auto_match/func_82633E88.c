@@ -1,46 +1,45 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
+typedef struct Desc_82633E88 {
+    unsigned int top : 4;
+    unsigned int mask : 12;
+    unsigned int flag : 1;
+    unsigned int count : 3;
+    unsigned int first : 12;
+} Desc_82633E88;
 
+typedef struct Entry_82633E88 {
+    unsigned int kind : 6;
+    unsigned int rest0 : 26;
+    int f4;
+    unsigned int pad8 : 3;
+    unsigned int type : 5;
+    unsigned int rest8 : 24;
+} Entry_82633E88;
 
-unsigned __int64 fn_82633E88(unsigned int *param_1,int param_2)
-
+static __forceinline unsigned char InRange(unsigned int v, unsigned int lo, unsigned int hi)
 {
-  unsigned int uVar1;
-  bool bVar2;
-  bool bVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int *puVar7;
-  
-  uVar1 = *param_1;
-  uVar6 = 0;
-  uVar4 = uVar1 >> 0xc & 7;
-  puVar7 = (unsigned int *)((uVar1 & 0xfff) * 0xc + param_2);
-  if (uVar4 == 0) {
-    return 1;
-  }
-  uVar5 = 0;
-  do {
-    if ((1 << (uVar5 & 0x3f) & uVar1 >> 0x10 & 0xfff) == 0) {
-      if (((*(unsigned char *)(puVar7 + 2) & 0x1f) < 0x14) ||
-         (bVar3 = true, 0x17 < (*(unsigned char *)(puVar7 + 2) & 0x1f))) {
-        bVar3 = false;
-      }
-      if ((*puVar7 >> 0x1a < 0x1b) || (bVar2 = true, 0x22 < *puVar7 >> 0x1a)) {
-        bVar2 = false;
-      }
-      if ((bVar3) || (bVar2)) {
-        return 0;
-      }
-    }
-    uVar6 = uVar6 + 1;
-    uVar5 = uVar5 + 2;
-    puVar7 = puVar7 + 3;
-    if (uVar4 <= uVar6) {
-      return 1;
-    }
-  } while( true );
+    return v >= lo && v <= hi;
 }
 
+int fn_82633E88(Desc_82633E88 *desc, Entry_82633E88 *table)
+{
+    Entry_82633E88 *e = &table[desc->first];
+    unsigned int count = desc->count;
+    unsigned int mask = desc->mask;
+    unsigned int i;
+
+    int result = 1;
+
+    for (i = 0; i < count; i++, e++) {
+        if (((1 << (i * 2)) & mask) == 0) {
+            unsigned int type = e->type;
+            unsigned int kind = e->kind;
+            unsigned char a = InRange(type, 0x14, 0x17);
+            unsigned char b = InRange(kind, 0x1b, 0x22);
+            if (a || b) {
+                result = 0;
+                break;
+            }
+        }
+    }
+    return result;
+}

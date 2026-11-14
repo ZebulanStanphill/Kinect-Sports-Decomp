@@ -1,28 +1,20 @@
-__int64 fn_82CF6EE0(int param_1)
+typedef struct Row_82CF6EE0 {
+    int unknown;
+    int size;
+} Row_82CF6EE0;
 
+typedef struct Pool_82CF6EE0 {
+    char pad[0xc];
+    Row_82CF6EE0 rows[17];
+    int counts[17];
+} Pool_82CF6EE0;
+
+int fn_82CF6EE0(const Pool_82CF6EE0 *self)
 {
-  int *piVar1;
-  int *piVar2;
-  __int64 lVar3;
-  __int64 lVar4;
-  int *piVar5;
-  int *piVar6;
-  __int64 lVar7;
-  
-  lVar4 = 0;
-  lVar3 = 0;
-  piVar5 = (int *)(param_1 + 8);
-  piVar6 = (int *)(param_1 + 0x90);
-  lVar7 = 8;
-  do {
-    piVar1 = piVar6 + 1;
-    piVar2 = piVar5 + 2;
-    piVar6 = piVar6 + 2;
-    piVar5 = piVar5 + 4;
-    lVar4 = (__int64)*piVar1 * (__int64)*piVar2 + lVar4;
-    lVar3 = (__int64)*piVar5 * (__int64)*piVar6 + lVar3;
-    lVar7 = lVar7 + -1;
-  } while (lVar7 != 0);
-  return lVar3 + lVar4 + (__int64)*(int *)(param_1 + 0xd4) * (__int64)*(int *)(param_1 + 0x90);
-}
+    int total = 0;
+    int i;
 
+    for (i = 0; i < 17; i++)
+        total += self->counts[i] * self->rows[i].size;
+    return total;
+}

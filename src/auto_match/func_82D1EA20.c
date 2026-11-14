@@ -1,33 +1,32 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern V16 loadVectorLeftIndexed128();
-extern V16 vectorAddFloatingPoint();
-extern void *memcpy(void *, const void *, unsigned int);
+// Centre of three referenced points: (a + b + c) * (1/3), the third splatted with
+// __lvlx/__vspltw (hkSimdReal) straight from its pooled constant.
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __lvlx(const void *p, int offset);
+__vector4 __vspltw(__vector4 v, unsigned int i);
+__vector4 __vaddfp(__vector4 a, __vector4 b);
+__vector4 __vmulfp(__vector4 a, __vector4 b);
 
-void fn_82D1EA20(int param_1)
+typedef struct Vertex_82D1EA20 {
+    char pad00[0x10];
+    __vector4 position;
+} Vertex_82D1EA20;
 
+typedef struct Triangle_82D1EA20 {
+    char pad00[0x8];
+    Vertex_82D1EA20 *vertices[3];
+} Triangle_82D1EA20;
+
+static __forceinline __vector4 SimdReal(float r)
 {
-  float *pfVar1;
-  unsigned __int64 in_r0;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs43 [16];
-  unsigned char auVar2 [16];
-  unsigned char in_vs45 [16];
-  float in_register_00010080;
-  float in_register_00010084;
-  float in_register_00010088;
-  float in_vr8;
-  float in_register_00010090;
-  float in_register_00010094;
-  float in_register_00010098;
-  float in_vr9;{ V16 _vt0 = vectorAddFloatingPoint(in_vs45,in_vs32); memcpy(auVar2, &_vt0, 16); }
-  loadVectorLeftIndexed128(in_r0,0xffffffff82015be0);
-  vectorAddFloatingPoint(auVar2,in_vs43);
-  pfVar1 = (float *)((int)in_r0 + param_1 & 0xfffffff0);
-  *pfVar1 = in_register_00010080 * in_register_00010090;
-  pfVar1[1] = in_register_00010084 * in_register_00010094;
-  pfVar1[2] = in_register_00010088 * in_register_00010098;
-  pfVar1[3] = in_vr8 * in_vr9;
-  return;
+    return __vspltw(__lvlx(&r, 0), 0);
 }
 
+void fn_82D1EA20(__vector4 *out, void *unused, const Triangle_82D1EA20 *tri)
+{
+    __vector4 sum = __vaddfp(tri->vertices[0]->position, tri->vertices[1]->position);
+    sum = __vaddfp(sum, tri->vertices[2]->position);
+    *out = __vmulfp(sum, SimdReal(1.0f / 3.0f));
+}

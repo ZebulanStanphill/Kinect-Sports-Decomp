@@ -1,47 +1,38 @@
-void fn_82368D40(int param_1,int param_2,int param_3,unsigned int *param_4)
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+  float vector4_f32[4];
+} __vector4;
 
+typedef struct Camera_82368D40 {
+  char pad0[0x50];
+  __vector4 position;      /* 0x50 */
+  char pad60[0xb64 - 0x60];
+  float fovNormal;         /* 0xb64 */
+  char padb68[0xba4 - 0xb68];
+  float fovOverride;       /* 0xba4 */
+  char padba8[0xbb1 - 0xba8];
+  unsigned char useOverride; /* 0xbb1 */
+  char padbb2[0xbd0 - 0xbb2];
+  __vector4 direction;     /* 0xbd0 */
+} Camera_82368D40;
+typedef struct Self_82368D40 {
+  char pad[0xe10];
+  Camera_82368D40 *camera;
+} Self_82368D40;
+
+void fn_82368D40(Self_82368D40 *self, __vector4 *position, __vector4 *direction, float *fov)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  unsigned int *puVar3;
-  int in_r0;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  
-  if (param_2 != 0) {
-    puVar2 = (unsigned int *)(*(int *)(param_1 + 0xe10) + 0x50U & 0xfffffff0);
-    uVar4 = puVar2[1];
-    uVar5 = puVar2[2];
-    uVar6 = puVar2[3];
-    puVar3 = (unsigned int *)(in_r0 + param_2 & 0xfffffff0);
-    *puVar3 = *puVar2;
-    puVar3[1] = uVar4;
-    puVar3[2] = uVar5;
-    puVar3[3] = uVar6;
+  if (position != 0) {
+    *position = self->camera->position;
   }
-  if (param_3 != 0) {
-    puVar2 = (unsigned int *)(*(int *)(param_1 + 0xe10) + 0xbd0U & 0xfffffff0);
-    uVar4 = puVar2[1];
-    uVar5 = puVar2[2];
-    uVar6 = puVar2[3];
-    puVar3 = (unsigned int *)(in_r0 + param_3 & 0xfffffff0);
-    *puVar3 = *puVar2;
-    puVar3[1] = uVar4;
-    puVar3[2] = uVar5;
-    puVar3[3] = uVar6;
+  if (direction != 0) {
+    *direction = self->camera->direction;
   }
-  if (param_4 == (unsigned int *)0x0) {
-    return;
+  if (fov != 0) {
+    Camera_82368D40 *cam = self->camera;
+    if (cam->useOverride) {
+      *fov = cam->fovOverride;
+    } else {
+      *fov = cam->fovNormal;
+    }
   }
-  iVar1 = *(int *)(param_1 + 0xe10);
-  if (*(char *)(iVar1 + 0xbb1) == '\0') {
-    uVar4 = *(unsigned int *)(iVar1 + 0xb64);
-  }
-  else {
-    uVar4 = *(unsigned int *)(iVar1 + 0xba4);
-  }
-  *param_4 = uVar4;
-  return;
 }
-

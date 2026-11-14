@@ -1,57 +1,70 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_83000688();
+typedef struct Entry_83003848 { unsigned int key; int value; } Entry_83003848;
+typedef struct Keys_83003848 { unsigned int *begin; unsigned int *end; } Keys_83003848;
+typedef struct Self_83003848 {
+  char pad0[0x10];
+  int f10;
+  char pad1[0x32 - 0x14];
+  short f32;
+  char pad2[0x3d - 0x34];
+  unsigned char flags;
+  char pad3[0x48 - 0x3e];
+  Entry_83003848 *begin;
+  Entry_83003848 *end;
+} Self_83003848;
+extern void fn_83000688(Self_83003848 *self, int arg, unsigned int key, int *value);
 
-
-void fn_83003848(int param_1,unsigned __int64 param_2,int param_3,int *param_4)
-
+static __forceinline int *Select_83003848(int ok, int *v)
 {
-  bool bVar1;
-  int *piVar2;
-  int *piVar3;
-  
-  if (param_3 == 0) {
-    piVar3 = *(int **)(param_1 + 0x48);
-    if (param_4 == (int *)0x0) {
-      if (piVar3 != *(int **)(param_1 + 0x4c)) {
-        do {
-          fn_83000688(param_1,param_2,*piVar3,piVar3 + 1);
-          piVar3 = piVar3 + 2;
-        } while (piVar3 != *(int **)(param_1 + 0x4c));
-        *(short *)(param_1 + 0x32) = (short)param_2;
-        return;
-      }
-    }
-    else if (piVar3 != *(int **)(param_1 + 0x4c)) {
-      do {
-        piVar2 = (int *)*param_4;
-        bVar1 = false;
-        if (piVar2 != (int *)param_4[1]) {
-          do {
-            if (*piVar2 == *piVar3) {
-              bVar1 = true;
-              break;
-            }
-            piVar2 = piVar2 + 1;
-          } while (piVar2 != (int *)param_4[1]);
-        }
-        if (!bVar1) {
-          fn_83000688(param_1,param_2,*piVar3,piVar3 + 1);
-        }
-        piVar3 = piVar3 + 2;
-      } while (piVar3 != *(int **)(param_1 + 0x4c));
-    }
-    *(short *)(param_1 + 0x32) = (short)param_2;
-  }
-  else if (((*(unsigned char *)(param_1 + 0x3d) & 0x20) != 0) || (*(int *)(param_1 + 0x10) == 0)) {
-    for (piVar3 = *(int **)(param_1 + 0x48);
-        (piVar3 != *(int **)(param_1 + 0x4c) && (*piVar3 != param_3)); piVar3 = piVar3 + 2) {
-    }
-    if ((-(unsigned int)(*(int **)(param_1 + 0x4c) != piVar3) & (unsigned int)(piVar3 + 1)) != 0) {
-      fn_83000688(param_1,param_2);
-    }
-  }
-  return;
+  return ok ? v : 0;
 }
 
+static __forceinline int *Find_83003848(Self_83003848 *self, unsigned int key)
+{
+  Entry_83003848 *end = self->end;
+  Entry_83003848 *it;
+
+  for (it = self->begin; it != end; it++) {
+    if (it->key == key) {
+      break;
+    }
+  }
+  return Select_83003848(it != end, &it->value);
+}
+
+void fn_83003848(Self_83003848 *self, int arg, unsigned int key, Keys_83003848 *skip)
+{
+  Entry_83003848 *it;
+  unsigned int *k;
+  unsigned char found;
+  int *value;
+
+  if (key != 0) {
+    if ((self->flags & 0x20) != 0 || self->f10 == 0) {
+      value = Find_83003848(self, key);
+      if (value != 0) {
+        fn_83000688(self, arg, key, value);
+      }
+    }
+    return;
+  }
+  it = self->begin;
+  if (skip == 0) {
+    for (; it != self->end; it++) {
+      fn_83000688(self, arg, it->key, &it->value);
+    }
+  } else {
+    for (; it != self->end; it++) {
+      found = 0;
+      for (k = skip->begin; k != skip->end; k++) {
+        if (*k == it->key) {
+          found = 1;
+          break;
+        }
+      }
+      if (!found) {
+        fn_83000688(self, arg, it->key, &it->value);
+      }
+    }
+  }
+  self->f32 = (short)arg;
+}

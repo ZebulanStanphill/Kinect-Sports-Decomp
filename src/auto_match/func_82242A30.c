@@ -1,55 +1,68 @@
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_80;
-extern int fn_822315A0();
-extern int fn_82243DA8();
-extern int fn_8288B760();
-extern int fn_828AC428();
-extern int fn_828AC488();
-extern unsigned int uStack_68;
+void *memset(void *d, int c, unsigned int n);
 
+typedef struct Array_82242A30 {
+    int size;
+    void *data;
+} Array_82242A30;
 
-void fn_82242A30(int param_1)
+typedef struct Target_82242A30 Target_82242A30;
 
+typedef struct TargetVtbl_82242A30 {
+    void *f0;
+    void *f4;
+    char *(*Get)(Target_82242A30 *self);
+} TargetVtbl_82242A30;
+
+struct Target_82242A30 {
+    TargetVtbl_82242A30 *vt;
+};
+
+typedef struct Self_82242A30 {
+    int f0;
+    Array_82242A30 a;
+    Array_82242A30 b;
+    int f14;
+    unsigned char flag18;
+    unsigned char flag19;
+    Target_82242A30 *target;
+} Self_82242A30;
+
+typedef struct Temp_82242A30 {
+    int v[6];
+} Temp_82242A30;
+
+typedef struct Desc_82242A30 {
+    int v[15];
+} Desc_82242A30;
+
+extern void fn_822315A0(void *p);
+extern unsigned char fn_8288B760(Target_82242A30 *t);
+extern void fn_828AC428(Temp_82242A30 *t);
+extern void fn_828AC488(Temp_82242A30 *t);
+extern void fn_82243DA8(char *dst, Desc_82242A30 *desc, Temp_82242A30 *tmp, int flags);
+
+static __forceinline void Clear(Array_82242A30 *a)
 {
-  int iVar1;
-  unsigned __int64 *puVar2;
-  char cVar4;
-  __int64 lVar3;
-  unsigned __int64 *puVar5;
-  __int64 lVar6;
-  unsigned char auStack_80 [24];
-  unsigned __int64 uStack_68;
-  unsigned char auStack_60 [56];
-  
-  *(unsigned char *)(param_1 + 0x18) = 0;
-  *(unsigned char *)(param_1 + 0x19) = 0;
-  iVar1 = *(int *)(param_1 + 8);
-  *(unsigned int *)(param_1 + 8) = 0;
-  *(unsigned int *)(param_1 + 4) = 0;
-  if (iVar1 != 0) {
-    fn_822315A0();
-  }
-  iVar1 = *(int *)(param_1 + 0x10);
-  *(unsigned int *)(param_1 + 0x10) = 0;
-  *(unsigned int *)(param_1 + 0xc) = 0;
-  if (iVar1 != 0) {
-    fn_822315A0();
-  }
-  if ((*(int *)(param_1 + 0x1c) != 0) && (cVar4 = fn_8288B760(), cVar4 != '\0')) {
-    lVar3 = (**(int (***)())(**(int **)(param_1 + 0x1c) + 8))();
-    lVar6 = 7;
-    puVar2 = &uStack_68;
-    do {
-      puVar5 = puVar2;
-      puVar2 = puVar5 + 1;
-      *puVar2 = 0;
-      lVar6 = lVar6 + -1;
-    } while (lVar6 != 0);
-    *(unsigned int *)(puVar5 + 2) = 0;
-    fn_828AC428(auStack_80);
-    fn_82243DA8(lVar3 + 0x48,auStack_60,auStack_80,0);
-    fn_828AC488(auStack_80);
-  }
-  return;
+    void *data = a->data;
+    a->data = 0;
+    a->size = 0;
+    if (data != 0)
+        fn_822315A0(data);
 }
 
+void fn_82242A30(Self_82242A30 *self)
+{
+    self->flag18 = 0;
+    self->flag19 = 0;
+    Clear(&self->a);
+    Clear(&self->b);
+    if (self->target != 0 && fn_8288B760(self->target)) {
+        char *dst = self->target->vt->Get(self->target) + 0x48;
+        Desc_82242A30 desc;
+        Temp_82242A30 tmp;
+        memset(&desc, 0, sizeof desc);
+        fn_828AC428(&tmp);
+        fn_82243DA8(dst, &desc, &tmp, 0);
+        fn_828AC488(&tmp);
+    }
+}

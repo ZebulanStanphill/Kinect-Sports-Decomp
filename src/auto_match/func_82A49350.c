@@ -1,62 +1,58 @@
-extern int fn_82A455C8();
-extern int fn_82A47440();
-extern int fn_82A47900();
-extern int fn_82A48100();
-extern int fn_82A481D0();
-extern int fn_82A48728();
-extern int fn_82A48820();
+typedef struct Info_82A49350 { char pad[0x10]; unsigned int f10; } Info_82A49350;
+typedef struct Self_82A49350 {
+  char pad0[0x1c0];
+  unsigned int count;
+  char pad1[0x1d4 - 0x1c4];
+  int active;
+  int handle;
+  int state;
+  char pad2[0x20c - 0x1e0];
+  Info_82A49350 **info;
+  char pad3[0x214 - 0x210];
+  unsigned int f214;
+} Self_82A49350;
+extern int fn_82A47440(Self_82A49350 *self);
+extern void fn_82A481D0(Self_82A49350 *self);
+extern unsigned int fn_82A47900(Self_82A49350 *self);
+extern void fn_82A48100(Self_82A49350 *self);
+extern void fn_82A455C8(int handle, unsigned int index, int flags);
+extern void fn_82A48820(Self_82A49350 *self);
+extern void fn_82A48728(Self_82A49350 *self);
 
-
-void fn_82A49350(int param_1)
-
+void fn_82A49350(Self_82A49350 *self)
 {
-  int iVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  
-  iVar2 = *(int *)(param_1 + 0x1dc);
-  iVar1 = fn_82A47440();
-  *(int *)(param_1 + 0x1dc) = iVar1;
-  if (iVar2 != 0) {
-    if (iVar1 != 0) {
-      if (*(int *)(param_1 + 0x214) == 0) {
-        return;
-      }
-      fn_82A481D0(param_1);
-      if (*(int **)(param_1 + 0x20c) == (int *)0x0) {
-        iVar2 = 0;
-      }
-      else {
-        iVar2 = **(int **)(param_1 + 0x20c);
-      }
-      if (*(int *)(iVar2 + 0x10) == 0) {
-        return;
-      }
-      iVar2 = fn_82A47900(param_1);
-      if (iVar2 != 0) {
-        return;
-      }
-      if (*(int *)(param_1 + 0x1d4) != 0) {
-        return;
-      }
-      fn_82A48100(param_1);
-      *(unsigned int *)(param_1 + 0x1d4) = 1;
-      return;
-    }
-    fn_82A481D0(param_1);
-    if (*(int *)(param_1 + 0x1d4) != 0) {
-      uVar3 = 0;
-      if (*(int *)(param_1 + 0x1c0) != 0) {
-        do {
-          fn_82A455C8(*(unsigned int *)(param_1 + 0x1d8),uVar3,0x80);
-          uVar3 = uVar3 + 1;
-        } while ((uVar3 & 0xffffffff) < (unsigned __int64)*(unsigned int *)(param_1 + 0x1c0));
-      }
-      *(unsigned int *)(param_1 + 0x1d4) = 0;
-    }
-    fn_82A48820(param_1);
-  }
-  fn_82A48728(param_1);
-  return;
-}
+  int prev;
+  int cur;
+  unsigned int i;
+  Info_82A49350 *info;
 
+  prev = self->state;
+  cur = fn_82A47440(self);
+  self->state = cur;
+  if (prev == 0) {
+    fn_82A48728(self);
+  } else if (cur == 0) {
+    fn_82A481D0(self);
+    if (self->active != 0) {
+      for (i = 0; i < self->count; i++) {
+        fn_82A455C8(self->handle, i, 0x80);
+      }
+      self->active = 0;
+    }
+    fn_82A48820(self);
+    fn_82A48728(self);
+  } else {
+    if (self->f214 != 0) {
+      fn_82A481D0(self);
+      if (self->info != 0) {
+        info = *self->info;
+      } else {
+        info = 0;
+      }
+      if (info->f10 != 0 && fn_82A47900(self) == 0 && self->active == 0) {
+        fn_82A48100(self);
+        self->active = 1;
+      }
+    }
+  }
+}

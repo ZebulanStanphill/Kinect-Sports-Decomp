@@ -1,45 +1,25 @@
-extern int fn_82936290();
+/* Find str in a pool of NUL-separated strings (*used bytes long) and return its offset;
+   append it when it is not there. strcmp/strlen are inline (/Oi). */
+int strcmp(const char *a, const char *b);
+unsigned int strlen(const char *s);
 
+extern void fn_82936290(char *dst, unsigned int size, const char *src);
 
-int fn_82937330(char *param_1,char *param_2,unsigned __int64 param_3,int *param_4)
-
+int fn_82937330(const char *str, char *cur, unsigned int size, unsigned int *used)
 {
-  char cVar1;
-  char cVar2;
-  int iVar3;
-  char *pcVar4;
-  int iVar5;
-  char *pcVar6;
-  char *pcVar7;
-  
-  pcVar7 = param_2;
-  for (iVar5 = *param_4; pcVar6 = param_1, pcVar4 = pcVar7, iVar5 != 0;
-      iVar5 = (iVar5 - (int)(pcVar6 + iVar3)) + -1) {
-    do {
-      cVar1 = *pcVar6;
-      cVar2 = *pcVar4;
-      if (cVar1 == '\0') break;
-      pcVar6 = pcVar6 + 1;
-      pcVar4 = pcVar4 + 1;
-    } while (cVar1 == cVar2);
-    pcVar6 = pcVar7;
-    if (cVar1 == cVar2) goto LAB_82937410;
-    do {
-      cVar1 = *pcVar6;
-      pcVar6 = pcVar6 + 1;
-    } while (cVar1 != '\0');
-    iVar3 = -1 - (int)pcVar7;
-    pcVar7 = pcVar7 + (int)(pcVar6 + iVar3 + 1);
-  }
-  if ((param_3 & 0xffffffff) < 0x80000000) {
-    fn_82936290(pcVar7,param_3,param_1);
-  }
-  do {
-    cVar1 = *pcVar6;
-    pcVar6 = pcVar6 + 1;
-  } while (cVar1 != '\0');
-  *param_4 = (int)(pcVar6 + (*param_4 - (int)param_1));
-LAB_82937410:
-  return (int)pcVar7 - (int)param_2;
-}
+    char *pool = cur;
+    unsigned int left = *used;
 
+    while (left != 0) {
+        unsigned int len;
+        if (strcmp(str, cur) == 0)
+            return cur - pool;
+        len = strlen(cur);
+        left -= len + 1;
+        cur += len + 1;
+    }
+    if (size <= 0x7fffffff)
+        fn_82936290(cur, size, str);
+    *used += strlen(str) + 1;
+    return cur - pool;
+}

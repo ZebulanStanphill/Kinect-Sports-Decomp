@@ -173856,7 +173856,7 @@ auto_match/func_82F800C8.c:
 	.pdata      start:0x82221F80 end:0x82221F88
 	.text       start:0x82F800C8 end:0x82F8010C
 
-auto_match/func_82F80110.c:
+auto_match/func_82F80110.cpp:
 	.pdata      start:0x82221F88 end:0x82221F90
 	.text       start:0x82F80110 end:0x82F801C8
 

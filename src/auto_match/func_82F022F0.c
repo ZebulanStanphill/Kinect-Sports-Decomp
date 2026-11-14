@@ -1,32 +1,29 @@
-unsigned __int64 fn_82F022F0(int param_1,unsigned char param_2,unsigned char *param_3,unsigned char *param_4)
+typedef struct Parser_82F022F0 {
+    char pad[0x30];
+    unsigned int state;
+} Parser_82F022F0;
 
+int fn_82F022F0(Parser_82F022F0 *self, unsigned char value, unsigned char *kind, unsigned char *code)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  
-  *param_3 = param_2;
-  uVar1 = *(unsigned int *)(param_1 + 0x30);
-  uVar2 = 1;
-  if (uVar1 == 0) {
-    if (param_2 != 0) {
-      return uVar2;
-    }
-    *(unsigned int *)(param_1 + 0x30) = 1;
-    return uVar2;
-  }
-  if (uVar1 != 1) {
-    if (2 < uVar1) {
-      return uVar2;
-    }
-    if ((((param_2 == 0) || (param_2 == 1)) || (param_2 == 2)) || (param_2 == 3)) {
-      uVar2 = 2;
-      *param_3 = 3;
-      *param_4 = param_2;
-    }
-    *(unsigned int *)(param_1 + 0x30) = (unsigned int)LZCOUNT((unsigned int)param_2) >> 5;
-    return uVar2;
-  }
-  *(unsigned int *)(param_1 + 0x30) = -(unsigned int)(param_2 == 0) & 2;
-  return uVar2;
-}
+    int result = 1;
 
+    *kind = value;
+    switch (self->state) {
+    case 0:
+        if (value == 0)
+            self->state = 1;
+        break;
+    case 1:
+        self->state = value == 0 ? 2 : 0;
+        break;
+    case 2:
+        if (value == 0 || value == 1 || value == 2 || value == 3) {
+            result = 2;
+            *kind = 3;
+            *code = value;
+        }
+        self->state = value == 0;
+        break;
+    }
+    return result;
+}

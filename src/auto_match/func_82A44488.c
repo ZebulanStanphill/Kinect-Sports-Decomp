@@ -1,29 +1,23 @@
-extern int fn_82A3FF60();
-extern int fn_82A442F0();
+typedef struct Node_82A44488 { int value; int mode; } Node_82A44488;
+typedef struct Self_82A44488 { char pad[0xe4]; char list[4]; } Self_82A44488;
+extern char lbl_83219D50[];
+extern Node_82A44488 *fn_82A3FF60(void *heap, unsigned int size, unsigned int tag, int flags);
+extern int fn_82A442F0(void *list, Node_82A44488 *node);
 
-
-unsigned __int64 fn_82A44488(__int64 param_1,unsigned int param_2,int param_3,unsigned int param_4)
-
+int fn_82A44488(Self_82A44488 *self, unsigned int flags, unsigned int size, int value)
 {
-  unsigned int *puVar3;
-  unsigned __int64 uVar1;
-  __int64 lVar2;
-  unsigned int uVar4;
-  
-  puVar3 = (unsigned int *)fn_82A3FF60(0xffffffff83219d50,8,0x20970002,0);
-  if (puVar3 == (unsigned int *)0x0) {
-    uVar1 = 0xffffffff8007000e;
-  }
-  else {
-    uVar4 = (unsigned int)LZCOUNT(param_2) >> 5;
-    if ((uVar4 == 1) && (param_3 == 0x20)) {
-      uVar4 = 2;
-    }
-    *puVar3 = param_4;
-    puVar3[1] = uVar4;
-    lVar2 = fn_82A442F0(param_1 + 0xe4);
-    uVar1 = -(unsigned __int64)(lVar2 == 0) & 0xffffffff8007000e;
-  }
-  return uVar1;
-}
+  Node_82A44488 *node;
+  int mode;
 
+  node = fn_82A3FF60(lbl_83219D50, 8, 0x20970002, 0);
+  if (node == 0) {
+    return 0x8007000E;
+  }
+  mode = flags == 0;
+  if (mode == 1 && size == 0x20) {
+    mode = 2;
+  }
+  node->value = value;
+  node->mode = mode;
+  return fn_82A442F0(self->list, node) ? 0 : 0x8007000E;
+}

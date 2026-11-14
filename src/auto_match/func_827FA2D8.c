@@ -1,21 +1,24 @@
-typedef unsigned char bool;
-extern unsigned int lbl_821AAD20;
+typedef struct Curves_827FA2D8 {
+    char pad0[0x2e];
+    unsigned short first;   /* 0x2e */
+    unsigned short count;   /* 0x30 */
+    unsigned short frame;   /* 0x32 */
+    char pad34[0x84 - 0x34];
+    float *values;          /* 0x84 */
+} Curves_827FA2D8;
 
-
-bool fn_827FA2D8(int param_1,unsigned int param_2,unsigned int *param_3)
-
+int fn_827FA2D8(Curves_827FA2D8 *self, unsigned int index, float *out)
 {
-  bool bVar1;
-  unsigned int uVar2;
-  
-  bVar1 = param_2 < *(unsigned short *)(param_1 + 0x30);
-  uVar2 = lbl_821AAD20;
-  if (bVar1) {
-    uVar2 = *(unsigned int *)
-             (((unsigned int)*(unsigned short *)(param_1 + 0x32) * 0xc + (unsigned int)*(unsigned short *)(param_1 + 0x2e) + param_2
-              ) * 4 + *(int *)(param_1 + 0x84));
-  }
-  *param_3 = uVar2;
-  return bVar1;
-}
+    int ok;
+    float value;
 
+    if (index < self->count) {
+        ok = 1;
+        value = self->values[self->frame * 12 + self->first + index];
+    } else {
+        ok = 0;
+        value = 0.0f;
+    }
+    *out = value;
+    return ok;
+}

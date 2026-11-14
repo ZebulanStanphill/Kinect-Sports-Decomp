@@ -1,24 +1,36 @@
-unsigned __int64 fn_823888E0(int param_1,__int64 param_2,unsigned __int64 param_3)
+typedef struct Cfg_823888E0 {
+    char pad[0x1d0];
+    int enabled;        /* 0x1d0 */
+    int pad1d4[3];
+    int values[5];      /* 0x1e0 */
+} Cfg_823888E0;
 
+typedef struct Game_823888E0 {
+    char pad[0x260];
+    Cfg_823888E0 *cfg;  /* 0x260 */
+} Game_823888E0;
+
+typedef struct Self_823888E0 {
+    int f0;
+    int f4;
+    Game_823888E0 *game;    /* 0x08 */
+    char pad[0x40];
+    unsigned int counter;   /* 0x4c */
+} Self_823888E0;
+
+unsigned int fn_823888E0(Self_823888E0 *self, unsigned int cur, unsigned int max)
 {
-  int iVar1;
-  unsigned int uVar2;
-  int iVar4;
-  unsigned __int64 uVar3;
-  
-  uVar3 = param_2 + 1U;
-  if (((param_3 & 0xffffffff) < (param_2 + 1U & 0xffffffff)) &&
-     (uVar3 = param_3, *(int *)(*(int *)(*(int *)(param_1 + 8) + 0x260) + 0x1d0) != 0)) {
-    iVar1 = *(int *)(param_1 + 0x4c);
-    iVar4 = iVar1 + 1;
-    *(int *)(param_1 + 0x4c) = iVar4;
-    uVar2 = *(unsigned int *)((iVar4 + ((iVar1 + 1U) / 5) * -5 + 0x78) * 4 +
-                     *(int *)(*(int *)(param_1 + 8) + 0x260));
-    uVar3 = (unsigned __int64)uVar2;
-    if ((int)uVar2 < 1) {
-      uVar3 = 1;
-    }
-  }
-  return uVar3;
-}
+    unsigned int r = cur + 1;
 
+    if (r > max) {
+        if (self->game->cfg->enabled != 0) {
+            self->counter++;
+            r = self->game->cfg->values[self->counter % 5];
+            if ((int)r < 1)
+                r = 1;
+        } else {
+            r = max;
+        }
+    }
+    return r;
+}

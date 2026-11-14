@@ -1,27 +1,20 @@
-void fn_82F00468(int param_1,int param_2,unsigned char *param_3,__int64 param_4)
+typedef struct Ctx_82F00468 {
+    char pad[0x5254];
+    int mode;
+} Ctx_82F00468;
 
+extern const unsigned char lbl_831AE320[256];
+extern const unsigned char lbl_831AE420[256];
+
+void fn_82F00468(Ctx_82F00468 *ctx, const unsigned char *src, unsigned char *dst, int count)
 {
-  if (*(int *)(param_1 + 0x5254) != 1) {
-    if ((int)param_4 < 1) {
-      return;
-    }
-    param_2 = param_2 - (int)param_3;
-    do {
-      *param_3 = *(unsigned char *)((unsigned char)param_3[param_2] + 0x831ae420);
-      param_3 = param_3 + 1;
-      param_4 = param_4 + -1;
-    } while (param_4 != 0);
-    return;
-  }
-  if ((int)param_4 < 1) {
-    return;
-  }
-  param_2 = param_2 - (int)param_3;
-  do {
-    *param_3 = *(unsigned char *)((unsigned char)param_3[param_2] + 0x831ae320);
-    param_3 = param_3 + 1;
-    param_4 = param_4 + -1;
-  } while (param_4 != 0);
-  return;
-}
+    int i;
 
+    if (ctx->mode == 1) {
+        for (i = 0; i < count; i++)
+            dst[i] = lbl_831AE320[src[i]];
+    } else {
+        for (i = 0; i < count; i++)
+            dst[i] = lbl_831AE420[src[i]];
+    }
+}

@@ -1,31 +1,26 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern V16 loadVectorLeftIndexed128();
-extern V16 vectorAddFloatingPoint();
+// Havok shape centre: (a + b) * 0.5, the half splatted with __lvlx/__vspltw (hkSimdReal)
+// straight from its pooled constant.
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __lvlx(const void *p, int offset);
+__vector4 __vspltw(__vector4 v, unsigned int i);
+__vector4 __vaddfp(__vector4 a, __vector4 b);
+__vector4 __vmulfp(__vector4 a, __vector4 b);
 
-void fn_82D3BD70(unsigned __int64 param_1,int param_2)
+typedef struct Shape_82D3BD70 {
+    char pad00[0x20];
+    __vector4 a;
+    __vector4 b;
+} Shape_82D3BD70;
 
+static __forceinline __vector4 SimdReal(float r)
 {
-  float *pfVar1;
-  unsigned __int64 in_r0;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs45 [16];
-  float in_register_000100a0;
-  float in_register_000100a4;
-  float in_register_000100a8;
-  float in_vr10;
-  float in_register_000100c0;
-  float in_register_000100c4;
-  float in_register_000100c8;
-  float in_vr12;
-  
-  vectorAddFloatingPoint(in_vs45,in_vs32);
-  loadVectorLeftIndexed128(in_r0,0xffffffff82002c5c);
-  pfVar1 = (float *)((int)in_r0 + param_2 & 0xfffffff0);
-  *pfVar1 = in_register_000100c0 * in_register_000100a0;
-  pfVar1[1] = in_register_000100c4 * in_register_000100a4;
-  pfVar1[2] = in_register_000100c8 * in_register_000100a8;
-  pfVar1[3] = in_vr12 * in_vr10;
-  return;
+    return __vspltw(__lvlx(&r, 0), 0);
 }
 
+void fn_82D3BD70(const Shape_82D3BD70 *self, __vector4 *out)
+{
+    *out = __vmulfp(__vaddfp(self->a, self->b), SimdReal(0.5f));
+}

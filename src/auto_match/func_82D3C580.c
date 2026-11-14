@@ -1,25 +1,20 @@
-void fn_82D3C580(unsigned __int64 param_1,unsigned __int64 param_2,__int64 param_3,int param_4)
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vxor(__vector4 a, __vector4 b);
+
+static __forceinline void SetZero(__vector4 *v)
 {
-  unsigned int *puVar1;
-  int in_r0;
-  unsigned int in_register_000100d0;
-  unsigned int in_register_000100d4;
-  unsigned int in_register_000100d8;
-  unsigned int in_vr13;
-  
-  if (-1 < param_3 + -1) {
-    do {
-      puVar1 = (unsigned int *)(in_r0 + param_4 & 0xfffffff0);
-      *puVar1 = in_register_000100d0;
-      puVar1[1] = in_register_000100d4;
-      puVar1[2] = in_register_000100d8;
-      puVar1[3] = in_vr13;
-      param_4 = param_4 + 0x10;
-      param_3 = param_3 + -1;
-    } while (param_3 != 0);
-    return;
-  }
-  return;
+    *v = __vxor(*v, *v);
 }
 
+// Zero `count` hkVector4s (setZero4: v ^ v); the first two parameters are unused here.
+void fn_82D3C580(void *a, void *b, int count, __vector4 *dst)
+{
+    int i;
+    for (i = count - 1; i >= 0; i--) {
+        SetZero(dst);
+        dst++;
+    }
+}

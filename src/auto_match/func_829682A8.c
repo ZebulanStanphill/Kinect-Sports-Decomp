@@ -1,63 +1,41 @@
-typedef unsigned char bool;
+typedef struct Node_829682A8 {
+    char pad[0x14];
+    int parent;
+    int value;
+} Node_829682A8;
 
+typedef struct Tree_829682A8 {
+    char pad[0x14];
+    Node_829682A8 **nodes;
+} Tree_829682A8;
 
-bool fn_829682A8(int param_1,int param_2,unsigned __int64 param_3,int param_4,unsigned __int64 param_5)
-
+unsigned char fn_829682A8(Tree_829682A8 *self, unsigned int a, int aValue, unsigned int b, int bValue)
 {
-  bool bVar1;
-  int iVar2;
-  __int64 lVar3;
-  unsigned __int64 uVar4;
-  int iVar5;
-  unsigned __int64 uVar6;
-  
-  uVar6 = 0;
-  uVar4 = 0;
-  if (param_2 != -1) {
-    iVar5 = param_2;
-    do {
-      uVar6 = uVar6 + 1;
-      iVar5 = *(int *)(*(int *)(iVar5 * 4 + *(int *)(param_1 + 0x14)) + 0x14);
-    } while (iVar5 != -1);
-  }
-  if (param_4 != -1) {
-    iVar5 = param_4;
-    do {
-      uVar4 = uVar4 + 1;
-      iVar5 = *(int *)(*(int *)(iVar5 * 4 + *(int *)(param_1 + 0x14)) + 0x14);
-    } while (iVar5 != -1);
-  }
-  bVar1 = (uVar6 & 0xffffffff) < (uVar4 & 0xffffffff);
-  if ((uVar4 & 0xffffffff) < (uVar6 & 0xffffffff)) {
-    lVar3 = uVar6 - uVar4;
-    do {
-      uVar6 = uVar6 - 1;
-      iVar5 = *(int *)(param_2 * 4 + *(int *)(param_1 + 0x14));
-      param_3 = (unsigned __int64)*(unsigned int *)(iVar5 + 0x18);
-      param_2 = *(int *)(iVar5 + 0x14);
-      lVar3 = lVar3 + -1;
-    } while (lVar3 != 0);
-    bVar1 = (uVar6 & 0xffffffff) < (uVar4 & 0xffffffff);
-  }
-  if (bVar1) {
-    lVar3 = uVar4 - uVar6;
-    do {
-      iVar5 = *(int *)(param_4 * 4 + *(int *)(param_1 + 0x14));
-      param_5 = (unsigned __int64)*(unsigned int *)(iVar5 + 0x18);
-      param_4 = *(int *)(iVar5 + 0x14);
-      lVar3 = lVar3 + -1;
-    } while (lVar3 != 0);
-  }
-  if (param_2 != param_4) {
-    do {
-      iVar5 = *(int *)(param_2 * 4 + *(int *)(param_1 + 0x14));
-      iVar2 = *(int *)(param_4 * 4 + *(int *)(param_1 + 0x14));
-      param_2 = *(int *)(iVar5 + 0x14);
-      param_4 = *(int *)(iVar2 + 0x14);
-      param_3 = (unsigned __int64)*(unsigned int *)(iVar5 + 0x18);
-      param_5 = (unsigned __int64)*(unsigned int *)(iVar2 + 0x18);
-    } while (param_2 != param_4);
-  }
-  return param_5 != param_3;
-}
+    unsigned int depthA = 0;
+    unsigned int depthB = 0;
+    unsigned int i;
 
+    for (i = a; i != -1; i = self->nodes[i]->parent)
+        depthA++;
+    for (i = b; i != -1; i = self->nodes[i]->parent)
+        depthB++;
+    while (depthA > depthB) {
+        aValue = self->nodes[a]->value;
+        a = self->nodes[a]->parent;
+        depthA--;
+    }
+    while (depthB > depthA) {
+        bValue = self->nodes[b]->value;
+        b = self->nodes[b]->parent;
+        depthB--;
+    }
+    while (a != b) {
+        Node_829682A8 *na = self->nodes[a];
+        Node_829682A8 *nb = self->nodes[b];
+        a = na->parent;
+        b = nb->parent;
+        aValue = na->value;
+        bValue = nb->value;
+    }
+    return aValue != bValue;
+}

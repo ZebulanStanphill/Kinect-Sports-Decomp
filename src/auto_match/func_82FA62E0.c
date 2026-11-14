@@ -1,38 +1,30 @@
-extern unsigned int lbl_83264218;
-extern unsigned int lbl_8326421C;
-extern unsigned int lbl_83264220;
-extern unsigned int lbl_83264224;
+typedef struct Node_82FA62E0 {
+    int pad[2];
+    struct Node_82FA62E0 *prev;
+    void *owner;
+} Node_82FA62E0;
 
+typedef struct Tbl_82FA62E0 {
+    unsigned int top;
+    unsigned int mid[24];
+    Node_82FA62E0 *heads[24][32];
+} Tbl_82FA62E0;
 
-void fn_82FA62E0(unsigned int *param_1)
+extern Node_82FA62E0 lbl_83264218;
 
+void fn_82FA62E0(Tbl_82FA62E0 *self)
 {
-  unsigned int *puVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  __int64 lVar5;
-  
-  lbl_83264220 = &lbl_83264218;
-  lbl_83264224 = &lbl_83264218;
-  iVar3 = 0x19;
-  lbl_8326421C = 0;
-  lbl_83264218 = 0;
-  *param_1 = 0;
-  puVar1 = param_1;
-  do {
-    puVar1 = puVar1 + 1;
-    *puVar1 = 0;
-    iVar4 = 0;
-    lVar5 = 0x20;
-    do {
-      iVar2 = iVar3 + iVar4;
-      iVar4 = iVar4 + 1;
-      param_1[iVar2] = &lbl_83264218;
-      lVar5 = lVar5 + -1;
-    } while (lVar5 != 0);
-    iVar3 = iVar3 + 0x20;
-  } while (iVar3 < 0x319);
-  return;
-}
+    int i;
+    int j;
 
+    lbl_83264218.prev = &lbl_83264218;
+    lbl_83264218.owner = &lbl_83264218;
+    lbl_83264218.pad[1] = 0;
+    lbl_83264218.pad[0] = 0;
+    self->top = 0;
+    for (i = 0; i < 24; i++) {
+        self->mid[i] = 0;
+        for (j = 0; j < 32; j++)
+            self->heads[i][j] = &lbl_83264218;
+    }
+}

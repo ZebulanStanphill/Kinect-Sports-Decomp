@@ -1,46 +1,35 @@
-extern unsigned int iStack_c;
+/* std::_Insertion_sort1 over 8-byte elements ordered by their second word (VC10 <algorithm>). */
+typedef struct Elem_822755F8 {
+    int a;
+    int key;
+} Elem_822755F8;
 
-
-void fn_822755F8(unsigned __int64 *param_1,unsigned __int64 *param_2)
-
+static __forceinline unsigned char Less(const Elem_822755F8 *a, const Elem_822755F8 *b)
 {
-  unsigned __int64 *puVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 *puVar4;
-  unsigned __int64 *puVar5;
-  int iStack_c;
-  
-  puVar4 = param_1;
-  if (param_1 == param_2) {
-    return;
-  }
-  while (puVar5 = puVar4 + 1, puVar5 != param_2) {
-    uVar3 = *puVar5;
-    iStack_c = (int)uVar3;
-    puVar1 = puVar5;
-    if (iStack_c < *(int *)((int)param_1 + 4)) {
-      while (param_1 != puVar1) {
-        *(unsigned int *)puVar1 = *(unsigned int *)(puVar1 + -1);
-        *(unsigned int *)((int)puVar1 + 4) = *(unsigned int *)((int)puVar1 + -4);
-        puVar1 = puVar1 + -1;
-      }
-      *param_1 = uVar3;
-      puVar4 = puVar5;
-    }
-    else {
-      iVar2 = *(int *)((int)puVar4 + 4);
-      puVar4 = puVar5;
-      while (iStack_c < iVar2) {
-        *(unsigned int *)puVar4 = *(unsigned int *)(puVar4 + -1);
-        *(unsigned int *)((int)puVar4 + 4) = *(unsigned int *)((int)puVar4 + -4);
-        iVar2 = *(int *)((int)puVar4 + -0xc);
-        puVar4 = puVar4 + -1;
-      }
-      *puVar4 = uVar3;
-      puVar4 = puVar5;
-    }
-  }
-  return;
+    return a->key < b->key;
 }
 
+void fn_822755F8(Elem_822755F8 *first, Elem_822755F8 *last)
+{
+    Elem_822755F8 *next;
+    if (first != last) {
+        for (next = first; ++next != last; ) {
+            Elem_822755F8 *next1 = next;
+            Elem_822755F8 val = *next;
+            if (Less(&val, first)) {
+                Elem_822755F8 *dest = ++next1;
+                Elem_822755F8 *src = next;
+                while (first != src) {
+                    *--dest = *--src;
+                }
+                *first = val;
+            } else {
+                Elem_822755F8 *first1;
+                for (first1 = next1; Less(&val, --first1); next1 = first1) {
+                    *next1 = *first1;
+                }
+                *next1 = val;
+            }
+        }
+    }
+}

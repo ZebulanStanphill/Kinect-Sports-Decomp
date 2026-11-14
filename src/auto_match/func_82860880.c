@@ -1,48 +1,46 @@
-extern int fn_8280AD30();
-extern int fn_8285A808();
-extern int fn_8285A830();
-extern int fn_8305C550();
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
+typedef struct Vec3_82860880 { float x, y, z; } Vec3_82860880;
+typedef struct Hit_82860880 { char pad[0x28]; int index; } Hit_82860880;
+typedef struct Space_82860880 {
+  char pad0[0x10];
+  float toLocal[16];     /* 0x10 */
+  char pad50[0x90 - 0x50];
+  unsigned int fallback; /* 0x90 */
+  void *transform;       /* 0x94 */
+} Space_82860880;
+typedef struct Query_82860880 {
+  char pad0[0x40];
+  int *items;            /* 0x40 */
+  char pad44[0x6c - 0x44];
+  char tree[4];          /* 0x6c */
+} Query_82860880;
 
+extern Space_82860880 *fn_8285A808(Query_82860880 *query, void *key);
+extern int *fn_8285A830(Query_82860880 *query, void *key);
+extern void fn_8280AD30(float *m, const Vec3_82860880 *v, Vec3_82860880 *o);
+extern Hit_82860880 *fn_8305C550(void *tree, Vec3_82860880 *pos);
 
-unsigned __int64 fn_82860880(int param_1,unsigned __int64 param_2,unsigned int *param_3)
-
+int fn_82860880(Query_82860880 *query, void *key, const Vec3_82860880 *pos)
 {
-  int iVar2;
-  int *piVar3;
-  int iVar4;
-  unsigned __int64 uVar1;
-  unsigned int uStack_40;
-  unsigned int uStack_3c;
-  unsigned int uStack_38;
-  
-  iVar2 = fn_8285A808();
-  piVar3 = (int *)fn_8285A830(param_1,param_2);
-  if (*(int *)(iVar2 + 0x94) == 0) {
-    uStack_40 = *param_3;
-    uStack_3c = param_3[1];
-    uStack_38 = param_3[2];
-  }
-  else {
-    fn_8280AD30(iVar2 + 0x10,param_3,&uStack_40);
-  }
-  iVar4 = fn_8305C550(param_1 + 0x6c,&uStack_40);
-  if (iVar4 == 0) {
-    if (*(int *)(iVar2 + 0x90) == 0) {
-      uVar1 = 0;
-    }
-    else {
-      *piVar3 = *(int *)(iVar2 + 0x90);
-      uVar1 = 1;
-    }
-  }
-  else {
-    uVar1 = 1;
-    *piVar3 = *(int *)((*(int *)(iVar4 + 0x28) - (unsigned int)(*(int *)(iVar2 + 0x90) == 0)) * 4 +
-                      *(int *)(param_1 + 0x40));
-  }
-  return uVar1;
-}
+  Space_82860880 *space;
+  int *out;
+  Vec3_82860880 local;
+  Hit_82860880 *hit;
 
+  space = fn_8285A808(query, key);
+  out = fn_8285A830(query, key);
+  if (space->transform != 0) {
+    fn_8280AD30(space->toLocal, pos, &local);
+  } else {
+    local = *pos;
+  }
+  hit = fn_8305C550(query->tree, &local);
+  if (hit != 0) {
+    *out = query->items[hit->index - (space->fallback == 0)];
+    return 1;
+  }
+  if (space->fallback != 0) {
+    *out = (int)space->fallback;
+    return 1;
+  }
+  return 0;
+}

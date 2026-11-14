@@ -1,28 +1,28 @@
-extern unsigned int lbl_8200D898;
-extern unsigned int lbl_821AAD20;
+typedef struct Obj_83056C00 Obj_83056C00;
+typedef struct ObjVtbl_83056C00 {
+    void *pad0[5];
+    int (*get)(Obj_83056C00 *self, void *data, unsigned int size);  /* 0x14 */
+} ObjVtbl_83056C00;
+struct Obj_83056C00 {
+    ObjVtbl_83056C00 *vt;
+    float x;            /* 0x04 */
+    float y;            /* 0x08 */
+    float z;            /* 0x0c */
+    float w;            /* 0x10 */
+    int count;          /* 0x14 */
+    unsigned char flag; /* 0x18 */
+};
 
-
-unsigned __int64 fn_83056C00(int *param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4)
-
+int fn_83056C00(Obj_83056C00 *self, unsigned int unused, void *data, unsigned int size)
 {
-  int iVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  
-  if ((int)param_4 == 0) {
-    param_1[5] = 0;
-    iVar2 = lbl_821AAD20;
-    *(unsigned char *)(param_1 + 6) = 1;
-    iVar1 = lbl_8200D898;
-    param_1[1] = iVar2;
-    param_1[2] = iVar2;
-    param_1[3] = iVar2;
-    param_1[4] = iVar1;
-    return 1;
-  }
-                    /* WARNING: Could not recover jumptable at 0x83056c5c. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  uVar3 = (**(int (***)())(*param_1 + 0x14))(param_1,param_3,param_4);
-  return uVar3;
+    if (size == 0) {
+        self->x = 0.0f;
+        self->y = 0.0f;
+        self->z = 0.0f;
+        self->w = 10.0f;
+        self->count = 0;
+        self->flag = 1;
+        return 1;
+    }
+    return self->vt->get(self, data, size);
 }
-

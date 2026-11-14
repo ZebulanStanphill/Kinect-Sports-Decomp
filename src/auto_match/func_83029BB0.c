@@ -1,23 +1,27 @@
-unsigned __int64 fn_83029BB0(int param_1)
+typedef struct Iter_83029BB0 {
+    char pad0[8];
+    char *base;             /* 0x08 */
+    char pad0c[4];
+    char *cur;              /* 0x10 */
+    unsigned short index;   /* 0x14 */
+    unsigned short count;   /* 0x16 */
+    char pad18[4];
+    int flags;              /* 0x1c */
+} Iter_83029BB0;
 
+int fn_83029BB0(Iter_83029BB0 *self)
 {
-  unsigned int uVar1;
-  unsigned short uVar2;
-  
-  uVar2 = *(short *)(param_1 + 0x14) + 1;
-  *(unsigned short *)(param_1 + 0x14) = uVar2;
-  uVar1 = *(unsigned int *)(param_1 + 0x1c) & 2;
-  if (*(unsigned short *)(param_1 + 0x16) <= uVar2) {
-    if (uVar1 != 0) {
-      *(unsigned int *)(param_1 + 0x10) = *(unsigned int *)(param_1 + 8);
-    }
-    *(unsigned short *)(param_1 + 0x14) = 0;
-    return 1;
-  }
-  if (uVar1 == 0) {
-    return 0;
-  }
-  *(int *)(param_1 + 0x10) = *(int *)(param_1 + 0x10) + 0x10;
-  return 0;
-}
+    int wrapped = 0;
 
+    self->index++;
+    if (self->index < self->count) {
+        if ((self->flags & 2) != 0)
+            self->cur += 0x10;
+    } else {
+        if ((self->flags & 2) != 0)
+            self->cur = self->base;
+        self->index = 0;
+        wrapped = 1;
+    }
+    return wrapped;
+}

@@ -1,76 +1,96 @@
-void fn_8228A318(int param_1,int param_2)
+typedef struct Ctx_8228A318 {
+    char pad[0x18b8];
+    unsigned int mode;  /* 0x18b8 */
+    int pad2;
+    int kind;           /* 0x18c0 */
+} Ctx_8228A318;
 
+typedef struct Slot_8228A318 {
+    int kind;
+    char pad[0x3c];
+} Slot_8228A318;
+
+typedef struct Game_8228A318 {
+    char pad[0x604];
+    int cur;                    /* 0x604 */
+    int next;                   /* 0x608 */
+    char pad2[0x94];
+    int state;                  /* 0x6a0 */
+    int pad3;
+    Slot_8228A318 slots[4];     /* 0x6a8 */
+    char pad4[0x11f0 - 0x7a8];
+    Ctx_8228A318 *ctx;          /* 0x11f0 */
+} Game_8228A318;
+
+void fn_8228A318(Game_8228A318 *self, unsigned int ev)
 {
-  unsigned int uVar1;
-  int iVar2;
-  int *piVar3;
-  unsigned int uVar4;
-  __int64 lVar5;
-  
-  uVar1 = *(unsigned int *)(*(int *)(param_1 + 0x11f0) + 0x18b8);
-  if (uVar1 == 0) {
-    if (param_2 != 1) {
-code_r0x8228a354:
-      if (param_2 != 6) {
-        return;
-      }
-      uVar4 = 0xe;
-      goto code_r0x8228a418;
-    }
-code_r0x8228a40c:
-    uVar4 = 1;
-code_r0x8228a410:
-    *(unsigned int *)(param_1 + 0x6a0) = uVar4;
-  }
-  else {
-    if (uVar1 == 1) {
-      if (param_2 == 0) {
-        iVar2 = *(int *)(param_1 + 0x728);
-        *(unsigned int *)(param_1 + 0x6a0) = 1;
-        if ((iVar2 == 1) || (iVar2 == 0)) {
-          uVar4 = 6;
-        }
-        else if ((iVar2 == 3) && (*(int *)(*(int *)(param_1 + 0x11f0) + 0x18c0) == 3)) {
-          uVar4 = 0xb;
-        }
-        else {
-          uVar4 = 7;
-        }
-        goto code_r0x8228a418;
-      }
-      if (param_2 != 1) goto code_r0x8228a354;
-code_r0x8228a3a4:
-      uVar4 = 2;
-      goto code_r0x8228a410;
-    }
-    if (2 < uVar1) {
-      return;
-    }
-    if (param_2 == 2) goto code_r0x8228a40c;
-    if (param_2 == 3) goto code_r0x8228a3a4;
-    if (param_2 == 4) {
-      uVar4 = 3;
-      goto code_r0x8228a410;
-    }
-    if (param_2 != 5) goto code_r0x8228a354;
-    iVar2 = 0;
-    piVar3 = (int *)(param_1 + 0x6a8);
-    lVar5 = 4;
-    do {
-      if (*piVar3 != 4) {
-        iVar2 = iVar2 + 1;
-      }
-      piVar3 = piVar3 + 0x10;
-      lVar5 = lVar5 + -1;
-    } while (lVar5 != 0);
-    if (iVar2 != 2) {
-      uVar4 = 10;
-      goto code_r0x8228a418;
-    }
-  }
-  uVar4 = *(unsigned int *)(param_1 + 0x608);
-code_r0x8228a418:
-  *(unsigned int *)(param_1 + 0x604) = uVar4;
-  return;
-}
+    Ctx_8228A318 *ctx = self->ctx;
+    unsigned int n;
+    int i;
+    int kind;
 
+    switch (ctx->mode) {
+    case 0:
+        switch (ev) {
+        case 1:
+            self->state = 1;
+            self->cur = self->next;
+            break;
+        case 6:
+            self->cur = 0xe;
+            break;
+        }
+        break;
+    case 1:
+        switch (ev) {
+        case 0:
+            kind = self->slots[2].kind;
+            self->state = 1;
+            if (kind == 1 || kind == 0)
+                self->cur = 6;
+            else if (kind == 3 && ctx->kind == 3)
+                self->cur = 0xb;
+            else
+                self->cur = 7;
+            break;
+        case 1:
+            self->state = 2;
+            self->cur = self->next;
+            break;
+        case 6:
+            self->cur = 0xe;
+            break;
+        }
+        break;
+    case 2:
+        switch (ev) {
+        case 2:
+            self->state = 1;
+            self->cur = self->next;
+            break;
+        case 3:
+            self->state = 2;
+            self->cur = self->next;
+            break;
+        case 4:
+            self->state = 3;
+            self->cur = self->next;
+            break;
+        case 5:
+            n = 0;
+            for (i = 0; i < 4; i++) {
+                if (self->slots[i].kind != 4)
+                    n++;
+            }
+            if (n == 2)
+                self->cur = self->next;
+            else
+                self->cur = 0xa;
+            break;
+        case 6:
+            self->cur = 0xe;
+            break;
+        }
+        break;
+    }
+}

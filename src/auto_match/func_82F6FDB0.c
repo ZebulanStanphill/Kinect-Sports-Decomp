@@ -1,37 +1,16 @@
-void fn_82F6FDB0(short *param_1,int param_2,unsigned __int64 param_3)
+// CRT wcsncpy (same shape as strncpy, func_82F672D8, on 16-bit characters).
+typedef unsigned int size_t;
+typedef unsigned short wchar_t;
 
+wchar_t *fn_82F6FDB0(wchar_t *dst, const wchar_t *src, size_t count)
 {
-  short sVar1;
-  short *psVar2;
-  short *psVar3;
-  
-  if ((param_3 & 0xffffffff) == 0) {
-    return;
-  }
-  psVar2 = param_1;
-  do {
-    psVar3 = psVar2;
-    sVar1 = *(short *)((param_2 - (int)param_1) + (int)psVar3);
-    *psVar3 = sVar1;
-    if (sVar1 == 0) break;
-    param_3 = param_3 - 1;
-    psVar2 = psVar3 + 1;
-  } while (param_3 != 0);
-  if ((param_3 & 0xffffffff) == 0) {
-    return;
-  }
-  param_3 = param_3 - 1;
-  if (param_3 != 0) {
-    if ((param_3 & 0xffffffff) != 0) {
-      do {
-        psVar3 = psVar3 + 1;
-        *psVar3 = 0;
-        param_3 = param_3 - 1;
-      } while (param_3 != 0);
-      return;
-    }
-    return;
-  }
-  return;
-}
+    wchar_t *start = dst;
 
+    while (count != 0 && (*dst++ = *src++) != 0)
+        count--;
+    if (count != 0) {
+        while (--count != 0)
+            *dst++ = 0;
+    }
+    return start;
+}

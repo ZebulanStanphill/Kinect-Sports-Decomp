@@ -1,41 +1,50 @@
-extern int fn_8309AA78();
+/* hkpClosestRayHitCollector::addRayHit (Havok 7) */
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct hkpCdBody_83097778 {
+    void *m_shape;
+    unsigned int m_shapeKey;
+    void *m_motion;
+    struct hkpCdBody_83097778 *m_parent;
+} hkpCdBody_83097778;
 
-void fn_83097778(int param_1,int param_2,int param_3)
+typedef struct RayHit_83097778 {
+    __vector4 m_normal;
+    float m_hitFraction;
+    int m_extraInfo;
+    int m_pad[2];
+} RayHit_83097778;
 
+typedef struct Collector_83097778 {
+    void *vt;
+    float m_earlyOutHitFraction;
+    int pad[2];
+    RayHit_83097778 m_rayHit;
+    unsigned int m_shapeKeys[8];
+    int m_shapeKeyIndex;
+    int pad54[3];
+    const hkpCdBody_83097778 *m_rootCollidable;
+} Collector_83097778;
+
+extern void fn_8309AA78(unsigned int *buf, int maxKeys, const hkpCdBody_83097778 *body);
+
+void fn_83097778(Collector_83097778 *self, const hkpCdBody_83097778 *cdBody, const RayHit_83097778 *hitInfo)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int iVar3;
-  int iVar4;
-  int in_r0;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  
-  if (*(float *)(param_3 + 0x10) < *(float *)(param_1 + 0x20)) {
-    puVar1 = (unsigned int *)(in_r0 + param_3 & 0xfffffff0);
-    uVar5 = puVar1[1];
-    uVar6 = puVar1[2];
-    uVar7 = puVar1[3];
-    puVar2 = (unsigned int *)(in_r0 + param_1 + 0x10 & 0xfffffff0);
-    *puVar2 = *puVar1;
-    puVar2[1] = uVar5;
-    puVar2[2] = uVar6;
-    puVar2[3] = uVar7;
-    *(unsigned int *)(param_1 + 0x20) = *(unsigned int *)(param_3 + 0x10);
-    *(unsigned int *)(param_1 + 0x24) = *(unsigned int *)(param_3 + 0x14);
-    *(unsigned int *)(param_1 + 0x28) = *(unsigned int *)(param_3 + 0x18);
-    *(unsigned int *)(param_1 + 0x2c) = *(unsigned int *)(param_3 + 0x1c);
-    fn_8309AA78(param_1 + 0x30,8,param_2);
-    iVar4 = *(int *)(param_2 + 0xc);
-    while (iVar3 = iVar4, iVar3 != 0) {
-      param_2 = iVar3;
-      iVar4 = *(int *)(iVar3 + 0xc);
+    if (hitInfo->m_hitFraction < self->m_rayHit.m_hitFraction) {
+        const hkpCdBody_83097778 *body;
+        RayHit_83097778 *dst = &self->m_rayHit;
+        dst->m_normal = hitInfo->m_normal;
+        dst->m_hitFraction = hitInfo->m_hitFraction;
+        dst->m_extraInfo = hitInfo->m_extraInfo;
+        dst->m_pad[0] = hitInfo->m_pad[0];
+        dst->m_pad[1] = hitInfo->m_pad[1];
+        fn_8309AA78(self->m_shapeKeys, 8, cdBody);
+        body = cdBody;
+        while (body->m_parent != 0)
+            body = body->m_parent;
+        self->m_rootCollidable = body;
+        self->m_earlyOutHitFraction = hitInfo->m_hitFraction;
     }
-    *(int *)(param_1 + 0x60) = param_2;
-    *(unsigned int *)(param_1 + 4) = *(unsigned int *)(param_3 + 0x10);
-  }
-  return;
 }
-
