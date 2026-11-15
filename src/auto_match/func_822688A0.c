@@ -1,58 +1,79 @@
-extern unsigned int iStack_18;
-extern unsigned int uStack_14;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
+typedef struct Item_822688A0 {
+    char padding[0x40];   /* 0x00 */
+    unsigned int key;     /* 0x40 */
+    char padding44[0x98]; /* 0x44 */
+    unsigned int value;   /* 0xdc */
+} Item_822688A0;
 
+typedef struct Node_822688A0 {
+    struct Node_822688A0 *next;     /* 0x00 */
+    struct Node_822688A0 *previous; /* 0x04 */
+    Item_822688A0 *item;            /* 0x08 */
+} Node_822688A0;
 
-void fn_822688A0(int param_1,unsigned int param_2)
+typedef struct List_822688A0 {
+    Node_822688A0 *head; /* 0x00 */
+} List_822688A0;
 
+typedef struct Message_822688A0 {
+    unsigned int type;    /* 0x00 */
+    unsigned int value;   /* 0x04 */
+    void *data;           /* 0x08 */
+    unsigned int context; /* 0x0c */
+} Message_822688A0;
+
+typedef void (*Callback_822688A0)(Message_822688A0 *);
+
+typedef struct Object_822688A0 {
+    char padding[0x4bc];   /* 0x00 */
+    unsigned int first;    /* 0x4bc */
+    char padding4c0[0xf8]; /* 0x4c0 */
+    Callback_822688A0 callback;
+    unsigned int context;
+    List_822688A0 *list;
+} Object_822688A0;
+
+static __forceinline Item_822688A0 *Find(List_822688A0 *list, unsigned int key)
 {
-  unsigned int *puVar1;
-  int (**pcVar2)();
-  int iVar3;
-  struct { unsigned int first; unsigned int second; } stack_pair_20;
-
-  int iStack_18;
-  unsigned int uStack_14;
-  
-  if (param_2 < 3) {
-    pcVar2 = *(int (***)())(param_1 + 0x5b8);
-    if (pcVar2 == (int (**)())0x0) {
-      return;
+    Node_822688A0 *head = list->head;
+    Node_822688A0 *node;
+    for (node = head->next; node != head; node = node->next) {
+        if (node->item->key == key) {
+            return node->item;
+        }
     }
-    uStack_14 = *(unsigned int *)(param_1 + 0x5bc);
-    stack_pair_20.first = 0;
-    for (puVar1 = *(unsigned int **)**(int **)(param_1 + 0x5c0);
-        puVar1 != (unsigned int *)**(int **)(param_1 + 0x5c0); puVar1 = (unsigned int *)*puVar1) {
-      iVar3 = puVar1[2];
-      if (*(unsigned int *)(iVar3 + 0x40) == param_2) goto LAB_82268970;
-    }
-    iVar3 = 0;
-LAB_82268970:
-    stack_pair_20.second = *(unsigned int *)(iVar3 + 0xdc);
-    iStack_18 = (param_2 - *(int *)(param_1 + 0x4bc)) * 0x38 + param_1 + 0x638;
-  }
-  else {
-    if (param_2 != 3) {
-      return;
-    }
-    pcVar2 = *(int (***)())(param_1 + 0x5b8);
-    if (pcVar2 == (int (**)())0x0) {
-      return;
-    }
-    uStack_14 = *(unsigned int *)(param_1 + 0x5bc);
-    stack_pair_20.first = 1;
-    for (puVar1 = *(unsigned int **)**(int **)(param_1 + 0x5c0);
-        puVar1 != (unsigned int *)**(int **)(param_1 + 0x5c0); puVar1 = (unsigned int *)*puVar1) {
-      iVar3 = puVar1[2];
-      if (*(int *)(iVar3 + 0x40) == *(int *)(param_1 + 0x4bc) + 3) goto LAB_82268910;
-    }
-    iVar3 = 0;
-LAB_82268910:
-    stack_pair_20.second = *(unsigned int *)(iVar3 + 0xdc);
-    iStack_18 = 0;
-  }
-  (*pcVar2)(&stack_pair_20.first);
-  return;
+    return 0;
 }
 
+void fn_822688A0(Object_822688A0 *self, unsigned int kind)
+{
+    Object_822688A0 *object = self;
+    Callback_822688A0 callback;
+    Message_822688A0 message;
+    if (kind >= 3) {
+        unsigned int selectedKey;
+        if (kind != 3) {
+            return;
+        }
+        callback = object->callback;
+        if (callback == 0) {
+            return;
+        }
+        message.context = object->context;
+        message.type = 1;
+        selectedKey = object->first + 3;
+        message.value = Find(object->list, selectedKey)->value;
+        message.data = 0;
+        callback(&message);
+    } else {
+        callback = object->callback;
+        if (callback == 0) {
+            return;
+        }
+        message.context = object->context;
+        message.type = 0;
+        message.value = Find(object->list, kind)->value;
+        message.data = (char *)object + (kind - object->first) * 0x38 + 0x638;
+        callback(&message);
+    }
+}

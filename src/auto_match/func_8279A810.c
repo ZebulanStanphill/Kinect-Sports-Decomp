@@ -1,16 +1,10 @@
-extern unsigned int lbl_82005710;
-extern unsigned int lbl_82005730;
+extern double lbl_82005710;
 
-
-int fn_8279A810(int param_1)
-
+int fn_8279A810(int value)
 {
-  double dVar1;
-  
-  dVar1 = (double)(__int64)param_1;
-  if (lbl_82005710 < dVar1) {
-    return (int)(dVar1 + lbl_82005730);
-  }
-  return (int)(dVar1 - lbl_82005730);
+    double number = (double)value;
+    if (number > lbl_82005710) {
+        return (int)(number + 0.5);
+    }
+    return (int)(number - 0.5);
 }
-

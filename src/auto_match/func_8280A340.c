@@ -1,23 +1,16 @@
-extern unsigned int lbl_8200133C;
-extern unsigned int lbl_8201DFD4;
-extern unsigned int lbl_8201DFD8;
-extern unsigned int lbl_8201DFDC;
+extern float lbl_8201DFDC;
+extern float lbl_8201DFD8;
+extern float lbl_8201DFD4;
 
-
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
-
-double fn_8280A340(short param_1)
-
+float fn_8280A340(short angle)
 {
-  float fVar1;
-  double dVar2;
-  
-  fVar1 = (float)(__int64)(short)(param_1 << 2);
-  dVar2 = (double)(((fVar1 * fVar1 * lbl_8201DFDC + lbl_8201DFD8) * fVar1 * fVar1 + lbl_8201DFD4)
-                  * fVar1);
-  if ((param_1 + 0x2000U & 0x4000) == 0) {
-    return dVar2;
-  }
-  return (double)(float)((double)lbl_8200133C / dVar2);
+    float coefficient0 = lbl_8201DFDC;
+    float coefficient1 = lbl_8201DFD8;
+    float coefficient2 = lbl_8201DFD4;
+    float value = (float)(short)(angle << 2);
+    float result = (((value * value) * coefficient0 + coefficient1) * (value * value) + coefficient2) * value;
+    if (((unsigned short)angle + 0x2000U) & 0x4000) {
+        result = -1.0f / result;
+    }
+    return result;
 }
-

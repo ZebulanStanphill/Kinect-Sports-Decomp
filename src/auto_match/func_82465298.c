@@ -1,26 +1,29 @@
-extern int fn_824651F0();
-extern unsigned int lbl_821CA460;
+extern float lbl_821CA45C[2];
 extern unsigned int lbl_83265A28;
+extern void fn_824651F0(void *, unsigned int *);
 
-
-void fn_82465298(double param_1,double param_2,double param_3,int param_4,unsigned int *param_5)
-
+static __forceinline float RandomValue(void)
 {
-  unsigned int uVar1;
-  int in_r8;
-  
-  uVar1 = *param_5;
-  *(float *)(param_4 + 0x30) = (float)param_1;
-  *(float *)(param_4 + 0x34) = (float)param_2;
-  *(float *)(param_4 + 0x38) = (float)param_3;
-  *(unsigned int *)(param_4 + 0x28) = uVar1;
-  lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
-  *(float *)(param_4 + 0x2c) =
-       (float)((double)(float)(param_2 - param_1) *
-               (double)((float)(lbl_83265A28 & 0x7fffff | 0x3f800000) - lbl_821CA460) + param_1);
-  if (in_r8 != 0) {
-    fn_824651F0(param_4,param_4 + 0x28);
-  }
-  return;
+    union {
+        unsigned int bits;
+        float value;
+    } random;
+
+    lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
+    random.bits = (lbl_83265A28 & 0x7fffff) | 0x3f800000;
+    return random.value - lbl_821CA45C[1];
 }
 
+void fn_82465298(char *self, const unsigned int *value, float minimum, float maximum, float duration,
+                 int enabled)
+{
+    unsigned int copied = *value;
+    *(float *)(self + 0x30) = minimum;
+    *(float *)(self + 0x34) = maximum;
+    *(float *)(self + 0x38) = duration;
+    *(unsigned int *)(self + 0x28) = copied;
+    *(float *)(self + 0x2c) = minimum + (maximum - minimum) * RandomValue();
+    if (enabled != 0) {
+        fn_824651F0(self, (unsigned int *)(self + 0x28));
+    }
+}

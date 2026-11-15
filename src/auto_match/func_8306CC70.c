@@ -1,52 +1,36 @@
-extern unsigned int *auStack_40;
-extern int fn_8306D678();
-extern int fn_8306D688();
-extern int fn_8306D690();
-extern unsigned int lbl_8200133C;
-extern unsigned int lbl_8315FA80;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float value[4];
+} __vector4;
 
+typedef struct Output_8306CC70 {
+    __vector4 position; /* 0x00 */
+    float first;        /* 0x10 */
+    float second;       /* 0x14 */
+} Output_8306CC70;
 
-unsigned __int64 fn_8306CC70(__int64 param_1,int param_2)
+extern __vector4 *fn_8306D678(__vector4 *out, void *self);
+extern float fn_8306D688(void *self);
+extern float fn_8306D690(void *self);
+extern int lbl_8315FA80;
 
+int fn_8306CC70(unsigned char *self, Output_8306CC70 *out)
 {
-  unsigned int *puVar1;
-  int in_r0;
-  unsigned __int64 uVar2;
-  double dVar3;
-  double dVar4;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs35 [16];
-  unsigned int in_register_000103f0;
-  unsigned int in_register_000103f4;
-  unsigned int in_register_000103f8;
-  unsigned int in_vr63;
-  unsigned char auStack_40 [64];
-  
-  uVar2 = 0;
-  if (param_2 == 0) {
-    uVar2 = 0xffffffff80070057;
-  }
-  else {
-    param_1 = param_1 + 0x78;
-    fn_8306D678(auStack_40,param_1);
-    altv207_13(in_vs32,in_vs35);
-    puVar1 = (unsigned int *)(in_r0 + param_2 & 0xfffffff0);
-    *puVar1 = in_register_000103f0;
-    puVar1[1] = in_register_000103f4;
-    puVar1[2] = in_register_000103f8;
-    puVar1[3] = in_vr63;
-    dVar4 = (double)lbl_8200133C;
-    if (lbl_8315FA80 == 0) {
-      *(float *)(param_2 + 8) = (float)((double)*(float *)(param_2 + 8) * dVar4);
+    int result = 0;
+    if (!out) {
+        result = 0x80070057;
+    } else {
+        __vector4 position;
+        unsigned char *state = self + 0x78;
+        float sign = -1.0f;
+        out->position = *fn_8306D678(&position, state);
+        if (lbl_8315FA80 == 0) {
+            out->position.value[2] *= sign;
+        }
+        out->first = fn_8306D688(state);
+        if (lbl_8315FA80 == 0) {
+            out->first *= sign;
+        }
+        out->second = fn_8306D690(state);
     }
-    dVar3 = (double)fn_8306D688(param_1);
-    *(float *)(param_2 + 0x10) = (float)dVar3;
-    if (lbl_8315FA80 == 0) {
-      *(float *)(param_2 + 0x10) = (float)(dVar3 * dVar4);
-    }
-    dVar4 = (double)fn_8306D690(param_1);
-    *(float *)(param_2 + 0x14) = (float)dVar4;
-  }
-  return uVar2;
+    return result;
 }
-

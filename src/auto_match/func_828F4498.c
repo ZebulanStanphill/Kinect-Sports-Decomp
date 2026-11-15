@@ -1,44 +1,40 @@
-extern int fn_829301D0();
-extern int fn_82F672D8();
-extern int fn_82F68CC0();
-extern int fn_82F6A4B0();
+extern unsigned int strlen(const char *value);
+extern char *strncpy(char *out, const char *input, unsigned int size);
+extern char *strrchr(const char *value, int character);
+extern void *memcpy(void *out, const void *input, unsigned int size);
+extern char *fn_829301D0(void *allocator, unsigned int size, int align);
 
+typedef struct Paths_828F4498 {
+    char pad[0x4c];
+    char *fullPath;  /* 0x4c */
+    char *directory; /* 0x50 */
+} Paths_828F4498;
 
-unsigned __int64 fn_828F4498(int param_1,unsigned __int64 param_2,char *param_3)
-
+int fn_828F4498(Paths_828F4498 *self, void *allocator, const char *path)
 {
-  char cVar1;
-  int iVar2;
-  unsigned char *puVar3;
-  char *pcVar4;
-  int iVar5;
-  
-  pcVar4 = param_3;
-  do {
-    cVar1 = *pcVar4;
-    pcVar4 = pcVar4 + 1;
-  } while (cVar1 != '\0');
-  iVar5 = (int)pcVar4 - (int)param_3;
-  iVar2 = fn_829301D0(param_2,iVar5,1);
-  *(int *)(param_1 + 0x50) = iVar2;
-  if (iVar2 != 0) {
-    iVar2 = fn_829301D0(param_2,iVar5,1);
-    *(int *)(param_1 + 0x4c) = iVar2;
-    if (iVar2 != 0) {
-      fn_82F672D8(*(unsigned int *)(param_1 + 0x50),param_3,iVar5);
-      puVar3 = (unsigned char *)fn_82F6A4B0(*(unsigned int *)(param_1 + 0x50),0x5c);
-      if (puVar3 != (unsigned char *)0x0) {
-        puVar3 = puVar3 + 1;
-      }
-      *(unsigned char *)(*(int *)(param_1 + 0x50) + iVar5 + -1) = 0;
-      fn_82F68CC0(*(unsigned int *)(param_1 + 0x4c),*(unsigned int *)(param_1 + 0x50),iVar5);
-      if (puVar3 == (unsigned char *)0x0) {
-        return 0;
-      }
-      *puVar3 = 0;
-      return 0;
+    int result = 0;
+    unsigned int length = strlen(path);
+    unsigned int size = length + 1;
+    self->directory = fn_829301D0(allocator, size, 1);
+    if (!self->directory) {
+        result = 0x8007000e;
+    } else {
+        self->fullPath = fn_829301D0(allocator, size, 1);
+        if (!self->fullPath) {
+            result = 0x8007000e;
+        } else {
+            char *separator;
+            strncpy(self->directory, path, size);
+            separator = strrchr(self->directory, '\\');
+            if (separator) {
+                separator++;
+            }
+            self->directory[length] = 0;
+            memcpy(self->fullPath, self->directory, size);
+            if (separator) {
+                *separator = 0;
+            }
+        }
     }
-  }
-  return 0xffffffff8007000e;
+    return result;
 }
-

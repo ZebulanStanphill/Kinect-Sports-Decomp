@@ -1,45 +1,42 @@
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_60;
-extern int fn_82810280();
-extern int fn_82810308();
-extern int fn_82810328();
-extern int fn_82810530();
-extern int fn_82810558();
-extern int fn_83066788();
-extern unsigned int lbl_8200133C;
+typedef struct Vector_83066C10 {
+    float values[3]; /* 0x0 */
+} Vector_83066C10;
 
+extern void fn_82810328(const void *, const void *, Vector_83066C10 *);
+extern float fn_82810308(const void *);
+extern int fn_83066788(const void *, const void *, float);
+extern float fn_82810280(const void *, const void *);
+extern void fn_82810530(const void *, void *);
+extern void fn_82810558(const void *, const void *, float, void *);
 
-unsigned __int64
-fn_83066C10(double param_1,__int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,int param_5)
-
+int fn_83066C10(char *plane, void *start, void *end, void *out, float radius)
 {
-  int iVar1;
-  int iVar2;
-  double dVar3;
-  double dVar4;
-  unsigned char auStack_60 [1];
-  unsigned char auStack_50 [16];
-
-  fn_82810328(param_4,param_3,auStack_60);
-  dVar3 = (double)fn_82810308(auStack_60);
-  if ((double)(float)(param_1 * param_1) < dVar3) {
-    iVar1 = fn_83066788(param_1,param_2,param_3);
-    iVar2 = fn_83066788(param_1,param_2,param_4);
-    if (((iVar1 != iVar2) && (iVar1 != 2)) && (iVar2 != 2)) {
-      fn_82810280(auStack_60,param_2);
-      if (param_5 != 0) {
-        if (iVar1 != 1) {
-          fn_82810530(auStack_60,auStack_60);
-          param_3 = param_4;
+    Vector_83066C10 direction;
+    Vector_83066C10 relative;
+    int startSide;
+    int endSide;
+    fn_82810328(end, start, &direction);
+    if (fn_82810308(&direction) > radius * radius) {
+        startSide = fn_83066788(plane, start, radius);
+        endSide = fn_83066788(plane, end, radius);
+        if (startSide != endSide && startSide != 2 && endSide != 2) {
+            fn_82810280(&direction, plane);
+            if (out) {
+                float denominator;
+                float distance;
+                float fraction;
+                if (startSide != 1) {
+                    start = end;
+                    fn_82810530(&direction, &direction);
+                }
+                denominator = fn_82810280(&direction, plane);
+                fn_82810328(start, plane + 0xc, &relative);
+                distance = fn_82810280(plane, &relative);
+                fraction = distance * (-1.0f / denominator);
+                fn_82810558(&direction, start, fraction, out);
+            }
+            return 1;
         }
-        dVar3 = (double)fn_82810280(auStack_60,param_2);
-        fn_82810328(param_3,param_2 + 0xc,auStack_50);
-        dVar4 = (double)fn_82810280(param_2,auStack_50);
-        fn_82810558((double)(float)(dVar4 * (double)(float)((double)lbl_8200133C / dVar3)),
-                     auStack_60,param_3);
-      }
-      return 1;
     }
-  }
-  return 0;
+    return 0;
 }

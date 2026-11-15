@@ -1,27 +1,17 @@
-extern int fn_82E92580();
-extern unsigned int lbl_82002C28;
-extern unsigned int lbl_8215F708;
+extern float fn_82E92580(void *context, void *first, void *second, unsigned int count, int mode);
+static const float quarter = 0.25f;
+extern const double lbl_8215F708;
 
-
-unsigned __int64
-fn_82E92718(__int64 param_1,__int64 param_2,unsigned __int64 param_3,float *param_4,float *param_5)
-
+unsigned int fn_82E92718(unsigned char *self, unsigned char *other, unsigned int bytes, float *first,
+                         float *second)
 {
-  unsigned __int64 uVar1;
-  double dVar2;
-  
-  dVar2 = (double)fn_82E92580(param_1,param_2 + 0x418,param_1 + 0x418,(param_3 & 0xffffffff) >> 2,
-                                1);
-  *param_4 = (float)dVar2;
-  dVar2 = (double)fn_82E92580(param_1,param_2 + 0x18,param_1 + 0x18);
-  *param_5 = (float)dVar2;
-  if (((lbl_8215F708 < (double)*param_4) || (lbl_8215F708 < dVar2)) ||
-     (((double)lbl_82002C28 < (double)*param_4 && ((double)lbl_82002C28 < dVar2)))) {
-    uVar1 = 1;
-  }
-  else {
-    uVar1 = 0;
-  }
-  return uVar1;
+    unsigned int count = bytes >> 2;
+    float value;
+    *first = fn_82E92580(self, other + 0x418, self + 0x418, count, 1);
+    value = fn_82E92580(self, other + 0x18, self + 0x18, count, 1);
+    *second = value;
+    if (*first > lbl_8215F708 || value > lbl_8215F708 || (*first > quarter && value > quarter)) {
+        return 1;
+    }
+    return 0;
 }
-

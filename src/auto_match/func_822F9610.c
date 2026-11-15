@@ -1,19 +1,32 @@
-extern unsigned int lbl_82192734;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int lbl_831CCC98;
-extern unsigned int lbl_831CCC9C;
+extern float lbl_831CCC98[2];
+extern float lbl_821CA45C[2];
+extern float lbl_82192730[2];
 extern unsigned int lbl_83265A28;
 
+typedef struct Settings_822F9610 {
+    char pad[0x14];
+    float probability; /* 0x14 */
+} Settings_822F9610;
 
-double fn_822F9610(int param_1)
+typedef struct Object_822F9610 {
+    char pad[0x10];
+    Settings_822F9610 *settings; /* 0x10 */
+} Object_822F9610;
 
+float fn_822F9610(Object_822F9610 *self)
 {
-  lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
-  if ((float)(lbl_83265A28 & 0x7fffff | 0x3f800000) - lbl_821CA460 <
-      (lbl_831CCC9C - lbl_831CCC98) * *(float *)(*(int *)(param_1 + 0x10) + 0x14) + lbl_831CCC98) {
-    return (double)lbl_82192734;
-  }
-  return (double)ltcg_pool_0_0f;
-}
+    float threshold = lbl_831CCC98[0] + (lbl_831CCC98[1] - lbl_831CCC98[0]) * self->settings->probability;
 
+    union {
+        unsigned int bits;
+        float value;
+    } random;
+
+    float result = lbl_821CA45C[1];
+    lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
+    random.bits = (lbl_83265A28 & 0x7fffff) | 0x3f800000;
+    if (random.value - result < threshold) {
+        return lbl_82192730[1];
+    }
+    return 0.0f;
+}

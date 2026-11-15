@@ -1,23 +1,15 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern unsigned int stack0x00000000;
-extern unsigned int *uStack_10;
-extern unsigned __int64 storeVectorElementWordIndexed();
-extern V16 vectorSubtractFloatingPoint();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+extern __vector4 __vsubfp(__vector4, __vector4);
+extern __vector4 __vmsum3fp(__vector4, __vector4);
+extern void __stvewx(__vector4, void *, int);
+extern double fabs(double);
 
-double fn_82DD36F8(void)
-
+float fn_82DD36F8(const __vector4 *normal, const __vector4 *first, const __vector4 *second)
 {
-  unsigned int uVar1;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs42 [16];
-  unsigned char in_vs45 [16];
-  unsigned int uStack_10;
-  
-  vectorSubtractFloatingPoint(in_vs45,in_vs32);
-  uVar1 = storeVectorElementWordIndexed(in_vs42,0,ZEXT48(&stack0x00000000) - 0x10);
-  *(unsigned int *)(ZEXT48(&stack0x00000000) - 0x10) = uVar1;
-  return (double)(ABS(uStack_10) * uStack_10);
+    float distance;
+    __stvewx(__vmsum3fp(__vsubfp(*first, *second), *normal), &distance, 0);
+    return (float)fabs(distance) * distance;
 }
-

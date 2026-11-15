@@ -1,27 +1,10 @@
-extern unsigned int lbl_82002C5C;
-extern unsigned int lbl_82005344;
-extern unsigned int lbl_820145BC;
-extern unsigned int lbl_82016290;
-
-
-double fn_82800ED0(double param_1,double param_2,double param_3,double param_4,double param_5)
-
+float fn_82800ED0(float time, float first, float second, float third, float fourth)
 {
-  double dVar1;
-  
-  dVar1 = (double)lbl_82002C5C;
-  return (double)(float)((double)(float)((double)(float)((double)((float)(param_3 * (double)
-                                                  lbl_820145BC -
-                                                  (double)(float)(param_4 * (double)lbl_820145BC)) +
-                                                  (float)((double)(float)(param_5 * dVar1) -
-                                                         (double)(float)(param_2 * dVar1))) *
-                                                  param_1 + (double)(-(float)(param_3 * (double)
-                                                  lbl_82016290 - param_2) +
-                                                  (float)(param_4 * (double)lbl_82005344 -
-                                                         (double)(float)(param_5 * dVar1)))) *
-                                         param_1 +
-                                        (double)(float)(param_4 * dVar1 -
-                                                       (double)(float)(param_2 * dVar1))) * param_1
-                        + param_3);
+    float halfFourth = fourth * 0.5f;
+    float halfFirst = first * 0.5f;
+    float scaledThird = third * 1.5f;
+    float quadratic = (first - second * 2.5f) + (third * 2.0f - halfFourth);
+    float cubic = (second * 1.5f - scaledThird) + (halfFourth - halfFirst);
+    float linear = third * 0.5f - halfFirst;
+    return ((cubic * time + quadratic) * time + linear) * time + second;
 }
-

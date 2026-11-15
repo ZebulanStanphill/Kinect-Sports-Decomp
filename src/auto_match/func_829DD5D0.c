@@ -1,21 +1,21 @@
-typedef unsigned char bool;
-extern int fn_82A1DDC0();
+typedef struct Queue_829DD5D0 {
+    unsigned int count;        /* 0x00 */
+    unsigned int entries[150]; /* 0x04 */
+    unsigned int first;        /* 0x25c */
+} Queue_829DD5D0;
 
+extern void fn_82A1DDC0(void *, const void *, unsigned int);
 
-bool fn_829DD5D0(unsigned int *param_1,unsigned __int64 param_2)
-
+unsigned char fn_829DD5D0(Queue_829DD5D0 *self, const void *entry)
 {
-  unsigned int uVar1;
-  
-  uVar1 = *param_1;
-  if (0x95 < uVar1) {
-    fn_82A1DDC0(param_1 + param_1[0x97] + 1,param_2,4);
-    param_1[0x97] = (param_1[0x97] + 1) % 0x96;
-  }
-  else {
-    *param_1 = uVar1 + 1;
-    fn_82A1DDC0(param_1 + ((param_1[0x97] + uVar1 + 1) - 1) % 0x96 + 1,param_2,4);
-  }
-  return 0x95 >= uVar1;
+    unsigned int count = self->count;
+    if (count < 150) {
+        self->count = count + 1;
+        fn_82A1DDC0(&self->entries[(self->first + self->count - 1) % 150], entry, 4);
+        return 1;
+    } else {
+        fn_82A1DDC0(&self->entries[self->first], entry, 4);
+        self->first = (self->first + 1) % 150;
+        return 0;
+    }
 }
-

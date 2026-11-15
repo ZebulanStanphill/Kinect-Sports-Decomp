@@ -1,38 +1,45 @@
-extern int fn_82A99B70();
-extern int fn_82A99BC8();
-extern int fn_82A99C28();
-extern int fn_82A99CF8();
-extern int fn_82A9A810();
-extern int fn_82A9A860();
+typedef struct Statement_82A9AB78 {
+    unsigned int firstPc; /* 0x0 */
+    unsigned int lastPc;  /* 0x4 */
+    int file;             /* 0x8 */
+    int line;             /* 0xc */
+    int scope;            /* 0x10 */
+    int lastInstruction;  /* 0x14 */
+} Statement_82A9AB78;
 
+typedef struct List_82A9AB78 {
+    Statement_82A9AB78 *data;
+    unsigned int count;
+} List_82A9AB78;
 
-void fn_82A9AB78(unsigned __int64 param_1,unsigned __int64 param_2,unsigned int *param_3,unsigned __int64 param_4)
+extern char lbl_820293A8[];
+extern void fn_82A99BC8(void *);
+extern void fn_82A99B70(void *, const char *, ...);
+extern void fn_82A9A860(void *);
+extern void fn_82A9A810(void *);
+extern void fn_82A99C28(void *, const char *);
+extern void fn_82A99CF8(void *, const char *, void *, unsigned int, unsigned int);
 
+static __forceinline void Attribute_82A9AB78(void *writer, const char *name, int value)
 {
-  unsigned int uVar1;
-  unsigned int *puVar2;
-  unsigned int *puVar3;
-  
-  fn_82A99BC8(param_2);
-  fn_82A99B70(param_2,0xffffffff820d28b4,0xffffffff820d2904);
-  fn_82A9A860(param_2);
-  uVar1 = *param_3;
-  if (uVar1 < param_3[1] * 0x18 + uVar1) {
-    puVar3 = (unsigned int *)(uVar1 + 8);
-    do {
-      fn_82A99BC8(param_2);
-      fn_82A99B70(param_2,0xffffffff820d28b4,0xffffffff820d28dc);
-      fn_82A99CF8(param_2,0xffffffff820d28e8,param_4,puVar3[-2],puVar3[-1]);
-      fn_82A99B70(param_2,0xffffffff820d2864,0xffffffff820d28bc,*puVar3);
-      fn_82A99B70(param_2,0xffffffff820d2864,0xffffffff820293a8,puVar3[1]);
-      fn_82A99B70(param_2,0xffffffff820d2864,0xffffffff820d28ec,puVar3[2]);
-      fn_82A99B70(param_2,0xffffffff820d2864,0xffffffff820d28f4,puVar3[3]);
-      fn_82A9A810(param_2);
-      puVar2 = puVar3 + 4;
-      puVar3 = puVar3 + 6;
-    } while (puVar2 < (unsigned int *)(param_3[1] * 0x18 + *param_3));
-  }
-  fn_82A99C28(param_2,0xffffffff820d2904);
-  return;
+    fn_82A99B70(writer, " %s=\"%d\"", name, value);
 }
 
+void fn_82A9AB78(void *self, void *writer, List_82A9AB78 *statements, void *instructions)
+{
+    Statement_82A9AB78 *statement;
+    fn_82A99BC8(writer);
+    fn_82A99B70(writer, "<%s", "sourcemap");
+    fn_82A9A860(writer);
+    for (statement = statements->data; statement < statements->data + statements->count; statement++) {
+        fn_82A99BC8(writer);
+        fn_82A99B70(writer, "<%s", "statement");
+        fn_82A99CF8(writer, "pc", instructions, statement->firstPc, statement->lastPc);
+        Attribute_82A9AB78(writer, "file", statement->file);
+        Attribute_82A9AB78(writer, lbl_820293A8, statement->line);
+        Attribute_82A9AB78(writer, "scope", statement->scope);
+        Attribute_82A9AB78(writer, "lastinstruction", statement->lastInstruction);
+        fn_82A9A810(writer);
+    }
+    fn_82A99C28(writer, "sourcemap");
+}

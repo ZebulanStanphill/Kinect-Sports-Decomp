@@ -1,36 +1,32 @@
-extern unsigned int fStack_30;
-extern int fn_823B65F8();
-extern int fn_823B6A20();
-extern int fn_823B6C60();
-extern unsigned int iStack_34;
-extern unsigned int lbl_821B9BC8;
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
+typedef struct Owner_8241CE30 {
+    char padding[0x8c]; /* 0x00 */
+    void *state;        /* 0x8c */
+} Owner_8241CE30;
 
+typedef struct Event_8241CE30 {
+    const void *vtable; /* 0x00 */
+    unsigned int type;  /* 0x04 */
+    unsigned int value; /* 0x08 */
+    int index;          /* 0x0c */
+    float time;         /* 0x10 */
+} Event_8241CE30;
 
-void fn_8241CE30(double param_1,int *param_2,unsigned __int64 param_3,unsigned int param_4)
+extern const char lbl_821B9BC8[];
+extern int fn_823B6C60(void *);
+extern int fn_823B6A20(void *);
+extern void fn_823B65F8(void *, Event_8241CE30 *);
 
+void fn_8241CE30(Owner_8241CE30 **owner, void *player, unsigned int value, float time)
 {
-  unsigned int uVar1;
-  int iVar2;
-  int iVar3;
-  unsigned char **ppuStack_40;
-  unsigned int uStack_3c;
-  unsigned int uStack_38;
-  int iStack_34;
-  float fStack_30;
-  
-  uVar1 = *(unsigned int *)(*param_2 + 0x8c);
-  iVar2 = fn_823B6C60(uVar1);
-  iVar3 = fn_823B6A20(uVar1);
-  if (((iVar3 != 0) && (3 < iVar2)) && (iVar2 < 0x18)) {
-    fStack_30 = (float)param_1;
-    uStack_3c = 2;
-    ppuStack_40 = &lbl_821B9BC8;
-    uStack_38 = param_4;
-    iStack_34 = iVar2;
-    fn_823B65F8(uVar1,&ppuStack_40);
-  }
-  return;
+    void *state = (*owner)->state;
+    int index = fn_823B6C60(state);
+    if (fn_823B6A20(state) != 0 && index >= 4 && index < 24) {
+        Event_8241CE30 event;
+        event.time = time;
+        event.value = value;
+        event.index = index;
+        event.type = 2;
+        event.vtable = lbl_821B9BC8;
+        fn_823B65F8(state, &event);
+    }
 }
-

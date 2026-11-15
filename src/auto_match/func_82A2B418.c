@@ -1,45 +1,38 @@
-typedef unsigned char bool;
-extern int fn_82A2B760();
-extern unsigned int uStack_14;
-extern unsigned int uStack_16;
-extern unsigned int uStack_18;
-extern unsigned int uStack_1a;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_1e;
-extern unsigned int uStack_20;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+typedef struct TimeFields_82A2B418 {
+    unsigned short year;         /* 0x00 */
+    unsigned short month;        /* 0x02 */
+    unsigned short day;          /* 0x04 */
+    unsigned short hour;         /* 0x06 */
+    unsigned short minute;       /* 0x08 */
+    unsigned short second;       /* 0x0a */
+    unsigned short milliseconds; /* 0x0c */
+    unsigned short weekday;      /* 0x0e */
+} TimeFields_82A2B418;
 
+typedef struct Time_82A2B418 {
+    unsigned int high; /* 0x00 */
+    unsigned int low;  /* 0x04 */
+} Time_82A2B418;
 
-bool fn_82A2B418(unsigned short *param_1,unsigned int *param_2)
+extern unsigned char RtlTimeFieldsToTime(TimeFields_82A2B418 *, Time_82A2B418 *);
+extern void fn_82A2B760(unsigned int);
 
+int fn_82A2B418(const unsigned short *input, Time_82A2B418 *out)
 {
-  char cVar1;
-  struct { unsigned int first; unsigned int second; } stack_pair_30;
-
-  unsigned short uStack_20;
-  unsigned short uStack_1e;
-  unsigned short uStack_1c;
-  unsigned short uStack_1a;
-  unsigned short uStack_18;
-  unsigned short uStack_16;
-  unsigned short uStack_14;
-  
-  uStack_20 = *param_1;
-  uStack_1e = param_1[1];
-  uStack_1c = param_1[3];
-  uStack_1a = param_1[4];
-  uStack_18 = param_1[5];
-  uStack_16 = param_1[6];
-  uStack_14 = param_1[7];
-  cVar1 = RtlTimeFieldsToTime(&uStack_20,&stack_pair_30.first);
-  if (cVar1 != '\0') {
-    param_2[1] = stack_pair_30.second;
-    *param_2 = stack_pair_30.first;
-  }
-  else {
-    fn_82A2B760(0xffffffffc000000d);
-  }
-  return cVar1 != '\0';
+    TimeFields_82A2B418 fields;
+    Time_82A2B418 time;
+    fields.year = input[0];
+    fields.month = input[1];
+    fields.day = input[3];
+    fields.hour = input[4];
+    fields.minute = input[5];
+    fields.second = input[6];
+    fields.milliseconds = input[7];
+    if (RtlTimeFieldsToTime(&fields, &time) == 0) {
+        fn_82A2B760(0xc000000d);
+        return 0;
+    }
+    out->low = time.low;
+    out->high = time.high;
+    return 1;
 }
-

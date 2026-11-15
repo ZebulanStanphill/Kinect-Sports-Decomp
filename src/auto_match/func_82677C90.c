@@ -1,55 +1,62 @@
-extern int fn_82631488();
-extern int fn_828F0DD0();
+typedef struct Buffer_82677C90 Buffer_82677C90;
 
+typedef struct Vtable_82677C90 {
+    void *reserved[2];
+    void (*release)(Buffer_82677C90 *);
+    void *(*data)(Buffer_82677C90 *);
+} Vtable_82677C90;
 
-unsigned __int64 fn_82677C90(unsigned __int64 param_1,int *param_2,char *param_3)
+struct Buffer_82677C90 {
+    Vtable_82677C90 *vtable;
+};
 
+extern int fn_828F0DD0(const char *, unsigned int, void *, void *, const char *, const char *, unsigned int,
+                       Buffer_82677C90 **, void *, void *);
+extern unsigned int fn_82631488(void *);
+extern unsigned int strlen(const char *);
+
+unsigned int fn_82677C90(void *unused, int *shader, const char *source)
 {
-  char cVar1;
-  int iVar3;
-  unsigned __int64 uVar2;
-  char *pcVar4;
-  int *piStack_20;
-  int *piStack_1c;
-  
-  if (*param_2 == 0) {
-    piStack_1c = (int *)0x0;
-    piStack_20 = (int *)0x0;
-    pcVar4 = param_3;
-    do {
-      cVar1 = *pcVar4;
-      pcVar4 = pcVar4 + 1;
-    } while (cVar1 != '\0');
-    iVar3 = fn_828F0DD0(param_3,pcVar4 + (-1 - (int)param_3),0,0,0xffffffff821bbc7c,
-                              0xffffffff82005334,1,&piStack_20);
-    if (piStack_20 != (int *)0x0) {
-      if (-1 < iVar3) {
-        (**(int (***)())(*piStack_20 + 0xc))();
-        iVar3 = fn_82631488();
-        *param_2 = iVar3;
-        if (iVar3 != 0) {
-          if (piStack_20 != (int *)0x0) {
-            (**(int (***)())(*piStack_20 + 8))();
-          }
-          if (piStack_1c != (int *)0x0) {
-            (**(int (***)())(*piStack_1c + 8))();
-          }
-          goto code_r0x82677db0;
+    if (*shader == 0) {
+        Buffer_82677C90 *errors = 0;
+        Buffer_82677C90 *buffer = 0;
+        int result = fn_828F0DD0(source, strlen(source), 0, 0, "main", "ps_2_0", 1, &buffer, &errors, 0);
+        if (result < 0) {
+            if (buffer) {
+                buffer->vtable->release(buffer);
+            }
+            if (errors) {
+                errors->vtable->release(errors);
+            }
+            return 0;
         }
-        if (piStack_20 == (int *)0x0) goto code_r0x82677d34;
-      }
-      (**(int (***)())(*piStack_20 + 8))();
+        if (buffer != 0) {
+        } else {
+            if (errors) {
+                errors->vtable->release(errors);
+            }
+            return 0;
+        }
+        {
+            unsigned int created = fn_82631488(buffer->vtable->data(buffer));
+            *shader = created;
+            if (created != 0) {
+            } else {
+                if (buffer) {
+                    buffer->vtable->release(buffer);
+                }
+                if (errors) {
+                    errors->vtable->release(errors);
+                }
+                return 0;
+            }
+            if (buffer) {
+                buffer->vtable->release(buffer);
+            }
+        }
+        if (errors) {
+            errors->vtable->release(errors);
+        }
     }
-code_r0x82677d34:
-    if (piStack_1c != (int *)0x0) {
-      (**(int (***)())(*piStack_1c + 8))();
-    }
-    uVar2 = 0;
-  }
-  else {
-code_r0x82677db0:
-    uVar2 = 1;
-  }
-  return uVar2;
+    return 1;
 }
-

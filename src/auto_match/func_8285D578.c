@@ -1,51 +1,33 @@
-extern int fn_82811700();
-extern int fn_82811898();
+typedef struct Point_8285D578 {
+    float x; /* 0x0 */
+    float y; /* 0x4 */
+} Point_8285D578;
 
+typedef struct Entry_8285D578 {
+    Point_8285D578 point;
+    float reserved[2];
+} Entry_8285D578;
 
-void fn_8285D578(float *param_1,unsigned int param_2,float *param_3,float *param_4)
+extern void fn_82811898(Point_8285D578 *, float, float);
+extern void fn_82811700(Point_8285D578 *, Point_8285D578 *);
+extern double __fsel(double, double, double);
 
+void fn_8285D578(Entry_8285D578 *points, unsigned short count, Point_8285D578 *minimum,
+                 Point_8285D578 *maximum)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  float fVar5;
-  float fVar6;
-  int iVar7;
-  unsigned int uVar8;
-  
-  fn_82811898((double)*param_1,(double)param_1[1],param_3);
-  fn_82811700(param_3,param_4);
-  if (1 < (param_2 & 0xffff)) {
-    uVar8 = 1;
-    do {
-      fVar1 = *param_4;
-      iVar7 = uVar8 * 4;
-      fVar2 = param_3[1];
-      fVar3 = param_4[1];
-      uVar8 = uVar8 + 1 & 0xffff;
-      fVar4 = param_1[iVar7];
-      fVar5 = (param_1 + iVar7)[1];
-      fVar6 = fVar4;
-      if (*param_3 - fVar4 < 0.0) {
-        fVar6 = *param_3;
-      }
-      *param_3 = fVar6;
-      if (fVar1 - fVar4 < 0.0) {
-        fVar1 = fVar4;
-      }
-      *param_4 = fVar1;
-      fVar1 = fVar5;
-      if (fVar2 - fVar5 < 0.0) {
-        fVar1 = fVar2;
-      }
-      param_3[1] = fVar1;
-      if (fVar3 - fVar5 < 0.0) {
-        fVar3 = fVar5;
-      }
-      param_4[1] = fVar3;
-    } while (uVar8 < (param_2 & 0xffff));
-  }
-  return;
+    unsigned short index;
+    fn_82811898(minimum, points->point.x, points->point.y);
+    fn_82811700(minimum, maximum);
+    for (index = 1; index < count; index++) {
+        float minX = minimum->x;
+        float maxX = maximum->x;
+        float minY = minimum->y;
+        float maxY = maximum->y;
+        float x = points[index].point.x;
+        float y = points[index].point.y;
+        minimum->x = (float)__fsel(minX - x, x, minX);
+        maximum->x = (float)__fsel(maxX - x, maxX, x);
+        minimum->y = (float)__fsel(minY - y, y, minY);
+        maximum->y = (float)__fsel(maxY - y, maxY, y);
+    }
 }
-

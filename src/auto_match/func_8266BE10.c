@@ -1,42 +1,32 @@
-typedef unsigned char bool;
-#define false 0
-extern int fn_8266BF60();
-extern int fn_8266C340();
-extern int fn_82F65AC0();
-extern unsigned int uStack00000014;
-extern unsigned int uStack0000001c;
+typedef unsigned short wchar_t;
 
+typedef struct Asset_8266BE10 {
+    void *vtable;      /* 0x00 */
+    char signature[8]; /* 0x04 */
+    char name[1];      /* 0x0c */
+} Asset_8266BE10;
 
-bool fn_8266BE10(unsigned int param_1,unsigned int param_2)
+extern int fn_8266BF60(const Asset_8266BE10 *);
+extern void fn_8266C340(const wchar_t *, ...);
+extern int stricmp(const char *, const char *);
 
+unsigned char fn_8266BE10(Asset_8266BE10 *self, const Asset_8266BE10 *other)
 {
-  int iVar1;
-  bool bVar2;
-  unsigned int uStack00000014;
-  unsigned int uStack0000001c;
-  
-  uStack00000014 = param_1;
-  uStack0000001c = param_2;
-  if (param_2 == 0) {
-    fn_8266C340(0xffffffff820015c0,0xffffffff82002790,0x1a6,0xffffffff8200296c);
-  }
-  iVar1 = fn_8266BF60(uStack0000001c);
-  if (iVar1 != 0) {
-    fn_8266C340(0xffffffff820015c0,0xffffffff82002790,0x1a7,0xffffffff82002930);
-  }
-  if (uStack0000001c == 0) {
-    bVar2 = false;
-  }
-  else {
-    iVar1 = fn_8266BF60(uStack0000001c);
-    if (iVar1 == 0) {
-      bVar2 = false;
+    const Asset_8266BE10 *source;
+    if (other == 0) {
+        fn_8266C340(L"Assert failed. File: %s. Line: %d. Condition: %s", L".\\XLipDiskAssetMgr.cpp", 0x1a6,
+                    L"pOther != NULL");
     }
-    else {
-      iVar1 = fn_82F65AC0((unsigned __int64)uStack00000014 + 0xc,(unsigned __int64)uStack0000001c + 0xc);
-      bVar2 = iVar1 == 0;
+    if (fn_8266BF60(other) != 0) {
+        fn_8266C340(L"Assert failed. File: %s. Line: %d. Condition: %s", L".\\XLipDiskAssetMgr.cpp", 0x1a7,
+                    L"CheckSignature( pOther ) == 0");
     }
-  }
-  return bVar2;
+    if (other == 0) {
+        return 0;
+    }
+    if (fn_8266BF60(other) == 0) {
+        return 0;
+    }
+    source = other;
+    return stricmp(self->name, source->name) == 0;
 }
-

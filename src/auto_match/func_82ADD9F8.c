@@ -1,16 +1,14 @@
-void fn_82ADD9F8(int param_1,unsigned __int64 param_2,unsigned int param_3)
+typedef struct Matrix_82ADD9F8 {
+    char padding[0x2a0]; /* 0x00 */
+    unsigned int stride; /* 0x2a0 */
+    char padding2a4[8];  /* 0x2a4 */
+    unsigned int bits;   /* 0x2ac */
+} Matrix_82ADD9F8;
 
+void fn_82ADD9F8(Matrix_82ADD9F8 *self, unsigned int first, unsigned int second)
 {
-  unsigned int uVar1;
-  int iVar2;
-  unsigned int uVar3;
-  
-  uVar1 = param_3 >> 3 & 0x1ffffff8;
-  iVar2 = (int)param_2 * *(int *)(param_1 + 0x2a0) * 8 + *(int *)(param_1 + 0x2ac);
-  uVar3 = (unsigned int)((param_2 & 0xffffffff) >> 3) & 0x1ffffff8;
-  *(unsigned __int64 *)(uVar1 + iVar2) = 1L << ((unsigned __int64)param_3 & 0x3f) | *(unsigned __int64 *)(uVar1 + iVar2);
-  iVar2 = param_3 * *(int *)(param_1 + 0x2a0) * 8 + *(int *)(param_1 + 0x2ac);
-  *(unsigned __int64 *)(uVar3 + iVar2) = 1L << (param_2 & 0x3f) | *(unsigned __int64 *)(uVar3 + iVar2);
-  return;
+    unsigned int row = first * self->stride * 8 + self->bits;
+    *(unsigned __int64 *)(row + ((second >> 3) & 0x1ffffff8)) |= 1ULL << (second & 63);
+    row = second * self->stride * 8 + self->bits;
+    *(unsigned __int64 *)(row + ((first >> 3) & 0x1ffffff8)) |= 1ULL << (first & 63);
 }
-

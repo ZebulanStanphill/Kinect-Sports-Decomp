@@ -1,53 +1,33 @@
-void fn_8260A770(unsigned short *param_1,unsigned short *param_2)
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4]; /* 0x00 */
+} __vector4;
 
+typedef struct Record_8260A770 {
+    unsigned short type;    /* 0x00 */
+    unsigned char enabled;  /* 0x02 */
+    unsigned char reserved; /* 0x03 */
+    unsigned short first;   /* 0x04 */
+    unsigned short second;  /* 0x06 */
+    char padding08[8];      /* 0x08 */
+    __vector4 vectors[3];   /* 0x10 */
+    unsigned int values[3]; /* 0x40 */
+} Record_8260A770;
+
+void fn_8260A770(Record_8260A770 *out, const Record_8260A770 *source)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int in_r0;
-  unsigned int *puVar3;
-  __int64 lVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  
-  *param_1 = *param_2;
-  lVar4 = 3;
-  puVar3 = (unsigned int *)(param_1 + 0x20);
-  *(unsigned char *)(param_1 + 1) = *(unsigned char *)(param_2 + 1);
-  param_1[2] = param_2[2];
-  param_1[3] = param_2[3];
-  puVar1 = (unsigned int *)((int)param_2 + in_r0 + 0x10 & 0xfffffff0);
-  uVar5 = puVar1[1];
-  uVar6 = puVar1[2];
-  uVar7 = puVar1[3];
-  puVar2 = (unsigned int *)((int)param_1 + in_r0 + 0x10 & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar5;
-  puVar2[2] = uVar6;
-  puVar2[3] = uVar7;
-  puVar1 = (unsigned int *)((unsigned int)(param_2 + 0x10) & 0xfffffff0);
-  uVar5 = puVar1[1];
-  uVar6 = puVar1[2];
-  uVar7 = puVar1[3];
-  puVar2 = (unsigned int *)((unsigned int)(param_1 + 0x10) & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar5;
-  puVar2[2] = uVar6;
-  puVar2[3] = uVar7;
-  puVar1 = (unsigned int *)((unsigned int)(param_2 + 0x18) & 0xfffffff0);
-  uVar5 = puVar1[1];
-  uVar6 = puVar1[2];
-  uVar7 = puVar1[3];
-  puVar2 = (unsigned int *)((unsigned int)(param_1 + 0x18) & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar5;
-  puVar2[2] = uVar6;
-  puVar2[3] = uVar7;
-  do {
-    *puVar3 = *(unsigned int *)(((int)param_2 - (int)param_1) + (int)puVar3);
-    puVar3 = puVar3 + 1;
-    lVar4 = lVar4 + -1;
-  } while (lVar4 != 0);
-  return;
+    int index;
+    out->type = source->type;
+    out->enabled = source->enabled;
+    out->first = source->first;
+    out->second = source->second;
+    {
+        __vector4 *targetVectors = out->vectors;
+        const __vector4 *sourceVectors = source->vectors;
+        targetVectors[0] = sourceVectors[0];
+        targetVectors[1] = sourceVectors[1];
+        targetVectors[2] = sourceVectors[2];
+    }
+    for (index = 0; index < 3; index++) {
+        out->values[index] = source->values[index];
+    }
 }
-

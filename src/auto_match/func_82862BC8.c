@@ -1,34 +1,26 @@
-typedef unsigned char bool;
-extern unsigned int fStack_38;
-extern unsigned int fStack_3c;
-extern unsigned int fStack_40;
-extern int fn_8280A5D8();
-extern int fn_82810328();
-extern int fn_8306B530();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_821AAD20;
+typedef struct Vector_82862BC8 {
+    float x; /* 0x00 */
+    float y; /* 0x04 */
+    float z; /* 0x08 */
+    float w; /* 0x0c */
+} Vector_82862BC8;
 
+extern void fn_82810328(const void *, const Vector_82862BC8 *, Vector_82862BC8 *);
+extern float fn_8280A5D8(float);
+extern void fn_8306B530(void *, float, float, float, float);
 
-void fn_82862BC8(double param_1,unsigned __int64 param_2,float *param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5,unsigned int param_6)
-
+void fn_82862BC8(const void *point, const Vector_82862BC8 *origin, float plane, void *out,
+                 unsigned char *parallel)
 {
-  float fVar1;
-  bool bVar2;
-  double dVar3;
-  struct { float first; float second; } stack_pair_40;
-
-  float fStack_38;
-  
-  fn_82810328(param_2,param_3,&stack_pair_40.first);
-  bVar2 = fStack_38 == lbl_821AAD20;
-  *(bool *)param_6 = bVar2;
-  if (!bVar2) {
-    dVar3 = (double)fn_8280A5D8();
-    fVar1 = (float)((double)(float)(param_1 - (double)param_3[2]) * dVar3);
-    fn_8306B530((double)(stack_pair_40.first * fVar1 + *param_3),(double)(stack_pair_40.second * fVar1 + param_3[1]),
-                 param_1,(double)lbl_82002AE0,param_5);
-  }
-  return;
+    Vector_82862BC8 delta;
+    unsigned char isParallel;
+    float fraction;
+    fn_82810328(point, origin, &delta);
+    isParallel = delta.z == 0.0f;
+    *parallel = isParallel;
+    if (!isParallel) {
+        float inverse = fn_8280A5D8(delta.z);
+        fraction = (plane - origin->z) * inverse;
+        fn_8306B530(out, delta.x * fraction + origin->x, delta.y * fraction + origin->y, plane, 1.0f);
+    }
 }
-

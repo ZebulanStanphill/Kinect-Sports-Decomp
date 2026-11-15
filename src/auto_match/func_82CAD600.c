@@ -1,33 +1,28 @@
-extern int fn_82C562F0();
-extern int fn_82C563B0();
-extern int fn_82CAD2F8();
+typedef struct Buffer_82CAD600 {
+    void *data;          /* 0x00 */
+    int count;           /* 0x04 */
+    unsigned char shift; /* 0x08 */
+} Buffer_82CAD600;
 
+extern void fn_82C563B0(void *allocator, void *data);
+extern void *fn_82C562F0(void *allocator, unsigned int bytes, const char *name);
+extern void fn_82CAD2F8(void *data, unsigned int *source, int start, unsigned int shift);
+extern const char lbl_82196582[];
 
-unsigned __int64 fn_82CAD600(int param_1,int *param_2,int param_3,unsigned int *param_4,unsigned char param_5)
-
+unsigned int fn_82CAD600(unsigned char *self, Buffer_82CAD600 *out, int count, unsigned int *source,
+                         unsigned char shift)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  __int64 lVar3;
-  
-  lVar3 = (unsigned __int64)*(unsigned int *)(param_1 + 0x6070) + 8;
-  param_2[1] = param_3;
-  *(unsigned char *)(param_2 + 2) = param_5;
-  if (*param_2 != 0) {
-    fn_82C563B0(lVar3);
-    *param_2 = 0;
-  }
-  uVar1 = fn_82C562F0(lVar3,(((unsigned __int64)(*param_4 >> 5) & 0x7fffffe) +
-                                   (unsigned __int64)(unsigned int)(1 << (param_5 & 0x3f)) & 0x7fffffff) << 1,
-                            0xffffffff82196582);
-  *param_2 = (int)uVar1;
-  if ((uVar1 & 0xffffffff) == 0) {
-    uVar2 = 5;
-  }
-  else {
-    fn_82CAD2F8(uVar1,param_4,0,param_5);
-    uVar2 = 0;
-  }
-  return uVar2;
+    unsigned char *allocator = *(unsigned char **)(self + 0x6070) + 8;
+    out->count = count;
+    out->shift = shift;
+    if (out->data) {
+        fn_82C563B0(allocator, out->data);
+        out->data = 0;
+    }
+    out->data = fn_82C562F0(allocator, (((*source >> 5) & 0x7fffffe) + (1u << shift)) * 2, lbl_82196582);
+    if (out->data) {
+        fn_82CAD2F8(out->data, source, 0, shift);
+        return 0;
+    }
+    return 5;
 }
-

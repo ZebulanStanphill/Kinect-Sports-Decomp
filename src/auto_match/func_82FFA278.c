@@ -1,43 +1,48 @@
-extern int fn_82FF8580();
-extern int fn_82FF8648();
-extern int fn_82FF86F0();
-extern int fn_82FF8B88();
-extern int fn_82FF8D30();
-extern int fn_82FFE0F0();
+typedef struct Request_82FFA278 {
+    unsigned int reserved;   /* 0x00 */
+    unsigned int key;        /* 0x04 */
+    unsigned int mode;       /* 0x08 */
+    unsigned int size;       /* 0x0c */
+    unsigned int flags;      /* 0x10 */
+    unsigned int reserved14; /* 0x14 */
+    unsigned short limit;    /* 0x18 */
+} Request_82FFA278;
 
+extern void fn_82FF8580(void *);
+extern void fn_82FF8648(void *);
+extern int fn_82FF86F0(void *, void *, unsigned int, unsigned int *);
+extern int fn_82FF8B88(void *, unsigned int, unsigned int);
+extern int fn_82FF8D30(void *, unsigned int, unsigned int, unsigned int, unsigned int);
+extern unsigned int *fn_82FFE0F0(void *, unsigned int);
 
-unsigned __int64 fn_82FFA278(__int64 param_1,int param_2,unsigned __int64 param_3)
-
+int fn_82FFA278(char *self, Request_82FFA278 *request, void *data)
 {
-  unsigned short uVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  int iVar4;
-  unsigned int *puVar6;
-  unsigned __int64 uVar5;
-  __int64 lVar7;
-  int aiStack_50;
-  
-  lVar7 = param_1 + 4;
-  fn_82FF8580(lVar7);
-  uVar2 = *(unsigned int *)(param_2 + 0x10);
-  uVar3 = *(unsigned int *)(param_2 + 4);
-  uVar1 = *(unsigned short *)(param_2 + 0x18);
-  iVar4 = *(int *)(param_2 + 8);
-  puVar6 = (unsigned int *)fn_82FFE0F0(param_1 + 0x41c,uVar3);
-  if (puVar6 == (unsigned int *)0x0) {
-    uVar5 = fn_82FF8D30(lVar7,uVar3,iVar4,-(unsigned short)(iVar4 == 0) & uVar1,uVar2 >> 0x1f);
-  }
-  else {
-    uVar5 = fn_82FF8B88(lVar7,*puVar6,iVar4);
-  }
-  aiStack_50 = 0;
-  if ((((int)uVar5 == 1) &&
-      (uVar5 = fn_82FF86F0(lVar7,param_3,*(unsigned int *)(param_2 + 0xc),&aiStack_50),
-      (int)uVar5 == 1)) && (*(int *)(param_2 + 0xc) != aiStack_50)) {
-    uVar5 = 2;
-  }
-  fn_82FF8648(lVar7);
-  return uVar5;
+    void *state = self + 4;
+    unsigned int flags;
+    unsigned int key;
+    unsigned int limit;
+    unsigned int mode;
+    unsigned int *entry;
+    unsigned int transferred;
+    int result;
+    fn_82FF8580(state);
+    flags = request->flags >> 31;
+    key = request->key;
+    limit = request->limit;
+    mode = request->mode;
+    entry = fn_82FFE0F0(self + 0x41c, key);
+    if (entry != 0) {
+        result = fn_82FF8B88(state, *entry, mode);
+    } else {
+        result = fn_82FF8D30(state, key, mode, mode == 0 ? limit : 0, flags);
+    }
+    transferred = 0;
+    if (result == 1) {
+        result = fn_82FF86F0(state, data, request->size, &transferred);
+        if (result == 1 && request->size != transferred) {
+            result = 2;
+        }
+    }
+    fn_82FF8648(state);
+    return result;
 }
-

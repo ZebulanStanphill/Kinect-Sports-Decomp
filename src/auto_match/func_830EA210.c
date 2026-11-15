@@ -1,24 +1,19 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern unsigned int *auStack_330;
-extern int fn_830DF2D0();
-extern int fn_830E6BA8();
-extern V16 vectorSplatHalfWord();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+extern __vector4 __vsplth(__vector4, unsigned int);
+extern void fn_830DF2D0(const void *, unsigned int, void *, unsigned int, unsigned int);
+extern void fn_830E6BA8(void *, unsigned int, void *, unsigned int, unsigned int, __vector4);
 
-void fn_830EA210(unsigned __int64 param_1, unsigned __int64 param_2, unsigned __int64 param_3, unsigned __int64 param_4, unsigned __int64 unused_arg_5, unsigned __int64 unused_arg_6, unsigned __int64 unused_arg_7, unsigned __int64 unused_arg_8, int in_stack_00000054)
-
+void fn_830EA210(const void *source, unsigned int stride, void *out, unsigned int outStride, int unused5,
+                 int unused6, unsigned char depth, unsigned int shift, int mode)
 {
-  int iVar1;
-  int iVar2;
-  unsigned int in_r10;
-  unsigned char in_vs32 [16];
-
-  unsigned char auStack_330 [736];
-
-  iVar1 = 4 << (in_r10 & 0x3f);
-  iVar2 = 1 << (in_stack_00000054 == 0 & in_r10) + 2;
-  fn_830DF2D0(param_1,param_2,auStack_330,iVar1,iVar2);
-  vectorSplatHalfWord(in_vs32,1);
-  fn_830E6BA8(auStack_330,param_4,param_3,iVar1,iVar2);
-  return;
+    __declspec(align(16)) unsigned char block[768];
+    __declspec(align(16)) unsigned int rounding[4];
+    unsigned int width = 4u << shift;
+    unsigned int height = 1u << (((mode == 0) & shift) + 2);
+    rounding[0] = 8 - depth;
+    fn_830DF2D0(source, stride, block, width, height);
+    fn_830E6BA8(block, outStride, out, width, height, __vsplth(*(const __vector4 *)rounding, 1));
 }

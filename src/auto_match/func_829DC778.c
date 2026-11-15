@@ -1,24 +1,21 @@
-typedef unsigned char bool;
-extern int fn_82F68CC0();
+typedef struct Queue_829DC778 {
+    char entries[500][0x7d4];
+    unsigned int count; /* 0xf4a10 */
+    unsigned int first; /* 0xf4a14 */
+} Queue_829DC778;
 
+extern void *memcpy(void *, const void *, unsigned int);
 
-bool fn_829DC778(int param_1,unsigned __int64 param_2)
-
+unsigned char fn_829DC778(Queue_829DC778 *self, const void *entry)
 {
-  unsigned int uVar1;
-  unsigned int *puVar2;
-  
-  uVar1 = *(unsigned int *)(param_1 + 0xf4a10);
-  if (499 < uVar1) {
-    puVar2 = (unsigned int *)(param_1 + 0xf4a14);
-    fn_82F68CC0(*puVar2 * 0x7d4 + param_1,param_2,0x7d4);
-    *puVar2 = (*puVar2 + 1) % 500;
-  }
-  else {
-    *(unsigned int *)(param_1 + 0xf4a10) = uVar1 + 1;
-    fn_82F68CC0((((*(int *)(param_1 + 0xf4a14) + uVar1 + 1) - 1) % 500) * 0x7d4 + param_1,param_2,
-                 0x7d4);
-  }
-  return 499 >= uVar1;
+    unsigned int count = self->count;
+    if (count < 500) {
+        self->count = count + 1;
+        memcpy(self->entries[(self->first + self->count - 1) % 500], entry, 0x7d4);
+        return 1;
+    } else {
+        memcpy(self->entries[self->first], entry, 0x7d4);
+        self->first = (self->first + 1) % 500;
+        return 0;
+    }
 }
-

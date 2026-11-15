@@ -1,40 +1,40 @@
-extern int fn_82F61A28();
-extern int fn_82F61AB0();
-extern int fn_82F61B68();
-extern unsigned int iStack_2c;
-extern unsigned int uStack_30;
+typedef struct Item_82F60CA8 {
+    char pad[0x44];     /* 0x0 */
+    unsigned int value; /* 0x44 */
+} Item_82F60CA8;
 
+typedef struct Object_82F60CA8 {
+    int unused;            /* 0x0 */
+    char collection[0x54]; /* 0x4 */
+    unsigned int last;     /* 0x58 */
+    unsigned int first;    /* 0x5c */
+} Object_82F60CA8;
 
-__int64 fn_82F60CA8(int param_1)
+extern int fn_82F61A28(void *, int *);
+extern void fn_82F61B68(void *, int, Item_82F60CA8 **);
+extern void fn_82F61AB0(void *);
 
+int fn_82F60CA8(Object_82F60CA8 *self)
 {
-  __int64 lVar1;
-  int iVar2;
-  unsigned int uStack_30;
-  int iStack_2c;
-  int aiStack_28;
-  
-  iVar2 = param_1 + 4;
-  uStack_30 = 0;
-  lVar1 = fn_82F61A28(iVar2,&uStack_30);
-  if (lVar1 == 0) {
-    if ((int)uStack_30 < 1) {
-      fn_82F61AB0(iVar2);
-      lVar1 = -0x7ddbfbf9;
+    int count = 0;
+    Item_82F60CA8 *first;
+    Item_82F60CA8 *last;
+    int result = fn_82F61A28(self->collection, &count);
+    if (result == 0) {
+        if (count > 0) {
+            fn_82F61B68(self->collection, count - 1, &last);
+            fn_82F61B68(self->collection, 0, &first);
+            if (self->first != first->value) {
+                self->last = last->value;
+                self->first = first->value;
+            } else {
+                fn_82F61AB0(self->collection);
+                result = 0x82240408;
+            }
+        } else {
+            fn_82F61AB0(self->collection);
+            result = 0x82240407;
+        }
     }
-    else {
-      fn_82F61B68(iVar2,(unsigned __int64)uStack_30 - 1,&aiStack_28);
-      fn_82F61B68(iVar2,0,&iStack_2c);
-      if (*(int *)(param_1 + 0x5c) == *(int *)(iStack_2c + 0x44)) {
-        fn_82F61AB0(iVar2);
-        lVar1 = -0x7ddbfbf8;
-      }
-      else {
-        *(unsigned int *)(param_1 + 0x58) = *(unsigned int *)(aiStack_28 + 0x44);
-        *(unsigned int *)(param_1 + 0x5c) = *(unsigned int *)(iStack_2c + 0x44);
-      }
-    }
-  }
-  return lVar1;
+    return result;
 }
-

@@ -1,43 +1,55 @@
-extern unsigned int *auStack_40;
-extern int fn_8268CC00();
-extern int fn_8268D008();
-extern int fn_8269A240();
-extern int fn_827A1070();
-extern unsigned int uStack_44;
-extern unsigned int uStack_48;
-extern unsigned int uStack_4c;
-extern unsigned int uStack_50;
+typedef struct Object_8272D828 Object_8272D828;
 
+typedef struct Vtable_8272D828 {
+    void *slots[16];
+    char *(*getData)(Object_8272D828 *); /* 0x40 */
+} Vtable_8272D828;
 
-void fn_8272D828(int *param_1,unsigned int param_2,unsigned int *param_3)
+struct Object_8272D828 {
+    Vtable_8272D828 *vtable;
+    char pad004[0x9c];
+    void *context; /* 0xa0 */
+};
 
+typedef struct Point_8272D828 {
+    float x; /* 0x00 */
+    float y; /* 0x04 */
+} Point_8272D828;
+
+extern void fn_8268CC00(void *);
+extern void fn_8269A240(Object_8272D828 *, void *);
+extern void fn_8268D008(void *, Point_8272D828 *, const Point_8272D828 *);
+extern void fn_827A1070(void *, float, float, void *);
+
+void fn_8272D828(Object_8272D828 *self, unsigned int index, Point_8272D828 *out, void *context)
 {
-  int iVar1;
-  struct { unsigned int first; unsigned int second; } stack_pair_50;
+    char *data = self->vtable->getData(self);
 
-  unsigned int uStack_48;
-  unsigned int uStack_44;
-  unsigned char auStack_40 [32];
-  
-  iVar1 = (**(int (***)())(*param_1 + 0x40))();
-  if (iVar1 != 0) {
-    if (param_2 < 4) {
-      iVar1 = param_2 * 0x24 + iVar1 + 0x944;
+    struct {
+        Point_8272D828 input;
+        Point_8272D828 output;
+        char transform[24];
+    } frame;
+
+    if (data != 0) {
+        const float *entry;
+        if (index >= 4) {
+            entry = 0;
+        } else {
+            entry = (const float *)(data + index * 0x24 + 0x944);
+        }
+        {
+            float y = entry[6];
+            frame.input.x = entry[5];
+            frame.input.y = y;
+        }
+        fn_8268CC00(frame.transform);
+        fn_8269A240(self, frame.transform);
+        fn_8268D008(frame.transform, &frame.output, &frame.input);
+        if (out != 0) {
+            out->x = frame.output.x;
+            out->y = frame.output.y;
+        }
+        fn_827A1070(self->context, frame.output.x, frame.output.y, context);
     }
-    else {
-      iVar1 = 0;
-    }
-    stack_pair_50.second = *(unsigned int *)(iVar1 + 0x18);
-    stack_pair_50.first = *(unsigned int *)(iVar1 + 0x14);
-    fn_8268CC00(auStack_40);
-    fn_8269A240(param_1,auStack_40);
-    fn_8268D008(auStack_40,&uStack_48,&stack_pair_50.first);
-    if (param_3 != (unsigned int *)0x0) {
-      *param_3 = uStack_48;
-      param_3[1] = uStack_44;
-    }
-    fn_827A1070(param_1[0x28]);
-  }
-  return;
 }
-

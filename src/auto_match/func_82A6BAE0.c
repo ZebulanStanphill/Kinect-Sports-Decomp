@@ -1,18 +1,10 @@
-extern int fn_82F655D8();
-extern unsigned int lbl_82005718;
-extern unsigned int lbl_82015618;
-extern unsigned int lbl_820A8648;
+extern double fn_82F655D8(double, double);
+extern float lbl_820A8648[];
 
-
-double fn_82A6BAE0(int param_1)
-
+float fn_82A6BAE0(int index)
 {
-  double dVar1;
-  
-  if ((-1 < param_1) && (param_1 < 0xc0)) {
-    return (double)*(float *)(&lbl_820A8648 + param_1 * 4);
-  }
-  dVar1 = (double)fn_82F655D8(lbl_82015618,(double)((float)(__int64)param_1 * lbl_82005718));
-  return (double)(float)dVar1;
+    if (index >= 0 && index < 0xc0) {
+        return lbl_820A8648[index];
+    }
+    return (float)fn_82F655D8(10.0, (float)index * 0.05f);
 }
-

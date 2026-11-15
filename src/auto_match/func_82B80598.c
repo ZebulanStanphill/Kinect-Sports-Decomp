@@ -1,49 +1,47 @@
-#define NAN(x) ((x) != (x))
-extern unsigned int INFINITY;
-extern double _seed_nan;
-extern int fn_82B16720();
-extern int fn_82F6E018();
-extern unsigned int lbl_82005710;
-extern unsigned int lbl_82005758;
+extern int fn_82F6E018(double);
+extern double fn_82B16720(double);
+extern double lbl_82005710;
 
-
-double fn_82B80598(double param_1)
-
+static __forceinline float SpecialValue(unsigned int bits)
 {
-  int iVar1;
-  float fVar2;
-  double dVar3;
-  
-  if (param_1 == lbl_82005758) {
-    return lbl_82005758;
-  }
-  dVar3 = lbl_82005758;
-  iVar1 = fn_82F6E018(param_1);
-  if (iVar1 < 1) {
-LAB_82b80634:
-    dVar3 = (double)fn_82B16720(dVar3 / param_1);
-  }
-  else {
-    if (iVar1 < 3) {
-      fVar2 = -(_seed_nan);
-    }
-    else if (iVar1 == 4) {
-      fVar2 = -0.0;
-    }
-    else if (iVar1 == 0x20) {
-      fVar2 = -INFINITY;
-    }
-    else {
-      if (iVar1 != 0x40) {
-        if (iVar1 == 0x200) {
-          return lbl_82005710;
-        }
-        goto LAB_82b80634;
-      }
-      fVar2 = INFINITY;
-    }
-    dVar3 = (double)fVar2;
-  }
-  return dVar3;
+    union {
+        unsigned int bits;
+        float value;
+    } special;
+
+    special.bits = bits;
+    return special.value;
 }
 
+double fn_82B80598(double value)
+{
+    int kind;
+    if (value == 1.0) {
+        return 1.0;
+    }
+    kind = fn_82F6E018(value);
+    if (kind > 0) {
+        float special;
+        if (kind > 2) {
+            switch (kind) {
+            case 4:
+                special = SpecialValue(0x80000000);
+                break;
+            case 0x20:
+                special = SpecialValue(0xff800000);
+                break;
+            case 0x40:
+                special = SpecialValue(0x7f800000);
+                break;
+            case 0x200:
+                return lbl_82005710;
+            default:
+                return fn_82B16720(1.0 / value);
+            }
+        } else {
+            special = SpecialValue(0xffc00000);
+        }
+        return special;
+    }
+    return fn_82B16720(1.0 / value);
+}

@@ -1,28 +1,34 @@
-extern int fn_82BF7468();
+typedef struct Node_82BF7590 {
+    char pad000[8];
+    unsigned int key; /* 0x08 */
+    int pad00c;
+    struct Node_82BF7590 *next; /* 0x10 */
+    unsigned int hash;          /* 0x14 */
+} Node_82BF7590;
 
+typedef struct Table_82BF7590 {
+    char pad000[8];
+    Node_82BF7590 **buckets; /* 0x08 */
+    unsigned int count;      /* 0x0c */
+} Table_82BF7590;
 
-unsigned __int64 fn_82BF7590(int param_1,unsigned int *param_2)
+extern void fn_82BF7468(Table_82BF7590 *, Node_82BF7590 *);
 
+int fn_82BF7590(Table_82BF7590 *self, const unsigned int *key)
 {
-  unsigned int uVar1;
-  int iVar2;
-  unsigned int uVar3;
-  int *piVar4;
-  
-  if ((param_1 != 0) && (*(int *)(param_1 + 8) != 0)) {
-    uVar1 = *(unsigned int *)(param_1 + 0xc);
-    uVar3 = *param_2 >> 4;
-    trapWord(6,(unsigned __int64)uVar1,0);
-    piVar4 = (int *)((uVar3 - (uVar3 / uVar1) * uVar1) * 4 + *(int *)(param_1 + 8));
-    for (iVar2 = *piVar4; iVar2 != 0; iVar2 = *(int *)(iVar2 + 0x10)) {
-      if ((*(unsigned int *)(iVar2 + 0x14) == uVar3) && (*(unsigned int *)(iVar2 + 8) == *param_2)) {
-        *piVar4 = *(int *)(iVar2 + 0x10);
-        fn_82BF7468();
-        return 1;
-      }
-      piVar4 = (int *)(iVar2 + 0x10);
+    if (self != 0 && self->buckets != 0) {
+        unsigned int value = *key;
+        unsigned int hash = value >> 4;
+        Node_82BF7590 **link = &self->buckets[hash % self->count];
+        Node_82BF7590 *node;
+        for (node = *link; node != 0; node = node->next) {
+            if (node->hash == hash && node->key == value) {
+                *link = node->next;
+                fn_82BF7468(self, node);
+                return 1;
+            }
+            link = &node->next;
+        }
     }
-  }
-  return 0;
+    return 0;
 }
-

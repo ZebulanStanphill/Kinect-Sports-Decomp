@@ -1,48 +1,36 @@
-extern int fn_8262FFB0();
-extern int fn_82A93F08();
+extern int fn_8262FFB0(void *self);
+extern void fn_82A93F08(void *self, unsigned int offset, unsigned int extra);
 
-
-void fn_82A93F70(int param_1,unsigned __int64 param_2)
-
+void fn_82A93F70(char *self, unsigned int offset)
 {
-  int iVar1;
-  int iVar2;
-  unsigned int uVar3;
-  
-  iVar2 = fn_8262FFB0();
-  iVar1 = (int)param_2;
-  if (iVar2 < 7) {
-    if (iVar2 == 6) {
-      *(int *)(param_1 + 0x20) = *(int *)(param_1 + 0x20) + iVar1;
-      return;
+    char *selfCopy = self;
+    switch (fn_8262FFB0(selfCopy)) {
+    case 1: {
+        unsigned int value = *(unsigned int *)(selfCopy + 0x18);
+        {
+            unsigned int *tagged = (unsigned int *)(selfCopy + 0x18);
+            *tagged = (value & 3) | (((value & ~3u) + offset) & ~3u);
+        }
+        break;
     }
-    if (iVar2 == 1) {
-      uVar3 = *(unsigned int *)(param_1 + 0x18) & 3 |
-              (*(unsigned int *)(param_1 + 0x18) & 0xfffffffc) + iVar1 & 0xfffffffc;
-      goto LAB_82a94028;
+    case 6:
+        *(unsigned int *)(selfCopy + 0x20) += offset;
+        break;
+    case 3:
+    case 17:
+    case 18:
+    case 19:
+    case 20:
+        fn_82A93F08(selfCopy, offset, (*(unsigned int *)(selfCopy + 0x30) & 0xfffff000) ? offset : 0);
+        break;
+    case 2:
+        *(unsigned int *)(selfCopy + 0x18) = offset + *(unsigned int *)(selfCopy + 0x18);
+        break;
+    case 7:
+        *(unsigned int *)(selfCopy + 0x18) = offset + *(unsigned int *)(selfCopy + 0x18);
+        break;
+    case 8:
+        *(unsigned int *)(selfCopy + 0x18) = offset + *(unsigned int *)(selfCopy + 0x18);
+        break;
     }
-    if (iVar2 != 2) {
-      if (iVar2 != 3) {
-        return;
-      }
-      goto LAB_82a93ffc;
-    }
-  }
-  else if ((iVar2 != 7) && (iVar2 != 8)) {
-    if (iVar2 < 0x11) {
-      return;
-    }
-    if (0x14 < iVar2) {
-      return;
-    }
-LAB_82a93ffc:
-    fn_82A93F08(param_1,param_2,
-                  -(unsigned __int64)((*(unsigned int *)(param_1 + 0x30) & 0xfffff000) != 0) & param_2);
-    return;
-  }
-  uVar3 = iVar1 + *(int *)(param_1 + 0x18);
-LAB_82a94028:
-  *(unsigned int *)(param_1 + 0x18) = uVar3;
-  return;
 }
-

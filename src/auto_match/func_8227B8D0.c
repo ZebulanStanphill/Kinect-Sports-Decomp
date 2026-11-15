@@ -1,33 +1,35 @@
-extern int fn_82F64988();
+typedef struct State_8227B8D0 {
+    unsigned int active; /* 0x00 */
+    unsigned int first;  /* 0x04 */
+    unsigned int second; /* 0x08 */
+    char name[0x40];     /* 0x0c */
+    float time;          /* 0x4c */
+    unsigned int third;  /* 0x50 */
+    unsigned int fourth; /* 0x54 */
+    float value;         /* 0x58 */
+    unsigned int fifth;  /* 0x5c */
+    unsigned int sixth;  /* 0x60 */
+} State_8227B8D0;
 
+extern int fn_82F64988(char *, unsigned int, const char *);
 
-void fn_8227B8D0(double param_1,double param_2,int param_3,int param_4,int param_5,
-                  unsigned __int64 param_6,unsigned int param_7,unsigned int param_8,unsigned __int64 param_9,
-                  unsigned int param_10)
-
+void fn_8227B8D0(char *self, int index, unsigned int alternate, const char *name, unsigned int first,
+                 unsigned int second, float time, unsigned int third, unsigned int fourth, float value,
+                 unsigned int fifth, unsigned int sixth)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  unsigned int in_stack_00000054;
-  unsigned int in_stack_00000064;
-  unsigned int in_stack_0000006c;
-  
-  iVar1 = param_4 * 0xdc + param_3;
-  puVar2 = (unsigned int *)(iVar1 + 0xa9c);
-  if (param_5 != 0) {
-    puVar2 = (unsigned int *)(iVar1 + 0xb00);
-  }
-  *(unsigned int *)(param_3 + 0xa78) = 1;
-  fn_82F64988(puVar2 + 3,0x20,param_6);
-  puVar2[0x13] = (float)param_1;
-  puVar2[0x16] = (float)param_2;
-  puVar2[1] = param_7;
-  puVar2[2] = param_8;
-  puVar2[0x14] = param_10;
-  puVar2[0x15] = in_stack_00000054;
-  puVar2[0x17] = in_stack_00000064;
-  puVar2[0x18] = in_stack_0000006c;
-  *puVar2 = 1;
-  return;
+    State_8227B8D0 *state = (State_8227B8D0 *)(self + index * 0xdc + 0xa9c);
+    if (alternate >= 1) {
+        state = (State_8227B8D0 *)(self + index * 0xdc + 0xb00);
+    }
+    *(unsigned int *)(self + 0xa78) = 1;
+    fn_82F64988(state->name, 0x20, name);
+    state->time = time;
+    state->value = value;
+    state->first = first;
+    state->second = second;
+    state->third = third;
+    state->fourth = fourth;
+    state->fifth = fifth;
+    state->sixth = sixth;
+    state->active = 1;
 }
-

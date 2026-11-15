@@ -1,50 +1,63 @@
-extern int fn_82F68CC0();
-extern unsigned int iStack_8c;
-extern unsigned int uStack_78;
-extern unsigned int uStack_7c;
-extern unsigned int uStack_80;
-extern unsigned int uStack_84;
-extern unsigned int uStack_88;
-extern unsigned int uStack_90;
+typedef struct Payload_82C491A8 {
+    unsigned int enabled; /* 0x0 */
+    unsigned int first;   /* 0x4 */
+    unsigned int second;  /* 0x8 */
+    char reserved[0x50];
+} Payload_82C491A8;
 
+typedef struct Request_82C491A8 {
+    unsigned int format;      /* 0x0 */
+    void *context;            /* 0x4 */
+    unsigned int value;       /* 0x8 */
+    unsigned int type;        /* 0xc */
+    Payload_82C491A8 payload; /* 0x10 */
+} Request_82C491A8;
 
-unsigned __int64 fn_82C491A8(int param_1,unsigned __int64 param_2)
+typedef struct Driver_82C491A8 {
+    char pad0[0xc0];
+    int (*submit)(Request_82C491A8 *); /* 0xc0 */
+    char padC4[0x204];
+    int disabled; /* 0x2c8 */
+} Driver_82C491A8;
 
+typedef struct State_82C491A8 {
+    char pad0[0x10];
+    unsigned int state; /* 0x10 */
+    char pad14[0x5580 - 0x14];
+    unsigned int enabled; /* 0x5580 */
+    char pad5584[0x5610 - 0x5584];
+    unsigned int format; /* 0x5610 */
+    unsigned int flags;  /* 0x5614 */
+    char pad5618[0x10];
+    unsigned int first;  /* 0x5628 */
+    unsigned int second; /* 0x562c */
+    char pad5630[0x6070 - 0x5630];
+    Driver_82C491A8 *driver; /* 0x6070 */
+    char pad6074[0xb148 - 0x6074];
+    unsigned int value; /* 0xb148 */
+} State_82C491A8;
+
+extern void *memcpy(void *, const void *, unsigned int);
+
+int fn_82C491A8(State_82C491A8 *self, const void *data)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  struct { unsigned int first; int second; } stack_pair_90;
-
-  unsigned int uStack_88;
-  unsigned int uStack_84;
-  unsigned int uStack_80;
-  unsigned int uStack_7c;
-  unsigned int uStack_78;
-
-  if (param_1 == 0) {
-    uVar2 = 0xfffffffffffffffd;
-  }
-  else {
-    iVar1 = *(int *)(param_1 + 0x6070);
-    if (*(int *)(iVar1 + 0x2c8) == 0) {
-      if ((*(unsigned int *)(param_1 + 0x5614) & 2) == 0) {
-        uVar2 = -(unsigned __int64)(*(int *)(param_1 + 0x10) == 0) & 0xfffffffffffffff9;
-      }
-      else {
-        stack_pair_90.first = *(unsigned int *)(param_1 + 0x5610);
-        uStack_84 = 1;
-        uStack_88 = *(unsigned int *)(param_1 + 0xb148);
-        stack_pair_90.second = param_1;
-        fn_82F68CC0(&uStack_80,param_2,0x5c);
-        uStack_7c = *(unsigned int *)(param_1 + 0x5628);
-        uStack_78 = *(unsigned int *)(param_1 + 0x562c);
-        uStack_80 = (unsigned int)(*(int *)(param_1 + 0x5580) != 0);
-        uVar2 = (**(int (***)())(iVar1 + 0xc0))(&stack_pair_90.first);
-      }
+    Request_82C491A8 request;
+    if (self == 0) {
+        return -3;
     }
-    else {
-      uVar2 = 0;
+    if (self->driver->disabled != 0) {
+        return 0;
     }
-  }
-  return uVar2;
+    if ((self->flags & 2) == 0) {
+        return self->state == 0 ? -7 : 0;
+    }
+    request.format = self->format;
+    request.type = 1;
+    request.value = self->value;
+    request.context = self;
+    memcpy(&request.payload, data, 0x5c);
+    request.payload.first = self->first;
+    request.payload.second = self->second;
+    request.payload.enabled = self->enabled != 0;
+    return self->driver->submit(&request);
 }

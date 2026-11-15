@@ -1,19 +1,16 @@
-extern float lbl_82195590;
-extern unsigned int lbl_82195598;
-extern float lbl_821955A0;
-extern unsigned int lbl_831E4E38;
+extern double __fctid(double);
+extern double __fcfid(double);
+extern const double lbl_821954B0[325];
+extern float lbl_831E4E38;
 
-
-unsigned __int64 fn_822CEEC8(int param_1)
-
+int fn_822CEEC8(int self)
 {
-  double dVar1;
-  
-  dVar1 = (double)(*(float *)(*(int *)((*(int **)(param_1 + 0x1c))[4] * 4 +
-                                      **(int **)(param_1 + 0x1c)) + 0x14) * lbl_82195590);
-  if ((float)((dVar1 - (double)(__int64)(dVar1 - lbl_82195598)) * lbl_821955A0) < lbl_831E4E38) {
-    return 1;
-  }
-  return 0;
+    int *entries = *(int **)(self + 0x1c);
+    float value =
+        *(float *)(*(int *)(entries[0] + entries[4] * 4) + 0x14) * *(const float *)&lbl_821954B0[28];
+    float rounded = (float)__fcfid(__fctid((double)value - lbl_821954B0[29]));
+    if ((float)(((double)value - rounded) * lbl_821954B0[30]) < lbl_831E4E38) {
+        return 1;
+    }
+    return 0;
 }
-

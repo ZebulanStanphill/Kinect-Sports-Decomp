@@ -1,34 +1,60 @@
-#define true 1
-extern int fn_82248B90();
-extern int fn_82594C50();
-extern int fn_8288F948();
-extern int fn_828A12E8();
+typedef struct Device_82513668 Device_82513668;
 
+typedef struct Vtable_82513668 {
+    void (*slots[26])(Device_82513668 *); /* 0x0 */
+} Vtable_82513668;
 
-void fn_82513668(unsigned __int64 param_1,int param_2)
+struct Device_82513668 {
+    Vtable_82513668 *vtable; /* 0x0 */
+};
 
+typedef struct Object_82513668 {
+    char pad[8];             /* 0x0 */
+    Device_82513668 *device; /* 0x8 */
+    char padC[12];           /* 0xc */
+    Device_82513668 *target; /* 0x18 */
+} Object_82513668;
+
+typedef struct Node_82513668 {
+    struct Node_82513668 *next; /* 0x0 */
+    char pad[0x10];             /* 0x4 */
+    Device_82513668 *device;    /* 0x14 */
+} Node_82513668;
+
+typedef struct Tree_82513668 {
+    void *unused;        /* 0x0 */
+    Node_82513668 *head; /* 0x4 */
+} Tree_82513668;
+
+typedef struct Iterator_82513668 {
+    Device_82513668 *owner; /* 0x0 */
+    Node_82513668 *node;    /* 0x4 */
+} Iterator_82513668;
+
+extern void fn_82594C50(Device_82513668 *);
+extern void *fn_828A12E8(Device_82513668 *);
+extern Tree_82513668 *fn_8288F948(void *, int);
+extern void fn_82248B90(Node_82513668 **);
+
+static __forceinline int HasNext(Iterator_82513668 *iterator)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  int iVar3;
-  int iVar4;
-  int aiStack_2c;
-  
-  (**(int (***)())(**(int **)(param_2 + 8) + 100))();
-  fn_82594C50(*(unsigned int *)(param_2 + 8));
-  uVar1 = *(unsigned int *)(param_2 + 8);
-  uVar2 = fn_828A12E8(uVar1);
-  iVar3 = fn_8288F948(uVar2,1);
-  aiStack_2c = **(int **)(iVar3 + 4);
-  while( true ) {
-    iVar3 = aiStack_2c;
-    uVar2 = fn_828A12E8(uVar1);
-    iVar4 = fn_8288F948(uVar2,1);
-    if (iVar3 == *(int *)(iVar4 + 4)) break;
-    (**(int (***)())(**(int **)(iVar3 + 0x14) + 0x50))();
-    fn_82248B90(&aiStack_2c);
-  }
-  (**(int (***)())(**(int **)(param_2 + 0x18) + 0x28))(param_1);
-  return;
+    Node_82513668 *node = iterator->node;
+    if (node != fn_8288F948(fn_828A12E8(iterator->owner), 1)->head) {
+        return 1;
+    }
+    return 0;
 }
 
+void fn_82513668(Object_82513668 *self, float elapsed)
+{
+    Iterator_82513668 iterator;
+    self->device->vtable->slots[25](self->device);
+    fn_82594C50(self->device);
+    iterator.owner = self->device;
+    iterator.node = fn_8288F948(fn_828A12E8(iterator.owner), 1)->head->next;
+    while (HasNext(&iterator)) {
+        iterator.node->device->vtable->slots[20](iterator.node->device);
+        fn_82248B90(&iterator.node);
+    }
+    ((void (*)(Device_82513668 *, float))self->target->vtable->slots[10])(self->target, elapsed);
+}

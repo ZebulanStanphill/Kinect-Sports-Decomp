@@ -1,33 +1,50 @@
-extern int fn_82FB7AC0();
-extern int fn_82FB9630();
-extern unsigned int iStack_20;
-extern unsigned int uStack_1c;
+typedef struct Object_82FB81B8 Object_82FB81B8;
 
+typedef struct Vtable_82FB81B8 {
+    void *unused;                           /* 0x00 */
+    void (*release)(Object_82FB81B8 *self); /* 0x04 */
+} Vtable_82FB81B8;
 
-unsigned __int64 fn_82FB81B8(__int64 param_1)
+struct Object_82FB81B8 {
+    Vtable_82FB81B8 *vtable; /* 0x00 */
+};
 
+typedef struct Type_82FB81B8 {
+    char pad[0x1c];
+    int kind; /* 0x1c */
+} Type_82FB81B8;
+
+typedef struct Value_82FB81B8 {
+    Type_82FB81B8 *type;         /* 0x00 */
+    unsigned short length;       /* 0x04 */
+    unsigned char owned : 1;     /* 0x06 */
+    unsigned char reference : 1; /* 0x06 */
+    unsigned char flags : 6;     /* 0x06 */
+    unsigned char extra;         /* 0x07 */
+    Object_82FB81B8 *object;     /* 0x08 */
+} Value_82FB81B8;
+
+extern int fn_82FB7AC0(Value_82FB81B8 *value, Type_82FB81B8 *type);
+extern Value_82FB81B8 *fn_82FB9630(void *container);
+
+unsigned int fn_82FB81B8(unsigned char *self, Type_82FB81B8 *type)
 {
-  int iVar1;
-  int *piVar2;
-  struct { int first; unsigned int second; } stack_pair_20;
-
-  int *piStack_18;
-  
-  piStack_18 = (int *)0x0;
-  stack_pair_20.second = ((((unsigned __int64)(stack_pair_20.second)) & (~(((unsigned __int64)0xFFFF) << 16))) | ((((unsigned __int64)((((unsigned __int64)(stack_pair_20.second) >> 16) & 0xFFFF) & 0x3fff)) & ((unsigned __int64)0xFFFF)) << 16));
-  stack_pair_20.second = (unsigned int)(((unsigned __int64)(stack_pair_20.second) >> 16) & 0xFFFF);
-  iVar1 = fn_82FB7AC0(&stack_pair_20.first);
-  if ((iVar1 == 1) && (piVar2 = (int *)fn_82FB9630(param_1 + 4), piVar2 != (int *)0x0)) {
-    *piVar2 = stack_pair_20.first;
-    piVar2[1] = stack_pair_20.second;
-    piVar2[2] = (int)piStack_18;
-    return 1;
-  }
-  if ((*(int *)(stack_pair_20.first + 0x1c) == 0) || (*(int *)(stack_pair_20.first + 0x1c) == 2)) {
-    if (piStack_18 != (int *)0x0) {
-      (**(int (***)())(*piStack_18 + 4))();
+    Value_82FB81B8 value;
+    value.owned = 0;
+    value.length = 0;
+    value.reference = 0;
+    value.object = 0;
+    if (fn_82FB7AC0(&value, type) == 1) {
+        Value_82FB81B8 *out = fn_82FB9630(self + 4);
+        if (out) {
+            *out = value;
+            return 1;
+        }
     }
-  }
-  return 2;
+    if (value.type->kind == 0 || value.type->kind == 2) {
+        if (value.object) {
+            value.object->vtable->release(value.object);
+        }
+    }
+    return 2;
 }
-

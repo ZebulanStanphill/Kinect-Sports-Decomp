@@ -1,22 +1,49 @@
-extern int fn_82522D98();
-extern int fn_825C44A8();
+typedef struct Node_825C40B0 {
+    void *item;                 /* 0x0 */
+    struct Node_825C40B0 *next; /* 0x4 */
+} Node_825C40B0;
 
+typedef struct Owner_825C40B0 {
+    int field0;          /* 0x0 */
+    void *value;         /* 0x4 */
+    Node_825C40B0 *head; /* 0x8 */
+    void *entries[3];    /* 0xc */
+    char *parent;        /* 0x18 */
+} Owner_825C40B0;
 
-unsigned __int64 fn_825C40B0(int param_1,int param_2)
+typedef struct Descriptor_825C40B0 {
+    char pad0[8];
+    int index;   /* 0x8 */
+    void *value; /* 0xc */
+} Descriptor_825C40B0;
 
+extern void *fn_825C44A8(void *, void *, int, void *);
+extern Node_825C40B0 *fn_82522D98(unsigned int);
+extern void *fn_8265C9E0(unsigned int);
+extern void *fn_826129C0(void *, void *, void *, Descriptor_825C40B0 *, float, unsigned int, void *);
+
+void *fn_825C40B0(Owner_825C40B0 *self, Descriptor_825C40B0 *descriptor, void *argument, float scale,
+                  unsigned int flags)
 {
-  unsigned int uVar1;
-  
-  if (*(int *)((*(int *)(param_2 + 8) + 3) * 4 + param_1) == 0) {
-    if ((unsigned __int64)*(unsigned int *)(param_1 + 0x18) == 0) {
-      return 0;
+    Node_825C40B0 *node;
+    void *memory;
+    if (self->entries[descriptor->index] == 0) {
+        char *target;
+        void *value;
+        if (self->parent != 0) {
+        } else {
+            return 0;
+        }
+        value = self->value;
+        target = self->parent + 0xb90;
+        self->entries[descriptor->index] = fn_825C44A8(target, value, descriptor->index, descriptor->value);
     }
-    uVar1 = fn_825C44A8((unsigned __int64)*(unsigned int *)(param_1 + 0x18) + 0xb90,
-                            *(unsigned int *)(param_1 + 4),*(int *)(param_2 + 8),
-                            *(unsigned int *)(param_2 + 0xc));
-    *(unsigned int *)((*(int *)(param_2 + 8) + 3) * 4 + param_1) = uVar1;
-  }
-                    /* WARNING: Subroutine does not return */
-  fn_82522D98(8);
+    node = fn_82522D98(8);
+    memory = fn_8265C9E0(0x90);
+    node->item = memory ? fn_826129C0(memory, argument, self->entries[descriptor->index], descriptor, scale,
+                                      flags, self->parent)
+                        : 0;
+    node->next = self->head;
+    self->head = node;
+    return node->item;
 }
-

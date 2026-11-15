@@ -1,35 +1,20 @@
-void fn_82F07F08(int param_1,int param_2,int param_3)
-
+void fn_82F07F08(unsigned char *self, short *input, short *output)
 {
-  short sVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  short sVar4;
-  short sVar5;
-  unsigned int uVar6;
-  int iVar7;
-  
-  uVar2 = *(unsigned int *)(param_1 + 0x5b4);
-  uVar6 = 1;
-  uVar3 = *(unsigned int *)(param_1 + 0x5b8);
-  do {
-    iVar7 = uVar6 * 2;
-    sVar1 = *(short *)(iVar7 + param_2);
-    if (sVar1 == 0) {
-      *(unsigned short *)(iVar7 + param_3) = 0;
-    }
-    else {
-      sVar4 = sVar1 * (short)uVar2;
-      sVar5 = (short)uVar3;
-      if (sVar1 < 0) {
-        *(short *)(iVar7 + param_3) = sVar4 - sVar5;
-      }
-      else {
-        *(short *)(iVar7 + param_3) = sVar4 + sVar5;
-      }
-    }
-    uVar6 = uVar6 + 1 & 0xff;
-  } while (uVar6 < 0x40);
-  return;
+    int scale = *(int *)(self + 0x5b4);
+    unsigned char index = 1;
+    int bias = *(int *)(self + 0x5b8);
+    do {
+        int value = input[index];
+        if (value != 0) {
+            int product = value * scale;
+            if (value < 0) {
+                output[index] = (value * scale) - bias;
+            } else {
+                output[index] = product + bias;
+            }
+        } else {
+            output[index] = 0;
+        }
+        index++;
+    } while (index < 64);
 }
-

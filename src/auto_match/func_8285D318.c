@@ -1,35 +1,27 @@
-extern unsigned int *auStack_50;
-extern int fn_8280A5E8();
-extern int fn_82810208();
-extern int fn_828102A8();
-extern int fn_82810328();
-extern int fn_828104E8();
-extern int fn_82810B40();
-extern unsigned int lbl_821AAD20;
+typedef struct Vector_8285D318 {
+    float values[3]; /* 0x0 */
+} Vector_8285D318;
 
+extern void fn_82810328(const void *, const void *, Vector_8285D318 *);
+extern float fn_82810B40(const void *, const void *);
+extern int fn_8280A5E8(float);
+extern void fn_828102A8(const void *, void *, float);
+extern void fn_82810208(const void *, const void *, void *);
+extern void fn_828104E8(const void *, const void *, void *);
 
-void fn_8285D318(int param_1,__int64 param_2,unsigned __int64 param_3,float *param_4)
-
+void fn_8285D318(const float *self, char *segment, void *out, float *distance)
 {
-  int iVar1;
-  __int64 lVar2;
-  double dVar3;
-  unsigned char auStack_50 [80];
-  
-  lVar2 = param_2 + 0x30;
-  fn_82810328(param_2,lVar2,auStack_50);
-  dVar3 = (double)fn_82810B40(lVar2,param_2 + 0x3c);
-  iVar1 = fn_8280A5E8((double)*(float *)(param_1 + 0x14));
-  if (iVar1 == 0) {
-    fn_828102A8((double)(float)(dVar3 / (double)*(float *)(param_1 + 0x14)),auStack_50,auStack_50);
-    fn_82810208(lVar2,auStack_50,auStack_50);
-    fn_828104E8(lVar2,param_2 + 0x3c,param_3);
-    dVar3 = (double)fn_82810B40(param_3,auStack_50);
-    *param_4 = (float)dVar3;
-  }
-  else {
-    *param_4 = lbl_821AAD20;
-  }
-  return;
+    Vector_8285D318 relative;
+    void *start = segment + 0x30;
+    float length;
+    fn_82810328(segment, start, &relative);
+    length = fn_82810B40(start, segment + 0x3c);
+    if (fn_8280A5E8(self[5])) {
+        *distance = 0.0f;
+    } else {
+        fn_828102A8(&relative, &relative, length / self[5]);
+        fn_82810208(start, &relative, &relative);
+        fn_828104E8(start, segment + 0x3c, out);
+        *distance = fn_82810B40(out, &relative);
+    }
 }
-

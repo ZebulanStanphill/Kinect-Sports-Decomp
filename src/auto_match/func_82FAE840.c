@@ -1,42 +1,54 @@
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-extern int fn_83037EB8();
-extern unsigned int lbl_82160788;
+typedef struct Entry_82FAE840 {
+    unsigned int key; /* 0x00 */
+    int value;        /* 0x04 */
+} Entry_82FAE840;
 
+typedef struct Input_82FAE840 {
+    unsigned int key;      /* 0x00 */
+    unsigned int reserved; /* 0x04 */
+    double value;          /* 0x08 */
+} Input_82FAE840;
 
-unsigned __int64 fn_82FAE840(int param_1,unsigned int *param_2,unsigned int param_3)
+typedef struct Vector_82FAE840 {
+    Entry_82FAE840 *begin; /* 0x00 */
+    Entry_82FAE840 *end;   /* 0x04 */
+    unsigned int capacity; /* 0x08 */
+} Vector_82FAE840;
 
+typedef struct Object_82FAE840 {
+    char padding[0xa0];      /* 0x00 */
+    Vector_82FAE840 entries; /* 0xa0 */
+} Object_82FAE840;
+
+extern const double lbl_82160788;
+extern unsigned char fn_83037EB8(Vector_82FAE840 *, int);
+
+int fn_82FAE840(Object_82FAE840 *self, const Input_82FAE840 *source, unsigned int count)
 {
-  unsigned int uVar1;
-  unsigned __int64 *puVar2;
-  unsigned int uVar3;
-  char cVar4;
-  unsigned int uVar5;
-  double dVar6;
-  double dVar7;
-  
-  uVar5 = 0;
-  *(unsigned int *)(param_1 + 0xa4) = *(unsigned int *)(param_1 + 0xa0);
-  dVar7 = lbl_82160788;
-  if (param_3 != 0) {
-    do {
-      dVar6 = *(double *)(param_2 + 2) * dVar7;
-      uVar1 = *param_2;
-      uVar3 = *(int *)(param_1 + 0xa4) - *(int *)(param_1 + 0xa0) >> 3;
-      if (((*(unsigned int *)(param_1 + 0xa8) <= uVar3) &&
-          (cVar4 = fn_83037EB8((int *)(param_1 + 0xa0),8), cVar4 == '\0')) ||
-         (*(unsigned int *)(param_1 + 0xa8) <= uVar3)) {
-        return 2;
-      }
-      puVar2 = *(unsigned __int64 **)(param_1 + 0xa4);
-      *(unsigned __int64 **)(param_1 + 0xa4) = puVar2 + 1;
-      if (puVar2 == (unsigned __int64 *)0x0) {
-        return 2;
-      }
-      uVar5 = uVar5 + 1;
-      param_2 = param_2 + 4;
-      *puVar2 = CONCAT44(uVar1,(int)dVar6);
-    } while (uVar5 < param_3);
-  }
-  return 1;
+    Vector_82FAE840 *entries = &self->entries;
+    unsigned int index = 0;
+    entries->end = entries->begin;
+    if (count != 0) {
+        double scale = lbl_82160788;
+        const Input_82FAE840 *input = source;
+        do {
+            Entry_82FAE840 value;
+            unsigned int size;
+            Entry_82FAE840 *slot;
+            value.key = input->key;
+            value.value = (int)(input->value * scale);
+            size = entries->end - entries->begin;
+            if ((size >= entries->capacity && fn_83037EB8(entries, 8) == 0) || size >= entries->capacity) {
+                return 2;
+            }
+            slot = entries->end++;
+            if (slot == 0) {
+                return 2;
+            }
+            index++;
+            input++;
+            *slot = value;
+        } while (index < count);
+    }
+    return 1;
 }
-

@@ -1,25 +1,18 @@
-extern int fn_822A6F38();
-extern unsigned int lbl_821917C0;
-extern unsigned int ltcg_pool_0_0f;
+extern const float lbl_821917A8[];
+extern void fn_822A6F38(void *self, void *value, unsigned int first, unsigned int second, unsigned int mode,
+                        float start, float end);
 
-
-void fn_822A6998(int param_1,unsigned int *param_2,unsigned __int64 param_3,unsigned __int64 param_4)
-
+void fn_822A6998(unsigned char *self, unsigned int *value, unsigned int first, unsigned int second)
 {
-  double dVar1;
-  
-  dVar1 = (double)ltcg_pool_0_0f;
-  *(float *)(param_1 + 0x528) = ltcg_pool_0_0f;
-  *(unsigned int *)(param_1 + 0x110) = *param_2;
-  if (*(int *)(param_1 + 0x108) == 3) {
-    fn_822A6F38(dVar1,(double)lbl_821917C0,param_1,param_1 + 0x110,param_3,param_4,1);
-  }
-  else {
-    *(unsigned int *)(param_1 + 0x108) = 3;
-    fn_822A6F38(dVar1,(double)lbl_821917C0,param_1,param_1 + 0x110,param_3,param_4,1);
-    *(unsigned int *)(param_1 + 0x53c) = 1;
-  }
-  *(float *)(param_1 + 0x528) = (float)dVar1;
-  return;
+    float start = 0.0f;
+    *(float *)(self + 0x528) = start;
+    *(unsigned int *)(self + 0x110) = *value;
+    if (*(int *)(self + 0x108) != 3) {
+        *(int *)(self + 0x108) = 3;
+        fn_822A6F38(self, self + 0x110, first, second, 1, start, lbl_821917A8[6]);
+        *(int *)(self + 0x53c) = 1;
+    } else {
+        fn_822A6F38(self, self + 0x110, first, second, 1, start, lbl_821917A8[6]);
+    }
+    *(float *)(self + 0x528) = start;
 }
-
