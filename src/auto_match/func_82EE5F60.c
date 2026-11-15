@@ -1,37 +1,62 @@
-extern unsigned int *auStack_40;
-extern int fn_82F68CC0();
+typedef struct Buffer_82EE5F60 Buffer_82EE5F60;
 
+typedef struct Vtable_82EE5F60 {
+    void *unused[5];
+    void (*data)(Buffer_82EE5F60 *, char **, int);
+} Vtable_82EE5F60;
 
-unsigned __int64 fn_82EE5F60(int param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+struct Buffer_82EE5F60 {
+    Vtable_82EE5F60 *vtable;
+};
 
+typedef struct Node_82EE5F60 {
+    struct Node_82EE5F60 *next;
+    struct Node_82EE5F60 *previous;
+    Buffer_82EE5F60 *buffer;
+    unsigned int offset;
+    unsigned int size;
+} Node_82EE5F60;
+
+typedef struct Object_82EE5F60 {
+    int unused;
+    Node_82EE5F60 head; /* 4 */
+    unsigned int size;  /* 0x18 */
+} Object_82EE5F60;
+
+extern void *memcpy(void *, const void *, unsigned int);
+
+static __forceinline Node_82EE5F60 *Next_82EE5F60(Node_82EE5F60 *head, Node_82EE5F60 *node)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  unsigned int *puVar3;
-  unsigned __int64 uVar4;
-  unsigned int auStack_40 [16];
-  
-  if (((param_2 & 0xffffffff) == 0) || ((param_3 & 0xffffffff) == 0)) {
-    uVar2 = 0xffffffff80070057;
-  }
-  else if ((unsigned __int64)*(unsigned int *)(param_1 + 0x18) < (param_3 & 0xffffffff)) {
-    uVar2 = 0xffffffff8007000e;
-  }
-  else {
-    puVar3 = (unsigned int *)(-(unsigned int)(param_1 + 4U != *(unsigned int *)(param_1 + 4)) & *(unsigned int *)(param_1 + 4));
-    for (; (puVar3 != (unsigned int *)0x0 && ((param_3 & 0xffffffff) != 0)); param_3 = param_3 - uVar4) {
-      uVar1 = *puVar3;
-      (**(int (***)())(*(int *)puVar3[2] + 0x14))((int *)puVar3[2],auStack_40,0);
-      uVar4 = (unsigned __int64)puVar3[4];
-      if ((param_3 & 0xffffffff) <= (unsigned __int64)puVar3[4]) {
-        uVar4 = param_3;
-      }
-      fn_82F68CC0(param_2,(unsigned __int64)puVar3[3] + (unsigned __int64)auStack_40[0],uVar4);
-      param_2 = uVar4 + param_2;
-      puVar3 = (unsigned int *)(-(unsigned int)(param_1 + 4U != uVar1) & uVar1);
-    }
-    uVar2 = 0;
-  }
-  return uVar2;
+    return node->next != head ? node->next : 0;
 }
 
+int fn_82EE5F60(Object_82EE5F60 *self, char *destination, unsigned int size)
+{
+    Node_82EE5F60 *node;
+    if (!destination || !size) {
+        return 0x80070057;
+    }
+    if (size > self->size) {
+        return 0x8007000e;
+    }
+    node = Next_82EE5F60(&self->head, &self->head);
+    while (node) {
+        Node_82EE5F60 *current;
+        char *data;
+        unsigned int count;
+        if (size == 0) {
+            break;
+        }
+        current = node;
+        node = Next_82EE5F60(&self->head, node);
+        current->buffer->vtable->data(current->buffer, &data, 0);
+        count = current->size;
+        if (size <= count) {
+            count = size;
+        }
+        memcpy(destination, data + current->offset, count);
+        destination = count + destination;
+        size -= count;
+    }
+    return 0;
+}

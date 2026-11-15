@@ -1,28 +1,33 @@
-extern int fn_82FE41A0();
-extern int fn_82FE4B20();
-extern int fn_82FE4C08();
+typedef struct Point_82FE4D80 {
+    float x; /* 0x0 */
+    float y; /* 0x4 */
+    float z; /* 0x8 */
+} Point_82FE4D80;
 
+extern double fn_82FE4C08(unsigned int, double, double, unsigned int);
+extern int fn_82FE41A0(Point_82FE4D80 *, void *, unsigned int);
+extern void fn_82FE4B20(Point_82FE4D80 *, double, double, unsigned int, unsigned int);
 
-unsigned __int64
-fn_82FE4D80(unsigned __int64 param_1,__int64 param_2,unsigned __int64 param_3,unsigned int *param_4,
-             unsigned __int64 param_5,unsigned __int64 param_6,unsigned __int64 param_7)
-
+int fn_82FE4D80(Point_82FE4D80 *out, void *context, const unsigned int *inputs, double scale, double damping,
+                unsigned int rate)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  
-  uVar2 = fn_82FE4C08(param_4[3],param_3,param_4,param_7);
-  uVar1 = fn_82FE41A0(param_2,param_3,*param_4);
-  if (((((int)uVar1 == 1) &&
-       (uVar1 = fn_82FE41A0(param_2 + 0xc,param_3,param_4[1]), (int)uVar1 == 1)) &&
-      (uVar1 = fn_82FE41A0(param_2 + 0x18,param_3,param_4[2]), (int)uVar1 == 1)) &&
-     (uVar1 = fn_82FE41A0(param_2 + 0x24,param_3,param_4[3]), (int)uVar1 == 1)) {
-    fn_82FE4B20(param_1,uVar2,param_2 + 0x30);
-    fn_82FE4B20(param_1,uVar2,param_2 + 0x3c);
-    fn_82FE4B20(param_1,uVar2,param_2 + 0x48);
-    fn_82FE4B20(param_1,uVar2,param_2 + 0x54);
-    uVar1 = 1;
-  }
-  return uVar1;
+    double factor = fn_82FE4C08(inputs[3], scale, damping, rate);
+    int result = fn_82FE41A0(out, context, inputs[0]);
+    if (result == 1) {
+        result = fn_82FE41A0(out + 1, context, inputs[1]);
+        if (result == 1) {
+            result = fn_82FE41A0(out + 2, context, inputs[2]);
+            if (result == 1) {
+                result = fn_82FE41A0(out + 3, context, inputs[3]);
+                if (result == 1) {
+                    fn_82FE4B20(out + 4, scale, factor, rate, inputs[0]);
+                    fn_82FE4B20(out + 5, scale, factor, rate, inputs[1]);
+                    fn_82FE4B20(out + 6, scale, factor, rate, inputs[2]);
+                    fn_82FE4B20(out + 7, scale, factor, rate, inputs[3]);
+                    result = 1;
+                }
+            }
+        }
+    }
+    return result;
 }
-

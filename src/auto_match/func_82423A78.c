@@ -1,27 +1,36 @@
-extern unsigned int lbl_8218EC10;
+typedef struct State_82423A78 {
+    char reserved[0x2b20];
+    unsigned int owner;
+    char gap[0x10];
+    float elapsed; /* 0x2b34 */
+    int mode;
+    int enabled;
+} State_82423A78;
 
+typedef struct Object_82423A78 {
+    int unused;
+    unsigned int owner;
+    State_82423A78 *state;
+} Object_82423A78;
 
-void fn_82423A78(int param_1,int param_2)
+extern float lbl_8218EC10;
 
+void fn_82423A78(Object_82423A78 *self, int active)
 {
-  int iVar1;
-  
-  iVar1 = *(int *)(param_1 + 8);
-  if (param_2 == 0) {
-    if (*(int *)(param_1 + 4) != *(int *)(iVar1 + 0x2b20)) {
-      return;
+    State_82423A78 *state = self->state;
+    if (active) {
+        if (self->owner != state->owner) {
+            return;
+        }
+        state->mode = 1;
+        state->enabled = 1;
+        state->elapsed = 1.0e-5f;
+    } else {
+        if (self->owner != state->owner) {
+            return;
+        }
+        state->mode = 29;
+        state->enabled = 1;
+        state->elapsed = 1.0e-5f;
     }
-    *(unsigned int *)(iVar1 + 0x2b38) = 0x1d;
-    *(unsigned int *)(iVar1 + 0x2b3c) = 1;
-  }
-  else {
-    if (*(int *)(param_1 + 4) != *(int *)(iVar1 + 0x2b20)) {
-      return;
-    }
-    *(unsigned int *)(iVar1 + 0x2b38) = 1;
-    *(unsigned int *)(iVar1 + 0x2b3c) = 1;
-  }
-  *(unsigned int *)(iVar1 + 0x2b34) = lbl_8218EC10;
-  return;
 }
-

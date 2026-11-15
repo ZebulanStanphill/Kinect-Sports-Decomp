@@ -1,61 +1,73 @@
-extern unsigned int *auStack_30;
-extern int fn_82563230();
-extern int fn_82F63108();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float values[4];
+} Vector_82510338;
+typedef struct Resource_82510338 Resource_82510338;
 
+typedef struct Vtable_82510338 {
+    void *unused;
+    unsigned int (*get)(Resource_82510338 *, unsigned int);
+} Vtable_82510338;
 
-void fn_82510338(int param_1,int *param_2)
+struct Resource_82510338 {
+    Vtable_82510338 *vtable;
+};
 
+typedef struct Handle_82510338 {
+    char pad[0x10];
+    Resource_82510338 *resource; /* 0x10 */
+} Handle_82510338;
+
+typedef struct Entry_82510338 {
+    unsigned int key;
+    unsigned int values[3];
+} Entry_82510338;
+
+typedef struct Object_82510338 {
+    int unused;
+    char *device;           /* 4 */
+    Handle_82510338 handle; /* 8 */
+    int pad;
+    Entry_82510338 *first; /* 0x20 */
+    Entry_82510338 *last;  /* 0x24 */
+} Object_82510338;
+
+typedef struct Input_82510338 {
+    char pad[0x10];
+    unsigned int enabled; /* 0x10 */
+    int unused;
+    unsigned int index; /* 0x18 */
+} Input_82510338;
+
+extern __declspec(noreturn) void fn_82F63108(void);
+extern void fn_82563230(void *, int, void *, Vector_82510338 *, int);
+
+static __forceinline unsigned int GetResource_82510338(Handle_82510338 *handle, unsigned int enabled)
 {
-  int iVar1;
-  int iVar2;
-  unsigned int *puVar3;
-  unsigned int *puVar4;
-  int in_r0;
-  unsigned int uVar5;
-  __int64 lVar6;
-  unsigned __int64 uVar7;
-  unsigned __int64 uVar8;
-  unsigned __int64 uVar9;
-  unsigned int uVar10;
-  unsigned int uVar11;
-  unsigned int uVar12;
-  unsigned char auStack_30 [1];
-  
-  iVar1 = *param_2;
-  if (*(int *)(param_1 + 0x18) != 0) {
-    uVar5 = (**(int (***)())(**(int **)(param_1 + 0x18) + 4))
-                      (*(int **)(param_1 + 0x18),*(int *)(iVar1 + 0x10) != 0);
-    uVar8 = (unsigned __int64)*(unsigned int *)(param_1 + 0x20);
-    uVar9 = (unsigned __int64)((int)(*(unsigned int *)(param_1 + 0x24) - *(unsigned int *)(param_1 + 0x20)) >> 4);
-    if (0 < (__int64)uVar9) {
-      do {
-        uVar7 = (__int64)((int)uVar9 >> 1) + (unsigned __int64)((int)uVar9 < 0 && (uVar9 & 1) != 0);
-        lVar6 = (uVar7 & 0xfffffff) * 0x10 + uVar8;
-        if (*(unsigned int *)lVar6 < uVar5) {
-          uVar8 = lVar6 + 0x10;
-          uVar7 = (uVar9 - uVar7) - 1;
-        }
-        uVar9 = uVar7;
-      } while (0 < (int)uVar7);
+    if (handle->resource == 0) {
+        fn_82F63108();
     }
-    if (((uVar8 & 0xffffffff) != (unsigned __int64)*(unsigned int *)(param_1 + 0x24)) && (*(unsigned int *)uVar8 == uVar5))
-    {
-      iVar2 = *(int *)(param_1 + 4);
-      uVar5 = *(unsigned int *)(iVar1 + 0x18);
-      puVar3 = (unsigned int *)(iVar2 + 0x50U & 0xfffffff0);
-      uVar10 = puVar3[1];
-      uVar11 = puVar3[2];
-      uVar12 = puVar3[3];
-      puVar4 = (unsigned int *)((unsigned int)(auStack_30 + in_r0) & 0xfffffff0);
-      *puVar4 = *puVar3;
-      puVar4[1] = uVar10;
-      puVar4[2] = uVar11;
-      puVar4[3] = uVar12;
-      fn_82563230(iVar2,3,((unsigned __int64)uVar5 + 1 & 0x3fffffff) * 4 + uVar8,auStack_30,0);
-    }
-    return;
-  }
-                    /* WARNING: Subroutine does not return */
-  fn_82F63108();
+    return handle->resource->vtable->get(handle->resource, enabled);
 }
 
+void fn_82510338(Object_82510338 *self, Input_82510338 **input)
+{
+    Input_82510338 *value = *input;
+    unsigned int key = GetResource_82510338(&self->handle, value->enabled != 0);
+    Entry_82510338 *first = self->first;
+    Entry_82510338 *last = self->last;
+    int count = last - first;
+    while (count > 0) {
+        int half = count / 2;
+        Entry_82510338 *middle = first + half;
+        if (middle->key < key) {
+            first = middle + 1;
+            count = count - half - 1;
+        } else {
+            count = half;
+        }
+    }
+    if (first != last && first->key == key) {
+        Vector_82510338 vector = *(Vector_82510338 *)(self->device + 0x50);
+        fn_82563230(self->device, 3, (unsigned int *)first + value->index + 1, &vector, 0);
+    }
+}

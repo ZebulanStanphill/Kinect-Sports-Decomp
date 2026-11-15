@@ -1,40 +1,40 @@
-extern int fn_82F622E0();
-extern int fn_82F63CA0();
+typedef struct String_822974F0 {
+    union {
+        unsigned short buffer[8];
+        unsigned short *pointer;
+    } data;
 
+    unsigned int size;
+    unsigned int capacity;
+    int allocator;
+} String_822974F0;
 
-unsigned int * fn_822974F0(unsigned int *param_1,unsigned int param_2,unsigned int param_3)
+extern __declspec(noreturn) void fn_82F622E0(const char *);
+extern void *memmove(void *, const void *, unsigned int);
 
+static __forceinline unsigned short *Data_822974F0(String_822974F0 *self)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  unsigned int *puVar3;
-  unsigned int uVar4;
-  
-  if ((unsigned int)param_1[4] < param_2) {
-                    /* WARNING: Subroutine does not return */
-    fn_82F622E0(0xffffffff821961fc);
-  }
-  uVar4 = param_1[4] - param_2;
-  if (uVar4 < param_3) {
-    param_3 = uVar4;
-  }
-  if (param_3 != 0) {
-    puVar3 = param_1;
-    puVar2 = param_1;
-    if (7 < (unsigned int)param_1[5]) {
-      puVar3 = (unsigned int *)*param_1;
-      puVar2 = (unsigned int *)*param_1;
+    if (self->capacity >= 8) {
+        return self->data.pointer;
+    } else {
+        return self->data.buffer;
     }
-    fn_82F63CA0(param_2 * 2 + (int)puVar2,(param_2 + param_3) * 2 + (int)puVar3,
-                 uVar4 - param_3 & 0x7fffffff);
-    iVar1 = param_1[4];
-    param_1[4] = iVar1 - param_3;
-    puVar3 = param_1;
-    if (7 < (unsigned int)param_1[5]) {
-      puVar3 = (unsigned int *)*param_1;
-    }
-    *(unsigned short *)((iVar1 - param_3) * 2 + (int)puVar3) = 0;
-  }
-  return param_1;
 }
 
+String_822974F0 *fn_822974F0(String_822974F0 *self, unsigned int offset, unsigned int count)
+{
+    unsigned int remaining;
+    if (self->size < offset) {
+        fn_82F622E0("invalid string position");
+    }
+    remaining = self->size - offset;
+    if (remaining < count) {
+        count = remaining;
+    }
+    if (count != 0) {
+        memmove(Data_822974F0(self) + offset, Data_822974F0(self) + offset + count, (remaining - count) * 2);
+        self->size -= count;
+        Data_822974F0(self)[self->size] = 0;
+    }
+    return self;
+}

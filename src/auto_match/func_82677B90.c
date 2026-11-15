@@ -1,48 +1,47 @@
-typedef unsigned char bool;
-extern int fn_82631830();
-extern int fn_828F0DD0();
+typedef struct Buffer_82677B90 Buffer_82677B90;
 
+typedef struct Vtable_82677B90 {
+    void *reserved[2];
+    void (*release)(Buffer_82677B90 *);
+    void *(*data)(Buffer_82677B90 *);
+} Vtable_82677B90;
 
-unsigned __int64 fn_82677B90(unsigned __int64 param_1,int *param_2,char *param_3)
+struct Buffer_82677B90 {
+    Vtable_82677B90 *vtable;
+};
 
+extern int fn_828F0DD0(const char *, unsigned int, void *, void *, const char *, const char *, unsigned int,
+                       Buffer_82677B90 **, void *, void *);
+extern unsigned int fn_82631830(void *);
+extern unsigned int strlen(const char *);
+
+unsigned int fn_82677B90(void *unused, int *shader, const char *source)
 {
-  bool bVar1;
-  char cVar2;
-  int iVar3;
-  char *pcVar4;
-  int *apiStack_20 [4];
-  
-  if (*param_2 != 0) {
+    if (*shader == 0) {
+        Buffer_82677B90 *buffer = 0;
+        int result = fn_828F0DD0(source, strlen(source), 0, 0, "main", "vs_2_0", 1, &buffer, 0, 0);
+        if (result < 0) {
+            if (buffer) {
+                buffer->vtable->release(buffer);
+            }
+            return 0;
+        }
+        if (buffer == 0) {
+            return 0;
+        }
+        {
+            unsigned int created = fn_82631830(buffer->vtable->data(buffer));
+            *shader = created;
+            if (created == 0) {
+                if (buffer) {
+                    buffer->vtable->release(buffer);
+                }
+                return 0;
+            }
+            if (buffer) {
+                buffer->vtable->release(buffer);
+            }
+        }
+    }
     return 1;
-  }
-  apiStack_20[0] = (int *)0x0;
-  pcVar4 = param_3;
-  do {
-    cVar2 = *pcVar4;
-    pcVar4 = pcVar4 + 1;
-  } while (cVar2 != '\0');
-  iVar3 = fn_828F0DD0(param_3,pcVar4 + (-1 - (int)param_3),0,0,0xffffffff821bbc7c,
-                            0xffffffff8200532c,1,apiStack_20);
-  bVar1 = apiStack_20[0] == (int *)0x0;
-  if (-1 < iVar3) {
-    if (bVar1) {
-      return 0;
-    }
-    (**(int (***)())(*apiStack_20[0] + 0xc))();
-    iVar3 = fn_82631830();
-    *param_2 = iVar3;
-    bVar1 = apiStack_20[0] == (int *)0x0;
-    if (iVar3 != 0) {
-      if (bVar1) {
-        return 1;
-      }
-      (**(int (***)())(*apiStack_20[0] + 8))();
-      return 1;
-    }
-  }
-  if (!bVar1) {
-    (**(int (***)())(*apiStack_20[0] + 8))();
-  }
-  return 0;
 }
-

@@ -1,59 +1,50 @@
-extern unsigned int *auStack_10;
-extern unsigned int fStack_8;
-extern unsigned int ltcg_pool_0_0f;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct State_8237B0C0 {
+    char pad0[0x20];
+    __vector4 position; /* 0x20 */
+    char pad30[0x70];
+    unsigned int target; /* 0xa0 */
+    char padA4[0x1c];
+    int active; /* 0xc0 */
+    char padC4[0x18];
+    int timer; /* 0xdc */
+    char padE0[0x2088];
+    int mode;    /* 0x2168 */
+    int pending; /* 0x216c */
+} State_8237B0C0;
 
-unsigned __int64 fn_8237B0C0(int param_1,unsigned int param_2)
-
+int fn_8237B0C0(State_8237B0C0 *self, unsigned int target)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  unsigned int *puVar3;
-  float fVar4;
-  int in_r0;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned char auStack_10 [8];
-  float fStack_8;
-  
-  fVar4 = ltcg_pool_0_0f;
-  iVar1 = *(int *)(param_1 + 0x2168);
-  if (iVar1 != 0) {
-    if (iVar1 == 1) {
-      puVar2 = (unsigned int *)(param_1 + 0x20U & 0xfffffff0);
-      uVar5 = puVar2[1];
-      uVar6 = puVar2[2];
-      uVar7 = puVar2[3];
-      puVar3 = (unsigned int *)((unsigned int)(auStack_10 + in_r0) & 0xfffffff0);
-      *puVar3 = *puVar2;
-      puVar3[1] = uVar5;
-      puVar3[2] = uVar6;
-      puVar3[3] = uVar7;
-      if (fVar4 <= fStack_8) goto LAB_8237b11c;
+    int mode = self->mode;
+    if (mode != 0) {
+        if (mode == 1) {
+            __vector4 position = self->position;
+            if (position.vector4_f32[2] >= 0.0f) {
+                goto ready;
+            }
+        }
+        if (mode != 2) {
+            goto fail;
+        }
+        {
+            __vector4 position = self->position;
+            if (position.vector4_f32[2] >= 0.0f) {
+                goto fail;
+            }
+        }
     }
-    if (iVar1 != 2) {
-      return 0;
+ready:
+    if (self->active != 0 && self->pending != 0) {
+        goto fail;
     }
-    puVar2 = (unsigned int *)(param_1 + 0x20U & 0xfffffff0);
-    uVar5 = puVar2[1];
-    uVar6 = puVar2[2];
-    uVar7 = puVar2[3];
-    puVar3 = (unsigned int *)((unsigned int)(auStack_10 + in_r0) & 0xfffffff0);
-    *puVar3 = *puVar2;
-    puVar3[1] = uVar5;
-    puVar3[2] = uVar6;
-    puVar3[3] = uVar7;
-    if (fVar4 <= fStack_8) {
-      return 0;
-    }
-  }
-LAB_8237b11c:
-  if ((*(int *)(param_1 + 0xc0) != 0) && (*(int *)(param_1 + 0x216c) != 0)) {
+    goto success;
+fail:
     return 0;
-  }
-  *(unsigned int *)(param_1 + 0xa0) = param_2;
-  *(unsigned int *)(param_1 + 0xdc) = 0;
-  return 1;
+success:
+    self->target = target;
+    self->timer = 0;
+    return 1;
 }
-

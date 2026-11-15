@@ -1,26 +1,29 @@
-#define true 1
+typedef struct Object_82B8F618 {
+    char pad[0x28];
+    unsigned int *data;
+} Object_82B8F618;
 
+typedef struct Node_82B8F618 {
+    char pad0[0x30];
+    unsigned int index;
+    char pad1[0xc];
+    struct Node_82B8F618 *next;
+} Node_82B8F618;
 
-unsigned __int64 fn_82B8F618(int param_1,int param_2)
-
+int fn_82B8F618(Object_82B8F618 *self, Node_82B8F618 *node)
 {
-  unsigned __int64 uVar1;
-  unsigned int uVar2;
-  
-  while( true ) {
-    uVar1 = (unsigned __int64)*(unsigned int *)(param_2 + 0x30) & 0x7ffff;
-    uVar2 = (unsigned int)(uVar1 << 1) & 0x1e;
-    uVar2 = ((2 << ((int)(((unsigned __int64)*(unsigned int *)(param_2 + 0x30) & 0x7ffff) << 1) + 1U & 0x1f)) - 1U
-             & *(unsigned int *)((int)*(unsigned int **)(param_1 + 0x28) +
-                        ((unsigned int)uVar1 >> 2 & 0x1ffffffc) +
-                        (((unsigned int)(((unsigned __int64)**(unsigned int **)(param_1 + 0x28) & 0x7ffff) + 0x1f >> 3) &
-                         0x1ffffffc) + 2) * 2) & -1 << uVar2) >> uVar2;
-    if ((uVar2 == 0) || (uVar2 == 3)) break;
-    param_2 = *(int *)(param_2 + 0x40);
-    if (param_2 == 0) {
-      return 1;
-    }
-  }
-  return 0;
+    unsigned int *data = self->data;
+    char *table = (char *)data + (((((*data & 0x7ffff) + 31) >> 3) & 0x1ffffffc) + 2) * 2;
+    do {
+        unsigned int index = node->index & 0x7ffff;
+        unsigned int shift = (index & 15) * 2;
+        unsigned int mask = (2U << ((index * 2 + 1) & 31)) - 1;
+        unsigned int word = *(unsigned int *)(table + ((index >> 2) & 0x1ffffffc));
+        unsigned int value = (mask & word & (0xffffffffU << shift)) >> shift;
+        if (value == 0 || value == 3) {
+            return 0;
+        }
+        node = node->next;
+    } while (node != 0);
+    return 1;
 }
-

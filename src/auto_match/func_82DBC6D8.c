@@ -1,27 +1,23 @@
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern unsigned int stack0x00000000;
-extern unsigned int uStack_10;
-extern unsigned int uStack_c;
-extern unsigned __int64 storeVectorElementWordIndexed();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vmsum3fp(__vector4, __vector4);
+void __stvewx(__vector4, void *, int);
 
-double fn_82DBC6D8(double param_1)
+typedef struct Motion_82DBC6D8 {
+    char reserved[0xd0];
+    __vector4 m_linearVelocity;  /* 0xd0 */
+    __vector4 m_angularVelocity; /* 0xe0 */
+} Motion_82DBC6D8;
 
+float fn_82DBC6D8(Motion_82DBC6D8 *self, float radius)
 {
-  unsigned int uVar1;
-  __int64 lVar2;
-  __int64 lVar3;
-  unsigned char in_vs43 [16];
-  unsigned char in_vs45 [16];
-  unsigned int uStack_10;
-  unsigned int uStack_c;
-  
-  lVar2 = ZEXT48(&stack0x00000000) - 0xc;
-  lVar3 = ZEXT48(&stack0x00000000) - 0x10;
-  uVar1 = storeVectorElementWordIndexed(in_vs45,0,lVar3);
-  *(unsigned int *)lVar3 = uVar1;
-  uVar1 = storeVectorElementWordIndexed(in_vs43,0,lVar2);
-  *(unsigned int *)lVar2 = uVar1;
-  return (double)(float)((double)(float)((double)uStack_c * param_1) * param_1 + (double)uStack_10);
+    float linear;
+    float angular;
+    const __vector4 *linearVelocity = &self->m_linearVelocity;
+    const __vector4 *angularVelocity = &self->m_angularVelocity;
+    __stvewx(__vmsum3fp(*linearVelocity, *linearVelocity), &linear, 0);
+    __stvewx(__vmsum3fp(*angularVelocity, *angularVelocity), &angular, 0);
+    return linear + angular * radius * radius;
 }
-

@@ -1,42 +1,32 @@
-extern int fn_82A8C620();
-extern int fn_82A8C770();
+typedef struct Entry_82A8EA88 {
+    int first[13];  /* 0x0 */
+    int second[13]; /* 0x34 */
+} Entry_82A8EA88;
 
+typedef struct Table_82A8EA88 {
+    int count;
+    int total;
+    Entry_82A8EA88 entries[1];
+} Table_82A8EA88;
 
-void fn_82A8EA88(__int64 param_1,__int64 param_2,unsigned __int64 param_3,__int64 param_4)
+extern void fn_82A8C620(void *, int, int, void *);
+extern void fn_82A8C770(void *, void *, void *, int);
 
+void fn_82A8EA88(char *self, Table_82A8EA88 *table, void *data, int offset)
 {
-  unsigned int *puVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  __int64 lVar4;
-  __int64 lVar5;
-  
-  puVar1 = (unsigned int *)param_2;
-  puVar1[1] = 0;
-  fn_82A8C620(param_3,param_4,0x20,param_2);
-  param_4 = param_4 + 0x20;
-  lVar5 = (unsigned __int64)*puVar1 - 1;
-  if (-1 < lVar5) {
-    lVar4 = lVar5 * 0x68 + param_2 + 8;
-    do {
-      fn_82A8C770(param_1,lVar4,param_3,param_4);
-      fn_82A8C770(param_1 + 4,lVar4 + 0x34,param_3,param_4 + 0x92);
-      lVar5 = lVar5 + -1;
-      param_4 = param_4 + 0x124;
-      lVar4 = lVar4 + -0x68;
-    } while (-1 < lVar5);
-  }
-  uVar3 = (unsigned __int64)*puVar1;
-  if (-1 < (__int64)(uVar3 - 1)) {
-    lVar5 = (uVar3 - 1) * 0x68 + param_2 + 0x98;
-    do {
-      iVar2 = (int)lVar5;
-      lVar5 = lVar5 + -0x68;
-      puVar1[1] = *(int *)(iVar2 + -0x30) + *(int *)(iVar2 + -0x2c) + *(int *)(iVar2 + -0x34) +
-                  *(int *)(iVar2 + -0x60) + *(int *)(iVar2 + -100) + *(int *)lVar5 + puVar1[1];
-      uVar3 = uVar3 - 1;
-    } while (uVar3 != 0);
-  }
-  return;
+    int i;
+    table->total = 0;
+    fn_82A8C620(data, offset, 32, table);
+    offset += 32;
+    for (i = table->count - 1; i >= 0; i--) {
+        Entry_82A8EA88 *entry = &table->entries[i];
+        fn_82A8C770(self, entry, data, offset);
+        fn_82A8C770(self + 4, (char *)entry + 0x34, data, offset + 0x92);
+        offset += 0x124;
+    }
+    for (i = table->count - 1; i >= 0; i--) {
+        Entry_82A8EA88 *entry = &table->entries[i];
+        table->total += entry->second[11] + entry->second[12] + entry->second[10] + entry->first[12] +
+                        entry->first[11] + entry->first[10];
+    }
 }
-

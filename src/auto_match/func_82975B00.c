@@ -1,51 +1,31 @@
-extern unsigned int *auStack_120;
-extern int fn_828F5960();
-extern int fn_828FA8D8();
-extern unsigned int stack0x00000030;
-extern unsigned int uStack00000030;
-extern unsigned int uStack00000038;
-extern unsigned int uStack00000040;
-extern unsigned int uStack00000048;
-extern unsigned int uStack_21;
+typedef char *va_list;
+extern void __cdecl __va_start(va_list *, ...);
+extern void fn_828F5960(char *, unsigned int, const char *, va_list);
+extern void fn_828FA8D8(void *, void *, int, const char *, ...);
 
-
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
-
-unsigned __int64
-fn_82975B00(int param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4,unsigned __int64 param_5,
-             unsigned __int64 param_6,unsigned __int64 param_7,unsigned __int64 param_8)
-
+int fn_82975B00(char *self, char *object, int kind, const char *format, ...)
 {
-  int iVar1;
-  int iVar2;
-  unsigned __int64 uStack00000030;
-  unsigned __int64 uStack00000038;
-  unsigned __int64 uStack00000040;
-  unsigned __int64 uStack00000048;
-  unsigned char auStack_120 [255];
-  unsigned char uStack_21;
-  
-  uStack00000030 = param_5;
-  uStack00000038 = param_6;
-  uStack00000040 = param_7;
-  uStack00000048 = param_8;
-  fn_828F5960(auStack_120,0x100,param_4,&stack0x00000030);
-  iVar2 = 0;
-  uStack_21 = 0;
-  if (param_2 != 0) {
-    iVar1 = *(int *)(param_2 + 4);
-    if (iVar1 == 3) {
-      iVar2 = param_2 + 0x10;
+    va_list arguments;
+    char message[256];
+    void *context;
+    __va_start(&arguments, format);
+    fn_828F5960(message, 256, format, arguments);
+    context = 0;
+    message[255] = 0;
+    if (object != 0) {
+        switch (*(int *)(object + 4)) {
+        case 3:
+            context = object + 0x10;
+            break;
+        case 6:
+            context = *(char **)(object + 0x14) + 0x10;
+            break;
+        case 14:
+            context = object + 0x30;
+            break;
+        }
     }
-    else if (iVar1 == 6) {
-      iVar2 = *(int *)(param_2 + 0x14) + 0x10;
-    }
-    else if (iVar1 == 0xe) {
-      iVar2 = param_2 + 0x30;
-    }
-  }
-  fn_828FA8D8(*(unsigned int *)(param_1 + 0xc4),iVar2,param_3,0xffffffff821c4da8,auStack_120);
-  *(unsigned int *)(param_1 + 0xd4) = 1;
-  return 0;
+    fn_828FA8D8(*(void **)(self + 0xc4), context, kind, "%s", message);
+    *(int *)(self + 0xd4) = 1;
+    return 0;
 }
-

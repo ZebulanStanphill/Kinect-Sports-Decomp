@@ -1,30 +1,24 @@
-extern int fn_82359108();
-extern int fn_82359200();
-extern unsigned int lbl_82193D10;
+extern const float lbl_82193CF0[10];
+extern void fn_82359200(void *context, unsigned int argument, int enabled, float time);
+extern void fn_82359108(void *context, void *selection, int enabled, float time, int flags);
 
-
-void fn_82406030(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4)
-
+void fn_82406030(char *self, unsigned int argument)
 {
-  int (**pcVar1)();
-  int iVar3;
-  unsigned __int64 uVar2;
-  
-  iVar3 = *(int *)(*(int *)(param_1 + 8) + 0xa0);
-  if ((iVar3 == 0) || (*(int *)(iVar3 + 0x40) != 1)) {
-    iVar3 = (**(int (***)())(**(int **)(param_1 + 0x14) + 4))();
-    if (*(int *)(iVar3 + 0x24) == 0) {
-      pcVar1 = *(int (***)())(**(int **)(param_1 + 0x14) + 8);
+    void *context = *(void **)(self + 8);
+    int mode = *(int *)((char *)context + 0xa0);
+    if (mode != 0 && *(unsigned int *)(mode + 0x40) == 1) {
+        fn_82359200(context, argument, 0, lbl_82193CF0[8]);
+    } else {
+        int *selector = *(int **)(self + 0x14);
+        char *selection = (*(char *(**)(void *))(*selector + 4))(selector);
+        char *(*get)(void *);
+        selector = *(int **)(self + 0x14);
+        if (*(int *)(selection + 0x24) != 0) {
+            get = *(char *(**)(void *))(*selector + 4);
+        } else {
+            get = *(char *(**)(void *))(*selector + 8);
+        }
+        selection = get(selector);
+        fn_82359108(*(void **)(self + 8), selection, 0, lbl_82193CF0[8], 0);
     }
-    else {
-      pcVar1 = *(int (***)())(**(int **)(param_1 + 0x14) + 4);
-    }
-    uVar2 = (*pcVar1)();
-    fn_82359108((double)lbl_82193D10,*(unsigned int *)(param_1 + 8),uVar2,0,param_4,0);
-  }
-  else {
-    fn_82359200((double)lbl_82193D10,*(int *)(param_1 + 8),param_2,0);
-  }
-  return;
 }
-

@@ -1,44 +1,53 @@
-extern int fn_828AD740();
-extern int fn_828B0498();
-extern int fn_828B0528();
-extern int fn_828B0DB8();
-extern int fn_828B0E40();
-extern int fn_828B0FE8();
-extern int fn_828B13E8();
-extern int fn_828B1468();
+typedef struct Device_828D8FD8 Device_828D8FD8;
 
+typedef struct Vtable_828D8FD8 {
+    void *reserved[5];
+    unsigned char (*ready)(Device_828D8FD8 *);
+} Vtable_828D8FD8;
 
-unsigned __int64 fn_828D8FD8(int param_1,unsigned char param_2)
+struct Device_828D8FD8 {
+    Vtable_828D8FD8 *vtable;
+};
 
+typedef struct Item_828D8FD8 {
+    char reserved[0x26];
+    unsigned char mode;
+} Item_828D8FD8;
+
+typedef struct State_828D8FD8 {
+    char reserved[0x14];
+    Device_828D8FD8 *device;
+    int reserved18;
+    unsigned char enabled;
+} State_828D8FD8;
+
+extern unsigned char fn_828B0528(Device_828D8FD8 *);
+extern unsigned char fn_828AD740(Device_828D8FD8 *);
+extern int fn_828B0FE8(State_828D8FD8 *);
+extern Item_828D8FD8 *fn_828B0DB8(State_828D8FD8 *);
+extern void fn_828B0498(State_828D8FD8 *, Item_828D8FD8 *);
+extern void fn_828B13E8(State_828D8FD8 *, int, int);
+extern void fn_828B0E40(Device_828D8FD8 *, unsigned char);
+extern void fn_828B1468(State_828D8FD8 *, int);
+
+unsigned char fn_828D8FD8(State_828D8FD8 *self, unsigned char enabled)
 {
-  char cVar3;
-  int iVar2;
-  unsigned __int64 uVar1;
-  
-  cVar3 = (**(int (***)())(**(int **)(param_1 + 0x14) + 0x14))();
-  if ((((cVar3 == '\0') ||
-       (cVar3 = fn_828B0528(*(unsigned int *)(param_1 + 0x14)), cVar3 == '\0')) ||
-      (iVar2 = fn_828B0FE8(param_1), iVar2 != 0)) ||
-     (cVar3 = fn_828AD740(*(unsigned int *)(param_1 + 0x14)), cVar3 != '\0')) {
-    uVar1 = 0;
-  }
-  else {
-    iVar2 = fn_828B0DB8(param_1);
-    *(unsigned char *)(param_1 + 0x1c) = 0;
-    if (iVar2 == 0) {
-      fn_828B0E40(*(unsigned int *)(param_1 + 0x14),0);
-      fn_828B1468(param_1,7);
-      uVar1 = 1;
+    if (self->device->vtable->ready(self->device) && fn_828B0528(self->device) && fn_828B0FE8(self) == 0 &&
+        !fn_828AD740(self->device)) {
+        Item_828D8FD8 *item = fn_828B0DB8(self);
+        self->enabled = 0;
+        if (item != 0) {
+            fn_828B0498(self, item);
+            fn_828B13E8(self, 0, 0);
+            self->enabled = enabled;
+            fn_828B0E40(self->device, item->mode);
+            fn_828B1468(self, 1);
+            return 1;
+        } else {
+            fn_828B0E40(self->device, 0);
+            fn_828B1468(self, 7);
+            return 1;
+        }
     }
-    else {
-      fn_828B0498(param_1,iVar2);
-      fn_828B13E8(param_1,0,0);
-      *(unsigned char *)(param_1 + 0x1c) = param_2;
-      fn_828B0E40(*(unsigned int *)(param_1 + 0x14),*(unsigned char *)(iVar2 + 0x26));
-      fn_828B1468(param_1,1);
-      uVar1 = 1;
-    }
-  }
-  return uVar1;
+    return 0;
 }
-

@@ -1,39 +1,43 @@
-extern unsigned int *auStack_130;
-extern unsigned int *auStack_240;
-extern int fn_829D3930();
-extern int fn_829D5110();
-extern int fn_829D99D0();
-extern int fn_829DA310();
-extern int fn_82A2B0F8();
-extern int fn_82F664B0();
-extern int fn_82F69A80();
+extern char lbl_832178F8[260];
+extern int fn_82F664B0(char *, unsigned int, const char *);
+extern int fn_82F69A80(char *, unsigned int, const char *);
+extern int fn_829D3930(const char *);
+extern int fn_829D99D0(unsigned int);
+extern void fn_829D5110(void);
+extern int fn_829DA310(void *);
+extern void fn_829D6A90(void);
+extern int fn_82A2B0F8(void (*)(void));
 
-
-unsigned __int64 fn_829DA3D8(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3)
-
+int fn_829DA3D8(unsigned int flags, void *context, const char *directory)
 {
-  int iVar2;
-  unsigned __int64 uVar1;
-  unsigned char auStack_240 [272];
-  unsigned char auStack_130 [272];
-  
-  iVar2 = fn_82F664B0(0xffffffff832178f8,0x104);
-  if ((((iVar2 == 0) && (iVar2 = fn_82F664B0(auStack_130,0x104,param_3), iVar2 == 0)) &&
-      (iVar2 = fn_82F69A80(auStack_130,0x104,0xffffffff8205770c), iVar2 == 0)) &&
-     ((iVar2 = fn_82F664B0(auStack_240,0x104,param_3), iVar2 == 0 &&
-      (iVar2 = fn_82F69A80(auStack_240,0x104,0xffffffff820576f0), iVar2 == 0)))) {
-    uVar1 = fn_829D3930(auStack_240);
-    if ((-1 < (int)uVar1) && (uVar1 = fn_829D99D0(param_1), -1 < (int)uVar1)) {
-      fn_829D5110();
-      uVar1 = fn_829DA310(param_2);
-      if ((-1 < (int)uVar1) && ((param_1 & 0x80000000) == 0)) {
-        uVar1 = fn_82A2B0F8(0xffffffff829d6a90);
-      }
+    char version[260];
+    char identity[260];
+    int result;
+    if (fn_82F664B0(lbl_832178F8, 260, directory) != 0)
+        goto invalid;
+    if (fn_82F664B0(identity, 260, directory) != 0)
+        goto invalid;
+    if (fn_82F69A80(identity, 260, "NuiIdentity.bin.be") != 0)
+        goto invalid;
+    if (fn_82F664B0(version, 260, directory) != 0)
+        goto invalid;
+    if (fn_82F69A80(version, 260, "NuiIdentityDbVersion.txt") != 0)
+        goto invalid;
+    goto success;
+invalid:
+    return 0x80070057;
+success:
+    result = fn_829D3930(version);
+    if (result < 0)
+        goto done;
+    result = fn_829D99D0(flags);
+    if (result < 0)
+        goto done;
+    fn_829D5110();
+    result = fn_829DA310(context);
+    if (result >= 0 && (flags & (int)0x80000000) == 0) {
+        result = fn_82A2B0F8(fn_829D6A90);
     }
-  }
-  else {
-    uVar1 = 0xffffffff80070057;
-  }
-  return uVar1;
+done:
+    return result;
 }
-

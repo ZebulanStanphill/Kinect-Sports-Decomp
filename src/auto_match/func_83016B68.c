@@ -1,38 +1,25 @@
-extern int fn_83016920();
-extern int fn_8302A5B8();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_8200571C;
-extern unsigned int lbl_8200D898;
-extern unsigned int lbl_8216C698;
-extern unsigned int lbl_82186E6C;
-extern unsigned int lbl_821AAD20;
+typedef struct Self_83016B68 {
+    int unused;
+    void *table;
+} Self_83016B68;
 
+extern float fn_8302A5B8(void *table, float value);
+extern float lbl_8216C698;
+extern float fn_83016920(Self_83016B68 *, float, float, float, unsigned int);
 
-double fn_83016B68(int param_1)
-
+float fn_83016B68(Self_83016B68 *self, float valueIn, float minimum, float maximum, unsigned int mode)
 {
-  float fVar1;
-  double dVar2;
-  double dVar3;
-  double dVar4;
-  
-  dVar4 = (double)lbl_821AAD20;
-  dVar3 = (double)fn_83016920();
-  fVar1 = lbl_8216C698;
-  if (dVar4 < dVar3) {
-    dVar2 = (double)lbl_8200D898;
-    if (dVar2 < dVar3) {
-      do {
-        dVar3 = (double)(float)(dVar3 * (double)lbl_82186E6C);
-        dVar4 = (double)(float)(dVar4 + (double)lbl_8200571C);
-      } while (dVar2 < dVar3);
+    float offset = 0.0f;
+    float value = fn_83016920(self, valueIn, minimum, maximum, mode);
+    if (value <= 0.0f)
+        return lbl_8216C698;
+    while (value > 10.0f) {
+        value *= 0.1f;
+        offset += 20.0f;
     }
-    for (; dVar3 < (double)lbl_82002AE0; dVar3 = (double)(float)(dVar3 * dVar2)) {
-      dVar4 = (double)(float)(dVar4 - (double)lbl_8200571C);
+    while (value < 1.0f) {
+        value *= 10.0f;
+        offset -= 20.0f;
     }
-    dVar3 = (double)fn_8302A5B8(*(unsigned int *)(param_1 + 4));
-    fVar1 = (float)(dVar3 + dVar4);
-  }
-  return (double)fVar1;
+    return fn_8302A5B8(self->table, value) + offset;
 }
-

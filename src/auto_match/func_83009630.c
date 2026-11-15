@@ -1,22 +1,38 @@
-extern unsigned int uStack_18;
-extern unsigned int uStack_1c;
+typedef struct Object_83009630 Object_83009630;
 
+typedef struct Handle_83009630 {
+    Object_83009630 *object;
+    unsigned int kind : 2;
+    unsigned int index : 30;
+} Handle_83009630;
 
-void fn_83009630(int *param_1,unsigned __int64 param_2)
+typedef struct Vtable_83009630 {
+    void *reserved[17];
+    void (*notify)(Object_83009630 *, float, Handle_83009630 *, int);
+} Vtable_83009630;
 
+typedef struct Parent_83009630 {
+    char reserved[0x3c];
+    unsigned char value;
+} Parent_83009630;
+
+struct Object_83009630 {
+    Vtable_83009630 *vtable;
+    char reserved4[0x20];
+    Parent_83009630 *parent; /* 0x24 */
+    char reserved28[0x78];
+    unsigned char flags; /* 0xa0 */
+};
+
+void fn_83009630(Object_83009630 *self)
 {
-  int *piStack_20;
-  unsigned int uStack_1c;
-  unsigned __int64 uStack_18;
-  
-  uStack_18 = 0xff;
-  uStack_1c = uStack_1c & 0x3fffffff | 0x80000000;
-  *(unsigned char *)(param_1 + 0x28) = *(unsigned char *)(param_1 + 0x28) & 0xf7;
-  if (param_1[9] != 0) {
-    uStack_18 = (unsigned __int64)*(unsigned char *)(param_1[9] + 0x3c);
-  }
-  piStack_20 = param_1;
-  (**(int (***)())(*param_1 + 0x44))((double)uStack_18,param_1,param_2,&piStack_20,1);
-  return;
+    Handle_83009630 handle;
+    unsigned char value = 255;
+    handle.kind = 2;
+    handle.object = self;
+    self->flags &= ~8;
+    if (self->parent != 0) {
+        value = self->parent->value;
+    }
+    self->vtable->notify(self, (float)value, &handle, 1);
 }
-

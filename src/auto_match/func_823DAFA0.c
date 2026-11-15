@@ -1,31 +1,28 @@
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_60;
-extern int fn_82230110();
-extern int fn_82230300();
-extern int fn_822B27E8();
-extern int fn_82897DF8();
-extern int fn_828EA268();
+typedef struct String_823DAFA0 {
+    char bytes[32];
+} String_823DAFA0;
 
+extern void fn_82230110(String_823DAFA0 *, const char *);
+extern String_823DAFA0 *fn_822B27E8(String_823DAFA0 *, String_823DAFA0 *, const char *);
+extern void fn_82230300(String_823DAFA0 *, int, unsigned int);
+extern int fn_828EA268(unsigned int);
+extern void fn_82897DF8(void *, void *, String_823DAFA0 *);
 
-void fn_823DAFA0(int param_1)
-
+void fn_823DAFA0(char *self)
 {
-  unsigned __int64 uVar1;
-  unsigned int uVar2;
-  unsigned char auStack_60 [32];
-  unsigned char auStack_40 [32];
-  
-  fn_82230110(auStack_60,0xffffffff821b653c);
-  uVar1 = fn_822B27E8(auStack_40,auStack_60,0xffffffff821ac898);
-  *(unsigned int *)(param_1 + 0x40) = 0;
-  *(unsigned char *)(param_1 + 0x8c) = 0;
-  *(unsigned int *)(param_1 + 0x90) = 0;
-  *(unsigned int *)(param_1 + 0x94) = 0x16;
-  uVar2 = fn_828EA268(0x16);
-  *(unsigned int *)(param_1 + 0x98) = uVar2;
-  fn_82897DF8(param_1 + 0x34,param_1,uVar1);
-  fn_82230300(auStack_40,1,0);
-  fn_82230300(auStack_60,1,0);
-  return;
+    String_823DAFA0 name;
+    String_823DAFA0 qualified;
+    String_823DAFA0 *fullName;
+    char *state;
+    fn_82230110(&name, "Football State Controller");
+    state = self + 0x34;
+    fullName = fn_822B27E8(&qualified, &name, "_state");
+    *(int *)(state + 0xc) = 0;
+    state[0x58] = 0;
+    *(int *)(state + 0x5c) = 0;
+    *(int *)(state + 0x60) = 0x16;
+    *(int *)(state + 0x64) = fn_828EA268(0x16);
+    fn_82897DF8(state, self, fullName);
+    fn_82230300(&qualified, 1, 0);
+    fn_82230300(&name, 1, 0);
 }
-

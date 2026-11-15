@@ -1,43 +1,42 @@
-extern int fn_828F5778();
-extern int fn_828FA8D8();
-extern unsigned int iStack_20;
+extern int strcmp(const char *, const char *);
+extern char lbl_82029434[];
 
+typedef struct Constant_828F6EA8 {
+    char pad[0xc];
+    unsigned int flags;
+    int type;
+    int unused;
+    unsigned int value;
+} Constant_828F6EA8;
 
-unsigned int fn_828F6EA8(int param_1,char *param_2)
+typedef struct Parser_828F6EA8 {
+    char pad0[0x18];
+    char context[0x268]; /* 0x18 */
+    char location[0x14]; /* 0x280 */
+    unsigned int line;   /* 0x294 */
+} Parser_828F6EA8;
 
+extern int fn_828F5778(Parser_828F6EA8 *, const char *, unsigned int *, Constant_828F6EA8 **);
+extern void fn_828FA8D8(void *, void *, int, const char *, ...);
+
+unsigned int fn_828F6EA8(Parser_828F6EA8 *self, const char *name)
 {
-  char cVar1;
-  char cVar2;
-  int iVar3;
-  char *pcVar4;
-  char *pcVar5;
-  int iStack_20;
-  int aiStack_1c [3];
-  
-  pcVar5 = "__LINE__";
-  pcVar4 = param_2;
-  do {
-    cVar1 = *pcVar5;
-    cVar2 = *pcVar4;
-    if (cVar1 == '\0') break;
-    pcVar5 = pcVar5 + 1;
-    pcVar4 = pcVar4 + 1;
-  } while (cVar1 == cVar2);
-  if (cVar1 == cVar2) {
-    return *(unsigned int *)(param_1 + 0x294);
-  }
-  iVar3 = fn_828F5778(param_1,param_2,&iStack_20,aiStack_1c);
-  if (iVar3 != 0) {
-    if (iStack_20 != 0) {
-      fn_828FA8D8(param_1 + 0x18,param_1 + 0x280,0x5ed,0xffffffff820293f0);
-      return 1;
+    unsigned int functional;
+    Constant_828F6EA8 *constant;
+    if (strcmp(lbl_82029434, name) == 0) {
+        return self->line;
     }
-    if ((((aiStack_1c[0] != 0) && (*(int *)(aiStack_1c[0] + 0xc) == 0)) &&
-        (1 < *(int *)(aiStack_1c[0] + 0x10))) && (*(int *)(aiStack_1c[0] + 0x10) < 5)) {
-      return *(unsigned int *)(aiStack_1c[0] + 0x18);
+    if (fn_828F5778(self, name, &functional, &constant)) {
+        if (functional != 0) {
+            fn_828FA8D8(self->context, self->location, 0x5ed,
+                        "functional defines in preprocessor expressions not yet implemented");
+            return 1;
+        }
+        if (constant && constant->flags == 0 && constant->type >= 2 && constant->type <= 4) {
+            return constant->value;
+        }
+        fn_828FA8D8(self->context, self->location, 0x5ee,
+                    "invalid or unsupported integer constant expression");
     }
-    fn_828FA8D8(param_1 + 0x18,param_1 + 0x280,0x5ee,0xffffffff82029330);
-  }
-  return 0;
+    return 0;
 }
-

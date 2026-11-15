@@ -1,36 +1,36 @@
-typedef unsigned char bool;
-extern int fn_829C90F0();
-extern int fn_829C9100();
+typedef struct Parameters_82F5E1B8 {
+    int mode;        /* 0x0 */
+    float first;     /* 0x4 */
+    float second;    /* 0x8 */
+    float third;     /* 0xc */
+    float fourth;    /* 0x10 */
+    int integer;     /* 0x14 */
+    float alternate; /* 0x18 */
+} Parameters_82F5E1B8;
 
+extern int fn_829C9100(int context, int property, float value);
+extern int fn_829C90F0(int context, int property, int value);
 
-unsigned char fn_82F5E1B8(unsigned __int64 param_1,int *param_2)
-
+unsigned int fn_82F5E1B8(void *unused, Parameters_82F5E1B8 *parameters)
 {
-  float fVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  unsigned __int64 uVar5;
-  bool bVar6;
-  
-  if (*param_2 == 0) {
-    iVar2 = fn_829C9100((double)(float)param_2[1],0,0);
-    iVar3 = fn_829C9100((double)(float)param_2[2],0,6);
-    iVar4 = fn_829C9100((double)(float)param_2[3],0,7);
-    fVar1 = (float)param_2[4];
-    uVar5 = 8;
-    bVar6 = (iVar3 == 0 && iVar2 == 0) && iVar4 == 0;
-  }
-  else {
-    if (*param_2 != 1) {
-      return 1;
+    unsigned int result = 1;
+    unsigned int success;
+    int property;
+    float value;
+    if (parameters->mode == 0) {
+        success = fn_829C9100(0, 0, parameters->first) == 0;
+        success = (fn_829C9100(0, 6, parameters->second) == 0) & success;
+        success = (fn_829C9100(0, 7, parameters->third) == 0) & success;
+        value = parameters->fourth;
+        property = 8;
+    } else if (parameters->mode == 1) {
+        success = fn_829C90F0(0, 2, parameters->integer) == 0;
+        value = parameters->alternate;
+        property = 5;
+    } else {
+        goto done;
     }
-    iVar2 = fn_829C90F0(0,2,param_2[5]);
-    fVar1 = (float)param_2[6];
-    uVar5 = 5;
-    bVar6 = iVar2 == 0;
-  }
-  iVar2 = fn_829C9100((double)fVar1,0,uVar5);
-  return iVar2 == 0 & bVar6;
+    result = (fn_829C9100(0, property, value) == 0) & success;
+done:
+    return result;
 }
-

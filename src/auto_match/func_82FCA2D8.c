@@ -1,30 +1,22 @@
-extern int fn_82F655D8();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_82155200;
+typedef struct Filter_82FCA2D8 {
+    unsigned int rate; /* 0x0 */
+    char reserved[0xcc];
+    unsigned int values[16]; /* 0xd0 */
+    float complement[16];    /* 0x110 */
+    float factor[16];        /* 0x150 */
+} Filter_82FCA2D8;
 
+extern double fn_82F655D8(double, double);
+extern double lbl_82155200;
 
-void fn_82FCA2D8(double param_1,unsigned int *param_2)
-
+void fn_82FCA2D8(Filter_82FCA2D8 *self, float scale)
 {
-  __int64 lVar1;
-  float *pfVar2;
-  double dVar3;
-  double dVar4;
-  unsigned __int64 uVar5;
-  double dVar6;
-  
-  pfVar2 = (float *)(param_2 + 0x53);
-  lVar1 = 0x10;
-  dVar6 = (double)lbl_82002AE0;
-  dVar4 = (double)(float)(dVar6 / (double)(float)((double)*param_2 * param_1));
-  uVar5 = lbl_82155200;
-  do {
-    dVar3 = (double)fn_82F655D8(uVar5,(double)(float)((double)(unsigned int)pfVar2[-0x1f] * dVar4));
-    lVar1 = lVar1 + -1;
-    pfVar2[-0xf] = (float)(dVar6 - (double)(float)dVar3);
-    pfVar2 = pfVar2 + 1;
-    *pfVar2 = (float)dVar3;
-  } while (lVar1 != 0);
-  return;
+    float reciprocal = 1.0f / ((float)self->rate * scale);
+    double base = (double)0.001f;
+    int i;
+    for (i = 0; i < 16; i++) {
+        float factor = (float)fn_82F655D8(base, (float)self->values[i] * reciprocal);
+        self->complement[i] = 1.0f - factor;
+        self->factor[i] = factor;
+    }
 }
-

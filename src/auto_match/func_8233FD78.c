@@ -1,47 +1,43 @@
-#define true 1
+/* Insertion sort over 8-byte elements ordered by their leading float. */
+typedef struct Elem_8233FD78 {
+    float key; /* 0x0 */
+    int value; /* 0x4 */
+} Elem_8233FD78;
 
-
-void fn_8233FD78(float *param_1,float *param_2)
-
+static __forceinline unsigned char Greater(const Elem_8233FD78 *a, const Elem_8233FD78 *b)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float *pfVar4;
-  float *pfVar5;
-  float *pfVar6;
-  
-  pfVar4 = param_1;
-  if (param_1 == param_2) {
-    return;
-  }
-  while (pfVar5 = pfVar4 + 2, pfVar5 != param_2) {
-    fVar1 = *pfVar5;
-    fVar3 = pfVar4[3];
-    pfVar6 = pfVar4 + 3;
-    pfVar4 = pfVar5;
-    if (fVar1 <= *param_1) {
-      while( true ) {
-        fVar2 = pfVar5[-2];
-        if (fVar1 <= fVar2) break;
-        *pfVar5 = fVar2;
-        pfVar5[1] = pfVar5[-1];
-        pfVar5 = pfVar5 + -2;
-      }
-      *pfVar5 = fVar1;
-      pfVar5[1] = fVar3;
-    }
-    else {
-      while (param_1 != pfVar5) {
-        pfVar6[-1] = pfVar6[-3];
-        *pfVar6 = pfVar6[-2];
-        pfVar5 = pfVar6 + -3;
-        pfVar6 = pfVar6 + -2;
-      }
-      *param_1 = fVar1;
-      param_1[1] = fVar3;
-    }
-  }
-  return;
+    return a->key > b->key;
 }
 
+void fn_8233FD78(Elem_8233FD78 *first, Elem_8233FD78 *last)
+{
+    Elem_8233FD78 *next;
+    if (first != last) {
+        for (next = first; ++next != last;) {
+            Elem_8233FD78 *next1 = next;
+            Elem_8233FD78 val;
+            val.key = next->key;
+            val.value = next->value;
+            if (Greater(&val, first)) {
+                Elem_8233FD78 *dest = ++next1;
+                Elem_8233FD78 *src = next;
+                while (first != src) {
+                    --dest;
+                    --src;
+                    dest->key = src->key;
+                    dest->value = src->value;
+                }
+                first->key = val.key;
+                first->value = val.value;
+            } else {
+                Elem_8233FD78 *first1;
+                for (first1 = next1; Greater(&val, --first1); next1 = first1) {
+                    next1->key = first1->key;
+                    next1->value = first1->value;
+                }
+                next1->key = val.key;
+                next1->value = val.value;
+            }
+        }
+    }
+}

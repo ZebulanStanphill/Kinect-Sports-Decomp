@@ -1,78 +1,74 @@
-extern unsigned int *auStack_20;
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_40;
-extern int fn_82273C88();
-extern int fn_82273CD8();
-extern int fn_82672C20();
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int uStack_50;
+typedef struct Value_8229D068 {
+    int type;
+    int flags;
 
+    union {
+        double number;
+        int integer;
+    } data;
+} Value_8229D068;
 
-void fn_8229D068(float *param_1,int param_2,unsigned int param_3)
+typedef struct Owner_8229D068 {
+    float progress[2];
+    void *movie;
+} Owner_8229D068;
 
+extern const float lbl_821CA45C[2];
+
+extern void fn_82273CD8(Value_8229D068 *, int);
+extern void fn_82273C88(Value_8229D068 *);
+extern void fn_82672C20(void *, const char *, Value_8229D068 *, int);
+
+void fn_8229D068(Owner_8229D068 *self, int icon, unsigned int hand)
 {
-  float fVar1;
-  unsigned int *puVar2;
-  unsigned char *puVar3;
-  __int64 lVar4;
-  unsigned __int64 uStack_50;
-  unsigned char auStack_40 [8];
-  double dStack_38;
-  unsigned char auStack_30 [8];
-  double dStack_28;
-  unsigned char auStack_20 [32];
-  
-  if (param_3 < 2) {
-    fVar1 = *param_1;
-  }
-  else {
-    if (param_3 != 2) {
-      return;
+    float progress;
+    Value_8229D068 values[2];
+    Value_8229D068 *value;
+    int i;
+    switch (hand) {
+    case 2:
+        progress = self->progress[1];
+        break;
+    case 0:
+    case 1:
+        progress = self->progress[0];
+        break;
+    default:
+        return;
     }
-    fVar1 = param_1[1];
-  }
-  if (fVar1 < lbl_821CA460) {
-    return;
-  }
-  if (lbl_821CA460 < fVar1) {
-    return;
-  }
-  puVar2 = (unsigned int *)((int)&uStack_50 + 4);
-  lVar4 = 2;
-  do {
-    puVar2[3] = 0;
-    puVar2 = puVar2 + 4;
-    *puVar2 = 0;
-    lVar4 = lVar4 + -1;
-  } while (lVar4 != 0);
-  fn_82273CD8(auStack_40,3);
-  uStack_50 = (__int64)param_2;
-  dStack_38 = (double)uStack_50;
-  fn_82273CD8(auStack_30,3);
-  fVar1 = ltcg_pool_0_0f;
-  uStack_50 = (__int64)(int)param_3;
-  dStack_28 = (double)uStack_50;
-  if (param_3 == 0) {
-    *param_1 = ltcg_pool_0_0f;
-  }
-  else {
-    if (param_3 == 1) {
-      *param_1 = ltcg_pool_0_0f;
-      goto LAB_8229d150;
+    if (progress < lbl_821CA45C[1]) {
+        return;
     }
-    if (2 < param_3) goto LAB_8229d150;
-  }
-  param_1[1] = fVar1;
-LAB_8229d150:
-  fn_82672C20(param_1[2],0xffffffff821ab138,auStack_40,2);
-  puVar3 = auStack_20;
-  lVar4 = 1;
-  do {
-    puVar3 = puVar3 + -0x10;
-    fn_82273C88(puVar3);
-    lVar4 = lVar4 + -1;
-  } while (-1 < lVar4);
-  return;
+    if (progress > lbl_821CA45C[1]) {
+        return;
+    }
+    for (i = 0; i < 2; i++) {
+        values[i].type = 0;
+        values[i].flags = 0;
+    }
+    fn_82273CD8(&values[0], 3);
+    values[0].data.number = (double)icon;
+    fn_82273CD8(&values[1], 3);
+    values[1].data.number = (double)(int)hand;
+    switch (hand) {
+    case 0:
+        self->progress[0] = 0.0f;
+        self->progress[1] = 0.0f;
+        break;
+    case 1:
+        self->progress[0] = 0.0f;
+        break;
+    case 2:
+        self->progress[1] = 0.0f;
+        break;
+    default:
+        break;
+    }
+    fn_82672C20(self->movie, "_root.handIconMngr.playSelectedAnim", values, 2);
+    value = values + 2;
+    i = 1;
+    do {
+        --value;
+        fn_82273C88(value);
+    } while (--i >= 0);
 }
-

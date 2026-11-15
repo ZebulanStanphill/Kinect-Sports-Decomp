@@ -1,41 +1,41 @@
-void fn_822F8A68(unsigned int *param_1,unsigned int *param_2)
+typedef struct Element_822F8A68 {
+    unsigned int value;
+    float key;
+} Element_822F8A68;
 
+static __forceinline unsigned char Greater(float left, float right)
 {
-  float fVar1;
-  unsigned int uVar2;
-  unsigned int *puVar3;
-  unsigned int *puVar4;
-  unsigned int *puVar5;
-  
-  puVar3 = param_1;
-  if (param_1 == param_2) {
-    return;
-  }
-  while (puVar5 = puVar3 + 2, puVar5 != param_2) {
-    uVar2 = *puVar5;
-    fVar1 = (float)puVar3[3];
-    puVar4 = puVar3 + 3;
-    puVar3 = puVar5;
-    if (fVar1 <= (float)param_1[1]) {
-      while ((float)puVar5[-1] < fVar1) {
-        *puVar5 = puVar5[-2];
-        puVar5[1] = puVar5[-1];
-        puVar5 = puVar5 + -2;
-      }
-      puVar5[1] = fVar1;
-      *puVar5 = uVar2;
-    }
-    else {
-      while (param_1 != puVar5) {
-        puVar4[-1] = puVar4[-3];
-        *puVar4 = puVar4[-2];
-        puVar5 = puVar4 + -3;
-        puVar4 = puVar4 + -2;
-      }
-      param_1[1] = fVar1;
-      *param_1 = uVar2;
-    }
-  }
-  return;
+    return left > right;
 }
 
+void fn_822F8A68(Element_822F8A68 *first, Element_822F8A68 *last)
+{
+    Element_822F8A68 *next;
+    if (first != last) {
+        for (next = first; ++next != last;) {
+            unsigned int value = next->value;
+            float key = next->key;
+            Element_822F8A68 *hole = next;
+            if (Greater(key, first->key)) {
+                Element_822F8A68 *dest = next + 1;
+                Element_822F8A68 *src = next;
+                while (first != src) {
+                    --dest;
+                    --src;
+                    dest->value = src->value;
+                    dest->key = src->key;
+                }
+                first->key = key;
+                first->value = value;
+            } else {
+                Element_822F8A68 *previous;
+                for (previous = hole; Greater(key, (--previous)->key); hole = previous) {
+                    hole->value = previous->value;
+                    hole->key = previous->key;
+                }
+                hole->key = key;
+                hole->value = value;
+            }
+        }
+    }
+}
