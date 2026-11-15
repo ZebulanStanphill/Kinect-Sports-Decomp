@@ -1,27 +1,61 @@
-#define true 1
-extern unsigned int *auStack_18;
-extern int fn_8251E530();
-extern int XMemSet();
-extern int fn_82D81078();
+typedef struct Item_8253D4E8 Item_8253D4E8;
 
+typedef struct Receiver_8253D4E8 {
+    void (**vtable)();
+} Receiver_8253D4E8;
 
-void fn_8253D4E8(int param_1,int param_2,unsigned __int64 param_3,int param_4)
+struct Item_8253D4E8 {
+    char pad00[12];
+    Receiver_8253D4E8 *receiver; /* 0x0c */
+};
 
+typedef struct List_8253D4E8 {
+    Item_8253D4E8 **begin;
+    Item_8253D4E8 **end;
+} List_8253D4E8;
+
+typedef struct Owner_8253D4E8 {
+    char pad00[0x64];
+    List_8253D4E8 items; /* 0x64 */
+} Owner_8253D4E8;
+
+typedef struct Context_8253D4E8 {
+    char pad00[0x1f8];
+    void *manager; /* 0x1f8 */
+} Context_8253D4E8;
+
+typedef struct Event_8253D4E8 {
+    int type;
+    int size;
+    Item_8253D4E8 *item;
+} Event_8253D4E8;
+
+extern void fn_8251E530(List_8253D4E8 *list, Item_8253D4E8 **position);
+extern void fn_82D81078(void *manager, Item_8253D4E8 *item, int enabled);
+extern void *XMemSet(void *, int, unsigned int);
+
+void fn_8253D4E8(Owner_8253D4E8 *self, Context_8253D4E8 *context, Item_8253D4E8 *item, int flag)
 {
-  unsigned int *puVar1;
-  unsigned char auStack_18 [8];
-  
-  puVar1 = *(unsigned int **)(param_1 + 100);
-  while( true ) {
-    if (*(unsigned int **)(param_1 + 0x68) <= puVar1) {
-      fn_82D81078(*(unsigned int *)(param_2 + 0x1f8),param_3,param_4 == 0);
-                    /* WARNING: Subroutine does not return */
-      XMemSet(auStack_18,0,4);
+    Item_8253D4E8 **end = self->items.end;
+    Item_8253D4E8 **position = self->items.begin;
+    while (position < end) {
+        if (*position == item) {
+            fn_8251E530(&self->items, position);
+            return;
+        }
+        ++position;
     }
-    if ((unsigned __int64)*puVar1 == (param_3 & 0xffffffff)) break;
-    puVar1 = puVar1 + 1;
-  }
-  fn_8251E530(param_1 + 100,puVar1);
-  return;
+    {
+        Event_8253D4E8 event;
+        Receiver_8253D4E8 *receiver;
+        fn_82D81078(context->manager, item, flag == 0);
+        XMemSet(&event.item, 0, 4);
+        event.item = item;
+        event.type = 0x34;
+        event.size = 0xc;
+        receiver = item->receiver;
+        if (receiver != 0) {
+            receiver->vtable[3](receiver, &event);
+        }
+    }
 }
-

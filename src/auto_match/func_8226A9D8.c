@@ -1,33 +1,29 @@
-typedef unsigned char bool;
-#define true 1
-extern int fn_827EC970();
+typedef struct Area_8226A9D8 {
+    int unknown;
+    unsigned char inside; /* 0x04 */
+    char pad05[0x30 - 5];
+    float radius; /* 0x30 */
+    float unknown34;
+    float x; /* 0x38 */
+    float y; /* 0x3c */
+} Area_8226A9D8;
+
+typedef struct Point_8226A9D8 {
+    float x;
+    float y;
+    float z;
+} Point_8226A9D8;
+
 extern float lbl_821916FC;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int uStack_18;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
+extern int fn_827EC970(const Point_8226A9D8 *center, float radius, const void *point, const void *extent);
 
-
-bool fn_8226A9D8(int param_1,__int64 param_2)
-
+int fn_8226A9D8(const Area_8226A9D8 *self, const char *point)
 {
-  int iVar1;
-  bool bVar2;
-  unsigned int uStack_20;
-  unsigned int uStack_1c;
-  unsigned int uStack_18;
-  
-  if (*(char *)(param_1 + 4) == '\0') {
-    uStack_20 = *(unsigned int *)(param_1 + 0x38);
-    uStack_1c = *(unsigned int *)(param_1 + 0x3c);
-    uStack_18 = ltcg_pool_0_0f;
-    iVar1 = fn_827EC970((double)(*(float *)(param_1 + 0x30) * lbl_821916FC),&uStack_20,param_2,
-                         param_2,param_2 + 0x10);
-    bVar2 = iVar1 == 0;
-  }
-  else {
-    bVar2 = true;
-  }
-  return bVar2;
+    Point_8226A9D8 center;
+    if (self->inside != 0)
+        return 1;
+    center.x = self->x;
+    center.y = self->y;
+    center.z = 0.0f;
+    return fn_827EC970(&center, self->radius * lbl_821916FC, point, point + 0x10) == 0;
 }
-

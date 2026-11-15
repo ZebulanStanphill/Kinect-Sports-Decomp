@@ -1,48 +1,68 @@
-typedef unsigned char bool;
-extern int fn_8289DF30();
-extern unsigned __int64 storeWordConditionalIndexed();
+typedef struct Object_828E3760 Object_828E3760;
 
+typedef struct Vtable_828E3760 {
+    void *reserved[2];                /* 0x0 */
+    void (*begin)(Object_828E3760 *); /* 0x8 */
+    void (*end)(Object_828E3760 *);   /* 0xc */
+} Vtable_828E3760;
 
-void fn_828E3760(unsigned int *param_1)
+struct Object_828E3760 {
+    Vtable_828E3760 *vtable; /* 0x0 */
+    unsigned char active;    /* 0x4 */
+};
 
+typedef struct Node_828E3760 {
+    struct Node_828E3760 *next; /* 0x0 */
+    int reserved;               /* 0x4 */
+    Object_828E3760 *object;    /* 0x8 */
+} Node_828E3760;
+
+typedef struct List_828E3760 {
+    Node_828E3760 *head; /* 0x0 */
+} List_828E3760;
+
+typedef struct Ref_828E3760 {
+    void *vtable; /* 0x0 */
+    long count;   /* 0x4 */
+} Ref_828E3760;
+
+typedef struct Owner_828E3760 {
+    List_828E3760 **list;    /* 0x0 */
+    Ref_828E3760 *reference; /* 0x4 */
+    int reserved;            /* 0x8 */
+    char lock[28];           /* 0xc */
+} Owner_828E3760;
+
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
+extern long _InterlockedIncrement(long *);
+extern void fn_8289DF30(Ref_828E3760 *);
+
+void fn_828E3760(Owner_828E3760 *self)
 {
-  unsigned int *puVar1;
-  int *piVar2;
-  int *piVar3;
-  unsigned int uVar4;
-  unsigned int *puVar5;
-  unsigned __int64 uVar6;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  RtlEnterCriticalSection(param_1 + 3);
-  uVar6 = (unsigned __int64)(unsigned int)param_1[1];
-  puVar1 = (unsigned int *)*param_1;
-  if (uVar6 != 0) {
-    do {
-      puVar5 = (unsigned int *)(uVar6 + 4);
-      if (in_RESERVE != '\0') {
-        uVar4 = storeWordConditionalIndexed((unsigned __int64)*puVar5 + 1,0,uVar6 + 4);
-        *puVar5 = uVar4;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-  }
-  RtlLeaveCriticalSection(param_1 + 3);
-  piVar2 = *(int **)*puVar1;
-  piVar3 = (int *)*piVar2;
-  if (piVar3 != piVar2) {
-    do {
-      piVar2 = (int *)piVar3[2];
-      (**(int (***)())(*piVar2 + 8))(piVar2);
-      *(unsigned char *)(piVar2 + 1) = 0;
-      (**(int (***)())(*piVar2 + 0xc))(piVar2);
-      piVar3 = (int *)*piVar3;
-    } while (piVar3 != (int *)*(int *)*puVar1);
-  }
-  if (uVar6 != 0) {
-    fn_8289DF30(uVar6);
-  }
-  return;
+    List_828E3760 **list;
+    Ref_828E3760 *reference;
+    Node_828E3760 *node;
+    Node_828E3760 *head;
+    RtlEnterCriticalSection(self->lock);
+    reference = self->reference;
+    list = self->list;
+    if (reference != 0) {
+        _InterlockedIncrement(&reference->count);
+    }
+    RtlLeaveCriticalSection(self->lock);
+    head = (*list)->head;
+    node = head->next;
+    if (node != head) {
+        do {
+            Object_828E3760 *object = node->object;
+            object->vtable->begin(object);
+            object->active = 0;
+            object->vtable->end(object);
+            node = node->next;
+        } while (node != (*list)->head);
+    }
+    if (reference != 0) {
+        fn_8289DF30(reference);
+    }
 }
-

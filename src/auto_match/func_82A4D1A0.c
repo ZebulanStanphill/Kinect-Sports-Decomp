@@ -1,37 +1,43 @@
-typedef unsigned char bool;
-extern unsigned __int64 storeWordConditionalIndexed();
+extern long _InterlockedExchange(long *, long);
 
+typedef struct Value_82A4D1A0 {
+    unsigned int first;
+    float second;
+    float third;
+} Value_82A4D1A0;
 
-void fn_82A4D1A0(__int64 param_1,unsigned int *param_2)
+typedef struct State_82A4D1A0 {
+    char pad[0x1c];
+    unsigned int first;
+    unsigned int second;
+    unsigned int third;
+    char gap[0x18];
+    long pending;
+    Value_82A4D1A0 *current;
+} State_82A4D1A0;
 
+void fn_82A4D1A0(State_82A4D1A0 *self, const Value_82A4D1A0 *value)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  int iVar3;
-  unsigned int *puVar4;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  iVar3 = (int)param_1;
-  if (*(int *)(iVar3 + 0x44) == 0) {
-    do {
-      puVar4 = (unsigned int *)(param_1 + 0x40);
-      uVar1 = *puVar4;
-      if (in_RESERVE != '\0') {
-        uVar2 = storeWordConditionalIndexed(0xffffffffffffffff,0,param_1 + 0x40);
-        *puVar4 = uVar2;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-    *(unsigned int *)(iVar3 + 0x44) = uVar1;
-  }
-  puVar4 = *(unsigned int **)(iVar3 + 0x44);
-  *puVar4 = *param_2;
-  puVar4[1] = param_2[1];
-  puVar4[2] = param_2[2];
-  *(unsigned int *)(iVar3 + 0x1c) = *param_2;
-  *(unsigned int *)(iVar3 + 0x20) = param_2[1];
-  *(unsigned int *)(iVar3 + 0x24) = param_2[2];
-  return;
-}
+    if (!self->current)
+        self->current = (Value_82A4D1A0 *)_InterlockedExchange(&self->pending, -1);
+    *self->current = *value;
+    self->first = value->first;
+    {
+        union Bits_82A4D1A0 {
+            float number;
+            unsigned int bits;
+        } bits;
 
+        bits.number = value->second;
+        self->second = bits.bits;
+    }
+    {
+        union Bits_82A4D1A0 {
+            float number;
+            unsigned int bits;
+        } bits;
+
+        bits.number = value->third;
+        self->third = bits.bits;
+    }
+}

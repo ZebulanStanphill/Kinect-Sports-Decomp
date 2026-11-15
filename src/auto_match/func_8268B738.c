@@ -1,50 +1,45 @@
-typedef unsigned char bool;
-extern int fn_8267BE38();
-extern int fn_8267BF50();
-extern int fn_8268B368();
+typedef struct String_8268B738 {
+    unsigned int tagged; /* 0x0 */
+    unsigned int length; /* 0x4 */
+} String_8268B738;
+typedef struct Reader_8268B738 Reader_8268B738;
+
+typedef struct Vtable_8268B738 {
+    void *reserved;                                        /* 0x0 */
+    void (*read)(Reader_8268B738 *, void *, unsigned int); /* 0x4 */
+} Vtable_8268B738;
+
+struct Reader_8268B738 {
+    Vtable_8268B738 *vtable; /* 0x0 */
+};
+
 extern unsigned int lbl_831E7E64;
-extern unsigned __int64 storeWordConditionalIndexed();
+extern unsigned int fn_8267BF50(String_8268B738 *);
+extern void *fn_8268B368(String_8268B738 *, unsigned int, unsigned int, int);
+extern void fn_8267BE38(void *);
+extern long _InterlockedExchangeAdd(long *, long);
 
-
-void fn_8268B738(unsigned int *param_1,int *param_2,unsigned __int64 param_3)
-
+void fn_8268B738(String_8268B738 *self, Reader_8268B738 *reader, unsigned int count)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  __int64 lVar3;
-  unsigned __int64 uVar4;
-  __int64 lVar5;
-  unsigned int *puVar6;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  uVar1 = *param_1;
-  uVar4 = 0;
-  if ((uVar1 & 3) == 0) {
-    uVar4 = (unsigned __int64)lbl_831E7E64;
-  }
-  else if ((uVar1 & 3) == 1) {
-    uVar4 = fn_8267BF50(param_1,0);
-  }
-  else if ((uVar1 & 3) < 3) {
-    uVar4 = (unsigned __int64)param_1[1];
-  }
-  lVar3 = fn_8268B368(param_1,uVar4,param_3,0);
-  (**(int (***)())(*param_2 + 4))(param_2,lVar3 + 8,param_3);
-  lVar5 = ((unsigned __int64)uVar1 & 0xfffffffc) + 4;
-  *param_1 = *param_1 & 3 | (unsigned int)lVar3;
-  do {
-    puVar6 = (unsigned int *)lVar5;
-    uVar4 = (unsigned __int64)*puVar6;
-    if (in_RESERVE != '\0') {
-      uVar2 = storeWordConditionalIndexed(uVar4 - 1,0,lVar5);
-      *puVar6 = uVar2;
-      in_cr0 = 2;
+    unsigned int tag = self->tagged;
+    unsigned int old = tag & ~3u;
+    unsigned int length = 0;
+    void *block;
+    switch (tag & 3) {
+    case 0:
+        length = lbl_831E7E64;
+        break;
+    case 1:
+        length = fn_8267BF50(self);
+        break;
+    case 2:
+        length = self->length;
+        break;
     }
-  } while (!(bool)(in_cr0 >> 1 & 1));
-  if (uVar4 == 1) {
-    fn_8267BE38((unsigned __int64)uVar1 & 0xfffffffc);
-  }
-  return;
+    block = fn_8268B368(self, length, count, 0);
+    reader->vtable->read(reader, (char *)block + 8, count);
+    self->tagged = (self->tagged & 3) | (unsigned int)block;
+    if (_InterlockedExchangeAdd((long *)(old + 4), -1) - 1 == 0) {
+        fn_8267BE38((void *)old);
+    }
 }
-

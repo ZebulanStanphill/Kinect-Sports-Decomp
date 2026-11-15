@@ -1,35 +1,26 @@
-extern int fn_82554260();
-extern int fn_827F04B0();
-extern int fn_827F2DD0();
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Interface_822B98F8 Interface_822B98F8;
 
+struct Interface_822B98F8 {
+    int (**vt)();
+};
 
-void fn_822B98F8(int *param_1)
+extern void *fn_827F04B0(unsigned int);
+extern void *fn_82554260(void *, void *, int);
+extern void fn_827F2DD0(void *, void *, float, int, int);
 
+void fn_822B98F8(void **self)
 {
-  int *piVar1;
-  int iVar3;
-  unsigned __int64 uVar2;
-  
-  if ((param_1[10] == 0) && (param_1[7] == 0)) {
-    piVar1 = *(int **)(*param_1 + 0x8c0);
-    if (piVar1 != (int *)0x0) {
-      iVar3 = (**(int (***)())(*piVar1 + 0x50))(piVar1,param_1 + 6);
-      param_1[7] = iVar3;
-      if (iVar3 != 0) {
-        uVar2 = fn_827F04B0(0x1a0);
-        if ((uVar2 & 0xffffffff) == 0) {
-          iVar3 = 0;
+    if (!self[10] && !self[7]) {
+        Interface_822B98F8 *owner = *(Interface_822B98F8 **)((char *)self[0] + 0x8c0);
+        if (owner) {
+            void *object = (void *)owner->vt[20](owner, &self[6]);
+            self[7] = object;
+            if (object) {
+                void *allocation = fn_827F04B0(0x1a0);
+                self[8] = allocation ? fn_82554260(allocation, self[7], 1) : 0;
+                fn_827F2DD0(self[7], self[8], 0.0f, 18, 0);
+                owner->vt[39](owner, self[6]);
+            }
         }
-        else {
-          iVar3 = fn_82554260(uVar2,param_1[7],1);
-        }
-        param_1[8] = iVar3;
-        fn_827F2DD0((double)ltcg_pool_0_0f,param_1[7]);
-        (**(int (***)())(*piVar1 + 0x9c))(piVar1,param_1[6]);
-      }
     }
-  }
-  return;
 }
-

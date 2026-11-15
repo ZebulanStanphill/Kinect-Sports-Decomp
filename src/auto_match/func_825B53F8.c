@@ -1,29 +1,29 @@
-extern int fn_8260B5C0();
-extern int fn_8284D840();
-extern int fn_82851250();
+typedef struct Listener_825B53F8 Listener_825B53F8;
 
+typedef struct Vtable_825B53F8 {
+    void (*unused)();
+    void (*notify)(Listener_825B53F8 *, int, int, int, float, int, int, float, float);
+} Vtable_825B53F8;
 
-void fn_825B53F8(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,int param_4,
-                  unsigned __int64 param_5,unsigned __int64 param_6,unsigned __int64 param_7,unsigned __int64 param_8,
-                  unsigned __int64 param_9,unsigned __int64 param_10)
+struct Listener_825B53F8 {
+    Vtable_825B53F8 *vt;
+};
 
+extern void fn_82851250(unsigned int, unsigned int, int, int, int, int, int, float, float);
+extern unsigned int fn_8284D840(unsigned int);
+extern void fn_8260B5C0(unsigned int *, int, int, float);
+
+void fn_825B53F8(void *self, int a, int b, int c, float x, int d, int e, float y, float z)
 {
-  unsigned int *puVar1;
-  int iVar2;
-  int *piVar3;
-  unsigned __int64 uVar4;
-  
-  puVar1 = *(unsigned int **)(param_4 + 8);
-  fn_82851250(param_2,param_3,*puVar1,puVar1[1],param_6,param_7,param_9,param_10,param_5);
-  uVar4 = fn_8284D840(*puVar1);
-  if ((uVar4 & 8) != 0) {
-    fn_8260B5C0(param_1,puVar1,param_6,param_7);
-  }
-  iVar2 = *(int *)(*(int *)(param_4 + 0x14) + 0x1fc);
-  if (iVar2 != 0) {
-    piVar3 = *(int **)(iVar2 + 0x1a8);
-    (**(int (***)())(*piVar3 + 4))(param_1,param_2,param_3,piVar3,param_5,param_6,param_7);
-  }
-  return;
+    unsigned int *pair = *(unsigned int **)((char *)self + 8);
+    void *owner;
+    fn_82851250(pair[0], pair[1], b, c, d, e, a, y, z);
+    if (fn_8284D840(pair[0]) & 8) {
+        fn_8260B5C0(pair, b, c, x);
+    }
+    owner = *(void **)((char *)*(void **)((char *)self + 20) + 0x1fc);
+    if (owner) {
+        Listener_825B53F8 *listener = *(Listener_825B53F8 **)((char *)owner + 0x1a8);
+        listener->vt->notify(listener, a, b, c, x, d, e, y, z);
+    }
 }
-

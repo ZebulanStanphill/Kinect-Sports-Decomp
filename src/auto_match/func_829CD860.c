@@ -1,33 +1,41 @@
-extern unsigned int lbl_832154A8;
-extern unsigned int lbl_832154B0;
-extern unsigned int lbl_832154D4;
-extern unsigned int *lbl_832155B4;
-extern unsigned int lbl_832155C4;
-extern unsigned int lbl_832155E4;
+typedef struct Entry_829CD860 {
+    unsigned int value;
+    unsigned int delta;
+} Entry_829CD860;
 
+typedef struct Globals_829CD860 {
+    char pad[0x4a8];
+    unsigned int enabled;
+    int unknown4ac;
+    unsigned int base;
+    char pad4b4[0x4d4 - 0x4b4];
+    unsigned int pending;
+    char pad4d8[0x5b0 - 0x4d8];
+    unsigned int lock;
+    Entry_829CD860 *current;
+    char pad5b8[0x5c4 - 0x5b8];
+    Entry_829CD860 entries[4];
+    unsigned int index;
+} Globals_829CD860;
 
-void fn_829CD860(int param_1)
+extern Globals_829CD860 lbl_83215000;
+extern unsigned char KfAcquireSpinLock(unsigned int *lock);
+extern void KfReleaseSpinLock(unsigned int *lock, unsigned char token);
 
+void fn_829CD860(unsigned int value)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  
-  if (lbl_832154A8 != 0) {
-    uVar1 = KfAcquireSpinLock(0xffffffff832155b0);
-    if (param_1 == 0) {
-      iVar2 = 0x153c32 - lbl_832154B0;
+    if (lbl_83215000.enabled != 0) {
+        unsigned char token = KfAcquireSpinLock(&lbl_83215000.lock);
+        unsigned int delta;
+        if (value != 0)
+            delta = value - lbl_83215000.base - 0x43238;
+        else
+            delta = 0x153c32 - lbl_83215000.base;
+        if (lbl_83215000.current == 0)
+            lbl_83215000.current = &lbl_83215000.entries[lbl_83215000.index];
+        lbl_83215000.current->value = value;
+        lbl_83215000.current->delta = delta;
+        lbl_83215000.pending = 1;
+        KfReleaseSpinLock(&lbl_83215000.lock, token);
     }
-    else {
-      iVar2 = (param_1 - lbl_832154B0) + -0x43238;
-    }
-    if (lbl_832155B4 == (int *)0x0) {
-      lbl_832155B4 = (int *)(&lbl_832155C4 + lbl_832155E4 * 8);
-    }
-    *lbl_832155B4 = param_1;
-    lbl_832155B4[1] = iVar2;
-    lbl_832154D4 = 1;
-    KfReleaseSpinLock(0xffffffff832155b0,uVar1);
-  }
-  return;
 }
-

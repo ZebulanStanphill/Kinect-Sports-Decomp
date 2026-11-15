@@ -1,41 +1,40 @@
-extern int fn_8265C940();
-extern int fn_8265C990();
-extern int fn_82BA02A8();
-extern int fn_82F68CC0();
-extern int fn_82F691F0();
+typedef struct Array_82964228 {
+    unsigned int unknown; /* 0x00 */
+    unsigned int count;   /* 0x04 */
+    char pad08[8];
+    void **data; /* 0x10 */
+    char pad14[8];
+    unsigned int capacity; /* 0x1c */
+} Array_82964228;
 
+extern void *fn_8265C940(unsigned int size, unsigned int tag);
+extern void fn_8265C990(void *data, unsigned int tag);
+extern void fn_82BA02A8(void *value);
+void *memcpy(void *, const void *, unsigned int);
+void *memset(void *, int, unsigned int);
 
-unsigned __int64 fn_82964228(int param_1,unsigned __int64 param_2)
-
+unsigned int fn_82964228(Array_82964228 *self, void *value)
 {
-  unsigned int uVar1;
-  __int64 lVar2;
-  unsigned __int64 uVar3;
-  
-  uVar1 = *(unsigned int *)(param_1 + 0x1c);
-  if (*(unsigned int *)(param_1 + 4) == uVar1) {
-    uVar3 = ((unsigned __int64)uVar1 & 0x7fffffff) << 1;
-    if (uVar1 == 0) {
-      uVar3 = 0x10;
+    unsigned int index;
+    if (self->count == self->capacity) {
+        unsigned int capacity = self->capacity ? self->capacity * 2 : 16;
+        void **data;
+        data = fn_8265C940(capacity * 4, 0x24810000);
+        if (data == 0) {
+            if (value != 0) {
+                fn_82BA02A8(value);
+                fn_8265C990(value, 0x24810000);
+            }
+            return -1;
+        }
+        memcpy(data, self->data, self->count * 4);
+        memset(data + self->count, 0, (capacity - self->count) * 4);
+        fn_8265C990(self->data, 0x24810000);
+        self->data = data;
+        self->capacity = capacity;
     }
-    lVar2 = fn_8265C940((uVar3 & 0x3fffffff) << 2,0x24810000);
-    if (lVar2 != 0) {
-      fn_82F68CC0(lVar2,*(unsigned int *)(param_1 + 0x10),*(int *)(param_1 + 4) << 2);
-                    /* WARNING: Subroutine does not return */
-      fn_82F691F0(((unsigned __int64)*(unsigned int *)(param_1 + 4) & 0x3fffffff) * 4 + lVar2,0,
-                   (uVar3 - *(unsigned int *)(param_1 + 4) & 0x3fffffff) << 2);
-    }
-    if ((param_2 & 0xffffffff) != 0) {
-      fn_82BA02A8(param_2);
-      fn_8265C990(param_2,0x24810000);
-    }
-    uVar3 = 0xffffffffffffffff;
-  }
-  else {
-    *(int *)(*(int *)(param_1 + 4) * 4 + *(int *)(param_1 + 0x10)) = (int)param_2;
-    uVar3 = (unsigned __int64)*(unsigned int *)(param_1 + 4);
-    *(unsigned int *)(param_1 + 4) = *(unsigned int *)(param_1 + 4) + 1;
-  }
-  return uVar3;
+    self->data[self->count] = value;
+    index = self->count;
+    self->count = index + 1;
+    return index;
 }
-

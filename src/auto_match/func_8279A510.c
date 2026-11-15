@@ -1,19 +1,34 @@
-extern unsigned int lbl_82002AE0;
-extern float lbl_82005718;
+typedef struct Base_8279A510 {
+    char pad[0x13a];
+    unsigned short scale;
+    char unknown[3];
+    unsigned char flags;
+} Base_8279A510;
 
+typedef struct Setting_8279A510 {
+    char pad[0x26];
+    unsigned short value;
+} Setting_8279A510;
 
-double fn_8279A510(int *param_1)
+typedef struct Factor_8279A510 {
+    char pad[0x10];
+    float value;
+} Factor_8279A510;
 
+typedef struct Self_8279A510 {
+    Base_8279A510 *base;
+    char pad[0xc8 - 4];
+    Setting_8279A510 *setting;
+    int unknown;
+    Factor_8279A510 *factor;
+} Self_8279A510;
+
+float fn_8279A510(Self_8279A510 *self)
 {
-  double dVar1;
-  
-  dVar1 = (double)((float)*(unsigned short *)(param_1[0x32] + 0x26) * lbl_82005718);
-  if ((double)*(float *)(param_1[0x34] + 0x10) != (double)lbl_82002AE0) {
-    dVar1 = (double)(float)((double)*(float *)(param_1[0x34] + 0x10) * dVar1);
-  }
-  if ((*(unsigned char *)(*param_1 + 0x13f) & 4) == 0) {
-    return dVar1;
-  }
-  return (double)((float)((double)*(unsigned short *)(*param_1 + 0x13a) * dVar1) * lbl_82005718);
+    float value = (float)self->setting->value * 0.05f;
+    if (self->factor->value != 1.0f)
+        value = self->factor->value * value;
+    if ((self->base->flags & 4) != 0)
+        value = ((float)self->base->scale * value) * 0.05f;
+    return value;
 }
-

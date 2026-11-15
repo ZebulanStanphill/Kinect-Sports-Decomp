@@ -1,24 +1,32 @@
-extern unsigned int *auStack_120;
-extern unsigned int *auStack_1a0;
-extern int fn_82CFBB60();
-extern int fn_82D00D38();
-extern int fn_82D00D60();
+typedef void (*Output_82CF7C08)(const char *, void *);
 
+typedef struct Reporter_82CF7C08 {
+    void *unknown; /* 0x00 */
+    void *tracer;  /* 0x04 */
+    char map[0x3c - 8];
+    Output_82CF7C08 output; /* 0x3c */
+    void *context;          /* 0x40 */
+} Reporter_82CF7C08;
 
-void fn_82CF7C08(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned int *param_4)
+typedef struct Block_82CF7C08 {
+    unsigned int trace;
+    int size;
+} Block_82CF7C08;
 
+extern int fn_82CFBB60(char *, unsigned int, const char *, ...);
+extern int fn_82D00D60(void *, unsigned int, void **, int);
+extern void fn_82D00D38(void *, void **, int, Output_82CF7C08, void *);
+
+void fn_82CF7C08(Reporter_82CF7C08 *self, const char *description, const void *address,
+                 const Block_82CF7C08 *block)
 {
-  unsigned __int64 uVar1;
-  unsigned char auStack_1a0 [128];
-  unsigned char auStack_120 [256];
-  
-  fn_82CFBB60(auStack_120,0x100,0xffffffff821336b8,param_3,param_4[1]);
-  (**(int (***)())(param_1 + 0x3c))(param_2,*(unsigned int *)(param_1 + 0x40));
-  (**(int (***)())(param_1 + 0x3c))(auStack_120,*(unsigned int *)(param_1 + 0x40));
-  uVar1 = fn_82D00D60(param_1 + 8,*param_4,auStack_1a0,0x20);
-  fn_82D00D38(*(unsigned int *)(param_1 + 4),auStack_1a0,uVar1,*(unsigned int *)(param_1 + 0x3c),
-               *(unsigned int *)(param_1 + 0x40));
-  (**(int (***)())(param_1 + 0x3c))(0xffffffff82133670,*(unsigned int *)(param_1 + 0x40));
-  return;
+    void *trace[32];
+    char text[256];
+    int count;
+    fn_82CFBB60(text, 256, "\nAddress=0x%p size=%i\n", address, block->size);
+    self->output(description, self->context);
+    self->output(text, self->context);
+    count = fn_82D00D60(self->map, block->trace, trace, 32);
+    fn_82D00D38(self->tracer, trace, count, self->output, self->context);
+    self->output("-------------------------------------------------------------------\n\n", self->context);
 }
-

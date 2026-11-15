@@ -1,36 +1,47 @@
-extern int fn_8267BE38();
-extern int fn_826FA538();
-extern unsigned int lbl_82007120;
-extern unsigned int lbl_8200C90C;
+typedef struct Array_827024E8 {
+    void **data;
+    unsigned int count;
+} Array_827024E8;
 
+typedef struct Owner_827024E8 {
+    void *vtable;
+    unsigned char storage[9];
+} Owner_827024E8;
 
-void fn_827024E8(unsigned int *param_1)
+extern char lbl_8200C90C[];
+extern char lbl_82007120[];
+extern void fn_826FA538(void *, int);
+extern void fn_8267BE38(void *);
 
+typedef struct Cursor_827024E8 {
+    unsigned char *position;
+    int count;
+    char pad08[16];
+} Cursor_827024E8;
+
+void fn_827024E8(Owner_827024E8 *self)
 {
-  int *piVar1;
-  unsigned __int64 uVar2;
-  int iVar3;
-  
-  *param_1 = &lbl_8200C90C;
-  if ((*(unsigned char *)(param_1 + 1) & 0x80) != 0) {
-    piVar1 = *(int **)((int)param_1 + 5);
-    if (piVar1 != (int *)0x0) {
-      uVar2 = (unsigned __int64)(unsigned int)piVar1[1];
-      if (uVar2 != 0) {
-        iVar3 = 0;
-        do {
-          if (*(int *)(iVar3 + *piVar1) != 0) {
-            fn_826FA538(*(int *)(iVar3 + *piVar1),1);
-          }
-          uVar2 = uVar2 - 1;
-          iVar3 = iVar3 + 4;
-        } while (uVar2 != 0);
-      }
-      fn_8267BE38(*piVar1);
-      fn_8267BE38(piVar1);
+    Cursor_827024E8 cursor;
+    unsigned char **position;
+    cursor.position = self->storage;
+    position = &cursor.position;
+    self->vtable = lbl_8200C90C;
+    if ((**position & 0x80) != 0) {
+        Array_827024E8 *array = *(Array_827024E8 **)(self->storage + 1);
+        if (array != 0) {
+            unsigned int count = array->count;
+            if (count != 0) {
+                unsigned int i;
+                for (i = 0; i < count; i++) {
+                    void **data = array->data;
+                    if (data[i] != 0) {
+                        fn_826FA538(data[i], 1);
+                    }
+                }
+            }
+            fn_8267BE38(array->data);
+            fn_8267BE38(array);
+        }
     }
-  }
-  *param_1 = &lbl_82007120;
-  return;
+    self->vtable = lbl_82007120;
 }
-

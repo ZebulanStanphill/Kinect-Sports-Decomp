@@ -1,23 +1,14 @@
-extern int fn_82809558();
-extern int fn_82809D40();
-extern unsigned int lbl_821AAD20;
+extern float fn_82809558(float);
+extern float fn_82809D40(float, float);
 
-
-void fn_8281D260(float *param_1,float *param_2)
-
+void fn_8281D260(float *value, float *out)
 {
-  double dVar1;
-  
-  dVar1 = (double)lbl_821AAD20;
-  if (((double)*param_1 == dVar1) && ((double)param_1[2] == dVar1)) {
-    *param_2 = lbl_821AAD20;
-  }
-  else {
-    dVar1 = (double)fn_82809D40((double)*param_1,(double)param_1[2]);
-    *param_2 = (float)dVar1;
-    dVar1 = (double)fn_82809558((double)(param_1[2] * param_1[2] + *param_1 * *param_1));
-  }
-  fn_82809D40((double)param_1[1],dVar1);
-  return;
+    float length = 0.0f;
+    if (value[0] == 0.0f && value[2] == 0.0f) {
+        *out = 0.0f;
+    } else {
+        *out = fn_82809D40(value[0], value[2]);
+        length = fn_82809558(value[2] * value[2] + value[0] * value[0]);
+    }
+    fn_82809D40(value[1], length);
 }
-

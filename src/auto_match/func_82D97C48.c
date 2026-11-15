@@ -1,38 +1,32 @@
-typedef unsigned char bool;
-extern unsigned int lbl_821AAD20;
-
-
-void fn_82D97C48(int param_1,int param_2,char param_3)
-
+void fn_82D97C48(char *self, char *owner, char enabled)
 {
-  unsigned int *puVar1;
-  unsigned int uVar2;
-  
-  *(char *)(param_1 + 0xa2) = param_3;
-  *(bool *)(param_1 + 0xf2) = param_3 == '\0';
-  uVar2 = lbl_821AAD20;
-  if (param_2 == 0) {
-    return;
-  }
-  if (*(int *)(param_2 + 0x30) == 0) {
-    return;
-  }
-  puVar1 = *(unsigned int **)(*(int *)(param_2 + 0x30) + 0x1c);
-  if (puVar1 == (unsigned int *)0x0) {
-    return;
-  }
-  puVar1[6] = lbl_821AAD20;
-  puVar1[7] = uVar2;
-  puVar1[8] = uVar2;
-  puVar1[9] = uVar2;
-  puVar1[10] = uVar2;
-  puVar1[0xb] = uVar2;
-  *puVar1 = uVar2;
-  puVar1[1] = uVar2;
-  puVar1[2] = uVar2;
-  puVar1[3] = uVar2;
-  puVar1[4] = uVar2;
-  puVar1[5] = uVar2;
-  return;
+    char *object;
+    int values;
+    float *out;
+    self[0xa2] = enabled;
+    self[0xf2] = enabled == 0;
+    if (owner == 0) {
+        return;
+    }
+    object = *(char **)(owner + 0x30);
+    if (object == 0) {
+        return;
+    }
+    values = *(int *)(object + 0x1c);
+    if (values == 0) {
+        return;
+    }
+    out = (float *)values;
+    out[6] = 0.0f;
+    out[7] = 0.0f;
+    out[8] = 0.0f;
+    out[9] = 0.0f;
+    out[10] = 0.0f;
+    out[11] = 0.0f;
+    out[0] = 0.0f;
+    out[1] = 0.0f;
+    out[2] = 0.0f;
+    out[3] = 0.0f;
+    out[4] = 0.0f;
+    out[5] = 0.0f;
 }
-

@@ -1,86 +1,67 @@
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_38;
-extern unsigned int fStack_28;
-extern unsigned int fStack_2c;
-extern unsigned int iStack_3c;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int uStack_40;
+extern const float lbl_821CA45C[2];
 
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float v[4];
+} __vector4;
 
-void fn_824A4B38(int param_1,int *param_2)
+__vector4 __VMXGetReg(int);
 
+typedef struct Body_824A4B38 {
+    __vector4 vectors[64];
+} Body_824A4B38;
+
+typedef struct Node_824A4B38 {
+    char pad[0x40];
+    Body_824A4B38 *body; /* 0x40 in Node */
+} Node_824A4B38;
+typedef struct Source_824A4B38 Source_824A4B38;
+
+typedef struct Vtable_824A4B38 {
+    void (*get)(Source_824A4B38 *, void *, int *);
+    void (*read)(Source_824A4B38 *, int, Node_824A4B38 **);
+} Vtable_824A4B38;
+
+struct Source_824A4B38 {
+    Vtable_824A4B38 *vt;
+};
+
+typedef struct State_824A4B38 {
+    char pad[0x30];
+    float result; /* 0x30 */
+    char pad34[4];
+    unsigned char side; /* 0x38 */
+    char gap[3];
+    float threshold; /* 0x3c */
+    float limit;     /* 0x40 */
+    int active;      /* 0x44 */
+    char gap2[8];
+    __vector4 value; /* 0x50 */
+} State_824A4B38;
+
+void fn_824A4B38(State_824A4B38 *self, Source_824A4B38 *src)
 {
-  float fVar1;
-  unsigned int *puVar2;
-  unsigned int *puVar3;
-  int iVar4;
-  int in_r0;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned int uVar8;
-  unsigned int uVar9;
-  unsigned int in_register_000104d0;
-  unsigned int in_register_000104d4;
-  unsigned int in_register_000104d8;
-  unsigned int in_vr77;
-  unsigned int uStack_40;
-  int iStack_3c;
-  unsigned char auStack_38 [8];
-  unsigned char auStack_30 [4];
-  float fStack_2c;
-  float fStack_28;
-  
-  (**(int (***)())*param_2)(param_2,auStack_38,&uStack_40);
-  (**(int (***)())(*param_2 + 4))(param_2,uStack_40,&iStack_3c);
-  fVar1 = *(float *)(param_1 + 0x3c);
-  puVar2 = (unsigned int *)(*(int *)(iStack_3c + 0x40) + 0xc0U & 0xfffffff0);
-  uVar6 = puVar2[1];
-  uVar7 = puVar2[2];
-  uVar8 = puVar2[3];
-  iVar4 = ((-(unsigned int)(*(char *)(param_1 + 0x38) != '\0') & 5) + 10) * 0x40 +
-          *(int *)(iStack_3c + 0x40);
-  puVar3 = (unsigned int *)((unsigned int)(auStack_30 + in_r0) & 0xfffffff0);
-  *puVar3 = *puVar2;
-  puVar3[1] = uVar6;
-  puVar3[2] = uVar7;
-  puVar3[3] = uVar8;
-  puVar2 = (unsigned int *)(in_r0 + iVar4 & 0xfffffff0);
-  uVar6 = puVar2[1];
-  uVar7 = puVar2[2];
-  uVar8 = puVar2[3];
-  puVar3 = (unsigned int *)((unsigned int)(auStack_30 + in_r0) & 0xfffffff0);
-  *puVar3 = *puVar2;
-  puVar3[1] = uVar6;
-  puVar3[2] = uVar7;
-  puVar3[3] = uVar8;
-  puVar2 = (unsigned int *)(iVar4 + 0x10U & 0xfffffff0);
-  uVar6 = *puVar2;
-  uVar7 = puVar2[1];
-  uVar8 = puVar2[2];
-  uVar9 = puVar2[3];
-  puVar2 = (unsigned int *)((unsigned int)(auStack_30 + in_r0) & 0xfffffff0);
-  *puVar2 = uVar6;
-  puVar2[1] = uVar7;
-  puVar2[2] = uVar8;
-  puVar2[3] = uVar9;
-  uVar5 = (unsigned int)(fVar1 < fStack_28 - fStack_28);
-  *(unsigned int *)(param_1 + 0x44) = uVar5;
-  *(unsigned int *)(param_1 + 0x30) = ltcg_pool_0_0f;
-  puVar2 = (unsigned int *)(in_r0 + param_1 + 0x50 & 0xfffffff0);
-  *puVar2 = in_register_000104d0;
-  puVar2[1] = in_register_000104d4;
-  puVar2[2] = in_register_000104d8;
-  puVar2[3] = in_vr77;
-  if ((uVar5 != 0) && (fStack_2c < -*(float *)(param_1 + 0x40))) {
-    puVar2 = (unsigned int *)(in_r0 + param_1 + 0x50 & 0xfffffff0);
-    *puVar2 = uVar6;
-    puVar2[1] = uVar7;
-    puVar2[2] = uVar8;
-    puVar2[3] = uVar9;
-    *(unsigned int *)(param_1 + 0x30) = lbl_821CA460;
-  }
-  return;
+    int index;
+    Node_824A4B38 *node;
+    char key[4];
+    __vector4 value;
+    float height;
+    float delta;
+    Body_824A4B38 *body;
+    int joint;
+    src->vt->get(src, key, &index);
+    src->vt->read(src, index, &node);
+    joint = self->side ? 15 : 10;
+    body = node->body;
+    value = body->vectors[12];
+    height = value.v[2];
+    value = body->vectors[joint * 4];
+    delta = value.v[2] - height;
+    value = body->vectors[joint * 4 + 1];
+    self->active = delta > self->threshold;
+    self->result = 0.0f;
+    self->value = __VMXGetReg(77);
+    if (self->active && value.v[1] < -self->limit) {
+        self->value = value;
+        self->result = lbl_821CA45C[1];
+    }
 }
-

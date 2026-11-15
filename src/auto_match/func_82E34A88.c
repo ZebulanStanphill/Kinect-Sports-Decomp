@@ -1,25 +1,15 @@
-extern int fn_82E38BE0();
+extern unsigned int fn_82E38BE0(void *, unsigned int, unsigned int);
 
-
-__int64 fn_82E34A88(int param_1)
-
+unsigned int fn_82E34A88(char *self)
 {
-  unsigned short uVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  
-  uVar4 = (unsigned __int64)*(unsigned int *)(param_1 + 0x20);
-  if (uVar4 == 0) {
-    uVar4 = 1;
-  }
-  uVar2 = *(unsigned int *)(param_1 + 0x28);
-  trapWord(6,uVar4,0);
-  uVar1 = *(unsigned short *)(param_1 + 0xc);
-  uVar3 = fn_82E38BE0(*(unsigned int *)(param_1 + 0x1c),*(unsigned int *)(param_1 + 4),
-                          *(int *)(param_1 + 8) << 3);
-  return (uVar3 & 0x7fffffff) * 2 +
-         ((__int64)(int)(((uVar2 + uVar4) - 1 & 0xffffffff) / uVar4) * (__int64)(int)(unsigned int)uVar1 &
-         0x1fffffffU) * 8;
+    unsigned int divisor = *(unsigned int *)(self + 0x20);
+    unsigned int bytes;
+    if (divisor == 0) {
+        divisor = 1;
+    }
+    bytes = ((*(unsigned int *)(self + 0x28) + divisor - 1) / divisor) * *(unsigned short *)(self + 0xc) * 8;
+    return fn_82E38BE0(*(void **)(self + 0x1c), *(unsigned int *)(self + 4),
+                       *(unsigned int *)(self + 8) * 8) *
+               2 +
+           bytes;
 }
-

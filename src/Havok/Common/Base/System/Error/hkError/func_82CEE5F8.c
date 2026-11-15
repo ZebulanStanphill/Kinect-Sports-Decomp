@@ -1,43 +1,66 @@
-extern unsigned int *auStack_220;
-extern unsigned int *auStack_230;
-extern int fn_82CED958();
-extern int fn_82CED9E8();
-extern int fn_82CEDB38();
-extern int fn_82CEDC88();
-extern int fn_82CEE578();
-extern unsigned int *lbl_8323B464;
+typedef struct Error_82CEE5F8 Error_82CEE5F8;
 
+typedef struct Vtable_82CEE5F8 {
+    void *slots[3];                                                                       /* 0x0 */
+    int (*message)(Error_82CEE5F8 *, int, unsigned int, const char *, const char *, int); /* 0xc */
+} Vtable_82CEE5F8;
 
-void fn_82CEE5F8(int param_1,unsigned __int64 param_2)
+struct Error_82CEE5F8 {
+    Vtable_82CEE5F8 *vtable; /* 0x0 */
+};
 
+typedef struct Object_82CEE5F8 {
+    void *vtable;                     /* 0x0 */
+    unsigned short m_memSizeAndFlags; /* 0x4 */
+    unsigned short m_referenceCount;  /* 0x6 */
+} Object_82CEE5F8;
+
+typedef struct Stream_82CEE5F8 {
+    char data[16]; /* 0x0 */
+} Stream_82CEE5F8;
+
+extern Error_82CEE5F8 *lbl_8323B464;
+extern void fn_82CEE578(Stream_82CEE5F8 *, char *, int);
+extern Stream_82CEE5F8 *fn_82CEDB38(Stream_82CEE5F8 *, const char *);
+extern Stream_82CEE5F8 *fn_82CED9E8(Stream_82CEE5F8 *, const void *);
+extern Stream_82CEE5F8 *fn_82CEDC88(Stream_82CEE5F8 *, int);
+extern void fn_82CED958(Stream_82CEE5F8 *);
+extern void __debugbreak(void);
+
+void fn_82CEE5F8(Object_82CEE5F8 *object, const char *context)
 {
-  unsigned short uVar1;
-  unsigned __int64 in_r0;
-  unsigned __int64 uVar2;
-  int iVar3;
-  unsigned char auStack_230 [16];
-  unsigned char auStack_220 [512];
-  
-  fn_82CEE578(auStack_230,auStack_220,0x200);
-  uVar1 = *(unsigned short *)(param_1 + 6);
-  uVar2 = fn_82CEDB38(auStack_230,0xffffffff82132f90);
-  uVar2 = fn_82CED9E8(uVar2,param_1);
-  uVar2 = fn_82CEDB38(uVar2,0xffffffff82132f7c);
-  uVar2 = fn_82CEDC88(uVar2,uVar1);
-  uVar2 = fn_82CEDB38(uVar2,0xffffffff82132f74);
-  uVar2 = fn_82CEDB38(uVar2,param_2);
-  uVar2 = fn_82CEDB38(uVar2,0xffffffff82132f70);
-  uVar2 = fn_82CEDB38(uVar2,0xffffffff82132f38);
-  uVar2 = fn_82CEDB38(uVar2,0xffffffff82132f04);
-  uVar2 = fn_82CEDB38(uVar2,0xffffffff82132e98);
-  uVar2 = fn_82CEDB38(uVar2,0xffffffff82132e7c);
-  fn_82CEDB38(uVar2,0xffffffff82132e44);
-  iVar3 = (**(int (***)())(*lbl_8323B464 + 0xc))
-                    (lbl_8323B464,3,0x2c66f2d8,auStack_220,0xffffffff82132e28,0x21);
-  if (iVar3 != 0) {
-    trapWord(0x1f,in_r0,0x16);
-  }
-  fn_82CED958(auStack_230);
-  return;
+    Stream_82CEE5F8 stream;
+    char buffer[512];
+    int count;
+    fn_82CEE578(&stream, buffer, 512);
+    count = (short)object->m_referenceCount;
+    fn_82CEDB38(
+        fn_82CEDB38(
+            fn_82CEDB38(
+                fn_82CEDB38(
+                    fn_82CEDB38(
+                        fn_82CEDB38(
+                            fn_82CEDB38(
+                                fn_82CEDB38(
+                                    fn_82CEDC88(
+                                        fn_82CEDB38(
+                                            fn_82CED9E8(
+                                                fn_82CEDB38(&stream, "Reference count error on object "),
+                                                object),
+                                            " with ref count of "),
+                                        count),
+                                    " in "),
+                                context),
+                            ".\n"),
+                        " * Are you calling delete instead of removeReference?\n"),
+                    " * Have you called removeReference too many times?\n"),
+                " * In a multithreaded environment, what is the hkReferencedObject lock mode you use "
+                "(see setLockMode())?\n"),
+            " * Is this a valid object?\n"),
+        " * Do you have more than 32768 references? (unlikely)\n");
+    if (lbl_8323B464->vtable->message(lbl_8323B464, 3, 0x2c66f2d8, buffer, ".\\System\\Error\\hkError.cpp",
+                                      0x21)) {
+        __debugbreak();
+    }
+    fn_82CED958(&stream);
 }
-

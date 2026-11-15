@@ -1,21 +1,18 @@
-typedef unsigned char bool;
-#define false 0
-extern unsigned int *auStack_20;
-extern int fn_82FA5288();
-extern unsigned int lbl_82002AE0;
+typedef struct Counts_82FF2778 {
+    unsigned int total;
+    unsigned int used;
+} Counts_82FF2778;
 
+extern void fn_82FA5288(void *, Counts_82FF2778 *);
 
-bool fn_82FF2778(double param_1,unsigned __int64 param_2)
-
+unsigned char fn_82FF2778(void *self, float threshold)
 {
-  unsigned __int64 auStack_20;
-  
-  if (param_1 < (double)lbl_82002AE0) {
-    fn_82FA5288(param_2,&auStack_20);
-    if (((unsigned int)((unsigned __int64)(auStack_20) >> 32)) != 0) {
-      return param_1 < (double)((float)(auStack_20 & 0xffffffff) / (float)((unsigned int)((unsigned __int64)(auStack_20) >> 32)));
+    Counts_82FF2778 counts;
+    if (threshold < 1.0f) {
+        fn_82FA5288(self, &counts);
+        if (counts.total != 0) {
+            return (float)counts.used / (float)counts.total > threshold;
+        }
     }
-  }
-  return false;
+    return 0;
 }
-

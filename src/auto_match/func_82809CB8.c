@@ -1,20 +1,13 @@
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_8201DF18;
-extern unsigned int lbl_821AAD20;
+#include <math.h>
+extern const float lbl_8201DF18;
 
-
-double fn_82809CB8(double param_1)
-
+float fn_82809CB8(float value)
 {
-  double dVar1;
-  
-  if ((double)lbl_8201DF18 <= ABS(param_1)) {
-    return param_1;
-  }
-  dVar1 = (double)(__int64)param_1;
-  if ((param_1 < (double)lbl_821AAD20) && (param_1 != dVar1)) {
-    dVar1 = (double)(float)(dVar1 - (double)lbl_82002AE0);
-  }
-  return dVar1;
+    float rounded;
+    if (fabsf(value) >= lbl_8201DF18)
+        return value;
+    rounded = (float)(__int64)value;
+    if (value < 0.0f && value != rounded)
+        rounded -= 1.0f;
+    return rounded;
 }
-

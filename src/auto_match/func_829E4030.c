@@ -1,35 +1,34 @@
-extern int fn_829E5870();
-extern int fn_829E59A8();
-extern unsigned int lbl_82015BD8;
-extern unsigned int lbl_82057B5C;
+typedef struct Self_829E4030 {
+    int unknown;
+    void *context;            /* 0x04 */
+    char first[0x1c];         /* 0x08 */
+    char second[0xac - 0x24]; /* 0x24 */
+    int initialized;          /* 0xac */
+    char pad[0xe0 - 0xb0];
+    float firstValue;
+    int unknownE4;
+    float secondValue;
+} Self_829E4030;
 
+extern int fn_829E5870(void *self);
+extern int fn_829E59A8(void *self, void *source);
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
-
-unsigned __int64 fn_829E4030(int param_1,int param_2)
-
+int fn_829E4030(Self_829E4030 *self, void *context)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  
-  if (param_2 == 0) {
-    uVar2 = 0xffffffff80070057;
-  }
-  else if (*(int *)(param_1 + 0xac) == 0) {
-    uVar2 = fn_829E5870(param_1 + 8);
-    if ((-1 < (int)uVar2) && (uVar2 = fn_829E59A8(param_1 + 0x24,param_1 + 8), -1 < (int)uVar2))
-    {
-      *(int *)(param_1 + 4) = param_2;
-      uVar2 = 0;
-      *(unsigned int *)(param_1 + 0xac) = 1;
-      uVar1 = lbl_82057B5C;
-      *(unsigned int *)(param_1 + 0xe0) = lbl_82015BD8;
-      *(unsigned int *)(param_1 + 0xe8) = uVar1;
-    }
-  }
-  else {
-    uVar2 = 0xffffffff8000ffff;
-  }
-  return uVar2;
+    int result;
+    if (context == 0)
+        return 0x80070057;
+    if (self->initialized != 0)
+        return 0x8000ffff;
+    result = fn_829E5870(self->first);
+    if (result < 0)
+        return result;
+    result = fn_829E59A8(self->second, self->first);
+    if (result < 0)
+        return result;
+    self->context = context;
+    self->initialized = 1;
+    self->firstValue = 120.0f;
+    self->secondValue = 148.0f;
+    return 0;
 }
-

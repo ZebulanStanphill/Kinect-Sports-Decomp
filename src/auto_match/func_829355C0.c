@@ -1,72 +1,35 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
+extern int strcmp(const char *first, const char *second);
+extern const char lbl_82031778[];
+extern const char lbl_82031774[];
 
-
-bool fn_829355C0(char *param_1)
-
+int fn_829355C0(const char *text)
 {
-  char cVar1;
-  char cVar2;
-  char *pcVar3;
-  char *pcVar4;
-  char *pcVar5;
-  
-  cVar1 = *param_1;
-  pcVar3 = param_1 + 1;
-  if (cVar1 != 'o') {
-    if ((cVar1 != 'r') && (cVar1 != 'e')) {
-      return false;
+    char prefix = *text++;
+    if (prefix != 'o' && prefix != 'r' && prefix != 'e')
+        goto invalid;
+    if (prefix == 'o') {
+        if (strcmp(text, lbl_82031778) == 0)
+            return 1;
+        if (strcmp(text, lbl_82031774) == 0)
+            return 1;
+        if (*text == 'C')
+            ++text;
+    } else if (prefix == 'e') {
+        prefix = *text++;
+        if (prefix == 'A')
+            return *text == 0;
+        if (prefix != 'M')
+            goto invalid;
     }
-    if (cVar1 != 'o') {
-      if (cVar1 == 'e') {
-        cVar1 = *pcVar3;
-        pcVar3 = param_1 + 2;
-        if (cVar1 == 'A') {
-          return *pcVar3 == '\0';
+    {
+        char digit;
+        while ((digit = *text) != 0) {
+            ++text;
+            if (digit < '0' || digit > '9')
+                goto invalid;
         }
-        if (cVar1 != 'M') {
-          return false;
-        }
-      }
-      goto LAB_829356c0;
     }
-  }
-  pcVar4 = "Pts";
-  pcVar5 = pcVar3;
-  do {
-    cVar1 = *pcVar5;
-    cVar2 = *pcVar4;
-    if (cVar1 == '\0') break;
-    pcVar5 = pcVar5 + 1;
-    pcVar4 = pcVar4 + 1;
-  } while (cVar1 == cVar2);
-  if (cVar1 == cVar2) {
-    return true;
-  }
-  pcVar4 = "Pos";
-  pcVar5 = pcVar3;
-  do {
-    cVar1 = *pcVar5;
-    cVar2 = *pcVar4;
-    if (cVar1 == '\0') break;
-    pcVar5 = pcVar5 + 1;
-    pcVar4 = pcVar4 + 1;
-  } while (cVar1 == cVar2);
-  if (cVar1 == cVar2) {
-    return true;
-  }
-  if (*pcVar3 == 'C') {
-    pcVar3 = param_1 + 2;
-  }
-LAB_829356c0:
-  do {
-    cVar1 = *pcVar3;
-    if (cVar1 == '\0') {
-      return true;
-    }
-    pcVar3 = pcVar3 + 1;
-  } while (('/' < cVar1) && (cVar1 < ':'));
-  return false;
+    return 1;
+invalid:
+    return 0;
 }
-

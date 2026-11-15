@@ -1,33 +1,35 @@
-typedef unsigned char bool;
-extern int fn_8269D9C0();
-extern unsigned int iStack_18;
-extern unsigned int iStack_1c;
-extern unsigned int iStack_20;
-extern unsigned int uStack_14;
+typedef struct Descriptor_8269EA50 {
+    unsigned int kind;       /* 0x0 */
+    unsigned int value;      /* 0x4 */
+    unsigned short flags;    /* 0x8 */
+    unsigned char mode;      /* 0xa */
+    signed char alpha;       /* 0xb */
+    unsigned char x;         /* 0xc */
+    unsigned char y;         /* 0xd */
+    unsigned short reserved; /* 0xe */
+} Descriptor_8269EA50;
 
+extern unsigned int fn_8269D9C0(void *self, Descriptor_8269EA50 *descriptor);
 
-bool fn_8269EA50(__int64 param_1,int *param_2)
-
+static __forceinline void *Lookup_8269EA50(char *self, Descriptor_8269EA50 *descriptor)
 {
-  __int64 lVar1;
-  int iStack_20;
-  int iStack_1c;
-  int iStack_18;
-  unsigned int uStack_14;
-  
-  iStack_20 = *param_2;
-  if ((iStack_20 == 0x40) || (iStack_20 == 0x80)) {
-    iStack_1c = 0;
-    iStack_18 = 0xff;
-    uStack_14 = ((((unsigned __int64)(uStack_14)) & (~(((unsigned __int64)0xFFFFFF) << 8))) | ((((unsigned __int64)((((unsigned __int64)(uStack_14) >> 8) & 0xFFFFFF) & 0xffff)) & ((unsigned __int64)0xFFFFFF)) << 8));
-    uStack_14 = (unsigned int)(((unsigned __int64)(uStack_14) >> 8) & 0xFFFFFF);
-  }
-  else {
-    iStack_1c = param_2[1];
-    iStack_18 = param_2[2];
-    uStack_14 = param_2[3];
-  }
-  lVar1 = fn_8269D9C0(param_1 + 0x88,&iStack_20);
-  return (-(unsigned __int64)(lVar1 != 0) & lVar1 + 0x10U) != 0;
+    unsigned int result = fn_8269D9C0(self + 0x88, descriptor);
+    return result ? (void *)(result + 0x10) : 0;
 }
 
+unsigned char fn_8269EA50(char *self, const Descriptor_8269EA50 *source)
+{
+    Descriptor_8269EA50 descriptor;
+    if (source->kind != 0x40 && source->kind != 0x80) {
+        descriptor = *source;
+    } else {
+        descriptor.kind = source->kind;
+        descriptor.value = 0;
+        descriptor.flags = 0;
+        descriptor.mode = 0;
+        descriptor.alpha = -1;
+        descriptor.x = 0;
+        descriptor.y = 0;
+    }
+    return Lookup_8269EA50(self, &descriptor) != 0;
+}

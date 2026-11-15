@@ -1,38 +1,33 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern unsigned int lbl_82142CD0;
-extern unsigned int stack0x00000000;
-extern unsigned int uStack_10;
-extern unsigned __int64 storeVectorElementWordIndexed();
-extern V16 vectorSubtractFloatingPoint();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vsubfp(__vector4, __vector4);
+__vector4 __vmsum3fp(__vector4, __vector4);
+void __stvewx(__vector4, void *, unsigned int);
 
-unsigned __int64 fn_82DDDED0(unsigned __int64 param_1,unsigned __int64 param_2,float *param_3,float *param_4)
+typedef struct Plane_82DDDED0 {
+    __vector4 normal;  /* 0x0 */
+    __vector4 *origin; /* 0x10 */
+} Plane_82DDDED0;
 
+int fn_82DDDED0(Plane_82DDDED0 *plane, const __vector4 *point, float *minimum, float *maximum)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs42 [16];
-  unsigned char in_vs44 [16];
-  unsigned int uStack_10;
-  
-  uVar2 = 1;
-  vectorSubtractFloatingPoint(in_vs32,in_vs44);
-  uVar1 = storeVectorElementWordIndexed(in_vs42,0,ZEXT48(&stack0x00000000) - 0x10);
-  *(unsigned int *)(ZEXT48(&stack0x00000000) - 0x10) = uVar1;
-  if (uStack_10 <= *param_3) {
-    if (*param_3 < uStack_10 + lbl_82142CD0) {
-      *param_3 = uStack_10 + lbl_82142CD0;
+    float distance;
+    int result = 1;
+    __stvewx(__vmsum3fp(plane->normal, __vsubfp(*point, *plane->origin)), &distance, 0);
+    if (distance > *minimum) {
+        if (distance < *maximum) {
+            *maximum = distance;
+        }
+    } else {
+        if (distance + 1.0000000116860974e-07f > *minimum) {
+            *minimum = distance + 1.0000000116860974e-07f;
+        }
+        result = 2;
     }
-    uVar2 = 2;
-  }
-  else if (uStack_10 < *param_4) {
-    *param_4 = uStack_10;
-  }
-  if (*param_3 < *param_4) {
-    return uVar2;
-  }
-  return 4;
+    if (*minimum < *maximum) {
+        return result;
+    }
+    return 4;
 }
-

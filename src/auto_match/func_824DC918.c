@@ -1,22 +1,26 @@
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-#define _iStack_20 ((*(unsigned __int64*)&iStack_20))
-extern unsigned int fStack_1c;
-extern int fn_824BF8A8();
-extern unsigned int iStack_20;
+typedef struct Pair_824DC918 {
+    float time;
+    float delta;
+} Pair_824DC918;
 
+typedef struct Timer_824DC918 {
+    Pair_824DC918 *begin; /* 0x00 */
+    Pair_824DC918 *end;   /* 0x04 */
+    char pad08[8];
+    float total;   /* 0x10 */
+    float average; /* 0x14 */
+    char pad18[4];
+    float time; /* 0x1c */
+} Timer_824DC918;
 
-void fn_824DC918(double param_1,int *param_2)
+extern void fn_824BF8A8(Timer_824DC918 *self, const Pair_824DC918 *sample);
 
+void fn_824DC918(Timer_824DC918 *self, float delta)
 {
-  float fVar1;
-  struct { int first; float second; } stack_pair_20;
-
-  
-  _iStack_20 = CONCAT44(param_2[7],(float)param_1);
-  fn_824BF8A8(param_2,&stack_pair_20.first);
-  fVar1 = (float)param_2[4];
-  param_2[4] = (int)(float)((double)fVar1 + param_1);
-  param_2[5] = (int)((float)((double)fVar1 + param_1) / (float)(unsigned int)(param_2[1] - *param_2 >> 3));
-  return;
+    Pair_824DC918 sample;
+    sample.time = self->time;
+    sample.delta = delta;
+    fn_824BF8A8(self, &sample);
+    self->total += delta;
+    self->average = self->total / (float)(unsigned int)(self->end - self->begin);
 }
-

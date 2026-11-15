@@ -1,51 +1,64 @@
-extern unsigned int lbl_8200D8A8;
-extern unsigned int lbl_8200D8C4;
-extern unsigned int lbl_82015BD8;
-extern unsigned int lbl_82089FC0;
-extern unsigned int lbl_821AAD20;
+typedef struct Obj_82FBA370 Obj_82FBA370;
 
+typedef struct Vtbl_82FBA370 {
+    void *pad[5];
+    int (*get)(Obj_82FBA370 *, void *, unsigned int);
+} Vtbl_82FBA370;
 
-unsigned __int64 fn_82FBA370(int *param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4)
+struct Obj_82FBA370 {
+    Vtbl_82FBA370 *vt;      /* 0x0 */
+    int mode1;              /* 0x4 */
+    float a;                /* 0x8 */
+    float b;                /* 0xc */
+    float c;                /* 0x10 */
+    unsigned char enabled1; /* 0x14 */
+    int mode2;              /* 0x18 */
+    float d;                /* 0x1c */
+    float e;                /* 0x20 */
+    float f;                /* 0x24 */
+    unsigned char enabled2; /* 0x28 */
+    int mode3;              /* 0x2c */
+    float g;                /* 0x30 */
+    float h;                /* 0x34 */
+    float i;                /* 0x38 */
+    unsigned char enabled3; /* 0x3c */
+    float j;                /* 0x40 */
+    unsigned char enabled4; /* 0x44 */
+    char pad45[3];
+    unsigned char enabled5; /* 0x48 */
+    unsigned char enabled6; /* 0x49 */
+    unsigned char enabled7; /* 0x4a */
+};
 
+extern float lbl_82015BD8;
+extern float lbl_8200D8C4;
+extern float lbl_8200D8A8;
+extern float lbl_82089FC0;
+
+int fn_82FBA370(Obj_82FBA370 *self, unsigned int unused, void *data, unsigned int size)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  int iVar5;
-  unsigned __int64 uVar6;
-  
-  iVar5 = lbl_821AAD20;
-  iVar4 = lbl_82089FC0;
-  iVar3 = lbl_82015BD8;
-  iVar2 = lbl_8200D8C4;
-  iVar1 = lbl_8200D8A8;
-  if ((param_4 & 0xffffffff) == 0) {
-    param_1[1] = 4;
-    param_1[2] = iVar5;
-    *(unsigned char *)(param_1 + 5) = 1;
-    param_1[3] = iVar3;
-    param_1[4] = iVar2;
-    param_1[6] = 6;
-    param_1[7] = iVar5;
-    *(unsigned char *)(param_1 + 10) = 1;
-    param_1[8] = iVar1;
-    param_1[0xb] = 5;
-    param_1[9] = iVar2;
-    *(unsigned char *)(param_1 + 0xf) = 1;
-    param_1[0xc] = iVar5;
-    *(unsigned char *)(param_1 + 0x11) = 1;
-    param_1[0xd] = iVar4;
-    *(unsigned char *)(param_1 + 0x12) = 1;
-    param_1[0xe] = iVar2;
-    *(unsigned char *)((int)param_1 + 0x49) = 1;
-    param_1[0x10] = iVar5;
-    *(unsigned char *)((int)param_1 + 0x4a) = 1;
-    return 1;
-  }
-                    /* WARNING: Could not recover jumptable at 0x82fba424. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  uVar6 = (**(int (***)())(*param_1 + 0x14))(param_1,param_3,param_4);
-  return uVar6;
+    if (size == 0) {
+        self->mode1 = 4;
+        self->a = 0.0f;
+        self->enabled1 = 1;
+        self->b = 120.0f;
+        self->c = 5.0f;
+        self->mode2 = 6;
+        self->d = 0.0f;
+        self->enabled2 = 1;
+        self->e = 2000.0f;
+        self->mode3 = 5;
+        self->f = 5.0f;
+        self->enabled3 = 1;
+        self->g = 0.0f;
+        self->enabled4 = 1;
+        self->h = 5000.0f;
+        self->enabled5 = 1;
+        self->i = 5.0f;
+        self->enabled6 = 1;
+        self->j = 0.0f;
+        self->enabled7 = 1;
+        return 1;
+    }
+    return self->vt->get(self, data, size);
 }
-

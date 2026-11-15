@@ -1,54 +1,46 @@
-extern int fn_82514888();
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int lbl_831D1318;
-extern unsigned int uStack_18;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Target_8245FE80 {
+    char pad0[0x10];    /* 0x0 */
+    __vector4 position; /* 0x10 */
+    float value;        /* 0x20 */
+    char pad24[0xc];    /* 0x24 */
+    int state;          /* 0x30 */
+} Target_8245FE80;
 
-void fn_8245FE80(int param_1)
+typedef struct Entry_8245FE80 {
+    char pad0[0x10];         /* 0x0 */
+    __vector4 position;      /* 0x10 */
+    char pad20[0x14];        /* 0x20 */
+    Target_8245FE80 *target; /* 0x34 */
+    char pad38[8];           /* 0x38 */
+} Entry_8245FE80;
 
+extern int lbl_831D1298[];
+extern void fn_82514888(void *values);
+
+void fn_8245FE80(char *self)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  unsigned int uVar3;
-  int *piVar4;
-  __int64 lVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned int uVar8;
-  unsigned int uVar9;
-  struct { unsigned int first; unsigned int second; } stack_pair_20;
-
-  unsigned int uStack_18;
-  
-  uVar3 = ltcg_pool_0_0f;
-  lVar5 = 2;
-  lbl_831D1318 = ((((unsigned __int64)(lbl_831D1318)) & (~(((unsigned __int64)0xFFFFFFFF) << 0))) | ((((unsigned __int64)(3)) & ((unsigned __int64)0xFFFFFFFF)) << 0));
-  piVar4 = (int *)(*(int *)(param_1 + 0x50) + 0x34);
-  do {
-    iVar1 = *piVar4;
-    if (iVar1 != 0) {
-      puVar2 = (unsigned int *)((unsigned int)(piVar4 + -9) & 0xfffffff0);
-      uVar6 = *puVar2;
-      uVar7 = puVar2[1];
-      uVar8 = puVar2[2];
-      uVar9 = puVar2[3];
-      *(unsigned int *)(iVar1 + 0x30) = 0;
-      *(unsigned int *)(iVar1 + 0x20) = uVar3;
-      puVar2 = (unsigned int *)(iVar1 + 0x10U & 0xfffffff0);
-      *puVar2 = uVar6;
-      puVar2[1] = uVar7;
-      puVar2[2] = uVar8;
-      puVar2[3] = uVar9;
-    }
-    piVar4 = piVar4 + 0x10;
-    lVar5 = lVar5 + -1;
-  } while (lVar5 != 0);
-  stack_pair_20.first = 0;
-  stack_pair_20.second = 0;
-  uStack_18 = 0;
-  fn_82514888(&stack_pair_20.first);
-  return;
+    Target_8245FE80 **slot;
+    int count;
+    int values[3];
+    lbl_831D1298[32] = 3;
+    slot = (Target_8245FE80 **)(*(char **)(self + 0x50) + 0x34);
+    count = 2;
+    do {
+        Target_8245FE80 *target = *slot;
+        if (target != 0) {
+            __vector4 position = *(__vector4 *)((char *)slot - 0x24);
+            target->state = 0;
+            target->value = 0.0f;
+            target->position = position;
+        }
+        slot = (Target_8245FE80 **)((char *)slot + 0x40);
+    } while (--count != 0);
+    values[0] = 0;
+    values[1] = 0;
+    values[2] = 0;
+    fn_82514888(values);
 }
-

@@ -1,33 +1,23 @@
-typedef unsigned char bool;
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_82186E18;
-extern unsigned int lbl_821AAD20;
-extern unsigned int uRam83218b98;
+typedef struct Sample_829EE690 {
+    float first;
+    float second;
+    float value;
+    float last;
+} Sample_829EE690;
 
+extern int lbl_83218B98;
+extern const float lbl_82186E18;
 
-bool fn_829EE690(int param_1)
-
+unsigned char fn_829EE690(const Sample_829EE690 *samples)
 {
-  float fVar1;
-  float fVar2;
-  float *pfVar3;
-  __int64 lVar4;
-  
-  fVar1 = lbl_82002AE0;
-  if (uRam83218b98 != 0) {
-    fVar1 = lbl_82186E18;
-  }
-  pfVar3 = (float *)(param_1 + 8);
-  lVar4 = 0x14;
-  fVar2 = lbl_821AAD20;
-  do {
-    if (fVar2 < *pfVar3) {
-      fVar2 = *pfVar3;
+    float limit = lbl_83218B98 != 0 ? lbl_82186E18 : 1.0f;
+    float maximum = 0.0f;
+    int i;
+    for (i = 0; i < 20; i++) {
+        if (samples[i].value > maximum) {
+            maximum = samples[i].value;
+        }
     }
-    pfVar3 = pfVar3 + 4;
-    lVar4 = lVar4 + -1;
-  } while (lVar4 != 0);
-  uRam83218b98 = (unsigned int)(fVar2 < fVar1);
-  return fVar2 < fVar1 == 0;
+    lbl_83218B98 = maximum < limit;
+    return lbl_83218B98 == 0;
 }
-

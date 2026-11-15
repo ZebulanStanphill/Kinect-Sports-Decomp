@@ -1,37 +1,26 @@
-extern unsigned int lbl_8201543C;
-extern unsigned int lbl_8201DDF4;
-extern unsigned int lbl_82022E58;
-extern unsigned int lbl_82022E5C;
-extern unsigned int lbl_82022E64;
-extern unsigned int lbl_821AAD20;
+extern const float lbl_8201DDF4;
+extern const float lbl_82022E64;
+extern const float lbl_82022E58;
+extern const float lbl_8201543C;
+extern const float lbl_82022E5C;
 
-
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
-
-double fn_8287C238(float *param_1)
-
+float fn_8287C238(float *value)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  double dVar4;
-  
-  fVar3 = lbl_82022E58;
-  fVar2 = lbl_8201543C;
-  fVar1 = *param_1;
-  if ((lbl_8201DDF4 <= fVar1) && (fVar1 <= lbl_82022E64)) {
-    while (fVar1 < fVar3) {
-      fVar1 = *param_1 + fVar2;
-      *param_1 = fVar1;
+    float current = *value;
+    if (current >= lbl_8201DDF4 && current <= lbl_82022E64) {
+        float lower = lbl_82022E58;
+        float step = lbl_8201543C;
+        float upper;
+        while (current < lower) {
+            current = *value + step;
+            *value = current;
+        }
+        upper = lbl_82022E5C;
+        while (*value >= upper) {
+            *value -= step;
+        }
+        return *value;
     }
-    dVar4 = (double)lbl_82022E5C;
-    while (dVar4 <= (double)*param_1) {
-      *param_1 = *param_1 - fVar2;
-    }
-    return (double)*param_1;
-  }
-  dVar4 = (double)lbl_821AAD20;
-  *param_1 = lbl_821AAD20;
-  return dVar4;
+    *value = 0.0f;
+    return 0.0f;
 }
-

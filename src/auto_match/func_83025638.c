@@ -1,36 +1,18 @@
-extern int fn_82F65018();
-extern unsigned int lbl_82015468;
-extern unsigned int lbl_8201DD70;
-extern unsigned int lbl_821660D0;
-extern unsigned int lbl_821AAD20;
+extern const float lbl_8201DD70;
+extern const float lbl_821660D0;
+extern const float lbl_82015468;
+extern double fn_82F65018(double y, double x);
+extern double __fsel(double test, double positive, double negative);
 
-
-void fn_83025638(double param_1,double param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  float *param_5)
-
+void fn_83025638(float x, float y, float *out)
 {
-  float fVar1;
-  double dVar2;
-  double dVar3;
-  double dVar4;
-  
-  dVar4 = (double)lbl_821AAD20;
-  if (param_1 == dVar4) {
-    fVar1 = lbl_8201DD70;
-    if (param_2 < 0.0) {
-      fVar1 = lbl_821660D0;
+    float zero = 0.0f;
+    if (x == zero) {
+        *out = (float)__fsel(y, lbl_8201DD70, lbl_821660D0);
+    } else {
+        *out = (float)fn_82F65018(y, x);
+        if (*out < zero) {
+            *out += lbl_82015468;
+        }
     }
-  }
-  else {
-    dVar3 = (double)fn_82F65018(param_2,param_1);
-    dVar2 = (double)(float)dVar3;
-    *param_5 = (float)dVar3;
-    if (dVar4 <= dVar2) {
-      return;
-    }
-    fVar1 = (float)(dVar2 + (double)lbl_82015468);
-  }
-  *param_5 = fVar1;
-  return;
 }
-

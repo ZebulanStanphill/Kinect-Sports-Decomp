@@ -1,41 +1,33 @@
-typedef unsigned char bool;
-extern unsigned int *auStack_c0;
-extern unsigned int *auStack_d0;
-extern unsigned int *auStack_d8;
-extern unsigned int *auStack_e0;
-extern unsigned int fStack_dc;
-extern int fn_827EAAF0();
-extern int fn_827EB678();
-extern int fn_8285A808();
-extern int fn_82861F50();
-extern int fn_82863400();
-extern int fn_82863790();
+typedef struct State_82863528 {
+    char pad[0x90];
+    char *data;
+    unsigned int count;
+} State_82863528;
 
+extern State_82863528 *fn_8285A808(void);
+extern void fn_82863790(unsigned int *);
+extern void fn_82861F50(unsigned int, void *);
+extern void fn_82863400(void *, void *, unsigned int, void *, float *);
+extern int fn_827EAAF0(void *, void *, float, unsigned char *);
+extern int fn_827EB678(void *, void *, void *, unsigned char *);
 
-bool fn_82863528(void)
-
+unsigned char fn_82863528(void)
 {
-  int iVar2;
-  __int64 lVar1;
-  unsigned __int64 uVar3;
-  unsigned char auStack_e0 [4];
-  float fStack_dc;
-  unsigned int auStack_d8 [2];
-  unsigned char auStack_d0 [16];
-  unsigned char auStack_c0 [176];
-  
-  iVar2 = fn_8285A808();
-  fn_82863790(auStack_d8);
-  fn_82861F50(auStack_d8[0],auStack_c0);
-  auStack_e0[0] = 0;
-  uVar3 = (unsigned __int64)*(unsigned int *)(iVar2 + 0x90);
-  if (*(int *)(iVar2 + 0x94) == 0) {
-    lVar1 = fn_827EB678(auStack_c0,uVar3 + 4,uVar3 + 0x10,auStack_e0);
-  }
-  else {
-    fn_82863400(uVar3 + 4,uVar3 + 0x10,*(int *)(iVar2 + 0x94),auStack_d0,&fStack_dc);
-    lVar1 = fn_827EAAF0((double)fStack_dc,auStack_c0,auStack_d0);
-  }
-  return lVar1 != 0;
+    unsigned char flag;
+    float amount;
+    unsigned int handle[2];
+    char temp[16];
+    char buffer[176];
+    int result;
+    State_82863528 *self = fn_8285A808();
+    fn_82863790(handle);
+    fn_82861F50(handle[0], buffer);
+    flag = 0;
+    if (self->count != 0) {
+        fn_82863400(self->data + 4, self->data + 16, self->count, temp, &amount);
+        result = fn_827EAAF0(buffer, temp, amount, &flag);
+    } else {
+        result = fn_827EB678(buffer, self->data + 4, self->data + 16, &flag);
+    }
+    return result != 0;
 }
-

@@ -1,45 +1,36 @@
-void fn_8249F160(float *param_1,float *param_2)
+/* Insertion sort over 12-byte elements ordered by their leading float. */
+typedef struct Elem_8249F160 {
+    float key;
+    int a;
+    int extra;
+} Elem_8249F160;
 
+static __forceinline unsigned char Less(const Elem_8249F160 *a, const Elem_8249F160 *b)
 {
-  float *pfVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  float *pfVar5;
-  float *pfVar6;
-  
-  pfVar5 = param_1;
-  if (param_1 == param_2) {
-    return;
-  }
-  while (pfVar6 = pfVar5 + 3, pfVar6 != param_2) {
-    fVar2 = *pfVar6;
-    fVar3 = pfVar5[4];
-    fVar4 = pfVar5[5];
-    pfVar5 = pfVar6;
-    if (*param_1 <= fVar2) {
-      while (pfVar1 = pfVar6 + -3, fVar2 < *pfVar1) {
-        *pfVar6 = *pfVar1;
-        pfVar6[1] = pfVar6[-2];
-        pfVar6[2] = pfVar6[-1];
-        pfVar6 = pfVar1;
-      }
-      *pfVar6 = fVar2;
-      pfVar6[1] = fVar3;
-      pfVar6[2] = fVar4;
-    }
-    else {
-      while (param_1 != pfVar6) {
-        *pfVar6 = pfVar6[-3];
-        pfVar6[1] = pfVar6[-2];
-        pfVar6[2] = pfVar6[-1];
-        pfVar6 = pfVar6 + -3;
-      }
-      *param_1 = fVar2;
-      param_1[1] = fVar3;
-      param_1[2] = fVar4;
-    }
-  }
-  return;
+    return a->key < b->key;
 }
 
+void fn_8249F160(Elem_8249F160 *first, Elem_8249F160 *last)
+{
+    Elem_8249F160 *next;
+    if (first != last) {
+        for (next = first; ++next != last;) {
+            Elem_8249F160 *next1 = next;
+            Elem_8249F160 val = *next;
+            if (Less(&val, first)) {
+                Elem_8249F160 *dest = ++next1;
+                Elem_8249F160 *src = next;
+                while (first != src) {
+                    *--dest = *--src;
+                }
+                *first = val;
+            } else {
+                Elem_8249F160 *first1;
+                for (first1 = next1; Less(&val, --first1); next1 = first1) {
+                    *next1 = *first1;
+                }
+                *next1 = val;
+            }
+        }
+    }
+}

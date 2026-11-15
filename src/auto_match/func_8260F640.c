@@ -1,28 +1,24 @@
-extern int fn_82F68B7C();
-extern unsigned int lbl_82192734;
+extern const float lbl_82192730[7];
+extern void fn_82569898(void *, float);
 
-
-void fn_8260F640(int param_1,unsigned __int64 param_2,int param_3,unsigned __int64 param_4,int param_5)
-
+void fn_8260F640(void *self, unsigned int a, const float *values, unsigned int b, unsigned int mode)
 {
-  unsigned int uVar1;
-  
-  if (param_5 == 0) {
-    *(unsigned int *)(param_1 + 0x11c) = 1;
-    *(unsigned int *)(param_1 + 0x120) = 0;
-    uVar1 = *(unsigned int *)(param_3 + 8);
-  }
-  else {
-    if (param_5 != 1) {
-      return;
+    float result;
+    switch (mode) {
+    case 0:
+        *(int *)((char *)self + 0x11c) = 1;
+        *(int *)((char *)self + 0x120) = 0;
+        result = values[2];
+        break;
+    case 1:
+        if (*(int *)((char *)self + 0x11c)) {
+            fn_82569898(self, values[1] / *(float *)((char *)self + 0x94));
+            return;
+        }
+        result = lbl_82192730[1];
+        break;
+    default:
+        return;
     }
-    uVar1 = lbl_82192734;
-    if (*(int *)(param_1 + 0x11c) != 0) {
-      fn_82F68B7C((double)(*(float *)(param_3 + 4) / *(float *)(param_1 + 0x94)));
-      return;
-    }
-  }
-  *(unsigned int *)(param_1 + 0x124) = uVar1;
-  return;
+    *(float *)((char *)self + 0x124) = result;
 }
-

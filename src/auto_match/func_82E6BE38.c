@@ -1,27 +1,22 @@
-extern int fn_82F655D8();
-extern unsigned int lbl_82005718;
-extern unsigned int lbl_82015618;
+extern float lbl_83248A10[258];
+extern double fn_82F655D8(double, double);
 
-
-void fn_82E6BE38(void)
-
+static __forceinline void Set_82E6BE38(float *p, float v)
 {
-  float *pfVar1;
-  unsigned int uVar2;
-  double dVar3;
-  unsigned __int64 uVar4;
-  double dVar5;
-  
-  uVar2 = 0;
-  pfVar1 = (float *)0x83248a0c;
-  dVar5 = (double)lbl_82005718;
-  uVar4 = lbl_82015618;
-  do {
-    dVar3 = (double)fn_82F655D8(uVar4,(double)(float)((double)uVar2 * dVar5));
-    uVar2 = uVar2 + 1;
-    pfVar1 = pfVar1 + 1;
-    *pfVar1 = (float)dVar3;
-  } while (uVar2 < 0x102);
-  return;
+    *p = v;
 }
 
+void fn_82E6BE38(void)
+{
+    unsigned int index;
+    index = 0;
+    if (index < 258) {
+        do {
+            {
+                float *pLbl_83248A10Elem = &lbl_83248A10[index];
+                Set_82E6BE38(&*pLbl_83248A10Elem, (float)fn_82F655D8(10.0, (float)index * 0.05f));
+            }
+            index++;
+        } while (index < 258);
+    }
+}

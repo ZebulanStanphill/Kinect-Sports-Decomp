@@ -1,36 +1,49 @@
-extern int fn_822ABA88();
-extern int fn_82528EE0();
+typedef unsigned short wchar_t;
 
+typedef struct Entry_8236B6E8 {
+    void **begin; /* 0x0 */
+    int pad4[3];  /* 0x4 */
+    int index;    /* 0x10 */
+} Entry_8236B6E8;
 
-unsigned __int64 fn_8236B6E8(int param_1,int param_2,unsigned __int64 param_3)
+typedef struct Owner_8236B6E8 {
+    char pad0[8];                   /* 0x0 */
+    Entry_8236B6E8 ***entries;      /* 0x8 */
+    char padC[0x14];                /* 0xc */
+    struct Range_8236B6E8 **ranges; /* 0x20 */
+} Owner_8236B6E8;
 
+typedef struct Range_8236B6E8 {
+    int *begin; /* 0x0 */
+    int *end;   /* 0x4 */
+} Range_8236B6E8;
+
+extern unsigned int fn_822ABA88(void *map, unsigned int key);
+extern int fn_82528EE0(wchar_t *out, unsigned int size, const wchar_t *format, ...);
+
+int fn_8236B6E8(Owner_8236B6E8 *self, unsigned int index, wchar_t *out)
 {
-  int *piVar1;
-  unsigned int uVar2;
-  __int64 lVar3;
-  unsigned __int64 uVar4;
-  __int64 lVar5;
-  
-  param_2 = param_2 * 4;
-  piVar1 = *(int **)(*(int *)(param_1 + 0x20) + param_2);
-  uVar2 = piVar1[1] - *piVar1 >> 2;
-  uVar4 = (unsigned __int64)(int)uVar2;
-  if (1 < uVar2) {
-    piVar1 = *(int **)(**(int **)(param_1 + 8) + param_2);
-    fn_822ABA88(*(unsigned int *)(piVar1[4] * 4 + *piVar1),1,uVar4,param_2,0);
-  }
-  piVar1 = *(int **)(**(int **)(param_1 + 8) + param_2);
-  lVar3 = fn_822ABA88(*(unsigned int *)(piVar1[4] * 4 + *piVar1),0);
-  lVar5 = lVar3 + 0x30;
-  if (lVar3 + 0x30 == 0) {
-    lVar5 = -0x7de4d1ac;
-  }
-  if ((uVar4 & 0xffffffff) == 2) {
-    fn_82528EE0(param_3,0x60,0xffffffff821b2e60,lVar5);
-  }
-  else {
-    fn_82528EE0(param_3,0x60,0xffffffff821a9944,lVar5);
-  }
-  return 1;
+    unsigned int count = self->ranges[index]->end - self->ranges[index]->begin;
+    const wchar_t *guest = L"Guest";
+    const wchar_t *second = 0;
+    const wchar_t *first;
+    Entry_8236B6E8 *entry;
+    if (count > 1) {
+        entry = (*self->entries)[index];
+        second = (const wchar_t *)(fn_822ABA88(entry->begin[entry->index], 1) + 0x30);
+        if (second == 0) {
+            second = guest;
+        }
+    }
+    entry = (*self->entries)[index];
+    first = (const wchar_t *)(fn_822ABA88(entry->begin[entry->index], 0) + 0x30);
+    if (first == 0) {
+        first = guest;
+    }
+    if (count == 2) {
+        fn_82528EE0(out, 0x60, L"%s, %s", first, second);
+    } else {
+        fn_82528EE0(out, 0x60, L"%s", first);
+    }
+    return 1;
 }
-

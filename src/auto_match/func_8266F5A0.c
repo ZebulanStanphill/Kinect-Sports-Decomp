@@ -1,32 +1,28 @@
-extern int fn_82522D98();
-extern unsigned int lbl_82002C2C;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Node_8266F5A0 {
+    unsigned int value;
+    char pad[12];
+    __vector4 position;
+    float expiry;
+    struct Node_8266F5A0 *next;
+} Node_8266F5A0;
 
-void fn_8266F5A0(double param_1,int param_2,unsigned int param_3,int param_4)
+typedef struct Owner_8266F5A0 {
+    char pad[0xec];
+    Node_8266F5A0 *head;
+} Owner_8266F5A0;
 
+extern void *fn_82522D98(unsigned int);
+
+void fn_8266F5A0(Owner_8266F5A0 *self, unsigned int value, const __vector4 *position, float time)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int in_r0;
-  unsigned int *puVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  
-  puVar3 = (unsigned int *)fn_82522D98(0x30);
-  *puVar3 = param_3;
-  puVar1 = (unsigned int *)(in_r0 + param_4 & 0xfffffff0);
-  uVar4 = puVar1[1];
-  uVar5 = puVar1[2];
-  uVar6 = puVar1[3];
-  puVar2 = (unsigned int *)((unsigned int)(puVar3 + 4) & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar4;
-  puVar2[2] = uVar5;
-  puVar2[3] = uVar6;
-  puVar3[8] = (float)(param_1 + (double)lbl_82002C2C);
-  puVar3[9] = *(unsigned int *)(param_2 + 0xec);
-  *(unsigned int **)(param_2 + 0xec) = puVar3;
-  return;
+    Node_8266F5A0 *node = (Node_8266F5A0 *)fn_82522D98(0x30);
+    node->value = value;
+    node->position = *position;
+    node->expiry = time + 0.2f;
+    node->next = self->head;
+    self->head = node;
 }
-

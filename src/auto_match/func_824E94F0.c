@@ -1,21 +1,15 @@
-extern unsigned int *auStack_50;
-extern int fn_824E9078();
-extern int fn_82837D98();
-extern int fn_82F6A548();
-extern int fn_82F6A594();
+typedef struct Owner_824E94F0 {
+    char pad00[0x14];
+    void *values; /* 0x14 */
+} Owner_824E94F0;
 
+extern void fn_82837D98(void *, unsigned int, void **);
+extern void fn_824E9078(float, float, float, float, void *, void *, void *, void *);
 
-void fn_824E94F0(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4)
-
+void fn_824E94F0(float left, float top, float right, float bottom, Owner_824E94F0 *owner, void *first,
+                 void *second, void *third)
 {
-  int in_r7;
-  unsigned __int64 uVar1;
-  unsigned char auStack_50 [80];
-  
-  uVar1 = fn_82F6A548();
-  fn_82837D98(*(unsigned int *)(in_r7 + 0x14),0,auStack_50);
-  fn_824E9078(uVar1,param_2,param_3,param_4);
-  fn_82F6A594();
-  return;
+    void *value;
+    fn_82837D98(owner->values, 0, &value);
+    fn_824E9078(left, top, right, bottom, value, first, second, third);
 }
-
