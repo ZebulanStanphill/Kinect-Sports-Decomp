@@ -1,82 +1,54 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern unsigned int *auStack_18;
-extern int fn_8267BE38();
-extern int fn_8268B330();
-extern int fn_826959C8();
-extern int fn_826F8A98();
-extern int fn_82704528();
-extern unsigned int uStack_1c;
-extern unsigned __int64 storeWordConditionalIndexed();
+typedef struct Ref_82704D58 {
+    int padding;
+    long references;
+} Ref_82704D58;
 
+typedef struct Object_82704D58 {
+    char padding[0xc];
+    void *owner;
+    char *state;
+    void *queue;
+    void *context;
+} Object_82704D58;
 
-unsigned __int64 fn_82704D58(int param_1)
+extern long _InterlockedExchangeAdd(long *, long);
+extern void fn_8268B330(unsigned int *);
+extern unsigned char fn_826F8A98(void *, unsigned int *, unsigned int *, unsigned char *);
+extern void fn_826959C8(void *);
+extern void fn_82704528(void *, void *, void *, unsigned int *, unsigned int);
+extern void fn_8267BE38(Ref_82704D58 *);
 
+static __forceinline void release(unsigned int tagged)
 {
-  int iVar1;
-  unsigned int uVar2;
-  bool bVar3;
-  char cVar4;
-  unsigned __int64 uVar5;
-  __int64 lVar6;
-  unsigned int *puVar7;
-  char in_RESERVE;
-  unsigned char bVar8;
-  char acStack_20 [4];
-  unsigned int uStack_1c;
-  unsigned int auStack_18 [2];
-  
-  fn_8268B330(&uStack_1c);
-  cVar4 = fn_826F8A98(*(unsigned int *)(param_1 + 0x14),&uStack_1c,auStack_18,acStack_20);
-  iVar1 = *(int *)(param_1 + 0x10);
-  if ((*(char *)(iVar1 + 0x78) == '\0') || (cVar4 == '\0')) {
-    if (cVar4 == '\0') {
-      lVar6 = ((unsigned __int64)uStack_1c & 0xfffffffc) + 4;
-      puVar7 = (unsigned int *)lVar6;
-      uVar5 = (unsigned __int64)*puVar7;
-      if (in_RESERVE != '\0') {
-        uVar2 = storeWordConditionalIndexed(uVar5 - 1,0,lVar6);
-        *puVar7 = uVar2;
-      }
-      if (uVar5 == 1) {
-        fn_8267BE38();
-      }
-      return 0;
+    Ref_82704D58 *reference = (Ref_82704D58 *)(tagged & ~3u);
+    if (_InterlockedExchangeAdd(&reference->references, -1) - 1 == 0) {
+        fn_8267BE38(reference);
     }
-    bVar8 = (acStack_20[0] == '\0') << 1;
-    if ((acStack_20[0] == '\0') && (*(char *)(iVar1 + 0x30) == '\x06')) {
-      fn_826959C8(iVar1 + 0x30);
-    }
-    fn_82704528(*(unsigned int *)(param_1 + 0xc),*(unsigned int *)(param_1 + 0x10),
-                  *(unsigned int *)(param_1 + 0x18),&uStack_1c,auStack_18[0]);
-    lVar6 = ((unsigned __int64)uStack_1c & 0xfffffffc) + 4;
-    do {
-      puVar7 = (unsigned int *)lVar6;
-      uVar5 = (unsigned __int64)*puVar7;
-      if (in_RESERVE != '\0') {
-        uVar2 = storeWordConditionalIndexed(uVar5 - 1,0,lVar6);
-        *puVar7 = uVar2;
-        bVar8 = 2;
-      }
-    } while (!(bool)(bVar8 >> 1 & 1));
-  }
-  else {
-    lVar6 = ((unsigned __int64)uStack_1c & 0xfffffffc) + 4;
-    bVar3 = false;
-    do {
-      puVar7 = (unsigned int *)lVar6;
-      uVar5 = (unsigned __int64)*puVar7;
-      if (in_RESERVE != '\0') {
-        uVar2 = storeWordConditionalIndexed(uVar5 - 1,0,lVar6);
-        *puVar7 = uVar2;
-        bVar3 = true;
-      }
-    } while (!bVar3);
-  }
-  if (uVar5 == 1) {
-    fn_8267BE38();
-  }
-  return 1;
 }
 
+unsigned char fn_82704D58(Object_82704D58 *self)
+{
+    unsigned int tagged;
+    unsigned int value;
+    unsigned char flag;
+    unsigned char found;
+    char *state;
+
+    fn_8268B330(&tagged);
+    found = fn_826F8A98(self->queue, &tagged, &value, &flag);
+    state = self->state;
+    if (state[0x78] != 0 && found != 0) {
+        release(tagged);
+    } else {
+        if (found == 0) {
+            release(tagged);
+            return 0;
+        }
+        if (flag == 0 && (unsigned char)state[0x30] == 6) {
+            fn_826959C8(state + 0x30);
+        }
+        fn_82704528(self->owner, self->state, self->context, &tagged, value);
+        release(tagged);
+    }
+    return 1;
+}

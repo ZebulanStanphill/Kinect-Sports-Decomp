@@ -1,39 +1,59 @@
-extern int fn_82692DC0();
-extern int fn_82692DE8();
-extern unsigned int lbl_82005520;
-extern unsigned int uStack_30;
-extern unsigned int uStack_38;
-extern unsigned int uStack_40;
+struct Properties_8267B960 {
+    unsigned int alignment;
+    unsigned int unused04;
+    unsigned int capacity; /* 0x08 */
+    unsigned int unused0C;
+    unsigned int unused10;
+    unsigned int unused14;
+};
+struct Provider_8267B960;
 
+struct Vtable_8267B960 {
+    void (*getProperties)(struct Provider_8267B960 *self, struct Properties_8267B960 *properties);
+};
 
-unsigned int * fn_8267B960(unsigned int *param_1,unsigned int *param_2)
+struct Provider_8267B960 {
+    struct Vtable_8267B960 *vtable;
+};
 
+struct Object_8267B960 {
+    void *vtable;
+    char localProvider[0x9c];
+    struct Provider_8267B960 *provider; /* 0xa0 */
+    void *activeProvider;
+    unsigned int capacity;
+    unsigned int alignment;
+    int unused;
+};
+
+extern char lbl_82005520[];
+extern void fn_82692DC0(void *provider);
+extern void fn_82692DE8(void *provider, struct Provider_8267B960 *source);
+extern void *memset(void *destination, int value, unsigned int size);
+
+struct Object_8267B960 *fn_8267B960(struct Object_8267B960 *self, struct Provider_8267B960 *provider)
 {
-  unsigned int *puVar1;
-  unsigned __int64 uStack_40;
-  unsigned __int64 uStack_38;
-  unsigned __int64 uStack_30;
-  
-  puVar1 = param_1 + 1;
-  *param_1 = &lbl_82005520;
-  fn_82692DC0(puVar1);
-  param_1[0x28] = param_2;
-  param_1[0x2a] = 0x1000;
-  param_1[0x2c] = 0;
-  param_1[0x29] = param_2;
-  param_1[0x2b] = 1;
-  uStack_40 = 0;
-  uStack_38 = 0;
-  uStack_30 = 0;
-  (**(int (***)())*param_2)(param_2,&uStack_40);
-  if ((((unsigned __int64)(uStack_38) >> 0) & 0xFFFFFFFF) != 0) {
-    fn_82692DE8(puVar1,param_2);
-    param_1[0x29] = puVar1;
-    param_1[0x2a] = (((unsigned __int64)(uStack_38) >> 0) & 0xFFFFFFFF);
-  }
-  if ((unsigned int)param_1[0x2b] < (((unsigned __int64)(uStack_40) >> 0) & 0xFFFFFFFF)) {
-    param_1[0x2b] = (((unsigned __int64)(uStack_40) >> 0) & 0xFFFFFFFF);
-  }
-  return param_1;
+    struct Properties_8267B960 properties;
+    void *local = self->localProvider;
+    self->vtable = lbl_82005520;
+    fn_82692DC0(local);
+    self->provider = provider;
+    self->capacity = 0x1000;
+    {
+        int *pUnused = &self->unused;
+        *pUnused = 0;
+    }
+    self->activeProvider = provider;
+    self->alignment = 1;
+    memset(&properties, 0, sizeof(properties));
+    provider->vtable->getProperties(provider, &properties);
+    if (properties.capacity != 0) {
+        fn_82692DE8(local, provider);
+        self->activeProvider = local;
+        self->capacity = properties.capacity;
+    }
+    if (self->alignment < properties.alignment) {
+        self->alignment = properties.alignment;
+    }
+    return self;
 }
-

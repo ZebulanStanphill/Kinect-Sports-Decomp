@@ -1,62 +1,72 @@
-#define true 1
-extern int fn_82ABE190();
+typedef struct Node_82B81C88 Node_82B81C88;
 
+struct Node_82B81C88 {
+    unsigned int flags;
+    Node_82B81C88 *first; /* 0x4 */
+    unsigned int type;    /* 0x8 */
+    Node_82B81C88 *value; /* 0xc */
+    void *data;           /* 0x10 */
+    char padding[0x18];
+    Node_82B81C88 *arguments[8]; /* 0x2c */
+};
 
-__int64 fn_82B81C88(unsigned __int64 param_1,int param_2)
+extern unsigned char fn_82ABE190(Node_82B81C88 *);
 
+static __forceinline int hasNode(Node_82B81C88 *node)
 {
-  int iVar1;
-  unsigned int uVar2;
-  char cVar3;
-  unsigned int uVar4;
-  int *piVar5;
-  int iVar6;
-  __int64 lVar7;
-  int *piVar8;
-  unsigned int uVar9;
-  
-  iVar1 = *(int *)(param_2 + 4);
-  lVar7 = 0;
-  do {
-    if (iVar1 == 0) {
-LAB_82b81cd0:
-      if ((*(unsigned int *)(param_2 + 8) & 0x3f80) == 0x3700) {
-        lVar7 = 0;
-      }
-      else {
-        uVar2 = *(unsigned int *)(param_2 + 8) >> 0x13 & 7;
-        piVar8 = (int *)(param_2 + 0x2c);
-        for (uVar9 = 0; uVar9 < uVar2; uVar9 = uVar9 + 1) {
-          iVar1 = *piVar8;
-          cVar3 = fn_82ABE190(iVar1);
-          if ((cVar3 != '\0') && ((*(unsigned int *)(*(int *)(iVar1 + 0xc) + 8) & 0x3f80) != 0x3e00)) {
-            piVar5 = (int *)(param_2 + 0x2c);
-            for (uVar4 = 0; uVar4 < uVar2; uVar4 = uVar4 + 1) {
-              iVar6 = *piVar5;
-              if (iVar6 == iVar1) goto LAB_82b81d70;
-              if (*(int *)(iVar6 + 0xc) == *(int *)(iVar1 + 0xc)) goto LAB_82b81d68;
-              piVar5 = piVar5 + 1;
-            }
-            iVar6 = 0;
-LAB_82b81d68:
-            if (iVar6 == iVar1) {
-LAB_82b81d70:
-              lVar7 = lVar7 + 1;
-            }
-          }
-          piVar8 = piVar8 + 1;
-        }
-      }
-      return lVar7;
+    if (node != 0) {
+        return 1;
     }
-    if (*(int *)(iVar1 + 0x10) != 0) {
-      cVar3 = fn_82ABE190(iVar1);
-      if (cVar3 != '\0') {
-        lVar7 = -1;
-        goto LAB_82b81cd0;
-      }
-    }
-    iVar1 = *(int *)(iVar1 + 8);
-  } while( true );
+    return 0;
 }
 
+static __forceinline int hasIndex(unsigned int index, unsigned int count)
+{
+    if (index < count) {
+        return 1;
+    }
+    return 0;
+}
+
+int fn_82B81C88(void *unused, Node_82B81C88 *self)
+{
+    Node_82B81C88 *node = self->first;
+    int result = 0;
+    while (hasNode(node)) {
+        if (node->data != 0 && fn_82ABE190(node) != 0) {
+            result = -1;
+            break;
+        }
+        node = (Node_82B81C88 *)node->type;
+    }
+    if ((self->type & 0x3f80) == 0x3700) {
+        result = 0;
+    } else {
+        Node_82B81C88 **arguments = self->arguments;
+        unsigned int i = 0;
+        unsigned int count = (self->type >> 19) & 7;
+        for (; hasIndex(i, count); i++) {
+            Node_82B81C88 *argument = arguments[i];
+            if (fn_82ABE190(argument) != 0 && (argument->value->type & 0x3f80) != 0x3e00) {
+                unsigned int j;
+                Node_82B81C88 *first;
+                for (j = 0; hasIndex(j, count); j++) {
+                    first = arguments[j];
+                    if (first == argument) {
+                        goto unique;
+                    }
+                    if (first->value == argument->value) {
+                        goto compare;
+                    }
+                }
+                first = 0;
+            compare:
+                if (first == argument) {
+                unique:
+                    result++;
+                }
+            }
+        }
+    }
+    return result;
+}

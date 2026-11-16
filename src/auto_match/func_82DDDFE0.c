@@ -1,57 +1,30 @@
-int fn_82DDDFE0(int param_1)
+struct Candidate_82DDDFE0 {
+    char padding[0x40];
+    float cost; /* 0x40 */
+    char padding44[0xc];
+};
 
+struct Search_82DDDFE0 {
+    char padding[0x10];
+    int count; /* 0x10 */
+    char padding14[0xf5c];
+    struct Candidate_82DDDFE0 candidates[1]; /* 0xf70 */
+};
+
+struct Candidate_82DDDFE0 *fn_82DDDFE0(struct Search_82DDDFE0 *self)
 {
-  float fVar1;
-  int iVar2;
-  __int64 lVar3;
-  unsigned __int64 uVar4;
-  int iVar5;
-  unsigned __int64 uVar6;
-  
-  iVar5 = param_1 + 0xf70;
-  lVar3 = (unsigned __int64)*(unsigned int *)(param_1 + 0x10) - 2;
-  fVar1 = *(float *)(param_1 + 0xfb0);
-  if ((int)lVar3 < 0) {
-    return iVar5;
-  }
-  uVar4 = (unsigned __int64)*(unsigned int *)(param_1 + 0x10) - 1;
-  iVar2 = iVar5;
-  if (3 < (int)uVar4) {
-    uVar6 = (uVar4 & 0xffffffff) >> 2;
-    lVar3 = lVar3 - (uVar4 & 0xfffffffc);
-    do {
-      if (*(float *)(iVar5 + 0x90) < fVar1) {
-        iVar2 = iVar5 + 0x50;
-        fVar1 = *(float *)(iVar5 + 0x90);
-      }
-      if (*(float *)(iVar5 + 0xe0) < fVar1) {
-        iVar2 = iVar5 + 0xa0;
-        fVar1 = *(float *)(iVar5 + 0xe0);
-      }
-      if (*(float *)(iVar5 + 0x130) < fVar1) {
-        iVar2 = iVar5 + 0xf0;
-        fVar1 = *(float *)(iVar5 + 0x130);
-      }
-      if (*(float *)(iVar5 + 0x180) < fVar1) {
-        iVar2 = iVar5 + 0x140;
-        fVar1 = *(float *)(iVar5 + 0x180);
-      }
-      iVar5 = iVar5 + 0x140;
-      uVar6 = uVar6 - 1;
-    } while (uVar6 != 0);
-  }
-  if ((int)lVar3 < 0) {
-    return iVar2;
-  }
-  lVar3 = lVar3 + 1;
-  do {
-    if (*(float *)(iVar5 + 0x90) < fVar1) {
-      fVar1 = *(float *)(iVar5 + 0x90);
-      iVar2 = iVar5 + 0x50;
+    struct Candidate_82DDDFE0 *cursor = self->candidates;
+    struct Candidate_82DDDFE0 *best = cursor;
+    float cost = cursor->cost;
+    int remaining;
+    for (remaining = self->count - 2; remaining >= 0; --remaining) {
+        float cost2;
+        ++cursor;
+        cost2 = cursor->cost;
+        if (cost2 < cost) {
+            cost = cost2;
+            best = cursor;
+        }
     }
-    lVar3 = lVar3 + -1;
-    iVar5 = iVar5 + 0x50;
-  } while (lVar3 != 0);
-  return iVar2;
+    return best;
 }
-

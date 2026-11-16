@@ -1,54 +1,59 @@
-#define true 1
-extern int fn_82BBFFC8();
-extern int fn_82BC0088();
+struct Node_82BC6018;
 
+struct List_82BC6018 {
+    unsigned int capacity;
+    unsigned int count;
+    struct Node_82BC6018 **data;
+};
 
-void fn_82BC6018(int param_1,int param_2,int param_3)
+struct Node_82BC6018 {
+    char padding[0x38];
+    struct List_82BC6018 *outputs; /* 0x38 */
+    struct List_82BC6018 *inputs;  /* 0x3c */
+};
+extern struct Node_82BC6018 **fn_82BC0088(struct List_82BC6018 *list, unsigned int index);
+extern void fn_82BBFFC8(struct List_82BC6018 *list, unsigned int index);
 
+static __forceinline unsigned char Next_82BC6018(struct List_82BC6018 *list, unsigned int index,
+                                                 struct Node_82BC6018 **value)
 {
-  int iVar1;
-  int *piVar2;
-  __int64 lVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  int iVar6;
-  
-  iVar1 = *(int *)(param_1 + 0x38);
-  uVar4 = 0;
-  iVar6 = 0;
-  for (uVar5 = 1; uVar5 <= *(unsigned int *)(iVar1 + 4); uVar5 = uVar5 + 1) {
-    if (*(int *)(*(int *)(iVar1 + 8) + iVar6) == param_2) {
-      if (uVar4 < *(unsigned int *)(iVar1 + 4)) {
-        piVar2 = (int *)(*(int *)(iVar1 + 8) + uVar4 * 4);
-      }
-      else {
-        piVar2 = (int *)fn_82BC0088();
-      }
-      *piVar2 = param_3;
-      break;
+    if (index + 1 > list->count) {
+        return 0;
     }
-    uVar4 = uVar4 + 1;
-    iVar6 = iVar6 + 4;
-  }
-  iVar1 = *(int *)(param_2 + 0x3c);
-  lVar3 = 0;
-  iVar6 = 0;
-  uVar4 = 1;
-  do {
-    if (*(unsigned int *)(iVar1 + 4) < uVar4) {
-LAB_82bc6100:
-      piVar2 = (int *)fn_82BC0088(*(int *)(param_3 + 0x3c),
-                                        *(unsigned int *)(*(int *)(param_3 + 0x3c) + 4));
-      *piVar2 = param_1;
-      return;
-    }
-    if (*(int *)(*(int *)(iVar1 + 8) + iVar6) == param_1) {
-      fn_82BBFFC8(iVar1,lVar3);
-      goto LAB_82bc6100;
-    }
-    lVar3 = lVar3 + 1;
-    uVar4 = uVar4 + 1;
-    iVar6 = iVar6 + 4;
-  } while( true );
+    *value = list->data[index];
+    return 1;
 }
 
+void fn_82BC6018(struct Node_82BC6018 *self, struct Node_82BC6018 *oldNode, struct Node_82BC6018 *newNode)
+{
+    struct List_82BC6018 *list;
+    unsigned int index = 0;
+    unsigned int cursor = 1;
+    struct Node_82BC6018 *value = 0;
+    list = self->outputs;
+    while (Next_82BC6018(list, index, &value)) {
+        if (value == oldNode) {
+            struct Node_82BC6018 **slot;
+            if (index < self->outputs->count) {
+                slot = &list->data[index];
+            } else {
+                slot = fn_82BC0088(list, index);
+            }
+            *slot = newNode;
+            break;
+        }
+        ++index;
+    }
+    list = oldNode->inputs;
+    index = 0;
+    value = 0;
+    cursor = 1;
+    while (Next_82BC6018(list, index, &value)) {
+        if (value == self) {
+            fn_82BBFFC8(list, index);
+            break;
+        }
+        ++index;
+    }
+    *fn_82BC0088(newNode->inputs, newNode->inputs->count) = self;
+}

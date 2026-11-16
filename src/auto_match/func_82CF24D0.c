@@ -1,44 +1,77 @@
-extern int fn_82CE5410();
-extern int fn_82CE6310();
-extern int fn_82CF1548();
-extern unsigned int uStack_58;
-extern unsigned int uStack_60;
+typedef struct Array_82CF24D0 {
+    int *data;
+    int size;
+    int capacity;
+} Array_82CF24D0;
 
+typedef struct Allocator_82CF24D0 Allocator_82CF24D0;
 
-unsigned int
-fn_82CF24D0(double param_1,unsigned __int64 param_2,unsigned __int64 param_3,int param_4,int param_5,
-             int *param_6,unsigned __int64 param_7)
+typedef struct AllocatorVtable_82CF24D0 {
+    void *slots[4];
+    void (*freeBlock)(Allocator_82CF24D0 *, void *, int, int);
+} AllocatorVtable_82CF24D0;
 
+struct Allocator_82CF24D0 {
+    AllocatorVtable_82CF24D0 *vtable;
+};
+
+typedef struct Router_82CF24D0 {
+    char padding[16];
+    Allocator_82CF24D0 *heap;
+} Router_82CF24D0;
+
+typedef struct Context_82CF24D0 {
+    int padding;
+    unsigned int first;
+    unsigned int second;
+    unsigned int mode;
+} Context_82CF24D0;
+
+typedef struct Sample_82CF24D0 {
+    char padding[0x34];
+    int count;
+} Sample_82CF24D0;
+
+extern Router_82CF24D0 *fn_82CE5410(void);
+extern void fn_82CE6310(Allocator_82CF24D0 *, Array_82CF24D0 *, int, int);
+extern void fn_82CF1548(Sample_82CF24D0 *, float, float, int, Array_82CF24D0 *, unsigned int);
+
+int fn_82CF24D0(Context_82CF24D0 *self, int sampleIndex, int resultIndex, Sample_82CF24D0 ***samples,
+                int count, float length, float position)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  unsigned int uVar3;
-  double dVar4;
-  unsigned __int64 uStack_60;
-  unsigned int uStack_58;
-  
-  uStack_60 = 0;
-  uStack_58 = 0x80000000;
-  dVar4 = (double)(float)(param_1 / (double)(__int64)(int)param_7);
-  iVar2 = fn_82CE5410();
-  if ((int)(uStack_58 & 0x3fffffff) < (int)param_7) {
-    fn_82CE6310(*(unsigned int *)(iVar2 + 0x10),&uStack_60,param_7,4);
-  }
-  uVar3 = 0;
-  if (0 < *(int *)(*(int *)(param_4 * 4 + *param_6) + 0x34)) {
-    uStack_60 = uStack_60 & 0xffffffff00000000;
-    fn_82CF1548(param_2,dVar4,*(unsigned int *)(param_4 * 4 + *param_6));
-    if (param_5 < (((unsigned __int64)(uStack_60) >> 32) & 0xFFFFFFFF)) {
-      uVar3 = *(unsigned int *)(param_5 * 4 + (((unsigned __int64)(uStack_60) >> 0) & 0xFFFFFFFF));
-    }
-  }
-  iVar2 = fn_82CE5410();
-  uVar1 = uStack_60 >> 0x20;
-  uStack_60 = uStack_60 & 0xffffffff00000000;
-  if ((uStack_58 & 0x80000000) == 0) {
-    (**(int (***)())(**(int **)(iVar2 + 0x10) + 0x10))
-              (*(int **)(iVar2 + 0x10),(int)uVar1,uStack_58 & 0x3fffffff,4);
-  }
-  return uVar3;
-}
+    Array_82CF24D0 results;
+    Router_82CF24D0 *router;
+    Allocator_82CF24D0 *heap;
+    float step = length / (float)count;
+    int result;
+    Sample_82CF24D0 **sampleData;
 
+    results.data = 0;
+    results.size = 0;
+    results.capacity = 0x80000000;
+    router = fn_82CE5410();
+    if ((results.capacity & 0x3fffffff) < count) {
+        fn_82CE6310(router->heap, &results, count, 4);
+    }
+    result = 0;
+    sampleData = *samples;
+    if ((sampleData)[sampleIndex]->count > 0) {
+        unsigned int source;
+        results.size = 0;
+        if (self->mode == 0) {
+            source = self->first;
+        } else {
+            source = self->second;
+        }
+        fn_82CF1548((sampleData)[sampleIndex], position, step, count, &results, source);
+        if (resultIndex < results.size) {
+            result = results.data[resultIndex];
+        }
+    }
+    heap = fn_82CE5410()->heap;
+    results.size = 0;
+    if ((results.capacity & (int)0x80000000) == 0) {
+        heap->vtable->freeBlock(heap, results.data, results.capacity & 0x3fffffff, 4);
+    }
+    return result;
+}

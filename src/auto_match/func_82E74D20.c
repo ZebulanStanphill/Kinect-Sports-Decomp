@@ -1,50 +1,66 @@
-extern unsigned int *auStack_30;
-extern int fn_82E5A140();
-extern int fn_82E5A150();
-extern int fn_82E5A190();
-extern int fn_82E5A1C0();
-extern int fn_82E5A1F0();
-extern int fn_82EEAF80();
+typedef struct Stream_82E74D20 Stream_82E74D20;
 
+typedef struct VTable_82E74D20 {
+    void *unused[9];
+    int (*isTimeBased)(Stream_82E74D20 *);
+} VTable_82E74D20;
 
-__int64 fn_82E74D20(int *param_1,unsigned __int64 param_2)
+struct Stream_82E74D20 {
+    VTable_82E74D20 *vtable;
+    int unknown4;
+    unsigned __int64 offset; /* 0x08 */
+    int unknown10[2];
+    unsigned int headerSize; /* 0x18 */
+    int unknown1c[5];
+    unsigned __int64 start;  /* 0x30 */
+    unsigned __int64 length; /* 0x38 */
+    unsigned __int64 tail;   /* 0x40 */
+    unsigned __int64 rate;   /* 0x48 */
+    int unknown50[2];
+    unsigned int flags; /* 0x58 */
+    void *extra;        /* 0x5c */
+};
 
+extern int fn_82E5A140(void *, unsigned __int64);
+extern int fn_82E5A150(void *, unsigned __int64);
+extern int fn_82E5A1C0(void *, unsigned int);
+extern int fn_82E5A1F0(void *, unsigned __int64);
+extern int fn_82EEAF80(void *, unsigned int *);
+extern int fn_82E5A190(void *, unsigned int);
+
+int fn_82E74D20(Stream_82E74D20 *self, void *output)
 {
-  __int64 lVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  __int64 lVar4;
-  unsigned int auStack_30 [12];
-  
-  if ((param_2 & 0xffffffff) == 0) {
-    lVar1 = -0x7ff8ffa9;
-  }
-  else {
-    lVar1 = fn_82E5A140(param_2,*(__int64 *)(param_1 + 2) + *(__int64 *)(param_1 + 0xc));
-    if (-1 < lVar1) {
-      lVar4 = *(__int64 *)(param_1 + 0x10) + *(__int64 *)(param_1 + 0xe) +
-              *(__int64 *)(param_1 + 2);
-      lVar1 = fn_82E5A150(param_2,lVar4);
-      if ((-1 < lVar1) && (lVar1 = fn_82E5A1C0(param_2,param_1[0x16]), -1 < lVar1)) {
-        iVar2 = (**(int (***)())(*param_1 + 0x24))(param_1);
-        if ((iVar2 == 0) && (uVar3 = *(unsigned __int64 *)(param_1 + 0x12), uVar3 != 0)) {
-          trapDoubleWordImmediate(6,uVar3,0);
-          lVar1 = fn_82E5A1F0(param_2,(unsigned __int64)
-                                          ((lVar4 - *(__int64 *)(param_1 + 0xc)) * 10000) / uVar3);
-          if (lVar1 < 0) {
-            return lVar1;
-          }
-        }
-        if (param_1[0x17] != 0) {
-          auStack_30[0] = 0;
-          lVar1 = fn_82EEAF80(param_1[0x17],auStack_30);
-          if (-1 < lVar1) {
-            lVar1 = fn_82E5A190(param_2,(unsigned __int64)(unsigned int)param_1[6] + (unsigned __int64)auStack_30[0]);
-          }
-        }
-      }
+    int result;
+    unsigned __int64 end;
+    if (output == 0) {
+        return 0x80070057;
     }
-  }
-  return lVar1;
+    result = fn_82E5A140(output, self->offset + self->start);
+    if (result < 0) {
+        goto done;
+    }
+    end = self->tail + self->length + self->offset;
+    result = fn_82E5A150(output, end);
+    if (result < 0) {
+        goto done;
+    }
+    result = fn_82E5A1C0(output, self->flags);
+    if (result < 0) {
+        goto done;
+    }
+    if (self->vtable->isTimeBased(self) == 0 && self->rate != 0) {
+        result = fn_82E5A1F0(output, (end - self->start) * 10000 / self->rate);
+        if (result < 0) {
+            goto done;
+        }
+    }
+    if (self->extra != 0) {
+        unsigned int extraSize = 0;
+        result = fn_82EEAF80(self->extra, &extraSize);
+        if (result >= 0) {
+            result = fn_82E5A190(output, self->headerSize + extraSize);
+        }
+    }
+done:
+    return result;
 }
-

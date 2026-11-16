@@ -1,62 +1,26 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern unsigned int fStack_8;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Bounds_822B33B0 {
+    float pad0[4];
+    float first[4];
+    float pad1[4];
+    float second[4];
+} Bounds_822B33B0;
 
-unsigned __int64 fn_822B33B0(double param_1,int param_2)
-
+static __forceinline int contains(float first, float second, __vector4 point, float margin, int component)
 {
-  unsigned int *puVar1;
-  bool bVar2;
-  bool bVar3;
-  double dVar4;
-  int in_r0;
-  unsigned __int64 uVar5;
-  double dVar6;
-  double dVar7;
-  unsigned int in_register_00010010;
-  unsigned int in_register_00010014;
-  unsigned int in_register_00010018;
-  unsigned int in_vr1;
-  float afStack_10 [2];
-  float fStack_8;
-  
-  dVar6 = (double)*(float *)(param_2 + 0x30);
-  dVar7 = (double)*(float *)(param_2 + 0x10);
-  puVar1 = (unsigned int *)((int)afStack_10 + in_r0 & 0xfffffff0);
-  *puVar1 = in_register_00010010;
-  puVar1[1] = in_register_00010014;
-  puVar1[2] = in_register_00010018;
-  puVar1[3] = in_vr1;
-  dVar4 = dVar7;
-  if (dVar7 <= dVar6) {
-    dVar4 = dVar6;
-    dVar6 = dVar7;
-  }
-  if ((afStack_10[0] < (float)(dVar6 - param_1)) ||
-     (bVar2 = true, (float)(dVar4 + param_1) <= afStack_10[0])) {
-    bVar2 = false;
-  }
-  dVar6 = (double)*(float *)(param_2 + 0x38);
-  dVar7 = (double)*(float *)(param_2 + 0x18);
-  puVar1 = (unsigned int *)((int)afStack_10 + in_r0 & 0xfffffff0);
-  *puVar1 = in_register_00010010;
-  puVar1[1] = in_register_00010014;
-  puVar1[2] = in_register_00010018;
-  puVar1[3] = in_vr1;
-  dVar4 = dVar7;
-  if (dVar7 <= dVar6) {
-    dVar4 = dVar6;
-    dVar6 = dVar7;
-  }
-  if ((fStack_8 < (float)(dVar6 - param_1)) || (bVar3 = true, (float)(dVar4 + param_1) <= fStack_8))
-  {
-    bVar3 = false;
-  }
-  if ((!bVar2) || (uVar5 = 1, !bVar3)) {
-    uVar5 = 0;
-  }
-  return uVar5;
+    if (first <= second) {
+        return point.vector4_f32[component] >= first - margin &&
+               point.vector4_f32[component] < second + margin;
+    }
+    return point.vector4_f32[component] >= second - margin && point.vector4_f32[component] < first + margin;
 }
 
+unsigned char fn_822B33B0(Bounds_822B33B0 *self, __vector4 point, float margin)
+{
+    unsigned char x = contains(self->first[0], self->second[0], point, margin, 0) != 0;
+    int z = contains(self->first[2], self->second[2], point, margin, 2);
+    return x && z;
+}

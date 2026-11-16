@@ -1,66 +1,57 @@
-extern int fn_8265CF50();
-extern int fn_8265CF70();
-extern int fn_8265D3F0();
-extern int fn_8265ED50();
-extern int fn_8265F608();
-extern int fn_82665A98();
-extern int fn_826660E8();
-extern int fn_826686F8();
-extern int fn_82668738();
-extern int fn_8266C340();
-extern int fn_8266C438();
-extern unsigned int iStack00000014;
-extern unsigned int iStack_18;
-extern unsigned int uStack_14;
-extern unsigned int uStack_1c;
+typedef unsigned short wchar_t;
 
+struct Vector_82665960 {
+    void *data;
+    void *end;
+    void *capacity;
+};
 
-unsigned __int64 fn_82665960(int param_1)
+struct Globals_82665960 {
+    int unused;
+    struct Vector_82665960 languages;
+};
+extern struct Globals_82665960 lbl_831E7A70;
+extern char lbl_831E7A1C[];
+extern void fn_8266C340(const wchar_t *format, ...);
+extern unsigned int fn_8265D3F0(struct Vector_82665960 *self);
+extern void **fn_8265CF50(void *self, unsigned int index);
+extern void fn_826660E8(struct Vector_82665960 *self, void *source);
+extern unsigned int fn_8265ED50(const char *language);
+extern void fn_8266C438(const wchar_t *format, ...);
+extern int fn_82665A98(const char *language);
+extern void *fn_82668738(unsigned int size);
+extern void *fn_826686F8(void *self, const char *language);
+extern void fn_8265F608(struct Vector_82665960 *self, void **element);
+extern unsigned int fn_8265CF70(struct Vector_82665960 *self);
 
+int fn_82665960(const char *language)
 {
-  int iVar3;
-  unsigned int *puVar4;
-  unsigned __int64 uVar1;
-  unsigned int uVar5;
-  __int64 lVar2;
-  int iStack00000014;
-  struct { unsigned int first; int second; } stack_pair_1c;
-
-  unsigned int uStack_14;
-  
-  iStack00000014 = param_1;
-  if (param_1 == 0) {
-    fn_8266C340(0xffffffff820015c0,0xffffffff82001e74,0x39d,0xffffffff8200251c);
-  }
-  iVar3 = fn_8265D3F0(0xffffffff831e7a74);
-  if (iVar3 == 0) {
-    puVar4 = (unsigned int *)fn_8265CF50(0xffffffff831e7a1c,5);
-    fn_826660E8(0xffffffff831e7a74,*puVar4);
-  }
-  iVar3 = fn_8265ED50(iStack00000014);
-  if (iVar3 == 0) {
-    fn_8266C438(0xffffffff820024c0,iStack00000014);
-    uVar1 = 0xffffffffffffffff;
-  }
-  else {
-    uVar5 = fn_82665A98(iStack00000014);
-    if ((int)uVar5 < 0) {
-      stack_pair_1c.second = fn_82668738(0x2c);
-      if (stack_pair_1c.second == 0) {
-        uStack_14 = 0;
-      }
-      else {
-        uStack_14 = fn_826686F8(stack_pair_1c.second,iStack00000014);
-      }
-      stack_pair_1c.first = uStack_14;
-      fn_8265F608(0xffffffff831e7a74,&stack_pair_1c.first);
-      lVar2 = fn_8265CF70(0xffffffff831e7a74);
-      uVar1 = lVar2 - 1;
+    int index;
+    void *languageObject;
+    void *storage;
+    void *object;
+    if (language == 0) {
+        fn_8266C340(L"Assert failed. File: %s. Line: %d. Condition: %s", L".\\XLipComponent.cpp", 0x39d,
+                    L"pcszLanguage");
     }
-    else {
-      uVar1 = (unsigned __int64)uVar5;
+    if (fn_8265D3F0(&lbl_831E7A70.languages) == 0) {
+        fn_826660E8(&lbl_831E7A70.languages, *fn_8265CF50(lbl_831E7A1C, 5));
     }
-  }
-  return uVar1;
+    if (fn_8265ED50(language) == 0) {
+        fn_8266C438(L"The language \"%S\" is not a supported culture", language);
+        return -1;
+    }
+    index = fn_82665A98(language);
+    if (index >= 0) {
+        return index;
+    }
+    storage = fn_82668738(0x2c);
+    if (storage != 0) {
+        object = fn_826686F8(storage, language);
+    } else {
+        object = 0;
+    }
+    languageObject = object;
+    fn_8265F608(&lbl_831E7A70.languages, &languageObject);
+    return fn_8265CF70(&lbl_831E7A70.languages) - 1;
 }
-

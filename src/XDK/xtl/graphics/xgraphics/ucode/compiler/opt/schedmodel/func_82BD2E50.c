@@ -1,47 +1,67 @@
-extern int fn_82AB15D0();
-extern int fn_82BD2C30();
-extern unsigned int lbl_820E83A8;
-extern unsigned int lbl_8316FF50;
+struct Instruction_82BD2E50;
 
+struct Vtable_82BD2E50 {
+    void *slots[13];
+    unsigned char (*isConstant)(struct Instruction_82BD2E50 *self);
+};
 
-__int64 fn_82BD2E50(int param_1,int *param_2)
+struct Instruction_82BD2E50 {
+    struct Vtable_82BD2E50 *vtable;
+    char padding[0x14];
+    unsigned int opcode; /* 0x18 */
+};
 
+struct State_82BD2E50 {
+    int unused;
+    int current;           /* 0x04 */
+    unsigned char channel; /* 0x08 */
+};
+
+struct Opcode_82BD2E50 {
+    unsigned int padding : 29;
+    unsigned int reverse : 1;
+    unsigned int other : 2;
+    char remainder[0x30];
+};
+extern struct Opcode_82BD2E50 lbl_8316FF50[];
+extern int lbl_820E83A8[];
+extern int fn_82BD2C30(struct Instruction_82BD2E50 *instruction, unsigned char *channel);
+extern void fn_82AB15D0(int severity, const char *format, ...);
+
+int fn_82BD2E50(struct State_82BD2E50 *self, struct Instruction_82BD2E50 *instruction)
 {
-  char cVar3;
-  __int64 lVar1;
-  int iVar2;
-  char acStack_40 [64];
-  
-  cVar3 = (**(int (***)())(*param_2 + 0x34))(param_2);
-  if (cVar3 == '\0') {
-    iVar2 = fn_82BD2C30(param_2,acStack_40);
-    if (iVar2 == -1) {
-      fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820e8530,0xffffffff820e84a8,0xa9);
+    unsigned char channel;
+    int constant;
+    int index;
+    if (instruction->vtable->isConstant(instruction)) {
+        return 1;
     }
-    if (((*(int *)(param_1 + 4) == 0) || (iVar2 == 0)) || (*(char *)(param_1 + 8) == acStack_40[0]))
-    {
-      if ((*(unsigned int *)(&lbl_8316FF50 + param_2[6] * 0x34) >> 2 & 1) == 0) {
-        if (4 < *(int *)(param_1 + 4)) {
-          fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820e8508,0xffffffff820e84a8,0xb9);
+    constant = fn_82BD2C30(instruction, &channel);
+    if (!(constant != -1)) {
+        fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "const_state != -1",
+                    "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\"
+                    "compiler\\opt\\schedmodel.cpp",
+                    0xa9);
+    }
+    if (self->current != 0 && constant != 0 && self->channel != channel) {
+        return 0;
+    }
+    if ((unsigned char)lbl_8316FF50[instruction->opcode].reverse) {
+        if (!(constant <= 4)) {
+            fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "const_state <= CAR",
+                        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\"
+                        "compiler\\opt\\schedmodel.cpp",
+                        0xb6);
         }
-        iVar2 = iVar2 * 5 + *(int *)(param_1 + 4);
-      }
-      else {
-        if (4 < iVar2) {
-          fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820e851c,0xffffffff820e84a8,0xb6);
+        index = self->current * 5 + constant;
+    } else {
+        if (!(self->current <= 4)) {
+            fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "cur_state <= CAR",
+                        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\"
+                        "compiler\\opt\\schedmodel.cpp",
+                        0xb9);
         }
-        iVar2 = *(int *)(param_1 + 4) * 5 + iVar2;
-      }
-      lVar1 = (unsigned __int64)*(unsigned int *)(&lbl_820E83A8 + iVar2 * 4) + 1;
-      lVar1 = lVar1 - ((unsigned __int64)*(unsigned int *)(&lbl_820E83A8 + iVar2 * 4) + (unsigned __int64)(lVar1 == 0));
+        index = constant * 5 + self->current;
     }
-    else {
-      lVar1 = 0;
-    }
-  }
-  else {
-    lVar1 = 1;
-  }
-  return lVar1;
+    return (unsigned int)(lbl_820E83A8[index] + 1) != 0;
 }
-

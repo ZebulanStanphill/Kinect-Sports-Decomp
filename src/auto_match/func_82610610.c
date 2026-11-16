@@ -1,34 +1,42 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern int fn_8257E950();
-extern V16 loadVectorLeftIndexed128();
-extern V16 vectorRotateLeftImmediateMaskInsert128();
-extern void *memcpy(void *, const void *, unsigned int);
+typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
+    float f[4];
+    unsigned int u[4];
+} __vector4;
 
+typedef struct Event_82610610 {
+    char unknown[0x10];
+    int id;       /* 0x10 */
+    float x;      /* 0x14 */
+    float y;      /* 0x18 */
+    float z;      /* 0x1c */
+    int type;     /* 0x20 */
+    float first;  /* 0x24 */
+    float second; /* 0x28 */
+    int flags;    /* 0x2c */
+} Event_82610610;
 
-void fn_82610610(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,int param_5)
+typedef struct Owner_82610610 {
+    char unknown[0x60];
+    void **device;
+} Owner_82610610;
 
+extern const float ltcg_pool_0_0f;
+extern __vector4 __lvlx(const void *, int);
+extern __vector4 __vrlimi(__vector4, __vector4, unsigned int, unsigned int);
+
+static __forceinline __vector4 MakePosition_82610610(const float *x, const float *y, const float *z)
 {
-  int iVar1;
-  unsigned __int64 in_r0;
-  unsigned char in_vr0 [16];
-  unsigned char auVar2 [16];
-  unsigned char in_vr1 [16];
-  unsigned char in_vr12 [16];
-  unsigned char in_vr13 [16];
-  
-  if ((param_5 == 0) && ((param_3 & 0xffffffff) != 0)) {
-    iVar1 = (int)param_3;
-    loadVectorLeftIndexed128(param_3,0x18);
-    loadVectorLeftIndexed128(param_3,0x14);
-    vectorRotateLeftImmediateMaskInsert128(in_vr13,in_vr0,4,3);
-    loadVectorLeftIndexed128(param_3,0x1c);
-    loadVectorLeftIndexed128(in_r0,0xffffffff821cc160);{ V16 _vt0 = vectorRotateLeftImmediateMaskInsert128(in_vr0,in_vr12,4,3); memcpy(auVar2, &_vt0, 16); }
-    vectorRotateLeftImmediateMaskInsert128(in_vr1,auVar2,3,2);
-    fn_8257E950((double)*(float *)(iVar1 + 0x24),(double)*(float *)(iVar1 + 0x28),
-                      **(unsigned int **)(param_1 + 0x60),*(unsigned int *)(iVar1 + 0x10),
-                      *(unsigned int *)(iVar1 + 0x20),0xffffffff821cc160,0x14,
-                      *(unsigned int *)(iVar1 + 0x2c),*(unsigned int **)(param_1 + 0x60),0x18);
-  }
-  return;
+    __vector4 xy = __vrlimi(__lvlx(x, 0), __lvlx(y, 0), 4, 3);
+    __vector4 zw = __vrlimi(__lvlx(z, 0), __lvlx(&ltcg_pool_0_0f, 0), 4, 3);
+    return __vrlimi(xy, zw, 3, 2);
 }
 
+extern void fn_8257E950(void *, int, int, float, float, int, __vector4);
+
+void fn_82610610(Owner_82610610 *self, int event, const Event_82610610 *data, int context, int failed)
+{
+    if (failed == 0 && data != 0) {
+        fn_8257E950(*self->device, data->id, data->type, data->first, data->second, data->flags,
+                    MakePosition_82610610(&data->x, &data->y, &data->z));
+    }
+}

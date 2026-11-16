@@ -1,41 +1,21 @@
-#define true 1
-extern float fRam8326b870;
-extern int fn_82588280();
-extern int fn_82F64CE0();
-extern unsigned int ltcg_pool_0_0f;
+extern const float lbl_8326B850[43];
+extern float fn_82588280(int font, unsigned short character, unsigned short previous, float scale);
+extern unsigned int fn_82F64CE0(const unsigned short *text);
 
-
-double fn_82588130(short *param_1,unsigned __int64 param_2)
-
+float fn_82588130(const unsigned short *text, int font)
 {
-  short sVar1;
-  int iVar2;
-  short sVar3;
-  double dVar4;
-  double dVar5;
-  double dVar6;
-  
-  sVar3 = 0;
-  dVar5 = (double)ltcg_pool_0_0f;
-  dVar6 = dVar5;
-  while( true ) {
-    iVar2 = fn_82F64CE0(param_1);
-    if (iVar2 == 0) {
-      return (double)(float)(dVar6 - (double)fRam8326b870);
-    }
-    sVar1 = *param_1;
-    if (sVar1 == 10) {
-      return dVar6;
-    }
-    if (sVar1 == 0x20) {
-      return dVar6;
-    }
-    if (sVar1 == 0) break;
-    dVar4 = (double)fn_82588280(dVar5,param_2,sVar1,sVar3);
-    sVar3 = *param_1;
-    param_1 = param_1 + 1;
-    dVar6 = (double)(float)(dVar4 + dVar6);
-  }
-  return dVar6;
-}
+    const unsigned short *self = text;
+    unsigned short previous = 0;
+    float scale = 0.0f;
+    float width = scale;
 
+    while (fn_82F64CE0(self)) {
+        unsigned short character = *self;
+        if (character == 10 || character == 32 || character == 0) {
+            return width;
+        }
+        width += fn_82588280(font, character, previous, scale);
+        previous = *self++;
+    }
+    return width - lbl_8326B850[8];
+}

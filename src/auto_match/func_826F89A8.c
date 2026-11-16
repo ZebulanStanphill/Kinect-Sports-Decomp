@@ -1,68 +1,65 @@
-typedef unsigned char bool;
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_34;
-extern unsigned int *auStack_40;
-extern int fn_8267BE38();
-extern int fn_8267C4F0();
-extern int fn_8268B330();
-extern int fn_8268C750();
-extern int fn_826D7220();
-extern int fn_826F34B0();
-extern int fn_826F35B0();
-extern int fn_826F8298();
-extern unsigned int uStack_38;
-extern unsigned __int64 storeWordConditionalIndexed();
+extern long _InterlockedExchangeAdd(volatile long *value, long amount);
+extern void __emit(unsigned int instruction);
+#define __lwsync() __emit(0x7c2004ac)
 
+typedef struct Request_826F89A8 {
+    int kind;
+    int first;
+    int second;
+} Request_826F89A8;
 
-void fn_826F89A8(int param_1)
+typedef struct TextData_826F89A8 {
+    unsigned int size;
+    long refs;
+    char text[1];
+} TextData_826F89A8;
 
+typedef struct Object_826F89A8 {
+    char padding[0x10];
+    void *source;
+    int second;
+    int first;
+    int result1;
+    int result2;
+    int done;
+    unsigned char success;
+} Object_826F89A8;
+
+extern void fn_8268C750(int *destination, int *source);
+extern void fn_8268B330(unsigned int *text);
+extern void fn_826F35B0(void *source, unsigned int *text, Request_826F89A8 *request);
+extern void *fn_826F34B0(void *source, const char *text, int flags);
+extern unsigned char fn_826F8298(void *result, int *first, int *second);
+extern void fn_8267C4F0(void *result);
+extern void fn_8267BE38(void *data);
+extern void fn_826D7220(Request_826F89A8 *request);
+
+void fn_826F89A8(Object_826F89A8 *self)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  unsigned char uVar3;
-  __int64 lVar4;
-  unsigned int *puVar5;
-  char in_RESERVE;
-  unsigned char bVar6;
-  unsigned int auStack_40 [2];
-  unsigned int uStack_38;
-  unsigned char auStack_34 [4];
-  unsigned char auStack_30 [48];
-  
-  uStack_38 = 4;
-  fn_8268C750(auStack_34,param_1 + 0x18);
-  fn_8268C750(auStack_30,param_1 + 0x14);
-  fn_8268B330(auStack_40);
-  fn_826F35B0(*(unsigned int *)(param_1 + 0x10),auStack_40,&uStack_38);
-  uVar2 = fn_826F34B0(*(unsigned int *)(param_1 + 0x10),((unsigned __int64)auStack_40[0] & 0xfffffffc) + 8,
-                        0);
-  bVar6 = (uVar2 == 0) << 1;
-  if (uVar2 == 0) {
-    *(unsigned char *)(param_1 + 0x28) = 1;
-  }
-  else {
-    uVar3 = fn_826F8298(uVar2,param_1 + 0x1c,param_1 + 0x20);
-    *(unsigned char *)(param_1 + 0x28) = uVar3;
-  }
-  sync(1);
-  *(unsigned int *)(param_1 + 0x24) = 1;
-  if ((uVar2 & 0xffffffff) != 0) {
-    fn_8267C4F0(uVar2);
-  }
-  lVar4 = ((unsigned __int64)auStack_40[0] & 0xfffffffc) + 4;
-  do {
-    puVar5 = (unsigned int *)lVar4;
-    uVar2 = (unsigned __int64)*puVar5;
-    if (in_RESERVE != '\0') {
-      uVar1 = storeWordConditionalIndexed(uVar2 - 1,0,lVar4);
-      *puVar5 = uVar1;
-      bVar6 = 2;
-    }
-  } while (!(bool)(bVar6 >> 1 & 1));
-  if (uVar2 == 1) {
-    fn_8267BE38();
-  }
-  fn_826D7220(&uStack_38);
-  return;
-}
+    Request_826F89A8 request;
+    unsigned int text;
+    void *result;
+    TextData_826F89A8 *data;
 
+    request.kind = 4;
+    fn_8268C750(&request.first, &self->first);
+    fn_8268C750(&request.second, &self->second);
+    fn_8268B330(&text);
+    fn_826F35B0(self->source, &text, &request);
+    result = fn_826F34B0(self->source, ((TextData_826F89A8 *)(text & ~3u))->text, 0);
+    if (result != 0) {
+        self->success = fn_826F8298(result, &self->result1, &self->result2);
+    } else {
+        self->success = 1;
+    }
+    __lwsync();
+    self->done = 1;
+    if (result != 0) {
+        fn_8267C4F0(result);
+    }
+    data = (TextData_826F89A8 *)(text & ~3u);
+    if (_InterlockedExchangeAdd(&data->refs, -1) - 1 == 0) {
+        fn_8267BE38(data);
+    }
+    fn_826D7220(&request);
+}

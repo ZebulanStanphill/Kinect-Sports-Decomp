@@ -35959,7 +35959,7 @@ auto_match/func_824C3B98.c:
 	.pdata      start:0x821EC638 end:0x821EC640
 	.text       start:0x824C3B98 end:0x824C3E18
 
-auto_match/func_824C3E18.c:
+auto_match/func_824C3E18.cpp:
 	.pdata      start:0x821EC640 end:0x821EC648
 	.text       start:0x824C3E18 end:0x824C3F18
 
@@ -53195,7 +53195,7 @@ auto_match/func_8265EF98.c:
 	.pdata      start:0x821F3AF0 end:0x821F3AF8
 	.text       start:0x8265EF98 end:0x8265EFDC
 
-auto_match/func_8265EFE0.c:
+auto_match/func_8265EFE0.cpp:
 	.pdata      start:0x821F3AF8 end:0x821F3B00
 	.text       start:0x8265EFE0 end:0x8265F0AC
 
@@ -58543,7 +58543,7 @@ auto_match/func_82694D08.c:
 	.pdata      start:0x821F5D90 end:0x821F5D98
 	.text       start:0x82694D08 end:0x82694D6C
 
-auto_match/func_82694D70.c:
+auto_match/func_82694D70.cpp:
 	.pdata      start:0x821F5D98 end:0x821F5DA0
 	.text       start:0x82694D70 end:0x82694E80
 
@@ -66180,7 +66180,7 @@ auto_match/func_826FFD88.c:
 	.pdata      start:0x821F90F8 end:0x821F9100
 	.text       start:0x826FFD88 end:0x826FFF98
 
-auto_match/func_826FFF98.c:
+auto_match/func_826FFF98.cpp:
 	.pdata      start:0x821F9100 end:0x821F9108
 	.text       start:0x826FFF98 end:0x827000D4
 
@@ -100332,7 +100332,7 @@ auto_match/func_828D5B78.cpp:
 	.pdata      start:0x82206230 end:0x82206238
 	.text       start:0x828D5B78 end:0x828D5D0C
 
-auto_match/func_828D5D10.c:
+auto_match/func_828D5D10.cpp:
 	.pdata      start:0x82206238 end:0x82206240
 	.text       start:0x828D5D10 end:0x828D5DBC
 
@@ -127951,7 +127951,7 @@ auto_match/func_82BD0A98.c:
 	.pdata      start:0x82211BF0 end:0x82211BF8
 	.text       start:0x82BD0A98 end:0x82BD0C0C
 
-auto_match/func_82BD0C10.c:
+auto_match/func_82BD0C10.cpp:
 	.pdata      start:0x82211BF8 end:0x82211C00
 	.text       start:0x82BD0C10 end:0x82BD0D2C
 
@@ -131837,7 +131837,7 @@ auto_match/func_82C04F00.c:
 auto_match/func_82C04F10.c:
 	.text       start:0x82C04F10 end:0x82C04F60
 
-auto_match/func_82C04F60.c:
+auto_match/func_82C04F60.cpp:
 	.pdata      start:0x82213598 end:0x822135A0
 	.text       start:0x82C04F60 end:0x82C0506C
 

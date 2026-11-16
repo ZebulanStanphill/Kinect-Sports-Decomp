@@ -1,13 +1,42 @@
-extern unsigned int *auStack_4c;
-extern int memset();
+typedef struct Stream_82F6E0F0 {
+    void *cursor;              /* 0x00 */
+    int count;                 /* 0x04 */
+    void *base;                /* 0x08 */
+    int flags;                 /* 0x0c */
+    unsigned char padding[16]; /* 0x10 */
+} Stream_82F6E0F0;
 
+extern void *memset(void *, int, unsigned int);
 
-void fn_82F6E0F0(void)
+extern int *_errno(void);
+extern void _invalid_parameter_noinfo(void);
 
+extern int fn_82F709B8(Stream_82F6E0F0 *, const char *, void *, void *);
+extern int fn_82F70748(int, Stream_82F6E0F0 *);
+
+int fn_82F6E0F0(char *text, const char *pattern, void *locale, void *args)
 {
-  unsigned char auStack_4c [60];
-  
-                    /* WARNING: Subroutine does not return */
-  memset(auStack_4c,0,0x1c);
+    Stream_82F6E0F0 stream = {0};
+    int result;
+    if (pattern == 0) {
+        *_errno() = 22;
+        _invalid_parameter_noinfo();
+        return -1;
+    }
+    if (text == 0) {
+        *_errno() = 22;
+        _invalid_parameter_noinfo();
+        return -1;
+    }
+    stream.base = text;
+    stream.cursor = text;
+    stream.flags = 0x42;
+    stream.count = 0x7fffffff;
+    result = fn_82F709B8(&stream, pattern, locale, args);
+    if (--stream.count >= 0) {
+        *(char *)stream.cursor = 0;
+    } else {
+        fn_82F70748(0, &stream);
+    }
+    return result;
 }
-

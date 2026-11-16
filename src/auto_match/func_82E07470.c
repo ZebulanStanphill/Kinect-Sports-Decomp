@@ -1,55 +1,63 @@
-extern int fn_82CFC050();
-extern int fn_82E06C88();
-extern int fn_82E07080();
-extern int fn_82E07698();
+typedef struct Buffer_82E07470 {
+    char padding[8];
+    void *data0; /* 0x8 */
+    int fields0[2];
+    void *data1; /* 0x14 */
+    int fields1[2];
+    void *data2; /* 0x20 */
+    int fields2[2];
+    void *data3; /* 0x2c */
+    int fields3[2];
+    void *data4; /* 0x38 */
+    int fields4[2];
+    unsigned int count;   /* 0x44 */
+    unsigned int stride0; /* 0x48 */
+    unsigned int stride1; /* 0x4c */
+    unsigned int stride2; /* 0x50 */
+    unsigned int stride3; /* 0x54 */
+    unsigned int stride4; /* 0x58 */
+    int format[3];        /* 0x5c */
+} Buffer_82E07470;
 
+extern int fn_82E07698(void *, void *);
+extern void fn_82E07080(Buffer_82E07470 *, unsigned int, void *);
+extern void fn_82CFC050(void *, const void *, unsigned int);
+extern void fn_82E06C88(Buffer_82E07470 *, Buffer_82E07470 *, unsigned int, unsigned int);
 
-void fn_82E07470(int param_1,int param_2,char param_3)
-
+void fn_82E07470(Buffer_82E07470 *self, Buffer_82E07470 *source, unsigned char resize)
 {
-  char cVar1;
-  unsigned int uVar3;
-  unsigned __int64 uVar2;
-  
-  cVar1 = fn_82E07698(param_1 + 0x5c,param_2 + 0x5c);
-  if (param_3 != '\0') {
-    fn_82E07080(param_1,*(unsigned int *)(param_2 + 0x44),param_1 + 0x5c);
-  }
-  if (cVar1 == '\0') {
-    uVar2 = 0;
-    if (*(int *)(param_2 + 0x44) != 0) {
-      do {
-        fn_82E06C88(param_1,param_2,uVar2,uVar2);
-        uVar2 = uVar2 + 1;
-      } while ((uVar2 & 0xffffffff) < (unsigned __int64)*(unsigned int *)(param_2 + 0x44));
+    int same = fn_82E07698(self->format, source->format);
+    if (resize != 0) {
+        fn_82E07080(self, source->count, self->format);
     }
-  }
-  else {
-    uVar3 = *(unsigned int *)(param_2 + 0x44);
-    if (*(unsigned int *)(param_1 + 0x44) <= *(unsigned int *)(param_2 + 0x44)) {
-      uVar3 = *(unsigned int *)(param_1 + 0x44);
+    if ((unsigned char)same != 0) {
+        unsigned int count;
+        unsigned int ownCount = self->count;
+        unsigned int sourceCount = source->count;
+        if (sourceCount < ownCount) {
+            count = sourceCount;
+        } else {
+            count = ownCount;
+        }
+        if (self->stride4 != 0) {
+            fn_82CFC050(self->data4, source->data4, self->stride4 * count);
+        }
+        if (self->stride3 != 0) {
+            fn_82CFC050(self->data3, source->data3, self->stride3 * count);
+        }
+        if (self->stride2 != 0) {
+            fn_82CFC050(self->data2, source->data2, self->stride2 * count);
+        }
+        if (self->stride1 != 0) {
+            fn_82CFC050(self->data1, source->data1, self->stride1 * count);
+        }
+        if (self->stride0 != 0) {
+            fn_82CFC050(self->data0, source->data0, self->stride0 * count);
+        }
+    } else {
+        unsigned int i;
+        for (i = 0; i < source->count; i++) {
+            fn_82E06C88(self, source, i, i);
+        }
     }
-    if (*(int *)(param_1 + 0x58) != 0) {
-      fn_82CFC050(*(unsigned int *)(param_1 + 0x38),*(unsigned int *)(param_2 + 0x38),
-                   (__int64)*(int *)(param_1 + 0x58) * (__int64)(int)uVar3);
-    }
-    if (*(int *)(param_1 + 0x54) != 0) {
-      fn_82CFC050(*(unsigned int *)(param_1 + 0x2c),*(unsigned int *)(param_2 + 0x2c),
-                   (__int64)*(int *)(param_1 + 0x54) * (__int64)(int)uVar3);
-    }
-    if (*(int *)(param_1 + 0x50) != 0) {
-      fn_82CFC050(*(unsigned int *)(param_1 + 0x20),*(unsigned int *)(param_2 + 0x20),
-                   (__int64)*(int *)(param_1 + 0x50) * (__int64)(int)uVar3);
-    }
-    if (*(int *)(param_1 + 0x4c) != 0) {
-      fn_82CFC050(*(unsigned int *)(param_1 + 0x14),*(unsigned int *)(param_2 + 0x14),
-                   (__int64)*(int *)(param_1 + 0x4c) * (__int64)(int)uVar3);
-    }
-    if (*(int *)(param_1 + 0x48) != 0) {
-      fn_82CFC050(*(unsigned int *)(param_1 + 8),*(unsigned int *)(param_2 + 8),
-                   (__int64)*(int *)(param_1 + 0x48) * (__int64)(int)uVar3);
-    }
-  }
-  return;
 }
-

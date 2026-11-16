@@ -1,45 +1,46 @@
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-extern unsigned int *auStack_50;
-extern unsigned int fStack_6c;
-extern unsigned int fStack_70;
-extern int fn_82230300();
-extern int fn_8223B688();
-extern int fn_8258EE70();
-extern unsigned int uStack_28;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
-extern unsigned int uStack_58;
-extern unsigned int uStack_60;
+typedef struct Pair_8258D810 {
+    float first;
+    float second;
+} Pair_8258D810;
 
+typedef struct Rect_8258D810 {
+    Pair_8258D810 first;
+    Pair_8258D810 second;
+} Rect_8258D810;
 
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
+typedef struct Text_8258D810 {
+    unsigned int words[7];
+} Text_8258D810;
 
-void fn_8258D810(double param_1,double param_2,double param_3,double param_4,__int64 param_5)
+typedef struct Argument_8258D810 {
+    Text_8258D810 text;
+    Rect_8258D810 rectangle;
+} Argument_8258D810;
 
+extern void *fn_8223B688(void *out, void *source);
+extern void fn_82230300(void *text, int a, int b);
+extern void fn_8258EE70(Pair_8258D810 *out, void *self, Argument_8258D810 *argument);
+
+static __forceinline Pair_8258D810 MakePair(float a, float b)
 {
-  int in_r8;
-  struct { float first; float second; } stack_pair_70;
-
-  unsigned __int64 uStack_60;
-  unsigned __int64 uStack_58;
-  unsigned char auStack_50 [32];
-  unsigned int uStack_30;
-  unsigned int uStack_2c;
-  unsigned int uStack_28;
-  
-  if (*(int *)(in_r8 + 0x10) != 0) {
-    uStack_60 = CONCAT44((float)param_1,(float)param_2);
-    stack_pair_70.first = (float)param_3;
-    stack_pair_70.second = (float)param_4;
-    uStack_58 = CONCAT44(stack_pair_70.first,stack_pair_70.second);
-    fn_8223B688(auStack_50,in_r8);
-    uStack_30 = (((unsigned __int64)(uStack_60) >> 32) & 0xFFFFFFFF);
-    uStack_2c = (((unsigned __int64)(uStack_58) >> 0) & 0xFFFFFFFF);
-    uStack_28 = (((unsigned __int64)(uStack_58) >> 32) & 0xFFFFFFFF);
-    fn_8258EE70(&stack_pair_70.first,param_5 + 0x1b0,auStack_50);
-    fn_82230300(auStack_50,1,0);
-  }
-  fn_82230300(in_r8,1,0);
-  return;
+    Pair_8258D810 result;
+    result.first = a;
+    result.second = b;
+    return result;
 }
 
+void fn_8258D810(char *self, float x, float y, float width, float height, Text_8258D810 *text)
+{
+    if (text->words[4] != 0) {
+        Rect_8258D810 rectangle;
+        Pair_8258D810 result;
+        Argument_8258D810 argument;
+        rectangle.first = MakePair(x, y);
+        rectangle.second = MakePair(width, height);
+        fn_8223B688(&argument.text, text);
+        argument.rectangle = rectangle;
+        fn_8258EE70(&result, self + 0x1b0, &argument);
+        fn_82230300(&argument.text, 1, 0);
+    }
+    fn_82230300(text, 1, 0);
+}

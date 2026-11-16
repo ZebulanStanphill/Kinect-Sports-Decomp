@@ -1,21 +1,50 @@
-extern int fn_82A68EA0();
-extern int fn_82F691F0();
+extern void *fn_82A68EA0(unsigned int, unsigned int);
+extern void *memset(void *, int, unsigned int);
 
+typedef struct Buffers_82C3E718 {
+    unsigned int count; /* 0x00 */
+    char reserved04[0x20];
+    void *positions; /* 0x24 */
+    void *indices;   /* 0x28 */
+    void *values;    /* 0x2c */
+    void *first;     /* 0x30 */
+    void *second;    /* 0x34 */
+} Buffers_82C3E718;
 
-unsigned __int64 fn_82C3E718(unsigned int *param_1,unsigned int param_2)
-
+int fn_82C3E718(Buffers_82C3E718 *self, unsigned short count)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  
-  iVar1 = (param_2 & 0xffff) << 1;
-  *param_1 = param_2 & 0xffff;
-  uVar2 = fn_82A68EA0(iVar1,0x40);
-  param_1[0xc] = (unsigned int)uVar2;
-  if ((uVar2 & 0xffffffff) == 0) {
-    return 0xffffffff8007000e;
-  }
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0(uVar2,0,iVar1);
+    int result = 0;
+    self->count = count;
+    self->first = fn_82A68EA0(count * 2, 0x40);
+    if (self->first == 0) {
+        result = 0x8007000e;
+        goto done;
+    }
+    memset(self->first, 0, count * 2);
+    self->second = fn_82A68EA0(count * 2, 0x40);
+    if (self->second == 0) {
+        result = 0x8007000e;
+        goto done;
+    }
+    memset(self->second, 0, count * 2);
+    self->positions = fn_82A68EA0(count * 8, 0x40);
+    if (self->positions == 0) {
+        result = 0x8007000e;
+        goto done;
+    }
+    memset(self->positions, 0, count * 8);
+    self->indices = fn_82A68EA0(count * 4, 0x40);
+    if (self->indices == 0) {
+        result = 0x8007000e;
+        goto done;
+    }
+    memset(self->indices, 0, count * 4);
+    self->values = fn_82A68EA0(count * 4, 0x40);
+    if (self->values == 0) {
+        result = 0x8007000e;
+        goto done;
+    }
+    memset(self->values, 0, count * 4);
+done:
+    return result;
 }
-

@@ -1,66 +1,42 @@
-extern unsigned int *auStack_60;
-extern int fn_82F6A548();
-extern int fn_82F6A594();
-extern int fn_8305D830();
-extern int fn_8305F7A0();
-extern int fn_83066DD8();
-extern unsigned int lbl_82005C88;
-extern unsigned int lbl_821AAD20;
+typedef struct Shape_8305E4E8 {
+    char pad0[0x28];
+    void *points;
+    unsigned int *indices;
+    int count;
+} Shape_8305E4E8;
 
+typedef struct Bounds_8305E4E8 {
+    float values[6];
+} Bounds_8305E4E8;
 
-void fn_8305E4E8(void)
+extern unsigned char fn_8305D830(Shape_8305E4E8 *self, int index, Bounds_8305E4E8 *out);
+extern void *fn_8305F7A0(void *points, unsigned int index);
+extern float fn_83066DD8(Bounds_8305E4E8 *bounds, void *point);
 
+float fn_8305E4E8(Shape_8305E4E8 *self)
 {
-  int iVar2;
-  char cVar3;
-  unsigned __int64 uVar1;
-  int iVar4;
-  int iVar5;
-  int iVar6;
-  double dVar7;
-  double dVar8;
-  double dVar9;
-  double dVar10;
-  double dVar11;
-  unsigned char auStack_60 [16];
-  
-  iVar2 = fn_82F6A548();
-  iVar5 = 0;
-  dVar9 = (double)lbl_82005C88;
-  if (0 < *(int *)(iVar2 + 0x30)) {
-    dVar8 = (double)lbl_821AAD20;
-    do {
-      cVar3 = fn_8305D830(iVar2,iVar5,auStack_60);
-      if (cVar3 != '\0') {
-        iVar4 = *(int *)(iVar2 + 0x30);
-        iVar6 = 2;
-        dVar10 = dVar8;
-        dVar11 = dVar8;
-        if (2 < iVar4) {
-          do {
-            uVar1 = fn_8305F7A0(*(unsigned int *)(iVar2 + 0x28),
-                                 *(unsigned int *)
-                                  (((iVar6 + iVar5) - ((iVar6 + iVar5) / iVar4) * iVar4) * 4 +
-                                  *(int *)(iVar2 + 0x2c)));
-            dVar7 = (double)fn_83066DD8(auStack_60,uVar1);
-            if (dVar7 < dVar10) {
-              dVar10 = dVar7;
+    float best = 3.402823466e+38f;
+    int first;
+    for (first = 0; first < self->count; first++) {
+        Bounds_8305E4E8 bounds;
+        if (fn_8305D830(self, first, &bounds)) {
+            float minimum = 0.0f;
+            float maximum = 0.0f;
+            int index;
+            for (index = 2; index < self->count; index++) {
+                float value = fn_83066DD8(
+                    &bounds, fn_8305F7A0(self->points, self->indices[(index + first) % self->count]));
+                if (value < minimum) {
+                    minimum = value;
+                }
+                if (value > maximum) {
+                    maximum = value;
+                }
             }
-            if (dVar11 < dVar7) {
-              dVar11 = dVar7;
+            if (maximum - minimum < best) {
+                best = maximum - minimum;
             }
-            iVar4 = *(int *)(iVar2 + 0x30);
-            iVar6 = iVar6 + 1;
-          } while (iVar6 < iVar4);
         }
-        if ((double)(float)(dVar11 - dVar10) < dVar9) {
-          dVar9 = (double)(float)(dVar11 - dVar10);
-        }
-      }
-      iVar5 = iVar5 + 1;
-    } while (iVar5 < *(int *)(iVar2 + 0x30));
-  }
-  fn_82F6A594(dVar9);
-  return;
+    }
+    return best;
 }
-
