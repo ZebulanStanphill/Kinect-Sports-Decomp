@@ -1,17 +1,20 @@
-extern int fn_824EC320();
-extern int fn_8266F580();
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Object_822A1100 {
+    void *resource; /* 0x00 */
+    char reserved04[0xc];
+    float x; /* 0x10 */
+    float y; /* 0x14 */
+    float z; /* 0x18 */
+    float reserved1c;
+    float width;  /* 0x20 */
+    float height; /* 0x24 */
+} Object_822A1100;
 
+extern unsigned int fn_8266F580(void *);
+extern void fn_824EC320(float, float, float, float, float, float, float, float, float, unsigned int,
+                        unsigned char, int, int);
 
-void fn_822A1100(unsigned int *param_1)
-
+void fn_822A1100(Object_822A1100 *self)
 {
-  double dVar1;
-  
-  fn_8266F580(*param_1);
-  dVar1 = (double)ltcg_pool_0_0f;
-  fn_824EC320((double)(float)param_1[4],(double)(float)param_1[5],(double)(float)param_1[6],
-                    (double)(float)param_1[8],dVar1,dVar1,dVar1,(double)(float)param_1[9]);
-  return;
+    fn_824EC320(self->x, self->y, self->z, self->width, 0.0f, 0.0f, 0.0f, self->height, 0.0f,
+                fn_8266F580(self->resource), 1, 3, 0);
 }
-

@@ -1,63 +1,74 @@
-extern int fn_823B65F8();
-extern int fn_8243C3D0();
-extern int fn_8243C490();
-extern int fn_8288B760();
-extern int fn_828AAF70();
-extern int fn_828B00A0();
-extern unsigned int lbl_821B9BC8;
-extern unsigned int uStack_18;
-extern unsigned int uStack_1c;
+typedef struct Item_823B6E70 Item_823B6E70;
 
+typedef struct Vtable_823B6E70 {
+    void *reserved[2];
+    char *(*GetOwner)(Item_823B6E70 *self);
+} Vtable_823B6E70;
 
-void fn_823B6E70(unsigned int *param_1)
+struct Item_823B6E70 {
+    Vtable_823B6E70 *vtable;
+    char padding[0x7c];
+    int state;
+};
 
+typedef struct Object_823B6E70 {
+    char *owner;
+    int reserved[2];
+    char *item;
+    int active;
+    float time;
+} Object_823B6E70;
+
+extern unsigned char fn_8288B760(Item_823B6E70 *item);
+extern int fn_8243C3D0(void *self, int flags);
+extern unsigned __int64 fn_828B00A0(void *self);
+extern void fn_8243C490(void *self, const unsigned __int64 *value);
+
+static __forceinline Item_823B6E70 *GetItem(Object_823B6E70 *self)
 {
-  char cVar4;
-  int *piVar2;
-  __int64 lVar1;
-  int iVar3;
-  unsigned char **ppuStack_20;
-  unsigned int uStack_1c;
-  unsigned __int64 uStack_18;
-  
-  if (param_1[3] != 0) {
-    cVar4 = fn_8288B760((unsigned __int64)param_1[3] - 0x68);
-    if (cVar4 != '\0') {
-      piVar2 = (int *)(param_1[3] - 0x68);
-      if (param_1[3] == 0) {
-        piVar2 = (int *)0x0;
-      }
-      lVar1 = (**(int (***)())(*piVar2 + 8))();
-      iVar3 = fn_8243C3D0(lVar1 + 0x9c,0);
-      if (iVar3 == 1) {
-        piVar2 = (int *)(param_1[3] - 0x68);
-        if (param_1[3] == 0) {
-          piVar2 = (int *)0x0;
-        }
-        lVar1 = (**(int (***)())(*piVar2 + 8))();
-        iVar3 = fn_8243C3D0(lVar1 + 0xf0,0);
-        if (iVar3 == 0) {
-          uStack_1c = (**(int (***)())(**(int **)(*param_1 + 0x308) + 8))();
-          ppuStack_20 = &lbl_821B9BC8;
-          fn_823B65F8(param_1,&ppuStack_20);
-          uStack_18 = fn_828B00A0((unsigned __int64)*param_1 + 0x278);
-          piVar2 = (int *)(param_1[3] - 0x68);
-          if (param_1[3] == 0) {
-            piVar2 = (int *)0x0;
-          }
-          lVar1 = (**(int (***)())(*piVar2 + 8))();
-          fn_8243C490(lVar1 + 0xf0,&uStack_18);
-          piVar2 = (int *)(param_1[3] - 0x68);
-          if (param_1[3] == 0) {
-            piVar2 = (int *)0x0;
-          }
-          lVar1 = (**(int (***)())(*piVar2 + 8))();
-          fn_828AAF70(lVar1 + 0x144,1);
-          param_1[4] = 0;
-        }
-      }
-    }
-  }
-  return;
+    return self->item ? (Item_823B6E70 *)(self->item - 0x68) : 0;
 }
 
+extern char lbl_821B9BC8[];
+
+typedef struct Request_823B6E70 {
+    const void *type;
+    int value;
+} Request_823B6E70;
+typedef struct Provider_823B6E70 Provider_823B6E70;
+
+typedef struct ProviderVtable_823B6E70 {
+    void *reserved[2];
+    int (*get)(Provider_823B6E70 *);
+} ProviderVtable_823B6E70;
+
+struct Provider_823B6E70 {
+    ProviderVtable_823B6E70 *vtable;
+};
+
+extern void fn_823B65F8(Object_823B6E70 *, const Request_823B6E70 *);
+extern void fn_828AAF70(void *, int);
+
+void fn_823B6E70(Object_823B6E70 *self)
+{
+    if ((int)self->item != 0 && fn_8288B760(GetItem(self))) {
+        Item_823B6E70 *item = GetItem(self);
+        if (fn_8243C3D0(item->vtable->GetOwner(item) + 0x9c, 0) == 1) {
+            item = GetItem(self);
+            if (fn_8243C3D0(item->vtable->GetOwner(item) + 0xf0, 0) == 0) {
+                Request_823B6E70 request;
+                unsigned __int64 value;
+                Provider_823B6E70 *provider = *(Provider_823B6E70 **)(self->owner + 0x308);
+                request.value = provider->vtable->get(provider);
+                request.type = lbl_821B9BC8;
+                fn_823B65F8(self, &request);
+                value = fn_828B00A0(self->owner + 0x278);
+                item = GetItem(self);
+                fn_8243C490(item->vtable->GetOwner(item) + 0xf0, &value);
+                item = GetItem(self);
+                fn_828AAF70(item->vtable->GetOwner(item) + 0x144, 1);
+                self->active = 0;
+            }
+        }
+    }
+}

@@ -1,78 +1,65 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_82239010();
-extern int fn_825178E0();
-extern int fn_828A1C38();
-extern int fn_828ACC40();
-extern int fn_828AD0F8();
-extern int fn_828AD488();
-extern int fn_828C3E70();
-extern int fn_828C4240();
-extern unsigned int uStack_50;
+typedef struct Handle_828C1DE0 {
+    char pad[8];
+    int state;
+} Handle_828C1DE0;
 
+typedef struct Array_828C1DE0 {
+    char *begin;
+    char *end;
+    char *capacity;
+    int reserved;
+} Array_828C1DE0;
 
-__int64 fn_828C1DE0(int param_1)
+typedef struct Owner_828C1DE0 {
+    char pad[0x8c];
+    Handle_828C1DE0 *handle;
+    char pad90[0x10];
+    int state;
+    char pada4[0x64];
+    Array_828C1DE0 first[4];
+    Array_828C1DE0 second[4];
+} Owner_828C1DE0;
 
+extern unsigned char fn_828AD0F8(Owner_828C1DE0 *);
+extern unsigned char fn_828AD488(Owner_828C1DE0 *);
+extern unsigned char fn_828C4240(Owner_828C1DE0 *);
+extern unsigned char fn_828ACC40(Owner_828C1DE0 *);
+extern void fn_828C3E70(Owner_828C1DE0 *);
+extern void fn_828A1C38(Handle_828C1DE0 **);
+extern char *fn_825178E0(char *, char *, char *, unsigned char);
+extern void fn_82239010(char *, char *, void *, unsigned char);
+
+static __forceinline void Clear_828C1DE0(Array_828C1DE0 *array)
 {
-  int iVar1;
-  bool bVar2;
-  char cVar4;
-  unsigned __int64 uVar3;
-  __int64 lVar5;
-  __int64 lVar6;
-  int *piVar7;
-  unsigned char uStack_50;
-  
-  cVar4 = fn_828AD0F8();
-  if ((cVar4 == '\0') && (cVar4 = fn_828AD488(param_1), cVar4 == '\0')) {
-    cVar4 = fn_828C4240(param_1);
-    bVar2 = false;
-    if (cVar4 != '\0') goto LAB_828c1e30;
-  }
-  else {
-LAB_828c1e30:
-    bVar2 = true;
-  }
-  if (bVar2) {
-    cVar4 = fn_828ACC40(param_1);
-    bVar2 = true;
-    if (cVar4 != '\0') goto LAB_828c1e5c;
-  }
-  bVar2 = false;
-LAB_828c1e5c:
-  if ((!bVar2) || (bVar2 = true, *(int *)(param_1 + 0x8c) == 0)) {
-    bVar2 = false;
-  }
-  if ((!bVar2) || (lVar5 = 1, *(int *)(*(int *)(param_1 + 0x8c) + 8) != 0)) {
-    lVar5 = 0;
-  }
-  if (lVar5 != 0) {
-    fn_828C3E70(param_1);
-    if (*(int *)(param_1 + 0x8c) != 0) {
-      fn_828A1C38((unsigned int *)(param_1 + 0x8c));
-      *(unsigned int *)(param_1 + 0x8c) = 0;
+    unsigned char moveTag;
+    unsigned char destroyTag;
+    char *last = array->end;
+    if (array->begin != last) {
+        char *end = fn_825178E0(last, last, array->begin, moveTag);
+        fn_82239010(end, array->end, &array->reserved, destroyTag);
+        array->end = end;
     }
-    *(unsigned int *)(param_1 + 0xa0) = 0;
-    piVar7 = (int *)(param_1 + 0x10c);
-    lVar6 = 4;
-    do {
-      iVar1 = *piVar7;
-      if (piVar7[-1] != iVar1) {
-        uVar3 = fn_825178E0(iVar1,iVar1,piVar7[-1],uStack_50);
-        fn_82239010(uVar3,*piVar7,piVar7 + 2,uStack_50);
-        *piVar7 = (int)uVar3;
-      }
-      iVar1 = piVar7[0x10];
-      if (piVar7[0xf] != iVar1) {
-        uVar3 = fn_825178E0(iVar1,iVar1,piVar7[0xf],uStack_50);
-        fn_82239010(uVar3,piVar7[0x10],piVar7 + 0x12,uStack_50);
-        piVar7[0x10] = (int)uVar3;
-      }
-      lVar6 = lVar6 + -1;
-      piVar7 = piVar7 + 4;
-    } while (lVar6 != 0);
-  }
-  return lVar5;
 }
 
+unsigned char fn_828C1DE0(Owner_828C1DE0 *self)
+{
+    unsigned char ready;
+    int index;
+    ready = fn_828AD0F8(self) || fn_828AD488(self) || fn_828C4240(self);
+    ready = ready && fn_828ACC40(self);
+    ready = ready && self->handle != 0;
+    ready = ready && self->handle->state == 0;
+    if (ready) {
+        fn_828C3E70(self);
+        if (self->handle != 0) {
+            fn_828A1C38(&self->handle);
+            self->handle = 0;
+        }
+        self->state = 0;
+        for (index = 0; index < 4; ++index) {
+            Clear_828C1DE0(&self->first[index]);
+            Clear_828C1DE0(&self->second[index]);
+        }
+    }
+    return ready;
+}

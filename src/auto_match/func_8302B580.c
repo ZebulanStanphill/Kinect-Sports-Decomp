@@ -1,24 +1,33 @@
-extern int fn_8302B6E0();
+typedef struct Node_8302B580 {
+    int padding;
+    unsigned int key;           // 0x04
+    struct Node_8302B580 *next; // 0x08
+} Node_8302B580;
 
+typedef struct Table_8302B580 {
+    Node_8302B580 *buckets[31]; // 0x00
+    unsigned int count;         // 0x7c
+} Table_8302B580;
 
-void fn_8302B580(int param_1,unsigned __int64 param_2,int param_3)
+extern char lbl_83264EA8[];
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
+extern Node_8302B580 *fn_8302B6E0(Table_8302B580 *self, unsigned int key);
 
+void fn_8302B580(Table_8302B580 *self, unsigned int key, Node_8302B580 *node)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  
-  RtlEnterCriticalSection(0xffffffff83264ea8);
-  iVar2 = fn_8302B6E0(param_1,param_2);
-  if (iVar2 == 0) {
-    *(int *)(param_3 + 4) = (int)param_2;
-    uVar1 = (param_2 & 0xffffffff) * 0x8421085 >> 0x20;
-    uVar1 = ((param_2 - uVar1 & 0xffffffff) >> 1) + uVar1 >> 4;
-    iVar2 = (int)((param_2 - ((uVar1 & 0x7ffffff) * 0x20 - uVar1) & 0xffffffff) << 2);
-    *(unsigned int *)(param_3 + 8) = *(unsigned int *)(iVar2 + param_1);
-    *(int *)(iVar2 + param_1) = param_3;
-    *(int *)(param_1 + 0x7c) = *(int *)(param_1 + 0x7c) + 1;
-  }
-  RtlLeaveCriticalSection(0xffffffff83264ea8);
-  return;
+    RtlEnterCriticalSection(lbl_83264EA8);
+    if (!fn_8302B6E0(self, key)) {
+        unsigned int bucket;
+        node->key = key;
+        bucket = key % 31;
+        node->next = self->buckets[bucket];
+        self->buckets[bucket] = node;
+        self->count++;
+        RtlLeaveCriticalSection(lbl_83264EA8);
+        return;
+    } else {
+        RtlLeaveCriticalSection(lbl_83264EA8);
+        return;
+    }
 }
-

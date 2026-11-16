@@ -1,55 +1,48 @@
-extern int fn_82230360();
-extern int fn_8288DD10();
-extern int fn_828A12E8();
-extern int fn_82F6DCE0();
+typedef struct String_828B5A20 {
+    union {
+        char buffer[16]; /* 0x00 */
+        char *pointer;   /* 0x00 */
+    } text;
 
+    unsigned int size;     /* 0x10 */
+    unsigned int capacity; /* 0x14 */
+} String_828B5A20;
 
-unsigned char * fn_828B5A20(unsigned char *param_1,unsigned short *param_2,char param_3,unsigned __int64 param_4)
+typedef struct Id_828B5A20 {
+    unsigned short index;      /* 0x00 */
+    unsigned short type;       /* 0x02 */
+    unsigned short generation; /* 0x04 */
+    unsigned char unused;      /* 0x06 */
+    unsigned char valid;       /* 0x07 */
+} Id_828B5A20;
 
+extern void *fn_828A12E8(void *);
+extern String_828B5A20 *fn_8288DD10(void *, unsigned short);
+extern int fn_82F6DCE0(char *, unsigned int, const char *, ...);
+extern void fn_82230360(String_828B5A20 *, const char *, unsigned int);
+extern unsigned int strlen(const char *);
+
+String_828B5A20 *fn_828B5A20(String_828B5A20 *out, Id_828B5A20 *id, unsigned char rich, void *context)
 {
-  char cVar1;
-  unsigned short uVar2;
-  unsigned short uVar3;
-  unsigned __int64 uVar4;
-  unsigned int *puVar5;
-  char *pcVar6;
-  unsigned __int64 uVar7;
-  char acStack_230 [512];
-  
-  if (*(char *)((int)param_2 + 7) == '\0') {
-    if (param_3 == '\0') {
-      uVar7 = 0xffffffff82024f10;
+    char buffer[512];
+    if (id->valid != 0) {
+        const char *format = rich ? "<font color=blue>NETOBJID</font>{%i, <font color=green>%s</font>, %i}"
+                                  : "NETOBJID{%i, %s, %i}";
+        unsigned int generation = id->generation;
+        unsigned int type = id->type;
+        String_828B5A20 *name = fn_8288DD10(fn_828A12E8(context), type);
+        const char *text = name->capacity >= 16 ? name->text.pointer : name->text.buffer;
+        fn_82F6DCE0(buffer, 512, format, id->index, text, generation);
+    } else {
+        const char *format = rich ? "<font color=blue>NETOBJID</font>{INVALID}" : "NETOBJID{INVALID}";
+        fn_82F6DCE0(buffer, 512, format);
     }
-    else {
-      uVar7 = 0xffffffff82024f24;
+    {
+        unsigned int *size = &out->size;
+        size[0] = 0;
+        size[1] = 15;
+        ((char *)out)[0] = 0;
     }
-    fn_82F6DCE0(acStack_230,0x200,uVar7);
-  }
-  else {
-    if (param_3 == '\0') {
-      uVar7 = 0xffffffff82024f50;
-    }
-    else {
-      uVar7 = 0xffffffff82024f68;
-    }
-    uVar2 = param_2[2];
-    uVar3 = param_2[1];
-    uVar4 = fn_828A12E8(param_4);
-    puVar5 = (unsigned int *)fn_8288DD10(uVar4,uVar3);
-    if (0xf < (unsigned int)puVar5[5]) {
-      puVar5 = (unsigned int *)*puVar5;
-    }
-    fn_82F6DCE0(acStack_230,0x200,uVar7,*param_2,puVar5,uVar2);
-  }
-  *(unsigned int *)(param_1 + 0x10) = 0;
-  *(unsigned int *)(param_1 + 0x14) = 0xf;
-  *param_1 = 0;
-  pcVar6 = acStack_230;
-  do {
-    cVar1 = *pcVar6;
-    pcVar6 = pcVar6 + 1;
-  } while (cVar1 != '\0');
-  fn_82230360(param_1,acStack_230,pcVar6 + (-1 - (int)acStack_230));
-  return param_1;
+    fn_82230360(out, buffer, strlen(buffer));
+    return out;
 }
-

@@ -1,56 +1,30 @@
-extern unsigned int lbl_8324E3B0;
+extern const unsigned char *lbl_8324E3B0;
 
+typedef struct Context_82F00638 {
+    char reserved00[0x7804];
+    int enabled; /* 0x7804 */
+    char reserved7808[0x18];
+    int firstScale;  /* 0x7820 */
+    int secondScale; /* 0x7824 */
+} Context_82F00638;
 
-void fn_82F00638(int param_1,int param_2,int param_3,int param_4,__int64 param_5,__int64 param_6
-                  )
-
+void fn_82F00638(Context_82F00638 *self, unsigned char *first, unsigned char *second, unsigned char *third,
+                 int firstCount, int secondCount)
 {
-  short sVar1;
-  int iVar2;
-  int iVar3;
-  __int64 lVar4;
-  
-  iVar3 = *(int *)(param_1 + 0x7820);
-  if (iVar3 != 0) {
-    iVar2 = 0;
-    if (0 < (int)param_5) {
-      do {
-        *(unsigned char *)(iVar2 + param_2) =
-             *(unsigned char *)
-              ((short)((short)((int)((*(unsigned char *)(iVar2 + param_2) - 0x80) *
-                                     (int)(short)((short)iVar3 + 8) + 4) >> 3) + 0x80) +
-              lbl_8324E3B0);
-        iVar2 = iVar2 + 1;
-        param_5 = param_5 + -1;
-      } while (param_5 != 0);
+    int index;
+    if (self->firstScale != 0) {
+        short scale = self->firstScale + 8;
+        for (index = 0; index < firstCount; index++) {
+            first[index] = lbl_8324E3B0[(short)((((first[index] - 0x80) * scale + 4) >> 3) + 0x80)];
+        }
     }
-  }
-  if (*(int *)(param_1 + 0x7804) != 0) {
-    iVar3 = 0;
-    sVar1 = (short)*(unsigned int *)(param_1 + 0x7824) + 8;
-    lVar4 = param_6;
-    if (0 < (int)param_6) {
-      do {
-        *(unsigned char *)(iVar3 + param_3) =
-             *(unsigned char *)
-              ((short)((short)((int)((*(unsigned char *)(iVar3 + param_3) - 0x80) * (int)sVar1 + 4) >> 3) +
-                      0x80) + lbl_8324E3B0);
-        iVar3 = iVar3 + 1;
-        lVar4 = lVar4 + -1;
-      } while (lVar4 != 0);
+    if (self->enabled != 0) {
+        short scale = self->secondScale + 8;
+        for (index = 0; index < secondCount; index++) {
+            second[index] = lbl_8324E3B0[(short)((((second[index] - 0x80) * scale + 4) >> 3) + 0x80)];
+        }
+        for (index = 0; index < secondCount; index++) {
+            third[index] = lbl_8324E3B0[(short)((((third[index] - 0x80) * scale + 4) >> 3) + 0x80)];
+        }
     }
-    iVar3 = 0;
-    if (0 < (int)param_6) {
-      do {
-        *(unsigned char *)(iVar3 + param_4) =
-             *(unsigned char *)
-              ((short)((short)((int)((*(unsigned char *)(iVar3 + param_4) - 0x80) * (int)sVar1 + 4) >> 3) +
-                      0x80) + lbl_8324E3B0);
-        iVar3 = iVar3 + 1;
-        param_6 = param_6 + -1;
-      } while (param_6 != 0);
-    }
-  }
-  return;
 }
-

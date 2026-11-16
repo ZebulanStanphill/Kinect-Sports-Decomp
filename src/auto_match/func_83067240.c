@@ -1,44 +1,44 @@
-void fn_83067240(unsigned int *param_1,unsigned int *param_2)
+typedef union Value_83067240 {
+    unsigned int word;
+    float value;
+} Value_83067240;
 
+void fn_83067240(const unsigned int *input, Value_83067240 *output)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  
-  *param_2 = *param_1;
-  uVar1 = *param_2;
-  param_2[1] = param_1[1];
-  uVar2 = param_2[1];
-  param_2[2] = param_1[2];
-  uVar3 = param_2[2];
-  param_2[0x12] = param_1[3];
-  uVar4 = param_2[0x12];
-  param_2[0x13] = param_1[4];
-  uVar5 = param_2[0x13];
-  uVar6 = param_1[5];
-  param_2[0xc] = uVar1;
-  param_2[0x14] = uVar6;
-  uVar6 = param_2[0x14];
-  param_2[0x15] = uVar1;
-  param_2[9] = uVar1;
-  param_2[0xf] = uVar4;
-  param_2[6] = uVar4;
-  param_2[3] = uVar4;
-  param_2[0x10] = uVar2;
-  param_2[0xd] = uVar2;
-  param_2[4] = uVar2;
-  param_2[0x16] = uVar5;
-  param_2[10] = uVar5;
-  param_2[7] = uVar5;
-  param_2[0xb] = uVar3;
-  param_2[8] = uVar3;
-  param_2[5] = uVar3;
-  param_2[0x17] = uVar6;
-  param_2[0x11] = uVar6;
-  param_2[0xe] = uVar6;
-  return;
+    float first;
+    float second;
+    float third;
+    float fourth;
+    float fifth;
+    float sixth;
+    output[0].word = input[0];
+    first = output[0].value;
+    output[1].word = input[1];
+    second = output[1].value;
+    output[2].word = input[2];
+    third = output[2].value;
+    output[18].word = input[3];
+    fourth = output[18].value;
+    output[19].word = input[4];
+    fifth = output[19].value;
+    output[20].word = input[5];
+    output[12].value = first;
+    sixth = output[20].value;
+    output[21].value = first;
+    output[9].value = first;
+    output[15].value = fourth;
+    output[6].value = fourth;
+    output[3].value = fourth;
+    output[16].value = second;
+    output[13].value = second;
+    output[4].value = second;
+    output[22].value = fifth;
+    output[10].value = fifth;
+    output[7].value = fifth;
+    output[11].value = third;
+    output[8].value = third;
+    output[5].value = third;
+    output[23].value = sixth;
+    output[17].value = sixth;
+    output[14].value = sixth;
 }
-

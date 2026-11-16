@@ -1,41 +1,41 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_8255F7E8();
-extern int fn_827F2220();
-extern int fn_827F22D0();
-extern int fn_827F2DD0();
-extern int fn_827F3DA8();
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Object_8255F638 {
+    char padding[0x110];
+    void *current; // 0x110
+    int field114;  // 0x114
+    char padding118[0x44];
+    int field15c; // 0x15c
+    char padding160[0x20];
+    int field180;   // 0x180
+    float duration; // 0x184
+    float elapsed;  // 0x188
+    int field18c;   // 0x18c
+    char padding190[0x18];
+    unsigned int options; // 0x1a8
+} Object_8255F638;
 
+extern unsigned char fn_827F3DA8(void *);
+extern void fn_8255F7E8(Object_8255F638 *);
+extern unsigned char fn_827F22D0(Object_8255F638 *);
+extern void fn_827F2DD0(Object_8255F638 *, void *, float, int, unsigned int);
+extern void fn_827F2220(Object_8255F638 *);
 
-void fn_8255F638(int param_1,unsigned __int64 param_2,unsigned __int64 param_3)
-
+void fn_8255F638(Object_8255F638 *self, void *context)
 {
-  float fVar1;
-  bool bVar2;
-  char cVar3;
-  
-  bVar2 = false;
-  if ((*(int *)(param_1 + 0x110) != 0) && (cVar3 = fn_827F3DA8(), cVar3 != '\0')) {
-    bVar2 = true;
-  }
-  fn_8255F7E8(param_1);
-  cVar3 = fn_827F22D0(param_1);
-  fVar1 = ltcg_pool_0_0f;
-  if (cVar3 == '\0') {
-    fVar1 = *(float *)(param_1 + 0x184);
-  }
-  *(float *)(param_1 + 0x188) = ltcg_pool_0_0f;
-  *(unsigned int *)(param_1 + 0x110) = 0;
-  *(unsigned int *)(param_1 + 0x114) = 0;
-  *(unsigned int *)(param_1 + 0x180) = 0;
-  *(unsigned int *)(param_1 + 0x18c) = 0;
-  fn_827F2DD0((double)fVar1,param_1,param_2,param_3,0,*(unsigned int *)(param_1 + 0x1a8));
-  *(unsigned int *)(param_1 + 0x15c) = 0;
-  if (bVar2) {
-    fn_827F2220(param_1);
-  }
-  return;
+    int wasActive = 0;
+    float duration;
+    if (self->current && fn_827F3DA8(self->current)) {
+        wasActive = 1;
+    }
+    fn_8255F7E8(self);
+    duration = fn_827F22D0(self) ? 0.0f : self->duration;
+    self->elapsed = 0.0f;
+    self->current = 0;
+    self->field114 = 0;
+    self->field180 = 0;
+    self->field18c = 0;
+    fn_827F2DD0(self, context, duration, 0, self->options);
+    self->field15c = 0;
+    if (wasActive) {
+        fn_827F2220(self);
+    }
 }
-

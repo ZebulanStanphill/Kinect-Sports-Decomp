@@ -1,27 +1,48 @@
-extern int fn_82F691F0();
+#include <string.h>
 
+typedef struct Buffer_829E5718 {
+    unsigned int header[25];
+    unsigned int counts[256];
+} Buffer_829E5718;
 
-unsigned __int64 fn_829E5718(unsigned int *param_1,int param_2,int param_3,int param_4)
+typedef struct Owner_829E5718 {
+    Buffer_829E5718 *first;
+    Buffer_829E5718 *second;
+    unsigned char active;
+    char pad[3];
+    unsigned int width;
+    unsigned int height;
+} Owner_829E5718;
 
+extern int fn_829E5618(Owner_829E5718 *, const void *, unsigned int);
+
+int fn_829E5718(Owner_829E5718 *self, unsigned int input, const void *data, unsigned int size)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  
-  if ((param_2 == 0) || (param_3 == 0)) {
-    uVar3 = 0xffffffff80070057;
-  }
-  else {
-    if ((*(char *)(param_1 + 2) != '\0') && (param_4 == param_1[4] * param_1[3])) {
-      uVar1 = *param_1;
-      uVar2 = param_1[1];
-      param_1[1] = uVar1;
-      *param_1 = uVar2;
-                    /* WARNING: Subroutine does not return */
-      fn_82F691F0(uVar1,0,100);
+    unsigned int index;
+    unsigned int remaining;
+    Buffer_829E5718 *buffer;
+    int result;
+    if (input == 0) {
+        return 0x80070057;
     }
-    uVar3 = 0xffffffff8000ffff;
-  }
-  return uVar3;
+    if (data == 0) {
+        return 0x80070057;
+    }
+    if (self->active && size == self->height * self->width) {
+        buffer = self->first;
+        self->first = self->second;
+        self->second = buffer;
+        memset(buffer, 0, 100);
+        memset(buffer->counts, 0, 0x400);
+        result = fn_829E5618(self, data, size);
+        if (result < 0) {
+            return result;
+        }
+        remaining = size >> 1;
+        for (index = 0; index < remaining; ++index) {
+            self->second->counts[*(unsigned char *)(input + index)]++;
+        }
+        return 0;
+    }
+    return 0x8000ffff;
 }
-

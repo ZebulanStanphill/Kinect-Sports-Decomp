@@ -1,53 +1,46 @@
-extern int fn_82FA5060();
-extern int fn_82FA5190();
-extern unsigned int lbl_831BC768;
+typedef struct Element_83037168 {
+    int first;
+    int second;
+    int third;
+    int fourth;
+} Element_83037168;
 
+typedef struct Array_83037168 {
+    Element_83037168 *begin;
+    Element_83037168 *end;
+    int capacity;
+} Array_83037168;
 
-unsigned int fn_83037168(int *param_1,int param_2)
+extern int lbl_831BC768;
+extern void *fn_82FA5060(int heap, unsigned int size);
+extern int fn_82FA5190(int heap, void *memory);
 
+int fn_83037168(Array_83037168 *self, int extra)
 {
-  int iVar1;
-  int iVar2;
-  unsigned int uVar3;
-  unsigned int *puVar4;
-  unsigned int *puVar5;
-  int iVar6;
-  unsigned int *puVar7;
-  __int64 lVar8;
-  
-  iVar1 = param_1[2];
-  puVar4 = (unsigned int *)fn_82FA5060(lbl_831BC768,(param_2 + iVar1) * 0x10);
-  uVar3 = 0;
-  if (puVar4 != (unsigned int *)0x0) {
-    iVar2 = param_1[1] - *param_1 >> 4;
-    lVar8 = (__int64)iVar2;
-    if (*param_1 != 0) {
-      if (iVar2 != 0) {
-        iVar6 = 0;
-        puVar7 = puVar4;
-        do {
-          if (puVar7 != (unsigned int *)0x0) {
-            puVar7[1] = 0;
-            *puVar7 = 0;
-            puVar7[2] = 0;
-          }
-          lVar8 = lVar8 + -1;
-          puVar5 = (unsigned int *)(iVar6 + *param_1);
-          iVar6 = iVar6 + 0x10;
-          *puVar7 = *puVar5;
-          puVar7[1] = puVar5[1];
-          puVar7[2] = puVar5[2];
-          puVar7[3] = puVar5[3];
-          puVar7 = puVar7 + 4;
-        } while (lVar8 != 0);
-      }
-      fn_82FA5190(lbl_831BC768,*param_1);
+    int capacity = extra + self->capacity;
+    Element_83037168 *memory = (Element_83037168 *)fn_82FA5060(lbl_831BC768, capacity * 16);
+    int count;
+    if (memory == 0) {
+        return 0;
     }
-    *param_1 = (int)puVar4;
-    param_1[2] = param_2 + iVar1;
-    uVar3 = 1;
-    param_1[1] = (int)(puVar4 + iVar2 * 4);
-  }
-  return uVar3;
+    count = self->end - self->begin;
+    if (self->begin != 0) {
+        unsigned int index;
+        for (index = 0; index < count; index++) {
+            Element_83037168 *element = &memory[index];
+            Element_83037168 *begin;
+            if (element != 0) {
+                element->second = 0;
+                element->first = 0;
+                element->third = 0;
+            }
+            begin = self->begin;
+            *element = begin[index];
+        }
+        fn_82FA5190(lbl_831BC768, self->begin);
+    }
+    self->begin = memory;
+    self->capacity = capacity;
+    self->end = memory + count;
+    return 1;
 }
-

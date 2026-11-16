@@ -1,39 +1,68 @@
-extern int fn_824CD030();
+typedef struct State_824E1A20 {
+    char pad[0x24];
+    int active;
+    int pending;
+    int start;
+    char pad30[0x48];
+    int enabled;
+} State_824E1A20;
+typedef struct Object_824E1A20 Object_824E1A20;
 
+typedef struct Vtable_824E1A20 {
+    void *slots[9];
+    void (*stop)(Object_824E1A20 *);
+} Vtable_824E1A20;
 
-void fn_824E1A20(int param_1,unsigned int param_2)
+struct Object_824E1A20 {
+    Vtable_824E1A20 *vtable;
+    char pad[0x38];
+    State_824E1A20 *state;
+};
 
+typedef struct Link_824E1A20 {
+    Object_824E1A20 *object;
+    char pad[0x60];
+    unsigned int mode;
+} Link_824E1A20;
+
+typedef struct Owner_824E1A20 {
+    char pad[0xfc];
+    Link_824E1A20 *link;
+} Owner_824E1A20;
+
+extern int fn_824CD030(Owner_824E1A20 *);
+
+void fn_824E1A20(Owner_824E1A20 *self, unsigned int mode)
 {
-  int iVar1;
-  
-  iVar1 = fn_824CD030();
-  if (iVar1 != 0) {
-    if (param_2 == 0) {
-      iVar1 = **(int **)(param_1 + 0xfc);
-      if (*(int *)(*(int *)(iVar1 + 0x3c) + 0x24) == 0) {
-        *(unsigned int *)(*(int *)(iVar1 + 0x3c) + 0x2c) = 1;
-      }
-      *(unsigned int *)(*(int *)(iVar1 + 0x3c) + 0x28) = 0;
-      *(unsigned int *)(*(int *)(iVar1 + 0x3c) + 0x24) = 1;
-      *(unsigned int *)(*(int *)(**(int **)(param_1 + 0xfc) + 0x3c) + 0x78) = 0;
+    if (fn_824CD030(self)) {
+        Object_824E1A20 *object;
+        switch (mode) {
+        case 3:
+            object = self->link->object;
+            object->state->pending = 0;
+            object->state->active = 0;
+            break;
+        case 2:
+            object = self->link->object;
+            object->vtable->stop(object);
+            self->link->object->state->enabled = 0;
+            break;
+        case 1:
+            object = self->link->object;
+            object->state->enabled = 1;
+            object->state->pending = 0;
+            object->state->active = 1;
+            break;
+        case 0:
+            object = self->link->object;
+            if (object->state->active == 0) {
+                object->state->start = 1;
+            }
+            object->state->pending = 0;
+            object->state->active = 1;
+            self->link->object->state->enabled = 0;
+            break;
+        }
     }
-    else if (param_2 == 1) {
-      iVar1 = **(int **)(param_1 + 0xfc);
-      *(unsigned int *)(*(int *)(iVar1 + 0x3c) + 0x78) = 1;
-      *(unsigned int *)(*(int *)(iVar1 + 0x3c) + 0x28) = 0;
-      *(unsigned int *)(*(int *)(iVar1 + 0x3c) + 0x24) = 1;
-    }
-    else if (param_2 < 3) {
-      (**(int (***)())(*(int *)**(unsigned int **)(param_1 + 0xfc) + 0x24))();
-      *(unsigned int *)(*(int *)(**(int **)(param_1 + 0xfc) + 0x3c) + 0x78) = 0;
-    }
-    else if (param_2 == 3) {
-      iVar1 = **(int **)(param_1 + 0xfc);
-      *(unsigned int *)(*(int *)(iVar1 + 0x3c) + 0x28) = 0;
-      *(unsigned int *)(*(int *)(iVar1 + 0x3c) + 0x24) = 0;
-    }
-  }
-  *(unsigned int *)(*(int *)(param_1 + 0xfc) + 100) = param_2;
-  return;
+    self->link->mode = mode;
 }
-

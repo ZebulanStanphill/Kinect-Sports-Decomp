@@ -1,39 +1,42 @@
-extern int fn_82CE0750();
-extern int fn_82CE07B0();
-extern int fn_82CE07C8();
+extern int fn_82CE07B0(unsigned int, unsigned int, void **);
+extern int fn_82CE0750(unsigned int, void *, void *, void *, int, int, int, unsigned int, int, int, int,
+                       void **);
+extern void fn_82CE07C8(void *);
 
+typedef struct Object_828CFB00 {
+    char padding[8];
+    unsigned char service; // 0x08
+    char padding9[0x3f];
+    unsigned int address; // 0x48
+    unsigned int key;     // 0x4c
+    char session[0x2c];   // 0x50
+    int state;            // 0x7c
+    int padding80;
+    void *result;       // 0x84
+    unsigned int flags; // 0x88
+} Object_828CFB00;
 
-void fn_828CFB00(int param_1)
-
+void fn_828CFB00(Object_828CFB00 *self)
 {
-  int iVar1;
-  int *piVar2;
-  
-  piVar2 = (int *)(param_1 + 0x84);
-  if (*(char *)(param_1 + 8) == '\0') {
-    iVar1 = fn_82CE0750(1,param_1 + 0x48,param_1 + 0x4c,param_1 + 0x50,0,0,0,
-                              *(unsigned int *)(param_1 + 0x88));
-    if (iVar1 != 0) {
-      if (*piVar2 != 0) {
-        fn_82CE07C8();
-        *piVar2 = 0;
-      }
-      *(unsigned int *)(param_1 + 0x7c) = 5;
-      return;
+    if (self->service) {
+        if (fn_82CE07B0(0, 0, &self->result)) {
+            if (self->result) {
+                fn_82CE07C8(self->result);
+                self->result = 0;
+            }
+            self->state = 5;
+            return;
+        }
+    } else {
+        if (fn_82CE0750(1, &self->address, &self->key, self->session, 0, 0, 0, self->flags, 0, 0, 0,
+                        &self->result)) {
+            if (self->result) {
+                fn_82CE07C8(self->result);
+                self->result = 0;
+            }
+            self->state = 5;
+            return;
+        }
     }
-  }
-  else {
-    iVar1 = fn_82CE07B0(0,0,piVar2);
-    if (iVar1 != 0) {
-      if (*piVar2 != 0) {
-        fn_82CE07C8();
-        *piVar2 = 0;
-      }
-      *(unsigned int *)(param_1 + 0x7c) = 5;
-      return;
-    }
-  }
-  *(unsigned int *)(param_1 + 0x7c) = 2;
-  return;
+    self->state = 2;
 }
-

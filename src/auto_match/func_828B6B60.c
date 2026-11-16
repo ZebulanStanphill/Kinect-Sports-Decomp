@@ -1,64 +1,51 @@
-extern unsigned int *auStack_60;
-extern int fn_822315A0();
-extern int fn_828B9180();
+typedef struct Pointer_828B6B60 {
+    void *object;    /* 0x00 */
+    void *reference; /* 0x04 */
+} Pointer_828B6B60;
 
+extern float fn_828B9180(void *);
+extern void fn_822315A0(void *);
 
-void fn_828B6B60(int param_1,int param_2,int param_3,unsigned int *param_4)
-
+static __forceinline unsigned char Greater(Pointer_828B6B60 *left, Pointer_828B6B60 *right)
 {
-  int iVar1;
-  int iVar2;
-  unsigned int *puVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int *puVar7;
-  double dVar8;
-  double dVar9;
-  unsigned int auStack_60 [1];
-  
-  uVar6 = param_2 - 1;
-  iVar2 = ((int)uVar6 >> 1) + (unsigned int)((int)uVar6 < 0 && (uVar6 & 1) != 0);
-  while (param_3 < param_2) {
-    uVar5 = *param_4;
-    puVar7 = (unsigned int *)(iVar2 * 8 + param_1);
-    dVar8 = (double)fn_828B9180(*(unsigned int *)(iVar2 * 8 + param_1));
-    dVar9 = (double)fn_828B9180(uVar5);
-    if (dVar8 <= dVar9) break;
-    puVar3 = (unsigned int *)(param_2 * 8 + param_1);
-    uVar4 = 0;
-    uVar5 = 0;
-    if (auStack_60 != puVar7) {
-      uVar5 = puVar7[1];
-      puVar7[1] = 0;
-      uVar4 = *puVar7;
-      *puVar7 = 0;
-    }
-    iVar1 = puVar3[1];
-    puVar3[1] = uVar5;
-    *puVar3 = uVar4;
-    if (iVar1 != 0) {
-      fn_822315A0();
-    }
-    uVar6 = iVar2 - 1;
-    param_2 = iVar2;
-    iVar2 = ((int)uVar6 >> 1) + (unsigned int)((int)uVar6 < 0 && (uVar6 & 1) != 0);
-  }
-  puVar7 = (unsigned int *)(param_2 * 8 + param_1);
-  uVar4 = 0;
-  uVar5 = 0;
-  if (auStack_60 != param_4) {
-    uVar5 = param_4[1];
-    param_4[1] = 0;
-    uVar4 = *param_4;
-    *param_4 = 0;
-  }
-  iVar2 = puVar7[1];
-  puVar7[1] = uVar5;
-  *puVar7 = uVar4;
-  if (iVar2 != 0) {
-    fn_822315A0();
-  }
-  return;
+    void *object = right->object;
+    float first = fn_828B9180(left->object);
+    return first > fn_828B9180(object);
 }
 
+static __forceinline void Move(Pointer_828B6B60 *destination, Pointer_828B6B60 *source)
+{
+    Pointer_828B6B60 temporary;
+    void *object = 0;
+    void *reference = 0;
+    void *old;
+    if (&temporary != source) {
+        void **slot = &source->reference;
+        reference = *slot;
+        *slot = 0;
+        object = source->object;
+        source->object = 0;
+    }
+    old = destination->reference;
+    destination->reference = reference;
+    destination->object = object;
+    if (old != 0) {
+        fn_822315A0(old);
+    }
+}
+
+void fn_828B6B60(Pointer_828B6B60 *first, int hole, int top, Pointer_828B6B60 *value)
+{
+    int parent = (hole - 1) / 2;
+    Pointer_828B6B60 *destination;
+    while (top < hole) {
+        if (!Greater(first + parent, value)) {
+            break;
+        }
+        Move(first + hole, first + parent);
+        hole = parent;
+        parent = (parent - 1) / 2;
+    }
+    destination = first + hole;
+    Move(destination, value);
+}

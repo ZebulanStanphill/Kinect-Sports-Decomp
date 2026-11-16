@@ -1,16 +1,32 @@
-extern unsigned int *auStack_5c;
-extern int fn_82F691F0();
+extern void *memset(void *, int, unsigned int);
+extern const int lbl_820E8684[];
 
+typedef struct Description_828B21F0 {
+    unsigned int type;
+    unsigned int fields[12];
+} Description_828B21F0;
 
-void fn_828B21F0(int param_1)
+typedef struct Device_828B21F0 {
+    unsigned int reserved00;
+    void *object;       /* 0x04 */
+    unsigned int value; /* 0x08 */
+} Device_828B21F0;
 
+extern void fn_82BD39F0(Description_828B21F0 *, unsigned int *, void **);
+
+void fn_828B21F0(Device_828B21F0 *self, unsigned int value)
 {
-  unsigned char auStack_5c [92];
-  
-  if (*(int *)(param_1 + 4) == 0) {
-                    /* WARNING: Subroutine does not return */
-    fn_82F691F0(auStack_5c,0,0x30);
-  }
-  return;
+    if (self->object == 0) {
+        unsigned int data = lbl_820E8684[0];
+        Description_828B21F0 description;
+        memset(description.fields, 0, sizeof(description.fields));
+        description.fields[11] = value;
+        description.fields[2] = 1;
+        description.type = 30;
+        description.fields[0] = 4;
+        description.fields[1] = (unsigned int)&data;
+        description.fields[3] = (unsigned int)&data;
+        description.fields[4] = 1;
+        fn_82BD39F0(&description, &self->value, &self->object);
+    }
 }
-
