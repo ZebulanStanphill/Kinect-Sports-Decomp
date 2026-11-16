@@ -1,44 +1,22 @@
-#define true 1
-extern unsigned int *auStack_230;
-extern int fn_82F65350();
-extern int memcpy();
+extern int fn_82F65350(void);
+extern void *memcpy(void *, const void *, unsigned int);
 
-
-void fn_82424C80(unsigned __int64 param_1,unsigned __int64 param_2)
-
+void fn_82424C80(unsigned char *first, unsigned char *end)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  unsigned int uVar3;
-  __int64 lVar4;
-  unsigned __int64 uVar5;
-  unsigned int uVar6;
-  unsigned char auStack_230 [496];
-  
-  uVar6 = 2;
-  uVar5 = param_1;
-  do {
-    uVar5 = uVar5 + 0x1f0;
-    if ((uVar5 & 0xffffffff) == (param_2 & 0xffffffff)) {
-      return;
+    unsigned char *current = first + 496;
+    unsigned int count = 2;
+    for (; current != end; current += 496, count++) {
+        unsigned char temporary[496];
+        unsigned int mask = 0x7fff;
+        unsigned int random = fn_82F65350() & 0x7fff;
+        unsigned char *selected;
+        while (mask < count && mask != 0xffffffff) {
+            random = (random << 15) | (fn_82F65350() & 0x7fff);
+            mask = (mask << 15) | 0x7fff;
+        }
+        selected = first + (random % count) * 496;
+        memcpy(temporary, current, 496);
+        memcpy(current, selected, 496);
+        memcpy(selected, temporary, 496);
     }
-    uVar3 = 0x7fff;
-    uVar1 = fn_82F65350();
-    uVar1 = uVar1 & 0x7fff;
-    if (0x7fff < uVar6) {
-      do {
-        if (uVar3 == 0xffffffff) break;
-        uVar2 = fn_82F65350();
-        uVar1 = (uVar1 & 0x1ffff) << 0xf | uVar2 & 0xffffffff00007fff;
-        uVar3 = uVar3 << 0xf | 0x7fff;
-      } while (uVar3 < uVar6);
-    }
-    lVar4 = (uVar1 - (__int64)(int)((uVar1 & 0xffffffff) / (unsigned __int64)uVar6) * (__int64)(int)uVar6
-            ) * 0x1f0 + param_1;
-    memcpy(auStack_230,uVar5,0x1f0);
-    memcpy(uVar5,lVar4,0x1f0);
-    memcpy(lVar4,auStack_230,0x1f0);
-    uVar6 = uVar6 + 1;
-  } while( true );
 }
-

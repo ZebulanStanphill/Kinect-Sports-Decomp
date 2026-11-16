@@ -1,38 +1,47 @@
-extern int fn_826916F0();
-extern int fn_826919A0();
+typedef struct Allocator_82691CD8 {
+    char padding[0x1f8];
+    unsigned int blockSize;
+    char padding1fc[0x208 - 0x1fc];
+    unsigned int threshold;
+    char padding20c[8];
+    unsigned int bytes;
+} Allocator_82691CD8;
 
+typedef struct Allocation_82691CD8 {
+    char padding[0x18];
+    unsigned int size;
+    void *data;
+} Allocation_82691CD8;
 
-unsigned int fn_82691CD8(int param_1,unsigned __int64 param_2,__int64 param_3)
+extern Allocation_82691CD8 *fn_826916F0(Allocator_82691CD8 *self, unsigned int size, unsigned int alignment,
+                                        unsigned char *retry);
+extern Allocation_82691CD8 *fn_826919A0(Allocator_82691CD8 *self, unsigned int kind, unsigned int size,
+                                        unsigned int alignment, unsigned int flags, unsigned char *retry);
 
+void *fn_82691CD8(Allocator_82691CD8 *self, unsigned int size, unsigned int alignment)
 {
-  unsigned int uVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  char acStack_30 [48];
-  
-  acStack_30[0] = '\0';
-  if ((*(unsigned int *)(param_1 + 0x208) != 0) &&
-     ((unsigned __int64)*(unsigned int *)(param_1 + 0x208) <= (param_2 & 0xffffffff))) {
-    do {
-      iVar2 = fn_826916F0(param_1,param_2,param_3,acStack_30);
-      if (iVar2 != 0) goto LAB_82691d98;
-    } while (acStack_30[0] != '\0');
-  }
-  uVar1 = *(unsigned int *)(param_1 + 0x1f8);
-  uVar3 = (unsigned __int64)uVar1;
-  acStack_30[0] = '\0';
-  trapWord(6,uVar3,0);
-  while (iVar2 = fn_826919A0(param_1,9,
-                               (__int64)
-                               (int)(((((param_2 + param_3) - 1 & ~(param_3 - 1U)) + uVar3) - 1 &
-                                     0xffffffff) / uVar3) * (__int64)(int)uVar1,param_3,0,
-                               acStack_30), iVar2 == 0) {
-    if (acStack_30[0] == '\0') {
-      return 0;
+    Allocation_82691CD8 *allocation;
+    unsigned char retry = 0;
+    unsigned int blockSize;
+    if (self->threshold != 0 && size >= self->threshold) {
+        do {
+            allocation = fn_826916F0(self, size, alignment, &retry);
+            if (allocation != 0) {
+                goto found;
+            }
+        } while (retry != 0);
     }
-  }
-LAB_82691d98:
-  *(int *)(param_1 + 0x214) = *(int *)(iVar2 + 0x18) + *(int *)(param_1 + 0x214);
-  return *(unsigned int *)(iVar2 + 0x1c);
+    blockSize = self->blockSize;
+    retry = 0;
+    size = (((size + alignment - 1) & ~(alignment - 1)) + blockSize - 1) / blockSize * blockSize;
+    do {
+        allocation = fn_826919A0(self, 9, size, alignment, 0, &retry);
+        if (allocation != 0) {
+            goto found;
+        }
+    } while (retry != 0);
+    return 0;
+found:
+    self->bytes = allocation->size + self->bytes;
+    return allocation->data;
 }
-

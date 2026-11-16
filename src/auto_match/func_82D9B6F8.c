@@ -1,58 +1,34 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern unsigned int fStack_18;
-extern unsigned int fStack_1c;
-extern unsigned int fStack_20;
-extern int fn_82CECC38();
-extern unsigned int lbl_82002AE0;
-extern V16 vectorMaximumFloatingPoint();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vxor(__vector4 a, __vector4 b);
+__vector4 __vmaxfp(__vector4 a, __vector4 b);
 
-void fn_82D9B6F8(__int64 param_1,float *param_2)
+typedef struct Matrix_82D9B6F8 {
+    __vector4 columns[3];
+} Matrix_82D9B6F8;
 
+typedef struct Motion_82D9B6F8 {
+    char padding[0x10];
+    char m_motionState[0xb0];      /* 0x10 */
+    __vector4 m_inertiaAndMassInv; /* 0xc0 */
+} Motion_82D9B6F8;
+
+extern const __vector4 lbl_82132DA0;
+extern void fn_82CECC38(Matrix_82D9B6F8 *matrix, const void *motionState);
+
+void fn_82D9B6F8(const Motion_82D9B6F8 *self, Matrix_82D9B6F8 *out)
 {
-  unsigned int *puVar1;
-  float fVar2;
-  int in_r0;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs44 [16];
-  unsigned int in_register_000100b0;
-  unsigned int in_register_000100b4;
-  unsigned int in_register_000100b8;
-  unsigned int in_vr11;
-  unsigned int in_register_000100d0;
-  unsigned int in_register_000100d4;
-  unsigned int in_register_000100d8;
-  unsigned int in_vr13;
-  float fStack_20;
-  float fStack_1c;
-  float fStack_18;
-  
-  fVar2 = lbl_82002AE0;
-  vectorMaximumFloatingPoint(in_vs44,in_vs32);
-  puVar1 = (unsigned int *)(in_r0 + (int)param_2 & 0xfffffff0);
-  *puVar1 = in_register_000100d0;
-  puVar1[1] = in_register_000100d4;
-  puVar1[2] = in_register_000100d8;
-  puVar1[3] = in_vr13;
-  puVar1 = (unsigned int *)((unsigned int)(param_2 + 4) & 0xfffffff0);
-  *puVar1 = in_register_000100d0;
-  puVar1[1] = in_register_000100d4;
-  puVar1[2] = in_register_000100d8;
-  puVar1[3] = in_vr13;
-  puVar1 = (unsigned int *)((unsigned int)(param_2 + 8) & 0xfffffff0);
-  *puVar1 = in_register_000100d0;
-  puVar1[1] = in_register_000100d4;
-  puVar1[2] = in_register_000100d8;
-  puVar1[3] = in_vr13;
-  puVar1 = (unsigned int *)((int)&fStack_20 + in_r0 & 0xfffffff0);
-  *puVar1 = in_register_000100b0;
-  puVar1[1] = in_register_000100b4;
-  puVar1[2] = in_register_000100b8;
-  puVar1[3] = in_vr11;
-  param_2[5] = fVar2 / fStack_1c;
-  *param_2 = fVar2 / fStack_20;
-  param_2[10] = fVar2 / fStack_18;
-  fn_82CECC38(param_2,param_1 + 0x10);
-  return;
+    __vector4 zero;
+    __vector4 inertia;
+    zero = __vxor(zero, zero);
+    inertia = __vmaxfp(self->m_inertiaAndMassInv, lbl_82132DA0);
+    out->columns[0] = zero;
+    out->columns[1] = zero;
+    out->columns[0].vector4_f32[0] = 1.0f / inertia.vector4_f32[0];
+    out->columns[2] = zero;
+    out->columns[1].vector4_f32[1] = 1.0f / inertia.vector4_f32[1];
+    out->columns[2].vector4_f32[2] = 1.0f / inertia.vector4_f32[2];
+    fn_82CECC38(out, self->m_motionState);
 }
-

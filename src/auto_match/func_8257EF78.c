@@ -1,32 +1,47 @@
-extern unsigned int ltcg_pool_0_0f;
-extern float lbl_8327F894;
+typedef struct Node_8257EF78 Node_8257EF78;
+typedef struct Object_8257EF78 Object_8257EF78;
 
+typedef struct Vtable_8257EF78 {
+    void *unused[5];
+    void (*update)(Object_8257EF78 *self, char *context);
+} Vtable_8257EF78;
 
-void fn_8257EF78(int param_1,int param_2)
+struct Object_8257EF78 {
+    Vtable_8257EF78 *vtable;
+    char padding[0xb38];
+    float value; /* 0xb3c */
+    float scale; /* 0xb40 */
+};
 
+struct Node_8257EF78 {
+    int unused;
+    Node_8257EF78 *next;  /* 0x04 */
+    Node_8257EF78 *child; /* 0x08 */
+};
+
+extern float lbl_8327F880[6];
+
+void fn_8257EF78(Node_8257EF78 *node, char *context)
 {
-  int iVar1;
-  double dVar2;
-  double dVar3;
-  
-  if (param_1 != 0) {
-    dVar3 = (double)ltcg_pool_0_0f;
-    do {
-      iVar1 = *(int *)(param_1 + 4);
-      if (*(int *)(param_1 + -8) == 0) {
-        dVar2 = dVar3;
-        if ((double)*(float *)(param_2 + 0x838) <= dVar3) {
-          dVar2 = (double)(*(float *)(param_2 + 0x820) * lbl_8327F894);
-        }
-        *(float *)(param_1 + 0xafc) = (float)((double)*(float *)(param_1 + 0xb00) * dVar2);
-        (**(int (***)())(*(int *)(param_1 + -0x40) + 0x14))((int *)(param_1 + -0x40),param_2);
-      }
-      if (*(int *)(param_1 + 8) != 0) {
-        fn_8257EF78(*(int *)(param_1 + 8),param_2);
-      }
-      param_1 = iVar1;
-    } while (iVar1 != 0);
-  }
-  return;
+    Node_8257EF78 *self = node;
+    if (self != 0) {
+        do {
+            Node_8257EF78 *next = self->next;
+            Object_8257EF78 *object = (Object_8257EF78 *)((char *)self - 0x40);
+            if (*(int *)((char *)self - 8) == 0) {
+                float scale;
+                if (*(float *)(context + 0x838) > 0.0f) {
+                    scale = 0.0f;
+                } else {
+                    scale = *(float *)(context + 0x820) * lbl_8327F880[5];
+                }
+                object->value = object->scale * scale;
+                object->vtable->update(object, context);
+            }
+            if (self->child != 0) {
+                fn_8257EF78(self->child, context);
+            }
+            self = next;
+        } while (self != 0);
+    }
 }
-

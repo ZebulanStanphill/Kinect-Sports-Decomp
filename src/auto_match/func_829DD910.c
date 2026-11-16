@@ -1,28 +1,19 @@
-extern double sqrt(double);
-#define SQRT(x) sqrt(x)
-extern unsigned int lbl_821AAD20;
+typedef struct Samples_829DD910 {
+    unsigned int count;
+    float samples[150];
+    unsigned int start; /* 0x25c */
+} Samples_829DD910;
 
+extern double sqrt(double value);
 
-double fn_829DD910(double param_1,unsigned int *param_2)
-
+float fn_829DD910(Samples_829DD910 *self, float mean)
 {
-  float fVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  int iVar4;
-  
-  uVar3 = (unsigned __int64)*param_2;
-  iVar4 = 0;
-  fVar1 = lbl_821AAD20;
-  if (uVar3 != 0) {
-    do {
-      uVar2 = param_2[0x97] + iVar4;
-      iVar4 = iVar4 + 1;
-      fVar1 = (float)((double)(float)param_2[uVar2 % 0x96 + 1] - param_1) *
-              (float)((double)(float)param_2[uVar2 % 0x96 + 1] - param_1) + fVar1;
-      uVar3 = uVar3 - 1;
-    } while (uVar3 != 0);
-  }
-  return (double)SQRT(fVar1 / (float)*param_2);
+    float sum = 0.0f;
+    unsigned int index;
+    unsigned int count = self->count;
+    for (index = 0; index < count; ++index) {
+        float difference = self->samples[(self->start + index) % 150] - mean;
+        sum += difference * difference;
+    }
+    return (float)sqrt(sum / count);
 }
-

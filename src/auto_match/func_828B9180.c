@@ -1,29 +1,24 @@
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_82186E74;
-extern unsigned int lbl_821AAD20;
-
-
-double fn_828B9180(int param_1)
-
+static __forceinline const float *Maximum_828B9180(const float *first, const float *second)
 {
-  float *pfVar1;
-  float afStack_10 [4];
-  
-  if (*(float *)(param_1 + 0xb4) + *(float *)(param_1 + 0xb0) < lbl_82186E74) {
-    return (double)lbl_821AAD20;
-  }
-  pfVar1 = afStack_10;
-  afStack_10[2] = lbl_82002AE0;
-  afStack_10[0] = lbl_821AAD20;
-  afStack_10[1] =
-       ((*(float *)(param_1 + 0xac) + *(float *)(param_1 + 0xb4)) * 0.5f +
-       *(float *)(param_1 + 0xb0)) * 0.5f;
-  if (lbl_821AAD20 <= afStack_10[1]) {
-    pfVar1 = afStack_10 + 1;
-  }
-  if (lbl_82002AE0 < *pfVar1) {
-    pfVar1 = afStack_10 + 2;
-  }
-  return (double)*pfVar1;
+    return *first < *second ? second : first;
 }
 
+static __forceinline const float *Minimum_828B9180(const float *first, const float *second)
+{
+    return *second < *first ? second : first;
+}
+
+float fn_828B9180(char *self)
+{
+    float middle = *(float *)(self + 0xb0);
+    float value;
+    float one;
+    float zero;
+    if (*(float *)(self + 0xb4) + middle < 0.3f) {
+        return 0.0f;
+    }
+    one = 1.0f;
+    zero = 0.0f;
+    value = ((*(float *)(self + 0xac) + *(float *)(self + 0xb4)) * 0.5f + middle) * 0.5f;
+    return *Minimum_828B9180(Maximum_828B9180(&value, &zero), &one);
+}

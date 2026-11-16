@@ -1,62 +1,85 @@
-extern unsigned int *auStack_3c;
-extern int fn_822315A0();
-extern int fn_82365BD8();
-extern int fn_82F63108();
-extern unsigned int iStack_38;
-extern unsigned int uStack_40;
+typedef struct Shared_823BC978 {
+    void *object;
+    void *references;
+} Shared_823BC978;
 
+typedef struct Value_823BC978 {
+    int key;
+    Shared_823BC978 shared;
+} Value_823BC978;
 
-unsigned int * fn_823BC978(unsigned int *param_1,unsigned int *param_2,unsigned int *param_3,int *param_4)
+typedef struct Node_823BC978 {
+    struct Node_823BC978 *left;
+    struct Node_823BC978 *parent;
+    struct Node_823BC978 *right;
+    Value_823BC978 value;
+    unsigned char color;
+    unsigned char nil;
+} Node_823BC978;
+typedef struct Predicate_823BC978 Predicate_823BC978;
 
+typedef struct Vtable_823BC978 {
+    void *unused;
+    unsigned char (*test)(Predicate_823BC978 *, Value_823BC978 *);
+    void *unused8;
+    void (*destroy)(Predicate_823BC978 *, int);
+} Vtable_823BC978;
+
+struct Predicate_823BC978 {
+    Vtable_823BC978 *vtable;
+};
+
+typedef struct Function_823BC978 {
+    char storage[16];
+    Predicate_823BC978 *target;
+} Function_823BC978;
+
+extern Shared_823BC978 *fn_82365BD8(Shared_823BC978 *, Shared_823BC978 *);
+extern void fn_822315A0(void *);
+extern __declspec(noreturn) void fn_82F63108(void);
+
+Node_823BC978 **fn_823BC978(Node_823BC978 **out, Node_823BC978 *node, Node_823BC978 *end,
+                            Function_823BC978 *predicate)
 {
-  unsigned int *puVar1;
-  int *piVar2;
-  char cVar3;
-  unsigned int *puVar4;
-  unsigned int uStack_40;
-  unsigned char auStack_3c [4];
-  int iStack_38;
-  
-  while (param_2 != param_3) {
-    uStack_40 = param_2[3];
-    fn_82365BD8(auStack_3c,param_2 + 4);
-    piVar2 = (int *)param_4[4];
-    if (piVar2 == (int *)0x0) {
-                    /* WARNING: Subroutine does not return */
-      fn_82F63108();
-    }
-    cVar3 = (**(int (***)())(*piVar2 + 4))(piVar2,&uStack_40);
-    if (iStack_38 != 0) {
-      fn_822315A0(iStack_38);
-    }
-    if (cVar3 != '\0') break;
-    if (*(char *)((int)param_2 + 0x19) == '\0') {
-      puVar1 = (unsigned int *)param_2[2];
-      if (*(char *)((int)puVar1 + 0x19) == '\0') {
-        puVar4 = (unsigned int *)*puVar1;
-        param_2 = puVar1;
-        while (puVar1 = puVar4, *(char *)((int)puVar1 + 0x19) == '\0') {
-          param_2 = puVar1;
-          puVar4 = (unsigned int *)*puVar1;
+    Predicate_823BC978 *target;
+    while (node != end) {
+        Value_823BC978 value;
+        unsigned char found;
+        Value_823BC978 *entry = &node->value;
+        value.key = entry->key;
+        fn_82365BD8(&value.shared, &entry->shared);
+        if (predicate->target == 0) {
+            fn_82F63108();
         }
-      }
-      else {
-        puVar1 = (unsigned int *)param_2[1];
-        puVar4 = param_2;
-        while ((param_2 = puVar1, *(char *)((int)param_2 + 0x19) == '\0' &&
-               (puVar4 == (unsigned int *)param_2[2]))) {
-          puVar4 = param_2;
-          puVar1 = (unsigned int *)param_2[1];
+        found = predicate->target->vtable->test(predicate->target, &value);
+        if (value.shared.references != 0) {
+            fn_822315A0(value.shared.references);
         }
-      }
+        if (found) {
+            break;
+        }
+        if (!node->nil) {
+            Node_823BC978 *next = node->right;
+            if (!next->nil) {
+                while (!next->left->nil) {
+                    next = next->left;
+                }
+                node = next;
+            } else {
+                next = node->parent;
+                while (!next->nil && node == next->right) {
+                    node = next;
+                    next = next->parent;
+                }
+                node = next;
+            }
+        }
     }
-  }
-  piVar2 = (int *)param_4[4];
-  *param_1 = param_2;
-  if (piVar2 != (int *)0x0) {
-    (**(int (***)())(*piVar2 + 0xc))(piVar2,param_4 != piVar2);
-    param_4[4] = 0;
-  }
-  return param_1;
+    target = predicate->target;
+    *out = node;
+    if (target != 0) {
+        target->vtable->destroy(target, (void *)target != (void *)predicate);
+        predicate->target = 0;
+    }
+    return out;
 }
-

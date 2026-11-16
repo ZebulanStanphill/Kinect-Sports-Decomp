@@ -1,69 +1,46 @@
-extern unsigned int lbl_821AAD20;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vxor(__vector4 first, __vector4 second);
 
-void fn_82DFC270(unsigned __int64 param_1,unsigned __int64 param_2,unsigned char *param_3)
+typedef struct State_82DFC270 {
+    unsigned char active; /* 0x00 */
+    char padding[7];
+    float distance; /* 0x08 */
+    char padding0c[4];
+    __vector4 first;   /* 0x10 */
+    __vector4 second;  /* 0x20 */
+    __vector4 third;   /* 0x30 */
+    __vector4 fourth;  /* 0x40 */
+    __vector4 rows[3]; /* 0x50 */
+} State_82DFC270;
 
+static __forceinline void Clear_82DFC270(__vector4 *value)
 {
-  unsigned int *puVar1;
-  int in_r0;
-  unsigned int in_register_00010060;
-  unsigned int in_register_00010064;
-  unsigned int in_register_00010068;
-  unsigned int in_vr6;
-  unsigned int in_register_00010070;
-  unsigned int in_register_00010074;
-  unsigned int in_register_00010078;
-  unsigned int in_vr7;
-  unsigned int in_register_00010090;
-  unsigned int in_register_00010094;
-  unsigned int in_register_00010098;
-  unsigned int in_vr9;
-  unsigned int in_register_000100b0;
-  unsigned int in_register_000100b4;
-  unsigned int in_register_000100b8;
-  unsigned int in_vr11;
-  unsigned int in_register_000100d0;
-  unsigned int in_register_000100d4;
-  unsigned int in_register_000100d8;
-  unsigned int in_vr13;
-  
-  *param_3 = 1;
-  *(unsigned int *)(param_3 + 8) = lbl_821AAD20;
-  puVar1 = (unsigned int *)((unsigned int)(param_3 + in_r0 + 0x30) & 0xfffffff0);
-  *puVar1 = in_register_000100d0;
-  puVar1[1] = in_register_000100d4;
-  puVar1[2] = in_register_000100d8;
-  puVar1[3] = in_vr13;
-  puVar1 = (unsigned int *)((unsigned int)(param_3 + in_r0 + 0x10) & 0xfffffff0);
-  *puVar1 = in_register_000100b0;
-  puVar1[1] = in_register_000100b4;
-  puVar1[2] = in_register_000100b8;
-  puVar1[3] = in_vr11;
-  puVar1 = (unsigned int *)((unsigned int)(param_3 + in_r0 + 0x20) & 0xfffffff0);
-  *puVar1 = in_register_00010090;
-  puVar1[1] = in_register_00010094;
-  puVar1[2] = in_register_00010098;
-  puVar1[3] = in_vr9;
-  puVar1 = (unsigned int *)((unsigned int)(param_3 + in_r0 + 0x40) & 0xfffffff0);
-  *puVar1 = in_register_00010070;
-  puVar1[1] = in_register_00010074;
-  puVar1[2] = in_register_00010078;
-  puVar1[3] = in_vr7;
-  puVar1 = (unsigned int *)((unsigned int)(param_3 + in_r0 + 0x50) & 0xfffffff0);
-  *puVar1 = in_register_00010060;
-  puVar1[1] = in_register_00010064;
-  puVar1[2] = in_register_00010068;
-  puVar1[3] = in_vr6;
-  puVar1 = (unsigned int *)((unsigned int)(param_3 + 0x60) & 0xfffffff0);
-  *puVar1 = in_register_00010060;
-  puVar1[1] = in_register_00010064;
-  puVar1[2] = in_register_00010068;
-  puVar1[3] = in_vr6;
-  puVar1 = (unsigned int *)((unsigned int)(param_3 + 0x70) & 0xfffffff0);
-  *puVar1 = in_register_00010060;
-  puVar1[1] = in_register_00010064;
-  puVar1[2] = in_register_00010068;
-  puVar1[3] = in_vr6;
-  return;
+    *value = __vxor(*value, *value);
 }
 
+typedef struct Rows_82DFC270 {
+    __vector4 values[3];
+} Rows_82DFC270;
+
+static __forceinline void ClearRows_82DFC270(Rows_82DFC270 *rows)
+{
+    __vector4 zero;
+    zero = __vxor(zero, zero);
+    rows->values[0] = zero;
+    rows->values[1] = zero;
+    rows->values[2] = zero;
+}
+
+void fn_82DFC270(void *self, void *input, State_82DFC270 *out)
+{
+    out->active = 1;
+    out->distance = 0.0f;
+    Clear_82DFC270(&out->third);
+    Clear_82DFC270(&out->first);
+    Clear_82DFC270(&out->second);
+    Clear_82DFC270(&out->fourth);
+    ClearRows_82DFC270((Rows_82DFC270 *)&out->rows);
+}

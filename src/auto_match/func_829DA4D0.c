@@ -1,44 +1,37 @@
-extern int fn_82A1DDC0();
-extern int XMemSet();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct State_829DA4D0 {
+    unsigned __int64 type;     /* 0x00 */
+    unsigned __int64 flags;    /* 0x08 */
+    __vector4 first;           /* 0x10 */
+    __vector4 second;          /* 0x20 */
+    unsigned char data[0xa80]; /* 0x30 */
+    unsigned __int64 id;       /* 0xab0 */
+    unsigned int unused;
+    unsigned int firstHigh;
+    unsigned int firstLow;
+    unsigned int secondHigh;
+    unsigned int secondLow;
+    char padding[0xae0 - 0xacc];
+} State_829DA4D0;
 
-void fn_829DA4D0(unsigned __int64 *param_1,unsigned int *param_2,unsigned int *param_3,unsigned __int64 *param_4)
+extern void *XMemSet(void *destination, int value, unsigned int size);
+extern void *fn_82A1DDC0(void *destination, const void *source, unsigned int size);
 
+void fn_829DA4D0(State_829DA4D0 *source, unsigned int *first, unsigned int *second,
+                 State_829DA4D0 *destination)
 {
-  unsigned int *puVar1;
-  unsigned char in_vs42 [16];
-  unsigned char in_vs43 [16];
-  unsigned char in_vs62 [16];
-  unsigned int in_register_000103e0;
-  unsigned int in_register_000103e4;
-  unsigned int in_register_000103e8;
-  unsigned int in_vr62;
-  unsigned int in_register_000103f0;
-  unsigned int in_register_000103f4;
-  unsigned int in_register_000103f8;
-  unsigned int in_vr63;
-  
-  XMemSet(param_4,0,0xae0);
-  *param_4 = 5;
-  param_4[1] = 0x2dff;
-  param_4[0x156] = *param_1;
-  *(unsigned int *)((int)param_4 + 0xabc) = param_2[1];
-  *(unsigned int *)(param_4 + 0x158) = *param_2;
-  *(unsigned int *)((int)param_4 + 0xac4) = param_3[1];
-  *(unsigned int *)(param_4 + 0x159) = *param_3;
-  altv207_13(in_vs62,in_vs42);
-  puVar1 = (unsigned int *)((unsigned int)(param_4 + 2) & 0xfffffff0);
-  *puVar1 = in_register_000103f0;
-  puVar1[1] = in_register_000103f4;
-  puVar1[2] = in_register_000103f8;
-  puVar1[3] = in_vr63;
-  altv207_13(in_vs62,in_vs43);
-  puVar1 = (unsigned int *)((unsigned int)(param_4 + 4) & 0xfffffff0);
-  *puVar1 = in_register_000103e0;
-  puVar1[1] = in_register_000103e4;
-  puVar1[2] = in_register_000103e8;
-  puVar1[3] = in_vr62;
-  fn_82A1DDC0(param_4 + 6,param_1 + 6,0xa80);
-  return;
+    XMemSet(destination, 0, 0xae0);
+    destination->type = 5;
+    destination->flags = 0x2dff;
+    destination->id = source->type;
+    destination->firstHigh = first[1];
+    destination->firstLow = first[0];
+    destination->secondHigh = second[1];
+    destination->secondLow = second[0];
+    destination->first = source->first;
+    destination->second = source->second;
+    fn_82A1DDC0(destination->data, source->data, 0xa80);
 }
-

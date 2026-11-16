@@ -1,29 +1,39 @@
-extern unsigned int *auStack_30;
-extern int fn_82522ED8();
-extern int fn_8255F880();
-extern int fn_8255F8D0();
-extern int fn_827F6328();
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Temporary_82326810 {
+    int words[2];
+} Temporary_82326810;
+typedef struct Object_82326810 Object_82326810;
 
+struct Object_82326810 {
+    struct {
+        void (*release)(Object_82326810 *self, int flags);
+    } *vtable;
+};
 
-double fn_82326810(int param_1)
+typedef struct Owner_82326810 {
+    char padding[0x40];
+    int source[2];
+    float duration;
+} Owner_82326810;
 
+extern const float lbl_821CA45C[2];
+extern void fn_8255F880(Temporary_82326810 *temporary, void *source);
+extern Object_82326810 *fn_8255F8D0(Temporary_82326810 *temporary, float start, float end, int flags);
+extern float fn_827F6328(Object_82326810 *object);
+extern void fn_82522ED8(Object_82326810 *object);
+
+float fn_82326810(Owner_82326810 *self)
 {
-  unsigned int *puVar1;
-  double dVar2;
-  double dVar3;
-  unsigned char auStack_30 [48];
-  
-  fn_8255F880(auStack_30,param_1 + 0x40);
-  puVar1 = (unsigned int *)fn_8255F8D0((double)ltcg_pool_0_0f,(double)lbl_821CA460,auStack_30);
-  dVar3 = (double)*(float *)(param_1 + 0x48);
-  dVar2 = (double)fn_827F6328();
-  dVar2 = (double)(float)(dVar2 * (double)(float)((double)lbl_821CA460 / dVar3));
-  if (puVar1 != (unsigned int *)0x0) {
-    (**(int (***)())*puVar1)(puVar1,0);
-    fn_82522ED8(puVar1);
-  }
-  return dVar2;
+    Temporary_82326810 temporary;
+    Object_82326810 *object;
+    float duration;
+    float result;
+    fn_8255F880(&temporary, self->source);
+    object = fn_8255F8D0(&temporary, 0.0f, lbl_821CA45C[1], 0);
+    duration = self->duration;
+    result = fn_827F6328(object) * (lbl_821CA45C[1] / duration);
+    if (object != 0) {
+        object->vtable->release(object, 0);
+        fn_82522ED8(object);
+    }
+    return result;
 }
-

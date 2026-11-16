@@ -1,38 +1,40 @@
-extern int fn_82F6DF48();
-extern int fn_82F6DF80();
-extern int fn_82F6E018();
-extern unsigned int lbl_82005710;
+extern int fn_82F6E018(double value);
+extern double fn_82F6DF80(double value);
+extern double fn_82F6DF48(double first, double second);
+extern const double lbl_82005710;
 
-
-double fn_82B810A8(double param_1,double param_2)
-
+static __forceinline float NegativeZero(void)
 {
-  int iVar1;
-  double dVar2;
-  
-  if (param_1 == -0.0) {
-    param_1 = lbl_82005710;
-  }
-  if (param_2 == -0.0) {
-    param_2 = lbl_82005710;
-  }
-  iVar1 = fn_82F6E018(param_1);
-  if (iVar1 == 4) {
-    param_2 = (double)fn_82F6DF80(param_2);
-  }
-  else if (iVar1 != 0x200) {
-    dVar2 = param_2;
-    iVar1 = fn_82F6E018(param_2);
-    param_2 = param_1;
-    param_1 = dVar2;
-    if (iVar1 == 4) {
-      param_2 = (double)fn_82F6DF80(param_2);
-    }
-    else if (iVar1 != 0x200) {
-      return param_2 * param_1;
-    }
-  }
-  dVar2 = (double)fn_82F6DF48(param_1,param_2);
-  return dVar2;
+    union {
+        unsigned int bits;
+        float value;
+    } zero;
+
+    zero.bits = 0x80000000;
+    return zero.value;
 }
 
+double fn_82B810A8(double first, double second)
+{
+    if (NegativeZero() == first) {
+        first = lbl_82005710;
+    }
+    if (NegativeZero() == second) {
+        second = lbl_82005710;
+    }
+    switch (fn_82F6E018(first)) {
+    case 4:
+        return fn_82F6DF48(first, fn_82F6DF80(second));
+    case 0x200:
+        return fn_82F6DF48(first, second);
+    default:
+        switch (fn_82F6E018(second)) {
+        case 4:
+            return fn_82F6DF48(second, fn_82F6DF80(first));
+        case 0x200:
+            return fn_82F6DF48(second, first);
+        default:
+            return first * second;
+        }
+    }
+}

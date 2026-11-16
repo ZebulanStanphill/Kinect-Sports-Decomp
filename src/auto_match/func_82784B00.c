@@ -1,33 +1,27 @@
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_821AAD20;
+extern double fabs(double value);
 
+extern double fabs(double);
 
-unsigned __int64
-fn_82784B00(double param_1,double param_2,double param_3,double param_4,double param_5,
-             double param_6,double param_7,double param_8,double param_9)
-
+unsigned char fn_82784B00(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4,
+                          float tolerance)
 {
-  float fVar1;
-  unsigned __int64 uVar2;
-  double dVar3;
-  double dVar4;
-  double dVar5;
-  
-  dVar4 = (double)((float)(param_8 - param_6) * (float)(param_3 - param_1) -
-                  (float)(param_7 - param_5) * (float)(param_4 - param_2));
-  if (ABS(dVar4) < param_9) {
-    return 1;
-  }
-  dVar3 = (double)lbl_82002AE0;
-  fVar1 = (float)(dVar3 / dVar4);
-  dVar4 = (double)(((float)(param_2 - param_6) * (float)(param_7 - param_5) -
-                   (float)(param_1 - param_5) * (float)(param_8 - param_6)) * fVar1);
-  dVar5 = (double)(((float)(param_2 - param_6) * (float)(param_3 - param_1) -
-                   (float)(param_1 - param_5) * (float)(param_4 - param_2)) * fVar1);
-  if ((((dVar4 < (double)lbl_821AAD20) || (dVar3 < dVar4)) || (dVar5 < (double)lbl_821AAD20)) ||
-     (uVar2 = 1, dVar3 < dVar5)) {
-    uVar2 = 0;
-  }
-  return uVar2;
+    float dy1 = y2 - y1;
+    float dx2 = x4 - x3;
+    float dx1 = x2 - x1;
+    float dy2 = y4 - y3;
+    float determinant = dy2 * dx1 - dx2 * dy1;
+    float inverse;
+    float dx;
+    float dy;
+    float first;
+    float second;
+    if (fabs(determinant) < tolerance) {
+        return 1;
+    }
+    dx = x1 - x3;
+    dy = y1 - y3;
+    inverse = 1.0f / determinant;
+    first = (dy * dx2 - dx * dy2) * inverse;
+    second = (dy * dx1 - dx * dy1) * inverse;
+    return first >= 0.0f && first <= 1.0f && second >= 0.0f && second <= 1.0f;
 }
-

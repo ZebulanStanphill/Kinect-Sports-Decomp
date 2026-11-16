@@ -1,40 +1,29 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern int fn_8225F160();
-extern int fn_8225F3C0();
-extern int fn_8249D008();
-extern unsigned int stack0x00000000;
-extern V16 loadVectorLeftIndexed128();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __VMXGetReg(int index);
+__vector4 __lvlx(const void *base, int offset);
+__vector4 __vspltw(__vector4 value, unsigned int index);
+__vector4 __vmulfp(__vector4 first, __vector4 second);
+extern double fabs(double value);
+extern float lbl_8218E8E8;
+extern void *fn_8225F160(void);
+extern int fn_8225F3C0(void *self);
+extern __vector4 *fn_8249D008(__vector4 *out, const float *bounds, int side);
 
-unsigned __int64 fn_8249CF88(unsigned __int64 param_1,unsigned int param_2,unsigned __int64 param_3)
-
+static __forceinline __vector4 *Build_8249CF88(__vector4 *out, const float *bounds)
 {
-  float *pfVar1;
-  unsigned __int64 in_r0;
-  int iVar2;
-  float in_register_00010000;
-  float in_ACC;
-  float in_register_00010008;
-  float in_vr0;
-  float in_register_00010440;
-  float in_register_00010444;
-  float in_register_00010448;
-  float in_vr68;
-  
-  fn_8225F160();
-  iVar2 = fn_8225F3C0();
-  if (iVar2 < 2) {
-    loadVectorLeftIndexed128(in_r0,ZEXT48(&stack0x00000000) - 0x30);
-    pfVar1 = (float *)((int)in_r0 + (int)param_1 & 0xfffffff0);
-    *pfVar1 = in_register_00010440 * in_register_00010000;
-    pfVar1[1] = in_register_00010444 * in_ACC;
-    pfVar1[2] = in_register_00010448 * in_register_00010008;
-    pfVar1[3] = in_vr68 * in_vr0;
-  }
-  else {
-    fn_8249D008(param_1,param_2,param_3);
-  }
-  return param_1;
+    float extent = (float)fabs((bounds[1] - bounds[3]) * lbl_8218E8E8 + bounds[3]);
+    *out = __vmulfp(__VMXGetReg(68), __vspltw(__lvlx(&extent, 0), 0));
+    return out;
 }
 
+__vector4 *fn_8249CF88(__vector4 *out, const float *bounds, int side)
+{
+    if (fn_8225F3C0(fn_8225F160()) <= 1) {
+        return Build_8249CF88(out, bounds);
+    }
+    fn_8249D008(out, bounds, side);
+    return out;
+}

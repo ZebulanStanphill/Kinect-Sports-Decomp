@@ -1,55 +1,54 @@
-extern int fn_82AB15D0();
-extern int fn_82AB6EC0();
-extern int fn_82AB6F58();
-extern int fn_82AB7010();
-extern int fn_82AB7C30();
-extern int fn_82AB81E8();
-extern int fn_82AB9738();
-extern int fn_82B6D410();
-extern int fn_82B7D980();
-extern int fn_82B7E460();
-extern int fn_82B7F3D8();
-extern int fn_82BA02A8();
+extern void fn_82AB15D0(void *object, const char *format, const char *expression, const char *file, int line);
+extern unsigned int fn_82AB6EC0(void *state, int type);
+extern void *fn_82AB9738(void *store, unsigned int handle);
+extern void *fn_82B6D410(void *pool, int type);
+extern void *fn_82B7F3D8(void *object);
+extern void fn_82AB6F58(void *context, unsigned int handle);
+extern void fn_82AB81E8(void *context);
+extern void fn_82AB7010(void *context, void *source);
+extern void fn_82BA02A8(void *log, const char *format, ...);
+extern int fn_82B7D980(void *log, void *context, void *shader, void *state);
+extern int fn_82AB7C30(void *context);
+extern void fn_82B7E460(void *object, void *state);
 
+#define SC_ASSERT(expression, line)                                                                          \
+    fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", expression,                                               \
+                "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\"           \
+                "statecompiler\\ssmstatecompiler.cpp",                                                       \
+                line)
 
-unsigned __int64 fn_82ABA1F0(int param_1,unsigned __int64 param_2,unsigned int *param_3)
-
+int fn_82ABA1F0(char *self, void *state, void **out)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  __int64 lVar4;
-  unsigned __int64 uVar5;
-  unsigned __int64 uVar6;
-  
-  uVar1 = *(unsigned int *)(param_1 + 0x20);
-  uVar2 = *(unsigned int *)(param_1 + 0x10);
-  uVar3 = fn_82AB6EC0(param_2,1);
-  lVar4 = fn_82AB9738(uVar2,uVar3);
-  if (lVar4 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d76fc,0xffffffff820d7628,0x232);
-    uVar3 = 0x13;
-  }
-  else {
-    uVar5 = fn_82B6D410(*(unsigned int *)(param_1 + 0xc),2);
-    *param_3 = (int)uVar5;
-    if ((uVar5 & 0xffffffff) == 0) {
-      fn_82AB15D0(uVar5,0xffffffff820d2ea4,0xffffffff820d76cc,0xffffffff820d7628,0x23d);
-      uVar3 = 0x10;
+    void *log = *(void **)(self + 0x20);
+    void *store = *(void **)(self + 0x10);
+    unsigned int handle = fn_82AB6EC0(state, 1);
+    void *shader = fn_82AB9738(store, handle);
+    if (shader == 0) {
+        SC_ASSERT("pILPixel != 0", 0x232);
+        return 0x13;
+    } else {
+        void *object = fn_82B6D410(*(void **)(self + 0xc), 2);
+        *out = object;
+        if (object == 0) {
+            SC_ASSERT("!\"Could not allocate a new Compiled Program\"", 0x23d);
+            return 0x10;
+        } else {
+            void *context = fn_82B7F3D8(object);
+            int result;
+            fn_82AB6F58(context, handle);
+            fn_82AB81E8(*(void **)(self + 0x2c));
+            fn_82AB7010(context, *(void **)(self + 0x2c));
+            fn_82BA02A8(log, "PixelShaderHandle  = %d\n", handle);
+            result = fn_82B7D980(log, context, shader, state);
+            if (result != 0) {
+                return result;
+            }
+            result = fn_82AB7C30(context);
+            if (result != 0) {
+                return result;
+            }
+            fn_82B7E460(*out, state);
+            return 0;
+        }
     }
-    else {
-      uVar6 = fn_82B7F3D8();
-      fn_82AB6F58(uVar6,uVar3);
-      fn_82AB81E8(*(unsigned int *)(param_1 + 0x2c));
-      fn_82AB7010(uVar6,*(unsigned int *)(param_1 + 0x2c));
-      fn_82BA02A8(uVar1,0xffffffff820d76b0,uVar3);
-      uVar3 = fn_82B7D980(uVar1,uVar6,lVar4,param_2);
-      if (((int)uVar3 == 0) && (uVar3 = fn_82AB7C30(uVar6), (int)uVar3 == 0)) {
-        fn_82B7E460(*param_3,param_2);
-        uVar3 = 0;
-      }
-    }
-  }
-  return uVar3;
 }
-

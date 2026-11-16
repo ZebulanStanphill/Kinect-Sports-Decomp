@@ -1,55 +1,45 @@
-#define _uStack00000010 ((*(unsigned __int64*)&uStack00000010))
-extern int fn_82AC3438();
-extern int fn_82AC3548();
-extern unsigned int stack0x00000010;
-extern unsigned int uStack00000010;
+extern void *memset(void *, int, unsigned int);
+extern int memcmp(const void *, const void *, unsigned int);
+extern int fn_82AC3438(unsigned int *, unsigned int, int, int, void *);
+extern int fn_82AC3548(unsigned int *, unsigned int, int, int, void *, int);
 
+typedef union Token_82AC42D8 {
+    unsigned __int64 value;
 
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
+    struct {
+        unsigned int reservedHigh : 11;
+        unsigned int length : 5;
+        unsigned int reservedMid : 2;
+        unsigned int flag : 1;
+        unsigned int index : 13;
+        unsigned int reservedLow : 16;
+        unsigned int upper : 4;
+        unsigned int lower : 1;
+        unsigned int reservedBottom : 11;
+    } fields;
+} Token_82AC42D8;
 
-unsigned int fn_82AC42D8(unsigned __int64 param_1,int *param_2,unsigned int *param_3,unsigned __int64 param_4)
-
+int fn_82AC42D8(Token_82AC42D8 token, unsigned int *data, unsigned int *limit, unsigned int first)
 {
-  unsigned char bVar1;
-  unsigned char bVar2;
-  unsigned __int64 uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  int iVar7;
-  int iVar8;
-  unsigned char *pbVar9;
-  unsigned char *pbVar10;
-  unsigned int uStack00000010;
-  unsigned char abStack_40 [8];
-  unsigned char abStack_38 [56];
-  
-  uStack00000010 = (unsigned int)((unsigned __int64)param_1 >> 0x20);
-  uVar6 = uStack00000010;
-  pbVar10 = abStack_40;
-  pbVar9 = (unsigned char *)&stack0x00000010;
-  do {
-    bVar1 = *pbVar10;
-    bVar2 = *pbVar9;
-    if ((unsigned __int64)bVar1 - (unsigned __int64)bVar2 != 0) break;
-    pbVar10 = pbVar10 + 1;
-    pbVar9 = pbVar9 + 1;
-  } while (pbVar10 != abStack_38);
-  if ((int)((unsigned __int64)bVar1 - (unsigned __int64)bVar2) == 0) {
-    iVar8 = *param_2;
-    uVar4 = (unsigned int)param_2[iVar8 * 4 + 3] >> 0x10 & 7;
-    uVar5 = (unsigned int)param_2[iVar8 * 4 + 3] >> 0xd & 7;
-    if (((uVar4 < 4) && (uVar3 = (unsigned __int64)uStack00000010 & 0x1fff, (param_4 & 0xffffffff) < uVar3)
-        ) && (uVar3 < *param_3)) {
-      _uStack00000010 = param_1;
-      iVar7 = fn_82AC3438(param_2,uVar3,uVar4,uVar5,param_2 + iVar8 * 4 + 4);
-      if (-1 < iVar7) {
-        iVar8 = fn_82AC3548(param_2,param_4 + 1,uVar4 + 1,uVar5,param_2 + iVar8 * 4 + 4,
-                              (uVar6 >> 0x10 & 0x1f) + 1);
-        return iVar8 >> 0x1f & 0x80004005;
-      }
+    Token_82AC42D8 masked;
+    memset(&masked, 0, sizeof(masked));
+    masked.fields.lower = token.fields.lower;
+    masked.fields.index = token.fields.index;
+    masked.fields.length = token.fields.length;
+    masked.fields.upper = token.fields.upper;
+    masked.fields.flag = token.fields.flag;
+    if (memcmp(&masked, &token, 8) == 0) {
+        unsigned int *header = data + data[0] * 4 + 3;
+        int mode = (*header >> 16) & 7;
+        int type = (*header >> 13) & 7;
+        if (mode >= 0 && mode < 4 && token.fields.index > first && token.fields.index < *limit) {
+            int status;
+            if (fn_82AC3438(data, token.fields.index, mode, type, header + 1) < 0) {
+                return 0x80004005;
+            }
+            status = fn_82AC3548(data, first + 1, mode + 1, type, header + 1, token.fields.length + 1);
+            return status < 0 ? (int)0x80004005 : 0;
+        }
     }
-  }
-  return 0x80004005;
+    return 0x80004005;
 }
-

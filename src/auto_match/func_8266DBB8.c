@@ -1,64 +1,62 @@
-extern unsigned int *auStack_60;
-extern int fn_8266D440();
-extern int fn_8266D840();
-extern int fn_8266D8A8();
-extern unsigned int uStack_70;
-extern unsigned int uStack_74;
-extern unsigned int uStack_78;
-extern unsigned int uStack_7c;
-extern unsigned int uStack_80;
+typedef struct Entry_8266DBB8 {
+    int first;
+    int second;
+    unsigned int key;
+} Entry_8266DBB8;
 
+typedef struct Iterator_8266DBB8 {
+    unsigned int words[5];
+} Iterator_8266DBB8;
 
-void fn_8266DBB8(__int64 param_1,unsigned __int64 param_2,int param_3,unsigned __int64 param_4,
-                  __int64 param_5)
+typedef struct Result_8266DBB8 {
+    unsigned int words[6];
+} Result_8266DBB8;
 
+extern Result_8266DBB8 *fn_8266D8A8(Result_8266DBB8 *out, Entry_8266DBB8 *first, Entry_8266DBB8 *middle,
+                                    Entry_8266DBB8 *second, Entry_8266DBB8 *last, Iterator_8266DBB8 *state);
+extern Result_8266DBB8 *fn_8266D840(Result_8266DBB8 *out, Entry_8266DBB8 *first, Entry_8266DBB8 *last,
+                                    Iterator_8266DBB8 *state);
+extern void fn_8266D440(void *state);
+
+void fn_8266DBB8(Entry_8266DBB8 *first, Entry_8266DBB8 *last, Iterator_8266DBB8 *state, int count,
+                 int remaining)
 {
-  int iVar1;
-  __int64 lVar2;
-  __int64 lVar3;
-  int iVar4;
-  unsigned int uStack_80;
-  unsigned int uStack_7c;
-  unsigned int uStack_78;
-  unsigned int uStack_74;
-  unsigned int uStack_70;
-  unsigned char auStack_60 [96];
-  
-  iVar4 = (int)(param_4 & 0x7fffffff) * 2;
-  iVar1 = (int)param_5;
-  if (iVar4 <= iVar1) {
-    lVar3 = param_1;
-    do {
-      uStack_70 = *(unsigned int *)(param_3 + 0x10);
-      lVar2 = param_4 * 0xc + lVar3;
-      uStack_80 = 0;
-      uStack_7c = 0;
-      param_1 = param_4 * 0xc + lVar2;
-      uStack_78 = 0;
-      uStack_74 = 0;
-      iVar1 = fn_8266D8A8(auStack_60,lVar3,lVar2,lVar2,param_1,&uStack_80);
-      *(unsigned int *)(param_3 + 0x10) = *(unsigned int *)(iVar1 + 0x10);
-      fn_8266D440(auStack_60);
-      param_5 = param_5 + (param_4 & 0x7fffffff) * -2;
-      iVar1 = (int)param_5;
-      lVar3 = param_1;
-    } while (iVar4 <= iVar1);
-  }
-  uStack_80 = 0;
-  uStack_7c = 0;
-  uStack_78 = 0;
-  uStack_74 = 0;
-  if ((int)param_4 < iVar1) {
-    uStack_70 = *(unsigned int *)(param_3 + 0x10);
-    lVar3 = param_4 * 0xc + param_1;
-    fn_8266D8A8(auStack_60,param_1,lVar3,lVar3,param_2,&uStack_80);
-  }
-  else {
-    uStack_70 = *(unsigned int *)(param_3 + 0x10);
-    fn_8266D840(auStack_60,param_1,param_2,&uStack_80);
-  }
-  fn_8266D440(auStack_60);
-  fn_8266D440(param_3);
-  return;
-}
+    int pairCount;
+    Iterator_8266DBB8 copy;
+    Result_8266DBB8 result;
+    for (pairCount = count * 2; pairCount <= remaining; remaining -= pairCount) {
+        Entry_8266DBB8 *middle = first + count;
+        Entry_8266DBB8 *end = middle + count;
+        Result_8266DBB8 *out;
+        copy.words[4] = state->words[4];
+        copy.words[0] = 0;
+        copy.words[1] = 0;
+        copy.words[2] = 0;
+        copy.words[3] = 0;
+        out = fn_8266D8A8(&result, first, middle, middle, end, &copy);
+        state->words[4] = out->words[4];
+        fn_8266D440(&result);
+        first = end;
+    }
+    if (remaining <= count) {
+        copy.words[0] = 0;
+        copy.words[1] = 0;
+        copy.words[2] = 0;
+        copy.words[3] = 0;
 
+        copy.words[4] = state->words[4];
+        fn_8266D840(&result, first, last, &copy);
+    } else {
+        copy.words[0] = 0;
+        copy.words[1] = 0;
+        copy.words[2] = 0;
+        copy.words[3] = 0;
+        {
+            Entry_8266DBB8 *middle = first + count;
+            copy.words[4] = state->words[4];
+            fn_8266D8A8(&result, first, middle, middle, last, &copy);
+        }
+    }
+    fn_8266D440(&result);
+    fn_8266D440(state);
+}

@@ -1,62 +1,41 @@
-extern unsigned int *auStack_430;
-extern int fn_82CEDF40();
-extern int fn_82CFBBA8();
-extern int fn_82CFBBF0();
-extern int fn_82CFBE40();
-extern unsigned int stack0x00000028;
-extern unsigned int uStack00000028;
-extern unsigned int uStack00000030;
-extern unsigned int uStack00000038;
-extern unsigned int uStack00000040;
-extern unsigned int uStack00000048;
+typedef char *va_list;
+extern void __cdecl __va_start(va_list *args, ...);
 
+typedef struct Logger_830809C0 {
+    void *unused[2];
+    void *output;        /* 0x08 */
+    int count;           /* 0x0c */
+    char (*filters)[32]; /* 0x10 */
+    int filterCount;     /* 0x14 */
+} Logger_830809C0;
 
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
+extern int fn_82CFBBF0(const char *first, const char *second);
+extern int fn_82CFBBA8(char *out, const char *format, ...);
+extern int fn_82CFBE40(const char *text);
+extern void fn_82CEDF40(void *self, const char *text, int length);
+extern int fn_82CFBB58(char *out, int size, const char *format, va_list args);
 
-void fn_830809C0(int param_1,unsigned __int64 param_2,char *param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5,unsigned __int64 param_6,unsigned __int64 param_7,unsigned __int64 param_8)
-
+void fn_830809C0(Logger_830809C0 *self, const char *category, const char *format, ...)
 {
-  int iVar2;
-  unsigned __int64 uVar1;
-  int iVar3;
-  __int64 lVar4;
-  unsigned __int64 uStack00000028;
-  unsigned __int64 uStack00000030;
-  unsigned __int64 uStack00000038;
-  unsigned __int64 uStack00000040;
-  unsigned __int64 uStack00000048;
-  unsigned char auStack_430 [1040];
-  
-  iVar3 = 0;
-  uStack00000028 = param_4;
-  uStack00000030 = param_5;
-  uStack00000038 = param_6;
-  uStack00000040 = param_7;
-  uStack00000048 = param_8;
-  if (0 < *(int *)(param_1 + 0x14)) {
-    lVar4 = 0;
-    do {
-      iVar2 = fn_82CFBBF0((unsigned __int64)*(unsigned int *)(param_1 + 0x10) + lVar4,param_2);
-      if (iVar2 == 0) {
-        return;
-      }
-      iVar3 = iVar3 + 1;
-      lVar4 = lVar4 + 0x20;
-    } while (iVar3 < *(int *)(param_1 + 0x14));
-  }
-  *(int *)(param_1 + 0xc) = *(int *)(param_1 + 0xc) + 1;
-  if (*(int *)(param_1 + 8) != 0) {
-    if (*param_3 == '#') {
-      fn_82CFBBA8(auStack_430,0xffffffff82186f1c);
-      uVar1 = fn_82CFBE40(auStack_430);
-      fn_82CEDF40(*(unsigned int *)(param_1 + 8),auStack_430,uVar1);
-      param_3 = param_3 + 1;
+    char buffer[1024];
+    const char *text = format;
+    va_list args;
+    int index;
+    for (index = 0; index < self->filterCount; ++index) {
+        if (fn_82CFBBF0(self->filters[index], category) == 0) {
+            return;
+        }
     }
-    thunk_FUN_82f6ede8(auStack_430,0x400,param_3,&stack0x00000028);
-    uVar1 = fn_82CFBE40(auStack_430);
-    fn_82CEDF40(*(unsigned int *)(param_1 + 8),auStack_430,uVar1);
-  }
-  return;
+    ++self->count;
+    if (self->output != 0) {
+        __va_start(&args, format);
+        if (text[0] == '#') {
+            fn_82CFBBA8(buffer, "%4i\t\t", self->count);
+            fn_82CEDF40(self->output, buffer, fn_82CFBE40(buffer));
+            fn_82CFBB58(buffer, 1024, text + 1, args);
+        } else {
+            fn_82CFBB58(buffer, 1024, text, args);
+        }
+        fn_82CEDF40(self->output, buffer, fn_82CFBE40(buffer));
+    }
 }
-

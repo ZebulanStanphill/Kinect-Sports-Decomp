@@ -1,53 +1,72 @@
-extern int fn_82BA4058();
-extern int fn_82BC5B38();
+struct Node_82BC4DC8;
 
+struct List_82BC4DC8 {
+    unsigned int capacity;
+    unsigned int count;
+    struct Node_82BC4DC8 **data;
+};
 
-void fn_82BC4DC8(int param_1)
+struct Node_82BC4DC8 {
+    char padding[0x38];
+    struct List_82BC4DC8 *outputs; /* 0x38 */
+    char padding3c[0x0c];
+    unsigned int group; /* 0x48 */
+    char padding4c[0x0c];
+    struct List_82BC4DC8 *children; /* 0x58 */
+    struct List_82BC4DC8 *parents;  /* 0x5c */
+};
+extern struct Node_82BC4DC8 **fn_82BC0088(struct List_82BC4DC8 *list, unsigned int index);
+extern void fn_82BBFFC8(struct List_82BC4DC8 *list, unsigned int index);
 
+static __forceinline unsigned char Next_82BC4DC8(struct List_82BC4DC8 *list, unsigned int index,
+                                                 struct Node_82BC4DC8 **value)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  int *piVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned int uVar8;
-  int iVar9;
-  int iVar10;
-  
-  piVar5 = (int *)fn_82BA4058(*(unsigned int *)(param_1 + 0x20));
-  uVar6 = 1;
-  if (*(int *)(param_1 + 0x1c) != 0) {
-    do {
-      piVar5 = piVar5 + 1;
-      iVar1 = *piVar5;
-      iVar9 = 0;
-      iVar2 = *(int *)(iVar1 + 0x48);
-      for (uVar7 = 1; uVar7 <= *(unsigned int *)(*(int *)(iVar1 + 0x38) + 4); uVar7 = uVar7 + 1) {
-        iVar4 = *(int *)(*(int *)(*(int *)(iVar1 + 0x38) + 8) + iVar9);
-        if (*(int *)(*(int *)(iVar4 + 0x48) * 4 + *(int *)(param_1 + 8)) != iVar2) {
-          fn_82BC5B38(iVar1,iVar4);
-        }
-        iVar9 = iVar9 + 4;
-      }
-      iVar9 = 0;
-      for (uVar7 = 1; uVar7 <= *(unsigned int *)(*(int *)(iVar1 + 0x58) + 4); uVar7 = uVar7 + 1) {
-        iVar4 = *(int *)(*(int *)(*(int *)(iVar1 + 0x58) + 8) + iVar9);
-        iVar10 = 0;
-        for (uVar8 = 1; iVar3 = *(int *)(iVar4 + 0x5c), uVar8 <= *(unsigned int *)(iVar3 + 4);
-            uVar8 = uVar8 + 1) {
-          iVar3 = *(int *)(*(int *)(iVar3 + 8) + iVar10);
-          if (*(int *)(*(int *)(iVar3 + 0x48) * 4 + *(int *)(param_1 + 8)) != iVar2) {
-            fn_82BC5B38(iVar1,iVar3);
-          }
-          iVar10 = iVar10 + 4;
-        }
-        iVar9 = iVar9 + 4;
-      }
-      uVar6 = uVar6 + 1;
-    } while (uVar6 <= *(unsigned int *)(param_1 + 0x1c));
-  }
-  return;
+    if (index + 1 > list->count) {
+        return 0;
+    }
+    *value = list->data[index];
+    return 1;
 }
 
+struct Graph_82BC4DC8 {
+    char padding00[8];
+    unsigned int *groups; /* 0x08 */
+    char padding0c[0x10];
+    unsigned int count; /* 0x1c */
+    void *storage;      /* 0x20 */
+};
+extern struct Node_82BC4DC8 **fn_82BA4058(void *storage);
+extern void fn_82BC5B38(struct Node_82BC4DC8 *node, struct Node_82BC4DC8 *parent);
+
+void fn_82BC4DC8(struct Graph_82BC4DC8 *self)
+{
+    struct Node_82BC4DC8 **nodes = fn_82BA4058(self->storage);
+    unsigned int nodeIndex;
+    for (nodeIndex = 1; nodeIndex <= self->count; ++nodeIndex) {
+        struct Node_82BC4DC8 *node = nodes[nodeIndex];
+        struct Node_82BC4DC8 *value = 0;
+        unsigned int index = 0;
+        unsigned int group = node->group;
+        while (Next_82BC4DC8(node->outputs, index, &value)) {
+            if (self->groups[value->group] != group) {
+                fn_82BC5B38(node, value);
+            }
+            ++index;
+        }
+        {
+            struct Node_82BC4DC8 *child = 0;
+            unsigned int childIndex = 0;
+            while (Next_82BC4DC8(node->children, childIndex, &child)) {
+                value = 0;
+                index = 0;
+                while (Next_82BC4DC8(child->parents, index, &value)) {
+                    if (self->groups[value->group] != group) {
+                        fn_82BC5B38(node, value);
+                    }
+                    ++index;
+                }
+                ++childIndex;
+            }
+        }
+    }
+}

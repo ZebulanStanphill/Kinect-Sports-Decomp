@@ -1,85 +1,103 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_82AA66A8();
-extern unsigned int lbl_82005710;
-extern unsigned int uStack_c;
+typedef struct Node_82B458E0 {
+    int unused;
+    int kind;
+    struct Node_82B458E0 *child;
+    unsigned int count;
 
+    union {
+        struct Node_82B458E0 *type;
+        int valueKind;
+    } info;
 
-unsigned __int64 fn_82B458E0(unsigned __int64 param_1,int param_2,unsigned int *param_3)
+    unsigned int width;
 
+    union {
+        double real;
+        int integer;
+        unsigned int word;
+
+        struct {
+            unsigned int first;
+            int second;
+        } pair;
+    } value;
+    struct Node_82B458E0 *expression;
+} Node_82B458E0;
+
+extern double lbl_82005710;
+extern __declspec(noreturn) void fn_82AA66A8(void *self, unsigned int error, ...);
+
+int fn_82B458E0(void *self, Node_82B458E0 *node, unsigned int *out)
 {
-  int iVar1;
-  int iVar2;
-  bool bVar3;
-  bool bVar4;
-  unsigned __int64 uVar5;
-  unsigned int uStack_c;
-  
-  if (param_2 == 0) {
-    return 0;
-  }
-  if ((*(int *)(param_2 + 4) != 0xe) && (*(int *)(param_2 + 0x1c) != 0)) {
-    return 0;
-  }
-  if (*(int *)(param_2 + 0x14) != 1) {
-    return 0;
-  }
-  if (*(int *)(param_2 + 0x18) != 1) {
-    return 0;
-  }
-  iVar1 = *(int *)(param_2 + 0x10);
-  bVar4 = false;
-  bVar3 = false;
-  if ((iVar1 == 0) || (*(int *)(iVar1 + 4) != 9)) {
-                    /* WARNING: Subroutine does not return */
-    fn_82AA66A8(param_1,0x12c1);
-  }
-  iVar1 = *(int *)(iVar1 + 0x14);
-  if (iVar1 == 1) {
-LAB_82b4597c:
-    bVar4 = true;
-LAB_82b45980:
-    bVar3 = true;
-  }
-  else {
-    if (iVar1 == 2) goto LAB_82b45980;
-    if (iVar1 == 6) goto LAB_82b4597c;
-    if (iVar1 != 10) {
-      return 0;
+    unsigned char allowNegative;
+    unsigned char allowFraction;
+    Node_82B458E0 *type;
+    Node_82B458E0 *expression;
+    unsigned int value;
+    if (node == 0) {
+        goto fail;
     }
-  }
-  iVar1 = *(int *)(param_2 + 0x20);
-  if (*(int *)(iVar1 + 4) != 1) {
-    return 0;
-  }
-  if (*(int *)(iVar1 + 0xc) != 0) {
-    return 0;
-  }
-  iVar1 = *(int *)(iVar1 + 8);
-  if (*(int *)(iVar1 + 4) != 0xf) {
-    return 0;
-  }
-  iVar2 = *(int *)(iVar1 + 0x10);
-  if (iVar2 == 1) {
-    if ((!bVar4) && (*(int *)(iVar1 + 0x18) < 0)) {
-      return 0;
+    if (node->kind != 14 && node->value.pair.second != 0) {
+        goto fail;
     }
-  }
-  else if (iVar2 != 2) {
-    if ((iVar2 != 3) || ((!bVar4 && (*(double *)(iVar1 + 0x18) < lbl_82005710)))) {
-      return 0;
+    if (node->width != 1) {
+        goto fail;
     }
-    uVar5 = (unsigned __int64)*(double *)(iVar1 + 0x18);
-    uStack_c = (unsigned int)uVar5;
-    if ((!bVar3) && ((double)(uVar5 & 0xffffffff) != *(double *)(iVar1 + 0x18))) {
-      return 0;
+    if (node->value.word != 1) {
+        goto fail;
     }
-    goto LAB_82b45a38;
-  }
-  uStack_c = *(unsigned int *)(iVar1 + 0x18);
-LAB_82b45a38:
-  *param_3 = uStack_c;
-  return 1;
+    allowNegative = 0;
+    allowFraction = 0;
+    type = node->info.type;
+    if (type == 0 || type->kind != 9) {
+        fn_82AA66A8(self, 0x12c1);
+    }
+    switch ((int)type->width) {
+    case 1:
+    case 6:
+        allowNegative = 1;
+    case 2:
+        allowFraction = 1;
+        break;
+    case 10:
+        break;
+    default:
+    fail:
+        return 0;
+    }
+    expression = node->expression;
+    if (expression->kind != 1 || expression->count != 0) {
+        goto fail;
+    }
+    expression = expression->child;
+    if (expression->kind != 15) {
+        goto fail;
+    }
+    switch (expression->info.valueKind) {
+    case 1:
+        if (!allowNegative && expression->value.integer < 0) {
+            goto fail;
+        }
+    case 2:
+        value = expression->value.word;
+        break;
+    case 3:
+        if (!allowNegative && expression->value.real < lbl_82005710) {
+            goto fail;
+        }
+        value = (unsigned int)expression->value.real;
+        if (!allowFraction) {
+            int flag;
+            flag = (float)value == expression->value.real;
+            if (flag) {
+            } else {
+                goto fail;
+            }
+        }
+        break;
+    default:
+        goto fail;
+    }
+    *out = value;
+    return 1;
 }
-

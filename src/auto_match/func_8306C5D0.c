@@ -1,43 +1,42 @@
-extern unsigned int *auStack_30;
-extern int fn_82A2B760();
-extern int NtCreateIoCompletion();
-extern unsigned int iStack_38;
-extern unsigned int uStack_34;
+extern int NtCreateIoCompletion(void **out, unsigned int access, void *attributes);
+extern int NtSetInformationFile(int file, void *status, void *info, unsigned int size, unsigned int type);
+extern int NtClose(void *handle);
+extern void fn_82A31F28(int status);
 
-
-int fn_8306C5D0(unsigned __int64 param_1,int param_2,unsigned int param_3)
-
+void *fn_8306C5D0(int file, void *port, unsigned int key)
 {
-  int iVar1;
-  int aiStack_40;
-  struct { int first; unsigned int second; } stack_pair_38;
+    void *result = port;
 
-  unsigned char auStack_30 [16];
-  
-  aiStack_40 = param_2;
-  if ((param_2 == 0) && (iVar1 = NtCreateIoCompletion(&aiStack_40,0x1f0003,0), iVar1 < 0)) {
-    fn_82A2B760();
-  }
-  else {
-    if ((int)param_1 == -1) {
-      if (param_2 == 0) {
-        return aiStack_40;
-      }
-      aiStack_40 = 0;
-      fn_82A2B760(0xffffffffc000000d);
-      return aiStack_40;
+    struct {
+        void *port;
+        unsigned int key;
+    } completion;
+
+    unsigned int status[2];
+    int error;
+
+    if (port == 0 && (error = NtCreateIoCompletion(&result, 0x1f0003, 0)) < 0) {
+        fn_82A31F28(error);
+        return 0;
+    } else {
+        if (file != -1) {
+            completion.port = result;
+            completion.key = key;
+            error = NtSetInformationFile(file, status, &completion, 8, 30);
+            if (error >= 0) {
+                return result;
+            }
+            fn_82A31F28(error);
+            if (port == 0) {
+                NtClose(result);
+            }
+        } else {
+            if (port != 0) {
+                result = 0;
+                fn_82A31F28(0xc000000d);
+            }
+            return result;
+        }
     }
-    stack_pair_38.first = aiStack_40;
-    stack_pair_38.second = param_3;
-    iVar1 = NtSetInformationFile(param_1,auStack_30,&stack_pair_38.first,8,0x1e);
-    if (-1 < iVar1) {
-      return aiStack_40;
-    }
-    fn_82A2B760();
-    if (param_2 == 0) {
-      NtClose(aiStack_40);
-    }
-  }
-  return 0;
+    return 0;
 }
-

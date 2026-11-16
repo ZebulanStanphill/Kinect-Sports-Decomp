@@ -1,34 +1,41 @@
-extern unsigned int *auStack_20;
-extern int fn_829C5A38();
-extern unsigned int lbl_82022FD0;
-extern unsigned int lbl_820570A4;
-extern unsigned int lbl_83214E18;
-extern unsigned int lbl_83214F68;
-extern unsigned int lbl_83214F80;
+typedef struct Settings_829C5BD8 {
+    char padding[0x68];
+    float value;
+    char padding6c[0x1b4 - 0x6c];
 
+    union {
+        unsigned int words[8];
+
+        struct {
+            int unused;
+            float value;
+            int unused08[5];
+            unsigned int flags;
+        } fields;
+    } config;
+
+    char padding1d4[0x200 - 0x1d4];
+} Settings_829C5BD8;
+
+extern Settings_829C5BD8 lbl_83214DB0;
+extern const float lbl_82022FD0;
+extern const float lbl_820570A4;
+extern int ExGetXConfigSetting(unsigned short category, unsigned short setting, void *buffer,
+                               unsigned int size, unsigned short *written);
+extern void fn_829C5A38(void);
 
 void fn_829C5BD8(void)
-
 {
-  int iVar1;
-  unsigned int *puVar2;
-  __int64 lVar3;
-  unsigned short auStack_20 [8];
-  
-  puVar2 = (unsigned int *)0x83214f60;
-  lVar3 = 7;
-  do {
-    puVar2 = puVar2 + 1;
-    *puVar2 = 0;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  auStack_20[0] = 0;
-  iVar1 = ExGetXConfigSetting(7,9,0xffffffff83214f64,0x1c,auStack_20);
-  if (((iVar1 != 0) || ((lbl_83214F80 & 0x40) != 0)) || (lbl_83214F68 < lbl_82022FD0)) {
-    lbl_83214F68 = lbl_820570A4;
-  }
-  lbl_83214E18 = lbl_83214F68;
-  fn_829C5A38();
-  return;
+    unsigned short written;
+    unsigned int index;
+    for (index = 0; index < 7; ++index) {
+        lbl_83214DB0.config.words[index] = 0;
+    }
+    written = 0;
+    if (ExGetXConfigSetting(7, 9, &lbl_83214DB0.config, 0x1c, &written) != 0 ||
+        (lbl_83214DB0.config.fields.flags & 0x40) != 0 || lbl_83214DB0.config.fields.value < lbl_82022FD0) {
+        lbl_83214DB0.config.fields.value = lbl_820570A4;
+    }
+    lbl_83214DB0.value = lbl_83214DB0.config.fields.value;
+    fn_829C5A38();
 }
-

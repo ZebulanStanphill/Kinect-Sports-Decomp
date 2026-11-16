@@ -1,43 +1,57 @@
-extern int fn_8265C990();
-extern int fn_82F691F0();
+extern void MmFreePhysicalMemory(unsigned int type, void *memory);
+extern void fn_8265C990(void *memory, unsigned int attributes);
+extern void *memset(void *destination, int value, unsigned int size);
 
+typedef struct Buffers_82656468 {
+    void *primary;   /* 0x00 */
+    void *secondary; /* 0x04 */
+    char padding[0x248];
+    void *extra; /* 0x250 */
+    char padding2[0x10];
+    int flags; /* 0x264 */
+    int state; /* 0x268 */
+} Buffers_82656468;
 
-void fn_82656468(int param_1)
-
+void fn_82656468(char *self)
 {
-  int iVar1;
-  int iVar2;
-  
-  iVar1 = *(int *)(param_1 + 0x5e6c);
-  if (iVar1 != 0) {
-    if ((*(unsigned int *)(param_1 + 0x5e80) & 0x8000000) == 0) {
-      MmFreePhysicalMemory(2,iVar1);
-    }
-    else {
-      fn_8265C990(iVar1,0x24800000);
-    }
-  }
-  iVar1 = *(int *)(param_1 + 0x5c1c);
-  if (iVar1 != 0) {
-    iVar2 = *(int *)(param_1 + 0x5e80) >> 0x1e;
-    if (iVar2 == 0) {
-      MmFreePhysicalMemory(2,iVar1);
-    }
-    else if (iVar2 == 1) {
-      fn_8265C990(iVar1,0xffffffffb1800000);
-    }
-  }
-  iVar1 = *(int *)(param_1 + 0x5c20);
-  if (iVar1 != 0) {
-    iVar2 = (int)(*(unsigned int *)(param_1 + 0x5e80) << 2 | *(unsigned int *)(param_1 + 0x5e80) >> 0x1e) >> 0x1e;
-    if (iVar2 == 0) {
-      MmFreePhysicalMemory(2,iVar1);
-    }
-    else if (iVar2 == 1) {
-      fn_8265C990(iVar1,0xffffffffb1800000);
-    }
-  }
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0((int *)(param_1 + 0x5c1c),0,0x26c);
-}
+    Buffers_82656468 *buffers = (Buffers_82656468 *)(self + 0x5c1c);
+    unsigned int kind;
+    int state;
+    int index;
 
+    if (buffers->extra != 0) {
+        if ((buffers->flags & 0x08000000) == 0) {
+            MmFreePhysicalMemory(2, buffers->extra);
+        } else {
+            fn_8265C990(buffers->extra, 0x24800000);
+        }
+    }
+    if (buffers->primary != 0) {
+        kind = buffers->flags >> 30;
+        switch (kind) {
+        case 0:
+            MmFreePhysicalMemory(2, buffers->primary);
+            break;
+        case 1:
+            fn_8265C990(buffers->primary, 0xb1800000);
+            break;
+        }
+    }
+    if (buffers->secondary != 0) {
+        kind = (buffers->flags << 2) >> 30;
+        switch (kind) {
+        case 0:
+            MmFreePhysicalMemory(2, buffers->secondary);
+            break;
+        case 1:
+            fn_8265C990(buffers->secondary, 0xb1800000);
+            break;
+        }
+    }
+    state = buffers->state;
+    memset(buffers, 0, sizeof(*buffers));
+    buffers->state = state;
+    for (index = 0; index < 41; ++index) {
+        ((int *)((char *)buffers + 0x14))[index] = -1;
+    }
+}

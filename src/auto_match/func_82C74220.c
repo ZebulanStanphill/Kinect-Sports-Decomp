@@ -1,44 +1,43 @@
-extern int fn_82C53960();
-extern int fn_82C562F0();
-extern int memset();
+typedef struct Context_82C74220 {
+    char padding0[0x3c4c];
+    void *first;
+    char padding1[8];
+    void *second;
+    int unused;
+    void *third;
+    char padding2[0x6070 - 0x3c64];
+    char *allocator;
+} Context_82C74220;
 
+extern void *fn_82C53960(unsigned int, int);
+extern void *memset(void *, int, unsigned int);
+extern void *fn_82C562F0(void *, unsigned int, const char *);
+extern char lbl_82196582[];
 
-unsigned __int64 fn_82C74220(int param_1)
-
+int fn_82C74220(Context_82C74220 *self)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  int iVar3;
-  __int64 lVar4;
-  
-  lVar4 = (unsigned __int64)*(unsigned int *)(param_1 + 0x6070) + 8;
-  if (*(int *)(param_1 + 0x3c4c) == 0) {
-    uVar1 = fn_82C53960(0x48,0);
-    if ((uVar1 & 0xffffffff) != 0) {
-                    /* WARNING: Subroutine does not return */
-      memset(uVar1,0,0x48);
+    void *allocator = self->allocator + 8;
+    if (self->first == 0) {
+        void *memory = fn_82C53960(0x48, 0);
+        if (memory != 0) {
+            memset(memory, 0, 0x48);
+        }
+        self->first = memory;
+        if (memory == 0) {
+            return -9;
+        }
     }
-    *(int *)(param_1 + 0x3c4c) = (int)uVar1;
-    if ((uVar1 & 0xffffffff) != 0) goto LAB_82c74280;
-LAB_82c74274:
-    uVar2 = 0xfffffffffffffff7;
-  }
-  else {
-LAB_82c74280:
-    if (*(int *)(param_1 + 0x3c58) == 0) {
-      iVar3 = fn_82C562F0(lVar4,0x38,0xffffffff82196582);
-      *(int *)(param_1 + 0x3c58) = iVar3;
-      if (iVar3 == 0) goto LAB_82c74274;
+    if (self->second == 0) {
+        self->second = fn_82C562F0(allocator, 0x38, lbl_82196582);
+        if (self->second == 0) {
+            return -9;
+        }
     }
-    if (*(int *)(param_1 + 0x3c60) == 0) {
-      iVar3 = fn_82C562F0(lVar4,400,0xffffffff82196582);
-      *(int *)(param_1 + 0x3c60) = iVar3;
-      if (iVar3 == 0) {
-        return 0xfffffffffffffff7;
-      }
+    if (self->third == 0) {
+        self->third = fn_82C562F0(allocator, 0x190, lbl_82196582);
+        if (self->third == 0) {
+            return -9;
+        }
     }
-    uVar2 = 0;
-  }
-  return uVar2;
+    return 0;
 }
-

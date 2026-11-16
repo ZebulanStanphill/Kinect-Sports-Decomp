@@ -1,46 +1,73 @@
-extern int fn_829548C8();
-extern int fn_8295A330();
-extern int fn_8295D0A8();
-extern int fn_82975B00();
+typedef struct Context_82940360 Context_82940360;
 
+typedef struct Vtable_82940360 {
+    char padding[0x138];
+    int (*set)(Context_82940360 *, unsigned int, unsigned int, int);
+} Vtable_82940360;
 
-unsigned int fn_82940360(int *param_1,int param_2)
+struct Context_82940360 {
+    Vtable_82940360 *vtable;
+    char padding[0x158];
+    int inactive; /* 0x15c */
+};
 
+typedef struct Alias_82940360 {
+    char padding0[12];
+    unsigned int value; /* 0xc */
+    char padding1[0x2c];
+    unsigned int kind; /* 0x3c */
+} Alias_82940360;
+
+extern int fn_8295D0A8(Context_82940360 *, unsigned int);
+extern int fn_8295A330(Context_82940360 *, unsigned int);
+extern int fn_829548C8(Context_82940360 *);
+extern void fn_82975B00(Context_82940360 *, int, int, const char *, ...);
+
+int fn_82940360(Context_82940360 *self, Alias_82940360 *alias)
 {
-  int iVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  
-  if (param_1[0x57] == 0) {
-    uVar2 = fn_8295D0A8(param_1,0x200001f);
-    if (-1 < (int)uVar2) {
-      iVar1 = *(int *)(param_2 + 0x3c);
-      if (iVar1 == 0x200000) {
-        uVar3 = 0xffffffff90000000;
-      }
-      else if (iVar1 == 0x400000) {
-        uVar3 = 0xffffffffa0000000;
-      }
-      else {
-        if (iVar1 != 0x800000) {
-          fn_82975B00(param_1,0,0x12ce,0xffffffff820343a0);
-          return 0x80004005;
-        }
-        uVar3 = 0xffffffff98000000;
-      }
-      uVar2 = fn_8295A330(param_1,uVar3);
-      if ((-1 < (int)uVar2) &&
-         (uVar2 = (**(int (***)())(*param_1 + 0x138))
-                            (param_1,*(unsigned int *)(param_2 + 0xc) & 0x7ff | 0xa0000800,0xf0000,0),
-         -1 < (int)uVar2)) {
-        uVar2 = fn_829548C8(param_1);
-        uVar2 = (int)uVar2 >> 0x1f & uVar2;
-      }
+    int result;
+    if (self->inactive != 0) {
+        return 0;
     }
-  }
-  else {
-    uVar2 = 0;
-  }
-  return uVar2;
+    result = fn_8295D0A8(self, 0x200001f);
+    if (result < 0) {
+        return result;
+    }
+    if (alias->kind == 0x200000) {
+        result = fn_8295A330(self, 0x90000000);
+        if (result < 0) {
+            return result;
+        }
+        result = self->vtable->set(self, (alias->value & 0x7ff) | 0xa0000800, 0xf0000, 0);
+        if (result < 0) {
+            return result;
+        }
+        result = fn_829548C8(self);
+        return result < 0 ? result : 0;
+    } else if (alias->kind == 0x400000) {
+        result = fn_8295A330(self, 0xa0000000);
+        if (result < 0) {
+            return result;
+        }
+        result = self->vtable->set(self, (alias->value & 0x7ff) | 0xa0000800, 0xf0000, 0);
+        if (result < 0) {
+            return result;
+        }
+        result = fn_829548C8(self);
+        return result < 0 ? result : 0;
+    } else if (alias->kind == 0x800000) {
+        result = fn_8295A330(self, 0x98000000);
+        if (result < 0) {
+            return result;
+        }
+        result = self->vtable->set(self, (alias->value & 0x7ff) | 0xa0000800, 0xf0000, 0);
+        if (result < 0) {
+            return result;
+        }
+        result = fn_829548C8(self);
+        return result < 0 ? result : 0;
+    } else {
+        fn_82975B00(self, 0, 0x12ce, "internal error: unexpected Alias on texture declaration");
+        return 0x80004005;
+    }
 }
-

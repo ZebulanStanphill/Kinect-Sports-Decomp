@@ -1,31 +1,38 @@
-extern int fn_82CE8268();
-extern int fn_82CE8920();
-extern int fn_83088FB0();
-extern int fn_830893D0();
-extern unsigned int lbl_82DA7910;
+typedef struct Callbacks_82D80A78 {
+    void **entries;
+    int count;
+    void (*first)(void);
+    void (*second)(void);
+} Callbacks_82D80A78;
 
+extern void *lbl_8323E230[];
+extern void fn_82DAA4A0(void);
+extern void fn_82DAA858(void);
+extern void fn_82DA7910(void);
+extern void fn_82CE8268(void *self, int index, Callbacks_82D80A78 callbacks);
+extern void fn_82CE8920(void *self, int index, int size, int enabled);
+extern void fn_830893D0(void *self);
+extern void fn_83088FB0(void *self);
 
-void fn_82D80A78(int param_1)
-
+void fn_82D80A78(unsigned char *self)
 {
-  int iVar1;
-  unsigned int uVar2;
-  
-  uVar2 = 0;
-  iVar1 = 0;
-  do {
-    uVar2 = uVar2 + 1 & 0xff;
-    *(unsigned char **)(iVar1 + -0x7cdc1dd0) = &lbl_82DA7910;
-    iVar1 = uVar2 << 2;
-  } while (uVar2 < 0x11);
-  if (*(int *)(param_1 + 0x60) < 2) {
-    *(unsigned int *)(param_1 + 0x60) = 2;
-  }
-  fn_82CE8920(param_1,0,0xc,1);
-  fn_82CE8268(param_1,0,0x8323e23000000011,0x82daa4a082daa858);
-  fn_82CE8268(param_1,1,0x8323e23000000011,0x82daa4a082daa858);
-  fn_830893D0(param_1);
-  fn_83088FB0(param_1);
-  return;
+    Callbacks_82D80A78 callbacks;
+    unsigned char index;
+    callbacks.first = fn_82DAA4A0;
+    callbacks.second = fn_82DAA858;
+    callbacks.entries = lbl_8323E230;
+    callbacks.count = 17;
+    index = 0;
+    do {
+        lbl_8323E230[index] = fn_82DA7910;
+        ++index;
+    } while (index < 17);
+    if (*(int *)(self + 0x60) < 2) {
+        *(int *)(self + 0x60) = 2;
+    }
+    fn_82CE8920(self, 0, 12, 1);
+    fn_82CE8268(self, 0, callbacks);
+    fn_82CE8268(self, 1, callbacks);
+    fn_830893D0(self);
+    fn_83088FB0(self);
 }
-

@@ -1,46 +1,81 @@
-extern int fn_82AB15D0();
-extern int fn_82BD2C30();
-extern unsigned int lbl_820E83A8;
-extern unsigned int lbl_8316FF50;
+struct Instruction_82BD2FA0;
 
+struct Vtable_82BD2FA0 {
+    void *slots[13];
+    unsigned char (*isConstant)(struct Instruction_82BD2FA0 *self);
+};
 
-void fn_82BD2FA0(int param_1,int *param_2)
+struct Instruction_82BD2FA0 {
+    struct Vtable_82BD2FA0 *vtable;
+    char padding[0x14];
+    unsigned int opcode; /* 0x18 */
+};
 
+struct State_82BD2FA0 {
+    int unused;
+    int current;           /* 0x04 */
+    unsigned char channel; /* 0x08 */
+};
+
+struct Opcode_82BD2FA0 {
+    unsigned int padding : 29;
+    unsigned int reverse : 1;
+    unsigned int other : 2;
+    char remainder[0x30];
+};
+extern struct Opcode_82BD2FA0 lbl_8316FF50[];
+extern int lbl_820E83A8[];
+extern int fn_82BD2C30(struct Instruction_82BD2FA0 *instruction, unsigned char *channel);
+extern void fn_82AB15D0(int severity, const char *format, ...);
+
+void fn_82BD2FA0(struct State_82BD2FA0 *self, struct Instruction_82BD2FA0 *instruction)
 {
-  char cVar2;
-  int iVar1;
-  char acStack_40 [64];
-  
-  cVar2 = (**(int (***)())(*param_2 + 0x34))(param_2);
-  if (cVar2 == '\0') {
-    iVar1 = fn_82BD2C30(param_2,acStack_40);
-    if (iVar1 == -1) {
-      fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820e8530,0xffffffff820e84a8,0xca);
+    unsigned char channel;
+    int constant;
+    int index;
+    if (instruction->vtable->isConstant(instruction)) {
+        return;
     }
-    if (*(int *)(param_1 + 4) == 0) {
-      *(char *)(param_1 + 8) = acStack_40[0];
+    constant = fn_82BD2C30(instruction, &channel);
+    if (!(constant != -1)) {
+        fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "const_state != -1",
+                    "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\"
+                    "compiler\\opt\\schedmodel.cpp",
+                    0xca);
     }
-    else if ((iVar1 != 0) && (*(char *)(param_1 + 8) != acStack_40[0])) {
-      fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820e8544,0xffffffff820e84a8,0xcf);
+    if (self->current == 0) {
+        self->channel = channel;
+    } else if (constant != 0 && self->channel != channel) {
+        fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "has_const_with_absval == need_absval_on_const",
+                    "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\"
+                    "compiler\\opt\\schedmodel.cpp",
+                    0xcf);
     }
-    if ((*(unsigned int *)(&lbl_8316FF50 + param_2[6] * 0x34) >> 2 & 1) == 0) {
-      if (4 < *(int *)(param_1 + 4)) {
-        fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820e8508,0xffffffff820e84a8,0xd6);
-      }
-      iVar1 = iVar1 * 5 + *(int *)(param_1 + 4);
+    if ((unsigned char)lbl_8316FF50[instruction->opcode].reverse) {
+        if (!(constant <= 4)) {
+            fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "const_state <= CAR",
+                        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\"
+                        "compiler\\opt\\schedmodel.cpp",
+                        0xd3);
+        }
+        index = self->current * 5 + constant;
+    } else {
+        if (!(self->current <= 4)) {
+            fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "cur_state <= CAR",
+                        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\"
+                        "compiler\\opt\\schedmodel.cpp",
+                        0xd6);
+        }
+        index = constant * 5 + self->current;
     }
-    else {
-      if (4 < iVar1) {
-        fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820e851c,0xffffffff820e84a8,0xd3);
-      }
-      iVar1 = *(int *)(param_1 + 4) * 5 + iVar1;
+    {
+        int *current = &self->current;
+        *current = lbl_820E83A8[index];
     }
-    iVar1 = *(int *)(&lbl_820E83A8 + iVar1 * 4);
-    *(int *)(param_1 + 4) = iVar1;
-    if (iVar1 == -1) {
-      fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820e8498,0xffffffff820e84a8,0xda);
+    if (self->current == -1) {
+        fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "cur_state != -1",
+                    "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\"
+                    "compiler\\opt\\schedmodel.cpp",
+                    0xda);
     }
-  }
-  return;
 }
-

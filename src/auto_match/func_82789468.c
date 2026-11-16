@@ -1,36 +1,40 @@
-typedef unsigned char bool;
+typedef struct Entry_82789468 {
+    unsigned int key;
+    unsigned int subkey;
+    int value;
+} Entry_82789468;
 
+typedef struct Table_82789468 {
+    int padding[3];
+    Entry_82789468 **pages;
+} Table_82789468;
 
-__int64 fn_82789468(int *param_1,__int64 param_2,__int64 param_3,unsigned int *param_4,int param_5)
+typedef struct Predicate_82789468 {
+    int unused;
+    Table_82789468 *table;
+} Predicate_82789468;
 
+int fn_82789468(unsigned int **self, int first, int last, Entry_82789468 *key, Predicate_82789468 predicate)
 {
-  unsigned int uVar1;
-  __int64 lVar2;
-  __int64 lVar3;
-  unsigned int *puVar4;
-  bool bVar5;
-  
-  if (0 < param_3 - param_2) {
-    lVar3 = param_3 - param_2;
-    do {
-      lVar2 = (__int64)((int)lVar3 >> 1);
-      uVar1 = *(unsigned int *)((int)((lVar2 + param_2 & 0xffffffffU) << 2) + *param_1);
-      puVar4 = (unsigned int *)(*(int *)((uVar1 >> 8 & 0xfffffc) + *(int *)(param_5 + 0xc)) +
-                       (uVar1 & 0x3ff) * 0xc);
-      uVar1 = *puVar4;
-      if (uVar1 == *param_4) {
-        bVar5 = param_4[1] <= puVar4[1];
-      }
-      else {
-        bVar5 = *param_4 <= uVar1;
-      }
-      if (!bVar5) {
-        param_2 = lVar2 + param_2 + 1;
-        lVar2 = (lVar3 - lVar2) + -1;
-      }
-      lVar3 = lVar2;
-    } while (0 < (int)lVar2);
-  }
-  return param_2;
+    int firstCopy = first;
+    int count = last - firstCopy;
+    while (count > 0) {
+        int half = count >> 1;
+        int middle = firstCopy + half;
+        unsigned int handle = (*self)[middle];
+        Entry_82789468 *entry = &predicate.table->pages[handle >> 10][handle & 1023];
+        unsigned char less;
+        if (entry->key != key->key) {
+            less = entry->key < key->key;
+        } else {
+            less = entry->subkey < key->subkey;
+        }
+        if (less) {
+            firstCopy = middle + 1;
+            count = count - half - 1;
+        } else {
+            count = half;
+        }
+    }
+    return firstCopy;
 }
-

@@ -84,6 +84,7 @@ address	class	method	symbol
 0x827B4B30	V_827B4B30	Grow	?Grow@V_827B4B30@@QAAXI@Z
 0x827B6080	V_827B6080	Grow	?Grow@V_827B6080@@QAAXI@Z
 0x827BA438	V_827BA438	Grow	?Grow@V_827BA438@@QAAXI@Z
+0x8287C878	Wide_8287C878	(constructor)	??0Wide_8287C878@@QAA@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z
 0x8288B2D8	Unit_8288B2D8	get	?get@Unit_8288B2D8@@QAAII@Z
 0x828CC680	Counters_828CC680	IncrementCounter	?IncrementCounter@Counters_828CC680@@UAAXH@Z
 0x828D1378	Obj_828D1378	(constructor)	??0Obj_828D1378@@QAA@ABU0@@Z

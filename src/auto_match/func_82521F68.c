@@ -1,46 +1,43 @@
-extern int fn_822315A0();
-extern int fn_823AB478();
-extern int fn_82522ED8();
-extern int fn_827D50B8();
-extern unsigned int *lbl_832767C8;
+extern int fn_827D50B8(void *self);
+extern int fn_823AB478(void *self);
+extern void fn_82522ED8(void *self);
+extern void fn_822315A0(void *self);
+extern void fn_825223A8(void *self, unsigned int message);
+extern unsigned char *lbl_832767C8;
 
+typedef struct Request_82521F68 {
+    unsigned char *object;
+    int unused;
+    int pending;
+    int references;
+    int value;
+} Request_82521F68;
 
-void fn_82521F68(unsigned int *param_1,int param_2)
-
+void fn_82521F68(void **self, unsigned char *context)
 {
-  int *piVar1;
-  unsigned int uVar2;
-  int *piVar3;
-  int iVar4;
-  
-  piVar1 = *(int **)(param_2 + 0x14);
-  iVar4 = fn_827D50B8(*param_1);
-  piVar3 = lbl_832767C8;
-  if (iVar4 == 0) {
-    *(int *)(*piVar1 + 0x120) = piVar1[4];
-    piVar3 = lbl_832767C8;
-    if (piVar1[2] == 0) {
-      iVar4 = fn_823AB478(*piVar1);
-      *(unsigned char *)((int)piVar3 + iVar4 + 0x80) = 1;
+    void *object = self[0];
+    Request_82521F68 *request = *(Request_82521F68 **)(context + 0x14);
+    if (fn_827D50B8(object) == 0) {
+        *(int *)(request->object + 0x120) = request->value;
+        if (request->pending != 0) {
+            unsigned char *manager = lbl_832767C8;
+            void (**vtable)(void *, void *, void (*)(void *, unsigned int)) =
+                *(void (***)(void *, void *, void (*)(void *, unsigned int)))manager;
+            vtable[3](manager, request->object, fn_825223A8);
+        } else {
+            unsigned char *manager = lbl_832767C8;
+            manager[fn_823AB478(request->object) + 0x80] = 1;
+        }
+    } else {
+        unsigned char *manager = lbl_832767C8;
+        manager[fn_823AB478(request->object) + 0x78] = 1;
+        *(int *)(request->object + 0x120) = -1;
     }
-    else {
-      (**(int (***)())(*lbl_832767C8 + 0xc))(lbl_832767C8,*piVar1,0xffffffff825223a8);
+    if (--request->references <= 0) {
+        fn_82522ED8(request);
     }
-  }
-  else {
-    iVar4 = fn_823AB478(*piVar1);
-    *(unsigned char *)((int)piVar3 + iVar4 + 0x78) = 1;
-    *(unsigned int *)(*piVar1 + 0x120) = 0xffffffff;
-  }
-  uVar2 = piVar1[3];
-  piVar1[3] = (int)((unsigned __int64)uVar2 - 1);
-  if ((__int64)((unsigned __int64)uVar2 - 1) < 1) {
-    fn_82522ED8(piVar1);
-  }
-  fn_82522ED8(param_2);
-  if (param_1[1] != 0) {
-    fn_822315A0();
-  }
-  return;
+    fn_82522ED8(context);
+    if (self[1] != 0) {
+        fn_822315A0(self[1]);
+    }
 }
-

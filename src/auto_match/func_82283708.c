@@ -1,47 +1,77 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_82250A18();
-extern int fn_82279D28();
-extern int fn_82279E08();
-extern int fn_82284B08();
-extern unsigned int lbl_8329618C;
-extern unsigned int lbl_832975B0;
+typedef struct Entry_82283708 {
+    char padding[8];
+    int state;
+} Entry_82283708;
 
+typedef struct Mode_82283708 {
+    char padding[0x14];
+    Entry_82283708 *entry;
+    int disabled;
+} Mode_82283708;
 
-void fn_82283708(double param_1,int param_2)
+typedef struct Game_82283708 {
+    char padding[0xd54];
+    Mode_82283708 *mode;
+} Game_82283708;
 
+typedef struct Holder_82283708 {
+    int unused;
+    Game_82283708 *game;
+} Holder_82283708;
+
+typedef struct Globals_82283708 {
+    char padding[0xec];
+    Holder_82283708 *holder;
+} Globals_82283708;
+
+typedef struct Settings_82283708 {
+    int unused;
+    unsigned char disabled;
+} Settings_82283708;
+
+typedef struct Object_82283708 {
+    char padding[0x148];
+    void *child;
+    char padding14c[16];
+    float time;
+} Object_82283708;
+
+extern Globals_82283708 lbl_832960A0;
+extern Settings_82283708 *lbl_832975B0;
+extern Settings_82283708 *fn_82250A18(void);
+extern void fn_82279D28(Object_82283708 *, int, int);
+extern void fn_82284B08(void *, float);
+extern void fn_82279E08(Object_82283708 *, float);
+
+void fn_82283708(Object_82283708 *self, float elapsed)
 {
-  bool bVar1;
-  int iVar2;
-  int iVar3;
-  
-  *(float *)(param_2 + 0x15c) = (float)(param_1 + (double)*(float *)(param_2 + 0x15c));
-  bVar1 = false;
-  if (lbl_8329618C == 0) {
-    iVar3 = 0;
-  }
-  else {
-    iVar3 = *(int *)(lbl_8329618C + 4);
-  }
-  if (iVar3 != 0) {
-    if ((*(int *)(*(int *)(iVar3 + 0xd54) + 0x18) == 0) &&
-       (iVar3 = *(int *)(*(int *)(iVar3 + 0xd54) + 0x14), iVar3 != 0)) {
-      iVar2 = lbl_832975B0;
-      if (lbl_832975B0 == 0) {
-        iVar2 = fn_82250A18();
-      }
-      if (((*(char *)(iVar2 + 4) == '\0') && (iVar3 = *(int *)(iVar3 + 8), 4 < iVar3)) &&
-         (bVar1 = true, iVar3 < 0x10)) goto LAB_822837b8;
+    Game_82283708 *game;
+    int active = 0;
+    self->time = elapsed + self->time;
+    game = lbl_832960A0.holder ? lbl_832960A0.holder->game : 0;
+    if (game != 0) {
+        Mode_82283708 *mode = game->mode;
+        if (mode->disabled == 0 && mode->entry != 0) {
+            Entry_82283708 *entry = mode->entry;
+            Settings_82283708 *settings;
+            if (lbl_832975B0 != 0) {
+                settings = lbl_832975B0;
+            } else {
+                settings = fn_82250A18();
+            }
+            if (settings->disabled == 0 && entry->state >= 5) {
+                if (entry->state < 16) {
+                    active = 1;
+                    goto update;
+                }
+            }
+        }
+        active = 0;
     }
-    bVar1 = false;
-  }
-LAB_822837b8:
-  fn_82279D28(param_2,1,!bVar1);
-  if (*(int *)(param_2 + 0x148) != 0) {
-    fn_82284B08(param_1);
-  }
-  fn_82279E08(param_1,param_2);
-  return;
+update:
+    fn_82279D28(self, 1, !active);
+    if (self->child != 0) {
+        fn_82284B08(self->child, elapsed);
+    }
+    fn_82279E08(self, elapsed);
 }
-

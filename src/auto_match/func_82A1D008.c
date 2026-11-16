@@ -1,33 +1,38 @@
-extern int fn_82A1CD98();
-extern int iRam832192e0;
-extern int iRam832192e8;
-extern unsigned int lbl_832192E4;
-extern unsigned int lbl_832192F8;
+extern void KeEnterCriticalRegion(void);
+extern void KeLeaveCriticalRegion(void);
+extern void RtlEnterCriticalSection(void *section);
+extern void RtlLeaveCriticalSection(void *section);
+extern int KeSetEvent(void *event, int increment, unsigned char wait);
+extern int KeWaitForSingleObject(void *object, int reason, int mode, unsigned char alertable,
+                                 const __int64 *timeout);
+extern int KeResetEvent(void *event);
+extern char lbl_8315D230[];
+extern char lbl_8315D24C[];
+extern char lbl_8315D25C[];
+extern unsigned int lbl_832192F8[];
 
+extern int lbl_832192E0[];
+extern char lbl_8315D26C[];
+extern void ExRegisterTitleTerminateNotification(void *notification, unsigned char enable);
+extern void fn_82A1CD98(void);
 
 void fn_82A1D008(void)
-
 {
-  if (iRam832192e8 == 0) {
-    if (lbl_832192E4 != 0) {
-      fn_82A1CD98();
+    if (lbl_832192E0[2] != 0) {
+        KeEnterCriticalRegion();
+        if (lbl_832192E0[0] != 0) {
+            lbl_832192E0[0] = 0;
+            ExRegisterTitleTerminateNotification(lbl_8315D26C, 0);
+        }
+        RtlEnterCriticalSection(lbl_8315D230);
+        lbl_832192F8[0] = 2;
+        KeSetEvent(lbl_8315D24C, 1, 0);
+        KeWaitForSingleObject(lbl_8315D25C, 3, 1, 0, 0);
+        KeResetEvent(lbl_8315D25C);
+        RtlLeaveCriticalSection(lbl_8315D230);
+        KeLeaveCriticalRegion();
+    } else if (lbl_832192E0[1] != 0) {
+        fn_82A1CD98();
     }
-  }
-  else {
-    KeEnterCriticalRegion();
-    if (iRam832192e0 != 0) {
-      iRam832192e0 = 0;
-      ExRegisterTitleTerminateNotification(0xffffffff8315d26c,0);
-    }
-    RtlEnterCriticalSection(0xffffffff8315d230);
-    lbl_832192F8 = 2;
-    KeSetEvent(0xffffffff8315d24c,1,0);
-    KeWaitForSingleObject(0xffffffff8315d25c,3,1,0,0);
-    KeResetEvent(0xffffffff8315d25c);
-    RtlLeaveCriticalSection(0xffffffff8315d230);
-    KeLeaveCriticalRegion();
-  }
-  lbl_832192E4 = 0;
-  return;
+    lbl_832192E0[1] = 0;
 }
-
