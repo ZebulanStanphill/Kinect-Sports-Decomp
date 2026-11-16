@@ -1,55 +1,41 @@
-extern int fn_8266C340();
-extern int fn_82F6A3F8();
-extern unsigned int lbl_831E7A18;
+typedef unsigned short wchar_t;
+extern unsigned char lbl_831E7A18;
 extern unsigned int lbl_831E7A98;
+extern void fn_82A2A370(unsigned int);
+extern void fn_8266C340(const wchar_t *, ...);
+extern int fn_82F6A3F8(void *, unsigned int, const void *, unsigned int);
 
-
-unsigned __int64 fn_8266A4E8(int *param_1)
-
+unsigned int fn_8266A4E8(unsigned int *settings)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  int *piStack00000014;
-  
-  piStack00000014 = param_1;
-  if (lbl_831E7A18 == '\0') {
-    thunk_FUN_82a2b748(0x15);
-    uVar1 = 0;
-  }
-  else {
-    if (param_1 == (int *)0x0) {
-      fn_8266C340(0xffffffff820015c0,0xffffffff82002724,0x98,0xffffffff8200274c);
+    int status;
+    if (lbl_831E7A18 == 0) {
+        fn_82A2A370(0x15);
+        return 0;
     }
-    if (piStack00000014 == (int *)0x0) {
-      thunk_FUN_82a2b748(0x57);
-      uVar1 = 0;
+    if (settings == 0) {
+        fn_8266C340(L"Assert failed. File: %s. Line: %d. Condition: %s", L".\\XLipSettings.cpp", 0x98,
+                    L"pSettings!=NULL");
     }
-    else {
-      if (*piStack00000014 != 0x5c) {
-        fn_8266C340(0xffffffff820015c0,0xffffffff82002724,0x9f,0xffffffff820026c8);
-      }
-      if (*piStack00000014 == 0x5c) {
-        if (lbl_831E7A98 == 0x5c) {
-          iVar2 = fn_82F6A3F8(piStack00000014,*piStack00000014,0xffffffff831e7a98,0x5c);
-          if (iVar2 == 0) {
-            uVar1 = 1;
-          }
-          else {
-            thunk_FUN_82a2b748(0x54f);
-            uVar1 = 0;
-          }
-        }
-        else {
-          thunk_FUN_82a2b748(0xd);
-          uVar1 = 0;
-        }
-      }
-      else {
-        thunk_FUN_82a2b748(0x57);
-        uVar1 = 0;
-      }
+    if (settings == 0) {
+        fn_82A2A370(0x57);
+        return 0;
     }
-  }
-  return uVar1;
+    if (*settings != 0x5c) {
+        fn_8266C340(L"Assert failed. File: %s. Line: %d. Condition: %s", L".\\XLipSettings.cpp", 0x9f,
+                    L"pSettings->cbSize == sizeof(XLIPUSERSETTINGS)");
+    }
+    if (*settings != 0x5c) {
+        fn_82A2A370(0x57);
+        return 0;
+    }
+    if (lbl_831E7A98 != 0x5c) {
+        fn_82A2A370(0xd);
+        return 0;
+    }
+    status = fn_82F6A3F8(settings, *settings, &lbl_831E7A98, lbl_831E7A98);
+    if (status != 0) {
+        fn_82A2A370(0x54f);
+        return 0;
+    }
+    return 1;
 }
-

@@ -1,57 +1,69 @@
-extern unsigned int *auStack_70;
-extern int fn_82F6A548();
-extern int fn_82F6A594();
-extern int fn_8305D7D0();
-extern int fn_83066DD8();
-extern unsigned int lbl_82005C88;
-extern unsigned int lbl_821AAD20;
+typedef struct Node_83061070 {
+    int unknown;
+    struct Node_83061070 *next; /* 0x04 */
+} Node_83061070;
 
+typedef struct Vector_83061070 {
+    float x;
+    float y;
+    float z;
+} Vector_83061070;
 
-void fn_83061070(unsigned __int64 param_1,unsigned __int64 param_2)
+typedef struct Bounds_83061070 {
+    Vector_83061070 first;
+    Vector_83061070 second;
+} Bounds_83061070;
 
+typedef struct Owner_83061070 {
+    Vector_83061070 *points; /* 0x00 */
+    Node_83061070 *head;     /* 0x04 */
+    char padding[0x10];
+    int count; /* 0x18 */
+} Owner_83061070;
+
+extern int fn_8305D7D0(Node_83061070 *, Bounds_83061070 *);
+extern float fn_83066DD8(Bounds_83061070 *, Vector_83061070 *);
+
+static __forceinline void Advance(Node_83061070 **node)
 {
-  unsigned int *puVar1;
-  unsigned int uVar2;
-  int iVar3;
-  __int64 lVar4;
-  double dVar5;
-  double dVar6;
-  double dVar7;
-  double dVar8;
-  double dVar9;
-  unsigned char auStack_70 [16];
-  
-  puVar1 = (unsigned int *)fn_82F6A548();
-  uVar2 = puVar1[1];
-  dVar8 = (double)lbl_82005C88;
-  if (uVar2 != 0) {
-    dVar7 = (double)lbl_821AAD20;
-    do {
-      dVar5 = dVar7;
-      dVar9 = dVar7;
-      fn_8305D7D0(uVar2,auStack_70);
-      iVar3 = 0;
-      if (0 < (int)puVar1[6]) {
-        lVar4 = 0;
-        do {
-          dVar6 = (double)fn_83066DD8(auStack_70,lVar4 + (unsigned __int64)*puVar1);
-          if (dVar6 < dVar5) {
-            dVar5 = dVar6;
-          }
-          if (dVar9 < dVar6) {
-            dVar9 = dVar6;
-          }
-          iVar3 = iVar3 + 1;
-          lVar4 = lVar4 + 0xc;
-        } while (iVar3 < (int)puVar1[6]);
-      }
-      dVar5 = (double)(float)(dVar9 - dVar5);
-      if ((dVar5 < dVar8) && (dVar8 = dVar5, (param_2 & 0xffffffff) != 0)) {
-        *(unsigned int *)param_2 = uVar2;
-      }
-    } while ((uVar2 != 0) && (uVar2 = *(unsigned int *)(uVar2 + 4), uVar2 != 0));
-  }
-  fn_82F6A594(dVar8);
-  return;
+    if (*node != 0) {
+        *node = (*node)->next;
+    }
 }
 
+float fn_83061070(Owner_83061070 *self, Node_83061070 **out)
+{
+    Node_83061070 *node = self->head;
+    float best = 3.402823466e+38f;
+
+    if (node != 0) {
+        do {
+            Bounds_83061070 bounds;
+            float minimum = 0.0f;
+            float maximum = 0.0f;
+            int index;
+            float width;
+
+            fn_8305D7D0(node, &bounds);
+            for (index = 0; index < self->count; index++) {
+                Vector_83061070 *points = self->points;
+                float value = fn_83066DD8(&bounds, &points[index]);
+                if (value < minimum) {
+                    minimum = value;
+                }
+                if (value > maximum) {
+                    maximum = value;
+                }
+            }
+            width = maximum - minimum;
+            if (width < best) {
+                best = width;
+                if (out != 0) {
+                    *out = node;
+                }
+            }
+            Advance(&node);
+        } while (node != 0);
+    }
+    return best;
+}

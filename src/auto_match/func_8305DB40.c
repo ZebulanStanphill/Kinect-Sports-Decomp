@@ -1,50 +1,33 @@
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_80;
-extern unsigned int *auStack_90;
-extern int fn_82810240();
-extern int fn_82810328();
-extern int fn_82810BE8();
-extern int fn_8305F778();
-extern unsigned int lbl_82002C5C;
-extern unsigned int lbl_821AAD20;
+typedef struct Polygon_8305DB40 {
+    char padding[0x28];
+    void *vertices; /* 0x28 */
+    int *indices;   /* 0x2c */
+    int count;      /* 0x30 */
+} Polygon_8305DB40;
 
+extern void fn_8305F778(void *vertices, int index, float *out);
+extern void fn_82810328(const float *first, const float *second, float *out);
+extern void fn_82810240(const float *first, const float *second, float *out);
+extern float fn_82810BE8(const float *vector);
 
-double fn_8305DB40(int param_1)
-
+float fn_8305DB40(Polygon_8305DB40 *self)
 {
-  int iVar1;
-  int iVar2;
-  double dVar3;
-  double dVar4;
-  unsigned char auStack_90 [16];
-  unsigned char auStack_80 [16];
-  unsigned char auStack_70 [16];
-  unsigned char auStack_60 [16];
-  unsigned char auStack_50 [16];
-  unsigned char auStack_40 [64];
-  
-  dVar4 = (double)lbl_821AAD20;
-  fn_8305F778(*(unsigned int *)(param_1 + 0x28),**(unsigned int **)(param_1 + 0x2c),auStack_90);
-  iVar1 = 2;
-  if (2 < *(int *)(param_1 + 0x30)) {
-    iVar2 = 8;
-    do {
-      fn_8305F778(*(unsigned int *)(param_1 + 0x28),
-                   *(unsigned int *)(iVar2 + *(int *)(param_1 + 0x2c) + -4),auStack_80);
-      fn_8305F778(*(unsigned int *)(param_1 + 0x28),*(unsigned int *)(iVar2 + *(int *)(param_1 + 0x2c))
-                   ,auStack_70);
-      fn_82810328(auStack_80,auStack_90,auStack_50);
-      fn_82810328(auStack_70,auStack_90,auStack_60);
-      fn_82810240(auStack_50,auStack_60,auStack_40);
-      dVar3 = (double)fn_82810BE8(auStack_40);
-      iVar1 = iVar1 + 1;
-      dVar4 = (double)(float)(dVar3 + dVar4);
-      iVar2 = iVar2 + 4;
-    } while (iVar1 < *(int *)(param_1 + 0x30));
-  }
-  return (double)(float)(dVar4 * (double)lbl_82002C5C);
+    float origin[4];
+    float first[4];
+    float second[4];
+    float secondDelta[4];
+    float firstDelta[4];
+    float cross[4];
+    float sum = 0.0f;
+    int index;
+    fn_8305F778(self->vertices, self->indices[0], origin);
+    for (index = 2; index < self->count; index++) {
+        fn_8305F778(self->vertices, self->indices[index - 1], first);
+        fn_8305F778(self->vertices, self->indices[index], second);
+        fn_82810328(first, origin, firstDelta);
+        fn_82810328(second, origin, secondDelta);
+        fn_82810240(firstDelta, secondDelta, cross);
+        sum = fn_82810BE8(cross) + sum;
+    }
+    return sum * 0.5f;
 }
-

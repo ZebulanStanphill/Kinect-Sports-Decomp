@@ -1,60 +1,61 @@
-extern int fn_82359698();
-extern int fn_8236B118();
-extern int fn_8236B578();
-extern int fn_823E3920();
-extern int fn_823E4440();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Configuration_823DF4C8 {
+    int value;             /* 0x00 */
+    char reserved04[12];   /* 0x04 */
+    __vector4 position;    /* 0x10 */
+    char reserved20[0x70]; /* 0x20 */
+} Configuration_823DF4C8;
 
-void fn_823DF4C8(int param_1)
+typedef struct State_823DF4C8 {
+    int mode;                      /* 0x00 */
+    char reserved04[12];           /* 0x04 */
+    Configuration_823DF4C8 first;  /* 0x10 */
+    Configuration_823DF4C8 second; /* 0xa0 */
+} State_823DF4C8;
 
+typedef struct Player_823DF4C8 {
+    char reserved00[0xd30];  /* 0x00 */
+    __vector4 position;      /* 0xd30 */
+    char reservedd40[0x40];  /* 0xd40 */
+    int value;               /* 0xd80 */
+    char reservedd84[0x60c]; /* 0xd84 */
+    State_823DF4C8 state;    /* 0x1390 */
+} Player_823DF4C8;
+
+typedef struct Object_823DF4C8 {
+    char reserved00[8];      /* 0x00 */
+    Player_823DF4C8 *player; /* 0x08 */
+} Object_823DF4C8;
+
+extern int fn_8236B578(Player_823DF4C8 *);
+extern void fn_8236B118(Player_823DF4C8 *, Configuration_823DF4C8 *);
+extern void fn_823E3920(Player_823DF4C8 *, Configuration_823DF4C8 *);
+extern void fn_823E4440(Player_823DF4C8 *, Configuration_823DF4C8 *);
+extern void fn_82359698(Player_823DF4C8 *, int);
+
+void fn_823DF4C8(Object_823DF4C8 *self)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  unsigned int *puVar3;
-  int iVar4;
-  unsigned __int64 uVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned int uVar8;
-  
-  iVar1 = *(int *)(param_1 + 8);
-  iVar4 = fn_8236B578(iVar1);
-  if (iVar4 != 0) {
-    if (*(int *)(iVar1 + 0x1390) == 4) {
-      *(unsigned int *)(iVar1 + 0xd80) = *(unsigned int *)(iVar1 + 0x1430);
-      puVar2 = (unsigned int *)(iVar1 + 0x1440U & 0xfffffff0);
-      uVar6 = puVar2[1];
-      uVar7 = puVar2[2];
-      uVar8 = puVar2[3];
-      puVar3 = (unsigned int *)(iVar1 + 0xd30U & 0xfffffff0);
-      *puVar3 = *puVar2;
-      puVar3[1] = uVar6;
-      puVar3[2] = uVar7;
-      puVar3[3] = uVar8;
-      fn_8236B118(iVar1,iVar1 + 0x1430);
-      fn_823E4440(iVar1,iVar1 + 0x1430);
-      uVar5 = 4;
+    Player_823DF4C8 *player = self->player;
+    if (fn_8236B578(player)) {
+        State_823DF4C8 *state = &player->state;
+        switch (state->mode) {
+        case 8:
+            player->value = state->first.value;
+            player->position = state->first.position;
+            fn_8236B118(player, &state->first);
+            fn_823E3920(player, &state->first);
+            fn_82359698(player, 8);
+            break;
+        case 4:
+            player->value = state->second.value;
+            player->position = state->second.position;
+            fn_8236B118(player, &state->second);
+            fn_823E4440(player, &state->second);
+            fn_82359698(player, 4);
+            break;
+        }
     }
-    else {
-      if (*(int *)(iVar1 + 0x1390) != 8) {
-        return;
-      }
-      *(unsigned int *)(iVar1 + 0xd80) = *(unsigned int *)(iVar1 + 0x13a0);
-      puVar2 = (unsigned int *)(iVar1 + 0x13b0U & 0xfffffff0);
-      uVar6 = puVar2[1];
-      uVar7 = puVar2[2];
-      uVar8 = puVar2[3];
-      puVar3 = (unsigned int *)(iVar1 + 0xd30U & 0xfffffff0);
-      *puVar3 = *puVar2;
-      puVar3[1] = uVar6;
-      puVar3[2] = uVar7;
-      puVar3[3] = uVar8;
-      fn_8236B118(iVar1,iVar1 + 0x13a0);
-      fn_823E3920(iVar1,iVar1 + 0x13a0);
-      uVar5 = 8;
-    }
-    fn_82359698(iVar1,uVar5);
-  }
-  return;
 }
-

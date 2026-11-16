@@ -1,18 +1,15 @@
-double fn_82817458(double param_1,double param_2,double param_3,double param_4,double param_5,
-                    double param_6,double param_7)
-
+float fn_82817458(float x, float first, float second, float third, float a, float b, float c)
 {
-  return (double)(float)((double)(((float)(param_1 - param_6) * (float)(param_1 - param_5)) /
-                                 ((float)(param_7 - param_5) * (float)(param_7 - param_6))) *
-                         param_4 +
-                        (double)(float)((double)(((float)(param_1 - param_7) *
-                                                 (float)(param_1 - param_6)) /
-                                                ((float)(param_5 - param_6) *
-                                                (float)(param_5 - param_7))) * param_2 +
-                                       (double)(float)((double)(((float)(param_1 - param_7) *
-                                                                (float)(param_1 - param_5)) /
-                                                               ((float)(param_6 - param_5) *
-                                                               (float)(param_6 - param_7))) *
-                                                      param_3)));
+    float xa = x - a;
+    float bc = b - c;
+    float ba = b - a;
+    float ab = a - b;
+    float ac = a - c;
+    float ca = c - a;
+    float xb = x - b;
+    float cb = c - b;
+    float middle = (x - c) * xa / (ba * bc);
+    float left = xb * (x - c) / (ab * ac);
+    float right = xb * xa / (ca * cb);
+    return right * third + (left * first + middle * second);
 }
-

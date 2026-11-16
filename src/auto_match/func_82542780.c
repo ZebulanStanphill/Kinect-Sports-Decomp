@@ -1,19 +1,25 @@
-extern unsigned int lbl_8218C97C;
+extern const float lbl_8218C960[];
 
+typedef struct Object_82542780 {
+    char padding[0x10];
+    unsigned __int64 flags; /* 0x10 */
+    char padding18[0x28ec];
+    float value; /* 0x2904 */
+    char padding2908[0x2c];
+    unsigned int state; /* 0x2934 */
+} Object_82542780;
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
-
-void fn_82542780(int *param_1)
-
+static __forceinline void SetFlags(unsigned __int64 *flags, unsigned __int64 mask)
 {
-  int iVar1;
-  
-  iVar1 = *param_1;
-  *(unsigned int *)(iVar1 + 0x2904) = lbl_8218C97C;
-  *(unsigned __int64 *)(iVar1 + 0x10) = *(unsigned __int64 *)(iVar1 + 0x10) | 0x8000000;
-  iVar1 = *param_1;
-  *(unsigned int *)(iVar1 + 0x2934) = *(unsigned int *)(iVar1 + 0x2934) | 4;
-  *(unsigned __int64 *)(iVar1 + 0x10) = *(unsigned __int64 *)(iVar1 + 0x10) | 0x800;
-  return;
+    *flags |= mask;
 }
 
+void fn_82542780(Object_82542780 **self)
+{
+    Object_82542780 *object = *self;
+    object->value = lbl_8218C960[7];
+    SetFlags(&object->flags, 0x8000000);
+    object = *self;
+    object->state |= 4;
+    SetFlags(&object->flags, 0x800);
+}

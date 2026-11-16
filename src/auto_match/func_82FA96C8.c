@@ -1,34 +1,41 @@
-extern int fn_82FACC70();
+typedef struct Buffer_82FA96C8 Buffer_82FA96C8;
 
+typedef struct Vtable_82FA96C8 {
+    void *slots[4];
+    void (*Advance)(Buffer_82FA96C8 *self, int amount, int limit);
+} Vtable_82FA96C8;
 
-void fn_82FA96C8(int *param_1,__int64 param_2,int *param_3,char param_4)
+struct Buffer_82FA96C8 {
+    Vtable_82FA96C8 *vtable; /* 0x00 */
+    int reserved;            /* 0x04 */
+    int position;            /* 0x08 */
+    int remaining;           /* 0x0c */
+    unsigned char active;    /* 0x10 */
+    char padding[0x2f];
+    char *source; /* 0x40 */
+};
 
+extern void fn_82FACC70(void *self, int offset, int size);
+
+void fn_82FA96C8(Buffer_82FA96C8 *self, int amount, int *limit, unsigned char update)
 {
-  int iVar1;
-  
-  if (*(char *)(param_1 + 4) == '\0') {
-    if (param_4 != '\0') {
-      param_1[3] = param_1[3] - *param_3;
+    if (self->active) {
+        char *source = self->source;
+        if (source && ((unsigned char)source[0x34] & 0x80)) {
+            fn_82FACC70(source, 0, *limit);
+        }
+        if (self->position + amount >= 0) {
+            if (self->position + amount < *limit) {
+                self->vtable->Advance(self, amount, *limit);
+            }
+            if (update) {
+                self->remaining -= *limit;
+            }
+            if (amount >= 0 && amount < *limit) {
+                *limit -= amount;
+            }
+        }
+    } else if (update) {
+        self->remaining -= *limit;
     }
-  }
-  else {
-    iVar1 = param_1[0x10];
-    if ((iVar1 != 0) && ((*(unsigned char *)(iVar1 + 0x34) & 0x80) != 0)) {
-      fn_82FACC70(iVar1,0,*param_3);
-    }
-    if (-1 < (__int64)((unsigned __int64)(unsigned int)param_1[2] + param_2)) {
-      if ((int)((unsigned __int64)(unsigned int)param_1[2] + param_2) < *param_3) {
-        (**(int (***)())(*param_1 + 0x10))(param_1,param_2);
-      }
-      if (param_4 != '\0') {
-        param_1[3] = param_1[3] - *param_3;
-      }
-      iVar1 = (int)param_2;
-      if ((-1 < iVar1) && (iVar1 < *param_3)) {
-        *param_3 = *param_3 - iVar1;
-      }
-    }
-  }
-  return;
 }
-

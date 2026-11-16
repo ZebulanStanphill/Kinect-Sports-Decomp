@@ -1,12 +1,8 @@
-extern int fn_82F6E450();
+extern int fn_82F6E450(void *, void *, unsigned int, void *, unsigned int, void *, unsigned int, void *,
+                       unsigned int);
 
-
-void fn_82F6E740(unsigned __int64 param_1,__int64 param_2,__int64 param_3,__int64 param_4,
-                  unsigned __int64 param_5)
-
+int fn_82F6E740(void *context, void *first, void *second, void *third, void *fourth)
 {
-  fn_82F6E450(param_1,param_2,-(param_2 != 0) & 3,param_3,-(unsigned __int64)(param_3 != 0) & 0x100,
-                    param_4,-(unsigned __int64)(param_4 != 0) & 0x100,param_5);
-  return;
+    return fn_82F6E450(context, first, first ? 3 : 0, second, second ? 0x100 : 0, third, third ? 0x100 : 0,
+                       fourth, fourth ? 0x100 : 0);
 }
-

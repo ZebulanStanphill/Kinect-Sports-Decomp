@@ -1,42 +1,53 @@
-extern unsigned int *auStack_50;
-extern int fn_82822E38();
-extern int fn_828233A8();
-extern int fn_828299A8();
-extern unsigned int iStack_6c;
-extern unsigned int iStack_70;
-extern unsigned int uStack_34;
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_5c;
+typedef struct Entry_8282B3B0 {
+    char padding[12];
+    int key;
+} Entry_8282B3B0;
 
+typedef struct Lookup_8282B3B0 {
+    unsigned int key;
+    unsigned int value;
+    unsigned char exact;
+} Lookup_8282B3B0;
 
-void fn_8282B3B0(int param_1,unsigned int *param_2)
+typedef struct Request_8282B3B0 {
+    char padding[16];
+    unsigned int *item;
+    int firstKey;
+    int secondKey;
+    unsigned int value;
+    char tail[16];
+} Request_8282B3B0;
 
+extern void fn_828299A8(Lookup_8282B3B0 *lookup, void *self, Entry_8282B3B0 **entry);
+extern int fn_8282AF88(const void *first, const void *second);
+extern void fn_828233A8(void *self, void **out, int (*compare)(const void *, const void *),
+                        Request_8282B3B0 *request);
+extern void fn_82822E38(void *node);
+
+void fn_8282B3B0(char *self, unsigned int *item)
 {
-  int iStack_70;
-  int iStack_6c;
-  int aiStack_68 [2];
-  unsigned int *puStack_60;
-  unsigned int uStack_5c;
-  unsigned char auStack_50 [16];
-  unsigned int *puStack_40;
-  unsigned int uStack_3c;
-  unsigned int uStack_38;
-  unsigned int uStack_34;
-  
-  puStack_60 = param_2;
-  fn_828299A8(&puStack_60,param_1,&iStack_70);
-  puStack_60 = (unsigned int *)*param_2;
-  fn_828299A8(&puStack_60,param_1,&iStack_6c);
-  uStack_3c = *(unsigned int *)(iStack_70 + 0xc);
-  uStack_38 = *(unsigned int *)(iStack_6c + 0xc);
-  uStack_34 = uStack_5c;
-  puStack_40 = param_2;
-  fn_828233A8(param_1 + 0x344,aiStack_68,0xffffffff8282af88,auStack_50);
-  if (aiStack_68[0] != 0) {
-    fn_82822E38();
-    *(int *)(param_1 + 0x38) = *(int *)(param_1 + 0x38) + -1;
-  }
-  return;
-}
+    struct {
+        Entry_8282B3B0 *first;
+        Entry_8282B3B0 *second;
+        void *removed[2];
+        Lookup_8282B3B0 lookup;
+        char padding[4];
+        Request_8282B3B0 request;
+    } frame;
 
+    unsigned int value;
+    frame.lookup.key = (unsigned int)item;
+    fn_828299A8(&frame.lookup, self, &frame.first);
+    frame.lookup.key = *item;
+    value = frame.lookup.value;
+    fn_828299A8(&frame.lookup, self, &frame.second);
+    frame.request.item = item;
+    frame.request.firstKey = frame.first->key;
+    frame.request.secondKey = frame.second->key;
+    frame.request.value = value;
+    fn_828233A8(self + 0x344, frame.removed, fn_8282AF88, &frame.request);
+    if (frame.removed[0] != 0) {
+        fn_82822E38(frame.removed[0]);
+        *(int *)(self + 0x38) -= 1;
+    }
+}

@@ -1,89 +1,84 @@
-#define _uStack00000020 ((*(unsigned __int64*)&uStack00000020))
-#define _uStack00000028 ((*(unsigned __int64*)&uStack00000028))
-extern int fn_82FA5190();
-extern int fn_82FAB9C0();
-extern int fn_82FFCAC8();
-extern int fn_82FFD2A8();
-extern int fn_8300EE60();
-extern unsigned int lbl_831BC768;
-extern unsigned int lbl_832642E0;
-extern unsigned int uStack00000020;
-extern unsigned int uStack00000028;
-extern unsigned int uStack00000030;
-extern unsigned int uStack00000038;
-extern unsigned int uStack00000040;
+typedef struct Event_82FFD708 {
+    unsigned int type;          /* 0x00 */
+    int id;                     /* 0x04 */
+    int argument;               /* 0x08 */
+    int reserved0c;             /* 0x0c */
+    unsigned int count;         /* 0x10 */
+    unsigned int value;         /* 0x14 */
+    unsigned int reserved18[3]; /* 0x18 */
+} Event_82FFD708;
+typedef struct Object_82FFD708 Object_82FFD708;
 
+typedef struct Vtable_82FFD708 {
+    void *reserved00[2];                /* 0x00 */
+    void (*release)(Object_82FFD708 *); /* 0x08 */
+} Vtable_82FFD708;
 
-unsigned __int64
-fn_82FFD708(__int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-             unsigned __int64 param_5,unsigned __int64 param_6)
+struct Object_82FFD708 {
+    Vtable_82FFD708 *vtable; /* 0x00 */
+};
 
+extern char *lbl_832642E0;
+extern int lbl_831BC768;
+extern int fn_82FFD2A8(void *, unsigned int);
+extern Object_82FFD708 *fn_82FAB9C0(void *, unsigned int);
+extern void fn_82FFCAC8(void *, Object_82FFD708 *, unsigned char);
+extern void fn_82FA5190(int, void *);
+extern void fn_8300EE60(void *, int, unsigned int, int, int, int);
+
+static __forceinline int processObject(char *self, unsigned int id)
 {
-  unsigned __int64 uVar1;
-  int *piVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  unsigned int uStack00000020;
-  unsigned int uStack00000028;
-  unsigned __int64 uStack00000030;
-  unsigned __int64 uStack00000038;
-  unsigned __int64 uStack00000040;
-  
-  uVar5 = 1;
-  uVar1 = param_4 >> 0x20;
-  _uStack00000020 = param_2;
-  _uStack00000028 = param_3;
-  uStack00000030 = param_4;
-  uStack00000038 = param_5;
-  uStack00000040 = param_6;
-  if (uVar1 == 1) {
-    param_4 = param_4 & 0xffffffff;
-    uVar5 = fn_82FFD2A8(param_1,param_4);
-  }
-  else {
-    uVar4 = 0;
-    uVar3 = param_4 & 0xffffffff;
-    if (uVar1 != 0) {
-      do {
-        uVar5 = 1;
-        piVar2 = (int *)fn_82FAB9C0((unsigned __int64)lbl_832642E0 + 0x674,*(unsigned int *)uVar3);
-        if (piVar2 == (int *)0x0) {
-          uVar5 = 0xf;
-        }
-        else {
-          fn_82FFCAC8(param_1,piVar2,0);
-          (**(int (***)())(*piVar2 + 8))(piVar2);
-        }
-        if ((int)uVar5 != 1) break;
-        uVar4 = uVar4 + 1;
-        uVar3 = uVar3 + 4;
-      } while ((uVar4 & 0xffffffff) < uVar1);
+    int status = 1;
+    Object_82FFD708 *object = fn_82FAB9C0(lbl_832642E0 + 0x674, id);
+    if (object != 0) {
+        fn_82FFCAC8(self, object, 0);
+        object->vtable->release(object);
+    } else {
+        status = 15;
     }
-    fn_82FA5190(lbl_831BC768,param_4 & 0xffffffff);
-    param_4 = 0;
-  }
-  uVar3 = 0xffffffffffffffff;
-  if (uStack00000020 < 8) {
-    if (uStack00000020 == 1) {
-LAB_82ffd818:
-      uVar4 = uVar1;
-      uVar3 = param_4;
-      goto LAB_82ffd834;
-    }
-    if ((uStack00000020 != 2) && (uStack00000020 != 3)) {
-      uVar4 = 0;
-      if (uStack00000020 == 4) goto LAB_82ffd834;
-      if (uStack00000020 != 5) {
-        uVar4 = uVar1;
-        if ((uStack00000020 == 6) || (uStack00000020 != 0)) goto LAB_82ffd834;
-        goto LAB_82ffd818;
-      }
-    }
-  }
-  uVar4 = -(unsigned __int64)(uVar1 == 1) & param_4;
-LAB_82ffd834:
-  fn_8300EE60(param_1 + 0x4a4,_uStack00000020 & 0xffffffff,uVar4,uVar5,uVar3,uStack00000028);
-  return uVar5;
+    return status;
 }
 
+int fn_82FFD708(char *self, Event_82FFD708 event)
+{
+    int result = 1;
+    unsigned int value;
+    unsigned int count = event.count;
+    int extra;
+    unsigned int notification;
+    if (count == 1) {
+        value = event.value;
+        result = fn_82FFD2A8(self, value);
+    } else {
+        unsigned int *values = (unsigned int *)event.value;
+        unsigned int index;
+        for (index = 0; index < count; ++index) {
+            result = processObject(self, values[index]);
+            if (result != 1) {
+                break;
+            }
+        }
+        fn_82FA5190(lbl_831BC768, values);
+        value = 0;
+    }
+    extra = -1;
+    notification = 0;
+    switch (event.type) {
+    case 0:
+    case 1:
+        extra = value;
+        notification = count;
+        break;
+    case 4:
+        break;
+    case 6:
+    case 7:
+        notification = count;
+        break;
+    default:
+        notification = count == 1 ? value : 0;
+        break;
+    }
+    fn_8300EE60(self + 0x4a4, event.id, notification, result, extra, event.argument);
+    return result;
+}

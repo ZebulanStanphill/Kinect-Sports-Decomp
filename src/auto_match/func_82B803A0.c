@@ -1,34 +1,33 @@
-#define NAN(x) ((x) != (x))
-extern unsigned int INFINITY;
-extern double _seed_nan;
-extern int fn_82F65E20();
-extern int fn_82F6E018();
-extern unsigned int lbl_82002C40;
-extern unsigned int lbl_82005710;
+extern double lbl_82005710;
+extern int fn_82F6E018(double value);
+extern double fn_82F65E20(double value);
 
-
-double fn_82B803A0(double param_1)
-
+static __forceinline float SpecialValue(unsigned int bits)
 {
-  int iVar1;
-  float fVar2;
-  double dVar3;
-  double dVar4;
-  
-  if (param_1 == lbl_82005710) {
-    fVar2 = -INFINITY;
-  }
-  else if ((param_1 < lbl_82005710) || (iVar1 = fn_82F6E018(param_1), iVar1 == 4)) {
-    fVar2 = -(_seed_nan);
-  }
-  else {
-    if (iVar1 != 0x200) {
-      dVar3 = (double)fn_82F65E20(param_1);
-      dVar4 = (double)fn_82F65E20(lbl_82002C40);
-      return dVar3 / dVar4;
-    }
-    fVar2 = INFINITY;
-  }
-  return (double)fVar2;
+    union {
+        unsigned int bits;
+        float value;
+    } special;
+
+    special.bits = bits;
+    return special.value;
 }
 
+double fn_82B803A0(double value)
+{
+    int category;
+    float special;
+    if (value == lbl_82005710) {
+        special = SpecialValue(0xff800000);
+    } else if (value < lbl_82005710 || (category = fn_82F6E018(value)) == 4) {
+        special = SpecialValue(0xffc00000);
+    } else {
+        if (category != 0x200) {
+            double numerator = fn_82F65E20(value);
+            double denominator = fn_82F65E20(2.0);
+            return numerator / denominator;
+        }
+        special = SpecialValue(0x7f800000);
+    }
+    return special;
+}

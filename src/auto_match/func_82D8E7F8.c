@@ -1,35 +1,16 @@
-extern unsigned int lbl_82002C5C;
-extern unsigned int lbl_8200533C;
+typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
+    float scalar[4];
+    unsigned int words[4];
+} __vector4;
 
+__vector4 __vspltw(__vector4 value, unsigned int lane);
 
-void fn_82D8E7F8(double param_1,int param_2)
-
+void fn_82D8E7F8(char *self, float size)
 {
-  unsigned int *puVar1;
-  int in_r0;
-  double dVar2;
-  unsigned int in_register_000100b0;
-  unsigned int in_register_000100b4;
-  unsigned int in_register_000100b8;
-  unsigned int in_vr11;
-  unsigned int in_register_000100d0;
-  unsigned int in_register_000100d4;
-  unsigned int in_register_000100d8;
-  unsigned int in_vr13;
-  
-  *(float *)(param_2 + 0x30) = (float)(param_1 * (double)lbl_8200533C);
-  dVar2 = (double)lbl_82002C5C;
-  puVar1 = (unsigned int *)(in_r0 + param_2 + 0x30 & 0xfffffff0);
-  *puVar1 = in_register_000100d0;
-  puVar1[1] = in_register_000100d4;
-  puVar1[2] = in_register_000100d8;
-  puVar1[3] = in_vr13;
-  *(float *)(param_2 + 0x40) = (float)(param_1 * dVar2);
-  puVar1 = (unsigned int *)(in_r0 + param_2 + 0x40 & 0xfffffff0);
-  *puVar1 = in_register_000100b0;
-  puVar1[1] = in_register_000100b4;
-  puVar1[2] = in_register_000100b8;
-  puVar1[3] = in_vr11;
-  return;
+    __vector4 *minimum = (__vector4 *)(self + 0x30);
+    __vector4 *maximum = (__vector4 *)(self + 0x40);
+    minimum->scalar[0] = size * -0.5f;
+    *minimum = __vspltw(*minimum, 0);
+    maximum->scalar[0] = size * 0.5f;
+    *maximum = __vspltw(*maximum, 0);
 }
-

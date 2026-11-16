@@ -1,25 +1,28 @@
-extern int fn_82553D80();
+typedef struct Data_8260EEA8 {
+    char padding[0x10];
+    int first;        /* 0x10 */
+    int second;       /* 0x14 */
+    int third;        /* 0x18 */
+    int fourth;       /* 0x1c */
+    char point[0x0c]; /* 0x20 */
+    float time;       /* 0x2c */
+    char padding30[0x0c];
+    float values[12]; /* 0x3c */
+} Data_8260EEA8;
 
+extern void fn_82553D80(void *, int, int, void *, float, int, float, int, float, float, float, float, float,
+                        float, float, float, float, float, float);
 
-void fn_8260EEA8(int param_1,unsigned __int64 param_2,int param_3,unsigned __int64 param_4,int param_5)
-
+void fn_8260EEA8(char *self, void *unused, Data_8260EEA8 *data, void *unused2, int mode)
 {
-  if (param_5 == 0) {
-    fn_82553D80((double)*(float *)(param_3 + 0x2c),(double)*(float *)(param_3 + 0x3c),
-                      (double)*(float *)(param_3 + 0x40),(double)*(float *)(param_3 + 0x44),
-                      (double)*(float *)(param_3 + 0x48),(double)*(float *)(param_3 + 0x4c),
-                      (double)*(float *)(param_3 + 0x50),(double)*(float *)(param_3 + 0x54),
-                      (double)*(float *)(param_3 + 0x58),(double)*(float *)(param_3 + 0x5c),
-                      (double)*(float *)(param_3 + 0x60),(double)*(float *)(param_3 + 100),
-                      (double)*(float *)(param_3 + 0x68),
-                      *(unsigned int *)(**(int **)(param_1 + 0x60) + 0x1a8),
-                      *(unsigned int *)(param_3 + 0x10),*(unsigned int *)(param_3 + 0x14),param_3 + 0x20
-                      ,0,*(unsigned int *)(param_3 + 0x18),**(int **)(param_1 + 0x60),
-                      *(unsigned int *)(param_3 + 0x1c));
-  }
-  else if ((param_5 == 1) || (param_5 == 3)) {
-    *(unsigned int *)(*(int *)(**(int **)(param_1 + 0x60) + 0x1a8) + 0x3f0) = 0;
-  }
-  return;
+    if (mode == 0) {
+        char *owner = **(char ***)(self + 0x60);
+        fn_82553D80(*(void **)(owner + 0x1a8), data->first, data->second, data->point, data->time,
+                    data->third, data->values[0], data->fourth, data->values[1], data->values[2],
+                    data->values[3], data->values[4], data->values[5], data->values[6], data->values[7],
+                    data->values[8], data->values[9], data->values[10], data->values[11]);
+    } else if (mode == 1 || mode == 3) {
+        char *owner = **(char ***)(self + 0x60);
+        *(int *)(*(char **)(owner + 0x1a8) + 0x3f0) = 0;
+    }
 }
-

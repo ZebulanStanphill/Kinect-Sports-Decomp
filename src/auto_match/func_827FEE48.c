@@ -1,30 +1,20 @@
-extern unsigned int lbl_821AAD20;
-
-
-void fn_827FEE48(int *param_1,unsigned int *param_2,unsigned int *param_3,unsigned int *param_4)
-
+void fn_827FEE48(int *self, float *x, float *y, float *z)
 {
-  unsigned int uVar1;
-  int iVar2;
-  
-  uVar1 = lbl_821AAD20;
-  iVar2 = *param_1;
-  if (*(char *)(*(int *)(iVar2 + 0x30) + 0x1f) == '\0') {
-    *param_2 = lbl_821AAD20;
-  }
-  else {
-    *param_2 = *(unsigned int *)(*(int *)(iVar2 + 0x30) + 0xc);
-  }
-  if (*(char *)(*(int *)(iVar2 + 0x30) + 0x20) == '\0') {
-    *param_3 = uVar1;
-  }
-  else {
-    *param_3 = *(unsigned int *)(*(int *)(iVar2 + 0x30) + 0x10);
-  }
-  if (*(char *)(*(int *)(iVar2 + 0x30) + 0x21) != '\0') {
-    uVar1 = *(unsigned int *)(*(int *)(iVar2 + 0x30) + 0x14);
-  }
-  *param_4 = uVar1;
-  return;
-}
+    int owner = *self;
+    float value = 0.0f;
 
+    if (*(unsigned char *)(*(int *)(owner + 0x30) + 0x1f)) {
+        *x = *(float *)(*(int *)(owner + 0x30) + 0x0c);
+    } else {
+        *x = value;
+    }
+    if (*(unsigned char *)(*(int *)(owner + 0x30) + 0x20)) {
+        *y = *(float *)(*(int *)(owner + 0x30) + 0x10);
+    } else {
+        *y = value;
+    }
+    if (*(unsigned char *)(*(int *)(owner + 0x30) + 0x21)) {
+        value = *(float *)(*(int *)(owner + 0x30) + 0x14);
+    }
+    *z = value;
+}

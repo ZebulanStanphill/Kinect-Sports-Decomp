@@ -1,42 +1,31 @@
-extern double sqrt(double);
-#define SQRT(x) sqrt(x)
-extern int fn_828095F8();
-extern unsigned int lbl_82195628;
-extern unsigned int ltcg_pool_0_0f;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+extern double sqrt(double value);
+extern double fabs(double value);
+extern float fn_828095F8(float value);
+extern const float lbl_821954B0[0x28a];
 
-double fn_8255A2F8(void)
-
+float fn_8255A2F8(__vector4 first, __vector4 second)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  double dVar4;
-  float in_register_00010010;
-  float in_register_00010014;
-  float in_register_00010018;
-  float in_register_00010020;
-  float in_register_00010024;
-  float in_register_00010028;
-  
-  fVar1 = in_register_00010020 * in_register_00010010 +
-          in_register_00010028 * in_register_00010018 + in_register_00010024 * in_register_00010014;
-  fVar2 = SQRT(in_register_00010020 * in_register_00010020 +
-               in_register_00010028 * in_register_00010028 +
-               in_register_00010024 * in_register_00010024) *
-          SQRT(in_register_00010010 * in_register_00010010 +
-               in_register_00010018 * in_register_00010018 +
-               in_register_00010014 * in_register_00010014);
-  if (lbl_82195628 <= fVar2) {
-    fVar3 = ABS(fVar1);
-    if (fVar2 < fVar3) {
-      fVar2 = fVar3;
+    float firstX = first.vector4_f32[0];
+    float firstY = first.vector4_f32[1];
+    float firstZ = first.vector4_f32[2];
+    float secondX = second.vector4_f32[0];
+    float secondY = second.vector4_f32[1];
+    float secondZ = second.vector4_f32[2];
+    float dot = secondX * firstX + secondZ * firstZ + secondY * firstY;
+    float magnitude = sqrt(secondX * secondX + secondZ * secondZ + secondY * secondY) *
+                      sqrt(firstX * firstX + firstZ * firstZ + firstY * firstY);
+    if (magnitude < lbl_821954B0[0x5e]) {
+        return 0.0f;
     }
-    dVar4 = (double)fn_828095F8((double)(fVar1 / fVar2));
-  }
-  else {
-    dVar4 = (double)ltcg_pool_0_0f;
-  }
-  return dVar4;
+    {
+        float absoluteDot = fabs(dot);
+        if (magnitude < absoluteDot) {
+            magnitude = absoluteDot;
+        }
+        return fn_828095F8(dot / magnitude);
+    }
 }
-

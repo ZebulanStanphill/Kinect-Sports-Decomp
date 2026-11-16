@@ -1,33 +1,37 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern unsigned int lbl_82002AE0;
-extern unsigned int stack0x00000000;
-extern unsigned int uStack_10;
-extern unsigned __int64 storeVectorElementWordIndexed();
-extern V16 vectorAddFloatingPoint();
-extern V16 vectorSubtractFloatingPoint();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vaddfp(__vector4, __vector4);
+__vector4 __vmulfp(__vector4, __vector4);
+__vector4 __vsubfp(__vector4, __vector4);
+__vector4 __vmsum3fp(__vector4, __vector4);
+void __stvewx(__vector4, void *, int);
+extern const __vector4 lbl_82132D70;
 
-double fn_82D1E5F8(int param_1,unsigned int param_2)
+typedef struct Bounds_82D1E5F8 {
+    __vector4 m_min; /* 0x0 */
+    __vector4 m_max; /* 0x10 */
+} Bounds_82D1E5F8;
 
+typedef struct Query_82D1E5F8 {
+    char padding[0x10];
+    __vector4 center;      /* 0x10 */
+    float distanceSquared; /* 0x20 */
+    char unknown[0xc];
+    const Bounds_82D1E5F8 *closest; /* 0x30 */
+} Query_82D1E5F8;
+
+float fn_82D1E5F8(Query_82D1E5F8 *self, const Bounds_82D1E5F8 *bounds)
 {
-  unsigned int uVar1;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs40 [16];
-  unsigned char in_vs42 [16];
-  unsigned char in_vs43 [16];
-  unsigned char in_vs45 [16];
-  unsigned int uStack_10;
-  
-  vectorAddFloatingPoint(in_vs32,in_vs45);
-  vectorSubtractFloatingPoint(in_vs43,in_vs42);
-  uVar1 = storeVectorElementWordIndexed(in_vs40,0,ZEXT48(&stack0x00000000) - 0x10);
-  *(unsigned int *)(ZEXT48(&stack0x00000000) - 0x10) = uVar1;
-  if (uStack_10 < *(float *)(param_1 + 0x20)) {
-    *(float *)(param_1 + 0x20) = uStack_10;
-    *(unsigned int *)(param_1 + 0x30) = param_2;
-    return (double)lbl_82002AE0;
-  }
-  return (double)lbl_82002AE0;
+    __vector4 center = __vmulfp(lbl_82132D70, __vaddfp(bounds->m_min, bounds->m_max));
+    __vector4 delta = __vsubfp(self->center, center);
+    float distanceSquared;
+    __stvewx(__vmsum3fp(delta, delta), &distanceSquared, 0);
+    if (distanceSquared < self->distanceSquared) {
+        self->distanceSquared = distanceSquared;
+        self->closest = bounds;
+        return 1.0f;
+    }
+    return 1.0f;
 }
-

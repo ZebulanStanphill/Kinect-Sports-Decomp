@@ -1,34 +1,42 @@
-#define true 1
+typedef struct Node_83065E80 {
+    struct Node_83065E80 *next;
+    int size;
+} Node_83065E80;
+typedef struct Allocator_83065E80 Allocator_83065E80;
 
+typedef struct Vtable_83065E80 {
+    void *reserved;
+    void (*Free)(Allocator_83065E80 *self, Node_83065E80 *node);
+} Vtable_83065E80;
 
-void fn_83065E80(int param_1,unsigned int *param_2)
+struct Allocator_83065E80 {
+    Vtable_83065E80 *vtable;
+};
 
+typedef struct List_83065E80 {
+    int reserved;
+    Node_83065E80 *head;
+    Allocator_83065E80 *allocator;
+    int reserved0c;
+    int total;
+} List_83065E80;
+
+void fn_83065E80(List_83065E80 *self, Node_83065E80 *target)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  unsigned int *puVar3;
-  
-  puVar2 = *(unsigned int **)(param_1 + 4);
-  puVar3 = (unsigned int *)0x0;
-  while( true ) {
-    puVar1 = puVar2;
-    if (puVar1 == (unsigned int *)0x0) {
-      return;
+    Node_83065E80 *node = self->head;
+    Node_83065E80 *previous = 0;
+    while (node != 0) {
+        if (node == target) {
+            self->total -= node->size;
+            if (previous != 0) {
+                previous->next = node->next;
+            } else {
+                self->head = node->next;
+            }
+            self->allocator->vtable->Free(self->allocator, node);
+            return;
+        }
+        previous = node;
+        node = node->next;
     }
-    if (puVar1 == param_2) break;
-    puVar2 = (unsigned int *)*puVar1;
-    puVar3 = puVar1;
-  }
-  *(int *)(param_1 + 0x10) = *(int *)(param_1 + 0x10) - puVar1[1];
-  if (puVar3 == (unsigned int *)0x0) {
-    *(unsigned int *)(param_1 + 4) = *puVar1;
-  }
-  else {
-    *puVar3 = *puVar1;
-  }
-                    /* WARNING: Could not recover jumptable at 0x83065ee8. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (**(int (***)())(**(int **)(param_1 + 8) + 4))(*(int **)(param_1 + 8),puVar1);
-  return;
 }
-

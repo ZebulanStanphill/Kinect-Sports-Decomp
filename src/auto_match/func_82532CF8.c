@@ -1,86 +1,35 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern unsigned int stack0x00000020;
-extern unsigned int stack0x00000040;
-extern unsigned int stack0x00000050;
-extern V16 vectorMergeHighWord();
-extern V16 vectorMergeLowWord();
-extern void *memcpy(void *, const void *, unsigned int);
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vmrghw(__vector4 a, __vector4 b);
+__vector4 __vmrglw(__vector4 a, __vector4 b);
 
-void fn_82532CF8(int *param_1,int param_2)
+typedef struct Matrix_82532CF8 {
+    __vector4 rows[4];
+} Matrix_82532CF8;
 
+typedef struct Storage_82532CF8 {
+    Matrix_82532CF8 *primary;   /* 0x0 */
+    Matrix_82532CF8 *alternate; /* 0x4 */
+} Storage_82532CF8;
+
+void fn_82532CF8(Storage_82532CF8 *self, unsigned int index, Matrix_82532CF8 matrix)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int in_r0;
-  int iVar3;
-  unsigned char in_vs32 [16];
-  unsigned char auVar4 [16];
-  unsigned char auVar5 [16];
-  unsigned char in_vs43 [16];
-  unsigned char in_vs44 [16];
-  unsigned char auVar6 [16];
-  unsigned char in_vs45 [16];
-  unsigned char auVar7 [16];
-  unsigned int uVar8;
-  unsigned int uVar9;
-  unsigned int uVar10;
-  unsigned int uVar11;
-  unsigned int in_register_000100a0;
-  unsigned int in_register_000100a4;
-  unsigned int in_register_000100a8;
-  unsigned int in_vr10;
-  unsigned int uVar12;
-  unsigned int uVar13;
-  unsigned int uVar14;
-  unsigned int uVar15;
-  unsigned int uVar16;
-  unsigned int uVar17;
-  unsigned int uVar18;
-  
-  iVar3 = param_1[1];
-  if (iVar3 == 0) {
-    iVar3 = *param_1;
-  }
-  puVar1 = (unsigned int *)((unsigned int)(&stack0x00000020 + in_r0) & 0xfffffff0);
-  uVar8 = *puVar1;
-  uVar9 = puVar1[1];
-  uVar10 = puVar1[2];
-  uVar11 = puVar1[3];
-  puVar1 = (unsigned int *)((unsigned int)(&stack0x00000040 + in_r0) & 0xfffffff0);
-  uVar15 = *puVar1;
-  uVar16 = puVar1[1];
-  uVar17 = puVar1[2];
-  uVar18 = puVar1[3];
-  iVar3 = param_2 * 0x40 + iVar3;
-  puVar1 = (unsigned int *)((unsigned int)(&stack0x00000050 + in_r0) & 0xfffffff0);
-  uVar12 = puVar1[1];
-  uVar13 = puVar1[2];
-  uVar14 = puVar1[3];{ V16 _vt0 = vectorMergeHighWord(in_vs32,in_vs45); memcpy(auVar5, &_vt0, 16); }{ V16 _vt1 = vectorMergeLowWord(in_vs32,in_vs45); memcpy(auVar4, &_vt1, 16); }{ V16 _vt2 = vectorMergeHighWord(in_vs44,in_vs43); memcpy(auVar7, &_vt2, 16); }{ V16 _vt3 = vectorMergeLowWord(in_vs44,in_vs43); memcpy(auVar6, &_vt3, 16); }
-  vectorMergeHighWord(auVar5,auVar7);
-  vectorMergeLowWord(auVar5,auVar7);
-  vectorMergeHighWord(auVar4,auVar6);
-  vectorMergeLowWord(auVar4,auVar6);
-  puVar2 = (unsigned int *)(in_r0 + iVar3 & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar12;
-  puVar2[2] = uVar13;
-  puVar2[3] = uVar14;
-  puVar1 = (unsigned int *)(iVar3 + 0x10U & 0xfffffff0);
-  *puVar1 = uVar15;
-  puVar1[1] = uVar16;
-  puVar1[2] = uVar17;
-  puVar1[3] = uVar18;
-  puVar1 = (unsigned int *)(iVar3 + 0x20U & 0xfffffff0);
-  *puVar1 = in_register_000100a0;
-  puVar1[1] = in_register_000100a4;
-  puVar1[2] = in_register_000100a8;
-  puVar1[3] = in_vr10;
-  puVar1 = (unsigned int *)(iVar3 + 0x30U & 0xfffffff0);
-  *puVar1 = uVar8;
-  puVar1[1] = uVar9;
-  puVar1[2] = uVar10;
-  puVar1[3] = uVar11;
-  return;
+    Matrix_82532CF8 *data = self->alternate;
+    __vector4 high02;
+    __vector4 low02;
+    __vector4 high13;
+    __vector4 low13;
+    if (data == 0) {
+        data = self->primary;
+    }
+    high02 = __vmrghw(matrix.rows[0], matrix.rows[2]);
+    low02 = __vmrglw(matrix.rows[0], matrix.rows[2]);
+    high13 = __vmrghw(matrix.rows[1], matrix.rows[3]);
+    low13 = __vmrglw(matrix.rows[1], matrix.rows[3]);
+    data[index].rows[0] = __vmrghw(high02, high13);
+    data[index].rows[1] = __vmrglw(high02, high13);
+    data[index].rows[2] = __vmrghw(low02, low13);
+    data[index].rows[3] = __vmrglw(low02, low13);
 }
-

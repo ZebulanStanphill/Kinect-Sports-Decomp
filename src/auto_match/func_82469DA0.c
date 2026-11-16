@@ -1,67 +1,69 @@
-extern unsigned int *auStack_48;
-extern unsigned int *auStack_50;
-extern int fn_822315A0();
-extern int fn_82273C88();
-extern int fn_82273CD8();
-extern int fn_82279C58();
-extern int fn_82672C20();
-extern unsigned int iStack_44;
-extern unsigned int iStack_4c;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
+typedef struct Value_82469DA0 {
+    int first; /* 0x0 */
+    int type;  /* 0x4 */
 
+    union {
+        double number;
+        const char *text;
+    } value; /* 0x8 */
+} Value_82469DA0;
 
-void fn_82469DA0(int param_1,int param_2,unsigned __int64 param_3)
+typedef struct Reference_82469DA0 {
+    void *object;     /* 0x0 */
+    void *references; /* 0x4 */
+} Reference_82469DA0;
 
+typedef struct Owner_82469DA0 {
+    char pad000[0x138];
+    unsigned int digits;
+    unsigned int maximum; /* 0x138 */
+} Owner_82469DA0;
+
+extern int fn_82A1E1A0(const char *text);
+extern void fn_82273CD8(Value_82469DA0 *, int);
+extern void fn_82273C88(Value_82469DA0 *);
+extern Reference_82469DA0 *fn_82279C58(Reference_82469DA0 *, void *);
+extern void fn_82672C20(void *, const char *, Value_82469DA0 *, int);
+extern void fn_822315A0(void *);
+
+void fn_82469DA0(Owner_82469DA0 *self, int blue, const char *text)
 {
-  unsigned int uVar1;
-  unsigned int *puVar2;
-  unsigned int uVar3;
-  char *pcVar5;
-  unsigned __int64 uVar4;
-  unsigned char auStack_50 [4];
-  int iStack_4c;
-  unsigned char auStack_48 [4];
-  int iStack_44;
-  struct { unsigned int first; unsigned int second; } stack_pair_40;
-
-  char *pcStack_38;
-  
-  stack_pair_40.first = 0;
-  stack_pair_40.second = 0;
-  uVar1 = thunk_FUN_82f64ce0(param_3);
-  uVar3 = *(unsigned int *)(param_1 + 0x138);
-  if ((int)*(unsigned int *)(param_1 + 0x138) < (int)uVar1) {
-    uVar3 = uVar1;
-  }
-  *(unsigned int *)(param_1 + 0x138) = uVar3;
-  if (uVar3 < 5) {
-    pcVar5 = "fourDigits";
-  }
-  else {
-    pcVar5 = "sixDigits";
-  }
-  fn_82273CD8(&stack_pair_40.first,4);
-  pcStack_38 = pcVar5;
-  puVar2 = (unsigned int *)fn_82279C58(auStack_50,param_1);
-  fn_82672C20(*puVar2,0xffffffff821bc314,&stack_pair_40.first,1);
-  if (iStack_4c != 0) {
-    fn_822315A0();
-  }
-  fn_82273CD8(&stack_pair_40.first,5);
-  pcStack_38 = (char *)param_3;
-  if (param_2 == 0) {
-    uVar4 = 0xffffffff821bc328;
-  }
-  else {
-    uVar4 = 0xffffffff821bc33c;
-  }
-  puVar2 = (unsigned int *)fn_82279C58(auStack_48,param_1);
-  fn_82672C20(*puVar2,uVar4,&stack_pair_40.first,1);
-  if (iStack_44 != 0) {
-    fn_822315A0();
-  }
-  fn_82273C88(&stack_pair_40.first);
-  return;
+    Value_82469DA0 value;
+    Reference_82469DA0 first;
+    Reference_82469DA0 second;
+    const char *mode;
+    const char *method;
+    int digits;
+    unsigned int maximum;
+    value.first = 0;
+    value.type = 0;
+    digits = fn_82A1E1A0(text);
+    maximum = self->digits;
+    if ((int)maximum < digits) {
+        maximum = digits;
+    }
+    self->digits = maximum;
+    if (maximum > 4) {
+        mode = "sixDigits";
+    } else {
+        mode = "fourDigits";
+    }
+    fn_82273CD8(&value, 4);
+    value.value.text = mode;
+    fn_82672C20(fn_82279C58(&first, self)->object, "_root.SetDigitMode", &value, 1);
+    if (first.references != 0) {
+        fn_822315A0(first.references);
+    }
+    fn_82273CD8(&value, 5);
+    value.value.text = text;
+    if (blue == 0) {
+        method = "_root.SetRedDigits";
+    } else {
+        method = "_root.SetBlueDigits";
+    }
+    fn_82672C20(fn_82279C58(&second, self)->object, method, &value, 1);
+    if (second.references != 0) {
+        fn_822315A0(second.references);
+    }
+    fn_82273C88(&value);
 }
-

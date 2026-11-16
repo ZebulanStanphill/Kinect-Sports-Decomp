@@ -1,11 +1,8 @@
-unsigned __int64 fn_825D2468(double param_1,int param_2,unsigned __int64 param_3,int param_4)
-
+int fn_825D2468(char *self, void *unused, int index, float value)
 {
-  unsigned int uVar1;
-  
-  uVar1 = *(unsigned int *)(*(int *)(*(int *)(param_2 + 0x3c) + 0xb8) + 0x28);
-  *(float *)((param_4 + 0xf) * 8 + param_2) = (float)param_1;
-  *(unsigned int *)(param_4 * 8 + param_2 + 0x74) = uVar1;
-  return 0;
-}
+    unsigned int key = *(unsigned int *)(*(char **)(*(char **)(self + 0x3c) + 0xb8) + 0x28);
 
+    *(unsigned int *)(self + index * 8 + 0x74) = key;
+    *(float *)(self + (index + 15) * 8) = value;
+    return 0;
+}

@@ -1,55 +1,64 @@
-extern int fn_82680B50();
-extern int fn_82681320();
-extern int fn_82683FF8();
+typedef struct Stream_82684338 Stream_82684338;
 
+typedef struct StreamVtable_82684338 {
+    void (*destroy)(Stream_82684338 *);        /* 0x00 */
+    const char *(*getName)(Stream_82684338 *); /* 0x04 */
+} StreamVtable_82684338;
 
-unsigned __int64
-fn_82684338(int *param_1,int param_2,__int64 param_3,unsigned __int64 param_4,int *param_5,int *param_6,
-             unsigned __int64 param_7)
+struct Stream_82684338 {
+    StreamVtable_82684338 *vtable; /* 0x00 */
+};
+typedef struct Loader_82684338 Loader_82684338;
 
+typedef struct LoaderVtable_82684338 {
+    void (*destroy)(Loader_82684338 *);                          /* 0x00 */
+    void *(*png)(Loader_82684338 *, Stream_82684338 *, void *);  /* 0x04 */
+    void *(*jpeg)(Loader_82684338 *, Stream_82684338 *, void *); /* 0x08 */
+} LoaderVtable_82684338;
+
+struct Loader_82684338 {
+    LoaderVtable_82684338 *vtable; /* 0x00 */
+};
+
+extern void *fn_82680B50(Stream_82684338 *, int, void *);
+extern void *fn_82681320(Stream_82684338 *, void *);
+extern void fn_82683FF8(void *, const char *, ...);
+
+void *fn_82684338(Stream_82684338 *stream, int format, int type, char *log, Loader_82684338 *jpeg,
+                  Loader_82684338 *png, void *options)
 {
-  int (**pcVar1)();
-  unsigned __int64 uVar2;
-  
-  uVar2 = (**(int (***)())(*param_1 + 4))();
-  if (param_2 == 10) {
-    if (param_5 != (int *)0x0) {
-      pcVar1 = *(int (***)())(*param_5 + 8);
-LAB_8268443c:
-      uVar2 = (*pcVar1)(param_5,param_1,param_7);
-      return uVar2;
+    void *result = 0;
+    const char *name = stream->vtable->getName(stream);
+    switch (format) {
+    case 14:
+        result = fn_82681320(stream, options);
+        break;
+    case 13:
+        result = fn_82680B50(stream, type == 3 ? 9 : 0, options);
+        break;
+    case 11:
+        if (png == 0) {
+            if (log != 0) {
+                fn_82683FF8(log + 12, "Unable to load PNG at URL \"%s\" - GFxPNGState not set\n", name);
+            }
+        } else {
+            result = png->vtable->png(png, stream, options);
+        }
+        break;
+    case 10:
+        if (jpeg == 0) {
+            if (log != 0) {
+                fn_82683FF8(log + 12, "Unable to load JPEG at URL \"%s\" - libjpeg not included\n", name);
+            }
+        } else {
+            result = jpeg->vtable->jpeg(jpeg, stream, options);
+        }
+        break;
+    default:
+        if (log != 0) {
+            fn_82683FF8(log + 12, "Default image loader failed to load '%s'", name);
+        }
+        break;
     }
-    if ((param_4 & 0xffffffff) == 0) {
-      return 0;
-    }
-    uVar2 = 0xffffffff82005954;
-  }
-  else if (param_2 == 0xb) {
-    if (param_6 != (int *)0x0) {
-      pcVar1 = *(int (***)())(*param_6 + 4);
-      param_5 = param_6;
-      goto LAB_8268443c;
-    }
-    if ((param_4 & 0xffffffff) == 0) {
-      return 0;
-    }
-    uVar2 = 0xffffffff8200598c;
-  }
-  else {
-    if (param_2 == 0xd) {
-      uVar2 = fn_82680B50(param_1,-(param_3 == 3) & 9,param_7);
-      return uVar2;
-    }
-    if (param_2 == 0xe) {
-      uVar2 = fn_82681320(param_1,param_7,uVar2);
-      return uVar2;
-    }
-    if ((param_4 & 0xffffffff) == 0) {
-      return 0;
-    }
-    uVar2 = 0xffffffff820059c4;
-  }
-  fn_82683FF8(param_4 + 0xc,uVar2);
-  return 0;
+    return result;
 }
-

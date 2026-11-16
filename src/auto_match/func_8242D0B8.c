@@ -1,31 +1,22 @@
-typedef unsigned char bool;
-extern int fn_8242D540();
-extern int fn_8255B1E0();
-extern int fn_8255B400();
-extern unsigned int ltcg_pool_0_0f;
+extern void fn_8242D540(void *, unsigned char);
+extern unsigned int fn_8255B1E0(void *, void *, int, int, int, int, int, float, int);
+extern void fn_8255B400(void *, unsigned int);
 
-
-void fn_8242D0B8(int param_1,char param_2)
-
+void fn_8242D0B8(char *self, unsigned char enabled)
 {
-  int iVar1;
-  unsigned int uVar2;
-  
-  if ((*(int *)(*(int *)(param_1 + 0x174) + 0xb4) != 0) != (bool)param_2) {
-    if (param_2 == '\0') {
-      fn_8242D540(param_1,1);
-      fn_8255B400(*(unsigned int *)(*(int *)(*(int *)(param_1 + 0x174) + 0x9c) + 0x844),
-                        *(unsigned int *)(*(int *)(param_1 + 0x174) + 0xb4));
-      *(unsigned int *)(*(int *)(param_1 + 0x174) + 0xb4) = 0;
-    }
-    else {
-      fn_8242D540(param_1,0);
-      iVar1 = *(int *)(param_1 + 0x174);
-      uVar2 = fn_8255B1E0((double)ltcg_pool_0_0f,*(unsigned int *)(*(int *)(iVar1 + 0x9c) + 0x844)
-                                ,iVar1 + 0xb0,1,0,0,0,0);
-      *(unsigned int *)(iVar1 + 0xb4) = uVar2;
-    }
-  }
-  return;
-}
+    char *state = *(char **)(self + 0x174);
 
+    if ((unsigned int)(*(unsigned int *)(state + 0xb4) != 0) != enabled) {
+        if (enabled) {
+            fn_8242D540(self, 0);
+            state = *(char **)(self + 0x174);
+            *(unsigned int *)(state + 0xb4) = fn_8255B1E0(*(void **)(*(char **)(state + 0x9c) + 0x844),
+                                                          state + 0xb0, 1, 0, 0, 0, 0, 0.0f, 0);
+        } else {
+            fn_8242D540(self, 1);
+            state = *(char **)(self + 0x174);
+            fn_8255B400(*(void **)(*(char **)(state + 0x9c) + 0x844), *(unsigned int *)(state + 0xb4));
+            *(unsigned int *)(*(char **)(self + 0x174) + 0xb4) = 0;
+        }
+    }
+}

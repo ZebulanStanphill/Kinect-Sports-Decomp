@@ -1,60 +1,70 @@
-extern unsigned int *auStack_40;
-extern int fn_8227D9B0();
-extern int fn_8227DA30();
-extern int fn_824CCD80();
-extern int memcpy();
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
-extern unsigned int uStack_24;
-extern unsigned int uStack_28;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Buffer_823DB9B0 {
+    char reserved[0x30]; /* 0x00 */
+    int active;          /* 0x30 */
+} Buffer_823DB9B0;
 
-void fn_823DB9B0(int param_1)
+typedef struct Player_823DB9B0 {
+    char reserved[0x10]; /* 0x00 */
+    void *object;        /* 0x10 */
+} Player_823DB9B0;
 
+typedef struct Object_823DB9B0 {
+    __vector4 position;      /* 0x00 */
+    float first;             /* 0x10 */
+    float second;            /* 0x14 */
+    char reserved18[0xc];    /* 0x18 */
+    float elapsed;           /* 0x24 */
+    float third;             /* 0x28 */
+    char reserved2c[0x10];   /* 0x2c */
+    int player;              /* 0x3c */
+    int reserved40;          /* 0x40 */
+    Buffer_823DB9B0 *buffer; /* 0x44 */
+} Object_823DB9B0;
+
+typedef struct Payload_823DB9B0 {
+    __vector4 position;       /* 0x00 */
+    float first;              /* 0x10 */
+    float second;             /* 0x14 */
+    float third;              /* 0x18 */
+    int id;                   /* 0x1c */
+    unsigned int flags;       /* 0x20 */
+    unsigned int type;        /* 0x24 */
+    unsigned int reserved[2]; /* 0x28 */
+} Payload_823DB9B0;
+
+extern void fn_8227D9B0(Buffer_823DB9B0 *);
+extern void fn_8227DA30(Buffer_823DB9B0 *, float);
+extern int fn_824CCD80(void *);
+
+typedef struct Bytes_823DB9B0 {
+    unsigned char bytes[0x30];
+} Bytes_823DB9B0;
+
+void fn_823DB9B0(Object_823DB9B0 *self)
 {
-  unsigned int uVar1;
-  unsigned int *puVar2;
-  unsigned int *puVar3;
-  int in_r0;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned char auStack_40 [16];
-  unsigned int uStack_30;
-  unsigned int uStack_2c;
-  unsigned int uStack_28;
-  unsigned int uStack_24;
-  unsigned int uStack_20;
-  unsigned int uStack_1c;
-  
-  if (*(int *)(*(int *)(param_1 + 0x44) + 0x30) == 0) {
-    fn_8227D9B0();
-  }
-  fn_8227DA30((double)*(float *)(param_1 + 0x24),*(unsigned int *)(param_1 + 0x44));
-  if (*(int *)(param_1 + 0x3c) == 0) {
-    uStack_24 = 0xffffffff;
-  }
-  else {
-    uStack_24 = fn_824CCD80(*(unsigned int *)(*(int *)(param_1 + 0x3c) + 0x10));
-  }
-  puVar2 = (unsigned int *)(in_r0 + param_1 & 0xfffffff0);
-  uVar4 = puVar2[1];
-  uVar5 = puVar2[2];
-  uVar6 = puVar2[3];
-  uStack_30 = *(unsigned int *)(param_1 + 0x10);
-  uStack_2c = *(unsigned int *)(param_1 + 0x14);
-  uStack_28 = *(unsigned int *)(param_1 + 0x28);
-  uVar1 = *(unsigned int *)(param_1 + 0x44);
-  puVar3 = (unsigned int *)((unsigned int)(auStack_40 + in_r0) & 0xfffffff0);
-  *puVar3 = *puVar2;
-  puVar3[1] = uVar4;
-  puVar3[2] = uVar5;
-  puVar3[3] = uVar6;
-  uStack_20 = 0;
-  uStack_1c = 3;
-  memcpy(uVar1,auStack_40,0x30);
-  return;
+    Payload_823DB9B0 payload;
+    int id;
+    Buffer_823DB9B0 *buffer;
+    if (self->buffer->active == 0) {
+        fn_8227D9B0(self->buffer);
+    }
+    fn_8227DA30(self->buffer, self->elapsed);
+    if (self->player != 0) {
+        id = fn_824CCD80(((Player_823DB9B0 *)self->player)->object);
+    } else {
+        id = -1;
+    }
+    buffer = self->buffer;
+    payload.position = self->position;
+    payload.id = id;
+    payload.first = self->first;
+    payload.second = self->second;
+    payload.third = self->third;
+    payload.flags = 0;
+    payload.type = 3;
+    *(Bytes_823DB9B0 *)buffer = *(Bytes_823DB9B0 *)&payload;
 }
-

@@ -1,45 +1,89 @@
-extern int fn_82AF4AE0();
-extern int fn_82B161E8();
+typedef struct Node_82AF56B0 Node_82AF56B0;
 
+typedef struct Link_82AF56B0 {
+    unsigned int flags;         /* 0x00 */
+    int reserved04;             /* 0x04 */
+    struct Link_82AF56B0 *next; /* 0x08 */
+    int reserved0c;             /* 0x0c */
+    Node_82AF56B0 *owner;       /* 0x10 */
+} Link_82AF56B0;
 
-unsigned __int64 fn_82AF56B0(int param_1,unsigned __int64 param_2,unsigned int param_3,unsigned __int64 param_4)
+typedef struct Input_82AF56B0 {
+    int reserved00[3];   /* 0x00 */
+    Node_82AF56B0 *node; /* 0x0c */
+} Input_82AF56B0;
 
+struct Node_82AF56B0 {
+    int reserved00;            /* 0x00 */
+    Link_82AF56B0 *links;      /* 0x04 */
+    unsigned int flags;        /* 0x08 */
+    char reserved0c[0x20];     /* 0x0c */
+    Input_82AF56B0 *inputs[8]; /* 0x2c */
+};
+
+typedef struct Context_82AF56B0 {
+    char reserved00[0x294]; /* 0x00 */
+    void *pool;             /* 0x294 */
+} Context_82AF56B0;
+
+extern unsigned char fn_82AF4AE0(Context_82AF56B0 *, void *, Node_82AF56B0 *, unsigned int);
+extern Node_82AF56B0 *fn_82B161E8(Context_82AF56B0 *, Node_82AF56B0 *, void *);
+
+static __forceinline int hasLink(Link_82AF56B0 *link)
 {
-  unsigned int *puVar1;
-  unsigned int uVar3;
-  char cVar4;
-  unsigned __int64 uVar2;
-  unsigned int uVar5;
-  int *piVar6;
-  
-  uVar3 = param_3;
-  if ((*(unsigned int *)(param_3 + 8) & 0x3f80) != 0x3700) {
-    for (puVar1 = *(unsigned int **)(param_3 + 4); puVar1 != (unsigned int *)0x0; puVar1 = (unsigned int *)puVar1[2]) {
-      uVar3 = puVar1[4];
-      if (((uVar3 != 0) && ((*(unsigned int *)(uVar3 + 8) & 0x3f80) == 0x3700)) &&
-         ((*puVar1 & 0xe000000) != 0)) goto LAB_82af5724;
+    if (link != 0) {
+        return 1;
     }
-    uVar3 = 0;
-  }
-LAB_82af5724:
-  if (uVar3 == 0) {
-    uVar2 = fn_82AF4AE0(param_1,param_2,param_3,param_4);
-  }
-  else {
-    if ((*(unsigned int *)(uVar3 + 8) >> 0x1a & 1) != 0) {
-      uVar3 = fn_82B161E8(param_1,uVar3,*(unsigned int *)(param_1 + 0x294));
-    }
-    piVar6 = (int *)(uVar3 + 0x2c);
-    for (uVar5 = 0; uVar5 < (*(unsigned int *)(uVar3 + 8) >> 0x13 & 7); uVar5 = uVar5 + 1) {
-      cVar4 = fn_82AF4AE0(param_1,param_2,*(unsigned int *)(*piVar6 + 0xc),
-                            -(unsigned __int64)(param_3 == *(unsigned int *)(*piVar6 + 0xc)) & param_4);
-      if (cVar4 == '\0') {
-        return 0;
-      }
-      piVar6 = piVar6 + 1;
-    }
-    uVar2 = 1;
-  }
-  return uVar2;
+    return 0;
 }
 
+static __forceinline Node_82AF56B0 *findOwner(Node_82AF56B0 *node)
+{
+    Link_82AF56B0 *link;
+    if ((node->flags & 0x3f80) == 0x3700) {
+        return node;
+    }
+    for (link = node->links; hasLink(link); link = link->next) {
+        Node_82AF56B0 *owner = link->owner;
+        if (owner != 0 && (owner->flags & 0x3f80) == 0x3700 && (link->flags & 0xe000000) != 0) {
+            return owner;
+        }
+    }
+    return 0;
+}
+
+static __forceinline unsigned char isShared(Node_82AF56B0 *node)
+{
+    return (node->flags >> 26) & 1;
+}
+
+static __forceinline int hasInput(unsigned int index, Node_82AF56B0 *node)
+{
+    if (index < ((node->flags >> 19) & 7)) {
+        return 1;
+    }
+    return 0;
+}
+
+unsigned char fn_82AF56B0(Context_82AF56B0 *self, void *destination, Node_82AF56B0 *node, unsigned int flags)
+{
+    Node_82AF56B0 *owner = findOwner(node);
+    if (owner != 0) {
+        unsigned int index;
+        Input_82AF56B0 **input;
+        if (isShared(owner)) {
+            owner = fn_82B161E8(self, owner, self->pool);
+        }
+        index = 0;
+        input = owner->inputs;
+        for (; hasInput(index, owner);) {
+            if (!fn_82AF4AE0(self, destination, (*input)->node, (*input)->node == node ? flags : 0)) {
+                return 0;
+            }
+            ++index;
+            ++input;
+        }
+        return 1;
+    }
+    return fn_82AF4AE0(self, destination, node, flags);
+}

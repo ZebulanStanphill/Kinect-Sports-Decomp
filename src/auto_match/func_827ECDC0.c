@@ -1,52 +1,16 @@
-extern int fn_827EC748();
-extern int fn_82809CB0();
+extern float fn_82809CB0(float value);
+extern int fn_827EC748(float, float, float, float, float, float);
 
-
-void fn_827ECDC0(float *param_1,float *param_2,float *param_3,float *param_4)
-
+int fn_827ECDC0(const float *first, const float *second, const float *third, const float *normal)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  float fVar5;
-  float fVar6;
-  double dVar7;
-  double dVar8;
-  
-  dVar7 = (double)fn_82809CB0((double)*param_4);
-  dVar8 = (double)fn_82809CB0((double)param_4[1]);
-  if (dVar7 <= dVar8) {
-    dVar7 = (double)fn_82809CB0((double)param_4[2]);
-    dVar8 = (double)fn_82809CB0((double)param_4[1]);
-    if (dVar8 < dVar7) goto LAB_827ece18;
-    fVar1 = param_1[2];
-    fVar2 = param_3[2];
-    fVar3 = param_2[2];
-  }
-  else {
-    dVar7 = (double)fn_82809CB0((double)param_4[2]);
-    dVar8 = (double)fn_82809CB0((double)*param_4);
-    if (dVar7 <= dVar8) {
-      fVar1 = param_1[2];
-      fVar6 = param_1[1];
-      fVar2 = param_3[2];
-      fVar5 = param_3[1];
-      fVar3 = param_2[2];
-      fVar4 = param_2[1];
-      goto LAB_827ece74;
+    if (fn_82809CB0(normal[0]) > fn_82809CB0(normal[1])) {
+        if (fn_82809CB0(normal[2]) > fn_82809CB0(normal[0])) {
+            return fn_827EC748(second[0], second[1], third[0], third[1], first[0], first[1]);
+        }
+        return fn_827EC748(second[1], second[2], third[1], third[2], first[1], first[2]);
     }
-LAB_827ece18:
-    fVar1 = param_1[1];
-    fVar2 = param_3[1];
-    fVar3 = param_2[1];
-  }
-  fVar4 = *param_2;
-  fVar5 = *param_3;
-  fVar6 = *param_1;
-LAB_827ece74:
-  fn_827EC748((double)fVar4,(double)fVar3,(double)fVar5,(double)fVar2,(double)fVar6,(double)fVar1)
-  ;
-  return;
+    if (fn_82809CB0(normal[2]) > fn_82809CB0(normal[1])) {
+        return fn_827EC748(second[0], second[1], third[0], third[1], first[0], first[1]);
+    }
+    return fn_827EC748(second[0], second[2], third[0], third[2], first[0], first[2]);
 }
-

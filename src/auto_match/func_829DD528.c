@@ -1,23 +1,17 @@
-extern float fRam83217b78;
-extern unsigned int lbl_820162A0;
-extern unsigned int lbl_82021540;
-extern unsigned int lbl_820579A8;
-extern unsigned int uRam83217b7c;
+extern unsigned int lbl_83217B7C;
+extern float lbl_83217B78;
 
-
-unsigned __int64 fn_829DD528(double param_1)
-
+unsigned int fn_829DD528(float value)
 {
-  if ((uRam83217b7c & 1) == 0) {
-    uRam83217b7c = uRam83217b7c | 1;
-    fRam83217b78 = lbl_820162A0;
-  }
-  if ((double)lbl_820579A8 < param_1) {
-    if (param_1 < (double)lbl_82021540) {
-      return (__int64)((float)(param_1 - (double)lbl_820579A8) / fRam83217b78) & 0xffffffff;
+    if ((lbl_83217B7C & 1) == 0) {
+        lbl_83217B7C |= 1;
+        lbl_83217B78 = 0.4f;
     }
-    return 7;
-  }
-  return 0;
+    if (value <= 0.8f) {
+        return 0;
+    }
+    if (value >= 4.0f) {
+        return 7;
+    }
+    return (unsigned int)((value - 0.8f) / lbl_83217B78);
 }
-

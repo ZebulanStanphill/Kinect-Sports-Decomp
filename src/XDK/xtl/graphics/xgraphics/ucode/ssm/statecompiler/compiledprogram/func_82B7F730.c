@@ -1,44 +1,42 @@
-extern int fn_82AB15D0();
-extern int fn_82AB60F0();
-extern int fn_82AB63F8();
-extern int fn_82AB66F8();
-extern int fn_82AB67A8();
-extern int fn_82AB7198();
-extern int fn_82AB7358();
-extern int fn_82B7F5B8();
-extern int fn_82F68CC0();
+typedef struct Program_82B7F730 {
+    void *allocatorContext;                  /* 0x00 */
+    void *(*allocate)(void *, unsigned int); /* 0x04 */
+    unsigned int reserved;                   /* 0x08 */
+    void *patchContext;                      /* 0x0c */
+} Program_82B7F730;
 
+extern void *fn_82AB7358(void *);
+extern unsigned int fn_82AB60F0(void *);
+extern unsigned int *fn_82AB7198(void *);
+extern void *fn_82AB63F8(void *);
+extern void *fn_82AB66F8(void *, void *);
+extern int *fn_82AB67A8(void *);
+extern void fn_82B7F5B8(int *, void *, void *, void *);
+extern void fn_82AB15D0(int, const char *, ...);
+extern void *memcpy(void *, const void *, unsigned int);
 
-unsigned __int64 fn_82B7F730(unsigned int *param_1,unsigned __int64 param_2,unsigned __int64 param_3)
-
+void *fn_82B7F730(Program_82B7F730 *self, void *source, void *patches)
 {
-  unsigned __int64 uVar1;
-  int iVar3;
-  unsigned int *puVar4;
-  unsigned __int64 uVar2;
-  int *piVar5;
-  __int64 lVar6;
-  
-  uVar1 = fn_82AB7358(param_2);
-  iVar3 = fn_82AB60F0();
-  if (iVar3 == 0) {
-    uVar2 = 0;
-  }
-  else {
-    puVar4 = (unsigned int *)fn_82AB7198(param_2);
-    lVar6 = ((unsigned __int64)*puVar4 + 2 & 0x3fffffff) << 2;
-    uVar2 = (*(int (**)())param_1[1])(*param_1,lVar6);
-    fn_82F68CC0(uVar2,puVar4,lVar6);
-    for (lVar6 = fn_82AB63F8(uVar1); lVar6 != 0; lVar6 = fn_82AB66F8(uVar1,lVar6)) {
-      piVar5 = (int *)fn_82AB67A8(lVar6);
-      if (*piVar5 == 0) {
-        fn_82B7F5B8(piVar5,uVar2,param_3,param_1[3]);
-      }
-      else {
-        fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820dbcd0,0xffffffff820dbba0,0x34a);
-      }
+    void *list = fn_82AB7358(source);
+    void *result;
+    if (fn_82AB60F0(list) != 0) {
+        unsigned int *program = fn_82AB7198(source);
+        unsigned int size = (program[0] + 2) * 4;
+        void *item;
+        result = self->allocate(self->allocatorContext, size);
+        memcpy(result, program, size);
+        for (item = fn_82AB63F8(list); item != 0; item = fn_82AB66F8(list, item)) {
+            int *description = fn_82AB67A8(item);
+            if (*description != 0) {
+                fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "!\"Unknown Patch Description\"",
+                            "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\"
+                            "ucode\\ssm\\statecompiler\\compiledprogram.cpp",
+                            0x34a);
+            } else {
+                fn_82B7F5B8(description, result, patches, self->patchContext);
+            }
+        }
+        return result;
     }
-  }
-  return uVar2;
+    return 0;
 }
-

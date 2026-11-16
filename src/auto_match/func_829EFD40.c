@@ -1,21 +1,18 @@
-extern unsigned int lbl_8315C880;
-extern unsigned int lbl_8315C890;
-extern unsigned int lbl_8315C8A0;
-extern unsigned int lbl_8315C8B0;
-extern unsigned int lbl_8315C8C0;
+extern float lbl_8315C878[4];
+extern float lbl_8315C888[4];
+extern float lbl_8315C898[4];
+extern float lbl_8315C8A8[4];
+extern float lbl_8315C8B8[4];
 
-
-unsigned __int64 fn_829EFD40(unsigned int *param_1)
-
+int fn_829EFD40(float *out)
 {
-  if (param_1 == (unsigned int *)0x0) {
-    return 0xffffffff80070057;
-  }
-  *param_1 = lbl_8315C880;
-  param_1[1] = lbl_8315C890;
-  param_1[2] = lbl_8315C8A0;
-  param_1[3] = lbl_8315C8B0;
-  param_1[4] = lbl_8315C8C0;
-  return 0;
+    if (out == 0) {
+        return 0x80070057;
+    }
+    out[0] = lbl_8315C878[2];
+    out[1] = lbl_8315C888[2];
+    out[2] = lbl_8315C898[2];
+    out[3] = lbl_8315C8A8[2];
+    out[4] = lbl_8315C8B8[2];
+    return 0;
 }
-

@@ -1,69 +1,70 @@
-extern int fn_82BA02A8();
-extern int fn_82F0F9A0();
-extern int fn_82F23B08();
-extern int fn_82F23C88();
+typedef struct Entry_82F23DD0 {
+    int reserved;
+    int values[6]; /* 0x4 */
+    char pad01c[0xf8];
+} Entry_82F23DD0;
 
+typedef struct State_82F23DD0 {
+    char pad000[0x2d4];
+    int format;         /* 0x2d4 */
+    unsigned int count; /* 0x2d8 */
+    char pad2dc[0x814];
+    int state; /* 0xaf0 */
+    char pad0af4[0x1360];
+    Entry_82F23DD0 *entries; /* 0x1e54 */
+    char pad1e58[0x2c3c];
+    int first;  /* 0x4a94 */
+    int second; /* 0x4a98 */
+    int third;  /* 0x4a9c */
+    char pad4aa0[0x22b4];
+    int enabled; /* 0x6d54 */
+    char pad6d58[0xde0];
+    int ready; /* 0x7b38 */
+} State_82F23DD0;
 
-void fn_82F23DD0(int param_1)
+extern void fn_82F0F9A0(State_82F23DD0 *, int);
+extern void fn_82F23B08(State_82F23DD0 *);
+extern void fn_82F23C88(State_82F23DD0 *);
+extern void fn_82BA02A8(State_82F23DD0 *, int, int, int, int, int, Entry_82F23DD0 *);
 
+void fn_82F23DD0(State_82F23DD0 *self)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  unsigned int uVar3;
-  int *piVar4;
-  int *piVar5;
-  __int64 lVar6;
-  
-  if (*(int *)(param_1 + 0x6d54) == 0) {
-    iVar1 = *(int *)(param_1 + 0xaf0);
-    if ((iVar1 != 0) && (iVar1 != 4)) {
-      if (iVar1 == 2) {
-        uVar3 = 0;
-        if (*(int *)(param_1 + 0x2d8) != 0) {
-          piVar4 = (int *)(*(int *)(param_1 + 0x1e54) + 4);
-          do {
-            lVar6 = 6;
-            piVar5 = piVar4;
-            do {
-              if (0 < *piVar5) {
-                *piVar5 = 1;
-              }
-              piVar5 = piVar5 + 1;
-              lVar6 = lVar6 + -1;
-            } while (lVar6 != 0);
-            uVar3 = uVar3 + 1;
-            piVar4 = piVar4 + 0x45;
-          } while (uVar3 < *(unsigned int *)(param_1 + 0x2d8));
+    if (self->enabled != 0) {
+        if (self->ready != 0) {
+            if (self->state == 0 || self->state == 4) {
+                fn_82F0F9A0(self, 13);
+                return;
+            }
+        } else {
+            if (self->state != 0 && self->state != 4) {
+                fn_82BA02A8(self, 0, self->format, self->first, self->second, self->third, self->entries);
+                fn_82F0F9A0(self, 21);
+                return;
+            } else {
+                fn_82BA02A8(self, 0, self->format, self->first, self->second, self->third, self->entries);
+                fn_82F0F9A0(self, 19);
+                return;
+            }
         }
-      }
-LAB_82f23f00:
-      fn_82F23B08(param_1);
-      fn_82F23C88(param_1);
-      return;
+    } else {
+        if (self->state == 0 || self->state == 4) {
+            fn_82F0F9A0(self, 13);
+            return;
+        }
+        if (self->state == 2) {
+            Entry_82F23DD0 *entry = self->entries;
+            unsigned int index;
+            for (index = 0; index < self->count; index++, entry++) {
+                int *value = entry->values;
+                int component;
+                for (component = 0; component < 6; component++, value++) {
+                    if (*value > 0) {
+                        *value = 1;
+                    }
+                }
+            }
+        }
     }
-  }
-  else {
-    iVar1 = *(int *)(param_1 + 0xaf0);
-    if (*(int *)(param_1 + 0x7b38) == 0) {
-      if ((iVar1 == 0) || (iVar1 == 4)) {
-        fn_82BA02A8(param_1,0,*(unsigned int *)(param_1 + 0x2d4),*(unsigned int *)(param_1 + 0x4a94),
-                     *(unsigned int *)(param_1 + 0x4a98),*(unsigned int *)(param_1 + 0x4a9c),
-                     *(unsigned int *)(param_1 + 0x1e54));
-        uVar2 = 0x13;
-      }
-      else {
-        fn_82BA02A8(param_1,0,*(unsigned int *)(param_1 + 0x2d4),*(unsigned int *)(param_1 + 0x4a94),
-                     *(unsigned int *)(param_1 + 0x4a98),*(unsigned int *)(param_1 + 0x4a9c),
-                     *(unsigned int *)(param_1 + 0x1e54));
-        uVar2 = 0x15;
-      }
-      goto LAB_82f23e14;
-    }
-    if ((iVar1 != 0) && (iVar1 != 4)) goto LAB_82f23f00;
-  }
-  uVar2 = 0xd;
-LAB_82f23e14:
-  fn_82F0F9A0(param_1,uVar2);
-  return;
+    fn_82F23B08(self);
+    fn_82F23C88(self);
 }
-

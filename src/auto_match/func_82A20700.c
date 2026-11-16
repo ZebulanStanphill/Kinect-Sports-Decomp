@@ -1,36 +1,40 @@
-extern int fn_82A1E810();
-extern int fn_82A1F2F8();
-extern unsigned int lbl_83219BC4;
-extern unsigned int lbl_83219C0C;
-extern unsigned int lbl_83219C58;
-extern unsigned int uRam83219c10;
-extern unsigned int uRam83219c14;
+typedef struct State_82A20700 {
+    char padding[0x10];
+    int criticalSection[6]; /* 0x10 */
+    char padding28[0x0c];
+    int handle; /* 0x34 */
+    char padding38[0x44];
+    int pending;           /* 0x7c */
+    unsigned int deadline; /* 0x80 */
+    int state;             /* 0x84 */
+    char padding88[0x40];
+    int count; /* 0xc8 */
+} State_82A20700;
 
+extern State_82A20700 lbl_83219B90;
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
+extern unsigned int fn_82A1F2F8(void);
+extern void fn_82A1E810(int);
 
-void fn_82A20700(int param_1)
-
+void fn_82A20700(unsigned int delay)
 {
-  int iVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  
-  RtlEnterCriticalSection(0xffffffff83219ba0);
-  if (param_1 == 0) {
-    uRam83219c10 = 0;
-    lbl_83219C0C = (unsigned int)LZCOUNT(lbl_83219C58) >> 5;
-  }
-  else {
-    iVar1 = fn_82A1F2F8();
-    uVar3 = iVar1 + param_1 | 1;
-    if ((uRam83219c10 != 0) && (uVar2 = uRam83219c10 - uVar3, uRam83219c10 = uVar3, 3599999 < uVar2)
-       ) goto code_r0x82a207a4;
-    lbl_83219C0C = 1;
-    uRam83219c10 = uVar3;
-  }
-  uRam83219c14 = 0;
-  fn_82A1E810(lbl_83219BC4);
-code_r0x82a207a4:
-  RtlLeaveCriticalSection(0xffffffff83219ba0);
-  return;
+    RtlEnterCriticalSection(lbl_83219B90.criticalSection);
+    if (delay != 0) {
+        unsigned int deadline = (fn_82A1F2F8() + delay) | 1;
+        if (lbl_83219B90.deadline != 0 && lbl_83219B90.deadline - deadline >= 3600000) {
+            lbl_83219B90.deadline = deadline;
+        } else {
+            lbl_83219B90.deadline = deadline;
+            lbl_83219B90.state = 0;
+            lbl_83219B90.pending = 1;
+            fn_82A1E810(lbl_83219B90.handle);
+        }
+    } else {
+        lbl_83219B90.deadline = 0;
+        lbl_83219B90.state = 0;
+        lbl_83219B90.pending = lbl_83219B90.count == 0;
+        fn_82A1E810(lbl_83219B90.handle);
+    }
+    RtlLeaveCriticalSection(lbl_83219B90.criticalSection);
 }
-

@@ -1,27 +1,12 @@
-extern int fn_8264D808();
+extern const unsigned short *fn_8264D808(unsigned int mode);
 
-
-void fn_8264DA70(int param_1,int param_2,unsigned __int64 param_3)
-
+void fn_8264DA70(unsigned short *destination, const unsigned short *source, unsigned int mode)
 {
-  int iVar1;
-  unsigned short *puVar2;
-  short *psVar3;
-  __int64 lVar4;
-  
-  iVar1 = fn_8264D808(param_3);
-  puVar2 = (unsigned short *)(param_2 + 0x3fe);
-  psVar3 = (short *)(param_1 + 0x200);
-  lVar4 = 0x100;
-  do {
-    psVar3[-0x100] = *(short *)((puVar2[-0x1ff] >> 5 & 0x7fffffe) + iVar1) << 6;
-    *psVar3 = *(short *)((*(unsigned short *)((param_2 - param_1) + (int)psVar3) >> 5 & 0x7fffffe) + iVar1)
-              << 6;
-    puVar2 = puVar2 + 1;
-    psVar3[0x100] = *(short *)((*puVar2 >> 5 & 0x7fffffe) + iVar1) << 6;
-    psVar3 = psVar3 + 1;
-    lVar4 = lVar4 + -1;
-  } while (lVar4 != 0);
-  return;
+    const unsigned short *table = fn_8264D808(mode);
+    int index;
+    for (index = 0; index < 256; index++) {
+        destination[index] = table[source[index] >> 6] << 6;
+        destination[index + 256] = table[source[index + 256] >> 6] << 6;
+        destination[index + 512] = table[source[index + 512] >> 6] << 6;
+    }
 }
-

@@ -1,43 +1,63 @@
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_40;
-extern int fn_8304DD90();
-extern int fn_8304DE60();
-extern unsigned int uStack_28;
-extern unsigned int uStack_2c;
+typedef __declspec(align(16)) struct State_8304E390 {
+    unsigned int reserved;
+    unsigned int first;
+    unsigned int second;
+} State_8304E390;
+typedef struct Device_8304E390 Device_8304E390;
 
+typedef struct Vtable_8304E390 {
+    void *reserved[3];
+    void (*GetState)(Device_8304E390 *self, State_8304E390 *state);
+    void (*SetState)(Device_8304E390 *self, State_8304E390 *state);
+    void *reserved14[7];
+    void (*Reset)(Device_8304E390 *self);
+} Vtable_8304E390;
 
-unsigned __int64 fn_8304E390(int param_1)
+struct Device_8304E390 {
+    Vtable_8304E390 *vtable;
+};
 
+typedef struct Object_8304E390 {
+    char padding[0x1c];
+    unsigned short type;
+    char padding1e[0xa];
+    Device_8304E390 *device;
+    char padding2c[8];
+    int first;
+    int second;
+    int third;
+    unsigned char active;
+    char padding41[0xb];
+    unsigned int stateFirst;
+    unsigned int stateSecond;
+} Object_8304E390;
+
+extern int fn_8304DD90(Object_8304E390 *self, unsigned int *out);
+extern int fn_8304DE60(Object_8304E390 *self, unsigned int value);
+
+int fn_8304E390(Object_8304E390 *self)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  unsigned int auStack_40;
-  unsigned char auStack_30 [4];
-  unsigned int uStack_2c;
-  unsigned int uStack_28;
-  
-  uVar1 = fn_8304DD90(param_1,&auStack_40);
-  if ((int)uVar1 == 1) {
-    iVar2 = fn_8304DE60(param_1,auStack_40);
-    if (iVar2 == 1) {
-      (**(int (***)())(**(int **)(param_1 + 0x28) + 0xc))(*(int **)(param_1 + 0x28),auStack_30);
-      if ((*(unsigned short *)(param_1 + 0x1c) == 0) || (1 < *(unsigned short *)(param_1 + 0x1c))) {
-        uStack_2c = *(unsigned int *)(param_1 + 0x4c);
-        uStack_28 = *(unsigned int *)(param_1 + 0x50);
-      }
-      else {
-        uStack_2c = 0;
-        uStack_28 = 0;
-      }
-      (**(int (***)())(**(int **)(param_1 + 0x28) + 0x10))(*(int **)(param_1 + 0x28),auStack_30);
-      (**(int (***)())(**(int **)(param_1 + 0x28) + 0x30))();
-      *(unsigned int *)(param_1 + 0x3c) = 0;
-      *(unsigned int *)(param_1 + 0x34) = 0;
-      *(unsigned int *)(param_1 + 0x38) = 0;
-      *(unsigned char *)(param_1 + 0x40) = 0;
+    unsigned int value;
+    State_8304E390 state;
+    int result = fn_8304DD90(self, &value);
+    if (result == 1) {
+        if (fn_8304DE60(self, value) == 1) {
+            self->device->vtable->GetState(self->device, &state);
+            if (self->type != 0 && self->type <= 1) {
+                state.first = 0;
+                state.second = 0;
+            } else {
+                state.first = self->stateFirst;
+                state.second = self->stateSecond;
+            }
+            self->device->vtable->SetState(self->device, &state);
+            self->device->vtable->Reset(self->device);
+            self->third = 0;
+            self->first = 0;
+            self->second = 0;
+            self->active = 0;
+        }
+        result = 1;
     }
-    uVar1 = 1;
-  }
-  return uVar1;
+    return result;
 }
-

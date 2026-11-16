@@ -1,38 +1,38 @@
-extern int fn_82809CB0();
-extern unsigned int lbl_8218EC10;
+typedef struct Entry_822BCD58 {
+    float angle; /* 0x00 */
+    char padding[0x1c];
+    unsigned int first;  /* 0x20 */
+    unsigned int second; /* 0x24 */
+    char padding28[0x10];
+    float distance; /* 0x38 */
+} Entry_822BCD58;
 
+extern float lbl_8218EC10;
+extern float fn_82809CB0(float);
 
-unsigned __int64 fn_822BCD58(float *param_1,float *param_2)
-
+int fn_822BCD58(const Entry_822BCD58 *first, const Entry_822BCD58 *second)
 {
-  unsigned __int64 uVar1;
-  double dVar2;
-  double dVar3;
-  double dVar4;
-  
-  if ((unsigned int)param_2[8] < (unsigned int)param_1[8]) {
-LAB_822bcd8c:
-    uVar1 = 1;
-  }
-  else {
-    dVar4 = (double)lbl_8218EC10;
-    if ((float)((double)param_2[0xe] - dVar4) <= param_1[0xe]) {
-      if ((float)((double)param_2[0xe] + dVar4) < param_1[0xe]) goto LAB_822bcd8c;
-      if ((unsigned int)param_2[9] <= (unsigned int)param_1[9]) {
-        if ((unsigned int)param_2[9] < (unsigned int)param_1[9]) goto LAB_822bcd8c;
-        dVar2 = (double)fn_82809CB0((double)*param_1);
-        dVar3 = (double)fn_82809CB0((double)*param_2);
-        if (dVar2 <= (double)(float)(dVar3 + dVar4)) {
-          dVar2 = (double)fn_82809CB0((double)*param_1);
-          dVar3 = (double)fn_82809CB0((double)*param_2);
-          if (dVar2 < (double)(float)(dVar3 + dVar4)) {
-            return 1;
-          }
-        }
-      }
-    }
-    uVar1 = 0;
-  }
-  return uVar1;
-}
+    float tolerance;
 
+    if (first->first > second->first) {
+        return 1;
+    }
+    tolerance = lbl_8218EC10;
+
+    if (first->distance < second->distance - tolerance) {
+        return 0;
+    }
+    if (first->distance > second->distance + tolerance) {
+        return 1;
+    }
+    if (first->second < second->second) {
+        return 0;
+    }
+    if (first->second > second->second) {
+        return 1;
+    }
+    if (fn_82809CB0(first->angle) > fn_82809CB0(second->angle) + tolerance) {
+        return 0;
+    }
+    return fn_82809CB0(first->angle) < fn_82809CB0(second->angle) + tolerance;
+}
