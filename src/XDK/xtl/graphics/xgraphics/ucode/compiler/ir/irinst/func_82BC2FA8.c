@@ -1,30 +1,40 @@
-#define true 1
-extern int fn_82AB15D0();
+typedef struct Instruction_82BC2FA8 Instruction_82BC2FA8;
 
+struct Instruction_82BC2FA8 {
+    int (**vtable)(Instruction_82BC2FA8 *);
+    int unused4;
+    Instruction_82BC2FA8 *next; /* 0x8 */
+    char pad[8];
+    int inputCount; /* 0x14 */
+    char pad18[0xcc];
+    unsigned int flags;              /* 0xe4 */
+    Instruction_82BC2FA8 *inputs[1]; /* 0xe8 */
+};
 
-unsigned __int64 fn_82BC2FA8(int param_1,int param_2,int *param_3)
+extern void fn_82AB15D0(int, const char *, ...);
 
+unsigned char fn_82BC2FA8(Instruction_82BC2FA8 *self, int arg, Instruction_82BC2FA8 *first)
 {
-  int *piVar1;
-  unsigned int *puVar2;
-  char cVar3;
-  unsigned __int64 uVar4;
-  
-  uVar4 = 0;
-  piVar1 = *(int **)((param_2 + 0x3a) * 4 + param_1);
-  while( true ) {
-    if ((param_3 == (int *)0x0) || (uVar4 != 0)) {
-      return 0;
+    Instruction_82BC2FA8 *input = self->inputs[arg];
+    Instruction_82BC2FA8 *head = first;
+    unsigned char stop = 0;
+    while (head) {
+        if (stop) {
+            return 0;
+        }
+        if ((head->flags & 1) && input == head) {
+            if ((arg != self->inputCount || !(unsigned char)((self->flags >> 9) & 1)) &&
+                !(unsigned char)input->vtable[13](input)) {
+                fn_82AB15D0(0, "Assertion failed: %s (%s:%u)",
+                            "(arg == NumInputs() && HasPartialWriteInput()) || head->IsPseudo()",
+                            "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\"
+                            "xgraphics\\ucode\\compiler\\ir\\irinst.cpp",
+                            0x287);
+            }
+            return 1;
+        }
+        stop = (~head->flags >> 2) & 1;
+        head = head->next;
     }
-    puVar2 = (unsigned int *)(param_3 + 0x39);
-    if (((*puVar2 & 1) != 0) && (piVar1 == param_3)) break;
-    param_3 = (int *)param_3[2];
-    uVar4 = (~(unsigned __int64)*puVar2 & 0xffffffff) >> 2 & 1;
-  }
-  if (((param_2 != *(int *)(param_1 + 0x14)) || ((*(unsigned int *)(param_1 + 0xe4) >> 9 & 1) == 0)) &&
-     (cVar3 = (**(int (***)())(*piVar1 + 0x34))(), cVar3 == '\0')) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820e3c28,0xffffffff820e3b18,0x287);
-  }
-  return 1;
+    return 0;
 }
-

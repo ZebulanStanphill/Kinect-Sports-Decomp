@@ -1,37 +1,30 @@
-extern unsigned int iStack00000024;
-extern unsigned int iStack0000002c;
-extern unsigned int uStack00000020;
-extern unsigned int uStack00000028;
+typedef struct Rect_829E5CA0 {
+    int left;   /* 0x00 */
+    int top;    /* 0x04 */
+    int right;  /* 0x08 */
+    int bottom; /* 0x0c */
+} Rect_829E5CA0;
 
+typedef struct Image_829E5CA0 {
+    char pad[0x30];      /* 0x00 */
+    unsigned int width;  /* 0x30 */
+    unsigned int height; /* 0x34 */
+} Image_829E5CA0;
 
-unsigned __int64 fn_829E5CA0(int param_1,unsigned __int64 param_2,unsigned __int64 param_3)
-
+int fn_829E5CA0(Image_829E5CA0 *self, Rect_829E5CA0 rect)
 {
-  unsigned int uStack00000020;
-  int iStack00000024;
-  unsigned int uStack00000028;
-  int iStack0000002c;
-  
-  uStack00000028 = (unsigned int)(param_3 >> 0x20);
-  iStack0000002c = (int)param_3;
-  iStack00000024 = (int)param_2;
-  uStack00000020 = (unsigned int)(param_2 >> 0x20);
-  if (((uStack00000028 == 0) && (uStack00000020 == 0)) && (iStack00000024 == 0)) {
-    if (iStack0000002c == 0) {
-      return 0xffffffff80070057;
+    if (rect.right == 0 && rect.left == 0 && rect.top == 0) {
+        if (rect.bottom == 0) {
+            return 0x80070057;
+        }
+    } else if (rect.top < 0) {
+        return 0x80070057;
     }
-  }
-  else if (iStack00000024 < 0) {
-    return 0xffffffff80070057;
-  }
-  if (((iStack00000024 < iStack0000002c) &&
-      (((param_3 & 0xffffffff) - (param_2 & 0xffffffff) & 0xffffffff) <=
-       (unsigned __int64)*(unsigned int *)(param_1 + 0x34))) &&
-     ((-1 < (__int64)param_2 && ((int)uStack00000020 < (int)uStack00000028)))) {
-    return -(unsigned __int64)
-            ((unsigned __int64)*(unsigned int *)(param_1 + 0x30) <
-            (unsigned __int64)uStack00000028 - (unsigned __int64)uStack00000020) & 0xffffffff80070057;
-  }
-  return 0xffffffff80070057;
+    if (rect.bottom <= rect.top || (unsigned int)(rect.bottom - rect.top) > self->height) {
+        return 0x80070057;
+    }
+    if (rect.left < 0 || rect.right <= rect.left) {
+        return 0x80070057;
+    }
+    return self->width < (unsigned int)(rect.right - rect.left) ? 0x80070057 : 0;
 }
-

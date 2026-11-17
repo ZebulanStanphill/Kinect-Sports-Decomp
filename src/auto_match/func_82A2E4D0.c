@@ -1,33 +1,25 @@
-extern int fn_82A2C868();
+extern unsigned __int64 fn_82A2C868(unsigned int packed);
 
-
-void fn_82A2E4D0(int param_1,unsigned __int64 *param_2)
-
+void fn_82A2E4D0(unsigned char *self, unsigned __int64 *output)
 {
-  unsigned __int64 uVar1;
-  
-  if ((*(unsigned char *)(param_1 + 0x35) & 4) == 0) {
-    uVar1 = fn_82A2C868(*(unsigned int *)(param_1 + 0x40));
-    *param_2 = uVar1;
-    uVar1 = fn_82A2C868(*(unsigned int *)(param_1 + 0x44));
-  }
-  else {
-    uVar1 = 0;
-    *param_2 = 0;
-  }
-  param_2[1] = uVar1;
-  param_2[2] = uVar1;
-  param_2[3] = uVar1;
-  if ((*(unsigned char *)(param_1 + 0x35) & 2) == 0) {
-    *(unsigned int *)(param_2 + 6) = 0x80;
-    param_2[4] = (unsigned __int64)*(unsigned int *)(param_1 + 0x14);
-    param_2[5] = (unsigned __int64)*(unsigned int *)(param_1 + 0x18);
-  }
-  else {
-    param_2[4] = 0;
-    param_2[5] = 0;
-    *(unsigned int *)(param_2 + 6) = 0x10;
-  }
-  return;
+    unsigned __int64 time;
+    if (self[0x35] & 4) {
+        time = 0;
+        output[0] = 0;
+    } else {
+        output[0] = fn_82A2C868(*(unsigned int *)(self + 0x40));
+        time = fn_82A2C868(*(unsigned int *)(self + 0x44));
+    }
+    output[1] = time;
+    output[2] = time;
+    output[3] = time;
+    if (self[0x35] & 2) {
+        output[4] = 0;
+        output[5] = 0;
+        *(unsigned int *)(output + 6) = 0x10;
+    } else {
+        *(unsigned int *)(output + 6) = 0x80;
+        output[4] = *(unsigned int *)(self + 0x14);
+        output[5] = *(unsigned int *)(self + 0x18);
+    }
 }
-

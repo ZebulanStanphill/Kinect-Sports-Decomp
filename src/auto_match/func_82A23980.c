@@ -1,40 +1,38 @@
-extern unsigned int *auStack_20;
-extern int fn_82A20E30();
-extern int fn_82A214B0();
-extern int fn_82A23408();
-extern int fn_82A23880();
-extern unsigned int lbl_83219B94;
-extern unsigned int lbl_83219C84;
-extern unsigned int lbl_83219C88;
+extern unsigned char lbl_83219B90[];
+extern void RtlEnterCriticalSection(void *lock);
+extern void RtlLeaveCriticalSection(void *lock);
+extern int fn_82A20E30(void *id);
+extern unsigned int *fn_82A23408(void *cache, int flags, void *key, unsigned int size, int mode);
+extern void fn_82A214B0(void *cache, void *entry);
+extern unsigned int fn_82A23880(void *id);
 
-
-unsigned char fn_82A23980(void)
-
+unsigned int fn_82A23980(void)
 {
-  int iVar1;
-  unsigned char auStack_20 [16];
-  
-  if (lbl_83219C88 == 0) {
-    RtlEnterCriticalSection(0xffffffff83219ba0);
-    iVar1 = fn_82A20E30(auStack_20);
-    if (iVar1 == 0) {
-      lbl_83219C88 = 1;
-      lbl_83219C84 = 0;
-    }
-    else {
-      iVar1 = fn_82A23408(lbl_83219B94,0,auStack_20,0x10,0);
-      if (iVar1 == 0) {
-        RtlLeaveCriticalSection(0xffffffff83219ba0);
-        lbl_83219C84 = fn_82A23880(auStack_20);
-        lbl_83219C88 = 1;
-        return lbl_83219C84;
-      }
-      lbl_83219C88 = 1;
-      lbl_83219C84 = (unsigned char)*(unsigned int *)(iVar1 + 8);
-      fn_82A214B0(lbl_83219B94);
-    }
-    RtlLeaveCriticalSection(0xffffffff83219ba0);
-  }
-  return lbl_83219C84;
-}
+    unsigned char id[16];
+    unsigned int *entry;
+    unsigned int value;
 
+    if (*(int *)(lbl_83219B90 + 0xf8) == 0) {
+        RtlEnterCriticalSection(lbl_83219B90 + 0x10);
+        if (fn_82A20E30(id)) {
+            entry = fn_82A23408(*(void **)(lbl_83219B90 + 4), 0, id, 16, 0);
+            if (entry) {
+                value = entry[2];
+                *(int *)(lbl_83219B90 + 0xf8) = 1;
+                lbl_83219B90[0xf4] = (unsigned char)value;
+                fn_82A214B0(*(void **)(lbl_83219B90 + 4), entry);
+            } else {
+                RtlLeaveCriticalSection(lbl_83219B90 + 0x10);
+                lbl_83219B90[0xf4] = fn_82A23880(id);
+                *(int *)(lbl_83219B90 + 0xf8) = 1;
+                goto done;
+            }
+        } else {
+            *(int *)(lbl_83219B90 + 0xf8) = 1;
+            lbl_83219B90[0xf4] = 0;
+        }
+        RtlLeaveCriticalSection(lbl_83219B90 + 0x10);
+    }
+done:
+    return lbl_83219B90[0xf4];
+}

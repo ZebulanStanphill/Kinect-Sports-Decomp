@@ -1,37 +1,27 @@
-extern int fn_8265C9E0();
-extern int fn_82897FE8();
-extern unsigned int lbl_821C2CA0;
+extern void *fn_8265C9E0(unsigned int size);
+extern void fn_82897FE8(void *manager, void *object);
+extern char lbl_821C2CA0[];
 
-
-void fn_8224E590(int *param_1,unsigned __int64 param_2)
-
+void fn_8224E590(int *self, void *request)
 {
-  unsigned int uVar1;
-  int *piVar3;
-  char cVar4;
-  __int64 lVar2;
-  
-  piVar3 = (int *)fn_8265C9E0(0x7dc);
-  if (piVar3 == (int *)0x0) {
-    piVar3 = (int *)0x0;
-  }
-  else {
-    piVar3[1] = 1;
-    *piVar3 = (int)&lbl_821C2CA0;
-    piVar3[0x1f6] = 0;
-  }
-  cVar4 = (**(int (***)())(*piVar3 + 0x18))(piVar3,param_2);
-  if (cVar4 == '\0') {
-    uVar1 = piVar3[1];
-    piVar3[1] = (int)((unsigned __int64)uVar1 - 1);
-    if ((unsigned __int64)uVar1 - 1 == 0) {
-      (**(int (***)())(*piVar3 + 0x14))(piVar3,1);
-    }
-  }
-  else {
-    lVar2 = (**(int (***)())(*param_1 + 8))(param_1);
-    fn_82897FE8(lVar2 + 0x2e8,piVar3);
-  }
-  return;
-}
+    int *object;
+    int *memory;
+    char *manager;
 
+    memory = (int *)fn_8265C9E0(0x7dc);
+    if (memory != 0) {
+        memory[1] = 1;
+        memory[0] = (int)lbl_821C2CA0;
+        memory[0x1f6] = 0;
+        object = memory;
+    } else {
+        object = 0;
+    }
+    if ((*(unsigned char (**)(void *, void *))(*object + 0x18))(object, request)) {
+        fn_82897FE8((*(char *(**)(void *))(*self + 8))(self) + 0x2e8, object);
+    } else {
+        if (--object[1] == 0) {
+            (*(void (**)(void *, int))(*object + 0x14))(object, 1);
+        }
+    }
+}

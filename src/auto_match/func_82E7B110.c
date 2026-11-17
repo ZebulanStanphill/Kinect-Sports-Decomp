@@ -1,28 +1,43 @@
-extern unsigned int *auStack_160;
-extern unsigned int *auStack_1b0;
-extern int fn_82E79690();
-extern int memset();
+extern int fn_82E79690(void *self, void *state);
+extern int fn_82E7AE00(void *self, void *packet, void *source, int flags);
+extern unsigned int fn_82E798F8(void *self);
+extern int fn_82E7AC38(void *self, void *state);
+extern void *memset(void *out, int value, unsigned int size);
 
-
-unsigned __int64 fn_82E7B110(unsigned __int64 param_1)
-
+int fn_82E7B110(char *self, unsigned short type, unsigned char flags, void *source, unsigned int *available)
 {
-  unsigned __int64 uVar1;
-  unsigned int *in_r7;
-  unsigned char auStack_1b0 [80];
-  unsigned char auStack_160 [320];
-  
-  if (in_r7 == (unsigned int *)0x0) {
-    uVar1 = 0xffffffff80070057;
-  }
-  else {
-    *in_r7 = 0;
-    uVar1 = fn_82E79690(param_1,auStack_1b0);
-    if (-1 < (int)uVar1) {
-                    /* WARNING: Subroutine does not return */
-      memset(auStack_160,0,0x125);
-    }
-  }
-  return uVar1;
-}
+    unsigned char state[0x4c];
+    unsigned char packet[0x125];
+    int result;
+    unsigned int used;
+    unsigned int limit;
 
+    if (!available) {
+        return 0x80070057;
+    }
+    *available = 0;
+    result = fn_82E79690(self, state);
+    if (result >= 0) {
+        memset(packet, 0, sizeof(packet));
+        *(unsigned short *)packet = type;
+        packet[6] = flags;
+        result = fn_82E7AE00(self, packet, source, 0);
+        if (result >= 0) {
+            used = fn_82E798F8(self);
+            if (*(unsigned int *)(self + 0x160) == 0) {
+                limit = *(unsigned int *)(self + 0x148);
+            } else {
+                limit = 64000;
+            }
+            if (used <= limit) {
+                *available = limit - used;
+            } else {
+                *available = 0;
+            }
+        } else {
+            *available = 0;
+        }
+        result = fn_82E7AC38(self, state);
+    }
+    return result;
+}

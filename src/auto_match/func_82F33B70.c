@@ -1,54 +1,45 @@
-#define true 1
-
-
-unsigned __int64 fn_82F33B70(unsigned short param_1,unsigned __int64 param_2,unsigned int *param_3)
-
+unsigned int fn_82F33B70(unsigned short count, unsigned int initial, unsigned int *factors)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned short uVar3;
-  unsigned __int64 uVar4;
-  unsigned int uVar6;
-  unsigned __int64 uVar5;
-  
-  if (param_1 == 0) {
-    return 0;
-  }
-  uVar3 = 0;
-  if (param_1 == 0) {
-    return param_2;
-  }
-  do {
-    uVar2 = (unsigned int)param_2;
-    uVar1 = *param_3;
-    uVar4 = (param_2 & 0xffffffff) >> 0x10;
-    if ((uVar4 == 0) && (uVar1 >> 0x10 == 0)) {
-      param_2 = (__int64)(int)(uVar1 & 0xffff) * (__int64)(int)(uVar2 & 0xffff);
-    }
-    else {
-      if ((uVar4 != 0) && (uVar1 >> 0x10 != 0)) {
-        return 0xffffffffffffffff;
-      }
-      uVar6 = uVar1;
-      if (uVar1 >> 0x10 != 0) {
-        uVar6 = uVar2;
-        uVar2 = uVar1;
-      }
-      uVar4 = (__int64)(int)(uVar2 >> 0x10) * (__int64)(int)(uVar6 & 0xffff);
-      if (uVar4 >> 0x10 != 0) {
-        return 0xffffffffffffffff;
-      }
-      uVar5 = (__int64)(int)(uVar2 & 0xffff) * (__int64)(int)(uVar6 & 0xffff);
-      param_2 = (uVar4 * 0x10000 & 0xffff0000) + uVar5;
-      if ((param_2 & 0xffffffff) < uVar5) {
-        return 0xffffffffffffffff;
-      }
-    }
-    param_3 = param_3 + 2;
-    uVar3 = uVar3 + 1;
-    if (param_1 <= uVar3) {
-      return param_2;
-    }
-  } while( true );
-}
+    unsigned int product;
+    unsigned short index;
+    unsigned int value;
+    unsigned int high;
+    unsigned int low;
+    unsigned int partial;
+    unsigned int last;
 
+    product = 0;
+    if (count != 0) {
+        product = initial;
+        index = 0;
+        while (index < count) {
+            value = *factors;
+            high = product >> 16;
+            low = product;
+            if (high == 0 && (unsigned short)(value >> 16) == 0) {
+                product = (value & 0xffff) * (product & 0xffff);
+            } else {
+                if ((product >> 16) != 0 && (unsigned short)(value >> 16) != 0) {
+                    return -1;
+                }
+                if ((unsigned short)(value >> 16) != 0) {
+                    low = value;
+                    value = product;
+                }
+                value &= 0xffff;
+                partial = (low >> 16) * value;
+                if ((unsigned short)(partial >> 16) != 0) {
+                    return -1;
+                }
+                last = (low & 0xffff) * value;
+                product = (partial << 16) + last;
+                if (product < last) {
+                    return -1;
+                }
+            }
+            factors += 2;
+            ++index;
+        }
+    }
+    return product;
+}

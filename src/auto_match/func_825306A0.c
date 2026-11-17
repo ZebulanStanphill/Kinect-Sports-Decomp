@@ -1,35 +1,27 @@
-extern int fn_82530948();
-extern int fn_82531118();
-extern int fn_825315E0();
-extern unsigned int lbl_8320A898;
-extern unsigned int lbl_83296BAC;
-extern unsigned int lbl_83296BB0;
-extern unsigned int lbl_83296BB4;
-extern unsigned int lbl_83296BB8;
-extern unsigned int lbl_83296BBC;
+extern void *lbl_8320A898;
+extern int lbl_83296890[];
+extern void fn_82530948(void *);
+extern void fn_825315E0(void *);
+extern void fn_82531118(void);
 
-
-void fn_825306A0(int param_1)
-
+void fn_825306A0(unsigned int state)
 {
-  unsigned int uVar1;
-  
-  uVar1 = lbl_8320A898;
-  if (param_1 == 0) {
-    if (lbl_83296BAC != 0) {
-      lbl_83296BAC = 0;
-      lbl_83296BBC = 1;
-      lbl_83296BB0 = 1;
-      lbl_83296BB4 = 1;
-      fn_82530948(lbl_8320A898);
-      fn_825315E0(uVar1);
-      fn_82531118();
+    void *self = lbl_8320A898;
+    switch (state) {
+    case 0:
+        if (lbl_83296890[0x31c / 4] != 0) {
+            lbl_83296890[0x31c / 4] = 0;
+            lbl_83296890[0x32c / 4] = 1;
+            lbl_83296890[0x320 / 4] = 1;
+            lbl_83296890[0x324 / 4] = 1;
+            fn_82530948(self);
+            fn_825315E0(self);
+            fn_82531118();
+        }
+        break;
+    case 1:
+        lbl_83296890[0x328 / 4] = 1;
+        fn_825315E0(self);
+        break;
     }
-  }
-  else if (param_1 == 1) {
-    lbl_83296BB8 = 1;
-    fn_825315E0(lbl_8320A898);
-  }
-  return;
 }
-

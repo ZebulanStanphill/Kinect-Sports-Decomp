@@ -1,32 +1,43 @@
-extern int fn_82230360();
-extern int fn_8234B0C8();
-extern int fn_827F3580();
-extern int fn_827F5708();
-extern unsigned int ltcg_pool_0_0f;
+typedef struct String_8234B020 {
+    char data[16];         /* 0x0 */
+    unsigned int size;     /* 0x10 */
+    unsigned int capacity; /* 0x14 */
+    int allocator;         /* 0x18 */
+} String_8234B020;
 
+typedef struct Context_8234B020 {
+    int unknown;
+    String_8234B020 name; /* 0x4 */
+    void *animation;      /* 0x20 */
+    void *controller;     /* 0x24 */
+    int unknown28;
+    int current; /* 0x2c */
+    int unknown30;
+    int state;   /* 0x34 */
+    int enabled; /* 0x38 */
+} Context_8234B020;
 
-void fn_8234B020(int param_1)
+extern void fn_827F5708(void *, float);
+extern void fn_827F3580(void *, float, float, int);
+extern void fn_82230360(String_8234B020 *, const char *, unsigned int);
+extern void fn_8234B0C8(Context_8234B020 *, const char *, float);
 
+void fn_8234B020(Context_8234B020 *self)
 {
-  unsigned int *puVar1;
-  double dVar2;
-  
-  dVar2 = (double)ltcg_pool_0_0f;
-  if (*(int *)(param_1 + 0x24) != 0) {
-    fn_827F5708(dVar2);
-  }
-  *(unsigned int *)(param_1 + 0x38) = 1;
-  *(unsigned int *)(param_1 + 0x34) = 0;
-  puVar1 = (unsigned int *)(param_1 + 4);
-  fn_82230360(puVar1,0xffffffff821b1acc,7);
-  if (*(int *)(param_1 + 0x20) != 0) {
-    fn_827F3580(dVar2,dVar2);
-    *(unsigned int *)(param_1 + 0x2c) = 0;
-    if (0xf < *(unsigned int *)(param_1 + 0x18)) {
-      puVar1 = (unsigned int *)*puVar1;
+    float zero = 0.0f;
+    String_8234B020 *name;
+    const char *text;
+    if (self->controller) {
+        fn_827F5708(self->controller, zero);
     }
-    fn_8234B0C8(dVar2,param_1,puVar1);
-  }
-  return;
+    self->enabled = 1;
+    self->state = 0;
+    name = &self->name;
+    fn_82230360(name, "neutral", 7);
+    if (self->animation) {
+        fn_827F3580(self->animation, zero, zero, 18);
+        self->current = 0;
+        text = name->capacity >= 16 ? *(char **)name->data : name->data;
+        fn_8234B0C8(self, text, zero);
+    }
 }
-

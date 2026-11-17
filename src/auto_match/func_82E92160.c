@@ -1,23 +1,23 @@
-extern int fn_82E92098();
+typedef struct Queue_82E92160 {
+    char *data;
+    unsigned int capacity;
+    char pad8[12];
+    unsigned int read;
+    unsigned int write;
+} Queue_82E92160;
 
+extern void fn_82E92098(Queue_82E92160 *, unsigned int);
 
-unsigned __int64 fn_82E92160(int *param_1,unsigned int param_2)
-
+int fn_82E92160(Queue_82E92160 *self, unsigned int value)
 {
-  unsigned int uVar1;
-  
-  if (*param_1 != 0) {
-    uVar1 = param_1[1];
-    trapWord(6,(unsigned __int64)uVar1,0);
-    if (param_1[5] != (param_1[6] + 3U) - ((param_1[6] + 3U) / uVar1) * uVar1) {
-      fn_82E92098(param_1);
-      *(unsigned int *)(param_1[6] * 0x28 + *param_1) = param_2;
-      uVar1 = param_1[1];
-      trapWord(6,(unsigned __int64)uVar1,0);
-      param_1[6] = (param_1[6] + 1U) - ((param_1[6] + 1U) / uVar1) * uVar1;
-      return 0;
+    if (!self->data) {
+        return -100;
     }
-  }
-  return 0xffffffffffffff9c;
+    if (self->read == (self->write + 3) % self->capacity) {
+        return -100;
+    }
+    fn_82E92098(self, self->write);
+    *(unsigned int *)(self->data + self->write * 40) = value;
+    self->write = (self->write + 1) % self->capacity;
+    return 0;
 }
-

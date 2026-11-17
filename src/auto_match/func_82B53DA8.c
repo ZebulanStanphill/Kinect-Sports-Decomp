@@ -1,49 +1,63 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_82AE7110();
-extern int fn_82B50AA8();
-extern int fn_82B50B00();
-extern int fn_82B52E60();
+typedef struct Token_82B53DA8 {
+    struct Token_82B53DA8 *next;
+    unsigned int count;
+    unsigned int unused[2];
+    void *value;
+} Token_82B53DA8;
 
+typedef struct FreeList_82B53DA8 {
+    char padding[0x20];
+    Token_82B53DA8 *head;
+} FreeList_82B53DA8;
 
-void fn_82B53DA8(int param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4,unsigned __int64 param_5)
+typedef struct Parser_82B53DA8 {
+    char padding[0x3cc];
+    FreeList_82B53DA8 freeList;
+} Parser_82B53DA8;
 
+typedef struct Flags_82B53DA8 {
+    int unused;
+    unsigned int flags;
+} Flags_82B53DA8;
+
+extern Token_82B53DA8 *fn_82AE7110(Parser_82B53DA8 *, void *, int, int);
+extern unsigned char fn_82B50AA8(Token_82B53DA8 *);
+extern int fn_82B50B00(Token_82B53DA8 *);
+extern void fn_82B52E60(Parser_82B53DA8 *, Flags_82B53DA8 *, void *, void *, void *, int);
+
+static __forceinline unsigned char Empty_82B53DA8(Token_82B53DA8 *token)
 {
-  bool bVar1;
-  unsigned int *puVar2;
-  char cVar4;
-  int iVar3;
-  
-  puVar2 = (unsigned int *)fn_82AE7110(param_1,param_4,0,0);
-  do {
-    if (puVar2[1] == 0) {
-      cVar4 = fn_82B50AA8(puVar2);
-      bVar1 = true;
-      if (cVar4 != '\0') goto LAB_82b53df8;
-    }
-    else {
-LAB_82b53df8:
-      bVar1 = false;
-    }
-    if (bVar1) {
-      *puVar2 = *(unsigned int *)(param_1 + 0x3ec);
-      *(unsigned int **)(param_1 + 0x3ec) = puVar2;
-      return;
-    }
-    iVar3 = fn_82B50B00(puVar2);
-    if (iVar3 == 0x21) {
-      *(unsigned int *)(param_2 + 4) = *(unsigned int *)(param_2 + 4) | 8;
-LAB_82b53e54:
-      *(unsigned int *)(param_2 + 4) = *(unsigned int *)(param_2 + 4) & 0xffffff8f | 0x30;
-    }
-    else {
-      if ((0x21 < iVar3) && (iVar3 < 0x26)) goto LAB_82b53e54;
-      if (puVar2[4] != 0) {
-        fn_82B52E60(param_1,param_2,param_3,puVar2[4],param_5,1);
-      }
-    }
-    puVar2[1] = 0;
-  } while( true );
+    return token->count == 0 && !fn_82B50AA8(token);
 }
 
+static __forceinline void Push_82B53DA8(FreeList_82B53DA8 *list, Token_82B53DA8 *token)
+{
+    token->next = list->head;
+    list->head = token;
+}
+
+void fn_82B53DA8(Parser_82B53DA8 *self, Flags_82B53DA8 *flags, void *context, void *input, void *out)
+{
+    Token_82B53DA8 *token = fn_82AE7110(self, input, 0, 0);
+    int kind;
+    while (!Empty_82B53DA8(token)) {
+        kind = fn_82B50B00(token);
+        switch (kind) {
+        default:
+            if (token->value != 0) {
+                fn_82B52E60(self, flags, context, token->value, out, 1);
+            }
+            break;
+        case 0x21:
+            flags->flags |= 8;
+        case 0x22:
+        case 0x23:
+        case 0x24:
+        case 0x25:
+            flags->flags = (flags->flags & ~0x70) | 0x30;
+            break;
+        }
+        token->count = 0;
+    }
+    Push_82B53DA8(&self->freeList, token);
+}

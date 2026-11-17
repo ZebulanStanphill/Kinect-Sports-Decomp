@@ -1,85 +1,71 @@
-#define true 1
-extern unsigned int *auStack_144;
-extern int fn_82CE5410();
-extern int fn_82CE6310();
-extern int fn_82CED628();
-extern unsigned int stack0x00000020;
-extern unsigned int uStack00000020;
-extern unsigned int uStack00000028;
-extern unsigned int uStack00000030;
-extern unsigned int uStack00000038;
-extern unsigned int uStack00000040;
-extern unsigned int uStack00000048;
-extern unsigned int uStack_148;
-extern unsigned int uStack_14c;
+typedef char *va_list;
+extern void __cdecl __va_start(va_list *args, ...);
 
+typedef struct Array_82CED738 {
+    char *data;        /* 0x00 */
+    int size;          /* 0x04 */
+    int capacity;      /* 0x08 */
+    char storage[256]; /* 0x0c */
+} Array_82CED738;
+typedef struct Allocator_82CED738 Allocator_82CED738;
 
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
+typedef struct Vtable_82CED738 {
+    void *pad[4];                                                            /* 0x00 */
+    void (*free)(Allocator_82CED738 *self, void *data, int count, int size); /* 0x10 */
+} Vtable_82CED738;
 
-void fn_82CED738(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5,unsigned __int64 param_6,unsigned __int64 param_7,unsigned __int64 param_8)
+struct Allocator_82CED738 {
+    Vtable_82CED738 *vtable; /* 0x00 */
+};
 
+typedef struct Router_82CED738 {
+    char pad[0x10];           /* 0x00 */
+    Allocator_82CED738 *heap; /* 0x10 */
+} Router_82CED738;
+
+extern Router_82CED738 *fn_82CE5410(void);
+extern void fn_82CE6310(Allocator_82CED738 *allocator, Array_82CED738 *array, int capacity, int size);
+extern int fn_82CFBB58(char *output, int capacity, const char *format, va_list args);
+extern void fn_82CED628(void *self, char *text);
+
+static __forceinline void reserve_82CED738(Array_82CED738 *array, int required)
 {
-  unsigned int uVar1;
-  __int64 lVar2;
-  int iVar3;
-  int iVar4;
-  __int64 lVar5;
-  unsigned int uVar6;
-  unsigned __int64 uStack00000020;
-  unsigned __int64 uStack00000028;
-  unsigned __int64 uStack00000030;
-  unsigned __int64 uStack00000038;
-  unsigned __int64 uStack00000040;
-  unsigned __int64 uStack00000048;
-  unsigned char *puStack_150;
-  unsigned int uStack_14c;
-  unsigned int uStack_148;
-  unsigned char auStack_144 [324];
-  
-  puStack_150 = auStack_144;
-  uStack_14c = 0;
-  uStack_148 = 0x800000ff;
-  uStack00000020 = param_3;
-  uStack00000028 = param_4;
-  uStack00000030 = param_5;
-  uStack00000038 = param_6;
-  uStack00000040 = param_7;
-  uStack00000048 = param_8;
-  while( true ) {
-    while( true ) {
-      uVar1 = uStack_148 & 0x3fffffff;
-      lVar2 = thunk_FUN_82f6ede8(puStack_150,uVar1,param_2,&stack0x00000020);
-      iVar4 = (int)lVar2;
-      if (-1 < iVar4) break;
-      uVar1 = (uStack_148 & 0x3fffffff) << 1;
-      iVar4 = fn_82CE5410();
-      if ((uStack_148 & 0x3fffffff) < uVar1) {
-        uVar6 = (uStack_148 & 0x3fffffff) << 1;
-        if (uVar6 <= uVar1) {
-          uVar6 = uVar1;
-        }
-        fn_82CE6310(*(unsigned int *)(iVar4 + 0x10),&puStack_150,uVar6,1);
-      }
+    Allocator_82CED738 *allocator = fn_82CE5410()->heap;
+    int capacity = array->capacity & 0x3fffffff;
+    if (capacity < required) {
+        int growth = capacity * 2;
+        fn_82CE6310(allocator, array, required < growth ? growth : required, 1);
     }
-    if (iVar4 < (int)uVar1) break;
-    iVar3 = fn_82CE5410();
-    if ((int)(uStack_148 & 0x3fffffff) < iVar4) {
-      lVar5 = ((unsigned __int64)uStack_148 & 0x3fffffff) << 1;
-      if ((int)lVar5 <= iVar4) {
-        lVar5 = lVar2;
-      }
-      fn_82CE6310(*(unsigned int *)(iVar3 + 0x10),&puStack_150,lVar5,1);
-    }
-  }
-  fn_82CED628(param_1,puStack_150);
-  fn_82CED628(param_1,puStack_150);
-  iVar4 = fn_82CE5410();
-  uStack_14c = 0;
-  if ((uStack_148 & 0x80000000) == 0) {
-    (**(int (***)())(**(int **)(iVar4 + 0x10) + 0x10))
-              (*(int **)(iVar4 + 0x10),puStack_150,uStack_148 & 0x3fffffff,1);
-  }
-  return;
 }
 
+void fn_82CED738(void *self, const char *format, ...)
+{
+    va_list args;
+    Array_82CED738 array;
+    int capacity;
+    int length;
+    Allocator_82CED738 *allocator;
+    __va_start(&args, format);
+    array.size = 0;
+    array.data = array.storage;
+    array.capacity = 0x800000ff;
+    for (;;) {
+        capacity = array.capacity & 0x3fffffff;
+        length = fn_82CFBB58(array.data, capacity, format, args);
+        if (length >= 0) {
+            if (length < capacity) {
+                break;
+            }
+            reserve_82CED738(&array, length);
+        } else {
+            reserve_82CED738(&array, (array.capacity & 0x3fffffff) * 2);
+        }
+    }
+    fn_82CED628(self, array.data);
+    fn_82CED628(self, array.data);
+    allocator = fn_82CE5410()->heap;
+    array.size = 0;
+    if ((array.capacity & (int)0x80000000) == 0) {
+        allocator->vtable->free(allocator, array.data, array.capacity & 0x3fffffff, 1);
+    }
+}

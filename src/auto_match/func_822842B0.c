@@ -1,81 +1,66 @@
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_80;
-extern unsigned int *auStack_90;
-extern unsigned int *auStack_a0;
-extern unsigned int *auStack_ac;
-extern int fn_82273C88();
-extern int fn_82273CD8();
-extern int fn_82672C20();
-extern unsigned int lbl_831CEF1C;
+typedef struct Item_822842B0 {
+    int type;  /* +0x0 */
+    int flags; /* +0x4 */
 
+    union {
+        void *string;
+        unsigned char boolean;
+        double number;
+    } value; /* +0x8 */
+} Item_822842B0;
 
-void fn_822842B0(unsigned int *param_1,int param_2)
+typedef struct Entry_822842B0 {
+    unsigned int enabled[3]; /* +0x0 */
+    float values[3];         /* +0xc */
+    char pad18[0x30 - 0x18]; /* +0x18 */
+    char name[0x234 - 0x30]; /* +0x30 */
+} Entry_822842B0;
 
+extern void fn_82273CD8(Item_822842B0 *item, int type);
+extern void fn_82273C88(Item_822842B0 *item);
+extern int fn_82672C20(void *self, const char *method, Item_822842B0 *args, int count);
+extern const char *lbl_831CEF1C[];
+
+void fn_822842B0(char *self, int index)
 {
-  int iVar1;
-  int iVar2;
-  unsigned int *puVar3;
-  unsigned char *puVar4;
-  __int64 lVar5;
-  double dVar6;
-  double dVar7;
-  unsigned int auStack_ac [3];
-  unsigned char auStack_a0 [8];
-  unsigned int *puStack_98;
-  unsigned char auStack_90 [8];
-  char cStack_88;
-  unsigned char auStack_80 [8];
-  char cStack_78;
-  unsigned char auStack_70 [8];
-  char cStack_68;
-  unsigned char auStack_60 [8];
-  double dStack_58;
-  unsigned char auStack_50 [8];
-  double dStack_48;
-  unsigned char auStack_40 [8];
-  double dStack_38;
-  unsigned char auStack_30 [48];
-  
-  lVar5 = 7;
-  puVar3 = auStack_ac;
-  do {
-    puVar3[3] = 0;
-    puVar3 = puVar3 + 4;
-    *puVar3 = 0;
-    lVar5 = lVar5 + -1;
-  } while (lVar5 != 0);
-  fn_82273CD8(auStack_a0,5);
-  puStack_98 = param_1 + param_2 * 0x8d + 0xf;
-  iVar1 = param_1[param_2 * 0x8d + 3];
-  fn_82273CD8(auStack_90,2);
-  iVar2 = param_1[param_2 * 0x8d + 4];
-  cStack_88 = '\x01' - (iVar1 == 0);
-  fn_82273CD8(auStack_80,2);
-  iVar1 = param_1[param_2 * 0x8d + 5];
-  cStack_78 = '\x01' - (iVar2 == 0);
-  fn_82273CD8(auStack_70,2);
-  dVar6 = (double)(float)param_1[param_2 * 0x8d + 6];
-  cStack_68 = '\x01' - (iVar1 == 0);
-  fn_82273CD8(auStack_60,3);
-  dVar7 = (double)(float)param_1[param_2 * 0x8d + 7];
-  dStack_58 = dVar6;
-  fn_82273CD8(auStack_50,3);
-  dVar6 = (double)(float)param_1[param_2 * 0x8d + 8];
-  dStack_48 = dVar7;
-  fn_82273CD8(auStack_40,3);
-  dStack_38 = dVar6;
-  fn_82672C20(*param_1,(&lbl_831CEF1C)[param_2],auStack_a0,7);
-  puVar4 = auStack_30;
-  lVar5 = 6;
-  do {
-    puVar4 = puVar4 + -0x10;
-    fn_82273C88(puVar4);
-    lVar5 = lVar5 + -1;
-  } while (-1 < lVar5);
-  return;
-}
+    Entry_822842B0 *entry = (Entry_822842B0 *)(self + index * 0x234 + 0xc);
+    Item_822842B0 items[7];
+    Item_822842B0 *item;
+    unsigned char enabled;
+    float value;
+    int i;
+    Item_822842B0 *it;
 
+    for (i = 0, it = items; i < 7; i++, it++) {
+        it->type = 0;
+        it->flags = 0;
+    }
+    fn_82273CD8(&items[0], 5);
+    items[0].value.string = entry->name;
+    enabled = entry->enabled[0] != 0;
+    fn_82273CD8(&items[1], 2);
+    items[1].value.boolean = enabled;
+    enabled = entry->enabled[1] != 0;
+    fn_82273CD8(&items[2], 2);
+    items[2].value.boolean = enabled;
+    enabled = entry->enabled[2] != 0;
+    fn_82273CD8(&items[3], 2);
+    items[3].value.boolean = enabled;
+    value = entry->values[0];
+    fn_82273CD8(&items[4], 3);
+    items[4].value.number = value;
+    value = entry->values[1];
+    fn_82273CD8(&items[5], 3);
+    items[5].value.number = value;
+    value = entry->values[2];
+    fn_82273CD8(&items[6], 3);
+    items[6].value.number = value;
+    fn_82672C20(*(void **)self, lbl_831CEF1C[index], items, 7);
+    item = items + 7;
+    i = 6;
+    do {
+        item--;
+        fn_82273C88(item);
+        i--;
+    } while (i >= 0);
+}

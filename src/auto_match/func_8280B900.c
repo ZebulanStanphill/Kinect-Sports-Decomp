@@ -1,40 +1,25 @@
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_82005344;
-extern unsigned int lbl_821AAD20;
-
-
-void fn_8280B900(double param_1,double param_2,double param_3,double param_4,double param_5,
-                  double param_6,float *param_7)
-
+void fn_8280B900(float *out, float top, float bottom, float left, float right, float nearPlane,
+                 float farPlane)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  double dVar5;
-  
-  fVar4 = lbl_821AAD20;
-  fVar3 = lbl_82002AE0;
-  param_7[4] = lbl_821AAD20;
-  param_7[8] = fVar4;
-  param_7[1] = fVar4;
-  fVar1 = fVar3 / (float)(param_4 - param_3);
-  param_7[9] = fVar4;
-  fVar2 = fVar3 / (float)(param_1 - param_2);
-  param_7[2] = fVar4;
-  dVar5 = (double)(fVar3 / (float)(param_6 - param_5));
-  param_7[6] = fVar4;
-  param_7[3] = fVar4;
-  param_7[7] = fVar4;
-  param_7[0xb] = fVar4;
-  param_7[0xf] = fVar3;
-  fVar3 = lbl_82005344;
-  *param_7 = fVar1 * lbl_82005344;
-  param_7[5] = fVar2 * fVar3;
-  param_7[10] = (float)-dVar5;
-  param_7[0xc] = -((float)(param_3 + param_4) * fVar1);
-  param_7[0xd] = -((float)(param_1 + param_2) * fVar2);
-  param_7[0xe] = -(float)(dVar5 * param_5);
-  return;
+    float inverseWidth = 1.0f / (right - left);
+    float inverseHeight = 1.0f / (top - bottom);
+    float inverseDepth = 1.0f / (farPlane - nearPlane);
+    float horizontalSum = left + right;
+    float verticalSum = top + bottom;
+    out[4] = 0.0f;
+    out[8] = 0.0f;
+    out[1] = 0.0f;
+    out[9] = 0.0f;
+    out[2] = 0.0f;
+    out[6] = 0.0f;
+    out[3] = 0.0f;
+    out[7] = 0.0f;
+    out[11] = 0.0f;
+    out[15] = 1.0f;
+    out[0] = inverseWidth * 2.0f;
+    out[5] = inverseHeight * 2.0f;
+    out[10] = -inverseDepth;
+    out[12] = -(horizontalSum * inverseWidth);
+    out[13] = -(verticalSum * inverseHeight);
+    out[14] = -(inverseDepth * nearPlane);
 }
-

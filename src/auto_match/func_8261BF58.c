@@ -1,24 +1,31 @@
-extern int fn_82522DF8();
-extern int fn_82A1E658();
-extern int XMemSet();
+extern void *fn_82522DF8(unsigned int);
+extern void fn_82A1E658(void *);
+extern void *XMemSet(void *, int, unsigned int);
+extern void *fn_82A1DD38(void *, const void *, unsigned int);
 
-
-void fn_8261BF58(int *param_1,unsigned int param_2)
-
+void fn_8261BF58(char **self, unsigned int value, const char *name, const void *data)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  
-  puVar2 = (unsigned int *)fn_82522DF8(0x25c);
-  *param_1 = (int)puVar2;
-  *puVar2 = param_2;
-  *(unsigned int *)(*param_1 + 0x238) = 0;
-  *(unsigned int *)(*param_1 + 600) = 0;
-  iVar1 = *param_1;
-  if (*(int *)(iVar1 + 0x248) != 0) {
-    fn_82A1E658();
-  }
-                    /* WARNING: Subroutine does not return */
-  XMemSet(iVar1 + 0x23c,0,0x1c);
+    char *object;
+    char *out;
+    const char *in;
+    char *end;
+    unsigned char character;
+    *self = fn_82522DF8(0x25c);
+    *(unsigned int *)*self = value;
+    *(unsigned int *)(*self + 0x238) = 0;
+    *(unsigned int *)(*self + 0x258) = 0;
+    object = *self;
+    if (*(void **)(object + 0x248) != 0) {
+        fn_82A1E658(*(void **)(object + 0x248));
+    }
+    XMemSet(object + 0x23c, 0, 0x1c);
+    out = *self + 0x138;
+    in = name;
+    end = out + 0x100;
+    while (out < end && (*out++ = *in++) != 0) {
+    }
+    if (out == end) {
+        out[-1] = 0;
+    }
+    fn_82A1DD38(*self + 4, data, 0x134);
 }
-

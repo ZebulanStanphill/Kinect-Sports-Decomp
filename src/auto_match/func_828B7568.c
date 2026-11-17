@@ -1,80 +1,86 @@
-#define true 1
-extern unsigned int *auStack_68;
-extern int fn_822315A0();
-extern int fn_828B6C80();
-extern int fn_828B9180();
-extern unsigned int uStack_70;
+typedef struct Shared_828B7568 {
+    char *object;
+    unsigned int references;
+} Shared_828B7568;
 
+extern float fn_828B9180(char *);
+extern void fn_822315A0(unsigned int);
+extern Shared_828B7568 *fn_828B6C80(Shared_828B7568 *, Shared_828B7568 *, Shared_828B7568 *, unsigned char);
 
-void fn_828B7568(unsigned int *param_1,unsigned int *param_2)
-
+static __forceinline unsigned char Before_828B7568(char *first, char *second)
 {
-  unsigned int *puVar1;
-  int iVar2;
-  unsigned int *puVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned int *puVar8;
-  double dVar9;
-  double dVar10;
-  unsigned char uStack_70;
-  unsigned int auStack_68 [26];
-  
-  puVar3 = param_1;
-  if (param_1 != param_2) {
-    while (puVar3 = puVar3 + 2, puVar3 != param_2) {
-      uVar7 = 0;
-      uVar6 = 0;
-      if (auStack_68 != puVar3) {
-        uVar6 = puVar3[1];
-        puVar3[1] = 0;
-        uVar7 = *puVar3;
-        *puVar3 = 0;
-      }
-      uVar5 = *param_1;
-      dVar9 = (double)fn_828B9180(uVar7);
-      dVar10 = (double)fn_828B9180(uVar5);
-      puVar8 = puVar3;
-      if (dVar9 <= dVar10) {
-        while( true ) {
-          puVar1 = puVar8 + -2;
-          uVar5 = *puVar1;
-          dVar9 = (double)fn_828B9180(uVar7);
-          dVar10 = (double)fn_828B9180(uVar5);
-          if (dVar9 <= dVar10) break;
-          uVar4 = 0;
-          uVar5 = 0;
-          if (auStack_68 != puVar1) {
-            uVar5 = puVar8[-1];
-            puVar8[-1] = 0;
-            uVar4 = *puVar1;
-            *puVar1 = 0;
-          }
-          iVar2 = puVar8[1];
-          puVar8[1] = uVar5;
-          *puVar8 = uVar4;
-          puVar8 = puVar1;
-          if (iVar2 != 0) {
-            fn_822315A0();
-          }
-        }
-        iVar2 = puVar8[1];
-        puVar8[1] = uVar6;
-        *puVar8 = uVar7;
-      }
-      else {
-        fn_828B6C80(param_1,puVar3,puVar3 + 2,uStack_70);
-        iVar2 = param_1[1];
-        param_1[1] = uVar6;
-        *param_1 = uVar7;
-      }
-      if (iVar2 != 0) {
-        fn_822315A0();
-      }
-    }
-  }
-  return;
+    float left = fn_828B9180(first);
+    float right = fn_828B9180(second);
+    return left > right;
 }
 
+void fn_828B7568(Shared_828B7568 *first, Shared_828B7568 *last)
+{
+    struct {
+        unsigned char predicate;
+        unsigned int padding;
+        Shared_828B7568 temporary;
+    } local;
+
+    Shared_828B7568 *next;
+    Shared_828B7568 *hole;
+    Shared_828B7568 *previous;
+    char *object;
+    unsigned int references;
+    unsigned int old;
+    if (first != last) {
+        for (next = first + 1; next != last; ++next) {
+            hole = next;
+            object = 0;
+            references = 0;
+            if (&local.temporary != next) {
+                unsigned int *reference = &next->references;
+                references = *reference;
+                *reference = 0;
+                object = next->object;
+                next->object = 0;
+            }
+            if (Before_828B7568(object, first->object)) {
+                fn_828B6C80(first, next, next + 1, local.predicate);
+                {
+                    unsigned int *reference = &first->references;
+                    old = *reference;
+                    *reference = references;
+                }
+                first->object = object;
+            } else {
+                previous = next;
+                while (Before_828B7568(object, (--previous)->object)) {
+                    char *moved = 0;
+                    unsigned int movedReferences = 0;
+                    if (&local.temporary != previous) {
+                        unsigned int *reference = &previous->references;
+                        movedReferences = *reference;
+                        *reference = 0;
+                        moved = previous->object;
+                        previous->object = 0;
+                    }
+                    {
+                        unsigned int *reference = &hole->references;
+                        old = *reference;
+                        *reference = movedReferences;
+                    }
+                    hole->object = moved;
+                    if (old != 0) {
+                        fn_822315A0(old);
+                    }
+                    hole = previous;
+                }
+                {
+                    unsigned int *reference = &hole->references;
+                    old = *reference;
+                    *reference = references;
+                }
+                hole->object = object;
+            }
+            if (old != 0) {
+                fn_822315A0(old);
+            }
+        }
+    }
+}

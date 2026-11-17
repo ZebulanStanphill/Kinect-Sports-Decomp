@@ -1,34 +1,21 @@
-extern unsigned int lbl_821AAD20;
-
-
-unsigned __int64
-fn_827EC970(double param_1,float *param_2,unsigned __int64 param_3,float *param_4,float *param_5)
-
+static __forceinline float SquaredDistance_827EC970(float position, float low, float high)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  float fVar5;
-  
-  fVar1 = *param_4;
-  fVar2 = *param_2;
-  if ((fVar2 < fVar1) || (fVar5 = lbl_821AAD20, fVar1 = *param_5, *param_5 < fVar2)) {
-    fVar5 = (fVar2 - fVar1) * (fVar2 - fVar1);
-  }
-  fVar1 = param_4[1];
-  fVar2 = param_2[1];
-  if ((fVar2 < fVar1) || (fVar4 = lbl_821AAD20, fVar1 = param_5[1], param_5[1] < fVar2)) {
-    fVar4 = (fVar2 - fVar1) * (fVar2 - fVar1);
-  }
-  fVar1 = param_4[2];
-  fVar2 = param_2[2];
-  if ((fVar2 < fVar1) || (fVar3 = lbl_821AAD20, fVar1 = param_5[2], param_5[2] < fVar2)) {
-    fVar3 = (fVar2 - fVar1) * (fVar2 - fVar1);
-  }
-  if ((float)(param_1 * param_1) < fVar3 + fVar4 + fVar5) {
-    return 0;
-  }
-  return 1;
+    if (position < low) {
+        position -= low;
+        return position * position;
+    } else if (position > high) {
+        position -= high;
+        return position * position;
+    } else {
+        return 0.0f;
+    }
+    return position * position;
 }
 
+int fn_827EC970(const float *center, float radius, const float *low, const float *high)
+{
+    float first = SquaredDistance_827EC970(center[0], low[0], high[0]);
+    float second = SquaredDistance_827EC970(center[1], low[1], high[1]);
+    float third = SquaredDistance_827EC970(center[2], low[2], high[2]);
+    return third + second + first <= radius * radius;
+}

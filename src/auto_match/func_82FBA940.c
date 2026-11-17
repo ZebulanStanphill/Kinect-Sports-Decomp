@@ -1,31 +1,34 @@
-extern int memset();
-extern unsigned int lbl_821AAD20;
+extern void *memset(void *, int, unsigned int);
 
+typedef struct Entry_82FBA940 {
+    float first;
+    float second;
+    int state;
+} Entry_82FBA940;
 
-unsigned __int64 fn_82FBA940(int param_1)
+typedef struct Context_82FBA940 {
+    char pad[0x10];
+    int width;
+    char pad14[8];
+    unsigned int count;
+    int height;
+    Entry_82FBA940 *entries;
+    void *buffer;
+    char pad2c[0x14];
+    unsigned char ready;
+} Context_82FBA940;
 
+int fn_82FBA940(Context_82FBA940 *self)
 {
-  int iVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  int iVar4;
-  
-  memset(*(unsigned int *)(param_1 + 0x28),0,
-                ((__int64)*(int *)(param_1 + 0x20) * (__int64)*(int *)(param_1 + 0x10) &
-                0x3fffffffU) << 2);
-  uVar2 = lbl_821AAD20;
-  if ((*(int *)(param_1 + 0x24) != 0) && (uVar3 = 0, *(int *)(param_1 + 0x1c) != 0)) {
-    iVar4 = 0;
-    do {
-      uVar3 = uVar3 + 1;
-      *(unsigned int *)(*(int *)(param_1 + 0x24) + iVar4 + 4) = uVar2;
-      *(unsigned int *)(*(int *)(param_1 + 0x24) + iVar4) = uVar2;
-      iVar1 = *(int *)(param_1 + 0x24) + iVar4;
-      iVar4 = iVar4 + 0xc;
-      *(unsigned int *)(iVar1 + 8) = 0;
-    } while (uVar3 < *(unsigned int *)(param_1 + 0x1c));
-  }
-  *(unsigned char *)(param_1 + 0x40) = 1;
-  return 1;
+    unsigned int i;
+    memset(self->buffer, 0, self->height * self->width * 4);
+    if (self->entries) {
+        for (i = 0; i < self->count; i++) {
+            self->entries[i].second = 0.0f;
+            self->entries[i].first = 0.0f;
+            self->entries[i].state = 0;
+        }
+    }
+    self->ready = 1;
+    return 1;
 }
-

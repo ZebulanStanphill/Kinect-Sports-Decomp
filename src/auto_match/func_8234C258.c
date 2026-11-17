@@ -1,41 +1,32 @@
-extern unsigned int *auStack_40;
-extern int fn_8234C398();
-extern int fn_8255F880();
-extern int fn_8255F8D0();
-extern int fn_827F22D0();
-extern int fn_827F2D60();
-extern int fn_827F6210();
-extern unsigned int lbl_8218E8E8;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Temporary_8234C258 {
+    int words[4]; /* +0x0 */
+} Temporary_8234C258;
 
+extern const float lbl_821CA45C[2];
+extern const float lbl_8218E8E8;
+extern char *fn_8234C398(void *self, unsigned int hand);
+extern void fn_8255F880(Temporary_8234C258 *temporary, void *source);
+extern int fn_8255F8D0(Temporary_8234C258 *temporary, float low, float high, int flags);
+extern unsigned char fn_827F22D0(void *self);
+extern void fn_827F2D60(void *self, int value, float time, int mode, int flags);
+extern void fn_827F6210(void *self, float value);
 
-void fn_8234C258(int param_1,int param_2,unsigned __int64 param_3)
-
+void fn_8234C258(char *self, unsigned int hand)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  char cVar3;
-  double dVar4;
-  double dVar5;
-  unsigned char auStack_40 [1];
-  
-  uVar1 = fn_8234C398();
-  param_1 = param_2 * 0x2c + param_1;
-  dVar4 = (double)lbl_821CA460;
-  if ((uVar1 & 0xffffffff) != (unsigned __int64)*(unsigned int *)(param_1 + 0x124)) {
-    fn_8255F880(auStack_40,uVar1 + 0x40);
-    dVar5 = (double)ltcg_pool_0_0f;
-    uVar2 = fn_8255F8D0(dVar5,dVar4,auStack_40);
-    cVar3 = fn_827F22D0(*(unsigned int *)(param_1 + 0x118));
-    if (cVar3 == '\0') {
-      dVar5 = (double)lbl_8218E8E8;
-    }
-    fn_827F2D60(dVar5,*(unsigned int *)(param_1 + 0x118),uVar2,param_3,0x12,0);
-    *(int *)(param_1 + 0x120) = (int)uVar2;
-    *(int *)(param_1 + 0x124) = (int)uVar1;
-  }
-  fn_827F6210(dVar4,*(unsigned int *)(param_1 + 0x120));
-  return;
-}
+    Temporary_8234C258 temporary;
+    char *source = fn_8234C398(self, hand);
+    char *entry = self + hand * 0x2c;
+    float high = lbl_821CA45C[1];
+    int value;
+    float time;
 
+    if (source != *(char **)(entry + 0x124)) {
+        fn_8255F880(&temporary, source + 0x40);
+        value = fn_8255F8D0(&temporary, 0.0f, high, 0);
+        time = fn_827F22D0(*(void **)(entry + 0x118)) ? 0.0f : lbl_8218E8E8;
+        fn_827F2D60(*(void **)(entry + 0x118), value, time, 0x12, 0);
+        *(int *)(entry + 0x120) = value;
+        *(char **)(entry + 0x124) = source;
+    }
+    fn_827F6210(*(void **)(entry + 0x120), high);
+}

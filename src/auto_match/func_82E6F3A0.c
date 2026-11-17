@@ -1,42 +1,33 @@
-extern unsigned int iStack_24;
-extern unsigned int iStack_28;
-extern unsigned int iStack_2c;
-extern unsigned int lbl_8202E618;
-extern unsigned int lbl_8202E628;
+typedef struct Guid_82E6F3A0 {
+    unsigned int words[4];
+} Guid_82E6F3A0;
 
+extern Guid_82E6F3A0 lbl_8202E618;
+extern int memcmp(const void *first, const void *second, unsigned int size);
 
-__int64 fn_82E6F3A0(int *param_1)
-
+int fn_82E6F3A0(int *self)
 {
-  unsigned char bVar1;
-  unsigned char bVar2;
-  __int64 lVar3;
-  int iVar4;
-  unsigned char *pbVar5;
-  unsigned char *pbVar6;
-  unsigned char abStack_30 [4];
-  int iStack_2c;
-  int iStack_28;
-  int iStack_24;
-  
-  iStack_2c = param_1[4];
-  iStack_28 = param_1[5];
-  iStack_24 = param_1[6];
-  pbVar6 = (unsigned char *)&lbl_8202E618;
-  pbVar5 = abStack_30;
-  do {
-    bVar1 = *pbVar6;
-    bVar2 = *pbVar5;
-    if ((unsigned __int64)bVar1 - (unsigned __int64)bVar2 != 0) break;
-    pbVar6 = pbVar6 + 1;
-    pbVar5 = pbVar5 + 1;
-  } while (pbVar6 != &lbl_8202E628);
-  if (((((int)((unsigned __int64)bVar1 - (unsigned __int64)bVar2) != 0) ||
-       (lVar3 = (**(int (***)())(*param_1 + 0x2c))(param_1,*(unsigned __int64 *)(param_1 + 0x12)),
-       -1 < (int)lVar3)) && (lVar3 = (**(int (***)())(*param_1 + 0x14))(param_1), -1 < lVar3)) &&
-     (iVar4 = (**(int (***)())(*param_1 + 0x20))(param_1), iVar4 != 0)) {
-    lVar3 = ((int (*)())fn_82E6F3A0)();
-  }
-  return lVar3;
-}
+    Guid_82E6F3A0 id;
+    int result;
+    int *next;
 
+    id = *(Guid_82E6F3A0 *)(self + 3);
+    if (memcmp(&lbl_8202E618, &id, 16) == 0) {
+        result =
+            (*(int (**)(void *, unsigned __int64))(*self + 0x2c))(self, *(unsigned __int64 *)(self + 0x12));
+        if (result < 0) {
+            return result;
+        }
+    }
+    result = (*(int (**)(void *))(*self + 0x14))(self);
+    if (result >= 0) {
+        next = (*(int *(**)(void *))(*self + 0x20))(self);
+        if (next != 0) {
+            result = fn_82E6F3A0(next);
+            if (result < 0) {
+                return result;
+            }
+        }
+    }
+    return result;
+}

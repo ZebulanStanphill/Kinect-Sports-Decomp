@@ -1,28 +1,26 @@
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Vector_82447DE0 {
+    float x; /* 0x0 */
+    float y; /* 0x4 */
+    float z; /* 0x8 */
+} Vector_82447DE0;
 
-
-void fn_82447DE0(int *param_1,int param_2,unsigned __int64 param_3,unsigned int param_4)
-
+static __forceinline Vector_82447DE0 MakeVector(float x, float y, float z)
 {
-  int *piVar1;
-  int iVar2;
-  int iVar3;
-  
-  iVar3 = ltcg_pool_0_0f;
-  param_4 = param_4 & 0xff;
-  piVar1 = *(int **)(param_2 + 0x40);
-  if (piVar1[(param_4 + 0xc) * 0xc] == 0) {
-    iVar2 = *(int *)(*piVar1 + 0x174);
-    param_1[2] = ltcg_pool_0_0f;
-    param_1[1] = *(int *)(*(int *)(iVar2 + 4) + 0x10);
-  }
-  else {
-    iVar3 = piVar1[param_4 * 0xc + 0x98];
-    iVar2 = piVar1[param_4 * 0xc + 0x9a];
-    param_1[1] = piVar1[param_4 * 0xc + 0x99];
-    param_1[2] = iVar2;
-  }
-  *param_1 = iVar3;
-  return;
+    Vector_82447DE0 value;
+    value.x = x;
+    value.y = y;
+    value.z = z;
+    return value;
 }
 
+Vector_82447DE0 fn_82447DE0(int self, float unused, unsigned char index)
+{
+    int *data = *(int **)(self + 0x40);
+    Vector_82447DE0 result;
+    if (data[(index + 12) * 12] != 0) {
+        result = *(Vector_82447DE0 *)((char *)data + index * 48 + 0x260);
+    } else {
+        result = MakeVector(0.0f, *(float *)(*(int *)(*(int *)(*data + 0x174) + 4) + 0x10), 0.0f);
+    }
+    return result;
+}

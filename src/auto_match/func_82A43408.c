@@ -1,36 +1,35 @@
-void fn_82A43408(unsigned int *param_1,unsigned __int64 param_2)
+typedef struct Output_82A43408 Output_82A43408;
 
+typedef struct OutputMethods_82A43408 {
+    void *unused[2];
+    void (*write)(Output_82A43408 *, int, void *, float *, unsigned int);
+} OutputMethods_82A43408;
+
+struct Output_82A43408 {
+    OutputMethods_82A43408 *methods;
+};
+
+typedef struct Weights_82A43408 {
+    Output_82A43408 *output; /* 0x00 */
+    unsigned int width;      /* 0x04 */
+    unsigned int height;     /* 0x08 */
+    float *weights;          /* 0x0c */
+    float scale;             /* 0x10 */
+    float *input;            /* 0x14 */
+    float *buffer;           /* 0x18 */
+} Weights_82A43408;
+
+void fn_82A43408(Weights_82A43408 *self, void *context)
 {
-  unsigned __int64 uVar1;
-  unsigned int uVar3;
-  unsigned __int64 uVar2;
-  unsigned int uVar4;
-  
-  uVar1 = 0;
-  uVar4 = 0;
-  if (param_1[1] != 0) {
-    uVar3 = param_1[2];
-    do {
-      uVar4 = 0;
-      if (uVar3 != 0) {
-        do {
-          uVar2 = (__int64)(int)uVar4 * (__int64)(int)param_1[1] + uVar1;
-          uVar4 = uVar4 + 1;
-          *(float *)((int)((uVar2 + 3 & 0xffffffff) << 2) + param_1[6]) =
-               *(float *)((int)((uVar2 & 0xffffffff) << 2) + param_1[5]) *
-               *(float *)((int)((uVar1 & 0xffffffff) << 2) + param_1[3]) * (float)param_1[4];
-          uVar3 = param_1[2];
-        } while (uVar4 < uVar3);
-      }
-      uVar4 = param_1[1];
-      uVar1 = uVar1 + 1;
-    } while ((uVar1 & 0xffffffff) < (unsigned __int64)uVar4);
-  }
-                    /* WARNING: Could not recover jumptable at 0x82a434b8. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (**(int (***)())(*(int *)*param_1 + 8))
-            ((int *)*param_1,0,param_2,param_1[6],
-             ((__int64)(int)param_1[2] * (__int64)(int)uVar4 + 3U & 0x3fffffff) << 2);
-  return;
+    unsigned int column;
+    unsigned int row;
+    unsigned int index;
+    for (column = 0; column < self->width; ++column) {
+        for (row = 0; row < self->height; ++row) {
+            index = row * self->width + column;
+            self->buffer[index + 3] = self->input[index] * self->weights[column] * self->scale;
+        }
+    }
+    self->output->methods->write(self->output, 0, context, self->buffer,
+                                 (self->height * self->width + 3) * 4);
 }
-

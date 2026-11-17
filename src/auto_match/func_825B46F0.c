@@ -1,52 +1,68 @@
-extern int fn_82554260();
-extern int fn_827EFC90();
-extern int fn_827F04B0();
-extern int fn_827F2DD0();
-extern int fn_82D93670();
-extern unsigned int ltcg_pool_0_0f;
+extern void fn_82D93670(void *self, unsigned int key, unsigned __int64 value);
+extern void *fn_827F04B0(unsigned int size);
+extern void *fn_82554260(void *self, void *owner, int count);
+extern void fn_827F2DD0(void *self, void *instance, float time, int mode, int flags);
+extern void fn_827EFC90(void *self, unsigned short id, void *data, void *context);
+extern char lbl_831D4550[];
+typedef struct Owner_825B46F0 Owner_825B46F0;
 
+typedef struct Vtable_825B46F0 {
+    void *pad[19];                         /* 0x00 */
+    void *(*create)(Owner_825B46F0 *self); /* 0x4c */
+} Vtable_825B46F0;
 
-void fn_825B46F0(unsigned int *param_1)
+struct Owner_825B46F0 {
+    Vtable_825B46F0 *vtable; /* 0x00 */
+};
 
+typedef struct Resource_825B46F0 {
+    Owner_825B46F0 *owner; /* 0x00 */
+    char pad[0x13c];       /* 0x04 */
+    void *instance;        /* 0x140 */
+    void *controller;      /* 0x144 */
+} Resource_825B46F0;
+
+typedef struct Entry_825B46F0 {
+    char pad[0xd4];              /* 0x00 */
+    void *properties;            /* 0xd4 */
+    char padD8[0xc];             /* 0xd8 */
+    Resource_825B46F0 *resource; /* 0xe4 */
+    int reserved;                /* 0xe8 */
+    int disabled;                /* 0xec */
+    int reservedF0;              /* 0xf0 */
+    unsigned int id;             /* 0xf4 */
+    char tail[0x3f0 - 0xf8];     /* 0xf8 */
+} Entry_825B46F0;
+
+void fn_825B46F0(unsigned int *range)
 {
-  unsigned int uVar1;
-  unsigned int *puVar2;
-  unsigned int uVar4;
-  unsigned __int64 uVar3;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  double dVar7;
-  
-  uVar6 = *param_1;
-  uVar1 = param_1[1];
-  if (uVar6 < uVar1) {
-    dVar7 = (double)ltcg_pool_0_0f;
-    uVar5 = uVar6;
-    do {
-      if (*(int *)(uVar6 + 0xd4) != 0) {
-        fn_82D93670(*(int *)(uVar6 + 0xd4),0x201f,uVar5);
-      }
-      if (*(int *)(uVar6 + 0xec) == 0) {
-        puVar2 = *(unsigned int **)(uVar6 + 0xe4);
-        if (puVar2[0x50] == 0) {
-          uVar4 = (**(int (***)())(*(int *)*puVar2 + 0x4c))();
-          puVar2[0x50] = uVar4;
-          uVar3 = fn_827F04B0(0x1a0);
-          if ((uVar3 & 0xffffffff) == 0) {
-            uVar4 = 0;
-          }
-          else {
-            uVar4 = fn_82554260(uVar3,puVar2[0x50],1);
-          }
-          puVar2[0x51] = uVar4;
-          fn_827F2DD0(dVar7,puVar2[0x50]);
-        }
-        fn_827EFC90(puVar2[0x50],*(unsigned int *)(uVar6 + 0xf4) & 0xffff,0xffffffff831d4550,uVar6);
-      }
-      uVar6 = uVar6 + 0x3f0;
-      uVar5 = uVar5 + 0x3f0;
-    } while (uVar6 < uVar1);
-  }
-  return;
+    unsigned int address = range[0];
+    unsigned int end = range[1];
+    if (address < end) {
+        unsigned __int64 key = address;
+        do {
+            Entry_825B46F0 *entry = (Entry_825B46F0 *)address;
+            if (entry->properties != 0) {
+                fn_82D93670(entry->properties, 0x201f, key);
+            }
+            if (entry->disabled == 0) {
+                Resource_825B46F0 *resource = entry->resource;
+                if (resource->instance == 0) {
+                    void *controller;
+                    resource->instance = resource->owner->vtable->create(resource->owner);
+                    controller = fn_827F04B0(0x1a0);
+                    if (controller != 0) {
+                        controller = fn_82554260(controller, resource->instance, 1);
+                    } else {
+                        controller = 0;
+                    }
+                    resource->controller = controller;
+                    fn_827F2DD0(resource->instance, controller, 0.0f, 0x12, 0);
+                }
+                fn_827EFC90(resource->instance, entry->id, lbl_831D4550, entry);
+            }
+            address += 0x3f0;
+            key += 0x3f0;
+        } while (address < end);
+    }
 }
-

@@ -1,53 +1,60 @@
-extern unsigned int *auStack_50;
-extern int fn_82230110();
-extern int fn_82230300();
-extern int fn_8251F720();
-extern int fn_8251FA58();
-extern int fn_8251FBA8();
-extern int fn_82520C40();
-extern int fn_8258E3A8();
-extern int fn_8265CA60();
-extern int fn_8265CAA0();
-extern int fn_82A1DD38();
+typedef struct String_8257CF90 {
+    char data[28];
+} String_8257CF90;
 
+extern void *fn_8251F720(void *, int);
+extern unsigned int fn_8251FBA8(void *);
+extern void *fn_8265CA60(unsigned int);
+extern void *fn_82A1DD38(void *, const void *, unsigned int);
+extern void fn_8265CAA0(void *);
+extern void fn_8251FA58(void *);
+extern char *fn_82520C40(void);
+extern String_8257CF90 *fn_82230110(String_8257CF90 *, const char *);
+extern void *fn_8258E3A8(char **, void *, String_8257CF90 *);
+extern void fn_82230300(String_8257CF90 *, int, unsigned int);
 
-unsigned __int64 fn_8257CF90(unsigned __int64 param_1,unsigned int param_2)
-
+static __forceinline int Missing_8257CF90(void *handle, void *buffer)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  int iVar3;
-  int iVar4;
-  int aiStack_60 [4];
-  unsigned char auStack_50 [32];
-  
-  uVar1 = fn_8251F720(param_1,0);
-  if (uVar1 != 0) {
-    uVar2 = fn_8251FBA8(uVar1);
-    iVar3 = fn_8265CA60();
-    fn_82A1DD38(iVar3,uVar1,uVar2);
-    if (iVar3 != 0) {
-      *(unsigned int *)(iVar3 + 0x44) = param_2;
-      iVar4 = fn_82520C40();
-      uVar2 = fn_82230110(auStack_50,iVar3);
-      fn_8258E3A8(aiStack_60,iVar4 + 8,uVar2);
-      fn_82230300(auStack_50,1,0);
-      if ((aiStack_60[0] == *(int *)(iVar4 + 0xc)) ||
-         (*(int *)(aiStack_60[0] + 0x2c) != *(int *)(iVar3 + 0x40))) {
-        uVar2 = 0;
-      }
-      else {
-        uVar2 = (**(int (***)())(aiStack_60[0] + 0x28))(iVar3);
-      }
-      fn_8265CAA0(iVar3);
-      fn_8251FA58(uVar1);
-      return uVar2;
+    if (handle == 0 || buffer == 0) {
+        return 1;
     }
-  }
-  fn_8265CAA0(0);
-  if ((uVar1 & 0xffffffff) != 0) {
-    fn_8251FA58(uVar1);
-  }
-  return 0;
+    return 0;
 }
 
+void *fn_8257CF90(void *resource, unsigned int flags)
+{
+    void *handle;
+    char *buffer = 0;
+    unsigned int size;
+    char *registry;
+    char *node;
+    void *result;
+    String_8257CF90 name;
+    handle = fn_8251F720(resource, 0);
+    if (handle != 0) {
+        size = fn_8251FBA8(handle);
+        buffer = fn_8265CA60(size);
+        fn_82A1DD38(buffer, handle, size);
+    }
+    if (Missing_8257CF90(handle, buffer)) {
+        fn_8265CAA0(0);
+        if (handle != 0) {
+            fn_8251FA58(handle);
+        }
+        return 0;
+    } else {
+        *(unsigned int *)(buffer + 0x44) = flags;
+        registry = fn_82520C40();
+        fn_8258E3A8(&node, registry + 8, fn_82230110(&name, buffer));
+        fn_82230300(&name, 1, 0);
+        if (node != *(char **)(registry + 0xc) &&
+            *(unsigned int *)(node + 0x2c) == *(unsigned int *)(buffer + 0x40)) {
+            result = (*(void *(**)(void *))(node + 0x28))(buffer);
+        } else {
+            result = 0;
+        }
+        fn_8265CAA0(buffer);
+        fn_8251FA58(handle);
+    }
+    return result;
+}

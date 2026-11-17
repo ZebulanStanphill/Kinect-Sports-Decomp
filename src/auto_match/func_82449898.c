@@ -1,28 +1,28 @@
-extern unsigned int lbl_82193E50;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Vector_82449898 {
+    float x; /* 0x0 */
+    float y; /* 0x4 */
+    float z; /* 0x8 */
+} Vector_82449898;
 
+extern const float lbl_82193E50;
 
-void fn_82449898(unsigned int *param_1,int param_2,unsigned __int64 param_3,unsigned int param_4)
-
+static __forceinline Vector_82449898 MakeVector(float x, float y, float z)
 {
-  unsigned int uVar1;
-  int iVar2;
-  unsigned int uVar3;
-  
-  uVar3 = ltcg_pool_0_0f;
-  uVar1 = lbl_82193E50;
-  if (*(int *)(((param_4 & 0xff) + 0xc) * 0x30 + *(int *)(param_2 + 0x40)) == 0) {
-    *param_1 = ltcg_pool_0_0f;
-    param_1[1] = uVar1;
-  }
-  else {
-    iVar2 = (param_4 & 0xff) * 0x30 + *(int *)(param_2 + 0x40);
-    uVar1 = *(unsigned int *)(iVar2 + 0x264);
-    uVar3 = *(unsigned int *)(iVar2 + 0x268);
-    *param_1 = *(unsigned int *)(iVar2 + 0x260);
-    param_1[1] = uVar1;
-  }
-  param_1[2] = uVar3;
-  return;
+    Vector_82449898 value;
+    value.x = x;
+    value.y = y;
+    value.z = z;
+    return value;
 }
 
+Vector_82449898 fn_82449898(int self, float unused, unsigned char index)
+{
+    int *data = *(int **)(self + 0x40);
+    Vector_82449898 result;
+    if (data[(index + 12) * 12] != 0) {
+        result = *(Vector_82449898 *)((char *)data + index * 48 + 0x260);
+    } else {
+        result = MakeVector(0.0f, lbl_82193E50, 0.0f);
+    }
+    return result;
+}

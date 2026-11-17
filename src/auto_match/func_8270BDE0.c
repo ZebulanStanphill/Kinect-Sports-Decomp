@@ -1,19 +1,16 @@
-unsigned __int64 fn_8270BDE0(int param_1,int param_2,unsigned int param_3)
-
+static __forceinline unsigned int Get2(unsigned int *data, unsigned int index)
 {
-  param_2 = param_2 + param_3;
-  if (param_3 < 8) {
-    return ((unsigned __int64)
-            (*(unsigned int *)((param_2 - 1U >> 2 & 0x3ffffffc) + param_1) >> ((param_2 - 1U) * 2 & 0x1e)) &
-           3) - 1;
-  }
-  return (((unsigned __int64)
-           (*(unsigned int *)((param_2 - 3U >> 2 & 0x3ffffffc) + param_1) >> ((param_2 - 3U) * 2 & 0x1e)) &
-          3) << 2 |
-         (unsigned __int64)
-         (*(unsigned int *)((param_2 - 2U >> 2 & 0x3ffffffc) + param_1) >> ((param_2 - 2U) * 2 & 0x1e)) & 3)
-         << 1 | (unsigned __int64)
-                ((*(unsigned int *)((param_2 - 1U >> 2 & 0x3ffffffc) + param_1) >>
-                 ((param_2 - 1U) * 2 & 0x1e)) >> 1) & 1;
+    return (data[index >> 4] >> ((index & 15) * 2)) & 3;
 }
 
+unsigned int fn_8270BDE0(unsigned int *data, unsigned int start, unsigned int count)
+{
+    unsigned int end;
+
+    if (count < 8) {
+        end = start + count;
+        return Get2(data, end - 1) - 1;
+    }
+    end = start + count;
+    return ((Get2(data, end - 2) | Get2(data, end - 3) << 2) << 1) | (Get2(data, end - 1) >> 1);
+}

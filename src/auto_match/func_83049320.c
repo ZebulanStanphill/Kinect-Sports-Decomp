@@ -1,44 +1,45 @@
-extern int fn_8307E4F8();
-extern unsigned int uStack_16;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
+typedef struct Input_83049320 {
+    unsigned int first;
+    unsigned int second;
+    unsigned char flags;
+} Input_83049320;
 
+typedef struct Output_83049320 {
+    unsigned int first;
+    unsigned int second;
+    unsigned char high;
+    unsigned char low;
+    unsigned char count;
+} Output_83049320;
 
-void fn_83049320(int param_1,unsigned int *param_2,unsigned int param_3)
+extern void fn_8307E4F8(void *, int, const Output_83049320 *);
 
+void fn_83049320(char *self, const Input_83049320 *input, unsigned short count)
 {
-  int iVar1;
-  struct { unsigned int first; unsigned int second; } stack_pair_20;
-
-  unsigned char bStack_18;
-  unsigned char bStack_17;
-  unsigned char uStack_16;
-  
-  param_3 = param_3 & 0xffff;
-  if ((param_3 == 0) || (1 < param_3)) {
-    stack_pair_20.first = *param_2;
-    stack_pair_20.second = param_2[1];
-    bStack_18 = *(unsigned char *)(param_2 + 2) >> 4;
-    bStack_17 = *(unsigned char *)(param_2 + 2) & 0xf;
-    if (param_3 == 0) {
-      iVar1 = 0xff;
+    int value;
+    Output_83049320 output;
+    if (count == 0 || count > 1) {
+        output.first = input->first;
+        output.second = input->second;
+        output.high = input->flags >> 4;
+        output.low = input->flags & 15;
+        if (count == 0) {
+            value = 255;
+        } else {
+            value = count - 1;
+            if (value > 254) {
+                value = 254;
+            }
+        }
+        output.count = value;
+        fn_8307E4F8(*(void **)(self + 0x28), 0, &output);
+    } else {
+        value = 0;
+        output.first = 0;
+        output.second = 0;
+        output.high = 0;
+        output.low = 1;
+        output.count = value;
+        fn_8307E4F8(*(void **)(self + 0x28), 0, &output);
     }
-    else {
-      iVar1 = param_3 - 1;
-      if (0xfe < iVar1) {
-        iVar1 = 0xfe;
-      }
-    }
-  }
-  else {
-    iVar1 = 0;
-    stack_pair_20.first = 0;
-    stack_pair_20.second = 0;
-    bStack_18 = 0;
-    bStack_17 = 1;
-  }
-  uStack_16 = (unsigned char)iVar1;
-  fn_8307E4F8(*(unsigned int *)(param_1 + 0x28),0,&stack_pair_20.first);
-  return;
 }
-
