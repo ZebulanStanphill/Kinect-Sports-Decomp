@@ -1,35 +1,30 @@
-extern int fn_8306F3A8();
-extern int fn_830743D0();
-extern int fn_83074490();
-extern int fn_83075D90();
-extern unsigned int lbl_82005718;
-extern unsigned int lbl_821AAD20;
+typedef struct Weights_830748A8 {
+    char padding000[0x3c0];
+    float levels[20];  /* 0x3c0 */
+    float weights[20]; /* 0x410 */
+    char padding460[0x8a8];
+    unsigned char enabled; /* 0xd08 */
+} Weights_830748A8;
 
+extern void fn_830743D0(Weights_830748A8 *self, void *input);
+extern void fn_83074490(Weights_830748A8 *self, void *input, float time);
+extern void fn_83075D90(void *output, int index, float value);
+extern float fn_8306F3A8(Weights_830748A8 *self, void *input, float time);
 
-double fn_830748A8(unsigned __int64 param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4)
-
+float fn_830748A8(Weights_830748A8 *self, void *input, void *output, float time)
 {
-  float *pfVar1;
-  float *pfVar2;
-  __int64 lVar3;
-  double dVar4;
-  double dVar5;
-  
-  fn_830743D0();
-  if (*(char *)(param_2 + 0xd08) != '\0') {
-    fn_83074490(param_1,param_2,param_3);
-  }
-  lVar3 = 0;
-  pfVar2 = (float *)(param_2 + 0x40c);
-  dVar5 = (double)lbl_821AAD20;
-  do {
-    pfVar1 = pfVar2 + -0x13;
-    pfVar2 = pfVar2 + 1;
-    dVar5 = (double)(float)((double)(*pfVar1 * *pfVar2) + dVar5);
-    fn_83075D90((double)(*pfVar1 * *pfVar2),param_4,lVar3);
-    lVar3 = lVar3 + 1;
-  } while ((int)lVar3 < 0x14);
-  dVar4 = (double)fn_8306F3A8(param_1,param_2,param_3);
-  return (double)(float)(dVar4 * (double)(float)(dVar5 * (double)lbl_82005718));
-}
+    int index;
+    float total;
 
+    fn_830743D0(self, input);
+    if (self->enabled) {
+        fn_83074490(self, input, time);
+    }
+    total = 0.0f;
+    for (index = 0; index < 20; index++) {
+        float value = self->levels[index] * self->weights[index];
+        total += value;
+        fn_83075D90(output, index, value);
+    }
+    return fn_8306F3A8(self, input, time) * (total * 0.05f);
+}

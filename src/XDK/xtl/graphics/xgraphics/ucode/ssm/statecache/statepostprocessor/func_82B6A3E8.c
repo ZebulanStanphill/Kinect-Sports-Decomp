@@ -1,62 +1,84 @@
-extern unsigned int *auStack_40;
-extern int fn_82AB15D0();
-extern int fn_82B6D908();
+typedef struct StateObject_82B6A3E8 {
+    char pad0[0x10];
+    unsigned int address;
+    char pad14[0xc];
+    unsigned int *storage;
+} StateObject_82B6A3E8;
 
+typedef struct CommandInterface_82B6A3E8 {
+    unsigned int unknown;
+    void *context;
+    unsigned int *(*allocate)(void *context, unsigned int count);
+    void *reserved[2];
+    void (*finish)(void *context, unsigned int count, void *out);
+} CommandInterface_82B6A3E8;
 
-unsigned __int64 fn_82B6A3E8(int param_1,int param_2,unsigned __int64 param_3)
+extern void fn_82AB15D0(void *object, const char *format, ...);
+extern void fn_82B6D908(StateObject_82B6A3E8 **key, void *data);
 
+unsigned int fn_82B6A3E8(void *processor, StateObject_82B6A3E8 **key, char *state)
 {
-  int iVar1;
-  unsigned int uVar2;
-  int iVar3;
-  unsigned int *puVar4;
-  unsigned int *puVar5;
-  int *piVar6;
-  unsigned int *puVar7;
-  __int64 lVar8;
-  unsigned char auStack_40 [64];
-  
-  if (param_1 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d965c,0xffffffff820d95d8,0x539);
-  }
-  if (param_2 == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d9650,0xffffffff820d95d8,0x53a);
-  }
-  if ((param_3 & 0xffffffff) == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d9640,0xffffffff820d95d8,0x53b);
-  }
-  if (param_3 == 0xffffffffffffff14) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d9230,0xffffffff820d95d8,0x53e);
-  }
-  iVar3 = (int)param_3;
-  puVar5 = (unsigned int *)(**(int (***)())(iVar3 + 0xf4))(*(unsigned int *)(iVar3 + 0xf0),0xd);
-  *puVar5 = 0xc00b2500;
-  piVar6 = (int *)(param_2 + 4);
-  lVar8 = 5;
-  puVar5[1] = *(unsigned int *)(*(int *)(*(int *)(param_2 + 4) + 0x20) + 4) |
-              *(unsigned int *)(*(int *)(param_2 + 4) + 0x10);
-  puVar5[2] = 0x10;
-  puVar5[3] = 0x10;
-  puVar4 = puVar5 + 4;
-  do {
-    puVar7 = puVar4;
-    piVar6 = piVar6 + 1;
-    *puVar7 = *(unsigned int *)(*(int *)(*piVar6 + 0x20) + 4) | *(unsigned int *)(*piVar6 + 0x10);
-    lVar8 = lVar8 + -1;
-    puVar4 = puVar7 + 1;
-  } while (lVar8 != 0);
-  iVar1 = *(int *)(*(int *)(param_2 + 0x20) + 0x20);
-  puVar7[1] = *(unsigned int *)(*(int *)(param_2 + 0x20) + 0x10);
-  puVar7[2] = *(unsigned int *)(iVar1 + 4);
-  iVar1 = *(int *)(*(int *)(param_2 + 0x1c) + 0x20);
-  puVar7[3] = *(unsigned int *)(*(int *)(param_2 + 0x1c) + 0x10);
-  puVar7[4] = *(unsigned int *)(iVar1 + 4);
-  uVar2 = (int)(puVar7 + 4) + (4 - (int)puVar5) >> 2;
-  if (0xd < uVar2) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d966c,0xffffffff820d95d8,0x572);
-  }
-  (**(int (***)())(iVar3 + 0x100))(*(unsigned int *)(iVar3 + 0xf0),uVar2,auStack_40);
-  fn_82B6D908(param_2,auStack_40);
-  return 0;
-}
+    CommandInterface_82B6A3E8 *commands;
+    unsigned int *begin;
+    unsigned int *cursor;
+    StateObject_82B6A3E8 *object;
+    unsigned int count;
+    unsigned int *storage;
+    int i;
+    unsigned int data[4];
 
+    if (processor == 0) {
+        fn_82AB15D0(
+            0, "Assertion failed: %s (%s:%u)", "pPostProcessor",
+            "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecache\\statepostprocessor.cpp",
+            0x539);
+    }
+    if (key == 0) {
+        fn_82AB15D0(
+            0, "Assertion failed: %s (%s:%u)", "pProgKey",
+            "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecache\\statepostprocessor.cpp",
+            0x53a);
+    }
+    if (state == 0) {
+        fn_82AB15D0(
+            0, "Assertion failed: %s (%s:%u)", "pAbstractState",
+            "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecache\\statepostprocessor.cpp",
+            0x53b);
+    }
+    commands = (CommandInterface_82B6A3E8 *)(state + 0xec);
+    if (commands == 0) {
+        fn_82AB15D0(
+            0, "Assertion failed: %s (%s:%u)", "pObjectCI",
+            "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecache\\statepostprocessor.cpp",
+            0x53e);
+    }
+    cursor = commands->allocate(commands->context, 13);
+    begin = cursor;
+    *cursor++ = 0xc00b2500;
+    object = key[1];
+    *cursor++ = object->storage[1] | object->address;
+    *cursor++ = 0x10;
+    *cursor++ = 0x10;
+    for (i = 0; i < 5; i++) {
+        object = key[i + 2];
+        *cursor++ = object->storage[1] | object->address;
+    }
+    object = key[8];
+    storage = object->storage;
+    *cursor++ = object->address;
+    *cursor++ = storage[1];
+    object = key[7];
+    storage = object->storage;
+    *cursor++ = object->address;
+    *cursor++ = storage[1];
+    count = cursor - begin;
+    if (count > 13) {
+        fn_82AB15D0(
+            0, "Assertion failed: %s (%s:%u)", "cmdBufSizeCount >= cmdBufSizeUsed",
+            "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecache\\statepostprocessor.cpp",
+            0x572);
+    }
+    commands->finish(commands->context, count, data);
+    fn_82B6D908(key, data);
+    return 0;
+}

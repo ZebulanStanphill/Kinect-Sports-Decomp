@@ -1,38 +1,52 @@
-extern unsigned int *auStack_240;
-extern unsigned int *auStack_250;
-extern int fn_82D6F590();
-extern unsigned int lbl_83182A98;
+typedef struct MeshShape_82D4A728 MeshShape_82D4A728;
 
+typedef struct ShapeMethods_82D4A728 {
+    void *unused[5];
+    const char *(*getChildShape)(MeshShape_82D4A728 *self, unsigned int key, void *buffer); /* 0x14 */
+} ShapeMethods_82D4A728;
 
-unsigned __int64 fn_82D4A728(int *param_1,unsigned __int64 param_2)
+typedef struct Subpart_82D4A728 {
+    char padding00[0x1c];
+    int numTriangleShapes; /* 0x1c */
+    char padding20[0x18];
+} Subpart_82D4A728;
 
+struct MeshShape_82D4A728 {
+    ShapeMethods_82D4A728 *methods; /* 0x00 */
+    char padding04[0x1c];
+    int numBitsForSubpartIndex; /* 0x20 */
+    Subpart_82D4A728 *subparts; /* 0x24 */
+    unsigned int numSubparts;   /* 0x28 */
+};
+
+extern unsigned char *fn_82D6F590(void *result, const void *a, const void *b, const void *c, float tolerance);
+extern float lbl_83182A98;
+
+static __forceinline int NumTriangles_82D4A728(const MeshShape_82D4A728 *self, unsigned int subpart)
 {
-  __int64 lVar1;
-  char *pcVar2;
-  int iVar3;
-  unsigned __int64 uVar4;
-  unsigned int uVar5;
-  unsigned char auStack_250 [16];
-  unsigned char auStack_240 [576];
-  
-  uVar5 = (unsigned int)param_2 >> (0x20U - param_1[8] & 0x3f);
-  param_2 = 0xffffffff >> (param_1[8] & 0x3fU) & param_2;
-  iVar3 = uVar5 * 0x38;
-  do {
-    param_2 = param_2 + 1;
-    if (*(int *)(iVar3 + param_1[9] + 0x1c) <= (int)param_2) {
-      uVar5 = uVar5 + 1;
-      iVar3 = iVar3 + 0x38;
-      if ((unsigned int)param_1[10] <= uVar5) {
-        return 0xffffffffffffffff;
-      }
-      param_2 = 0;
-    }
-    uVar4 = uVar5 << (0x20U - param_1[8] & 0x3f) | param_2;
-    lVar1 = (**(int (***)())(*param_1 + 0x14))(param_1,uVar4,auStack_240);
-    pcVar2 = (char *)fn_82D6F590((double)lbl_83182A98,auStack_250,lVar1 + 0x20,lVar1 + 0x30,
-                                  lVar1 + 0x40);
-  } while (*pcVar2 != '\0');
-  return uVar4;
+    return self->subparts[subpart].numTriangleShapes;
 }
 
+unsigned int fn_82D4A728(MeshShape_82D4A728 *self, unsigned int key)
+{
+    unsigned int subpart = key >> (32 - self->numBitsForSubpartIndex);
+    int triangle = (0xffffffffU >> self->numBitsForSubpartIndex) & key;
+    unsigned int nextKey;
+    const char *shape;
+    unsigned char isDegenerate[16];
+    unsigned char buffer[512];
+
+    do {
+        ++triangle;
+        if (triangle >= NumTriangles_82D4A728(self, subpart)) {
+            ++subpart;
+            if (subpart >= self->numSubparts) {
+                return (unsigned int)-1;
+            }
+            triangle = 0;
+        }
+        nextKey = (subpart << (32 - self->numBitsForSubpartIndex)) | triangle;
+        shape = self->methods->getChildShape(self, nextKey, buffer);
+    } while (*fn_82D6F590(isDegenerate, shape + 0x20, shape + 0x30, shape + 0x40, lbl_83182A98) != 0);
+    return nextKey;
+}
