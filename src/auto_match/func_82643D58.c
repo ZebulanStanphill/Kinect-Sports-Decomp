@@ -1,44 +1,75 @@
-#define true 1
-#define TBLr 0
-extern int fn_82646E80();
-extern int fn_82646F48();
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
-extern unsigned int uStack_34;
+extern unsigned long __gregister_get(unsigned int);
+extern unsigned __int64 __mftb(void);
 
+typedef struct Queue_82643D58 {
+    unsigned int value;    /* 0x0 */
+    unsigned int position; /* 0x4 */
+} Queue_82643D58;
 
-void fn_82643D58(int param_1,unsigned int param_2,int param_3)
+typedef struct Object_82643D58 {
+    char pad0000[0x2a90];
+    Queue_82643D58 *queue; /* 0x2a90 */
+} Object_82643D58;
 
+typedef struct Thread_82643D58 {
+    char pad00[0x58];
+    unsigned int field58; /* 0x58 */
+} Thread_82643D58;
+
+typedef struct Wait_82643D58 {
+    Object_82643D58 *owner; /* 0x0 */
+    unsigned int type;      /* 0x4 */
+    unsigned int value;     /* 0x8 */
+    unsigned int start;     /* 0xc */
+    unsigned int last;      /* 0x10 */
+    unsigned int time;      /* 0x14 */
+} Wait_82643D58;
+
+extern int fn_82646F48(Wait_82643D58 *);
+extern void fn_82646E80(Wait_82643D58 *);
+
+static __forceinline int KeepWaiting(Wait_82643D58 *wait)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  unsigned int uVar3;
-  int iVar4;
-  int in_r13;
-  int aiStack_40 [3];
-  unsigned int uStack_34;
-  unsigned int uStack_30;
-  unsigned int uStack_2c;
-  
-  uVar1 = (*(unsigned int **)(param_1 + 0x2a90))[1];
-  uVar3 = param_3 - uVar1 & 3;
-  if ((uVar3 != 0) && ((uVar3 != 1 || ((uVar1 & 0xfffffffc) < param_2)))) {
-    aiStack_40[2] = **(unsigned int **)(param_1 + 0x2a90);
-    aiStack_40[1] = 2;
-    uStack_34 = *(unsigned int *)(*(int *)(in_r13 + 0x100) + 0x58);
-    uVar2 = TBLr;
-    uStack_2c = (unsigned int)uVar2;
-    aiStack_40[0] = param_1;
-    uStack_30 = uStack_34;
-    while( true ) {
-      iVar4 = fn_82646F48(aiStack_40);
-      if (iVar4 == 0) break;
-      uVar1 = *(unsigned int *)(*(int *)(param_1 + 0x2a90) + 4);
-      uVar3 = param_3 - uVar1 & 3;
-      if ((uVar3 == 0) || ((uVar3 == 1 && (param_2 <= (uVar1 & 0xfffffffc))))) break;
+    if (fn_82646F48(wait) == 0) {
+        return 0;
     }
-    fn_82646E80(aiStack_40);
-  }
-  return;
+    return 1;
 }
 
+static __forceinline Thread_82643D58 *CurrentThread(void)
+{
+    return *(Thread_82643D58 **)(__gregister_get(13) + 0x100);
+}
+
+void fn_82643D58(Object_82643D58 *self, unsigned int minimum, unsigned int position)
+{
+    Queue_82643D58 *queue = self->queue;
+    unsigned int current = queue->position;
+    unsigned int state = (position - current) & 3;
+
+    if (state != 0 && (state != 1 || minimum > (current & ~3U))) {
+        Wait_82643D58 wait;
+        Thread_82643D58 *thread = CurrentThread();
+        unsigned int value = queue->value;
+        unsigned int start;
+
+        wait.owner = self;
+        wait.type = 2;
+        start = thread->field58;
+        wait.value = value;
+        wait.start = start;
+        wait.last = start;
+        wait.time = (unsigned int)__mftb();
+        for (;;) {
+            if (!KeepWaiting(&wait)) {
+                break;
+            }
+            current = self->queue->position;
+            state = (position - current) & 3;
+            if (state == 0 || (state == 1 && minimum <= (current & ~3U))) {
+                break;
+            }
+        }
+        fn_82646E80(&wait);
+    }
+}

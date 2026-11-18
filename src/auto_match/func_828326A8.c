@@ -1,45 +1,63 @@
-#define true 1
-extern int fn_828223C8();
-extern int fn_82826498();
+typedef struct Item_828326A8 {
+    int f0;
+    unsigned int index; /* 0x4 */
+    int arg;            /* 0x8 */
+    int fC;
+    int f10;
+} Item_828326A8;
 
+typedef struct Vec_828326A8 {
+    Item_828326A8 *begin; /* 0x0 */
+    Item_828326A8 *end;   /* 0x4 */
+} Vec_828326A8;
 
-void fn_828326A8(int param_1)
+typedef struct Node_828326A8 {
+    char pad0[0x48];
+    Vec_828326A8 *items; /* 0x48 */
+    int f4C;
+    int f50;
+    unsigned char enabled; /* 0x54 */
+} Node_828326A8;
 
+typedef struct Entry_828326A8 {
+    int v[8];
+} Entry_828326A8;
+
+typedef struct Self_828326A8 {
+    char pad0[0x2fc];
+    Node_828326A8 head; /* 0x2fc */
+    char pad354[0x388 - 0x2fc - sizeof(Node_828326A8)];
+    Entry_828326A8 **table; /* 0x388 */
+    char pad38c[0x3ea - 0x38c];
+    unsigned char busy; /* 0x3ea */
+} Self_828326A8;
+
+extern void fn_828223C8(Node_828326A8 *node, Node_828326A8 **next);
+extern void fn_82826498(Self_828326A8 *self, Entry_828326A8 *entry, int arg, void (*callback)(void),
+                        Item_828326A8 *item);
+extern void fn_828324C0(void);
+
+void fn_828326A8(Self_828326A8 *self)
 {
-  unsigned int uVar1;
-  int iVar2;
-  char *pcVar3;
-  unsigned int *puVar4;
-  unsigned int uVar5;
-  int iVar6;
-  int aiStack_40 [16];
-  
-  *(unsigned char *)(param_1 + 0x3ea) = 1;
-  iVar2 = param_1 + 0x2fc;
-  do {
-    do {
-      fn_828223C8(iVar2,aiStack_40);
-      if (aiStack_40[0] == 0) {
-        return;
-      }
-      puVar4 = (unsigned int *)(aiStack_40[0] + 0x48);
-      uVar5 = 0;
-      uVar1 = ((*(int **)(aiStack_40[0] + 0x48))[1] - **(int **)(aiStack_40[0] + 0x48)) / 0x14;
-      iVar2 = aiStack_40[0];
-    } while (uVar1 == 0);
-    pcVar3 = (char *)(aiStack_40[0] + 0x54);
-    iVar6 = 0;
-    do {
-      iVar2 = aiStack_40[0];
-      if (*pcVar3 == '\0') break;
-      iVar2 = *(int *)*puVar4 + iVar6;
-      fn_82826498(param_1,(unsigned __int64)**(unsigned int **)(param_1 + 0x388) +
-                              ((unsigned __int64)*(unsigned int *)(iVar2 + 4) & 0x7ffffff) * 0x20,
-                      *(unsigned int *)(iVar2 + 8),0xffffffff828324c0);
-      uVar5 = uVar5 + 1;
-      iVar6 = iVar6 + 0x14;
-      iVar2 = aiStack_40[0];
-    } while (uVar5 < uVar1);
-  } while( true );
-}
+    Node_828326A8 *node;
+    unsigned int count;
+    unsigned int i;
 
+    self->busy = 1;
+    fn_828223C8(&self->head, &node);
+    while (node != 0) {
+        Node_828326A8 *current = node;
+
+        count = current->items->end - current->items->begin;
+        for (i = 0; i < count; i++) {
+            Item_828326A8 *item;
+
+            if (!current->enabled) {
+                break;
+            }
+            item = &current->items->begin[i];
+            fn_82826498(self, &(*self->table)[item->index], item->arg, fn_828324C0, item);
+        }
+        fn_828223C8(node, &node);
+    }
+}

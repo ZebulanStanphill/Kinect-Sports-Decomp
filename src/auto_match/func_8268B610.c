@@ -1,64 +1,87 @@
-typedef unsigned char bool;
-extern int fn_8267BE38();
-extern int fn_8267BF50();
-extern int fn_8268B368();
-extern int fn_82F68CC0();
-extern unsigned int lbl_831E7E64;
-extern unsigned __int64 storeWordConditionalIndexed();
+typedef struct DataDesc_8268B610 {
+    unsigned int size; /* 0x0 */
+    long refCount;     /* 0x4 */
+    char data[1];      /* 0x8 */
+} DataDesc_8268B610;
 
+typedef struct String_8268B610 {
+    union {
+        DataDesc_8268B610 *data;   /* 0x0 */
+        unsigned int heapTypeBits; /* 0x0 */
+    };
 
-void fn_8268B610(unsigned int *param_1,char *param_2,char *param_3)
+    void *heap; /* 0x4 */
+} String_8268B610;
 
+extern void *lbl_831E7E64;
+extern void *fn_8267BF50(const String_8268B610 *);
+extern DataDesc_8268B610 *fn_8268B368(String_8268B610 *, void *, unsigned int, unsigned int);
+extern void fn_8267BE38(DataDesc_8268B610 *);
+extern long _InterlockedExchangeAdd(long *, long);
+extern void *memcpy(void *, const void *, unsigned int);
+extern unsigned int strlen(const char *);
+
+static __forceinline DataDesc_8268B610 *GetData(const String_8268B610 *self)
 {
-  char cVar1;
-  unsigned __int64 uVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned __int64 uVar5;
-  unsigned int *puVar6;
-  char *pcVar7;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  if ((param_2 != (char *)0x0) && (param_3 != (char *)0x0)) {
-    pcVar7 = param_2;
-    if (param_3 == (char *)0xffffffff) {
-      do {
-        cVar1 = *pcVar7;
-        pcVar7 = pcVar7 + 1;
-      } while (cVar1 != '\0');
-      param_3 = pcVar7 + (-1 - (int)param_2);
-    }
-    uVar4 = *param_1;
-    uVar5 = 0;
-    uVar2 = (unsigned __int64)uVar4 & 0xfffffffc;
-    uVar3 = *(unsigned int *)uVar2 & 0x7fffffff;
-    if ((uVar4 & 3) == 0) {
-      uVar5 = (unsigned __int64)lbl_831E7E64;
-    }
-    else if ((uVar4 & 3) == 1) {
-      uVar5 = fn_8267BF50(param_1,0);
-    }
-    else if ((uVar4 & 3) < 3) {
-      uVar5 = (unsigned __int64)param_1[1];
-    }
-    uVar4 = fn_8268B368(param_1,uVar5,param_3 + uVar3,0);
-    fn_82F68CC0(uVar4 + 8,uVar2 + 8,uVar3);
-    fn_82F68CC0(uVar4 + uVar3 + 8,param_2,param_3);
-    *param_1 = uVar4 | *param_1 & 3;
-    do {
-      puVar6 = (unsigned int *)(uVar2 + 4);
-      uVar5 = (unsigned __int64)*puVar6;
-      if (in_RESERVE != '\0') {
-        uVar4 = storeWordConditionalIndexed(uVar5 - 1,0,uVar2 + 4);
-        *puVar6 = uVar4;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-    if (uVar5 == 1) {
-      fn_8267BE38(uVar2);
-    }
-  }
-  return;
+    return (DataDesc_8268B610 *)(self->heapTypeBits & ~3u);
 }
 
+static __forceinline void *GetHeap(const String_8268B610 *self)
+{
+    void *heap = 0;
+    switch (self->heapTypeBits & 3) {
+    case 0:
+        heap = lbl_831E7E64;
+        break;
+    case 1:
+        heap = fn_8267BF50(self);
+        break;
+    case 2:
+        heap = self->heap;
+        break;
+    }
+    return heap;
+}
+
+static __forceinline void SetData(String_8268B610 *self, DataDesc_8268B610 *desc)
+{
+    unsigned int heapType = self->heapTypeBits & 3;
+    self->data = desc;
+    self->heapTypeBits |= heapType;
+}
+
+static __forceinline void Release(DataDesc_8268B610 *desc)
+{
+    if (_InterlockedExchangeAdd(&desc->refCount, -1) - 1 == 0) {
+        fn_8267BE38(desc);
+    }
+}
+
+static __forceinline DataDesc_8268B610 *AllocDataCopy2(String_8268B610 *self, void *heap, unsigned int size,
+                                                       unsigned int lengthIsSize, const char *data1,
+                                                       unsigned int size1, const char *data2,
+                                                       unsigned int size2)
+{
+    DataDesc_8268B610 *desc = fn_8268B368(self, heap, size, lengthIsSize);
+    memcpy(desc->data, data1, size1);
+    memcpy(desc->data + size1, data2, size2);
+    return desc;
+}
+
+void fn_8268B610(String_8268B610 *self, const char *text, int length)
+{
+    DataDesc_8268B610 *old;
+    unsigned int oldSize;
+
+    if (!text || length == 0) {
+        return;
+    }
+    if (length == -1) {
+        length = (int)strlen(text);
+    }
+    old = GetData(self);
+    oldSize = old->size & 0x7fffffff;
+    SetData(self, AllocDataCopy2(self, GetHeap(self), oldSize + (unsigned int)length, 0, old->data, oldSize,
+                                 text, (unsigned int)length));
+    Release(old);
+}

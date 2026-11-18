@@ -1,28 +1,45 @@
-extern int fn_82331DB8();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Volume_82322080 {
+    char data[0x30];
+} Volume_82322080;
 
-unsigned __int64 fn_82322080(__int64 param_1,unsigned __int64 param_2,unsigned int param_3,__int64 param_4)
+typedef struct Obj_82322080 {
+    char pad[0x10];
+    Volume_82322080 inner; /* 0x10 */
+    Volume_82322080 outer; /* 0x40 */
+} Obj_82322080;
 
+extern int fn_82331DB8(Volume_82322080 *volume, void *target, __vector4 a, __vector4 b);
+
+/* The region code for a mode: one value when the flag is set, another when it is not. */
+static __forceinline int Region(unsigned int mode, unsigned int flag)
 {
-  int iVar1;
-  int iVar2;
-  
-  iVar1 = fn_82331DB8(param_1 + 0x10);
-  iVar2 = fn_82331DB8(param_1 + 0x40,param_2);
-  if ((iVar1 != 0) || (iVar2 != 0)) {
-    if (param_3 == 0) {
-      return -(unsigned __int64)(param_4 == 0) & 3;
+    switch (mode) {
+    case 0:
+        return flag ? 0 : 3;
+    case 1:
+        return flag ? 2 : 5;
+    case 2:
+        return flag ? 1 : 4;
+    case 3:
+        return 6;
     }
-    if (param_3 == 1) {
-      return (-(unsigned __int64)(param_4 != 0) << 0x20 | -(unsigned __int64)(param_4 != 0) & 0xfffffffd) + 5;
-    }
-    if (param_3 < 3) {
-      return (-(unsigned __int64)(param_4 != 0) << 0x20 | -(unsigned __int64)(param_4 != 0) & 0xfffffffd) + 4;
-    }
-    if (param_3 == 3) {
-      return 6;
-    }
-  }
-  return 7;
+    return 7;
 }
 
+int fn_82322080(Obj_82322080 *self, void *target, unsigned int mode, unsigned int flag, __vector4 a,
+                __vector4 b)
+{
+    int inner;
+    int outer;
+
+    inner = fn_82331DB8(&self->inner, target, a, b);
+    outer = fn_82331DB8(&self->outer, target, a, b);
+    if (inner == 0 && outer == 0) {
+        return 7;
+    }
+    return Region(mode, flag);
+}

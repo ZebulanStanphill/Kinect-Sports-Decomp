@@ -1,41 +1,62 @@
-typedef unsigned char bool;
-extern int fn_8236D750();
-extern int fn_82899478();
-extern unsigned int lbl_820239B4;
-extern unsigned int lbl_82023A58;
-extern unsigned int lbl_82023B40;
+typedef struct Var_8289A818 {
+    void *vt;          /* 0x0 */
+    int type;          /* 0x4 */
+    void *data[4];     /* 0x8 */
+    unsigned int size; /* 0x18 */
+} Var_8289A818;
 
+typedef struct Obj_8289A818 {
+    void *vt;                 /* 0x0 */
+    unsigned char busy;       /* 0x4 */
+    unsigned char enabled[4]; /* 0x5 */
+    int values[4];            /* 0xc */
+    Var_8289A818 var;         /* 0x1c */
+} Obj_8289A818;
 
-unsigned int * fn_8289A818(unsigned int *param_1,unsigned __int64 param_2,char param_3)
+extern void *fn_8236D750(void *value);
+extern void fn_82899478(Var_8289A818 *dst, void *src, int idx);
+extern char lbl_82023A58[];
+extern char lbl_82023B40[];
+extern char lbl_820239B4[];
 
+static __forceinline void Base_Init(Obj_8289A818 *self, unsigned char disabled)
 {
-  unsigned __int64 uVar1;
-  unsigned int *puVar2;
-  int iVar3;
-  __int64 lVar4;
-  
-  *param_1 = &lbl_82023A58;
-  lVar4 = 4;
-  *(unsigned char *)(param_1 + 1) = 0;
-  iVar3 = 0;
-  puVar2 = param_1 + 2;
-  do {
-    *(bool *)((int)param_1 + iVar3 + 5) = param_3 == '\0';
-    iVar3 = iVar3 + 1;
-    puVar2 = puVar2 + 1;
-    *puVar2 = 0;
-    lVar4 = lVar4 + -1;
-  } while (lVar4 != 0);
-  *param_1 = &lbl_82023B40;
-  param_1[7] = &lbl_820239B4;
-  param_1[8] = 9;
-  param_1[9] = 0;
-  param_1[10] = 0;
-  param_1[0xb] = 0;
-  param_1[0xc] = 0;
-  param_1[0xd] = 0;
-  uVar1 = fn_8236D750(param_2);
-  fn_82899478(param_1 + 7,uVar1,0);
-  return param_1;
+    int i;
+    unsigned char enabled;
+
+    self->vt = lbl_82023A58;
+    {
+        unsigned char *busy = &self->busy;
+
+        *busy = 0;
+    }
+    enabled = disabled == 0;
+    for (i = 0; i < 4; i++) {
+        self->enabled[i] = enabled;
+        self->values[i] = 0;
+    }
 }
 
+static __forceinline void Var_Init(Var_8289A818 *var)
+{
+    int i;
+
+    var->vt = lbl_820239B4;
+    var->type = 9;
+    for (i = 0; i < 4; i++) {
+        var->data[i] = 0;
+    }
+    var->size = 0;
+}
+
+Obj_8289A818 *fn_8289A818(Obj_8289A818 *self, void *value, unsigned char disabled)
+{
+    void *src;
+
+    Base_Init(self, disabled);
+    self->vt = lbl_82023B40;
+    Var_Init(&self->var);
+    src = fn_8236D750(value);
+    fn_82899478(&self->var, src, 0);
+    return self;
+}

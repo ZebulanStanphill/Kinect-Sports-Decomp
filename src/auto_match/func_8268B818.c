@@ -1,51 +1,74 @@
-typedef unsigned char bool;
-extern int fn_8267BE38();
-extern int fn_8267BF50();
-extern int fn_8268B368();
-extern int fn_82F68CC0();
-extern unsigned int lbl_831E7E64;
-extern unsigned __int64 storeWordConditionalIndexed();
+typedef struct DataDesc_8268B818 {
+    unsigned int size; /* 0x0 */
+    long refCount;     /* 0x4 */
+    char data[1];      /* 0x8 */
+} DataDesc_8268B818;
 
+typedef struct String_8268B818 {
+    union {
+        DataDesc_8268B818 *data;   /* 0x0 */
+        unsigned int heapTypeBits; /* 0x0 */
+    };
 
-void fn_8268B818(unsigned int *param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+    void *heap; /* 0x4 */
+} String_8268B818;
 
+extern void *lbl_831E7E64;
+extern void *fn_8267BF50(const String_8268B818 *);
+extern DataDesc_8268B818 *fn_8268B368(String_8268B818 *, void *, unsigned int, unsigned int);
+extern void fn_8267BE38(DataDesc_8268B818 *);
+extern long _InterlockedExchangeAdd(long *, long);
+extern void *memcpy(void *, const void *, unsigned int);
+
+static __forceinline DataDesc_8268B818 *GetData(const String_8268B818 *self)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  __int64 lVar3;
-  unsigned __int64 uVar4;
-  __int64 lVar5;
-  unsigned int *puVar6;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  uVar1 = *param_1;
-  uVar4 = 0;
-  if ((uVar1 & 3) == 0) {
-    uVar4 = (unsigned __int64)lbl_831E7E64;
-  }
-  else if ((uVar1 & 3) == 1) {
-    uVar4 = fn_8267BF50(param_1,0);
-  }
-  else if ((uVar1 & 3) < 3) {
-    uVar4 = (unsigned __int64)param_1[1];
-  }
-  lVar3 = fn_8268B368(param_1,uVar4,param_3,0);
-  fn_82F68CC0(lVar3 + 8,param_2,param_3);
-  lVar5 = ((unsigned __int64)uVar1 & 0xfffffffc) + 4;
-  *param_1 = (unsigned int)lVar3 | *param_1 & 3;
-  do {
-    puVar6 = (unsigned int *)lVar5;
-    uVar4 = (unsigned __int64)*puVar6;
-    if (in_RESERVE != '\0') {
-      uVar2 = storeWordConditionalIndexed(uVar4 - 1,0,lVar5);
-      *puVar6 = uVar2;
-      in_cr0 = 2;
-    }
-  } while (!(bool)(in_cr0 >> 1 & 1));
-  if (uVar4 == 1) {
-    fn_8267BE38((unsigned __int64)uVar1 & 0xfffffffc);
-  }
-  return;
+    return (DataDesc_8268B818 *)(self->heapTypeBits & ~3u);
 }
 
+static __forceinline void *GetHeap(const String_8268B818 *self)
+{
+    void *heap = 0;
+    switch (self->heapTypeBits & 3) {
+    case 0:
+        heap = lbl_831E7E64;
+        break;
+    case 1:
+        heap = fn_8267BF50(self);
+        break;
+    case 2:
+        heap = self->heap;
+        break;
+    }
+    return heap;
+}
+
+static __forceinline void SetData(String_8268B818 *self, DataDesc_8268B818 *desc)
+{
+    unsigned int heapType = self->heapTypeBits & 3;
+    self->data = desc;
+    self->heapTypeBits |= heapType;
+}
+
+static __forceinline void Release(DataDesc_8268B818 *desc)
+{
+    if (_InterlockedExchangeAdd(&desc->refCount, -1) - 1 == 0) {
+        fn_8267BE38(desc);
+    }
+}
+
+static __forceinline DataDesc_8268B818 *AllocDataCopy1(String_8268B818 *self, void *heap, unsigned int size,
+                                                       unsigned int lengthIsSize, const char *source,
+                                                       unsigned int copySize)
+{
+    DataDesc_8268B818 *desc = fn_8268B368(self, heap, size, lengthIsSize);
+    memcpy(desc->data, source, copySize);
+    return desc;
+}
+
+void fn_8268B818(String_8268B818 *self, const char *text, unsigned int size)
+{
+    DataDesc_8268B818 *old = GetData(self);
+
+    SetData(self, AllocDataCopy1(self, GetHeap(self), size, 0, text, size));
+    Release(old);
+}

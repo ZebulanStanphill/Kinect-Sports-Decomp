@@ -1,43 +1,61 @@
-extern int fn_82CE5410();
-extern int fn_82CE63B0();
-extern int fn_83081D68();
+// Havok: after fn_83081D68, renumbers a remap table in place. Negative entries are new
+// items: their original index (-v) is appended to the output array and they get the next
+// new index; other entries take the value of the entry they point to.
+typedef struct IntArray_83081DE0 {
+    int *data;
+    int size;
+    int capacityAndFlags;
+} IntArray_83081DE0;
 
+typedef struct Remap_83081DE0 {
+    int **table;
+    int count;
+} Remap_83081DE0;
 
-void fn_83081DE0(unsigned int *param_1,int *param_2)
+typedef struct Router_83081DE0 {
+    char pad0[0x10];
+    void *heap;
+} Router_83081DE0;
 
+extern void fn_83081D68(Remap_83081DE0 *self);
+extern Router_83081DE0 *fn_82CE5410(void);
+extern void fn_82CE63B0(void *heap, IntArray_83081DE0 *array, int elementSize);
+
+static __forceinline void ConstructWithCopy(int *t, int n, const int *tcopy)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  int iVar5;
-  
-  iVar2 = fn_83081D68();
-  iVar5 = 0;
-  iVar4 = 0;
-  if (0 < *(int *)(iVar2 + 4)) {
-    iVar2 = 0;
-    do {
-      iVar3 = *(int *)*param_1;
-      iVar1 = *(int *)(iVar2 + iVar3);
-      if (iVar1 < 0) {
-        iVar3 = fn_82CE5410();
-        if (param_2[1] == (param_2[2] & 0x3fffffffU)) {
-                    /* WARNING: Subroutine does not return */
-          fn_82CE63B0(*(unsigned int *)(iVar3 + 0x10),param_2,4);
-        }
-        *(int *)(param_2[1] * 4 + *param_2) = -iVar1;
-        param_2[1] = param_2[1] + 1;
-        *(int *)(*(int *)*param_1 + iVar2) = iVar5;
-        iVar5 = iVar5 + 1;
-      }
-      else {
-        *(unsigned int *)(iVar2 + iVar3) = *(unsigned int *)(iVar1 * 4 + iVar3);
-      }
-      iVar4 = iVar4 + 1;
-      iVar2 = iVar2 + 4;
-    } while (iVar4 < (int)param_1[1]);
-  }
-  return;
+    int i;
+    for (i = 0; i < n; ++i) {
+        t[i] = *tcopy;
+    }
 }
 
+static __forceinline void Push(IntArray_83081DE0 *a, const int *v)
+{
+    Router_83081DE0 *router = fn_82CE5410();
+    if (a->size == (a->capacityAndFlags & 0x3fffffff)) {
+        fn_82CE63B0(router->heap, a, 4);
+    }
+    ConstructWithCopy(a->data + a->size, 1, v);
+    a->size++;
+}
+
+void fn_83081DE0(Remap_83081DE0 *self, IntArray_83081DE0 *out)
+{
+    int next;
+    int i;
+
+    fn_83081D68(self);
+    next = 0;
+    for (i = 0; i < self->count; i++) {
+        int *table = *self->table;
+        int v = table[i];
+        if (v < 0) {
+            int index = -v;
+            Push(out, &index);
+            (*self->table)[i] = next;
+            next++;
+        } else {
+            table[i] = table[v];
+        }
+    }
+}

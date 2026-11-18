@@ -1,36 +1,18 @@
-extern unsigned int lbl_8201543C;
-extern unsigned int lbl_8201DDF4;
-extern unsigned int lbl_82022E64;
-extern unsigned int lbl_821AAD20;
+extern const float lbl_8201DDF4;
+extern const float lbl_82022E64;
 
-
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
-
-double fn_8287C138(float *param_1)
-
+/* Wraps an angle in degrees into [0, 360); an angle outside the accepted range becomes 0. */
+float fn_8287C138(float *angle)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  double dVar5;
-  
-  fVar4 = lbl_821AAD20;
-  fVar3 = lbl_8201543C;
-  fVar1 = *param_1;
-  if ((lbl_8201DDF4 <= fVar1) && (fVar1 <= lbl_82022E64)) {
-    while (fVar2 = *param_1, fVar1 < fVar4) {
-      fVar1 = fVar2 + fVar3;
-      *param_1 = fVar1;
+    if (*angle >= lbl_8201DDF4 && *angle <= lbl_82022E64) {
+        while (*angle < 0.0f) {
+            *angle += 360.0f;
+        }
+        while (*angle >= 360.0f) {
+            *angle -= 360.0f;
+        }
+        return *angle;
     }
-    while (fVar3 <= fVar2) {
-      fVar2 = *param_1 - fVar3;
-      *param_1 = fVar2;
-    }
-    return (double)*param_1;
-  }
-  dVar5 = (double)lbl_821AAD20;
-  *param_1 = lbl_821AAD20;
-  return dVar5;
+    *angle = 0.0f;
+    return 0.0f;
 }
-

@@ -1,41 +1,38 @@
-void fn_82C40BA0(int param_1,unsigned int *param_2,__int64 param_3,unsigned int *param_4,unsigned int *param_5,
-                  int *param_6,int param_7)
+typedef struct State_82C40BA0 {
+    char pad0[0x58];
+    int stride; /* 0x58 */
+    char pad5c[0x12];
+    unsigned short bits; /* 0x6e */
+    char pad70[0x198];
+    void (*write)(int value, void *destination, struct State_82C40BA0 *self, int flags); /* 0x208 */
+} State_82C40BA0;
 
+/* Clamps each input sample to the output bit depth and writes it, counting the samples written. */
+void fn_82C40BA0(State_82C40BA0 *self, int *position, int end, short **counter, char **output, int **input,
+                 int scale)
 {
-  short *psVar1;
-  unsigned int uVar2;
-  int iVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  unsigned int uVar6;
-  unsigned __int64 uVar7;
-  unsigned int *puVar8;
-  
-  uVar6 = *param_2;
-  psVar1 = (short *)*param_4;
-  uVar7 = (unsigned __int64)*param_5;
-  if ((int)uVar6 < (int)param_3) {
-    param_3 = param_3 - (unsigned __int64)uVar6;
-    puVar8 = (unsigned int *)(uVar6 * 4 + *param_6);
-    uVar6 = (int)param_3 + uVar6;
-    do {
-      uVar2 = *puVar8;
-      uVar5 = (unsigned __int64)(unsigned int)(1 << (*(unsigned short *)(param_1 + 0x6e) - 1 & 0x3f)) - 1;
-      uVar4 = ~uVar5;
-      if (((int)uVar4 <= (int)uVar2) && (uVar4 = (unsigned __int64)uVar2, (int)uVar5 < (int)uVar2)) {
-        uVar4 = uVar5;
-      }
-      (**(int (***)())(param_1 + 0x208))(uVar4,uVar7,param_1,0);
-      param_3 = param_3 + -1;
-      iVar3 = *(int *)(param_1 + 0x58);
-      puVar8 = puVar8 + 1;
-      *psVar1 = *psVar1 + 1;
-      uVar7 = (__int64)iVar3 * (__int64)param_7 + uVar7;
-    } while (param_3 != 0);
-  }
-  *param_2 = uVar6;
-  *param_4 = psVar1;
-  *param_5 = (unsigned int)uVar7;
-  return;
-}
+    int index = *position;
+    short *count = *counter;
+    char *destination = *output;
+    int *data = *input;
+    int value;
+    int maximum;
+    int minimum;
 
+    for (; index < end; index++) {
+        value = data[index];
+        maximum = (1 << (self->bits - 1)) - 1;
+        minimum = ~maximum;
+        if (value < minimum) {
+            value = minimum;
+        } else if (value > maximum) {
+            value = maximum;
+        }
+        self->write(value, destination, self, 0);
+        destination += self->stride * scale;
+        (*count)++;
+    }
+    *position = index;
+    *counter = count;
+    *output = destination;
+}

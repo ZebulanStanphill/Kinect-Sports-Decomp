@@ -1,41 +1,43 @@
-unsigned __int64 fn_82950DB8(int param_1)
+typedef struct Reg_82950DB8 {
+    char pad00[0x38];
+    unsigned int index; /* 0x38 */
+    unsigned int flags; /* 0x3c */
+} Reg_82950DB8;
 
+typedef struct Ins_82950DB8 {
+    unsigned int header;     /* 0x0: opcode in the top 12 bits, operand count below */
+    unsigned int numSources; /* 0x4 */
+    unsigned int *operands;  /* 0x8 */
+} Ins_82950DB8;
+
+typedef struct Ctx_82950DB8 {
+    char pad000[0x14];
+    Reg_82950DB8 **regs; /* 0x014 */
+    char pad018[0xec];
+    Ins_82950DB8 *ins; /* 0x104 */
+} Ctx_82950DB8;
+
+int fn_82950DB8(Ctx_82950DB8 *self)
 {
-  unsigned int uVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  unsigned __int64 uVar5;
-  unsigned __int64 uVar6;
-  __int64 lVar7;
-  int iVar8;
-  
-  uVar6 = 0;
-  uVar1 = **(unsigned int **)(param_1 + 0x104);
-  uVar5 = (unsigned __int64)uVar1;
-  if ((uVar1 & 0xfffff) != 0) {
-    iVar8 = 0;
-    lVar7 = (uVar5 & 0xfffff) << 2;
-    do {
-      iVar2 = *(int *)(*(int *)(param_1 + 0x104) + 8);
-      iVar3 = *(int *)(*(int *)(iVar8 + iVar2) * 4 + *(int *)(param_1 + 0x14));
-      iVar4 = *(int *)(*(int *)((int)(((uVar5 & 0xfffff) * 2 + uVar6 & 0xffffffff) << 2) + iVar2) *
-                       4 + *(int *)(param_1 + 0x14));
-      if ((*(int *)(iVar8 + iVar2) != *(int *)((int)lVar7 + iVar2)) ||
-         (((iVar2 = *(int *)(iVar4 + 0x38),
-           iVar2 != *(int *)((*(unsigned int **)(param_1 + 0x104))[2] + iVar8) &&
-           ((iVar2 == -1 || (iVar2 != *(int *)(iVar3 + 0x38))))) ||
-          ((*(unsigned int *)(iVar4 + 0x3c) ^ 0x80000) != *(unsigned int *)(iVar3 + 0x3c))))) {
-        return 1;
-      }
-      uVar6 = uVar6 + 1;
-      iVar8 = iVar8 + 4;
-      lVar7 = lVar7 + 4;
-    } while ((uVar6 & 0xffffffff) < (uVar5 & 0xfffff));
-  }
-  uVar1 = (unsigned int)(uVar5 & 0xfffff);
-  **(unsigned int **)(param_1 + 0x104) = uVar1 | 0x70000000;
-  *(unsigned int *)(*(int *)(param_1 + 0x104) + 4) = uVar1;
-  return 0;
+    unsigned int count;
+    unsigned int i;
+    Reg_82950DB8 *src;
+    Reg_82950DB8 *dst;
+    count = self->ins->header & 0xfffff;
+    for (i = 0; i < count; i++) {
+        src = self->regs[self->ins->operands[i]];
+        dst = self->regs[self->ins->operands[2 * count + i]];
+        if (self->ins->operands[i] != self->ins->operands[count + i]) {
+            return 1;
+        }
+        if (dst->index != self->ins->operands[i] && (dst->index == -1 || dst->index != src->index)) {
+            return 1;
+        }
+        if ((dst->flags ^ 0x80000) != src->flags) {
+            return 1;
+        }
+    }
+    self->ins->header = (count & 0xfffff) | 0x70000000;
+    self->ins->numSources = count;
+    return 0;
 }
-

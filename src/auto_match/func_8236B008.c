@@ -1,49 +1,40 @@
-extern unsigned int ltcg_pool_0_0f;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __VMXGetReg(int);
 
-void fn_8236B008(int param_1,unsigned int param_2)
+typedef struct State_8236B008 {
+    char pad[0xe90];
+    __vector4 value;
+    int key;
+    int mode;
+    int count;
+    int padEac;
+    __vector4 a;
+    __vector4 b;
+    float time;
+    int indices[3];
+} State_8236B008;
 
+static __forceinline void Store_8236B008(__vector4 *out, __vector4 value)
 {
-  int in_r0;
-  unsigned int *puVar1;
-  unsigned int in_register_00010010;
-  unsigned int in_register_00010014;
-  unsigned int in_register_00010018;
-  unsigned int in_vr1;
-  unsigned int in_register_000104d0;
-  unsigned int in_register_000104d4;
-  unsigned int in_register_000104d8;
-  unsigned int in_vr77;
-  
-  *(unsigned int *)(param_1 + 0xed0) = ltcg_pool_0_0f;
-  puVar1 = (unsigned int *)(in_r0 + param_1 + 0xe90 & 0xfffffff0);
-  *puVar1 = in_register_000104d0;
-  puVar1[1] = in_register_000104d4;
-  puVar1[2] = in_register_000104d8;
-  puVar1[3] = in_vr77;
-  *(unsigned int *)(param_1 + 0xea0) = 0xffffffff;
-  *(unsigned int *)(param_1 + 0xea8) = 0;
-  puVar1 = (unsigned int *)(param_1 + 0xeb0U & 0xfffffff0);
-  *puVar1 = in_register_000104d0;
-  puVar1[1] = in_register_000104d4;
-  puVar1[2] = in_register_000104d8;
-  puVar1[3] = in_vr77;
-  *(unsigned int *)(param_1 + 0xea4) = 3;
-  puVar1 = (unsigned int *)(param_1 + 0xec0U & 0xfffffff0);
-  *puVar1 = in_register_000104d0;
-  puVar1[1] = in_register_000104d4;
-  puVar1[2] = in_register_000104d8;
-  puVar1[3] = in_vr77;
-  for (puVar1 = (unsigned int *)(param_1 + 0xed4); puVar1 != (unsigned int *)(param_1 + 0xee0);
-      puVar1 = puVar1 + 1) {
-    *puVar1 = 0;
-  }
-  puVar1 = (unsigned int *)(in_r0 + param_1 + 0xe90 & 0xfffffff0);
-  *puVar1 = in_register_00010010;
-  puVar1[1] = in_register_00010014;
-  puVar1[2] = in_register_00010018;
-  puVar1[3] = in_vr1;
-  *(unsigned int *)(param_1 + 0xea0) = param_2;
-  return;
+    *out = value;
 }
 
+void fn_8236B008(State_8236B008 *self, int key, __vector4 value)
+{
+    int *index = self->indices;
+    self->time = 0.0f;
+    Store_8236B008(&self->value, __VMXGetReg(77));
+    self->key = -1;
+    self->count = 0;
+    Store_8236B008(&self->a, __VMXGetReg(77));
+    self->mode = 3;
+    Store_8236B008(&self->b, __VMXGetReg(77));
+    for (; index != self->indices + 3; index++) {
+        *index = 0;
+    }
+    self->value = value;
+    self->key = key;
+}

@@ -1,57 +1,40 @@
-extern unsigned int *auStack_20;
-extern unsigned int *auStack_30;
-extern int fn_82FFE0F0();
-extern unsigned int uStack_34;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float values[4];
+} Vector_83015740;
 
+Vector_83015740 __lvlx(const void *, int);
+Vector_83015740 __vspltw(Vector_83015740, unsigned int);
 
-int fn_83015740(int param_1,__int64 param_2,unsigned __int64 param_3)
-
+static __forceinline Vector_83015740 Replicate_83015740(float value)
 {
-  unsigned int *puVar1;
-  int in_r0;
-  int iVar2;
-  unsigned int *puVar3;
-  unsigned int *puVar4;
-  __int64 lVar5;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs39 [16];
-  unsigned int in_register_000103f0;
-  unsigned int uStack_34;
-  unsigned int auStack_30 [4];
-  unsigned char auStack_20 [16];
-  
-  iVar2 = fn_82FFE0F0(param_2 + 4,param_3);
-  puVar3 = (unsigned int *)(param_1 + -4);
-  lVar5 = 6;
-  if (iVar2 == 0) {
-    puVar4 = &uStack_34;
-    altv300_21(in_vs32,in_vs39);
-    puVar1 = (unsigned int *)((unsigned int)(auStack_20 + in_r0) & 0xfffffff0);
-    *puVar1 = in_register_000103f0;
-    puVar1[1] = in_register_000103f0;
-    puVar1[2] = in_register_000103f0;
-    puVar1[3] = in_register_000103f0;
-    puVar1 = (unsigned int *)((int)auStack_30 + in_r0 & 0xfffffff0);
-    *puVar1 = in_register_000103f0;
-    puVar1[1] = in_register_000103f0;
-    puVar1[2] = in_register_000103f0;
-    puVar1[3] = in_register_000103f0;
-    do {
-      puVar4 = puVar4 + 1;
-      puVar3 = puVar3 + 1;
-      *puVar3 = *puVar4;
-      lVar5 = lVar5 + -1;
-    } while (lVar5 != 0);
-  }
-  else {
-    puVar4 = (unsigned int *)(iVar2 + 4);
-    do {
-      puVar4 = puVar4 + 1;
-      puVar3 = puVar3 + 1;
-      *puVar3 = *puVar4;
-      lVar5 = lVar5 + -1;
-    } while (lVar5 != 0);
-  }
-  return param_1;
+    return __vspltw(__lvlx(&value, 0), 0);
 }
 
+typedef struct Value_83015740 {
+    float values[6];
+} Value_83015740;
+
+typedef struct Entry_83015740 {
+    unsigned int key;
+    int unused;
+    Value_83015740 value;
+} Entry_83015740;
+
+extern Entry_83015740 *fn_82FFE0F0(void *, unsigned int);
+
+Value_83015740 *fn_83015740(Value_83015740 *out, char *self, unsigned int key)
+{
+    Entry_83015740 *entry = fn_82FFE0F0(self + 4, key);
+    if (entry) {
+        *out = entry->value;
+    } else {
+        union {
+            Value_83015740 value;
+            Vector_83015740 vectors[2];
+        } zero;
+
+        zero.vectors[0] = zero.vectors[1] = Replicate_83015740(0.0f);
+        *out = zero.value;
+    }
+    return out;
+}

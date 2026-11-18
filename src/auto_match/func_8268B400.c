@@ -1,62 +1,82 @@
-typedef unsigned char bool;
-extern unsigned int *auStack_38;
-extern unsigned int *auStack_40;
-extern int fn_8267BE38();
-extern int fn_8267BF50();
-extern int fn_8268B368();
-extern int fn_826BD398();
-extern int memcpy();
-extern unsigned int lbl_831E7E64;
-extern unsigned __int64 storeWordConditionalIndexed();
+typedef struct DataDesc_8268B400 {
+    unsigned int size; /* 0x0 */
+    long refCount;     /* 0x4 */
+    char data[1];      /* 0x8 */
+} DataDesc_8268B400;
 
+typedef struct String_8268B400 {
+    union {
+        DataDesc_8268B400 *data;   /* 0x0 */
+        unsigned int heapTypeBits; /* 0x0 */
+    };
 
-void fn_8268B400(unsigned int *param_1,unsigned __int64 param_2)
+    void *heap; /* 0x4 */
+} String_8268B400;
 
+extern void *lbl_831E7E64;
+extern void *fn_8267BF50(const String_8268B400 *);
+extern DataDesc_8268B400 *fn_8268B368(String_8268B400 *, void *, unsigned int, unsigned int);
+extern void fn_8267BE38(DataDesc_8268B400 *);
+extern long _InterlockedExchangeAdd(long *, long);
+extern void *memcpy(void *, const void *, unsigned int);
+extern void fn_826BD398(char *, int *, unsigned int);
+
+static __forceinline DataDesc_8268B400 *GetData(const String_8268B400 *self)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  __int64 lVar3;
-  unsigned __int64 uVar4;
-  unsigned int *puVar5;
-  unsigned __int64 uVar6;
-  unsigned __int64 uVar7;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  unsigned int auStack_40 [2];
-  unsigned char auStack_38 [1];
-  
-  uVar2 = (unsigned __int64)*param_1 & 0xfffffffc;
-  auStack_40[0] = 0;
-  uVar6 = (unsigned __int64)*(unsigned int *)uVar2 & 0x7fffffff;
-  fn_826BD398(auStack_38,auStack_40,param_2);
-  uVar4 = 0;
-  uVar1 = *param_1 & 3;
-  if ((*param_1 & 3) == 0) {
-    uVar4 = (unsigned __int64)lbl_831E7E64;
-  }
-  else if (uVar1 == 1) {
-    uVar4 = fn_8267BF50(param_1,0);
-  }
-  else if (uVar1 < 3) {
-    uVar4 = (unsigned __int64)param_1[1];
-  }
-  uVar7 = (unsigned __int64)auStack_40[0];
-  lVar3 = fn_8268B368(param_1,uVar4,uVar7 + uVar6,0);
-  memcpy(lVar3 + 8,uVar2 + 8,uVar6);
-  memcpy(lVar3 + uVar6 + 8,auStack_38,uVar7);
-  *param_1 = (unsigned int)lVar3 | *param_1 & 3;
-  do {
-    puVar5 = (unsigned int *)(uVar2 + 4);
-    uVar6 = (unsigned __int64)*puVar5;
-    if (in_RESERVE != '\0') {
-      uVar1 = storeWordConditionalIndexed(uVar6 - 1,0,uVar2 + 4);
-      *puVar5 = uVar1;
-      in_cr0 = 2;
-    }
-  } while (!(bool)(in_cr0 >> 1 & 1));
-  if (uVar6 == 1) {
-    fn_8267BE38(uVar2);
-  }
-  return;
+    return (DataDesc_8268B400 *)(self->heapTypeBits & ~3u);
 }
 
+static __forceinline void *GetHeap(const String_8268B400 *self)
+{
+    void *heap = 0;
+    switch (self->heapTypeBits & 3) {
+    case 0:
+        heap = lbl_831E7E64;
+        break;
+    case 1:
+        heap = fn_8267BF50(self);
+        break;
+    case 2:
+        heap = self->heap;
+        break;
+    }
+    return heap;
+}
+
+static __forceinline void SetData(String_8268B400 *self, DataDesc_8268B400 *desc)
+{
+    unsigned int heapType = self->heapTypeBits & 3;
+    self->data = desc;
+    self->heapTypeBits |= heapType;
+}
+
+static __forceinline void Release(DataDesc_8268B400 *desc)
+{
+    if (_InterlockedExchangeAdd(&desc->refCount, -1) - 1 == 0) {
+        fn_8267BE38(desc);
+    }
+}
+
+static __forceinline DataDesc_8268B400 *AllocDataCopy2(String_8268B400 *self, void *heap, unsigned int size,
+                                                       unsigned int lengthIsSize, const char *data1,
+                                                       unsigned int size1, const char *data2,
+                                                       unsigned int size2)
+{
+    DataDesc_8268B400 *desc = fn_8268B368(self, heap, size, lengthIsSize);
+    memcpy(desc->data, data1, size1);
+    memcpy(desc->data + size1, data2, size2);
+    return desc;
+}
+
+void fn_8268B400(String_8268B400 *self, unsigned int character)
+{
+    DataDesc_8268B400 *old = GetData(self);
+    unsigned int size = old->size & 0x7fffffff;
+    char encoded[8];
+    int encodedSize = 0;
+
+    fn_826BD398(encoded, &encodedSize, character);
+    SetData(self, AllocDataCopy2(self, GetHeap(self), size + (unsigned int)encodedSize, 0, old->data, size,
+                                 encoded, (unsigned int)encodedSize));
+    Release(old);
+}

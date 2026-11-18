@@ -1,56 +1,73 @@
-extern int fn_8265C940();
-extern int fn_8265C990();
-extern int fn_82935240();
-extern int fn_829354C0();
-extern int fn_82A99B70();
-extern int fn_82A99BC8();
-extern int fn_82A99C28();
-extern int fn_82A9A860();
-extern int fn_82A9BE60();
+typedef struct Variable_82A9C6B0 {
+    unsigned int name;
+    unsigned int typeOffset;
+    int function;
+    int scope;
+} Variable_82A9C6B0;
 
+typedef struct Variables_82A9C6B0 {
+    Variable_82A9C6B0 *data;
+    unsigned int count;
+} Variables_82A9C6B0;
 
-void fn_82A9C6B0(int param_1,unsigned __int64 param_2,unsigned int *param_3,unsigned __int64 param_4)
+typedef struct Context_82A9C6B0 {
+    char unknown[0x2c];
+    const char *strings;
+    char unknown30[0x90 - 0x30];
+    int result;
+} Context_82A9C6B0;
 
+extern char lbl_82196582[];
+extern void fn_82A99BC8(void *);
+extern void fn_82A99B70(void *, const char *, ...);
+extern void fn_82A9A860(void *);
+extern void fn_82A99C28(void *, const char *);
+extern unsigned int fn_82935240(void *);
+extern void *fn_8265C940(unsigned int, unsigned int);
+extern void fn_8265C990(void *, unsigned int);
+extern void fn_829355B0(void *, void *, unsigned int, int);
+extern void fn_82A9BE60(Context_82A9C6B0 *, void *, void *, void *, const char *);
+
+static __forceinline void Attribute_82A9C6B0(void *writer, const char *name, int value)
 {
-  unsigned __int64 uVar1;
-  __int64 lVar2;
-  __int64 lVar3;
-  unsigned int *puVar4;
-  
-  fn_82A99BC8(param_2);
-  fn_82A99B70(param_2,0xffffffff820d28b4,0xffffffff820d2b08);
-  fn_82A9A860(param_2);
-  uVar1 = fn_82935240(param_4);
-  lVar2 = fn_8265C940((uVar1 & 0x3fffffff) << 2,0x24870000);
-  if (lVar2 == 0) {
-    *(unsigned int *)(param_1 + 0x90) = 0x8007000e;
-  }
-  else {
-    fn_829354C0(param_4,lVar2,uVar1,0);
-    puVar4 = (unsigned int *)*param_3;
-    if (puVar4 < puVar4 + param_3[1] * 4) {
-      do {
-        if ((*puVar4 & 0x80000000) != 0) {
-          fn_82A99BC8(param_2);
-          fn_82A99B70(param_2,0xffffffff820d28b4,0xffffffff82006634);
-          fn_82A99B70(param_2,0xffffffff820d2864,0xffffffff82011264,
-                        (int)((int)puVar4 - *param_3) >> 4);
-          fn_82A99B70(param_2,0xffffffff820d2864,0xffffffff8200ed6c,puVar4[2]);
-          fn_82A99B70(param_2,0xffffffff820d2864,0xffffffff820d28ec,puVar4[3]);
-          fn_82A9A860(param_2);
-          lVar3 = -0x7de69a7e;
-          if ((int)((unsigned __int64)*puVar4 & 0x7fffffff) != -1) {
-            lVar3 = (unsigned __int64)*(unsigned int *)(param_1 + 0x2c) + ((unsigned __int64)*puVar4 & 0x7fffffff);
-          }
-          fn_82A9BE60(param_1,param_2,lVar2 + 8,(unsigned __int64)puVar4[1] + lVar2 + 8,lVar3);
-          fn_82A99C28(param_2,0xffffffff82006634);
-        }
-        puVar4 = puVar4 + 4;
-      } while (puVar4 < (unsigned int *)(param_3[1] * 0x10 + *param_3));
-    }
-    fn_8265C990(lVar2,0x24870000);
-  }
-  fn_82A99C28(param_2,0xffffffff820d2b08);
-  return;
+    fn_82A99B70(writer, " %s=\"%d\"", name, value);
 }
 
+static __forceinline const char *String_82A9C6B0(Context_82A9C6B0 *self, int offset)
+{
+    return offset == -1 ? lbl_82196582 : self->strings + offset;
+}
+
+void fn_82A9C6B0(Context_82A9C6B0 *self, void *writer, Variables_82A9C6B0 *variables, void *types)
+{
+    unsigned int count;
+    char *storage;
+    fn_82A99BC8(writer);
+    fn_82A99B70(writer, "<%s", "variables");
+    fn_82A9A860(writer);
+    count = fn_82935240(types);
+    storage = fn_8265C940(count * 4, 0x24870000);
+    if (!storage) {
+        self->result = 0x8007000e;
+    } else {
+        Variable_82A9C6B0 *variable;
+        char *typeData;
+        fn_829355B0(types, storage, count, 0);
+        typeData = storage + 8;
+        for (variable = variables->data; variable < variables->data + variables->count; ++variable) {
+            if (variable->name & 0x80000000) {
+                fn_82A99BC8(writer);
+                fn_82A99B70(writer, "<%s", "variable");
+                Attribute_82A9C6B0(writer, "id", variable - variables->data);
+                Attribute_82A9C6B0(writer, "function", variable->function);
+                Attribute_82A9C6B0(writer, "scope", variable->scope);
+                fn_82A9A860(writer);
+                fn_82A9BE60(self, writer, typeData, storage + variable->typeOffset + 8,
+                            String_82A9C6B0(self, variable->name & 0x7fffffff));
+                fn_82A99C28(writer, "variable");
+            }
+        }
+        fn_8265C990(storage, 0x24870000);
+    }
+    fn_82A99C28(writer, "variables");
+}

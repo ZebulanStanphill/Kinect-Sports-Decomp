@@ -1,42 +1,92 @@
-extern int fn_82D35890();
-extern int fn_82D93438();
+typedef struct Collidable_82DB0B68 {
+    void *shape;
+    unsigned int shapeKey;
+    void *motion;
+    void *parent;
+    signed char ownerOffset;
+} Collidable_82DB0B68;
 
+typedef struct Entity_82DB0B68 {
+    char pad[0x10];
+    Collidable_82DB0B68 collidable;
+} Entity_82DB0B68;
 
-void fn_82DB0B68(int param_1,int param_2)
+typedef struct CollidableArray_82DB0B68 {
+    Collidable_82DB0B68 **data;
+    int size;
+    int capacityAndFlags;
+} CollidableArray_82DB0B68;
 
+typedef struct Listener_82DB0B68 {
+    char pad0[0xc];
+    void *world;
+    char pad10[0x24 - 0x10];
+    unsigned char enabled;
+    char pad25[0x44 - 0x25];
+    CollidableArray_82DB0B68 collidables;
+} Listener_82DB0B68;
+
+extern int fn_82D93438(void *owner);
+extern void fn_82D35890(void *world, unsigned short id);
+
+static __forceinline void *GetOwner(Collidable_82DB0B68 *c)
 {
-  short sVar1;
-  int *piVar2;
-  int iVar3;
-  int iVar4;
-  
-  if (*(char *)(param_1 + 0x24) != '\0') {
-    sVar1 = fn_82D93438((int)*(char *)(param_2 + 0x20) + param_2 + 0x10);
-    iVar4 = 0;
-    if (0 < *(int *)(param_1 + 0x48)) {
-      piVar2 = *(int **)(param_1 + 0x44);
-      do {
-        if (*piVar2 == param_2 + 0x10) {
-          if (iVar4 != -1) {
-            iVar3 = *(int *)(param_1 + 0x48) + -1;
-            *(int *)(param_1 + 0x48) = iVar3;
-            if (iVar3 == iVar4) {
-              return;
-            }
-            *(unsigned int *)(iVar4 * 4 + *(int *)(param_1 + 0x44)) =
-                 *(unsigned int *)(iVar3 * 4 + *(int *)(param_1 + 0x44));
-            return;
-          }
-          break;
-        }
-        iVar4 = iVar4 + 1;
-        piVar2 = piVar2 + 1;
-      } while (iVar4 < *(int *)(param_1 + 0x48));
-    }
-    if (sVar1 != -1) {
-      fn_82D35890(*(unsigned int *)(param_1 + 0xc));
-    }
-  }
-  return;
+    return (char *)c + c->ownerOffset;
 }
 
+static __forceinline int IndexOf(CollidableArray_82DB0B68 *a, Collidable_82DB0B68 *c)
+{
+    int i = 0;
+    int n = a->size;
+
+    if (0 < n) {
+        Collidable_82DB0B68 **p = a->data;
+
+        do {
+            if (*p == c) {
+                return i;
+            }
+            i++;
+            p++;
+        } while (i < n);
+    }
+    return -1;
+}
+
+/* hkMemUtil::memCpyOneAligned for a 4-byte element: a loop over its words. */
+static __forceinline void memCpyOneAligned(void *dst, const void *src)
+{
+    unsigned int k;
+
+    for (k = 0; k < 1; k++) {
+        ((unsigned int *)dst)[k] = ((const unsigned int *)src)[k];
+    }
+}
+
+static __forceinline void RemoveAt(CollidableArray_82DB0B68 *a, int index)
+{
+    CollidableArray_82DB0B68 *arr = a;
+
+    arr->size--;
+    if (arr->size != index) {
+        memCpyOneAligned(arr->data + index, arr->data + arr->size);
+    }
+}
+
+void fn_82DB0B68(Listener_82DB0B68 *self, Entity_82DB0B68 *entity)
+{
+    Collidable_82DB0B68 *c = &entity->collidable;
+
+    if (self->enabled) {
+        unsigned short id = fn_82D93438(GetOwner(c));
+        int index = IndexOf(&self->collidables, c);
+
+        if (index == -1) {
+            if (id != 0xffff) {
+                fn_82D35890(self->world, id);
+            }
+        } else {
+            RemoveAt(&self->collidables, index);
+        }
+    }
+}

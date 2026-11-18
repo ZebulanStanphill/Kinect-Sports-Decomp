@@ -1,37 +1,39 @@
-extern int fn_82F63BA0();
-extern int fn_82F68240();
-extern int malloc();
+extern int *_errno(void);
+extern void _invalid_parameter_noinfo(void);
+extern void *malloc(unsigned int size);
 
-
-unsigned int fn_82F6E248(unsigned int param_1,unsigned int param_2)
-
+void *fn_82F6E248(unsigned int size, unsigned int align)
 {
-  unsigned int *puVar1;
-  int iVar2;
-  unsigned int uVar3;
-  
-  if ((param_2 - 1 & param_2) == 0) {
-    if (param_2 < 5) {
-      param_2 = 4;
-    }
-    uVar3 = param_2 + 3 + param_1;
-    if (uVar3 < param_1) {
-      puVar1 = (unsigned int *)fn_82F68240();
-      *puVar1 = 0xc;
-      return 0;
-    }
-    iVar2 = malloc(uVar3);
-    if (iVar2 != 0) {
-      uVar3 = iVar2 + param_2 + 3 & ~(param_2 - 1);
-      *(int *)(uVar3 - 4) = iVar2;
-      return uVar3;
-    }
-  }
-  else {
-    puVar1 = (unsigned int *)fn_82F68240();
-    *puVar1 = 0x16;
-    fn_82F63BA0();
-  }
-  return 0;
-}
+    unsigned int mask;
+    unsigned int extra;
+    unsigned int total;
+    char *block;
+    char *result;
 
+    if (((align - 1) & align) != 0) {
+        *_errno() = 0x16;
+        _invalid_parameter_noinfo();
+        result = 0;
+        goto done;
+    }
+    if (align <= 4) {
+        align = 4;
+    }
+    mask = align - 1;
+    extra = mask + 4;
+    total = extra + size;
+    if (size > total) {
+        *_errno() = 0xc;
+        result = 0;
+        goto done;
+    }
+    block = (char *)malloc(total);
+    if (block == 0) {
+        result = 0;
+        goto done;
+    }
+    result = (char *)((unsigned int)(block + extra) & ~mask);
+    ((void **)result)[-1] = block;
+done:
+    return result;
+}

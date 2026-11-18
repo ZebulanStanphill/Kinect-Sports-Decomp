@@ -1,25 +1,52 @@
-extern unsigned int uStack_28;
-extern unsigned int uStack_30;
+#include <string.h>
 
+typedef struct Info_82E73170 {
+    unsigned short w[8];
+} Info_82E73170;
 
-void fn_82E73170(int param_1,int *param_2)
+typedef struct Source_82E73170 Source_82E73170;
 
+typedef struct SourceVt_82E73170 {
+    void *slots[10];
+    int (*getInfo)(Source_82E73170 *self, Info_82E73170 *info);
+} SourceVt_82E73170;
+
+struct Source_82E73170 {
+    SourceVt_82E73170 *vt;
+};
+
+typedef struct Sample_82E73170 Sample_82E73170;
+
+typedef struct SampleVt_82E73170 {
+    void *slot0;
+    void (*attach)(Sample_82E73170 *self, Source_82E73170 *source);
+} SampleVt_82E73170;
+
+struct Sample_82E73170 {
+    SampleVt_82E73170 *vt;
+    int pad[5];
+    unsigned __int64 time;
+};
+
+typedef struct Obj_82E73170 {
+    char pad[0x1d8];
+    Source_82E73170 *source;
+    int pad2;
+    unsigned __int64 minTime;
+} Obj_82E73170;
+
+void fn_82E73170(Obj_82E73170 *self, Sample_82E73170 *sample)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uStack_30;
-  unsigned __int64 uStack_28;
-  
-  uVar2 = *(unsigned __int64 *)(param_2 + 6);
-  uStack_30 = 0;
-  uStack_28 = 0;
-  iVar1 = (**(int (***)())(**(int **)(param_1 + 0x1d8) + 0x28))(*(int **)(param_1 + 0x1d8),&uStack_30);
-  if (-1 < iVar1) {
-    if (((((unsigned __int64)(uStack_28) >> 16) & 0xFFFF) == 0) || (uVar2 < *(unsigned __int64 *)(param_1 + 0x1e0))) {
-      *(unsigned __int64 *)(param_1 + 0x1e0) = uVar2;
-    }
-    (**(int (***)())(*param_2 + 4))(param_2,*(unsigned int *)(param_1 + 0x1d8));
-  }
-  return;
-}
+    unsigned __int64 time = sample->time;
+    Info_82E73170 info;
 
+    memset(&info, 0, sizeof(info));
+    if (self->source->vt->getInfo(self->source, &info) >= 0) {
+        if (info.w[5] == 0) {
+            self->minTime = time;
+        } else if (time < self->minTime) {
+            self->minTime = time;
+        }
+        sample->vt->attach(sample, self->source);
+    }
+}

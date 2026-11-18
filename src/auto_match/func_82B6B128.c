@@ -1,46 +1,66 @@
-#define true 1
-extern int fn_82AB15D0();
-extern int fn_82B6B008();
+typedef struct Node_82B6B128 {
+    struct Node_82B6B128 *next;
+} Node_82B6B128;
 
+typedef struct Pool_82B6B128 {
+    void *allocate;
+    void *release;
+    void *context;
+    Node_82B6B128 **freeList;
+    unsigned int itemSize;
+    unsigned int capacity;
+    unsigned int count;
+    struct Pool_82B6B128 *next;
+} Pool_82B6B128;
 
-unsigned int * fn_82B6B128(unsigned int *param_1)
+extern void fn_82AB15D0(int, const char *, ...);
+extern Pool_82B6B128 *fn_82B6B008(unsigned int, unsigned int, void *, void *, void *);
 
+Node_82B6B128 *fn_82B6B128(Pool_82B6B128 *head)
 {
-  unsigned int *puVar1;
-  int *piVar2;
-  unsigned int *puVar3;
-  
-  puVar3 = (unsigned int *)0x0;
-  if (param_1 == (unsigned int *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d6a20,0xffffffff820d9770,0xb2);
-  }
-LAB_82b6b174:
-  do {
-    if (param_1 == (unsigned int *)0x0) {
-      fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d6a20,0xffffffff820d9770,0xba);
-      return (unsigned int *)0x0;
+    Pool_82B6B128 *pool = head;
+    Node_82B6B128 *item = 0;
+    if (!head) {
+        fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "pHead",
+                    "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\"
+                    "xgraphics\\ucode\\ssm\\util\\mempriv.h",
+                    178);
     }
-    piVar2 = param_1 + 6;
-    if (param_1[6] == 0) {
-      do {
-        puVar1 = (unsigned int *)param_1[7];
-        if (puVar1 == (unsigned int *)0x0) break;
-        piVar2 = puVar1 + 6;
-        param_1 = puVar1;
-      } while (puVar1[6] == 0);
-      if (*piVar2 != 0) goto LAB_82b6b174;
-      puVar1 = (unsigned int *)fn_82B6B008(param_1[5],param_1[4],*param_1,param_1[1],param_1[2]);
-      param_1[7] = puVar1;
-      param_1 = puVar1;
-    }
-    else {
-      puVar3 = *(unsigned int **)param_1[3];
-      *(unsigned int *)param_1[3] = *puVar3;
-    }
-    if (puVar3 != (unsigned int *)0x0) {
-      param_1[6] = param_1[6] + -1;
-      return puVar3;
-    }
-  } while( true );
+restart:
+    do {
+        unsigned int *count;
+        if (!pool) {
+            fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "pHead",
+                        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\"
+                        "xgraphics\\ucode\\ssm\\util\\mempriv.h",
+                        186);
+            return 0;
+        }
+        count = &pool->count;
+        if (pool->count) {
+            item = *pool->freeList;
+            *pool->freeList = item->next;
+        } else {
+            Pool_82B6B128 *next;
+            unsigned int itemSize;
+            do {
+                next = pool->next;
+                if (!next) {
+                    break;
+                }
+                count = &next->count;
+                pool = next;
+            } while (next->count == 0);
+            if (*count) {
+                goto restart;
+            }
+            itemSize = pool->itemSize;
+            pool->next = fn_82B6B008(pool->capacity, itemSize, pool->allocate, pool->release, pool->context);
+            pool = pool->next;
+        }
+        if (item) {
+            --pool->count;
+            return item;
+        }
+    } while (1);
 }
-

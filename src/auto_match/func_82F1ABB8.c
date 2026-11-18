@@ -1,66 +1,60 @@
-extern int fn_82F1AA38();
+typedef struct Macroblock_82F1ABB8 {
+    int pad0;
+    int codes[6];
+    int intra;
+    int acPred[6];
+    char pad38[0x4a - 0x38];
+    unsigned char coded[6];
+    char pad50[0x114 - 0x50];
+} Macroblock_82F1ABB8;
 
+typedef struct Decoder_82F1ABB8 {
+    char pad0[0x2d0];
+    unsigned int mbWidth;
+    char pad2d4[0xa0c - 0x2d4];
+    int advanced;
+    char padA10[0xaf0 - 0xa10];
+    int mode;
+    char padAF4[0x1e54 - 0xaf4];
+    Macroblock_82F1ABB8 *mbs;
+    char pad1E58[0x2048 - 0x1e58];
+    const int *scan;
+} Decoder_82F1ABB8;
 
-void fn_82F1ABB8(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,int param_4,__int64 param_5,
-                  __int64 param_6)
+extern const int lbl_831A7DC0[64];
+extern const int lbl_831A7EC0[64];
+extern const int lbl_831A7FC0[64];
 
+extern int fn_82F1AA38(Decoder_82F1ABB8 *self, short *coef, short *out, const int *scan);
+
+void fn_82F1ABB8(Decoder_82F1ABB8 *self, unsigned int start, unsigned int end, int mbIndex, short *coef,
+                 short *out)
 {
-  unsigned int uVar1;
-  __int64 lVar2;
-  unsigned int uVar3;
-  unsigned __int64 uVar4;
-  unsigned int *puVar5;
-  int *piVar6;
-  int iVar7;
-  unsigned int *puVar8;
-  __int64 lVar9;
-  __int64 lVar10;
-  
-  uVar4 = (unsigned __int64)*(unsigned int *)(param_1 + 0x2048);
-  puVar5 = (unsigned int *)(*(int *)(param_1 + 0x1e54) + param_4 * 0x114);
-  if ((param_2 & 0xffffffff) < (param_3 & 0xffffffff)) {
-    lVar2 = param_3 - param_2;
-    do {
-      uVar3 = 0;
-      if (*(int *)(param_1 + 0x2d0) != 0) {
-        do {
-          iVar7 = 0;
-          piVar6 = puVar5 + 8;
-          lVar9 = param_6;
-          lVar10 = param_5;
-          puVar8 = puVar5;
-          do {
-            puVar8 = puVar8 + 1;
-            if (*(char *)((int)puVar5 + iVar7 + 0x4a) != '\0') {
-              if ((*(int *)(param_1 + 0xa0c) != 0) &&
-                 ((*(int *)(param_1 + 0xaf0) == 0 || (*(int *)(param_1 + 0xaf0) == 4)))) {
-                if (puVar5[7] == 0) {
-                  uVar4 = 0xffffffff831a7fc0;
-                }
-                else {
-                  uVar4 = 0xffffffff831a7dc0;
-                  if (*piVar6 == 0) {
-                    uVar4 = 0xffffffff831a7ec0;
-                  }
-                }
-              }
-              uVar1 = fn_82F1AA38(param_1,lVar10,lVar9,uVar4);
-              *puVar8 = uVar1;
-            }
-            iVar7 = iVar7 + 1;
-            lVar10 = lVar10 + 0x100;
-            lVar9 = lVar9 + 2;
-            piVar6 = piVar6 + 1;
-          } while (iVar7 < 6);
-          uVar3 = uVar3 + 1;
-          puVar5 = puVar5 + 0x45;
-          param_5 = param_5 + 0x600;
-          param_6 = param_6 + 0xc;
-        } while (uVar3 < *(unsigned int *)(param_1 + 0x2d0));
-      }
-      lVar2 = lVar2 + -1;
-    } while (lVar2 != 0);
-  }
-  return;
-}
+    const int *scan = self->scan;
+    Macroblock_82F1ABB8 *mb = &self->mbs[mbIndex];
+    unsigned int row;
+    unsigned int col;
+    int i;
 
+    for (row = start; row < end; row++) {
+        for (col = 0; col < self->mbWidth; col++) {
+            short *c = coef;
+            short *o = out;
+            unsigned char *coded;
+            int *code;
+            for (i = 0, coded = mb->coded, code = mb->codes; i < 6; i++, code++) {
+                if (coded[i]) {
+                    if (self->advanced != 0 && (self->mode == 0 || self->mode == 4)) {
+                        scan = mb->intra ? (mb->acPred[i] ? lbl_831A7DC0 : lbl_831A7EC0) : lbl_831A7FC0;
+                    }
+                    *code = fn_82F1AA38(self, c, o, scan);
+                }
+                c += 0x80;
+                o++;
+            }
+            mb++;
+            coef += 0x300;
+            out += 6;
+        }
+    }
+}

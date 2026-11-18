@@ -1,40 +1,47 @@
-#define true 1
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern unsigned int *auStack_20;
-extern int fn_82BFB960();
-extern unsigned __int64 storeDoubleWordConditionalIndexed();
+#define __lwsync() __emit(0x7C2004AC)
 
+__int64 _InterlockedCompareExchange64(__int64 volatile *dest, __int64 exchange, __int64 comparand);
 
-int fn_82BFBA20(unsigned __int64 param_1,unsigned __int64 param_2,int param_3)
+typedef struct Header_82BFBA20 {
+    unsigned int next; /* 0x0 */
+    unsigned int base; /* 0x4 */
+} Header_82BFBA20;
 
+typedef union Head_82BFBA20 {
+    __int64 value;
+
+    struct {
+        unsigned int first;
+        unsigned int sequence;
+    } parts;
+} Head_82BFBA20;
+
+extern unsigned int fn_82BFB960(unsigned int *pool, unsigned int *outBase, int size, void *context);
+
+/* Allocates a block with an 8-byte trailer and pushes the trailer on a lock-free list. */
+unsigned int fn_82BFBA20(unsigned int *pool, __int64 volatile *head, int size, void *context)
 {
-  int iVar1;
-  __int64 *plVar2;
-  unsigned int *puVar3;
-  __int64 lVar4;
-  unsigned int auStack_20 [2];
-  
-  if ((((param_3 < 1) || (param_3 == -8)) || (param_3 + 8 < param_3)) ||
-     (iVar1 = fn_82BFB960(param_1,auStack_20), iVar1 == 0)) {
-    iVar1 = 0;
-  }
-  else {
-    puVar3 = (unsigned int *)(iVar1 + param_3);
-    puVar3[1] = auStack_20[0];
-    while( true ) {
-      plVar2 = (__int64 *)param_2;
-      lVar4 = *plVar2;
-      auStack_20[0] = (unsigned int)((unsigned __int64)lVar4 >> 0x20);
-      *puVar3 = auStack_20[0];
-      sync(1);
-      if (*plVar2 == lVar4) break;
-      lVar4 = storeDoubleWordConditionalIndexed(*plVar2,0,param_2);
-      *plVar2 = lVar4;
-    }
-    lVar4 = storeDoubleWordConditionalIndexed
-                      ((lVar4 + 1U & 0x7fffffff) + (ZEXT48(puVar3) << 0x20),0,param_2);
-    *plVar2 = lVar4;
-  }
-  return iVar1;
-}
+    unsigned int block;
+    unsigned int base;
+    Header_82BFBA20 *header;
+    Head_82BFBA20 old;
+    __int64 previous;
 
+    if (size <= 0 || size + 8 == 0 || size + 8 < size) {
+        return 0;
+    }
+    block = fn_82BFB960(pool, &base, size + 8, context);
+    if (block == 0) {
+        return 0;
+    }
+    header = (Header_82BFBA20 *)(block + size);
+    header->base = base;
+    do {
+        old.value = *head;
+        header->next = old.parts.first;
+        __lwsync();
+        previous = _InterlockedCompareExchange64(
+            head, ((__int64)(unsigned int)header << 32) + ((old.value + 1) & 0x7fffffff), old.value);
+    } while (previous != old.value);
+    return block;
+}

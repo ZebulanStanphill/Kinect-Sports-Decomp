@@ -1,17 +1,25 @@
-void fn_82E01058(int param_1,int param_2,unsigned __int64 param_3,int *param_4)
+#define ALIGN16(x) (((x) + 15) & ~15)
 
+typedef struct Layout_82E01058 {
+    char pad0[0xc];
+    unsigned int extraSize; /* 0xc */
+    int pad10;
+    unsigned short count; /* 0x14 */
+} Layout_82E01058;
+
+/* Lays out the two per-item tables and the extra block one after the other from base, each rounded
+   up to 16 bytes, and returns the four boundaries. */
+void fn_82E01058(Layout_82E01058 *self, int base, int unused, int *out)
 {
-  unsigned short uVar1;
-  int iVar2;
-  
-  uVar1 = *(unsigned short *)(param_1 + 0x14);
-  iVar2 = *(int *)(param_1 + 0xc);
-  *param_4 = param_2;
-  param_2 = (unsigned int)uVar1 * 0x50 + param_2;
-  param_4[1] = param_2;
-  param_2 = param_2 + (unsigned int)uVar1 * 0x60;
-  param_4[2] = param_2;
-  param_4[3] = (iVar2 + 0xfU & 0xfffffff0) + param_2;
-  return;
-}
+    int sizeA = ALIGN16(self->count * 0x50);
+    int sizeB = ALIGN16(self->count * 0x60);
+    unsigned int extra = self->extraSize;
+    int cur;
 
+    out[0] = base;
+    cur = base + sizeA;
+    out[1] = cur;
+    cur = cur + sizeB;
+    out[2] = cur;
+    out[3] = cur + ALIGN16(extra);
+}

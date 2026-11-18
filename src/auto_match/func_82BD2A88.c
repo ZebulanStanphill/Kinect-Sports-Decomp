@@ -1,39 +1,55 @@
-extern unsigned int lbl_820E836C;
-extern unsigned int lbl_820E8370;
-extern unsigned int lbl_820E8374;
-extern unsigned int lbl_8316FF50;
+typedef struct Format_82BD2A88 {
+    unsigned int reserved : 28;
+    unsigned int supported : 1;
+    unsigned int reserved2 : 1;
+    unsigned int alternate : 1;
+    unsigned int reserved3 : 1;
+    char data[0x30];
+} Format_82BD2A88;
+typedef struct Object_82BD2A88 Object_82BD2A88;
 
+typedef struct Vtable_82BD2A88 {
+    void *reserved[13];
+    unsigned char (*test)(Object_82BD2A88 *);
+} Vtable_82BD2A88;
 
-__int64 fn_82BD2A88(int param_1,int *param_2)
+struct Object_82BD2A88 {
+    Vtable_82BD2A88 *vtable;
+    char reserved4[0x14];
+    unsigned int format; /* 0x18 */
+    char reserved1C[0xc8];
+    unsigned int reservedFlags : 30;
+    unsigned int disabled : 1;
+    unsigned int reservedFlag : 1;
+};
 
+typedef struct State_82BD2A88 {
+    int reserved;
+    unsigned int index;
+} State_82BD2A88;
+
+extern const Format_82BD2A88 lbl_8316FF50[];
+extern const unsigned int lbl_820E8368[4][4];
+
+static __forceinline unsigned char Supported_82BD2A88(Object_82BD2A88 *object)
 {
-  char cVar1;
-  unsigned int uVar2;
-  unsigned char *puVar3;
-  unsigned __int64 uVar4;
-  
-  uVar4 = 0;
-  if (((unsigned int)param_2[0x39] >> 1 & 1) == 0) {
-    uVar2 = *(unsigned int *)(&lbl_8316FF50 + param_2[6] * 0x34) >> 3 & 1;
-  }
-  else {
-    uVar2 = 0;
-  }
-  if (uVar2 == 0) {
-    puVar3 = &lbl_820E8374;
-  }
-  else {
-    cVar1 = (**(int (***)())(*param_2 + 0x34))(param_2);
-    if (cVar1 != '\0') goto LAB_82bd2b34;
-    if ((*(unsigned int *)(&lbl_8316FF50 + param_2[6] * 0x34) >> 1 & 1) == 0) {
-      puVar3 = &lbl_820E8370;
+    if ((unsigned char)object->disabled) {
+        return 0;
     }
-    else {
-      puVar3 = &lbl_820E836C;
-    }
-  }
-  uVar4 = (unsigned __int64)*(unsigned int *)(puVar3 + *(int *)(param_1 + 4) * 0x10);
-LAB_82bd2b34:
-  return (uVar4 + 1) - (uVar4 + (uVar4 + 1 == 0));
+    return (unsigned char)lbl_8316FF50[object->format].supported;
 }
 
+unsigned int fn_82BD2A88(State_82BD2A88 *self, Object_82BD2A88 *object)
+{
+    unsigned int result = 0;
+    if (!Supported_82BD2A88(object)) {
+        result = lbl_820E8368[self->index][3];
+    } else if (!object->vtable->test(object)) {
+        if ((unsigned char)lbl_8316FF50[object->format].alternate) {
+            result = lbl_820E8368[self->index][1];
+        } else {
+            result = lbl_820E8368[self->index][2];
+        }
+    }
+    return (result + 1) != 0;
+}

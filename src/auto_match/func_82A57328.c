@@ -1,37 +1,58 @@
-extern int fn_82A56BB0();
-extern int fn_82A56F10();
-extern int fn_82A71F08();
-extern int fn_82A72458();
+typedef struct Device_82A57328 {
+    char pad000[0xb0];
+    int mode; /* 0xb0 */
+    char pad0b4[0x15];
+    unsigned char kind; /* 0xc9 */
+    char pad0ca[0x16e];
+    void *context; /* 0x238 */
+} Device_82A57328;
 
+typedef struct State_82A57328 {
+    Device_82A57328 *device; /* 0x0 */
+    char pad004[0x1b4];
+    int pending; /* 0x1b8 */
+    char pad1bc[0x1c];
+    int enabled; /* 0x1d8 */
+    char pad1dc[0x18];
+    unsigned short count; /* 0x1f4 */
+} State_82A57328;
 
-unsigned __int64 fn_82A57328(int *param_1,unsigned short *param_2,unsigned __int64 param_3)
+extern int fn_82A56BB0(State_82A57328 *self, void *data, unsigned int count);
+extern int fn_82A56F10(State_82A57328 *self, int count);
+extern int fn_82A72458(void *context, State_82A57328 *self, unsigned int kind, int count,
+                       unsigned int value);
+extern int fn_82A71F08(void *context, State_82A57328 *self, unsigned int kind, int count,
+                       unsigned int value);
 
+int fn_82A57328(State_82A57328 *self, unsigned short *out, void *data)
 {
-  short sVar1;
-  unsigned short uVar2;
-  int iVar3;
-  unsigned __int64 uVar4;
-  
-  sVar1 = *(short *)(param_1 + 0x7d);
-  if (param_2 == (unsigned short *)0x0) {
-    uVar4 = 0xffffffff80070057;
-  }
-  else {
-    iVar3 = *param_1;
-    uVar2 = *param_2;
-    if ((((param_1[0x6e] == 0) || (uVar4 = fn_82A56BB0(param_1,param_3,uVar2), -1 < (int)uVar4))
-        && (uVar4 = fn_82A56F10(param_1,sVar1), -1 < (int)uVar4)) &&
-       ((param_1[0x76] == 1 && (sVar1 != 0)))) {
-      if (*(int *)(iVar3 + 0xb0) == 0) {
-        uVar4 = fn_82A72458();
-        *param_2 = uVar2;
-        return uVar4;
-      }
-      uVar4 = fn_82A71F08(*(unsigned int *)(iVar3 + 0x238),param_1,*(unsigned char *)(iVar3 + 0xc9),
-                              sVar1,uVar2);
+    int count = (short)self->count;
+    Device_82A57328 *device;
+    int value;
+    int result;
+    if (out == 0) {
+        return 0x80070057;
     }
-    *param_2 = uVar2;
-  }
-  return uVar4;
+    device = self->device;
+    value = *out;
+    if (self->pending != 0) {
+        result = fn_82A56BB0(self, data, value);
+        if (result < 0) {
+            goto done;
+        }
+    }
+    result = fn_82A56F10(self, count);
+    if (result < 0) {
+        goto done;
+    }
+    if (self->enabled == 1 && count != 0) {
+        if (device->mode == 0) {
+            result = fn_82A72458(device->context, self, device->kind, count, value & 0xffff);
+        } else {
+            result = fn_82A71F08(device->context, self, device->kind, count, value & 0xffff);
+        }
+    }
+done:
+    *out = value;
+    return result;
 }
-

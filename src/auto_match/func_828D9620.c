@@ -1,92 +1,122 @@
-typedef unsigned char bool;
-extern unsigned int *auStack_44;
-extern unsigned int *auStack_68;
-extern unsigned int *auStack_80;
-extern unsigned int *auStack_90;
-extern int fn_82883E60();
-extern int fn_828A0B78();
-extern int fn_828A0BB0();
-extern int fn_828AD0F8();
-extern int fn_828AD488();
-extern int fn_828AEBB8();
-extern int fn_828B0488();
-extern int fn_828B0528();
-extern int fn_828B0ED0();
-extern int fn_828B1468();
-extern int fn_828D92C8();
-extern int fn_828D93E0();
-extern int fn_828EDE00();
-extern int fn_82F68CC0();
-extern unsigned int uStack_70;
+void *memcpy(void *dst, const void *src, unsigned int size);
 
+typedef struct Key8_828D9620 {
+    unsigned __int64 value;
+} Key8_828D9620;
 
-void fn_828D9620(int param_1,unsigned __int64 param_2)
+typedef struct Key16_828D9620 {
+    unsigned char bytes[0x10];
+} Key16_828D9620;
 
+typedef struct Message_828D9620 {
+    Key8_828D9620 id;         /* 0x00 */
+    unsigned char info[0x24]; /* 0x08 */
+    Key16_828D9620 key;       /* 0x2c */
+} Message_828D9620;
+
+typedef struct Target_828D9620 {
+    char pad[0x8c];
+    char *info; /* 0x8c */
+} Target_828D9620;
+
+typedef struct Session_828D9620 {
+    char pad[0x4c];
+    char *state; /* 0x4c */
+} Session_828D9620;
+
+typedef struct Peer_828D9620 Peer_828D9620;
+
+typedef struct PeerVtbl_828D9620 {
+    void *slots[3];
+    Session_828D9620 *(*GetSession)(Peer_828D9620 *self); /* 0xc */
+} PeerVtbl_828D9620;
+
+struct Peer_828D9620 {
+    PeerVtbl_828D9620 *vt;
+};
+
+typedef struct State_828D9620 {
+    char pad[0x14];
+    Target_828D9620 *target; /* 0x14 */
+} State_828D9620;
+
+extern unsigned char fn_828B0528(Target_828D9620 *target);
+extern Peer_828D9620 *fn_828B0488(State_828D9620 *self);
+extern int fn_828B0ED0(void *state, int index, int flag);
+extern unsigned int fn_828D92C8(void *state, int a, int b);
+extern unsigned char fn_828AD488(Target_828D9620 *target);
+extern unsigned char fn_828AD0F8(Target_828D9620 *target);
+extern void fn_828D93E0(void *state, Key8_828D9620 *id, Key16_828D9620 *key);
+extern unsigned char fn_828A0B78(const void *a, const Key8_828D9620 *b);
+extern unsigned char fn_828A0BB0(const void *a, const Key16_828D9620 *b);
+extern void *fn_828AEBB8(Session_828D9620 *session);
+extern void fn_82883E60(void *list, Message_828D9620 *message);
+extern unsigned char fn_828EDE00(char *info, Message_828D9620 *message);
+extern void fn_828B1468(State_828D9620 *self, int next);
+
+void fn_828D9620(State_828D9620 *self, unsigned __int64 elapsed)
 {
-  bool bVar1;
-  char cVar6;
-  int *piVar3;
-  int iVar4;
-  int iVar5;
-  char cVar7;
-  unsigned __int64 uVar2;
-  __int64 lVar8;
-  unsigned __int64 uVar9;
-  unsigned __int64 auStack_90 [2];
-  unsigned char auStack_80 [16];
-  unsigned __int64 uStack_70;
-  unsigned char auStack_68 [36];
-  unsigned char auStack_44 [68];
-  
-  cVar6 = fn_828B0528(*(unsigned int *)(param_1 + 0x14));
-  if ((cVar6 == '\0') || (piVar3 = (int *)fn_828B0488(param_1), piVar3 == (int *)0x0))
-  goto LAB_828d97c4;
-  uVar9 = (unsigned __int64)*(unsigned int *)(*(int *)(param_1 + 0x14) + 0x8c);
-  iVar4 = (**(int (***)())(*piVar3 + 0xc))();
-  iVar5 = fn_828B0ED0((unsigned __int64)*(unsigned int *)(iVar4 + 0x4c) + 0x38,0,0);
-  if (iVar5 == 3) {
-    bVar1 = 0x1d4c < param_2;
-  }
-  else {
-    if (iVar5 != 6) goto LAB_828d97c4;
-    lVar8 = (unsigned __int64)*(unsigned int *)(iVar4 + 0x4c) + 0x98;
-    iVar5 = fn_828D92C8(lVar8,0,0);
-    if (iVar5 != 0) {
-      cVar6 = fn_828AD488(*(unsigned int *)(param_1 + 0x14));
-      if (cVar6 == '\0') {
-        cVar6 = fn_828AD0F8(*(unsigned int *)(param_1 + 0x14));
-        if (cVar6 != '\0') {
-          fn_828D93E0(lVar8,auStack_90,auStack_80);
-          uVar2 = fn_828AEBB8(iVar4);
-          fn_82F68CC0(auStack_68,uVar2,0x24);
-          uStack_70 = auStack_90[0];
-          fn_82F68CC0(auStack_44,auStack_80,0x10);
-          fn_82883E60(uVar9 + 0x14,&uStack_70);
-          cVar6 = fn_828EDE00(uVar9,&uStack_70);
-          if (cVar6 != '\0') {
-            fn_828B1468(param_1,5);
-            return;
-          }
-        }
-      }
-      else {
-        fn_828D93E0(lVar8,auStack_90,auStack_80);
-        cVar6 = fn_828A0B78(uVar9 + 0x14,auStack_90);
-        cVar7 = fn_828A0BB0(uVar9 + 0x40,auStack_80);
-        if ((cVar6 != '\0') && (cVar7 != '\0')) {
-          fn_828B1468(param_1,6);
-          return;
-        }
-      }
-      goto LAB_828d97c4;
-    }
-    bVar1 = 10000 < param_2;
-  }
-  if (!bVar1) {
-    return;
-  }
-LAB_828d97c4:
-  fn_828B1468(param_1,7);
-  return;
-}
+    Peer_828D9620 *peer;
+    Session_828D9620 *session;
+    char *info;
+    char *state;
+    int status;
+    unsigned char idMatches;
+    unsigned char keyMatches;
+    Key8_828D9620 id;
+    Key16_828D9620 key;
+    Message_828D9620 message;
 
+    if (!fn_828B0528(self->target)) {
+        fn_828B1468(self, 7);
+        return;
+    }
+    peer = fn_828B0488(self);
+    if (peer == 0) {
+        fn_828B1468(self, 7);
+        return;
+    }
+    info = self->target->info;
+    session = peer->vt->GetSession(peer);
+    status = fn_828B0ED0(session->state + 0x38, 0, 0);
+    switch (status) {
+    case 3:
+        if (elapsed > 7500) {
+            fn_828B1468(self, 7);
+        }
+        break;
+    case 6:
+        state = session->state + 0x98;
+        if (fn_828D92C8(state, 0, 0) != 0) {
+            if (fn_828AD488(self->target)) {
+                fn_828D93E0(state, &id, &key);
+                idMatches = fn_828A0B78(info + 0x14, &id);
+                keyMatches = fn_828A0BB0(info + 0x40, &key);
+                if (idMatches && keyMatches) {
+                    fn_828B1468(self, 6);
+                } else {
+                    fn_828B1468(self, 7);
+                }
+            } else if (fn_828AD0F8(self->target)) {
+                fn_828D93E0(state, &id, &key);
+                memcpy(message.info, fn_828AEBB8(session), sizeof(message.info));
+                message.id = id;
+                memcpy(&message.key, &key, sizeof(message.key));
+                fn_82883E60(info + 0x14, &message);
+                if (fn_828EDE00(info, &message)) {
+                    fn_828B1468(self, 5);
+                } else {
+                    fn_828B1468(self, 7);
+                }
+            } else {
+                fn_828B1468(self, 7);
+            }
+        } else if (elapsed > 10000) {
+            fn_828B1468(self, 7);
+        }
+        break;
+    default:
+        fn_828B1468(self, 7);
+        break;
+    }
+}

@@ -1,21 +1,22 @@
-typedef unsigned char bool;
-#define true 1
+typedef struct Format_82E4E1C8 {
+    char pad0[0xe];
+    unsigned short bitCount; /* 0x0e */
+    unsigned int fourcc;     /* 0x10 */
+} Format_82E4E1C8;
 
-
-bool fn_82E4E1C8(int param_1)
-
+/* Returns 1 for YUY2, YV12 and 32-bit RGB (BI_RGB or BI_BITFIELDS). */
+int fn_82E4E1C8(Format_82E4E1C8 *fmt)
 {
-  int iVar1;
-  bool bVar2;
-  
-  iVar1 = *(int *)(param_1 + 0x10);
-  bVar2 = iVar1 == 0x32315659 || iVar1 == 0x32595559;
-  if ((iVar1 != 0) && (iVar1 != 3)) {
-    return bVar2;
-  }
-  if (*(short *)(param_1 + 0xe) != 0x20) {
-    return bVar2;
-  }
-  return true;
-}
+    int ok = 0;
 
+    if (fmt->fourcc == 0x32595559) {
+        ok |= 1;
+    }
+    if (fmt->fourcc == 0x32315659) {
+        ok |= 1;
+    }
+    if ((fmt->fourcc == 0 || fmt->fourcc == 3) && fmt->bitCount == 0x20) {
+        ok |= 1;
+    }
+    return ok;
+}

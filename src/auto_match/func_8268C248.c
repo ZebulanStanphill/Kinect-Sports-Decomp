@@ -1,31 +1,35 @@
-extern int fn_8267BF50();
-extern int fn_8268B368();
-extern int memcpy();
+typedef struct DataDesc_8268C248 {
+    unsigned int size; /* 0x0 */
+    long refCount;     /* 0x4 */
+    char data[1];      /* 0x8 */
+} DataDesc_8268C248;
 
+typedef struct String_8268C248 {
+    union {
+        DataDesc_8268C248 *data;   /* 0x0 */
+        unsigned int heapTypeBits; /* 0x0 */
+    };
+} String_8268C248;
 
-unsigned int * fn_8268C248(unsigned int *param_1,char *param_2)
+extern void *fn_8267BF50(const String_8268C248 *);
+extern DataDesc_8268C248 *fn_8268B368(String_8268C248 *, void *, unsigned int, unsigned int);
+extern void *memcpy(void *, const void *, unsigned int);
+extern unsigned int strlen(const char *);
 
+static __forceinline DataDesc_8268C248 *AllocDataCopy1(String_8268C248 *self, void *heap, unsigned int size,
+                                                       unsigned int lengthIsSize, const char *source,
+                                                       unsigned int copySize)
 {
-  char cVar1;
-  unsigned __int64 uVar2;
-  __int64 lVar3;
-  char *pcVar4;
-  
-  pcVar4 = param_2;
-  if (param_2 == (char *)0x0) {
-    pcVar4 = (char *)0x0;
-  }
-  else {
-    do {
-      cVar1 = *pcVar4;
-      pcVar4 = pcVar4 + 1;
-    } while (cVar1 != '\0');
-    pcVar4 = pcVar4 + (-1 - (int)param_2);
-  }
-  uVar2 = fn_8267BF50(param_1);
-  lVar3 = fn_8268B368(param_1,uVar2,pcVar4,0);
-  memcpy(lVar3 + 8,param_2,pcVar4);
-  *param_1 = (unsigned int)lVar3 | 1;
-  return param_1;
+    DataDesc_8268C248 *desc = fn_8268B368(self, heap, size, lengthIsSize);
+    memcpy(desc->data, source, copySize);
+    return desc;
 }
 
+String_8268C248 *fn_8268C248(String_8268C248 *self, const char *text)
+{
+    unsigned int size = text ? strlen(text) : 0;
+
+    self->data = AllocDataCopy1(self, fn_8267BF50(self), size, 0, text, size);
+    self->heapTypeBits |= 1;
+    return self;
+}
