@@ -1,46 +1,48 @@
-extern int fn_82AA64F8();
-extern unsigned int stack0x00000020;
-extern unsigned int uStack00000020;
-extern unsigned int uStack00000028;
-extern unsigned int uStack00000030;
-extern unsigned int uStack00000038;
-extern unsigned int uStack00000040;
-extern unsigned int uStack00000048;
+typedef struct Type_82ABE780 {
+    char pad0[8];
+    unsigned int flags;     /* 0x08 */
+    char pad0c[8];
+    unsigned int info;      /* 0x14 */
+} Type_82ABE780;
 
+typedef struct Link_82ABE780 {
+    unsigned int prev;
+    unsigned int next;      /* tagged link; bit 0 set = empty */
+} Link_82ABE780;
 
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
+typedef struct Obj_82ABE780 {
+    char pad0[0x18];
+    Link_82ABE780 types;          /* 0x18 */
+} Obj_82ABE780;
 
-unsigned int fn_82ABE780(unsigned int param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5,unsigned __int64 param_6,unsigned __int64 param_7)
+typedef struct Page_82ABE780 {
+    struct Owner_82ABE780 *owner;
+} Page_82ABE780;
 
+typedef struct Owner_82ABE780 {
+    char pad0[0x94];
+    void *ctx;              /* 0x94 */
+} Owner_82ABE780;
+
+extern unsigned int fn_82AA66A8(void *ctx, int code);
+
+static __forceinline Type_82ABE780 *First_82ABE780(Link_82ABE780 *list)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned __int64 uStack00000020;
-  unsigned __int64 uStack00000028;
-  unsigned __int64 uStack00000030;
-  unsigned __int64 uStack00000038;
-  unsigned __int64 uStack00000040;
-  unsigned __int64 uStack00000048;
-  
-  uVar1 = *(unsigned int *)(param_1 + 0x1c);
-  uStack00000048 = (unsigned __int64)uVar1 & 1;
-  if ((uVar1 & 1) == 0) {
-    if ((uVar1 != 0) &&
-       (uStack00000048 = (unsigned __int64)*(unsigned int *)(uVar1 + 8) & 0x3f80, uStack00000048 == 0x3f00)) {
-      uVar2 = *(unsigned int *)(uVar1 + 0x14) >> 0x10;
-      uStack00000048 = (unsigned __int64)uVar2 & 1;
-      if ((uVar2 & 1) != 0) {
-        return *(unsigned int *)(uVar1 + 0x14) & 0xfff;
-      }
+    if (list->next & 1) {
+        return 0;
     }
-  }
-  uStack00000020 = param_3;
-  uStack00000028 = param_4;
-  uStack00000030 = param_5;
-  uStack00000038 = param_6;
-  uStack00000040 = param_7;
-                    /* WARNING: Subroutine does not return */
-  fn_82AA64F8(*(unsigned int *)(*(int *)(param_1 & 0xfffff000) + 0x94),0x12c0,&stack0x00000020);
+    return (Type_82ABE780 *)list->next;
 }
 
+unsigned int fn_82ABE780(Obj_82ABE780 *self)
+{
+    Type_82ABE780 *t = First_82ABE780(&self->types);
+
+    if (t != 0 && (t->flags & 0x3f80) == 0x3f00) {
+        unsigned int info = t->info;
+        if ((unsigned char)(info >> 16) & 1) {
+            return info & 0xfff;
+        }
+    }
+    return fn_82AA66A8(((Page_82ABE780 *)((unsigned int)self & ~0xfff))->owner->ctx, 0x12c0);
+}

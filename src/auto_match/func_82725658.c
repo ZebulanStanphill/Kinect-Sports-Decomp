@@ -1,35 +1,30 @@
 extern int fn_82681E98();
 extern int fn_8269A800();
-extern int fn_8269F500();
+extern unsigned int fn_8269F500();
+typedef struct O_82725658 { struct { int s[2]; int (*f8)(struct O_82725658 *); int s2[0x13]; unsigned (*f58)(struct O_82725658 *); } *vt; int a, b; int c; } O_82725658;
+typedef struct { int vt; int pad; O_82725658 *obj; } S_82725658;
 
-
-void fn_82725658(int param_1)
-
+void fn_82725658(S_82725658 *self)
 {
-  int iVar1;
-  int *piVar2;
-  
-  if ((*(int **)(param_1 + 8) != (int *)0x0) &&
-     (iVar1 = (**(int (***)())(**(int **)(param_1 + 8) + 8))(), iVar1 == 4)) {
-    piVar2 = (int *)(*(int *)(param_1 + 8) + -0x68);
-    if (*(int *)(param_1 + 8) == 0) {
-      piVar2 = (int *)0x0;
-    }
-    if (piVar2[5] < 0x4000) {
-      iVar1 = piVar2[0x20];
-      if (iVar1 == 0) {
-        iVar1 = fn_8269F500(piVar2);
+  int *ch;
+
+  if (self->obj != 0 && self->obj->vt->f8(self->obj) == 4) {
+    ch = self->obj != 0 ? (int *)((char *)self->obj - 0x68) : 0;
+    if (ch[5] < 0x4000) {
+      int **name;
+      unsigned int obj;
+      /* a plain ternary keeps the null test of its result in cr6; `obj = x; if (!obj) obj = f();`
+         tests f's result in cr0 instead */
+      obj = ch[0x20] ? (unsigned int)ch[0x20] : fn_8269F500(ch);
+      if (obj != 0) {
+        name = (int **)(obj + 8);
+      } else {
+        obj = ((O_82725658 *)ch)->vt->f58((O_82725658 *)ch);
+        name = (int **)(*(unsigned int *)(obj + 0x78) + 8);
       }
-      if (iVar1 == 0) {
-        iVar1 = (**(int (***)())(*piVar2 + 0x58))(piVar2);
-        iVar1 = *(int *)(iVar1 + 0x78);
-      }
-      fn_82681E98(piVar2 + 3,0xffffffff8200bea4,**(unsigned int **)(iVar1 + 8));
-    }
-    else {
-      fn_8269A800(piVar2);
+      fn_82681E98(ch + 3, "%s.removeMovieClip() failed - depth must be >= 0\n", **name);
+    } else {
+      fn_8269A800(ch);
     }
   }
-  return;
 }
-

@@ -1,57 +1,91 @@
-extern unsigned int *auStack_20;
-extern int fn_82AA66A8();
-extern int fn_82B46050();
+typedef struct Type_82B46B88 {
+    char pad0[4];
+    int kind;               /* 0x04 */
+    char pad08[8];
+    unsigned int cls;       /* 0x10 */
+    int cols;               /* 0x14 */
+    unsigned int rows;      /* 0x18 */
+    unsigned int size;      /* 0x1c */
+} Type_82B46B88;
 
+typedef struct Node_82B46B88 {
+    char pad0[4];
+    int kind;                       /* 0x04 */
+    char pad08[8];
+    union {
+        struct Node_82B46B88 *sub;  /* 0x10: element type of an array */
+        int cls;                    /* 0x10 */
+    } u;
+    char pad14[8];
+    unsigned int count;             /* 0x1c */
+    unsigned int size;              /* 0x20 */
+    int flags;                      /* 0x24 */
+} Node_82B46B88;
 
-unsigned __int64 fn_82B46B88(int param_1,int param_2)
+typedef struct Decl_82B46B88 {
+    char pad0[0x30];
+    Node_82B46B88 *type;    /* 0x30 */
+} Decl_82B46B88;
 
+typedef struct Symbol_82B46B88 {
+    char pad0[0x10];
+    Decl_82B46B88 *decl;    /* 0x10 */
+    char pad14[0x14];
+} Symbol_82B46B88;
+
+typedef struct Compiler_82B46B88 {
+    char pad0[0xc];
+    Symbol_82B46B88 *symbols;   /* 0x0c */
+} Compiler_82B46B88;
+
+extern __declspec(noreturn) void fn_82AA66A8(void *ctx, int code, ...);
+extern int fn_82B46050(Compiler_82B46B88 *self, Type_82B46B88 *type, void *out);
+
+unsigned int fn_82B46B88(Compiler_82B46B88 *self, Type_82B46B88 *type)
 {
-  int iVar2;
-  unsigned __int64 uVar1;
-  unsigned char auStack_20 [8];
-  
-  iVar2 = *(int *)(param_2 + 4);
-  if (iVar2 == 0xe) {
-    uVar1 = (__int64)*(int *)(param_2 + 0x18) * (__int64)*(int *)(param_2 + 0x14);
-  }
-  else {
-    if (iVar2 != 0xf) {
-      if (iVar2 == 0x1c) {
-        iVar2 = fn_82B46050(param_1,param_2,auStack_20);
-        iVar2 = *(int *)(*(int *)(iVar2 * 0x28 + *(int *)(param_1 + 0xc) + 0x10) + 0x30);
-        if (*(int *)(iVar2 + 4) == 8) {
-          if (*(int *)(param_2 + 0x18) == 0) goto code_r0x82b46c80;
-          iVar2 = *(int *)(iVar2 + 0x10);
-          if (*(int *)(iVar2 + 4) != 9) {
-            iVar2 = 0;
-          }
-        }
-        else if ((iVar2 == 0) || (*(int *)(iVar2 + 4) != 9)) {
-                    /* WARNING: Subroutine does not return */
-          fn_82AA66A8(param_1,0x12c1);
-        }
-        if (iVar2 != 0) {
-          if (*(int *)(iVar2 + 0x10) == 2) {
-            if ((*(unsigned int *)(iVar2 + 0x24) & 0x400) == 0) {
-              return (unsigned __int64)*(unsigned int *)(iVar2 + 0x1c);
-            }
-          }
-          else if (*(int *)(iVar2 + 0x1c) != 1) goto code_r0x82b46c80;
-          return (unsigned __int64)*(unsigned int *)(iVar2 + 0x20);
-        }
-      }
-code_r0x82b46c80:
-                    /* WARNING: Subroutine does not return */
-      fn_82AA66A8(param_1,0x12c1);
-    }
-    if (*(unsigned int *)(param_2 + 0x10) < 4) {
-      uVar1 = 1;
-    }
-    else {
-      if (*(unsigned int *)(param_2 + 0x10) != 6) goto code_r0x82b46c80;
-      uVar1 = (unsigned __int64)*(unsigned int *)(param_2 + 0x1c);
-    }
-  }
-  return uVar1;
-}
+    char scratch[8];
+    Node_82B46B88 *n;
+    Node_82B46B88 *s;
+    Decl_82B46B88 *d;
 
+    switch (type->kind) {
+    case 0xe:
+        return type->rows * type->cols;
+    case 0xf:
+        switch (type->cls) {
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+            return 1;
+        case 6:
+            return type->size;
+        }
+        break;
+    case 0x1c:
+        d = self->symbols[fn_82B46050(self, type, scratch)].decl;
+        if (d->type->kind == 8) {
+            if (type->rows == 0)
+                break;
+            s = d->type->u.sub;
+            if (s->kind != 9)
+                s = 0;
+        } else {
+            n = d->type;
+            if (n == 0 || n->kind != 9)
+                fn_82AA66A8(self, 0x12c1);
+            s = n;
+        }
+        if (s == 0)
+            break;
+        if (s->u.cls == 2) {
+            if (s->flags & 0x400)
+                return s->size;
+            return s->count;
+        }
+        if (s->count != 1)
+            break;
+        return s->size;
+    }
+    fn_82AA66A8(self, 0x12c1);
+}

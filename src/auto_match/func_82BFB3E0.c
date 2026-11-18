@@ -1,29 +1,18 @@
-extern unsigned int *auStack_20;
-extern int fn_82BF3A88();
-extern int fn_82BFA8D8();
-extern int fn_82BFABC8();
-
-
-void fn_82BFB3E0(int param_1)
-
-{
-  char *pcVar1;
-  int iVar2;
-  unsigned int uVar3;
-  unsigned char auStack_20 [1];
-  
-  fn_82BFA8D8(auStack_20);
-  pcVar1 = *(char **)(param_1 + 0xc);
-  if ((((pcVar1 != (char *)0x0) && (*pcVar1 != '\0')) &&
-      (iVar2 = *(int *)(param_1 + 0x10), iVar2 != 0)) && (*(int *)(iVar2 + 0xc) != 0)) {
-    iVar2 = fn_82BF3A88(pcVar1,*(unsigned int *)(iVar2 + 8));
-    uVar3 = 1;
-    if (iVar2 != 0) goto LAB_82bfb444;
-  }
-  uVar3 = 2;
-LAB_82bfb444:
-  *(unsigned int *)(param_1 + 8) = uVar3;
-  fn_82BFABC8(auStack_20);
-  return;
+extern void fn_82BFA8D8(void *); extern int fn_82BF3A88(const char *, int, unsigned); extern void fn_82BFABC8(void *);
+typedef struct B_82BFB3E0 { int a; int b; int c; unsigned d; } B_82BFB3E0;
+typedef struct O_82BFB3E0 { int pad[2]; int st; const char *name; B_82BFB3E0 *blk; } O_82BFB3E0;
+void fn_82BFB3E0(O_82BFB3E0 *o) {
+  char guard[4]; const char *s; B_82BFB3E0 *b;
+  fn_82BFA8D8(guard);
+  s = o->name;
+  if (s == 0) goto bad;
+  if (*o->name == 0) goto bad;
+  b = o->blk;
+  if (b == 0) goto bad;
+  if (b->d == 0) goto bad;
+  if (fn_82BF3A88(s, b->c, b->d) != 0) { o->st = 1; goto end; }
+bad:
+  o->st = 2;
+end:
+  fn_82BFABC8(guard);
 }
-

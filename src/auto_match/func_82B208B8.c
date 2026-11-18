@@ -1,26 +1,42 @@
-typedef unsigned char bool;
-#define false 0
+typedef struct Node_82B208B8 {
+    unsigned int prev;      /* tagged link */
+    unsigned int next;      /* tagged link; bit 0 set = end of list */
+    unsigned int count;
+} Node_82B208B8;
 
-
-bool fn_82B208B8(int param_1)
-
+static __forceinline Node_82B208B8 *First_82B208B8(Node_82B208B8 *list)
 {
-  unsigned int uVar1;
-  int iVar2;
-  
-  uVar1 = *(unsigned int *)(param_1 + 4);
-  if (((uVar1 & 1) != 0) || (uVar1 == 0)) {
-    return false;
-  }
-  iVar2 = *(int *)(uVar1 + 8);
-  uVar1 = *(unsigned int *)((uVar1 & 0xfffffffe) + 4);
-  if (((uVar1 & 1) == 0) && (uVar1 != 0)) {
-    iVar2 = *(int *)(uVar1 + 8) + iVar2;
-    uVar1 = *(unsigned int *)((uVar1 & 0xfffffffe) + 4);
-    if (((uVar1 & 1) == 0) && (uVar1 != 0)) {
-      return false;
+    if (list->next & 1) {
+        return 0;
     }
-  }
-  return iVar2 == 2;
+    return (Node_82B208B8 *)list->next;
 }
 
+static __forceinline Node_82B208B8 *Next_82B208B8(Node_82B208B8 *n)
+{
+    unsigned int p = ((Node_82B208B8 *)((unsigned int)n & ~1u))->next;
+    if (p & 1) {
+        return 0;
+    }
+    return (Node_82B208B8 *)p;
+}
+
+unsigned char fn_82B208B8(Node_82B208B8 *list)
+{
+    Node_82B208B8 *n = First_82B208B8(list);
+    int total;
+
+    if (n == 0) {
+        return 0;
+    }
+    total = n->count;
+    n = Next_82B208B8(n);
+    if (n != 0) {
+        total += n->count;
+        n = Next_82B208B8(n);
+        if (n != 0) {
+            return 0;
+        }
+    }
+    return total == 2;
+}

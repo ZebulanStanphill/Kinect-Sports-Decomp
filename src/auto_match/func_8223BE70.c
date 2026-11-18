@@ -1,42 +1,22 @@
-extern int fn_8223C200();
-extern int fn_8223C478();
-extern int fn_828E9DB8();
-
-
-void fn_8223BE70(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,int param_4)
-
+typedef struct Str_8223BE70 { int pad[2]; char buf[4]; unsigned cap; } Str_8223BE70;
+typedef struct StrP_8223BE70 { int pad[2]; char *ptr; unsigned cap; } StrP_8223BE70;
+extern void fn_8223C200(void *, unsigned char, int);
+extern void fn_8223C478(void *, int, int);
+extern void fn_828E9DB8(void *, int, int);
+void fn_8223BE70(void *a, void *b, void *w, Str_8223BE70 *s)
 {
-  char cVar1;
-  int iVar2;
-  char *pcVar3;
-  unsigned char bVar4;
-  char *pcVar5;
-  unsigned int uVar6;
-  
-  pcVar5 = (char *)(param_4 + 8);
-  if (4 < *(unsigned int *)(param_4 + 0xc)) {
-    pcVar5 = *(char **)(param_4 + 8);
-  }
-  iVar2 = 0;
-  for (pcVar3 = pcVar5; pcVar3 != pcVar5 + 8; pcVar3 = pcVar3 + 1) {
-    if (*pcVar3 == '\0') {
-      iVar2 = iVar2 + 1;
+    unsigned char *buf; unsigned char *p; int n; unsigned char allzero; unsigned i;
+    if (s->cap <= 4) buf = (unsigned char *)s->buf; else buf = (unsigned char *)((StrP_8223BE70 *)s)->ptr;
+    p = buf; n = 0;
+    for (; p != buf + 8; p++) { if (*p == 0) n++; }
+    allzero = n == 8;
+    fn_8223C200(w, allzero, 0);
+    if (allzero == 0) {
+        for (i = 0; i < 8; i++) {
+            unsigned char c = buf[i];
+            unsigned char z = c == 0;
+            fn_8223C200(w, z, 0);
+            if (!z) { int bits = i != 8 ? 8 : 0; fn_8223C478(w, bits, 0); fn_828E9DB8(w, c, bits); }
+        }
     }
-  }
-  fn_8223C200(param_3,iVar2 == 8,0);
-  uVar6 = 0;
-  if (iVar2 != 8) {
-    do {
-      cVar1 = pcVar5[uVar6];
-      fn_8223C200(param_3,cVar1 == '\0',0);
-      if (cVar1 != '\0') {
-        bVar4 = -(uVar6 != 8) & 8;
-        fn_8223C478(param_3,bVar4,0);
-        fn_828E9DB8(param_3,cVar1,bVar4);
-      }
-      uVar6 = uVar6 + 1;
-    } while (uVar6 < 8);
-  }
-  return;
 }
-

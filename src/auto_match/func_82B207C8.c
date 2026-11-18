@@ -1,24 +1,31 @@
-extern int fn_82AA6648();
+typedef struct Node_82B207C8 {
+    unsigned int prev;      /* tagged link */
+    unsigned int next;      /* tagged link; bit 0 set = end of list */
+    unsigned int count;
+    unsigned int capacity;
+} Node_82B207C8;
 
+extern void fn_82AA6648(void *list, void *node, unsigned int size);
 
-void fn_82B207C8(int param_1)
-
+static __forceinline Node_82B207C8 *First_82B207C8(Node_82B207C8 *list)
 {
-  unsigned int uVar1;
-  unsigned int *puVar2;
-  unsigned int uVar3;
-  
-  uVar3 = *(unsigned int *)(param_1 + 4);
-  if ((uVar3 & 1) == 0) {
-    while (uVar3 != 0) {
-      puVar2 = (unsigned int *)(uVar3 & 0xfffffffe);
-      uVar1 = puVar2[1];
-      *(unsigned int *)(puVar2[1] & 0xfffffffe) = *puVar2;
-      *(unsigned int *)(*puVar2 & 0xfffffffe) = puVar2[1];
-      fn_82AA6648(param_1,uVar3,(unsigned __int64)*(unsigned int *)(uVar3 + 0xc) * 0xc + 0x10);
-      uVar3 = -(unsigned int)((uVar1 & 1) == 0) & uVar1;
+    if (list->next & 1) {
+        return 0;
     }
-  }
-  return;
+    return (Node_82B207C8 *)list->next;
 }
 
+void fn_82B207C8(Node_82B207C8 *list)
+{
+    Node_82B207C8 *n;
+    Node_82B207C8 *next;
+
+    for (n = First_82B207C8(list); n != 0; n = next) {
+        Node_82B207C8 *node = (Node_82B207C8 *)((unsigned int)n & ~1u);
+        unsigned int p = node->next;
+        next = (p & 1) == 0 ? (Node_82B207C8 *)p : 0;
+        ((Node_82B207C8 *)(node->next & ~1u))->prev = node->prev;
+        ((Node_82B207C8 *)(node->prev & ~1u))->prev = node->next;
+        fn_82AA6648(list, n, n->capacity * 0xc + 0x10);
+    }
+}

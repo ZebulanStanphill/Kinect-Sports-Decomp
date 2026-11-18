@@ -1,38 +1,27 @@
-#define true 1
-
-
-unsigned __int64 fn_826C98F8(int param_1)
-
+typedef struct Node_826C98F8 Node_826C98F8;
+extern unsigned char fn_826C88F0(Node_826C98F8 *node);
+typedef struct Owner_826C98F8 {
+    char pad0[0x6c];
+    Node_826C98F8 *defaultNode;   /* 0x6c */
+    char pad70[0x1c];
+    unsigned int pad8c_hi : 27;
+    unsigned int enabled : 1;     /* 0x8c bit 4 */
+    unsigned int pad8c_lo : 4;
+    char pad90[0x118];
+    int index;                    /* 0x1a8 */
+    int pad1ac;
+    Node_826C98F8 *node;          /* 0x1b0 */
+} Owner_826C98F8;
+static __forceinline Node_826C98F8 *GetPtr(Node_826C98F8 **p) { return *p; }
+static __forceinline Node_826C98F8 *GetProto(Owner_826C98F8 *self) { return self->defaultNode; }
+unsigned char fn_826C98F8(Owner_826C98F8 *self)
 {
-  char cVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  
-  if ((*(int *)(param_1 + 0x1a8) < 0) && ((*(unsigned int *)(param_1 + 0x8c) >> 4 & 1) != 0)) {
-    iVar4 = *(int *)(param_1 + 0x1b0);
-    if (iVar4 == 0) {
-      iVar4 = *(int *)(param_1 + 0x6c);
-    }
-    if (iVar4 != 0) {
-      cVar1 = *(char *)(iVar4 + 0x34);
-      while ((cVar1 == '\0' && (*(char *)(iVar4 + 0x35) == '\0'))) {
-        iVar2 = *(int *)(iVar4 + 0x14);
-        while( true ) {
-          if (iVar2 == 0) {
-            return 0;
-          }
-          iVar3 = (**(int (***)())(*(int *)(*(int *)(iVar4 + 0x14) + 0x10) + 8))
-                            (*(int *)(iVar4 + 0x14) + 0x10);
-          if (iVar3 == 0xb) break;
-          iVar2 = *(int *)(iVar2 + 0x14);
-        }
-        cVar1 = *(char *)(iVar2 + 0x34);
-        iVar4 = iVar2;
-      }
-      return 1;
-    }
-  }
-  return 0;
-}
+    Node_826C98F8 *node;
 
+    if (self->index < 0 && (unsigned char)self->enabled) {
+        node = GetPtr(&self->node) ? GetPtr(&self->node) : GetProto(self);
+        if (node != 0)
+            return fn_826C88F0(node);
+    }
+    return 0;
+}
