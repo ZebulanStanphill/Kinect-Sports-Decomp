@@ -1,55 +1,50 @@
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_78;
-extern int fn_82529D38();
-extern int XMemSet();
-extern unsigned int uStack_30;
-extern unsigned int uStack_58;
-extern unsigned int uStack_5c;
-extern unsigned int uStack_60;
-extern unsigned int uStack_7c;
-extern unsigned int uStack_80;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Event_8253C548 {
+    int type;           /* 0x0 */
+    int size;           /* 0x4 */
+    int reserved8;      /* 0x8 */
+    int reservedC;      /* 0xc */
+    __vector4 position; /* 0x10 */
+    float direction[3]; /* 0x20 */
+    char pad2c[0x24];   /* 0x2c */
+    int flag;           /* 0x50 */
+    char pad54[0xc];    /* 0x54 */
+} Event_8253C548;
 
-void fn_8253C548(int *param_1,int param_2,unsigned int *param_3)
+typedef struct Target_8253C548 Target_8253C548;
 
+typedef struct Target_8253C548Vtbl {
+    void *slot0;
+    void *slot1;
+    void *slot2;
+    void (*handleEvent)(Target_8253C548 *self, Event_8253C548 *event); /* 0xc */
+} Target_8253C548Vtbl;
+
+struct Target_8253C548 {
+    Target_8253C548Vtbl *vt;
+};
+
+extern void XMemSet(void *dst, int value, unsigned int size);
+extern void fn_82529D38(Target_8253C548 *self, float *direction);
+
+void fn_8253C548(Target_8253C548 *self, __vector4 *position, float *direction)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int in_r0;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uStack_80;
-  unsigned int uStack_7c;
-  unsigned char auStack_78 [8];
-  unsigned char auStack_70 [16];
-  unsigned int uStack_60;
-  unsigned int uStack_5c;
-  unsigned int uStack_58;
-  unsigned int uStack_30;
-  
-  XMemSet(auStack_78,0,0x58);
-  puVar1 = (unsigned int *)(in_r0 + param_2 & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  uStack_80 = 0x2a;
-  uStack_7c = 0x60;
-  puVar2 = (unsigned int *)((unsigned int)(auStack_70 + in_r0) & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  if (param_3 == (unsigned int *)0x0) {
-    fn_82529D38(param_1,&uStack_60);
-  }
-  else {
-    uStack_60 = *param_3;
-    uStack_5c = param_3[1];
-    uStack_58 = param_3[2];
-  }
-  uStack_30 = 0;
-  (**(int (***)())(*param_1 + 0xc))(param_1,&uStack_80);
-  return;
-}
+    Event_8253C548 event;
 
+    XMemSet(&event.reserved8, 0, sizeof(event) - 8);
+    event.type = 0x2a;
+    event.size = 0x60;
+    event.position = *position;
+    if (direction != 0) {
+        event.direction[0] = direction[0];
+        event.direction[1] = direction[1];
+        event.direction[2] = direction[2];
+    } else {
+        fn_82529D38(self, event.direction);
+    }
+    event.flag = 0;
+    self->vt->handleEvent(self, &event);
+}

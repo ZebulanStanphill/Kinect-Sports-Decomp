@@ -1,67 +1,65 @@
-extern int fn_82AA66A8();
-extern int fn_82ACA4F0();
-extern int fn_82ACAD38();
-extern int fn_82ACB228();
-extern int fn_82ACBB48();
+typedef struct BitData_82ACBC68 {
+    unsigned int count; /* 0x0: number of words */
+    unsigned int words[1];
+} BitData_82ACBC68;
 
+typedef struct BitSet_82ACBC68 {
+    unsigned int bits; /* tagged: inline bits when bit 0 is set, else BitData pointer */
+} BitSet_82ACBC68;
 
-unsigned __int64 fn_82ACBC68(int *param_1,unsigned __int64 param_2,char param_3)
+typedef struct Context_82ACBC68 {
+    char pad0[0x318];
+    void *source; /* 0x318 */
+} Context_82ACBC68;
 
+typedef struct Allocator_82ACBC68 {
+    Context_82ACBC68 *ctx; /* 0x0 */
+    BitSet_82ACBC68 set;   /* 0x4 */
+} Allocator_82ACBC68;
+
+extern int fn_82ACB228(Allocator_82ACBC68 *self, unsigned int start, unsigned int count, int step);
+extern void fn_82ACBB48(BitSet_82ACBC68 *set, unsigned int size);
+extern unsigned int fn_82ACA4F0(unsigned int mask, unsigned int key);
+extern void fn_82ACAD38(BitSet_82ACBC68 *set, unsigned int first, unsigned int last, unsigned int mask);
+__declspec(noreturn) extern void fn_82AA66A8(void *ctx, int code, ...);
+
+static __forceinline unsigned int Capacity(BitSet_82ACBC68 *set)
 {
-  unsigned int *puVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  __int64 lVar5;
-  unsigned __int64 uVar6;
-  
-  uVar3 = fn_82ACB228(param_1,0,param_2,4);
-  if ((int)uVar3 == -1) {
-    puVar1 = (unsigned int *)param_1[1];
-    if ((~(unsigned int)puVar1 & 1) == 0) {
-      uVar3 = 0x1f;
-    }
-    else {
-      uVar3 = ((unsigned __int64)*puVar1 & 0x7ffffff) * 0x20 - 1;
-    }
-    if ((((uVar3 & 0xffffffff) >> 2) - 1 & 0xffffffff) < 0xff) {
-      if ((~(unsigned int)puVar1 & 1) == 0) {
-        lVar5 = 0x1f;
-      }
-      else {
-        lVar5 = ((unsigned __int64)*puVar1 & 0x7ffffff) * 0x20 + -1;
-      }
-      fn_82ACBB48(param_1 + 1,lVar5 + 4);
-      uVar3 = fn_82ACB228(param_1,0,param_2,4);
-      if ((int)uVar3 != -1) goto LAB_82acbd70;
-      if (param_3 != '\0') {
-        iVar2 = *param_1;
-        if (*(int *)(iVar2 + 0x318) != 0) {
-                    /* WARNING: Subroutine does not return */
-          fn_82AA66A8(iVar2,0xdbe);
-        }
-                    /* WARNING: Subroutine does not return */
-        fn_82AA66A8(iVar2,0xded);
-      }
-    }
-    else if (param_3 != '\0') {
-      iVar2 = *param_1;
-      if (*(int *)(iVar2 + 0x318) != 0) {
-                    /* WARNING: Subroutine does not return */
-        fn_82AA66A8(iVar2,0xdbe);
-      }
-                    /* WARNING: Subroutine does not return */
-      fn_82AA66A8(iVar2,0xded);
-    }
-    uVar3 = 0xffffffffffffffff;
-  }
-  else {
-LAB_82acbd70:
-    uVar6 = (uVar3 & 0xffffffff) >> 2 & 0x3ffffffc;
-    uVar4 = fn_82ACA4F0(uVar3 & 0xf,param_2);
-    fn_82ACAD38(param_1 + 1,uVar6,uVar6 + 3,uVar4);
-    uVar3 = uVar3 & 0xfffffff0 | uVar4 & 0xffffffff0000000f;
-  }
-  return uVar3;
+    if ((~set->bits & 1) == 0)
+        return 0x1f;
+    return ((BitData_82ACBC68 *)set->bits)->count * 0x20 - 1;
 }
 
+static __forceinline void ReportFull(Allocator_82ACBC68 *self)
+{
+    if (self->ctx->source)
+        fn_82AA66A8(self->ctx, 0xdbe);
+    fn_82AA66A8(self->ctx, 0xded);
+}
+
+int fn_82ACBC68(Allocator_82ACBC68 *self, unsigned int key, unsigned char report)
+{
+    int slot;
+    unsigned int first;
+    unsigned int mask;
+
+    slot = fn_82ACB228(self, 0, key, 4);
+    if (slot == -1) {
+        if (Capacity(&self->set) / 4 - 1 >= 0xff) {
+            if (report)
+                ReportFull(self);
+            return -1;
+        }
+        fn_82ACBB48(&self->set, Capacity(&self->set) + 4);
+        slot = fn_82ACB228(self, 0, key, 4);
+        if (slot == -1) {
+            if (report)
+                ReportFull(self);
+            return -1;
+        }
+    }
+    first = ((unsigned int)slot >> 4) * 4;
+    mask = fn_82ACA4F0(slot & 0xf, key);
+    fn_82ACAD38(&self->set, first, first + 3, mask);
+    return (slot & ~0xf) | (mask & 0xf);
+}

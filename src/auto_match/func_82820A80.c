@@ -1,44 +1,65 @@
-extern int fn_82815268();
-extern int fn_82816480();
-extern int fn_82820970();
-extern int (*lbl_8320A5D4)();
-extern unsigned int lbl_8320A5D8;
+typedef struct Request_82820A80 {
+    int path;          /* 0x00 */
+    unsigned int size; /* 0x04 */
+    int reserved08[2]; /* 0x08 */
+    int flags;         /* 0x10 */
+    int offset;        /* 0x14 */
+    int length;        /* 0x18 */
+    int reserved1c[2]; /* 0x1c */
+    int pending;       /* 0x24 */
+} Request_82820A80;
 
+typedef struct Item_82820A80 {
+    int reserved00[3];         /* 0x00 */
+    int flags;                 /* 0x0c */
+    unsigned int state;        /* 0x10 */
+    int callback;              /* 0x14 */
+    int handle;                /* 0x18 */
+    int reserved1c;            /* 0x1c */
+    Request_82820A80 *request; /* 0x20 */
+} Item_82820A80;
 
-void fn_82820A80(int param_1,int param_2,int param_3)
+typedef struct Owner_82820A80 {
+    int reserved00[4];           /* 0x00 */
+    void (*release)(int handle); /* 0x10 */
+    int count;                   /* 0x14 */
+} Owner_82820A80;
 
+extern int (*lbl_8320A5D4)(int handle);
+extern int lbl_8320A5D8;
+extern unsigned int fn_82815268(Owner_82820A80 *self, Item_82820A80 *item, int callback);
+extern void fn_82820970(Item_82820A80 *item);
+extern int fn_82816480(Owner_82820A80 *self, int path, int offset, int length, Request_82820A80 **request,
+                       int flags, unsigned int size, int retry);
+
+void fn_82820A80(Owner_82820A80 *self, Item_82820A80 *item, int cancel)
 {
-  unsigned int *puVar1;
-  int iVar2;
-  
-  if (param_3 != 0) {
-    *(unsigned int *)(param_2 + 0xc) = *(unsigned int *)(param_2 + 0xc) | 0x10000;
-  }
-  if (*(int *)(param_2 + 0xc) == 0) {
-    *(unsigned int *)(param_2 + 0x10) = *(unsigned int *)(param_2 + 0x10) | 0x20000;
-    fn_82820970(param_2);
-    if ((*(unsigned int *)(param_2 + 0x10) & 2) == 0) {
-      if ((lbl_8320A5D4 != (int (**)())0x0) &&
-         (iVar2 = (*lbl_8320A5D4)(*(unsigned int *)(param_2 + 0x18)), iVar2 != 0)) {
-        *(unsigned int *)(param_2 + 0xc) = *(unsigned int *)(param_2 + 0xc) | 0x400;
-      }
-      lbl_8320A5D8 = lbl_8320A5D8 + -1;
+    if (cancel != 0) {
+        item->flags |= 0x10000;
     }
-    else {
-      if (*(int (***)())(param_1 + 0x10) != (int (**)())0x0) {
-        (**(int (***)())(param_1 + 0x10))(*(unsigned int *)(param_2 + 0x18));
-      }
-      *(int *)(param_1 + 0x14) = *(int *)(param_1 + 0x14) + -1;
+    if (item->flags != 0) {
+        fn_82815268(self, item, item->callback);
+        return;
     }
-    if (*(int *)(param_2 + 0xc) == 0) {
-      *(unsigned int *)(param_2 + 0x10) = *(unsigned int *)(param_2 + 0x10) | 0x801;
-      *(unsigned int *)(*(int *)(param_2 + 0x20) + 0x24) = 0;
-      puVar1 = *(unsigned int **)(param_2 + 0x20);
-      fn_82816480(param_1,*puVar1,puVar1[5],puVar1[6],param_2 + 0x20,puVar1[4],puVar1[1],1);
-      return;
+    item->state |= 0x20000;
+    fn_82820970(item);
+    if (item->state & 2) {
+        if (self->release != 0) {
+            self->release(item->handle);
+        }
+        self->count--;
+    } else {
+        if (lbl_8320A5D4 != 0 && lbl_8320A5D4(item->handle) != 0) {
+            item->flags |= 0x400;
+        }
+        lbl_8320A5D8--;
     }
-  }
-  fn_82815268(param_1,param_2,*(unsigned int *)(param_2 + 0x14));
-  return;
+    if (item->flags != 0) {
+        fn_82815268(self, item, item->callback);
+        return;
+    }
+    item->state |= 0x801;
+    item->request->pending = 0;
+    fn_82816480(self, item->request->path, item->request->offset, item->request->length, &item->request,
+                item->request->flags, item->request->size, 1);
 }
-

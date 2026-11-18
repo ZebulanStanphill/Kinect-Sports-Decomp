@@ -1,43 +1,45 @@
-extern unsigned int *auStack_2c;
-extern int fn_82CE0298();
-extern int fn_82CE0340();
-extern int iRam8323a8e0;
-extern unsigned int uRam8323a8e4;
-extern unsigned int uStack_30;
+typedef struct Lock_82CE0410 {
+    int reserved00;     /* 0x00 */
+    char section[0x1c]; /* 0x04 */
+    int reserved20[2];  /* 0x20 */
+} Lock_82CE0410;
 
+extern Lock_82CE0410 lbl_83177900;
+extern int lbl_8323A8E0;
+extern int lbl_8323A8E4;
+extern unsigned int XamGetSystemVersion(void);
+extern void RtlEnterCriticalSection(void *cs);
+extern void RtlLeaveCriticalSection(void *cs);
+extern unsigned int fn_82CE0298(unsigned int a, unsigned int b, unsigned int c);
+extern unsigned int fn_82CE0340(unsigned int a, unsigned int *state, unsigned int *extra);
 
-__int64 fn_82CE0410(void)
-
+unsigned int fn_82CE0410(void)
 {
-  unsigned __int64 uVar1;
-  __int64 lVar2;
-  unsigned int uStack_30;
-  unsigned char auStack_2c [44];
-  
-  uVar1 = XamGetSystemVersion();
-  if (0x8a0ff < (uVar1 & 0xffff00)) {
-    lVar2 = fn_82CE0298(2,0,1);
-    return lVar2;
-  }
-  RtlEnterCriticalSection(0xffffffff83177904);
-  if (iRam8323a8e0 == 1) {
-    lVar2 = 0x65b;
-  }
-  else {
-    lVar2 = fn_82CE0340(2,&uStack_30,auStack_2c);
-    if (lVar2 == 0) {
-      uRam8323a8e4 = (unsigned int)LZCOUNT(uStack_30) >> 5;
-      lVar2 = fn_82CE0298(2,0,1);
-      if (lVar2 == 0) {
-        iRam8323a8e0 = 1;
-        goto LAB_82ce04bc;
-      }
-    }
-    iRam8323a8e0 = 0;
-    uRam8323a8e4 = 0;
-  }
-LAB_82ce04bc:
-  RtlLeaveCriticalSection(0xffffffff83177904);
-  return lVar2;
-}
+    unsigned int result;
+    unsigned int state;
+    unsigned int extra;
 
+    if ((XamGetSystemVersion() & 0xffff00) < 0x8a100) {
+        RtlEnterCriticalSection(lbl_83177900.section);
+        if (lbl_8323A8E0 == 1) {
+            result = 0x65b;
+        } else {
+            result = fn_82CE0340(2, &state, &extra);
+            if (result == 0) {
+                lbl_8323A8E4 = 0 == state;
+                result = fn_82CE0298(2, 0, 1);
+                if (result == 0) {
+                    lbl_8323A8E0 = 1;
+                    goto done;
+                }
+            }
+            lbl_8323A8E0 = 0;
+            lbl_8323A8E4 = 0;
+        }
+    done:
+        RtlLeaveCriticalSection(lbl_83177900.section);
+    } else {
+        result = fn_82CE0298(2, 0, 1);
+    }
+    return result;
+}

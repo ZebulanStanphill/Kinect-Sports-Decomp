@@ -1,54 +1,65 @@
-extern int fn_82268638();
-extern int fn_82538DC0();
-extern int fn_82538E40();
-extern int fn_82539150();
+/* std::_Stable_partition over 0x38-byte elements; the predicate tests titleId == 0x4D5308C9. */
+typedef struct Elem_82538958 {
+    char reserved00[0x24]; /* 0x00 */
+    unsigned int titleId;  /* 0x24 */
+    char reserved28[0x10]; /* 0x28 */
+} Elem_82538958;
 
+typedef struct TempRange_82538958 {
+    Elem_82538958 *first; /* 0x0 */
+    Elem_82538958 *last;  /* 0x4 */
+} TempRange_82538958;
 
-int fn_82538958(int param_1,int param_2,unsigned __int64 param_3,unsigned int param_4,int param_5)
+typedef struct TempIter_82538958 {
+    char reserved00[0x10];     /* 0x00 */
+    TempRange_82538958 *range; /* 0x10 */
+} TempIter_82538958;
 
+typedef struct IsTitle_82538958 {
+    char unused;
+} IsTitle_82538958;
+
+extern Elem_82538958 *fn_82268638(Elem_82538958 *dst, const Elem_82538958 *src);
+extern TempIter_82538958 *fn_82538DC0(TempIter_82538958 *buf, const Elem_82538958 *src);
+extern int fn_82538E40(TempIter_82538958 *buf);
+extern Elem_82538958 *fn_82539150(Elem_82538958 *first, Elem_82538958 *mid, Elem_82538958 *last, int count1,
+                                  int count2, TempIter_82538958 *buf);
+
+static __forceinline Elem_82538958 *Move(Elem_82538958 *first, Elem_82538958 *last, Elem_82538958 *dest)
 {
-  unsigned int uVar1;
-  int iVar4;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar5;
-  int iVar6;
-  
-  if (param_4 != 0) {
-    if (param_4 != 1) {
-      iVar4 = fn_82538E40(param_5);
-      if ((int)param_4 <= iVar4) {
-        (*(unsigned int **)(param_5 + 0x10))[1] = **(unsigned int **)(param_5 + 0x10);
-        for (iVar4 = param_1; iVar4 != param_2; iVar4 = iVar4 + 0x38) {
-          if (*(int *)(iVar4 + 0x24) == 0x4d5308c9) {
-            fn_82268638(param_1);
-            param_1 = param_1 + 0x38;
-          }
-          else {
-            fn_82538DC0(param_5,iVar4);
-          }
-        }
-        uVar1 = (*(unsigned int **)(param_5 + 0x10))[1];
-        iVar4 = param_1;
-        for (uVar5 = (unsigned __int64)**(unsigned int **)(param_5 + 0x10);
-            (uVar5 & 0xffffffff) != (unsigned __int64)uVar1; uVar5 = uVar5 + 0x38) {
-          fn_82268638(iVar4,uVar5);
-          iVar4 = iVar4 + 0x38;
-        }
-        return param_1;
-      }
-      iVar4 = ((int)param_4 >> 1) + (unsigned int)((int)param_4 < 0 && (param_4 & 1) != 0);
-      iVar6 = iVar4 * 0x38 + param_1;
-      uVar2 = fn_82538958(param_1,iVar6,param_3,iVar4,param_5);
-      uVar3 = fn_82538958(iVar6,param_2,param_3,param_4 - iVar4,param_5);
-      iVar4 = fn_82539150(uVar2,iVar6,uVar3,(iVar6 - (int)uVar2) / 0x38,
-                                ((int)uVar3 - iVar6) / 0x38,param_5);
-      return iVar4;
+    for (; first != last; ++dest, ++first) {
+        fn_82268638(dest, first);
     }
-    if (*(int *)(param_1 + 0x24) == 0x4d5308c9) {
-      return param_2;
-    }
-  }
-  return param_1;
+    return dest;
 }
 
+Elem_82538958 *fn_82538958(Elem_82538958 *first, Elem_82538958 *last, IsTitle_82538958 pred, int count,
+                           TempIter_82538958 *buf)
+{
+    if (count == 0) {
+        return first;
+    } else if (count == 1) {
+        return first->titleId == 0x4D5308C9 ? last : first;
+    } else if (count <= fn_82538E40(buf)) {
+        Elem_82538958 *next = first;
+
+        for (buf->range->last = buf->range->first; first != last; ++first) {
+            if (first->titleId == 0x4D5308C9) {
+                Elem_82538958 *dest = next++;
+
+                fn_82268638(dest, first);
+            } else {
+                fn_82538DC0(buf, first);
+            }
+        }
+        Move(buf->range->first, buf->range->last, next);
+        return next;
+    } else {
+        int half = count / 2;
+        Elem_82538958 *mid = first + half;
+        Elem_82538958 *left = fn_82538958(first, mid, pred, half, buf);
+        Elem_82538958 *right = fn_82538958(mid, last, pred, count - half, buf);
+
+        return fn_82539150(left, mid, right, mid - left, right - mid, buf);
+    }
+}

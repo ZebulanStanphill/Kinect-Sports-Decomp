@@ -1,24 +1,32 @@
-extern unsigned int lbl_821AAD20;
-extern unsigned int lbl_8326459C;
+typedef struct Device_830551F8 {
+    char pad0[0x50];
+    __int64 time; /* 0x50 */
+    char pad58[0x84 - 0x58];
+    unsigned int blockSize; /* 0x84 */
+} Device_830551F8;
 
+typedef struct Voice_830551F8 {
+    char pad0[0x58];
+    __int64 startTime;       /* 0x58 */
+    Device_830551F8 *device; /* 0x60 */
+    char pad64[4];
+    unsigned int queued; /* 0x68 */
+    char pad6c[0x94 - 0x6c];
+    unsigned int played; /* 0x94 */
+    float blockDuration; /* 0x98 */
+} Voice_830551F8;
 
-double fn_830551F8(int param_1)
+extern float lbl_8326459C;
 
+float fn_830551F8(Voice_830551F8 *self)
 {
-  unsigned __int64 uVar1;
-  double dVar2;
-  
-  uVar1 = (unsigned __int64)*(unsigned int *)(*(int *)(param_1 + 0x60) + 0x84);
-  trapWord(6,uVar1,0);
-  dVar2 = (double)(*(float *)(param_1 + 0x98) /
-                   (float)(((((unsigned __int64)*(unsigned int *)(param_1 + 0x68) -
-                             (unsigned __int64)*(unsigned int *)(param_1 + 0x94)) + uVar1) - 1 & 0xffffffff) /
-                          uVar1) -
-                  (float)(*(__int64 *)(*(int *)(param_1 + 0x60) + 0x50) -
-                         *(__int64 *)(param_1 + 0x58)) / lbl_8326459C);
-  if (dVar2 <= (double)lbl_821AAD20) {
-    return (double)lbl_821AAD20;
-  }
-  return dVar2;
-}
+    Device_830551F8 *device = self->device;
+    unsigned int blockSize = device->blockSize;
+    float remaining =
+        self->blockDuration / (float)((self->queued - self->played + blockSize - 1) / blockSize) -
+        (float)(device->time - self->startTime) / lbl_8326459C;
 
+    if (remaining <= 0.0f)
+        return 0.0f;
+    return remaining;
+}

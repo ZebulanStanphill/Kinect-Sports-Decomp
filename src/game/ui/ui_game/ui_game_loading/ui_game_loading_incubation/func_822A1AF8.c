@@ -1,38 +1,47 @@
-extern int fn_822A22C8();
-extern unsigned int lbl_831D1298;
-extern unsigned int lbl_831D12A0;
-extern unsigned int lbl_831D12B4;
-extern unsigned int lbl_831D12B8;
-extern unsigned int lbl_831D12BC;
-extern unsigned int lbl_831D12CC;
-extern unsigned int lbl_831D12D0;
-extern unsigned int lbl_831D12D4;
-extern int (*lbl_8327677C)();
+typedef struct AssertHooks_822A1AF8 {
+    void *unk0;
+    void *unk4;
+    void (*report)(const char *func, const char *file, int line); /* 0x8 */
+} AssertHooks_822A1AF8;
 
+typedef struct LoadingState_822A1AF8 {
+    int openCount;   /* 0x00 */
+    int unk4;        /* 0x04 */
+    int needsReport; /* 0x08 */
+    char padC[0x1c - 0xc];
+    int arg0;      /* 0x1c */
+    int arg1;      /* 0x20 */
+    int selection; /* 0x24 */
+    char pad28[0x34 - 0x28];
+    int reset0; /* 0x34 */
+    int reset1; /* 0x38 */
+    int reset2; /* 0x3c */
+    char pad40[0x9c - 0x40];
+} LoadingState_822A1AF8;
 
-void fn_822A1AF8(unsigned __int64 param_1,unsigned int param_2,unsigned int param_3)
+extern LoadingState_822A1AF8 lbl_831D1298;
+extern AssertHooks_822A1AF8 lbl_83276774;
+extern int fn_822A22C8(void);
 
+void fn_822A1AF8(void *unused, int arg0, int arg1)
 {
-  int iVar1;
-  
-  iVar1 = fn_822A22C8();
-  if (iVar1 == 0) {
-    lbl_831D12CC = 0;
-    lbl_831D12D0 = 0;
-    lbl_831D12D4 = 0;
-  }
-  else {
-    lbl_831D12BC = 0xffffffff;
-    lbl_831D12B4 = param_2;
-    lbl_831D12B8 = param_3;
-  }
-  lbl_831D1298 = lbl_831D1298 + 1;
-  if (lbl_831D12A0 != 0) {
-    if (lbl_8327677C != (int (**)())0x0) {
-      (*lbl_8327677C)(0xffffffff821abf28,0xffffffff821abeb8,0x12a);
+    if (fn_822A22C8() != 0) {
+        lbl_831D1298.arg0 = arg0;
+        lbl_831D1298.arg1 = arg1;
+        lbl_831D1298.selection = -1;
+    } else {
+        lbl_831D1298.reset0 = 0;
+        lbl_831D1298.reset1 = 0;
+        lbl_831D1298.reset2 = 0;
     }
-    lbl_831D12A0 = 0;
-  }
-  return;
+    lbl_831D1298.openCount++;
+    if (lbl_831D1298.needsReport != 0) {
+        if (lbl_83276774.report != 0) {
+            lbl_83276774.report("_uiGameLoadingIncubationOpen",
+                                "D:\\Work\\Incubation\\Olympus_Testing\\Incubation\\game\\ui\\ui_game\\"
+                                "ui_game_loading\\ui_game_loading_incubation.cpp",
+                                0x12a);
+        }
+        lbl_831D1298.needsReport = 0;
+    }
 }
-

@@ -1,52 +1,23 @@
-extern int fn_82E26DD0();
-extern unsigned int stack0x00000014;
-extern unsigned int stack0x0000001c;
-extern unsigned int stack0x00000024;
-extern unsigned int stack0x0000002c;
-extern unsigned int uStack00000014;
-extern unsigned int uStack0000001c;
-extern unsigned int uStack00000024;
-extern unsigned int uStack0000002c;
+extern void fn_82E26DD0(unsigned int num, unsigned int den, unsigned int *outNum, unsigned int *outDen);
 
-
-void fn_82E26E28(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5,unsigned __int64 param_6)
-
+/* Multiplies the fraction num1/den1 by num2/den2 and reduces the result. */
+void fn_82E26E28(unsigned int num1, unsigned int den1, unsigned int num2, unsigned int den2,
+                 unsigned int *outNum, unsigned int *outDen)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  unsigned int uStack00000014;
-  unsigned int uStack0000001c;
-  unsigned int uStack00000024;
-  unsigned int uStack0000002c;
-  
-  uStack00000014 = (unsigned int)param_1;
-  uStack00000024 = (unsigned int)param_3;
-  uStack0000001c = (unsigned int)param_2;
-  uStack0000002c = (unsigned int)param_4;
-  if (((((param_3 & 0xffffffff) == 0) || ((param_4 & 0xffffffff) == 0)) ||
-      ((param_1 & 0xffffffff) == 0)) || ((param_2 & 0xffffffff) == 0)) {
-    *(unsigned int *)param_5 = 0;
-    *(unsigned int *)param_6 = 0;
-  }
-  else {
-    fn_82E26DD0(param_1,param_2,&stack0x00000014,&stack0x0000001c);
-    fn_82E26DD0(param_3,param_4,&stack0x00000024,&stack0x0000002c);
-    uVar2 = (unsigned __int64)uStack00000014;
-    for (uVar1 = (unsigned __int64)uStack0000001c; (0xffff < uVar2 || (0xffff < uVar1)); uVar1 = uVar1 >> 1
-        ) {
-      uVar2 = uVar2 >> 1;
+    if (num2 == 0 || den2 == 0 || num1 == 0 || den1 == 0) {
+        *outNum = 0;
+        *outDen = 0;
+        return;
     }
-    uVar4 = (unsigned __int64)uStack00000024;
-    for (uVar3 = (unsigned __int64)uStack0000002c; (0xffff < uVar4 || (0xffff < uVar3)); uVar3 = uVar3 >> 1
-        ) {
-      uVar4 = uVar4 >> 1;
+    fn_82E26DD0(num1, den1, &num1, &den1);
+    fn_82E26DD0(num2, den2, &num2, &den2);
+    while (num1 > 0xffff || den1 > 0xffff) {
+        num1 >>= 1;
+        den1 >>= 1;
     }
-    fn_82E26DD0((__int64)(int)uVar2 * (__int64)(int)uVar4,
-                  (__int64)(int)uVar1 * (__int64)(int)uVar3,param_5,param_6);
-  }
-  return;
+    while (num2 > 0xffff || den2 > 0xffff) {
+        num2 >>= 1;
+        den2 >>= 1;
+    }
+    fn_82E26DD0(num1 * num2, den1 * den2, outNum, outDen);
 }
-

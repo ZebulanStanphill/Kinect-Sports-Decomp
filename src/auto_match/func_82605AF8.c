@@ -1,53 +1,45 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern unsigned int *auStack_40;
-extern int fn_82605F88();
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int stack0x00000000;
-extern V16 loadVectorLeftIndexed128();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __lvlx(const void *base, int offset);
+__vector4 __vspltw(__vector4 v, unsigned int i);
+__vector4 __vmulfp(__vector4 a, __vector4 b);
 
-void fn_82605AF8(unsigned int *param_1,unsigned __int64 param_2,int param_3)
+typedef struct Body_82605AF8 {
+    short pad0;
+    short id; /* 0x2 */
+    char pad4[0x270 - 4];
+    float weight; /* 0x270 */
+    char pad274[8];
+    float scale; /* 0x27c */
+    char pad280[0x2b0 - 0x280];
+    char target[0x2b0]; /* 0x2b0 */
+} Body_82605AF8;
 
+typedef struct BodyList_82605AF8 {
+    Body_82605AF8 *begin; /* 0x0 */
+    Body_82605AF8 *end;   /* 0x4 */
+} BodyList_82605AF8;
+
+extern void fn_82605F88(void *context, int id, void *target, __vector4 *force, int mode);
+
+void fn_82605AF8(BodyList_82605AF8 *bodies, void *context, const __vector4 *force)
 {
-  unsigned short uVar1;
-  unsigned int uVar2;
-  float *pfVar3;
-  float *pfVar4;
-  unsigned __int64 in_r0;
-  unsigned int uVar5;
-  double dVar6;
-  float fVar7;
-  float fVar8;
-  float fVar9;
-  float in_register_000100d0;
-  float in_register_000100d4;
-  float in_register_000100d8;
-  float in_vr13;
-  unsigned char auStack_40 [64];
-  
-  uVar5 = *param_1;
-  uVar2 = param_1[1];
-  if (uVar5 < uVar2) {
-    dVar6 = (double)ltcg_pool_0_0f;
-    do {
-      if (dVar6 < (double)*(float *)(uVar5 + 0x270)) {
-        pfVar3 = (float *)((int)in_r0 + param_3 & 0xfffffff0);
-        fVar7 = pfVar3[1];
-        fVar8 = pfVar3[2];
-        fVar9 = pfVar3[3];
-        uVar1 = *(unsigned short *)(uVar5 + 2);
-        loadVectorLeftIndexed128(in_r0,ZEXT48(&stack0x00000000) - 0x50);
-        pfVar4 = (float *)((unsigned int)(auStack_40 + (int)in_r0) & 0xfffffff0);
-        *pfVar4 = *pfVar3 * in_register_000100d0;
-        pfVar4[1] = fVar7 * in_register_000100d4;
-        pfVar4[2] = fVar8 * in_register_000100d8;
-        pfVar4[3] = fVar9 * in_vr13;
-        fn_82605F88(param_2,uVar1,uVar5 + 0x2b0,ZEXT48(&stack0x00000000) - 0x40,4);
-      }
-      uVar5 = uVar5 + 0x560;
-    } while (uVar5 < uVar2);
-  }
-  return;
-}
+    Body_82605AF8 *body;
+    Body_82605AF8 *end;
+    float factor;
+    __vector4 scaled;
+    short id;
 
+    body = bodies->begin;
+    end = bodies->end;
+    for (; body < end; body++) {
+        if (body->weight > 0.0f) {
+            id = body->id;
+            factor = -(body->scale * body->weight);
+            scaled = __vmulfp(*force, __vspltw(__lvlx(&factor, 0), 0));
+            fn_82605F88(context, id, body->target, &scaled, 4);
+        }
+    }
+}

@@ -1,46 +1,41 @@
-extern int fn_82E6F9C0();
+typedef struct Writer_82E70E20 {
+    char pad0[0x40];
+    unsigned __int64 startPosition; /* 0x40 */
+    char pad48[0x5c - 0x48];
+    unsigned int blockSize;    /* 0x5c */
+    unsigned short blockCount; /* 0x60 */
+    char pad62[0x68 - 0x62];
+    unsigned __int64 lastPosition; /* 0x68 */
+} Writer_82E70E20;
 
+extern void fn_82E6F9C0(Writer_82E70E20 *writer, unsigned int startBlock, unsigned short blockCount);
 
-unsigned __int64
-fn_82E70E20(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,int param_4,unsigned int *param_5)
-
+int fn_82E70E20(Writer_82E70E20 *writer, unsigned __int64 position, int reserved, unsigned char *header,
+                int *started)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  
-  uVar2 = (unsigned __int64)*(unsigned int *)(param_1 + 0x5c);
-  trapDoubleWordImmediate(6,uVar2,0);
-  if (param_2 == (param_2 / uVar2) * uVar2) {
-    if ((param_4 == 0) || (param_5 == (unsigned int *)0x0)) {
-      uVar1 = 0xffffffff80004003;
+    if (position % writer->blockSize > 0) {
+        return 0x80070057;
     }
-    else {
-      *param_5 = 0;
-      if (*(int *)(param_4 + 2) != 0) {
-        if (*(int *)(param_4 + 7) == 0) {
-          *(unsigned __int64 *)(param_1 + 0x40) = param_2;
-          *(unsigned short *)(param_1 + 0x60) = 1;
-          *param_5 = 1;
-        }
-        else {
-          if (param_2 != *(unsigned __int64 *)(param_1 + 0x68)) {
-            *(short *)(param_1 + 0x60) = *(short *)(param_1 + 0x60) + 1;
-          }
-          if (*(int *)(param_4 + 0x1b) + *(int *)(param_4 + 7) == *(int *)(param_4 + 0xb)) {
-            trapDoubleWordImmediate(6,(unsigned __int64)*(unsigned int *)(param_1 + 0x5c),0);
-            fn_82E6F9C0(param_1,*(unsigned __int64 *)(param_1 + 0x40) /
-                                  (unsigned __int64)*(unsigned int *)(param_1 + 0x5c) & 0xffffffff,
-                          *(unsigned short *)(param_1 + 0x60));
-          }
-        }
-        *(unsigned __int64 *)(param_1 + 0x68) = param_2;
-      }
-      uVar1 = 0;
+    if (header == 0 || started == 0) {
+        return 0x80004003;
     }
-  }
-  else {
-    uVar1 = 0xffffffff80070057;
-  }
-  return uVar1;
+    *started = 0;
+    if (*(int *)(header + 2) != 0) {
+        if (*(unsigned int *)(header + 7) == 0) {
+            writer->startPosition = position;
+            writer->blockCount = 1;
+            *started = 1;
+        } else {
+            if (position != writer->lastPosition) {
+                writer->blockCount++;
+            }
+            if (*(unsigned int *)(header + 0x1b) + *(unsigned int *)(header + 7) ==
+                *(unsigned int *)(header + 0xb)) {
+                fn_82E6F9C0(writer, (unsigned int)(writer->startPosition / writer->blockSize),
+                            writer->blockCount);
+            }
+        }
+        writer->lastPosition = position;
+    }
+    return 0;
 }
-

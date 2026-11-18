@@ -1,57 +1,40 @@
-void fn_830A7240(unsigned char *param_1,int param_2)
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vxor(__vector4 a, __vector4 b);
+
+typedef struct Flags_830A7240 {
+    unsigned char axes; /* 0x0: two bits per axis */
+} Flags_830A7240;
+
+typedef struct Body_830A7240 {
+    char pad0[0x30];
+    __vector4 linear[3]; /* 0x30 */
+    char pad60[0x30];
+    __vector4 angular[3]; /* 0x90 */
+} Body_830A7240;
+
+static __forceinline void SetZero(__vector4 *v)
 {
-  unsigned int *puVar1;
-  int in_r0;
-  unsigned int in_register_000100b0;
-  unsigned int in_register_000100b4;
-  unsigned int in_register_000100b8;
-  unsigned int in_vr11;
-  unsigned int in_register_000100d0;
-  unsigned int in_register_000100d4;
-  unsigned int in_register_000100d8;
-  unsigned int in_vr13;
-  
-  if (*param_1 == 0) {
-    return;
-  }
-  if ((*param_1 & 3) != 0) {
-    puVar1 = (unsigned int *)(in_r0 + param_2 + 0x30 & 0xfffffff0);
-    *puVar1 = in_register_000100d0;
-    puVar1[1] = in_register_000100d4;
-    puVar1[2] = in_register_000100d8;
-    puVar1[3] = in_vr13;
-    puVar1 = (unsigned int *)(in_r0 + param_2 + 0x90 & 0xfffffff0);
-    *puVar1 = in_register_000100b0;
-    puVar1[1] = in_register_000100b4;
-    puVar1[2] = in_register_000100b8;
-    puVar1[3] = in_vr11;
-  }
-  if ((*param_1 & 0xc) != 0) {
-    puVar1 = (unsigned int *)(in_r0 + param_2 + 0x40 & 0xfffffff0);
-    *puVar1 = in_register_000100d0;
-    puVar1[1] = in_register_000100d4;
-    puVar1[2] = in_register_000100d8;
-    puVar1[3] = in_vr13;
-    puVar1 = (unsigned int *)(in_r0 + param_2 + 0xa0 & 0xfffffff0);
-    *puVar1 = in_register_000100b0;
-    puVar1[1] = in_register_000100b4;
-    puVar1[2] = in_register_000100b8;
-    puVar1[3] = in_vr11;
-  }
-  if ((*param_1 & 0x30) == 0) {
-    return;
-  }
-  puVar1 = (unsigned int *)(in_r0 + param_2 + 0x50 & 0xfffffff0);
-  *puVar1 = in_register_000100d0;
-  puVar1[1] = in_register_000100d4;
-  puVar1[2] = in_register_000100d8;
-  puVar1[3] = in_vr13;
-  puVar1 = (unsigned int *)(in_r0 + param_2 + 0xb0 & 0xfffffff0);
-  *puVar1 = in_register_000100b0;
-  puVar1[1] = in_register_000100b4;
-  puVar1[2] = in_register_000100b8;
-  puVar1[3] = in_vr11;
-  return;
+    *v = __vxor(*v, *v);
 }
 
+void fn_830A7240(Flags_830A7240 *flags, Body_830A7240 *body)
+{
+    if (flags->axes == 0) {
+        return;
+    }
+    if (flags->axes & 0x3) {
+        SetZero(&body->linear[0]);
+        SetZero(&body->angular[0]);
+    }
+    if (flags->axes & 0xc) {
+        SetZero(&body->linear[1]);
+        SetZero(&body->angular[1]);
+    }
+    if (flags->axes & 0x30) {
+        SetZero(&body->linear[2]);
+        SetZero(&body->angular[2]);
+    }
+}

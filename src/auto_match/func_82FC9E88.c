@@ -1,46 +1,32 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern double sqrt(double);
-#define SQRT(x) sqrt(x)
+#include <math.h>
 
-
-void fn_82FC9E88(unsigned __int64 param_1)
-
+static __forceinline unsigned char IsPrime(int value)
 {
-  bool bVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  
-  if ((param_1 & 1) == 0) {
-    param_1 = param_1 + 1;
-  }
-  do {
-    iVar2 = (int)param_1;
-    if (iVar2 == 2) {
-      bVar1 = true;
+    int limit;
+    int divisor;
+
+    if (value == 2) {
+        return 1;
     }
-    else if ((param_1 & 1) == 0) {
-LAB_82fc9f1c:
-      bVar1 = false;
+    if (value & 1) {
+        limit = (int)sqrtf((float)value) + 1;
+        for (divisor = 3; divisor < limit; divisor += 2) {
+            if (value % divisor == 0) {
+                return 0;
+            }
+        }
+        return 1;
     }
-    else {
-      uVar3 = 3;
-      if (3 < (int)SQRT((float)(__int64)iVar2) + 1) {
-        do {
-          trapWord(6,uVar3,0);
-          trapWord(5,uVar3 & ~(((param_1 & 0x7fffffff) << 1 | (param_1 & 0xffffffff) >> 0x1f) - 1),
-                   0xffff);
-          if (param_1 == (__int64)(iVar2 / (int)uVar3) * (__int64)(int)uVar3) goto LAB_82fc9f1c;
-          uVar3 = uVar3 + 2;
-        } while ((int)uVar3 < (int)SQRT((float)(__int64)iVar2) + 1);
-      }
-      bVar1 = true;
-    }
-    if (bVar1) {
-      return;
-    }
-    param_1 = param_1 + 2;
-  } while( true );
+    return 0;
 }
 
+unsigned int fn_82FC9E88(unsigned int value)
+{
+    if ((value & 1) == 0) {
+        value++;
+    }
+    while (!IsPrime(value)) {
+        value += 2;
+    }
+    return value;
+}

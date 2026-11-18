@@ -1,29 +1,32 @@
-unsigned int fn_82ACACA8(__int64 param_1,__int64 param_2,int param_3)
+typedef struct BitArray_82ACAD38 {
+    unsigned int header; /* 0x0: buffer pointer, or low bit set for inline words */
+} BitArray_82ACAD38;
 
+static __forceinline unsigned int *GetWords(BitArray_82ACAD38 *array)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  __int64 lVar4;
-  unsigned int uVar5;
-  unsigned __int64 uVar6;
-  
-  uVar3 = (unsigned __int64)*(unsigned int *)param_1;
-  uVar2 = (unsigned int)(param_2 + 1U) & 0x1f;
-  uVar1 = (2 << (param_3 + 1U & 0x1f)) - 1;
-  lVar4 = uVar3 + 4;
-  if ((~uVar3 & 1) == 0) {
-    lVar4 = param_1;
-  }
-  uVar6 = ((param_2 + 1U & 0xffffffff) >> 3 & 0x1ffffffc) + lVar4;
-  if ((~uVar3 & 1) != 0) {
-    param_1 = uVar3 + 4;
-  }
-  uVar3 = ((unsigned __int64)(param_3 + 1U >> 3) & 0x1ffffffc) + param_1;
-  uVar5 = -1 << uVar2 & *(unsigned int *)uVar6;
-  if ((uVar6 & 0xffffffff) == (uVar3 & 0xffffffff)) {
-    return (uVar5 & uVar1) >> uVar2;
-  }
-  return (*(unsigned int *)uVar3 & uVar1) << (0x20 - uVar2 & 0x3f) | uVar5 >> uVar2;
+    if ((~array->header & 1) != 0) {
+        return (unsigned int *)(array->header + 4);
+    }
+    return (unsigned int *)array;
 }
 
+unsigned int fn_82ACACA8(BitArray_82ACAD38 *array, unsigned int first, unsigned int last)
+{
+    unsigned int lastBit = last + 1;
+    unsigned int shift = (first + 1) & 0x1f;
+    unsigned int highMask;
+    unsigned int lowMask;
+    unsigned int lowBits;
+    unsigned int *low;
+    unsigned int *high;
+
+    lowMask = 0xffffffff << shift;
+    highMask = (2 << (lastBit & 0x1f)) - 1;
+    low = GetWords(array) + ((first + 1) >> 5);
+    high = GetWords(array) + (lastBit >> 5);
+    lowBits = *low & lowMask;
+    if (low == high) {
+        return (lowBits & highMask) >> shift;
+    }
+    return ((*high & highMask) << (32 - shift)) | (lowBits >> shift);
+}

@@ -1,13 +1,18 @@
-void fn_827F5928(int param_1,__int64 param_2)
+typedef struct Object_827F5928 {
+    unsigned char pad[0xdc];
+    unsigned char flags; /* 0xdc */
+} Object_827F5928;
 
+static __forceinline void SetFlags(unsigned char *flags, unsigned char mask)
 {
-  unsigned char bVar1;
-  
-  bVar1 = *(unsigned char *)(param_1 + 0xdc);
-  *(unsigned char *)(param_1 + 0xdc) = bVar1 | 4;
-  *(unsigned char *)(param_1 + 0xdc) =
-       (unsigned char)((unsigned char)((unsigned __int64)-param_2 >> 0x18) & ~(unsigned char)((unsigned __int64)param_2 >> 0x18)) >> 4 & 8 |
-       bVar1 & 0xf7 | 4;
-  return;
+    *flags |= mask;
 }
 
+void fn_827F5928(Object_827F5928 *self, int value)
+{
+    int flags;
+
+    SetFlags(&self->flags, 4);
+    flags = self->flags;
+    self->flags = ((value > 0) << 3) | (flags & ~8);
+}

@@ -1,61 +1,54 @@
-extern unsigned int *auStack_30;
-extern int fn_822315A0();
-extern int fn_822CE290();
-extern int fn_82365BD8();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Target_822CEA78 {
+    char pad0[0x20];
+    __vector4 position; /* 0x20 */
+    char pad30[0x118 - 0x30];
+    float speed; /* 0x118 */
+    char pad11c[0x1b0 - 0x11c];
+    float fixedSpeed; /* 0x1b0 */
+} Target_822CEA78;
 
-void fn_822CEA78(int param_1,int *param_2,unsigned __int64 param_3,int param_4)
+typedef struct TargetPtr_822CEA78 {
+    Target_822CEA78 *object; /* 0x0 */
+    void *rep;               /* 0x4 */
+} TargetPtr_822CEA78;
 
+typedef struct Mover_822CEA78 {
+    char pad0[0x210];
+    __vector4 position;  /* 0x210 */
+    __vector4 direction; /* 0x220 */
+    int hasDirection;    /* 0x230 */
+    int active;          /* 0x234 */
+    float speed;         /* 0x238 */
+    char pad23c[0x340 - 0x23c];
+    int fixed; /* 0x340 */
+} Mover_822CEA78;
+
+extern TargetPtr_822CEA78 *fn_82365BD8(TargetPtr_822CEA78 *out, TargetPtr_822CEA78 *in);
+extern void fn_822CE290(Mover_822CEA78 *self, TargetPtr_822CEA78 *target, int mode);
+extern void fn_822315A0(void *rep);
+
+void fn_822CEA78(Mover_822CEA78 *self, TargetPtr_822CEA78 *target, int mode, const __vector4 *direction)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  unsigned int *puVar3;
-  int in_r0;
-  unsigned __int64 uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned int uVar8;
-  unsigned char auStack_30 [1];
-  
-  if (param_4 == 0) {
-    *(unsigned int *)(param_1 + 0x230) = 0;
-  }
-  else {
-    iVar1 = *(int *)(param_1 + 0x340);
-    puVar2 = (unsigned int *)(*param_2 + 0x20U & 0xfffffff0);
-    uVar5 = puVar2[1];
-    uVar6 = puVar2[2];
-    uVar7 = puVar2[3];
-    puVar3 = (unsigned int *)(param_1 + 0x210U & 0xfffffff0);
-    *puVar3 = *puVar2;
-    puVar3[1] = uVar5;
-    puVar3[2] = uVar6;
-    puVar3[3] = uVar7;
-    puVar2 = (unsigned int *)(in_r0 + param_4 & 0xfffffff0);
-    uVar5 = *puVar2;
-    uVar6 = puVar2[1];
-    uVar7 = puVar2[2];
-    uVar8 = puVar2[3];
-    *(unsigned int *)(param_1 + 0x230) = 1;
-    puVar2 = (unsigned int *)(param_1 + 0x220U & 0xfffffff0);
-    *puVar2 = uVar5;
-    puVar2[1] = uVar6;
-    puVar2[2] = uVar7;
-    puVar2[3] = uVar8;
-    if (iVar1 == 0) {
-      *(unsigned int *)(param_1 + 0x238) = *(unsigned int *)(*param_2 + 0x118);
-      uVar4 = fn_82365BD8(auStack_30,param_2);
-      fn_822CE290(param_1,uVar4,param_3);
-    }
-    else {
-      *(unsigned int *)(param_1 + 0x238) = *(unsigned int *)(*param_2 + 0x1b0);
-    }
-    *(unsigned int *)(param_1 + 0x234) = 1;
-  }
-  if (param_2[1] != 0) {
-    fn_822315A0();
-  }
-  return;
-}
+    TargetPtr_822CEA78 copy;
 
+    if (direction != 0) {
+        self->position = target->object->position;
+        self->direction = *direction;
+        self->hasDirection = 1;
+        if (self->fixed != 0) {
+            self->speed = target->object->fixedSpeed;
+        } else {
+            self->speed = target->object->speed;
+            fn_822CE290(self, fn_82365BD8(&copy, target), mode);
+        }
+        self->active = 1;
+    } else {
+        self->hasDirection = 0;
+    }
+    if (target->rep != 0)
+        fn_822315A0(target->rep);
+}

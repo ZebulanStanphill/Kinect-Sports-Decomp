@@ -1,36 +1,32 @@
-typedef unsigned char bool;
-extern unsigned int *auStack_20;
-extern unsigned int *auStack_40;
-extern unsigned int fStack_28;
-extern unsigned int fStack_2c;
-extern unsigned int fStack_30;
-extern int fn_827EF590();
-extern int fn_827EF608();
-extern int fn_82810308();
-extern int fn_82810328();
-extern int fn_8281CAE8();
-extern unsigned int lbl_82002AE0;
+typedef struct Vec3_827EC428 {
+    float x;
+    float y;
+    float z;
+} Vec3_827EC428;
 
+typedef struct Matrix3_827EC428 {
+    float m[3][3];
+} Matrix3_827EC428;
 
-bool fn_827EC428(double param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  float *param_5,unsigned __int64 param_6)
+extern void fn_82810328(const Vec3_827EC428 *a, const Vec3_827EC428 *b, Vec3_827EC428 *out);
+extern void fn_8281CAE8(const Matrix3_827EC428 *rotation, const Vec3_827EC428 *v, Vec3_827EC428 *out);
+extern void fn_827EF590(const Vec3_827EC428 *v, Vec3_827EC428 *out);
+extern void fn_827EF608(const Vec3_827EC428 *a, const Vec3_827EC428 *b, Vec3_827EC428 *out);
+extern float fn_82810308(const Vec3_827EC428 *v);
 
+int fn_827EC428(const Vec3_827EC428 *point, float margin, const Vec3_827EC428 *center,
+                const Vec3_827EC428 *radii, const Matrix3_827EC428 *rotation)
 {
-  double dVar1;
-  unsigned char auStack_40 [16];
-  struct { float first; float second; } stack_pair_30;
+    Vec3_827EC428 local;
+    Vec3_827EC428 extent;
+    Vec3_827EC428 inverseExtent;
 
-  float fStack_28;
-  unsigned char auStack_20 [16];
-  
-  stack_pair_30.first = (float)((double)*param_5 + param_1);
-  stack_pair_30.second = (float)((double)param_5[1] + param_1);
-  fStack_28 = (float)((double)param_5[2] + param_1);
-  fn_82810328(param_2,param_4,auStack_40);
-  fn_8281CAE8(param_6,auStack_40,auStack_40);
-  fn_827EF590(&stack_pair_30.first,auStack_20);
-  fn_827EF608(auStack_20,auStack_40,auStack_40);
-  dVar1 = (double)fn_82810308(auStack_40);
-  return dVar1 <= (double)lbl_82002AE0;
+    extent.x = radii->x + margin;
+    extent.y = radii->y + margin;
+    extent.z = radii->z + margin;
+    fn_82810328(point, center, &local);
+    fn_8281CAE8(rotation, &local, &local);
+    fn_827EF590(&extent, &inverseExtent);
+    fn_827EF608(&inverseExtent, &local, &local);
+    return fn_82810308(&local) <= 1.0f;
 }
-

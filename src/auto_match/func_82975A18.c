@@ -1,39 +1,48 @@
-extern int fn_828F6FA8();
+typedef struct Name_82975A18 {
+    const char *text; /* 0x0 */
+} Name_82975A18;
 
+typedef struct Node_82975A18 {
+    int field0;    /* 0x0 */
+    int nameIndex; /* 0x4 */
+    int field8;    /* 0x8 */
+    int number;    /* 0xc */
+    char pad10[0x38 - 0x10];
+    int sourceIndex; /* 0x38 */
+} Node_82975A18;
 
-void fn_82975A18(int param_1,int param_2,char *param_3,int param_4)
+typedef struct Context_82975A18 {
+    char pad0[0x10];
+    Name_82975A18 **names; /* 0x10 */
+    Node_82975A18 **nodes; /* 0x14 */
+} Context_82975A18;
 
+extern const char lbl_821CE31C[]; /* "?" */
+extern int fn_828F6FA8(char *out, int size, const char *format, ...);
+extern unsigned int strlen(const char *s);
+
+void fn_82975A18(Context_82975A18 *context, Node_82975A18 *node, char *buffer, int size)
 {
-  char cVar1;
-  int *piVar2;
-  unsigned __int64 uVar3;
-  char *pcVar4;
-  
-  piVar2 = (int *)(param_2 + 4);
-  if (*(int *)(param_2 + 0x38) != -1) {
-    param_2 = *(int *)(*(int *)(param_2 + 0x38) * 4 + *(int *)(param_1 + 0x14));
-  }
-  pcVar4 = (char *)**(unsigned int **)(*piVar2 * 4 + *(int *)(param_1 + 0x10));
-  if ((*pcVar4 == '\0') || (pcVar4[1] != '\0')) {
-    uVar3 = 0xffffffff820387ec;
-  }
-  else {
-    uVar3 = 0xffffffff821c4da8;
-  }
-  fn_828F6FA8(param_3,param_4,uVar3);
-  pcVar4 = param_3;
-  do {
-    cVar1 = *pcVar4;
-    pcVar4 = pcVar4 + 1;
-  } while (cVar1 != '\0');
-  pcVar4 = pcVar4 + (-1 - (int)param_3);
-  if (*(int *)(param_2 + 0xc) == -1) {
-    fn_828F6FA8(param_3 + (int)pcVar4,param_4 - (int)pcVar4,0xffffffff821ce31c);
-  }
-  else {
-    fn_828F6FA8(param_3 + (int)pcVar4,param_4 - (int)pcVar4,0xffffffff821c7f34);
-  }
-  param_3[param_4 + -1] = '\0';
-  return;
-}
+    Name_82975A18 *name;
+    Node_82975A18 *source;
+    int length;
 
+    name = context->names[node->nameIndex];
+    if (node->sourceIndex == -1) {
+        source = node;
+    } else {
+        source = context->nodes[node->sourceIndex];
+    }
+    if (name->text[0] != 0 && name->text[1] == 0) {
+        fn_828F6FA8(buffer, size, "%s", name->text);
+    } else {
+        fn_828F6FA8(buffer, size, "%s_", name->text);
+    }
+    length = strlen(buffer);
+    if (source->number != -1) {
+        fn_828F6FA8(buffer + length, size - length, "%u", source->number);
+    } else {
+        fn_828F6FA8(buffer + length, size - length, lbl_821CE31C);
+    }
+    buffer[size - 1] = 0;
+}

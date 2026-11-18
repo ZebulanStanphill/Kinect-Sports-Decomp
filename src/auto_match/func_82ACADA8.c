@@ -1,30 +1,28 @@
-void fn_82ACADA8(__int64 param_1,__int64 param_2,__int64 param_3,unsigned int param_4)
+typedef struct BitArray_82ACAD38 {
+    unsigned int header; /* 0x0: buffer pointer, or low bit set for inline words */
+} BitArray_82ACAD38;
 
+static __forceinline unsigned int *GetWords(BitArray_82ACAD38 *array)
 {
-  unsigned int uVar1;
-  __int64 lVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  int *piVar5;
-  
-  uVar3 = (unsigned __int64)*(unsigned int *)param_1;
-  uVar1 = (unsigned int)(param_2 + 1U) & 0x1f;
-  lVar2 = uVar3 + 4;
-  if ((~uVar3 & 1) == 0) {
-    lVar2 = param_1;
-  }
-  uVar4 = ((param_2 + 1U & 0xffffffff) >> 3 & 0x1ffffffc) + lVar2;
-  if ((~uVar3 & 1) != 0) {
-    param_1 = uVar3 + 4;
-  }
-  piVar5 = (int *)uVar4;
-  uVar3 = ((param_3 + 1U & 0xffffffff) >> 3 & 0x1ffffffc) + param_1;
-  *piVar5 = *piVar5 - (param_4 << uVar1);
-  if ((uVar4 & 0xffffffff) == (uVar3 & 0xffffffff)) {
-    return;
-  }
-  piVar5 = (int *)uVar3;
-  *piVar5 = *piVar5 - (param_4 >> (0x20 - uVar1 & 0x3f));
-  return;
+    if ((~array->header & 1) != 0) {
+        return (unsigned int *)(array->header + 4);
+    }
+    return (unsigned int *)array;
 }
 
+void fn_82ACADA8(BitArray_82ACAD38 *array, unsigned int first, unsigned int last, unsigned int value)
+{
+    unsigned int shift;
+    unsigned int bits;
+    unsigned int *low;
+    unsigned int *high;
+
+    shift = (first + 1) & 0x1f;
+    bits = value << shift;
+    low = GetWords(array) + ((first + 1) >> 5);
+    high = GetWords(array) + ((last + 1) >> 5);
+    *low -= bits;
+    if (low != high) {
+        *high -= value >> (32 - shift);
+    }
+}

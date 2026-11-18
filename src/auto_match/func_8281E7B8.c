@@ -1,38 +1,35 @@
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_70;
-extern int fn_8280D8E0();
-extern int fn_8280DD50();
-extern int fn_8280DF98();
-extern int fn_8280E418();
-extern int fn_828105C8();
-extern int fn_82810B78();
-extern int fn_8281E528();
-extern unsigned int lbl_8200133C;
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_821AAD20;
+typedef struct Vec3_8281E7B8 {
+    float x;
+    float y;
+    float z;
+} Vec3_8281E7B8;
 
+typedef __declspec(align(16)) struct Quat_8281E7B8 {
+    float v[4];
+} Quat_8281E7B8;
 
-void fn_8281E7B8(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+extern void fn_8280DD50(Quat_8281E7B8 *q);
+extern void fn_828105C8(Vec3_8281E7B8 *out, float x, float y, float z);
+extern void fn_8281E528(Quat_8281E7B8 *out, const Vec3_8281E7B8 *from, const Vec3_8281E7B8 *to);
+extern void fn_8280DF98(Quat_8281E7B8 *q, const Vec3_8281E7B8 *v, Vec3_8281E7B8 *out);
+extern void fn_82810B78(const Vec3_8281E7B8 *v, Vec3_8281E7B8 *out);
+extern void fn_8280D8E0(Quat_8281E7B8 *a, Quat_8281E7B8 *b, Quat_8281E7B8 *out);
+extern void fn_8280E418(Quat_8281E7B8 *q, Quat_8281E7B8 *out);
 
+void fn_8281E7B8(Quat_8281E7B8 *out, const Vec3_8281E7B8 *forward, const Vec3_8281E7B8 *up)
 {
-  double dVar1;
-  unsigned char auStack_70 [1];
-  unsigned char auStack_60 [16];
-  unsigned char auStack_50 [16];
-  unsigned char auStack_40 [64];
-  
-  fn_8280DD50(auStack_40);
-  dVar1 = (double)lbl_821AAD20;
-  fn_828105C8(dVar1,(double)lbl_82002AE0,dVar1,auStack_50);
-  fn_828105C8(dVar1,dVar1,(double)lbl_8200133C,auStack_60);
-  fn_8281E528(param_1,auStack_60,param_2);
-  fn_8280DF98(param_1,auStack_50,auStack_70);
-  fn_82810B78(auStack_70,auStack_70);
-  fn_8281E528(auStack_40,auStack_70,param_3);
-  fn_8280D8E0(auStack_40,param_1,param_1);
-  fn_8280E418(param_1,param_1);
-  return;
-}
+    Quat_8281E7B8 twist;
+    Vec3_8281E7B8 upAxis;
+    Vec3_8281E7B8 backAxis;
+    Vec3_8281E7B8 rotatedUp;
 
+    fn_8280DD50(&twist);
+    fn_828105C8(&upAxis, 0.0f, 1.0f, 0.0f);
+    fn_828105C8(&backAxis, 0.0f, 0.0f, -1.0f);
+    fn_8281E528(out, &backAxis, forward);
+    fn_8280DF98(out, &upAxis, &rotatedUp);
+    fn_82810B78(&rotatedUp, &rotatedUp);
+    fn_8281E528(&twist, &rotatedUp, up);
+    fn_8280D8E0(&twist, out, out);
+    fn_8280E418(out, out);
+}

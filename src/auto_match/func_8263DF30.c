@@ -1,61 +1,76 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_8263D7F0();
-extern unsigned int iStack_14;
-extern unsigned int iStack_18;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
+typedef struct Rect_8263DF30 {
+    int left;   /* 0x00 */
+    int top;    /* 0x04 */
+    int right;  /* 0x08 */
+    int bottom; /* 0x0c */
+} Rect_8263DF30;
 
+typedef struct SurfaceSize_8263DF30 {
+    unsigned int widthMinusOne : 14;
+    unsigned int heightMinusOne : 15;
+    unsigned int format : 3;
+} SurfaceSize_8263DF30;
 
-void fn_8263DF30(int param_1,unsigned __int64 param_2,unsigned int *param_3)
+typedef struct Surface_8263DF30 {
+    char pad0[0x24];
+    SurfaceSize_8263DF30 size; /* 0x24 */
+} Surface_8263DF30;
 
+typedef struct Device_8263DF30 {
+    char pad0[0x2abc];
+    unsigned char stateFlags; /* 0x2abc */
+    char pad2ABD[0x3148 - 0x2abd];
+    Surface_8263DF30 *targets[5]; /* 0x3148 */
+    char pad315C[0x3268 - 0x315c];
+    Surface_8263DF30 *savedTargets[5]; /* 0x3268 */
+    char pad327C[0x342c - 0x327c];
+    int savedWidth;  /* 0x342c */
+    int savedHeight; /* 0x3430 */
+} Device_8263DF30;
+
+extern void fn_8263D7F0(Device_8263DF30 *device, int flags, Rect_8263DF30 *rect, const void *color,
+                        float depth, unsigned int stencil);
+
+static __forceinline unsigned char TargetsUnchanged(Device_8263DF30 *device)
 {
-  int iVar1;
-  bool bVar2;
-  int iVar3;
-  struct { unsigned int first; unsigned int second; } stack_pair_20;
-
-  int iStack_18;
-  int iStack_14;
-  
-  if (param_3 == (unsigned int *)0x0) {
-    iVar1 = *(int *)(param_1 + 0x3148);
-    iVar3 = iVar1;
-    if (iVar1 == 0) {
-      iVar3 = *(int *)(param_1 + 0x3158);
+    if ((device->stateFlags & 0x20) &&
+        (device->savedTargets[0] == device->targets[0] || device->targets[0] == 0) &&
+        (device->savedTargets[1] == device->targets[1] || device->targets[1] == 0) &&
+        (device->savedTargets[2] == device->targets[2] || device->targets[2] == 0) &&
+        (device->savedTargets[3] == device->targets[3] || device->targets[3] == 0) &&
+        (device->savedTargets[4] == device->targets[4] || device->targets[4] == 0)) {
+        return 1;
     }
-    stack_pair_20.first = 0;
-    stack_pair_20.second = 0;
-    iStack_18 = (*(unsigned int *)(iVar3 + 0x24) >> 0x12) + 1;
-    iStack_14 = (*(unsigned int *)(iVar3 + 0x24) >> 3 & 0x7fff) + 1;
-    if ((*(unsigned char *)(param_1 + 0x2abc) & 0x10) == 0) {
-      if (((((*(unsigned char *)(param_1 + 0x2abc) & 0x20) == 0) ||
-           ((*(int *)(param_1 + 0x3268) != iVar1 && (iVar1 != 0)))) ||
-          ((*(int *)(param_1 + 0x326c) != *(int *)(param_1 + 0x314c) &&
-           (*(int *)(param_1 + 0x314c) != 0)))) ||
-         ((((*(int *)(param_1 + 0x3270) != *(int *)(param_1 + 0x3150) &&
-            (*(int *)(param_1 + 0x3150) != 0)) ||
-           ((*(int *)(param_1 + 0x3274) != *(int *)(param_1 + 0x3154) &&
-            (*(int *)(param_1 + 0x3154) != 0)))) ||
-          ((*(int *)(param_1 + 0x3278) != *(int *)(param_1 + 0x3158) &&
-           (*(int *)(param_1 + 0x3158) != 0)))))) {
-        bVar2 = false;
-      }
-      else {
-        bVar2 = true;
-      }
-    }
-    else {
-      bVar2 = true;
-    }
-    if (bVar2) {
-      iStack_18 = *(int *)(param_1 + 0x342c);
-      iStack_14 = *(int *)(param_1 + 0x3430);
-    }
-    param_3 = &stack_pair_20.first;
-  }
-  fn_8263D7F0(param_1,param_2,param_3);
-  return;
+    return 0;
 }
 
+static __forceinline unsigned char UsesSavedTargets(Device_8263DF30 *device)
+{
+    return (device->stateFlags & 0x10) ? 1 : TargetsUnchanged(device);
+}
+
+void fn_8263DF30(Device_8263DF30 *device, int flags, Rect_8263DF30 *rect, const void *color, float depth,
+                 unsigned int stencil)
+{
+    Rect_8263DF30 fullRect;
+    SurfaceSize_8263DF30 size;
+
+    if (rect == 0) {
+        Surface_8263DF30 *target = device->targets[0];
+
+        if (target == 0) {
+            target = device->targets[4];
+        }
+        size = target->size;
+        fullRect.left = 0;
+        fullRect.top = 0;
+        fullRect.right = size.widthMinusOne + 1;
+        fullRect.bottom = size.heightMinusOne + 1;
+        if (UsesSavedTargets(device)) {
+            fullRect.right = device->savedWidth;
+            fullRect.bottom = device->savedHeight;
+        }
+        rect = &fullRect;
+    }
+    fn_8263D7F0(device, flags, rect, color, depth, stencil);
+}

@@ -1,34 +1,49 @@
-extern int fn_82A1F198();
-extern int fn_82C561E8();
+/* The original reloads offset right after storing it and reads size before base in source order:
+   the bump-pointer fields are volatile. */
+typedef struct Arena_82C44E50 {
+    volatile unsigned int base;   /* 0x0 */
+    volatile unsigned int offset; /* 0x4 */
+    volatile unsigned int size;   /* 0x8 */
+    void *tracker;                /* 0xc */
+    void *lock;                   /* 0x10 */
+} Arena_82C44E50;
 
+extern void RtlEnterCriticalSection(void *cs);
+extern void RtlLeaveCriticalSection(void *cs);
+extern unsigned int fn_82A1F198(unsigned int size, unsigned int address, unsigned int alignment,
+                                unsigned int protect);
+extern int fn_82C561E8(void *tracker, unsigned int address, int arg3, int arg4);
 
-unsigned __int64 fn_82C44E50(int *param_1,unsigned __int64 param_2)
-
+unsigned int fn_82C44E50(Arena_82C44E50 *arena, unsigned int size)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  
-  if ((param_1 != (int *)0x0) && (*param_1 != 0)) {
-    if (param_1[4] != 0) {
-      RtlEnterCriticalSection();
-    }
-    uVar1 = param_1[1];
-    param_1[1] = param_1[1] + (int)param_2;
-    if ((unsigned int)param_1[1] <= (unsigned int)(param_1[2] + -1 + *param_1)) {
-      param_1[1] = param_1[1] + 0x1000U & 0xfffff000;
-      if (param_1[4] != 0) {
-        RtlLeaveCriticalSection();
-      }
-      fn_82C561E8(param_1[3],(unsigned __int64)uVar1,0,0);
-      return (unsigned __int64)uVar1;
-    }
-    param_1[1] = param_1[1] - (int)param_2;
-    if (param_1[4] != 0) {
-      RtlLeaveCriticalSection();
-    }
-  }
-  uVar2 = fn_82A1F198(param_2,0xffffffffffffffff,0,0x20000004);
-  fn_82C561E8(param_1[3],uVar2,0,0);
-  return uVar2;
-}
+    unsigned int address;
+    unsigned int result;
+    unsigned int limit;
 
+    if (arena == 0 || arena->base == 0) {
+        result = fn_82A1F198(size, 0xffffffff, 0, 0x20000004);
+        fn_82C561E8(arena->tracker, result, 0, 0);
+        return result;
+    }
+    if (arena->lock != 0) {
+        RtlEnterCriticalSection(arena->lock);
+    }
+    limit = arena->size - 1 + arena->base;
+    address = arena->offset;
+    arena->offset += size;
+    if (arena->offset > limit) {
+        arena->offset -= size;
+        if (arena->lock != 0) {
+            RtlLeaveCriticalSection(arena->lock);
+        }
+        result = fn_82A1F198(size, 0xffffffff, 0, 0x20000004);
+        fn_82C561E8(arena->tracker, result, 0, 0);
+        return result;
+    }
+    arena->offset = (arena->offset + 0x1000) & ~0xfff;
+    if (arena->lock != 0) {
+        RtlLeaveCriticalSection(arena->lock);
+    }
+    fn_82C561E8(arena->tracker, address, 0, 0);
+    return address;
+}

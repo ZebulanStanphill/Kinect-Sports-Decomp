@@ -1,34 +1,40 @@
-extern int fn_829E59D8();
-extern unsigned int iStack_40;
-extern unsigned int lbl_82057B3C;
+#include <math.h>
 
+typedef struct Clock_829E3E10 {
+    int initialized; /* 0x0 */
+} Clock_829E3E10;
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+typedef struct Voice_829E3E10 {
+    char reserved00[0x24]; /* 0x00 */
+    Clock_829E3E10 clock;  /* 0x24 */
+    char reserved28[0x64]; /* 0x28 */
+    int stopped;           /* 0x8c */
+    int reserved90;        /* 0x90 */
+    int paused;            /* 0x94 */
+    float start;           /* 0x98 */
+    float position;        /* 0x9c */
+} Voice_829E3E10;
 
-unsigned __int64
-fn_829E3E10(unsigned __int64 param_1,double param_2,int param_3,int param_4,unsigned __int64 param_5,
-             unsigned __int64 param_6,unsigned int *param_7,unsigned int *param_8)
+extern const float lbl_82057B3C;
+extern int fn_829E59D8(Clock_829E3E10 *clock, float start, float position, float time, float rate,
+                       int *wrapped);
 
+int fn_829E3E10(Voice_829E3E10 *voice, int mode, float time, float rate, int *resync, int *flags)
 {
-  unsigned __int64 uVar1;
-  unsigned int uVar2;
-  int iStack_40;
-  
-  uVar2 = 0;
-  if (((*(int *)(param_3 + 0x8c) == 0) && (param_4 != 1)) && (*(int *)(param_3 + 0x94) == 0)) {
-    uVar1 = fn_829E59D8((double)*(float *)(param_3 + 0x98),(double)*(float *)(param_3 + 0x9c),
-                            param_1,param_2,param_3 + 0x24);
-    if ((int)uVar1 < 0) {
-      return uVar1;
-    }
-    if ((iStack_40 != 0) ||
-       ((float)((double)*(float *)(param_3 + 0x9c) * (double)lbl_82057B3C) <
-        ABS((float)((double)*(float *)(param_3 + 0x9c) - param_2)))) {
-      uVar2 = 1;
-    }
-  }
-  *param_7 = uVar2;
-  *param_8 = 0;
-  return 0;
-}
+    int needResync = 0;
 
+    if (voice->stopped == 0 && mode != 1 && voice->paused == 0) {
+        int wrapped;
+        int hr = fn_829E59D8(&voice->clock, voice->start, voice->position, time, rate, &wrapped);
+
+        if (hr < 0) {
+            return hr;
+        }
+        if (wrapped != 0 || fabsf(voice->position - rate) > voice->position * lbl_82057B3C) {
+            needResync = 1;
+        }
+    }
+    *resync = needResync;
+    *flags = 0;
+    return 0;
+}

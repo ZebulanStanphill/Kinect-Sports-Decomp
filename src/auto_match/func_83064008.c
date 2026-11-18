@@ -1,92 +1,90 @@
-#define true 1
-extern int fn_8305D5F0();
-extern int fn_8305D5F8();
-extern int fn_8305D618();
-extern int fn_8305D7C8();
-extern int fn_8305E0F8();
-extern int fn_8305F320();
-extern int fn_83065C58();
-extern int fn_83065E60();
-extern int fn_83066810();
-extern int fn_83068640();
-extern int fn_83068648();
-extern int fn_8306AAF0();
-extern int fn_8306AB38();
-extern int fn_8306AB80();
+typedef struct Polygon_83064008 Polygon_83064008;
 
+typedef struct Vertices_83064008 {
+    int unused;
+} Vertices_83064008;
 
-unsigned __int64
-fn_83064008(int param_1,unsigned __int64 param_2,unsigned int *param_3,unsigned __int64 param_4,unsigned __int64 param_5)
+struct Polygon_83064008 {
+    char pad0[0x10];
+    Vertices_83064008 vertices; /* 0x10 */
+};
 
+typedef struct PolygonList_83064008 {
+    Polygon_83064008 *head; /* 0x0 */
+} PolygonList_83064008;
+
+typedef struct Splitter_83064008 {
+    char pad0[0x30];
+    float epsilon; /* 0x30 */
+} Splitter_83064008;
+
+extern void fn_8306AB80(PolygonList_83064008 *list, Polygon_83064008 *polygon);
+extern int fn_83066810(void *plane, Vertices_83064008 *vertices, float epsilon, unsigned char *onPlane);
+extern void fn_83068640(Polygon_83064008 *polygon, unsigned char flag);
+extern unsigned char fn_83068648(Polygon_83064008 *polygon);
+extern void fn_8306AAF0(PolygonList_83064008 *list, Polygon_83064008 *polygon);
+extern void fn_8306AB38(PolygonList_83064008 *list, Polygon_83064008 *polygon);
+extern Polygon_83064008 *fn_83065E60(void);
+extern void fn_8305D5F0(Vertices_83064008 *vertices);
+extern int fn_8305D7C8(Vertices_83064008 *vertices);
+extern void fn_8305E0F8(Vertices_83064008 *vertices, int value);
+extern int fn_8305D618(Vertices_83064008 *vertices);
+extern void fn_8305D5F8(Vertices_83064008 *vertices, int value);
+extern void fn_8305F320(Vertices_83064008 *source, void *plane, Vertices_83064008 *front,
+                        Vertices_83064008 *back, float epsilon);
+extern void fn_83065C58(Polygon_83064008 *polygon);
+
+int fn_83064008(Splitter_83064008 *self, void *plane, PolygonList_83064008 *list,
+                PolygonList_83064008 *frontList, PolygonList_83064008 *backList)
 {
-  int iVar4;
-  char cVar5;
-  __int64 lVar1;
-  __int64 lVar2;
-  unsigned __int64 uVar3;
-  __int64 lVar6;
-  __int64 lVar7;
-  __int64 lVar8;
-  unsigned __int64 uVar9;
-  char cStack_70;
-  
-  do {
-    while( true ) {
-      uVar9 = (unsigned __int64)*param_3;
-      if (uVar9 == 0) {
-        return 1;
-      }
-      fn_8306AB80(param_3,uVar9);
-      lVar8 = uVar9 + 0x10;
-      iVar4 = fn_83066810((double)*(float *)(param_1 + 0x30),param_2,lVar8);
-      if (cStack_70 != '\0') {
-        fn_83068640(uVar9,1);
-      }
-      if (iVar4 != 1) break;
-      cVar5 = fn_83068648(uVar9);
-      uVar3 = param_4;
-LAB_83064084:
-      if (cVar5 == '\0') {
-        fn_8306AB38(uVar3,uVar9);
-      }
-      else {
-        fn_8306AAF0();
-      }
-    }
-    if (iVar4 == 2) {
-      cVar5 = fn_83068648(uVar9);
-      uVar3 = param_5;
-      goto LAB_83064084;
-    }
-    lVar1 = fn_83065E60();
-    lVar2 = fn_83065E60();
-    lVar7 = lVar1 + 0x10;
-    fn_8305D5F0(lVar7);
-    uVar3 = fn_8305D7C8(lVar8);
-    fn_8305E0F8(lVar7,uVar3);
-    uVar3 = fn_8305D618(lVar8);
-    fn_8305D5F8(lVar7,uVar3);
-    lVar6 = lVar2 + 0x10;
-    fn_8305D5F0(lVar6);
-    uVar3 = fn_8305D7C8(lVar8);
-    fn_8305E0F8(lVar6,uVar3);
-    uVar3 = fn_8305D618(lVar8);
-    fn_8305D5F8(lVar6,uVar3);
-    cVar5 = fn_83068648(uVar9);
-    if (cVar5 == '\0') {
-      fn_8306AB38(param_4,lVar2);
-      fn_8306AB38(param_5,lVar1);
-    }
-    else {
-      uVar3 = fn_83068648(uVar9);
-      fn_83068640(lVar1,uVar3);
-      uVar3 = fn_83068648(uVar9);
-      fn_83068640(lVar2,uVar3);
-      fn_8306AAF0(param_4,lVar2);
-      fn_8306AAF0(param_5,lVar1);
-    }
-    fn_8305F320((double)*(float *)(param_1 + 0x30),lVar8,param_2,lVar7,lVar6);
-    fn_83065C58(uVar9);
-  } while( true );
-}
+    Polygon_83064008 *polygon;
+    Polygon_83064008 *back;
+    Polygon_83064008 *front;
+    Vertices_83064008 *vertices;
+    Vertices_83064008 *backVertices;
+    Vertices_83064008 *frontVertices;
+    unsigned char onPlane;
+    int side;
 
+    while ((polygon = list->head) != 0) {
+        fn_8306AB80(list, polygon);
+        vertices = &polygon->vertices;
+        side = fn_83066810(plane, vertices, self->epsilon, &onPlane);
+        if (onPlane)
+            fn_83068640(polygon, 1);
+        if (side == 1) {
+            if (fn_83068648(polygon))
+                fn_8306AAF0(frontList, polygon);
+            else
+                fn_8306AB38(frontList, polygon);
+        } else if (side == 2) {
+            if (fn_83068648(polygon))
+                fn_8306AAF0(backList, polygon);
+            else
+                fn_8306AB38(backList, polygon);
+        } else {
+            back = fn_83065E60();
+            front = fn_83065E60();
+            backVertices = &back->vertices;
+            fn_8305D5F0(backVertices);
+            fn_8305E0F8(backVertices, fn_8305D7C8(vertices));
+            fn_8305D5F8(backVertices, fn_8305D618(vertices));
+            frontVertices = &front->vertices;
+            fn_8305D5F0(frontVertices);
+            fn_8305E0F8(frontVertices, fn_8305D7C8(vertices));
+            fn_8305D5F8(frontVertices, fn_8305D618(vertices));
+            if (fn_83068648(polygon)) {
+                fn_83068640(back, fn_83068648(polygon));
+                fn_83068640(front, fn_83068648(polygon));
+                fn_8306AAF0(frontList, front);
+                fn_8306AAF0(backList, back);
+            } else {
+                fn_8306AB38(frontList, front);
+                fn_8306AB38(backList, back);
+            }
+            fn_8305F320(vertices, plane, backVertices, frontVertices, self->epsilon);
+            fn_83065C58(polygon);
+        }
+    }
+    return 1;
+}

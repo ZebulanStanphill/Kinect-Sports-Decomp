@@ -1,24 +1,16 @@
-extern unsigned int lbl_820F3D88;
-extern unsigned int lbl_820F3EA4;
+extern const float lbl_820F3D88[72];
+extern const float lbl_820F3EA8[62];
 
-
-double fn_82C3F530(unsigned __int64 param_1)
-
+float fn_82C3F530(int exponent)
 {
-  int iVar1;
-  
-  iVar1 = (int)param_1;
-  if (iVar1 < 1) {
-    if (iVar1 < -0x48) {
-      param_1 = 0xffffffffffffffb9;
+    if (exponent <= 0) {
+        if (exponent < -72) {
+            exponent = -71;
+        }
+        return lbl_820F3D88[-exponent] / (float)(1 << (-exponent >> 2));
     }
-    return (double)(*(float *)(&lbl_820F3D88 + -(int)((param_1 & 0xffffffff) << 2)) /
-                   (float)(__int64)(1 << (-(int)param_1 >> 2 & 0x3fU)));
-  }
-  if (0x3d < iVar1) {
-    param_1 = 0x3e;
-  }
-  return (double)((float)(__int64)(1 << ((int)param_1 >> 2 & 0x3fU)) *
-                 *(float *)((int)&lbl_820F3EA4 + (int)((param_1 & 0xffffffff) << 2)));
+    if (exponent >= 62) {
+        exponent = 62;
+    }
+    return (float)(1 << (exponent >> 2)) * lbl_820F3EA8[exponent - 1];
 }
-

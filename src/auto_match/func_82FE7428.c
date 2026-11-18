@@ -1,47 +1,54 @@
-#define CONCAT13(h,l) ((unsigned int)((((unsigned char)(h)) << 24) | ((unsigned int)(l))))
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern int fn_82F68CC0();
-extern int fn_82FA5060();
-extern int fn_82FA5190();
-extern int fn_82FFA6E8();
-extern unsigned int lbl_831BC768;
-extern unsigned int lbl_832642F0;
-extern unsigned int uStack_48;
+void *memcpy(void *dst, const void *src, unsigned int size);
 
+typedef struct Message_82FE7428 {
+    int kind;           /* 0x00 */
+    int a;              /* 0x04 */
+    int b;              /* 0x08 */
+    int flag;           /* 0x0c */
+    int c;              /* 0x10 */
+    int d;              /* 0x14 */
+    unsigned char e;    /* 0x18 */
+    unsigned int count; /* 0x1c */
+    void *items;        /* 0x20 */
+} Message_82FE7428;
 
-unsigned __int64
-fn_82FE7428(unsigned int param_1,unsigned int param_2,unsigned char param_3,unsigned int param_4,
-             unsigned int param_5,unsigned int *param_6,int param_7,char param_8)
+extern void *lbl_831BC768;
+extern void *lbl_832642F0;
+extern void *fn_82FA5060(void *heap, unsigned int size);
+extern void fn_82FA5190(void *heap, void *p);
+extern int fn_82FFA6E8(void *queue, Message_82FE7428 m);
 
+int fn_82FE7428(int a, int b, unsigned char e, int c, int d, void **items, unsigned int count,
+                unsigned char copy)
 {
-  unsigned int *puVar2;
-  unsigned __int64 uVar1;
-  unsigned int uStack_48;
-  
-  if ((param_7 == 0) || (param_6 == (unsigned int *)0x0)) {
-    uVar1 = 0x1f;
-  }
-  else {
-    uStack_48 = CONCAT13(param_3,(((unsigned __int64)(uStack_48) >> 8) & 0xFFFFFF));
-    if (param_7 == 1) {
-      param_6 = (unsigned int *)*param_6;
-    }
-    else if (param_8 != '\0') {
-      puVar2 = (unsigned int *)fn_82FA5060(lbl_831BC768,param_7 << 2);
-      if (puVar2 == (unsigned int *)0x0) {
-        return 0x34;
-      }
-      fn_82F68CC0(puVar2,param_6,param_7 << 2);
-      param_6 = puVar2;
-    }
-    uVar1 = fn_82FFA6E8(lbl_832642F0,CONCAT44(4,param_1),(unsigned __int64)param_2 << 0x20,
-                              CONCAT44(param_4,param_5),CONCAT44(uStack_48,param_7),
-                              ZEXT48(param_6) << 0x20);
-    if (((int)uVar1 != 1) && (param_7 != 1)) {
-      fn_82FA5190(lbl_831BC768,param_6);
-    }
-  }
-  return uVar1;
-}
+    Message_82FE7428 m;
+    int result;
 
+    if (count == 0 || items == 0) {
+        return 0x1f;
+    }
+    m.kind = 4;
+    m.a = a;
+    m.b = b;
+    m.flag = 0;
+    m.e = e;
+    m.c = c;
+    m.d = d;
+    m.count = count;
+    if (count == 1) {
+        m.items = *items;
+    } else if (copy != 0) {
+        m.items = fn_82FA5060(lbl_831BC768, count * 4);
+        if (m.items == 0) {
+            return 0x34;
+        }
+        memcpy(m.items, items, count * 4);
+    } else {
+        m.items = items;
+    }
+    result = fn_82FFA6E8(lbl_832642F0, m);
+    if (result != 1 && count != 1) {
+        fn_82FA5190(lbl_831BC768, m.items);
+    }
+    return result;
+}

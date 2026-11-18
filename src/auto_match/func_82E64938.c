@@ -1,78 +1,104 @@
-extern unsigned int *auStack_40;
-extern int fn_82A3F758();
-extern int fn_82E4FE08();
-extern int fn_82E4FE40();
-extern int fn_82E50D88();
-extern int fn_82E50FA0();
-extern int fn_82E644B8();
+typedef struct Entry_82E64938 {
+    unsigned short *name; /* 0x00 */
+} Entry_82E64938;
 
+typedef struct Source_82E64938 {
+    char pad0[0xc];
+    char lock[0x4c - 0xc];     /* 0x0c */
+    char entries[0xb8 - 0x4c]; /* 0x4c */
+    int currentIndex;          /* 0xb8 */
+} Source_82E64938;
 
-unsigned __int64 fn_82E64938(int param_1,unsigned int *param_2)
+extern void fn_82E50D88(void *lock);
+extern void fn_82E50FA0(void *lock);
+extern int fn_82E644B8(void *entries, int index, Entry_82E64938 **out);
+extern unsigned short *fn_82E4FE08(unsigned int size);
+extern void fn_82E4FE40(void *memory);
+extern int fn_82A3F758(unsigned short *dst, unsigned int cch, const unsigned short *src);
 
+static __forceinline Entry_82E64938 *FindEntry(void *entries, int index)
 {
-  short *psVar1;
-  __int64 lVar2;
-  short *psVar3;
-  unsigned int *puVar5;
-  unsigned __int64 uVar4;
-  __int64 lVar6;
-  unsigned __int64 uVar7;
-  unsigned int auStack_40;
-  
-  lVar6 = 0;
-  fn_82E50D88(param_1 + 0xc);
-  if (param_2 == (unsigned int *)0x0) {
-LAB_82e64964:
-    uVar7 = 0xffffffff80004003;
-    goto LAB_82e64a64;
-  }
-  *param_2 = 0;
-  if (*(int *)(param_1 + 0xb8) == -1) {
-    uVar7 = 0xffffffff80004005;
-    goto LAB_82e64a64;
-  }
-  lVar2 = fn_82E644B8(param_1 + 0x4c,*(int *)(param_1 + 0xb8),&auStack_40);
-  puVar5 = (unsigned int *)(-(unsigned int)(lVar2 != 0) & auStack_40);
-  if (puVar5 == (unsigned int *)0x0) goto LAB_82e64964;
-  psVar1 = (short *)*puVar5;
-  lVar2 = 0;
-  if (psVar1 == (short *)0x0) {
-LAB_82e649f4:
-    uVar7 = 0xffffffff80070057;
-  }
-  else {
-    uVar4 = 0x104;
-    uVar7 = 0;
-    psVar3 = psVar1;
-    do {
-      if (*psVar3 == 0) break;
-      uVar4 = uVar4 - 1;
-      psVar3 = psVar3 + 1;
-    } while (uVar4 != 0);
-    if ((uVar4 & 0xffffffff) == 0) goto LAB_82e649f4;
-    lVar2 = 0x104 - uVar4;
-  }
-  if (-1 < (int)uVar7) {
-    lVar6 = fn_82E4FE08((lVar2 + 1U & 0x7fffffff) << 1);
-    if (lVar6 == 0) {
-      uVar7 = 0xffffffff8007000e;
-    }
-    else {
-      if ((lVar2 + 1U & 0xffffffff) < 0x80000000) {
-        uVar7 = fn_82A3F758(lVar6,lVar2 + 1U,psVar1);
-      }
-      else {
-        uVar7 = 0xffffffff80070057;
-      }
-      if (-1 < (int)uVar7) {
-        *param_2 = (int)lVar6;
-        lVar6 = 0;
-      }
-    }
-  }
-LAB_82e64a64:
-  fn_82E4FE40(lVar6);
-  fn_82E50FA0(param_1 + 0xc);
-  return uVar7;
+    Entry_82E64938 *entry;
+
+    return fn_82E644B8(entries, index, &entry) ? entry : 0;
 }
 
+static __forceinline int StringLength(const unsigned short *text, unsigned int maxLength,
+                                      unsigned int *length)
+{
+    unsigned int remaining = maxLength;
+    const unsigned short *cursor = text;
+    int hr = 0;
+
+    while (remaining != 0 && *cursor != 0) {
+        cursor++;
+        remaining--;
+    }
+    if (remaining == 0) {
+        hr = 0x80070057;
+    } else {
+        *length = maxLength - remaining;
+    }
+    return hr;
+}
+
+static __forceinline int StringCopy(unsigned short *dst, unsigned int cch, const unsigned short *src)
+{
+    int hr;
+
+    if (cch > 0x7fffffff) {
+        hr = 0x80070057;
+    } else {
+        hr = fn_82A3F758(dst, cch, src);
+    }
+    return hr;
+}
+
+int fn_82E64938(Source_82E64938 *self, unsigned short **out)
+{
+    unsigned short *copy = 0;
+    Entry_82E64938 *entry;
+    unsigned short *name;
+    unsigned int length;
+    int hr;
+
+    fn_82E50D88(self->lock);
+    if (out == 0) {
+        hr = 0x80004003;
+        goto done;
+    }
+    *out = 0;
+    if (self->currentIndex == -1) {
+        hr = 0x80004005;
+        goto done;
+    }
+    entry = FindEntry(self->entries, self->currentIndex);
+    if (entry == 0) {
+        hr = 0x80004003;
+        goto done;
+    }
+    name = entry->name;
+    length = 0;
+    if (name != 0) {
+        hr = StringLength(name, 0x104, &length);
+    } else {
+        hr = 0x80070057;
+    }
+    if (hr < 0) {
+        goto done;
+    }
+    copy = fn_82E4FE08((length + 1) * 2);
+    if (copy == 0) {
+        hr = 0x8007000e;
+        goto done;
+    }
+    hr = StringCopy(copy, length + 1, name);
+    if (hr >= 0) {
+        *out = copy;
+        copy = 0;
+    }
+done:
+    fn_82E4FE40(copy);
+    fn_82E50FA0(self->lock);
+    return hr;
+}

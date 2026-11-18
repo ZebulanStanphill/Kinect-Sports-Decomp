@@ -1,46 +1,81 @@
-extern unsigned int *auStack_80;
-extern unsigned int *auStack_90;
-extern unsigned int *auStack_a0;
-extern int fn_822315A0();
-extern int fn_82250A18();
-extern int fn_82250D10();
-extern int fn_822EFBF0();
-extern int fn_82368E38();
-extern int fn_823CC9F0();
-extern int fn_823E7368();
-extern int fn_823F0A30();
-extern unsigned int iStack_9c;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int lbl_832975B0;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Vec_823CC900 {
+    __vector4 v;
+} Vec_823CC900;
 
-void fn_823CC900(int param_1,unsigned __int64 param_2)
+typedef struct Config_823CC900 {
+    int pad0;
+    unsigned char enabled; /* 0x4 */
+} Config_823CC900;
 
+typedef struct Self_823CC900 {
+    char pad0[0x84];
+    void *target; /* 0x84 */
+} Self_823CC900;
+
+typedef struct Sp_823CC900 {
+    void *px;
+    void *rep;
+} Sp_823CC900;
+
+typedef struct Target_823CC900 {
+    char *base;
+} Target_823CC900;
+
+typedef struct IndexList_823CC900 {
+    int count;      /* 0x0 */
+    int indices[7]; /* 0x4 */
+} IndexList_823CC900;
+
+typedef struct Params_823CC900 {
+    IndexList_823CC900 first;  /* 0x0 */
+    IndexList_823CC900 second; /* 0x20 */
+    int field40;               /* 0x40 */
+    int field44;               /* 0x44 */
+    int field48;               /* 0x48 */
+} Params_823CC900;
+
+__vector4 __VMXGetReg(int n);
+
+extern Config_823CC900 *lbl_832975B0;
+extern Config_823CC900 *fn_82250A18(void);
+extern void fn_822315A0(void *rep);
+extern Sp_823CC900 *fn_822EFBF0(Sp_823CC900 *out, void *target);
+extern void fn_82250D10(Params_823CC900 *params);
+extern Vec_823CC900 fn_82368E38(Self_823CC900 *self, float time);
+extern void fn_823E7368(Self_823CC900 *self, Params_823CC900 *params, __vector4 a, __vector4 b);
+extern void fn_823CC9F0(Self_823CC900 *self, int key, Params_823CC900 *params);
+extern void fn_823F0A30(char *target, int key, Params_823CC900 *params);
+
+static __forceinline Config_823CC900 *GetConfig(void)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  unsigned char auStack_a0 [4];
-  int iStack_9c;
-  unsigned char auStack_90 [16];
-  unsigned char auStack_80 [104];
-  
-  fn_82250D10(auStack_80);
-  fn_82368E38((double)ltcg_pool_0_0f,auStack_90,param_1);
-  fn_823E7368(param_1,auStack_80);
-  iVar1 = lbl_832975B0;
-  if (lbl_832975B0 == 0) {
-    iVar1 = fn_82250A18();
-  }
-  if (*(char *)(iVar1 + 4) == '\0') {
-    fn_823CC9F0(param_1,param_2,auStack_80);
-  }
-  else if (*(int *)(param_1 + 0x84) != 0) {
-    puVar2 = (unsigned int *)fn_822EFBF0(auStack_a0);
-    fn_823F0A30((unsigned __int64)*(unsigned int *)*puVar2 + 0x618,param_2,auStack_80);
-    if (iStack_9c != 0) {
-      fn_822315A0();
+    if (lbl_832975B0) {
+        return lbl_832975B0;
     }
-  }
-  return;
+    return fn_82250A18();
 }
 
+void fn_823CC900(Self_823CC900 *self, int key)
+{
+    Params_823CC900 params;
+    Sp_823CC900 sp;
+    __vector4 zero;
+
+    fn_82250D10(&params);
+    zero = __VMXGetReg(77);
+    fn_823E7368(self, &params, fn_82368E38(self, 0.0f).v, zero);
+    if (GetConfig()->enabled) {
+        void *target = self->target;
+        if (target != 0) {
+            fn_823F0A30(((Target_823CC900 *)fn_822EFBF0(&sp, target)->px)->base + 0x618, key, &params);
+            if (sp.rep != 0) {
+                fn_822315A0(sp.rep);
+            }
+        }
+    } else {
+        fn_823CC9F0(self, key, &params);
+    }
+}

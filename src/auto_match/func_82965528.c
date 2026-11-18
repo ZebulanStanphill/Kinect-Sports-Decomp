@@ -1,28 +1,38 @@
-unsigned int fn_82965528(int param_1,int param_2,int param_3,int param_4,int param_5)
+typedef struct Node_82965528 {
+    char pad0[0x30];
+    unsigned int parent; /* 0x30 */
+} Node_82965528;
 
+typedef struct Forest_82965528 {
+    char pad0[0x14];
+    Node_82965528 **nodes; /* 0x14 */
+} Forest_82965528;
+
+typedef struct Grid_82965528 {
+    char pad0[0x8];
+    unsigned int *labels; /* 0x8 */
+    int width;            /* 0xc */
+} Grid_82965528;
+
+unsigned int fn_82965528(Forest_82965528 *forest, Grid_82965528 *grid, unsigned int row, int column, int pair)
 {
-  unsigned int uVar1;
-  int iVar2;
-  unsigned int uVar3;
-  
-  if (param_5 == 0) {
-    uVar3 = *(unsigned int *)((*(int *)(param_2 + 0xc) * param_3 + param_4) * 4 + *(int *)(param_2 + 8));
-  }
-  else {
-    uVar3 = *(unsigned int *)(param_4 * 4 + *(int *)(param_2 + 8));
-    uVar1 = *(unsigned int *)((*(int *)(param_2 + 0xc) + param_4) * 4 + *(int *)(param_2 + 8));
-    if (param_3 == 0) {
-      if (uVar3 <= uVar1) goto code_r0x82965584;
-    }
-    else if (uVar1 < uVar3) goto code_r0x82965584;
-    uVar3 = uVar1;
-  }
-code_r0x82965584:
-  iVar2 = *(int *)(uVar3 * 4 + *(int *)(param_1 + 0x14));
-  while (uVar1 = *(unsigned int *)(iVar2 + 0x30), uVar3 != uVar1) {
-    uVar3 = uVar1;
-    iVar2 = *(int *)(uVar1 * 4 + *(int *)(param_1 + 0x14));
-  }
-  return uVar3;
-}
+    unsigned int label;
+    unsigned int other;
 
+    if (pair != 0) {
+        label = grid->labels[column];
+        other = grid->labels[grid->width + column];
+        if (row != 0) {
+            if (label <= other)
+                label = other;
+        } else {
+            if (label > other)
+                label = other;
+        }
+    } else {
+        label = grid->labels[grid->width * row + column];
+    }
+    while (label != forest->nodes[label]->parent)
+        label = forest->nodes[label]->parent;
+    return label;
+}

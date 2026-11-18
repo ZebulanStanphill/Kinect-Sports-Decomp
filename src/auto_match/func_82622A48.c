@@ -1,58 +1,59 @@
-extern int fn_82540308();
-extern int fn_826230E8();
-extern int fn_8265C9E0();
-extern unsigned int lbl_821CAD7C;
+extern void *fn_82540308(int index);
+extern void *fn_8265C9E0(unsigned int size);
+extern void *fn_826230E8(void *mem, void *owner);
+extern char lbl_821CAD7C[];
 
+typedef struct Triple_82622A48 {
+    int a; /* 0x0 */
+    int b; /* 0x4 */
+    int c; /* 0x8 */
+} Triple_82622A48;
 
-unsigned int *
-fn_82622A48(unsigned int *param_1,unsigned int param_2,unsigned int param_3,unsigned int param_4,
-             unsigned int param_5,unsigned int param_6,unsigned __int64 param_7)
+typedef struct Object_82622A48 {
+    void *vtable;            /* 0x00 */
+    int arg1;                /* 0x04 */
+    int arg2;                /* 0x08 */
+    int arg3;                /* 0x0c */
+    int arg4;                /* 0x10 */
+    int arg5;                /* 0x14 */
+    void *context;           /* 0x18 */
+    Triple_82622A48 *triple; /* 0x1c */
+    int unk20;               /* 0x20 */
+    void *children[3];       /* 0x24 */
+} Object_82622A48;
 
+static __forceinline Triple_82622A48 *InitTriple(Triple_82622A48 *triple)
 {
-  unsigned int uVar2;
-  unsigned int *puVar3;
-  unsigned __int64 uVar1;
-  __int64 lVar4;
-  
-  param_1[1] = param_2;
-  param_1[2] = param_3;
-  param_1[3] = param_4;
-  param_1[4] = param_5;
-  *param_1 = &lbl_821CAD7C;
-  param_1[5] = param_6;
-  uVar2 = fn_82540308(0);
-  param_1[6] = uVar2;
-  puVar3 = (unsigned int *)fn_8265C9E0(0xc);
-  if (puVar3 == (unsigned int *)0x0) {
-    puVar3 = (unsigned int *)0x0;
-  }
-  else {
-    *puVar3 = 0;
-    puVar3[1] = 0;
-    puVar3[2] = 0;
-  }
-  param_1[7] = puVar3;
-  if ((param_7 & 0xffffffff) == 0) {
-    param_1[9] = 0;
-    param_1[10] = 0;
-    param_1[0xb] = 0;
-  }
-  else {
-    puVar3 = param_1 + 8;
-    lVar4 = 3;
-    do {
-      uVar1 = fn_8265C9E0(0x20);
-      if ((uVar1 & 0xffffffff) == 0) {
-        uVar2 = 0;
-      }
-      else {
-        uVar2 = fn_826230E8(uVar1,param_7);
-      }
-      lVar4 = lVar4 + -1;
-      puVar3 = puVar3 + 1;
-      *puVar3 = uVar2;
-    } while (lVar4 != 0);
-  }
-  return param_1;
+    triple->a = 0;
+    triple->b = 0;
+    triple->c = 0;
+    return triple;
 }
 
+Object_82622A48 *fn_82622A48(Object_82622A48 *self, int arg1, int arg2, int arg3, int arg4, int arg5,
+                             void *owner)
+{
+    int i;
+    void *mem;
+
+    self->arg1 = arg1;
+    self->arg2 = arg2;
+    self->arg3 = arg3;
+    self->arg4 = arg4;
+    self->vtable = lbl_821CAD7C;
+    self->arg5 = arg5;
+    self->context = fn_82540308(0);
+    mem = fn_8265C9E0(0xc);
+    self->triple = mem != 0 ? InitTriple((Triple_82622A48 *)mem) : 0;
+    if (owner != 0) {
+        for (i = 0; i < 3; i++) {
+            mem = fn_8265C9E0(0x20);
+            self->children[i] = mem != 0 ? fn_826230E8(mem, owner) : 0;
+        }
+    } else {
+        for (i = 0; i < 3; i++) {
+            self->children[i] = 0;
+        }
+    }
+    return self;
+}

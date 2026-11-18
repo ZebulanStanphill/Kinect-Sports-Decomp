@@ -1,49 +1,66 @@
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Clip_825A8140 {
+    char pad0[0x40];
+    unsigned int flags; /* 0x40 */
+    char pad44[0x114 - 0x44];
+    float duration; /* 0x114 */
+    float weight;   /* 0x118 */
+    char pad11C[0x124 - 0x11c];
+    float position; /* 0x124 */
+} Clip_825A8140;
 
+typedef struct Player_825A8140 {
+    char pad0[0x1c];
+    Clip_825A8140 *clip; /* 0x1c */
+} Player_825A8140;
 
-void fn_825A8140(int param_1)
+typedef struct State_825A8140 {
+    char pad0[0x10];
+    Player_825A8140 *player; /* 0x10 */
+    char pad14[4];
+    float weight;          /* 0x18 */
+    float position;        /* 0x1c */
+    float progress;        /* 0x20 */
+    unsigned int looping;  /* 0x24 */
+    unsigned int mirrored; /* 0x28 */
+} State_825A8140;
 
+static __forceinline float GetWeight(Player_825A8140 *player)
 {
-  float fVar1;
-  int iVar2;
-  float fVar3;
-  unsigned int uVar4;
-  
-  fVar1 = ltcg_pool_0_0f;
-  iVar2 = *(int *)(param_1 + 0x10);
-  if (iVar2 != 0) {
-    fVar3 = ltcg_pool_0_0f;
-    if (*(int *)(iVar2 + 0x1c) != 0) {
-      fVar3 = *(float *)(*(int *)(iVar2 + 0x1c) + 0x118);
-    }
-    *(float *)(param_1 + 0x18) = fVar3;
-    if (*(int *)(iVar2 + 0x1c) == 0) {
-      uVar4 = 0;
-    }
-    else {
-      uVar4 = *(unsigned int *)(*(int *)(iVar2 + 0x1c) + 0x40);
-    }
-    *(unsigned int *)(param_1 + 0x24) = uVar4 & 1;
-    if (*(int *)(iVar2 + 0x1c) == 0) {
-      uVar4 = 0;
-    }
-    else {
-      uVar4 = *(unsigned int *)(*(int *)(iVar2 + 0x1c) + 0x40);
-    }
-    *(unsigned int *)(param_1 + 0x28) = uVar4 >> 1 & 1;
-    iVar2 = *(int *)(iVar2 + 0x1c);
-    if (iVar2 != 0) {
-      if ((float *)(param_1 + 0x20) != (float *)0x0) {
-        if (fVar1 < *(float *)(iVar2 + 0x114)) {
-          fVar1 = *(float *)(iVar2 + 0x124) / *(float *)(iVar2 + 0x114);
-        }
-        *(float *)(param_1 + 0x20) = fVar1;
-      }
-      fVar1 = *(float *)(iVar2 + 0x124);
-    }
-    *(float *)(param_1 + 0x1c) = fVar1;
-    return;
-  }
-  return;
+    return player->clip != 0 ? player->clip->weight : 0.0f;
 }
 
+static __forceinline unsigned int GetFlags(Player_825A8140 *player)
+{
+    return player->clip != 0 ? player->clip->flags : 0;
+}
+
+static __forceinline float GetPosition(Player_825A8140 *player, float *progress)
+{
+    Clip_825A8140 *clip = player->clip;
+    float ratio;
+
+    if (clip == 0) {
+        return 0.0f;
+    }
+    if (progress != 0) {
+        ratio = 0.0f;
+        if (clip->duration > 0.0f) {
+            ratio = clip->position / clip->duration;
+        }
+        *progress = ratio;
+    }
+    return clip->position;
+}
+
+void fn_825A8140(State_825A8140 *self)
+{
+    Player_825A8140 *player = self->player;
+
+    if (player == 0) {
+        return;
+    }
+    self->weight = GetWeight(player);
+    self->looping = GetFlags(player) & 1;
+    self->mirrored = (GetFlags(player) >> 1) & 1;
+    self->position = GetPosition(player, &self->progress);
+}

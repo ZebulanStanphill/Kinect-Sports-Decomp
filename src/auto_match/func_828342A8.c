@@ -1,31 +1,17 @@
-typedef unsigned char bool;
+/* std::_Push_heap over 12-byte entries ordered by their unsigned key (operator<). */
+typedef struct Entry_828342A8 {
+    int value;        /* 0x0 */
+    unsigned int key; /* 0x4 */
+    int extra;        /* 0x8 */
+} Entry_828342A8;
 
-
-void fn_828342A8(int param_1,int param_2,int param_3,unsigned int *param_4)
-
+void fn_828342A8(Entry_828342A8 *first, int hole, int top, Entry_828342A8 *value)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  unsigned int uVar3;
-  int iVar4;
-  bool bVar5;
-  
-  uVar3 = param_2 - 1;
-  bVar5 = (int)uVar3 < 0 && (uVar3 & 1) != 0;
-  while ((iVar4 = ((int)uVar3 >> 1) + (unsigned int)bVar5, param_3 < param_2 &&
-         (puVar2 = (unsigned int *)(iVar4 * 0xc + param_1), (unsigned int)puVar2[1] < (unsigned int)param_4[1]))) {
-    *(unsigned int *)(param_2 * 0xc + param_1) = *puVar2;
-    iVar1 = param_2 * 0xc + param_1;
-    uVar3 = iVar4 - 1;
-    bVar5 = (int)uVar3 < 0 && (uVar3 & 1) != 0;
-    *(unsigned int *)(iVar1 + 4) = puVar2[1];
-    *(unsigned int *)(iVar1 + 8) = puVar2[2];
-    param_2 = iVar4;
-  }
-  *(unsigned int *)(param_2 * 0xc + param_1) = *param_4;
-  param_1 = param_2 * 0xc + param_1;
-  *(unsigned int *)(param_1 + 4) = param_4[1];
-  *(unsigned int *)(param_1 + 8) = param_4[2];
-  return;
-}
+    int index;
 
+    for (index = (hole - 1) / 2; top < hole && first[index].key < value->key; index = (hole - 1) / 2) {
+        first[hole] = first[index];
+        hole = index;
+    }
+    first[hole] = *value;
+}

@@ -1,27 +1,31 @@
-extern unsigned int lbl_8322BCF8;
-extern unsigned int lbl_8322FD1C;
-extern unsigned int lbl_8322FD1E;
-extern unsigned int lbl_8322FD2F;
+typedef struct Cache_82BF9170 {
+    char pad0[0x14];
+    unsigned short freeCount; /* 0x14 */
+    unsigned short firstFree; /* 0x16 */
+    char pad18[0x27 - 0x18];
+    unsigned char dirty; /* 0x27 */
+    char pad28[0x30 - 0x28];
+} Cache_82BF9170;
 
+extern Cache_82BF9170 lbl_8322FD08;
+extern unsigned short lbl_8322BCF8[0x2000];
 
-void fn_82BF9170(unsigned int param_1)
-
+void fn_82BF9170(unsigned int cluster)
 {
-  unsigned short uVar1;
-  short sVar2;
-  
-  if (param_1 < lbl_8322FD1E) {
-    lbl_8322FD1E = (unsigned short)param_1;
-  }
-  sVar2 = 0;
-  while (param_1 != 0xfffe) {
-    sVar2 = sVar2 + 1;
-    uVar1 = (&lbl_8322BCF8)[param_1];
-    (&lbl_8322BCF8)[param_1] = 0xffff;
-    param_1 = (unsigned int)uVar1;
-  }
-  lbl_8322FD2F = 1;
-  lbl_8322FD1C = lbl_8322FD1C + sVar2;
-  return;
-}
+    int count;
+    unsigned int next;
+    unsigned int index;
 
+    if (lbl_8322FD08.firstFree > cluster)
+        lbl_8322FD08.firstFree = cluster;
+    count = 0;
+    index = cluster;
+    while (index != 0xfffe) {
+        count++;
+        next = lbl_8322BCF8[index];
+        lbl_8322BCF8[index] = 0xffff;
+        index = next;
+    }
+    lbl_8322FD08.dirty = 1;
+    lbl_8322FD08.freeCount += count;
+}
