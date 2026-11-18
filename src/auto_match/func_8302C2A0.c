@@ -1,53 +1,64 @@
-extern int fn_82FF9C88();
-extern int fn_83007AE8();
-extern int fn_83008748();
-extern int fn_830087C8();
-extern unsigned int iStack_2c;
-extern unsigned int stack0x0000001c;
-extern unsigned int stack0x00000024;
-extern unsigned int uStack00000024;
-extern unsigned int uStack_28;
-extern unsigned int uStack_34;
-extern unsigned int uStack_38;
-extern unsigned int uStack_40;
-extern unsigned int uStack_48;
-extern unsigned int uStack_4c;
-extern unsigned int uStack_50;
+typedef struct V20_8302C2A0 {
+    int v[5];
+} V20_8302C2A0;
 
+typedef struct V8_8302C2A0 {
+    int v[2];
+} V8_8302C2A0;
 
-void fn_8302C2A0(int param_1,int param_2,unsigned int param_3,unsigned __int64 param_4,unsigned __int64 param_5)
+typedef struct Record_8302C2A0 {
+    int key;        /* 0x00 */
+    int a;          /* 0x04 */
+    V20_8302C2A0 s; /* 0x08 */
+    V8_8302C2A0 q;  /* 0x1c */
+    unsigned int b; /* 0x24 */
+    int arg;        /* 0x28 */
+} Record_8302C2A0;
 
+typedef struct Item_8302C2A0 {
+    int m0;
+} Item_8302C2A0;
+
+typedef struct Owner_8302C2A0 {
+    char pad0[0x80];
+    unsigned short y; /* 0x80 */
+    unsigned short z; /* 0x82 */
+    unsigned short x; /* 0x84 */
+    char pad86[0x2];
+    Item_8302C2A0 item; /* 0x88 */
+} Owner_8302C2A0;
+
+extern int fn_82FF9C88(unsigned short **data, unsigned int *size, Record_8302C2A0 *out);
+extern void fn_83008748(Item_8302C2A0 *self, int a, V20_8302C2A0 s, V8_8302C2A0 q);
+extern void fn_830087C8(Item_8302C2A0 *self, int key, int a, int b, int arg);
+extern int fn_83007AE8(Owner_8302C2A0 *self, unsigned short **data, unsigned int *size, unsigned char skip);
+
+static __forceinline unsigned short ReadU16_8302C2A0(unsigned short **cursor)
 {
-  int iVar1;
-  unsigned short *puStack0000001c;
-  unsigned int uStack00000024;
-  struct { unsigned int first; unsigned int second; } stack_pair_50;
+    unsigned short value = **cursor;
 
-  unsigned __int64 uStack_48;
-  unsigned __int64 uStack_40;
-  unsigned int uStack_38;
-  unsigned __int64 uStack_34;
-  int iStack_2c;
-  unsigned int uStack_28;
-  
-  puStack0000001c = (unsigned short *)(param_2 + 4);
-  uStack00000024 = param_3;
-  iVar1 = fn_82FF9C88(&stack0x0000001c,&stack0x00000024,&stack_pair_50.first);
-  if (iVar1 == 1) {
-    if (iStack_2c == 0) {
-      fn_83008748(param_1 + 0x88,stack_pair_50.second,uStack_48,uStack_40,(unsigned __int64)uStack_38 << 0x20,
-                        uStack_34);
-    }
-    else {
-      fn_830087C8(param_1 + 0x88,stack_pair_50.first,stack_pair_50.second,iStack_2c,uStack_28);
-    }
-    iVar1 = fn_83007AE8(param_1,&stack0x0000001c,&stack0x00000024,param_5);
-    if (((param_5 & 0xff) == 0) && (iVar1 == 1)) {
-      *(unsigned short *)(param_1 + 0x84) = *puStack0000001c;
-      *(unsigned short *)(param_1 + 0x80) = puStack0000001c[1];
-      *(unsigned short *)(param_1 + 0x82) = puStack0000001c[2];
-    }
-  }
-  return;
+    (*cursor)++;
+    return value;
 }
 
+void fn_8302C2A0(Owner_8302C2A0 *self, unsigned short *data, unsigned int size, int unused,
+                 unsigned char skip)
+{
+    Record_8302C2A0 record;
+    int result;
+
+    data += 2;
+    if (fn_82FF9C88(&data, &size, &record) == 1) {
+        if (record.b == 0) {
+            fn_83008748(&self->item, record.a, record.s, record.q);
+        } else {
+            fn_830087C8(&self->item, record.key, record.a, record.b, record.arg);
+        }
+        result = fn_83007AE8(self, &data, &size, skip);
+        if (skip == 0 && result == 1) {
+            self->x = ReadU16_8302C2A0(&data);
+            self->y = ReadU16_8302C2A0(&data);
+            self->z = ReadU16_8302C2A0(&data);
+        }
+    }
+}

@@ -1,27 +1,30 @@
-unsigned __int64 fn_82F61B68(int *param_1,int param_2,int *param_3)
+typedef struct RingBuffer_82F61B68 {
+    int buffer;            /* 0x0 */
+    int unknown4[5];       /* 0x4 */
+    unsigned int head;     /* 0x18 */
+    int count;             /* 0x1c */
+    int unknown20;         /* 0x20 */
+    unsigned int capacity; /* 0x24 */
+    unsigned int stride;   /* 0x28 */
+    int unknown2C[9];      /* 0x2c */
+    char *data;            /* 0x50 */
+} RingBuffer_82F61B68;
 
+long fn_82F61B68(RingBuffer_82F61B68 *ring, int index, void **out)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  
-  uVar2 = 0;
-  if (param_3 == (int *)0x0) {
-    return 0xffffffff82240403;
-  }
-  *param_3 = 0;
-  if (*param_1 == 0) {
-    return 0xffffffff82240406;
-  }
-  if (param_2 < 0) {
-    return uVar2;
-  }
-  if (param_1[7] <= param_2) {
-    return uVar2;
-  }
-  uVar1 = param_1[9];
-  trapWord(6,(unsigned __int64)uVar1,0);
-  *param_3 = ((param_1[6] - param_2) - ((unsigned int)(param_1[6] - param_2) / uVar1) * uVar1) * param_1[10]
-             + param_1[0x14];
-  return uVar2;
-}
+    long hr = 0;
 
+    if (out != 0) {
+        *out = 0;
+        if (ring->buffer != 0) {
+            if (index >= 0 && index < ring->count) {
+                *out = ring->data + (ring->head - index) % ring->capacity * ring->stride;
+            }
+        } else {
+            hr = 0x82240406;
+        }
+    } else {
+        hr = 0x82240403;
+    }
+    return hr;
+}

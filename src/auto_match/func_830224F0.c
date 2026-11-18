@@ -1,12 +1,15 @@
-extern unsigned int lbl_82002AE0;
+typedef struct Format_830224F0 {
+    int pad0;
+    unsigned int sampleRate; /* 0x04 */
+    unsigned short channels; /* 0x08 */
+    unsigned short pad0a;
+    float inverseChannels; /* 0x0c */
+} Format_830224F0;
 
-
-unsigned __int64 fn_830224F0(int param_1,unsigned int param_2,unsigned short param_3)
-
+int fn_830224F0(Format_830224F0 *self, unsigned int sampleRate, unsigned short channels)
 {
-  *(unsigned int *)(param_1 + 4) = param_2;
-  *(unsigned short *)(param_1 + 8) = param_3;
-  *(float *)(param_1 + 0xc) = lbl_82002AE0 / (float)param_3;
-  return 1;
+    self->sampleRate = sampleRate;
+    self->channels = channels;
+    self->inverseChannels = 1.0f / (float)channels;
+    return 1;
 }
-

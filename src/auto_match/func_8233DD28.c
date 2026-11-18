@@ -1,93 +1,77 @@
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_50;
-extern int fn_82248CC8();
-extern int fn_822CB0A0();
-extern int fn_822CB140();
-extern int fn_8233F2E0();
-extern int fn_8265CA20();
-extern int fn_8288B760();
-extern int fn_828E9D28();
-extern unsigned int iStack_28;
-extern unsigned int uStack_20;
-extern unsigned int uStack_24;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_5d;
-extern unsigned int uStack_5e;
-extern unsigned int uStack_5f;
-extern unsigned int uStack_60;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Target_8233DD28 {
+    char pad00[0x24];
+    int active; /* 0x24 */
+    char pad28[0x58];
+    __vector4 position; /* 0x80 */
+    __vector4 rotation; /* 0x90 */
+    char padA0[0x40];
+    char state[0x10]; /* 0xe0 */
+} Target_8233DD28;
 
-void fn_8233DD28(int *param_1)
+typedef struct Obj_8233DD28 Obj_8233DD28;
 
+typedef struct ObjVt_8233DD28 {
+    void *f0;
+    void *f4;
+    char *(*getState)(Obj_8233DD28 *self); /* 0x8 */
+} ObjVt_8233DD28;
+
+struct Obj_8233DD28 {
+    ObjVt_8233DD28 *vt;
+    char pad[0xb8];
+    Target_8233DD28 *target; /* 0xbc */
+};
+
+typedef struct Writer_8233DD28 {
+    int h[4];
+    unsigned char *buf; /* 0x10 */
+    int n;              /* 0x14 */
+    void *p;            /* 0x18 */
+    int q;              /* 0x1c */
+    int r;              /* 0x20 */
+} Writer_8233DD28;
+
+extern unsigned char fn_8288B760(Obj_8233DD28 *self);
+extern void fn_822CB140(void *dst, __vector4 *value);
+extern void fn_822CB0A0(void *dst, __vector4 *value);
+extern void fn_828E9D28(Writer_8233DD28 *writer, unsigned char *buf, int size);
+extern void fn_8233F2E0(Writer_8233DD28 *writer, void *state);
+extern void fn_82248CC8(void *dst, unsigned char *data);
+extern void fn_8265CA20(void *p);
+
+void fn_8233DD28(Obj_8233DD28 *self)
 {
-  int iVar1;
-  int (**pcVar2)();
-  unsigned int *puVar3;
-  unsigned int *puVar4;
-  int in_r0;
-  char cVar6;
-  __int64 lVar5;
-  unsigned int uVar7;
-  unsigned int uVar8;
-  unsigned int uVar9;
-  unsigned char uStack_60;
-  unsigned char uStack_5f;
-  unsigned char uStack_5e;
-  unsigned char uStack_5d;
-  unsigned char auStack_50 [16];
-  unsigned char auStack_40 [16];
-  unsigned char *puStack_30;
-  unsigned int uStack_2c;
-  int iStack_28;
-  unsigned int uStack_24;
-  unsigned int uStack_20;
-  
-  iVar1 = param_1[0x2f];
-  if (iVar1 != 0) {
-    cVar6 = fn_8288B760();
-    if ((cVar6 != '\0') && (*(int *)(iVar1 + 0x24) != 0)) {
-      pcVar2 = *(int (***)())(*param_1 + 8);
-      puVar3 = (unsigned int *)(iVar1 + 0x80U & 0xfffffff0);
-      uVar7 = puVar3[1];
-      uVar8 = puVar3[2];
-      uVar9 = puVar3[3];
-      puVar4 = (unsigned int *)((unsigned int)(auStack_50 + in_r0) & 0xfffffff0);
-      *puVar4 = *puVar3;
-      puVar4[1] = uVar7;
-      puVar4[2] = uVar8;
-      puVar4[3] = uVar9;
-      lVar5 = (*pcVar2)(param_1);
-      fn_822CB140(lVar5 + 0x144,auStack_50);
-      puVar3 = (unsigned int *)(iVar1 + 0x90U & 0xfffffff0);
-      uVar7 = puVar3[1];
-      uVar8 = puVar3[2];
-      uVar9 = puVar3[3];
-      pcVar2 = *(int (***)())(*param_1 + 8);
-      puVar4 = (unsigned int *)((unsigned int)(auStack_50 + in_r0) & 0xfffffff0);
-      *puVar4 = *puVar3;
-      puVar4[1] = uVar7;
-      puVar4[2] = uVar8;
-      puVar4[3] = uVar9;
-      lVar5 = (*pcVar2)(param_1);
-      fn_822CB0A0(lVar5 + 0xf0,auStack_50);
-      lVar5 = (**(int (***)())(*param_1 + 8))(param_1);
-      puStack_30 = &uStack_60;
-      uStack_60 = 0;
-      iStack_28 = 0;
-      uStack_5f = 0;
-      uStack_5e = 0;
-      uStack_5d = 0;
-      uStack_24 = 0;
-      uStack_20 = 0;
-      uStack_2c = 4;
-      fn_828E9D28(auStack_40,&uStack_60,4);
-      fn_8233F2E0(auStack_40,iVar1 + 0xe0);
-      fn_82248CC8(lVar5 + 0x198,&uStack_60);
-      if (iStack_28 != 0) {
-        fn_8265CA20();
-      }
+    Target_8233DD28 *target = self->target;
+    if (target != 0) {
+        if (fn_8288B760(self) && target->active != 0) {
+            __vector4 v;
+            char *(*get)(Obj_8233DD28 *) = self->vt->getState;
+            char *output;
+            v = target->position;
+            fn_822CB140(get(self) + 0x144, &v);
+            get = self->vt->getState;
+            v = target->rotation;
+            fn_822CB0A0(get(self) + 0xf0, &v);
+            output = self->vt->getState(self) + 0x198;
+            {
+                unsigned char data[4] = {0};
+                Writer_8233DD28 writer;
+                writer.p = 0;
+                writer.q = 0;
+                writer.r = 0;
+                writer.buf = data;
+                writer.n = 4;
+                fn_828E9D28(&writer, data, 4);
+                fn_8233F2E0(&writer, target->state);
+                fn_82248CC8(output, data);
+                if (writer.p != 0) {
+                    fn_8265CA20(writer.p);
+                }
+            }
+        }
     }
-  }
-  return;
 }
-

@@ -1,44 +1,29 @@
-extern int fn_82CFC050();
+typedef struct BlockBuffer_82CFED40 {
+    int blockSize;     /* 0x0 */
+    int lastBlockSize; /* 0x4 */
+    char **blocks;     /* 0x8 */
+    int numBlocks;     /* 0xc */
+} BlockBuffer_82CFED40;
 
+extern void fn_82CFC050(void *dst, const void *src, int size);
 
-void fn_82CFED40(unsigned int *param_1,__int64 param_2,__int64 param_3,unsigned __int64 param_4)
-
+void fn_82CFED40(BlockBuffer_82CFED40 *self, char *dst, int size, int offset)
 {
-  unsigned int uVar1;
-  __int64 lVar2;
-  int iVar3;
-  int iVar4;
-  __int64 lVar5;
-  
-  uVar1 = *param_1;
-  iVar3 = (int)(unsigned int)param_4 / (int)uVar1;
-  trapWord(6,(unsigned __int64)uVar1,0);
-  lVar2 = param_4 - (__int64)(int)uVar1 * (__int64)iVar3;
-  trapWord(5,(unsigned __int64)uVar1 &
-             ~(((param_4 & 0x7fffffff) << 1 | (unsigned __int64)((unsigned int)param_4 >> 0x1f)) - 1),0xffff);
-  if (0 < (int)param_3) {
-    iVar4 = iVar3 << 2;
-    do {
-      if (iVar3 < (int)(param_1[3] - 1)) {
-        uVar1 = *param_1;
-      }
-      else {
-        uVar1 = param_1[1];
-      }
-      lVar5 = (unsigned __int64)uVar1 - lVar2;
-      lVar2 = (unsigned __int64)*(unsigned int *)(iVar4 + param_1[2]) + lVar2;
-      if ((int)param_3 <= (int)lVar5) {
-        fn_82CFC050(param_2,lVar2,param_3);
-        return;
-      }
-      fn_82CFC050(param_2,lVar2,lVar5);
-      param_3 = param_3 - lVar5;
-      param_2 = lVar5 + param_2;
-      iVar3 = iVar3 + 1;
-      iVar4 = iVar4 + 4;
-      lVar2 = 0;
-    } while (0 < param_3);
-  }
-  return;
-}
+    int block = offset / self->blockSize;
+    int position = offset - block * self->blockSize;
 
+    while (size > 0) {
+        int blockSize = block < self->numBlocks - 1 ? self->blockSize : self->lastBlockSize;
+        int available = blockSize - position;
+        const char *src = self->blocks[block] + position;
+        if (size <= available) {
+            fn_82CFC050(dst, src, size);
+            return;
+        }
+        fn_82CFC050(dst, src, available);
+        size -= available;
+        dst += available;
+        block++;
+        position = 0;
+    }
+}

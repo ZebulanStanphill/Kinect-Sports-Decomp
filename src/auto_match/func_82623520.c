@@ -1,46 +1,36 @@
-extern int fn_82540308();
-extern int fn_826230E8();
-extern int fn_8265C9E0();
-extern unsigned int lbl_821CAD88;
+extern void *fn_82540308(int index);
+extern void *fn_8265C9E0(unsigned int size);
+extern void *fn_826230E8(void *mem, void *owner);
+extern char lbl_821CAD88[];
 
+typedef struct Object_82623520 {
+    void *vtable;      /* 0x00 */
+    int arg1;          /* 0x04 */
+    int arg2;          /* 0x08 */
+    int arg3;          /* 0x0c */
+    void *context;     /* 0x10 */
+    void *children[3]; /* 0x14 */
+} Object_82623520;
 
-unsigned int *
-fn_82623520(unsigned int *param_1,unsigned int param_2,unsigned int param_3,unsigned int param_4,
-             unsigned __int64 param_5)
-
+Object_82623520 *fn_82623520(Object_82623520 *self, int arg1, int arg2, int arg3, void *owner)
 {
-  unsigned int uVar2;
-  unsigned __int64 uVar1;
-  unsigned int *puVar3;
-  __int64 lVar4;
-  
-  param_1[1] = param_2;
-  param_1[2] = param_3;
-  param_1[3] = param_4;
-  *param_1 = &lbl_821CAD88;
-  uVar2 = fn_82540308(0);
-  param_1[4] = uVar2;
-  if ((param_5 & 0xffffffff) == 0) {
-    param_1[5] = 0;
-    param_1[6] = 0;
-    param_1[7] = 0;
-  }
-  else {
-    puVar3 = param_1 + 4;
-    lVar4 = 3;
-    do {
-      uVar1 = fn_8265C9E0(0x20);
-      if ((uVar1 & 0xffffffff) == 0) {
-        uVar2 = 0;
-      }
-      else {
-        uVar2 = fn_826230E8(uVar1,param_5);
-      }
-      lVar4 = lVar4 + -1;
-      puVar3 = puVar3 + 1;
-      *puVar3 = uVar2;
-    } while (lVar4 != 0);
-  }
-  return param_1;
-}
+    int i;
+    void *mem;
 
+    self->arg1 = arg1;
+    self->arg2 = arg2;
+    self->arg3 = arg3;
+    self->vtable = lbl_821CAD88;
+    self->context = fn_82540308(0);
+    if (owner != 0) {
+        for (i = 0; i < 3; i++) {
+            mem = fn_8265C9E0(0x20);
+            self->children[i] = mem != 0 ? fn_826230E8(mem, owner) : 0;
+        }
+    } else {
+        for (i = 0; i < 3; i++) {
+            self->children[i] = 0;
+        }
+    }
+    return self;
+}

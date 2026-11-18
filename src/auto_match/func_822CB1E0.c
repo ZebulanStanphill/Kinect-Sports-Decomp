@@ -1,81 +1,71 @@
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_70;
-extern unsigned int fStack_58;
-extern unsigned int fStack_5c;
-extern unsigned int fStack_60;
-extern int fn_82236140();
-extern int fn_82237F60();
-extern int fn_822395B8();
-extern int fn_8232A988();
-extern int fn_823B4900();
-extern int fn_8265CA20();
-extern int fn_828E9D28();
-extern unsigned int iStack_38;
-extern unsigned int uStack_30;
-extern unsigned int uStack_34;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
+typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
+    float f[4];
+    unsigned int u[4];
+} __vector4;
 
+/* Reads a direction and a 9-bit packed scale (3-bit and 6-bit fields) from a network
+   buffer and returns the scaled direction. v77 is the game's reserved zero vector,
+   read with __VMXGetReg (/QVMXReserve). */
+__vector4 __VMXGetReg(int n);
+void *memset(void *dest, int value, unsigned int size);
 
-int fn_822CB1E0(int param_1,unsigned __int64 param_2)
+typedef struct Reader_822CB1E0 {
+    int h[4];
+    unsigned char *data; /* 0x10 */
+    int size;            /* 0x14 */
+    void *heap;          /* 0x18 */
+    int a;               /* 0x1c */
+    int b;               /* 0x20 */
+} Reader_822CB1E0;
 
+typedef struct Packed_822CB1E0 {
+    unsigned short bits;
+} Packed_822CB1E0;
+
+extern unsigned char *fn_82236140(void *src);
+extern void fn_828E9D28(Reader_822CB1E0 *r, unsigned char *data, int size);
+extern void fn_82237F60(__vector4 *out, Reader_822CB1E0 *r);
+extern unsigned int fn_823B4900(Reader_822CB1E0 *r, int bits, int a, int b);
+extern void fn_8232A988(Packed_822CB1E0 *bits, unsigned __int64 value, unsigned __int64 offset,
+                        unsigned __int64 width);
+extern float fn_822395B8(Packed_822CB1E0 *bits);
+extern void fn_8265CA20(void *p);
+
+__vector4 *fn_822CB1E0(__vector4 *out, void *src)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int in_r0;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  double dVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned int uVar8;
-  unsigned int in_register_000104d0;
-  unsigned int in_register_000104d4;
-  unsigned int in_register_000104d8;
-  unsigned int in_vr77;
-  unsigned char auStack_70 [16];
-  float fStack_60;
-  float fStack_5c;
-  float fStack_58;
-  unsigned char auStack_50 [16];
-  unsigned int uStack_40;
-  unsigned int uStack_3c;
-  int iStack_38;
-  unsigned int uStack_34;
-  unsigned int uStack_30;
-  
-  uVar3 = fn_82236140(param_2);
-  uStack_40 = (unsigned int)uVar3;
-  iStack_38 = 0;
-  uStack_34 = 0;
-  uStack_30 = 0;
-  uStack_3c = 4;
-  fn_828E9D28(auStack_50,uVar3,4);
-  fn_82237F60(&fStack_60,auStack_50);
-  uVar4 = fn_823B4900(auStack_50,9,0,0);
-  fn_8232A988(auStack_70,uVar4 >> 6 & 7,0,3);
-  fn_8232A988(auStack_70,uVar4 & 0x3f,3,6);
-  dVar5 = (double)fn_822395B8(auStack_70);
-  fStack_60 = (float)((double)fStack_60 * dVar5);
-  puVar1 = (unsigned int *)((int)&fStack_60 + in_r0 & 0xfffffff0);
-  *puVar1 = in_register_000104d0;
-  puVar1[1] = in_register_000104d4;
-  puVar1[2] = in_register_000104d8;
-  puVar1[3] = in_vr77;
-  fStack_5c = (float)((double)fStack_5c * dVar5);
-  fStack_58 = (float)((double)fStack_58 * dVar5);
-  puVar1 = (unsigned int *)((int)&fStack_60 + in_r0 & 0xfffffff0);
-  uVar6 = puVar1[1];
-  uVar7 = puVar1[2];
-  uVar8 = puVar1[3];
-  puVar2 = (unsigned int *)(in_r0 + param_1 & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar6;
-  puVar2[2] = uVar7;
-  puVar2[3] = uVar8;
-  if (iStack_38 != 0) {
-    fn_8265CA20();
-  }
-  return param_1;
-}
+    __vector4 dir; /* x, y, z written by fn_82237F60 */
+    Reader_822CB1E0 r;
+    Packed_822CB1E0 packed;
+    unsigned char *data;
+    unsigned int code;
+    float scale;
+    float x;
+    float y;
+    float z;
 
+    data = fn_82236140(src);
+    r.data = data;
+    r.heap = 0;
+    r.a = 0;
+    r.b = 0;
+    r.size = 4;
+    fn_828E9D28(&r, data, 4);
+    fn_82237F60(&dir, &r);
+    code = fn_823B4900(&r, 9, 0, 0);
+    memset(&packed, 0, sizeof(packed));
+    fn_8232A988(&packed, (code >> 6) & 7, 0, 3);
+    fn_8232A988(&packed, code & 0x3f, 3, 6);
+    scale = fn_822395B8(&packed);
+    x = dir.f[0];
+    y = dir.f[1];
+    z = dir.f[2];
+    dir = __VMXGetReg(77);
+    dir.f[0] = x * scale;
+    dir.f[1] = y * scale;
+    dir.f[2] = z * scale;
+    *out = dir;
+    if (r.heap != 0) {
+        fn_8265CA20(r.heap);
+    }
+    return out;
+}

@@ -1,51 +1,60 @@
-extern int fn_8265C9E0();
-extern int fn_8265D7D0();
-extern int fn_8265DED8();
-extern int fn_8265ED50();
-extern int fn_8265F570();
-extern int fn_8265F598();
-extern int fn_8265F608();
-extern int fn_8266A628();
-extern int fn_8266C340();
-extern unsigned int iStack00000014;
-extern unsigned int iStack_18;
-extern unsigned int lbl_83153FD8;
-extern unsigned int uStack_14;
-extern unsigned int uStack_1c;
+typedef unsigned short wchar_t;
 
+struct Vector_8266A700 {
+    void *data;
+    void *end;
+    void *capacity;
+};
 
-void fn_8266A700(int param_1)
+struct Settings_8266A700 {
+    int unused;
+    struct Vector_8266A700 languages;
+};
 
+struct Culture_8266A700 {
+    char pad0[0x3c];
+    char parent[0x1c]; /* 0x3c: std::wstring */
+};
+
+extern struct Settings_8266A700 lbl_831E7AF4;
+extern const wchar_t *lbl_83153FD8;
+extern void fn_8266C340(const wchar_t *format, ...);
+extern int fn_8266A628(const wchar_t *language);
+extern struct Culture_8266A700 *fn_8265ED50(const wchar_t *language);
+extern void *fn_8265C9E0(unsigned int size);
+extern void *fn_8265D7D0(void *self, const wchar_t *language);
+extern void fn_8265F608(struct Vector_8266A700 *self, void **element);
+extern unsigned int fn_8265DED8(void *string);
+extern int fn_8265F598(void *string, const wchar_t *text);
+extern const wchar_t *fn_8265F570(void *string);
+
+void fn_8266A700(const wchar_t *language)
 {
-  int iVar1;
-  unsigned int uVar2;
-  int iStack00000014;
-  struct { unsigned int first; int second; } stack_pair_1c;
+    struct Culture_8266A700 *culture;
 
-  unsigned int uStack_14;
-  
-  iStack00000014 = param_1;
-  if (param_1 == 0) {
-    fn_8266C340(0xffffffff820015c0,0xffffffff82002724,0x140,0xffffffff8200251c);
-  }
-  iVar1 = fn_8266A628(iStack00000014);
-  if ((iVar1 == 0) && (uVar2 = fn_8265ED50(iStack00000014), uVar2 != 0)) {
-    stack_pair_1c.second = fn_8265C9E0(0x1c);
-    if (stack_pair_1c.second == 0) {
-      uStack_14 = 0;
+    if (language == 0) {
+        fn_8266C340(L"Assert failed. File: %s. Line: %d. Condition: %s", L".\\XLipSettings.cpp", 0x140,
+                    L"pcszLanguage");
     }
-    else {
-      uStack_14 = fn_8265D7D0(stack_pair_1c.second,iStack00000014);
+    if (fn_8266A628(language) != 0) {
+        return;
     }
-    stack_pair_1c.first = uStack_14;
-    fn_8265F608(0xffffffff831e7af8,&stack_pair_1c.first);
-    iVar1 = fn_8265DED8((unsigned __int64)uVar2 + 0x3c);
-    if ((iVar1 != 0) &&
-       (iVar1 = fn_8265F598((unsigned __int64)uVar2 + 0x3c,lbl_83153FD8), iVar1 != 0)) {
-      fn_8265F570((unsigned __int64)uVar2 + 0x3c);
-      ((int (*)())fn_8266A700)();
+    culture = fn_8265ED50(language);
+    if (culture != 0) {
+        void *languageObject;
+        void *storage;
+        void *object;
+
+        storage = fn_8265C9E0(0x1c);
+        if (storage != 0) {
+            object = fn_8265D7D0(storage, language);
+        } else {
+            object = 0;
+        }
+        languageObject = object;
+        fn_8265F608(&lbl_831E7AF4.languages, &languageObject);
+        if (fn_8265DED8(culture->parent) != 0 && fn_8265F598(culture->parent, lbl_83153FD8) != 0) {
+            fn_8266A700(fn_8265F570(culture->parent));
+        }
     }
-  }
-  return;
 }
-

@@ -1,46 +1,48 @@
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-extern int memcpy();
-extern int fn_82FA5060();
-extern int fn_82FA5190();
-extern int fn_82FFA6E8();
-extern unsigned int lbl_831BC768;
-extern unsigned int lbl_832642F0;
-extern unsigned int uStack_40;
-extern unsigned int uStack_48;
+void *memcpy(void *dst, const void *src, unsigned int size);
 
+typedef struct Message_82FE7320 {
+    int kind;           /* 0x0 */
+    int a;              /* 0x4 */
+    int b;              /* 0x8 */
+    int flag;           /* 0xc */
+    unsigned int count; /* 0x10 */
+    void *items;        /* 0x14 */
+    int v[3];           /* 0x18 */
+} Message_82FE7320;
 
-unsigned __int64
-fn_82FE7320(int param_1,unsigned int param_2,unsigned int param_3,unsigned int *param_4,int param_5,
-             char param_6)
+extern void *lbl_831BC768;
+extern void *lbl_832642F0;
+extern void *fn_82FA5060(void *heap, unsigned int size);
+extern void fn_82FA5190(void *heap, void *p);
+extern int fn_82FFA6E8(void *queue, Message_82FE7320 m);
 
+int fn_82FE7320(int mode, int a, int b, void **items, unsigned int count, unsigned char copy)
 {
-  unsigned __int64 uVar1;
-  unsigned int *puVar2;
-  unsigned __int64 uStack_48;
-  unsigned int uStack_40;
-  
-  if (param_5 == 0) {
-    uVar1 = 0x1f;
-  }
-  else {
-    if (param_5 == 1) {
-      param_4 = (unsigned int *)*param_4;
-    }
-    else if (param_6 != '\0') {
-      puVar2 = (unsigned int *)fn_82FA5060(lbl_831BC768,param_5 << 2);
-      if (puVar2 == (unsigned int *)0x0) {
-        return 0x34;
-      }
-      memcpy(puVar2,param_4,param_5 << 2);
-      param_4 = puVar2;
-    }
-    uVar1 = fn_82FFA6E8(lbl_832642F0,CONCAT44((param_1 == 0 ^ 1) + 2,param_2),
-                              (unsigned __int64)param_3 << 0x20,CONCAT44(param_5,param_4),uStack_48,
-                              (unsigned __int64)uStack_40 << 0x20);
-    if (((int)uVar1 != 1) && (param_5 != 1)) {
-      fn_82FA5190(lbl_831BC768,param_4);
-    }
-  }
-  return uVar1;
-}
+    Message_82FE7320 m;
+    int result;
 
+    if (count == 0) {
+        return 0x1f;
+    }
+    m.b = b;
+    m.a = a;
+    m.count = count;
+    m.flag = 0;
+    m.kind = mode ? 3 : 2;
+    if (count == 1) {
+        m.items = *items;
+    } else if (copy != 0) {
+        m.items = fn_82FA5060(lbl_831BC768, count * 4);
+        if (m.items == 0) {
+            return 0x34;
+        }
+        memcpy(m.items, items, count * 4);
+    } else {
+        m.items = items;
+    }
+    result = fn_82FFA6E8(lbl_832642F0, m);
+    if (result != 1 && count != 1) {
+        fn_82FA5190(lbl_831BC768, m.items);
+    }
+    return result;
+}

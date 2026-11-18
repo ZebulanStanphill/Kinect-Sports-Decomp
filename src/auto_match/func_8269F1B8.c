@@ -1,73 +1,73 @@
-typedef unsigned char bool;
-extern int fn_8267BE38();
-extern int fn_8268B330();
-extern int fn_8268B610();
-extern int fn_826944C8();
-extern int fn_8269A190();
-extern int fn_8269E088();
-extern unsigned int uStack_30;
-extern unsigned __int64 storeWordConditionalIndexed();
+extern long _InterlockedExchangeAdd(volatile long *value, long amount);
 
+typedef struct Text_8269F1B8 {
+    unsigned int length; /* 0x00 */
+    long refs;           /* 0x04 */
+    char text[1];        /* 0x08 */
+} Text_8269F1B8;
 
-unsigned int * fn_8269F1B8(unsigned int *param_1,unsigned int *param_2,unsigned __int64 param_3,unsigned int param_4)
+typedef struct Object_8269F1B8 {
+    const char *name; /* 0x00 */
+    int unk4;         /* 0x04 */
+    int refs;         /* 0x08 */
+} Object_8269F1B8;
 
+typedef struct Context_8269F1B8 {
+    char pad00[0x18];
+    Object_8269F1B8 *root; /* 0x18 */
+} Context_8269F1B8;
+
+typedef struct Self_8269F1B8 {
+    int one;                  /* 0x00 */
+    int value;                /* 0x04 */
+    Object_8269F1B8 *object;  /* 0x08 */
+    Object_8269F1B8 *target;  /* 0x0c */
+    Object_8269F1B8 *object2; /* 0x10 */
+} Self_8269F1B8;
+
+extern void fn_8268B330(unsigned int *text);
+extern void fn_8269E088(void *prefix, unsigned int *text);
+extern void fn_8268B610(unsigned int *text, const char *append, int length);
+extern Object_8269F1B8 **fn_8269A190(Object_8269F1B8 **out, Context_8269F1B8 *context, unsigned int *text);
+extern void fn_826944C8(Object_8269F1B8 *object);
+extern void fn_8267BE38(void *data);
+
+Self_8269F1B8 *fn_8269F1B8(Self_8269F1B8 *self, Object_8269F1B8 **source, void *prefix, int value)
 {
-  unsigned int uVar1;
-  int iVar2;
-  int *piVar3;
-  unsigned __int64 uVar4;
-  __int64 lVar5;
-  unsigned int *puVar6;
-  char in_RESERVE;
-  unsigned char bVar7;
-  unsigned int uStack_30;
-  int aiStack_2c [11];
-  
-  uVar1 = *param_2;
-  param_1[2] = uVar1;
-  *(int *)(uVar1 + 8) = *(int *)(uVar1 + 8) + 1;
-  iVar2 = *(int *)(*(int *)(*param_2 & 0xfffffc00) + 0x18);
-  param_1[3] = iVar2;
-  *(int *)(iVar2 + 8) = *(int *)(iVar2 + 8) + 1;
-  uVar1 = *param_2;
-  param_1[4] = uVar1;
-  *(int *)(uVar1 + 8) = *(int *)(uVar1 + 8) + 1;
-  *param_1 = 1;
-  param_1[1] = param_4;
-  fn_8268B330(&uStack_30);
-  if ((param_3 & 0xffffffff) != 0) {
-    fn_8269E088(param_3,&uStack_30);
-    fn_8268B610(&uStack_30,0xffffffff821c7f2c,0xffffffffffffffff);
-  }
-  fn_8268B610(&uStack_30,*(unsigned int *)param_1[2],0xffffffffffffffff);
-  piVar3 = (int *)fn_8269A190(aiStack_2c,*(unsigned int *)(*param_2 & 0xfffffc00),&uStack_30);
-  iVar2 = *piVar3;
-  *(int *)(iVar2 + 8) = *(int *)(iVar2 + 8) + 1;
-  lVar5 = (unsigned __int64)*(unsigned int *)(param_1[3] + 8) - 1;
-  *(int *)(param_1[3] + 8) = (int)lVar5;
-  if (lVar5 == 0) {
-    fn_826944C8();
-  }
-  param_1[3] = iVar2;
-  lVar5 = (unsigned __int64)*(unsigned int *)(aiStack_2c[0] + 8) - 1;
-  bVar7 = (lVar5 == 0) << 1;
-  *(int *)(aiStack_2c[0] + 8) = (int)lVar5;
-  if (lVar5 == 0) {
-    fn_826944C8(aiStack_2c[0]);
-  }
-  lVar5 = ((unsigned __int64)uStack_30 & 0xfffffffc) + 4;
-  do {
-    puVar6 = (unsigned int *)lVar5;
-    uVar4 = (unsigned __int64)*puVar6;
-    if (in_RESERVE != '\0') {
-      uVar1 = storeWordConditionalIndexed(uVar4 - 1,0,lVar5);
-      *puVar6 = uVar1;
-      bVar7 = 2;
-    }
-  } while (!(bool)(bVar7 >> 1 & 1));
-  if (uVar4 == 1) {
-    fn_8267BE38();
-  }
-  return param_1;
-}
+    unsigned int text;
+    Object_8269F1B8 *found;
+    Object_8269F1B8 *target;
+    Object_8269F1B8 *released;
+    Text_8269F1B8 *data;
 
+    self->object = *source;
+    self->object->refs++;
+    self->target = (*(Context_8269F1B8 **)((unsigned int)*source & ~0x3ffu))->root;
+    self->target->refs++;
+    self->object2 = *source;
+    self->object2->refs++;
+    self->one = 1;
+    self->value = value;
+    fn_8268B330(&text);
+    if (prefix != 0) {
+        fn_8269E088(prefix, &text);
+        fn_8268B610(&text, ".", -1);
+    }
+    fn_8268B610(&text, self->object->name, -1);
+    target = *fn_8269A190(&found, *(Context_8269F1B8 **)((unsigned int)*source & ~0x3ffu), &text);
+    target->refs++;
+    released = self->target;
+    if (--released->refs == 0) {
+        fn_826944C8(released);
+    }
+    self->target = target;
+    released = found;
+    if (--released->refs == 0) {
+        fn_826944C8(released);
+    }
+    data = (Text_8269F1B8 *)(text & ~3u);
+    if (_InterlockedExchangeAdd(&data->refs, -1) - 1 == 0) {
+        fn_8267BE38(data);
+    }
+    return self;
+}

@@ -1,51 +1,37 @@
-extern int fn_8224E9D8();
-extern int fn_822CB340();
-extern int fn_8265C9E0();
-extern int fn_82897FE8();
-extern int fn_828AB150();
-extern unsigned int lbl_821C2CA0;
-extern unsigned int stack0x00000028;
-extern unsigned int uStack00000028;
+typedef struct Value_8224E650 {
+    int value0;
+    int value1;
+} Value_8224E650;
 
+extern void *fn_8265C9E0(unsigned int size);
+extern void fn_82897FE8(void *manager, void *object);
+extern void fn_8224E9D8(void *list, void *item);
+extern void fn_822CB340(void *target, Value_8224E650 *value);
+extern void fn_828AB150(void *flag, unsigned char value);
+extern char lbl_821C2CA0[];
 
-void fn_8224E650(int *param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  unsigned char param_5)
-
+void fn_8224E650(int *self, void *request, void *list, Value_8224E650 value, int enabled)
 {
-  unsigned int uVar1;
-  int *piVar3;
-  char cVar4;
-  __int64 lVar2;
-  unsigned __int64 uStack00000028;
-  
-  uStack00000028 = param_4;
-  piVar3 = (int *)fn_8265C9E0(0x7dc);
-  if (piVar3 == (int *)0x0) {
-    piVar3 = (int *)0x0;
-  }
-  else {
-    piVar3[1] = 1;
-    *piVar3 = (int)&lbl_821C2CA0;
-    piVar3[0x1f6] = 0;
-  }
-  cVar4 = (**(int (***)())(*piVar3 + 0x18))(piVar3,param_2);
-  if (cVar4 == '\0') {
-    uVar1 = piVar3[1];
-    piVar3[1] = (int)((unsigned __int64)uVar1 - 1);
-    if ((unsigned __int64)uVar1 - 1 == 0) {
-      (**(int (***)())(*piVar3 + 0x14))(piVar3,1);
-    }
-  }
-  else {
-    lVar2 = (**(int (***)())(*param_1 + 8))(param_1);
-    fn_82897FE8(lVar2 + 0x630,piVar3);
-    lVar2 = (**(int (***)())(*param_1 + 8))(param_1);
-    fn_8224E9D8(lVar2 + 0x6d8,param_3);
-    lVar2 = (**(int (***)())(*param_1 + 8))(param_1);
-    fn_822CB340(lVar2 + 0x684,&stack0x00000028);
-    lVar2 = (**(int (***)())(*param_1 + 8))(param_1);
-    fn_828AB150(lVar2 + 0x72c,param_5);
-  }
-  return;
-}
+    int *object;
+    int *memory;
 
+    memory = (int *)fn_8265C9E0(0x7dc);
+    if (memory != 0) {
+        memory[1] = 1;
+        memory[0] = (int)lbl_821C2CA0;
+        memory[0x1f6] = 0;
+        object = memory;
+    } else {
+        object = 0;
+    }
+    if ((*(unsigned char (**)(void *, void *))(*object + 0x18))(object, request)) {
+        fn_82897FE8((*(char *(**)(void *))(*self + 8))(self) + 0x630, object);
+        fn_8224E9D8((*(char *(**)(void *))(*self + 8))(self) + 0x6d8, list);
+        fn_822CB340((*(char *(**)(void *))(*self + 8))(self) + 0x684, &value);
+        fn_828AB150((*(char *(**)(void *))(*self + 8))(self) + 0x72c, enabled);
+    } else {
+        if (--object[1] == 0) {
+            (*(void (**)(void *, int))(*object + 0x14))(object, 1);
+        }
+    }
+}

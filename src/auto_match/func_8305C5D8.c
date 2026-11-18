@@ -1,68 +1,69 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_8305E0F8();
-extern int fn_8305EC98();
-extern int fn_8305F320();
-extern int fn_830615A8();
-extern int fn_83065C40();
-extern int fn_83065E50();
-extern int fn_83066810();
+typedef struct Node_8305C5D8 {
+    char pad00[0x20];
+    struct Node_8305C5D8 *front; /* 0x20 */
+    struct Node_8305C5D8 *back;  /* 0x24 */
+    int id;                      /* 0x28 */
+} Node_8305C5D8;
 
+typedef struct Tree_8305C5D8 {
+    char pad00[0x8];
+    float epsilon; /* 0x08 */
+} Tree_8305C5D8;
 
-void fn_8305C5D8(int param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4,unsigned __int64 param_5)
+extern int fn_83066810(Node_8305C5D8 *node, void *poly, float epsilon, int flags);
+extern void fn_8305F320(void *poly, Node_8305C5D8 *node, void *front, void *back, float epsilon);
+extern void *fn_83065E50(void);
+extern void fn_8305E0F8(void *poly, void *list);
+extern void fn_8305EC98(void *dst, void *src);
+extern void fn_830615A8(void *list, void *poly);
+extern void fn_83065C40(void *poly);
 
+static __forceinline unsigned char IsLeaf(Node_8305C5D8 *node)
 {
-  bool bVar1;
-  int iVar3;
-  unsigned __int64 uVar2;
-  
-LAB_8305c5f8:
-  do {
-    if ((*(int *)(param_2 + 0x20) != 0) || (bVar1 = true, *(int *)(param_2 + 0x24) != 0)) {
-      bVar1 = false;
+    if (node->front == 0 && node->back == 0) {
+        return 1;
     }
-    if (bVar1) {
-      if (*(int *)(param_2 + 0x28) == (int)param_3) {
-        return;
-      }
-      goto LAB_8305c718;
-    }
-    iVar3 = fn_83066810((double)*(float *)(param_1 + 8),param_2,param_4);
-    if (iVar3 == 1) {
-      param_2 = *(int *)(param_2 + 0x20);
-    }
-    else {
-      if (iVar3 != 2) {
-        if (*(int *)(param_2 + 0x20) == 0) {
-LAB_8305c6ec:
-          fn_8305F320((double)*(float *)(param_1 + 8),param_4,param_2,param_4,0);
-          param_2 = *(int *)(param_2 + 0x24);
-        }
-        else {
-          if (*(int *)(param_2 + 0x24) == 0) {
-            if (*(int *)(param_2 + 0x20) == 0) goto LAB_8305c6ec;
-            fn_8305F320((double)*(float *)(param_1 + 8),param_4,param_2,0,param_4);
-          }
-          else {
-            uVar2 = fn_83065E50();
-            fn_8305E0F8(uVar2,param_5);
-            fn_8305EC98(uVar2,param_4);
-            fn_8305F320((double)*(float *)(param_1 + 8),param_4,param_2,uVar2,param_4);
-            fn_8305C5D8(param_1,*(unsigned int *)(param_2 + 0x24),param_3,uVar2,param_5);
-          }
-          param_2 = *(int *)(param_2 + 0x20);
-        }
-        goto LAB_8305c5f8;
-      }
-      param_2 = *(int *)(param_2 + 0x24);
-    }
-    if (param_2 == 0) {
-LAB_8305c718:
-      fn_830615A8(param_5,param_4);
-      fn_83065C40(param_4);
-      return;
-    }
-  } while( true );
+    return 0;
 }
 
+void fn_8305C5D8(Tree_8305C5D8 *tree, Node_8305C5D8 *node, int id, void *poly, void *list)
+{
+    int side;
+    void *split;
+
+    for (;;) {
+        if (IsLeaf(node)) {
+            if (node->id == id) {
+                return;
+            }
+            break;
+        }
+        side = fn_83066810(node, poly, tree->epsilon, 0);
+        if (side == 1) {
+            node = node->front;
+        } else if (side == 2) {
+            node = node->back;
+        } else {
+            if (node->front != 0 && node->back != 0) {
+                split = fn_83065E50();
+                fn_8305E0F8(split, list);
+                fn_8305EC98(split, poly);
+                fn_8305F320(poly, node, split, poly, tree->epsilon);
+                fn_8305C5D8(tree, node->back, id, split, list);
+                node = node->front;
+            } else if (node->front != 0) {
+                fn_8305F320(poly, node, 0, poly, tree->epsilon);
+                node = node->front;
+            } else {
+                fn_8305F320(poly, node, poly, 0, tree->epsilon);
+                node = node->back;
+            }
+            continue;
+        }
+        if (node == 0) {
+            break;
+        }
+    }
+    fn_830615A8(list, poly);
+    fn_83065C40(poly);
+}

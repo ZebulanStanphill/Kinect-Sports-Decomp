@@ -1,56 +1,69 @@
-extern float fRam832115f0;
-extern int fn_827EB1A8();
-extern int fn_827EB3B8();
-extern int fn_82862150();
-extern int fn_82862338();
-extern int iRam832115e0;
-extern unsigned int uRam832115d4;
-extern unsigned int uRam83211614;
-extern unsigned int uRam8321161c;
+typedef struct Entry_8285F548 {
+    int pad0;
+    int target;          /* 0x4 */
+    unsigned short flag; /* 0x8 */
+} Entry_8285F548;
 
+typedef struct Settings_8285F548 {
+    int pad0;
+    void *context; /* 0x4 */
+    char pad8[0x8];
+    unsigned int kind;       /* 0x10 */
+    unsigned char mask[0xc]; /* 0x14 */
+    float scale;             /* 0x20 */
+    float low[3];            /* 0x24 */
+    float high[3];           /* 0x30 */
+    char pad3c[0x8];
+    unsigned int count; /* 0x44 */
+    int pad48;
+    void *table; /* 0x4c */
+} Settings_8285F548;
 
-unsigned __int64 fn_8285F548(__int64 param_1,unsigned char *param_2,__int64 param_3)
+extern Settings_8285F548 lbl_832115D0;
 
+extern void *fn_82862338(void *table, void *context, unsigned int index);
+extern Entry_8285F548 *fn_82862150(void *item, void *context);
+extern int fn_827EB1A8(int target, unsigned char flag, unsigned char *bits, unsigned char *mask, float scale,
+                       unsigned char *format);
+extern int fn_827EB3B8(int target, unsigned char flag, unsigned char *bits, float *low, float *high,
+                       unsigned char *format);
+
+static __forceinline int Convert(int target, int flag, unsigned char *bits, unsigned char *format)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  
-  uVar3 = 0x80;
-  uVar4 = 0;
-  if (uRam83211614 != 0) {
-    param_3 = param_3 - param_1;
-    do {
-      if ((uVar3 & *param_2) != 0) {
-        uVar1 = fn_82862338(uRam8321161c,uRam832115d4,uVar4);
-        iVar2 = fn_82862150(uVar1,uRam832115d4);
-        if (iRam832115e0 == 0) {
-          iVar2 = fn_827EB1A8((double)fRam832115f0,*(unsigned int *)(iVar2 + 4),
-                                    *(unsigned short *)(iVar2 + 8) & 0xff,param_1,0xffffffff832115e4);
-LAB_8285f5f0:
-          if (iVar2 == 2) {
-            return 1;
-          }
-          if (iVar2 != 0) goto LAB_8285f60c;
-        }
-        else if (iRam832115e0 == 1) {
-          iVar2 = fn_827EB3B8(*(unsigned int *)(iVar2 + 4),*(unsigned short *)(iVar2 + 8) & 0xff,param_1,
-                                  0xffffffff832115f4,0xffffffff83211600,param_3 + param_1);
-          goto LAB_8285f5f0;
-        }
-        *param_2 = *param_2 & ~(unsigned char)uVar3;
-      }
-LAB_8285f60c:
-      uVar3 = uVar3 >> 1;
-      if (uVar3 == 0) {
-        param_2 = param_2 + 1;
-        uVar3 = 0x80;
-      }
-      uVar4 = uVar4 + 1;
-      param_1 = param_1 + 1;
-    } while ((uVar4 & 0xffffffff) < (unsigned __int64)uRam83211614);
-  }
-  return 0;
+    switch (lbl_832115D0.kind) {
+    case 0:
+        return fn_827EB1A8(target, flag, bits, lbl_832115D0.mask, lbl_832115D0.scale, format);
+    case 1:
+        return fn_827EB3B8(target, flag, bits, lbl_832115D0.low, lbl_832115D0.high, format);
+    }
+    return 0;
 }
 
+int fn_8285F548(unsigned char *bits, unsigned char *enabled, unsigned char *format)
+{
+    unsigned char bit = 0x80;
+    unsigned int i = 0;
+    void *item;
+    Entry_8285F548 *entry;
+    int result;
+
+    for (; i < lbl_832115D0.count; i++) {
+        if (*enabled & bit) {
+            item = fn_82862338(lbl_832115D0.table, lbl_832115D0.context, i);
+            entry = fn_82862150(item, lbl_832115D0.context);
+            result = Convert(entry->target, entry->flag, bits + i, format + i);
+            if (result == 2) {
+                return 1;
+            }
+            if (result == 0) {
+                *enabled &= ~bit;
+            }
+        }
+        bit >>= 1;
+        if (bit == 0) {
+            enabled++;
+            bit = 0x80;
+        }
+    }
+    return 0;
+}

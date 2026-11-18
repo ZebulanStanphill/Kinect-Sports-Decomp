@@ -1,31 +1,27 @@
-extern int fn_82F68B78();
-extern unsigned int lbl_831E7E64;
+typedef struct Arena_8268D210 {
+    void *heap;             /* 0x000 */
+    char buffer[0x200];     /* 0x004 */
+    char *cursor;           /* 0x204 */
+    unsigned int remaining; /* 0x208 */
+} Arena_8268D210;
 
+extern void *lbl_831E7E64;
+extern void *fn_8267B8F0(void *heap, unsigned int size, unsigned int align, int flags);
 
-int fn_8268D210(int *param_1,unsigned int param_2)
-
+void *fn_8268D210(Arena_8268D210 *self, unsigned int size)
 {
-  int iVar1;
-  unsigned int uVar2;
-  int iVar3;
-  
-  if ((unsigned int)param_1[0x82] < param_2) {
-    iVar1 = lbl_831E7E64;
-    if (*param_1 != 0) {
-      iVar1 = *param_1;
-    }
-    iVar1 = fn_82F68B78(iVar1,param_2,4,0);
-    return iVar1;
-  }
-  iVar1 = param_1[0x81];
-  iVar3 = ((iVar1 + param_2) - 1 & 0xfffffffc) + 4;
-  param_1[0x81] = iVar3;
-  uVar2 = (iVar3 - (int)param_1) - 4;
-  iVar3 = 0x200 - uVar2;
-  if (0x1ff < uVar2) {
-    iVar3 = 0;
-  }
-  param_1[0x82] = iVar3;
-  return iVar1;
-}
+    void *result;
+    unsigned int used;
 
+    if (size <= self->remaining) {
+        result = self->cursor;
+        self->cursor = (char *)(((unsigned int)(self->cursor + size - 1) & ~3) + 4);
+        used = self->cursor - self->buffer;
+        self->remaining = used < 0x200 ? 0x200 - used : 0;
+    } else if (self->heap != 0) {
+        result = fn_8267B8F0(self->heap, size, 4, 0);
+    } else {
+        result = fn_8267B8F0(lbl_831E7E64, size, 4, 0);
+    }
+    return result;
+}

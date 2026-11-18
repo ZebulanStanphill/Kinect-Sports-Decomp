@@ -1,55 +1,58 @@
-extern int fn_822ACDA0();
-extern int fn_8251F720();
-extern int fn_8251FA58();
+extern void *fn_822ACDA0(void *self, const char *name);
+extern void fn_8251FA58(void *handle);
+extern void *fn_8251F720(void *source, int flags);
 
+typedef struct Object_822ACB68 {
+    int unk0;        /* 0x00 */
+    int unk4;        /* 0x04 */
+    void *handle;    /* 0x08 */
+    char name[0x80]; /* 0x0c */
+} Object_822ACB68;
 
-unsigned __int64 fn_822ACB68(int param_1,char *param_2)
-
+static __forceinline int CompareString(const unsigned char *a, const unsigned char *b)
 {
-  int iVar1;
-  __int64 lVar2;
-  unsigned int uVar3;
-  char *pcVar4;
-  char cVar5;
-  char cVar6;
-  char *pcVar7;
-  
-  cVar6 = *param_2;
-  pcVar7 = (char *)(param_1 + 0xc);
-  cVar5 = *(char *)(param_1 + 0xc);
-  if (cVar5 == cVar6) {
-    pcVar4 = pcVar7;
-    do {
-      pcVar4 = pcVar4 + 1;
-      if (cVar5 == '\0') {
-        return 1;
-      }
-      cVar5 = *pcVar4;
-      cVar6 = pcVar4[(int)param_2 - (int)pcVar7];
-    } while (cVar5 == cVar6);
-  }
-  if (cVar5 != cVar6) {
-    lVar2 = fn_822ACDA0(param_1,param_2);
-    if (lVar2 == 0) {
-      return 0;
+    unsigned char c = *a;
+    unsigned char d = *b;
+
+    while (d == c) {
+        a++;
+        b++;
+        if (d == 0) {
+            return 0;
+        }
+        d = *b;
+        c = *a;
     }
-    if (*(int *)(param_1 + 8) != 0) {
-      fn_8251FA58();
-      *(unsigned int *)(param_1 + 8) = 0;
-    }
-    uVar3 = fn_8251F720(lVar2,0);
-    *(unsigned int *)(param_1 + 8) = uVar3;
-    iVar1 = (int)param_2 - (int)pcVar7;
-    do {
-      if ((char *)(param_1 + 0x8c) <= pcVar7) break;
-      cVar6 = pcVar7[iVar1];
-      *pcVar7 = cVar6;
-      pcVar7 = pcVar7 + 1;
-    } while (cVar6 != '\0');
-    if (pcVar7 == (char *)(param_1 + 0x8c)) {
-      pcVar7[-1] = '\0';
-    }
-  }
-  return 1;
+    return d - c;
 }
 
+static __forceinline void CopyString(char *dst, const char *src, int size)
+{
+    char *end = dst + size;
+
+    while (dst < end && (*dst++ = *src++) != 0) {
+    }
+    if (dst == end) {
+        dst[-1] = 0;
+    }
+}
+
+int fn_822ACB68(Object_822ACB68 *self, const char *name)
+{
+    void *source;
+
+    if (CompareString((const unsigned char *)name, (const unsigned char *)self->name) == 0) {
+        return 1;
+    }
+    source = fn_822ACDA0(self, name);
+    if (source != 0) {
+        if (self->handle != 0) {
+            fn_8251FA58(self->handle);
+            self->handle = 0;
+        }
+        self->handle = fn_8251F720(source, 0);
+        CopyString(self->name, name, 0x80);
+        return 1;
+    }
+    return 0;
+}

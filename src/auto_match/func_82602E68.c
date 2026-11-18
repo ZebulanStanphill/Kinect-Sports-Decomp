@@ -1,36 +1,36 @@
-extern int fn_82601E70();
-extern int fn_82602708();
-extern unsigned int lbl_82193AF0;
-extern unsigned int lbl_821954E8;
+typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
+    float f[4];
+    unsigned int u[4];
+} __vector4;
 
+typedef struct Body_82602E68 {
+    char pad0[0xc];
+    float scale; /* 0x00c */
+    char pad10[0x8];
+    int active;  /* 0x018 */
+    int visible; /* 0x01c */
+    char pad20[0x40];
+    __vector4 start;   /* 0x060 */
+    __vector4 current; /* 0x070 */
+    char pad80[0x154 - 0x80];
+    int elapsed; /* 0x154 */
+} Body_82602E68;
 
-void fn_82602E68(unsigned __int64 param_1,int param_2)
+extern const float lbl_821954B0[];
+extern const float lbl_82193AD8[];
+extern void fn_82601E70(Body_82602E68 *body, float time);
+extern void fn_82602708(void *owner, Body_82602E68 *body, float time);
 
+void fn_82602E68(void *owner, Body_82602E68 *body)
 {
-  unsigned int *puVar1;
-  double dVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  
-  *(unsigned int *)(param_2 + 0xc) = lbl_821954E8;
-  dVar2 = (double)lbl_82193AF0;
-  fn_82601E70(dVar2,param_2);
-  *(unsigned int *)(param_2 + 0x18) = 1;
-  puVar1 = (unsigned int *)(param_2 + 0x60U & 0xfffffff0);
-  uVar3 = *puVar1;
-  uVar4 = puVar1[1];
-  uVar5 = puVar1[2];
-  uVar6 = puVar1[3];
-  *(unsigned int *)(param_2 + 0x1c) = 1;
-  *(unsigned int *)(param_2 + 0x154) = 0;
-  puVar1 = (unsigned int *)(param_2 + 0x70U & 0xfffffff0);
-  *puVar1 = uVar3;
-  puVar1[1] = uVar4;
-  puVar1[2] = uVar5;
-  puVar1[3] = uVar6;
-  fn_82602708(dVar2,param_1,param_2);
-  return;
-}
+    float time;
 
+    body->scale = lbl_821954B0[14];
+    time = lbl_82193AD8[6];
+    fn_82601E70(body, time);
+    body->active = 1;
+    body->visible = 1;
+    body->elapsed = 0;
+    body->current = body->start;
+    fn_82602708(owner, body, time);
+}

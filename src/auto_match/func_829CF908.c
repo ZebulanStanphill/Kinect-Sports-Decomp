@@ -1,41 +1,38 @@
-extern int fn_829CF1C0();
-extern int XamContentClose();
-extern int XamContentOpenFile();
+extern unsigned int XamContentOpenFile(unsigned int userIndex, const char *rootName, const char *path,
+                                       unsigned int flags, unsigned int a, unsigned int b, void *overlapped);
+extern unsigned int XamContentClose(const char *rootName, void *overlapped);
+extern int fn_829CF1C0(void *context, void *out, const char *identityRoot, const char *exemplarRoot,
+                       int flags);
 
-
-unsigned __int64 fn_829CF908(unsigned __int64 param_1,unsigned __int64 param_2)
-
+int fn_829CF908(void *context, void *out)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  unsigned __int64 uVar4;
-  
-  iVar3 = 2;
-  iVar1 = XamContentOpenFile(0xff,0xffffffff820573d4,0xffffffff820573bc,0x43,0,0,0);
-  iVar2 = 0;
-  if ((iVar1 == 0) ||
-     (iVar2 = XamContentOpenFile(0xff,0xffffffff820573d4,0xffffffff82057398,0x43,0,0,0), iVar2 == 0)) {
-    iVar1 = XamContentOpenFile(0xff,0xffffffff820573b0,0xffffffff8205737c,0x43,0,0,0);
-    iVar3 = 0;
-    if ((iVar1 == 0) ||
-       (iVar3 = XamContentOpenFile(0xff,0xffffffff820573b0,0xffffffff82057360,0x43,0,0,0), iVar3 == 0))
-    {
-      uVar4 = fn_829CF1C0(param_1,param_2,0xffffffff82057340,0xffffffff82057350,0);
-    }
-    else {
-      uVar4 = 0xffffffff8301000d;
-    }
-  }
-  else {
-    uVar4 = 0xffffffff8301000d;
-  }
-  if (iVar2 == 0) {
-    XamContentClose(0xffffffff820573d4,0);
-  }
-  if (iVar3 == 0) {
-    XamContentClose(0xffffffff820573b0,0);
-  }
-  return uVar4;
-}
+    unsigned int exemplarResult;
+    unsigned int identityResult = 2;
+    int hr;
 
+    exemplarResult = XamContentOpenFile(0xff, "stexemplar", "update:\\Database.xmplr", 0x43, 0, 0, 0);
+    if (exemplarResult != 0) {
+        exemplarResult = XamContentOpenFile(0xff, "stexemplar", "game:\\Database.xmplr", 0x43, 0, 0, 0);
+        if (exemplarResult != 0) {
+            hr = 0x8301000d;
+            goto done;
+        }
+    }
+    identityResult = XamContentOpenFile(0xff, "nuiidentity", "update:\\NuiIdentity.bin.be", 0x43, 0, 0, 0);
+    if (identityResult != 0) {
+        identityResult = XamContentOpenFile(0xff, "nuiidentity", "game:\\NuiIdentity.bin.be", 0x43, 0, 0, 0);
+        if (identityResult != 0) {
+            hr = 0x8301000d;
+            goto done;
+        }
+    }
+    hr = fn_829CF1C0(context, out, "nuiidentity:\\", "stexemplar:\\", 0);
+done:
+    if (exemplarResult == 0) {
+        XamContentClose("stexemplar", 0);
+    }
+    if (identityResult == 0) {
+        XamContentClose("nuiidentity", 0);
+    }
+    return hr;
+}

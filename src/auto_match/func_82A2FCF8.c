@@ -1,53 +1,63 @@
-#define true 1
-extern unsigned int *auStack_58;
-extern int fn_82A2E058();
-extern int fn_82A2E6A8();
-extern int memcpy();
-extern int memset();
-extern unsigned int uStack_5c;
-extern unsigned int uStack_60;
+#include <string.h>
 
+typedef struct Page_82A2FCF8 {
+    int block;           /* 0x0 */
+    unsigned char locks; /* 0x4 */
+    char pad5[0x3];
+} Page_82A2FCF8;
 
-unsigned __int64
-fn_82A2FCF8(int param_1,int param_2,__int64 param_3,unsigned __int64 param_4,unsigned __int64 param_5)
+typedef struct Cache_82A2FCF8 {
+    char pad0[0x30];
+    Page_82A2FCF8 *pages; /* 0x30 */
+    char *base;           /* 0x34 */
+} Cache_82A2FCF8;
 
+typedef struct File_82A2FCF8 {
+    char pad0[0x1c];
+    unsigned int size; /* 0x1c */
+} File_82A2FCF8;
+
+extern int fn_82A2E6A8(Cache_82A2FCF8 *cache, File_82A2FCF8 *file, unsigned int offset, int *block,
+                       unsigned int *location, int flags);
+extern int fn_82A2E058(Cache_82A2FCF8 *cache, int block, char **page);
+
+int fn_82A2FCF8(Cache_82A2FCF8 *self, File_82A2FCF8 *file, char *buffer, unsigned int size,
+                unsigned int offset)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  unsigned int uVar3;
-  unsigned __int64 uVar4;
-  unsigned int uStack_60;
-  unsigned int uStack_5c;
-  unsigned char auStack_58 [8];
-  
-  while( true ) {
-    uVar4 = 0x1000 - (param_5 & 0xfff);
-    if ((param_4 & 0xffffffff) < (uVar4 & 0xffffffff)) {
-      uVar4 = param_4;
-    }
-    if ((unsigned __int64)*(unsigned int *)(param_2 + 0x1c) <= (param_5 & 0xffffffff)) {
-                    /* WARNING: Subroutine does not return */
-      memset(param_3,0,uVar4);
-    }
-    uVar2 = fn_82A2E6A8(param_1,param_2,param_5,&uStack_60,auStack_58,0);
-    if ((int)uVar2 < 0) {
-      return uVar2;
-    }
-    uVar2 = fn_82A2E058(param_1,uStack_60,&uStack_5c);
-    uVar3 = uStack_5c;
-    if ((int)uVar2 < 0) break;
-    memcpy(param_3,(unsigned __int64)uStack_5c + (param_5 & 0xfff),uVar4);
-    uVar3 = uVar3 - *(int *)(param_1 + 0x34);
-    iVar1 = (((int)uVar3 >> 0xc) + (unsigned int)((int)uVar3 < 0 && (uVar3 & 0xfff) != 0)) * 8 +
-            *(int *)(param_1 + 0x30);
-    *(char *)(iVar1 + 4) = *(char *)(iVar1 + 4) + -1;
-    param_4 = param_4 - uVar4;
-    param_3 = uVar4 + param_3;
-    param_5 = uVar4 + param_5;
-    if (param_4 == 0) {
-      return 0;
-    }
-  }
-  return uVar2;
-}
+    unsigned int pageOffset;
+    unsigned int chunk;
+    int block;
+    char *page;
+    char *data;
+    Page_82A2FCF8 *entry;
+    unsigned int location[2];
+    int hr;
 
+    do {
+        pageOffset = offset & 0xfff;
+        chunk = 0x1000 - pageOffset;
+        if (chunk > size) {
+            chunk = size;
+        }
+        if (offset < file->size) {
+            hr = fn_82A2E6A8(self, file, offset, &block, location, 0);
+            if (hr < 0) {
+                return hr;
+            }
+            hr = fn_82A2E058(self, block, &page);
+            if (hr < 0) {
+                return hr;
+            }
+            data = page;
+            memcpy(buffer, data + pageOffset, chunk);
+            entry = &self->pages[(data - self->base) / 0x1000];
+            entry->locks--;
+        } else {
+            memset(buffer, 0, chunk);
+        }
+        size -= chunk;
+        buffer += chunk;
+        offset += chunk;
+    } while (size != 0);
+    return 0;
+}

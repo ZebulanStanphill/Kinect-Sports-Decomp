@@ -1,41 +1,47 @@
-__int64 fn_82A381F0(int param_1,unsigned __int64 param_2,int param_3)
+typedef struct CriticalSection_82A381F0 {
+    int data[7];
+} CriticalSection_82A381F0;
 
+typedef struct Entry_82A381F0 {
+    unsigned int key; /* 0x00 */
+    int link;         /* 0x04 */
+    char pad8[0x8];
+    unsigned int target; /* 0x10 */
+    char pad14[0x44];
+} Entry_82A381F0;
+
+typedef struct Table_82A381F0 {
+    int m0;                  /* 0x00 */
+    Entry_82A381F0 *entries; /* 0x04 */
+    unsigned int count;      /* 0x08 */
+    char padc[0x8];
+    CriticalSection_82A381F0 lock; /* 0x14 */
+} Table_82A381F0;
+
+extern void RtlEnterCriticalSection(CriticalSection_82A381F0 *section);
+extern void RtlLeaveCriticalSection(CriticalSection_82A381F0 *section);
+
+Entry_82A381F0 *fn_82A381F0(Table_82A381F0 *self, unsigned int key, int exact)
 {
-  unsigned int uVar1;
-  __int64 lVar2;
-  unsigned __int64 uVar3;
-  unsigned int uVar4;
-  unsigned __int64 uVar5;
-  unsigned int *puVar6;
-  
-  RtlEnterCriticalSection(param_1 + 0x14);
-  uVar1 = *(unsigned int *)(param_1 + 8);
-  uVar5 = (unsigned __int64)uVar1;
-  uVar4 = 0;
-  uVar3 = (param_2 & 0x7ffffff) / 0xc;
-  trapWord(6,uVar5,0);
-  uVar3 = uVar3 - (__int64)(int)(uVar3 / uVar5) * (__int64)(int)uVar1;
-  if (uVar5 != 0) {
-    do {
-      if ((unsigned __int64)*(unsigned int *)((int)uVar3 * 0x58 + *(int *)(param_1 + 4)) == (param_2 & 0xffffffff))
-      break;
-      uVar4 = uVar4 + 1;
-      trapWord(6,uVar5,0);
-      uVar3 = (uVar3 + 1) -
-              (__int64)(int)((uVar3 + 1 & 0xffffffff) / (unsigned __int64)uVar1) * (__int64)(int)uVar1;
-    } while (uVar4 < uVar1);
-  }
-  RtlLeaveCriticalSection(param_1 + 0x14);
-  puVar6 = (unsigned int *)((int)uVar3 * 0x58 + *(unsigned int *)(param_1 + 4));
-  if ((unsigned __int64)*puVar6 == (param_2 & 0xffffffff)) {
-    if ((param_3 == 0) && (puVar6[1] == 0xffffffff)) {
-      uVar3 = (unsigned __int64)puVar6[4];
-    }
-    lVar2 = uVar3 * 0x58 + (unsigned __int64)*(unsigned int *)(param_1 + 4);
-  }
-  else {
-    lVar2 = 0;
-  }
-  return lVar2;
-}
+    unsigned int index;
+    unsigned int i;
+    Entry_82A381F0 *entry;
 
+    RtlEnterCriticalSection(&self->lock);
+    index = ((key & 0x7ffffff) / 12) % self->count;
+    for (i = 0; i < self->count; i++) {
+        if (self->entries[index].key == key) {
+            break;
+        }
+        index = (index + 1) % self->count;
+    }
+    RtlLeaveCriticalSection(&self->lock);
+    entry = &self->entries[index];
+    if (entry->key == key) {
+        if (exact == 0 && entry->link == -1) {
+            index = entry->target;
+        }
+        return &self->entries[index];
+    }
+    return 0;
+}

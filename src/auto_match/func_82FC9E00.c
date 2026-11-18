@@ -1,31 +1,21 @@
-extern double sqrt(double);
-#define SQRT(x) sqrt(x)
+#include <math.h>
 
-
-unsigned __int64 fn_82FC9E00(unsigned __int64 param_1)
-
+int fn_82FC9E00(int value)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  
-  iVar1 = (int)param_1;
-  if (iVar1 != 2) {
-    if ((param_1 & 1) == 0) {
-      return 0;
-    }
-    uVar2 = 3;
-    if (3 < (int)SQRT((float)(__int64)iVar1) + 1) {
-      do {
-        trapWord(6,uVar2,0);
-        trapWord(5,uVar2 & ~(((param_1 & 0x7fffffff) << 1 | (param_1 & 0xffffffff) >> 0x1f) - 1),
-                 0xffff);
-        if (param_1 == (__int64)(iVar1 / (int)uVar2) * (__int64)(int)uVar2) {
-          return 0;
-        }
-        uVar2 = uVar2 + 2;
-      } while ((int)uVar2 < (int)SQRT((float)(__int64)iVar1) + 1);
-    }
-  }
-  return 1;
-}
+    int limit;
+    int divisor;
 
+    if (value == 2) {
+        return 1;
+    }
+    if (value & 1) {
+        limit = (int)sqrtf((float)value) + 1;
+        for (divisor = 3; divisor < limit; divisor += 2) {
+            if (value % divisor == 0) {
+                return 0;
+            }
+        }
+        return 1;
+    }
+    return 0;
+}

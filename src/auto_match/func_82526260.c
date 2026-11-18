@@ -1,41 +1,46 @@
-extern int fn_8265C990();
-extern int XMemSet();
-extern int fn_82A1F238();
-extern int fn_82A81CD0();
+typedef struct Entry_82526260 {
+    unsigned int refCount; /* 0x0 */
+    char name[0x3e8];      /* 0x4 */
+    void *buffer;          /* 0x3ec */
+    void *handle;          /* 0x3f0 */
+} Entry_82526260;
 
+typedef struct Table_82526260 {
+    Entry_82526260 entries[35]; /* 0x0 */
+    int count;                  /* 0x8a5c */
+} Table_82526260;
 
-void fn_82526260(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+extern Table_82526260 lbl_832767F0;
 
+extern int fn_82A81CD0(const char *a, const char *b);
+extern void fn_8265C990(void *p, unsigned int flags);
+extern void fn_82A1F238(void *handle);
+extern void XMemSet(void *dst, int value, unsigned int size);
+
+void fn_82526260(const char *name, void *buffer, void *handle)
 {
-  unsigned int uVar1;
-  int iVar2;
-  __int64 lVar3;
-  unsigned int *puVar4;
-  
-  puVar4 = (unsigned int *)0x832767f0;
-  lVar3 = 0x23;
-  do {
-    if (*puVar4 != 0) {
-      iVar2 = fn_82A81CD0(param_1,puVar4 + 1);
-      if (((iVar2 != 0) && ((param_2 & 0xffffffff) == (unsigned __int64)puVar4[0xfb])) &&
-         ((param_3 & 0xffffffff) == (unsigned __int64)puVar4[0xfc])) {
-        uVar1 = *puVar4;
-        *puVar4 = (unsigned int)((unsigned __int64)uVar1 - 1);
-        if ((unsigned __int64)uVar1 - 1 == 0) {
-          if ((param_2 & 0xffffffff) != 0) {
-            fn_8265C990(param_2,0x21006000);
-          }
-          if ((param_3 & 0xffffffff) != 0) {
-            fn_82A1F238(param_3);
-          }
-                    /* WARNING: Subroutine does not return */
-          XMemSet(puVar4,0,0x3f4);
+    int i;
+    int count;
+    Entry_82526260 *entry;
+    entry = lbl_832767F0.entries;
+    for (i = 0; i < 35; i++, entry++) {
+        if (entry->refCount != 0 && fn_82A81CD0(name, entry->name) != 0 && buffer == entry->buffer &&
+            handle == entry->handle) {
+            if (--entry->refCount == 0) {
+                if (buffer != 0) {
+                    fn_8265C990(buffer, 0x21006000);
+                }
+                if (handle != 0) {
+                    fn_82A1F238(handle);
+                }
+                XMemSet(entry, 0, sizeof(Entry_82526260));
+                for (count = 0; count < 35; count++) {
+                    if (lbl_832767F0.entries[count].refCount == 0) {
+                        break;
+                    }
+                }
+                lbl_832767F0.count = count;
+            }
         }
-      }
     }
-    lVar3 = lVar3 + -1;
-    puVar4 = puVar4 + 0xfd;
-  } while (lVar3 != 0);
-  return;
 }
-

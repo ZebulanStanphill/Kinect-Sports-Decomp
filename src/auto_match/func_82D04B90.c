@@ -1,64 +1,51 @@
-#define true 1
-extern int fn_82CE5410();
-extern int fn_82CE6310();
-extern int fn_82CE7E00();
-extern unsigned int stack0x00000020;
-extern unsigned int uStack00000020;
-extern unsigned int uStack00000028;
-extern unsigned int uStack00000030;
-extern unsigned int uStack00000038;
-extern unsigned int uStack00000040;
-extern unsigned int uStack00000048;
+typedef char *va_list;
+extern void __cdecl __va_start(va_list *args, ...);
 
+typedef struct String_82D04B90 {
+    char *data;           /* 0x0 */
+    int size;             /* 0x4 */
+    int capacityAndFlags; /* 0x8 */
+} String_82D04B90;
 
-void fn_82D04B90(int *param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5,unsigned __int64 param_6,unsigned __int64 param_7,unsigned __int64 param_8)
+typedef struct Router_82D04B90 {
+    char pad[0xc]; /* 0x0 */
+    void *heap;    /* 0xc */
+} Router_82D04B90;
 
+extern Router_82D04B90 *fn_82CE5410(void);
+extern void fn_82CE6310(void *allocator, String_82D04B90 *string, int capacity, int size);
+extern int fn_82CFBB58(char *output, int capacity, const char *format, va_list args);
+extern void fn_82CE7E00(String_82D04B90 *string, int length);
+
+static __forceinline void setLength_82D04B90(String_82D04B90 *self, int length)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  int iVar4;
-  int iVar5;
-  int iVar6;
-  unsigned __int64 uStack00000020;
-  unsigned __int64 uStack00000028;
-  unsigned __int64 uStack00000030;
-  unsigned __int64 uStack00000038;
-  unsigned __int64 uStack00000040;
-  unsigned __int64 uStack00000048;
-  
-  uStack00000020 = param_3;
-  uStack00000028 = param_4;
-  uStack00000030 = param_5;
-  uStack00000038 = param_6;
-  uStack00000040 = param_7;
-  uStack00000048 = param_8;
-  do {
-    uVar1 = param_1[2];
-    uVar2 = uVar1 & 0x3fffffff;
-    uVar3 = thunk_FUN_82f6ede8(*param_1,uVar2,param_2,&stack0x00000020);
-    if ((int)uVar3 < 0) {
-      uVar3 = (uVar1 & 0x3fffffff) << 1;
-      if (uVar3 < 0x100) {
-        uVar3 = 0xff;
-      }
+    int required = length + 1;
+    void *allocator = fn_82CE5410()->heap;
+    int capacity = self->capacityAndFlags & 0x3fffffff;
+    if (capacity < required) {
+        int growth = capacity * 2;
+        fn_82CE6310(allocator, self, required < growth ? growth : required, 1);
     }
-    else if ((int)uVar3 < (int)uVar2) {
-      fn_82CE7E00(param_1,uVar3);
-      return;
-    }
-    iVar6 = uVar3 + 1;
-    iVar4 = fn_82CE5410();
-    if ((int)(param_1[2] & 0x3fffffffU) < iVar6) {
-      iVar5 = (param_1[2] & 0x3fffffffU) << 1;
-      if (iVar5 <= iVar6) {
-        iVar5 = iVar6;
-      }
-      fn_82CE6310(*(unsigned int *)(iVar4 + 0xc),param_1,iVar5,1);
-    }
-    param_1[1] = iVar6;
-    *(unsigned char *)(*param_1 + uVar3) = 0;
-  } while( true );
+    self->size = required;
+    self->data[length] = 0;
 }
 
+void fn_82D04B90(String_82D04B90 *self, const char *format, ...)
+{
+    va_list args;
+
+    __va_start(&args, format);
+    for (;;) {
+        int capacity = self->capacityAndFlags & 0x3fffffff;
+        int length = fn_82CFBB58(self->data, capacity, format, args);
+        if (length >= 0 && length < capacity) {
+            fn_82CE7E00(self, length);
+            return;
+        } else if (length < 0) {
+            int growth = capacity * 2;
+            setLength_82D04B90(self, growth > 0xff ? growth : 0xff);
+        } else {
+            setLength_82D04B90(self, length);
+        }
+    }
+}
