@@ -12,6 +12,8 @@ extern unsigned fn_82F590E0(unsigned);
 extern int fn_82F59390();
 extern unsigned lbl_831BA878[];
 extern unsigned char *lbl_8326183C;
+/* five floats (0.5, 0.5, 0.5, 0.05, 0.04) that fn_824B4298 copies; not the string "?" its first bytes spell */
+extern float lbl_831BA8A0[];
 
 
 unsigned int fn_82F4E3F0(void)
@@ -46,7 +48,7 @@ unsigned int fn_82F4E3F0(void)
     RtlInitializeCriticalSection(lbl_8326183C + 0x2b0c);
     fn_82F4E058();
     fn_82F4D6A0();
-    fn_824B4298(lbl_8326183C + 0x2b34,"?",0x14);
+    fn_824B4298(lbl_8326183C + 0x2b34,lbl_831BA8A0,0x14);
     uVar3 = fn_8265C9E0(0x28);
     uVar5=uVar3?fn_82F58CD8(uVar3,4,2,0):0;
     *(unsigned int *)(lbl_8326183C + 0x2d8c) = uVar5;

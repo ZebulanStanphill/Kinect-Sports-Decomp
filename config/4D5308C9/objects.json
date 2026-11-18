@@ -21507,7 +21507,10 @@
         ],
         "ltcg_units": [
           "auto_match/func_82397F30.c"
-        ]
+        ],
+        "pool_aliases": {
+          "__pool@_0": "ltcg_pool_0_0f"
+        }
       },
       "auto_match/func_822EC698.c": {
         "status": "Matching",
@@ -21760,7 +21763,10 @@
         ],
         "ltcg_units": [
           "auto_match/func_82397F30.c"
-        ]
+        ],
+        "pool_aliases": {
+          "__pool@_0": "ltcg_pool_0_0f"
+        }
       },
       "auto_match/func_822EFBF0.c": {
         "status": "Matching",

@@ -1,4 +1,4 @@
-// Dynamic initializer of hkpCylinderShapeClass (Havok reflection):
+// Dynamic initializer of hkpConeLimitConstraintAtomClass (Havok reflection):
 // constructs the static hkClass with hkClass::hkClass (fn_82CEB3D8).
 //
 // The class's enum table and its defaults struct are static data of this
@@ -8,8 +8,10 @@
 // the original does. With extern data (one symbol plus an offset) the
 // arguments go through other registers and numMembers through r31.
 // The defaults struct is named LAB_<address> so that objdiff treats it as a
-// label inside lbl_8213FD0C (the decomp's 0x30-byte object covering both),
+// label inside lbl_8213FD0C (the decomp's 0x3C-byte object covering both),
 // as it does for the original's lbl_8213FD0C+0x14 reference.
+// Both objects hold the values the game has at 0x8213FD0C and 0x8213FD20
+// (scripts/check_addends.py compares this unit's own data with the image).
 #include "havok/hkBase.h"
 class hkClassEnum;
 class hkClassMember;
@@ -29,9 +31,9 @@ struct hkInternalClassEnum {
 };
 
 extern "C" {
-extern hkClass lbl_8323DC90;                            // hkpCylinderShapeClass
-extern const hkClass lbl_8323D960;                      // hkpConvexShapeClass
-extern const hkInternalClassEnumItem lbl_82135C48[];    // VertexIdEncoding items
+extern hkClass lbl_8323DC90;                            // hkpConeLimitConstraintAtomClass
+extern const hkClass lbl_8323D960;                      // the parent class
+extern const hkInternalClassEnumItem lbl_8213FCFC[];    // MeasurementMode items (ZERO_WHEN_VECTORS_ALIGNED, ..._PERPENDICULAR)
 extern const hkClassMember lbl_83184040[];              // declared members
 void fn_82CEB3D8(hkClass *self, const char *name, const hkClass *parent,
     int objectSize, const hkClass **interfaces, int numInterfaces,
@@ -40,23 +42,26 @@ void fn_82CEB3D8(hkClass *self, const char *name, const hkClass *parent,
     const hkCustomAttributes *attributes, unsigned int flags, int version);
 }
 
-// hkpCylinderShapeEnums (0x82135C70)
+// hkpConeLimitConstraintAtomEnums (0x8213FD0C)
 static const hkInternalClassEnum lbl_8213FD0C[] = {
-    { "VertexIdEncoding", lbl_82135C48, 5, 0, 0 },
+    { "MeasurementMode", lbl_8213FCFC, 2, 0, 0 },
 };
 
-// hkpCylinderShape_Default (0x82135C84)
-struct hkpCylinderShape_DefaultStruct {
+// hkpConeLimitConstraintAtom_Default (0x8213FD20): member 4, m_memOffsetToAngleOffset, defaults to 1 and
+// member 7, m_angularLimitsTauFactor, to 1.0f.
+struct hkpConeLimitConstraintAtom_DefaultStruct {
     int s_defaultOffsets[8];
-    hkReal m_cylBaseRadiusFactorForHeightFieldCollisions;
+    hkUint8 m_memOffsetToAngleOffset;
+    hkReal m_angularLimitsTauFactor;
 };
-static const hkpCylinderShape_DefaultStruct LAB_82135C84 = {
-    { -1, 0x18, -1, -1, -1, -1 },
-    0.8f
+static const hkpConeLimitConstraintAtom_DefaultStruct LAB_8213FD20 = {
+    { -1, -1, -1, -1, 0x20, -1, -1, 0x24 },
+    1,
+    1.0f
 };
 
 extern "C" void fn_83132AC8()
 {
     fn_82CEB3D8(&lbl_8323DC90, "hkpConeLimitConstraintAtom", &lbl_8323D960, 0x14,
-        0, 0, reinterpret_cast<const hkClassEnum *>(lbl_8213FD0C), 1, lbl_83184040, 8, &LAB_82135C84, 0, 0, 0);
+        0, 0, reinterpret_cast<const hkClassEnum *>(lbl_8213FD0C), 1, lbl_83184040, 8, &LAB_8213FD20, 0, 0, 0);
 }
