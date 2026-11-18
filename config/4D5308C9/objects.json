@@ -20499,9 +20499,12 @@
         ]
       },
       "auto_match/func_822DCBC0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
+        ],
+        "ltcg_units": [
+          "auto_match/func_822D9E28.c"
         ]
       },
       "auto_match/func_822DCD18.c": {
