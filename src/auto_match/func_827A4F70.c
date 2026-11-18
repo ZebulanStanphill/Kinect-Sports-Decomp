@@ -1,30 +1,43 @@
-extern int fn_827912D8();
-extern int fn_827A3A50();
+typedef struct Inner_827A4F70 {
+    int pad0[2];
+    void *stream; /* 0x08 */
+} Inner_827A4F70;
 
+typedef struct Obj_827A4F70 {
+    int pad0[2];
+    Inner_827A4F70 *inner; /* 0x08 */
+    int pad0c[3];
+    unsigned int length; /* 0x18 */
+    char pad1c[0x68 - 0x1c];
+    unsigned short flags; /* 0x68 */
+} Obj_827A4F70;
 
-void fn_827A4F70(int param_1,unsigned __int64 param_2)
+extern unsigned int fn_827912D8(void *stream);
+extern void fn_827A3A50(Obj_827A4F70 *self, unsigned int pos, int b);
 
+/* The flag tests go through a helper with a 16-bit parameter (shift, then the low bit). */
+static __forceinline unsigned char Bit0(short v)
 {
-  unsigned short uVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  
-  if ((param_2 & 0x102) == 0) {
-    uVar2 = fn_827912D8(*(unsigned int *)(*(int *)(param_1 + 8) + 8));
-    if (*(unsigned int *)(param_1 + 0x18) <= uVar2) {
-      return;
-    }
-    uVar3 = fn_827912D8(*(unsigned int *)(*(int *)(param_1 + 8) + 8));
-    uVar1 = *(unsigned short *)(param_1 + 0x68);
-  }
-  else {
-    uVar1 = *(unsigned short *)(param_1 + 0x68);
-    if (((uVar1 & 1) != 0) && ((uVar1 >> 1 & 1) == 0)) {
-      return;
-    }
-    uVar3 = 0;
-  }
-  fn_827A3A50(param_1,uVar3,uVar1 >> 1 & 1);
-  return;
+    return v & 1;
 }
 
+void fn_827A4F70(Obj_827A4F70 *self, unsigned int mode)
+{
+    unsigned int pos;
+    unsigned short f;
+
+    if (mode & 0x102) {
+        f = self->flags;
+        if (Bit0(f) && !Bit0(f >> 1)) {
+            return;
+        }
+        pos = 0;
+    } else {
+        if (self->length <= fn_827912D8(self->inner->stream)) {
+            return;
+        }
+        pos = fn_827912D8(self->inner->stream);
+        f = self->flags;
+    }
+    fn_827A3A50(self, pos, (f >> 1) & 1);
+}

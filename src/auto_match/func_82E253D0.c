@@ -1,48 +1,70 @@
-extern unsigned int *auStack_40;
-extern int fn_82E24948();
-extern int fn_82E25140();
-extern int fn_82E49558();
-extern int fn_82E4B6C8();
+typedef struct Object_82E253D0 Object_82E253D0;
 
+typedef struct VTable_82E253D0 {
+    void *padding[5];
+    int (*get)(Object_82E253D0 *self, int index, unsigned int *out);
+    void *padding18;
+    int (*set)(Object_82E253D0 *self, unsigned int value);
+} VTable_82E253D0;
 
-unsigned __int64
-fn_82E253D0(int param_1,int *param_2,unsigned __int64 param_3,unsigned __int64 param_4,unsigned __int64 param_5,
-             unsigned __int64 param_6)
+struct Object_82E253D0 {
+    VTable_82E253D0 *vtable;
+};
 
+typedef struct State_82E253D0 {
+    unsigned char padding[0x104];
+    Object_82E253D0 *object;
+    Object_82E253D0 *source;
+    unsigned int unused10c;
+    unsigned int config[3];
+} State_82E253D0;
+
+extern int fn_82E4B6C8(int kind, int flags, int mode, unsigned int value, Object_82E253D0 **out);
+extern int fn_82E49558(Object_82E253D0 **out, unsigned int first, unsigned int second);
+extern int fn_82E24948(void *self, void *a, void *b, void *c, void *d);
+extern int fn_82E25140(void *self);
+
+int fn_82E253D0(State_82E253D0 *self, unsigned int *config, void *a, void *b, void *c, void *d)
 {
-  unsigned __int64 uVar1;
-  unsigned int *puVar2;
-  unsigned int auStack_40;
-  
-  puVar2 = (unsigned int *)(param_1 + 0x104);
-  if (*(int *)(param_1 + 0x104) == 0) {
-    *(int *)(param_1 + 0x110) = *param_2;
-    *(int *)(param_1 + 0x114) = param_2[1];
-    *(int *)(param_1 + 0x118) = param_2[2];
-    if (*param_2 == 0) {
-      if ((param_2[1] == 0) || (param_2[2] == 0)) goto LAB_82e254e0;
-      uVar1 = fn_82E49558(puVar2);
+    unsigned int value;
+    int result;
+    if (self->object != 0) {
+        goto invalid;
     }
-    else {
-      uVar1 = fn_82E4B6C8(3,4,0,*param_2,puVar2);
-    }
-    if (-1 < (int)uVar1) {
-      uVar1 = fn_82E24948(param_1,param_3,param_4,param_5,param_6);
-      if (-1 < (int)uVar1) {
-        auStack_40 = 0;
-        uVar1 = fn_82E25140(param_1);
-        if ((-1 < (int)uVar1) &&
-           (uVar1 = (**(int (***)())(**(int **)(param_1 + 0x108) + 0x14))
-                              (*(int **)(param_1 + 0x108),0,&auStack_40), -1 < (int)uVar1)) {
-          uVar1 = (**(int (***)())(*(int *)*puVar2 + 0x1c))((int *)*puVar2,auStack_40);
+    self->config[0] = config[0];
+    self->config[1] = config[1];
+    self->config[2] = config[2];
+    if (config[0] != 0) {
+        result = fn_82E4B6C8(3, 4, 0, config[0], &self->object);
+        if (result < 0) {
+            goto done;
         }
-      }
+    } else {
+        if (config[1] == 0 || config[2] == 0) {
+            goto invalid;
+        }
+        result = fn_82E49558(&self->object, config[1], config[2]);
+        if (result < 0) {
+            goto done;
+        }
     }
-  }
-  else {
-LAB_82e254e0:
-    uVar1 = 0xffffffff8000ffff;
-  }
-  return uVar1;
+    result = fn_82E24948(self, a, b, c, d);
+    if (result < 0) {
+        goto done;
+    }
+    value = 0;
+    result = fn_82E25140(self);
+    if (result < 0) {
+        goto done;
+    }
+    result = self->source->vtable->get(self->source, 0, &value);
+    if (result < 0) {
+        goto done;
+    }
+    result = self->object->vtable->set(self->object, value);
+    goto done;
+invalid:
+    result = 0x8000ffff;
+done:
+    return result;
 }
-

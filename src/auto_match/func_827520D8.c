@@ -1,55 +1,80 @@
-extern unsigned int *auStack_20;
-extern int fn_826944C8();
-extern int fn_826A76D0();
-extern int fn_826F6FA8();
-extern int fn_82720748();
-extern unsigned int uStack_13;
-extern unsigned int uStack_14;
-extern unsigned int uStack_15;
-extern unsigned int uStack_16;
-extern unsigned int uStack_18;
+typedef struct Ref_827520D8 {
+    int unk0; /* 0x00 */
+    int unk4; /* 0x04 */
+    int refs; /* 0x08 */
+} Ref_827520D8;
 
+typedef struct Obj_827520D8 {
+    char pad[0x38];
+    unsigned int a;  /* 0x38 */
+    unsigned char b; /* 0x3c */
+    char gap[3];
+    unsigned int c; /* 0x40 */
+    void *obj;      /* 0x44 */
+} Obj_827520D8;
 
-void fn_827520D8(int param_1,unsigned __int64 param_2,unsigned int param_3,unsigned char param_4,
-                  unsigned int param_5,unsigned int param_6)
+typedef struct Desc_827520D8 {
+    unsigned int a;   /* 0x00 */
+    unsigned int b;   /* 0x04 */
+    unsigned short c; /* 0x08 */
+    unsigned char d;  /* 0x0a */
+    signed char e;    /* 0x0b */
+    unsigned char f;  /* 0x0c */
+    unsigned char g;  /* 0x0d */
+} Desc_827520D8;
 
+typedef struct Target_827520D8 Target_827520D8;
+
+typedef struct TargetVtable_827520D8 {
+    char pad[0x5c];
+    void *(*get)(Target_827520D8 *self); /* 0x5c */
+} TargetVtable_827520D8;
+
+struct Target_827520D8 {
+    TargetVtable_827520D8 *vt; /* 0x00 */
+};
+
+extern void fn_826A76D0(Ref_827520D8 **out, Desc_827520D8 *desc, unsigned int value);
+extern Target_827520D8 *fn_826F6FA8(void *obj, int index);
+extern void fn_82720748(void *obj, void *env, Ref_827520D8 **ref, int unk4, int unk5);
+extern void fn_826944C8(Ref_827520D8 *ref);
+
+void fn_827520D8(Obj_827520D8 *self, unsigned int value, unsigned int a, unsigned char b, unsigned int c,
+                 unsigned int flags)
 {
-  int *piVar2;
-  unsigned __int64 uVar1;
-  __int64 lVar3;
-  int aiStack_30 [4];
-  unsigned int auStack_20 [2];
-  unsigned short uStack_18;
-  unsigned char uStack_16;
-  unsigned char uStack_15;
-  unsigned char uStack_14;
-  unsigned char uStack_13;
-  
-  auStack_20[0] = param_6 & 0xff;
-  *(unsigned int *)(param_1 + 0x38) = param_3;
-  *(unsigned char *)(param_1 + 0x3c) = param_4;
-  *(unsigned int *)(param_1 + 0x40) = param_5;
-  auStack_20[1] = 0;
-  uStack_18 = 0;
-  uStack_16 = 0;
-  uStack_15 = 0xff;
-  uStack_14 = 0;
-  uStack_13 = 0;
-  fn_826A76D0(aiStack_30,auStack_20,param_2);
-  if (*(int *)(param_1 + 0x44) != 0) {
-    piVar2 = (int *)fn_826F6FA8(*(int *)(param_1 + 0x44),0);
-    if (piVar2 != (int *)0x0) {
-      uVar1 = (**(int (***)())(*piVar2 + 0x5c))();
-      if ((uVar1 & 0xffffffff) != 0) {
-        fn_82720748(uVar1,param_1 + 0x10,aiStack_30,0,0);
-      }
-    }
-  }
-  lVar3 = (unsigned __int64)*(unsigned int *)(aiStack_30[0] + 8) - 1;
-  *(int *)(aiStack_30[0] + 8) = (int)lVar3;
-  if (lVar3 == 0) {
-    fn_826944C8(aiStack_30[0]);
-  }
-  return;
-}
+    Ref_827520D8 *ref;
+    Desc_827520D8 desc;
+    Target_827520D8 *target;
+    void *obj;
 
+    self->a = a;
+    self->b = b;
+    self->c = c;
+    desc.a = flags & 255;
+    desc.b = 0;
+    desc.c = 0;
+    desc.d = 0;
+    desc.e = -1;
+    desc.f = 0;
+    desc.g = 0;
+    fn_826A76D0(&ref, &desc, value);
+    if (self->obj) {
+        target = fn_826F6FA8(self->obj, 0);
+        if (target) {
+            obj = target->vt->get(target);
+            if (obj) {
+                /* A cast to the base at +0x10 (with its null test) made before the call. */
+                void *env = self ? (char *)self + 0x10 : 0;
+
+                fn_82720748(obj, env, &ref, 0, 0);
+            }
+        }
+    }
+    {
+        Ref_827520D8 *p = ref;
+
+        if (--p->refs == 0) {
+            fn_826944C8(p);
+        }
+    }
+}

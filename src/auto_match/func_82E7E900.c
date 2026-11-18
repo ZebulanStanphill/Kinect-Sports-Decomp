@@ -1,57 +1,61 @@
-extern int fn_82E4FE08();
-extern int fn_82E50338();
-extern int fn_82F68CC0();
+typedef struct Blob_82E7E900 {
+    unsigned int size;
+    void *data;
+} Blob_82E7E900;
 
+typedef struct Variant_82E7E900 {
+    unsigned short type;
+    unsigned char pad2[6];
+    unsigned int count;
+    Blob_82E7E900 *blobs;
+} Variant_82E7E900;
 
-__int64 fn_82E7E900(short *param_1,short *param_2)
+extern int fn_82E50338(Variant_82E7E900 *out, Variant_82E7E900 *source);
+extern void *fn_82E4FE08(unsigned int size);
+extern void *memcpy(void *out, const void *source, unsigned int size);
 
+int fn_82E7E900(Variant_82E7E900 *out, Variant_82E7E900 *source)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar3;
-  unsigned __int64 uVar2;
-  __int64 lVar4;
-  unsigned int uVar5;
-  unsigned int *puVar6;
-  
-  if ((param_2 == (short *)0x0) || (param_1 == param_2)) {
-    lVar4 = -0x7fffbffd;
-  }
-  else {
-    lVar4 = fn_82E50338(param_1,param_2);
-    if (lVar4 < 0) {
-      lVar4 = 0;
-      if (*param_2 == 0x1041) {
-        *param_1 = 0x1041;
-        *(unsigned int *)(param_1 + 4) = *(unsigned int *)(param_2 + 4);
-        puVar3 = (unsigned int *)fn_82E4FE08(*(int *)(param_2 + 4) << 3);
-        *(unsigned int **)(param_1 + 6) = puVar3;
-        if (puVar3 == (unsigned int *)0x0) {
-LAB_82e7e9e0:
-          lVar4 = -0x7ff8fff2;
-        }
-        else {
-          uVar5 = 0;
-          if (*(int *)(param_2 + 4) != 0) {
-            puVar6 = (unsigned int *)(*(int *)(param_2 + 6) + -8);
-            do {
-              *puVar3 = puVar6[2];
-              uVar2 = fn_82E4FE08(puVar6[2]);
-              puVar3[1] = (int)uVar2;
-              if ((uVar2 & 0xffffffff) == 0) goto LAB_82e7e9e0;
-              puVar1 = puVar6 + 3;
-              puVar6 = puVar6 + 2;
-              fn_82F68CC0(uVar2,*puVar1,*puVar6);
-              uVar5 = uVar5 + 1;
-              puVar3 = puVar3 + 2;
-            } while (uVar5 < *(unsigned int *)(param_2 + 4));
-          }
-        }
-      }
-      else {
-        lVar4 = -0x3ff2c918;
-      }
-    }
-  }
-  return lVar4;
-}
+    int result;
+    Blob_82E7E900 *dest;
+    Blob_82E7E900 *input;
+    unsigned int i;
 
+    if (source == 0) {
+        result = 0x80004003;
+        goto done;
+    }
+    if (out == source) {
+        result = 0x80004003;
+    } else {
+        result = fn_82E50338(out, source);
+        if (result < 0) {
+            result = 0;
+            if (source->type != 0x1041) {
+                result = 0xc00d36e8;
+            } else {
+                out->type = source->type;
+                out->count = source->count;
+                out->blobs = (Blob_82E7E900 *)fn_82E4FE08(source->count * 8);
+                if (out->blobs == 0) {
+                    goto failed;
+                }
+                dest = out->blobs;
+                input = source->blobs;
+                for (i = 0; source->count > i; i++, dest++, input++) {
+                    dest->size = input->size;
+                    dest->data = fn_82E4FE08(input->size);
+                    if (dest->data == 0) {
+                        goto failed;
+                    }
+                    memcpy(dest->data, input->data, input->size);
+                }
+            }
+        }
+    }
+done:
+    return result;
+failed:
+    result = 0x8007000e;
+    goto done;
+}

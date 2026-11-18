@@ -1,36 +1,34 @@
-extern unsigned int *auStack_1020;
-extern int fn_826E6CF8();
-extern int fn_826E6F60();
+typedef struct Stream_826E7110 {
+    char pad00[0x40];
+    int end;
+    char pad44[8];
+    int position;
+    char pad50[4];
+    int buffered;
+} Stream_826E7110;
 
+extern void fn_826E6CF8(Stream_826E7110 *);
+extern int fn_826E6F60(Stream_826E7110 *, void *, int);
 
-unsigned __int64 fn_826E7110(int param_1,unsigned __int64 param_2)
-
+int fn_826E7110(Stream_826E7110 *self, int target)
 {
-  int iVar1;
-  int iVar2;
-  __int64 lVar3;
-  unsigned char auStack_1020 [4088];
-  
-  iVar1 = *(int *)(param_1 + 0x40);
-  iVar2 = (int)param_2;
-  if (iVar2 < iVar1) {
-    if (iVar1 - *(int *)(param_1 + 0x54) <= iVar2) {
-      *(int *)(param_1 + 0x4c) = iVar2;
-      return param_2;
+    char buffer[4096];
+    int end = self->end;
+    if (target < end) {
+        if (target >= end - self->buffered) {
+            self->position = target;
+            return target;
+        }
+        fn_826E6CF8(self);
+    } else if (target > end) {
+        self->position = end;
     }
-    fn_826E6CF8(param_1);
-  }
-  else if (iVar1 < iVar2) {
-    *(int *)(param_1 + 0x4c) = iVar1;
-  }
-  do {
-    if (iVar2 <= *(int *)(param_1 + 0x4c)) break;
-    lVar3 = param_2 - *(unsigned int *)(param_1 + 0x4c);
-    if (0xfff < (int)lVar3) {
-      lVar3 = 0x1000;
-    }
-    iVar1 = fn_826E6F60(param_1,auStack_1020,lVar3);
-  } while (iVar1 != 0);
-  return (unsigned __int64)*(unsigned int *)(param_1 + 0x4c);
-}
+    while (self->position < target) {
+        int count = target - self->position;
 
+        if (fn_826E6F60(self, buffer, count < 4096 ? count : 4096) == 0) {
+            break;
+        }
+    }
+    return self->position;
+}

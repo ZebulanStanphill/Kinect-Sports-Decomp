@@ -1,40 +1,54 @@
-extern int fn_82CE5410();
-extern int fn_82CF9B00();
-extern unsigned int iStack0000001c;
-extern unsigned int stack0x0000001c;
+typedef struct Allocator_82CF9B98 Allocator_82CF9B98;
 
+typedef struct AllocatorVtable_82CF9B98 {
+    void *slots00[3];
+    char *(*bufAlloc)(Allocator_82CF9B98 *self, int *sizeInOut, int flags);  /* 0x0c */
+    void (*bufFree)(Allocator_82CF9B98 *self, char *p, int size, int flags); /* 0x10 */
+} AllocatorVtable_82CF9B98;
 
-void fn_82CF9B98(unsigned int *param_1,int param_2)
+struct Allocator_82CF9B98 {
+    AllocatorVtable_82CF9B98 *vtable;
+};
 
+typedef struct Router_82CF9B98 {
+    char unknown00[0x14];
+    Allocator_82CF9B98 *allocator; /* 0x14 */
+} Router_82CF9B98;
+
+typedef struct Buffer_82CF9B98 {
+    char *begin;         /* 0x00 */
+    char *current;       /* 0x04 */
+    char *end;           /* 0x08 */
+    char *limit;         /* 0x0c */
+    unsigned char owned; /* 0x10 */
+} Buffer_82CF9B98;
+
+extern Router_82CF9B98 *fn_82CE5410(void);
+extern void fn_82CF9B00(Buffer_82CF9B98 *self);
+
+void fn_82CF9B98(Buffer_82CF9B98 *self, int size)
 {
-  unsigned int uVar1;
-  int iVar2;
-  unsigned int uVar3;
-  int iStack0000001c;
-  
-  uVar3 = *param_1;
-  uVar1 = param_1[2];
-  if (param_2 != uVar1 - uVar3) {
-    iStack0000001c = param_2;
-    if (param_2 < 1) {
-      fn_82CF9B00(param_1);
-    }
-    else {
-      if ((uVar3 != 0) && (*(char *)(param_1 + 4) != '\0')) {
-        iVar2 = fn_82CE5410();
-        (**(int (***)())(**(int **)(iVar2 + 0x14) + 0x10))
-                  (*(int **)(iVar2 + 0x14),(unsigned __int64)uVar3,(unsigned __int64)uVar1 - (unsigned __int64)uVar3,1);
-      }
-      *(unsigned char *)(param_1 + 4) = 1;
-      iVar2 = fn_82CE5410();
-      uVar3 = (**(int (***)())(**(int **)(iVar2 + 0x14) + 0xc))
-                        (*(int **)(iVar2 + 0x14),&stack0x0000001c,1);
-      *param_1 = uVar3;
-      param_1[1] = uVar3;
-      param_1[2] = uVar3 + iStack0000001c;
-      param_1[3] = (uVar3 + iStack0000001c) - 0x20;
-    }
-  }
-  return;
-}
+    int begin = (int)self->begin;
+    int end = (int)self->end;
 
+    if (size != self->end - self->begin) {
+        if (size > 0) {
+            Allocator_82CF9B98 *allocator;
+            char *p;
+
+            if (begin && self->owned) {
+                allocator = fn_82CE5410()->allocator;
+                allocator->vtable->bufFree(allocator, (char *)begin, end - begin, 1);
+            }
+            self->owned = 1;
+            allocator = fn_82CE5410()->allocator;
+            p = allocator->vtable->bufAlloc(allocator, &size, 1);
+            self->begin = p;
+            self->current = p;
+            self->end = p + size;
+            self->limit = p + size - 32;
+        } else {
+            fn_82CF9B00(self);
+        }
+    }
+}

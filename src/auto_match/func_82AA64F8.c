@@ -1,39 +1,31 @@
-extern unsigned int *auStack_120;
-extern int fn_82AA62B8();
-extern int longjmp();
+extern void fn_82AA62B8(void *, char *, int, int, void *);
+extern __declspec(noreturn) void longjmp(void *, int);
+typedef void (*Callback_82AA64F8)(void *, int, int, int, const char *);
 
-
-void fn_82AA64F8(int param_1,__int64 param_2,unsigned __int64 param_3)
-
+void fn_82AA64F8(char *self, int error, void *arguments)
 {
-  unsigned int uVar1;
-  int iVar2;
-  unsigned char auStack_120 [248];
-  
-  fn_82AA62B8(param_1,auStack_120,0x100,param_2,param_3);
-  iVar2 = (int)param_2;
-  if ((*(int (***)())(param_1 + 0x9bc) != (int (**)())0x0) && (iVar2 != 0xdd1)) {
-    (**(int (***)())(param_1 + 0x9bc))
-              (*(unsigned int *)(param_1 + 0x9b8),1,0,param_2 + -0x44c,auStack_120);
-  }
-  if (iVar2 == 0xdbd) {
-    uVar1 = 0x8007000e;
-  }
-  else {
-    if (iVar2 == 0xdc5) goto LAB_82aa65a0;
-    if (iVar2 == 0xdc7) {
-      uVar1 = 0x80004004;
+    char message[256];
+    Callback_82AA64F8 callback;
+    fn_82AA62B8(self, message, 256, error, arguments);
+    callback = *(Callback_82AA64F8 *)(self + 0x9bc);
+    if (callback != 0 && error != 0xdd1) {
+        callback(*(void **)(self + 0x9b8), 1, 0, error - 0x44c, message);
     }
-    else if (iVar2 == 0xdd1) {
-      uVar1 = 0x80004001;
+    switch (error) {
+    case 0xdbd:
+        *(unsigned int *)(self + 0x9b0) = 0x8007000e;
+        break;
+    case 0xdc5:
+        break;
+    case 0xdc7:
+        *(unsigned int *)(self + 0x9b0) = 0x80004004;
+        break;
+    case 0xdd1:
+        *(unsigned int *)(self + 0x9b0) = 0x80004001;
+        break;
+    default:
+        *(unsigned int *)(self + 0x9b0) = 0x80004005;
+        break;
     }
-    else {
-      uVar1 = 0x80004005;
-    }
-  }
-  *(unsigned int *)(param_1 + 0x9b0) = uVar1;
-LAB_82aa65a0:
-                    /* WARNING: Subroutine does not return */
-  longjmp(param_1 + 0x470,param_2);
+    longjmp(self + 0x470, error);
 }
-

@@ -1,50 +1,66 @@
-extern int fn_82535298();
-extern int fn_82536288();
+/* Counts up while the object is in state 2; once the timer passes its limit, plays (one time) the
+   effect chosen by the outcome and by the variant flag. */
+typedef struct Handle_82456168 {
+    void *object;
+} Handle_82456168;
 
+typedef struct Game_82456168 {
+    char padding000[0x84c];
+    void *context; /* 0x84c */
+} Game_82456168;
 
-void fn_82456168(double param_1,int *param_2)
+typedef struct Owner_82456168 {
+    char padding00[0x4c];
+    Game_82456168 *game; /* 0x4c */
+} Owner_82456168;
 
+typedef struct Obj_82456168 {
+    Owner_82456168 *owner; /* 0x00 */
+    char padding04[0x38];
+    int state;                  /* 0x3c */
+    int hasOutcome;             /* 0x40 */
+    int variant;                /* 0x44 */
+    int outcome;                /* 0x48 */
+    int direct;                 /* 0x4c */
+    float limit;                /* 0x50 */
+    int played;                 /* 0x54 */
+    float timer;                /* 0x58 */
+    Handle_82456168 effects[4]; /* 0x5c */
+} Obj_82456168;
+
+extern char lbl_83296BC0[];
+extern char lbl_83296BD0[];
+extern void *fn_82535298(Handle_82456168 *handle, void *context, void *a, void *b);
+extern void fn_82536288(Handle_82456168 *handle);
+
+static __forceinline void Play(Obj_82456168 *self, Handle_82456168 *effect)
 {
-  float fVar1;
-  unsigned int uVar2;
-  int *piVar3;
-  int aiStack_10 [4];
-  
-  if (param_2[0xf] != 2) {
-    return;
-  }
-  fVar1 = (float)param_2[0x16];
-  param_2[0x16] = (int)(float)(param_1 + (double)fVar1);
-  if ((float)(param_1 + (double)fVar1) <= (float)param_2[0x14]) {
-    return;
-  }
-  if (param_2[0x15] != 0) {
-    return;
-  }
-  param_2[0x15] = 1;
-  if (param_2[0x10] != 0) {
-    uVar2 = param_2[0x12];
-    if (param_2[0x13] == 0) {
-      uVar2 = (unsigned int)LZCOUNT(uVar2) >> 5;
-    }
-    if (uVar2 == 0) {
-      piVar3 = param_2 + 0x1a;
-      if (param_2[0x11] == 0) {
-        piVar3 = param_2 + 0x18;
-      }
-      goto LAB_82456204;
-    }
-  }
-  piVar3 = param_2 + 0x19;
-  if (param_2[0x11] == 0) {
-    piVar3 = param_2 + 0x17;
-  }
-LAB_82456204:
-  aiStack_10[0] = *piVar3;
-  aiStack_10[0] =
-       fn_82535298(aiStack_10,*(unsigned int *)(*(int *)(*param_2 + 0x4c) + 0x84c),
-                         0xffffffff83296bc0,0xffffffff83296bd0);
-  fn_82536288(aiStack_10);
-  return;
+    Handle_82456168 instance;
+
+    instance = *effect;
+    instance.object = fn_82535298(&instance, self->owner->game->context, lbl_83296BC0, lbl_83296BD0);
+    fn_82536288(&instance);
 }
 
+void fn_82456168(Obj_82456168 *self, float delta)
+{
+    int success;
+
+    if (self->state != 2) {
+        return;
+    }
+    self->timer = delta + self->timer;
+    if (self->timer <= self->limit) {
+        return;
+    }
+    if (self->played != 0) {
+        return;
+    }
+    self->played = 1;
+    success = self->hasOutcome == 0 || (self->direct != 0 ? self->outcome : self->outcome == 0);
+    if (success) {
+        Play(self, self->variant != 0 ? &self->effects[2] : &self->effects[0]);
+    } else {
+        Play(self, self->variant != 0 ? &self->effects[3] : &self->effects[1]);
+    }
+}

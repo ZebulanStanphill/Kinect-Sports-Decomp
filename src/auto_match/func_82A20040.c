@@ -1,64 +1,86 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern unsigned __int64 storeWordConditionalIndexed();
+extern long _InterlockedIncrement(long *);
+extern void RtlEnterCriticalSection(void *cs);
+extern void RtlLeaveCriticalSection(void *cs);
 
+typedef struct Block_82A20040 {
+    struct Block_82A20040 *next; /* 0x0 */
+    int f4;                      /* 0x4 */
+    long refs;                   /* 0x8 */
+} Block_82A20040;
 
-__int64 fn_82A20040(int *param_1,unsigned int *param_2)
+typedef struct Pool_82A20040 {
+    Block_82A20040 **buckets; /* 0x00 */
+    unsigned int count;       /* 0x04 */
+    char pad08[0x10];
+    char cs[0x1c]; /* 0x18 */
+    int locked;    /* 0x34 */
+    int enabled;   /* 0x38 */
+} Pool_82A20040;
 
+typedef struct Iterator_82A20040 {
+    unsigned int index;      /* 0x0 */
+    Block_82A20040 *current; /* 0x4 */
+} Iterator_82A20040;
+
+static __forceinline void *ToData(Pool_82A20040 *pool, Block_82A20040 *block)
 {
-  bool bVar1;
-  __int64 lVar2;
-  unsigned int uVar4;
-  unsigned __int64 uVar3;
-  unsigned int *puVar5;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  if (param_1[0xd] != 0) {
-    RtlEnterCriticalSection(param_1 + 6);
-  }
-  puVar5 = (unsigned int *)param_2[1];
-  if ((puVar5 == (unsigned int *)0x0) || (uVar4 = *puVar5, uVar4 == 0)) {
-    bVar1 = puVar5 == (unsigned int *)0x0;
-    while( true ) {
-      if ((!bVar1) && (uVar4 = *param_2, *param_2 = uVar4 + 1, (unsigned int)param_1[1] <= uVar4 + 1)) {
-        uVar4 = 0;
-        goto code_r0x82a200e0;
-      }
-      uVar4 = *(unsigned int *)(*param_2 * 4 + *param_1);
-      param_2[1] = uVar4;
-      if (uVar4 != 0) break;
-      bVar1 = false;
+    if (pool->enabled != 0) {
+        return (char *)block + 0xc;
     }
-  }
-  else {
-code_r0x82a200e0:
-    param_2[1] = uVar4;
-  }
-  if (param_1[0xd] != 0) {
-    RtlLeaveCriticalSection(param_1 + 6);
-  }
-  uVar3 = (unsigned __int64)param_2[1];
-  if (uVar3 == 0) {
-    lVar2 = 0;
-  }
-  else {
-    lVar2 = uVar3 + 0xc;
-    if (param_1[0xe] == 0) {
-      lVar2 = uVar3 + 8;
-    }
-    else {
-      do {
-        puVar5 = (unsigned int *)(uVar3 + 8);
-        if (in_RESERVE != '\0') {
-          uVar4 = storeWordConditionalIndexed((unsigned __int64)*puVar5 + 1,0,uVar3 + 8);
-          *puVar5 = uVar4;
-          in_cr0 = 2;
-        }
-      } while (!(bool)(in_cr0 >> 1 & 1));
-    }
-  }
-  return lVar2;
+    return (char *)block + 8;
 }
 
+static __forceinline Block_82A20040 *FromData(Pool_82A20040 *pool, void *data)
+{
+    if (pool->enabled != 0) {
+        return (Block_82A20040 *)((char *)data - 0xc);
+    }
+    return (Block_82A20040 *)((char *)data - 8);
+}
+
+static __forceinline void AddRef(Pool_82A20040 *pool, void *data)
+{
+    if (pool->enabled != 0) {
+        Block_82A20040 *block = FromData(pool, data);
+        _InterlockedIncrement(&block->refs);
+    }
+}
+
+void *fn_82A20040(Pool_82A20040 *pool, Iterator_82A20040 *it)
+{
+    Block_82A20040 *block;
+    void *data;
+    int first;
+
+    if (pool->locked != 0) {
+        RtlEnterCriticalSection(pool->cs);
+    }
+    if (it->current != 0 && it->current->next != 0) {
+        it->current = it->current->next;
+    } else {
+        first = it->current == 0;
+        for (;;) {
+            if (!first) {
+                if (++it->index >= pool->count) {
+                    it->current = 0;
+                    break;
+                }
+            }
+            it->current = pool->buckets[it->index];
+            if (it->current != 0) {
+                break;
+            }
+            first = 0;
+        }
+    }
+    if (pool->locked != 0) {
+        RtlLeaveCriticalSection(pool->cs);
+    }
+    block = it->current;
+    if (block != 0) {
+        data = ToData(pool, block);
+        AddRef(pool, data);
+        return data;
+    }
+    return 0;
+}

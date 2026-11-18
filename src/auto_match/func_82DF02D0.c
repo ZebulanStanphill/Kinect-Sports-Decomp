@@ -1,31 +1,46 @@
-void fn_82DF02D0(unsigned char *param_1,int param_2,int param_3)
+typedef struct Owner_82DF02D0 {
+    char unknown00[0x34];
+    unsigned int *keys; /* 0x34 */
+    int numKeys;        /* 0x38 */
+} Owner_82DF02D0;
 
+/* hkMemUtil::memCpyOneAligned for a 4-byte element: a loop over its words. */
+static __forceinline void memCpyOneAligned(void *dst, const void *src)
 {
-  int *piVar1;
-  int iVar2;
-  int iVar3;
-  
-  if (param_3 != 0) {
-    iVar3 = 0;
-    if (0 < *(int *)(param_2 + 0x38)) {
-      piVar1 = *(int **)(param_2 + 0x34);
-      do {
-        if (*piVar1 == param_3) {
-          iVar2 = *(int *)(param_2 + 0x38) + -1;
-          *(int *)(param_2 + 0x38) = iVar2;
-          if (iVar2 != iVar3) {
-            *(unsigned int *)(iVar3 * 4 + *(int *)(param_2 + 0x34)) =
-                 *(unsigned int *)(iVar2 * 4 + *(int *)(param_2 + 0x34));
-          }
-          *param_1 = 1;
-          return;
-        }
-        iVar3 = iVar3 + 1;
-        piVar1 = piVar1 + 1;
-      } while (iVar3 < *(int *)(param_2 + 0x38));
+    unsigned int k;
+
+    for (k = 0; k < 1; k++) {
+        ((unsigned int *)dst)[k] = ((const unsigned int *)src)[k];
     }
-  }
-  *param_1 = 0;
-  return;
 }
 
+/* Removes the key by moving the last one into its place; *out says whether it was found. */
+void fn_82DF02D0(unsigned char *out, Owner_82DF02D0 *self, unsigned int key)
+{
+    int i;
+    int last;
+    int *numKeys;
+    unsigned int *entry;
+
+    if (key != 0) {
+        i = 0;
+        if (0 < self->numKeys) {
+            entry = self->keys;
+            do {
+                if (*entry == key) {
+                    numKeys = &self->numKeys;
+                    last = *numKeys - 1;
+                    *numKeys = last;
+                    if (last != i) {
+                        memCpyOneAligned(self->keys + i, self->keys + last);
+                    }
+                    *out = 1;
+                    return;
+                }
+                i++;
+                entry++;
+            } while (i < self->numKeys);
+        }
+    }
+    *out = 0;
+}

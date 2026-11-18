@@ -1,46 +1,83 @@
-unsigned __int64 fn_82FB64A8(int param_1,int *param_2,int param_3,int *param_4,int param_5,int *param_6,
-                       unsigned char *param_7)
+typedef struct Node_82FB64A8 Node_82FB64A8;
 
+typedef struct NodeVt_82FB64A8 {
+    void *pad0[5];
+    int (*getType)(Node_82FB64A8 *self); /* 0x14 */
+} NodeVt_82FB64A8;
+
+struct Node_82FB64A8 {
+    NodeVt_82FB64A8 *vt;
+    int f4;
+    int f8;
+    unsigned int id;     /* 0x0c */
+    Node_82FB64A8 *next; /* 0x10 */
+};
+
+typedef struct Entry_82FB64A8 {
+    unsigned int a;
+    unsigned int b;
+    char pad[0x2c];
+} Entry_82FB64A8;
+
+typedef struct Vec_82FB64A8 {
+    Entry_82FB64A8 *begin;
+    Entry_82FB64A8 *end;
+} Vec_82FB64A8;
+
+typedef struct Graph_82FB64A8 {
+    char pad[0xa0];
+    Vec_82FB64A8 entries; /* 0xa0 */
+} Graph_82FB64A8;
+
+static __forceinline int Size(const Vec_82FB64A8 *v)
 {
-  int *piVar1;
-  int iVar2;
-  __int64 lVar3;
-  unsigned char uVar4;
-  unsigned __int64 uVar5;
-  
-  lVar3 = (__int64)((*(int *)(param_1 + 0xa4) - *(int *)(param_1 + 0xa0)) / 0x34) + -1;
-  if (-1 < lVar3) {
-    uVar5 = lVar3 * 0x34 + (unsigned __int64)*(unsigned int *)(param_1 + 0xa0);
-    do {
-      iVar2 = *(int *)uVar5;
-      if ((iVar2 == -1) || (piVar1 = param_4, iVar2 == param_3)) {
-LAB_82fb6524:
-        iVar2 = ((int *)uVar5)[1];
-        if ((iVar2 == -1) || (piVar1 = param_6, iVar2 == param_5)) {
-LAB_82fb659c:
-          uVar4 = 0;
-LAB_82fb65a0:
-          *param_7 = uVar4;
-          return uVar5;
-        }
-        for (; (piVar1 != (int *)0x0 && (piVar1 != param_2)); piVar1 = (int *)piVar1[4]) {
-          if (piVar1[3] == iVar2) {
-            iVar2 = (**(int (***)())(*piVar1 + 0x14))(piVar1);
-            uVar4 = 1;
-            if (iVar2 == 8) goto LAB_82fb65a0;
-            goto LAB_82fb659c;
-          }
-        }
-      }
-      else {
-        for (; (piVar1 != (int *)0x0 && (piVar1 != param_2)); piVar1 = (int *)piVar1[4]) {
-          if (piVar1[3] == iVar2) goto LAB_82fb6524;
-        }
-      }
-      lVar3 = lVar3 + -1;
-      uVar5 = uVar5 - 0x34;
-    } while (-1 < lVar3);
-  }
-  return (unsigned __int64)*(unsigned int *)(param_1 + 0xa0);
+    return (int)(v->end - v->begin);
 }
 
+Entry_82FB64A8 *fn_82FB64A8(Graph_82FB64A8 *self, Node_82FB64A8 *stop, unsigned int idA,
+                            Node_82FB64A8 *listA, unsigned int idB, Node_82FB64A8 *listB,
+                            unsigned char *out)
+{
+    int i;
+    Entry_82FB64A8 *e;
+    Node_82FB64A8 *n;
+    unsigned int v;
+    Node_82FB64A8 *found;
+
+    i = Size(&self->entries) - 1;
+    if (i >= 0) {
+        e = &self->entries.begin[i];
+        do {
+            v = e->a;
+            if (v != (unsigned int)-1 && v != idA) {
+                for (n = listA; n != 0 && n != stop; n = n->next) {
+                    if (n->id == v)
+                        goto checkB;
+                }
+                goto next;
+            }
+        checkB:
+            v = e->b;
+            found = 0;
+            if (v != (unsigned int)-1 && v != idB) {
+                for (n = listB; n != 0 && n != stop; n = n->next) {
+                    if (n->id == v) {
+                        found = n;
+                        break;
+                    }
+                }
+                if (found == 0)
+                    goto next;
+            }
+            if (found != 0 && found->vt->getType(found) == 8) {
+                *out = 1;
+            } else {
+                *out = 0;
+            }
+            return e;
+        next:
+            e--;
+        } while (--i >= 0);
+    }
+    return self->entries.begin;
+}

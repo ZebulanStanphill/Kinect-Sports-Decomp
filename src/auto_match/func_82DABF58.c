@@ -1,54 +1,90 @@
-extern unsigned int *auStack_60;
-extern int fn_82DABDE8();
-extern int fn_82DAD368();
-extern int fn_82DAF0B0();
-extern unsigned int iStack_4c;
-extern unsigned int iStack_54;
-extern unsigned int iStack_58;
-extern unsigned int iStack_5c;
+typedef struct Callback_82DABF58 Callback_82DABF58;
+typedef struct Owner_82DABF58 Owner_82DABF58;
 
+typedef struct Listener_82DABF58 {
+    char unknown000[0x204];
+    unsigned short count; /* 0x204 */
+} Listener_82DABF58;
 
-void fn_82DABF58(int param_1,unsigned __int64 param_2,int *param_3)
+typedef struct Event_82DABF58 {
+    unsigned short id;           /* 0x00 */
+    void *entry;                 /* 0x04 */
+    Listener_82DABF58 *first;    /* 0x08 */
+    Listener_82DABF58 *second;   /* 0x0c */
+    void *current;               /* 0x10 */
+    Owner_82DABF58 *owner;       /* 0x14 */
+    Callback_82DABF58 *callback; /* 0x18 */
+    unsigned int reserved;       /* 0x1c */
+} Event_82DABF58;
 
+typedef struct Table_82DABF58 {
+    char unknown00[6];
+    unsigned short headerCount; /* 0x06 */
+    char unknown08[2];
+    unsigned char entrySize; /* 0x0a */
+} Table_82DABF58;
+
+typedef struct Registry_82DABF58 {
+    char unknown00[0xc];
+    unsigned char *indexOfId; /* 0x0c */
+    char unknown10[0x18];
+    Table_82DABF58 *table; /* 0x28 */
+    char unknown2C[4];
+} Registry_82DABF58;
+
+struct Owner_82DABF58 {
+    char unknown00[0xc];
+    void *dispatcher; /* 0x0c */
+    char unknown10[4];
+    Registry_82DABF58 registry; /* 0x14 */
+    int context;                /* 0x44 */
+    char unknown48[0x10];
+    Listener_82DABF58 *first;  /* 0x58 */
+    Listener_82DABF58 *second; /* 0x5c */
+};
+
+typedef struct CallbackVtable_82DABF58 {
+    void *slots[4];
+    void (*remove)(Callback_82DABF58 *self, void *context); /* 0x10 */
+} CallbackVtable_82DABF58;
+
+struct Callback_82DABF58 {
+    CallbackVtable_82DABF58 *vtable;
+};
+
+extern void fn_82DAF0B0(void *dispatcher, Event_82DABF58 *event);
+extern void fn_82DAD368(Listener_82DABF58 *listener, Event_82DABF58 *event);
+extern int fn_82DABDE8(Registry_82DABF58 *registry, Callback_82DABF58 *callback, unsigned short id);
+
+void fn_82DABF58(Owner_82DABF58 *self, unsigned short id, Callback_82DABF58 *callback)
 {
-  unsigned char bVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  unsigned short auStack_60 [2];
-  int iStack_5c;
-  int iStack_58;
-  int iStack_54;
-  int iStack_4c;
-  int *piStack_48;
-  
-  iVar4 = *(int *)(param_1 + 0x58);
-  iVar2 = *(int *)(param_1 + 0x5c);
-  bVar1 = *(unsigned char *)(*(int *)(param_1 + 0x20) + ((unsigned int)param_2 & 0xffff));
-  if (bVar1 == 0xff) {
-    iStack_5c = 0;
-  }
-  else {
-    iVar3 = *(int *)(param_1 + 0x3c);
-    iStack_5c = (unsigned int)*(unsigned char *)(iVar3 + 10) * (int)(short)(unsigned short)bVar1 +
-                (unsigned int)*(unsigned short *)(iVar3 + 6) * 0x20 + iVar3 + 0x30;
-  }
-  auStack_60[0] = (unsigned short)param_2;
-  iStack_58 = iVar4;
-  iStack_54 = iVar2;
-  iStack_4c = param_1;
-  piStack_48 = param_3;
-  fn_82DAF0B0(*(unsigned int *)(param_1 + 0xc),auStack_60);
-  if (*(short *)(iVar4 + 0x204) != 0) {
-    fn_82DAD368(iVar4,auStack_60);
-  }
-  if (*(short *)(iVar2 + 0x204) != 0) {
-    fn_82DAD368(iVar2,auStack_60);
-  }
-  iVar4 = fn_82DABDE8(param_1 + 0x14,param_3,param_2);
-  if (iVar4 == 0) {
-    (**(int (***)())(*param_3 + 0x10))(param_3,param_1 + 0x44);
-  }
-  return;
-}
+    Listener_82DABF58 *first = self->first;
+    Listener_82DABF58 *second = self->second;
+    Registry_82DABF58 *registry = &self->registry;
+    int index = registry->indexOfId[id];
+    Event_82DABF58 event;
+    void *entry;
 
+    if (index == 0xff) {
+        entry = 0;
+    } else {
+        Table_82DABF58 *table = registry->table;
+        entry = (char *)table + 0x30 + table->headerCount * 0x20 + table->entrySize * (short)index;
+    }
+    event.id = id;
+    event.entry = entry;
+    event.first = first;
+    event.second = second;
+    event.owner = self;
+    event.callback = callback;
+    fn_82DAF0B0(self->dispatcher, &event);
+    if (first->count != 0) {
+        fn_82DAD368(first, &event);
+    }
+    if (second->count != 0) {
+        fn_82DAD368(second, &event);
+    }
+    if (fn_82DABDE8(registry, callback, id) == 0) {
+        callback->vtable->remove(callback, &self->context);
+    }
+}

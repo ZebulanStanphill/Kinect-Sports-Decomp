@@ -1,44 +1,61 @@
-extern int fn_822ABA88();
+/* Searches every item's current element map for the element whose info has the given type.
+   Exact only when compiled together with fn_822ABA88 (link-time code generation): r4-r8 stay live
+   across the call. */
+typedef struct ElemMap_8236C340 {
+    void *allocator;   /* 0x00 */
+    void *head;        /* 0x04 */
+    unsigned int size; /* 0x08 */
+} ElemMap_8236C340;
 
+typedef struct Item_8236C340 {
+    ElemMap_8236C340 **maps; /* 0x00 */
+    int unknown04[3];
+    int current; /* 0x10 */
+} Item_8236C340;
 
-int fn_8236C340(int param_1,int param_2)
+typedef struct ItemVector_8236C340 {
+    Item_8236C340 **begin; /* 0x00 */
+    Item_8236C340 **end;   /* 0x04 */
+} ItemVector_8236C340;
 
+typedef struct Obj_8236C340 {
+    int unknown00;
+    int unknown04;
+    ItemVector_8236C340 *items; /* 0x08 */
+} Obj_8236C340;
+
+typedef struct Info_8236C340 {
+    char padding00[0x1c];
+    unsigned int type; /* 0x1c */
+} Info_8236C340;
+
+typedef struct Elem_8236C340 {
+    char padding000[0x110];
+    Info_8236C340 *info; /* 0x110 */
+} Elem_8236C340;
+
+extern Elem_8236C340 *fn_822ABA88(ElemMap_8236C340 *map, unsigned int key);
+
+Elem_8236C340 *fn_8236C340(Obj_8236C340 *self, unsigned int type)
 {
-  unsigned int *puVar1;
-  unsigned int uVar2;
-  int iVar3;
-  int iVar4;
-  unsigned __int64 uVar5;
-  __int64 lVar6;
-  unsigned __int64 uVar7;
-  unsigned __int64 uVar8;
-  unsigned __int64 uVar9;
-  
-  puVar1 = *(unsigned int **)(param_1 + 8);
-  if (puVar1 != (unsigned int *)0x0) {
-    lVar6 = 0;
-    iVar3 = (int)(puVar1[1] - *puVar1) >> 2;
-    if (0 < iVar3) {
-      uVar7 = (unsigned __int64)*puVar1;
-      do {
-        uVar5 = 0;
-        uVar2 = *(unsigned int *)(((int *)*(int *)uVar7)[4] * 4 + *(int *)*(int *)uVar7);
-        uVar9 = (unsigned __int64)uVar2;
-        uVar8 = (unsigned __int64)*(unsigned int *)(uVar2 + 8);
-        if (uVar8 != 0) {
-          do {
-            iVar4 = fn_822ABA88(uVar9);
-            if (*(int *)(*(int *)(iVar4 + 0x110) + 0x1c) == param_2) {
-              return iVar4;
-            }
-            uVar5 = uVar5 + 1;
-          } while ((uVar5 & 0xffffffff) < (uVar8 & 0xffffffff));
-        }
-        lVar6 = lVar6 + 1;
-        uVar7 = uVar7 + 4;
-      } while ((int)lVar6 < iVar3);
-    }
-  }
-  return 0;
-}
+    if (self->items != 0) {
+        ItemVector_8236C340 *items = self->items;
+        int itemCount = items->end - items->begin;
+        int i;
 
+        for (i = 0; i < itemCount; i++) {
+            Item_8236C340 *item = self->items->begin[i];
+            ElemMap_8236C340 *map = item->maps[item->current];
+            unsigned int key;
+
+            for (key = 0; key < map->size; key++) {
+                Elem_8236C340 *elem = fn_822ABA88(map, key);
+
+                if (elem->info->type == type) {
+                    return elem;
+                }
+            }
+        }
+    }
+    return 0;
+}

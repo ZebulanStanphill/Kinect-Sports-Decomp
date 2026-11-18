@@ -1,45 +1,64 @@
-extern int fn_830177C8();
-extern unsigned int lbl_821AAD20;
-extern unsigned int lbl_832642FC;
+extern float fn_830177C8(void *system, void *object, int property, unsigned int key);
+extern void *lbl_832642FC;
 
+typedef struct Entry_83001E10 {
+    unsigned int key;
+    char *value;
+} Entry_83001E10;
 
-unsigned __int64 fn_83001E10(int param_1,unsigned __int64 param_2)
+typedef struct Map_83001E10 {
+    Entry_83001E10 *begin;
+    Entry_83001E10 *end;
+} Map_83001E10;
 
+static __forceinline char **Find(Map_83001E10 *map, unsigned int key)
 {
-  unsigned char bVar1;
-  unsigned int *puVar2;
-  unsigned __int64 uVar3;
-  unsigned int *puVar4;
-  int *piVar5;
-  double dVar6;
-  
-  if (((*(unsigned char *)(param_1 + 0x3e) & 0x80) == 0) &&
-     (piVar5 = *(int **)(param_1 + 0x10), piVar5 != (int *)0x0)) {
-    uVar3 = (**(int (***)())(*piVar5 + 0xec))(piVar5);
-    return uVar3;
-  }
-  if (*(int *)(param_1 + 0x28) == 0) {
-    return 0;
-  }
-  bVar1 = *(unsigned char *)(*(int *)(param_1 + 0x28) + 0x3c);
-  if ((*(unsigned int *)(param_1 + 0x40) >> 0x1c & 1) == 0) {
-    puVar2 = *(unsigned int **)(param_1 + 0x54);
-    if (puVar2 != (unsigned int *)0x0) {
-      for (puVar4 = (unsigned int *)*puVar2;
-          (puVar4 != (unsigned int *)puVar2[1] && ((unsigned __int64)*puVar4 != (param_2 & 0xffffffff)));
-          puVar4 = puVar4 + 2) {
-      }
-      piVar5 = (int *)(-(unsigned int)((unsigned int *)puVar2[1] != puVar4) & (unsigned int)(puVar4 + 1));
-      if (piVar5 != (int *)0x0) {
-        return (unsigned __int64)(*(unsigned char *)(*piVar5 + 0x3d) >> 4) & 1;
-      }
+    Entry_83001E10 *end = map->end;
+    Entry_83001E10 *entry;
+
+    for (entry = map->begin; entry != end; ++entry) {
+        if (entry->key == key) {
+            break;
+        }
     }
-    if (*(int *)(param_1 + 0x24) != 0) {
-      bVar1 = *(unsigned char *)(*(int *)(param_1 + 0x24) + 0x3d);
+    {
+        unsigned char found = entry != end;
+        return found ? &entry->value : 0;
     }
-    return (unsigned __int64)(bVar1 >> 4) & 1;
-  }
-  dVar6 = (double)fn_830177C8(lbl_832642FC,param_1,0x1c,param_2);
-  return (unsigned __int64)(dVar6 != (double)lbl_821AAD20);
 }
 
+unsigned char fn_83001E10(char *self, unsigned int key)
+{
+    unsigned char result;
+    int proxy;
+    char *data;
+    Map_83001E10 *map;
+    char **value;
+
+    if ((*(unsigned char *)(self + 0x3e) & 0x80) == 0) {
+        proxy = *(int *)(self + 0x10);
+        if (proxy != 0) {
+            return (*(unsigned char (**)(int, unsigned int))(*(int *)proxy + 0xec))(proxy, key);
+        }
+    }
+    data = *(char **)(self + 0x28);
+    if (data == 0) {
+        return 0;
+    }
+    result = ((unsigned char)data[0x3c] >> 4) & 1;
+    if ((unsigned char)((*(unsigned int *)(self + 0x40) >> 28) & 1) != 0) {
+        return fn_830177C8(lbl_832642FC, self, 0x1c, key) != 0.0f;
+    }
+    map = *(Map_83001E10 **)(self + 0x54);
+    if (map != 0) {
+        value = Find(map, key);
+        if (value != 0) {
+            return ((unsigned char)(*value)[0x3d] >> 4) & 1;
+        }
+    }
+    data = *(char **)(self + 0x24);
+    if (data != 0) {
+        result = ((unsigned char)data[0x3d] >> 4) & 1;
+    }
+    return result;
+}

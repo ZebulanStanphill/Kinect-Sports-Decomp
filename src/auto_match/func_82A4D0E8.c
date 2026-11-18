@@ -1,52 +1,38 @@
-typedef unsigned char bool;
-extern unsigned __int64 storeWordConditionalIndexed();
+long _InterlockedCompareExchange(long volatile *target, long exchange, long compare);
+void __emit(unsigned int instruction);
+#define __lwsync() __emit(0x7C2004AC)
 
+typedef struct Sample_82A4D0E8 {
+    unsigned int words[3]; /* 0x00 */
+} Sample_82A4D0E8;
 
-void fn_82A4D0E8(__int64 param_1,unsigned int *param_2)
+typedef struct Buffer_82A4D0E8 {
+    char pad[0x28];             /* 0x00 */
+    Sample_82A4D0E8 samples[2]; /* 0x28 */
+    long active;                /* 0x40 */
+    int reserved;               /* 0x44 */
+    unsigned int index;         /* 0x48 */
+    int reserved4c;             /* 0x4c */
+    int available;              /* 0x50 */
+} Buffer_82A4D0E8;
 
+void fn_82A4D0E8(Buffer_82A4D0E8 *self, Sample_82A4D0E8 *output)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  int iVar4;
-  int iVar5;
-  __int64 lVar6;
-  unsigned int *puVar7;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  iVar4 = (int)param_1;
-  if (*(int *)(iVar4 + 0x50) == 1) {
-    lVar6 = param_1 + 0x40;
-    do {
-      uVar2 = *(unsigned int *)(iVar4 + 0x48);
-      do {
-        puVar7 = (unsigned int *)lVar6;
-        uVar1 = *puVar7;
-        if (uVar1 != uVar2 * 0xc + iVar4 + 0x28) {
-          if (in_RESERVE != '\0') {
-            uVar2 = storeWordConditionalIndexed((unsigned __int64)uVar1,0,lVar6);
-            *puVar7 = uVar2;
-            in_cr0 = 2;
-          }
-          break;
-        }
-        if (in_RESERVE != '\0') {
-          uVar3 = storeWordConditionalIndexed(((unsigned __int64)uVar2 ^ 1) * 0xc + param_1 + 0x28,0,lVar6)
-          ;
-          *puVar7 = uVar3;
-          in_cr0 = 2;
-        }
-      } while (!(bool)(in_cr0 >> 1 & 1));
-      sync(1);
-    } while (uVar1 == 0xffffffff);
-    *(unsigned int *)(iVar4 + 0x48) = *(unsigned int *)(iVar4 + 0x48) ^ 1;
-  }
-  iVar5 = (*(unsigned int *)(iVar4 + 0x48) ^ 1) * 0xc + iVar4;
-  *param_2 = *(unsigned int *)(iVar5 + 0x28);
-  param_2[1] = *(unsigned int *)(iVar5 + 0x2c);
-  param_2[2] = *(unsigned int *)(iVar5 + 0x30);
-  *(unsigned int *)(iVar4 + 0x50) = 0;
-  return;
+    if (self->available == 1) {
+        long previous;
+        do {
+            previous = _InterlockedCompareExchange(&self->active, (long)&self->samples[self->index ^ 1],
+                                                   (long)&self->samples[self->index]);
+            __lwsync();
+            if (previous == -1) {
+                __emit(0x7FFFFB78);
+            }
+        } while (previous == -1);
+        self->index ^= 1;
+    }
+    {
+        Sample_82A4D0E8 *sample = &self->samples[self->index ^ 1];
+        *output = *sample;
+    }
+    self->available = 0;
 }
-

@@ -1,20 +1,38 @@
-unsigned __int64 fn_82C045F8(int *param_1,int param_2,int *param_3)
+typedef struct Object_82C045F8 Object_82C045F8;
 
+typedef struct Vtable_82C045F8 {
+    void *slots[0x74 / 4];
+    __int64 (*getTime)(Object_82C045F8 *); /* 0x74 */
+} Vtable_82C045F8;
+
+struct Object_82C045F8 {
+    Vtable_82C045F8 *vtable; /* 0x000 */
+    char pad004[0x11c];
+    __int64 position; /* 0x120 */
+    __int64 time;     /* 0x128 */
+    char pad130[8];
+    int remaining; /* 0x138 */
+    char pad13c[0x18];
+    float rate; /* 0x154 */
+};
+
+static __forceinline void UpdatePosition(__int64 *position, __int64 *previous, __int64 time, float rate)
 {
-  __int64 lVar1;
-  
-  lVar1 = (**(int (***)())(*param_1 + 0x74))();
-  if (*(__int64 *)(param_1 + 0x4a) == 0) {
-    *(__int64 *)(param_1 + 0x4a) = lVar1;
-  }
-  *(__int64 *)(param_1 + 0x48) =
-       (__int64)
-       ((float)(lVar1 - *(__int64 *)(param_1 + 0x4a)) * (float)param_1[0x55] +
-       (float)*(__int64 *)(param_1 + 0x48));
-  *(__int64 *)(param_1 + 0x4a) = lVar1;
-  param_2 = param_2 - (int)*(unsigned __int64 *)(param_1 + 0x48);
-  *param_3 = param_2;
-  param_1[0x4e] = param_2;
-  return 0;
+    *position = (__int64)((float)(time - *previous) * rate + (float)*position);
+    *previous = time;
 }
 
+int fn_82C045F8(Object_82C045F8 *self, __int64 target, int *out)
+{
+    __int64 time = self->vtable->getTime(self);
+    if (self->time == 0) {
+        self->time = time;
+    }
+    UpdatePosition(&self->position, &self->time, time, self->rate);
+    {
+        int remaining = (int)target - (int)self->position;
+        *out = remaining;
+        self->remaining = remaining;
+    }
+    return 0;
+}

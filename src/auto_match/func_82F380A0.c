@@ -1,50 +1,53 @@
-extern int fn_82F37588();
-extern int fn_82F377E8();
-extern unsigned int lbl_8202E618;
-extern unsigned int lbl_8202E628;
+typedef struct Object_82F380A0 Object_82F380A0;
 
+typedef struct Vtable_82F380A0 {
+    void *reserved[2];
+    void (*release)(Object_82F380A0 *);
+    void *reservedC[3];
+    int (*remove)(Object_82F380A0 *, const void *, int, int);
+} Vtable_82F380A0;
 
-unsigned __int64 fn_82F380A0(int *param_1,unsigned char *param_2)
+typedef struct List_82F380A0 {
+    char elements[0x68];
+    unsigned int count; /* 0x68 */
+} List_82F380A0;
 
+struct Object_82F380A0 {
+    Vtable_82F380A0 *vtable;
+    int reserved;
+    List_82F380A0 list; /* 0x8 */
+};
+
+extern const char lbl_8202E618[16];
+extern int memcmp(const void *, const void *, unsigned int);
+extern void fn_82F377E8(void *, unsigned int, Object_82F380A0 ***);
+extern void fn_82F37588(void *, int);
+
+static __forceinline void ResetList(List_82F380A0 *list)
 {
-  unsigned char bVar1;
-  unsigned char bVar2;
-  unsigned int uVar3;
-  int iVar4;
-  unsigned char *pbVar5;
-  unsigned char *pbVar6;
-  unsigned __int64 uVar7;
-  int *apiStack_30 [12];
-  
-  pbVar6 = (unsigned char *)&lbl_8202E618;
-  pbVar5 = param_2;
-  do {
-    bVar1 = *pbVar6;
-    bVar2 = *pbVar5;
-    if ((unsigned __int64)bVar1 - (unsigned __int64)bVar2 != 0) break;
-    pbVar6 = pbVar6 + 1;
-    pbVar5 = pbVar5 + 1;
-  } while (pbVar6 != &lbl_8202E628);
-  if ((int)((unsigned __int64)bVar1 - (unsigned __int64)bVar2) == 0) {
-    uVar3 = param_1[0x1c];
-    uVar7 = 0;
-    if (uVar3 != 0) {
-      do {
-        fn_82F377E8(param_1 + 2,uVar7,apiStack_30);
-        if ((int *)*apiStack_30[0] != (int *)0x0) {
-          (**(int (***)())(*(int *)*apiStack_30[0] + 8))();
-        }
-        uVar7 = uVar7 + 1;
-      } while ((uVar7 & 0xffffffff) < (unsigned __int64)uVar3);
-    }
-    fn_82F37588(param_1 + 2,0);
-    param_1[0x1c] = 0;
-  }
-  else {
-    do {
-      iVar4 = (**(int (***)())(*param_1 + 0x18))(param_1,param_2,0,0);
-    } while (-1 < iVar4);
-  }
-  return 0;
+    fn_82F37588(list, 0);
+    list->count = 0;
 }
 
+int fn_82F380A0(Object_82F380A0 *self, const void *id)
+{
+    if (memcmp(lbl_8202E618, id, 16) != 0) {
+        while (self->vtable->remove(self, id, 0, 0) >= 0) {
+        }
+    } else {
+        unsigned int count = self->list.count;
+        unsigned int index;
+        Object_82F380A0 **slot;
+        for (index = 0; index < count; index++) {
+            fn_82F377E8(&self->list, index, &slot);
+            {
+                Object_82F380A0 *object = *slot;
+                if (object != 0) {
+                    object->vtable->release(object);
+                }
+            }
+        }
+        ResetList(&self->list);
+    }
+    return 0;
+}

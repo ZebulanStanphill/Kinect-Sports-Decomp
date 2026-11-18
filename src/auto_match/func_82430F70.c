@@ -1,71 +1,65 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern unsigned int *auStack_30;
-extern unsigned int fStack00000024;
-extern unsigned int fStack_2c;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int stack0x00000000;
-extern V16 loadVectorLeftIndexed128();
+/* Predicts a position: the tracked object's position (zero without an object) plus the source's
+   velocity times `time`; a result below the ground plane falls back to the start position. */
+typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
+    float scalar[4];
+    unsigned int words[4];
+} __vector4;
 
+__vector4 __VMXGetReg(int index);
+__vector4 __lvlx(const void *base, int offset);
+__vector4 __vspltw(__vector4 value, unsigned int lane);
+__vector4 __vmaddfp(__vector4 value, __vector4 multiplier, __vector4 addend);
 
-unsigned __int64 fn_82430F70(double param_1,unsigned __int64 param_2,int param_3)
+typedef struct Position_82430F70 {
+    __vector4 value;
+} Position_82430F70;
 
+typedef struct Object_82430F70 {
+    char padding00[0x50];
+    __vector4 position; /* 0x50 */
+} Object_82430F70;
+
+typedef struct Source_82430F70 Source_82430F70;
+
+typedef struct SourceVtable_82430F70 {
+    void *unknown00[3];
+    void (*getVelocity)(__vector4 *result, Source_82430F70 *self); /* 0x0c */
+} SourceVtable_82430F70;
+
+struct Source_82430F70 {
+    SourceVtable_82430F70 *vtable; /* 0x00 */
+    Object_82430F70 **object;      /* 0x04 */
+};
+
+typedef struct Owner_82430F70 {
+    char padding00[0x38];
+    Source_82430F70 *source; /* 0x38 */
+} Owner_82430F70;
+
+typedef struct Self_82430F70 {
+    char padding000[0x244];
+    Owner_82430F70 *owner; /* 0x244 */
+} Self_82430F70;
+
+Position_82430F70 *fn_82430F70(Position_82430F70 *out, Self_82430F70 *self, float time)
 {
-  int iVar1;
-  float *pfVar2;
-  float fVar3;
-  unsigned __int64 in_r0;
-  float fVar4;
-  float fVar5;
-  float fVar6;
-  float fVar7;
-  float in_register_000100d0;
-  float in_register_000100d4;
-  float in_register_000100d8;
-  float in_vr13;
-  float in_register_000104d0;
-  float in_register_000104d4;
-  float in_register_000104d8;
-  float in_vr77;
-  float fStack00000024;
-  unsigned char auStack_30 [4];
-  float fStack_2c;
-  
-  fStack00000024 = (float)param_1;
-  iVar1 = **(int **)(*(int *)(*(int *)(param_3 + 0x244) + 0x38) + 4);
-  if (iVar1 != 0) {
-    pfVar2 = (float *)(iVar1 + 0x50U & 0xfffffff0);
-    in_register_000104d0 = *pfVar2;
-    in_register_000104d4 = pfVar2[1];
-    in_register_000104d8 = pfVar2[2];
-    in_vr77 = pfVar2[3];
-  }
-  (**(int (***)())(**(int **)(*(int *)(param_3 + 0x244) + 0x38) + 0xc))(ZEXT48(&stack0x00000000) - 0x30)
-  ;
-  fVar3 = ltcg_pool_0_0f;
-  loadVectorLeftIndexed128(in_r0,ZEXT48(&stack0x00000000) + 0x24);
-  iVar1 = (int)in_r0;
-  pfVar2 = (float *)((unsigned int)(auStack_30 + iVar1) & 0xfffffff0);
-  fVar4 = in_register_000100d0 * *pfVar2 + in_register_000104d0;
-  fVar5 = in_register_000100d4 * pfVar2[1] + in_register_000104d4;
-  fVar6 = in_register_000100d8 * pfVar2[2] + in_register_000104d8;
-  fVar7 = in_vr13 * pfVar2[3] + in_vr77;
-  pfVar2 = (float *)((unsigned int)(auStack_30 + iVar1) & 0xfffffff0);
-  *pfVar2 = fVar4;
-  pfVar2[1] = fVar5;
-  pfVar2[2] = fVar6;
-  pfVar2[3] = fVar7;
-  if (fStack_2c < fVar3) {
-    fVar7 = in_vr77;
-    fVar6 = in_register_000104d8;
-    fVar5 = in_register_000104d4;
-    fVar4 = in_register_000104d0;
-  }
-  pfVar2 = (float *)(iVar1 + (int)param_2 & 0xfffffff0);
-  *pfVar2 = fVar4;
-  pfVar2[1] = fVar5;
-  pfVar2[2] = fVar6;
-  pfVar2[3] = fVar7;
-  return param_2;
-}
+    __vector4 result;
+    __vector4 start;
+    __vector4 scale;
+    Object_82430F70 *object;
 
+    object = *self->owner->source->object;
+    if (object != 0) {
+        start = object->position;
+    } else {
+        start = __VMXGetReg(77);
+    }
+    self->owner->source->vtable->getVelocity(&result, self->owner->source);
+    scale = __vspltw(__lvlx(&time, 0), 0);
+    result = __vmaddfp(result, scale, start);
+    if (result.scalar[1] < 0.0f) {
+        result = start;
+    }
+    out->value = result;
+    return out;
+}

@@ -1,42 +1,43 @@
-extern int fn_823AA970();
-extern int fn_8289D8D0();
-extern int fn_8289DAD0();
-extern int fn_828AF2B0();
-extern int fn_828C8058();
-extern int fn_828D8B60();
-extern int fn_828D8FD8();
+typedef struct Connection_828AF4F8 {
+    char pad[4];     /* 0x0 */
+    int mode;        /* 0x4 */
+    char pad8[0x5c]; /* 0x8 */
+    void *state;     /* 0x64 */
+} Connection_828AF4F8;
 
+typedef struct Object_828AF4F8 {
+    char pad[0x50];            /* 0x0 */
+    void *connection;          /* 0x50 */
+    char pad54[0x5c];          /* 0x54 */
+    unsigned char complete;    /* 0xb0 */
+    unsigned char unused;      /* 0xb1 */
+    unsigned char initialized; /* 0xb2 */
+} Object_828AF4F8;
 
-void fn_828AF4F8(int param_1)
+extern unsigned char fn_8289DAD0(Object_828AF4F8 *);
+extern Connection_828AF4F8 *fn_8289D8D0(void *);
+extern unsigned char fn_828D8FD8(void *, unsigned char);
+extern void fn_828C8058(void *, int);
+extern unsigned char fn_828AF2B0(Object_828AF4F8 *);
+extern void *fn_823AA970(Object_828AF4F8 *);
+extern void fn_828D8B60(void *, int, void *);
 
+void fn_828AF4F8(Object_828AF4F8 *self)
 {
-  unsigned int uVar1;
-  char cVar4;
-  int iVar3;
-  unsigned __int64 uVar2;
-  
-  if (*(char *)(param_1 + 0xb0) == '\0') {
-    cVar4 = fn_8289DAD0();
-    if (cVar4 == '\0') {
-      cVar4 = fn_828AF2B0(param_1);
-      if ((cVar4 == '\0') && (*(char *)(param_1 + 0xb2) == '\0')) {
-        uVar1 = *(unsigned int *)(param_1 + 0x50);
-        uVar2 = fn_823AA970(param_1);
-        fn_828D8B60(uVar1,0,uVar2);
-        *(unsigned char *)(param_1 + 0xb2) = 1;
-      }
+    if (!self->complete) {
+        if (fn_8289DAD0(self)) {
+            Connection_828AF4F8 *connection = fn_8289D8D0(self->connection);
+            if (!connection || connection->mode != 1 || !fn_828D8FD8(connection->state, 0)) {
+                fn_828C8058(self->connection, 0xb);
+            }
+        } else {
+            if (!fn_828AF2B0(self) && !self->initialized) {
+                void *connection = self->connection;
+                void *context = fn_823AA970(self);
+                fn_828D8B60(connection, 0, context);
+                self->initialized = 1;
+            }
+        }
+        self->complete = 1;
     }
-    else {
-      iVar3 = fn_8289D8D0(*(unsigned int *)(param_1 + 0x50));
-      if (((iVar3 == 0) || (*(int *)(iVar3 + 4) != 1)) ||
-         (cVar4 = fn_828D8FD8(*(unsigned int *)(iVar3 + 100),0), cVar4 == '\0')) {
-        fn_828C8058(*(unsigned int *)(param_1 + 0x50),0xb);
-        *(unsigned char *)(param_1 + 0xb0) = 1;
-        return;
-      }
-    }
-    *(unsigned char *)(param_1 + 0xb0) = 1;
-  }
-  return;
 }
-

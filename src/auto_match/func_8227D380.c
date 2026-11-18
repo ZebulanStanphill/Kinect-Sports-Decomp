@@ -1,57 +1,44 @@
-#define true 1
-extern unsigned int *auStack_50;
-extern int fn_8227C270();
-extern int fn_82F68CC0();
-extern unsigned int stack0x00000034;
-extern unsigned int uStack00000034;
+/* std::_Adjust_heap over 0xdc-byte elements with a by-value predicate (VC10 <algorithm>), with
+   std::_Push_heap inlined. Exact only when compiled together with the predicate (link-time code
+   generation): the copy of the predicate for the push loop then comes from the register it arrived in. */
+typedef struct Elem_8227D380 {
+    unsigned char bytes[0xdc];
+} Elem_8227D380;
 
+typedef struct Pred_8227D380 {
+    int state;
+} Pred_8227D380;
 
-void fn_8227D380(__int64 param_1,__int64 param_2,__int64 param_3,unsigned __int64 param_4,
-                  unsigned int param_5)
+extern unsigned char fn_8227C270(Pred_8227D380 *pred, const Elem_8227D380 *a, const Elem_8227D380 *b);
 
+static __forceinline void PushHeap(Elem_8227D380 *first, int hole, int top, const Elem_8227D380 *value,
+                                   Pred_8227D380 pred)
 {
-  unsigned __int64 uVar1;
-  char cVar2;
-  unsigned int uVar3;
-  __int64 lVar4;
-  __int64 lVar5;
-  __int64 lVar6;
-  int iVar7;
-  unsigned int uStack00000034;
-  unsigned int auStack_50 [20];
-  
-  lVar6 = param_2;
-  uStack00000034 = param_5;
-  while( true ) {
-    uVar1 = lVar6 + 1U & 0x7fffffff;
-    lVar5 = uVar1 * 2;
-    if ((int)param_3 <= (int)lVar5) break;
-    lVar4 = uVar1 * 0x1b8 + param_1;
-    cVar2 = fn_8227C270(&stack0x00000034,lVar4,lVar4 + -0xdc);
-    if (cVar2 != '\0') {
-      lVar5 = lVar5 + -1;
+    int index;
+
+    for (index = (hole - 1) / 2; top < hole && fn_8227C270(&pred, &first[index], value);
+         index = (hole - 1) / 2) {
+        first[hole] = first[index];
+        hole = index;
     }
-    fn_82F68CC0(lVar6 * 0xdc + param_1,lVar5 * 0xdc + param_1,0xdc);
-    lVar6 = lVar5;
-  }
-  if ((int)lVar5 == (int)param_3) {
-    fn_82F68CC0(lVar6 * 0xdc + param_1,param_3 * 0xdc + param_1 + -0xdc,0xdc);
-    lVar6 = param_3 + -1;
-  }
-  iVar7 = (int)lVar6;
-  auStack_50[0] = param_5;
-  while( true ) {
-    uVar3 = (int)lVar6 - 1;
-    lVar5 = (__int64)((int)uVar3 >> 1) + (unsigned __int64)((int)uVar3 < 0 && (uVar3 & 1) != 0);
-    if (iVar7 <= (int)param_2) break;
-    lVar4 = lVar5 * 0xdc + param_1;
-    cVar2 = fn_8227C270(auStack_50,lVar4,param_4);
-    if (cVar2 == '\0') break;
-    fn_82F68CC0(lVar6 * 0xdc + param_1,lVar4,0xdc);
-    iVar7 = (int)lVar5;
-    lVar6 = lVar5;
-  }
-  fn_82F68CC0(lVar6 * 0xdc + param_1,param_4,0xdc);
-  return;
+    first[hole] = *value;
 }
 
+void fn_8227D380(Elem_8227D380 *first, int hole, int bottom, const Elem_8227D380 *value, Pred_8227D380 pred)
+{
+    int top = hole;
+    int index = 2 * hole + 2;
+
+    for (; index < bottom; index = 2 * index + 2) {
+        if (fn_8227C270(&pred, &first[index], &first[index - 1])) {
+            --index;
+        }
+        first[hole] = first[index];
+        hole = index;
+    }
+    if (index == bottom) {
+        first[hole] = first[bottom - 1];
+        hole = bottom - 1;
+    }
+    PushHeap(first, hole, top, value, pred);
+}

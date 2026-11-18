@@ -1,55 +1,81 @@
-extern int fn_82535298();
-extern int fn_82536288();
+/* Plays a three-step sequence of effects: event 4 restarts it with the first effect, events 6 and 7
+   play the second, event 0xb the third; any other event resets the sequence. */
+typedef struct Handle_82371930 {
+    void *object;
+} Handle_82371930;
 
+typedef struct Owner_82371930 {
+    void *context; /* 0x00 */
+} Owner_82371930;
 
-void fn_82371930(int param_1,int param_2)
+typedef struct Obj_82371930 {
+    char padding000[0x21c];
+    int enabled; /* 0x21c */
+    char padding220[0x44];
+    unsigned int step; /* 0x264 */
+    char padding268[0x74];
+    Handle_82371930 first;  /* 0x2dc */
+    Handle_82371930 second; /* 0x2e0 */
+    Handle_82371930 third;  /* 0x2e4 */
+    char padding2E8[0x6d0];
+    Owner_82371930 *owner; /* 0x9b8 */
+} Obj_82371930;
 
+extern char lbl_83296BC0[];
+extern char lbl_83296BD0[];
+extern void *fn_82535298(Handle_82371930 *handle, void *context, void *a, void *b);
+extern void fn_82536288(Handle_82371930 *handle);
+
+/* The handle's copy constructor. */
+static __forceinline void CopyHandle(Handle_82371930 *self, const Handle_82371930 *other)
 {
-  int iVar1;
-  int aiStack_20 [4];
-  
-  if (param_2 == 4) {
-    aiStack_20[0] = *(int *)(param_1 + 0x2dc);
-    *(unsigned int *)(param_1 + 0x264) = 0;
-joined_r0x823719f4:
-    if (aiStack_20[0] == 0) {
-      return;
-    }
-    aiStack_20[0] =
-         fn_82535298(aiStack_20,**(unsigned int **)(param_1 + 0x9b8),0xffffffff83296bc0,
-                           0xffffffff83296bd0);
-    fn_82536288(aiStack_20);
-    iVar1 = *(int *)(param_1 + 0x264) + 1;
-  }
-  else {
-    if (5 < param_2) {
-      if (param_2 < 8) {
-        if (*(int *)(param_1 + 0x264) != 1) {
-          return;
-        }
-        aiStack_20[0] = *(int *)(param_1 + 0x2e0);
-        goto joined_r0x823719f4;
-      }
-      if (param_2 == 0xb) {
-        if (*(int *)(param_1 + 0x21c) == 0) {
-          return;
-        }
-        if (*(int *)(param_1 + 0x264) != 2) {
-          return;
-        }
-        aiStack_20[0] = *(int *)(param_1 + 0x2e4);
-        if (aiStack_20[0] == 0) {
-          return;
-        }
-        aiStack_20[0] =
-             fn_82535298(aiStack_20,**(unsigned int **)(param_1 + 0x9b8),0xffffffff83296bc0,
-                               0xffffffff83296bd0);
-        fn_82536288(aiStack_20);
-      }
-    }
-    iVar1 = 0;
-  }
-  *(int *)(param_1 + 0x264) = iVar1;
-  return;
+    const Handle_82371930 *source = other;
+
+    self->object = source->object;
 }
 
+void fn_82371930(Obj_82371930 *self, int event)
+{
+    Handle_82371930 instance;
+
+    switch (event) {
+    case 4:
+        self->step = 0;
+        if (self->first.object == 0) {
+            return;
+        }
+        CopyHandle(&instance, &self->first);
+        instance.object = fn_82535298(&instance, self->owner->context, lbl_83296BC0, lbl_83296BD0);
+        fn_82536288(&instance);
+        self->step++;
+        return;
+    case 6:
+    case 7:
+        if (self->step != 1) {
+            return;
+        }
+        if (self->second.object == 0) {
+            return;
+        }
+        CopyHandle(&instance, &self->second);
+        instance.object = fn_82535298(&instance, self->owner->context, lbl_83296BC0, lbl_83296BD0);
+        fn_82536288(&instance);
+        self->step++;
+        return;
+    case 0xb:
+        if (self->enabled == 0) {
+            return;
+        }
+        if (self->step != 2) {
+            return;
+        }
+        if (self->third.object == 0) {
+            return;
+        }
+        CopyHandle(&instance, &self->third);
+        instance.object = fn_82535298(&instance, self->owner->context, lbl_83296BC0, lbl_83296BD0);
+        fn_82536288(&instance);
+        break;
+    }
+    self->step = 0;
+}

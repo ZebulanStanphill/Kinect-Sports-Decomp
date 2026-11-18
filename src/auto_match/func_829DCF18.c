@@ -1,40 +1,30 @@
-extern unsigned int *auStack_70;
-extern int fn_829D4B80();
-extern int fn_829DCFB0();
-extern unsigned int iStack_74;
+typedef struct Self_829DCF18 {
+    char pad0[0x9c90];
+    unsigned int count; /* 0x9c90 */
+} Self_829DCF18;
 
+typedef struct Context_829DCF18 {
+    Self_829DCF18 *self;
+} Context_829DCF18;
 
-void fn_829DCF18(int param_1,unsigned __int64 param_2)
+extern void fn_829DCFB0(unsigned int count, unsigned int max, Context_829DCF18 *ctx, int *indices);
+extern void fn_829D4B80(void *out, Self_829DCF18 *self, unsigned int count, int *indices);
 
+void fn_829DCF18(Self_829DCF18 *self, void *out)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  int *piVar3;
-  unsigned __int64 uVar4;
-  int aiStack_80;
-  int iStack_74;
-  unsigned char auStack_70 [88];
-  
-  uVar1 = (unsigned __int64)*(unsigned int *)(param_1 + 0x9c90);
-  if (uVar1 < 0x15) {
-    iVar2 = 0;
-    if (0 < (int)*(unsigned int *)(param_1 + 0x9c90)) {
-      piVar3 = &iStack_74;
-      uVar4 = uVar1;
-      do {
-        piVar3 = piVar3 + 1;
-        *piVar3 = iVar2;
-        iVar2 = iVar2 + 1;
-        uVar4 = uVar4 - 1;
-      } while (uVar4 != 0);
-    }
-  }
-  else {
-    aiStack_80 = param_1;
-    fn_829DCFB0(uVar1,0x14,&aiStack_80,auStack_70);
-    uVar1 = 0x14;
-  }
-  fn_829D4B80(param_2,param_1,uVar1,auStack_70);
-  return;
-}
+    Context_829DCF18 ctx;
+    int indices[20];
+    int n;
+    int i;
 
+    if (self->count > 20) {
+        ctx.self = self;
+        fn_829DCFB0(self->count, 20, &ctx, indices);
+        n = 20;
+    } else {
+        n = self->count;
+        for (i = 0; i < n; i++)
+            indices[i] = i;
+    }
+    fn_829D4B80(out, self, n, indices);
+}

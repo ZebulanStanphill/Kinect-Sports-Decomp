@@ -1,50 +1,81 @@
-extern int fn_826828D8();
-extern int fn_82682A48();
-extern unsigned int iStack_48;
-extern unsigned int lbl_8200579C;
-extern unsigned int uStack_30;
-extern unsigned int uStack_34;
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
-extern unsigned int uStack_44;
-extern unsigned int uStack_4c;
+typedef struct Pair_826C3620 {
+    void *a;
+    void *b;
+    unsigned char flags;
+} Pair_826C3620;
 
+typedef struct Event_826C3620 {
+    void *vt;           /* 0x00 */
+    int type;           /* 0x04 */
+    int target;         /* 0x08 */
+    Pair_826C3620 pair; /* 0x0c */
+    int x;              /* 0x18 */
+    int y;              /* 0x1c */
+    int z;              /* 0x20 */
+} Event_826C3620;
 
-void fn_826C3620(int param_1,int param_2)
+typedef struct Object_826C3620 Object_826C3620;
 
+typedef struct ObjectVtable_826C3620 {
+    void *slots[15];
+    unsigned char (*isActive)(Object_826C3620 *self); /* 0x3c */
+} ObjectVtable_826C3620;
+
+struct Object_826C3620 {
+    ObjectVtable_826C3620 *vt;
+    char pad4[0x24];
+    int target; /* 0x28 */
+};
+
+typedef struct Source_826C3620 {
+    int pad0;
+    int type;                /* 0x04 */
+    Object_826C3620 *object; /* 0x08 */
+    char padc[0xc];
+    int x; /* 0x18 */
+    int y; /* 0x1c */
+    int z; /* 0x20 */
+} Source_826C3620;
+
+typedef struct Listener_826C3620 {
+    char pad0[0x30];
+    void (*handler)(void *event); /* 0x30 */
+} Listener_826C3620;
+
+extern char lbl_8200579C[];
+extern void fn_82682A48(void *object);
+extern void fn_826828D8(Event_826C3620 *event);
+
+void fn_826C3620(Listener_826C3620 *self, Source_826C3620 *source)
 {
-  int *piVar1;
-  char cVar2;
-  unsigned char **ppuStack_50;
-  unsigned int uStack_4c;
-  int iStack_48;
-  unsigned int uStack_44;
-  unsigned int uStack_40;
-  unsigned char uStack_3c;
-  unsigned int uStack_38;
-  unsigned int uStack_34;
-  unsigned int uStack_30;
-  
-  if (*(int *)(param_1 + 0x30) != 0) {
-    piVar1 = *(int **)(param_2 + 8);
-    if ((piVar1 != (int *)0x0) && (cVar2 = (**(int (***)())(*piVar1 + 0x3c))(piVar1), cVar2 != '\0')) {
-      iStack_48 = piVar1[10];
-      uStack_30 = *(unsigned int *)(param_2 + 0x20);
-      uStack_34 = *(unsigned int *)(param_2 + 0x1c);
-      uStack_38 = *(unsigned int *)(param_2 + 0x18);
-      uStack_4c = *(unsigned int *)(param_2 + 4);
-      uStack_3c = 0;
-      uStack_44 = 0;
-      uStack_40 = 0;
-      ppuStack_50 = &lbl_8200579C;
-      (**(int (***)())(param_1 + 0x30))(&ppuStack_50);
-      fn_82682A48(piVar1 + -4);
-      fn_826828D8(&ppuStack_50);
-      return;
-    }
-    (**(int (***)())(param_1 + 0x30))(param_2);
-  }
-  return;
-}
+    Object_826C3620 *object;
+    Event_826C3620 event;
 
+    if (self->handler == 0) {
+        return;
+    }
+    object = source->object;
+    if (object != 0 && object->vt->isActive(object) != 0) {
+        int target = object->target;
+        int z = source->z;
+        int y = source->y;
+        int x = source->x;
+        int type = source->type;
+        void *owner = object != 0 ? (char *)object - 0x10 : 0;
+
+        event.pair.flags = 0;
+        event.pair.a = 0;
+        event.pair.b = 0;
+        event.target = target;
+        event.vt = lbl_8200579C;
+        event.type = type;
+        event.x = x;
+        event.y = y;
+        event.z = z;
+        self->handler(&event);
+        fn_82682A48(owner);
+        fn_826828D8(&event);
+        return;
+    }
+    self->handler(source);
+}

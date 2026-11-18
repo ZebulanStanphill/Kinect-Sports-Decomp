@@ -1,26 +1,38 @@
-extern int fn_82631488();
-extern int fn_82631830();
+extern unsigned int fn_82631830(const void *desc);
+extern unsigned int fn_82631488(const void *desc);
+extern const char lbl_820EBFE8[0x4b0];
 
+#define E_OUTOFMEMORY ((int)0x8007000e)
 
-unsigned __int64 fn_82C01AD0(int param_1)
+typedef struct Owner_82C01AD0 {
+    char unknown000[0x48];
+    unsigned int primary; /* 0x48 */
+    char unknown04C[0xf8];
+    unsigned int secondary[2]; /* 0x144 */
+} Owner_82C01AD0;
 
+static __forceinline int CreatePrimary(unsigned int *out, const void *desc)
 {
-  __int64 lVar1;
-  unsigned __int64 uVar2;
-  
-  lVar1 = fn_82631830(0xffffffff820ebfe8);
-  *(int *)(param_1 + 0x48) = (int)lVar1;
-  uVar2 = -(unsigned __int64)(lVar1 == 0) & 0xffffffff8007000e;
-  if (-1 < (int)uVar2) {
-    lVar1 = fn_82631488(0xffffffff820ec0d8);
-    *(int *)(param_1 + 0x144) = (int)lVar1;
-    uVar2 = -(unsigned __int64)(lVar1 == 0) & 0xffffffff8007000e;
-    if (-1 < (int)uVar2) {
-      lVar1 = fn_82631488(0xffffffff820ec2b8);
-      *(int *)(param_1 + 0x148) = (int)lVar1;
-      uVar2 = -(unsigned __int64)(lVar1 == 0) & 0xffffffff8007000e;
-    }
-  }
-  return uVar2;
+    *out = fn_82631830(desc);
+    return *out == 0 ? E_OUTOFMEMORY : 0;
 }
 
+static __forceinline int CreateSecondary(unsigned int *out, const void *desc)
+{
+    *out = fn_82631488(desc);
+    return *out == 0 ? E_OUTOFMEMORY : 0;
+}
+
+int fn_82C01AD0(Owner_82C01AD0 *self)
+{
+    int status;
+
+    status = CreatePrimary(&self->primary, lbl_820EBFE8);
+    if (status >= 0) {
+        status = CreateSecondary(&self->secondary[0], lbl_820EBFE8 + 0xf0);
+        if (status >= 0) {
+            status = CreateSecondary(&self->secondary[1], lbl_820EBFE8 + 0x2d0);
+        }
+    }
+    return status;
+}
