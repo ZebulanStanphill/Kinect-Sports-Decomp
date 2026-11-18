@@ -1,52 +1,82 @@
-extern int fn_82E2E4C0();
-extern int fn_82E2F3F8();
-extern int fn_82E50CB8();
-extern int fn_82E50F10();
+typedef struct Stream_82E2F790 Stream_82E2F790;
 
+typedef struct StreamVtbl_82E2F790 {
+    void *slot0;
+    void *slot1;
+    unsigned long (*Release)(Stream_82E2F790 *self); /* 0x08 */
+    void *slots[31];
+    unsigned short (*GetId)(Stream_82E2F790 *self); /* 0x88 */
+} StreamVtbl_82E2F790;
 
-unsigned __int64 fn_82E2F790(int param_1,short param_2)
+struct Stream_82E2F790 {
+    StreamVtbl_82E2F790 *vt;
+};
 
+/* Block list of stream pointers (fn_82E2E4C0 removes an entry). */
+typedef struct List_82E2F790 {
+    char blocks[0x68];
+    unsigned int count; /* 0x68 */
+} List_82E2F790;
+
+typedef struct Source_82E2F790 {
+    char pad0[0x54];
+    char lock[0x40];       /* 0x54 */
+    List_82E2F790 streams; /* 0x94 */
+} Source_82E2F790;
+
+extern void fn_82E50CB8(void *lock);
+extern void fn_82E50F10(void *lock);
+extern int fn_82E2F3F8(List_82E2F790 *list, unsigned int index, Stream_82E2F790 **out);
+extern int fn_82E2E4C0(List_82E2F790 *list, unsigned int index);
+
+/* Removes count entries starting at index; false when the range is out of bounds or a removal fails. */
+static __forceinline int RemoveAt(List_82E2F790 *list, unsigned int index, unsigned int count)
 {
-  int *piVar1;
-  int iVar2;
-  short sVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  int * apiStack_50;
-  
-  apiStack_50 = (int *)0x0;
-  uVar4 = 0;
-  fn_82E50CB8(param_1 + 0x54);
-  uVar5 = 0;
-  if (*(int *)(param_1 + 0xfc) != 0) {
-    while ((iVar2 = fn_82E2F3F8(param_1 + 0x94,uVar5,&apiStack_50), piVar1 = apiStack_50,
-           iVar2 != 0 && (apiStack_50 != (int *)0x0))) {
-      sVar3 = (**(int (***)())(*apiStack_50 + 0x88))(apiStack_50);
-      if ((sVar3 == param_2) ||
-         (uVar5 = uVar5 + 1, (unsigned __int64)*(unsigned int *)(param_1 + 0xfc) <= (uVar5 & 0xffffffff)))
-      goto LAB_82e2f834;
+    int hr;
+    unsigned int i;
+
+    if (index + count > list->count) {
+        return 0;
     }
-    uVar4 = 0xffffffff80070057;
-LAB_82e2f834:
-    if (piVar1 != (int *)0x0) {
-      sVar3 = (**(int (***)())(*piVar1 + 0x88))(piVar1);
-      if (sVar3 == param_2) {
-        (**(int (***)())(*piVar1 + 8))(piVar1);
-        if (((unsigned __int64)*(unsigned int *)(param_1 + 0xfc) < (uVar5 + 1 & 0xffffffff)) ||
-           (iVar2 = fn_82E2E4C0(param_1 + 0x94,uVar5), iVar2 < 0)) {
-          uVar4 = 0xffffffff8000ffff;
+    for (i = 0; i < count; i++) {
+        hr = fn_82E2E4C0(list, index);
+        if (hr < 0) {
+            break;
         }
-        else {
-          *(int *)(param_1 + 0xfc) = *(int *)(param_1 + 0xfc) + -1;
-          uVar4 = 0;
-        }
-      }
-      else {
-        uVar4 = 0xffffffffc00d36b3;
-      }
+        list->count--;
     }
-  }
-  fn_82E50F10(param_1 + 0x54);
-  return uVar4;
+    return hr >= 0;
 }
 
+/* Releases and removes the stream with the given identifier. */
+long fn_82E2F790(Source_82E2F790 *self, unsigned short id)
+{
+    Stream_82E2F790 *stream = 0;
+    long hr = 0;
+    unsigned int i;
+
+    fn_82E50CB8(self->lock);
+    for (i = 0; i < self->streams.count; i++) {
+        if (!fn_82E2F3F8(&self->streams, i, &stream) || stream == 0) {
+            hr = 0x80070057;
+            break;
+        }
+        if (stream->vt->GetId(stream) == id) {
+            break;
+        }
+    }
+    if (stream != 0) {
+        if (stream->vt->GetId(stream) != id) {
+            hr = 0xc00d36b3;
+        } else {
+            stream->vt->Release(stream);
+            if (!RemoveAt(&self->streams, i, 1)) {
+                hr = 0x8000ffff;
+            } else {
+                hr = 0;
+            }
+        }
+    }
+    fn_82E50F10(self->lock);
+    return hr;
+}

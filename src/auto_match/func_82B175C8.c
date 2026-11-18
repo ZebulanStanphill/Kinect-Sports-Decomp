@@ -1,47 +1,59 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_82AA66A8();
-extern int fn_82ABDD90();
+typedef union Instruction_82B175C8 {
+    unsigned int word;
 
+    struct {
+        unsigned int pad0 : 1;
+        unsigned int marked : 1;
+        unsigned int pad2 : 8;
+        unsigned int first : 3;
+        unsigned int pad13 : 2;
+        unsigned int second : 3;
+        unsigned int opcode : 7;
+        unsigned int pad25 : 7;
+    } fields;
+} Instruction_82B175C8;
 
-bool fn_82B175C8(int param_1,int param_2,int param_3,int param_4)
+typedef struct Record_82B175C8 {
+    unsigned int unknown; /* 0x0 */
+    unsigned int flags;   /* 0x4 */
+    char pad8[0x20];
+} Record_82B175C8;
 
+typedef struct Context_82B175C8 {
+    char pad0[0xc];
+    Record_82B175C8 *records; /* 0xc */
+} Context_82B175C8;
+
+extern unsigned int fn_82ABDD90(Context_82B175C8 *, unsigned int, unsigned int, unsigned int);
+extern void fn_82AA66A8(Context_82B175C8 *, int);
+
+unsigned char fn_82B175C8(Context_82B175C8 *self, unsigned int *previous, Instruction_82B175C8 *instruction,
+                          unsigned int mode)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  int iVar3;
-  bool bVar4;
-  
-  uVar2 = *(unsigned int *)(param_3 + 8) >> 7 & 0x7f;
-  if (uVar2 == 0x78) {
-    if (((*(unsigned int *)(param_2 + 8) & 0x3f80) != 0x3000) ||
-       (bVar4 = true, (*(unsigned int *)(param_2 + 8) & 0x380000) < 0x80001)) {
-      bVar4 = false;
+    unsigned int opcode = instruction[2].fields.opcode;
+    if (opcode == 0x78) {
+        unsigned char wide = (previous[2] & 0x3f80) == 0x3000 && (previous[2] & 0x380000) > 0x80000;
+        Instruction_82B175C8 *header = (Instruction_82B175C8 *)previous[11 + ((unsigned int)wide > 0)];
+        if ((unsigned char)header->fields.marked != 0) {
+            return 1;
+        }
     }
-    if ((**(unsigned int **)((0xc - (unsigned int)!bVar4) * 4 + param_2) >> 0x1e & 1) == 0) goto LAB_82b17644;
-LAB_82b1763c:
-    bVar4 = true;
-  }
-  else {
-LAB_82b17644:
-    if (uVar2 == 0x7c) {
-      uVar1 = *(unsigned int *)(param_3 + 8);
-      iVar3 = fn_82ABDD90(param_1,uVar1 >> 7 & 0x7f,uVar1 >> 0x13 & 7,uVar1 >> 0xe & 7);
-      if ((*(unsigned int *)((*(unsigned int *)(iVar3 + param_3 + -8) & 0x7fff) * 0x28 + *(int *)(param_1 + 0xc) + 4
-                    ) & 0x70) == 0x30) goto LAB_82b1763c;
+    if (instruction[2].fields.opcode == 0x7c) {
+        char *base = (char *)instruction - 8;
+        unsigned int record =
+            *(unsigned int *)(fn_82ABDD90(self, instruction[2].fields.opcode, instruction[2].fields.first,
+                                          instruction[2].fields.second) +
+                              base) &
+            0x7fff;
+        if ((self->records[record].flags & 0x70) == 0x30) {
+            return 1;
+        }
     }
-    if (param_4 == 0) {
-      bVar4 = false;
+    if (mode >= 1) {
+        if (mode != 1) {
+            fn_82AA66A8(self, 0x12c0);
+        }
+        return opcode == 0x76;
     }
-    else {
-      if (param_4 != 1) {
-                    /* WARNING: Subroutine does not return */
-        fn_82AA66A8(param_1,0x12c0);
-      }
-      bVar4 = uVar2 == 0x76;
-    }
-  }
-  return bVar4;
+    return 0;
 }
-

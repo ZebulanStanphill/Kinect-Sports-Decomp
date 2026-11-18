@@ -1,38 +1,43 @@
-extern int fn_82E4BC08();
-extern int fn_82E9A160();
-extern unsigned int uStack_30;
+typedef struct Writer_82E9A868 {
+    char unknown0[0x3c];
+    unsigned int count; /* 0x3c */
+    char unknown40[0x18];
+    unsigned int capacity; /* 0x58 */
+} Writer_82E9A868;
 
+/* Forwards its second and third arguments to fn_82E83078. */
+extern int fn_82E4BC08(Writer_82E9A868 *self, unsigned char *destination, unsigned int *size);
+extern unsigned int fn_82E9A160(Writer_82E9A868 *self, unsigned char *destination, unsigned int capacity,
+                                unsigned int type, unsigned int *size);
 
-unsigned __int64
-fn_82E9A868(int param_1,unsigned char *param_2,unsigned int *param_3,unsigned __int64 param_4,unsigned int param_5)
-
+/* Writes a 00 00 01 0E start code and the header after it; the first one also gets a type 30 block. */
+int fn_82E9A868(Writer_82E9A868 *self, unsigned char *destination, unsigned int *outSize, unsigned int unused,
+                unsigned int options)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  int iVar3;
-  unsigned int uVar4;
-  unsigned int uStack_30;
-  int aiStack_2c [11];
-  
-  uVar1 = *(unsigned int *)(param_1 + 0x3c);
-  *param_2 = 0;
-  param_2[1] = 0;
-  param_2[2] = 1;
-  param_2[3] = 0xe;
-  fn_82E4BC08(param_1,param_2 + 4,&uStack_30,(unsigned __int64)uVar1 - 1);
-  uVar4 = uStack_30 + 4;
-  if ((*(unsigned int *)(param_1 + 0x58) < uStack_30 + 4) ||
-     (((-(unsigned int)((unsigned __int64)uVar1 == 0) & param_5) != 0 &&
-      ((uStack_30 = uVar4,
-       iVar3 = fn_82E9A160(param_1,param_2 + uVar4,*(unsigned int *)(param_1 + 0x58) - uVar4,0x1e,
-                             aiStack_2c), iVar3 != 0 ||
-       (uVar4 = aiStack_2c[0] + uStack_30, *(unsigned int *)(param_1 + 0x58) < uVar4)))))) {
-    uVar2 = 0xffffffffffffff9c;
-  }
-  else {
-    *param_3 = uVar4;
-    uVar2 = 0;
-  }
-  return uVar2;
-}
+    unsigned int size;
+    unsigned int extra;
+    unsigned int count = self->count;
+    int append;
 
+    destination[0] = 0;
+    destination[1] = 0;
+    destination[2] = 1;
+    destination[3] = 14;
+    append = count == 0 ? options : 0;
+    fn_82E4BC08(self, destination + 4, &size);
+    size += 4;
+    if (size > self->capacity) {
+        return -100;
+    }
+    if (append != 0) {
+        if (fn_82E9A160(self, destination + size, self->capacity - size, 30, &extra) != 0) {
+            return -100;
+        }
+        size = extra + size;
+        if (size > self->capacity) {
+            return -100;
+        }
+    }
+    *outSize = size;
+    return 0;
+}

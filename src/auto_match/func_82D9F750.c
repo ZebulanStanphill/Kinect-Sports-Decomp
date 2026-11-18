@@ -1,32 +1,27 @@
-extern int fn_82CECDD8();
+/* hkpLinearParametricCurve: only the members this function reads. */
+typedef struct Curve_82D9F750 {
+    char unknown0[0x24];
+    int m_pointsSize;     /* 0x24: m_points.m_size */
+    int m_pointsCapacity; /* 0x28 */
+    float *m_distance;    /* 0x2c: m_distance.m_data */
+} Curve_82D9F750;
 
+extern int fn_82CECDD8(float value);
 
-double fn_82D9F750(double param_1,int param_2)
-
+/* Distance along the curve at a parametric position: the segment's two ends are interpolated. */
+float fn_82D9F750(Curve_82D9F750 *self, float position)
 {
-  float fVar1;
-  float fVar2;
-  unsigned int uVar3;
-  float *pfVar4;
-  unsigned int uVar5;
-  int iVar6;
-  
-  uVar3 = fn_82CECDD8();
-  uVar5 = *(int *)(param_2 + 0x24) - 1;
-  if ((int)uVar3 < (int)uVar5) {
-    uVar5 = 0xffffffffU - ((int)uVar3 >> 0x1f) & uVar3;
-    iVar6 = uVar5 * 4;
-    pfVar4 = (float *)(*(int *)(param_2 + 0x2c) + iVar6);
-    fVar1 = pfVar4[1];
-    fVar2 = *pfVar4;
-  }
-  else {
-    iVar6 = uVar5 * 4;
-    pfVar4 = (float *)(*(int *)(param_2 + 0x2c) + iVar6);
-    fVar1 = *pfVar4;
-    fVar2 = pfVar4[-1];
-  }
-  return (double)((float)(param_1 - (double)(__int64)(int)uVar5) * (fVar1 - fVar2) +
-                 *(float *)(*(int *)(param_2 + 0x2c) + iVar6));
-}
+    int index = fn_82CECDD8(position);
+    float delta;
 
+    if (index >= self->m_pointsSize - 1) {
+        index = self->m_pointsSize - 1;
+        delta = self->m_distance[index] - self->m_distance[index - 1];
+    } else {
+        if (index < 0) {
+            index = 0;
+        }
+        delta = self->m_distance[index + 1] - self->m_distance[index];
+    }
+    return (position - (float)index) * delta + self->m_distance[index];
+}

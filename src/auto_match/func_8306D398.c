@@ -1,31 +1,38 @@
-extern int fn_82F68CC0();
-extern int fn_8306D020();
-extern int fn_8306D1B8();
+typedef struct Block_8306D398 {
+    unsigned char bytes[0x30];
+} Block_8306D398;
 
+typedef struct Mixer_8306D398 {
+    char pad0[0xb330];
+    Block_8306D398 first[73];  /* 0xb330 */
+    Block_8306D398 second[73]; /* 0xc0e0 */
+    Block_8306D398 output[72]; /* 0xce90 */
+} Mixer_8306D398;
 
-void fn_8306D398(unsigned __int64 param_1,__int64 param_2)
+extern void fn_8306D1B8(Mixer_8306D398 *self, Block_8306D398 *buffer, int enabled);
+extern void fn_8306D020(Mixer_8306D398 *self, Block_8306D398 *buffer, float delta);
+extern void *memcpy(void *destination, const void *source, unsigned int size);
+extern unsigned int lbl_831BCA68[72];
 
+void fn_8306D398(Mixer_8306D398 *self, float delta)
 {
-  __int64 lVar1;
-  __int64 lVar2;
-  int *piVar3;
-  
-  fn_8306D1B8(param_2,param_2 + 0xb330,1);
-  fn_8306D1B8(param_2,param_2 + 0xc0e0,0);
-  fn_8306D020(param_1,param_2,param_2 + 0xb330);
-  fn_8306D020(param_1,param_2,param_2 + 0xc0e0);
-  piVar3 = (int *)0x831bca68;
-  param_2 = param_2 + 0xce90;
-  lVar2 = 0x48;
-  do {
-    if ((*piVar3 == 0) || (lVar1 = param_2 + -0xdb0, *piVar3 != 1)) {
-      lVar1 = param_2 + -0x1b60;
-    }
-    fn_82F68CC0(param_2,lVar1,0x30);
-    lVar2 = lVar2 + -1;
-    piVar3 = piVar3 + 1;
-    param_2 = param_2 + 0x30;
-  } while (lVar2 != 0);
-  return;
-}
+    unsigned int i;
 
+    fn_8306D1B8(self, self->first, 1);
+    fn_8306D1B8(self, self->second, 0);
+    fn_8306D020(self, self->first, delta);
+    fn_8306D020(self, self->second, delta);
+    for (i = 0; i < 72; i++) {
+        switch (lbl_831BCA68[i]) {
+        case 0:
+            memcpy(&self->output[i], &self->first[i], 0x30);
+            break;
+        case 1:
+            memcpy(&self->output[i], &self->second[i], 0x30);
+            break;
+        default:
+            memcpy(&self->output[i], &self->first[i], 0x30);
+            break;
+        }
+    }
+}

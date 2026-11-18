@@ -1,301 +1,44 @@
-extern unsigned int lbl_832192B8;
-extern unsigned int lbl_832192C0;
-extern unsigned int lbl_832192C8;
-extern unsigned int lbl_832192D0;
-extern unsigned int lbl_832192D8;
+typedef struct Entry_83129F48 {
+    __int64 v[5];
+} Entry_83129F48;
 
+extern Entry_83129F48 lbl_8315D158;
+extern Entry_83129F48 lbl_8315D180;
+extern Entry_83129F48 lbl_83218DE0[32];
+extern void *memset(void *destination, int value, unsigned int size);
 
 void fn_83129F48(void)
-
 {
-  unsigned __int64 *puVar1;
-  unsigned __int64 *puVar2;
-  __int64 lVar3;
-  
-  puVar1 = (unsigned __int64 *)0x83218dd8;
-  puVar2 = (unsigned __int64 *)0x8315d150;
-  lVar3 = 5;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  puVar1 = (unsigned __int64 *)0x83218e00;
-  puVar2 = (unsigned __int64 *)0x8315d150;
-  lVar3 = 5;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  puVar1 = (unsigned __int64 *)0x83218e28;
-  puVar2 = (unsigned __int64 *)0x8315d150;
-  lVar3 = 5;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  puVar1 = (unsigned __int64 *)0x83218e50;
-  puVar2 = (unsigned __int64 *)0x8315d150;
-  lVar3 = 5;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  puVar1 = (unsigned __int64 *)0x83218e78;
-  puVar2 = (unsigned __int64 *)0x8315d150;
-  lVar3 = 5;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  puVar1 = (unsigned __int64 *)0x83218ea0;
-  puVar2 = (unsigned __int64 *)0x8315d150;
-  lVar3 = 5;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  puVar1 = (unsigned __int64 *)0x83218ec8;
-  puVar2 = (unsigned __int64 *)0x8315d150;
-  lVar3 = 5;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  puVar1 = (unsigned __int64 *)0x83218ef0;
-  puVar2 = (unsigned __int64 *)0x8315d150;
-  lVar3 = 5;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  puVar1 = (unsigned __int64 *)0x83218f18;
-  puVar2 = (unsigned __int64 *)0x8315d150;
-  lVar3 = 5;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  puVar1 = (unsigned __int64 *)0x83218f40;
-  puVar2 = (unsigned __int64 *)0x8315d150;
-  lVar3 = 5;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  puVar1 = (unsigned __int64 *)0x83218f68;
-  puVar2 = (unsigned __int64 *)0x8315d150;
-  lVar3 = 5;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  puVar1 = (unsigned __int64 *)0x83218f90;
-  puVar2 = (unsigned __int64 *)0x8315d150;
-  lVar3 = 5;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  puVar1 = (unsigned __int64 *)0x83218fb8;
-  puVar2 = (unsigned __int64 *)0x8315d178;
-  lVar3 = 5;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  puVar1 = (unsigned __int64 *)0x83218fe0;
-  puVar2 = (unsigned __int64 *)0x8315d178;
-  lVar3 = 5;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  puVar1 = (unsigned __int64 *)0x83219008;
-  puVar2 = (unsigned __int64 *)0x8315d150;
-  lVar3 = 5;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  puVar1 = (unsigned __int64 *)0x83219030;
-  puVar2 = (unsigned __int64 *)0x8315d178;
-  lVar3 = 5;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  puVar1 = (unsigned __int64 *)0x83219058;
-  puVar2 = (unsigned __int64 *)0x8315d178;
-  lVar3 = 5;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  puVar1 = (unsigned __int64 *)0x83219080;
-  puVar2 = (unsigned __int64 *)0x8315d178;
-  lVar3 = 5;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  puVar1 = (unsigned __int64 *)0x832190a8;
-  puVar2 = (unsigned __int64 *)0x8315d178;
-  lVar3 = 5;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  puVar1 = (unsigned __int64 *)0x832190d0;
-  puVar2 = (unsigned __int64 *)0x8315d150;
-  lVar3 = 5;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  puVar1 = (unsigned __int64 *)0x832190f8;
-  puVar2 = (unsigned __int64 *)0x8315d150;
-  lVar3 = 5;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  puVar1 = (unsigned __int64 *)0x83219120;
-  puVar2 = (unsigned __int64 *)0x8315d150;
-  lVar3 = 5;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  puVar1 = (unsigned __int64 *)0x83219148;
-  puVar2 = (unsigned __int64 *)0x8315d150;
-  lVar3 = 5;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  puVar1 = (unsigned __int64 *)0x83219170;
-  puVar2 = (unsigned __int64 *)0x8315d150;
-  lVar3 = 5;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  puVar1 = (unsigned __int64 *)0x83219198;
-  puVar2 = (unsigned __int64 *)0x8315d150;
-  lVar3 = 5;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  puVar1 = (unsigned __int64 *)0x832191c0;
-  puVar2 = (unsigned __int64 *)0x8315d178;
-  lVar3 = 5;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  puVar1 = (unsigned __int64 *)0x832191e8;
-  puVar2 = (unsigned __int64 *)0x8315d178;
-  lVar3 = 5;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  puVar1 = (unsigned __int64 *)0x83219210;
-  puVar2 = (unsigned __int64 *)0x8315d150;
-  lVar3 = 5;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  puVar1 = (unsigned __int64 *)0x83219238;
-  puVar2 = (unsigned __int64 *)0x8315d150;
-  lVar3 = 5;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  puVar1 = (unsigned __int64 *)0x83219260;
-  puVar2 = (unsigned __int64 *)0x8315d178;
-  lVar3 = 5;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  puVar1 = (unsigned __int64 *)0x83219288;
-  puVar2 = (unsigned __int64 *)0x8315d178;
-  lVar3 = 5;
-  do {
-    puVar2 = puVar2 + 1;
-    puVar1 = puVar1 + 1;
-    *puVar1 = *puVar2;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  lbl_832192B8 = 0;
-  lbl_832192C0 = 0;
-  lbl_832192C8 = 0;
-  lbl_832192D0 = 0;
-  lbl_832192D8 = 0;
-  return;
+    lbl_83218DE0[0] = lbl_8315D158;
+    lbl_83218DE0[1] = lbl_8315D158;
+    lbl_83218DE0[2] = lbl_8315D158;
+    lbl_83218DE0[3] = lbl_8315D158;
+    lbl_83218DE0[4] = lbl_8315D158;
+    lbl_83218DE0[5] = lbl_8315D158;
+    lbl_83218DE0[6] = lbl_8315D158;
+    lbl_83218DE0[7] = lbl_8315D158;
+    lbl_83218DE0[8] = lbl_8315D158;
+    lbl_83218DE0[9] = lbl_8315D158;
+    lbl_83218DE0[10] = lbl_8315D158;
+    lbl_83218DE0[11] = lbl_8315D158;
+    lbl_83218DE0[12] = lbl_8315D180;
+    lbl_83218DE0[13] = lbl_8315D180;
+    lbl_83218DE0[14] = lbl_8315D158;
+    lbl_83218DE0[15] = lbl_8315D180;
+    lbl_83218DE0[16] = lbl_8315D180;
+    lbl_83218DE0[17] = lbl_8315D180;
+    lbl_83218DE0[18] = lbl_8315D180;
+    lbl_83218DE0[19] = lbl_8315D158;
+    lbl_83218DE0[20] = lbl_8315D158;
+    lbl_83218DE0[21] = lbl_8315D158;
+    lbl_83218DE0[22] = lbl_8315D158;
+    lbl_83218DE0[23] = lbl_8315D158;
+    lbl_83218DE0[24] = lbl_8315D158;
+    lbl_83218DE0[25] = lbl_8315D180;
+    lbl_83218DE0[26] = lbl_8315D180;
+    lbl_83218DE0[27] = lbl_8315D158;
+    lbl_83218DE0[28] = lbl_8315D158;
+    lbl_83218DE0[29] = lbl_8315D180;
+    lbl_83218DE0[30] = lbl_8315D180;
+    memset(&lbl_83218DE0[31], 0, sizeof(Entry_83129F48));
 }
-

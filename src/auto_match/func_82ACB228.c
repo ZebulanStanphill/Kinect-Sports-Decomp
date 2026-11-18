@@ -1,48 +1,57 @@
-#define true 1
-extern unsigned int *auStack_30;
-extern int fn_82ACAF10();
-extern int fn_82ACAE18();
+typedef struct BitData_82ACB228 {
+    unsigned int count; /* 0x0: number of words */
+    unsigned int words[1];
+} BitData_82ACB228;
 
+typedef struct BitSet_82ACB228 {
+    unsigned int bits; /* tagged: inline bits when bit 0 is set, else BitData pointer */
+} BitSet_82ACB228;
 
-unsigned __int64 fn_82ACB228(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,__int64 param_4)
+typedef struct Allocator_82ACB228 {
+    void *ctx;           /* 0x0 */
+    BitSet_82ACB228 set; /* 0x4 */
+} Allocator_82ACB228;
 
+extern int fn_82ACAE18(BitSet_82ACB228 *set, unsigned int pos, unsigned int *bits);
+extern int fn_82ACAF10(BitSet_82ACB228 *set, unsigned int pos, unsigned int *bits);
+
+static __forceinline unsigned int Capacity(BitSet_82ACB228 *set)
 {
-  unsigned int *puVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  unsigned int auStack_30;
+    if ((~set->bits & 1) == 0)
+        return 0x1f;
+    return ((BitData_82ACB228 *)set->bits)->count * 0x20 - 1;
+}
 
-  uVar2 = (param_2 & 0x3fffffff) << 2;
-  while( true ) {
-    if ((int)param_4 < 1) {
-      uVar2 = fn_82ACAE18((unsigned int *)(param_1 + 4),uVar2 + 3,&auStack_30);
+static __forceinline unsigned int Pack(unsigned int found, unsigned int mask)
+{
+    return ((found >> 2) << 4) | (mask & 0xf);
+}
+
+unsigned int fn_82ACB228(Allocator_82ACB228 *self, unsigned int start, unsigned int count, int step)
+{
+    unsigned int pos = start * 4;
+    unsigned int bits;
+    int found;
+    unsigned int result;
+
+    for (;;) {
+        if (step > 0)
+            found = fn_82ACAE18(&self->set, pos, &bits);
+        else
+            found = fn_82ACAF10(&self->set, pos + 3, &bits);
+        if (found == -1)
+            return -1;
+        if (count == 1) {
+            result = Pack(found, 1 << (found & 3));
+            break;
+        }
+        if ((unsigned int)((0x4A2932934DCULL >> bits >> bits >> bits) & 7) >= count) {
+            result = Pack(found, ~bits);
+            break;
+        }
+        pos = (found + step) & ~3;
+        if (pos + count > Capacity(&self->set))
+            return -1;
     }
-    else {
-      uVar2 = fn_82ACAF10();
-    }
-    if ((unsigned int)uVar2 == 0xffffffff) {
-      return 0xffffffffffffffff;
-    }
-    if ((param_3 & 0xffffffff) == 1) break;
-    uVar3 = (unsigned __int64)auStack_30;
-    if ((param_3 & 0xffffffff) <=
-        (((0x4a2932934dcU >> (uVar3 & 0x7f)) >> (uVar3 & 0x7f)) >> (uVar3 & 0x7f) & 7)) {
-      uVar3 = ~uVar3;
-      goto LAB_82acb300;
-    }
-    puVar1 = *(unsigned int **)(param_1 + 4);
-    uVar2 = uVar2 + param_4 & 0xfffffffc;
-    if ((~(unsigned int)puVar1 & 1) == 0) {
-      uVar3 = 0x1f;
-    }
-    else {
-      uVar3 = ((unsigned __int64)*puVar1 & 0x7ffffff) * 0x20 - 1;
-    }
-    if ((uVar3 & 0xffffffff) < (uVar2 + param_3 & 0xffffffff)) {
-      return 0xffffffffffffffff;
-    }
-  }
-  uVar3 = (unsigned __int64)(unsigned int)(1 << ((unsigned int)uVar2 & 3));
-LAB_82acb300:
-  return (uVar2 & 0x3ffffffc) << 2 | uVar3 & 0xffffffff0000000f;
+    return result;
 }

@@ -1,47 +1,48 @@
-extern int fn_82F68CC0();
-extern unsigned int lbl_831BCA54;
+typedef struct AllocVt_8305E3E8 AllocVt_8305E3E8;
 
+typedef struct Alloc_8305E3E8 {
+    AllocVt_8305E3E8 *vt;
+} Alloc_8305E3E8;
 
-void fn_8305E3E8(int param_1,int param_2)
+struct AllocVt_8305E3E8 {
+    void *(*Alloc)(Alloc_8305E3E8 *self, unsigned int size);
+    void (*Free)(Alloc_8305E3E8 *self, void *mem);
+};
 
+typedef struct Array_8305E3E8 {
+    int pad00[4];
+    int *heap;    /* 0x10 */
+    int local[6]; /* 0x14 */
+    int *data;    /* 0x2c */
+    int count;    /* 0x30 */
+} Array_8305E3E8;
+
+extern void *memcpy(void *dst, const void *src, unsigned int size);
+extern Alloc_8305E3E8 *lbl_831BCA54;
+
+void fn_8305E3E8(Array_8305E3E8 *array, int count)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  int iVar3;
-  
-  if (param_2 < 6) {
-    iVar3 = *(int *)(param_1 + 0x30);
-    *(int *)(param_1 + 0x2c) = param_1 + 0x14;
-    if ((0 < iVar3) && (*(int *)(param_1 + 0x10) != 0)) {
-      if (param_2 < iVar3) {
-        iVar3 = param_2;
-      }
-      fn_82F68CC0(param_1 + 0x14,*(int *)(param_1 + 0x10),iVar3 << 2);
-      (**(int (***)())(*(int *)lbl_831BCA54 + 4))(lbl_831BCA54,*(unsigned int *)(param_1 + 0x10));
-      *(unsigned int *)(param_1 + 0x10) = 0;
+    int copied;
+    if (count > 5) {
+        copied = array->count;
+        array->data = (int *)lbl_831BCA54->vt->Alloc(lbl_831BCA54, count * 4);
+        array->count = count;
+        if (copied > 0) {
+            memcpy(array->data, array->heap != 0 ? array->heap : array->local,
+                   (copied < count ? copied : count) * 4);
+            if (array->heap != 0) {
+                lbl_831BCA54->vt->Free(lbl_831BCA54, array->heap);
+            }
+        }
+        array->heap = array->data;
+    } else {
+        copied = array->count;
+        array->data = array->local;
+        if (copied > 0 && array->heap != 0) {
+            memcpy(array->local, array->heap, (count < copied ? count : copied) * 4);
+            lbl_831BCA54->vt->Free(lbl_831BCA54, array->heap);
+            array->heap = 0;
+        }
+        array->count = count;
     }
-    *(int *)(param_1 + 0x30) = param_2;
-  }
-  else {
-    iVar3 = *(int *)(param_1 + 0x30);
-    uVar1 = (*(int (**)())**(unsigned int **)lbl_831BCA54)(lbl_831BCA54,param_2 << 2);
-    *(int *)(param_1 + 0x30) = param_2;
-    *(int *)(param_1 + 0x2c) = (int)uVar1;
-    if (0 < iVar3) {
-      if (param_2 <= iVar3) {
-        iVar3 = param_2;
-      }
-      iVar2 = *(int *)(param_1 + 0x10);
-      if (iVar2 == 0) {
-        iVar2 = param_1 + 0x14;
-      }
-      fn_82F68CC0(uVar1,iVar2,iVar3 << 2);
-      if (*(int *)(param_1 + 0x10) != 0) {
-        (**(int (***)())(*(int *)lbl_831BCA54 + 4))();
-      }
-    }
-    *(unsigned int *)(param_1 + 0x10) = *(unsigned int *)(param_1 + 0x2c);
-  }
-  return;
 }
-

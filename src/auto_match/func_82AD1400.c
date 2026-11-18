@@ -1,45 +1,76 @@
-extern unsigned int *auStack_20;
-extern int fn_82B82D28();
-extern int fn_82B86A10();
-extern int fn_82B86B80();
-extern unsigned int iStack_2c;
-extern unsigned int uStack_30;
+typedef struct Instruction_82AD1400 {
+    unsigned int word0; /* 0x00 */
+    unsigned int word4; /* 0x04 */
+    unsigned int word8; /* 0x08 */
+} Instruction_82AD1400;
 
+typedef struct Block_82AD1400 {
+    unsigned int flags;          /* 0x00 */
+    struct Block_82AD1400 *next; /* 0x04 */
+} Block_82AD1400;
 
-int fn_82AD1400(int param_1,int *param_2)
+typedef struct Program_82AD1400 {
+    Block_82AD1400 *blocks; /* 0x00 */
+    int pad4;
+    unsigned int flags; /* 0x08 */
+    char padC[0x20];
+    Block_82AD1400 *mainBlock; /* 0x2c */
+} Program_82AD1400;
 
+typedef struct Compiler_82AD1400 {
+    char pad0[0x28];
+    unsigned int options; /* 0x28 */
+} Compiler_82AD1400;
+
+typedef struct Operand_82AD1400 {
+    int words[4];
+} Operand_82AD1400;
+
+extern void fn_82B82D28(Block_82AD1400 *block, int start, Instruction_82AD1400 **found, int *count,
+                        unsigned int *extra, int a, int b, int c);
+extern void fn_82B86B80(Operand_82AD1400 *out, Instruction_82AD1400 *instruction, int count,
+                        unsigned int extra);
+extern Instruction_82AD1400 *fn_82B86A10(Compiler_82AD1400 *self, int kind, Operand_82AD1400 *operand);
+
+static __forceinline int NotNull(Block_82AD1400 *block)
 {
-  unsigned int *puVar1;
-  int iVar2;
-  unsigned int uStack_30;
-  int iStack_2c;
-  int aiStack_28 [2];
-  unsigned char auStack_20 [16];
-  
-  aiStack_28[0] = 0;
-  iStack_2c = 4;
-  uStack_30 = 0;
-  if ((param_2[2] & 0x380000U) == 0) {
-    for (puVar1 = (unsigned int *)*param_2; puVar1 != (unsigned int *)0x0; puVar1 = (unsigned int *)puVar1[1]) {
-      if ((*puVar1 & 0xe000000) != 0) goto LAB_82ad1438;
+    if (block) {
+        return 1;
     }
-  }
-  else {
-    puVar1 = (unsigned int *)param_2[0xb];
-LAB_82ad1438:
-    fn_82B82D28(puVar1,0,&uStack_30,&iStack_2c,aiStack_28,0,0,0);
-    if ((iStack_2c == 0) && (aiStack_28[0] == 0)) {
-      return uStack_30;
-    }
-    if ((*(unsigned int *)(uStack_30 + 8) & 0x3f80) == 16000) {
-      if ((*(unsigned int *)(param_1 + 0x28) & 0x4000) != 0) {
-        return uStack_30;
-      }
-      fn_82B86B80(auStack_20,uStack_30);
-      iVar2 = fn_82B86A10(param_1,1,auStack_20);
-      return iVar2;
-    }
-  }
-  return 0;
+    return 0;
 }
 
+Instruction_82AD1400 *fn_82AD1400(Compiler_82AD1400 *self, Program_82AD1400 *program)
+{
+    Instruction_82AD1400 *found;
+    int count;
+    unsigned int extra;
+    Block_82AD1400 *block;
+    Operand_82AD1400 operand;
+
+    extra = 0;
+    count = 4;
+    found = 0;
+    if (program->flags & 0x380000) {
+        block = program->mainBlock;
+    } else {
+        block = program->blocks;
+        while (NotNull(block) && !(block->flags & 0xe000000)) {
+            block = block->next;
+        }
+        if (block == 0) {
+            return 0;
+        }
+    }
+    fn_82B82D28(block, 0, &found, &count, &extra, 0, 0, 0);
+    if (count != 0 || extra != 0) {
+        if ((found->word8 & 0x3f80) != 0x3e80) {
+            return 0;
+        }
+        if (!(self->options & 0x4000)) {
+            fn_82B86B80(&operand, found, count, extra);
+            found = fn_82B86A10(self, 1, &operand);
+        }
+    }
+    return found;
+}

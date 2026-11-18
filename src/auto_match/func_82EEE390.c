@@ -1,57 +1,69 @@
-#define true 1
-extern int fn_82EEDD00();
-extern int fn_82F41CE0();
+typedef struct Entry_82EEE390 {
+    char pad0[0x14];
+    unsigned short kind; /* 0x14 */
+    char pad16[2];
+    const char *name;       /* 0x18 */
+    unsigned int field1C;   /* 0x1c */
+    const char *alias1;     /* 0x20 */
+    unsigned int field24;   /* 0x24 */
+    const char *alias2;     /* 0x28 */
+    unsigned int field2C;   /* 0x2c */
+    const char *alias3;     /* 0x30 */
+    unsigned int field34;   /* 0x34 */
+    const char *alias4;     /* 0x38 */
+    unsigned int field3C;   /* 0x3c */
+    unsigned short variant; /* 0x40 */
+} Entry_82EEE390;
 
+typedef struct Context_82EEE390 {
+    char pad0[0x70];
+    unsigned int count; /* 0x70 */
+} Context_82EEE390;
 
-__int64 fn_82EEE390(int param_1,short param_2,unsigned __int64 param_3,short param_4)
+extern int fn_82EEDD00(Context_82EEE390 *self, unsigned int index, Entry_82EEE390 **out);
+extern int fn_82F41CE0(const char *first, const char *second);
 
+/* Looks for an entry of this kind and variant whose name or one of its aliases matches:
+   0 when found, 1 when not, or a failure code. */
+int fn_82EEE390(Context_82EEE390 *self, unsigned short kind, const char *name, unsigned short variant)
 {
-  unsigned int uVar1;
-  __int64 lVar2;
-  int iVar3;
-  int iVar4;
-  unsigned __int64 uVar5;
-  int aiStack_50 [20];
-  
-  uVar1 = *(unsigned int *)(param_1 + 0x70);
-  if ((param_2 == -1) || ((param_3 & 0xffffffff) == 0)) {
-    lVar2 = -0x7ff8ffa9;
-  }
-  else {
-    uVar5 = 0;
-    if (uVar1 != 0) {
-      while( true ) {
-        aiStack_50[0] = 0;
-        lVar2 = fn_82EEDD00(param_1,uVar5,aiStack_50);
-        iVar4 = aiStack_50[0];
-        if (lVar2 < 0) {
-          return lVar2;
-        }
-        if (aiStack_50[0] == 0) break;
-        if ((((param_2 == *(short *)(aiStack_50[0] + 0x14)) &&
-             (param_4 == *(short *)(aiStack_50[0] + 0x40))) &&
-            ((((iVar3 = fn_82F41CE0(param_3,*(unsigned int *)(aiStack_50[0] + 0x18)), iVar3 != 0
-               || ((*(int *)(iVar4 + 0x20) != 0 &&
-                   (iVar3 = fn_82F41CE0(param_3,*(int *)(iVar4 + 0x20)), iVar3 != 0)))) ||
-              ((*(int *)(iVar4 + 0x28) != 0 &&
-               (iVar3 = fn_82F41CE0(param_3,*(int *)(iVar4 + 0x28)), iVar3 != 0)))) ||
-             (((*(int *)(iVar4 + 0x30) != 0 &&
-               (iVar3 = fn_82F41CE0(param_3,*(int *)(iVar4 + 0x30)), iVar3 != 0)) ||
-              ((*(int *)(iVar4 + 0x38) != 0 &&
-               (iVar4 = fn_82F41CE0(param_3,*(int *)(iVar4 + 0x38)), iVar4 != 0)))))))) ||
-           (uVar5 = uVar5 + 1, (unsigned __int64)uVar1 <= (uVar5 & 0xffffffff))) goto LAB_82eee4c0;
-      }
-      lVar2 = -0x3ff2c945;
-LAB_82eee4c0:
-      if ((int)lVar2 < 0) {
-        return lVar2;
-      }
-      if ((uVar5 & 0xffffffff) < (unsigned __int64)uVar1) {
-        return lVar2;
-      }
-    }
-    lVar2 = 1;
-  }
-  return lVar2;
-}
+    unsigned int count = self->count;
+    unsigned int index;
+    int result;
 
+    if (kind == 0xffff || name == 0) {
+        result = 0x80070057;
+    } else {
+        index = 0;
+        if (count != 0) {
+            do {
+                Entry_82EEE390 *entry = 0;
+
+                result = fn_82EEDD00(self, index, &entry);
+                if (result < 0) {
+                    goto done;
+                }
+                if (entry == 0) {
+                    result = 0xc00d36bb;
+                    break;
+                }
+                if (kind == entry->kind && variant == entry->variant) {
+                    if (fn_82F41CE0(name, entry->name) != 0 ||
+                        (entry->alias1 != 0 && fn_82F41CE0(name, entry->alias1) != 0) ||
+                        (entry->alias2 != 0 && fn_82F41CE0(name, entry->alias2) != 0) ||
+                        (entry->alias3 != 0 && fn_82F41CE0(name, entry->alias3) != 0) ||
+                        (entry->alias4 != 0 && fn_82F41CE0(name, entry->alias4) != 0)) {
+                        break;
+                    }
+                }
+                index++;
+            } while (count > index);
+            if (result < 0 || count > index) {
+                goto done;
+            }
+        }
+        result = 1;
+    }
+done:
+    return result;
+}

@@ -1,35 +1,56 @@
-extern int fn_83019B78();
-extern int fn_83034D00();
+typedef struct Pair_83034DB0 {
+    unsigned int key;
+} Pair_83034DB0;
 
+typedef struct Node_83034DB0 {
+    struct Node_83034DB0 *next;
+    Pair_83034DB0 pair;
+} Node_83034DB0;
 
-unsigned __int64 fn_83034DB0(int param_1,int param_2)
+typedef struct List_83034DB0 {
+    Node_83034DB0 *head;
+} List_83034DB0;
 
+typedef struct Object_83034DB0 {
+    int pad0;
+    List_83034DB0 *list;
+} Object_83034DB0;
+
+typedef struct Item_83034DB0 {
+    char pad0[0xc];
+    unsigned int key;
+} Item_83034DB0;
+
+extern unsigned char fn_83034D00(Object_83034DB0 *self, Item_83034DB0 *item);
+extern void *fn_83019B78(List_83034DB0 *list, unsigned int key);
+
+static __forceinline Pair_83034DB0 *List_find(List_83034DB0 *l, unsigned int key)
 {
-  unsigned int *puVar1;
-  char cVar4;
-  unsigned __int64 uVar2;
-  int iVar3;
-  
-  cVar4 = fn_83034D00();
-  if (cVar4 == '\0') {
-    uVar2 = 2;
-  }
-  else {
-    for (puVar1 = (unsigned int *)**(unsigned int **)(param_1 + 4); puVar1 != (unsigned int *)0x0;
-        puVar1 = (unsigned int *)*puVar1) {
-      if (puVar1[1] == *(int *)(param_2 + 0xc)) {
-        if (puVar1 != (unsigned int *)0xfffffffc) {
-          return 1;
+    Node_83034DB0 *n;
+
+    for (n = l->head; n != 0; n = n->next) {
+        if (n->pair.key == key) {
+            return &n->pair;
         }
-        break;
-      }
     }
-    iVar3 = fn_83019B78();
-    uVar2 = 2;
-    if (iVar3 != 0) {
-      uVar2 = 1;
-    }
-  }
-  return uVar2;
+    return 0;
 }
 
+int fn_83034DB0(Object_83034DB0 *self, Item_83034DB0 *item)
+{
+    int result = 1;
+    List_83034DB0 *list;
+    unsigned int key;
+    if (fn_83034D00(self, item) == 0) {
+        result = 2;
+    } else {
+        list = self->list;
+        key = item->key;
+        if (List_find(list, key) != 0) {
+            result = 1;
+        } else if (fn_83019B78(list, key) == 0) {
+            result = 2;
+        }
+    }
+    return result;
+}

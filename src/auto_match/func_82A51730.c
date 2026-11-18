@@ -1,60 +1,43 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern int fn_82A42E20();
-extern int fn_82A50190();
-extern unsigned __int64 storeWordConditionalIndexed();
+typedef struct Context_82A51730 Context_82A51730;
 
+struct Context_82A51730 {
+    int (**vtable)(Context_82A51730 *);
+    char pad4[0x2c];
+    char *device;
+    char pad34[8];
+    unsigned int format;
+    unsigned int flags;
+    char pad44[0x34];
+    long *resource;
+};
 
-unsigned __int64 fn_82A51730(int *param_1)
+extern int fn_82A50190(Context_82A51730 *);
+extern long *fn_82A42E20(void *, int, unsigned int, unsigned int, unsigned int);
+long _InterlockedIncrement(long *);
+long _InterlockedDecrement(long *);
 
+int fn_82A51730(Context_82A51730 *self)
 {
-  int iVar1;
-  unsigned int uVar2;
-  bool bVar3;
-  bool bVar4;
-  int iVar7;
-  unsigned __int64 uVar5;
-  __int64 lVar6;
-  unsigned int *puVar8;
-  char in_RESERVE;
-  
-  iVar7 = fn_82A50190();
-  bVar3 = iVar7 == 0;
-  if (!bVar3) {
-    puVar8 = (unsigned int *)param_1[0x1e];
-    if (ZEXT48(puVar8) != 0) {
-      if (in_RESERVE != '\0') {
-        uVar2 = storeWordConditionalIndexed((unsigned __int64)*puVar8 - 1,0,ZEXT48(puVar8));
-        *puVar8 = uVar2;
-      }
-      param_1[0x1e] = 0;
+    int create = fn_82A50190(self) == 0;
+    long *resource;
+    unsigned int flags;
+    unsigned int format;
+    char *device;
+    int result;
+    unsigned int type;
+    if (!create && self->resource) {
+        _InterlockedDecrement(self->resource);
+        self->resource = 0;
     }
-  }
-  iVar7 = param_1[0x10];
-  iVar1 = param_1[0xf];
-  uVar2 = param_1[0xc];
-  uVar5 = (**(int (***)())(*param_1 + 0x6c))(param_1);
-  lVar6 = fn_82A42E20((unsigned __int64)uVar2 + 0x250,bVar3,iVar1,uVar5,iVar7);
-  puVar8 = (unsigned int *)lVar6;
-  param_1[0x1e] = (int)puVar8;
-  if (lVar6 == 0) {
-    uVar5 = 0xffffffff8007000e;
-  }
-  else {
-    uVar5 = 0;
-    bVar4 = false;
-    while (!bVar3) {
-      bVar3 = bVar4;
-      if (in_RESERVE != '\0') {
-        uVar2 = storeWordConditionalIndexed((unsigned __int64)*puVar8 + 1,0,lVar6);
-        *puVar8 = uVar2;
-        bVar4 = true;
-        bVar3 = bVar4;
-      }
+    flags = self->flags;
+    format = self->format;
+    device = self->device;
+    type = self->vtable[27](self);
+    self->resource = fn_82A42E20(device + 0x250, create, format, type, flags);
+    resource = self->resource;
+    result = resource ? 0 : 0x8007000e;
+    if (result >= 0 && !create) {
+        _InterlockedIncrement(resource);
     }
-  }
-  return uVar5;
+    return result;
 }
-

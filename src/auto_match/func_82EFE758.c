@@ -1,32 +1,33 @@
-void fn_82EFE758(int param_1)
+typedef struct State_82EFE758 {
+    char pad0[0x2a4];
+    int level; /* 0x2a4 */
+    char pad2a8[0x868 - 0x2a8];
+    int step; /* 0x868 */
+    char pad86c[0x1f58 - 0x86c];
+    int busy; /* 0x1f58 */
+} State_82EFE758;
 
+/* Raises the level: by the configured step, or by 3, 2 or 1 depending on how high it already is.
+   Only the larger steps can pass the maximum of 31. */
+void fn_82EFE758(State_82EFE758 *self)
 {
-  int iVar1;
-  
-  iVar1 = *(int *)(param_1 + 0x2a4);
-  if (*(int *)(param_1 + 0x868) == -1) {
-    if ((iVar1 < 0x13) && (*(int *)(param_1 + 0x1f58) == 0)) {
-      if (iVar1 < 0xb) {
-        if (2 < iVar1) {
-          *(int *)(param_1 + 0x2a4) = iVar1 + 1;
-          return;
-        }
-        goto LAB_82efe7b8;
-      }
-      iVar1 = iVar1 + 2;
-    }
-    else {
-      iVar1 = iVar1 + 3;
-    }
-  }
-  else {
-    iVar1 = *(int *)(param_1 + 0x868) + iVar1;
-  }
-  if (0x1f < iVar1) {
-    iVar1 = 0x1f;
-  }
-LAB_82efe7b8:
-  *(int *)(param_1 + 0x2a4) = iVar1;
-  return;
-}
+    int level = self->level;
 
+    if (self->step != -1) {
+        level += self->step;
+    } else if (level > 18 || self->busy != 0) {
+        level += 3;
+    } else if (level > 10) {
+        level += 2;
+    } else {
+        if (level > 2) {
+            level++;
+        }
+        self->level = level;
+        return;
+    }
+    if (level > 31) {
+        level = 31;
+    }
+    self->level = level;
+}

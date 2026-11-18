@@ -1,21 +1,19 @@
-extern int fn_82B16720();
-extern int fn_82F6DF80();
-extern int fn_82F6FC80();
-extern unsigned int lbl_82005710;
-extern unsigned int lbl_82005758;
+extern double fn_82F6FC80(double x, double *intpart); /* modf */
+extern double fn_82F6DF80(double x);                  /* _chgsign */
+extern double fn_82B16720(double x);
 
+extern const double lbl_82005710; /* 0.0 */
 
-double fn_82B16770(double param_1,unsigned __int64 param_2)
-
+/* floor() built from modf: negative non-integers round down. */
+double fn_82B16770(double x)
 {
-  double dVar1;
-  double adStack_20;
-  
-  fn_82F6FC80(param_2,&adStack_20);
-  if ((param_1 < lbl_82005710) && (param_1 != adStack_20)) {
-    dVar1 = (double)fn_82F6DF80(lbl_82005758);
-    adStack_20 = (double)fn_82B16720(dVar1 + adStack_20);
-  }
-  return adStack_20;
-}
+    double ipart;
+    double result;
 
+    fn_82F6FC80(x, &ipart);
+    result = ipart;
+    if (x < lbl_82005710 && x != ipart) {
+        result = fn_82B16720(fn_82F6DF80(1.0) + ipart);
+    }
+    return result;
+}
