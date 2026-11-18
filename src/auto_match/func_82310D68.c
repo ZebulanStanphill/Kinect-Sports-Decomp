@@ -1,56 +1,67 @@
-extern int fn_823CC7A0();
+/* /O1 /QVMXReserve: v77 is the game's reserved zero vector, read with __VMXGetReg. */
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __VMXGetReg(int n);
 
-void fn_82310D68(int param_1,unsigned int *param_2,unsigned int param_3,int param_4)
+/* Per-slot block, 300 bytes apart; the values sit 0x5a8 bytes into the table. */
+typedef struct Slot_82310D68 {
+    char pad[0x5a8];
+    float valueB1; /* 0x5a8 */
+    float valueA1; /* 0x5ac */
+    float valueB0; /* 0x5b0 */
+    float valueA0; /* 0x5b4 */
+} Slot_82310D68;
 
+typedef struct Owner_82310D68 {
+    char pad[0x10];
+    char *table; /* 0x10 */
+} Owner_82310D68;
+
+typedef struct Ring_82310D68 {
+    unsigned int *begin;  /* 0x0 */
+    unsigned int *end;    /* 0x4 */
+    unsigned int *cursor; /* 0x8 */
+    int unknownC;         /* 0xc */
+    unsigned int count;   /* 0x10 */
+} Ring_82310D68;
+
+typedef struct Out_82310D68 {
+    int id;       /* 0x0 */
+    int mode;     /* 0x4 */
+    int unknown8; /* 0x8 */
+    float valueA; /* 0xc */
+    float valueB; /* 0x10 */
+    char pad[0xc];
+    __vector4 vec; /* 0x20 */
+    char pad2[0x60];
+    Ring_82310D68 ring; /* 0x90 */
+} Out_82310D68;
+
+extern int fn_823CC7A0(void);
+
+void fn_82310D68(Owner_82310D68 *owner, Out_82310D68 *out, int id, int mode)
 {
-  unsigned int uVar1;
-  int iVar2;
-  unsigned int *puVar3;
-  int iVar4;
-  unsigned int uVar5;
-  unsigned int in_register_000104d0;
-  unsigned int in_register_000104d4;
-  unsigned int in_register_000104d8;
-  unsigned int in_vr77;
-  
-  iVar2 = *(int *)(param_1 + 0x10);
-  iVar4 = fn_823CC7A0();
-  *param_2 = param_3;
-  param_2[1] = param_4;
-  param_2[2] = 0;
-  iVar2 = iVar4 * 300 + iVar2;
-  if (param_4 == 0) {
-    uVar1 = *(unsigned int *)(iVar2 + 0x5b4);
-  }
-  else {
-    uVar1 = *(unsigned int *)(iVar2 + 0x5ac);
-  }
-  param_2[3] = uVar1;
-  if (param_4 == 0) {
-    uVar1 = *(unsigned int *)(iVar2 + 0x5b0);
-  }
-  else {
-    uVar1 = *(unsigned int *)(iVar2 + 0x5a8);
-  }
-  param_2[4] = uVar1;
-  uVar5 = 0;
-  puVar3 = (unsigned int *)((unsigned int)(param_2 + 8) & 0xfffffff0);
-  *puVar3 = in_register_000104d0;
-  puVar3[1] = in_register_000104d4;
-  puVar3[2] = in_register_000104d8;
-  puVar3[3] = in_vr77;
-  if (param_2[0x28] != 0) {
-    do {
-      iVar2 = param_2[0x26];
-      uVar5 = uVar5 + 1;
-      param_2[0x26] = iVar2 + 4;
-      if (iVar2 + 4 == param_2[0x25]) {
-        param_2[0x26] = param_2[0x24];
-      }
-    } while (uVar5 < (unsigned int)param_2[0x28]);
-  }
-  param_2[0x28] = 0;
-  return;
+    char *table = owner->table;
+    Slot_82310D68 *slot = (Slot_82310D68 *)(table + fn_823CC7A0() * 300);
+    Ring_82310D68 *ring;
+    unsigned int i;
+    out->id = id;
+    out->mode = mode;
+    out->unknown8 = 0;
+    out->valueA = mode != 0 ? slot->valueA1 : slot->valueA0;
+    out->valueB = mode != 0 ? slot->valueB1 : slot->valueB0;
+    out->vec = __VMXGetReg(77);
+    ring = &out->ring;
+    i = 0;
+    while (i < ring->count) {
+        unsigned int **cursor = &ring->cursor;
+        i++;
+        *cursor = *cursor + 1;
+        if (*cursor == ring->end) {
+            *cursor = ring->begin;
+        }
+    }
+    ring->count = 0;
 }
-

@@ -1,52 +1,50 @@
-extern int fn_8251E4D0();
-extern int fn_82A1DD38();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct {
+    __vector4 first;      /* 0x00 */
+    __vector4 second;     /* 0x10 */
+    unsigned short state; /* 0x20 */
+    unsigned char active; /* 0x22 */
+    unsigned char kind;   /* 0x23 */
+    int value;            /* 0x24 */
+    int id;               /* 0x28 */
+    int pad2c;            /* 0x2c */
+    char name[0x40];      /* 0x30 */
+    int pad70;            /* 0x70 */
+    int extra;            /* 0x74 */
+} Entry_8262C4F8;
 
-unsigned __int64
-fn_8262C4F8(__int64 param_1,int param_2,unsigned int param_3,unsigned int param_4,unsigned char param_5,
-             unsigned int param_6,unsigned __int64 param_7)
+typedef struct {
+    __vector4 first;  /* 0x00 */
+    __vector4 second; /* 0x10 */
+} Pair_8262C4F8;
 
+typedef struct {
+    char pad[0x12c];
+    char pool[1]; /* 0x12c */
+} Owner_8262C4F8;
+
+extern void fn_82A1DD38(char *dest, const char *src, int count);
+extern Pair_8262C4F8 *fn_8251E4D0(void *pool);
+
+int fn_8262C4F8(Owner_8262C4F8 *self, Entry_8262C4F8 *entry, int id, int extra, unsigned char kind, int value,
+                const char *name, __vector4 first, __vector4 second)
 {
-  unsigned int *puVar1;
-  int in_r0;
-  int iVar2;
-  unsigned int in_register_00010010;
-  unsigned int in_register_00010014;
-  unsigned int in_register_00010018;
-  unsigned int in_vr1;
-  unsigned int in_register_00010020;
-  unsigned int in_register_00010024;
-  unsigned int in_register_00010028;
-  unsigned int in_vr2;
-  
-  *(unsigned char *)(param_2 + 0x23) = param_5;
-  *(unsigned int *)(param_2 + 0x24) = param_6;
-  puVar1 = (unsigned int *)(in_r0 + param_2 & 0xfffffff0);
-  *puVar1 = in_register_00010010;
-  puVar1[1] = in_register_00010014;
-  puVar1[2] = in_register_00010018;
-  puVar1[3] = in_vr1;
-  *(unsigned short *)(param_2 + 0x20) = 0;
-  puVar1 = (unsigned int *)(param_2 + 0x10U & 0xfffffff0);
-  *puVar1 = in_register_00010020;
-  puVar1[1] = in_register_00010024;
-  puVar1[2] = in_register_00010028;
-  puVar1[3] = in_vr2;
-  fn_82A1DD38(param_2 + 0x30,param_7,0x40);
-  *(unsigned int *)(param_2 + 0x74) = param_4;
-  *(unsigned char *)(param_2 + 0x22) = 1;
-  *(unsigned int *)(param_2 + 0x28) = param_3;
-  iVar2 = fn_8251E4D0(param_1 + 300);
-  puVar1 = (unsigned int *)(in_r0 + iVar2 & 0xfffffff0);
-  *puVar1 = in_register_00010010;
-  puVar1[1] = in_register_00010014;
-  puVar1[2] = in_register_00010018;
-  puVar1[3] = in_vr1;
-  puVar1 = (unsigned int *)(iVar2 + 0x10U & 0xfffffff0);
-  *puVar1 = in_register_00010020;
-  puVar1[1] = in_register_00010024;
-  puVar1[2] = in_register_00010028;
-  puVar1[3] = in_vr2;
-  return 1;
-}
+    Pair_8262C4F8 *pair;
 
+    entry->kind = kind;
+    entry->value = value;
+    entry->first = first;
+    entry->state = 0;
+    entry->second = second;
+    fn_82A1DD38(entry->name, name, 0x40);
+    entry->extra = extra;
+    entry->active = 1;
+    entry->id = id;
+    pair = fn_8251E4D0(self->pool);
+    pair->first = first;
+    pair->second = second;
+    return 1;
+}

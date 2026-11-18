@@ -1,36 +1,66 @@
-extern int fn_823AB478();
-extern int fn_82522D98();
-extern int fn_8259C5D8();
-extern int fn_8259C738();
-extern int fn_82A1BB18();
-extern int fn_82A264D0();
-extern unsigned int lbl_83265988;
+typedef struct ContentData_8259A840 {
+    unsigned char bytes[0x134];
+} ContentData_8259A840;
 
+typedef struct Lock_8259A840 {
+    int pad;
+} Lock_8259A840;
 
-unsigned __int64 fn_8259A840(int param_1)
+typedef struct Storage_8259A840 {
+    char pad0[0x60];
+    Lock_8259A840 lock; /* 0x60 */
+    char pad64[0xc];
+    void *user; /* 0x70 */
+    char pad74[0x20];
+    unsigned int type;   /* 0x94 */
+    unsigned int device; /* 0x98 */
+} Storage_8259A840;
 
+extern void *lbl_83265988;
+extern int fn_82A1BB18(void);
+extern void fn_8259C5D8(Lock_8259A840 *lock, int mode, int time);
+extern void fn_8259C738(Lock_8259A840 *lock);
+extern int fn_823AB478(void *user);
+extern unsigned int fn_82A264D0(int userIndex, unsigned int device, unsigned int type, unsigned int flags,
+                                unsigned int count, unsigned int *bufferSize, void **enumerator);
+extern int fn_82A1E988(void *enumerator, void *buffer, unsigned int size, unsigned int *count,
+                       void *overlapped);
+extern int fn_82A1E658(void *handle);
+extern void *fn_82522D98(unsigned int size);
+extern void fn_82522ED8(void *memory);
+extern unsigned char fn_8259A958(Storage_8259A840 *self, ContentData_8259A840 *content);
+
+/* Enumerates the saved content and refreshes each item; returns 0x3e5 when any item changed. */
+int fn_8259A840(Storage_8259A840 *self)
 {
-  __int64 lVar1;
-  unsigned __int64 uVar2;
-  int iVar3;
-  int aiStack_50 [12];
-  
-  lVar1 = fn_82A1BB18();
-  fn_8259C5D8(param_1 + 0x60,1,lVar1 + 1);
-  aiStack_50[1] = 0;
-  iVar3 = *(int *)(param_1 + 0x70);
-  if (*(int *)(param_1 + 0x70) == 0) {
-    iVar3 = lbl_83265988;
-  }
-  uVar2 = fn_823AB478(iVar3);
-  iVar3 = fn_82A264D0(uVar2,*(unsigned int *)(param_1 + 0x98),*(unsigned int *)(param_1 + 0x94),0,
-                          999,aiStack_50 + 2,aiStack_50);
-  if ((iVar3 == 0) && (aiStack_50[0] != 0)) {
-                    /* WARNING: Subroutine does not return */
-    fn_82522D98(aiStack_50[2]);
-  }
-  fn_82A1BB18();
-  fn_8259C738(param_1 + 0x60);
-  return 0;
-}
+    unsigned int bufferSize;
+    unsigned int count;
+    void *enumerator;
+    ContentData_8259A840 *contents;
+    unsigned char changed;
+    unsigned int i;
+    int userIndex;
+    void *user;
 
+    fn_8259C5D8(&self->lock, 1, fn_82A1BB18() + 1);
+    changed = 0;
+    count = 0;
+    user = self->user;
+    if (user == 0) {
+        user = lbl_83265988;
+    }
+    userIndex = fn_823AB478(user);
+    if (fn_82A264D0(userIndex, self->device, self->type, 0, 999, &bufferSize, &enumerator) == 0 &&
+        enumerator != 0) {
+        contents = fn_82522D98(bufferSize);
+        fn_82A1E988(enumerator, contents, bufferSize, &count, 0);
+        fn_82A1E658(enumerator);
+        for (i = 0; i < count; i++) {
+            changed |= fn_8259A958(self, &contents[i]);
+        }
+        fn_82522ED8(contents);
+    }
+    fn_82A1BB18();
+    fn_8259C738(&self->lock);
+    return changed ? 0x3e5 : 0;
+}

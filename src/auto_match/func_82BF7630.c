@@ -1,49 +1,57 @@
-void fn_82BF7630(int param_1,int *param_2,unsigned int *param_3,unsigned int *param_4)
+typedef struct Entry_82BF7630 {
+    int pad0;
+    int pad4;
+    unsigned int key;            /* 0x08 */
+    unsigned int value;          /* 0x0c */
+    struct Entry_82BF7630 *next; /* 0x10 */
+    unsigned int hash;           /* 0x14 */
+} Entry_82BF7630;
 
+typedef struct HashTable_82BF7630 {
+    int pad0;
+    int pad4;
+    Entry_82BF7630 **buckets; /* 0x08 */
+    unsigned int bucketCount; /* 0x0c */
+} HashTable_82BF7630;
+
+void fn_82BF7630(HashTable_82BF7630 *table, Entry_82BF7630 **iterator, unsigned int *key, unsigned int *value)
 {
-  int iVar1;
-  int iVar2;
-  __int64 lVar3;
-  int iVar4;
-  unsigned int uVar5;
-  unsigned __int64 uVar6;
-  
-  if (((param_1 != 0) && (iVar1 = *(int *)(param_1 + 8), iVar1 != 0)) &&
-     (iVar4 = *param_2, iVar4 != 0)) {
-    if (iVar4 == -1) {
-      uVar5 = 0;
-      if (*(unsigned int *)(param_1 + 0xc) != 0) {
-        iVar2 = 0;
-        while (iVar4 = *(int *)(iVar2 + iVar1), iVar4 == 0) {
-          uVar5 = uVar5 + 1;
-          iVar2 = iVar2 + 4;
-          if (*(unsigned int *)(param_1 + 0xc) <= uVar5) {
-            *param_2 = 0;
-            return;
-          }
-        }
-      }
-    }
-    iVar2 = *(int *)(iVar4 + 0x10);
-    if (iVar2 == 0) {
-      uVar5 = *(unsigned int *)(param_1 + 0xc);
-      trapWord(6,(unsigned __int64)uVar5,0);
-      uVar6 = ((unsigned __int64)*(unsigned int *)(iVar4 + 0x14) -
-              (__int64)(int)(*(unsigned int *)(iVar4 + 0x14) / uVar5) * (__int64)(int)uVar5) + 1;
-      if ((uVar6 & 0xffffffff) < (unsigned __int64)uVar5) {
-        lVar3 = (uVar6 & 0x3fffffff) << 2;
-        do {
-          iVar2 = *(int *)((int)lVar3 + iVar1);
-          if (iVar2 != 0) break;
-          uVar6 = uVar6 + 1;
-          lVar3 = lVar3 + 4;
-        } while ((uVar6 & 0xffffffff) < (unsigned __int64)uVar5);
-      }
-    }
-    *param_2 = iVar2;
-    *param_3 = *(unsigned int *)(iVar4 + 8);
-    *param_4 = *(unsigned int *)(iVar4 + 0xc);
-  }
-  return;
-}
+    Entry_82BF7630 *entry;
+    Entry_82BF7630 *next;
+    unsigned int i;
 
+    if (table == 0) {
+        return;
+    }
+    if (table->buckets == 0) {
+        return;
+    }
+    entry = *iterator;
+    if (entry == 0) {
+        return;
+    }
+    if (entry == (Entry_82BF7630 *)-1) {
+        for (i = 0; i < table->bucketCount; i++) {
+            entry = table->buckets[i];
+            if (entry != 0) {
+                break;
+            }
+        }
+        if (entry == 0) {
+            *iterator = 0;
+            return;
+        }
+    }
+    next = entry->next;
+    if (next == 0) {
+        for (i = entry->hash % table->bucketCount + 1; i < table->bucketCount; i++) {
+            next = table->buckets[i];
+            if (next != 0) {
+                break;
+            }
+        }
+    }
+    *iterator = next;
+    *key = entry->key;
+    *value = entry->value;
+}

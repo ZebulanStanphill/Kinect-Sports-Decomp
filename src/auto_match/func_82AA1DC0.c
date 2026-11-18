@@ -1,56 +1,63 @@
-extern unsigned int *auStack_50;
-extern int fn_82636148();
-extern int fn_82AA0258();
-extern int fn_82AA1AD8();
+typedef struct Instr_82AA1DC0 {
+    unsigned int srcLow : 4;  /* word 0, bits 31-28 */
+    unsigned int mask : 12;   /* word 0, bits 27-16 */
+    unsigned int bit15 : 1;   /* word 0, bit 15 */
+    unsigned int count : 3;   /* word 0, bits 14-12 */
+    unsigned int reg : 12;    /* word 0, bits 11-0 */
+    unsigned int pad1 : 16;   /* word 1, bits 31-16 */
+    unsigned int opcode : 4;  /* word 1, bits 15-12 */
+    unsigned int pad2 : 10;   /* word 1, bits 11-2 */
+    unsigned int srcHigh : 2; /* word 1, bits 1-0 */
+} Instr_82AA1DC0;
 
+typedef struct Assembler_82AA1DC0 {
+    __int64 written; /* 0x0 */
+    void *program;   /* 0x8 */
+} Assembler_82AA1DC0;
 
-void fn_82AA1DC0(__int64 *param_1,unsigned int *param_2,char param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5,__int64 param_6)
+extern int fn_82636148(void *program, unsigned int reg, void *out);
+extern unsigned char fn_82AA0258(Assembler_82AA1DC0 *self, unsigned int a, unsigned int b, unsigned int c,
+                                 int value);
+extern void fn_82AA1AD8(Assembler_82AA1DC0 *self, unsigned int index);
 
+void fn_82AA1DC0(Assembler_82AA1DC0 *self, Instr_82AA1DC0 *instr, unsigned char skip, int unused3,
+                 int unused4, unsigned int index)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  unsigned __int64 uVar6;
-  char cVar7;
-  unsigned __int64 uVar8;
-  unsigned int uVar9;
-  unsigned __int64 uVar10;
-  unsigned __int64 uVar11;
-  unsigned __int64 uVar12;
-  unsigned char auStack_50 [1];
-  
-  if ((param_3 == '\0') && (uVar1 = param_2[1], (1 << (uVar1 >> 0xc & 0xf) & 0x607eU) != 0)) {
-    uVar2 = *param_2;
-    uVar9 = 0;
-    uVar8 = (unsigned __int64)(uVar2 >> 0xc) & 7;
-    *param_1 = 0;
-    uVar11 = (unsigned __int64)uVar2 & 0xfff;
-    uVar12 = (unsigned __int64)(uVar2 >> 0x10) & 0xfff;
-    uVar10 = ((unsigned __int64)uVar1 & 3) << 4 | (unsigned __int64)(uVar2 >> 0x1c);
-    if ((uVar2 >> 0xc & 7) != 0) {
-      do {
-        uVar6 = fn_82636148(*(unsigned int *)(param_1 + 1),uVar11,auStack_50);
-        uVar4 = uVar12 & 1;
-        uVar3 = uVar12 >> 1;
-        uVar5 = uVar10 & 1;
-        uVar10 = uVar10 >> 1;
-        uVar12 = uVar12 >> 2;
-        cVar7 = fn_82AA0258(param_1,uVar4,uVar3 & 1,uVar5,uVar6);
-        if (cVar7 != '\0') {
-          *param_2 = *param_2 & 0xf000ffff | ((2 << (uVar9 & 0x3f)) << 0x10 | *param_2) & 0xfff0000;
-        }
-        uVar8 = uVar8 - 1;
-        uVar9 = uVar9 + 2;
-        uVar11 = uVar11 + 1;
-      } while (uVar8 != 0);
-      if (*param_1 != 0) {
-        fn_82AA1AD8(param_1,param_6 + 1);
-      }
-    }
-  }
-  return;
-}
+    unsigned int i;
+    unsigned int count;
+    unsigned int reg;
+    unsigned int mask;
+    unsigned int src;
+    int value;
+    char scratch[4];
 
+    if (skip != 0) {
+        return;
+    }
+    if (((1 << instr->opcode) & 0x607eu) == 0) {
+        return;
+    }
+    count = instr->count;
+    reg = instr->reg;
+    mask = instr->mask;
+    src = (instr->srcHigh << 4) | instr->srcLow;
+    self->written = 0;
+    for (i = 0; i < count; i++, reg++) {
+        unsigned int lo;
+        unsigned int hi;
+        unsigned int bit;
+
+        value = fn_82636148(self->program, reg, scratch);
+        lo = mask & 1;
+        hi = (mask >> 1) & 1;
+        bit = src & 1;
+        src >>= 1;
+        mask >>= 2;
+        if (fn_82AA0258(self, lo, hi, bit, value)) {
+            instr->mask |= 2 << (i * 2);
+        }
+    }
+    if (self->written != 0) {
+        fn_82AA1AD8(self, index + 1);
+    }
+}

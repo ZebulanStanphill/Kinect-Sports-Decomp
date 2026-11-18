@@ -1,40 +1,68 @@
-void fn_82DF8A78(int param_1)
+typedef struct Header_82DF8A78 {
+    unsigned char bytes[0x21];
+    unsigned char count; /* 0x21 */
+    unsigned char pad22[2];
+    unsigned char word24[4]; /* 0x24 */
+    unsigned char pad28[8];
+    unsigned char words[4][4]; /* 0x30 */
+} Header_82DF8A78;
 
+static __forceinline void Swap16(unsigned char *bytes)
 {
-  unsigned char uVar1;
-  int iVar2;
-  unsigned char *puVar3;
-  __int64 lVar4;
-  
-  iVar2 = 0;
-  if (*(char *)(param_1 + 0x21) != '\0') {
-    puVar3 = (unsigned char *)(param_1 + -1);
-    do {
-      iVar2 = iVar2 + 1;
-      uVar1 = puVar3[3];
-      puVar3[3] = puVar3[4];
-      puVar3 = puVar3 + 4;
-      *puVar3 = uVar1;
-    } while (iVar2 < (int)(unsigned int)*(unsigned char *)(param_1 + 0x21));
-  }
-  puVar3 = (unsigned char *)(param_1 + 0x2e);
-  lVar4 = 4;
-  do {
-    uVar1 = puVar3[2];
-    puVar3[2] = puVar3[5];
-    puVar3[5] = uVar1;
-    uVar1 = puVar3[3];
-    puVar3[3] = puVar3[4];
-    puVar3 = puVar3 + 4;
-    *puVar3 = uVar1;
-    lVar4 = lVar4 + -1;
-  } while (lVar4 != 0);
-  uVar1 = *(unsigned char *)(param_1 + 0x24);
-  *(unsigned char *)(param_1 + 0x24) = *(unsigned char *)(param_1 + 0x27);
-  *(unsigned char *)(param_1 + 0x27) = uVar1;
-  uVar1 = *(unsigned char *)(param_1 + 0x25);
-  *(unsigned char *)(param_1 + 0x25) = *(unsigned char *)(param_1 + 0x26);
-  *(unsigned char *)(param_1 + 0x26) = uVar1;
-  return;
+    unsigned char t;
+
+    t = bytes[0];
+    bytes[0] = bytes[1];
+    bytes[1] = t;
 }
 
+static __forceinline void SwapByte(unsigned char *a, unsigned char *b)
+{
+    unsigned char t;
+
+    t = *a;
+    *a = *b;
+    *b = t;
+}
+
+static __forceinline void Swap32(unsigned char *bytes)
+{
+    unsigned char *last = bytes + 3;
+
+    SwapByte(&bytes[0], &last[0]);
+    SwapByte(&bytes[1], &last[-1]);
+}
+
+static __forceinline void Reverse32(unsigned char *bytes)
+{
+    unsigned char *first = bytes;
+    unsigned char *last = bytes + 3;
+    unsigned char t;
+
+    t = *first;
+    *first = *last;
+    *last = t;
+    first++;
+    last--;
+    t = *first;
+    *first = *last;
+    *last = t;
+}
+
+/* Converts the header's multi-byte fields between big- and little-endian order. */
+void fn_82DF8A78(Header_82DF8A78 *header)
+{
+    int i;
+    unsigned char *word;
+
+    for (i = 0; i < header->count; i++) {
+        Swap16(&header->bytes[i * 4 + 2]);
+    }
+    i = 4;
+    word = header->words[0];
+    do {
+        Reverse32(word);
+        word += 4;
+    } while (--i);
+    Swap32(header->word24);
+}

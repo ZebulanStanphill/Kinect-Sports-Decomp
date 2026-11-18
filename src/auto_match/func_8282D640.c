@@ -1,67 +1,60 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_82823030();
-extern int fn_82823080();
-extern int fn_82823058();
-extern int fn_828230A8();
-extern unsigned int iStack_4c;
-extern unsigned int iStack_50;
+extern void fn_82823030(void *root, void **node);
+extern void fn_82823080(void *node, void **child);
+extern void fn_828230A8(void *node, void **sibling);
+extern void fn_82823058(void *node, void **parent);
 
-
-void fn_8282D640(unsigned __int64 param_1,unsigned __int64 param_2,int (**param_3)(),char param_4)
-
+void fn_8282D640(void *context, void *root, void (*visit)(void *context, void *node), unsigned char skipVisit)
 {
-  bool bVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  int iStack_50;
-  int iStack_4c;
-  int aiStack_48;
+    void *previous;
+    int done;
+    unsigned int state;
+    void *node;
+    void *next;
+    void *firstChild;
 
-  iVar2 = 0;
-  bVar1 = false;
-  fn_82823030(param_2,&iStack_50);
-  uVar3 = 0;
-  do {
-    if (uVar3 == 0) {
-      fn_82823058(iStack_50,&iStack_4c);
-      if (iStack_4c == 0) {
-        if (param_4 == '\0') {
-          (*param_3)(param_1,iStack_50);
+    previous = 0;
+    done = 0;
+    fn_82823030(root, &node);
+    state = 0;
+    do {
+        switch (state) {
+        case 0:
+            fn_82823080(node, &next);
+            if (next != 0) {
+                node = next;
+                state = 0;
+            } else {
+                if (!skipVisit) {
+                    visit(context, node);
+                }
+                state = 1;
+            }
+            break;
+        case 1:
+            fn_828230A8(node, &next);
+            if (next != 0 && next != previous) {
+                node = next;
+                state = 0;
+            } else {
+                state = 2;
+            }
+            break;
+        case 2:
+            fn_82823058(node, &next);
+            if (next != 0) {
+                state = 1;
+                if (!skipVisit) {
+                    fn_82823080(next, &firstChild);
+                    if (firstChild == node) {
+                        visit(context, next);
+                    }
+                }
+                previous = node;
+                node = next;
+            } else {
+                done = 1;
+            }
+            break;
         }
-        uVar3 = 1;
-      }
-      else {
-LAB_8282d728:
-        iStack_50 = iStack_4c;
-        uVar3 = 0;
-      }
-    }
-    else if (uVar3 == 1) {
-      fn_828230A8(iStack_50,&iStack_4c);
-      if ((iStack_4c != 0) && (iStack_4c != iVar2)) goto LAB_8282d728;
-      uVar3 = 2;
-    }
-    else if (uVar3 < 3) {
-      fn_82823080(iStack_50,&iStack_4c);
-      if (iStack_4c == 0) {
-        bVar1 = true;
-      }
-      else {
-        uVar3 = 1;
-        if (param_4 == '\0') {
-          fn_82823058(iStack_4c,&aiStack_48);
-          if (aiStack_48 == iStack_50) {
-            (*param_3)(param_1,iStack_4c);
-          }
-        }
-        iVar2 = iStack_50;
-        iStack_50 = iStack_4c;
-      }
-    }
-    if (bVar1) {
-      return;
-    }
-  } while( true );
+    } while (!done);
 }

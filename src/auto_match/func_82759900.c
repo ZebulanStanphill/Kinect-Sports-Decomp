@@ -1,31 +1,41 @@
-extern int fn_827594F8();
-extern int fn_82759580();
-extern float lbl_8200571C;
+typedef struct Matrix_82759900 {
+    float m[6];
+} Matrix_82759900;
 
+typedef struct Ref_82759900 {
+    int weak;  /* 0x00 */
+    void *ptr; /* 0x04 */
+} Ref_82759900;
 
-void fn_82759900(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned int *param_4)
+typedef struct Fill_82759900 {
+    unsigned char type;    /* 0x00 */
+    unsigned char subtype; /* 0x01 */
+    unsigned char pad02[6];
+    Ref_82759900 image;     /* 0x08 */
+    Matrix_82759900 matrix; /* 0x10 */
+} Fill_82759900;
 
+extern void fn_827594F8(Fill_82759900 *fill, unsigned char type);
+extern Ref_82759900 *fn_82759580(Ref_82759900 *ref, void *object);
+
+void fn_82759900(Fill_82759900 *fill, unsigned char type, void *image, const Matrix_82759900 *matrix)
 {
-  float fVar1;
-  float fVar2;
-  
-  fn_827594F8();
-  *(unsigned char *)(param_1 + 1) = 2;
-  *(unsigned int *)(param_1 + 0x10) = *param_4;
-  *(unsigned int *)(param_1 + 0x14) = param_4[1];
-  *(unsigned int *)(param_1 + 0x18) = param_4[2];
-  *(unsigned int *)(param_1 + 0x1c) = param_4[3];
-  *(unsigned int *)(param_1 + 0x20) = param_4[4];
-  *(unsigned int *)(param_1 + 0x24) = param_4[5];
-  fVar2 = lbl_8200571C;
-  fVar1 = *(float *)(param_1 + 0x1c) * lbl_8200571C;
-  *(float *)(param_1 + 0x18) = *(float *)(param_1 + 0x18) * lbl_8200571C;
-  *(float *)(param_1 + 0x14) = *(float *)(param_1 + 0x14) * fVar2;
-  *(float *)(param_1 + 0x10) = *(float *)(param_1 + 0x10) * fVar2;
-  *(float *)(param_1 + 0x1c) = fVar1;
-  *(float *)(param_1 + 0x20) = *(float *)(param_1 + 0x20) * fVar2;
-  *(float *)(param_1 + 0x24) = *(float *)(param_1 + 0x24) * fVar2;
-  fn_82759580(param_1 + 8,param_3);
-  return;
-}
+    Matrix_82759900 *m;
 
+    fn_827594F8(fill, type);
+    fill->subtype = 2;
+    m = &fill->matrix;
+    m->m[0] = matrix->m[0];
+    m->m[1] = matrix->m[1];
+    m->m[2] = matrix->m[2];
+    m->m[3] = matrix->m[3];
+    m->m[4] = matrix->m[4];
+    m->m[5] = matrix->m[5];
+    m->m[0] *= 20.0f;
+    m->m[1] *= 20.0f;
+    m->m[2] *= 20.0f;
+    m->m[3] *= 20.0f;
+    m->m[4] *= 20.0f;
+    m->m[5] *= 20.0f;
+    fn_82759580(&fill->image, image);
+}

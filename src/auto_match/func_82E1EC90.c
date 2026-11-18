@@ -1,42 +1,46 @@
-extern int fn_82E1E9F0();
-extern int fn_82E1EAE8();
-extern int fn_82F68CC0();
+typedef struct Writer_82E1EC90 {
+    unsigned char pad00[0xa];
+    unsigned char open; /* 0x0a */
+    unsigned char pad0b;
+    unsigned char buffered; /* 0x0c */
+    unsigned char pad0d[0x33];
+    unsigned int capacity; /* 0x40 */
+    unsigned int used;     /* 0x44 */
+    unsigned char pad48[4];
+    unsigned char *buffer; /* 0x4c */
+    unsigned char pad50[0xc];
+    unsigned char fixedBuffer; /* 0x5c */
+} Writer_82E1EC90;
 
+extern void *memcpy(void *dest, const void *src, unsigned int size);
+extern void fn_82E1E9F0(Writer_82E1EC90 *writer, const void *data, unsigned int size);
+extern void fn_82E1EAE8(Writer_82E1EC90 *writer);
 
-void fn_82E1EC90(int param_1,unsigned __int64 param_2,unsigned __int64 param_3)
-
+void fn_82E1EC90(Writer_82E1EC90 *writer, const void *data, unsigned int size)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  
-  if (*(char *)(param_1 + 10) != '\0') {
-    if (*(char *)(param_1 + 0xc) == '\0') {
-      fn_82E1E9F0(param_1,param_2,param_3);
+    if (writer->open) {
+        if (writer->buffered) {
+            if (writer->fixedBuffer) {
+                if (writer->used + size + 1 < writer->capacity && size < writer->capacity) {
+                    memcpy(writer->buffer + writer->used, data, size);
+                    writer->used += size;
+                }
+            } else {
+                if (writer->used + size + 1 >= writer->capacity) {
+                    fn_82E1EAE8(writer);
+                }
+                if (size < writer->capacity) {
+                    memcpy(writer->buffer + writer->used, data, size);
+                    writer->used += size;
+                } else {
+                    fn_82E1E9F0(writer, data, size);
+                }
+                if (writer->used / 9 > writer->capacity / 10) {
+                    fn_82E1EAE8(writer);
+                }
+            }
+        } else {
+            fn_82E1E9F0(writer, data, size);
+        }
     }
-    else {
-      uVar1 = (unsigned __int64)*(unsigned int *)(param_1 + 0x40);
-      uVar2 = (unsigned __int64)*(unsigned int *)(param_1 + 0x44);
-      if (*(char *)(param_1 + 0x5c) == '\0') {
-        if (uVar1 <= (uVar2 + param_3 + 1 & 0xffffffff)) {
-          fn_82E1EAE8(param_1);
-        }
-        if ((param_3 & 0xffffffff) < (unsigned __int64)*(unsigned int *)(param_1 + 0x40)) {
-          fn_82F68CC0((unsigned __int64)*(unsigned int *)(param_1 + 0x4c) + (unsigned __int64)*(unsigned int *)(param_1 + 0x44));
-          *(int *)(param_1 + 0x44) = *(int *)(param_1 + 0x44) + (int)param_3;
-        }
-        else {
-          fn_82E1E9F0(param_1,param_2,param_3);
-        }
-        if ((unsigned __int64)*(unsigned int *)(param_1 + 0x40) / 10 < (unsigned __int64)*(unsigned int *)(param_1 + 0x44) / 9) {
-          fn_82E1EAE8(param_1);
-        }
-      }
-      else if (((uVar2 + param_3 + 1 & 0xffffffff) < uVar1) && ((param_3 & 0xffffffff) < uVar1)) {
-        fn_82F68CC0(*(unsigned int *)(param_1 + 0x4c) + uVar2);
-        *(int *)(param_1 + 0x44) = *(int *)(param_1 + 0x44) + (int)param_3;
-      }
-    }
-  }
-  return;
 }
-

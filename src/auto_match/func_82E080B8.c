@@ -1,58 +1,93 @@
-extern int fn_82CE4118();
-extern int fn_82CE5410();
-extern int fn_82CED5B8();
-extern int fn_82CED6A8();
-extern int fn_82E07630();
-extern int fn_82E081D0();
+typedef struct StringPtr_82E080B8 {
+    const char *stringAndFlag; /* 0x00 */
+} StringPtr_82E080B8;
 
+typedef struct Entry_82E080B8 {
+    StringPtr_82E080B8 name; /* 0x00 */
+    void *object;            /* 0x04: hkRefPtr */
+} Entry_82E080B8;
 
-/* WARNING: Removing unreachable block (ram,0x82e080f0) */
+typedef struct EntryArray_82E080B8 {
+    Entry_82E080B8 *data; /* 0x00 */
+    int size;             /* 0x04 */
+    int capacityAndFlags; /* 0x08 */
+} EntryArray_82E080B8;
 
-int fn_82E080B8(int param_1,int param_2)
+typedef struct Named_82E080B8 {
+    StringPtr_82E080B8 name;     /* 0x00 */
+    EntryArray_82E080B8 entries; /* 0x04 */
+} Named_82E080B8;
 
+typedef struct Router_82E080B8 {
+    char pad[0x10];
+    void *heap; /* 0x10 */
+} Router_82E080B8;
+
+extern StringPtr_82E080B8 *fn_82CED6A8(StringPtr_82E080B8 *self, const StringPtr_82E080B8 *other);
+extern Router_82E080B8 *fn_82CE5410(void);
+extern void fn_82CE6310(void *allocator, EntryArray_82E080B8 *array, int capacity, int elementSize);
+extern void fn_82CE4118(void *object);
+extern void fn_82CED5B8(StringPtr_82E080B8 *string);
+extern Entry_82E080B8 *fn_82E07630(Entry_82E080B8 *entry);
+extern void fn_82E081D0(EntryArray_82E080B8 *array, void *allocator, int index, int numToDelete,
+                        const Entry_82E080B8 *entries, int numToInsert);
+
+static __forceinline void DestructEntries_82E080B8(Entry_82E080B8 *entries, int count)
 {
-  int iVar1;
-  unsigned int uVar2;
-  int iVar3;
-  __int64 lVar4;
-  unsigned int *puVar5;
-  unsigned __int64 uVar6;
-  int *piVar7;
-  
-  fn_82CED6A8();
-  puVar5 = (unsigned int *)(param_1 + 4);
-  fn_82CE5410();
-  uVar6 = (unsigned __int64)*(unsigned int *)(param_1 + 8);
-  if (0 < (int)*(unsigned int *)(param_1 + 8)) {
-    piVar7 = (int *)(*puVar5 + 4);
-    do {
-      if (*piVar7 != 0) {
-        fn_82CE4118();
-      }
-      *piVar7 = 0;
-      fn_82CED5B8(piVar7 + -1);
-      uVar6 = uVar6 - 1;
-      piVar7 = piVar7 + 2;
-    } while (uVar6 != 0);
-  }
-  lVar4 = -(unsigned __int64)*(unsigned int *)(param_1 + 8);
-  uVar6 = ((unsigned __int64)*(unsigned int *)(param_1 + 8) & 0x1fffffff) * 8 + (unsigned __int64)*puVar5;
-  if (0 < lVar4) {
-    do {
-      if ((uVar6 & 0xffffffff) != 0) {
-        fn_82E07630(uVar6);
-      }
-      lVar4 = lVar4 + -1;
-      uVar6 = uVar6 + 8;
-    } while (lVar4 != 0);
-  }
-  *(unsigned int *)(param_1 + 8) = 0;
-  iVar1 = *(int *)(param_2 + 8);
-  if (iVar1 != 0) {
-    uVar2 = *(unsigned int *)(param_2 + 4);
-    iVar3 = fn_82CE5410();
-    fn_82E081D0(puVar5,*(unsigned int *)(iVar3 + 0x10),0,0,uVar2,iVar1);
-  }
-  return param_1;
+    int i;
+
+    for (i = 0; i < count; i++) {
+        if (entries[i].object != 0) {
+            fn_82CE4118(entries[i].object);
+        }
+        entries[i].object = 0;
+        fn_82CED5B8(&entries[i].name);
+    }
 }
 
+static __forceinline void ConstructEntries_82E080B8(Entry_82E080B8 *entries, int count)
+{
+    int i;
+
+    for (i = 0; i < count; i++) {
+        Entry_82E080B8 *entry = &entries[i];
+
+        if (entry != 0) {
+            fn_82E07630(entry);
+        }
+    }
+}
+
+static __forceinline void SetSize_82E080B8(EntryArray_82E080B8 *array, void *allocator, int size)
+{
+    int capacity = array->capacityAndFlags & 0x3fffffff;
+
+    if (capacity < size) {
+        int growth = capacity * 2;
+        fn_82CE6310(allocator, array, size < growth ? growth : size, sizeof(Entry_82E080B8));
+    }
+    DestructEntries_82E080B8(array->data + size, array->size - size);
+    ConstructEntries_82E080B8(array->data + array->size, size - array->size);
+    array->size = size;
+}
+
+static __forceinline void InsertAt_82E080B8(EntryArray_82E080B8 *array, const Entry_82E080B8 *entries,
+                                            int count)
+{
+    Router_82E080B8 *router = fn_82CE5410();
+
+    fn_82E081D0(array, router->heap, 0, 0, entries, count);
+}
+
+Named_82E080B8 *fn_82E080B8(Named_82E080B8 *self, const Named_82E080B8 *other)
+{
+    EntryArray_82E080B8 *entries;
+
+    fn_82CED6A8(&self->name, &other->name);
+    entries = &self->entries;
+    SetSize_82E080B8(entries, fn_82CE5410()->heap, 0);
+    if (other->entries.size != 0) {
+        InsertAt_82E080B8(entries, other->entries.data, other->entries.size);
+    }
+    return self;
+}

@@ -1,35 +1,22 @@
-extern float fRam83218bf4;
-extern int tan();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_82015BD0;
-extern unsigned int lbl_82015BD8;
-extern unsigned int lbl_82079F24;
-extern unsigned int lbl_82079FB0;
-extern unsigned int uRam83218bf8;
+extern double tan(double);
+extern const double lbl_82079FB0;
+extern float lbl_83218BF4;
+extern unsigned int lbl_83218BF8;
 
-
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
-
-void fn_829F3590(double param_1,double param_2,double param_3)
-
+/* Projects a screen position at the given depth into a view-space point (x, y, depth, 1). */
+void fn_829F3590(float x, float y, float depth, float *out)
 {
-  float fVar1;
-  float fVar2;
-  float *in_r6;
-  double dVar3;
-  
-  if ((uRam83218bf8 & 1) == 0) {
-    uRam83218bf8 = uRam83218bf8 | 1;
-    dVar3 = (double)tan(lbl_82079FB0);
-    fRam83218bf4 = (float)dVar3 * lbl_82079F24;
-  }
-  fVar2 = lbl_82002AE0;
-  dVar3 = (double)lbl_82015BD8;
-  *in_r6 = (float)((double)((float)(param_1 - (double)lbl_82015BD0) * fRam83218bf4) * param_3);
-  fVar1 = (float)(dVar3 - param_2) * fRam83218bf4;
-  in_r6[2] = (float)param_3;
-  in_r6[3] = fVar2;
-  in_r6[1] = (float)((double)fVar1 * param_3);
-  return;
-}
+    float dx;
+    float dy;
 
+    if ((lbl_83218BF8 & 1) == 0) {
+        lbl_83218BF8 |= 1;
+        lbl_83218BF4 = (float)tan(lbl_82079FB0) * 0.00625f;
+    }
+    dx = x - 160.0f;
+    dy = 120.0f - y;
+    out[0] = dx * lbl_83218BF4 * depth;
+    out[1] = dy * lbl_83218BF4 * depth;
+    out[2] = depth;
+    out[3] = 1.0f;
+}

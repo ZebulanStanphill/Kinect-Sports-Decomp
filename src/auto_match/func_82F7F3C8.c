@@ -1,45 +1,33 @@
-extern unsigned int lbl_831BBCA8;
+typedef struct NumericFormat_82F7F3C8 {
+    char *decimalPoint; /* 0x0 */
+} NumericFormat_82F7F3C8;
 
+typedef struct Locale_82F7F3C8 {
+    char padding[0xbc];
+    NumericFormat_82F7F3C8 *numeric; /* 0xbc */
+} Locale_82F7F3C8;
 
-void fn_82F7F3C8(char *param_1)
+extern Locale_82F7F3C8 *lbl_831BBCA8;
 
+/* Removes trailing zeros (and a bare decimal point) from the mantissa of a formatted number. */
+void fn_82F7F3C8(char *text)
 {
-  char cVar1;
-  __int64 lVar2;
-  char *pcVar3;
-  char *pcVar4;
-  
-  lVar2 = (__int64)*param_1;
-  if (lVar2 != 0) {
-    do {
-      if ((int)lVar2 == (int)*(char *)**(unsigned int **)(lbl_831BBCA8 + 0xbc)) break;
-      param_1 = param_1 + 1;
-      lVar2 = (__int64)*param_1;
-    } while (lVar2 != 0);
-  }
-  param_1 = param_1 + 1;
-  if ((int)lVar2 != 0) {
-    cVar1 = *param_1;
-    while (((pcVar4 = param_1, cVar1 != '\0' && (cVar1 != 'e')) && (cVar1 != 'E'))) {
-      param_1 = param_1 + 1;
-      cVar1 = *param_1;
-    }
-    do {
-      pcVar3 = pcVar4;
-      pcVar4 = pcVar3 + -1;
-    } while (*pcVar4 == '0');
-    if (*pcVar4 == *(char *)**(unsigned int **)(lbl_831BBCA8 + 0xbc)) {
-      pcVar4 = pcVar3 + -2;
-    }
-    param_1 = param_1 + -1;
-    do {
-      param_1 = param_1 + 1;
-      cVar1 = *param_1;
-      pcVar4 = pcVar4 + 1;
-      *pcVar4 = cVar1;
-    } while (cVar1 != '\0');
-    return;
-  }
-  return;
-}
+    char *exponent;
 
+    while (*text != 0 && *text != *lbl_831BBCA8->numeric->decimalPoint) {
+        text++;
+    }
+    if (*text++ != 0) {
+        while (*text != 0 && *text != 'e' && *text != 'E') {
+            text++;
+        }
+        exponent = text;
+        while (*--text == '0') {
+        }
+        if (*text == *lbl_831BBCA8->numeric->decimalPoint) {
+            text--;
+        }
+        while ((*++text = *exponent++) != 0) {
+        }
+    }
+}

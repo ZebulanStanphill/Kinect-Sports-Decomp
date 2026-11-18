@@ -29688,7 +29688,7 @@ auto_match/func_824500A0.c:
 	.pdata      start:0x821E9B28 end:0x821E9B30
 	.text       start:0x824500A0 end:0x8245016C
 
-auto_match/func_82450170.c:
+auto_match/func_82450170.cpp:
 	.pdata      start:0x821E9B30 end:0x821E9B38
 	.text       start:0x82450170 end:0x82450234
 
@@ -36213,7 +36213,7 @@ auto_match/func_824C8148.c:
 auto_match/func_824C8210.c:
 	.text       start:0x824C8210 end:0x824C8258
 
-auto_match/func_824C8258.c:
+auto_match/func_824C8258.cpp:
 	.pdata      start:0x821EC7F0 end:0x821EC7F8
 	.text       start:0x824C8258 end:0x824C8378
 
@@ -68801,7 +68801,7 @@ auto_match/func_82726200.c:
 	.pdata      start:0x821FA2B0 end:0x821FA2B8
 	.text       start:0x82726200 end:0x8272624C
 
-auto_match/func_82726250.c:
+auto_match/func_82726250.cpp:
 	.pdata      start:0x821FA2B8 end:0x821FA2C0
 	.text       start:0x82726250 end:0x82726348
 
@@ -71576,7 +71576,7 @@ auto_match/func_82755978.c:
 	.pdata      start:0x821FB548 end:0x821FB550
 	.text       start:0x82755978 end:0x82755ADC
 
-auto_match/func_82755AE0.c:
+auto_match/func_82755AE0.cpp:
 	.pdata      start:0x821FB550 end:0x821FB558
 	.text       start:0x82755AE0 end:0x82755C1C
 
@@ -139120,7 +139120,7 @@ auto_match/func_82CF8600.c:
 	.pdata      start:0x82215F20 end:0x82215F28
 	.text       start:0x82CF8600 end:0x82CF873C
 
-auto_match/func_82CF8740.c:
+auto_match/func_82CF8740.cpp:
 	.pdata      start:0x82215F28 end:0x82215F30
 	.text       start:0x82CF8740 end:0x82CF8834
 
@@ -140751,7 +140751,7 @@ auto_match/func_82D05B70.cpp:
 	.pdata      start:0x82216700 end:0x82216708
 	.text       start:0x82D05B70 end:0x82D05BD0
 
-Havok/Common/Base/System/Io/Socket/Bsd/hkBsdSocket/func_82D05BD0.c:
+Havok/Common/Base/System/Io/Socket/Bsd/hkBsdSocket/func_82D05BD0.cpp:
 	.pdata      start:0x82216708 end:0x82216710
 	.text       start:0x82D05BD0 end:0x82D05D24
 
@@ -157409,7 +157409,7 @@ auto_match/func_82E0FCA0.c:
 	.pdata      start:0x8221B8E8 end:0x8221B8F0
 	.text       start:0x82E0FCA0 end:0x82E108CC
 
-auto_match/func_82E108D0.c:
+auto_match/func_82E108D0.cpp:
 	.pdata      start:0x8221B8F0 end:0x8221B8F8
 	.text       start:0x82E108D0 end:0x82E10A2C
 

@@ -1,63 +1,61 @@
-extern int fn_82EEDD00();
+typedef struct Entry_82EEDD60 {
+    char pad0[0x8];
+    int used;          /* 0x08 */
+    int usedAlternate; /* 0x0c */
+    char pad10[0x4];
+    unsigned short stream; /* 0x14 */
+    char pad16[0x22];
+    unsigned int paired; /* 0x38 */
+} Entry_82EEDD60;
 
+typedef struct Table_82EEDD60 {
+    char pad0[0x70];
+    unsigned int count; /* 0x70 */
+} Table_82EEDD60;
 
-unsigned __int64
-fn_82EEDD60(int param_1,short param_2,unsigned int param_3,int *param_4,unsigned int *param_5,unsigned int *param_6,
-             int param_7)
+extern int fn_82EEDD00(Table_82EEDD60 *table, unsigned int index, Entry_82EEDD60 **entry);
 
+int fn_82EEDD60(Table_82EEDD60 *table, unsigned short stream, unsigned short position,
+                Entry_82EEDD60 **outEntry, unsigned int *outIndex, int *outSecond, int alternate)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  int iVar4;
-  unsigned __int64 uVar5;
-  unsigned int uVar6;
-  int aiStack_60;
-  
-  uVar1 = *(unsigned int *)(param_1 + 0x70);
-  uVar6 = 0;
-  uVar5 = 0;
-  if (uVar1 != 0) {
-    do {
-      aiStack_60 = 0;
-      uVar3 = fn_82EEDD00(param_1,uVar5,&aiStack_60);
-      if (aiStack_60 == 0) {
-        return 0xffffffffc00d36bb;
-      }
-      if ((int)uVar3 < 0) {
-        return uVar3;
-      }
-      if ((param_2 == -1) || (param_2 == *(short *)(aiStack_60 + 0x14))) {
-        if (param_7 == 0) {
-          iVar4 = *(int *)(aiStack_60 + 8);
-        }
-        else {
-          iVar4 = *(int *)(aiStack_60 + 0xc);
-        }
-        if (iVar4 == 0) {
-          uVar2 = param_3 & 0xffff;
-          if ((uVar2 == uVar6) || ((*(int *)(aiStack_60 + 0x38) != 0 && (uVar2 == uVar6 + 1)))) {
-            *param_4 = aiStack_60;
-            if (param_5 != (unsigned int *)0x0) {
-              *param_5 = (int)uVar5;
-            }
-            if (param_6 != (unsigned int *)0x0) {
-              *param_6 = (unsigned int)(uVar6 != uVar2);
-            }
-            break;
-          }
-          uVar6 = uVar6 + 1 & 0xffff;
-          if (*(int *)(aiStack_60 + 0x38) != 0) {
-            uVar6 = uVar6 + 1 & 0xffff;
-          }
-        }
-      }
-      uVar5 = uVar5 + 1;
-    } while ((uVar5 & 0xffffffff) < (unsigned __int64)uVar1);
-    if ((uVar5 & 0xffffffff) < (unsigned __int64)uVar1) {
-      return uVar3;
-    }
-  }
-  return 0xffffffffc00d3e8d;
-}
+    unsigned int count;
+    unsigned short slot;
+    unsigned int index;
+    int hr;
+    Entry_82EEDD60 *entry;
 
+    count = table->count;
+    slot = 0;
+    for (index = 0; count > index; index++) {
+        entry = 0;
+        hr = fn_82EEDD00(table, index, &entry);
+        if (entry == 0) {
+            return 0xc00d36bb;
+        }
+        if (hr < 0) {
+            return hr;
+        }
+        if (stream == 0xffff || stream == entry->stream) {
+            if ((alternate != 0 && entry->usedAlternate == 0) || (alternate == 0 && entry->used == 0)) {
+                if (position == slot || (entry->paired != 0 && position == slot + 1)) {
+                    *outEntry = entry;
+                    if (outIndex != 0) {
+                        *outIndex = index;
+                    }
+                    if (outSecond != 0) {
+                        *outSecond = position != slot;
+                    }
+                    break;
+                }
+                slot++;
+                if (entry->paired != 0) {
+                    slot++;
+                }
+            }
+        }
+    }
+    if (count > index) {
+        return hr;
+    }
+    return 0xc00d3e8d;
+}

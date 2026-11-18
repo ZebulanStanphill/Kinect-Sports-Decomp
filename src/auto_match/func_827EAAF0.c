@@ -1,33 +1,40 @@
-#define true 1
-extern int fn_8281D480();
+typedef struct Plane_827EAAF0 {
+    float x;
+    float y;
+    float z;
+    float d;
+} Plane_827EAAF0;
 
+typedef struct Frustum_827EAAF0 {
+    char pad0[0x48];
+    Plane_827EAAF0 planes[6]; /* 0x48 */
+} Frustum_827EAAF0;
 
-unsigned __int64
-fn_827EAAF0(double param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4,unsigned char *param_5)
+extern float fn_8281D480(const Plane_827EAAF0 *plane, const float *point);
 
+/* Tests a sphere against the frustum planes, starting with the plane that rejected the last one.
+   Returns 0 when it is outside (and remembers that plane), 1 when it intersects, 2 when it is inside. */
+int fn_827EAAF0(Frustum_827EAAF0 *frustum, const float *center, float radius, unsigned char *lastPlane)
 {
-  unsigned char bVar1;
-  unsigned __int64 uVar2;
-  unsigned int uVar3;
-  double dVar4;
-  double dVar5;
-  float afStack_70 [28];
-  
-  uVar3 = (unsigned int)*param_5;
-  dVar5 = -param_1;
-  uVar2 = 2;
-  bVar1 = 0;
-  while( true ) {
-    dVar4 = (double)fn_8281D480(uVar3 * 0x10 + param_2 + 0x48,param_3);
-    afStack_70[uVar3] = (float)dVar4;
-    if ((dVar5 < dVar4) && (uVar2 = 1, param_1 < dVar4)) break;
-    bVar1 = bVar1 + 1;
-    uVar3 = (uVar3 + 1 & 0xff) % 6;
-    if (5 < bVar1) {
-      return uVar2;
-    }
-  }
-  *param_5 = (unsigned char)uVar3;
-  return 0;
-}
+    float distances[6];
+    unsigned char plane;
+    unsigned char tested;
+    int result;
+    float distance;
 
+    plane = *lastPlane;
+    result = 2;
+    for (tested = 0; tested < 6; tested++) {
+        distance = fn_8281D480(&frustum->planes[plane], center);
+        distances[plane] = distance;
+        if (distance > -radius) {
+            result = 1;
+            if (distance > radius) {
+                *lastPlane = plane;
+                return 0;
+            }
+        }
+        plane = (unsigned char)(plane + 1) % 6;
+    }
+    return result;
+}

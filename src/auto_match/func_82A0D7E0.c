@@ -1,55 +1,40 @@
-extern unsigned int lbl_82005C88;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vsubfp(__vector4 a, __vector4 b);
+__vector4 __vmsum3fp(__vector4 a, __vector4 b);
 
-int fn_82A0D7E0(double param_1,unsigned __int64 param_2,int param_3,__int64 param_4,unsigned __int64 param_5,
-                 unsigned int param_6,unsigned int param_7,unsigned int param_8)
+typedef union Vertex_82A0D7E0 {
+    __vector4 position;
 
+    struct {
+        char pad[0xc];
+        unsigned short id;    /* 0x0c */
+        unsigned short flags; /* 0x0e */
+    } info;
+} Vertex_82A0D7E0;
+
+Vertex_82A0D7E0 *fn_82A0D7E0(__vector4 *point, Vertex_82A0D7E0 *vertex, int count, float maxDistance,
+                             unsigned int value, unsigned int mask, unsigned int excludeId)
 {
-  float fVar1;
-  float *pfVar2;
-  int in_r0;
-  int iVar3;
-  double dVar4;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs35 [16];
-  unsigned char in_vs36 [16];
-  float in_register_000103e0;
-  float in_register_000103e4;
-  float in_register_000103e8;
-  float in_register_000103f0;
-  float in_register_000103f4;
-  float in_register_000103f8;
-  float afStack_10 [4];
-  
-  iVar3 = 0;
-  dVar4 = (double)lbl_82005C88;
-  do {
-    if (((*(unsigned short *)(param_3 + 0xe) & param_7) == param_6) &&
-       (*(unsigned short *)(param_3 + 0xc) != param_8)) {
-      altv207_13(in_vs32,in_vs36);
-      altv207_13(in_vs32,in_vs35);
-      fVar1 = (in_register_000103e0 - in_register_000103f0) *
-              (in_register_000103e0 - in_register_000103f0) +
-              (in_register_000103e4 - in_register_000103f4) *
-              (in_register_000103e4 - in_register_000103f4) +
-              (in_register_000103e8 - in_register_000103f8) *
-              (in_register_000103e8 - in_register_000103f8);
-      pfVar2 = (float *)((int)afStack_10 + in_r0 & 0xfffffff0);
-      *pfVar2 = fVar1;
-      pfVar2[1] = fVar1;
-      pfVar2[2] = fVar1;
-      pfVar2[3] = fVar1;
-      if ((double)afStack_10[0] < dVar4) {
-        dVar4 = (double)afStack_10[0];
-        iVar3 = param_3;
-      }
-    }
-    param_4 = param_4 + -1;
-    param_3 = param_3 + 0x10;
-  } while (param_4 != 0);
-  if (param_1 < dVar4) {
-    return 0;
-  }
-  return iVar3;
-}
+    Vertex_82A0D7E0 *nearest = 0;
+    float best = 3.402823466e+38F;
+    __vector4 delta;
+    __vector4 distance;
 
+    do {
+        if ((vertex->info.flags & mask) == value && vertex->info.id != excludeId) {
+            delta = __vsubfp(*point, vertex->position);
+            distance = __vmsum3fp(delta, delta);
+            if (distance.vector4_f32[0] < best) {
+                nearest = vertex;
+                best = distance.vector4_f32[0];
+            }
+        }
+        vertex++;
+    } while (--count);
+    if (best > maxDistance)
+        return 0;
+    return nearest;
+}

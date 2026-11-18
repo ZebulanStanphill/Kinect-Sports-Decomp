@@ -1,54 +1,91 @@
-extern int fn_82586B60();
-extern unsigned int uStack_24;
-extern unsigned int uStack_28;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+typedef struct Message_82628EE0 {
+    int type;
+    int size;
+} Message_82628EE0;
 
+typedef struct Listener_82628EE0 Listener_82628EE0;
 
-unsigned __int64 fn_82628EE0(int *param_1,int param_2)
+typedef struct ListenerVtbl_82628EE0 {
+    void *slot0;
+    void *slot4;
+    void *slot8;
+    void (*handle)(Listener_82628EE0 *self, Message_82628EE0 *message); /* 0x0c */
+} ListenerVtbl_82628EE0;
 
+struct Listener_82628EE0 {
+    ListenerVtbl_82628EE0 *vt; /* 0x000 */
+    char pad4[0x8b4];
+    unsigned short id; /* 0x8b8 */
+};
+
+typedef struct Binding_82628EE0 {
+    Listener_82628EE0 *listener; /* 0x0 */
+    int key;                     /* 0x4 */
+} Binding_82628EE0;
+
+typedef struct Owner_82628EE0 {
+    char pad0[0x310];
+    Binding_82628EE0 *begin; /* 0x310 */
+    Binding_82628EE0 *end;   /* 0x314 */
+} Owner_82628EE0;
+
+typedef struct Event_82628EE0 {
+    int pad0;
+    int type;           /* 0x4 */
+    unsigned int value; /* 0x8 */
+} Event_82628EE0;
+
+extern int fn_82586B60(void *value);
+
+static __forceinline Listener_82628EE0 *FindListener(Owner_82628EE0 *owner, unsigned int id)
 {
-  unsigned int *puVar1;
-  int iVar2;
-  int *piVar3;
-  int *piVar4;
-  unsigned int *puVar5;
-  struct { unsigned int first; unsigned int second; } stack_pair_30;
+    Binding_82628EE0 *it;
+    Binding_82628EE0 *end;
 
-  unsigned int uStack_28;
-  unsigned int uStack_24;
-  
-  iVar2 = *param_1;
-  if (*(int *)(iVar2 + 4) == 0x2d) {
-    uStack_28 = 1;
-    uStack_24 = 8;
-    iVar2 = fn_82586B60(iVar2 + 8);
-    puVar1 = *(unsigned int **)(param_2 + 0x314);
-    for (puVar5 = *(unsigned int **)(param_2 + 0x310); puVar5 < puVar1; puVar5 = puVar5 + 2) {
-      if (puVar5[1] == iVar2) {
-        (**(int (***)())(*(int *)*puVar5 + 0xc))((int *)*puVar5,&uStack_28);
-      }
+    for (it = owner->begin, end = owner->end; it < end; it++) {
+        if (it->listener->id == id) {
+            return it->listener;
+        }
     }
-  }
-  else {
-    if (*(int *)(iVar2 + 4) != 0x37) {
-      return 4;
-    }
-    if ((*(unsigned int *)(iVar2 + 8) & 0xffff) != 0) {
-      for (piVar4 = *(int **)(param_2 + 0x310); piVar4 < *(int **)(param_2 + 0x314);
-          piVar4 = piVar4 + 2) {
-        piVar3 = (int *)*piVar4;
-        if ((unsigned int)*(unsigned short *)(piVar3 + 0x22e) == (*(unsigned int *)(iVar2 + 8) & 0xffff)) goto LAB_82628f4c;
-      }
-      piVar3 = (int *)0x0;
-LAB_82628f4c:
-      if (piVar3 != (int *)0x0) {
-        stack_pair_30.first = 0x16;
-        stack_pair_30.second = 8;
-        (**(int (***)())(*piVar3 + 0xc))(piVar3,&stack_pair_30.first);
-      }
-    }
-  }
-  return 3;
+    return 0;
 }
 
+int fn_82628EE0(Event_82628EE0 **eventRef, Owner_82628EE0 *owner)
+{
+    Event_82628EE0 *event;
+    Binding_82628EE0 *it;
+    Binding_82628EE0 *end;
+    Listener_82628EE0 *found;
+    Message_82628EE0 found_message;
+    Message_82628EE0 message;
+    unsigned short id;
+    int key;
+
+    event = *eventRef;
+    switch (event->type) {
+    case 0x2d:
+        message.type = 1;
+        message.size = 8;
+        key = fn_82586B60(&event->value);
+        for (it = owner->begin, end = owner->end; it < end; it++) {
+            if (it->key == key) {
+                it->listener->vt->handle(it->listener, &message);
+            }
+        }
+        break;
+    case 0x37:
+        id = (unsigned short)event->value;
+        if (id != 0) {
+            found = FindListener(owner, id);
+            if (found != 0) {
+                found_message.type = 0x16;
+                found_message.size = 8;
+                found->vt->handle(found, &found_message);
+            }
+        }
+        break;
+    default:
+        return 4;
+    }
+    return 3;
+}

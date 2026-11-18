@@ -1,50 +1,51 @@
-__int64 fn_825B5718(int param_1)
+typedef struct Cell_825B5718 {
+    int pad0;
+    int value; /* 0x04 */
+    char pad8[0x18];
+} Cell_825B5718;
 
+typedef struct Level_825B5718 {
+    int width;  /* 0x00 */
+    int height; /* 0x04 */
+    int depth;  /* 0x08 */
+    char padc[0xc];
+    Cell_825B5718 *cells; /* 0x18 */
+} Level_825B5718;
+
+typedef struct Grid_825B5718 {
+    char pad0[0x18];
+    int levelCount;         /* 0x18 */
+    Level_825B5718 *levels; /* 0x1c */
+} Grid_825B5718;
+
+static __forceinline int AlignUp16(int value)
 {
-  __int64 lVar1;
-  unsigned __int64 uVar2;
-  int *piVar3;
-  int iVar4;
-  int iVar5;
-  unsigned __int64 uVar6;
-  __int64 lVar7;
-  __int64 lVar8;
-  
-  uVar6 = (unsigned __int64)*(unsigned int *)(param_1 + 0x18);
-  lVar1 = 0x10;
-  if (0 < (int)*(unsigned int *)(param_1 + 0x18)) {
-    iVar5 = 0;
-    piVar3 = (int *)(*(int *)(param_1 + 0x1c) + 4);
-    do {
-      uVar2 = 0;
-      lVar7 = (__int64)(*(int *)(iVar5 + *(int *)(param_1 + 0x1c)) * *piVar3) * (__int64)piVar3[1]
-      ;
-      if (0 < lVar7) {
-        iVar4 = 0;
-        do {
-          if (*(int *)(*(int *)(*(int *)(param_1 + 0x1c) + iVar5 + 0x18) + iVar4 + 4) != -1) {
-            uVar2 = uVar2 + 1;
-          }
-          iVar4 = iVar4 + 0x20;
-          lVar7 = lVar7 + -1;
-        } while (lVar7 != 0);
-      }
-      lVar8 = (uVar2 & 0x3ffffff) * 0x40;
-      lVar7 = lVar8 + ((unsigned __int64)(unsigned int)((int)lVar8 >> 4) & 0xfffffff) * -0x10;
-      if (lVar7 < 1) {
-        if ((int)lVar7 < 0) {
-          lVar8 = lVar8 - lVar7;
-        }
-      }
-      else {
-        lVar8 = (lVar8 - lVar7) + 0x10;
-      }
-      uVar6 = uVar6 - 1;
-      lVar1 = lVar8 + lVar1;
-      iVar5 = iVar5 + 0x1c;
-      piVar3 = piVar3 + 7;
-    } while (uVar6 != 0);
-  }
-  return lVar1;
+    int remainder = value % 16;
+
+    if (remainder > 0) {
+        value = value - remainder + 16;
+    } else if (remainder < 0) {
+        value -= remainder;
+    }
+    return value;
 }
 
+int fn_825B5718(Grid_825B5718 *self)
+{
+    int size = 16;
+    int i;
+
+    for (i = 0; i < self->levelCount; i++) {
+        int used = 0;
+        int cellCount = self->levels[i].width * self->levels[i].height * self->levels[i].depth;
+        int j;
+
+        for (j = 0; j < cellCount; j++) {
+            if (self->levels[i].cells[j].value != -1) {
+                used++;
+            }
+        }
+        size += AlignUp16(used * 64);
+    }
+    return size;
+}

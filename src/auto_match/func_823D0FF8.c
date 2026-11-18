@@ -1,92 +1,96 @@
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_c0;
-extern unsigned int *auStack_d0;
-extern int fn_822315A0();
-extern int fn_82250A18();
-extern int fn_82250D10();
-extern int fn_822EFBF0();
-extern int fn_823D1138();
-extern int fn_823E7368();
-extern int fn_823EB078();
-extern unsigned int iStack_50;
-extern unsigned int iStack_cc;
-extern unsigned int lbl_832975B0;
-extern unsigned int uStack_4c;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Config_823D0FF8 {
+    int pad0;
+    unsigned char enabled; /* 0x4 */
+} Config_823D0FF8;
 
-unsigned __int64 fn_823D0FF8(int param_1,int param_2)
+typedef struct Self_823D0FF8 {
+    char pad0[0x84];
+    void *target; /* 0x084 */
+    char pad88[0x44];
+    int key; /* 0x0cc */
+    char padD0[0x8d0];
+    int busy; /* 0x9a0 */
+    char pad9A4[0x3ad];
+    unsigned char disabled; /* 0xd51 */
+} Self_823D0FF8;
 
+typedef struct Sp_823D0FF8 {
+    void *px;
+    void *rep;
+} Sp_823D0FF8;
+
+typedef struct IndexList_823D0FF8 {
+    int count;      /* 0x0 */
+    int indices[7]; /* 0x4 */
+} IndexList_823D0FF8;
+
+typedef struct Params_823D0FF8 {
+    IndexList_823D0FF8 first;  /* 0x0 */
+    IndexList_823D0FF8 second; /* 0x20 */
+    int field40;               /* 0x40 */
+    int field44;               /* 0x44 */
+    int field48;               /* 0x48 */
+} Params_823D0FF8;
+
+typedef struct Command_823D0FF8 {
+    Params_823D0FF8 params; /* 0x00 */
+    __vector4 a;            /* 0x50 */
+    __vector4 b;            /* 0x60 */
+    int key;                /* 0x70 */
+    unsigned char enabled;  /* 0x74 */
+} Command_823D0FF8;
+
+__vector4 __VMXGetReg(int n);
+
+extern Config_823D0FF8 *lbl_832975B0;
+extern Config_823D0FF8 *fn_82250A18(void);
+extern void fn_822315A0(void *rep);
+extern Sp_823D0FF8 *fn_822EFBF0(Sp_823D0FF8 *out, void *target);
+extern void fn_82250D10(Params_823D0FF8 *params);
+extern void fn_823E7368(Self_823D0FF8 *self, Command_823D0FF8 *command, __vector4 a, __vector4 b);
+extern void fn_823D1138(Self_823D0FF8 *self, Command_823D0FF8 *command);
+extern void fn_823EB078(void *target, Command_823D0FF8 *command);
+
+static __forceinline Config_823D0FF8 *GetConfig(void)
 {
-  int in_r0;
-  int iVar2;
-  unsigned int *puVar3;
-  unsigned __int64 uVar1;
-  unsigned int in_register_00010010;
-  unsigned int in_register_00010014;
-  unsigned int in_register_00010018;
-  unsigned int in_vr1;
-  unsigned int in_register_00010020;
-  unsigned int in_register_00010024;
-  unsigned int in_register_00010028;
-  unsigned int in_vr2;
-  unsigned int in_register_000104d0;
-  unsigned int in_register_000104d4;
-  unsigned int in_register_000104d8;
-  unsigned int in_vr77;
-  unsigned char auStack_d0 [4];
-  int iStack_cc;
-  unsigned char auStack_c0 [80];
-  unsigned char auStack_70 [16];
-  unsigned char auStack_60 [16];
-  int iStack_50;
-  unsigned char uStack_4c;
-  
-  if (*(int *)(param_1 + 0x9a0) == 0) {
-    fn_82250D10(auStack_c0);
-    puVar3 = (unsigned int *)((unsigned int)(auStack_70 + in_r0) & 0xfffffff0);
-    *puVar3 = in_register_000104d0;
-    puVar3[1] = in_register_000104d4;
-    puVar3[2] = in_register_000104d8;
-    puVar3[3] = in_vr77;
-    puVar3 = (unsigned int *)((unsigned int)(auStack_60 + in_r0) & 0xfffffff0);
-    *puVar3 = in_register_000104d0;
-    puVar3[1] = in_register_000104d4;
-    puVar3[2] = in_register_000104d8;
-    puVar3[3] = in_vr77;
-    iStack_50 = 0xffffffff;
-    fn_823E7368(param_1,auStack_c0);
-    puVar3 = (unsigned int *)((unsigned int)(auStack_70 + in_r0) & 0xfffffff0);
-    *puVar3 = in_register_00010010;
-    puVar3[1] = in_register_00010014;
-    puVar3[2] = in_register_00010018;
-    puVar3[3] = in_vr1;
-    puVar3 = (unsigned int *)((unsigned int)(auStack_60 + in_r0) & 0xfffffff0);
-    *puVar3 = in_register_00010020;
-    puVar3[1] = in_register_00010024;
-    puVar3[2] = in_register_00010028;
-    puVar3[3] = in_vr2;
-    uStack_4c = *(char *)(param_1 + 0xd51) == '\0';
-    iVar2 = lbl_832975B0;
-    iStack_50 = param_2;
-    if (lbl_832975B0 == 0) {
-      iVar2 = fn_82250A18();
+    if (lbl_832975B0) {
+        return lbl_832975B0;
     }
-    if (*(char *)(iVar2 + 4) == '\0') {
-      fn_823D1138(param_1,auStack_c0);
-    }
-    else if ((*(int *)(param_1 + 0x84) != 0) && (*(int *)(param_1 + 0xcc) == param_2)) {
-      puVar3 = (unsigned int *)fn_822EFBF0(auStack_d0);
-      fn_823EB078(*puVar3,auStack_c0);
-      if (iStack_cc != 0) {
-        fn_822315A0();
-      }
-    }
-    uVar1 = 1;
-  }
-  else {
-    uVar1 = 0;
-  }
-  return uVar1;
+    return fn_82250A18();
 }
 
+int fn_823D0FF8(Self_823D0FF8 *self, int key, __vector4 a, __vector4 b)
+{
+    Command_823D0FF8 command;
+    Sp_823D0FF8 sp;
+    void *target;
+
+    if (self->busy == 0) {
+        fn_82250D10(&command.params);
+        command.a = __VMXGetReg(77);
+        command.b = __VMXGetReg(77);
+        command.key = -1;
+        fn_823E7368(self, &command, a, b);
+        command.key = key;
+        command.a = a;
+        command.b = b;
+        command.enabled = self->disabled == 0;
+        if (GetConfig()->enabled) {
+            target = self->target;
+            if (target != 0 && self->key == key) {
+                fn_823EB078(fn_822EFBF0(&sp, target)->px, &command);
+                if (sp.rep != 0) {
+                    fn_822315A0(sp.rep);
+                }
+            }
+        } else {
+            fn_823D1138(self, &command);
+        }
+        return 1;
+    }
+    return 0;
+}

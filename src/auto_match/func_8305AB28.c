@@ -1,28 +1,56 @@
-extern float lbl_8217E4C8;
+typedef struct Source_8305AB28 {
+    char pad0[0x4c];
+    float type;  /* 0x4c */
+    float gain0; /* 0x50 */
+    char pad54[8];
+    float param0; /* 0x5c */
+    float gain2;  /* 0x60 */
+    char pad64[8];
+    float param2; /* 0x6c */
+    float gain1;  /* 0x70 */
+    char pad74[8];
+    float param1; /* 0x7c */
+    float gain3;  /* 0x80 */
+    char pad84[8];
+    float param3; /* 0x8c */
+    float gain4;  /* 0x90 */
+    char pad94[8];
+    float param4; /* 0x9c */
+    float gain5;  /* 0xa0 */
+    char padA4[8];
+    float param5; /* 0xac */
+} Source_8305AB28;
 
+typedef struct Effect_8305AB28 {
+    char pad0[8];
+    Source_8305AB28 *source; /* 0x08 */
+} Effect_8305AB28;
 
-void fn_8305AB28(int param_1,unsigned int *param_2)
+typedef struct Params_8305AB28 {
+    int count;       /* 0x00 */
+    float type;      /* 0x04 */
+    float gains[6];  /* 0x08 */
+    float params[6]; /* 0x20 */
+} Params_8305AB28;
 
+void fn_8305AB28(Effect_8305AB28 *self, Params_8305AB28 *out)
 {
-  int iVar1;
-  float fVar2;
-  
-  iVar1 = *(int *)(param_1 + 8);
-  *param_2 = 6;
-  param_2[1] = *(unsigned int *)(iVar1 + 0x4c);
-  fVar2 = lbl_8217E4C8;
-  param_2[2] = *(float *)(iVar1 + 0x50) * lbl_8217E4C8;
-  param_2[3] = *(float *)(iVar1 + 0x70) * fVar2;
-  param_2[4] = *(float *)(iVar1 + 0x60) * fVar2;
-  param_2[5] = *(float *)(iVar1 + 0x80) * fVar2;
-  param_2[6] = *(float *)(iVar1 + 0x90) * fVar2;
-  param_2[7] = *(float *)(iVar1 + 0xa0) * fVar2;
-  param_2[8] = *(unsigned int *)(iVar1 + 0x5c);
-  param_2[9] = *(unsigned int *)(iVar1 + 0x7c);
-  param_2[10] = *(unsigned int *)(iVar1 + 0x6c);
-  param_2[0xb] = *(unsigned int *)(iVar1 + 0x8c);
-  param_2[0xc] = *(unsigned int *)(iVar1 + 0x9c);
-  param_2[0xd] = *(unsigned int *)(iVar1 + 0xac);
-  return;
-}
+    Source_8305AB28 *src = self->source;
+    float *values;
 
+    out->count = 6;
+    values = &out->type;
+    *values++ = src->type;
+    *values++ = src->gain0 * 3.98107171f;
+    *values++ = src->gain1 * 3.98107171f;
+    *values++ = src->gain2 * 3.98107171f;
+    *values++ = src->gain3 * 3.98107171f;
+    *values++ = src->gain4 * 3.98107171f;
+    *values++ = src->gain5 * 3.98107171f;
+    *values++ = src->param0;
+    *values++ = src->param1;
+    *values++ = src->param2;
+    *values++ = src->param3;
+    *values++ = src->param4;
+    *values++ = src->param5;
+}

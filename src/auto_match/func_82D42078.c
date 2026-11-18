@@ -1,60 +1,91 @@
-#define true 1
-extern unsigned int *auStack_240;
-extern unsigned int *auStack_250;
-extern int fn_82D6F590();
-extern unsigned int lbl_83182A98;
+typedef struct MeshShape_82D42078 MeshShape_82D42078;
 
+typedef struct Shape_82D42078 {
+    char padding00[0xc];
+    int type; /* 0x0c */
+    char padding10[0x10];
+    float vertices[3][4]; /* 0x20 */
+} Shape_82D42078;
 
-unsigned __int64 fn_82D42078(int *param_1,unsigned __int64 param_2)
+typedef struct ShapeMethods_82D42078 {
+    void *unused[5];
+    Shape_82D42078 *(*getChildShape)(MeshShape_82D42078 *self, unsigned int key, void *buffer); /* 0x14 */
+} ShapeMethods_82D42078;
 
+typedef struct TrianglesSubpart_82D42078 {
+    char padding00[0x14];
+    int numTriangleShapes; /* 0x14 */
+    char padding18[0x48];
+} TrianglesSubpart_82D42078;
+
+typedef struct ShapesSubpart_82D42078 {
+    char padding00[0x14];
+    void **childShapes; /* 0x14 */
+    int numChildShapes; /* 0x18 */
+    char padding1C[0x24];
+} ShapesSubpart_82D42078;
+
+/* The shape collection interface of an extended mesh shape (0x10 into the object). */
+struct MeshShape_82D42078 {
+    ShapeMethods_82D42078 *methods; /* 0x00 */
+    char padding04[0x9c];
+    int numBitsForSubpartIndex;                   /* 0xa0 */
+    TrianglesSubpart_82D42078 *trianglesSubparts; /* 0xa4 */
+    int numTrianglesSubparts;                     /* 0xa8 */
+    int trianglesSubpartsCapacity;                /* 0xac */
+    ShapesSubpart_82D42078 *shapesSubparts;       /* 0xb0 */
+    int numShapesSubparts;                        /* 0xb4 */
+};
+
+extern unsigned char *fn_82D6F590(void *result, const void *a, const void *b, const void *c, float tolerance);
+extern float lbl_83182A98;
+
+unsigned int fn_82D42078(MeshShape_82D42078 *self, unsigned int key)
 {
-  int iVar1;
-  char *pcVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  unsigned char auStack_250 [16];
-  unsigned char auStack_240 [496];
-  
-  uVar3 = param_2 & 0x80000000;
-  uVar5 = (unsigned __int64)(((unsigned int)param_2 & 0x7fffffff) >> (0x20U - param_1[0x28] & 0x3f));
-  param_2 = 0xffffffff >> (param_1[0x28] & 0x3fU) & param_2;
-LAB_82d420ac:
-  do {
-    param_2 = param_2 + 1;
-    if ((int)uVar3 == 0) {
-      if (*(int *)(param_1[0x29] + (int)((uVar5 + (uVar5 & 0x7fffffff) * 2 & 0xffffffff) << 5) +
-                  0x14) <= (int)param_2) {
-        uVar5 = uVar5 + 1;
-        param_2 = 0;
-        if ((unsigned __int64)(unsigned int)param_1[0x2a] <= (uVar5 & 0xffffffff)) {
-          if (param_1[0x2d] == 0) {
-            return 0xffffffffffffffff;
-          }
-          uVar3 = 0xffffffff80000000;
-          uVar5 = 0;
-          param_2 = 0xffffffffffffffff;
-          goto LAB_82d420ac;
-        }
-      }
-    }
-    else if (*(int *)(param_1[0x2c] + (int)((uVar5 & 0xffffffff) << 6) + 0x18) <= (int)param_2) {
-      uVar5 = uVar5 + 1;
-      if ((unsigned __int64)(unsigned int)param_1[0x2d] <= (uVar5 & 0xffffffff)) {
-        return 0xffffffffffffffff;
-      }
-      param_2 = 0;
-    }
-    uVar4 = (unsigned int)((int)uVar5 << (0x20U - param_1[0x28] & 0x3f)) | uVar3 | param_2;
-    iVar1 = (**(int (***)())(*param_1 + 0x14))(param_1,uVar4,auStack_240);
-    if (*(int *)(iVar1 + 0xc) != 3) {
-      return uVar4;
-    }
-    pcVar2 = (char *)fn_82D6F590((double)lbl_83182A98,auStack_250,iVar1 + 0x20,iVar1 + 0x30,
-                                  iVar1 + 0x40);
-    if (*pcVar2 == '\0') {
-      return uVar4;
-    }
-  } while( true );
-}
+    int subpartType;
+    unsigned int subpart = (key & 0x7fffffff) >> (32 - self->numBitsForSubpartIndex);
+    int terminal = (0xffffffffU >> self->numBitsForSubpartIndex) & key;
+    unsigned int nextKey;
+    Shape_82D42078 *shape;
+    unsigned char isDegenerate[16];
+    unsigned char buffer[512];
 
+    subpartType = key & 0x80000000;
+    for (;;) {
+        if (subpartType == 0) {
+            ++terminal;
+            if (terminal >= self->trianglesSubparts[subpart].numTriangleShapes) {
+                ++subpart;
+                terminal = 0;
+                if (subpart >= (unsigned int)self->numTrianglesSubparts) {
+                    if (self->numShapesSubparts == 0) {
+                        return (unsigned int)-1;
+                    }
+                    subpartType = 0x80000000;
+                    subpart = 0;
+                    terminal = -1;
+                    continue;
+                }
+            }
+        } else {
+            ++terminal;
+            if (terminal >= self->shapesSubparts[subpart].numChildShapes) {
+                ++subpart;
+                if (subpart >= (unsigned int)self->numShapesSubparts) {
+                    return (unsigned int)-1;
+                }
+                terminal = 0;
+            }
+        }
+        nextKey = (subpart << (32 - self->numBitsForSubpartIndex)) | subpartType | terminal;
+        shape = self->methods->getChildShape(self, nextKey, buffer);
+        if (shape->type != 3) {
+            break;
+        }
+        if (*fn_82D6F590(isDegenerate, shape->vertices[0], shape->vertices[1], shape->vertices[2],
+                         lbl_83182A98) == 0) {
+            break;
+        }
+    }
+    return nextKey;
+}

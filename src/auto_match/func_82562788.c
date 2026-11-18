@@ -1,48 +1,38 @@
-extern unsigned int *auStack_20;
-extern unsigned int *auStack_28;
-extern unsigned int fStack_2c;
-extern unsigned int fStack_30;
-extern int fn_828100D0();
-extern unsigned int lbl_82193E50;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Camera_82562788 {
+    char pad0[0x40];
+    __vector4 orientation; /* 0x40 */
+    float yaw;             /* 0x50 */
+    float pitch;           /* 0x54 */
+    float roll;            /* 0x58 */
+    char pad5c[0xa8 - 0x5c];
+    unsigned int flags; /* 0xa8 */
+    char padac[0xd0 - 0xac];
+    int dirty; /* 0xd0 */
+} Camera_82562788;
 
-void fn_82562788(int param_1,int param_2)
+extern void fn_828100D0(__vector4 *quaternion, float *yaw, float *pitch, float *roll, int order);
 
+void fn_82562788(Camera_82562788 *self, const __vector4 *orientation)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int in_r0;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  float fStack_30;
-  float fStack_2c;
-  unsigned int auStack_28 [2];
-  unsigned char auStack_20 [16];
-  
-  puVar1 = (unsigned int *)(in_r0 + param_2 & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  if ((*(unsigned int *)(param_1 + 0xa8) & 1) == 0) {
-    puVar2 = (unsigned int *)(param_1 + 0x40U & 0xfffffff0);
-    *puVar2 = *puVar1;
-    puVar2[1] = uVar3;
-    puVar2[2] = uVar4;
-    puVar2[3] = uVar5;
-  }
-  else {
-    puVar2 = (unsigned int *)((unsigned int)(auStack_20 + in_r0) & 0xfffffff0);
-    *puVar2 = *puVar1;
-    puVar2[1] = uVar3;
-    puVar2[2] = uVar4;
-    puVar2[3] = uVar5;
-    fn_828100D0(auStack_20,&fStack_30,&fStack_2c,auStack_28,0);
-    *(float *)(param_1 + 0x50) = -fStack_30;
-    *(float *)(param_1 + 0x54) = fStack_2c + lbl_82193E50;
-    *(unsigned int *)(param_1 + 0x58) = auStack_28[0];
-  }
-  *(unsigned int *)(param_1 + 0xd0) = 1;
-  return;
-}
+    __vector4 value;
+    __vector4 copy;
+    float yaw;
+    float pitch;
+    float roll;
 
+    value = *orientation;
+    if (self->flags & 1) {
+        copy = value;
+        fn_828100D0(&copy, &yaw, &pitch, &roll, 0);
+        self->yaw = -yaw;
+        self->pitch = pitch + 3.14159265f;
+        self->roll = roll;
+    } else {
+        self->orientation = value;
+    }
+    self->dirty = 1;
+}

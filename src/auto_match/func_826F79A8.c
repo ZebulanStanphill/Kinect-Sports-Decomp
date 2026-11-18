@@ -1,56 +1,75 @@
-extern int fn_8267C4F0();
-extern int fn_8270EB60();
-extern unsigned int lbl_821AAD20;
+typedef struct Slot_826F79A8 {
+    int value0;              /* 0x00 */
+    int value1;              /* 0x04 */
+    float weight0;           /* 0x08 */
+    float weight1;           /* 0x0c */
+    int value2;              /* 0x10 */
+    unsigned char state : 5; /* 0x14 */
+    unsigned char mode : 3;
+    unsigned char pad15[0xf];
+} Slot_826F79A8;
 
+typedef struct Listener_826F79A8 Listener_826F79A8;
 
-void fn_826F79A8(int param_1,char param_2)
+typedef struct ListenerVtbl_826F79A8 {
+    void *slots00[0x11];
+    void (*Notify)(Listener_826F79A8 *self, void *source); /* 0x44 */
+} ListenerVtbl_826F79A8;
 
+struct Listener_826F79A8 {
+    ListenerVtbl_826F79A8 *vt;
+};
+
+typedef struct Registry_826F79A8 Registry_826F79A8;
+
+typedef struct RegistryVtbl_826F79A8 {
+    void *slots00[3];
+    Listener_826F79A8 *(*Find)(Registry_826F79A8 *self, int id); /* 0x0c */
+} RegistryVtbl_826F79A8;
+
+struct Registry_826F79A8 {
+    RegistryVtbl_826F79A8 *vt;
+};
+
+typedef struct Player_826F79A8 {
+    unsigned char pad000[8];
+    Registry_826F79A8 registry; /* 0x008 */
+    unsigned char pad00c[0x944];
+    Slot_826F79A8 slots[4]; /* 0x950 */
+    void *tracker;          /* 0x9e0 */
+    unsigned char pad9e4[0x11c];
+    unsigned int flags; /* 0xb00 */
+} Player_826F79A8;
+
+extern void fn_8270EB60(void *tracker);
+extern void fn_8267C4F0(Listener_826F79A8 *listener);
+
+void fn_826F79A8(Player_826F79A8 *self, unsigned char enable)
 {
-  unsigned char *pbVar1;
-  unsigned int uVar2;
-  int *piVar3;
-  unsigned char *pbVar4;
-  unsigned int uVar5;
-  __int64 lVar6;
-  
-  if (param_2 == '\0') {
-    fn_8270EB60(*(unsigned int *)(param_1 + 0x9e0));
-    uVar2 = lbl_821AAD20;
-    pbVar4 = (unsigned char *)(param_1 + 0x940);
-    lVar6 = 4;
-    do {
-      pbVar1 = pbVar4 + 0x24;
-      *(unsigned int *)(pbVar4 + 0x1c) = uVar2;
-      *(unsigned int *)(pbVar4 + 0x18) = uVar2;
-      pbVar4[0x20] = 0;
-      pbVar4[0x21] = 0;
-      pbVar4[0x22] = 0;
-      pbVar4[0x23] = 0;
-      pbVar4[0x14] = 0;
-      pbVar4[0x15] = 0;
-      pbVar4[0x16] = 0;
-      pbVar4[0x17] = 0;
-      pbVar4[0x10] = 0;
-      pbVar4[0x11] = 0;
-      pbVar4[0x12] = 0;
-      pbVar4[0x13] = 0;
-      pbVar4 = pbVar4 + 0x24;
-      *pbVar4 = *pbVar1 & 7;
-      lVar6 = lVar6 + -1;
-    } while (lVar6 != 0);
-  }
-  if (param_2 == '\0') {
-    uVar5 = *(unsigned int *)(param_1 + 0xb00) & 0xfffbffff;
-  }
-  else {
-    uVar5 = *(unsigned int *)(param_1 + 0xb00) | 0x40000;
-  }
-  *(unsigned int *)(param_1 + 0xb00) = uVar5;
-  piVar3 = (int *)(**(int (***)())(*(int *)(param_1 + 8) + 0xc))(param_1 + 8,0x1b);
-  if (piVar3 != (int *)0x0) {
-    (**(int (***)())(*piVar3 + 0x44))(piVar3,param_1);
-    fn_8267C4F0(piVar3);
-  }
-  return;
-}
+    Slot_826F79A8 *slot;
+    Listener_826F79A8 *listener;
+    int i;
 
+    if (!enable) {
+        fn_8270EB60(self->tracker);
+        for (i = 0; i < 4; i++) {
+            slot = &self->slots[i];
+            slot->weight1 = 0.0f;
+            slot->weight0 = 0.0f;
+            slot->value2 = 0;
+            slot->value1 = 0;
+            slot->value0 = 0;
+            slot->state = 0;
+        }
+    }
+    if (enable) {
+        self->flags |= 0x40000;
+    } else {
+        self->flags &= ~0x40000;
+    }
+    listener = self->registry.vt->Find(&self->registry, 0x1b);
+    if (listener != 0) {
+        listener->vt->Notify(listener, self);
+        fn_8267C4F0(listener);
+    }
+}

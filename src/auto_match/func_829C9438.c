@@ -1,61 +1,38 @@
-typedef unsigned char bool;
-extern int fn_8264D1C8();
-extern unsigned int lbl_8321501C;
-extern unsigned __int64 storeWordConditionalIndexed();
+/* An element of the 0x28-byte array at lbl_83217344, rewritten by fn_829CDC78 (spin lock, sync);
+   the original re-reads baseHandle and sizes after every test, so they are volatile here. */
+typedef struct Surface_829C9438 {
+    unsigned int handle;              /* 0x00 */
+    unsigned int size;                /* 0x04 */
+    unsigned int flags;               /* 0x08 */
+    volatile unsigned int baseHandle; /* 0x0c */
+    unsigned int planes[3];           /* 0x10 */
+    unsigned int *volatile sizes;     /* 0x1c */
+    unsigned int planeMask;           /* 0x20 */
+    long refs;                        /* 0x24 */
+} Surface_829C9438;
 
+extern int lbl_83215000[];
+extern long _InterlockedIncrement(long volatile *);
+extern void fn_8264D1C8(int device, unsigned int handle, unsigned int size, unsigned int flags);
 
-void fn_829C9438(__int64 param_1)
-
+void fn_829C9438(Surface_829C9438 *surface)
 {
-  unsigned int *puVar1;
-  unsigned int uVar2;
-  unsigned __int64 in_r7;
-  unsigned __int64 in_r8;
-  unsigned __int64 uVar3;
-  unsigned int *puVar4;
-  unsigned int uVar5;
-  unsigned __int64 in_MSR;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  sync(0);
-  do {
-    puVar4 = (unsigned int *)(param_1 + 0x24);
-    uVar3 = (unsigned __int64)*puVar4 + 1;
-    if (in_RESERVE != '\0') {
-      uVar5 = storeWordConditionalIndexed(uVar3,0,param_1 + 0x24);
-      *puVar4 = uVar5;
-      in_cr0 = 2;
-    }
-  } while (!(bool)(in_cr0 >> 1 & 1));
-  if ((uVar3 & 0xffffffff) == 2) {
-    puVar1 = (unsigned int *)param_1;
-    fn_8264D1C8(lbl_8321501C,*puVar1,puVar1[1],puVar1[2],in_r7,in_r8,in_MSR);
-    if (puVar1[3] != 0) {
-      if (puVar1[7] == 0) {
-        uVar2 = 0;
-      }
-      else {
-        uVar2 = *(unsigned int *)puVar1[7];
-      }
-      fn_8264D1C8(lbl_8321501C,puVar1[3],uVar2,0);
-      uVar3 = 1;
-      uVar5 = 0;
-      do {
-        if ((puVar1[7] == 0) || (((unsigned int)puVar1[8] & uVar3) == 0)) {
-          uVar2 = 0;
-        }
-        else {
-          uVar2 = *(unsigned int *)(puVar1[7] + uVar5 + 4);
-        }
-        fn_8264D1C8(lbl_8321501C,*(unsigned int *)((int)puVar1 + uVar5 + 0x10),uVar2,0);
-        uVar5 = uVar5 + 4;
-        uVar3 = (uVar3 & 0x7fffffff) << 1 | uVar3 >> 0x1f;
-      } while (uVar5 < 0xc);
-    }
-    *puVar1 = 0;
-    puVar1[3] = 0;
-  }
-  return;
-}
+    unsigned int i;
+    unsigned int bit;
 
+    __emit(0x7C0004AC);
+    if ((unsigned long)_InterlockedIncrement(&surface->refs) == 2) {
+        fn_8264D1C8(lbl_83215000[7], surface->handle, surface->size, surface->flags);
+        if (surface->baseHandle != 0) {
+            fn_8264D1C8(lbl_83215000[7], surface->baseHandle, surface->sizes ? surface->sizes[0] : 0, 0);
+            bit = 1;
+            for (i = 0; i < 3; i++) {
+                fn_8264D1C8(lbl_83215000[7], surface->planes[i],
+                            surface->sizes && (surface->planeMask & bit) ? surface->sizes[i + 1] : 0, 0);
+                bit = (bit << 1) | (bit >> 31);
+            }
+        }
+        surface->handle = 0;
+        surface->baseHandle = 0;
+    }
+}

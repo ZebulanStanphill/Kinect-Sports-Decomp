@@ -1,55 +1,58 @@
-extern unsigned int lbl_8200133C;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vxor(__vector4 a, __vector4 b);
 
-void fn_82D7BF58(unsigned char *param_1,int *param_2)
+typedef struct Event_82D7BF58 {
+    unsigned char type; /* 0x00 */
+    unsigned char id;   /* 0x01 */
+    char pad02[0x16];
+    float time; /* 0x18 */
+    char pad1c[0x4];
+    __vector4 value; /* 0x20 */
+    char data[0x10]; /* 0x30 */
+} Event_82D7BF58;
 
+typedef struct Dispatcher_82D7BF58 Dispatcher_82D7BF58;
+
+typedef struct Handler_82D7BF58 {
+    void (*callback)(Event_82D7BF58 *event, void *data, Dispatcher_82D7BF58 *dispatcher); /* 0x00 */
+    char pad04[0x4c];
+} Handler_82D7BF58;
+
+struct Dispatcher_82D7BF58 {
+    Handler_82D7BF58 *handlers; /* 0x00 */
+};
+
+static __forceinline void SetZero(__vector4 *v)
 {
-  int iVar1;
-  int (**UNRECOVERED_JUMPTABLE_00)();
-  unsigned int *puVar2;
-  unsigned int uVar3;
-  unsigned int in_register_000100d0;
-  unsigned int in_register_000100d4;
-  unsigned int in_register_000100d8;
-  unsigned int in_vr13;
-  
-  uVar3 = *param_1 - 2;
-  if (0xc < uVar3) {
-    return;
-  }
-  iVar1 = *(int *)(uVar3 * 4 + -0x7d28407c);
-  switch(*param_1) {
-  case 2:
-  case 6:
-  case 10:
-  case 0xe:
-    break;
-  default:
-    return;
-  case 4:
-  case 0xc:
-    *(unsigned int *)(param_1 + 0x18) = lbl_8200133C;
-    puVar2 = (unsigned int *)((unsigned int)(param_1 + iVar1 + 0x20) & 0xfffffff0);
-    *puVar2 = in_register_000100d0;
-    puVar2[1] = in_register_000100d4;
-    puVar2[2] = in_register_000100d8;
-    puVar2[3] = in_vr13;
-    UNRECOVERED_JUMPTABLE_00 = *(int (***)())((param_1[1] + 0x49) * 0x50 + *param_2);
-    if (UNRECOVERED_JUMPTABLE_00 == (int (**)())0x0) {
-      return;
-    }
-                    /* WARNING: Could not recover jumptable at 0x82d7c030. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-    (*UNRECOVERED_JUMPTABLE_00)(param_1,param_1 + 0x30);
-    return;
-  }
-  UNRECOVERED_JUMPTABLE_00 = *(int (***)())((param_1[1] + 0x49) * 0x50 + *param_2);
-  if (UNRECOVERED_JUMPTABLE_00 == (int (**)())0x0) {
-    return;
-  }
-                    /* WARNING: Could not recover jumptable at 0x82d7bfe4. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*UNRECOVERED_JUMPTABLE_00)(param_1,param_1 + 0x20);
-  return;
+    *v = __vxor(*v, *v);
 }
 
+static __forceinline void Fire(Dispatcher_82D7BF58 *dispatcher, Event_82D7BF58 *event, void *data)
+{
+    void (*callback)(Event_82D7BF58 *, void *, Dispatcher_82D7BF58 *) =
+        dispatcher->handlers[event->id + 0x49].callback;
+    if (callback != 0) {
+        callback(event, data, dispatcher);
+    }
+}
+
+void fn_82D7BF58(Event_82D7BF58 *event, Dispatcher_82D7BF58 *dispatcher)
+{
+    switch (event->type) {
+    case 2:
+    case 6:
+    case 10:
+    case 14:
+        Fire(dispatcher, event, &event->value);
+        break;
+    case 4:
+    case 12:
+        event->time = -1.0f;
+        SetZero(&event->value);
+        Fire(dispatcher, event, event->data);
+        break;
+    }
+}

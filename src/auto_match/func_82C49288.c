@@ -1,80 +1,92 @@
-extern unsigned int iStack_cc;
-extern unsigned int uStack_8c;
-extern unsigned int uStack_90;
-extern unsigned int uStack_94;
-extern unsigned int uStack_98;
-extern unsigned int uStack_9c;
-extern unsigned int uStack_a0;
-extern unsigned int uStack_a4;
-extern unsigned int uStack_a8;
-extern unsigned int uStack_ac;
-extern unsigned int uStack_b0;
-extern unsigned int uStack_b4;
-extern unsigned int uStack_b8;
-extern unsigned int uStack_bc;
-extern unsigned int uStack_c0;
-extern unsigned int uStack_c4;
-extern unsigned int uStack_c8;
-extern unsigned int uStack_d0;
+typedef struct Params_82C49288 {
+    int format;      /* 0x00 */
+    void *owner;     /* 0x04 */
+    int handle;      /* 0x08 */
+    int version;     /* 0x0c */
+    int size;        /* 0x10 */
+    int argument;    /* 0x14 */
+    int enabled;     /* 0x18 */
+    int width;       /* 0x1c */
+    int height;      /* 0x20 */
+    int value24;     /* 0x24 */
+    int value28;     /* 0x28 */
+    int value2c;     /* 0x2c */
+    int value30;     /* 0x30 */
+    int positive;    /* 0x34 */
+    int value38;     /* 0x38 */
+    int value3c;     /* 0x3c */
+    int value40;     /* 0x40 */
+    int value44;     /* 0x44 */
+    int reserved[8]; /* 0x48, not set here; sized by the frame */
+} Params_82C49288;
 
+typedef struct Driver_82C49288 {
+    char pad0[0xc0];
+    int (*create)(Params_82C49288 *params); /* 0xc0 */
+    char padc4[0x2c8 - 0xc4];
+    int busy; /* 0x2c8 */
+} Driver_82C49288;
 
-unsigned __int64 fn_82C49288(int param_1,unsigned int param_2)
+typedef struct Device_82C49288 {
+    char pad0[0x10];
+    int ready; /* 0x10 */
+    char pad14[0x9c - 0x14];
+    int width;  /* 0x9c */
+    int height; /* 0xa0 */
+    char pada4[0x39f4 - 0xa4];
+    int pending; /* 0x39f4 */
+    char pad39f8[0x5580 - 0x39f8];
+    int enabled; /* 0x5580 */
+    char pad5584[0x5598 - 0x5584];
+    int size;      /* 0x5598 */
+    int value559c; /* 0x559c */
+    int value55a0; /* 0x55a0 */
+    int value55a4; /* 0x55a4 */
+    int value55a8; /* 0x55a8 */
+    char pad55ac[0x5610 - 0x55ac];
+    int format;         /* 0x5610 */
+    unsigned int flags; /* 0x5614 */
+    char pad5618[0x5634 - 0x5618];
+    int value5634; /* 0x5634 */
+    int value5638; /* 0x5638 */
+    int value563c; /* 0x563c */
+    int value5640; /* 0x5640 */
+    char pad5644[0x6070 - 0x5644];
+    Driver_82C49288 *driver; /* 0x6070 */
+    char pad6074[0xb148 - 0x6074];
+    int handle; /* 0xb148 */
+} Device_82C49288;
 
+int fn_82C49288(Device_82C49288 *device, int argument)
 {
-  unsigned __int64 uVar1;
-  struct { unsigned int first; int second; } stack_pair_d0;
+    Params_82C49288 params;
 
-  unsigned int uStack_c8;
-  unsigned int uStack_c4;
-  unsigned int uStack_c0;
-  unsigned int uStack_bc;
-  unsigned int uStack_b8;
-  unsigned int uStack_b4;
-  unsigned int uStack_b0;
-  unsigned int uStack_ac;
-  unsigned int uStack_a8;
-  unsigned int uStack_a4;
-  unsigned int uStack_a0;
-  unsigned int uStack_9c;
-  unsigned int uStack_98;
-  unsigned int uStack_94;
-  unsigned int uStack_90;
-  unsigned int uStack_8c;
-  
-  if (param_1 == 0) {
-    uVar1 = 0xfffffffffffffffd;
-  }
-  else if (*(int *)(*(int *)(param_1 + 0x6070) + 0x2c8) == 0) {
-    if ((*(unsigned int *)(param_1 + 0x5614) & 4) == 0) {
-      uVar1 = -(unsigned __int64)(*(int *)(param_1 + 0x10) == 0) & 0xfffffffffffffff9;
+    if (device == 0) {
+        return -3;
     }
-    else {
-      stack_pair_d0.first = *(unsigned int *)(param_1 + 0x5610);
-      uStack_c0 = *(unsigned int *)(param_1 + 0x5598);
-      uStack_b4 = *(unsigned int *)(param_1 + 0x9c);
-      uStack_b8 = (unsigned int)(*(int *)(param_1 + 0x5580) != 0);
-      uStack_b0 = *(unsigned int *)(param_1 + 0xa0);
-      uStack_ac = *(unsigned int *)(param_1 + 0x5634);
-      uStack_c8 = *(unsigned int *)(param_1 + 0xb148);
-      uStack_a8 = *(unsigned int *)(param_1 + 0x5638);
-      uStack_a4 = *(unsigned int *)(param_1 + 0x563c);
-      uStack_a0 = *(unsigned int *)(param_1 + 0x5640);
-      uStack_98 = *(unsigned int *)(param_1 + 0x559c);
-      uStack_94 = *(unsigned int *)(param_1 + 0x55a4);
-      uStack_90 = *(unsigned int *)(param_1 + 0x55a0);
-      uStack_8c = *(unsigned int *)(param_1 + 0x55a8);
-      uStack_c4 = 2;
-      uStack_9c = (unsigned int)
-                  ((-(unsigned __int64)*(unsigned int *)(param_1 + 0x39f4) &
-                    ~(unsigned __int64)*(unsigned int *)(param_1 + 0x39f4) & 0xffffffff) >> 0x1f);
-      stack_pair_d0.second = param_1;
-      uStack_bc = param_2;
-      uVar1 = (**(int (***)())(*(int *)(param_1 + 0x6070) + 0xc0))(&stack_pair_d0.first);
+    if (device->driver->busy != 0) {
+        return 0;
     }
-  }
-  else {
-    uVar1 = 0;
-  }
-  return uVar1;
+    if ((device->flags & 4) == 0) {
+        return device->ready == 0 ? -7 : 0;
+    }
+    params.format = device->format;
+    params.owner = device;
+    params.handle = device->handle;
+    params.version = 2;
+    params.size = device->size;
+    params.argument = argument;
+    params.enabled = device->enabled != 0;
+    params.width = device->width;
+    params.height = device->height;
+    params.value24 = device->value5634;
+    params.value28 = device->value5638;
+    params.value2c = device->value563c;
+    params.value30 = device->value5640;
+    params.positive = device->pending > 0;
+    params.value38 = device->value559c;
+    params.value3c = device->value55a4;
+    params.value40 = device->value55a0;
+    params.value44 = device->value55a8;
+    return device->driver->create(&params);
 }
-

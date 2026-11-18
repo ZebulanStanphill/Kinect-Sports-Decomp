@@ -1,59 +1,48 @@
-extern unsigned int lbl_821AAD20;
+typedef struct Plane_827EAC50 {
+    float x;
+    float y;
+    float z;
+    float d;
+} Plane_827EAC50;
 
+typedef struct Vec3_827EAC50 {
+    float x;
+    float y;
+    float z;
+} Vec3_827EAC50;
 
-unsigned __int64 fn_827EAC50(float *param_1,float *param_2,float *param_3)
-
+/* Classifies a box (center, half extents) against a plane: 3 in front, 1 crossing, 0 behind. */
+int fn_827EAC50(const Plane_827EAC50 *plane, const Vec3_827EAC50 *center, const Vec3_827EAC50 *extents)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  float fVar5;
-  float fVar6;
-  float fVar7;
-  float fVar8;
-  float fVar9;
-  float fVar10;
-  
-  fVar1 = *param_1;
-  fVar2 = *param_2;
-  fVar3 = *param_3;
-  if (lbl_821AAD20 <= fVar1) {
-    fVar8 = fVar2 - fVar3;
-    fVar3 = fVar3 + fVar2;
-  }
-  else {
-    fVar8 = fVar3 + fVar2;
-    fVar3 = fVar2 - fVar3;
-  }
-  fVar2 = param_1[1];
-  fVar4 = param_2[1];
-  fVar5 = param_3[1];
-  if (lbl_821AAD20 <= fVar2) {
-    fVar10 = fVar4 - fVar5;
-    fVar5 = fVar5 + fVar4;
-  }
-  else {
-    fVar10 = fVar5 + fVar4;
-    fVar5 = fVar4 - fVar5;
-  }
-  fVar4 = param_1[2];
-  fVar6 = param_2[2];
-  fVar7 = param_3[2];
-  if (lbl_821AAD20 <= fVar4) {
-    fVar9 = fVar6 - fVar7;
-    fVar7 = fVar7 + fVar6;
-  }
-  else {
-    fVar9 = fVar7 + fVar6;
-    fVar7 = fVar6 - fVar7;
-  }
-  if (lbl_821AAD20 < (fVar1 * fVar8 + fVar4 * fVar9 + fVar2 * fVar10) - param_1[3]) {
-    return 3;
-  }
-  if (lbl_821AAD20 < (fVar1 * fVar3 + fVar4 * fVar7 + fVar2 * fVar5) - param_1[3]) {
-    return 1;
-  }
-  return 0;
-}
+    Vec3_827EAC50 nearCorner;
+    Vec3_827EAC50 farCorner;
 
+    if (plane->x < 0.0f) {
+        nearCorner.x = center->x + extents->x;
+        farCorner.x = center->x - extents->x;
+    } else {
+        nearCorner.x = center->x - extents->x;
+        farCorner.x = center->x + extents->x;
+    }
+    if (plane->y < 0.0f) {
+        nearCorner.y = center->y + extents->y;
+        farCorner.y = center->y - extents->y;
+    } else {
+        nearCorner.y = center->y - extents->y;
+        farCorner.y = center->y + extents->y;
+    }
+    if (plane->z < 0.0f) {
+        nearCorner.z = center->z + extents->z;
+        farCorner.z = center->z - extents->z;
+    } else {
+        nearCorner.z = center->z - extents->z;
+        farCorner.z = center->z + extents->z;
+    }
+    if (plane->y * nearCorner.y + plane->z * nearCorner.z + plane->x * nearCorner.x - plane->d > 0.0f) {
+        return 3;
+    }
+    if (plane->y * farCorner.y + plane->z * farCorner.z + plane->x * farCorner.x - plane->d > 0.0f) {
+        return 1;
+    }
+    return 0;
+}

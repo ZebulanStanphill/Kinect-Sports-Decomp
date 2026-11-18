@@ -1,62 +1,48 @@
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_70;
-extern int fn_82FA5060();
-extern int fn_82FE71B8();
-extern int fn_82FE7220();
-extern int fn_82FE7428();
-extern int fn_82FE7C08();
-extern int fn_82FE8948();
-extern unsigned int lbl_831BC768;
+typedef struct Context_82FE9E20 {
+    int result;   /* 0x0 */
+    int pad;      /* 0x4 */
+    void **event; /* 0x8 */
+    void *handle; /* 0xc */
+} Context_82FE9E20;
 
+extern void *lbl_831BC768;
+extern void *fn_82FA5060(void *heap, unsigned int size);
+extern void *fn_82FE8948(void *item);
+extern int fn_82FE7C08(int mode, int target, void *source, void **items, unsigned int count);
+extern int fn_82FE71B8(Context_82FE9E20 *context);
+extern int fn_82FE7428(void (*callback)(void), Context_82FE9E20 *context, unsigned char isDefault, int target,
+                       void *source, void **items, unsigned int count, unsigned char copy);
+extern int fn_82FE7220(Context_82FE9E20 *context, int code);
+extern void fn_82FE72A0(void);
 
-unsigned __int64
-fn_82FE9E20(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned int *param_4,
-             unsigned __int64 param_5)
-
+int fn_82FE9E20(int mode, int target, void *source, void **items, unsigned int count)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  unsigned int *puVar3;
-  unsigned int uVar4;
-  unsigned __int64 uVar5;
-  unsigned int *puVar6;
-  unsigned int auStack_70 [4];
-  unsigned char auStack_60 [96];
-  
-  if ((param_4 == (unsigned int *)0x0) || ((param_5 & 0xffffffff) == 0)) {
-    uVar2 = 0x1f;
-  }
-  else {
-    uVar1 = fn_82FE8948(param_3);
-    if ((param_5 & 0xffffffff) == 1) {
-      auStack_70[0] = fn_82FE8948(*param_4);
-      uVar2 = fn_82FE7C08(param_1,param_2,uVar1,auStack_70,1);
-    }
-    else {
-      puVar3 = (unsigned int *)fn_82FA5060(lbl_831BC768,(param_5 & 0x3fffffff) << 2);
-      if (puVar3 == (unsigned int *)0x0) {
-        uVar2 = 0x34;
-      }
-      else {
-        if ((param_5 & 0xffffffff) != 0) {
-          uVar5 = param_5;
-          puVar6 = puVar3;
-          do {
-            uVar4 = fn_82FE8948(*(unsigned int *)((int)param_4 + ((int)puVar6 - (int)puVar3)));
-            *puVar6 = uVar4;
-            uVar5 = uVar5 - 1;
-            puVar6 = puVar6 + 1;
-          } while (uVar5 != 0);
-        }
-        uVar2 = fn_82FE71B8(auStack_60);
-        if ((int)uVar2 == 1) {
-          uVar2 = fn_82FE7428(0xffffffff82fe72a0,auStack_60,(int)param_1 == 0,param_2,uVar1,puVar3
-                                ,param_5,0);
-          uVar2 = fn_82FE7220(auStack_60,uVar2);
-        }
-      }
-    }
-  }
-  return uVar2;
-}
+    void *converted;
+    void *single;
+    void **list;
+    unsigned int i;
+    int result;
+    Context_82FE9E20 context;
 
+    if (items == 0 || count == 0) {
+        return 0x1f;
+    }
+    converted = fn_82FE8948(source);
+    if (count == 1) {
+        single = fn_82FE8948(items[0]);
+        return fn_82FE7C08(mode, target, converted, &single, 1);
+    }
+    list = (void **)fn_82FA5060(lbl_831BC768, count * 4);
+    if (list != 0) {
+        for (i = 0; i < count; i++) {
+            list[i] = fn_82FE8948(items[i]);
+        }
+        result = fn_82FE71B8(&context);
+        if (result == 1) {
+            result = fn_82FE7220(
+                &context, fn_82FE7428(fn_82FE72A0, &context, mode == 0, target, converted, list, count, 0));
+        }
+        return result;
+    }
+    return 0x34;
+}

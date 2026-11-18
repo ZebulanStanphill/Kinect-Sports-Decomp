@@ -1,49 +1,75 @@
-extern int fn_8302B6E0();
-extern int fn_8302C9C8();
-extern int fn_83034DB0();
+typedef struct Node_8302CF58 Node_8302CF58;
 
+typedef struct NodeVt_8302CF58 {
+    void *slot0;
+    void (*destroy)(Node_8302CF58 *node); /* 0x4 */
+} NodeVt_8302CF58;
 
-int * fn_8302CF58(int param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+struct Node_8302CF58 {
+    NodeVt_8302CF58 *vt; /* 0x0 */
+    unsigned int key;    /* 0x4 */
+    Node_8302CF58 *next; /* 0x8 */
+};
 
+typedef struct Table_8302CF58 {
+    Node_8302CF58 *buckets[31]; /* 0x00 */
+    unsigned int count;         /* 0x7c */
+} Table_8302CF58;
+
+typedef struct Self_8302CF58 {
+    char pad0[0x8c];
+    Table_8302CF58 table;  /* 0x08c */
+    Node_8302CF58 *shared; /* 0x10c */
+    char pad110[0xf];
+    unsigned char flags; /* 0x11f */
+} Self_8302CF58;
+
+extern Node_8302CF58 *fn_8302B6E0(Table_8302CF58 *table, unsigned int key);
+extern Node_8302CF58 *fn_8302C9C8(Self_8302CF58 *self, int arg);
+extern int fn_83034DB0(unsigned int key, Self_8302CF58 *self);
+
+static __forceinline Node_8302CF58 *Insert(Table_8302CF58 *table, unsigned int key, Node_8302CF58 *node)
 {
-  unsigned __int64 uVar1;
-  unsigned int uVar2;
-  int *piVar3;
-  int iVar4;
-  int iVar5;
-  
-  piVar3 = (int *)0x0;
-  if ((*(unsigned char *)(param_1 + 0x11f) & 1) == 0) {
-    iVar5 = param_1 + 0x8c;
-    piVar3 = (int *)fn_8302B6E0(iVar5,param_3);
-    if (piVar3 == (int *)0x0) {
-      piVar3 = (int *)fn_8302C9C8(param_1,param_2);
-      if (piVar3 != (int *)0x0) {
-        iVar4 = fn_83034DB0(param_3,param_1);
-        if (iVar4 == 1) {
-          piVar3[1] = (int)param_3;
-          uVar1 = (param_3 & 0xffffffff) * 0x8421085 >> 0x20;
-          uVar1 = ((param_3 - uVar1 & 0xffffffff) >> 1) + uVar1 >> 4;
-          iVar4 = (int)((param_3 - ((uVar1 & 0x7ffffff) * 0x20 - uVar1) & 0xffffffff) << 2);
-          piVar3[2] = *(int *)(iVar4 + iVar5);
-          *(int **)(iVar4 + iVar5) = piVar3;
-          *(int *)(param_1 + 0x108) = *(int *)(param_1 + 0x108) + 1;
-          return piVar3;
-        }
-        (**(int (***)())(*piVar3 + 4))(piVar3);
-      }
-      return (int *)0x0;
-    }
-  }
-  else {
-    if (*(int *)(param_1 + 0x10c) == 0) {
-      uVar2 = fn_8302C9C8();
-      *(unsigned int *)(param_1 + 0x10c) = uVar2;
-    }
-    if (*(int **)(param_1 + 0x10c) != (int *)0x0) {
-      return *(int **)(param_1 + 0x10c);
-    }
-  }
-  return piVar3;
+    unsigned int bucket;
+
+    node->key = key;
+    bucket = key % 31;
+    node->next = table->buckets[bucket];
+    table->buckets[bucket] = node;
+    table->count++;
+    return node;
 }
 
+Node_8302CF58 *fn_8302CF58(Self_8302CF58 *self, int arg, unsigned int key)
+{
+    Node_8302CF58 *result = 0;
+    Table_8302CF58 *table;
+
+    if ((self->flags & 1) != 0) {
+        if (self->shared == 0) {
+            self->shared = fn_8302C9C8(self, arg);
+        }
+        if (self->shared != 0) {
+            result = self->shared;
+        }
+    } else {
+        Node_8302CF58 *found;
+
+        table = &self->table;
+        found = fn_8302B6E0(table, key);
+        if (found == 0) {
+            result = fn_8302C9C8(self, arg);
+            if (result == 0) {
+                return 0;
+            }
+            if (fn_83034DB0(key, self) != 1) {
+                result->vt->destroy(result);
+                return 0;
+            }
+            Insert(table, key, result);
+        } else {
+            result = found;
+        }
+    }
+    return result;
+}

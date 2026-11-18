@@ -1,42 +1,44 @@
-extern int fn_82641518();
+typedef struct Stream_82641518 {
+    char pad[0x30];
+    unsigned int *current; /* 0x30 */
+    unsigned int *end;     /* 0x34 */
+} Stream_82641518;
 
+extern unsigned int *fn_82641518(Stream_82641518 *self, unsigned int *out, unsigned int command,
+                                 const unsigned int *source, unsigned int count, int stride);
 
-void fn_82641B60(int param_1,unsigned __int64 param_2,__int64 param_3,__int64 param_4)
-
+void fn_82641B60(Stream_82641518 *self, unsigned __int64 mask, unsigned int command,
+                 const unsigned int *source)
 {
-  unsigned __int64 uVar1;
-  __int64 lVar2;
-  __int64 lVar3;
-  __int64 lVar4;
-  
-  uVar1 = (unsigned __int64)*(unsigned int *)(param_1 + 0x30);
-  param_4 = param_4 + -4;
-  do {
-    lVar2 = LZCOUNT(param_2);
-    param_2 = param_2 << lVar2;
-    param_4 = lVar2 * 4 + param_4;
-    lVar4 = LZCOUNT(~param_2);
-    lVar2 = lVar2 + param_3;
-    if ((lVar4 * 4 + uVar1 & 0xffffffff) < (unsigned __int64)*(unsigned int *)(param_1 + 0x34)) {
-      uVar1 = uVar1 + 4;
-      *(unsigned int *)uVar1 = (unsigned int)((lVar4 - 1U & 0xffffffff) << 0x10) | (unsigned int)lVar2;
-      lVar3 = lVar4;
-      do {
-        param_4 = param_4 + 4;
-        lVar3 = lVar3 + -1;
-        param_2 = param_2 << 1;
-        uVar1 = uVar1 + 4;
-        *(unsigned int *)uVar1 = *(unsigned int *)param_4;
-      } while (lVar3 != 0);
-    }
-    else {
-      uVar1 = fn_82641518(param_1,uVar1,lVar2,param_4,lVar4,1);
-      param_4 = lVar4 * 4 + param_4;
-      param_2 = param_2 << lVar4;
-    }
-    param_3 = lVar4 + lVar2;
-  } while (param_2 != 0);
-  *(int *)(param_1 + 0x30) = (int)uVar1;
-  return;
-}
+    unsigned int *out;
+    unsigned int skip;
+    unsigned int count;
+    unsigned int left;
+    unsigned int start;
 
+    out = self->current;
+    source--;
+    do {
+        skip = _CountLeadingZeros64(mask);
+        mask <<= skip;
+        source += skip;
+        start = command + skip;
+        count = _CountLeadingZeros64(~mask);
+        left = count;
+        if (out + count >= self->end) {
+            out = fn_82641518(self, out, start, source, count, 1);
+            source += count;
+            command = count + start;
+            mask <<= count;
+        } else {
+            command = count + start;
+            *++out = ((count - 1) << 16) | start;
+            do {
+                *++out = *++source;
+                mask <<= 1;
+                left--;
+            } while (left);
+        }
+    } while (mask != 0);
+    self->current = out;
+}

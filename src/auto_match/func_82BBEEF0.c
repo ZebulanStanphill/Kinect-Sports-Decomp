@@ -1,36 +1,26 @@
-extern unsigned int lbl_8202706C;
+typedef struct Color_82BBEEF0 {
+    float r;
+    float g;
+    float b;
+    float a;
+} Color_82BBEEF0;
 
-
-unsigned __int64 fn_82BBEEF0(int param_1,unsigned int *param_2)
-
+int fn_82BBEEF0(Color_82BBEEF0 *colors, const unsigned int *block)
 {
-  unsigned __int64 uVar1;
-  float fVar2;
-  float *pfVar3;
-  unsigned __int64 uVar4;
-  __int64 lVar5;
-  
-  fVar2 = lbl_8202706C;
-  pfVar3 = (float *)(param_1 + -4);
-  uVar4 = ((unsigned __int64)*param_2 & 0xffff) << 0x10 | (unsigned __int64)(*param_2 >> 0x10);
-  lVar5 = 8;
-  do {
-    uVar1 = uVar4 & 0xf;
-    uVar4 = uVar4 >> 4;
-    pfVar3 = pfVar3 + 4;
-    *pfVar3 = (float)uVar1 * fVar2;
-    lVar5 = lVar5 + -1;
-  } while (lVar5 != 0);
-  pfVar3 = (float *)(param_1 + 0x7c);
-  uVar4 = ((unsigned __int64)param_2[1] & 0xffff) << 0x10 | (unsigned __int64)(param_2[1] >> 0x10);
-  lVar5 = 8;
-  do {
-    uVar1 = uVar4 & 0xf;
-    uVar4 = uVar4 >> 4;
-    pfVar3 = pfVar3 + 4;
-    *pfVar3 = (float)uVar1 * fVar2;
-    lVar5 = lVar5 + -1;
-  } while (lVar5 != 0);
-  return 0;
-}
+    unsigned int bits;
+    int i;
 
+    bits = block[0];
+    bits = (bits << 16) | (bits >> 16);
+    for (i = 0; i < 8; i++) {
+        colors[i].a = (float)(bits & 0xf) * (1.0f / 15.0f);
+        bits >>= 4;
+    }
+    bits = block[1];
+    bits = (bits << 16) | (bits >> 16);
+    for (i = 8; i < 16; i++) {
+        colors[i].a = (float)(bits & 0xf) * (1.0f / 15.0f);
+        bits >>= 4;
+    }
+    return 0;
+}

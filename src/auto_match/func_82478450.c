@@ -1,37 +1,57 @@
-extern int fn_824779E0();
-extern int fn_82478560();
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int lbl_831D3BA4;
+typedef struct Settings_82478450 {
+    unsigned char pad000[0xf4];
+    int eventsEnabled; /* 0xf4 */
+} Settings_82478450;
 
+typedef struct Event_82478450 {
+    float time;          /* 0x00 */
+    unsigned char isCue; /* 0x04 */
+    unsigned char pad05[3];
+    float value; /* 0x08 */
+    int target;  /* 0x0c */
+} Event_82478450;
 
-void fn_82478450(double param_1,int param_2)
+typedef struct Timeline_82478450 {
+    unsigned char pad000[0x12c];
+    unsigned char playing; /* 0x12c */
+    unsigned char pad12d[3];
+    float time;        /* 0x130 */
+    unsigned int next; /* 0x134 */
+    unsigned char pad138[0x48];
+    Event_82478450 *events;  /* 0x180 */
+    unsigned int eventCount; /* 0x184 */
+} Timeline_82478450;
 
+extern Settings_82478450 lbl_831D3AB0;
+
+extern void fn_824779E0(Timeline_82478450 *self, int arg);
+extern void fn_82478560(Timeline_82478450 *self, float value, int apply, int target);
+
+void fn_82478450(Timeline_82478450 *self, float elapsed)
 {
-  float *pfVar1;
-  unsigned int uVar2;
-  
-  if ((*(int *)(param_2 + 0x180) != 0) && (*(char *)(param_2 + 300) != '\0')) {
-    *(float *)(param_2 + 0x130) = (float)((double)*(float *)(param_2 + 0x130) + param_1);
-    if (*(unsigned int *)(param_2 + 0x134) < *(unsigned int *)(param_2 + 0x184)) {
-      do {
-        pfVar1 = (float *)(*(int *)(param_2 + 0x134) * 0x10 + *(int *)(param_2 + 0x180));
-        if (*(float *)(param_2 + 0x130) <= *pfVar1) break;
-        if (*(char *)(pfVar1 + 1) == '\0') {
-          fn_82478560((double)pfVar1[2],param_2);
-        }
-        else if (lbl_831D3BA4 != 0) {
-          fn_824779E0(param_2,0);
-        }
-        uVar2 = *(int *)(param_2 + 0x134) + 1;
-        *(unsigned int *)(param_2 + 0x134) = uVar2;
-      } while (uVar2 < *(unsigned int *)(param_2 + 0x184));
-    }
-    if (*(int *)(param_2 + 0x134) == *(int *)(param_2 + 0x184)) {
-      *(unsigned char *)(param_2 + 300) = 0;
-      *(unsigned int *)(param_2 + 0x134) = 0;
-      *(unsigned int *)(param_2 + 0x130) = ltcg_pool_0_0f;
-    }
-  }
-  return;
-}
+    Event_82478450 *event;
 
+    if (self->events == 0 || !self->playing) {
+        return;
+    }
+    self->time += elapsed;
+    while (self->next < self->eventCount) {
+        event = &self->events[self->next];
+        if (self->time <= event->time) {
+            break;
+        }
+        if (event->isCue) {
+            if (lbl_831D3AB0.eventsEnabled != 0) {
+                fn_824779E0(self, 0);
+            }
+        } else {
+            fn_82478560(self, event->value, 1, event->target);
+        }
+        self->next++;
+    }
+    if (self->next == self->eventCount) {
+        self->playing = 0;
+        self->next = 0;
+        self->time = 0.0f;
+    }
+}

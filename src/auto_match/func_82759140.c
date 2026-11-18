@@ -1,48 +1,34 @@
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_821AAD20;
+typedef struct Values_82759140 {
+    float w;        /* 0x0 */
+    float x;        /* 0x4 */
+    float y;        /* 0x8 */
+    float wSquared; /* 0xc */
+    float ratio;    /* 0x10 */
+} Values_82759140;
 
-
-void fn_82759140(float *param_1)
-
+void fn_82759140(Values_82759140 *v)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  float fVar5;
-  float fVar6;
-  float fVar7;
-  
-  fVar1 = param_1[2];
-  fVar2 = *param_1;
-  fVar3 = param_1[1];
-  fVar5 = fVar2 * fVar2;
-  param_1[3] = fVar5;
-  fVar7 = lbl_821AAD20;
-  fVar6 = lbl_82002AE0;
-  fVar4 = fVar5 - (fVar3 * fVar3 + fVar1 * fVar1);
-  if (fVar4 == lbl_821AAD20) {
-    if (fVar3 != lbl_821AAD20) {
-      if (lbl_821AAD20 <= fVar3) {
-        fVar3 = fVar3 - lbl_82002AE0;
-      }
-      else {
-        fVar3 = fVar3 + lbl_82002AE0;
-      }
-      param_1[1] = fVar3;
+    float w = v->w;
+    float wSquared = w * w;
+    float denominator;
+    v->wSquared = wSquared;
+    denominator = wSquared - (v->x * v->x + v->y * v->y);
+    if (denominator == 0.0f) {
+        if (v->x != 0.0f) {
+            if (v->x < 0.0f) {
+                v->x = v->x + 1.0f;
+            } else {
+                v->x = v->x - 1.0f;
+            }
+        }
+        if (v->y != 0.0f) {
+            if (v->y < 0.0f) {
+                v->y = v->y + 1.0f;
+            } else {
+                v->y = v->y - 1.0f;
+            }
+        }
+        denominator = wSquared - (v->x * v->x + v->y * v->y);
     }
-    if (fVar1 != fVar7) {
-      if (fVar7 <= fVar1) {
-        fVar1 = fVar1 - fVar6;
-      }
-      else {
-        fVar1 = fVar1 + fVar6;
-      }
-      param_1[2] = fVar1;
-    }
-    fVar4 = fVar5 - (param_1[1] * param_1[1] + param_1[2] * param_1[2]);
-  }
-  param_1[4] = fVar2 / fVar4;
-  return;
+    v->ratio = w / denominator;
 }
-
