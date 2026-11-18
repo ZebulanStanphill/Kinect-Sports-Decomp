@@ -1,36 +1,62 @@
-extern unsigned int lbl_82191FCC;
+/* Message handler: message 0 copies a view description into the active
+ * camera and enables it; message 1 disables it. */
+typedef struct View_8260E818 {
+    char pad00[0x10];
+    int mode;  /* 0x10 */
+    float x;   /* 0x14 */
+    float y;   /* 0x18 */
+    float z;   /* 0x1C */
+    float fov; /* 0x20 */
+} View_8260E818;
 
+typedef struct Camera_8260E818 {
+    char pad00[0x18];
+    int mode;    /* 0x18 */
+    float x;     /* 0x1C */
+    float z;     /* 0x20 */
+    float y;     /* 0x24 */
+    float fov;   /* 0x28 */
+    float blend; /* 0x2C */
+    char pad30[0x8];
+    int enabled; /* 0x38 */
+} Camera_8260E818;
 
-void fn_8260E818(int param_1,unsigned __int64 param_2,int param_3,unsigned __int64 param_4,int param_5)
+typedef struct Scene_8260E818 {
+    char pad000[0x1AC];
+    Camera_8260E818 *camera; /* 0x1AC */
+} Scene_8260E818;
 
+typedef struct Owner_8260E818 {
+    char pad00[0x60];
+    Scene_8260E818 **scene; /* 0x60 */
+} Owner_8260E818;
+
+extern const float lbl_82191EA0[0xd0];
+
+void fn_8260E818(Owner_8260E818 *self, int unused, View_8260E818 *view, int unused2, int message)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  int iVar5;
-  unsigned int uVar6;
-  
-  uVar6 = lbl_82191FCC;
-  if (param_5 == 0) {
-    uVar4 = *(unsigned int *)(param_3 + 0x10);
-    uVar1 = *(unsigned int *)(param_3 + 0x1c);
-    uVar2 = *(unsigned int *)(param_3 + 0x14);
-    uVar3 = *(unsigned int *)(param_3 + 0x20);
-    iVar5 = *(int *)(**(int **)(param_1 + 0x60) + 0x1ac);
-    *(unsigned int *)(iVar5 + 0x24) = *(unsigned int *)(param_3 + 0x18);
-    *(unsigned int *)(iVar5 + 0x18) = uVar4;
-    *(unsigned int *)(iVar5 + 0x28) = uVar3;
-    *(unsigned int *)(iVar5 + 0x38) = 1;
-    *(unsigned int *)(iVar5 + 0x1c) = uVar2;
-    *(unsigned int *)(iVar5 + 0x20) = uVar1;
-    *(unsigned int *)(iVar5 + 0x2c) = uVar6;
-    return;
-  }
-  if (param_5 != 1) {
-    return;
-  }
-  *(unsigned int *)(*(int *)(**(int **)(param_1 + 0x60) + 0x1ac) + 0x38) = 0;
-  return;
-}
+    int mode;
+    float z;
+    float x;
+    float fov;
+    Camera_8260E818 *camera;
+    float blend;
 
+    if (message == 0) {
+        blend = lbl_82191EA0[0x4b];
+        mode = view->mode;
+        z = view->z;
+        x = view->x;
+        fov = view->fov;
+        camera = (*self->scene)->camera;
+        camera->y = view->y;
+        camera->mode = mode;
+        camera->fov = fov;
+        camera->enabled = 1;
+        camera->x = x;
+        camera->z = z;
+        camera->blend = blend;
+    } else if (message == 1) {
+        (*self->scene)->camera->enabled = 0;
+    }
+}

@@ -1,91 +1,98 @@
-extern unsigned int *auStack_6c;
-extern int fn_8284D780();
-extern int fn_8284F8A0();
-extern int fn_82850A78();
-extern int fn_82850D08();
-extern int fn_8285A7F8();
-extern int fn_8285A830();
-extern int fn_8285AE70();
+typedef struct Entry_8284FA10 {
+    int pad0;
+    const char *name; /* 0x04 */
+    char pad8[0x50 - 0x8];
+} Entry_8284FA10;
 
+typedef struct List_8284FA10 {
+    unsigned int count;      /* 0x00 */
+    Entry_8284FA10 *entries; /* 0x04 */
+} List_8284FA10;
 
-void fn_8284FA10(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4)
+typedef struct Source_8284FA10 {
+    char pad0[0x2c];
+    List_8284FA10 *list; /* 0x2c */
+} Source_8284FA10;
 
+typedef struct Node_8284FA10 {
+    int id; /* 0x00 */
+    char pad4[0x38 - 0x4];
+    const char *name; /* 0x38 */
+    int pad3c;
+    struct Node_8284FA10 *child; /* 0x40 */
+} Node_8284FA10;
+
+typedef struct Bits_8284FA10 {
+    char pad0[0x2c];
+    unsigned char *bits; /* 0x2c */
+} Bits_8284FA10;
+
+typedef struct Graph_8284FA10 {
+    char pad0[0x40];
+    Node_8284FA10 **nodes; /* 0x40 */
+    unsigned short count;  /* 0x44 */
+    char pad46[0x60 - 0x46];
+    unsigned int byteCount; /* 0x60 */
+} Graph_8284FA10;
+
+int strcmp(const char *a, const char *b);
+extern int fn_8285AE70(Graph_8284FA10 *self);
+extern Bits_8284FA10 *fn_8285A830(Graph_8284FA10 *self, void *state);
+extern void fn_8284D780(Source_8284FA10 *source, List_8284FA10 **list);
+extern unsigned int *fn_8285A7F8(Node_8284FA10 *node, void *state);
+extern void fn_82850A78(List_8284FA10 *list, unsigned int index, Entry_8284FA10 **entry);
+extern void fn_82850D08(Entry_8284FA10 *entry, unsigned char set, void *masks, int index);
+extern void fn_8284F8A0(Node_8284FA10 *node, void *state, Source_8284FA10 *source, void *masks);
+
+void fn_8284FA10(Graph_8284FA10 *self, void *state, Source_8284FA10 *source, void *masks)
 {
-  char cVar1;
-  char cVar2;
-  int *piVar3;
-  int iVar4;
-  int iVar5;
-  unsigned int *puVar6;
-  char *pcVar7;
-  char *pcVar8;
-  unsigned int uVar9;
-  unsigned char bVar10;
-  int iVar11;
-  int iVar12;
-  unsigned int uVar13;
-  unsigned int *puStack_70;
-  unsigned int auStack_6c;
-  
-  fn_8285AE70();
-  iVar4 = fn_8285A830(param_1,param_2);
-  fn_8284D780(param_3,&puStack_70);
-  if ((puStack_70 != (unsigned int *)0x0) && (uVar9 = 0, *(int *)(param_1 + 0x60) != 0)) {
-    do {
-      iVar12 = uVar9 << 3;
-      bVar10 = *(unsigned char *)(*(int *)(iVar4 + 0x2c) + uVar9);
-      if ((int)(unsigned int)*(unsigned short *)(param_1 + 0x44) < iVar12) {
-        return;
-      }
-      if (bVar10 != 0) {
-        iVar11 = uVar9 << 5;
-        do {
-          if (((iVar12 < (int)(unsigned int)*(unsigned short *)(param_1 + 0x44)) && ((bVar10 & 0x80) != 0)) &&
-             (piVar3 = *(int **)(*(int *)(param_1 + 0x40) + iVar11), *piVar3 != -1)) {
-            iVar5 = fn_8285AE70(param_1);
-            if (iVar5 == 0) {
-              puVar6 = (unsigned int *)fn_8285A7F8(piVar3,param_2);
-              if (*puVar6 < *puStack_70) {
-                fn_82850A78(puStack_70,*puVar6,&auStack_6c);
-                fn_82850D08(auStack_6c,1,param_4,0);
-                if (piVar3[0x10] != 0) {
-                  fn_8284F8A0(piVar3[0x10],param_2,param_3,param_4);
-                }
-              }
-            }
-            else {
-              uVar13 = 0;
-              if (*puStack_70 != 0) {
-                iVar5 = 0;
-                puVar6 = puStack_70;
-                do {
-                  pcVar7 = (char *)piVar3[0xe];
-                  pcVar8 = *(char **)(puVar6[1] + iVar5 + 4);
-                  do {
-                    cVar1 = *pcVar8;
-                    cVar2 = *pcVar7;
-                    if (cVar1 == '\0') break;
-                    pcVar8 = pcVar8 + 1;
-                    pcVar7 = pcVar7 + 1;
-                  } while (cVar1 == cVar2);
-                  if (cVar1 == cVar2) {
-                    fn_82850D08(puVar6[1] + iVar5,1,param_4,0);
-                    puVar6 = puStack_70;
-                  }
-                  uVar13 = uVar13 + 1;
-                  iVar5 = iVar5 + 0x50;
-                } while (uVar13 < *puVar6);
-              }
-            }
-          }
-          bVar10 = bVar10 << 1;
-          iVar12 = iVar12 + 1;
-          iVar11 = iVar11 + 4;
-        } while (bVar10 != 0);
-      }
-      uVar9 = uVar9 + 1;
-    } while (uVar9 < *(unsigned int *)(param_1 + 0x60));
-  }
-  return;
-}
+    Bits_8284FA10 *bits;
+    List_8284FA10 *list;
+    Entry_8284FA10 *entry;
+    unsigned int byteIndex;
 
+    fn_8285AE70(self);
+    bits = fn_8285A830(self, state);
+    fn_8284D780(source, &list);
+    if (list == 0) {
+        return;
+    }
+    for (byteIndex = 0; byteIndex < self->byteCount; byteIndex++) {
+        int index = byteIndex << 3;
+        unsigned char mask = bits->bits[byteIndex];
+
+        if (index > self->count) {
+            return;
+        }
+        for (; mask != 0; mask <<= 1, index++) {
+            Node_8284FA10 *node;
+
+            if (index >= self->count || !(mask & 0x80)) {
+                continue;
+            }
+            node = self->nodes[index];
+            if (node->id == -1) {
+                continue;
+            }
+            if (fn_8285AE70(self)) {
+                unsigned int i;
+
+                for (i = 0; i < list->count; i++) {
+                    if (strcmp(list->entries[i].name, node->name) == 0) {
+                        fn_82850D08(&list->entries[i], 1, masks, 0);
+                    }
+                }
+            } else {
+                unsigned int *slot = fn_8285A7F8(node, state);
+
+                if (*slot < list->count) {
+                    fn_82850A78(list, *slot, &entry);
+                    fn_82850D08(entry, 1, masks, 0);
+                    if (node->child != 0) {
+                        fn_8284F8A0(node->child, state, source, masks);
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,96 +1,107 @@
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_80;
-extern unsigned int *auStack_90;
-extern unsigned int *auStack_e0;
-extern unsigned int *auStack_f0;
-extern int fn_822315A0();
-extern int fn_82250A18();
-extern int fn_82250D10();
-extern int fn_822EFBF0();
-extern int fn_823D0DD8();
-extern int fn_823E7788();
-extern int fn_823EAF68();
-extern int fn_824FE498();
-extern unsigned int iStack_ec;
-extern unsigned int lbl_832975B0;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Config_823D0C80 {
+    int pad0;
+    unsigned char enabled; /* 0x4 */
+} Config_823D0C80;
 
-unsigned __int64 fn_823D0C80(int param_1,unsigned __int64 param_2)
+typedef struct Self_823D0C80 {
+    char pad0[0x84];
+    void *target; /* 0x084 */
+    char pad88[0x438];
+    void *body; /* 0x4c0 */
+    char pad4C4[0x4dc];
+    int busy; /* 0x9a0 */
+} Self_823D0C80;
 
+typedef struct Other_823D0C80 {
+    char pad0[0xbd0];
+    __vector4 position; /* 0xbd0 */
+    char padBE0[0x50];
+    __vector4 velocity; /* 0xc30 */
+} Other_823D0C80;
+
+typedef struct Sp_823D0C80 {
+    void *px;
+    void *rep;
+} Sp_823D0C80;
+
+typedef struct IndexList_823D0C80 {
+    int count;      /* 0x0 */
+    int indices[7]; /* 0x4 */
+} IndexList_823D0C80;
+
+typedef struct Params_823D0C80 {
+    IndexList_823D0C80 first;  /* 0x0 */
+    IndexList_823D0C80 second; /* 0x20 */
+    int field40;               /* 0x40 */
+    int field44;               /* 0x44 */
+    int field48;               /* 0x48 */
+} Params_823D0C80;
+
+typedef struct Command_823D0C80 {
+    Params_823D0C80 params; /* 0x00 */
+    __vector4 a;            /* 0x50 */
+    __vector4 b;            /* 0x60 */
+    __vector4 c;            /* 0x70 */
+    unsigned int index;     /* 0x80 */
+} Command_823D0C80;
+
+__vector4 __VMXGetReg(int n);
+
+/* The vectors come before the command: the callee compiles the same either way, but only this order
+   gives this caller its 0x150-byte frame. */
+
+extern Config_823D0C80 *lbl_832975B0;
+extern Config_823D0C80 *fn_82250A18(void);
+extern void fn_822315A0(void *rep);
+extern Sp_823D0C80 *fn_822EFBF0(Sp_823D0C80 *out, void *target);
+extern void fn_82250D10(Params_823D0C80 *params);
+extern void fn_823E7788(Self_823D0C80 *self, __vector4 a, __vector4 b, __vector4 c,
+                        Command_823D0C80 *command);
+extern void fn_823D0DD8(Self_823D0C80 *self, Command_823D0C80 *command);
+extern void fn_823EAF68(void *target, Command_823D0C80 *command);
+extern void fn_824FE498(Other_823D0C80 *other, __vector4 a);
+
+static __forceinline Config_823D0C80 *GetConfig(void)
 {
-  unsigned int *puVar1;
-  int in_r0;
-  int iVar3;
-  unsigned int *puVar4;
-  unsigned __int64 uVar2;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned int in_register_000104d0;
-  unsigned int in_register_000104d4;
-  unsigned int in_register_000104d8;
-  unsigned int in_vr77;
-  unsigned char auStack_f0 [1];
-  int iStack_ec;
-  unsigned char auStack_e0 [80];
-  unsigned char auStack_90 [16];
-  unsigned char auStack_80 [16];
-  unsigned char auStack_70 [88];
-  
-  if (*(int *)(param_1 + 0x9a0) == 0) {
-    fn_82250D10(auStack_e0);
-    puVar4 = (unsigned int *)((unsigned int)(auStack_90 + in_r0) & 0xfffffff0);
-    *puVar4 = in_register_000104d0;
-    puVar4[1] = in_register_000104d4;
-    puVar4[2] = in_register_000104d8;
-    puVar4[3] = in_vr77;
-    puVar4 = (unsigned int *)((unsigned int)(auStack_80 + in_r0) & 0xfffffff0);
-    *puVar4 = in_register_000104d0;
-    puVar4[1] = in_register_000104d4;
-    puVar4[2] = in_register_000104d8;
-    puVar4[3] = in_vr77;
-    puVar4 = (unsigned int *)((unsigned int)(auStack_70 + in_r0) & 0xfffffff0);
-    *puVar4 = in_register_000104d0;
-    puVar4[1] = in_register_000104d4;
-    puVar4[2] = in_register_000104d8;
-    puVar4[3] = in_vr77;
-    fn_823E7788(param_1,auStack_e0);
-    iVar3 = lbl_832975B0;
-    if (lbl_832975B0 == 0) {
-      iVar3 = fn_82250A18();
+    if (lbl_832975B0) {
+        return lbl_832975B0;
     }
-    if (*(char *)(iVar3 + 4) == '\0') {
-      if (*(int *)(param_1 + 0x4c0) != 0) {
-        fn_824FE498(param_2);
-        puVar4 = (unsigned int *)((unsigned int)(auStack_70 + in_r0) & 0xfffffff0);
-        uVar5 = puVar4[1];
-        uVar6 = puVar4[2];
-        uVar7 = puVar4[3];
-        puVar1 = (unsigned int *)((int)param_2 + 0xbd0U & 0xfffffff0);
-        *puVar1 = *puVar4;
-        puVar1[1] = uVar5;
-        puVar1[2] = uVar6;
-        puVar1[3] = uVar7;
-        puVar4 = (unsigned int *)((int)param_2 + 0xc30U & 0xfffffff0);
-        *puVar4 = in_register_000104d0;
-        puVar4[1] = in_register_000104d4;
-        puVar4[2] = in_register_000104d8;
-        puVar4[3] = in_vr77;
-      }
-      fn_823D0DD8(param_1,auStack_e0);
-    }
-    else if (*(int *)(param_1 + 0x84) != 0) {
-      puVar4 = (unsigned int *)fn_822EFBF0(auStack_f0);
-      fn_823EAF68(*puVar4,auStack_e0);
-      if (iStack_ec != 0) {
-        fn_822315A0();
-      }
-    }
-    uVar2 = 1;
-  }
-  else {
-    uVar2 = 0;
-  }
-  return uVar2;
+    return fn_82250A18();
 }
 
+int fn_823D0C80(Self_823D0C80 *self, Other_823D0C80 *other, __vector4 a, __vector4 b, __vector4 c)
+{
+    Command_823D0C80 command;
+    Sp_823D0C80 sp;
+    void *target;
+
+    if (self->busy == 0) {
+        fn_82250D10(&command.params);
+        command.a = __VMXGetReg(77);
+        command.b = __VMXGetReg(77);
+        command.c = __VMXGetReg(77);
+        fn_823E7788(self, a, b, c, &command);
+        if (GetConfig()->enabled) {
+            target = self->target;
+            if (target != 0) {
+                fn_823EAF68(fn_822EFBF0(&sp, target)->px, &command);
+                if (sp.rep != 0) {
+                    fn_822315A0(sp.rep);
+                }
+            }
+        } else {
+            if (self->body != 0) {
+                fn_824FE498(other, command.a);
+                other->position = command.c;
+                other->velocity = __VMXGetReg(77);
+            }
+            fn_823D0DD8(self, &command);
+        }
+        return 1;
+    }
+    return 0;
+}

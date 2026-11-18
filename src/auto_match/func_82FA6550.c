@@ -1,53 +1,51 @@
-extern int fn_82FA60D8();
-extern int fn_82FA61A0();
-extern int fn_82FA6260();
+typedef struct Blk_82FA6550 {
+    struct Blk_82FA6550 *prev; /* 0x0 */
+    unsigned int size;         /* 0x4 */
+} Blk_82FA6550;
 
+extern Blk_82FA6550 *fn_82FA61A0(void *heap, unsigned int size);
+extern Blk_82FA6550 *fn_82FA60D8(void *heap, Blk_82FA6550 *block, int offset);
+extern void *fn_82FA6260(void *heap, Blk_82FA6550 *block, unsigned int size);
 
-void fn_82FA6550(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3)
-
+static __forceinline unsigned int AlignSize(unsigned int size, unsigned int alignment)
 {
-  __int64 lVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  __int64 lVar5;
-  unsigned __int64 uVar6;
-  
-  uVar6 = 0;
-  if ((((param_3 & 0xffffffff) != 0) && ((param_3 & 0xffffffff) < 0x40000000)) &&
-     (uVar6 = param_3 + 3 & 0xfffffffc, uVar6 < 0xd)) {
-    uVar6 = 0xc;
-  }
-  uVar2 = 0;
-  uVar4 = uVar6 + param_2 + 0x10;
-  if ((uVar4 != 0) && ((uVar4 & 0xffffffff) < 0x40000000)) {
-    uVar2 = (uVar4 + param_2) - 1 & ~(param_2 - 1);
-    if ((uVar2 & 0xffffffff) < 0xd) {
-      uVar2 = 0xc;
+    unsigned int aligned = 0;
+
+    if (size != 0 && size < 0x40000000) {
+        unsigned int rounded = (size + alignment - 1) & ~(alignment - 1);
+
+        aligned = rounded > 0xc ? rounded : 0xc;
     }
-  }
-  if ((param_2 & 0xffffffff) < 5) {
-    uVar2 = uVar6;
-  }
-  uVar2 = fn_82FA61A0(param_1,uVar2);
-  if ((uVar2 & 0xffffffff) != 0) {
-    lVar5 = uVar2 + 8;
-    uVar4 = (lVar5 + param_2) - 1 & ~(param_2 - 1);
-    lVar1 = uVar4 - lVar5;
-    if (lVar1 != 0) {
-      if ((int)lVar1 < 0x10) {
-        uVar3 = 0x10U - lVar1;
-        if ((int)(0x10U - lVar1) <= (int)param_2) {
-          uVar3 = param_2;
-        }
-        lVar1 = ((uVar3 + uVar4 + param_2) - 1 & ~(param_2 - 1)) - lVar5;
-      }
-      if ((int)lVar1 != 0) {
-        uVar2 = fn_82FA60D8(param_1,uVar2);
-      }
-    }
-  }
-  fn_82FA6260(param_1,uVar2,uVar6);
-  return;
+    return aligned;
 }
 
+void *fn_82FA6550(void *heap, unsigned int alignment, unsigned int size)
+{
+    unsigned int blockSize;
+    unsigned int request;
+    Blk_82FA6550 *block;
+
+    blockSize = AlignSize(size, 4);
+    request = AlignSize(blockSize + alignment + 0x10, alignment);
+    block = fn_82FA61A0(heap, alignment > 4 ? request : blockSize);
+    if (block != 0) {
+        unsigned int start = (unsigned int)block + 8;
+        unsigned int aligned = (start + alignment - 1) & ~(alignment - 1);
+        int offset = aligned - start;
+
+        if (offset != 0) {
+            if (offset < 0x10) {
+                int extra = 0x10 - offset;
+
+                if (extra <= (int)alignment) {
+                    extra = alignment;
+                }
+                offset = ((extra + aligned + alignment - 1) & ~(alignment - 1)) - start;
+            }
+            if (offset != 0) {
+                block = fn_82FA60D8(heap, block, offset);
+            }
+        }
+    }
+    return fn_82FA6260(heap, block, blockSize);
+}

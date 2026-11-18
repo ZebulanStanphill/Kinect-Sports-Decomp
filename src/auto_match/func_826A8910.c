@@ -1,83 +1,96 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_82696480();
-extern int fn_82696BC8();
+typedef struct Handler_826A8910 Handler_826A8910;
+typedef struct Context_826A8910 Context_826A8910;
 
+typedef struct HandlerVtbl_826A8910 {
+    void *slot00;
+    void *slot04;
+    int (*GetType)(Handler_826A8910 *self); /* 0x08 */
+    void *slot0c[6];
+    unsigned char (*Accepts)(Handler_826A8910 *self, Context_826A8910 **context, int event,
+                             int flags); /* 0x24 */
+} HandlerVtbl_826A8910;
 
-unsigned __int64 fn_826A8910(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,int *param_4)
+struct Handler_826A8910 {
+    HandlerVtbl_826A8910 *vt; /* 0x00 */
+};
 
+typedef struct Entry_826A8910 {
+    unsigned char *object;    /* 0x00 */
+    unsigned isSecondary : 1; /* 0x04 */
+} Entry_826A8910;
+
+typedef struct EntryArray_826A8910 {
+    Entry_826A8910 *data; /* 0x00 */
+    int size;             /* 0x04 */
+} EntryArray_826A8910;
+
+typedef struct Target_826A8910 {
+    unsigned char pad00[0x68];
+    Handler_826A8910 handler; /* 0x68 */
+} Target_826A8910;
+
+typedef struct Fallback_826A8910 {
+    unsigned char pad00[0x10];
+    Handler_826A8910 handler; /* 0x10 */
+} Fallback_826A8910;
+
+struct Context_826A8910 {
+    unsigned char pad000[0x2a0];
+    Fallback_826A8910 *fallback; /* 0x2a0 */
+};
+
+typedef struct Owner_826A8910 {
+    unsigned char pad00[0x74];
+    Target_826A8910 *target;   /* 0x74 */
+    Context_826A8910 *context; /* 0x78 */
+} Owner_826A8910;
+
+extern void fn_82696480(void *out, void *object);
+extern void fn_82696BC8(void *out, void *object);
+
+int fn_826A8910(Owner_826A8910 *owner, int event, void *out, EntryArray_826A8910 *entries)
 {
-  bool bVar1;
-  char cVar3;
-  int iVar2;
-  unsigned __int64 uVar4;
-  __int64 lVar5;
-  int *piVar6;
-  int *piVar7;
-  
-  if ((param_3 & 0xffffffff) != 0) {
-    if ((param_4 != (int *)0x0) && (uVar4 = (unsigned __int64)(unsigned int)param_4[1] - 1, -1 < (__int64)uVar4))
-    {
-      lVar5 = (uVar4 & 0x1fffffff) << 3;
-      do {
-        piVar6 = (int *)((int)lVar5 + *param_4);
-        iVar2 = *piVar6;
-        if (piVar6[1] < 0) {
-          if (iVar2 == 0) {
-LAB_826a897c:
-            piVar6 = (int *)0x0;
-          }
-          else {
-            piVar6 = (int *)(iVar2 + 0x10);
-          }
-        }
-        else {
-          piVar6 = (int *)(iVar2 + 0x68);
-          if (iVar2 == 0) goto LAB_826a897c;
-        }
-        if ((piVar6 != (int *)0x0) &&
-           (cVar3 = (**(int (***)())(*piVar6 + 0x24))(piVar6,param_1 + 0x78,param_2,0), cVar3 != '\0'))
-        {
-          iVar2 = (**(int (***)())(*piVar6 + 8))(piVar6);
-          if ((iVar2 < 2) || (bVar1 = true, 5 < iVar2)) {
-            bVar1 = false;
-          }
-          if (!bVar1) {
-            piVar6 = piVar6 + -4;
-            goto LAB_826a8a4c;
-          }
-          piVar6 = piVar6 + -0x1a;
-          goto LAB_826a8a40;
-        }
-        uVar4 = uVar4 - 1;
-        lVar5 = lVar5 + -8;
-      } while (-1 < (__int64)uVar4);
-    }
-    iVar2 = *(int *)(param_1 + 0x74);
-    if (iVar2 != 0) {
-      piVar7 = (int *)(param_1 + 0x78);
-      cVar3 = (**(int (***)())(*(int *)(iVar2 + 0x68) + 0x24))(iVar2 + 0x68,piVar7,param_2,0);
-      if (cVar3 == '\0') {
-        piVar6 = *(int **)(*piVar7 + 0x2a0);
-        if (piVar6 == (int *)0x0) {
-          return 0;
-        }
-        cVar3 = (**(int (***)())(piVar6[4] + 0x24))(piVar6 + 4,piVar7,param_2,0);
-        if (cVar3 == '\0') {
-          return 0;
-        }
-LAB_826a8a4c:
-        fn_82696BC8(param_3,piVar6);
-      }
-      else {
-        piVar6 = *(int **)(param_1 + 0x74);
-LAB_826a8a40:
-        fn_82696480(param_3,piVar6);
-      }
-      return 1;
-    }
-  }
-  return 0;
-}
+    int i;
+    unsigned char *object;
+    Handler_826A8910 *handler;
+    Fallback_826A8910 *fallback;
+    int type;
+    unsigned char isTarget;
 
+    if (out != 0) {
+        if (entries != 0) {
+            for (i = entries->size - 1; i >= 0; i--) {
+                if ((unsigned char)entries->data[i].isSecondary) {
+                    object = entries->data[i].object;
+                    handler = object != 0 ? (Handler_826A8910 *)(object + 0x10) : 0;
+                } else {
+                    object = entries->data[i].object;
+                    handler = object != 0 ? (Handler_826A8910 *)(object + 0x68) : 0;
+                }
+                if (handler != 0 && handler->vt->Accepts(handler, &owner->context, event, 0)) {
+                    type = handler->vt->GetType(handler);
+                    isTarget = type >= 2 && type <= 5;
+                    if (isTarget) {
+                        fn_82696480(out, (unsigned char *)handler - 0x68);
+                    } else {
+                        fn_82696BC8(out, (unsigned char *)handler - 0x10);
+                    }
+                    return 1;
+                }
+            }
+        }
+        if (owner->target != 0) {
+            if (owner->target->handler.vt->Accepts(&owner->target->handler, &owner->context, event, 0)) {
+                fn_82696480(out, owner->target);
+                return 1;
+            }
+            fallback = owner->context->fallback;
+            if (fallback != 0 &&
+                fallback->handler.vt->Accepts(&fallback->handler, &owner->context, event, 0)) {
+                fn_82696BC8(out, fallback);
+                return 1;
+            }
+        }
+    }
+    return 0;
+}

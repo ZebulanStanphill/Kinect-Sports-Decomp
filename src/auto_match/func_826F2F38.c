@@ -1,64 +1,64 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-extern unsigned int *auStack_50;
-extern int fn_826F2ED8();
-extern int fn_82F65B18();
-extern int fn_82F66A80();
-extern unsigned int uStack_3c;
-extern unsigned int uStack_48;
+typedef struct Slice_826F2F38 {
+    const char *data;  /* 0x0 */
+    unsigned int size; /* 0x4 */
+} Slice_826F2F38;
 
+typedef struct Parser_826F2F38 {
+    char pad00[0x10];
+    char table[0xc];     /* 0x10 */
+    Slice_826F2F38 rest; /* 0x1c */
+} Parser_826F2F38;
 
-void fn_826F2F38(int param_1,unsigned int *param_2)
+extern int isdigit(int c);
+extern int fn_82F65B18(const char *text);
+extern void fn_826F2ED8(void *table, int *key, Slice_826F2F38 *value);
 
+static __forceinline Slice_826F2F38 MakeSlice(const char *data, unsigned int size)
 {
-  int iVar1;
-  bool bVar2;
-  unsigned int uVar3;
-  unsigned char *puVar4;
-  unsigned int uVar5;
-  unsigned int auStack_50 [2];
-  unsigned __int64 uStack_48;
-  unsigned char *puStack_40;
-  unsigned int uStack_3c;
-  
-  uVar5 = param_2[1];
-  bVar2 = false;
-  auStack_50[0] = 0;
-  puVar4 = (unsigned char *)*param_2;
-  do {
-    uStack_3c = 0;
-    if (uVar5 != 0) {
-      do {
-        if ((puVar4[uStack_3c] == '\0') || (puVar4[uStack_3c] == ':')) break;
-        uStack_3c = uStack_3c + 1;
-      } while (uStack_3c < uVar5);
-    }
-    uStack_48 = CONCAT44(puVar4,uStack_3c);
-    uVar3 = uStack_3c + 1;
-    if (uVar5 < uStack_3c + 1) {
-      uVar3 = uVar5;
-    }
-    uVar5 = uVar5 - uVar3;
-    puStack_40 = puVar4;
-    if (bVar2) {
-      fn_826F2ED8(param_1 + 0x10,auStack_50,&uStack_48);
-      bVar2 = false;
-    }
-    else {
-      if (((uStack_3c == 0) || (puVar4 == (unsigned char *)0x0)) ||
-         (iVar1 = fn_82F66A80(*puVar4), iVar1 == 0)) {
-        *(unsigned __int64 *)(param_1 + 0x1c) = uStack_48;
-        return;
-      }
-      auStack_50[0] = fn_82F65B18(puVar4);
-      bVar2 = true;
-    }
-    puVar4 = puVar4 + uVar3;
-    if (uVar5 == 0) {
-      return;
-    }
-  } while( true );
+    Slice_826F2F38 slice;
+
+    slice.size = size;
+    slice.data = data;
+    return slice;
 }
 
+void fn_826F2F38(Parser_826F2F38 *self, Slice_826F2F38 *text)
+{
+    const char *cursor = text->data;
+    unsigned int remaining = text->size;
+    Slice_826F2F38 part;
+    int key;
+    int haveKey;
+    unsigned int length;
+    unsigned int step;
+    const char *start;
+
+    part.data = 0;
+    part.size = 0;
+    haveKey = 0;
+    key = 0;
+    do {
+        for (length = 0; length < remaining; length++) {
+            if (cursor[length] == 0 || cursor[length] == ':')
+                break;
+        }
+        part = MakeSlice(cursor, length);
+        step = length + 1;
+        start = cursor;
+        if (remaining < step)
+            step = remaining;
+        cursor += step;
+        remaining -= step;
+        if (!haveKey) {
+            if (length == 0 || start == 0 || !isdigit(*start)) {
+                self->rest = part;
+                return;
+            }
+            key = fn_82F65B18(start);
+            haveKey = 1;
+        } else {
+            fn_826F2ED8(self->table, &key, &part);
+            haveKey = 0;
+        }
+    } while (remaining != 0);
+}

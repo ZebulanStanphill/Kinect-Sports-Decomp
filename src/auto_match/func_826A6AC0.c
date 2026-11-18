@@ -1,68 +1,75 @@
-extern unsigned int *auStack_2c;
-extern int fn_82681898();
-extern int fn_826944C8();
-extern int fn_826957D0();
-extern int fn_82696D38();
-extern int fn_82697610();
-extern int fn_8269A1F0();
-extern int fn_826BC950();
-extern int fn_82F6A3E8();
+typedef struct StringNode_826A6AC0 {
+    char *data; /* 0x00 */
+    int pad04;
+    int refCount; /* 0x08 */
+    int pad0c;
+    unsigned int size; /* 0x10 */
+} StringNode_826A6AC0;
 
+typedef struct String_826A6AC0 {
+    StringNode_826A6AC0 *node; /* 0x0 */
+} String_826A6AC0;
 
-void fn_826A6AC0(int param_1)
+typedef struct FnCall_826A6AC0 {
+    int pad00;
+    int result; /* 0x04 */
+    char pad08[0x10];
+    int env;      /* 0x18 */
+    int argCount; /* 0x1c */
+} FnCall_826A6AC0;
 
+extern int fn_826957D0(FnCall_826A6AC0 *call, int index);
+extern void fn_82696D38(String_826A6AC0 *out, int value, int env, int precision, int flags);
+extern int fn_82697610(int value, int env);
+extern int fn_82F6A3E8(const char *text, char **end, int radix);
+extern double fn_826BC950(void);
+extern void fn_82681898(int result, double value);
+extern void fn_8269A1F0(int result, int value);
+extern void fn_826944C8(StringNode_826A6AC0 *node);
+
+void fn_826A6AC0(FnCall_826A6AC0 *call)
 {
-  char cVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned __int64 uVar4;
-  __int64 lVar5;
-  unsigned __int64 uVar6;
-  unsigned int *puStack_30;
-  unsigned int auStack_2c [11];
-  
-  if (*(int *)(param_1 + 0x1c) < 1) {
-    return;
-  }
-  uVar2 = *(unsigned int *)(param_1 + 0x18);
-  uVar6 = 10;
-  uVar4 = fn_826957D0(param_1,0);
-  fn_82696D38(&puStack_30,uVar4,uVar2,0xffffffffffffffff,0);
-  lVar5 = 0;
-  if (*(int *)(param_1 + 0x1c) < 2) {
-    if ((1 < puStack_30[4]) && (*(char *)*puStack_30 == '0')) {
-      cVar1 = ((char *)*puStack_30)[1];
-      lVar5 = 1;
-      uVar6 = 8;
-      if ((cVar1 == 'x') || (cVar1 == 'X')) {
-        uVar6 = 0x10;
-        lVar5 = 2;
-      }
-    }
-LAB_826a6b4c:
-    uVar3 = *puStack_30;
-    auStack_2c[0] = 0;
-    uVar4 = fn_82F6A3E8((unsigned __int64)*puStack_30 + lVar5,auStack_2c,uVar6);
-    if ((((unsigned __int64)uVar3 + lVar5 & 0xffffffff) != (unsigned __int64)auStack_2c[0]) || ((int)uVar6 == 8))
-    {
-      fn_8269A1F0(*(unsigned int *)(param_1 + 4),uVar4);
-      goto LAB_826a6be4;
-    }
-  }
-  else {
-    uVar2 = *(unsigned int *)(param_1 + 0x18);
-    uVar4 = fn_826957D0(param_1,1);
-    uVar6 = fn_82697610(uVar4,uVar2);
-    if ((1 < (int)uVar6) && ((int)uVar6 < 0x25)) goto LAB_826a6b4c;
-  }
-  fn_826BC950();
-  fn_82681898(*(unsigned int *)(param_1 + 4));
-LAB_826a6be4:
-  uVar3 = puStack_30[2];
-  puStack_30[2] = (unsigned int)((unsigned __int64)uVar3 - 1);
-  if ((unsigned __int64)uVar3 - 1 == 0) {
-    fn_826944C8(puStack_30);
-  }
-  return;
-}
+    String_826A6AC0 text;
+    char *end;
+    int radix;
+    int skip;
+    int value;
+    char *start;
+    int env;
+    unsigned int size;
+    StringNode_826A6AC0 *node;
+    int argument;
 
+    if (call->argCount < 1)
+        return;
+    env = call->env;
+    radix = 10;
+    argument = fn_826957D0(call, 0);
+    fn_82696D38(&text, argument, env, -1, 0);
+    skip = 0;
+    size = text.node->size;
+    if (call->argCount >= 2) {
+        radix = fn_82697610(fn_826957D0(call, 1), call->env);
+        if (radix < 2 || radix > 36)
+            goto not_a_number;
+    } else if (size > 1 && text.node->data[0] == '0') {
+        skip = 1;
+        radix = 8;
+        if (text.node->data[1] == 'x' || text.node->data[1] == 'X') {
+            radix = 16;
+            skip = 2;
+        }
+    }
+    start = text.node->data;
+    end = 0;
+    value = fn_82F6A3E8(text.node->data + skip, &end, radix);
+    if (start + skip == end && radix != 8) {
+    not_a_number:
+        fn_82681898(call->result, fn_826BC950());
+    } else {
+        fn_8269A1F0(call->result, value);
+    }
+    node = text.node;
+    if (--node->refCount == 0)
+        fn_826944C8(node);
+}

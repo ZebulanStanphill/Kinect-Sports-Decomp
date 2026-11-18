@@ -1,45 +1,73 @@
-typedef unsigned char bool;
-extern int XMemSet();
-extern int fn_83056488();
+/* Audio filter stage: after the end of a stream it pads each channel of the
+ * outgoing buffers with silence until the configured tail has been played
+ * (marking buffers that still need more), then forwards the buffer to the
+ * next stage. */
+typedef struct Buffer_830565E0 {
+    float *data;              /* 0x0 */
+    unsigned int channelMask; /* 0x4 */
+    int type;                 /* 0x8 */
+    unsigned short capacity;  /* 0xC */
+    unsigned short used;      /* 0xE */
+} Buffer_830565E0;
 
+typedef struct Stage_830565E0 Stage_830565E0;
 
-void fn_830565E0(int param_1,unsigned int *param_2)
+typedef struct StageVtbl_830565E0 {
+    void *slot00;
+    void (*Process)(Stage_830565E0 *self, Buffer_830565E0 *buffer); /* 0x4 */
+} StageVtbl_830565E0;
 
+struct Stage_830565E0 {
+    StageVtbl_830565E0 *vtbl;
+};
+
+typedef struct TailFilter_830565E0 {
+    char pad00[0x8];
+    Stage_830565E0 *next;    /* 0x08 */
+    unsigned int tailLength; /* 0x0C */
+    unsigned int remaining;  /* 0x10 */
+    unsigned char ended;     /* 0x14 */
+} TailFilter_830565E0;
+
+extern float fn_83056488(TailFilter_830565E0 *self);
+extern void *XMemSet(void *dest, int value, unsigned int count);
+
+static __forceinline unsigned int Min_830565E0(unsigned int a, unsigned int b)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  unsigned int uVar3;
-  int iVar4;
-  
-  fn_83056488();
-  uVar1 = param_2[2];
-  if (uVar1 == 0x11) {
-    if (*(char *)(param_1 + 0x14) == '\0') {
-      *(unsigned int *)(param_1 + 0x10) = *(unsigned int *)(param_1 + 0xc);
-    }
-    uVar3 = *(unsigned int *)(param_1 + 0x10);
-    uVar2 = (unsigned __int64)*(unsigned short *)(param_2 + 3) - (unsigned __int64)*(unsigned short *)((int)param_2 + 0xe);
-    if ((unsigned __int64)uVar3 < (uVar2 & 0xffffffff)) {
-      uVar2 = (unsigned __int64)uVar3;
-    }
-    iVar4 = 0;
-    *(unsigned int *)(param_1 + 0x10) = uVar3 - (int)uVar2;
-    uVar2 = (-(*(unsigned short *)((int)param_2 + 0xe) + uVar2) & 3) + uVar2;
-    for (uVar3 = param_2[1]; uVar3 != 0; uVar3 = uVar3 - 1 & uVar3) {
-      iVar4 = iVar4 + 1;
-    }
-    if (iVar4 != 0) {
-                    /* WARNING: Subroutine does not return */
-      XMemSet((unsigned __int64)*(unsigned short *)((int)param_2 + 0xe) * 4 + (unsigned __int64)*param_2,0,
-                        (uVar2 & 0x3fffffff) << 2);
-    }
-    *(short *)((int)param_2 + 0xe) = *(short *)((int)param_2 + 0xe) + (short)uVar2;
-    if (*(int *)(param_1 + 0x10) != 0) {
-      param_2[2] = 0x2d;
-    }
-  }
-  *(bool *)(param_1 + 0x14) = uVar1 == 0x11;
-  (**(int (***)())(**(int **)(param_1 + 8) + 4))(*(int **)(param_1 + 8),param_2);
-  return;
+    return a < b ? a : b;
 }
 
+void fn_830565E0(TailFilter_830565E0 *self, Buffer_830565E0 *buffer)
+{
+    unsigned char ended;
+    unsigned int pad;
+    unsigned int channels;
+    unsigned int bits;
+    unsigned int i;
+
+    fn_83056488(self);
+    ended = buffer->type == 0x11;
+    if (ended) {
+        if (!self->ended) {
+            self->remaining = self->tailLength;
+        }
+        pad = Min_830565E0(self->remaining, buffer->capacity - buffer->used);
+        self->remaining -= pad;
+        channels = 0;
+        bits = buffer->channelMask;
+        pad += -(buffer->used + pad) & 3;
+        while (bits != 0) {
+            bits &= bits - 1;
+            channels++;
+        }
+        for (i = 0; i < channels; i++) {
+            XMemSet(&buffer->data[buffer->capacity * i + buffer->used], 0, pad * 4);
+        }
+        buffer->used += pad;
+        if (self->remaining > 0) {
+            buffer->type = 0x2d;
+        }
+    }
+    self->ended = ended;
+    self->next->vtbl->Process(self->next, buffer);
+}

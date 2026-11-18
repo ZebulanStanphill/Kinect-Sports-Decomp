@@ -1,48 +1,50 @@
-unsigned __int64 fn_82E3C690(int *param_1,int *param_2,unsigned int *param_3,unsigned int *param_4)
+typedef struct Key_82E3C690 {
+    unsigned int id;      /* 0x00 */
+    unsigned int data[3]; /* 0x04 */
+    unsigned short salt;  /* 0x10 */
+    unsigned short pad12; /* 0x12 */
+} Key_82E3C690;
 
+typedef struct Node_82E3C690 Node_82E3C690;
+
+struct Node_82E3C690 {
+    Key_82E3C690 key;    /* 0x00 */
+    unsigned int value;  /* 0x14 */
+    Node_82E3C690 *next; /* 0x18 */
+};
+
+typedef struct Table_82E3C690 {
+    Node_82E3C690 **buckets; /* 0x00 */
+    unsigned int capacity;   /* 0x04 */
+} Table_82E3C690;
+
+typedef struct Iterator_82E3C690 {
+    Node_82E3C690 *node; /* 0x00 */
+    Node_82E3C690 *prev; /* 0x04 */
+} Iterator_82E3C690;
+
+/* Returns the entry at the iterator and advances it to the next entry of the table. */
+int fn_82E3C690(Table_82E3C690 *table, Iterator_82E3C690 *it, Key_82E3C690 *key, unsigned int *value)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  unsigned int *puVar3;
-  unsigned int *puVar4;
-  unsigned __int64 uVar5;
-  __int64 lVar6;
-  
-  if ((*param_1 != 0) && (*param_2 != 0)) {
-    puVar4 = (unsigned int *)(*param_2 + -4);
-    puVar3 = param_3 + -1;
-    lVar6 = 5;
-    do {
-      puVar4 = puVar4 + 1;
-      puVar3 = puVar3 + 1;
-      *puVar3 = *puVar4;
-      lVar6 = lVar6 + -1;
-    } while (lVar6 != 0);
-    *param_4 = *(unsigned int *)(*param_2 + 0x14);
-    param_2[1] = *param_2;
-    iVar1 = *(int *)(*param_2 + 0x18);
-    *param_2 = iVar1;
-    if (iVar1 == 0) {
-      uVar2 = (unsigned __int64)((unsigned int)param_1[1] >> 1);
-      trapWord(6,uVar2,0);
-      uVar5 = (((unsigned __int64)*(unsigned short *)(param_3 + 4) ^ (unsigned __int64)*param_3) -
-              (__int64)(int)(((unsigned __int64)*(unsigned short *)(param_3 + 4) ^ (unsigned __int64)*param_3) / uVar2) *
-              (__int64)(int)((unsigned int)param_1[1] >> 1)) + 1;
-      if ((uVar5 & 0xffffffff) < uVar2) {
-        lVar6 = (uVar5 & 0x3fffffff) << 2;
-        do {
-          if (*(int *)((int)lVar6 + *param_1) != 0) {
-            param_2[1] = 0;
-            *param_2 = *(int *)((int)((uVar5 & 0xffffffff) << 2) + *param_1);
-            return 1;
-          }
-          uVar5 = uVar5 + 1;
-          lVar6 = lVar6 + 4;
-        } while ((uVar5 & 0xffffffff) < uVar2);
-      }
+    unsigned int count;
+    unsigned int i;
+
+    if (table->buckets == 0 || it->node == 0) {
+        return 0;
+    }
+    *key = it->node->key;
+    *value = it->node->value;
+    it->prev = it->node;
+    it->node = it->node->next;
+    if (it->node == 0) {
+        count = table->capacity >> 1;
+        for (i = (key->salt ^ key->id) % count + 1; i < count; i++) {
+            if (table->buckets[i] != 0) {
+                it->prev = 0;
+                it->node = table->buckets[i];
+                break;
+            }
+        }
     }
     return 1;
-  }
-  return 0;
 }
-

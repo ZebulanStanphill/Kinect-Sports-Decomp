@@ -1,57 +1,66 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern unsigned int lbl_82195530;
-extern unsigned int ltcg_pool_0_0f;
-extern V16 vectorSubtractFloatingPoint();
-extern void *memcpy(void *, const void *, unsigned int);
+/* Returns the registered object nearest to a position (the position of the
+ * object owning `position`), optionally only objects of one type and only
+ * within `range` when the range is positive. */
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vsubfp(__vector4 a, __vector4 b);
+__vector4 __vmsum3fp(__vector4 a, __vector4 b);
 
-int fn_82579AC0(double param_1,int param_2,unsigned __int64 param_3,int param_4)
+typedef struct Object_82579AC0 {
+    char pad00[0x50];
+    __vector4 position; /* 0x50 */
+} Object_82579AC0;
 
+typedef struct Entry_82579AC0 {
+    Object_82579AC0 *object; /* 0x0 */
+    int type;                /* 0x4 */
+} Entry_82579AC0;
+
+typedef struct Registry_82579AC0 {
+    char pad000[0x310];
+    Entry_82579AC0 *begin; /* 0x310 */
+    Entry_82579AC0 *end;   /* 0x314 */
+} Registry_82579AC0;
+
+extern const float lbl_821954B0[];
+
+Object_82579AC0 *fn_82579AC0(Registry_82579AC0 *self, __vector4 *position, int type, float range)
 {
-  int iVar1;
-  float fVar2;
-  unsigned int uVar3;
-  float *pfVar4;
-  int in_r0;
-  int iVar5;
-  __int64 lVar6;
-  int *piVar7;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs45 [16];
-  float fVar8;
-  float fVar9;
-  float afStack_10 [4];
-  
-  iVar5 = 0;
-  fVar2 = lbl_82195530;
-  if ((double)ltcg_pool_0_0f < param_1) {
-    fVar2 = (float)(param_1 * param_1);
-  }
-  piVar7 = *(int **)(param_2 + 0x310);
-  if (*(int **)(param_2 + 0x314) <= piVar7) {
-    return iVar5;
-  }
-  lVar6 = (unsigned __int64)((unsigned int)((int)*(int **)(param_2 + 0x314) + (-1 - (int)piVar7)) >> 3) + 1;
-  do {
-    if ((param_4 == 0) || (piVar7[1] == param_4)) {
-      iVar1 = *piVar7;
-      uVar3 = iVar1 + 0x50U & 0xfffffff0;
-      fVar8 = *(float *)(uVar3 + 4);
-      fVar9 = *(float *)(uVar3 + 8);{ V16 _vt0 = vectorSubtractFloatingPoint(in_vs32,in_vs45); memcpy(in_vs45, &_vt0, 16); }
-      fVar8 = fVar8 * fVar8 + 0.0 + fVar9 * fVar9;
-      pfVar4 = (float *)((int)afStack_10 + in_r0 & 0xfffffff0);
-      *pfVar4 = fVar8;
-      pfVar4[1] = fVar8;
-      pfVar4[2] = fVar8;
-      pfVar4[3] = fVar8;
-      if (afStack_10[0] < fVar2) {
-        fVar2 = afStack_10[0];
-        iVar5 = iVar1;
-      }
-    }
-    piVar7 = piVar7 + 2;
-    lVar6 = lVar6 + -1;
-  } while (lVar6 != 0);
-  return iVar5;
-}
+    Object_82579AC0 *nearest;
+    __vector4 origin;
+    __vector4 offset;
+    __vector4 squared;
+    float best;
+    float distance;
+    Entry_82579AC0 *entry;
+    Entry_82579AC0 *end;
 
+    nearest = 0;
+    /* `position` points at the position member of an object; the original
+     * converts it back to the object (a null-preserving cast) and reads the
+     * member through it. */
+    if (position == 0) {
+        origin = ((Object_82579AC0 *)0)->position;
+    } else {
+        origin = ((Object_82579AC0 *)((char *)position - 0x50))->position;
+    }
+    if (range > 0.0f) {
+        best = range * range;
+    } else {
+        best = lbl_821954B0[0x20];
+    }
+    for (entry = self->begin, end = self->end; entry < end; entry++) {
+        if (type == 0 || entry->type == type) {
+            offset = __vsubfp(origin, entry->object->position);
+            squared = __vmsum3fp(offset, offset);
+            distance = squared.vector4_f32[0];
+            if (distance < best) {
+                nearest = entry->object;
+                best = distance;
+            }
+        }
+    }
+    return nearest;
+}

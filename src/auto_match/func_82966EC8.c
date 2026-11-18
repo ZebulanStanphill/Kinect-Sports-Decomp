@@ -1,59 +1,46 @@
-unsigned __int64 fn_82966EC8(int param_1)
+typedef struct Item_82966EC8 {
+    char pad0[0x2c];
+    unsigned int key; /* 0x2c: bit 0 marks a counted item */
+} Item_82966EC8;
 
+typedef struct List_82966EC8 {
+    char pad0[0xc];
+    unsigned int count; /* 0x0c */
+    char pad10[8];
+    Item_82966EC8 **items; /* 0x18 */
+    char pad1c[0x50];
+    unsigned int flags; /* 0x6c */
+} List_82966EC8;
+
+/* Counts the runs of marked items that share a key. */
+unsigned int fn_82966EC8(List_82966EC8 *list)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  unsigned int uVar3;
-  int *piVar4;
-  unsigned int uVar5;
-  int iVar6;
-  
-  uVar2 = 0;
-  if ((*(unsigned int *)(param_1 + 0x6c) & 0x10) == 0) {
-    if ((*(unsigned int *)(param_1 + 0x6c) & 8) == 0) {
-      return uVar2;
-    }
-    uVar1 = *(unsigned int *)(param_1 + 0xc);
-    uVar3 = 0;
-    if (uVar1 == 0) {
-      return uVar2;
-    }
-    iVar6 = 0;
-    uVar5 = 1;
-    do {
-      if ((((*(unsigned int *)(*(int *)(*(int *)(param_1 + 0x18) + iVar6) + 0x2c) & 1) != 0) &&
-          (uVar2 = uVar2 + 1, uVar5 < uVar1)) &&
-         (piVar4 = (int *)(*(int *)(param_1 + 0x18) + iVar6),
-         *(int *)(*piVar4 + 0x2c) == *(int *)(piVar4[1] + 0x2c))) {
-        uVar3 = uVar3 + 1;
-        uVar5 = uVar5 + 1;
-        iVar6 = iVar6 + 4;
-      }
-      uVar3 = uVar3 + 1;
-      uVar5 = uVar5 + 1;
-      iVar6 = iVar6 + 4;
-    } while (uVar3 < uVar1);
-    return uVar2;
-  }
-  uVar1 = *(unsigned int *)(param_1 + 0xc);
-  if (uVar1 == 0) {
-    return uVar2;
-  }
-  uVar2 = (unsigned __int64)((*(unsigned int *)(**(int **)(param_1 + 0x18) + 0x2c) & 1) == 0);
-  uVar3 = 1;
-  if (uVar1 < 2) {
-    return uVar2;
-  }
-  iVar6 = 4;
-  do {
-    if (((*(unsigned int *)(*(int *)(iVar6 + (int)*(int **)(param_1 + 0x18)) + 0x2c) & 1) != 0) &&
-       (piVar4 = (int *)(*(int *)(param_1 + 0x18) + iVar6),
-       *(int *)(*piVar4 + 0x2c) != *(int *)(piVar4[-1] + 0x2c))) {
-      uVar2 = uVar2 + 1;
-    }
-    uVar3 = uVar3 + 1;
-    iVar6 = iVar6 + 4;
-  } while (uVar3 < uVar1);
-  return uVar2;
-}
+    List_82966EC8 *self = list;
+    unsigned int result = 0;
+    unsigned int i;
+    unsigned int flags = self->flags;
 
+    if (flags & 0x10) {
+        if (self->count == 0) {
+            return 0;
+        }
+        if ((self->items[0]->key & 1) == 0) {
+            result = 1;
+        }
+        for (i = 1; i < self->count; i++) {
+            if ((self->items[i]->key & 1) && self->items[i]->key != self->items[i - 1]->key) {
+                result++;
+            }
+        }
+    } else if (flags & 8) {
+        for (i = 0; i < self->count; i++) {
+            if (self->items[i]->key & 1) {
+                result++;
+                if (i + 1 < self->count && self->items[i]->key == self->items[i + 1]->key) {
+                    i++;
+                }
+            }
+        }
+    }
+    return result;
+}

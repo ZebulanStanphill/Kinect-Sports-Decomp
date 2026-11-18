@@ -1,58 +1,62 @@
-unsigned __int64 fn_823AA5E0(int *param_1,unsigned __int64 param_2,unsigned __int64 param_3,int param_4)
+typedef struct Input_823AA5E0 Input_823AA5E0;
 
+typedef struct InputVtbl_823AA5E0 {
+    void *slots00[0x1f];
+    int (*GetState)(Input_823AA5E0 *self, int id); /* 0x7c */
+    void *slot80;
+    int (*IsValid)(Input_823AA5E0 *self, int id); /* 0x84 */
+    void *slots88[5];
+    void (*Report)(Input_823AA5E0 *self, int source, int released, int reason); /* 0x9c */
+} InputVtbl_823AA5E0;
+
+struct Input_823AA5E0 {
+    InputVtbl_823AA5E0 *vt; /* 0x00 */
+    int mode;               /* 0x04 */
+    unsigned char pad08[0x18];
+    unsigned int count; /* 0x20 */
+    unsigned char pad24[0xc];
+    int pending;  /* 0x30 */
+    int locked;   /* 0x34 */
+    int released; /* 0x38 */
+};
+
+int fn_823AA5E0(Input_823AA5E0 *self, int source, int id, int state)
 {
-  int (**pcVar1)();
-  int iVar3;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar4;
-  
-  iVar3 = (**(int (***)())(*param_1 + 0x84))(param_1,param_3);
-  if (iVar3 == 0) {
-    return 1;
-  }
-  if (param_1[1] != 1) {
-    return 0;
-  }
-  iVar3 = (**(int (***)())(*param_1 + 0x7c))(param_1,param_3);
-  if (param_4 == iVar3) {
-    if (param_1[8] == 0) {
-      if (param_1[0xd] == 0) {
-        param_1[0xd] = 1;
-        return 0;
-      }
-      iVar3 = (**(int (***)())(*param_1 + 0x7c))(param_1,param_3);
-      uVar4 = 2;
-    }
-    else {
-      iVar3 = (**(int (***)())(*param_1 + 0x7c))(param_1,param_3);
-      uVar4 = 5;
-    }
-LAB_823aa680:
-    uVar2 = (unsigned __int64)(iVar3 == 0);
-    pcVar1 = *(int (***)())(*param_1 + 0x9c);
-  }
-  else {
-    if (param_1[8] == 0) {
-      if (param_1[0xd] == 0) {
-        iVar3 = (**(int (***)())(*param_1 + 0x7c))(param_1,param_3);
-        uVar4 = 4;
-        goto LAB_823aa680;
-      }
-      if (param_1[0xe] != 0) {
-        param_1[1] = 2;
-        return 0;
-      }
-    }
-    if (param_1[0xc] == 0) {
-      param_1[0xc] = 1;
-      return 0;
-    }
-    iVar3 = *param_1;
-    uVar2 = (**(int (***)())(iVar3 + 0x7c))(param_1,param_3);
-    pcVar1 = *(int (***)())(iVar3 + 0x9c);
-    uVar4 = 3;
-  }
-  (*pcVar1)(param_1,param_2,uVar2,uVar4);
-  return 1;
-}
+    int current;
 
+    if (self->vt->IsValid(self, id) == 0) {
+        return 1;
+    }
+    if (self->mode != 1) {
+        return 0;
+    }
+    if (state == self->vt->GetState(self, id)) {
+        if (self->count == 0) {
+            if (self->locked != 0) {
+                current = self->vt->GetState(self, id);
+                self->vt->Report(self, source, current == 0, 2);
+                return 1;
+            }
+            self->locked = 1;
+            return 0;
+        }
+        current = self->vt->GetState(self, id);
+        self->vt->Report(self, source, current == 0, 5);
+        return 1;
+    }
+    if (self->count == 0 && self->locked == 0) {
+        current = self->vt->GetState(self, id);
+        self->vt->Report(self, source, current == 0, 4);
+        return 1;
+    }
+    if (self->count == 0 && self->released != 0) {
+        self->mode = 2;
+        return 0;
+    }
+    if (self->pending != 0) {
+        self->vt->Report(self, source, self->vt->GetState(self, id), 3);
+        return 1;
+    }
+    self->pending = 1;
+    return 0;
+}

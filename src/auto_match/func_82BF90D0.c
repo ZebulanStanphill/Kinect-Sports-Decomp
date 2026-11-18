@@ -1,46 +1,37 @@
-extern unsigned int lbl_8322BCF8;
-extern unsigned int lbl_8322FD1C;
-extern unsigned int lbl_8322FD1E;
-extern unsigned int lbl_8322FD2F;
+typedef struct Cache_82BF90D0 {
+    char pad0[0x14];
+    unsigned short freeCount; /* 0x14 */
+    unsigned short firstFree; /* 0x16 */
+    char pad18[0x27 - 0x18];
+    unsigned char dirty; /* 0x27 */
+    char pad28[0x30 - 0x28];
+} Cache_82BF90D0;
 
+extern Cache_82BF90D0 lbl_8322FD08;
+extern unsigned short lbl_8322BCF8[0x2000];
 
-unsigned __int64 fn_82BF90D0(unsigned int param_1)
-
+unsigned int fn_82BF90D0(unsigned int count)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  __int64 lVar3;
-  unsigned int uVar4;
-  unsigned __int64 uVar5;
-  unsigned __int64 uVar6;
-  
-  uVar5 = 0xffffffffffffffff;
-  uVar1 = 0xffffffffffffffff;
-  uVar4 = 0;
-  uVar6 = (unsigned __int64)lbl_8322FD1E;
-  if (param_1 != 0) {
-    lVar3 = uVar6 * 2 + -0x7cdd4308;
-    uVar2 = uVar1;
-    do {
-      uVar1 = uVar2;
-      if (*(short *)lVar3 == -1) {
-        uVar1 = uVar6;
-        if ((int)uVar5 != -1) {
-          *(short *)((int)&lbl_8322BCF8 + (int)((uVar5 & 0xffffffff) << 1)) = (short)uVar6;
-          uVar1 = uVar2;
-        }
-        uVar4 = uVar4 + 1;
-        uVar5 = uVar6;
-      }
-      uVar6 = uVar6 + 1;
-      lVar3 = lVar3 + 2;
-      uVar2 = uVar1;
-    } while (uVar4 < param_1);
-  }
-  lbl_8322FD1E = (short)uVar5 + 1;
-  *(unsigned short *)((int)&lbl_8322BCF8 + (int)((uVar5 & 0xffffffff) << 1)) = 0xfffe;
-  lbl_8322FD1C = lbl_8322FD1C - (short)param_1;
-  lbl_8322FD2F = 1;
-  return uVar1;
-}
+    unsigned int first = -1;
+    unsigned int previous = first;
+    unsigned int found = 0;
+    unsigned int index = lbl_8322FD08.firstFree;
 
+    while (found < count) {
+        if (lbl_8322BCF8[index] == 0xffff) {
+            if (previous != -1) {
+                lbl_8322BCF8[previous] = index;
+            } else {
+                first = index;
+            }
+            previous = index;
+            found++;
+        }
+        index++;
+    }
+    lbl_8322BCF8[previous] = 0xfffe;
+    lbl_8322FD08.freeCount -= count;
+    lbl_8322FD08.firstFree = previous + 1;
+    lbl_8322FD08.dirty = 1;
+    return first;
+}

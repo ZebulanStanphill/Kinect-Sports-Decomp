@@ -1,35 +1,44 @@
-#define CARRY8(a,b) ((((unsigned __int64)(a)) + ((unsigned __int64)(b))) < ((unsigned __int64)(a)))
+typedef struct Value_82D40698 Value_82D40698;
 
+typedef struct ValueVtbl_82D40698 {
+    void *slot0;                           /* 0x0 */
+    int (*GetLevel)(Value_82D40698 *self); /* 0x4 */
+} ValueVtbl_82D40698;
 
-unsigned char * fn_82D40698(unsigned char *param_1,int *param_2)
+struct Value_82D40698 {
+    ValueVtbl_82D40698 *vt; /* 0x0 */
+};
 
+typedef struct Item_82D40698 {
+    int pad0[3];
+    int type;             /* 0xc */
+    Value_82D40698 value; /* 0x10 */
+} Item_82D40698;
+
+typedef struct Handle_82D40698 {
+    Item_82D40698 *item; /* 0x0 */
+} Handle_82D40698;
+
+unsigned char *fn_82D40698(unsigned char *result, Handle_82D40698 *handle)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  unsigned char bVar3;
-  
-  iVar1 = *param_2;
-  if (iVar1 == 0) {
-    *param_1 = 0;
-  }
-  else {
-    bVar3 = 1;
-    if (*(int *)(iVar1 + 0xc) == 9) {
-      uVar2 = (**(int (***)())(*(int *)(iVar1 + 0x10) + 4))(iVar1 + 0x10);
-      bVar3 = -!CARRY8(100 - uVar2,uVar2 ^ 0x80000000) & 1;
-    }
-    iVar1 = *param_2;
-    if (*(int *)(iVar1 + 0xc) == 0x18) {
-      uVar2 = (**(int (***)())(*(int *)(iVar1 + 0x10) + 4))(iVar1 + 0x10);
-      bVar3 = -!CARRY8(100 - uVar2,uVar2 ^ 0x80000000) & bVar3;
-    }
-    iVar1 = *param_2;
-    if (*(int *)(iVar1 + 0xc) == 7) {
-      uVar2 = (**(int (***)())(*(int *)(iVar1 + 0x10) + 4))(iVar1 + 0x10);
-      bVar3 = -!CARRY8(100 - uVar2,uVar2 ^ 0x80000000) & bVar3;
-    }
-    *param_1 = -(*(int *)(*param_2 + 0xc) != 0xf) & bVar3;
-  }
-  return param_1;
-}
+    unsigned char ok;
 
+    if (handle->item == 0) {
+        *result = 0;
+        return result;
+    }
+    ok = 1;
+    if (handle->item->type == 9)
+        if (handle->item->value.vt->GetLevel(&handle->item->value) > 100)
+            ok = 0;
+    if (handle->item->type == 0x18)
+        if (handle->item->value.vt->GetLevel(&handle->item->value) > 100)
+            ok = 0;
+    if (handle->item->type == 7)
+        if (handle->item->value.vt->GetLevel(&handle->item->value) > 100)
+            ok = 0;
+    if (handle->item->type == 0xf)
+        ok = 0;
+    *result = ok;
+    return result;
+}

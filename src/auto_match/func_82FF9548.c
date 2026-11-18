@@ -1,55 +1,55 @@
-extern unsigned int *auStack_30;
-extern int fn_82FA4F18();
-extern int fn_82FA4F60();
-extern int fn_82FA5060();
-extern int fn_82FA52E8();
-extern int fn_82FA5538();
-extern int fn_82FF86F0();
+typedef struct File_82FF9548 {
+    char pad0[0x10];
+    void *buffer;        /* 0x10 */
+    unsigned int size;   /* 0x14 */
+    int handle;          /* 0x18 */
+    unsigned char owned; /* 0x1c */
+} File_82FF9548;
 
+typedef struct Reader_82FF9548 {
+    int pad0;
+    char stream[4]; /* 0x04 */
+} Reader_82FF9548;
 
-unsigned __int64 fn_82FF9548(__int64 param_1,unsigned __int64 param_2,int param_3)
+extern int fn_82FA5538(int arg, unsigned int a, unsigned int b, int mode, int flags);
+extern int fn_82FA4F60(int handle);
+extern int fn_82FA4F18(int handle);
+extern void *fn_82FA52E8(int handle);
+extern void *fn_82FA5060(int handle, unsigned int size);
+extern int fn_82FF86F0(void *stream, void *buffer, unsigned int size, unsigned int *read);
 
+int fn_82FF9548(Reader_82FF9548 *self, unsigned int size, File_82FF9548 *file)
 {
-  int iVar3;
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  unsigned int auStack_30;
-  
-  if ((param_2 & 0xffffffff) == 0) {
-    return 1;
-  }
-  if (*(int *)(param_3 + 0x18) == -1) {
-    iVar3 = fn_82FA5538(0,param_2,param_2,0xb,0x800);
-    *(int *)(param_3 + 0x18) = iVar3;
-    if (iVar3 == -1) {
-      return 2;
-    }
-    *(unsigned char *)(param_3 + 0x1c) = 1;
-  }
-  uVar1 = fn_82FA4F60();
-  if ((int)uVar1 != 1) {
-    return uVar1;
-  }
-  uVar2 = fn_82FA4F18(*(unsigned int *)(param_3 + 0x18));
-  if ((uVar2 & 8) == 0) {
-    iVar3 = fn_82FA5060(*(unsigned int *)(param_3 + 0x18),param_2);
-  }
-  else {
-    iVar3 = fn_82FA52E8();
-  }
-  *(int *)(param_3 + 0x10) = iVar3;
-  if (iVar3 == 0) {
-    return 2;
-  }
-  *(int *)(param_3 + 0x14) = (int)param_2;
-  auStack_30 = 0;
-  uVar1 = fn_82FF86F0(param_1 + 4,iVar3,param_2,&auStack_30);
-  if ((int)uVar1 != 1) {
-    return uVar1;
-  }
-  if ((unsigned __int64)auStack_30 != (param_2 & 0xffffffff)) {
-    return 7;
-  }
-  return uVar1;
-}
+    int result;
+    unsigned int read;
 
+    if (size == 0) {
+        return 1;
+    }
+    if (file->handle == -1) {
+        file->handle = fn_82FA5538(0, size, size, 0xb, 0x800);
+        if (file->handle != -1) {
+            file->owned = 1;
+        } else {
+            return 2;
+        }
+    }
+    result = fn_82FA4F60(file->handle);
+    if (result == 1) {
+        if ((fn_82FA4F18(file->handle) & 8) != 0) {
+            file->buffer = fn_82FA52E8(file->handle);
+        } else {
+            file->buffer = fn_82FA5060(file->handle, size);
+        }
+        if (file->buffer == 0) {
+            return 2;
+        }
+        file->size = size;
+        read = 0;
+        result = fn_82FF86F0(self->stream, file->buffer, size, &read);
+        if (result == 1 && read != size) {
+            result = 7;
+        }
+    }
+    return result;
+}

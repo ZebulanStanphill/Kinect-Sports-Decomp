@@ -1,64 +1,88 @@
-extern unsigned int *auStack_30;
-extern int fn_82A1E108();
-extern unsigned int iStack_2c;
+/* Stops or flushes a source voice depending on `mode` and waits until the
+ * voice has no queued buffers left; returns the result of the stop or flush
+ * call. */
+typedef struct VoiceState_82C00AA0 {
+    void *currentBufferContext;     /* 0x0 */
+    unsigned int buffersQueued;     /* 0x4 */
+    unsigned __int64 samplesPlayed; /* 0x8 */
+} VoiceState_82C00AA0;
 
+typedef struct Voice_82C00AA0 Voice_82C00AA0;
 
-unsigned __int64 fn_82C00AA0(int param_1,int param_2)
+typedef struct VoiceVtbl_82C00AA0 {
+    void *slots00[20];
+    int (*Stop)(Voice_82C00AA0 *self, unsigned int flags, unsigned int operationSet); /* 0x50 */
+    void *slot54;
+    int (*FlushSourceBuffers)(Voice_82C00AA0 *self); /* 0x58 */
+    void *slot5C;
+    void *slot60;
+    void (*GetState)(Voice_82C00AA0 *self, VoiceState_82C00AA0 *state); /* 0x64 */
+} VoiceVtbl_82C00AA0;
 
+struct Voice_82C00AA0 {
+    VoiceVtbl_82C00AA0 *vtbl;
+};
+
+typedef struct Sound_82C00AA0 {
+    char pad000[0x38];
+    Voice_82C00AA0 *voice; /* 0x038 */
+    char pad03C[0x244];
+    int pending; /* 0x280 */
+    char pad284[0x4];
+    int started; /* 0x288 */
+} Sound_82C00AA0;
+
+extern void fn_82A1E108(unsigned int milliseconds); /* Sleep */
+
+static __forceinline void WaitForBuffers(Sound_82C00AA0 *self, VoiceState_82C00AA0 *state)
 {
-  int *piVar1;
-  unsigned __int64 uVar2;
-  unsigned char auStack_30 [4];
-  int iStack_2c;
-  
-  piVar1 = *(int **)(param_1 + 0x38);
-  uVar2 = 0;
-  if (piVar1 == (int *)0x0) {
-    return 0;
-  }
-  if (*(int *)(param_1 + 0x288) == 0) {
-    if (param_2 == 3) {
-      return 0;
+    self->voice->vtbl->GetState(self->voice, state);
+    while (state->buffersQueued != 0) {
+        fn_82A1E108(10);
+        self->voice->vtbl->GetState(self->voice, state);
     }
-    uVar2 = (**(int (***)())(*piVar1 + 0x58))();
-    (**(int (***)())(**(int **)(param_1 + 0x38) + 100))(*(int **)(param_1 + 0x38),auStack_30);
-    while (iStack_2c != 0) {
-      fn_82A1E108(10);
-      (**(int (***)())(**(int **)(param_1 + 0x38) + 100))(*(int **)(param_1 + 0x38),auStack_30);
-    }
-    *(unsigned int *)(param_1 + 0x280) = 0;
-    return uVar2;
-  }
-  if (param_2 != 2) {
-    if (param_2 == 3) {
-      uVar2 = (**(int (***)())(*piVar1 + 0x50))(piVar1,0,0);
-      *(unsigned int *)(param_1 + 0x288) = 0;
-      return uVar2;
-    }
-    if (param_2 == 4) {
-      (**(int (***)())(*piVar1 + 0x50))(piVar1,0,0);
-      uVar2 = (**(int (***)())(**(int **)(param_1 + 0x38) + 0x58))();
-      (**(int (***)())(**(int **)(param_1 + 0x38) + 100))(*(int **)(param_1 + 0x38),auStack_30);
-      if (iStack_2c != 0) {
-        do {
-          fn_82A1E108(10);
-          (**(int (***)())(**(int **)(param_1 + 0x38) + 100))(*(int **)(param_1 + 0x38),auStack_30);
-        } while (iStack_2c != 0);
-        *(unsigned int *)(param_1 + 0x280) = 0;
-        *(unsigned int *)(param_1 + 0x288) = 0;
-        return uVar2;
-      }
-      goto LAB_82c00c7c;
-    }
-  }
-  (**(int (***)())(*piVar1 + 100))(piVar1,auStack_30);
-  while (iStack_2c != 0) {
-    fn_82A1E108(10);
-    (**(int (***)())(**(int **)(param_1 + 0x38) + 100))(*(int **)(param_1 + 0x38),auStack_30);
-  }
-LAB_82c00c7c:
-  *(unsigned int *)(param_1 + 0x280) = 0;
-  *(unsigned int *)(param_1 + 0x288) = 0;
-  return uVar2;
 }
 
+int fn_82C00AA0(Sound_82C00AA0 *self, int mode)
+{
+    int result;
+    VoiceState_82C00AA0 state;
+
+    result = 0;
+    if (self->voice == 0) {
+        return result;
+    }
+    if (self->started == 0) {
+        if (mode != 3) {
+            result = self->voice->vtbl->FlushSourceBuffers(self->voice);
+            WaitForBuffers(self, &state);
+            self->pending = 0;
+        }
+    } else {
+        if (mode != 2) {
+            if (mode != 3) {
+                if (mode == 4) {
+                    self->voice->vtbl->Stop(self->voice, 0, 0);
+                    result = self->voice->vtbl->FlushSourceBuffers(self->voice);
+                    WaitForBuffers(self, &state);
+                    self->pending = 0;
+                    self->started = 0;
+                    goto done;
+                }
+            } else {
+                result = self->voice->vtbl->Stop(self->voice, 0, 0);
+                self->started = 0;
+                goto done;
+            }
+        }
+        WaitForBuffers(self, &state);
+        self->pending = 0;
+        {
+            int *started = &self->started;
+
+            *started = 0;
+        }
+    done:;
+    }
+    return result;
+}

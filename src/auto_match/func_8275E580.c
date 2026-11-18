@@ -1,52 +1,45 @@
-void fn_8275E580(unsigned char *param_1,unsigned int *param_2,unsigned int *param_3)
-
+static __forceinline unsigned int ReadLittleEndian(const unsigned char *p, unsigned int count)
 {
-  int iVar1;
-  unsigned int uVar2;
-  int iVar3;
-  int iVar4;
-  __int64 lVar5;
-  unsigned int uVar6;
-  int iVar7;
-  int iVar8;
-  
-  uVar6 = 0;
-  iVar4 = (*param_1 >> 5 & 3) + 1;
-  iVar3 = 0;
-  uVar2 = 0;
-  for (lVar5 = ((unsigned __int64)(*param_1 >> 3) & 3) + 1; lVar5 != 0; lVar5 = lVar5 + -1) {
-    iVar7 = iVar3 + 1;
-    iVar3 = iVar3 + 1;
-    uVar6 = (unsigned int)param_1[iVar7] << (uVar2 & 0x3f) | uVar6;
-    uVar2 = uVar2 + 8;
-  }
-  iVar3 = uVar6 + iVar4 * -2;
-  if (param_2 != (unsigned int *)0x0) {
-    uVar2 = 0;
-    iVar7 = 0;
-    uVar6 = 0;
-    for (iVar8 = iVar4; iVar8 != 0; iVar8 = iVar8 + -1) {
-      iVar1 = iVar7 + iVar3;
-      iVar7 = iVar7 + 1;
-      uVar2 = (unsigned int)param_1[iVar1] << (uVar6 & 0x3f) | uVar2;
-      uVar6 = uVar6 + 8;
+    unsigned int value = 0;
+    unsigned int i = 0;
+    unsigned int shift = 0;
+
+    for (; i < count; i++) {
+        value |= (unsigned int)p[i] << shift;
+        shift += 8;
     }
-    *param_2 = uVar2;
-  }
-  iVar3 = iVar4 + iVar3;
-  if (param_3 == (unsigned int *)0x0) {
-    return;
-  }
-  uVar2 = 0;
-  iVar7 = 0;
-  uVar6 = 0;
-  for (; iVar4 != 0; iVar4 = iVar4 + -1) {
-    iVar8 = iVar7 + iVar3;
-    iVar7 = iVar7 + 1;
-    uVar2 = (unsigned int)param_1[iVar8] << (uVar6 & 0x3f) | uVar2;
-    uVar6 = uVar6 + 8;
-  }
-  *param_3 = uVar2;
-  return;
+    return value;
 }
 
+static __forceinline unsigned int ReadLength(const unsigned char *data)
+{
+    const unsigned char *p = data + 1;
+    unsigned int value = 0;
+    unsigned int i = 0;
+    unsigned int shift = 0;
+    unsigned int count = ((data[0] >> 3) & 3) + 1;
+
+    for (; i < count; i++) {
+        value |= (unsigned int)p[i] << shift;
+        shift += 8;
+    }
+    return value;
+}
+
+void fn_8275E580(const unsigned char *data, unsigned int *first, unsigned int *second)
+{
+    unsigned int width;
+    unsigned int length;
+    const unsigned char *p;
+
+    width = ((data[0] >> 5) & 3) + 1;
+    length = ReadLength(data);
+    p = data + length - width * 2;
+    if (first != 0) {
+        *first = ReadLittleEndian(p, width);
+    }
+    p += width;
+    if (second != 0) {
+        *second = ReadLittleEndian(p, width);
+    }
+}

@@ -1,63 +1,78 @@
-extern int fn_8268E408();
-extern int fn_8268E490();
-extern int fn_8268E5C8();
-extern int fn_8268E620();
-extern int fn_8268E938();
-extern int fn_8268EAC0();
+typedef struct Blk_8268EC80 {
+    struct Blk_8268EC80 *next; /* 0x00 */
+    struct Blk_8268EC80 *prev; /* 0x04 */
+    int pad[6];
+    unsigned int owner; /* 0x20 */
+    unsigned int units; /* 0x24 */
+} Blk_8268EC80;
 
+typedef struct Arena_8268EC80 {
+    unsigned int shift;     /* 0x00 */
+    unsigned int alignment; /* 0x04 */
+    int pad8;
+    char list[4]; /* 0x0c */
+    char tbl[4];  /* 0x10 */
+    int count;    /* 0x14 */
+} Arena_8268EC80;
 
-char fn_8268EC80(unsigned int *param_1,int param_2,int param_3,int param_4,int param_5,unsigned int param_6)
+typedef struct Owner_8268EC80 {
+    char pad[0x10];
+    unsigned int base; /* 0x10 */
+    unsigned int size; /* 0x14 */
+} Owner_8268EC80;
 
+extern void fn_8268E408(void *list, Blk_8268EC80 *blk);
+extern void fn_8268E490(void *list, Blk_8268EC80 *blk, Blk_8268EC80 *next);
+extern void fn_8268E5C8(void *tbl, Blk_8268EC80 *blk);
+extern Blk_8268EC80 *fn_8268E620(void *tbl, unsigned int addr);
+extern void fn_8268E938(Arena_8268EC80 *a, Blk_8268EC80 *blk, unsigned int start, unsigned int len);
+extern void fn_8268EAC0(Arena_8268EC80 *a, Owner_8268EC80 *owner, unsigned int start, unsigned int len,
+                        unsigned int alignment);
+
+char fn_8268EC80(Arena_8268EC80 *a, Owner_8268EC80 *owner, unsigned int base, unsigned int oldSize,
+                 unsigned int newSize, unsigned int alignment)
 {
-  int *piVar1;
-  int *piVar2;
-  char cVar3;
-  unsigned int uVar4;
-  int *piVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  
-  if (param_6 < param_1[1]) {
-    param_6 = param_1[1];
-  }
-  uVar6 = (param_4 + param_6) - 1 & ~(param_6 - 1);
-  uVar7 = (param_5 + param_6) - 1 & ~(param_6 - 1);
-  if (uVar7 == uVar6) {
-LAB_8268ecd0:
-    cVar3 = '\0';
-  }
-  else {
-    if (uVar7 <= uVar6) {
-      fn_8268EAC0(param_1,param_2,param_3 + uVar7,uVar6 - uVar7,param_6);
-      return *(int *)(param_2 + 0x14) + *(int *)(param_2 + 0x10) ==
-             (*(int *)(param_3 + uVar7 + 0x24) << (*param_1 & 0x3f)) + param_3 + uVar7;
-    }
-    piVar5 = (int *)(param_3 + uVar6);
-    piVar2 = (int *)fn_8268E620(param_1 + 4,piVar5);
-    if (((piVar2 != (int *)0x0) && (piVar2[8] == param_2)) && (piVar2 == piVar5)) {
-      uVar4 = (piVar2[9] << (*param_1 & 0x3f)) + (int)piVar2;
-      if (param_3 + uVar7 <= uVar4) {
-        param_1[5] = param_1[5] - piVar2[9];
-        piVar5 = (int *)*piVar2;
-        if (piVar5 == piVar2) {
-          fn_8268E490(param_1 + 3,piVar2);
-        }
-        else {
-          piVar1 = (int *)piVar2[1];
-          *piVar1 = (int)piVar5;
-          piVar5[1] = (int)piVar1;
-          fn_8268E408(param_1 + 3,piVar2);
-        }
-        fn_8268E5C8(param_1 + 4,piVar2);
-        fn_8268E938(param_1,piVar2,piVar2,uVar7 - uVar6);
-        goto LAB_8268ecd0;
-      }
-      if (uVar4 == *(int *)(param_2 + 0x14) + *(int *)(param_2 + 0x10)) {
-        return 3;
-      }
-    }
-    cVar3 = ((int *)(*(int *)(param_2 + 0x14) + *(int *)(param_2 + 0x10)) == piVar5) + '\x02';
-  }
-  return cVar3;
-}
+    unsigned int next;
+    unsigned int blkEnd;
+    Blk_8268EC80 *blk;
+    Blk_8268EC80 *nx;
+    Blk_8268EC80 *pv;
 
+    if (alignment < a->alignment) {
+        alignment = a->alignment;
+    }
+    oldSize = (oldSize + alignment - 1) & ~(alignment - 1);
+    newSize = (newSize + alignment - 1) & ~(alignment - 1);
+    if (newSize == oldSize) {
+        return 0;
+    }
+    if (newSize > oldSize) {
+        next = base + oldSize;
+        blk = fn_8268E620(a->tbl, next);
+        if (blk != 0 && blk->owner == (unsigned int)owner && (unsigned int)blk == next) {
+            blkEnd = (blk->units << a->shift) + (unsigned int)blk;
+            if (base + newSize <= blkEnd) {
+                a->count = a->count - blk->units;
+                nx = blk->next;
+                if (nx != blk) {
+                    pv = blk->prev;
+                    pv->next = nx;
+                    nx->prev = pv;
+                    fn_8268E408(a->list, blk);
+                } else {
+                    fn_8268E490(a->list, blk, nx);
+                }
+                fn_8268E5C8(a->tbl, blk);
+                fn_8268E938(a, blk, (unsigned int)blk, newSize - oldSize);
+                return 0;
+            }
+            if (blkEnd == owner->size + owner->base) {
+                return 3;
+            }
+        }
+        return (next == owner->size + owner->base) + 2;
+    }
+    blk = (Blk_8268EC80 *)(base + newSize);
+    fn_8268EAC0(a, owner, (unsigned int)blk, oldSize - newSize, alignment);
+    return (blk->units << a->shift) + base + newSize == owner->size + owner->base;
+}

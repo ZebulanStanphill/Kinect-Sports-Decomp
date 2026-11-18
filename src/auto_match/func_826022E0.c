@@ -1,67 +1,51 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_40;
-extern int fn_8253D4E8();
-extern int fn_82601A00();
-extern int fn_82602058();
-extern int fn_826267D0();
-extern V16 vectorAddFloatingPoint();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vaddfp(__vector4 a, __vector4 b);
 
-void fn_826022E0(int param_1,int param_2,__int64 param_3)
+typedef struct Pose_826022E0 {
+    __vector4 rotation; /* 0x00 */
+    float scale[3];     /* 0x10 */
+    int pad1c;
+    __vector4 rotation2; /* 0x20 */
+    void *item;          /* 0x30 */
+    int pad34[3];
+    __vector4 position; /* 0x40 */
+} Pose_826022E0;
 
+typedef struct Actor_826022E0 {
+    char pad0[0x80];
+    __vector4 origin; /* 0x80 */
+    int pad90;
+    float scale[3]; /* 0x94 */
+    char padA0[0x254 - 0xa0];
+    int state; /* 0x254 */
+    char pad258[0x294 - 0x258];
+    void *target; /* 0x294 */
+} Actor_826022E0;
+
+extern void fn_82602058(Actor_826022E0 *self, __vector4 *rotation);
+extern void fn_82601A00(Actor_826022E0 *self, __vector4 *rotation, __vector4 *position);
+extern void fn_826267D0(Pose_826022E0 *pose, void *target);
+extern void fn_8253D4E8(void *owner, void *context, void *item, int flag);
+
+void fn_826022E0(Actor_826022E0 *self, Pose_826022E0 *pose, char *context)
 {
-  unsigned int *puVar1;
-  int in_r0;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs45 [16];
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned char auStack_40 [16];
-  unsigned char auStack_30 [48];
-  
-  fn_82602058(param_1,auStack_40);
-  puVar1 = (unsigned int *)((unsigned int)(auStack_40 + in_r0) & 0xfffffff0);
-  uVar2 = *puVar1;
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar1 = (unsigned int *)(in_r0 + param_2 & 0xfffffff0);
-  *puVar1 = uVar2;
-  puVar1[1] = uVar3;
-  puVar1[2] = uVar4;
-  puVar1[3] = uVar5;
-  puVar1 = (unsigned int *)(param_2 + 0x20U & 0xfffffff0);
-  *puVar1 = uVar2;
-  puVar1[1] = uVar3;
-  puVar1[2] = uVar4;
-  puVar1[3] = uVar5;
-  fn_82601A00(param_1,auStack_40,auStack_30);
-  puVar1 = (unsigned int *)((unsigned int)(auStack_30 + in_r0) & 0xfffffff0);
-  uVar2 = *puVar1;
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar1 = (unsigned int *)(in_r0 + param_2 + 0x40 & 0xfffffff0);
-  *puVar1 = uVar2;
-  puVar1[1] = uVar3;
-  puVar1[2] = uVar4;
-  puVar1[3] = uVar5;
-  vectorAddFloatingPoint(in_vs32,in_vs45);
-  puVar1 = (unsigned int *)(in_r0 + param_2 + 0x40 & 0xfffffff0);
-  *puVar1 = uVar2;
-  puVar1[1] = uVar3;
-  puVar1[2] = uVar4;
-  puVar1[3] = uVar5;
-  *(unsigned int *)(param_2 + 0x10) = *(unsigned int *)(param_1 + 0x94);
-  *(unsigned int *)(param_2 + 0x14) = *(unsigned int *)(param_1 + 0x98);
-  *(unsigned int *)(param_2 + 0x18) = *(unsigned int *)(param_1 + 0x9c);
-  if (*(int *)(param_1 + 0x254) == 7) {
-    fn_826267D0(param_2,*(unsigned int *)(param_1 + 0x294));
-    fn_8253D4E8(param_3 + 0x1f0,param_3,*(unsigned int *)(param_2 + 0x30),0);
-  }
-  return;
-}
+    __vector4 rotation;
+    __vector4 position;
 
+    fn_82602058(self, &rotation);
+    pose->rotation = rotation;
+    pose->rotation2 = rotation;
+    fn_82601A00(self, &rotation, &position);
+    pose->position = position;
+    pose->position = __vaddfp(pose->position, self->origin);
+    pose->scale[0] = self->scale[0];
+    pose->scale[1] = self->scale[1];
+    pose->scale[2] = self->scale[2];
+    if (self->state == 7) {
+        fn_826267D0(pose, self->target);
+        fn_8253D4E8(context + 0x1f0, context, pose->item, 0);
+    }
+}

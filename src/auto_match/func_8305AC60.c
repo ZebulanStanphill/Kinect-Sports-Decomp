@@ -1,62 +1,61 @@
-#define _uStack00000040 ((*(unsigned __int64*)&uStack00000040))
-extern int fn_8305A5E8();
-extern int fn_8305A6A0();
-extern int fn_8305A7A8();
-extern int fn_8305A9D0();
-extern int fn_8305B970();
-extern int fn_8305B9A0();
-extern int fn_8305BB28();
-extern int fn_8305BE58();
-extern unsigned int lbl_8207F700;
-extern unsigned int lbl_8217E370;
-extern unsigned int uStack00000020;
-extern unsigned int uStack00000030;
-extern unsigned int uStack00000038;
-extern unsigned int uStack00000040;
+typedef struct Target_8305AC60 {
+    char pad0[0x2c];
+    float count; /* 0x2c */
+    char pad30[4];
+    float level; /* 0x34 */
+    char pad38[0x142c - 0x38];
+    char ramp[4]; /* 0x142c */
+} Target_8305AC60;
 
+typedef struct Obj_8305AC60 {
+    unsigned int count;
+    unsigned int unk4;
+    Target_8305AC60 *target; /* 0x08 */
+    float scale[2];          /* 0x0c */
+} Obj_8305AC60;
 
-void fn_8305AC60(int *param_1,unsigned __int64 param_2,double param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5,unsigned __int64 param_6)
+typedef struct Params_8305AC60 {
+    double db;         /* 0x00 */
+    double level;      /* 0x08 */
+    double time;       /* 0x10 */
+    double value;      /* 0x18 */
+    unsigned int kind; /* 0x20 */
+} Params_8305AC60;
 
+extern const double lbl_8207F700;
+extern const double lbl_8217E370;
+extern void fn_8305A5E8(Obj_8305AC60 *o, double db, double t);
+extern void fn_8305B9A0(void *ramp, int ms, double from, double to);
+extern int fn_8305B970(float *v, double s);
+extern double fn_8305BE58(double x);
+extern void fn_8305A6A0(Obj_8305AC60 *o, double value, unsigned int kind);
+extern void fn_8305A7A8(Obj_8305AC60 *o, unsigned int kind, double value);
+extern int fn_8305BB28(float *v, double s);
+extern void fn_8305A9D0(Obj_8305AC60 *o);
+
+void fn_8305AC60(Obj_8305AC60 **self, Params_8305AC60 p)
 {
-  unsigned int *puVar1;
-  unsigned int uVar2;
-  int iVar3;
-  int iVar4;
-  double dVar5;
-  unsigned __int64 uVar6;
-  unsigned __int64 uStack00000020;
-  double dStack00000028;
-  unsigned __int64 uStack00000030;
-  unsigned __int64 uStack00000038;
-  unsigned int uStack00000040;
-  
-  dVar5 = param_3 - lbl_8207F700;
-  if (param_3 - lbl_8207F700 < lbl_8217E370) {
-    dVar5 = lbl_8217E370;
-  }
-  uStack00000020 = param_2;
-  dStack00000028 = param_3;
-  uStack00000030 = param_4;
-  uStack00000038 = param_5;
-  _uStack00000040 = param_6;
-  fn_8305A5E8(param_2,dVar5,*param_1);
-  fn_8305A5E8(param_2,dVar5,*param_1);
-  fn_8305B9A0(dVar5,uStack00000030,(unsigned __int64)*(unsigned int *)(*param_1 + 8) + 0x142c,600);
-  puVar1 = (unsigned int *)*param_1;
-  iVar3 = fn_8305B970((double)*puVar1,puVar1 + 3);
-  dVar5 = (double)fn_8305BE58((double)(__int64)iVar3);
-  uVar2 = uStack00000040;
-  iVar3 = *param_1;
-  *(float *)(puVar1[2] + 0x34) = (float)dVar5;
-  uVar6 = uStack00000038;
-  fn_8305A6A0(uStack00000038,iVar3);
-  fn_8305A7A8(uVar6,*param_1,uVar2);
-  puVar1 = (unsigned int *)*param_1;
-  iVar4 = fn_8305BB28((double)*puVar1,puVar1 + 3);
-  iVar3 = *param_1;
-  *(float *)(puVar1[2] + 0x2c) = (float)(__int64)(iVar4 + 1);
-  fn_8305A9D0(iVar3);
-  return;
-}
+    Obj_8305AC60 *o;
+    Target_8305AC60 *tg;
+    double lv;
+    int n;
+    double t = p.level - lbl_8207F700;
 
+    if (t < lbl_8217E370)
+        t = lbl_8217E370;
+    fn_8305A5E8(*self, p.db, t);
+    fn_8305A5E8(*self, p.db, t);
+    o = *self;
+    fn_8305B9A0(o->target->ramp, 600, t, p.time);
+    o = *self;
+    lv = fn_8305BE58((double)fn_8305B970(o->scale, (double)o->count));
+    tg = o->target;
+    tg->level = (float)lv;
+    fn_8305A6A0(*self, p.value, p.kind);
+    fn_8305A7A8(*self, p.kind, p.value);
+    o = *self;
+    n = fn_8305BB28(o->scale, (double)o->count) + 1;
+    tg = o->target;
+    tg->count = (float)n;
+    fn_8305A9D0(*self);
+}

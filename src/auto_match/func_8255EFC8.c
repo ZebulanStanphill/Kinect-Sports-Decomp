@@ -1,61 +1,52 @@
-typedef unsigned char bool;
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_60;
-extern int fn_827EFC80();
-extern int fn_827F3B90();
-extern int fn_827F3C08();
-extern int fn_827F3C20();
-extern int fn_827F68F8();
-extern int fn_827F74C0();
-extern int fn_827F93E8();
-extern int fn_82811238();
-extern int fn_82811438();
-extern unsigned __int64 storeWordConditionalIndexed();
+typedef struct Sound_8255EFC8 {
+    char pad000[0x110];
+    void *voice; /* 0x110 */
+    int bank;    /* 0x114 */
+    char pad118[4];
+    int cue; /* 0x11c */
+    char pad120[4];
+    unsigned short flags; /* 0x124 */
+    char pad126[6];
+    unsigned short state; /* 0x12c */
+} Sound_8255EFC8;
 
+extern char lbl_8320A3E0[];
 
-void fn_8255EFC8(int param_1,int param_2)
+extern long _InterlockedExchange(long volatile *target, long value);
+extern void *fn_827F3C20(Sound_8255EFC8 *self);
+extern void fn_827F68F8(void *engine, int bank, Sound_8255EFC8 *self, int cue, unsigned short flags);
+extern void fn_827F74C0(void *engine, void *voice);
+extern void fn_827F93E8(void *engine);
+extern long *fn_827EFC80(void);
+extern void *fn_82811438(void *buf, int *code, int n);
+extern void *fn_827F3C08(Sound_8255EFC8 *self);
+extern void fn_82811238(void *ctx, void *obj, void *str);
+extern void fn_827F3B90(Sound_8255EFC8 *self, void *buf, unsigned int size);
 
+void fn_8255EFC8(Sound_8255EFC8 *self, int immediate)
 {
-  unsigned short uVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  unsigned int auStack_60 [4];
-  unsigned char auStack_50 [80];
-  
-  if (*(int *)(param_1 + 0x110) != 0) {
-    uVar1 = *(unsigned short *)(param_1 + 0x124);
-    uVar2 = *(unsigned int *)(param_1 + 0x11c);
-    uVar3 = *(unsigned int *)(param_1 + 0x114);
-    uVar4 = fn_827F3C20();
-    fn_827F68F8(uVar4,uVar3,param_1,uVar2,uVar1);
-    uVar2 = *(unsigned int *)(param_1 + 0x110);
-    uVar4 = fn_827F3C20(param_1);
-    fn_827F74C0(uVar4,uVar2);
-    fn_827F3C20(param_1);
-    fn_827F93E8();
-  }
-  *(unsigned short *)(param_1 + 300) = *(unsigned short *)(param_1 + 300) & 0xfffe;
-  if (param_2 == 0) {
-    auStack_60[0] = 3;
-    uVar4 = fn_82811438(auStack_50,auStack_60,0x10);
-    uVar5 = fn_827F3C08(param_1);
-    fn_82811238(0xffffffff8320a3e0,uVar5,uVar4);
-  }
-  else {
-    uVar4 = fn_827EFC80();
-    do {
-      if (in_RESERVE != '\0') {
-        uVar2 = storeWordConditionalIndexed(0,0,uVar4);
-        *(unsigned int *)uVar4 = uVar2;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-  }
-  fn_827F3B90(param_1,0,0);
-  return;
-}
+    unsigned short flags;
+    int cue;
+    int bank;
+    void *voice;
+    int code;
+    char buf[0x20];
 
+    if (self->voice != 0) {
+        flags = self->flags;
+        cue = self->cue;
+        bank = self->bank;
+        fn_827F68F8(fn_827F3C20(self), bank, self, cue, flags);
+        voice = self->voice;
+        fn_827F74C0(fn_827F3C20(self), voice);
+        fn_827F93E8(fn_827F3C20(self));
+    }
+    self->state &= ~1;
+    if (immediate != 0) {
+        _InterlockedExchange(fn_827EFC80(), 0);
+    } else {
+        code = 3;
+        fn_82811238(lbl_8320A3E0, fn_827F3C08(self), fn_82811438(buf, &code, 0x10));
+    }
+    fn_827F3B90(self, 0, 0);
+}

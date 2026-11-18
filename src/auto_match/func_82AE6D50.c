@@ -1,63 +1,70 @@
-extern int fn_82AA66A8();
-extern int fn_82ABDCF8();
-extern int fn_82AE4D28();
-extern int fn_82AE6CC0();
+typedef struct Register_82AE6D50 {
+    unsigned int pad0 : 3;
+    unsigned int index : 9; /* 0x00 */
+    unsigned int pad1 : 20;
+    unsigned int flags; /* 0x04 */
+    char pad08[0x20];
+} Register_82AE6D50;
 
+typedef struct Named_82AE6D50 {
+    char pad0[0x18];
+    const char *name; /* 0x18 */
+} Named_82AE6D50;
 
-void fn_82AE6D50(int param_1,int param_2,unsigned int *param_3,int *param_4)
+typedef struct Context_82AE6D50 {
+    char pad0[0xc];
+    Register_82AE6D50 *registers; /* 0x0c */
+    char pad10[0x20];
+    unsigned int version; /* 0x30 */
+} Context_82AE6D50;
 
+extern unsigned int fn_82ABDCF8(Context_82AE6D50 *ctx);
+extern unsigned int fn_82AE4D28(Context_82AE6D50 *ctx);
+extern Named_82AE6D50 *fn_82AE6CC0(Context_82AE6D50 *ctx, unsigned int index);
+__declspec(noreturn) extern void fn_82AA66A8(void *ctx, int code, ...);
+
+/* Returns the first index and the count of the register file that the register belongs to. */
+void fn_82AE6D50(Context_82AE6D50 *ctx, unsigned int index, unsigned int *first, unsigned int *count)
 {
-  unsigned int uVar1;
-  int iVar2;
-  unsigned int uVar3;
-  unsigned int *puVar4;
-  
-  puVar4 = (unsigned int *)(param_2 * 0x28 + *(int *)(param_1 + 0xc));
-  uVar3 = puVar4[1];
-  uVar1 = uVar3 >> 4 & 7;
-  if (uVar1 == 0) {
-    uVar3 = -(unsigned int)(((unsigned __int64)*(unsigned int *)(param_1 + 0x30) & 0xffff0000) == 0xffffffffffff0000) &
-            0x80;
-    iVar2 = uVar3 + 0x80;
-  }
-  else if (uVar1 == 1) {
-    uVar3 = -(unsigned int)(((unsigned __int64)*(unsigned int *)(param_1 + 0x30) & 0xffff0000) == 0xffffffffffff0000) &
-            0x10;
-    iVar2 = uVar3 + 0x10;
-  }
-  else {
-    if (2 < uVar1) {
-      if (uVar1 == 3) {
-        uVar3 = fn_82ABDCF8(param_1);
-        iVar2 = fn_82AE4D28(param_1);
-        iVar2 = iVar2 + uVar3;
-        *param_3 = uVar3;
-      }
-      else {
-        if ((*puVar4 & 0x1ff00000) < 0xff00001) {
-                    /* WARNING: Subroutine does not return */
-          fn_82AA66A8(param_1,0x12c0);
-        }
-        if ((uVar3 & 0xff80) != 0) {
-          iVar2 = fn_82AE6CC0(param_1);
-          if (iVar2 != 0) {
-                    /* WARNING: Subroutine does not return */
-            fn_82AA66A8(param_1,0x119d,*(unsigned int *)(iVar2 + 0x18));
-          }
-                    /* WARNING: Subroutine does not return */
-          fn_82AA66A8(param_1,0x12c0);
-        }
-        iVar2 = 0;
-        *param_3 = 0;
-      }
-      *param_4 = iVar2;
-      return;
-    }
-    uVar3 = 0;
-    iVar2 = 0x100;
-  }
-  *param_3 = uVar3;
-  *param_4 = iVar2;
-  return;
-}
+    Register_82AE6D50 *reg = &ctx->registers[index];
+    unsigned int base;
+    unsigned int end;
+    Named_82AE6D50 *named;
 
+    switch ((reg->flags >> 4) & 7) {
+    case 0:
+        base = 0xffff0000 == (ctx->version & 0xffff0000) ? 0x80 : 0;
+        *first = base;
+        *count = base + 0x80;
+        break;
+    case 1:
+        base = 0xffff0000 == (ctx->version & 0xffff0000) ? 0x10 : 0;
+        *first = base;
+        *count = base + 0x10;
+        break;
+    case 2:
+        *first = 0;
+        *count = 0x100;
+        break;
+    case 3:
+        base = fn_82ABDCF8(ctx);
+        end = base + fn_82AE4D28(ctx);
+        *first = base;
+        *count = end;
+        break;
+    default:
+        if (reg->index <= 0xff) {
+            fn_82AA66A8(ctx, 0x12c0);
+        }
+        if (reg->flags & 0xff80) {
+            named = fn_82AE6CC0(ctx, index);
+            if (named == 0) {
+                fn_82AA66A8(ctx, 0x12c0);
+            }
+            fn_82AA66A8(ctx, 0x119d, named->name);
+        }
+        *first = 0;
+        *count = 0;
+        break;
+    }
+}

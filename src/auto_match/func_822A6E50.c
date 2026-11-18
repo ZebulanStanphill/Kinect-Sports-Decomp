@@ -1,52 +1,55 @@
-extern int fn_822A6C30();
-extern int fn_822A6F38();
-extern unsigned int lbl_821917C0;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Player_822A6E50 {
+    char pad0[8];
+    unsigned int *idleSounds[7]; /* 0x008 */
+    char pad24[8];
+    unsigned int *winSounds[5];  /* 0x02c */
+    unsigned int *loseSounds[5]; /* 0x040 */
+    char pad54[0xb4];
+    int mode;           /* 0x108 */
+    unsigned int state; /* 0x10c */
+    unsigned int sound; /* 0x110 */
+    char pad114[0x414];
+    float delay; /* 0x528 */
+    char pad52c[0x10];
+    int playing; /* 0x53c */
+} Player_822A6E50;
 
+extern unsigned int lbl_831CE7BC;
+extern unsigned int lbl_831CD664;
+extern unsigned int lbl_831CE7B8;
+extern const float lbl_821917A8[];
 
-void fn_822A6E50(int param_1)
+extern unsigned int *fn_822A6C30(unsigned int **sounds, unsigned int count, unsigned int *last);
+extern void fn_822A6F38(Player_822A6E50 *player, unsigned int *sound, float delay, float volume, int flag);
 
+/* Picks a random sound for the player's state and starts it. */
+void fn_822A6E50(Player_822A6E50 *player)
 {
-  unsigned int uVar1;
-  int iVar2;
-  unsigned int *puVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  
-  uVar1 = *(unsigned int *)(param_1 + 0x10c);
-  if (uVar1 == 0) {
-    uVar4 = 7;
-    uVar5 = 0xffffffff831ce7bc;
-    iVar2 = param_1 + 8;
-  }
-  else if (uVar1 == 1) {
-    uVar4 = 5;
-    uVar5 = 0xffffffff831cd664;
-    iVar2 = param_1 + 0x40;
-  }
-  else {
-    if (2 < uVar1) {
-      return;
-    }
-    uVar4 = 5;
-    uVar5 = 0xffffffff831ce7b8;
-    iVar2 = param_1 + 0x2c;
-  }
-  puVar3 = (unsigned int *)fn_822A6C30(iVar2,uVar4,uVar5);
-  if (puVar3 != (unsigned int *)0x0) {
-    *(unsigned int *)(param_1 + 0x110) = *puVar3;
-    if (*(int *)(param_1 + 0x108) == 3) {
-      fn_822A6F38((double)*(float *)(param_1 + 0x528),(double)lbl_821917C0,param_1,
-                        param_1 + 0x110);
-    }
-    else {
-      *(unsigned int *)(param_1 + 0x108) = 3;
-      fn_822A6F38((double)*(float *)(param_1 + 0x528),(double)lbl_821917C0,param_1,
-                        param_1 + 0x110);
-      *(unsigned int *)(param_1 + 0x53c) = 1;
-    }
-    *(unsigned int *)(param_1 + 0x528) = ltcg_pool_0_0f;
-  }
-  return;
-}
+    unsigned int *sound;
 
+    switch (player->state) {
+    case 0:
+        sound = fn_822A6C30(player->idleSounds, 7, &lbl_831CE7BC);
+        break;
+    case 1:
+        sound = fn_822A6C30(player->loseSounds, 5, &lbl_831CD664);
+        break;
+    case 2:
+        sound = fn_822A6C30(player->winSounds, 5, &lbl_831CE7B8);
+        break;
+    default:
+        return;
+    }
+    if (sound != 0) {
+        player->sound = *sound;
+        if (player->mode != 3) {
+            player->mode = 3;
+            fn_822A6F38(player, &player->sound, player->delay, lbl_821917A8[6], 1);
+            player->playing = 1;
+            player->delay = 0.0f;
+        } else {
+            fn_822A6F38(player, &player->sound, player->delay, lbl_821917A8[6], 1);
+            player->delay = 0.0f;
+        }
+    }
+}

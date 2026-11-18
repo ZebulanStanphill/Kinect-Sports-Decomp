@@ -1,31 +1,53 @@
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
+extern float lbl_821CA45C[];
 extern unsigned int lbl_83265A28;
 
-
-void fn_823345C0(int param_1)
-
+static __forceinline float Random(void)
 {
-  float fVar1;
-  int iVar2;
-  float fVar3;
-  
-  fVar3 = ltcg_pool_0_0f;
-  if ((*(float *)(param_1 + 0x234) == ltcg_pool_0_0f) && (*(int *)(param_1 + 0xc) == 1)) {
-    iVar2 = **(int **)(*(int *)(param_1 + 0x230) + 0x238);
-    fVar1 = *(float *)(iVar2 + 0xaac);
+    union {
+        unsigned int i;
+        float f;
+    } value;
+
     lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
-    *(float *)(param_1 + 0x234) =
-         (*(float *)(iVar2 + 0xab0) - fVar1) *
-         ((float)(lbl_83265A28 & 0x7fffff | 0x3f800000) - lbl_821CA460) + fVar1;
-  }
-  if (*(float *)(param_1 + 0x228) <= *(float *)(param_1 + 0x234)) {
-    return;
-  }
-  *(float *)(param_1 + 0x234) = fVar3;
-  *(float *)(param_1 + 0x228) = fVar3;
-  *(float *)(param_1 + 0x22c) = fVar3;
-  *(unsigned int *)(param_1 + 0x224) = 1;
-  return;
+    value.i = lbl_83265A28 & 0x7fffff | 0x3f800000;
+    return value.f - lbl_821CA45C[1];
 }
 
+typedef struct Range_823345C0 {
+    char pad0[0xaac];
+    float min; /* 0xaac */
+    float max; /* 0xab0 */
+} Range_823345C0;
+
+typedef struct Config_823345C0 {
+    char pad0[0x238];
+    Range_823345C0 **range; /* 0x238 */
+} Config_823345C0;
+
+typedef struct Timer_823345C0 {
+    char pad0[0xc];
+    int mode; /* 0x0c */
+    char pad10[0x214];
+    int expired;             /* 0x224 */
+    float elapsed;           /* 0x228 */
+    float previous;          /* 0x22c */
+    Config_823345C0 *config; /* 0x230 */
+    float duration;          /* 0x234 */
+} Timer_823345C0;
+
+void fn_823345C0(Timer_823345C0 *self)
+{
+    Range_823345C0 **range = self->config->range;
+
+    if (self->duration == 0.0f && self->mode == 1) {
+        float min = (*range)->min;
+        float max = (*range)->max;
+        self->duration = min + (max - min) * Random();
+    }
+    if (self->elapsed > self->duration) {
+        self->duration = 0.0f;
+        self->elapsed = 0.0f;
+        self->previous = 0.0f;
+        self->expired = 1;
+    }
+}

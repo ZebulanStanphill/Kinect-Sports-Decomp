@@ -1,47 +1,51 @@
-extern int fn_82A3AB68();
-extern int fn_82F68CC0();
+typedef struct Stream_82A3AC90 {
+    char pad0[0x86c];
+    void *hashing; /* 0x86c */
+    char pad870[0x984 - 0x870];
+    char *cursor;  /* 0x984 */
+    int available; /* 0x988 */
+    char pad98C[0x4320 - 0x98c];
+    char *base; /* 0x4320 */
+    int pad4324[2];
+    unsigned int reads; /* 0x432c */
+} Stream_82A3AC90;
 
+void *memcpy(void *dst, const void *src, unsigned int size);
+extern void fn_82A3AB68(Stream_82A3AC90 *stream, char *data, int size);
 
-unsigned __int64 fn_82A3AC90(int param_1,__int64 param_2,unsigned __int64 param_3)
-
+static __forceinline int CopyBuffered(Stream_82A3AC90 *stream, char *dest, int size)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  __int64 lVar3;
-  int iVar4;
-  
-  iVar4 = (int)param_3;
-  if (iVar4 < 1) {
-LAB_82a3acb0:
-    uVar2 = 0;
-  }
-  else {
-    uVar1 = *(unsigned int *)(param_1 + 0x988);
-    uVar2 = (unsigned __int64)uVar1;
-    lVar3 = (unsigned __int64)*(unsigned int *)(param_1 + 0x4320) + param_2;
-    if ((int)uVar1 < iVar4) {
-      if (0 < (int)uVar1) {
-        fn_82F68CC0(lVar3,*(unsigned int *)(param_1 + 0x984),uVar2);
-        iVar4 = *(int *)(param_1 + 0x988);
-        *(unsigned int *)(param_1 + 0x988) = 0;
-        *(int *)(param_1 + 0x984) = iVar4 + *(int *)(param_1 + 0x984);
-        goto code_r0x82a3ad2c;
-      }
-      uVar2 = 0;
+    int available = stream->available;
+
+    if (size <= available) {
+        memcpy(dest, stream->cursor, size);
+        stream->cursor += size;
+        stream->available -= size;
+        return size;
     }
-    else {
-      fn_82F68CC0(lVar3,*(unsigned int *)(param_1 + 0x984),param_3);
-      *(int *)(param_1 + 0x984) = *(int *)(param_1 + 0x984) + iVar4;
-      *(int *)(param_1 + 0x988) = *(int *)(param_1 + 0x988) - iVar4;
-      uVar2 = param_3;
-code_r0x82a3ad2c:
-      if ((int)uVar2 < 0) goto LAB_82a3acb0;
+    if (available <= 0) {
+        return 0;
     }
-    if ((*(int *)(param_1 + 0x86c) != 0) && (*(unsigned int *)(param_1 + 0x432c) < 0x8000)) {
-      fn_82A3AB68(param_1,(unsigned __int64)*(unsigned int *)(param_1 + 0x4320) + param_2,uVar2);
-    }
-    *(int *)(param_1 + 0x432c) = *(int *)(param_1 + 0x432c) + 1;
-  }
-  return uVar2;
+    memcpy(dest, stream->cursor, available);
+    stream->cursor += stream->available;
+    stream->available = 0;
+    return available;
 }
 
+int fn_82A3AC90(Stream_82A3AC90 *stream, int offset, int size)
+{
+    int copied;
+
+    if (size <= 0) {
+        return 0;
+    }
+    copied = CopyBuffered(stream, stream->base + offset, size);
+    if (copied < 0) {
+        return 0;
+    }
+    if (stream->hashing != 0 && stream->reads < 0x8000) {
+        fn_82A3AB68(stream, stream->base + offset, copied);
+    }
+    stream->reads++;
+    return copied;
+}

@@ -1,24 +1,31 @@
-extern float lbl_8218E8E8;
-extern unsigned int lbl_8326F968;
-extern unsigned int lbl_8326F96C;
+typedef struct VideoMode_8262EB18 {
+    int pal;     /* 0x0 */
+    int force60; /* 0x4 */
+} VideoMode_8262EB18;
 
+typedef struct Range_8262EB18 {
+    float min;   /* 0x0 */
+    float max;   /* 0x4 */
+    float value; /* 0x8 */
+} Range_8262EB18;
 
-void fn_8262EB18(double param_1,float *param_2)
+extern VideoMode_8262EB18 lbl_8326F968;
+extern const float lbl_8218E8E8[5];
 
+static __forceinline int Is50Hz(void)
 {
-  float fVar1;
-  unsigned char bVar2;
-  
-  param_2[2] = (float)param_1;
-  if ((lbl_8326F968 == 0) || (bVar2 = 1, lbl_8326F96C != 0)) {
-    bVar2 = 0;
-  }
-  fVar1 = (float)(__int64)(int)((-(unsigned int)bVar2 & 0xfffffff6) + 0x3c) * lbl_8218E8E8 *
-          (param_2[1] - *param_2);
-  if (param_1 <= (double)fVar1) {
-    return;
-  }
-  param_2[2] = fVar1;
-  return;
+    return lbl_8326F968.pal != 0 && lbl_8326F968.force60 == 0;
 }
 
+/* Sets the range's value, clamped to half a second's worth of frames times the range's span. */
+void fn_8262EB18(Range_8262EB18 *range, float value)
+{
+    float span = range->max - range->min;
+    float limit;
+
+    range->value = value;
+    limit = (float)(Is50Hz() ? 50 : 60) * lbl_8218E8E8[0] * span;
+    if (value > limit) {
+        range->value = limit;
+    }
+}

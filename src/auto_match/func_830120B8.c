@@ -1,60 +1,74 @@
-extern int fn_82FAB9C0();
-extern int fn_83010BF0();
-extern int fn_83011240();
-extern int fn_83011CF8();
-extern unsigned int lbl_832642E0;
-extern unsigned int lbl_832642E4;
-extern unsigned int uStack_4a;
-extern unsigned int uStack_4b;
-extern unsigned int uStack_4c;
-extern unsigned int uStack_50;
-extern unsigned int uStack_54;
-extern unsigned int uStack_58;
-extern unsigned int uStack_5c;
-extern unsigned int uStack_60;
+/* Builds a notification for one of three kinds of request, forwards the
+ * request to the matching handler and posts the notification to the listener
+ * that the handle table holds for the handle, then releases the listener. */
+typedef struct Notification_830120B8 {
+    unsigned int kind;     /* 0x00 */
+    unsigned int size;     /* 0x04 */
+    unsigned int reserved; /* 0x08 */
+    unsigned int arg5;     /* 0x0C */
+    unsigned int arg6;     /* 0x10 */
+    unsigned char flag0;   /* 0x14 */
+    unsigned char flag1;   /* 0x15 */
+    unsigned char flag2;   /* 0x16 */
+} Notification_830120B8;
 
+typedef struct Listener_830120B8 Listener_830120B8;
 
-void fn_830120B8(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned int param_4,
-                  unsigned int param_5,unsigned int param_6)
+typedef struct ListenerVtbl_830120B8 {
+    void *slot00;
+    void *slot04;
+    void (*Release)(Listener_830120B8 *self); /* 0x08 */
+    void *slot0C;
+    void *slot10;
+    void *slot14;
+    void *slot18;
+    void (*Notify)(Listener_830120B8 *self, Notification_830120B8 *notification); /* 0x1C */
+} ListenerVtbl_830120B8;
 
+struct Listener_830120B8 {
+    ListenerVtbl_830120B8 *vtbl;
+};
+
+extern char *lbl_832642E0;
+extern void *lbl_832642E4;
+
+extern Listener_830120B8 *fn_82FAB9C0(void *table, unsigned int key);
+extern void fn_83011240(void *manager, unsigned int handle, unsigned int size);
+extern void fn_83010BF0(void *manager, unsigned int handle, unsigned int size, int flag);
+extern void fn_83011CF8(void *manager, unsigned int handle, unsigned int size, int flag);
+
+void fn_830120B8(void *unused, unsigned int handle, unsigned int size, unsigned int kind, unsigned int arg5,
+                 unsigned int arg6)
 {
-  int *piVar1;
-  struct { unsigned int first; unsigned int second; } stack_pair_60;
+    Listener_830120B8 *listener;
+    Notification_830120B8 notification;
 
-  unsigned int uStack_58;
-  unsigned int uStack_54;
-  unsigned int uStack_50;
-  unsigned char uStack_4c;
-  unsigned char uStack_4b;
-  unsigned char uStack_4a;
-  
-  piVar1 = (int *)fn_82FAB9C0((unsigned __int64)lbl_832642E0 + 4);
-  if (piVar1 != (int *)0x0) {
-    stack_pair_60.second = (unsigned int)param_3;
-    uStack_4c = 0;
-    uStack_4a = 0;
-    uStack_58 = 0;
-    uStack_4b = 0;
-    uStack_54 = param_5;
-    uStack_50 = param_6;
-    if (param_4 == 0) {
-      fn_83011240(lbl_832642E4,param_2,param_3);
-      stack_pair_60.first = 0;
+    listener = fn_82FAB9C0(lbl_832642E0 + 4, handle);
+    if (listener != 0) {
+        notification.arg6 = arg6;
+        notification.size = size;
+        notification.flag0 = 0;
+        notification.flag2 = 0;
+        notification.reserved = 0;
+        notification.arg5 = arg5;
+        notification.flag1 = 0;
+        switch (kind) {
+        case 0:
+            fn_83011240(lbl_832642E4, handle, size);
+            notification.kind = 0;
+            break;
+        case 1:
+            fn_83010BF0(lbl_832642E4, handle, size, 1);
+            notification.kind = 1;
+            break;
+        case 2:
+            fn_83011CF8(lbl_832642E4, handle, size, 0);
+            notification.kind = 2;
+            break;
+        default:
+            return;
+        }
+        listener->vtbl->Notify(listener, &notification);
+        listener->vtbl->Release(listener);
     }
-    else if (param_4 == 1) {
-      fn_83010BF0(lbl_832642E4,param_2,param_3,1);
-      stack_pair_60.first = 1;
-    }
-    else {
-      if (2 < param_4) {
-        return;
-      }
-      fn_83011CF8(lbl_832642E4,param_2,param_3,0);
-      stack_pair_60.first = 2;
-    }
-    (**(int (***)())(*piVar1 + 0x1c))(piVar1,&stack_pair_60.first);
-    (**(int (***)())(*piVar1 + 8))(piVar1);
-  }
-  return;
 }
-

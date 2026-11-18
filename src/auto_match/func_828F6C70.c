@@ -1,58 +1,53 @@
-#define true 1
-extern int fn_828F5390();
-extern int fn_828F53E0();
-extern int fn_828F59D0();
-extern int fn_828FAB00();
+/* Preprocessor: inserts a macro definition into its hash bucket, which is
+ * kept sorted by name. A definition with the same name replaces the old one
+ * (with a "macro redefinition" warning when the two differ). */
+typedef struct Macro_828F6C70 {
+    const char *name; /* 0x0 */
+    char pad04[0x8];
+    struct Macro_828F6C70 *next; /* 0xC */
+} Macro_828F6C70;
 
+typedef struct Preprocessor_828F6C70 {
+    char pad000[0x18];
+    char messages[0x60];           /* 0x018 */
+    Macro_828F6C70 *buckets[0x82]; /* 0x078 */
+    char location[0x10];           /* 0x280 */
+} Preprocessor_828F6C70;
 
-unsigned __int64 fn_828F6C70(int param_1,unsigned int *param_2)
+int strcmp(const char *a, const char *b);
 
+extern unsigned int fn_828F5390(Preprocessor_828F6C70 *self, const char *name);
+extern int fn_828F53E0(Preprocessor_828F6C70 *self, Macro_828F6C70 *a, Macro_828F6C70 *b);
+extern void fn_828FAB00(void *messages, void *location, int code, const char *format, ...);
+extern void fn_828F59D0(Macro_828F6C70 *macro, int free);
+
+int fn_828F6C70(Preprocessor_828F6C70 *self, Macro_828F6C70 *macro)
 {
-  unsigned char *pbVar1;
-  unsigned int *puVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  int iVar5;
-  unsigned char *pbVar6;
-  unsigned char *pbVar7;
-  int *piVar8;
-  
-  pbVar1 = (unsigned char *)*param_2;
-  iVar5 = fn_828F5390(param_1,pbVar1);
-  iVar5 = (iVar5 + 0x1e) * 4;
-  piVar8 = (int *)(iVar5 + param_1);
-  iVar5 = *(int *)(iVar5 + param_1);
-  do {
-    if (iVar5 == 0) {
-LAB_828f6d44:
-      param_2[3] = *piVar8;
-      *piVar8 = (int)param_2;
-      return 0;
-    }
-    puVar2 = (unsigned int *)*piVar8;
-    pbVar6 = (unsigned char *)*puVar2;
-    pbVar7 = pbVar1;
-    do {
-      uVar4 = (unsigned int)*pbVar6;
-      uVar3 = (unsigned int)*pbVar7;
-      if (*pbVar7 == 0) break;
-      pbVar7 = pbVar7 + 1;
-      pbVar6 = pbVar6 + 1;
-    } while (uVar3 == uVar4);
-    if ((int)(uVar3 - uVar4) < 0) goto LAB_828f6d44;
-    if (uVar3 == uVar4) {
-      iVar5 = fn_828F53E0(param_1,puVar2,param_2);
-      if (iVar5 == 0) {
-        fn_828FAB00(param_1 + 0x18,param_1 + 0x280,0x5ef,0xffffffff820293d4,pbVar1);
-      }
-      iVar5 = *piVar8;
-      *piVar8 = *(int *)(iVar5 + 0xc);
-      *(unsigned int *)(iVar5 + 0xc) = 0;
-      fn_828F59D0(iVar5,1);
-      goto LAB_828f6d44;
-    }
-    iVar5 = puVar2[3];
-    piVar8 = puVar2 + 3;
-  } while( true );
-}
+    const char *name;
+    Macro_828F6C70 **link;
+    Macro_828F6C70 *old;
+    int cmp;
 
+    name = macro->name;
+    link = &self->buckets[fn_828F5390(self, name)];
+    while (*link != 0) {
+        cmp = strcmp(name, (*link)->name);
+        if (cmp < 0) {
+            break;
+        }
+        if (cmp == 0) {
+            if (fn_828F53E0(self, *link, macro) == 0) {
+                fn_828FAB00(self->messages, self->location, 0x5ef, "'%s' : macro redefinition", name);
+            }
+            old = *link;
+            *link = old->next;
+            old->next = 0;
+            fn_828F59D0(old, 1);
+            break;
+        }
+        link = &(*link)->next;
+    }
+    macro->next = *link;
+    *link = macro;
+    return 0;
+}

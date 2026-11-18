@@ -1,60 +1,65 @@
-extern int fn_825735B8();
-extern int fn_825764F0();
+typedef struct Locator_823B3D90 Locator_823B3D90;
+typedef struct Item_823B3D90 Item_823B3D90;
 
+typedef struct LocatorVtbl_823B3D90 {
+    void *slots[2];
+    void (*Notify)(Locator_823B3D90 *self, int event, int arg); /* 0x8 */
+} LocatorVtbl_823B3D90;
 
-void fn_823B3D90(int param_1,int param_2)
+struct Locator_823B3D90 {
+    LocatorVtbl_823B3D90 *vt; /* 0x0 */
+    Item_823B3D90 *item;      /* 0x4 */
+};
 
+struct Item_823B3D90 {
+    char pad0[0x190];
+    int state; /* 0x190 */
+    char pad194[0x1c];
+    Locator_823B3D90 *locator; /* 0x1b0 */
+};
+
+typedef struct Group_823B3D90 {
+    char name[0x84];
+    void *list; /* 0x84 */
+    int pad88;
+    int visible; /* 0x8c */
+} Group_823B3D90;
+
+extern Locator_823B3D90 *fn_825735B8(void *list, Group_823B3D90 *name);
+extern Item_823B3D90 *fn_825764F0(void *list, Group_823B3D90 *name, Item_823B3D90 *after);
+
+void fn_823B3D90(Group_823B3D90 *self, int show)
 {
-  int *piVar1;
-  int iVar2;
-  unsigned int uVar3;
-  
-  if (param_2 == 0) {
-    if (*(int *)(param_1 + 0x8c) == 0) {
-      return;
-    }
-    iVar2 = fn_825735B8(*(unsigned int *)(param_1 + 0x84),param_1);
-    while (iVar2 != 0) {
-      *(unsigned int *)(*(int *)(iVar2 + 4) + 400) = 0;
-      iVar2 = fn_825764F0(*(unsigned int *)(param_1 + 0x84),param_1,*(unsigned int *)(iVar2 + 4));
-      if (iVar2 == 0) {
-        iVar2 = 0;
-      }
-      else {
-        iVar2 = *(int *)(iVar2 + 0x1b0);
-      }
-    }
-    uVar3 = 0;
-  }
-  else {
-    if (*(int *)(param_1 + 0x8c) != 0) {
-      piVar1 = (int *)fn_825735B8(*(unsigned int *)(param_1 + 0x84),param_1);
-      while (piVar1 != (int *)0x0) {
-        (**(int (***)())(*piVar1 + 8))(piVar1,7,0);
-        iVar2 = fn_825764F0(*(unsigned int *)(param_1 + 0x84),param_1,piVar1[1]);
-        if (iVar2 == 0) {
-          piVar1 = (int *)0x0;
-        }
-        else {
-          piVar1 = *(int **)(iVar2 + 0x1b0);
-        }
-      }
-      return;
-    }
-    piVar1 = (int *)fn_825735B8(*(unsigned int *)(param_1 + 0x84),param_1);
-    while (piVar1 != (int *)0x0) {
-      (**(int (***)())(*piVar1 + 8))(piVar1,5,0);
-      iVar2 = fn_825764F0(*(unsigned int *)(param_1 + 0x84),param_1,piVar1[1]);
-      if (iVar2 == 0) {
-        piVar1 = (int *)0x0;
-      }
-      else {
-        piVar1 = *(int **)(iVar2 + 0x1b0);
-      }
-    }
-    uVar3 = 1;
-  }
-  *(unsigned int *)(param_1 + 0x8c) = uVar3;
-  return;
-}
+    Locator_823B3D90 *locator;
+    Item_823B3D90 *item;
 
+    if (show) {
+        if (self->visible) {
+            locator = fn_825735B8(self->list, self);
+            while (locator != 0) {
+                locator->vt->Notify(locator, 7, 0);
+                item = fn_825764F0(self->list, self, locator->item);
+                locator = item ? item->locator : 0;
+            }
+            return;
+        }
+        locator = fn_825735B8(self->list, self);
+        while (locator != 0) {
+            locator->vt->Notify(locator, 5, 0);
+            item = fn_825764F0(self->list, self, locator->item);
+            locator = item ? item->locator : 0;
+        }
+        self->visible = 1;
+    } else {
+        if (!self->visible) {
+            return;
+        }
+        locator = fn_825735B8(self->list, self);
+        while (locator != 0) {
+            locator->item->state = 0;
+            item = fn_825764F0(self->list, self, locator->item);
+            locator = item ? item->locator : 0;
+        }
+        self->visible = 0;
+    }
+}

@@ -1,13 +1,15 @@
-unsigned __int64 fn_8281E8D8(unsigned int *param_1)
+typedef struct Point_8281E8D8 {
+    unsigned int x; /* 0x0: float bits */
+    unsigned int y; /* 0x4: float bits */
+} Point_8281E8D8;
 
+static __forceinline int IsFinite(unsigned int bits)
 {
-  __int64 lVar1;
-  __int64 lVar2;
-  
-  lVar1 = -((unsigned __int64)param_1[1] & 0x7f800000) + 0x7f800000;
-  lVar2 = -((unsigned __int64)*param_1 & 0x7f800000) + 0x7f800000;
-  return lVar1 + (-(unsigned __int64)(lVar1 == 0) - (-((unsigned __int64)param_1[1] & 0x7f800000) + 0x7f7fffff)) &
-         lVar2 + (-(unsigned __int64)(lVar2 == 0) - (-((unsigned __int64)*param_1 & 0x7f800000) + 0x7f7fffff)) & 1
-  ;
+    return (bits & 0x7f800000) != 0x7f800000;
 }
 
+/* Returns 1 when neither coordinate is an infinity or a NaN. */
+int fn_8281E8D8(Point_8281E8D8 *p)
+{
+    return IsFinite(p->x) & IsFinite(p->y) & 1;
+}

@@ -1,36 +1,27 @@
-extern int fn_8234E338();
-extern int fn_82F53528();
-extern int fn_82F53548();
-extern int fn_82F53608();
-extern unsigned int lbl_8201F94C;
-extern unsigned int lbl_82186E6C;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Matrix_82F59A20 {
+    __vector4 r[4];
+} Matrix_82F59A20;
 
-int fn_82F59A20(int param_1)
+extern Matrix_82F59A20 lbl_83262820;
 
+extern float fn_82F53608(__vector4 a, __vector4 b);
+extern __vector4 fn_82F53528(__vector4 a, __vector4 b);
+extern __vector4 fn_82F53548(__vector4 v);
+extern Matrix_82F59A20 *fn_8234E338(Matrix_82F59A20 *result, __vector4 axis, float angle);
+
+Matrix_82F59A20 *fn_82F59A20(Matrix_82F59A20 *result, __vector4 from, __vector4 to)
 {
-  unsigned __int64 *puVar1;
-  unsigned __int64 *puVar2;
-  __int64 lVar3;
-  double dVar4;
-  
-  dVar4 = (double)fn_82F53608();
-  if ((float)(dVar4 * (double)lbl_8201F94C) < lbl_82186E6C) {
-    puVar1 = (unsigned __int64 *)(param_1 + -8);
-    puVar2 = (unsigned __int64 *)0x83262818;
-    lVar3 = 8;
-    do {
-      puVar2 = puVar2 + 1;
-      puVar1 = puVar1 + 1;
-      *puVar1 = *puVar2;
-      lVar3 = lVar3 + -1;
-    } while (lVar3 != 0);
-  }
-  else {
-    fn_82F53528();
-    fn_82F53548();
-    fn_8234E338(dVar4,param_1);
-  }
-  return param_1;
-}
+    float angle;
 
+    angle = fn_82F53608(from, to);
+    if (angle * 57.29578f >= 0.1f) {
+        fn_8234E338(result, fn_82F53548(fn_82F53528(from, to)), angle);
+    } else {
+        *result = lbl_83262820;
+    }
+    return result;
+}

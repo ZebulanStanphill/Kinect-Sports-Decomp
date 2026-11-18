@@ -1,56 +1,63 @@
-extern unsigned int *auStack_130;
-extern unsigned int *auStack_13c;
-extern int fn_82AA66A8();
-extern int fn_82AE6CC0();
-extern int fn_82AE6D50();
-extern int fn_82F6DCE0();
-extern unsigned int uStack_140;
+typedef struct Register_82AE6E80 {
+    unsigned int pad0 : 3;
+    unsigned int index : 9; /* 0x00 */
+    unsigned int pad1 : 20;
+    unsigned int flags; /* 0x04 */
+    char pad08[0x20];
+} Register_82AE6E80;
 
+typedef struct Named_82AE6E80 {
+    char pad0[0x18];
+    const char *name; /* 0x18 */
+} Named_82AE6E80;
 
-void fn_82AE6E80(int param_1,unsigned __int64 param_2)
+typedef struct Context_82AE6E80 {
+    char pad0[0xc];
+    Register_82AE6E80 *registers; /* 0x0c */
+} Context_82AE6E80;
 
+extern void fn_82AE6D50(Context_82AE6E80 *ctx, unsigned int index, unsigned int *first, unsigned int *count);
+extern Named_82AE6E80 *fn_82AE6CC0(Context_82AE6E80 *ctx, unsigned int index);
+extern int fn_82F6DCE0(char *buffer, unsigned int count, const char *format, ...);
+__declspec(noreturn) extern void fn_82AA66A8(void *ctx, int code, ...);
+
+/* Reports an invalid register reference (error 0xdeb when the index is in range, else 0x119d). */
+void fn_82AE6E80(Context_82AE6E80 *ctx, unsigned int index)
 {
-  unsigned int *puVar1;
-  unsigned int uVar2;
-  int iVar3;
-  unsigned char *puVar4;
-  unsigned char uVar5;
-  unsigned __int64 uVar6;
-  unsigned int uStack_140;
-  unsigned int auStack_13c [3];
-  unsigned char auStack_130 [304];
-  
-  fn_82AE6D50(param_1,param_2,auStack_13c,&uStack_140);
-  puVar1 = (unsigned int *)((int)param_2 * 0x28 + *(int *)(param_1 + 0xc));
-  uVar5 = 0x3f;
-  uVar2 = puVar1[1] >> 4 & 7;
-  if (uVar2 == 0) {
-    uVar5 = 0x62;
-  }
-  else if (uVar2 == 1) {
-    uVar5 = 0x69;
-  }
-  else if (uVar2 < 3) {
-    uVar5 = 99;
-  }
-  else if (uVar2 == 3) {
-    uVar5 = 0x73;
-  }
-  iVar3 = fn_82AE6CC0(param_1,param_2);
-  uVar6 = (unsigned __int64)auStack_13c[0];
-  if (iVar3 == 0) {
-    fn_82F6DCE0(auStack_130,0x100,0xffffffff820d31c8,uVar5,
-                      ((unsigned __int64)(*puVar1 >> 0x14) & 0x1ff) - uVar6);
-    puVar4 = auStack_130;
-  }
-  else {
-    puVar4 = *(unsigned char **)(iVar3 + 0x18);
-  }
-  if (uVar6 < uStack_140) {
-                    /* WARNING: Subroutine does not return */
-    fn_82AA66A8(param_1,0xdeb,puVar4,uVar5,0,uVar5,(uStack_140 - uVar6) + -1);
-  }
-                    /* WARNING: Subroutine does not return */
-  fn_82AA66A8(param_1,0x119d,puVar4);
-}
+    unsigned int first;
+    unsigned int count;
+    char buffer[0x100];
+    Register_82AE6E80 *reg;
+    char type;
+    Named_82AE6E80 *named;
+    const char *name;
 
+    fn_82AE6D50(ctx, index, &first, &count);
+    reg = &ctx->registers[index];
+    type = '?';
+    switch ((reg->flags >> 4) & 7) {
+    case 0:
+        type = 'b';
+        break;
+    case 1:
+        type = 'i';
+        break;
+    case 2:
+        type = 'c';
+        break;
+    case 3:
+        type = 's';
+        break;
+    }
+    named = fn_82AE6CC0(ctx, index);
+    if (named != 0) {
+        name = named->name;
+    } else {
+        fn_82F6DCE0(buffer, 0x100, "%c%u", type, reg->index - first);
+        name = buffer;
+    }
+    if (first < count) {
+        fn_82AA66A8(ctx, 0xdeb, name, type, 0, type, count - first - 1);
+    }
+    fn_82AA66A8(ctx, 0x119d, name);
+}

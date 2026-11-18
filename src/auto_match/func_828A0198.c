@@ -1,75 +1,53 @@
-typedef unsigned char bool;
-#define true 1
-extern int fn_828A0108();
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
-extern unsigned __int64 storeWordConditionalIndexed();
+typedef struct RefCounted_828A0198 {
+    void *vtable; /* 0x00 */
+    long refs;    /* 0x04 */
+} RefCounted_828A0198;
 
+typedef struct Handle_828A0198 {
+    void *object;             /* 0x00 */
+    RefCounted_828A0198 *ref; /* 0x04 */
+} Handle_828A0198;
 
-void fn_828A0198(int param_1,unsigned int *param_2)
+typedef struct Owner_828A0198 {
+    char pad0[0x50];
+    unsigned int capacity; /* 0x50 */
+    Handle_828A0198 *data; /* 0x54 */
+    unsigned int size;     /* 0x58 */
+} Owner_828A0198;
 
+extern long _InterlockedIncrement(long *target);
+extern void fn_828A0108(Owner_828A0198 *self, unsigned int capacity);
+
+static __forceinline const unsigned int *Max(const unsigned int *left, const unsigned int *right)
 {
-  bool bVar1;
-  unsigned int uVar2;
-  unsigned int *puVar4;
-  __int64 lVar3;
-  unsigned int *puVar5;
-  char in_RESERVE;
-  unsigned int uStack_20;
-  unsigned int uStack_1c;
-  
-  uVar2 = *(unsigned int *)(param_1 + 0x50);
-  uStack_20 = *(unsigned int *)(param_1 + 0x58);
-  if (uStack_20 == uVar2) {
-    uStack_20 = uStack_20 + 1;
-    if (uVar2 < uStack_20) {
-      uStack_1c = uVar2 << 2;
-      puVar5 = &uStack_20;
-      if (uStack_20 <= uVar2 << 2) {
-        puVar5 = &uStack_1c;
-      }
-      fn_828A0108(param_1,*puVar5);
-    }
-    puVar4 = (unsigned int *)(*(int *)(param_1 + 0x54) + *(int *)(param_1 + 0x58) * 8);
-    bVar1 = puVar4 == (unsigned int *)0x0;
-    if (!bVar1) {
-      *puVar4 = *param_2;
-      uVar2 = param_2[1];
-      puVar4[1] = uVar2;
-      if ((unsigned __int64)uVar2 != 0) {
-        lVar3 = (unsigned __int64)uVar2 + 4;
-        do {
-          puVar5 = (unsigned int *)lVar3;
-          if (in_RESERVE != '\0') {
-            uVar2 = storeWordConditionalIndexed((unsigned __int64)*puVar5 + 1,0,lVar3);
-            *puVar5 = uVar2;
-            bVar1 = true;
-          }
-        } while (!bVar1);
-      }
-    }
-  }
-  else {
-    puVar4 = (unsigned int *)(uStack_20 * 8 + *(int *)(param_1 + 0x54));
-    bVar1 = puVar4 == (unsigned int *)0x0;
-    if (!bVar1) {
-      *puVar4 = *param_2;
-      uVar2 = param_2[1];
-      puVar4[1] = uVar2;
-      if ((unsigned __int64)uVar2 != 0) {
-        lVar3 = (unsigned __int64)uVar2 + 4;
-        do {
-          puVar5 = (unsigned int *)lVar3;
-          if (in_RESERVE != '\0') {
-            uVar2 = storeWordConditionalIndexed((unsigned __int64)*puVar5 + 1,0,lVar3);
-            *puVar5 = uVar2;
-            bVar1 = true;
-          }
-        } while (!bVar1);
-      }
-    }
-  }
-  *(int *)(param_1 + 0x58) = *(int *)(param_1 + 0x58) + 1;
-  return;
+    return *left < *right ? right : left;
 }
 
+static __forceinline void Construct(Handle_828A0198 *slot, const Handle_828A0198 *item)
+{
+    if (slot != 0) {
+        slot->object = item->object;
+        slot->ref = item->ref;
+        if (slot->ref != 0) {
+            _InterlockedIncrement(&slot->ref->refs);
+        }
+    }
+}
+
+void fn_828A0198(Owner_828A0198 *self, const Handle_828A0198 *item)
+{
+    unsigned int needed;
+    unsigned int grown;
+
+    if (self->size != self->capacity) {
+        Construct(&self->data[self->size], item);
+    } else {
+        if (self->size + 1 > self->capacity) {
+            needed = self->size + 1;
+            grown = self->capacity << 2;
+            fn_828A0108(self, *Max(&grown, &needed));
+        }
+        Construct(&self->data[self->size], item);
+    }
+    self->size++;
+}

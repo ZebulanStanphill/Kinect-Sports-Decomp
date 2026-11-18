@@ -1,70 +1,92 @@
-#define true 1
-extern int fn_82AA66A8();
-extern int fn_82ABDAA0();
-extern int fn_82AD1400();
-extern int fn_82ADD198();
+typedef struct Block_82AD5AA8 {
+    unsigned int next;   /* 0x00: tagged link to the next block's anchor */
+    unsigned int anchor; /* 0x04 */
+    char pad08[0x10];
+    unsigned int firstInst; /* 0x18: tagged link to the first instruction's anchor */
+    unsigned int lastInst;  /* 0x1c: tagged */
+} Block_82AD5AA8;
 
+typedef struct Inst_82AD5AA8 {
+    int pad0;
+    int pad4;
+    unsigned int flags; /* 0x08 */
+    char pad0c[6];
+    unsigned short reg; /* 0x12 */
+    char pad14[8];
+    Block_82AD5AA8 *block; /* 0x1c */
+    int pad20;
+    unsigned int next;   /* 0x24: tagged link to the next instruction's anchor */
+    unsigned int anchor; /* 0x28 */
+} Inst_82AD5AA8;
 
-int fn_82AD5AA8(unsigned __int64 param_1,unsigned int param_2,unsigned __int64 param_3)
+extern unsigned int fn_82ADD198(void *ctx, unsigned int value);
+extern unsigned char fn_82ABDAA0(Inst_82AD5AA8 *inst);
+extern Inst_82AD5AA8 *fn_82AD1400(void *ctx, Inst_82AD5AA8 *inst);
+__declspec(noreturn) extern void fn_82AA66A8(void *ctx, int code, ...);
 
+static __forceinline Inst_82AD5AA8 *NextInst(Inst_82AD5AA8 *inst)
 {
-  unsigned int uVar1;
-  int iVar2;
-  char cVar4;
-  int iVar3;
-  unsigned int uVar5;
-  int iVar6;
-  
-  iVar2 = fn_82ADD198(param_1,param_3);
-  uVar5 = *(unsigned int *)(param_2 + 0x1c);
-  uVar1 = *(unsigned int *)((param_2 & 0xfffffffe) + 0x24);
-  if ((uVar1 & 1) != 0) goto LAB_82ad5bb8;
-  do {
-    iVar6 = (uVar1 & 0xfffffffe) - 0x28;
-joined_r0x82ad5aec:
-    for (; iVar6 != 0; iVar6 = (*(unsigned int *)(iVar6 + 0x24) & 0xfffffffe) - 0x28) {
-      cVar4 = fn_82ABDAA0(iVar6);
-      if (cVar4 != '\0') {
-        if ((*(unsigned int *)(iVar6 + 8) >> 0x17 & 1) != 0) {
-          cVar4 = fn_82ABDAA0(iVar6);
-          if (cVar4 == '\0') {
-                    /* WARNING: Subroutine does not return */
-            fn_82AA66A8(param_1,0x12c0);
-          }
-          iVar3 = fn_82ADD198(param_1,*(unsigned short *)(iVar6 + 0x12));
-          if (iVar3 == iVar2) {
-            return iVar6;
-          }
-        }
-        iVar3 = fn_82AD1400(param_1,iVar6);
-        if ((iVar3 != 0) && ((*(unsigned int *)(iVar3 + 8) >> 0x17 & 1) != 0)) {
-          cVar4 = fn_82ABDAA0(iVar3);
-          if (cVar4 == '\0') {
-                    /* WARNING: Subroutine does not return */
-            fn_82AA66A8(param_1,0x12c0);
-          }
-          iVar3 = fn_82ADD198(param_1,*(unsigned short *)(iVar3 + 0x12));
-          if (iVar3 == iVar2) {
-            return iVar6;
-          }
-        }
-      }
-      if ((*(unsigned int *)(iVar6 + 0x24) & 1) != 0) break;
+    unsigned int link = ((Inst_82AD5AA8 *)((unsigned int)inst & ~1u))->next;
+
+    if (link & 1) {
+        return 0;
     }
-    if ((*(unsigned int *)(uVar5 & 0xfffffffe) & 1) != 0) {
-LAB_82ad5be4:
-                    /* WARNING: Subroutine does not return */
-      fn_82AA66A8(param_1,0x12c0);
-    }
-    uVar1 = *(unsigned int *)(uVar5 & 0xfffffffe) & 0xfffffffe;
-    uVar5 = uVar1 - 4;
-    if (uVar5 == 0) goto LAB_82ad5be4;
-    if ((*(unsigned int *)(uVar1 + 0x18) & 1) != 0) {
-LAB_82ad5bb8:
-      iVar6 = 0;
-      goto joined_r0x82ad5aec;
-    }
-    uVar1 = *(unsigned int *)(uVar1 + 0x14);
-  } while( true );
+    return (Inst_82AD5AA8 *)((link & ~1u) - 0x28);
 }
 
+static __forceinline Inst_82AD5AA8 *FirstInst(Block_82AD5AA8 *block)
+{
+    if (block->lastInst & 1) {
+        return 0;
+    }
+    return (Inst_82AD5AA8 *)((block->firstInst & ~1u) - 0x28);
+}
+
+static __forceinline Block_82AD5AA8 *NextBlock(Block_82AD5AA8 *block)
+{
+    unsigned int link = ((Block_82AD5AA8 *)((unsigned int)block & ~1u))->next;
+
+    if (link & 1) {
+        return 0;
+    }
+    return (Block_82AD5AA8 *)((link & ~1u) - 4);
+}
+
+/* Finds the first instruction after start (in program order) whose register maps to value's key. */
+Inst_82AD5AA8 *fn_82AD5AA8(void *ctx, Inst_82AD5AA8 *start, unsigned int value)
+{
+    unsigned int key = fn_82ADD198(ctx, value);
+    Block_82AD5AA8 *block = start->block;
+    Inst_82AD5AA8 *first = NextInst(start);
+    Inst_82AD5AA8 *inst;
+    Inst_82AD5AA8 *other;
+
+    for (;;) {
+        for (inst = first; inst != 0; inst = NextInst(inst)) {
+            if (fn_82ABDAA0(inst)) {
+                if ((unsigned char)((inst->flags >> 23) & 1)) {
+                    if (!fn_82ABDAA0(inst)) {
+                        fn_82AA66A8(ctx, 0x12c0);
+                    }
+                    if (fn_82ADD198(ctx, inst->reg) == key) {
+                        return inst;
+                    }
+                }
+                other = fn_82AD1400(ctx, inst);
+                if (other != 0 && (unsigned char)((other->flags >> 23) & 1)) {
+                    if (!fn_82ABDAA0(other)) {
+                        fn_82AA66A8(ctx, 0x12c0);
+                    }
+                    if (fn_82ADD198(ctx, other->reg) == key) {
+                        return inst;
+                    }
+                }
+            }
+        }
+        block = NextBlock(block);
+        if (block == 0) {
+            fn_82AA66A8(ctx, 0x12c0);
+        }
+        first = FirstInst(block);
+    }
+}
