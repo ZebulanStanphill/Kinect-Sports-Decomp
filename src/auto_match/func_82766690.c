@@ -1,39 +1,36 @@
-#define CONCAT11(h,l) ((unsigned short)((((unsigned char)(h)) << 8) | ((unsigned char)(l))))
+typedef struct Data_82766690 {
+    const unsigned char *bytes;
+} Data_82766690;
 
+typedef struct Reader_82766690 {
+    Data_82766690 *data;
+} Reader_82766690;
 
-unsigned __int64 fn_82766690(unsigned int *param_1,int param_2,unsigned int *param_3)
-
+int fn_82766690(Reader_82766690 *reader, int offset, unsigned int *out)
 {
-  unsigned char bVar1;
-  unsigned __int64 uVar2;
-  unsigned int uVar3;
-  unsigned char *pbVar4;
-  
-  pbVar4 = (unsigned char *)(*(int *)*param_1 + param_2);
-  bVar1 = *pbVar4;
-  if ((bVar1 & 3) == 0) {
-    uVar3 = (unsigned int)(bVar1 >> 2);
-    uVar2 = 1;
-  }
-  else {
-    if ((bVar1 & 3) == 1) {
-      uVar2 = 2;
-      uVar3 = (unsigned int)pbVar4[1] << 6;
-    }
-    else {
-      if ((bVar1 & 3) < 3) {
-        uVar3 = (unsigned int)pbVar4[2];
-        uVar2 = 3;
-      }
-      else {
-        uVar2 = 4;
-        uVar3 = (unsigned int)CONCAT11(pbVar4[3],pbVar4[2]);
-      }
-      uVar3 = (uVar3 << 8 | (unsigned int)pbVar4[1]) << 6;
-    }
-    uVar3 = uVar3 | bVar1 >> 2;
-  }
-  *param_3 = uVar3;
-  return uVar2;
-}
+    const unsigned char *p = reader->data->bytes + offset;
+    unsigned int first = p[0];
+    unsigned int value;
+    int size;
 
+    switch (first & 3) {
+    default:
+        value = (((((p[3] << 8) | p[2]) << 8) | p[1]) << 6) | (first >> 2);
+        size = 4;
+        break;
+    case 2:
+        value = (((p[2] << 8) | p[1]) << 6) | (first >> 2);
+        size = 3;
+        break;
+    case 1:
+        value = (p[1] << 6) | (first >> 2);
+        size = 2;
+        break;
+    case 0:
+        value = first >> 2;
+        size = 1;
+        break;
+    }
+    *out = value;
+    return size;
+}

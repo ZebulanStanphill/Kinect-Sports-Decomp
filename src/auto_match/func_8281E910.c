@@ -1,16 +1,16 @@
-unsigned __int64 fn_8281E910(unsigned int *param_1)
+typedef struct Vector3_8281E910 {
+    unsigned int x; /* 0x0: float bits */
+    unsigned int y; /* 0x4: float bits */
+    unsigned int z; /* 0x8: float bits */
+} Vector3_8281E910;
 
+static __forceinline int IsFinite(unsigned int bits)
 {
-  __int64 lVar1;
-  __int64 lVar2;
-  __int64 lVar3;
-  
-  lVar2 = -((unsigned __int64)param_1[2] & 0x7f800000) + 0x7f800000;
-  lVar1 = -((unsigned __int64)param_1[1] & 0x7f800000) + 0x7f800000;
-  lVar3 = -((unsigned __int64)*param_1 & 0x7f800000) + 0x7f800000;
-  return lVar2 + (-(unsigned __int64)(lVar2 == 0) - (-((unsigned __int64)param_1[2] & 0x7f800000) + 0x7f7fffff)) &
-         lVar1 + (-(unsigned __int64)(lVar1 == 0) - (-((unsigned __int64)param_1[1] & 0x7f800000) + 0x7f7fffff)) &
-         lVar3 + (-(unsigned __int64)(lVar3 == 0) - (-((unsigned __int64)*param_1 & 0x7f800000) + 0x7f7fffff)) & 1
-  ;
+    return (bits & 0x7f800000) != 0x7f800000;
 }
 
+/* Returns 1 when no component is an infinity or a NaN. */
+int fn_8281E910(Vector3_8281E910 *v)
+{
+    return IsFinite(v->x) & IsFinite(v->y) & IsFinite(v->z) & 1;
+}

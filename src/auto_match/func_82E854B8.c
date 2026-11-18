@@ -1,59 +1,63 @@
-void fn_82E854B8(int param_1,int param_2)
+typedef struct Slice_82E854B8 {
+    unsigned int left;   /* 0x00 */
+    unsigned int right;  /* 0x04 */
+    unsigned int top;    /* 0x08 */
+    unsigned int bottom; /* 0x0c */
+    char pad10[0x3b8];
+} Slice_82E854B8;
 
+typedef struct Decoder_82E854B8 {
+    char pad0[0x550];
+    int width; /* 0x550 */
+    char pad554[8];
+    int height; /* 0x55c */
+    char pad560[4];
+    int strideX; /* 0x564 */
+    int strideY; /* 0x568 */
+    char pad56c[0xec];
+    unsigned int threadCount; /* 0x658 */
+    char pad65c[0x574];
+    Slice_82E854B8 slices[4]; /* 0xbd0 */
+} Decoder_82E854B8;
+
+void fn_82E854B8(Decoder_82E854B8 *self, int interlaced)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned __int64 uVar5;
-  unsigned __int64 uVar6;
-  int iVar7;
-  unsigned __int64 uVar8;
-  int iVar9;
-  
-  if (param_2 == 0) {
-    uVar4 = *(unsigned int *)(param_1 + 0x550);
-    uVar3 = *(unsigned int *)(param_1 + 0x55c);
-    *(int *)(param_1 + 0x564) = *(int *)(param_1 + 0x564) >> 1;
-    *(int *)(param_1 + 0x568) = *(int *)(param_1 + 0x568) >> 1;
-  }
-  else {
-    uVar4 = *(int *)(param_1 + 0x550) >> 1;
-    *(int *)(param_1 + 0x564) = *(int *)(param_1 + 0x564) << 1;
-    uVar3 = *(int *)(param_1 + 0x55c) >> 1;
-    *(int *)(param_1 + 0x568) = *(int *)(param_1 + 0x568) << 1;
-  }
-  uVar5 = (unsigned __int64)*(unsigned int *)(param_1 + 0x658);
-  uVar8 = uVar4 / uVar5;
-  uVar6 = uVar3 / uVar5;
-  trapWord(6,uVar5,0);
-  iVar9 = (int)uVar8;
-  *(int *)(param_1 + 0xbd4) = iVar9;
-  trapWord(6,uVar5,0);
-  iVar7 = (int)uVar6;
-  *(int *)(param_1 + 0xbdc) = iVar7;
-  if (uVar5 < 2) {
-    return;
-  }
-  uVar1 = (unsigned int)(uVar8 << 1);
-  *(int *)(param_1 + 0xf98) = iVar9;
-  uVar2 = (unsigned int)(uVar6 << 1);
-  *(int *)(param_1 + 4000) = iVar7;
-  *(unsigned int *)(param_1 + 0xf9c) = uVar1;
-  *(unsigned int *)(param_1 + 0xfa4) = uVar2;
-  if (uVar5 != 4) {
-    return;
-  }
-  *(unsigned int *)(param_1 + 0x1360) = uVar1;
-  *(unsigned int *)(param_1 + 0x1368) = uVar2;
-  iVar9 = iVar9 + (int)(uVar8 << 1);
-  *(unsigned int *)(param_1 + 0x172c) = uVar4;
-  iVar7 = iVar7 + (int)(uVar6 << 1);
-  *(unsigned int *)(param_1 + 0x1734) = uVar3;
-  *(int *)(param_1 + 0x1364) = iVar9;
-  *(int *)(param_1 + 0x136c) = iVar7;
-  *(int *)(param_1 + 0x1728) = iVar9;
-  *(int *)(param_1 + 0x1730) = iVar7;
-  return;
-}
+    unsigned int width;
+    unsigned int height;
+    unsigned int sliceWidth;
+    unsigned int sliceHeight;
 
+    if (interlaced != 0) {
+        width = self->width >> 1;
+        self->strideX = self->strideX << 1;
+        height = self->height >> 1;
+        self->strideY = self->strideY << 1;
+    } else {
+        width = self->width;
+        height = self->height;
+        self->strideX = self->strideX >> 1;
+        self->strideY = self->strideY >> 1;
+    }
+    sliceWidth = width / self->threadCount;
+    sliceHeight = height / self->threadCount;
+    self->slices[0].right = sliceWidth;
+    self->slices[0].bottom = sliceHeight;
+    if (self->threadCount < 2) {
+        return;
+    }
+    self->slices[1].left = sliceWidth;
+    self->slices[1].right = sliceWidth * 2;
+    self->slices[1].top = sliceHeight;
+    self->slices[1].bottom = sliceHeight * 2;
+    if (self->threadCount != 4) {
+        return;
+    }
+    self->slices[2].left = sliceWidth * 2;
+    self->slices[2].right = sliceWidth * 3;
+    self->slices[2].top = sliceHeight * 2;
+    self->slices[2].bottom = sliceHeight * 3;
+    self->slices[3].left = sliceWidth * 3;
+    self->slices[3].right = width;
+    self->slices[3].top = sliceHeight * 3;
+    self->slices[3].bottom = height;
+}

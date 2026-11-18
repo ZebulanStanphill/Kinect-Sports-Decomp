@@ -1,55 +1,36 @@
-extern int fn_82526B90();
-extern int fn_82671AC8();
-extern int fn_82671B90();
-extern int fn_826737C8();
+typedef struct Value_82673AA0 {
+    void *object;      /* 0x0 */
+    unsigned int type; /* 0x4 */
 
+    union {
+        double number;
+        const char *string;
+        const char **managedString;
+    } value; /* 0x8 */
+} Value_82673AA0;
 
-void fn_82673AA0(unsigned __int64 param_1,unsigned __int64 param_2,int param_3)
+extern int fn_82526B90(const char *a, const char *b);
+extern void fn_826737C8(void *self, const char *name, float x, float y, float width, float height);
+extern void fn_82671AC8(void *self, const char *name, float x, float y, float width, float height);
+extern void fn_82671B90(void *self, const char *name);
 
+static __forceinline const char *GetString(const Value_82673AA0 *value)
 {
-  unsigned int uVar1;
-  int iVar2;
-  
-  iVar2 = fn_82526B90(param_2,0xffffffff82002d38);
-  if (iVar2 == 0) {
-    if ((*(unsigned int *)(param_3 + 4) >> 6 & 1) == 0) {
-      uVar1 = *(unsigned int *)(param_3 + 8);
+    if ((unsigned char)((value->type >> 6) & 1) != 0) {
+        return *value->value.managedString;
     }
-    else {
-      uVar1 = **(unsigned int **)(param_3 + 8);
-    }
-    fn_826737C8((double)(float)*(double *)(param_3 + 0x18),
-                  (double)(float)*(double *)(param_3 + 0x28),
-                  (double)(float)*(double *)(param_3 + 0x38),
-                  (double)(float)*(double *)(param_3 + 0x48),param_1,uVar1);
-  }
-  else {
-    iVar2 = fn_82526B90(param_2,0xffffffff82002d24);
-    if (iVar2 == 0) {
-      if ((*(unsigned int *)(param_3 + 4) >> 6 & 1) == 0) {
-        uVar1 = *(unsigned int *)(param_3 + 8);
-      }
-      else {
-        uVar1 = **(unsigned int **)(param_3 + 8);
-      }
-      fn_82671AC8((double)(float)*(double *)(param_3 + 0x18),
-                    (double)(float)*(double *)(param_3 + 0x28),
-                    (double)(float)*(double *)(param_3 + 0x38),
-                    (double)(float)*(double *)(param_3 + 0x48),param_1,uVar1);
-    }
-    else {
-      iVar2 = fn_82526B90(param_2,0xffffffff82002d0c);
-      if (iVar2 == 0) {
-        if ((*(unsigned int *)(param_3 + 4) >> 6 & 1) == 0) {
-          uVar1 = *(unsigned int *)(param_3 + 8);
-        }
-        else {
-          uVar1 = **(unsigned int **)(param_3 + 8);
-        }
-        fn_82671B90(param_1,uVar1);
-      }
-    }
-  }
-  return;
+    return value->value.string;
 }
 
+void fn_82673AA0(void *self, const char *command, const Value_82673AA0 *args)
+{
+    if (fn_82526B90(command, "RegisterOccludingBox") == 0) {
+        fn_826737C8(self, GetString(&args[0]), (float)args[1].value.number, (float)args[2].value.number,
+                    (float)args[3].value.number, (float)args[4].value.number);
+    } else if (fn_82526B90(command, "UpdateOccludingBox") == 0) {
+        fn_82671AC8(self, GetString(&args[0]), (float)args[1].value.number, (float)args[2].value.number,
+                    (float)args[3].value.number, (float)args[4].value.number);
+    } else if (fn_82526B90(command, "UnregisterOccludingBox") == 0) {
+        fn_82671B90(self, GetString(&args[0]));
+    }
+}

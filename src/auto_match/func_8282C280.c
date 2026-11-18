@@ -1,45 +1,38 @@
-extern int fn_828252D0();
+typedef struct Stream_8282C280 {
+    char pad0[0x51];
+    unsigned char blockCount; /* 0x51 */
+    unsigned char enabled;    /* 0x52 */
+    char pad53;
+    unsigned int base;     /* 0x54 */
+    unsigned int position; /* 0x58 */
+    char pad5c[0x68 - 0x5c];
+    unsigned int limit; /* 0x68 */
+    unsigned int extra; /* 0x6c */
+    char pad70[0x7c - 0x70];
+    unsigned int extraLimit; /* 0x7c */
+    char pad80[0xb8 - 0x80];
+    unsigned int start;      /* 0xb8 */
+    unsigned int length;     /* 0xbc */
+    unsigned int extraStart; /* 0xc0 */
+} Stream_8282C280;
 
+extern unsigned int fn_828252D0(unsigned int offset);
 
-void fn_8282C280(int param_1,unsigned char *param_2)
-
+void fn_8282C280(Stream_8282C280 *self, const unsigned char *flags)
 {
-  unsigned char bVar1;
-  unsigned char bVar2;
-  __int64 lVar3;
-  unsigned int uVar4;
-  unsigned char bVar5;
-  
-  if ((*(char *)(param_1 + 0x52) == '\0') ||
-     (bVar5 = 1, *(unsigned int *)(param_1 + 0x58) <= *(unsigned int *)(param_1 + 0x68))) {
-    bVar5 = 0;
-  }
-  if ((*(char *)(param_1 + 0x52) == '\0') ||
-     (bVar2 = 1, *(unsigned int *)(param_1 + 0x6c) <= *(unsigned int *)(param_1 + 0x7c))) {
-    bVar2 = 0;
-  }
-  bVar1 = *param_2;
-  if ((bVar1 & 0x80) == 0) {
-    if ((bVar1 & 0x40) != 0) {
-      uVar4 = fn_828252D0(((unsigned __int64)*(unsigned int *)(param_1 + 0x58) +
-                           (unsigned __int64)*(unsigned char *)(param_1 + 0x51) * -0x21) -
-                           (unsigned __int64)*(unsigned int *)(param_1 + 0x54));
-      *(unsigned int *)(param_1 + 0xbc) = uVar4;
-      goto LAB_8282c358;
-    }
-    if ((bVar1 & 0x20) == 0) goto LAB_8282c358;
-    lVar3 = (-(unsigned __int64)bVar5 & 0x80) + (unsigned __int64)*(unsigned int *)(param_1 + 0x58);
-  }
-  else {
-    lVar3 = (unsigned __int64)*(unsigned char *)(param_1 + 0x51) * 0x21 + (unsigned __int64)*(unsigned int *)(param_1 + 0x54);
-  }
-  uVar4 = fn_828252D0(lVar3);
-  *(unsigned int *)(param_1 + 0xb8) = uVar4;
-LAB_8282c358:
-  if (((*param_2 & 0x10) != 0) && ((unsigned __int64)*(unsigned int *)(param_1 + 0x6c) != 0)) {
-    uVar4 = fn_828252D0((-(unsigned __int64)bVar2 & 0x80) + (unsigned __int64)*(unsigned int *)(param_1 + 0x6c));
-    *(unsigned int *)(param_1 + 0xc0) = uVar4;
-  }
-  return;
-}
+    unsigned char pastLimit;
+    unsigned char extraPastLimit;
 
+    pastLimit = self->enabled && self->position > self->limit;
+    extraPastLimit = self->enabled && self->extra > self->extraLimit;
+    if (*flags & 0x80) {
+        self->start = fn_828252D0(self->blockCount * 0x21 + self->base);
+    } else if (*flags & 0x40) {
+        self->length = fn_828252D0(self->position - self->blockCount * 0x21 - self->base);
+    } else if (*flags & 0x20) {
+        self->start = fn_828252D0((pastLimit ? 0x80 : 0) + self->position);
+    }
+    if ((*flags & 0x10) && self->extra != 0) {
+        self->extraStart = fn_828252D0((extraPastLimit ? 0x80 : 0) + self->extra);
+    }
+}

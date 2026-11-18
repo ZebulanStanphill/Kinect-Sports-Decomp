@@ -1,35 +1,43 @@
-void fn_82C2F308(int param_1)
+struct Info_82C2F308 {
+    unsigned char pad0[0xc];
+    short *offset; /* 0xc */
+};
 
+struct Channel_82C2F308 {
+    unsigned char pad0[0x38];
+    int *samples; /* 0x38 */
+    unsigned char pad3c[0x76 - 0x3c];
+    short count; /* 0x76 */
+    unsigned char pad78[0x1a8 - 0x78];
+    struct Info_82C2F308 *info; /* 0x1a8 */
+    unsigned char pad1ac[0x6f0 - 0x1ac];
+};
+
+struct Mixer_82C2F308 {
+    unsigned char pad0[0xd0];
+    short gain; /* 0xd0 */
+    unsigned char padd2[0x140 - 0xd2];
+    struct Channel_82C2F308 *channels; /* 0x140 */
+    unsigned char pad144[0x244 - 0x144];
+    short activeCount; /* 0x244 */
+    unsigned char pad246[2];
+    short *active; /* 0x248 */
+};
+
+void fn_82C2F308(struct Mixer_82C2F308 *self)
 {
-  int *piVar1;
-  int iVar2;
-  int iVar4;
-  __int64 lVar3;
-  int *piVar5;
-  short sVar6;
-  
-  if (*(short *)(param_1 + 0x244) < 1) {
-    return;
-  }
-  iVar2 = 0;
-  iVar4 = 0;
-  do {
-    iVar4 = *(short *)(iVar4 + *(int *)(param_1 + 0x248)) * 0x6f0 + *(int *)(param_1 + 0x140);
-    lVar3 = (__int64)*(short *)(iVar4 + 0x76);
-    if (0 < *(short *)(iVar4 + 0x76)) {
-      piVar5 = (int *)(**(short **)(*(int *)(iVar4 + 0x1a8) + 0xc) * 4 + *(int *)(iVar4 + 0x38) + -4
-                      );
-      do {
-        piVar1 = piVar5 + 1;
-        piVar5 = piVar5 + 1;
-        *piVar5 = (int)*(short *)(param_1 + 0xd0) * *piVar1;
-        lVar3 = lVar3 + -1;
-      } while (lVar3 != 0);
-    }
-    sVar6 = (short)iVar2 + 1;
-    iVar2 = (int)sVar6;
-    iVar4 = iVar2 << 1;
-  } while (sVar6 < *(short *)(param_1 + 0x244));
-  return;
-}
+    short i;
+    int j;
+    int count;
+    struct Channel_82C2F308 *channel;
+    int *samples;
 
+    for (i = 0; i < self->activeCount; i++) {
+        channel = &self->channels[self->active[i]];
+        samples = channel->samples + *channel->info->offset;
+        count = channel->count;
+        for (j = 0; j < count; j++) {
+            samples[j] = self->gain * samples[j];
+        }
+    }
+}

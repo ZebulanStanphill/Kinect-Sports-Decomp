@@ -1,51 +1,98 @@
-extern int fn_822CEE40();
-extern int fn_822CEFA0();
-extern int fn_822CF260();
-extern int fn_8288B760();
-extern unsigned int lbl_821CA460;
+typedef struct Session_822CF078 {
+    char pad0[0xf8];
+    int state;            /* 0xf8 */
+    unsigned char locked; /* 0xfc */
+} Session_822CF078;
 
+typedef struct Info_822CF078 {
+    char pad0[0xc];
+    int busy; /* 0x0c */
+} Info_822CF078;
 
-unsigned int fn_822CF078(int param_1)
+typedef struct Data_822CF078 {
+    char pad0[0x18];
+    Info_822CF078 *info; /* 0x18 */
+} Data_822CF078;
 
+typedef struct Partner_822CF078 {
+    char pad0[0xd4];
+    Data_822CF078 *data; /* 0xd4 */
+    char padd8[0x204 - 0xd8];
+    int pending; /* 0x204 */
+} Partner_822CF078;
+
+typedef struct Mode_822CF078 {
+    char pad0[0x18];
+    unsigned int type; /* 0x18 */
+} Mode_822CF078;
+
+typedef struct Target_822CF078 {
+    char pad0[0x254];
+    int kind; /* 0x254 */
+} Target_822CF078;
+
+typedef struct Player_822CF078 {
+    char pad0[0x110];
+    Mode_822CF078 *mode; /* 0x110 */
+    char pad114[0x168 - 0x114];
+    Session_822CF078 *session; /* 0x168 */
+    int active;                /* 0x16c */
+    char pad170[0x1c0 - 0x170];
+    Partner_822CF078 *partner; /* 0x1c0 */
+    char pad1c4[0x264 - 0x1c4];
+    float progress; /* 0x264 */
+    char pad268[0x270 - 0x268];
+    int highlighted; /* 0x270 */
+} Player_822CF078;
+
+extern const float lbl_821CA45C[2];
+
+extern unsigned char fn_8288B760(Session_822CF078 *session);
+extern Target_822CF078 *fn_822CEE40(Player_822CF078 *self);
+extern int fn_822CF260(Player_822CF078 *self, int flags);
+extern int fn_822CEFA0(Player_822CF078 *self);
+
+int fn_822CF078(Player_822CF078 *self)
 {
-  unsigned int uVar1;
-  int iVar2;
-  int iVar3;
-  
-  if (*(int *)(param_1 + 0x168) == 0) {
-    uVar1 = *(unsigned int *)(param_1 + 0x16c);
-  }
-  else {
-    uVar1 = fn_8288B760();
-    uVar1 = uVar1 & 0xff;
-  }
-  if ((uVar1 == 0) && (iVar2 = *(int *)(param_1 + 0x168), iVar2 != 0)) {
-    if (*(char *)(iVar2 + 0xfc) != '\0') {
-      return *(unsigned int *)(iVar2 + 0xf8);
-    }
-  }
-  else if ((lbl_821CA460 <= *(float *)(param_1 + 0x264)) &&
-          (((iVar2 = *(int *)(param_1 + 0x1c0), iVar2 == 0 ||
-            (*(int *)(*(int *)(*(int *)(iVar2 + 0xd4) + 0x18) + 0xc) == 0)) &&
-           (*(int *)(iVar2 + 0x204) == 0)))) {
-    if (*(int *)(*(int *)(param_1 + 0x110) + 0x18) == 2) {
-      return -(unsigned int)(*(int *)(param_1 + 0x270) != 0) & 0x20;
-    }
-    iVar2 = fn_822CEE40(param_1);
-    if (iVar2 == 0) {
-      return 2;
-    }
-    iVar2 = *(int *)(iVar2 + 0x254);
-    iVar3 = fn_822CF260(param_1,0);
-    if (iVar3 == 0) {
-      iVar2 = fn_822CEFA0(param_1);
-      return (iVar2 == 0) + 1;
-    }
-    if (iVar2 == 7) {
-      return 0x10;
-    }
-    return 8;
-  }
-  return 0;
-}
+    int active;
+    Partner_822CF078 *partner;
+    Target_822CF078 *target;
+    int kind;
 
+    if (self->session != 0) {
+        active = fn_8288B760(self->session);
+    } else {
+        active = self->active;
+    }
+    if (active == 0 && self->session != 0) {
+        if (self->session->locked) {
+            return self->session->state;
+        }
+        return 0;
+    }
+    if (self->progress < lbl_821CA45C[1]) {
+        return 0;
+    }
+    partner = self->partner;
+    if (partner != 0 && partner->data->info->busy != 0) {
+        return 0;
+    }
+    if (partner->pending != 0) {
+        return 0;
+    }
+    if (self->mode->type == 2) {
+        return self->highlighted ? 0x20 : 0;
+    }
+    target = fn_822CEE40(self);
+    if (target == 0) {
+        return 2;
+    }
+    kind = target->kind;
+    if (fn_822CF260(self, 0) != 0) {
+        if (kind == 7) {
+            return 0x10;
+        }
+        return 8;
+    }
+    return (fn_822CEFA0(self) == 0) + 1;
+}

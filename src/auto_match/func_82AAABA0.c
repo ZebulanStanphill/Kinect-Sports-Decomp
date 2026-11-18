@@ -1,70 +1,56 @@
-extern int fn_82AA8FD0();
-extern int fn_82B68CA8();
-extern int fn_82B68CF0();
-extern int fn_82B68DA8();
-extern int fn_82B68FC8();
+extern void fn_82B68FC8(float *a, float *b, float *c, float *d);
+extern void fn_82B68FC0(float *a, float *b, float *c, float *d);
+extern void fn_82AA8FD0(float *a, float *b, float *c, float *d);
+extern void fn_82B68CF0(float *a, float *b);
+extern void fn_82B68CA8(float *a, float *b);
 
-
-void fn_82AAABA0(unsigned __int64 param_1,unsigned __int64 param_2,int param_3,int param_4,int param_5)
-
+void fn_82AAABA0(int n, int offset, float **table, int filter, int prepare)
 {
-  int iVar1;
-  __int64 lVar2;
-  __int64 lVar3;
-  __int64 lVar4;
-  __int64 lVar5;
-  __int64 lVar6;
-  __int64 lVar7;
-  
-  lVar7 = (param_2 & 0x3fffffff) * 4;
-  lVar5 = (unsigned __int64)*(unsigned int *)(param_3 + 0x60) + lVar7;
-  lVar6 = (unsigned __int64)*(unsigned int *)(param_3 + 0x50) + lVar7;
-  lVar4 = (unsigned __int64)*(unsigned int *)(param_3 + 0x70) + lVar7;
-  lVar3 = (unsigned __int64)*(unsigned int *)(param_3 + 0x40) + lVar7;
-  fn_82B68FC8(lVar3,lVar6,lVar5,lVar4);
-  lVar2 = (__int64)((int)param_1 >> 4) + (unsigned __int64)((int)param_1 < 0 && (param_1 & 0xf) != 0) + -1
-  ;
-  iVar1 = 0;
-  if (0 < lVar2) {
-    do {
-      lVar5 = lVar5 + 0x40;
-      lVar4 = lVar4 + 0x40;
-      fn_82B68FC8(lVar3 + 0x40,lVar6 + 0x40,lVar5,lVar4);
-      if (param_4 != 0) {
-        fn_82B68CF0(lVar3 + 0x20,lVar6 + 0x20);
-      }
-      iVar1 = iVar1 + 1;
-      lVar3 = lVar3 + 0x40;
-      lVar6 = lVar6 + 0x40;
-    } while (iVar1 < (int)lVar2);
-  }
-  lVar3 = (unsigned __int64)*(unsigned int *)(param_3 + 0x40) + lVar7;
-  lVar2 = (unsigned __int64)*(unsigned int *)(param_3 + 0x48) + lVar7;
-  lVar6 = (unsigned __int64)*(unsigned int *)(param_3 + 0x44) + lVar7;
-  lVar7 = (unsigned __int64)*(unsigned int *)(param_3 + 0x4c) + lVar7;
-  if (param_5 != 0) {
-    fn_82AA8FD0(lVar3,lVar6,lVar2,lVar7);
-  }
-  fn_82B68DA8(lVar3,lVar6,lVar2,lVar7);
-  iVar1 = 0;
-  if (0 < (__int64)(param_1 - 4)) {
-    do {
-      lVar5 = lVar6 + 0x10;
-      lVar7 = lVar7 + 0x10;
-      lVar4 = lVar3 + 0x10;
-      lVar2 = lVar2 + 0x10;
-      if (param_5 != 0) {
-        fn_82AA8FD0(lVar4,lVar5,lVar2,lVar7);
-      }
-      fn_82B68DA8(lVar4,lVar5,lVar2,lVar7);
-      if (param_4 != 0) {
-        fn_82B68CA8(lVar3 + 8,lVar6 + 8);
-      }
-      iVar1 = iVar1 + 4;
-      lVar3 = lVar4;
-      lVar6 = lVar5;
-    } while (iVar1 < (int)(param_1 - 4));
-  }
-  return;
-}
+    int count = n / 16;
+    float *a = table[16] + offset;
+    float *b = table[20] + offset;
+    float *c = table[24] + offset;
+    float *d = table[28] + offset;
+    int i;
 
+    fn_82B68FC8(a, b, c, d);
+    a += 16;
+    b += 16;
+    c += 16;
+    d += 16;
+    for (i = 0; i < count - 1; i++) {
+        fn_82B68FC8(a, b, c, d);
+        if (filter != 0) {
+            fn_82B68CF0(a - 8, b - 8);
+        }
+        a += 16;
+        b += 16;
+        c += 16;
+        d += 16;
+    }
+    a = table[16] + offset;
+    b = table[17] + offset;
+    c = table[18] + offset;
+    d = table[19] + offset;
+    if (prepare != 0) {
+        fn_82AA8FD0(a, b, c, d);
+    }
+    fn_82B68FC0(a, b, c, d);
+    a += 4;
+    b += 4;
+    c += 4;
+    d += 4;
+    for (i = 0; i < n - 4; i += 4) {
+        if (prepare != 0) {
+            fn_82AA8FD0(a, b, c, d);
+        }
+        fn_82B68FC0(a, b, c, d);
+        if (filter != 0) {
+            fn_82B68CA8(a - 2, b - 2);
+        }
+        a += 4;
+        b += 4;
+        c += 4;
+        d += 4;
+    }
+}

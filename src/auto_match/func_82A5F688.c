@@ -1,51 +1,59 @@
-typedef unsigned char bool;
-extern int fn_8265C990();
-extern int fn_82A5F060();
-extern int fn_82A5F298();
-extern int fn_82A5F578();
+typedef struct Device_82A5F688 Device_82A5F688;
 
+typedef struct DeviceVtable_82A5F688 {
+    void *slots[13];
+    int (*Validate)(Device_82A5F688 *self, void *data, int copied); /* 0x34 */
+} DeviceVtable_82A5F688;
 
-unsigned __int64 fn_82A5F688(int *param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned int *param_4)
+struct Device_82A5F688 {
+    DeviceVtable_82A5F688 *vtable;
+};
 
+extern int fn_82A5F060(void *data);
+extern void *fn_82A5F298(void *data);
+extern int fn_82A5F578(Device_82A5F688 *self, void *key, void *data, int copied);
+extern void fn_8265C990(void *p, unsigned int flags);
+
+static __forceinline int CopyResult(void *copy)
 {
-  bool bVar1;
-  unsigned __int64 uVar2;
-  int iVar3;
-  
-  uVar2 = (**(int (***)())(*param_1 + 0x34))(param_1,param_2,0);
-  if ((__int64)uVar2 < 0) {
-    return 0xffffffff80070057;
-  }
-  iVar3 = fn_82A5F060(param_3);
-  if (iVar3 == 0) {
-    uVar2 = 0xffffffff80070057;
-  }
-  if ((int)uVar2 < 0) {
-    return uVar2;
-  }
-  bVar1 = param_4 != (unsigned int *)0x0;
-  if (bVar1) {
-    param_3 = fn_82A5F298(param_3);
-    uVar2 = -(unsigned __int64)(param_3 == 0) & 0xffffffff8007000e;
-  }
-  if ((((int)uVar2 < 0) ||
-      (uVar2 = (**(int (***)())(*param_1 + 0x34))(param_1,param_3,bVar1), (__int64)uVar2 < 0)) ||
-     (uVar2 = fn_82A5F578(param_1,param_2,param_3,bVar1), (__int64)uVar2 < 0)) {
-    if (!bVar1) {
-      return uVar2;
-    }
-    if ((param_3 & 0xffffffff) == 0) {
-      return uVar2;
-    }
-    if ((int)uVar2 == -0x7768ffff) {
-      *param_4 = (int)param_3;
-      return uVar2;
-    }
-  }
-  else if (!bVar1) {
-    return uVar2;
-  }
-  fn_8265C990(param_3,0x20970000);
-  return uVar2;
+    return copy != 0 ? 0 : 0x8007000E;
 }
 
+int fn_82A5F688(Device_82A5F688 *self, void *key, void *data, void **outCopy)
+{
+    int hr;
+    int copied;
+
+    copied = 0;
+    hr = self->vtable->Validate(self, key, 0);
+    if (hr < 0) {
+        hr = 0x80070057;
+        goto done;
+    }
+    if (fn_82A5F060(data) == 0) {
+        hr = 0x80070057;
+    }
+    if (hr < 0) {
+        goto done;
+    }
+    if (outCopy != 0) {
+        data = fn_82A5F298(data);
+        copied = 1;
+        hr = CopyResult(data);
+    }
+    if (hr < 0 || (hr = self->vtable->Validate(self, data, copied)) < 0 ||
+        (hr = fn_82A5F578(self, key, data, copied)) < 0) {
+        if (copied == 0 || data == 0) {
+            goto done;
+        }
+        if (hr == (int)0x88970001) {
+            *outCopy = data;
+            goto done;
+        }
+    } else if (copied == 0) {
+        goto done;
+    }
+    fn_8265C990(data, 0x20970000);
+done:
+    return hr;
+}

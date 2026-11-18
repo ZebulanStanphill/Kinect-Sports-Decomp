@@ -1,55 +1,43 @@
-#define true 1
+typedef struct Element_8249F338 {
+    float key;           /* 0x0 */
+    unsigned int second; /* 0x4 */
+    unsigned int third;  /* 0x8 */
+} Element_8249F338;
 
-
-void fn_8249F338(int param_1,int param_2,int param_3,float *param_4)
-
+/* Orders elements by their key. */
+static __forceinline unsigned char Less(const Element_8249F338 *left, const Element_8249F338 *right)
 {
-  int iVar1;
-  int iVar2;
-  float *pfVar3;
-  unsigned int *puVar4;
-  int iVar5;
-  unsigned int uVar6;
-  float *pfVar7;
-  
-  iVar2 = param_2;
-  while( true ) {
-    iVar5 = (iVar2 + 1) * 2;
-    if (param_3 <= iVar5) break;
-    pfVar7 = (float *)((iVar2 + 1) * 0x18 + param_1);
-    if (*pfVar7 < pfVar7[-3]) {
-      iVar5 = iVar5 + -1;
-    }
-    puVar4 = (unsigned int *)(iVar5 * 0xc + param_1);
-    iVar1 = iVar2 * 0xc + param_1;
-    *(unsigned int *)(iVar2 * 0xc + param_1) = *puVar4;
-    *(unsigned int *)(iVar1 + 4) = puVar4[1];
-    *(unsigned int *)(iVar1 + 8) = puVar4[2];
-    iVar2 = iVar5;
-  }
-  if (iVar5 == param_3) {
-    iVar5 = param_3 * 0xc + param_1;
-    iVar1 = iVar2 * 0xc + param_1;
-    *(unsigned int *)(iVar2 * 0xc + param_1) = *(unsigned int *)(iVar5 + -0xc);
-    iVar2 = param_3 + -1;
-    *(unsigned int *)(iVar1 + 4) = *(unsigned int *)(iVar5 + -8);
-    *(unsigned int *)(iVar1 + 8) = *(unsigned int *)(iVar5 + -4);
-  }
-  uVar6 = iVar2 - 1;
-  iVar5 = ((int)uVar6 >> 1) + (unsigned int)((int)uVar6 < 0 && (uVar6 & 1) != 0);
-  while ((param_2 < iVar2 && (pfVar7 = (float *)(iVar5 * 0xc + param_1), *pfVar7 < *param_4))) {
-    pfVar3 = (float *)(iVar2 * 0xc + param_1);
-    uVar6 = iVar5 - 1;
-    *pfVar3 = *pfVar7;
-    pfVar3[1] = pfVar7[1];
-    pfVar3[2] = pfVar7[2];
-    iVar2 = iVar5;
-    iVar5 = ((int)uVar6 >> 1) + (unsigned int)((int)uVar6 < 0 && (uVar6 & 1) != 0);
-  }
-  *(float *)(iVar2 * 0xc + param_1) = *param_4;
-  param_1 = iVar2 * 0xc + param_1;
-  *(float *)(param_1 + 4) = param_4[1];
-  *(float *)(param_1 + 8) = param_4[2];
-  return;
+    return left->key < right->key;
 }
 
+/* Moves the hole up towards top while the parent compares less than value, then stores value. */
+static __forceinline void PushHeap(Element_8249F338 *begin, int hole, int top, const Element_8249F338 *value)
+{
+    int index;
+
+    for (index = (hole - 1) / 2; top < hole && Less(begin + index, value); index = (index - 1) / 2) {
+        begin[hole] = begin[index];
+        hole = index;
+    }
+    begin[hole] = *value;
+}
+
+/* Heap adjust: moves the hole down to the bottom along the larger children, then pushes value up. */
+void fn_8249F338(Element_8249F338 *begin, int hole, int count, const Element_8249F338 *value)
+{
+    int top = hole;
+    int child = 2 * hole + 2;
+
+    for (; child < count; child = 2 * child + 2) {
+        if (Less(begin + child, begin + (child - 1))) {
+            --child;
+        }
+        begin[hole] = begin[child];
+        hole = child;
+    }
+    if (child == count) {
+        begin[hole] = begin[count - 1];
+        hole = count - 1;
+    }
+    PushHeap(begin, hole, top, value);
+}

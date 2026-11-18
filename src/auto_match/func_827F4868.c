@@ -1,35 +1,34 @@
-extern int fn_82809868();
-extern float lbl_8201DD70;
-extern unsigned int lbl_8201DD74;
-extern unsigned int lbl_82196280;
+typedef struct Tween_827F4868 {
+    unsigned char pad0[0x22];
+    unsigned short curve; /* 0x22 */
+    float target;         /* 0x24 */
+    float range;          /* 0x28 */
+    float duration;       /* 0x2c */
+    float elapsed;        /* 0x30 */
+} Tween_827F4868;
 
+extern float fn_82809868(float angle);
+extern const float lbl_82196284;
 
-double fn_827F4868(int param_1)
-
+float fn_827F4868(Tween_827F4868 *self)
 {
-  float fVar1;
-  short sVar2;
-  
-  if (*(float *)(param_1 + 0x30) < *(float *)(param_1 + 0x2c)) {
-    sVar2 = *(short *)(param_1 + 0x22);
-    fVar1 = *(float *)(param_1 + 0x30) / *(float *)(param_1 + 0x2c);
-    if (sVar2 == 1) {
-                    /* WARNING: Subroutine does not return */
-      fn_82809868((double)(fVar1 * lbl_8201DD70));
-    }
-    if (sVar2 == 2) {
-                    /* WARNING: Subroutine does not return */
-      fn_82809868((double)((fVar1 - lbl_82196280) * lbl_8201DD70));
-    }
-    if (sVar2 == 3) {
-                    /* WARNING: Subroutine does not return */
-      fn_82809868((double)(fVar1 * lbl_8201DD74));
-    }
-    fVar1 = (fVar1 - lbl_82196280) * *(float *)(param_1 + 0x28) + *(float *)(param_1 + 0x24);
-  }
-  else {
-    fVar1 = *(float *)(param_1 + 0x24);
-  }
-  return (double)fVar1;
-}
+    float t;
 
+    if (self->elapsed >= self->duration) {
+        return self->target;
+    } else {
+        t = self->elapsed / self->duration;
+        switch (self->curve) {
+        case 1:
+            t = 1.0f - fn_82809868(t * 1.57079637f);
+            break;
+        case 2:
+            t = fn_82809868((t - 1.0f) * 1.57079637f);
+            break;
+        case 3:
+            t = (1.0f - fn_82809868(t * 3.14159265f)) * lbl_82196284;
+            break;
+        }
+        return (t - 1.0f) * self->range + self->target;
+    }
+}

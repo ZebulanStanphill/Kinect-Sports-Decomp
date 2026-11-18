@@ -1,59 +1,50 @@
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_80;
-extern int fn_82810208();
-extern int fn_828102A8();
-extern int fn_82810328();
-extern int fn_82810360();
-extern int fn_82810B40();
-extern int fn_82F6A548();
-extern int fn_82F6A594();
-extern unsigned int lbl_82002C5C;
+typedef struct Vec3_82812188 {
+    float x; /* 0x0 */
+    float y; /* 0x4 */
+    float z; /* 0x8 */
+} Vec3_82812188;
 
+typedef struct Sphere_82812188 {
+    Vec3_82812188 center; /* 0x0 */
+    float radius;         /* 0xc */
+} Sphere_82812188;
 
-void fn_82812188(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+extern void fn_82810360(const Vec3_82812188 *src, Vec3_82812188 *dst);
+extern float fn_82810B40(const Vec3_82812188 *a, const Vec3_82812188 *b);
+extern void fn_82810328(Vec3_82812188 *a, Vec3_82812188 *b, Vec3_82812188 *out);
+extern void fn_828102A8(Vec3_82812188 *source, Vec3_82812188 *output, float scale);
+extern void fn_82810208(Vec3_82812188 *a, Vec3_82812188 *b, Vec3_82812188 *out);
 
+void fn_82812188(Sphere_82812188 *a, Sphere_82812188 *b, Sphere_82812188 *out)
 {
-  int iVar1;
-  unsigned char *puVar2;
-  double dVar3;
-  double dVar4;
-  double dVar5;
-  double dVar6;
-  unsigned char auStack_80 [1];
-  unsigned char auStack_70 [16];
-  unsigned char auStack_60 [16];
-  unsigned char auStack_50 [16];
+    Vec3_82812188 centerA;
+    Vec3_82812188 centerB;
+    Vec3_82812188 direction;
+    Vec3_82812188 merged;
+    Vec3_82812188 *center;
+    float radiusA;
+    float radiusB;
+    float distance;
+    float reach;
 
-  iVar1 = fn_82F6A548();
-  fn_82810360(iVar1,auStack_80);
-  fn_82810360(param_2,auStack_70);
-  dVar6 = (double)*(float *)(iVar1 + 0xc);
-  dVar4 = (double)*(float *)((int)param_2 + 0xc);
-  dVar3 = (double)fn_82810B40(auStack_80,auStack_70);
-  dVar5 = (double)(float)(dVar3 + dVar4);
-  iVar1 = (int)param_3;
-  if (dVar6 < dVar5) {
-    puVar2 = auStack_70;
-    if (dVar4 < (double)(float)(dVar3 + dVar6)) {
-      fn_82810328(puVar2,auStack_80,auStack_50);
-      dVar4 = (double)lbl_82002C5C;
-      fn_828102A8((double)(float)((double)(float)((double)(float)(dVar5 - dVar6) * dVar4) / dVar3)
-                    ,auStack_50,auStack_60);
-      fn_82810208(auStack_80,auStack_60,auStack_60);
-      puVar2 = auStack_60;
-      *(float *)(iVar1 + 0xc) = (float)((double)(float)(dVar5 + dVar6) * dVar4);
+    fn_82810360(&a->center, &centerA);
+    fn_82810360(&b->center, &centerB);
+    radiusA = a->radius;
+    radiusB = b->radius;
+    distance = fn_82810B40(&centerA, &centerB);
+    reach = distance + radiusB;
+    if (reach <= radiusA) {
+        out->radius = radiusA;
+        center = &centerA;
+    } else if (distance + radiusA <= radiusB) {
+        out->radius = radiusB;
+        center = &centerB;
+    } else {
+        fn_82810328(&centerB, &centerA, &direction);
+        fn_828102A8(&direction, &merged, ((reach - radiusA) * 0.5f) / distance);
+        fn_82810208(&centerA, &merged, &merged);
+        out->radius = (reach + radiusA) * 0.5f;
+        center = &merged;
     }
-    else {
-      *(float *)(iVar1 + 0xc) = (float)dVar4;
-    }
-  }
-  else {
-    *(float *)(iVar1 + 0xc) = (float)dVar6;
-    puVar2 = auStack_80;
-  }
-  fn_82810360(puVar2,param_3);
-  fn_82F6A594();
-  return;
+    fn_82810360(center, &out->center);
 }

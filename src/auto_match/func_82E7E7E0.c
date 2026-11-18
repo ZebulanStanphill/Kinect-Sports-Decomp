@@ -1,78 +1,83 @@
-extern int fn_82E4FE40();
-extern int fn_82E50330();
+#include <string.h>
 
+typedef struct Unknown_82E7E7E0 Unknown_82E7E7E0;
 
-unsigned __int64 fn_82E7E7E0(short *param_1)
+typedef struct UnknownVtable_82E7E7E0 {
+    void *QueryInterface;
+    void *AddRef;
+    unsigned int (*Release)(Unknown_82E7E7E0 *self); /* 0x08 */
+} UnknownVtable_82E7E7E0;
 
+struct Unknown_82E7E7E0 {
+    UnknownVtable_82E7E7E0 *vtable;
+};
+
+typedef struct Blob_82E7E7E0 {
+    unsigned int size; /* 0x00 */
+    void *data;        /* 0x04 */
+} Blob_82E7E7E0;
+
+typedef struct Vector_82E7E7E0 {
+    unsigned int count; /* 0x08 */
+    void *elements;     /* 0x0c */
+} Vector_82E7E7E0;
+
+typedef struct PropVariant_82E7E7E0 {
+    unsigned short type; /* 0x00 */
+    unsigned short reserved[3];
+
+    union {
+        unsigned __int64 quad;
+        Vector_82E7E7E0 vector;
+    } u; /* 0x08 */
+} PropVariant_82E7E7E0;
+
+extern void fn_82E4FE40(void *p);
+extern int fn_82E50330(PropVariant_82E7E7E0 *value);
+
+int fn_82E7E7E0(PropVariant_82E7E7E0 *value)
 {
-  short sVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  unsigned int uVar4;
-  int iVar5;
-  
-  sVar1 = *param_1;
-  if (sVar1 == 0) {
-    return 0;
-  }
-  if (sVar1 == 0x100d) {
-    if (*(int *)(param_1 + 6) != 0) {
-      uVar4 = 0;
-      if (*(int *)(param_1 + 4) != 0) {
-        iVar5 = 0;
-        do {
-          if (*(int **)(*(int *)(param_1 + 6) + iVar5) != (int *)0x0) {
-            (**(int (***)())(**(int **)(*(int *)(param_1 + 6) + iVar5) + 8))();
-          }
-          uVar4 = uVar4 + 1;
-          iVar5 = iVar5 + 4;
-        } while (uVar4 < *(unsigned int *)(param_1 + 4));
-      }
-      fn_82E4FE40(*(unsigned int *)(param_1 + 6));
-      param_1[6] = 0;
-      param_1[7] = 0;
-      param_1[0] = 0;
-      param_1[1] = 0;
-      param_1[2] = 0;
-      param_1[3] = 0;
-      param_1[4] = 0;
-      param_1[5] = 0;
-      param_1[6] = 0;
-      param_1[7] = 0;
-      return 0;
-    }
-  }
-  else {
-    if (sVar1 != 0x1041) {
-      uVar3 = fn_82E50330();
-      return uVar3;
-    }
-    if (*(int *)(param_1 + 6) != 0) {
-      uVar4 = 0;
-      if (*(int *)(param_1 + 4) != 0) {
-        iVar5 = 0;
-        do {
-          iVar2 = *(int *)(param_1 + 6);
-          fn_82E4FE40(*(unsigned int *)(iVar2 + iVar5 + 4));
-          uVar4 = uVar4 + 1;
-          *(unsigned int *)(iVar2 + iVar5 + 4) = 0;
-          iVar5 = iVar5 + 8;
-        } while (uVar4 < *(unsigned int *)(param_1 + 4));
-      }
-      fn_82E4FE40(*(unsigned int *)(param_1 + 6));
-      param_1[6] = 0;
-      param_1[7] = 0;
-      param_1[0] = 0;
-      param_1[1] = 0;
-      param_1[2] = 0;
-      param_1[3] = 0;
-      param_1[4] = 0;
-      param_1[5] = 0;
-      param_1[6] = 0;
-      param_1[7] = 0;
-      return 0;
-    }
-  }
-  return 0xffffffff80004003;
-}
+    int hr;
+    unsigned int i;
+    Unknown_82E7E7E0 *object;
+    Blob_82E7E7E0 *blob;
 
+    hr = 0;
+    switch (value->type) {
+    case 0:
+        break;
+    case 0x1041:
+        if (value->u.vector.elements == 0) {
+            hr = 0x80004003;
+            break;
+        }
+        for (i = 0; value->u.vector.count > i; i++) {
+            blob = &((Blob_82E7E7E0 *)value->u.vector.elements)[i];
+            fn_82E4FE40(blob->data);
+            blob->data = 0;
+        }
+        fn_82E4FE40(value->u.vector.elements);
+        value->u.vector.elements = 0;
+        memset(value, 0, sizeof(*value));
+        break;
+    case 0x100d:
+        if (value->u.vector.elements == 0) {
+            hr = 0x80004003;
+            break;
+        }
+        for (i = 0; value->u.vector.count > i; i++) {
+            object = ((Unknown_82E7E7E0 **)value->u.vector.elements)[i];
+            if (object != 0) {
+                object->vtable->Release(object);
+            }
+        }
+        fn_82E4FE40(value->u.vector.elements);
+        value->u.vector.elements = 0;
+        memset(value, 0, sizeof(*value));
+        break;
+    default:
+        hr = fn_82E50330(value);
+        break;
+    }
+    return hr;
+}

@@ -1,60 +1,79 @@
-extern int fn_82BE19A0();
-extern int fn_82BE2008();
-extern int fn_82BE5240();
-extern int fn_82BE52B8();
-extern int fn_82BE5340();
-extern int fn_82BE5350();
-extern int fn_82BE5378();
-extern int fn_82BEB628();
-extern int fn_82F65AC0();
-extern unsigned int lbl_831751CC;
+typedef struct Zone_82BE2078 {
+    char pad0[0x38];
+    const char *name; /* 0x38 */
+    char pad3c[0x50 - 0x3c];
+    int active; /* 0x50 */
+} Zone_82BE2078;
 
+typedef struct List_82BE2078 {
+    char pad0[0x8];
+    int current;        /* 0x08 */
+    unsigned int count; /* 0x0c */
+} List_82BE2078;
 
-unsigned __int64 fn_82BE2078(int param_1,unsigned __int64 param_2)
+typedef struct Manager_82BE2078 {
+    char pad0[0x10];
+    int ok; /* 0x10 */
+    char pad14[0x160 - 0x14];
+    List_82BE2078 zoneNames; /* 0x160 */
+    List_82BE2078 zones;     /* 0x170 */
+} Manager_82BE2078;
 
+extern char lbl_82196582[];
+extern void (*lbl_831751CC)(void *p);
+
+extern char *fn_82BE2008(Manager_82BE2078 *self, const char *name);
+extern char *fn_82BE19A0(const char *s);
+extern int fn_82BE5240(void *self, int code, const char *format, ...);
+extern void *fn_82BE56B0(unsigned int size);
+extern void *fn_82BEB628(void *memory, char *name);
+extern int fn_82BE52B8(List_82BE2078 *list, void *node);
+extern void fn_82BE5340(List_82BE2078 *list);
+extern void fn_82BE5350(List_82BE2078 *list);
+extern Zone_82BE2078 *fn_82BE5378(List_82BE2078 *list);
+extern int stricmp(const char *a, const char *b);
+
+int fn_82BE2078(Manager_82BE2078 *self, const char *name)
 {
-  int iVar3;
-  __int64 lVar1;
-  unsigned __int64 uVar2;
-  int iVar4;
-  
-  iVar3 = fn_82BE2008();
-  if (iVar3 == 0) {
-    lVar1 = fn_82BE19A0(param_2);
-    if (lVar1 == 0) {
-      fn_82BE5240(param_1,0x65,0xffffffff82196582);
-      *(unsigned int *)(param_1 + 0x10) = 0;
-      return 0;
-    }
-    uVar2 = thunk_FUN_82be5550(0xc);
-    if ((uVar2 & 0xffffffff) == 0) {
-      iVar3 = 0;
-    }
-    else {
-      iVar3 = fn_82BEB628(uVar2,lVar1);
-    }
-    if (iVar3 != 0) {
-      fn_82BE52B8(param_1 + 0x160);
-      if (*(int *)(param_1 + 0x17c) != 0) {
-        iVar3 = param_1 + 0x170;
-        fn_82BE5340(iVar3);
-        while (*(int *)(param_1 + 0x178) != 0) {
-          iVar4 = fn_82BE5378(iVar3);
-          iVar4 = fn_82F65AC0(param_2,*(unsigned int *)(iVar4 + 0x38));
-          if (iVar4 == 0) {
-            iVar3 = fn_82BE5378(iVar3);
-            *(unsigned int *)(iVar3 + 0x50) = 1;
-            return 1;
-          }
-          fn_82BE5350();
-        }
-      }
-      return 1;
-    }
-    fn_82BE5240(param_1,0x65,0xffffffff820e8a18);
-    *(unsigned int *)(param_1 + 0x10) = 0;
-    (*(int (**)())lbl_831751CC)(lVar1);
-  }
-  return 0;
-}
+    char *copy;
+    void *memory;
+    void *node;
+    List_82BE2078 *zones;
+    Zone_82BE2078 *zone;
 
+    if (fn_82BE2008(self, name) != 0) {
+        return 0;
+    }
+    copy = fn_82BE19A0(name);
+    if (copy == 0) {
+        fn_82BE5240(self, 0x65, lbl_82196582);
+        self->ok = 0;
+        return 0;
+    }
+    memory = fn_82BE56B0(0xc);
+    if (memory != 0) {
+        node = fn_82BEB628(memory, copy);
+    } else {
+        node = 0;
+    }
+    if (node == 0) {
+        fn_82BE5240(self, 0x65, "CMassiveListNode in ZoneNameAdd");
+        self->ok = 0;
+        lbl_831751CC(copy);
+        return 0;
+    }
+    fn_82BE52B8(&self->zoneNames, node);
+    if (self->zones.count != 0) {
+        zones = &self->zones;
+        fn_82BE5340(zones);
+        while (self->zones.current != 0) {
+            zone = fn_82BE5378(zones);
+            if (stricmp(name, zone->name) == 0) {
+                fn_82BE5378(zones)->active = 1;
+                return 1;
+            }
+            fn_82BE5350(zones);
+        }
+    }
+    return 1;
+}

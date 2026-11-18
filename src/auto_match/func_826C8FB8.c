@@ -1,50 +1,55 @@
-extern unsigned int *auStack_50;
-extern int fn_8268CC00();
-extern int fn_8268D280();
-extern int fn_826A1158();
-extern int fn_826C8688();
-extern unsigned int iStack_2c;
-extern unsigned int iStack_30;
-extern unsigned int iStack_34;
-extern unsigned int iStack_38;
-extern unsigned int iStack_3c;
-extern unsigned int iStack_40;
-extern unsigned int lbl_821AAD20;
+typedef struct Rect_826C8FB8 {
+    float x;
+    float y;
+    float w;
+    float h;
+} Rect_826C8FB8;
 
+typedef struct Mat23_826C8FB8 {
+    float m[6];
+} Mat23_826C8FB8;
 
-unsigned int * fn_826C8FB8(unsigned int *param_1,unsigned __int64 param_2)
+typedef struct Character_826C8FB8 Character_826C8FB8;
 
+typedef struct CharacterVtbl_826C8FB8 {
+    void *slots[0xd4 / 4];
+    void (*GetBounds)(Rect_826C8FB8 *out, Character_826C8FB8 *self); /* 0xd4 */
+} CharacterVtbl_826C8FB8;
+
+struct Character_826C8FB8 {
+    CharacterVtbl_826C8FB8 *vtbl;
+    char pad4[0x44 - 0x4];
+    Mat23_826C8FB8 matrix; /* 0x44 */
+};
+
+extern Character_826C8FB8 *fn_826C8688(void *source);
+extern void fn_8268CC00(Mat23_826C8FB8 *m);
+extern void fn_8268D280(const Mat23_826C8FB8 *m, Rect_826C8FB8 *out, const Rect_826C8FB8 *in);
+extern void fn_826A1158(Rect_826C8FB8 *out, void *source);
+
+Rect_826C8FB8 *fn_826C8FB8(Rect_826C8FB8 *out, void *source)
 {
-  unsigned int uVar1;
-  int *piVar2;
-  unsigned char auStack_50 [16];
-  struct { int first; int second; } stack_pair_40;
+    Character_826C8FB8 *character;
+    Mat23_826C8FB8 m;
+    Rect_826C8FB8 bounds;
 
-  int iStack_38;
-  int iStack_34;
-  int iStack_30;
-  int iStack_2c;
-  
-  piVar2 = (int *)fn_826C8688(param_2);
-  fn_8268CC00(&stack_pair_40.first);
-  if (piVar2 == (int *)0x0) {
-    fn_826A1158(param_1,param_2);
-  }
-  else {
-    stack_pair_40.first = piVar2[0x11];
-    stack_pair_40.second = piVar2[0x12];
-    iStack_38 = piVar2[0x13];
-    iStack_34 = piVar2[0x14];
-    iStack_30 = piVar2[0x15];
-    iStack_2c = piVar2[0x16];
-    (**(int (***)())(*piVar2 + 0xd4))(auStack_50,piVar2);
-    uVar1 = lbl_821AAD20;
-    *param_1 = lbl_821AAD20;
-    param_1[1] = uVar1;
-    param_1[2] = uVar1;
-    param_1[3] = uVar1;
-    fn_8268D280(&stack_pair_40.first,param_1,auStack_50);
-  }
-  return param_1;
+    character = fn_826C8688(source);
+    fn_8268CC00(&m);
+    if (character != 0) {
+        m.m[0] = character->matrix.m[0];
+        m.m[1] = character->matrix.m[1];
+        m.m[2] = character->matrix.m[2];
+        m.m[3] = character->matrix.m[3];
+        m.m[4] = character->matrix.m[4];
+        m.m[5] = character->matrix.m[5];
+        character->vtbl->GetBounds(&bounds, character);
+        out->x = 0.0f;
+        out->y = 0.0f;
+        out->w = 0.0f;
+        out->h = 0.0f;
+        fn_8268D280(&m, out, &bounds);
+    } else {
+        fn_826A1158(out, source);
+    }
+    return out;
 }
-

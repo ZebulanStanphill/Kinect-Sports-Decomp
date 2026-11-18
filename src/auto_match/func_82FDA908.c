@@ -1,54 +1,61 @@
-extern unsigned int iStack_c;
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_8208ED48;
-extern unsigned int lbl_8216C698;
-extern unsigned int lbl_8216E498;
-extern unsigned int lbl_8216E49C;
-extern unsigned int lbl_821AAD20;
+extern const float lbl_8216C698;
+extern const float lbl_8216E498[99];
 
+typedef struct Effect_82FDA908 {
+    int unknown00;
+    float param0;          /* 0x04 */
+    float param1;          /* 0x08 */
+    float param2;          /* 0x0c */
+    float gain;            /* 0x10 */
+    unsigned char enabled; /* 0x14 */
+} Effect_82FDA908;
 
-unsigned __int64 fn_82FDA908(int param_1,unsigned short param_2,float *param_3)
-
+/* Converts decibels to a linear gain by interpolating the table. */
+static __forceinline float DecibelsToGain(float decibels)
 {
-  float fVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  int iStack_c;
-  
-  if ((param_3 == (float *)0x0) || (uVar2 = 1, 4 < param_2)) {
-    return 0x1f;
-  }
-  if (param_2 == 1) {
-    *(float *)(param_1 + 8) = *param_3;
-    return uVar2;
-  }
-  if (param_2 != 2) {
-    if (param_2 != 3) {
-      if (param_2 == 0) {
-        *(float *)(param_1 + 4) = *param_3;
-        return uVar2;
-      }
-      *(unsigned char *)(param_1 + 0x14) = *(unsigned char *)param_3;
-      return uVar2;
+    float position;
+    unsigned int index;
+    float fraction;
+
+    if (decibels <= lbl_8216C698) {
+        return 0.0f;
     }
-    fVar1 = *param_3;
-    if (fVar1 <= lbl_8216C698) {
-      *(float *)(param_1 + 0x10) = lbl_821AAD20;
-      return uVar2;
+    if (decibels >= 0.0f) {
+        return 1.0f;
     }
-    if (lbl_821AAD20 <= fVar1) {
-      *(float *)(param_1 + 0x10) = lbl_82002AE0;
-      return uVar2;
-    }
-    uVar3 = (unsigned __int64)(fVar1 + lbl_8208ED48);
-    iStack_c = (int)uVar3;
-    fVar1 = (fVar1 + lbl_8208ED48) - (float)(uVar3 & 0xffffffff);
-    *(float *)(param_1 + 0x10) =
-         *(float *)(&lbl_8216E498 + iStack_c * 4) * (lbl_82002AE0 - fVar1) +
-         *(float *)(&lbl_8216E49C + iStack_c * 4) * fVar1;
-    return uVar2;
-  }
-  *(float *)(param_1 + 0xc) = *param_3;
-  return uVar2;
+    position = decibels + 97.0f;
+    index = (unsigned int)position;
+    fraction = position - (float)index;
+    return lbl_8216E498[index] * (1.0f - fraction) + lbl_8216E498[index + 1] * fraction;
 }
 
+int fn_82FDA908(Effect_82FDA908 *self, short parameter, const void *value)
+{
+    int result;
+
+    if (value == 0) {
+        return 0x1f;
+    }
+    result = 1;
+    switch (parameter) {
+    case 0:
+        self->param0 = *(const float *)value;
+        break;
+    case 1:
+        self->param1 = *(const float *)value;
+        break;
+    case 2:
+        self->param2 = *(const float *)value;
+        break;
+    case 3:
+        self->gain = DecibelsToGain(*(const float *)value);
+        break;
+    case 4:
+        self->enabled = *(const unsigned char *)value;
+        break;
+    default:
+        result = 0x1f;
+        break;
+    }
+    return result;
+}

@@ -1,66 +1,108 @@
-unsigned int * fn_82ABABC0(int param_1,int param_2,unsigned int *param_3,int *param_4)
+typedef struct Source_82ABABC0 {
+    unsigned int type : 4;
+    unsigned int sub : 4;
+    unsigned int slot : 8;
+    unsigned int index : 11;
+    unsigned int mask : 4;
+    unsigned int flag : 1;
+} Source_82ABABC0;
 
+typedef struct Op_82ABABC0 {
+    unsigned int last : 1;
+    unsigned int pad : 2;
+    unsigned int arg : 8;
+    unsigned int op : 5;
+    unsigned int code : 16;
+} Op_82ABABC0;
+
+typedef struct Operand_82ABABC0 {
+    unsigned int kind : 16;
+    unsigned int index : 16;
+} Operand_82ABABC0;
+
+typedef struct Program_82ABABC0 {
+    char pad[0x644];
+    Source_82ABABC0 sources[1]; /* 0x644 */
+} Program_82ABABC0;
+
+unsigned int *fn_82ABABC0(Program_82ABABC0 *program, int i, unsigned int *out, int *count)
 {
-  unsigned int uVar1;
-  int iVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  
-  iVar2 = (param_2 + 0x191) * 4;
-  uVar1 = *(unsigned int *)(iVar2 + param_1);
-  uVar4 = uVar1 >> 0x1c;
-  uVar6 = uVar1 >> 0x18;
-  uVar5 = uVar6 & 0xf;
-  uVar3 = uVar1 >> 5 & 0x7ff;
-  if (uVar4 == 0) {
-    if ((uVar6 & 0xf) != 0) {
-LAB_82abac3c:
-      uVar6 = 5;
-      uVar5 = (uVar4 + 1) * 0x10 | uVar5;
-      goto LAB_82abac58;
-    }
-    uVar6 = 0;
-  }
-  else if (uVar4 == 4) {
-    if ((uVar6 & 0xf) != 0) goto LAB_82abac3c;
-    uVar6 = 1;
-  }
-  else {
-    if (uVar4 == 5) {
-      uVar6 = 5;
-      goto LAB_82abac58;
-    }
-    if (uVar4 == 10) {
-      uVar6 = 2;
-      goto LAB_82abac58;
-    }
-    if ((uVar4 != 0xb) || ((uVar6 & 0xf) != 0)) goto LAB_82abac3c;
-    uVar6 = 4;
-  }
-  uVar5 = 0;
-LAB_82abac58:
-  if ((uVar1 & 0x1e) == 0x1e) {
-    uVar4 = 0x55;
-  }
-  else {
-    uVar4 = (unsigned int)((uVar1 & 2) != 0);
-    if ((uVar1 & 4) != 0) {
-      uVar4 = uVar4 | 4;
-    }
-    if ((uVar1 & 8) != 0) {
-      uVar4 = uVar4 | 0x10;
-    }
-    if ((uVar1 & 0x10) != 0) {
-      uVar4 = uVar4 | 0x40;
-    }
-  }
-  *param_3 = ((uVar5 & 0xff) << 5 | uVar6) << 0x10 | 0x8000001b;
-  param_3[1] = uVar4;
-  param_3[2] = uVar3 | 0xb0000;
-  *(char *)(iVar2 + param_1 + 1) = (char)uVar3;
-  *param_4 = *param_4 + 3;
-  return param_3 + 3;
-}
+    Source_82ABABC0 *source = &program->sources[i];
+    unsigned int word = *(unsigned int *)source;
+    unsigned int type = word >> 28;
+    unsigned int sub = (word >> 24) & 0xf;
+    unsigned int mask = (word & 0x1e) << 15;
+    unsigned int index = (word >> 5) & 0x7ff;
+    unsigned int op;
+    unsigned int arg;
+    unsigned int swizzle;
+    Op_82ABABC0 head;
+    Operand_82ABABC0 operand;
 
+    switch (type) {
+    case 0:
+        if (sub != 0) {
+            goto other;
+        }
+        op = 0;
+        arg = 0;
+        break;
+    case 4:
+        if (sub != 0) {
+            goto other;
+        }
+        op = 1;
+        arg = 0;
+        break;
+    case 5:
+        op = 5;
+        arg = sub;
+        break;
+    case 10:
+        op = 2;
+        arg = sub;
+        break;
+    case 11:
+        if (sub != 0) {
+            goto other;
+        }
+        op = 4;
+        arg = 0;
+        break;
+    default:
+    other:
+        op = 5;
+        arg = ((type + 1) << 4) | sub;
+        break;
+    }
+    if (mask == 0xf0000) {
+        swizzle = 0x55;
+    } else {
+        swizzle = 0;
+        if ((mask & 0x10000) != 0) {
+            swizzle = 1;
+        }
+        if ((mask & 0x20000) != 0) {
+            swizzle |= 4;
+        }
+        if ((mask & 0x40000) != 0) {
+            swizzle |= 0x10;
+        }
+        if ((mask & 0x80000) != 0) {
+            swizzle |= 0x40;
+        }
+    }
+    head.last = 1;
+    head.pad = 0;
+    head.arg = arg;
+    head.op = op;
+    head.code = 0x1b;
+    operand.kind = 0xb;
+    operand.index = index;
+    *out++ = *(unsigned int *)&head;
+    *out++ = swizzle;
+    *out++ = *(unsigned int *)&operand;
+    source->slot = index;
+    *count += 3;
+    return out;
+}

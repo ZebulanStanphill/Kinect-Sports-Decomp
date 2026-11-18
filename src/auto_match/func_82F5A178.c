@@ -1,35 +1,37 @@
-extern int fn_82F534A0();
-extern int fn_82F53528();
-extern int fn_82F53548();
-extern int fn_82F53580();
-extern int fn_82F59428();
-extern int fn_82F59D58();
-extern int fn_82F5A0A0();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_82006848;
-extern unsigned int lbl_8201DD74;
-extern unsigned int lbl_821327A4;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+extern const float lbl_821327A4;
+extern const float lbl_82006848;
+extern __vector4 lbl_832628A0;
 
-void fn_82F5A178(void)
+extern __vector4 fn_82F59D58(__vector4 v, __vector4 q);
+extern float fn_82F534A0(__vector4 a, __vector4 b);
+extern __vector4 fn_82F53580(__vector4 v);
+extern float fn_82F59428(float cosine);
+extern __vector4 fn_82F53528(__vector4 a, __vector4 b);
+extern __vector4 fn_82F53548(__vector4 v);
+extern __vector4 fn_82F5A0A0(__vector4 axis, float angle);
 
+/* Rotation that takes direction `target` onto `direction` rotated by `rotation`. */
+__vector4 fn_82F5A178(__vector4 rotation, __vector4 target)
 {
-  double dVar1;
-  
-  fn_82F59D58();
-  dVar1 = (double)fn_82F534A0();
-  if ((float)(dVar1 - (double)lbl_82002AE0) <= lbl_821327A4) {
-    if (lbl_82006848 <= (float)(dVar1 + (double)lbl_82002AE0)) {
-      dVar1 = (double)fn_82F59428();
-      fn_82F53528();
-      fn_82F53548();
-    }
-    else {
-      fn_82F53580();
-      dVar1 = (double)lbl_8201DD74;
-    }
-    fn_82F5A0A0(dVar1);
-  }
-  return;
-}
+    __vector4 rotated;
+    __vector4 axis;
+    float cosine;
+    float angle;
 
+    rotated = fn_82F59D58(target, rotation);
+    cosine = fn_82F534A0(target, rotated);
+    if (cosine - 1.0f > lbl_821327A4) {
+        return lbl_832628A0;
+    }
+    if (cosine + 1.0f < lbl_82006848) {
+        axis = fn_82F53580(target);
+        return fn_82F5A0A0(axis, 3.14159274f);
+    }
+    angle = fn_82F59428(cosine);
+    axis = fn_82F53548(fn_82F53528(target, rotated));
+    return fn_82F5A0A0(axis, angle);
+}

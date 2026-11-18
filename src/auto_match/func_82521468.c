@@ -1,52 +1,49 @@
-typedef unsigned char bool;
-extern int fn_825129C8();
-extern int fn_82512A48();
-extern unsigned int lbl_83265A58;
-extern unsigned int lbl_83265A5C;
-extern unsigned int lbl_83265A60;
-extern unsigned int lbl_83265A64;
+typedef struct Mode_82521468 {
+    int state;          /* 0x00 */
+    unsigned int flags; /* 0x04 */
+    unsigned int count; /* 0x08 */
+    void *handle;       /* 0x0c */
+} Mode_82521468;
 
+extern Mode_82521468 lbl_83265A58;
+extern void *fn_825129C8(int arg);
+extern void fn_82512A48(void *handle);
 
-void fn_82521468(int param_1)
-
+void fn_82521468(int state)
 {
-  bool bVar1;
-  int iVar2;
-  
-  if (lbl_83265A58 == 1) {
-    iVar2 = lbl_83265A60 + -1;
-    bVar1 = lbl_83265A60 == 1;
-    lbl_83265A60 = iVar2;
-    if ((bVar1) && (lbl_83265A64 != 0)) {
-      fn_82512A48(lbl_83265A64);
-      lbl_83265A64 = 0;
+    switch (lbl_83265A58.state) {
+    case 1:
+        if (--lbl_83265A58.count == 0 && lbl_83265A58.handle != 0) {
+            fn_82512A48(lbl_83265A58.handle);
+            lbl_83265A58.handle = 0;
+        }
+        break;
+    case 3:
+        lbl_83265A58.flags &= ~2;
+        break;
+    case 5:
+        lbl_83265A58.flags &= ~4;
+        break;
+    case 7:
+        lbl_83265A58.flags &= ~1;
+        break;
     }
-  }
-  else if (lbl_83265A58 == 3) {
-    lbl_83265A5C = lbl_83265A5C & 0xfffffffd;
-  }
-  else if (lbl_83265A58 == 5) {
-    lbl_83265A5C = lbl_83265A5C & 0xfffffffb;
-  }
-  else if (lbl_83265A58 == 7) {
-    lbl_83265A5C = lbl_83265A5C & 0xfffffffe;
-  }
-  lbl_83265A58 = param_1;
-  if (param_1 == 1) {
-    if (((lbl_83265A60 == 0) && (lbl_83265A5C == 0)) && (lbl_83265A64 == 0)) {
-      lbl_83265A64 = fn_825129C8(0);
+    lbl_83265A58.state = state;
+    switch (state) {
+    case 1:
+        if (lbl_83265A58.count == 0 && lbl_83265A58.flags == 0 && lbl_83265A58.handle == 0) {
+            lbl_83265A58.handle = fn_825129C8(0);
+        }
+        lbl_83265A58.count++;
+        break;
+    case 2:
+        lbl_83265A58.flags |= 2;
+        break;
+    case 4:
+        lbl_83265A58.flags |= 4;
+        break;
+    case 6:
+        lbl_83265A58.flags |= 1;
+        break;
     }
-    lbl_83265A60 = lbl_83265A60 + 1;
-  }
-  else if (param_1 == 2) {
-    lbl_83265A5C = lbl_83265A5C | 2;
-  }
-  else if (param_1 == 4) {
-    lbl_83265A5C = lbl_83265A5C | 4;
-  }
-  else if (param_1 == 6) {
-    lbl_83265A5C = lbl_83265A5C | 1;
-  }
-  return;
 }
-

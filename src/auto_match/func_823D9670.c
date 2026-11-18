@@ -1,53 +1,60 @@
-typedef unsigned char bool;
-extern int fn_822AA718();
-extern unsigned int lbl_831D1A24;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vmsum3fp(__vector4 a, __vector4 b);
 
-bool fn_823D9670(int param_1,int *param_2)
+typedef struct Item_823D9670 {
+    unsigned char pad0[0x10];
+    int active; /* 0x10 */
+} Item_823D9670;
 
+typedef struct List_823D9670 {
+    Item_823D9670 **items; /* 0x00 */
+    unsigned char pad4[0xc];
+    int index; /* 0x10 */
+} List_823D9670;
+
+typedef struct Shape_823D9670 {
+    unsigned short type; /* 0x00 */
+    unsigned char pad2[0x1e];
+    __vector4 axis; /* 0x20 */
+} Shape_823D9670;
+
+typedef struct Owner_823D9670 {
+    unsigned char pad0[8];
+    List_823D9670 ***lists; /* 0x08 */
+    unsigned char padc[0x284 - 0xc];
+    Shape_823D9670 *shapes[2]; /* 0x284 */
+} Owner_823D9670;
+
+extern __vector4 *fn_822AA718(__vector4 *out, List_823D9670 *list);
+extern const float lbl_831D18A8[0xa0];
+
+int fn_823D9670(Owner_823D9670 *self, List_823D9670 *list, __vector4 point)
 {
-  unsigned short uVar1;
-  unsigned short *puVar2;
-  float fVar3;
-  unsigned int uVar4;
-  float *pfVar5;
-  bool bVar6;
-  float fVar7;
-  int in_r0;
-  float fVar8;
-  float fVar9;
-  float in_register_00010014;
-  float in_register_00010018;
-  float in_register_000107f4;
-  float in_register_000107f8;
-  float afStack_50 [4];
-  float afStack_40 [16];
-  
-  bVar6 = *(int *)(*(int *)(param_2[4] * 4 + *param_2) + 0x10) == 0;
-  puVar2 = *(unsigned short **)((bVar6 + 0xa1) * 4 + param_1);
-  uVar1 = *puVar2;
-  if (((uVar1 == 0) || (uVar1 == 1)) || (uVar1 < 3)) {
-    uVar4 = (unsigned int)(puVar2 + 0x10) & 0xfffffff0;
-    in_register_000107f4 = *(float *)(uVar4 + 4);
-    in_register_000107f8 = *(float *)(uVar4 + 8);
-  }
-  fn_822AA718(afStack_50,*(unsigned int *)(**(int **)(param_1 + 8) + (unsigned int)bVar6 * 4));
-  fVar7 = lbl_831D1A24;
-  uVar4 = (int)afStack_50 + in_r0 & 0xfffffff0;
-  fVar8 = *(float *)(uVar4 + 4);
-  fVar9 = *(float *)(uVar4 + 8);
-  fVar3 = in_register_000107f4 * fVar8 + 0.0 + in_register_000107f8 * fVar9;
-  fVar8 = in_register_00010014 * fVar8 + 0.0 + in_register_00010018 * fVar9;
-  pfVar5 = (float *)((int)afStack_50 + in_r0 & 0xfffffff0);
-  *pfVar5 = fVar3;
-  pfVar5[1] = fVar3;
-  pfVar5[2] = fVar3;
-  pfVar5[3] = fVar3;
-  pfVar5 = (float *)((int)afStack_40 + in_r0 & 0xfffffff0);
-  *pfVar5 = fVar8;
-  pfVar5[1] = fVar8;
-  pfVar5[2] = fVar8;
-  pfVar5[3] = fVar8;
-  return afStack_40[0] - afStack_50[0] < fVar7;
-}
+    int side;
+    Shape_823D9670 *shape;
+    __vector4 axis;
+    __vector4 direction;
+    __vector4 axisDot;
+    __vector4 pointDot;
 
+    side = list->items[list->index]->active == 0;
+    shape = self->shapes[side];
+    switch (shape->type) {
+    case 0:
+        axis = shape->axis;
+        break;
+    case 1:
+        axis = shape->axis;
+        break;
+    case 2:
+        axis = shape->axis;
+        break;
+    }
+    fn_822AA718(&direction, (*self->lists)[side]);
+    axisDot = __vmsum3fp(axis, direction);
+    pointDot = __vmsum3fp(point, direction);
+    return pointDot.vector4_f32[0] - axisDot.vector4_f32[0] < lbl_831D18A8[0x5f];
+}

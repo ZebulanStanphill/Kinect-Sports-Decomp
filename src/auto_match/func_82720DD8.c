@@ -1,62 +1,98 @@
-extern int fn_826933E8();
-extern int fn_826944C8();
-extern int fn_8269F500();
-extern int fn_826A7398();
-extern int fn_82720D48();
-extern float lbl_82005718;
+typedef struct Rc_82720F48 {
+    int pad[2];
+    int count;
+} Rc_82720F48;
 
+typedef struct Inner_82720F48 {
+    char pad[0xc];
+    Rc_82720F48 *rc;
+} Inner_82720F48;
 
-void fn_82720DD8(int param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4,int param_5)
+typedef struct Obj_82720F48 {
+    char pad[0x80];
+    int inner;
+} Obj_82720F48;
 
+typedef struct Settings_82720DD8 {
+    char pad0[0x2a4];
+    unsigned char mode; /* 0x2a4 */
+} Settings_82720DD8;
+
+typedef struct Context_82720DD8 {
+    char pad0[0x78];
+    Settings_82720DD8 *settings; /* 0x78 */
+} Context_82720DD8;
+
+typedef struct Pointer_82720DD8 {
+    char pad0[0x14];
+    float x; /* 0x14 */
+    float y; /* 0x18 */
+    char pad1c[8];
+} Pointer_82720DD8;
+
+typedef struct Input_82720DD8 {
+    char pad0[0x944];
+    Pointer_82720DD8 pointers[4]; /* 0x944 */
+} Input_82720DD8;
+
+typedef struct Tracker_82720DD8 {
+    char pad0[8];
+    int x;             /* 0x08 */
+    int y;             /* 0x0c */
+    unsigned int time; /* 0x10 */
+} Tracker_82720DD8;
+
+extern void fn_82720D48(char *owner, void *ctx, int a, int index, Rc_82720F48 **rc, int d, int e,
+                        unsigned char f);
+extern Inner_82720F48 *fn_8269F500(Obj_82720F48 *obj);
+extern void fn_826944C8(Rc_82720F48 *rc);
+extern unsigned __int64 fn_826933E8(void);
+extern Input_82720DD8 *fn_826A7398(Context_82720DD8 *ctx);
+
+void fn_82720DD8(Tracker_82720DD8 *self, Context_82720DD8 *ctx, unsigned int index, int e, Obj_82720F48 *obj)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  int iVar3;
-  __int64 lVar4;
-  unsigned __int64 uVar5;
-  int aiStack_60 [2];
-  __int64 lStack_58;
-  __int64 lStack_50;
-  
-  uVar5 = 0;
-  if (*(char *)(*(int *)(param_2 + 0x78) + 0x2a4) == '\x01') {
-    uVar2 = fn_826933E8();
-    iVar3 = fn_826A7398(param_2);
-    if ((param_3 & 0xffffffff) < 4) {
-      iVar3 = (int)param_3 * 0x24 + iVar3 + 0x944;
-    }
-    else {
-      iVar3 = 0;
-    }
-    iVar1 = (int)(*(float *)(iVar3 + 0x14) * lbl_82005718);
-    lStack_58 = (__int64)iVar1;
-    iVar3 = (int)(*(float *)(iVar3 + 0x18) * lbl_82005718);
-    lStack_50 = (__int64)iVar3;
-    if ((((uVar2 / 1000 & 0xffffffff) <= (unsigned __int64)(*(int *)(param_1 + 0x10) + 300)) &&
-        (*(int *)(param_1 + 8) == iVar1)) && (*(int *)(param_1 + 0xc) == iVar3)) {
-      uVar5 = 1;
-    }
-    *(int *)(param_1 + 8) = iVar1;
-    *(int *)(param_1 + 0xc) = iVar3;
-    *(int *)(param_1 + 0x10) = (int)(uVar2 / 1000);
-  }
-  if (param_5 == 0) {
-    fn_82720D48(param_1 + -0x34,param_2,param_3,100,0,param_4,0,uVar5);
-  }
-  else {
-    iVar3 = *(int *)(param_5 + 0x80);
-    if (iVar3 == 0) {
-      iVar3 = fn_8269F500(param_5);
-    }
-    aiStack_60[0] = *(int *)(iVar3 + 0xc);
-    *(int *)(aiStack_60[0] + 8) = *(int *)(aiStack_60[0] + 8) + 1;
-    fn_82720D48(param_1 + -0x34,param_2,param_3,100,aiStack_60,param_4,0,uVar5);
-    lVar4 = (unsigned __int64)*(unsigned int *)(aiStack_60[0] + 8) - 1;
-    *(int *)(aiStack_60[0] + 8) = (int)lVar4;
-    if (lVar4 == 0) {
-      fn_826944C8(aiStack_60[0]);
-    }
-  }
-  return;
-}
+    unsigned char unchanged = 0;
+    unsigned int now;
+    Input_82720DD8 *input;
+    Pointer_82720DD8 *pointer;
+    int x;
+    int y;
+    Inner_82720F48 *inner;
+    Rc_82720F48 *rc;
 
+    if (ctx->settings->mode == 1) {
+        now = (unsigned int)(fn_826933E8() / 1000);
+        input = fn_826A7398(ctx);
+        if (index >= 4) {
+            pointer = 0;
+        } else {
+            pointer = &input->pointers[index];
+        }
+        x = (int)(pointer->x * 0.05f);
+        y = (int)(pointer->y * 0.05f);
+        if (now <= self->time + 300 && self->x == x && self->y == y) {
+            unchanged = 1;
+        }
+        self->x = x;
+        self->y = y;
+        self->time = now;
+    }
+    if (obj != 0) {
+        if (obj->inner != 0) {
+            inner = (Inner_82720F48 *)obj->inner;
+        } else {
+            inner = fn_8269F500(obj);
+        }
+        rc = inner->rc;
+        rc->count = rc->count + 1;
+        fn_82720D48((char *)self - 0x34, ctx, index, 100, &rc, e, 0, unchanged);
+        {
+            Rc_82720F48 *r = rc;
+            if (--r->count == 0) {
+                fn_826944C8(r);
+            }
+        }
+    } else {
+        fn_82720D48((char *)self - 0x34, ctx, index, 100, 0, e, 0, unchanged);
+    }
+}

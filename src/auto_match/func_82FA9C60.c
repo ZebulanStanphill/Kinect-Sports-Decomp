@@ -1,65 +1,69 @@
-extern int fn_82FAE168();
-extern int fn_82FAF750();
-extern int fn_82FF4F40();
-extern unsigned int lbl_83264304;
+typedef struct CellSize_82FA9C60 {
+    unsigned int width;  /* 0x0 */
+    unsigned int height; /* 0x4 */
+} CellSize_82FA9C60;
 
+typedef struct Layout_82FA9C60 {
+    char pad[0x60];
+    void *handle; /* 0x60 */
+} Layout_82FA9C60;
 
-void fn_82FA9C60(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4)
+typedef struct View_82FA9C60 {
+    char pad0[0xc];
+    int origin; /* 0x0c */
+    char pad10[0x40 - 0x10];
+    Layout_82FA9C60 *layout; /* 0x40 */
+    int position;            /* 0x44 */
+} View_82FA9C60;
 
+extern void *lbl_83264304;
+extern CellSize_82FA9C60 *fn_82FAF750(void *handle);
+extern int fn_82FAE168(void *handle);
+extern void fn_82FF4F40(void *dispatcher, void *target, unsigned int event, CellSize_82FA9C60 *size);
+
+void fn_82FA9C60(View_82FA9C60 *view, int extent, unsigned int events, void *target)
 {
-  unsigned int *puVar1;
-  int iVar2;
-  __int64 lVar3;
-  unsigned __int64 uVar4;
-  __int64 lVar5;
-  __int64 lVar6;
-  __int64 lVar7;
-  
-  puVar1 = (unsigned int *)fn_82FAF750(*(unsigned int *)(*(int *)(param_1 + 0x40) + 0x60));
-  uVar4 = (unsigned __int64)*(unsigned int *)(param_1 + 0x44) - (unsigned __int64)*(unsigned int *)(param_1 + 0xc);
-  if ((__int64)uVar4 < 1) {
-    if ((param_3 & 0x400) != 0) {
-      fn_82FF4F40(lbl_83264304,param_4,0x400,puVar1);
-    }
-    lVar6 = 0;
-    lVar3 = 0;
-  }
-  else {
-    param_2 = uVar4 + param_2;
-    trapWord(6,(unsigned __int64)*puVar1,0);
-    trapWord(6,(unsigned __int64)puVar1[1],0);
-    lVar6 = (uVar4 & 0xffffffff) / (unsigned __int64)*puVar1 + 1;
-    lVar3 = (uVar4 & 0xffffffff) / (unsigned __int64)puVar1[1] + 1;
-  }
-  trapWord(6,(unsigned __int64)*puVar1,0);
-  lVar7 = (param_2 & 0xffffffff) / (unsigned __int64)*puVar1 + 1;
-  trapWord(6,(unsigned __int64)puVar1[1],0);
-  lVar5 = (param_2 & 0xffffffff) / (unsigned __int64)puVar1[1] + 1;
-  if (((param_3 & 0x200) != 0) && ((int)lVar3 < (int)lVar5)) {
-    lVar5 = lVar5 - lVar3;
-    do {
-      fn_82FF4F40(lbl_83264304,param_4,0x200,puVar1);
-      lVar5 = lVar5 + -1;
-    } while (lVar5 != 0);
-  }
-  if (((param_3 & 0x100) != 0) && ((int)lVar6 < (int)lVar7)) {
-    lVar7 = lVar7 - lVar6;
-    do {
-      fn_82FF4F40(lbl_83264304,param_4,0x100,puVar1);
-      lVar7 = lVar7 + -1;
-    } while (lVar7 != 0);
-  }
-  if ((param_3 & 0x800) != 0) {
-    if (*(int *)(param_1 + 0x40) == 0) {
-      iVar2 = 0;
-    }
-    else {
-      iVar2 = fn_82FAE168(*(unsigned int *)(*(int *)(param_1 + 0x40) + 0x60));
-    }
-    if (iVar2 <= (int)param_2) {
-      fn_82FF4F40(lbl_83264304,param_4,0x800,puVar1);
-    }
-  }
-  return;
-}
+    CellSize_82FA9C60 *size = fn_82FAF750(view->layout->handle);
+    int scroll = view->position - view->origin;
+    int firstColumn;
+    int firstRow;
+    int lastColumn;
+    int lastRow;
+    int i;
+    int limit;
 
+    if (scroll <= 0) {
+        if (events & 0x400) {
+            fn_82FF4F40(lbl_83264304, target, 0x400, size);
+        }
+        firstColumn = 0;
+        firstRow = 0;
+    } else {
+        extent += scroll;
+        firstColumn = scroll / size->width + 1;
+        firstRow = scroll / size->height + 1;
+    }
+    lastColumn = extent / size->width + 1;
+    lastRow = extent / size->height + 1;
+    if ((events & 0x200) && firstRow < lastRow) {
+        for (i = firstRow; i < lastRow; i++) {
+            fn_82FF4F40(lbl_83264304, target, 0x200, size);
+        }
+    }
+    if ((events & 0x100) && firstColumn < lastColumn) {
+        for (i = firstColumn; i < lastColumn; i++) {
+            fn_82FF4F40(lbl_83264304, target, 0x100, size);
+        }
+    }
+    if (events & 0x800) {
+        if ((int)view->layout != 0) {
+            void *handle = view->layout->handle;
+            limit = fn_82FAE168(handle);
+        } else {
+            limit = 0;
+        }
+        if (limit <= extent) {
+            fn_82FF4F40(lbl_83264304, target, 0x800, size);
+        }
+    }
+}

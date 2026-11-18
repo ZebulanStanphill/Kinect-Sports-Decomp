@@ -1,57 +1,41 @@
-extern unsigned int lbl_821AAD20;
+typedef struct Player_82A8B860 Player_82A8B860;
 
+typedef struct PlayerVtbl_82A8B860 {
+    void *f00;
+    void *f04;
+    int (*GetState)(Player_82A8B860 *self); /* 0x08 */
+} PlayerVtbl_82A8B860;
 
-void fn_82A8B860(int *param_1,float *param_2,int *param_3,int *param_4,int *param_5,int *param_6)
+struct Player_82A8B860 {
+    PlayerVtbl_82A8B860 *vt;
+    char pad4[0x5988 - 0x4];
+    unsigned int frameCount; /* 0x5988 */
+    float frameRate;         /* 0x598c */
+    int width;               /* 0x5990 */
+    int height;              /* 0x5994 */
+    int format;              /* 0x5998 */
+    int flags;               /* 0x599c */
+};
 
+int fn_82A8B860(Player_82A8B860 *self, float *duration, int *width, int *height, int *format, int *flags)
 {
-  float fVar1;
-  int iVar2;
-  int iVar3;
-  
-  iVar2 = (**(int (***)())(*param_1 + 8))();
-  if (param_2 != (float *)0x0) {
-    fVar1 = lbl_821AAD20;
-    if (-1 < iVar2) {
-      fVar1 = (float)(param_1[0x1662] - 1) / (float)param_1[0x1663];
-    }
-    *param_2 = fVar1;
-  }
-  if (param_3 != (int *)0x0) {
-    if (iVar2 < 0) {
-      iVar3 = 0;
-    }
-    else {
-      iVar3 = param_1[0x1664];
-    }
-    *param_3 = iVar3;
-  }
-  if (param_4 != (int *)0x0) {
-    if (iVar2 < 0) {
-      iVar3 = 0;
-    }
-    else {
-      iVar3 = param_1[0x1665];
-    }
-    *param_4 = iVar3;
-  }
-  if (param_5 != (int *)0x0) {
-    if (iVar2 < 0) {
-      iVar3 = 0;
-    }
-    else {
-      iVar3 = param_1[0x1666];
-    }
-    *param_5 = iVar3;
-  }
-  if (param_6 != (int *)0x0) {
-    if (iVar2 < 0) {
-      iVar2 = 0;
-    }
-    else {
-      iVar2 = param_1[0x1667];
-    }
-    *param_6 = iVar2;
-  }
-  return;
-}
+    int hr;
 
+    hr = self->vt->GetState(self);
+    if (duration != 0) {
+        *duration = hr >= 0 ? (float)(self->frameCount - 1) / self->frameRate : 0.0f;
+    }
+    if (width != 0) {
+        *width = hr >= 0 ? self->width : 0;
+    }
+    if (height != 0) {
+        *height = hr >= 0 ? self->height : 0;
+    }
+    if (format != 0) {
+        *format = hr >= 0 ? self->format : 0;
+    }
+    if (flags != 0) {
+        *flags = hr >= 0 ? self->flags : 0;
+    }
+    return hr;
+}

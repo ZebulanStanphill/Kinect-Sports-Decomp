@@ -1,42 +1,43 @@
-int fn_82F26110(int param_1,unsigned int *param_2,unsigned int *param_3,unsigned int param_4,unsigned int param_5)
+typedef struct Surface_82F26110 {
+    char pad[0x2d0];
+    int widthInBlocks;  /* 0x2d0 */
+    int heightInBlocks; /* 0x2d4 */
+} Surface_82F26110;
 
+int fn_82F26110(Surface_82F26110 *surface, int *x, int *y, int blockX, int blockY)
 {
-  unsigned int uVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  int iVar5;
-  
-  uVar1 = *param_3;
-  iVar4 = ((int)*param_2 >> 2) + param_4 * 0x10;
-  iVar2 = 0;
-  iVar3 = ((int)uVar1 >> 2) + param_5 * 0x10;
-  if (iVar4 < -0x10) {
-    iVar5 = -0x10;
-  }
-  else {
-    iVar5 = *(int *)(param_1 + 0x2d0) << 4;
-    if (iVar4 <= iVar5) goto LAB_82f26168;
-  }
-  iVar4 = iVar5;
-  iVar2 = 1;
-LAB_82f26168:
-  if (iVar3 < -0x10) {
-    iVar2 = 1;
-    iVar3 = -0x10;
-  }
-  else {
-    iVar5 = *(int *)(param_1 + 0x2d4) << 4;
-    if (iVar5 < iVar3) {
-      iVar2 = 1;
-      iVar3 = iVar5;
-    }
-    else if (iVar2 == 0) {
-      return 0;
-    }
-  }
-  *param_2 = (iVar4 + (param_4 & 0xfffffff) * -0x10) * 4 + (*param_2 & 3);
-  *param_3 = (iVar3 + (param_5 & 0xfffffff) * -0x10) * 4 + (uVar1 & 3);
-  return iVar2;
-}
+    int rawX = *x;
+    int rawY = *y;
+    int originX = blockX * 16;
+    int originY = blockY * 16;
+    int posX = (rawX >> 2) + originX;
+    int clipped = 0;
+    int posY = (rawY >> 2) + originY;
+    int limit;
 
+    if (posX < -16) {
+        posX = -16;
+        clipped = 1;
+    } else {
+        limit = surface->widthInBlocks << 4;
+        if (posX > limit) {
+            posX = limit;
+            clipped = 1;
+        }
+    }
+    if (posY < -16) {
+        posY = -16;
+        clipped = 1;
+    } else {
+        limit = surface->heightInBlocks << 4;
+        if (posY > limit) {
+            posY = limit;
+            clipped = 1;
+        }
+    }
+    if (clipped != 0) {
+        *x = ((posX - originX) << 2) + (rawX & 3);
+        *y = ((posY - originY) << 2) + (rawY & 3);
+    }
+    return clipped;
+}

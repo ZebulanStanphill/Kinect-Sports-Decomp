@@ -1,20 +1,21 @@
-extern unsigned int lbl_82195518;
+typedef struct Timer_823ABE40 {
+    char pad0[0x68];
+    unsigned int active; /* 0x68 */
+    char pad6c[0x8c - 0x6c];
+    float remaining; /* 0x8c */
+    char pad90[0x94 - 0x90];
+    float elapsed; /* 0x94 */
+} Timer_823ABE40;
 
+extern const double lbl_821954B0[];
 
-void fn_823ABE40(double param_1,int param_2)
-
+void fn_823ABE40(Timer_823ABE40 *self, float dt)
 {
-  double dVar1;
-  
-  if (*(int *)(param_2 + 0x68) == 0) {
-    return;
-  }
-  dVar1 = (double)(float)((double)*(float *)(param_2 + 0x8c) - param_1);
-  *(float *)(param_2 + 0x94) = (float)(param_1 + (double)*(float *)(param_2 + 0x94));
-  if (dVar1 < 0.0) {
-    dVar1 = lbl_82195518;
-  }
-  *(float *)(param_2 + 0x8c) = (float)dVar1;
-  return;
-}
+    float remaining;
 
+    if (self->active > 0) {
+        remaining = self->remaining - dt;
+        self->elapsed = dt + self->elapsed;
+        self->remaining = remaining >= 0.0 ? remaining : lbl_821954B0[0xd];
+    }
+}

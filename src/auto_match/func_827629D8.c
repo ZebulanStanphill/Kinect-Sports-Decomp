@@ -1,63 +1,83 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern unsigned int fStack_24;
-extern unsigned int fStack_28;
-extern unsigned int fStack_2c;
-extern unsigned int fStack_30;
-extern unsigned int fStack_44;
-extern unsigned int fStack_48;
-extern int fn_826EBD10();
-extern int fn_8275E130();
-extern int fn_8275E198();
-extern int fn_8275FD58();
-extern int fn_82784708();
-extern int fn_82784920();
+typedef struct Node_827629D8 {
+    char pad[0x20];
+    unsigned char flags; /* 0x20 */
+} Node_827629D8;
 
+typedef struct Shape_827629D8 {
+    char pad[0x14];
+    int sizeX; /* 0x14 */
+    int sizeY; /* 0x18 */
+    int sizeZ; /* 0x1c */
+} Shape_827629D8;
 
-void fn_827629D8(int param_1,int param_2)
+typedef struct Iterator_827629D8 {
+    Node_827629D8 *node; /* 0x0 */
+    int index;           /* 0x4 */
+} Iterator_827629D8;
 
+typedef struct Segment_827629D8 {
+    float x0;              /* 0x00 */
+    float y0;              /* 0x04 */
+    float x1;              /* 0x08 */
+    float y1;              /* 0x0c */
+    unsigned char isCurve; /* 0x10 */
+} Segment_827629D8;
+
+typedef struct Point_827629D8 {
+    float x; /* 0x0 */
+    float y; /* 0x4 */
+} Point_827629D8;
+
+typedef struct PathInfo_827629D8 {
+    int pad0;
+    int pointCount; /* 0x4 */
+} PathInfo_827629D8;
+
+typedef struct Path_827629D8 {
+    char pad0[8];
+    char points[0x20];       /* 0x08 */
+    PathInfo_827629D8 *info; /* 0x28 */
+} Path_827629D8;
+
+extern Iterator_827629D8 *fn_8275FD58(Iterator_827629D8 *it, Shape_827629D8 *shape);
+extern void fn_8275E130(Iterator_827629D8 *it, float *x, float *y);
+extern void fn_8275E198(Iterator_827629D8 *it, Segment_827629D8 *segment, int flags);
+extern void fn_826EBD10(void *points, Point_827629D8 *point);
+extern void fn_82784708(Path_827629D8 *path, int x, int y, int z, float a, float b);
+extern void fn_82784920(Path_827629D8 *path, float x0, float y0, float x1, float y1);
+
+static __forceinline unsigned char IsAtEnd(Iterator_827629D8 *it)
 {
-  bool bVar1;
-  float afStack_50;
-  float fStack_48;
-  float fStack_44;
-  int aiStack_40 [4];
-  float fStack_30;
-  float fStack_2c;
-  float fStack_28;
-  float fStack_24;
-  char cStack_20;
-  
-  fn_8275FD58(aiStack_40,param_1);
-  fn_8275E130(aiStack_40,&fStack_48,&afStack_50);
-  fn_82784708((double)fStack_48,(double)afStack_50,param_2,
-                    (unsigned __int64)*(unsigned int *)(param_1 + 0x14) - 1,
-                    (unsigned __int64)*(unsigned int *)(param_1 + 0x18) - 1,
-                    (unsigned __int64)*(unsigned int *)(param_1 + 0x1c) - 1);
-  do {
-    if (*(unsigned char *)(aiStack_40[0] + 0x20) == 1) {
-LAB_82762a54:
-      bVar1 = true;
+    if (it->node->flags == 1 || (it->node->flags & 0x80) == 0) {
+        return 1;
     }
-    else {
-      bVar1 = false;
-      if ((*(unsigned char *)(aiStack_40[0] + 0x20) & 0x80) == 0) goto LAB_82762a54;
-    }
-    if (bVar1) {
-      return;
-    }
-    fn_8275E198(aiStack_40,&fStack_30,0);
-    if (cStack_20 == '\0') {
-      fStack_48 = fStack_28;
-      fStack_44 = fStack_24;
-      fn_826EBD10(param_2 + 8,&fStack_48);
-      *(int *)(*(int *)(param_2 + 0x28) + 4) = *(int *)(*(int *)(param_2 + 0x28) + 4) + 1;
-    }
-    else {
-      fn_82784920((double)fStack_30,(double)fStack_2c,(double)fStack_28,(double)fStack_24,
-                        param_2);
-    }
-  } while( true );
+    return 0;
 }
 
+void fn_827629D8(Shape_827629D8 *shape, Path_827629D8 *path)
+{
+    Iterator_827629D8 it;
+    Segment_827629D8 segment;
+
+    fn_8275FD58(&it, shape);
+    {
+        float startX;
+        float startY;
+
+        fn_8275E130(&it, &startX, &startY);
+        fn_82784708(path, shape->sizeX - 1, shape->sizeY - 1, shape->sizeZ - 1, startX, startY);
+    }
+    while (!IsAtEnd(&it)) {
+        fn_8275E198(&it, &segment, 0);
+        if (segment.isCurve) {
+            fn_82784920(path, segment.x0, segment.y0, segment.x1, segment.y1);
+        } else {
+            Point_827629D8 point;
+
+            point.x = segment.x1;
+            point.y = segment.y1;
+            fn_826EBD10(path->points, &point);
+            path->info->pointCount++;
+        }
+    }
+}

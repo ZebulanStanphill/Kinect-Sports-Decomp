@@ -1,36 +1,44 @@
-extern int fn_8303A930();
-extern int fn_8303AA38();
-extern unsigned int lbl_82005748;
-extern unsigned int lbl_821AAD20;
+typedef struct Channel_830221F8 {
+    int pad0;
+    char filter[0x10]; /* 0x04 */
+    float targetLevel; /* 0x14 */
+    float level;       /* 0x18 */
+    int state;         /* 0x1c */
+    int pad20;
+    unsigned char alternate; /* 0x24 */
+    unsigned char audible;   /* 0x25 */
+    char pad26[7];
+    unsigned char dirty; /* 0x2d */
+} Channel_830221F8;
 
+extern unsigned char fn_8303A930(float level, unsigned char alternate, float *factor);
+extern void fn_8303AA38(float factor, void *filter);
 
-unsigned __int64 fn_830221F8(double param_1,int param_2)
-
+int fn_830221F8(Channel_830221F8 *channel, float level)
 {
-  unsigned __int64 uVar1;
-  double dVar2;
-  float afStack_30;
-  
-  afStack_30 = lbl_821AAD20;
-  dVar2 = (double)lbl_821AAD20;
-  if ((dVar2 <= param_1) && (dVar2 = param_1, (double)lbl_82005748 < param_1)) {
-    dVar2 = (double)lbl_82005748;
-  }
-  if (*(char *)(param_2 + 0x2d) != '\0') {
-    *(float *)(param_2 + 0x14) = (float)dVar2;
-    *(float *)(param_2 + 0x18) = (float)dVar2;
-    *(unsigned int *)(param_2 + 0x1c) = 8;
-    uVar1 = fn_8303A930(dVar2,param_2,*(unsigned char *)(param_2 + 0x24),&afStack_30);
-    *(char *)(param_2 + 0x25) = (char)uVar1;
-    if ((uVar1 & 0xff) == 0) {
-      fn_8303AA38((double)afStack_30,uVar1,param_2 + 4);
-    }
-    *(unsigned char *)(param_2 + 0x2d) = 0;
-  }
-  if (dVar2 != (double)*(float *)(param_2 + 0x18)) {
-    *(float *)(param_2 + 0x18) = (float)dVar2;
-    *(unsigned int *)(param_2 + 0x1c) = 0;
-  }
-  return 1;
-}
+    float factor;
+    unsigned char audible;
 
+    if (level < 0.0f) {
+        level = 0.0f;
+    } else if (level > 100.0f) {
+        level = 100.0f;
+    }
+    if (channel->dirty) {
+        channel->targetLevel = level;
+        factor = 0.0f;
+        channel->level = level;
+        channel->state = 8;
+        audible = fn_8303A930(level, channel->alternate, &factor);
+        channel->audible = audible;
+        if (audible == 0) {
+            fn_8303AA38(factor, channel->filter);
+        }
+        channel->dirty = 0;
+    }
+    if (level != channel->level) {
+        channel->level = level;
+        channel->state = 0;
+    }
+    return 1;
+}

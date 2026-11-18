@@ -1,58 +1,101 @@
-extern unsigned int *auStack_40;
-extern int fn_8267C4F0();
-extern int fn_82681D00();
-extern int fn_82683F88();
-extern int fn_826944C8();
-extern int fn_82694700();
-extern int fn_82696330();
-extern int fn_826B4808();
-extern int fn_82705520();
+typedef struct Ref_82708B98 {
+    char pad0[0x8];
+    int refCount; /* 0x08 */
+} Ref_82708B98;
 
+typedef struct Value_82708B98 {
+    unsigned char type; /* 0x00 */
+    char pad1[0xf];
+} Value_82708B98;
 
-unsigned __int64 fn_82708B98(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4)
+typedef struct Movie_82708B98 {
+    char pad0[0x78];
+    char *state; /* 0x78 */
+} Movie_82708B98;
 
+typedef struct Log_82708B98 {
+    char pad0[0xc];
+    char stream[4]; /* 0x0c */
+} Log_82708B98;
+
+struct Root_82708B98;
+
+typedef struct RootVtbl_82708B98 {
+    char pad0[0x5c];
+    Movie_82708B98 *(*GetMovie)(struct Root_82708B98 *self); /* 0x5c */
+} RootVtbl_82708B98;
+
+typedef struct Root_82708B98 {
+    RootVtbl_82708B98 *vt;
+} Root_82708B98;
+
+struct Loader_82708B98;
+
+typedef struct LoaderVtbl_82708B98 {
+    char pad0[0xc];
+    Log_82708B98 *(*GetLog)(struct Loader_82708B98 *self, int kind); /* 0x0c */
+} LoaderVtbl_82708B98;
+
+typedef struct Loader_82708B98 {
+    LoaderVtbl_82708B98 *vt;
+} Loader_82708B98;
+
+typedef struct Object_82708B98 {
+    char pad0[0x8];
+    Loader_82708B98 loader; /* 0x08 */
+    char padc[0x68 - 0xc];
+    Root_82708B98 *root; /* 0x68 */
+} Object_82708B98;
+
+extern void fn_8267C4F0(void *object);
+extern void fn_82681D00(Object_82708B98 *self, void *source, Value_82708B98 *value);
+extern void fn_82683F88(void *stream, const char *format);
+extern Ref_82708B98 *fn_82694700(char *names, char *name);
+extern void fn_826944C8(Ref_82708B98 *ref);
+extern void fn_82696330(Value_82708B98 *value);
+extern unsigned char fn_826B4808(Movie_82708B98 *movie, Ref_82708B98 **ref, Value_82708B98 *value, int flags,
+                                 unsigned char notify);
+extern void fn_82705520(Object_82708B98 *self, Ref_82708B98 **ref, Value_82708B98 *value, int mode);
+
+unsigned char fn_82708B98(Object_82708B98 *self, char *name, void *source, int mode)
 {
-  int iVar3;
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  __int64 lVar4;
-  int *piVar5;
-  int aiStack_50 [4];
-  unsigned char auStack_40 [64];
-  
-  if (*(int *)(param_1 + 0x68) != 0) {
-    if ((param_2 & 0xffffffff) != 0) {
-      iVar3 = (**(int (***)())(**(int **)(param_1 + 0x68) + 0x5c))();
-      aiStack_50[0] = fn_82694700((unsigned __int64)*(unsigned int *)(iVar3 + 0x78) + 0x254,param_2);
-      *(int *)(aiStack_50[0] + 8) = *(int *)(aiStack_50[0] + 8) + 1;
-      auStack_40[0] = 0;
-      fn_82681D00(param_1,param_3,auStack_40);
-      uVar2 = (**(int (***)())(**(int **)(param_1 + 0x68) + 0x5c))();
-      iVar3 = (int)param_4;
-      uVar1 = fn_826B4808(uVar2,aiStack_50,auStack_40,0,iVar3 == 0);
-      if ((((uVar1 & 0xff) == 0) && (iVar3 != 0)) || (iVar3 == 2)) {
-        fn_82705520(param_1,aiStack_50,auStack_40,param_4);
-      }
-      fn_82696330(auStack_40);
-      lVar4 = (unsigned __int64)*(unsigned int *)(aiStack_50[0] + 8) - 1;
-      *(int *)(aiStack_50[0] + 8) = (int)lVar4;
-      if (lVar4 != 0) {
-        return uVar1;
-      }
-      fn_826944C8(aiStack_50[0]);
-      return uVar1;
-    }
-    piVar5 = (int *)(param_1 + 8);
-    iVar3 = (**(int (***)())(*piVar5 + 0xc))(piVar5,4);
-    if (iVar3 != 0) {
-      fn_8267C4F0();
-      uVar1 = (**(int (***)())(*piVar5 + 0xc))(piVar5,4);
-      fn_82683F88(uVar1 + 0xc,0xffffffff8200e020);
-      if ((uVar1 & 0xffffffff) != 0) {
-        fn_8267C4F0(uVar1);
-      }
-    }
-  }
-  return 0;
-}
+    Log_82708B98 *log;
+    Movie_82708B98 *movie;
+    Ref_82708B98 *ref;
+    Value_82708B98 value;
+    unsigned char result;
 
+    if (self->root == 0) {
+        return 0;
+    }
+    if (name == 0) {
+        log = self->loader.vt->GetLog(&self->loader, 4);
+        if (log != 0) {
+            fn_8267C4F0(log);
+            log = self->loader.vt->GetLog(&self->loader, 4);
+            fn_82683F88(log->stream, "Error: NULL pathToVar passed to SetVariable/SetDouble()\n");
+            if (log != 0) {
+                fn_8267C4F0(log);
+            }
+        }
+        return 0;
+    }
+    movie = self->root->vt->GetMovie(self->root);
+    ref = fn_82694700(movie->state + 0x254, name);
+    ref->refCount++;
+    value.type = 0;
+    fn_82681D00(self, source, &value);
+    result = fn_826B4808(self->root->vt->GetMovie(self->root), &ref, &value, 0, mode == 0);
+    if ((result == 0 && mode != 0) || mode == 2) {
+        fn_82705520(self, &ref, &value, mode);
+    }
+    fn_82696330(&value);
+    {
+        Ref_82708B98 *held = ref;
+
+        if (--held->refCount == 0) {
+            fn_826944C8(held);
+        }
+    }
+    return result;
+}

@@ -1,62 +1,38 @@
-#define true 1
+typedef struct Element_82510D60 {
+    unsigned int key;    /* 0x0 */
+    unsigned int second; /* 0x4 */
+    unsigned int third;  /* 0x8 */
+    unsigned int fourth; /* 0xc */
+} Element_82510D60;
 
-
-void fn_82510D60(int param_1,int param_2,int param_3,unsigned int *param_4)
-
+/* Moves the hole up towards top while the parent's key is less than value's, then stores value. */
+static __forceinline void PushHeap(Element_82510D60 *begin, int hole, int top, const Element_82510D60 *value)
 {
-  int iVar1;
-  int iVar2;
-  unsigned int *puVar3;
-  int iVar4;
-  int iVar5;
-  unsigned int uVar6;
-  unsigned int *puVar7;
-  
-  iVar2 = param_2;
-  while( true ) {
-    iVar5 = (iVar2 + 1) * 2;
-    if (param_3 <= iVar5) break;
-    puVar7 = (unsigned int *)((iVar2 + 1) * 0x20 + param_1);
-    if (*puVar7 < puVar7[-4]) {
-      iVar5 = iVar5 + -1;
+    int index;
+
+    for (index = (hole - 1) / 2; top < hole && begin[index].key < value->key; index = (index - 1) / 2) {
+        begin[hole] = begin[index];
+        hole = index;
     }
-    iVar1 = iVar5 * 0x10 + param_1;
-    iVar4 = iVar2 * 0x10 + param_1;
-    *(unsigned int *)(iVar2 * 0x10 + param_1) = *(unsigned int *)(iVar5 * 0x10 + param_1);
-    *(unsigned int *)(iVar4 + 4) = *(unsigned int *)(iVar1 + 4);
-    *(unsigned int *)(iVar4 + 8) = *(unsigned int *)(iVar1 + 8);
-    *(unsigned int *)(iVar4 + 0xc) = *(unsigned int *)(iVar1 + 0xc);
-    iVar2 = iVar5;
-  }
-  if (iVar5 == param_3) {
-    iVar4 = iVar2 * 0x10;
-    iVar5 = param_3 * 0x10 + param_1;
-    iVar1 = iVar4 + param_1;
-    iVar2 = param_3 + -1;
-    *(unsigned int *)(iVar4 + param_1) = *(unsigned int *)(iVar5 + -0x10);
-    *(unsigned int *)(iVar1 + 4) = *(unsigned int *)(iVar5 + -0xc);
-    *(unsigned int *)(iVar1 + 8) = *(unsigned int *)(iVar5 + -8);
-    *(unsigned int *)(iVar1 + 0xc) = *(unsigned int *)(iVar5 + -4);
-  }
-  uVar6 = iVar2 - 1;
-  iVar5 = ((int)uVar6 >> 1) + (unsigned int)((int)uVar6 < 0 && (uVar6 & 1) != 0);
-  while (iVar1 = iVar5, param_2 < iVar2) {
-    puVar7 = (unsigned int *)(iVar1 * 0x10 + param_1);
-    if (*param_4 <= *puVar7) break;
-    puVar3 = (unsigned int *)(iVar2 * 0x10 + param_1);
-    uVar6 = iVar1 - 1;
-    *puVar3 = *puVar7;
-    puVar3[1] = puVar7[1];
-    puVar3[2] = puVar7[2];
-    puVar3[3] = puVar7[3];
-    iVar5 = ((int)uVar6 >> 1) + (unsigned int)((int)uVar6 < 0 && (uVar6 & 1) != 0);
-    iVar2 = iVar1;
-  }
-  iVar5 = iVar2 * 0x10 + param_1;
-  *(unsigned int *)(iVar2 * 0x10 + param_1) = *param_4;
-  *(unsigned int *)(iVar5 + 4) = param_4[1];
-  *(unsigned int *)(iVar5 + 8) = param_4[2];
-  *(unsigned int *)(iVar5 + 0xc) = param_4[3];
-  return;
+    begin[hole] = *value;
 }
 
+/* Heap adjust: moves the hole down to the bottom along the larger children, then pushes value up. */
+void fn_82510D60(Element_82510D60 *begin, int hole, int count, const Element_82510D60 *value)
+{
+    int top = hole;
+    int child = 2 * hole + 2;
+
+    for (; child < count; child = 2 * child + 2) {
+        if (begin[child].key < begin[child - 1].key) {
+            --child;
+        }
+        begin[hole] = begin[child];
+        hole = child;
+    }
+    if (child == count) {
+        begin[hole] = begin[count - 1];
+        hole = count - 1;
+    }
+    PushHeap(begin, hole, top, value);
+}

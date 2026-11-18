@@ -1,51 +1,78 @@
-extern int fn_829C81E8();
-extern int fn_829C9BA0();
-extern int fn_82F68CC0();
-extern int iRam832159dc;
-extern unsigned int lbl_83215690;
-extern unsigned int lbl_832156AC;
-extern unsigned int lbl_8321570C;
-extern unsigned int lbl_8321582C;
-extern unsigned int lbl_832159B4;
-extern unsigned int lbl_832159C8;
-extern unsigned int lbl_83215A2C;
-extern unsigned int lbl_83215A30;
+typedef struct State_829C7B18 {
+    unsigned char bytes[0x5c];
+} State_829C7B18;
 
+typedef struct Port_829C8598 {
+    int busy;                  /* 0x000 */
+    unsigned char state[0x5c]; /* 0x004 */
+    State_829C7B18 saved;      /* 0x060 */
+    State_829C7B18 history[2]; /* 0x0bc */
+    int slots[2];              /* 0x174 */
+    int index;                 /* 0x17c */
+    int idle;                  /* 0x180 */
+} Port_829C8598;
+
+typedef struct Request_829C8598 {
+    int type; /* 0x00 */
+    char pad4[0x10];
+    void (*callback)(void); /* 0x14 */
+    int pad18;
+
+    union {
+        unsigned char state[0x5c]; /* 0x1c */
+
+        struct {
+            int pad[3];
+            int sequence; /* 0x28 */
+        } fields;
+    } u;
+} Request_829C8598;
+
+typedef struct Driver_829C8598 {
+    char pad0[0x6c];
+    unsigned int lock; /* 0x06c */
+    char pad70[0x620];
+    int current; /* 0x690 */
+    char pad694[0x18];
+    Port_829C8598 ports[2];   /* 0x6ac */
+    Request_829C8598 request; /* 0x9b4 */
+    int requestPort;          /* 0xa2c */
+    int pending;              /* 0xa30 */
+} Driver_829C8598;
+
+extern Driver_829C8598 lbl_83215000;
+
+extern unsigned char KfAcquireSpinLock(unsigned int *lock);
+extern void KfReleaseSpinLock(unsigned int *lock, unsigned char irql);
+extern void *memcpy(void *dst, const void *src, unsigned int size);
+extern void fn_829C81E8(void);
+extern int fn_829C9BA0(Request_829C8598 *request);
 
 void fn_829C7B18(void)
-
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  int iVar3;
-  int iVar4;
-  int iVar5;
-  
-  uVar2 = KfAcquireSpinLock(0xffffffff8321506c);
-  iVar3 = lbl_83215690;
-  iVar5 = lbl_83215690 * 0x184;
-  if ((*(int *)(&lbl_8321582C + iVar5) == 0) || (*(int *)(&lbl_832156AC + iVar5) != 0)) {
-    lbl_83215A30 = 0;
-    KfReleaseSpinLock(0xffffffff8321506c,uVar2);
-  }
-  else {
-    iVar4 = lbl_83215690 * 0x61;
-    iVar1 = *(int *)(iVar5 + -0x7cdea7d8);
-    *(unsigned int *)(&lbl_8321582C + iVar5) = 0;
-    *(unsigned int *)((iVar4 + iVar1) * 4 + -0x7cdea7e0) = 0xffffffff;
-    fn_82F68CC0(iVar1 * 0x5c + iVar5 + -0x7cdea898,&lbl_8321570C + iVar5,0x5c);
-    KfReleaseSpinLock(0xffffffff8321506c,uVar2);
-    lbl_83215A2C = iVar3;
-    lbl_832159B4 = 0x23;
-    lbl_832159C8 = fn_829C81E8;
-    fn_82F68CC0(0xffffffff832159d0,&lbl_8321570C + iVar5,0x5c);
-    iRam832159dc = -iRam832159dc;
-    iVar3 = fn_829C9BA0(0xffffffff832159b4);
-    if (iVar3 < 0) {
-      *(unsigned int *)(&lbl_8321582C + iVar5) = 1;
-      lbl_83215A30 = 0;
-    }
-  }
-  return;
-}
+    int port;
+    int index;
+    unsigned char irql;
 
+    irql = KfAcquireSpinLock(&lbl_83215000.lock);
+    port = lbl_83215000.current;
+    if (lbl_83215000.ports[port].idle != 0 && lbl_83215000.ports[port].busy == 0) {
+        index = lbl_83215000.ports[port].index;
+        lbl_83215000.ports[port].idle = 0;
+        lbl_83215000.ports[port].slots[index] = -1;
+        lbl_83215000.ports[port].history[index] = lbl_83215000.ports[port].saved;
+        KfReleaseSpinLock(&lbl_83215000.lock, irql);
+        lbl_83215000.requestPort = port;
+        lbl_83215000.request.type = 0x23;
+        lbl_83215000.request.callback = fn_829C81E8;
+        memcpy(lbl_83215000.request.u.state, &lbl_83215000.ports[port].saved, 0x5c);
+        lbl_83215000.request.u.fields.sequence = -lbl_83215000.request.u.fields.sequence;
+        if (fn_829C9BA0(&lbl_83215000.request) < 0) {
+            lbl_83215000.ports[port].idle = 1;
+            lbl_83215000.pending = 0;
+        }
+    } else {
+        lbl_83215000.pending = 0;
+        KfReleaseSpinLock(&lbl_83215000.lock, irql);
+    }
+}

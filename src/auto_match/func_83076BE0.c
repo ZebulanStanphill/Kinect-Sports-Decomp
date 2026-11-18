@@ -1,43 +1,35 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern int fn_8306E9B8();
-extern int fn_8306ED78();
-extern int fn_8306ED98();
-extern int fn_8306EDB0();
-extern int fn_8306EDE8();
-extern int fn_830760D0();
-extern int fn_830763C8();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_8201DD74;
-extern unsigned int lbl_8201DFF8;
-extern unsigned int lbl_82196080;
-extern V16 vectorSplatImmediateSignedWord128();
-extern V16 vectorUnpackD3D128();
-extern void *memcpy(void *, const void *, unsigned int);
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+#define VPACK_NORMSHORT2 1
 
-void fn_83076BE0(void)
+__vector4 __vspltisw(int value);
+__vector4 __vupkd3d(__vector4 v, int type);
+__vector4 __vpermwi(__vector4 v, int control);
 
+extern __vector4 fn_830760D0(__vector4 q, __vector4 v);
+extern const float lbl_8201DFF8;
+extern const float lbl_82196080;
+extern float fn_8306ED98(__vector4 a, __vector4 b);
+extern float fn_8306E9B8(float x);
+extern __vector4 fn_8306ED78(__vector4 a, __vector4 b);
+extern __vector4 fn_8306EDB0(__vector4 v);
+extern __vector4 fn_8306EDE8(__vector4 v);
+extern __vector4 fn_830763C8(__vector4 axis, float angle);
+
+__vector4 fn_83076BE0(__vector4 from, __vector4 to)
 {
-  double dVar1;
-  unsigned char auVar2 [16];
-  
-  fn_830760D0();
-  dVar1 = (double)fn_8306ED98();
-  if ((float)(dVar1 - (double)lbl_82002AE0) <= lbl_8201DFF8) {
-    if (lbl_82196080 <= (float)(dVar1 + (double)lbl_82002AE0)) {
-      dVar1 = (double)fn_8306E9B8();
-      fn_8306ED78();
-      fn_8306EDB0();
-    }
-    else {
-      fn_8306EDE8();
-      dVar1 = (double)lbl_8201DD74;
-    }
-    fn_830763C8(dVar1);
-  }
-  else {{ V16 _vt0 = vectorSplatImmediateSignedWord128(0); memcpy(auVar2, &_vt0, 16); }
-    vectorUnpackD3D128(auVar2,4);
-  }
-  return;
-}
+    __vector4 rotated;
+    float cosine;
 
+    rotated = fn_830760D0(from, to);
+    cosine = fn_8306ED98(to, rotated);
+    if (cosine - 1.0f > lbl_8201DFF8) {
+        return __vpermwi(__vupkd3d(__vspltisw(0), VPACK_NORMSHORT2), 171);
+    }
+    if (cosine + 1.0f < lbl_82196080) {
+        return fn_830763C8(fn_8306EDE8(to), 3.14159265f);
+    }
+    return fn_830763C8(fn_8306EDB0(fn_8306ED78(to, rotated)), fn_8306E9B8(cosine));
+}

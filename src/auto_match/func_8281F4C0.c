@@ -1,41 +1,35 @@
-extern int fn_82813498();
-extern int fn_8281F720();
-extern int fn_82A1E6A0();
-extern unsigned int lbl_821AAD20;
-extern unsigned int lbl_8320A4D4;
+typedef struct Clock_8281F4C0 Clock_8281F4C0;
 
+typedef struct Timer_8281F4C0 {
+    unsigned char pad0[4];
+    int elapsed;           /* 0x04 */
+    void *event;           /* 0x08 */
+    int ticks;             /* 0x0c */
+    float deadline;        /* 0x10 */
+    unsigned char manual;  /* 0x14 */
+    unsigned char expired; /* 0x15 */
+} Timer_8281F4C0;
 
-void fn_8281F4C0(double param_1,int param_2,unsigned __int64 param_3,char param_4,char param_5)
+extern Clock_8281F4C0 *lbl_8320A4D4;
+extern Clock_8281F4C0 *fn_82813498(void);
+extern float fn_8281F720(Clock_8281F4C0 *clock, int kind);
+extern void *fn_82A1E6A0(void *attributes, int manualReset, int initialState, const char *name);
 
+static __forceinline Clock_8281F4C0 *GetClock(void)
 {
-  float fVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  double dVar4;
-  
-  uVar3 = (unsigned __int64)lbl_8320A4D4;
-  if (uVar3 == 0) {
-    uVar3 = fn_82813498();
-  }
-  dVar4 = (double)fn_8281F720(uVar3,1);
-  fVar1 = lbl_821AAD20;
-  if (lbl_821AAD20 <= (float)(dVar4 + param_1)) {
-    uVar3 = (unsigned __int64)lbl_8320A4D4;
-    if (uVar3 == 0) {
-      uVar3 = fn_82813498();
-    }
-    dVar4 = (double)fn_8281F720(uVar3,1);
-    fVar1 = (float)(dVar4 + param_1);
-  }
-  *(float *)(param_2 + 0x10) = fVar1;
-  if ((param_4 != '\0') && (param_5 == '\0')) {
-    uVar2 = fn_82A1E6A0(0,0,0,0);
-    *(unsigned int *)(param_2 + 8) = uVar2;
-  }
-  *(char *)(param_2 + 0x14) = param_5;
-  *(unsigned char *)(param_2 + 0x15) = 0;
-  *(unsigned int *)(param_2 + 0xc) = 0;
-  *(unsigned int *)(param_2 + 4) = 0;
-  return;
+    return lbl_8320A4D4 != 0 ? lbl_8320A4D4 : fn_82813498();
 }
 
+#define MAX(a, b) ((a) >= (b) ? (a) : (b))
+
+void fn_8281F4C0(Timer_8281F4C0 *self, float delay, unsigned char wantEvent, unsigned char manual)
+{
+    self->deadline = MAX(fn_8281F720(GetClock(), 1) + delay, 0.0f);
+    if (wantEvent && !manual) {
+        self->event = fn_82A1E6A0(0, 0, 0, 0);
+    }
+    self->manual = manual;
+    self->expired = 0;
+    self->ticks = 0;
+    self->elapsed = 0;
+}

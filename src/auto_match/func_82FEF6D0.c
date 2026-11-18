@@ -1,15 +1,12 @@
-extern int fn_82F68B74();
-extern unsigned int lbl_821AAD20;
+struct Stream_82FEF6D0 {
+    unsigned char pad[0xd8];
+    unsigned char mode; /* 0xd8 */
+};
 
+extern void fn_82FF3870(void *self, int kind, void *arg, float value);
 
-void fn_82FEF6D0(int param_1)
-
+void fn_82FEF6D0(struct Stream_82FEF6D0 *self)
 {
-  double dVar1;
-  
-  dVar1 = (double)lbl_821AAD20;
-  *(unsigned char *)(param_1 + 0xd8) = *(unsigned char *)(param_1 + 0xd8) & 0xe1 | 6;
-  fn_82F68B74(dVar1,param_1,3,0);
-  return;
+    self->mode = (self->mode & 0xe1) | 6;
+    fn_82FF3870(self, 3, 0, 0.0f);
 }
-

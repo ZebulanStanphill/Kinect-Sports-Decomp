@@ -1,49 +1,76 @@
-extern int fn_822E26D0();
-extern int fn_822E27C8();
-extern int fn_822E28C0();
-extern int fn_823830A0();
-extern int fn_8288B760();
-extern unsigned int lbl_8218EC10;
+typedef struct Actor_822E25B8 Actor_822E25B8;
 
+typedef struct ActorVtable_822E25B8 {
+    void *slots[8];
+    void (*Finish)(Actor_822E25B8 *self); /* 0x20 */
+} ActorVtable_822E25B8;
 
-void fn_822E25B8(double param_1,int *param_2)
+typedef struct World_822E25B8 {
+    unsigned char pad0[0x168];
+    unsigned int handle; /* 0x168 */
+    int enabled;         /* 0x16c */
+    unsigned char pad170[0x2e0 - 0x170];
+    int level; /* 0x2e0 */
+} World_822E25B8;
 
+typedef struct Target_822E25B8 {
+    unsigned char pad0[0x84];
+    char *body; /* 0x84 */
+} Target_822E25B8;
+
+struct Actor_822E25B8 {
+    ActorVtable_822E25B8 *vtable; /* 0x00 */
+    unsigned char pad4[0xc];
+    Target_822E25B8 *target; /* 0x10 */
+    World_822E25B8 *world;   /* 0x14 */
+    unsigned char pad18[0x2c - 0x18];
+    float timer; /* 0x2c */
+    unsigned char pad30[4];
+    int state; /* 0x34 */
+    unsigned char pad38[4];
+    float elapsed; /* 0x3c */
+};
+
+extern unsigned char fn_8288B760(unsigned int handle);
+extern int fn_823830A0(char *body);
+extern void fn_822E26D0(Actor_822E25B8 *self);
+extern void fn_822E27C8(Actor_822E25B8 *self);
+extern void fn_822E28C0(Actor_822E25B8 *self);
+extern const float lbl_8218EC10;
+
+void fn_822E25B8(Actor_822E25B8 *self, float dt)
 {
-  float fVar1;
-  unsigned int uVar2;
-  int iVar3;
-  
-  if (*(int *)(param_2[5] + 0x168) == 0) {
-    uVar2 = *(unsigned int *)(param_2[5] + 0x16c);
-  }
-  else {
-    uVar2 = fn_8288B760();
-    uVar2 = uVar2 & 0xff;
-  }
-  if ((uVar2 != 0) &&
-     (((*(int *)(param_2[4] + 0x84) == 0 || (iVar3 = fn_823830A0(), iVar3 != 0)) ||
-      (param_2[0xd] == 1)))) {
-    uVar2 = param_2[0xd];
-    param_2[0xf] = (int)(float)(param_1 + (double)(float)param_2[0xf]);
-    if (uVar2 == 0) {
-      if (*(int *)(param_2[5] + 0x2e0) < 0x18) {
-        (**(int (***)())(*param_2 + 0x20))(param_2);
-      }
-    }
-    else if (uVar2 == 1) {
-      fn_822E26D0(param_2);
-    }
-    else if (uVar2 < 3) {
-      fVar1 = (float)param_2[0xb];
-      param_2[0xb] = (int)(float)((double)fVar1 - param_1);
-      if ((float)((double)fVar1 - param_1) < lbl_8218EC10) {
-        fn_822E27C8(param_2);
-      }
-    }
-    else if (uVar2 == 5) {
-      fn_822E28C0(param_2);
-    }
-  }
-  return;
-}
+    int enabled;
 
+    if (self->world->handle != 0) {
+        enabled = fn_8288B760(self->world->handle);
+    } else {
+        enabled = self->world->enabled;
+    }
+    if (enabled == 0) {
+        return;
+    }
+    if (self->target->body != 0 && fn_823830A0(self->target->body) == 0 && self->state != 1) {
+        return;
+    }
+    self->elapsed = dt + self->elapsed;
+    switch ((unsigned int)self->state) {
+    case 0:
+        if (self->world->level < 0x18) {
+            self->vtable->Finish(self);
+        }
+        break;
+    case 1:
+        fn_822E26D0(self);
+        break;
+    case 2:
+        self->timer = self->timer - dt;
+        if (self->timer < lbl_8218EC10) {
+            fn_822E27C8(self);
+        }
+        break;
+    case 5:
+        fn_822E28C0(self);
+        break;
+    }
+}

@@ -1,53 +1,51 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern double sqrt(double);
-#define SQRT(x) sqrt(x)
-extern unsigned int fStack_4c;
-extern unsigned int fStack_50;
-extern unsigned int lbl_821AAD20;
-extern unsigned int stack0x00000000;
-extern unsigned __int64 storeVectorElementWordIndexed();
-extern V16 vectorSubtractFloatingPoint();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vsubfp(__vector4 a, __vector4 b);
+__vector4 __vmsum3fp(__vector4 a, __vector4 b);
+void __stvewx(__vector4 v, void *base, int offset);
+float __fsqrts(float);
 
-void fn_82D8B400(int param_1,int *param_2,unsigned __int64 param_3)
+typedef struct Aabb_82D8B400 {
+    __vector4 min; /* 0x00 */
+    __vector4 max; /* 0x10 */
+} Aabb_82D8B400;
 
+struct Shape_82D8B400;
+
+typedef struct ShapeVt_82D8B400 {
+    void *slot[7];
+    void (*getAabb)(struct Shape_82D8B400 *self, const void *transform, float tolerance, Aabb_82D8B400 *out);
+} ShapeVt_82D8B400;
+
+typedef struct Shape_82D8B400 {
+    ShapeVt_82D8B400 *vt;
+} Shape_82D8B400;
+
+typedef struct Body_82D8B400 {
+    char pad0[0x170];
+    __vector4 centre; /* 0x170 */
+    char pad180[0x10];
+    float radius; /* 0x190 */
+} Body_82D8B400;
+
+extern char lbl_8323B1D0[];
+
+void fn_82D8B400(Body_82D8B400 *body, Shape_82D8B400 *shape, __vector4 *extents)
 {
-  unsigned int uVar1;
-  unsigned int *puVar2;
-  int in_r0;
-  unsigned __int64 uVar3;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs39 [16];
-  unsigned char in_vs40 [16];
-  unsigned char in_vs43 [16];
-  unsigned char in_vs45 [16];
-  unsigned int in_register_000100c0;
-  unsigned int in_register_000100c4;
-  unsigned int in_register_000100c8;
-  unsigned int in_vr12;
-  float fStack_50;
-  float fStack_4c;
-  
-  uVar3 = ZEXT48(&stack0x00000000);
-  (**(int (***)())(*param_2 + 0x1c))
-            ((double)lbl_821AAD20,param_2,0xffffffff8323b1d0,param_3,uVar3 - 0x40);
-  vectorSubtractFloatingPoint(in_vs32,in_vs45);
-  puVar2 = (unsigned int *)(in_r0 + (int)param_3 & 0xfffffff0);
-  *puVar2 = in_register_000100c0;
-  puVar2[1] = in_register_000100c4;
-  puVar2[2] = in_register_000100c8;
-  puVar2[3] = in_vr12;
-  vectorSubtractFloatingPoint(in_vs32,in_vs43);
-  vectorSubtractFloatingPoint(in_vs45,in_vs43);
-  uVar1 = storeVectorElementWordIndexed(in_vs40,0,uVar3 - 0x50);
-  *(unsigned int *)(uVar3 - 0x50) = uVar1;
-  uVar1 = storeVectorElementWordIndexed(in_vs39,0,uVar3 - 0x4c);
-  *(unsigned int *)(uVar3 - 0x4c) = uVar1;
-  if (fStack_50 - fStack_4c < 0.0) {
-    fStack_50 = fStack_4c;
-  }
-  *(float *)(param_1 + 400) = SQRT(fStack_50);
-  return;
-}
+    Aabb_82D8B400 aabb;
+    __vector4 toMax;
+    __vector4 toMin;
+    float maxDistanceSquared;
+    float minDistanceSquared;
 
+    shape->vt->getAabb(shape, lbl_8323B1D0, 0.0f, &aabb);
+    *extents = __vsubfp(aabb.max, aabb.min);
+    toMax = __vsubfp(aabb.max, body->centre);
+    toMin = __vsubfp(aabb.min, body->centre);
+    __stvewx(__vmsum3fp(toMax, toMax), &maxDistanceSquared, 0);
+    __stvewx(__vmsum3fp(toMin, toMin), &minDistanceSquared, 0);
+    body->radius =
+        __fsqrts(maxDistanceSquared - minDistanceSquared >= 0.0f ? maxDistanceSquared : minDistanceSquared);
+}

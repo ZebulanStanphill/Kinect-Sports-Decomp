@@ -1,16 +1,21 @@
-void fn_82FA5AC0(unsigned int param_1,int *param_2,unsigned int *param_3)
+extern unsigned int _CountLeadingZeros(unsigned int value);
 
+/* Rounds size up to the next list size, then maps it to its first- and second-level index. */
+void fn_82FA5AC0(unsigned int size, int *firstIndex, int *secondIndex)
 {
-  if (0x1f < param_1) {
-    param_1 = ((1 << (0x1aU - (int)LZCOUNT(param_1) & 0x3f)) + param_1) - 1;
-  }
-  if (param_1 < 0x80) {
-    *param_2 = 0;
-    *param_3 = param_1 >> 2;
-    return;
-  }
-  *param_2 = -(int)LZCOUNT(param_1) + 0x19;
-  *param_3 = param_1 >> (-(int)LZCOUNT(param_1) + 0x1aU & 0x3f) ^ 0x20;
-  return;
+    int first;
+    int second;
+    if (size >= 0x20) {
+        size = size + (1 << (31 - _CountLeadingZeros(size) - 5)) - 1;
+    }
+    if (size < 0x80) {
+        first = 0;
+        second = size >> 2;
+    } else {
+        first = 31 - _CountLeadingZeros(size);
+        second = (size >> (first - 5)) ^ 0x20;
+        first -= 6;
+    }
+    *firstIndex = first;
+    *secondIndex = second;
 }
-

@@ -1,63 +1,84 @@
-extern int fn_82AB15D0();
-extern int fn_82AB5910();
-extern int fn_82AB6498();
-extern int fn_82AB6770();
-extern int fn_82AB67A8();
-extern int fn_82AB8540();
-extern int fn_82B6B3E8();
-extern int fn_82B6B628();
-extern int fn_82B6B868();
-extern int fn_82B6BF80();
+extern void fn_82AB15D0(int, const char *, const char *, const char *, int);
+extern void *fn_82AB6498(void *list);
+extern void *fn_82AB67A8(void *item);
+extern void fn_82AB6770(void *item);
+extern void *fn_82AB5910(void *list);
+extern void fn_82B6B628(void *pIntListFactory, void *list);
+extern void fn_82B6B868(void *pObjListFactory, void *list);
+extern void fn_82B6B3E8(void *pOListFactory, void *list);
+extern void fn_82AB8540(void *p);
+extern void fn_82B6BF80(void *p);
 
+#define CS_ASSERT(e, line)                                                                                                   \
+    if (!(e))                                                                                                                \
+    fn_82AB15D0(                                                                                                             \
+        0, "Assertion failed: %s (%s:%u)", #e,                                                                               \
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecompiler\\compiledshader.cpp", \
+        line)
 
-/* WARNING: Removing unreachable block (ram,0x82ab6c24) */
+typedef void *(*AllocFn_82AB6BC8)(void *context, unsigned int size);
+typedef void (*FreeFn_82AB6BC8)(void *context, void *p);
 
-void fn_82AB6BC8(unsigned int *param_1)
+typedef struct CompiledShader_82AB6BC8 {
+    void *context;                   /* 0x0 */
+    AllocFn_82AB6BC8 AllocateSysMem; /* 0x4 */
+    FreeFn_82AB6BC8 FreeSysMem;      /* 0x8 */
+    void *pRegistry;                 /* 0xc */
+    void *pOListFactory;             /* 0x10 */
+    void *pIntListFactory;           /* 0x14 */
+    void *pObjListFactory;           /* 0x18 */
+    int f1c;
+    int f20;
+    int f24;
+    int f28;
+    void *f2c; /* 0x2c */
+    int f30;
+    void *f34; /* 0x34 */
+    void *f38; /* 0x38 */
+    char pad3c[0x97c - 0x3c];
+    void *list97c;         /* 0x97c */
+    void *list980;         /* 0x980 */
+    void *list984;         /* 0x984 */
+    void *list988;         /* 0x988 */
+    void *list98c;         /* 0x98c */
+    unsigned int refCount; /* 0x990 */
+} CompiledShader_82AB6BC8;
 
+void fn_82AB6BC8(CompiledShader_82AB6BC8 *pCS)
 {
-  unsigned int uVar1;
-  __int64 lVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  
-  if (param_1 == (unsigned int *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d683c,0xffffffff820d6be8,0xe6);
-  }
-  uVar1 = param_1[0x264];
-  param_1[0x264] = (int)((unsigned __int64)uVar1 - 1);
-  if ((unsigned __int64)uVar1 - 1 == 0) {
-    fn_82B6B628(param_1[5],param_1[0x263]);
-    while (lVar2 = fn_82AB6498(param_1[0x262]), lVar2 != 0) {
-      uVar3 = fn_82AB67A8(lVar2);
-      (*(int (**)())param_1[2])(*param_1,uVar3);
-      fn_82AB6770(lVar2);
-    }
-    fn_82B6B868(param_1[6],param_1[0x262]);
-    while (lVar2 = fn_82AB6498(param_1[0x261]), lVar2 != 0) {
-      uVar3 = fn_82AB67A8(lVar2);
-      (*(int (**)())param_1[2])(*param_1,uVar3);
-      fn_82AB6770(lVar2);
-    }
-    fn_82B6B868(param_1[6],param_1[0x261]);
-    while (lVar2 = fn_82AB6498(param_1[0x25f]), lVar2 != 0) {
-      uVar3 = fn_82AB67A8(lVar2);
-      (*(int (**)())param_1[2])(*param_1,uVar3);
-      fn_82AB6770(lVar2);
-    }
-    fn_82B6B868(param_1[6],param_1[0x25f]);
-    while (uVar4 = fn_82AB5910(param_1[0x260]), (uVar4 & 0xffffffff) != 0) {
-      (*(int (**)())param_1[2])(*param_1,uVar4);
-    }
-    fn_82B6B3E8(param_1[4],param_1[0x260]);
-    fn_82AB8540(param_1[0xd]);
-    if (param_1[0xe] != 0) {
-      fn_82B6BF80();
-    }
-    if (param_1[0xb] != 0) {
-      (*(int (**)())param_1[2])(*param_1);
-    }
-    (*(int (**)())param_1[2])(*param_1,param_1);
-  }
-  return;
-}
+    void *item;
+    void *p;
 
+    CS_ASSERT(pCS, 0xe6);
+    if (--pCS->refCount == 0) {
+        CS_ASSERT(pCS->refCount == 0, 0xf1);
+        fn_82B6B628(pCS->pIntListFactory, pCS->list98c);
+        while ((item = fn_82AB6498(pCS->list988)) != 0) {
+            pCS->FreeSysMem(pCS->context, fn_82AB67A8(item));
+            fn_82AB6770(item);
+        }
+        fn_82B6B868(pCS->pObjListFactory, pCS->list988);
+        while ((item = fn_82AB6498(pCS->list984)) != 0) {
+            pCS->FreeSysMem(pCS->context, fn_82AB67A8(item));
+            fn_82AB6770(item);
+        }
+        fn_82B6B868(pCS->pObjListFactory, pCS->list984);
+        while ((item = fn_82AB6498(pCS->list97c)) != 0) {
+            pCS->FreeSysMem(pCS->context, fn_82AB67A8(item));
+            fn_82AB6770(item);
+        }
+        fn_82B6B868(pCS->pObjListFactory, pCS->list97c);
+        while ((p = fn_82AB5910(pCS->list980)) != 0) {
+            pCS->FreeSysMem(pCS->context, p);
+        }
+        fn_82B6B3E8(pCS->pOListFactory, pCS->list980);
+        fn_82AB8540(pCS->f34);
+        if (pCS->f38 != 0) {
+            fn_82B6BF80(pCS->f38);
+        }
+        if (pCS->f2c != 0) {
+            pCS->FreeSysMem(pCS->context, pCS->f2c);
+        }
+        pCS->FreeSysMem(pCS->context, pCS);
+    }
+}

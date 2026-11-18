@@ -1,53 +1,52 @@
-extern int fn_82A29A38();
+typedef struct State_82AAC8C0 {
+    unsigned int version; /* 0x00 */
+    char pad4[0x9c - 0x4];
+    int hasPosition;           /* 0x9c */
+    unsigned int textureMask;  /* 0xa0 */
+    unsigned int registers[4]; /* 0xa4 */
+} State_82AAC8C0;
 
+extern void fn_82A29A38(void);
 
-unsigned int fn_82AAC8C0(int param_1,unsigned int param_2,unsigned int *param_3,unsigned int *param_4)
-
+unsigned int fn_82AAC8C0(unsigned int kind, unsigned int index, State_82AAC8C0 *state, unsigned int *size)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  
-  if (param_1 == 0) {
-    uVar2 = 4;
-LAB_82aac9ac:
-    *param_4 = uVar2;
-  }
-  else {
-    if (param_1 == 3) {
-      if (0xffff0103 < *param_3) {
+    switch (kind) {
+    case 0:
+        *size = 4;
+        break;
+    case 3:
+        if (state->version >= 0xffff0104) {
+            fn_82A29A38();
+        }
+        index = state->registers[index];
+        *size = 4;
+        if (index == 0) {
+            fn_82A29A38();
+        }
+        break;
+    case 8:
+        if (state->version < 0xffff0200) {
+            fn_82A29A38();
+        }
+        if (index >= 4) {
+            fn_82A29A38();
+        }
+        if (state->version == 0xffff0200) {
+            state->textureMask |= 1 << index;
+            index += 0x23;
+            *size = 4;
+        } else {
+            *size = 0x17;
+        }
+        break;
+    case 9:
+        *size = 4;
+        state->hasPosition = 1;
+        index = 0x22;
+        break;
+    default:
         fn_82A29A38();
-      }
-      uVar1 = param_3[param_2 + 0x29];
-      *param_4 = 4;
-      param_2 = 0;
-      if (uVar1 != 0) {
-        return uVar1;
-      }
+        break;
     }
-    else {
-      if (param_1 == 8) {
-        if (*param_3 < 0xffff0200) {
-          fn_82A29A38();
-        }
-        if (3 < param_2) {
-          fn_82A29A38();
-        }
-        if (*param_3 == 0xffff0200) {
-          param_3[0x28] = 1 << (param_2 & 0x3f) | param_3[0x28];
-          *param_4 = 4;
-          return param_2 + 0x23;
-        }
-        uVar2 = 0x17;
-        goto LAB_82aac9ac;
-      }
-      if (param_1 == 9) {
-        *param_4 = 4;
-        param_3[0x27] = 1;
-        return 0x22;
-      }
-    }
-    fn_82A29A38();
-  }
-  return param_2;
+    return index;
 }
-

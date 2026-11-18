@@ -1,46 +1,48 @@
-extern int fn_82F640F0();
+typedef struct ItemList_82BF4628 {
+    char pad[0x1c];
+    void **items;                /* 0x1c */
+    unsigned short count;        /* 0x20 */
+    unsigned short visibleCount; /* 0x22 */
+    unsigned int current;        /* 0x24 */
+} ItemList_82BF4628;
 
+extern int fn_82F640F0(void *dst, unsigned int dstSize, const void *src, unsigned int count);
 
-void fn_82BF4628(int param_1,int param_2)
-
+static __forceinline unsigned int IndexOf(ItemList_82BF4628 *list, void *item)
 {
-  int iVar1;
-  unsigned int uVar2;
-  unsigned short uVar3;
-  int iVar4;
-  unsigned int uVar5;
-  
-  iVar1 = *(int *)(param_1 + 0x1c);
-  if (((iVar1 != 0) && (uVar2 = (unsigned int)*(unsigned short *)(param_1 + 0x20), uVar2 != 0)) &&
-     (uVar5 = 0, uVar2 != 0)) {
-    iVar4 = 0;
-    do {
-      if (*(int *)(iVar4 + iVar1) == param_2) {
-        if (uVar5 == 0xffffffff) {
-          return;
+    unsigned int index;
+    unsigned int found = (unsigned int)-1;
+
+    if (list->items != 0 && list->count != 0) {
+        for (index = 0; index < list->count; index++) {
+            if (list->items[index] == item) {
+                found = index;
+                break;
+            }
         }
-        if (uVar5 + 1 < uVar2) {
-          iVar1 = uVar5 * 4 + iVar1;
-          fn_82F640F0(iVar1,uVar2 - uVar5 & 0x3fffffff,iVar1 + 4,
-                            (uVar2 - uVar5) - 1 & 0x3fffffff);
-        }
-        if (uVar5 < *(unsigned int *)(param_1 + 0x24)) {
-          *(unsigned int *)(param_1 + 0x24) = *(unsigned int *)(param_1 + 0x24) - 1;
-        }
-        if (*(short *)(param_1 + 0x22) == *(short *)(param_1 + 0x20)) {
-          uVar3 = *(short *)(param_1 + 0x22) - 1;
-          *(unsigned short *)(param_1 + 0x22) = uVar3;
-          trapWord(6,(unsigned __int64)uVar3,0);
-          *(unsigned int *)(param_1 + 0x24) =
-               *(unsigned int *)(param_1 + 0x24) - (*(unsigned int *)(param_1 + 0x24) / (unsigned int)uVar3) * (unsigned int)uVar3;
-        }
-        *(short *)(param_1 + 0x20) = *(short *)(param_1 + 0x20) + -1;
-        return;
-      }
-      uVar5 = uVar5 + 1;
-      iVar4 = iVar4 + 4;
-    } while (uVar5 < *(unsigned short *)(param_1 + 0x20));
-  }
-  return;
+    }
+    return found;
 }
 
+void fn_82BF4628(ItemList_82BF4628 *list, void *item)
+{
+    unsigned int index = IndexOf(list, item);
+    unsigned int count;
+
+    if (index == (unsigned int)-1) {
+        return;
+    }
+    count = list->count;
+    if (index + 1 < count) {
+        fn_82F640F0(&list->items[index], (count - index) * sizeof(void *), &list->items[index + 1],
+                    (count - index - 1) * sizeof(void *));
+    }
+    if (index < list->current) {
+        list->current--;
+    }
+    if (list->visibleCount == list->count) {
+        list->visibleCount--;
+        list->current %= list->visibleCount;
+    }
+    list->count--;
+}
