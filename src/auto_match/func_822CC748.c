@@ -1,55 +1,52 @@
-extern int fn_822315A0();
-extern int fn_82273C88();
-extern int fn_8266FA50();
-extern int fn_8266FAC8();
-extern int fn_8266FB20();
-extern unsigned int lbl_82195518;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
-extern unsigned int uStack_4c;
-extern unsigned int uStack_50;
+/* Reads _root.markerXPos and _root.markerYPos from the movie and returns them divided by the
+   movie's width and height (0 stays 0). */
 
+typedef struct Value_822CC748 {
+    void *iface;   /* 0x0 */
+    int type;      /* 0x4 */
+    double number; /* 0x8 */
+} Value_822CC748;
 
-void fn_822CC748(unsigned int *param_1,float *param_2)
+typedef struct Marker_822CC748 {
+    void *movie;   /* 0x0 */
+    void *pending; /* 0x4 */
+} Marker_822CC748;
 
+extern const double lbl_821954B0[];
+extern int fn_8266FA50(void *movie, Value_822CC748 *value, const char *path);
+extern float fn_8266FAC8(void *movie);
+extern float fn_8266FB20(void *movie);
+extern void fn_82273C88(Value_822CC748 *value);
+extern void fn_822315A0(void *object);
+
+void fn_822CC748(Marker_822CC748 *self, float *out)
 {
-  double dVar1;
-  double dVar2;
-  double dVar3;
-  struct { unsigned int first; unsigned int second; } stack_pair_50;
+    Value_822CC748 x;
+    Value_822CC748 y;
+    double zero;
 
-  double dStack_48;
-  struct { unsigned int first; unsigned int second; } stack_pair_40;
-
-  double dStack_38;
-
-  stack_pair_40.first = 0;
-  stack_pair_40.second = 0;
-  stack_pair_50.first = 0;
-  stack_pair_50.second = 0;
-  fn_8266FA50(*param_1,&stack_pair_40.first,0xffffffff821ad1e0);
-  fn_8266FA50(*param_1,&stack_pair_50.first,0xffffffff821ad1f4);
-  dVar2 = lbl_82195518;
-  dVar3 = (double)ltcg_pool_0_0f;
-  if (dStack_38 == lbl_82195518) {
-    *param_2 = ltcg_pool_0_0f;
-  }
-  else {
-    dVar1 = (double)fn_8266FAC8(*param_1);
-    *param_2 = (float)(dStack_38 / dVar1);
-  }
-  if (dStack_48 == dVar2) {
-    param_2[1] = (float)dVar3;
-  }
-  else {
-    dVar2 = (double)fn_8266FB20(*param_1);
-    param_2[1] = (float)(dStack_48 / dVar2);
-  }
-  fn_82273C88(&stack_pair_50.first);
-  fn_82273C88(&stack_pair_40.first);
-  if (param_1[1] != 0) {
-    fn_822315A0();
-  }
-  return;
+    x.iface = 0;
+    x.type = 0;
+    y.iface = 0;
+    y.type = 0;
+    fn_8266FA50(self->movie, &x, "_root.markerXPos");
+    fn_8266FA50(self->movie, &y, "_root.markerYPos");
+    zero = lbl_821954B0[13];
+    if (x.number != zero) {
+        double xPos = x.number;
+        out[0] = (float)(xPos / fn_8266FAC8(self->movie));
+    } else {
+        out[0] = 0.0f;
+    }
+    if (y.number != zero) {
+        double yPos = y.number;
+        out[1] = (float)(yPos / fn_8266FB20(self->movie));
+    } else {
+        out[1] = 0.0f;
+    }
+    fn_82273C88(&y);
+    fn_82273C88(&x);
+    if (self->pending != 0) {
+        fn_822315A0(self->pending);
+    }
 }

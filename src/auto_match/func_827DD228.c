@@ -1,70 +1,64 @@
-extern unsigned int *auStack_3c;
-extern int fn_827D9ED0();
-extern int fn_827D9ED8();
-extern int fn_827E4210();
-extern int fn_8281C448();
-extern int fn_82A1E6A0();
-extern int fn_82A29B68();
-extern int fn_82A29CD8();
-extern int fn_82A29D80();
-extern int fn_82A29FE0();
-extern unsigned int uStack_40;
+typedef struct Overlapped_827DD228 {
+    unsigned int internal;     /* 0x00 */
+    unsigned int internalHigh; /* 0x04 */
+    unsigned int offset;       /* 0x08 */
+    unsigned int offsetHigh;   /* 0x0c */
+    void *event;               /* 0x10 */
+} Overlapped_827DD228;
 
+typedef struct WriteRequest_827DD228 {
+    int file; /* 0x00 */
+    int pad04[2];
+    unsigned int position; /* 0x0c */
+    unsigned int size;     /* 0x10 */
+    const void *buffer;    /* 0x14 */
+    int pad18;
+    Overlapped_827DD228 *overlapped; /* 0x1c */
+} WriteRequest_827DD228;
 
-unsigned __int64 fn_827DD228(unsigned __int64 param_1,unsigned int *param_2)
+extern unsigned int fn_827D9ED8(int file);
+extern void *fn_827D9ED0(int file);
+extern unsigned int fn_827E4210(void *device);
+extern unsigned int fn_82A29D80(void *handle, unsigned int *sizeHigh);
+extern unsigned int fn_82A29B68(void *handle, unsigned int distance, int *distanceHigh, unsigned int method);
+extern unsigned int fn_82A29CD8(void *handle);
+extern void *fn_82A1E6A0(void *attributes, int manualReset, int initialState, const char *name);
+extern int fn_82A29FE0(void *handle, const void *buffer, unsigned int length, unsigned int *written,
+                       Overlapped_827DD228 *overlapped);
+extern int fn_82A1F470(void);
+extern void fn_8281C448(const char *format, ...);
 
+int fn_827DD228(void *device, WriteRequest_827DD228 *request)
 {
-  unsigned int uVar1;
-  unsigned int *puVar2;
-  unsigned int uVar3;
-  int iVar7;
-  __int64 lVar4;
-  __int64 lVar5;
-  unsigned __int64 uVar6;
-  unsigned int uVar8;
-  unsigned __int64 uVar9;
-  unsigned __int64 uVar10;
-  unsigned int uStack_40;
-  unsigned char auStack_3c [1];
-  
-  uVar1 = *param_2;
-  puVar2 = (unsigned int *)param_2[7];
-  iVar7 = fn_827D9ED8(uVar1);
-  puVar2[2] = iVar7 + param_2[3];
-  lVar4 = fn_827E4210(param_1);
-  uVar3 = param_2[4];
-  lVar5 = fn_827E4210(param_1);
-  uVar9 = lVar4 + ((unsigned __int64)uVar3 - 1) & ~(lVar5 - 1U);
-  uVar6 = fn_827D9ED0(uVar1);
-  fn_82A29D80(uVar6,&uStack_40);
-  uVar10 = (unsigned int)puVar2[2] + uVar9;
-  if ((unsigned __int64)uStack_40 < (uVar10 & 0xffffffff)) {
-    uVar6 = fn_827D9ED0(uVar1);
-    iVar7 = fn_82A29B68(uVar6,uVar10,0,0);
-    if (iVar7 == -1) goto LAB_827dd2c0;
-    fn_827D9ED0(uVar1);
-    iVar7 = fn_82A29CD8();
-    if (iVar7 == 0) goto LAB_827dd2c0;
-  }
-  uVar8 = fn_82A1E6A0(0,1,0,0);
-  puVar2[4] = uVar8;
-  puVar2[3] = 0;
-  puVar2[1] = 0;
-  *puVar2 = 0;
-  uVar8 = puVar2[2];
-  uVar6 = fn_827D9ED0(uVar1);
-  iVar7 = fn_82A29B68(uVar6,uVar8,0,0);
-  if (iVar7 != -1) {
-    uVar8 = param_2[5];
-    uVar6 = fn_827D9ED0(uVar1);
-    iVar7 = fn_82A29FE0(uVar6,uVar8,uVar9,auStack_3c,puVar2);
-    if (iVar7 != 0) {
-      fn_8281C448(0xffffffff8201c4c4);
-      return 0;
-    }
-  }
-LAB_827dd2c0:
-  uVar6 = thunk_FUN_82a2b798();
-  return uVar6;
-}
+    int file = request->file;
+    Overlapped_827DD228 *overlapped = request->overlapped;
+    unsigned int alignedSize;
+    unsigned int end;
+    unsigned int fileSize;
+    unsigned int written;
 
+    overlapped->offset = fn_827D9ED8(file) + request->position;
+    alignedSize = (fn_827E4210(device) + request->size - 1) & ~(fn_827E4210(device) - 1);
+    fn_82A29D80(fn_827D9ED0(file), &fileSize);
+    end = overlapped->offset + alignedSize;
+    if (fileSize < end) {
+        if (fn_82A29B68(fn_827D9ED0(file), end, 0, 0) == 0xffffffff) {
+            return fn_82A1F470();
+        }
+        if (fn_82A29CD8(fn_827D9ED0(file)) == 0) {
+            return fn_82A1F470();
+        }
+    }
+    overlapped->event = fn_82A1E6A0(0, 1, 0, 0);
+    overlapped->offsetHigh = 0;
+    overlapped->internalHigh = 0;
+    overlapped->internal = 0;
+    if (fn_82A29B68(fn_827D9ED0(file), overlapped->offset, 0, 0) == 0xffffffff) {
+        return fn_82A1F470();
+    }
+    if (fn_82A29FE0(fn_827D9ED0(file), request->buffer, alignedSize, &written, overlapped) == 0) {
+        return fn_82A1F470();
+    }
+    fn_8281C448("Synchronous Write!");
+    return 0;
+}

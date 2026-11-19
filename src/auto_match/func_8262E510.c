@@ -1,52 +1,57 @@
-__int64 fn_8262E510(int *param_1,unsigned __int64 param_2)
+/* Binary search of a table of 6-byte entries {unsigned short id; int offset (unaligned)}
+   for a string id; returns the wide string at that offset, or an empty string. */
 
+typedef struct StringTable_8262E510 {
+    unsigned int pad0;
+    unsigned int count; /* 0x4 */
+} StringTable_8262E510;
+
+typedef struct StringBank_8262E510 {
+    StringTable_8262E510 *table; /* 0x0 */
+    unsigned char *entries;      /* 0x4 */
+    unsigned short *strings;     /* 0x8 */
+    unsigned int busy;           /* 0xc */
+} StringBank_8262E510;
+
+extern unsigned short lbl_8219088C[];
+
+unsigned short *fn_8262E510(StringBank_8262E510 *bank, int id)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  __int64 lVar4;
-  unsigned __int64 uVar5;
-  unsigned __int64 uVar6;
-  unsigned __int64 uVar7;
-  
-  if ((param_1 != (int *)0x0) && (param_1[3] == 0)) {
-    uVar5 = (unsigned __int64)(unsigned int)param_1[1];
-    uVar3 = ((unsigned __int64)*(unsigned int *)(*param_1 + 4) * 6 + uVar5) - 6;
-    uVar6 = (unsigned __int64)*(unsigned int *)(*param_1 + 4);
-    while ((uVar5 & 0xffffffff) <= (uVar3 & 0xffffffff)) {
-      uVar1 = (uVar6 & 0xffffffff) >> 1;
-      if (uVar1 == 0) {
-        if ((uVar6 & 0xffffffff) != 0) {
-          uVar7 = -(unsigned __int64)(param_2 == *(unsigned short *)uVar5) & uVar5;
-          goto code_r0x8262e59c;
-        }
-        break;
-      }
-      uVar2 = uVar6 & 1;
-      uVar6 = uVar1;
-      if (uVar2 == 0) {
-        uVar6 = uVar1 - 1;
-      }
-      uVar7 = uVar6 * 6 + uVar5;
-      lVar4 = param_2 - *(unsigned short *)uVar7;
-      if (lVar4 == 0) goto code_r0x8262e59c;
-      uVar6 = uVar1;
-      if ((int)lVar4 < 0) {
-        uVar3 = uVar7 - 6;
-        if (uVar2 == 0) {
-          uVar6 = uVar1 - 1;
-        }
-      }
-      else {
-        uVar5 = uVar7 + 6;
-      }
-    }
-    uVar7 = 0;
-code_r0x8262e59c:
-    if ((uVar7 & 0xffffffff) != 0) {
-      return ((unsigned __int64)*(unsigned int *)((int)uVar7 + 2) & 0x7fffffff) * 2 + (unsigned __int64)(unsigned int)param_1[2];
-    }
-  }
-  return -0x7de6f774;
-}
+    unsigned char *lo;
+    unsigned char *hi;
+    unsigned char *mid;
+    unsigned int num;
+    unsigned int half;
+    int result;
 
+    if (bank != 0 && bank->busy == 0) {
+        num = bank->table->count;
+        lo = bank->entries;
+        hi = lo + (num - 1) * 6;
+        while (lo <= hi) {
+            if ((half = num / 2) != 0) {
+                mid = lo + (num & 1 ? half : (half - 1)) * 6;
+                if (!(result = id - *(unsigned short *)mid)) {
+                    goto found;
+                } else if (result < 0) {
+                    hi = mid - 6;
+                    num = num & 1 ? half : half - 1;
+                } else {
+                    lo = mid + 6;
+                    num = half;
+                }
+            } else if (num) {
+                mid = (id - *(unsigned short *)lo) == 0 ? lo : 0;
+                goto found;
+            } else {
+                break;
+            }
+        }
+        mid = 0;
+    found:
+        if (mid != 0) {
+            return bank->strings + *(int *)(mid + 2);
+        }
+    }
+    return lbl_8219088C;
+}

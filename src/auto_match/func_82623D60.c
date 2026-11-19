@@ -1,55 +1,66 @@
-extern int fn_8263FB88();
-extern int fn_82F6A540();
-extern int fn_82F6A58C();
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int lbl_8320A898;
+typedef struct Device_82623D60 {
+    char pad0[0x30];
+    int vertexCursor; /* 0x30 */
+    char pad34[0x3554 - 0x34];
+    int vertexStart; /* 0x3554 */
+} Device_82623D60;
 
+typedef struct Vertex_82623D60 {
+    float x;
+    float y;
+    float z;
+    float u;
+    float v;
+} Vertex_82623D60;
 
-void fn_82623D60(unsigned __int64 param_1,double param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  float *param_5)
+extern Device_82623D60 *lbl_8320A898;
 
+extern Vertex_82623D60 *fn_8263FB88(Device_82623D60 *device, int primitive, int count, int stride);
+
+static __forceinline int BeginVertices(Device_82623D60 *device, int primitive, int count, int stride,
+                                       Vertex_82623D60 **vertices)
 {
-  float fVar1;
-  int iVar2;
-  float *pfVar3;
-  double dVar4;
-  double dVar5;
-  double dVar6;
-  double dVar7;
-  double dVar8;
-  
-  dVar4 = (double)fn_82F6A540();
-  dVar8 = (double)*param_5;
-  dVar7 = (double)param_5[1];
-  dVar6 = -dVar8;
-  dVar5 = -dVar7;
-  pfVar3 = (float *)fn_8263FB88(lbl_8320A898,0xd,4,0x14);
-  if (-1 < (__int64)-(unsigned __int64)(pfVar3 == (float *)0x0)) {
-    *pfVar3 = (float)dVar6;
-    pfVar3[1] = (float)dVar5;
-    iVar2 = lbl_8320A898;
-    pfVar3[4] = (float)param_2;
-    pfVar3[5] = (float)dVar8;
-    pfVar3[6] = (float)dVar5;
-    fVar1 = ltcg_pool_0_0f;
-    pfVar3[2] = ltcg_pool_0_0f;
-    pfVar3[3] = fVar1;
-    pfVar3[7] = fVar1;
-    pfVar3[8] = (float)dVar4;
-    pfVar3[9] = (float)param_2;
-    pfVar3[10] = (float)dVar8;
-    pfVar3[0xb] = (float)dVar7;
-    pfVar3[0xc] = fVar1;
-    pfVar3[0xd] = (float)dVar4;
-    pfVar3[0xe] = fVar1;
-    pfVar3[0xf] = (float)dVar6;
-    pfVar3[0x10] = (float)dVar7;
-    pfVar3[0x11] = fVar1;
-    pfVar3[0x12] = fVar1;
-    pfVar3[0x13] = fVar1;
-    *(unsigned int *)(iVar2 + 0x30) = *(unsigned int *)(iVar2 + 0x3554);
-  }
-  fn_82F6A58C();
-  return;
+    Vertex_82623D60 *data = fn_8263FB88(device, primitive, count, stride);
+
+    *vertices = data;
+    return data != 0 ? 0 : 0x8007000E;
 }
 
+static __forceinline void EndVertices(Device_82623D60 *device)
+{
+    device->vertexCursor = device->vertexStart;
+}
+
+/* Draws a quad from (-size[0], -size[1]) to (size[0], size[1]) with texture coordinates up to (u, v). */
+void fn_82623D60(float u, float v, float *size)
+{
+    Vertex_82623D60 *quad;
+    float right = size[0];
+    float bottom = size[1];
+    float left = -right;
+    float top = -bottom;
+
+    if (BeginVertices(lbl_8320A898, 0xd, 4, sizeof(Vertex_82623D60), &quad) >= 0) {
+        quad[0].x = left;
+        quad[0].y = top;
+        quad[0].z = 0.0f;
+        quad[0].u = 0.0f;
+        quad[0].v = v;
+        quad[1].x = right;
+        quad[1].y = top;
+        quad[1].z = 0.0f;
+        quad[1].u = u;
+        quad[1].v = v;
+        quad[2].x = right;
+        quad[2].y = bottom;
+        quad[2].z = 0.0f;
+        quad[2].u = u;
+        quad[2].v = 0.0f;
+        quad[3].x = left;
+        quad[3].y = bottom;
+        quad[3].z = 0.0f;
+        quad[3].u = 0.0f;
+        quad[3].v = 0.0f;
+        EndVertices(lbl_8320A898);
+    }
+}

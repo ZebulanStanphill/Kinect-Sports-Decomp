@@ -1,103 +1,103 @@
-extern int fn_8265C940();
-extern int fn_8265C990();
+typedef struct Volume_82921208 Volume_82921208;
 
+typedef struct VolumeVtbl_82921208 {
+    void *f0;
+    void (*get)(Volume_82921208 *self, unsigned int y, unsigned int z, void *row); /* 0x4 */
+    void (*set)(Volume_82921208 *self, unsigned int y, unsigned int z, void *row); /* 0x8 */
+} VolumeVtbl_82921208;
 
-unsigned __int64 fn_82921208(int *param_1)
+struct Volume_82921208 {
+    VolumeVtbl_82921208 *vtbl; /* 0x00 */
+    char pad04[0xc];
+    int f10; /* 0x10 */
+    char pad14[0x54];
+    unsigned int width;  /* 0x68 */
+    unsigned int height; /* 0x6c */
+    unsigned int depth;  /* 0x70 */
+};
 
+typedef struct Copy_82921208 {
+    Volume_82921208 *source; /* 0x0 */
+    Volume_82921208 *dest;   /* 0x4 */
+    unsigned char pad8[3];
+    unsigned char mode; /* 0xb */
+} Copy_82921208;
+
+typedef struct Texel_82921208 {
+    float r;
+    float g;
+    float b;
+    float a;
+} Texel_82921208;
+
+extern void *fn_8265C940(unsigned int size, unsigned int flags);
+extern void fn_8265C990(void *p, unsigned int flags);
+
+static __forceinline void *Alloc(unsigned int n)
 {
-  int iVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned __int64 uVar8;
-  int iVar9;
-  int iVar10;
-  unsigned int *puVar11;
-  int iVar12;
-  unsigned int *puVar13;
-  unsigned __int64 uVar14;
-  unsigned __int64 uVar15;
-  unsigned __int64 uVar16;
-  unsigned __int64 uVar17;
-  unsigned __int64 uVar18;
-  unsigned int uVar19;
-  unsigned __int64 uVar20;
-  
-  if (*(char *)((int)param_1 + 0xb) == '\x02') {
-    iVar9 = fn_8265C940(*(int *)(*param_1 + 0x68) << 4,0x24810000);
-    if (iVar9 != 0) {
-      iVar10 = fn_8265C940(*(int *)(param_1[1] + 0x68) << 4,0x24810000);
-      if (iVar10 != 0) {
-        if ((*(int *)(param_1[1] + 0x10) != 0) && (*(int *)(*param_1 + 0x10) != 0)) {
-          *(unsigned int *)(param_1[1] + 0x10) = 0;
-          *(unsigned int *)(*param_1 + 0x10) = 0;
-        }
-        iVar1 = *param_1;
-        uVar14 = 0;
-        iVar12 = param_1[1];
-        uVar16 = 0;
-        uVar2 = *(unsigned int *)(iVar1 + 0x68);
-        uVar3 = *(unsigned int *)(iVar1 + 0x6c);
-        uVar4 = *(unsigned int *)(iVar12 + 0x68);
-        uVar5 = *(unsigned int *)(iVar1 + 0x70);
-        uVar6 = *(unsigned int *)(iVar12 + 0x6c);
-        uVar7 = *(unsigned int *)(iVar12 + 0x70);
-        trapWord(6,(unsigned __int64)uVar4,0);
-        trapWord(6,(unsigned __int64)uVar6,0);
-        trapWord(6,(unsigned __int64)uVar7,0);
-        if (*(int *)(iVar12 + 0x70) != 0) {
-          do {
-            uVar20 = 0;
-            uVar17 = 0;
-            uVar15 = 0xffffffffffffffff;
-            if (*(int *)(iVar12 + 0x6c) != 0) {
-              do {
-                uVar18 = 0;
-                uVar19 = 0;
-                if (((uVar15 ^ uVar20) & 0xffff0000) != 0) {
-                  (**(int (***)())(*(int *)*param_1 + 4))
-                            ((int *)*param_1,(uVar20 & 0xffffffff) >> 0x10,
-                             (uVar14 & 0xffffffff) >> 0x10,iVar9);
-                  uVar15 = uVar20;
-                }
-                if (*(int *)(param_1[1] + 0x68) != 0) {
-                  puVar13 = (unsigned int *)(iVar10 + -4);
-                  do {
-                    uVar19 = uVar19 + 1;
-                    puVar11 = (unsigned int *)
-                              (((unsigned int)((uVar18 & 0xffffffff) >> 0xc) & 0xffff0) + iVar9);
-                    uVar18 = uVar18 + (((unsigned __int64)uVar2 & 0xffff) << 0x10) / (unsigned __int64)uVar4;
-                    puVar13[1] = *puVar11;
-                    puVar13[2] = puVar11[1];
-                    puVar13[3] = puVar11[2];
-                    puVar13 = puVar13 + 4;
-                    *puVar13 = puVar11[3];
-                  } while (uVar19 < *(unsigned int *)(param_1[1] + 0x68));
-                }
-                (**(int (***)())(*(int *)param_1[1] + 8))((int *)param_1[1],uVar17,uVar16,iVar10);
-                iVar12 = param_1[1];
-                uVar17 = uVar17 + 1;
-                uVar20 = uVar20 + (((unsigned __int64)uVar3 & 0xffff) << 0x10) / (unsigned __int64)uVar6;
-              } while ((uVar17 & 0xffffffff) < (unsigned __int64)*(unsigned int *)(iVar12 + 0x6c));
-            }
-            uVar16 = uVar16 + 1;
-            uVar14 = uVar14 + (((unsigned __int64)uVar5 & 0xffff) << 0x10) / (unsigned __int64)uVar7;
-          } while ((uVar16 & 0xffffffff) < (unsigned __int64)*(unsigned int *)(iVar12 + 0x70));
-        }
-        fn_8265C990(iVar9,0x24810000);
-        fn_8265C990(iVar10,0x24810000);
-        return 0;
-      }
-      fn_8265C990(iVar9,0x24810000);
-    }
-    uVar8 = 0xffffffff8007000e;
-  }
-  else {
-    uVar8 = 0xffffffff80004005;
-  }
-  return uVar8;
+    return fn_8265C940(n, 0x24810000);
 }
 
+/* Resamples the source volume into the destination with nearest-point sampling (16.16 steps). */
+int fn_82921208(Copy_82921208 *p)
+{
+    Texel_82921208 *sourceRow;
+    Texel_82921208 *destRow;
+    Texel_82921208 *texel;
+    unsigned int stepX;
+    unsigned int stepY;
+    unsigned int stepZ;
+    unsigned int x;
+    unsigned int y;
+    unsigned int z;
+    unsigned int u;
+    unsigned int v;
+    unsigned int w;
+    unsigned int lastV;
+
+    if (p->mode != 2) {
+        return 0x80004005;
+    }
+    sourceRow = (Texel_82921208 *)Alloc(p->source->width << 4);
+    if (sourceRow == 0) {
+        return 0x8007000E;
+    }
+    destRow = (Texel_82921208 *)Alloc(p->dest->width << 4);
+    if (destRow == 0) {
+        fn_8265C990(sourceRow, 0x24810000);
+        return 0x8007000E;
+    }
+    if (p->dest->f10 != 0 && p->source->f10 != 0) {
+        p->dest->f10 = 0;
+        p->source->f10 = 0;
+    }
+    stepX = (p->source->width << 16) / p->dest->width;
+    stepY = (p->source->height << 16) / p->dest->height;
+    stepZ = (p->source->depth << 16) / p->dest->depth;
+    w = 0;
+    for (z = 0; z < p->dest->depth; z++) {
+        v = 0;
+        for (y = 0, lastV = 0xffffffff; y < p->dest->height; y++) {
+            u = 0;
+            x = 0;
+            if (((lastV ^ v) & 0xffff0000) != 0) {
+                p->source->vtbl->get(p->source, v >> 16, w >> 16, sourceRow);
+                lastV = v;
+            }
+            for (; x < p->dest->width; x++) {
+                texel = &sourceRow[u >> 16];
+                destRow[x].r = texel->r;
+                destRow[x].g = texel->g;
+                destRow[x].b = texel->b;
+                destRow[x].a = texel->a;
+                u += stepX;
+            }
+            p->dest->vtbl->set(p->dest, y, z, destRow);
+            v += stepY;
+        }
+        w += stepZ;
+    }
+    fn_8265C990(sourceRow, 0x24810000);
+    fn_8265C990(destRow, 0x24810000);
+    return 0;
+}

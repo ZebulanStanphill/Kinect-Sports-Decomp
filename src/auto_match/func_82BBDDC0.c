@@ -1,35 +1,15 @@
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_82002C5C;
-extern unsigned int lbl_820288C0;
-extern unsigned int lbl_8202EE48;
-extern unsigned int lbl_821AAD20;
-
-
-unsigned int fn_82BBDDC0(float *param_1)
-
+/* Packs a clamped RGB float colour into a 5:6:5 word. */
+static __forceinline float Saturate(float x)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  
-  fVar1 = *param_1;
-  fVar2 = lbl_821AAD20;
-  if ((lbl_821AAD20 <= fVar1) && (fVar2 = fVar1, lbl_82002AE0 < fVar1)) {
-    fVar2 = lbl_82002AE0;
-  }
-  fVar1 = param_1[1];
-  fVar4 = lbl_821AAD20;
-  if ((lbl_821AAD20 <= fVar1) && (fVar4 = fVar1, lbl_82002AE0 < fVar1)) {
-    fVar4 = lbl_82002AE0;
-  }
-  fVar1 = param_1[2];
-  fVar3 = lbl_821AAD20;
-  if ((lbl_821AAD20 <= fVar1) && (fVar3 = lbl_82002AE0, fVar1 <= lbl_82002AE0)) {
-    fVar3 = fVar1;
-  }
-  return (((int)(fVar2 * lbl_8202EE48 + lbl_82002C5C) << 6 |
-          (int)(fVar4 * lbl_820288C0 + lbl_82002C5C)) << 5 |
-         (int)(fVar3 * lbl_8202EE48 + lbl_82002C5C)) & 0xffff;
+    return x < 0.0f ? 0.0f : (x > 1.0f ? 1.0f : x);
 }
 
+unsigned short fn_82BBDDC0(const float *color)
+{
+    float r = Saturate(color[0]);
+    float g = Saturate(color[1]);
+    float b = Saturate(color[2]);
+
+    return (unsigned short)((((int)(r * 31.0f + 0.5f) << 6 | (int)(g * 63.0f + 0.5f)) << 5) |
+                            (int)(b * 31.0f + 0.5f));
+}

@@ -1,34 +1,38 @@
-typedef unsigned char bool;
-extern unsigned int ltcg_pool_0_0f;
+/* Sets a float render state that feeds two other states: stores it twice, updates the two
+   "non-zero" flags and marks the affected state groups dirty. */
 
+typedef struct Device_82638698 {
+    char pad0[0x10];
+    unsigned __int64 dirtyGroups; /* 0x10 */
+    char pad18[8];
+    unsigned __int64 dirtyStates; /* 0x20 */
+    char pad28[0x2920];
+    unsigned int pad2948 : 19;
+    unsigned int secondActive : 1; /* 0x2948, bit 12 */
+    unsigned int firstActive : 1;  /* 0x2948, bit 11 */
+    unsigned int pad2948b : 11;
+    char pad294c[0x104];
+    float firstBase;   /* 0x2a50 */
+    float firstValue;  /* 0x2a54 */
+    float secondBase;  /* 0x2a58 */
+    float secondValue; /* 0x2a5c */
+} Device_82638698;
 
-void fn_82638698(int param_1,float param_2)
-
+static __forceinline void SetDirty_82638698(unsigned __int64 *mask, unsigned __int64 bits)
 {
-  unsigned int uVar1;
-  float fVar2;
-  int iVar3;
-  int iVar4;
-  unsigned __int64 uVar5;
-  bool bVar6;
-  
-  fVar2 = ltcg_pool_0_0f;
-  if ((*(float *)(param_1 + 0x2a50) != ltcg_pool_0_0f) || (iVar3 = 0, param_2 != ltcg_pool_0_0f)) {
-    iVar3 = 1;
-  }
-  uVar1 = *(unsigned int *)(param_1 + 0x2948);
-  bVar6 = *(float *)(param_1 + 0x2a58) != ltcg_pool_0_0f;
-  *(unsigned int *)(param_1 + 0x2948) = iVar3 << 0xb | uVar1 & 0xfffff7ff;
-  if ((bVar6) || (iVar4 = 0, param_2 != fVar2)) {
-    iVar4 = 1;
-  }
-  *(float *)(param_1 + 0x2a54) = param_2;
-  *(float *)(param_1 + 0x2a5c) = param_2;
-  *(unsigned int *)(param_1 + 0x2948) = iVar4 << 0xc | iVar3 << 0xb | uVar1 & 0xffffe7ff;
-  uVar5 = *(unsigned __int64 *)(param_1 + 0x20);
-  *(unsigned __int64 *)(param_1 + 0x20) = uVar5 | 0x100000000000;
-  *(unsigned __int64 *)(param_1 + 0x20) = uVar5 | 0x140000000000;
-  *(unsigned __int64 *)(param_1 + 0x10) = *(unsigned __int64 *)(param_1 + 0x10) | 0x40;
-  return;
+    *mask |= bits;
 }
 
+void fn_82638698(Device_82638698 *device, unsigned int value)
+{
+    float f;
+
+    f = *(float *)&value;
+    device->firstActive = device->firstBase != 0.0f || f != 0.0f;
+    device->secondActive = device->secondBase != 0.0f || f != 0.0f;
+    device->firstValue = f;
+    device->secondValue = f;
+    SetDirty_82638698(&device->dirtyStates, 0x100000000000);
+    SetDirty_82638698(&device->dirtyStates, 0x40000000000);
+    SetDirty_82638698(&device->dirtyGroups, 0x40);
+}

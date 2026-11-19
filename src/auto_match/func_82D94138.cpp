@@ -1,0 +1,108 @@
+// Havok: applies a transform to a phantom: an AABB phantom's box is moved by the translation,
+// a shape phantom's transform is multiplied by it.
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
+
+extern "C" __vector4 __vaddfp(__vector4 a, __vector4 b);
+
+class hkVector4
+{
+  public:
+    __forceinline void operator=(const hkVector4 &v)
+    {
+        m_quad = v.m_quad;
+    }
+
+    __forceinline void add4(const hkVector4 &v)
+    {
+        m_quad = __vaddfp(m_quad, v.m_quad);
+    }
+
+    __vector4 m_quad;
+};
+
+class hkRotation
+{
+  public:
+    hkVector4 m_col0;
+    hkVector4 m_col1;
+    hkVector4 m_col2;
+};
+
+class hkTransform
+{
+  public:
+    __forceinline hkTransform()
+    {
+    }
+
+    __forceinline hkTransform(const hkTransform &t)
+    {
+        m_rotation.m_col0 = t.m_rotation.m_col0;
+        m_rotation.m_col1 = t.m_rotation.m_col1;
+        m_rotation.m_col2 = t.m_rotation.m_col2;
+        m_translation = t.m_translation;
+    }
+
+    hkRotation m_rotation;
+    hkVector4 m_translation;
+};
+
+class hkAabb
+{
+  public:
+    hkVector4 m_min;
+    hkVector4 m_max;
+};
+
+class hkpPhantom
+{
+  public:
+    virtual void slot00();
+    virtual void slot04();
+    virtual void slot08();
+    virtual void slot0c();
+    virtual void slot10();
+    virtual int getType() const;
+
+    char m_pad04[0xac];
+};
+
+class hkpAabbPhantom : public hkpPhantom
+{
+  public:
+    hkAabb m_aabb; // +0xb0
+};
+
+class hkpShapePhantom : public hkpPhantom
+{
+  public:
+    hkTransform m_transform; // +0xb0
+};
+
+extern "C" void fn_82CE68B8(hkTransform *self, const hkTransform *transform);
+extern "C" void fn_82D8CD68(hkpAabbPhantom *self, const hkAabb *aabb);
+extern "C" void fn_82D99E00(hkpShapePhantom *self, const hkTransform &transform);
+
+extern "C" void fn_82D94138(hkpPhantom *phantom, const hkTransform *transform)
+{
+    switch (phantom->getType()) {
+    case 0: {
+        hkpAabbPhantom *aabbPhantom = static_cast<hkpAabbPhantom *>(phantom);
+        hkAabb aabb = aabbPhantom->m_aabb;
+        aabb.m_min.add4(transform->m_translation);
+        aabb.m_max.add4(transform->m_translation);
+        fn_82D8CD68(aabbPhantom, &aabb);
+        break;
+    }
+    case 1:
+    case 2: {
+        hkpShapePhantom *shapePhantom = static_cast<hkpShapePhantom *>(phantom);
+        hkTransform t = shapePhantom->m_transform;
+        fn_82CE68B8(&t, transform);
+        fn_82D99E00(shapePhantom, t);
+        break;
+    }
+    }
+}

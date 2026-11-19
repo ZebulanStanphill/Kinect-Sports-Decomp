@@ -1,45 +1,17 @@
-unsigned __int64 fn_8281EB20(unsigned int *param_1)
+typedef struct Matrix_8281EB20 {
+    unsigned int m[12]; /* float bits, a 4x3 matrix */
+} Matrix_8281EB20;
 
+static __forceinline int IsFinite(unsigned int bits)
 {
-  __int64 lVar1;
-  __int64 lVar2;
-  __int64 lVar3;
-  __int64 lVar4;
-  __int64 lVar5;
-  __int64 lVar6;
-  __int64 lVar7;
-  __int64 lVar8;
-  __int64 lVar9;
-  __int64 lVar10;
-  __int64 lVar11;
-  __int64 lVar12;
-  
-  lVar10 = -((unsigned __int64)param_1[0xb] & 0x7f800000) + 0x7f800000;
-  lVar9 = -((unsigned __int64)param_1[10] & 0x7f800000) + 0x7f800000;
-  lVar8 = -((unsigned __int64)param_1[9] & 0x7f800000) + 0x7f800000;
-  lVar5 = -((unsigned __int64)param_1[8] & 0x7f800000) + 0x7f800000;
-  lVar3 = -((unsigned __int64)param_1[7] & 0x7f800000) + 0x7f800000;
-  lVar1 = -((unsigned __int64)param_1[6] & 0x7f800000) + 0x7f800000;
-  lVar12 = -((unsigned __int64)param_1[5] & 0x7f800000) + 0x7f800000;
-  lVar2 = -((unsigned __int64)param_1[4] & 0x7f800000) + 0x7f800000;
-  lVar6 = -((unsigned __int64)param_1[3] & 0x7f800000) + 0x7f800000;
-  lVar4 = -((unsigned __int64)param_1[2] & 0x7f800000) + 0x7f800000;
-  lVar7 = -((unsigned __int64)param_1[1] & 0x7f800000) + 0x7f800000;
-  lVar11 = -((unsigned __int64)*param_1 & 0x7f800000) + 0x7f800000;
-  return lVar10 + (-(unsigned __int64)(lVar10 == 0) -
-                  (-((unsigned __int64)param_1[0xb] & 0x7f800000) + 0x7f7fffff)) &
-         lVar9 + (-(unsigned __int64)(lVar9 == 0) - (-((unsigned __int64)param_1[10] & 0x7f800000) + 0x7f7fffff))
-         & lVar8 + (-(unsigned __int64)(lVar8 == 0) - (-((unsigned __int64)param_1[9] & 0x7f800000) + 0x7f7fffff))
-         & lVar5 + (-(unsigned __int64)(lVar5 == 0) - (-((unsigned __int64)param_1[8] & 0x7f800000) + 0x7f7fffff))
-         & lVar3 + (-(unsigned __int64)(lVar3 == 0) - (-((unsigned __int64)param_1[7] & 0x7f800000) + 0x7f7fffff))
-         & lVar1 + (-(unsigned __int64)(lVar1 == 0) - (-((unsigned __int64)param_1[6] & 0x7f800000) + 0x7f7fffff))
-         & lVar12 + (-(unsigned __int64)(lVar12 == 0) -
-                    (-((unsigned __int64)param_1[5] & 0x7f800000) + 0x7f7fffff)) &
-         lVar2 + (-(unsigned __int64)(lVar2 == 0) - (-((unsigned __int64)param_1[4] & 0x7f800000) + 0x7f7fffff)) &
-         lVar6 + (-(unsigned __int64)(lVar6 == 0) - (-((unsigned __int64)param_1[3] & 0x7f800000) + 0x7f7fffff)) &
-         lVar4 + (-(unsigned __int64)(lVar4 == 0) - (-((unsigned __int64)param_1[2] & 0x7f800000) + 0x7f7fffff)) &
-         lVar7 + (-(unsigned __int64)(lVar7 == 0) - (-((unsigned __int64)param_1[1] & 0x7f800000) + 0x7f7fffff)) &
-         lVar11 + (-(unsigned __int64)(lVar11 == 0) - (-((unsigned __int64)*param_1 & 0x7f800000) + 0x7f7fffff)) &
-         1;
+    return (bits & 0x7f800000) != 0x7f800000;
 }
 
+/* Returns 1 when no element is an infinity or a NaN. */
+int fn_8281EB20(Matrix_8281EB20 *matrix)
+{
+    return IsFinite(matrix->m[0]) & IsFinite(matrix->m[1]) & IsFinite(matrix->m[2]) & IsFinite(matrix->m[3]) &
+           IsFinite(matrix->m[4]) & IsFinite(matrix->m[5]) & IsFinite(matrix->m[6]) & IsFinite(matrix->m[7]) &
+           IsFinite(matrix->m[8]) & IsFinite(matrix->m[9]) & IsFinite(matrix->m[10]) &
+           IsFinite(matrix->m[11]) & 1;
+}

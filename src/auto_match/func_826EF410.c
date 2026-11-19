@@ -1,52 +1,47 @@
-void fn_826EF410(int param_1,int param_2,unsigned __int64 param_3,char param_4,unsigned __int64 param_5)
+/* Writes an unsigned number backwards in front of the output cursor, in the given base,
+   with a group separator every three decimal digits when grouping is requested. */
 
+typedef struct Format_826EF410 {
+    char pad0[5];
+    signed char separator : 7; /* 0x5 */
+    unsigned char flag5 : 1;
+    unsigned char upper : 1; /* 0x6 */
+    unsigned char pad6 : 7;
+    char pad7;
+    char *cursor; /* 0x8 */
+} Format_826EF410;
+
+void fn_826EF410(Format_826EF410 *self, char *begin, unsigned int value, unsigned char group,
+                 unsigned int base)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  unsigned int uVar3;
-  char *pcVar4;
-  int iVar5;
-  char *pcVar6;
-  
-  uVar3 = (unsigned int)param_5;
-  if ((param_4 != '\0') && (uVar3 == 10)) {
-    iVar5 = 3;
-    if ((*(unsigned char *)(param_1 + 5) & 0xfe) != 0) goto code_r0x826ef434;
-  }
-  iVar5 = 1000;
-code_r0x826ef434:
-  if ((*(unsigned char *)(param_1 + 6) & 0x80) == 0) {
-    pcVar4 = "0123456789abcdef";
-  }
-  else {
-    pcVar4 = "0123456789ABCDEF";
-  }
-  if (uVar3 < 2) {
-    return;
-  }
-  if (0x10 < uVar3) {
-    return;
-  }
-  do {
-    if (param_2 == *(int *)(param_1 + 8)) {
-      return;
-    }
-    uVar1 = param_3 & 0xffffffff;
-    trapWord(6,param_5,0);
-    iVar2 = (int)param_3;
-    param_3 = (param_3 & 0xffffffff) / (param_5 & 0xffffffff);
-    trapWord(6,param_5,0);
-    if (iVar5 == 0) {
-      pcVar6 = (char *)(*(int *)(param_1 + 8) + -1);
-      iVar5 = 3;
-      *(char **)(param_1 + 8) = pcVar6;
-      *pcVar6 = *(char *)(param_1 + 5) >> 1;
-    }
-    iVar5 = iVar5 + -1;
-    pcVar6 = (char *)(*(int *)(param_1 + 8) + -1);
-    *(char **)(param_1 + 8) = pcVar6;
-    *pcVar6 = pcVar4[iVar2 - (int)(uVar1 / (param_5 & 0xffffffff)) * uVar3 & 0xff];
-  } while (param_3 != 0);
-  return;
-}
+    unsigned int count;
+    const char *digits;
+    unsigned char digit;
 
+    if (group && base == 10 && self->separator != 0) {
+        count = 3;
+    } else {
+        count = 1000;
+    }
+    if (self->upper) {
+        digits = "0123456789ABCDEF";
+    } else {
+        digits = "0123456789abcdef";
+    }
+    if (base < 2 || base > 16) {
+        return;
+    }
+    do {
+        if (begin == self->cursor) {
+            return;
+        }
+        digit = value % base;
+        value /= base;
+        if (count == 0) {
+            *--self->cursor = self->separator;
+            count = 3;
+        }
+        count--;
+        *--self->cursor = digits[digit];
+    } while (value != 0);
+}

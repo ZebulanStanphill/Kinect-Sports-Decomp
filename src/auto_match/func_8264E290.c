@@ -1,53 +1,68 @@
-typedef unsigned char bool;
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
+/* Builds the per-tile predication masks of a list of screen regions: each region gets two bits
+   per tiling rectangle, set when the region overlaps the rectangle (regions in 8-pixel units).
+   The masks are written to memory the GPU reads, so each is flushed from the cache. */
+typedef struct Rect_8264E290 {
+    unsigned int left;   /* 0x00 */
+    unsigned int top;    /* 0x04 */
+    unsigned int right;  /* 0x08 */
+    unsigned int bottom; /* 0x0c */
+} Rect_8264E290;
 
+typedef struct Tiling_8264E290 {
+    int unk00;              /* 0x00 */
+    unsigned int count;     /* 0x04 */
+    Rect_8264E290 rects[1]; /* 0x08 */
+} Tiling_8264E290;
 
-void fn_8264E290(int param_1,unsigned int *param_2)
+typedef struct Region_8264E290 {
+    unsigned int *mask;    /* 0x00 */
+    unsigned short left;   /* 0x04 */
+    unsigned short right;  /* 0x06 */
+    unsigned short top;    /* 0x08 */
+    unsigned short bottom; /* 0x0a */
+    int unk0c;             /* 0x0c */
+} Region_8264E290;
 
+void __dcbf(int offset, void const *base);
+
+void fn_8264E290(Tiling_8264E290 *self, unsigned int *block)
 {
-  bool bVar1;
-  int iVar2;
-  unsigned int *puVar3;
-  unsigned int *puVar4;
-  int iVar5;
-  unsigned int uVar6;
-  int iVar7;
-  unsigned int *puVar8;
-  unsigned int *puVar9;
-  
-  iVar2 = *(int *)(param_1 + 4);
-  do {
-    puVar3 = (unsigned int *)*param_2;
-    puVar9 = param_2 + 1;
-    if (puVar9 < puVar3) {
-      iVar5 = iVar2 + -1;
-      param_2 = param_2 + 3;
-      do {
-        uVar6 = 0;
-        puVar4 = (unsigned int *)*puVar9;
-        puVar8 = (unsigned int *)(iVar5 * 0x10 + param_1 + 0xc);
-        iVar7 = iVar5;
-        do {
-          uVar6 = uVar6 << 2;
-          if ((((puVar8[-1] < (*(unsigned short *)((int)param_2 + -2) + 1) * 8) &&
-               ((unsigned int)*(unsigned short *)(param_2 + -1) << 3 < puVar8[1])) &&
-              (*puVar8 < ((unsigned short)*param_2 + 1) * 8)) && ((unsigned int)*(unsigned short *)param_2 << 3 < puVar8[2])
-             ) {
-            uVar6 = uVar6 | 3;
-          }
-          bVar1 = iVar7 != 0;
-          iVar7 = iVar7 + -1;
-          puVar8 = puVar8 + -4;
-        } while (bVar1);
-        *puVar4 = uVar6;
-        dataCacheBlockFlush(((unsigned __int64)((unsigned int)puVar4 >> 0x14) + 0x200 & 0x1000) +
-                            (ZEXT48(puVar4) & 0x1fffffff) + -0x40000000);
-        puVar9 = puVar9 + 4;
-        param_2 = param_2 + 4;
-      } while (puVar9 < puVar3);
-    }
-    param_2 = (unsigned int *)*puVar9;
-  } while (param_2 != (unsigned int *)0xc0000000);
-  return;
-}
+    unsigned int count = self->count;
+    Rect_8264E290 *rects = self->rects;
+    Region_8264E290 *region;
+    Region_8264E290 *end;
+    Rect_8264E290 *rect;
+    unsigned int mask;
+    unsigned int i;
+    unsigned int *dest;
+    unsigned int right;
+    unsigned int bottom;
+    unsigned int left;
+    unsigned int top;
 
+    do {
+        end = (Region_8264E290 *)block[0];
+        for (region = (Region_8264E290 *)(block + 1); region < end; region++) {
+            unsigned short *bounds = &region->left;
+
+            right = (bounds[1] + 1) * 8;
+            mask = 0;
+            left = bounds[0] * 8;
+            top = bounds[2] * 8;
+            bottom = (bounds[3] + 1) * 8;
+            dest = region->mask;
+            i = count - 1;
+            do {
+                rect = &rects[i];
+                mask <<= 2;
+                if (rect->left < right && rect->right > left && rect->top < bottom && rect->bottom > top) {
+                    mask |= 3;
+                }
+            } while (i-- != 0);
+            *dest = mask;
+            __dcbf(((unsigned int)dest & 0x1fffffff) + ((((unsigned int)dest >> 20) + 0x200) & 0x1000),
+                   (void *)0xc0000000);
+        }
+        block = *(unsigned int **)region;
+    } while (block != (unsigned int *)0xc0000000);
+}

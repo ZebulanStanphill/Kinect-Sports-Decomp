@@ -1,54 +1,54 @@
-void fn_82642A60(int param_1,int param_2)
+typedef struct Node_82642A60 {
+    char pad0[0x8];
+    unsigned char kind; /* 0x08: low 3 bits */
+    char pad9[0xb];
+    unsigned int flags;    /* 0x14: bit 18, bit 17, count in bits 5-9 */
+    int countA;            /* 0x18 */
+    int countB;            /* 0x1c */
+    int f20;               /* 0x20 */
+    unsigned int slots[1]; /* 0x24 */
+} Node_82642A60;
 
+/* Merges the entries of source (sorted by their low byte) into node's slots after slot countA + countB. */
+void fn_82642A60(Node_82642A60 *node, Node_82642A60 *source)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  unsigned int *puVar4;
-  unsigned int *puVar5;
-  unsigned __int64 uVar6;
-  unsigned __int64 uVar7;
-  unsigned int *puVar9;
-  __int64 lVar8;
-  unsigned __int64 uVar10;
-  
-  if ((((*(unsigned char *)(param_1 + 8) & 7) != 7) && ((*(unsigned int *)(param_1 + 0x14) & 0x40000) == 0)) &&
-     ((param_2 == 0 || ((*(unsigned int *)(param_2 + 0x14) & 0x20000) == 0)))) {
-    uVar3 = (unsigned __int64)(*(unsigned int *)(param_1 + 0x14) >> 5) & 0x1f;
-    uVar6 = 0;
-    uVar1 = *(unsigned int *)(param_2 + 0x14) >> 5;
-    uVar7 = (unsigned __int64)uVar1 & 0x1f;
-    puVar4 = (unsigned int *)(param_2 + 0x20);
-    puVar9 = (unsigned int *)((*(int *)(param_1 + 0x1c) + *(int *)(param_1 + 0x18) + 9) * 4 + param_1);
-    uVar2 = 0;
-    uVar10 = uVar7;
-    puVar5 = puVar9;
-    if ((uVar1 & 0x1f) != 0) {
-      do {
-        for (; ((uVar6 & 0xffffffff) < uVar3 && ((unsigned int)(unsigned char)*puVar9 < (*puVar4 & 0xff)));
-            puVar9 = puVar9 + 1) {
-          uVar6 = uVar6 + 1;
-        }
-        puVar9 = puVar9 + 1;
-        *puVar5 = *puVar4 & 0xffff;
-        puVar5 = puVar5 + 1;
-        puVar4 = puVar4 + 1;
-        uVar6 = uVar6 + 1;
-        uVar10 = uVar10 - 1;
-        uVar2 = uVar7;
-      } while (uVar10 != 0);
-    }
-    if (uVar2 < uVar3) {
-      puVar5 = puVar5 + -1;
-      for (lVar8 = uVar3 - uVar2; lVar8 != 0; lVar8 = lVar8 + -1) {
-        puVar5 = puVar5 + 1;
-        *puVar5 = 0;
-      }
-    }
-    *(unsigned int *)(param_1 + 0x20) = 0;
-    *(unsigned int *)(param_1 + 0x14) =
-         *(unsigned int *)(param_2 + 0x14) & 0x7ffff | *(unsigned int *)(param_1 + 0x14) & 0xfff80000;
-  }
-  return;
-}
+    unsigned int nodeCount;
+    unsigned int sourceCount;
+    unsigned int i;
+    unsigned int j;
+    unsigned int *scan;
+    unsigned int *out;
+    unsigned int *in;
+    unsigned int entry;
+    unsigned int key;
+    int kind;
 
+    kind = node->kind & 7;
+    if (kind != 7 && (node->flags & 0x40000) == 0 && (source == 0 || (source->flags & 0x20000) == 0)) {
+        nodeCount = (node->flags >> 5) & 0x1f;
+        i = 0;
+        j = 0;
+        sourceCount = (source->flags >> 5) & 0x1f;
+        in = (unsigned int *)&source->f20;
+        scan = &node->slots[node->countB + node->countA];
+        out = scan;
+        for (; j < sourceCount; j++) {
+            entry = *in;
+            key = entry & 0xff;
+            while (i < nodeCount && (*scan & 0xff) < key) {
+                i++;
+                scan++;
+            }
+            scan++;
+            *out = entry & 0xffff;
+            out++;
+            in++;
+            i++;
+        }
+        for (; j < nodeCount; j++) {
+            *out++ = 0;
+        }
+        node->f20 = 0;
+        node->flags = (source->flags & 0x7ffff) | (node->flags & 0xfff80000);
+    }
+}

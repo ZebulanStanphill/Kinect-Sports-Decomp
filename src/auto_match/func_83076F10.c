@@ -1,85 +1,46 @@
-extern unsigned int *auStack_60;
-extern int fn_82F534D8();
-extern int fn_8306ED70();
-extern int fn_83075D30();
-extern int fn_83075D80();
-extern int fn_830760D0();
-extern int fn_83076E58();
-extern unsigned int lbl_8200133C;
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_821AAD20;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Entry_83076F10 {
+    __vector4 v;
+    char pad[0x10];
+} Entry_83076F10;
 
-void fn_83076F10(unsigned __int64 param_1,char param_2)
+extern void fn_83075D30(__vector4 *out, Entry_83076F10 *entries, int i);
+extern void fn_83075D80(Entry_83076F10 *entries, int i, __vector4 v);
+extern __vector4 fn_830760D0(__vector4 q, __vector4 v);
+extern __vector4 fn_82F534D8(float x, float y, float z, float w);
+extern __vector4 fn_8306ED70(__vector4 a, __vector4 b);
+extern void fn_83076E58(Entry_83076F10 *entries, int a, int b);
 
+/*
+ * Rotates the 20 skeleton joint positions by q; when mirror is set, also negates x and swaps
+ * the left and right arm and leg joints (4-7 with 8-11, 12-15 with 16-19).
+ */
+void fn_83076F10(Entry_83076F10 *entries, unsigned char mirror, __vector4 q)
 {
-  unsigned int *puVar1;
-  unsigned __int64 in_r0;
-  unsigned __int64 uVar2;
-  double dVar3;
-  double dVar4;
-  double dVar5;
-  unsigned int in_register_00010010;
-  unsigned int in_register_00010014;
-  unsigned int in_register_00010018;
-  unsigned int in_vr1;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned int uVar8;
-  unsigned int uVar9;
-  unsigned char auStack_60 [96];
-  
-  uVar2 = 0;
-  do {
-    fn_83075D30(auStack_60,param_1,uVar2);
-    uVar9 = in_vr1;
-    uVar8 = in_register_00010018;
-    uVar7 = in_register_00010014;
-    uVar6 = in_register_00010010;
-    fn_830760D0();
-    puVar1 = (unsigned int *)((unsigned int)(auStack_60 + (int)in_r0) & 0xfffffff0);
-    *puVar1 = in_register_00010010;
-    puVar1[1] = in_register_00010014;
-    puVar1[2] = in_register_00010018;
-    puVar1[3] = in_vr1;
-    in_vr1 = uVar9;
-    in_register_00010018 = uVar8;
-    in_register_00010014 = uVar7;
-    in_register_00010010 = uVar6;
-    fn_83075D80(param_1,uVar2);
-    uVar2 = uVar2 + 1;
-  } while ((uVar2 & 0xffffffff) < 0x14);
-  if (param_2 != '\0') {
-    uVar2 = 0;
-    dVar3 = (double)lbl_821AAD20;
-    dVar5 = (double)lbl_82002AE0;
-    dVar4 = (double)lbl_8200133C;
-    do {
-      fn_83075D30(auStack_60,param_1,uVar2);
-      fn_82F534D8(dVar4,dVar5,dVar5,dVar3);
-      puVar1 = (unsigned int *)((unsigned int)(auStack_60 + (int)in_r0) & 0xfffffff0);
-      uVar9 = *puVar1;
-      uVar8 = puVar1[1];
-      uVar7 = puVar1[2];
-      uVar6 = puVar1[3];
-      fn_8306ED70();
-      puVar1 = (unsigned int *)((unsigned int)(auStack_60 + (int)in_r0) & 0xfffffff0);
-      *puVar1 = uVar9;
-      puVar1[1] = uVar8;
-      puVar1[2] = uVar7;
-      puVar1[3] = uVar6;
-      fn_83075D80(param_1,uVar2);
-      uVar2 = uVar2 + 1;
-    } while ((uVar2 & 0xffffffff) < 0x14);
-    fn_83076E58(param_1,8,4);
-    fn_83076E58(param_1,9,5);
-    fn_83076E58(param_1,10,6);
-    fn_83076E58(param_1,0xb,7);
-    fn_83076E58(param_1,0x10,0xc);
-    fn_83076E58(param_1,0x11,0xd);
-    fn_83076E58(param_1,0x12,0xe);
-    fn_83076E58(param_1,0x13,0xf);
-  }
-  return;
-}
+    __vector4 v;
+    unsigned int i;
 
+    for (i = 0; i < 20; i++) {
+        fn_83075D30(&v, entries, i);
+        v = fn_830760D0(q, v);
+        fn_83075D80(entries, i, v);
+    }
+    if (mirror) {
+        for (i = 0; i < 20; i++) {
+            fn_83075D30(&v, entries, i);
+            v = fn_8306ED70(v, fn_82F534D8(-1.0f, 1.0f, 1.0f, 0.0f));
+            fn_83075D80(entries, i, v);
+        }
+        fn_83076E58(entries, 8, 4);
+        fn_83076E58(entries, 9, 5);
+        fn_83076E58(entries, 10, 6);
+        fn_83076E58(entries, 11, 7);
+        fn_83076E58(entries, 16, 12);
+        fn_83076E58(entries, 17, 13);
+        fn_83076E58(entries, 18, 14);
+        fn_83076E58(entries, 19, 15);
+    }
+}

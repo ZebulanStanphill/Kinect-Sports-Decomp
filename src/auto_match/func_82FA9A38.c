@@ -1,63 +1,67 @@
-extern int fn_82FAE490();
-extern unsigned int stack0x00000024;
-extern unsigned int uStack00000024;
+typedef struct Track_82FA9A38 {
+    char pad00[0x5c];
+    int start;  /* 0x5c */
+    void *data; /* 0x60 */
+} Track_82FA9A38;
 
+typedef struct Stream_82FA9A38 Stream_82FA9A38;
 
-unsigned __int64
-fn_82FA9A38(int *param_1,unsigned __int64 param_2,unsigned int param_3,unsigned __int64 param_4,unsigned __int64 param_5
-             ,unsigned __int64 param_6,unsigned __int64 param_7,char param_8)
+typedef struct StreamVtbl_82FA9A38 {
+    void *slots[3];
+    unsigned int (*GetLimit)(Stream_82FA9A38 *self, int key, int *value, int *limit); /* 0x0c */
+} StreamVtbl_82FA9A38;
 
+struct Stream_82FA9A38 {
+    StreamVtbl_82FA9A38 *vt; /* 0x00 */
+    char pad04[8];
+    int offset; /* 0x0c */
+    char pad10[0x30];
+    Track_82FA9A38 *track; /* 0x40 */
+    int base;              /* 0x44 */
+};
+
+extern int fn_82FAE490(void *data, int position, int count, unsigned char clamp, int *out);
+
+int fn_82FA9A38(Stream_82FA9A38 *self, int key, int value, int position, int minimum, int count,
+                unsigned char clamp, unsigned char force, int *out)
 {
-  int *piVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  unsigned int uStack00000024;
-  int *in_stack_00000054;
-  int aiStack_30;
-  
-  piVar1 = in_stack_00000054;
-  iVar2 = param_1[0x10];
-  param_4 = ((param_4 & 0xffffffff) >> 0x1f) - 1 & param_4;
-  if (iVar2 == 0) {
-    uVar3 = -(unsigned __int64)(unsigned int)param_1[3];
-  }
-  else {
-    uVar3 = (unsigned __int64)*(unsigned int *)(iVar2 + 0x5c);
-  }
-  if ((int)uVar3 < (int)param_5) {
-    uVar3 = param_5;
-  }
-  if ((int)uVar3 < param_1[0x11]) {
-    uVar3 = (unsigned __int64)(unsigned int)param_1[0x11];
-  }
-  if (((param_7 & 0xff) == 0) || (0 < (int)uVar3)) {
-    param_4 = uVar3 + param_4;
-  }
-  uVar4 = 2;
-  uStack00000024 = param_3;
-  if (iVar2 == 0) {
-    if ((param_8 != '\0') || ((int)param_6 == 0)) {
-      *in_stack_00000054 = (int)param_4;
-      uVar4 = 1;
-    }
-  }
-  else {
-    uVar4 = fn_82FAE490(*(unsigned int *)(iVar2 + 0x60),param_4,param_6,param_7,
-                              in_stack_00000054);
-  }
-  *piVar1 = *piVar1 - param_1[0x11];
-  if (((int)uVar4 == 1) &&
-     (iVar2 = (**(int (***)())(*param_1 + 0xc))(param_1,param_2,&stack0x00000024,&aiStack_30), iVar2 != 0
-     )) {
-    iVar2 = *piVar1;
-    if (param_1[3] < 0) {
-      iVar2 = param_1[3] + iVar2;
-    }
-    if (aiStack_30 < iVar2) {
-      return 2;
-    }
-  }
-  return uVar4;
-}
+    Track_82FA9A38 *track = self->track;
+    int start;
+    int result;
+    int limit;
 
+    position = position < 0 ? 0 : position;
+    if ((int)track != 0) {
+        start = track->start;
+    } else {
+        start = -self->offset;
+    }
+    if (minimum > start) {
+        start = minimum;
+    }
+    if (self->base > start) {
+        start = self->base;
+    }
+    if (clamp == 0 || start > 0) {
+        position += start;
+    }
+    result = 2;
+    if ((int)track != 0) {
+        result = fn_82FAE490(track->data, position, count, clamp, out);
+    } else if (force != 0 || count == 0) {
+        *out = position;
+        result = 1;
+    }
+    *out -= self->base;
+    if (result == 1 && self->vt->GetLimit(self, key, &value, &limit) != 0) {
+        int end = *out;
+
+        if (self->offset < 0) {
+            end += self->offset;
+        }
+        if (end > limit) {
+            return 2;
+        }
+    }
+    return result;
+}

@@ -1,67 +1,42 @@
-extern int fn_82F6A538();
-extern int fn_82F6A584();
-extern unsigned int lbl_821AAD20;
-
-
-void fn_8280C130(void)
-
+/*
+ * Determinant of a column-major 4x4 matrix (m[column * 4 + row]), expanded along the last row;
+ * zero terms are skipped.
+ */
+static __forceinline float Det3(float m00, float m01, float m02, float m10, float m11, float m12, float m20,
+                                float m21, float m22)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  float fVar5;
-  float fVar6;
-  float fVar7;
-  float fVar8;
-  float fVar9;
-  float fVar10;
-  float fVar11;
-  float fVar12;
-  float fVar13;
-  float fVar14;
-  float fVar15;
-  float *pfVar16;
-  double dVar17;
-  double dVar18;
-  
-  pfVar16 = (float *)fn_82F6A538();
-  fVar1 = pfVar16[9];
-  fVar2 = pfVar16[2];
-  fVar3 = pfVar16[5];
-  fVar4 = pfVar16[1];
-  fVar5 = pfVar16[6];
-  fVar6 = pfVar16[10];
-  fVar7 = pfVar16[4];
-  fVar8 = *pfVar16;
-  fVar9 = pfVar16[8];
-  dVar18 = (double)lbl_821AAD20;
-  fVar15 = fVar6 * fVar4 - fVar2 * fVar1;
-  fVar10 = pfVar16[0xc];
-  fVar14 = fVar5 * fVar4 - fVar2 * fVar3;
-  fVar11 = pfVar16[0xd];
-  fVar13 = fVar6 * fVar3 - fVar5 * fVar1;
-  fVar12 = pfVar16[0xe];
-  dVar17 = (double)((fVar14 * fVar9 + (fVar13 * fVar8 - fVar15 * fVar7)) * pfVar16[0xf]);
-  if ((double)pfVar16[3] != dVar18) {
-    dVar17 = -(double)(float)((double)(fVar13 * fVar10 +
-                                      ((fVar12 * fVar1 - fVar6 * fVar11) * fVar7 -
-                                      (fVar12 * fVar3 - fVar5 * fVar11) * fVar9)) *
-                              (double)pfVar16[3] - dVar17);
-  }
-  if ((double)pfVar16[7] != dVar18) {
-    dVar17 = (double)(float)((double)(fVar15 * fVar10 +
-                                     ((fVar12 * fVar1 - fVar6 * fVar11) * fVar8 -
-                                     (fVar12 * fVar4 - fVar2 * fVar11) * fVar9)) *
-                             (double)pfVar16[7] + dVar17);
-  }
-  if ((double)pfVar16[0xb] != dVar18) {
-    dVar17 = -(double)(float)((double)(fVar14 * fVar10 +
-                                      ((fVar12 * fVar3 - fVar5 * fVar11) * fVar8 -
-                                      (fVar12 * fVar4 - fVar2 * fVar11) * fVar7)) *
-                              (double)pfVar16[0xb] - dVar17);
-  }
-  fn_82F6A584(dVar17);
-  return;
+    return (m01 * m12 - m02 * m11) * m20 + ((m11 * m22 - m12 * m21) * m00 - (m01 * m22 - m02 * m21) * m10);
 }
 
+float fn_8280C130(const float *m)
+{
+    float r0c0 = m[0];
+    float r0c1 = m[4];
+    float r0c2 = m[8];
+    float r0c3 = m[12];
+    float r1c0 = m[1];
+    float r1c1 = m[5];
+    float r1c2 = m[9];
+    float r1c3 = m[13];
+    float r2c0 = m[2];
+    float r2c1 = m[6];
+    float r2c2 = m[10];
+    float r2c3 = m[14];
+    float r3c0 = m[3];
+    float r3c1 = m[7];
+    float r3c2 = m[11];
+    float r3c3 = m[15];
+    float det;
+
+    det = Det3(r0c0, r1c0, r2c0, r0c1, r1c1, r2c1, r0c2, r1c2, r2c2) * r3c3;
+    if (r3c0 != 0.0f) {
+        det -= Det3(r0c1, r1c1, r2c1, r0c2, r1c2, r2c2, r0c3, r1c3, r2c3) * r3c0;
+    }
+    if (r3c1 != 0.0f) {
+        det += Det3(r0c0, r1c0, r2c0, r0c2, r1c2, r2c2, r0c3, r1c3, r2c3) * r3c1;
+    }
+    if (r3c2 != 0.0f) {
+        det -= Det3(r0c0, r1c0, r2c0, r0c1, r1c1, r2c1, r0c3, r1c3, r2c3) * r3c2;
+    }
+    return det;
+}

@@ -1,60 +1,38 @@
-void fn_82EAA718(int param_1)
+/* Doubles two planes of 16-bit samples in both directions: each input sample fills a 2x2 block. */
 
+typedef struct Upsampler_82EAA718 {
+    char pad0[0x2d0];
+    unsigned int width;  /* 0x2d0 */
+    unsigned int height; /* 0x2d4 */
+    char pad2d8[0x6b8];
+    unsigned short *outU; /* 0x990 */
+    unsigned short *outV; /* 0x994 */
+    char pad998[0x13d4];
+    unsigned short *inU; /* 0x1d6c */
+    unsigned short *inV; /* 0x1d70 */
+} Upsampler_82EAA718;
+
+void fn_82EAA718(Upsampler_82EAA718 *self)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned short *puVar6;
-  unsigned int uVar7;
-  __int64 lVar8;
-  __int64 lVar9;
-  unsigned __int64 uVar10;
-  int iVar11;
-  
-  uVar4 = 0;
-  if (*(int *)(param_1 + 0x2d4) == 0) {
-    return;
-  }
-  uVar5 = *(unsigned int *)(param_1 + 0x2d0);
-  iVar3 = 2;
-  do {
-    uVar7 = 0;
-    uVar10 = (__int64)*(int *)(param_1 + 0x2d0) * (__int64)(int)uVar4;
-    if (uVar5 != 0) {
-      lVar8 = (uVar10 & 0x7fffffff) << 1;
-      lVar9 = (uVar10 & 0x1fffffff) << 3;
-      iVar11 = iVar3 * *(int *)(param_1 + 0x2d0) * 2;
-      do {
-        uVar7 = uVar7 + 1;
-        iVar1 = (int)lVar8;
-        *(unsigned short *)(iVar11 + *(int *)(param_1 + 0x990) + 2) =
-             *(unsigned short *)(iVar1 + *(int *)(param_1 + 0x1d6c));
-        puVar6 = (unsigned short *)(iVar11 + *(int *)(param_1 + 0x990));
-        *puVar6 = puVar6[1];
-        iVar2 = (int)lVar9;
-        *(unsigned short *)(iVar2 + *(int *)(param_1 + 0x990) + 2) =
-             *(unsigned short *)(iVar11 + *(int *)(param_1 + 0x990));
-        puVar6 = (unsigned short *)(iVar2 + *(int *)(param_1 + 0x990));
-        *puVar6 = puVar6[1];
-        lVar8 = lVar8 + 2;
-        *(unsigned short *)(iVar11 + *(int *)(param_1 + 0x994) + 2) =
-             *(unsigned short *)(iVar1 + *(int *)(param_1 + 0x1d70));
-        puVar6 = (unsigned short *)(iVar11 + *(int *)(param_1 + 0x994));
-        *puVar6 = puVar6[1];
-        puVar6 = (unsigned short *)(iVar11 + *(int *)(param_1 + 0x994));
-        iVar11 = iVar11 + 4;
-        *(unsigned short *)(iVar2 + *(int *)(param_1 + 0x994) + 2) = *puVar6;
-        puVar6 = (unsigned short *)(iVar2 + *(int *)(param_1 + 0x994));
-        lVar9 = lVar9 + 4;
-        *puVar6 = puVar6[1];
-        uVar5 = *(unsigned int *)(param_1 + 0x2d0);
-      } while (uVar7 < uVar5);
-    }
-    uVar4 = uVar4 + 1;
-    iVar3 = iVar3 + 4;
-  } while (uVar4 < *(unsigned int *)(param_1 + 0x2d4));
-  return;
-}
+    unsigned int y;
+    unsigned int x;
+    unsigned int src;
+    unsigned int top;
+    unsigned int bottom;
 
+    for (y = 0; y < self->height; y++) {
+        src = self->width * y;
+        top = src * 4;
+        bottom = (y * 4 + 2) * self->width;
+        for (x = 0; x < self->width; x++) {
+            self->outU[bottom + x * 2 + 1] = self->inU[src + x];
+            self->outU[bottom + x * 2] = self->outU[bottom + x * 2 + 1];
+            self->outU[top + x * 2 + 1] = self->outU[bottom + x * 2];
+            self->outU[top + x * 2] = self->outU[top + x * 2 + 1];
+            self->outV[bottom + x * 2 + 1] = self->inV[src + x];
+            self->outV[bottom + x * 2] = self->outV[bottom + x * 2 + 1];
+            self->outV[top + x * 2 + 1] = self->outV[bottom + x * 2];
+            self->outV[top + x * 2] = self->outV[top + x * 2 + 1];
+        }
+    }
+}

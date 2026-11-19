@@ -1,22 +1,29 @@
-extern unsigned int lbl_82014C50;
+typedef struct Buffer_827668B8 {
+    int pad[3];            /* 0x0 */
+    unsigned char **pages; /* 0xc */
+} Buffer_827668B8;
 
+typedef struct Reader_827668B8 {
+    Buffer_827668B8 *buffer; /* 0x0 */
+} Reader_827668B8;
 
-__int64 fn_827668B8(int *param_1,unsigned int param_2,unsigned char *param_3)
+extern const unsigned char lbl_82014C50[16];
 
+static __forceinline unsigned char Byte(Reader_827668B8 *self, unsigned int offset)
 {
-  unsigned char bVar1;
-  unsigned __int64 uVar2;
-  
-  bVar1 = *(unsigned char *)(*(int *)((param_2 >> 10 & 0x3ffffc) + *(int *)(*param_1 + 0xc)) +
-                   (param_2 & 0xfff));
-  *param_3 = bVar1;
-  bVar1 = (&lbl_82014C50)[bVar1 & 0xf];
-  for (uVar2 = (unsigned __int64)bVar1; uVar2 != 0; uVar2 = uVar2 - 1) {
-    param_2 = param_2 + 1;
-    param_3 = param_3 + 1;
-    *param_3 = *(unsigned char *)(*(int *)((param_2 >> 10 & 0x3ffffc) + *(int *)(*param_1 + 0xc)) +
-                        (param_2 & 0xfff));
-  }
-  return (unsigned __int64)bVar1 + 1;
+    return self->buffer->pages[offset >> 12][offset & 0xfff];
 }
 
+unsigned int fn_827668B8(Reader_827668B8 *self, unsigned int offset, unsigned char *out)
+{
+    unsigned int extra;
+    unsigned int i;
+
+    *out = Byte(self, offset++);
+    extra = lbl_82014C50[*out & 0xf];
+    out++;
+    for (i = 0; i < extra; i++) {
+        *out++ = Byte(self, offset++);
+    }
+    return extra + 1;
+}

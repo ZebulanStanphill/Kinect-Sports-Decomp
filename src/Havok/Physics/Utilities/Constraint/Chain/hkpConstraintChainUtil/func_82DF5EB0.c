@@ -1,101 +1,102 @@
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_70;
-extern int fn_82CE5410();
-extern int fn_82D9AFC0();
-extern int fn_82D9CDC0();
-extern int fn_82DED480();
-extern int fn_82DF6A68();
-extern int fn_82DF6B40();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct hkpEntity_82DF5EB0 hkpEntity_82DF5EB0;
+typedef struct hkMemoryAllocator_82DF5EB0 hkMemoryAllocator_82DF5EB0;
 
-unsigned __int64 fn_82DF5EB0(int param_1,int param_2,__int64 param_3)
+/* hkpConstraintInstance */
+typedef struct ConstraintInstance_82DF5EB0 {
+    char pad0[0x14];
+    hkpEntity_82DF5EB0 *entities[2]; /* 0x14 m_entities */
+} ConstraintInstance_82DF5EB0;
 
+typedef struct EntityArray_82DF5EB0 {
+    hkpEntity_82DF5EB0 **data; /* 0x00 */
+    int size;                  /* 0x04 */
+    int capacityAndFlags;      /* 0x08 */
+} EntityArray_82DF5EB0;
+
+/* hkpConstraintChainInstance */
+typedef struct ChainInstance_82DF5EB0 {
+    char pad0[0x38];
+    EntityArray_82DF5EB0 chainedEntities; /* 0x38 m_chainedEntities */
+} ChainInstance_82DF5EB0;
+
+typedef struct PivotPair_82DF5EB0 {
+    __vector4 pivotInA; /* 0x00 */
+    __vector4 pivotInB; /* 0x10 */
+} PivotPair_82DF5EB0;
+
+typedef struct PivotArray_82DF5EB0 {
+    PivotPair_82DF5EB0 *data;
+    int size;
+    int capacityAndFlags;
+} PivotArray_82DF5EB0;
+
+/* the chain's constraint data (pivot pairs at 0x18) */
+typedef struct ChainData_82DF5EB0 {
+    char pad0[0x18];
+    PivotArray_82DF5EB0 infos; /* 0x18 */
+} ChainData_82DF5EB0;
+
+typedef struct MemoryRouter_82DF5EB0 {
+    char pad0[0x10];
+    hkMemoryAllocator_82DF5EB0 *heap; /* 0x10 */
+} MemoryRouter_82DF5EB0;
+
+extern int fn_82DED480(ConstraintInstance_82DF5EB0 *constraint, __vector4 *pivotInA, __vector4 *pivotInB);
+extern void fn_82D9CDC0(ChainInstance_82DF5EB0 *chain, hkpEntity_82DF5EB0 *entity);
+extern void fn_82D9AFC0(ChainData_82DF5EB0 *data, const __vector4 *pivotInA, const __vector4 *pivotInB);
+extern MemoryRouter_82DF5EB0 *fn_82CE5410(void);
+extern void fn_82DF6A68(PivotArray_82DF5EB0 *array, hkMemoryAllocator_82DF5EB0 *alloc, int index,
+                        int numToRemove, const PivotPair_82DF5EB0 *items, int numToInsert);
+extern void fn_82DF6B40(ChainInstance_82DF5EB0 *chain, hkpEntity_82DF5EB0 *entity);
+
+/* Appends or prepends the constraint's entities and pivots to the chain; 1 when it does not connect. */
+int fn_82DF5EB0(ConstraintInstance_82DF5EB0 *constraint, ChainInstance_82DF5EB0 *chain,
+                ChainData_82DF5EB0 *data)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int in_r0;
-  int iVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned int uVar8;
-  unsigned int uVar9;
-  unsigned int uVar10;
-  unsigned char auStack_70 [1];
-  unsigned char auStack_60 [16];
-  unsigned char auStack_50 [16];
-  unsigned char auStack_40 [16];
+    __vector4 pivotInA;
+    __vector4 pivotInB;
+    EntityArray_82DF5EB0 *entities = &chain->chainedEntities;
+    hkpEntity_82DF5EB0 *last;
+    hkpEntity_82DF5EB0 *first;
+    PivotPair_82DF5EB0 pair;
+    MemoryRouter_82DF5EB0 *router;
 
-  iVar3 = fn_82DED480(param_1,auStack_70,auStack_60);
-  if (iVar3 == 0) {
-    if (*(int *)(param_2 + 0x3c) == 0) {
-      fn_82D9CDC0(param_2,*(unsigned int *)(param_1 + 0x14));
+    if (fn_82DED480(constraint, &pivotInA, &pivotInB) == 0) {
+        if (entities->size == 0) {
+            fn_82D9CDC0(chain, constraint->entities[0]);
+        }
+        last = entities->data[entities->size - 1];
+        if (last == constraint->entities[0]) {
+            fn_82D9AFC0(data, &pivotInA, &pivotInB);
+            fn_82D9CDC0(chain, constraint->entities[1]);
+            return 0;
+        }
+        if (last == constraint->entities[1]) {
+            fn_82D9AFC0(data, &pivotInB, &pivotInA);
+            fn_82D9CDC0(chain, constraint->entities[0]);
+            return 0;
+        }
+        first = entities->data[0];
+        if (first == constraint->entities[0]) {
+            pair.pivotInA = pivotInB;
+            pair.pivotInB = pivotInA;
+            router = fn_82CE5410();
+            fn_82DF6A68(&data->infos, router->heap, 0, 0, &pair, 1);
+            fn_82DF6B40(chain, constraint->entities[1]);
+            return 0;
+        }
+        if (first == constraint->entities[1]) {
+            pair.pivotInA = pivotInA;
+            pair.pivotInB = pivotInB;
+            router = fn_82CE5410();
+            fn_82DF6A68(&data->infos, router->heap, 0, 0, &pair, 1);
+            fn_82DF6B40(chain, constraint->entities[0]);
+            return 0;
+        }
     }
-    iVar3 = (*(int **)(param_2 + 0x38))[*(int *)(param_2 + 0x3c) + -1];
-    if (iVar3 == *(int *)(param_1 + 0x14)) {
-      fn_82D9AFC0(param_3,auStack_70,auStack_60);
-      fn_82D9CDC0(param_2,*(unsigned int *)(param_1 + 0x18));
-      return 0;
-    }
-    if (iVar3 == *(int *)(param_1 + 0x18)) {
-      fn_82D9AFC0(param_3,auStack_60,auStack_70);
-      fn_82D9CDC0(param_2,*(unsigned int *)(param_1 + 0x14));
-      return 0;
-    }
-    iVar3 = **(int **)(param_2 + 0x38);
-    if (iVar3 == *(int *)(param_1 + 0x14)) {
-      puVar1 = (unsigned int *)((unsigned int)(auStack_60 + in_r0) & 0xfffffff0);
-      uVar4 = puVar1[1];
-      uVar5 = puVar1[2];
-      uVar6 = puVar1[3];
-      puVar2 = (unsigned int *)((unsigned int)(auStack_70 + in_r0) & 0xfffffff0);
-      uVar7 = *puVar2;
-      uVar8 = puVar2[1];
-      uVar9 = puVar2[2];
-      uVar10 = puVar2[3];
-      puVar2 = (unsigned int *)((unsigned int)(auStack_50 + in_r0) & 0xfffffff0);
-      *puVar2 = *puVar1;
-      puVar2[1] = uVar4;
-      puVar2[2] = uVar5;
-      puVar2[3] = uVar6;
-      puVar1 = (unsigned int *)((unsigned int)(auStack_40 + in_r0) & 0xfffffff0);
-      *puVar1 = uVar7;
-      puVar1[1] = uVar8;
-      puVar1[2] = uVar9;
-      puVar1[3] = uVar10;
-      iVar3 = fn_82CE5410();
-      fn_82DF6A68(param_3 + 0x18,*(unsigned int *)(iVar3 + 0x10),0,0,auStack_50,1);
-      fn_82DF6B40(param_2,*(unsigned int *)(param_1 + 0x18));
-      return 0;
-    }
-    if (iVar3 == *(int *)(param_1 + 0x18)) {
-      puVar1 = (unsigned int *)((unsigned int)(auStack_70 + in_r0) & 0xfffffff0);
-      uVar4 = puVar1[1];
-      uVar5 = puVar1[2];
-      uVar6 = puVar1[3];
-      puVar2 = (unsigned int *)((unsigned int)(auStack_60 + in_r0) & 0xfffffff0);
-      uVar7 = *puVar2;
-      uVar8 = puVar2[1];
-      uVar9 = puVar2[2];
-      uVar10 = puVar2[3];
-      puVar2 = (unsigned int *)((unsigned int)(auStack_50 + in_r0) & 0xfffffff0);
-      *puVar2 = *puVar1;
-      puVar2[1] = uVar4;
-      puVar2[2] = uVar5;
-      puVar2[3] = uVar6;
-      puVar1 = (unsigned int *)((unsigned int)(auStack_40 + in_r0) & 0xfffffff0);
-      *puVar1 = uVar7;
-      puVar1[1] = uVar8;
-      puVar1[2] = uVar9;
-      puVar1[3] = uVar10;
-      iVar3 = fn_82CE5410();
-      fn_82DF6A68(param_3 + 0x18,*(unsigned int *)(iVar3 + 0x10),0,0,auStack_50,1);
-      fn_82DF6B40(param_2,*(unsigned int *)(param_1 + 0x14));
-      return 0;
-    }
-  }
-  return 1;
+    return 1;
 }

@@ -1,91 +1,70 @@
-#define true 1
-extern unsigned int lbl_82005710;
+typedef struct Plane_827EB518 {
+    float x;
+    float y;
+    float z;
+    float d;
+} Plane_827EB518;
 
+typedef struct Frustum_827EB518 {
+    char pad0[0x48];
+    Plane_827EB518 planes[6]; /* 0x48 */
+} Frustum_827EB518;
 
-__int64 fn_827EB518(int param_1,unsigned char *param_2,float *param_3,float *param_4,unsigned char *param_5)
+extern double __fsel(double test, double positive, double negative);
 
+/* Tests a box against the frustum planes still set in *mask, starting with the plane that rejected the
+   last one; clears the planes the box is fully inside. Returns 0 when it is outside (and remembers that
+   plane), 1 when it intersects, 2 when it is inside. */
+int fn_827EB518(Frustum_827EB518 *frustum, unsigned char *mask, const float *boxMin, const float *boxMax,
+                unsigned char *lastPlane)
 {
-  double dVar1;
-  unsigned __int64 uVar2;
-  unsigned int uVar3;
-  int iVar4;
-  unsigned int uVar5;
-  unsigned char bVar6;
-  unsigned int uVar7;
-  double dVar8;
-  double dVar9;
-  double dVar10;
-  double dVar11;
-  double dVar12;
-  double dVar13;
-  
-  dVar1 = lbl_82005710;
-  uVar7 = 0;
-  uVar3 = -(unsigned int)(*param_5 < 6) & (unsigned int)*param_5;
-  bVar6 = 0;
-  uVar2 = (unsigned __int64)(unsigned int)(0x80 >> (uVar3 & 0x3f)) & 0xff;
-  do {
-    if ((uVar2 & *param_2) != 0) {
-      iVar4 = uVar3 * 0x10 + param_1;
-      dVar8 = (double)*(float *)(iVar4 + 0x4c);
-      dVar11 = (double)param_3[1];
-      if (dVar8 < 0.0) {
-        dVar11 = (double)param_4[1];
-      }
-      dVar13 = (double)*(float *)(iVar4 + 0x48);
-      dVar10 = (double)*param_3;
-      if (dVar13 < 0.0) {
-        dVar10 = (double)*param_4;
-      }
-      dVar12 = (double)*(float *)(iVar4 + 0x50);
-      dVar9 = (double)param_3[2];
-      if (dVar12 < 0.0) {
-        dVar9 = (double)param_4[2];
-      }
-      if ((dVar9 * dVar12 + dVar10 * dVar13 + dVar11 * dVar8) - (double)*(float *)(iVar4 + 0x54) <=
-          dVar1) {
-        dVar11 = (double)param_4[1];
-        if (dVar8 < 0.0) {
-          dVar11 = (double)param_3[1];
-        }
-        uVar5 = 1;
-        dVar10 = (double)*param_4;
-        if (dVar13 < 0.0) {
-          dVar10 = (double)*param_3;
-        }
-        dVar9 = (double)param_4[2];
-        if (dVar12 < 0.0) {
-          dVar9 = (double)param_3[2];
-        }
-        if ((dVar9 * dVar12 + dVar10 * dVar13 + dVar11 * dVar8) - (double)*(float *)(iVar4 + 0x54)
-            <= dVar1) {
-          uVar5 = 0;
-        }
-      }
-      else {
-        uVar5 = 3;
-      }
-      uVar7 = uVar5 | uVar7;
-      if (uVar7 == 3) {
-        *param_5 = (unsigned char)uVar3;
-        return 0;
-      }
-      if (uVar5 == 0) {
-        *param_2 = *param_2 & ~(unsigned char)uVar2;
-      }
-    }
-    uVar3 = uVar3 + 1 & 0xff;
-    if (uVar3 == 6) {
-      uVar3 = 0;
-      uVar2 = 0x80;
-    }
-    else {
-      uVar2 = uVar2 >> 1;
-    }
-    bVar6 = bVar6 + 1;
-    if (5 < bVar6) {
-      return ((unsigned __int64)LZCOUNT((unsigned int)(uVar7 == 1)) >> 4 & 2) + (unsigned __int64)(uVar7 == 1);
-    }
-  } while( true );
-}
+    unsigned char bit;
+    unsigned char plane;
+    unsigned char tested;
+    unsigned int result;
+    unsigned int side;
+    int inside;
+    const Plane_827EB518 *p;
 
+    plane = *lastPlane;
+    if (plane >= 6) {
+        plane = 0;
+    }
+    bit = 0x80 >> plane;
+    result = 0;
+    tested = 0;
+    do {
+        if ((*mask & bit) != 0) {
+            p = &frustum->planes[plane];
+            if (__fsel(p->x, boxMin[0], boxMax[0]) * p->x + __fsel(p->y, boxMin[1], boxMax[1]) * p->y +
+                    __fsel(p->z, boxMin[2], boxMax[2]) * p->z - p->d >
+                0.0) {
+                side = 3;
+            } else if (__fsel(p->x, boxMax[0], boxMin[0]) * p->x + __fsel(p->y, boxMax[1], boxMin[1]) * p->y +
+                           __fsel(p->z, boxMax[2], boxMin[2]) * p->z - p->d >
+                       0.0) {
+                side = 1;
+            } else {
+                side = 0;
+            }
+            result |= side;
+            if (result == 3) {
+                *lastPlane = plane;
+                return 0;
+            }
+            if (side == 0) {
+                *mask &= ~bit;
+            }
+        }
+        plane++;
+        if (plane == 6) {
+            plane = 0;
+            bit = 0x80;
+        } else {
+            bit >>= 1;
+        }
+        tested++;
+    } while (tested < 6);
+    inside = result == 1;
+    return inside + !inside * 2;
+}

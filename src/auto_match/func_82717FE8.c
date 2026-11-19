@@ -1,56 +1,67 @@
-extern unsigned int *auStack_50;
-extern int fn_8268CC00();
-extern int fn_8268CEC0();
-extern unsigned int lbl_821AAD20;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
-extern unsigned int uStack_34;
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
+typedef struct Rect_82717FE8 {
+    float left;
+    float top;
+    float right;
+    float bottom;
+} Rect_82717FE8;
 
+typedef struct Xform_82717FE8 {
+    float a;
+    float b;
+    float c;
+    float d;
+    float tx;
+    float ty;
+} Xform_82717FE8;
 
-unsigned int * fn_82717FE8(unsigned int *param_1,int param_2,unsigned int *param_3,int param_4)
+typedef struct Node_82717FE8 Node_82717FE8;
 
+typedef struct NodeVt_82717FE8 {
+    void *slots[11];
+    Rect_82717FE8 *(*getBounds)(Rect_82717FE8 *result, Node_82717FE8 *self, Xform_82717FE8 *xform); /* 0x2c */
+} NodeVt_82717FE8;
+
+struct Node_82717FE8 {
+    NodeVt_82717FE8 *vt;
+    char pad4[0x40];
+    Xform_82717FE8 xform; /* 0x44 */
+};
+
+typedef struct Owner_82717FE8 {
+    char pad0[0xa4];
+    Node_82717FE8 **children; /* 0xa4 */
+} Owner_82717FE8;
+
+extern void fn_8268CC00(Xform_82717FE8 *xform);
+extern void fn_8268CEC0(Xform_82717FE8 *xform, Xform_82717FE8 *other);
+
+Rect_82717FE8 fn_82717FE8(Owner_82717FE8 *self, Xform_82717FE8 *parent, int index)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  int *piVar4;
-  unsigned int *puVar5;
-  unsigned char auStack_50 [16];
-  struct { unsigned int first; unsigned int second; } stack_pair_40;
+    Xform_82717FE8 xform;
+    Rect_82717FE8 bounds;
+    Rect_82717FE8 out;
+    Rect_82717FE8 *result;
+    Node_82717FE8 *child;
 
-  unsigned int uStack_38;
-  unsigned int uStack_34;
-  unsigned int uStack_30;
-  unsigned int uStack_2c;
-  
-  uVar1 = lbl_821AAD20;
-  *param_1 = lbl_821AAD20;
-  param_1[1] = uVar1;
-  param_1[2] = uVar1;
-  param_1[3] = uVar1;
-  fn_8268CC00(&stack_pair_40.first);
-  param_4 = param_4 * 4;
-  if (*(int *)(*(int *)(param_2 + 0xa4) + param_4) != 0) {
-    stack_pair_40.first = *param_3;
-    stack_pair_40.second = param_3[1];
-    uStack_38 = param_3[2];
-    uStack_34 = param_3[3];
-    uStack_30 = param_3[4];
-    uStack_2c = param_3[5];
-    fn_8268CEC0(&stack_pair_40.first,(unsigned __int64)*(unsigned int *)(*(int *)(param_2 + 0xa4) + param_4) + 0x44);
-    piVar4 = *(int **)(*(int *)(param_2 + 0xa4) + param_4);
-    puVar5 = (unsigned int *)(**(int (***)())(*piVar4 + 0x2c))(auStack_50,piVar4,&stack_pair_40.first);
-    uVar1 = puVar5[1];
-    uVar2 = puVar5[2];
-    uVar3 = puVar5[3];
-    *param_1 = *puVar5;
-    param_1[1] = uVar1;
-    param_1[2] = uVar2;
-    param_1[3] = uVar3;
-  }
-  return param_1;
+    out.left = 0.0f;
+    out.top = 0.0f;
+    out.right = 0.0f;
+    out.bottom = 0.0f;
+    fn_8268CC00(&xform);
+    if ((int)self->children[index] != 0) {
+        xform.a = parent->a;
+        xform.b = parent->b;
+        xform.c = parent->c;
+        xform.d = parent->d;
+        xform.tx = parent->tx;
+        xform.ty = parent->ty;
+        fn_8268CEC0(&xform, &self->children[index]->xform);
+        child = self->children[index];
+        result = child->vt->getBounds(&bounds, child, &xform);
+        out.left = result->left;
+        out.top = result->top;
+        out.right = result->right;
+        out.bottom = result->bottom;
+    }
+    return out;
 }
-

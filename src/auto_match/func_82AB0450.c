@@ -1,75 +1,100 @@
-extern unsigned int *auStack_64;
-extern int fn_82A29A38();
-extern int fn_82AB0350();
-extern unsigned int uStack_68;
-extern unsigned int uStack_6c;
-extern unsigned int uStack_70;
+typedef struct Register_82AB0450 {
+    unsigned int index;  /* 0x0 */
+    unsigned int opcode; /* 0x4 */
+} Register_82AB0450;
 
+typedef struct Table_82AB0450 {
+    unsigned int pad0; /* 0x00 */
+    int mode;          /* 0x04 */
+    unsigned char pad8[0x14];
+    Register_82AB0450 registers[16]; /* 0x1c */
+} Table_82AB0450;
 
-void fn_82AB0450(unsigned __int64 param_1,int param_2,unsigned __int64 param_3,unsigned int param_4,unsigned __int64 param_5,
-                  unsigned __int64 param_6,int param_7,int *param_8)
+typedef struct Context_82AB0450 {
+    unsigned int pad0;  /* 0x00 */
+    unsigned int count; /* 0x04 */
+    unsigned char pad8[0x8];
+    Table_82AB0450 *table; /* 0x10 */
+} Context_82AB0450;
 
+typedef struct Command_82AB0450 {
+    unsigned int extended : 1;
+    unsigned int pad : 2;
+    unsigned int reg : 8;
+    unsigned int type : 5;
+    unsigned int opcode : 16;
+} Command_82AB0450;
+
+typedef union CommandWord_82AB0450 {
+    unsigned int word;
+    Command_82AB0450 bits;
+} CommandWord_82AB0450;
+
+extern void fn_82A29A38(void);
+extern void fn_82AB0350(unsigned int flags, const unsigned int *src, int *a, int *b, int *c, int *d);
+
+void fn_82AB0450(unsigned int slot, int kind, unsigned int index, int flag, const unsigned int *src,
+                 unsigned int flags, Context_82AB0450 *context, unsigned int **cursor)
 {
-  int iVar1;
-  unsigned int uVar2;
-  unsigned int *puVar3;
-  unsigned int uVar4;
-  unsigned int uStack_70;
-  struct { unsigned int first; unsigned int second; } stack_pair_6c;
+    unsigned int *out = *cursor;
+    CommandWord_82AB0450 command;
+    int a;
+    int b;
+    int c;
+    int d;
 
-  unsigned int auStack_64;
-  
-  puVar3 = (unsigned int *)*param_8;
-  if (0xd < param_2) {
-    fn_82A29A38();
-  }
-  if (0xf < (param_1 & 0xffffffff)) {
-    fn_82A29A38();
-  }
-  uVar4 = (unsigned int)((param_3 & 0xff) << 0x15);
-  if (param_2 == 5) {
-    uVar2 = (unsigned int)(param_3 + 1);
-    if ((param_3 + 1 & 0xffffffff) < (unsigned __int64)*(unsigned int *)(param_7 + 4)) {
-      uVar2 = *(unsigned int *)(param_7 + 4);
+    command.word = 0;
+    command.bits.reg = index;
+    command.bits.opcode = 0x17;
+    if (kind > 13) {
+        fn_82A29A38();
     }
-    *(unsigned int *)(param_7 + 4) = uVar2;
-    iVar1 = *(int *)(*(int *)(param_7 + 0x10) + 4);
-    if (iVar1 == 1) {
-      param_4 = 0;
+    if (slot >= 16) {
+        fn_82A29A38();
     }
-    else if (iVar1 == 2) {
-      param_4 = 1;
+    if (kind == 5) {
+        unsigned int count;
+        count = index + 1;
+        if (count < context->count) {
+            count = context->count;
+        }
+        context->count = count;
+        if (context->table->mode == 1) {
+            flag = 0;
+        } else if (context->table->mode == 2) {
+            flag = 1;
+        }
+        command.bits.type = 5;
+        if (index >= 8) {
+            fn_82A29A38();
+        }
+    } else if (kind == 10) {
+        command.bits.type = 2;
+    } else {
+        command.bits.reg = (kind + 1) << 4 | index;
+        command.bits.type = 5;
     }
-    uVar4 = uVar4 | 0x50017;
-    if (7 < (param_3 & 0xffffffff)) {
-      fn_82A29A38();
+    if (slot >= 16) {
+        fn_82A29A38();
     }
-  }
-  else if (param_2 == 10) {
-    uVar4 = uVar4 | 0x20017;
-  }
-  else {
-    uVar4 = ((param_2 + 1) * 0x2000000 | (unsigned int)((param_3 & 0xffffffff) << 0x15)) & 0x1fe00000 |
-            0x50017;
-  }
-  if (0xf < (param_1 & 0xffffffff)) {
-    fn_82A29A38();
-  }
-  *(unsigned int *)((int)((param_1 + 4 & 0xffffffff) << 3) + *(int *)(param_7 + 0x10)) = 0xc;
-  *(unsigned int *)((int)((param_1 & 0xffffffff) << 3) + *(int *)(param_7 + 0x10) + 0x1c) = (unsigned int)param_1;
-  fn_82AB0350(param_6,param_5,&auStack_64,&stack_pair_6c.second,&stack_pair_6c.first,&uStack_70);
-  if ((((param_4 == 0) && (auStack_64 == 3)) && (stack_pair_6c.second == 3)) &&
-     ((stack_pair_6c.first == 3 && (uStack_70 == 3)))) {
-    *puVar3 = uVar4;
-  }
-  else {
-    *puVar3 = uVar4 | 0x80000000;
-    puVar3 = puVar3 + 1;
-    *puVar3 = ((((param_4 & 1) << 2 | uStack_70 & 3) << 2 | stack_pair_6c.first & 3) << 2 | stack_pair_6c.second & 3) <<
-              2 | auStack_64 & 3;
-  }
-  puVar3[1] = (unsigned int)param_1 & 0xffff | 0xc0000;
-  *param_8 = (int)(puVar3 + 2);
-  return;
+    context->table->registers[slot].opcode = 12;
+    context->table->registers[slot].index = slot;
+    fn_82AB0350(flags, src, &a, &b, &c, &d);
+    {
+        int x = d;
+        int y = c;
+        int z = b;
+        int w = a;
+
+        if (flag == 0 && w == 3 && z == 3 && y == 3 && x == 3) {
+            command.bits.extended = 0;
+            *out++ = command.word;
+        } else {
+            command.bits.extended = 1;
+            *out++ = command.word;
+            *out++ = (((((flag & 1) << 2 | (x & 3)) << 2 | (y & 3)) << 2 | (z & 3)) << 2) | (w & 3);
+        }
+    }
+    *out++ = 0xc << 16 | (slot & 0xffff);
+    *cursor = out;
 }
-

@@ -1,42 +1,31 @@
-extern unsigned int *auStack_1a;
-extern int fn_828171F8();
-extern unsigned int lbl_82002C5C;
-extern unsigned int lbl_820151C0;
-extern float lbl_8201E104;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_1e;
-extern unsigned int uStack_20;
+extern float fn_828171F8(unsigned int count, float t, unsigned short *prev, unsigned short *cur,
+                         unsigned short *next, unsigned short *after, int loop);
 
-
-double fn_82817628(unsigned __int64 param_1,unsigned __int64 param_2,int param_3,unsigned __int64 param_4)
-
+float fn_82817628(unsigned int count, float t, float *values, int loop)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  float fVar5;
-  double dVar6;
-  unsigned short uStack_20;
-  unsigned short uStack_1e;
-  unsigned short uStack_1c;
-  unsigned short auStack_1a;
-  
-  dVar6 = (double)fn_828171F8(param_1,param_2,&uStack_1c,&uStack_1e,&uStack_20,&auStack_1a,param_4)
-  ;
-  fVar1 = *(float *)((unsigned int)uStack_20 * 4 + param_3);
-  fVar4 = fVar1 * lbl_82002C5C;
-  fVar2 = *(float *)((unsigned int)uStack_1c * 4 + param_3);
-  fVar3 = *(float *)((unsigned int)uStack_1e * 4 + param_3);
-  fVar5 = fVar2 * lbl_82002C5C;
-  fVar2 = fVar2 * lbl_8201E104;
-  return (double)(float)((double)(float)((double)(float)((double)((*(float *)((unsigned int)auStack_1a *
-                                                                              4 + param_3) *
-                                                                   lbl_8201E104 +
-                                                                  (fVar3 * lbl_82002C5C - fVar4)) -
-                                                                 fVar2) * dVar6 +
-                                                        (double)((fVar5 - fVar3) + fVar4)) * dVar6 +
-                                        (double)(fVar4 - fVar5)) * dVar6 +
-                        (double)(fVar3 * lbl_820151C0 + fVar1 * lbl_8201E104 + fVar2));
-}
+    unsigned short prev;
+    unsigned short cur;
+    unsigned short next;
+    unsigned short after;
+    float p0;
+    float p1;
+    float p2;
+    float p3;
+    float a;
+    float b;
+    float c;
+    float d;
+    float p0Sixth;
 
+    t = fn_828171F8(count, t, &prev, &cur, &next, &after, loop);
+    p2 = values[next];
+    p1 = values[cur];
+    p0 = values[prev];
+    p3 = values[after];
+    p0Sixth = p0 * (1.0f / 6.0f);
+    a = p3 * (1.0f / 6.0f) + (p1 * 0.5f - p2 * 0.5f) - p0Sixth;
+    b = (p0 * 0.5f - p1) + p2 * 0.5f;
+    c = p2 * 0.5f - p0 * 0.5f;
+    d = p1 * (2.0f / 3.0f) + p2 * (1.0f / 6.0f) + p0Sixth;
+    return ((a * t + b) * t + c) * t + d;
+}

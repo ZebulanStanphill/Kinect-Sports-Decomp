@@ -1,19 +1,9 @@
-void fn_82CF6950(int param_1,int param_2,unsigned int param_3)
-
+/* Backward copy of 2-byte elements (overlap-safe when dst > src). */
+void fn_82CF6950(unsigned short *dst, const unsigned short *src, unsigned int numBytes)
 {
-  unsigned short *puVar1;
-  unsigned int uVar2;
-  
-  uVar2 = param_3 >> 1;
-  if (param_3 < 2) {
-    return;
-  }
-  puVar1 = (unsigned short *)((uVar2 - 1) * 2 + param_1);
-  do {
-    *puVar1 = *(unsigned short *)((param_2 - param_1) + (int)puVar1);
-    puVar1 = puVar1 + -1;
-    uVar2 = uVar2 - 1;
-  } while (uVar2 != 0);
-  return;
-}
+    int i;
 
+    for (i = numBytes / 2 - 1; numBytes >= 2; numBytes -= 2, i--) {
+        dst[i] = src[i];
+    }
+}

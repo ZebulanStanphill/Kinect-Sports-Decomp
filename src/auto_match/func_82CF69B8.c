@@ -1,71 +1,64 @@
-void fn_82CF69B8(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3)
-
+static __forceinline void Copy8(unsigned __int64 *dst, const unsigned __int64 *src, unsigned int numBytes)
 {
-  int iVar1;
-  int iVar2;
-  __int64 lVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  
-  uVar5 = param_3 & 0xfffffff8;
-  if (((((int)uVar5 != 0) && ((param_3 & 7) == 0)) && ((param_1 & 7) == 0)) && ((param_2 & 7) == 0))
-  {
-    uVar4 = (param_3 & 0xffffffff) >> 3;
-    if (7 < (param_3 & 0xffffffff)) {
-      lVar3 = (uVar4 - 1 & 0x1fffffff) * 8 + param_1;
-      do {
-        *(unsigned __int64 *)lVar3 =
-             *(unsigned __int64 *)(((int)param_2 - (int)param_1) + (int)(unsigned __int64 *)lVar3);
-        lVar3 = lVar3 + -8;
-        uVar4 = uVar4 - 1;
-      } while (uVar4 != 0);
+    int i;
+
+    for (i = numBytes / 8 - 1; numBytes >= 8; numBytes -= 8, i--) {
+        dst[i] = src[i];
     }
-    param_1 = uVar5 + param_1;
-    param_2 = uVar5 + param_2;
-    param_3 = 0;
-  }
-  uVar5 = param_3 & 0xfffffffc;
-  if ((((int)uVar5 != 0) && ((param_3 & 3) == 0)) && (((param_1 & 3) == 0 && ((param_2 & 3) == 0))))
-  {
-    uVar4 = (param_3 & 0xffffffff) >> 2;
-    if (3 < (param_3 & 0xffffffff)) {
-      lVar3 = (uVar4 - 1 & 0x3fffffff) * 4 + param_1;
-      do {
-        *(unsigned int *)lVar3 =
-             *(unsigned int *)((int)(unsigned int *)lVar3 + ((int)param_2 - (int)param_1));
-        lVar3 = lVar3 + -4;
-        uVar4 = uVar4 - 1;
-      } while (uVar4 != 0);
-    }
-    param_1 = uVar5 + param_1;
-    param_2 = uVar5 + param_2;
-    param_3 = 0;
-  }
-  iVar1 = (int)param_2;
-  iVar2 = (int)(param_3 & 0xfffffffe);
-  if (((iVar2 != 0) && ((param_3 & 1) == 0)) && (((param_1 & 1) == 0 && ((param_2 & 1) == 0)))) {
-    uVar5 = (param_3 & 0xffffffff) >> 1;
-    if (1 < (param_3 & 0xffffffff)) {
-      lVar3 = (uVar5 - 1 & 0x7fffffff) * 2 + param_1;
-      do {
-        *(unsigned short *)lVar3 = *(unsigned short *)((int)(unsigned short *)lVar3 + (iVar1 - (int)param_1));
-        lVar3 = lVar3 + -2;
-        uVar5 = uVar5 - 1;
-      } while (uVar5 != 0);
-    }
-    param_1 = (param_3 & 0xfffffffe) + param_1;
-    iVar1 = iVar2 + iVar1;
-    param_3 = 0;
-  }
-  if ((param_3 & 0xffffffff) == 0) {
-    return;
-  }
-  lVar3 = (param_3 - 1) + param_1;
-  do {
-    *(unsigned char *)lVar3 = ((unsigned char *)lVar3)[iVar1 - (int)param_1];
-    lVar3 = lVar3 + -1;
-    param_3 = param_3 - 1;
-  } while (param_3 != 0);
-  return;
 }
 
+static __forceinline void Copy4(unsigned int *dst, const unsigned int *src, unsigned int numBytes)
+{
+    int i;
+
+    for (i = numBytes / 4 - 1; numBytes >= 4; numBytes -= 4, i--) {
+        dst[i] = src[i];
+    }
+}
+
+static __forceinline void Copy2(unsigned short *dst, const unsigned short *src, unsigned int numBytes)
+{
+    int i;
+
+    for (i = numBytes / 2 - 1; numBytes >= 2; numBytes -= 2, i--) {
+        dst[i] = src[i];
+    }
+}
+
+static __forceinline void Copy1(unsigned char *dst, const unsigned char *src, unsigned int count)
+{
+    int i;
+
+    for (i = count - 1; count >= 1; count--, i--) {
+        dst[i] = src[i];
+    }
+}
+
+/* Backward copy (overlap-safe when dst > src) using the widest element both pointers allow. */
+void fn_82CF69B8(char *dst, const char *src, int numBytes)
+{
+    int chunk;
+
+    chunk = numBytes & ~7;
+    if (chunk != 0 && (numBytes & 7) == 0 && ((unsigned int)dst & 7) == 0 && ((unsigned int)src & 7) == 0) {
+        Copy8((unsigned __int64 *)dst, (const unsigned __int64 *)src, numBytes);
+        dst += chunk;
+        src += chunk;
+        numBytes = 0;
+    }
+    chunk = numBytes & ~3;
+    if (chunk != 0 && (numBytes & 3) == 0 && ((unsigned int)dst & 3) == 0 && ((unsigned int)src & 3) == 0) {
+        Copy4((unsigned int *)dst, (const unsigned int *)src, numBytes);
+        dst += chunk;
+        src += chunk;
+        numBytes = 0;
+    }
+    chunk = numBytes & ~1;
+    if (chunk != 0 && (numBytes & 1) == 0 && ((unsigned int)dst & 1) == 0 && ((unsigned int)src & 1) == 0) {
+        Copy2((unsigned short *)dst, (const unsigned short *)src, numBytes);
+        dst += chunk;
+        src += chunk;
+        numBytes = 0;
+    }
+    Copy1((unsigned char *)dst, (const unsigned char *)src, numBytes);
+}

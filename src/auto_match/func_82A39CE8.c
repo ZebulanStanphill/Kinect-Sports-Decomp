@@ -1,31 +1,43 @@
-extern int fn_82A39BB0();
-extern int fn_82A3D230();
-extern int fn_82F63CA0();
-extern int fn_82F691F0();
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
+typedef struct Encoder_82A39CE8 {
+    char pad0[0x1c];
+    unsigned int windowFill; /* 0x1c: bytes in window, bits in usedMap */
+    unsigned int itemCount;  /* 0x20 */
+    unsigned int *items;     /* 0x24 */
+    unsigned char *window;   /* 0x28 */
+    unsigned char *usedMap;  /* 0x2c: one bit per window byte, 0x2000 bytes */
+    char pad30[0x972 - 0x30];
+    unsigned char pending; /* 0x972 */
+} Encoder_82A39CE8;
 
+extern void *memset(void *dst, int value, unsigned int size);
+extern void *memmove(void *dst, const void *src, unsigned int size);
+extern int fn_82A3D230(Encoder_82A39CE8 *encoder, unsigned int start, unsigned int end, unsigned int count,
+                       unsigned int *outPos, unsigned int *outCount);
+extern void fn_82A39BB0(Encoder_82A39CE8 *encoder, unsigned int pos, unsigned int count);
+extern void fn_82A3B768(Encoder_82A39CE8 *encoder);
 
-void fn_82A39CE8(int param_1)
-
+/* Emits the next block and moves what was not consumed to the start of the buffers. */
+void fn_82A39CE8(Encoder_82A39CE8 *encoder)
 {
-  unsigned __int64 uVar1;
-  unsigned int uStack_20;
-  unsigned int uStack_1c;
-  
-  *(unsigned char *)(param_1 + 0x972) = 0;
-  fn_82A3D230(param_1,0,*(unsigned int *)(param_1 + 0x1c),*(unsigned int *)(param_1 + 0x20),
-                    &uStack_20,&uStack_1c);
-  fn_82A39BB0(param_1,uStack_20,uStack_1c);
-  uVar1 = (unsigned __int64)*(unsigned int *)(param_1 + 0x2c);
-  if (uStack_20 == *(unsigned int *)(param_1 + 0x1c)) {
-                    /* WARNING: Subroutine does not return */
-    fn_82F691F0(uVar1,0,0x2000);
-  }
-  fn_82F63CA0(uVar1,(uStack_20 >> 3) + uVar1,
-               ((unsigned __int64)(*(unsigned int *)(param_1 + 0x1c) >> 3) - (unsigned __int64)(uStack_20 >> 3)) + 1);
-  uVar1 = ((unsigned __int64)*(unsigned int *)(param_1 + 0x1c) - (unsigned __int64)uStack_20 & 0xffffffff) >> 3;
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0(uVar1 + *(unsigned int *)(param_1 + 0x2c) + 1,0,0x1fff - uVar1);
-}
+    Encoder_82A39CE8 *self = encoder;
+    unsigned int pos;
+    unsigned int count;
 
+    self->pending = 0;
+    fn_82A3D230(self, 0, self->windowFill, self->itemCount, &pos, &count);
+    fn_82A39BB0(self, pos, count);
+    if (pos == self->windowFill) {
+        memset(encoder->usedMap, 0, 0x2000);
+        self->windowFill = 0;
+        self->itemCount = 0;
+    } else {
+        memmove(self->usedMap, self->usedMap + (pos >> 3), (self->windowFill >> 3) - (pos >> 3) + 1);
+        memset(self->usedMap + ((self->windowFill - pos) >> 3) + 1, 0,
+               0x1fff - ((self->windowFill - pos) >> 3));
+        memmove(self->window, self->window + pos, self->windowFill - pos);
+        memmove(self->items, self->items + count, (self->itemCount - count) * 4);
+        self->windowFill -= pos;
+        self->itemCount -= count;
+    }
+    fn_82A3B768(self);
+}

@@ -1,23 +1,30 @@
-extern int fn_82F65E20();
-extern unsigned int lbl_82015610;
-extern unsigned int lbl_82015618;
+/* Compares a new rate with the current one; a ratio between 0.1 and 10 is stored and flagged. */
 
+typedef struct Clock_82E94128 {
+    char pad0[0x77a8];
+    int synced; /* 0x77a8 */
+    char pad77ac[0x20];
+    int denominator; /* 0x77cc */
+    char pad77d0[8];
+    int numerator; /* 0x77d8 */
+    char pad77dc[4];
+    double ratio; /* 0x77e0 */
+    char pad77e8[8];
+    int ratioValid; /* 0x77f0 */
+} Clock_82E94128;
 
-void fn_82E94128(int param_1,int param_2,int param_3)
+extern const double lbl_82015610;
+extern double fn_82F65E20(double x);
 
+void fn_82E94128(Clock_82E94128 *self, int numerator, int denominator)
 {
-  double dVar1;
-  double dVar2;
-  
-  dVar1 = (double)fn_82F65E20((double)(__int64)param_2 / (double)(__int64)param_3);
-  dVar2 = (double)fn_82F65E20((double)(__int64)*(int *)(param_1 + 0x77d8) /
-                               (double)(__int64)*(int *)(param_1 + 0x77cc));
-  dVar1 = dVar1 / dVar2;
-  if ((lbl_82015610 < dVar1) && (dVar1 < lbl_82015618)) {
-    *(double *)(param_1 + 0x77e0) = dVar1;
-    *(unsigned int *)(param_1 + 0x77f0) = 1;
-    *(unsigned int *)(param_1 + 0x77a8) = 0;
-  }
-  return;
-}
+    double ratio;
 
+    ratio = fn_82F65E20((double)numerator / (double)denominator) /
+            fn_82F65E20((double)self->numerator / (double)self->denominator);
+    if (ratio > lbl_82015610 && ratio < 10.0) {
+        self->ratio = ratio;
+        self->ratioValid = 1;
+        self->synced = 0;
+    }
+}

@@ -1,36 +1,40 @@
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_82002C5C;
-extern unsigned int lbl_82005340;
-extern unsigned int lbl_82005344;
+/* Takes the view volume of a projection matrix: depth range and the four side planes. */
 
+typedef struct Camera_82861B08 {
+    char pad0[0x18];
+    unsigned char unused : 6;
+    unsigned char projection : 2; /* 0x18 */
+    char pad19[0xe3];
+    float top;    /* 0xfc */
+    float bottom; /* 0x100 */
+    float left;   /* 0x104 */
+    float right;  /* 0x108 */
+    float far;    /* 0x10c */
+    float near;   /* 0x110 */
+} Camera_82861B08;
 
-void fn_82861B08(int param_1,float *param_2)
-
+void fn_82861B08(Camera_82861B08 *self, const float *matrix)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  float fVar5;
-  float fVar6;
-  
-  fVar5 = lbl_82002AE0;
-  fVar1 = param_2[10];
-  *(unsigned char *)(param_1 + 0x18) = *(unsigned char *)(param_1 + 0x18) & 0xfc | 2;
-  fVar3 = lbl_82005344;
-  fVar4 = lbl_82005340;
-  fVar6 = lbl_82002C5C;
-  fVar2 = param_2[0xe] * (fVar5 / fVar1);
-  *(float *)(param_1 + 0x110) = fVar2;
-  *(float *)(param_1 + 0x10c) = fVar2 + fVar5 / fVar1;
-  fVar1 = (fVar5 / param_2[5]) * fVar3;
-  fVar3 = (fVar5 / *param_2) * fVar3;
-  fVar2 = param_2[0xd] * (fVar5 / param_2[5]) * fVar4;
-  fVar4 = param_2[0xc] * (fVar5 / *param_2) * fVar4;
-  *(float *)(param_1 + 0xfc) = (fVar1 + fVar2) * fVar6;
-  *(float *)(param_1 + 0x100) = (fVar2 - fVar1) * fVar6;
-  *(float *)(param_1 + 0x104) = (fVar4 - fVar3) * fVar6;
-  *(float *)(param_1 + 0x108) = (fVar3 + fVar4) * fVar6;
-  return;
-}
+    float invZ;
+    float invX;
+    float invY;
+    float sizeX;
+    float sizeY;
+    float offsetX;
+    float offsetY;
 
+    invZ = 1.0f / matrix[10];
+    self->projection = 2;
+    self->near = matrix[14] * invZ;
+    self->far = self->near + invZ;
+    invY = 1.0f / matrix[5];
+    invX = 1.0f / matrix[0];
+    offsetY = matrix[13] * invY * -2.0f;
+    sizeY = invY * 2.0f;
+    offsetX = matrix[12] * invX * -2.0f;
+    sizeX = invX * 2.0f;
+    self->top = (sizeY + offsetY) * 0.5f;
+    self->bottom = (offsetY - sizeY) * 0.5f;
+    self->left = (offsetX - sizeX) * 0.5f;
+    self->right = (sizeX + offsetX) * 0.5f;
+}
