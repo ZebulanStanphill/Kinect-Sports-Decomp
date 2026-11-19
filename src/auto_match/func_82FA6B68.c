@@ -1,46 +1,59 @@
-extern int fn_82A1E6A0();
-extern int fn_82FA7E00();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_831BC680;
-extern unsigned int lbl_831BC684;
-extern unsigned int lbl_831BC688;
-extern unsigned int lbl_831BC68C;
-extern unsigned int lbl_831BC690;
-extern unsigned int lbl_831BC694;
-extern unsigned int lbl_831BC698;
-extern unsigned int lbl_831BC69C;
-extern unsigned int lbl_831BC768;
-extern unsigned int lbl_83264228;
-extern unsigned int lbl_8326422C;
-extern unsigned int lbl_83264234;
-extern unsigned int lbl_83264238;
-extern unsigned int lbl_8326423C;
+typedef struct Lists_82FA6B68 {
+    void *active;  /* 0x0 */
+    void *pending; /* 0x4 */
+    void *free;    /* 0x8 */
+} Lists_82FA6B68;
 
+typedef struct Table_82FA6B68 {
+    void *head;   /* 0x0 */
+    int unk4;     /* 0x4 */
+    int unk8;     /* 0x8 */
+    int unkC;     /* 0xc */
+    int last;     /* 0x10 */
+    int unk14;    /* 0x14 */
+    int unk18;    /* 0x18 */
+    int capacity; /* 0x1c */
+} Table_82FA6B68;
 
-void fn_82FA6B68(unsigned __int64 param_1,unsigned int *param_2)
+extern void *lbl_83264228;
 
+typedef struct Settings_82FA6B68 {
+    float scale;
+} Settings_82FA6B68;
+
+extern Settings_82FA6B68 lbl_8326422C;
+extern Lists_82FA6B68 lbl_83264234;
+extern char lbl_83264240[0x28];
+extern Table_82FA6B68 lbl_831BC680;
+extern int lbl_831BC768;
+
+extern void fn_82FA7E00(void *section);
+extern void *fn_82A1E6A0(void *attributes, int manualReset, int initialState, const char *name);
+
+int fn_82FA6B68(void *unused, Settings_82FA6B68 *settings)
 {
-  if (param_2 == (unsigned int *)0x0) {
-    lbl_8326422C = lbl_82002AE0;
-  }
-  else {
-    lbl_8326422C = *param_2;
-  }
-  lbl_83264234 = 0;
-  lbl_83264238 = 0;
-  lbl_8326423C = 0;
-  fn_82FA7E00(0xffffffff83264240);
-  lbl_83264228 = fn_82A1E6A0(0,0,0,0);
-  if ((unsigned int)LZCOUNT(lbl_83264228) >> 5 == 0) {
-    lbl_831BC680 = 0;
-    lbl_831BC694 = 0;
-    lbl_831BC68C = 0;
-    lbl_831BC69C = lbl_831BC768;
-    lbl_831BC690 = 0xffffffff;
-    lbl_831BC698 = 0;
-    lbl_831BC688 = 0;
-    lbl_831BC684 = 0;
-  }
-  return;
-}
+    int result;
 
+    if (settings != 0) {
+        lbl_8326422C = *settings;
+    } else {
+        lbl_8326422C.scale = 1.0f;
+    }
+    lbl_83264234.active = 0;
+    lbl_83264234.pending = 0;
+    lbl_83264234.free = 0;
+    fn_82FA7E00(lbl_83264240);
+    lbl_83264228 = fn_82A1E6A0(0, 0, 0, 0);
+    result = lbl_83264228 != 0 ? 1 : 2;
+    if (result == 1) {
+        lbl_831BC680.capacity = lbl_831BC768;
+        lbl_831BC680.unk14 = 0;
+        lbl_831BC680.unkC = 0;
+        lbl_831BC680.last = -1;
+        lbl_831BC680.unk18 = 0;
+        lbl_831BC680.unk8 = 0;
+        lbl_831BC680.head = 0;
+        lbl_831BC680.unk4 = 0;
+    }
+    return result;
+}

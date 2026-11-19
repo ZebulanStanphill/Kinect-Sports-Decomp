@@ -1,72 +1,66 @@
-void fn_829BF560(int param_1,int *param_2,int param_3,int param_4,__int64 param_5)
+/* libjpeg 6b jdcolor.c: ycck_cmyk_convert */
+typedef unsigned char JSAMPLE;
+typedef JSAMPLE *JSAMPROW;
+typedef JSAMPROW *JSAMPARRAY;
+typedef JSAMPARRAY *JSAMPIMAGE;
+typedef unsigned int JDIMENSION;
+typedef int INT32;
 
+#define MAXJSAMPLE 255
+
+typedef struct ColorDeconverter_829BF560 {
+    void *start_pass;    /* 0x00 */
+    void *color_convert; /* 0x04 */
+    int *Cr_r_tab;       /* 0x08 */
+    int *Cb_b_tab;       /* 0x0c */
+    INT32 *Cr_g_tab;     /* 0x10 */
+    INT32 *Cb_g_tab;     /* 0x14 */
+} ColorDeconverter_829BF560;
+
+typedef struct DecompressInfo_829BF560 {
+    char pad0[0x70];
+    JDIMENSION output_width; /* 0x70 */
+    char pad74[0x148 - 0x74];
+    JSAMPLE *sample_range_limit; /* 0x148 */
+    char pad14c[0x1cc - 0x14c];
+    ColorDeconverter_829BF560 *cconvert; /* 0x1cc */
+} DecompressInfo_829BF560;
+
+#define SCALEBITS 16
+#define RIGHT_SHIFT(x, shft) ((x) >> (shft))
+
+void fn_829BF560(DecompressInfo_829BF560 *cinfo, JSAMPIMAGE input_buf, JDIMENSION input_row,
+                 JSAMPARRAY output_buf, int num_rows)
 {
-  unsigned char bVar1;
-  unsigned char bVar2;
-  unsigned char bVar3;
-  int iVar4;
-  unsigned int uVar5;
-  int iVar6;
-  int iVar7;
-  int iVar8;
-  int iVar9;
-  int *piVar10;
-  int *piVar11;
-  int *piVar12;
-  int iVar13;
-  int iVar14;
-  unsigned char *pbVar15;
-  int iVar16;
-  unsigned char *pbVar17;
-  unsigned char *pbVar18;
-  int *piVar19;
-  unsigned __int64 uVar20;
-  
-  iVar4 = *(int *)(param_1 + 0x1cc);
-  param_5 = param_5 + -1;
-  uVar5 = *(unsigned int *)(param_1 + 0x70);
-  iVar6 = *(int *)(param_1 + 0x148);
-  iVar7 = *(int *)(iVar4 + 8);
-  iVar8 = *(int *)(iVar4 + 0xc);
-  iVar9 = *(int *)(iVar4 + 0x10);
-  iVar4 = *(int *)(iVar4 + 0x14);
-  if (-1 < param_5) {
-    param_3 = param_3 << 2;
-    piVar19 = (int *)(param_4 + -4);
-    do {
-      piVar19 = piVar19 + 1;
-      piVar10 = (int *)(*param_2 + param_3);
-      pbVar18 = *(unsigned char **)(param_3 + param_2[1]);
-      piVar11 = (int *)(param_2[2] + param_3);
-      piVar12 = (int *)(param_3 + param_2[3]);
-      param_3 = param_3 + 4;
-      if ((unsigned __int64)uVar5 != 0) {
-        pbVar17 = (unsigned char *)(*piVar19 + -1);
-        iVar14 = *piVar10 - (int)pbVar18;
-        iVar13 = *piVar11 - (int)pbVar18;
-        iVar16 = *piVar12 - (int)pbVar18;
-        uVar20 = (unsigned __int64)uVar5;
-        do {
-          bVar2 = pbVar18[iVar13];
-          bVar1 = *pbVar18;
-          bVar3 = pbVar18[iVar14];
-          pbVar17[1] = *(unsigned char *)(((iVar6 - *(int *)((unsigned int)bVar2 * 4 + iVar7)) - (unsigned int)bVar3) + 0xff)
-          ;
-          pbVar17[2] = *(unsigned char *)(((iVar6 - (*(int *)((unsigned int)bVar1 * 4 + iVar4) +
-                                            *(int *)((unsigned int)bVar2 * 4 + iVar9) >> 0x10)) -
-                                 (unsigned int)bVar3) + 0xff);
-          pbVar17[3] = *(unsigned char *)(((iVar6 - *(int *)((unsigned int)bVar1 * 4 + iVar8)) - (unsigned int)bVar3) + 0xff)
-          ;
-          pbVar15 = pbVar18 + iVar16;
-          pbVar18 = pbVar18 + 1;
-          pbVar17 = pbVar17 + 4;
-          *pbVar17 = *pbVar15;
-          uVar20 = uVar20 - 1;
-        } while (uVar20 != 0);
-      }
-      param_5 = param_5 + -1;
-    } while (-1 < param_5);
-  }
-  return;
-}
+    ColorDeconverter_829BF560 *cconvert = cinfo->cconvert;
+    register int y, cb, cr;
+    register JSAMPROW outptr;
+    register JSAMPROW inptr0, inptr1, inptr2, inptr3;
+    register JDIMENSION col;
+    JDIMENSION num_cols = cinfo->output_width;
+    register JSAMPLE *range_limit = cinfo->sample_range_limit;
+    register int *Crrtab = cconvert->Cr_r_tab;
+    register int *Cbbtab = cconvert->Cb_b_tab;
+    register INT32 *Crgtab = cconvert->Cr_g_tab;
+    register INT32 *Cbgtab = cconvert->Cb_g_tab;
 
+    while (--num_rows >= 0) {
+        inptr0 = input_buf[0][input_row];
+        inptr1 = input_buf[1][input_row];
+        inptr2 = input_buf[2][input_row];
+        inptr3 = input_buf[3][input_row];
+        input_row++;
+        outptr = *output_buf++;
+        for (col = 0; col < num_cols; col++) {
+            y = inptr0[col];
+            cb = inptr1[col];
+            cr = inptr2[col];
+            outptr[0] = range_limit[MAXJSAMPLE - (y + Crrtab[cr])];
+            outptr[1] =
+                range_limit[MAXJSAMPLE - (y + ((int)RIGHT_SHIFT(Cbgtab[cb] + Crgtab[cr], SCALEBITS)))];
+            outptr[2] = range_limit[MAXJSAMPLE - (y + Cbbtab[cb])];
+            outptr[3] = inptr3[col];
+            outptr += 4;
+        }
+    }
+}

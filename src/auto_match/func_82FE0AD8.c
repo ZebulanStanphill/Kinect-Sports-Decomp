@@ -1,52 +1,62 @@
-extern unsigned int lbl_821AAD20;
+typedef struct Range_82FE0AD8 {
+    float min;
+    float max;
+    float unused;
+} Range_82FE0AD8;
 
+typedef struct Row_82FE0AD8 {
+    int a;
+    int b;
+    int c;
+    float w;
+} Row_82FE0AD8;
 
-void fn_82FE0AD8(unsigned int *param_1)
-
+static __forceinline void InitRange(Range_82FE0AD8 *r)
 {
-  unsigned int uVar1;
-  
-  *param_1 = 0;
-  param_1[1] = 0;
-  uVar1 = lbl_821AAD20;
-  param_1[2] = 0;
-  param_1[3] = uVar1;
-  param_1[4] = 0;
-  param_1[7] = uVar1;
-  param_1[5] = 0;
-  param_1[0xb] = uVar1;
-  param_1[6] = 0;
-  param_1[0xf] = uVar1;
-  param_1[8] = 0;
-  param_1[9] = 0;
-  param_1[10] = 0;
-  param_1[0xc] = 0;
-  param_1[0xd] = 0;
-  param_1[0xe] = 0;
-  param_1[0x10] = uVar1;
-  param_1[0x11] = uVar1;
-  param_1[0x13] = uVar1;
-  param_1[0x14] = uVar1;
-  param_1[0x16] = uVar1;
-  param_1[0x17] = uVar1;
-  param_1[0x19] = uVar1;
-  param_1[0x1a] = uVar1;
-  param_1[0x1c] = uVar1;
-  param_1[0x1d] = uVar1;
-  param_1[0x1f] = uVar1;
-  param_1[0x20] = uVar1;
-  param_1[0x22] = 0;
-  param_1[0x23] = 0;
-  param_1[0x24] = 0;
-  param_1[0x25] = 0;
-  param_1[0x26] = 0;
-  param_1[0x27] = 0;
-  param_1[0x28] = 0;
-  param_1[0x29] = 0;
-  param_1[0x2a] = 0;
-  param_1[0x2b] = 0;
-  param_1[0x2c] = 0;
-  param_1[0x2d] = 0;
-  return;
+    r->min = 0.0f;
+    r->max = 0.0f;
 }
 
+typedef struct State_82FE0AD8 {
+    Row_82FE0AD8 rows[4];     /* 0x00 */
+    Range_82FE0AD8 ranges[6]; /* 0x40 */
+    int words[12];            /* 0x88 */
+} State_82FE0AD8;
+
+void fn_82FE0AD8(State_82FE0AD8 *self)
+{
+    self->rows[0].a = 0;
+    self->rows[0].b = 0;
+    self->rows[0].c = 0;
+    self->rows[0].w = 0.0f;
+    self->rows[1].a = 0;
+    self->rows[1].b = 0;
+    self->rows[1].c = 0;
+    self->rows[1].w = 0.0f;
+    self->rows[2].a = 0;
+    self->rows[2].b = 0;
+    self->rows[2].c = 0;
+    self->rows[2].w = 0.0f;
+    self->rows[3].a = 0;
+    self->rows[3].b = 0;
+    self->rows[3].c = 0;
+    self->rows[3].w = 0.0f;
+    InitRange(&self->ranges[0]);
+    InitRange(&self->ranges[1]);
+    InitRange(&self->ranges[2]);
+    InitRange(&self->ranges[3]);
+    InitRange(&self->ranges[4]);
+    InitRange(&self->ranges[5]);
+    self->words[0] = 0;
+    self->words[1] = 0;
+    self->words[2] = 0;
+    self->words[3] = 0;
+    self->words[4] = 0;
+    self->words[5] = 0;
+    self->words[6] = 0;
+    self->words[7] = 0;
+    self->words[8] = 0;
+    self->words[9] = 0;
+    self->words[10] = 0;
+    self->words[11] = 0;
+}

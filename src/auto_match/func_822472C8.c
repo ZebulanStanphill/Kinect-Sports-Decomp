@@ -1,73 +1,70 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_822474A8();
-extern int fn_82247890();
-extern int fn_82248C08();
-extern int fn_8225F160();
-extern int fn_828A1C20();
-extern int fn_828A1C28();
-extern int fn_828ACCE8();
-extern int fn_828AD740();
-extern int fn_82247890();
+typedef struct Flow_822472C8 Flow_822472C8;
 
+typedef struct FlowVtbl_822472C8 {
+    void *slots[2];
+    char *(*GetContext)(Flow_822472C8 *self); /* 0x8 */
+} FlowVtbl_822472C8;
 
-void fn_822472C8(int *param_1,int param_2)
+struct Flow_822472C8 {
+    FlowVtbl_822472C8 *vt; /* 0x0 */
+    char pad4[0xc];
+    void *session; /* 0x10 */
+};
 
+typedef struct Timer_822472C8 {
+    char pad0[0x14];
+    unsigned int start; /* 0x14 */
+    char pad18[4];
+    unsigned int elapsed; /* 0x1c */
+    unsigned int paused;  /* 0x20 */
+    unsigned int total;   /* 0x24 */
+    unsigned int current; /* 0x28 */
+} Timer_822472C8;
+
+extern unsigned char fn_828ACCE8(void *session);
+extern unsigned char fn_828AD740(void *session);
+extern unsigned char fn_828A1C28(void *session);
+extern void fn_828A1C20(void *session);
+extern void fn_828B0348(void *session);
+extern void fn_82247890(Flow_822472C8 *flow);
+extern void fn_822474A8(Flow_822472C8 *flow);
+extern unsigned int fn_82248C08(char *clock);
+extern Timer_822472C8 *fn_8225F160(void);
+
+void fn_822472C8(Flow_822472C8 *self, int event)
 {
-  bool bVar1;
-  char cVar5;
-  __int64 lVar2;
-  unsigned int uVar3;
-  int iVar4;
+    unsigned char ready;
+    unsigned char pending;
+    unsigned int now;
+    Timer_822472C8 *timer;
 
-  cVar5 = fn_828ACCE8(param_1[4]);
-  if (cVar5 == '\0') {
-LAB_82247304:
-    bVar1 = false;
-  }
-  else {
-    cVar5 = fn_828AD740(param_1[4]);
-    bVar1 = true;
-    if (cVar5 == '\0') goto LAB_82247304;
-  }
-  if (param_2 == 1) {
-    fn_82247890(param_1);
-    return;
-  }
-  if (param_2 != 2) {
-    if (param_2 == 3) {
-      if (bVar1) {
-        fn_822474A8(param_1);
-      }
-      fn_828A1C20(param_1[4]);
-      return;
+    ready = fn_828ACCE8(self->session) && fn_828AD740(self->session);
+    switch (event) {
+    case 1:
+        fn_82247890(self);
+        break;
+    case 2:
+        pending = ready && fn_828A1C28(self->session);
+        if (pending) {
+            fn_828B0348(self->session);
+        }
+        break;
+    case 3:
+        if (ready) {
+            fn_822474A8(self);
+        }
+        fn_828A1C20(self->session);
+        break;
+    case 4:
+        if (!ready) {
+            now = fn_82248C08(self->vt->GetContext(self) + 0x240);
+            timer = fn_8225F160();
+            timer->start = now;
+            timer->elapsed = 0;
+            timer->paused = 0;
+            timer->total = 0;
+            timer->current = now;
+        }
+        break;
     }
-    if (param_2 != 4) {
-      return;
-    }
-    if (bVar1) {
-      return;
-    }
-    lVar2 = (**(int (***)())(*param_1 + 8))(param_1);
-    uVar3 = fn_82248C08(lVar2 + 0x240);
-    iVar4 = fn_8225F160();
-    *(unsigned int *)(iVar4 + 0x14) = uVar3;
-    *(unsigned int *)(iVar4 + 0x1c) = 0;
-    *(unsigned int *)(iVar4 + 0x20) = 0;
-    *(unsigned int *)(iVar4 + 0x24) = 0;
-    *(unsigned int *)(iVar4 + 0x28) = uVar3;
-    return;
-  }
-  if (bVar1) {
-    cVar5 = fn_828A1C28(param_1[4]);
-    bVar1 = true;
-    if (cVar5 != '\0') goto LAB_822473ac;
-  }
-  bVar1 = false;
-LAB_822473ac:
-  if (bVar1) {
-    fn_82247890(param_1[4]);
-  }
-  return;
 }

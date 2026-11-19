@@ -1,54 +1,74 @@
-#define true 1
+typedef struct Node_82B83718 {
+    char pad0[0x8];
+    unsigned int flags; /* 0x08 */
+    char padc[0x8];
+    unsigned int order : 29; /* 0x14 */
+    unsigned int low : 3;
+    char pad18[0x10];
+    unsigned int next; /* 0x28, bit 0 tags the list end */
+} Node_82B83718;
 
+typedef struct List_82B83718 {
+    unsigned int f0;
+    unsigned int first; /* bit 0 tags an empty list */
+} List_82B83718;
 
-void fn_82B83718(unsigned __int64 param_1,int param_2)
+typedef struct Owner_82B83718 {
+    char pad0[0x10];
+    List_82B83718 lists[3]; /* 0x10 */
+} Owner_82B83718;
 
+static __forceinline unsigned int Untag(unsigned int link)
 {
-  unsigned int uVar1;
-  int iVar2;
-  int iVar3;
-  unsigned int uVar4;
-  
-  uVar1 = 1;
-  if ((*(unsigned int *)(param_2 + 0x14) & 1) == 0) {
-    uVar4 = *(unsigned int *)(param_2 + 0x14);
-    iVar3 = param_2 + 0x10;
-  }
-  else if ((*(unsigned int *)(param_2 + 0x1c) & 1) == 0) {
-    uVar4 = *(unsigned int *)(param_2 + 0x1c);
-    iVar3 = param_2 + 0x18;
-  }
-  else {
-    uVar4 = *(unsigned int *)(param_2 + 0x24);
-    iVar3 = param_2 + 0x20;
-  }
-  uVar4 = -(unsigned int)((uVar4 & 1) == 0) & uVar4;
-  while( true ) {
-    if (uVar4 == 0) {
-      return;
+    if ((link & 1) == 0) {
+        return link;
+    } else {
+        return 0;
     }
-    do {
-      *(unsigned int *)(uVar4 + 0x14) = uVar1 << 3 | *(unsigned int *)(uVar4 + 0x14) & 7;
-      *(unsigned int *)(uVar4 + 8) = *(unsigned int *)(uVar4 + 8) | 0x40000000;
-      if (uVar1 < 0x1fffffff) {
-        uVar1 = uVar1 + 1;
-      }
-      uVar4 = *(unsigned int *)((uVar4 & 0xfffffffe) + 0x28);
-    } while (((uVar4 & 1) == 0) && (uVar4 != 0));
-    iVar2 = param_2 + 0x20;
-    if (iVar3 == iVar2) break;
-    if ((iVar3 == param_2 + 0x18) || ((*(unsigned int *)(param_2 + 0x1c) & 1) != 0)) {
-      uVar4 = *(unsigned int *)(param_2 + 0x24);
-    }
-    else {
-      uVar4 = *(unsigned int *)(param_2 + 0x1c);
-      iVar2 = param_2 + 0x18;
-    }
-    iVar3 = iVar2;
-    if ((uVar4 & 1) != 0) {
-      return;
-    }
-  }
-  return;
 }
 
+void fn_82B83718(void *self, Owner_82B83718 *owner)
+{
+    unsigned int order = 1;
+    List_82B83718 *list;
+    unsigned int node;
+
+    if ((owner->lists[0].first & 1) != 0) {
+        if ((owner->lists[1].first & 1) != 0) {
+            list = &owner->lists[2];
+            node = list->first;
+        } else {
+            list = &owner->lists[1];
+            node = list->first;
+        }
+    } else {
+        list = &owner->lists[0];
+        node = list->first;
+    }
+    node = Untag(node);
+    while (node != 0) {
+        Node_82B83718 *n = (Node_82B83718 *)node;
+
+        n->order = order;
+        n->flags |= 0x40000000;
+        if (order < 0x1fffffff) {
+            order++;
+        }
+        node = ((Node_82B83718 *)(node & ~1))->next;
+        if ((node & 1) != 0 || node == 0) {
+            if (list == &owner->lists[2]) {
+                return;
+            }
+            if (list != &owner->lists[1] && (owner->lists[1].first & 1) == 0) {
+                list = &owner->lists[1];
+                node = list->first;
+            } else {
+                list = &owner->lists[2];
+                node = list->first;
+            }
+            if ((node & 1) != 0) {
+                return;
+            }
+        }
+    }
+}

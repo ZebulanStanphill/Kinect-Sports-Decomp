@@ -1,51 +1,73 @@
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-#define _iStack_38 ((*(unsigned __int64*)&iStack_38))
-extern unsigned int *auStack_40;
-extern unsigned int iStack_38;
-extern unsigned int uStack_20;
-extern unsigned int uStack_28;
-extern unsigned int uStack_34;
+typedef struct Range_82C175C0 {
+    unsigned int first;  /* 0x00 */
+    unsigned int second; /* 0x04 */
+} Range_82C175C0;
 
+typedef struct Request_82C175C0 {
+    void *buffer;         /* 0x00 */
+    unsigned int size;    /* 0x04 */
+    int flags;            /* 0x08 */
+    int offset;           /* 0x0c */
+    int length;           /* 0x10 */
+    int pad14;            /* 0x14 */
+    __int64 position;     /* 0x18 */
+    Range_82C175C0 range; /* 0x20 */
+} Request_82C175C0;
 
-unsigned __int64
-fn_82C175C0(int *param_1,int param_2,int param_3,int param_4,unsigned int param_5,unsigned int param_6,
-             unsigned __int64 param_7,int *param_8)
+typedef struct Context_82C175C0 {
+    char pad0[0x334];
+    int busy; /* 0x334 */
+} Context_82C175C0;
 
+typedef struct Decoder_82C175C0 Decoder_82C175C0;
+
+struct Decoder_82C175C0 {
+    Context_82C175C0 *context; /* 0x000 */
+    char pad4[0xe0 - 0x4];
+    void *pending; /* 0x0e0 */
+    char padE4[0x2b4 - 0xe4];
+    int state; /* 0x2b4 */
+    int ready; /* 0x2b8 */
+    int pad2bc;
+    int started; /* 0x2c0 */
+    int pad2c4;
+    int (*submit)(Decoder_82C175C0 *self, Request_82C175C0 *request); /* 0x2c8 */
+};
+
+extern void *memset(void *dst, int value, unsigned int size);
+
+int fn_82C175C0(Decoder_82C175C0 *decoder, void *buffer, unsigned int size, int flags, int offset, int length,
+                __int64 position, int *state, const Range_82C175C0 *range)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 *in_stack_00000054;
-  unsigned char auStack_40 [8];
-  int iStack_38;
-  unsigned int uStack_34;
-  __int64 lStack_30;
-  unsigned __int64 uStack_28;
-  unsigned __int64 uStack_20;
-  
-  uVar1 = 0;
-  if ((((param_1 == (int *)0x0) || (*param_1 == 0)) || ((param_2 == 0 && (param_3 != 0)))) ||
-     (param_8 == (int *)0x0)) {
-    uVar1 = 0xffffffff80070057;
-  }
-  else if (((param_1[0xb0] == 0) || (param_1[0xae] == 0)) || (param_4 != 0)) {
-    param_1[0xad] = 0;
-    uStack_20 = 0;
-    lStack_30 = (unsigned __int64)param_6 << 0x20;
-    _iStack_38 = CONCAT44(param_4,param_5);
-    if (in_stack_00000054 != (unsigned __int64 *)0x0) {
-      uStack_20 = *in_stack_00000054;
-    }
-    uStack_28 = param_7;
-    uVar1 = (*(int (**)())param_1[0xb2])(param_1,auStack_40);
-    if ((-1 < (int)uVar1) && (*(int *)(*param_1 + 0x334) == 0)) {
-      param_1[0xad] = 2;
-    }
-  }
-  else if (param_1[0x38] == 0) {
-    param_1[0xad] = 1;
-  }
-  if ((param_8 != (int *)0x0) && (param_1 != (int *)0x0)) {
-    *param_8 = param_1[0xad];
-  }
-  return uVar1;
-}
+    int hr = 0;
+    Request_82C175C0 request;
 
+    if (decoder == 0 || decoder->context == 0 || (buffer == 0 && size != 0) || state == 0) {
+        hr = 0x80070057;
+    } else if (decoder->started != 0 && decoder->ready != 0 && flags == 0) {
+        if (decoder->pending == 0) {
+            decoder->state = 1;
+        }
+    } else {
+        decoder->state = 0;
+        memset(&request, 0, sizeof(request));
+        request.buffer = buffer;
+        request.size = size;
+        request.length = length;
+        request.position = position;
+        request.flags = flags;
+        request.offset = offset;
+        if (range != 0) {
+            request.range.second = range->second;
+            request.range.first = range->first;
+        }
+        hr = decoder->submit(decoder, &request);
+        if (hr >= 0 && decoder->context->busy == 0) {
+            decoder->state = 2;
+        }
+    }
+    if (state != 0 && decoder != 0) {
+        *state = decoder->state;
+    }
+    return hr;
+}

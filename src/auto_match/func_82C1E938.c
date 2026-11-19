@@ -1,54 +1,59 @@
-extern unsigned int *auStack_50;
+typedef struct Source_82C1E938 Source_82C1E938;
 
+struct Source_82C1E938 {
+    void *functions[4]; /* 0x00 */
+    int (*Read)(Source_82C1E938 *source, int size, unsigned char **data, unsigned int *count,
+                void *scratch); /* 0x10 */
+};
 
-unsigned __int64 fn_82C1E938(int param_1,unsigned short *param_2,int *param_3,unsigned int *param_4,int *param_5)
+typedef struct Stream_82C1E938 {
+    Source_82C1E938 *source;   /* 0x00 */
+    int pad4;                  /* 0x04 */
+    unsigned __int64 position; /* 0x08 */
+} Stream_82C1E938;
 
+typedef struct Reader_82C1E938 {
+    char pad0[0x1c];
+    Stream_82C1E938 *stream; /* 0x1c */
+} Reader_82C1E938;
+
+int fn_82C1E938(Reader_82C1E938 *self, unsigned short *out, unsigned char **data, unsigned int *count,
+                int *remaining)
 {
-  int *piVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  unsigned char bVar4;
-  char cVar5;
-  char cVar6;
-  unsigned char auStack_50 [16];
-  
-  piVar1 = *(int **)(param_1 + 0x1c);
-  uVar3 = 0;
-  cVar5 = '\0';
-  if ((((piVar1 == (int *)0x0) || (param_2 == (unsigned short *)0x0)) || (param_4 == (unsigned int *)0x0)) ||
-     ((param_5 == (int *)0x0 || (param_3 == (int *)0x0)))) {
-    uVar3 = 0xffffffff80070057;
-  }
-  else {
-    *param_2 = 0;
-    if (*param_4 < 2) {
-      bVar4 = 0;
-      cVar6 = '\0';
-      do {
-        if (*param_4 == 0) {
-          uVar3 = (**(int (***)())(*piVar1 + 0x10))(*piVar1,*param_5,param_3,param_4,auStack_50);
-          if ((int)uVar3 < 0) {
-            return uVar3;
-          }
-          cVar5 = '\0';
-          *(unsigned __int64 *)(piVar1 + 2) = (unsigned __int64)*param_4 + *(__int64 *)(piVar1 + 2);
-          *param_5 = *param_5 - *param_4;
-        }
-        bVar4 = bVar4 + 1;
-        iVar2 = (int)cVar5;
-        cVar5 = cVar5 + '\x01';
-        *param_2 = (unsigned short)*(unsigned char *)(*param_3 + iVar2) << ((int)cVar6 & 0x3fU) | *param_2;
-        *param_4 = *param_4 - 1;
-        cVar6 = cVar6 + '\b';
-      } while (bVar4 < 2);
-      *param_3 = (int)cVar5 + *param_3;
-    }
-    else {
-      *param_2 = (unsigned short)((unsigned char *)*param_3)[1] * 0x100 + (unsigned short)*(unsigned char *)*param_3;
-      *param_3 = *param_3 + 2;
-      *param_4 = *param_4 - 2;
-    }
-  }
-  return uVar3;
-}
+    Stream_82C1E938 *stream = self->stream;
+    int hr = 0;
+    char shift = 0;
+    char index = 0;
+    char i;
+    unsigned char scratch[16];
+    int invalidArgument;
 
+    invalidArgument = stream == 0 || out == 0 || count == 0 || remaining == 0 || data == 0;
+    if (invalidArgument) {
+        return 0x80070057;
+    }
+    *out = 0;
+    if (*count >= 2) {
+        *out = ((*data)[1] << 8) + (*data)[0];
+        *data += 2;
+        *count -= 2;
+    } else {
+        for (i = 0; (unsigned char)i < 2; i++) {
+            if (*count == 0) {
+                hr = stream->source->Read(stream->source, *remaining, data, count, scratch);
+                if (hr < 0) {
+                    return hr;
+                }
+                index = 0;
+                stream->position += *count;
+                *remaining -= *count;
+            }
+            *out |= (*data)[index] << shift;
+            shift += 8;
+            index++;
+            (*count)--;
+        }
+        *data += index;
+    }
+    return hr;
+}

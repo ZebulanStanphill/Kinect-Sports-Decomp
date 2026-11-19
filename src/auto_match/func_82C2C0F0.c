@@ -1,51 +1,58 @@
-extern int fn_82C2E420();
+typedef struct Buffer_82C2C0F0 {
+    char pad0[8];
+    short *data; /* 0x8 */
+} Buffer_82C2C0F0;
 
+typedef struct Channel_82C2C0F0 {
+    char pad0[8];
+    int position; /* 0x8 */
+    char padc[0x68];
+    short state; /* 0x74 */
+    char pad76[4];
+    short left;  /* 0x7a */
+    short right; /* 0x7c */
+    char pad7e[0x36];
+    unsigned char active; /* 0xb4 */
+    char padb5[0xf];
+    float level; /* 0xc4 */
+    char padc8[0xe0];
+    Buffer_82C2C0F0 *buffer; /* 0x1a8 */
+    char pad1ac[8];
+    int enabled; /* 0x1b4 */
+    char pad1b8[4];
+    int count; /* 0x1bc */
+    char pad1c0[0x530];
+} Channel_82C2C0F0;
 
-unsigned __int64 fn_82C2C0F0(int param_1,int param_2)
+typedef struct Mixer_82C2C0F0 {
+    char pad0[0x22];
+    unsigned short channelCount; /* 0x22 */
+    char pad24[0xdc];
+    int volume; /* 0x100 */
+} Mixer_82C2C0F0;
 
+extern float fn_82C2E420(int a, int b);
+
+int fn_82C2C0F0(Mixer_82C2C0F0 *self, Channel_82C2C0F0 *channels)
 {
-  short sVar1;
-  short sVar2;
-  int iVar3;
-  int iVar4;
-  double dVar5;
-  
-  if (*(short *)(param_1 + 0x22) != 0) {
-    iVar4 = 0;
-    do {
-      iVar3 = iVar4 * 0x6f0 + param_2;
-      *(unsigned char *)(iVar3 + 0xb4) = 0;
-      dVar5 = (double)fn_82C2E420(0,0);
-      sVar2 = (short)iVar4 + 1;
-      *(float *)(iVar3 + 0xc4) = (float)dVar5;
-      iVar4 = (int)sVar2;
-    } while ((int)sVar2 < (int)(unsigned int)*(unsigned short *)(param_1 + 0x22));
-    if (*(unsigned short *)(param_1 + 0x22) != 0) {
-      iVar4 = 0;
-      do {
-        iVar3 = iVar4 * 0x6f0 + param_2;
-        sVar2 = (short)iVar4 + 1;
-        iVar4 = (int)sVar2;
-        *(unsigned int *)(iVar3 + 0x1bc) = 0;
-        *(unsigned int *)(iVar3 + 8) = 0;
-        *(unsigned int *)(iVar3 + 0x1b4) = 1;
-      } while ((int)sVar2 < (int)(unsigned int)*(unsigned short *)(param_1 + 0x22));
-      if (*(unsigned short *)(param_1 + 0x22) != 0) {
-        iVar4 = 0;
-        do {
-          sVar2 = (short)*(unsigned int *)(param_1 + 0x100);
-          iVar3 = iVar4 * 0x6f0 + param_2;
-          sVar1 = (short)iVar4 + 1;
-          sVar2 = (sVar2 >> 1) + (unsigned short)(sVar2 < 0 && (*(unsigned int *)(param_1 + 0x100) & 1) != 0);
-          iVar4 = (int)sVar1;
-          *(short *)(iVar3 + 0x7a) = sVar2;
-          *(short *)(iVar3 + 0x7c) = sVar2;
-          **(unsigned short **)(*(int *)(iVar3 + 0x1a8) + 8) = (short)*(unsigned int *)(param_1 + 0x100);
-          *(unsigned short *)(iVar3 + 0x74) = 0;
-        } while ((int)sVar1 < (int)(unsigned int)*(unsigned short *)(param_1 + 0x22));
-      }
-    }
-  }
-  return 0;
-}
+    short i;
+    short half;
 
+    for (i = 0; i < self->channelCount; i++) {
+        channels[i].active = 0;
+        channels[i].level = fn_82C2E420(0, 0);
+    }
+    for (i = 0; i < self->channelCount; i++) {
+        channels[i].position = 0;
+        channels[i].count = 0;
+        channels[i].enabled = 1;
+    }
+    for (i = 0; i < self->channelCount; i++) {
+        half = (short)self->volume / 2;
+        channels[i].left = half;
+        channels[i].right = half;
+        *channels[i].buffer->data = (short)self->volume;
+        channels[i].state = 0;
+    }
+    return 0;
+}

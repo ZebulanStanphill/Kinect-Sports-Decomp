@@ -1,81 +1,52 @@
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_80;
-extern int fn_82810280();
-extern int fn_82810328();
-extern int fn_82810558();
-extern int fn_82F6A548();
-extern int fn_82F6A594();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_821AAD20;
+typedef struct Vector_8306AF68 {
+    float values[4];
+} Vector_8306AF68;
 
+extern void fn_82810328(const void *a, const void *b, Vector_8306AF68 *out);
+extern float fn_82810280(const Vector_8306AF68 *a, const Vector_8306AF68 *b);
+extern void fn_82810558(Vector_8306AF68 *direction, const void *start, float t, void *out);
 
-void fn_8306AF68(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4)
+#define CLAMP01(x) ((x) < 0.0f ? 0.0f : ((x) > 1.0f ? 1.0f : (x)))
 
+void fn_8306AF68(const void *start1, const void *end1, const void *start2, const void *end2, void *out1,
+                 void *out2)
 {
-  float fVar1;
-  float fVar2;
-  unsigned __int64 uVar3;
-  double dVar4;
-  double dVar5;
-  double dVar6;
-  double dVar7;
-  double dVar8;
-  double dVar9;
-  double dVar10;
-  double dVar11;
-  double dVar12;
-  unsigned char auStack_80 [16];
-  unsigned char auStack_70 [16];
-  unsigned char auStack_60 [96];
-  
-  uVar3 = fn_82F6A548();
-  fn_82810328(param_2,uVar3,auStack_80);
-  fn_82810328(param_4,param_3,auStack_70);
-  fn_82810328(uVar3,param_3,auStack_60);
-  dVar5 = (double)fn_82810280(auStack_80,auStack_80);
-  dVar6 = (double)fn_82810280(auStack_70,auStack_70);
-  dVar7 = (double)fn_82810280(auStack_70,auStack_60);
-  dVar8 = (double)fn_82810280(auStack_80,auStack_70);
-  dVar9 = (double)fn_82810280(auStack_80,auStack_60);
-  dVar4 = (double)lbl_821AAD20;
-  dVar12 = (double)lbl_82002AE0;
-  dVar10 = (double)(float)(dVar6 * dVar5 - (double)(float)(dVar8 * dVar8));
-  dVar11 = dVar4;
-  if (dVar10 != dVar4) {
-    fVar1 = (float)(dVar12 / dVar10);
-    fVar2 = (float)(dVar8 * dVar7 - (double)(float)(dVar9 * dVar6));
-    if ((dVar4 <= (double)(fVar1 * fVar2)) && (dVar11 = dVar12, (double)(fVar1 * fVar2) <= dVar12))
-    {
-      dVar11 = (double)(fVar1 * fVar2);
-    }
-  }
-  dVar6 = (double)(float)((double)(float)(dVar11 * dVar8 + dVar7) / dVar6);
-  if (dVar4 <= dVar6) {
-    if (dVar6 <= dVar12) goto LAB_8306b0d4;
-    fVar2 = (float)(dVar8 - dVar9);
-    fVar1 = (float)(dVar12 / dVar5);
-    dVar11 = dVar4;
-    dVar6 = dVar12;
-    if ((double)(fVar2 * fVar1) < dVar4) goto LAB_8306b0d4;
-    dVar4 = dVar12;
-    if ((double)(fVar2 * fVar1) <= dVar12) {
-      dVar11 = (double)(fVar2 * fVar1);
-      goto LAB_8306b0d4;
-    }
-  }
-  else {
-    dVar5 = -(double)(float)(dVar9 / dVar5);
-    dVar11 = dVar4;
-    dVar6 = dVar4;
-    if ((dVar5 < dVar4) || (dVar11 = dVar5, dVar5 <= dVar12)) goto LAB_8306b0d4;
-  }
-  dVar11 = dVar12;
-  dVar6 = dVar4;
-LAB_8306b0d4:
-  fn_82810558(dVar11,auStack_80,uVar3);
-  fn_82810558(dVar6,auStack_70,param_3);
-  fn_82F6A594();
-  return;
-}
+    Vector_8306AF68 d1;
+    Vector_8306AF68 d2;
+    Vector_8306AF68 r;
+    float a;
+    float b;
+    float c;
+    float e;
+    float f;
+    float denom;
+    float s;
+    float t;
+    float projected;
 
+    fn_82810328(end1, start1, &d1);
+    fn_82810328(end2, start2, &d2);
+    fn_82810328(start1, start2, &r);
+    a = fn_82810280(&d1, &d1);
+    e = fn_82810280(&d2, &d2);
+    f = fn_82810280(&d2, &r);
+    b = fn_82810280(&d1, &d2);
+    c = fn_82810280(&d1, &r);
+    denom = e * a - b * b;
+    if (denom != 0.0f) {
+        s = CLAMP01((b * f - c * e) / denom);
+    } else {
+        s = 0.0f;
+    }
+    t = (s * b + f) / e;
+    if (t < 0.0f) {
+        t = 0.0f;
+        projected = -(c / a);
+        s = CLAMP01(projected);
+    } else if (t > 1.0f) {
+        t = 1.0f;
+        s = CLAMP01((b - c) / a);
+    }
+    fn_82810558(&d1, start1, s, out1);
+    fn_82810558(&d2, start2, t, out2);
+}

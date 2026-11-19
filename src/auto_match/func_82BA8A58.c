@@ -1,58 +1,62 @@
-extern int fn_82BA02A8();
+typedef struct Stats_82BA8A58 {
+    char pad0[0x38];
+    int controlFlowSlots; /* 0x38 */
+    int aluCount;         /* 0x3c */
+    int fetchCount;       /* 0x40 */
+    int packedAlu;        /* 0x44 */
+    int candidateAlu;     /* 0x48 */
+    int conflictMoves;    /* 0x4c */
+    int tempMoves;        /* 0x50 */
+    int redundantMoves;   /* 0x54 */
+    int deadInstructions; /* 0x58 */
+} Stats_82BA8A58;
 
+typedef struct Assembler_82BA8A58 {
+    unsigned char quiet; /* 0x0 */
+    char pad1[0xb];
+    void *log; /* 0xc */
+    char pad10[0x870 - 0x10];
+    int totalConflictMoves;    /* 0x870 */
+    int totalTempMoves;        /* 0x874 */
+    int totalRedundantMoves;   /* 0x878 */
+    int totalDeadInstructions; /* 0x87c */
+} Assembler_82BA8A58;
 
-void fn_82BA8A58(char *param_1,int param_2)
+extern void fn_82BA02A8(void *log, const char *format, ...);
 
+void fn_82BA8A58(Assembler_82BA8A58 *self, Stats_82BA8A58 *stats)
 {
-  unsigned int uVar1;
-  __int64 lVar2;
-  unsigned __int64 uVar3;
-  int iVar4;
-  unsigned int uVar5;
-  
-  *(int *)(param_1 + 0x870) = *(int *)(param_2 + 0x4c) + *(int *)(param_1 + 0x870);
-  *(int *)(param_1 + 0x874) = *(int *)(param_1 + 0x874) + *(int *)(param_2 + 0x50);
-  *(int *)(param_1 + 0x878) = *(int *)(param_2 + 0x54) + *(int *)(param_1 + 0x878);
-  *(int *)(param_1 + 0x87c) = *(int *)(param_2 + 0x58) + *(int *)(param_1 + 0x87c);
-  if (0 < *(int *)(param_2 + 0x4c)) {
-    fn_82BA02A8(*(unsigned int *)(param_1 + 0xc),0xffffffff820df230,*(unsigned int *)(param_2 + 0x4c))
-    ;
-  }
-  if (0 < *(int *)(param_2 + 0x50)) {
-    fn_82BA02A8(*(unsigned int *)(param_1 + 0xc),0xffffffff820df1f0);
-  }
-  if (0 < *(int *)(param_2 + 0x54)) {
-    fn_82BA02A8(*(unsigned int *)(param_1 + 0xc),0xffffffff820df1c4);
-  }
-  if (0 < *(int *)(param_2 + 0x58)) {
-    fn_82BA02A8(*(unsigned int *)(param_1 + 0xc),0xffffffff820df1a0);
-  }
-  uVar1 = *(unsigned int *)(param_2 + 0x38);
-  lVar2 = (__int64)((int)uVar1 >> 1) + (unsigned __int64)((int)uVar1 < 0 && (uVar1 & 1) != 0);
-  fn_82BA02A8(*(unsigned int *)(param_1 + 0xc),0xffffffff820df158,lVar2,
-                (unsigned __int64)*(unsigned int *)(param_2 + 0x40),
-                (unsigned __int64)*(unsigned int *)(param_2 + 0x3c) - (unsigned __int64)*(unsigned int *)(param_2 + 0x40),
-                (unsigned __int64)*(unsigned int *)(param_2 + 0x3c) + lVar2);
-  uVar1 = *(unsigned int *)(param_2 + 0x38);
-  fn_82BA02A8(*(unsigned int *)(param_1 + 0xc),0xffffffff820df120,
-                (__int64)((int)uVar1 >> 1) + (unsigned __int64)((int)uVar1 < 0 && (uVar1 & 1) != 0),
-                *(unsigned int *)(param_2 + 0x3c));
-  if (*param_1 == '\0') {
-    uVar1 = *(unsigned int *)(param_2 + 0x48);
-    uVar3 = (unsigned __int64)uVar1;
-    if (uVar1 == 0) {
-      iVar4 = 0;
-    }
-    else {
-      trapWord(6,uVar3,0);
-      uVar5 = *(int *)(param_2 + 0x44) * 100;
-      iVar4 = (int)uVar5 / (int)uVar1;
-      trapWord(5,uVar3 & ~((((unsigned __int64)uVar5 & 0x7fffffff) << 1 | (unsigned __int64)(uVar5 >> 0x1f)) - 1),
-               0xffff);
-    }
-    fn_82BA02A8(*(unsigned int *)(param_1 + 0xc),0xffffffff820df0d8,uVar3,
-                  *(unsigned int *)(param_2 + 0x44),iVar4);
-  }
-  return;
-}
+    int percent;
 
+    self->totalConflictMoves = stats->conflictMoves + self->totalConflictMoves;
+    self->totalTempMoves = self->totalTempMoves + stats->tempMoves;
+    self->totalRedundantMoves = stats->redundantMoves + self->totalRedundantMoves;
+    self->totalDeadInstructions = stats->deadInstructions + self->totalDeadInstructions;
+    if (stats->conflictMoves > 0) {
+        fn_82BA02A8(self->log, "Assembler : adds %d mov(s) to correct pw conflicts\n", stats->conflictMoves);
+    }
+    if (stats->tempMoves > 0) {
+        fn_82BA02A8(self->log, "Assembler : adds %d additional mov(s) using special pw temp\n",
+                    stats->tempMoves);
+    }
+    if (stats->redundantMoves > 0) {
+        fn_82BA02A8(self->log, "Assembler : %d redundant mov(s) not issued\n", stats->redundantMoves);
+    }
+    if (stats->deadInstructions > 0) {
+        fn_82BA02A8(self->log, "Assembler : %d dead inst(s) issued\n", stats->deadInstructions);
+    }
+    fn_82BA02A8(self->log, "Assembler : emits %d cf, %d fetch, %d alu -> %d total instruction(s)\n",
+                stats->controlFlowSlots / 2, stats->fetchCount, stats->aluCount - stats->fetchCount,
+                stats->aluCount + stats->controlFlowSlots / 2);
+    fn_82BA02A8(self->log, "INFO:# of control flow %d, # of exec %d instructions\n",
+                stats->controlFlowSlots / 2, stats->aluCount);
+    if (self->quiet == 0) {
+        if (stats->candidateAlu != 0) {
+            percent = stats->packedAlu * 100 / stats->candidateAlu;
+        } else {
+            percent = 0;
+        }
+        fn_82BA02A8(self->log, "Assembler : of %d candidate alu instruction(s), %d are packed (%%%d)\n",
+                    stats->candidateAlu, stats->packedAlu, percent);
+    }
+}

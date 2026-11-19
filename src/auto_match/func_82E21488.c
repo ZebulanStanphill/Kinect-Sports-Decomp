@@ -1,65 +1,51 @@
-extern char cRam8323fe6a;
-extern int fn_8265C9E0();
-extern int fn_8265CA20();
-extern int fn_82E212B0();
-extern int fn_82F64840();
-extern int fn_82F64CE0();
-extern int fn_82F6FE60();
-extern int fn_82F6FEB8();
-extern unsigned int uRam8323fe68;
+typedef struct TextBuf_82E21488 TextBuf_82E21488;
 
+extern unsigned short lbl_8323FE20[0x25];
+extern unsigned char lbl_8323FE6A;
+extern void *fn_8265C9E0(unsigned int size);
+extern void fn_8265CA20(void *p);
+extern int fn_82E212B0(TextBuf_82E21488 *self, const unsigned short *text);
+extern int fn_82F64840(unsigned short *dst, unsigned int dstCount, const unsigned short *src,
+                       unsigned int count);
+extern unsigned int fn_82F64CE0(const unsigned short *s);
+extern unsigned int fn_82F6FE60(const unsigned short *s, const unsigned short *set);
+extern int fn_82F6FEB8(unsigned short *dst, unsigned int size, const unsigned short *src, unsigned int count);
 
-unsigned __int64 fn_82E21488(unsigned __int64 param_1,unsigned __int64 param_2)
-
+int fn_82E21488(TextBuf_82E21488 *self, const unsigned short *text)
 {
-  short sVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  __int64 lVar5;
-  int iVar6;
-  char cVar7;
-  int iVar8;
-  unsigned __int64 uVar9;
-  
-  if ((param_2 & 0xffffffff) != 0) {
-    uVar2 = fn_82F64CE0(param_2);
-    iVar8 = 0;
-    if (cRam8323fe6a == '\0') {
-      do {
-        iVar6 = iVar8 * 2;
-        cVar7 = (char)iVar8 + '\x01';
-        sVar1 = (short)iVar8;
-        iVar8 = (int)cVar7;
-        *(short *)(iVar6 + -0x7cdc01e0) = 0x1f - sVar1;
-      } while (cVar7 < ' ');
-      fn_82F6FEB8(0xffffffff8323fe20,0x25,0xffffffff8214bc5c,5);
-      uRam8323fe68 = 0;
-      cRam8323fe6a = '\x01';
-    }
-    uVar3 = fn_82F6FE60(param_2,0xffffffff8323fe20);
-    if ((uVar3 & 0xffffffff) == (uVar2 & 0xffffffff)) {
-      uVar4 = fn_82E212B0(param_1,param_2);
-      return uVar4;
-    }
-    uVar9 = uVar2 + 1;
-    lVar5 = (uVar9 & 0x7fffffff) << 1;
-    if (0x7fffffff < (uVar9 & 0xffffffff)) {
-      lVar5 = -1;
-    }
-    iVar8 = fn_8265C9E0(lVar5);
-    iVar6 = fn_82F64840(iVar8,uVar9,param_2,uVar2);
-    if (iVar6 == 0) {
-      *(unsigned short *)((int)((uVar2 & 0xffffffff) << 1) + iVar8) = 0;
-      while ((uVar3 & 0xffffffff) < (uVar2 & 0xffffffff)) {
-        *(unsigned short *)((int)((uVar3 & 0xffffffff) << 1) + iVar8) = 0x2e;
-        uVar3 = fn_82F6FE60(iVar8,0xffffffff8323fe20);
-      }
-      fn_82E212B0(param_1,iVar8);
-      fn_8265CA20(iVar8);
-      return 1;
-    }
-  }
-  return 0;
-}
+    unsigned int length;
+    unsigned int position;
+    unsigned int count;
+    unsigned short *copy;
+    char i;
 
+    if (text == 0) {
+        return 0;
+    }
+    length = fn_82F64CE0(text);
+    if (lbl_8323FE6A == 0) {
+        for (i = 0; i < 0x20; i++) {
+            lbl_8323FE20[i] = 0x1f - i;
+        }
+        fn_82F6FEB8(lbl_8323FE20, 0x25, L"\"'<>&", 5);
+        lbl_8323FE20[0x24] = 0;
+        lbl_8323FE6A = 1;
+    }
+    position = fn_82F6FE60(text, lbl_8323FE20);
+    if (position == length) {
+        return fn_82E212B0(self, text);
+    }
+    count = length + 1;
+    copy = (unsigned short *)fn_8265C9E0(count <= 0x7fffffff ? count * sizeof(unsigned short) : 0xffffffff);
+    if (fn_82F64840(copy, count, text, length) != 0) {
+        return 0;
+    }
+    copy[length] = 0;
+    while (position < length) {
+        copy[position] = '.';
+        position = fn_82F6FE60(copy, lbl_8323FE20);
+    }
+    fn_82E212B0(self, copy);
+    fn_8265CA20(copy);
+    return 1;
+}

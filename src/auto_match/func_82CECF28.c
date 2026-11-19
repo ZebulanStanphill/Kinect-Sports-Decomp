@@ -1,61 +1,67 @@
-void fn_82CECF28(int param_1,int param_2,int param_3,__int64 param_4)
+typedef struct StreamReader_82CECF28 StreamReader_82CECF28;
 
+typedef struct StreamReaderVtbl_82CECF28 {
+    void *slots[4];
+    int (*read)(StreamReader_82CECF28 *self, void *buf, int nbytes); /* 0x10 */
+} StreamReaderVtbl_82CECF28;
+
+struct StreamReader_82CECF28 {
+    StreamReaderVtbl_82CECF28 *vt;
+};
+
+typedef struct Archive_82CECF28 {
+    void *vt;                      /* 0x0 */
+    int refCount;                  /* 0x4 */
+    StreamReader_82CECF28 *stream; /* 0x8 */
+    unsigned char byteSwap;        /* 0xc */
+} Archive_82CECF28;
+
+static __forceinline void SwapBytes_82CECF28(unsigned char *a, unsigned char *b)
 {
-  unsigned char uVar1;
-  int iVar2;
-  unsigned char *puVar3;
-  
-  iVar2 = (int)param_4;
-  (**(int (***)())(**(int **)(param_1 + 8) + 0x10))
-            (*(int **)(param_1 + 8),param_2,(__int64)param_3 * (__int64)iVar2);
-  if (*(char *)(param_1 + 0xc) != '\0') {
-    if (param_3 == 2) {
-      if (0 < iVar2) {
-        puVar3 = (unsigned char *)(param_2 + -1);
-        do {
-          uVar1 = puVar3[1];
-          puVar3[1] = puVar3[2];
-          puVar3 = puVar3 + 2;
-          *puVar3 = uVar1;
-          param_4 = param_4 + -1;
-        } while (param_4 != 0);
-      }
-    }
-    else if (param_3 == 4) {
-      if (0 < iVar2) {
-        puVar3 = (unsigned char *)(param_2 + -2);
-        do {
-          uVar1 = puVar3[2];
-          puVar3[2] = puVar3[5];
-          puVar3[5] = uVar1;
-          uVar1 = puVar3[3];
-          puVar3[3] = puVar3[4];
-          puVar3 = puVar3 + 4;
-          *puVar3 = uVar1;
-          param_4 = param_4 + -1;
-        } while (param_4 != 0);
-      }
-    }
-    else if ((param_3 == 8) && (0 < iVar2)) {
-      puVar3 = (unsigned char *)(param_2 + -4);
-      do {
-        uVar1 = puVar3[4];
-        puVar3[4] = puVar3[0xb];
-        puVar3[0xb] = uVar1;
-        uVar1 = puVar3[5];
-        puVar3[5] = puVar3[10];
-        puVar3[10] = uVar1;
-        uVar1 = puVar3[6];
-        puVar3[6] = puVar3[9];
-        puVar3[9] = uVar1;
-        uVar1 = puVar3[7];
-        puVar3[7] = puVar3[8];
-        puVar3 = puVar3 + 8;
-        *puVar3 = uVar1;
-        param_4 = param_4 + -1;
-      } while (param_4 != 0);
-    }
-  }
-  return;
+    unsigned char t = *a;
+
+    *a = *b;
+    *b = t;
 }
 
+void fn_82CECF28(Archive_82CECF28 *self, void *buf, int elemSize, int count)
+{
+    int i;
+
+    self->stream->vt->read(self->stream, buf, elemSize * count);
+    if (self->byteSwap) {
+        switch (elemSize) {
+        case 2: {
+            unsigned char *q = (unsigned char *)buf;
+
+            for (i = 0; i < count; i++) {
+                SwapBytes_82CECF28(&q[0], &q[1]);
+                q += 2;
+            }
+            break;
+        }
+        case 4: {
+            unsigned char *q = (unsigned char *)buf;
+
+            for (i = 0; i < count; i++) {
+                SwapBytes_82CECF28(&q[0], &q[3]);
+                SwapBytes_82CECF28(&q[1], &q[2]);
+                q += 4;
+            }
+            break;
+        }
+        case 8: {
+            unsigned char *q = (unsigned char *)buf;
+
+            for (i = 0; i < count; i++) {
+                SwapBytes_82CECF28(&q[0], &q[7]);
+                SwapBytes_82CECF28(&q[1], &q[6]);
+                SwapBytes_82CECF28(&q[2], &q[5]);
+                SwapBytes_82CECF28(&q[3], &q[4]);
+                q += 8;
+            }
+            break;
+        }
+        }
+    }
+}

@@ -1,45 +1,51 @@
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_60;
-extern int fn_82F534F8();
-extern int fn_82F538A0();
-extern int fn_82F538B0();
-extern int fn_82F538F0();
-extern int fn_82F53928();
-extern int fn_82F593F8();
-extern int fn_8306ED30();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_82021544;
-extern unsigned int lbl_82165A98;
+typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
+    float vector4_f32[4];
+    unsigned int vector4_u32[4];
+} __vector4;
 
+typedef struct Vec_82F4FD98 {
+    __vector4 v;
+} Vec_82F4FD98;
 
-double fn_82F4FD98(int param_1,unsigned __int64 param_2)
+typedef struct Frames_82F4FD98 {
+    char pad0[0x60];
+    char current[0x7f0];  /* 0x60 */
+    char previous[0x7f0]; /* 0x850 */
+} Frames_82F4FD98;
 
+typedef struct Tracker_82F4FD98 {
+    char pad0[0xcf0];
+    Frames_82F4FD98 *frames; /* 0xcf0 */
+} Tracker_82F4FD98;
+
+extern double lbl_82165A98;
+
+extern __int64 fn_82F538F0(void *frame);
+extern float fn_82F593F8(float value, float low, float high);
+extern Vec_82F4FD98 fn_82F538A0(void *joints, int i);
+extern Vec_82F4FD98 fn_82F538B0(void *joints, int i);
+extern __vector4 fn_8306ED30(__vector4 a, __vector4 b);
+extern __vector4 fn_82F534F8(__vector4 v, float scale);
+extern void fn_82F53928(void *joints, int i, __vector4 v);
+
+float fn_82F4FD98(Tracker_82F4FD98 *tracker, void *velocities)
 {
-  __int64 lVar1;
-  double dVar2;
-  double dVar3;
-  __int64 alStack_70 [2];
-  unsigned char auStack_60 [16];
-  unsigned char auStack_50 [80];
-  
-  lVar1 = fn_82F538F0((unsigned __int64)*(unsigned int *)(param_1 + 0xcf0) + 0x60);
-  alStack_70[0] = fn_82F538F0((unsigned __int64)*(unsigned int *)(param_1 + 0xcf0) + 0x850);
-  alStack_70[0] = lVar1 - alStack_70[0];
-  dVar3 = (double)lbl_82002AE0;
-  dVar2 = (double)fn_82F593F8((double)(float)((double)alStack_70[0] * lbl_82165A98),
-                               (double)lbl_82021544,dVar3);
-  lVar1 = 0;
-  dVar3 = (double)(float)(dVar3 / dVar2);
-  do {
-    fn_82F538A0(alStack_70,(unsigned __int64)*(unsigned int *)(param_1 + 0xcf0) + 0x850,lVar1);
-    fn_82F538A0(auStack_60,(unsigned __int64)*(unsigned int *)(param_1 + 0xcf0) + 0x60,lVar1);
-    fn_8306ED30();
-    fn_82F53928(param_2,lVar1);
-    fn_82F538B0(auStack_50,param_2,lVar1);
-    fn_82F534F8(dVar3);
-    fn_82F53928(param_2,lVar1);
-    lVar1 = lVar1 + 1;
-  } while ((int)lVar1 < 0x19);
-  return dVar2;
-}
+    __int64 elapsed;
+    float seconds;
+    float inverse;
+    int i;
 
+    elapsed = fn_82F538F0(tracker->frames->current);
+    elapsed = elapsed - fn_82F538F0(tracker->frames->previous);
+    seconds = fn_82F593F8((float)(elapsed * lbl_82165A98), 0.01f, 1.0f);
+    inverse = 1.0f / seconds;
+    i = 0;
+    do {
+        fn_82F53928(velocities, i,
+                    fn_8306ED30(fn_82F538A0(tracker->frames->current, i).v,
+                                fn_82F538A0(tracker->frames->previous, i).v));
+        fn_82F53928(velocities, i, fn_82F534F8(fn_82F538B0(velocities, i).v, inverse));
+        i = i + 1;
+    } while (i < 25);
+    return seconds;
+}

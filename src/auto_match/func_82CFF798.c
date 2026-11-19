@@ -1,28 +1,21 @@
-extern int fn_82D04B90();
-extern unsigned int lbl_820143E0;
-extern unsigned int lbl_82090FC8;
+extern float lbl_820143E0; /* 1.0f / 1024 */
+extern float lbl_82090FC8; /* 1.0f / (1024 * 1024) */
 
+extern int fn_82D04B90(char *buffer, const char *format, ...);
 
-void fn_82CFF798(unsigned int param_1,unsigned __int64 param_2)
-
+void fn_82CFF798(int bytes, char *buffer)
 {
-  if ((int)param_1 < 0x400) {
-    fn_82D04B90(param_2,0xffffffff82133f04);
-    return;
-  }
-  if ((int)param_1 < 0x2800) {
-    fn_82D04B90(param_2,0xffffffff82133efc,
-                      (double)((float)(__int64)(int)param_1 * lbl_820143E0));
-    return;
-  }
-  if ((int)param_1 < 0x100000) {
-    fn_82D04B90(param_2,0xffffffff82133ef4,
-                      (__int64)((int)param_1 >> 10) +
-                      (unsigned __int64)((int)param_1 < 0 && (param_1 & 0x3ff) != 0));
-    return;
-  }
-  fn_82D04B90(param_2,0xffffffff82133eec,
-                    (double)((float)(__int64)(int)param_1 * lbl_82090FC8));
-  return;
+    if (bytes < 0x400) {
+        fn_82D04B90(buffer, "%i Bytes", bytes);
+        return;
+    }
+    if (bytes < 0x2800) {
+        fn_82D04B90(buffer, "%.1f Kb", (float)bytes * lbl_820143E0);
+        return;
+    }
+    if (bytes < 0x100000) {
+        fn_82D04B90(buffer, "%i Kb", bytes / 1024);
+        return;
+    }
+    fn_82D04B90(buffer, "%.2f Mb", (float)bytes * lbl_82090FC8);
 }
-

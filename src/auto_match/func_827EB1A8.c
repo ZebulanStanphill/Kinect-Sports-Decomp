@@ -1,53 +1,44 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_8281D480();
+typedef struct Plane_827EB1A8 {
+    float normal[3]; /* 0x0 */
+    float distance;  /* 0xc */
+} Plane_827EB1A8;
 
+extern double fn_8281D480(Plane_827EB1A8 *plane, float *point);
 
-char fn_827EB1A8(double param_1,__int64 param_2,unsigned __int64 param_3,unsigned char *param_4,
-                  unsigned __int64 param_5,unsigned __int64 param_6,unsigned char *param_7)
-
+int fn_827EB1A8(Plane_827EB1A8 *planes, unsigned char count, unsigned char *activeMask, float *center,
+                float radius, unsigned char *lastPlane)
 {
-  bool bVar1;
-  char cVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  double dVar6;
-  
-  param_3 = param_3 & 0xff;
-  uVar5 = -(unsigned __int64)(*param_7 < param_3) & (unsigned __int64)*param_7;
-  bVar1 = true;
-  cVar2 = '\x01';
-  uVar3 = 0;
-  uVar4 = (unsigned __int64)(unsigned int)(0x80 >> ((unsigned int)uVar5 & 0x3f)) & 0xff;
-  if (param_3 != 0) {
-    do {
-      if ((uVar4 & *param_4) != 0) {
-        dVar6 = (double)fn_8281D480(uVar5 * 0x10 + param_2,param_5);
-        if (param_1 < dVar6) {
-          *param_7 = (unsigned char)uVar5;
-          return '\0';
-        }
-        if (-param_1 < dVar6) {
-          bVar1 = false;
-          cVar2 = '\0';
-        }
-        else {
-          *param_4 = *param_4 & ~(unsigned char)uVar4;
-        }
-      }
-      uVar5 = uVar5 + 1 & 0xff;
-      if (uVar5 == param_3) {
-        uVar5 = 0;
-        uVar4 = 0x80;
-      }
-      else {
-        uVar4 = uVar4 >> 1;
-      }
-      uVar3 = uVar3 + 1 & 0xff;
-    } while (uVar3 < param_3);
-  }
-  return !bVar1 + cVar2 * '\x02';
-}
+    unsigned char index = *lastPlane;
+    unsigned char bit;
+    unsigned char inside = 1;
+    unsigned char i;
+    double distance;
 
+    if (index >= count) {
+        index = 0;
+    }
+    bit = 0x80 >> index;
+
+    for (i = 0; i < count; i++) {
+        if ((*activeMask & bit) != 0) {
+            distance = fn_8281D480(&planes[index], center);
+            if (distance > radius) {
+                *lastPlane = index;
+                return 0;
+            }
+            if (distance <= -radius) {
+                *activeMask &= ~bit;
+            } else {
+                inside = 0;
+            }
+        }
+        index++;
+        if (index == count) {
+            index = 0;
+            bit = 0x80;
+        } else {
+            bit >>= 1;
+        }
+    }
+    return inside * 2 + (inside == 0);
+}

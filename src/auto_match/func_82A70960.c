@@ -1,22 +1,24 @@
-__int64 fn_82A70960(int param_1,int param_2)
+typedef struct Table_82A70960 {
+    int pad0;              /* 0x00 */
+    int *values;           /* 0x04 */
+    int *slopes;           /* 0x08 */
+    int base;              /* 0x0c */
+    unsigned int mask;     /* 0x10 */
+    unsigned int shift;    /* 0x14 */
+    unsigned int fracMask; /* 0x18 */
+    int useSlopes;         /* 0x1c */
+} Table_82A70960;
 
+int fn_82A70960(Table_82A70960 *table, int x)
 {
-  int iVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned int *puVar4;
-  
-  uVar2 = param_2 - *(int *)(param_1 + 0xc);
-  uVar3 = *(unsigned int *)(param_1 + 0x18) & uVar2;
-  uVar2 = (*(unsigned int *)(param_1 + 0x10) & uVar2) >> (*(unsigned int *)(param_1 + 0x14) & 0x3f);
-  if (*(int *)(param_1 + 0x1c) != 0) {
-    iVar1 = uVar2 * 4;
-    return (__int64)*(int *)(*(int *)(param_1 + 8) + iVar1) * (__int64)(int)uVar3 +
-           (unsigned __int64)*(unsigned int *)(*(int *)(param_1 + 4) + iVar1);
-  }
-  puVar4 = (unsigned int *)(uVar2 * 4 + *(int *)(param_1 + 4));
-  uVar2 = *puVar4;
-  return (__int64)((int)((puVar4[1] - uVar2) * uVar3) / (1 << (*(unsigned int *)(param_1 + 0x14) & 0x3f)))
-         + (unsigned __int64)uVar2;
-}
+    unsigned int offset = x - table->base;
+    unsigned int index = (table->mask & offset) >> table->shift;
+    int frac = table->fracMask & offset;
+    int *entry;
 
+    if (table->useSlopes != 0) {
+        return table->slopes[index] * frac + table->values[index];
+    }
+    entry = &table->values[index];
+    return (int)((entry[1] - entry[0]) * frac) / (1 << table->shift) + entry[0];
+}

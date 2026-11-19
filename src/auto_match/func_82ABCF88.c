@@ -1,42 +1,48 @@
-unsigned __int64
-fn_82ABCF88(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,int param_4,unsigned int param_5,
-             int *param_6)
+typedef struct IntConstant_82ABCF88 {
+    unsigned char x; /* 0x0 */
+    unsigned char y; /* 0x1 */
+    unsigned char z; /* 0x2 */
+    unsigned char w; /* 0x3 */
+} IntConstant_82ABCF88;
 
+typedef struct Constants_82ABCF88 {
+    char pad0[0x10];
+    unsigned int bools[8];               /* 0x010 */
+    IntConstant_82ABCF88 integers[0xe0]; /* 0x030 */
+    unsigned int dirtyBools[8];          /* 0x3b0 */
+    unsigned int dirtyIntegers[2];       /* 0x3d0 */
+    unsigned int dirtyBools2[8];         /* 0x3d8 */
+    unsigned int dirtyIntegers2[2];      /* 0x3f8 */
+} Constants_82ABCF88;
+
+static __forceinline void SetBits_82ABCF88(unsigned int *word, unsigned int bits)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  int iVar3;
-  int iVar4;
-  int iVar5;
-  unsigned int uVar6;
-  unsigned char *puVar7;
-  
-  if (param_6 != (int *)0x0) {
-    if (param_4 == 0) {
-      uVar2 = param_5 >> 5;
-      iVar5 = (uVar2 + 4) * 4;
-      uVar1 = 1 << (param_5 & 0x1f);
-      uVar6 = *(unsigned int *)(iVar5 + param_1) & ~uVar1;
-      iVar3 = (uVar2 + 0xec) * 4;
-      *(unsigned int *)(iVar5 + param_1) = uVar6;
-      iVar4 = (uVar2 + 0xf6) * 4;
-      *(unsigned int *)(iVar5 + param_1) = (unsigned int)(*param_6 != 0) << (param_5 & 0x1f) | uVar6;
-      *(unsigned int *)(iVar3 + param_1) = uVar1 | *(unsigned int *)(iVar3 + param_1);
-      *(unsigned int *)(iVar4 + param_1) = uVar1 | *(unsigned int *)(iVar4 + param_1);
-    }
-    else if (param_4 == 1) {
-      puVar7 = (unsigned char *)((param_5 + 0xc) * 4 + param_1);
-      iVar3 = ((param_5 >> 5) + 0xf4) * 4;
-      *puVar7 = (char)*param_6;
-      iVar4 = ((param_5 >> 5) + 0xfe) * 4;
-      uVar1 = 1 << (param_5 & 0x1f);
-      puVar7[1] = (char)param_6[1];
-      puVar7[2] = (char)param_6[2];
-      puVar7[3] = (char)param_6[3];
-      *(unsigned int *)(iVar3 + param_1) = *(unsigned int *)(iVar3 + param_1) | uVar1;
-      *(unsigned int *)(iVar4 + param_1) = *(unsigned int *)(iVar4 + param_1) | uVar1;
-    }
-  }
-  return 0;
+    *word |= bits;
 }
 
+int fn_82ABCF88(Constants_82ABCF88 *self, unsigned int unused1, unsigned int unused2, unsigned int type,
+                unsigned int index, int *value)
+{
+    IntConstant_82ABCF88 *constant;
+
+    if (value != 0) {
+        switch (type) {
+        case 0:
+            self->bools[index >> 5] &= ~(1 << (index & 0x1f));
+            self->bools[index >> 5] |= (*value != 0) << (index & 0x1f);
+            SetBits_82ABCF88(&self->dirtyBools[index >> 5], 1 << (index & 0x1f));
+            SetBits_82ABCF88(&self->dirtyBools2[index >> 5], 1 << (index & 0x1f));
+            break;
+        case 1:
+            constant = &self->integers[index];
+            constant->x = value[0];
+            constant->y = value[1];
+            constant->z = value[2];
+            constant->w = value[3];
+            SetBits_82ABCF88(&self->dirtyIntegers[index >> 5], 1 << (index & 0x1f));
+            SetBits_82ABCF88(&self->dirtyIntegers2[index >> 5], 1 << (index & 0x1f));
+            break;
+        }
+    }
+    return 0;
+}

@@ -1,99 +1,121 @@
-typedef unsigned char bool;
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern unsigned int *auStack_38;
-extern int fn_822315A0();
-extern int fn_824A2308();
-extern int fn_824D2AE8();
-extern int fn_824FDBD8();
-extern int fn_8265C9E0();
-extern int fn_82F51468();
-extern int fn_82F51EF0();
-extern int fn_82F53418();
-extern unsigned int iStack_3c;
-extern unsigned int lbl_82195810;
-extern unsigned int uStack_40;
-extern unsigned __int64 storeWordConditionalIndexed();
+long _InterlockedDecrement(long volatile *);
 
+typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
+    float vector4_f32[4];
+    unsigned int vector4_u32[4];
+} __vector4;
 
-unsigned __int64 fn_824FD278(int param_1,int param_2)
+__vector4 __VMXGetReg(int n);
 
+typedef struct Rep_824FD278 Rep_824FD278;
+
+typedef struct RepVt_824FD278 {
+    void (*destroy)(Rep_824FD278 *);
+    void (*deleteThis)(Rep_824FD278 *);
+} RepVt_824FD278;
+
+struct Rep_824FD278 {
+    RepVt_824FD278 *vt;
+    long uses;
+    long weaks;
+};
+
+typedef struct Ptr_824FD278 {
+    void *px;
+    Rep_824FD278 *rep;
+} Ptr_824FD278;
+
+typedef struct Res_824FD278 {
+    int sub;
+} Res_824FD278;
+
+typedef struct Node_824FD278 {
+    char pad0[0x10];
+    float weight; /* 0x10 */
+} Node_824FD278;
+
+typedef struct Desc_824FD278 {
+    char pad0[0x5bc];
+    int enabled;       /* 0x5bc */
+    int type;          /* 0x5c0 */
+    int unk5C4;        /* 0x5c4 */
+    int unk5C8;        /* 0x5c8 */
+    int unk5CC;        /* 0x5cc */
+    unsigned int name; /* 0x5d0 */
+} Desc_824FD278;
+
+typedef struct Owner_824FD278 {
+    char pad0[0xb60];
+    Node_824FD278 *node;  /* 0xb60 */
+    int type;             /* 0xb64 */
+    int kind;             /* 0xb68 */
+    char padB6C[0x14];    /* 0xb6c */
+    int unkB80;           /* 0xb80 */
+    char padB84[0x4];     /* 0xb84 */
+    Res_824FD278 *result; /* 0xb88 */
+    int unkB8C;           /* 0xb8c */
+    int unkB90;           /* 0xb90 */
+    int unkB94;           /* 0xb94 */
+    int unkB98;           /* 0xb98 */
+    char padB9C[0x4];     /* 0xb9c */
+    __vector4 offset;     /* 0xba0 */
+} Owner_824FD278;
+
+extern const float lbl_821954B0[];
+
+extern int fn_824FDBD8(int type);
+extern void *fn_8265C9E0(unsigned int size);
+extern Node_824FD278 *fn_824A2308(void *memory, int kind);
+extern void fn_82F51EF0(Node_824FD278 *node, int enabled);
+extern Ptr_824FD278 *fn_82F51468(Ptr_824FD278 *out, Node_824FD278 *node);
+extern void fn_824D2AE8(Ptr_824FD278 *out, Ptr_824FD278 *src);
+extern Res_824FD278 *fn_82F53418(void *p, unsigned int *name, int create);
+extern void fn_822315A0(Rep_824FD278 *rep);
+
+static __forceinline void Decwref_824FD278(Rep_824FD278 *r)
 {
-  bool bVar1;
-  unsigned int uVar2;
-  unsigned int *puVar3;
-  unsigned int uVar6;
-  unsigned __int64 uVar4;
-  int iVar7;
-  unsigned __int64 uVar5;
-  int iVar8;
-  __int64 lVar9;
-  __int64 lVar10;
-  unsigned int *puVar11;
-  char in_RESERVE;
-  unsigned char bVar12;
-  unsigned int in_register_000104d0;
-  unsigned int in_register_000104d4;
-  unsigned int in_register_000104d8;
-  unsigned int in_vr77;
-  unsigned int uStack_40;
-  int iStack_3c;
-  unsigned char auStack_38 [4];
-  int *piStack_34;
-  
-  *(unsigned int *)(param_1 + 0xb64) = *(unsigned int *)(param_2 + 0x5c0);
-  uVar6 = fn_824FDBD8(*(unsigned int *)(param_2 + 0x5c0));
-  *(unsigned int *)(param_1 + 0xb68) = uVar6;
-  *(unsigned int *)(param_1 + 0xb8c) = *(unsigned int *)(param_2 + 0x5c4);
-  *(unsigned int *)(param_1 + 0xb90) = *(unsigned int *)(param_2 + 0x5c8);
-  uVar4 = fn_8265C9E0(0x1c);
-  bVar1 = (uVar4 & 0xffffffff) == 0;
-  bVar12 = bVar1 << 1;
-  if (bVar1) {
-    iVar7 = 0;
-  }
-  else {
-    iVar7 = fn_824A2308(uVar4,*(unsigned int *)(param_1 + 0xb68));
-  }
-  *(int *)(param_1 + 0xb60) = iVar7;
-  fn_82F51EF0(iVar7,*(int *)(param_2 + 0x5bc) != 0);
-  *(unsigned int *)(iVar7 + 0x10) = lbl_82195810;
-  *(unsigned int *)(param_1 + 0xb94) = 0;
-  uVar6 = *(unsigned int *)(param_2 + 0x5cc);
-  puVar3 = (unsigned int *)(param_1 + 0xba0U & 0xfffffff0);
-  *puVar3 = in_register_000104d0;
-  puVar3[1] = in_register_000104d4;
-  puVar3[2] = in_register_000104d8;
-  puVar3[3] = in_vr77;
-  *(unsigned int *)(param_1 + 0xb98) = uVar6;
-  *(unsigned int *)(param_1 + 0xb80) = 0;
-  if (*(int *)(param_2 + 0x5d0) != 0) {
-    uVar5 = fn_82F51468(auStack_38,iVar7);
-    fn_824D2AE8(&uStack_40,uVar5);
-    if (ZEXT48(piStack_34) != 0) {
-      lVar10 = ZEXT48(piStack_34) + 8;
-      do {
-        puVar11 = (unsigned int *)lVar10;
-        lVar9 = (unsigned __int64)*puVar11 - 1;
-        if (in_RESERVE != '\0') {
-          uVar2 = storeWordConditionalIndexed(lVar9,0,lVar10);
-          *puVar11 = uVar2;
-          bVar12 = 2;
-        }
-      } while (!(bool)(bVar12 >> 1 & 1));
-      if ((int)lVar9 == 0) {
-        (**(int (***)())(*piStack_34 + 4))();
-      }
-    }
-    iVar8 = fn_82F53418(uStack_40,param_2 + 0x5d0,1);
-    iVar7 = 0;
-    if (iVar8 != 0) {
-      iVar7 = iVar8;
-    }
-    *(int *)(param_1 + 0xb88) = iVar7;
-    if (iStack_3c != 0) {
-      fn_822315A0();
-    }
-  }
-  return 1;
+    if (_InterlockedDecrement(&r->weaks) == 0)
+        r->vt->deleteThis(r);
 }
 
+int fn_824FD278(Owner_824FD278 *self, Desc_824FD278 *desc)
+{
+    void *memory;
+    Node_824FD278 *node;
+    Ptr_824FD278 sp;
+    Ptr_824FD278 wp;
+    Res_824FD278 *r;
+
+    self->type = desc->type;
+    self->kind = fn_824FDBD8(desc->type);
+    self->unkB8C = desc->unk5C4;
+    self->unkB90 = desc->unk5C8;
+    memory = fn_8265C9E0(0x1c);
+    if (memory != 0) {
+        node = fn_824A2308(memory, self->kind);
+    } else {
+        node = 0;
+    }
+    self->node = node;
+    fn_82F51EF0(node, desc->enabled != 0);
+    node->weight = lbl_821954B0[0xd8];
+    self->unkB94 = 0;
+    self->unkB98 = desc->unk5CC;
+    self->offset = __VMXGetReg(77);
+    self->unkB80 = 0;
+    if (desc->name != 0) {
+        fn_824D2AE8(&sp, fn_82F51468(&wp, node));
+        if (wp.rep != 0)
+            Decwref_824FD278(wp.rep);
+        r = fn_82F53418(sp.px, &desc->name, 1);
+        {
+            Res_824FD278 *p = 0;
+            if (r != 0)
+                p = r;
+            self->result = p;
+        }
+        if (sp.rep != 0)
+            fn_822315A0(sp.rep);
+    }
+    return 1;
+}

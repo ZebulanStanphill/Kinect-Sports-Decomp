@@ -1,47 +1,73 @@
-extern int fn_8280B788();
-extern int fn_8280C450();
-extern int fn_8280CB70();
-extern int fn_8280D598();
-extern int fn_82810360();
-extern int fn_82811898();
-extern int fn_8285CF40();
-extern int fn_82861370();
-extern int fn_82F68CC0();
-extern int fn_8306BA08();
-extern unsigned int lbl_83211400;
-extern unsigned int lbl_83211404;
-extern unsigned int lbl_832115A5;
+typedef struct Rect6_8285DA18 {
+    float values[6];
+} Rect6_8285DA18;
 
+typedef struct Point_8285DA18 {
+    float x;
+    float y;
+} Point_8285DA18;
 
-void fn_8285DA18(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,float *param_4,
-                  float *param_5)
+typedef struct Camera_8285DA18 {
+    float view[16];              /* 0x0 */
+    float viewInverse[16];       /* 0x40 */
+    float projection[16];        /* 0x80 */
+    float *parent;               /* 0xc0 */
+    float *parentInverse;        /* 0xc4 */
+    unsigned char frustum[0xa8]; /* 0xc8 */
+    Rect6_8285DA18 viewport;     /* 0x170 */
+    unsigned char planes[0x60];  /* 0x188 */
+    float position[3];           /* 0x1e8 */
+    Rect6_8285DA18 screen;       /* 0x1f4 */
+    Point_8285DA18 scale;        /* 0x20c */
+    Point_8285DA18 offset;       /* 0x214 */
+    Point_8285DA18 topLeft;      /* 0x21c */
+    Point_8285DA18 bottomRight;  /* 0x224 */
+    unsigned char pad22c[0x38];  /* 0x22c */
+    unsigned char unk264;        /* 0x264 */
+    unsigned char valid;         /* 0x265 */
+} Camera_8285DA18;
 
+extern Camera_8285DA18 lbl_83211340;
+
+extern void fn_82810360(const float *src, float *dst);
+extern void fn_8280D598(float *view, const float *eye, const float *at, const float *up);
+extern void fn_8280C450(const float *src, float *dst);
+extern void fn_8280CB70(const float *a, const float *b, float *out);
+extern void fn_82861370(void *viewport, float *viewInverse, void *frustum);
+extern void fn_8280B788(float *out, float left, float right, float bottom, float top, float nearPlane,
+                        float farPlane);
+extern void fn_8306BA08(void *frustum, void *planes);
+extern void fn_8285CF40(Rect6_8285DA18 *screen, Rect6_8285DA18 *viewport, Point_8285DA18 *scale,
+                        Point_8285DA18 *offset, void *extra);
+extern void fn_82811898(Point_8285DA18 *out, float x, float y);
+
+void fn_8285DA18(const float *eye, const float *at, const float *up, Rect6_8285DA18 *viewport,
+                 Rect6_8285DA18 *screen)
 {
-  unsigned int uVar1;
-  
-  if (param_4 != (float *)0x832114b0) {
-    fn_82F68CC0(0xffffffff832114b0,param_4,0x18);
-  }
-  fn_82810360(param_1,0xffffffff83211528);
-  fn_8280D598(0xffffffff83211340,param_1,param_2,param_3);
-  fn_8280C450(0xffffffff83211340,0xffffffff83211380);
-  uVar1 = lbl_83211404;
-  if (lbl_83211400 != 0) {
-    fn_8280CB70(0xffffffff83211340,lbl_83211400,0xffffffff83211340);
-    fn_8280CB70(uVar1,0xffffffff83211380,0xffffffff83211380);
-  }
-  fn_82861370(param_4,0xffffffff83211380,0xffffffff83211408);
-  fn_8280B788((double)*param_4,(double)param_4[1],(double)param_4[2],(double)param_4[3],
-               (double)param_4[4],(double)param_4[5],0xffffffff832113c0);
-  fn_8306BA08(0xffffffff83211408,0xffffffff832114c8);
-  fn_8285CF40(param_5,param_4,0xffffffff8321154c,0xffffffff83211554,0xffffffff8321156c);
-  if (param_5 != (float *)0x83211534) {
-    fn_82F68CC0(0xffffffff83211534,param_5,0x18);
-  }
-  fn_82811898((double)*param_5,(double)param_5[1],0xffffffff8321155c);
-  fn_82811898((double)(param_5[2] + *param_5),(double)(param_5[3] + param_5[1]),0xffffffff83211564)
-  ;
-  lbl_832115A5 = 1;
-  return;
-}
+    Camera_8285DA18 *camera = &lbl_83211340;
+    float *parentInverse;
 
+    if (viewport != &camera->viewport) {
+        camera->viewport = *viewport;
+    }
+    fn_82810360(eye, camera->position);
+    fn_8280D598(camera->view, eye, at, up);
+    fn_8280C450(camera->view, camera->viewInverse);
+    if (camera->parent != 0) {
+        parentInverse = camera->parentInverse;
+        fn_8280CB70(camera->view, camera->parent, camera->view);
+        fn_8280CB70(parentInverse, camera->viewInverse, camera->viewInverse);
+    }
+    fn_82861370(viewport, camera->viewInverse, camera->frustum);
+    fn_8280B788(camera->projection, viewport->values[0], viewport->values[1], viewport->values[2],
+                viewport->values[3], viewport->values[4], viewport->values[5]);
+    fn_8306BA08(camera->frustum, camera->planes);
+    fn_8285CF40(screen, viewport, &camera->scale, &camera->offset, camera->pad22c);
+    if (screen != &camera->screen) {
+        camera->screen = *screen;
+    }
+    fn_82811898(&camera->topLeft, screen->values[0], screen->values[1]);
+    fn_82811898(&camera->bottomRight, screen->values[2] + screen->values[0],
+                screen->values[3] + screen->values[1]);
+    camera->valid = 1;
+}

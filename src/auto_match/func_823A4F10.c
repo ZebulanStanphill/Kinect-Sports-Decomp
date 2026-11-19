@@ -1,79 +1,115 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_822AA770();
-extern int fn_82359698();
-extern int fn_82359C70();
-extern int fn_82399BA0();
-extern int fn_8239FF60();
-extern int fn_823A52F0();
-extern int fn_823A53F0();
-extern int fn_8288B760();
+typedef struct Player_823A4F10 {
+    char pad0[0x168];
+    void *controller; /* 0x168 */
+    int active;       /* 0x16c */
+} Player_823A4F10;
 
+typedef struct PlayerList_823A4F10 {
+    int *ids; /* 0x00 */
+} PlayerList_823A4F10;
 
-void fn_823A4F10(double param_1,int param_2)
+typedef struct Selector_823A4F10 Selector_823A4F10;
 
+typedef struct SelectorVtbl_823A4F10 {
+    void *slots[13];
+    int (*current)(Selector_823A4F10 *self); /* 0x34 */
+} SelectorVtbl_823A4F10;
+
+struct Selector_823A4F10 {
+    SelectorVtbl_823A4F10 *vt;
+};
+
+typedef struct Mode_823A4F10 {
+    char pad0[0x40];
+    unsigned int kind; /* 0x40 */
+} Mode_823A4F10;
+
+typedef struct Game_823A4F10 {
+    char pad0[0x8];
+    PlayerList_823A4F10 *players; /* 0x008 */
+    char padC[0x54 - 0xc];
+    void *f54; /* 0x054 */
+    void *f58; /* 0x058 */
+    char pad5c[0xa0 - 0x5c];
+    int mode; /* 0x0a0 */
+    char padA4[0x178 - 0xa4];
+    int state; /* 0x178 */
+    char pad17c[0x208 - 0x17c];
+    float time; /* 0x208 */
+    char pad20c[0x2dc - 0x20c];
+    void *sound;                 /* 0x2dc */
+    Selector_823A4F10 *selector; /* 0x2e0 */
+} Game_823A4F10;
+
+typedef struct Self_823A4F10 {
+    char pad0[0x8];
+    Game_823A4F10 *game; /* 0x08 */
+    char timer[0x14];    /* 0x0c */
+    unsigned int phase;  /* 0x20 */
+} Self_823A4F10;
+
+extern Player_823A4F10 *fn_822AA770(int id);
+extern void fn_82359698(Game_823A4F10 *game, int state);
+extern void fn_82359C70(void *timer, float dt);
+extern int fn_82399BA0(Game_823A4F10 *game);
+extern void fn_8239FF60(void *sound, unsigned int id);
+extern void fn_823A52F0(Self_823A4F10 *self);
+extern void fn_823A53F0(Self_823A4F10 *self);
+extern unsigned char fn_8288B760(void *controller);
+
+static int IsActive(Player_823A4F10 *player)
 {
-  int iVar1;
-  bool bVar2;
-  int iVar3;
-  unsigned int uVar4;
-  unsigned __int64 uVar5;
-  
-  iVar1 = *(int *)(param_2 + 8);
-  if ((*(int *)(iVar1 + 0x58) != *(int *)(iVar1 + 0x54)) && (*(int *)(iVar1 + 0x58) != 0)) {
-    return;
-  }
-  *(float *)(iVar1 + 0x208) = (float)((double)*(float *)(iVar1 + 0x208) + param_1);
-  fn_82359C70(param_2 + 0xc);
-  iVar3 = *(int *)(param_2 + 0x20);
-  if (iVar3 == 3) {
-    if (*(int *)(iVar1 + 0x178) != 1) {
-      return;
-    }
-    fn_823A53F0(param_2);
-    return;
-  }
-  if (iVar3 == 4) {
-    uVar5 = 4;
-    goto LAB_823a503c;
-  }
-  if (iVar3 != 5) {
-    return;
-  }
-  iVar3 = fn_82399BA0(iVar1);
-  if (iVar3 != 0) {
-    if (*(int *)(iVar1 + 0x178) == 0) {
-      if ((*(int *)(iVar1 + 0xa0) == 0) || (*(int *)(*(int *)(iVar1 + 0xa0) + 0x40) != 1)) {
-        iVar3 = (**(int (***)())(**(int **)(iVar1 + 0x2e0) + 0x34))();
-        iVar3 = fn_822AA770(*(unsigned int *)(**(int **)(iVar1 + 8) + iVar3 * 4));
-        if (iVar3 == 0) {
-LAB_823a500c:
-          bVar2 = false;
+    int active;
+
+    if (player != 0) {
+        if (player->controller != 0) {
+            active = fn_8288B760(player->controller);
+        } else {
+            active = player->active;
         }
-        else {
-          if (*(int *)(iVar3 + 0x168) == 0) {
-            uVar4 = *(unsigned int *)(iVar3 + 0x16c);
-          }
-          else {
-            uVar4 = fn_8288B760();
-            uVar4 = uVar4 & 0xff;
-          }
-          bVar2 = true;
-          if (uVar4 == 0) goto LAB_823a500c;
+        if (active != 0) {
+            return 1;
         }
-        if ((unsigned char)(!bVar2 + 7U) < 0x1d) {
-          fn_8239FF60(*(unsigned int *)(*(int *)(param_2 + 8) + 0x2dc));
-        }
-      }
     }
-    else {
-      fn_823A52F0(param_2);
-    }
-  }
-  uVar5 = 9;
-LAB_823a503c:
-  fn_82359698(iVar1,uVar5);
-  return;
+    return 0;
 }
 
+static void PlaySound(Game_823A4F10 *game, unsigned int id)
+{
+    if (id <= 0x1c) {
+        fn_8239FF60(game->sound, id);
+    }
+}
+
+void fn_823A4F10(Self_823A4F10 *self, float dt)
+{
+    Game_823A4F10 *game = self->game;
+    int index;
+
+    if (game->f58 != game->f54 && game->f58 != 0) {
+        return;
+    }
+    game->time += dt;
+    fn_82359C70(self->timer, dt);
+    switch (self->phase) {
+    case 3:
+        if (game->state == 1) {
+            fn_823A53F0(self);
+        }
+        break;
+    case 4:
+        fn_82359698(game, 4);
+        break;
+    case 5:
+        if (fn_82399BA0(game) != 0) {
+            if (game->state != 0) {
+                fn_823A52F0(self);
+            } else if (game->mode == 0 || ((Mode_823A4F10 *)game->mode)->kind != 1) {
+                index = game->selector->vt->current(game->selector);
+                PlaySound(self->game, !IsActive(fn_822AA770(game->players->ids[index])) + 7);
+            }
+        }
+        fn_82359698(game, 9);
+        break;
+    }
+}

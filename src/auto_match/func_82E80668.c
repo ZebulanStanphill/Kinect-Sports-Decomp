@@ -1,58 +1,88 @@
-extern unsigned int *auStack_40;
-extern int fn_82E7E7E0();
-extern int fn_82E7E900();
-extern int fn_82E7ED68();
-extern int fn_82E7F868();
-extern int fn_82E7F8F0();
-extern unsigned int uStack_38;
+typedef struct Variant_82E80668 Variant_82E80668;
 
+struct Variant_82E80668 {
+    unsigned short type; /* 0x00 */
+    unsigned short reserved[3];
+    Variant_82E80668 *variant; /* 0x08 */
+    void *elements;            /* 0x0c */
+};
 
-/* WARNING: Removing unreachable block (ram,0x82e80738) */
-/* WARNING: Removing unreachable block (ram,0x82e80720) */
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
+extern void *memset(void *p, int c, unsigned int n);
+extern int fn_82E7E7E0(Variant_82E80668 *self);
+extern int fn_82E7E900(Variant_82E80668 *dst, Variant_82E80668 *src);
+extern int fn_82E7ED68(Variant_82E80668 *self, int flags, void **value);
+extern int fn_82E7F868(Variant_82E80668 *self, unsigned int index, void *value);
+extern int fn_82E7F8F0(Variant_82E80668 *self, unsigned int index, Variant_82E80668 *item);
 
-__int64 fn_82E80668(unsigned short *param_1,unsigned __int64 param_2,unsigned short *param_3)
-
+static __forceinline int IsCompatible_82E80668(Variant_82E80668 *self, Variant_82E80668 *other)
 {
-  unsigned short uVar1;
-  unsigned char *puVar2;
-  __int64 lVar3;
-  unsigned char *apuStack_50 [4];
-  unsigned char auStack_40 [8];
-  unsigned __int64 uStack_38;
-  
-  apuStack_50[0] = (unsigned char *)0x0;
-  uStack_38 = 0;
-  if (*param_1 == 0) {
-    lVar3 = -0x3ff2c917;
-  }
-  else if ((param_3 == (unsigned short *)0x0) || (param_1 == param_3)) {
-    lVar3 = -0x7fffbffd;
-  }
-  else if ((*param_3 == 0) ||
-          ((uVar1 = *param_1 & 0xfff, uVar1 != 0xc && ((*param_3 & 0xfff) != uVar1)))) {
-    lVar3 = -0x7ff8ffa9;
-  }
-  else {
-    lVar3 = fn_82E7F8F0(param_1,param_2,auStack_40);
-    if (((-1 < lVar3) && (lVar3 = fn_82E7E7E0(auStack_40), -1 < lVar3)) &&
-       (lVar3 = fn_82E7E900(auStack_40,param_3), -1 < lVar3)) {
-      if ((*param_1 & 0xfff) == 0xc) {
-        puVar2 = auStack_40;
-      }
-      else {
-        lVar3 = fn_82E7ED68(auStack_40,0,apuStack_50);
-        puVar2 = apuStack_50[0];
-        if (lVar3 < 0) goto LAB_82e807b8;
-      }
-      lVar3 = fn_82E7F868(param_1,param_2,puVar2);
-      if (-1 < lVar3) {
-        uStack_38 = 0;
-      }
-    }
-  }
-LAB_82e807b8:
-  fn_82E7E7E0(auStack_40);
-  return lVar3;
+    if (other->type == 0)
+        return 0;
+    if ((self->type & 0xfff) != 0xc && (other->type & 0xfff) != (self->type & 0xfff))
+        return 0;
+    return 1;
 }
 
+static __forceinline int Validate_82E80668(Variant_82E80668 *self, Variant_82E80668 *other)
+{
+    if (self->type == 0)
+        return 0xc00d36e9;
+    if (other == 0)
+        return 0x80004003;
+    if (self == other)
+        return 0x80004003;
+    if (!IsCompatible_82E80668(self, other))
+        return 0x80070057;
+    return 0;
+}
+
+int fn_82E80668(Variant_82E80668 *self, unsigned int index, Variant_82E80668 *other)
+{
+    void *converted = 0;
+    Variant_82E80668 item;
+    void *value;
+    int hr;
+
+    memset(&item, 0, sizeof(item));
+    hr = Validate_82E80668(self, other);
+    if (hr >= 0) {
+        hr = fn_82E7F8F0(self, index, &item);
+        if (hr < 0) {
+            goto done;
+        }
+        if ((item.type & 0xfff) == 0xc) {
+            hr = fn_82E7E7E0(item.variant);
+            item.type = 0;
+            if (hr < 0) {
+                goto done;
+            }
+        } else if ((item.type & 0xfff) == 0x48) {
+            item.type = 0;
+        } else {
+            hr = fn_82E7E7E0(&item);
+            if (hr < 0) {
+                goto done;
+            }
+        }
+        hr = fn_82E7E900(&item, other);
+        if (hr < 0) {
+            goto done;
+        }
+        if ((self->type & 0xfff) == 0xc) {
+            value = &item;
+        } else {
+            hr = fn_82E7ED68(&item, 0, &converted);
+            if (hr < 0) {
+                goto done;
+            }
+            value = converted;
+        }
+        hr = fn_82E7F868(self, index, value);
+        if (hr >= 0) {
+            memset(&item, 0, sizeof(item));
+        }
+    }
+done:
+    fn_82E7E7E0(&item);
+    return hr;
+}

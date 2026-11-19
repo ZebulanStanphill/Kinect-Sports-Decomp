@@ -1,66 +1,71 @@
-extern int fn_8264D6C0();
-extern int fn_8265C940();
-extern int fn_8265C990();
+typedef struct Manager_82652AA0 Manager_82652AA0;
 
+typedef struct Node_82652AA0 {
+    int used;                   /* 0x0 */
+    char *buffer;               /* 0x4 */
+    Manager_82652AA0 *owner;    /* 0x8 */
+    struct Node_82652AA0 *next; /* 0xc */
+} Node_82652AA0;
 
-unsigned __int64 fn_82652AA0(int param_1)
+struct Manager_82652AA0 {
+    char pad0[0x555c];
+    char *buffers;        /* 0x555c */
+    Node_82652AA0 *nodes; /* 0x5560 */
+};
 
+extern void *fn_8265C940(unsigned int size, unsigned int flags);
+extern void fn_8265C990(void *p, unsigned int flags);
+extern void fn_8264D6C0(char *begin, char *end, int value);
+
+static __forceinline Node_82652AA0 *InitNode_82652AA0(Node_82652AA0 *node, char *buffer,
+                                                      Manager_82652AA0 *owner)
 {
-  int iVar2;
-  unsigned __int64 uVar1;
-  unsigned int *puVar3;
-  int iVar4;
-  int iVar5;
-  
-  if (*(int *)(param_1 + 0x555c) == 0) {
-    iVar2 = fn_8265C940(0x7a0,0xffffffffa3800000);
-    if (iVar2 != 0) {
-      *(int *)(param_1 + 0x555c) = iVar2;
-      goto LAB_82652adc;
-    }
-LAB_82652ad0:
-    uVar1 = 0;
-  }
-  else {
-LAB_82652adc:
-    if (*(int *)(param_1 + 0x5560) == 0) {
-      iVar2 = fn_8265C940(0x40,0x24800000);
-      if (iVar2 == 0) goto LAB_82652ad0;
-      *(int *)(param_1 + 0x5560) = iVar2;
-    }
-    iVar2 = 0;
-    iVar5 = 0;
-    do {
-      puVar3 = (unsigned int *)(*(int *)(param_1 + 0x5560) + iVar5);
-      iVar4 = iVar2 + *(int *)(param_1 + 0x555c);
-      if (puVar3 == (unsigned int *)0x0) {
-        puVar3 = (unsigned int *)fn_8265C940(0x10,0x24800000);
-        if (puVar3 != (unsigned int *)0x0) goto LAB_82652b30;
-      }
-      else {
-LAB_82652b30:
-        if (iVar4 == 0) {
-          iVar4 = fn_8265C940(0x1e0,0xffffffffa2800000);
-          puVar3[1] = iVar4;
-          if (iVar4 == 0) {
-            fn_8265C990(puVar3,0x24800000);
-            goto LAB_82652b60;
-          }
+    char *samples = buffer;
+
+    if (node == 0) {
+        node = (Node_82652AA0 *)fn_8265C940(0x10, 0x24800000);
+        if (node == 0) {
+            return 0;
         }
-        else {
-          puVar3[1] = iVar4;
+    }
+    if (samples != 0) {
+        node->buffer = samples;
+    } else {
+        node->buffer = (char *)fn_8265C940(0x1e0, 0xa2800000);
+        if (node->buffer == 0) {
+            fn_8265C990(node, 0x24800000);
+            return 0;
         }
-        fn_8264D6C0((unsigned __int64)(unsigned int)puVar3[1],(unsigned __int64)(unsigned int)puVar3[1] + 0x1e0,0);
-        puVar3[2] = param_1;
-        *puVar3 = 1;
-        puVar3[3] = 0;
-      }
-LAB_82652b60:
-      iVar5 = iVar5 + 0x10;
-      iVar2 = iVar2 + 0x1e0;
-    } while (iVar5 < 0x40);
-    uVar1 = 1;
-  }
-  return uVar1;
+    }
+    fn_8264D6C0(node->buffer, node->buffer + 0x1e0, 0);
+    node->owner = owner;
+    node->used = 1;
+    node->next = 0;
+    return node;
 }
 
+int fn_82652AA0(Manager_82652AA0 *self)
+{
+    int i;
+
+    if (self->buffers == 0) {
+        char *buffers = (char *)fn_8265C940(0x7a0, 0xa3800000);
+
+        if (buffers == 0) {
+            return 0;
+        }
+        self->buffers = buffers;
+    }
+    if (self->nodes == 0) {
+        Node_82652AA0 *nodes = (Node_82652AA0 *)fn_8265C940(0x40, 0x24800000);
+
+        if (nodes == 0) {
+            return 0;
+        }
+        self->nodes = nodes;
+    }
+    for (i = 0; i < 4; i++) {
+        InitNode_82652AA0(&self->nodes[i], self->buffers + i * 0x1e0, self);
+    }
+    return 1;
+}

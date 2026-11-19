@@ -1,120 +1,138 @@
-typedef unsigned char bool;
-extern int fn_8267BE38();
-extern int fn_82681728();
-extern int fn_826826A8();
-extern int fn_8268B330();
-extern int fn_826944C8();
-extern int fn_82695520();
-extern int fn_8269E088();
-extern int fn_826AF618();
-extern int fn_8271A720();
-extern int fn_8271B248();
-extern int fn_82720748();
-extern unsigned int iStack_5c;
-extern unsigned int uStack_54;
-extern unsigned int uStack_58;
-extern unsigned int uStack_60;
-extern unsigned __int64 storeWordConditionalIndexed();
+typedef struct Name_8271B938 {
+    int a;
+    int b;
+    int refcount; /* 0x08 */
+} Name_8271B938;
 
+typedef struct Elem_8271B938 {
+    unsigned char type;  /* 0x00 */
+    Name_8271B938 *name; /* 0x04 */
+    int number;          /* 0x08 */
+    int w;
+} Elem_8271B938;
 
-void fn_8271B938(unsigned __int64 param_1,int param_2,unsigned __int64 param_3,unsigned int param_4,
-                  unsigned int param_5)
+typedef struct Stack_8271B938 {
+    Elem_8271B938 *cur;  /* 0x00 */
+    Elem_8271B938 *base; /* 0x04 */
+    Elem_8271B938 *end;  /* 0x08 */
+    int pad[2];          /* 0x0c */
+    int count;           /* 0x14 */
+} Stack_8271B938;
 
+typedef struct Ctx_8271B938 {
+    char pad[0x254];
+    char names[0x50]; /* 0x254 */
+} Ctx_8271B938;
+
+typedef struct Obj_8271B938 {
+    char pad0[8];
+    Stack_8271B938 stack; /* 0x08 */
+    char pad1[0x58];
+    Ctx_8271B938 *ctx; /* 0x78 */
+} Obj_8271B938;
+
+typedef struct StringData_8271B938 {
+    int pad0;
+    long refs; /* 0x04 */
+} StringData_8271B938;
+
+typedef struct Progress_8271B938 {
+    int loaded; /* 0x00 */
+    int total;  /* 0x04 */
+} Progress_8271B938;
+
+typedef struct ProgressEntry_8271B938 {
+    unsigned int *key;           /* 0x00 */
+    Progress_8271B938 *progress; /* 0x04 */
+} ProgressEntry_8271B938;
+
+extern long _InterlockedExchangeAdd(long volatile *, long);
+extern void fn_8267BE38(void *p);
+extern void fn_8268B330(unsigned int *string);
+extern void fn_8269E088(const Elem_8271B938 *value, unsigned int *string);
+extern Progress_8271B938 *fn_8271A720(void *table, unsigned int *key);
+extern void fn_8271B248(void *table, void *table2, ProgressEntry_8271B938 *entry);
+extern void fn_82681728(Name_8271B938 **out, void *table, const char *name);
+extern void fn_826826A8(Stack_8271B938 *s);
+extern void fn_826944C8(Name_8271B938 *n);
+extern void fn_82695520(Elem_8271B938 *dst, const Elem_8271B938 *src);
+extern void fn_826AF618(Stack_8271B938 *s);
+extern void fn_82720748(Obj_8271B938 *o, void *target, Name_8271B938 **name, int a, int b);
+
+void fn_8271B938(char *clip, Obj_8271B938 *self, const Elem_8271B938 *value, int loaded, int total)
 {
-  unsigned char *puVar1;
-  int iVar2;
-  unsigned int uVar3;
-  unsigned int *puVar4;
-  unsigned __int64 uVar5;
-  unsigned int *puVar6;
-  unsigned int uVar7;
-  __int64 lVar8;
-  char in_RESERVE;
-  unsigned char bVar9;
-  unsigned int uStack_60;
-  int iStack_5c;
-  unsigned int uStack_58;
-  unsigned int uStack_54;
-  unsigned int *puStack_50;
-  unsigned int *puStack_4c;
-  
-  if ((param_3 & 0xffffffff) != 0) {
-    fn_8268B330(&uStack_60);
-    fn_8269E088(param_3,&uStack_60);
-    lVar8 = param_1 + 0x30;
-    puVar4 = (unsigned int *)fn_8271A720(lVar8,&uStack_60);
-    bVar9 = (puVar4 == (unsigned int *)0x0) << 1;
-    if (puVar4 == (unsigned int *)0x0) {
-      puStack_50 = &uStack_60;
-      puStack_4c = &uStack_58;
-      uStack_58 = param_4;
-      uStack_54 = param_5;
-      fn_8271B248(lVar8,lVar8,&puStack_50);
-    }
-    else {
-      *puVar4 = param_4;
-      puVar4[1] = param_5;
-    }
-    lVar8 = ((unsigned __int64)uStack_60 & 0xfffffffc) + 4;
-    do {
-      puVar6 = (unsigned int *)lVar8;
-      uVar5 = (unsigned __int64)*puVar6;
-      if (in_RESERVE != '\0') {
-        uVar7 = storeWordConditionalIndexed(uVar5 - 1,0,lVar8);
-        *puVar6 = uVar7;
-        bVar9 = 2;
-      }
-    } while (!(bool)(bVar9 >> 1 & 1));
-    if (uVar5 == 1) {
-      fn_8267BE38();
-    }
-  }
-  puVar6 = (unsigned int *)(param_2 + 8);
-  uVar7 = *(int *)(param_2 + 8) + 0x10;
-  *(unsigned int *)(param_2 + 8) = uVar7;
-  if (*(unsigned int *)(param_2 + 0x10) <= uVar7) {
-    fn_826826A8(puVar6);
-  }
-  puVar1 = (unsigned char *)*puVar6;
-  if (puVar1 != (unsigned char *)0x0) {
-    *(unsigned int *)(puVar1 + 8) = param_5;
-    *puVar1 = 4;
-  }
-  uVar7 = *puVar6;
-  *puVar6 = uVar7 + 0x10;
-  if (*(unsigned int *)(param_2 + 0x10) <= uVar7 + 0x10) {
-    fn_826826A8(puVar6);
-  }
-  puVar1 = (unsigned char *)*puVar6;
-  if (puVar1 != (unsigned char *)0x0) {
-    *(unsigned int *)(puVar1 + 8) = param_4;
-    *puVar1 = 4;
-  }
-  uVar7 = *puVar6;
-  *puVar6 = uVar7 + 0x10;
-  if (*(unsigned int *)(param_2 + 0x10) <= uVar7 + 0x10) {
-    fn_826826A8(puVar6);
-  }
-  if (*puVar6 != 0) {
-    fn_82695520(*puVar6,param_3);
-  }
-  lVar8 = param_1 + 0x10;
-  if ((param_1 & 0xffffffff) == 0) {
-    lVar8 = 0;
-  }
-  iVar2 = *(int *)(param_2 + 0xc);
-  uVar7 = *puVar6;
-  uVar3 = *(unsigned int *)(param_2 + 0x1c);
-  fn_82681728(&iStack_5c,(unsigned __int64)*(unsigned int *)(param_2 + 0x78) + 0x254,0xffffffff8200eb50);
-  fn_82720748(param_2,lVar8,&iStack_5c,3,
-                    (__int64)((int)(uVar7 - iVar2) >> 4) + ((unsigned __int64)uVar3 & 0x7ffffff) * 0x20 +
-                    -0x20);
-  lVar8 = (unsigned __int64)*(unsigned int *)(iStack_5c + 8) - 1;
-  *(int *)(iStack_5c + 8) = (int)lVar8;
-  if (lVar8 == 0) {
-    fn_826944C8(iStack_5c);
-  }
-  fn_826AF618(puVar6);
-  return;
-}
+    Name_8271B938 *event;
+    Stack_8271B938 *s;
+    Elem_8271B938 *cur;
+    void *target;
+    int idx;
 
+    if (value != 0) {
+        unsigned int key;
+        Progress_8271B938 *found;
+        Progress_8271B938 progress;
+        ProgressEntry_8271B938 entry;
+
+        fn_8268B330(&key);
+        fn_8269E088(value, &key);
+        found = fn_8271A720(clip + 0x30, &key);
+        if (found != 0) {
+            found->loaded = loaded;
+            found->total = total;
+        } else {
+            progress.loaded = loaded;
+            progress.total = total;
+            entry.key = &key;
+            entry.progress = &progress;
+            fn_8271B248(clip + 0x30, clip + 0x30, &entry);
+        }
+        {
+            StringData_8271B938 *data = (StringData_8271B938 *)(key & ~3u);
+
+            if (_InterlockedExchangeAdd(&data->refs, -1) - 1 == 0) {
+                fn_8267BE38(data);
+            }
+        }
+    }
+    s = &self->stack;
+    cur = s->cur + 1;
+    s->cur = cur;
+    if (cur >= s->end) {
+        fn_826826A8(s);
+    }
+    cur = s->cur;
+    if (cur != 0) {
+        cur->number = total;
+        cur->type = 4;
+    }
+    cur = s->cur + 1;
+    s->cur = cur;
+    if (cur >= s->end) {
+        fn_826826A8(s);
+    }
+    cur = s->cur;
+    if (cur != 0) {
+        cur->number = loaded;
+        cur->type = 4;
+    }
+    cur = s->cur + 1;
+    s->cur = cur;
+    if (cur >= s->end) {
+        fn_826826A8(s);
+    }
+    cur = s->cur;
+    if (cur != 0) {
+        fn_82695520(cur, value);
+    }
+    target = clip ? clip + 0x10 : 0;
+    idx = (int)(s->cur - s->base) + s->count * 32 - 32;
+    fn_82681728(&event, self->ctx->names, "onLoadProgress");
+    fn_82720748(self, target, &event, 3, idx);
+    {
+        Name_8271B938 *n = event;
+        if (--n->refcount == 0) {
+            fn_826944C8(n);
+        }
+    }
+    fn_826AF618(s);
+}

@@ -1,33 +1,35 @@
-extern unsigned int lbl_8208DD70;
+typedef struct Noise_82E330D8 {
+    int value;         /* 0x21c */
+    unsigned int seed; /* 0x220 */
+} Noise_82E330D8;
 
+typedef struct Generator_82E330D8 {
+    char pad0[0x100];
+    int count; /* 0x100 */
+    char pad104[0x20];
+    float gain; /* 0x124 */
+    char pad128[0xf4];
+    Noise_82E330D8 noise; /* 0x21c */
+} Generator_82E330D8;
 
-void fn_82E330D8(int *param_1,int param_2)
-
+void fn_82E330D8(Generator_82E330D8 **ref, float *out)
 {
-  int iVar1;
-  int iVar2;
-  float fVar3;
-  int iVar4;
-  float *pfVar5;
-  int iVar6;
-  
-  fVar3 = lbl_8208DD70;
-  iVar1 = *param_1;
-  iVar6 = 0;
-  if (*(int *)(iVar1 + 0x100) < 1) {
-    return;
-  }
-  pfVar5 = (float *)(param_2 + -4);
-  do {
-    iVar6 = iVar6 + 1;
-    iVar2 = *(int *)(iVar1 + 0x21c);
-    iVar4 = *(int *)(iVar1 + 0x220) * 0x19660d + 0x3c6ef35f;
-    *(int *)(iVar1 + 0x220) = iVar4;
-    iVar4 = (iVar4 >> 4) + (iVar4 >> 2);
-    *(int *)(iVar1 + 0x21c) = iVar4;
-    pfVar5 = pfVar5 + 1;
-    *pfVar5 = (float)(__int64)(iVar4 - iVar2) * *(float *)(iVar1 + 0x124) * fVar3;
-  } while (iVar6 < *(int *)(iVar1 + 0x100));
-  return;
-}
+    Generator_82E330D8 *gen = *ref;
+    int i = 0;
 
+    if (gen->count > 0) {
+        Noise_82E330D8 *noise = &gen->noise;
+
+        do {
+            int previous = noise->value;
+            int seed = noise->seed * 0x19660d + 0x3c6ef35f;
+            int quarter;
+
+            i++;
+            noise->seed = seed;
+            quarter = seed >> 2;
+            noise->value = quarter + (quarter >> 2);
+            *out++ = (float)(noise->value - previous) * gen->gain * (1.0f / 536870912.0f);
+        } while (i < gen->count);
+    }
+}

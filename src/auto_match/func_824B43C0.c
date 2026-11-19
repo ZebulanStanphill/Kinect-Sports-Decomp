@@ -1,60 +1,70 @@
-extern unsigned int *auStack_50;
-extern unsigned int uStack_5c;
-extern unsigned int uStack_60;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __VMXGetReg(int n);
 
-unsigned __int64 fn_824B43C0(unsigned __int64 param_1,int *param_2,__int64 param_3,int *param_4,int param_5)
+typedef struct Value_824B43C0 {
+    __vector4 v;
+} Value_824B43C0;
 
+typedef struct Channel_824B43C0 {
+    char pad0[0x10];
+    __vector4 value; /* 0x10 */
+    char pad20[0x20];
+} Channel_824B43C0;
+
+typedef struct Key_824B43C0 {
+    char pad0[0x40];
+    Channel_824B43C0 *channels; /* 0x40 */
+} Key_824B43C0;
+
+typedef struct Track_824B43C0 Track_824B43C0;
+
+typedef struct TrackVt_824B43C0 {
+    void (*GetRange)(Track_824B43C0 *self, int *first, unsigned int *last);       /* 0x00 */
+    void (*GetKey)(Track_824B43C0 *self, unsigned int index, Key_824B43C0 **key); /* 0x04 */
+} TrackVt_824B43C0;
+
+struct Track_824B43C0 {
+    TrackVt_824B43C0 *vt;
+};
+
+typedef struct Blender_824B43C0 Blender_824B43C0;
+
+typedef struct BlenderVt_824B43C0 {
+    void *pad0;
+    Value_824B43C0 (*Blend)(Blender_824B43C0 *self, __vector4 sample, __vector4 accumulated); /* 0x04 */
+} BlenderVt_824B43C0;
+
+struct Blender_824B43C0 {
+    BlenderVt_824B43C0 *vt;
+};
+
+Value_824B43C0 fn_824B43C0(Track_824B43C0 *track, int window, Blender_824B43C0 *blender, int channel)
 {
-  unsigned int *puVar1;
-  unsigned __int64 in_r0;
-  int iVar2;
-  unsigned __int64 uVar3;
-  unsigned int uVar4;
-  unsigned __int64 uVar5;
-  unsigned int in_register_000104d0;
-  unsigned int in_register_000104d4;
-  unsigned int in_register_000104d8;
-  unsigned int in_vr77;
-  unsigned int uStack_60;
-  unsigned int uStack_5c;
-  int aiStack_58 [2];
-  unsigned char auStack_50 [80];
-  
-  (**(int (***)())*param_2)(param_2,&uStack_60,&uStack_5c);
-  iVar2 = (int)in_r0;
-  uVar3 = ((unsigned __int64)uStack_5c - param_3) + 1;
-  uVar4 = (unsigned int)uVar3;
-  uVar5 = (unsigned __int64)uStack_60;
-  if ((int)uStack_60 < (int)uVar4) {
-    uVar5 = uVar3;
-    uStack_60 = uVar4;
-  }
-  if ((uVar5 & 0xffffffff) <= (unsigned __int64)uStack_5c) {
-    do {
-      (**(int (***)())(*param_2 + 4))(param_2,uVar5,aiStack_58);
-      puVar1 = (unsigned int *)(*(int *)(aiStack_58[0] + 0x40) + param_5 * 0x40 + 0x10U & 0xfffffff0);
-      in_register_000104d0 = *puVar1;
-      in_register_000104d4 = puVar1[1];
-      in_register_000104d8 = puVar1[2];
-      in_vr77 = puVar1[3];
-      if ((uVar5 & 0xffffffff) != (unsigned __int64)uStack_60) {
-        iVar2 = (**(int (***)())(*param_4 + 4))(auStack_50,param_4);
-        puVar1 = (unsigned int *)((int)in_r0 + iVar2 & 0xfffffff0);
-        in_register_000104d0 = *puVar1;
-        in_register_000104d4 = puVar1[1];
-        in_register_000104d8 = puVar1[2];
-        in_vr77 = puVar1[3];
-      }
-      iVar2 = (int)in_r0;
-      uVar5 = uVar5 + 1;
-    } while ((uVar5 & 0xffffffff) <= (unsigned __int64)uStack_5c);
-  }
-  puVar1 = (unsigned int *)(iVar2 + (int)param_1 & 0xfffffff0);
-  *puVar1 = in_register_000104d0;
-  puVar1[1] = in_register_000104d4;
-  puVar1[2] = in_register_000104d8;
-  puVar1[3] = in_vr77;
-  return param_1;
-}
+    Value_824B43C0 result;
+    __vector4 accumulated;
+    __vector4 sample;
+    int first;
+    unsigned int last;
+    unsigned int i;
+    Key_824B43C0 *key;
 
+    track->vt->GetRange(track, &first, &last);
+    if (first < (int)(last - window + 1)) {
+        first = last - window + 1;
+    }
+    accumulated = __VMXGetReg(77);
+    for (i = first; i <= last; i++) {
+        track->vt->GetKey(track, i, &key);
+        sample = key->channels[channel].value;
+        if (i == first) {
+            accumulated = sample;
+        } else {
+            accumulated = blender->vt->Blend(blender, sample, accumulated).v;
+        }
+    }
+    result.v = accumulated;
+    return result;
+}

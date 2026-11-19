@@ -1,38 +1,49 @@
-extern int fn_82526C70();
-extern int fn_82529508();
-extern int fn_82558210();
-extern int fn_82587B68();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Owner_825D9FB0 {
+    char pad00[0x4c];
+    int id; /* 0x4c */
+    char pad50[0x50];
+    __vector4 position; /* 0xa0 */
+    char padb0[0x80c];
+    float radius; /* 0x8bc */
+} Owner_825D9FB0;
 
-void fn_825D9FB0(double param_1,unsigned short *param_2,int param_3)
+typedef struct ObjectDesc_825D9FB0 {
+    unsigned short size; /* 0x00 */
+    char pad02[0x40];
+    char name[0x40]; /* 0x42 */
+    char pad82[0x2];
+    int ownerId; /* 0x84 */
+    char pad88[0x2c];
+    float radius; /* 0xb4 */
+    char padb8[0x508];
+    __vector4 position;    /* 0x5c0 */
+    Owner_825D9FB0 *owner; /* 0x5d0 */
+    float scale;           /* 0x5d4 */
+    unsigned char alpha;   /* 0x5d8 */
+    char pad5d9[0x3];
+    int flags; /* 0x5dc */
+} ObjectDesc_825D9FB0;
 
+extern void fn_82529508(ObjectDesc_825D9FB0 *desc);
+extern void fn_82558210(ObjectDesc_825D9FB0 *desc, int kind);
+extern const char **fn_82587B68(int id);
+extern int fn_82526C70(char *buf, int size, const char *fmt, ...);
+
+void fn_825D9FB0(ObjectDesc_825D9FB0 *desc, Owner_825D9FB0 *owner, float scale)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  
-  fn_82529508();
-  *param_2 = 0x5e0;
-  fn_82558210(param_2,7);
-  puVar2 = (unsigned int *)fn_82587B68(10);
-  fn_82526C70(param_2 + 0x21,0x40,0xffffffff821c4dd0,*puVar2);
-  *(unsigned int *)(param_2 + 0x5a) = *(unsigned int *)(param_3 + 0x8bc);
-  *(unsigned int *)(param_2 + 0x42) = *(unsigned int *)(param_3 + 0x4c);
-  *(float *)(param_2 + 0x2ea) = (float)param_1;
-  *(int *)(param_2 + 0x2e8) = param_3;
-  *(unsigned char *)(param_2 + 0x2ec) = 0x80;
-  *(unsigned int *)(param_2 + 0x2ee) = 0;
-  puVar2 = (unsigned int *)(param_3 + 0xa0U & 0xfffffff0);
-  uVar3 = puVar2[1];
-  uVar4 = puVar2[2];
-  uVar5 = puVar2[3];
-  puVar1 = (unsigned int *)((unsigned int)(param_2 + 0x2e0) & 0xfffffff0);
-  *puVar1 = *puVar2;
-  puVar1[1] = uVar3;
-  puVar1[2] = uVar4;
-  puVar1[3] = uVar5;
-  return;
+    fn_82529508(desc);
+    desc->size = 0x5e0;
+    fn_82558210(desc, 7);
+    fn_82526C70(desc->name, 0x40, "objDefId_%s", *fn_82587B68(10));
+    desc->radius = owner->radius;
+    desc->ownerId = owner->id;
+    desc->scale = scale;
+    desc->owner = owner;
+    desc->alpha = 0x80;
+    desc->flags = 0;
+    desc->position = owner->position;
 }
-

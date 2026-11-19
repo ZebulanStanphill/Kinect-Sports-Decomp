@@ -1,53 +1,67 @@
-unsigned __int64 fn_830502B8(int param_1,unsigned __int64 param_2,unsigned int param_3,unsigned __int64 *param_4)
+typedef struct Seekable_830502B8 {
+    void *vt; /* 0x00 */
+    char pad4[0xc];
+    __int64 position; /* 0x10 */
+    char pad18[0xc];
+    int flags; /* 0x24 */
+} Seekable_830502B8;
 
+typedef struct Stream_830502B8 {
+    char pad0[0x18];
+    __int64 start; /* 0x18 */
+    char pad20[0x4c];
+    unsigned int blockSize; /* 0x6c */
+    char pad70[8];
+    Seekable_830502B8 seekable; /* 0x78 */
+} Stream_830502B8;
+
+static __forceinline Stream_830502B8 *StreamOf_830502B8(Seekable_830502B8 *seekable)
 {
-  unsigned __int64 uVar1;
-  __int64 lVar2;
-  
-  if (param_4 != (unsigned __int64 *)0x0) {
-    *param_4 = 0;
-  }
-  if ((*(unsigned int *)(param_1 + 0x24) & 0x1e000000) == 0x4000000) {
-    return 2;
-  }
-  if (param_3 != 0) {
-    if (param_3 == 1) {
-      lVar2 = *(__int64 *)(param_1 + 0x10);
-    }
-    else {
-      if (param_3 != 2) {
-        return 0x1f;
-      }
-      lVar2 = *(__int64 *)(param_1 + -0x60);
-    }
-    param_2 = lVar2 + param_2;
-  }
-  if (-1 < (__int64)param_2) {
-    uVar1 = (unsigned __int64)*(unsigned int *)(param_1 + -0xc);
-    lVar2 = param_2 - ((__int64)param_2 / (__int64)uVar1) * uVar1;
-    trapDoubleWordImmediate(6,uVar1,0);
-    trapDoubleWordImmediate(5,uVar1 & ~((param_2 << 1 | param_2 >> 0x3f) - 1),0xffff);
-    if (lVar2 != 0) {
-      param_2 = param_2 - lVar2;
-    }
-    if (param_4 != (unsigned __int64 *)0x0) {
-      if (param_3 == 0) {
-        *param_4 = param_2;
-      }
-      else if (param_3 == 1) {
-        *param_4 = param_2 - *(__int64 *)(param_1 + 0x10);
-      }
-      else {
-        if (2 < param_3) {
-          return 2;
-        }
-        *param_4 = param_2 - *(__int64 *)(param_1 + -0x60);
-      }
-    }
-    *(unsigned __int64 *)(param_1 + 0x10) = param_2;
-    *(unsigned int *)(param_1 + 0x24) = *(unsigned int *)(param_1 + 0x24) | 0x1000000;
-    return 1;
-  }
-  return 0x1f;
+    return (Stream_830502B8 *)((char *)seekable - 0x78);
 }
 
+int fn_830502B8(Seekable_830502B8 *self, __int64 distance, int origin, __int64 *newPosition)
+{
+    __int64 offset = distance;
+    __int64 rem;
+
+    if (newPosition != 0) {
+        *newPosition = 0;
+    }
+    if ((self->flags & 0x1e000000) == 0x4000000) {
+        return 2;
+    }
+    if (origin == 0) {
+    } else if (origin == 1) {
+        offset = self->position + offset;
+    } else if (origin == 2) {
+        offset = StreamOf_830502B8(self)->start + offset;
+    } else {
+        return 0x1f;
+    }
+    if (offset < 0) {
+        return 0x1f;
+    }
+    rem = offset % (__int64)StreamOf_830502B8(self)->blockSize;
+    if (rem != 0) {
+        offset -= rem;
+    }
+    if (newPosition != 0) {
+        switch (origin) {
+        case 0:
+            *newPosition = offset;
+            break;
+        case 1:
+            *newPosition = offset - self->position;
+            break;
+        case 2:
+            *newPosition = offset - StreamOf_830502B8(self)->start;
+            break;
+        default:
+            return 2;
+        }
+    }
+    self->position = offset;
+    self->flags |= 0x1000000;
+    return 1;
+}

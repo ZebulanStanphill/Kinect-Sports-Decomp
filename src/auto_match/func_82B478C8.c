@@ -1,31 +1,60 @@
-extern int fn_82AC6560();
-extern int fn_82B47068();
+typedef struct Link_82B478C8 {
+    unsigned int next;
+    unsigned int prev;
+} Link_82B478C8;
 
+typedef struct Node_82B478C8 {
+    int unk0[4];
+    Link_82B478C8 lists[3]; /* 0x10 */
+    int unk28[2];
+    unsigned int pad30 : 12; /* 0x30 */
+    unsigned int flag : 1;
+    unsigned int unk30 : 19;
+    int unk34[4];
+    unsigned int pad44 : 4; /* 0x44 */
+    unsigned int count : 28;
+    int unk48[11];
+    int value; /* 0x74 */
+    int unk78;
+} Node_82B478C8;
 
-unsigned int fn_82B478C8(unsigned int *param_1,unsigned __int64 param_2)
+typedef struct Ctx_82B478C8 {
+    unsigned int head; /* 0x0 */
+    int unk4[185];
+    void *listener; /* 0x2e8 */
+} Ctx_82B478C8;
 
+extern Node_82B478C8 *fn_82AC6560(Ctx_82B478C8 *ctx, int size, int kind);
+extern void fn_82B47068(Ctx_82B478C8 *ctx, Node_82B478C8 *node, int value);
+
+static __forceinline void listInit_82B478C8(Link_82B478C8 *l)
 {
-  unsigned int *puVar1;
-  unsigned int uVar2;
-  
-  uVar2 = fn_82AC6560(param_1,0x7c,5);
-  *(unsigned int *)(uVar2 + 0x14) = uVar2 - 0x14 | 1;
-  *(unsigned int *)(uVar2 + 0x10) = uVar2 + 0x14 | 1;
-  *(unsigned int *)(uVar2 + 0x18) = uVar2 + 0x1c | 1;
-  *(unsigned int *)(uVar2 + 0x1c) = uVar2 - 0xc | 1;
-  *(unsigned int *)(uVar2 + 0x20) = uVar2 + 0x24 | 1;
-  *(unsigned int *)(uVar2 + 0x24) = uVar2 - 4 | 1;
-  puVar1 = (unsigned int *)(uVar2 & 0xfffffffe);
-  *(unsigned int *)(uVar2 + 0x30) = *(unsigned int *)(uVar2 + 0x30) | 0x80000;
-  *(unsigned int *)(uVar2 + 0x44) = *(unsigned int *)(uVar2 + 0x44) & 0xf0000000 | 1;
-  *(int *)(uVar2 + 0x74) = (int)param_2;
-  *puVar1 = *param_1;
-  *(unsigned int **)(*param_1 & 0xfffffffe) = puVar1;
-  puVar1[1] = (unsigned int)param_1 | 1;
-  *param_1 = (unsigned int)(puVar1 + 1);
-  if (param_1[0xba] != 0) {
-    fn_82B47068(param_1,uVar2,param_2);
-  }
-  return uVar2;
+    l->prev = ((unsigned int)l - 0x24) | 1;
+    l->next = (unsigned int)&l->prev | 1;
 }
 
+Node_82B478C8 *fn_82B478C8(Ctx_82B478C8 *ctx, int value)
+{
+    Node_82B478C8 *n;
+    unsigned int *link;
+
+    n = fn_82AC6560(ctx, 0x7c, 5);
+    listInit_82B478C8(&n->lists[0]);
+    listInit_82B478C8(&n->lists[1]);
+    listInit_82B478C8(&n->lists[2]);
+    n->count = 1;
+    n->flag = 1;
+    {
+        int *pValue = &n->value;
+        *pValue = value;
+    }
+    link = (unsigned int *)((unsigned int)n & ~1u);
+    link[0] = ctx->head;
+    *(unsigned int *)(ctx->head & ~1u) = (unsigned int)link;
+    link[1] = (unsigned int)ctx | 1;
+    ctx->head = (unsigned int)(link + 1);
+    if (ctx->listener != 0) {
+        fn_82B47068(ctx, n, value);
+    }
+    return n;
+}
