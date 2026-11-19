@@ -27,7 +27,7 @@ extern int fn_82631C78();
 extern int fn_82645110();
 extern int fn_82645688();
 extern int fn_82A1E7D8();
-extern int fn_82A1E810();
+extern int SetEvent();
 extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8320A898;
 extern unsigned int lbl_8326B468;
@@ -111,7 +111,7 @@ void fn_825B6738(void)
         iVar3 = *(int *)(lbl_8329618C + 4);
       }
       fn_82546930();
-      fn_82A1E810(lbl_8326B490);
+      SetEvent(lbl_8326B490);
       fn_82A1E7D8(lbl_8326B490);
       lVar10 = 0;
       iVar4 = 0;

@@ -1,7 +1,7 @@
 extern int fn_8225B538();
 extern int fn_82522ED8();
 extern int fn_825231B8();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int XMemSet();
 extern unsigned int lbl_821CA460;
 extern unsigned int lbl_83265A38;
@@ -37,7 +37,7 @@ unsigned __int64 fn_8225B610(int param_1,unsigned int *param_2)
   iVar2 = iVar2 + iVar1;
   iVar3 = fn_8225B538(param_1,2,iVar2);
   iVar3 = iVar3 + iVar2;
-  fn_82A1DD38(iVar3,*(unsigned int *)(param_1 + 0x100),lbl_832767BC << 2);
+  XMemCpy(iVar3,*(unsigned int *)(param_1 + 0x100),lbl_832767BC << 2);
   iVar1 = param_2[5];
   uVar4 = ((unsigned __int64)lbl_832760AC + 7 & 0xffffffff) >> 3;
   iVar2 = fn_825231B8(uVar4 << 3);
@@ -45,7 +45,7 @@ unsigned __int64 fn_8225B610(int param_1,unsigned int *param_2)
                     /* WARNING: Subroutine does not return */
     XMemSet(*(unsigned int *)(iVar2 + 8),0,*(unsigned int *)(iVar2 + 4));
   }
-  fn_82A1DD38(iVar1 * 4 + iVar3,uRam00000008,uVar4);
+  XMemCpy(iVar1 * 4 + iVar3,uRam00000008,uVar4);
   fn_82522ED8(0);
   return 1;
 }

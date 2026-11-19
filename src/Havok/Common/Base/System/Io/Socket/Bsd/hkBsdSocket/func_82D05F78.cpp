@@ -35,10 +35,10 @@ public:
 };
 struct hkErrStream { char m_data[12]; };   // hkOstream over a char buffer; fn_ ctor/dtor
 extern "C" {
-int fn_82CE09D0(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, const timeval *timeout);   // select
-int fn_82CE0BE8(SOCKET s, fd_set *set);                                  // __WSAFDIsSet
-SOCKET fn_82CE09B8(SOCKET s, sockaddr_in *addr, int *addrlen);           // accept
-int fn_82CE0908(SOCKET s, int level, int optname, const char *optval, int optlen);   // setsockopt
+int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, const timeval *timeout);
+int __WSAFDIsSet(SOCKET s, fd_set *set);
+SOCKET accept(SOCKET s, sockaddr_in *addr, int *addrlen);
+int setsockopt(SOCKET s, int level, int optname, const char *optval, int optlen);
 void fn_82CE6310(hkMemoryAllocator *alloc, void *array, int numElem, int sizeElem);   // hkArrayUtil::_reserve
 void fn_82D04B90(void *str, const char *fmt, ...);                       // hkStringBuf::printf
 void fn_82CEE578(hkErrStream *s, void *buf, int bufSize);                // hkErrStream::hkErrStream
@@ -88,10 +88,10 @@ extern "C" hkSocket *fn_82D05F78(hkBsdSocket *self)
         FD_ZERO(&exceptFds);
         FD_SET(self->m_socket, &exceptFds);
         timeval t; t.tv_sec = 0; t.tv_usec = 0;
-        if (fn_82CE09D0(maxFd, &readFds, 0, &exceptFds, &t) > 0 && fn_82CE0BE8(self->m_socket, &readFds)) {
+        if (select(maxFd, &readFds, 0, &exceptFds, &t) > 0 && __WSAFDIsSet(self->m_socket, &readFds)) {
             sockaddr_in from;
             int fromlen = sizeof(from);
-            SOCKET s = fn_82CE09B8(self->m_socket, &from, &fromlen);
+            SOCKET s = accept(self->m_socket, &from, &fromlen);
             hkStringBuf str;
             fn_82D04B90(&str, "Socket got connection from [%lx:%d]\n", from.sin_addr, from.sin_port);
             char reportBuf[512];
@@ -102,7 +102,7 @@ extern "C" hkSocket *fn_82D05F78(hkBsdSocket *self)
             fn_82CED958(&ostr);
             if (s == INVALID_SOCKET) return 0;
             int flag = 1;
-            fn_82CE0908(s, 6, 1, (char *)&flag, sizeof(int));
+            setsockopt(s, 6, 1, (char *)&flag, sizeof(int));
             return new hkBsdSocket(s);
         }
     }

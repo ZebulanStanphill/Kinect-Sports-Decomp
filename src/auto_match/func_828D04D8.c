@@ -11,7 +11,7 @@ extern void fn_828E9D28(Buffer_828D04D8 *, int, int);
 extern void fn_828AC508(void *, void *);
 extern void fn_828D0300(void *, Buffer_828D04D8 *);
 extern int fn_828E9D78(Buffer_828D04D8 *);
-extern void fn_82CE0730(void *, void *, int, int, int);
+extern void XNetQosListen(void *, void *, int, int, int);
 extern void fn_8265CA20(void *);
 
 void fn_828D04D8(char *self, unsigned char a, unsigned char b, unsigned short c, void *d, unsigned char e)
@@ -35,7 +35,7 @@ void fn_828D04D8(char *self, unsigned char a, unsigned char b, unsigned short c,
     data = buf.data;
     if (!data)
         data = buf.heap;
-    fn_82CE0730(self, data, size, 0, 4);
+    XNetQosListen(self, data, size, 0, 4);
     if (buf.heap)
         fn_8265CA20(buf.heap);
 }

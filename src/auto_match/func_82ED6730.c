@@ -1,5 +1,5 @@
 extern int fn_82A1E650();
-extern int fn_82A1E810();
+extern int SetEvent();
 extern int fn_82ED61A8();
 extern int fn_82F28150();
 extern int fn_82F2C488();
@@ -100,7 +100,7 @@ void fn_82ED6730(int param_1,unsigned int param_2,unsigned __int64 param_3,unsig
               iVar7 = uStack00000024 << 2;
               lVar9 = (1 - uVar2) + param_3;
               do {
-                fn_82A1E810(*(unsigned int *)(iVar7 + *(int *)(param_1 + 0x7998)));
+                SetEvent(*(unsigned int *)(iVar7 + *(int *)(param_1 + 0x7998)));
                 lVar9 = lVar9 + -1;
                 iVar7 = iVar7 + 4;
               } while (lVar9 != 0);
@@ -109,7 +109,7 @@ void fn_82ED6730(int param_1,unsigned int param_2,unsigned __int64 param_3,unsig
           }
         }
         else {
-          fn_82A1E810(*(unsigned int *)(*(int *)(param_1 + 0x7998) + iStack_c0));
+          SetEvent(*(unsigned int *)(*(int *)(param_1 + 0x7998) + iStack_c0));
           uVar3 = uStack00000024;
         }
       }
@@ -138,7 +138,7 @@ void fn_82ED6730(int param_1,unsigned int param_2,unsigned __int64 param_3,unsig
     if ((int)param_3 < (int)param_4) {
       lVar9 = param_4 - param_3;
       do {
-        fn_82A1E810(*(unsigned int *)((int)lVar4 + *(int *)(param_1 + 0x7998)));
+        SetEvent(*(unsigned int *)((int)lVar4 + *(int *)(param_1 + 0x7998)));
         lVar9 = lVar9 + -1;
         lVar4 = lVar4 + 4;
       } while (lVar9 != 0);

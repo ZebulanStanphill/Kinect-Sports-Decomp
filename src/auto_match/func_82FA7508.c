@@ -31,7 +31,7 @@ struct Item {
     Obj *obj;
 };
 
-extern void fn_82A1E810(int a);
+extern void SetEvent(int a);
 extern void fn_82FA5190(int a, Obj *o);
 extern int fn_82FA7BC8(void *list, Item *item);
 extern void fn_82FA80E8(void *a, void *b);
@@ -66,5 +66,5 @@ void fn_82FA7508(int unused, Item *item)
             fn_82FA5190(h, o);
         }
     }
-    fn_82A1E810(lbl_83264228);
+    SetEvent(lbl_83264228);
 }

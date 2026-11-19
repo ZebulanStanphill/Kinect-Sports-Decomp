@@ -1,5 +1,5 @@
 extern int fn_82A1E7D8();
-extern int fn_82A1E810();
+extern int SetEvent();
 extern int fn_82FA5190();
 extern unsigned int iStack_58;
 extern unsigned int iStack_5c;
@@ -66,7 +66,7 @@ LAB_82ff4e7c:
           fn_82A1E7D8(*(unsigned int *)(param_1 + 0xa4));
           RtlLeaveCriticalSection(iVar7);
           (*pcVar2)(4,&uStack_70);
-          fn_82A1E810(*(unsigned int *)(param_1 + 0xa4));
+          SetEvent(*(unsigned int *)(param_1 + 0xa4));
         }
         uVar6 = uVar6 + 1;
         piVar8 = piVar8 + 5;

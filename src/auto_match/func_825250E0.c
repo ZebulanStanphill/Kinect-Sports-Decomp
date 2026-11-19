@@ -3,7 +3,7 @@ extern int fn_82524E38();
 extern int fn_82526260();
 extern int fn_8265C990();
 extern int fn_82A1C098();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int fn_82A1F238();
 extern int fn_82A81CC0();
 extern int fn_82A81CD0();
@@ -32,13 +32,13 @@ void fn_825250E0(int param_1)
     if ((iVar2 < 0) || (iVar2 = fn_82A81CD0(param_1 + 0x1e0,0xffffffff8327f258), iVar2 != 0))
     {
       lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
-      fn_82A1DD38(param_1 + 0x1e0,
+      XMemCpy(param_1 + 0x1e0,
                         (unsigned __int64)
                         (unsigned int)(int)(((float)(lbl_83265A28 & 0x7fffff | 0x3f800000) - lbl_821CA460) *
                                    lbl_82191EAC) * -1000 + -0x7cd99ef8,1000);
     }
     iVar2 = param_1 + 0x1e0;
-    fn_82A1DD38(param_1 + 0x5c8,iVar2,1000);
+    XMemCpy(param_1 + 0x5c8,iVar2,1000);
     if ((*(int *)(param_1 + 0x9cc) != 0) || (*(int *)(param_1 + 0x9f0) != 0)) {
       cVar3 = fn_82A81CC0(iVar2);
       uVar5 = 0;

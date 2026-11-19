@@ -5,7 +5,7 @@ struct Device_82F8DDF0 {
     virtual int Process(int, unsigned int, unsigned int, unsigned int, int);
 };
 
-extern "C" void fn_82A1E108(unsigned int milliseconds);
+extern "C" void Sleep(unsigned int milliseconds);
 
 extern "C" int fn_82F8DDF0(Device_82F8DDF0 *self, unsigned int first, unsigned int second, unsigned int third)
 {
@@ -21,7 +21,7 @@ extern "C" int fn_82F8DDF0(Device_82F8DDF0 *self, unsigned int first, unsigned i
         if (result != 0x540002) {
             return result;
         }
-        fn_82A1E108(50);
+        Sleep(50);
     }
     return 0;
 }

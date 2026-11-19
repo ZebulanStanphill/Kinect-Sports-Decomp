@@ -5,7 +5,7 @@ typedef struct String_8257CF90 {
 extern void *fn_8251F720(void *, int);
 extern unsigned int fn_8251FBA8(void *);
 extern void *fn_8265CA60(unsigned int);
-extern void *fn_82A1DD38(void *, const void *, unsigned int);
+extern void *XMemCpy(void *, const void *, unsigned int);
 extern void fn_8265CAA0(void *);
 extern void fn_8251FA58(void *);
 extern char *fn_82520C40(void);
@@ -34,7 +34,7 @@ void *fn_8257CF90(void *resource, unsigned int flags)
     if (handle != 0) {
         size = fn_8251FBA8(handle);
         buffer = fn_8265CA60(size);
-        fn_82A1DD38(buffer, handle, size);
+        XMemCpy(buffer, handle, size);
     }
     if (Missing_8257CF90(handle, buffer)) {
         fn_8265CAA0(0);

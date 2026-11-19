@@ -27,7 +27,7 @@ extern int fn_8258E3A8();
 extern int fn_8265C9E0();
 extern int fn_8265CA60();
 extern int fn_8265CAA0();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int fn_82F64988();
 extern unsigned int iStack00000044;
 extern unsigned int iStack_568;
@@ -101,7 +101,7 @@ void fn_822AB218(int param_1,int param_2,int param_3,int param_4,unsigned int pa
       if (uVar2 != 0) {
         uVar3 = fn_8251FBA8(uVar2);
         iVar5 = fn_8265CA60();
-        fn_82A1DD38(iVar5,uVar2,uVar3);
+        XMemCpy(iVar5,uVar2,uVar3);
       }
       iVar13 = 0;
       *(unsigned char **)(iVar5 + 0x48) = auStack_530;

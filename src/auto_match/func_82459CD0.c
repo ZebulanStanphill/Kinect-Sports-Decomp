@@ -18,9 +18,9 @@ typedef struct Obj_82459CD0 {
 } Obj_82459CD0;
 
 extern double fn_82522FF0(void);
-extern int fn_82CE09D0(int nfds, FdSet_82459CD0 *readfds, FdSet_82459CD0 *writefds,
+extern int select(int nfds, FdSet_82459CD0 *readfds, FdSet_82459CD0 *writefds,
                        FdSet_82459CD0 *exceptfds, Timeval_82459CD0 *timeout);
-extern int fn_82CE0BE8(unsigned int s, FdSet_82459CD0 *set);
+extern int __WSAFDIsSet(unsigned int s, FdSet_82459CD0 *set);
 
 void fn_82459CD0(Obj_82459CD0 *p)
 {
@@ -32,13 +32,13 @@ void fn_82459CD0(Obj_82459CD0 *p)
 
         set.fd_array[0] = p->sock;
         set.fd_count = 1;
-        r = fn_82CE09D0(0, 0, &set, 0, &tv);
+        r = select(0, 0, &set, 0, &tv);
         if (r == -1) {
             p->state = 0xd;
             return;
         }
         if (r > 0) {
-            if (fn_82CE0BE8(p->sock, &set) != 0) {
+            if (__WSAFDIsSet(p->sock, &set) != 0) {
                 p->state = 8;
             } else {
                 p->state = 0xd;

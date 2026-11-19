@@ -16,7 +16,7 @@ typedef struct Audio_82558A18 {
 extern Audio_82558A18 lbl_8327FBC0;
 extern void *lbl_8326B7C8;
 
-extern void fn_82A1E810(int ev);
+extern void SetEvent(int ev);
 extern unsigned int fn_82A1E650(int handle, unsigned int timeout);
 extern int fn_82A1E658(int handle);
 extern void fn_827DA660(void *heap, void *p, int flags);
@@ -25,7 +25,7 @@ extern void fn_825587E8(void);
 void fn_82558A18(void)
 {
     if (lbl_8327FBC0.stopped == 0) {
-        fn_82A1E810(lbl_8327FBC0.ev30);
+        SetEvent(lbl_8327FBC0.ev30);
         fn_82A1E650(lbl_8327FBC0.thread28, 0xffffffff);
         fn_82A1E650(lbl_8327FBC0.thread24, 0xffffffff);
         fn_82A1E658(lbl_8327FBC0.thread28);

@@ -25,7 +25,7 @@ typedef struct {
 } Ctx;
 
 extern void fn_825A4090(int h, Dev *dev, Obj *o);
-extern void fn_82A1DD38(int a, int b, int c);
+extern void XMemCpy(int a, int b, int c);
 
 static unsigned char hasAttr(Obj *o)
 {
@@ -49,7 +49,7 @@ void fn_825A8530(Ctx *c)
         fn_825A4090(c->dev->h, c->dev, (Obj *)o);
         if (((Obj *)c->obj)->sub->kind == 10) {
             l = c->top->mid->leaf;
-            fn_82A1DD38(((Obj *)c->obj)->sub->leaf->a, l->a, l->b);
+            XMemCpy(((Obj *)c->obj)->sub->leaf->a, l->a, l->b);
         }
     }
     for (; e < end; e++) {
@@ -57,7 +57,7 @@ void fn_825A8530(Ctx *c)
             fn_825A4090(c->dev->h, c->dev, e->obj);
             if (e->obj->sub->kind == 10) {
                 l = e->top->mid->leaf;
-                fn_82A1DD38(e->obj->sub->leaf->a, l->a, l->b);
+                XMemCpy(e->obj->sub->leaf->a, l->a, l->b);
             }
         }
     }

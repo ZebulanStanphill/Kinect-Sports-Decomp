@@ -5,7 +5,7 @@ extern int fn_82645688();
 extern int fn_8264D6C0();
 extern int fn_8265C940();
 extern int fn_8265C990();
-extern int fn_82A1E108();
+extern int Sleep();
 extern int VdSetSystemCommandBufferGpuIdentifierAddress();
 extern int KiApcNormalRoutineNop();
 extern int VdEnableRingBufferRPtrWriteBack();
@@ -57,7 +57,7 @@ unsigned __int64 fn_826458F8(int param_1,int param_2)
   if ((*(int *)(param_1 + 0x2a9c) != 0) && (*(int *)(param_1 + 0x30) != 0)) {
     fn_82645688();
     while (*(int *)(param_1 + 0x2af0) != *(int *)(param_1 + 0x2aec)) {
-      fn_82A1E108(1);
+      Sleep(1);
     }
   }
   uVar5 = *(unsigned int *)(param_1 + 0x3b0c);

@@ -8,7 +8,7 @@ extern unsigned int *auStack_4e0;
 extern unsigned int *auStack_4f8;
 extern unsigned int *auStack_520;
 extern int fn_82A1F2F8();
-extern int fn_82CE06C0();
+extern int XNetInAddrToString();
 extern int fn_82F64020();
 extern int fn_82F69CA0();
 extern int fn_82F6F870();
@@ -112,7 +112,7 @@ int fn_82F8E8D0(int param_1,unsigned int param_2,unsigned int param_3,unsigned i
     uVar4 = fn_82F93A00(iStack00000014 + 0x30);
     iVar8 = fn_82F94390(*(unsigned int *)(iVar5 + iVar6 * 0xd0),uStack0000002c,uVar4,auStack_290);
     if (iVar8 == 0) {
-      fn_82CE06C0(*(unsigned int *)(iVar5 + iVar6 * 0xd0),auStack_520,0x20);
+      XNetInAddrToString(*(unsigned int *)(iVar5 + iVar6 * 0xd0),auStack_520,0x20);
       fn_82F64020(auStack_150,0x100,0xffffffff8216b8f4,iVar5 + iVar6 * 0xd0 + 8,auStack_520);
       (**(int (***)())(*(int *)(iStack00000014 + 8) + 0xc))(iStack00000014 + 8,0,auStack_150);
       iVar8 = fn_82F8F070(0x43c);

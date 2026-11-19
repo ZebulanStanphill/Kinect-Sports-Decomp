@@ -7,7 +7,7 @@ typedef struct Obj_8281F2F0 {
     void *event;
 } Obj_8281F2F0;
 
-extern int fn_82A1E810(void *handle);
+extern int SetEvent(void *handle);
 extern int fn_82A1E658(void *handle);
 
 void fn_8281F2F0(Obj_8281F2F0 *self)
@@ -22,7 +22,7 @@ void fn_8281F2F0(Obj_8281F2F0 *self)
         if (event == 0) {
             return;
         }
-        fn_82A1E810(event);
+        SetEvent(event);
     }
     if (event != 0) {
         fn_82A1E658(event);

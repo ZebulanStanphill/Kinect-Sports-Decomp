@@ -2,7 +2,7 @@ typedef void (*cb_t)(unsigned int, void *);
 extern void RtlEnterCriticalSection(void *);
 extern void RtlLeaveCriticalSection(void *);
 extern int fn_82A1E7D8();
-extern int fn_82A1E810();
+extern int SetEvent();
 extern float lbl_8208ED44;
 
 typedef struct {
@@ -40,7 +40,7 @@ void fn_82FF4F40(char *param_1, int param_2, unsigned int mask, unsigned int *po
         fn_82A1E7D8(*(int *)(param_1 + 0xa4));
         RtlLeaveCriticalSection(cs);
         cb(mask, &msg);
-        fn_82A1E810(*(int *)(param_1 + 0xa4));
+        SetEvent(*(int *)(param_1 + 0xa4));
     } else {
         RtlLeaveCriticalSection(cs);
     }

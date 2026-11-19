@@ -2,11 +2,11 @@ extern unsigned int *auStack_220;
 extern unsigned int *auStack_250;
 extern unsigned int *auStack_260;
 extern unsigned int *auStack_2b0;
-extern int fn_82CE07D8();
-extern int fn_82CE08B8();
-extern int fn_82CE0908();
-extern int fn_82CE0978();
-extern int fn_82CE09A8();
+extern int XNetGetTitleXnAddr();
+extern int socket();
+extern int setsockopt();
+extern int bind();
+extern int listen();
 extern int fn_82CE7EE0();
 extern int fn_82CED958();
 extern int fn_82CEDB38();
@@ -39,7 +39,7 @@ unsigned __int64 fn_82D05DA0(int *param_1,unsigned __int64 param_2)
   unsigned char auStack_220 [544];
   
   (**(int (***)())(*param_1 + 0x10))();
-  uVar1 = fn_82CE08B8(2,1,0);
+  uVar1 = socket(2,1,0);
   param_1[8] = (int)uVar1;
   if ((int)uVar1 == -1) {
     return 1;
@@ -48,15 +48,15 @@ unsigned __int64 fn_82D05DA0(int *param_1,unsigned __int64 param_2)
   uStack_270 = 2;
   auStack_2b0[0] = 1;
   uStack_26c = 0;
-  fn_82CE0908(uVar1,0xffff,4,auStack_2b0,4);
-  iVar2 = fn_82CE0978(param_1[8],&uStack_270,0x10);
-  if ((iVar2 == -1) || (iVar2 = fn_82CE09A8(param_1[8],2), iVar2 == -1)) {
+  setsockopt(uVar1,0xffff,4,auStack_2b0,4);
+  iVar2 = bind(param_1[8],&uStack_270,0x10);
+  if ((iVar2 == -1) || (iVar2 = listen(param_1[8],2), iVar2 == -1)) {
     (**(int (***)())(*param_1 + 0x10))(param_1);
     return 1;
   }
   fn_82CE7EE0(auStack_250);
   do {
-    iVar2 = fn_82CE07D8(&uStack_2a0);
+    iVar2 = XNetGetTitleXnAddr(&uStack_2a0);
   } while (iVar2 == 0);
   if (iVar2 == 1) {
     uStack_2a0 = 0;

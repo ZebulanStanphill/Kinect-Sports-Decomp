@@ -3,7 +3,7 @@ typedef unsigned char bool;
 #define false 0
 extern int fn_825A4488();
 extern int fn_825A44F0();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int fn_82CE5410();
 extern int fn_82CE63B0();
 extern int fn_82CEA160();
@@ -121,7 +121,7 @@ void fn_825A3678(int param_1,unsigned int param_2,int param_3,int *param_4,int *
         *(int *)(iVar7 + 0x44) = iVar8;
         *(int *)(iVar7 + 0x48) = iVar12;
       }
-      fn_82A1DD38(*piVar13,*param_6,*(int *)(iVar7 + 0x44) << 2);
+      XMemCpy(*piVar13,*param_6,*(int *)(iVar7 + 0x44) << 2);
       uVar1 = *(unsigned int *)(iVar6 + 0x20);
       iVar8 = *(int *)(iVar7 + 0x44);
       iVar12 = 0;

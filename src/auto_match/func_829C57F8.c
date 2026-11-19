@@ -1,6 +1,6 @@
 extern int fn_829C56D8();
 extern int fn_829F4FC8();
-extern int fn_82A1E810();
+extern int SetEvent();
 extern int fn_82A1F2F8();
 extern int fn_82F65018();
 extern unsigned int lbl_821AAD20;
@@ -41,7 +41,7 @@ void fn_829C57F8(unsigned __int64 param_1)
     pcVar1 = (int (**)())puVar2[4];
     *puVar2 = (int)param_1;
     if ((puVar2[3] != 0) && (puVar2[3] != -1)) {
-      fn_82A1E810();
+      SetEvent();
     }
     if (pcVar1 != (int (**)())0x0) {
       (*pcVar1)(param_1,0,puVar2);

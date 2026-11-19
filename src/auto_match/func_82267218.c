@@ -1,5 +1,5 @@
 extern int fn_82267628();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 
 
 void fn_82267218(int param_1)
@@ -25,7 +25,7 @@ void fn_82267218(int param_1)
         puVar8[-1] = *(unsigned int *)(*(int *)(param_1 + 0x470) + iVar7 + 0x40);
         *puVar8 = *(unsigned int *)(*(int *)(param_1 + 0x470) + iVar7 + 0x44);
         if ((unsigned __int64)*(unsigned int *)(param_1 + 0x5dc) != 0) {
-          fn_82A1DD38(puVar8 + -0xc,lVar5 + (unsigned __int64)*(unsigned int *)(param_1 + 0x5dc),0x24);
+          XMemCpy(puVar8 + -0xc,lVar5 + (unsigned __int64)*(unsigned int *)(param_1 + 0x5dc),0x24);
         }
         pcVar3 = (char *)(puVar8 + -0x35);
         pcVar2 = (char *)(*(int *)(param_1 + 0x470) + iVar7 + -1);

@@ -26,7 +26,7 @@ extern void fn_82A29A38(void);
 extern void RtlEnterCriticalSection(void *cs);
 extern void RtlLeaveCriticalSection(void *cs);
 extern int fn_82E3C770(Queue_82EEAAE8 *queue, Unknown_82EEAAE8 **item);
-extern int fn_82A1E810(void *event);
+extern int SetEvent(void *event);
 extern int fn_82A1F470(void);
 
 int fn_82EEAAE8(Self_82EEAAE8 *self, Unknown_82EEAAE8 *item)
@@ -46,7 +46,7 @@ int fn_82EEAAE8(Self_82EEAAE8 *self, Unknown_82EEAAE8 *item)
     } else {
         hr = 0x80004005;
     }
-    if (hr >= 0 && self->queue->state == 1 && fn_82A1E810(self->event) == 0) {
+    if (hr >= 0 && self->queue->state == 1 && SetEvent(self->event) == 0) {
         int err = fn_82A1F470();
         hr = err <= 0 ? err : ((err & 0xffff) | 0x80070000);
         if (hr >= 0)

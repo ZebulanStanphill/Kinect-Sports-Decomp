@@ -7,7 +7,7 @@ extern int fn_8251FA58();
 extern int fn_8254B4E8();
 extern int fn_825604A0();
 extern int fn_8265CA20();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int fn_82F4DE00();
 extern int fn_82F4DE48();
 extern unsigned int lbl_821BD3D0;
@@ -63,7 +63,7 @@ void fn_8247A428(unsigned int *param_1)
     param_1[0x1da] = 0;
   }
   fn_8254B4E8(*(unsigned int *)(param_1[0x173] + 0x8c8));
-  fn_82A1DD38(0xffffffff8328e788,param_1 + 0x1de,0x18d8);
+  XMemCpy(0xffffffff8328e788,param_1 + 0x1de,0x18d8);
   fn_82F4DE00(0);
   fn_82F4DE48();
   param_1[0x822] = &lbl_821BE890;

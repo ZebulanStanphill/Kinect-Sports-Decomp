@@ -13,7 +13,7 @@ extern int fn_8251FA58();
 extern int fn_8251FBA8();
 extern int fn_8265CA60();
 extern int fn_8265CAA0();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int fn_82D7E470();
 extern unsigned int uStack_60;
 extern unsigned int uStack_68;
@@ -48,7 +48,7 @@ int fn_822BDD90(int param_1,unsigned __int64 param_2)
   if (uVar2 != 0) {
     uVar3 = fn_8251FBA8(uVar2);
     iVar4 = fn_8265CA60();
-    fn_82A1DD38(iVar4,uVar2,uVar3);
+    XMemCpy(iVar4,uVar2,uVar3);
   }
   *(unsigned int **)(iVar4 + 0x48) = auStack_a0;
   auStack_a0[0] = *(unsigned int *)(param_1 + 0x20);

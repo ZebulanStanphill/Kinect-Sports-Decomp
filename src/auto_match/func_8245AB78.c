@@ -1,7 +1,7 @@
 extern int fn_8245AAA8();
 extern int fn_8245B458();
 extern int fn_8245B630();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 
 
 void fn_8245AB78(unsigned __int64 param_1,int param_2,unsigned __int64 param_3)
@@ -39,7 +39,7 @@ void fn_8245AB78(unsigned __int64 param_1,int param_2,unsigned __int64 param_3)
     else {
       *(unsigned int *)(param_2 + 0x20) = uVar1;
     }
-    fn_82A1DD38(param_2 + 0x66,
+    XMemCpy(param_2 + 0x66,
                       (__int64)(int)(unsigned int)*(unsigned short *)(param_2 + 0x24) * (__int64)(int)uVar1 +
                       (unsigned __int64)*(unsigned int *)(param_2 + 0x80070),*(unsigned int *)(param_2 + 0x20));
     uVar4 = ((unsigned __int64)*(unsigned int *)(param_2 + 0x80074) - (unsigned __int64)uVar1) +

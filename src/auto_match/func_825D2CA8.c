@@ -47,7 +47,7 @@ typedef struct Event_825D2CA8 {
 } Event_825D2CA8;
 
 extern void *fn_8251E4D0(Queue_825D2CA8 *queue);
-extern void fn_82A1DD38(void *dst, const void *src, unsigned int size);
+extern void XMemCpy(void *dst, const void *src, unsigned int size);
 
 void fn_825D2CA8(Self_825D2CA8 *self, List_825D2CA8 *list)
 {
@@ -70,7 +70,7 @@ void fn_825D2CA8(Self_825D2CA8 *self, List_825D2CA8 *list)
                     ev.entry = entry;
                     ev.record = rec;
                     dst = fn_8251E4D0(queue);
-                    fn_82A1DD38(dst, &ev, queue->elemSize);
+                    XMemCpy(dst, &ev, queue->elemSize);
                     rec = (Record_825D2CA8 *)((char *)rec + rec->size);
                 }
             }

@@ -1,7 +1,7 @@
 // Appends a copy of the string text to the std::deque at offset 0x88 of the
 // owner while holding the critical section at offset 0x6c, then resets the
 // event at offset 0x64 (fn_82A1E7D8, which wraps NtClearEvent) and sets the one
-// at offset 0x68 (fn_82A1E810, which wraps NtSetEvent). The temporary string is
+// at offset 0x68 (SetEvent, which wraps NtSetEvent). The temporary string is
 // built by fn_82230110 and destroyed by fn_82230300. Converted from the
 // Matching C version so that fn_82E220D0 can take its name as the deque's
 // push_back member, func_82E220D0.cpp.
@@ -17,7 +17,7 @@ void fn_8223B688(void *self, const void *other);
 void fn_82230110(void *self, const char *text);
 void fn_82230300(void *self, int a, int b);
 int fn_82A1E7D8(void *event);
-int fn_82A1E810(void *event);
+int SetEvent(void *event);
 void RtlEnterCriticalSection(void *criticalSection);
 void RtlLeaveCriticalSection(void *criticalSection);
 }
@@ -52,6 +52,6 @@ extern "C" void fn_82E22508(Owner_82E22508 *self, const char *text)
     self->queue.push_back(*string);
     fn_82230300(string, 1, 0);
     fn_82A1E7D8(self->event64);
-    fn_82A1E810(self->event68);
+    SetEvent(self->event68);
     RtlLeaveCriticalSection(self->criticalSection);
 }

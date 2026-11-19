@@ -27,7 +27,7 @@ extern int fn_828E9DB8();
 extern int fn_828E9F90();
 extern int fn_828E9FF8();
 extern int fn_82CE0B38();
-extern int fn_82CE0BB0();
+extern int WSAGetLastError();
 extern int iRam83159a0c;
 extern int iRam83159a34;
 extern unsigned int iStack_84;
@@ -220,7 +220,7 @@ unsigned __int64 fn_82884B90(int param_1,unsigned __int64 param_2,__int64 param_
       iVar8 = fn_82CE0B38(uVar2,&stack_pair_88.first,1,&uStack_8c,0,lVar7 + 0x24,0x10,0);
     }
     if (iVar8 != 0) {
-      iVar8 = fn_82CE0BB0();
+      iVar8 = WSAGetLastError();
       if (iVar8 == 0x2751) {
         fn_82888170(param_2,uVar13,6,1);
         fn_82888170(param_2,uVar13,7,uVar5 + uVar14);

@@ -12,7 +12,7 @@ extern int fn_82631578();
 extern int fn_82631920();
 extern int fn_8263CBB0();
 extern int fn_82837D98();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int fn_82F68CC0();
 extern int fn_82F6E8D4();
 extern unsigned int lbl_8218EC94;
@@ -358,7 +358,7 @@ LAB_8259d8cc:
         lVar27 = ZEXT48(puVar29) + 0xa464;
         iVar23 = fn_825207D0(lVar27,lVar30 + 100,4);
         if (iVar23 != 0) {
-          fn_82A1DD38(lVar27,lVar30 + 100);
+          XMemCpy(lVar27,lVar30 + 100);
           fn_82631290(*puVar29,1,lVar30 + 100,1);
         }
       }

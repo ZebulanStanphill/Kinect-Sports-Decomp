@@ -2,7 +2,7 @@ typedef unsigned char bool;
 #define true 1
 #define false 0
 extern int fn_82653BE8();
-extern int fn_82A1E108();
+extern int Sleep();
 
 
 void fn_82653C68(int param_1)
@@ -41,7 +41,7 @@ void fn_82653C68(int param_1)
   }
   fn_82653BE8(param_1,0xffffffff821cc840);
   (**(int (***)())(param_1 + 8))(0xf11,0);
-  fn_82A1E108(1);
+  Sleep(1);
   uVar4 = (**(int (***)())(param_1 + 4))(0xf12);
   fn_82653BE8(param_1,0xffffffff821cc858,0xffffffff821cc844,uVar4);
   lVar7 = 0x1e;
@@ -68,7 +68,7 @@ void fn_82653C68(int param_1)
           }
           if ((uVar5 & 0xffffffff) <= (uVar3 & 0xffffffff)) break;
           (**(int (***)())(param_1 + 8))(puVar10[-4],(int)uVar3 << (puVar10[-1] & 0x3f) | puVar10[-2]);
-          fn_82A1E108(1);
+          Sleep(1);
           uVar4 = (**(int (***)())(param_1 + 4))(puVar10[-3]);
           pcVar6 = acStack_120;
           do {

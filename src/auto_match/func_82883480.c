@@ -23,7 +23,7 @@ extern int fn_828EA180();
 extern int fn_828EA2D8();
 extern int fn_828EA790();
 extern int fn_82CE0B38();
-extern int fn_82CE0BB0();
+extern int WSAGetLastError();
 extern unsigned int iStack_78;
 extern unsigned int iStack_80;
 extern unsigned int iStack_a4;
@@ -173,7 +173,7 @@ unsigned __int64 fn_82883480(int param_1,unsigned __int64 param_2,unsigned __int
         piStack_b0 = (int *)fn_823AA970(param_6);
         iVar7 = fn_82CE0B38(uVar3,&stack_pair_a8.first,1,&piStack_b0,0,iVar7 + 0x24,0x10,0);
         if (iVar7 != 0) {
-          fn_82CE0BB0();
+          WSAGetLastError();
         }
         piVar9 = (int *)fn_825089A0();
         uVar6 = (**(int (***)())(*piVar9 + 0xc))();

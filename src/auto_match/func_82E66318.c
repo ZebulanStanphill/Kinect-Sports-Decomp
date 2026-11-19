@@ -8,7 +8,7 @@ typedef struct Lock_82E66318 {
 
 extern long _InterlockedCompareExchange(long volatile *target, long exchange, long comparand);
 extern unsigned int fn_82A1BB18(void);
-extern void fn_82A1E108(unsigned int ms);
+extern void Sleep(unsigned int ms);
 
 void fn_82E66318(Lock_82E66318 *lock)
 {
@@ -20,7 +20,7 @@ void fn_82E66318(Lock_82E66318 *lock)
             return;
         }
         if (lock->locked != 0) {
-            fn_82A1E108(wait);
+            Sleep(wait);
             wait <<= 1;
             if (wait > 100) {
                 wait = 100;

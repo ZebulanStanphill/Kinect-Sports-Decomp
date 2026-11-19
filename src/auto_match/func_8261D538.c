@@ -9,7 +9,7 @@ extern int fn_82529D38();
 extern int fn_8252A1B0();
 extern int fn_8252AF80();
 extern int fn_8252BAB8();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern V16 vectorCompareEqualToFloatingPoint();
 extern V16 vectorConditionalSelect();
 extern V16 vectorMultiplyAddFloatingPoint();
@@ -112,7 +112,7 @@ void fn_8261D538(int param_1,__int64 param_2)
     fn_8252AF80((double)*(float *)lVar7,param_1);
     lVar6 = lVar6 + 1;
   } while ((int)lVar6 < 2);
-  fn_82A1DD38(param_1 + 0x250,param_2 + 0x250,0x40);
+  XMemCpy(param_1 + 0x250,param_2 + 0x250,0x40);
   uVar5 = *(unsigned int *)(iVar2 + 0x2b0);
   *(unsigned int *)(param_1 + 0x294) = 0x30;
   *(unsigned int *)(param_1 + 0x290) = 1;

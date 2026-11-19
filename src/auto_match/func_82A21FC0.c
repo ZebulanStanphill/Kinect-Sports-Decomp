@@ -1,7 +1,7 @@
 extern int fn_8265C990();
 extern int fn_82A1CFC8();
-extern int fn_82A1E108();
-extern int fn_82A1E810();
+extern int Sleep();
+extern int SetEvent();
 extern int fn_82A1FB60();
 extern int fn_82A20BD8();
 extern int fn_82BA02A8();
@@ -41,8 +41,8 @@ void fn_82A21FC0(void)
     lbl_83219C58 = 0;
     lbl_83219C4C = 1;
     while (lbl_83219C50 == 0) {
-      fn_82A1E810();
-      fn_82A1E108(100);
+      SetEvent();
+      Sleep(100);
     }
     lbl_83219C4C = 0;
     lbl_83219C50 = 0;

@@ -3,10 +3,10 @@ extern unsigned int *auStack_af0;
 extern int fn_829D23A0();
 extern int fn_829D2BE0();
 extern int fn_829D2D28();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int fn_82A1E650();
 extern int fn_82A1E6A0();
-extern int fn_82A1E810();
+extern int SetEvent();
 extern unsigned int lbl_8326183C;
 extern unsigned __int64 storeWordConditionalIndexed();
 
@@ -61,7 +61,7 @@ LAB_82f4d840:
       }
       else {
         RtlEnterCriticalSection((unsigned __int64)lbl_8326183C + 0x2b0c);
-        fn_82A1DD38(lbl_8326183C + 0x2050,auStack_af0,0xab0);
+        XMemCpy(lbl_8326183C + 0x2050,auStack_af0,0xab0);
         RtlLeaveCriticalSection(lbl_8326183C + 0x2b0c);
         uVar6 = (unsigned __int64)lbl_8326183C;
         do {
@@ -72,7 +72,7 @@ LAB_82f4d840:
           }
         } while (!(bool)(bVar8 >> 1 & 1));
         if (*(int *)(lbl_8326183C + 0x2dc4) != 0) {
-          fn_82A1E810();
+          SetEvent();
         }
       }
       uVar2 = lbl_8326183C;

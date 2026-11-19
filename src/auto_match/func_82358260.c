@@ -24,7 +24,7 @@ extern int fn_8265CA20();
 extern int fn_8265CA60();
 extern int fn_8265CAA0();
 extern int fn_828AD740();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int fn_82F622E0();
 extern unsigned int iStack_bc;
 extern unsigned int iStack_c0;
@@ -111,7 +111,7 @@ void fn_82358260(int *param_1,__int64 param_2)
         if (uVar5 != 0) {
           uVar6 = fn_8251FBA8(uVar5);
           iVar8 = fn_8265CA60();
-          fn_82A1DD38(iVar8,uVar5,uVar6);
+          XMemCpy(iVar8,uVar5,uVar6);
         }
         iVar9 = fn_8225F160();
         if (*(int *)(iVar9 + 0x40) == 2) {

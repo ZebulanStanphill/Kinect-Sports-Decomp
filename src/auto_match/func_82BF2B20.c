@@ -1,8 +1,8 @@
-extern int fn_82CE0BB0(void);
+extern int WSAGetLastError(void);
 
 int fn_82BF2B20(int *socket)
 {
-    switch (fn_82CE0BB0()) {
+    switch (WSAGetLastError()) {
     case 0x2733:
     case 0x2748:
         return 0;

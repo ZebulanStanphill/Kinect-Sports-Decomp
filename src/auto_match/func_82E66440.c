@@ -6,7 +6,7 @@ typedef struct Lock_82E66440 {
     int closed;
 } Lock_82E66440;
 
-extern void fn_82A1E108(unsigned int ms);
+extern void Sleep(unsigned int ms);
 
 int fn_82E66440(Lock_82E66440 *lock)
 {
@@ -19,7 +19,7 @@ int fn_82E66440(Lock_82E66440 *lock)
         }
         state = lock->state;
         if ((state & 0xc0000000) != 0) {
-            fn_82A1E108(10);
+            Sleep(10);
             continue;
         }
         if (_InterlockedCompareExchange(&lock->state, state + 1, state) == state) {

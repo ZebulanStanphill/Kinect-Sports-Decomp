@@ -1,5 +1,5 @@
 extern int fn_825A2410();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern unsigned int lbl_831BF280;
 
 
@@ -26,7 +26,7 @@ void fn_825F6940(unsigned short *param_1,int param_2)
         }
         if ((int)lVar2 == 1) {
           if (piVar5 < (int *)(*(int *)(param_1 + 4) - (unsigned int)*param_1)) {
-            fn_82A1DD38(piVar5);
+            XMemCpy(piVar5);
           }
           piVar5 = piVar5 + -7;
           piVar4 = piVar4 + -7;

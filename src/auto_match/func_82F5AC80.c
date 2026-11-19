@@ -15,7 +15,7 @@ extern unsigned int fStack_28d4;
 extern unsigned int fStack_28d8;
 extern unsigned int fStack_28dc;
 extern unsigned int fStack_28e0;
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int fn_82BA02A8();
 extern int fn_82F534D8();
 extern int fn_82F53548();
@@ -210,7 +210,7 @@ void fn_82F5AC80(unsigned __int64 param_1,__int64 param_2,__int64 param_3,int pa
   puVar3[3] = uVar18;
   fn_82F5E778((double)fStack_28e0,(double)fStack_28dc,(double)fStack_28d8,(double)fStack_28c4,
                     &uStack_28b0);
-  fn_82A1DD38(auStack_2710,param_3 * 0x1c0 + param_2 + 0x50,0x140);
+  XMemCpy(auStack_2710,param_3 * 0x1c0 + param_2 + 0x50,0x140);
   fn_82F5E8C0(auStack_e20);
   fn_82F600B0(auStack_e20,uStack_28b0,uStack_28a8,uStack_28a0,uStack_2898,auStack_2710);
   uVar5 = 0;

@@ -1,5 +1,5 @@
 extern int fn_82A1E7D8();
-extern int fn_82A1E810();
+extern int SetEvent();
 extern int fn_82FF5200();
 extern unsigned int uStack_40;
 extern unsigned int uStack_44;
@@ -36,7 +36,7 @@ void fn_82FF4A38(int param_1,unsigned __int64 param_2,unsigned int param_3,unsig
     fn_82A1E7D8(*(unsigned int *)(param_1 + 0xa4));
     RtlLeaveCriticalSection(iVar3);
     (*pcVar1)(2,&uStack_50);
-    fn_82A1E810(*(unsigned int *)(param_1 + 0xa4));
+    SetEvent(*(unsigned int *)(param_1 + 0xa4));
   }
   return;
 }

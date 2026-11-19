@@ -24,9 +24,9 @@ struct hkErrStream {
 
 extern "C" {
 void fn_82CFC060(void *dst, int value, int size);             // hkString::memSet
-unsigned int fn_82CE0BA8(const char *cp);                     // inet_addr
-int fn_82CE08B8(int af, int type, int protocol);              // socket
-int fn_82CE0990(int s, const sockaddr_in *name, int namelen); // connect
+unsigned int inet_addr(const char *cp);
+int socket(int af, int type, int protocol);
+int connect(int s, const sockaddr_in *name, int namelen);
 void fn_82CEE578(hkErrStream *s, void *buf, int bufSize);     // hkErrStream::hkErrStream
 void fn_82CEDB38(hkErrStream *s, const char *str);            // operator<<(const char *)
 void fn_82CED958(hkErrStream *s);                             // ~hkErrStream
@@ -55,7 +55,7 @@ extern "C" int fn_82D05BD0(hkBsdSocket *self, const char *servername, int port)
     server.sin_family = 2; // AF_INET
     server.sin_port = (unsigned short)port;
     if (isDigit(servername[0])) {
-        server.sin_addr = fn_82CE0BA8(servername);
+        server.sin_addr = inet_addr(servername);
     } else {
         char buf[512];
         hkErrStream os;
@@ -68,12 +68,12 @@ extern "C" int fn_82D05BD0(hkBsdSocket *self, const char *servername, int port)
     }
     if (self->m_socket == -1) {
         self->close();
-        self->m_socket = fn_82CE08B8(2, 1, 0);
+        self->m_socket = socket(2, 1, 0);
         if (self->m_socket == -1) {
             return 1;
         }
     }
-    if (fn_82CE0990(self->m_socket, &server, sizeof(server)) == -1) {
+    if (connect(self->m_socket, &server, sizeof(server)) == -1) {
         self->close();
         return 1;
     }

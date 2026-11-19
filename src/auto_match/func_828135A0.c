@@ -12,7 +12,7 @@ typedef struct Holder_828135A0 {
 } Holder_828135A0;
 
 long _InterlockedDecrement(long volatile *addend);
-extern void fn_82A1E810(void *event);
+extern void SetEvent(void *event);
 
 void fn_828135A0(Holder_828135A0 *self)
 {
@@ -20,7 +20,7 @@ void fn_828135A0(Holder_828135A0 *self)
 
     if (lock != 0) {
         if ((_InterlockedDecrement(&lock->state) & 0xffff) == 0) {
-            fn_82A1E810(lock->event);
+            SetEvent(lock->event);
         }
         self->lock = 0;
         self->owned = 0;

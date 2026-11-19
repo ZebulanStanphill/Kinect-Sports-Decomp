@@ -3,7 +3,7 @@ extern int fn_82486958();
 extern int fn_8251F720();
 extern int fn_8251FA58();
 extern int fn_8251FBA8();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int fn_82F68CC0();
 extern unsigned int lbl_821CA460;
 extern unsigned int lbl_83265A28;
@@ -73,9 +73,9 @@ unsigned __int64 fn_82486098(int param_1,int param_2,int param_3,unsigned __int6
   *(unsigned int *)(iVar4 + 0x150) = 1;
   uVar3 = fn_8251F720(lVar6 + 0x20,0);
   if ((param_4 & 0xffffffff) != 0) {
-    fn_82A1DD38(param_4,uVar3,1000);
+    XMemCpy(param_4,uVar3,1000);
   }
-  fn_82A1DD38(param_2 * 0x420 + param_1 + 0x844,uVar3,1000);
+  XMemCpy(param_2 * 0x420 + param_1 + 0x844,uVar3,1000);
   fn_8251FA58(uVar3);
   return uVar2;
 }

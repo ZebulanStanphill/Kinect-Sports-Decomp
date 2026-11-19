@@ -9,10 +9,10 @@ extern int fn_822C1928();
 extern int fn_8265CA60();
 extern int fn_8265CAA0();
 extern int fn_82A1F2F8();
-extern int fn_82CE08D0();
-extern int fn_82CE0A20();
-extern int fn_82CE0AD8();
-extern int fn_82CE0BB0();
+extern int closesocket();
+extern int recv();
+extern int send();
+extern int WSAGetLastError();
 extern int fn_830B3780();
 extern int fn_830B3840();
 extern int fn_830B3990();
@@ -58,7 +58,7 @@ unsigned __int64 fn_830B3B68(int param_1,int *param_2,unsigned __int64 param_3)
       uVar1 = (**(int (***)())(*param_2 + 8))(param_2,&piStack_c4);
       if (((__int64)uVar1 < 0) ||
          (uVar1 = (**(int (***)())(*piStack_c4 + 4))(piStack_c4,auStack_b0), (__int64)uVar1 < 0)) {
-        fn_82CE08D0(uStack_d0);
+        closesocket(uStack_d0);
         if ((param_3 & 0xffffffff) == 0) {
           return uVar1;
         }
@@ -82,7 +82,7 @@ unsigned __int64 fn_830B3B68(int param_1,int *param_2,unsigned __int64 param_3)
           if ((__int64)uVar1 < 0) break;
           iVar5 = fn_82A1F2F8();
           if (*(char *)(param_1 + 0xc) == '\0') {
-            lVar3 = fn_82CE0AD8(uStack_d0,uStack_c8,uStack_cc,0);
+            lVar3 = send(uStack_d0,uStack_c8,uStack_cc,0);
           }
           else {
             lVar3 = fn_830B3AE0(param_1,&uStack_d0,uStack_c8,uStack_cc);
@@ -100,7 +100,7 @@ unsigned __int64 fn_830B3B68(int param_1,int *param_2,unsigned __int64 param_3)
             if (cVar7 == '\x01') {
               bVar12 = false;
               if (*(char *)(param_1 + 0xc) == '\0') {
-                iVar5 = fn_82CE0A20(uStack_d0,iVar4,(unsigned __int64)*(unsigned int *)(param_1 + 4) - 1,0);
+                iVar5 = recv(uStack_d0,iVar4,(unsigned __int64)*(unsigned int *)(param_1 + 4) - 1,0);
               }
               else {
                 aiStack_c0[0] = 0;
@@ -130,7 +130,7 @@ LAB_830b3eb8:
               bVar12 = false;
               lVar3 = (unsigned __int64)*(unsigned int *)(param_1 + 4) - 1;
               if (*(char *)(param_1 + 0xc) == '\0') {
-                iVar5 = fn_82CE0A20(uStack_d0,iVar4,lVar3,0);
+                iVar5 = recv(uStack_d0,iVar4,lVar3,0);
               }
               else {
                 aiStack_c0[0] = 0;
@@ -148,11 +148,11 @@ LAB_830b3eb8:
         } while (-1 < (int)uVar1);
         fn_8265CAA0(iVar4);
         if (((int)uVar1 == -0x7ffbffff) || (-1 < (int)uVar1)) {
-          iVar4 = fn_82CE08D0(uStack_d0);
+          iVar4 = closesocket(uStack_d0);
           if (iVar4 == -1) {
             if ((param_3 & 0xffffffff) != 0) {
               fn_830B4CB0(param_3,0xffffffff8004000d);
-              uVar2 = fn_82CE0BB0();
+              uVar2 = WSAGetLastError();
               fn_830B4CB8(param_3,uVar2);
             }
             return 0xffffffff8004000d;
@@ -163,11 +163,11 @@ LAB_830b3eb8:
           return 0;
         }
       }
-      fn_82CE08D0(uStack_d0);
+      closesocket(uStack_d0);
     }
     if ((param_3 & 0xffffffff) != 0) {
       fn_830B4CB0(param_3,uVar1);
-      uVar2 = fn_82CE0BB0();
+      uVar2 = WSAGetLastError();
       fn_830B4CB8(param_3,uVar2);
     }
   }

@@ -1,6 +1,6 @@
 extern int fn_826214A8();
 extern int fn_82621500();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern unsigned int lbl_821916FC;
 extern float lbl_82195590;
 extern float lbl_821955A0;
@@ -18,8 +18,8 @@ unsigned __int64 fn_825DC128(unsigned __int64 param_1,int param_2,__int64 param_
   float fVar2;
   float fVar3;
   
-  fn_82A1DD38(param_2 + 0x130,param_2 + 0x378,0x124);
-  fn_82A1DD38(param_2 + 0x254,param_3 + 0x9c,0x124);
+  XMemCpy(param_2 + 0x130,param_2 + 0x378,0x124);
+  XMemCpy(param_2 + 0x254,param_3 + 0x9c,0x124);
   fVar3 = ltcg_pool_0_0f;
   fVar2 = lbl_821916FC;
   fVar1 = *(float *)(param_2 + 0x6e4);

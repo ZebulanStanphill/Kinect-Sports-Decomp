@@ -27,7 +27,7 @@ extern int fn_825BA250();
 extern int fn_8261BBE0();
 extern int fn_8261BD28();
 extern int fn_826236B8();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern unsigned int lbl_821961F4;
 extern unsigned int ltcg_pool_0_0f;
 extern int (*lbl_8326B7CC)();
@@ -262,7 +262,7 @@ void fn_825CFEA0(unsigned int *param_1,int param_2)
     *piVar5 = iVar12;
     piVar5[2] = (int)(piVar5 + 0xc);
     piVar5[1] = 0;
-    fn_82A1DD38(piVar5 + 0xc,&stack_pair_90.first,stack_pair_90.second);
+    XMemCpy(piVar5 + 0xc,&stack_pair_90.first,stack_pair_90.second);
     piVar5[9] = (int)(float)dVar17;
     piVar5[8] = (int)(float)dVar17;
     puVar7 = (unsigned int *)((unsigned int)(piVar5 + 4) & 0xfffffff0);

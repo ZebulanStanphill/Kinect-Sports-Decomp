@@ -7,14 +7,14 @@ struct System_828EFF68 {
 struct Cache_828EFF68 { float time; unsigned char flag; };
 extern "C" {
 System_828EFF68 *fn_825089A0();
-unsigned char fn_82CE07E8();
+unsigned char XNetGetEthernetLinkStatus();
 extern Cache_828EFF68 lbl_83214564;
 void fn_828EFF68()
 {
     float time = fn_825089A0()->vf08();
     if (time - lbl_83214564.time > 0.5f) {
         lbl_83214564.time = time;
-        lbl_83214564.flag = fn_82CE07E8() & 1;
+        lbl_83214564.flag = XNetGetEthernetLinkStatus() & 1;
     }
 }
 }

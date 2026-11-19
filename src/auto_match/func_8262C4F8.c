@@ -26,7 +26,7 @@ typedef struct {
     char pool[1]; /* 0x12c */
 } Owner_8262C4F8;
 
-extern void fn_82A1DD38(char *dest, const char *src, int count);
+extern void XMemCpy(char *dest, const char *src, int count);
 extern Pair_8262C4F8 *fn_8251E4D0(void *pool);
 
 int fn_8262C4F8(Owner_8262C4F8 *self, Entry_8262C4F8 *entry, int id, int extra, unsigned char kind, int value,
@@ -39,7 +39,7 @@ int fn_8262C4F8(Owner_8262C4F8 *self, Entry_8262C4F8 *entry, int id, int extra, 
     entry->first = first;
     entry->state = 0;
     entry->second = second;
-    fn_82A1DD38(entry->name, name, 0x40);
+    XMemCpy(entry->name, name, 0x40);
     entry->extra = extra;
     entry->active = 1;
     entry->id = id;

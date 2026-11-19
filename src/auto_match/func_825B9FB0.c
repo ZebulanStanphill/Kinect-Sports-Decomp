@@ -6,7 +6,7 @@ extern int fn_825A23C0();
 extern int fn_825A2410();
 extern int fn_825BA3D8();
 extern int fn_827D6968();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern unsigned int lbl_831C119C;
 extern unsigned int lbl_83265A24;
 extern unsigned int lbl_8329618C;
@@ -52,7 +52,7 @@ unsigned int * fn_825B9FB0(unsigned __int64 param_1,unsigned int *param_2,short 
       }
       puVar10 = (unsigned int *)0x0;
 code_r0x825ba084:
-      fn_82A1DD38(puVar10,piVar9,*piVar9);
+      XMemCpy(puVar10,piVar9,*piVar9);
       *(short *)((int)puVar10 + 6) = *(short *)((int)puVar10 + 6) + param_3;
       if (*(short *)(puVar10 + 2) != 0) {
         *(short *)(puVar10 + 2) = *(short *)(puVar10 + 2) + param_3;

@@ -1,6 +1,6 @@
 extern void fn_82A1E650(void *, int);
 extern void fn_82A1E658(void *);
-extern void fn_82A1E810(void *);
+extern void SetEvent(void *);
 
 typedef struct {
     char pad0[0xc];
@@ -17,7 +17,7 @@ typedef struct {
 void fn_83055DD0(Obj_83055DD0 *o)
 {
     if (o->f2c != 0) {
-        fn_82A1E810(o->f2c);
+        SetEvent(o->f2c);
         if (o->f0c != 0) {
             fn_82A1E650(o->f0c, -1);
             fn_82A1E658(o->f0c);

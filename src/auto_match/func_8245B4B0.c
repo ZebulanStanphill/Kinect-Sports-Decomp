@@ -1,5 +1,5 @@
 extern unsigned int *auStack_50;
-extern int fn_82A1DD38();
+extern int XMemCpy();
 
 
 unsigned __int64 fn_8245B4B0(int param_1,unsigned __int64 param_2,__int64 param_3,int param_4)
@@ -31,12 +31,12 @@ unsigned __int64 fn_8245B4B0(int param_1,unsigned __int64 param_2,__int64 param_
         puVar2 = *(unsigned int **)(param_1 + 0x564);
         auStack_50[0] = 2;
         if (((unsigned __int64)puVar2[2] + 1 & 0xffffffff) <= (unsigned __int64)puVar2[1]) {
-          fn_82A1DD38((unsigned __int64)*puVar2 + (unsigned __int64)puVar2[2],auStack_50,1);
+          XMemCpy((unsigned __int64)*puVar2 + (unsigned __int64)puVar2[2],auStack_50,1);
           puVar2[2] = puVar2[2] + 1;
         }
         puVar2 = *(unsigned int **)(param_1 + 0x564);
         if (((unsigned __int64)puVar2[2] + param_3 & 0xffffffff) <= (unsigned __int64)puVar2[1]) {
-          fn_82A1DD38((unsigned __int64)*puVar2 + (unsigned __int64)puVar2[2],param_2,param_3);
+          XMemCpy((unsigned __int64)*puVar2 + (unsigned __int64)puVar2[2],param_2,param_3);
           puVar2[2] = puVar2[2] + (int)param_3;
         }
         if (param_4 == 1) {

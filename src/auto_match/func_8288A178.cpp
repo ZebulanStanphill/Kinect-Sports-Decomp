@@ -55,7 +55,7 @@ extern "C" {
 int fn_82CE0A80(unsigned int socket, Buffer_8288A178 *buffers, unsigned int count,
     unsigned int *received, void *flags, void *from, void *fromlen, void *overlapped,
     void *completion);
-void fn_82CE0BB8(int error);
+void WSASetLastError(int error);
 void fn_82889B80(Record_8288A178 *record);
 void fn_82889C00(Vector_8288A178 *self, Element_8288A178 *where, Element_8288A178 *first,
     Element_8288A178 *last, std::forward_iterator_tag tag);
@@ -110,7 +110,7 @@ extern "C" int fn_8288A178(unsigned int socket, Buffer_8288A178 *buffers,
         if (lbl_83213E94.enabled && fn_8288A0F8()->hook != 0) {
             if (((Hook_8288A178 *)fn_8288A0F8()->hook)->vf04(&record)) {
                 *received = 0;
-                fn_82CE0BB8(0x2733);
+                WSASetLastError(0x2733);
                 fn_82889B80(&record);
                 return -1;
             }

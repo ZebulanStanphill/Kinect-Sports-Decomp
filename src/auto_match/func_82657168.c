@@ -12,7 +12,7 @@ extern int fn_8264DA70();
 extern int fn_8264DB08();
 extern int fn_82656468();
 extern int fn_82656D40();
-extern int fn_82A1E108();
+extern int Sleep();
 extern int fn_82A1E650();
 extern int fn_82A1E658();
 extern int fn_82A29B68();
@@ -114,7 +114,7 @@ void fn_82657168(int param_1)
         fn_82656D40(iVar11,uVar8);
         fn_82A1E650(*(unsigned int *)(param_1 + 0x5d88),0xffffffffffffffff);
         while (uRam831e79a4 != 0x1800) {
-          fn_82A1E108(6);
+          Sleep(6);
         }
       }
       uVar10 = 0;

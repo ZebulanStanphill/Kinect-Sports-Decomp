@@ -1,5 +1,5 @@
 typedef unsigned char bool;
-extern int fn_82CE09D0();
+extern int select();
 extern unsigned int uStack_10c;
 extern unsigned int uStack_110;
 extern unsigned int uStack_11c;
@@ -19,7 +19,7 @@ bool fn_82BF2A50(int param_1)
   uStack_120 = 0;
   uStack_11c = 0;
   stack_pair_110.first = 1;
-  lVar1 = fn_82CE09D0(0,0,&stack_pair_110.first,0,&uStack_120);
+  lVar1 = select(0,0,&stack_pair_110.first,0,&uStack_120);
   return (int)lVar1 != -1 && lVar1 != 0;
 }
 

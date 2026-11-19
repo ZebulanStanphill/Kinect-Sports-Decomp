@@ -5,7 +5,7 @@ extern unsigned int *auStack_260;
 extern unsigned int *auStack_270;
 extern unsigned int *auStack_280;
 extern unsigned int *auStack_290;
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int fn_82CE5040();
 extern int fn_82D80A40();
 extern int fn_82D93168();
@@ -149,7 +149,7 @@ unsigned __int64 fn_82573060(int param_1,unsigned __int64 param_2,__int64 param_
     lVar7 = param_3;
     param_3 = -0x7cd69220;
 LAB_82573100:
-    fn_82A1DD38(lVar7,param_3,0x30);
+    XMemCpy(lVar7,param_3,0x30);
     uVar4 = 1;
   }
   return uVar4;

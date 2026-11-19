@@ -1,5 +1,5 @@
 extern unsigned int fn_82A1C098(void *p);
-extern int fn_82A1DD38();
+extern int XMemCpy();
 
 typedef struct Item {
   char pad[0x3e8];
@@ -83,7 +83,7 @@ int fn_8225DA70(Obj *param_1, int param_2, unsigned int param_3, unsigned int *p
       *param_4 = r;
     }
     if (ok != 0) {
-      fn_82A1DD38(param_2, item, 1000);
+      XMemCpy(param_2, item, 1000);
       return 1;
     }
   }

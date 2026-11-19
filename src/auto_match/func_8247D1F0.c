@@ -25,7 +25,7 @@ extern void fn_8225D1F8(int, int);
 extern void fn_8225D288(int, void *, unsigned int);
 extern int fn_823AB478(void);
 extern void fn_82486B08(void *);
-extern void fn_82A1DD38(void *, void *, int);
+extern void XMemCpy(void *, void *, int);
 
 void fn_8247D1F0(Obj1_8247D1F0 *param_1, Obj2_8247D1F0 *param_2)
 {
@@ -44,8 +44,8 @@ void fn_8247D1F0(Obj1_8247D1F0 *param_1, Obj2_8247D1F0 *param_2)
   uVar3 = fn_823AB478();
   pkt.id = uVar3;
   pkt.type = 1;
-  fn_82A1DD38(pkt.buf, (void *)uVar2, 1000);
-  fn_82A1DD38(param_1->dst + 0x838, &pkt, 0x420);
+  XMemCpy(pkt.buf, (void *)uVar2, 1000);
+  XMemCpy(param_1->dst + 0x838, &pkt, 0x420);
   fn_8225D1F8(uVar1, uVar3);
   fn_82230300(&name, 1, 0);
   fn_82230300(&pkt.s400, 1, 0);

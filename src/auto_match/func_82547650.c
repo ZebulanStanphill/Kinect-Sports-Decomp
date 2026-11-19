@@ -1,7 +1,7 @@
 typedef unsigned char bool;
 #define true 1
 extern int fn_82A1E7D8();
-extern int fn_82A1E810();
+extern int SetEvent();
 extern unsigned int lbl_8320A898;
 extern unsigned int lbl_8326B498;
 extern unsigned int lbl_8326B4A8;
@@ -72,7 +72,7 @@ void fn_82547650(unsigned __int64 param_1,unsigned __int64 param_2)
       } while (bVar1);
     }
     fn_82A1E7D8(lbl_8326B4A8,param_2);
-    fn_82A1E810(lbl_8326B4AC);
+    SetEvent(lbl_8326B4AC);
     uVar9 = lbl_8326B498;
   }
   lbl_8326B498 = uVar9;

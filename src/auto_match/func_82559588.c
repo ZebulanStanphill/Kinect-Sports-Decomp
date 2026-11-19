@@ -41,7 +41,7 @@ extern void fn_82554DA8(int);
 extern void fn_82CE04E8(void);
 extern void fn_82631920(Sys_82559588 *, int);
 extern void fn_82648160(Sys_82559588 *, int, int);
-extern void fn_82A1E810(int);
+extern void SetEvent(int);
 
 int fn_82559588(void)
 {
@@ -98,6 +98,6 @@ int fn_82559588(void)
     sys2 = lbl_8320A898;
     __eieio();
     sys2->f2a88 = 0;
-    fn_82A1E810(lbl_8327FBC0.h28);
+    SetEvent(lbl_8327FBC0.h28);
     return 0;
 }

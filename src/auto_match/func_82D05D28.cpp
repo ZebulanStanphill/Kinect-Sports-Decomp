@@ -1,10 +1,10 @@
 // hkBsdSocket::hkBsdSocket(SOCKET s) (Common/Base/System/Io/Socket/Bsd/hkBsdSocket.cpp):
 // the out-of-line hkSocket constructor (fn_82CFB988), then the socket handle;
 // an invalid handle creates a new TCP socket (close(), then socket(AF_INET,
-// SOCK_STREAM, 0), fn_82CE08B8).
+// SOCK_STREAM, 0), socket).
 #include "havok/hkBase.h"
 
-extern "C" int fn_82CE08B8(int af, int type, int protocol);   // socket
+extern "C" int socket(int af, int type, int protocol);
 
 class hkStreamReader : public hkReferencedObject {
 public:
@@ -55,7 +55,7 @@ public:
     void createSocket()
     {
         close();
-        m_socket = fn_82CE08B8(2, 1, 0);   // AF_INET, SOCK_STREAM
+        m_socket = socket(2, 1, 0);   // AF_INET, SOCK_STREAM
     }
 
     int m_socket;   // +0x20

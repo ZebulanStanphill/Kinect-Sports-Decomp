@@ -1,6 +1,6 @@
 typedef unsigned char bool;
 extern int fn_828AC4E8();
-extern int fn_82CE0730();
+extern int XNetQosListen();
 
 
 void fn_828CFBD8(int param_1,int param_2)
@@ -11,7 +11,7 @@ void fn_828CFBD8(int param_1,int param_2)
   unsigned char *puVar3;
   __int64 lVar4;
   
-  iVar1 = fn_82CE0730(param_2,0,0,0,1);
+  iVar1 = XNetQosListen(param_2,0,0,0,1);
   puVar3 = (unsigned char *)(param_2 + -1);
   puVar2 = (unsigned char *)(param_1 + -1);
   lVar4 = 8;

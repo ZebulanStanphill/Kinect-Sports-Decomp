@@ -1,5 +1,5 @@
 extern int fn_8258AF18();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 
 
 void fn_825A1440(int *param_1,int param_2,int param_3)
@@ -14,7 +14,7 @@ void fn_825A1440(int *param_1,int param_2,int param_3)
   unsigned int uVar6;
   unsigned int uVar7;
   
-  fn_82A1DD38(param_1 + 0x38,param_2,0x40);
+  XMemCpy(param_1 + 0x38,param_2,0x40);
   puVar3 = (unsigned int *)(in_r0 + param_3 & 0xfffffff0);
   uVar5 = puVar3[1];
   uVar6 = puVar3[2];

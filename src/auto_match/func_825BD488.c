@@ -18,7 +18,7 @@ extern int fn_827D9720();
 extern int fn_82816E40();
 extern int fn_82816E90();
 extern int fn_82816F98();
-extern int fn_82A1E810();
+extern int SetEvent();
 extern unsigned int iStack_9c;
 extern unsigned int lbl_82193CC0;
 extern unsigned int lbl_82195CE8;
@@ -82,7 +82,7 @@ LAB_825bd76c:
           if (iVar5 == 0) {
             return 0xd;
           }
-          fn_82A1E810(*(unsigned int *)(param_1 + 0x1d8));
+          SetEvent(*(unsigned int *)(param_1 + 0x1d8));
 LAB_825bd4ec:
           fn_825BDA18(param_1);
           return 0;
@@ -154,7 +154,7 @@ LAB_825bd738:
       }
       uVar3 = 0xb;
     }
-    fn_82A1E810(*(unsigned int *)(param_1 + 0x1d8));
+    SetEvent(*(unsigned int *)(param_1 + 0x1d8));
     if ((int)uVar3 == 0) {
       iVar5 = fn_825BD990(param_1);
       if (iVar5 == 0) {
@@ -170,7 +170,7 @@ LAB_825bd738:
       if ((unsigned __int64)*(unsigned int *)(param_1 + 0x1f0) != 0) {
         return (unsigned __int64)*(unsigned int *)(param_1 + 0x1f0);
       }
-      fn_82A1E810(*(unsigned int *)(param_1 + 0x1d8));
+      SetEvent(*(unsigned int *)(param_1 + 0x1d8));
       if (*(int *)(param_1 + 0x218) == 0) {
         return 0;
       }

@@ -3,7 +3,7 @@ extern int fn_8251E4D0();
 extern int fn_82599808();
 extern int fn_825D0598();
 extern int fn_825D2CA8();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern unsigned int uStack_3c;
 extern V16 vectorConditionalSelect();
 extern V16 vectorMultiplyAddFloatingPoint();
@@ -73,7 +73,7 @@ void fn_8261C680(int param_1,int param_2)
         uStack_3c = 0;
         puStack_40 = puVar9;
         uVar4 = fn_8251E4D0(param_2 + 0xd24);
-        fn_82A1DD38(uVar4,&puStack_40,*(unsigned short *)(param_2 + 0xd30));
+        XMemCpy(uVar4,&puStack_40,*(unsigned short *)(param_2 + 0xd30));
         uVar7 = uVar7 - 1;
         puVar9 = (unsigned int *)((unsigned int)*(unsigned char *)(puVar9 + 1) + (int)puVar9);
       } while (uVar7 != 0);

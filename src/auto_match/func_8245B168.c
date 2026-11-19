@@ -1,5 +1,5 @@
 extern int fn_8245B1F0();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 
 
 unsigned __int64 fn_8245B168(int param_1,unsigned __int64 param_2,unsigned int param_3)
@@ -17,7 +17,7 @@ unsigned __int64 fn_8245B168(int param_1,unsigned __int64 param_2,unsigned int p
     if (iVar3 != 0) {
       puVar1 = *(unsigned int **)(param_1 + 0x20);
       if ((puVar1[2] + param_3) <= puVar1[1]) {
-        fn_82A1DD38(*puVar1 + puVar1[2],param_2,param_3);
+        XMemCpy(*puVar1 + puVar1[2],param_2,param_3);
         puVar1[2] = param_3 + puVar1[2];
       }
     }

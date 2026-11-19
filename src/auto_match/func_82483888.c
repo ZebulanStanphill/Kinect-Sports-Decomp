@@ -12,7 +12,7 @@ extern int fn_82486B08();
 extern int fn_828B8F40();
 extern int fn_828EA5F8();
 extern int fn_828EA610();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int fn_82E1DAA0();
 extern unsigned int uStack_424;
 extern unsigned int uStack_448;
@@ -42,7 +42,7 @@ void fn_82483888(int param_1,int param_2,__int64 param_3)
   fn_82230300(auStack_860,0,0);
   uVar1 = fn_8225C590();
   fn_8225DA70(uVar1,auStack_420,param_2,auStack_870);
-  fn_82A1DD38(auStack_834,auStack_420,1000);
+  XMemCpy(auStack_834,auStack_420,1000);
   cVar3 = fn_828EA5F8(param_2);
   if (cVar3 == '\0') {
     uStack_840 = 3;
@@ -66,7 +66,7 @@ void fn_82483888(int param_1,int param_2,__int64 param_3)
   uStack_448 = *puVar2;
   uVar1 = fn_82E1DAA0(param_2);
   fn_82230218(auStack_440,uVar1,0,0xffffffffffffffff);
-  fn_82A1DD38(param_3 * 0x420 + (unsigned __int64)*(unsigned int *)(param_1 + 0x48) + 0x838,&uStack_840,0x420
+  XMemCpy(param_3 * 0x420 + (unsigned __int64)*(unsigned int *)(param_1 + 0x48) + 0x838,&uStack_840,0x420
                    );
   fn_82230300(auStack_860,1,0);
   fn_82230300(auStack_440,1,0);

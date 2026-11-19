@@ -9,10 +9,10 @@ extern int fn_8245B458();
 extern int fn_8245B630();
 extern int fn_828B8F40();
 extern int fn_82A1D7A8();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int fn_82A1E228();
 extern int fn_82A1E230();
-extern int fn_82CE0668();
+extern int XNetRandom();
 extern int fn_82F68CC0();
 extern unsigned int lbl_83265988;
 extern unsigned int uStack_94;
@@ -89,7 +89,7 @@ fn_8245A6C0(int param_1,unsigned int param_2,unsigned __int64 param_3,unsigned i
   if (iVar5 != 0) {
     RtlLeaveCriticalSection(iVar5);
   }
-  fn_82CE0668(auStack_b0,0x10);
+  XNetRandom(auStack_b0,0x10);
   fn_82A1E228(auStack_c0);
   *(unsigned int *)(param_1 + 0x80088) = 0;
   if ((-1 < (int)uVar1) && ((int)uVar1 < 4)) {
@@ -145,7 +145,7 @@ LAB_8245a83c:
   *(unsigned short *)(param_1 + 100) = uVar6;
   *(unsigned char *)(param_1 + 0x3d) = 0;
   *(unsigned char *)(param_1 + 0x3c) = (unsigned char)((uVar1 & 0xffffffff) << 4) | 0x40;
-  fn_82A1DD38(param_1 + 0x66,*(unsigned int *)(param_1 + 0x80070),
+  XMemCpy(param_1 + 0x66,*(unsigned int *)(param_1 + 0x80070),
                     *(unsigned int *)(param_1 + 0x20));
   uVar10 = *(unsigned int *)(param_1 + 0x20);
   uVar7 = *(unsigned int *)(param_1 + 0x80074);

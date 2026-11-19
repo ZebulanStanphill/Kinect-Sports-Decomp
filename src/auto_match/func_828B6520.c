@@ -1,14 +1,14 @@
 extern void *fn_8265C9E0(int);
 extern void *fn_828DD1B8(void *, unsigned __int64, int, int);
 extern int fn_828BE2C0(int, void *);
-extern int fn_82CE0668(void *, int);
+extern int XNetRandom(void *, int);
 void fn_828B6520(int param_1, unsigned __int64 param_2)
 {
   void *mem;
   void *obj;
   int v;
   if (param_2 - *(unsigned __int64 *)(param_1 + 0x38) >= 400) {
-    fn_82CE0668((void *)(param_1 + 0x48), 8);
+    XNetRandom((void *)(param_1 + 0x48), 8);
     mem = fn_8265C9E0(0x98);
     if (mem != 0) {
       v = *(int *)(*(int *)(param_1 + 0x14) + 0x28);

@@ -19,7 +19,7 @@ extern int fn_82265CC8();
 extern int fn_82266000();
 extern int fn_8227E638();
 extern int fn_8227E790();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 
 
 void fn_82267AC0(int *param_1)
@@ -62,7 +62,7 @@ void fn_82267AC0(int *param_1)
         iVar3 = *(int *)(param_1[6] + 0xc);
         if ((uVar5 & 0xffffffff) < (unsigned __int64)(unsigned int)(*(int *)(param_1[6] + 0x10) - iVar3 >> 2)) {
           iVar3 = *(int *)(iVar4 + iVar3);
-          fn_82A1DD38(iVar3 + 0x94,iVar2 + 0x544,0x60);
+          XMemCpy(iVar3 + 0x94,iVar2 + 0x544,0x60);
           *(unsigned int *)(iVar3 + 0xf4) = 1;
         }
         uVar5 = uVar5 + 1;

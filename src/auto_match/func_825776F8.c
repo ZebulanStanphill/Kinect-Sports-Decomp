@@ -1,6 +1,6 @@
 typedef unsigned char bool;
 extern int fn_825A2410();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 
 
 void fn_825776F8(int param_1,int *param_2)
@@ -19,7 +19,7 @@ void fn_825776F8(int param_1,int *param_2)
   
   if (*(int *)(param_1 + 8) == 0) {
     uVar8 = fn_825A2410(param_1 + 0x38);
-    fn_82A1DD38(uVar8,param_2,0x1c);
+    XMemCpy(uVar8,param_2,0x1c);
   }
   else {
     if (*param_2 == 0) {

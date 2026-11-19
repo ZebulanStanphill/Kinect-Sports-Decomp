@@ -10,7 +10,7 @@ extern int KeDelayExecutionThread(int mode, unsigned char alertable, Interval_82
 
 /* SleepEx: sleeps for ms milliseconds (forever for 0xffffffff), returning
    WAIT_IO_COMPLETION when an APC woke an alertable wait */
-unsigned long fn_82A336E8(unsigned long ms, unsigned char alertable)
+unsigned long SleepEx(unsigned long ms, unsigned char alertable)
 {
     Interval_82A336E8 interval;
     int status;

@@ -6,7 +6,7 @@ extern unsigned int *auStack_50;
 extern unsigned int *auStack_60;
 extern int fn_825E8220();
 extern int fn_82A1E650();
-extern int fn_82A1E810();
+extern int SetEvent();
 extern int fn_82A1E968();
 extern int fn_82A1F160();
 extern int fn_82F622E0();
@@ -95,7 +95,7 @@ void fn_825E7EE8(__int64 param_1)
       }
     } while (!(bool)(in_cr0 >> 1 & 1));
     if (*(int *)puVar2[2] <= (int)puVar2[1]) {
-      fn_82A1E810(*puVar2);
+      SetEvent(*puVar2);
     }
     fn_82A1E650(*puVar2,0xffffffffffffffff);
     do {

@@ -15,7 +15,7 @@ extern State_82A20700 lbl_83219B90;
 extern void RtlEnterCriticalSection(void *);
 extern void RtlLeaveCriticalSection(void *);
 extern unsigned int fn_82A1F2F8(void);
-extern void fn_82A1E810(int);
+extern void SetEvent(int);
 
 void fn_82A20700(unsigned int delay)
 {
@@ -28,13 +28,13 @@ void fn_82A20700(unsigned int delay)
             lbl_83219B90.deadline = deadline;
             lbl_83219B90.state = 0;
             lbl_83219B90.pending = 1;
-            fn_82A1E810(lbl_83219B90.handle);
+            SetEvent(lbl_83219B90.handle);
         }
     } else {
         lbl_83219B90.deadline = 0;
         lbl_83219B90.state = 0;
         lbl_83219B90.pending = lbl_83219B90.count == 0;
-        fn_82A1E810(lbl_83219B90.handle);
+        SetEvent(lbl_83219B90.handle);
     }
     RtlLeaveCriticalSection(lbl_83219B90.criticalSection);
 }

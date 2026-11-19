@@ -1,5 +1,5 @@
 extern int fn_82A1E6A0();
-extern int fn_82A1E810();
+extern int SetEvent();
 extern unsigned int lbl_831BC768;
 
 
@@ -16,7 +16,7 @@ char fn_82FF46D8(int param_1)
   *(int *)(param_1 + 0xa4) = iVar2;
   cVar3 = (iVar2 == 0) + '\x01';
   if (cVar3 == '\x01') {
-    fn_82A1E810(*(unsigned int *)(param_1 + 0xa4));
+    SetEvent(*(unsigned int *)(param_1 + 0xa4));
     uVar1 = lbl_831BC768;
     lVar5 = 0x1f;
     puVar4 = (unsigned int *)(param_1 + 4);

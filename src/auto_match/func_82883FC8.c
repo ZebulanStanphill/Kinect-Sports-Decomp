@@ -11,8 +11,8 @@ extern int fn_8288E4B0();
 extern int fn_8289F160();
 extern int fn_828A24F8();
 extern int fn_828EA790();
-extern int fn_82CE06D8();
-extern int fn_82CE06F8();
+extern int XNetUnregisterInAddr();
+extern int XNetGetConnectStatus();
 extern unsigned int *lbl_83212A04;
 
 
@@ -151,9 +151,9 @@ void fn_82883FC8(unsigned __int64 param_1)
     fn_82888170(param_1,2,0x20,1);
     *(unsigned int *)(iVar1 + 8) = 0xffffffff;
     fn_82881D60(param_1);
-    if ((*(int *)(iVar1 + 0x28) != 0) && (iVar4 = fn_82CE06F8(*(int *)(iVar1 + 0x28)), iVar4 != 3))
+    if ((*(int *)(iVar1 + 0x28) != 0) && (iVar4 = XNetGetConnectStatus(*(int *)(iVar1 + 0x28)), iVar4 != 3))
     {
-      fn_82CE06D8(*(unsigned int *)(iVar1 + 0x28));
+      XNetUnregisterInAddr(*(unsigned int *)(iVar1 + 0x28));
     }
     if (*(char *)(iVar1 + 6) != '\0') {
       puVar2 = *(unsigned int **)(iVar1 + 0x20);

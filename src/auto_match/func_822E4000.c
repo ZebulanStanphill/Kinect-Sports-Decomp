@@ -4,7 +4,7 @@ extern int fn_82356F98();
 extern int fn_828647D8();
 extern int fn_82864898();
 extern int fn_82864988();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int XMemSet();
 extern unsigned int lbl_821ADF14;
 extern unsigned int lbl_821CA460;
@@ -76,7 +76,7 @@ unsigned int * fn_822E4000(unsigned int *param_1,__int64 param_2)
   param_1[0xb7] = 0;
   XMemSet(param_1 + 0x88,0,0x40);
   XMemSet(param_1 + 0x98,0,4);
-  fn_82A1DD38(param_1 + 0x6c,param_2 + 0x4c,0xc);
+  XMemCpy(param_1 + 0x6c,param_2 + 0x4c,0xc);
   fn_82864988(auStack_50,0xffffffff821ade78);
   uVar2 = fn_828647D8();
   param_1[0x70] = uVar2;

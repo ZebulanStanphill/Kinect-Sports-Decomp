@@ -12,11 +12,11 @@ extern int fn_828E9D40();
 extern int fn_828E9D90();
 extern int fn_828E9DA8();
 extern int fn_828E9FF8();
-extern int fn_82CE06A8();
-extern int fn_82CE08B8();
-extern int fn_82CE08F0();
-extern int fn_82CE0978();
-extern int fn_82CE0BB0();
+extern int XNetInAddrToXnAddr();
+extern int socket();
+extern int ioctlsocket();
+extern int bind();
+extern int WSAGetLastError();
 extern unsigned int lbl_831599F0;
 extern int (*lbl_832129C8)();
 extern unsigned int lbl_832129FC;
@@ -40,7 +40,7 @@ unsigned __int64 fn_82885788(int param_1,unsigned __int64 param_2)
   unsigned char auStack_a0 [48];
   unsigned char auStack_70 [112];
   
-  iVar3 = fn_82CE06A8(*(unsigned int *)(param_1 + 4),auStack_a0,auStack_b8);
+  iVar3 = XNetInAddrToXnAddr(*(unsigned int *)(param_1 + 4),auStack_a0,auStack_b8);
   if (iVar3 == 0) {
     uVar1 = fn_82880C60(param_1 + 4,auStack_a0,auStack_b8);
     if ((int)uVar1 < 0) {
@@ -54,23 +54,23 @@ unsigned __int64 fn_82885788(int param_1,unsigned __int64 param_2)
         }
         else {
           if (lbl_831599F0 == 0xffffffff) {
-            uVar2 = fn_82CE08B8(2,2,0xfe);
+            uVar2 = socket(2,2,0xfe);
             lbl_831599F0 = (unsigned int)uVar2;
             if (lbl_831599F0 == 0xffffffff) {
-              fn_82CE0BB0();
+              WSAGetLastError();
               uVar2 = (unsigned __int64)lbl_831599F0;
             }
             auStack_c0[0] = 1;
-            iVar3 = fn_82CE08F0(uVar2,0xffffffff8004667e,auStack_c0);
+            iVar3 = ioctlsocket(uVar2,0xffffffff8004667e,auStack_c0);
             if (iVar3 == -1) {
-              fn_82CE0BB0();
+              WSAGetLastError();
             }
             uStack_b0 = 2;
             uStack_ac = 0;
             uStack_ae = 1000;
-            iVar3 = fn_82CE0978(lbl_831599F0,&uStack_b0,0x10);
+            iVar3 = bind(lbl_831599F0,&uStack_b0,0x10);
             if (iVar3 == -1) {
-              fn_82CE0BB0();
+              WSAGetLastError();
             }
           }
           fn_828802F8(auStack_70,param_1,auStack_a0,auStack_b8,0);

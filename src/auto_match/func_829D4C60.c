@@ -19,7 +19,7 @@ extern char *lbl_832179FC;
 extern void RtlEnterCriticalSection(void *cs);
 extern void RtlLeaveCriticalSection(void *cs);
 extern int KeSetEvent(void *ev, int increment, unsigned char wait);
-extern void fn_82A1E810(void *p);
+extern void SetEvent(void *p);
 
 int fn_829D4C60(unsigned int idx, int signal)
 {
@@ -58,7 +58,7 @@ int fn_829D4C60(unsigned int idx, int signal)
         if (signal != 0) {
             KeSetEvent(*(void **)(lbl_832179FC + 0x8f4c4), 0, 0);
         } else {
-            fn_82A1E810(*(void **)(lbl_832179FC + 0x8f4b8));
+            SetEvent(*(void **)(lbl_832179FC + 0x8f4b8));
         }
     }
     RtlLeaveCriticalSection(cs);

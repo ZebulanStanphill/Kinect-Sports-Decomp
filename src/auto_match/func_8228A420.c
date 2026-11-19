@@ -6,7 +6,7 @@ extern int fn_82230300();
 extern int fn_82250A18();
 extern int fn_82485BD8();
 extern int fn_82486B08();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern unsigned int iStack_448;
 extern unsigned int iStack_44c;
 extern unsigned int iStack_450;
@@ -43,7 +43,7 @@ void fn_8228A420(int param_1)
       else {
 LAB_8228a478:
         uVar1 = (**(int (***)())(**(int **)(*piVar4 + 0x8c0) + 100))();
-        fn_82A1DD38(auStack_444,uVar1,1000);
+        XMemCpy(auStack_444,uVar1,1000);
         stack_pair_450.second = piVar4[-5];
         iStack_448 = piVar4[1];
         uStack_58 = *(unsigned __int64 *)(piVar4 + -4);
@@ -52,7 +52,7 @@ LAB_8228a478:
       }
     }
     else if (stack_pair_450.first != 4) goto LAB_8228a478;
-    fn_82A1DD38(lVar3 + (unsigned __int64)*(unsigned int *)(param_1 + 0x11f0) + 0x838,&stack_pair_450.first,0x420);
+    XMemCpy(lVar3 + (unsigned __int64)*(unsigned int *)(param_1 + 0x11f0) + 0x838,&stack_pair_450.first,0x420);
     fn_82230300(auStack_50,1,0);
     lVar3 = lVar3 + 0x420;
     piVar4 = piVar4 + 0x10;

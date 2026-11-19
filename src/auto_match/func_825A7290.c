@@ -1,6 +1,6 @@
 extern int fn_8251E4D0();
 extern int fn_825A8140();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern unsigned int lbl_821956C0;
 extern unsigned int ltcg_pool_0_0f;
 
@@ -99,7 +99,7 @@ LAB_825a73e8:
   if (uVar6 == 0) {
     lVar9 = 0;
   }
-  fn_82A1DD38(param_1 + 0x644,lVar9,0x100);
+  XMemCpy(param_1 + 0x644,lVar9,0x100);
   return;
 }
 

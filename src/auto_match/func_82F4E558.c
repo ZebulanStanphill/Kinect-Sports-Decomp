@@ -1,6 +1,6 @@
 extern int fn_829D2750();
 extern int fn_829DA858();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int fn_82F4E0D0();
 extern unsigned int lbl_821655B4;
 extern unsigned int lbl_821AAD20;
@@ -20,9 +20,9 @@ void fn_82F4E558(double param_1)
   
   if (*(int *)(lbl_8326183C + 0x2058) != *(int *)(lbl_8326183C + 0x15a8)) {
     RtlEnterCriticalSection(lbl_8326183C + 0x2b0c);
-    fn_82A1DD38(lbl_8326183C + 0x15a0,lbl_8326183C + 0x2050,0xab0);
+    XMemCpy(lbl_8326183C + 0x15a0,lbl_8326183C + 0x2050,0xab0);
     RtlLeaveCriticalSection(lbl_8326183C + 0x2b0c);
-    fn_82A1DD38(lbl_8326183C + 0xaf0,lbl_8326183C + 0x15a0,0xab0);
+    XMemCpy(lbl_8326183C + 0xaf0,lbl_8326183C + 0x15a0,0xab0);
     if ((*(unsigned int *)(lbl_8326183C + 0x2b28) >> 2 & 1) != 0) {
       fn_829D2750(lbl_8326183C + 0x15a0,lbl_8326183C + 0x2b34);
     }
@@ -67,7 +67,7 @@ void fn_82F4E558(double param_1)
       RtlLeaveCriticalSection(iVar2 + 0x2dec);
     }
     fn_82F4E0D0(lbl_8326183C + 0x15a0);
-    fn_82A1DD38(lbl_8326183C + 0x40,lbl_8326183C + 0x15a0,0xab0);
+    XMemCpy(lbl_8326183C + 0x40,lbl_8326183C + 0x15a0,0xab0);
     iVar2 = 0;
     iVar3 = 0;
     do {

@@ -20,7 +20,7 @@ typedef struct Obj_82C0D468 {
     char pad2[0x110 - 0xf4];
     void *f110;
 } Obj_82C0D468;
-extern void fn_82A1E108(int);
+extern void Sleep(int);
 extern void fn_82A1E2C0(void *);
 
 void fn_82C0D468(Obj_82C0D468 *o, unsigned int a)
@@ -29,7 +29,7 @@ void fn_82C0D468(Obj_82C0D468 *o, unsigned int a)
     if ((o->vt->ffc(o) & 1) == 0) {
         o->sub->vt->f4c(o->sub, a, buf);
         if (buf[0] > 5)
-            fn_82A1E108(buf[0] - 5);
+            Sleep(buf[0] - 5);
     }
     o->sub->vt->f58(o->sub);
     if (o->f0 != 0) {

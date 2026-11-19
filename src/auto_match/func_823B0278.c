@@ -14,7 +14,7 @@ extern unsigned int fStack_d4;
 extern unsigned int fStack_d8;
 extern unsigned int fStack_dc;
 extern unsigned int fStack_e0;
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int fn_82F6A510();
 extern int fn_82F6A55C();
 extern unsigned int ltcg_pool_0_0f;
@@ -139,7 +139,7 @@ void fn_823B0278(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __in
                      (double)pfVar4[0xb]);
   fStack_a0 = (float)((double)(float)((double)pfVar3[0x10] - (double)pfVar4[0x10]) * extraout_f1 +
                      (double)pfVar4[0x10]);
-  fn_82A1DD38(param_2,&fStack_e0,0x48);
+  XMemCpy(param_2,&fStack_e0,0x48);
   fn_82F6A55C();
   return;
 }

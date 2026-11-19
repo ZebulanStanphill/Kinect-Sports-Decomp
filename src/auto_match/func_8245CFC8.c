@@ -1,6 +1,6 @@
 typedef struct { unsigned int base; unsigned int pos; unsigned int pad8; int full; int v10; int v14; int pad18, pad1c; } Ent_8245CFC8;
 typedef struct { int pad0; Ent_8245CFC8 *ents; unsigned int cur; int mode; unsigned int count; unsigned int limit; } Buf_8245CFC8;
-extern int fn_82A1DD38(unsigned int, void *, unsigned int);
+extern int XMemCpy(unsigned int, void *, unsigned int);
 
 int fn_8245CFC8(Buf_8245CFC8 *param_1, void *param_2, unsigned int param_3, int param_4, int param_5, int param_6)
 {
@@ -37,7 +37,7 @@ int fn_8245CFC8(Buf_8245CFC8 *param_1, void *param_2, unsigned int param_3, int 
     if (param_3 < n) {
       n = param_3;
     }
-    fn_82A1DD38(*pp + e->base, param_2, n);
+    XMemCpy(*pp + e->base, param_2, n);
     param_3 = param_3 - n;
     *pp = *pp + n;
     if (param_4 != 0) {

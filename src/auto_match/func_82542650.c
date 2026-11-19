@@ -1,7 +1,7 @@
 extern unsigned int *auStack_20;
 extern int fn_825207D0();
 extern int fn_826312F0();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern unsigned int ltcg_pool_0_0f;
 
 
@@ -27,7 +27,7 @@ void fn_82542650(double param_1,__int64 param_2,int param_3,int param_4,unsigned
   iVar2 = fn_825207D0(lVar4,auStack_20,4);
   piVar3 = (int *)param_2;
   if (iVar2 != 0) {
-    fn_82A1DD38(lVar4,auStack_20);
+    XMemCpy(lVar4,auStack_20);
     fn_826312F0(*piVar3,1,auStack_20,1);
   }
   iVar1 = *piVar3;

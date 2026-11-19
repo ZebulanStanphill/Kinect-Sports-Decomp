@@ -6,7 +6,7 @@ struct Clock_828AF610 {
 extern "C" Clock_828AF610 *fn_825089A0();
 extern "C" {
 extern char lbl_82024C08[];
-int fn_82CE0678(const void *, int, int *);
+int XNetXnAddrToInAddr(const void *, int, int *);
 int fn_82884898(int *);
 void fn_8289FC80(void *, void *, int, int, int, int, int, int);
 void *memcpy(void *, const void *, unsigned int);
@@ -23,7 +23,7 @@ extern "C" State_828AF610 *fn_828AF610(State_828AF610 *self, void *owner, int st
     struct Result_828AF610 { int value; };
     Result_828AF610 result={};
     int id;
-    if (fn_82CE0678(data,selector,&result.value)==0) id=fn_82884898(&result.value);
+    if (XNetXnAddrToInAddr(data,selector,&result.value)==0) id=fn_82884898(&result.value);
     else id=-1;
     fn_8289FC80(self,owner,id,a,b,c,d,0);
     self->vtable=lbl_82024C08;

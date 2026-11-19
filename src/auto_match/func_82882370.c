@@ -9,7 +9,7 @@ typedef struct Map_82882370 {
 } Map_82882370;
 
 typedef struct Value_82882370 { char pad[0x28]; void *object; } Value_82882370;
-extern int fn_82CE06F8(void *);
+extern int XNetGetConnectStatus(void *);
 
 extern Map_82882370 lbl_83212A00;
 extern void fn_8289F160(Node_82882370 **out, Map_82882370 *map, int *key);
@@ -27,5 +27,5 @@ int fn_82882370(int key)
   } else {
     v = 0;
   }
-  return fn_82CE06F8(v->object) == 2;
+  return XNetGetConnectStatus(v->object) == 2;
 }

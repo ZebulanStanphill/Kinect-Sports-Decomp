@@ -23,7 +23,7 @@ extern int fn_828AF610();
 extern int fn_828B1760();
 extern int fn_828BE158();
 extern int fn_828D15E0();
-extern int fn_82CE0668();
+extern int XNetRandom();
 extern unsigned int uStack_ac;
 extern unsigned int uStack_b0;
 
@@ -59,7 +59,7 @@ unsigned __int64 fn_828ACE38(int param_1,char param_2)
       fn_82230180(auStack_a0);
     }
     fn_8289DAC8(uVar4,1);
-    fn_82CE0668(&uStack_b0,8);
+    XNetRandom(&uStack_b0,8);
     uVar6 = fn_8265C9E0(200);
     if ((uVar6 & 0xffffffff) == 0) {
       uVar5 = 0;

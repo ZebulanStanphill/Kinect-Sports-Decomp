@@ -1,5 +1,5 @@
 extern unsigned int *auStack_850;
-extern int fn_82A1E108();
+extern int Sleep();
 extern int fn_82BE5340();
 extern int fn_82BE5350();
 extern int fn_82BE5378();
@@ -7,8 +7,8 @@ extern int fn_82BE5478();
 extern int fn_82BE7850();
 extern int fn_82BE7B78();
 extern int fn_82BE8F88();
-extern int fn_82CE0708();
-extern int fn_82CE0720();
+extern int XNetDnsLookup();
+extern int XNetDnsRelease();
 extern int fn_82F691F0();
 extern unsigned int lbl_8322B1E4;
 extern unsigned int uStack_864;
@@ -40,10 +40,10 @@ void fn_82BEE850(int param_1)
         iVar1 = fn_82BE5378(param_1);
         if ((iVar1 != 0) &&
            ((*(char *)(iVar1 + 0x14) == '\x04' || (iVar2 = fn_82BE8F88(), iVar2 == 0)))) {
-          iVar2 = fn_82CE0708(*(unsigned int *)(iVar1 + 0x18),0,&piStack_870);
+          iVar2 = XNetDnsLookup(*(unsigned int *)(iVar1 + 0x18),0,&piStack_870);
           if (iVar2 == 0) {
             while (*piStack_870 == 0x2734) {
-              fn_82A1E108(1);
+              Sleep(1);
             }
             if (*piStack_870 != 0) goto LAB_82bee8e4;
             uVar4 = *(unsigned int *)(iVar1 + 0x18);
@@ -56,7 +56,7 @@ LAB_82bee8e4:
           }
           fn_82BE7850(*(unsigned char *)(iVar1 + 0x14),iVar2,uVar4);
           if (piStack_870 != (int *)0x0) {
-            fn_82CE0720();
+            XNetDnsRelease();
             piStack_870 = (int *)0x0;
           }
         }

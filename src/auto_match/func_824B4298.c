@@ -1,9 +1,9 @@
-extern int fn_82A1DD38();
+extern int XMemCpy();
 
 
 void fn_824B4298(void)
 
 {
-  fn_82A1DD38();
+  XMemCpy();
   return;
 }

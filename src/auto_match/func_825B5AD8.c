@@ -11,7 +11,7 @@ extern unsigned int *auStack_c0;
 extern unsigned int *auStack_f0;
 extern int fn_825404D0();
 extern int fn_82555EA8();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8329EAD0;
 extern unsigned int lbl_8329EAE0;
@@ -205,7 +205,7 @@ void fn_825B5AD8(int param_1,unsigned int *param_2,int param_3,unsigned __int64 
                   iVar17 = *piVar23;
                 }
                 if (iVar17 != 0) {
-                  fn_82A1DD38(iVar17,iVar4,(unsigned __int64)uVar1 << 6);
+                  XMemCpy(iVar17,iVar4,(unsigned __int64)uVar1 << 6);
                 }
                 piVar23 = *(int **)(*(int *)(iVar22 + *(int *)(iVar18 + 0x1dc)) + 0x1ac);
                 (**(int (***)())(*piVar23 + 4))

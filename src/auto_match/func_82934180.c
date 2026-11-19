@@ -1,7 +1,7 @@
 typedef unsigned char bool;
 #define true 1
 extern int fn_8265C940();
-extern int fn_82A1E108();
+extern int Sleep();
 extern int fn_82F691F0();
 extern int iRam83214584;
 extern unsigned int lbl_8315AB38;
@@ -67,7 +67,7 @@ unsigned __int64 fn_82934180(void)
       } while (!(bool)(in_cr0 >> 1 & 1));
       return uVar4;
     }
-    fn_82A1E108(1);
+    Sleep(1);
     do {
       uVar3 = (unsigned __int64)uRam83214588;
       if (uRam83214588 != 0) {

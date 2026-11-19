@@ -5,7 +5,7 @@ extern int fn_8225C238();
 extern int fn_82526608();
 extern int fn_8265C9E0();
 extern int fn_82829120();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int XMemSet();
 extern unsigned int iStack0000001c;
 extern unsigned int iStack_40;
@@ -46,7 +46,7 @@ void fn_8225D400(int param_1,int param_2,unsigned __int64 param_3)
     iVar4 = *(int *)(aiStack_3c[0] + 0x10);
   }
   if ((param_3 & 0xffffffff) != 0) {
-    fn_82A1DD38(iVar4,param_3,1000);
+    XMemCpy(iVar4,param_3,1000);
     *(unsigned int *)(iVar4 + 0x404) = 1;
     *(unsigned int *)(iVar4 + 0x408) = 1;
   }

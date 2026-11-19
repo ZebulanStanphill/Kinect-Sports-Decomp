@@ -1,4 +1,4 @@
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern unsigned int iStack_44;
 extern unsigned int lbl_83261824;
 extern unsigned int lbl_83261870;
@@ -89,7 +89,7 @@ void fn_82F4D528(void)
     iVar7 = iVar7 + 1;
     piVar6 = piVar6 + 1;
   } while (iVar7 < 2);
-  fn_82A1DD38(0xffffffff83261824,aiStack_40,0x18);
+  XMemCpy(0xffffffff83261824,aiStack_40,0x18);
   return;
 }
 

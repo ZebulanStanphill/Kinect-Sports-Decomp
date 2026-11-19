@@ -10,7 +10,7 @@ extern int fn_8251F720();
 extern int fn_8251FA58();
 extern int fn_82522D98();
 extern int fn_8265C9E0();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int fn_82BA02A8();
 extern int fn_82F68CC0();
 extern unsigned int lbl_821A8C90;
@@ -101,7 +101,7 @@ int fn_82266DD8(int param_1,unsigned int *param_2,unsigned __int64 param_3,unsig
   else {
     uVar5 = fn_82522D98((unsigned __int64)param_2[1] * 0x24);
     *(int *)(param_1 + 0x5dc) = (int)uVar5;
-    fn_82A1DD38(uVar5,param_5,(unsigned __int64)param_2[1] * 0x24);
+    XMemCpy(uVar5,param_5,(unsigned __int64)param_2[1] * 0x24);
   }
   fn_82267218(param_1);
   if ((int)param_2[2] < (int)param_2[1]) {

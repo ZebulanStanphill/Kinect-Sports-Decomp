@@ -7,7 +7,7 @@ typedef struct Lock_82E664E8 {
     long state;
 } Lock_82E664E8;
 
-extern void fn_82A1E108(unsigned int ms);
+extern void Sleep(unsigned int ms);
 
 void fn_82E664E8(Lock_82E664E8 *lock)
 {
@@ -15,7 +15,7 @@ void fn_82E664E8(Lock_82E664E8 *lock)
         long state = lock->state;
         long next;
         if ((state & 0x80000000) != 0) {
-            fn_82A1E108(10);
+            Sleep(10);
             continue;
         }
         next = state | 0x40000000;

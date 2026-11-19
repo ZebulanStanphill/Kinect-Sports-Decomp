@@ -3,7 +3,7 @@ extern int fn_82A1DC88();
 extern int fn_82F68CC0();
 
 
-void fn_82A1DD38(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+void XMemCpy(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3)
 
 {
   unsigned int uVar1;

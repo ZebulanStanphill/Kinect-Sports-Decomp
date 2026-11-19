@@ -1,7 +1,7 @@
 // hkSocket scalar deleting destructor: implicit destructor (the two adapter members) and the class allocator. The function at the end only makes the compiler emit the vtable.
 #include "havok/hkBase.h"
 
-extern "C" int fn_82CE08D0(int s);   // closesocket
+extern "C" int closesocket(int s);
 
 class hkStreamReader : public hkReferencedObject {
 public:
@@ -49,7 +49,7 @@ public:
     void close()
     {
         if (m_socket != -1) {
-            fn_82CE08D0(m_socket);
+            closesocket(m_socket);
             m_socket = -1;
         }
     }

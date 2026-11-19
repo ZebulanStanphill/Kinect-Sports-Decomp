@@ -15,7 +15,7 @@ extern int fn_827D9630();
 extern int fn_827D96A0();
 extern int fn_827D9720();
 extern int fn_827DBA00();
-extern int fn_82A1E810();
+extern int SetEvent();
 extern unsigned int iStack_80;
 extern unsigned int iStack_a8;
 extern unsigned int iStack_fc;
@@ -121,7 +121,7 @@ LAB_825be8f8:
     fn_82522D98(0x148);
   }
 LAB_825beb64:
-  fn_82A1E810(*(unsigned int *)(param_1 + 0x1b4));
+  SetEvent(*(unsigned int *)(param_1 + 0x1b4));
   return uVar2;
 }
 

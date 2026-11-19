@@ -1,6 +1,6 @@
 extern int fn_82A1E650();
 extern int fn_82A1E658();
-extern int fn_82A1E810();
+extern int SetEvent();
 extern int fn_82BD5520();
 extern int fn_8306C308();
 extern int fn_8306C348();
@@ -27,7 +27,7 @@ void fn_82BD5D48(int param_1)
                     /* WARNING: Subroutine does not return */
     fn_8306C3B8(1);
   }
-  fn_82A1E810(*(unsigned int *)(param_1 + 0x110));
+  SetEvent(*(unsigned int *)(param_1 + 0x110));
   while (*(int *)(param_1 + 0x10c) != 3) {
     fn_82A1E650(lVar1,0xffffffffffffffff);
     fn_82BD5520(param_1);

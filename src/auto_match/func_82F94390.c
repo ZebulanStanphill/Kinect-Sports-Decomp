@@ -7,7 +7,7 @@ extern unsigned int *auStack_98;
 extern unsigned int *auStack_a8;
 extern unsigned int *auStack_b0;
 extern int fn_8265C9E0();
-extern int fn_82CE0690();
+extern int XNetServerToInAddr();
 extern int fn_82F6F870();
 extern int fn_82F8EF78();
 extern int fn_82F8F000();
@@ -63,7 +63,7 @@ unsigned int fn_82F94390(unsigned int param_1,unsigned int param_2,unsigned int 
   uStack0000001c = param_2;
   uStack00000024 = param_3;
   uStack0000002c = param_4;
-  uStack_2c = fn_82CE0690(param_1,param_2,&uStack_9c);
+  uStack_2c = XNetServerToInAddr(param_1,param_2,&uStack_9c);
   if (uStack_2c == 0) {
     fn_82F90628(auStack_a8,0xffffffff832641cc);
     fn_82F95200(auStack_b0,0xffffffff832641f0,auStack_98);

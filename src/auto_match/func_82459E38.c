@@ -9,9 +9,9 @@ extern int fn_822DD1B8();
 extern int fn_82459C60();
 extern int fn_8245A408();
 extern int fn_82522FF0();
-extern int fn_82CE08F0();
-extern int fn_82CE0A20();
-extern int fn_82CE0BB0();
+extern int ioctlsocket();
+extern int recv();
+extern int WSAGetLastError();
 extern unsigned int iStack_6c;
 
 
@@ -35,9 +35,9 @@ void fn_82459E38(int param_1)
   
   lVar6 = 0;
   iStack_6c = 0;
-  iVar3 = fn_82CE08F0(*(unsigned int *)(param_1 + 0x20),0x4004667f,&iStack_6c);
+  iVar3 = ioctlsocket(*(unsigned int *)(param_1 + 0x20),0x4004667f,&iStack_6c);
   if ((iVar3 == 0) && (iStack_6c != 0)) {
-    iVar3 = fn_82CE0A20(*(unsigned int *)(param_1 + 0x20),auStack_70,1,0);
+    iVar3 = recv(*(unsigned int *)(param_1 + 0x20),auStack_70,1,0);
     if (iVar3 != -1) {
       puVar7 = (unsigned int *)(param_1 + 0xb0);
       do {
@@ -89,10 +89,10 @@ void fn_82459E38(int param_1)
             }
           }
         }
-        iVar3 = fn_82CE0A20(*(unsigned int *)(param_1 + 0x20),auStack_70,1,0);
+        iVar3 = recv(*(unsigned int *)(param_1 + 0x20),auStack_70,1,0);
       } while (iVar3 != -1);
     }
-    iVar3 = fn_82CE0BB0();
+    iVar3 = WSAGetLastError();
     if (iVar3 == 0x2733) {
       return;
     }

@@ -3,7 +3,7 @@ extern unsigned int *auStack_50;
 extern unsigned int *auStack_60;
 extern unsigned int fStack_4c;
 extern unsigned int fStack_5c;
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int fn_82F53548();
 extern int fn_82F59D58();
 extern int fn_82F59E40();
@@ -36,7 +36,7 @@ void fn_82F50FC8(unsigned __int64 param_1,int *param_2,__int64 param_3)
   unsigned char auStack_50 [4];
   float fStack_4c;
   
-  fn_82A1DD38(param_3,param_2,0x1c0);
+  XMemCpy(param_3,param_2,0x1c0);
   if (*param_2 == 2) {
     puVar1 = (unsigned int *)((unsigned int)(param_2 + 8) & 0xfffffff0);
     uVar7 = puVar1[1];

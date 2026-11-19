@@ -1,7 +1,7 @@
 extern int fn_8251F720();
 extern int fn_8251FBA8();
 extern int fn_8265CA60();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 
 
 unsigned int * fn_82461E68(unsigned int *param_1,unsigned __int64 param_2)
@@ -18,7 +18,7 @@ unsigned int * fn_82461E68(unsigned int *param_1,unsigned __int64 param_2)
     uVar1 = fn_8251FBA8();
     uVar2 = fn_8265CA60();
     *param_1 = (int)uVar2;
-    fn_82A1DD38(uVar2,param_1[1],uVar1);
+    XMemCpy(uVar2,param_1[1],uVar1);
   }
   return param_1;
 }

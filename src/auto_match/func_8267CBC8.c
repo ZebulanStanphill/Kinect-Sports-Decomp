@@ -1,10 +1,10 @@
-extern int fn_82A1E108();
+extern int Sleep();
 
 
 unsigned __int64 fn_8267CBC8(void)
 
 {
-  fn_82A1E108();
+  Sleep();
   return 1;
 }
 

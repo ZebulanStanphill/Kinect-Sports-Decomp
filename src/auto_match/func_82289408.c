@@ -39,7 +39,7 @@ extern void *fn_8225DA18(void *mgr, void *id);
 extern void fn_8225D8B8(void *mgr, void *p);
 extern void fn_82278950(void *handle);
 extern void fn_82529320(void *obj, int flag);
-extern void fn_82A1DD38(void *dst, void *src, unsigned int size);
+extern void XMemCpy(void *dst, void *src, unsigned int size);
 extern void fn_8228A5F0(Obj_82289408 *self);
 void fn_82289408(Obj_82289408 *self, int i, int shift, int check)
 {
@@ -76,7 +76,7 @@ void fn_82289408(Obj_82289408 *self, int i, int shift, int check)
                 tmp = self->entries[j];
                 self->entries[j] = self->entries[j + 1];
                 self->entries[j + 1] = tmp;
-                fn_82A1DD38(&self->slots[j], &self->slots[j + 1], 0x40);
+                XMemCpy(&self->slots[j], &self->slots[j + 1], 0x40);
                 self->slots[j + 1].state = 4;
                 self->slots[j + 1].obj = 0;
             }

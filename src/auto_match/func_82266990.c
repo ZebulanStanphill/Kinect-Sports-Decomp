@@ -4,7 +4,7 @@ extern int fn_82526C70();
 extern int fn_82531F18();
 extern int fn_82573530();
 extern int fn_82590DB8();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern unsigned int lbl_821CA460;
 
 
@@ -46,7 +46,7 @@ void fn_82266990(int param_1)
   iVar1 = *(int *)(*(int *)(*(int *)(*(int *)(param_1 + 0xdc) + 0x8c0) + iVar1) + 4);
   iVar9 = *piVar4;
   if ((iVar1 != 0) && (iVar9 != 0)) {
-    fn_82A1DD38(iVar9,iVar1,(unsigned __int64)*(unsigned short *)(piVar4 + 2) << 6);
+    XMemCpy(iVar9,iVar1,(unsigned __int64)*(unsigned short *)(piVar4 + 2) << 6);
     uVar8 = 0;
     iVar1 = *(int *)(*(int *)(param_1 + 0xe4) + 0x8c0);
     if (*(int *)(iVar1 + 0x138) != 0) {

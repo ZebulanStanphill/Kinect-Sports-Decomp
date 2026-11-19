@@ -1,7 +1,7 @@
 #define NAN(x) ((x) != (x))
 extern int fn_82539560();
 extern int fn_82560708();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821CA460;
 extern unsigned int ltcg_pool_0_0f;
@@ -29,7 +29,7 @@ void fn_825DD5C8(int param_1,int param_2,int param_3,int param_4)
   }
   iVar2 = 0;
 LAB_825dd618:
-  fn_82A1DD38(param_4,iVar2,0x10);
+  XMemCpy(param_4,iVar2,0x10);
   iVar2 = fn_82560708();
   if (iVar2 != 0) {
     *(float *)(param_4 + 4) = *(float *)(*(int *)(param_1 + 8) + 0x10) * *(float *)(param_4 + 4);

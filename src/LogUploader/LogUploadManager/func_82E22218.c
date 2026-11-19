@@ -57,7 +57,7 @@ extern void fn_82230110(String_82E22218 *s, const char *text);
 extern void fn_82230218(String_82E22218 *s, String_82E22218 *src, unsigned int pos, unsigned int n);
 extern void fn_82230300(String_82E22218 *s, int built, unsigned int size);
 extern void fn_82E21FC8(Deque_82E22218 *d);
-extern int fn_82A1E810(void *h);
+extern int SetEvent(void *h);
 extern int fn_82A1E7D8(void *h);
 extern void RtlEnterCriticalSection(CriticalSection_82E22218 *cs);
 extern void RtlLeaveCriticalSection(CriticalSection_82E22218 *cs);
@@ -69,7 +69,7 @@ extern void *fn_82A29DE8(const char *name, unsigned int access, unsigned int sha
 extern unsigned int fn_82A29D80(void *h, unsigned int *high);
 extern int fn_82A1E658(void *h);
 extern int fn_82A2A958(const char *name);
-extern void fn_82A1E108(unsigned int ms);
+extern void Sleep(unsigned int ms);
 
 static __forceinline const char *CStr_82E22218(String_82E22218 *s)
 {
@@ -108,7 +108,7 @@ int fn_82E22218(LogUploadManager_82E22218 *self)
                 fn_82230218(&file, Front_82E22218(&self->queue), 0, 0xFFFFFFFF);
                 fn_82E21FC8(&self->queue);
             } else {
-                fn_82A1E810(self->idleEvent);
+                SetEvent(self->idleEvent);
                 fn_82A1E7D8(self->wakeEvent);
             }
             RtlLeaveCriticalSection(&self->lock);
@@ -133,7 +133,7 @@ int fn_82E22218(LogUploadManager_82E22218 *self)
                 }
                 fn_82BA02A8(&up);
             }
-            fn_82A1E108(1000);
+            Sleep(1000);
             fn_82230300(&file, 1, 0);
         } while (!empty);
     }

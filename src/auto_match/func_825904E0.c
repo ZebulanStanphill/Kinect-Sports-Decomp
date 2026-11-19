@@ -3,7 +3,7 @@ extern int fn_82570110();
 extern int fn_82631C78();
 extern int fn_82647738();
 extern int fn_82A1E7D8();
-extern int fn_82A1E810();
+extern int SetEvent();
 extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8320A898;
 extern unsigned int lbl_8326B498;
@@ -99,7 +99,7 @@ void fn_825904E0(int param_1,__int64 param_2)
       if (lbl_8326B498 == 0) {
         fn_82A1E7D8(lbl_8326B4AC);
         lbl_8326B498 = fn_82647738(lbl_8320A898);
-        fn_82A1E810(lbl_8326B4A8);
+        SetEvent(lbl_8326B4A8);
       }
       (**(int (***)())(**(int **)((int)((param_2 + 0x2edcU & 0xffffffff) << 2) + iVar1) + 8))();
     }

@@ -12,7 +12,7 @@ typedef struct Lock_8259C738 {
 } Lock_8259C738;
 
 extern long fn_8259C7E8(Lock_8259C738 *self);
-extern int fn_82A1E810(long event);
+extern int SetEvent(long event);
 
 static __forceinline unsigned char Release(Lock_8259C738 *self)
 {
@@ -29,6 +29,6 @@ void fn_8259C738(Lock_8259C738 *self)
         _InterlockedExchange(&self->owner, 0);
         __lwsync();
         if (_InterlockedExchangeAdd(&self->waiters, 0) > 0)
-            fn_82A1E810(fn_8259C7E8(self));
+            SetEvent(fn_8259C7E8(self));
     }
 }

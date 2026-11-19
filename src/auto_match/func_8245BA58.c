@@ -8,9 +8,9 @@ extern int fn_8245C0B8();
 extern int fn_8245C1D8();
 extern int fn_8245CBE0();
 extern int fn_82522FF0();
-extern int fn_82A1E108();
+extern int Sleep();
 extern int fn_82A1E300();
-extern int fn_82CE0668();
+extern int XNetRandom();
 
 
 unsigned __int64 fn_8245BA58(int param_1)
@@ -56,7 +56,7 @@ unsigned __int64 fn_8245BA58(int param_1)
           else {
             iVar2 = param_1 + 0x1c;
             RtlEnterCriticalSection(iVar2);
-            fn_82CE0668(param_1 + 0x6b8,0x10);
+            XNetRandom(param_1 + 0x6b8,0x10);
             if (iVar2 != 0) {
               RtlLeaveCriticalSection(iVar2);
             }
@@ -82,7 +82,7 @@ unsigned __int64 fn_8245BA58(int param_1)
         fn_8245CBE0(param_1);
         *(unsigned int *)(param_1 + 0x6a8) = 0;
         RtlLeaveCriticalSection(param_1);
-        fn_82A1E108(1000);
+        Sleep(1000);
       }
       RtlEnterCriticalSection(param_1);
       if ((*(int *)(param_1 + 0x588) == 0) || (iVar2 = fn_8245C0B8(param_1), iVar2 == 0)) {

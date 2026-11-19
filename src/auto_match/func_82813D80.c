@@ -2,7 +2,7 @@ typedef unsigned char bool;
 #define true 1
 extern int fn_82813428();
 extern int fn_82813CB8();
-extern int fn_82A1E810();
+extern int SetEvent();
 extern unsigned int iStack_24;
 extern unsigned int uStack_30;
 extern unsigned __int64 storeWordConditionalIndexed();
@@ -81,7 +81,7 @@ unsigned __int64 fn_82813D80(__int64 param_1,unsigned int *param_2)
         }
       } while (!(bool)(bVar10 >> 1 & 1));
       if (((int)lVar4 == 1) && (*(int *)(iVar3 + 0x38) != 0)) {
-        fn_82A1E810();
+        SetEvent();
       }
       return 1;
     }

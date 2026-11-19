@@ -6,7 +6,7 @@ typedef struct Waiter_83055E98 {
   unsigned char signalPending;
 } Waiter_83055E98;
 
-extern unsigned char fn_82A1E810(void *event);
+extern unsigned char SetEvent(void *event);
 
 void fn_83055E98(Waiter_83055E98 *self)
 {
@@ -14,5 +14,5 @@ void fn_83055E98(Waiter_83055E98 *self)
     return;
   self->signalPending = 0;
   if (self->waiting > 0)
-    fn_82A1E810(self->event);
+    SetEvent(self->event);
 }

@@ -1,7 +1,7 @@
 extern int NetDll_WSAWaitForMultipleEvents();
 
 
-void fn_82CE0BE0(void)
+void WSAWaitForMultipleEvents(void)
 
 {
   NetDll_WSAWaitForMultipleEvents();

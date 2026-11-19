@@ -8,7 +8,7 @@ typedef struct Obj_82F61118 {
     int pad2c[5];
     unsigned int f40;
 } Obj_82F61118;
-extern void fn_82A1E810(unsigned int a);
+extern void SetEvent(unsigned int a);
 extern unsigned int fn_82A1E650(unsigned int a, int b);
 extern void fn_82A1E658(unsigned int a);
 extern void fn_82A1E300(unsigned int a);
@@ -21,9 +21,9 @@ void fn_82F61118(Obj_82F61118 *param_1)
     unsigned int r;
 
     if (param_1->f40 != 0 && param_1->count > 0 && param_1->f24 != 0 && param_1->f28 != 0) {
-        fn_82A1E810(param_1->f28);
+        SetEvent(param_1->f28);
         do {
-            fn_82A1E810(param_1->f24);
+            SetEvent(param_1->f24);
             again = 0;
             i = 0;
             if (param_1->count > 0) {

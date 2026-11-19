@@ -1,4 +1,4 @@
-extern int fn_82A1E810();
+extern int SetEvent();
 extern int fn_82E50CB8();
 extern int fn_82E50F10();
 
@@ -17,7 +17,7 @@ unsigned __int64 fn_82EEA068(int param_1)
   if (lVar2 == 0) {
     uVar1 = *(unsigned int *)(param_1 + 0x40);
     fn_82E50F10(iVar3);
-    fn_82A1E810(uVar1);
+    SetEvent(uVar1);
   }
   else {
     fn_82E50F10(iVar3);

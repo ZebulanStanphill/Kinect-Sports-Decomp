@@ -4,7 +4,7 @@ extern unsigned int *auStack_70;
 extern unsigned int *auStack_80;
 extern unsigned int *auStack_90;
 extern unsigned int fStack_84;
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int fn_82F534D8();
 extern int fn_82F53548();
 extern int fn_82F59AE8();
@@ -43,7 +43,7 @@ unsigned __int64 fn_82F50E80(unsigned __int64 param_1,int param_2,int *param_3,i
   unsigned char auStack_50 [80];
   
   if (*param_3 == 2) {
-    fn_82A1DD38(param_4,param_3,0x1c0);
+    XMemCpy(param_4,param_3,0x1c0);
     fStack_84 = lbl_821AAD20;
     dVar10 = (double)lbl_821AAD20;
     pfVar8 = (float *)(*(int *)(param_2 + 8) + 0x10U & 0xfffffff0);

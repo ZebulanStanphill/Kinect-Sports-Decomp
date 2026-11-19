@@ -18,7 +18,7 @@ typedef struct Self_82E661E8 {
 } Self_82E661E8;
 
 extern int fn_82E65FD0(Self_82E661E8 *self);
-extern void fn_82A1E810(void *handle);
+extern void SetEvent(void *handle);
 extern void fn_82E66BC0(unsigned int result, Self_82E661E8 *self);
 
 void fn_82E661E8(Self_82E661E8 *self, unsigned int value)
@@ -33,7 +33,7 @@ void fn_82E661E8(Self_82E661E8 *self, unsigned int value)
     fn_82E66BC0(result, self);
   } else {
     if (fn_82E65FD0(self) >= 0) {
-      fn_82A1E810(self->handle);
+      SetEvent(self->handle);
     }
   }
 }

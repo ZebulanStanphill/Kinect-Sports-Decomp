@@ -2,7 +2,7 @@ typedef unsigned char bool;
 extern void fn_82631920();
 extern void fn_82648160();
 extern unsigned int fn_82A1BB18();
-extern void fn_82A1E108();
+extern void Sleep();
 
 typedef struct Mgr {
     char pad0[0x2a88];
@@ -31,7 +31,7 @@ void fn_825202C8(Obj *o)
         }
         if (ready)
             break;
-        fn_82A1E108(10);
+        Sleep(10);
     }
     if (!lbl_83276742)
         return;

@@ -5,7 +5,7 @@ inline void *operator new(unsigned int, void *p) throw() { return p; }
 struct Sym;
 extern "C" void fn_827D9630(Sym *, const Sym *);
 extern "C" void *fn_8265C9E0(unsigned int);
-extern "C" void *fn_82A1DD38(void *, const void *, unsigned int);
+extern "C" void *XMemCpy(void *, const void *, unsigned int);
 struct __declspec(align(8)) Sym {
     char d[0x18];
     Sym() {}
@@ -21,7 +21,7 @@ struct Data {
 struct Entry {
     Sym key;
     Data data;
-    Entry(const Sym &k, const Data &d) : key(k) { fn_82A1DD38(&data, &d, 0x134); }
+    Entry(const Sym &k, const Data &d) : key(k) { XMemCpy(&data, &d, 0x134); }
 };
 
 extern "C" Sym fn_825200F0(const unsigned int *);
@@ -122,7 +122,7 @@ Buf *fn_827D5070(Buf *);
 int fn_82F67FE8(const char *, const char *, char *, int, int *);
 unsigned int fn_8265BF48(const char *, int);
 void *XMemSet(void *, int, unsigned int);
-void *fn_82A1DD38(void *, const void *, unsigned int);
+void *XMemCpy(void *, const void *, unsigned int);
 int fn_827D96A0(Entry *);
 Pairib *fn_8259C040(Pairib *, Hash *, const Value *);
 void *fn_82522D98(unsigned int);
@@ -154,7 +154,7 @@ extern "C" void fn_8259B7D8(Self *self, Shared *sp, Cfg *cfg)
         unsigned int hash = fn_8265BF48(name, 0);
         Data tmp;
         XMemSet(&tmp, 0, 0x134);
-        fn_82A1DD38(&tmp, &cfg->data, 0x134);
+        XMemCpy(&tmp, &cfg->data, 0x134);
         Entry *e = new Entry(fn_825200F0(&hash), tmp);
         Hash *list = &self->list;
         Value v;

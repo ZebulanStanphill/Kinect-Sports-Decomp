@@ -1,5 +1,5 @@
 typedef unsigned char bool;
-extern int fn_82A1E810();
+extern int SetEvent();
 extern int fn_82A1E968();
 extern unsigned int lbl_8326F740;
 extern unsigned int lbl_8326F748;
@@ -33,7 +33,7 @@ void fn_8259C888(int param_1)
     } while (!(bool)(in_cr0 >> 1 & 1));
     if (iVar1 != *(int *)(param_1 + 4)) {
       lbl_8326F748 = storeDoubleWordConditionalIndexed(uStack_20,0,0xffffffff8326f748);
-      fn_82A1E810(lbl_8326F750);
+      SetEvent(lbl_8326F750);
     }
   }
   return;

@@ -1,5 +1,5 @@
 extern int fn_82A1E7D8();
-extern int fn_82A1E810();
+extern int SetEvent();
 extern int fn_82FF52D8();
 extern int fn_830140E8();
 extern unsigned int lbl_83264308;
@@ -28,7 +28,7 @@ void fn_82FF4970(char *param_1, int param_2, Msg *param_3)
       fn_82A1E7D8(*(unsigned int *)(param_1 + 0xa4));
       RtlLeaveCriticalSection(param_1 + 0x88);
       cb(1, &ev);
-      fn_82A1E810(*(unsigned int *)(param_1 + 0xa4));
+      SetEvent(*(unsigned int *)(param_1 + 0xa4));
       return;
     }
   }

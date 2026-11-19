@@ -1,6 +1,6 @@
-extern void fn_82CE0BD8(void *p);
+extern void WSAResetEvent(void *p);
 
 void fn_82F93EB8(void *self, void *p)
 {
-  fn_82CE0BD8(p);
+  WSAResetEvent(p);
 }

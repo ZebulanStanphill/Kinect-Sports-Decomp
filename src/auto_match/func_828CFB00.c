@@ -1,7 +1,7 @@
-extern int fn_82CE07B0(unsigned int, unsigned int, void **);
+extern int XNetQosServiceLookup(unsigned int, unsigned int, void **);
 extern int fn_82CE0750(unsigned int, void *, void *, void *, int, int, int, unsigned int, int, int, int,
                        void **);
-extern void fn_82CE07C8(void *);
+extern void XNetQosRelease(void *);
 
 typedef struct Object_828CFB00 {
     char padding[8];
@@ -19,9 +19,9 @@ typedef struct Object_828CFB00 {
 void fn_828CFB00(Object_828CFB00 *self)
 {
     if (self->service) {
-        if (fn_82CE07B0(0, 0, &self->result)) {
+        if (XNetQosServiceLookup(0, 0, &self->result)) {
             if (self->result) {
-                fn_82CE07C8(self->result);
+                XNetQosRelease(self->result);
                 self->result = 0;
             }
             self->state = 5;
@@ -31,7 +31,7 @@ void fn_828CFB00(Object_828CFB00 *self)
         if (fn_82CE0750(1, &self->address, &self->key, self->session, 0, 0, 0, self->flags, 0, 0, 0,
                         &self->result)) {
             if (self->result) {
-                fn_82CE07C8(self->result);
+                XNetQosRelease(self->result);
                 self->result = 0;
             }
             self->state = 5;

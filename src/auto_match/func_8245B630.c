@@ -3,7 +3,7 @@ typedef unsigned char bool;
 #define false 0
 extern unsigned int *auStack_60;
 extern int fn_8245AB78();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int memcpy();
 extern unsigned int uStack_3c;
 extern unsigned int uStack_44;
@@ -28,7 +28,7 @@ unsigned __int64 fn_8245B630(int param_1,unsigned __int64 param_2,unsigned int p
   if ((*(int *)(param_1 + 0x588) != 0) && (*(int *)(param_1 + 0x6a4) == 3)) {
     RtlLeaveCriticalSection(param_1);
     auStack_60 = 3;
-    fn_82A1DD38(param_2,&auStack_60,1);
+    XMemCpy(param_2,&auStack_60,1);
     stack_pair_50.second = (unsigned int)param_2;
     stack_pair_50.first = 1;
     pcStack_40 = fn_8245AB78;

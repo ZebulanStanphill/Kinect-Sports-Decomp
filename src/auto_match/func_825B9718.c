@@ -1,6 +1,6 @@
 #define NAN(x) ((x) != (x))
 extern int fn_825B9678();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern unsigned int lbl_82192734;
 extern unsigned int lbl_821954D8;
 extern unsigned int lbl_821CA460;
@@ -23,7 +23,7 @@ int fn_825B9718(double param_1,double param_2)
   
   iVar2 = fn_825B9678();
   *(unsigned int *)(iVar2 + 0x80) = 8;
-  fn_82A1DD38(iVar2 + 0x40,in_r7,0x40);
+  XMemCpy(iVar2 + 0x40,in_r7,0x40);
   *(float *)(iVar2 + 0x2c) = (float)param_1;
   *(float *)(iVar2 + 0x24) = (float)param_2;
   dVar3 = (double)ltcg_pool_0_0f;

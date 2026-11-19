@@ -1,7 +1,7 @@
 extern int NetDll_WSASetLastError();
 
 
-void fn_82CE0BB8(void)
+void WSASetLastError(void)
 
 {
   NetDll_WSASetLastError();

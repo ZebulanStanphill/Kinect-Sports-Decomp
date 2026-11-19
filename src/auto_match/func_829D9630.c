@@ -1,7 +1,7 @@
 extern int fn_829D4038();
 extern int fn_829D7480();
 extern int fn_829D76B8();
-extern int fn_82A1E810();
+extern int SetEvent();
 extern unsigned int lbl_832179FC;
 
 
@@ -71,7 +71,7 @@ LAB_829d9738:
       piVar4 = piVar4 + 0x18;
     } while (uVar6 < 2);
     *(char *)(lbl_832179FC + 0x24977) = '\0';
-    fn_82A1E810(*(unsigned int *)(lbl_832179FC + 0x8f4c0));
+    SetEvent(*(unsigned int *)(lbl_832179FC + 0x8f4c0));
   }
 LAB_829d97d4:
   RtlLeaveCriticalSection(iVar8);

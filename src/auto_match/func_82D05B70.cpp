@@ -1,7 +1,7 @@
 // hkBsdSocket::~hkBsdSocket (Common/Base/System/Io/Socket/Bsd/hkBsdSocket.cpp).
 #include "havok/hkBase.h"
 
-extern "C" int fn_82CE08D0(int s);   // closesocket
+extern "C" int closesocket(int s);
 
 class hkStreamReader : public hkReferencedObject {
 public:
@@ -49,7 +49,7 @@ public:
     void close()
     {
         if (m_socket != -1) {
-            fn_82CE08D0(m_socket);
+            closesocket(m_socket);
             m_socket = -1;
         }
     }

@@ -1,6 +1,6 @@
 extern unsigned fn_8265C9E0(unsigned);
 extern int fn_829CF908();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int fn_82A1E1A8();
 extern int fn_82A1E6A0();
 extern int fn_82F4D6A0();

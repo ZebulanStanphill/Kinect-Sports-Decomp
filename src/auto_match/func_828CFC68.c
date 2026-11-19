@@ -13,12 +13,12 @@ typedef struct {
     Sub s;
 } Obj;
 extern void fn_828AC4E8(void *p);
-extern void fn_82CE0730(Obj *p, int a, int b, int c, int d);
+extern void XNetQosListen(Obj *p, int a, int b, int c, int d);
 
 void fn_828CFC68(Obj *p)
 {
     Sub *s;
-    fn_82CE0730(p, 0, 0, 0, 0x10);
+    XNetQosListen(p, 0, 0, 0, 0x10);
     s = &p->s;
     p->m = 0;
     s->a = 0;

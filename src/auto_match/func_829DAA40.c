@@ -13,7 +13,7 @@ typedef struct Mgr_829DAA40 {
 extern void RtlEnterCriticalSection(void *cs);
 extern void RtlLeaveCriticalSection(void *cs);
 extern int fn_829D4038(Mgr_829DAA40 *mgr, Slot_829DAA40 *slot, int mode);
-extern void fn_82A1E810(void *event);
+extern void SetEvent(void *event);
 extern int fn_82A1E650(void *handle, unsigned int timeout);
 extern char lbl_83215000[];
 extern char *lbl_832179FC;
@@ -52,7 +52,7 @@ int fn_829DAA40(unsigned char force)
         }
         slot++;
     }
-    fn_82A1E810(*(void **)(lbl_832179FC + 0x8f4bc));
+    SetEvent(*(void **)(lbl_832179FC + 0x8f4bc));
     RtlLeaveCriticalSection(cs);
     fn_82A1E650(*(void **)(lbl_832179FC + 0x8f4c0), 0xffffffff);
     return hr;

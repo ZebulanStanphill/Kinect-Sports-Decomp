@@ -16,7 +16,7 @@ extern void fn_82BEA1F8(void *lock, const char *name);
 extern void fn_82BEA230(void *lock, const char *name);
 extern unsigned __int64 fn_82BEB678(void *clock);
 extern unsigned int fn_82BE3A18(int a, int b);
-extern void fn_82A1E108(unsigned int ms);
+extern void Sleep(unsigned int ms);
 extern void fn_82BE5240(Manager_82BE2D60 *self, int line, const char *format, ...);
 extern int fn_82BE1A20(void);
 
@@ -42,7 +42,7 @@ int fn_82BE2D60(void)
             break;
         if ((mgr->flags & 0x800) != 0)
             break;
-        fn_82A1E108(20);
+        Sleep(20);
         elapsed = fn_82BEB678(mgr->clock) - start;
         if ((timeout > 0 && elapsed > timeout) || elapsed > 10000) {
             fn_82BE5240(mgr, 0xd6, "Shutdown Time out at: %d ms", elapsed);

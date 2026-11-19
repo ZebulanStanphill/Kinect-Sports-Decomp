@@ -86,7 +86,7 @@ void fn_825A4488(void *self, int n);
 void fn_8258F940(void *filter);
 void fn_825269D0(int id, void *settings);
 void fn_82D88E60(hkpWorld *world, hkpCollisionFilter *filter, hkBool checkBroadPhase, int updateMode, int collectionMode);
-void fn_82A1DD38(void *dst, const void *src, int n);   // memcpy
+void XMemCpy(void *dst, const void *src, int n);
 void fn_82D84168(hkpWorld *world, hkpCollisionListener *listener);
 extern void *lbl_821C7F98[];
 extern void *lbl_821C40C4[], *lbl_821C40D8[], *lbl_821C40E4[], *lbl_821C40F0[];
@@ -155,7 +155,7 @@ public:
     {
         *(void ***)this = lbl_821C7FE0;
         *(void ***)static_cast<hkpCollisionListener *>(this) = lbl_821C7FEC;
-        fn_82A1DD38(m_data, data, 0x48);
+        XMemCpy(m_data, data, 0x48);
     }
     hkUint8 m_data[0x48];
 };

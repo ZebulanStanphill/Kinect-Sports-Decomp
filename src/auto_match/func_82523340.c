@@ -2,7 +2,7 @@ extern unsigned int *auStack_50;
 extern int fn_82523B00();
 extern int fn_82524388();
 extern int fn_8252DAB8();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int fn_82A81CC0();
 extern int fn_82A81D40();
 extern unsigned int lbl_821C2FA8;
@@ -30,8 +30,8 @@ int fn_82523340(int param_1,unsigned __int64 param_2,unsigned int *param_3,unsig
   *(unsigned char *)(param_1 + 0xb64) = 1;
   iVar5 = param_1 + 0x1e0;
   *(unsigned int *)(param_1 + 0x9b4) = (unsigned int)LZCOUNT(param_8) >> 5;
-  fn_82A1DD38(iVar5,param_2,1000);
-  fn_82A1DD38(param_1 + 0x5c8,param_2,1000);
+  XMemCpy(iVar5,param_2,1000);
+  XMemCpy(param_1 + 0x5c8,param_2,1000);
   if (param_3 == (unsigned int *)0x0) {
     *(unsigned int *)(param_1 + 0x9cc) = 0;
     *(unsigned int *)(param_1 + 0x9d0) = 0;

@@ -4,7 +4,7 @@ typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
 
 extern int *fn_82579288(void *);
 extern int fn_825795A8(int *, const __vector4 *, const __vector4 *, int);
-extern void fn_82A1DD38(void *, const void *, unsigned int);
+extern void XMemCpy(void *, const void *, unsigned int);
 
 int fn_8242E320(char *self, __vector4 *out, unsigned char *flag, __vector4 start, __vector4 end)
 {
@@ -15,7 +15,7 @@ int fn_8242E320(char *self, __vector4 *out, unsigned char *flag, __vector4 start
     int *query = fn_82579288(*(void **)(owner + 0x6d0));
     int result = 0;
     if (fn_825795A8(query, &startPoint, &endPoint, -1) == 1) {
-        fn_82A1DD38(hit, *(void **)(query[4] + 4), 128);
+        XMemCpy(hit, *(void **)(query[4] + 4), 128);
         if (flag) {
             *flag = hit[35];
         }

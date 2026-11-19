@@ -3,11 +3,11 @@ extern int fn_82230218();
 extern int fn_82230300();
 extern int fn_82459C60();
 extern int fn_82522FF0();
-extern int fn_82CE08B8();
-extern int fn_82CE08F0();
-extern int fn_82CE0908();
-extern int fn_82CE0990();
-extern int fn_82CE0BB0();
+extern int socket();
+extern int ioctlsocket();
+extern int setsockopt();
+extern int connect();
+extern int WSAGetLastError();
 extern unsigned int uStack_48;
 extern unsigned int uStack_4c;
 extern unsigned int uStack_50;
@@ -38,19 +38,19 @@ void fn_82459A68(unsigned __int64 *param_1,int param_2,int *param_3)
   *(unsigned int *)(param_1 + 0x10) = *(unsigned int *)(param_2 + 0x5c);
   fn_82459C60(param_1);
   if (*(int *)(param_1 + 4) == 0) {
-    uVar1 = fn_82CE08B8(2,1,6);
+    uVar1 = socket(2,1,6);
     *(int *)(param_1 + 4) = (int)uVar1;
     if ((int)uVar1 != -1) {
       uStack_50 = 1;
       uStack_4c = 120000;
       uStack_48 = 120000;
-      iVar2 = fn_82CE0908(uVar1,0xffff,4,&uStack_50,4);
+      iVar2 = setsockopt(uVar1,0xffff,4,&uStack_50,4);
       if (((iVar2 == 0) &&
-          (iVar2 = fn_82CE0908(*(unsigned int *)(param_1 + 4),0xffff,0x1005,&uStack_4c,4), iVar2 == 0
-          )) && (iVar2 = fn_82CE0908(*(unsigned int *)(param_1 + 4),0xffff,0x1006,&uStack_48,4),
+          (iVar2 = setsockopt(*(unsigned int *)(param_1 + 4),0xffff,0x1005,&uStack_4c,4), iVar2 == 0
+          )) && (iVar2 = setsockopt(*(unsigned int *)(param_1 + 4),0xffff,0x1006,&uStack_48,4),
                 iVar2 == 0)) {
         auStack_44[0] = 1;
-        iVar2 = fn_82CE08F0(*(unsigned int *)(param_1 + 4),0xffffffff8004667e,auStack_44);
+        iVar2 = ioctlsocket(*(unsigned int *)(param_1 + 4),0xffffffff8004667e,auStack_44);
         if (iVar2 == 0) goto LAB_82459bb4;
       }
       *(unsigned int *)(param_1 + 4) = 0xffffffff;
@@ -63,8 +63,8 @@ LAB_82459bb4:
   else {
     iVar2 = (**(int (***)())(*param_3 + 4))(param_3,(int)param_1 + 0x9c);
     if ((iVar2 < 0) ||
-       ((iVar2 = fn_82CE0990(*(unsigned int *)(param_1 + 4),(int)param_1 + 0x9c,0x10), iVar2 == -1 &&
-        (iVar2 = fn_82CE0BB0(), iVar2 != 0x2733)))) {
+       ((iVar2 = connect(*(unsigned int *)(param_1 + 4),(int)param_1 + 0x9c,0x10), iVar2 == -1 &&
+        (iVar2 = WSAGetLastError(), iVar2 != 0x2733)))) {
       *(unsigned int *)((int)param_1 + 0x84) = 0xd;
       fn_82459C60(param_1);
       goto LAB_82459c34;

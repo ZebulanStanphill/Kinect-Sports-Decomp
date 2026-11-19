@@ -1,7 +1,7 @@
 typedef struct { unsigned __int64 lo, hi; } V16;
 #define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
 extern int fn_8255A1C8();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern unsigned int lbl_83297910;
 extern unsigned int lbl_83297920;
 extern unsigned int stack0x00000000;
@@ -110,7 +110,7 @@ void fn_825DE758(int param_1,int param_2,int param_3,int param_4,int param_5,uns
   pfVar5[1] = in_register_000104d4;
   pfVar5[2] = in_register_000104d8;
   pfVar5[3] = in_vr77;
-  fn_82A1DD38(param_2 + 0x40,param_6,0x50);
+  XMemCpy(param_2 + 0x40,param_6,0x50);
   return;
 }
 

@@ -31,7 +31,7 @@ typedef struct Queue_82F61808 {
 extern int fn_82F611D8(void **pool, Request_82F61808 **out);
 extern int fn_82BFE128(void *list, Request_82F61808 *request);
 extern void fn_82BFE9D8(void *pool, Slot_82F61808 *slot);
-extern int fn_82A1E810(void *event);
+extern int SetEvent(void *event);
 
 int fn_82F61808(Queue_82F61808 *self, unsigned int arg0, unsigned int arg1, unsigned int arg2,
                 unsigned int *index)
@@ -62,7 +62,7 @@ int fn_82F61808(Queue_82F61808 *self, unsigned int arg0, unsigned int arg1, unsi
             fn_82BFE9D8(self->pool, slot);
             result = status;
         }
-        fn_82A1E810(self->event);
+        SetEvent(self->event);
     } else {
         result = status;
     }

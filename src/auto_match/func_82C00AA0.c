@@ -32,13 +32,13 @@ typedef struct Sound_82C00AA0 {
     int started; /* 0x288 */
 } Sound_82C00AA0;
 
-extern void fn_82A1E108(unsigned int milliseconds); /* Sleep */
+extern void Sleep(unsigned int milliseconds); /* Sleep */
 
 static __forceinline void WaitForBuffers(Sound_82C00AA0 *self, VoiceState_82C00AA0 *state)
 {
     self->voice->vtbl->GetState(self->voice, state);
     while (state->buffersQueued != 0) {
-        fn_82A1E108(10);
+        Sleep(10);
         self->voice->vtbl->GetState(self->voice, state);
     }
 }

@@ -22,7 +22,7 @@ typedef struct Self_82624590 {
 } Self_82624590;
 
 extern void *fn_8251E4D0(Obj_82624590 *obj);
-extern void fn_82A1DD38(void *a, Arg_82624590 *arg, unsigned short count);
+extern void XMemCpy(void *a, Arg_82624590 *arg, unsigned short count);
 extern void fn_825D50C0(Self_82624590 *self);
 extern unsigned int lbl_821CAD94;
 
@@ -37,7 +37,7 @@ void fn_82624590(Self_82624590 *param_1)
         a.kind = 3;
         o = (Obj_82624590 *)(param_1->owner->objBase + 8);
         r = fn_8251E4D0(o);
-        fn_82A1DD38(r, &a, o->count);
+        XMemCpy(r, &a, o->count);
     }
     fn_825D50C0(param_1);
 }

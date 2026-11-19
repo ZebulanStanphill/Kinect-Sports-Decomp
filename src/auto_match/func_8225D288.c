@@ -4,7 +4,7 @@ extern int fn_82526608();
 extern int fn_8265C9E0();
 extern int fn_828EB518();
 extern int fn_828EBF50();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int XMemSet();
 extern unsigned int uRam00000404;
 extern unsigned int uRam00000408;
@@ -39,7 +39,7 @@ unsigned int fn_8225D288(__int64 param_1,unsigned __int64 param_2,unsigned __int
     XMemSet(iVar2,0,1000);
   }
   if ((param_3 & 0xffffffff) != 0) {
-    fn_82A1DD38(0,param_3,1000);
+    XMemCpy(0,param_3,1000);
     uRam00000404 = 1;
     uRam00000408 = 1;
   }

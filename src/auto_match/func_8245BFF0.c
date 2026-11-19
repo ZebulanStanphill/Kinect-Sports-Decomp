@@ -1,13 +1,13 @@
 extern int fn_82459C60();
 extern int fn_8245CBE0();
-extern int fn_82A1E108();
+extern int Sleep();
 
 
 void fn_8245BFF0(int param_1,unsigned __int64 param_2)
 
 {
   *(int *)(param_1 + 0x580) = (int)param_2;
-  fn_82A1E108(100);
+  Sleep(100);
   if ((*(int *)(param_1 + 0x574) == 0) && (*(int *)(param_1 + 0x578) == 0)) {
     if (*(int *)(param_1 + 0x570) != 0) {
       if (*(int *)(param_1 + 0x6b0) == 2) {

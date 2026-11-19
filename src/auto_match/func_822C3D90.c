@@ -6,7 +6,7 @@ extern int fn_8251FA58();
 extern int fn_8251FBA8();
 extern int fn_8265CA60();
 extern int fn_8265CAA0();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int atexit();
 extern unsigned int lbl_83298F5C;
 
@@ -26,7 +26,7 @@ unsigned __int64 fn_822C3D90(int param_1,unsigned __int64 param_2)
   if (uVar3 != 0) {
     uVar4 = fn_8251FBA8(uVar3);
     iVar5 = fn_8265CA60();
-    fn_82A1DD38(iVar5,uVar3,uVar4);
+    XMemCpy(iVar5,uVar3,uVar4);
   }
   *(unsigned int **)(iVar5 + 0x24) = auStack_30;
   uVar2 = lbl_83298F5C;

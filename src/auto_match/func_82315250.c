@@ -8,7 +8,7 @@ extern int fn_8251F720();
 extern int fn_8251FA58();
 extern int fn_82520158();
 extern int fn_8265C9E0();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int memcpy();
 extern unsigned int lbl_82002B04;
 extern unsigned int lbl_821916FC;
@@ -139,7 +139,7 @@ fn_82315250(unsigned int *param_1,int param_2,int param_3,unsigned int param_4,u
   }
   param_1[0x174] = puVar4;
   lVar8 = fn_8251F720(param_6,0);
-  fn_82A1DD38(param_1 + 9,lVar8,0x348);
+  XMemCpy(param_1 + 9,lVar8,0x348);
   fn_8251FA58(lVar8);
   fn_82520158(0xffffffff821af73c,&pcStack_90,0);
   uVar6 = fn_8251F720(&pcStack_90,0);

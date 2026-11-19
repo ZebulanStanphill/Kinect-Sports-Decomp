@@ -20,7 +20,7 @@ extern int fn_82561778();
 extern int fn_8265C9E0();
 extern int fn_8266EC60();
 extern int fn_8266EF20();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int XMemSet();
 extern int fn_82F4DE00();
 extern unsigned int iStack_6c;
@@ -85,11 +85,11 @@ unsigned int * fn_824798D8(unsigned int *param_1,int param_2)
                     /* WARNING: Subroutine does not return */
     XMemSet(0xffffffff8328e788,0,0x18d8);
   }
-  fn_82A1DD38(puVar5,0xffffffff8328e788);
+  XMemCpy(puVar5,0xffffffff8328e788);
   if (cRam832766f0 != '\0') {
-    fn_82A1DD38(puVar5,0xffffffff83290060,0x18d8);
+    XMemCpy(puVar5,0xffffffff83290060,0x18d8);
   }
-  fn_82A1DD38(param_1 + 10,param_2 + 0x54,0x59c);
+  XMemCpy(param_1 + 10,param_2 + 0x54,0x59c);
   puVar5 = (unsigned int *)fn_8265C9E0(8);
   if (puVar5 == (unsigned int *)0x0) {
     puVar5 = (unsigned int *)0x0;

@@ -26,7 +26,7 @@ typedef struct Game_8228A728 {
 } Game_8228A728;
 
 extern void XMemSet(void *dest, int value, unsigned int size);
-extern void fn_82A1DD38(char *dest, const char *src, int count);
+extern void XMemCpy(char *dest, const char *src, int count);
 extern void fn_8234F338(void *table, int id, int *first, int *second);
 extern void fn_8228ABB8(Game_8228A728 *self, int index, char *text, int *first, int *second);
 
@@ -44,7 +44,7 @@ char *fn_8228A728(char *text, Game_8228A728 *self, int index, int id, int *first
     int defaultSecond;
 
     XMemSet(text, 0, 1000);
-    fn_82A1DD38(text, (char *)&self->data->players[index], 1000);
+    XMemCpy(text, (char *)&self->data->players[index], 1000);
     if (!IsValid(first)) {
         fn_8234F338(self->data->table, id, &defaultFirst, &defaultSecond);
         fn_8228ABB8(self, index, text, &defaultFirst, &defaultSecond);

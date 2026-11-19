@@ -5,7 +5,7 @@ extern unsigned int *auStack_50;
 extern int fn_8223B6E0();
 extern int fn_828CFCD8();
 extern int fn_828E9D28();
-extern int fn_82CE07C8();
+extern int XNetQosRelease();
 extern int memcpy();
 extern unsigned int uStack_30;
 extern unsigned int uStack_34;
@@ -85,7 +85,7 @@ LAB_828d02d8:
   *(unsigned int *)(param_1 + 0x80) = uVar6;
 code_r0x828d02e0:
   if (*(int *)(param_1 + 0x84) != 0) {
-    fn_82CE07C8();
+    XNetQosRelease();
     *(unsigned int *)(param_1 + 0x84) = 0;
   }
   return;

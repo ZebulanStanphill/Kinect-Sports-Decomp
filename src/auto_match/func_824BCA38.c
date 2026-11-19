@@ -4,7 +4,7 @@ extern int fn_8251F720();
 extern int fn_8251FA58();
 extern int fn_82520158();
 extern int fn_82864988();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int XMemSet();
 extern unsigned int lbl_821CA460;
 extern unsigned int ltcg_pool_0_0f;
@@ -86,7 +86,7 @@ void fn_824BCA38(int param_1)
   fn_824BC840(param_1);
   fn_82520158(0xffffffff821c05cc,auStack_30,0);
   uVar3 = fn_8251F720(auStack_30,0);
-  fn_82A1DD38(param_1 + 0x4e0,uVar3,0x28);
+  XMemCpy(param_1 + 0x4e0,uVar3,0x28);
   fn_8251FA58(uVar3);
                     /* WARNING: Subroutine does not return */
   XMemSet(param_1 + 0x90,0,0x34);

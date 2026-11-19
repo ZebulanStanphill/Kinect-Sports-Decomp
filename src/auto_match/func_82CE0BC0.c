@@ -1,7 +1,7 @@
 extern int NetDll_WSACreateEvent();
 
 
-void fn_82CE0BC0(void)
+void WSACreateEvent(void)
 
 {
   NetDll_WSACreateEvent();

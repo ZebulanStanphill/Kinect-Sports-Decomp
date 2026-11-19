@@ -4,7 +4,7 @@ extern int fn_82230300();
 extern int fn_8225C590();
 extern int fn_82483888();
 extern int fn_82486B08();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 
 
 void fn_82483590(int param_1)
@@ -30,7 +30,7 @@ void fn_82483590(int param_1)
   uVar5 = *(int *)(iVar7 + 0x24) - *(int *)(iVar7 + 0x20) >> 2;
   do {
     uVar6 = fn_82486B08(auStack_460);
-    fn_82A1DD38(lVar10 + (unsigned __int64)*(unsigned int *)(param_1 + 0x48) + 0x838,uVar6,0x420);
+    XMemCpy(lVar10 + (unsigned __int64)*(unsigned int *)(param_1 + 0x48) + 0x838,uVar6,0x420);
     fn_82230300(auStack_60,1,0);
     lVar10 = lVar10 + 0x420;
   } while ((int)lVar10 < 0x1080);

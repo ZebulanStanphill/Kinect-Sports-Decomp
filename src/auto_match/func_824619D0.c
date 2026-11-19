@@ -53,7 +53,7 @@ void fn_82461CE0(__vector4 *out, __vector4 v);
 void *fn_8251F720(Handle_824619D0 *handle, int flags);
 unsigned int fn_8251FBA8(void *data);
 void *fn_8265CA60(unsigned int size);
-void fn_82A1DD38(void *dst, const void *src, unsigned int size);
+void XMemCpy(void *dst, const void *src, unsigned int size);
 void *fn_82587AC0(const char *name);
 Model_824619D0 *fn_82529A38(void *model, ModelDesc_824619D0 *desc, int flags);
 void fn_8265CAA0(void *p);
@@ -92,7 +92,7 @@ void fn_824619D0(Self_824619D0 *self, int slot)
         if (data != 0) {
             unsigned int size = fn_8251FBA8(data);
             desc = (ModelDesc_824619D0 *)fn_8265CA60(size);
-            fn_82A1DD38(desc, data, size);
+            XMemCpy(desc, data, size);
         }
         StoreFloat3(desc->position, &position);
         desc->rotation = 0.0f;

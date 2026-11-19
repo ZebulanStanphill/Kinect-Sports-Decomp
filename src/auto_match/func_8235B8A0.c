@@ -7,7 +7,7 @@ extern int fn_82536690();
 extern int fn_8265C9E0();
 extern int fn_8265CA60();
 extern int fn_8265CAA0();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 
 
 unsigned __int64 fn_8235B8A0(int param_1,unsigned __int64 param_2,int param_3)
@@ -33,7 +33,7 @@ unsigned __int64 fn_8235B8A0(int param_1,unsigned __int64 param_2,int param_3)
   if (uVar1 != 0) {
     uVar2 = fn_8251FBA8(uVar1);
     iVar3 = fn_8265CA60();
-    fn_82A1DD38(iVar3,uVar1,uVar2);
+    XMemCpy(iVar3,uVar1,uVar2);
   }
   *(unsigned int *)(iVar3 + 0x24) = *(unsigned int *)(**(int **)(param_1 + 8) + param_3 * 4);
   *(unsigned int **)(iVar3 + 0x28) = apuStack_40;

@@ -41,7 +41,7 @@ typedef struct Obj_82265420 {
 
 extern void *memcpy(void *, const void *, unsigned int);
 extern void fn_82266D28(int *list, int value);
-extern void fn_82A1DD38(char *buffer, int size, int count);
+extern void XMemCpy(char *buffer, int size, int count);
 extern void fn_82265680(Obj_82265420 *self);
 extern int fn_82528EE0(unsigned short *buf, int size, const unsigned short *fmt, ...);
 extern void fn_82528E38(int *callback, int flags, void (*fn)(void), void *context);
@@ -78,7 +78,7 @@ Obj_82265420 *fn_82265420(Obj_82265420 *self, Desc_82265420 *desc, int owner, in
     self->callback[0] = 0;
     self->callback[1] = -1;
     self->callback[2] = 0;
-    fn_82A1DD38(self->buffer, desc->size, 1000);
+    XMemCpy(self->buffer, desc->size, 1000);
     value = *id;
     self->dd8 = 0;
     self->id = value;

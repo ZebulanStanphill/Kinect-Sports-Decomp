@@ -1,5 +1,5 @@
 #define true 1
-extern int fn_82A1E810();
+extern int SetEvent();
 
 
 void fn_8267CA80(int param_1)
@@ -23,7 +23,7 @@ void fn_8267CA80(int param_1)
       }
     }
     if (puVar1 == (unsigned int *)0x0) break;
-    fn_82A1E810(*puVar1);
+    SetEvent(*puVar1);
   }
   RtlLeaveCriticalSection(param_1);
   return;

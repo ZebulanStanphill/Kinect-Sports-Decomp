@@ -1,7 +1,7 @@
 extern int NetDll_WSAGetLastError();
 
 
-void fn_82CE0BB0(void)
+void WSAGetLastError(void)
 
 {
   NetDll_WSAGetLastError();

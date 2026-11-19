@@ -7,7 +7,7 @@ struct Element_82357010 {
 
 typedef Element_82357010 T;
 
-extern "C" void *fn_82A1DD38(void *dst, const void *src, unsigned int size);
+extern "C" void *XMemCpy(void *dst, const void *src, unsigned int size);
 
 struct List_8243E150 {
     int pad0;
@@ -22,7 +22,7 @@ extern "C" void fn_8243E150(List_8243E150 *self, const T *item, bool replace)
     if (replace) {
         T *found = Find(self, item);
         if (found != 0) {
-            fn_82A1DD38(found, item, sizeof(T));
+            XMemCpy(found, item, sizeof(T));
             return;
         }
     }

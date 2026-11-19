@@ -11,7 +11,7 @@ extern int fn_825602B8();
 extern int fn_8257ECD0();
 extern int fn_825F2A38();
 extern int fn_825F98C8();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int XMemSet();
 extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_831BF284;
@@ -124,7 +124,7 @@ void fn_82596240(__int64 param_1)
       fn_82530948(lbl_8320A898);
       fn_825315E0(uVar4);
       fn_82531118();
-      fn_82A1DD38(lVar9,0xffffffff83296ae4,0xa8);
+      XMemCpy(lVar9,0xffffffff83296ae4,0xa8);
     }
     puVar8 = puVar8 + 1;
     lVar7 = lVar7 + 1;

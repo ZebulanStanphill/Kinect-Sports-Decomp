@@ -5,7 +5,7 @@ extern int fn_8263DE70();
 extern int fn_82647538();
 extern int fn_82647578();
 extern int fn_82648988();
-extern int fn_82A1E108();
+extern int Sleep();
 extern int fn_82A1E2C0();
 extern int fn_82A1E438();
 extern int fn_82C0BD58();
@@ -142,7 +142,7 @@ LAB_82c0fbdc:
         iVar3 = (**(int (***)())(*piVar2 + 0xf8))(param_1);
         if (iVar3 == 5) {
           (**(int (***)())(*piVar4 + 0x48))(piVar4,lVar8);
-          fn_82A1E108(0x21);
+          Sleep(0x21);
         }
         else {
           fn_82C0BE40(apiStack_4c[0]);

@@ -6,7 +6,7 @@ extern void RtlEnterCriticalSection(void *cs);
 extern void RtlLeaveCriticalSection(void *cs);
 extern int fn_82A1E650();
 extern int fn_82A1E658();
-extern int fn_82A1E810();
+extern int SetEvent();
 extern char *lbl_832179FC;
 
 void fn_829D4EB8(void)
@@ -22,7 +22,7 @@ void fn_829D4EB8(void)
     cs = lbl_832179FC + 0x24980;
     RtlEnterCriticalSection(cs);
     *(unsigned char *)(lbl_832179FC + 0x24974) = 1;
-    fn_82A1E810(*(void **)(lbl_832179FC + 0x8f4b8));
+    SetEvent(*(void **)(lbl_832179FC + 0x8f4b8));
     RtlLeaveCriticalSection(cs);
     fn_82A1E650(*(void **)(lbl_832179FC + 0x8f4b0), -1);
     fn_82A1E658(*(void **)(lbl_832179FC + 0x8f4b0));

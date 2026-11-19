@@ -1,7 +1,7 @@
-extern int fn_82CE09D0();
-extern int fn_82CE0AD8();
-extern int fn_82CE0BB0();
-extern int fn_82CE0BE8();
+extern int select();
+extern int send();
+extern int WSAGetLastError();
+extern int __WSAFDIsSet();
 extern unsigned int uStack_13c;
 extern unsigned int uStack_140;
 extern unsigned int uStack_24c;
@@ -30,7 +30,7 @@ fn_830B3898(unsigned __int64 param_1,unsigned int *param_2,unsigned __int64 para
   stack_pair_260.second = 0;
   uStack_140 = 1;
   uStack_13c = stack_pair_250.second;
-  iVar1 = fn_82CE09D0(0,0,&stack_pair_250.first,&uStack_140,&stack_pair_260.first);
+  iVar1 = select(0,0,&stack_pair_250.first,&uStack_140,&stack_pair_260.first);
   if (iVar1 == -1) {
     return 0;
   }
@@ -38,12 +38,12 @@ fn_830B3898(unsigned __int64 param_1,unsigned int *param_2,unsigned __int64 para
     if ((iVar1 < 1) || (2 < iVar1)) {
       return 0;
     }
-    iVar1 = fn_82CE0BE8(*param_2,&stack_pair_250.first);
+    iVar1 = __WSAFDIsSet(*param_2,&stack_pair_250.first);
     if (iVar1 == 0) {
       *param_5 = 0;
       return 1;
     }
-    iVar1 = fn_82CE0AD8(*param_2,param_3,param_4,0);
+    iVar1 = send(*param_2,param_3,param_4,0);
     if (iVar1 == 0) {
       return 0;
     }
@@ -51,7 +51,7 @@ fn_830B3898(unsigned __int64 param_1,unsigned int *param_2,unsigned __int64 para
       *param_5 = iVar1;
       return 1;
     }
-    uVar2 = fn_82CE0BB0();
+    uVar2 = WSAGetLastError();
     if (uVar2 < 0x2733) {
       return 0;
     }

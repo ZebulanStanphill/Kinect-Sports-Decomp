@@ -1,7 +1,7 @@
 extern void *fn_82522DF8(unsigned int);
 extern void fn_82A1E658(void *);
 extern void *XMemSet(void *, int, unsigned int);
-extern void *fn_82A1DD38(void *, const void *, unsigned int);
+extern void *XMemCpy(void *, const void *, unsigned int);
 
 void fn_8261BF58(char **self, unsigned int value, const char *name, const void *data)
 {
@@ -27,5 +27,5 @@ void fn_8261BF58(char **self, unsigned int value, const char *name, const void *
     if (out == end) {
         out[-1] = 0;
     }
-    fn_82A1DD38(*self + 4, data, 0x134);
+    XMemCpy(*self + 4, data, 0x134);
 }

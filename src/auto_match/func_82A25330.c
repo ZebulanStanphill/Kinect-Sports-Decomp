@@ -1,4 +1,4 @@
-extern int fn_82A1E810();
+extern int SetEvent();
 extern int fn_82A20688();
 extern int fn_82A247C0();
 extern int fn_82A250F8();
@@ -47,7 +47,7 @@ void fn_82A25330(unsigned int *param_1)
     *(unsigned **)(lbl_83219B90+0x8c)=param_1;
     *(unsigned *)(lbl_83219B90+0xd0)|=1; }
     RtlLeaveCriticalSection((lbl_83219B90+0x10));
-    fn_82A1E810((*(unsigned *)(lbl_83219B90+0x34)));
+    SetEvent((*(unsigned *)(lbl_83219B90+0x34)));
   }
   RtlLeaveCriticalSection((lbl_83219B90+0x10));
   return;

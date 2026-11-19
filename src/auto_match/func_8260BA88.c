@@ -2,7 +2,7 @@ typedef unsigned char bool;
 #define true 1
 #define false 0
 extern int fn_8260BD80();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern unsigned int lbl_821956A4;
 extern unsigned int ltcg_pool_0_0f;
 extern unsigned int lbl_8327F880;
@@ -34,7 +34,7 @@ void fn_8260BA88(unsigned int *param_1,unsigned __int64 param_2)
     uVar10 = uVar10 - (uVar10 & 0xfffffffe);
   }
   *param_1 = uVar10;
-  fn_82A1DD38(param_1 + uVar10 * 10 + 1,param_2,0x28);
+  XMemCpy(param_1 + uVar10 * 10 + 1,param_2,0x28);
   fVar2 = lbl_8327F894;
   fVar4 = ltcg_pool_0_0f;
   puVar6 = &lbl_8327F880;

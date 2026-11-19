@@ -9,7 +9,7 @@ extern int fn_8225DA18();
 extern int fn_82269DE0();
 extern int fn_82486B08();
 extern int fn_82829120();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern unsigned int iStack_480;
 extern unsigned int uStack_46c;
 extern unsigned int uStack_470;
@@ -51,15 +51,15 @@ LAB_82269ca4:
     auStack_47c[0] = fn_8225DA18(lVar5,*(unsigned int *)(iVar7 + 0xd0));
     fn_82829120(&iStack_480,lVar5 + 0x48,auStack_47c);
     iVar4 = *(int *)(iStack_480 + 0x10);
-    fn_82A1DD38(iVar4,uVar6,1000);
+    XMemCpy(iVar4,uVar6,1000);
     *(unsigned int *)(iVar4 + 0x404) = 1;
     *(unsigned int *)(iVar4 + 0x408) = 1;
     if (param_1[0xd9] != 0) {
       fn_82486B08(&uStack_470);
       uStack_470 = 0;
       uStack_46c = *(unsigned int *)(iVar7 + 0xd0);
-      fn_82A1DD38(auStack_464,uVar6,1000);
-      fn_82A1DD38((unsigned __int64)(unsigned int)param_1[0xe3] + 0x838,&uStack_470,0x420);
+      XMemCpy(auStack_464,uVar6,1000);
+      XMemCpy((unsigned __int64)(unsigned int)param_1[0xe3] + 0x838,&uStack_470,0x420);
       fn_8225D1F8(lVar5,*(unsigned int *)(iVar7 + 0xd0));
       fn_8225C5F8(lVar5);
       fn_82269DE0(param_1,param_2);

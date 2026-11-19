@@ -75,8 +75,8 @@ void fn_82A1BB18(void);
 void fn_82BFE128(unsigned int queue, Message *m);         // send
 int fn_82BFE530(unsigned int queue, Message **out);       // receive (HRESULT)
 int fn_82BFE460(unsigned int queue);                      // queue empty
-int fn_82A1E810(unsigned int event);                      // SetEvent
-void fn_82A1E108(int ms);                                 // Sleep
+int SetEvent(unsigned int event);
+void Sleep(int ms);
 int fn_827D7CE0(unsigned int a);
 int fn_827DAD60(unsigned int a);
 extern unsigned int lbl_83296E18[];                       // message queue per thread
@@ -115,7 +115,7 @@ static __forceinline Message *receive(unsigned int *queues)
         r = 0;
     if (r)
         __lwsync();
-    fn_82A1E810(lbl_8326C3A8);
+    SetEvent(lbl_8326C3A8);
     return r;
 }
 
@@ -143,7 +143,7 @@ extern "C" void fn_825994A0(void)
                 do {
                     n = fn_827D7CE0(lbl_83265A24);
                     n += fn_827DAD60(lbl_8326B7C8);
-                    fn_82A1E108(0);
+                    Sleep(0);
                 } while (n != 0);
                 break;
             }

@@ -7,7 +7,7 @@ extern int fn_822315A0();
 extern int fn_823D22D0();
 extern int fn_824B42C8();
 extern int fn_82517978();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int fn_82E581C0();
 extern int fn_82F50CC0();
 extern int fn_82F50FC8();
@@ -93,7 +93,7 @@ void fn_82F51AC0(unsigned __int64 param_1,int *param_2)
     } while (uVar8 < 0x310);
     (**(int (***)())(**(int **)(param_2[1] + 8) + 8))(*(int **)(param_2[1] + 8),auStack_b00);
     uVar2 = fn_823D22D0(*(unsigned int *)param_2[1]);
-    fn_82A1DD38(auStack_ad0,uVar2,0x1c0);
+    XMemCpy(auStack_ad0,uVar2,0x1c0);
     puVar4 = (unsigned int *)fn_82F57338(auStack_b10,*(unsigned int *)param_2[1]);
     stack_pair_b20.first = 0;
     stack_pair_b20.second = 0;
@@ -125,8 +125,8 @@ void fn_82F51AC0(unsigned __int64 param_1,int *param_2)
       *(float *)(param_2[1] + 0x7f0) = (float)((double)*(float *)(param_2[1] + 0x7f0) + dVar9);
     }
     uVar2 = fn_823D22D0(*(unsigned int *)param_2[1]);
-    fn_82A1DD38((unsigned __int64)(unsigned int)param_2[1] + 0x450,uVar2,0x1c0);
-    fn_82A1DD38((unsigned __int64)(unsigned int)param_2[1] + 0x610,(unsigned __int64)(unsigned int)param_2[1] + 0x10,0x1c0);
+    XMemCpy((unsigned __int64)(unsigned int)param_2[1] + 0x450,uVar2,0x1c0);
+    XMemCpy((unsigned __int64)(unsigned int)param_2[1] + 0x610,(unsigned __int64)(unsigned int)param_2[1] + 0x10,0x1c0);
     *(__int64 *)(param_2[1] + 2000) = lVar1;
   }
   (**(int (***)())(*param_2 + 8))(param_1,param_2);

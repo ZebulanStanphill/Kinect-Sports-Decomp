@@ -5,7 +5,7 @@ typedef struct {
   int tail;
 } Init_824E34A8;
 extern void XMemSet(void *dst, int value, unsigned int size);
-extern void fn_82A1DD38(void *dst, const void *src, unsigned int size);
+extern void XMemCpy(void *dst, const void *src, unsigned int size);
 extern int lbl_8327F644[];
 extern Func_824E34A8 lbl_83276774[];
 extern void fn_822A19D0(void);
@@ -37,6 +37,6 @@ void fn_824E34A8(void)
   s.f[1] = fn_822A1AF8;
   s.f[7] = fn_822A2178;
   s.f[3] = fn_822A1E68;
-  fn_82A1DD38(&lbl_8327F644[1], s.head, sizeof(s.head));
-  fn_82A1DD38(lbl_83276774, s.f, sizeof(s.f));
+  XMemCpy(&lbl_8327F644[1], s.head, sizeof(s.head));
+  XMemCpy(lbl_83276774, s.f, sizeof(s.f));
 }

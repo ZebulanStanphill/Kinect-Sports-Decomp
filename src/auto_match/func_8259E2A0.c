@@ -25,7 +25,7 @@ extern int fn_82637EC0();
 extern int fn_82639F78();
 extern int fn_8263A120();
 extern int fn_82640A98();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern unsigned int lbl_82195B98;
 extern unsigned int lbl_82196290;
 extern unsigned int lbl_821CA460;
@@ -249,19 +249,19 @@ fn_8259E2A0(int *param_1,int param_2,__int64 param_3,int param_4,int param_5,int
   puVar11[3] = uVar36;
   iVar14 = fn_825207D0(param_3 + 0x8d00,auStack_150,0x40);
   if (iVar14 != 0) {
-    fn_82A1DD38(param_3 + 0x8d00,auStack_150);
+    XMemCpy(param_3 + 0x8d00,auStack_150);
     fn_826310E0(*piVar15,0xca,auStack_150,4,0x3000);
   }
   lVar16 = param_3 + 0x8d40;
   iVar14 = fn_825207D0(lVar16,auStack_110,0x40);
   if (iVar14 != 0) {
-    fn_82A1DD38(lVar16,auStack_110);
+    XMemCpy(lVar16,auStack_110);
     fn_826310E0(*piVar15,0xce,auStack_110,4,0x1800);
   }
   lVar16 = param_3 + 0x8d80;
   iVar14 = fn_825207D0(lVar16,auStack_d0,0x40);
   if (iVar14 != 0) {
-    fn_82A1DD38(lVar16,auStack_d0);
+    XMemCpy(lVar16,auStack_d0);
     fn_826310E0(*piVar15,0xd2,auStack_d0,4,0xc00);
   }
   if (*(int *)(param_1[1] + 0x60) == 0) {

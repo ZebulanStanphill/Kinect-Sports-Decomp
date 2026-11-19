@@ -12,7 +12,7 @@ extern int fn_828EA610();
 extern int fn_82A1BB28();
 extern int fn_82A1BB50();
 extern int fn_82A1BC70();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int fn_82F64020();
 extern int memcpy();
 extern unsigned int iStack_272;
@@ -116,14 +116,14 @@ LAB_8245bdbc:
       goto LAB_8245bdbc;
     }
   }
-  fn_82A1DD38(uVar12 + 0x3d,param_3,param_4);
+  XMemCpy(uVar12 + 0x3d,param_3,param_4);
   iStack_2c0 = (int)param_4;
   uStack_273 = 0;
 LAB_8245bde8:
   uStack_26e = (unsigned char)param_2;
   iStack_272 = iStack_2c0 + 0x3d;
   uStack_2a0 = 0x80;
-  fn_82A1DD38(uVar12,&uStack_2a0,0x3d);
+  XMemCpy(uVar12,&uStack_2a0,0x3d);
   iVar6 = iStack_272;
   *(int *)(*(int *)(param_1 + 0x560) + 8) = iStack_2c0 + 0x3d;
   *(unsigned int *)(param_1 + 0x53c) = (int)(param_2 + -1) - ((int)param_2 + -2 + (unsigned int)(param_2 + -1 == 0))

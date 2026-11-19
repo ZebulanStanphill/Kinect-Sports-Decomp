@@ -27,7 +27,7 @@ typedef struct Obj_825D23D8 {
 } Obj_825D23D8;
 
 extern void *fn_8251E4D0(Pool_825D23D8 *pool);
-extern void fn_82A1DD38(void *dst, const void *src, unsigned int n);
+extern void XMemCpy(void *dst, const void *src, unsigned int n);
 extern void fn_82522ED8(void *p);
 extern void fn_825D50C0(Obj_825D23D8 *self);
 extern char lbl_821C980C[];
@@ -44,7 +44,7 @@ void fn_825D23D8(Obj_825D23D8 *self)
         msg.type = 3;
         pool = (Pool_825D23D8 *)(self->owner->queue + 8);
         dst = fn_8251E4D0(pool);
-        fn_82A1DD38(dst, &msg, pool->elemSize);
+        XMemCpy(dst, &msg, pool->elemSize);
     }
     if (self->buffer != 0) {
         fn_82522ED8(self->buffer);

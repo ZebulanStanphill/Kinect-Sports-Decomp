@@ -1,7 +1,7 @@
 extern int NetDll_WSACloseEvent();
 
 
-void fn_82CE0BC8(void)
+void WSACloseEvent(void)
 
 {
   NetDll_WSACloseEvent();

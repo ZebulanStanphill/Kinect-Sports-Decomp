@@ -1,4 +1,4 @@
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int fn_82F535C8();
 extern int fn_8306ED30();
 extern unsigned int lbl_82167C98;
@@ -41,7 +41,7 @@ void fn_82F5A7D0(int param_1,__int64 param_2,__int64 param_3,float *param_4)
       pfVar3 = pfVar3 + 1;
     } while (uVar4 < 0x14);
   }
-  fn_82A1DD38(param_1 + 0x10,param_3 * 0x1c0 + param_2 + 0x30,0x1c0);
+  XMemCpy(param_1 + 0x10,param_3 * 0x1c0 + param_2 + 0x30,0x1c0);
   return;
 }
 

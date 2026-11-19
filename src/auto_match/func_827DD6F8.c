@@ -15,7 +15,7 @@ extern void *fn_827D9ED0(void *file);
 extern int fn_827D50B8(void *op);
 extern int fn_82A29AC0(void *handle, Overlapped_827DD6F8 *overlapped, unsigned int *transferred, int wait);
 extern unsigned int fn_82A1F470(void);
-extern int fn_82A1E810(void *handle);
+extern int SetEvent(void *handle);
 
 unsigned int fn_827DD6F8(void *self, Request_827DD6F8 *req)
 {
@@ -32,6 +32,6 @@ unsigned int fn_827DD6F8(void *self, Request_827DD6F8 *req)
         return 0;
     }
     if (overlapped->event != 0)
-        fn_82A1E810(overlapped->event);
+        SetEvent(overlapped->event);
     return 6;
 }

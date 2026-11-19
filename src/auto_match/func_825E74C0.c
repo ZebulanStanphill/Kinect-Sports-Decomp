@@ -4,7 +4,7 @@ extern int fn_825207D0();
 extern int fn_82543C70();
 extern int fn_8256BD38();
 extern int fn_826312F0();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int fn_82F68CC0();
 extern unsigned int ltcg_pool_0_0f;
 extern unsigned int stack0x00000024;
@@ -66,7 +66,7 @@ void fn_825E74C0(int param_1,__int64 param_2,unsigned int param_3)
   lVar10 = param_2 + 0xa22c;
   iVar3 = fn_825207D0(lVar10,auStack_180,0x30);
   if (iVar3 != 0) {
-    fn_82A1DD38(lVar10,auStack_180);
+    XMemCpy(lVar10,auStack_180);
     fn_826312F0(*(unsigned int *)param_2,0x73,auStack_180,0xc);
   }
   return;

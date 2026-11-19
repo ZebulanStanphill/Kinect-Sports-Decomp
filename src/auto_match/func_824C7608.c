@@ -36,7 +36,7 @@ extern void fn_8255EBE0(unsigned, void *);
 extern void fn_827EFFE8(unsigned);
 extern void fn_8255EDD0(unsigned, void *);
 extern void fn_827F0180(unsigned, unsigned, int, int, int);
-extern void fn_82A1DD38(unsigned, unsigned, unsigned);
+extern void XMemCpy(unsigned, unsigned, unsigned);
 extern __declspec(noreturn) void fn_82F63108(void);
 
 void fn_824C7608(Self_func_824C7608 *o, int flag)
@@ -69,7 +69,7 @@ void fn_824C7608(Self_func_824C7608 *o, int flag)
     v = o->f1f4;
     a = 3;
     if (v < 3) {
-      fn_82A1DD38(sl->res, o->table[o->f1f8 + 0x20]->res, (unsigned)sl->sz << 6);
+      XMemCpy(sl->res, o->table[o->f1f8 + 0x20]->res, (unsigned)sl->sz << 6);
       c = v + 1;
       p = (c > 3) ? &a : &c;
       o->f1f4 = *p;

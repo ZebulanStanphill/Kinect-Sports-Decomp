@@ -14,7 +14,7 @@ extern unsigned int fStack_150;
 extern unsigned int fStack_154;
 extern unsigned int fStack_158;
 extern unsigned int fStack_15c;
-extern int fn_82A1E810();
+extern int SetEvent();
 extern int fn_82F68CC0();
 extern int fn_82F6A548();
 extern int fn_82F6A594();
@@ -690,7 +690,7 @@ LAB_83012f20:
     } while (!bVar8);
     RtlLeaveCriticalSection(iVar12 + 4);
     *(unsigned char *)(iVar12 + 0x44) = 0;
-    fn_82A1E810(*(unsigned int *)(iVar12 + 0xb0));
+    SetEvent(*(unsigned int *)(iVar12 + 0xb0));
   }
   fn_82F6A594(1);
   return;

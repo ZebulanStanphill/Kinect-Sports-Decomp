@@ -1,4 +1,4 @@
-extern int fn_82A1DD38();
+extern int XMemCpy();
 
 
 void fn_82540D30(int param_1,unsigned int param_2,int param_3,int param_4,int param_5,int param_6,
@@ -78,16 +78,16 @@ void fn_82540D30(int param_1,unsigned int param_2,int param_3,int param_4,int pa
     puVar2[3] = uVar5;
   }
   if ((param_8 & 0xffffffff) != 0) {
-    fn_82A1DD38(param_1 + 0xab00,param_8,0x20);
+    XMemCpy(param_1 + 0xab00,param_8,0x20);
   }
   if (in_stack_00000054 != 0) {
-    fn_82A1DD38(param_1 + 0xab20,in_stack_00000054,0x20);
+    XMemCpy(param_1 + 0xab20,in_stack_00000054,0x20);
   }
   if (in_stack_0000005c != 0) {
-    fn_82A1DD38(param_1 + 0xab40,in_stack_0000005c,0x20);
+    XMemCpy(param_1 + 0xab40,in_stack_0000005c,0x20);
   }
   if (in_stack_00000064 != 0) {
-    fn_82A1DD38(param_1 + 0xab60,in_stack_00000064,0x10);
+    XMemCpy(param_1 + 0xab60,in_stack_00000064,0x10);
   }
   if (in_stack_0000006c != 0) {
     *(int *)(param_1 + 0xac30) = in_stack_0000006c;

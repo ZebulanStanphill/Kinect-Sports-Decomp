@@ -1,11 +1,11 @@
 extern unsigned int *auStack_60;
 extern int fn_82BE8F88();
 extern int fn_82BF2B20();
-extern int fn_82CE08B8();
-extern int fn_82CE08F0();
-extern int fn_82CE0908();
-extern int fn_82CE0928();
-extern int fn_82CE0990();
+extern int socket();
+extern int ioctlsocket();
+extern int setsockopt();
+extern int getsockopt();
+extern int connect();
 extern unsigned int stack0x00000034;
 extern unsigned int stack0x0000003c;
 extern unsigned int uStack00000034;
@@ -47,17 +47,17 @@ fn_82BF2BE0(int param_1,unsigned __int64 param_2,unsigned int param_3,unsigned s
     uStack0000003c = param_6;
     uStack_4e = param_4;
     uStack_4c = param_3;
-    uVar1 = fn_82CE08B8(2,1,6);
+    uVar1 = socket(2,1,6);
     *piVar3 = (int)uVar1;
     if ((int)uVar1 != -1) {
       uStack_6c = 1;
-      fn_82CE08F0(uVar1,0xffffffff8004667e,&uStack_6c);
-      fn_82CE0908(*piVar3,0xffff,0x1001,&stack0x00000034,4);
-      fn_82CE0908(*piVar3,0xffff,0x1002,&stack0x0000003c,4);
+      ioctlsocket(uVar1,0xffffffff8004667e,&uStack_6c);
+      setsockopt(*piVar3,0xffff,0x1001,&stack0x00000034,4);
+      setsockopt(*piVar3,0xffff,0x1002,&stack0x0000003c,4);
       if ((param_7 == 0) && (iVar2 = fn_82BE8F88(), iVar2 != 0)) {
         *(unsigned int *)(param_1 + 0x20) = 0;
         uStack_68 = 1;
-        fn_82CE0908(*piVar3,0xffff,0x5801,&uStack_68,4);
+        setsockopt(*piVar3,0xffff,0x5801,&uStack_68,4);
       }
       else {
         *(unsigned int *)(param_1 + 0x20) = 1;
@@ -65,9 +65,9 @@ fn_82BF2BE0(int param_1,unsigned __int64 param_2,unsigned int param_3,unsigned s
       uStack_64 = 0;
       auStack_60[0] = 0;
       uStack_70 = 4;
-      fn_82CE0928(*piVar3,0xffff,0x1001,&uStack_64,&uStack_70);
-      fn_82CE0928(*piVar3,0xffff,0x1002,auStack_60,&uStack_70);
-      iVar2 = fn_82CE0990(*piVar3,&uStack_50,0x10);
+      getsockopt(*piVar3,0xffff,0x1001,&uStack_64,&uStack_70);
+      getsockopt(*piVar3,0xffff,0x1002,auStack_60,&uStack_70);
+      iVar2 = connect(*piVar3,&uStack_50,0x10);
       if ((iVar2 != -1) || (iVar2 = fn_82BF2B20(piVar3), iVar2 == 0)) {
         return 1;
       }

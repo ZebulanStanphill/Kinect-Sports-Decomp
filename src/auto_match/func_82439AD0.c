@@ -17,7 +17,7 @@ extern int fn_82536690();
 extern int fn_8258E3A8();
 extern int fn_8265CA60();
 extern int fn_8265CAA0();
-extern int fn_82A1DD38();
+extern int XMemCpy();
 extern int fn_82E1CAD0();
 extern int fn_82E1CB08();
 extern int fn_82E1CB88();
@@ -78,7 +78,7 @@ void fn_82439AD0(int param_1,unsigned int *param_2,unsigned int param_3)
           if (uVar14 != 0) {
             uVar6 = fn_8251FBA8(uVar14);
             iVar9 = fn_8265CA60();
-            fn_82A1DD38(iVar9,uVar14,uVar6);
+            XMemCpy(iVar9,uVar14,uVar6);
           }
           *(unsigned int *)(iVar9 + 300) = *(unsigned int *)(*(int *)(param_1 + 0x40) + 0x1d8);
           *(int *)(iVar9 + 0x130) = param_1;
