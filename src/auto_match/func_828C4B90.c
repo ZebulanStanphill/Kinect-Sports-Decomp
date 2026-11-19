@@ -1,44 +1,50 @@
-extern int fn_828C4710();
-extern unsigned int uStack00000010;
-extern unsigned int uStack00000018;
-extern unsigned int uStack00000020;
+/* std::_Median with a predicate over deque iterators: median of nine for more than 40 elements,
+   else median of three. */
+typedef struct Deque_828C4B90 {
+    void *proxy;
+    unsigned int **map;
+    unsigned int mapsize;
+    unsigned int off;
+    unsigned int size;
+} Deque_828C4B90;
 
+typedef struct Iter_828C4B90 {
+    Deque_828C4B90 *cont;
+    unsigned int off;
+} Iter_828C4B90;
 
-void fn_828C4B90(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4)
+typedef unsigned char (*Less_828C4B90)(const void *a, const void *b);
 
+extern void fn_828C4710(Iter_828C4B90 first, Iter_828C4B90 mid, Iter_828C4B90 last, Less_828C4B90 less);
+
+static __forceinline Iter_828C4B90 Add_828C4B90(Iter_828C4B90 it, int n)
 {
-  int iVar1;
-  int iVar2;
-  __int64 lVar3;
-  unsigned __int64 uVar4;
-  int iVar5;
-  unsigned int uVar6;
-  unsigned __int64 uStack00000010;
-  unsigned __int64 uStack00000018;
-  unsigned __int64 uStack00000020;
-  
-  uStack00000010 = ((((unsigned __int64)(uStack00000010)) & (~(((unsigned __int64)0xFFFFFFFF) << 32))) | ((((unsigned __int64)((int)param_1)) & ((unsigned __int64)0xFFFFFFFF)) << 32));
-  uStack00000020 = ((((unsigned __int64)(uStack00000020)) & (~(((unsigned __int64)0xFFFFFFFF) << 32))) | ((((unsigned __int64)((int)param_3)) & ((unsigned __int64)0xFFFFFFFF)) << 32));
-  iVar1 = (((unsigned __int64)(uStack00000020) >> 32) & 0xFFFFFFFF);
-  lVar3 = (param_3 & 0xffffffff) - (param_1 & 0xffffffff);
-  uStack00000010 = param_1;
-  uStack00000018 = param_2;
-  uStack00000020 = param_3;
-  if ((int)lVar3 < 0x29) {
-    fn_828C4710(param_1,param_2,param_3);
-  }
-  else {
-    uVar4 = lVar3 + 1;
-    iVar2 = (int)uVar4;
-    uVar6 = (iVar2 >> 3) + (unsigned int)(iVar2 < 0 && (uVar4 & 7) != 0);
-    iVar5 = (((unsigned __int64)(uStack00000010) >> 32) & 0xFFFFFFFF) + uVar6;
-    iVar2 = uVar6 * 2 + (((unsigned __int64)(uStack00000010) >> 32) & 0xFFFFFFFF);
-    fn_828C4710(param_1,iVar5,iVar2);
-    fn_828C4710((((unsigned __int64)(uStack00000018) >> 32) & 0xFFFFFFFF) - uVar6,param_2,(((unsigned __int64)(uStack00000018) >> 32) & 0xFFFFFFFF) + uVar6,param_4);
-    iVar2 = iVar1 - uVar6;
-    fn_828C4710(iVar1 + (uVar6 & 0x7fffffff) * -2,iVar2,param_3,param_4);
-    fn_828C4710(iVar5,param_2,iVar2,param_4);
-  }
-  return;
+    it.off += n;
+    return it;
 }
 
+static __forceinline Iter_828C4B90 Sub_828C4B90(Iter_828C4B90 it, int n)
+{
+    it.off -= n;
+    return it;
+}
+
+static __forceinline int Diff_828C4B90(Iter_828C4B90 a, Iter_828C4B90 b)
+{
+    return b.off <= a.off ? a.off - b.off : -(int)(b.off - a.off);
+}
+
+void fn_828C4B90(Iter_828C4B90 first, Iter_828C4B90 mid, Iter_828C4B90 last, Less_828C4B90 less)
+{
+    int step;
+
+    if (40 < Diff_828C4B90(last, first)) {
+        step = (Diff_828C4B90(last, first) + 1) / 8;
+        fn_828C4710(first, Add_828C4B90(first, step), Add_828C4B90(first, 2 * step), less);
+        fn_828C4710(Sub_828C4B90(mid, step), mid, Add_828C4B90(mid, step), less);
+        fn_828C4710(Sub_828C4B90(last, 2 * step), Sub_828C4B90(last, step), last, less);
+        fn_828C4710(Add_828C4B90(first, step), mid, Sub_828C4B90(last, step), less);
+    } else {
+        fn_828C4710(first, mid, last, less);
+    }
+}

@@ -1,28 +1,28 @@
-extern int fn_827792C0();
-extern unsigned int lbl_82005CCC;
-extern unsigned int uStack_20;
-extern unsigned int uStack_28;
-extern unsigned int uStack_30;
+typedef struct Color_82779740 {
+    unsigned char a; /* 0x0 */
+    unsigned char r; /* 0x1 */
+    unsigned char g; /* 0x2 */
+    unsigned char b; /* 0x3 */
+} Color_82779740;
 
+extern const float lbl_82005CCC;
+extern void fn_827792C0(double hue, double saturation, double value, double *red, double *green,
+                        double *blue);
 
-void fn_82779740(int param_1)
-
+void fn_82779740(Color_82779740 *self, double hue, double saturation, double value)
 {
-  float fVar1;
-  unsigned char uVar2;
-  unsigned __int64 uStack_30;
-  unsigned __int64 uStack_28;
-  unsigned __int64 uStack_20;
-  
-  fn_827792C0();
-  fVar1 = (float)uStack_20;
-  uStack_20 = ((((unsigned __int64)(uStack_20)) & (~(((unsigned __int64)0xFF) << 56))) | ((((unsigned __int64)((unsigned char)(__int64)((float)uStack_30 * lbl_82005CCC))) & ((unsigned __int64)0xFF)) << 56));
-  uVar2 = (unsigned char)uStack_20;
-  uStack_28 = ((((unsigned __int64)(uStack_28)) & (~(((unsigned __int64)0xFF) << 56))) | ((((unsigned __int64)((unsigned char)(__int64)((float)uStack_28 * lbl_82005CCC))) & ((unsigned __int64)0xFF)) << 56));
-  uStack_20 = ((((unsigned __int64)(uStack_20)) & (~(((unsigned __int64)0xFF) << 56))) | ((((unsigned __int64)((unsigned char)(__int64)(fVar1 * lbl_82005CCC))) & ((unsigned __int64)0xFF)) << 56));
-  *(unsigned char *)(param_1 + 1) = uVar2;
-  *(unsigned char *)(param_1 + 2) = (unsigned char)uStack_28;
-  *(unsigned char *)(param_1 + 3) = (unsigned char)uStack_20;
-  return;
-}
+    double red;
+    double green;
+    double blue;
+    unsigned char r;
+    unsigned char g;
+    unsigned char b;
 
+    fn_827792C0(hue, saturation, value, &red, &green, &blue);
+    r = (unsigned char)((float)red * lbl_82005CCC);
+    g = (unsigned char)((float)green * lbl_82005CCC);
+    b = (unsigned char)((float)blue * lbl_82005CCC);
+    self->r = r;
+    self->g = g;
+    self->b = b;
+}

@@ -1,42 +1,37 @@
-typedef unsigned char bool;
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_50;
-extern int fn_82810240();
-extern int fn_82810328();
-extern int fn_82810470();
-extern int fn_82810B78();
-extern int fn_8305F7A0();
-extern int fn_83066658();
+typedef struct Plane_8305D830 {
+    float values[6];
+} Plane_8305D830;
 
+typedef struct Shape_8305D830 {
+    char pad0[0x28];
+    void *points;          /* 0x28 */
+    unsigned int *indices; /* 0x2c */
+    int count;             /* 0x30 */
+    float normal[3];       /* 0x34 */
+} Shape_8305D830;
 
-bool fn_8305D830(int param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+extern void *fn_8305F7A0(void *points, unsigned int index);
+extern void fn_82810328(const float *a, const float *b, float *out);
+extern int fn_82810470(const float *vector);
+extern void fn_82810240(const float *first, const float *second, float *out);
+extern void fn_82810B78(const float *src, float *dst);
+extern void fn_83066658(Plane_8305D830 *out, const float *normal, void *point);
 
+unsigned char fn_8305D830(Shape_8305D830 *self, int index, Plane_8305D830 *out)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  int iVar4;
-  unsigned char auStack_50 [16];
-  unsigned char auStack_40 [64];
-  
-  iVar4 = *(int *)(param_1 + 0x30);
-  iVar1 = (int)((param_2 & 0xffffffff) << 2);
-  uVar2 = fn_8305F7A0(*(unsigned int *)(param_1 + 0x28),
-                       *(unsigned int *)(*(int *)(param_1 + 0x2c) + iVar1));
-  uVar3 = fn_8305F7A0(*(unsigned int *)(param_1 + 0x28),
-                       *(unsigned int *)
-                        ((int)(((param_2 + 1) -
-                                (__int64)((int)(param_2 + 1) / iVar4) * (__int64)iVar4 &
-                               0xffffffff) << 2) + *(int *)(param_1 + 0x2c)));
-  fn_82810328(uVar3,uVar2,auStack_40);
-  iVar4 = fn_82810470(auStack_40);
-  if (iVar4 == 0) {
-    fn_82810240(auStack_40,param_1 + 0x34,auStack_50);
-    fn_82810B78(auStack_50,auStack_50);
-    uVar2 = fn_8305F7A0(*(unsigned int *)(param_1 + 0x28),
-                         *(unsigned int *)(*(int *)(param_1 + 0x2c) + iVar1));
-    fn_83066658(param_3,auStack_50,uVar2);
-  }
-  return iVar4 == 0;
-}
+    float edge[3];
+    float normal[3];
+    int next;
+    float *start;
 
+    next = (index + 1) % self->count;
+    start = (float *)fn_8305F7A0(self->points, self->indices[index]);
+    fn_82810328((float *)fn_8305F7A0(self->points, self->indices[next]), start, edge);
+    if (fn_82810470(edge) != 0) {
+        return 0;
+    }
+    fn_82810240(edge, self->normal, normal);
+    fn_82810B78(normal, normal);
+    fn_83066658(out, normal, fn_8305F7A0(self->points, self->indices[index]));
+    return 1;
+}

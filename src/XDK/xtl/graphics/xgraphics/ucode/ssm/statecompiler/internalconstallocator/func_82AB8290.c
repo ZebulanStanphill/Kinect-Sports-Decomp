@@ -1,16 +1,38 @@
-unsigned __int64 fn_82AB8290(int param_1,int param_2,unsigned int param_3,unsigned int param_4,unsigned int param_5)
+typedef struct Component_82AB8290 {
+    unsigned int value; /* 0x0 */
+    unsigned int extra; /* 0x4 */
+} Component_82AB8290;
 
+typedef struct VecConst_82AB8290 {
+    union {
+        unsigned int word;
+
+        struct {
+            unsigned int index : 8;
+            unsigned int used : 4;
+            unsigned int types : 8;
+            unsigned int pad : 12;
+        } bits;
+    } flags;
+
+    Component_82AB8290 components[4]; /* 0x4 */
+} VecConst_82AB8290;
+
+typedef struct ICA_82AB8290 {
+    void *context;                   /* 0x0 */
+    void *AllocateSysMem;            /* 0x4 */
+    void *FreeSysMem;                /* 0x8 */
+    void *pRegistry;                 /* 0xc */
+    VecConst_82AB8290 vecConsts[32]; /* 0x10 */
+} ICA_82AB8290;
+
+int fn_82AB8290(ICA_82AB8290 *pICA, int vec, unsigned int component, unsigned int value, unsigned int extra)
 {
-  unsigned int uVar1;
-  
-  param_2 = param_2 * 0x24;
-  uVar1 = *(unsigned int *)(param_2 + param_1 + 0x10);
-  *(unsigned int *)(param_2 + param_1 + 0x10) =
-       (1 << (param_3 & 0x3f) & 0xfU) << 0x14 | uVar1 & 0xfff00fff |
-       (~(3 << (param_3 << 1 & 0x3e)) << 0xc & uVar1 | (1 << (param_3 << 1 & 0x3e)) << 0xc) &
-       0xff000;
-  *(unsigned int *)((param_3 + 3) * 8 + param_2 + param_1) = param_5;
-  *(unsigned int *)(param_3 * 8 + param_2 + param_1 + 0x14) = param_4;
-  return 0;
-}
+    VecConst_82AB8290 *pConst = &pICA->vecConsts[vec];
 
+    pConst->flags.word |= ((1 << component) & 0xf) << 20;
+    pConst->flags.bits.types = (pConst->flags.bits.types & ~(3 << (component * 2))) | (1 << (component * 2));
+    pICA->vecConsts[vec].components[component].extra = extra;
+    pICA->vecConsts[vec].components[component].value = value;
+    return 0;
+}

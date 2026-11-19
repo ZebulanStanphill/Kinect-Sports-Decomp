@@ -1,46 +1,55 @@
-extern unsigned int *auStack_20;
-extern int fn_8251F720();
-extern int fn_82520158();
-extern unsigned int lbl_821CAD0C;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct ResourceName_826192B0 {
+    unsigned int hash;
+    unsigned int type;
+} ResourceName_826192B0;
 
+typedef struct Effect_826192B0 {
+    void *vtable; /* 0x0 */
+    void *owner;  /* 0x4 */
+    char pad8[0xfb4 - 0x8];
+    int mfb4;          /* 0xfb4 */
+    int mfb8;          /* 0xfb8 */
+    int mfbc;          /* 0xfbc */
+    int mfc0;          /* 0xfc0 */
+    int padfc4;        /* 0xfc4 */
+    int enabled;       /* 0xfc8 */
+    float mfcc;        /* 0xfcc */
+    int mfd0;          /* 0xfd0 */
+    void *gunTexture;  /* 0xfd4 */
+    void *boltTexture; /* 0xfd8 */
+} Effect_826192B0;
 
-unsigned int * fn_826192B0(unsigned int *param_1,unsigned int param_2,int param_3)
+extern char lbl_821CAD0C[];
+extern int fn_82520158(const char *name, ResourceName_826192B0 *out, int flags);
+extern void *fn_8251F720(ResourceName_826192B0 *name, int flags);
 
+Effect_826192B0 *fn_826192B0(Effect_826192B0 *self, void *owner, int enabled)
 {
-  int iVar1;
-  unsigned int uVar2;
-  unsigned char auStack_20 [8];
-  
-  param_1[1] = param_2;
-  param_1[0x3f2] = param_3;
-  param_1[0x3ed] = 0;
-  param_1[0x3f3] = ltcg_pool_0_0f;
-  *param_1 = &lbl_821CAD0C;
-  param_1[0x3ee] = 0;
-  param_1[0x3ef] = 0;
-  param_1[0x3f0] = 0;
-  param_1[0x3f4] = 0xffffffff;
-  if (param_3 == 0) {
-    param_1[0x3f5] = 0;
-  }
-  else {
-    iVar1 = fn_82520158(0xffffffff821c9120,auStack_20,0);
-    if (iVar1 == 0) {
-      param_1[0x3f5] = 0;
-    }
-    else {
-      uVar2 = fn_8251F720(auStack_20,0);
-      param_1[0x3f5] = uVar2;
-    }
-    iVar1 = fn_82520158(0xffffffff821c53d4,auStack_20,0);
-    if (iVar1 != 0) {
-      uVar2 = fn_8251F720(auStack_20,0);
-      param_1[0x3f6] = uVar2;
-      return param_1;
-    }
-  }
-  param_1[0x3f6] = 0;
-  return param_1;
-}
+    ResourceName_826192B0 name;
 
+    self->owner = owner;
+    self->enabled = enabled;
+    self->mfb4 = 0;
+    self->mfcc = 0.0f;
+    self->vtable = lbl_821CAD0C;
+    self->mfb8 = 0;
+    self->mfbc = 0;
+    self->mfc0 = 0;
+    self->mfd0 = -1;
+    if (enabled != 0) {
+        if (fn_82520158("gravityGunTexture", &name, 0) != 0) {
+            self->gunTexture = fn_8251F720(&name, 0);
+        } else {
+            self->gunTexture = 0;
+        }
+        if (fn_82520158("electricbolt", &name, 0) != 0) {
+            self->boltTexture = fn_8251F720(&name, 0);
+        } else {
+            self->boltTexture = 0;
+        }
+    } else {
+        self->gunTexture = 0;
+        self->boltTexture = 0;
+    }
+    return self;
+}

@@ -1,57 +1,55 @@
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_80;
-extern int fn_82F5D418();
-extern int fn_82F5DD50();
-extern int fn_82F5DEE0();
-extern int fn_82F5E4D8();
-extern int memcpy();
+typedef struct Settings_82F5DDA8 {
+    int enabled;        /* 0x00 */
+    float strength;     /* 0x04 */
+    float direction[3]; /* 0x08 */
+    int mode;           /* 0x14 */
+    float range;        /* 0x18 */
+    float minimum[2];   /* 0x1c */
+    float maximum[2];   /* 0x24 */
+} Settings_82F5DDA8;
 
+typedef struct Obj_82F5DDA8 {
+    char pad0[0x114];
+    int state; /* 0x114 */
+    int delay; /* 0x118 */
+    char pad11c[0x13c - 0x11c];
+    unsigned int x; /* 0x13c */
+    unsigned int y; /* 0x140 */
+    unsigned int z; /* 0x144 */
+} Obj_82F5DDA8;
 
-void fn_82F5DDA8(int param_1,int *param_2)
+extern void fn_82F5E4D8(int *status);
+extern void fn_82F5DD50(Obj_82F5DDA8 *self);
+extern Settings_82F5DDA8 fn_82F5D418(float x, float y, float z, Obj_82F5DDA8 *self);
+extern void fn_82F5DEE0(int *status, Settings_82F5DDA8 *settings);
 
+void fn_82F5DDA8(Obj_82F5DDA8 *self, int *status)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  unsigned int uVar3;
-  unsigned char auStack_80 [48];
-  unsigned char auStack_50 [56];
-  
-  if (*(int *)(param_1 + 0x118) < 1) {
-    iVar2 = *(int *)(param_1 + 0x114);
-    if (iVar2 != 1) {
-      if (iVar2 == 2) {
-        fn_82F5DD50(param_1);
-        uVar1 = fn_82F5D418((double)*(unsigned int *)(param_1 + 0x13c),
-                                  (double)*(unsigned int *)(param_1 + 0x140),
-                                  (double)*(unsigned int *)(param_1 + 0x144),auStack_50);
-        memcpy(auStack_80,uVar1,0x2c);
-        fn_82F5DEE0(param_2,auStack_80);
-        uVar3 = 3;
-      }
-      else {
-        if (iVar2 != 3) {
-          return;
-        }
-        fn_82F5E4D8(param_2);
-        if (*param_2 != 0) {
-          return;
-        }
-        uVar3 = 0;
-      }
-      *(unsigned int *)(param_1 + 0x114) = uVar3;
-      return;
-    }
-    fn_82F5E4D8(param_2);
-    if (*param_2 != 0) {
-      return;
-    }
-    iVar2 = 10;
-    *(unsigned int *)(param_1 + 0x114) = 2;
-  }
-  else {
-    iVar2 = *(int *)(param_1 + 0x118) + -1;
-  }
-  *(int *)(param_1 + 0x118) = iVar2;
-  return;
-}
+    Settings_82F5DDA8 settings;
 
+    if (self->delay > 0) {
+        self->delay--;
+    } else {
+        switch (self->state) {
+        case 1:
+            fn_82F5E4D8(status);
+            if (*status == 0) {
+                self->delay = 10;
+                self->state = 2;
+            }
+            break;
+        case 2:
+            fn_82F5DD50(self);
+            settings = fn_82F5D418((float)self->x, (float)self->y, (float)self->z, self);
+            fn_82F5DEE0(status, &settings);
+            self->state = 3;
+            break;
+        case 3:
+            fn_82F5E4D8(status);
+            if (*status == 0) {
+                self->state = 0;
+            }
+            break;
+        }
+    }
+}

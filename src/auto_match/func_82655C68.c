@@ -1,51 +1,53 @@
-extern int fn_82F68CC0();
-extern int fn_831427AC();
-extern unsigned int uStack_44;
-extern unsigned int uStack_48;
+typedef struct Rect_82655C68 {
+    long left;   /* 0x00 */
+    long top;    /* 0x04 */
+    long right;  /* 0x08 */
+    long bottom; /* 0x0c */
+} Rect_82655C68;
 
+typedef struct Mode_82655C68 {
+    Rect_82655C68 rect;      /* 0x00 */
+    unsigned int rate;       /* 0x10 */
+    unsigned int scaledSize; /* 0x14 */
+    char pad18[0x20];
+} Mode_82655C68;
 
-void fn_82655C68(int param_1,unsigned int param_2,unsigned int param_3,unsigned int *param_4,unsigned int *param_5)
+typedef struct Device_82655C68 {
+    char pad0[0x35e8];
+    unsigned int flags; /* 0x35e8 */
+    char pad35EC[0x5500 - 0x35ec];
+    unsigned int defaultRate; /* 0x5500 */
+    unsigned int maxSize;     /* 0x5504 */
+} Device_82655C68;
 
+extern unsigned long VdQueryVideoFlags(void);
+
+void fn_82655C68(Device_82655C68 *device, long defaultWidth, long defaultHeight, const Mode_82655C68 *in,
+                 Mode_82655C68 *out)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  unsigned int uVar4;
-  unsigned __int64 uVar5;
-  unsigned int uStack_48;
-  unsigned int uStack_44;
-  unsigned int uVar6;
-  
-  uVar1 = param_4[1];
-  uVar2 = *param_4;
-  uStack_48 = param_4[2];
-  uStack_44 = param_4[3];
-  if ((((uVar2 == 0) && (uStack_48 == 0)) && (uVar1 == 0)) && (uStack_44 == 0)) {
-    uStack_48 = param_2;
-    uStack_44 = param_3;
-  }
-  uVar4 = param_4[4];
-  if (uVar4 == 0) {
-    uVar4 = *(unsigned int *)(param_1 + 0x5500);
-  }
-  uVar6 = param_4[5];
-  if (uVar6 == 0) {
-    uVar5 = ((__int64)(int)uVar4 * (__int64)(int)(uStack_44 - uVar1) & 0xffffffffU) /
-            ((unsigned __int64)uStack_48 - (unsigned __int64)uVar2 & 0xffffffff);
-    uVar6 = (unsigned int)uVar5;
-    trapWord(6,(unsigned __int64)uStack_48 - (unsigned __int64)uVar2,0);
-    if ((((*(unsigned int *)(param_1 + 0x35e8) & 1) != 0) || (uVar3 = fn_831427AC(), (uVar3 & 1) != 0))
-       || ((uStack_44 - uVar1 < uVar5 || (*(unsigned int *)(param_1 + 0x5504) < uVar5)))) {
-      uVar6 = *(unsigned int *)(param_1 + 0x5504);
-    }
-  }
-  fn_82F68CC0(param_5,param_4,0x38);
-  param_5[4] = uVar4;
-  param_5[5] = uVar6;
-  *param_5 = uVar2;
-  param_5[1] = uVar1;
-  param_5[2] = uStack_48;
-  param_5[3] = uStack_44;
-  return;
-}
+    Rect_82655C68 rect = in->rect;
+    unsigned int width;
+    unsigned int height;
+    unsigned int rate;
+    unsigned int size;
 
+    if (rect.left == 0 && rect.right == 0 && rect.top == 0 && rect.bottom == 0) {
+        rect.right = defaultWidth;
+        rect.bottom = defaultHeight;
+    }
+    width = rect.right - rect.left;
+    height = rect.bottom - rect.top;
+    rate = in->rate != 0 ? in->rate : device->defaultRate;
+    size = in->scaledSize;
+    if (size == 0) {
+        size = rate * height / width;
+        if ((device->flags & 1) != 0 || (VdQueryVideoFlags() & 1) != 0 || size > height ||
+            size > device->maxSize) {
+            size = device->maxSize;
+        }
+    }
+    *out = *in;
+    out->rate = rate;
+    out->scaledSize = size;
+    out->rect = rect;
+}

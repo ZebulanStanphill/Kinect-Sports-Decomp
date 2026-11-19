@@ -1,102 +1,60 @@
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_70;
-extern int fn_82F4ED10();
-extern int fn_82F538A0();
-extern int fn_82F538B0();
-extern int fn_82F538C8();
-extern int fn_82F538E0();
-extern int fn_82F597F0();
-extern int fn_8306ED70();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Vec_82F4ED78 {
+    __vector4 v;
+} Vec_82F4ED78;
 
-void fn_82F4ED78(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5,unsigned __int64 param_6,unsigned __int64 param_7,unsigned __int64 param_8)
+typedef struct Matrix_82F4ED78 {
+    __vector4 rows[4];
+} Matrix_82F4ED78;
 
+typedef struct Key_82F4ED78 {
+    __vector4 position; /* 0x00 */
+    __vector4 rotation; /* 0x10 */
+    __vector4 scale;    /* 0x20 */
+    int frame;          /* 0x30 */
+    char pad34[0x1c];
+} Key_82F4ED78;
+
+typedef struct Track_82F4ED78 {
+    char pad0[0x1040];
+    Key_82F4ED78 keys[1]; /* 0x1040 */
+} Track_82F4ED78;
+
+typedef struct Node_82F4ED78 {
+    char pad0[0xcb1];
+    unsigned char flipped; /* 0xcb1 */
+    char padCB2[0xcf0 - 0xcb2];
+    Track_82F4ED78 *track; /* 0xcf0 */
+} Node_82F4ED78;
+
+extern Vec_82F4ED78 fn_82F538A0(Key_82F4ED78 *keys, int i);
+extern Vec_82F4ED78 fn_82F538B0(Key_82F4ED78 *keys, int i);
+extern Vec_82F4ED78 fn_82F538C8(Key_82F4ED78 *keys, int i);
+extern int fn_82F538E0(Key_82F4ED78 *keys, int i);
+extern Vec_82F4ED78 fn_82F4ED10(Node_82F4ED78 *node);
+extern __vector4 fn_82F597F0(Matrix_82F4ED78 m, __vector4 v);
+extern __vector4 fn_8306ED70(__vector4 a, __vector4 b);
+
+int fn_82F4ED78(Node_82F4ED78 *self, int i, Matrix_82F4ED78 m, __vector4 *position, void *unused,
+                __vector4 *rotation, __vector4 *scale)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int in_r0;
-  int iVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned __int64 in_stack_00000050;
-  unsigned __int64 in_stack_00000058;
-  int in_stack_00000064;
-  int in_stack_00000074;
-  int in_stack_0000007c;
-  unsigned char auStack_70 [16];
-  unsigned char auStack_60 [96];
-  
-  if (in_stack_00000064 != 0) {
-    iVar3 = fn_82F538A0(auStack_70,(unsigned __int64)*(unsigned int *)(param_1 + 0xcf0) + 0x1040,param_2);
-    puVar1 = (unsigned int *)(in_r0 + iVar3 & 0xfffffff0);
-    uVar4 = *puVar1;
-    uVar5 = puVar1[1];
-    uVar6 = puVar1[2];
-    uVar7 = puVar1[3];
-    fn_82F597F0(param_3,param_4,param_5,param_6,param_7,param_8,in_stack_00000050,in_stack_00000058
-                );
-    puVar1 = (unsigned int *)(in_r0 + in_stack_00000064 & 0xfffffff0);
-    *puVar1 = uVar4;
-    puVar1[1] = uVar5;
-    puVar1[2] = uVar6;
-    puVar1[3] = uVar7;
-    fn_82F4ED10(auStack_70,param_1);
-    puVar1 = (unsigned int *)(in_r0 + in_stack_00000064 & 0xfffffff0);
-    uVar4 = *puVar1;
-    uVar5 = puVar1[1];
-    uVar6 = puVar1[2];
-    uVar7 = puVar1[3];
-    fn_8306ED70();
-    puVar1 = (unsigned int *)(in_r0 + in_stack_00000064 & 0xfffffff0);
-    *puVar1 = uVar4;
-    puVar1[1] = uVar5;
-    puVar1[2] = uVar6;
-    puVar1[3] = uVar7;
-  }
-  if (in_stack_00000074 != 0) {
-    iVar3 = fn_82F538B0(auStack_70,(unsigned __int64)*(unsigned int *)(param_1 + 0xcf0) + 0x1040,param_2);
-    puVar1 = (unsigned int *)(in_r0 + iVar3 & 0xfffffff0);
-    uVar4 = puVar1[1];
-    uVar5 = puVar1[2];
-    uVar6 = puVar1[3];
-    puVar2 = (unsigned int *)(in_r0 + in_stack_00000074 & 0xfffffff0);
-    *puVar2 = *puVar1;
-    puVar2[1] = uVar4;
-    puVar2[2] = uVar5;
-    puVar2[3] = uVar6;
-    fn_82F4ED10(auStack_60,param_1);
-    puVar1 = (unsigned int *)(in_r0 + in_stack_00000074 & 0xfffffff0);
-    uVar4 = *puVar1;
-    uVar5 = puVar1[1];
-    uVar6 = puVar1[2];
-    uVar7 = puVar1[3];
-    fn_8306ED70();
-    puVar1 = (unsigned int *)(in_r0 + in_stack_00000074 & 0xfffffff0);
-    *puVar1 = uVar4;
-    puVar1[1] = uVar5;
-    puVar1[2] = uVar6;
-    puVar1[3] = uVar7;
-  }
-  if (in_stack_0000007c != 0) {
-    iVar3 = fn_82F538C8(auStack_60,(unsigned __int64)*(unsigned int *)(param_1 + 0xcf0) + 0x1040,param_2);
-    puVar1 = (unsigned int *)(in_r0 + iVar3 & 0xfffffff0);
-    uVar4 = puVar1[1];
-    uVar5 = puVar1[2];
-    uVar6 = puVar1[3];
-    puVar2 = (unsigned int *)(in_r0 + in_stack_0000007c & 0xfffffff0);
-    *puVar2 = *puVar1;
-    puVar2[1] = uVar4;
-    puVar2[2] = uVar5;
-    puVar2[3] = uVar6;
-    if (*(char *)(param_1 + 0xcb1) != '\0') {
-      *(float *)(in_stack_0000007c + 4) = -*(float *)(in_stack_0000007c + 4);
-      *(float *)(in_stack_0000007c + 8) = -*(float *)(in_stack_0000007c + 8);
+    if (position != 0) {
+        *position = fn_82F597F0(m, fn_82F538A0(self->track->keys, i).v);
+        *position = fn_8306ED70(*position, fn_82F4ED10(self).v);
     }
-  }
-  fn_82F538E0((unsigned __int64)*(unsigned int *)(param_1 + 0xcf0) + 0x1040,param_2);
-  return;
+    if (rotation != 0) {
+        *rotation = fn_82F538B0(self->track->keys, i).v;
+        *rotation = fn_8306ED70(*rotation, fn_82F4ED10(self).v);
+    }
+    if (scale != 0) {
+        *scale = fn_82F538C8(self->track->keys, i).v;
+        if (self->flipped) {
+            scale->vector4_f32[1] = -scale->vector4_f32[1];
+            scale->vector4_f32[2] = -scale->vector4_f32[2];
+        }
+    }
+    return fn_82F538E0(self->track->keys, i);
 }
-

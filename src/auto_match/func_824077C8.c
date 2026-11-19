@@ -1,67 +1,103 @@
-extern int fn_822315A0();
-extern int fn_82250A18();
-extern int fn_82407968();
-extern int fn_82458910();
-extern int fn_824589D0();
-extern int fn_828EA5F8();
-extern unsigned int iStack_5c;
-extern unsigned int lbl_832975B0;
-extern unsigned int uStack_60;
+typedef struct Settings_824077C8 {
+    int pad0;
+    unsigned char enabled; /* 0x4 */
+} Settings_824077C8;
 
+typedef struct Ref_824077C8 Ref_824077C8;
 
-void fn_824077C8(int param_1,unsigned __int64 param_2,int param_3,int param_4,unsigned __int64 param_5)
+typedef struct Pair_824077C8 {
+    void *p;           /* 0x0 */
+    Ref_824077C8 *ref; /* 0x4 */
+} Pair_824077C8;
 
+typedef struct Owner_824077C8 {
+    char pad0[0x34];
+    void *sound; /* 0x34 */
+} Owner_824077C8;
+
+typedef struct Player_824077C8 {
+    char pad0[0x24];
+    Owner_824077C8 *owner; /* 0x24 */
+    int pad28;
+    int slot; /* 0x2c */
+} Player_824077C8;
+
+typedef struct Event_824077C8 {
+    char pad0[0x38];
+    Player_824077C8 *source; /* 0x38 */
+    char pad3c[0x4];
+    int type; /* 0x40 */
+    char pad44[0xf0 - 0x44];
+    float volume; /* 0xf0 */
+} Event_824077C8;
+
+extern Settings_824077C8 *lbl_832975B0;
+extern Settings_824077C8 *fn_82250A18(void);
+extern void fn_82407968(int kind, Player_824077C8 *source, Player_824077C8 *first, Player_824077C8 *second,
+                        int extra);
+extern unsigned char fn_828EA5F8(void *sound);
+extern void fn_82458910(Pair_824077C8 *out, Pair_824077C8 *array, int index);
+extern void fn_824589D0(void *sound, void *p, int kind, float volume, int isSource, unsigned char enabled,
+                        int extra);
+extern void fn_822315A0(Ref_824077C8 *ref);
+
+static __forceinline Settings_824077C8 *GetSettings(void)
 {
-  int iVar1;
-  unsigned int uVar2;
-  char cVar3;
-  char cVar4;
-  double dVar5;
-  struct { unsigned int first; int second; } stack_pair_60;
-
-  
-  iVar1 = *(int *)(param_1 + 0x40);
-  if (iVar1 == 1) {
-    cVar4 = '\x03';
-  }
-  else if (iVar1 == 2) {
-    cVar4 = '\x02';
-  }
-  else if (iVar1 == 3) {
-    cVar4 = '\x01';
-  }
-  else if (iVar1 == 5) {
-    cVar4 = '\0';
-  }
-  else {
-    cVar4 = (iVar1 != 6) + '\x04';
-  }
-  dVar5 = (double)*(float *)(param_1 + 0xf0);
-  uVar2 = *(unsigned int *)(param_1 + 0x38);
-  if (lbl_832975B0 == 0) {
-    fn_82250A18();
-  }
-  fn_82407968(cVar4,uVar2,param_3,param_4,param_5);
-  if ((*(int *)(param_3 + 0x24) != 0) &&
-     (iVar1 = *(int *)(*(int *)(param_3 + 0x24) + 0x34), iVar1 != 0)) {
-    cVar3 = fn_828EA5F8(iVar1);
-    if (cVar3 != '\0') {
-      fn_82458910(&stack_pair_60.first,param_2,*(unsigned int *)(param_3 + 0x2c));
-      fn_824589D0(dVar5,iVar1,stack_pair_60.first,cVar4);
-      if (stack_pair_60.second != 0) {
-        fn_822315A0();
-      }
+    if (lbl_832975B0 == 0) {
+        return fn_82250A18();
     }
-  }
-  if (((*(int *)(param_4 + 0x24) != 0) &&
-      (iVar1 = *(int *)(*(int *)(param_4 + 0x24) + 0x34), iVar1 != 0)) &&
-     (cVar3 = fn_828EA5F8(iVar1), cVar3 != '\0')) {
-    fn_82458910(&stack_pair_60.first,param_2,*(unsigned int *)(param_4 + 0x2c));
-    fn_824589D0(dVar5,iVar1,stack_pair_60.first,cVar4);
-    if (stack_pair_60.second != 0) {
-      fn_822315A0();
-    }
-  }
-  return;
+    return lbl_832975B0;
 }
 
+void fn_824077C8(Event_824077C8 *self, Pair_824077C8 *sounds, Player_824077C8 *first, Player_824077C8 *second,
+                 int extra)
+{
+    int kind;
+    float volume;
+    Player_824077C8 *source;
+    unsigned char enabled;
+    void *sound;
+    Pair_824077C8 pair;
+
+    switch (self->type) {
+    case 1:
+        kind = 3;
+        break;
+    case 2:
+        kind = 2;
+        break;
+    case 3:
+        kind = 1;
+        break;
+    case 5:
+        kind = 0;
+        break;
+    default:
+        kind = ((self->type == 6) ^ 1) + 4;
+        break;
+    }
+    volume = self->volume;
+    source = self->source;
+    enabled = GetSettings()->enabled;
+    fn_82407968(kind, source, first, second, extra);
+    if (first->owner != 0) {
+        sound = first->owner->sound;
+        if (sound != 0 && fn_828EA5F8(sound)) {
+            fn_82458910(&pair, sounds, first->slot);
+            fn_824589D0(sound, pair.p, kind, volume, first == source, enabled, extra);
+            if (pair.ref != 0) {
+                fn_822315A0(pair.ref);
+            }
+        }
+    }
+    if (second->owner != 0) {
+        sound = second->owner->sound;
+        if (sound != 0 && fn_828EA5F8(sound)) {
+            fn_82458910(&pair, sounds, second->slot);
+            fn_824589D0(sound, pair.p, kind, volume, second == source, enabled, extra);
+            if (pair.ref != 0) {
+                fn_822315A0(pair.ref);
+            }
+        }
+    }
+}

@@ -1,64 +1,84 @@
-#define true 1
-extern int fn_8225B9B0();
-extern int fn_8225BBF0();
-extern int fn_8251FA58();
-extern int fn_82522ED8();
-extern int fn_8265CA20();
-extern unsigned int *lbl_83283E30;
-extern unsigned int lbl_83283E34;
+#define __lwsync() __emit(0x7C2004AC)
 
+typedef void (*Callback_8225B430)(int arg, int context, int extra);
 
-void fn_8225B430(void)
+typedef struct Task_8225B430 {
+    int state;                  /* 0x00 */
+    int arg;                    /* 0x04 */
+    void *buffer;               /* 0x08 */
+    int size;                   /* 0x0c */
+    int kind;                   /* 0x10 */
+    Callback_8225B430 callback; /* 0x14 */
+    int context;                /* 0x18 */
+    int extra;                  /* 0x1c */
+} Task_8225B430;
 
+typedef struct Node_8225B430 Node_8225B430;
+
+struct Node_8225B430 {
+    Node_8225B430 *next;  /* 0x00 */
+    Node_8225B430 *prev;  /* 0x04 */
+    Task_8225B430 *value; /* 0x08 */
+};
+
+typedef struct List_8225B430 {
+    Node_8225B430 *head; /* 0x00 */
+    unsigned int size;   /* 0x04 */
+} List_8225B430;
+
+extern List_8225B430 lbl_83283E30;
+extern unsigned char fn_8225B9B0(int arg, void *buffer, int size);
+extern int fn_8225BBF0(int arg, int kind, Callback_8225B430 callback, int context);
+extern void fn_8251FA58(void *buffer);
+extern void fn_82522ED8(Task_8225B430 *task);
+extern void fn_8265CA20(void *p);
+
+static __forceinline unsigned char LoadBuffer(int arg, Task_8225B430 *task)
 {
-  int *piVar1;
-  int *piVar2;
-  char cVar3;
-  int iVar4;
-  int *piVar5;
-  int *piVar6;
-  
-  piVar5 = lbl_83283E30;
-  piVar6 = (int *)*lbl_83283E30;
-  do {
-    while( true ) {
-      if (piVar6 == piVar5) {
-        return;
-      }
-      piVar1 = (int *)piVar6[2];
-      if (*piVar1 == 1) break;
-      piVar6 = (int *)*piVar6;
+    unsigned char done = 0;
+
+    if (task->buffer != 0) {
+        done = fn_8225B9B0(arg, task->buffer, task->size);
     }
-    sync(1);
-    piVar2 = (int *)*piVar6;
-    if (piVar6 != piVar5) {
-      *(int **)piVar6[1] = piVar2;
-      *(int *)(*piVar6 + 4) = piVar6[1];
-      fn_8265CA20(piVar6);
-      lbl_83283E34 = lbl_83283E34 + -1;
-    }
-    cVar3 = '\0';
-    if (piVar1[2] != 0) {
-      cVar3 = fn_8225B9B0(piVar1[1],piVar1[2],piVar1[3]);
-    }
-    if (cVar3 == '\0') {
-      if (piVar1[4] != 0) {
-        iVar4 = piVar1[7];
-        goto LAB_8225b4f4;
-      }
-      fn_8225BBF0(piVar1[1],1,piVar1[5],piVar1[6]);
-    }
-    else {
-      iVar4 = 0;
-LAB_8225b4f4:
-      (*(int (**)())piVar1[5])(piVar1[1],piVar1[6],iVar4);
-    }
-    if (piVar1[2] != 0) {
-      fn_8251FA58();
-    }
-    fn_82522ED8(piVar1);
-    piVar5 = lbl_83283E30;
-    piVar6 = piVar2;
-  } while( true );
+    return done;
 }
 
+void fn_8225B430(void)
+{
+    Node_8225B430 *node;
+    Node_8225B430 *next;
+    Task_8225B430 *task;
+    unsigned char done;
+
+    node = lbl_83283E30.head->next;
+    while (node != lbl_83283E30.head) {
+        task = node->value;
+        if (task->state == 1) {
+            __lwsync();
+            next = node->next;
+            if (node != lbl_83283E30.head) {
+                node->prev->next = next;
+                node->next->prev = node->prev;
+                fn_8265CA20(node);
+                lbl_83283E30.size--;
+            }
+            node = next;
+            done = LoadBuffer(task->arg, task);
+            if (done == 0) {
+                if (task->kind == 0) {
+                    fn_8225BBF0(task->arg, 1, task->callback, task->context);
+                } else {
+                    task->callback(task->arg, task->context, task->extra);
+                }
+            } else {
+                task->callback(task->arg, task->context, 0);
+            }
+            if (task->buffer != 0) {
+                fn_8251FA58(task->buffer);
+            }
+            fn_82522ED8(task);
+        } else {
+            node = node->next;
+        }
+    }
+}

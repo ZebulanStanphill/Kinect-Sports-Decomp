@@ -1,51 +1,67 @@
-extern int fn_82A2B760();
-extern unsigned int uStack_24;
-extern unsigned int uStack_28;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+typedef struct IoStatusBlock_82A29FE0 {
+    int status;               /* 0x0 */
+    unsigned int information; /* 0x4 */
+} IoStatusBlock_82A29FE0;
 
+typedef struct LargeInteger_82A29FE0 {
+    unsigned int high; /* 0x0 */
+    unsigned int low;  /* 0x4 */
+} LargeInteger_82A29FE0;
 
-unsigned __int64
-fn_82A29FE0(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned int *param_4,
-             unsigned int *param_5)
+typedef struct Overlapped_82A29FE0 {
+    int internal;              /* 0x0 */
+    unsigned int internalHigh; /* 0x4 */
+    unsigned int offset;       /* 0x8 */
+    unsigned int offsetHigh;   /* 0xc */
+    unsigned int event;        /* 0x10 */
+} Overlapped_82A29FE0;
 
+extern int NtWriteFile(void *file, unsigned int event, void *apcRoutine, void *apcContext,
+                       void *ioStatusBlock, const void *buffer, unsigned int length,
+                       LargeInteger_82A29FE0 *byteOffset);
+extern int NtWaitForSingleObjectEx(void *handle, int waitMode, int alertable, void *timeout);
+extern void fn_82A2B760(int status);
+
+int fn_82A29FE0(void *file, const void *buffer, unsigned int length, unsigned int *written,
+                Overlapped_82A29FE0 *overlapped)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned int uStack_30;
-  unsigned int uStack_2c;
-  struct { unsigned int first; unsigned int second; } stack_pair_28;
+    IoStatusBlock_82A29FE0 ioStatus;
+    LargeInteger_82A29FE0 byteOffset;
+    int status;
 
-  
-  if (param_4 != (unsigned int *)0x0) {
-    *param_4 = 0;
-  }
-  if (param_5 == (unsigned int *)0x0) {
-    uVar1 = NtWriteFile(param_1,0,0,0,&uStack_30,param_2,param_3,0);
-    if (((uVar1 != 0x103) ||
-        (uVar2 = NtWaitForSingleObjectEx(param_1,1,0,0), uVar1 = uStack_30, -1 < (int)uVar2)) &&
-       (uVar2 = uVar1, -1 < (int)uVar1)) {
-      *param_4 = uStack_2c;
-      return 1;
+    if (written != 0) {
+        *written = 0;
     }
-    if ((uVar2 & 0xc0000000) == 0x80000000) {
-      *param_4 = uStack_2c;
+    if (overlapped != 0) {
+        byteOffset.low = overlapped->offset;
+        byteOffset.high = overlapped->offsetHigh;
+        overlapped->internal = 0x103;
+        status = NtWriteFile(file, overlapped->event, 0, (overlapped->event & 1) == 0 ? overlapped : 0,
+                             overlapped, buffer, length, &byteOffset);
+        if ((status & 0xc0000000) != 0xc0000000 && status != 0x103) {
+            if (written != 0) {
+                *written = overlapped->internalHigh;
+            }
+            return 1;
+        }
+    } else {
+        status = NtWriteFile(file, 0, 0, 0, &ioStatus, buffer, length, 0);
+        if (status == 0x103) {
+            status = NtWaitForSingleObjectEx(file, 1, 0, 0);
+            if (status < 0) {
+                goto failed;
+            }
+            status = ioStatus.status;
+        }
+        if (status >= 0) {
+            *written = ioStatus.information;
+            return 1;
+        }
+    failed:
+        if ((status & 0xc0000000) == 0x80000000) {
+            *written = ioStatus.information;
+        }
     }
-  }
-  else {
-    stack_pair_28.second = param_5[2];
-    stack_pair_28.first = param_5[3];
-    *param_5 = 0x103;
-    uVar1 = NtWriteFile(param_1,param_5[4],0,-(unsigned int)((param_5[4] & 1) == 0) & (unsigned int)param_5,param_5,
-                        param_2,param_3,&stack_pair_28.first);
-    if (((uVar1 & 0xc0000000) != 0xc0000000) && (uVar1 != 0x103)) {
-      if (param_4 != (unsigned int *)0x0) {
-        *param_4 = param_5[1];
-      }
-      return 1;
-    }
-  }
-  fn_82A2B760();
-  return 0;
+    fn_82A2B760(status);
+    return 0;
 }
-

@@ -1,42 +1,56 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern int fn_82564720();
-extern unsigned int lbl_821CA460;
-extern V16 loadVectorLeftIndexed128();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __lvlx(const void *base, int offset);
+__vector4 __vspltw(__vector4 v, unsigned int i);
+__vector4 __vmulfp(__vector4 a, __vector4 b);
 
-void fn_8234D950(unsigned __int64 param_1,int param_2)
+typedef struct Source_8234D950 {
+    char pad0[0x50];
+    __vector4 position; /* 0x50 */
+    char pad60[0xa0 - 0x60];
+    __vector4 velocity; /* 0xa0 */
+    char padb0[0xc0 - 0xb0];
+    __vector4 rotation; /* 0xc0 */
+    char padd0[0x8bc - 0xd0];
+    float speed; /* 0x8bc */
+} Source_8234D950;
 
+typedef struct Tracker_8234D950 {
+    __vector4 target; /* 0x00 */
+    int locked;       /* 0x10 */
+    char pad14[0x30 - 0x14];
+    __vector4 candidate;     /* 0x30 */
+    int requested;           /* 0x40 */
+    int active;              /* 0x44 */
+    Source_8234D950 *source; /* 0x48 */
+    char pad4c[0xc8 - 0x4c];
+    void *lockTarget; /* 0xc8 */
+    int lockPending;  /* 0xcc */
+    int forced;       /* 0xd0 */
+    float weight;     /* 0xd4 */
+} Tracker_8234D950;
+
+extern const float lbl_821CA45C[2];
+extern void fn_82564720(Tracker_8234D950 *tracker, float blend, float weight, __vector4 position,
+                        __vector4 rotation, __vector4 velocity);
+
+void fn_8234D950(Tracker_8234D950 *self, float blend)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int in_r0;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  
-  if ((*(int *)(param_2 + 0x40) == 0) ||
-     ((*(int *)(param_2 + 0xd0) == 0 &&
-      ((*(int *)(param_2 + 200) != 0 || (*(int *)(param_2 + 0xcc) != 0)))))) {
-    *(unsigned int *)(param_2 + 0x44) = 0;
-    *(unsigned int *)(param_2 + 0xd4) = lbl_821CA460;
-  }
-  else {
-    *(unsigned int *)(param_2 + 0x10) = 1;
-    *(unsigned int *)(param_2 + 0x44) = 1;
-    puVar1 = (unsigned int *)(param_2 + 0x30U & 0xfffffff0);
-    uVar3 = puVar1[1];
-    uVar4 = puVar1[2];
-    uVar5 = puVar1[3];
-    puVar2 = (unsigned int *)(in_r0 + param_2 & 0xfffffff0);
-    *puVar2 = *puVar1;
-    puVar2[1] = uVar3;
-    puVar2[2] = uVar4;
-    puVar2[3] = uVar5;
-  }
-  *(unsigned int *)(param_2 + 0x40) = 0;
-  *(unsigned int *)(param_2 + 0xcc) = 0;
-  loadVectorLeftIndexed128((unsigned __int64)*(unsigned int *)(param_2 + 0x48),0x8bc);
-  fn_82564720(param_1,(double)*(float *)(param_2 + 0xd4));
-  return;
-}
+    Source_8234D950 *source;
 
+    if (self->requested != 0 && (self->forced != 0 || (self->lockTarget == 0 && self->lockPending == 0))) {
+        self->locked = 1;
+        self->active = 1;
+        self->target = self->candidate;
+    } else {
+        self->active = 0;
+        self->weight = lbl_821CA45C[1];
+    }
+    self->requested = 0;
+    self->lockPending = 0;
+    source = self->source;
+    fn_82564720(self, blend, self->weight, source->position, source->rotation,
+                __vmulfp(source->velocity, __vspltw(__lvlx(&source->speed, 0), 0)));
+}

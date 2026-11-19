@@ -1,107 +1,39 @@
-void fn_82F26F98(int param_1,int param_2,int param_3,int param_4,int param_5,unsigned int param_6,
-                  unsigned int param_7,int param_8)
+typedef struct Row_82F26F98 {
+    unsigned char pixels[8];
+} Row_82F26F98;
 
+typedef void (*Interpolate_82F26F98)(const unsigned char *src, int srcStride, unsigned char *dst,
+                                     int dstStride, int fracX, int fracY, int rounding);
+
+typedef struct Decoder_82F26F98 {
+    char reserved000[0x618];
+    int rounding; /* 0x618 */
+    char reserved61C[0x440];
+    Interpolate_82F26F98 interpolateA; /* 0xa5c */
+    Interpolate_82F26F98 interpolateB; /* 0xa60 */
+} Decoder_82F26F98;
+
+void fn_82F26F98(Decoder_82F26F98 *self, const unsigned char *ref, int refStride, unsigned char *dst,
+                 int dstStride, int mvX, int mvY, int mode)
 {
-  int (**pcVar1)();
-  unsigned char *puVar2;
-  unsigned char *puVar3;
-  int iVar4;
-  __int64 lVar5;
-  
-  param_2 = ((int)param_7 >> 2) * param_3 + ((int)param_6 >> 2) + param_2;
-  if (((param_6 & 3) == 0) && ((param_7 & 3) == 0)) {
-    puVar3 = (unsigned char *)(param_2 + -1);
-    puVar2 = (unsigned char *)(param_4 + -1);
-    lVar5 = 8;
-    do {
-      puVar3 = puVar3 + 1;
-      puVar2 = puVar2 + 1;
-      *puVar2 = *puVar3;
-      lVar5 = lVar5 + -1;
-    } while (lVar5 != 0);
-    param_2 = param_2 + param_3;
-    puVar2 = (unsigned char *)(param_4 + param_5 + -1);
-    puVar3 = (unsigned char *)(param_2 + -1);
-    lVar5 = 8;
-    do {
-      puVar3 = puVar3 + 1;
-      puVar2 = puVar2 + 1;
-      *puVar2 = *puVar3;
-      lVar5 = lVar5 + -1;
-    } while (lVar5 != 0);
-    iVar4 = param_4 + param_5 + param_5;
-    param_2 = param_2 + param_3;
-    puVar2 = (unsigned char *)(iVar4 + -1);
-    puVar3 = (unsigned char *)(param_2 + -1);
-    lVar5 = 8;
-    do {
-      puVar3 = puVar3 + 1;
-      puVar2 = puVar2 + 1;
-      *puVar2 = *puVar3;
-      lVar5 = lVar5 + -1;
-    } while (lVar5 != 0);
-    iVar4 = iVar4 + param_5;
-    param_2 = param_2 + param_3;
-    puVar2 = (unsigned char *)(iVar4 + -1);
-    puVar3 = (unsigned char *)(param_2 + -1);
-    lVar5 = 8;
-    do {
-      puVar3 = puVar3 + 1;
-      puVar2 = puVar2 + 1;
-      *puVar2 = *puVar3;
-      lVar5 = lVar5 + -1;
-    } while (lVar5 != 0);
-    iVar4 = iVar4 + param_5;
-    param_2 = param_2 + param_3;
-    puVar2 = (unsigned char *)(iVar4 + -1);
-    puVar3 = (unsigned char *)(param_2 + -1);
-    lVar5 = 8;
-    do {
-      puVar3 = puVar3 + 1;
-      puVar2 = puVar2 + 1;
-      *puVar2 = *puVar3;
-      lVar5 = lVar5 + -1;
-    } while (lVar5 != 0);
-    iVar4 = iVar4 + param_5;
-    param_2 = param_2 + param_3;
-    puVar2 = (unsigned char *)(iVar4 + -1);
-    puVar3 = (unsigned char *)(param_2 + -1);
-    lVar5 = 8;
-    do {
-      puVar3 = puVar3 + 1;
-      puVar2 = puVar2 + 1;
-      *puVar2 = *puVar3;
-      lVar5 = lVar5 + -1;
-    } while (lVar5 != 0);
-    iVar4 = iVar4 + param_5;
-    param_2 = param_2 + param_3;
-    puVar2 = (unsigned char *)(iVar4 + -1);
-    puVar3 = (unsigned char *)(param_2 + -1);
-    lVar5 = 8;
-    do {
-      puVar3 = puVar3 + 1;
-      puVar2 = puVar2 + 1;
-      *puVar2 = *puVar3;
-      lVar5 = lVar5 + -1;
-    } while (lVar5 != 0);
-    puVar3 = (unsigned char *)(param_2 + param_3 + -1);
-    puVar2 = (unsigned char *)(iVar4 + param_5 + -1);
-    lVar5 = 8;
-    do {
-      puVar3 = puVar3 + 1;
-      puVar2 = puVar2 + 1;
-      *puVar2 = *puVar3;
-      lVar5 = lVar5 + -1;
-    } while (lVar5 != 0);
-    return;
-  }
-  if (param_8 == 1) {
-    pcVar1 = *(int (***)())(param_1 + 0xa5c);
-  }
-  else {
-    pcVar1 = *(int (***)())(param_1 + 0xa60);
-  }
-  (*pcVar1)();
-  return;
-}
+    int fracX;
+    int fracY;
+    int row;
 
+    ref = (mvY >> 2) * refStride + (mvX >> 2) + ref;
+    fracX = mvX & 3;
+    fracY = mvY & 3;
+    if (fracX == 0 && fracY == 0) {
+        for (row = 0; row < 8; row++) {
+            *(Row_82F26F98 *)dst = *(const Row_82F26F98 *)ref;
+            dst += dstStride;
+            ref += refStride;
+        }
+        return;
+    }
+    if (mode == 1) {
+        self->interpolateA(ref, refStride, dst, dstStride, fracX, fracY, self->rounding);
+    } else {
+        self->interpolateB(ref, refStride, dst, dstStride, fracX, fracY, self->rounding);
+    }
+}

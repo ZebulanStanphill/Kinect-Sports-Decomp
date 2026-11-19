@@ -1,78 +1,102 @@
-extern unsigned int *auStack_20;
-extern int fn_822315A0();
-extern int fn_8225F160();
-extern int fn_82279C58();
-extern int fn_8228D9E8();
-extern int fn_8228DAA0();
-extern int fn_8228DDD8();
-extern int fn_824BDAC8();
-extern int fn_824BDE68();
-extern int fn_824BE290();
-extern int fn_824BE350();
-extern int fn_824BEEE8();
-extern int fn_826728E8();
-extern unsigned int iStack_1c;
+typedef struct Reference_82470CD0 {
+    void *object;     /* 0x00 */
+    void *references; /* 0x04 */
+} Reference_82470CD0;
 
+typedef struct Video_82470CD0 {
+    char pad000[0x160];
+    unsigned int area; /* 0x160 */
+    char pad164[0x24];
+    int loaded; /* 0x188 */
+    char pad18C[0xc];
+    int shown; /* 0x198 */
+} Video_82470CD0;
 
-void fn_82470CD0(int param_1)
+typedef struct Player_82470CD0 {
+    char pad000[0xe0];
+    int ready;  /* 0x0e0 */
+    int stream; /* 0x0e4 */
+    char pad0E8[0x464];
+    int fading; /* 0x54c */
+} Player_82470CD0;
 
+typedef struct Screen_82470CD0 {
+    char pad000[0x428];
+    Video_82470CD0 *video; /* 0x428 */
+    char pad42C[0xc];
+    Player_82470CD0 *player; /* 0x438 */
+    char pad43C[0x244];
+    int playing; /* 0x680 */
+} Screen_82470CD0;
+
+extern int *fn_8225F160(void);
+extern void fn_8228D9E8(Video_82470CD0 *video, float progress);
+extern void fn_8228DAA0(Video_82470CD0 *video, int stream, int start);
+extern void fn_8228DDD8(Video_82470CD0 *video);
+extern void fn_824BDAC8(Player_82470CD0 *player, int a, int b, int c);
+extern void fn_824BDE68(Player_82470CD0 *player, int paused);
+extern float fn_824BE290(Player_82470CD0 *player);
+extern unsigned int fn_824BE350(Player_82470CD0 *player);
+extern void fn_824BEEE8(Player_82470CD0 *player);
+extern Reference_82470CD0 *fn_82279C58(Reference_82470CD0 *out, void *owner);
+extern void fn_826728E8(void *object, const char *name, unsigned int value);
+extern void fn_822315A0(void *references);
+
+static __forceinline void Play(Screen_82470CD0 *self, Video_82470CD0 *video, Player_82470CD0 *player)
 {
-  int iVar1;
-  int iVar2;
-  unsigned int *puVar3;
-  unsigned int uVar4;
-  unsigned char auStack_20 [4];
-  int iStack_1c;
-  
-  iVar1 = *(int *)(param_1 + 0x428);
-  if (iVar1 == 0) goto LAB_82470dd4;
-  if (*(int *)(param_1 + 0x680) == 0) {
-    if (*(int *)(iVar1 + 0x188) == 0) goto LAB_82470dd4;
-    fn_824BDE68(*(unsigned int *)(param_1 + 0x438),1);
-    fn_824BDAC8(*(unsigned int *)(param_1 + 0x438),1,0,1);
-    uVar4 = 1;
-  }
-  else {
-    if (*(int *)(iVar1 + 0x188) == 0) {
-      if (*(int *)(*(int *)(param_1 + 0x438) + 0xe0) == 0) {
-        fn_824BEEE8();
-        iVar1 = *(int *)(param_1 + 0x428);
-        iVar2 = *(int *)(param_1 + 0x438);
-        goto LAB_82470d1c;
-      }
-    }
-    else {
-      iVar2 = *(int *)(param_1 + 0x438);
-      if (*(int *)(iVar2 + 0xe0) == 0) {
-        if ((*(int *)(iVar2 + 0x54c) != 0) && (*(int *)(iVar1 + 0x198) == 0)) {
-          fn_8228DDD8();
-        }
-        uVar4 = *(unsigned int *)(param_1 + 0x428);
-        fn_824BE290(*(unsigned int *)(param_1 + 0x438));
-        fn_8228D9E8(uVar4);
-        goto LAB_82470dd4;
-      }
-LAB_82470d1c:
-      fn_8228DAA0(iVar1,*(unsigned int *)(iVar2 + 0xe4),1);
-      fn_824BDE68(*(unsigned int *)(param_1 + 0x438),0);
-      fn_824BDAC8(*(unsigned int *)(param_1 + 0x438),0,0,1);
-    }
-    uVar4 = 0;
-  }
-  *(unsigned int *)(param_1 + 0x680) = uVar4;
-LAB_82470dd4:
-  if ((*(int *)(param_1 + 0x438) != 0) && (iVar1 = fn_8225F160(), *(int *)(iVar1 + 0x2c) != 0)
-     ) {
-    iVar2 = fn_824BE350(*(unsigned int *)(param_1 + 0x438));
-    iVar1 = *(int *)(param_1 + 0x428);
-    if ((iVar1 != 0) && (*(int *)(iVar1 + 0x160) = iVar2, iVar2 != 0)) {
-      puVar3 = (unsigned int *)fn_82279C58(auStack_20,iVar1);
-      fn_826728E8(*puVar3,0xffffffff821a9828,*(unsigned int *)(iVar1 + 0x160));
-      if (iStack_1c != 0) {
-        fn_822315A0();
-      }
-    }
-  }
-  return;
+    fn_8228DAA0(video, player->stream, 1);
+    fn_824BDE68(self->player, 0);
+    fn_824BDAC8(self->player, 0, 0, 1);
 }
 
+void fn_82470CD0(Screen_82470CD0 *self)
+{
+    Video_82470CD0 *video;
+    Player_82470CD0 *player;
+    unsigned int area;
+    Reference_82470CD0 reference;
+    Reference_82470CD0 *found;
+
+    video = self->video;
+    if ((int)video != 0) {
+        if (self->playing != 0) {
+            if (video->loaded != 0) {
+                player = self->player;
+                if (player->ready != 0) {
+                    Play(self, video, player);
+                    self->playing = 0;
+                } else {
+                    if (player->fading != 0 && video->shown == 0) {
+                        fn_8228DDD8(video);
+                    }
+                    video = self->video;
+                    fn_8228D9E8(video, fn_824BE290(self->player));
+                }
+            } else {
+                if (self->player->ready == 0) {
+                    fn_824BEEE8(self->player);
+                    Play(self, self->video, self->player);
+                }
+                self->playing = 0;
+            }
+        } else if (video->loaded != 0) {
+            fn_824BDE68(self->player, 1);
+            fn_824BDAC8(self->player, 1, 0, 1);
+            self->playing = 1;
+        }
+    }
+    if (self->player != 0 && fn_8225F160()[0xb] != 0) {
+        area = fn_824BE350(self->player);
+        video = self->video;
+        if ((int)video != 0) {
+            video->area = area;
+            if (area != 0) {
+                found = fn_82279C58(&reference, video);
+                fn_826728E8(found->object, "videoArea", video->area);
+                if (reference.references != 0) {
+                    fn_822315A0(reference.references);
+                }
+            }
+        }
+    }
+}

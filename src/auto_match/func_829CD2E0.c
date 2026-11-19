@@ -1,51 +1,56 @@
-extern int fn_829C9E90();
-extern unsigned int lbl_8315C3E8;
-extern unsigned int *lbl_8321507C;
-extern unsigned int uStack_24;
-extern unsigned int uStack_28;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+typedef struct Node_829CD2E0 {
+    unsigned int pad0 : 24;
+    unsigned int pending : 1;
+    unsigned int pad25 : 4;
+    unsigned int state : 2;
+    unsigned int flag : 1;
+    char pad4[0x60];
+    unsigned int handle; /* 0x64 */
+} Node_829CD2E0;
 
+typedef struct Request_829CD2E0 {
+    unsigned int code;    /* 0x0 */
+    unsigned int handle;  /* 0x4 */
+    unsigned int value;   /* 0x8 */
+    unsigned int target;  /* 0xc */
+    unsigned int *result; /* 0x10 */
+} Request_829CD2E0;
 
-unsigned int * fn_829CD2E0(void)
+extern unsigned char lbl_83215000[];
+extern unsigned char KfAcquireSpinLock(void *lock);
+extern void KfReleaseSpinLock(void *lock, unsigned char irql);
+extern long (*lbl_8315C3E8)(Request_829CD2E0 *request);
+extern void fn_829C9E90(Node_829CD2E0 *node);
 
+#define PENDING_HEAD (*(Node_829CD2E0 **)(lbl_83215000 + 0x7c))
+
+Node_829CD2E0 *fn_829CD2E0(void)
 {
-  unsigned int *puVar1;
-  unsigned __int64 uVar2;
-  int iVar3;
-  unsigned int *puVar4;
-  int aiStack_40 [4];
-  struct { unsigned int first; unsigned int second; } stack_pair_30;
+    Node_829CD2E0 *node = 0;
+    unsigned char irql = KfAcquireSpinLock(lbl_83215000 + 0x6c);
+    Request_829CD2E0 request;
+    unsigned int result;
 
-  unsigned int uStack_28;
-  unsigned int uStack_24;
-  int *piStack_20;
-  
-  uVar2 = KfAcquireSpinLock(0xffffffff8321506c);
-  puVar1 = lbl_8321507C;
-  puVar4 = (unsigned int *)0x0;
-  if (lbl_8321507C != (unsigned int *)0x0) {
-    *lbl_8321507C = *lbl_8321507C & 0xfffffff9 | 2;
-    lbl_8321507C = (unsigned int *)0x0;
-    puVar4 = puVar1;
-  }
-  KfReleaseSpinLock(0xffffffff8321506c,uVar2);
-  if ((puVar4 != (unsigned int *)0x0) && ((*puVar4 & 0x80) != 0)) {
-    stack_pair_30.second = puVar4[0x19];
-    aiStack_40[0] = 0x96000;
-    piStack_20 = aiStack_40;
-    stack_pair_30.first = 0x1e;
-    uStack_28 = 0x67200;
-    uStack_24 = stack_pair_30.second;
-    iVar3 = (*(int (**)())lbl_8315C3E8)(&stack_pair_30.first);
-    if ((iVar3 < 0) || (aiStack_40[0] != 0x96000)) {
-      fn_829C9E90(puVar4);
-      puVar4 = (unsigned int *)0x0;
+    if (PENDING_HEAD != 0) {
+        node = PENDING_HEAD;
+        node->state = 1;
+        PENDING_HEAD = 0;
     }
-    else {
-      *puVar4 = *puVar4 & 0xffffff7f;
+    KfReleaseSpinLock(lbl_83215000 + 0x6c, irql);
+    if (node != 0 && node->pending) {
+        unsigned int handle = node->handle;
+
+        result = 0x96000;
+        request.code = 0x1e;
+        request.handle = handle;
+        request.value = 0x67200;
+        request.target = handle;
+        request.result = &result;
+        if (lbl_8315C3E8(&request) < 0 || result != 0x96000) {
+            fn_829C9E90(node);
+            return 0;
+        }
+        node->pending = 0;
     }
-  }
-  return puVar4;
+    return node;
 }
-

@@ -1,51 +1,69 @@
-extern unsigned int *auStack_a0;
-extern int fn_828AC488();
-extern int fn_828D4D10();
-extern int fn_828E1FD8();
-extern int fn_82F622E0();
+typedef struct Message_828E20C8 {
+    char data[0x40];
+} Message_828E20C8;
 
+typedef struct Channel_828E20C8 Channel_828E20C8;
+typedef struct Peer_828E20C8 Peer_828E20C8;
 
-void fn_828E20C8(int param_1,unsigned __int64 param_2,__int64 param_3,unsigned int param_4)
+typedef struct ChannelVt_828E20C8 {
+    void *slots[18];
+    /* the peer goes in r4: the original loads it straight into that register */
+    unsigned char (*IsOpen)(Channel_828E20C8 *self, Peer_828E20C8 *peer); /* 0x48 */
+} ChannelVt_828E20C8;
 
+struct Channel_828E20C8 {
+    ChannelVt_828E20C8 *vt;
+};
+
+struct Peer_828E20C8 {
+    char pad0[0x50];
+    Channel_828E20C8 *channel; /* 0x50 */
+};
+
+typedef struct Entry_828E20C8 {
+    Peer_828E20C8 *peer; /* 0x00 */
+    char queue[0x18];    /* 0x04 */
+} Entry_828E20C8;
+
+typedef struct Vector_828E20C8 {
+    Entry_828E20C8 *first; /* 0x00 */
+    Entry_828E20C8 *last;  /* 0x04 */
+} Vector_828E20C8;
+
+typedef struct Session_828E20C8 {
+    char pad0[8];
+    unsigned int count;      /* 0x08 */
+    Vector_828E20C8 entries; /* 0x0c */
+} Session_828E20C8;
+
+extern __declspec(noreturn) void fn_82F622E0(const char *message);
+extern Message_828E20C8 *fn_828D4D10(Message_828E20C8 *message, void *source, const unsigned char *record);
+extern void fn_828E1FD8(void *queue, Message_828E20C8 *message);
+extern void fn_828AC488(Message_828E20C8 *message);
+
+static __forceinline Entry_828E20C8 *At(Vector_828E20C8 *vector, unsigned int index)
 {
-  int iVar1;
-  char cVar3;
-  unsigned __int64 uVar2;
-  unsigned int uVar4;
-  int iVar5;
-  unsigned int uVar6;
-  __int64 lVar7;
-  unsigned char auStack_a0 [64];
-  
-  uVar4 = 0;
-  if (*(int *)(param_1 + 8) != 0) {
-    iVar5 = 0;
-    do {
-      iVar1 = *(int *)(param_1 + 0xc);
-      if ((unsigned int)((*(int *)(param_1 + 0x10) - iVar1) / 0x1c) <= uVar4) {
-                    /* WARNING: Subroutine does not return */
-        fn_82F622E0(0xffffffff821ae698);
-      }
-      iVar1 = *(int *)(iVar5 + iVar1);
-      if (((iVar1 != 0) && (cVar3 = (**(int (***)())(**(int **)(iVar1 + 0x50) + 0x48))(), cVar3 != '\0')
-          ) && (uVar6 = 0, lVar7 = param_3, param_4 != 0)) {
-        do {
-          iVar1 = *(int *)(param_1 + 0xc);
-          if ((unsigned int)((*(int *)(param_1 + 0x10) - iVar1) / 0x1c) <= uVar4) {
-                    /* WARNING: Subroutine does not return */
-            fn_82F622E0(0xffffffff821ae698);
-          }
-          uVar2 = fn_828D4D10(auStack_a0,param_2,lVar7);
-          fn_828E1FD8(iVar5 + iVar1 + 4,uVar2);
-          fn_828AC488(auStack_a0);
-          uVar6 = uVar6 + 1;
-          lVar7 = lVar7 + 0x2a;
-        } while (uVar6 < param_4);
-      }
-      uVar4 = uVar4 + 1;
-      iVar5 = iVar5 + 0x1c;
-    } while (uVar4 < *(unsigned int *)(param_1 + 8));
-  }
-  return;
+    if ((unsigned int)(vector->last - vector->first) <= index) {
+        fn_82F622E0("invalid vector<T> subscript");
+    }
+    return &vector->first[index];
 }
 
+void fn_828E20C8(Session_828E20C8 *session, void *source, const unsigned char *records, unsigned int count)
+{
+    unsigned int i;
+    unsigned int j;
+    Peer_828E20C8 *peer;
+    Message_828E20C8 message;
+
+    for (i = 0; i < session->count; i++) {
+        peer = At(&session->entries, i)->peer;
+        if (peer != 0 && peer->channel->vt->IsOpen(peer->channel, peer)) {
+            for (j = 0; j < count; j++) {
+                fn_828E1FD8(At(&session->entries, i)->queue,
+                            fn_828D4D10(&message, source, records + j * 0x2a));
+                fn_828AC488(&message);
+            }
+        }
+    }
+}

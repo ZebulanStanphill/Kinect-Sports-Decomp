@@ -1,121 +1,152 @@
-extern int fn_822AF138();
-extern int fn_822F4758();
-extern int fn_82397F30();
-extern int fn_8288B760();
+typedef struct Selector_822F3920 Selector_822F3920;
 
+typedef struct SelectorVtbl_822F3920 {
+    char pad[0x84];
+    int (*isAvailable)(Selector_822F3920 *self, unsigned int id); /* 0x84 */
+} SelectorVtbl_822F3920;
 
-void fn_822F3920(int param_1)
+struct Selector_822F3920 {
+    SelectorVtbl_822F3920 *vt;
+};
 
+typedef struct Player_822F3920 {
+    char pad0[0x178];
+    int mode; /* 0x178 */
+    char pad17c[0x1b4 - 0x17c];
+    unsigned int *idsBegin; /* 0x1b4 */
+    unsigned int *idsEnd;   /* 0x1b8 */
+    char pad1bc[0x1e4 - 0x1bc];
+    unsigned int currentId; /* 0x1e4 */
+    char pad1e8[0x2e0 - 0x1e8];
+    Selector_822F3920 *selector; /* 0x2e0 */
+} Player_822F3920;
+
+typedef struct Config_822F3920 {
+    char pad0[0x24];
+    void *track; /* 0x24 */
+    char pad28[0x110 - 0x28];
+    int sound; /* 0x110 */
+    char pad114[0x168 - 0x114];
+    unsigned int enabler; /* 0x168 */
+    int enabled;          /* 0x16c */
+    char pad170[0x20c - 0x170];
+    void *primary;       /* 0x20c */
+    void *secondary;     /* 0x210 */
+    int preferSecondary; /* 0x214 */
+} Config_822F3920;
+
+typedef struct Pending_822F3920 {
+    int first;
+    int second;
+} Pending_822F3920;
+
+typedef struct Self_822F3920 {
+    char pad0[0xc];
+    Config_822F3920 *config; /* 0xc */
+    Player_822F3920 *player; /* 0x10 */
+    char pad14[0x24 - 0x14];
+    int active; /* 0x24 */
+    char pad28[0x30 - 0x28];
+    Pending_822F3920 *pending; /* 0x30 */
+} Self_822F3920;
+
+extern unsigned char fn_8288B760(unsigned int enabler);
+extern int fn_822F4758(Self_822F3920 *self, unsigned int id, void *target);
+extern int fn_82397F30(Player_822F3920 *player);
+extern void fn_822AF138(int sound, int kind);
+
+static int NotEnd_822F3920(unsigned int *it, unsigned int *end)
 {
-  int *piVar1;
-  unsigned int uVar2;
-  unsigned int *puVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  int iVar7;
-  int iVar8;
-  unsigned __int64 uVar9;
-  unsigned int *puVar10;
-  int iVar11;
-  
-  iVar7 = *(int *)(param_1 + 0xc);
-  iVar11 = *(int *)(iVar7 + 0x24);
-  if (*(int *)(iVar7 + 0x168) == 0) {
-    uVar6 = *(unsigned int *)(iVar7 + 0x16c);
-  }
-  else {
-    uVar6 = fn_8288B760();
-    uVar6 = uVar6 & 0xff;
-  }
-  if (uVar6 == 0) {
-    return;
-  }
-  piVar1 = *(int **)(param_1 + 0x30);
-  if ((piVar1 != (int *)0x0) && ((*piVar1 != 0 || (piVar1[1] != 0)))) goto LAB_822f3b00;
-  iVar7 = *(int *)(param_1 + 0x10);
-  iVar8 = 0;
-  if (iVar11 == 0) {
-    iVar11 = *(int *)(iVar7 + 0x1e4);
-    if (iVar11 == 0) {
-      return;
+    if (it != end) {
+        return 1;
     }
-    iVar7 = (**(int (***)())(**(int **)(iVar7 + 0x2e0) + 0x84))(*(int **)(iVar7 + 0x2e0),iVar11);
-    if (iVar7 == 0) {
-      return;
-    }
-    if (*(int *)(param_1 + 0x24) == 0) {
-      return;
-    }
-    iVar7 = *(int *)(param_1 + 0xc);
-LAB_822f3ad8:
-    iVar8 = *(int *)(iVar7 + 0x210);
-    if (iVar8 == 0) {
-      iVar8 = *(int *)(iVar7 + 0x20c);
-    }
-    iVar8 = fn_822F4758(param_1,iVar11,iVar8);
-  }
-  else {
-    if (*(int *)(iVar7 + 0x178) != 2) {
-      iVar11 = *(int *)(iVar7 + 0x1e4);
-      if (iVar11 == 0) {
-        return;
-      }
-      iVar7 = (**(int (***)())(**(int **)(iVar7 + 0x2e0) + 0x84))(*(int **)(iVar7 + 0x2e0),iVar11);
-      if (iVar7 == 0) {
-        return;
-      }
-      iVar7 = *(int *)(param_1 + 0xc);
-      if ((*(int *)(iVar7 + 0x20c) == 0) && (*(int *)(iVar7 + 0x210) == 0)) {
-        return;
-      }
-      goto LAB_822f3ad8;
-    }
-    uVar2 = *(unsigned int *)(iVar7 + 0x1e4);
-    puVar3 = *(unsigned int **)(iVar7 + 0x1b8);
-    for (puVar10 = *(unsigned int **)(iVar7 + 0x1b4); puVar10 != puVar3; puVar10 = puVar10 + 1) {
-      piVar1 = *(int **)(*(int *)(param_1 + 0x10) + 0x2e0);
-      uVar4 = *puVar10;
-      iVar7 = (**(int (***)())(*piVar1 + 0x84))(piVar1,uVar4);
-      if (iVar7 != 0) {
-        *(unsigned int *)(*(int *)(param_1 + 0x10) + 0x1e4) = uVar4;
-        iVar7 = *(int *)(*(int *)(param_1 + 0xc) + 0x210);
-        if (iVar7 == 0) {
-          iVar7 = *(int *)(*(int *)(param_1 + 0xc) + 0x20c);
-        }
-        iVar7 = fn_822F4758(param_1,uVar4,iVar7);
-        if (iVar7 == 0) {
-          iVar7 = *(int *)(param_1 + 0xc);
-          if (*(int *)(iVar7 + 0x214) == 0) {
-            uVar5 = *(unsigned int *)(iVar7 + 0x20c);
-          }
-          else {
-            uVar5 = *(unsigned int *)(iVar7 + 0x210);
-          }
-          iVar7 = fn_822F4758(param_1,uVar4,uVar5);
-          if (iVar7 == 0) goto LAB_822f3a40;
-        }
-        iVar8 = 1;
-      }
-LAB_822f3a40:;}
-    *(unsigned int *)(*(int *)(param_1 + 0x10) + 0x1e4) = uVar2;
-  }
-  if (iVar8 == 0) {
-    return;
-  }
-LAB_822f3b00:
-  if (*(int *)(*(int *)(param_1 + 0x10) + 0x178) == 2) {
-    return;
-  }
-  iVar7 = fn_82397F30();
-  if ((iVar7 == 0) || (iVar7 = *(int *)(param_1 + 0xc), *(int *)(iVar7 + 0x24) != 0)) {
-    iVar7 = *(int *)(param_1 + 0xc);
-    uVar9 = 7;
-  }
-  else {
-    uVar9 = 6;
-  }
-                    /* WARNING: Subroutine does not return */
-  fn_822AF138(*(unsigned int *)(iVar7 + 0x110),uVar9);
+    return 0;
 }
 
+void fn_822F3920(Self_822F3920 *self)
+{
+    Config_822F3920 *config = self->config;
+    void *track = config->track;
+    int enabled;
+    int kind;
+    Pending_822F3920 *pending;
+
+    if (config->enabler != 0) {
+        enabled = fn_8288B760(config->enabler);
+    } else {
+        enabled = config->enabled;
+    }
+    if (enabled == 0) {
+        return;
+    }
+    pending = self->pending;
+    if (pending == 0 || (pending->first == 0 && pending->second == 0)) {
+        Player_822F3920 *player = self->player;
+        int found = 0;
+        unsigned int id;
+
+        if (track != 0) {
+            if (player->mode == 2) {
+                unsigned int saved = player->currentId;
+                unsigned int *it = player->idsBegin;
+                unsigned int *end = player->idsEnd;
+
+                for (; NotEnd_822F3920(it, end); it++) {
+                    id = *it;
+                    if (self->player->selector->vt->isAvailable(self->player->selector, id)) {
+                        self->player->currentId = id;
+                        if (fn_822F4758(self, id,
+                                        self->config->secondary != 0 ? self->config->secondary
+                                                                     : self->config->primary) ||
+                            fn_822F4758(self, id,
+                                        self->config->preferSecondary != 0 ? self->config->secondary
+                                                                           : self->config->primary)) {
+                            found = 1;
+                        }
+                    }
+                }
+                self->player->currentId = saved;
+            } else {
+                id = player->currentId;
+                if (id == 0) {
+                    return;
+                }
+                if (!player->selector->vt->isAvailable(player->selector, id)) {
+                    return;
+                }
+                config = self->config;
+                if (config->primary == 0 && config->secondary == 0) {
+                    return;
+                }
+                goto check;
+            }
+        } else {
+            id = player->currentId;
+            if (id == 0) {
+                return;
+            }
+            if (!player->selector->vt->isAvailable(player->selector, id)) {
+                return;
+            }
+            if (self->active == 0) {
+                return;
+            }
+            config = self->config;
+        check:
+            found = fn_822F4758(self, id, config->secondary != 0 ? config->secondary : config->primary);
+        }
+        if (found == 0) {
+            return;
+        }
+    }
+    if (self->player->mode == 2) {
+        return;
+    }
+    if (fn_82397F30(self->player) != 0 && (config = self->config, (int)config->track == 0)) {
+        kind = 6;
+    } else {
+        config = self->config;
+        kind = 7;
+    }
+    fn_822AF138(config->sound, kind);
+}

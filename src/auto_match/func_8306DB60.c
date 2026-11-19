@@ -1,55 +1,73 @@
-extern int fn_8306D610();
-extern int fn_8306D898();
-extern int fn_8306ED70();
-extern int fn_83075590();
-extern int fn_83075790();
-extern int fn_83075D40();
-extern int fn_83075D80();
-extern int fn_83075DA0();
-extern int fn_83075DA8();
+typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
+    float vector4_f32[4];
+    unsigned int vector4_u32[4];
+} __vector4;
 
+typedef struct Frames_8306DB60 {
+    int type; /* 0x00 */
+    char pad4[0x1c];
+    __vector4 points[20]; /* 0x20 */
+} Frames_8306DB60;
 
-void fn_8306DB60(int param_1,int *param_2,unsigned __int64 param_3,int param_4)
+typedef struct Info_8306DB60 {
+    char pad0[0xc];
+    int fieldC; /* 0x0c */
+    char pad10[0x4];
+    char data14[4]; /* 0x14 */
+} Info_8306DB60;
 
+typedef struct Path_8306DB60 {
+    char pad0[0xa40];
+    char points[0xcd0 - 0xa40];  /* 0xa40 */
+    char solver[0x19fc - 0xcd0]; /* 0xcd0 */
+    float pad19FC;               /* 0x19fc */
+    float weights[20];           /* 0x1a00 */
+    char pad1A50[0x1a90 - 0x1a50];
+    unsigned char hasFrames; /* 0x1a90 */
+    unsigned char hasInfo;   /* 0x1a91 */
+    unsigned char pad1A92;
+    unsigned char ready; /* 0x1a93 */
+} Path_8306DB60;
+
+extern const __vector4 lbl_832654C0;
+
+extern __vector4 fn_8306ED70(__vector4 a, __vector4 b);
+extern void fn_83075D80(void *points, int i, __vector4 v);
+extern float fn_83075D40(void *points, int i);
+extern void fn_83075DA0(void *points, unsigned __int64 time);
+extern void fn_83075DA8(void *points, unsigned char enabled);
+extern float fn_8306D898(Path_8306DB60 *self, void *points, __vector4 a, __vector4 b);
+extern void fn_83075590(void *solver, Frames_8306DB60 *frames, void *points, float scale, void *data,
+                        void *extra);
+extern void fn_83075790(Path_8306DB60 *self, void *points);
+extern void fn_8306D610(Path_8306DB60 *self);
+
+void fn_8306DB60(Path_8306DB60 *self, Frames_8306DB60 *frames, unsigned __int64 time, Info_8306DB60 *info,
+                 void *extra, __vector4 a, __vector4 b)
 {
-  unsigned char uVar1;
-  float *pfVar2;
-  unsigned __int64 uVar3;
-  __int64 lVar4;
-  int iVar5;
-  double dVar6;
-  
-  if ((param_2 == (int *)0x0) || (uVar1 = 1, *param_2 != 2)) {
-    uVar1 = 0;
-  }
-  *(unsigned char *)(param_1 + 0x1a90) = uVar1;
-  iVar5 = param_1 + 0xa40;
-  fn_83075DA0(iVar5,param_3);
-  fn_83075DA8(iVar5,*(unsigned char *)(param_1 + 0x1a90));
-  if (*(char *)(param_1 + 0x1a90) == '\0') {
-    fn_8306D610(param_1);
-  }
-  else {
-    uVar3 = 0;
-    do {
-      fn_8306ED70();
-      fn_83075D80(iVar5,uVar3);
-      uVar3 = uVar3 + 1;
-    } while ((uVar3 & 0xffffffff) < 0x14);
-    fn_8306D898(param_1,iVar5);
-    fn_83075590(param_1 + 0xcd0,param_2,iVar5);
-    *(char *)(param_1 + 0x1a91) = '\x01' - (*(int *)(param_4 + 0xc) == 0);
-    fn_83075790(param_1,iVar5);
-    lVar4 = 0;
-    pfVar2 = (float *)(param_1 + 0x19fc);
-    do {
-      dVar6 = (double)fn_83075D40(iVar5,lVar4);
-      lVar4 = lVar4 + 1;
-      pfVar2 = pfVar2 + 1;
-      *pfVar2 = (float)dVar6;
-    } while ((int)lVar4 < 0x14);
-  }
-  *(unsigned char *)(param_1 + 0x1a93) = 1;
-  return;
-}
+    void *points;
+    unsigned int i;
+    int j;
+    float scale;
 
+    self->hasFrames = frames != 0 && frames->type == 2;
+    points = self->points;
+    fn_83075DA0(points, time);
+    fn_83075DA8(points, self->hasFrames);
+    if (self->hasFrames) {
+        __vector4 offset = lbl_832654C0;
+        for (i = 0; i < 20; i++) {
+            fn_83075D80(points, i, fn_8306ED70(frames->points[i], offset));
+        }
+        scale = fn_8306D898(self, points, a, b);
+        fn_83075590(self->solver, frames, points, scale, info->data14, extra);
+        self->hasInfo = info->fieldC != 0;
+        fn_83075790(self, points);
+        for (j = 0; j < 20; j++) {
+            self->weights[j] = fn_83075D40(points, j);
+        }
+    } else {
+        fn_8306D610(self);
+    }
+    self->ready = 1;
+}

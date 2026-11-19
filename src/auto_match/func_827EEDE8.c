@@ -1,34 +1,32 @@
-extern unsigned int *auStack_74;
-extern unsigned int *auStack_80;
-extern unsigned int *auStack_90;
-extern int fn_827EECE8();
-extern int fn_82810328();
+typedef struct Vec3_827EEDE8 {
+    float x;
+    float y;
+    float z;
+} Vec3_827EEDE8;
 
+extern void fn_82810328(const Vec3_827EEDE8 *a, const Vec3_827EEDE8 *b, Vec3_827EEDE8 *out);
+extern int fn_827EECE8(const Vec3_827EEDE8 *origin, const Vec3_827EEDE8 *direction, float radiusTerm, float a,
+                       const Vec3_827EEDE8 *planes, float maxT, float *bestT, Vec3_827EEDE8 *hitNormal);
 
-unsigned __int64 fn_827EEDE8(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                       unsigned __int64 param_5,unsigned __int64 param_6,unsigned __int64 param_7,unsigned __int64 param_8)
-
+int fn_827EEDE8(const Vec3_827EEDE8 *origin, const Vec3_827EEDE8 *direction, const Vec3_827EEDE8 *v0,
+                const Vec3_827EEDE8 *v1, const Vec3_827EEDE8 *v2, float radiusTerm, float a, float maxT,
+                float *bestT, Vec3_827EEDE8 *hitNormal)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  float *in_stack_00000054;
-  unsigned char auStack_90 [16];
-  unsigned char auStack_80 [12];
-  unsigned char auStack_74 [116];
-  
-  fn_82810328(param_6,param_7,auStack_80);
-  fn_82810328(param_6,param_8,auStack_74);
-  fn_82810328(param_4,param_6,auStack_90);
-  uVar1 = fn_827EECE8(param_1,param_2,param_3,auStack_90,param_5);
-  fn_82810328(param_7,param_6,auStack_80);
-  fn_82810328(param_7,param_8,auStack_74);
-  fn_82810328(param_4,param_7,auStack_90);
-  uVar2 = fn_827EECE8(param_1,param_2,(double)*in_stack_00000054,auStack_90,param_5);
-  fn_82810328(param_8,param_7,auStack_80);
-  fn_82810328(param_8,param_6,auStack_74);
-  fn_82810328(param_4,param_8,auStack_90);
-  uVar3 = fn_827EECE8(param_1,param_2,(double)*in_stack_00000054,auStack_90,param_5);
-  return uVar3 | uVar2 | uVar1;
-}
+    Vec3_827EEDE8 relative;
+    Vec3_827EEDE8 edges[2];
+    int hit;
 
+    fn_82810328(v0, v1, &edges[0]);
+    fn_82810328(v0, v2, &edges[1]);
+    fn_82810328(origin, v0, &relative);
+    hit = fn_827EECE8(&relative, direction, radiusTerm, a, edges, maxT, bestT, hitNormal);
+    fn_82810328(v1, v0, &edges[0]);
+    fn_82810328(v1, v2, &edges[1]);
+    fn_82810328(origin, v1, &relative);
+    hit |= fn_827EECE8(&relative, direction, radiusTerm, a, edges, *bestT, bestT, hitNormal);
+    fn_82810328(v2, v1, &edges[0]);
+    fn_82810328(v2, v0, &edges[1]);
+    fn_82810328(origin, v2, &relative);
+    hit |= fn_827EECE8(&relative, direction, radiusTerm, a, edges, *bestT, bestT, hitNormal);
+    return hit;
+}

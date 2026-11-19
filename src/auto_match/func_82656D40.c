@@ -1,44 +1,42 @@
-void fn_82656D40(int param_1,int param_2)
+typedef struct Ring_82656D40 {
+    char pad0[0xe];
+    unsigned short base; /* 0x0e */
+    char pad10[0xb8 - 0x10];
+    unsigned int marks[0x31]; /* 0xb8 */
+    unsigned int offset;      /* 0x17c */
+    unsigned int limit;       /* 0x180 */
+    char pad184[0x254 - 0x184];
+    unsigned int pad254 : 6; /* 0x254 */
+    unsigned int index : 6;
+    unsigned int count : 6;
+    unsigned int rest : 14;
+    char pad258[0x260 - 0x258];
+    unsigned char flags; /* 0x260 */
+} Ring_82656D40;
 
+void fn_82656D40(Ring_82656D40 *self, unsigned int size)
 {
-  unsigned int uVar1;
-  unsigned int uVar3;
-  unsigned __int64 uVar2;
-  unsigned int uVar4;
-  unsigned int uVar6;
-  unsigned __int64 uVar5;
-  
-  uVar6 = param_2 + *(int *)(param_1 + 0x17c);
-  uVar1 = *(unsigned int *)(param_1 + 0x254) >> 0x14 & 0x3f;
-  *(unsigned int *)(param_1 + 0x17c) = uVar6;
-  uVar4 = (*(unsigned short *)(param_1 + 0xe) + 0xac) * 0x200 + uVar6;
-  if (uVar1 == (*(unsigned int *)(param_1 + 0x254) >> 0xe & 0x3f) - 1) {
-    uVar3 = *(unsigned int *)(param_1 + 0x180);
-  }
-  else {
-    uVar3 = 0xfff00000;
-  }
-  if (uVar6 <= uVar4) {
-    if (uVar4 <= uVar3) {
-      return;
-    }
-    if (uVar3 == 0) {
-      return;
-    }
-  }
-  *(unsigned int *)((uVar1 + 0x2e) * 4 + param_1) = uVar6;
-  uVar1 = *(unsigned int *)(param_1 + 0x254);
-  uVar2 = (unsigned __int64)(uVar1 >> 0xe) & 0x3f;
-  uVar5 = ((unsigned __int64)(uVar1 >> 0x14) & 0x3f) + 1;
-  trapWord(6,uVar2,0);
-  uVar2 = uVar5 - (__int64)(int)(uVar5 / uVar2) * (__int64)(int)uVar2 & 0x3f;
-  *(unsigned int *)(param_1 + 0x254) = (unsigned int)(uVar2 << 0x14) | uVar1 & 0xfc0fffff;
-  if (uVar2 == 0) {
-    *(unsigned int *)(param_1 + 0x17c) = 0x800;
-    *(unsigned char *)(param_1 + 0x260) = *(unsigned char *)(param_1 + 0x260) | 0x20;
-    return;
-  }
-  *(unsigned int *)(param_1 + 0x17c) = 0;
-  return;
-}
+    unsigned int index;
+    unsigned int offset = size + self->offset;
+    unsigned int end;
+    unsigned int limit;
 
+    self->offset = offset;
+    end = (self->base + 0xac) * 0x200 + offset;
+    index = self->index;
+    if (index == self->count - 1) {
+        limit = self->limit;
+    } else {
+        limit = 0xfff00000;
+    }
+    if (end < offset || (end > limit && limit != 0)) {
+        self->marks[index] = offset;
+        self->index = (self->index + 1) % self->count;
+        if (self->index == 0) {
+            self->offset = 0x800;
+            self->flags |= 0x20;
+        } else {
+            self->offset = 0;
+        }
+    }
+}

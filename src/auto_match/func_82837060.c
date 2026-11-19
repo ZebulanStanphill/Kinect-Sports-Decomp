@@ -1,38 +1,44 @@
-void fn_82837060(unsigned int *param_1,unsigned int *param_2,__int64 param_3,__int64 param_4,int param_5,
-                  int param_6,unsigned int param_7,unsigned int param_8)
+typedef struct Rect_82837060 {
+    int left;   /* 0x0 */
+    int top;    /* 0x4 */
+    int right;  /* 0x8 */
+    int bottom; /* 0xc */
+} Rect_82837060;
 
+typedef struct Point_82837060 {
+    int x; /* 0x0 */
+    int y; /* 0x4 */
+} Point_82837060;
+
+void fn_82837060(Point_82837060 *origin, Rect_82837060 *rect, int x, int y, int width, int height, int maxX,
+                 int maxY)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned __int64 uVar5;
-  
-  uVar2 = param_3 - 7;
-  uVar5 = param_4 - 7;
-  uVar1 = ((int)((uVar2 & 0xffffffff) >> 0x1f) + -1 + (unsigned int)(uVar2 == 0) & (unsigned int)uVar2) + 7 &
-          0xfffffff8;
-  uVar3 = (int)param_3 + param_5;
-  *param_2 = uVar1;
-  param_2[1] = ((int)((uVar5 & 0xffffffff) >> 0x1f) + -1 + (unsigned int)(uVar5 == 0) & (unsigned int)uVar5) + 7 &
-               0xfffffff8;
-  if ((int)param_7 <= (int)uVar3) {
-    uVar3 = param_7;
-  }
-  uVar4 = (int)param_4 + param_6;
-  uVar3 = uVar3 + 7 & 0xfffffff8;
-  param_2[2] = uVar3;
-  if ((int)param_8 <= (int)uVar4) {
-    uVar4 = param_8;
-  }
-  uVar4 = uVar4 + 7 & 0xfffffff8;
-  param_2[3] = uVar4;
-  if (((int)param_7 < (int)uVar3) || ((int)param_8 < (int)uVar4)) {
-    param_2[2] = param_7;
-    param_2[3] = param_8;
-  }
-  *param_1 = uVar1;
-  param_1[1] = param_2[1];
-  return;
-}
+    int left;
+    int top;
+    int right;
+    int bottom;
 
+    left = x - 7;
+    top = y - 7;
+    left = left > 0 ? left : 0;
+    top = top > 0 ? top : 0;
+    left = (left + 7) & ~7;
+    rect->left = left;
+    rect->top = (top + 7) & ~7;
+    right = x + width;
+    if (right >= maxX) {
+        right = maxX;
+    }
+    rect->right = (right + 7) & ~7;
+    bottom = y + height;
+    if (bottom >= maxY) {
+        bottom = maxY;
+    }
+    rect->bottom = (bottom + 7) & ~7;
+    if (rect->right > maxX || rect->bottom > maxY) {
+        rect->right = maxX;
+        rect->bottom = maxY;
+    }
+    origin->x = left;
+    origin->y = rect->top;
+}

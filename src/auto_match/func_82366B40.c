@@ -1,55 +1,27 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern double sqrt(double);
-#define SQRT(x) sqrt(x)
-extern unsigned int fStack_28;
-extern unsigned int fStack_2c;
-extern unsigned int fStack_30;
-extern int fn_82F65018();
-extern unsigned int lbl_821CA1A0;
-extern unsigned int lbl_821CA1A4;
-extern unsigned int lbl_821CA1A8;
-extern V16 vectorSubtractFloatingPoint();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vsubfp(__vector4 a, __vector4 b);
+double sqrt(double);
 
-float * fn_82366B40(float *param_1)
+typedef struct Angles_82366B40 {
+    float pitch; /* 0x0 */
+    float yaw;   /* 0x4 */
+    float roll;  /* 0x8 */
+} Angles_82366B40;
 
+extern const Angles_82366B40 lbl_821CA1A0;
+extern double fn_82F65018(double y, double x);
+
+Angles_82366B40 fn_82366B40(__vector4 from, __vector4 to)
 {
-  unsigned int *puVar1;
-  float fVar2;
-  float fVar3;
-  int in_r0;
-  double dVar4;
-  double dVar5;
-  double dVar6;
-  unsigned char in_vs33 [16];
-  unsigned char in_vs34 [16];
-  unsigned int in_register_00010000;
-  unsigned int in_ACC;
-  unsigned int in_register_00010008;
-  unsigned int in_vr0;
-  float fStack_30;
-  float fStack_2c;
-  float fStack_28;
-  
-  fVar3 = lbl_821CA1A8;
-  fVar2 = lbl_821CA1A4;
-  vectorSubtractFloatingPoint(in_vs34,in_vs33);
-  *param_1 = lbl_821CA1A0;
-  puVar1 = (unsigned int *)((int)&fStack_30 + in_r0 & 0xfffffff0);
-  *puVar1 = in_register_00010000;
-  puVar1[1] = in_ACC;
-  puVar1[2] = in_register_00010008;
-  puVar1[3] = in_vr0;
-  dVar6 = (double)fStack_28;
-  param_1[1] = fVar2;
-  param_1[2] = fVar3;
-  dVar5 = (double)fStack_30;
-  dVar4 = (double)fn_82F65018(-dVar5,-dVar6);
-  param_1[1] = (float)dVar4;
-  dVar4 = (double)fn_82F65018((double)fStack_2c,
-                               (double)SQRT((float)(dVar6 * dVar6 + (double)(float)(dVar5 * dVar5)))
-                              );
-  *param_1 = (float)dVar4;
-  return param_1;
-}
+    Angles_82366B40 angles = lbl_821CA1A0;
+    __vector4 delta = __vsubfp(to, from);
+    float x = delta.vector4_f32[0];
+    float z = delta.vector4_f32[2];
 
+    angles.yaw = (float)fn_82F65018(-x, -z);
+    angles.pitch = (float)fn_82F65018(delta.vector4_f32[1], sqrt(x * x + z * z));
+    return angles;
+}

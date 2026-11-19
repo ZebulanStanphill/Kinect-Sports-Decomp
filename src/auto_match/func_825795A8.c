@@ -1,70 +1,59 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern int fn_825792D8();
-extern int fn_825797A0();
-extern int fn_825CD180();
-extern unsigned int lbl_82195680;
-extern unsigned int ltcg_pool_0_0f;
-extern V16 vectorSubtractFloatingPoint();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vsubfp(__vector4 a, __vector4 b);
+__vector4 __vmsum3fp(__vector4 a, __vector4 b);
 
-unsigned __int64
-fn_825795A8(unsigned int *param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4)
+extern const float lbl_821954B0[];
 
+typedef struct PathPoint_825795A8 {
+    unsigned int node; /* 0x0 */
+    int pad4;          /* 0x4 */
+    int pad8;          /* 0x8 */
+} PathPoint_825795A8;
+
+typedef struct Node_825795A8 {
+    char pad0[0x74];
+    unsigned int id; /* 0x74 */
+} Node_825795A8;
+
+typedef struct Path_825795A8 {
+    void *graph; /* 0x0 */
+    int count;   /* 0x4 */
+    char pad8[0x18c - 0x8];
+    char search[0x14];        /* 0x18c */
+    unsigned int searchLimit; /* 0x1a0 */
+} Path_825795A8;
+
+extern int fn_825792D8(void *graph, __vector4 *from, __vector4 *to, float radius, int flags);
+extern Node_825795A8 *fn_825797A0(Path_825795A8 *self);
+extern int fn_825CD180(void *graph, __vector4 *from, __vector4 *to, int mode, Node_825795A8 *node,
+                       void *search, unsigned int limit);
+
+int fn_825795A8(Path_825795A8 *self, __vector4 *from, __vector4 *to, int mode)
 {
-  unsigned int uVar1;
-  unsigned int *puVar2;
-  float *pfVar3;
-  float fVar4;
-  int in_r0;
-  int iVar6;
-  unsigned __int64 uVar5;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs45 [16];
-  unsigned int uVar7;
-  unsigned int uVar8;
-  unsigned int uVar9;
-  unsigned int uVar10;
-  float fVar11;
-  float fVar12;
-  float afStack_40 [16];
-  
-  uVar1 = in_r0 + (int)param_3 & 0xfffffff0;
-  fVar11 = *(float *)(uVar1 + 4);
-  fVar12 = *(float *)(uVar1 + 8);
-  param_1[1] = 0;
-  fVar4 = lbl_82195680;
-  puVar2 = (unsigned int *)(in_r0 + (int)param_2 & 0xfffffff0);
-  uVar7 = *puVar2;
-  uVar8 = puVar2[1];
-  uVar9 = puVar2[2];
-  uVar10 = puVar2[3];
-  vectorSubtractFloatingPoint(in_vs32,in_vs45);
-  fVar11 = fVar11 * fVar11 + 0.0 + fVar12 * fVar12;
-  pfVar3 = (float *)((int)afStack_40 + in_r0 & 0xfffffff0);
-  *pfVar3 = fVar11;
-  pfVar3[1] = fVar11;
-  pfVar3[2] = fVar11;
-  pfVar3[3] = fVar11;
-  if (fVar4 < afStack_40[0]) {
-    iVar6 = fn_825792D8((double)ltcg_pool_0_0f,*param_1,param_2,param_3,param_4,1);
-    if (iVar6 != 0) {
-      iVar6 = fn_825797A0(param_1);
-      uVar5 = fn_825CD180(*param_1,param_2,param_3,param_4,iVar6,param_1 + 99,param_1[0x68]);
-      if ((int)uVar5 == 0) {
-        return uVar5;
-      }
-      param_1[(param_1[1] + 1) * 3] = *(unsigned int *)(iVar6 + 0x74);
-      param_1[1] = param_1[1] + 1;
-      return uVar5;
-    }
-  }
-  else {
-    puVar2 = (unsigned int *)(in_r0 + (int)param_3 & 0xfffffff0);
-    *puVar2 = uVar7;
-    puVar2[1] = uVar8;
-    puVar2[2] = uVar9;
-    puVar2[3] = uVar10;
-  }
-  return 0;
-}
+    __vector4 target = *to;
+    __vector4 delta;
+    __vector4 lengthSquared;
+    Node_825795A8 *node;
+    int result;
 
+    self->count = 0;
+    delta = __vsubfp(*from, target);
+    lengthSquared = __vmsum3fp(delta, delta);
+    if (!(lengthSquared.vector4_f32[0] > lbl_821954B0[0x74])) {
+        *to = *from;
+        return 0;
+    }
+    if (fn_825792D8(self->graph, from, to, 0.0f, 1) == 0) {
+        return 0;
+    }
+    node = fn_825797A0(self);
+    result = fn_825CD180(self->graph, from, to, mode, node, self->search, self->searchLimit);
+    if (result != 0) {
+        ((PathPoint_825795A8 *)self)[self->count + 1].node = node->id;
+        self->count++;
+    }
+    return result;
+}

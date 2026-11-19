@@ -1,56 +1,55 @@
-#define true 1
-extern unsigned int *auStack_60;
-extern int fn_82BF9620();
-extern int fn_82F68CC0();
-extern unsigned int lbl_8322BCF8;
+typedef struct File_82BF9FC0 {
+    unsigned int remaining; /* 0x0 */
+    unsigned short pad4;
+    unsigned short cluster; /* 0x6 */
+    unsigned short offset;  /* 0x8 */
+    char padA[0xf - 0xa];
+    unsigned char failed; /* 0xf */
+} File_82BF9FC0;
 
+extern char lbl_83231D48[];
+extern unsigned short lbl_8322BCF8[];
+extern void RtlEnterCriticalSection(void *section);
+extern void RtlLeaveCriticalSection(void *section);
+extern int fn_82BF9620(unsigned int cluster, File_82BF9FC0 *file, int isNew, char **buffer);
+extern void *memcpy(void *dst, const void *src, unsigned int size);
 
-unsigned __int64 fn_82BF9FC0(unsigned int *param_1,__int64 param_2,unsigned __int64 param_3)
-
+unsigned int fn_82BF9FC0(File_82BF9FC0 *file, const char *data, unsigned int size)
 {
-  char cVar1;
-  int iVar2;
-  unsigned int uVar3;
-  unsigned __int64 uVar4;
-  unsigned int uVar5;
-  unsigned __int64 uVar6;
-  unsigned __int64 uVar7;
-  unsigned int auStack_60 [24];
-  
-  RtlEnterCriticalSection(0xffffffff83231d48);
-  uVar5 = *param_1;
-  uVar4 = (unsigned __int64)uVar5;
-  uVar3 = (unsigned int)*(unsigned short *)((int)param_1 + 6);
-  uVar6 = (unsigned __int64)*(unsigned short *)(param_1 + 2);
-  uVar7 = param_3 & 0xffffffff;
-  while( true ) {
-    if ((uVar7 == 0) || (uVar5 = (unsigned int)uVar4, *(char *)((int)param_1 + 0xf) != '\0'))
-    goto LAB_82bfa088;
-    if ((uVar6 & 0xffffffff) == 0x2000) {
-      uVar6 = 0;
-      uVar3 = (unsigned int)(unsigned short)(&lbl_8322BCF8)[uVar3];
-    }
-    iVar2 = fn_82BF9620(uVar3,param_1,(int)uVar6 == 0,auStack_60);
-    if (iVar2 == 0) break;
-    uVar7 = 0x2000 - uVar6;
-    if ((param_3 & 0xffffffff) < (0x2000 - uVar6 & 0xffffffff)) {
-      uVar7 = param_3;
-    }
-    fn_82F68CC0(auStack_60[0] + uVar6,param_2,uVar7);
-    param_3 = param_3 - uVar7;
-    param_2 = uVar7 + param_2;
-    uVar6 = uVar7 + uVar6;
-    uVar4 = uVar4 - uVar7;
-    uVar5 = (unsigned int)uVar4;
-    uVar7 = param_3;
-  }
-  *(unsigned char *)((int)param_1 + 0xf) = 1;
-LAB_82bfa088:
-  *param_1 = uVar5;
-  *(short *)((int)param_1 + 6) = (short)uVar3;
-  *(short *)(param_1 + 2) = (short)uVar6;
-  cVar1 = *(char *)((int)param_1 + 0xf);
-  RtlLeaveCriticalSection(0xffffffff83231d48);
-  return -(unsigned __int64)(cVar1 != '\0') & 0x8008;
-}
+    char *buffer;
+    unsigned int remaining;
+    unsigned int cluster;
+    unsigned int offset;
+    unsigned int chunk;
+    unsigned int result;
 
+    RtlEnterCriticalSection(lbl_83231D48);
+    remaining = file->remaining;
+    cluster = file->cluster;
+    offset = file->offset;
+    while (size != 0 && file->failed == 0) {
+        if (offset == 0x2000) {
+            offset = 0;
+            cluster = lbl_8322BCF8[cluster];
+        }
+        if (fn_82BF9620(cluster, file, offset == 0, &buffer) == 0) {
+            file->failed = 1;
+            break;
+        }
+        chunk = 0x2000 - offset;
+        if (chunk > size) {
+            chunk = size;
+        }
+        memcpy(buffer + offset, data, chunk);
+        size -= chunk;
+        data += chunk;
+        offset += chunk;
+        remaining -= chunk;
+    }
+    file->remaining = remaining;
+    file->cluster = cluster;
+    file->offset = offset;
+    result = file->failed != 0 ? 0x8008 : 0;
+    RtlLeaveCriticalSection(lbl_83231D48);
+    return result;
+}
