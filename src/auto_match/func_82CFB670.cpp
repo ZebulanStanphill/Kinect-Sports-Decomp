@@ -1,5 +1,5 @@
 #include "havok/hkBase.h"
-extern "C" void *fn_82F674A0(const char *, const char *);
+extern "C" void *fopen(const char *, const char *);
 class hkStreamWriter : public hkReferencedObject {
 public: hkStreamWriter(hkFinishLoadedObjectFlag f) : hkReferencedObject(f) {}
 };
@@ -20,6 +20,6 @@ extern "C" hkStdioStreamWriter *fn_82CFB670(hkStdioStreamWriter *self, const cha
  *(const void **)self=streamVtable();
  self->m_handle=0;
  self->m_ownsHandle=true;
- if (name) self->m_handle=fn_82F674A0(name,"wb");
+ if (name) self->m_handle=fopen(name,"wb");
  return self;
 }

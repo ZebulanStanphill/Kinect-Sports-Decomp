@@ -8,7 +8,7 @@ extern unsigned int stack0x00000000;
 
 
 unsigned int
-fn_82F67340(char *param_1,unsigned char *param_2,unsigned __int64 param_3,unsigned __int64 param_4,unsigned __int64 param_5,
+_fsopen(char *param_1,unsigned char *param_2,unsigned __int64 param_3,unsigned __int64 param_4,unsigned __int64 param_5,
              unsigned __int64 param_6)
 
 {

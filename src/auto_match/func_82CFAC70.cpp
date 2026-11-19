@@ -1,9 +1,9 @@
 // hkStdioStreamReader::hkStdioStreamReader(const char *) (Common/Base/System/Io/Reader/Stdio/hkStdioStreamReader.cpp).
 #include "havok/hkBase.h"
 
-// CRT functions; they keep their fn_ names because Matching C units call them.
+// C runtime functions
 extern "C" {
-void *fn_82F674A0(const char *name, const char *mode);   // fopen
+void *fopen(const char *name, const char *mode);
 int fclose(void *stream);
 }
 
@@ -50,6 +50,6 @@ protected:
 hkStdioStreamReader::hkStdioStreamReader(const char *nameIn)
     : m_unknown8(-1), m_isOk(true)
 {
-    m_handle = fn_82F674A0(nameIn, "rb");
+    m_handle = fopen(nameIn, "rb");
     m_isOk = m_handle != HK_NULL;
 }

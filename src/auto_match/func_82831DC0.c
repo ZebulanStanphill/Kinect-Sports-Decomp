@@ -3,7 +3,7 @@ extern int fn_82831A80(int, void *);
 extern int fn_82831BE8(int, void *);
 extern int fn_82831C48(int, void *);
 extern int fn_82831CE8(int, void *);
-extern void *fn_82F674A0(char *, const char *);
+extern void *fopen(char *, const char *);
 extern void fclose(void *);
 
 int fn_82831DC0(int param_1)
@@ -14,7 +14,7 @@ int fn_82831DC0(int param_1)
   if (*(char *)(param_1 + 0x1b8) == 0) {
     return 0;
   }
-  f = fn_82F674A0((char *)(param_1 + 0x1b8), "wb");
+  f = fopen((char *)(param_1 + 0x1b8), "wb");
   if (f == 0) {
     return 1;
   }

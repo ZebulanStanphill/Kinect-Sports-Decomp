@@ -3,7 +3,7 @@
 // not own. __iob_func is the CRT's __iob_func (FILE is 0x20 bytes).
 #include "havok/hkBase.h"
 
-// CRT functions; they keep their fn_ names because Matching C units call them.
+// C runtime functions
 extern "C" {
 char *__iob_func(void);   // __iob_func
 }

@@ -1,9 +1,9 @@
 // hkStdioStreamWriter::~hkStdioStreamWriter (hkStdioStreamWriter.cpp).
 #include "havok/hkBase.h"
 
-// CRT functions; they keep their fn_ names because Matching C units call them.
+// C runtime functions
 extern "C" {
-void *fn_82F674A0(const char *name, const char *mode);   // fopen
+void *fopen(const char *name, const char *mode);
 int fclose(void *stream);
 }
 
