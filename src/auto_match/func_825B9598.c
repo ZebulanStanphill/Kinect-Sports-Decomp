@@ -1,58 +1,79 @@
-extern int fn_8251F720();
-extern int fn_8251FA58();
-extern int fn_825B9678();
-extern unsigned int ltcg_pool_0_0f;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Handle_825B9598 {
+    void *object; /* 0x0 */
+} Handle_825B9598;
 
-int fn_825B9598(unsigned int *param_1,int param_2)
+typedef struct Desc_825B9598 {
+    int id;       /* 0x0 */
+    float x;      /* 0x4 */
+    float y;      /* 0x8 */
+    float width;  /* 0xc */
+    float height; /* 0x10 */
+} Desc_825B9598;
 
+typedef struct Sprite_825B9598 {
+    char pad0[8];
+    float width;            /* 0x8 */
+    float height;           /* 0xc */
+    __vector4 color;        /* 0x10 */
+    char pad20[8];          /* 0x20 */
+    float y;                /* 0x28 */
+    char pad2c[8];          /* 0x2c */
+    float x;                /* 0x34 */
+    char pad38[0x4e];       /* 0x38 */
+    unsigned char hasColor; /* 0x86 */
+} Sprite_825B9598;
+
+extern Desc_825B9598 *fn_8251F720(Handle_825B9598 *handle, int flags);
+extern void fn_8251FA58(void *desc);
+extern Sprite_825B9598 *fn_825B9678(int id);
+
+static __forceinline int IsValid(Handle_825B9598 *handle)
 {
-  unsigned int *puVar1;
-  int in_r0;
-  unsigned int *puVar2;
-  int iVar3;
-  unsigned __int64 uVar4;
-  double dVar5;
-  double dVar6;
-  unsigned int uVar7;
-  unsigned int uVar8;
-  unsigned int uVar9;
-  unsigned int uVar10;
-  
-  if (((param_1 != (unsigned int *)0x0) &&
-      (uVar4 = (unsigned __int64)*param_1, uVar4 != (uVar4 - 1) + (unsigned __int64)(uVar4 == 0))) &&
-     (puVar2 = (unsigned int *)fn_8251F720(param_1,0), puVar2 != (unsigned int *)0x0)) {
-    if ((param_2 == 0) || ((float)puVar2[4] <= ltcg_pool_0_0f)) {
-      dVar6 = (double)(float)puVar2[2];
-      dVar5 = (double)(float)puVar2[1];
-      iVar3 = fn_825B9678(*puVar2);
-      *(float *)(iVar3 + 0x34) = (float)dVar5;
-      *(float *)(iVar3 + 0x28) = (float)dVar6;
+    if (handle == 0) {
+        return 0;
     }
-    else {
-      dVar6 = (double)(float)puVar2[2];
-      dVar5 = (double)(float)puVar2[1];
-      iVar3 = fn_825B9678(*puVar2);
-      *(float *)(iVar3 + 0x34) = (float)dVar5;
-      *(float *)(iVar3 + 0x28) = (float)dVar6;
-      puVar1 = (unsigned int *)(in_r0 + param_2 & 0xfffffff0);
-      uVar7 = *puVar1;
-      uVar8 = puVar1[1];
-      uVar9 = puVar1[2];
-      uVar10 = puVar1[3];
-      *(unsigned char *)(iVar3 + 0x86) = 1;
-      puVar1 = (unsigned int *)(iVar3 + 0x10U & 0xfffffff0);
-      *puVar1 = uVar7;
-      puVar1[1] = uVar8;
-      puVar1[2] = uVar9;
-      puVar1[3] = uVar10;
-      uVar7 = puVar2[4];
-      *(unsigned int *)(iVar3 + 8) = puVar2[3];
-      *(unsigned int *)(iVar3 + 0xc) = uVar7;
-    }
-    fn_8251FA58(puVar2);
-    return iVar3;
-  }
-  return 0;
+    return handle->object != 0;
 }
 
+static __forceinline void SetSize(Sprite_825B9598 *sprite, float width, float height)
+{
+    sprite->width = width;
+    sprite->height = height;
+}
+
+static __forceinline Sprite_825B9598 *CreateSprite(int id, float x, float y)
+{
+    Sprite_825B9598 *sprite = fn_825B9678(id);
+
+    sprite->x = x;
+    sprite->y = y;
+    return sprite;
+}
+
+Sprite_825B9598 *fn_825B9598(Handle_825B9598 *handle, __vector4 *color)
+{
+    Desc_825B9598 *desc;
+    Sprite_825B9598 *sprite;
+
+    if (!IsValid(handle)) {
+        return 0;
+    }
+    desc = fn_8251F720(handle, 0);
+    if (desc == 0) {
+        return 0;
+    }
+    if (color != 0 && desc->height > 0.0f) {
+        sprite = CreateSprite(desc->id, desc->x, desc->y);
+        sprite->color = *color;
+        sprite->hasColor = 1;
+        SetSize(sprite, desc->width, desc->height);
+    } else {
+        sprite = CreateSprite(desc->id, desc->x, desc->y);
+    }
+    fn_8251FA58(desc);
+    return sprite;
+}

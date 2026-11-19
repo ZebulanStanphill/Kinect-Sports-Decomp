@@ -1,45 +1,51 @@
-#define CONCAT21(h,l) ((unsigned int)((((unsigned short)(h)) << 8) | ((unsigned char)(l))))
-#define CONCAT41(h,l) ((unsigned __int64)((((unsigned int)(h)) << 8) | ((unsigned char)(l))))
-#define CONCAT51(h,l) ((unsigned __int64)((((unsigned __int64)(h)) << 8) | ((unsigned char)(l))))
-#define CONCAT61(h,l) ((unsigned __int64)((((unsigned __int64)(h)) << 8) | ((unsigned char)(l))))
-#define CONCAT71(h,l) ((unsigned __int64)((((unsigned __int64)(h)) << 8) | ((unsigned char)(l))))
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_80;
-extern int fn_82230300();
-extern int fn_82238148();
-extern int fn_822381A8();
-extern int fn_8223B688();
-extern int fn_8224AB50();
-extern unsigned int uStack_58;
-extern unsigned int uStack_5c;
-extern unsigned int uStack_60;
+typedef struct String_822376D8 {
+    unsigned char data[0x1c];
+} String_822376D8;
 
+typedef struct Options_822376D8 {
+    unsigned char flags[8];
+} Options_822376D8;
 
-unsigned __int64
-fn_822376D8(unsigned __int64 param_1,unsigned __int64 param_2,unsigned int param_3,unsigned __int64 param_4,
-             unsigned char param_5,unsigned char param_6,unsigned char param_7,unsigned char param_8)
+typedef struct Desc_822376D8 {
+    int id;                   /* 0x00 */
+    int kind;                 /* 0x04 */
+    Options_822376D8 options; /* 0x08 */
+    String_822376D8 name;     /* 0x10 */
+    void *create;             /* 0x2c */
+    void *destroy;            /* 0x30 */
+} Desc_822376D8;
 
+extern void *fn_8223B688(void *dst, const void *src);
+extern void fn_82230300(void *string, int built, int size);
+extern void fn_822381A8(void *result, int id, Desc_822376D8 *desc);
+extern void fn_82238148(void);
+extern void fn_8224AB50(void);
+
+void *fn_822376D8(void *result, int id, int kind, const String_822376D8 *name, unsigned char option2,
+                  unsigned char option5, unsigned char option6, unsigned char option7)
 {
-  unsigned __int64 uVar1;
-  unsigned char auStack_80 [32];
-  struct { unsigned int first; unsigned int second; } stack_pair_60;
+    Options_822376D8 options;
+    String_822376D8 nameCopy;
+    Desc_822376D8 desc;
+    void *copy;
 
-  unsigned __int64 uStack_58;
-  unsigned char auStack_50 [28];
-  int (**pcStack_34)();
-  int (**pcStack_30)();
-  
-  uVar1 = fn_8223B688(auStack_80,param_4);
-  stack_pair_60.first = (unsigned int)param_2;
-  uStack_58 = CONCAT71(CONCAT61(CONCAT51(CONCAT41((unsigned int)CONCAT21(0x101,param_5) << 8,1),param_6),
-                                param_7),param_8);
-  stack_pair_60.second = param_3;
-  fn_8223B688(auStack_50,uVar1);
-  pcStack_34 = fn_82238148;
-  pcStack_30 = fn_8224AB50;
-  fn_82230300(uVar1,1,0);
-  fn_822381A8(param_1,param_2,&stack_pair_60.first);
-  fn_82230300(auStack_50,1,0);
-  return param_1;
+    options.flags[0] = 1;
+    options.flags[1] = 1;
+    options.flags[2] = option2;
+    options.flags[3] = 0;
+    options.flags[4] = 1;
+    options.flags[5] = option5;
+    options.flags[6] = option6;
+    options.flags[7] = option7;
+    copy = fn_8223B688(&nameCopy, name);
+    desc.id = id;
+    desc.kind = kind;
+    desc.options = options;
+    fn_8223B688(&desc.name, copy);
+    desc.create = (void *)fn_82238148;
+    desc.destroy = (void *)fn_8224AB50;
+    fn_82230300(copy, 1, 0);
+    fn_822381A8(result, id, &desc);
+    fn_82230300(&desc.name, 1, 0);
+    return result;
 }
-

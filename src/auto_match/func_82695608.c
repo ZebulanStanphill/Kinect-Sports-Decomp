@@ -1,64 +1,76 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_826951F0();
-extern int fn_82695370();
-extern unsigned int lbl_82005710;
+typedef struct Object_82695608 {
+    void *target; /* 0x0 */
+    char pad004[0xc];
+    void *resolved; /* 0x10 */
+} Object_82695608;
 
+typedef struct Value_82695608 {
+    unsigned char type; /* 0x0 */
+    char pad001[3];
 
-bool fn_82695608(char *param_1,int param_2)
+    union {
+        unsigned char boolean;
+        int integer;
+        Object_82695608 *object;
+    } u; /* 0x4 */
 
+    union {
+        double number;
+        int integer;
+    } v; /* 0x8 */
+} Value_82695608;
+
+typedef struct Environment_82695608 {
+    char pad000[0x7c];
+    unsigned char version; /* 0x7c */
+} Environment_82695608;
+
+extern const double lbl_82005710;
+extern unsigned char fn_826951F0(double *out, void *target);
+extern void *fn_82695370(Value_82695608 *value);
+
+static __forceinline unsigned char IsNaN_82695608(double d)
 {
-  int iVar1;
-  bool bVar2;
-  char cVar4;
-  __int64 lVar3;
-  double adStack_10;
-  
-  cVar4 = *param_1;
-  if (cVar4 == '\x05') {
-    if ((*(unsigned int **)(param_1 + 4))[4] == 0) {
-      return false;
-    }
-    if (6 < *(unsigned char *)(param_2 + 0x7c)) {
-      return true;
-    }
-    cVar4 = fn_826951F0(&adStack_10,**(unsigned int **)(param_1 + 4));
-    if (cVar4 == '\0') {
-      return false;
-    }
-  }
-  else {
-    if (cVar4 != '\x03') {
-      if (cVar4 == '\x04') {
-        iVar1 = *(int *)(param_1 + 8);
-      }
-      else {
-        if (cVar4 == '\x02') {
-          return (bool)param_1[4];
-        }
-        if (cVar4 != '\x06') {
-          if (cVar4 == '\a') {
-            lVar3 = fn_82695370();
-            return lVar3 != 0;
-          }
-          if (cVar4 != '\b') {
-            return cVar4 == '\v';
-          }
-        }
-        iVar1 = *(int *)(param_1 + 4);
-      }
-      return iVar1 != 0;
-    }
-    adStack_10 = *(double *)(param_1 + 8);
-  }
-  if ((((unsigned __int64)adStack_10 & 0x7ff0000000000000) != 0x7ff0000000000000) ||
-     (bVar2 = true, ((unsigned __int64)adStack_10 & 0xfffffffffffff) == 0)) {
-    bVar2 = false;
-  }
-  if (bVar2) {
-    return false;
-  }
-  return adStack_10 != lbl_82005710;
+    unsigned __int64 b = *(unsigned __int64 *)&d;
+    return (b & 0x7ff0000000000000ULL) == 0x7ff0000000000000ULL && (b & 0x000fffffffffffffULL) != 0;
 }
 
+static __forceinline unsigned char NumberToBool_82695608(double number)
+{
+    if (IsNaN_82695608(number)) {
+        return 0;
+    }
+    return number != lbl_82005710;
+}
+
+unsigned char fn_82695608(Value_82695608 *value, Environment_82695608 *env)
+{
+    double number;
+
+    if (value->type == 5) {
+        if (value->u.object->resolved == 0) {
+            return 0;
+        }
+        if (env->version <= 6) {
+            if (fn_826951F0(&number, value->u.object->target)) {
+                return NumberToBool_82695608(number);
+            }
+            return 0;
+        }
+        return 1;
+    } else if (value->type == 3) {
+        return NumberToBool_82695608(value->v.number);
+    } else if (value->type == 4) {
+        return value->v.integer != 0;
+    } else if (value->type == 2) {
+        return value->u.boolean;
+    } else if (value->type == 6) {
+        return value->u.integer != 0;
+    } else if (value->type == 7) {
+        return fn_82695370(value) != 0;
+    } else if (value->type == 8) {
+        return value->u.integer != 0;
+    } else {
+        return value->type == 0xb;
+    }
+}

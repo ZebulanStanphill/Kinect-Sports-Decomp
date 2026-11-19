@@ -1,81 +1,84 @@
-typedef unsigned char bool;
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_60;
-extern int fn_8267BE38();
-extern int fn_82687270();
-extern int fn_8268C3A8();
-extern int fn_826A6A38();
-extern int fn_826A9280();
-extern int fn_826DC448();
-extern int fn_826DF328();
-extern int fn_826DFA28();
-extern int fn_826E9530();
-extern unsigned int iStack_54;
-extern unsigned int iStack_58;
-extern unsigned __int64 storeWordConditionalIndexed();
+typedef struct Ref_826E0638 {
+    int pad;
+    long refs;
+} Ref_826E0638;
 
+typedef struct Str_826E0638 {
+    unsigned int tagged; /* 0x0 */
+    int heap;            /* 0x4 */
+} Str_826E0638;
 
-void fn_826E0638(int param_1)
+typedef struct Handle_826E0638 {
+    int owned;    /* 0x0 */
+    void *object; /* 0x4 */
+} Handle_826E0638;
 
+typedef struct Library_826E0638 {
+    char pad0[0x1c];
+    int heap; /* 0x1c */
+} Library_826E0638;
+
+typedef struct Loader_826E0638 {
+    char pad0[0x14];
+    char log[0xc];             /* 0x14 */
+    Library_826E0638 *library; /* 0x20 */
+    char pad24[4];             /* 0x24 */
+    char stream[0x2ec];        /* 0x28 */
+    void *altStream;           /* 0x314 */
+} Loader_826E0638;
+
+extern long _InterlockedExchangeAdd(long volatile *value, long add);
+extern void fn_8267BE38(void *block);
+extern void fn_82687270(void *object);
+extern unsigned short fn_826A6A38(Loader_826E0638 *self);
+extern void fn_8268C3A8(Str_826E0638 *s, int heap);
+extern void fn_826E9530(void *stream, Str_826E0638 *s);
+extern void fn_826A9280(void *log, const char *format, ...);
+extern void fn_826DFA28(void *log, const char *format, ...);
+extern unsigned char fn_826DC448(Library_826E0638 *library, Handle_826E0638 *handle, unsigned int *id);
+extern void fn_826DF328(Library_826E0638 *library, Str_826E0638 *name, unsigned int *id,
+                        Handle_826E0638 *handle);
+extern char lbl_8200CB88[];
+
+void fn_826E0638(Loader_826E0638 *self)
 {
-  unsigned __int64 uVar1;
-  unsigned int uVar2;
-  int iVar3;
-  char cVar4;
-  unsigned __int64 uVar5;
-  __int64 lVar6;
-  unsigned int *puVar7;
-  int iVar8;
-  char in_RESERVE;
-  unsigned char bVar9;
-  unsigned int auStack_60;
-  int iStack_58;
-  int iStack_54;
-  unsigned int auStack_50 [20];
-  
-  uVar1 = fn_826A6A38();
-  uVar1 = uVar1 & 0xffff;
-  iVar8 = param_1 + 0x14;
-  fn_826A9280(iVar8,0xffffffff8200cbc4,uVar1);
-  for (; uVar1 != 0; uVar1 = uVar1 - 1) {
-    uVar2 = fn_826A6A38(param_1);
-    fn_8268C3A8(auStack_50,*(unsigned int *)(*(int *)(param_1 + 0x20) + 0x1c));
-    iVar3 = *(int *)(param_1 + 0x314);
-    if (iVar3 == 0) {
-      iVar3 = param_1 + 0x28;
-    }
-    fn_826E9530(iVar3,auStack_50);
-    uVar2 = uVar2 & 0xffff;
-    fn_826A9280(iVar8,0xffffffff8200cb68,uVar2,((unsigned __int64)auStack_50[0] & 0xfffffffc) + 8);
-    iStack_58 = 0;
-    iStack_54 = 0;
-    auStack_60 = uVar2;
-    cVar4 = fn_826DC448(*(unsigned int *)(param_1 + 0x20),&iStack_58,&auStack_60);
-    bVar9 = (cVar4 == '\0') << 1;
-    if (cVar4 == '\0') {
-      fn_826DFA28(iVar8,0xffffffff8200cb88,((unsigned __int64)auStack_50[0] & 0xfffffffc) + 8);
-    }
-    else {
-      auStack_60 = uVar2;
-      fn_826DF328(*(unsigned int *)(param_1 + 0x20),auStack_50,&auStack_60,&iStack_58);
-    }
-    if ((iStack_58 == 0) && (iStack_54 != 0)) {
-      fn_82687270();
-    }
-    lVar6 = ((unsigned __int64)auStack_50[0] & 0xfffffffc) + 4;
-    do {
-      puVar7 = (unsigned int *)lVar6;
-      uVar5 = (unsigned __int64)*puVar7;
-      if (in_RESERVE != '\0') {
-        uVar2 = storeWordConditionalIndexed(uVar5 - 1,0,lVar6);
-        *puVar7 = uVar2;
-        bVar9 = 2;
-      }
-    } while (!(bool)(bVar9 >> 1 & 1));
-    if (uVar5 == 1) {
-      fn_8267BE38();
-    }
-  }
-  return;
-}
+    unsigned int count = fn_826A6A38(self);
+    void *log = self->log;
+    unsigned int i;
 
+    fn_826A9280(log, "  export: count = %d\n", count);
+    for (i = 0; i < count; i++) {
+        unsigned short id = fn_826A6A38(self);
+        Str_826E0638 name;
+        void *stream;
+        Handle_826E0638 handle;
+        unsigned int key;
+        Ref_826E0638 *data;
+        Library_826E0638 *library;
+
+        fn_8268C3A8(&name, self->library->heap);
+        stream = self->altStream;
+        if (stream == 0) {
+            stream = self->stream;
+        }
+        fn_826E9530(stream, &name);
+        fn_826A9280(log, "  export: id = %d, name = %s\n", id, (char *)(name.tagged & ~3u) + 8);
+        key = id;
+        handle.owned = 0;
+        handle.object = 0;
+        library = self->library;
+        if (fn_826DC448(library, &handle, &key)) {
+            key = id;
+            fn_826DF328(self->library, &name, &key, &handle);
+        } else {
+            fn_826DFA28(log, lbl_8200CB88, (char *)(name.tagged & ~3u) + 8);
+        }
+        if (handle.owned == 0 && handle.object != 0) {
+            fn_82687270(handle.object);
+        }
+        data = (Ref_826E0638 *)(name.tagged & ~3u);
+        if (_InterlockedExchangeAdd(&data->refs, -1) - 1 == 0) {
+            fn_8267BE38(data);
+        }
+    }
+}

@@ -1,54 +1,75 @@
-extern unsigned int fStack_34;
-extern int fn_82FF5400();
-extern int fn_82FF59A8();
-extern unsigned int iStack_2c;
-extern unsigned int iStack_30;
-extern unsigned int lbl_8216C698;
-extern unsigned int lbl_821AAD20;
-extern unsigned int lbl_832642F4;
-extern unsigned int uStack_28;
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
+typedef struct Voice_82FA8A88 Voice_82FA8A88;
 
+typedef struct VoiceVtbl_82FA8A88 {
+    void (*SetVolume)(Voice_82FA8A88 *self, int flags, float volume, int now);
+} VoiceVtbl_82FA8A88;
 
-unsigned __int64 fn_82FA8A88(int param_1,int *param_2,unsigned __int64 param_3)
+struct Voice_82FA8A88 {
+    VoiceVtbl_82FA8A88 *vt;
+    void *handle; /* 0x4 */
+};
 
+typedef struct Target_82FA8A88 Target_82FA8A88;
+
+typedef struct TargetVtbl_82FA8A88 {
+    void *slot0;
+    void (*Stop)(Target_82FA8A88 *self, int arg); /* 0x4 */
+} TargetVtbl_82FA8A88;
+
+struct Target_82FA8A88 {
+    TargetVtbl_82FA8A88 *vt;
+};
+
+typedef struct Sound_82FA8A88 {
+    void *vt;
+    Target_82FA8A88 target; /* 0x4 */
+    unsigned char pad8[0x18 - 0x8];
+    Voice_82FA8A88 voice; /* 0x18 */
+    unsigned char pad20[0x24 - 0x20];
+    unsigned char flags; /* 0x24 */
+} Sound_82FA8A88;
+
+typedef struct FadeParams_82FA8A88 {
+    int time;  /* 0x0 */
+    int curve; /* 0x4 */
+} FadeParams_82FA8A88;
+
+typedef struct Fade_82FA8A88 {
+    Voice_82FA8A88 *voice; /* 0x0 */
+    int flags;             /* 0x4 */
+    float from;            /* 0x8 */
+    float to;              /* 0xc */
+    int time;              /* 0x10 */
+    int curve;             /* 0x14 */
+    unsigned char active;  /* 0x18 */
+} Fade_82FA8A88;
+
+extern void *lbl_832642F4;
+extern const float lbl_8216C698;
+extern void fn_82FF5400(void *mgr, void *handle, int flags, float value, int time, int curve, int mode);
+extern void *fn_82FF59A8(void *mgr, Fade_82FA8A88 *fade, int a, int b);
+
+int fn_82FA8A88(Sound_82FA8A88 *self, FadeParams_82FA8A88 *params, int arg)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  unsigned int *puStack_40;
-  unsigned int uStack_3c;
-  unsigned int uStack_38;
-  float fStack_34;
-  int iStack_30;
-  int iStack_2c;
-  unsigned char uStack_28;
-  
-  if (*(int *)(param_1 + 0x1c) == 0) {
-    iStack_30 = *param_2;
-    if (iStack_30 < 1) {
-      (**(int (***)())(*(int *)(param_1 + 4) + 4))(param_1 + 4,param_3);
-    }
-    else {
-      iStack_2c = param_2[1];
-      puVar2 = (unsigned int *)(param_1 + 0x18);
-      uStack_3c = 0x2000000;
-      uStack_38 = lbl_821AAD20;
-      uStack_28 = 1;
-      fStack_34 = lbl_8216C698;
-      puStack_40 = puVar2;
-      iVar1 = fn_82FF59A8(lbl_832642F4,&puStack_40,1,0);
-      *(int *)(param_1 + 0x1c) = iVar1;
-      *(unsigned char *)(param_1 + 0x24) = *(unsigned char *)(param_1 + 0x24) | 0x80;
-      if (iVar1 == 0) {
-        (**(int (***)())*puVar2)((double)fStack_34,puVar2,uStack_3c);
-      }
-    }
-  }
-  else {
-    fn_82FF5400((double)lbl_8216C698,lbl_832642F4,*(int *)(param_1 + 0x1c),0x2000000,
-                      0xffffffff83260000,*param_2,param_2[1],0);
-  }
-  return 1;
-}
+    Fade_82FA8A88 fade;
 
+    if (self->voice.handle != 0) {
+        fn_82FF5400(lbl_832642F4, self->voice.handle, 0x2000000, lbl_8216C698, params->time, params->curve,
+                    0);
+    } else if (params->time > 0) {
+        fade.time = params->time;
+        fade.flags = 0x2000000;
+        fade.curve = params->curve;
+        fade.voice = &self->voice;
+        fade.from = 0.0f;
+        fade.active = 1;
+        fade.to = lbl_8216C698;
+        self->voice.handle = fn_82FF59A8(lbl_832642F4, &fade, 1, 0);
+        self->flags |= 0x80;
+        if (self->voice.handle == 0)
+            self->voice.vt->SetVolume(&self->voice, fade.flags, fade.to, 1);
+    } else {
+        self->target.vt->Stop(&self->target, arg);
+    }
+    return 1;
+}

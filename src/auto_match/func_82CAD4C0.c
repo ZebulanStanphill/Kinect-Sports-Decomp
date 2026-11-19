@@ -1,63 +1,58 @@
-extern int fn_82C562F0();
-extern int fn_82C563B0();
-extern int fn_82CAD2F8();
+typedef struct Buffer_82CAD4C0 {
+    void *data;          /* 0x00 */
+    int count;           /* 0x04 */
+    unsigned char shift; /* 0x08 */
+} Buffer_82CAD4C0;
 
+typedef struct Context_82CAD4C0 {
+    int pad0;
+    unsigned char *arenaTop; /* 0x04 */
+    int useArena;            /* 0x08 */
+    char pad0c[0x6070 - 0xc];
+    unsigned char *heap; /* 0x6070 */
+} Context_82CAD4C0;
 
-unsigned __int64 fn_82CAD4C0(int param_1,int *param_2,int param_3,unsigned int *param_4,unsigned int param_5)
+extern void fn_82C563B0(void *allocator, void *data);
+extern void *fn_82C562F0(void *allocator, unsigned int bytes, const char *name);
+extern void fn_82CAD2F8(void *data, unsigned int *source, int start, unsigned int shift);
+extern const char lbl_82196582[];
 
+unsigned int fn_82CAD4C0(Context_82CAD4C0 *self, Buffer_82CAD4C0 *out, int count, unsigned int *source,
+                         unsigned char shift)
 {
-  unsigned int uVar1;
-  unsigned int *puVar2;
-  unsigned __int64 uVar3;
-  unsigned int uVar4;
-  __int64 lVar5;
-  unsigned __int64 uVar6;
-  
-  uVar6 = (unsigned __int64)(*param_4 >> 6);
-  uVar4 = 0;
-  lVar5 = (unsigned __int64)*(unsigned int *)(param_1 + 0x6070) + 8;
-  puVar2 = param_4;
-  if (*param_4 >> 6 != 0) {
-    do {
-      uVar1 = puVar2[1] & 0x3f;
-      if (uVar4 < uVar1) {
-        uVar4 = uVar1;
-      }
-      uVar6 = uVar6 - 1;
-      puVar2 = puVar2 + 1;
-    } while (uVar6 != 0);
-  }
-  uVar1 = param_5 & 0xff;
-  if (uVar1 < uVar4) {
-    uVar4 = param_5;
-  }
-  if (0x7f < uVar1) {
-    uVar4 = uVar1 + 0x80 & 0xff;
-  }
-  param_2[1] = param_3;
-  *(char *)(param_2 + 2) = (char)uVar4;
-  if (*param_2 != 0) {
-    fn_82C563B0(lVar5);
-    *param_2 = 0;
-  }
-  if (*(int *)(param_1 + 8) == 0) {
-    uVar6 = fn_82C562F0(lVar5,(((unsigned __int64)(*param_4 >> 5) & 0x7fffffe) +
-                                     (unsigned __int64)(unsigned int)(1 << (uVar4 & 0x3f)) & 0x7fffffff) << 1,
-                              0xffffffff82196582);
-  }
-  else {
-    uVar6 = (unsigned __int64)*(unsigned int *)(param_1 + 4);
-    *(unsigned int *)(param_1 + 4) =
-         ((*param_4 >> 5 & 0x7fffffe) + (1 << (uVar4 & 0x3f))) * 2 + *(unsigned int *)(param_1 + 4);
-  }
-  if ((uVar6 & 0xffffffff) == 0) {
-    uVar3 = 5;
-  }
-  else {
-    fn_82CAD2F8(uVar6,param_4,0,uVar4 & 0xff);
-    *param_2 = (int)uVar6;
-    uVar3 = 0;
-  }
-  return uVar3;
-}
+    int entries = *source >> 6;
+    unsigned int maxShift = 0;
+    unsigned char *allocator = self->heap + 8;
+    unsigned char bits;
+    void *data;
+    int i;
 
+    for (i = 0; i < entries; i++) {
+        unsigned int value = source[i + 1] & 0x3f;
+        if (maxShift < value)
+            maxShift = value;
+    }
+    bits = (unsigned char)maxShift;
+    if (bits > shift)
+        bits = shift;
+    if (shift >= 0x80)
+        bits = shift + 0x80;
+    out->count = count;
+    out->shift = bits;
+    if (out->data) {
+        fn_82C563B0(allocator, out->data);
+        out->data = 0;
+    }
+    if (self->useArena) {
+        data = self->arenaTop;
+        self->arenaTop += (((*source >> 5) & 0x7fffffe) + (1u << bits)) * 2;
+    } else {
+        data = fn_82C562F0(allocator, (((*source >> 5) & 0x7fffffe) + (1u << bits)) * 2, lbl_82196582);
+    }
+    if (data) {
+        fn_82CAD2F8(data, source, 0, bits);
+        out->data = data;
+        return 0;
+    }
+    return 5;
+}

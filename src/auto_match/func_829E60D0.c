@@ -1,51 +1,69 @@
-extern unsigned int *auStack_58;
-extern int fn_829E5D38();
-extern int fn_829E5E50();
-extern int fn_829E5FB8();
-extern unsigned int lbl_821AAD20;
-extern unsigned int uStack_5c;
-extern unsigned int uStack_60;
+typedef struct Image_829E60D0 {
+    int pad0;
+    int previousState;  /* 0x04 */
+    int state;          /* 0x08 */
+    char pad0c[0x2c];   /* 0x0c */
+    int previousFrame;  /* 0x38 */
+    int frame;          /* 0x3c */
+    float previousTime; /* 0x40 */
+    float time;         /* 0x44 */
+} Image_829E60D0;
 
+typedef struct Source_829E60D0 Source_829E60D0;
 
-unsigned int fn_829E60D0(unsigned __int64 param_1,unsigned __int64 param_2,int param_3,int param_4,unsigned __int64 param_5,
-                  unsigned __int64 param_6,unsigned __int64 param_7,unsigned __int64 param_8,unsigned __int64 param_9,
-                  unsigned int *param_10)
+extern int fn_829E5FB8(Image_829E60D0 *self, Source_829E60D0 *source);
+extern int fn_829E5E50(Image_829E60D0 *self, unsigned int width, int height, float scaleX, float scaleY,
+                       float *time, int *data, int *frame);
+extern int fn_829E5D38(Image_829E60D0 *self, int *frame, int *data);
 
+int fn_829E60D0(Image_829E60D0 *self, void *context, unsigned int width, int height, Source_829E60D0 *source,
+                float scaleX, float scaleY, int *outFrame, int *outData, float *outTime)
 {
-  unsigned int uVar1;
-  unsigned int *in_stack_00000054;
-  unsigned int *in_stack_0000005c;
-  unsigned int uStack_60;
-  unsigned int uStack_5c;
-  unsigned int auStack_58 [22];
-  
-  if ((((param_4 == 0) || ((param_5 & 0xffffffff) == 0)) || ((int)param_7 == 0)) ||
-     (((param_10 == (unsigned int *)0x0 || (in_stack_00000054 == (unsigned int *)0x0)) ||
-      (in_stack_0000005c == (unsigned int *)0x0)))) {
-    uVar1 = 0x80070057;
-  }
-  else {
-    *(unsigned int *)(param_3 + 0x40) = *(unsigned int *)(param_3 + 0x44);
-    *(unsigned int *)(param_3 + 0x38) = *(unsigned int *)(param_3 + 0x3c);
-    uVar1 = fn_829E5FB8(param_3,param_7);
-    uVar1 = (int)uVar1 >> 0x1f & uVar1;
-    if (-1 < (int)uVar1) {
-      uStack_5c = lbl_821AAD20;
-      if (*(int *)(param_3 + 8) == 1) {
-        uVar1 = fn_829E5E50(param_1,param_2,param_3,param_5,param_6);
-      }
-      else {
-        uVar1 = fn_829E5D38(param_3,&uStack_60,auStack_58);
-      }
-      if (-1 < (int)uVar1) {
-        uVar1 = 0;
-        *(unsigned int *)(param_3 + 0x3c) = uStack_60;
-        *param_10 = uStack_60;
-        *in_stack_00000054 = auStack_58[0];
-        *in_stack_0000005c = uStack_5c;
-      }
-    }
-  }
-  return uVar1;
-}
+    int hr;
+    int frame;
+    float time;
+    int data;
 
+    if (context == 0) {
+        return 0x80070057;
+    }
+    if (width == 0) {
+        return 0x80070057;
+    }
+    if (source == 0) {
+        return 0x80070057;
+    }
+    if (outFrame == 0) {
+        return 0x80070057;
+    }
+    if (outData == 0) {
+        return 0x80070057;
+    }
+    if (outTime == 0) {
+        return 0x80070057;
+    }
+    self->previousFrame = self->frame;
+    self->previousTime = self->time;
+    hr = fn_829E5FB8(self, source);
+    hr = hr < 0 ? hr : 0;
+    if (hr < 0) {
+        return hr;
+    }
+    time = 0.0f;
+    if (self->state == 1) {
+        hr = fn_829E5E50(self, width, height, scaleX, scaleY, &time, &data, &frame);
+        if (hr < 0) {
+            return hr;
+        }
+    } else {
+        hr = fn_829E5D38(self, &frame, &data);
+        if (hr < 0) {
+            return hr;
+        }
+    }
+    self->frame = frame;
+    *outFrame = frame;
+    *outData = data;
+    *outTime = time;
+    return 0;
+}

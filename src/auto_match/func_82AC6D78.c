@@ -1,63 +1,86 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_82ABE6D0();
-extern int fn_82B841E8();
+typedef struct Link_82AC6D78 {
+    unsigned int prev; /* address of the previous link's next field, bit 0 set at the list head */
+    unsigned int next; /* next instruction */
+} Link_82AC6D78;
 
+typedef struct Info_82AC6D78 {
+    unsigned int pad0 : 10;
+    unsigned int nsrc : 3;
+    unsigned int pad1 : 5;
+    unsigned int op : 7;
+    unsigned int pad2 : 7;
+} Info_82AC6D78;
 
-unsigned int fn_82AC6D78(unsigned __int64 param_1,unsigned int param_2)
+typedef struct Block_82AC6D78 {
+    char pad00[0x18];
+    Link_82AC6D78 instructions; /* 0x18 */
+} Block_82AC6D78;
 
+typedef struct Ins_82AC6D78 {
+    int pad00[2];
+    Info_82AC6D78 info; /* 0x08 */
+    char pad0c[0x14 - 0xc];
+    unsigned int flags; /* 0x14 */
+    char pad18[0x1c - 0x18];
+    Block_82AC6D78 *block; /* 0x1c */
+    char pad20[0x24 - 0x20];
+    Link_82AC6D78 link; /* 0x24 */
+} Ins_82AC6D78;
+
+extern struct Ins_82AC6D78 *fn_82ABE6D0(Ins_82AC6D78 *ins);
+extern Ins_82AC6D78 *fn_82B841E8(void *ctx, Block_82AC6D78 *block, int a, int op, int b, int c);
+
+static __forceinline Link_82AC6D78 *LinkOf(unsigned int ins)
 {
-  int iVar1;
-  bool bVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  
-  uVar4 = *(unsigned int *)((param_2 & 0xfffffffe) + 0x24);
-  if ((uVar4 & 1) == 0) {
-    uVar4 = uVar4 & 0xfffffffe;
-    uVar5 = uVar4 - 0x28;
-    if (uVar5 != 0) {
-      uVar3 = *(unsigned int *)(uVar4 - 0x20) >> 7 & 0x7f;
-      if ((uVar3 == 0) || (bVar2 = true, 0x1f < uVar3)) {
-        bVar2 = false;
-      }
-      if (bVar2) {
-        uVar3 = *(unsigned int *)(param_2 + 8) >> 7 & 0x7f;
-        if ((uVar3 < 0x20) || (bVar2 = true, 0x52 < uVar3)) {
-          bVar2 = false;
-        }
-        if ((bVar2) && (uVar3 = fn_82ABE6D0(uVar5), param_2 == uVar3)) {
-          if ((*(unsigned int *)(uVar4 - 4) & 1) != 0) goto LAB_82ac6d9c;
-          uVar5 = (*(unsigned int *)(uVar4 - 4) & 0xfffffffe) - 0x28;
-        }
-      }
-      if ((uVar5 != 0) && (uVar4 = uVar5, (*(unsigned int *)(uVar5 + 8) & 0x3f80) == 0x3f00))
-      goto LAB_82ac6ed4;
-    }
-  }
-  else {
-LAB_82ac6d9c:
-    uVar5 = 0;
-  }
-  uVar4 = fn_82B841E8(param_1,*(unsigned int *)(param_2 + 0x1c),0,0x7e,0,0);
-  uVar3 = uVar4 & 0xfffffffe;
-  if (uVar5 == 0) {
-    iVar1 = *(int *)(param_2 + 0x1c);
-    *(unsigned int *)(uVar3 + 0x28) = *(unsigned int *)(iVar1 + 0x1c);
-    *(unsigned int *)((*(unsigned int *)(iVar1 + 0x1c) & 0xfffffffe) + 0x24) = uVar3 + 0x28;
-    *(unsigned int *)(uVar3 + 0x24) = iVar1 + 0x1cU | 1;
-    *(unsigned int *)(iVar1 + 0x1c) = uVar3;
-  }
-  else {
-    *(unsigned int *)(uVar3 + 0x28) = *(unsigned int *)(uVar5 + 0x28);
-    *(unsigned int *)((*(unsigned int *)(uVar5 + 0x28) & 0xfffffffe) + 0x24) = uVar3 + 0x28;
-    *(unsigned int *)(uVar3 + 0x24) = uVar5 + 0x28;
-    *(unsigned int *)(uVar5 + 0x28) = uVar3;
-  }
-LAB_82ac6ed4:
-  *(unsigned int *)(uVar4 + 0x14) = *(unsigned int *)(uVar4 + 0x14) | 0x10000;
-  return uVar4;
+    return &((Ins_82AC6D78 *)(ins & ~1u))->link;
 }
 
+static __forceinline Ins_82AC6D78 *Previous(Ins_82AC6D78 *ins)
+{
+    unsigned int prev = LinkOf((unsigned int)ins)->prev;
+
+    if (prev & 1)
+        return 0;
+    return (Ins_82AC6D78 *)((prev & ~1u) - 0x28);
+}
+
+static __forceinline void InsertAfter(Link_82AC6D78 *pos, unsigned int tag, Ins_82AC6D78 *ins)
+{
+    Link_82AC6D78 *link = LinkOf((unsigned int)ins);
+
+    link->next = pos->next;
+    LinkOf(pos->next)->prev = (unsigned int)&link->next;
+    link->prev = (unsigned int)&pos->next | tag;
+    pos->next = (unsigned int)link - 0x24;
+}
+
+static unsigned char IsScalarOp(unsigned int op)
+{
+    return op >= 1 && op <= 0x1f;
+}
+
+static unsigned char IsVectorOp(unsigned int op)
+{
+    return op >= 0x20 && op <= 0x52;
+}
+
+Ins_82AC6D78 *fn_82AC6D78(void *ctx, Ins_82AC6D78 *ins)
+{
+    Ins_82AC6D78 *prev = Previous(ins);
+    Ins_82AC6D78 *result;
+
+    if (prev != 0) {
+        if (IsScalarOp(prev->info.op) && IsVectorOp(ins->info.op) && ins == fn_82ABE6D0(prev))
+            prev = Previous(prev);
+    }
+    if (prev == 0 || prev->info.op != 0x7e) {
+        result = fn_82B841E8(ctx, ins->block, 0, 0x7e, 0, 0);
+        if (prev != 0)
+            InsertAfter(LinkOf((unsigned int)prev), 0, result);
+        else
+            InsertAfter(&ins->block->instructions, 1, result);
+        prev = result;
+    }
+    prev->flags |= 0x10000;
+    return prev;
+}

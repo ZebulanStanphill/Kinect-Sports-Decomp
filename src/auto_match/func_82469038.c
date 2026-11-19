@@ -1,90 +1,84 @@
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_38;
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_48;
-extern unsigned int *auStack_50;
-extern int fn_822315A0();
-extern int fn_82273C88();
-extern int fn_82273CD8();
-extern int fn_82279C58();
-extern int fn_82672C20();
-extern unsigned int iStack_2c;
-extern unsigned int iStack_34;
-extern unsigned int iStack_3c;
-extern unsigned int iStack_44;
-extern unsigned int iStack_4c;
-extern unsigned int lbl_821BC088;
-extern unsigned int lbl_821BC08C;
-extern unsigned int lbl_821BC094;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
+typedef struct Value_82469038 {
+    int first; /* 0x0 */
+    int type;  /* 0x4 */
 
+    union {
+        double number;
+        const char *text;
+    } value; /* 0x8 */
+} Value_82469038;
 
-void fn_82469038(int param_1,unsigned int param_2)
+typedef struct Reference_82469038 {
+    void *object;     /* 0x0 */
+    void *references; /* 0x4 */
+} Reference_82469038;
 
+typedef struct Owner_82469038 {
+    char pad000[0x130];
+    int state;  /* 0x130 */
+    int winner; /* 0x134 */
+} Owner_82469038;
+
+extern void fn_82273CD8(Value_82469038 *, int);
+extern void fn_82273C88(Value_82469038 *);
+extern Reference_82469038 *fn_82279C58(Reference_82469038 *, void *);
+extern void fn_82672C20(void *, const char *, Value_82469038 *, int);
+extern void fn_822315A0(void *);
+
+void fn_82469038(Owner_82469038 *self, int state)
 {
-  unsigned int *puVar1;
-  unsigned char auStack_50 [4];
-  int iStack_4c;
-  unsigned char auStack_48 [4];
-  int iStack_44;
-  unsigned char auStack_40 [4];
-  int iStack_3c;
-  unsigned char auStack_38 [4];
-  int iStack_34;
-  unsigned char auStack_30 [4];
-  int iStack_2c;
-  struct { unsigned int first; unsigned int second; } stack_pair_20;
-
-  unsigned char *puStack_18;
-  
-  stack_pair_20.first = 0;
-  stack_pair_20.second = 0;
-  if (param_2 != *(unsigned int *)(param_1 + 0x130)) {
-    *(unsigned int *)(param_1 + 0x130) = param_2;
-    if (param_2 == 0) {
-      puVar1 = (unsigned int *)fn_82279C58(auStack_30,param_1);
-      fn_82672C20(*puVar1,0xffffffff821bc040,0,0);
-      iStack_4c = iStack_2c;
+    Value_82469038 value;
+    Reference_82469038 idle;
+    Reference_82469038 highlightRed;
+    Reference_82469038 highlightBlue;
+    Reference_82469038 decision;
+    Reference_82469038 winner;
+    value.first = 0;
+    value.type = 0;
+    if (state != self->state) {
+        self->state = state;
+        switch (state) {
+        case 0:
+            fn_82672C20(fn_82279C58(&idle, self)->object, "_root.idle", 0, 0);
+            if (idle.references != 0) {
+                fn_822315A0(idle.references);
+            }
+            break;
+        case 1:
+            fn_82672C20(fn_82279C58(&highlightRed, self)->object, "_root.highlightRed", 0, 0);
+            if (highlightRed.references != 0) {
+                fn_822315A0(highlightRed.references);
+            }
+            break;
+        case 2:
+            fn_82672C20(fn_82279C58(&highlightBlue, self)->object, "_root.highlightBlue", 0, 0);
+            if (highlightBlue.references != 0) {
+                fn_822315A0(highlightBlue.references);
+            }
+            break;
+        case 3:
+            fn_82672C20(fn_82279C58(&decision, self)->object, "_root.decisionTime", 0, 0);
+            if (decision.references != 0) {
+                fn_822315A0(decision.references);
+            }
+            break;
+        case 4:
+            if (self->winner == 0) {
+                fn_82273CD8(&value, 4);
+                value.value.text = "red";
+            } else if (self->winner == 1) {
+                fn_82273CD8(&value, 4);
+                value.value.text = "blue";
+            } else {
+                fn_82273CD8(&value, 4);
+                value.value.text = "draw";
+            }
+            fn_82672C20(fn_82279C58(&winner, self)->object, "_root.winnerAnim", &value, 1);
+            if (winner.references != 0) {
+                fn_822315A0(winner.references);
+            }
+            break;
+        }
     }
-    else if (param_2 == 1) {
-      puVar1 = (unsigned int *)fn_82279C58(auStack_38,param_1);
-      fn_82672C20(*puVar1,0xffffffff821bc04c,0,0);
-      iStack_4c = iStack_34;
-    }
-    else if (param_2 < 3) {
-      puVar1 = (unsigned int *)fn_82279C58(auStack_40,param_1);
-      fn_82672C20(*puVar1,0xffffffff821bc060,0,0);
-      iStack_4c = iStack_3c;
-    }
-    else if (param_2 == 3) {
-      puVar1 = (unsigned int *)fn_82279C58(auStack_48,param_1);
-      fn_82672C20(*puVar1,0xffffffff821bc074,0,0);
-      iStack_4c = iStack_44;
-    }
-    else {
-      if (4 < param_2) goto LAB_824691b8;
-      if (*(int *)(param_1 + 0x134) == 0) {
-        fn_82273CD8(&stack_pair_20.first,4);
-        puStack_18 = &lbl_821BC088;
-      }
-      else if (*(int *)(param_1 + 0x134) == 1) {
-        fn_82273CD8(&stack_pair_20.first,4);
-        puStack_18 = &lbl_821BC08C;
-      }
-      else {
-        fn_82273CD8(&stack_pair_20.first,4);
-        puStack_18 = &lbl_821BC094;
-      }
-      puVar1 = (unsigned int *)fn_82279C58(auStack_50,param_1);
-      fn_82672C20(*puVar1,0xffffffff821bc09c,&stack_pair_20.first,1);
-    }
-    if (iStack_4c != 0) {
-      fn_822315A0();
-    }
-  }
-LAB_824691b8:
-  fn_82273C88(&stack_pair_20.first);
-  return;
+    fn_82273C88(&value);
 }
-

@@ -1,68 +1,59 @@
-typedef unsigned char bool;
-#define CONCAT11(h,l) ((unsigned short)((((unsigned char)(h)) << 8) | ((unsigned char)(l))))
-extern unsigned int lbl_821AAD20;
+typedef struct Buffer_82766EF0 {
+    int pad[3];            /* 0x0 */
+    unsigned char **pages; /* 0xc */
+} Buffer_82766EF0;
 
+typedef struct Table_82766EF0 {
+    int pad0[2];             /* 0x0 */
+    Buffer_82766EF0 *buffer; /* 0x8 */
+    int pad1[2];             /* 0xc */
+    int count;               /* 0x14 */
+    int offset;              /* 0x18 */
+} Table_82766EF0;
 
-double fn_82766EF0(int param_1,unsigned __int64 param_2,unsigned __int64 param_3)
-
+static __forceinline unsigned char Byte(Buffer_82766EF0 *buffer, unsigned int offset)
 {
-  int iVar1;
-  float fVar2;
-  __int64 lVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  unsigned int uVar6;
-  __int64 lVar7;
-  __int64 lVar8;
-  bool bVar9;
-  
-  lVar7 = 0;
-  lVar8 = (unsigned __int64)*(unsigned int *)(param_1 + 0x14) - 1;
-  fVar2 = lbl_821AAD20;
-  if (-1 < lVar8) {
-    iVar1 = *(int *)(param_1 + 8);
-    do {
-      uVar6 = (int)lVar7 + (int)lVar8;
-      lVar3 = (__int64)((int)uVar6 >> 1) + (unsigned __int64)((int)uVar6 < 0 && (uVar6 & 1) != 0);
-      uVar6 = (int)lVar3 * 6 + *(int *)(param_1 + 0x18);
-      uVar5 = (unsigned __int64)
-              CONCAT11(*(unsigned char *)
-                        (*(int *)((uVar6 + 1 >> 10 & 0x3ffffc) + *(int *)(iVar1 + 0xc)) +
-                        (uVar6 + 1 & 0xfff)),
-                       *(unsigned char *)
-                        (*(int *)((uVar6 >> 10 & 0x3ffffc) + *(int *)(iVar1 + 0xc)) +
-                        (uVar6 & 0xfff)));
-      uVar4 = (unsigned __int64)
-              CONCAT11(*(unsigned char *)
-                        (*(int *)((uVar6 + 3 >> 10 & 0x3ffffc) + *(int *)(iVar1 + 0xc)) +
-                        (uVar6 + 3 & 0xfff)),
-                       *(unsigned char *)
-                        (*(int *)((uVar6 + 2 >> 10 & 0x3ffffc) + *(int *)(iVar1 + 0xc)) +
-                        (uVar6 + 2 & 0xfff)));
-      if (uVar5 == (param_2 & 0xffffffff)) {
-        if (uVar4 == (param_3 & 0xffffffff)) {
-          fVar2 = (float)(__int64)
-                         CONCAT11(*(unsigned char *)
-                                   (*(int *)((uVar6 + 5 >> 10 & 0x3ffffc) + *(int *)(iVar1 + 0xc)) +
-                                   (uVar6 + 5 & 0xfff)),
-                                  *(unsigned char *)
-                                   (*(int *)((uVar6 + 4 >> 10 & 0x3ffffc) + *(int *)(iVar1 + 0xc)) +
-                                   (uVar6 + 4 & 0xfff)));
-          break;
-        }
-        bVar9 = uVar4 <= param_3;
-      }
-      else {
-        bVar9 = uVar5 <= param_2;
-      }
-      if (bVar9) {
-        lVar7 = lVar3 + 1;
-      }
-      else {
-        lVar8 = lVar3 + -1;
-      }
-    } while ((int)lVar7 <= (int)lVar8);
-  }
-  return (double)fVar2;
+    return buffer->pages[offset >> 12][offset & 0xfff];
 }
 
+static __forceinline unsigned short ReadU16(Buffer_82766EF0 *buffer, unsigned int offset)
+{
+    return Byte(buffer, offset) | (Byte(buffer, offset + 1) << 8);
+}
+
+static __forceinline unsigned char KeyLess(unsigned int first, unsigned int second, unsigned int a,
+                                           unsigned int b)
+{
+    if (first != a) {
+        return first < a;
+    }
+    return second < b;
+}
+
+/* Binary search over six-byte records (two 16-bit keys and a signed 16-bit value) in a paged
+   buffer; returns the value as a float, or 0.0f when the key pair is absent. */
+float fn_82766EF0(Table_82766EF0 *self, unsigned int first, unsigned int second)
+{
+    int hi = self->count - 1;
+    int lo = 0;
+    while (lo <= hi) {
+        Buffer_82766EF0 *buffer = self->buffer;
+        Buffer_82766EF0 *secondKeyBuffer = buffer;
+        int mid = (lo + hi) / 2;
+        unsigned int idx = self->offset + mid * 6;
+        unsigned int a;
+        unsigned int b;
+
+        a = ReadU16(buffer, idx);
+        b = ReadU16(secondKeyBuffer, idx + 2);
+        if (a == first && b == second) {
+            return (short)ReadU16(buffer, idx + 4);
+        }
+        if (KeyLess(first, second, a, b)) {
+            hi = mid - 1;
+        } else {
+            lo = mid + 1;
+        }
+    }
+    return 0.0f;
+}

@@ -1,65 +1,89 @@
-extern unsigned int *auStack_a0;
-extern unsigned int *auStack_c0;
-extern unsigned int *auStack_e0;
-extern int fn_82230218();
-extern int fn_822315A0();
-extern int fn_8265CA20();
-extern int fn_82890428();
-extern int fn_82896F40();
-extern int fn_828A12E8();
-extern unsigned int iStack_6c;
-extern unsigned int uStack_8c;
-extern unsigned int uStack_ac;
-extern unsigned int uStack_b0;
-extern unsigned int uStack_cc;
-extern unsigned int uStack_d0;
+typedef struct String_82897060 {
+    union {
+        char buffer[0x10];
+        char *pointer;
+    } data; /* 0x0 */
 
+    unsigned int size;     /* 0x10 */
+    unsigned int capacity; /* 0x14 */
+    int pad18;             /* 0x18 */
+} String_82897060;
 
-void fn_82897060(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5,unsigned __int64 param_6,unsigned int *param_7,unsigned __int64 param_8)
+typedef struct Named_82897060 {
+    char pad0[0x18];
+    String_82897060 name; /* 0x18 */
+} Named_82897060;
 
+typedef struct SharedPtr_82897060 {
+    Named_82897060 *pointer; /* 0x0 */
+    void *counter;           /* 0x4 */
+} SharedPtr_82897060;
+
+typedef struct Entry_82897060 {
+    String_82897060 name;      /* 0x0 */
+    short f1c;                 /* 0x1c */
+    unsigned short f1e;        /* 0x1e */
+    short f20;                 /* 0x20 */
+    short pad22;               /* 0x22 */
+    int f24;                   /* 0x24 */
+    int f28;                   /* 0x28 */
+    int f2c;                   /* 0x2c */
+    SharedPtr_82897060 shared; /* 0x30 */
+    unsigned char f38;         /* 0x38 */
+} Entry_82897060;
+
+extern void *fn_828A12E8(int key);
+extern void fn_82230218(String_82897060 *self, const String_82897060 *source, unsigned int position,
+                        unsigned int count);
+extern void fn_8265CA20(void *p);
+extern Entry_82897060 *fn_82890428(Entry_82897060 *entry, const String_82897060 *name, short a,
+                                   unsigned short b, int c, int d, int e, SharedPtr_82897060 *shared,
+                                   unsigned char g);
+extern void fn_82896F40(void *table, Entry_82897060 *entry);
+extern void fn_822315A0(void *counter);
+
+static __forceinline void StringInit(String_82897060 *s)
 {
-  unsigned __int64 uVar1;
-  unsigned int auStack_e0 [4];
-  unsigned int uStack_d0;
-  unsigned int uStack_cc;
-  unsigned int auStack_c0 [4];
-  unsigned int uStack_b0;
-  unsigned int uStack_ac;
-  unsigned int auStack_a0 [5];
-  unsigned int uStack_8c;
-  int iStack_6c;
-  
-  uVar1 = fn_828A12E8(param_8);
-  uStack_d0 = 0;
-  uStack_cc = 0xf;
-  auStack_e0[0] = auStack_e0[0] & 0xffffff;
-  fn_82230218(auStack_e0,param_1,0,0xffffffffffffffff);
-  fn_82230218((unsigned __int64)*param_7 + 0x18,auStack_e0,0,0xffffffffffffffff);
-  if (0xf < uStack_cc) {
-    fn_8265CA20(auStack_e0[0]);
-  }
-  uStack_cc = 0xf;
-  uStack_d0 = 0;
-  auStack_e0[0] = auStack_e0[0] & 0xffffff;
-  uStack_ac = 0xf;
-  uStack_b0 = 0;
-  auStack_c0[0] = auStack_c0[0] & 0xffffff;
-  fn_82230218(auStack_c0,param_1,0,0xffffffffffffffff);
-  fn_82890428(auStack_a0,auStack_c0,param_2,param_3,param_4,param_5,param_6,param_7);
-  if (0xf < uStack_ac) {
-    fn_8265CA20(auStack_c0[0]);
-  }
-  uStack_ac = 0xf;
-  uStack_b0 = 0;
-  auStack_c0[0] = auStack_c0[0] & 0xffffff;
-  fn_82896F40(uVar1,auStack_a0);
-  if (iStack_6c != 0) {
-    fn_822315A0();
-  }
-  if (0xf < uStack_8c) {
-    fn_8265CA20(auStack_a0[0]);
-  }
-  return;
+    s->capacity = 0xf;
+    s->size = 0;
+    s->data.buffer[0] = 0;
 }
 
+static __forceinline void StringCopy(String_82897060 *s, const String_82897060 *source)
+{
+    StringInit(s);
+    fn_82230218(s, source, 0, 0xffffffff);
+}
+
+static __forceinline void StringDestroy(String_82897060 *s)
+{
+    if (s->capacity >= 0x10) {
+        fn_8265CA20(s->data.pointer);
+    }
+    StringInit(s);
+}
+
+/* Copies name into the shared object's name, builds an entry from the arguments and adds it to
+   the table found for key. */
+void fn_82897060(const String_82897060 *name, short a, unsigned short b, int c, int d, int e,
+                 SharedPtr_82897060 *shared, int key, unsigned char g)
+{
+    void *table = fn_828A12E8(key);
+    String_82897060 copy;
+    String_82897060 argument;
+    Entry_82897060 entry;
+
+    StringCopy(&copy, name);
+    fn_82230218(&shared->pointer->name, &copy, 0, 0xffffffff);
+    StringDestroy(&copy);
+    StringCopy(&argument, name);
+    fn_82890428(&entry, &argument, a, b, c, d, e, shared, g);
+    StringDestroy(&argument);
+    fn_82896F40(table, &entry);
+    if (entry.shared.counter != 0) {
+        fn_822315A0(entry.shared.counter);
+    }
+    if (entry.name.capacity >= 0x10) {
+        fn_8265CA20(entry.name.data.pointer);
+    }
+}

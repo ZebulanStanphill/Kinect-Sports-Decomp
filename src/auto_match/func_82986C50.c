@@ -1,79 +1,119 @@
-extern int fn_8265C940();
-extern int fn_8265C990();
-extern int fn_82930318();
-extern int fn_829304E0();
-extern int fn_82933088();
-extern int fn_82933428();
-extern int fn_82983380();
-extern int fn_829860E0();
+typedef struct Value_82986C50 {
+    unsigned int bits[4];
+} Value_82986C50;
 
+typedef struct Expr_82986C50 Expr_82986C50;
 
-int fn_82986C50(unsigned __int64 param_1,int param_2)
+typedef struct ExprVtbl_82986C50 {
+    void *f0;
+    Expr_82986C50 *(*Clone)(Expr_82986C50 *self); /* 0x4 */
+} ExprVtbl_82986C50;
 
+struct Expr_82986C50 {
+    ExprVtbl_82986C50 *vt;
+};
+
+typedef struct Item_82986C50 Item_82986C50;
+
+struct Item_82986C50 {
+    char pad0[8];
+    void *value;         /* 0x8 */
+    Item_82986C50 *next; /* 0xc */
+};
+
+typedef struct Node_82986C50 {
+    char pad0[0x10];
+    Expr_82986C50 *expr;  /* 0x10 */
+    char pad14[0xc];      /* 0x14 */
+    Item_82986C50 *items; /* 0x20 */
+} Node_82986C50;
+
+typedef struct Type_82986C50 {
+    int pad0;
+    int kind;            /* 0x4 */
+    char pad8[8];        /* 0x8 */
+    Expr_82986C50 *init; /* 0x10 */
+    int columns;         /* 0x14 */
+    int rows;            /* 0x18 */
+    char pad1c[0x14];    /* 0x1c */
+    char location[0x20]; /* 0x30 */
+} Type_82986C50;
+
+extern Value_82986C50 *fn_8265C940(unsigned int size, unsigned int tag);
+extern void fn_8265C990(void *block, unsigned int tag);
+extern void *fn_82930318(unsigned int size);
+extern int fn_829860E0(void *ctx, Type_82986C50 *type, Value_82986C50 *values);
+extern Node_82986C50 *fn_82933088(void *memory, int a, int b, int c, int d, int e, char *location);
+extern Item_82986C50 *fn_829304E0(void *memory, void *a, int b, const char *name);
+extern void *fn_82933428(void *memory, Value_82986C50 *value, char *location);
+extern void fn_82983380(void *ctx, Node_82986C50 *node);
+
+Node_82986C50 *fn_82986C50(void *ctx, Type_82986C50 *type)
 {
-  __int64 lVar1;
-  int iVar4;
-  unsigned __int64 uVar2;
-  int iVar5;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar6;
-  __int64 lVar7;
-  int *piVar8;
-  
-  if ((param_2 != 0) && (*(int *)(param_2 + 4) == 0xe)) {
-    uVar6 = (__int64)*(int *)(param_2 + 0x18) * (__int64)*(int *)(param_2 + 0x14);
-    lVar1 = fn_8265C940((uVar6 & 0xfffffff) << 4,0x24810000);
-    if ((lVar1 != 0) && (iVar4 = fn_829860E0(param_1,param_2,lVar1), -1 < iVar4)) {
-      uVar2 = fn_82930318(0x50);
-      if ((uVar2 & 0xffffffff) == 0) {
-        iVar4 = 0;
-      }
-      else {
-        iVar4 = fn_82933088(uVar2,0,0,0,0,1,param_2 + 0x30);
-      }
-      if (iVar4 != 0) {
-        if (*(int **)(param_2 + 0x10) == (int *)0x0) {
-LAB_82986d1c:
-          piVar8 = (int *)(iVar4 + 0x20);
-          uVar2 = 0;
-          lVar7 = lVar1;
-          if ((uVar6 & 0xffffffff) != 0) {
-            do {
-              uVar3 = fn_82930318(0x14);
-              if ((uVar3 & 0xffffffff) == 0) {
-                iVar5 = 0;
-              }
-              else {
-                iVar5 = fn_829304E0(uVar3,0,0,0xffffffff8204e390);
-              }
-              *piVar8 = iVar5;
-              if (iVar5 == 0) goto LAB_82986dd8;
-              uVar3 = fn_82930318(0x40);
-              if ((uVar3 & 0xffffffff) == 0) {
-                iVar5 = 0;
-              }
-              else {
-                iVar5 = fn_82933428(uVar3,lVar7,param_2 + 0x30);
-              }
-              *(int *)(*piVar8 + 8) = iVar5;
-              if (iVar5 == 0) goto LAB_82986dd8;
-              uVar2 = uVar2 + 1;
-              piVar8 = (int *)(*piVar8 + 0xc);
-              lVar7 = lVar7 + 0x10;
-            } while ((uVar2 & 0xffffffff) < (uVar6 & 0xffffffff));
-          }
-          fn_82983380(param_1,iVar4);
-          fn_8265C990(lVar1,0x24810000);
-          return iVar4;
-        }
-        iVar5 = (**(int (***)())(**(int **)(param_2 + 0x10) + 4))();
-        *(int *)(iVar4 + 0x10) = iVar5;
-        if (iVar5 != 0) goto LAB_82986d1c;
-      }
-    }
-LAB_82986dd8:
-    fn_8265C990(lVar1,0x24810000);
-  }
-  return 0;
-}
+    unsigned int count;
+    Value_82986C50 *values;
+    void *memory;
+    Node_82986C50 *node;
+    Item_82986C50 **link;
+    unsigned int i;
 
+    if (type == 0 || type->kind != 0xe) {
+        return 0;
+    }
+    count = type->rows * type->columns;
+    values = fn_8265C940(count * sizeof(Value_82986C50), 0x24810000);
+    if (values == 0 || fn_829860E0(ctx, type, values) < 0) {
+        goto fail;
+    }
+    memory = fn_82930318(0x50);
+    if (memory != 0) {
+        node = fn_82933088(memory, 0, 0, 0, 0, 1, type->location);
+    } else {
+        node = 0;
+    }
+    if (node == 0) {
+        goto fail;
+    }
+    if (type->init != 0) {
+        Expr_82986C50 *expr = type->init->vt->Clone(type->init);
+
+        node->expr = expr;
+        if (expr == 0) {
+            goto fail;
+        }
+    }
+    link = &node->items;
+    for (i = 0; i < count; i++) {
+        Item_82986C50 *item;
+        void *value;
+
+        memory = fn_82930318(0x14);
+        if (memory != 0) {
+            item = fn_829304E0(memory, 0, 0, "Value");
+        } else {
+            item = 0;
+        }
+        *link = item;
+        if (item == 0) {
+            goto fail;
+        }
+        memory = fn_82930318(0x40);
+        if (memory != 0) {
+            value = fn_82933428(memory, &values[i], type->location);
+        } else {
+            value = 0;
+        }
+        (*link)->value = value;
+        if (value == 0) {
+            goto fail;
+        }
+        link = &(*link)->next;
+    }
+    fn_82983380(ctx, node);
+    fn_8265C990(values, 0x24810000);
+    return node;
+
+fail:
+    fn_8265C990(values, 0x24810000);
+    return 0;
+}

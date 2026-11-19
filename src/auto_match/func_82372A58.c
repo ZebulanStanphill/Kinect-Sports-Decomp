@@ -1,74 +1,76 @@
-extern int fn_82372DE8();
-extern int fn_82372ED8();
-extern int fn_82372F88();
+typedef struct Player_82372A58 {
+    unsigned char pad0[0x40];
+    unsigned int state; /* 0x40 */
+} Player_82372A58;
 
+typedef struct Coach_82372A58 {
+    unsigned char pad0[0xa0];
+    int player; /* 0x0a0: Player_82372A58 * */
+    unsigned char pada4[0x204 - 0xa4];
+    int automatic; /* 0x204 */
+    unsigned char pad208[0x218 - 0x208];
+    int skipIntro; /* 0x218 */
+    unsigned char pad21c[0x348 - 0x21c];
+    int hasTip; /* 0x348 */
+    unsigned char pad34c[0x658 - 0x34c];
+    int busy; /* 0x658 */
+    unsigned char pad65c[0x9e0 - 0x65c];
+    int saidWelcome; /* 0x9e0 */
+    int saidTip;     /* 0x9e4 */
+    int saidHint;    /* 0x9e8 */
+    int saidWarning; /* 0x9ec */
+    int saidIntro;   /* 0x9f0 */
+    unsigned char pad9f4[0xa00 - 0x9f4];
+    int pendingRetry; /* 0xa00 */
+    int pendingQuit;  /* 0xa04 */
+} Coach_82372A58;
 
-__int64 fn_82372A58(int param_1)
+extern int fn_82372F88(Coach_82372A58 *self);
+extern int fn_82372ED8(Coach_82372A58 *self);
+extern int fn_82372DE8(Coach_82372A58 *self, int side);
 
+int fn_82372A58(Coach_82372A58 *self)
 {
-  int iVar1;
-  unsigned char bVar2;
-  __int64 lVar3;
-  int iVar4;
-  
-  if (*(int *)(param_1 + 0x204) == 0) {
-    lVar3 = fn_82372F88();
-    iVar4 = (int)(lVar3 + 1) - ((int)lVar3 + (unsigned int)(lVar3 + 1 == 0));
-  }
-  else {
-    iVar4 = *(int *)(param_1 + 0x658);
-  }
-  iVar1 = *(int *)(param_1 + 0xa0);
-  if ((iVar1 == 0) || (bVar2 = 1, *(int *)(iVar1 + 0x40) != 1)) {
-    bVar2 = 0;
-  }
-  if (*(int *)(param_1 + 0xa04) == 0) {
-    if (*(int *)(param_1 + 0xa00) == 0) {
-      if (iVar4 == 0) {
-        if ((*(int *)(param_1 + 0x9e0) == 0) && ((iVar1 == 0 || (*(int *)(iVar1 + 0x40) != 1)))) {
-          lVar3 = 6;
-          *(unsigned int *)(param_1 + 0x9e0) = 1;
-        }
-        else if ((*(int *)(param_1 + 0x9f0) == 0) && (*(int *)(param_1 + 0x218) == 0)) {
-          lVar3 = 0xb;
-          *(unsigned int *)(param_1 + 0x9f0) = 1;
-        }
-        else if ((*(int *)(param_1 + 0x9e4) == 0) && (*(int *)(param_1 + 0x348) != 0)) {
-          lVar3 = 7;
-          *(unsigned int *)(param_1 + 0x9e4) = 1;
-        }
-        else if ((*(int *)(param_1 + 0x9ec) == 0) && (iVar4 = fn_82372ED8(param_1), iVar4 != 0)) {
-          lVar3 = 8;
-          *(unsigned int *)(param_1 + 0x9ec) = 1;
-        }
-        else if ((*(int *)(param_1 + 0x9e8) == 0) &&
-                ((iVar4 = fn_82372DE8(param_1,0), iVar4 != 0 ||
-                 (iVar4 = fn_82372DE8(param_1,1), iVar4 != 0)))) {
-          lVar3 = 9;
-          *(unsigned int *)(param_1 + 0x9e8) = 1;
-        }
-        else {
-          *(unsigned int *)(param_1 + 0x9e0) = 0;
-          lVar3 = 2;
-          *(unsigned int *)(param_1 + 0x9e4) = 0;
-          *(unsigned int *)(param_1 + 0x9e8) = 0;
-          *(unsigned int *)(param_1 + 0x9ec) = 0;
-          *(unsigned int *)(param_1 + 0x9f0) = 0;
-        }
-      }
-      else {
-        lVar3 = (-(unsigned __int64)bVar2 << 0x20 | -(unsigned __int64)bVar2 & 0xfffffffd) + 0xf;
-      }
-    }
-    else {
-      lVar3 = 5;
-      *(unsigned int *)(param_1 + 0xa00) = 0;
-    }
-  }
-  else {
-    lVar3 = 10;
-    *(unsigned int *)(param_1 + 0xa04) = 0;
-  }
-  return lVar3;
-}
+    int busy;
+    int ready;
+    int result;
 
+    if (self->automatic == 0)
+        busy = fn_82372F88(self) != -1;
+    else
+        busy = self->busy;
+    ready = self->player != 0 && ((Player_82372A58 *)self->player)->state == 1;
+    if (self->pendingQuit != 0) {
+        result = 10;
+        self->pendingQuit = 0;
+    } else if (self->pendingRetry != 0) {
+        result = 5;
+        self->pendingRetry = 0;
+    } else if (busy != 0) {
+        result = ready ? 12 : 15;
+    } else if (self->saidWelcome == 0 &&
+               (self->player == 0 || ((Player_82372A58 *)self->player)->state != 1)) {
+        result = 6;
+        self->saidWelcome = 1;
+    } else if (self->saidIntro == 0 && self->skipIntro == 0) {
+        result = 11;
+        self->saidIntro = 1;
+    } else if (self->saidTip == 0 && self->hasTip != 0) {
+        result = 7;
+        self->saidTip = 1;
+    } else if (self->saidWarning == 0 && fn_82372ED8(self) != 0) {
+        result = 8;
+        self->saidWarning = 1;
+    } else if (self->saidHint == 0 && (fn_82372DE8(self, 0) != 0 || fn_82372DE8(self, 1) != 0)) {
+        result = 9;
+        self->saidHint = 1;
+    } else {
+        self->saidWelcome = 0;
+        result = 2;
+        self->saidTip = 0;
+        self->saidHint = 0;
+        self->saidWarning = 0;
+        self->saidIntro = 0;
+    }
+    return result;
+}

@@ -1,58 +1,51 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_828ACC40();
-extern int fn_828AD0F8();
-extern int fn_828AD488();
-extern int fn_828ADCE8();
+typedef struct Request_828ADE08 {
+    char pad000[0x8];
+    int pending; /* 0x8 */
+} Request_828ADE08;
 
+typedef struct Session_828ADE08 {
+    char pad000[0x8c];
+    Request_828ADE08 *request; /* 0x8c */
+} Session_828ADE08;
 
-void fn_828ADE08(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5,unsigned __int64 param_6,unsigned __int64 param_7,unsigned __int64 param_8)
+typedef struct Peer_828ADE08 {
+    char pad000[0x4];
+    unsigned char state; /* 0x4 */
+} Peer_828ADE08;
 
+extern unsigned char fn_828AD0F8(Session_828ADE08 *self);
+extern unsigned char fn_828AD488(Session_828ADE08 *self);
+extern unsigned char fn_828ACC40(Session_828ADE08 *self);
+extern unsigned char fn_828ADCE8(Session_828ADE08 *self, unsigned int kind, unsigned int minimum,
+                                 unsigned int maximum, unsigned int arg5, unsigned int arg6,
+                                 unsigned int arg7, unsigned int arg8, unsigned char flag9,
+                                 unsigned char flag10, unsigned char flag11, unsigned char flag12,
+                                 unsigned char flag13, unsigned char flag14, unsigned char flag15,
+                                 unsigned char flag16, unsigned char flag17, unsigned char flag18,
+                                 Peer_828ADE08 *peer, unsigned char flag20, unsigned char flag21,
+                                 unsigned char flag22);
+
+unsigned char fn_828ADE08(Session_828ADE08 *self, unsigned int kind, unsigned int minimum,
+                          unsigned int maximum, unsigned int arg5, unsigned int arg6, unsigned int arg7,
+                          unsigned int arg8, unsigned char flag9, unsigned char flag10, unsigned char flag11,
+                          unsigned char flag12, unsigned char flag13, unsigned char flag14,
+                          unsigned char flag15, unsigned char flag16, unsigned char flag17,
+                          unsigned char flag18, Peer_828ADE08 *peer, unsigned char flag20,
+                          unsigned char flag21, unsigned char flag22)
 {
-  bool bVar1;
-  char cVar2;
-  int in_stack_000000a4;
-  
-  cVar2 = fn_828AD0F8();
-  if (cVar2 == '\0') {
-    cVar2 = fn_828AD488(param_1);
-    bVar1 = false;
-    if (cVar2 != '\0') goto LAB_828ade5c;
-  }
-  else {
-LAB_828ade5c:
-    bVar1 = true;
-  }
-  if (bVar1) {
-    cVar2 = fn_828ACC40(param_1);
-    bVar1 = true;
-    if (cVar2 != '\0') goto LAB_828ade88;
-  }
-  bVar1 = false;
-LAB_828ade88:
-  if ((!bVar1) || (bVar1 = true, *(int *)(param_1 + 0x8c) == 0)) {
-    bVar1 = false;
-  }
-  if ((!bVar1) || (bVar1 = true, *(int *)(*(int *)(param_1 + 0x8c) + 8) != 0)) {
-    bVar1 = false;
-  }
-  if ((!bVar1) || (bVar1 = true, 3 < (param_2 & 0xffffffff))) {
-    bVar1 = false;
-  }
-  if ((!bVar1) || (bVar1 = true, (param_3 & 0xffffffff) == 0)) {
-    bVar1 = false;
-  }
-  if ((!bVar1) || (bVar1 = true, (param_4 & 0xffffffff) < (param_3 & 0xffffffff))) {
-    bVar1 = false;
-  }
-  if ((!bVar1) || (bVar1 = true, *(char *)(in_stack_000000a4 + 4) != '\x01')) {
-    bVar1 = false;
-  }
-  if (bVar1) {
-    fn_828ADCE8(param_1,param_2,param_3,param_4,param_5,param_6,param_7,param_8);
-  }
-  return;
+    unsigned char ok;
+    ok = fn_828AD0F8(self) || fn_828AD488(self);
+    ok = ok && fn_828ACC40(self);
+    ok = ok && self->request != 0;
+    ok = ok && self->request->pending == 0;
+    ok = ok && kind < 4;
+    ok = ok && minimum != 0;
+    ok = ok && maximum >= minimum;
+    ok = ok && peer->state == 1;
+    if (ok) {
+        return fn_828ADCE8(self, kind, minimum, maximum, arg5, arg6, arg7, arg8, flag9, flag10, flag11,
+                           flag12, flag13, flag14, flag15, flag16, flag17, flag18, peer, flag20, flag21,
+                           flag22);
+    }
+    return ok;
 }
-

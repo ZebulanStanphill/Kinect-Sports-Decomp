@@ -1,53 +1,36 @@
-extern unsigned int fStack_3c;
-extern int fn_82AA66A8();
-extern int fn_82B86888();
-extern unsigned int stack0x0000002c;
-extern unsigned int uStack0000002c;
+typedef union Constant_82B86A88 {
+    float f;
+    int i;
+    unsigned int u;
+} Constant_82B86A88;
 
+extern __declspec(noreturn) void fn_82AA66A8(void *ctx, int code, ...);
+extern void fn_82B86888(void *ctx, unsigned int count, Constant_82B86A88 *values, unsigned int types);
 
-void fn_82B86A88(unsigned __int64 param_1,unsigned __int64 param_2,double *param_3,unsigned int param_4)
-
+static __forceinline unsigned int GetBits(const unsigned int *words, unsigned int low, unsigned int high)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  float *pfVar3;
-  unsigned int uVar4;
-  unsigned int uStack0000002c;
-  float fStack_3c;
-  float afStack_30 [6];
-  
-  uVar2 = 0;
-  uStack0000002c = param_4;
-  if ((param_2 & 0xffffffff) != 0) {
-    uVar4 = 0;
-    pfVar3 = afStack_30;
-    do {
-      uVar1 = ((2 << (uVar4 + 1 & 0x1f)) - 1U &
-               *(unsigned int *)((int)&stack0x0000002c + (uVar4 >> 3 & 0x1ffffffc)) & -1 << (uVar4 & 0x1f))
-              >> (uVar4 & 0x1f);
-      if (uVar1 == 0) {
-        *pfVar3 = (float)*param_3;
-      }
-      else {
-        if (uVar1 == 1) {
-          fStack_3c = (float)(int)*param_3;
-        }
-        else {
-          if (2 < uVar1) {
-                    /* WARNING: Subroutine does not return */
-            fn_82AA66A8(param_1,0x12c0);
-          }
-          fStack_3c = (float)(__int64)*param_3;
-        }
-        *pfVar3 = fStack_3c;
-      }
-      uVar2 = uVar2 + 1;
-      uVar4 = uVar4 + 2;
-      param_3 = param_3 + 1;
-      pfVar3 = pfVar3 + 1;
-    } while ((uVar2 & 0xffffffff) < (param_2 & 0xffffffff));
-  }
-  fn_82B86888(param_1,param_2,afStack_30);
-  return;
+    return (((2 << (high & 0x1f)) - 1) & words[low >> 5] & (0xffffffff << (low & 0x1f))) >> (low & 0x1f);
 }
 
+void fn_82B86A88(void *ctx, unsigned int count, const double *values, unsigned int types)
+{
+    Constant_82B86A88 constants[4];
+    unsigned int i;
+
+    for (i = 0; i < count; i++) {
+        switch (GetBits(&types, i * 2, i * 2 + 1)) {
+        case 0:
+            constants[i].f = (float)values[i];
+            break;
+        case 1:
+            constants[i].i = (int)values[i];
+            break;
+        case 2:
+            constants[i].u = (unsigned int)values[i];
+            break;
+        default:
+            fn_82AA66A8(ctx, 0x12c0);
+        }
+    }
+    fn_82B86888(ctx, count, constants, types);
+}

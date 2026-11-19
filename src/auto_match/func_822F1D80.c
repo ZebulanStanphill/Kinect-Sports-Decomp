@@ -1,88 +1,97 @@
-extern unsigned int *auStack_110;
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_90;
-extern unsigned int *auStack_b0;
-extern unsigned int *auStack_d0;
-extern unsigned int *auStack_f0;
-extern int fn_82230110();
-extern int fn_82230300();
-extern int fn_822315A0();
-extern int fn_822E52D8();
-extern int fn_822E5340();
-extern int fn_822E5F48();
-extern int fn_82399C38();
-extern unsigned int iStack_11c;
-extern unsigned int iStack_120;
+typedef struct String_822F1D80 {
+    int words[7];
+} String_822F1D80;
 
+typedef struct Player_822F1D80 {
+    char pad00[0x0c];
+    int forehand; /* 0x0c */
+} Player_822F1D80;
 
-void fn_822F1D80(int param_1)
+typedef struct SharedPtr_822F1D80 {
+    Player_822F1D80 *px;
+    int *rep;
+} SharedPtr_822F1D80;
 
+typedef struct Rules_822F1D80 {
+    char pad00[0x68];
+    void *quickServe; /* 0x68 */
+} Rules_822F1D80;
+
+typedef struct Match_822F1D80 {
+    char pad000[0x178];
+    int serveMode; /* 0x178 */
+    char pad17c[0x2e0 - 0x17c];
+    Rules_822F1D80 *rules; /* 0x2e0 */
+} Match_822F1D80;
+
+typedef struct ServeState_822F1D80 {
+    char pad00[0x0c];
+    void *animator;        /* 0x0c */
+    Match_822F1D80 *match; /* 0x10 */
+    char pad14[0x34 - 0x14];
+    int started; /* 0x34 */
+} ServeState_822F1D80;
+
+extern void fn_822E5F48(SharedPtr_822F1D80 *out, void *animator);
+extern void fn_82230110(String_822F1D80 *s, const char *text);
+extern void fn_82230300(String_822F1D80 *s, int built, int size);
+extern void fn_822E52D8(void *animator, String_822F1D80 *name);
+extern void fn_822E5340(void *animator, String_822F1D80 *name);
+extern int fn_82399C38(Match_822F1D80 *match);
+extern void fn_822315A0(int *rep);
+
+void fn_822F1D80(ServeState_822F1D80 *self)
 {
-  int iVar1;
-  unsigned char *puVar2;
-  int iStack_120;
-  int iStack_11c;
-  unsigned char auStack_110 [32];
-  unsigned char auStack_f0 [32];
-  unsigned char auStack_d0 [32];
-  unsigned char auStack_b0 [32];
-  unsigned char auStack_90 [32];
-  unsigned char auStack_70 [32];
-  unsigned char auStack_50 [32];
-  unsigned char auStack_30 [32];
-  
-  fn_822E5F48(&iStack_120,*(unsigned int *)(param_1 + 0xc));
-  if (*(int *)(*(int *)(param_1 + 0x10) + 0x178) == 2) {
-    if (*(int *)(*(int *)(*(int *)(param_1 + 0x10) + 0x2e0) + 0x68) == 0) {
-      fn_82230110(auStack_70,0xffffffff821ae564);
-      fn_822E52D8(*(unsigned int *)(param_1 + 0xc),auStack_70);
-      fn_82230300(auStack_70,1,0);
-    }
-    fn_82230110(auStack_30,0xffffffff821ae13c);
-    fn_822E5340(*(unsigned int *)(param_1 + 0xc),auStack_30);
-    puVar2 = auStack_30;
-  }
-  else if (*(int *)(iStack_120 + 0xc) == 0) {
-    iVar1 = fn_82399C38();
-    if (iVar1 == 0) {
-      fn_82230110(auStack_f0,0xffffffff821ae550);
-      fn_822E52D8(*(unsigned int *)(param_1 + 0xc),auStack_f0);
-      puVar2 = auStack_f0;
-    }
-    else {
-      fn_82230110(auStack_110,0xffffffff821ae530);
-      fn_822E52D8(*(unsigned int *)(param_1 + 0xc),auStack_110);
-      puVar2 = auStack_110;
-    }
-    fn_82230300(puVar2,1,0);
-    fn_82230110(auStack_b0,0xffffffff821ae114);
-    fn_822E5340(*(unsigned int *)(param_1 + 0xc),auStack_b0);
-    puVar2 = auStack_b0;
-  }
-  else {
-    iVar1 = fn_82399C38();
-    if (iVar1 == 0) {
-      fn_82230110(auStack_d0,0xffffffff821ae51c);
-      fn_822E52D8(*(unsigned int *)(param_1 + 0xc),auStack_d0);
-      puVar2 = auStack_d0;
-    }
-    else {
-      fn_82230110(auStack_90,0xffffffff821ae4fc);
-      fn_822E52D8(*(unsigned int *)(param_1 + 0xc),auStack_90);
-      puVar2 = auStack_90;
-    }
-    fn_82230300(puVar2,1,0);
-    fn_82230110(auStack_50,0xffffffff821ae0e8);
-    fn_822E5340(*(unsigned int *)(param_1 + 0xc),auStack_50);
-    puVar2 = auStack_50;
-  }
-  fn_82230300(puVar2,1,0);
-  *(unsigned int *)(param_1 + 0x34) = 1;
-  if (iStack_11c != 0) {
-    fn_822315A0();
-  }
-  return;
-}
+    SharedPtr_822F1D80 player;
+    String_822F1D80 intoQuick;
+    String_822F1D80 idleQuick;
+    String_822F1D80 intoForehandMatchPoint;
+    String_822F1D80 intoForehand;
+    String_822F1D80 idleForehand;
+    String_822F1D80 intoBackhandMatchPoint;
+    String_822F1D80 intoBackhand;
+    String_822F1D80 idleBackhand;
 
+    fn_822E5F48(&player, self->animator);
+    if (self->match->serveMode != 2) {
+        if (player.px->forehand != 0) {
+            if (fn_82399C38(self->match) != 0) {
+                fn_82230110(&intoForehandMatchPoint, "into_serve_matchpoint_forehand");
+                fn_822E52D8(self->animator, &intoForehandMatchPoint);
+                fn_82230300(&intoForehandMatchPoint, 1, 0);
+            } else {
+                fn_82230110(&intoForehand, "into_serve_forehand");
+                fn_822E52D8(self->animator, &intoForehand);
+                fn_82230300(&intoForehand, 1, 0);
+            }
+            fn_82230110(&idleForehand, "idle_serveforehand");
+            fn_822E5340(self->animator, &idleForehand);
+            fn_82230300(&idleForehand, 1, 0);
+        } else {
+            if (fn_82399C38(self->match) != 0) {
+                fn_82230110(&intoBackhandMatchPoint, "into_serve_matchpoint_backhand");
+                fn_822E52D8(self->animator, &intoBackhandMatchPoint);
+                fn_82230300(&intoBackhandMatchPoint, 1, 0);
+            } else {
+                fn_82230110(&intoBackhand, "into_serve_backhand");
+                fn_822E52D8(self->animator, &intoBackhand);
+                fn_82230300(&intoBackhand, 1, 0);
+            }
+            fn_82230110(&idleBackhand, "idle_servebackhand");
+            fn_822E5340(self->animator, &idleBackhand);
+            fn_82230300(&idleBackhand, 1, 0);
+        }
+    } else {
+        if (self->match->rules->quickServe == 0) {
+            fn_82230110(&intoQuick, "into_serve_quick");
+            fn_822E52D8(self->animator, &intoQuick);
+            fn_82230300(&intoQuick, 1, 0);
+        }
+        fn_82230110(&idleQuick, "idle_servequick");
+        fn_822E5340(self->animator, &idleQuick);
+        fn_82230300(&idleQuick, 1, 0);
+    }
+    self->started = 1;
+    if (player.rep != 0)
+        fn_822315A0(player.rep);
+}

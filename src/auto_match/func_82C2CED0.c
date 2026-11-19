@@ -1,58 +1,52 @@
-extern unsigned int lbl_82002C5C;
-extern unsigned int lbl_821AAD20;
+typedef struct Channel_82C2CED0 {
+    char pad000[0x3c];
+    float *samples; /* 0x3c */
+    char pad040[0x6f0 - 0x40];
+} Channel_82C2CED0;
 
+typedef struct Decoder_82C2CED0 Decoder_82C2CED0;
 
-unsigned __int64 fn_82C2CED0(int param_1,unsigned __int64 param_2,unsigned int param_3)
+struct Decoder_82C2CED0 {
+    char pad000[0x22];
+    unsigned short channelCount; /* 0x22 */
+    char pad024[0x6e - 0x24];
+    unsigned short bitsPerSample; /* 0x6e */
+    char pad070[0x140 - 0x70];
+    Channel_82C2CED0 *channels; /* 0x140 */
+    char pad144[0x208 - 0x144];
+    void (*write)(int value, void *context, Decoder_82C2CED0 *self, int index); /* 0x208 */
+};
 
+int fn_82C2CED0(Decoder_82C2CED0 *self, void *context, unsigned short sampleCount)
 {
-  unsigned __int64 uVar1;
-  short sVar2;
-  unsigned int uVar4;
-  unsigned __int64 uVar3;
-  int iVar5;
-  __int64 lVar6;
-  int iVar7;
-  double dVar8;
-  double dVar9;
-  double dVar10;
-  
-  lVar6 = 0;
-  if ((param_3 & 0xffff) != 0) {
-    uVar4 = (unsigned int)*(unsigned short *)(param_1 + 0x22);
-    iVar5 = 0;
-    dVar10 = (double)lbl_82002C5C;
-    dVar9 = (double)lbl_821AAD20;
-    do {
-      if (uVar4 != 0) {
-        iVar7 = 0;
-        do {
-          dVar8 = (double)*(float *)(*(int *)(iVar7 * 0x6f0 + *(int *)(param_1 + 0x140) + 0x3c) +
-                                    iVar5 * 4);
-          uVar3 = (unsigned __int64)(unsigned int)(1 << (*(unsigned short *)(param_1 + 0x6e) - 1 & 0x3f));
-          if (dVar9 <= dVar8) {
-            uVar3 = uVar3 - 1;
-            uVar1 = (unsigned __int64)(unsigned int)(int)(dVar8 + dVar10);
-            if ((int)uVar3 < (int)(dVar8 + dVar10)) goto LAB_82c2cf90;
-          }
-          else {
-            uVar3 = ~(uVar3 - 1);
-            uVar1 = (unsigned __int64)(unsigned int)(int)(dVar8 - dVar10);
-            if ((int)(dVar8 - dVar10) < (int)uVar3) {
-LAB_82c2cf90:
-              uVar1 = uVar3;
-            }
-          }
-          (**(int (***)())(param_1 + 0x208))(uVar1,param_2,param_1,lVar6);
-          sVar2 = (short)iVar7 + 1;
-          uVar4 = (unsigned int)*(unsigned short *)(param_1 + 0x22);
-          lVar6 = lVar6 + 1;
-          iVar7 = (int)sVar2;
-        } while ((int)sVar2 < (int)uVar4);
-      }
-      sVar2 = (short)iVar5 + 1;
-      iVar5 = (int)sVar2;
-    } while ((int)sVar2 < (int)(param_3 & 0xffff));
-  }
-  return 0;
-}
+    int index;
+    short sample;
+    short channel;
+    float value;
+    int limit;
+    int out;
+    int bound;
 
+    index = 0;
+    for (sample = 0; sample < sampleCount; sample++) {
+        for (channel = 0; channel < self->channelCount; channel++) {
+            value = self->channels[channel].samples[sample];
+            if (value < 0.0f) {
+                limit = 1 << (self->bitsPerSample - 1);
+                bound = ~(limit - 1);
+                out = (int)(value - 0.5f);
+                if (out < bound)
+                    out = bound;
+            } else {
+                limit = 1 << (self->bitsPerSample - 1);
+                bound = limit - 1;
+                out = (int)(value + 0.5f);
+                if (out > bound)
+                    out = bound;
+            }
+            self->write(out, context, self, index);
+            index++;
+        }
+    }
+    return 0;
+}

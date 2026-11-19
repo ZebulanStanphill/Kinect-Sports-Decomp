@@ -1,63 +1,79 @@
-extern int fn_8267B890();
-extern int fn_826A6A38();
-extern int fn_826F33F0();
-extern int fn_82759498();
-extern int fn_827597E0();
-extern int fn_8275B020();
-extern unsigned int lbl_8200D4C0;
-extern unsigned int stack0x00000000;
+typedef struct Shape_8275B958 {
+    char pad000[0xa];
+    unsigned short count; /* 0xa */
+    unsigned int *ids;    /* 0xc */
+} Shape_8275B958;
 
+typedef struct Action_8275B958 {
+    unsigned char kind; /* 0x0 */
+    char pad001[3];
 
-void fn_8275B958(int param_1,int param_2,unsigned __int64 param_3)
+    union {
+        unsigned int id;
+        Shape_8275B958 *shape;
+    } u; /* 0x4 */
 
+    char pad008[0x20];
+} Action_8275B958;
+
+typedef struct Heap_8275B958 {
+    char pad000[0x1c];
+    void *allocator; /* 0x1c */
+} Heap_8275B958;
+
+typedef struct Stream_8275B958 {
+    char pad000[0x20];
+    Heap_8275B958 *heap; /* 0x20 */
+} Stream_8275B958;
+
+typedef struct Tag_8275B958 {
+    int pad0;
+    unsigned short id; /* 0x4 */
+    char pad006[0x2];
+    unsigned int target;     /* 0x8 */
+    Action_8275B958 *action; /* 0xc */
+    unsigned short flags;    /* 0x10 */
+    char pad012[0x2];
+    float ratio; /* 0x14 */
+} Tag_8275B958;
+
+extern const float lbl_8200D4C0;
+extern unsigned short fn_826A6A38(Stream_8275B958 *in);
+extern void *fn_8267B890(void *allocator, int size, int flags);
+extern Action_8275B958 *fn_827597E0(Action_8275B958 *action);
+extern void fn_82759498(Action_8275B958 *action);
+extern void fn_8275B020(Action_8275B958 *action, Stream_8275B958 *in, int tagType);
+extern void fn_826F33F0(Stream_8275B958 *in, unsigned int *target, int tagType);
+
+void fn_8275B958(Tag_8275B958 *self, Stream_8275B958 *in, int tagType)
 {
-  unsigned short uVar3;
-  unsigned short uVar4;
-  unsigned short uVar5;
-  int iVar1;
-  unsigned char *pbVar2;
-  unsigned int uVar6;
-  unsigned char abStack_50 [80];
-  
-  uVar3 = fn_826A6A38(param_2);
-  *(unsigned short *)(param_1 + 4) = uVar3;
-  uVar4 = 0;
-  if ((int)param_3 == 0x53) {
-    uVar4 = fn_826A6A38(param_2);
-    *(unsigned short *)(param_1 + 0x10) = uVar4;
-    if ((uVar4 & 0x20) != 0) {
-      uVar5 = fn_826A6A38(param_2);
-      *(float *)(param_1 + 0x14) = (float)uVar5 * lbl_8200D4C0;
-    }
-  }
-  if ((uVar4 & 8) == 0) {
-    fn_826F33F0(param_2,param_1 + 8,param_3);
-    return;
-  }
-  fn_827597E0(&stack0x00000000 + -0x50);
-  iVar1 = fn_8267B890(*(unsigned int *)(*(int *)(param_2 + 0x20) + 0x1c),0x28,0);
-  if (iVar1 == 0) {
-    pbVar2 = (unsigned char *)0x0;
-  }
-  else {
-    pbVar2 = (unsigned char *)fn_827597E0();
-  }
-  *(unsigned char **)(param_1 + 0xc) = pbVar2;
-  if (pbVar2 == (unsigned char *)0x0) {
-    pbVar2 = &stack0x00000000 + -0x50;
-  }
-  fn_8275B020(pbVar2,param_2,param_3);
-  if (*pbVar2 == 0) {
-    uVar6 = *(unsigned int *)(pbVar2 + 4);
-  }
-  else {
-    if ((((*pbVar2 & 0x10) == 0) || (iVar1 = *(int *)(pbVar2 + 4), iVar1 == 0)) ||
-       (*(short *)(iVar1 + 10) == 0)) goto LAB_8275ba68;
-    uVar6 = *(unsigned int *)(*(int *)(iVar1 + 0xc) + 4);
-  }
-  *(unsigned int *)(param_1 + 8) = uVar6;
-LAB_8275ba68:
-  fn_82759498(&stack0x00000000 + -0x50);
-  return;
-}
+    unsigned short flags;
+    Action_8275B958 local;
+    Action_8275B958 *action;
+    void *memory;
 
+    self->id = fn_826A6A38(in);
+    flags = 0;
+    if (tagType == 0x53) {
+        flags = fn_826A6A38(in);
+        self->flags = flags;
+        if (flags & 0x20) {
+            self->ratio = (float)fn_826A6A38(in) * lbl_8200D4C0;
+        }
+    }
+    if (flags & 8) {
+        fn_827597E0(&local);
+        memory = fn_8267B890(in->heap->allocator, 0x28, 0);
+        self->action = memory != 0 ? fn_827597E0((Action_8275B958 *)memory) : 0;
+        action = self->action != 0 ? self->action : &local;
+        fn_8275B020(action, in, tagType);
+        if (action->kind == 0) {
+            self->target = action->u.id;
+        } else if ((action->kind & 0x10) && action->u.shape != 0 && action->u.shape->count != 0) {
+            self->target = action->u.shape->ids[1];
+        }
+        fn_82759498(&local);
+    } else {
+        fn_826F33F0(in, &self->target, tagType);
+    }
+}

@@ -1,66 +1,80 @@
-extern int fn_826957D0();
-extern int fn_82697610();
-extern int fn_827A2738();
-extern int fn_827A4240();
-extern int fn_827A4850();
+typedef struct Device_8272DC58 {
+    char pad000[0x68];
+    unsigned short flags; /* 0x68 */
+} Device_8272DC58;
 
+typedef struct Holder_8272DC58 {
+    char pad000[0x114];
+    Device_8272DC58 *device; /* 0x114 */
+} Holder_8272DC58;
 
-void fn_8272DC58(int param_1)
+typedef struct Owner_8272DC58 Owner_8272DC58;
 
+typedef struct OwnerVt_8272DC58 {
+    char pad000[0x164];
+    void (*SetEnabled)(Owner_8272DC58 *self, int enabled); /* 0x164 */
+} OwnerVt_8272DC58;
+
+struct Owner_8272DC58 {
+    OwnerVt_8272DC58 *vt; /* 0x0 */
+    char pad004[0x9c];
+    Holder_8272DC58 *holder; /* 0xa0 */
+};
+
+typedef struct Call_8272DC58 {
+    char pad000[0x8];
+    char *target; /* 0x8 */
+    char pad00c[0xc];
+    void *context; /* 0x18 */
+} Call_8272DC58;
+
+extern void *fn_826957D0(Call_8272DC58 *call, int index);
+extern int fn_82697610(void *value, void *context);
+extern void fn_827A4850(Device_8272DC58 *device, int code, unsigned char *data);
+extern void fn_827A2738(Device_8272DC58 *device, int code, unsigned char *data);
+extern void fn_827A4240(Device_8272DC58 *device, unsigned short code);
+
+static __forceinline unsigned char IsLocked_8272DC58(Device_8272DC58 *device)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  unsigned int uVar5;
-  unsigned short uVar6;
-  unsigned __int64 uVar4;
-  unsigned short uVar7;
-  int *piVar8;
-  unsigned char bStack_30;
-  unsigned char abStack_2f [47];
-  
-  piVar8 = (int *)(*(int *)(param_1 + 8) + -0x68);
-  if (*(int *)(param_1 + 8) == 0) {
-    piVar8 = (int *)0x0;
-  }
-  if (*(int *)(piVar8[0x28] + 0x114) != 0) {
-    uVar7 = *(unsigned short *)(*(int *)(piVar8[0x28] + 0x114) + 0x68);
-    if (((uVar7 & 1) == 0) || ((uVar7 >> 1 & 1) != 0)) {
-      uVar1 = *(unsigned int *)(param_1 + 0x18);
-      uVar3 = fn_826957D0(param_1,0);
-      uVar5 = fn_82697610(uVar3,uVar1);
-      if (uVar5 == 0) {
-        uVar1 = *(unsigned int *)(param_1 + 0x18);
-        uVar3 = fn_826957D0(param_1,1);
-        uVar5 = fn_82697610(uVar3,uVar1);
-        abStack_2f[0] = (unsigned char)(uVar5 >> 0x10) | 0x80;
-        fn_827A4850(*(unsigned int *)(piVar8[0x28] + 0x114),uVar5 & 0xffff,abStack_2f);
-        if ((uVar5 & 0xffff) == 0x2d) {
-          if (*(int *)(piVar8[0x28] + 0x114) == 0) {
-            uVar7 = 0;
-          }
-          else {
-            uVar7 = *(unsigned short *)(*(int *)(piVar8[0x28] + 0x114) + 0x68) >> 7 & 1;
-          }
-          (**(int (***)())(*piVar8 + 0x164))(piVar8,uVar7 == 0);
-        }
-      }
-      else if (uVar5 == 1) {
-        uVar1 = *(unsigned int *)(param_1 + 0x18);
-        uVar3 = fn_826957D0(param_1,1);
-        uVar4 = fn_82697610(uVar3,uVar1);
-        bStack_30 = (unsigned char)(uVar4 >> 0x10) | 0x80;
-        fn_827A2738(*(unsigned int *)(piVar8[0x28] + 0x114),uVar4 & 0xffff,&bStack_30);
-      }
-      else if (uVar5 < 3) {
-        uVar1 = *(unsigned int *)(param_1 + 0x18);
-        uVar2 = *(unsigned int *)(piVar8[0x28] + 0x114);
-        uVar3 = fn_826957D0(param_1,1);
-        uVar6 = fn_82697610(uVar3,uVar1);
-        fn_827A4240(uVar2,uVar6);
-      }
-    }
-  }
-  return;
+    return (int)device != 0 ? (device->flags >> 7) & 1 : 0;
 }
 
+void fn_8272DC58(Call_8272DC58 *call)
+{
+    Owner_8272DC58 *owner;
+    Device_8272DC58 *device;
+    int value;
+    int code;
+    unsigned int flags;
+    unsigned char extra;
+    unsigned char data;
+
+    owner = call->target != 0 ? (Owner_8272DC58 *)(call->target - 0x68) : 0;
+    device = owner->holder->device;
+    if ((int)device == 0) {
+        return;
+    }
+    flags = device->flags;
+    if ((flags & 1) == 0 || (unsigned char)(flags >> 1) & 1) {
+        switch (fn_82697610(fn_826957D0(call, 0), call->context)) {
+        case 0:
+            value = fn_82697610(fn_826957D0(call, 1), call->context);
+            code = value & 0xffff;
+            data = (unsigned char)(value >> 16) | 0x80;
+            fn_827A4850(owner->holder->device, code, &data);
+            if (code == 0x2d) {
+                owner->vt->SetEnabled(owner, IsLocked_8272DC58(owner->holder->device) == 0);
+            }
+            break;
+        case 1:
+            value = fn_82697610(fn_826957D0(call, 1), call->context);
+            extra = (unsigned char)(value >> 16) | 0x80;
+            fn_827A2738(owner->holder->device, value & 0xffff, &extra);
+            break;
+        case 2:
+            device = owner->holder->device;
+            fn_827A4240(device, (unsigned short)fn_82697610(fn_826957D0(call, 1), call->context));
+            break;
+        }
+    }
+}

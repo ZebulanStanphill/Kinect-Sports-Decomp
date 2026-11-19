@@ -1,49 +1,69 @@
-extern int fn_82682298();
-extern unsigned int lbl_82007310;
-extern unsigned int uStack_30;
+typedef struct Usage_826AAA08 {
+    unsigned int total; /* 0x0 */
+    unsigned int used;  /* 0x4 */
+} Usage_826AAA08;
 
+typedef struct Heap_826AAA08 {
+    unsigned int current; /* 0x0 */
+    char pad004[0x18];
+    unsigned int sinceTrim;  /* 0x1c */
+    unsigned int reserve;    /* 0x20 */
+    unsigned int peak;       /* 0x24 */
+    unsigned int last;       /* 0x28 */
+    unsigned int trimUsed;   /* 0x2c */
+    unsigned int trimPeak;   /* 0x30 */
+    unsigned int ticks;      /* 0x34 */
+    unsigned int trimTicks;  /* 0x38 */
+    unsigned int threshold;  /* 0x3c */
+    unsigned int trimPeriod; /* 0x40 */
+} Heap_826AAA08;
 
-void fn_826AAA08(unsigned int *param_1)
+extern double lbl_82007310;
+extern void fn_82682298(Heap_826AAA08 *self, Usage_826AAA08 *usage);
 
+void fn_826AAA08(Heap_826AAA08 *self)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned __int64 uStack_30;
-  
-  uVar1 = param_1[7];
-  uVar2 = *param_1;
-  param_1[0xd] = param_1[0xd] + 1;
-  param_1[7] = uVar1 + 1;
-  uVar3 = param_1[9];
-  if (param_1[9] <= uVar2) {
-    uVar3 = uVar2;
-  }
-  param_1[9] = uVar3;
-  if (((param_1[0xf] != 0) && (param_1[8] < uVar2)) ||
-     ((param_1[0x10] != 0 && ((param_1[0x10] <= uVar1 + 1 && (param_1[0xf] < uVar2)))))) {
-    uStack_30 = 0;
-    fn_82682298(param_1,&uStack_30);
-    uVar1 = (((unsigned __int64)(uStack_30) >> 32) & 0xFFFFFFFF);
-    if (param_1[0xf] < (((unsigned __int64)(uStack_30) >> 32) & 0xFFFFFFFF)) {
-      param_1[9] = uVar2;
-      param_1[8] = param_1[0xf];
-    }
-    uVar3 = uVar2 - (((unsigned __int64)(uStack_30) >> 32) & 0xFFFFFFFF);
-    if (uVar2 - (((unsigned __int64)(uStack_30) >> 32) & 0xFFFFFFFF) < param_1[8]) {
-      uVar3 = param_1[8];
-    }
-    param_1[8] = uVar3;
-    uStack_30 = ((((unsigned __int64)(uStack_30)) & (~(((unsigned __int64)0xFFFFFFFF) << 32))) | ((((unsigned __int64)((unsigned int)(__int64)((double)uVar3 * lbl_82007310))) & ((unsigned __int64)0xFFFFFFFF)) << 32));
-    if (param_1[9] < (((unsigned __int64)(uStack_30) >> 32) & 0xFFFFFFFF)) {
-      param_1[8] = (((unsigned __int64)(uStack_30) >> 32) & 0xFFFFFFFF);
-    }
-    param_1[0xc] = param_1[9];
-    param_1[7] = 0;
-    param_1[0xb] = uVar1;
-    param_1[0xe] = param_1[0xd];
-  }
-  param_1[10] = uVar2;
-  return;
-}
+    unsigned int current;
+    unsigned int count;
+    unsigned int reserve;
+    unsigned int scaled;
+    unsigned int peak;
+    unsigned int *reserveField;
+    Usage_826AAA08 usage;
 
+    self->ticks++;
+    count = self->sinceTrim + 1;
+    current = self->current;
+    self->sinceTrim = count;
+    peak = self->peak;
+    if (current >= peak) {
+        peak = current;
+    }
+    self->peak = peak;
+    if ((self->threshold != 0 && current > self->reserve) ||
+        (self->trimPeriod != 0 && count >= self->trimPeriod && current > self->threshold)) {
+        usage.used = 0;
+        usage.total = 0;
+        fn_82682298(self, &usage);
+        reserveField = &self->reserve;
+        if (usage.used > self->threshold) {
+            self->peak = current;
+            *reserveField = self->threshold;
+        }
+        reserve = current - usage.used;
+        if (reserve < *reserveField) {
+            reserve = *reserveField;
+        }
+        peak = self->peak;
+        *reserveField = reserve;
+        scaled = (unsigned int)(reserve * lbl_82007310);
+        if (peak < scaled) {
+            *reserveField = scaled;
+        }
+        self->trimPeak = peak;
+        self->trimTicks = self->ticks;
+        self->sinceTrim = 0;
+        self->trimUsed = usage.used;
+    }
+    self->last = current;
+}

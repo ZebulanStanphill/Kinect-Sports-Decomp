@@ -1,46 +1,55 @@
-extern int fn_823AA2A8();
-extern int fn_82610EF0();
-extern int fn_828ACDB8();
-extern int fn_828ADBE0();
-extern int fn_828ECFB8();
+typedef struct Target_828ADCE8 Target_828ADCE8;
 
+typedef struct TargetVtbl_828ADCE8 {
+    void *slots[3];
+    void (*start)(Target_828ADCE8 *self, int a2, int a6, int a7, int a8, unsigned char a12, unsigned char a13,
+                  unsigned char a14, unsigned char a15, unsigned char flag, unsigned char a16,
+                  unsigned char a17, unsigned char a18, int time, int clock, unsigned char a20,
+                  unsigned char a21); /* 0xc */
+} TargetVtbl_828ADCE8;
 
-unsigned __int64
-fn_828ADCE8(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-             unsigned int param_5,unsigned __int64 param_6,unsigned __int64 param_7,unsigned __int64 param_8)
+struct Target_828ADCE8 {
+    TargetVtbl_828ADCE8 *vt;
+};
 
+typedef struct Obj_828ADCE8 {
+    char pad0[0x60];
+    char sub60[0x24];        /* 0x60 */
+    int state;               /* 0x84 */
+    char pad88[4];           /* 0x88 */
+    Target_828ADCE8 *target; /* 0x8c */
+    char pad90[0xc];         /* 0x90 */
+    unsigned char active;    /* 0x9c */
+} Obj_828ADCE8;
+
+extern void fn_828ADBE0(Obj_828ADCE8 *self, unsigned char a, unsigned char b, unsigned char c, int d, int e,
+                        int obj, unsigned char g);
+extern void fn_828ECFB8(Target_828ADCE8 *target, int a2, int a6, int a7, int a8, unsigned char a20,
+                        unsigned char a21);
+extern int fn_82610EF0(void *clock);
+extern int fn_823AA2A8(void *clock);
+extern void fn_828ACDB8(Obj_828ADCE8 *self, int value);
+
+int fn_828ADCE8(Obj_828ADCE8 *self, int a2, int a3, int a4, int state, int a6, int a7, int a8,
+                unsigned char a9, unsigned char a10, unsigned char direct, unsigned char a12,
+                unsigned char a13, unsigned char a14, unsigned char a15, unsigned char a16, unsigned char a17,
+                unsigned char a18, int a19, unsigned char a20, unsigned char a21, unsigned char a22)
 {
-  int *piVar1;
-  int iVar2;
-  unsigned char in_stack_00000057;
-  unsigned char in_stack_0000005f;
-  char in_stack_00000067;
-  unsigned char in_stack_0000006f;
-  unsigned char in_stack_00000077;
-  unsigned char in_stack_0000007f;
-  unsigned int in_stack_000000a4;
-  unsigned char in_stack_000000af;
-  unsigned char in_stack_000000b7;
-  unsigned char in_stack_000000bf;
-  
-  fn_828ADBE0(param_1,in_stack_00000057,in_stack_0000005f,0,param_3,param_4,in_stack_000000a4,
-                in_stack_000000bf);
-  *(unsigned char *)(param_1 + 0x9c) = 1;
-  if (in_stack_00000067 == '\0') {
-    fn_828ECFB8(*(unsigned int *)(param_1 + 0x8c),param_2,param_6,param_7,param_8,
-                    in_stack_000000af,in_stack_000000b7);
-  }
-  else {
-    piVar1 = *(int **)(param_1 + 0x8c);
-    iVar2 = *piVar1;
-    fn_82610EF0(param_1 + 0x60);
-    fn_823AA2A8(param_1 + 0x60);
-    (**(int (***)())(iVar2 + 0xc))
-              (piVar1,param_2,param_6,param_7,param_8,in_stack_0000006f,in_stack_00000077,
-               in_stack_0000007f);
-  }
-  fn_828ACDB8(param_1,1);
-  *(unsigned int *)(param_1 + 0x84) = param_5;
-  return 1;
-}
+    fn_828ADBE0(self, a9, a10, 0, a3, a4, a19, a22);
+    self->active = 1;
+    if (direct == 0) {
+        fn_828ECFB8(self->target, a2, a6, a7, a8, a20, a21);
+        fn_828ACDB8(self, 1);
+        self->state = state;
+        return 1;
+    } else {
+        Target_828ADCE8 *target = self->target;
 
+        target->vt->start(target, a2, a6, a7, a8, a12, a13, a14, a15, 1, a16, a17, a18,
+                          fn_823AA2A8(self->sub60), fn_82610EF0(self->sub60), a20, a21);
+
+        fn_828ACDB8(self, 1);
+        self->state = state;
+        return 1;
+    }
+}

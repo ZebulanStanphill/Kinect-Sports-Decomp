@@ -1,59 +1,39 @@
-extern unsigned int *auStack_3c;
-extern unsigned int *auStack_48;
-extern unsigned int *auStack_54;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_6c;
-extern unsigned int *auStack_78;
-extern unsigned int *auStack_84;
-extern unsigned int *auStack_90;
-extern int fn_8280AD30();
-extern int fn_82810208();
-extern int fn_828102A8();
-extern int fn_82810360();
-extern int fn_828105C8();
-extern int fn_82810B40();
-extern unsigned int lbl_82002C5C;
+typedef struct Vec3_82863400 {
+    float x;
+    float y;
+    float z;
+} Vec3_82863400;
 
+extern void fn_82810208(const Vec3_82863400 *a, const Vec3_82863400 *b, Vec3_82863400 *out);
+extern void fn_828102A8(const Vec3_82863400 *v, Vec3_82863400 *out, float scale);
+extern void fn_82810360(const Vec3_82863400 *src, Vec3_82863400 *dst);
+extern void fn_828105C8(Vec3_82863400 *out, float x, float y, float z);
+extern float fn_82810B40(const Vec3_82863400 *a, const Vec3_82863400 *b);
+extern void fn_8280AD30(const float *matrix, const Vec3_82863400 *v, Vec3_82863400 *out);
 
-void fn_82863400(float *param_1,float *param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  float *param_5)
-
+/* Bounding sphere of a transformed box: centre of min/max, radius to the farthest corner. */
+void fn_82863400(const Vec3_82863400 *min, const Vec3_82863400 *max, const float *matrix,
+                 Vec3_82863400 *center, float *radius)
 {
-  __int64 lVar1;
-  unsigned char *puVar2;
-  double dVar3;
-  unsigned char auStack_90 [1];
-  unsigned char auStack_84 [12];
-  unsigned char auStack_78 [12];
-  unsigned char auStack_6c [12];
-  unsigned char auStack_60 [12];
-  unsigned char auStack_54 [12];
-  unsigned char auStack_48 [12];
-  unsigned char auStack_3c [60];
-  
-  fn_82810208(param_1,param_2,param_4);
-  fn_828102A8((double)lbl_82002C5C,param_4,param_4);
-  fn_82810360(param_1,auStack_90);
-  fn_828105C8((double)*param_2,(double)param_1[1],(double)param_1[2],auStack_84);
-  fn_828105C8((double)*param_1,(double)param_2[1],(double)param_1[2],auStack_78);
-  fn_828105C8((double)*param_2,(double)param_2[1],(double)param_1[2],auStack_6c);
-  fn_828105C8((double)*param_1,(double)param_1[1],(double)param_2[2],auStack_60);
-  fn_828105C8((double)*param_2,(double)param_1[1],(double)param_2[2],auStack_54);
-  fn_828105C8((double)*param_1,(double)param_2[1],(double)param_2[2],auStack_48);
-  fn_82810360(param_2,auStack_3c);
-  dVar3 = (double)fn_82810B40(param_4,auStack_90);
-  *param_5 = (float)dVar3;
-  puVar2 = auStack_84;
-  lVar1 = 7;
-  do {
-    dVar3 = (double)fn_82810B40(param_4,puVar2);
-    if ((double)*param_5 < dVar3) {
-      *param_5 = (float)dVar3;
-    }
-    lVar1 = lVar1 + -1;
-    puVar2 = puVar2 + 0xc;
-  } while (lVar1 != 0);
-  fn_8280AD30(param_3,param_4,param_4);
-  return;
-}
+    Vec3_82863400 corners[8];
+    float distance;
+    int i;
 
+    fn_82810208(min, max, center);
+    fn_828102A8(center, center, 0.5f);
+    fn_82810360(min, &corners[0]);
+    fn_828105C8(&corners[1], max->x, min->y, min->z);
+    fn_828105C8(&corners[2], min->x, max->y, min->z);
+    fn_828105C8(&corners[3], max->x, max->y, min->z);
+    fn_828105C8(&corners[4], min->x, min->y, max->z);
+    fn_828105C8(&corners[5], max->x, min->y, max->z);
+    fn_828105C8(&corners[6], min->x, max->y, max->z);
+    fn_82810360(max, &corners[7]);
+    *radius = fn_82810B40(center, &corners[0]);
+    for (i = 1; i < 8; i++) {
+        distance = fn_82810B40(center, &corners[i]);
+        if (distance > *radius)
+            *radius = distance;
+    }
+    fn_8280AD30(matrix, center, center);
+}

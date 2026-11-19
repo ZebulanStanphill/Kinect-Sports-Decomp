@@ -1,132 +1,127 @@
-typedef unsigned char bool;
-#define true 1
-extern int fn_8264C9D0();
-extern unsigned __int64 storeWordConditionalIndexed();
+#define __sync() __emit(0x7C0004AC)
 
+long _InterlockedCompareExchange(long volatile *dest, long exchange, long comparand);
 
-void fn_8264D1C8(int param_1,unsigned int param_2,unsigned __int64 param_3,unsigned __int64 param_4,unsigned __int64 param_5)
+typedef struct Entry_8264D1C8 {
+    unsigned int info; /* 0x0: low 24 bits the register */
+    unsigned int mask; /* 0x4 */
+} Entry_8264D1C8;
 
+typedef struct Block_8264D1C8 {
+    struct Block_8264D1C8 *next; /* 0x0 */
+    unsigned int count;          /* 0x4 */
+    Entry_8264D1C8 entries[1];   /* 0x8 */
+} Block_8264D1C8;
+
+typedef struct Resource_8264D1C8 {
+    unsigned char pad0[0x8];
+    long stamp; /* 0x08 */
+    unsigned char padc[0x70 - 0xc];
+    Block_8264D1C8 *fences;    /* 0x70 */
+    Block_8264D1C8 *constants; /* 0x74 */
+    unsigned int tag;          /* 0x78 */
+} Resource_8264D1C8;
+
+typedef struct Slot_8264D1C8 {
+    unsigned int stamp;          /* 0x00 */
+    unsigned int count;          /* 0x04 */
+    Resource_8264D1C8 *resource; /* 0x08 */
+    unsigned int *tag;           /* 0x0c */
+    int flags;                   /* 0x10 */
+} Slot_8264D1C8;
+
+typedef struct Packet_8264D1C8 {
+    unsigned int pad0;
+    unsigned int header;   /* 0x04 */
+    unsigned int data[25]; /* 0x08 */
+    int done;              /* 0x6c */
+    unsigned int pad70[4];
+} Packet_8264D1C8;
+
+typedef struct Device_8264D1C8 {
+    unsigned char pad0[0x5ea8];
+    Packet_8264D1C8 *packets; /* 0x5ea8 */
+    unsigned char pad5eac[0x5eb0 - 0x5eac];
+    Slot_8264D1C8 *slots; /* 0x5eb0 */
+} Device_8264D1C8;
+
+extern void fn_8264C9D0(unsigned int value, Block_8264D1C8 *block, unsigned int filter);
+
+static __forceinline void RaiseStamp(long volatile *stamp, unsigned int value)
 {
-  bool bVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int *puVar5;
-  unsigned int *puVar7;
-  unsigned __int64 uVar6;
-  unsigned int uVar8;
-  unsigned __int64 uVar9;
-  unsigned int *puVar11;
-  __int64 lVar10;
-  unsigned int *puVar12;
-  unsigned __int64 uVar13;
-  unsigned __int64 uVar14;
-  int iVar15;
-  unsigned int uVar16;
-  unsigned __int64 in_MSR;
-  char in_RESERVE;
-  unsigned __int64 uVar17;
-  
-  iVar15 = *(int *)(param_1 + 0x5ea8) + (param_2 & 0x3f) * 0x80;
-  puVar11 = (unsigned int *)(*(int *)(param_1 + 0x5eb0) + (param_2 & 0x3f) * 0x14);
-  uVar8 = (unsigned int)param_3;
-  puVar11[2] = uVar8;
-  *(unsigned int *)(iVar15 + 4) = 0xc0006300;
-  puVar12 = (unsigned int *)(iVar15 + 8);
-  *puVar12 = (unsigned int)param_4;
-  uVar9 = (unsigned __int64)puVar11[1];
-  if ((param_3 & 0xffffffff) == 0) {
-    puVar7 = (unsigned int *)0x0;
-  }
-  else {
-    puVar7 = *(unsigned int **)(uVar8 + 0x74);
-  }
-  uVar16 = 0;
-  bVar1 = (puVar11[4] & 0x80000000) == 0;
-  if (!bVar1) {
-    uVar16 = 1;
-  }
-  for (; puVar7 != (unsigned int *)0x0; puVar7 = (unsigned int *)*puVar7) {
-    if ((uVar9 & 0xffffffff) == 0) goto LAB_8264d2b8;
-    uVar2 = puVar7[1];
-    param_5 = 0;
-    if (uVar2 != 0) {
-      puVar5 = puVar7;
-      do {
-        uVar4 = puVar5[3];
-        uVar9 = uVar9 - 1;
-        bVar1 = uVar9 == 0;
-        puVar12[1] = uVar16 | 0xc0013f00;
-        uVar3 = puVar5[2];
-        puVar12[2] = uVar4;
-        puVar12 = puVar12 + 3;
-        *puVar12 = uVar3 & 0xffffff;
-        if (bVar1) break;
-        param_5 = param_5 + 1;
-        puVar5 = puVar5 + 2;
-      } while ((param_5 & 0xffffffff) < (unsigned __int64)uVar2);
-    }
-  }
-  uVar17 = uVar9;
-  uVar6 = uVar9 & 0xffffffff;
-  while (uVar6 != 0) {
-    puVar12[1] = 0x80000000;
-    puVar12[2] = 0x80000000;
-    puVar12 = puVar12 + 3;
-    *puVar12 = 0x80000000;
-    uVar17 = uVar17 - 1;
-    uVar6 = uVar17;
-  }
-LAB_8264d2b8:
-  if ((param_3 & 0xffffffff) != 0) {
-    uVar16 = *(unsigned int *)(uVar8 + 0x78);
-    if (((unsigned __int64)uVar16 != 0) && ((unsigned int *)puVar11[3] != (unsigned int *)0x0)) {
-      *(unsigned int *)puVar11[3] = uVar16;
-    }
-    uVar6 = (unsigned __int64)*puVar11;
-    lVar10 = param_3 + 8;
-    uVar17 = (unsigned __int64)uVar16;
+    unsigned int old;
+    unsigned int raised;
+
     do {
-      puVar12 = (unsigned int *)lVar10;
-      uVar16 = *puVar12;
-      uVar14 = (unsigned __int64)uVar16;
-      uVar13 = uVar6;
-      if (uVar14 != 0) {
-        if (uVar6 == 0) break;
-        bVar1 = uVar6 == uVar14;
-        if ((__int64)(uVar6 - uVar14) < 1) {
-          uVar13 = uVar14;
+        old = *stamp;
+        if (old == 0) {
+            raised = value;
+        } else {
+            if (value == 0) {
+                return;
+            }
+            raised = (int)(value - old) > 0 ? value : old;
         }
-      }
-      uVar17 = uVar13;
-      if (uVar13 == uVar14) break;
-      do {
-        uVar2 = *puVar12;
-        uVar9 = (unsigned __int64)uVar2;
-        if (uVar2 != uVar16) {
-          if (in_RESERVE != '\0') {
-            uVar4 = storeWordConditionalIndexed(uVar9,0,lVar10);
-            *puVar12 = uVar4;
-            bVar1 = true;
-          }
-          break;
+        if (raised == old) {
+            return;
         }
-        if (in_RESERVE != '\0') {
-          uVar4 = storeWordConditionalIndexed(uVar13,0,lVar10);
-          *puVar12 = uVar4;
-          bVar1 = true;
-        }
-      } while (!bVar1);
-      param_5 = in_MSR;
-      uVar17 = uVar9;
-    } while (uVar16 != uVar2);
-    if (*(int *)(uVar8 + 0x70) != 0) {
-      fn_8264C9D0(uVar6,*(int *)(uVar8 + 0x70),param_4,(unsigned int)param_4,param_5,uVar9,lVar10,uVar17);
-    }
-  }
-  sync(0);
-  *(unsigned int *)(iVar15 + 0x6c) = 0xffffffff;
-  sync(0);
-  return;
+    } while (old != (unsigned int)_InterlockedCompareExchange(stamp, raised, old));
 }
 
+void fn_8264D1C8(Device_8264D1C8 *device, unsigned int index, Resource_8264D1C8 *resource,
+                 unsigned int filter)
+{
+    Packet_8264D1C8 *packet = &device->packets[index & 0x3f];
+    Slot_8264D1C8 *slot = &device->slots[index & 0x3f];
+    unsigned int *out;
+    unsigned int count;
+    Block_8264D1C8 *block;
+    unsigned int bit;
+    unsigned int i;
+    unsigned int entries;
+    unsigned int mask;
+    unsigned int info;
+    unsigned int stamp;
+
+    slot->resource = resource;
+    out = &packet->header;
+    *out = 0xc0006300;
+    *++out = filter;
+    count = slot->count;
+    block = resource != 0 ? resource->constants : 0;
+    bit = 0;
+    if ((slot->flags & 0x80000000) != 0)
+        bit = 1;
+    for (; block != 0; block = block->next) {
+        if (count == 0)
+            goto done;
+        entries = block->count;
+        for (i = 0; i < entries; i++) {
+            mask = block->entries[i].mask;
+            count--;
+            *++out = bit | 0xc0013f00;
+            info = block->entries[i].info;
+            *++out = mask;
+            *++out = info & 0xffffff;
+            if (count == 0)
+                break;
+        }
+    }
+    for (; count != 0; count--) {
+        *++out = 0x80000000;
+        *++out = 0x80000000;
+        *++out = 0x80000000;
+    }
+done:
+    if (resource != 0) {
+        if (resource->tag != 0 && slot->tag != 0)
+            *slot->tag = resource->tag;
+        stamp = slot->stamp;
+        RaiseStamp(&resource->stamp, stamp);
+        if (resource->fences != 0)
+            fn_8264C9D0(stamp, resource->fences, filter);
+    }
+    __sync();
+    packet->done = -1;
+    __sync();
+}

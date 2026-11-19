@@ -1,37 +1,83 @@
-extern int fn_827589C0();
-extern unsigned int uStack_2a;
+typedef struct Item_82758AC8 {
+    int unk0;                  /* 0x0 */
+    unsigned short value;      /* 0x4 */
+    unsigned int data;         /* 0x8 */
+    int unkC;                  /* 0xc */
+    unsigned short pad10 : 6;  /* 0x10, bits 10-15 */
+    unsigned short wrapV : 2;  /* bits 8-9 */
+    unsigned short wrapU : 2;  /* bits 6-7 */
+    unsigned short filter : 2; /* bits 4-5 */
+    unsigned short pad3 : 1;   /* bit 3 */
+    unsigned short mode : 2;   /* bits 1-2 */
+    unsigned short enable : 1; /* bit 0 */
+    float scale;               /* 0x14 */
+} Item_82758AC8;
 
+typedef struct Vec_82758AC8 {
+    Item_82758AC8 *data; /* 0x0 */
+    unsigned int size;   /* 0x4 */
+} Vec_82758AC8;
 
-void fn_82758AC8(double param_1,double param_2,int param_3,unsigned __int64 param_4,unsigned int param_5,
-                  char param_6,unsigned short param_7,unsigned short param_8,unsigned short param_9)
+typedef struct Owner_82758AC8 {
+    char pad0[0x5c];
+    Vec_82758AC8 items; /* 0x5c */
+} Owner_82758AC8;
 
+typedef struct Self_82758AC8 {
+    char pad0[0x8];
+    Owner_82758AC8 *owner; /* 0x8 */
+    char padC[0x14 - 0xc];
+    unsigned int count; /* 0x14 */
+    char pad18[0x6c - 0x18];
+    Item_82758AC8 item; /* 0x6c */
+    unsigned char unk84;
+    unsigned char pushed; /* 0x85 */
+} Self_82758AC8;
+
+extern void fn_827589C0(Vec_82758AC8 *items, Item_82758AC8 *item);
+
+static __forceinline void SetEnabled(Item_82758AC8 *item, unsigned char enable)
 {
-  unsigned short uVar1;
-  int iVar2;
-  unsigned int uVar3;
-  unsigned short uVar4;
-  unsigned short uStack_2a;
-  
-  uStack_2a = (unsigned short)(__int64)param_1;
-  *(unsigned short *)(param_3 + 0x70) = uStack_2a;
-  *(unsigned int *)(param_3 + 0x74) = param_5;
-  uVar1 = *(unsigned short *)(param_3 + 0x7c) & 0xfffe;
-  *(unsigned short *)(param_3 + 0x7c) = uVar1;
-  if (param_6 != '\0') {
-    *(unsigned short *)(param_3 + 0x7c) = uVar1 | 1;
-  }
-  uVar1 = *(unsigned short *)(param_3 + 0x7c);
-  param_7 = param_7 & 6;
-  *(unsigned short *)(param_3 + 0x7c) = param_7 | uVar1 & 0xfff9;
-  uVar4 = (param_8 & 0xc0) << 2;
-  *(unsigned short *)(param_3 + 0x7c) = uVar4 | param_7 | uVar1 & 0xfc39 | param_8 & 0xc0;
-  *(unsigned short *)(param_3 + 0x7c) = param_9 & 0x30 | uVar4 | param_7 | uVar1 & 0xfc09 | param_8 & 0xc0;
-  *(float *)(param_3 + 0x80) = (float)param_2;
-  iVar2 = *(int *)(param_3 + 8);
-  fn_827589C0(iVar2 + 0x5c);
-  uVar3 = *(unsigned int *)(iVar2 + 0x60);
-  *(unsigned char *)(param_3 + 0x85) = 1;
-  *(unsigned int *)(param_3 + 0x14) = uVar3;
-  return;
+    item->enable = 0;
+    if (enable) {
+        item->enable = 1;
+    }
 }
 
+static __forceinline void SetMode(Item_82758AC8 *item, unsigned short mode)
+{
+    item->mode = mode >> 1;
+}
+
+static __forceinline void SetWrap(Item_82758AC8 *item, unsigned short wrap)
+{
+    item->wrapU = wrap >> 6;
+    item->wrapV = wrap >> 6;
+}
+
+static __forceinline void SetFilter(Item_82758AC8 *item, unsigned short filter)
+{
+    item->filter = filter >> 4;
+}
+
+/* Sets up the pending item (value, data, flag bits, scale) and appends it to the owner's list. */
+void fn_82758AC8(Self_82758AC8 *self, float value, unsigned int data, unsigned char enable,
+                 unsigned short mode, unsigned short wrap, unsigned short filter, float scale)
+{
+    Owner_82758AC8 *owner;
+
+    self->item.value = (unsigned short)value;
+    {
+        unsigned int *dataField = &self->item.data;
+        *dataField = data;
+    }
+    SetEnabled(&self->item, enable);
+    SetMode(&self->item, mode);
+    SetWrap(&self->item, wrap);
+    SetFilter(&self->item, filter);
+    self->item.scale = scale;
+    owner = self->owner;
+    fn_827589C0(&owner->items, &self->item);
+    self->count = owner->items.size;
+    self->pushed = 1;
+}

@@ -1,71 +1,82 @@
-extern int fn_82BFCDD8();
-extern int fn_82BFD208();
-extern int fn_82F68CC0();
+typedef void *(*AllocFn_82BFE230)(void *context, unsigned int size);
+typedef void (*FreeFn_82BFE230)(void *context, void *p);
 
+typedef struct Params_82BFE230 {
+    unsigned int flags;     /* 0x00 */
+    unsigned int option04;  /* 0x04 */
+    unsigned int option08;  /* 0x08 */
+    unsigned int option0c;  /* 0x0c */
+    unsigned int option10;  /* 0x10 */
+    unsigned int option14;  /* 0x14 */
+    unsigned int option18;  /* 0x18 */
+    unsigned int size;      /* 0x1c */
+    unsigned int arg20;     /* 0x20 */
+    unsigned int arg24;     /* 0x24 */
+    AllocFn_82BFE230 alloc; /* 0x28 */
+    FreeFn_82BFE230 free;   /* 0x2c */
+    void *context;          /* 0x30 */
+} Params_82BFE230;
 
-unsigned __int64 fn_82BFE230(unsigned int *param_1,int *param_2)
+typedef struct Object_82BFE230 {
+    char pad00[0x4c];
+    void *config; /* 0x4c */
+} Object_82BFE230;
 
+extern void *fn_82BFE0F8(void *context, unsigned int size);
+extern void fn_82BFE108(void *context, void *p);
+extern Object_82BFE230 *fn_82BFCDD8(unsigned int arg20, unsigned int arg24, unsigned int bit3,
+                                    unsigned int bit2, void *context, unsigned int alignment,
+                                    AllocFn_82BFE230 alloc, FreeFn_82BFE230 free);
+extern Object_82BFE230 *fn_82BFD208(unsigned int arg20, unsigned int arg24, unsigned int bit3,
+                                    unsigned int bit2, void *context, unsigned int alignment,
+                                    AllocFn_82BFE230 alloc, FreeFn_82BFE230 free, unsigned int configSize);
+extern void *memcpy(void *dst, const void *src, unsigned int size);
+
+static __forceinline int IsSimple(const Params_82BFE230 *params)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned __int64 uVar8;
-  unsigned __int64 uVar9;
-  
-  if (param_2 == (int *)0x0) {
-LAB_82bfe24c:
-    uVar1 = 0xffffffff80070057;
-  }
-  else {
-    uVar7 = 0;
-    *param_2 = 0;
-    if (param_1 == (unsigned int *)0x0) {
-      uVar9 = 0xffffffff82bfe108;
-      uVar8 = 0xffffffff82bfe0f8;
-      uVar7 = 0;
-      uVar6 = 0;
-      uVar5 = 0;
-      uVar4 = 0;
-      uVar3 = 0;
-LAB_82bfe378:
-      iVar2 = fn_82BFCDD8(uVar3,uVar4,uVar5,uVar6,uVar7,0x10,uVar8,uVar9);
-LAB_82bfe384:
-      if (iVar2 != 0) {
-        *param_2 = iVar2;
-        return 0;
-      }
-    }
-    else {
-      if (param_1[7] != 0x34) goto LAB_82bfe24c;
-      uVar9 = 0xffffffff82bfe108;
-      uVar8 = 0xffffffff82bfe0f8;
-      if ((unsigned __int64)param_1[10] != 0) {
-        uVar9 = (unsigned __int64)param_1[0xb];
-        if (uVar9 == 0) goto LAB_82bfe24c;
-        uVar7 = param_1[0xc];
-        uVar8 = (unsigned __int64)param_1[10];
-      }
-      uVar5 = *param_1;
-      if (((((uVar5 & 0x1f0) == 0) && (param_1[5] == 0)) && (param_1[3] == 0)) &&
-         (((param_1[6] == 0 && (param_1[4] == 0)) && ((param_1[1] == 0 && (param_1[2] == 0)))))) {
-        uVar4 = param_1[9];
-        uVar6 = uVar5 >> 2 & 1;
-        uVar3 = param_1[8];
-        uVar5 = uVar5 >> 3 & 1;
-        goto LAB_82bfe378;
-      }
-      iVar2 = fn_82BFD208(param_1[8],param_1[9],uVar5 >> 3 & 1,uVar5 >> 2 & 1,uVar7,0x10);
-      if (iVar2 != 0) {
-        fn_82F68CC0(*(unsigned int *)(iVar2 + 0x4c),param_1,0x1c);
-        goto LAB_82bfe384;
-      }
-    }
-    uVar1 = 0xffffffff80070008;
-  }
-  return uVar1;
+    return (params->flags & 0x1f0) == 0 && params->option14 == 0 && params->option0c == 0 &&
+           params->option18 == 0 && params->option10 == 0 && params->option04 == 0 && params->option08 == 0;
 }
 
+int fn_82BFE230(const Params_82BFE230 *params, Object_82BFE230 **out)
+{
+    Object_82BFE230 *object;
+    AllocFn_82BFE230 alloc;
+    FreeFn_82BFE230 free;
+    void *context;
+    unsigned int flags;
+
+    if (out == 0)
+        return 0x80070057;
+    context = 0;
+    *out = 0;
+    if (params != 0) {
+        if (params->size != 0x34)
+            return 0x80070057;
+        alloc = fn_82BFE0F8;
+        free = fn_82BFE108;
+        if (params->alloc != 0) {
+            free = params->free;
+            if (free == 0)
+                return 0x80070057;
+            context = params->context;
+            alloc = params->alloc;
+        }
+        flags = params->flags;
+        if (!IsSimple(params)) {
+            object = fn_82BFD208(params->arg20, params->arg24, (flags >> 3) & 1, (flags >> 2) & 1, context,
+                                 0x10, alloc, free, 0x1c);
+            if (object != 0)
+                memcpy(object->config, params, 0x1c);
+        } else {
+            object = fn_82BFCDD8(params->arg20, params->arg24, (flags >> 3) & 1, (flags >> 2) & 1, context,
+                                 0x10, alloc, free);
+        }
+    } else {
+        object = fn_82BFCDD8(0, 0, 0, 0, 0, 0x10, fn_82BFE0F8, fn_82BFE108);
+    }
+    if (object == 0)
+        return 0x80070008;
+    *out = object;
+    return 0;
+}
