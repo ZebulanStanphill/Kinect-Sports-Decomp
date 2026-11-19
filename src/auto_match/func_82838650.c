@@ -1,39 +1,30 @@
-extern int fn_82F68B58();
 extern unsigned int lbl_8320A898;
+extern void fn_8263CBB0(unsigned int hardware, unsigned int index, void *resource, unsigned __int64 mask);
 
+typedef struct Texture_82838650 {
+    char pad0[0x1c];
+    unsigned int format; /* 0x1c */
+    char pad20[0x14];
+    void *resource; /* 0x34 */
+} Texture_82838650;
 
-void fn_82838650(int param_1,__int64 param_2)
-
+void fn_82838650(Texture_82838650 *self, unsigned int index)
 {
-  int iVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  
-  iVar1 = *(int *)(param_1 + 0x1c);
-  if (iVar1 == 0) {
-    uVar2 = *(unsigned int *)(param_1 + 0x34);
-    uVar3 = 0x8000000000000000 >> (param_2 + 0x20U & 0x7f);
-  }
-  else if (iVar1 == 2) {
-    uVar2 = *(unsigned int *)(param_1 + 0x34);
-    uVar3 = 0x8000000000000000 >> (param_2 + 0x20U & 0x7f);
-  }
-  else if (iVar1 == 3) {
-    uVar2 = *(unsigned int *)(param_1 + 0x34);
-    uVar3 = 0x8000000000000000 >> (param_2 + 0x20U & 0x7f);
-  }
-  else if (iVar1 == 4) {
-    uVar2 = **(unsigned int **)(param_1 + 0x34);
-    uVar3 = 0x8000000000000000 >> (param_2 + 0x20U & 0x7f);
-  }
-  else {
-    if (iVar1 != 5) {
-      return;
+    switch (self->format) {
+    case 0:
+        fn_8263CBB0(lbl_8320A898, index, self->resource, 0x8000000000000000ULL >> (index + 32));
+        break;
+    case 2:
+        fn_8263CBB0(lbl_8320A898, index, self->resource, 0x8000000000000000ULL >> (index + 32));
+        break;
+    case 3:
+        fn_8263CBB0(lbl_8320A898, index, self->resource, 0x8000000000000000ULL >> (index + 32));
+        break;
+    case 4:
+        fn_8263CBB0(lbl_8320A898, index, *(void **)self->resource, 0x8000000000000000ULL >> (index + 32));
+        break;
+    case 5:
+        fn_8263CBB0(lbl_8320A898, index, self->resource, 0x8000000000000000ULL >> (index + 32));
+        break;
     }
-    uVar2 = *(unsigned int *)(param_1 + 0x34);
-    uVar3 = 0x8000000000000000 >> (param_2 + 0x20U & 0x7f);
-  }
-  fn_82F68B58(lbl_8320A898,param_2,uVar2,uVar3);
-  return;
 }
-

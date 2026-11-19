@@ -1,37 +1,33 @@
-extern int fn_82F65018();
-extern int fn_82F65D50();
-extern unsigned int lbl_8201DD70;
-extern unsigned int lbl_8201DF4C;
-extern unsigned int lbl_821AAD20;
+typedef struct Matrix_8280D1A0 {
+    float m[4][4];
+} Matrix_8280D1A0;
 
+typedef struct Euler_8280D1A0 {
+    float x; /* 0x00 */
+    float y; /* 0x04 */
+    float z; /* 0x08 */
+} Euler_8280D1A0;
 
-void fn_8280D1A0(float *param_1,float *param_2)
+extern const float lbl_8201DD70;
+extern const float lbl_8201DF4C;
+extern double fn_82F65D50(double x);
+extern double fn_82F65018(double y, double x);
 
+void fn_8280D1A0(const Matrix_8280D1A0 *matrix, Euler_8280D1A0 *out)
 {
-  float fVar1;
-  double dVar2;
-  
-  dVar2 = (double)fn_82F65D50((double)param_1[2]);
-  fVar1 = (float)dVar2;
-  param_2[1] = fVar1;
-  if (lbl_8201DD70 <= fVar1) {
-    dVar2 = (double)fn_82F65018((double)param_1[4],(double)param_1[5]);
-    *param_2 = (float)dVar2;
-    fVar1 = lbl_821AAD20;
-  }
-  else {
-    if (fVar1 <= lbl_8201DF4C) {
-      dVar2 = (double)fn_82F65018((double)param_1[4],(double)param_1[5]);
-      param_2[2] = lbl_821AAD20;
-      *param_2 = -(float)dVar2;
-      return;
-    }
-    dVar2 = (double)fn_82F65018(-(double)param_1[6],(double)param_1[10]);
-    *param_2 = (float)dVar2;
-    dVar2 = (double)fn_82F65018(-(double)param_1[1],(double)*param_1);
-    fVar1 = (float)dVar2;
-  }
-  param_2[2] = fVar1;
-  return;
-}
+    float y;
 
+    out->y = y = (float)fn_82F65D50(matrix->m[0][2]);
+    if (y < lbl_8201DD70) {
+        if (y > lbl_8201DF4C) {
+            out->x = (float)fn_82F65018(-matrix->m[1][2], matrix->m[2][2]);
+            out->z = (float)fn_82F65018(-matrix->m[0][1], matrix->m[0][0]);
+        } else {
+            out->x = -(float)fn_82F65018(matrix->m[1][0], matrix->m[1][1]);
+            out->z = 0.0f;
+        }
+    } else {
+        out->x = (float)fn_82F65018(matrix->m[1][0], matrix->m[1][1]);
+        out->z = 0.0f;
+    }
+}

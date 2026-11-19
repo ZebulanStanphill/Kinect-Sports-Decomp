@@ -1,53 +1,58 @@
-extern unsigned int *puRam8322b1e0;
-typedef unsigned char bool;
-extern int fn_82BA02A8();
-extern int fn_82BEA1F8();
-extern int fn_82BEA230();
-extern unsigned int lbl_831751CC;
-extern unsigned int *lbl_8322B1DC;
-extern unsigned int lbl_8322B1E8;
-extern unsigned __int64 storeWordConditionalIndexed();
+long _InterlockedDecrement(long volatile *addend);
 
+typedef struct Server_82BE7678 {
+    unsigned int address; /* 0x00 */
+    unsigned short port;  /* 0x04 */
+    char *hostName;       /* 0x08 */
+} Server_82BE7678;
+
+typedef struct Object_82BE7678 Object_82BE7678;
+
+typedef struct ObjectVtbl_82BE7678 {
+    void (*Delete)(Object_82BE7678 *self, unsigned int flags); /* 0x00 */
+} ObjectVtbl_82BE7678;
+
+struct Object_82BE7678 {
+    ObjectVtbl_82BE7678 *vt;
+};
+
+extern Object_82BE7678 *lbl_8322B1DC;
+extern Object_82BE7678 *lbl_8322B1E0;
+extern long lbl_8322B1E8;
+extern char lbl_8322B1EC[];
+extern Server_82BE7678 lbl_83175248[];
+extern void (*lbl_831751CC)(void *p);
+extern void fn_82BA02A8(void);
+extern void fn_82BEA1F8(void *lock, const char *name);
+extern void fn_82BEA230(void *lock, const char *name);
 
 void fn_82BE7678(void)
-
 {
-  __int64 lVar1;
-  int *piVar2;
-  char in_RESERVE;
-  unsigned char in_cr0;
+    int i;
+    Server_82BE7678 *server;
 
-  if (lbl_8322B1DC != (unsigned int *)0x0) {
-    (**(int (***)())*lbl_8322B1DC)(lbl_8322B1DC,1);
-    lbl_8322B1DC = (unsigned int *)0x0;
-    fn_82BA02A8();
-    if (puRam8322b1e0 != (unsigned int *)0x0) {
-      (**(int (***)())*puRam8322b1e0)(puRam8322b1e0,1);
-      puRam8322b1e0 = (unsigned int *)0x0;
-    }
-    do {
-      if (in_RESERVE != '\0') {
-        lbl_8322B1E8 = storeWordConditionalIndexed((unsigned __int64)lbl_8322B1E8 - 1,0,0xffffffff8322b1e8)
-        ;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-    if (lbl_8322B1E8 == 0) {
-      fn_82BEA1F8(0xffffffff8322b1ec,0xffffffff820e9990);
-      lVar1 = 0x10;
-      piVar2 = (int *)0x83175250;
-      do {
-        piVar2[-2] = 0;
-        *(unsigned short *)(piVar2 + -1) = 1000;
-        if (*piVar2 != 0) {
-          (*(int (**)())lbl_831751CC)();
-          *piVar2 = 0;
+    if (lbl_8322B1DC != 0) {
+        lbl_8322B1DC->vt->Delete(lbl_8322B1DC, 1);
+        lbl_8322B1DC = 0;
+        fn_82BA02A8();
+        if (lbl_8322B1E0 != 0) {
+            lbl_8322B1E0->vt->Delete(lbl_8322B1E0, 1);
+            lbl_8322B1E0 = 0;
         }
-        lVar1 = lVar1 + -1;
-        piVar2 = piVar2 + 3;
-      } while (lVar1 != 0);
-      fn_82BEA230(0xffffffff8322b1ec,0xffffffff820e9990);
+        _InterlockedDecrement(&lbl_8322B1E8);
+        if (lbl_8322B1E8 == 0) {
+            fn_82BEA1F8(lbl_8322B1EC, "MassiveAdClient3::CNetworkManager::Shutdown");
+            server = lbl_83175248;
+            for (i = 16; i != 0; i--) {
+                server->address = 0;
+                server->port = 1000;
+                if (server->hostName != 0) {
+                    lbl_831751CC(server->hostName);
+                    server->hostName = 0;
+                }
+                server++;
+            }
+            fn_82BEA230(lbl_8322B1EC, "MassiveAdClient3::CNetworkManager::Shutdown");
+        }
     }
-  }
-  return;
 }

@@ -1,56 +1,75 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern int fn_8255AE78();
-extern unsigned int stack0x00000000;
-extern V16 loadVectorLeftIndexed128();
-extern V16 vectorAddFloatingPoint();
-extern V16 vectorRotateLeftImmediateMaskInsert128();
-extern void *memcpy(void *, const void *, unsigned int);
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __lvlx(const void *base, int offset);
+__vector4 __vrlimi(__vector4 a, __vector4 b, unsigned int mask, unsigned int rotate);
+__vector4 __vaddfp(__vector4 a, __vector4 b);
 
-unsigned __int64 fn_82447D08(unsigned __int64 param_1,int param_2,unsigned __int64 param_3,unsigned int param_4)
+typedef struct Slot_82447D08 {
+    int active; /* 0x00 */
+    int pad04[3];
+    __vector4 position; /* 0x10 */
+    __vector4 pad20;
+} Slot_82447D08;
 
+typedef struct Inner_82447D08 {
+    char pad0[0x10];
+    float heading; /* 0x10 */
+    char pad14[0xc];
+    __vector4 offset; /* 0x20 */
+} Inner_82447D08;
+
+typedef struct Ref_82447D08 {
+    int pad0;
+    Inner_82447D08 *inner; /* 0x04 */
+} Ref_82447D08;
+
+typedef struct Model_82447D08 {
+    char pad0[0x174];
+    Ref_82447D08 *ref; /* 0x174 */
+} Model_82447D08;
+
+typedef struct Data_82447D08 {
+    Model_82447D08 *model; /* 0x000 */
+    char pad4[0x23c];
+    Slot_82447D08 slots[1]; /* 0x240 */
+} Data_82447D08;
+
+typedef struct Owner_82447D08 {
+    char pad0[0x40];
+    Data_82447D08 *data; /* 0x40 */
+    float *offsetsA;     /* 0x44 */
+    float *offsetsB;     /* 0x48 */
+} Owner_82447D08;
+
+extern float lbl_831C78F0;
+extern __vector4 fn_8255AE78(__vector4 v, float angle);
+
+static __forceinline __vector4 VectorSet(float x, float y, float z, float w)
 {
-  int *piVar1;
-  unsigned int *puVar2;
-  unsigned __int64 in_r0;
-  unsigned char auVar3 [16];
-  unsigned char auVar4 [16];
-  unsigned int uVar5;
-  unsigned int uVar7;
-  unsigned int uVar8;
-  unsigned char in_vr0 [16];
-  unsigned int uVar9;
-  unsigned char auVar6 [16];
-  unsigned char in_vr1 [16];
-  unsigned char in_vr12 [16];
-  unsigned char in_vr13 [16];
-  
-  piVar1 = *(int **)(param_2 + 0x40);
-  if (piVar1[((param_4 & 0xff) + 0xc) * 0xc] == 0) {{ V16 _vt0 = loadVectorLeftIndexed128(in_r0,ZEXT48(&stack0x00000000) - 0x20); memcpy(auVar3, &_vt0, 16); }{ V16 _vt1 = loadVectorLeftIndexed128(in_r0,0xffffffff821cc160); memcpy(auVar4, &_vt1, 16); }
-    vectorRotateLeftImmediateMaskInsert128(in_vr12,in_vr13,4,3);{ V16 _vt2 = vectorRotateLeftImmediateMaskInsert128(in_vr0,in_vr13,4,3); memcpy(auVar6, &_vt2, 16); }
-    vectorRotateLeftImmediateMaskInsert128(in_vr1,auVar6,3,2);
-    fn_8255AE78((double)*(float *)(*(int *)(*(int *)(*piVar1 + 0x174) + 4) + 0x10));
-    puVar2 = (unsigned int *)
-             (*(int *)(*(int *)(**(int **)(param_2 + 0x40) + 0x174) + 4) + 0x20U & 0xfffffff0);
-    uVar5 = *puVar2;
-    uVar7 = puVar2[1];
-    uVar8 = puVar2[2];
-    uVar9 = puVar2[3];
-    vectorAddFloatingPoint(auVar3,auVar4);
-  }
-  else {
-    puVar2 = (unsigned int *)((unsigned int)(piVar1 + (param_4 & 0xff) * 0xc + 0x94) & 0xfffffff0);
-    uVar5 = *puVar2;
-    uVar7 = puVar2[1];
-    uVar8 = puVar2[2];
-    uVar9 = puVar2[3];
-  }
-  puVar2 = (unsigned int *)((int)in_r0 + (int)param_1 & 0xfffffff0);
-  *puVar2 = uVar5;
-  puVar2[1] = uVar7;
-  puVar2[2] = uVar8;
-  puVar2[3] = uVar9;
-  return param_1;
+    __vector4 vx, vy, vz, vw;
+
+    vx = __lvlx(&x, 0);
+    vy = __lvlx(&y, 0);
+    vz = __lvlx(&z, 0);
+    vw = __lvlx(&w, 0);
+    vx = __vrlimi(vx, vy, 0x4, 3);
+    vz = __vrlimi(vz, vw, 0x4, 3);
+    return __vrlimi(vx, vz, 0x3, 2);
 }
 
+__vector4 *fn_82447D08(__vector4 *out, Owner_82447D08 *owner, float t, unsigned char index)
+{
+    Data_82447D08 *data = owner->data;
+
+    if (data->slots[index].active != 0) {
+        *out = data->slots[index].position;
+    } else {
+        float z = lbl_831C78F0 * t;
+        __vector4 rotated = fn_8255AE78(VectorSet(0.0f, 0.0f, z, 0.0f), data->model->ref->inner->heading);
+
+        *out = __vaddfp(owner->data->model->ref->inner->offset, rotated);
+    }
+    return out;
+}

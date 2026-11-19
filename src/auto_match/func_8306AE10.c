@@ -1,68 +1,55 @@
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_80;
-extern int fn_82810280();
-extern int fn_82810328();
-extern int fn_82810360();
-extern int fn_82810558();
-extern int fn_82F6A548();
-extern int fn_82F6A594();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_821AAD20;
+typedef struct Vector_8306AE10 {
+    float values[4];
+} Vector_8306AE10;
 
+extern void fn_82810360(const void *source, Vector_8306AE10 *out);
+extern void fn_82810328(const void *a, const void *b, Vector_8306AE10 *out);
+extern float fn_82810280(const Vector_8306AE10 *a, const Vector_8306AE10 *b);
+extern void fn_82810558(Vector_8306AE10 *direction, const void *start, float t, void *out);
 
-void fn_8306AE10(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4)
-
+int fn_8306AE10(const void *start1, const void *direction1, const void *start2, const void *end2, void *out1,
+                void *out2)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  double dVar3;
-  double dVar4;
-  double dVar5;
-  double dVar6;
-  double dVar7;
-  double dVar8;
-  double dVar9;
-  double dVar10;
-  unsigned char auStack_80 [1];
-  unsigned char auStack_70 [16];
-  unsigned char auStack_60 [96];
-  
-  uVar1 = fn_82F6A548();
-  fn_82810360(param_2,auStack_80);
-  fn_82810328(param_4,param_3,auStack_70);
-  fn_82810328(uVar1,param_3,auStack_60);
-  dVar5 = (double)fn_82810280(auStack_80,auStack_80);
-  dVar6 = (double)fn_82810280(auStack_70,auStack_70);
-  dVar7 = (double)fn_82810280(auStack_70,auStack_60);
-  dVar8 = (double)fn_82810280(auStack_80,auStack_70);
-  dVar9 = (double)fn_82810280(auStack_80,auStack_60);
-  dVar10 = (double)lbl_821AAD20;
-  dVar3 = (double)(float)(dVar6 * dVar5 - (double)(float)(dVar8 * dVar8));
-  dVar4 = dVar10;
-  if (dVar3 != dVar10) {
-    dVar4 = (double)(float)((double)(float)(dVar8 * dVar7 - (double)(float)(dVar9 * dVar6)) / dVar3)
-    ;
-  }
-  dVar3 = (double)(float)((double)(float)(dVar4 * dVar8 + dVar7) / dVar6);
-  if (dVar10 <= dVar3) {
-    if (dVar3 <= (double)lbl_82002AE0) {
-      uVar2 = 2;
-    }
-    else {
-      uVar2 = 1;
-      dVar4 = (double)(float)((double)(float)(dVar8 - dVar9) / dVar5);
-      dVar3 = (double)lbl_82002AE0;
-    }
-  }
-  else {
-    uVar2 = 0;
-    dVar4 = -(double)(float)(dVar9 / dVar5);
-    dVar3 = dVar10;
-  }
-  fn_82810558(dVar4,auStack_80,uVar1);
-  fn_82810558(dVar3,auStack_70,param_3);
-  fn_82F6A594(uVar2);
-  return;
-}
+    Vector_8306AE10 d1;
+    Vector_8306AE10 d2;
+    Vector_8306AE10 r;
+    float a;
+    float b;
+    float c;
+    float e;
+    float f;
+    float denom;
+    float s;
+    float t;
+    int result;
 
+    fn_82810360(direction1, &d1);
+    fn_82810328(end2, start2, &d2);
+    fn_82810328(start1, start2, &r);
+    a = fn_82810280(&d1, &d1);
+    e = fn_82810280(&d2, &d2);
+    f = fn_82810280(&d2, &r);
+    b = fn_82810280(&d1, &d2);
+    c = fn_82810280(&d1, &r);
+    denom = e * a - b * b;
+    if (denom != 0.0f) {
+        s = (b * f - c * e) / denom;
+    } else {
+        s = 0.0f;
+    }
+    t = (s * b + f) / e;
+    if (t < 0.0f) {
+        result = 0;
+        t = 0.0f;
+        s = -(c / a);
+    } else if (t > 1.0f) {
+        result = 1;
+        t = 1.0f;
+        s = (b - c) / a;
+    } else {
+        result = 2;
+    }
+    fn_82810558(&d1, start1, s, out1);
+    fn_82810558(&d2, start2, t, out2);
+    return result;
+}

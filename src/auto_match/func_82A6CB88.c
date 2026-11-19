@@ -1,42 +1,55 @@
-void fn_82A6CB88(int param_1)
+typedef struct Header_82A6CB88 {
+    char pad000[0x8];
+    int headerBits; /* 0x008 */
+    char pad00c[0x30];
+    int version; /* 0x03c */
+    char pad040[0x94];
+    int hasHeader; /* 0x0d4 */
+    char pad0d8[0x184];
+    int hasExtension; /* 0x25c */
+} Header_82A6CB88;
 
+typedef struct Reader_82A6CB88 {
+    char pad00[0x8];
+    Header_82A6CB88 **header; /* 0x08 */
+    char pad0c[0x8];
+    unsigned char *base; /* 0x14 */
+    unsigned int size;   /* 0x18 */
+    unsigned char *ptr;  /* 0x1c */
+    unsigned int count;  /* 0x20 */
+    unsigned int acc;    /* 0x24 */
+    unsigned int n;      /* 0x28 */
+    unsigned int acc2;   /* 0x2c */
+    unsigned int n2;     /* 0x30 */
+    char pad34[0x54 - 0x34];
+    unsigned char (*xlat)(unsigned char); /* 0x54 */
+} Reader_82A6CB88;
+
+void fn_82A6CB88(Reader_82A6CB88 *r)
 {
-  unsigned char uVar1;
-  int iVar2;
-  unsigned char *puVar3;
-  unsigned int uVar4;
-  unsigned __int64 uVar5;
-  unsigned int uVar6;
-  
-  iVar2 = **(int **)(param_1 + 8);
-  if (*(int *)(iVar2 + 0x3c) < 3) {
-    if (*(int *)(iVar2 + 0xd4) == 0) {
-      uVar5 = 0;
-      goto LAB_82a6cbf8;
-    }
-    uVar5 = (unsigned __int64)*(unsigned int *)(iVar2 + 8) + 0xb;
-  }
-  else if (*(int *)(iVar2 + 0x25c) == 0) {
-    uVar5 = (unsigned __int64)*(unsigned int *)(iVar2 + 8) + 6;
-  }
-  else {
-    uVar5 = (unsigned __int64)*(unsigned int *)(iVar2 + 8) + 0x11;
-  }
-  uVar5 = uVar5 & 0xff;
-LAB_82a6cbf8:
-  iVar2 = (int)(uVar5 >> 3);
-  puVar3 = (unsigned char *)(*(int *)(param_1 + 0x14) + iVar2);
-  *(unsigned int *)(param_1 + 0x2c) = 0;
-  *(unsigned int *)(param_1 + 0x30) = 0;
-  *(unsigned char **)(param_1 + 0x1c) = puVar3;
-  *(int *)(param_1 + 0x20) = *(int *)(param_1 + 0x18) - iVar2;
-  uVar1 = *puVar3;
-  *(unsigned char **)(param_1 + 0x1c) = puVar3 + 1;
-  uVar6 = (int)uVar5 + ((int)uVar5 >> 3) * -8;
-  uVar4 = (**(int (***)())(param_1 + 0x54))(uVar1);
-  *(int *)(param_1 + 0x20) = *(int *)(param_1 + 0x20) + -1;
-  *(unsigned int *)(param_1 + 0x24) = ((uVar4 & 0xff) << (uVar6 & 0x3f) & 0xff) >> (uVar6 & 0x3f);
-  *(unsigned int *)(param_1 + 0x28) = 8 - uVar6;
-  return;
-}
+    Header_82A6CB88 *header = *r->header;
+    unsigned char bits;
+    int shift;
+    unsigned char v;
 
+    if (header->version <= 2) {
+        if (header->hasHeader != 0) {
+            bits = header->headerBits + 0xb;
+        } else {
+            bits = 0;
+        }
+    } else if (header->hasExtension != 0) {
+        bits = header->headerBits + 0x11;
+    } else {
+        bits = header->headerBits + 6;
+    }
+    r->acc2 = 0;
+    r->n2 = 0;
+    r->ptr = r->base + (bits >> 3);
+    r->count = r->size - (bits >> 3);
+    shift = bits % 8;
+    v = r->xlat(*r->ptr++);
+    r->count--;
+    r->acc = (unsigned char)(v << shift) >> shift;
+    r->n = 8 - shift;
+}

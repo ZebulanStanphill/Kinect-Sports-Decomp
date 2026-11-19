@@ -1,33 +1,47 @@
-unsigned __int64 fn_82936130(int param_1,int param_2)
+/* Builds the swizzle code of operand slot `index` for the current target format. */
+typedef struct Operand_82936130 {
+    char pad0[0x10];
+    void *relative; /* 0x10 */
+    int f14;
+    unsigned int offset; /* 0x18 */
+    char pad1c[0x24 - 0x1c];
+    unsigned int swizzle; /* 0x24 */
+} Operand_82936130;
 
+typedef struct Self_82936130 {
+    char pad0[0x38];
+    int format; /* 0x38 */
+    char pad3c[0x60 - 0x3c];
+    Operand_82936130 *operands[1]; /* 0x60 */
+} Self_82936130;
+
+extern unsigned char lbl_8315AC98[];
+
+unsigned int fn_82936130(Self_82936130 *self, int index)
 {
-  char cVar1;
-  unsigned int uVar2;
-  int iVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  
-  cVar1 = *(char *)(*(int *)(param_1 + 0x38) + -0x7cea5368);
-  uVar2 = *(unsigned int *)(*(int *)((param_2 + 0x18) * 4 + param_1) + 0x24);
-  if (cVar1 == '\x01') {
-    return ((unsigned __int64)uVar2 & 3) * 0x55;
-  }
-  if (cVar1 != '\x02') {
-    if (cVar1 != '\x04') {
-      return (unsigned __int64)uVar2;
-    }
-    uVar4 = 0;
-    uVar5 = 0;
-    iVar3 = *(int *)((param_2 + 0x19) * 4 + param_1);
-    if (iVar3 != 0) {
-      if (*(int *)(iVar3 + 0x10) == 0) {
-        uVar5 = (unsigned __int64)*(unsigned int *)(iVar3 + 0x18);
-      }
-      uVar4 = (unsigned __int64)*(unsigned int *)(iVar3 + 0x24) & 3;
-    }
-    return (((unsigned __int64)uVar2 & 3) << 2 | (uVar5 >> 4) - 2 & 3) << 4 |
-           (uVar5 & 0xfffffffc) + 4 & 0xf | uVar4;
-  }
-  return ((unsigned __int64)(uVar2 >> 2) & 3) * 0x15 | ((unsigned __int64)uVar2 & 3) << 6;
-}
+    unsigned int swizzle = self->operands[index]->swizzle;
+    Operand_82936130 *next;
+    unsigned int offset;
+    unsigned int component;
+    unsigned int low;
 
+    switch (lbl_8315AC98[self->format]) {
+    case 1:
+        return (swizzle & 3) * 0x55;
+    case 2:
+        return ((swizzle >> 2) & 3) * 0x15 | (swizzle & 3) << 6;
+    case 4:
+        low = swizzle & 3;
+        component = 0;
+        offset = 0;
+        next = self->operands[index + 1];
+        if (next != 0) {
+            if (next->relative == 0) {
+                offset = next->offset;
+            }
+            component = next->swizzle & 3;
+        }
+        return ((low << 2 | (((offset >> 4) - 2) & 3)) << 4 | (((offset & ~3) + 4) & 0xf)) & ~3 | component;
+    }
+    return swizzle;
+}

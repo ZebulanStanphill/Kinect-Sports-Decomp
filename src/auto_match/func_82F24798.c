@@ -1,34 +1,39 @@
-extern int fn_82F691F0();
+extern void *memset(void *dest, int value, unsigned int count);
 
+typedef struct Entry_82F24798 {
+    char data[0xc];
+} Entry_82F24798;
 
-unsigned __int64 fn_82F24798(int param_1)
+typedef struct Context_82F24798 {
+    char pad0000[0x2cac];
+    Entry_82F24798 entries[0x200]; /* 0x2cac */
+    Entry_82F24798 *free[0x200];   /* 0x44ac */
+    char hashTable[0x100];         /* 0x4cac */
+    int freePosition;              /* 0x4dac */
+    int blockCount;                /* 0x4db0 */
+    char pad4db4[0x73f4 - 0x4db4];
+    char *blocks; /* 0x73f4 */
+} Context_82F24798;
 
+char *fn_82F24798(Context_82F24798 *context)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  int *piVar3;
-  int iVar4;
-  
-  uVar1 = (unsigned __int64)*(unsigned int *)(param_1 + 0x4db0) * 0x4c0 + (unsigned __int64)*(unsigned int *)(param_1 + 0x73f4);
-  if (7 < (int)*(unsigned int *)(param_1 + 0x4db0)) {
-    iVar4 = *(int *)(param_1 + 0x4dac);
-    if (iVar4 < 0x200) {
-      iVar2 = 0x200 - iVar4;
-      piVar3 = (int *)((iVar4 + 0x112a) * 4 + param_1);
-      iVar4 = (iVar4 * 3 + 0xb2b) * 4 + param_1;
-      do {
-        piVar3 = piVar3 + 1;
-        *piVar3 = iVar4;
-        iVar4 = iVar4 + 0xc;
-        iVar2 = iVar2 + -1;
-      } while (iVar2 != 0);
-    }
-    *(unsigned int *)(param_1 + 0x4dac) = 0x1ff;
-    fn_82F691F0(param_1 + 0x4cac,0,0x100);
-    *(unsigned int *)(param_1 + 0x4db0) = 0;
-    uVar1 = (unsigned __int64)*(unsigned int *)(param_1 + 0x73f4);
-  }
-  *(int *)(param_1 + 0x4db0) = *(int *)(param_1 + 0x4db0) + 1;
-  return uVar1;
-}
+    char *block;
+    int count;
+    int i;
 
+    for (;;) {
+        count = context->blockCount;
+        block = context->blocks + count * 0x4c0;
+        if (count <= 7) {
+            break;
+        }
+        for (i = context->freePosition; i < 0x200; i++) {
+            context->free[i] = &context->entries[i];
+        }
+        context->freePosition = 0x1ff;
+        memset(context->hashTable, 0, 0x100);
+        context->blockCount = 0;
+    }
+    context->blockCount++;
+    return block;
+}

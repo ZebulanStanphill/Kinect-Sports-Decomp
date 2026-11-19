@@ -1,80 +1,117 @@
-extern unsigned int *auStack_88;
-extern int fn_82F68CC0();
-extern int fn_82FAB9C0();
-extern unsigned int lbl_832642E0;
-extern unsigned int uStack_2f;
-extern unsigned int uStack_30;
-extern unsigned int uStack_34;
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
-extern unsigned int uStack_90;
-extern unsigned int uStack_98;
-extern unsigned int uStack_a0;
-extern unsigned int uStack_a8;
-extern unsigned int uStack_b0;
-extern unsigned int uStack_bc;
-extern unsigned int uStack_c0;
+typedef struct Obj_8302FB68 Obj_8302FB68;
 
+typedef struct Header_8302FB68 {
+    __int64 a; /* 0x00 */
+    __int64 b; /* 0x08 */
+    __int64 c; /* 0x10 */
+} Header_8302FB68;
 
-unsigned __int64 fn_8302FB68(int param_1,int param_2,unsigned __int64 *param_3)
+typedef struct Payload_8302FB68 {
+    unsigned char bytes[0x48];
+} Payload_8302FB68;
 
+typedef struct Params_8302FB68 {
+    Header_8302FB68 header;   /* 0x00 */
+    int size;                 /* 0x18 */
+    Payload_8302FB68 payload; /* 0x1c */
+    int flags;                /* 0x64 */
+} Params_8302FB68;
+
+typedef struct Binding_8302FB68 {
+    int value; /* 0x00 */
+    int kind;  /* 0x04 */
+} Binding_8302FB68;
+
+typedef struct Desc_8302FB68 {
+    int zero;                  /* 0x00 */
+    Obj_8302FB68 *target;      /* 0x04 */
+    int size;                  /* 0x08 */
+    Binding_8302FB68 *binding; /* 0x0c */
+    Header_8302FB68 header;    /* 0x10 */
+    Payload_8302FB68 payload;  /* 0x28 */
+    int flags;                 /* 0x70 */
+    int reserved0;             /* 0x74 */
+    int reserved1;             /* 0x78 */
+    int reserved2;             /* 0x7c */
+    unsigned char done;        /* 0x80 */
+    unsigned char valid;       /* 0x81 */
+} Desc_8302FB68;
+
+typedef struct {
+    void *s0;
+    void *s1;
+    void (*Release)(Obj_8302FB68 *self);
+    void *pad[3];
+    int (*Submit)(Obj_8302FB68 *self, Desc_8302FB68 *desc);
+} Vt_8302FB68;
+
+struct Obj_8302FB68 {
+    Vt_8302FB68 *vt;
+};
+
+typedef struct Entry_8302FB68 {
+    int key;   /* 0x00 */
+    int value; /* 0x04 */
+} Entry_8302FB68;
+
+typedef struct Node_8302FB68 {
+    struct Node_8302FB68 *next; /* 0x00 */
+    unsigned int key;           /* 0x04 */
+    Entry_8302FB68 entry;       /* 0x08 */
+} Node_8302FB68;
+
+typedef struct Ctx_8302FB68 {
+    char pad0[0xe4];
+    Node_8302FB68 *bindings; /* 0xe4 */
+} Ctx_8302FB68;
+
+extern Obj_8302FB68 *fn_82FAB9C0(int id, unsigned int key);
+extern int lbl_832642E0;
+
+static __forceinline Entry_8302FB68 *Find(Node_8302FB68 *node, unsigned int key)
 {
-  unsigned int *puVar1;
-  int *piVar3;
-  unsigned __int64 uVar2;
-  unsigned int uStack_c0;
-  unsigned int uStack_bc;
-  unsigned int uStack_b0;
-  int *piStack_ac;
-  unsigned int uStack_a8;
-  unsigned int *puStack_a4;
-  unsigned __int64 uStack_a0;
-  unsigned __int64 uStack_98;
-  unsigned __int64 uStack_90;
-  unsigned char auStack_88 [72];
-  unsigned int uStack_40;
-  unsigned int uStack_3c;
-  unsigned int uStack_38;
-  unsigned int uStack_34;
-  unsigned char uStack_30;
-  unsigned char uStack_2f;
-  
-  piVar3 = (int *)fn_82FAB9C0((unsigned __int64)lbl_832642E0 + 4);
-  if (piVar3 == (int *)0x0) {
-    uVar2 = 2;
-  }
-  else {
-    puVar1 = *(unsigned int **)(param_1 + 0xe4);
-    uStack_bc = 4;
-    for (; puVar1 != (unsigned int *)0x0; puVar1 = (unsigned int *)*puVar1) {
-      if (puVar1[1] == param_2) {
-        if (puVar1 != (unsigned int *)0xfffffff8) {
-          uStack_c0 = puVar1[3];
-          goto LAB_8302fbd0;
+    for (; node != 0; node = node->next) {
+        if (node->key == key) {
+            return &node->entry;
         }
-        break;
-      }
     }
-    uStack_c0 = 0;
-LAB_8302fbd0:
-    uStack_30 = 0;
-    fn_82F68CC0(auStack_88,(int)param_3 + 0x1c,0x48);
-    uStack_a8 = *(unsigned int *)(param_3 + 3);
-    uStack_a0 = *param_3;
-    uStack_98 = param_3[1];
-    uStack_90 = param_3[2];
-    puStack_a4 = &uStack_c0;
-    uStack_40 = *(unsigned int *)((int)param_3 + 100);
-    uStack_b0 = 0;
-    uStack_2f = 1;
-    uStack_3c = 0;
-    uStack_38 = 0;
-    uStack_34 = 0;
-    piStack_ac = piVar3;
-    uVar2 = (**(int (***)())(*piVar3 + 0x18))(piVar3,&uStack_b0);
-    (**(int (***)())(*piVar3 + 8))(piVar3);
-  }
-  return uVar2;
+    return 0;
 }
 
+int fn_8302FB68(Ctx_8302FB68 *ctx, unsigned int key, Params_8302FB68 *params)
+{
+    Obj_8302FB68 *p;
+    Entry_8302FB68 *entry;
+    Binding_8302FB68 binding;
+    Desc_8302FB68 d;
+    int value;
+    int hr;
+
+    p = fn_82FAB9C0(lbl_832642E0 + 4, key);
+    if (p != 0) {
+        binding.kind = 4;
+        entry = Find(ctx->bindings, key);
+        if (entry != 0) {
+            value = entry->value;
+        } else {
+            value = 0;
+        }
+        binding.value = value;
+        d.done = 0;
+        d.payload = params->payload;
+        d.zero = 0;
+        d.target = p;
+        d.size = params->size;
+        d.valid = 1;
+        d.binding = &binding;
+        d.header = params->header;
+        d.reserved0 = 0;
+        d.flags = params->flags;
+        d.reserved1 = 0;
+        d.reserved2 = 0;
+        hr = p->vt->Submit(p, &d);
+        p->vt->Release(p);
+        return hr;
+    }
+    return 2;
+}

@@ -1,30 +1,30 @@
-unsigned __int64 fn_82ABCEC8(int param_1,int param_2,unsigned int param_3,unsigned int param_4,int *param_5)
+typedef struct Constants_82ABCEC8 {
+    char pad0[0x10];
+    unsigned int bools[8];       /* 0x010 */
+    int values[0xe0];            /* 0x030 */
+    unsigned int dirtyBools[8];  /* 0x3b0 */
+    unsigned int dirtyValues[8]; /* 0x3d0 */
+} Constants_82ABCEC8;
 
+int fn_82ABCEC8(Constants_82ABCEC8 *self, unsigned int stage, unsigned int type, unsigned int index,
+                int *value)
 {
-  unsigned int uVar1;
-  int iVar2;
-  int iVar3;
-  unsigned int uVar4;
-  
-  if (param_2 == 0) {
-    if (param_3 == 0) {
-      iVar3 = ((param_4 >> 5) + 4) * 4;
-      uVar1 = 1 << (param_4 & 0x1f);
-      uVar4 = *(unsigned int *)(iVar3 + param_1) & ~uVar1;
-      iVar2 = ((param_4 >> 5) + 0xec) * 4;
-      *(unsigned int *)(iVar3 + param_1) = uVar4;
-      *(unsigned int *)(iVar3 + param_1) = (unsigned int)(*param_5 != 0) << (param_4 & 0x1f) | uVar4;
-      *(unsigned int *)(iVar2 + param_1) = *(unsigned int *)(iVar2 + param_1) | uVar1;
+    if (stage == 0) {
+        switch (type) {
+        case 0:
+            self->bools[index >> 5] &= ~(1 << (index & 0x1f));
+            self->bools[index >> 5] |= (*value != 0) << (index & 0x1f);
+            self->dirtyBools[index >> 5] |= 1 << (index & 0x1f);
+            break;
+        case 1:
+            break;
+        case 2:
+            self->values[index] = *value;
+            self->dirtyValues[index >> 5] |= 1 << (index & 0x1f);
+            break;
+        default:
+            return 0x80004005;
+        }
     }
-    else if (param_3 != 1) {
-      if (2 < param_3) {
-        return 0xffffffff80004005;
-      }
-      iVar2 = ((param_4 >> 5) + 0xf4) * 4;
-      *(int *)((param_4 + 0xc) * 4 + param_1) = *param_5;
-      *(unsigned int *)(iVar2 + param_1) = 1 << (param_4 & 0x1f) | *(unsigned int *)(iVar2 + param_1);
-    }
-  }
-  return 0;
+    return 0;
 }
-

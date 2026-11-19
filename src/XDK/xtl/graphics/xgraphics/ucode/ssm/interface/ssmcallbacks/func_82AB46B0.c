@@ -1,103 +1,104 @@
-extern int fn_823AA458();
-extern int fn_823AAD80();
-extern int fn_823AB470();
-extern int fn_823AB478();
-extern int fn_823AB480();
-extern int fn_8289DE38();
-extern int fn_82AB15D0();
-extern int fn_82AB4658();
-extern int fn_82AB63F8();
-extern int fn_82AB66F8();
-extern int fn_82AB67A8();
-extern int fn_82AB69F0();
-extern int fn_82AB6BC8();
-extern int fn_82AB6F58();
-extern int fn_82AB7718();
-extern int fn_82AB8588();
-extern int fn_82AB97B8();
-extern int fn_82AB9898();
-extern int fn_82ABA320();
-extern int fn_82B697C0();
-extern int fn_82B69A00();
-extern int fn_82BA02A8();
-extern int fn_82CE4720();
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
 
+#define SSM_ASSERT(e, line)                                                                                            \
+    if (!(e))                                                                                                          \
+    fn_82AB15D0(                                                                                                       \
+        0, "Assertion failed: %s (%s:%u)", #e,                                                                         \
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\interface\\ssmcallbacks.cpp", \
+        line)
 
-__int64 fn_82AB46B0(unsigned __int64 param_1,unsigned __int64 param_2)
+#define E_SSM_OK 0
 
+typedef void *PSSM_OBJINFO;
+
+typedef struct ShaderDesc_82AB46B0 {
+    char pad0[0x10];
+    void *a; /* 0x10 */
+    void *b; /* 0x14 */
+    void *c; /* 0x18 */
+} ShaderDesc_82AB46B0;
+
+extern void *fn_82AB4658(void *hASObjHandle);
+extern void *fn_823AA458(PSSM_OBJINFO info);
+extern void *fn_823AAD80(void *device);
+extern void *fn_82CE4720(void *device);
+extern void *fn_823AB470(void *device);
+extern void *fn_823AB478(void *device);
+extern void *fn_823AB480(void *device);
+extern void *fn_82AB8588(void *device);
+extern void *fn_8289DE38(void *device);
+extern ShaderDesc_82AB46B0 *fn_82BA02A8(void *device);
+extern unsigned int fn_82B69A00(void *state, int flag);
+extern void *fn_82AB9898(void *manager, void *owner);
+extern void *fn_82AB63F8(void *list);
+extern void *fn_82AB66F8(void *list, void *item);
+extern void *fn_82AB67A8(void *item);
+extern unsigned int fn_82AB7718(void *entry, void *hASObjHandle);
+extern int fn_82B697C0(void *tracker, void *hASObjHandle);
+extern void *fn_82AB69F0(void *a, void *b, void *c, void *state, void *d, void *e, void *f, int g);
+extern void fn_82AB6F58(void *pCS, void *owner);
+extern int fn_82ABA320(void *cache, void *owner, void *hASObjHandle, void *pCS);
+extern void fn_82AB6BC8(void *pCS);
+extern int fn_82AB97B8(void *manager, void *owner, void *pCS);
+
+#define GetDevice fn_823AA458
+
+int fn_82AB46B0(void *owner, void *hASObjHandle)
 {
-  __int64 lVar1;
-  __int64 lVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  unsigned __int64 uVar6;
-  unsigned __int64 uVar7;
-  unsigned __int64 uVar8;
-  unsigned __int64 uVar9;
-  int iVar12;
-  int iVar13;
-  unsigned __int64 uVar10;
-  unsigned __int64 uVar11;
-  
-  lVar1 = fn_82AB4658(param_2);
-  if (lVar1 == 0) {
-    lVar2 = 0x16;
-  }
-  else {
-    fn_823AA458(lVar1);
-    uVar3 = fn_823AAD80();
-    fn_823AA458(lVar1);
-    uVar4 = fn_82CE4720();
-    fn_823AA458(lVar1);
-    uVar5 = fn_823AB470();
-    fn_823AA458(lVar1);
-    uVar6 = fn_823AB478();
-    fn_823AA458(lVar1);
-    uVar7 = fn_823AB480();
-    fn_823AA458(lVar1);
-    uVar8 = fn_82AB8588();
-    fn_823AA458(lVar1);
-    uVar9 = fn_8289DE38();
-    fn_823AA458(lVar1);
-    iVar12 = fn_82BA02A8();
-    iVar13 = fn_82B69A00(uVar9,9);
-    if ((iVar13 == 0) || (iVar13 = fn_82B69A00(uVar9,1), iVar13 != 0)) {
-LAB_82ab4770:
-      lVar2 = 0;
-    }
-    else {
-      uVar10 = fn_82AB9898(uVar3,param_1);
-      for (lVar1 = fn_82AB63F8(); lVar1 != 0; lVar1 = fn_82AB66F8(uVar10,lVar1)) {
-        uVar11 = fn_82AB67A8(lVar1);
-        iVar13 = fn_82AB7718(uVar11,param_2);
-        if (iVar13 != 0) goto LAB_82ab4770;
-      }
-      iVar13 = fn_82B697C0(uVar5,param_2);
-      if (iVar13 != 0) {
-        fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d6840,0xffffffff820d67d8,0x208);
-      }
-      lVar1 = fn_82AB69F0(*(unsigned int *)(iVar12 + 0x10),*(unsigned int *)(iVar12 + 0x14),
-                                *(unsigned int *)(iVar12 + 0x18),uVar9,uVar6,uVar7,uVar8,1);
-      if (lVar1 == 0) {
-        fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d683c,0xffffffff820d67d8,0x213);
-        lVar2 = 0x10;
-      }
-      else {
-        fn_82AB6F58(lVar1,param_1);
-        lVar2 = fn_82ABA320(uVar4,param_1,param_2,lVar1);
-        if (lVar2 == 0) {
-          lVar2 = fn_82AB97B8(uVar3,param_1,lVar1);
-          if (lVar2 != 0) {
-            fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d6840,0xffffffff820d67d8,0x244);
-          }
-        }
-        else {
-          fn_82AB6BC8(lVar1);
-        }
-      }
-    }
-  }
-  return lVar2;
-}
+    void *hSSMObject;
+    void *manager;
+    void *cache;
+    void *tracker;
+    void *d;
+    void *e;
+    void *f;
+    void *state;
+    ShaderDesc_82AB46B0 *desc;
+    void *list;
+    void *item;
+    void *pCS;
+    int hRet;
+    void *descC;
 
+    hSSMObject = fn_82AB4658(hASObjHandle);
+    if (hSSMObject == 0) {
+        return 0x16;
+    }
+    manager = fn_823AAD80(GetDevice((PSSM_OBJINFO)hSSMObject));
+    cache = fn_82CE4720(GetDevice((PSSM_OBJINFO)hSSMObject));
+    tracker = fn_823AB470(GetDevice((PSSM_OBJINFO)hSSMObject));
+    d = fn_823AB478(GetDevice((PSSM_OBJINFO)hSSMObject));
+    e = fn_823AB480(GetDevice((PSSM_OBJINFO)hSSMObject));
+    f = fn_82AB8588(GetDevice((PSSM_OBJINFO)hSSMObject));
+    state = fn_8289DE38(GetDevice((PSSM_OBJINFO)hSSMObject));
+    desc = fn_82BA02A8(GetDevice((PSSM_OBJINFO)hSSMObject));
+    if (fn_82B69A00(state, 9) == 0) {
+        return 0;
+    }
+    if (fn_82B69A00(state, 1) != 0) {
+        return 0;
+    }
+    list = fn_82AB9898(manager, owner);
+    for (item = fn_82AB63F8(list); item != 0; item = fn_82AB66F8(list, item)) {
+        if (fn_82AB7718(fn_82AB67A8(item), hASObjHandle) != 0) {
+            return 0;
+        }
+    }
+    hRet = fn_82B697C0(tracker, hASObjHandle);
+    SSM_ASSERT(hRet == E_SSM_OK, 0x208);
+    descC = desc->c;
+    pCS = fn_82AB69F0(desc->a, desc->b, descC, state, d, e, f, 1);
+    if (pCS == 0) {
+        SSM_ASSERT(pCS, 0x213);
+        return 0x10;
+    }
+    fn_82AB6F58(pCS, owner);
+    hRet = fn_82ABA320(cache, owner, hASObjHandle, pCS);
+    if (hRet != E_SSM_OK) {
+        fn_82AB6BC8(pCS);
+        return hRet;
+    }
+    hRet = fn_82AB97B8(manager, owner, pCS);
+    SSM_ASSERT(hRet == E_SSM_OK, 0x244);
+    return hRet;
+}

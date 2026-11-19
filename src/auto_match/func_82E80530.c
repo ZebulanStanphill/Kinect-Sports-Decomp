@@ -1,63 +1,57 @@
-extern unsigned int *auStack_40;
-extern int fn_82E7EC68();
-extern int fn_82E7F3F8();
-extern int fn_82E7F8F0();
-extern int fn_82E804C0();
-extern unsigned int uStack_38;
-extern unsigned int uStack_50;
+typedef struct Variant_82E80530 {
+    unsigned short type; /* 0x00 */
+    unsigned short reserved[3];
+    unsigned int count; /* 0x08 */
+    void *elements;     /* 0x0c */
+} Variant_82E80530;
 
+extern void *memset(void *p, int c, unsigned int n);
+extern int fn_82E7EC68(Variant_82E80530 *self, unsigned int *count);
+extern int fn_82E7F8F0(Variant_82E80530 *self, unsigned int index, Variant_82E80530 *item);
+extern int fn_82E7F3F8(Variant_82E80530 *self, Variant_82E80530 *item, int *found);
+extern int fn_82E804C0(Variant_82E80530 *self, Variant_82E80530 *other);
 
-unsigned __int64 fn_82E80530(unsigned short *param_1,unsigned short *param_2)
-
+static __forceinline int IsCompatible(Variant_82E80530 *self, Variant_82E80530 *other)
 {
-  unsigned short uVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  unsigned int uStack_50;
-  int aiStack_4c [3];
-  unsigned char auStack_40 [8];
-  unsigned __int64 uStack_38;
-  
-  uVar1 = *param_1;
-  uStack_50 = 0;
-  aiStack_4c[0] = 0;
-  uVar4 = 0;
-  uStack_38 = 0;
-  if (((uVar1 & 0x1000) == 0) && (uVar1 != 0)) {
-    uVar3 = 0xffffffffc00d36ec;
-  }
-  else if (param_2 == (unsigned short *)0x0) {
-    uVar3 = 0xffffffff80004003;
-  }
-  else if (((param_1 == param_2) || (*param_2 == 0)) ||
-          ((uVar1 != 0 && (((uVar1 & 0xfff) != 0xc && ((*param_2 & 0xfff) != (uVar1 & 0xfff))))))) {
-    uVar3 = 0xffffffff80070057;
-  }
-  else {
-    uVar3 = fn_82E7EC68(param_1,&uStack_50);
-    uVar2 = uStack_50;
-    if (-1 < (int)uVar3) {
-      if (uStack_50 != 0) {
-        do {
-          uStack_38 = 0;
-          uVar3 = fn_82E7F8F0(param_1,uVar4,auStack_40);
-          if ((int)uVar3 < 0) {
-            return uVar3;
-          }
-          uVar3 = fn_82E7F3F8(param_2,auStack_40,aiStack_4c);
-          if ((int)uVar3 < 0) {
-            return uVar3;
-          }
-        } while ((aiStack_4c[0] == 0) &&
-                (uVar4 = uVar4 + 1, (uVar4 & 0xffffffff) < (unsigned __int64)uVar2));
-        if ((uVar4 & 0xffffffff) < (unsigned __int64)uVar2) {
-          return uVar3;
-        }
-      }
-      uVar3 = fn_82E804C0(param_1,param_2);
-    }
-  }
-  return uVar3;
+    if (self == other || other->type == 0)
+        return 0;
+    if (self->type != 0 && (self->type & 0xfff) != 0xc && (other->type & 0xfff) != (self->type & 0xfff))
+        return 0;
+    return 1;
 }
 
+int fn_82E80530(Variant_82E80530 *self, Variant_82E80530 *other)
+{
+    unsigned int count = 0;
+    int found = 0;
+    unsigned int i = 0;
+    Variant_82E80530 item;
+    int hr;
+
+    memset(&item, 0, sizeof(item));
+    if ((self->type & 0x1000) == 0 && self->type != 0)
+        return 0xc00d36ec;
+    if (other == 0)
+        return 0x80004003;
+    if (!IsCompatible(self, other))
+        return 0x80070057;
+    hr = fn_82E7EC68(self, &count);
+    if (hr < 0)
+        return hr;
+
+    while (count > i) {
+        memset(&item, 0, sizeof(item));
+        hr = fn_82E7F8F0(self, i, &item);
+        if (hr < 0)
+            return hr;
+        hr = fn_82E7F3F8(other, &item, &found);
+        if (hr < 0)
+            return hr;
+        if (found != 0)
+            break;
+        i++;
+    }
+    if (count > i)
+        return hr;
+    return fn_82E804C0(self, other);
+}

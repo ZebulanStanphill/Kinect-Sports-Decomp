@@ -1,59 +1,33 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int __ascii_stricmp();
+/* Compares a stored network key with another key: string keys case-insensitively, blob keys bytewise,
+ * every other kind as the raw 16 bytes. */
+typedef struct Key_828BA358 {
+    unsigned char type; /* 0x0 */
+    char pad1[7];
+    unsigned int length; /* 0x8 */
+    unsigned char *data; /* 0xc */
+} Key_828BA358;
 
+typedef struct Entry_828BA358 {
+    char pad0[8];
+    Key_828BA358 key; /* 0x8 */
+    int kind;         /* 0x18 */
+} Entry_828BA358;
 
-bool fn_828BA358(int param_1,unsigned char *param_2)
+extern int memcmp(const void *a, const void *b, unsigned int size);
+extern int __ascii_stricmp(const unsigned char *a, const unsigned char *b);
 
+unsigned char fn_828BA358(Entry_828BA358 *entry, Key_828BA358 *key)
 {
-  unsigned char bVar1;
-  unsigned char bVar2;
-  int iVar3;
-  __int64 lVar4;
-  unsigned char *pbVar5;
-  unsigned char *pbVar6;
-  unsigned char *pbVar7;
-  
-  pbVar7 = (unsigned char *)(param_1 + 8);
-  if (*(unsigned char *)(param_1 + 8) != *param_2) {
-    return false;
-  }
-  if (*(int *)(param_1 + 0x18) == 4) {
-    if (((*(int *)(param_1 + 0x14) != 0) && (*(int *)(param_2 + 0xc) != 0)) &&
-       ((*(int *)(param_1 + 0x10) == *(int *)(param_2 + 8) && (iVar3 = __ascii_stricmp(), iVar3 == 0)))
-       ) {
-      return true;
+    if (entry->key.type != key->type) {
+        return 0;
     }
-    return false;
-  }
-  if (*(int *)(param_1 + 0x18) != 6) {
-    do {
-      bVar1 = *pbVar7;
-      bVar2 = *param_2;
-      if ((unsigned __int64)bVar1 - (unsigned __int64)bVar2 != 0) break;
-      pbVar7 = pbVar7 + 1;
-      param_2 = param_2 + 1;
-    } while (pbVar7 != (unsigned char *)(param_1 + 0x18));
-    return (int)((unsigned __int64)bVar1 - (unsigned __int64)bVar2) == 0;
-  }
-  pbVar7 = *(unsigned char **)(param_1 + 0x14);
-  if (((pbVar7 != (unsigned char *)0x0) && (pbVar6 = *(unsigned char **)(param_2 + 0xc), pbVar6 != (unsigned char *)0x0)) &&
-     (iVar3 = *(int *)(param_2 + 8), *(int *)(param_1 + 0x10) == iVar3)) {
-    lVar4 = 0;
-    if (iVar3 != 0) {
-      pbVar5 = pbVar7 + iVar3;
-      do {
-        lVar4 = (unsigned __int64)*pbVar7 - (unsigned __int64)*pbVar6;
-        if (lVar4 != 0) break;
-        pbVar7 = pbVar7 + 1;
-        pbVar6 = pbVar6 + 1;
-      } while (pbVar7 != pbVar5);
+    if (entry->kind == 4) {
+        return entry->key.data != 0 && key->data != 0 && entry->key.length == key->length &&
+               __ascii_stricmp(entry->key.data, key->data) == 0;
     }
-    if ((int)lVar4 == 0) {
-      return true;
+    if (entry->kind == 6) {
+        return entry->key.data != 0 && key->data != 0 && entry->key.length == key->length &&
+               memcmp(entry->key.data, key->data, key->length) == 0;
     }
-  }
-  return false;
+    return memcmp(&entry->key, key, 16) == 0;
 }
-

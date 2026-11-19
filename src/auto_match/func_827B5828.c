@@ -1,44 +1,38 @@
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_82002C5C;
+typedef struct Bitmap_827B5828 {
+    int pad[3];
+    int pitch;           /* 0x0c */
+    unsigned char *bits; /* 0x10 */
+} Bitmap_827B5828;
 
+typedef struct Image_827B5828 {
+    int pad[2];
+    Bitmap_827B5828 bitmap; /* 0x08 */
+} Image_827B5828;
 
-void fn_827B5828(double param_1,unsigned __int64 param_2,int param_3,int param_4,int param_5,
-                  __int64 param_6,unsigned int param_7,unsigned __int64 param_8,__int64 param_9)
-
+/* Scales the contrast of a rectangle of dst around the level mid. */
+void fn_827B5828(void *self, Image_827B5828 *dst, int x, int y, unsigned int width, unsigned int height,
+                 float contrast, int mid)
 {
-  unsigned char *puVar1;
-  unsigned __int64 uVar2;
-  unsigned int uVar3;
-  __int64 lVar4;
-  double dVar5;
-  
-  if (param_1 != (double)lbl_82002AE0) {
-    uVar3 = 0;
-    if (param_7 != 0) {
-      dVar5 = (double)lbl_82002C5C;
-      do {
-        if ((int)param_6 != 0) {
-          puVar1 = (unsigned char *)
-                   ((uVar3 + param_5) * *(int *)(param_3 + 0x14) + param_4 +
-                    *(int *)(param_3 + 0x18) + -1);
-          lVar4 = param_6;
-          do {
-            uVar2 = (unsigned __int64)
-                    (unsigned int)(int)((double)(__int64)(int)((unsigned int)(unsigned char)puVar1[1] - (int)param_9) *
-                                param_1 + dVar5) + param_9;
-            uVar2 = ((uVar2 & 0xffffffff) >> 0x1f) - 1 & uVar2;
-            if (0xff < (int)uVar2) {
-              uVar2 = 0xff;
-            }
-            puVar1 = puVar1 + 1;
-            *puVar1 = (char)uVar2;
-            lVar4 = lVar4 + -1;
-          } while (lVar4 != 0);
-        }
-        uVar3 = uVar3 + 1;
-      } while (uVar3 < param_7);
-    }
-  }
-  return;
-}
+    unsigned int row;
+    unsigned int column;
 
+    if (contrast == 1.0f) {
+        return;
+    }
+    for (row = 0; row < height; row++) {
+        Bitmap_827B5828 *dstBitmap = &dst->bitmap;
+        unsigned char *dstPixel = (row + y) * dstBitmap->pitch + x + dstBitmap->bits;
+
+        for (column = 0; column < width; column++) {
+            int value = (int)((float)(*dstPixel - mid) * contrast + 0.5f) + mid;
+
+            if (value < 0) {
+                value = 0;
+            }
+            if (value > 0xff) {
+                value = 0xff;
+            }
+            *dstPixel++ = (unsigned char)value;
+        }
+    }
+}

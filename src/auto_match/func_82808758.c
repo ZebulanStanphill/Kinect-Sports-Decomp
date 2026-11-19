@@ -1,56 +1,38 @@
-extern unsigned int fStack_34;
-extern unsigned int fStack_38;
-extern unsigned int fStack_3c;
-extern unsigned int fStack_40;
-extern unsigned int fStack_44;
-extern unsigned int fStack_48;
-extern unsigned int fStack_4c;
-extern unsigned int fStack_50;
-extern int fn_82809558();
-extern int fn_8280DD78();
-extern int fn_8280E418();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_821AAD20;
+typedef struct Quat_82808758 {
+    float x; /* 0x00 */
+    float y; /* 0x04 */
+    float z; /* 0x08 */
+    float w; /* 0x0c */
+} Quat_82808758;
 
+extern float fn_82809558(float x);
+extern void fn_8280DD78(const Quat_82808758 *from, const Quat_82808758 *to, Quat_82808758 *out, float t);
+extern void fn_8280E418(const Quat_82808758 *in, Quat_82808758 *out);
 
-void fn_82808758(unsigned __int64 param_1,float *param_2,float *param_3)
-
+void fn_82808758(Quat_82808758 *from, const Quat_82808758 *to, float t)
 {
-  double dVar1;
-  double dVar2;
-  double dVar3;
-  float fStack_50;
-  float fStack_4c;
-  float fStack_48;
-  float fStack_44;
-  float fStack_40;
-  float fStack_3c;
-  float fStack_38;
-  float fStack_34;
-  
-  fStack_3c = param_2[1];
-  fStack_38 = param_2[2];
-  fStack_40 = *param_2;
-  dVar2 = (double)lbl_82002AE0;
-  dVar3 = (double)lbl_821AAD20;
-  if (dVar3 < (double)(float)(dVar2 - (double)(fStack_40 * fStack_40 +
-                                              fStack_38 * fStack_38 + fStack_3c * fStack_3c))) {
-    dVar1 = (double)fn_82809558();
-    fStack_34 = (float)dVar1;
-  }
-  else {
-    fStack_34 = lbl_821AAD20;
-  }
-  fStack_4c = param_3[1];
-  fStack_48 = param_3[2];
-  fStack_50 = *param_3;
-  if (dVar3 < (double)(float)(dVar2 - (double)(fStack_50 * fStack_50 +
-                                              fStack_48 * fStack_48 + fStack_4c * fStack_4c))) {
-    dVar3 = (double)fn_82809558();
-  }
-  fStack_44 = (float)dVar3;
-  fn_8280DD78(param_1,&fStack_40,&fStack_50,param_2);
-  fn_8280E418(param_2,param_2);
-  return;
-}
+    Quat_82808758 start;
+    Quat_82808758 end;
+    float ww;
 
+    start.x = from->x;
+    start.y = from->y;
+    start.z = from->z;
+    ww = 1.0f - (from->x * from->x + from->y * from->y + from->z * from->z);
+    if (ww <= 0.0f) {
+        start.w = 0.0f;
+    } else {
+        start.w = fn_82809558(ww);
+    }
+    end.x = to->x;
+    end.y = to->y;
+    end.z = to->z;
+    ww = 1.0f - (to->x * to->x + to->y * to->y + to->z * to->z);
+    if (ww <= 0.0f) {
+        end.w = 0.0f;
+    } else {
+        end.w = fn_82809558(ww);
+    }
+    fn_8280DD78(&start, &end, from, t);
+    fn_8280E418(from, from);
+}

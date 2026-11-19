@@ -1,78 +1,99 @@
-extern int fn_82681728();
-extern int fn_826826A8();
-extern int fn_826944C8();
-extern int fn_82695520();
-extern int fn_826AF618();
-extern int fn_82720748();
-extern unsigned int iStack_40;
+typedef struct Name_8271AF68 {
+    int a;
+    int b;
+    int refcount; /* 0x08 */
+} Name_8271AF68;
 
+typedef struct Elem_8271AF68 {
+    unsigned char type;  /* 0x00 */
+    Name_8271AF68 *name; /* 0x04 */
+    int number;          /* 0x08 */
+    int w;
+} Elem_8271AF68;
 
-void fn_8271AF68(unsigned __int64 param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  unsigned int param_5)
+typedef struct Stack_8271AF68 {
+    Elem_8271AF68 *cur;  /* 0x00 */
+    Elem_8271AF68 *base; /* 0x04 */
+    Elem_8271AF68 *end;  /* 0x08 */
+    int pad[2];          /* 0x0c */
+    int count;           /* 0x14 */
+} Stack_8271AF68;
 
+typedef struct Ctx_8271AF68 {
+    char pad[0x254];
+    char names[0x50]; /* 0x254 */
+} Ctx_8271AF68;
+
+typedef struct Obj_8271AF68 {
+    char pad0[8];
+    Stack_8271AF68 stack; /* 0x08 */
+    char pad1[0x58];
+    Ctx_8271AF68 *ctx; /* 0x78 */
+} Obj_8271AF68;
+
+extern void fn_82681728(Name_8271AF68 **out, void *table, const char *name);
+extern void fn_826826A8(Stack_8271AF68 *s);
+extern void fn_826944C8(Name_8271AF68 *n);
+extern void fn_82695520(Elem_8271AF68 *dst, const Elem_8271AF68 *src);
+extern void fn_826AF618(Stack_8271AF68 *s);
+extern void fn_82720748(Obj_8271AF68 *o, void *target, Name_8271AF68 **name, int a, int b);
+
+void fn_8271AF68(char *clip, Obj_8271AF68 *self, const Elem_8271AF68 *value, const char *url, int code)
 {
-  unsigned char *puVar1;
-  int iVar2;
-  unsigned int uVar3;
-  unsigned int uVar5;
-  __int64 lVar4;
-  unsigned int *puVar6;
-  struct { int first; int second; } stack_pair_40;
+    Name_8271AF68 *event;
+    Name_8271AF68 *urlName;
+    Stack_8271AF68 *s;
+    Elem_8271AF68 *cur;
+    void *target;
+    int idx;
 
-  
-  uVar5 = *(int *)(param_2 + 8) + 0x10;
-  *(unsigned int *)(param_2 + 8) = uVar5;
-  puVar6 = (unsigned int *)(param_2 + 8);
-  if (*(unsigned int *)(param_2 + 0x10) <= uVar5) {
-    fn_826826A8(puVar6);
-  }
-  puVar1 = (unsigned char *)*puVar6;
-  if (puVar1 != (unsigned char *)0x0) {
-    *(unsigned int *)(puVar1 + 8) = param_5;
-    *puVar1 = 4;
-  }
-  fn_82681728(&stack_pair_40.second,(unsigned __int64)*(unsigned int *)(param_2 + 0x78) + 0x254,param_4);
-  uVar5 = *puVar6;
-  *puVar6 = uVar5 + 0x10;
-  if (*(unsigned int *)(param_2 + 0x10) <= uVar5 + 0x10) {
-    fn_826826A8(puVar6);
-  }
-  puVar1 = (unsigned char *)*puVar6;
-  if (puVar1 != (unsigned char *)0x0) {
-    *(int *)(puVar1 + 4) = stack_pair_40.second;
-    *puVar1 = 5;
-    *(int *)(stack_pair_40.second + 8) = *(int *)(stack_pair_40.second + 8) + 1;
-  }
-  lVar4 = (unsigned __int64)*(unsigned int *)(stack_pair_40.second + 8) - 1;
-  *(int *)(stack_pair_40.second + 8) = (int)lVar4;
-  if (lVar4 == 0) {
-    fn_826944C8();
-  }
-  uVar5 = *puVar6;
-  *puVar6 = uVar5 + 0x10;
-  if (*(unsigned int *)(param_2 + 0x10) <= uVar5 + 0x10) {
-    fn_826826A8(puVar6);
-  }
-  if (*puVar6 != 0) {
-    fn_82695520(*puVar6,param_3);
-  }
-  lVar4 = param_1 + 0x10;
-  if ((param_1 & 0xffffffff) == 0) {
-    lVar4 = 0;
-  }
-  iVar2 = *(int *)(param_2 + 0xc);
-  uVar5 = *puVar6;
-  uVar3 = *(unsigned int *)(param_2 + 0x1c);
-  fn_82681728(&stack_pair_40.first,(unsigned __int64)*(unsigned int *)(param_2 + 0x78) + 0x254,0xffffffff8200eb60);
-  fn_82720748(param_2,lVar4,&stack_pair_40.first,3,
-                    (__int64)((int)(uVar5 - iVar2) >> 4) + ((unsigned __int64)uVar3 & 0x7ffffff) * 0x20 +
-                    -0x20);
-  lVar4 = (unsigned __int64)*(unsigned int *)(stack_pair_40.first + 8) - 1;
-  *(int *)(stack_pair_40.first + 8) = (int)lVar4;
-  if (lVar4 == 0) {
-    fn_826944C8(stack_pair_40.first);
-  }
-  fn_826AF618(puVar6);
-  return;
+    s = &self->stack;
+    cur = s->cur + 1;
+    s->cur = cur;
+    if (cur >= s->end) {
+        fn_826826A8(s);
+    }
+    cur = s->cur;
+    if (cur != 0) {
+        cur->number = code;
+        cur->type = 4;
+    }
+    fn_82681728(&urlName, self->ctx->names, url);
+    cur = s->cur + 1;
+    s->cur = cur;
+    if (cur >= s->end) {
+        fn_826826A8(s);
+    }
+    cur = s->cur;
+    {
+        Name_8271AF68 *n = urlName;
+        if (cur != 0) {
+            cur->name = n;
+            cur->type = 5;
+            n->refcount++;
+        }
+        if (--n->refcount == 0) {
+            fn_826944C8(n);
+        }
+    }
+    cur = s->cur + 1;
+    s->cur = cur;
+    if (cur >= s->end) {
+        fn_826826A8(s);
+    }
+    cur = s->cur;
+    if (cur != 0) {
+        fn_82695520(cur, value);
+    }
+    target = clip ? clip + 0x10 : 0;
+    idx = (int)(s->cur - s->base) + s->count * 32 - 32;
+    fn_82681728(&event, self->ctx->names, "onLoadError");
+    fn_82720748(self, target, &event, 3, idx);
+    {
+        Name_8271AF68 *n = event;
+        if (--n->refcount == 0) {
+            fn_826944C8(n);
+        }
+    }
+    fn_826AF618(s);
 }
-

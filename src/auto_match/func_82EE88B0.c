@@ -1,80 +1,94 @@
-typedef unsigned char bool;
-extern int fn_82A1E650();
-extern int fn_82E4FE40();
-extern int fn_82E50BE8();
-extern int fn_82E50CB8();
-extern int fn_82E50F10();
-extern int fn_82E665B0();
-extern int fn_82EE8160();
-extern int fn_82EE8230();
-extern int fn_82EE82A0();
-extern int fn_82EE8420();
-extern unsigned __int64 storeWordConditionalIndexed();
+long _InterlockedIncrement(long volatile *addend);
 
+typedef struct Link_82EE88B0 {
+    struct Link_82EE88B0 *next; /* 0x00 */
+    struct Link_82EE88B0 *prev; /* 0x04 */
+} Link_82EE88B0;
 
-__int64 fn_82EE88B0(__int64 param_1)
+typedef struct List_82EE88B0 {
+    int count;          /* 0x00 */
+    Link_82EE88B0 head; /* 0x04 */
+} List_82EE88B0;
 
+typedef struct Entry_82EE88B0 Entry_82EE88B0;
+
+typedef struct EntryVtbl_82EE88B0 {
+    void (*Destroy)(Entry_82EE88B0 *self, int flags); /* 0x00 */
+} EntryVtbl_82EE88B0;
+
+struct Entry_82EE88B0 {
+    EntryVtbl_82EE88B0 *vt; /* 0x00 */
+    Link_82EE88B0 link;     /* 0x04 */
+    char pad0c[0x4];
+    void *stream; /* 0x10 */
+};
+
+typedef struct Device_82EE88B0 {
+    char pad00[0x44];
+    void *event; /* 0x44 */
+} Device_82EE88B0;
+
+typedef struct Player_82EE88B0 {
+    char pad00[0x50];
+    List_82EE88B0 entries; /* 0x50 */
+    char lock[0x3c];       /* 0x5c */
+    long pending;          /* 0x98 */
+    char pad9c[0x4];
+    Device_82EE88B0 *device; /* 0xa0 */
+    int looping;             /* 0xa4 */
+    char pada8[0x4];
+    unsigned int format; /* 0xac */
+    int autoStart;       /* 0xb0 */
+} Player_82EE88B0;
+
+extern void fn_82E50CB8(void *lock);
+extern void fn_82E50F10(void *lock);
+extern void *fn_82E50BE8(unsigned int size, int a, int b, int c, int d);
+extern void fn_82E4FE40(void *memory);
+extern Entry_82EE88B0 *fn_82EE8160(void *memory, Player_82EE88B0 *player);
+extern long fn_82EE8230(Entry_82EE88B0 *entry, Device_82EE88B0 *device);
+extern long fn_82E665B0(void *stream, unsigned int format);
+extern void fn_82EE82A0(Entry_82EE88B0 *entry, int looping);
+extern unsigned int fn_82A1E650(void *event, unsigned int timeout);
+extern long fn_82EE8420(Entry_82EE88B0 *entry, int start, int flags);
+
+long fn_82EE88B0(Player_82EE88B0 *self)
 {
-  unsigned int *puVar1;
-  unsigned int uVar2;
-  int iVar3;
-  unsigned __int64 uVar4;
-  unsigned int *puVar5;
-  int iVar6;
-  unsigned int *puVar7;
-  __int64 lVar8;
-  char in_RESERVE;
-  unsigned char bVar9;
-  
-  fn_82E50CB8(param_1 + 0x5c);
-  uVar4 = fn_82E50BE8(0x6c,0,0,0,0);
-  if ((uVar4 & 0xffffffff) == 0) {
-    lVar8 = -0x7ff8fff2;
-  }
-  else {
-    puVar5 = (unsigned int *)fn_82EE8160(uVar4,param_1);
-    iVar3 = (int)param_1;
-    lVar8 = fn_82EE8230(puVar5,*(unsigned int *)(iVar3 + 0xa0));
-    if (lVar8 < 0) {
-      (**(int (***)())*puVar5)(puVar5,0);
-      fn_82E4FE40(puVar5);
-    }
-    else {
-      if (*(int *)(iVar3 + 0xac) != 0) {
-        lVar8 = fn_82E665B0(puVar5[4]);
-        if (lVar8 < 0) goto LAB_82ee89f8;
-      }
-      bVar9 = (lVar8 == 0) << 1;
-      if (*(int *)(iVar3 + 0xa4) != 0) {
-        fn_82EE82A0(puVar5);
-      }
-      puVar1 = *(unsigned int **)(iVar3 + 0x58);
-      puVar5[1] = iVar3 + 0x54;
-      puVar5[2] = puVar1;
-      *puVar1 = puVar5 + 1;
-      *(unsigned int **)(iVar3 + 0x58) = puVar5 + 1;
-      *(int *)(iVar3 + 0x50) = *(int *)(iVar3 + 0x50) + 1;
-      do {
-        puVar7 = (unsigned int *)(param_1 + 0x98);
-        if (in_RESERVE != '\0') {
-          uVar2 = storeWordConditionalIndexed((unsigned __int64)*puVar7 + 1,0,param_1 + 0x98);
-          *puVar7 = uVar2;
-          bVar9 = 2;
-        }
-      } while (!(bool)(bVar9 >> 1 & 1));
-      iVar6 = fn_82A1E650(*(unsigned int *)(*(int *)(iVar3 + 0xa0) + 0x44),0xffffffffffffffff);
-      if (iVar6 == 0) {
-        if (*(int *)(iVar3 + 0xb0) == 1) {
-          lVar8 = fn_82EE8420(puVar5,1,0);
-        }
-      }
-      else {
-        lVar8 = -0x7fffbffb;
-      }
-    }
-  }
-LAB_82ee89f8:
-  fn_82E50F10(param_1 + 0x5c);
-  return lVar8;
-}
+    long hr;
+    void *memory;
+    Entry_82EE88B0 *entry;
+    List_82EE88B0 *list;
+    Link_82EE88B0 *tail;
 
+    fn_82E50CB8(self->lock);
+    memory = fn_82E50BE8(0x6c, 0, 0, 0, 0);
+    if (memory == 0) {
+        hr = 0x8007000e;
+    } else {
+        entry = fn_82EE8160(memory, self);
+        hr = fn_82EE8230(entry, self->device);
+        if (hr < 0) {
+            entry->vt->Destroy(entry, 0);
+            fn_82E4FE40(entry);
+        } else if (self->format == 0 || (hr = fn_82E665B0(entry->stream, self->format)) >= 0) {
+            if (self->looping != 0) {
+                fn_82EE82A0(entry, self->looping);
+            }
+            list = &self->entries;
+            tail = list->head.prev;
+            entry->link.next = &list->head;
+            entry->link.prev = tail;
+            tail->next = &entry->link;
+            self->entries.head.prev = &entry->link;
+            list->count++;
+            _InterlockedIncrement(&self->pending);
+            if (fn_82A1E650(self->device->event, 0xffffffff) != 0) {
+                hr = 0x80004005;
+            } else if (self->autoStart == 1) {
+                hr = fn_82EE8420(entry, 1, 0);
+            }
+        }
+    }
+    fn_82E50F10(self->lock);
+    return hr;
+}

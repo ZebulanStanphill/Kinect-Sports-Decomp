@@ -1,32 +1,63 @@
-extern int fn_82564658();
-extern unsigned int lbl_82193AF0;
-extern unsigned int lbl_821954EC;
-extern unsigned int lbl_82195994;
+typedef struct Range_8234DA48 {
+    float start;  /* 0x00 */
+    float end;    /* 0x04 */
+    float scale;  /* 0x08 */
+    float offset; /* 0x0c */
+    float value;  /* 0x10 */
+    float weight; /* 0x14 */
+} Range_8234DA48;
 
+typedef struct Source_8234DA48 Source_8234DA48;
 
-void fn_8234DA48(int param_1,float *param_2,unsigned __int64 param_3)
+struct Source_8234DA48 {
+    struct {
+        char pad0[0x14];
+        int (*getId)(Source_8234DA48 *self, int key); /* 0x14 */
+    } *vt;
+};
 
+typedef struct Owner_8234DA48 {
+    char pad0[0x1b4];
+    Source_8234DA48 *source; /* 0x1b4 */
+} Owner_8234DA48;
+
+typedef struct World_8234DA48 {
+    char pad0[0x8c0];
+    Owner_8234DA48 *owner; /* 0x8c0 */
+} World_8234DA48;
+
+typedef struct Self_8234DA48 {
+    char pad0[0x48];
+    World_8234DA48 *world; /* 0x48 */
+} Self_8234DA48;
+
+extern const double lbl_821954B0[0x145];
+extern const float lbl_82193AD8[0x52];
+extern void fn_82564658(Self_8234DA48 *self, int id, float start, float end, float weight0, float scale,
+                        float weight1, float offset, float weight2, float value);
+
+void fn_8234DA48(Self_8234DA48 *self, Range_8234DA48 *input, int key)
 {
-  int iVar1;
-  int *piVar2;
-  unsigned __int64 uVar3;
-  double dVar4;
-  
-  if ((((lbl_82195994 <= param_2[2]) && (param_2[2] <= lbl_82193AF0)) &&
-      (lbl_82195994 <= param_2[1] - *param_2)) && (param_2[1] - *param_2 <= lbl_82193AF0)) {
-    return;
-  }
-  iVar1 = *(int *)(*(int *)(param_1 + 0x48) + 0x8c0);
-  if ((iVar1 == 0) || (piVar2 = *(int **)(iVar1 + 0x1b4), piVar2 == (int *)0x0)) {
-    uVar3 = 0xffffffffffffffff;
-  }
-  else {
-    uVar3 = (**(int (***)())(*piVar2 + 0x14))(piVar2,param_3);
-  }
-  dVar4 = (double)(param_2[5] * lbl_821954EC);
-  fn_82564658((double)(*param_2 * lbl_821954EC),(double)(param_2[1] * lbl_821954EC),dVar4,
-                    (double)(param_2[2] * lbl_821954EC),dVar4,(double)(param_2[3] * lbl_821954EC),
-                    dVar4,(double)param_2[4],param_1,uVar3);
-  return;
-}
+    Range_8234DA48 *range = input;
+    Owner_8234DA48 *owner;
+    Source_8234DA48 *source;
+    int id;
+    float factor;
+    float weight;
 
+    if (range->scale >= ((const float *)lbl_821954B0)[0x139] && range->scale <= lbl_82193AD8[6] &&
+        range->end - range->start >= ((const float *)lbl_821954B0)[0x139] &&
+        range->end - range->start <= lbl_82193AD8[6]) {
+        return;
+    }
+    owner = self->world->owner;
+    if (owner != 0 && (source = owner->source) != 0) {
+        id = source->vt->getId(source, key);
+    } else {
+        id = -1;
+    }
+    factor = ((const float *)lbl_821954B0)[0xf];
+    weight = range->weight * factor;
+    fn_82564658(self, id, range->start * factor, range->end * factor, weight, range->scale * factor, weight,
+                range->offset * factor, weight, range->value);
+}

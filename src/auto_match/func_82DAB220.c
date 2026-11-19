@@ -1,71 +1,90 @@
-extern unsigned int fStack_40;
-extern int fn_82DAD288();
-extern int fn_82DAEFD0();
-extern unsigned int iStack_44;
-extern unsigned int iStack_50;
-extern unsigned int iStack_58;
-extern unsigned int uStack_48;
-extern unsigned int uStack_54;
-extern unsigned int uStack_5c;
-extern unsigned int uStack_60;
-extern unsigned int uStack_68;
-extern unsigned int uStack_6c;
-extern unsigned int uStack_70;
+typedef struct Body_82DAB220 {
+    char pad0[0x204];
+    unsigned short count; /* 0x204 */
+} Body_82DAB220;
 
+typedef struct Output_82DAB220 {
+    char pad0[0xc];
+    unsigned char hit;   /* 0x0c */
+    unsigned char m0d;   /* 0x0d */
+    unsigned char m0e;   /* 0x0e */
+    unsigned char valid; /* 0x0f */
+} Output_82DAB220;
 
-int fn_82DAB220(double param_1,int *param_2,unsigned int param_3,unsigned int param_4,
-                 unsigned int param_5,int param_6,unsigned __int64 param_7,unsigned int param_8,
-                 unsigned int param_9)
+typedef struct Input_82DAB220 {
+    int pad0;
+    int key; /* 0x04 */
+} Input_82DAB220;
 
+typedef struct Caster_82DAB220 Caster_82DAB220;
+
+struct Caster_82DAB220 {
+    struct {
+        char pad0[0x20];
+        void (*onHit)(Caster_82DAB220 *self, int key, Output_82DAB220 *out); /* 0x20 */
+    } *vt;
+
+    char pad4[8];
+    void *world;          /* 0x0c */
+    Body_82DAB220 *bodyA; /* 0x10 */
+    Body_82DAB220 *bodyB; /* 0x14 */
+};
+
+typedef struct Query_82DAB220 {
+    int from;  /* 0x00 */
+    int to;    /* 0x04 */
+    int flags; /* 0x08 */
+    int pad0c;
+    int filterA;             /* 0x10 */
+    int filterB;             /* 0x14 */
+    Output_82DAB220 *out;    /* 0x18 */
+    float fraction;          /* 0x1c */
+    int result;              /* 0x20 */
+    Caster_82DAB220 *caster; /* 0x24 */
+    int collector;           /* 0x28 */
+    Input_82DAB220 *input;   /* 0x2c */
+    float tolerance;         /* 0x30 */
+} Query_82DAB220;
+
+extern void fn_82DAEFD0(void *world, Query_82DAB220 *query);
+extern void fn_82DAD288(Body_82DAB220 *body, Query_82DAB220 *query);
+
+int fn_82DAB220(Caster_82DAB220 *caster, int from, int to, int collector, Input_82DAB220 *input,
+                float tolerance, int filterA, int filterB, float *fraction, Output_82DAB220 *out)
 {
-  int iVar1;
-  int iVar2;
-  unsigned int *in_stack_00000054;
-  int in_stack_0000005c;
-  struct { unsigned int first; unsigned int second; } stack_pair_70;
+    Query_82DAB220 query;
+    Body_82DAB220 *bodyB;
+    Body_82DAB220 *bodyA;
 
-  unsigned int uStack_68;
-  unsigned int uStack_60;
-  unsigned int uStack_5c;
-  int iStack_58;
-  unsigned int uStack_54;
-  int iStack_50;
-  int *piStack_4c;
-  unsigned int uStack_48;
-  int iStack_44;
-  float fStack_40;
-  
-  fStack_40 = (float)param_1;
-  uStack_68 = 0;
-  *(unsigned char *)(in_stack_0000005c + 0xc) = 0;
-  *(unsigned char *)(in_stack_0000005c + 0xe) = 0;
-  *(unsigned char *)(in_stack_0000005c + 0xd) = 0;
-  *(unsigned char *)(in_stack_0000005c + 0xf) = 1;
-  uStack_54 = *in_stack_00000054;
-  iStack_58 = in_stack_0000005c;
-  iStack_50 = 0;
-  iVar1 = param_2[5];
-  iVar2 = param_2[4];
-  stack_pair_70.first = param_3;
-  stack_pair_70.second = param_4;
-  uStack_60 = param_8;
-  uStack_5c = param_9;
-  piStack_4c = param_2;
-  uStack_48 = param_5;
-  iStack_44 = param_6;
-  fn_82DAEFD0(param_2[3],&stack_pair_70.first);
-  if (*(short *)(iVar2 + 0x204) != 0) {
-    fn_82DAD288(iVar2,&stack_pair_70.first);
-  }
-  if (*(short *)(iVar1 + 0x204) != 0) {
-    fn_82DAD288(iVar1,&stack_pair_70.first);
-  }
-  if (iStack_50 == 1) {
-    (**(int (***)())(*param_2 + 0x20))(param_2,*(unsigned int *)(param_6 + 4),in_stack_0000005c);
-  }
-  else {
-    *in_stack_00000054 = uStack_54;
-  }
-  return iStack_50;
+    out->hit = 0;
+    out->m0e = 0;
+    out->m0d = 0;
+    out->valid = 1;
+    query.from = from;
+    query.to = to;
+    query.flags = 0;
+    query.filterA = filterA;
+    query.filterB = filterB;
+    query.out = out;
+    query.fraction = *fraction;
+    query.caster = caster;
+    query.collector = collector;
+    query.input = input;
+    query.result = 0;
+    query.tolerance = tolerance;
+    bodyB = caster->bodyB;
+    bodyA = caster->bodyA;
+    fn_82DAEFD0(caster->world, &query);
+    if (bodyA->count != 0) {
+        fn_82DAD288(bodyA, &query);
+    }
+    if (bodyB->count != 0) {
+        fn_82DAD288(bodyB, &query);
+    }
+    if (query.result == 1) {
+        caster->vt->onHit(caster, input->key, out);
+    } else {
+        *fraction = query.fraction;
+    }
+    return query.result;
 }
-

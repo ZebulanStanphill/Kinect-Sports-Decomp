@@ -1,133 +1,116 @@
-extern unsigned int *auStack_110;
-extern unsigned int *auStack_120;
-extern unsigned int *auStack_130;
-extern unsigned int *auStack_d0;
-extern unsigned int fStack_100;
-extern unsigned int fStack_b4;
-extern unsigned int fStack_b8;
-extern int fn_82250A18();
-extern int fn_822ABA88();
-extern int fn_8238EE00();
-extern int fn_8288B760();
-extern int fn_82F6DA24();
-extern int fn_82F6DCBC();
-extern unsigned int lbl_832975B0;
-extern unsigned int uStack_b0;
-extern unsigned int uStack_bc;
-extern unsigned int uStack_c0;
-extern unsigned int uStack_e0;
-extern unsigned int uStack_e4;
-extern unsigned int uStack_e8;
-extern unsigned int uStack_ec;
-extern unsigned int uStack_f0;
-extern unsigned int uStack_fc;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Config_82377620 {
+    char pad[4];
+    unsigned char enabled; /* 0x04 */
+} Config_82377620;
 
-void fn_82377620(unsigned __int64 param_1,double param_2,double param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5,unsigned int param_6,unsigned __int64 param_7,unsigned __int64 param_8,
-                  unsigned int param_9,unsigned int param_10,unsigned int param_11)
+typedef struct Link_82377620 {
+    char pad[0x88];
+    void *target; /* 0x88 */
+} Link_82377620;
 
+typedef struct Entry_82377620 {
+    void **items; /* 0x00 */
+    char pad[0xc];
+    unsigned int current; /* 0x10 */
+} Entry_82377620;
+
+typedef struct Table_82377620 {
+    Entry_82377620 **entries; /* 0x00 */
+} Table_82377620;
+
+typedef struct Self_82377620 {
+    char pad00[0x8];
+    Table_82377620 *table; /* 0x08 */
+    char pad0c[0x78];
+    Link_82377620 *link; /* 0x84 */
+} Self_82377620;
+
+typedef struct Value_82377620 {
+    char pad[0x168];
+    void *dynamic; /* 0x168 */
+    int enabled;   /* 0x16c */
+} Value_82377620;
+
+typedef struct Params_82377620 {
+    __vector4 a; /* 0x00 */
+    __vector4 b; /* 0x10 */
+    __vector4 c; /* 0x20 */
+    float t;     /* 0x30 */
+    int value;   /* 0x34 */
+    char pad38[0x8];
+    int index; /* 0x40 */
+    int key;   /* 0x44 */
+    int arg5;  /* 0x48 */
+    int arg6;  /* 0x4c */
+    int arg7;  /* 0x50 */
+    char pad54[0xc];
+    __vector4 d;        /* 0x60 */
+    int arg8;           /* 0x70 */
+    int arg9;           /* 0x74 */
+    float u;            /* 0x78 */
+    float v;            /* 0x7c */
+    unsigned char flag; /* 0x80 */
+} Params_82377620;
+
+extern Config_82377620 *lbl_832975B0;
+extern Config_82377620 *fn_82250A18(void);
+extern Value_82377620 *fn_822ABA88(void *obj, int key);
+extern unsigned char fn_8288B760(void *obj);
+extern void fn_8238EE00(void *target, Params_82377620 *params);
+
+static __forceinline void Notify_82377620(Link_82377620 *link, Params_82377620 *params)
 {
-  int *piVar1;
-  unsigned int *puVar2;
-  int in_r0;
-  int iVar3;
-  int iVar4;
-  unsigned int uVar5;
-  double extraout_f1;
-  double dVar6;
-  unsigned int in_register_00010010;
-  unsigned int in_register_00010014;
-  unsigned int in_register_00010018;
-  unsigned int in_vr1;
-  unsigned int in_register_00010020;
-  unsigned int in_register_00010024;
-  unsigned int in_register_00010028;
-  unsigned int in_vr2;
-  unsigned int in_register_00010030;
-  unsigned int in_register_00010034;
-  unsigned int in_register_00010038;
-  unsigned int in_vr3;
-  unsigned int in_register_00010040;
-  unsigned int in_register_00010044;
-  unsigned int in_register_00010048;
-  unsigned int in_vr4;
-  unsigned int in_stack_000000a4;
-  unsigned int in_stack_000000ac;
-  unsigned char in_stack_000000c7;
-  unsigned char auStack_130 [16];
-  unsigned char auStack_120 [16];
-  unsigned char auStack_110 [16];
-  float fStack_100;
-  unsigned int uStack_fc;
-  unsigned int uStack_f0;
-  unsigned int uStack_ec;
-  unsigned int uStack_e8;
-  unsigned int uStack_e4;
-  unsigned int uStack_e0;
-  unsigned char auStack_d0 [16];
-  unsigned int uStack_c0;
-  unsigned int uStack_bc;
-  float fStack_b8;
-  float fStack_b4;
-  unsigned char uStack_b0;
-  
-  iVar3 = fn_82F6DA24();
-  dVar6 = extraout_f1;
-  iVar4 = lbl_832975B0;
-  if (lbl_832975B0 == 0) {
-    iVar4 = fn_82250A18();
-  }
-  if ((*(char *)(iVar4 + 4) != '\0') && (iVar4 = *(int *)(iVar3 + 0x84), iVar4 != 0)) {
-    piVar1 = *(int **)(**(int **)(iVar3 + 8) + (int)((param_7 & 0xffffffff) << 2));
-    iVar3 = fn_822ABA88(*(unsigned int *)(piVar1[4] * 4 + *piVar1),param_8);
-    if (*(int *)(iVar3 + 0x168) == 0) {
-      uVar5 = *(unsigned int *)(iVar3 + 0x16c);
-    }
-    else {
-      uVar5 = fn_8288B760();
-      uVar5 = uVar5 & 0xff;
-    }
-    if (uVar5 != 0) {
-      puVar2 = (unsigned int *)((unsigned int)(auStack_130 + in_r0) & 0xfffffff0);
-      *puVar2 = in_register_00010010;
-      puVar2[1] = in_register_00010014;
-      puVar2[2] = in_register_00010018;
-      puVar2[3] = in_vr1;
-      puVar2 = (unsigned int *)((unsigned int)(auStack_120 + in_r0) & 0xfffffff0);
-      *puVar2 = in_register_00010020;
-      puVar2[1] = in_register_00010024;
-      puVar2[2] = in_register_00010028;
-      puVar2[3] = in_vr2;
-      fStack_100 = (float)dVar6;
-      puVar2 = (unsigned int *)((unsigned int)(auStack_110 + in_r0) & 0xfffffff0);
-      *puVar2 = in_register_00010030;
-      puVar2[1] = in_register_00010034;
-      puVar2[2] = in_register_00010038;
-      puVar2[3] = in_vr3;
-      uStack_f0 = (unsigned int)param_7;
-      puVar2 = (unsigned int *)((unsigned int)(auStack_d0 + in_r0) & 0xfffffff0);
-      *puVar2 = in_register_00010040;
-      puVar2[1] = in_register_00010044;
-      puVar2[2] = in_register_00010048;
-      puVar2[3] = in_vr4;
-      fStack_b8 = (float)param_2;
-      uStack_ec = (unsigned int)param_8;
-      fStack_b4 = (float)param_3;
-      uStack_c0 = in_stack_000000a4;
-      uStack_bc = in_stack_000000ac;
-      uStack_b0 = in_stack_000000c7;
-      iVar4 = *(int *)(iVar4 + 0x88);
-      uStack_fc = param_6;
-      uStack_e8 = param_9;
-      uStack_e4 = param_10;
-      uStack_e0 = param_11;
-      if (iVar4 != 0) {
-        fn_8238EE00(iVar4,auStack_130);
-      }
-    }
-  }
-  fn_82F6DCBC();
-  return;
+    if (link->target)
+        fn_8238EE00(link->target, params);
 }
 
+static __forceinline Config_82377620 *GetConfig_82377620(void)
+{
+    if (lbl_832975B0)
+        return lbl_832975B0;
+    return fn_82250A18();
+}
+
+void fn_82377620(Self_82377620 *self, __vector4 a, __vector4 b, __vector4 c, float t, int value, int index,
+                 int key, int arg5, int arg6, int arg7, __vector4 d, int arg8, int arg9, float u, float v,
+                 unsigned char flag)
+{
+    if (GetConfig_82377620()->enabled) {
+        Link_82377620 *link = self->link;
+        if (link) {
+            Table_82377620 *table = self->table;
+            Entry_82377620 *entry = table->entries[index];
+            Value_82377620 *val = fn_822ABA88(entry->items[entry->current], key);
+            int enabled;
+            Params_82377620 params;
+
+            if (val->dynamic)
+                enabled = fn_8288B760(val->dynamic);
+            else
+                enabled = val->enabled;
+            if (enabled) {
+                params.a = a;
+                params.b = b;
+                params.c = c;
+                params.t = t;
+                params.value = value;
+                params.index = index;
+                params.key = key;
+                params.arg5 = arg5;
+                params.arg6 = arg6;
+                params.arg7 = arg7;
+                params.d = d;
+                params.arg8 = arg8;
+                params.arg9 = arg9;
+                params.u = u;
+                params.v = v;
+                params.flag = flag;
+                Notify_82377620(link, &params);
+            }
+        }
+    }
+}

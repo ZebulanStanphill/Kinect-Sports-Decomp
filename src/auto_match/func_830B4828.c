@@ -1,76 +1,86 @@
-extern int fn_830B4380();
+typedef struct String_830B4828 {
+    union {
+        char buffer[16];
+        char *pointer;
+    } text; /* 0x00 */
 
+    unsigned int size;     /* 0x10 */
+    unsigned int capacity; /* 0x14 */
+    char pad18[0x4];
+} String_830B4828;
 
-unsigned __int64 fn_830B4828(int *param_1,unsigned int *param_2,int *param_3)
+struct Enumerator_830B4828;
 
+typedef struct EnumeratorVtbl_830B4828 {
+    void *slot00[5];
+    long (*IsDone)(struct Enumerator_830B4828 *self, unsigned int *done);                    /* 0x14 */
+    long (*Read)(struct Enumerator_830B4828 *self, const char **text, unsigned int *length); /* 0x18 */
+} EnumeratorVtbl_830B4828;
+
+typedef struct Enumerator_830B4828 {
+    EnumeratorVtbl_830B4828 *vt; /* 0x00 */
+    unsigned int state;          /* 0x04 */
+    char pad08[0x90];
+    String_830B4828 first;  /* 0x98 */
+    String_830B4828 second; /* 0xb4 */
+    String_830B4828 third;  /* 0xd0 */
+} Enumerator_830B4828;
+
+extern long fn_830B4380(Enumerator_830B4828 *self);
+
+static __forceinline const char *CStr_830B4828(String_830B4828 *s)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  int iVar3;
-  int iVar4;
-  int *piVar5;
-  int aiStack_30;
-  
-  if ((param_2 == (unsigned int *)0x0) || (param_3 == (int *)0x0)) {
-    return 0xffffffff80004003;
-  }
-  *param_2 = 0;
-  uVar2 = 0;
-  *param_3 = 0;
-  uVar1 = param_1[1];
-  if (uVar1 == 0) {
-    uVar2 = fn_830B4380(param_1);
-    if ((int)uVar2 < 0) {
-      return uVar2;
-    }
-    piVar5 = param_1 + 0x26;
-    if (0xf < (unsigned int)param_1[0x2b]) {
-      piVar5 = (int *)*piVar5;
-    }
-    *param_2 = piVar5;
-    iVar4 = 1;
-    iVar3 = param_1[0x2a];
-  }
-  else if (uVar1 == 1) {
-    piVar5 = param_1 + 0x2d;
-    if (0xf < (unsigned int)param_1[0x32]) {
-      piVar5 = (int *)*piVar5;
-    }
-    *param_2 = piVar5;
-    iVar4 = 2;
-    iVar3 = param_1[0x31];
-  }
-  else {
-    if (uVar1 < 3) {
-      uVar2 = (**(int (***)())(*param_1 + 0x18))(param_1,param_2,param_3);
-      if ((int)uVar2 < 0) {
-        return uVar2;
-      }
-      aiStack_30 = 0;
-      uVar2 = (**(int (***)())(*param_1 + 0x14))(param_1,&aiStack_30);
-      if ((int)uVar2 < 0) {
-        return uVar2;
-      }
-      if (aiStack_30 != 0) {
-        return uVar2;
-      }
-      iVar4 = 3;
-      goto LAB_830b4960;
-    }
-    if (uVar1 != 3) {
-      return 0xffffffff80040001;
-    }
-    piVar5 = param_1 + 0x34;
-    if (0xf < (unsigned int)param_1[0x39]) {
-      piVar5 = (int *)*piVar5;
-    }
-    *param_2 = piVar5;
-    iVar4 = 4;
-    iVar3 = param_1[0x38];
-  }
-  *param_3 = iVar3;
-LAB_830b4960:
-  param_1[1] = iVar4;
-  return uVar2;
+    return s->capacity < 16 ? s->text.buffer : s->text.pointer;
 }
 
+long fn_830B4828(Enumerator_830B4828 *self, const char **text, unsigned int *length)
+{
+    long hr;
+    unsigned int done;
+
+    if (text == 0 || length == 0) {
+        return 0x80004003;
+    }
+    *text = 0;
+    hr = 0;
+    *length = 0;
+    switch (self->state) {
+    case 0:
+        hr = fn_830B4380(self);
+        if (hr < 0) {
+            return hr;
+        }
+        *text = CStr_830B4828(&self->first);
+        *length = self->first.size;
+        self->state = 1;
+        break;
+    case 1:
+        *text = CStr_830B4828(&self->second);
+        *length = self->second.size;
+        self->state = 2;
+        break;
+    case 2:
+        hr = self->vt->Read(self, text, length);
+        if (hr < 0) {
+            return hr;
+        }
+        done = 0;
+        hr = self->vt->IsDone(self, &done);
+        if (hr < 0) {
+            return hr;
+        }
+        if (done != 0) {
+            return hr;
+        }
+        self->state = 3;
+        break;
+    case 3:
+        *text = CStr_830B4828(&self->third);
+        *length = self->third.size;
+        self->state = 4;
+        break;
+    default:
+        return 0x80040001;
+    }
+    return hr;
+}

@@ -1,100 +1,123 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_82BE5240();
-extern int fn_82BE5340();
-extern int fn_82BE5398();
-extern int fn_82BEAC00();
-extern int fn_82BF4B98();
-extern int fn_82F65AC0();
+/* Hands every pending subscriber to the MAO of the same name: a dynamic MAO created from the
+ * first list, or an existing MAO of the second list. Matched subscribers leave the pending list.
+ * (A node without a subscriber is never stepped over: the original loops on it.) */
+typedef struct Mao_82BEACC8 Mao_82BEACC8;
 
+typedef struct Subscriber_82BEACC8 {
+    int f0;
+    const char *name; /* 0x4 */
+} Subscriber_82BEACC8;
 
-unsigned __int64 fn_82BEACC8(int param_1)
+typedef struct MaoVtbl_82BEACC8 {
+    void (*destroy)(Mao_82BEACC8 *self, int flags); /* 0x0 */
+    void *slots[5];
+    unsigned int (*addSubscriber)(Mao_82BEACC8 *self, Subscriber_82BEACC8 *subscriber); /* 0x18 */
+} MaoVtbl_82BEACC8;
 
+struct Mao_82BEACC8 {
+    MaoVtbl_82BEACC8 *vt; /* 0x0 */
+    char pad4[0x14 - 0x4];
+    const char *name; /* 0x14 */
+};
+
+typedef struct Node_82BEACC8 {
+    struct Node_82BEACC8 *next; /* 0x0 */
+    int f4;
+    void *data; /* 0x8 */
+} Node_82BEACC8;
+
+typedef struct List_82BEACC8 {
+    char pad0[0xc];
+} List_82BEACC8;
+
+typedef struct Zone_82BEACC8 {
+    char pad0[0x10];
+    int ok; /* 0x10 */
+    char pad14[0x28 - 0x14];
+    List_82BEACC8 pending; /* 0x28 */
+    char pad34[0x38 - 0x34];
+    const char *name;         /* 0x38 */
+    List_82BEACC8 *templates; /* 0x3c */
+    List_82BEACC8 *maos;      /* 0x40 */
+} Zone_82BEACC8;
+
+extern Node_82BEACC8 *fn_82BE5340(List_82BEACC8 *list);
+extern void fn_82BE5398(List_82BEACC8 *list, Node_82BEACC8 *node, int free);
+extern int fn_82BE5240(Zone_82BEACC8 *zone, int code, const char *format, ...);
+extern int fn_82BEAC00(Zone_82BEACC8 *zone, Mao_82BEACC8 *mao);
+extern Mao_82BEACC8 *fn_82BF4B98(Mao_82BEACC8 *source, Zone_82BEACC8 *zone);
+extern int stricmp(const char *a, const char *b);
+
+int fn_82BEACC8(Zone_82BEACC8 *zone)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  bool bVar3;
-  unsigned int *puVar5;
-  int *piVar6;
-  int iVar7;
-  int *piVar8;
-  int iVar9;
-  unsigned __int64 uVar4;
-  
-  if ((*(int *)(param_1 + 0x3c) == 0) || (*(int *)(param_1 + 0x40) == 0)) {
-    *(unsigned int *)(param_1 + 0x10) = 0;
-    uVar4 = fn_82BE5240(param_1,0x133,0xffffffff820ead94);
-  }
-  else {
-    puVar5 = (unsigned int *)fn_82BE5340(param_1 + 0x28);
-    while (puVar5 != (unsigned int *)0x0) {
-      iVar1 = puVar5[2];
-      bVar3 = false;
-      if (iVar1 != 0) {
-        piVar6 = (int *)fn_82BE5340(*(unsigned int *)(param_1 + 0x3c));
-        if (piVar6 == (int *)0x0) {
-LAB_82beada8:
-          piVar6 = (int *)fn_82BE5340(*(unsigned int *)(param_1 + 0x40));
-          if (piVar6 != (int *)0x0) {
-            do {
-              piVar8 = (int *)piVar6[2];
-              if ((piVar8 != (int *)0x0) &&
-                 (iVar9 = fn_82F65AC0(piVar8[5],*(unsigned int *)(iVar1 + 4)), iVar9 == 0)) {
-                bVar3 = true;
-                iVar9 = (**(int (***)())(*piVar8 + 0x18))(piVar8,iVar1);
-                if (iVar9 != 0) {
-                  uVar4 = 0xffffffff820eadb8;
-LAB_82beae5c:
-                  *(unsigned int *)(param_1 + 0x10) = 0;
-                  uVar4 = fn_82BE5240(param_1,0x133,uVar4,*(unsigned int *)(iVar1 + 4),
-                                            *(unsigned int *)(param_1 + 0x38));
-                  return uVar4;
-                }
-              }
-              piVar6 = (int *)*piVar6;
-            } while (piVar6 != (int *)0x0);
-            if (bVar3) goto LAB_82beae10;
-          }
-          puVar5 = (unsigned int *)*puVar5;
-        }
-        else {
-          do {
-            iVar9 = piVar6[2];
-            if ((iVar9 != 0) &&
-               (iVar7 = fn_82F65AC0(*(unsigned int *)(iVar9 + 0x14),*(unsigned int *)(iVar1 + 4)),
-               iVar7 == 0)) {
-              bVar3 = true;
-              piVar8 = (int *)fn_82BF4B98(iVar9,param_1);
-              if (piVar8 == (int *)0x0) {
-                uVar4 = 0xffffffff820eadf0;
-                goto LAB_82beae5c;
-              }
-              iVar9 = (**(int (***)())(*piVar8 + 0x18))(piVar8,iVar1);
-              if (iVar9 != 0) {
-                (**(int (***)())*piVar8)(piVar8,1);
-                uVar4 = 0xffffffff820eae30;
-                goto LAB_82beae5c;
-              }
-              iVar9 = fn_82BEAC00(param_1,piVar8);
-              if (iVar9 == 0) {
-                (**(int (***)())*piVar8)(piVar8,1);
-                uVar4 = 0xffffffff820eae6c;
-                goto LAB_82beae5c;
-              }
-            }
-            piVar6 = (int *)*piVar6;
-          } while (piVar6 != (int *)0x0);
-          if (!bVar3) goto LAB_82beada8;
-LAB_82beae10:
-          puVar2 = (unsigned int *)*puVar5;
-          fn_82BE5398(param_1 + 0x28,puVar5,1);
-          puVar5 = puVar2;
-        }
-      }
-    }
-    uVar4 = 0;
-  }
-  return uVar4;
-}
+    Node_82BEACC8 *node;
+    Node_82BEACC8 *matched;
+    Node_82BEACC8 *entry;
+    Subscriber_82BEACC8 *subscriber;
+    Mao_82BEACC8 *mao;
+    int found;
 
+    if (zone->templates == 0 || zone->maos == 0) {
+        zone->ok = 0;
+        return fn_82BE5240(zone, 0x133, "One or more of the lists is NULL");
+    }
+    node = fn_82BE5340(&zone->pending);
+    while (node != 0) {
+        subscriber = (Subscriber_82BEACC8 *)node->data;
+        found = 0;
+        if (subscriber != 0) {
+            for (entry = fn_82BE5340(zone->templates); entry != 0; entry = entry->next) {
+                mao = (Mao_82BEACC8 *)entry->data;
+                if (mao != 0 && stricmp(mao->name, subscriber->name) == 0) {
+                    found = 1;
+                    mao = fn_82BF4B98(mao, zone);
+                    if (mao != 0) {
+                        if (mao->vt->addSubscriber(mao, subscriber) == 0) {
+                            if (fn_82BEAC00(zone, mao) == 0) {
+                                mao->vt->destroy(mao, 1);
+                                zone->ok = 0;
+                                return fn_82BE5240(zone, 0x133,
+                                                   "Could not add dynamic MAO \"%s\" to zone \"%s\"",
+                                                   subscriber->name, zone->name);
+                            }
+                        } else {
+                            mao->vt->destroy(mao, 1);
+                            zone->ok = 0;
+                            return fn_82BE5240(
+                                zone, 0x133, "Could not add subscriber \"%s\" to dynamic MAO in zone \"%s\"",
+                                subscriber->name, zone->name);
+                        }
+                    } else {
+                        zone->ok = 0;
+                        return fn_82BE5240(
+                            zone, 0x133,
+                            "Could not create a dynamic MAO for subscriber \"%s\" in zone \"%s\"",
+                            subscriber->name, zone->name);
+                    }
+                }
+            }
+            if (!found) {
+                for (entry = fn_82BE5340(zone->maos); entry != 0; entry = entry->next) {
+                    mao = (Mao_82BEACC8 *)entry->data;
+                    if (mao != 0 && stricmp(mao->name, subscriber->name) == 0) {
+                        found = 1;
+                        if (mao->vt->addSubscriber(mao, subscriber) != 0) {
+                            zone->ok = 0;
+                            return fn_82BE5240(zone, 0x133,
+                                               "Could not add subscriber \"%s\" to MAO in zone \"%s\"",
+                                               subscriber->name, zone->name);
+                        }
+                    }
+                }
+            }
+            if (found) {
+                matched = node;
+                node = node->next;
+                fn_82BE5398(&zone->pending, matched, 1);
+            } else {
+                node = node->next;
+            }
+        }
+    }
+    return 0;
+}

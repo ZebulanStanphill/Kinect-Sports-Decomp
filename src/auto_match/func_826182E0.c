@@ -1,84 +1,83 @@
-typedef unsigned char bool;
-#define true 1
+typedef union __declspec(intrin_type) __declspec(align(16)) __vector4 {
+    float vector4_f32[4];
+    unsigned int vector4_u32[4];
+} __vector4;
 
+typedef struct Matrix_826182E0 {
+    __vector4 r[4];
+} Matrix_826182E0;
 
-void fn_826182E0(double param_1,int param_2)
+typedef struct Target_826182E0 {
+    char pad0[0x60];
+    Matrix_826182E0 world; /* 0x60 */
+    char padA0[0x40];
+    unsigned char visible; /* 0xe0 */
+    char pade1;
+    unsigned char active; /* 0xe2 */
+    unsigned char layer;  /* 0xe3 */
+    int mode;             /* 0xe4 */
+    char pade8[0x14];
+    int color; /* 0xfc */
+    char pad100[0x90];
+    int state; /* 0x190 */
+    char pad194[0x12];
+    unsigned char done; /* 0x1a6 */
+} Target_826182E0;
 
+typedef struct Link_826182E0 {
+    Target_826182E0 *target;
+    int pad4;
+    struct Link_826182E0 *next; /* 0x08 */
+} Link_826182E0;
+
+typedef struct Group_826182E0 {
+    int pad0;
+    Target_826182E0 *master; /* 0x04 */
+    char pad8[8];
+    float time;           /* 0x10 */
+    int state;            /* 0x14 */
+    Link_826182E0 *links; /* 0x18 */
+} Group_826182E0;
+
+void fn_826182E0(Group_826182E0 *group, float time)
 {
-  int iVar1;
-  int *piVar2;
-  int iVar3;
-  unsigned int *puVar4;
-  unsigned int *puVar5;
-  bool bVar6;
-  int in_r0;
-  unsigned int uVar7;
-  unsigned int uVar8;
-  unsigned int uVar9;
-  
-  iVar1 = *(int *)(param_2 + 4);
-  if (*(int *)(param_2 + 0x14) != *(int *)(iVar1 + 400)) {
-    for (piVar2 = *(int **)(param_2 + 0x18); piVar2 != (int *)0x0; piVar2 = (int *)piVar2[2]) {
-      *(unsigned int *)(*piVar2 + 400) = *(unsigned int *)(*(int *)(param_2 + 4) + 400);
-    }
-    iVar1 = *(int *)(param_2 + 4);
-    *(unsigned int *)(param_2 + 0x14) = *(unsigned int *)(iVar1 + 400);
-  }
-  if (((*(char *)(iVar1 + 0xe2) != '\0') || (*(char *)(iVar1 + 0xe0) != '\0')) &&
-     (*(int *)(iVar1 + 400) != 0)) {
-    bVar6 = true;
-    for (piVar2 = *(int **)(param_2 + 0x18); piVar2 != (int *)0x0; piVar2 = (int *)piVar2[2]) {
-      iVar1 = *piVar2;
-      if (*(char *)(iVar1 + 0x1a6) == '\0') {
-        bVar6 = (bool)(*(int *)(iVar1 + 400) == 0 & bVar6);
-      }
-      *(unsigned int *)(iVar1 + 0xfc) = *(unsigned int *)(*(int *)(param_2 + 4) + 0xfc);
-      *(unsigned int *)(*piVar2 + 0xe4) = *(unsigned int *)(*(int *)(param_2 + 4) + 0xe4);
-      iVar1 = *piVar2;
-      iVar3 = *(int *)(param_2 + 4);
-      puVar4 = (unsigned int *)(in_r0 + iVar3 + 0x60 & 0xfffffff0);
-      uVar7 = puVar4[1];
-      uVar8 = puVar4[2];
-      uVar9 = puVar4[3];
-      puVar5 = (unsigned int *)(in_r0 + iVar1 + 0x60 & 0xfffffff0);
-      *puVar5 = *puVar4;
-      puVar5[1] = uVar7;
-      puVar5[2] = uVar8;
-      puVar5[3] = uVar9;
-      puVar4 = (unsigned int *)(iVar3 + 0x70U & 0xfffffff0);
-      uVar7 = puVar4[1];
-      uVar8 = puVar4[2];
-      uVar9 = puVar4[3];
-      puVar5 = (unsigned int *)(iVar1 + 0x70U & 0xfffffff0);
-      *puVar5 = *puVar4;
-      puVar5[1] = uVar7;
-      puVar5[2] = uVar8;
-      puVar5[3] = uVar9;
-      puVar4 = (unsigned int *)(iVar3 + 0x80U & 0xfffffff0);
-      uVar7 = puVar4[1];
-      uVar8 = puVar4[2];
-      uVar9 = puVar4[3];
-      puVar5 = (unsigned int *)(iVar1 + 0x80U & 0xfffffff0);
-      *puVar5 = *puVar4;
-      puVar5[1] = uVar7;
-      puVar5[2] = uVar8;
-      puVar5[3] = uVar9;
-      puVar4 = (unsigned int *)(iVar3 + 0x90U & 0xfffffff0);
-      uVar7 = puVar4[1];
-      uVar8 = puVar4[2];
-      uVar9 = puVar4[3];
-      puVar5 = (unsigned int *)(iVar1 + 0x90U & 0xfffffff0);
-      *puVar5 = *puVar4;
-      puVar5[1] = uVar7;
-      puVar5[2] = uVar8;
-      puVar5[3] = uVar9;
-      *(unsigned char *)(*piVar2 + 0xe3) = *(unsigned char *)(*(int *)(param_2 + 4) + 0xe3);
-    }
-    if (bVar6) {
-      *(unsigned char *)(*(int *)(param_2 + 4) + 0x1a6) = 1;
-    }
-  }
-  *(float *)(param_2 + 0x10) = (float)param_1;
-  return;
-}
+    Target_826182E0 *master;
+    Target_826182E0 *target;
+    Link_826182E0 *link;
+    unsigned char allDone;
 
+    master = group->master;
+    if (group->state != master->state) {
+        for (link = group->links; link != 0; link = link->next) {
+            link->target->state = group->master->state;
+        }
+        master = group->master;
+        group->state = master->state;
+    }
+    if ((master->active != 0 || master->visible != 0) && master->state != 0) {
+        allDone = 1;
+        for (link = group->links; link != 0; link = link->next) {
+            target = link->target;
+            if (target->done == 0) {
+                if (target->state != 0) {
+                    allDone = 0;
+                }
+            }
+            target->color = group->master->color;
+            link->target->mode = group->master->mode;
+            {
+                Matrix_826182E0 *dst = &link->target->world;
+                Matrix_826182E0 *src = &group->master->world;
+                dst->r[0] = src->r[0];
+                dst->r[1] = src->r[1];
+                dst->r[2] = src->r[2];
+                dst->r[3] = src->r[3];
+            }
+            link->target->layer = group->master->layer;
+        }
+        if (allDone) {
+            group->master->done = 1;
+        }
+    }
+    group->time = time;
+}

@@ -1,92 +1,94 @@
-extern int fn_82A29A38();
+typedef struct Input_82AACDF0 {
+    unsigned int reg;  /* 0x00 */
+    unsigned int kind; /* 0x04 */
+} Input_82AACDF0;
 
+typedef struct State_82AACDF0 {
+    unsigned int version; /* 0x00 */
+    char pad4[0x1c - 0x4];
+    Input_82AACDF0 inputs[17]; /* 0x1c */
+    unsigned int registers[4]; /* 0xa4 */
+} State_82AACDF0;
 
-unsigned __int64 fn_82AACDF0(unsigned __int64 param_1,unsigned int *param_2,unsigned int *param_3)
+extern void fn_82A29A38(void);
 
+static __forceinline unsigned int NormalizeType(unsigned int type)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  unsigned int uVar3;
-  
-  uVar2 = ((param_1 & 0xffffffff) >> 0x14 & 0x700 | param_1 & 0x1800) >> 8;
-  param_1 = param_1 & 0x7ff;
-  if (uVar2 == 0xb) {
-    param_1 = param_1 + 0x800;
-  }
-  else if (uVar2 == 0xc) {
-    param_1 = param_1 + 0x1000;
-  }
-  else if (uVar2 == 0xd) {
-    param_1 = param_1 + 0x1800;
-  }
-  if ((10 < uVar2) && (uVar2 < 0xe)) {
-    uVar2 = 2;
-  }
-  if (uVar2 == 0) {
-    uVar3 = 4;
-  }
-  else {
-    if (uVar2 == 1) {
-      *param_3 = param_2[((int)param_1 + 4) * 2];
-      param_1 = (unsigned __int64)*(unsigned int *)((int)param_2 + (int)(param_1 << 3) + 0x1c);
-      if (0xf < param_1) {
-        fn_82A29A38();
-      }
-      uVar3 = *param_3;
-      if (uVar3 == 0x12) {
-        return param_1;
-      }
-      if (uVar3 == 0x13) {
-        return param_1;
-      }
-      if (uVar3 == 0x11) {
-        return param_1;
-      }
-      if (uVar3 == 0xc) {
-        return param_1;
-      }
-LAB_82aacf50:
-      fn_82A29A38();
-      return param_1;
+    unsigned int result = type;
+
+    if (type >= 11 && type <= 13) {
+        result = 2;
     }
-    if (uVar2 < 3) {
-      uVar3 = 1;
-    }
-    else if (uVar2 == 3) {
-      iVar1 = (int)param_1 + 0x29;
-      if (param_2[iVar1] != 0) {
-        if (0xffff0103 < *param_2) {
-          fn_82A29A38();
-        }
-        *param_3 = 4;
-        return (unsigned __int64)param_2[iVar1];
-      }
-      uVar3 = 0x11;
-    }
-    else if (uVar2 == 7) {
-      uVar3 = 2;
-    }
-    else {
-      if (uVar2 != 0xe) {
-        if (uVar2 == 0x11) {
-          if (param_1 == 0) {
-            uVar3 = 0x16;
-          }
-          else {
-            if (param_1 != 1) {
-              return 0;
-            }
-            uVar3 = 0x15;
-          }
-          *param_3 = uVar3;
-          return 0;
-        }
-        goto LAB_82aacf50;
-      }
-      uVar3 = 0;
-    }
-  }
-  *param_3 = uVar3;
-  return param_1;
+    return result;
 }
 
+unsigned int fn_82AACDF0(unsigned int token, State_82AACDF0 *state, int *size)
+{
+    unsigned int type;
+    unsigned int index;
+
+    type = ((token >> 28) & 7) | ((token & 0x1800) >> 8);
+    index = token & 0x7ff;
+    switch (type) {
+    case 11:
+        index += 0x800;
+        break;
+    case 12:
+        index += 0x1000;
+        break;
+    case 13:
+        index += 0x1800;
+        break;
+    }
+    type = NormalizeType(type);
+    switch (type) {
+    case 0:
+        *size = 4;
+        break;
+    case 1:
+        *size = state->inputs[index].kind;
+        index = state->inputs[index].reg;
+        if (index >= 0x10) {
+            fn_82A29A38();
+        }
+        if (*size != 0x12 && *size != 0x13 && *size != 0x11 && *size != 0xc) {
+            fn_82A29A38();
+        }
+        break;
+    case 2:
+        *size = 1;
+        break;
+    case 3:
+        if (state->registers[index] != 0) {
+            if (state->version >= 0xffff0104) {
+                fn_82A29A38();
+            }
+            *size = 4;
+            index = state->registers[index];
+        } else {
+            *size = 0x11;
+        }
+        break;
+    case 7:
+        *size = 2;
+        break;
+    case 14:
+        *size = 0;
+        break;
+    case 17:
+        switch (index) {
+        case 0:
+            *size = 0x16;
+            break;
+        case 1:
+            *size = 0x15;
+            break;
+        }
+        index = 0;
+        break;
+    default:
+        fn_82A29A38();
+        break;
+    }
+    return index;
+}

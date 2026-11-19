@@ -1,36 +1,37 @@
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-extern int fn_83016E90();
+typedef struct Key_83017108 {
+    unsigned int id;      /* 0x00 */
+    unsigned int variant; /* 0x04 */
+} Key_83017108;
 
+typedef struct Table_83017108 {
+    int pad0;
+    char buckets[4]; /* 0x04 */
+} Table_83017108;
 
-unsigned __int64
-fn_83017108(__int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned int *param_4,char *param_5
-             )
+extern float *fn_83016E90(void *buckets, Key_83017108 key, unsigned int hash);
 
+int fn_83017108(Table_83017108 *table, unsigned int id, unsigned int variant, float *out,
+                unsigned char *exact)
 {
-  unsigned int *puVar2;
-  unsigned __int64 uVar1;
-  
-  puVar2 = (unsigned int *)
-           fn_83016E90(param_1 + 4,CONCAT44((int)param_2,(int)param_3),
-                        param_2 + param_3 + ((param_2 + param_3 & 0xffffffff) / 0xc1) * -0xc1);
-  if (puVar2 == (unsigned int *)0x0) {
-    if ((param_3 & 0xffffffff) != 0) {
-      *param_5 = '\0';
-      puVar2 = (unsigned int *)
-               fn_83016E90(param_1 + 4,param_2 << 0x20,
-                            param_2 + ((param_2 & 0xffffffff) / 0xc1) * -0xc1);
-      if (puVar2 != (unsigned int *)0x0) {
-        *param_4 = *puVar2;
-        return 1;
-      }
-    }
-    uVar1 = 0;
-  }
-  else {
-    *param_4 = *puVar2;
-    uVar1 = 1;
-    *param_5 = '\x01' - (param_3 == 0);
-  }
-  return uVar1;
-}
+    Key_83017108 key;
+    float *value;
 
+    key.variant = variant;
+    key.id = id;
+    value = fn_83016E90(table->buckets, key, (id + variant) % 193);
+    if (value != 0) {
+        *out = *value;
+        *exact = variant != 0;
+        return 1;
+    }
+    if (variant != 0) {
+        key.variant = 0;
+        *exact = 0;
+        value = fn_83016E90(table->buckets, key, id % 193);
+        if (value != 0) {
+            *out = *value;
+            return 1;
+        }
+    }
+    return 0;
+}

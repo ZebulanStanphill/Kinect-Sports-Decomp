@@ -1,47 +1,95 @@
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_60;
-extern int fn_826824B0();
-extern int fn_82696330();
-extern int fn_826B3420();
-extern int fn_827142E0();
-extern int fn_8273E508();
-extern unsigned int iStack_3c;
-extern unsigned int iStack_54;
+typedef struct StrData_826BA740 {
+    int pad0[2];
+    int refs;          /* 0x8 */
+    unsigned int hash; /* 0xc */
+} StrData_826BA740;
 
+typedef struct Name_826BA740 {
+    StrData_826BA740 *data;
+} Name_826BA740;
 
-void fn_826BA740(int param_1,unsigned __int64 param_2,int param_3)
+typedef struct Entry_826BA740 {
+    int key;
+    int value;
+} Entry_826BA740;
 
+typedef struct Func_826BA740 {
+    void *fn;
+    void *owner;
+} Func_826BA740;
+
+typedef struct Binding_826BA740 {
+    Name_826BA740 *name;
+    Func_826BA740 *func;
+} Binding_826BA740;
+
+typedef struct Value_826BA740 {
+    unsigned char type;
+    char pad1[3];
+    StrData_826BA740 *str; /* 0x4 */
+    int pad8[2];
+} Value_826BA740;
+
+typedef struct Target_826BA740 Target_826BA740;
+
+typedef struct TargetVt_826BA740 {
+    void *pad[10];
+    void (*define)(Target_826BA740 *self, void *scope, Name_826BA740 *name, Value_826BA740 *value,
+                   unsigned char *flag);
+} TargetVt_826BA740;
+
+struct Target_826BA740 {
+    TargetVt_826BA740 *vt;
+};
+
+typedef struct Owner_826BA740 {
+    char pad0[0x10];
+    Target_826BA740 target; /* 0x10 */
+} Owner_826BA740;
+
+typedef struct Self_826BA740 {
+    char pad0[0x1c];
+    Name_826BA740 name; /* 0x1c */
+    char pad20[0x260];
+    char table[4]; /* 0x280 */
+} Self_826BA740;
+
+extern Entry_826BA740 *fn_8273E508(void *table, Name_826BA740 *key);
+extern void fn_826B3420(void *table, void *alloc, Binding_826BA740 *binding, unsigned int hash);
+extern void fn_826824B0(void *owner);
+extern void fn_82696330(Value_826BA740 *value);
+extern void fn_827142E0(void);
+
+static __forceinline int *Find_826BA740(void *table, Name_826BA740 *key)
 {
-  __int64 lVar1;
-  int *piVar2;
-  unsigned char auStack_60 [8];
-  int (**pcStack_58)();
-  int iStack_54;
-  int *piStack_50;
-  int (***ppcStack_4c)();
-  unsigned char auStack_40 [4];
-  int iStack_3c;
-  
-  piVar2 = (int *)(param_1 + 0x1c);
-  param_1 = param_1 + 0x280;
-  lVar1 = fn_8273E508(param_1,piVar2);
-  if ((-(unsigned __int64)(lVar1 != 0) & lVar1 + 4U) == 0) {
-    ppcStack_4c = &pcStack_58;
-    pcStack_58 = fn_827142E0;
-    iStack_54 = 0;
-    piStack_50 = piVar2;
-    fn_826B3420(param_1,param_1,&piStack_50,*(unsigned int *)(*piVar2 + 0xc));
-    if (iStack_54 != 0) {
-      fn_826824B0();
-    }
-    iStack_3c = *piVar2;
-    auStack_60[0] = 0;
-    auStack_40[0] = 0xb;
-    *(int *)(iStack_3c + 8) = *(int *)(iStack_3c + 8) + 1;
-    (**(int (***)())(*(int *)(param_3 + 0x10) + 0x28))
-              (param_3 + 0x10,param_2,piVar2,auStack_40,auStack_60);
-    fn_82696330(auStack_40);
-  }
-  return;
+    Entry_826BA740 *e = fn_8273E508(table, key);
+    return e ? &e->value : 0;
 }
 
+void fn_826BA740(Self_826BA740 *self, void *scope, Owner_826BA740 *owner)
+{
+    Name_826BA740 *name = &self->name;
+    void *table = self->table;
+
+    if (Find_826BA740(table, name) == 0) {
+        Func_826BA740 func;
+        Binding_826BA740 binding;
+        Value_826BA740 value;
+        unsigned char flag;
+
+        func.fn = (void *)fn_827142E0;
+        func.owner = 0;
+        binding.name = &self->name;
+        binding.func = &func;
+        fn_826B3420(table, table, &binding, binding.name->data->hash);
+        if (func.owner != 0) {
+            fn_826824B0(func.owner);
+        }
+        flag = 0;
+        value.type = 0xb;
+        value.str = name->data;
+        value.str->refs++;
+        owner->target.vt->define(&owner->target, scope, name, &value, &flag);
+        fn_82696330(&value);
+    }
+}
