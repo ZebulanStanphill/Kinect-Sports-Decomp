@@ -16,11 +16,11 @@ A decompilation of **Kinect Sports** for Xbox 360.
 | --- | ---: |
 | Function ranges indexed by Jeff | 57,731 |
 | Functions with Ghidra C | 57,614 |
-| Functions with matching code | 40,605 |
-| Matched code | 4,741,592 / 15,706,236 (30.18923%) |
-| Fully linked code | 4,731,820 / 15,706,236 (30.12701%) |
+| Functions with matching code | 40,685 |
+| Matched code | 4,764,696 / 15,706,236 (30.33633%) |
+| Fully linked code | 4,754,924 / 15,706,236 (30.27412%) |
 | Units with source | 53,893 |
-| Fuzzy match | 52.43494% |
+| Fuzzy match | 52.52896% |
 
 *Matched code* counts the code of functions that compile to exactly the original instructions. *Fully linked code* counts only units in which every function matches, since only those are linked into the rebuilt game. *Fuzzy match* is objdiff's average similarity over all code, including unmatched functions.
 
