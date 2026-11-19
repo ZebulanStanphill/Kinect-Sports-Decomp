@@ -1,12 +1,10 @@
-void png_warning(int param_1)
+void png_warning(int png_ptr)
 
 {
-  if (*(int (***)())(param_1 + 0x544) == (int (**)())0x0) {
+  if (*(int (***)())(png_ptr + 0x544) == (int (**)())0x0) {
     return;
   }
-                    /* WARNING: Could not recover jumptable at 0x829ab138. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-  (*(int (**)())(param_1 + 0x544))();
+  (*(int (**)())(png_ptr + 0x544))();
   return;
 }
 

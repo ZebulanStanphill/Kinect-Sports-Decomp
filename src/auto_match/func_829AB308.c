@@ -1,14 +1,14 @@
 extern unsigned d3dx_crc32(unsigned);
 
-void png_calculate_crc(char *param_1)
+void png_calculate_crc(char *png_ptr)
 {
-  int ok = 1;
-  if ((*(unsigned char *)(param_1 + 0x60c) & 0x20) != 0) {
-    if ((*(unsigned *)(param_1 + 0x55c) & 0x300) == 0x300) {
-      ok = 0;
+  int need_crc = 1;
+  if ((*(unsigned char *)(png_ptr + 0x60c) & 0x20) != 0) {
+    if ((*(unsigned *)(png_ptr + 0x55c) & 0x300) == 0x300) {
+      need_crc = 0;
     }
-  } else if ((*(unsigned *)(param_1 + 0x55c) & 0x800) != 0) {
-    ok = 0;
+  } else if ((*(unsigned *)(png_ptr + 0x55c) & 0x800) != 0) {
+    need_crc = 0;
   }
-  if (ok) *(unsigned *)(param_1 + 0x600) = d3dx_crc32(*(unsigned *)(param_1 + 0x600));
+  if (need_crc) *(unsigned *)(png_ptr + 0x600) = d3dx_crc32(*(unsigned *)(png_ptr + 0x600));
 }

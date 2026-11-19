@@ -1,12 +1,11 @@
-extern unsigned int *auStack_d0;
 
 
-void d3dx_output_message(int *param_1)
+void d3dx_output_message(int *cinfo)
 
 {
-  unsigned char auStack_d0 [192];
+  unsigned char buffer [192];
   
-  (*(int (**)())(*param_1 + 0xc))(param_1,auStack_d0);
+  (*(int (**)())(*cinfo + 0xc))(cinfo,buffer);
   return;
 }
 

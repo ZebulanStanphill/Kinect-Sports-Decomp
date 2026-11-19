@@ -8,45 +8,45 @@ extern int fn_82F800C8();
 extern int lbl_83263614;
 
 
-void *malloc(unsigned int param_1)
+void *malloc(unsigned int size)
 
 {
-  int iVar3;
+  int rc;
   void *uVar1;
-  void *lVar2;
-  unsigned int *puVar4;
-  unsigned int uVar5;
+  void *res;
+  unsigned int *perrno;
+  unsigned int request;
   
-  if (param_1 <= 0xfffff000U) {
+  if (size <= 0xfffff000U) {
     do {
-      iVar3 = (int)fn_82A2A360();
-      if ((unsigned)iVar3 == 0) {
+      rc = (int)fn_82A2A360();
+      if ((unsigned)rc == 0) {
         _FF_MSGBANNER();
         _NMSG_WRITE(0x1e);
         fn_82F6CB58(0xff);
       }
-      uVar5 = param_1 ? param_1 : 1;
-      lVar2 = fn_82A28568(fn_82A2A360(),0,uVar5);
-      if (lVar2 != 0) {
+      request = size ? size : 1;
+      res = fn_82A28568(fn_82A2A360(),0,request);
+      if (res != 0) {
         break;
       }
       if (lbl_83263614 == 0) {
-        puVar4 = (unsigned int *)_errno();
-        *puVar4 = 0xc;
+        perrno = (unsigned int *)_errno();
+        *perrno = 0xc;
         break;
       }
-      iVar3 = fn_82F800C8(param_1);
-    } while (iVar3 != 0);
-    if (!lVar2) {
-      puVar4 = (unsigned int *)_errno();
-      *puVar4 = 0xc;
+      rc = fn_82F800C8(size);
+    } while (rc != 0);
+    if (!res) {
+      perrno = (unsigned int *)_errno();
+      *perrno = 0xc;
     }
-    return lVar2;
+    return res;
   }
   else {
-    fn_82F800C8(param_1);
-    puVar4 = (unsigned int *)_errno();
-    *puVar4 = 0xc;
+    fn_82F800C8(size);
+    perrno = (unsigned int *)_errno();
+    *perrno = 0xc;
   }
   return 0;
 }

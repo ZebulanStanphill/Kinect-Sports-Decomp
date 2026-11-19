@@ -1,9 +1,9 @@
 extern int free();
 
 
-void jpeg_free_large(unsigned __int64 param_1,unsigned __int64 param_2)
+void jpeg_free_large(unsigned __int64 cinfo,unsigned __int64 object)
 
 {
-  free(param_2);
+  free(object);
   return;
 }

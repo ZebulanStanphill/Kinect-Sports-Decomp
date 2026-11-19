@@ -5,12 +5,12 @@ extern int _getptd_noexit();
 int  _getptd(void)
 
 {
-  int lVar1;
+  int ptd;
   
-  lVar1 = _getptd_noexit();
-  if (lVar1 == 0) {
+  ptd = _getptd_noexit();
+  if (ptd == 0) {
     _amsg_exit(0x10);
   }
-  return lVar1;
+  return ptd;
 }
 

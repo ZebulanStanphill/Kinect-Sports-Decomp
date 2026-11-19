@@ -1,13 +1,13 @@
 extern int _getptd();
 
 
-void _SaveUnwindContext(unsigned int param_1)
+void _SaveUnwindContext(unsigned int pContext)
 
 {
-  int iVar1;
+  int ptd;
   
-  iVar1 = _getptd();
-  *(unsigned int *)(iVar1 + 0x90) = param_1;
+  ptd = _getptd();
+  *(unsigned int *)(ptd + 0x90) = pContext;
   return;
 }
 

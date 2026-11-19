@@ -18,9 +18,9 @@ struct Owner_829576E0 {
   unsigned int flags;
   int Contains(unsigned int idx);
 };
-int Owner_829576E0::Contains(unsigned int param_2)
+int Owner_829576E0::Contains(unsigned int index)
 {
-  Entry_829576E0 *entry = entries[param_2];
+  Entry_829576E0 *entry = entries[index];
   unsigned int i, k;
 
   if (entry->first != 0xffffffff && (flags & 2) == 0) {
@@ -28,7 +28,7 @@ int Owner_829576E0::Contains(unsigned int param_2)
       Node_829576E0 *n = nodes[i];
       if ((n->tag & 0xf0000000) == 0x60000000) {
         for (k = 0; k < n->count; k++) {
-          if (n->items[k] == param_2)
+          if (n->items[k] == index)
             return 1;
         }
       }

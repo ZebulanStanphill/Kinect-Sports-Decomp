@@ -4,9 +4,9 @@ extern int _getptd();
 unsigned int _GetUnwindContext(void)
 
 {
-  int iVar1;
+  int ptd;
   
-  iVar1 = _getptd();
-  return *(unsigned int *)(iVar1 + 0x90);
+  ptd = _getptd();
+  return *(unsigned int *)(ptd + 0x90);
 }
 

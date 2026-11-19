@@ -1,9 +1,9 @@
 extern int malloc();
 
 
-void jpeg_get_small(unsigned __int64 param_1,unsigned __int64 param_2)
+void jpeg_get_small(unsigned __int64 cinfo,unsigned __int64 sizeofobject)
 
 {
-  malloc(param_2);
+  malloc(sizeofobject);
   return;
 }

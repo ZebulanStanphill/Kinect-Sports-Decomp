@@ -19,24 +19,24 @@ typedef struct Cinfo {
 } Cinfo;
 
 typedef struct {
-  void (*a)(void);
-  void (*b)(void);
-  void (*c)(void);
-  void *p;
+  void (*read_backing_store)(void);
+  void (*write_backing_store)(void);
+  void (*close_backing_store)(void);
+  void *temp_file;
 } Mgr;
 
-void jpeg_open_backing_store(Cinfo *param_1, Mgr *param_2)
+void jpeg_open_backing_store(Cinfo *cinfo, Mgr *info)
 {
-  void *p;
+  void *temp_file;
 
-  p = fn_82F6D428();
-  param_2->p = p;
-  if (p == 0) {
-    param_1->err->msg_code = 0x3f;
-    strncpy(param_1->err->s, lbl_82196582, 0x50);
-    param_1->err->error_exit(param_1);
+  temp_file = fn_82F6D428();
+  info->temp_file = temp_file;
+  if (temp_file == 0) {
+    cinfo->err->msg_code = 0x3f;
+    strncpy(cinfo->err->s, lbl_82196582, 0x50);
+    cinfo->err->error_exit(cinfo);
   }
-  param_2->a = fn_827C8F08;
-  param_2->b = fn_827C8FA0;
-  param_2->c = fn_827C9038;
+  info->read_backing_store = fn_827C8F08;
+  info->write_backing_store = fn_827C8FA0;
+  info->close_backing_store = fn_827C9038;
 }
