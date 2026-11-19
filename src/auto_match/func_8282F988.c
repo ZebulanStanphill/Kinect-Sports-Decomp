@@ -3,8 +3,8 @@ extern int fn_828252D8();
 extern int fn_8282F458();
 extern int fn_8282F700();
 extern int fn_8282F920();
-extern int fn_82F678C8();
-extern int fn_82F67988();
+extern int fread();
+extern int fclose();
 
 
 void fn_8282F988(int param_1)
@@ -42,7 +42,7 @@ void fn_8282F988(int param_1)
                (unsigned __int64)*(unsigned int *)(param_1 + 0xa4) & 0x3fffffff) * 4 +
               (unsigned __int64)*(unsigned int *)(param_1 + 0xa8);
       lVar2 = fn_828252D0(uVar9);
-      uVar3 = fn_82F678C8(lVar2,1,uVar9,aiStack_40[0]);
+      uVar3 = fread(lVar2,1,uVar9,aiStack_40[0]);
       if ((uVar3 & 0xffffffff) == (uVar9 & 0xffffffff)) {
         *(int *)(param_1 + 0x120) = (int)lVar2;
         lVar2 = ((unsigned __int64)*(unsigned int *)(param_1 + 0xa0) & 0x7ffffff) * 0x20 + lVar2;
@@ -79,7 +79,7 @@ void fn_8282F988(int param_1)
     *(unsigned int *)(param_1 + 0x130) = uVar8;
   }
 LAB_8282faf8:
-  fn_82F67988(aiStack_40[0]);
+  fclose(aiStack_40[0]);
   return;
 }
 

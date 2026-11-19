@@ -2,7 +2,7 @@ extern int fn_82816B30();
 extern int fn_828223C8();
 extern int fn_82822F60();
 extern int fn_828252E8();
-extern int fn_82F678C8();
+extern int fread();
 extern int __iob_func();
 extern int fprintf();
 extern unsigned int iStack_48;
@@ -30,7 +30,7 @@ unsigned __int64 fn_8282FCF0(unsigned __int64 param_1,int param_2)
   uVar5 = 0;
   if (*(int *)(param_2 + 0xac) != 0) {
     do {
-      iVar2 = fn_82F678C8(aiStack_50,0x14,1,param_1);
+      iVar2 = fread(aiStack_50,0x14,1,param_1);
       if (iVar2 != 1) {
         lVar1 = __iob_func();
         fprintf(lVar1 + 0x40,0xffffffff8201ef98);

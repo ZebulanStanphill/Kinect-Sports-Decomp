@@ -26,7 +26,7 @@ extern "C" int fn_82E208B0(unsigned int,unsigned int,const char *);
 extern "C" int fn_82E20A98(unsigned int);
 extern "C" int fn_82E21C18(unsigned int);
 extern "C" int fn_82F64068(void *,unsigned int,unsigned int,const char *,...);
-extern "C" int fn_82F67988(unsigned int);
+extern "C" int fclose(unsigned int);
 
 
 extern "C" void fn_82E1F010(int *param_1)
@@ -61,11 +61,11 @@ extern "C" void fn_82E1F010(int *param_1)
     *param_1 = (int)uVar1;
     iVar2 = fn_82E20270(uVar1,"a+",1);
     if (iVar2 == 0) goto LAB_82e1f104;
-    fn_82F67988(iVar2);
+    fclose(iVar2);
     fn_82E1EE18(param_1,"LogWriter","Open",auStack_160);
   }
   else {
-    fn_82F67988(iVar2);
+    fclose(iVar2);
   }
   *(unsigned char *)((int)param_1 + 10) = 1;
 LAB_82e1f104:

@@ -12,8 +12,8 @@ typedef struct Log_82E1E6E0 {
 } Log_82E1E6E0;
 
 extern void *fn_82E20270(const char *path, const char *mode, int share);
-extern unsigned int fn_82F67CF8(const void *data, unsigned int size, unsigned int count, void *file);
-extern int fn_82F67988(void *file);
+extern unsigned int fwrite(const void *data, unsigned int size, unsigned int count, void *file);
+extern int fclose(void *file);
 
 void fn_82E1E6E0(Log_82E1E6E0 *self, const void *data, unsigned int size)
 {
@@ -25,7 +25,7 @@ void fn_82E1E6E0(Log_82E1E6E0 *self, const void *data, unsigned int size)
     }
     file = fn_82E20270(self->path, "a+b", 1);
     if (file != 0) {
-        fn_82F67CF8(data, 1, size, file);
-        fn_82F67988(file);
+        fwrite(data, 1, size, file);
+        fclose(file);
     }
 }

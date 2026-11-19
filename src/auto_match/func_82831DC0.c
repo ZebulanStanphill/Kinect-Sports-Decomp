@@ -4,7 +4,7 @@ extern int fn_82831BE8(int, void *);
 extern int fn_82831C48(int, void *);
 extern int fn_82831CE8(int, void *);
 extern void *fn_82F674A0(char *, const char *);
-extern void fn_82F67988(void *);
+extern void fclose(void *);
 
 int fn_82831DC0(int param_1)
 {
@@ -31,6 +31,6 @@ int fn_82831DC0(int param_1)
       }
     }
   }
-  fn_82F67988(f);
+  fclose(f);
   return r;
 }

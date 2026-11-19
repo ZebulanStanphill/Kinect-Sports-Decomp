@@ -10,7 +10,7 @@ extern int fn_8282FC60();
 extern int fn_8282FCF0();
 extern int fn_82830268();
 extern int fn_82F672D8();
-extern int fn_82F67988();
+extern int fclose();
 extern unsigned int iStack_50;
 extern unsigned int uStack_4c;
 
@@ -42,7 +42,7 @@ void fn_8282FE08(int param_1,int param_2)
         *(unsigned char *)(param_2 + 0x3f3) = 1;
         fn_82F672D8(param_2 + 0x1b8,*(unsigned int *)(param_1 + 0xd4),0x100);
       }
-      fn_82F67988(iStack_50);
+      fclose(iStack_50);
     }
   }
   if (*(char *)(param_2 + 0x3f3) == '\0') {

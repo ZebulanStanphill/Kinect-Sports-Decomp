@@ -2,7 +2,7 @@ extern int fn_82822F60();
 extern int fn_828252D0();
 extern int fn_828252E8();
 extern int fn_82832368();
-extern int fn_82F678C8();
+extern int fread();
 extern int __iob_func();
 extern int fprintf();
 
@@ -20,7 +20,7 @@ unsigned __int64 fn_8282FB18(unsigned __int64 param_1,int param_2)
   
   uVar1 = fn_828252D0(*(int *)(param_2 + 0xa4) << 2);
   *(int *)(param_2 + 0x3c4) = (int)uVar1;
-  iVar3 = fn_82F678C8(uVar1,4,*(unsigned int *)(param_2 + 0xa4),param_1);
+  iVar3 = fread(uVar1,4,*(unsigned int *)(param_2 + 0xa4),param_1);
   if (iVar3 == *(int *)(param_2 + 0xa4)) {
     fn_82832368(*(unsigned int *)(param_2 + 0x3bc));
     uVar6 = 0;
@@ -30,7 +30,7 @@ unsigned __int64 fn_8282FB18(unsigned __int64 param_1,int param_2)
       do {
         uVar1 = fn_828252D0(*(unsigned int *)(iVar5 + iVar3));
         *(int *)(**(int **)(param_2 + 0x3bc) + iVar5) = (int)uVar1;
-        iVar4 = fn_82F678C8(uVar1,1,*(unsigned int *)(iVar5 + *(int *)(param_2 + 0x3c4)),param_1);
+        iVar4 = fread(uVar1,1,*(unsigned int *)(iVar5 + *(int *)(param_2 + 0x3c4)),param_1);
         iVar3 = *(int *)(param_2 + 0x3c4);
         if (iVar4 != *(int *)(iVar5 + iVar3)) {
           lVar2 = __iob_func();

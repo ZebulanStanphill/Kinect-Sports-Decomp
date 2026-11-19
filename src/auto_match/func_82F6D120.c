@@ -19,7 +19,7 @@ extern unsigned int lbl_832636E4;
 extern unsigned int uRam832633cb;
 
 
-int fn_82F6D120(unsigned int *param_1,unsigned __int64 param_2)
+int _tmpfile_helper(unsigned int *param_1,unsigned __int64 param_2)
 
 {
   unsigned int uVar1;

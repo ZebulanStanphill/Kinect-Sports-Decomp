@@ -1,6 +1,6 @@
 extern int fn_828223C8();
 extern int fn_82829830();
-extern int fn_82F67CF8();
+extern int fwrite();
 extern unsigned int uStack_54;
 extern unsigned int uStack_58;
 
@@ -44,7 +44,7 @@ unsigned int fn_82831CE8(int param_1,unsigned __int64 param_2)
         puVar7[2] = stack_pair_58.second;
       } while (lVar6 != 0);
     }
-    iVar2 = fn_82F67CF8(*(unsigned int *)*piVar5,0x14,(__int64)iVar1,param_2);
+    iVar2 = fwrite(*(unsigned int *)*piVar5,0x14,(__int64)iVar1,param_2);
     iVar3 = aiStack_60;
   } while (iVar2 == iVar1);
   return 1;

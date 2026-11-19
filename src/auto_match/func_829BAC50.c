@@ -4,7 +4,7 @@ extern char lbl_82196582[];
 extern void fn_829BAB18(void);
 extern void fn_829BABB0(void);
 extern void fn_829BAC48(void);
-extern void *fn_82F6D428(void);
+extern void *tmpfile(void);
 
 struct Cinfo;
 typedef struct {
@@ -29,7 +29,7 @@ void fn_829BAC50(Cinfo *param_1, Mgr *param_2)
 {
   void *p;
 
-  p = fn_82F6D428();
+  p = tmpfile();
   param_2->p = p;
   if (p == 0) {
     param_1->err->msg_code = 0x3f;

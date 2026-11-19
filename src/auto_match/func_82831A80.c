@@ -3,7 +3,7 @@ extern int fn_82820EF8();
 extern int fn_828252D0();
 extern int fn_82827750();
 extern int fn_82F672D8();
-extern int fn_82F67CF8();
+extern int fwrite();
 
 
 __int64 fn_82831A80(int param_1,unsigned __int64 param_2)
@@ -55,7 +55,7 @@ __int64 fn_82831A80(int param_1,unsigned __int64 param_2)
   }
   uVar3 = fn_828184A8(iVar9,0x38);
   *(unsigned int *)(param_1 + 0x94) = uVar3;
-  lVar2 = fn_82F67CF8(iVar9,0x38,1,param_2);
+  lVar2 = fwrite(iVar9,0x38,1,param_2);
   return (lVar2 + -1) - (lVar2 + -2 + (unsigned __int64)(lVar2 + -1 == 0));
 }
 

@@ -1,5 +1,5 @@
 extern int fn_82830110();
-extern int fn_82F678C8();
+extern int fread();
 extern int __iob_func();
 extern int fprintf();
 
@@ -12,7 +12,7 @@ unsigned __int64 fn_8282FC60(unsigned __int64 param_1,int param_2)
   unsigned __int64 uVar2;
   
   fn_82830110(*(unsigned int *)(param_2 + 0x388),*(unsigned int *)(param_2 + 0xa0));
-  uVar3 = fn_82F678C8(**(unsigned int **)(param_2 + 0x388),0x20,*(unsigned int *)(param_2 + 0xa0),
+  uVar3 = fread(**(unsigned int **)(param_2 + 0x388),0x20,*(unsigned int *)(param_2 + 0xa0),
                        param_1);
   if (uVar3 < *(unsigned int *)(param_2 + 0xa0)) {
     lVar1 = __iob_func();

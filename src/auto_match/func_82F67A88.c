@@ -11,7 +11,7 @@ extern int fn_82F7C468();
 extern int fn_82F7C9A0();
 
 
-unsigned __int64 fn_82F67A88(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,int *param_4)
+unsigned __int64 _fwrite_nolock(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,int *param_4)
 
 {
   unsigned int uVar1;

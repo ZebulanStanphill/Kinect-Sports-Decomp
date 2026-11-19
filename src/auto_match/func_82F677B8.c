@@ -1,14 +1,14 @@
 extern int fn_82F63BA0();
-extern int fn_82F67520();
+extern int _fread_nolock_s();
 extern int fn_82F6788C();
 extern int fn_82F68240();
 extern int fn_82F691F0();
-extern int fn_82F6AC80();
+extern int _lock_file();
 extern unsigned int uStack00000034;
 
 
 unsigned int
-fn_82F677B8(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
+fread_s(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
              unsigned __int64 param_5,unsigned __int64 param_6)
 
 {
@@ -19,8 +19,8 @@ fn_82F677B8(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 p
   uStack00000034 = (unsigned int)param_5;
   if (((param_3 & 0xffffffff) != 0) && ((param_4 & 0xffffffff) != 0)) {
     if ((param_5 & 0xffffffff) != 0) {
-      fn_82F6AC80(param_5);
-      uVar2 = fn_82F67520(param_1,param_2,param_3,param_4,param_5,param_6);
+      _lock_file(param_5);
+      uVar2 = _fread_nolock_s(param_1,param_2,param_3,param_4,param_5,param_6);
       fn_82F6788C();
       return uVar2;
     }

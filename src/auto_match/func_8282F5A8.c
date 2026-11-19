@@ -4,7 +4,7 @@ extern int fn_828252D8();
 extern int fn_828252E8();
 extern int fn_82826568();
 extern int fn_828295A8();
-extern int fn_82F678C8();
+extern int fread();
 extern int __iob_func();
 extern int fprintf();
 extern void fn_82829F30(void);
@@ -28,7 +28,7 @@ int fn_8282F5A8(int param_1, char *param_2)
   nbytes = (*(unsigned int *)(param_2 + 0xb4) + *(unsigned int *)(param_2 + 0xb0) * 2) * 4;
   if (nbytes != 0) {
     buf = fn_828252D0(nbytes);
-    if ((unsigned int)fn_82F678C8(buf, nbytes, 1, param_1) != 1) {
+    if ((unsigned int)fread(buf, nbytes, 1, param_1) != 1) {
       fprintf(__iob_func() + 0x40, "sectionDb Error: Symbol file non-relocation\t\t\t\t\tdata did not read correctly\n");
       return 5;
     }

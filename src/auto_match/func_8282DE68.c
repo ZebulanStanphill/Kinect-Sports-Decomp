@@ -1,4 +1,4 @@
-extern int fn_82F67CF8();
+extern int fwrite();
 
 
 int fn_8282DE68(unsigned int *param_1,int param_2,unsigned __int64 param_3)
@@ -6,7 +6,7 @@ int fn_8282DE68(unsigned int *param_1,int param_2,unsigned __int64 param_3)
 {
   int lVar1;
   
-  lVar1 = fn_82F67CF8(param_3,1,param_2,*param_1);
+  lVar1 = fwrite(param_3,1,param_2,*param_1);
   return lVar1 == param_2 ? 0 : -1;
 }
 

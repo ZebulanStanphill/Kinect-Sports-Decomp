@@ -1,6 +1,6 @@
 extern int fn_82F63BA0();
 extern int fn_82F68240();
-extern int fn_82F6AC80();
+extern int _lock_file();
 extern int fn_82F6B67C();
 extern int fn_82F6BB98();
 extern int fn_82F7C468();
@@ -25,7 +25,7 @@ void fn_82F6B580(int param_1)
   }
   else {
     uVar1 = fn_82F7C468(param_1);
-    fn_82F6AC80(param_1);
+    _lock_file(param_1);
     fn_82F6BB98(param_1);
     uVar5 = (unsigned int)uVar1;
     *(unsigned int *)(param_1 + 0xc) = *(unsigned int *)(param_1 + 0xc) & 0xffffffcf;

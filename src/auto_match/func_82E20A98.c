@@ -1,5 +1,5 @@
 extern int fn_82E20270();
-extern int fn_82F67988();
+extern int fclose();
 extern int fprintf();
 
 
@@ -18,7 +18,7 @@ void fn_82E20A98(int param_1)
       fprintf(lVar2,"%s\n",puVar1[2]);
       fprintf(lVar2,"%s\n",puVar1[3]);
     }
-    fn_82F67988(lVar2);
+    fclose(lVar2);
   }
   return;
 }

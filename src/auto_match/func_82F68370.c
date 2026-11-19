@@ -1,7 +1,7 @@
 extern int fn_82F63BA0();
 extern int fn_82F68240();
 extern int fn_82F6856C();
-extern int fn_82F6AC80();
+extern int _lock_file();
 extern int fn_82F7BAF0();
 extern int fn_82F7C468();
 extern unsigned int lbl_831BBF60;
@@ -27,7 +27,7 @@ char * fn_82F68370(char *param_1,__int64 param_2,unsigned int *param_3)
     fn_82F63BA0();
   }
   else if (iVar3 != 0) {
-    fn_82F6AC80(param_3);
+    _lock_file(param_3);
     pcStack_50 = param_1;
     if ((param_3[3] & 0x40) == 0) {
       uVar2 = fn_82F7C468(param_3);

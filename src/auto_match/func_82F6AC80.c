@@ -4,7 +4,7 @@ extern Slot_82F6AC80 lbl_831BB660[];
 extern void _lock(int);
 extern void RtlEnterCriticalSection(void *);
 
-void fn_82F6AC80(File_82F6AC80 *f)
+void _lock_file(File_82F6AC80 *f)
 {
   if ((Slot_82F6AC80 *)f < lbl_831BB660 || (Slot_82F6AC80 *)f > &lbl_831BB660[19]) {
     RtlEnterCriticalSection(f->cs);

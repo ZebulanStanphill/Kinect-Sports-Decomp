@@ -1,14 +1,14 @@
 extern unsigned int *auStack_10;
-extern int fn_82F6D120();
+extern int _tmpfile_helper();
 
 
-unsigned int fn_82F6D428(void)
+unsigned int tmpfile(void)
 
 {
   unsigned int auStack_10;
   
   auStack_10 = 0;
-  fn_82F6D120(&auStack_10,0x40);
+  _tmpfile_helper(&auStack_10,0x40);
   return auStack_10;
 }
 

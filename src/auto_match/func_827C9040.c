@@ -4,7 +4,7 @@ extern char lbl_82196582[];
 extern void read_backing_store(void);
 extern void write_backing_store(void);
 extern void close_backing_store(void);
-extern void *fn_82F6D428(void);
+extern void *tmpfile(void);
 
 struct Cinfo;
 typedef struct {
@@ -29,7 +29,7 @@ void jpeg_open_backing_store(Cinfo *cinfo, Mgr *info)
 {
   void *temp_file;
 
-  temp_file = fn_82F6D428();
+  temp_file = tmpfile();
   info->temp_file = temp_file;
   if (temp_file == 0) {
     cinfo->err->msg_code = 0x3f;

@@ -1,4 +1,4 @@
-extern int fn_82F678E0();
+extern int _fclose_nolock();
 extern int fn_82F6ACF0();
 extern int fn_82F71CD0();
 extern int fn_82F8399C();
@@ -24,7 +24,7 @@ int fn_82F838C0(void)
       fn_82F6ACF0(iVar3);
       iVar1 = *(int *)(iVar3 * 4 + lbl_8329F734);
       if (((*(unsigned int *)(iVar1 + 0xc) & 0x83) != 0) && (*(int *)(iVar1 + 0x1c) != 0)) {
-        fn_82F678E0();
+        _fclose_nolock();
         uStack_2c = uStack_2c + 1;
       }
       fn_82F839EC();

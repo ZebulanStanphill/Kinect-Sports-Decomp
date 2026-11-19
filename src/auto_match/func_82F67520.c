@@ -8,7 +8,7 @@ extern int fn_82F7C2C0();
 extern int fn_82F7C468();
 
 
-unsigned __int64 fn_82F67520(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
+unsigned __int64 _fread_nolock_s(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
                        int *param_5)
 
 {

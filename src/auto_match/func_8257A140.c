@@ -5,7 +5,7 @@ extern int fn_82579C28();
 extern int fn_8257A438();
 extern int fn_8257A660();
 extern int fn_82F674A8();
-extern int fn_82F67988();
+extern int fclose();
 extern int fn_82F68150();
 extern int fn_82F68240();
 extern int fn_82F68320();
@@ -47,7 +47,7 @@ __int64 fn_8257A140(unsigned __int64 param_1)
       }
       lVar2 = fn_8257A660(param_1,acStack_431 + 1);
     } while (lVar2 == 0);
-    fn_82F67988(auStack_440[0]);
+    fclose(auStack_440[0]);
   }
   else {
     auStack_440[0] = 0;

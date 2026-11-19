@@ -4,7 +4,7 @@
 // CRT functions; they keep their fn_ names because Matching C units call them.
 extern "C" {
 void *fn_82F674A0(const char *name, const char *mode);   // fopen
-int fn_82F67988(void *stream);                           // fclose
+int fclose(void *stream);
 }
 
 class hkStreamReader : public hkReferencedObject {
@@ -50,6 +50,6 @@ protected:
 hkStdioStreamWriter::~hkStdioStreamWriter()
 {
     if (m_handle && m_owns)
-        fn_82F67988(m_handle);
+        fclose(m_handle);
     m_handle = HK_NULL;
 }

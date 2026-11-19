@@ -1,7 +1,7 @@
 extern int fn_8265CAA0(void *);
 extern void *fn_82E20270(const char *, const char *, int);
 extern char *fn_82E20380();
-extern int fn_82F67988(void *);
+extern int fclose(void *);
 extern int fn_82F6A938(const char *, void *);
 void fn_82E208B0(char *param_1, int *param_2, const char *param_3)
 {
@@ -23,6 +23,6 @@ void fn_82E208B0(char *param_1, int *param_2, const char *param_3)
       fn_82F6A938(param_3, lVar1);
       fn_82F6A938("\n", lVar1);
     }
-    fn_82F67988(lVar1);
+    fclose(lVar1);
   }
 }

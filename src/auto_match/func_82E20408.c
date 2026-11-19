@@ -4,7 +4,7 @@ extern int fn_82E1F690();
 extern int fn_82E200A0();
 extern int fn_82E20100();
 extern int fn_82E20270();
-extern int fn_82F67988();
+extern int fclose();
 
 
 void fn_82E20408(void)
@@ -19,7 +19,7 @@ void fn_82E20408(void)
     fn_82E200A0();
   }
   else {
-    fn_82F67988();
+    fclose();
     uVar1 = fn_82E20100("TestCreate.tmp",1);
     fn_82A2A958();
     if ((uVar1 & 0xffffffff) != 0) {

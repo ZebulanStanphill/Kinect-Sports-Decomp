@@ -1,8 +1,8 @@
 extern int fn_82F63BA0();
-extern int fn_82F67A88();
+extern int _fwrite_nolock();
 extern int fn_82F68240();
 extern int fn_82F6AAD0();
-extern int fn_82F6AC80();
+extern int _lock_file();
 extern int fn_82F7C468();
 extern int fn_82F816D0();
 extern int fn_82F817C0();
@@ -33,9 +33,9 @@ LAB_82f6aa2c:
         cVar1 = *pcVar8;
         pcVar8 = pcVar8 + 1;
       } while (cVar1 != '\0');
-      fn_82F6AC80(param_2);
+      _lock_file(param_2);
       uVar2 = fn_82F816D0(param_2);
-      pcVar5 = (char *)fn_82F67A88(param_1,1,pcVar8 + (-1 - (int)param_1),param_2);
+      pcVar5 = (char *)_fwrite_nolock(param_1,1,pcVar8 + (-1 - (int)param_1),param_2);
       fn_82F817C0(uVar2,param_2);
       fn_82F6AAD0();
       return -(unsigned __int64)(pcVar8 + (-1 - (int)param_1) != pcVar5);

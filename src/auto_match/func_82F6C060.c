@@ -1,12 +1,12 @@
 extern int fn_82F63BA0();
 extern int fn_82F68240();
-extern int fn_82F6AC80();
-extern int fn_82F6BF90();
+extern int _lock_file();
+extern int _fseek_nolock();
 extern int fn_82F6C114();
 extern unsigned int uStack00000014;
 
 
-unsigned __int64 fn_82F6C060(__int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
+unsigned __int64 fseek(__int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
                        unsigned __int64 param_5,unsigned __int64 param_6)
 
 {
@@ -24,8 +24,8 @@ unsigned __int64 fn_82F6C060(__int64 param_1,unsigned __int64 param_2,unsigned _
     uVar1 = 0xffffffffffffffff;
   }
   else {
-    fn_82F6AC80(param_1);
-    uVar3 = fn_82F6BF90(param_1,param_2,param_3,param_4,param_5,param_6);
+    _lock_file(param_1);
+    uVar3 = _fseek_nolock(param_1,param_2,param_3,param_4,param_5,param_6);
     fn_82F6C114();
     uVar1 = (unsigned __int64)uVar3;
   }

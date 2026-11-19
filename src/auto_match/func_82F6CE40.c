@@ -1,6 +1,6 @@
 extern int fn_82F63BA0();
 extern int fn_82F68240();
-extern int fn_82F6AC80();
+extern int _lock_file();
 extern int fn_82F6CFD0();
 extern int fn_82F709B8();
 extern int fn_82F7C468();
@@ -50,7 +50,7 @@ unsigned __int64 fprintf(int param_1,__int64 param_2,unsigned __int64 param_3,un
     fn_82F63BA0();
     return 0xffffffffffffffff;
   }
-  fn_82F6AC80(param_1);
+  _lock_file(param_1);
   if ((*(unsigned int *)(param_1 + 0xc) & 0x40) == 0) {
     uVar3 = fn_82F7C468(param_1);
     if ((uVar3 == 0xffffffff) || (uVar3 == 0xfffffffe)) {

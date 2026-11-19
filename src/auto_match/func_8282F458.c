@@ -1,6 +1,6 @@
 extern int fn_828184A8();
 extern int fn_82F672D8();
-extern int fn_82F678C8();
+extern int fread();
 extern int __iob_func();
 extern int fprintf();
 extern unsigned int uStack_2c;
@@ -20,7 +20,7 @@ unsigned __int64 fn_8282F458(int param_1,unsigned __int64 param_2)
   char acStack_30 [4];
   unsigned char uStack_2c;
   
-  iVar5 = fn_82F678C8(param_1,0x38,1,param_2);
+  iVar5 = fread(param_1,0x38,1,param_2);
   if (iVar5 == 1) {
     fn_82F672D8(acStack_30,param_1,4);
     uStack_2c = 0;

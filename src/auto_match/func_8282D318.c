@@ -1,7 +1,7 @@
 extern unsigned int *auStack_30;
 extern int fn_82831618();
 extern int fn_82F674A8();
-extern int fn_82F67988();
+extern int fclose();
 extern int fn_82F6D000();
 
 
@@ -26,7 +26,7 @@ unsigned __int64 fn_8282D318(int param_1,unsigned __int64 param_2)
         lVar3 = lVar3 + 0x10;
       } while (uVar4 < *(unsigned int *)(param_1 + 8));
     }
-    fn_82F67988(auStack_30);
+    fclose(auStack_30);
     uVar1 = 1;
   }
   else {

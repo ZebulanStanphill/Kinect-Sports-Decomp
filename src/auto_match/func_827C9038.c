@@ -1,5 +1,5 @@
-extern int fn_82F67988(void *stream);
+extern int fclose(void *stream);
 int close_backing_store(void *cinfo, char *info)
 {
-    return fn_82F67988(*(void **)(info + 0xc));
+    return fclose(*(void **)(info + 0xc));
 }

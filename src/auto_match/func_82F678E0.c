@@ -7,7 +7,7 @@ extern void fn_82F7C6F0(File_82F678E0 *f);
 extern int fn_82F7C468(File_82F678E0 *f);
 extern int fn_82F7C590(int fd);
 
-int fn_82F678E0(File_82F678E0 *f)
+int _fclose_nolock(File_82F678E0 *f)
 {
     int r = -1;
     if (f == 0) {

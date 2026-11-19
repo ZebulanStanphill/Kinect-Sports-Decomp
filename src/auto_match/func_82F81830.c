@@ -1,5 +1,5 @@
 extern int free();
-extern int fn_82F67988();
+extern int fclose();
 extern int fn_82F71CD0();
 extern int fn_82F818F0();
 extern unsigned int lbl_8329F734;
@@ -23,7 +23,7 @@ int fn_82F81830(void)
     iVar1 = iVar4 * 4;
     if (*(int *)(iVar1 + lbl_8329F734) != 0) {
       if (((*(unsigned int *)(*(int *)(iVar1 + lbl_8329F734) + 0xc) & 0x83) != 0) &&
-         (iVar2 = fn_82F67988(), iVar2 != -1)) {
+         (iVar2 = fclose(), iVar2 != -1)) {
         iVar3 = iVar3 + 1;
         uStack_40 = iVar3;
       }

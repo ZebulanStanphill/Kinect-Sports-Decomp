@@ -11,7 +11,7 @@ typedef struct Stream_82F6BF90 {
     int bufferSize; /* 0x18 */
 } Stream_82F6BF90;
 
-int fn_82F6BF90(Stream_82F6BF90 *stream, int offset, int origin)
+int _fseek_nolock(Stream_82F6BF90 *stream, int offset, int origin)
 {
     if ((stream->flags & 0x83) == 0) {
         *_errno() = 22;

@@ -16,7 +16,7 @@ struct Stream_826E9C58 {
     void *file;                     /* 0x10 */
 };
 
-extern int fn_82F6C060(void *file, int offset, int whence);
+extern int fseek(void *file, int offset, int whence);
 
 int fn_826E9C58(Stream_826E9C58 *self, int offset, unsigned int origin)
 {
@@ -35,7 +35,7 @@ int fn_826E9C58(Stream_826E9C58 *self, int offset, unsigned int origin)
     }
     if (whence == 0 && offset == self->vt->Tell(self))
         return self->vt->Tell(self);
-    if (fn_82F6C060(self->file, offset, whence) != 0)
+    if (fseek(self->file, offset, whence) != 0)
         return -1;
     return self->vt->Tell(self);
 }

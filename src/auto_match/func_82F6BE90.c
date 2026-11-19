@@ -1,5 +1,5 @@
 extern int __iob_func();
-extern int fn_82F6AC80();
+extern int _lock_file();
 extern int fn_82F6BC30();
 extern int fn_82F6BCB0();
 extern int fn_82F6BF4C();
@@ -24,7 +24,7 @@ unsigned __int64 fn_82F6BE90(unsigned __int64 param_1)
     uVar2 = fn_82F6BCB0(0);
   }
   else {
-    fn_82F6AC80(param_1);
+    _lock_file(param_1);
     uVar3 = fn_82F6BC30(param_1);
     fn_82F6BF4C();
     uVar2 = (unsigned __int64)uVar3;
