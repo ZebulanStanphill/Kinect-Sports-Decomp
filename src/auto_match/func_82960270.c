@@ -1,45 +1,65 @@
-extern unsigned int *auStack_1c;
-extern unsigned int *auStack_20;
-extern int fn_8295D318();
-extern int fn_8295F950();
+typedef struct Desc_82960270 {
+    unsigned int flags; /* 0x00 */
+    int pad4;           /* 0x04 */
+    char *operands;     /* 0x08 */
+    int fieldC;         /* 0x0c */
+    int field10;        /* 0x10 */
+} Desc_82960270;
 
+typedef struct Obj_82960270 Obj_82960270;
 
-unsigned __int64 fn_82960270(int *param_1)
+typedef struct Vtbl_82960270 {
+    char pad[0x154];
+    int (*Fill)(Obj_82960270 *self, int source, int *out, unsigned int count, int a, int b);
+} Vtbl_82960270;
 
+struct Obj_82960270 {
+    Vtbl_82960270 *vt; /* 0x000 */
+    char pad4[0x100 - 0x4];
+    int source;          /* 0x100 */
+    Desc_82960270 *desc; /* 0x104 */
+};
+
+extern int fn_8295D318(Obj_82960270 *self, int mode, int a, int b, void *list0, void *list1, void *list2,
+                       unsigned int count, int c, int d, int e, int f);
+extern int fn_8295F950(Obj_82960270 *self, int kind, int flag);
+
+int fn_82960270(Obj_82960270 *self)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  unsigned char auStack_20 [4];
-  unsigned char auStack_1c [4];
-  
-  uVar1 = *(unsigned int *)param_1[0x41] & 0xfffff;
-  if (uVar1 == 1) {
-    uVar2 = 5;
-  }
-  else if (uVar1 == 3) {
-    uVar2 = 8;
-  }
-  else {
-    if (uVar1 != 4) {
-      uVar2 = (**(int (***)())(*param_1 + 0x154))(param_1,param_1[0x40],auStack_20,2,0,0);
-      if ((int)uVar2 < 0) {
-        return uVar2;
-      }
-      uVar2 = fn_8295D318(param_1,5,auStack_20,2,(unsigned __int64)*(unsigned int *)(param_1[0x41] + 8),
-                                (unsigned __int64)*(unsigned int *)(param_1[0x41] + 8) + 8,0,2);
-      if ((int)uVar2 < 0) {
-        return uVar2;
-      }
-      uVar2 = fn_8295D318(param_1,2,*(unsigned int *)(param_1[0x41] + 0x10),
-                                *(unsigned int *)(param_1[0x41] + 0xc),auStack_20,auStack_1c,0,1);
-      if ((int)uVar2 < 0) {
-        return uVar2;
-      }
-      return 0;
-    }
-    uVar2 = 9;
-  }
-  uVar2 = fn_8295F950(param_1,uVar2,0);
-  return uVar2;
-}
+    int buf[2];
+    int hr;
+    int kind;
+    char *firstOperands;
+    char *secondOperands;
 
+    switch (self->desc->flags & 0xfffff) {
+    case 1:
+        kind = 5;
+        break;
+    case 3:
+        kind = 8;
+        break;
+    case 4:
+        kind = 9;
+        break;
+    default:
+        hr = self->vt->Fill(self, self->source, buf, 2, 0, 0);
+        if (hr < 0) {
+            goto fail;
+        }
+        secondOperands = self->desc->operands;
+        firstOperands = self->desc->operands;
+        hr = fn_8295D318(self, 5, (int)buf, 2, firstOperands, secondOperands + 8, 0, 2, 0, 0, 0, 0);
+        if (hr < 0) {
+            goto fail;
+        }
+        hr = fn_8295D318(self, 2, self->desc->field10, self->desc->fieldC, buf, buf + 1, 0, 1, 0, 0, 0, 0);
+        if (hr < 0) {
+            goto fail;
+        }
+        return 0;
+    fail:
+        return hr;
+    }
+    return fn_8295F950(self, kind, 0);
+}

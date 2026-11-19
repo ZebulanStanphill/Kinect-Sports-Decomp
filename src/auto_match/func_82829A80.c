@@ -1,58 +1,75 @@
-extern unsigned int *auStack_40;
-extern int fn_8265C9E0();
-extern int fn_828252D0();
-extern int fn_828277F8();
-extern int fn_828281C8();
-extern int fn_82828720();
-extern int fn_82828B78();
+typedef struct Entry_82829A80 {
+    char pad0[0x24];
+    char data[4]; /* 0x24 */
+} Entry_82829A80;
 
+typedef struct Obj_82829A80 {
+    char pad0[0x10];
+    unsigned int nameId; /* 0x10 */
+    int m14;             /* 0x14 */
+    char pad18[0x10];
+    unsigned char isNew; /* 0x28 */
+    char pad29[3];
+    int m2c; /* 0x2c */
+    char pad30[4];
+    unsigned char m34; /* 0x34 */
+    char pad35[3];
+    int m38;           /* 0x38 */
+    void *tree;        /* 0x3c */
+    char *entryData;   /* 0x40 */
+    int m44;           /* 0x44 */
+    int *list;         /* 0x48 */
+    int m4c;           /* 0x4c */
+    int m50;           /* 0x50 */
+    unsigned char m54; /* 0x54 */
+} Obj_82829A80;
 
-void fn_82829A80(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,int *param_4,
-                  unsigned int param_5)
+extern void *fn_828252D0(unsigned int size);
+extern unsigned int fn_82828720(void *ctx, const char *name);
+extern void fn_828277F8(Obj_82829A80 *obj, void *ctx);
+extern unsigned char fn_828281C8(void *ctx, const char *type, Entry_82829A80 **out);
+extern void *fn_8265C9E0(unsigned int size);
+extern void *fn_82828B78(void *self, const void *comp, const void *alloc);
 
+void fn_82829A80(void *ctx, const char *name, const char *type, Obj_82829A80 **out, int arg)
 {
-  int iVar2;
-  unsigned int uVar3;
-  unsigned char uVar5;
-  __int64 lVar1;
-  unsigned int *puVar4;
-  unsigned char auStack_40 [4];
-  int aiStack_3c [15];
-  
-  iVar2 = fn_828252D0(0x58);
-  uVar3 = fn_82828720(param_1,param_2);
-  *(unsigned int *)(iVar2 + 0x10) = uVar3;
-  fn_828277F8(iVar2,param_1);
-  uVar5 = fn_828281C8(param_1,param_3,aiStack_3c);
-  *(unsigned char *)(iVar2 + 0x28) = uVar5;
-  *(unsigned int *)(iVar2 + 0x2c) = param_5;
-  *(unsigned int *)(iVar2 + 0x14) = 0;
-  *(int *)(iVar2 + 0x40) = aiStack_3c[0] + 0x24;
-  *(unsigned char *)(iVar2 + 0x34) = 0;
-  *(unsigned int *)(iVar2 + 0x38) = 0;
-  lVar1 = fn_8265C9E0(0x10);
-  if (lVar1 == 0) {
-    lVar1 = 0;
-  }
-  else {
-    fn_82828B78(lVar1,auStack_40,auStack_40);
-  }
-  *(int *)(iVar2 + 0x3c) = (int)lVar1;
-  *(unsigned int *)(iVar2 + 0x44) = 0;
-  puVar4 = (unsigned int *)fn_8265C9E0(0x10);
-  if (puVar4 == (unsigned int *)0x0) {
-    puVar4 = (unsigned int *)0x0;
-  }
-  else {
-    *puVar4 = 0;
-    puVar4[1] = 0;
-    puVar4[2] = 0;
-  }
-  *(unsigned int **)(iVar2 + 0x48) = puVar4;
-  *(unsigned int *)(iVar2 + 0x4c) = 0;
-  *(unsigned int *)(iVar2 + 0x50) = 0;
-  *(unsigned char *)(iVar2 + 0x54) = 0;
-  *param_4 = iVar2;
-  return;
-}
+    Obj_82829A80 *obj;
+    char unused;
+    void *mem;
+    void *tree;
+    int *list;
+    Entry_82829A80 *entry;
 
+    obj = (Obj_82829A80 *)fn_828252D0(0x58);
+    obj->nameId = fn_82828720(ctx, name);
+    fn_828277F8(obj, ctx);
+    obj->isNew = fn_828281C8(ctx, type, &entry);
+    obj->entryData = entry->data;
+    obj->m2c = arg;
+    obj->m14 = 0;
+    obj->m34 = 0;
+    obj->m38 = 0;
+    mem = fn_8265C9E0(0x10);
+    if (mem != 0) {
+        fn_82828B78(mem, &unused, &unused);
+        tree = mem;
+    } else {
+        tree = 0;
+    }
+    obj->tree = tree;
+    obj->m44 = 0;
+    mem = fn_8265C9E0(0x10);
+    if (mem != 0) {
+        ((int *)mem)[0] = 0;
+        ((int *)mem)[1] = 0;
+        ((int *)mem)[2] = 0;
+        list = (int *)mem;
+    } else {
+        list = 0;
+    }
+    obj->list = list;
+    obj->m4c = 0;
+    obj->m50 = 0;
+    obj->m54 = 0;
+    *out = obj;
+}

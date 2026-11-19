@@ -1,47 +1,53 @@
-void fn_82917810(int param_1,int param_2,short *param_3,int param_4,int *param_5,int *param_6)
+/* Adds up the (block-compressed and uncompressed) sizes of every leaf image of a node tree. */
+typedef struct Format_82917810 {
+    int f0;
+    unsigned short compressed; /* 0x4 */
+} Format_82917810;
 
+typedef struct Node_82917810 {
+    unsigned short type; /* 0x0 */
+    unsigned short f2;
+    unsigned short width;      /* 0x4 */
+    unsigned short height;     /* 0x6 */
+    unsigned short count;      /* 0x8 */
+    unsigned short childCount; /* 0xa */
+    unsigned int children;     /* 0xc */
+} Node_82917810;
+
+typedef struct Child_82917810 {
+    int f0;
+    unsigned int node; /* 0x4 */
+} Child_82917810;
+
+typedef struct Context_82917810 {
+    int f0;
+    int f4;
+    char *base; /* 0x8 */
+} Context_82917810;
+
+void fn_82917810(Context_82917810 *ctx, Format_82917810 *format, Node_82917810 *node, int count, int *stored,
+                 int *total)
 {
-  unsigned short uVar1;
-  unsigned short uVar2;
-  int iVar3;
-  unsigned int uVar4;
-  int *piVar5;
-  
-  if (param_3[5] == 0) {
-    if (*(short *)(param_2 + 4) == 0) {
-      uVar4 = (unsigned int)(unsigned short)param_3[3];
-      uVar1 = param_3[2];
-    }
-    else {
-      if (*param_3 == 3) {
-        uVar2 = param_3[2];
-        uVar1 = param_3[3];
-      }
-      else {
-        uVar2 = param_3[3];
-        uVar1 = param_3[2];
-      }
-      uVar4 = (int)(uVar2 + 3) >> 2;
-    }
-    *param_5 = uVar4 * uVar1 * param_4 + *param_5;
-    *param_6 = (unsigned int)(unsigned short)param_3[3] * (unsigned int)(unsigned short)param_3[2] * param_4 + *param_6;
-  }
-  else {
-    uVar4 = 0;
-    if (param_3[5] != 0) {
-      piVar5 = (int *)(*(int *)(param_3 + 6) + *(int *)(param_1 + 8) + 4);
-      do {
-        if (*piVar5 != 0) {
-          iVar3 = *piVar5 + *(int *)(param_1 + 8);
-          fn_82917810(param_1,param_2,iVar3,
-                        (__int64)(int)(unsigned int)*(unsigned short *)(iVar3 + 8) * (__int64)param_4,param_5,
-                        param_6);
-        }
-        uVar4 = uVar4 + 1;
-        piVar5 = piVar5 + 2;
-      } while (uVar4 < (unsigned short)param_3[5]);
-    }
-  }
-  return;
-}
+    unsigned int i;
+    Child_82917810 *children;
+    Node_82917810 *child;
 
+    if (node->childCount != 0) {
+        children = (Child_82917810 *)(ctx->base + node->children);
+        for (i = 0; i < node->childCount; i++) {
+            if (children[i].node != 0) {
+                child = (Node_82917810 *)(ctx->base + children[i].node);
+                fn_82917810(ctx, format, child, child->count * count, stored, total);
+            }
+        }
+    } else {
+        if (format->compressed == 0) {
+            *stored += node->height * node->width * count;
+        } else if (node->type != 3) {
+            *stored += ((node->height + 3) >> 2) * node->width * count;
+        } else {
+            *stored += ((node->width + 3) >> 2) * node->height * count;
+        }
+        *total += node->height * node->width * count;
+    }
+}

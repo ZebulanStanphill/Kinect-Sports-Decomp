@@ -1,52 +1,90 @@
-#define true 1
-extern unsigned int lbl_832960CC;
-extern unsigned int lbl_83296190;
+typedef struct Inner_8251D888 {
+    char pad0[0x10];
+    int stack[5]; /* 0x10 */
+    int count;    /* 0x24 */
+} Inner_8251D888;
 
+typedef struct Entry_8251D888 {
+    int pad0;
+    Inner_8251D888 *inner; /* 0x04 */
+    int pad8;
+    int active; /* 0x0c */
+    char pad10[0x20];
+} Entry_8251D888;
 
-void fn_8251D888(void)
+typedef struct Globals_8251D888 {
+    char pad0[0x28];
+    Entry_8251D888 entries[4]; /* 0x28 */
+    int padE8[2];
+    Entry_8251D888 *current; /* 0xf0 */
+} Globals_8251D888;
 
+extern Globals_8251D888 lbl_832960A0;
+
+static __forceinline int IsTop(Inner_8251D888 *o, int value)
 {
-  int iVar1;
-  int iVar2;
-  int *piVar3;
-  unsigned int uVar4;
-  __int64 lVar5;
-  
-  piVar3 = &lbl_832960CC;
-  lVar5 = 4;
-  do {
-    iVar1 = *piVar3;
-    if ((iVar1 != 0) && ((lbl_83296190 == piVar3 + -1 || (piVar3[2] != 0)))) {
-      if (*(int *)(iVar1 + 0x10) == 1) {
-        iVar2 = *(int *)(iVar1 + 0x24);
-        if ((iVar2 < 1) || (3 < iVar2)) {
-          uVar4 = 0;
-        }
-        else {
-          uVar4 = (unsigned int)LZCOUNT((unsigned int)LZCOUNT(*(int *)((iVar2 + 4) * 4 + iVar1) + -1) >> 5) >> 5;
-        }
-        if (uVar4 == 0) goto LAB_8251d994;
-LAB_8251d94c:
-        uVar4 = 0;
-      }
-      else {
-        iVar2 = *(int *)(iVar1 + 0x24);
-        if ((iVar2 < 1) || (3 < iVar2)) goto LAB_8251d94c;
-        uVar4 = (unsigned int)LZCOUNT(*(int *)((iVar2 + 4) * 4 + iVar1) + -1) >> 5;
-      }
-      if ((uVar4 == 0) &&
-         ((iVar2 = *(int *)(iVar1 + 0x24), iVar2 < 1 || (*(int *)((iVar2 + 4) * 4 + iVar1) != 1))))
-      {
-        *(unsigned int *)((iVar2 + 5) * 4 + iVar1) = 1;
-        *(int *)(iVar1 + 0x24) = *(int *)(iVar1 + 0x24) + 1;
-      }
+    int n;
+
+    n = o->count;
+    if (n > 0 && n < 4) {
+        return o->stack[n] == value;
     }
-LAB_8251d994:
-    piVar3 = piVar3 + 0xc;
-    lVar5 = lVar5 + -1;
-    if (lVar5 == 0) {
-      return;
-    }
-  } while( true );
+    return 0;
 }
 
+static __forceinline int IsValue(int a, int b)
+{
+    if (a == b)
+        return 1;
+    return 0;
+}
+
+static __forceinline int CanEnter(Inner_8251D888 *o)
+{
+    int n;
+
+    if (o->stack[0] != 1) {
+        return 1;
+    }
+    n = o->count;
+    if (n > 0 && n < 4) {
+        return !IsValue(o->stack[n], 1);
+    }
+    return 0;
+}
+
+static __forceinline int MustWait(Inner_8251D888 *o)
+{
+    if (o->stack[0] != 1) {
+        return IsTop(o, 1);
+    }
+    return 0;
+}
+
+void fn_8251D888(void)
+{
+    Entry_8251D888 *e;
+    Inner_8251D888 *o;
+    int i;
+
+    for (i = 0; i < 4; i++) {
+        o = lbl_832960A0.entries[i].inner;
+        e = &lbl_832960A0.entries[i];
+        if (o == 0) {
+            continue;
+        }
+        if (lbl_832960A0.current != e && e->active == 0) {
+            continue;
+        }
+        if (!CanEnter(o)) {
+            continue;
+        }
+        if (MustWait(o)) {
+            continue;
+        }
+        if (o->count <= 0 || o->stack[o->count] != 1) {
+            o->stack[o->count + 1] = 1;
+            o->count = o->count + 1;
+        }
+    }
+}

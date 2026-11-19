@@ -1,50 +1,63 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_8281D480();
+typedef struct Plane_827EB2B0 {
+    float x;
+    float y;
+    float z;
+    float d;
+} Plane_827EB2B0;
 
+typedef struct Frustum_827EB2B0 {
+    char pad0[0x48];
+    Plane_827EB2B0 planes[6]; /* 0x48 */
+} Frustum_827EB2B0;
 
-char fn_827EB2B0(double param_1,__int64 param_2,unsigned char *param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5,unsigned char *param_6)
+extern float fn_8281D480(const Plane_827EB2B0 *plane, const float *point);
 
+/* Tests a sphere against the frustum planes still set in *mask, starting with the plane that rejected the
+   last one; clears the planes the sphere is fully inside. Returns 0 when it is outside (and remembers that
+   plane), 1 when it intersects, 2 when it is inside. */
+static __forceinline int TestSphere(Frustum_827EB2B0 *frustum, unsigned char *mask, const float *center,
+                                    float radius, unsigned char *lastPlane)
 {
-  bool bVar1;
-  unsigned char bVar2;
-  char cVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  double dVar6;
-  
-  uVar5 = -(unsigned __int64)((unsigned __int64)*param_6 < 6) & (unsigned __int64)*param_6;
-  bVar1 = true;
-  cVar3 = '\x01';
-  bVar2 = 0;
-  uVar4 = (unsigned __int64)(unsigned int)(0x80 >> ((unsigned int)uVar5 & 0x3f)) & 0xff;
-  do {
-    if ((uVar4 & *param_3) != 0) {
-      dVar6 = (double)fn_8281D480(uVar5 * 0x10 + param_2 + 0x48,param_4);
-      if (param_1 < dVar6) {
-        *param_6 = (unsigned char)uVar5;
-        return '\0';
-      }
-      if (-param_1 < dVar6) {
-        bVar1 = false;
-        cVar3 = '\0';
-      }
-      else {
-        *param_3 = *param_3 & ~(unsigned char)uVar4;
-      }
+    unsigned char bit;
+    unsigned char plane;
+    unsigned char tested;
+    unsigned char inside;
+    float distance;
+
+    plane = *lastPlane;
+    if (plane >= 6) {
+        plane = 0;
     }
-    uVar5 = uVar5 + 1 & 0xff;
-    if (uVar5 == 6) {
-      uVar5 = 0;
-      uVar4 = 0x80;
-    }
-    else {
-      uVar4 = uVar4 >> 1;
-    }
-    bVar2 = bVar2 + 1;
-  } while (bVar2 < 6);
-  return !bVar1 + cVar3 * '\x02';
+    bit = 0x80 >> plane;
+    inside = 1;
+    tested = 0;
+    do {
+        if ((*mask & bit) != 0) {
+            distance = fn_8281D480(&frustum->planes[plane], center);
+            if (distance > radius) {
+                *lastPlane = plane;
+                return 0;
+            }
+            if (distance <= -radius) {
+                *mask &= ~bit;
+            } else {
+                inside = 0;
+            }
+        }
+        plane++;
+        if (plane == 6) {
+            plane = 0;
+            bit = 0x80;
+        } else {
+            bit >>= 1;
+        }
+        tested++;
+    } while (tested < 6);
+    return !inside + inside * 2;
 }
 
+int fn_827EB2B0(Frustum_827EB2B0 *frustum, unsigned char *mask, const float *center, float radius,
+                unsigned char *lastPlane)
+{
+    return TestSphere(frustum, mask, center, radius, lastPlane);
+}

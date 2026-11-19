@@ -1,59 +1,56 @@
-extern int fn_82FA5060();
-extern int fn_82FA5190();
-extern unsigned int lbl_831BC768;
+typedef struct Element_83035FF0 {
+    int value0; /* 0x00 */
+    int value1; /* 0x04 */
+    int value2; /* 0x08 */
+    int value3; /* 0x0c */
+    int value4; /* 0x10 */
+    int value5; /* 0x14 */
+} Element_83035FF0;
 
+typedef struct Array_83035FF0 {
+    Element_83035FF0 *begin;
+    Element_83035FF0 *end;
+    int capacity;
+} Array_83035FF0;
 
-unsigned int fn_83035FF0(int *param_1,__int64 param_2)
+extern int lbl_831BC768;
+extern void *fn_82FA5060(int heap, unsigned int size);
+extern int fn_82FA5190(int heap, void *memory);
 
+/* The zeroed words form one three-word member; its inline initialiser clears them in order. */
+static __forceinline void ClearTriple(int *values)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  int iVar3;
-  __int64 lVar4;
-  unsigned int *puVar5;
-  unsigned int *puVar6;
-  unsigned int *puVar7;
-  unsigned __int64 uVar8;
-  __int64 lVar9;
-  
-  uVar8 = param_2 + (unsigned __int64)(unsigned int)param_1[2];
-  iVar3 = fn_82FA5060(lbl_831BC768,(uVar8 + (uVar8 & 0x7fffffff) * 2 & 0x1fffffff) << 3);
-  uVar2 = 0;
-  if (iVar3 != 0) {
-    uVar1 = (param_1[1] - *param_1) / 0x18;
-    if (*param_1 != 0) {
-      if (uVar1 != 0) {
-        puVar7 = (unsigned int *)(iVar3 + 0x14);
-        lVar4 = (__int64)(int)uVar1;
-        do {
-          if (puVar7 != (unsigned int *)0x14) {
-            puVar7[-4] = 0;
-            puVar7[-3] = 0;
-            puVar7[-2] = 0;
-            puVar7[-1] = 0;
-            *puVar7 = 0;
-          }
-          puVar5 = puVar7 + -6;
-          puVar6 = (unsigned int *)((int)puVar7 + (*param_1 - iVar3) + -0x18);
-          lVar9 = 6;
-          do {
-            puVar6 = puVar6 + 1;
-            puVar5 = puVar5 + 1;
-            *puVar5 = *puVar6;
-            lVar9 = lVar9 + -1;
-          } while (lVar9 != 0);
-          lVar4 = lVar4 + -1;
-          puVar7 = puVar7 + 6;
-        } while (lVar4 != 0);
-      }
-      fn_82FA5190(lbl_831BC768,*param_1);
-    }
-    *param_1 = iVar3;
-    param_1[2] = (int)uVar8;
-    uVar2 = 1;
-    param_1[1] = (int)(((__int64)(int)uVar1 + ((unsigned __int64)uVar1 & 0x7fffffff) * 2 & 0xffffffff) <<
-                      3) + iVar3;
-  }
-  return uVar2;
+    values[0] = 0;
+    values[1] = 0;
+    values[2] = 0;
 }
 
+int fn_83035FF0(Array_83035FF0 *self, int extra)
+{
+    int capacity = extra + self->capacity;
+    Element_83035FF0 *memory = (Element_83035FF0 *)fn_82FA5060(lbl_831BC768, capacity * 24);
+    int count;
+    if (memory == 0) {
+        return 0;
+    }
+    count = self->end - self->begin;
+    if (self->begin != 0) {
+        unsigned int index;
+        for (index = 0; index < count; index++) {
+            Element_83035FF0 *element = &memory[index];
+            Element_83035FF0 *begin;
+            if (element != 0) {
+                element->value1 = 0;
+                element->value2 = 0;
+                ClearTriple(&element->value3);
+            }
+            begin = self->begin;
+            *element = begin[index];
+        }
+        fn_82FA5190(lbl_831BC768, self->begin);
+    }
+    self->begin = memory;
+    self->capacity = capacity;
+    self->end = memory + count;
+    return 1;
+}

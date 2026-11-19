@@ -1,46 +1,43 @@
-extern int fn_82B45880();
-extern int fn_82F65AC0();
-extern int fn_82F66A80();
-extern int fn_82F672D8();
-extern int fn_82F6A3F0();
-extern int fn_82F6A4B0();
-extern int fn_82F6DCE0();
+typedef struct Symbol_82B80788 {
+    char pad[0x18];
+    const char *name; /* 0x18 */
+} Symbol_82B80788;
 
+extern Symbol_82B80788 *fn_82B45880(void *table, unsigned int id);
+extern unsigned long fn_82F6A3F0(const char *text, char **end, int radix);
+extern int fn_82F6DCE0(char *buf, unsigned int size, const char *fmt, ...);
+char *strncpy(char *dst, const char *src, unsigned int count);
+char *strrchr(const char *s, int c);
+int stricmp(const char *a, const char *b);
+int isdigit(int c);
+unsigned int strlen(const char *s);
 
-void fn_82B80788(unsigned __int64 param_1,char *param_2,int param_3,unsigned __int64 param_4,int param_5)
-
+void fn_82B80788(void *table, char *name, int size, unsigned int id, int bias)
 {
-  char *pcVar1;
-  int iVar2;
-  unsigned char *puVar3;
-  char *pcVar4;
-  char *apcStack_50 [20];
-  
-  iVar2 = fn_82B45880(param_1,param_4);
-  fn_82F672D8(param_2,*(unsigned int *)(iVar2 + 0x18),param_3);
-  param_2[param_3 + -1] = '\0';
-  puVar3 = (unsigned char *)fn_82F6A4B0(param_2,0x5f);
-  pcVar1 = param_2;
-  if ((puVar3 != (unsigned char *)0x0) &&
-     ((iVar2 = fn_82F65AC0(puVar3,0xffffffff820d3a94), iVar2 == 0 ||
-      (iVar2 = fn_82F65AC0(puVar3,0xffffffff820d8938), iVar2 == 0)))) {
-    *puVar3 = 0;
-  }
-  do {
-    pcVar4 = pcVar1;
-    pcVar1 = pcVar4 + 1;
-  } while (*pcVar4 != '\0');
-  do {
-    pcVar1 = pcVar4;
-    if (pcVar1 <= param_2) break;
-    iVar2 = fn_82F66A80(pcVar1[-1]);
-    pcVar4 = pcVar1 + -1;
-  } while (iVar2 != 0);
-  iVar2 = fn_82F6A3F0(pcVar1,apcStack_50,10);
-  if ((*apcStack_50[0] == '\0') && (iVar2 + param_5 != 0)) {
-    fn_82F6DCE0(pcVar1,param_2 + (param_3 - (int)pcVar1),0xffffffff821c7f34);
-    param_2[param_3 + -1] = '\0';
-  }
-  return;
-}
+    char *suffix;
+    char *digits;
+    char *end;
+    unsigned long index;
+    Symbol_82B80788 *symbol;
 
+    symbol = fn_82B45880(table, id);
+    strncpy(name, symbol->name, size);
+    name[size - 1] = 0;
+    suffix = strrchr(name, '_');
+    if (suffix != 0) {
+        if (stricmp(suffix, "_centroid") == 0) {
+            *suffix = 0;
+        } else if (stricmp(suffix, "_center") == 0) {
+            *suffix = 0;
+        }
+    }
+    digits = name + strlen(name);
+    while (digits > name && isdigit(digits[-1])) {
+        digits--;
+    }
+    index = fn_82F6A3F0(digits, &end, 10) + bias;
+    if (*end == 0 && index != 0) {
+        fn_82F6DCE0(digits, size - (digits - name), "%u", index);
+        name[size - 1] = 0;
+    }
+}

@@ -1,49 +1,62 @@
-extern int fn_82CC6160();
-extern int fn_82EDC068();
-extern int fn_82F2CD08();
+typedef struct Format_82EDC118 {
+    int f0;
+    int width;  /* 0x04 */
+    int height; /* 0x08 */
+    char padC[8];
+    int pitch; /* 0x14 */
+} Format_82EDC118;
 
+typedef struct Media_82EDC118 {
+    int f0;
+    Format_82EDC118 *format; /* 0x04 */
+    char pad8[8];
+    int width;  /* 0x10 */
+    int height; /* 0x14 */
+    char pad18[8];
+    int frameWidth;      /* 0x20 */
+    int frameHeight;     /* 0x24 */
+    int lastWidth;       /* 0x28 */
+    int lastHeight;      /* 0x2c */
+    int lastFrameWidth;  /* 0x30 */
+    int lastFrameHeight; /* 0x34 */
+    char pad38[8];
+    char scaler[0x8c];    /* 0x40 */
+    char converter[0x88]; /* 0xcc */
+    int useConverter;     /* 0x154 */
+    int interlaced;       /* 0x158 */
+    int changes;          /* 0x15c */
+} Media_82EDC118;
 
-unsigned __int64 fn_82EDC118(int param_1)
+int fn_82EDC068(Media_82EDC118 *self, int width, int height);
+void fn_82CC6160(void *converter, int width, int height, int frameWidth, int frameHeight);
+void fn_82F2CD08(void *scaler, int width, int height, int frameWidth, int frameHeight);
 
+int fn_82EDC118(Media_82EDC118 *self)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  int iVar3;
-  unsigned int uVar4;
-  unsigned __int64 uVar5;
-  
-  uVar1 = *(unsigned int *)(param_1 + 0x24);
-  uVar5 = (unsigned __int64)uVar1;
-  *(unsigned int *)(param_1 + 0x15c) = 0;
-  if (*(int *)(param_1 + 0x158) == 0) {
-    if ((*(int *)(param_1 + 0x10) != *(int *)(param_1 + 0x28)) ||
-       (*(int *)(param_1 + 0x14) != *(int *)(param_1 + 0x2c))) {
-      *(unsigned int *)(param_1 + 0x15c) = 1;
-    }
-    if ((*(int *)(param_1 + 0x20) != *(int *)(param_1 + 0x30)) ||
-       (uVar1 != *(unsigned int *)(param_1 + 0x34))) {
-      *(int *)(param_1 + 0x15c) = *(int *)(param_1 + 0x15c) + 2;
-    }
-    *(unsigned int *)(*(int *)(param_1 + 4) + 8) = *(unsigned int *)(param_1 + 0x14);
-  }
-  else {
-    uVar2 = *(unsigned int *)(param_1 + 0x14);
-    *(unsigned int *)(param_1 + 0x15c) = 3;
-    *(unsigned int *)(*(int *)(param_1 + 4) + 8) =
-         ((int)uVar2 >> 1) + (unsigned int)((int)uVar2 < 0 && (uVar2 & 1) != 0);
-    uVar5 = (__int64)((int)uVar1 >> 1) + (unsigned __int64)((int)uVar1 < 0 && (uVar1 & 1) != 0);
-  }
-  *(unsigned int *)(*(int *)(param_1 + 4) + 4) = *(unsigned int *)(param_1 + 0x10);
-  iVar3 = *(int *)(param_1 + 4);
-  uVar4 = fn_82EDC068(param_1,*(unsigned int *)(iVar3 + 4),*(unsigned int *)(iVar3 + 8));
-  *(unsigned int *)(iVar3 + 0x14) = uVar4;
-  if (*(int *)(param_1 + 0x154) == 0) {
-    fn_82F2CD08(param_1 + 0x40,*(unsigned int *)(param_1 + 0x10),
-                 *(unsigned int *)(*(int *)(param_1 + 4) + 8),*(unsigned int *)(param_1 + 0x20),uVar5);
-  }
-  else {
-    fn_82CC6160(param_1 + 0xcc);
-  }
-  return 1;
-}
+    int outHeight = self->frameHeight;
+    Format_82EDC118 *format;
 
+    self->changes = 0;
+    if (self->interlaced == 0) {
+        if (self->width != self->lastWidth || self->height != self->lastHeight) {
+            self->changes = 1;
+        }
+        if (self->frameWidth != self->lastFrameWidth || self->frameHeight != self->lastFrameHeight) {
+            self->changes += 2;
+        }
+        self->format->height = self->height;
+    } else {
+        self->changes = 3;
+        self->format->height = self->height / 2;
+        outHeight = outHeight / 2;
+    }
+    self->format->width = self->width;
+    format = self->format;
+    format->pitch = fn_82EDC068(self, format->width, format->height);
+    if (self->useConverter != 0) {
+        fn_82CC6160(self->converter, self->width, self->format->height, self->frameWidth, outHeight);
+    } else {
+        fn_82F2CD08(self->scaler, self->width, self->format->height, self->frameWidth, outHeight);
+    }
+    return 1;
+}

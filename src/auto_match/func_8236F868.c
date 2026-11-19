@@ -1,68 +1,79 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_822AA770();
-extern int fn_8236FB68();
-extern int fn_82508078();
-extern int fn_8288B760();
-extern unsigned int uRam831d1ba4;
-extern unsigned int uRam831d1ba8;
+typedef struct Value_8236F868 {
+    char pad[0x20];
+    float value; /* 0x20 */
+} Value_8236F868;
 
+typedef struct Array_8236F868 {
+    Value_8236F868 **data; /* 0x0 */
+    char pad[0xc];
+    unsigned int index; /* 0x10 */
+} Array_8236F868;
 
-void fn_8236F868(int param_1)
+typedef struct Player_8236F868 {
+    char pad[0x168];
+    void *source; /* 0x168 */
+    int active;   /* 0x16c */
+} Player_8236F868;
 
+typedef struct Game_8236F868 {
+    char pad[8];
+    Array_8236F868 ***arrays; /* 0x8 */
+    char gap[0x98];
+    void *sink; /* 0xa4 */
+} Game_8236F868;
+
+extern unsigned int lbl_831D1B28[];
+extern Player_8236F868 *fn_822AA770(Array_8236F868 *array);
+extern unsigned char fn_8288B760(void *source);
+extern void *fn_8236FB68(int id);
+extern void fn_82508078(void *sink, void *item, int flags);
+
+static __forceinline Array_8236F868 *GetArray(Game_8236F868 *game, int index)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  int *piVar3;
-  int *piVar4;
-  int iVar7;
-  unsigned int uVar8;
-  unsigned __int64 uVar5;
-  __int64 lVar6;
-  bool bVar9;
-  unsigned int uVar10;
-  
-  piVar3 = (int *)**(int **)(param_1 + 8);
-  piVar4 = (int *)*piVar3;
-  piVar3 = (int *)piVar3[1];
-  uVar1 = (unsigned int)*(float *)(*(int *)(piVar3[4] * 4 + *piVar3) + 0x20);
-  uVar2 = (unsigned int)*(float *)(*(int *)(piVar4[4] * 4 + *piVar4) + 0x20);
-  iVar7 = fn_822AA770(*(unsigned int *)
-                             ((-(unsigned int)(uVar2 < uVar1) & 1) * 4 + **(int **)(param_1 + 8)));
-  if (iVar7 != 0) {
-    if (*(int *)(iVar7 + 0x168) == 0) {
-      uVar8 = *(unsigned int *)(iVar7 + 0x16c);
-    }
-    else {
-      uVar8 = fn_8288B760();
-      uVar8 = uVar8 & 0xff;
-    }
-    bVar9 = true;
-    if (uVar8 != 0) goto LAB_8236f918;
-  }
-  bVar9 = false;
-LAB_8236f918:
-  uVar8 = uVar2;
-  if (((int)uVar1 <= (int)uVar2) || (uVar8 = uVar1, uVar10 = uVar2, (int)uVar1 <= (int)uVar2)) {
-    uVar10 = uVar1;
-  }
-  if (uVar2 == uVar1) {
-    uVar5 = 0x16;
-  }
-  else if ((uRam831d1ba4 < uVar8 - uVar10) && (bVar9)) {
-    uVar5 = 0x15;
-  }
-  else {
-    uVar5 = 0x13;
-    if (uRam831d1ba8 < uVar8 - uVar10) {
-      uVar5 = 0x14;
-    }
-  }
-  lVar6 = fn_8236FB68(uVar5);
-  if (lVar6 != 0) {
-    fn_82508078(*(unsigned int *)(param_1 + 0xa4),lVar6,0);
-  }
-  return;
+    Game_8236F868 *owner = game;
+
+    return (*owner->arrays)[index];
 }
 
+static __forceinline unsigned int Score(Game_8236F868 *game, int index)
+{
+    Array_8236F868 *array = (*game->arrays)[index];
+
+    return (int)array->data[array->index]->value;
+}
+
+void fn_8236F868(Game_8236F868 *self)
+{
+    unsigned int first = Score(self, 0);
+    unsigned int second = Score(self, 1);
+    Player_8236F868 *player = fn_822AA770(GetArray(self, first < second));
+    int active;
+    unsigned int hi;
+    unsigned int lo;
+    unsigned int difference;
+    int id;
+    void *item;
+
+    if (player != 0 && (player->source ? fn_8288B760(player->source) : player->active) != 0) {
+        active = 1;
+    } else {
+        active = 0;
+    }
+    hi = (int)first >= (int)second ? first : second;
+    lo = (int)first < (int)second ? first : second;
+    difference = hi - lo;
+    if (first == second) {
+        id = 0x16;
+    } else if (difference > lbl_831D1B28[0x1f] && active) {
+        id = 0x15;
+    } else {
+        id = 0x13;
+        if (difference > lbl_831D1B28[0x20]) {
+            id = 0x14;
+        }
+    }
+    item = fn_8236FB68(id);
+    if (item != 0) {
+        fn_82508078(self->sink, item, 0);
+    }
+}
