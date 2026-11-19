@@ -1,70 +1,98 @@
-extern int fn_82D2B688();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_821AAD20;
+typedef struct Vertex_82D22578 {
+    struct Vertex_82D22578 *next; /* 0x0 */
+    struct Vertex_82D22578 *prev; /* 0x4 */
+    char pad8[0x28];
+    float tag; /* 0x30 */
+} Vertex_82D22578;
 
+typedef struct Triangle_82D22578 {
+    struct Triangle_82D22578 *next; /* 0x0 */
+    struct Triangle_82D22578 *prev; /* 0x4 */
+    Vertex_82D22578 *vertices[3];   /* 0x8 */
+} Triangle_82D22578;
 
-__int64 fn_82D22578(int param_1)
+typedef struct VertexList_82D22578 {
+    int pad[3];
+    Vertex_82D22578 *head; /* 0xc */
+    int count;             /* 0x10 */
+} VertexList_82D22578;
 
+typedef struct TriangleList_82D22578 {
+    int pad[3];
+    Triangle_82D22578 *head; /* 0xc */
+    int count;               /* 0x10 */
+} TriangleList_82D22578;
+
+typedef struct Cache_82D22578 Cache_82D22578;
+
+typedef struct CacheVtbl_82D22578 {
+    void (*Destroy)(Cache_82D22578 *self, int flags); /* 0x0 */
+} CacheVtbl_82D22578;
+
+struct Cache_82D22578 {
+    CacheVtbl_82D22578 *vt;
+};
+
+typedef struct Mesh_82D22578 {
+    char pad0[0x8];
+    VertexList_82D22578 vertices; /* 0x8 */
+    char pad1c[0x4];
+    TriangleList_82D22578 triangles; /* 0x20 */
+    char pad34[0x7b8 - 0x34];
+    Cache_82D22578 *cache; /* 0x7b8 */
+} Mesh_82D22578;
+
+extern void fn_82D2B688(VertexList_82D22578 *list, Vertex_82D22578 *vertex);
+
+static __forceinline void RemoveVertex(VertexList_82D22578 *list, Vertex_82D22578 *vertex)
 {
-  unsigned int *puVar1;
-  int iVar2;
-  int iVar3;
-  int *piVar4;
-  unsigned int uVar5;
-  float fVar6;
-  __int64 lVar7;
-  int *piVar8;
-  double dVar9;
-  
-  fVar6 = lbl_821AAD20;
-  lVar7 = 0;
-  dVar9 = (double)lbl_821AAD20;
-  uVar5 = lbl_82002AE0;
-  for (puVar1 = *(unsigned int **)(param_1 + 0x14); lbl_82002AE0 = uVar5, puVar1 != (unsigned int *)0x0;
-      puVar1 = (unsigned int *)*puVar1) {
-    puVar1[0xc] = fVar6;
-    uVar5 = lbl_82002AE0;
-  }
-  puVar1 = *(unsigned int **)(param_1 + 0x2c);
-  while (puVar1 != (unsigned int *)0x0) {
-    piVar8 = puVar1 + 2;
-    iVar2 = puVar1[3];
-    iVar3 = puVar1[4];
-    puVar1 = (unsigned int *)*puVar1;
-    *(unsigned int *)(*piVar8 + 0x30) = uVar5;
-    *(unsigned int *)(iVar2 + 0x30) = uVar5;
-    *(unsigned int *)(iVar3 + 0x30) = uVar5;
-  }
-  piVar8 = *(int **)(param_1 + 0x14);
-  if (*(int **)(param_1 + 0x14) != (int *)0x0) {
-    do {
-      piVar4 = (int *)*piVar8;
-      if ((double)(float)piVar8[0xc] == dVar9) {
-        iVar2 = *piVar8;
-        piVar8 = (int *)piVar8[1];
-        if (iVar2 != 0) {
-          *(int **)(iVar2 + 4) = piVar8;
-        }
-        if (piVar8 == (int *)0x0) {
-          *(int *)(param_1 + 0x14) = iVar2;
-        }
-        else {
-          *piVar8 = iVar2;
-        }
-        *(int *)(param_1 + 0x18) = *(int *)(param_1 + 0x18) + -1;
-        fn_82D2B688();
-        lVar7 = lVar7 + 1;
-      }
-      piVar8 = piVar4;
-    } while (piVar4 != (int *)0x0);
-    if ((int)lVar7 != 0) {
-      puVar1 = *(unsigned int **)(param_1 + 0x7b8);
-      if (puVar1 != (unsigned int *)0x0) {
-        (**(int (***)())*puVar1)(puVar1,1);
-      }
-      *(unsigned int *)(param_1 + 0x7b8) = 0;
+    Vertex_82D22578 *next = vertex->next;
+    Vertex_82D22578 *prev = vertex->prev;
+    if (next != 0) {
+        next->prev = prev;
     }
-  }
-  return lVar7;
+    if (prev != 0) {
+        prev->next = next;
+    } else {
+        list->head = next;
+    }
+    list->count--;
+    fn_82D2B688(list, vertex);
 }
 
+int fn_82D22578(Mesh_82D22578 *mesh)
+{
+    int removed = 0;
+    Vertex_82D22578 *vertex;
+    Vertex_82D22578 *nextVertex;
+    Triangle_82D22578 *triangle;
+    for (vertex = mesh->vertices.head; vertex != 0; vertex = vertex->next) {
+        vertex->tag = 0.0f;
+    }
+    triangle = mesh->triangles.head;
+    while (triangle != 0) {
+        Vertex_82D22578 *first = triangle->vertices[0];
+        Vertex_82D22578 *second = triangle->vertices[1];
+        Vertex_82D22578 *third = triangle->vertices[2];
+        triangle = triangle->next;
+        first->tag = 1.0f;
+        second->tag = 1.0f;
+        third->tag = 1.0f;
+    }
+    nextVertex = mesh->vertices.head;
+    while (nextVertex != 0) {
+        vertex = nextVertex;
+        nextVertex = nextVertex->next;
+        if (vertex->tag == 0.0f) {
+            RemoveVertex(&mesh->vertices, vertex);
+            removed++;
+        }
+    }
+    if (removed != 0) {
+        if (mesh->cache != 0) {
+            mesh->cache->vt->Destroy(mesh->cache, 1);
+        }
+        mesh->cache = 0;
+    }
+    return removed;
+}

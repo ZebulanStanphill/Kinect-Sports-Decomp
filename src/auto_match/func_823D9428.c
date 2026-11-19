@@ -1,62 +1,72 @@
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_40;
-extern int fn_822AA718();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vmsum3fp(__vector4 a, __vector4 b);
 
-/* WARNING: Removing unreachable block (ram,0x823d94c4) */
-/* WARNING: Removing unreachable block (ram,0x823d94e8) */
-/* WARNING: Removing unreachable block (ram,0x823d94f4) */
-/* WARNING: Removing unreachable block (ram,0x823d9504) */
+typedef struct Array_823D9428 {
+    void **begin; /* 0x0 */
+    void **end;   /* 0x4 */
+} Array_823D9428;
 
-unsigned __int64 fn_823D9428(int param_1,int param_2)
+typedef struct Plane_823D9428 {
+    char pad0[0x4];
+    __vector4 *point; /* 0x4 */
+} Plane_823D9428;
 
+typedef struct Field_823D9428 {
+    char pad0[0x1c];
+    Plane_823D9428 *plane;   /* 0x1c */
+    Array_823D9428 **arrays; /* 0x20 */
+} Field_823D9428;
+
+typedef struct Body_823D9428 {
+    char pad0[0x1c];
+    void *handle; /* 0x1c */
+    char pad20[0xc];
+    int team; /* 0x2c */
+    char pad30[0x50];
+    __vector4 position; /* 0x80 */
+} Body_823D9428;
+
+extern __vector4 *fn_822AA718(__vector4 *out, void *handle);
+extern void fn_823D9208(Field_823D9428 *self, __vector4 *min, __vector4 *max, __vector4 point);
+
+static __forceinline float Dot3(__vector4 a, __vector4 b)
 {
-  unsigned int uVar1;
-  int iVar2;
-  int *piVar3;
-  unsigned int *puVar4;
-  unsigned int *puVar5;
-  float *pfVar6;
-  unsigned int uVar7;
-  int in_r0;
-  float fVar8;
-  float fVar9;
-  float fVar10;
-  float fVar11;
-  unsigned int uVar12;
-  unsigned char auStack_40 [16];
-  unsigned char auStack_30 [32];
-  
-  piVar3 = *(int **)(*(int *)(param_2 + 0x2c) * 4 + *(int *)(param_1 + 0x20));
-  if ((piVar3[1] - *piVar3 & 0xfffffffcU) != 0) {
-    uVar1 = *(unsigned int *)(param_2 + 0x1c);
-    puVar4 = (unsigned int *)(param_2 + 0x80U & 0xfffffff0);
-    fVar10 = (float)puVar4[1];
-    fVar11 = (float)puVar4[2];
-    uVar12 = puVar4[3];
-    puVar5 = (unsigned int *)((unsigned int)(auStack_40 + in_r0) & 0xfffffff0);
-    *puVar5 = *puVar4;
-    puVar5[1] = fVar10;
-    puVar5[2] = fVar11;
-    puVar5[3] = uVar12;
-    fn_822AA718(auStack_30,uVar1);
-    fVar8 = *(float *)(((unsigned int)(auStack_30 + in_r0) & 0xfffffff0) + 4);
-    fVar9 = *(float *)(((unsigned int)(auStack_30 + in_r0) & 0xfffffff0) + 8);
-    fVar10 = fVar10 * fVar8 + 0.0 + fVar11 * fVar9;
-    iVar2 = *(int *)(param_1 + 0x1c);
-    pfVar6 = (float *)((unsigned int)(auStack_30 + in_r0) & 0xfffffff0);
-    *pfVar6 = fVar10;
-    pfVar6[1] = fVar10;
-    pfVar6[2] = fVar10;
-    pfVar6[3] = fVar10;
-    uVar7 = in_r0 + *(int *)(iVar2 + 4) & 0xfffffff0;
-    fVar10 = *(float *)(uVar7 + 4) * fVar8 + 0.0 + *(float *)(uVar7 + 8) * fVar9;
-    pfVar6 = (float *)((unsigned int)(auStack_30 + in_r0) & 0xfffffff0);
-    *pfVar6 = fVar10;
-    pfVar6[1] = fVar10;
-    pfVar6[2] = fVar10;
-    pfVar6[3] = fVar10;
-  }
-  return 0;
+    __vector4 dot = __vmsum3fp(a, b);
+    return dot.vector4_f32[0];
 }
 
+int fn_823D9428(Field_823D9428 *self, Body_823D9428 *body)
+{
+    Array_823D9428 *array = self->arrays[body->team];
+    if (array->end - array->begin != 0) {
+        __vector4 position;
+        float bodyDistance;
+        float planeDistance;
+        position = body->position;
+        {
+            __vector4 direction;
+            {
+                __vector4 sample;
+                fn_822AA718(&sample, body->handle);
+                direction = sample;
+            }
+            bodyDistance = Dot3(position, direction);
+            planeDistance = Dot3(*self->plane->point, direction);
+        }
+        if (bodyDistance > planeDistance) {
+            __vector4 min;
+            __vector4 max;
+            fn_823D9208(self, &min, &max, position);
+            if (position.vector4_f32[0] >= min.vector4_f32[0] &&
+                position.vector4_f32[0] <= max.vector4_f32[0] &&
+                position.vector4_f32[2] >= min.vector4_f32[2] &&
+                position.vector4_f32[2] <= max.vector4_f32[2]) {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}

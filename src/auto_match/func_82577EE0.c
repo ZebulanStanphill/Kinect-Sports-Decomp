@@ -1,43 +1,58 @@
-extern int fn_825C86C0();
-extern unsigned int lbl_82195690;
+extern const float lbl_821954B0[0xa28 / 4];
 
+typedef struct Owner_82577EE0 {
+    char pad0[0x278];
+    int id; /* 0x278 */
+} Owner_82577EE0;
 
-unsigned __int64 fn_82577EE0(int *param_1,float *param_2,float *param_3,int *param_4)
+typedef struct Target_82577EE0 {
+    char pad0[0x54];
+    Owner_82577EE0 *owner; /* 0x54 */
+} Target_82577EE0;
 
+typedef struct List_82577EE0 {
+    int disabled; /* 0x0 */
+    int pad4;
+    int count;                 /* 0x8 */
+    Target_82577EE0 *items[1]; /* 0xc */
+} List_82577EE0;
+
+typedef struct Hit_82577EE0 {
+    Target_82577EE0 *target; /* 0x0 */
+    int ownerId;             /* 0x4 */
+} Hit_82577EE0;
+
+extern float fn_825C86C0(Target_82577EE0 *target, float x, float y, float z);
+
+int fn_82577EE0(List_82577EE0 *list, float *position, float *best, Hit_82577EE0 *hit)
 {
-  int iVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  int iVar4;
-  int *piVar5;
-  double dVar6;
-  
-  iVar4 = 0;
-  uVar3 = 0;
-  if (param_4 != (int *)0x0) {
-    param_4[1] = 0;
-    *param_4 = 0;
-  }
-  *param_3 = lbl_82195690;
-  if ((*param_1 == 0) && (0 < param_1[2])) {
-    piVar5 = param_1 + 3;
-    do {
-      iVar1 = *piVar5;
-      if ((iVar1 != 0) &&
-         (dVar6 = (double)fn_825C86C0((double)*param_2,(double)param_2[1],(double)param_2[2],
-                                            iVar1), (double)*param_3 < dVar6)) {
-        *param_3 = (float)dVar6;
-        uVar3 = 1;
-        if (param_4 != (int *)0x0) {
-          iVar2 = *(int *)(*(int *)(iVar1 + 0x54) + 0x278);
-          *param_4 = iVar1;
-          param_4[1] = iVar2;
-        }
-      }
-      iVar4 = iVar4 + 1;
-      piVar5 = piVar5 + 1;
-    } while (iVar4 < param_1[2]);
-  }
-  return uVar3;
-}
+    int i;
+    int found = 0;
+    Target_82577EE0 *target;
+    float score;
 
+    if (hit != 0) {
+        hit->ownerId = 0;
+        hit->target = 0;
+    }
+    *best = lbl_821954B0[0x1e0 / 4];
+    if (list->disabled == 0 && list->count > 0) {
+        for (i = 0; i < list->count; i++) {
+            target = list->items[i];
+            if (target != 0) {
+                score = fn_825C86C0(target, position[0], position[1], position[2]);
+                if (score > *best) {
+                    *best = score;
+                    found = 1;
+                    if (hit != 0) {
+                        int ownerId = target->owner->id;
+
+                        hit->target = target;
+                        hit->ownerId = ownerId;
+                    }
+                }
+            }
+        }
+    }
+    return found;
+}

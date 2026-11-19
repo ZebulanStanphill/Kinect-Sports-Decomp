@@ -1,75 +1,69 @@
-extern int fn_82809558();
-extern int fn_8280DD78();
-extern int fn_8280E418();
-extern int fn_82F68CC0();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_821AAD20;
+extern void *memcpy(void *dst, const void *src, unsigned int size);
+extern float fn_82809558(float value);
+extern void fn_8280DD78(const float *from, const float *to, float *out, float t);
+extern void fn_8280E418(float *in, float *out);
 
+typedef struct Buffer_82808A80 {
+    unsigned char *base; /* 0x0 */
+    unsigned int stride; /* 0x4 */
+    unsigned int offset; /* 0x8 */
+    char padc[0x26];
+    unsigned short width; /* 0x32 */
+} Buffer_82808A80;
 
-void fn_82808A80(int param_1,int param_2,int param_3)
+typedef struct Keys_82808A80 {
+    char pad0[4];
+    unsigned char *from; /* 0x4 */
+    unsigned char *to;   /* 0x8 */
+} Keys_82808A80;
 
+typedef struct Anim_82808A80 {
+    char pad0[0x40];
+    float t; /* 0x40 */
+    char pad44[4];
+    unsigned short count; /* 0x48 */
+    char pad4a[6];
+    unsigned char *mask; /* 0x50 */
+    void *defaults;      /* 0x54 */
+    char pad58[0xc];
+    Buffer_82808A80 *buffer; /* 0x64 */
+} Anim_82808A80;
+
+static __forceinline void RebuildW(float *q)
 {
-  int *piVar1;
-  int iVar2;
-  float *pfVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  float *pfVar6;
-  float *pfVar7;
-  double dVar8;
-  double dVar9;
-  double dVar10;
-  
-  piVar1 = *(int **)(param_1 + 100);
-  uVar4 = 0;
-  uVar5 = (unsigned int)*(unsigned short *)((int)piVar1 + 0x32);
-  pfVar7 = (float *)((unsigned int)*(unsigned char *)(*(int *)(param_2 + 4) + piVar1[2]) * piVar1[1] + *piVar1);
-  pfVar6 = (float *)((unsigned int)*(unsigned char *)(*(int *)(param_2 + 8) + piVar1[2]) * piVar1[1] + *piVar1);
-  if (*(short *)(param_1 + 0x48) != 0) {
-    dVar10 = (double)lbl_821AAD20;
-    dVar9 = (double)lbl_82002AE0;
-    do {
-      if ((*(int *)(param_1 + 0x50) == 0) || (*(char *)(*(int *)(param_1 + 0x50) + uVar4) != '\0'))
-      {
-        if (dVar10 < (double)(float)(dVar9 - (double)(pfVar7[2] * pfVar7[2] +
-                                                     *pfVar7 * *pfVar7 + pfVar7[1] * pfVar7[1]))) {
-          dVar8 = (double)fn_82809558();
-          pfVar7[3] = (float)dVar8;
-        }
-        else {
-          pfVar7[3] = (float)dVar10;
-        }
-        if (dVar10 < (double)(float)(dVar9 - (double)(pfVar6[2] * pfVar6[2] +
-                                                     *pfVar6 * *pfVar6 + pfVar6[1] * pfVar6[1]))) {
-          dVar8 = (double)fn_82809558();
-          pfVar6[3] = (float)dVar8;
-        }
-        else {
-          pfVar6[3] = (float)dVar10;
-        }
-        fn_8280DD78((double)*(float *)(param_1 + 0x40),pfVar7,pfVar6,param_3);
-        fn_8280E418(param_3,param_3);
-        if (4 < uVar5) {
-          iVar2 = uVar5 - 4;
-          pfVar3 = pfVar7 + 4;
-          do {
-            *(float *)((param_3 - (int)pfVar7) + (int)pfVar3) =
-                 (*(float *)(((int)pfVar6 - (int)pfVar7) + (int)pfVar3) - *pfVar3) *
-                 *(float *)(param_1 + 0x40) + *pfVar3;
-            pfVar3 = pfVar3 + 1;
-            iVar2 = iVar2 + -1;
-          } while (iVar2 != 0);
-        }
-      }
-      else {
-        fn_82F68CC0(param_3,*(unsigned int *)(param_1 + 0x54),uVar5 * 4);
-      }
-      uVar4 = uVar4 + 1;
-      param_3 = uVar5 * 4 + param_3;
-      pfVar7 = pfVar7 + uVar5;
-      pfVar6 = pfVar6 + uVar5;
-    } while (uVar4 < *(unsigned short *)(param_1 + 0x48));
-  }
-  return;
+    float w = 1.0f - (q[0] * q[0] + q[1] * q[1] + q[2] * q[2]);
+    if (w <= 0.0f) {
+        q[3] = 0.0f;
+    } else {
+        q[3] = fn_82809558(w);
+    }
 }
 
+void fn_82808A80(Anim_82808A80 *a, Keys_82808A80 *keys, float *dst)
+{
+    Buffer_82808A80 *b = a->buffer;
+    unsigned int i = 0;
+    unsigned int n = b->width;
+    float *pa = (float *)(keys->from[b->offset] * b->stride + (unsigned int)b->base);
+    float *pb = (float *)(keys->to[b->offset] * b->stride + (unsigned int)b->base);
+    unsigned int k;
+    if (a->count != 0) {
+        do {
+            if (a->mask == 0 || a->mask[i] != 0) {
+                RebuildW(pa);
+                RebuildW(pb);
+                fn_8280DD78(pa, pb, dst, a->t);
+                fn_8280E418(dst, dst);
+                for (k = 4; k < n; k++) {
+                    dst[k] = (pb[k] - pa[k]) * a->t + pa[k];
+                }
+            } else {
+                memcpy(dst, a->defaults, n * 4);
+            }
+            i = i + 1;
+            dst = dst + n;
+            pa = pa + n;
+            pb = pb + n;
+        } while (i < a->count);
+    }
+}

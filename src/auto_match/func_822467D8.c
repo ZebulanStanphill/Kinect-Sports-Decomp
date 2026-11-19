@@ -1,102 +1,105 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_82246A40();
-extern int fn_82247000();
-extern int fn_82247068();
-extern int fn_822471C8();
-extern int fn_822473D0();
-extern int fn_828AAF70();
-extern int fn_828ACCE8();
-extern int fn_828AD740();
-extern int fn_828B0360();
-extern int fn_828B0378();
-extern unsigned int lbl_8329615C;
+typedef struct Owner_822467D8 Owner_822467D8;
 
+typedef struct Target_822467D8 Target_822467D8;
 
-void fn_822467D8(int param_1)
+typedef struct TargetVtbl_822467D8 {
+    void *slots[15];
+    unsigned char (*IsActive)(Target_822467D8 *self); /* 0x3c */
+} TargetVtbl_822467D8;
 
+struct Target_822467D8 {
+    TargetVtbl_822467D8 *vt;
+};
+
+typedef struct Context_822467D8 {
+    char pad0[0x144];
+    Target_822467D8 target; /* 0x144 */
+} Context_822467D8;
+
+typedef struct Flow_822467D8 Flow_822467D8;
+
+typedef struct FlowVtbl_822467D8 {
+    void *slots[2];
+    Context_822467D8 *(*GetContext)(Flow_822467D8 *self); /* 0x8 */
+} FlowVtbl_822467D8;
+
+struct Flow_822467D8 {
+    FlowVtbl_822467D8 *vt; /* 0x0 */
+    char pad4[0x80];
+    int lastState; /* 0x84 */
+};
+
+typedef struct Self_822467D8 {
+    char pad0[8];
+    void *session; /* 0x08 */
+    char pad0c[0x38 - 0x0c];
+    Flow_822467D8 *flow; /* 0x38 */
+} Self_822467D8;
+
+typedef struct Player_822467D8 {
+    char pad0[0x2c];
+    void *active; /* 0x2c */
+} Player_822467D8;
+
+typedef struct Players_822467D8 {
+    Player_822467D8 players[4]; /* 0x0 */
+} Players_822467D8;
+
+extern Players_822467D8 lbl_832960A0;
+
+extern unsigned char fn_828ACCE8(void *session);
+extern unsigned char fn_828AD740(void *session);
+extern unsigned char fn_828B0360(void *session);
+extern unsigned char fn_828B0378(void *session);
+extern unsigned char fn_82247068(Flow_822467D8 *flow, int value);
+extern void fn_828AAF70(Target_822467D8 *target, int value);
+extern unsigned int fn_82247000(Flow_822467D8 *flow);
+extern void fn_822471C8(Flow_822467D8 *flow, int advance);
+extern unsigned char fn_822473D0(Flow_822467D8 *flow);
+extern unsigned char fn_82246A40(Self_822467D8 *self);
+
+void fn_822467D8(Self_822467D8 *self)
 {
-  bool bVar1;
-  char cVar6;
-  int iVar3;
-  __int64 lVar2;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned __int64 uVar7;
-  int *piVar8;
-  
-  cVar6 = fn_828ACCE8(*(unsigned int *)(param_1 + 8));
-  if (cVar6 == '\0') {
-LAB_82246814:
-    bVar1 = false;
-  }
-  else {
-    cVar6 = fn_828AD740(*(unsigned int *)(param_1 + 8));
-    bVar1 = true;
-    if (cVar6 == '\0') goto LAB_82246814;
-  }
-  if (bVar1) {
-    iVar3 = (**(int (***)())(**(int **)(param_1 + 0x38) + 8))();
-    cVar6 = (**(int (***)())(*(int *)(iVar3 + 0x144) + 0x3c))();
-    if (cVar6 != '\0') {
-      cVar6 = fn_82247068(*(unsigned int *)(param_1 + 0x38),1);
-      if (cVar6 == '\0') {
-        lVar2 = (**(int (***)())(**(int **)(param_1 + 0x38) + 8))();
-        fn_828AAF70(lVar2 + 0x144,0);
-      }
-    }
-  }
-  uVar4 = fn_82247000(*(unsigned int *)(param_1 + 0x38));
-  if (uVar4 == 0) {
-    if (bVar1) goto LAB_82246948;
-    iVar3 = 0;
-    piVar8 = &lbl_8329615C;
-    lVar2 = 4;
-    do {
-      if (*piVar8 != 0) {
-        iVar3 = iVar3 + 1;
-      }
-      piVar8 = piVar8 + -0xc;
-      lVar2 = lVar2 + -1;
-    } while (lVar2 != 0);
-    if (iVar3 != 1) goto LAB_82246948;
-    cVar6 = fn_82246A40(param_1);
-LAB_82246934:
-    if (cVar6 == '\0') goto LAB_82246948;
-LAB_8224693c:
-    uVar5 = *(unsigned int *)(param_1 + 0x38);
-LAB_82246940:
-    uVar7 = 1;
-  }
-  else {
-    if (uVar4 != 1) {
-      if (uVar4 < 3) {
-        if (bVar1) {
-          cVar6 = fn_828B0360(*(unsigned int *)(param_1 + 8));
-          if (cVar6 != '\0') {
-            cVar6 = fn_828B0378(*(unsigned int *)(param_1 + 8));
-            goto LAB_82246934;
-          }
+    unsigned char ready;
+    Flow_822467D8 *flow;
+    ready = fn_828ACCE8(self->session) && fn_828AD740(self->session);
+    if (ready) {
+        Target_822467D8 *target = &self->flow->vt->GetContext(self->flow)->target;
+        if (target->vt->IsActive(target) && !fn_82247068(self->flow, 1)) {
+            fn_828AAF70(&self->flow->vt->GetContext(self->flow)->target, 0);
         }
-        goto LAB_8224693c;
-      }
-      if (uVar4 != 3) goto LAB_82246948;
-      uVar5 = *(unsigned int *)(param_1 + 0x38);
-      if (bVar1) {
-        cVar6 = fn_822473D0(uVar5);
-        goto LAB_82246934;
-      }
-      goto LAB_82246940;
     }
-    uVar5 = *(unsigned int *)(param_1 + 0x38);
-    uVar7 = 0;
-  }
-  fn_822471C8(uVar5,uVar7);
-LAB_82246948:
-  iVar3 = *(int *)(param_1 + 0x38);
-  uVar5 = fn_82247000(iVar3);
-  *(unsigned int *)(iVar3 + 0x84) = uVar5;
-  return;
+    switch (fn_82247000(self->flow)) {
+    case 0:
+        if (!ready) {
+            unsigned int count = 0;
+            int i;
+            for (i = 3; i >= 0; i--) {
+                if (lbl_832960A0.players[i].active != 0) {
+                    count++;
+                }
+            }
+            if (count == 1 && fn_82246A40(self)) {
+                fn_822471C8(self->flow, 1);
+            }
+        }
+        break;
+    case 1:
+        fn_822471C8(self->flow, 0);
+        break;
+    case 2:
+        if (!ready || !fn_828B0360(self->session) || fn_828B0378(self->session)) {
+            fn_822471C8(self->flow, 1);
+        }
+        break;
+    case 3:
+        if (!ready) {
+            fn_822471C8(self->flow, 1);
+        } else if (fn_822473D0(self->flow)) {
+            fn_822471C8(self->flow, 1);
+        }
+        break;
+    }
+    flow = self->flow;
+    flow->lastState = fn_82247000(flow);
 }
-

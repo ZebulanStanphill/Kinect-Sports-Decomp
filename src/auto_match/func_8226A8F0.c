@@ -1,45 +1,55 @@
-extern int fn_82809950();
-extern float lbl_82193E2C;
-extern float lbl_82195738;
-extern unsigned int ltcg_pool_0_0f;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+/* /O1 /QVMXReserve: v77 is the game's reserved zero vector, read with __VMXGetReg. */
+__vector4 __VMXGetReg(int n);
 
-unsigned __int64 fn_8226A8F0(int param_1,float *param_2,int param_3,int param_4,unsigned char *param_5)
+typedef struct Vec2_8226A8F0 {
+    float x;
+    float y;
+} Vec2_8226A8F0;
 
+typedef struct Plane_8226A8F0 {
+    int pad0;
+    unsigned char enabled; /* 0x4 */
+    char pad5[0x1f];
+    Vec2_8226A8F0 normal; /* 0x24 */
+    int pad2C;
+    float radius;   /* 0x30 */
+    float strength; /* 0x34 */
+    char pad38[0x8];
+    float distance; /* 0x40 */
+} Plane_8226A8F0;
+
+extern const float lbl_821954B0[0xa28 / 4];
+extern const float lbl_82193E2C;
+extern float fn_82809950(float x);
+
+static __forceinline float Dot(const Vec2_8226A8F0 *a, const Vec2_8226A8F0 *b)
 {
-  unsigned int *puVar1;
-  float fVar2;
-  int in_r0;
-  double dVar3;
-  unsigned int in_register_000104d0;
-  unsigned int in_register_000104d4;
-  unsigned int in_register_000104d8;
-  unsigned int in_vr77;
-  
-  puVar1 = (unsigned int *)(in_r0 + param_3 & 0xfffffff0);
-  *puVar1 = in_register_000104d0;
-  puVar1[1] = in_register_000104d4;
-  puVar1[2] = in_register_000104d8;
-  puVar1[3] = in_vr77;
-  puVar1 = (unsigned int *)(in_r0 + param_4 & 0xfffffff0);
-  *puVar1 = in_register_000104d0;
-  puVar1[1] = in_register_000104d4;
-  puVar1[2] = in_register_000104d8;
-  puVar1[3] = in_vr77;
-  *param_5 = 0;
-  fVar2 = *(float *)(param_1 + 0x28) * param_2[1] + *param_2 * *(float *)(param_1 + 0x24) +
-          *(float *)(param_1 + 0x40);
-  if (fVar2 < ltcg_pool_0_0f) {
-    if ((*(char *)(param_1 + 4) != '\0') && (fVar2 <= *(float *)(param_1 + 0x30) * lbl_82195738)) {
-      *param_5 = 1;
-    }
-    if (-*(float *)(param_1 + 0x30) < fVar2) {
-      dVar3 = (double)fn_82809950((double)((-fVar2 / *(float *)(param_1 + 0x30)) *
-                                                lbl_82193E2C));
-      *(float *)(param_3 + 8) = (float)(dVar3 * (double)*(float *)(param_1 + 0x34));
-      return 1;
-    }
-  }
-  return 0;
+    return a->x * b->x + a->y * b->y;
 }
 
+int fn_8226A8F0(Plane_8226A8F0 *self, Vec2_8226A8F0 *position, __vector4 *push, __vector4 *other,
+                unsigned char *close)
+{
+    float d;
+    float depth;
+
+    *push = __VMXGetReg(77);
+    *other = __VMXGetReg(77);
+    *close = 0;
+    d = Dot(position, &self->normal) + self->distance;
+    if (d < 0.0f) {
+        if (self->enabled && d <= self->radius * lbl_821954B0[0x288 / 4]) {
+            *close = 1;
+        }
+        if (d > -self->radius) {
+            depth = -d;
+            push->vector4_f32[2] = fn_82809950(depth / self->radius * lbl_82193E2C) * self->strength;
+            return 1;
+        }
+    }
+    return 0;
+}

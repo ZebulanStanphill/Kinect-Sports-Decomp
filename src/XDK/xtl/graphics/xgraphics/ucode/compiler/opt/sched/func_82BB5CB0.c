@@ -1,59 +1,86 @@
-extern int fn_82BC23E0();
-extern unsigned int lbl_8316FF50;
+typedef struct OpcodeInfo_82BB5CB0 {
+    unsigned int pad : 29;
+    unsigned int isBarrier : 1;
+    unsigned int low : 2;
+    char pad4[0x30];
+} OpcodeInfo_82BB5CB0;
 
+typedef struct Inst_82BB5CB0 {
+    char pad0[0x18];
+    int opcode; /* 0x18 */
+} Inst_82BB5CB0;
 
-int fn_82BB5CB0(int param_1,unsigned char *param_2)
+typedef struct Node_82BB5CB0 {
+    char pad0[0x8];
+    struct Node_82BB5CB0 *next; /* 0x8 */
+    char padc[0x1c];
+    Inst_82BB5CB0 *inst; /* 0x28 */
+} Node_82BB5CB0;
 
+typedef struct Target_82BB5CB0 Target_82BB5CB0;
+
+typedef struct TargetVtbl_82BB5CB0 {
+    void *slots[5];
+    unsigned char (*IsModeA)(Target_82BB5CB0 *self); /* 0x14 */
+    unsigned char (*IsModeB)(Target_82BB5CB0 *self); /* 0x18 */
+    unsigned char (*IsModeC)(Target_82BB5CB0 *self); /* 0x1c */
+} TargetVtbl_82BB5CB0;
+
+struct Target_82BB5CB0 {
+    TargetVtbl_82BB5CB0 *vt;
+};
+
+typedef struct Sched_82BB5CB0 {
+    char pad0[0x8];
+    Target_82BB5CB0 *target; /* 0x8 */
+    char padc[0x20];
+    Node_82BB5CB0 *nodes; /* 0x2c */
+} Sched_82BB5CB0;
+
+extern OpcodeInfo_82BB5CB0 lbl_8316FF50[];
+extern int fn_82BC23E0(Inst_82BB5CB0 *inst);
+
+static __forceinline int IsTail(Node_82BB5CB0 *node)
 {
-  char cVar2;
-  int iVar1;
-  unsigned char uVar3;
-  int iVar4;
-  
-  cVar2 = (**(int (***)())(**(int **)(param_1 + 8) + 0x14))();
-  if (cVar2 == '\0') {
-    cVar2 = (**(int (***)())(**(int **)(param_1 + 8) + 0x18))();
-    if (cVar2 != '\0') {
-      for (iVar4 = *(int *)(param_1 + 0x2c); *(int *)(iVar4 + 8) != 0; iVar4 = *(int *)(iVar4 + 8))
-      {
-        iVar1 = fn_82BC23E0(*(unsigned int *)(iVar4 + 0x28));
-        if (2 < iVar1) goto LAB_82bb5d4c;
-      }
-      iVar4 = 0;
-LAB_82bb5d9c:
-      uVar3 = 0;
-      goto LAB_82bb5d44;
-    }
-    cVar2 = (**(int (***)())(**(int **)(param_1 + 8) + 0x1c))();
-    if (cVar2 == '\0') {
-      return 0;
-    }
-    for (iVar4 = *(int *)(param_1 + 0x2c); *(int *)(iVar4 + 8) != 0; iVar4 = *(int *)(iVar4 + 8)) {
-      iVar1 = fn_82BC23E0(*(unsigned int *)(iVar4 + 0x28));
-      if (iVar1 < 3) goto LAB_82bb5d9c;
-    }
-  }
-  else {
-    iVar4 = *(int *)(param_1 + 0x2c);
-    iVar1 = *(int *)(iVar4 + 8);
-    while (iVar1 != 0) {
-      if ((*(unsigned int *)(&lbl_8316FF50 + *(int *)(*(int *)(iVar4 + 0x28) + 0x18) * 0x34) >> 2 & 1) != 0)
-      {
-        uVar3 = 0;
-        goto LAB_82bb5d44;
-      }
-      iVar1 = fn_82BC23E0();
-      if (2 < iVar1) goto LAB_82bb5d4c;
-      iVar4 = *(int *)(iVar4 + 8);
-      iVar1 = *(int *)(iVar4 + 8);
-    }
-  }
-  *param_2 = 0;
-  return *(int *)(param_1 + 0x2c);
-LAB_82bb5d4c:
-  uVar3 = 1;
-LAB_82bb5d44:
-  *param_2 = uVar3;
-  return iVar4;
+    return (int)node->next == 0;
 }
 
+Node_82BB5CB0 *fn_82BB5CB0(Sched_82BB5CB0 *self, unsigned char *wide)
+{
+    Node_82BB5CB0 *node;
+    if (self->target->vt->IsModeA(self->target)) {
+        for (node = self->nodes; !IsTail(node); node = node->next) {
+            if ((unsigned char)lbl_8316FF50[node->inst->opcode].isBarrier) {
+                *wide = 0;
+                return node;
+            }
+            if (fn_82BC23E0(node->inst) >= 3) {
+                *wide = 1;
+                return node;
+            }
+        }
+        *wide = 0;
+        return self->nodes;
+    }
+    if (self->target->vt->IsModeB(self->target)) {
+        for (node = self->nodes; !IsTail(node); node = node->next) {
+            if (fn_82BC23E0(node->inst) >= 3) {
+                *wide = 1;
+                return node;
+            }
+        }
+        *wide = 0;
+        return 0;
+    }
+    if (self->target->vt->IsModeC(self->target)) {
+        for (node = self->nodes; !IsTail(node); node = node->next) {
+            if (fn_82BC23E0(node->inst) < 3) {
+                *wide = 0;
+                return node;
+            }
+        }
+        *wide = 0;
+        return self->nodes;
+    }
+    return 0;
+}

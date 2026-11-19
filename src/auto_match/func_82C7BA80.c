@@ -1,37 +1,52 @@
-void fn_82C7BA80(int param_1)
+typedef struct Decoder_82C7BA80 {
+    char pad0[0x88];
+    unsigned int height; /* 0x88 */
+    unsigned int width;  /* 0x8c */
+    char pad90[0x2c];
+    unsigned int strideY; /* 0xbc */
+    char padC0[0x8];
+    unsigned int strideUV; /* 0xc8 */
+    char padCC[0x10];
+    int offsetY;  /* 0xdc */
+    int offsetUV; /* 0xe0 */
+    char padE4[0xc5c];
+    unsigned int scale; /* 0xd40 */
+    char padD44[0x17c];
+    unsigned char *planeY;     /* 0xec0 */
+    unsigned char *planeU;     /* 0xec4 */
+    unsigned char *planeV;     /* 0xec8 */
+    unsigned char *planeAlpha; /* 0xecc */
+    char padED0[0x14];
+    unsigned char *alpha; /* 0xee4 */
+    char padEE8[0x28];
+    unsigned char *y;            /* 0xf10 */
+    unsigned char *u;            /* 0xf14 */
+    unsigned char *v;            /* 0xf18 */
+    unsigned int scaledWidth;    /* 0xf1c */
+    unsigned int scaledHeight;   /* 0xf20 */
+    int zeroY;                   /* 0xf24 */
+    unsigned int scaledStrideY;  /* 0xf28 */
+    int zeroUV;                  /* 0xf2c */
+    unsigned int scaledStrideUV; /* 0xf30 */
+    int baseY;                   /* 0xf34 */
+    int baseUV;                  /* 0xf38 */
+    int padF3C;
+    unsigned int fullWidth; /* 0xf40 */
+} Decoder_82C7BA80;
 
+void fn_82C7BA80(Decoder_82C7BA80 *self)
 {
-  unsigned int uVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  unsigned __int64 uVar5;
-  
-  uVar1 = *(unsigned int *)(param_1 + 0xd40);
-  uVar5 = (unsigned __int64)uVar1;
-  iVar4 = 0;
-  trapWord(6,uVar5,0);
-  iVar2 = *(int *)(param_1 + 0xdc);
-  iVar3 = *(int *)(param_1 + 0xe0);
-  trapWord(6,uVar5,0);
-  *(unsigned int *)(param_1 + 0xf24) = 0;
-  trapWord(6,uVar5,0);
-  *(unsigned int *)(param_1 + 0xf28) = *(unsigned int *)(param_1 + 0xbc) / uVar1;
-  trapWord(6,uVar5,0);
-  *(unsigned int *)(param_1 + 0xf2c) = 0;
-  *(unsigned int *)(param_1 + 0xf30) = *(unsigned int *)(param_1 + 200) / uVar1;
-  *(unsigned int *)(param_1 + 0xf1c) = *(unsigned int *)(param_1 + 0x8c) / uVar1;
-  *(unsigned int *)(param_1 + 0xf20) = *(unsigned int *)(param_1 + 0x88) / uVar1;
-  *(int *)(param_1 + 0xf34) = iVar2;
-  *(int *)(param_1 + 0xf38) = iVar3;
-  *(unsigned int *)(param_1 + 0xf40) = *(unsigned int *)(param_1 + 0x8c);
-  if (*(int *)(param_1 + 0xecc) != 0) {
-    iVar4 = *(int *)(param_1 + 0xecc) + iVar2;
-  }
-  *(int *)(param_1 + 0xee4) = iVar4;
-  *(int *)(param_1 + 0xf10) = *(int *)(param_1 + 0xec0) + iVar2;
-  *(int *)(param_1 + 0xf14) = *(int *)(param_1 + 0xec4) + iVar3;
-  *(int *)(param_1 + 0xf18) = *(int *)(param_1 + 0xec8) + iVar3;
-  return;
+    self->zeroY = 0;
+    self->scaledStrideY = self->strideY / self->scale;
+    self->zeroUV = 0;
+    self->scaledStrideUV = self->strideUV / self->scale;
+    self->scaledWidth = self->width / self->scale;
+    self->scaledHeight = self->height / self->scale;
+    self->baseY = self->offsetY;
+    self->baseUV = self->offsetUV;
+    self->fullWidth = self->width;
+    self->alpha = self->planeAlpha ? self->planeAlpha + self->offsetY : 0;
+    self->y = self->planeY + self->offsetY;
+    self->u = self->planeU + self->offsetUV;
+    self->v = self->planeV + self->offsetUV;
 }
-

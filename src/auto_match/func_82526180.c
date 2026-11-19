@@ -1,32 +1,37 @@
-extern int fn_82F68CC0();
-extern unsigned int lbl_8327F24C;
+typedef struct Name_82526180 {
+    char text[0x3e8];
+} Name_82526180;
 
+typedef struct Entry_82526180 {
+    unsigned int refCount; /* 0x0 */
+    Name_82526180 name;    /* 0x4 */
+    void *buffer;          /* 0x3ec */
+    void *handle;          /* 0x3f0 */
+} Entry_82526180;
 
-unsigned __int64 fn_82526180(unsigned __int64 param_1,unsigned int param_2,unsigned int param_3)
+typedef struct Table_82526180 {
+    Entry_82526180 entries[35]; /* 0x0 */
+    unsigned int count;         /* 0x8a5c */
+} Table_82526180;
 
+extern Table_82526180 lbl_832767F0;
+
+int fn_82526180(const Name_82526180 *name, void *buffer, void *handle)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  int *piVar3;
-  
-  piVar3 = (int *)0x832767f0;
-  if ((unsigned __int64)lbl_8327F24C < 0x23) {
-    fn_82F68CC0((unsigned __int64)lbl_8327F24C * 0x3f4 + -0x7cd8980c,param_1,1000);
-    *(unsigned int *)(lbl_8327F24C * 0x3f4 + -0x7cd89424) = param_2;
-    *(unsigned int *)(lbl_8327F24C * 0x3f4 + -0x7cd89420) = param_3;
-    iVar1 = lbl_8327F24C * 0x3f4;
-    lbl_8327F24C = 0;
-    *(unsigned int *)(iVar1 + -0x7cd89810) = 1;
-    do {
-      if (*piVar3 == 0) break;
-      piVar3 = piVar3 + 0xfd;
-      lbl_8327F24C = lbl_8327F24C + 1;
-    } while ((int)piVar3 < -0x7cd80db4);
-    uVar2 = 1;
-  }
-  else {
-    uVar2 = 0;
-  }
-  return uVar2;
-}
+    int count;
 
+    if (lbl_832767F0.count < 35) {
+        lbl_832767F0.entries[lbl_832767F0.count].name = *name;
+        lbl_832767F0.entries[lbl_832767F0.count].buffer = buffer;
+        lbl_832767F0.entries[lbl_832767F0.count].handle = handle;
+        lbl_832767F0.entries[lbl_832767F0.count].refCount = 1;
+        for (count = 0; count < 35; count++) {
+            if (lbl_832767F0.entries[count].refCount == 0) {
+                break;
+            }
+        }
+        lbl_832767F0.count = count;
+        return 1;
+    }
+    return 0;
+}

@@ -1,91 +1,132 @@
-typedef unsigned char bool;
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern unsigned int *auStack_70;
-extern int fn_82230218();
-extern int fn_82230300();
-extern int fn_822315A0();
-extern int fn_8223AAC0();
-extern int fn_8223B688();
-extern int fn_822B83D0();
-extern int fn_822BFB28();
-extern int fn_825113E0();
-extern int fn_82560010();
-extern int fn_827F6210();
-extern int fn_827F6310();
-extern unsigned int uStack_4c;
-extern unsigned __int64 storeWordConditionalIndexed();
+long _InterlockedDecrement(long volatile *addend);
 
+typedef struct Rep_8232E0D0 Rep_8232E0D0;
 
-void fn_8232E0D0(int param_1)
+typedef struct RepVt_8232E0D0 {
+    void (*destroy)(Rep_8232E0D0 *rep);
+    void (*deleteThis)(Rep_8232E0D0 *rep);
+} RepVt_8232E0D0;
 
+struct Rep_8232E0D0 {
+    RepVt_8232E0D0 *vt; /* 0x0 */
+    long uses;          /* 0x4 */
+    long weaks;         /* 0x8 */
+};
+
+typedef struct Fighter_8232E0D0 {
+    char pad0[0x14];
+    int stance; /* 0x14 */
+    char pad18[0x10];
+    float speed; /* 0x28 */
+} Fighter_8232E0D0;
+
+typedef struct WeakPtr_8232E0D0 {
+    Fighter_8232E0D0 *ptr; /* 0x0 */
+    Rep_8232E0D0 *rep;     /* 0x4 */
+} WeakPtr_8232E0D0;
+
+typedef struct String_8232E0D0 {
+    union {
+        char *ptr;
+        char buf[16];
+    } u; /* 0x00 */
+
+    unsigned int size;     /* 0x10 */
+    unsigned int capacity; /* 0x14 */
+    int pad18;
+} String_8232E0D0;
+
+typedef struct Scene_8232E0D0 {
+    char pad0[0x14];
+    char listeners[4]; /* 0x14 */
+} Scene_8232E0D0;
+
+typedef struct Owner_8232E0D0 {
+    char pad0[0x118];
+    Scene_8232E0D0 *scene; /* 0x118 */
+} Owner_8232E0D0;
+
+typedef struct Library_8232E0D0 {
+    void *table; /* 0x0 */
+} Library_8232E0D0;
+
+typedef struct Controller_8232E0D0 {
+    char pad0[0x54];
+    Owner_8232E0D0 *owner;     /* 0x54 */
+    Library_8232E0D0 *library; /* 0x58 */
+    String_8232E0D0 name;      /* 0x5c */
+    String_8232E0D0 suffix;    /* 0x78 */
+    char pad94[0xc];
+    int stance; /* 0xa0 */
+    int pada4;
+    char listener[4]; /* 0xa8 */
+} Controller_8232E0D0;
+
+extern WeakPtr_8232E0D0 *fn_822BFB28(WeakPtr_8232E0D0 *out, Owner_8232E0D0 *source);
+extern unsigned char fn_8223AAC0(Rep_8232E0D0 *rep);
+extern void fn_822315A0(Rep_8232E0D0 *rep);
+extern void fn_8223B688(String_8232E0D0 *self, String_8232E0D0 *other);
+extern void fn_82230218(String_8232E0D0 *self, String_8232E0D0 *right, unsigned int offset,
+                        unsigned int count);
+extern void fn_82230300(String_8232E0D0 *self, int built, unsigned int newSize);
+extern void *fn_82560010(void *table, const char *name);
+extern void *fn_822B83D0(Scene_8232E0D0 *scene, void *entry);
+extern float fn_827F6310(void *animation);
+extern void fn_827F6210(void *animation, float value);
+extern void fn_825113E0(char *listeners, int event, char *listener);
+
+static __forceinline void Decwref(Rep_8232E0D0 *rep)
 {
-  int iVar1;
-  int iVar2;
-  unsigned int uVar3;
-  int *piVar5;
-  char cVar6;
-  unsigned __int64 uVar4;
-  __int64 lVar7;
-  __int64 lVar8;
-  unsigned int *puVar9;
-  int iVar10;
-  int iVar11;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  double dVar12;
-  double dVar13;
-  unsigned char auStack_70 [4];
-  int *piStack_6c;
-  unsigned int ***apppuStack_60 [5];
-  unsigned int uStack_4c;
-  
-  piVar5 = (int *)fn_822BFB28(auStack_70,*(unsigned int *)(param_1 + 0x54));
-  iVar1 = piVar5[1];
-  iVar2 = *piVar5;
-  iVar11 = 0;
-  iVar10 = 0;
-  if (iVar1 != 0) {
-    cVar6 = fn_8223AAC0(iVar1);
-    in_cr0 = (cVar6 == '\0') << 1;
-    if (cVar6 != '\0') {
-      iVar11 = iVar2;
-      iVar10 = iVar1;
+    if (_InterlockedDecrement(&rep->weaks) == 0) {
+        rep->vt->deleteThis(rep);
     }
-  }
-  if (ZEXT48(piStack_6c) != 0) {
-    lVar8 = ZEXT48(piStack_6c) + 8;
-    do {
-      puVar9 = (unsigned int *)lVar8;
-      lVar7 = (unsigned __int64)*puVar9 - 1;
-      if (in_RESERVE != '\0') {
-        uVar3 = storeWordConditionalIndexed(lVar7,0,lVar8);
-        *puVar9 = uVar3;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-    if ((int)lVar7 == 0) {
-      (**(int (***)())(*piStack_6c + 4))();
-    }
-  }
-  *(unsigned int *)(param_1 + 0xa0) = *(unsigned int *)(iVar11 + 0x14);
-  dVar13 = (double)*(float *)(iVar11 + 0x28);
-  fn_8223B688(apppuStack_60,param_1 + 0x5c);
-  if (*(int *)(param_1 + 0xa0) == 3) {
-    fn_82230218(apppuStack_60,param_1 + 0x78,0,0xffffffffffffffff);
-  }
-  if (uStack_4c < 0x10) {
-    apppuStack_60[0] = apppuStack_60;
-  }
-  uVar4 = fn_82560010(**(unsigned int **)(param_1 + 0x58),apppuStack_60[0]);
-  uVar4 = fn_822B83D0(*(unsigned int *)(*(int *)(param_1 + 0x54) + 0x118),uVar4);
-  dVar12 = (double)fn_827F6310();
-  fn_827F6210((double)(float)(dVar12 * dVar13),uVar4);
-  fn_825113E0((unsigned __int64)*(unsigned int *)(*(int *)(param_1 + 0x54) + 0x118) + 0x14,0x14,
-                    param_1 + 0xa8);
-  fn_82230300(apppuStack_60,1,0);
-  if (iVar10 != 0) {
-    fn_822315A0(iVar10);
-  }
-  return;
 }
 
+static __forceinline void ReleaseWeak(Rep_8232E0D0 **rep)
+{
+    if (*rep != 0) {
+        Decwref(*rep);
+    }
+}
+
+static __forceinline const char *CStr(String_8232E0D0 *s)
+{
+    if (s->capacity >= 0x10) {
+        return s->u.ptr;
+    }
+    return s->u.buf;
+}
+
+void fn_8232E0D0(Controller_8232E0D0 *self)
+{
+    WeakPtr_8232E0D0 weak;
+    WeakPtr_8232E0D0 *source = fn_822BFB28(&weak, self->owner);
+    Rep_8232E0D0 *rep = source->rep;
+    Fighter_8232E0D0 *ptr = source->ptr;
+    Fighter_8232E0D0 *fighter = 0;
+    Rep_8232E0D0 *lockedRep = 0;
+    String_8232E0D0 name;
+    float speed;
+    void *animation;
+    Library_8232E0D0 *library;
+
+    if (rep != 0 && fn_8223AAC0(rep) != 0) {
+        lockedRep = rep;
+        fighter = ptr;
+    }
+    ReleaseWeak(&weak.rep);
+    self->stance = fighter->stance;
+    speed = fighter->speed;
+    fn_8223B688(&name, &self->name);
+    if (self->stance == 3) {
+        fn_82230218(&name, &self->suffix, 0, -1);
+    }
+    library = self->library;
+    animation = fn_822B83D0(self->owner->scene, fn_82560010(library->table, CStr(&name)));
+    fn_827F6210(animation, fn_827F6310(animation) * speed);
+    fn_825113E0(self->owner->scene->listeners, 0x14, self->listener);
+    fn_82230300(&name, 1, 0);
+    if (lockedRep != 0) {
+        fn_822315A0(lockedRep);
+    }
+}

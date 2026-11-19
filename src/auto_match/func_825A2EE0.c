@@ -1,66 +1,89 @@
-extern int fn_82529D38();
-extern int fn_8255E0B0();
-extern int fn_8255E3A0();
-extern int fn_82574340();
-extern int fn_82593438();
-extern unsigned int ltcg_pool_0_0f;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Float3_825A2EE0 {
+    float x; /* 0x0 */
+    float y; /* 0x4 */
+    float z; /* 0x8 */
+} Float3_825A2EE0;
 
-void fn_825A2EE0(int param_1,int param_2,unsigned __int64 param_3,unsigned int *param_4)
+typedef struct Skeleton_825A2EE0 {
+    char pad0[0x44];
+    int rootBone; /* 0x44 */
+} Skeleton_825A2EE0;
 
+typedef struct Object_825A2EE0 {
+    char pad0[0x4c];
+    Skeleton_825A2EE0 *skeleton; /* 0x4c */
+    __vector4 position;          /* 0x50 */
+    char pad60[0xf0 - 0x60];
+    char boneData[0x8c0 - 0xf0]; /* 0xf0 */
+    int *boneMap;                /* 0x8c0 */
+} Object_825A2EE0;
+
+typedef struct Attachment_825A2EE0 {
+    char pad0[0x38];
+    unsigned int type; /* 0x38 */
+    char pad3c[0x4];
+    unsigned int flags; /* 0x40 */
+    char pad44[0x4];
+    unsigned short bone; /* 0x48 */
+    char pad4a[0x2];
+    void *node; /* 0x4c */
+} Attachment_825A2EE0;
+
+extern void fn_8255E0B0(Object_825A2EE0 *self, int bone, __vector4 *out);
+extern void fn_8255E3A0(Object_825A2EE0 *self, int bone, Float3_825A2EE0 *velocity);
+extern void fn_82574340(void *node, char *boneData, int bone, __vector4 *out);
+extern void fn_82593438(Object_825A2EE0 *self, void *node, Float3_825A2EE0 *velocity);
+extern void fn_82529D38(Object_825A2EE0 *self, Float3_825A2EE0 *velocity);
+
+static __forceinline int GetRootBone(Object_825A2EE0 *self)
 {
-  unsigned int uVar1;
-  unsigned int *puVar2;
-  unsigned int *puVar3;
-  int in_r0;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  
-  if (*(int *)(param_2 + 0x38) == 0) {
-    if (*(short *)(param_2 + 0x48) != -1) {
-      fn_8255E0B0(param_1);
-      if ((*(unsigned int *)(param_2 + 0x40) & 4) != 0) {
-        fn_8255E3A0(param_1,*(unsigned short *)(param_2 + 0x48),param_4);
-        return;
-      }
-      goto LAB_825a2fc8;
+    if (self->skeleton == 0) {
+        return 0;
     }
-  }
-  else if (*(int *)(param_2 + 0x38) == 1) {
-    if ((*(int *)(param_1 + 0x4c) == 0) || (*(int *)(param_1 + 0x8c0) == 0)) {
-      uVar4 = 0;
+    if (self->boneMap == 0) {
+        return 0;
     }
-    else {
-      uVar4 = *(unsigned int *)
-               ((*(int *)(*(int *)(param_1 + 0x4c) + 0x44) + 0x20) * 4 + *(int *)(param_1 + 0x8c0));
-    }
-    fn_82574340(*(unsigned int *)(param_2 + 0x4c),param_1 + 0xf0,uVar4,param_3);
-    if ((*(unsigned int *)(param_2 + 0x40) & 4) != 0) {
-      fn_82593438(param_1,*(unsigned int *)(param_2 + 0x4c),param_4);
-      return;
-    }
-    goto LAB_825a2fc8;
-  }
-  uVar1 = *(unsigned int *)(param_2 + 0x40);
-  puVar2 = (unsigned int *)(param_1 + 0x50U & 0xfffffff0);
-  uVar4 = puVar2[1];
-  uVar5 = puVar2[2];
-  uVar6 = puVar2[3];
-  puVar3 = (unsigned int *)(in_r0 + (int)param_3 & 0xfffffff0);
-  *puVar3 = *puVar2;
-  puVar3[1] = uVar4;
-  puVar3[2] = uVar5;
-  puVar3[3] = uVar6;
-  if ((uVar1 & 4) != 0) {
-    fn_82529D38(param_1,param_4);
-    return;
-  }
-LAB_825a2fc8:
-  uVar4 = ltcg_pool_0_0f;
-  param_4[2] = ltcg_pool_0_0f;
-  param_4[1] = uVar4;
-  *param_4 = uVar4;
-  return;
+    return self->boneMap[self->skeleton->rootBone + 0x20];
 }
 
+void fn_825A2EE0(Object_825A2EE0 *self, Attachment_825A2EE0 *attachment, __vector4 *position,
+                 Float3_825A2EE0 *velocity)
+{
+    switch (attachment->type) {
+    case 0:
+        if (attachment->bone != 0xffff) {
+            fn_8255E0B0(self, attachment->bone, position);
+            if (attachment->flags & 4) {
+                fn_8255E3A0(self, attachment->bone, velocity);
+                return;
+            }
+            break;
+        }
+    default: {
+        unsigned int flags = attachment->flags;
+        *position = self->position;
+        if (flags & 4) {
+            fn_82529D38(self, velocity);
+            return;
+        }
+        break;
+    }
+    case 1: {
+        void *node = attachment->node;
+        int bone = GetRootBone(self);
+        fn_82574340(node, self->boneData, bone, position);
+        if (attachment->flags & 4) {
+            fn_82593438(self, attachment->node, velocity);
+            return;
+        }
+        break;
+    }
+    }
+    velocity->z = 0.0f;
+    velocity->y = 0.0f;
+    velocity->x = 0.0f;
+}

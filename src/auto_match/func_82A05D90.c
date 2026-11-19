@@ -1,30 +1,28 @@
-extern unsigned int lbl_82002C5C;
+typedef struct Entry_82A05D90 {
+    unsigned int flags; /* 0x0 */
+    char pad4[0x1ec];
+} Entry_82A05D90;
 
+typedef struct Owner_82A05D90 {
+    char pad0[0x4f0];
+    Entry_82A05D90 entries[1]; /* 0x4f0 */
+} Owner_82A05D90;
 
-__int64 fn_82A05D90(int param_1,int *param_2,unsigned __int64 param_3)
-
+int fn_82A05D90(Owner_82A05D90 *self, int *indices, unsigned int count)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  
-  uVar1 = 0;
-  uVar2 = param_3;
-  if ((int)param_3 != 0) {
-    do {
-      if ((*(unsigned int *)(*param_2 * 0x1f0 + param_1 + 0x4f0) & 3) == 0) {
-        uVar1 = uVar1 + 2;
-      }
-      else {
-        uVar1 = uVar1 + 1;
-      }
-      param_2 = param_2 + 1;
-      uVar2 = uVar2 - 1;
-    } while (uVar2 != 0);
-  }
-  uVar2 = (__int64)((float)uVar1 / (float)(param_3 & 0xffffffff) + lbl_82002C5C) & 0xffffffff;
-  if (uVar2 < 2) {
-    return -((unsigned __int64)(uVar2 == 0) - 1);
-  }
-  return 2;
+    unsigned int total = 0;
+    unsigned int i;
+    unsigned int average;
+    for (i = 0; i < count; i++) {
+        if ((self->entries[indices[i]].flags & 3) != 0) {
+            total += 1;
+        } else {
+            total += 2;
+        }
+    }
+    average = (unsigned int)((float)total / (float)count + 0.5f);
+    if (average >= 2) {
+        return 2;
+    }
+    return average >= 1;
 }
-

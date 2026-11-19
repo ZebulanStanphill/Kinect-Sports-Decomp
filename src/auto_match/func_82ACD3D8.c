@@ -1,60 +1,69 @@
-extern int fn_82AA66A8();
-extern int fn_82AC8B10();
-extern int fn_82AC8CE8();
-extern int fn_82ACB458();
-extern int fn_82ACBE00();
-extern int fn_82ACC5D8();
-extern int fn_82ACCBB8();
-extern int fn_82ACD310();
+typedef struct Budget_82ACD3D8 {
+    char pad0[0x10];
+    unsigned int used; /* 0x10 */
+} Budget_82ACD3D8;
 
+typedef struct Scheduler_82ACD3D8 {
+    char pad0[0x4];
+    char ready[0x2c];     /* 0x4 */
+    unsigned int context; /* 0x30 */
+    char pad34[0x4];
+    Budget_82ACD3D8 *budget; /* 0x38 */
+    unsigned int current;    /* 0x3c */
+    unsigned int limit;      /* 0x40 */
+    char pad44[0x4];
+    unsigned char failed; /* 0x48 */
+    char pad49[0x1];
+    unsigned char unlimited; /* 0x4a */
+} Scheduler_82ACD3D8;
 
-unsigned __int64 fn_82ACD3D8(int param_1)
+extern void fn_82AA66A8(unsigned int context, int code);
+extern unsigned char fn_82AC8B10(void *list, unsigned int node);
+extern void fn_82AC8CE8(void *list, unsigned int node);
+extern unsigned int fn_82ACBE00(unsigned int context, unsigned int node, unsigned int block,
+                                Budget_82ACD3D8 *budget);
+extern unsigned int fn_82ACD310(Scheduler_82ACD3D8 *self, unsigned int block, unsigned int target);
+extern void fn_82ACCBB8(unsigned int context, unsigned int node, unsigned int block, Budget_82ACD3D8 *budget,
+                        unsigned int target);
+extern void fn_82ACC5D8(Scheduler_82ACD3D8 *self, unsigned int node, int flag);
+extern void fn_82ACB458(unsigned int context, unsigned int block, int flag);
 
+int fn_82ACD3D8(Scheduler_82ACD3D8 *self)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  char cVar6;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  unsigned int uVar5;
-  int iVar7;
-  
-  if (*(char *)(param_1 + 0x48) != '\0') {
-                    /* WARNING: Subroutine does not return */
-    fn_82AA66A8(*(unsigned int *)(param_1 + 0x30),0x12c0);
-  }
-  uVar1 = *(unsigned int *)(param_1 + 0x3c);
-  cVar6 = fn_82AC8B10(param_1 + 4,uVar1);
-  if (cVar6 == '\0') {
-    uVar3 = 1;
-  }
-  else {
-    uVar2 = *(unsigned int *)(uVar1 + 0x1c);
-    uVar4 = fn_82ACBE00(*(unsigned int *)(param_1 + 0x30),uVar1,uVar2,
-                          *(unsigned int *)(param_1 + 0x38));
-    fn_82AC8CE8(param_1 + 4,uVar1);
-    if (((((uVar4 & 2) == 0) &&
-         ((*(char *)(param_1 + 0x4a) != '\0' ||
-          (*(unsigned int *)(*(int *)(param_1 + 0x38) + 0x10) < *(unsigned int *)(param_1 + 0x40))))) ||
-        (uVar5 = fn_82ACD310(param_1,uVar2,uVar1), uVar5 == uVar1)) &&
-       ((fn_82ACCBB8(*(unsigned int *)(param_1 + 0x30),uVar1,uVar2,*(unsigned int *)(param_1 + 0x38),
-                       uVar1), *(char *)(param_1 + 0x4a) != '\0' ||
-        (*(unsigned int *)(*(int *)(param_1 + 0x38) + 0x10) < *(unsigned int *)(param_1 + 0x40))))) {
-      uVar1 = *(unsigned int *)((uVar1 & 0xfffffffe) + 0x24);
-      if ((uVar1 & 1) == 0) {
-        iVar7 = (uVar1 & 0xfffffffe) - 0x28;
-      }
-      else {
-        iVar7 = 0;
-      }
-      *(int *)(param_1 + 0x3c) = iVar7;
-      return 0;
-    }
-    fn_82ACC5D8(param_1,uVar1,0);
-    fn_82ACB458(*(unsigned int *)(param_1 + 0x30),uVar2,1);
-    uVar3 = 2;
-    *(unsigned char *)(param_1 + 0x48) = 1;
-  }
-  return uVar3;
-}
+    unsigned int node;
+    unsigned int block;
+    unsigned int flags;
+    unsigned int link;
 
+    if (self->failed != 0) {
+        fn_82AA66A8(self->context, 0x12c0);
+    }
+    node = self->current;
+    if (!fn_82AC8B10(self->ready, node)) {
+        return 1;
+    }
+    block = *(unsigned int *)(node + 0x1c);
+    flags = fn_82ACBE00(self->context, node, block, self->budget);
+    fn_82AC8CE8(self->ready, node);
+    if (((flags & 2) != 0 || (self->unlimited == 0 && self->budget->used >= self->limit)) &&
+        fn_82ACD310(self, block, node) != node) {
+        fn_82ACC5D8(self, node, 0);
+        fn_82ACB458(self->context, block, 1);
+        self->failed = 1;
+        return 2;
+    }
+    fn_82ACCBB8(self->context, node, block, self->budget, node);
+    if (self->unlimited == 0 && self->budget->used >= self->limit) {
+        fn_82ACC5D8(self, node, 0);
+        fn_82ACB458(self->context, block, 1);
+        self->failed = 1;
+        return 2;
+    }
+    link = *(unsigned int *)((node & ~1u) + 0x24);
+    if (link & 1) {
+        self->current = 0;
+    } else {
+        self->current = (link & ~1u) - 0x28;
+    }
+    return 0;
+}

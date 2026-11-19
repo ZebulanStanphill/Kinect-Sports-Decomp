@@ -1,54 +1,72 @@
-#define true 1
-extern int fn_82292780();
-extern int fn_8239DD40();
-extern int fn_8239DD40();
-extern int fn_822932E8();
-extern int fn_8265C9E0();
-extern int fn_828647D8();
+typedef struct Name_82292828 {
+    int words[9];
+} Name_82292828;
 
+typedef struct Array_82292828 {
+    void *first; /* 0x0 */
+    void *last;  /* 0x4 */
+    void *end;   /* 0x8 */
+    int pad;
+} Array_82292828;
 
-unsigned __int64 fn_82292828(unsigned int *param_1,unsigned __int64 param_2)
+typedef struct Entry_82292828 {
+    Name_82292828 name;    /* 0x0 */
+    Array_82292828 first;  /* 0x24 */
+    Array_82292828 second; /* 0x34 */
+    Array_82292828 third;  /* 0x44 */
+    int pad54;
+    int refs;           /* 0x58 */
+    unsigned char flag; /* 0x5c */
+} Entry_82292828;
 
+typedef struct EntryList_82292828 {
+    Entry_82292828 **begin; /* 0x0 */
+    Entry_82292828 **end;   /* 0x4 */
+} EntryList_82292828;
+
+extern unsigned int fn_828647D8(const Name_82292828 *name);
+extern void *fn_8265C9E0(unsigned int size);
+extern void fn_82292780(Name_82292828 *self, const Name_82292828 *other);
+extern void fn_8239DD40(Array_82292828 *self, unsigned int count);
+extern void fn_822932E8(Array_82292828 *self, unsigned int count);
+extern void fn_82536690(EntryList_82292828 *list, Entry_82292828 **entry);
+
+static __forceinline Entry_82292828 *Construct(Entry_82292828 *entry, const Name_82292828 *name)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  int *piVar4;
-  int aiStack_40;
+    fn_82292780(&entry->name, name);
+    entry->first.first = 0;
+    entry->first.last = 0;
+    entry->first.end = 0;
+    entry->second.first = 0;
+    entry->second.last = 0;
+    entry->second.end = 0;
+    entry->third.first = 0;
+    entry->third.last = 0;
+    entry->third.end = 0;
+    entry->refs = 1;
+    entry->flag = 0;
+    fn_8239DD40(&entry->first, 100);
+    fn_8239DD40(&entry->second, 100);
+    fn_822932E8(&entry->third, 0xf);
+    return entry;
+}
 
-  piVar4 = (int *)*param_1;
-  while( true ) {
-    if (piVar4 == (int *)param_1[1]) {
-      aiStack_40 = fn_8265C9E0(0x60);
-      if (aiStack_40 == 0) {
-        aiStack_40 = 0;
-      }
-      else {
-        fn_82292780(aiStack_40,param_2);
-        *(unsigned int *)(aiStack_40 + 0x24) = 0;
-        *(unsigned int *)(aiStack_40 + 0x28) = 0;
-        *(unsigned int *)(aiStack_40 + 0x2c) = 0;
-        *(unsigned int *)(aiStack_40 + 0x34) = 0;
-        *(unsigned int *)(aiStack_40 + 0x38) = 0;
-        *(unsigned int *)(aiStack_40 + 0x3c) = 0;
-        *(unsigned int *)(aiStack_40 + 0x44) = 0;
-        *(unsigned int *)(aiStack_40 + 0x48) = 0;
-        *(unsigned int *)(aiStack_40 + 0x4c) = 0;
-        *(unsigned int *)(aiStack_40 + 0x58) = 1;
-        *(unsigned char *)(aiStack_40 + 0x5c) = 0;
-        fn_8239DD40(aiStack_40 + 0x24,100);
-        fn_8239DD40(aiStack_40 + 0x34,100);
-        fn_8239DD40(aiStack_40 + 0x44,0xf);
-      }
-      fn_822932E8(param_1,&aiStack_40);
-      return 0;
+int fn_82292828(EntryList_82292828 *list, const Name_82292828 *name)
+{
+    Entry_82292828 **it;
+    Entry_82292828 *existing;
+    Entry_82292828 *entry;
+    Entry_82292828 *memory;
+
+    for (it = list->begin; it != list->end; it++) {
+        existing = *it;
+        if (fn_828647D8(&existing->name) == fn_828647D8(name)) {
+            existing->refs++;
+            return 0;
+        }
     }
-    iVar1 = *piVar4;
-    iVar2 = fn_828647D8(iVar1);
-    iVar3 = fn_828647D8(param_2);
-    if (iVar2 == iVar3) break;
-    piVar4 = piVar4 + 1;
-  }
-  *(int *)(iVar1 + 0x58) = *(int *)(iVar1 + 0x58) + 1;
-  return 0;
+    memory = (Entry_82292828 *)fn_8265C9E0(0x60);
+    entry = memory != 0 ? Construct(memory, name) : 0;
+    fn_82536690(list, &entry);
+    return 0;
 }

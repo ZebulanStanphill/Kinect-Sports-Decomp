@@ -1,74 +1,73 @@
-extern unsigned int *auStack_40;
-extern unsigned int fStack_38;
-extern int fn_82337C80();
-extern int fn_82359558();
-extern int fn_8255AE78();
-extern unsigned int ltcg_pool_0_0f;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __VMXGetReg(int index);
+__vector4 __vaddfp(__vector4 a, __vector4 b);
 
-int fn_82430E58(double param_1,int param_2,int param_3)
+typedef struct Object_82430E58 {
+    char pad0[0x80];
+    __vector4 position; /* 0x80 */
+} Object_82430E58;
 
+typedef struct Motion_82430E58 {
+    char pad0[0x8];
+    int type;    /* 0x8 */
+    int subtype; /* 0xc */
+    char pad10[0x20];
+    float speed; /* 0x30 */
+} Motion_82430E58;
+
+typedef struct Self_82430E58 {
+    char pad0[0x10];
+    int id; /* 0x10 */
+    char pad14[0x240 - 0x14];
+    void *objects;           /* 0x240 */
+    Motion_82430E58 *motion; /* 0x244 */
+} Self_82430E58;
+
+extern Object_82430E58 *fn_82359558(void *objects, int id);
+extern float fn_82337C80(Object_82430E58 *object);
+extern __vector4 fn_8255AE78(__vector4 v, float angle);
+
+__vector4 *fn_82430E58(__vector4 *out, Self_82430E58 *self, float time)
 {
-  int iVar1;
-  float *pfVar2;
-  unsigned int *puVar3;
-  int in_r0;
-  int iVar4;
-  double dVar5;
-  float fVar6;
-  float fVar7;
-  float fVar8;
-  float fVar9;
-  unsigned int in_register_000104d0;
-  unsigned int in_register_000104d4;
-  unsigned int in_register_000104d8;
-  unsigned int in_vr77;
-  float fVar10;
-  float fVar11;
-  float fVar12;
-  float fVar13;
-  unsigned char auStack_40 [8];
-  float fStack_38;
-  
-  iVar4 = fn_82359558(*(unsigned int *)(param_3 + 0x240),*(unsigned int *)(param_3 + 0x10));
-  pfVar2 = (float *)(iVar4 + 0x80U & 0xfffffff0);
-  fVar10 = *pfVar2;
-  fVar11 = pfVar2[1];
-  fVar12 = pfVar2[2];
-  fVar13 = pfVar2[3];
-  fn_82337C80();
-  iVar4 = *(int *)(param_3 + 0x244);
-  iVar1 = *(int *)(iVar4 + 8);
-  puVar3 = (unsigned int *)((unsigned int)(auStack_40 + in_r0) & 0xfffffff0);
-  *puVar3 = in_register_000104d0;
-  puVar3[1] = in_register_000104d4;
-  puVar3[2] = in_register_000104d8;
-  puVar3[3] = in_vr77;
-  dVar5 = (double)ltcg_pool_0_0f;
-  if (0 < iVar1) {
-    if (iVar1 < 3) {
-      iVar1 = *(int *)(iVar4 + 0xc);
-      if ((iVar1 < 8) || ((10 < iVar1 && ((iVar1 < 0xc || ((0xe < iVar1 && (iVar1 != 0x12))))))))
-      goto LAB_82430f2c;
+    Object_82430E58 *object = fn_82359558(self->objects, self->id);
+    __vector4 position = object->position;
+    float heading = fn_82337C80(object);
+    Motion_82430E58 *motion = self->motion;
+    __vector4 offset = __VMXGetReg(77);
+    float speed = 0.0f;
+    switch (motion->type) {
+    case 1:
+    case 2:
+        switch (motion->subtype) {
+        case 8:
+        case 9:
+        case 10:
+        case 12:
+        case 13:
+        case 14:
+        case 18:
+            speed = motion->speed;
+            break;
+        }
+        break;
+    case 3:
+    case 5:
+        switch (motion->subtype) {
+        case 8:
+        case 9:
+        case 10:
+        case 12:
+        case 13:
+        case 14:
+            speed = motion->speed;
+            break;
+        }
+        break;
     }
-    else if (((iVar1 != 3) && (iVar1 != 5)) ||
-            ((iVar1 = *(int *)(iVar4 + 0xc), iVar1 < 8 ||
-             ((10 < iVar1 && ((iVar1 < 0xc || (0xe < iVar1)))))))) goto LAB_82430f2c;
-    dVar5 = (double)*(float *)(iVar4 + 0x30);
-  }
-LAB_82430f2c:
-  fStack_38 = (float)(dVar5 * param_1);
-  pfVar2 = (float *)((unsigned int)(auStack_40 + in_r0) & 0xfffffff0);
-  fVar6 = *pfVar2;
-  fVar7 = pfVar2[1];
-  fVar8 = pfVar2[2];
-  fVar9 = pfVar2[3];
-  fn_8255AE78();
-  pfVar2 = (float *)(in_r0 + param_2 & 0xfffffff0);
-  *pfVar2 = fVar10 + fVar6;
-  pfVar2[1] = fVar11 + fVar7;
-  pfVar2[2] = fVar12 + fVar8;
-  pfVar2[3] = fVar13 + fVar9;
-  return param_2;
+    offset.vector4_f32[2] = speed * time;
+    *out = __vaddfp(position, fn_8255AE78(offset, heading));
+    return out;
 }
-

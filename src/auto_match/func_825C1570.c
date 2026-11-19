@@ -1,46 +1,46 @@
-extern int fn_82535F50();
-extern int fn_825529B0();
-extern int fn_82552AD8();
-extern int fn_82552B50();
-extern float lbl_82005748;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int lbl_831D464C;
-extern unsigned int stack0x00000020;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Sound_825C1570 {
+    void *emitter; /* 0x00 */
+} Sound_825C1570;
 
-void fn_825C1570(double param_1,int param_2,unsigned __int64 param_3,int param_4)
+typedef struct Spray_825C1570 {
+    char pad0[0x54];
+    float amount;         /* 0x54 */
+    Sound_825C1570 sound; /* 0x58 */
+    char pad5C[0x8];
+    int active; /* 0x64 */
+} Spray_825C1570;
 
+extern int fn_825529B0(Sound_825C1570 *sound);
+extern void fn_82535F50(void *emitter, __vector4 *position);
+extern void fn_82552AD8(Sound_825C1570 *sound, char *name, float value);
+extern void fn_82552B50(Sound_825C1570 *sound, int immediate);
+extern float lbl_831D4558[0x4a];
+
+void fn_825C1570(Spray_825C1570 *self, __vector4 position, float elapsed, int stop)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  double dVar3;
-  double dVar4;
-  
-  dVar4 = (double)ltcg_pool_0_0f;
-  if (dVar4 < (double)*(float *)(param_2 + 0x54)) {
-    dVar3 = -(double)(float)((double)lbl_831D464C * param_1 - (double)*(float *)(param_2 + 0x54));
-    *(float *)(param_2 + 0x54) = (float)dVar3;
-    if (dVar3 <= dVar4) {
-      param_4 = 1;
-    }
-    else if (*(int *)(param_2 + 100) != 0) {
-      puVar2 = (unsigned int *)(param_2 + 0x58);
-      iVar1 = fn_825529B0(puVar2);
-      if (iVar1 != 0) {
-        fn_82535F50(*puVar2,&stack0x00000020);
-        fn_82552AD8((double)(*(float *)(param_2 + 0x54) * lbl_82005748),puVar2,
-                          0xffffffff821c8e40);
-      }
-    }
-  }
-  if ((param_4 != 0) && (*(int *)(param_2 + 100) != 0)) {
-    iVar1 = fn_825529B0(param_2 + 0x58);
-    if (iVar1 != 0) {
-      fn_82552B50(param_2 + 0x58,1);
-    }
-    *(float *)(param_2 + 0x54) = (float)dVar4;
-    *(unsigned int *)(param_2 + 100) = 0;
-  }
-  return;
-}
+    float zero;
 
+    zero = 0.0f;
+    if (self->amount > zero) {
+        self->amount = self->amount - lbl_831D4558[0x3d] * elapsed;
+        if (self->amount > zero) {
+            if (self->active != 0 && fn_825529B0(&self->sound) != 0) {
+                fn_82535F50(self->sound.emitter, &position);
+                fn_82552AD8(&self->sound, "water_spray_amount", self->amount * 100.0f);
+            }
+        } else {
+            stop = 1;
+        }
+    }
+    if (stop != 0 && self->active != 0) {
+        if (fn_825529B0(&self->sound) != 0) {
+            fn_82552B50(&self->sound, 1);
+        }
+        self->amount = zero;
+        self->active = 0;
+    }
+}

@@ -1,45 +1,90 @@
-#define true 1
-extern int fn_82ABDD90();
-extern int fn_82AE7308();
-extern int fn_82B84C90();
+typedef struct Use_82B86570 {
+    char pad0[8];
+    unsigned int : 10;
+    unsigned int first : 3; /* 0x08 */
+    unsigned int : 2;
+    unsigned int second : 3;
+    unsigned int opcode : 7;
+    unsigned int : 7;
+    char padc[0x28 - 0xc];
+    unsigned int next; /* 0x28, tagged: bit 0 ends the list */
+} Use_82B86570;
 
+typedef struct Block_82B86570 {
+    char pad0[0x10];
+    int field10;       /* 0x10 */
+    unsigned int uses; /* 0x14, tagged */
+} Block_82B86570;
 
-unsigned int fn_82B86570(int param_1,unsigned __int64 param_2,unsigned int param_3,unsigned __int64 param_4)
+typedef struct Record_82B86570 {
+    char pad0[0x1c];
+    unsigned int *operands; /* 0x1c */
+    char pad20[8];
+} Record_82B86570;
 
+typedef struct Context_82B86570 {
+    int pad0;
+    unsigned int block; /* 0x4, tagged */
+    int pad8;
+    Record_82B86570 *records; /* 0xc */
+} Context_82B86570;
+
+extern void fn_82AE7308(Context_82B86570 *self, unsigned int index);
+extern unsigned int fn_82ABDD90(Context_82B86570 *self, unsigned int opcode, unsigned int first,
+                                unsigned int second);
+extern Use_82B86570 *fn_82B84C90(Context_82B86570 *self, unsigned int index, unsigned int slot,
+                                 unsigned char resolve, int opcode, Block_82B86570 *block, unsigned int link);
+
+static __forceinline Block_82B86570 *GetBlock(unsigned int link)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  int iVar3;
-  unsigned int uVar4;
-  
-  if ((param_4 & 0xff) != 0) {
-    iVar3 = (int)param_2 * 0x28;
-    if (*(int *)(*(int *)(param_1 + 0xc) + iVar3 + 0x1c) == 0) {
-      fn_82AE7308();
+    if (link & 1) {
+        return 0;
     }
-    param_4 = 0;
-    param_3 = *(unsigned int *)(*(int *)(*(int *)(param_1 + 0xc) + iVar3 + 0x1c) + param_3 * 8) >> 4 &
-              0x3fff;
-  }
-  uVar4 = *(unsigned int *)(param_1 + 4);
-  uVar1 = *(unsigned int *)((-(unsigned int)((uVar4 & 1) == 0) & uVar4) + 0x14);
-  do {
-    if (((uVar1 & 1) != 0) || (uVar1 == 0)) {
-      uVar4 = fn_82B84C90(param_1,param_2,param_3,param_4,0x7c,
-                            -(unsigned __int64)((uVar4 & 1) == 0) & (unsigned __int64)uVar4,
-                            (-(unsigned __int64)((uVar4 & 1) == 0) & (unsigned __int64)uVar4) + 0x10 | 3);
-      return uVar4;
-    }
-    if ((*(unsigned int *)(uVar1 + 8) & 0x3f80) == 0x3e00) {
-      uVar2 = *(unsigned int *)(uVar1 + 8);
-      iVar3 = fn_82ABDD90(param_1,uVar2 >> 7 & 0x7f,uVar2 >> 0x13 & 7,uVar2 >> 0xe & 7);
-      uVar2 = *(unsigned int *)(iVar3 + (uVar1 - 8));
-      if ((((unsigned __int64)uVar2 & 0x7fff) == (param_2 & 0xffffffff)) &&
-         ((uVar2 >> 0xf & 0x3fff) == param_3)) {
-        return uVar1;
-      }
-    }
-    uVar1 = *(unsigned int *)((uVar1 & 0xfffffffe) + 0x28);
-  } while( true );
+    return (Block_82B86570 *)link;
 }
 
+static __forceinline Use_82B86570 *First(Block_82B86570 *block)
+{
+    if (block->uses & 1) {
+        return 0;
+    }
+    return (Use_82B86570 *)block->uses;
+}
+
+static __forceinline Use_82B86570 *Next(Use_82B86570 *use)
+{
+    unsigned int p = ((Use_82B86570 *)((unsigned int)use & ~1u))->next;
+
+    if (p & 1) {
+        return 0;
+    }
+    return (Use_82B86570 *)p;
+}
+
+Use_82B86570 *fn_82B86570(Context_82B86570 *self, unsigned int index, unsigned int slot,
+                          unsigned char resolve)
+{
+    Use_82B86570 *use;
+    unsigned int word;
+    unsigned int link;
+
+    if (resolve) {
+        if (self->records[index].operands == 0) {
+            fn_82AE7308(self, index);
+        }
+        resolve = 0;
+        slot = (self->records[index].operands[slot * 2] >> 4) & 0x3fff;
+    }
+    link = self->block;
+    for (use = First(GetBlock(link)); use != 0; use = Next(use)) {
+        if (use->opcode == 0x7c) {
+            word =
+                *(unsigned int *)((char *)use - 8 + fn_82ABDD90(self, use->opcode, use->first, use->second));
+            if ((word & 0x7fff) == index && ((word >> 15) & 0x3fff) == slot) {
+                return use;
+            }
+        }
+    }
+    return fn_82B84C90(self, index, slot, resolve, 0x7c, GetBlock(link),
+                       (unsigned int)&GetBlock(link)->field10 | 3);
+}

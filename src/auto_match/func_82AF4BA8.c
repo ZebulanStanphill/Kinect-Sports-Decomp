@@ -1,50 +1,34 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_82B80EE0();
-extern unsigned int lbl_821AAD20;
+typedef struct Constant_82AF4BA8 {
+    char pad0[0x8];
+    unsigned int format; /* 0x8 */
+} Constant_82AF4BA8;
 
+extern float fn_82B80EE0(Constant_82AF4BA8 *constant, unsigned int component, unsigned int flags);
 
-char fn_82AF4BA8(unsigned __int64 param_1,int param_2,unsigned __int64 param_3,unsigned int param_4,unsigned __int64 param_5,
-                  float *param_6)
-
+int fn_82AF4BA8(void *self, Constant_82AF4BA8 *constant, unsigned int count, unsigned int swizzle,
+                unsigned int flags, float *values)
 {
-  bool bVar1;
-  bool bVar2;
-  char cVar3;
-  unsigned int uVar4;
-  double dVar5;
-  double dVar6;
-  
-  if ((*(unsigned int *)(param_2 + 8) & 0x3f80) == 0x3e00) {
-    cVar3 = (-((param_5 & 2) != 0) & 3U) + 1;
-  }
-  else {
-    bVar2 = false;
-    bVar1 = false;
-    if ((param_3 & 0xffffffff) != 0) {
-      uVar4 = 0;
-      dVar6 = (double)lbl_821AAD20;
-      do {
-        dVar5 = (double)fn_82B80EE0(param_2,param_4 >> (uVar4 & 0x3f) & 3,param_5);
-        *param_6 = (float)dVar5;
-        if (dVar6 <= dVar5) {
-          if (dVar6 < dVar5) {
-            bVar2 = true;
-          }
-        }
-        else {
-          bVar1 = true;
-        }
-        param_3 = param_3 - 1;
-        uVar4 = uVar4 + 2;
-        param_6 = param_6 + 1;
-      } while (param_3 != 0);
-    }
-    if ((!bVar1) || (cVar3 = '\x01', !bVar2)) {
-      cVar3 = '\x02';
-    }
-  }
-  return cVar3;
-}
+    unsigned char positive;
+    unsigned char negative;
+    unsigned int i;
+    float value;
 
+    if ((constant->format & 0x3f80) == 0x3e00) {
+        return (flags & 2) ? 4 : 1;
+    }
+    positive = 0;
+    negative = 0;
+    for (i = 0; i < count; i++) {
+        value = fn_82B80EE0(constant, (swizzle >> (i * 2)) & 3, flags);
+        values[i] = value;
+        if (value < 0.0f) {
+            negative = 1;
+        } else if (value > 0.0f) {
+            positive = 1;
+        }
+    }
+    if (negative && positive) {
+        return 1;
+    }
+    return 2;
+}

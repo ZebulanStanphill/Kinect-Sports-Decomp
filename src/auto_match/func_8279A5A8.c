@@ -1,21 +1,17 @@
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_8200571C;
-extern unsigned int uStack_a;
+typedef struct Anim_8279A5A8 {
+    char pad0[0x13a];
+    unsigned short frames; /* 0x13a */
+    char pad13C[0x3];
+    unsigned char flags; /* 0x13f */
+} Anim_8279A5A8;
 
-
-void fn_8279A5A8(double param_1,int param_2)
-
+void fn_8279A5A8(Anim_8279A5A8 *self, float speed)
 {
-  unsigned short uStack_a;
-  
-  if (param_1 == (double)lbl_82002AE0) {
-    *(unsigned short *)(param_2 + 0x13a) = 0x14;
-    *(unsigned char *)(param_2 + 0x13f) = *(unsigned char *)(param_2 + 0x13f) & 0xfb;
-    return;
-  }
-  *(unsigned char *)(param_2 + 0x13f) = *(unsigned char *)(param_2 + 0x13f) | 4;
-  uStack_a = (unsigned short)(__int64)(param_1 * (double)lbl_8200571C);
-  *(unsigned short *)(param_2 + 0x13a) = uStack_a;
-  return;
+    if (speed == 1.0f) {
+        self->frames = 20;
+        self->flags &= ~4;
+        return;
+    }
+    self->flags |= 4;
+    self->frames = (unsigned short)(speed * 20.0f);
 }
-

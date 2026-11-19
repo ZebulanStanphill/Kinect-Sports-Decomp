@@ -1,37 +1,33 @@
-extern int fn_82F655D8();
-extern unsigned int lbl_82002C40;
-extern unsigned int lbl_82005730;
-extern unsigned int lbl_820570D4;
-extern unsigned int lbl_8217D2F8;
-extern unsigned int lbl_8217D2FC;
-extern unsigned int lbl_8217D300;
-extern unsigned int uStack_1c;
+typedef struct Voice_8303A350 {
+    char pad0[0x24];
+    unsigned int pitchA; /* 0x24 */
+    unsigned int pitchB; /* 0x28 */
+    int dirtyFlags;      /* 0x2c */
+    char pad30[0x14];
+    float baseRate; /* 0x44 */
+    float cents;    /* 0x48 */
+    char pad4C[0x3];
+    unsigned char force; /* 0x4f */
+} Voice_8303A350;
 
+extern const float lbl_8217D2FC;
+extern const float lbl_8217D300;
+extern double fn_82F655D8(double x, double y);
 
-void fn_8303A350(double param_1,int param_2)
-
+void fn_8303A350(Voice_8303A350 *self, float cents)
 {
-  double dVar1;
-  double dVar2;
-  unsigned int uStack_1c;
-  
-  if ((*(char *)(param_2 + 0x4f) != '\0') || (param_1 != (double)*(float *)(param_2 + 0x48))) {
-    if ((float)(param_1 - (double)lbl_8217D300) < 0.0) {
-      param_1 = (double)lbl_8217D300;
-    }
-    dVar2 = (double)lbl_8217D2FC;
-    if ((float)(param_1 - (double)lbl_8217D2FC) < 0.0) {
-      dVar2 = param_1;
-    }
-    dVar1 = (double)fn_82F655D8(lbl_82002C40,(double)(float)(dVar2 * (double)lbl_8217D2F8));
-    *(float *)(param_2 + 0x48) = (float)dVar2;
-    *(unsigned int *)(param_2 + 0x2c) = 0x400;
-    uStack_1c = (unsigned int)
-                (__int64)
-                ((double)(*(float *)(param_2 + 0x44) * (float)dVar1 * lbl_820570D4) + lbl_82005730);
-    *(unsigned int *)(param_2 + 0x24) = uStack_1c;
-    *(unsigned int *)(param_2 + 0x28) = uStack_1c;
-  }
-  return;
-}
+    float clamped;
+    float ratio;
+    unsigned int pitch;
 
+    if (self->force != 0 || cents != self->cents) {
+        clamped = cents - lbl_8217D300 >= 0.0f ? cents : lbl_8217D300;
+        clamped = clamped - lbl_8217D2FC >= 0.0f ? lbl_8217D2FC : clamped;
+        ratio = (float)fn_82F655D8(2.0, clamped * (1.0f / 1200.0f));
+        self->cents = clamped;
+        pitch = (unsigned int)(65536.0f * (self->baseRate * ratio) + 0.5);
+        self->dirtyFlags = 0x400;
+        self->pitchA = pitch;
+        self->pitchB = pitch;
+    }
+}

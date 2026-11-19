@@ -1,103 +1,54 @@
-typedef unsigned char bool;
-
-
-unsigned __int64 fn_8297F548(unsigned __int64 param_1,int param_2,int param_3)
-
+int fn_8297F548(void *self, int from, int to)
 {
-  bool bVar1;
-  
-  if (param_2 == param_3) {
-    return 0;
-  }
-  switch(param_2) {
-  case 1:
-  case 2:
-  case 6:
-    if (param_3 < 1) {
-      return 1;
+    if (from == to) {
+        return 0;
     }
-    bVar1 = 9 < param_3;
-    break;
-  case 3:
-  case 7:
-    if (param_3 < 1) {
-      return 1;
-    }
-    if (param_3 < 4) {
-      return 0;
-    }
-    if (param_3 < 6) {
-      return 1;
-    }
-    bVar1 = 7 < param_3;
-    break;
-  case 4:
-  case 8:
-    if (param_3 < 1) {
-      return 1;
-    }
-    if (param_3 < 3) {
-      return 0;
-    }
-    if (param_3 == 4) {
-      return 0;
-    }
-    if (param_3 == 6) {
-      return 0;
-    }
-    bVar1 = param_3 == 8;
-    goto code_r0x8297f5e8;
-  case 5:
-  case 9:
-    if (param_3 < 1) {
-      return 1;
-    }
-    if (param_3 < 3) {
-      return 0;
-    }
-    if (param_3 < 5) {
-      return 1;
-    }
-    if (param_3 < 7) {
-      return 0;
-    }
-    bVar1 = param_3 == 9;
-    goto code_r0x8297f5e8;
-  case 10:
-    if (param_3 < 10) {
-      return 1;
-    }
-    bVar1 = 0xd < param_3;
-    break;
-  case 0xb:
-    if (param_3 < 10) {
-      return 1;
-    }
-    bVar1 = 0xb < param_3;
-    break;
-  case 0xc:
-    if (param_3 == 10) {
-      return 0;
-    }
-    bVar1 = param_3 == 0xc;
-    goto code_r0x8297f5e8;
-  case 0xd:
-    if (param_3 == 10) {
-      return 0;
-    }
-    bVar1 = param_3 == 0xd;
-code_r0x8297f5e8:
-    if (bVar1) {
-      return 0;
+    switch (from) {
+    case 1:
+    case 2:
+    case 6:
+        if (to > 0 && to <= 9) {
+            return 0;
+        }
+        break;
+    case 3:
+    case 7:
+        if (to > 0 && (to <= 3 || (to > 5 && to <= 7))) {
+            return 0;
+        }
+        break;
+    case 4:
+    case 8:
+        if (to > 0 && (to <= 2 || to == 4 || to == 6 || to == 8)) {
+            return 0;
+        }
+        break;
+    case 5:
+    case 9:
+        if (to > 0 && (to <= 2 || (to > 4 && (to <= 6 || to == 9)))) {
+            return 0;
+        }
+        break;
+    case 10:
+        if (to >= 10 && to <= 13) {
+            return 0;
+        }
+        break;
+    case 11:
+        if (to >= 10 && to <= 11) {
+            return 0;
+        }
+        break;
+    case 12:
+        if (to == 10 || to == 12) {
+            return 0;
+        }
+        break;
+    case 13:
+        if (to == 10 || to == 13) {
+            return 0;
+        }
+        break;
     }
     return 1;
-  default:
-    goto code_r0x8297f59c;
-  }
-  if (!bVar1) {
-    return 0;
-  }
-code_r0x8297f59c:
-  return 1;
 }
-

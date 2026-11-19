@@ -1,50 +1,47 @@
-extern int fn_8304D6C8();
+typedef struct Stream_83048088 {
+    char pad0[0x1c];
+    unsigned short loops; /* 0x1c */
+    char pad1e[0x28 - 0x1e];
+    unsigned int position;     /* 0x28 */
+    unsigned int loopStart;    /* 0x2c */
+    unsigned int end;          /* 0x30 */
+    unsigned int length;       /* 0x34 */
+    unsigned int start;        /* 0x38 */
+    unsigned short blockAlign; /* 0x3c */
+} Stream_83048088;
 
+extern void fn_8304D6C8(Stream_83048088 *stream, unsigned int block, unsigned int count,
+                        unsigned int blockCount);
 
-unsigned __int64 fn_83048088(int param_1,unsigned int *param_2)
-
+int fn_83048088(Stream_83048088 *stream, unsigned int *count)
 {
-  unsigned short uVar1;
-  short sVar2;
-  unsigned __int64 uVar3;
-  unsigned int uVar4;
-  int iVar5;
-  int iVar6;
-  unsigned int uVar7;
-  
-  uVar1 = *(unsigned short *)(param_1 + 0x3c);
-  uVar7 = (unsigned int)uVar1 * *param_2;
-  if (*(short *)(param_1 + 0x1c) == 1) {
-    iVar6 = *(int *)(param_1 + 0x38) + *(int *)(param_1 + 0x34);
-  }
-  else {
-    iVar6 = *(int *)(param_1 + 0x30);
-  }
-  uVar4 = iVar6 - *(int *)(param_1 + 0x28);
-  if (uVar4 < uVar7) {
-    trapWord(6,(unsigned __int64)uVar1,0);
-    *param_2 = uVar4 / uVar1;
-    uVar7 = uVar4;
-  }
-  uVar3 = (unsigned __int64)*(unsigned short *)(param_1 + 0x3c);
-  trapWord(6,uVar3,0);
-  trapWord(6,uVar3,0);
-  fn_8304D6C8(param_1,((unsigned __int64)*(unsigned int *)(param_1 + 0x28) -
-                           (unsigned __int64)*(unsigned int *)(param_1 + 0x38) & 0xffffffff) / uVar3,*param_2,
-                  *(unsigned int *)(param_1 + 0x34) / uVar3);
-  iVar5 = *(int *)(param_1 + 0x28) + uVar7;
-  *(int *)(param_1 + 0x28) = iVar5;
-  if (iVar5 == iVar6) {
-    sVar2 = *(short *)(param_1 + 0x1c);
-    if (sVar2 == 1) {
-      return 0x11;
-    }
-    *(unsigned int *)(param_1 + 0x28) = *(unsigned int *)(param_1 + 0x2c);
-    if (sVar2 != 0) {
-      *(short *)(param_1 + 0x1c) = sVar2 + -1;
-      return 0x2d;
-    }
-  }
-  return 0x2d;
-}
+    int result = 0x2d;
+    unsigned int bytes = stream->blockAlign * *count;
+    unsigned int end;
+    unsigned int available;
 
+    if (stream->loops != 1) {
+        end = stream->end;
+    } else {
+        end = stream->start + stream->length;
+    }
+    available = end - stream->position;
+    if (bytes > available) {
+        *count = available / stream->blockAlign;
+        bytes = available;
+    }
+    fn_8304D6C8(stream, (stream->position - stream->start) / stream->blockAlign, *count,
+                stream->length / stream->blockAlign);
+    stream->position += bytes;
+    if (stream->position == end) {
+        if (stream->loops != 1) {
+            stream->position = stream->loopStart;
+            if (stream->loops != 0) {
+                stream->loops--;
+            }
+        } else {
+            result = 0x11;
+        }
+    }
+    return result;
+}

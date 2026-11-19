@@ -1,80 +1,61 @@
-extern unsigned int stack0x00000010;
-extern unsigned int stack0xfffffff8;
-extern unsigned int uStack00000010;
-extern unsigned int uStack_10;
+extern void *memset(void *dst, int value, unsigned int size);
+extern int memcmp(const void *a, const void *b, unsigned int size);
 
+typedef union Token_82AC4830 {
+    unsigned __int64 value;
 
-unsigned __int64 fn_82AC4830(unsigned __int64 param_1,int *param_2,int param_3)
+    struct {
+        unsigned int reservedHigh : 29;
+        unsigned int count : 3;
+        unsigned int reservedLow : 16;
+        unsigned int mask : 4;
+        unsigned int reservedMid : 1;
+        unsigned int kind : 2;
+        unsigned int keep : 1;
+        unsigned int reservedBottom : 8;
+    } fields;
+} Token_82AC4830;
 
+typedef struct Context_82AC4830 {
+    char pad0[0x28];
+    unsigned char locked; /* 0x28 */
+} Context_82AC4830;
+
+int fn_82AC4830(Token_82AC4830 token, unsigned int *data, Context_82AC4830 *context)
 {
-  unsigned char bVar1;
-  unsigned char bVar2;
-  int iVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned char *pbVar6;
-  unsigned int uVar7;
-  unsigned __int64 *puVar8;
-  unsigned __int64 uStack00000010;
-  unsigned __int64 uStack_10;
-  
-  uStack00000010 = param_1;
-  uStack00000010 = ((((unsigned __int64)(uStack00000010)) & (~(((unsigned __int64)0xFFFFFFFF) << 32))) | ((((unsigned __int64)((unsigned int)param_1)) & ((unsigned __int64)0xFFFFFFFF)) << 32));
-  puVar8 = &uStack_10;
-  pbVar6 = (unsigned char *)&stack0x00000010;
-  uStack_10 = param_1 & 0x70000f700;
-  do {
-    bVar1 = *(unsigned char *)puVar8;
-    bVar2 = *pbVar6;
-    if ((unsigned __int64)bVar1 - (unsigned __int64)bVar2 != 0) break;
-    puVar8 = (unsigned __int64 *)((int)puVar8 + 1);
-    pbVar6 = pbVar6 + 1;
-  } while (puVar8 != (unsigned __int64 *)&stack0xfffffff8);
-  if ((int)((unsigned __int64)bVar1 - (unsigned __int64)bVar2) != 0) {
-    return 0xffffffff80004005;
-  }
-  iVar3 = *param_2;
-  uVar5 = (((unsigned __int64)(uStack00000010) >> 32) & 0xFFFFFFFF) >> 9 & 3;
-  uVar4 = param_2[iVar3 * 4 + 3];
-  uVar7 = uVar4 & 0xffffefff;
-  param_2[iVar3 * 4 + 3] = uVar7;
-  if (uVar5 == 0) {
-    return 0xffffffff80004005;
-  }
-  if (uVar5 == 1) {
-    if ((param_1 & 0x700000000) != 0) {
-      return 0xffffffff80004005;
+    Token_82AC4830 masked;
+    unsigned int *flags;
+    memset(&masked, 0, sizeof(masked));
+    masked.fields.count = token.fields.count;
+    masked.fields.keep = token.fields.keep;
+    masked.fields.kind = token.fields.kind;
+    masked.fields.mask = token.fields.mask;
+    if (memcmp(&masked, &token, 8) != 0) {
+        return 0x80004005;
     }
-    if (*(char *)(param_3 + 0x28) != '\0') {
-      return 0xffffffff80004005;
+    flags = &data[data[0] * 4 + 3];
+    *flags &= ~0x1000;
+    switch (token.fields.kind) {
+    case 0:
+        return 0x80004005;
+    case 1:
+        if (token.fields.count != 0 || context->locked != 0 || (*flags & 0x800) != 0) {
+            return 0x80004005;
+        }
+        *flags |= 0x1800;
+        break;
+    case 2:
+        if (token.fields.count != 0 || (*flags & 0x400) != 0) {
+            return 0x80004005;
+        }
+        *flags |= 0x400;
+        break;
+    case 3:
+        return 0x80004005;
     }
-    if ((uVar4 & 0x800) != 0) {
-      return 0xffffffff80004005;
+    *flags |= 0x200;
+    if (!token.fields.keep) {
+        *flags &= ~0x40;
     }
-    uVar7 = uVar7 | 0x1800;
-  }
-  else {
-    if (2 < uVar5) {
-      if (uVar5 == 3) {
-        return 0xffffffff80004005;
-      }
-      goto LAB_82ac4928;
-    }
-    if ((param_1 & 0x700000000) != 0) {
-      return 0xffffffff80004005;
-    }
-    if ((uVar4 & 0x400) != 0) {
-      return 0xffffffff80004005;
-    }
-    uVar7 = uVar7 | 0x400;
-  }
-  param_2[iVar3 * 4 + 3] = uVar7;
-LAB_82ac4928:
-  uVar4 = param_2[iVar3 * 4 + 3];
-  param_2[iVar3 * 4 + 3] = uVar4 | 0x200;
-  if ((param_1 & 0x100) == 0) {
-    param_2[iVar3 * 4 + 3] = uVar4 & 0xffffffbf | 0x200;
-  }
-  return 0;
+    return 0;
 }
-

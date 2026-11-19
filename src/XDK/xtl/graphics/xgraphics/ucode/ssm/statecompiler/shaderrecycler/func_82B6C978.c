@@ -1,85 +1,89 @@
-extern unsigned int *auStack_50;
-extern int fn_82AB15D0();
-extern int fn_82AB60F0();
-extern int fn_82AB6210();
-extern int fn_82AB6368();
-extern int fn_82AB6570();
-extern int fn_82AB6770();
-extern int fn_82AB67A8();
-extern int fn_82AB68E0();
-extern int fn_82AB6BC8();
-extern int fn_82AB6DA0();
-extern int fn_82AB6FB8();
-extern int fn_82B69A00();
-extern int fn_82B6B128();
-extern int fn_82B6B230();
-extern int fn_82B9F338();
-extern int fn_82B9F3F8();
-extern int fn_82B9F578();
-extern unsigned int uStack_44;
-extern unsigned int uStack_48;
+typedef void *(*Alloc_82B6C978)(void *, int);
 
+typedef struct Recycler_82B6C978 {
+    void *ctx;            /* 0x00 */
+    Alloc_82B6C978 alloc; /* 0x04 */
+    void *freeMem;        /* 0x08 */
+    void *shaderStore;    /* 0x0c */
+    void *registry;       /* 0x10 */
+    void *tree;           /* 0x14 */
+    void *lists;          /* 0x18 */
+    void *pairs;          /* 0x1c */
+} Recycler_82B6C978;
 
-unsigned __int64 fn_82B6C978(unsigned int *param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+typedef struct Pair_82B6C978 {
+    void *pixelShader;  /* 0x0 */
+    void *vertexShader; /* 0x4 */
+} Pair_82B6C978;
 
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
+extern unsigned int fn_82B69A00(void *registry, int kind);
+extern void fn_82AB6DA0(void *shader);
+extern void fn_82AB6BC8(void *shader);
+extern Pair_82B6C978 *fn_82B6B128(void *pairs);
+extern void fn_82B6B230(void *pairs, Pair_82B6C978 *pair);
+extern unsigned int fn_82AB6FB8(void *shader);
+extern unsigned int fn_82B9F338(void *tree, unsigned int *keys, int count, void **value);
+extern void *fn_82B9F3F8(void *value);
+extern void fn_82B9F578(void *tree, unsigned int *keys, int count, void *value);
+extern void *fn_82AB68E0(void *ctx, Alloc_82B6C978 alloc, void *freeMem, int n);
+extern void fn_82AB6368(void *lists, void *list);
+extern void fn_82AB6210(void *list, Pair_82B6C978 *pair);
+extern unsigned int fn_82AB60F0(void *list);
+extern void *fn_82AB6570(void *list);
+extern Pair_82B6C978 *fn_82AB67A8(void *item);
+extern void fn_82AB6770(void *item);
+
+#define SR_ASSERT(e, line)                                                                                   \
+    if (!(e))                                                                                                \
+    fn_82AB15D0(                                                                                             \
+        0, "Assertion failed: %s (%s:%u)", #e,                                                               \
+        "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\ssm\\statecompiler"      \
+        "\\shaderrecycler.cpp",                                                                              \
+        line)
+
+int fn_82B6C978(Recycler_82B6C978 *pSR, void *pCS_ps, void *pCS_vs)
 {
-  int iVar3;
-  unsigned int *puVar4;
-  __int64 lVar1;
-  unsigned int uVar5;
-  unsigned __int64 uVar2;
-  unsigned int auStack_50 [2];
-  unsigned int uStack_48;
-  unsigned int uStack_44;
-  
-  auStack_50[0] = 0;
-  if (param_1 == (unsigned int *)0x0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d9c10,0xffffffff820d9c18,0x173);
-  }
-  if ((param_2 & 0xffffffff) == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d9ce8,0xffffffff820d9c18,0x174);
-  }
-  if ((param_3 & 0xffffffff) == 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d9ce0,0xffffffff820d9c18,0x175);
-  }
-  iVar3 = fn_82B69A00(param_1[4],10);
-  if (iVar3 != 0) {
-    fn_82AB6DA0(param_2);
-    fn_82AB6DA0(param_3);
-    puVar4 = (unsigned int *)fn_82B6B128(param_1[7]);
-    if (puVar4 == (unsigned int *)0x0) {
-      fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d9c98,0xffffffff820d9c18,0x185);
-      fn_82AB6BC8(param_2);
-      fn_82AB6BC8(param_3);
-      return 0x10;
-    }
-    *puVar4 = (int)param_2;
-    puVar4[1] = (int)param_3;
-    uStack_48 = fn_82AB6FB8(param_2);
-    uStack_44 = fn_82AB6FB8(param_3);
-    iVar3 = fn_82B9F338(param_1[5],&uStack_48,2,auStack_50);
-    if (iVar3 == 0) {
-      lVar1 = fn_82AB68E0(*param_1,param_1[1],param_1[2],10);
-      if (lVar1 == 0) {
-        fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820d9c80,0xffffffff820d9c18,0x1a6);
-      }
-      fn_82AB6368(param_1[6],lVar1);
-      fn_82B9F578(param_1[5],&uStack_48,2,lVar1);
-    }
-    else {
-      lVar1 = fn_82B9F3F8(auStack_50[0]);
-    }
-    fn_82AB6210(lVar1,puVar4);
-    uVar5 = fn_82AB60F0(lVar1);
-    if (10 < uVar5) {
-      uVar2 = fn_82AB6570(lVar1);
-      puVar4 = (unsigned int *)fn_82AB67A8();
-      fn_82AB6BC8(*puVar4);
-      fn_82AB6BC8(puVar4[1]);
-      fn_82B6B230(param_1[7],puVar4);
-      fn_82AB6770(uVar2);
-    }
-  }
-  return 0;
-}
+    void *found;
+    Pair_82B6C978 *pair;
+    void *pSpecificPairList;
+    unsigned int keys[2];
 
+    found = 0;
+    SR_ASSERT(pSR, 0x173);
+    SR_ASSERT(pCS_ps, 0x174);
+    SR_ASSERT(pCS_vs, 0x175);
+    if (fn_82B69A00(pSR->registry, 10) != 0) {
+        fn_82AB6DA0(pCS_ps);
+        fn_82AB6DA0(pCS_vs);
+        pair = fn_82B6B128(pSR->pairs);
+        if (pair == 0) {
+            SR_ASSERT(!"SR_StoreShaderPair: Unable to allocate a new Shader Pair Structure", 0x185);
+            fn_82AB6BC8(pCS_ps);
+            fn_82AB6BC8(pCS_vs);
+            return 0x10;
+        }
+        pair->pixelShader = pCS_ps;
+        pair->vertexShader = pCS_vs;
+        keys[0] = fn_82AB6FB8(pCS_ps);
+        keys[1] = fn_82AB6FB8(pCS_vs);
+        if (fn_82B9F338(pSR->tree, keys, 2, &found) != 0) {
+            pSpecificPairList = fn_82B9F3F8(found);
+        } else {
+            pSpecificPairList = fn_82AB68E0(pSR->ctx, pSR->alloc, pSR->freeMem, 10);
+            SR_ASSERT(pSpecificPairList, 0x1a6);
+            fn_82AB6368(pSR->lists, pSpecificPairList);
+            fn_82B9F578(pSR->tree, keys, 2, pSpecificPairList);
+        }
+        fn_82AB6210(pSpecificPairList, pair);
+        if (fn_82AB60F0(pSpecificPairList) > 10) {
+            void *item = fn_82AB6570(pSpecificPairList);
+            pair = fn_82AB67A8(item);
+            fn_82AB6BC8(pair->pixelShader);
+            fn_82AB6BC8(pair->vertexShader);
+            fn_82B6B230(pSR->pairs, pair);
+            fn_82AB6770(item);
+        }
+    }
+    return 0;
+}

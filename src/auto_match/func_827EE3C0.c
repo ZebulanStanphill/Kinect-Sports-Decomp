@@ -1,66 +1,50 @@
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_60;
-extern int fn_82809558();
-extern int fn_82810280();
-extern int fn_82810328();
-extern int fn_82F6A548();
-extern int fn_82F6A594();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_821AAD20;
+typedef struct Vec3_827EE3C0 {
+    float x;
+    float y;
+    float z;
+} Vec3_827EE3C0;
 
+extern void fn_82810328(const Vec3_827EE3C0 *a, const Vec3_827EE3C0 *b, Vec3_827EE3C0 *out);
+extern float fn_82810280(const Vec3_827EE3C0 *a, const Vec3_827EE3C0 *b);
+extern float fn_82809558(float value);
 
-void fn_827EE3C0(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  float *param_5)
-
+int fn_827EE3C0(const Vec3_827EE3C0 *center, float radius, const Vec3_827EE3C0 *start,
+                const Vec3_827EE3C0 *end, float *hitTime)
 {
-  float fVar1;
-  unsigned __int64 uVar2;
-  double dVar3;
-  double extraout_f1;
-  double dVar4;
-  double dVar5;
-  double dVar6;
-  double dVar7;
-  unsigned char auStack_60 [1];
-  unsigned char auStack_50 [80];
-  
-  uVar2 = fn_82F6A548();
-  dVar3 = extraout_f1;
-  fn_82810328(param_3,uVar2,auStack_50);
-  fn_82810328(param_4,param_3,auStack_60);
-  dVar4 = (double)fn_82810280(auStack_60,auStack_60);
-  dVar5 = (double)fn_82810280(auStack_50,auStack_50);
-  dVar7 = (double)lbl_821AAD20;
-  if (dVar4 == dVar7) {
-    if (dVar5 <= (double)(float)(dVar3 * dVar3)) {
-      *param_5 = lbl_821AAD20;
-LAB_827ee4b0:
-      uVar2 = 1;
-      goto LAB_827ee4b4;
-    }
-  }
-  else {
-    dVar6 = (double)fn_82810280(auStack_50,auStack_60);
-    dVar3 = -(double)(float)(dVar3 * dVar3 - dVar5);
-    if (((dVar3 <= dVar7) || (dVar6 <= dVar7)) &&
-       (dVar7 <= (double)(float)(dVar6 * dVar6 - (double)(float)(dVar3 * dVar4)))) {
-      dVar3 = (double)fn_82809558();
-      dVar5 = (double)lbl_82002AE0;
-      fVar1 = (float)((double)(float)(-dVar6 - dVar3) / dVar4);
-      dVar3 = (double)fVar1;
-      *param_5 = fVar1;
-      if (dVar3 <= dVar5) {
-        if (dVar3 < 0.0) {
-          dVar3 = dVar7;
-        }
-        *param_5 = (float)dVar3;
-        goto LAB_827ee4b0;
-      }
-    }
-  }
-  uVar2 = 0;
-LAB_827ee4b4:
-  fn_82F6A594(uVar2);
-  return;
-}
+    Vec3_827EE3C0 offset;
+    Vec3_827EE3C0 direction;
+    float a;
+    float b;
+    float c;
+    float distance;
+    float discriminant;
+    float t;
 
+    fn_82810328(start, center, &offset);
+    fn_82810328(end, start, &direction);
+    a = fn_82810280(&direction, &direction);
+    distance = fn_82810280(&offset, &offset);
+    if (a == 0.0f) {
+        if (distance > radius * radius) {
+            return 0;
+        }
+        *hitTime = 0.0f;
+        return 1;
+    }
+    b = fn_82810280(&offset, &direction);
+    c = distance - radius * radius;
+    if (c > 0.0f && b > 0.0f) {
+        return 0;
+    }
+    discriminant = b * b - c * a;
+    if (discriminant < 0.0f) {
+        return 0;
+    }
+    t = (-b - fn_82809558(discriminant)) / a;
+    *hitTime = t;
+    if (t > 1.0f) {
+        return 0;
+    }
+    *hitTime = t >= 0.0f ? t : 0.0f;
+    return 1;
+}

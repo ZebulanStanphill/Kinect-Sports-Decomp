@@ -1,64 +1,95 @@
-extern int fn_82552890();
-extern int fn_825529B0();
-extern int fn_82552B50();
-extern int fn_8261D538();
+typedef struct Slot_825DA108 {
+    int words[6];
+} Slot_825DA108;
 
+typedef struct Slots_825DA108 {
+    Slot_825DA108 slots[9]; /* 0x0 */
+    float weight;           /* 0xd8 */
+} Slots_825DA108;
 
-unsigned __int64 fn_825DA108(int param_1,int param_2)
+typedef struct Player_825DA108 Player_825DA108;
 
+typedef struct Link_825DA108 {
+    Player_825DA108 *owner; /* 0x0 */
+    int pad4;
+    int pending; /* 0x8 */
+    int padc;
+    float x10; /* 0x10 */
+    float x14; /* 0x14 */
+    float x18; /* 0x18 */
+    float x1c; /* 0x1c */
+    int x20;   /* 0x20 */
+} Link_825DA108;
+
+struct Player_825DA108 {
+    char pad0[0x38];
+    int locked; /* 0x38 */
+    char pad3c[0xa30 - 0x3c];
+    Slots_825DA108 slots; /* 0xa30 */
+    char padb0c[0xb60 - 0xb0c];
+    Link_825DA108 link; /* 0xb60 */
+    int xb84;           /* 0xb84 */
+};
+
+typedef struct Setup_825DA108 {
+    char pad0[0x5bc];
+    Player_825DA108 *source; /* 0x5bc */
+    int x5c0;                /* 0x5c0 */
+    float x5c4;              /* 0x5c4 */
+    float x5c8;              /* 0x5c8 */
+    int x5cc;                /* 0x5cc */
+    char pad5d0[0x8];
+    float x5d8; /* 0x5d8 */
+} Setup_825DA108;
+
+extern void fn_8261D538(Player_825DA108 *self, Player_825DA108 *source);
+extern int fn_825529B0(Slot_825DA108 *slot);
+extern void fn_82552B50(Slot_825DA108 *slot, int value);
+extern void fn_82552890(Slot_825DA108 *slot, Slot_825DA108 *source, Player_825DA108 *owner);
+
+static __forceinline void InitLink(Link_825DA108 *link, Player_825DA108 *owner, float y, float x, int z,
+                                   float w)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  int iVar5;
-  int iVar6;
-  int iVar7;
-  int iVar8;
-  int iVar9;
-  int iVar10;
-  
-  if (*(int *)(param_2 + 0x5bc) != 0) {
-    fn_8261D538();
-  }
-  uVar4 = *(unsigned int *)(param_2 + 0x5cc);
-  uVar1 = *(unsigned int *)(param_2 + 0x5d8);
-  uVar2 = *(unsigned int *)(param_2 + 0x5c4);
-  uVar3 = *(unsigned int *)(param_2 + 0x5c8);
-  iVar9 = 0;
-  *(unsigned int *)(param_1 + 0xb78) = uVar3;
-  *(int *)(param_1 + 0xb60) = param_1;
-  *(unsigned int *)(param_1 + 0xb7c) = uVar3;
-  *(unsigned int *)(param_1 + 0xb74) = uVar2;
-  *(unsigned int *)(param_1 + 0xb80) = uVar4;
-  *(unsigned int *)(param_1 + 0xb70) = uVar1;
-  if (*(int *)(param_1 + 0xb68) != 0) {
-    *(unsigned int *)(param_1 + 0xb68) = 0;
-  }
-  *(unsigned int *)(param_1 + 0xb84) = *(unsigned int *)(param_2 + 0x5c0);
-  iVar5 = *(int *)(param_2 + 0x5bc);
-  if (iVar5 != 0) {
-    iVar10 = param_1 + 0xa30;
-    iVar7 = (iVar5 + 0xa30) - iVar10;
-    do {
-      if ((iVar9 != 4) && (iVar9 != 7)) {
-        iVar8 = iVar7 + iVar10;
-        iVar6 = fn_825529B0(iVar8);
-        if (iVar6 != 0) {
-          iVar6 = fn_825529B0(iVar10);
-          if (iVar6 != 0) {
-            fn_82552B50(iVar10,1);
-          }
-          if (*(int *)(param_1 + 0x38) == 0) {
-            fn_82552890(iVar10,iVar8,param_1);
-          }
-        }
-      }
-      iVar9 = iVar9 + 1;
-      iVar10 = iVar10 + 0x18;
-    } while (iVar9 < 9);
-    *(unsigned int *)(param_1 + 0xb08) = *(unsigned int *)(iVar5 + 0xb08);
-  }
-  return 1;
+    link->owner = owner;
+    link->x18 = y;
+    link->x1c = y;
+    link->x14 = x;
+    link->x20 = z;
+    link->x10 = w;
+    if (link->pending != 0) {
+        link->pending = 0;
+    }
 }
 
+int fn_825DA108(Player_825DA108 *self, Setup_825DA108 *setup)
+{
+    Link_825DA108 *link = &self->link;
+    Player_825DA108 *source;
+    Slots_825DA108 *slots;
+    Slots_825DA108 *sourceSlots;
+    int i;
+    if (setup->source != 0) {
+        fn_8261D538(self, setup->source);
+    }
+    InitLink(link, self, setup->x5c8, setup->x5c4, setup->x5cc, setup->x5d8);
+    self->xb84 = setup->x5c0;
+    source = setup->source;
+    if (source != 0) {
+        slots = &self->slots;
+        sourceSlots = &source->slots;
+        for (i = 0; i < 9; i++) {
+            if (i != 4 && i != 7) {
+                if (fn_825529B0(&sourceSlots->slots[i]) != 0) {
+                    if (fn_825529B0(&slots->slots[i]) != 0) {
+                        fn_82552B50(&slots->slots[i], 1);
+                    }
+                    if (self->locked == 0) {
+                        fn_82552890(&slots->slots[i], &sourceSlots->slots[i], self);
+                    }
+                }
+            }
+        }
+        slots->weight = sourceSlots->weight;
+    }
+    return 1;
+}

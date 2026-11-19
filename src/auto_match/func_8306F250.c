@@ -1,35 +1,20 @@
-extern unsigned int fStack00000014;
-extern int fn_8306E888();
-extern int fn_8306EA00();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_82186E10;
-extern unsigned int lbl_82186E14;
-extern unsigned int lbl_821AAD20;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float v[4];
+} __vector4;
 
+extern float fn_8306EA00(float value);
+extern float fn_8306E888(float value);
+extern const float lbl_82186E10;
+extern const float lbl_82186E14;
 
-unsigned __int64 fn_8306F250(double param_1)
-
+unsigned char fn_8306F250(__vector4 point, float margin)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  double dVar3;
-  float in_register_00010010;
-  float in_register_00010014;
-  float in_register_00010018;
-  float fStack00000014;
-  
-  if (lbl_821AAD20 < in_register_00010018) {
-    dVar3 = (double)(lbl_82002AE0 / in_register_00010018);
-    fStack00000014 = in_register_00010014;
-    uVar1 = fn_8306EA00((double)(float)(dVar3 * (double)in_register_00010010));
-    uVar2 = fn_8306EA00((double)(float)(dVar3 * (double)fStack00000014));
-    dVar3 = (double)fn_8306E888(uVar1);
-    if ((dVar3 <= (double)(float)((double)lbl_82186E14 - param_1)) &&
-       (dVar3 = (double)fn_8306E888(uVar2),
-       dVar3 <= (double)(float)((double)lbl_82186E10 - param_1))) {
-      return 0;
+    float x;
+    float y;
+    if (!(point.v[2] > 0.0f)) {
+        return 1;
     }
-  }
-  return 1;
+    x = fn_8306EA00(point.v[0] * (1.0f / point.v[2]));
+    y = fn_8306EA00(point.v[1] * (1.0f / point.v[2]));
+    return fn_8306E888(x) > lbl_82186E14 - margin || fn_8306E888(y) > lbl_82186E10 - margin;
 }
-

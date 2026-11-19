@@ -1,50 +1,49 @@
-typedef unsigned char bool;
-#define true 1
-extern unsigned int lbl_8201DFEC;
-extern unsigned int lbl_82057B98;
-extern unsigned int lbl_821AAD20;
+typedef struct Stats_829E5BC0 {
+    float grid[25];              /* 0x0 */
+    unsigned int histogram[256]; /* 0x64 */
+} Stats_829E5BC0;
 
+typedef struct Frame_829E5BC0 {
+    int pad0;
+    Stats_829E5BC0 *stats; /* 0x4 */
+} Frame_829E5BC0;
 
-bool fn_829E5BC0(double param_1,int *param_2)
+typedef struct Detector_829E5BC0 {
+    Frame_829E5BC0 *frame; /* 0x0 */
+    char pad4[0x2c];
+    unsigned int width;  /* 0x30 */
+    unsigned int height; /* 0x34 */
+} Detector_829E5BC0;
 
+extern const float lbl_8201DFEC;
+extern const float lbl_82057B98;
+
+unsigned char fn_829E5BC0(Detector_829E5BC0 *self, float level)
 {
-  float fVar1;
-  unsigned int *puVar2;
-  unsigned int uVar3;
-  int iVar4;
-  int iVar5;
-  __int64 lVar6;
-  
-  if (param_1 <= (double)lbl_8201DFEC) {
-    uVar3 = 0;
-    iVar4 = 0;
-    do {
-      iVar5 = 0;
-      lVar6 = 5;
-      do {
-        if ((double)lbl_8201DFEC < (double)*(float *)((iVar4 + iVar5) * 4 + *(int *)(*param_2 + 4)))
-        {
-          uVar3 = uVar3 + 1;
-        }
-        iVar5 = iVar5 + 1;
-        lVar6 = lVar6 + -1;
-      } while (lVar6 != 0);
-      iVar4 = iVar4 + 5;
-    } while (iVar4 < 0x19);
-    if (uVar3 < 4) {
-      iVar4 = 0x264;
-      lVar6 = 0x80;
-      fVar1 = lbl_821AAD20;
-      do {
-        puVar2 = (unsigned int *)(iVar4 + *(int *)(*param_2 + 4));
-        iVar4 = iVar4 + 4;
-        fVar1 = (float)*puVar2 + fVar1;
-        lVar6 = lVar6 + -1;
-      } while (lVar6 != 0);
-      return lbl_82057B98 <
-             fVar1 / (float)(((__int64)param_2[0xd] * (__int64)param_2[0xc] & 0xffffffffU) >> 1);
+    unsigned int count;
+    int row;
+    int column;
+    int i;
+    float sum;
+    if (level > lbl_8201DFEC) {
+        goto busy;
     }
-  }
-  return true;
+    count = 0;
+    for (row = 0; row < 5; row++) {
+        for (column = 0; column < 5; column++) {
+            if (self->frame->stats->grid[row * 5 + column] > lbl_8201DFEC) {
+                count++;
+            }
+        }
+    }
+    if (count >= 4) {
+        goto busy;
+    }
+    sum = 0.0f;
+    for (i = 128; i < 256; i++) {
+        sum += (float)self->frame->stats->histogram[i];
+    }
+    return sum / (float)((self->height * self->width) >> 1) > lbl_82057B98;
+busy:
+    return 1;
 }
-

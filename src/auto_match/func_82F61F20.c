@@ -1,108 +1,47 @@
-typedef unsigned char bool;
-extern int fn_82A1BB18();
-extern unsigned __int64 storeWordConditionalIndexed();
+long _InterlockedCompareExchange(long volatile *target, long exchange, long compare);
+void __emit(unsigned int instruction);
+#define __lwsync() __emit(0x7C2004AC)
 
+typedef struct Lock_82F61F20 {
+    long busy;          /* 0x00 */
+    long owner;         /* 0x04 */
+    long position;      /* 0x08 */
+    long length;        /* 0x0c */
+    unsigned int start; /* 0x10 */
+    unsigned int size;  /* 0x14 */
+    unsigned int f18;   /* 0x18 */
+    unsigned int f1c;   /* 0x1c */
+} Lock_82F61F20;
 
-unsigned __int64 fn_82F61F20(__int64 param_1)
+extern unsigned int fn_82A1BB18(void);
 
+int fn_82F61F20(Lock_82F61F20 *self)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  unsigned int *puVar4;
-  __int64 lVar5;
-  unsigned int *puVar6;
-  unsigned __int64 uVar7;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  uVar7 = 0;
-  uVar3 = fn_82A1BB18();
-  do {
-    puVar4 = (unsigned int *)param_1;
-    uVar1 = *puVar4;
-    if (uVar1 != 0) {
-      if (in_RESERVE != '\0') {
-        uVar2 = storeWordConditionalIndexed((unsigned __int64)uVar1,0,param_1);
-        *puVar4 = uVar2;
-        in_cr0 = 2;
-      }
-      break;
-    }
-    if (in_RESERVE != '\0') {
-      uVar2 = storeWordConditionalIndexed(uVar3,0,param_1);
-      *puVar4 = uVar2;
-      in_cr0 = 2;
-    }
-  } while (!(bool)(in_cr0 >> 1 & 1));
-  sync(1);
-  if (uVar1 == 0) {
-    lVar5 = param_1 + 4;
-    do {
-      puVar6 = (unsigned int *)lVar5;
-      uVar1 = *puVar6;
-      if (uVar1 != 0) {
-        if (in_RESERVE != '\0') {
-          uVar2 = storeWordConditionalIndexed((unsigned __int64)uVar1,0,lVar5);
-          *puVar6 = uVar2;
-          in_cr0 = 2;
-        }
-        break;
-      }
-      if (in_RESERVE != '\0') {
-        uVar2 = storeWordConditionalIndexed(uVar3,0,lVar5);
-        *puVar6 = uVar2;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-    sync(1);
-    if (uVar1 == 0) {
-      puVar4[2] = 0;
-      puVar4[6] = 0;
-      puVar4[7] = 0;
-      puVar4[4] = 0;
-      puVar4[5] = 0;
-      puVar4[3] = 0;
-      sync(1);
-      do {
-        if (*puVar6 != (unsigned int)uVar3) {
-          if (in_RESERVE != '\0') {
-            uVar1 = storeWordConditionalIndexed((unsigned __int64)*puVar6,0,lVar5);
-            *puVar6 = uVar1;
-            in_cr0 = 2;
-          }
-          break;
-        }
-        if (in_RESERVE != '\0') {
-          uVar1 = storeWordConditionalIndexed(0,0,lVar5);
-          *puVar6 = uVar1;
-          in_cr0 = 2;
-        }
-      } while (!(bool)(in_cr0 >> 1 & 1));
-    }
-    else {
-      uVar7 = 0xffffffff82240401;
-    }
-    sync(1);
-    do {
-      if (*puVar4 != (unsigned int)uVar3) {
-        if (in_RESERVE == '\0') {
-          return uVar7;
-        }
-        uVar1 = storeWordConditionalIndexed((unsigned __int64)*puVar4,0,param_1);
-        *puVar4 = uVar1;
-        return uVar7;
-      }
-      if (in_RESERVE != '\0') {
-        uVar1 = storeWordConditionalIndexed(0,0,param_1);
-        *puVar4 = uVar1;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-  }
-  else {
-    uVar7 = 0xffffffff82240400;
-  }
-  return uVar7;
-}
+    int hr = 0;
+    long thread = fn_82A1BB18();
+    long previous;
 
+    previous = _InterlockedCompareExchange(&self->busy, thread, 0);
+    __lwsync();
+    if (previous == 0) {
+        previous = _InterlockedCompareExchange(&self->owner, thread, 0);
+        __lwsync();
+        if (previous == 0) {
+            self->position = 0;
+            self->f18 = 0;
+            self->f1c = 0;
+            self->start = 0;
+            self->size = 0;
+            self->length = 0;
+            __lwsync();
+            _InterlockedCompareExchange(&self->owner, 0, thread);
+        } else {
+            hr = 0x82240401;
+        }
+        __lwsync();
+        _InterlockedCompareExchange(&self->busy, 0, thread);
+    } else {
+        hr = 0x82240400;
+    }
+    return hr;
+}

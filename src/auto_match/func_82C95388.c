@@ -1,53 +1,52 @@
-extern int fn_82C9EA58();
+typedef struct Block_82C95388 {
+    unsigned int info;   /* 0x0 */
+    int pad4;            /* 0x4 */
+    unsigned char b[6];  /* 0x8 */
+    unsigned char a[10]; /* 0xe */
+} Block_82C95388;
 
+typedef struct Decoder_82C95388 {
+    char pad0[0x88];
+    int width;  /* 0x88 */
+    int height; /* 0x8c */
+    int stride; /* 0x90 */
+    char pad94[0x110 - 0x94];
+    Block_82C95388 *blocks; /* 0x110 */
+    char pad114[0x50d0 - 0x114];
+    int firstRow; /* 0x50d0 */
+    char pad50d4[0x55b4 - 0x50d4];
+    int restartEnabled; /* 0x55b4 */
+    char pad55b8[0x55d0 - 0x55b8];
+    int *rowRestart; /* 0x55d0 */
+} Decoder_82C95388;
 
-void fn_82C95388(int param_1)
+extern void fn_82C9EA58(Decoder_82C95388 *self, int x, int y, int mode, unsigned char *b, unsigned char *upB,
+                        unsigned char *leftB, unsigned char *a, unsigned char *upA, unsigned char *leftA,
+                        int top, int left);
 
+void fn_82C95388(Decoder_82C95388 *self)
 {
-  int iVar1;
-  __int64 lVar2;
-  __int64 lVar3;
-  unsigned int *puVar4;
-  
-  lVar2 = 0;
-  puVar4 = (unsigned int *)(*(int *)(param_1 + 0x50d0) * *(int *)(param_1 + 0x90) * 0x18 +
-                   *(int *)(param_1 + 0x110));
-  if (*(int *)(param_1 + 0x55b4) == 0) {
-    if (0 < *(int *)(param_1 + 0x8c)) {
-      iVar1 = *(int *)(param_1 + 0x88);
-      do {
-        lVar3 = 0;
-        if (0 < iVar1) {
-          do {
-            fn_82C9EA58(param_1,lVar3,lVar2,*puVar4 >> 8 & 7,puVar4 + 2,
-                            puVar4 + (*(int *)(param_1 + 0x88) * 3 & 0x1fffffffU) * -2 + 2,
-                            puVar4 + -4,(int)puVar4 + 0xe);
-            iVar1 = *(int *)(param_1 + 0x88);
-            lVar3 = lVar3 + 1;
-            puVar4 = puVar4 + 6;
-          } while ((int)lVar3 < iVar1);
-        }
-        lVar2 = lVar2 + 1;
-      } while ((int)lVar2 < *(int *)(param_1 + 0x8c));
-    }
-  }
-  else if (0 < *(int *)(param_1 + 0x8c)) {
-    iVar1 = *(int *)(param_1 + 0x88);
-    do {
-      lVar3 = 0;
-      if (0 < iVar1) {
-        do {
-          fn_82C9EA58(param_1,lVar3,lVar2,*puVar4 >> 8 & 7,puVar4 + 2,
-                          puVar4 + (*(int *)(param_1 + 0x88) * 3 & 0x1fffffffU) * -2 + 2,puVar4 + -4
-                          ,(int)puVar4 + 0xe);
-          iVar1 = *(int *)(param_1 + 0x88);
-          lVar3 = lVar3 + 1;
-          puVar4 = puVar4 + 6;
-        } while ((int)lVar3 < iVar1);
-      }
-      lVar2 = lVar2 + 1;
-    } while ((int)lVar2 < *(int *)(param_1 + 0x8c));
-  }
-  return;
-}
+    Block_82C95388 *cur = self->blocks + self->firstRow * self->stride;
+    int x;
+    int y;
 
+    if (self->restartEnabled != 0) {
+        for (y = 0; y < self->height; y++) {
+            for (x = 0; x < self->width; x++) {
+                unsigned char *upA = cur[-self->width].a;
+                unsigned char *upB = cur[-self->width].b;
+                fn_82C9EA58(self, x, y, (cur->info >> 8) & 7, cur->b, upB, cur[-1].b, cur->a, upA, cur[-1].a,
+                            y == 0 || self->rowRestart[y] != 0, x == 0);
+                cur++;
+            }
+        }
+    } else {
+        for (y = 0; y < self->height; y++) {
+            for (x = 0; x < self->width; x++) {
+                fn_82C9EA58(self, x, y, (cur->info >> 8) & 7, cur->b, cur[-self->width].b, cur[-1].b, cur->a,
+                            cur[-self->width].a, cur[-1].a, y == 0, x == 0);
+                cur++;
+            }
+        }
+    }
+}

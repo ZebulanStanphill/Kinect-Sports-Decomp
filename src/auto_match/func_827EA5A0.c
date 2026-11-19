@@ -1,78 +1,62 @@
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_70;
-extern int fn_82809558();
-extern int fn_8280A5E8();
-extern int fn_82810280();
-extern int fn_82810308();
-extern int fn_82810328();
-extern int fn_82F6A544();
-extern int fn_82F6A590();
-extern unsigned int lbl_820069B4;
-extern unsigned int lbl_821AAD20;
-extern unsigned int lbl_831F13B4;
+typedef struct Vec3_827EA5A0 {
+    float x;
+    float y;
+    float z;
+} Vec3_827EA5A0;
 
+extern const float lbl_820069B4;
+extern int lbl_831F13B4;
 
-void fn_827EA5A0(unsigned __int64 param_1,double param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5,unsigned __int64 param_6,unsigned __int64 param_7,unsigned __int64 param_8,
-                  float *param_9)
+extern void fn_82810328(const Vec3_827EA5A0 *a, const Vec3_827EA5A0 *b, Vec3_827EA5A0 *out);
+extern float fn_82810308(const Vec3_827EA5A0 *v);
+extern float fn_82810280(const Vec3_827EA5A0 *a, const Vec3_827EA5A0 *b);
+extern float fn_82809558(float value);
+extern int fn_8280A5E8(float value);
 
+int fn_827EA5A0(const Vec3_827EA5A0 *origin, const Vec3_827EA5A0 *velocity, const Vec3_827EA5A0 *center,
+                float radius, const Vec3_827EA5A0 *otherVelocity, float maxTime, float *hitTime)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  double dVar3;
-  double extraout_f1;
-  double dVar4;
-  double dVar5;
-  double dVar6;
-  double dVar7;
-  double dVar8;
-  unsigned char auStack_70 [16];
-  unsigned char auStack_60 [96];
-  
-  uVar1 = fn_82F6A544();
-  dVar8 = extraout_f1;
-  fn_82810328(uVar1,param_5,auStack_60);
-  fn_82810328(param_4,param_7,auStack_70);
-  dVar4 = (double)fn_82810308(auStack_70);
-  dVar5 = (double)fn_82810308(auStack_60);
-  dVar8 = -(double)(float)(dVar8 * dVar8 - dVar5);
-  if ((double)lbl_820069B4 <= dVar4) {
-    dVar5 = (double)fn_82810280(auStack_60,auStack_70);
-    dVar7 = (double)lbl_821AAD20;
-    if (((dVar5 <= dVar7) || (dVar8 <= dVar7)) &&
-       (dVar6 = (double)(float)(dVar5 * dVar5 - (double)(float)(dVar8 * dVar4)), dVar7 <= dVar6)) {
-      dVar3 = (double)(float)(dVar4 * param_2 + dVar5);
-      if (dVar8 <= dVar7) {
-        if (dVar6 <= (double)(float)(dVar3 * dVar3)) {
-          dVar8 = (double)fn_82809558();
-          dVar8 = -(double)(float)((double)(float)(dVar5 - dVar8) / dVar4);
-          if ((lbl_831F13B4 == 0) || (dVar7 <= dVar8)) goto LAB_827ea6e8;
-        }
-      }
-      else if ((dVar7 <= dVar3) || ((double)(float)(dVar3 * dVar3) <= dVar6)) {
-        dVar8 = (double)fn_82809558();
-        dVar8 = -(double)(float)((double)(float)(dVar8 + dVar5) / dVar4);
-        if ((lbl_831F13B4 == 0) || (dVar7 <= dVar8)) {
-          *param_9 = (float)dVar8;
-          uVar1 = 1;
-          goto LAB_827ea6f8;
-        }
-      }
-    }
-  }
-  else {
-    iVar2 = fn_8280A5E8(dVar8);
-    if (iVar2 != 0) {
-      dVar8 = (double)lbl_821AAD20;
-LAB_827ea6e8:
-      *param_9 = (float)dVar8;
-      uVar1 = 1;
-      goto LAB_827ea6f8;
-    }
-  }
-  uVar1 = 0;
-LAB_827ea6f8:
-  fn_82F6A590(uVar1);
-  return;
-}
+    Vec3_827EA5A0 offset;
+    Vec3_827EA5A0 direction;
+    float a;
+    float b;
+    float c;
+    float discriminant;
+    float t;
 
+    fn_82810328(origin, center, &offset);
+    fn_82810328(velocity, otherVelocity, &direction);
+    a = fn_82810308(&direction);
+    c = fn_82810308(&offset) - radius * radius;
+    if (a < lbl_820069B4) {
+        if (fn_8280A5E8(c) != 0) {
+            *hitTime = 0.0f;
+            return 1;
+        }
+        return 0;
+    }
+    b = fn_82810280(&offset, &direction);
+    if (b > 0.0f && c > 0.0f) {
+        return 0;
+    }
+    discriminant = b * b - c * a;
+    if (!(discriminant < 0.0f)) {
+        t = a * maxTime + b;
+        if (c > 0.0f) {
+            if (t >= 0.0f || !(t * t > discriminant)) {
+                t = -((fn_82809558(discriminant) + b) / a);
+                if (lbl_831F13B4 == 0 || !(t < 0.0f)) {
+                    *hitTime = t;
+                    return 1;
+                }
+            }
+        } else if (!(t * t < discriminant)) {
+            t = -((b - fn_82809558(discriminant)) / a);
+            if (lbl_831F13B4 == 0 || !(t < 0.0f)) {
+                *hitTime = t;
+                return 1;
+            }
+        }
+    }
+    return 0;
+}

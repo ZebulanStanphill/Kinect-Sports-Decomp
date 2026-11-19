@@ -1,48 +1,29 @@
-extern float fRam8315c878;
-extern float fRam8315c87c;
-extern float fRam8315c888;
-extern float fRam8315c88c;
-extern float fRam8315c898;
-extern float fRam8315c89c;
-extern float fRam8315c8a8;
-extern float fRam8315c8ac;
-extern float fRam8315c8b8;
-extern float fRam8315c8bc;
-extern unsigned int lbl_83218BA0;
-extern unsigned int lbl_83218BA4;
-extern unsigned int lbl_83218BA8;
-extern unsigned int lbl_83218BAC;
-extern unsigned int lbl_83218BB0;
+extern float lbl_8315C878[4];
+extern float lbl_8315C888[4];
+extern float lbl_8315C898[4];
+extern float lbl_8315C8A8[4];
+extern float lbl_8315C8B8[4];
+extern float lbl_83218BA0[5];
 
-
-unsigned __int64 fn_829EFC50(float *param_1)
-
+int fn_829EFC50(float *values)
 {
-  float fVar1;
-  
-  if (param_1 == (float *)0x0) {
-    return 0xffffffff80070057;
-  }
-  fVar1 = *param_1;
-  if ((fRam8315c878 <= fVar1) && (fVar1 <= fRam8315c87c)) {
-    lbl_83218BA0 = fVar1;
-  }
-  fVar1 = param_1[1];
-  if ((fRam8315c888 <= fVar1) && (fVar1 <= fRam8315c88c)) {
-    lbl_83218BA4 = fVar1;
-  }
-  fVar1 = param_1[2];
-  if ((fRam8315c898 <= fVar1) && (fVar1 <= fRam8315c89c)) {
-    lbl_83218BA8 = fVar1;
-  }
-  fVar1 = param_1[3];
-  if ((fRam8315c8a8 <= fVar1) && (fVar1 <= fRam8315c8ac)) {
-    lbl_83218BAC = fVar1;
-  }
-  fVar1 = param_1[4];
-  if ((fRam8315c8b8 <= fVar1) && (fVar1 <= fRam8315c8bc)) {
-    lbl_83218BB0 = fVar1;
-  }
-  return 0;
+    if (values == 0) {
+        return 0x80070057;
+    }
+    if (values[0] >= lbl_8315C878[0] && values[0] <= lbl_8315C878[1]) {
+        lbl_83218BA0[0] = values[0];
+    }
+    if (values[1] >= lbl_8315C888[0] && values[1] <= lbl_8315C888[1]) {
+        lbl_83218BA0[1] = values[1];
+    }
+    if (values[2] >= lbl_8315C898[0] && values[2] <= lbl_8315C898[1]) {
+        lbl_83218BA0[2] = values[2];
+    }
+    if (values[3] >= lbl_8315C8A8[0] && values[3] <= lbl_8315C8A8[1]) {
+        lbl_83218BA0[3] = values[3];
+    }
+    if (values[4] >= lbl_8315C8B8[0] && values[4] <= lbl_8315C8B8[1]) {
+        lbl_83218BA0[4] = values[4];
+    }
+    return 0;
 }
-

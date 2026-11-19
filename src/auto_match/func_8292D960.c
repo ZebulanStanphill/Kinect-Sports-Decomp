@@ -1,37 +1,41 @@
-extern int fn_828F1108();
-extern int fn_82925600();
-extern int fn_82B8FD40();
-extern unsigned int lbl_82002AE0;
+typedef struct Stream_8292D960 {
+    int pad0[4];
+    int hasColor;  /* 0x10 */
+    int f14;       /* 0x14 */
+    int hasNormal; /* 0x18 */
+    int f1c;       /* 0x1c */
+    int base;      /* 0x20 */
+    int pad24[15];
+    int strideA; /* 0x60 */
+    int strideB; /* 0x64 */
+    int count;   /* 0x68 */
+} Stream_8292D960;
 
+typedef struct Vector4_8292D960 {
+    float x; /* 0x0 */
+    float y; /* 0x4 */
+    float z; /* 0x8 */
+    float w; /* 0xc */
+} Vector4_8292D960;
 
-void fn_8292D960(int param_1,int param_2,int param_3,int param_4)
+extern int fn_828F1108(Vector4_8292D960 *out, unsigned int offset, int count);
+extern int fn_82B8FD40(Stream_8292D960 *stream, Vector4_8292D960 *out);
+extern int fn_82925600(Stream_8292D960 *stream, Vector4_8292D960 *out);
 
+void fn_8292D960(Stream_8292D960 *stream, int a, int b, Vector4_8292D960 *out)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  double dVar3;
-  
-  uVar2 = (__int64)*(int *)(param_1 + 0x60) * (__int64)param_2 +
-          (__int64)*(int *)(param_1 + 100) * (__int64)param_3 +
-          (unsigned __int64)*(unsigned int *)(param_1 + 0x20);
-  uVar1 = ((unsigned __int64)*(unsigned int *)(param_1 + 0x68) & 0x7fffffff) * 2 + uVar2;
-  if ((uVar2 & 0xffffffff) < (uVar1 & 0xffffffff)) {
-    dVar3 = (double)lbl_82002AE0;
-    do {
-      fn_828F1108(param_4,uVar2,1);
-      uVar2 = uVar2 + 2;
-      *(float *)(param_4 + 0xc) = (float)dVar3;
-      *(float *)(param_4 + 8) = (float)dVar3;
-      *(float *)(param_4 + 4) = (float)dVar3;
-      param_4 = param_4 + 0x10;
-    } while ((uVar2 & 0xffffffff) < (uVar1 & 0xffffffff));
-  }
-  if (*(int *)(param_1 + 0x18) != 0) {
-    fn_82B8FD40(param_1,param_4 + *(int *)(param_1 + 0x68) * -0x10);
-  }
-  if (*(int *)(param_1 + 0x10) != 0) {
-    fn_82925600(param_1,param_4 + *(int *)(param_1 + 0x68) * -0x10);
-  }
-  return;
-}
+    unsigned int offset = stream->strideA * a + stream->strideB * b + stream->base;
+    unsigned int end = stream->count * 2 + offset;
 
+    for (; offset < end; offset += 2) {
+        fn_828F1108(out, offset, 1);
+        out->y = out->z = out->w = 1.0f;
+        out++;
+    }
+    if (stream->hasNormal != 0) {
+        fn_82B8FD40(stream, out - stream->count);
+    }
+    if (stream->hasColor != 0) {
+        fn_82925600(stream, out - stream->count);
+    }
+}

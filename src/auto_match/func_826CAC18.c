@@ -1,53 +1,46 @@
-extern int fn_826957D0();
-extern int fn_826972E0();
-extern int fn_82697700();
-extern int fn_826C59F8();
-extern int fn_826C8590();
-extern int fn_826CAB68();
-extern int fn_827583F8();
-extern unsigned int lbl_82005CCC;
-extern unsigned char lbl_8200BED8[];
-extern unsigned int lbl_821AAD20;
+typedef struct Object_826CAC18 {
+    char pad0[0x1b8];
+    void *display; /* 0x1b8 */
+} Object_826CAC18;
 
+typedef struct Call_826CAC18 {
+    char pad0[0x18];
+    void *context; /* 0x18 */
+    int argCount;  /* 0x1c */
+} Call_826CAC18;
 
-void fn_826CAC18(int param_1)
+extern float lbl_8200BED8;
+extern float lbl_82005CCC;
 
+extern Object_826CAC18 *fn_826C59F8(Call_826CAC18 *call);
+extern void *fn_826957D0(Call_826CAC18 *call, int index);
+extern unsigned int fn_82697700(void *arg, void *context);
+extern double fn_826972E0(void *arg, void *context);
+extern void fn_826CAB68(Object_826CAC18 *object, unsigned int color);
+extern void fn_826C8590(Object_826CAC18 *object, int flag);
+extern void fn_827583F8(void *display);
+
+void fn_826CAC18(Call_826CAC18 *call)
 {
-  unsigned int uVar1;
-  float fVar2;
-  int iVar5;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar6;
-  double dVar7;
-  
-  iVar5 = fn_826C59F8();
-  if (iVar5 != 0) {
-    if (*(int *)(param_1 + 0x1c) < 1) {
-      fn_826C8590(iVar5,1);
-      fn_827583F8(*(unsigned int *)(iVar5 + 0x1b8));
-    }
-    else {
-      uVar1 = *(unsigned int *)(param_1 + 0x18);
-      uVar3 = fn_826957D0(param_1,0);
-      uVar4 = fn_82697700(uVar3,uVar1);
-      uVar6 = uVar4 | 0xff000000;
-      if (1 < *(int *)(param_1 + 0x1c)) {
-        uVar1 = *(unsigned int *)(param_1 + 0x18);
-        uVar3 = fn_826957D0(param_1,1);
-        dVar7 = (double)fn_826972E0(uVar3,uVar1);
-        fVar2 = (float)dVar7 * (float)(((unsigned __int64)(lbl_8200BED8) >> 0) & 0xFFFFFFFF);
-        if (lbl_82005CCC <= (float)dVar7 * (float)(((unsigned __int64)(lbl_8200BED8) >> 0) & 0xFFFFFFFF)) {
-          fVar2 = lbl_82005CCC;
-        }
-        if (fVar2 < 0.0) {
-          fVar2 = lbl_821AAD20;
-        }
-        uVar6 = ((__int64)fVar2 & 0xffU) << 0x18 | uVar4 & 0xffffff;
-      }
-      fn_826CAB68(iVar5,uVar6);
-    }
-  }
-  return;
-}
+    Object_826CAC18 *object;
+    unsigned int color;
+    float alpha;
 
+    object = fn_826C59F8(call);
+    if (object != 0) {
+        if (call->argCount > 0) {
+            color = fn_82697700(fn_826957D0(call, 0), call->context) | 0xff000000;
+            if (call->argCount > 1) {
+                alpha = (float)fn_826972E0(fn_826957D0(call, 1), call->context) * lbl_8200BED8;
+                color &= 0xffffff;
+                alpha = alpha < lbl_82005CCC ? alpha : lbl_82005CCC;
+                alpha = alpha >= 0.0f ? alpha : 0.0f;
+                color |= (unsigned int)alpha << 24;
+            }
+            fn_826CAB68(object, color);
+        } else {
+            fn_826C8590(object, 1);
+            fn_827583F8(object->display);
+        }
+    }
+}

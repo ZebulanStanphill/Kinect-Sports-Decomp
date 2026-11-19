@@ -1,57 +1,84 @@
-extern int fn_82AB15D0();
+typedef struct Instruction_82BB5AC0 Instruction_82BB5AC0;
 
+typedef struct Vtable_82BB5AC0 {
+    void *slots0[6];
+    unsigned char (*test18)(Instruction_82BB5AC0 *); /* 0x18 */
+} Vtable_82BB5AC0;
 
-unsigned __int64 fn_82BB5AC0(int *param_1,int param_2)
+struct Instruction_82BB5AC0 {
+    Vtable_82BB5AC0 *vtable;
+};
 
+typedef struct SchedNode_82BB5AC0 {
+    char pad0[0xc];
+    int earliest; /* 0xc */
+    char pad10[0x4];
+    int latencyBefore; /* 0x14 */
+    int latencyAfter;  /* 0x18 */
+    char pad1c[0x4];
+    int height;                        /* 0x20 */
+    int topdown_count;                 /* 0x24 */
+    Instruction_82BB5AC0 *instruction; /* 0x28 */
+    char pad2c[0x10];
+    int uses; /* 0x3c */
+} SchedNode_82BB5AC0;
+
+typedef struct Block_82BB5AC0 {
+    char pad0[0x10];
+    int start;  /* 0x10 */
+    int end;    /* 0x14 */
+    int offset; /* 0x18 */
+} Block_82BB5AC0;
+
+typedef struct Context_82BB5AC0 {
+    char pad0[0xaa8];
+    int maxDistance; /* 0xaa8 */
+} Context_82BB5AC0;
+
+typedef struct Scheduler_82BB5AC0 {
+    Context_82BB5AC0 *context; /* 0x0 */
+    char pad4[0x4];
+    Block_82BB5AC0 *block; /* 0x8 */
+    char padC[0x10];
+    int maxHeight; /* 0x1c */
+    char pad20[0x4c];
+    int cycle;     /* 0x6c */
+    int lastCycle; /* 0x70 */
+} Scheduler_82BB5AC0;
+
+extern void fn_82AB15D0(void *, const char *, const char *, const char *, int);
+
+static __forceinline int BlockPosition(Block_82BB5AC0 *block)
 {
-  unsigned __int64 uVar1;
-  char cVar2;
-  int iVar3;
-  unsigned int uVar4;
-  int iVar5;
-  int iVar6;
-  
-  if (*(int *)(param_2 + 0x24) != 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820e0344,0xffffffff820e0168,0x56c);
-  }
-  if (param_1[7] < *(int *)(param_2 + 0x20)) {
-    uVar1 = 0;
-  }
-  else {
-    cVar2 = (**(int (***)())(**(int **)(param_2 + 0x28) + 0x18))();
-    if (((cVar2 == '\0') && (0 < *(int *)(param_2 + 0x3c))) &&
-       (*(int *)(param_2 + 0xc) <= param_1[0x1c])) {
-      iVar6 = param_1[2];
-      iVar5 = *(int *)(iVar6 + 0x10);
-      if (*(int *)(iVar6 + 0x14) < iVar5) {
-        iVar3 = *(int *)(iVar6 + 0x18);
-      }
-      else {
-        uVar4 = *(int *)(iVar6 + 0x14) + iVar5;
-        iVar5 = *(int *)(iVar6 + 0x18);
-        iVar3 = ((int)uVar4 >> 1) + (unsigned int)((int)uVar4 < 0 && (uVar4 & 1) != 0);
-      }
-      if (param_1[0x1b] < iVar3 + iVar5) {
-        iVar5 = *(int *)(iVar6 + 0x10);
-        if (*(int *)(iVar6 + 0x14) < iVar5) {
-          iVar6 = *(int *)(iVar6 + 0x18);
-        }
-        else {
-          uVar4 = *(int *)(iVar6 + 0x14) + iVar5;
-          iVar5 = *(int *)(iVar6 + 0x18);
-          iVar6 = ((int)uVar4 >> 1) + (unsigned int)((int)uVar4 < 0 && (uVar4 & 1) != 0);
-        }
-        iVar6 = (iVar6 + iVar5) - *(int *)(param_2 + 0x18);
-      }
-      else {
-        iVar6 = param_1[0x1b] - *(int *)(param_2 + 0x14);
-      }
-      if (*(int *)(*param_1 + 0xaa8) < iVar6) {
-        return 0;
-      }
+    if (block->start > block->end) {
+        return block->start + block->offset;
     }
-    uVar1 = 1;
-  }
-  return uVar1;
+    return (block->end + block->start) / 2 + block->offset;
 }
 
+unsigned char fn_82BB5AC0(Scheduler_82BB5AC0 *self, SchedNode_82BB5AC0 *sn)
+{
+    int distance;
+
+    if (sn->topdown_count != 0) {
+        fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "sn->topdown_count == 0",
+                    "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics"
+                    "\\xgraphics\\ucode\\compiler\\opt\\sched.cpp",
+                    0x56c);
+    }
+    if (sn->height > self->maxHeight) {
+        return 0;
+    }
+    if (!sn->instruction->vtable->test18(sn->instruction) && sn->uses > 0 &&
+        sn->earliest <= self->lastCycle) {
+        if (BlockPosition(self->block) > self->cycle) {
+            distance = BlockPosition(self->block) - sn->latencyAfter;
+        } else {
+            distance = self->cycle - sn->latencyBefore;
+        }
+        if (distance > self->context->maxDistance) {
+            return 0;
+        }
+    }
+    return 1;
+}

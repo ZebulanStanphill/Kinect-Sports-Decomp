@@ -1,62 +1,59 @@
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_821AAD20;
-
-
-void fn_8280B458(double param_1,double param_2,float *param_3,unsigned char param_4)
-
+void fn_8280B458(float *matrix, char axis, float sine, float cosine)
 {
-  float fVar1;
-  float fVar2;
-  
-  param_4 = param_4 | 0x20;
-  if (param_4 == 0x78) {
-    param_3[9] = (float)-param_1;
-    param_3[6] = (float)param_1;
-    param_3[10] = (float)param_2;
-    fVar1 = lbl_821AAD20;
-    fVar2 = lbl_82002AE0;
-    *param_3 = lbl_82002AE0;
-    param_3[4] = fVar1;
-    param_3[1] = fVar1;
-  }
-  else {
-    if (param_4 == 0x79) {
-      param_3[2] = (float)-param_1;
-      *param_3 = (float)param_2;
-      param_3[8] = (float)param_1;
-      param_3[10] = (float)param_2;
-      fVar1 = lbl_821AAD20;
-      fVar2 = lbl_82002AE0;
-      param_3[4] = lbl_821AAD20;
-      param_3[1] = fVar1;
-      param_3[5] = fVar2;
-      param_3[9] = fVar1;
-      param_3[6] = fVar1;
-      goto code_r0x8280b51c;
+    switch (axis | 0x20) {
+    case 'x':
+        matrix[9] = -sine;
+        matrix[6] = sine;
+        matrix[10] = cosine;
+        matrix[0] = 1.0f;
+        matrix[4] = 0.0f;
+        matrix[1] = 0.0f;
+        matrix[8] = 0.0f;
+        matrix[2] = 0.0f;
+        matrix[5] = cosine;
+        matrix[12] = 0.0f;
+        matrix[13] = 0.0f;
+        matrix[14] = 0.0f;
+        matrix[3] = 0.0f;
+        matrix[7] = 0.0f;
+        matrix[11] = 0.0f;
+        matrix[15] = 1.0f;
+        break;
+    case 'y':
+        matrix[2] = -sine;
+        matrix[0] = cosine;
+        matrix[8] = sine;
+        matrix[10] = cosine;
+        matrix[4] = 0.0f;
+        matrix[1] = 0.0f;
+        matrix[5] = 1.0f;
+        matrix[9] = 0.0f;
+        matrix[6] = 0.0f;
+        matrix[12] = 0.0f;
+        matrix[13] = 0.0f;
+        matrix[14] = 0.0f;
+        matrix[3] = 0.0f;
+        matrix[7] = 0.0f;
+        matrix[11] = 0.0f;
+        matrix[15] = 1.0f;
+        break;
+    case 'z':
+        matrix[4] = -sine;
+        matrix[0] = cosine;
+        matrix[1] = sine;
+        matrix[9] = 0.0f;
+        matrix[6] = 0.0f;
+        matrix[10] = 1.0f;
+        matrix[8] = 0.0f;
+        matrix[2] = 0.0f;
+        matrix[5] = cosine;
+        matrix[12] = 0.0f;
+        matrix[13] = 0.0f;
+        matrix[14] = 0.0f;
+        matrix[3] = 0.0f;
+        matrix[7] = 0.0f;
+        matrix[11] = 0.0f;
+        matrix[15] = 1.0f;
+        break;
     }
-    if (param_4 != 0x7a) {
-      return;
-    }
-    param_3[4] = (float)-param_1;
-    *param_3 = (float)param_2;
-    param_3[1] = (float)param_1;
-    fVar1 = lbl_821AAD20;
-    fVar2 = lbl_82002AE0;
-    param_3[9] = lbl_821AAD20;
-    param_3[6] = fVar1;
-    param_3[10] = fVar2;
-  }
-  param_3[2] = fVar1;
-  param_3[8] = fVar1;
-  param_3[5] = (float)param_2;
-code_r0x8280b51c:
-  param_3[0xc] = fVar1;
-  param_3[0xd] = fVar1;
-  param_3[0xe] = fVar1;
-  param_3[3] = fVar1;
-  param_3[7] = fVar1;
-  param_3[0xb] = fVar1;
-  param_3[0xf] = fVar2;
-  return;
 }
-

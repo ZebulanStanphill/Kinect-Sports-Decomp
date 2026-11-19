@@ -1,45 +1,37 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
+typedef struct Entry_82AE4D78 {
+    unsigned int flag : 1;
+    unsigned int reserved : 5;
+    unsigned int level : 6;
+    unsigned int mode : 2;
+    unsigned int value : 14;
+    unsigned int low : 4;
+    unsigned int extra;
+} Entry_82AE4D78;
 
-
-void fn_82AE4D78(int param_1,int param_2,unsigned int param_3,unsigned int param_4,unsigned int param_5,unsigned int param_6)
-
+static __forceinline unsigned char IsValidLevel(int level)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  bool bVar3;
-  unsigned int uVar4;
-  
-  param_2 = param_2 * 8;
-  uVar1 = *(unsigned int *)(param_2 + param_1);
-  uVar2 = (param_3 & 0x3fff) << 4;
-  param_4 = param_4 & 0xf;
-  uVar4 = param_4 | uVar2 | uVar1 & 0xfffc0000;
-  *(unsigned int *)(param_2 + param_1) = uVar4;
-  if (param_5 == 0) {
-    uVar4 = param_4 | uVar2 | uVar1 & 0xfff00000 | 0x40000;
-  }
-  else {
-    if (((int)param_5 < 1) || (bVar3 = true, 9 < (int)param_5)) {
-      bVar3 = false;
-    }
-    if (!bVar3) goto code_r0x82ae4df0;
-    if (((int)param_5 < 2) || (bVar3 = true, 5 < (int)param_5)) {
-      bVar3 = false;
-    }
-    if (bVar3) {
-      uVar4 = param_4 | uVar2 | uVar1 & 0xfff00000 | 0x80000;
-    }
-    else {
-      uVar4 = uVar4 | 0xc0000;
-    }
-  }
-  *(unsigned int *)(param_2 + param_1) = uVar4;
-code_r0x82ae4df0:
-  *(unsigned int *)(param_2 + param_1) =
-       ((param_6 & 0xff) << 0xb | param_5 & 0x3f) << 0x14 |
-       *(unsigned int *)(param_2 + param_1) & 0x7c0fffff;
-  return;
+    return level > 0 && level <= 9;
 }
 
+static __forceinline unsigned char IsLowLevel(int level)
+{
+    return level >= 2 && level <= 5;
+}
+
+void fn_82AE4D78(Entry_82AE4D78 *entries, int index, unsigned int value, unsigned int low, int level,
+                 unsigned char flag)
+{
+    entries[index].value = value;
+    entries[index].low = low;
+    if (level == 0) {
+        entries[index].mode = 1;
+    } else if (IsValidLevel(level)) {
+        if (IsLowLevel(level)) {
+            entries[index].mode = 2;
+        } else {
+            entries[index].mode = 3;
+        }
+    }
+    entries[index].level = level;
+    entries[index].flag = flag;
+}

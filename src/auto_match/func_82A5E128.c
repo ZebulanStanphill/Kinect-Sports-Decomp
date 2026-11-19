@@ -1,93 +1,72 @@
-extern int fn_828F6FA8();
-extern int fn_82A5DAC0();
+typedef struct WaveFormat_82A5E128 {
+    unsigned short formatTag;     /* 0x0 */
+    unsigned short channels;      /* 0x2 */
+    unsigned int samplesPerSec;   /* 0x4 */
+    unsigned int avgBytesPerSec;  /* 0x8 */
+    unsigned short blockAlign;    /* 0xc */
+    unsigned short bitsPerSample; /* 0xe */
+} WaveFormat_82A5E128;
 
+extern unsigned short fn_82A5DAC0(WaveFormat_82A5E128 *format);
+extern int fn_828F6FA8(char *buffer, unsigned int size, const char *format, ...);
 
-void fn_82A5E128(int param_1,unsigned __int64 param_2,unsigned __int64 param_3)
-
+void fn_82A5E128(WaveFormat_82A5E128 *format, char *buffer, unsigned int size)
 {
-  short sVar1;
-  short sVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  
-  sVar2 = fn_82A5DAC0();
-  if (sVar2 == 0x165) {
-    fn_828F6FA8(param_2,param_3,0xffffffff82089b98);
-  }
-  else {
-    sVar1 = *(short *)(param_1 + 2);
-    if (sVar1 == 1) {
-      uVar4 = 0xffffffff82089b90;
-    }
-    else if (sVar1 == 2) {
-      uVar4 = 0xffffffff82089b88;
-    }
-    else if (sVar1 == 3) {
-      uVar4 = 0xffffffff82089b84;
-    }
-    else if (sVar1 == 4) {
-      uVar4 = 0xffffffff82089b7c;
-    }
-    else if (sVar1 == 5) {
-      uVar4 = 0xffffffff82089b78;
-    }
-    else if (sVar1 == 6) {
-      uVar4 = 0xffffffff82089b74;
-    }
-    else if (sVar1 == 7) {
-      uVar4 = 0xffffffff82089b70;
-    }
-    else if (sVar1 == 8) {
-      uVar4 = 0xffffffff82089b6c;
-    }
-    else {
-      uVar4 = 0xffffffff82089b5c;
-    }
-    if (sVar2 == 3) {
-      uVar3 = 0xffffffff82089b54;
-    }
-    else if (sVar2 == 2) {
-      uVar3 = 0xffffffff82089b4c;
-    }
-    else if (sVar2 == 0x166) {
-      uVar3 = 0xffffffff82089b44;
-    }
-    else if (sVar2 == 0x161) {
-      uVar3 = 0xffffffff82089b3c;
-    }
-    else if (sVar2 == 0x162) {
-      uVar3 = 0xffffffff82089b34;
-    }
-    else if (sVar2 == 0x164) {
-      uVar3 = 0xffffffff82089b28;
-    }
-    else if (sVar2 == 0x92) {
-      uVar3 = 0xffffffff82089b1c;
-    }
-    else if (sVar2 == 1) {
-      sVar2 = *(short *)(param_1 + 0xe);
-      if (sVar2 == 8) {
-        uVar3 = 0xffffffff82089b14;
-      }
-      else if (sVar2 == 0x10) {
-        uVar3 = 0xffffffff82089b08;
-      }
-      else if (sVar2 == 0x18) {
-        uVar3 = 0xffffffff82089afc;
-      }
-      else if (sVar2 == 0x20) {
-        uVar3 = 0xffffffff82089af0;
-      }
-      else {
-        uVar3 = 0xffffffff82089adc;
-      }
-    }
-    else {
-      uVar3 = 0xffffffff821a6774;
-    }
-    fn_828F6FA8(param_2,param_3,0xffffffff82089ad0,(unsigned __int64)*(unsigned int *)(param_1 + 4) / 1000,
-                      uVar3,uVar4);
-  }
-  return;
-}
+    unsigned short tag = fn_82A5DAC0(format);
+    const char *channels;
+    const char *type;
 
+    if (tag == 0x165) {
+        fn_828F6FA8(buffer, size, "XMA1");
+        return;
+    }
+    if (format->channels == 1) {
+        channels = "Mono";
+    } else if (format->channels == 2) {
+        channels = "Stereo";
+    } else if (format->channels == 3) {
+        channels = "2.1";
+    } else if (format->channels == 4) {
+        channels = "Quad";
+    } else if (format->channels == 5) {
+        channels = "4.1";
+    } else if (format->channels == 6) {
+        channels = "5.1";
+    } else if (format->channels == 7) {
+        channels = "6.1";
+    } else if (format->channels == 8) {
+        channels = "7.1";
+    } else {
+        channels = "ManyChannels";
+    }
+    if (tag == 3) {
+        type = "Float";
+    } else if (tag == 2) {
+        type = "Adpcm";
+    } else if (tag == 0x166) {
+        type = "XMA2";
+    } else if (tag == 0x161) {
+        type = "WMAStd";
+    } else if (tag == 0x162) {
+        type = "WMAPro";
+    } else if (tag == 0x164) {
+        type = "WMASpdif";
+    } else if (tag == 0x92) {
+        type = "AC3Spdif";
+    } else if (tag != 1) {
+        type = "Unknown";
+    } else {
+        if (format->bitsPerSample == 8) {
+            type = "Pcm8Bit";
+        } else if (format->bitsPerSample == 16) {
+            type = "Pcm16Bit";
+        } else if (format->bitsPerSample == 24) {
+            type = "Pcm24Bit";
+        } else if (format->bitsPerSample == 32) {
+            type = "Pcm32Bit";
+        } else {
+            type = "BadBitsPerSample";
+        }
+    }
+    fn_828F6FA8(buffer, size, "%luk%s%s", format->samplesPerSec / 1000, type, channels);
+}
