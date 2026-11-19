@@ -1,21 +1,21 @@
-void fn_82DA3048(int param_1)
+typedef struct Blinker_82DA3048 {
+    unsigned char pad0[0x125];
+    unsigned char flags;  /* 0x125 */
+    unsigned char toggle; /* 0x126 */
+    unsigned char frame;  /* 0x127 */
+} Blinker_82DA3048;
 
+void fn_82DA3048(Blinker_82DA3048 *self)
 {
-  char cVar1;
-  
-  cVar1 = *(char *)(param_1 + 0x127);
-  *(char *)(param_1 + 0x127) = cVar1 + '\x01';
-  if ((cVar1 - 3U & 7) == 0) {
-    *(unsigned char *)(param_1 + 0x125) = *(unsigned char *)(param_1 + 0x125) ^ 1;
-  }
-  if ((*(unsigned char *)(param_1 + 0x127) & 7) == 0) {
-    *(unsigned char *)(param_1 + 0x125) = *(unsigned char *)(param_1 + 0x125) ^ 2;
-  }
-  if ((*(unsigned char *)(param_1 + 0x127) & 0xf) != 0) {
-    return;
-  }
-  *(unsigned char *)(param_1 + 0x127) = *(unsigned char *)(param_1 + 0x127) & 0xf;
-  *(char *)(param_1 + 0x126) = '\x01' - *(char *)(param_1 + 0x126);
-  return;
+    self->frame++;
+    if (((self->frame - 4) & 7) == 0) {
+        self->flags ^= 1;
+    }
+    if ((self->frame & 7u) == 0) {
+        self->flags ^= 2;
+    }
+    if ((self->frame & 0xfu) == 0) {
+        self->frame = 0;
+        self->toggle = 1 - self->toggle;
+    }
 }
-

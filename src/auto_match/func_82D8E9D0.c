@@ -1,37 +1,61 @@
-int fn_82D8E9D0(int param_1,unsigned int *param_2,int param_3,int param_4)
+typedef struct Entry_82D8E9D0 {
+    char padding[0x1c];
+    int start; /* 0x1c */
+    char padding20[0x25 - 0x20];
+    unsigned char pad25 : 2; /* 0x25 */
+    unsigned char state : 2;
+    unsigned char rest25 : 4;
+    unsigned char pad26 : 2; /* 0x26 */
+    unsigned char kind : 2;
+    unsigned char rest26 : 4;
+    char padding27[0x4c - 0x27];
+    int end; /* 0x4c */
+} Entry_82D8E9D0;
 
+typedef struct Array_82D8E9D0 {
+    Entry_82D8E9D0 **data; /* 0x0 */
+    int size;              /* 0x4 */
+} Array_82D8E9D0;
+
+typedef struct Owner_82D8E9D0 {
+    char padding[0xb4];
+    int limit; /* 0xb4 */
+    char paddingB8[0xc8 - 0xb8];
+    unsigned char enabled; /* 0xc8 */
+} Owner_82D8E9D0;
+
+static __forceinline int Max2(int a, int b)
 {
-  int iVar1;
-  unsigned int uVar2;
-  __int64 lVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  int iVar6;
-  
-  if ((param_3 < *(int *)(param_1 + 0xb4)) && (*(char *)(param_1 + 200) != '\0')) {
-    uVar5 = (unsigned __int64)param_2[1] - 0x14;
-    uVar4 = (unsigned __int64)param_2[1] - 1;
-    uVar2 = -(unsigned int)(uVar5 < 0xffffffff80000000) & (unsigned int)uVar5;
-    if ((int)uVar2 <= (int)uVar4) {
-      lVar3 = (uVar4 & 0x3fffffff) * 4 + (unsigned __int64)*param_2;
-      do {
-        iVar1 = *(int *)lVar3;
-        if (param_4 != iVar1) {
-          iVar6 = *(int *)(iVar1 + 0x4c);
-          if (*(int *)(iVar1 + 0x4c) <= *(int *)(iVar1 + 0x1c)) {
-            iVar6 = *(int *)(iVar1 + 0x1c);
-          }
-          if (((*(unsigned char *)(iVar1 + 0x26) & 0x30) != 0) &&
-             (iVar6 + param_3 < *(int *)(param_1 + 0xb4))) {
-            *(unsigned char *)(iVar1 + 0x25) = *(unsigned char *)(iVar1 + 0x25) & 0xcf | 0x10;
-            return iVar1;
-          }
-        }
-        uVar4 = uVar4 - 1;
-        lVar3 = lVar3 + -4;
-      } while ((int)uVar2 <= (int)uVar4);
-    }
-  }
-  return 0;
+    return a > b ? a : b;
 }
 
+Entry_82D8E9D0 *fn_82D8E9D0(Owner_82D8E9D0 *self, Array_82D8E9D0 *entries, int offset,
+                            Entry_82D8E9D0 *exclude)
+{
+    int i;
+    int first;
+    int last;
+    Entry_82D8E9D0 *entry;
+    Entry_82D8E9D0 **slot;
+
+    if (offset < self->limit && self->enabled != 0) {
+        first = Max2(0, entries->size - 20);
+        i = entries->size - 1;
+        if (i >= first) {
+            slot = &entries->data[i];
+            do {
+                entry = *slot;
+                if (exclude != entry) {
+                    last = entry->end > entry->start ? entry->end : entry->start;
+                    if (entry->kind != 0 && last + offset < self->limit) {
+                        entry->state = 1;
+                        return entry;
+                    }
+                }
+                i--;
+                slot--;
+            } while (i >= first);
+        }
+    }
+    return 0;
+}

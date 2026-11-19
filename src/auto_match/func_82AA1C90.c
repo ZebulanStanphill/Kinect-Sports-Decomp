@@ -1,70 +1,57 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_82F6EDE8();
-extern unsigned int stack0x00000020;
-extern unsigned int uStack00000020;
-extern unsigned int uStack00000028;
-extern unsigned int uStack00000030;
-extern unsigned int uStack00000038;
-extern unsigned int uStack00000040;
-extern unsigned int uStack00000048;
-extern unsigned int uStack_21;
+typedef char *va_list;
+void __cdecl __va_start(va_list *, ...);
+#define va_start(ap, x) (__va_start(&(ap), (x)))
+#define va_end(ap) ((ap) = (va_list)0)
 
+typedef struct Writer_82AA1C90 {
+    int (*write)(void *context, const char *text, int length); /* 0x0 */
+    void *context;                                             /* 0x4 */
+    int status;                                                /* 0x8 */
+    int padc;
+    int atLineStart; /* 0x10 */
+} Writer_82AA1C90;
 
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
+extern int fn_82F6EDE8(char *buffer, unsigned int count, const char *format, va_list args);
 
-unsigned __int64
-fn_82AA1C90(unsigned int *param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-             unsigned __int64 param_5,unsigned __int64 param_6,unsigned __int64 param_7,unsigned __int64 param_8)
-
+static __forceinline unsigned char IsNotNumberStart(char c)
 {
-  bool bVar1;
-  __int64 lVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uStack00000020;
-  unsigned __int64 uStack00000028;
-  unsigned __int64 uStack00000030;
-  unsigned __int64 uStack00000038;
-  unsigned __int64 uStack00000040;
-  unsigned __int64 uStack00000048;
-  char acStack_820 [2047];
-  unsigned char uStack_21;
-  
-  uStack00000020 = param_3;
-  uStack00000028 = param_4;
-  uStack00000030 = param_5;
-  uStack00000038 = param_6;
-  uStack00000040 = param_7;
-  uStack00000048 = param_8;
-  lVar2 = fn_82F6EDE8(acStack_820,0x7ff,param_2,&stack0x00000020);
-  uStack_21 = 0;
-  if (lVar2 < 0) {
-    return 0xffffffff80004005;
-  }
-  if ((int)lVar2 < 1) {
-    return 0;
-  }
-  if (param_1[4] != 0) {
-    param_1[4] = 0;
-    if (((acStack_820[0] == ' ') || (acStack_820[0] == '-')) ||
-       (('/' < acStack_820[0] && (acStack_820[0] < ':')))) {
-      bVar1 = false;
+    if (c == ' ' || c == '-' || (c >= '0' && c <= '9')) {
+        return 0;
     }
-    else {
-      bVar1 = true;
-    }
-    if ((!bVar1) && (uVar3 = (*(int (**)())*param_1)(param_1[1],0xffffffff821aa89c,1), (int)uVar3 < 0))
-    goto LAB_82aa1d98;
-  }
-  uVar3 = (*(int (**)())*param_1)(param_1[1],acStack_820,lVar2);
-  if (-1 < (int)uVar3) {
-    return uVar3;
-  }
-LAB_82aa1d98:
-  if (-1 < (int)param_1[2]) {
-    param_1[2] = (int)uVar3;
-  }
-  return uVar3;
+    return 1;
 }
 
+int fn_82AA1C90(Writer_82AA1C90 *writer, const char *format, ...)
+{
+    char buffer[0x800];
+    va_list args;
+    int length;
+    int hr;
+
+    va_start(args, format);
+    length = fn_82F6EDE8(buffer, 0x7ff, format, args);
+    buffer[0x7ff] = 0;
+    if (length < 0) {
+        return 0x80004005;
+    }
+    hr = 0;
+    if (length > 0) {
+        if (writer->atLineStart != 0) {
+            writer->atLineStart = 0;
+            if (!IsNotNumberStart(buffer[0])) {
+                hr = writer->write(writer->context, " ", 1);
+                if (hr < 0) {
+                    goto failed;
+                }
+            }
+        }
+        hr = writer->write(writer->context, buffer, length);
+        if (hr < 0) {
+        failed:
+            if (writer->status >= 0) {
+                writer->status = hr;
+            }
+        }
+    }
+    return hr;
+}

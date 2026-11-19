@@ -1,54 +1,85 @@
-extern int fn_825EBE30();
+typedef struct Cell_825EC130 {
+    int v[4];
+} Cell_825EC130;
 
+typedef struct Grid_825EC130 {
+    char pad0[0x44];
+    int stride;           /* 0x44 */
+    int rows;             /* 0x48 */
+    int pad4c;            /* 0x4C */
+    Cell_825EC130 *cells; /* 0x50 */
+} Grid_825EC130;
 
-void fn_825EC130(int param_1,int param_2)
+typedef struct Rec_825EC130 {
+    char pad0[0x10];
+    int f10; /* 0x10 */
+    char pad14[0xC];
+    float f20; /* 0x20 */
+    char pad24[0x50];
+    unsigned int id;       /* 0x74 */
+    unsigned int flags[1]; /* 0x78 */
+} Rec_825EC130;
 
+typedef struct Entry_825EC130 {
+    Rec_825EC130 *rec; /* 0x00 */
+    int pad4;          /* 0x04 */
+    int state[2];      /* 0x08 */
+    int f10;           /* 0x10 */
+    int pad14;         /* 0x14 */
+} Entry_825EC130;
+
+typedef struct Ctx_825EC130 {
+    char pad0[8];
+    int *arr; /* 0x08 */
+    int padc; /* 0x0C */
+    int idx;  /* 0x10 */
+    char pad14[0x1C];
+    Grid_825EC130 **grids; /* 0x30 */
+} Ctx_825EC130;
+
+extern Cell_825EC130 lbl_831BFC08;
+
+extern void fn_825EBE30(Ctx_825EC130 *ctx, Entry_825EC130 *entry, unsigned int id, Cell_825EC130 *cell,
+                        int *recField, float value);
+
+void fn_825EC130(Ctx_825EC130 *ctx, int mode)
 {
-  unsigned int uVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  __int64 lVar5;
-  unsigned __int64 uVar6;
-  int iVar7;
-  
-  uVar1 = *(unsigned int *)((*(int *)(param_1 + 0x10) + 1) * 4 + *(int *)(param_1 + 8));
-  uVar6 = (unsigned __int64)uVar1;
-  if (0 < (int)uVar1) {
-    iVar7 = 0;
-    do {
-      iVar2 = *(int *)((int)(((unsigned __int64)*(unsigned int *)(param_1 + 0x10) + 3 & 0xffffffff) << 2) +
-                      *(int *)(param_1 + 8));
-      iVar4 = iVar2 + iVar7;
-      iVar2 = *(int *)(iVar2 + iVar7);
-      if ((*(unsigned int *)((int)(((unsigned __int64)*(unsigned int *)(param_1 + 0x10) + 0x1e & 0xffffffff) << 2) + iVar2)
-          & 0x400) == 0) {
-        if ((param_2 == 2) &&
-           ((*(unsigned int *)((*(int *)(param_1 + 0x10) + 0x1e) * 4 + iVar2) & 0x100000) != 0)) {
-          *(unsigned int *)(iVar4 + 0x10) = 0;
-        }
-        else if ((*(unsigned int *)((*(int *)(param_1 + 0x10) + 0x1e) * 4 + iVar2) & 2) == 0) {
-          uVar1 = *(unsigned int *)(iVar2 + 0x74);
-          lVar5 = -0x7ce403f8;
-          if (uVar1 != 0xffffffff) {
-            iVar3 = *(int *)(((uVar1 >> 0x18) + 0x129) * 4 + *(int *)(param_1 + 0x30));
-            lVar5 = ((__int64)(int)((uVar1 & 0xff) * *(int *)(iVar3 + 0x48) + (uVar1 >> 8 & 0xff))
-                     * (__int64)*(int *)(iVar3 + 0x44) + ((unsigned __int64)(uVar1 >> 0x10) & 0xff) &
-                    0xfffffff) * 0x10 + (unsigned __int64)*(unsigned int *)(iVar3 + 0x50);
-          }
-          fn_825EBE30((double)*(float *)(iVar2 + 0x20),param_1,iVar4,uVar1,lVar5,iVar2 + 0x10);
-        }
-        else {
-          *(unsigned int *)((param_2 + 2) * 4 + iVar4) = 1;
-        }
-      }
-      else {
-        *(unsigned int *)((param_2 + 2) * 4 + iVar4) = 0;
-      }
-      uVar6 = uVar6 - 1;
-      iVar7 = iVar7 + 0x18;
-    } while (uVar6 != 0);
-  }
-  return;
-}
+    int count = ctx->arr[ctx->idx + 1];
+    int offset;
+    int left;
+    char *table;
+    Entry_825EC130 *entry;
+    Rec_825EC130 *rec;
+    unsigned int id;
+    Cell_825EC130 *cell;
+    Grid_825EC130 *grid;
 
+    if (count > 0) {
+        offset = 0;
+        left = count;
+        do {
+            table = (char *)ctx->arr[ctx->idx + 3];
+            entry = (Entry_825EC130 *)(table + offset);
+            rec = *(Rec_825EC130 **)(table + offset);
+            if ((rec->flags[ctx->idx] & 0x400) != 0) {
+                entry->state[mode] = 0;
+            } else if (mode == 2 && (rec->flags[ctx->idx] & 0x100000) != 0) {
+                entry->f10 = 0;
+            } else if ((rec->flags[ctx->idx] & 2) != 0) {
+                entry->state[mode] = 1;
+            } else {
+                id = rec->id;
+                if (id == 0xffffffff) {
+                    cell = &lbl_831BFC08;
+                } else {
+                    grid = ctx->grids[(id >> 24) + 0x129];
+                    cell = &grid->cells[((id & 0xff) * grid->rows + ((id >> 8) & 0xff)) * grid->stride +
+                                        ((id >> 16) & 0xff)];
+                }
+                fn_825EBE30(ctx, entry, id, cell, &rec->f10, rec->f20);
+            }
+            left--;
+            offset += 0x18;
+        } while (left != 0);
+    }
+}

@@ -1,26 +1,34 @@
-extern int fn_82AA3148();
-extern unsigned int uStack00000044;
+typedef void (*ReportFunc_82AA3B58)(void *context, int severity, int code, const char *message);
 
+extern int fn_82AA3148(unsigned int *code, unsigned int size, void *param_3, void *param_4, void *param_5,
+                       void *param_6, void *context, ReportFunc_82AA3B58 report, void *param_9,
+                       void *param_10);
 
-__int64 fn_82AA3B58(int param_1,unsigned int param_2,int param_3,unsigned __int64 param_4,int param_5,
-                      unsigned __int64 param_6,unsigned __int64 param_7,int (**param_8)())
-
+int fn_82AA3B58(unsigned int *code, unsigned int size, void *param_3, void *param_4, void *param_5,
+                void *param_6, void *context, ReportFunc_82AA3B58 report, void *param_9, void *param_10)
 {
-  __int64 lVar1;
-  unsigned int uStack00000044;
-  int (**pcStack0000004c)();
-  
-  uStack00000044 = (unsigned int)param_7;
-  if ((((param_1 == 0) || (param_2 < 4)) || (param_3 == 0)) || (param_5 == 0)) {
-    lVar1 = -0x7ff8ffa9;
-  }
-  else {
-    pcStack0000004c = param_8;
-    lVar1 = fn_82AA3148();
-    if ((lVar1 < 0) && ((int)lVar1 == -0x7789f497)) {
-      (*param_8)(param_7,1,0x30,0xffffffff820d3478);
-    }
-  }
-  return lVar1;
-}
+    int hr;
 
+    if (code == 0) {
+        return (int)0x80070057;
+    }
+    if (size < 4) {
+        return (int)0x80070057;
+    }
+    if (param_3 == 0) {
+        return (int)0x80070057;
+    }
+    if (param_5 == 0) {
+        return (int)0x80070057;
+    }
+    __try {
+        hr = fn_82AA3148(code, size, param_3, param_4, param_5, param_6, context, report, param_9, param_10);
+        if (hr < 0 && hr == (int)0x88760B69) {
+            report(context, 1, 0x30, "Shader required too many Final GPU microcode instructions.\n");
+        }
+    } __except (1) {
+        report(context, 1, 0x2f, "Internal Exception while assembling Final GPU shader.\n");
+        hr = (int)0x80004005;
+    }
+    return hr;
+}

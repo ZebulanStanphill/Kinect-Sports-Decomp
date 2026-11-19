@@ -1,44 +1,66 @@
-extern unsigned int lbl_83188890;
+typedef struct Block_82E568B8 Block_82E568B8;
 
+typedef struct BlockVtbl_82E568B8 {
+    int (*Create)(Block_82E568B8 *self, Block_82E568B8 **block);
+} BlockVtbl_82E568B8;
 
-unsigned __int64 fn_82E568B8(unsigned int *param_1,unsigned __int64 param_2,unsigned int param_3)
+struct Block_82E568B8 {
+    BlockVtbl_82E568B8 *vt; /* 0x0 */
+    unsigned int first;     /* 0x4 */
+    char pad8[0x8];
+    unsigned char used[4]; /* 0x10 */
+    void *entries[20];     /* 0x14 */
+    Block_82E568B8 *next;  /* 0x64 */
+};
 
+extern const unsigned char lbl_83188890[8];
+
+int fn_82E568B8(Block_82E568B8 *head, unsigned int index, void *value)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  unsigned int *puVar3;
-  unsigned __int64 uVar4;
-  unsigned int * apuStack_30;
-  
-  puVar2 = (unsigned int *)0x0;
-  for (puVar3 = param_1;
-      (puVar3 != (unsigned int *)0x0 && ((unsigned __int64)(unsigned int)puVar3[1] <= (param_2 & 0xffffffff)));
-      puVar3 = (unsigned int *)puVar3[0x19]) {
-    apuStack_30 = puVar3;
-    if ((param_2 & 0xffffffff) < (unsigned __int64)(puVar3[1] + 0x14)) goto LAB_82e5695c;
-    puVar2 = puVar3;
-  }
-  apuStack_30 = (unsigned int *)0x0;
-  if (param_1 == (unsigned int *)0x0) {
-    uVar4 = 0xffffffff8000ffff;
-  }
-  else {
-    uVar4 = (**(int (***)())*param_1)(param_1,&apuStack_30);
-    if (-1 < (int)uVar4) {
-      apuStack_30[1] = (int)((param_2 & 0xffffffff) / 0x14) * 0x14;
-      if (puVar2 != (unsigned int *)0x0) {
-        puVar2[0x19] = apuStack_30;
-      }
-      apuStack_30[0x19] = puVar3;
-LAB_82e5695c:
-      uVar4 = 0;
-      param_2 = param_2 - (unsigned int)apuStack_30[1];
-      iVar1 = (int)((param_2 & 0xffffffff) >> 3);
-      *(unsigned char *)((int)apuStack_30 + iVar1 + 0x10) =
-           (&lbl_83188890)[(unsigned int)param_2 & 7] | *(unsigned char *)((int)apuStack_30 + iVar1 + 0x10);
-      *(unsigned int *)((int)((param_2 + 5 & 0xffffffff) << 2) + (int)apuStack_30) = param_3;
-    }
-  }
-  return uVar4;
-}
+    Block_82E568B8 *previous = 0;
+    Block_82E568B8 *block = head;
+    Block_82E568B8 *created;
+    unsigned int offset;
+    unsigned char *used;
+    int hr;
 
+    if (block == 0) {
+    } else {
+        do {
+            if (index < block->first) {
+                break;
+            }
+            if (index >= block->first + 20) {
+            } else {
+                goto found;
+            }
+            previous = block;
+            block = block->next;
+        } while (block != 0);
+    }
+    created = 0;
+    if (head != 0) {
+        hr = head->vt->Create(head, &created);
+        if (hr < 0) {
+            return hr;
+        }
+        created->first = index / 20 * 20;
+        {
+            Block_82E568B8 *link = created;
+
+            if (previous != 0) {
+                previous->next = link;
+            }
+            link->next = block;
+        }
+        block = created;
+        goto found;
+    }
+    return 0x8000ffff;
+found:
+    offset = index - block->first;
+    used = &block->used[offset >> 3];
+    *used |= lbl_83188890[offset & 7];
+    block->entries[offset] = value;
+    return 0;
+}

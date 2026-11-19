@@ -1,50 +1,74 @@
-extern unsigned int *auStack_40;
-extern int fn_82A29A38();
-extern int fn_82AAC8C0();
-extern unsigned int lbl_83160520;
+union Count_82AAD4C0 {
+    unsigned int value;
 
+    struct {
+        unsigned int opcode : 16;
+        unsigned int count : 16;
+    } fields;
+};
 
-void fn_82AAD4C0(unsigned __int64 param_1,unsigned __int64 param_2,unsigned int param_3,unsigned __int64 param_4,
-                  unsigned int *param_5)
+extern unsigned int lbl_83160520[6];
+extern unsigned int fn_82AAC8C0(unsigned int type, unsigned int count, void *state, unsigned int *flags);
+extern void fn_82A29A38(void);
 
+static __forceinline unsigned int Encode(unsigned int opcode, union Count_82AAD4C0 count)
 {
-  unsigned int *puVar1;
-  unsigned int uVar2;
-  unsigned int *puVar3;
-  unsigned int auStack_40;
-  
-  puVar1 = (unsigned int *)*param_5;
-  *puVar1 = 0x47;
-  uVar2 = fn_82AAC8C0(((param_1 & 0xffffffff) >> 0x14 & 0x700 | param_1 & 0x1800) >> 8,
-                        param_1 & 0x7ff,param_4,&auStack_40);
-  if (((param_2 & 0xffffffff) >> 0x14 & 0x700) != 0 || (param_2 & 0x1800) != 0) {
-    fn_82A29A38();
-  }
-  if ((param_1 & 0xf0000) == 0xf0000) {
-    puVar3 = puVar1 + 2;
-    puVar1[1] = (auStack_40 & 0x3f) << 0x10 | uVar2 & 0xffff;
-  }
-  else {
-    puVar1[1] = (auStack_40 & 0x3f) << 0x10 | 0x400000 | uVar2 & 0xffff;
-    uVar2 = (unsigned int)((param_1 & 0x10000) != 0);
-    if ((param_1 & 0x20000) != 0) {
-      uVar2 = uVar2 | 4;
-    }
-    if ((param_1 & 0x40000) != 0) {
-      uVar2 = uVar2 | 0x10;
-    }
-    if ((param_1 & 0x80000) != 0) {
-      uVar2 = uVar2 | 0x40;
-    }
-    puVar1[2] = uVar2;
-    puVar3 = puVar1 + 3;
-  }
-  *puVar3 = (unsigned int)param_2 & 0x7ff | 0x440000;
-  puVar3[1] = *(int *)(&lbl_83160520 + (param_3 >> 0x14 & 0xc)) << 0xc |
-              *(int *)(&lbl_83160520 + (param_3 >> 0x14 & 3) * 4) << 8 |
-              *(int *)(&lbl_83160520 + (param_3 >> 0x12 & 3) * 4) << 4 |
-              *(unsigned int *)(&lbl_83160520 + (param_3 >> 0xe & 0xc));
-  *param_5 = puVar3 + 2;
-  return;
+    count.fields.opcode = opcode;
+    return count.value;
 }
 
+static __forceinline unsigned int GetType(unsigned int token)
+{
+    return (((token & ~0x700U) | ((token >> 20) & 0x700)) >> 8) & 0x1f;
+}
+
+void fn_82AAD4C0(unsigned int token, unsigned int source, unsigned int swizzle, void *state,
+                 unsigned int **destination)
+{
+    unsigned int *output;
+    unsigned int value;
+    unsigned int flags;
+    unsigned int mask;
+    unsigned int bits;
+    unsigned int shifted;
+    union Count_82AAD4C0 count;
+
+    output = *destination;
+    *output++ = 0x47;
+    mask = token & 0xf0000;
+    value = fn_82AAC8C0(GetType(token), token & 0x7ff, state, &flags);
+    count.value = source & 0x7ff;
+    if (GetType(source) != 0) {
+        fn_82A29A38();
+    }
+    if (mask != 0xf0000) {
+        *output++ = ((flags & 0x3f) << 16) | 0x400000 | (value & 0xffff);
+        bits = 0;
+        if (mask & 0x10000) {
+            bits = 1;
+        }
+        if (mask & 0x20000) {
+            bits |= 4;
+        }
+        if (mask & 0x40000) {
+            bits |= 0x10;
+        }
+        if (mask & 0x80000) {
+            bits |= 0x40;
+        }
+        *output++ = bits;
+    } else {
+        *output++ = ((flags & 0x3f) << 16) | (value & 0xffff);
+    }
+    *output++ = Encode(0x44, count);
+    shifted = swizzle >> 16;
+    bits = lbl_83160520[shifted & 3];
+    shifted >>= 2;
+    bits |= lbl_83160520[shifted & 3] << 4;
+    shifted >>= 2;
+    bits |= lbl_83160520[shifted & 3] << 8;
+    shifted >>= 2;
+    bits |= lbl_83160520[shifted & 3] << 12;
+    *output++ = bits;
+    *destination = output;
+}

@@ -1,58 +1,64 @@
-extern int fn_82648B30();
-extern int fn_82648D40();
-extern int fn_8265C940();
+typedef struct Device_82648C58 {
+    char pad0[0x2a9c];
+    int fence; /* 0x2a9c */
+} Device_82648C58;
 
+typedef struct Query_82648C58 {
+    Device_82648C58 *device; /* 0x00 */
+    int type;                /* 0x04 */
+    int pad8;                /* 0x08 */
+    int refCount;            /* 0x0c */
+    unsigned char state;     /* 0x10 */
+    char pad11[0x18 - 0x11];
+    int fence;          /* 0x18 */
+    int data[15];       /* 0x1c */
+    int handles[15];    /* 0x58 */
+    int active;         /* 0x94 */
+    unsigned int count; /* 0x98 */
+} Query_82648C58;
 
-int * fn_82648C58(int param_1,int param_2,int param_3)
+extern Query_82648C58 *fn_8265C940(unsigned int size, unsigned int flags);
+extern int fn_82648B30(Device_82648C58 *device, int *handle, int *data);
+extern void fn_82648D40(Query_82648C58 *query);
 
+Query_82648C58 *fn_82648C58(Device_82648C58 *device, int type, unsigned int count)
 {
-  int *piVar1;
-  int iVar2;
-  unsigned int uVar3;
-  int *piVar4;
-  
-  piVar1 = (int *)fn_8265C940(0x9c,0x64800000);
-  if (piVar1 == (int *)0x0) {
-LAB_82648c84:
-    piVar1 = (int *)0x0;
-  }
-  else {
-    piVar1[1] = param_2;
-    *piVar1 = param_1;
-    piVar1[3] = 1;
-    piVar1[0x25] = 1;
-    piVar1[0x26] = param_3;
-    if (param_2 == 8) {
-      iVar2 = *(int *)(param_1 + 0x2a9c);
-      *(unsigned char *)(piVar1 + 4) = 2;
-      piVar1[6] = iVar2;
-      return piVar1;
-    }
-    if (param_2 == 9) {
-      uVar3 = 0;
-      if (param_3 != 0) {
-        piVar4 = piVar1 + 0x16;
-        do {
-          iVar2 = fn_82648B30(param_1,piVar4,piVar4 + -0xf);
-          if (iVar2 < 0) {
-            piVar1[0x26] = uVar3;
-            goto LAB_82648d18;
-          }
-          uVar3 = uVar3 + 1;
-          piVar4 = piVar4 + 1;
-        } while (uVar3 < (unsigned int)piVar1[0x26]);
-      }
-    }
-    else {
-      iVar2 = fn_82648B30(param_1,piVar1 + 0x16,piVar1 + 7);
-      if (iVar2 < 0) {
-LAB_82648d18:
-        fn_82648D40(piVar1);
-        goto LAB_82648c84;
-      }
-    }
-    *(unsigned char *)(piVar1 + 4) = 1;
-  }
-  return piVar1;
-}
+    Query_82648C58 *query;
+    unsigned int i;
 
+    query = fn_8265C940(0x9c, 0x64800000);
+    if (query == 0) {
+        return 0;
+    }
+    query->type = type;
+    query->device = device;
+    query->refCount = 1;
+    query->active = 1;
+    query->count = count;
+    switch (type) {
+    case 8:
+        query->fence = device->fence;
+        query->state = 2;
+        break;
+    case 9:
+        for (i = 0; i < query->count; i++) {
+            if (fn_82648B30(device, &query->handles[i], &query->data[i]) < 0) {
+                query->count = i;
+                goto fail;
+            }
+        }
+        query->state = 1;
+        break;
+    default:
+        if (fn_82648B30(device, &query->handles[0], &query->data[0]) < 0) {
+            goto fail;
+        }
+        query->state = 1;
+        break;
+    }
+    return query;
+
+fail:
+    fn_82648D40(query);
+    return 0;
+}

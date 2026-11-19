@@ -1,76 +1,79 @@
-extern int fn_825B0BD0();
-extern int fn_8265CA60();
-extern int fn_8265CAA0();
-extern int fn_8284E5C0();
+typedef struct Part_825B05A0 {
+    char pad0[0x2c];
+    int vertexCount; /* 0x2c */
+    void *buffer;    /* 0x30 */
+} Part_825B05A0;
 
+typedef struct Slot_825B05A0 {
+    int pad0;
+    Part_825B05A0 *part; /* 0x04 */
+    char pad8[0x20 - 0x8];
+} Slot_825B05A0;
 
-void fn_825B05A0(int *param_1,int param_2)
+typedef struct Model_825B05A0 {
+    char pad0[0x110];
+    void *packer; /* 0x110 */
+    char pad114[0x128 - 0x114];
+    Slot_825B05A0 *slots;   /* 0x128 */
+    unsigned int slotCount; /* 0x12c */
+} Model_825B05A0;
 
+typedef struct Instance_825B05A0 {
+    Model_825B05A0 *model; /* 0x0 */
+} Instance_825B05A0;
+
+typedef struct Stats_825B05A0 {
+    char pad0[0x20];
+    int bytes; /* 0x20 */
+} Stats_825B05A0;
+
+extern void **fn_8265CA60(unsigned int size);
+extern void fn_8265CAA0(void *memory);
+extern int fn_8284E5C0(void *packer, void **buffers, int count);
+extern void fn_825B0BD0(Model_825B05A0 *model, Stats_825B05A0 *stats);
+
+void fn_825B05A0(Instance_825B05A0 *self, Stats_825B05A0 *stats)
 {
-  int iVar1;
-  __int64 lVar2;
-  int iVar4;
-  unsigned __int64 uVar3;
-  unsigned int *puVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  int iVar8;
-  int iVar9;
-  
-  *(int *)(param_2 + 0x20) = *(int *)(param_2 + 0x20) + 0x30;
-  lVar2 = ((unsigned __int64)*(unsigned int *)(*param_1 + 300) & 0x3fffffff) << 2;
-  if (0x3fffffff < *(unsigned int *)(*param_1 + 300)) {
-    lVar2 = -1;
-  }
-  iVar4 = fn_8265CA60(lVar2);
-  iVar8 = *param_1;
-  lVar2 = 0;
-  uVar7 = 0;
-  if (*(int *)(iVar8 + 300) != 0) {
-    iVar9 = 0;
-    puVar5 = (unsigned int *)(iVar4 + -4);
-    do {
-      iVar1 = *(int *)(iVar9 + *(int *)(iVar8 + 0x128) + 4);
-      if (iVar1 != 0) {
-        lVar2 = lVar2 + 1;
-        puVar5 = puVar5 + 1;
-        *puVar5 = *(unsigned int *)(iVar1 + 0x30);
-      }
-      uVar7 = uVar7 + 1;
-      iVar9 = iVar9 + 0x20;
-    } while (uVar7 < *(unsigned int *)(iVar8 + 300));
-  }
-  if (*(int *)(*param_1 + 0x110) != 0) {
-    uVar3 = fn_8284E5C0(*(int *)(*param_1 + 0x110),iVar4,lVar2);
-    lVar2 = uVar3 + ((__int64)((int)uVar3 >> 4) + (unsigned __int64)((int)uVar3 < 0 && (uVar3 & 0xf) != 0)
-                    & 0xfffffff) * -0x10;
-    if (lVar2 < 1) {
-      if ((int)lVar2 < 0) {
-        uVar3 = uVar3 - lVar2;
-      }
-    }
-    else {
-      uVar3 = (uVar3 - lVar2) + 0x10;
-    }
-    *(int *)(param_2 + 0x20) = *(int *)(param_2 + 0x20) + (int)uVar3;
-  }
-  fn_8265CAA0(iVar4);
-  fn_825B0BD0(*param_1,param_2);
-  iVar8 = 0;
-  uVar6 = 0;
-  uVar7 = *(unsigned int *)(*param_1 + 300);
-  if (uVar7 != 0) {
-    iVar4 = 0;
-    do {
-      iVar9 = *(int *)(iVar4 + *(int *)(*param_1 + 0x128) + 4);
-      if (iVar9 != 0) {
-        iVar8 = *(int *)(iVar9 + 0x2c) + iVar8;
-      }
-      uVar6 = uVar6 + 1;
-      iVar4 = iVar4 + 0x20;
-    } while (uVar6 < uVar7);
-  }
-  *(int *)(param_2 + 0x20) = iVar8 * 0x20 + *(int *)(param_2 + 0x20);
-  return;
-}
+    void **buffers;
+    int count;
+    unsigned int i;
+    int size;
+    int remainder;
+    int vertices;
+    Model_825B05A0 *model;
 
+    stats->bytes += 0x30;
+    buffers = fn_8265CA60(self->model->slotCount <= 0x3fffffff ? self->model->slotCount * 4 : 0xffffffff);
+    model = self->model;
+    count = 0;
+    for (i = 0; i < model->slotCount; i++) {
+        Slot_825B05A0 *slots = model->slots;
+        if (slots[i].part != 0) {
+            buffers[count++] = slots[i].part->buffer;
+        }
+    }
+    if (self->model->packer != 0) {
+        size = fn_8284E5C0(self->model->packer, buffers, count);
+        remainder = size % 16;
+        if (remainder > 0) {
+            size = size - remainder + 16;
+        } else if (remainder < 0) {
+            size -= remainder;
+        }
+        {
+            int *bytes = &stats->bytes;
+            *bytes += size;
+        }
+    }
+    fn_8265CAA0(buffers);
+    fn_825B0BD0(self->model, stats);
+    vertices = 0;
+    model = self->model;
+    for (i = 0; i < model->slotCount; i++) {
+        Slot_825B05A0 *slots = model->slots;
+        if (slots[i].part != 0) {
+            vertices += slots[i].part->vertexCount;
+        }
+    }
+    stats->bytes += vertices * 32;
+}

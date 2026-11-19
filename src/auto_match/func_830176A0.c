@@ -1,66 +1,64 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern unsigned int *auStack_50;
-extern int fn_82FFE0F0();
-extern int fn_83015B10();
-extern int fn_83017108();
-extern unsigned int lbl_821AAD20;
+typedef struct Entry_830176A0 {
+    int pad0;        /* 0x00 */
+    unsigned int id; /* 0x04 */
+    char curve[0xC]; /* 0x08 */
+} Entry_830176A0;
 
+typedef struct Track_830176A0 {
+    char pad0[0x10];
+    Entry_830176A0 *begin; /* 0x10 */
+    Entry_830176A0 *end;   /* 0x14 */
+} Track_830176A0;
 
-double fn_830176A0(__int64 param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4)
+typedef struct Mixer_830176A0 {
+    char pad0[0x61C];
+    char values[4]; /* 0x61C */
+} Mixer_830176A0;
 
+extern unsigned char fn_83017108(Mixer_830176A0 *mixer, unsigned int id, int time, float *value,
+                                 unsigned char *flags);
+extern float *fn_82FFE0F0(void *values, unsigned int id);
+extern float fn_83015B10(void *curve, float value);
+
+static __forceinline float GetStored_830176A0(Mixer_830176A0 *mixer, unsigned int id)
 {
-  bool bVar1;
-  char cVar3;
-  float *pfVar2;
-  int iVar4;
-  double dVar5;
-  double dVar6;
-  double dVar7;
-  unsigned char auStack_50 [4];
-  float afStack_4c [19];
-  
-  if ((param_4 & 0xffffffff) != 0) {
-    cVar3 = fn_83017108(param_1,param_4,param_3,afStack_4c,auStack_50);
-    bVar1 = true;
-    if (cVar3 != '\0') goto LAB_830176f0;
-  }
-  bVar1 = false;
-LAB_830176f0:
-  iVar4 = *(int *)(param_2 + 0x10);
-  dVar6 = (double)lbl_821AAD20;
-  dVar7 = dVar6;
-  if (iVar4 != *(int *)(param_2 + 0x14)) {
-    do {
-      if (((param_4 & 0xffffffff) == 0) ||
-         ((unsigned __int64)*(unsigned int *)(iVar4 + 4) == (param_4 & 0xffffffff))) {
-        if (!bVar1) {
-          if ((param_4 & 0xffffffff) == 0) {
-            cVar3 = fn_83017108(param_1,*(unsigned int *)(iVar4 + 4),param_3,afStack_4c,auStack_50);
-            if (cVar3 != '\0') goto LAB_83017794;
-            pfVar2 = (float *)fn_82FFE0F0(param_1 + 0x61c,*(unsigned int *)(iVar4 + 4));
-            dVar5 = dVar7;
-            if (pfVar2 != (float *)0x0) {
-              dVar5 = (double)*pfVar2;
-            }
-          }
-          else {
-            pfVar2 = (float *)fn_82FFE0F0(param_1 + 0x61c,*(unsigned int *)(iVar4 + 4));
-            dVar5 = dVar7;
-            if (pfVar2 != (float *)0x0) {
-              dVar5 = (double)*pfVar2;
-            }
-          }
-          afStack_4c[0] = (float)dVar5;
-        }
-LAB_83017794:
-        dVar5 = (double)fn_83015B10((double)afStack_4c[0],iVar4 + 8);
-        dVar6 = (double)(float)(dVar5 + dVar6);
-      }
-      iVar4 = iVar4 + 0x14;
-    } while (iVar4 != *(int *)(param_2 + 0x14));
-  }
-  return dVar6;
+    float *stored = fn_82FFE0F0(mixer->values, id);
+
+    if (stored != 0) {
+        return *stored;
+    }
+    return 0.0f;
 }
 
+float fn_830176A0(Mixer_830176A0 *mixer, Track_830176A0 *track, int time, unsigned int id)
+{
+    unsigned char flags;
+    float value;
+    unsigned char found;
+    float total;
+    Entry_830176A0 *entry;
+
+    if (id != 0 && fn_83017108(mixer, id, time, &value, &flags) != 0) {
+        found = 1;
+    } else {
+        found = 0;
+    }
+    total = 0.0f;
+    for (entry = track->begin; entry != track->end; entry++) {
+        if (id == 0 || entry->id == id) {
+            if (!found) {
+                if (id == 0) {
+                    if (fn_83017108(mixer, entry->id, time, &value, &flags) != 0) {
+                        goto evaluate;
+                    }
+                    value = GetStored_830176A0(mixer, entry->id);
+                } else {
+                    value = GetStored_830176A0(mixer, entry->id);
+                }
+            }
+        evaluate:
+            total += fn_83015B10(entry->curve, value);
+        }
+    }
+    return total;
+}

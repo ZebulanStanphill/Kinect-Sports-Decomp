@@ -1,35 +1,40 @@
-extern int fn_82F6B030();
-extern unsigned int lbl_82006848;
-extern unsigned int lbl_83175240;
-extern unsigned int lbl_83175244;
+typedef struct Stream_82BE7F48 {
+    char pad0[0x28];
+    unsigned short rateA; /* 0x28 */
+    unsigned short rateB; /* 0x2A */
+    int bytesPerSecond;   /* 0x2C */
+    char pad30[8];
+    unsigned __int64 end;   /* 0x38 */
+    unsigned __int64 start; /* 0x40 */
+    char pad48[0x54];
+    int mode; /* 0x9C */
+} Stream_82BE7F48;
 
+extern const float lbl_82006848;
+extern int lbl_83175240;
+extern int lbl_83175244;
 
-unsigned __int64 fn_82BE7F48(int param_1)
-
+int fn_82BE7F48(Stream_82BE7F48 *stream)
 {
-  unsigned short uVar1;
-  unsigned int uVar2;
-  double dVar3;
-  
-  dVar3 = (double)fn_82F6B030(*(__int64 *)(param_1 + 0x38) - *(__int64 *)(param_1 + 0x40));
-  if (*(int *)(param_1 + 0x9c) == 3) {
-    uVar1 = *(unsigned short *)(param_1 + 0x28);
-    uVar2 = lbl_83175244;
-  }
-  else {
-    if (*(int *)(param_1 + 0x9c) != 4) {
-      return 0x327;
-    }
-    uVar1 = *(unsigned short *)(param_1 + 0x2a);
-    uVar2 = lbl_83175240;
-  }
-  if (uVar1 == 0) {
-    *(unsigned int *)(param_1 + 0x2c) = uVar2;
-  }
-  else {
-    *(int *)(param_1 + 0x2c) =
-         (int)((float)(__int64)(int)((unsigned int)uVar1 << 10) * (float)dVar3 * lbl_82006848);
-  }
-  return 0;
-}
+    float scale = (float)(stream->end - stream->start) * lbl_82006848;
+    unsigned short rate;
 
+    if (stream->mode == 3) {
+        rate = stream->rateA;
+        if (rate != 0) {
+            stream->bytesPerSecond = (int)((float)(rate << 10) * scale);
+        } else {
+            stream->bytesPerSecond = lbl_83175244;
+        }
+    } else if (stream->mode == 4) {
+        rate = stream->rateB;
+        if (rate != 0) {
+            stream->bytesPerSecond = (int)((float)(rate << 10) * scale);
+        } else {
+            stream->bytesPerSecond = lbl_83175240;
+        }
+    } else {
+        return 0x327;
+    }
+    return 0;
+}

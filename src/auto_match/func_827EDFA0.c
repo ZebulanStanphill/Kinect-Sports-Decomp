@@ -1,78 +1,65 @@
-extern unsigned int *auStack_80;
-extern unsigned int *auStack_90;
-extern int fn_82809558();
-extern int fn_8280A5D8();
-extern int fn_82810280();
-extern int fn_828102A8();
-extern int fn_82810308();
-extern int fn_82810328();
-extern int fn_82810470();
-extern int fn_82810558();
-extern int fn_82810B78();
-extern int fn_82F6A538();
-extern int fn_82F6A584();
-extern unsigned int lbl_821AAD20;
-extern unsigned int lbl_831F13C0;
+typedef struct Vec3_827EDFA0 {
+    float x;
+    float y;
+    float z;
+} Vec3_827EDFA0;
 
+extern int lbl_831F13C0;
+extern float fn_82809558(float value);
+extern float fn_8280A5D8(float value);
+extern float fn_82810308(const Vec3_827EDFA0 *v);
+extern float fn_82810280(const Vec3_827EDFA0 *a, const Vec3_827EDFA0 *b);
+extern void fn_828102A8(const Vec3_827EDFA0 *source, Vec3_827EDFA0 *output, float scale);
+extern void fn_82810328(const Vec3_827EDFA0 *a, const Vec3_827EDFA0 *b, Vec3_827EDFA0 *out);
+extern int fn_82810470(const Vec3_827EDFA0 *v);
+extern void fn_82810558(const Vec3_827EDFA0 *direction, const Vec3_827EDFA0 *origin, float t,
+                        Vec3_827EDFA0 *out);
+extern void fn_82810B78(const Vec3_827EDFA0 *in, Vec3_827EDFA0 *out);
 
-void fn_827EDFA0(unsigned __int64 param_1,double param_2,double param_3,double param_4,double param_5,
-                  double param_6,unsigned __int64 param_7,unsigned __int64 param_8,unsigned __int64 param_9,
-                  unsigned __int64 param_10)
-
+int fn_827EDFA0(const Vec3_827EDFA0 *axis, const Vec3_827EDFA0 *edge, const Vec3_827EDFA0 *origin,
+                const Vec3_827EDFA0 *direction, float crossOrigin, float originBias, float crossDirection,
+                float directionBias, float height, float maxT, float *bestT, Vec3_827EDFA0 *hitNormal)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  double extraout_f1;
-  double dVar3;
-  double dVar4;
-  double dVar5;
-  double dVar6;
-  double dVar7;
-  double dVar8;
-  float *in_stack_00000064;
-  unsigned int in_stack_0000006c;
-  unsigned char auStack_90 [16];
-  unsigned char auStack_80 [128];
-  
-  uVar1 = fn_82F6A538();
-  dVar8 = extraout_f1;
-  fn_82810308(param_8);
-  dVar3 = (double)fn_8280A5D8();
-  dVar4 = (double)fn_82810280(param_9,param_8);
-  dVar5 = (double)fn_82810280(param_10,param_8);
-  dVar6 = (double)lbl_821AAD20;
-  dVar7 = (double)(float)((double)(float)(dVar5 * dVar3) * dVar5 + param_4);
-  dVar8 = (double)(float)((double)(float)(dVar4 * dVar3) * dVar5 + (double)(float)(dVar8 * param_3))
-  ;
-  if (dVar6 < (double)(float)(dVar8 * dVar8 -
-                             (double)(float)((double)(float)((double)(float)(dVar4 * dVar3) * dVar4
-                                                            + param_2) * dVar7))) {
-    dVar3 = (double)fn_82809558();
-    dVar3 = (double)(float)(dVar3 + dVar8);
-    dVar8 = (double)fn_8280A5D8(dVar7);
-    dVar8 = -(double)(float)(dVar8 * dVar3);
-    if (((dVar8 <= param_6) && (dVar8 <= (double)*in_stack_00000064)) &&
-       ((lbl_831F13C0 == 0 || (dVar6 <= dVar8)))) {
-      fn_82810558(dVar8,param_10,param_9);
-      dVar3 = (double)fn_82810280(auStack_90,uVar1);
-      if ((dVar6 < dVar3) && (dVar3 < param_5)) {
-        dVar3 = (double)fn_82810280(auStack_90,uVar1);
-        dVar4 = (double)fn_8280A5D8(param_5);
-        fn_828102A8((double)(float)(dVar4 * dVar3),uVar1,auStack_80);
-        fn_82810328(auStack_90,auStack_80,in_stack_0000006c);
-        iVar2 = fn_82810470(in_stack_0000006c);
-        if (iVar2 == 0) {
-          fn_82810B78(in_stack_0000006c,in_stack_0000006c);
-        }
-        *in_stack_00000064 = (float)dVar8;
-        uVar1 = 1;
-        goto LAB_827ee118;
-      }
-    }
-  }
-  uVar1 = 0;
-LAB_827ee118:
-  fn_82F6A584(uVar1);
-  return;
-}
+    float zero = 0.0f;
+    float invLength;
+    float originDot;
+    float directionDot;
+    float scaledOrigin;
+    float scaledDirection;
+    float a;
+    float halfB;
+    float c;
+    float discriminant;
+    float t;
+    float along;
+    Vec3_827EDFA0 hit;
+    Vec3_827EDFA0 projected;
 
+    invLength = fn_8280A5D8(fn_82810308(edge));
+    originDot = fn_82810280(origin, edge);
+    directionDot = fn_82810280(direction, edge);
+    scaledOrigin = originDot * invLength;
+    scaledDirection = directionDot * invLength;
+    a = scaledOrigin * originDot + originBias;
+    c = scaledDirection * directionDot + directionBias;
+    halfB = scaledOrigin * directionDot + crossOrigin * crossDirection;
+    discriminant = halfB * halfB - a * c;
+    if (discriminant > zero) {
+        t = -(fn_8280A5D8(c) * (fn_82809558(discriminant) + halfB));
+        if (t <= maxT && t <= *bestT && (lbl_831F13C0 == 0 || t >= zero)) {
+            fn_82810558(direction, origin, t, &hit);
+            along = fn_82810280(&hit, axis);
+            if (along > zero && along < height) {
+                along = fn_82810280(&hit, axis);
+                fn_828102A8(axis, &projected, fn_8280A5D8(height) * along);
+                fn_82810328(&hit, &projected, hitNormal);
+                if (fn_82810470(hitNormal) == 0) {
+                    fn_82810B78(hitNormal, hitNormal);
+                }
+                *bestT = t;
+                return 1;
+            }
+        }
+    }
+    return 0;
+}

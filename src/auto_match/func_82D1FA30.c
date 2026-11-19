@@ -1,73 +1,33 @@
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_60;
-extern unsigned int fStack_2c;
-extern int fn_82D1F838();
-extern unsigned int lbl_82134508;
-extern unsigned int lbl_8323B1A0;
-extern unsigned int uStack_30;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Result_82D1FA30 {
+    __vector4 position; // 0x0
+    __vector4 normal;   // 0x10
+    __vector4 extra;    // 0x20
+    int shape;          // 0x30
+    float fraction;     // 0x34
+    char hit;           // 0x38
+} Result_82D1FA30;
 
-double fn_82D1FA30(unsigned __int64 param_1,unsigned __int64 param_2,int param_3,char *param_4)
+extern const __vector4 lbl_8323B1A0;
+extern void fn_82D1F838(void *self, void *input, Result_82D1FA30 *result);
 
+float fn_82D1FA30(void *self, void *input, __vector4 *position, unsigned char *hit)
 {
-  unsigned int *puVar1;
-  int in_r0;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned char auStack_60 [16];
-  unsigned char auStack_50 [16];
-  unsigned char auStack_40 [16];
-  unsigned int uStack_30;
-  float fStack_2c;
-  char cStack_28;
-  
-  puVar1 = (unsigned int *)((unsigned int)(&lbl_8323B1A0 + in_r0) & 0xfffffff0);
-  uVar2 = *puVar1;
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar1 = (unsigned int *)((unsigned int)(auStack_60 + in_r0) & 0xfffffff0);
-  *puVar1 = uVar2;
-  puVar1[1] = uVar3;
-  puVar1[2] = uVar4;
-  puVar1[3] = uVar5;
-  fStack_2c = lbl_82134508;
-  uStack_30 = 0;
-  puVar1 = (unsigned int *)((unsigned int)(auStack_50 + in_r0) & 0xfffffff0);
-  *puVar1 = uVar2;
-  puVar1[1] = uVar3;
-  puVar1[2] = uVar4;
-  puVar1[3] = uVar5;
-  puVar1 = (unsigned int *)((unsigned int)(auStack_40 + in_r0) & 0xfffffff0);
-  *puVar1 = uVar2;
-  puVar1[1] = uVar3;
-  puVar1[2] = uVar4;
-  puVar1[3] = uVar5;
-  cStack_28 = '\0';
-  fn_82D1F838(param_1,param_2,auStack_60);
-  if (param_4 == (char *)0x0) {
-    puVar1 = (unsigned int *)((unsigned int)(auStack_60 + in_r0) & 0xfffffff0);
-    uVar2 = *puVar1;
-    uVar3 = puVar1[1];
-    uVar4 = puVar1[2];
-    uVar5 = puVar1[3];
-  }
-  else {
-    puVar1 = (unsigned int *)((unsigned int)(auStack_60 + in_r0) & 0xfffffff0);
-    uVar2 = *puVar1;
-    uVar3 = puVar1[1];
-    uVar4 = puVar1[2];
-    uVar5 = puVar1[3];
-    *param_4 = '\x01' - (cStack_28 == '\0');
-  }
-  puVar1 = (unsigned int *)(in_r0 + param_3 & 0xfffffff0);
-  *puVar1 = uVar2;
-  puVar1[1] = uVar3;
-  puVar1[2] = uVar4;
-  puVar1[3] = uVar5;
-  return (double)fStack_2c;
-}
+    Result_82D1FA30 result;
 
+    result.position = lbl_8323B1A0;
+    result.normal = lbl_8323B1A0;
+    result.extra = lbl_8323B1A0;
+    result.shape = 0;
+    result.fraction = 3.40282e38f;
+    result.hit = 0;
+    fn_82D1F838(self, input, &result);
+    if (hit != 0) {
+        *hit = result.hit != 0;
+    }
+    *position = result.position;
+    return result.fraction;
+}

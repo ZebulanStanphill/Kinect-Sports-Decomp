@@ -1,44 +1,40 @@
-extern unsigned int fStack_2c;
-extern int fn_82639EA8();
-extern int fn_8263DE70();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_821AAD20;
-extern unsigned int lbl_8320A884;
-extern unsigned int lbl_8320A888;
-extern unsigned int lbl_8320A88C;
-extern unsigned int lbl_8320A890;
-extern unsigned int lbl_8320A898;
-extern unsigned int lbl_8320A8B4;
-extern unsigned int uStack_30;
-extern unsigned int uStack_34;
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
+typedef struct Viewport_82837218 {
+    unsigned int x;      /* 0x0 */
+    unsigned int y;      /* 0x4 */
+    unsigned int width;  /* 0x8 */
+    unsigned int height; /* 0xc */
+    float nearPlane;     /* 0x10 */
+    float farPlane;      /* 0x14 */
+} Viewport_82837218;
 
+typedef struct Globals_82837218 {
+    int clearColor;      /* 0x0, lbl_8320A884 */
+    unsigned int color;  /* 0x4 */
+    unsigned int height; /* 0x8, lbl_8320A88C */
+    unsigned int width;  /* 0xc */
+    char pad10[0x20];
+    int enabled; /* 0x30, lbl_8320A8B4 */
+} Globals_82837218;
+
+extern Globals_82837218 lbl_8320A884;
+extern void *lbl_8320A898;
+extern void fn_82639EA8(void *device, const Viewport_82837218 *viewport);
+extern void fn_8263DE70(void *device, unsigned int count, const void *rects, unsigned int flags,
+                        unsigned int color, float depth, unsigned int stencil, int edramClear);
 
 void fn_82837218(void)
-
 {
-  double dVar1;
-  struct { unsigned int first; unsigned int second; } stack_pair_40;
+    Viewport_82837218 viewport;
 
-  unsigned int uStack_38;
-  unsigned int uStack_34;
-  unsigned int uStack_30;
-  float fStack_2c;
-  
-  if (lbl_8320A8B4 == 0) {
-    stack_pair_40.first = 0;
-    stack_pair_40.second = 0;
-    dVar1 = (double)lbl_82002AE0;
-    uStack_38 = lbl_8320A890;
-    fStack_2c = lbl_82002AE0;
-    uStack_34 = lbl_8320A88C;
-    uStack_30 = lbl_821AAD20;
-    fn_82639EA8(lbl_8320A898,&stack_pair_40.first);
-    fn_8263DE70(dVar1,lbl_8320A898,0,0,-(lbl_8320A884 != 0) & 0xfU | 0x30,lbl_8320A888,0xf,0,0
-                     );
-  }
-  return;
+    if (lbl_8320A884.enabled == 0) {
+        viewport.x = 0;
+        viewport.y = 0;
+        viewport.width = lbl_8320A884.width;
+        viewport.height = lbl_8320A884.height;
+        viewport.nearPlane = 0.0f;
+        viewport.farPlane = 1.0f;
+        fn_82639EA8(lbl_8320A898, &viewport);
+        fn_8263DE70(lbl_8320A898, 0, 0, (lbl_8320A884.clearColor != 0 ? 0xf : 0) | 0x30, lbl_8320A884.color,
+                    1.0f, 0, 0);
+    }
 }
-

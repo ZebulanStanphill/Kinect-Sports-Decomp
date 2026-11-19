@@ -1,53 +1,61 @@
-extern int fn_82FF6128();
-extern int fn_82FF7548();
-extern int fn_82FF7DB0();
+typedef struct Values_82FF7628 {
+    unsigned int *begin;    /* 0x0 */
+    unsigned int *end;      /* 0x4 */
+    unsigned int *capacity; /* 0x8 */
+} Values_82FF7628;
 
+typedef struct Entry_82FF7628 {
+    struct Entry_82FF7628 *next; /* 0x0 */
+    Values_82FF7628 values;      /* 0x4 */
+    unsigned int key;            /* 0x10 */
+} Entry_82FF7628;
 
-__int64 fn_82FF7628(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                      unsigned __int64 param_5)
+extern Entry_82FF7628 *fn_82FF7548(void *registry, unsigned int key, int which);
+extern unsigned int *fn_82FF7DB0(Values_82FF7628 *values);
+extern int fn_82FF6128(Entry_82FF7628 *entry, unsigned int value, unsigned char add);
 
+static __forceinline void RemoveValue(Values_82FF7628 *values, unsigned int *slot)
 {
-  unsigned int *puVar1;
-  unsigned __int64 uVar2;
-  int iVar4;
-  unsigned int *puVar5;
-  __int64 lVar3;
-  unsigned int *puVar6;
-  
-  iVar4 = fn_82FF7548(param_1,param_3,param_2);
-  if (iVar4 == 0) {
-    uVar2 = -(unsigned __int64)((param_5 & 0xff) != 0);
-    return ((uVar2 & 0x3f) << 0x20 | uVar2 & 0x33) + 1;
-  }
-  puVar1 = *(unsigned int **)(iVar4 + 8);
-  for (puVar6 = *(unsigned int **)(iVar4 + 4);
-      (puVar6 != puVar1 && ((unsigned __int64)*puVar6 != (param_4 & 0xffffffff))); puVar6 = puVar6 + 1) {
-  }
-  if (puVar6 == puVar1) {
-    if ((param_5 & 0xff) != 0) {
-      puVar5 = (unsigned int *)fn_82FF7DB0((int *)(iVar4 + 4));
-      if (puVar5 != (unsigned int *)0x0) {
-        *puVar5 = (int)param_4;
-      }
-      goto LAB_82ff7710;
+    if ((unsigned int)(values->end - values->begin) > 1) {
+        *slot = values->end[-1];
     }
-  }
-  else if ((param_5 & 0xff) == 0) {
-    if (1 < (unsigned int)((int)puVar1 - (int)*(unsigned int **)(iVar4 + 4) >> 2)) {
-      *puVar6 = puVar1[-1];
-    }
-    *(int *)(iVar4 + 8) = *(int *)(iVar4 + 8) + -4;
-LAB_82ff7710:
-    lVar3 = fn_82FF6128(iVar4,param_4,param_5);
-    if ((int)lVar3 == 1) {
-      return lVar3;
-    }
-    if (1 < (unsigned int)(*(int *)(iVar4 + 8) - *(int *)(iVar4 + 4) >> 2)) {
-      *puVar6 = *(unsigned int *)(*(int *)(iVar4 + 8) + -4);
-    }
-    *(int *)(iVar4 + 8) = *(int *)(iVar4 + 8) + -4;
-    return lVar3;
-  }
-  return 1;
+    values->end--;
 }
 
+int fn_82FF7628(void *registry, int which, unsigned int key, unsigned int value, unsigned char add)
+{
+    Entry_82FF7628 *entry;
+    Values_82FF7628 *values;
+    unsigned int *slot;
+    unsigned int *end;
+    unsigned int *added;
+    int hr;
+
+    entry = fn_82FF7548(registry, key, which);
+    if (entry == 0) {
+        return add ? 0x34 : 1;
+    }
+    values = &entry->values;
+    end = values->end;
+    for (slot = values->begin; slot != end && *slot != value; slot++) {
+    }
+    if (slot != values->end) {
+        if (add) {
+            return 1;
+        }
+        RemoveValue(values, slot);
+    } else {
+        if (!add) {
+            return 1;
+        }
+        added = fn_82FF7DB0(values);
+        if (added != 0) {
+            *added = value;
+        }
+    }
+    hr = fn_82FF6128(entry, value, add);
+    if (hr != 1) {
+        RemoveValue(values, slot);
+    }
+    return hr;
+}

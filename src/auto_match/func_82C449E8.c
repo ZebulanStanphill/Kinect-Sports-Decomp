@@ -1,31 +1,39 @@
-extern int fn_82A812C8();
-extern int fn_82C2B580();
-extern int memset();
+typedef struct Buffers_82C449E8 {
+    float rate;    /* 0x0 */
+    int count;     /* 0x4 */
+    float *first;  /* 0x8 */
+    float *second; /* 0xc */
+    int capacity;  /* 0x10 */
+} Buffers_82C449E8;
 
+extern void fn_82A812C8(Buffers_82C449E8 *buffers);
+extern void *fn_82C2B580(unsigned int size);
+void *memset(void *dst, int c, unsigned int n);
 
-unsigned __int64 fn_82C449E8(double param_1,float *param_2,unsigned __int64 param_3,unsigned __int64 param_4)
-
+int fn_82C449E8(Buffers_82C449E8 *self, double rate, int count)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  float fVar3;
-  
-  fVar3 = (float)param_4;
-  if (((int)fVar3 < 0) || (100000 < (int)fVar3)) {
-    uVar2 = 0xffffffff80070057;
-  }
-  else {
-    fn_82A812C8();
-    *param_2 = (float)param_1;
-    param_2[1] = fVar3;
-    uVar1 = fn_82C2B580((param_4 & 0x3fffffff) << 2);
-    param_2[2] = (float)uVar1;
-    if ((uVar1 & 0xffffffff) != 0) {
-                    /* WARNING: Subroutine does not return */
-      memset(uVar1,0,(int)param_2[1] << 2);
-    }
-    uVar2 = 0xffffffff8007000e;
-  }
-  return uVar2;
-}
+    int hr = 0;
 
+    if (count < 0 || count > 100000) {
+        hr = 0x80070057;
+        goto done;
+    }
+    fn_82A812C8(self);
+    self->rate = (float)rate;
+    self->count = count;
+    self->first = (float *)fn_82C2B580(count * 4);
+    if (self->first == 0) {
+        hr = 0x8007000e;
+        goto done;
+    }
+    memset(self->first, 0, self->count * 4);
+    self->second = (float *)fn_82C2B580(self->count * 4);
+    if (self->second == 0) {
+        hr = 0x8007000e;
+        goto done;
+    }
+    memset(self->second, 0, self->count * 4);
+    self->capacity = self->count;
+done:
+    return hr;
+}

@@ -1,46 +1,50 @@
-extern int fn_829EC340();
-extern int fn_82A28568();
-extern int fn_82F664B0();
-extern unsigned int lbl_832179FC;
+typedef struct Entry_829EC420 {
+    const char *name;   /* 0x0 */
+    unsigned int refs;  /* 0x4 */
+    unsigned int flags; /* 0x8 */
+    int padc;
+    unsigned __int64 size; /* 0x10 */
+    void *data;            /* 0x18 */
+    int pad1c;
+} Entry_829EC420;
 
+typedef struct Globals_829EC420 {
+    char pad0[0x8f4cc];
+    void *heap; /* 0x8f4cc */
+} Globals_829EC420;
 
-__int64 fn_829EC420(char *param_1,int param_2,__int64 param_3,unsigned int param_4)
+extern Entry_829EC420 lbl_83218A38[10];
+extern Globals_829EC420 *lbl_832179FC;
+extern Entry_829EC420 *fn_829EC340(const char *name);
+extern char *fn_82A28568(void *heap, int flags, unsigned int size);
+extern int fn_82F664B0(char *dst, unsigned int size, const char *src);
+unsigned int strlen(const char *s);
 
+char *fn_829EC420(const char *name, void *data, unsigned __int64 size, unsigned int flags)
 {
-  char cVar1;
-  int iVar3;
-  __int64 lVar2;
-  int *piVar4;
-  char *pcVar5;
-  unsigned int uVar6;
-  
-  if (((param_2 != 0) && (param_3 != 0)) && (iVar3 = fn_829EC340(), iVar3 == 0)) {
-    uVar6 = 0;
-    piVar4 = (int *)0x83218a3c;
-    do {
-      if ((piVar4[-1] == 0) && (pcVar5 = param_1, *piVar4 == 0)) {
-        do {
-          cVar1 = *pcVar5;
-          pcVar5 = pcVar5 + 1;
-        } while (cVar1 != '\0');
-        iVar3 = (int)pcVar5 - (int)param_1;
-        lVar2 = fn_82A28568(*(unsigned int *)(lbl_832179FC + 0x8f4cc),0,iVar3 + 1);
-        if (lVar2 != 0) {
-          fn_82F664B0(lVar2,iVar3,param_1);
-          iVar3 = uVar6 * 0x20;
-          *(int *)(iVar3 + -0x7cde75c8) = (int)lVar2;
-          *(__int64 *)(iVar3 + -0x7cde75b8) = param_3;
-          *(int *)(iVar3 + -0x7cde75b0) = param_2;
-          *(unsigned int *)(iVar3 + -0x7cde75c0) = param_4;
-          *(int *)(iVar3 + -0x7cde75c4) = *(int *)(iVar3 + -0x7cde75c4) + 1;
-          return lVar2;
-        }
-        return 0;
-      }
-      uVar6 = uVar6 + 1;
-      piVar4 = piVar4 + 8;
-    } while (uVar6 < 10);
-  }
-  return 0;
-}
+    char *copy = 0;
+    unsigned int i;
+    unsigned int length;
 
+    if (data == 0 || size == 0) {
+        return 0;
+    }
+    if (fn_829EC340(name) == 0) {
+        for (i = 0; i < 10; i++) {
+            if (lbl_83218A38[i].name == 0 && lbl_83218A38[i].refs == 0) {
+                length = strlen(name) + 1;
+                copy = fn_82A28568(lbl_832179FC->heap, 0, length + 1);
+                if (copy != 0) {
+                    fn_82F664B0(copy, length, name);
+                    lbl_83218A38[i].name = copy;
+                    lbl_83218A38[i].size = size;
+                    lbl_83218A38[i].data = data;
+                    lbl_83218A38[i].flags = flags;
+                    lbl_83218A38[i].refs++;
+                }
+                break;
+            }
+        }
+    }
+    return copy;
+}

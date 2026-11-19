@@ -1,88 +1,77 @@
-extern unsigned int *auStack_80;
-extern unsigned int *auStack_90;
-extern unsigned int *auStack_a0;
-extern int fn_827EE3C0();
-extern int fn_82809558();
-extern int fn_82809CB0();
-extern int fn_82810280();
-extern int fn_82810328();
-extern int fn_82F6A538();
-extern int fn_82F6A584();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_8201DCB8;
-extern unsigned int lbl_821AAD20;
+typedef struct Vec3_827E9868 {
+    float x;
+    float y;
+    float z;
+} Vec3_827E9868;
 
+extern void fn_82810328(const Vec3_827E9868 *a, const Vec3_827E9868 *b, Vec3_827E9868 *out);
+extern float fn_82810280(const Vec3_827E9868 *a, const Vec3_827E9868 *b);
+extern float fn_82809CB0(float value);
+extern float fn_82809558(float value);
+extern int fn_827EE3C0(const Vec3_827E9868 *center, float radius, const Vec3_827E9868 *start,
+                       const Vec3_827E9868 *end, float *hitTime);
 
-void fn_827E9868(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5,float *param_6)
-
+int fn_827E9868(const Vec3_827E9868 *start, const Vec3_827E9868 *end, const Vec3_827E9868 *capStart,
+                const Vec3_827E9868 *capEnd, float radius, float *hitTime)
 {
-  float fVar1;
-  unsigned __int64 uVar2;
-  double extraout_f1;
-  double dVar3;
-  double dVar4;
-  double dVar5;
-  double dVar6;
-  double dVar7;
-  double dVar8;
-  double dVar9;
-  double dVar10;
-  double dVar11;
-  unsigned char auStack_a0 [1];
-  unsigned char auStack_90 [1];
-  unsigned char auStack_80 [16];
+    Vec3_827E9868 axis;
+    Vec3_827E9868 direction;
+    Vec3_827E9868 offset;
+    float md;
+    float nd;
+    float dd;
+    float nn;
+    float mn;
+    float a;
+    float b;
+    float c;
+    float discriminant;
+    float t;
 
-  uVar2 = fn_82F6A538();
-  dVar8 = extraout_f1;
-  fn_82810328(param_4,param_3,auStack_a0);
-  fn_82810328(uVar2,param_3,auStack_80);
-  fn_82810328(param_2,uVar2,auStack_90);
-  dVar3 = (double)fn_82810280(auStack_80,auStack_a0);
-  dVar4 = (double)fn_82810280(auStack_90,auStack_a0);
-  dVar5 = (double)fn_82810280(auStack_a0,auStack_a0);
-  dVar9 = (double)lbl_821AAD20;
-  if (((dVar3 < dVar9) && (uVar2 = param_3, (double)(float)(dVar4 + dVar3) < dVar9)) ||
-     ((dVar5 < dVar3 && (uVar2 = param_4, dVar5 < (double)(float)(dVar4 + dVar3))))) {
-code_r0x827e9914:
-    uVar2 = fn_827EE3C0(dVar8,uVar2);
-  }
-  else {
-    dVar6 = (double)fn_82810280(auStack_90,auStack_90);
-    dVar7 = (double)fn_82810280(auStack_80,auStack_90);
-    dVar10 = (double)(float)(dVar6 * dVar5 - (double)(float)(dVar4 * dVar4));
-    dVar6 = (double)fn_82810280(auStack_80,auStack_80);
-    dVar11 = (double)(float)(-(double)(float)(dVar8 * dVar8 - dVar6) * dVar5 -
-                            (double)(float)(dVar3 * dVar3));
-    dVar6 = (double)fn_82809CB0(dVar10);
-    if ((double)lbl_8201DCB8 <= dVar6) {
-      dVar6 = (double)(float)(dVar7 * dVar5 - (double)(float)(dVar4 * dVar3));
-      if (dVar9 <= (double)(float)(dVar6 * dVar6 - (double)(float)(dVar11 * dVar10))) {
-        dVar7 = (double)fn_82809558();
-        fVar1 = (float)((double)(float)(-dVar6 - dVar7) / dVar10);
-        dVar6 = (double)fVar1;
-        *param_6 = fVar1;
-        if ((dVar9 <= dVar6) && (dVar6 <= (double)lbl_82002AE0)) {
-          dVar3 = (double)(float)(dVar6 * dVar4 + dVar3);
-          uVar2 = param_3;
-          if ((dVar9 <= dVar3) && (uVar2 = param_4, dVar3 <= dVar5)) goto code_r0x827e99bc;
-          goto code_r0x827e9914;
+    fn_82810328(capEnd, capStart, &axis);
+    fn_82810328(start, capStart, &offset);
+    fn_82810328(end, start, &direction);
+    md = fn_82810280(&offset, &axis);
+    nd = fn_82810280(&direction, &axis);
+    dd = fn_82810280(&axis, &axis);
+    if (md < 0.0f && nd + md < 0.0f) {
+        return fn_827EE3C0(capStart, radius, start, end, hitTime);
+    }
+    if (md > dd && nd + md > dd) {
+        return fn_827EE3C0(capEnd, radius, start, end, hitTime);
+    }
+    nn = fn_82810280(&direction, &direction);
+    mn = fn_82810280(&offset, &direction);
+    a = dd * nn - nd * nd;
+    c = dd * (fn_82810280(&offset, &offset) - radius * radius) - md * md;
+    if (fn_82809CB0(a) < 1e-5f) {
+        if (c > 0.0f) {
+            return 0;
         }
-      }
+        if (md < 0.0f) {
+            return fn_827EE3C0(capStart, radius, start, end, hitTime);
+        }
+        if (md > dd) {
+            return fn_827EE3C0(capEnd, radius, start, end, hitTime);
+        }
+        *hitTime = 0.0f;
+        return 1;
     }
-    else if (dVar11 <= dVar9) {
-      uVar2 = param_3;
-      if ((dVar9 <= dVar3) && (uVar2 = param_4, dVar3 <= dVar5)) {
-        *param_6 = (float)dVar9;
-code_r0x827e99bc:
-        uVar2 = 1;
-        goto code_r0x827e9a24;
-      }
-      goto code_r0x827e9914;
+    b = dd * mn - nd * md;
+    discriminant = b * b - a * c;
+    if (discriminant < 0.0f) {
+        return 0;
     }
-    uVar2 = 0;
-  }
-code_r0x827e9a24:
-  fn_82F6A584(uVar2);
-  return;
+    t = (-b - fn_82809558(discriminant)) / a;
+    *hitTime = t;
+    if (t < 0.0f || t > 1.0f) {
+        return 0;
+    }
+    if (md + t * nd < 0.0f) {
+        return fn_827EE3C0(capStart, radius, start, end, hitTime);
+    }
+    if (md + t * nd > dd) {
+        return fn_827EE3C0(capEnd, radius, start, end, hitTime);
+    }
+    return 1;
 }

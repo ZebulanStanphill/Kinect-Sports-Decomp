@@ -1,69 +1,47 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern double sqrt(double);
-#define SQRT(x) sqrt(x)
-extern unsigned int fStack_38;
-extern unsigned int fStack_3c;
-extern unsigned int fStack_40;
-extern int fn_82809D40();
-extern int fn_82F6A548();
-extern int fn_82F6A594();
-extern unsigned int lbl_82195680;
-extern unsigned int ltcg_pool_0_0f;
-extern V16 vectorSubtractFloatingPoint();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vsubfp(__vector4 a, __vector4 b);
+double fabs(double);
+double sqrt(double);
 
-void fn_824B49D8(unsigned __int64 param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4)
+typedef struct Joint_824B49D8 {
+    __vector4 position; /* 0x00 */
+    __vector4 pad10[3];
+} Joint_824B49D8;
 
+typedef struct Skeleton_824B49D8 {
+    char pad0[0x40];
+    Joint_824B49D8 *joints; /* 0x40 */
+} Skeleton_824B49D8;
+
+extern const float lbl_821954B0[0x28a];
+extern float fn_82809D40(float y, float x);
+
+void fn_824B49D8(float *angles, Skeleton_824B49D8 *skeleton, int from, int to)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  unsigned int *puVar3;
-  float fVar4;
-  int in_r0;
-  float *pfVar5;
-  double dVar6;
-  double dVar7;
-  double dVar8;
-  double dVar9;
-  double dVar10;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs45 [16];
-  unsigned int uVar11;
-  unsigned int uVar12;
-  unsigned int uVar13;
-  float fStack_40;
-  float fStack_3c;
-  float fStack_38;
-  
-  pfVar5 = (float *)fn_82F6A548();
-  fVar4 = ltcg_pool_0_0f;
-  iVar1 = *(int *)(param_2 + 0x40);
-  pfVar5[2] = ltcg_pool_0_0f;
-  *pfVar5 = fVar4;
-  pfVar5[1] = fVar4;
-  puVar2 = (unsigned int *)((int)((param_4 & 0xffffffff) << 6) + iVar1 & 0xfffffff0);
-  uVar11 = puVar2[1];
-  uVar12 = puVar2[2];
-  uVar13 = puVar2[3];
-  vectorSubtractFloatingPoint(in_vs45,in_vs32);
-  puVar3 = (unsigned int *)((int)&fStack_40 + in_r0 & 0xfffffff0);
-  *puVar3 = *puVar2;
-  puVar3[1] = uVar11;
-  puVar3[2] = uVar12;
-  puVar3[3] = uVar13;
-  dVar9 = (double)fStack_3c;
-  dVar7 = (double)fStack_40;
-  dVar8 = (double)(fStack_38 * fStack_38);
-  dVar10 = (double)lbl_82195680;
-  if ((dVar10 < ABS(dVar9)) || (dVar10 < ABS((double)SQRT((float)(dVar7 * dVar7 + dVar8))))) {
-    dVar6 = (double)fn_82809D40(-dVar9);
-    *pfVar5 = (float)dVar6;
-  }
-  if ((dVar10 < ABS(dVar7)) || (dVar10 < ABS((double)SQRT((float)(dVar9 * dVar9 + dVar8))))) {
-    dVar7 = (double)fn_82809D40(dVar7);
-    pfVar5[1] = (float)dVar7;
-  }
-  fn_82F6A594();
-  return;
-}
+    __vector4 direction;
+    float x;
+    float y;
+    float z;
+    float horizontal;
+    float epsilon;
 
+    angles[2] = 0.0f;
+    angles[0] = 0.0f;
+    angles[1] = 0.0f;
+    direction = __vsubfp(skeleton->joints[from].position, skeleton->joints[to].position);
+    epsilon = lbl_821954B0[0x74];
+    x = direction.vector4_f32[0];
+    y = direction.vector4_f32[1];
+    z = direction.vector4_f32[2];
+    horizontal = (float)sqrt(x * x + z * z);
+    if (fabs(y) > epsilon || fabs(horizontal) > epsilon) {
+        angles[0] = fn_82809D40(-y, horizontal);
+    }
+    horizontal = (float)sqrt(y * y + z * z);
+    if (fabs(x) > epsilon || fabs(horizontal) > epsilon) {
+        angles[1] = fn_82809D40(x, horizontal);
+    }
+}

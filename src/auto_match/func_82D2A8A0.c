@@ -1,44 +1,41 @@
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern unsigned int stack0x00000000;
-extern unsigned __int64 storeVectorElementWordIndexed();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float values[4];
+} __vector4;
 
+__vector4 __vmsum3fp(__vector4 a, __vector4 b);
+void __stvewx(__vector4 value, void *base, int offset);
 
-/* WARNING: Removing unreachable block (ram,0x82d2a91c) */
+typedef struct Vertex_82D2A8A0 {
+    char padding[0x10];
+    __vector4 position; /* 0x10 */
+} Vertex_82D2A8A0;
 
-void fn_82D2A8A0(int param_1,unsigned __int64 param_2,int param_3)
+typedef struct Triangle_82D2A8A0 {
+    char padding[0x8];
+    Vertex_82D2A8A0 *vertices[3]; /* 0x08 */
+} Triangle_82D2A8A0;
 
+typedef struct Shape_82D2A8A0 {
+    void *vtable;                /* 0x00 */
+    Triangle_82D2A8A0 *triangle; /* 0x04 */
+} Shape_82D2A8A0;
+
+void fn_82D2A8A0(Shape_82D2A8A0 *self, const __vector4 *direction, __vector4 *out)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int in_r0;
-  __int64 lVar3;
-  __int64 lVar4;
-  unsigned char in_vs43 [16];
-  unsigned char in_vs44 [16];
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  
-  lVar3 = ZEXT48(&stack0x00000000) - 0x30;
-  lVar4 = 2;
-  puVar1 = (unsigned int *)(*(int *)(*(int *)(param_1 + 4) + 8) + 0x10U & 0xfffffff0);
-  uVar5 = puVar1[1];
-  uVar6 = puVar1[2];
-  uVar7 = puVar1[3];
-  puVar2 = (unsigned int *)(in_r0 + param_3 & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar5;
-  puVar2[2] = uVar6;
-  puVar2[3] = uVar7;
-  *(unsigned int *)(param_3 + 0xc) = 0x3f000000;
-  uVar5 = storeVectorElementWordIndexed(in_vs43,0,lVar3);
-  *(unsigned int *)lVar3 = uVar5;
-  do {
-    lVar3 = ZEXT48(&stack0x00000000) - 0x30;
-    uVar5 = storeVectorElementWordIndexed(in_vs44,0,lVar3);
-    *(unsigned int *)lVar3 = uVar5;
-    lVar4 = lVar4 + -1;
-  } while (lVar4 != 0);
-  return;
-}
+    float maximum;
+    float distance;
+    int i;
 
+    *out = self->triangle->vertices[0]->position;
+    *(unsigned int *)&out->values[3] = 0x3f000000;
+    __stvewx(__vmsum3fp(*direction, *out), &maximum, 0);
+    for (i = 1; i < 3; i++) {
+        __vector4 position = self->triangle->vertices[i]->position;
+        __stvewx(__vmsum3fp(*direction, position), &distance, 0);
+        if (distance > maximum) {
+            *out = position;
+            maximum = distance;
+            *(unsigned int *)&out->values[3] = i | 0x3f000000;
+        }
+    }
+}

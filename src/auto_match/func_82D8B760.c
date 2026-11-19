@@ -1,99 +1,114 @@
-extern unsigned int *auStack_40;
-extern unsigned int fStack_28;
-extern unsigned int fStack_2c;
-extern unsigned int fStack_30;
-extern int fn_82CE4040();
-extern int fn_82CE4118();
-extern int fn_82D80C18();
-extern int fn_82D80C30();
-extern int fn_82D80C48();
-extern int fn_82D899D8();
-extern int fn_82D8B400();
-extern int fn_82D91018();
-extern int fn_82D912B0();
-extern int fn_82DACD78();
-extern int fn_82DAD980();
-extern unsigned int iStack_3c;
-extern unsigned int lbl_8200133C;
-extern unsigned int lbl_82002C2C;
-extern unsigned int lbl_82002C5C;
-extern unsigned int lbl_82134508;
-extern unsigned int lbl_82186E6C;
-extern unsigned int lbl_821AAD20;
-extern unsigned int uStack_38;
+typedef struct World_82D8B760 {
+    char pad0[0x8c];
+    int pendingOperations;        /* 0x8c */
+    int pendingBodyOperations;    /* 0x90 */
+    int criticalOperationsLocked; /* 0x94 */
+    int pad98;                    /* 0x98 */
+    unsigned char blockExecution; /* 0x9c */
+    char pad9d[0xa4 - 0x9d];
+    int simulationType; /* 0xa4 */
+} World_82D8B760;
 
+typedef struct Entity_82D8B760 {
+    void *vtable;          /* 0x00 */
+    int pad4;              /* 0x04 */
+    World_82D8B760 *world; /* 0x08 */
+    int userData;          /* 0x0c */
+    void *shape;           /* 0x10 */
+    char pad14[0x5c - 0x14];
+    float allowedPenetrationDepth; /* 0x5c */
+} Entity_82D8B760;
 
-unsigned __int64 fn_82D8B760(int param_1,unsigned __int64 param_2)
+typedef struct Operation_82D8B760 {
+    unsigned char type;      /* 0x0 */
+    Entity_82D8B760 *entity; /* 0x4 */
+    void *shape;             /* 0x8 */
+} Operation_82D8B760;
 
+typedef struct Extents_82D8B760 {
+    float x;
+    float y;
+    float z;
+    float w;
+} Extents_82D8B760;
+
+extern void fn_82CE4040(void *object);
+extern void fn_82CE4118(void *object);
+extern void fn_82D80C18(World_82D8B760 *world);
+extern void fn_82D80C30(World_82D8B760 *world);
+extern void fn_82D80C48(World_82D8B760 *world, Operation_82D8B760 *operation);
+extern void fn_82D899D8(Entity_82D8B760 *entity, World_82D8B760 *world, void *shape);
+extern void fn_82D8B400(Entity_82D8B760 *entity, void *shape, Extents_82D8B760 *extents);
+extern void fn_82D91018(World_82D8B760 *world, Entity_82D8B760 *entity);
+extern void fn_82D912B0(World_82D8B760 *world, Entity_82D8B760 *entity);
+extern void fn_82DACD78(Entity_82D8B760 *entity);
+extern void fn_82DAD980(World_82D8B760 *world, Entity_82D8B760 *entity);
+
+static __forceinline float Min2(float a, float b)
 {
-  int iVar1;
-  float fVar2;
-  __int64 lVar3;
-  unsigned char auStack_40 [4];
-  int iStack_3c;
-  unsigned int uStack_38;
-  float fStack_30;
-  float fStack_2c;
-  float fStack_28;
-  
-  iVar1 = *(int *)(param_1 + 8);
-  uStack_38 = (unsigned int)param_2;
-  if (iVar1 != 0) {
-    if (*(int *)(iVar1 + 0x94) != 0) {
-      auStack_40[0] = 5;
-      iStack_3c = param_1;
-      fn_82D80C48(iVar1,auStack_40);
-      return 0;
-    }
-    if (iVar1 != 0) {
-      *(int *)(iVar1 + 0x94) = *(int *)(iVar1 + 0x94) + 1;
-      fn_82D912B0(*(unsigned int *)(param_1 + 8),param_1);
-    }
-  }
-  iVar1 = *(int *)(param_1 + 0x10);
-  *(unsigned int *)(param_1 + 0x10) = uStack_38;
-  fn_82CE4040(param_2);
-  if (iVar1 != 0) {
-    fn_82CE4118(iVar1);
-  }
-  fn_82D8B400(param_1,param_2,&fStack_30);
-  if ((iVar1 != 0) && (*(float *)(param_1 + 0x5c) != lbl_82134508)) {
-    *(unsigned int *)(param_1 + 0x5c) = lbl_8200133C;
-  }
-  if (*(float *)(param_1 + 0x5c) <= lbl_821AAD20) {
-    if (fStack_30 - fStack_2c < 0.0) {
-      fStack_2c = fStack_30;
-    }
-    if (fStack_2c - fStack_28 < 0.0) {
-      fStack_28 = fStack_2c;
-    }
-    fVar2 = lbl_82186E6C;
-    if (fStack_28 < lbl_82002C5C) {
-      fVar2 = fStack_28 * lbl_82002C2C;
-    }
-    *(float *)(param_1 + 0x5c) = fVar2;
-  }
-  if (*(int *)(param_1 + 8) != 0) {
-    fn_82D899D8(param_1,*(int *)(param_1 + 8),param_2);
-  }
-  if (*(int *)(param_1 + 8) != 0) {
-    fn_82DAD980(*(int *)(param_1 + 8),param_1);
-  }
-  fn_82DACD78(param_1);
-  if (*(int *)(param_1 + 8) != 0) {
-    fn_82D91018(*(int *)(param_1 + 8),param_1);
-    iVar1 = *(int *)(param_1 + 8);
-    lVar3 = (unsigned __int64)*(unsigned int *)(iVar1 + 0x94) - 1;
-    *(int *)(iVar1 + 0x94) = (int)lVar3;
-    if ((lVar3 == 0) && (*(char *)(iVar1 + 0x9c) == '\0')) {
-      if (*(int *)(iVar1 + 0x8c) != 0) {
-        fn_82D80C18(iVar1);
-      }
-      if ((*(int *)(iVar1 + 0xa4) == 1) && (*(int *)(iVar1 + 0x90) != 0)) {
-        fn_82D80C30(iVar1);
-      }
-    }
-  }
-  return 1;
+    return a - b >= 0.0f ? b : a;
 }
 
+static __forceinline void LockCriticalOperations(Entity_82D8B760 *entity)
+{
+    if (entity->world != 0) {
+        entity->world->criticalOperationsLocked++;
+        fn_82D912B0(entity->world, entity);
+    }
+}
+
+int fn_82D8B760(Entity_82D8B760 *entity, void *shape)
+{
+    World_82D8B760 *world = entity->world;
+    void *oldShape;
+    Extents_82D8B760 extents;
+    float extent;
+
+    if (world != 0 && world->criticalOperationsLocked != 0) {
+        Operation_82D8B760 operation;
+        operation.type = 5;
+        operation.entity = entity;
+        operation.shape = shape;
+        fn_82D80C48(world, &operation);
+        return 0;
+    }
+    LockCriticalOperations(entity);
+    oldShape = entity->shape;
+    entity->shape = shape;
+    fn_82CE4040(shape);
+    if (oldShape != 0) {
+        fn_82CE4118(oldShape);
+    }
+    fn_82D8B400(entity, shape, &extents);
+    if (oldShape != 0 && entity->allowedPenetrationDepth != 3.40282e38f) {
+        entity->allowedPenetrationDepth = -1.0f;
+    }
+    if (entity->allowedPenetrationDepth <= 0.0f) {
+        extent = Min2(Min2(extents.x, extents.y), extents.z);
+        if (extent < 0.5f) {
+            entity->allowedPenetrationDepth = extent * 0.2f;
+        } else {
+            entity->allowedPenetrationDepth = 0.1f;
+        }
+    }
+    if (entity->world != 0) {
+        fn_82D899D8(entity, entity->world, shape);
+    }
+    if (entity->world != 0) {
+        fn_82DAD980(entity->world, entity);
+    }
+    fn_82DACD78(entity);
+    if (entity->world != 0) {
+        fn_82D91018(entity->world, entity);
+        world = entity->world;
+        if (--world->criticalOperationsLocked == 0 && !world->blockExecution) {
+            if (world->pendingOperations != 0) {
+                fn_82D80C18(world);
+            }
+            if (world->simulationType == 1 && world->pendingBodyOperations != 0) {
+                fn_82D80C30(world);
+            }
+        }
+    }
+    return 1;
+}

@@ -1,72 +1,88 @@
-#define true 1
-extern unsigned int *auStack_34;
-extern unsigned int fStack_20;
-extern unsigned int fStack_24;
-extern unsigned int fStack_28;
-extern int fn_824973B0();
-extern int fn_8254EEB8();
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int uStack_2c;
+typedef struct Settings_824970C8 {
+    int id;       // 0x0
+    int sound;    // 0x4
+    float volume; // 0x8
+    float pitch;  // 0xc
+    float pan;    // 0x10
+} Settings_824970C8;
 
+typedef struct Value_824970C8 {
+    int field0;                 // 0x0
+    int field4;                 // 0x4
+    int sound;                  // 0x8
+    Settings_824970C8 settings; // 0xc
+    int enabled;                // 0x20
+} Value_824970C8;
 
-void fn_824970C8(int param_1,int param_2)
+typedef struct Node_824970C8 {
+    struct Node_824970C8 *next; // 0x0
+    struct Node_824970C8 *prev; // 0x4
+    int key;                    // 0x8
+    Value_824970C8 value;       // 0xc
+} Node_824970C8;
 
+typedef struct Bucket_824970C8 {
+    Node_824970C8 *first; // 0x0
+    Node_824970C8 *last;  // 0x4
+} Bucket_824970C8;
+
+typedef struct Map_824970C8 {
+    int pad0;
+    Node_824970C8 *end; // 0x4
+    char pad8[8];
+    Bucket_824970C8 *vec; // 0x10
+} Map_824970C8;
+
+typedef struct Player_824970C8 {
+    int pad0;
+    void *voice; // 0x4
+} Player_824970C8;
+
+typedef struct Object_824970C8 {
+    char pad0[0x28];
+    Map_824970C8 sounds; // 0x28
+    char pad3c[0x18];
+    Player_824970C8 *player; // 0x54
+    int started;             // 0x58
+} Object_824970C8;
+
+extern unsigned int fn_824973B0(Map_824970C8 *map, int *key);
+extern void fn_8254EEB8(Player_824970C8 *player, int sound, float volume, float pitch, float pan);
+
+static __forceinline Node_824970C8 *Find(Map_824970C8 *map, int key)
 {
-  int iVar1;
-  int *piVar2;
-  int iVar3;
-  int iVar4;
-  unsigned int *puVar5;
-  int *piVar6;
-  unsigned int *puVar7;
-  int *piVar8;
-  __int64 lVar9;
-  int aiStack_40 [3];
-  unsigned int auStack_34 [2];
-  unsigned int uStack_2c;
-  float fStack_28;
-  float fStack_24;
-  float fStack_20;
-  
-  aiStack_40[0] = param_2;
-  iVar3 = fn_824973B0(param_1 + 0x28,aiStack_40);
-  iVar1 = *(int *)(param_1 + 0x2c);
-  piVar6 = (int *)(iVar3 * 8 + *(int *)(param_1 + 0x38));
-  iVar3 = *piVar6;
-  piVar2 = (int *)iVar3;
-  while( true ) {
-    iVar4 = iVar1;
-    if (iVar3 != iVar1) {
-      iVar4 = *(int *)piVar6[1];
+    Bucket_824970C8 *bucket = &map->vec[fn_824973B0(map, &key)];
+    Node_824970C8 *end = map->end;
+    Node_824970C8 *first = bucket->first;
+    Node_824970C8 *node;
+
+    for (node = first; node != (first == end ? end : bucket->last->next); node = node->next) {
+        if (node->key == key) {
+            return node;
+        }
     }
-    piVar8 = (int *)iVar1;
-    if ((piVar2 == (int *)iVar4) || (piVar8 = piVar2, piVar2[2] == param_2)) break;
-    piVar2 = (int *)*piVar2;
-  }
-  if (piVar8 != (int *)*(int *)(param_1 + 0x2c)) {
-    if (*(int *)(param_1 + 0x58) == 0) {
-      if (*(int *)(*(int *)(param_1 + 0x54) + 4) != 0) {
-        fn_8254EEB8((double)ltcg_pool_0_0f,(double)ltcg_pool_0_0f,*(int *)(param_1 + 0x54),
-                          *(unsigned int *)((int)piVar8 + 0x14));
-      }
-      *(unsigned int *)(param_1 + 0x58) = 1;
-    }
-    else {
-      puVar7 = auStack_34;
-      puVar5 = (unsigned int *)((int)piVar8 + 0x14);
-      lVar9 = 5;
-      do {
-        puVar5 = puVar5 + 1;
-        puVar7 = puVar7 + 1;
-        *puVar7 = *puVar5;
-        lVar9 = lVar9 + -1;
-      } while (lVar9 != 0);
-      if ((*(int *)((int)piVar8 + 0x2c) != 0) && (*(int *)(*(int *)(param_1 + 0x54) + 4) != 0)) {
-        fn_8254EEB8((double)fStack_28,(double)fStack_24,(double)fStack_20,
-                          *(int *)(param_1 + 0x54),uStack_2c);
-      }
-    }
-  }
-  return;
+    return end;
 }
 
+void fn_824970C8(Object_824970C8 *self, int key)
+{
+    Node_824970C8 *node;
+    Value_824970C8 *value;
+    Settings_824970C8 settings;
+
+    node = Find(&self->sounds, key);
+    if (node != self->sounds.end) {
+        value = &node->value;
+        if (self->started == 0) {
+            if (self->player->voice != 0) {
+                fn_8254EEB8(self->player, value->sound, 0.0f, 0.0f, 0.0f);
+            }
+            self->started = 1;
+        } else {
+            settings = value->settings;
+            if (value->enabled != 0 && self->player->voice != 0) {
+                fn_8254EEB8(self->player, settings.sound, settings.volume, settings.pitch, settings.pan);
+            }
+        }
+    }
+}

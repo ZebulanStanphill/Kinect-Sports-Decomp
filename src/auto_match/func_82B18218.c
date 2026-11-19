@@ -1,74 +1,109 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_82AC64B8();
-extern int fn_82AD20C0();
-extern int fn_82B41D68();
-extern int fn_82B44B88();
-extern int fn_82B8F208();
-extern unsigned int uStack_58;
-extern unsigned int uStack_5c;
-extern unsigned int uStack_60;
-extern unsigned int uStack_68;
+typedef struct Use_82B18218 {
+    void *value;               /* 0x0 */
+    struct Use_82B18218 *next; /* 0x4 */
+} Use_82B18218;
 
+typedef struct Instr_82B18218 {
+    Use_82B18218 *uses; /* 0x00 */
+    unsigned char pad04[4];
+    unsigned pad08_hi : 18; /* 0x08 */
+    unsigned opcode : 7;
+    unsigned pad08_lo : 7;
+    unsigned char pad0c[0x1c];
+    unsigned int next; /* 0x28: tagged link, bit 0 set = end of list */
+} Instr_82B18218;
 
-void fn_82B18218(unsigned __int64 param_1,int param_2,char *param_3)
+typedef struct Block_82B18218 {
+    unsigned char pad00[8];
+    void *function; /* 0x08 */
+    unsigned char pad0c[8];
+    unsigned int instrs; /* 0x14: tagged link to the first instruction */
+} Block_82B18218;
 
+typedef struct Iterator_82B18218 {
+    Block_82B18218 *block; /* 0x00 */
+    int pad04;
+    int position; /* 0x08 */
+    int pad0c;
+    int current;        /* 0x10 */
+    int end;            /* 0x14 */
+    unsigned char done; /* 0x18 */
+} Iterator_82B18218;
+
+extern void fn_82B44B88(void *compiler);
+extern void fn_82B8F208(Iterator_82B18218 *iterator, void *function);
+extern Instr_82B18218 *fn_82AC64B8(Iterator_82B18218 *iterator);
+extern Use_82B18218 *fn_82B41D68(void *compiler, Instr_82B18218 *instr, Instr_82B18218 *user, int a, int b);
+extern void fn_82AD20C0(Instr_82B18218 *instr, Use_82B18218 *use, void *compiler);
+
+static __forceinline Instr_82B18218 *FirstInstr(Block_82B18218 *block)
 {
-  int *piVar1;
-  int iVar2;
-  bool bVar3;
-  unsigned __int64 uVar4;
-  int iVar5;
-  int *piVar6;
-  int aiStack_70 [2];
-  unsigned int uStack_68;
-  unsigned int uStack_60;
-  unsigned int uStack_5c;
-  unsigned char uStack_58;
-  
-  piVar1 = *(int **)(param_2 + 0x14);
-  do {
-    if ((((unsigned int)piVar1 & 1) != 0) || (piVar1 == (int *)0x0)) {
-      return;
+    if (block->instrs & 1) {
+        return 0;
     }
-    if ((piVar1[2] & 0x3f80U) == 0x3800) {
-      if ((*piVar1 == 0) || (bVar3 = true, *(int *)(*piVar1 + 4) == 0)) {
-        bVar3 = false;
-      }
-      if (bVar3) {
-        piVar6 = piVar1;
-        if (*param_3 != '\0') {
-          fn_82B44B88(param_1);
-          *param_3 = '\0';
-        }
-        while (iVar2 = *piVar6, iVar2 != 0) {
-          uStack_68 = 0;
-          uStack_60 = 0;
-          uStack_5c = 0;
-          uStack_58 = 0;
-          aiStack_70[0] = param_2;
-          fn_82B8F208(aiStack_70,*(unsigned int *)(param_2 + 8));
-          uVar4 = fn_82AC64B8(aiStack_70);
-          if (uVar4 == 0) {
-LAB_82b18314:
-            fn_82AD20C0(piVar1,iVar2,param_1);
-          }
-          else {
-            do {
-              iVar5 = fn_82B41D68(param_1,piVar1,uVar4,0,1);
-              if (iVar5 == iVar2) break;
-              uVar4 = fn_82AC64B8(aiStack_70);
-            } while (uVar4 != 0);
-            if ((uVar4 & 0xffffffff) == 0) goto LAB_82b18314;
-          }
-          if (*piVar6 == iVar2) {
-            piVar6 = (int *)(iVar2 + 4);
-          }
-        }
-      }
-    }
-    piVar1 = *(int **)(((unsigned int)piVar1 & 0xfffffffe) + 0x28);
-  } while( true );
+    return (Instr_82B18218 *)block->instrs;
 }
 
+static __forceinline Instr_82B18218 *NextInstr(Instr_82B18218 *instr)
+{
+    Instr_82B18218 *node = (Instr_82B18218 *)((unsigned int)instr & ~1u);
+
+    unsigned int next = node->next;
+
+    if (next & 1) {
+        return 0;
+    }
+    return (Instr_82B18218 *)next;
+}
+
+static __forceinline int NotNull(Use_82B18218 *use)
+{
+    if (use) {
+        return 1;
+    }
+    return 0;
+}
+
+static __forceinline unsigned char HasUses(Instr_82B18218 *instr)
+{
+    return instr->uses != 0 && instr->uses->next != 0;
+}
+
+void fn_82B18218(void *compiler, Block_82B18218 *block, unsigned char *dirty)
+{
+    Instr_82B18218 *instr;
+    Instr_82B18218 *user;
+    Use_82B18218 **link;
+    Use_82B18218 *use;
+    Iterator_82B18218 iterator;
+
+    for (instr = FirstInstr(block); instr != 0; instr = NextInstr(instr)) {
+        if (instr->opcode != 0x70 || !HasUses(instr)) {
+            continue;
+        }
+        if (*dirty != 0) {
+            fn_82B44B88(compiler);
+            *dirty = 0;
+        }
+        link = &instr->uses;
+        while (NotNull(use = *link)) {
+            iterator.block = block;
+            iterator.position = 0;
+            iterator.current = 0;
+            iterator.end = 0;
+            iterator.done = 0;
+            fn_82B8F208(&iterator, block->function);
+            for (user = fn_82AC64B8(&iterator); user != 0; user = fn_82AC64B8(&iterator)) {
+                if (fn_82B41D68(compiler, instr, user, 0, 1) == use) {
+                    break;
+                }
+            }
+            if (user == 0) {
+                fn_82AD20C0(instr, use, compiler);
+            }
+            if (*link == use) {
+                link = &use->next;
+            }
+        }
+    }
+}

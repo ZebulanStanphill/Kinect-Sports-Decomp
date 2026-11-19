@@ -1,39 +1,28 @@
-extern int fn_82FA5060();
-extern unsigned int lbl_82005758;
-extern unsigned int lbl_831BC768;
+typedef struct Table_8302A490 {
+    int f0;
+    float *values;           /* 0x04 */
+    float (*func)(double x); /* 0x08 */
+    float max;               /* 0x0c */
+    float min;               /* 0x10 */
+    unsigned int count;      /* 0x14 */
+    float scale;             /* 0x18 */
+} Table_8302A490;
 
+extern void *lbl_831BC768;
+void *fn_82FA5060(void *heap, unsigned int size);
 
-unsigned __int64 fn_8302A490(int param_1)
-
+int fn_8302A490(Table_8302A490 *self)
 {
-  int iVar2;
-  unsigned __int64 uVar1;
-  unsigned int uVar3;
-  double dVar4;
-  double dVar5;
-  
-  dVar5 = (double)(*(float *)(param_1 + 0xc) - *(float *)(param_1 + 0x10)) /
-          (double)(*(int *)(param_1 + 0x14) - 1);
-  *(float *)(param_1 + 0x18) = (float)(lbl_82005758 / dVar5);
-  iVar2 = fn_82FA5060(lbl_831BC768,*(int *)(param_1 + 0x14) << 2);
-  *(int *)(param_1 + 4) = iVar2;
-  if (iVar2 == 0) {
-    uVar1 = 2;
-  }
-  else {
-    uVar3 = 0;
-    if (*(int *)(param_1 + 0x14) != 0) {
-      iVar2 = 0;
-      do {
-        dVar4 = (double)(**(int (***)())(param_1 + 8))
-                                  ((double)uVar3 * dVar5 + (double)*(float *)(param_1 + 0x10));
-        uVar3 = uVar3 + 1;
-        *(float *)(*(int *)(param_1 + 4) + iVar2) = (float)dVar4;
-        iVar2 = iVar2 + 4;
-      } while (uVar3 < *(unsigned int *)(param_1 + 0x14));
-    }
-    uVar1 = 1;
-  }
-  return uVar1;
-}
+    double step = (self->max - self->min) / (double)(self->count - 1);
+    unsigned int i;
 
+    self->scale = (float)(1.0 / step);
+    self->values = (float *)fn_82FA5060(lbl_831BC768, self->count * 4);
+    if (self->values != 0) {
+        for (i = 0; i < self->count; i++) {
+            self->values[i] = self->func(i * step + self->min);
+        }
+        return 1;
+    }
+    return 2;
+}

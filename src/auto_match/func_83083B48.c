@@ -1,77 +1,88 @@
-extern int fn_82CE5410();
-extern int fn_82CE6310();
-extern int fn_83083970();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Aabb_83083B48 {
+    __vector4 min; /* 0x00 */
+    __vector4 max; /* 0x10 */
+} Aabb_83083B48;
 
-void fn_83083B48(int param_1,unsigned int *param_2,unsigned __int64 param_3,unsigned __int64 param_4)
+typedef struct Array_83083B48 {
+    void *data;             /* 0x00 */
+    int size;               /* 0x04 */
+    unsigned int flags : 2; /* 0x08 */
+    unsigned int capacity : 30;
+} Array_83083B48;
 
+typedef struct Header_83083B48 {
+    int count;              /* 0x00 */
+    unsigned char divisor;  /* 0x04 */
+    unsigned char extended; /* 0x05 */
+    char pad6[0xA];
+    Aabb_83083B48 aabb; /* 0x10 */
+} Header_83083B48;
+
+typedef struct Builder_83083B48 {
+    Array_83083B48 nodes; /* 0x00 */
+    int current;          /* 0x0C */
+    int count;            /* 0x10 */
+    int doubled;          /* 0x14 */
+    int quotient;         /* 0x18 */
+    Array_83083B48 items; /* 0x1C */
+    int pad28;            /* 0x28 */
+    int pad2c;            /* 0x2C */
+    Aabb_83083B48 aabb;   /* 0x30 */
+} Builder_83083B48;
+
+typedef struct Allocator_83083B48 {
+    char pad0[0x10];
+    void *heap; /* 0x10 */
+} Allocator_83083B48;
+
+static __forceinline void CopyAabb_83083B48(Aabb_83083B48 *dst, const Aabb_83083B48 *src)
 {
-  unsigned char bVar1;
-  unsigned int uVar2;
-  unsigned int *puVar3;
-  unsigned int *puVar4;
-  int in_r0;
-  int iVar5;
-  unsigned int uVar6;
-  unsigned __int64 uVar7;
-  __int64 lVar8;
-  unsigned __int64 uVar9;
-  __int64 lVar10;
-  unsigned int uVar11;
-  unsigned int uVar12;
-  unsigned int uVar13;
-  
-  *(unsigned int *)(param_1 + 0xc) = 0xffffffff;
-  puVar3 = (unsigned int *)((int)param_2 + in_r0 + 0x10 & 0xfffffff0);
-  uVar11 = puVar3[1];
-  uVar12 = puVar3[2];
-  uVar13 = puVar3[3];
-  puVar4 = (unsigned int *)(in_r0 + param_1 + 0x30 & 0xfffffff0);
-  *puVar4 = *puVar3;
-  puVar4[1] = uVar11;
-  puVar4[2] = uVar12;
-  puVar4[3] = uVar13;
-  puVar3 = (unsigned int *)((unsigned int)(param_2 + 8) & 0xfffffff0);
-  uVar11 = puVar3[1];
-  uVar12 = puVar3[2];
-  uVar13 = puVar3[3];
-  puVar4 = (unsigned int *)(param_1 + 0x40U & 0xfffffff0);
-  *puVar4 = *puVar3;
-  puVar4[1] = uVar11;
-  puVar4[2] = uVar12;
-  puVar4[3] = uVar13;
-  uVar7 = (unsigned __int64)*(unsigned char *)((int)param_2 + 5);
-  uVar9 = (unsigned __int64)*param_2;
-  if (uVar7 != 0) {
-    uVar9 = uVar9 + 4;
-  }
-  lVar8 = (uVar9 & 0x7fffffff) * 2;
-  *(int *)(param_1 + 0x14) = (int)lVar8;
-  bVar1 = *(unsigned char *)(param_2 + 1);
-  if (bVar1 == 0) {
-    lVar10 = 0;
-  }
-  else {
-    uVar2 = *param_2;
-    trapWord(6,(unsigned __int64)bVar1,0);
-    lVar10 = (__int64)((int)uVar2 / (int)(unsigned int)bVar1);
-    uVar7 = (unsigned __int64)bVar1 &
-            ~((((unsigned __int64)uVar2 & 0x7fffffff) << 1 | (unsigned __int64)(uVar2 >> 0x1f)) - 1);
-    trapWord(5,uVar7,0xffff);
-  }
-  *(int *)(param_1 + 0x18) = (int)lVar10;
-  fn_83083970(param_1,lVar8 + lVar10,param_3,param_4,uVar7);
-  uVar2 = *param_2;
-  *(unsigned int *)(param_1 + 0x10) = uVar2;
-  iVar5 = fn_82CE5410();
-  if ((int)(*(unsigned int *)(param_1 + 0x24) & 0x3fffffff) < (int)uVar2) {
-    uVar6 = (*(unsigned int *)(param_1 + 0x24) & 0x3fffffff) << 1;
-    if ((int)uVar6 <= (int)uVar2) {
-      uVar6 = uVar2;
-    }
-    fn_82CE6310(*(unsigned int *)(iVar5 + 0x10),param_1 + 0x1c,uVar6,0x10);
-  }
-  *(unsigned int *)(param_1 + 0x20) = uVar2;
-  return;
+    dst->min = src->min;
+    dst->max = src->max;
 }
 
+extern Allocator_83083B48 *fn_82CE5410(void);
+extern void fn_82CE6310(void *heap, Array_83083B48 *array, int capacity, int elementSize);
+extern void fn_83083970(Builder_83083B48 *self, int count);
+
+void fn_83083B48(Builder_83083B48 *self, Header_83083B48 *header)
+{
+    int count;
+    Array_83083B48 *items;
+    void *heap;
+    int capacity;
+    int divisor;
+    int quotient;
+
+    self->current = -1;
+    CopyAabb_83083B48(&self->aabb, &header->aabb);
+    count = header->count;
+    if (header->extended != 0) {
+        count += 4;
+    }
+    self->doubled = count * 2;
+    divisor = header->divisor;
+    if (divisor == 0) {
+        quotient = 0;
+    } else {
+        quotient = header->count / divisor;
+    }
+    self->quotient = quotient;
+    fn_83083970(self, self->doubled + quotient);
+    items = &self->items;
+    count = header->count;
+    self->count = count;
+    heap = fn_82CE5410()->heap;
+    if ((int)items->capacity < count) {
+        capacity = items->capacity * 2;
+        if (count >= capacity) {
+            capacity = count;
+        }
+        fn_82CE6310(heap, items, capacity, 0x10);
+    }
+    items->size = count;
+}

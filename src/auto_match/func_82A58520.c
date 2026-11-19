@@ -1,37 +1,25 @@
-extern int fn_82A751F8();
+extern int fn_82A751F8(unsigned int width, unsigned int format, unsigned int a, int b);
 
-
-unsigned __int64 fn_82A58520(unsigned __int64 param_1,int param_2,unsigned __int64 param_3,int param_4,
-                       unsigned __int64 param_5,unsigned __int64 param_6)
-
+/* Number of bytes per block row for an audio format; the 44.1 kHz stereo 32000-byte case is trimmed so the
+   rounded-up block stays below 32000 bytes. */
+unsigned short fn_82A58520(unsigned int width, unsigned int height, unsigned int format, int depth,
+                           unsigned int a, int b)
 {
-  __int64 lVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  int iVar4;
-  unsigned __int64 uVar5;
-  
-  if ((param_3 & 0xffffffff) == 0x80) {
-    uVar3 = 1;
-  }
-  else {
-    iVar4 = fn_82A751F8(param_1,param_3,param_5,param_6);
-    uVar2 = (__int64)iVar4 * (__int64)param_4 & 0xffffffff;
-    uVar3 = (((__int64)((param_3 & 0xffffffff) * uVar2 + (param_1 & 0xffffffff) + -1) /
-              (__int64)(param_1 & 0xffffffff) & 0xffffffffU) + 7 & 0xffffffff) >> 3;
-    if (((((param_5 & 0xffffffff) == 2) && ((param_1 & 0xffffffff) == 0xac44)) && (param_2 == 2)) &&
-       ((param_3 & 0xffffffff) == 32000)) {
-      uVar5 = uVar3 * 8;
-      lVar1 = uVar3 * 0x56220;
-      while (31999 < (((__int64)(lVar1 + uVar2 + -1) / (__int64)uVar2 & 0xffffffffU) + 7 &
-                     0xfffffff8)) {
-        uVar5 = uVar5 - 8;
-        uVar3 = uVar3 - 1;
-        lVar1 = (uVar5 & 0xffffffff) * 0xac44;
-      }
-    }
-    uVar3 = uVar3 & 0xffff;
-  }
-  return uVar3;
-}
+    __int64 blockSize;
+    unsigned int blocks;
+    unsigned int bits;
 
+    if (format == 0x80) {
+        return 1;
+    }
+    blockSize = (unsigned int)(fn_82A751F8(width, format, a, b) * depth);
+    blocks = ((unsigned int)(((__int64)format * blockSize + width - 1) / width) + 7) >> 3;
+    if (a == 2 && width == 44100 && height == 2 && format == 32000) {
+        bits = blocks * 8;
+        while ((((unsigned int)(((__int64)bits * width + blockSize - 1) / blockSize) + 7) & ~7) >= 32000) {
+            bits -= 8;
+            blocks--;
+        }
+    }
+    return (unsigned short)blocks;
+}

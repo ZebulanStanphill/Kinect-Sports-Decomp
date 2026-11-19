@@ -1,53 +1,57 @@
-extern unsigned int lbl_8201DD70;
-extern unsigned int lbl_8201DD74;
-extern unsigned int lbl_8201DF1C;
-extern unsigned int lbl_8201DF20;
-extern unsigned int lbl_8201DF24;
-extern unsigned int lbl_8201DF28;
-extern unsigned int lbl_8201DF2C;
-extern unsigned int lbl_8201DF30;
-extern unsigned int lbl_8201DF34;
-extern unsigned int lbl_821AAD20;
+/* atan2(y, x) with a polynomial approximation of atan on [0, 1]. */
+double fabs(double x);
 
+extern const float lbl_8201DD70; /* pi / 2 */
+extern const float lbl_8201DF1C;
+extern const float lbl_8201DF20;
+extern const float lbl_8201DF28;
+extern const float lbl_8201DF2C;
+extern const float lbl_8201DF30;
+extern const float lbl_8201DF34;
 
-double fn_82809D40(double param_1,double param_2)
-
+float fn_82809D40(float y, float x)
 {
-  float fVar1;
-  float fVar2;
-  double dVar3;
-  double dVar4;
-  double dVar5;
-  
-  dVar4 = (double)lbl_821AAD20;
-  if ((param_1 == dVar4) && (param_2 == dVar4)) {
-    return dVar4;
-  }
-  dVar3 = ABS(param_1);
-  dVar5 = ABS(param_2);
-  if (dVar5 <= dVar3) {
-    fVar1 = (float)(dVar5 / dVar3);
-    fVar2 = fVar1 * fVar1;
-    dVar3 = -(double)(((((((fVar2 * lbl_8201DF24 - lbl_8201DF34) * fVar2 + lbl_8201DF30) * fVar2 -
-                         lbl_8201DF2C) * fVar2 + lbl_8201DF28) * fVar2 - lbl_8201DF20) * fVar2 +
-                      lbl_8201DF1C) * fVar1 - lbl_8201DD70);
-  }
-  else {
-    fVar1 = (float)(dVar3 / dVar5);
-    fVar2 = fVar1 * fVar1;
-    dVar3 = (double)(((((((fVar2 * lbl_8201DF24 - lbl_8201DF34) * fVar2 + lbl_8201DF30) * fVar2 -
-                        lbl_8201DF2C) * fVar2 + lbl_8201DF28) * fVar2 - lbl_8201DF20) * fVar2 +
-                     lbl_8201DF1C) * fVar1);
-  }
-  if (param_2 < dVar4) {
-    if (param_1 < dVar4) {
-      return (double)(float)(dVar3 - (double)lbl_8201DD74);
-    }
-    return (double)(float)((double)lbl_8201DD74 - dVar3);
-  }
-  if (param_1 < dVar4) {
-    return -dVar3;
-  }
-  return dVar3;
-}
+    float ay;
+    float ax;
+    float a;
+    float a2;
+    float result;
 
+    if (y == 0.0f && x == 0.0f) {
+        return 0.0f;
+    }
+    ay = (float)fabs(y);
+    ax = (float)fabs(x);
+    if (ax > ay) {
+        a = ay / ax;
+        a2 = a * a;
+        result = ((((((a2 * 0.0066582896f - lbl_8201DF34) * a2 + lbl_8201DF30) * a2 - lbl_8201DF2C) * a2 +
+                    lbl_8201DF28) *
+                       a2 -
+                   lbl_8201DF20) *
+                      a2 +
+                  lbl_8201DF1C) *
+                 a;
+    } else {
+        a = ax / ay;
+        a2 = a * a;
+        result = lbl_8201DD70 -
+                 ((((((a2 * 0.0066582896f - lbl_8201DF34) * a2 + lbl_8201DF30) * a2 - lbl_8201DF2C) * a2 +
+                    lbl_8201DF28) *
+                       a2 -
+                   lbl_8201DF20) *
+                      a2 +
+                  lbl_8201DF1C) *
+                     a;
+    }
+    if (x < 0.0f) {
+        if (y < 0.0f) {
+            return result - 3.14159265f;
+        }
+        return 3.14159265f - result;
+    }
+    if (y < 0.0f) {
+        return -result;
+    }
+    return result;
+}
