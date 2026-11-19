@@ -1,27 +1,39 @@
-__int64 fn_82A236C8(__int64 param_1,int *param_2)
+typedef struct Entry_82A236C8 {
+    unsigned int slot : 8;    /* 0x0 */
+    unsigned int count : 8;   /* 0x1 */
+    unsigned int offset : 16; /* 0x2 */
+} Entry_82A236C8;
 
+typedef struct Block_82A236C8 {
+    char pad0[0x4];
+    unsigned short tableOffset; /* 0x4 */
+    unsigned short elementSize; /* 0x6 */
+    unsigned short entryCount;  /* 0x8 */
+    char padA[0x2];
+    unsigned short firstEntry; /* 0xc */
+} Block_82A236C8;
+
+char *fn_82A236C8(char *data, int *count)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  unsigned __int64 uVar3;
-  __int64 lVar4;
-  
-  uVar3 = 0;
-  lVar4 = (param_1 + -4) - (unsigned __int64)*(unsigned short *)((int)param_1 + -4);
-  iVar1 = (int)lVar4;
-  trapWord(6,(unsigned __int64)*(unsigned short *)(iVar1 + 6),0);
-  if ((unsigned __int64)*(unsigned short *)(iVar1 + 8) != 0) {
-    do {
-      if ((unsigned __int64)
-          *(unsigned char *)((int)((uVar3 - *(unsigned short *)(iVar1 + 0xc) & 0xffffffff) << 2) +
-                    (unsigned int)*(unsigned short *)(iVar1 + 4) + iVar1) ==
-          ((param_1 - lVar4) - 0x14U & 0xffffffff) / (unsigned __int64)*(unsigned short *)(iVar1 + 6)) break;
-      uVar3 = uVar3 + 1;
-    } while ((uVar3 & 0xffffffff) < (unsigned __int64)*(unsigned short *)(iVar1 + 8));
-  }
-  puVar2 = (unsigned int *)((int)((uVar3 - *(unsigned short *)(iVar1 + 0xc) & 0xffffffff) << 2) +
-                    (unsigned int)*(unsigned short *)(iVar1 + 4) + iVar1);
-  *param_2 = *(unsigned char *)((int)puVar2 + 1) - 1;
-  return ((unsigned __int64)*puVar2 & 0xffff) + lVar4 + 1;
-}
+    unsigned int i;
+    unsigned int slot;
+    unsigned int entries;
+    char *tag;
+    Block_82A236C8 *block;
+    Entry_82A236C8 *entry;
 
+    i = 0;
+    tag = data - 4;
+    block = (Block_82A236C8 *)(tag - *(unsigned short *)tag);
+    entries = block->entryCount;
+    slot = (unsigned int)(data - (char *)block - 0x14) / block->elementSize;
+    for (; i < entries; i++) {
+        entry = (Entry_82A236C8 *)((char *)block + block->tableOffset + (i - block->firstEntry) * 4);
+        if (entry->slot == slot) {
+            break;
+        }
+    }
+    entry = (Entry_82A236C8 *)((char *)block + block->tableOffset + (i - block->firstEntry) * 4);
+    *count = entry->count - 1;
+    return (char *)block + entry->offset + 1;
+}

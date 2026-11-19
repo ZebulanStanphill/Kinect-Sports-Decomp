@@ -1,59 +1,76 @@
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-extern unsigned int *auStack_34;
-extern int fn_829E5CA0();
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
+#include <string.h>
 
+typedef struct Rect_829E5FB8 {
+    int left;   /* 0x00 */
+    int top;    /* 0x04 */
+    int right;  /* 0x08 */
+    int bottom; /* 0x0c */
+} Rect_829E5FB8;
 
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
+typedef struct Image_829E5FB8 {
+    int pad0;
+    int previousState;      /* 0x04 */
+    int state;              /* 0x08 */
+    Rect_829E5FB8 current;  /* 0x0c */
+    Rect_829E5FB8 previous; /* 0x1c */
+    int finished;           /* 0x2c */
+    unsigned int width;     /* 0x30 */
+    unsigned int height;    /* 0x34 */
+} Image_829E5FB8;
 
-unsigned __int64 fn_829E5FB8(int param_1,int *param_2)
+typedef struct Source_829E5FB8 Source_829E5FB8;
 
+typedef struct SourceVtbl_829E5FB8 {
+    int (*IsFinished)(Source_829E5FB8 *self, int *finished);
+    int (*GetRect)(Source_829E5FB8 *self, int *left, int *top, int *right, int *bottom);
+} SourceVtbl_829E5FB8;
+
+struct Source_829E5FB8 {
+    SourceVtbl_829E5FB8 *vt;
+};
+
+extern int fn_829E5CA0(Image_829E5FB8 *self, Rect_829E5FB8 rect);
+
+static __forceinline void CopyRect(Rect_829E5FB8 *destination, const Rect_829E5FB8 *source)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  int iVar3;
-  unsigned int uVar4;
-  int aiStack_50;
-  unsigned int uStack_40;
-  unsigned int uStack_3c;
-  unsigned int uStack_38;
-  unsigned int auStack_34 [5];
-  
-  iVar1 = *(int *)(param_1 + 8);
-  if (iVar1 == 1) {
-    *(unsigned int *)(param_1 + 0x1c) = *(unsigned int *)(param_1 + 0xc);
-    *(unsigned int *)(param_1 + 0x20) = *(unsigned int *)(param_1 + 0x10);
-    *(unsigned int *)(param_1 + 0x24) = *(unsigned int *)(param_1 + 0x14);
-    *(unsigned int *)(param_1 + 0x28) = *(unsigned int *)(param_1 + 0x18);
-  }
-  uVar2 = (**(int (***)())*param_2)(param_2,&aiStack_50);
-  if (-1 < (int)uVar2) {
-    uVar4 = 2;
-    if (aiStack_50 == 0) {
-      uVar2 = (**(int (***)())(*param_2 + 4))(param_2,&uStack_40,&uStack_3c,&uStack_38,auStack_34);
-      if ((int)uVar2 < 0) {
-        return uVar2;
-      }
-      iVar3 = fn_829E5CA0(param_1,CONCAT44(uStack_40,uStack_3c),CONCAT44(uStack_38,auStack_34[0]))
-      ;
-      if (iVar3 < 0) {
-        aiStack_50 = 1;
-      }
-      if (aiStack_50 == 0) {
-        uVar4 = 1;
-        *(unsigned int *)(param_1 + 0xc) = uStack_40;
-        *(unsigned int *)(param_1 + 0x10) = uStack_3c;
-        *(unsigned int *)(param_1 + 0x14) = uStack_38;
-        *(unsigned int *)(param_1 + 0x18) = auStack_34[0];
-      }
-    }
-    *(int *)(param_1 + 4) = iVar1;
-    uVar2 = 0;
-    *(unsigned int *)(param_1 + 8) = uVar4;
-    *(int *)(param_1 + 0x2c) = aiStack_50;
-  }
-  return uVar2;
+    memcpy(destination, source, sizeof(*destination));
 }
 
+int fn_829E5FB8(Image_829E5FB8 *self, Source_829E5FB8 *source)
+{
+    int state;
+    int newState;
+    int finished;
+    int done;
+    int hr;
+    Rect_829E5FB8 rect;
+
+    state = self->state;
+    if (state == 1) {
+        CopyRect(&self->previous, &self->current);
+    }
+    hr = source->vt->IsFinished(source, &finished);
+    if (hr < 0) {
+        return hr;
+    }
+    newState = 2;
+    if (finished == 0) {
+        hr = source->vt->GetRect(source, &rect.left, &rect.top, &rect.right, &rect.bottom);
+        if (hr < 0) {
+            return hr;
+        }
+        done = finished;
+        if (fn_829E5CA0(self, rect) < 0) {
+            done = 1;
+        }
+        finished = done;
+        if (done == 0) {
+            newState = 1;
+            CopyRect(&self->current, &rect);
+        }
+    }
+    self->previousState = state;
+    self->state = newState;
+    self->finished = finished;
+    return 0;
+}

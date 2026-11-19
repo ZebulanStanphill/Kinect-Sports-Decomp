@@ -1,79 +1,61 @@
-extern int fn_82CE5410();
-extern int fn_82CE6310();
+typedef struct IndexArray_82D07808 {
+    int *data;                     /* 0x00 */
+    int size;                      /* 0x04 */
+    unsigned int capacityAndFlags; /* 0x08 */
+} IndexArray_82D07808;
 
+typedef struct Memory_82D07808 {
+    char pad0[0x10];
+    int heap; /* 0x10 */
+} Memory_82D07808;
 
-void fn_82D07808(int param_1,__int64 param_2,int param_3,int *param_4)
+extern Memory_82D07808 *fn_82CE5410(void);
+extern int fn_82CE6310(int heap, IndexArray_82D07808 *array, int capacity, int elementSize);
 
+static __forceinline int *ExpandBy(IndexArray_82D07808 *array, int count)
 {
-  unsigned int uVar1;
-  __int64 lVar2;
-  int iVar3;
-  unsigned int *puVar4;
-  __int64 lVar5;
-  int iVar6;
-  int *piVar7;
-  int iVar8;
-  __int64 lVar9;
-  
-  iVar8 = (int)param_2;
-  if (param_1 == 3) {
-    iVar3 = fn_82CE5410();
-    uVar1 = param_4[1];
-    lVar5 = (unsigned __int64)uVar1 + param_2;
-    iVar6 = (int)lVar5;
-    if ((int)(param_4[2] & 0x3fffffffU) < iVar6) {
-      lVar9 = ((unsigned __int64)(unsigned int)param_4[2] & 0x3fffffff) << 1;
-      if (iVar6 < (int)lVar9) {
-        lVar5 = lVar9;
-      }
-      fn_82CE6310(*(unsigned int *)(iVar3 + 0x10),param_4,lVar5,4);
+    int heap = fn_82CE5410()->heap;
+    int *sizeField = &array->size;
+    int size = *sizeField;
+    int newSize = size + count;
+    int capacity = array->capacityAndFlags & 0x3fffffff;
+    int *result;
+
+    if (capacity < newSize) {
+        int doubled = capacity * 2;
+        fn_82CE6310(heap, array, newSize < doubled ? doubled : newSize, 4);
     }
-    iVar3 = 0;
-    param_4[1] = param_4[1] + iVar8;
-    if (0 < iVar8) {
-      puVar4 = (unsigned int *)(uVar1 * 4 + *param_4 + -4);
-      do {
-        uVar1 = iVar3 + param_3;
-        iVar3 = iVar3 + 1;
-        puVar4 = puVar4 + 1;
-        *puVar4 = uVar1 & 0xffff;
-        param_2 = param_2 + -1;
-      } while (param_2 != 0);
-    }
-  }
-  else if (param_1 == 4) {
-    lVar9 = (param_2 - 2U) + (param_2 - 2U & 0x7fffffff) * 2;
-    iVar3 = fn_82CE5410();
-    uVar1 = param_4[1];
-    lVar5 = (unsigned __int64)uVar1 + lVar9;
-    iVar6 = (int)lVar5;
-    if ((int)(param_4[2] & 0x3fffffffU) < iVar6) {
-      lVar2 = ((unsigned __int64)(unsigned int)param_4[2] & 0x3fffffff) << 1;
-      if (iVar6 < (int)lVar2) {
-        lVar5 = lVar2;
-      }
-      fn_82CE6310(*(unsigned int *)(iVar3 + 0x10),param_4,lVar5,4);
-    }
-    piVar7 = (int *)(uVar1 * 4 + *param_4);
-    param_4[1] = param_4[1] + (int)lVar9;
-    if (2 < iVar8) {
-      iVar3 = param_3 + 1;
-      do {
-        *piVar7 = iVar3 + -1;
-        iVar6 = iVar3 + 1;
-        if (((1 - param_3) + iVar3 & 1U) == 0) {
-          piVar7[1] = iVar3;
-          piVar7[2] = iVar6;
-        }
-        else {
-          piVar7[1] = iVar6;
-          piVar7[2] = iVar3;
-        }
-        piVar7 = piVar7 + 3;
-        iVar3 = iVar6;
-      } while ((1 - param_3) + iVar6 < iVar8);
-    }
-  }
-  return;
+    result = array->data + size;
+    *sizeField += count;
+    return result;
 }
 
+void fn_82D07808(int type, int count, int start, IndexArray_82D07808 *indices)
+{
+    int *out;
+    int i;
+    int vertex;
+
+    switch (type) {
+    case 3:
+        out = ExpandBy(indices, count);
+        for (i = 0; i < count; i++) {
+            out[i] = (unsigned short)(start + i);
+        }
+        break;
+    case 4:
+        out = ExpandBy(indices, (count - 2) * 3);
+        for (i = 2; i < count; i++) {
+            vertex = start + i;
+            *out++ = vertex - 2;
+            if ((i & 1) == 0) {
+                *out++ = vertex - 1;
+                *out++ = vertex;
+            } else {
+                *out++ = vertex;
+                *out++ = vertex - 1;
+            }
+        }
+        break;
+    }
+}

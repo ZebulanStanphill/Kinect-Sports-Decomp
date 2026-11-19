@@ -1,69 +1,66 @@
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_70;
-extern unsigned int fStack_78;
-extern unsigned int fStack_7c;
-extern unsigned int fStack_80;
-extern int fn_82810240();
-extern int fn_82810328();
-extern int fn_82810360();
-extern int fn_82810470();
-extern int fn_82810530();
-extern int fn_82810B78();
-extern int fn_82862238();
-extern unsigned int lbl_832116B8;
-extern unsigned int lbl_832116BC;
-extern unsigned int lbl_832116C0;
-extern unsigned int lbl_832116C4;
-extern unsigned int lbl_832116C8;
+typedef struct Vec3_82864020 {
+    float x;
+    float y;
+    float z;
+} Vec3_82864020;
 
+typedef struct Plane_82864020 {
+    Vec3_82864020 normal; /* 0x00 */
+    float distance;       /* 0x0c */
+} Plane_82864020;
 
-void fn_82864020(int param_1,char param_2,int param_3,unsigned __int64 param_4)
+typedef struct Glob_82864020 {
+    unsigned int f0;   /* 0x00 */
+    unsigned int kind; /* 0x04 */
+    float scale;       /* 0x08 */
+    Vec3_82864020 up;  /* 0x0c */
+} Glob_82864020;
 
+typedef struct Curve_82864020 {
+    int pad0;             /* 0x00 */
+    void *points;         /* 0x04 */
+    unsigned short count; /* 0x08 */
+} Curve_82864020;
+
+extern Glob_82864020 lbl_832116B4;
+extern void fn_82862238(void *points, unsigned short count, unsigned int kind, float scale, int index,
+                        Vec3_82864020 *out);
+extern void fn_82810240(const Vec3_82864020 *a, const Vec3_82864020 *b, Vec3_82864020 *out);
+extern void fn_82810328(const Vec3_82864020 *a, const Vec3_82864020 *b, Vec3_82864020 *out);
+extern void fn_82810360(const Vec3_82864020 *src, Vec3_82864020 *dst);
+extern int fn_82810470(const Vec3_82864020 *v);
+extern void fn_82810530(const Vec3_82864020 *v, Vec3_82864020 *out);
+extern void fn_82810B78(const Vec3_82864020 *v, Vec3_82864020 *out);
+
+void fn_82864020(Curve_82864020 *curve, unsigned char flip, Plane_82864020 *planes)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  float *pfVar3;
-  unsigned __int64 uVar4;
-  float fStack_80;
-  float fStack_7c;
-  float fStack_78;
-  unsigned char auStack_70 [16];
-  unsigned char auStack_60 [16];
-  unsigned char auStack_50 [16];
-  unsigned char auStack_40 [64];
-  
-  fn_82862238((double)lbl_832116BC,*(unsigned int *)(param_1 + 4),*(unsigned short *)(param_1 + 8),
-                    lbl_832116B8,param_4,0,auStack_70);
-  uVar2 = (unsigned __int64)*(unsigned short *)(param_1 + 8);
-  if (uVar2 != 0) {
-    pfVar3 = (float *)(param_3 + -4);
-    uVar4 = 1;
-    do {
-      fn_82862238((double)lbl_832116BC,*(unsigned int *)(param_1 + 4),uVar2,lbl_832116B8,param_4
-                        ,-(unsigned __int64)(uVar2 != uVar4) & uVar4,auStack_60);
-      fn_82810328(auStack_70,0xffffffff832116c0,auStack_40);
-      fn_82810328(auStack_60,auStack_70,auStack_50);
-      fn_82810240(auStack_40,auStack_50,&fStack_80);
-      iVar1 = fn_82810470(&fStack_80);
-      if (iVar1 == 0) {
-        fn_82810B78(&fStack_80,&fStack_80);
-      }
-      if (param_2 != '\0') {
-        fn_82810530(&fStack_80,&fStack_80);
-      }
-      pfVar3[1] = fStack_80;
-      pfVar3[2] = fStack_7c;
-      pfVar3[3] = fStack_78;
-      pfVar3 = pfVar3 + 4;
-      *pfVar3 = lbl_832116C0 * fStack_80 + lbl_832116C8 * fStack_78 + lbl_832116C4 * fStack_7c;
-      fn_82810360(auStack_60,auStack_70);
-      uVar2 = (unsigned __int64)*(unsigned short *)(param_1 + 8);
-      iVar1 = (int)uVar4;
-      uVar4 = uVar4 + 1;
-    } while (iVar1 < (int)(unsigned int)*(unsigned short *)(param_1 + 8));
-  }
-  return;
-}
+    Vec3_82864020 normal;
+    Vec3_82864020 previous;
+    Vec3_82864020 current;
+    Vec3_82864020 edge;
+    Vec3_82864020 offset;
+    int i;
+    int next;
 
+    fn_82862238(curve->points, curve->count, lbl_832116B4.kind, lbl_832116B4.scale, 0, &previous);
+    for (i = 0; i < curve->count; i++) {
+        next = i + 1;
+        fn_82862238(curve->points, curve->count, lbl_832116B4.kind, lbl_832116B4.scale,
+                    next != curve->count ? next : 0, &current);
+        fn_82810328(&previous, &lbl_832116B4.up, &offset);
+        fn_82810328(&current, &previous, &edge);
+        fn_82810240(&offset, &edge, &normal);
+        if (fn_82810470(&normal) == 0) {
+            fn_82810B78(&normal, &normal);
+        }
+        if (flip != 0) {
+            fn_82810530(&normal, &normal);
+        }
+        planes[i].normal.x = normal.x;
+        planes[i].normal.y = normal.y;
+        planes[i].normal.z = normal.z;
+        planes[i].distance =
+            lbl_832116B4.up.x * normal.x + lbl_832116B4.up.y * normal.y + lbl_832116B4.up.z * normal.z;
+        fn_82810360(&current, &previous);
+    }
+}

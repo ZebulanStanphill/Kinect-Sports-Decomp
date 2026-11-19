@@ -15194,7 +15194,7 @@
         ]
       },
       "auto_match/func_822984D0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -27587,7 +27587,7 @@
         ]
       },
       "game/sport/sport/func_82351F88.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -62187,9 +62187,12 @@
         ]
       },
       "auto_match/func_82522258.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
+        ],
+        "ltcg_units": [
+          "auto_match/func_82522588.c"
         ]
       },
       "auto_match/func_825223A8.c": {
@@ -87161,11 +87164,14 @@
           "/O1"
         ]
       },
-      "auto_match/func_8267FA50.c": {
-        "status": "NonMatching",
+      "auto_match/func_8267FA50.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "pool_aliases": {
+          "?run@S@@QAAXP6AXXZ@Z": "?run@S@@QAAX_K@Z"
+        }
       },
       "auto_match/func_8267FB90.c": {
         "status": "NonMatching",
@@ -112617,7 +112623,7 @@
         ]
       },
       "auto_match/func_82767090.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -115048,7 +115054,7 @@
         ]
       },
       "auto_match/func_82784920.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -142522,7 +142528,7 @@
         ]
       },
       "auto_match/func_82864020.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -172292,9 +172298,12 @@
         ]
       },
       "auto_match/func_829D8CF0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
+        ],
+        "ltcg_units": [
+          "auto_match/func_829D47B0.c"
         ]
       },
       "auto_match/func_829D8DE8.c": {
@@ -173363,10 +173372,13 @@
         "vc_include": true
       },
       "auto_match/func_829E3EC8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "pool_aliases": {
+          "__real@30a00000": "lbl_82057B58"
+        }
       },
       "auto_match/func_829E3F40.c": {
         "status": "NonMatching",
@@ -173730,9 +173742,14 @@
         ]
       },
       "auto_match/func_829E5FB8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O2"
+          "/O1",
+          "/Oi"
+        ],
+        "vc_include": true,
+        "ltcg_units": [
+          "auto_match/func_829E5CA0.c"
         ]
       },
       "auto_match/func_829E60D0.c": {
@@ -176907,7 +176924,7 @@
         ]
       },
       "auto_match/func_82A236C8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -181081,8 +181098,8 @@
           "/Oi"
         ]
       },
-      "auto_match/func_82A4AF10.c": {
-        "status": "NonMatching",
+      "auto_match/func_82A4AF10.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -182262,9 +182279,9 @@
         ]
       },
       "auto_match/func_82A58F78.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
+          "/O2"
         ]
       },
       "auto_match/func_82A590E0.c": {
@@ -189362,8 +189379,8 @@
           "/O1"
         ]
       },
-      "auto_match/func_82ABF228.c": {
-        "status": "NonMatching",
+      "auto_match/func_82ABF228.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -204509,7 +204526,7 @@
         ]
       },
       "auto_match/func_82BE8458.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -223069,7 +223086,7 @@
         ]
       },
       "auto_match/func_82D07808.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
@@ -254054,9 +254071,13 @@
         ]
       },
       "auto_match/func_82E3D760.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
+          "/O1",
+          "/Oi"
+        ],
+        "ltcg_units": [
+          "auto_match/func_82E3C690.c"
         ]
       },
       "auto_match/func_82E3D8B0.c": {
@@ -278611,7 +278632,7 @@
         ]
       },
       "auto_match/func_82FA5B20.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
@@ -289730,7 +289751,7 @@
         ]
       },
       "auto_match/func_8300FDB8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]

@@ -1,84 +1,88 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_82A58270();
-extern int fn_82A75390();
+typedef struct Format_82A58F78 {
+    unsigned short format;   /* 0x0 */
+    unsigned short channels; /* 0x2 */
+    unsigned int rate;       /* 0x4 */
+    unsigned int bytes;      /* 0x8 */
+    unsigned short padc;
+    unsigned short kind; /* 0xe */
+} Format_82A58F78;
 
+typedef struct Request_82A58F78 {
+    int primary;   /* 0x0 */
+    int secondary; /* 0x4 */
+    char pad8[0xc];
+    unsigned int target; /* 0x14 */
+} Request_82A58F78;
 
-int fn_82A58F78(unsigned short *param_1,int *param_2)
+typedef struct Table_82A58F78 {
+    char pad0[8];
+    unsigned int count;     /* 0x8 */
+    unsigned char *entries; /* 0xc, 0x19-byte records */
+} Table_82A58F78;
 
+extern unsigned int fn_82A75390(unsigned short format);
+extern Table_82A58F78 *fn_82A58270(unsigned int type, int secondary, int primary, unsigned int rate,
+                                   unsigned short channels);
+
+unsigned char *fn_82A58F78(Format_82A58F78 *format, Request_82A58F78 *request)
 {
-  int iVar1;
-  unsigned int uVar2;
-  bool bVar3;
-  unsigned __int64 uVar4;
-  int iVar5;
-  unsigned __int64 uVar6;
-  unsigned __int64 uVar7;
-  int iVar8;
-  unsigned int uVar9;
-  unsigned int *puVar11;
-  unsigned __int64 uVar10;
-  unsigned int uVar12;
-  unsigned int uVar13;
-  unsigned int uVar14;
-  
-  uVar4 = fn_82A75390(*param_1);
-  iVar8 = *param_2;
-  iVar1 = param_2[1];
-  iVar5 = fn_82A58270(uVar4,iVar1,iVar8,*(unsigned int *)(param_1 + 2),param_1[1]);
-  uVar7 = 0xffffffffffffffff;
-  if ((iVar8 == 0) || (iVar1 != 0)) {
-    bVar3 = false;
-    uVar6 = ((unsigned __int64)*(unsigned int *)(param_1 + 4) & 0x1fffffff) << 3;
-  }
-  else {
-    uVar6 = (unsigned __int64)(unsigned int)param_2[5];
-    bVar3 = true;
-  }
-  uVar14 = 0;
-  if ((uVar4 & 0xffffffff) == 2) {
-    uVar14 = 8;
-  }
-  else if ((uVar4 & 0xffffffff) == 3) {
-    uVar14 = 0x10;
-  }
-  if (iVar5 != 0) {
-    uVar9 = 0;
-    if (*(unsigned int *)(iVar5 + 8) != 0) {
-      iVar8 = 0;
-      uVar12 = 0xffffffff;
-      do {
-        puVar11 = (unsigned int *)(iVar8 + *(int *)(iVar5 + 0xc));
-        uVar13 = uVar12;
-        if (((*(unsigned int *)((int)puVar11 + 0x15) & uVar14) != 0) &&
-           ((unsigned short)*(unsigned char *)(puVar11 + 5) == param_1[7])) {
-          if (bVar3) {
-            uVar2 = puVar11[4];
-          }
-          else {
-            uVar2 = *puVar11;
-          }
-          uVar10 = uVar6 - uVar2;
-          uVar4 = (unsigned __int64)((int)uVar10 >> 0x1f);
-          uVar4 = (uVar10 ^ uVar4) - uVar4;
-          uVar13 = uVar9;
-          if (uVar4 == 0) break;
-          uVar13 = uVar12;
-          if (((uVar4 & 0xffffffff) < (uVar7 & 0xffffffff)) && ((!bVar3 || (uVar6 <= uVar2)))) {
-            uVar7 = uVar4;
-            uVar13 = uVar9;
-          }
-        }
-        uVar9 = uVar9 + 1;
-        iVar8 = iVar8 + 0x19;
-        uVar12 = uVar13;
-      } while (uVar9 < *(unsigned int *)(iVar5 + 8));
-      if (uVar13 != 0xffffffff) {
-        return uVar13 * 0x19 + *(int *)(iVar5 + 0xc);
-      }
-    }
-  }
-  return 0;
-}
+    unsigned int type;
+    int primary;
+    int secondary;
+    Table_82A58F78 *table;
+    unsigned int best;
+    int found;
+    int useAlternate;
+    unsigned int target;
+    unsigned int mask;
+    unsigned int i;
+    unsigned char *entry;
+    unsigned int value;
+    unsigned int distance;
 
+    type = fn_82A75390(format->format);
+    primary = request->primary;
+    secondary = request->secondary;
+    table = fn_82A58270(type, secondary, primary, format->rate, format->channels);
+    best = 0xffffffff;
+    found = -1;
+    useAlternate = primary != 0 && secondary == 0;
+    target = useAlternate ? request->target : format->bytes * 8;
+    mask = 0;
+    switch (type) {
+    case 2:
+        mask = 8;
+        break;
+    case 3:
+        mask = 0x10;
+        break;
+    }
+    if (table == 0) {
+        return 0;
+    }
+    for (i = 0; i < table->count; i++) {
+        entry = table->entries + i * 0x19;
+        /* The first test is always true, but the original evaluates it (rlwimi; cmplwi). */
+        if (((*(unsigned int *)(entry + 0x15) & 2) | 1) != 0 &&
+            (*(unsigned int *)(entry + 0x15) & mask) != 0 && entry[0x14] == format->kind) {
+            if (useAlternate) {
+                value = *(unsigned int *)(entry + 0x10);
+            } else {
+                value = *(unsigned int *)(entry + 0x0);
+            }
+            distance = abs((int)(target - value));
+            if (distance == 0) {
+                found = i;
+                break;
+            }
+            if (best > distance && (!useAlternate || target <= value)) {
+                best = distance;
+                found = i;
+            }
+        }
+    }
+    if (found == -1) {
+        return 0;
+    }
+    return table->entries + found * 0x19;
+}

@@ -1,42 +1,60 @@
-extern unsigned int fStack_1c;
-extern unsigned int fStack_20;
-extern int fn_826EBD10();
-extern int fn_827847F8();
-extern unsigned int lbl_82015528;
-extern unsigned int lbl_821AAD20;
+typedef struct Point_82784920 {
+    float x;
+    float y;
+} Point_82784920;
 
+typedef struct Counter_82784920 {
+    int pad0;
+    int count; /* 0x04 */
+} Counter_82784920;
 
-void fn_82784920(double param_1,double param_2,double param_3,double param_4,int param_5)
+typedef struct PointArray_82784920 {
+    unsigned int size;      /* 0x00 */
+    unsigned int pageCount; /* 0x04 */
+    unsigned int maxPages;  /* 0x08 */
+    Point_82784920 **pages; /* 0x0c */
+} PointArray_82784920;
 
+typedef struct Path_82784920 {
+    int pad0;
+    int pad4;
+    PointArray_82784920 points; /* 0x08 */
+    char pad18[0x10];
+    Counter_82784920 *added; /* 0x28 */
+} Path_82784920;
+
+extern const float lbl_82015528;
+extern void fn_826EBD10(PointArray_82784920 *points, const Point_82784920 *point);
+extern void fn_827847F8(Path_82784920 *path, float px, float py, float x0, float y0, float x1, float y1);
+
+static __forceinline Point_82784920 *Back(PointArray_82784920 *points)
 {
-  float fVar1;
-  unsigned __int64 uVar2;
-  float *pfVar3;
-  double dVar4;
-  double dVar5;
-  float fStack_20;
-  float fStack_1c;
-  
-  uVar2 = (unsigned __int64)*(unsigned int *)(param_5 + 8) - 1;
-  pfVar3 = (float *)(*(int *)(((unsigned int)((uVar2 & 0xffffffff) >> 6) & 0x3fffffc) +
-                             *(int *)(param_5 + 0x14)) + ((unsigned int)((uVar2 & 0xffffffff) << 3) & 0x7f8)
-                    );
-  dVar4 = (double)*pfVar3;
-  dVar5 = (double)pfVar3[1];
-  fVar1 = (float)(param_2 - dVar5) * (float)(param_3 - param_1) -
-          (float)(param_1 - dVar4) * (float)(param_4 - param_2);
-  if (fVar1 < lbl_821AAD20) {
-    fVar1 = -fVar1;
-  }
-  if (lbl_82015528 <= fVar1) {
-    fn_827847F8(dVar4,dVar5,param_1,param_2,param_5);
-  }
-  else {
-    fStack_20 = (float)param_3;
-    fStack_1c = (float)param_4;
-    fn_826EBD10(param_5 + 8,&fStack_20);
-    *(int *)(*(int *)(param_5 + 0x28) + 4) = *(int *)(*(int *)(param_5 + 0x28) + 4) + 1;
-  }
-  return;
+    unsigned int last = points->size - 1;
+
+    return &points->pages[last >> 8][last & 0xff];
 }
 
+void fn_82784920(Path_82784920 *path, float x0, float y0, float x1, float y1)
+{
+    Point_82784920 *back;
+    float px;
+    float py;
+    float cross;
+    Point_82784920 point;
+
+    back = Back(&path->points);
+    px = back->x;
+    py = back->y;
+    cross = (y0 - py) * (x1 - x0) - (x0 - px) * (y1 - y0);
+    if (cross < 0.0f) {
+        cross = -cross;
+    }
+    if (cross < lbl_82015528) {
+        point.x = x1;
+        point.y = y1;
+        fn_826EBD10(&path->points, &point);
+        path->added->count = path->added->count + 1;
+    } else {
+        fn_827847F8(path, px, py, x0, y0, x1, y1);
+    }
+}

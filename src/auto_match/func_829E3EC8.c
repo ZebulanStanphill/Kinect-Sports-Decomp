@@ -1,15 +1,10 @@
-extern int fn_82F655D8();
-extern unsigned int lbl_82002C40;
-extern unsigned int lbl_82057B58;
+extern double fn_82F655D8(double base, double exponent);
 
-
-unsigned __int64 fn_829E3EC8(unsigned __int64 param_1,int param_2,float *param_3)
-
+int fn_829E3EC8(void *self, int exponent, float *out)
 {
-  double dVar1;
-  
-  dVar1 = (double)fn_82F655D8(lbl_82002C40,(double)((float)(__int64)param_2 * lbl_82057B58));
-  *param_3 = (float)dVar1;
-  return 0;
-}
+    float scaled = exponent >= 0 ? (float)exponent * 1.16415321826934814453125e-09f
+                                 : -(float)-(__int64)exponent * 1.16415321826934814453125e-09f;
 
+    *out = (float)fn_82F655D8(2.0, scaled);
+    return 0;
+}
