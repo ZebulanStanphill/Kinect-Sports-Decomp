@@ -1,64 +1,68 @@
-extern int fn_82FA5060();
-extern int fn_82FA5190();
-extern int fn_82FB2380();
-extern int fn_82FB6A10();
-extern unsigned int lbl_831BC768;
-extern unsigned int stack0x0000001c;
-extern unsigned int stack0x00000024;
-extern unsigned int uStack00000024;
+typedef struct Pair_82FB26C8 {
+    unsigned int key;   /* 0x0 */
+    unsigned int value; /* 0x4 */
+} Pair_82FB26C8;
 
+typedef struct Obj_82FB26C8 {
+    char pad0[0xc4];
+    unsigned int valueC4; /* 0xc4 */
+    unsigned int valueC8; /* 0xc8 */
+    unsigned int valueCC; /* 0xcc */
+    unsigned char flagD0; /* 0xd0 */
+} Obj_82FB26C8;
 
-unsigned __int64 fn_82FB26C8(int param_1,unsigned int *param_2,unsigned int param_3)
+extern void *lbl_831BC768;
+extern int fn_82FB6A10(Obj_82FB26C8 *self, unsigned char **data, unsigned int *size, int flags);
+extern Pair_82FB26C8 *fn_82FA5060(void *heap, unsigned int size);
+extern void fn_82FA5190(void *heap, void *p);
+extern void fn_82FB2380(Obj_82FB26C8 *self, unsigned int count, Pair_82FB26C8 *pairs);
 
+static __forceinline unsigned int ReadU32(unsigned char **data)
 {
-  unsigned int *puVar1;
-  char cVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned __int64 uVar5;
-  int iVar6;
-  unsigned int *puVar7;
-  unsigned int *puVar8;
-  unsigned __int64 uVar9;
-  unsigned __int64 uVar10;
-  unsigned int *puStack0000001c;
-  unsigned int uStack00000024;
-  
-  puStack0000001c = param_2;
-  uStack00000024 = param_3;
-  uVar5 = fn_82FB6A10(param_1,&stack0x0000001c,&stack0x00000024,0);
-  uVar3 = puStack0000001c[1];
-  uVar4 = puStack0000001c[2];
-  cVar2 = *(char *)(puStack0000001c + 3);
-  *(unsigned int *)(param_1 + 0xcc) = *puStack0000001c;
-  *(unsigned int *)(param_1 + 0xc4) = uVar3;
-  *(unsigned int *)(param_1 + 200) = uVar4;
-  *(char *)(param_1 + 0xd0) = '\x01' - (cVar2 == '\0');
-  puVar1 = (unsigned int *)((int)puStack0000001c + 0xd);
-  uVar9 = (unsigned __int64)*puVar1;
-  puStack0000001c = (unsigned int *)((int)puStack0000001c + 0x11);
-  if (uVar9 != 0) {
-    iVar6 = fn_82FA5060(lbl_831BC768,*puVar1 << 3);
-    if (iVar6 == 0) {
-      uVar5 = 2;
-    }
-    else {
-      if (uVar9 != 0) {
-        puVar8 = (unsigned int *)(iVar6 + -4);
-        uVar10 = uVar9;
-        do {
-          puVar7 = puStack0000001c + 1;
-          puVar8[1] = *puStack0000001c;
-          puStack0000001c = puStack0000001c + 2;
-          puVar8 = puVar8 + 2;
-          *puVar8 = *puVar7;
-          uVar10 = uVar10 - 1;
-        } while (uVar10 != 0);
-      }
-      fn_82FB2380(param_1,uVar9,iVar6);
-      fn_82FA5190(lbl_831BC768,iVar6);
-    }
-  }
-  return uVar5;
+    unsigned int value = *(unsigned int *)*data;
+    *data += 4;
+    return value;
 }
 
+static __forceinline unsigned char ReadU8(unsigned char **data)
+{
+    unsigned char value = **data;
+    *data += 1;
+    return value;
+}
+
+int fn_82FB26C8(Obj_82FB26C8 *self, unsigned char *data, unsigned int size)
+{
+    int result;
+    unsigned int valueCC;
+    unsigned int valueC4;
+    unsigned int valueC8;
+    unsigned char flagD0;
+    unsigned int count;
+    unsigned int i;
+    Pair_82FB26C8 *pairs;
+
+    result = fn_82FB6A10(self, &data, &size, 0);
+    valueCC = ReadU32(&data);
+    valueC4 = ReadU32(&data);
+    valueC8 = ReadU32(&data);
+    flagD0 = ReadU8(&data);
+    self->valueCC = valueCC;
+    self->valueC4 = valueC4;
+    self->valueC8 = valueC8;
+    self->flagD0 = flagD0 != 0;
+    count = ReadU32(&data);
+    if (count != 0) {
+        pairs = fn_82FA5060(lbl_831BC768, count * 8);
+        if (pairs == 0) {
+            return 2;
+        }
+        for (i = 0; i < count; i++) {
+            pairs[i].key = ReadU32(&data);
+            pairs[i].value = ReadU32(&data);
+        }
+        fn_82FB2380(self, count, pairs);
+        fn_82FA5190(lbl_831BC768, pairs);
+    }
+    return result;
+}

@@ -1,18 +1,12 @@
-void fn_82CC1A78(unsigned char *param_1,int param_2,int param_3,int param_4)
-
+/* Copies every stride-th byte of count elements; returns the number of bytes spanned. */
+int fn_82CC1A78(unsigned char *dst, const unsigned char *src, int stride, int count)
 {
-  int iVar1;
-  
-  iVar1 = 0;
-  if ((__int64)param_3 * (__int64)param_4 < 1) {
-    return;
-  }
-  param_2 = param_2 - (int)param_1;
-  do {
-    iVar1 = iVar1 + param_3;
-    *param_1 = param_1[param_2];
-    param_1 = param_1 + param_3;
-  } while (iVar1 < (int)((__int64)param_3 * (__int64)param_4));
-  return;
-}
+    int i;
+    int total;
 
+    total = stride * count;
+    for (i = 0; i < total; i += stride) {
+        dst[i] = src[i];
+    }
+    return total;
+}

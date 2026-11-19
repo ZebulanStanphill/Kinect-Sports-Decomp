@@ -1,75 +1,84 @@
-extern int fn_82672C20();
-extern unsigned int ltcg_pool_0_0f;
+/* /O1 /QVMXReserve: v77 is the game's reserved zero vector, read with __VMXGetReg. */
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Movie_82383B90 {
+    char pad0[0x34];
+    int loaded;  /* 0x34 */
+    int hidden;  /* 0x38 */
+    void *movie; /* 0x3c */
+} Movie_82383B90;
 
-void fn_82383B90(double param_1,double param_2,double param_3,double param_4,double param_5,
-                  double param_6,double param_7,double param_8,int param_9)
+typedef struct Panel_82383B90 {
+    char pad0[0x10];
+    float start; /* 0x10 */
+    float end;   /* 0x14 */
+    float time;  /* 0x18 */
+    char pad1c[0x4];
+    __vector4 from; /* 0x20 */
+    __vector4 to;   /* 0x30 */
+    float x0;       /* 0x40 */
+    float y0;       /* 0x44 */
+    float x1;       /* 0x48 */
+    float y1;       /* 0x4c */
+    float scaleX;   /* 0x50 */
+    float scaleY;   /* 0x54 */
+    float alpha;    /* 0x58 */
+    int visible;    /* 0x5c */
+    int running;    /* 0x60 */
+    int loop;       /* 0x64 */
+    char pad68[0x8];
+    Movie_82383B90 ui; /* 0x70 */
+    char padb0[0x10];
+    float velocityX; /* 0xc0 */
+    float velocityY; /* 0xc4 */
+    char padc8[0x8];
+    __vector4 offset; /* 0xd0 */
+    int active;       /* 0xe0 */
+    int callback;     /* 0xe4 */
+    int frames;       /* 0xe8 */
+    int mode;         /* 0xec */
+} Panel_82383B90;
 
+__vector4 __VMXGetReg(int n);
+extern void fn_82672C20(void *movie, const char *path, int arg2, int arg3);
+
+void fn_82383B90(Panel_82383B90 *self, float start, float end, float x0, float y0, float x1, float y1,
+                 float scale, float alpha, __vector4 from, __vector4 to, int visible, int loop, int callback)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  unsigned int uVar3;
-  unsigned int in_register_00010010;
-  unsigned int in_register_00010014;
-  unsigned int in_register_00010018;
-  unsigned int in_vr1;
-  unsigned int in_register_00010020;
-  unsigned int in_register_00010024;
-  unsigned int in_register_00010028;
-  unsigned int in_vr2;
-  unsigned int in_register_000104d0;
-  unsigned int in_register_000104d4;
-  unsigned int in_register_000104d8;
-  unsigned int in_vr77;
-  unsigned int in_stack_00000084;
-  unsigned int in_stack_0000008c;
-  unsigned int in_stack_00000094;
-  
-  uVar3 = ltcg_pool_0_0f;
-  iVar1 = *(int *)(param_9 + 0xec);
-  *(float *)(param_9 + 0x10) = (float)param_1;
-  *(float *)(param_9 + 0x14) = (float)param_2;
-  *(unsigned int *)(param_9 + 0x60) = 0;
-  *(unsigned int *)(param_9 + 0xc0) = uVar3;
-  *(unsigned int *)(param_9 + 0x5c) = in_stack_00000084;
-  *(unsigned int *)(param_9 + 0xc4) = uVar3;
-  *(unsigned int *)(param_9 + 100) = in_stack_0000008c;
-  *(float *)(param_9 + 0x40) = (float)param_3;
-  *(unsigned int *)(param_9 + 0xe4) = in_stack_00000094;
-  *(float *)(param_9 + 0x44) = (float)param_4;
-  *(unsigned int *)(param_9 + 0xe0) = 1;
-  *(float *)(param_9 + 0x48) = (float)param_5;
-  *(unsigned int *)(param_9 + 0xe8) = 0;
-  *(float *)(param_9 + 0x4c) = (float)param_6;
-  *(unsigned int *)(param_9 + 0x18) = uVar3;
-  *(float *)(param_9 + 0x50) = (float)param_7;
-  *(float *)(param_9 + 0x54) = (float)param_7;
-  *(float *)(param_9 + 0x58) = (float)param_8;
-  puVar2 = (unsigned int *)(param_9 + 0xd0U & 0xfffffff0);
-  *puVar2 = in_register_000104d0;
-  puVar2[1] = in_register_000104d4;
-  puVar2[2] = in_register_000104d8;
-  puVar2[3] = in_vr77;
-  puVar2 = (unsigned int *)(param_9 + 0x20U & 0xfffffff0);
-  *puVar2 = in_register_00010010;
-  puVar2[1] = in_register_00010014;
-  puVar2[2] = in_register_00010018;
-  puVar2[3] = in_vr1;
-  puVar2 = (unsigned int *)(param_9 + 0x30U & 0xfffffff0);
-  *puVar2 = in_register_00010020;
-  puVar2[1] = in_register_00010024;
-  puVar2[2] = in_register_00010028;
-  puVar2[3] = in_vr2;
-  if (iVar1 == 6) {
-    *(unsigned int *)(param_9 + 0x5c) = (unsigned int)LZCOUNT(in_stack_00000084) >> 5;
-  }
-  if (param_2 < param_1) {
-    if ((*(int *)(param_9 + 0xa4) != 0) && (*(int *)(param_9 + 0xa8) == 0)) {
-      *(unsigned int *)(param_9 + 0xa8) = 1;
-      fn_82672C20(*(unsigned int *)(param_9 + 0xac),0xffffffff821a8498,0,0);
-    }
-    *(unsigned int *)(param_9 + 0x60) = 0;
-  }
-  return;
-}
+    Movie_82383B90 *ui;
 
+    self->start = start;
+    self->end = end;
+    self->running = 0;
+    self->velocityX = 0.0f;
+    self->visible = visible;
+    self->velocityY = 0.0f;
+    self->loop = loop;
+    self->x0 = x0;
+    self->callback = callback;
+    self->y0 = y0;
+    self->active = 1;
+    self->x1 = x1;
+    self->frames = 0;
+    self->y1 = y1;
+    self->time = 0.0f;
+    self->scaleX = scale;
+    self->scaleY = scale;
+    self->alpha = alpha;
+    self->offset = __VMXGetReg(77);
+    self->from = from;
+    self->to = to;
+    if (self->mode == 6) {
+        self->visible = visible == 0;
+    }
+    if (start > end) {
+        ui = &self->ui;
+        if (ui->loaded != 0 && ui->hidden == 0) {
+            ui->hidden = 1;
+            fn_82672C20(ui->movie, "_root.mainCtrl.hide", 0, 0);
+        }
+        self->running = 0;
+    }
+}

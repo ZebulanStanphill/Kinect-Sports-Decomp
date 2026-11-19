@@ -1,63 +1,109 @@
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-#define TBLr 0
-extern unsigned int fStack_34;
-extern unsigned int fStack_38;
-extern int fn_82DA3900();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_82132BC4;
-extern unsigned int lbl_821AAD20;
+extern unsigned __int64 __mftb();
+
+typedef struct {
+    const char *name;
+    unsigned time, pad;
+} TimerEntry_82DA3FB0;
+
+typedef struct {
+    void *pad;
+    char *current;
+    void *pad2;
+    char *end;
+} TimerStream_82DA3FB0;
+
+extern TimerStream_82DA3FB0 *KeTlsGetValue(unsigned int);
 extern unsigned int lbl_8323B4A0;
-extern unsigned int uStack_40;
 
+typedef struct StepInfo_82DA3FB0 {
+    __declspec(align(16)) float startTime; /* 0x00 */
+    float endTime;                         /* 0x04 */
+    float deltaTime;                       /* 0x08 */
+    float invDeltaTime;                    /* 0x0c */
+} StepInfo_82DA3FB0;
 
-unsigned __int64 fn_82DA3FB0(double param_1,int param_2)
+typedef struct CollisionInput_82DA3FB0 {
+    char pad0[0x50];
+    StepInfo_82DA3FB0 stepInfo; /* 0x50 */
+} CollisionInput_82DA3FB0;
 
+struct Listener_82DA3FB0;
+
+typedef struct {
+    void *slots[4];
+    void (*onStep)(struct Listener_82DA3FB0 *, void *world, StepInfo_82DA3FB0 *info); /* 0x10 */
+} ListenerVt_82DA3FB0;
+
+typedef struct Listener_82DA3FB0 {
+    ListenerVt_82DA3FB0 *vt;
+} Listener_82DA3FB0;
+
+typedef struct World_82DA3FB0 {
+    char pad0[0x4c];
+    Listener_82DA3FB0 *listener; /* 0x4c */
+    char pad50[0x28];
+    CollisionInput_82DA3FB0 *collisionInput; /* 0x78 */
+    char pad7c[0x154];
+    StepInfo_82DA3FB0 stepInfo; /* 0x1d0 */
+} World_82DA3FB0;
+
+typedef struct Stepper_82DA3FB0 {
+    char pad0[0xc];
+    World_82DA3FB0 *world; /* 0x0c */
+    unsigned char active;  /* 0x10 */
+    char pad11[0x7];
+    float currentTime; /* 0x18 */
+    float lastDelta;   /* 0x1c */
+    char pad20[0x8];
+    unsigned int result; /* 0x28 */
+} Stepper_82DA3FB0;
+
+extern unsigned int fn_82DA3900(Stepper_82DA3FB0 *self, StepInfo_82DA3FB0 *info);
+
+static __forceinline void InitStepInfo(StepInfo_82DA3FB0 *info, float startTime, float endTime)
 {
-  unsigned int *puVar1;
-  int *piVar2;
-  unsigned __int64 uVar3;
-  int iVar5;
-  unsigned __int64 uVar4;
-  unsigned __int64 uStack_40;
-  float fStack_38;
-  float fStack_34;
-  
-  iVar5 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(unsigned int **)(iVar5 + 4);
-  if (puVar1 < *(unsigned int **)(iVar5 + 0xc)) {
-    *puVar1 = "TtPhysics";
-    uVar3 = TBLr;
-    puVar1[1] = (int)uVar3;
-    *(unsigned int **)(iVar5 + 4) = puVar1 + 3;
-  }
-  *(float *)(param_2 + 0x1c) = (float)param_1;
-  fStack_38 = (float)((double)(float)((double)*(float *)(param_2 + 0x18) + param_1) -
-                     (double)*(float *)(param_2 + 0x18));
-  fStack_34 = lbl_821AAD20;
-  if (fStack_38 != lbl_821AAD20) {
-    fStack_34 = lbl_82002AE0 / fStack_38;
-  }
-  iVar5 = *(int *)(param_2 + 0xc);
-  *(unsigned __int64 *)(iVar5 + 0x1d0) = uStack_40;
-  *(unsigned __int64 *)(iVar5 + 0x1d8) = CONCAT44(fStack_38,fStack_34);
-  iVar5 = *(int *)(*(int *)(param_2 + 0xc) + 0x78);
-  *(unsigned __int64 *)(iVar5 + 0x50) = uStack_40;
-  *(unsigned __int64 *)(iVar5 + 0x58) = CONCAT44(fStack_38,fStack_34);
-  piVar2 = *(int **)(*(int *)(param_2 + 0xc) + 0x4c);
-  (**(int (***)())(*piVar2 + 0x10))(piVar2,*(int *)(param_2 + 0xc),&uStack_40);
-  uVar4 = fn_82DA3900(param_2,&uStack_40);
-  *(int *)(param_2 + 0x28) = (int)uVar4;
-  if ((uVar4 & 0xffffffff) == 0) {
-    *(unsigned char *)(param_2 + 0x10) = 0;
-  }
-  iVar5 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(unsigned int **)(iVar5 + 4);
-  if (puVar1 < *(unsigned int **)(iVar5 + 0xc)) {
-    *puVar1 = &lbl_82132BC4;
-    uVar3 = TBLr;
-    puVar1[1] = (int)uVar3;
-    *(unsigned int **)(iVar5 + 4) = puVar1 + 3;
-  }
-  return uVar4;
+    float delta = endTime - startTime;
+    float inverse = 0.0f;
+
+    info->startTime = startTime;
+    info->endTime = endTime;
+    info->deltaTime = delta;
+    if (delta != 0.0f) {
+        inverse = 1.0f / delta;
+    }
+    info->invDeltaTime = inverse;
 }
 
+unsigned int fn_82DA3FB0(Stepper_82DA3FB0 *self, float delta)
+{
+    TimerStream_82DA3FB0 *stream;
+    TimerEntry_82DA3FB0 *entry;
+    StepInfo_82DA3FB0 info;
+    unsigned int result;
+
+    stream = KeTlsGetValue(lbl_8323B4A0);
+    if (stream->current < stream->end) {
+        entry = (TimerEntry_82DA3FB0 *)stream->current;
+        entry->name = "TtPhysics";
+        entry->time = (unsigned)__mftb();
+        stream->current = (char *)(entry + 1);
+    }
+    self->lastDelta = delta;
+    InitStepInfo(&info, self->currentTime, self->currentTime + delta);
+    self->world->stepInfo = info;
+    self->world->collisionInput->stepInfo = info;
+    self->world->listener->vt->onStep(self->world->listener, self->world, &info);
+    result = fn_82DA3900(self, &info);
+    self->result = result;
+    if (result == 0) {
+        self->active = 0;
+    }
+    stream = KeTlsGetValue(lbl_8323B4A0);
+    if (stream->current < stream->end) {
+        entry = (TimerEntry_82DA3FB0 *)stream->current;
+        entry->name = "Et";
+        entry->time = (unsigned)__mftb();
+        stream->current = (char *)(entry + 1);
+    }
+    return result;
+}

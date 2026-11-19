@@ -1,88 +1,92 @@
-typedef unsigned char bool;
-extern unsigned int lbl_831AEA20;
-extern unsigned int lbl_831AEC68;
-extern unsigned int lbl_831AEEB0;
-extern unsigned int lbl_831AF0F8;
-extern unsigned int lbl_831AF340;
-extern unsigned int lbl_831AF598;
-extern unsigned int lbl_831AF7F0;
-extern unsigned int lbl_831AFA48;
+typedef struct Encoder_82F0E1E0 {
+    char pad0[0xaf0];
+    int pass; /* 0xaf0 */
+    char padAF4[0x1b14 - 0xaf4];
+    unsigned int cost[4]; /* 0x1b14 */
+    char pad1B24[0x5150 - 0x1b24];
+    unsigned char *table;       /* 0x5150 */
+    int pad5154;                /* 0x5154 */
+    unsigned char *firstTable;  /* 0x5158 */
+    unsigned char *secondTable; /* 0x515c */
+    int pad5160;                /* 0x5160 */
+    int mode;                   /* 0x5164 */
+    char pad5168[0x51a0 - 0x5168];
+    unsigned char *modeTable; /* 0x51a0 */
+    char pad51A4[0x7954 - 0x51a4];
+    int forcedMode; /* 0x7954 */
+    char pad7958[0x7b3c - 0x7958];
+    int alternate; /* 0x7b3c */
+} Encoder_82F0E1E0;
 
+extern unsigned char lbl_8319FB18[4][0x2000];
+extern unsigned char lbl_831AEA20[];
+extern unsigned char lbl_831AEC68[];
+extern unsigned char lbl_831AEEB0[];
+extern unsigned char lbl_831AF0F8[];
+extern unsigned char lbl_831AF340[];
+extern unsigned char lbl_831AF598[];
+extern unsigned char lbl_831AF7F0[];
+extern unsigned char lbl_831AFA48[];
 
-void fn_82F0E1E0(int param_1)
-
+void fn_82F0E1E0(Encoder_82F0E1E0 *self)
 {
-  bool bVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned __int64 uVar4;
-  unsigned char *puVar5;
-  unsigned int uVar6;
-  
-  uVar2 = *(unsigned int *)(param_1 + 0x1b14);
-  uVar3 = *(unsigned int *)(param_1 + 0x1b18);
-  uVar6 = uVar2;
-  if (uVar3 < uVar2) {
-    uVar6 = uVar3;
-  }
-  uVar4 = (unsigned __int64)(uVar3 < uVar2);
-  if (*(unsigned int *)(param_1 + 0x1b1c) < uVar6) {
-    uVar4 = 2;
-    uVar6 = *(unsigned int *)(param_1 + 0x1b1c);
-  }
-  if (*(unsigned int *)(param_1 + 0x1b20) < uVar6) {
-    uVar4 = 3;
-  }
-  uVar2 = *(unsigned int *)(param_1 + 0x7954);
-  if ((uVar2 != 0xffffffff) && (uVar4 = (unsigned __int64)uVar2 - 4, (int)uVar2 < 4)) {
-    uVar4 = (unsigned __int64)uVar2;
-  }
-  if ((uVar4 & 0xffffffff) < 4) {
-    bVar1 = (int)uVar4 != 0;
-    if (uVar4 == 1 && bVar1) {
-      *(unsigned int *)(param_1 + 0x5164) = 1;
-      if (*(int *)(param_1 + 0x7b3c) == 0) {
-        puVar5 = &lbl_831AEC68;
-      }
-      else {
-        puVar5 = &lbl_831AF598;
-      }
-    }
-    else if (uVar4 == 2 && bVar1) {
-      *(unsigned int *)(param_1 + 0x5164) = 2;
-      if (*(int *)(param_1 + 0x7b3c) == 0) {
-        puVar5 = &lbl_831AEEB0;
-      }
-      else {
-        puVar5 = &lbl_831AF7F0;
-      }
-    }
-    else if (bVar1) {
-      *(unsigned int *)(param_1 + 0x5164) = 3;
-      if (*(int *)(param_1 + 0x7b3c) == 0) {
-        puVar5 = &lbl_831AF0F8;
-      }
-      else {
-        puVar5 = &lbl_831AFA48;
-      }
-    }
-    else {
-      *(unsigned int *)(param_1 + 0x5164) = 0;
-      if (*(int *)(param_1 + 0x7b3c) == 0) {
-        puVar5 = &lbl_831AEA20;
-      }
-      else {
-        puVar5 = &lbl_831AF340;
-      }
-    }
-    *(unsigned char **)(param_1 + 0x5150) = puVar5;
-  }
-  *(int *)(param_1 + 0x51a0) = *(int *)(param_1 + 0x5164) * 0x2000 + -0x7ce604e8;
-  if (*(int *)(param_1 + 0xaf0) == 1) {
-    *(unsigned int *)(param_1 + 0x5158) = *(unsigned int *)(param_1 + 0x5150);
-    return;
-  }
-  *(unsigned int *)(param_1 + 0x515c) = *(unsigned int *)(param_1 + 0x5150);
-  return;
-}
+    unsigned int best;
+    unsigned int mode;
 
+    best = self->cost[0];
+    mode = 0;
+    if (self->cost[1] < best) {
+        best = self->cost[1];
+        mode = 1;
+    }
+    if (self->cost[2] < best) {
+        best = self->cost[2];
+        mode = 2;
+    }
+    if (self->cost[3] < best) {
+        mode = 3;
+    }
+    if (self->forcedMode != -1) {
+        mode = self->forcedMode > 3 ? self->forcedMode - 4 : self->forcedMode;
+    }
+    switch (mode) {
+    case 0:
+        self->mode = 0;
+        if (self->alternate != 0) {
+            self->table = lbl_831AF340;
+        } else {
+            self->table = lbl_831AEA20;
+        }
+        break;
+    case 1:
+        self->mode = 1;
+        if (self->alternate != 0) {
+            self->table = lbl_831AF598;
+        } else {
+            self->table = lbl_831AEC68;
+        }
+        break;
+    case 2:
+        self->mode = 2;
+        if (self->alternate != 0) {
+            self->table = lbl_831AF7F0;
+        } else {
+            self->table = lbl_831AEEB0;
+        }
+        break;
+    case 3:
+        self->mode = 3;
+        if (self->alternate != 0) {
+            self->table = lbl_831AFA48;
+        } else {
+            self->table = lbl_831AF0F8;
+        }
+        break;
+    }
+    self->modeTable = lbl_8319FB18[self->mode];
+    if (self->pass == 1) {
+        self->firstTable = self->table;
+    } else {
+        self->secondTable = self->table;
+    }
+}

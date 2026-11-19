@@ -1,48 +1,38 @@
-extern int fn_8265CCA8();
-extern int fn_8265CE30();
-extern int fn_8266C340();
+typedef unsigned short wchar_t;
 
+extern int fn_8265CCA8(int c);
+extern unsigned int fn_8265CE30(const char *s);
+extern void fn_8266C340(const wchar_t *format, ...);
 
-void fn_82667720(char *param_1)
-
+void fn_82667720(char *text)
 {
-  char *pcVar1;
-  int iVar2;
-  char *pcStack00000014;
-  char *pcStack_20;
-  char *pcStack_1c;
-  char *pcStack_18;
-  
-  pcStack00000014 = param_1;
-  pcStack_1c = param_1;
-  if (param_1 != (char *)0x0) {
-    while (iVar2 = fn_8265CCA8(*pcStack_1c), iVar2 != 0) {
-      pcStack_1c = pcStack_1c + 1;
-    }
-    if (*pcStack_1c == '\0') {
-      *pcStack00000014 = '\0';
-    }
-    else {
-      iVar2 = fn_8265CE30(pcStack_1c);
-      pcStack_20 = pcStack_1c + iVar2;
-      do {
-        pcVar1 = pcStack_20;
-        pcStack_20 = pcVar1 + -1;
-        iVar2 = fn_8265CCA8(*pcStack_20);
-      } while (iVar2 != 0);
-      if (pcStack_20 < pcStack_1c) {
-        fn_8266C340(0xffffffff820015c0,0xffffffff82001ca8,0x76,0xffffffff82001d0c);
-      }
-      *pcVar1 = '\0';
-      if (pcStack00000014 < pcStack_1c) {
-        pcStack_18 = pcStack00000014;
-        for (; pcStack_1c <= pcVar1; pcStack_1c = pcStack_1c + 1) {
-          *pcStack_18 = *pcStack_1c;
-          pcStack_18 = pcStack_18 + 1;
-        }
-      }
-    }
-  }
-  return;
-}
+    char *pEnd;
+    char *pStart;
+    char *pTarget;
 
+    if (text == 0) {
+        return;
+    }
+    pStart = text;
+    while (fn_8265CCA8((unsigned char)*pStart) != 0) {
+        pStart++;
+    }
+    if (*pStart == 0) {
+        *text = 0;
+        return;
+    }
+    pEnd = pStart + fn_8265CE30(pStart) - 1;
+    while (fn_8265CCA8((unsigned char)*pEnd) != 0) {
+        pEnd--;
+    }
+    if (pEnd < pStart) {
+        fn_8266C340(L"Assert failed. File: %s. Line: %d. Condition: %s",
+                    L"d:\\work\\external\\xlip\\1.0\\XLip_x.h", 0x76, L"pEnd >= pStart");
+    }
+    pEnd[1] = 0;
+    if (pStart > text) {
+        for (pTarget = text; pStart <= pEnd + 1; pStart++, pTarget++) {
+            *pTarget = *pStart;
+        }
+    }
+}

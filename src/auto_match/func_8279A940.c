@@ -1,31 +1,38 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern unsigned int lbl_821AAD20;
+typedef struct Owner_8279A940 {
+    unsigned char pad0[0x68];
+    unsigned short flags; /* 0x68 */
+} Owner_8279A940;
 
+typedef struct Timer_8279A940 {
+    unsigned char pad0[0x3c];
+    float start; /* 0x3c */
+    unsigned char pad40[0x4];
+    float now; /* 0x44 */
+    unsigned char pad48[0xb8];
+    unsigned int duration; /* 0x100 */
+    unsigned char pad104[0x10];
+    Owner_8279A940 *owner; /* 0x114 */
+    unsigned char pad118[0x25];
+    unsigned char state; /* 0x13d */
+} Timer_8279A940;
 
-unsigned __int64 fn_8279A940(int param_1)
-
+unsigned int fn_8279A940(Timer_8279A940 *self)
 {
-  float fVar1;
-  bool bVar2;
-  
-  if ((*(unsigned char *)(param_1 + 0x13d) & 8) == 0) {
-    if ((*(int *)(param_1 + 0x114) == 0) ||
-       (bVar2 = false, (*(unsigned short *)(*(int *)(param_1 + 0x114) + 0x68) & 1) != 0)) {
-      bVar2 = true;
-    }
-    fVar1 = lbl_821AAD20;
-    if (*(unsigned int *)(param_1 + 0x100) != 0) {
-      fVar1 = (float)*(unsigned int *)(param_1 + 0x100);
-    }
-    fVar1 = (fVar1 - (*(float *)(param_1 + 0x44) - *(float *)(param_1 + 0x3c))) +
-            (float)(__int64)(int)(-(unsigned int)!bVar2 & 0x4b0);
-    if (fVar1 < 0.0) {
-      fVar1 = lbl_821AAD20;
-    }
-    return (__int64)fVar1 & 0xffffffff;
-  }
-  return 0;
-}
+    unsigned char ready;
+    int penalty;
+    float remaining;
 
+    if (self->state & 8) {
+        return 0;
+    }
+    if ((int)self->owner == 0 || (self->owner->flags & 1) != 0) {
+        ready = 1;
+    } else {
+        ready = 0;
+    }
+    penalty = ready ? 0 : 1200;
+    remaining = self->duration != 0 ? (float)self->duration : 0.0f;
+    remaining = remaining - (self->now - self->start) + (float)penalty;
+    remaining = remaining >= 0.0f ? remaining : 0.0f;
+    return (unsigned int)remaining;
+}

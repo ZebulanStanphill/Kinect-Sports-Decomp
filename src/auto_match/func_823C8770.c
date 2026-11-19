@@ -1,59 +1,61 @@
-extern unsigned int *auStack_20;
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_70;
-extern unsigned int fStack_60;
-extern unsigned int fStack_64;
-extern unsigned int fStack_68;
-extern int fn_822B33B0();
-extern int fn_823C9098();
-extern int fn_823CAF28();
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int uStack_50;
-extern unsigned int uStack_54;
-extern unsigned int uStack_58;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Triple_823C8770 {
+    float x;
+    float y;
+    float z;
+} Triple_823C8770;
 
-void fn_823C8770(int param_1)
+typedef struct Camera_823C8770 {
+    char pad0[0x50];
+    __vector4 position; /* 0x50 */
+} Camera_823C8770;
 
+typedef struct Field_823C8770 {
+    int pad0;
+    void *bounds; /* 0x04 */
+} Field_823C8770;
+
+typedef struct World_823C8770 {
+    char pad0[0x1c];
+    Field_823C8770 *field; /* 0x1c */
+    char pad20[0xe10 - 0x20];
+    Camera_823C8770 *camera; /* 0xe10 */
+} World_823C8770;
+
+typedef struct Self_823C8770 {
+    char pad0[0x1a0];
+    __vector4 target; /* 0x1a0 */
+    char pad1b0[0x214 - 0x1b0];
+    Triple_823C8770 angles; /* 0x214 */
+    char pad220[0x228 - 0x220];
+    float distance; /* 0x228 */
+    char pad22c[0x240 - 0x22c];
+    World_823C8770 *world; /* 0x240 */
+} Self_823C8770;
+
+extern void fn_823CAF28(Self_823C8770 *self, __vector4 *position, __vector4 *offset, Triple_823C8770 *scale,
+                        float *distance);
+extern void fn_823C9098(__vector4 position, float x, __vector4 offset, float y, float z, __vector4 *target,
+                        Triple_823C8770 *angles);
+extern unsigned char fn_822B33B0(void *bounds, __vector4 point, float margin);
+
+void fn_823C8770(Self_823C8770 *self)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int in_r0;
-  char cVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int auStack_70 [2];
-  float fStack_68;
-  float fStack_64;
-  float fStack_60;
-  unsigned int uStack_58;
-  unsigned int uStack_54;
-  unsigned int uStack_50;
-  unsigned char auStack_40 [16];
-  unsigned char auStack_30 [16];
-  unsigned char auStack_20 [16];
-  
-  fn_823CAF28(param_1,auStack_30,auStack_40,&fStack_68,auStack_70);
-  fn_823C9098((double)fStack_68,(double)fStack_64,(double)fStack_60);
-  cVar3 = fn_822B33B0((double)ltcg_pool_0_0f,
-                       *(unsigned int *)(*(int *)(*(int *)(param_1 + 0x240) + 0x1c) + 4));
-  if (cVar3 != '\0') {
-    puVar1 = (unsigned int *)((unsigned int)(auStack_20 + in_r0) & 0xfffffff0);
-    uVar4 = puVar1[1];
-    uVar5 = puVar1[2];
-    uVar6 = puVar1[3];
-    puVar2 = (unsigned int *)(param_1 + 0x1a0U & 0xfffffff0);
-    *puVar2 = *puVar1;
-    puVar2[1] = uVar4;
-    puVar2[2] = uVar5;
-    puVar2[3] = uVar6;
-  }
-  *(unsigned int *)(param_1 + 0x228) = auStack_70[0];
-  *(unsigned int *)(param_1 + 0x214) = uStack_58;
-  *(unsigned int *)(param_1 + 0x218) = uStack_54;
-  *(unsigned int *)(param_1 + 0x21c) = uStack_50;
-  return;
-}
+    float distance;
+    Triple_823C8770 scale;
+    Triple_823C8770 angles;
+    __vector4 offset;
+    __vector4 position;
+    __vector4 target;
 
+    fn_823CAF28(self, &position, &offset, &scale, &distance);
+    fn_823C9098(position, scale.x, offset, scale.y, scale.z, &target, &angles);
+    if (fn_822B33B0(self->world->field->bounds, self->world->camera->position, 0.0f)) {
+        self->target = target;
+    }
+    self->distance = distance;
+    self->angles = angles;
+}

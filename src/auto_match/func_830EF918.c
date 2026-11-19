@@ -1,43 +1,30 @@
-void fn_830EF918(unsigned int *param_1,unsigned int *param_2,unsigned int param_3,unsigned int param_4)
-
+void fn_830EF918(int *mvX, int *mvY, int position, int limit)
 {
-  unsigned int uVar1;
-  int iVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  
-  uVar4 = *param_1;
-  uVar3 = param_3 & 0xffff;
-  uVar1 = *param_2;
-  iVar2 = (int)param_3 >> 0x10;
-  uVar5 = uVar1 + iVar2;
-  if ((int)(uVar4 + uVar3) < -0x73) {
-    uVar4 = ((uVar4 & 3) - uVar3) - 0x70;
-  }
-  else {
-    if ((int)(uVar4 + uVar3) <= (int)(param_4 & 0xffff)) goto LAB_830ef974;
-    uVar4 = (((uVar4 & 3) - uVar3) + (param_4 & 0xffff)) - 3;
-  }
-  *param_1 = uVar4;
-LAB_830ef974:
-  if (-0x74 < (int)uVar5) {
-    if ((int)param_4 >> 0x10 < (int)uVar5) {
-      iVar2 = ((uVar1 & 3) - iVar2) + ((int)param_4 >> 0x10);
-      uVar4 = iVar2 + 1;
-      if ((uVar5 & 4) == 0) {
-        uVar4 = iVar2 - 3;
-      }
-      *param_2 = uVar4;
-    }
-    return;
-  }
-  iVar2 = (uVar1 & 3) - iVar2;
-  if ((uVar5 & 4) != 0) {
-    *param_2 = iVar2 - 0x74;
-    return;
-  }
-  *param_2 = iVar2 - 0x70;
-  return;
-}
+    int posX = position & 0xffff;
+    int maxX = limit & 0xffff;
+    int posY = position >> 16;
+    int maxY = limit >> 16;
+    int x = *mvX;
+    int px = x + posX;
+    int y = *mvY;
+    int py = y + posY;
 
+    if (px < -0x73) {
+        *mvX = (x & 3) - posX - 0x70;
+    } else if (px > maxX) {
+        *mvX = (x & 3) - posX + maxX - 3;
+    }
+    if (py < -0x73) {
+        if (py & 4) {
+            *mvY = (y & 3) - posY - 0x74;
+        } else {
+            *mvY = (y & 3) - posY - 0x70;
+        }
+    } else if (py > maxY) {
+        if (py & 4) {
+            *mvY = (y & 3) - posY + maxY + 1;
+        } else {
+            *mvY = (y & 3) - posY + maxY - 3;
+        }
+    }
+}

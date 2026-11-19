@@ -1,71 +1,64 @@
-extern unsigned int fStack_44;
-extern unsigned int fStack_48;
-extern unsigned int fStack_4c;
-extern unsigned int fStack_50;
-extern unsigned int fStack_54;
-extern unsigned int fStack_58;
-extern unsigned int fStack_5c;
-extern unsigned int fStack_60;
-extern int fn_82809558();
-extern int fn_8280E180();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_821AAD20;
+/* Rebuilds the w components of two packed quaternions and blends them into the
+   first one, depending on which components the flags say were stored. */
+typedef struct Quaternion_82800FA8 {
+    float x;
+    float y;
+    float z;
+    float w;
+} Quaternion_82800FA8;
 
+extern float fn_82809558(float x); /* sqrtf */
+extern void fn_8280E180(Quaternion_82800FA8 *from, Quaternion_82800FA8 *to, Quaternion_82800FA8 *out,
+                        float t);
 
-void fn_82800FA8(unsigned __int64 param_1,float *param_2,float *param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5,unsigned short *param_6)
-
+void fn_82800FA8(Quaternion_82800FA8 *q, Quaternion_82800FA8 *other, float t, unsigned char flags,
+                 unsigned short *state)
 {
-  float fVar1;
-  double dVar2;
-  double dVar3;
-  double dVar4;
-  struct { float first; float second; } stack_pair_60;
+    Quaternion_82800FA8 from;
+    Quaternion_82800FA8 to;
+    float rest;
 
-  float fStack_58;
-  float fStack_54;
-  struct { float first; float second; } stack_pair_50;
+    if ((flags & 0xe0) == 0) {
+        q->w = 1.0f;
+    } else if ((flags & 0x1c) == 0x1c) {
+        rest = 1.0f - (q->x * q->x + q->y * q->y + q->z * q->z);
+        if (rest > 0.0f) {
+            q->w = fn_82809558(rest);
+        } else {
+            q->w = 0.0f;
+        }
+    } else {
+        {
+            float z = q->z;
+            float y = q->y;
+            float x = q->x;
 
-  float fStack_48;
-  float fStack_44;
+            from.y = y;
+            from.x = x;
+            from.z = z;
+            rest = 1.0f - (x * x + y * y + z * z);
+            if (rest <= 0.0f) {
+                from.w = 0.0f;
+            } else {
+                from.w = fn_82809558(rest);
+            }
+        }
+        {
+            float x = other->x;
+            float y = other->y;
+            float z = other->z;
 
-  fVar1 = lbl_82002AE0;
-  if ((param_5 & 0xe0) != 0) {
-    stack_pair_50.second = param_2[1];
-    if ((param_5 & 0x1c) != 0x1c) {
-      stack_pair_50.first = *param_2;
-      fStack_48 = param_2[2];
-      dVar4 = (double)lbl_82002AE0;
-      dVar2 = (double)lbl_821AAD20;
-      if (dVar2 < (double)(float)(dVar4 - (double)(fStack_48 * fStack_48 +
-                                                  stack_pair_50.first * stack_pair_50.first + stack_pair_50.second * stack_pair_50.second))) {
-        dVar3 = (double)fn_82809558();
-        fStack_44 = (float)dVar3;
-      }
-      else {
-        fStack_44 = lbl_821AAD20;
-      }
-      stack_pair_60.second = param_3[1];
-      fStack_58 = param_3[2];
-      stack_pair_60.first = *param_3;
-      if (dVar2 < (double)(float)(dVar4 - (double)(stack_pair_60.first * stack_pair_60.first +
-                                                  fStack_58 * fStack_58 + stack_pair_60.second * stack_pair_60.second))) {
-        dVar2 = (double)fn_82809558();
-      }
-      fStack_54 = (float)dVar2;
-      fn_8280E180(param_1,&stack_pair_50.first,&stack_pair_60.first,param_2);
-      goto LAB_828010d0;
+            to.y = y;
+            to.x = x;
+            to.z = z;
+            rest = 1.0f - (z * z + y * y + x * x);
+            if (rest <= 0.0f) {
+                to.w = 0.0f;
+            } else {
+                to.w = fn_82809558(rest);
+            }
+        }
+        fn_8280E180(&from, &to, q, t);
     }
-    fVar1 = lbl_821AAD20;
-    if (lbl_821AAD20 <
-        lbl_82002AE0 - (param_2[2] * param_2[2] + *param_2 * *param_2 + stack_pair_50.second * stack_pair_50.second)) {
-      dVar2 = (double)fn_82809558();
-      param_2[3] = (float)dVar2;
-      goto LAB_828010d0;
-    }
-  }
-  param_2[3] = fVar1;
-LAB_828010d0:
-  *param_6 = 4;
-  return;
+    *state = 4;
 }

@@ -1,55 +1,76 @@
-extern int fn_829D3FE8();
-extern int fn_829D5A08();
-extern unsigned int lbl_83215058;
-extern unsigned int lbl_83217148;
-extern unsigned int lbl_832179FC;
+typedef struct Port_829DA6D8 {
+    int state;
+    int unk04[5];
+} Port_829DA6D8;
 
+typedef struct User_829DA6D8 {
+    char unk000[0x140];
+    int state; /* 0x140 */
+    char unk144[0x150 - 0x144];
+} User_829DA6D8;
 
-unsigned __int64 fn_829DA6D8(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4)
+typedef struct Data_829DA6D8 {
+    Port_829DA6D8 ports[8]; /* 0x00 */
+    User_829DA6D8 users[1]; /* 0xC0 */
+} Data_829DA6D8;
 
+extern int lbl_83215000[];
+extern char *lbl_832179FC;
+
+extern void RtlEnterCriticalSection(void *cs);
+extern void RtlLeaveCriticalSection(void *cs);
+typedef struct User_829DA6D8 User_829DA6D8;
+extern unsigned char fn_829D3FE8(unsigned int user, char *base, int *index);
+extern int fn_829D5A08(int kind, char *base, User_829DA6D8 *entry, int index, unsigned int user,
+                       unsigned int port, unsigned int flags, void *buffer, void *overlapped);
+
+int fn_829DA6D8(unsigned int user, unsigned int port, unsigned int flags, void *buffer, void *overlapped)
 {
-  int iVar1;
-  char cVar2;
-  int iVar3;
-  int iVar4;
-  unsigned __int64 uVar5;
-  int aiStack_50 [20];
-  
-  if (((param_3 & 0xfffffffe) == 0 && (param_3 & 0xffffffde) == 0) && ((param_3 & 1) != 0)) {
-    if ((((param_3 & 0x20) == 0) || (((param_2 & 0xffffffff) < 8 || ((int)param_2 == -2)))) &&
-       (((param_3 & 0x10) == 0 || ((param_4 & 0xffffffff) != 0)))) {
-      if ((lbl_83217148 != 0) && (lbl_832179FC != 0)) {
-        if (lbl_83215058 == 0) {
-          return 0xffffffff8007048f;
-        }
-        iVar4 = lbl_832179FC + 0x24980;
-        RtlEnterCriticalSection(iVar4);
-        iVar1 = lbl_832179FC;
-        aiStack_50[0] = 0;
-        cVar2 = fn_829D3FE8(param_1,lbl_832179FC,aiStack_50);
-        if (cVar2 == '\0') {
-          uVar5 = 0xffffffff83010008;
-        }
-        else {
-          iVar3 = aiStack_50[0] * 0x150 + iVar1;
-          if (*(int *)(iVar3 + 0x200) == -1) {
-            uVar5 = 0xffffffff8301000c;
-          }
-          else if ((((param_3 & 0x20) == 0) || (8 < (param_2 & 0xffffffff))) ||
-                  (*(int *)((int)param_2 * 0x18 + iVar1) != 0)) {
-            uVar5 = fn_829D5A08(2,iVar1,iVar3 + 0xc0,aiStack_50[0],param_1,param_2,param_3,param_4
-                                 );
-          }
-          else {
-            uVar5 = 0xffffffff80070057;
-          }
-        }
-        RtlLeaveCriticalSection(iVar4);
-        return uVar5;
-      }
-      return 0xffffffff83010005;
-    }
-  }
-  return 0xffffffff80070057;
-}
+    void *cs;
+    char *base;
+    User_829DA6D8 *entry;
+    int index;
+    int hr;
 
+    if ((flags & ~0x21) != 0) {
+        return 0x80070057;
+    }
+    if ((flags & 1) == 0) {
+        return 0x80070057;
+    }
+    if ((flags & 0x20) != 0 && port >= 8 && (int)port != -2) {
+        return 0x80070057;
+    }
+    if ((flags & 0x10) != 0 && buffer == 0) {
+        return 0x80070057;
+    }
+    if (lbl_83215000[0x2148 / 4] == 0 || lbl_832179FC == 0) {
+        return 0x83010005;
+    }
+    if (lbl_83215000[0x58 / 4] == 0) {
+        return 0x8007048f;
+    }
+    cs = lbl_832179FC + 0x24980;
+    RtlEnterCriticalSection(cs);
+    base = lbl_832179FC;
+    index = 0;
+    if (!fn_829D3FE8(user, base, &index)) {
+        hr = 0x83010008;
+        RtlLeaveCriticalSection(cs);
+        return hr;
+    }
+    entry = &((Data_829DA6D8 *)base)->users[index];
+    if (entry->state == -1) {
+        hr = 0x8301000c;
+        RtlLeaveCriticalSection(cs);
+        return hr;
+    }
+    if ((flags & 0x20) != 0 && port <= 8 && ((Port_829DA6D8 *)base)[port].state == 0) {
+        hr = 0x80070057;
+        RtlLeaveCriticalSection(cs);
+        return hr;
+    }
+    hr = fn_829D5A08(2, base, entry, index, user, port, flags, buffer, overlapped);
+    RtlLeaveCriticalSection(cs);
+    return hr;
+}

@@ -1,26 +1,28 @@
-extern int fn_8270A638();
+typedef void (*Convert_8270A8F8)(void);
 
+extern void fn_8270A258(void);
+extern void fn_8270A380(void);
+extern void fn_8270A468(void);
+extern void fn_8270A558(void);
+extern void fn_8270A638(int a, int b, int c, int d, int srcBytes, int e, int f, int g, int h, int dstBytes,
+                        Convert_8270A8F8 convert);
 
-void fn_8270A8F8(unsigned __int64 param_1,int param_2,int param_3,unsigned __int64 param_4,unsigned __int64 param_5,
-                  int param_6,int param_7)
-
+void fn_8270A8F8(int a, int b, int c, int d, int e, int f, int g, int h, unsigned int mode)
 {
-  unsigned int in_stack_00000054;
-  
-  if ((((0 < param_2) && (0 < param_3)) && (0 < param_6)) && (0 < param_7)) {
-    if (in_stack_00000054 == 0) {
-      fn_8270A638();
+    if (b > 0 && c > 0 && f > 0 && g > 0) {
+        switch (mode) {
+        case 0:
+            fn_8270A638(a, b, c, d, 3, e, f, g, h, 3, fn_8270A380);
+            break;
+        case 1:
+            fn_8270A638(a, b, c, d, 4, e, f, g, h, 4, fn_8270A258);
+            break;
+        case 2:
+            fn_8270A638(a, b, c, d, 4, e, f, g, h, 3, fn_8270A468);
+            break;
+        case 3:
+            fn_8270A638(a, b, c, d, 1, e, f, g, h, 1, fn_8270A558);
+            break;
+        }
     }
-    else if (in_stack_00000054 == 1) {
-      fn_8270A638();
-    }
-    else if (in_stack_00000054 < 3) {
-      fn_8270A638();
-    }
-    else if (in_stack_00000054 == 3) {
-      fn_8270A638();
-    }
-  }
-  return;
 }
-

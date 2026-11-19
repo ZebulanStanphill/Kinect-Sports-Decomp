@@ -1,48 +1,40 @@
-void fn_82F26D38(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,int *param_4,unsigned int *param_5)
+typedef struct Decoder_82F26D38 {
+    char pad0[0x2d0];
+    unsigned int widthInBlocks;  /* 0x2d0 */
+    unsigned int heightInBlocks; /* 0x2d4 */
+} Decoder_82F26D38;
 
+void fn_82F26D38(Decoder_82F26D38 *self, unsigned int blockX, unsigned int blockY, int *mvX, int *mvY)
 {
-  unsigned int uVar1;
-  __int64 lVar2;
-  __int64 lVar3;
-  __int64 lVar4;
-  int iVar5;
-  __int64 lVar6;
-  __int64 lVar7;
-  
-  uVar1 = *param_5;
-  iVar5 = *param_4;
-  lVar7 = ((unsigned __int64)*(unsigned int *)(param_1 + 0x2d0) & 0x1fffffff) * 8;
-  if ((uVar1 & 4) == 0) {
-    lVar2 = -8;
-    lVar6 = ((unsigned __int64)*(unsigned int *)(param_1 + 0x2d4) & 0x1fffffff) << 3;
-  }
-  else {
-    lVar2 = -9;
-    lVar6 = ((unsigned __int64)*(unsigned int *)(param_1 + 0x2d4) & 0x1fffffff) * 8 + 1;
-  }
-  if (iVar5 == 0x4000) {
-    *param_4 = 0x4000;
-  }
-  else {
-    lVar4 = (__int64)(iVar5 >> 2) + (param_2 & 0x1fffffff) * 8;
-    lVar3 = (__int64)((int)uVar1 >> 2) + (param_3 & 0x1fffffff) * 8;
-    if ((int)lVar4 < -8) {
-      iVar5 = iVar5 - (int)((lVar4 + 8U & 0xffffffff) << 2);
-    }
-    else if ((int)lVar7 < (int)lVar4) {
-      iVar5 = (int)((lVar7 - lVar4 & 0xffffffffU) << 2) + iVar5;
-    }
-    *param_4 = iVar5;
-    if ((int)lVar3 < (int)lVar2) {
-      *param_5 = (int)((lVar2 - lVar3 & 0xffffffffU) << 2) + uVar1;
-      return;
-    }
-    if ((int)lVar6 < (int)lVar3) {
-      *param_5 = (int)((lVar6 - lVar3 & 0xffffffffU) << 2) + uVar1;
-      return;
-    }
-  }
-  *param_5 = uVar1;
-  return;
-}
+    int y = *mvY;
+    int x = *mvX;
+    int maxX = self->widthInBlocks * 8;
+    int posX;
+    int posY;
+    int minY;
+    int maxY;
 
+    if (y & 4) {
+        minY = -9;
+        maxY = self->heightInBlocks * 8 + 1;
+    } else {
+        minY = -8;
+        maxY = self->heightInBlocks * 8;
+    }
+    if (*mvX != 0x4000) {
+        posX = (x >> 2) + blockX * 8;
+        posY = (y >> 2) + blockY * 8;
+        if (posX < -8) {
+            x -= (posX + 8) * 4;
+        } else if (posX > maxX) {
+            x += (maxX - posX) << 2;
+        }
+        if (posY < minY) {
+            y += (minY - posY) << 2;
+        } else if (posY > maxY) {
+            y += (maxY - posY) << 2;
+        }
+    }
+    *mvX = x;
+    *mvY = y;
+}

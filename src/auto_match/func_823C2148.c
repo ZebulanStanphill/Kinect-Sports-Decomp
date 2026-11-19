@@ -1,51 +1,63 @@
-typedef unsigned char bool;
-extern unsigned int *auStack_40;
-extern int fn_822315A0();
-extern int fn_82356F98();
-extern int fn_8236BCD8();
-extern int fn_823DB6B8();
-extern unsigned int ltcg_pool_0_0f;
+/* /O1 /QVMXReserve: v75 and v77 are the game's reserved vectors, read with __VMXGetReg. */
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Ref_823C2148 {
+    void *obj; /* 0x00 */
+    void *rep; /* 0x04 */
+} Ref_823C2148;
 
-void fn_823C2148(int param_1,char param_2,char param_3)
+typedef struct Source_823C2148 {
+    char pad0[0x50];
+    __vector4 value; /* 0x50 */
+} Source_823C2148;
 
+typedef struct Self_823C2148 {
+    char pad0[0x4b0];
+    void *panel; /* 0x4b0 */
+    char pad4b4[0xd50 - 0x4b4];
+    unsigned char inactive; /* 0xd50 */
+    unsigned char dirty;    /* 0xd51 */
+    unsigned char done;     /* 0xd52 */
+    char padd53[0xd];
+    __vector4 current; /* 0xd60 */
+    __vector4 target;  /* 0xd70 */
+    char padd80[0xe10 - 0xd80];
+    Source_823C2148 *source; /* 0xe10 */
+} Self_823C2148;
+
+__vector4 __VMXGetReg(int n);
+extern void fn_822315A0(void *rep);
+extern Ref_823C2148 *fn_82356F98(Ref_823C2148 *ref);
+extern void fn_8236BCD8(Self_823C2148 *self);
+extern void fn_823DB6B8(void *panel, Ref_823C2148 *ref, int mode, __vector4 a, __vector4 b, float x,
+                        float y);
+
+void fn_823C2148(Self_823C2148 *self, unsigned char active, unsigned char reset)
 {
-  unsigned int *puVar1;
-  int iVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned char auStack_40 [32];
-  
-  puVar1 = (unsigned int *)(*(int *)(param_1 + 0xe10) + 0x50U & 0xfffffff0);
-  uVar3 = *puVar1;
-  uVar4 = puVar1[1];
-  uVar5 = puVar1[2];
-  uVar6 = puVar1[3];
-  *(bool *)(param_1 + 0xd50) = param_2 == '\0';
-  *(unsigned char *)(param_1 + 0xd51) = 1;
-  *(unsigned char *)(param_1 + 0xd52) = 0;
-  puVar1 = (unsigned int *)(param_1 + 0xd60U & 0xfffffff0);
-  *puVar1 = uVar3;
-  puVar1[1] = uVar4;
-  puVar1[2] = uVar5;
-  puVar1[3] = uVar6;
-  puVar1 = (unsigned int *)(param_1 + 0xd70U & 0xfffffff0);
-  *puVar1 = uVar3;
-  puVar1[1] = uVar4;
-  puVar1[2] = uVar5;
-  puVar1[3] = uVar6;
-  if (param_3 != '\0') {
-    fn_8236BCD8();
-    iVar2 = fn_82356F98(auStack_40);
-    if (*(int *)(param_1 + 0x4b0) != 0) {
-      fn_823DB6B8((double)ltcg_pool_0_0f,*(int *)(param_1 + 0x4b0),iVar2,0);
-    }
-    if (*(int *)(iVar2 + 4) != 0) {
-      fn_822315A0();
-    }
-  }
-  return;
-}
+    __vector4 value;
+    Ref_823C2148 tmp;
+    Ref_823C2148 *ref;
+    __vector4 zero;
+    __vector4 ext;
 
+    value = self->source->value;
+    self->inactive = active == 0;
+    self->dirty = 1;
+    self->done = 0;
+    self->current = value;
+    self->target = value;
+    if (reset != 0) {
+        fn_8236BCD8(self);
+        ext = __VMXGetReg(75);
+        zero = __VMXGetReg(77);
+        ref = fn_82356F98(&tmp);
+        if (self->panel != 0) {
+            fn_823DB6B8(self->panel, ref, 0, zero, ext, 0.0f, 0.0f);
+        }
+        if (ref->rep != 0) {
+            fn_822315A0(ref->rep);
+        }
+    }
+}

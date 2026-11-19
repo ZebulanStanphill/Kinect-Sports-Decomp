@@ -1,66 +1,61 @@
-#define CONCAT22(h,l) ((unsigned int)((((unsigned short)(h)) << 16) | ((unsigned short)(l))))
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_80;
-extern int fn_82BF99F0();
-extern int fn_82BF9FC0();
-extern int fn_82BFA140();
-extern int fn_82F6D460();
-extern unsigned int lbl_83175598;
+void *memset(void *, int, unsigned int);
+
+typedef struct Request_82BF3608 {
+    const char *name;     /* 0x0 */
+    unsigned int nameLen; /* 0x4 */
+    const char *path;     /* 0x8 */
+    unsigned int pathLen; /* 0xc */
+    unsigned short size;  /* 0x10 */
+    unsigned short flags; /* 0x12 */
+} Request_82BF3608;
+
+typedef struct Result_82BF3608 {
+    unsigned __int64 size;  /* 0x0 */
+    unsigned __int64 unk8;  /* 0x8 */
+    unsigned __int64 unk10; /* 0x10 */
+    unsigned int unk18;     /* 0x18 */
+    unsigned int unk1c;     /* 0x1c */
+} Result_82BF3608;
+
+extern const char *lbl_83175598;
 extern unsigned int lbl_8322B4F0;
-extern unsigned int uStack_38;
-extern unsigned int uStack_40;
-extern unsigned int uStack_60;
-extern unsigned int uStack_64;
-extern unsigned int uStack_68;
-extern unsigned int uStack_6c;
+extern unsigned int fn_82F6D460(const char *s, unsigned int max);
+extern unsigned int fn_82BF99F0(int *handle, Request_82BF3608 *request, Result_82BF3608 *result);
+extern unsigned int fn_82BF9FC0(int handle, const void *data, unsigned int size);
+extern void fn_82BFA140(int handle, int close);
 
-
-unsigned __int64 fn_82BF3608(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3)
-
+unsigned int fn_82BF3608(const char *path, const void *data, unsigned int size)
 {
-  int iVar1;
-  unsigned int auStack_80 [4];
-  unsigned char *puStack_70;
-  unsigned int uStack_6c;
-  unsigned int uStack_68;
-  unsigned int uStack_64;
-  unsigned int uStack_60;
-  unsigned __int64 auStack_50 [2];
-  unsigned __int64 uStack_40;
-  unsigned __int64 uStack_38;
-  
-  uStack_6c = 0;
-  uStack_68 = 0;
-  uStack_64 = 0;
-  uStack_60 = 0;
-  puStack_70 = lbl_83175598;
-  if (lbl_83175598 == (unsigned char *)0x0) {
-    uStack_6c = 0;
-  }
-  else {
-    uStack_6c = fn_82F6D460(lbl_83175598,lbl_8322B4F0);
-  }
-  uStack_68 = (unsigned int)param_1;
-  uStack_60 = CONCAT22(0x50,(((unsigned __int64)(uStack_60) >> 16) & 0xFFFF));
-  if ((param_1 & 0xffffffff) == 0) {
-    uStack_64 = 0;
-  }
-  else {
-    uStack_64 = fn_82F6D460(param_1,0x104);
-  }
-  auStack_80[0] = 0;
-  auStack_50[0] = param_3 & 0xffffffff;
-  uStack_38 = 0;
-  uStack_40 = 0;
-  iVar1 = fn_82BF99F0(auStack_80,&puStack_70,auStack_50);
-  if (iVar1 == 0) {
-    iVar1 = fn_82BF9FC0(auStack_80[0],param_2,param_3);
-    if (iVar1 == 0) {
-      fn_82BFA140(auStack_80[0],0);
-      return param_3;
-    }
-    fn_82BFA140(auStack_80[0],1);
-  }
-  return 0;
-}
+    Request_82BF3608 request = {0};
+    Result_82BF3608 result;
+    int handle;
 
+    request.name = lbl_83175598;
+    if (lbl_83175598 == 0) {
+        request.nameLen = 0;
+    } else {
+        request.nameLen = fn_82F6D460(lbl_83175598, lbl_8322B4F0);
+    }
+    request.path = path;
+    request.size = 0x50;
+    if (path == 0) {
+        request.pathLen = 0;
+    } else {
+        request.pathLen = fn_82F6D460(path, 0x104);
+    }
+    handle = 0;
+    memset(&result.unk8, 0, 0x18);
+    result.size = size;
+    result.unk8 = 0;
+    result.unk18 = 0;
+    result.unk1c = 0;
+    result.unk10 = 0;
+    if (fn_82BF99F0(&handle, &request, &result) == 0) {
+        if (fn_82BF9FC0(handle, data, size) == 0) {
+            fn_82BFA140(handle, 0);
+            return size;
+        }
+        fn_82BFA140(handle, 1);
+    }
+    return 0;
+}

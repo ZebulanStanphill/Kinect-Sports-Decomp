@@ -1,48 +1,39 @@
-extern int fn_8265CD00();
-extern int fn_8265CE08();
-extern int fn_8266C340();
+typedef unsigned short wchar_t;
 
+extern int fn_8265CD00(wchar_t c);
+extern unsigned int fn_8265CE08(const wchar_t *s);
+extern void fn_8266C340(const wchar_t *format, ...);
 
-void fn_82661898(short *param_1)
-
+/* Trims leading and trailing white space in place. */
+void fn_82661898(wchar_t *text)
 {
-  short *psVar1;
-  int iVar2;
-  short *psStack00000014;
-  short *psStack_20;
-  short *psStack_1c;
-  short *psStack_18;
-  
-  psStack00000014 = param_1;
-  psStack_1c = param_1;
-  if (param_1 != (short *)0x0) {
-    while (iVar2 = fn_8265CD00(*psStack_1c), iVar2 != 0) {
-      psStack_1c = psStack_1c + 1;
-    }
-    if (*psStack_1c == 0) {
-      *psStack00000014 = 0;
-    }
-    else {
-      iVar2 = fn_8265CE08(psStack_1c);
-      psStack_20 = psStack_1c + iVar2;
-      do {
-        psVar1 = psStack_20;
-        psStack_20 = psVar1 + -1;
-        iVar2 = fn_8265CD00(*psStack_20);
-      } while (iVar2 != 0);
-      if (psStack_20 < psStack_1c) {
-        fn_8266C340(0xffffffff820015c0,0xffffffff82001ca8,0x76,0xffffffff82001d0c);
-      }
-      *psVar1 = 0;
-      if (psStack00000014 < psStack_1c) {
-        psStack_18 = psStack00000014;
-        for (; psStack_1c <= psVar1; psStack_1c = psStack_1c + 1) {
-          *psStack_18 = *psStack_1c;
-          psStack_18 = psStack_18 + 1;
-        }
-      }
-    }
-  }
-  return;
-}
+    wchar_t *pEnd;
+    wchar_t *pStart;
+    wchar_t *pTarget;
 
+    if (text == 0) {
+        return;
+    }
+    pStart = text;
+    while (fn_8265CD00(*pStart)) {
+        pStart++;
+    }
+    if (*pStart == 0) {
+        *text = 0;
+        return;
+    }
+    pEnd = pStart + fn_8265CE08(pStart) - 1;
+    while (fn_8265CD00(*pEnd)) {
+        pEnd--;
+    }
+    if (pEnd < pStart) {
+        fn_8266C340(L"Assert failed. File: %s. Line: %d. Condition: %s",
+                    L"d:\\work\\external\\xlip\\1.0\\XLip_x.h", 0x76, L"pEnd >= pStart");
+    }
+    pEnd[1] = 0;
+    if (pStart > text) {
+        for (pTarget = text; pStart <= pEnd + 1; pStart++, pTarget++) {
+            *pTarget = *pStart;
+        }
+    }
+}

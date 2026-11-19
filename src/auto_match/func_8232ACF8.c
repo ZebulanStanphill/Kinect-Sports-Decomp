@@ -1,41 +1,61 @@
-extern int fn_82560100();
-extern int fn_82575DF0();
-extern unsigned int lbl_82192734;
-extern unsigned int ltcg_pool_0_0f;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Entry_8232ACF8 {
+    void *target; /* 0x0 */
+    unsigned char pad4[0x14];
+} Entry_8232ACF8;
 
-void fn_8232ACF8(int param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4)
+typedef struct Ctx_8232ACF8 {
+    unsigned char pad[0x93c];
+    void *manager; /* 0x93c */
+} Ctx_8232ACF8;
 
+typedef struct Obj_8232ACF8 {
+    unsigned char pad0[0x4];
+    Entry_8232ACF8 entries[9]; /* 0x004 */
+    unsigned char padDC[0x14];
+    void *defaultTarget;  /* 0x0f0 */
+    void *idleTarget;     /* 0x0f4 */
+    void *handle;         /* 0x0f8 */
+    Ctx_8232ACF8 *ctx;    /* 0x0fc */
+    unsigned int current; /* 0x100 */
+    unsigned char pad104[0xc];
+    __vector4 position; /* 0x110 */
+} Obj_8232ACF8;
+
+extern float lbl_82192730[];
+
+extern void *fn_82560100(Ctx_8232ACF8 *context, void *target, __vector4 *position, float blend, void *offset,
+                         int c, int d, int e);
+extern void fn_82575DF0(void *manager, void *handle);
+
+void fn_8232ACF8(Obj_8232ACF8 *self, unsigned int index)
 {
-  unsigned int uVar1;
-  int iVar2;
-  int iVar3;
-  
-  if (param_2 != *(int *)(param_1 + 0x100)) {
-    if (*(int *)(param_1 + 0xf8) != 0) {
-      fn_82575DF0(*(unsigned int *)(*(int *)(param_1 + 0xfc) + 0x93c));
-      *(unsigned int *)(param_1 + 0xf8) = 0;
-    }
-    if (param_2 == 0) {
-      iVar3 = *(int *)(param_1 + 0xf4);
-      iVar2 = param_1 + 0xf4;
-    }
-    else {
-      iVar3 = param_2 * 0x18 + param_1;
-      if (*(int *)(iVar3 + -0x14) != 0) {
-        uVar1 = fn_82560100((double)lbl_82192734,*(unsigned int *)(param_1 + 0xfc),iVar3 + -0x14
-                                  ,param_1 + 0x110,param_4,0,0,0,0);
-        *(unsigned int *)(param_1 + 0xf8) = uVar1;
-      }
-      iVar3 = *(int *)(param_1 + 0xf0);
-      iVar2 = param_1 + 0xf0;
-    }
-    if (iVar3 != 0) {
-      fn_82560100((double)ltcg_pool_0_0f,*(unsigned int *)(param_1 + 0xfc),iVar2,param_1 + 0x110,
-                        param_4,0,0,0,0);
-    }
-    *(int *)(param_1 + 0x100) = param_2;
-  }
-  return;
-}
+    void **target;
+    void *current;
 
+    if (index != self->current) {
+        if (self->handle != 0) {
+            fn_82575DF0(self->ctx->manager, self->handle);
+            self->handle = 0;
+        }
+        if (index != 0) {
+            Entry_8232ACF8 *entry = &self->entries[index - 1];
+            if (entry->target != 0) {
+                self->handle =
+                    fn_82560100(self->ctx, &entry->target, &self->position, lbl_82192730[1], 0, 0, 0, 0);
+            }
+            current = self->defaultTarget;
+            target = &self->defaultTarget;
+        } else {
+            current = self->idleTarget;
+            target = &self->idleTarget;
+        }
+        if (current != 0) {
+            fn_82560100(self->ctx, target, &self->position, 0.0f, 0, 0, 0, 0);
+        }
+        self->current = index;
+    }
+}

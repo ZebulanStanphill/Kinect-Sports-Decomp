@@ -1,28 +1,40 @@
-extern int fn_829EC0F8();
-extern int fn_82F691F0();
+#include <string.h>
 
+typedef struct Weights_829EE088 {
+    int status;           /* 0x00 */
+    char allocator[0x14]; /* 0x04 */
+    float *weights;       /* 0x18 */
+    int count;            /* 0x1c */
+    int active;           /* 0x20 */
+} Weights_829EE088;
 
-void fn_829EE088(unsigned int *param_1,int param_2,int param_3)
+extern float *fn_829EC0F8(void *allocator, unsigned int size, int a, int b);
 
+int fn_829EE088(Weights_829EE088 *self, int count, int active, const float *initial)
 {
-  unsigned __int64 uVar1;
-  
-  if (((param_2 < 1) || (param_3 < 0)) || (param_2 <= param_3)) {
-    *param_1 = 0x80070057;
-  }
-  else {
-    uVar1 = fn_829EC0F8(param_1 + 1,param_2 << 2,1,1);
-    param_1[6] = (int)uVar1;
-    if ((uVar1 & 0xffffffff) != 0) {
-      param_1[8] = param_3;
-      param_1[7] = param_2;
-                    /* WARNING: Subroutine does not return */
-      fn_82F691F0(uVar1,0,param_2 << 2);
-    }
-    param_1[8] = 0;
-    *param_1 = 0x8007000e;
-    param_1[7] = 0;
-  }
-  return;
-}
+    int hr;
+    unsigned int size;
 
+    if (count < 1 || active < 0 || active >= count) {
+        hr = 0x80070057;
+        self->status = hr;
+        return hr;
+    }
+    size = count * 4;
+    self->weights = fn_829EC0F8(self->allocator, size, 1, 1);
+    if (self->weights == 0) {
+        self->active = 0;
+        hr = 0x8007000E;
+        self->status = hr;
+        self->count = 0;
+        return hr;
+    }
+    self->active = active;
+    self->count = count;
+    memset(self->weights, 0, size);
+    self->weights[self->active] = 1.0f;
+    if (initial != 0) {
+        memcpy(self->weights, initial, self->count * 4);
+    }
+    return 0;
+}

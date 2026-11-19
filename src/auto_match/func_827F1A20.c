@@ -1,50 +1,54 @@
-extern int fn_827F15D0();
-extern int fn_827F4010();
+typedef struct Child_827F1A20 Child_827F1A20;
 
+typedef struct ChildVtbl_827F1A20 {
+    void *pad0;
+    void (*update)(Child_827F1A20 *self, float dt); /* 0x4 */
+} ChildVtbl_827F1A20;
 
-void fn_827F1A20(unsigned __int64 param_1,__int64 param_2)
+struct Child_827F1A20 {
+    ChildVtbl_827F1A20 *vt;
+};
 
+typedef struct Group_827F1A20 {
+    char pad0[0x60];
+    unsigned int values[16];      /* 0x60 */
+    Child_827F1A20 *children[18]; /* 0xa0 */
+    unsigned short count;         /* 0xe8 */
+    unsigned short flagsPad : 14; /* 0xea */
+    unsigned short active : 1;
+    unsigned short valid : 1;
+    unsigned short padEC;        /* 0xec */
+    unsigned short disabled[77]; /* 0xee */
+    unsigned char updated;       /* 0x188 */
+} Group_827F1A20;
+
+extern unsigned int fn_827F4010(Child_827F1A20 *child);
+extern void fn_827F15D0(Group_827F1A20 *self);
+
+static __forceinline int IsDisabled(Group_827F1A20 *self, unsigned short index)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  __int64 lVar4;
-  __int64 lVar5;
-  unsigned __int64 uVar6;
-  
-  iVar2 = (int)param_2;
-  uVar6 = (unsigned __int64)*(unsigned short *)(iVar2 + 0xe8) - 1;
-  if (-1 < (__int64)uVar6) {
-    lVar4 = ((unsigned __int64)*(unsigned short *)(iVar2 + 0xe8) + 0x27) * 4 + param_2;
-    do {
-      if ((*(unsigned short *)((((unsigned int)((uVar6 & 0xffffffff) >> 4) & 0xfff) + 0x77) * 2 + iVar2) >>
-           ((unsigned int)uVar6 & 0xf) & 1) == 0) {
-        (**(int (***)())(*(int *)*(unsigned int *)lVar4 + 4))(param_1);
-      }
-      uVar6 = uVar6 - 1;
-      lVar4 = lVar4 + -4;
-    } while (-1 < (__int64)uVar6);
-  }
-  if ((*(unsigned short *)(iVar2 + 0xea) & 1) != 0) {
-    lVar4 = (unsigned __int64)*(unsigned short *)(iVar2 + 0xe8) - 1;
-    if (-1 < lVar4) {
-      lVar5 = ((unsigned __int64)*(unsigned short *)(iVar2 + 0xe8) + 0x17) * 4 + param_2;
-      do {
-        iVar1 = *(int *)lVar5;
-        iVar3 = fn_827F4010(((int *)lVar5)[0x10]);
-        if (iVar3 != iVar1) {
-          *(unsigned short *)(iVar2 + 0xea) = *(unsigned short *)(iVar2 + 0xea) & 0xfffe;
-          break;
-        }
-        lVar4 = lVar4 + -1;
-        lVar5 = lVar5 + -4;
-      } while (-1 < lVar4);
-    }
-  }
-  if (((*(unsigned short *)(iVar2 + 0xea) >> 1 & 1) == 0) || ((*(unsigned short *)(iVar2 + 0xea) & 1) == 0)) {
-    fn_827F15D0(param_2);
-  }
-  *(unsigned char *)(iVar2 + 0x188) = 1;
-  return;
+    return self->disabled[index >> 4] >> (index & 15) & 1;
 }
 
+void fn_827F1A20(Group_827F1A20 *self, float dt)
+{
+    int i;
+
+    for (i = self->count - 1; i >= 0; i--) {
+        if (!IsDisabled(self, (unsigned short)i)) {
+            self->children[i]->vt->update(self->children[i], dt);
+        }
+    }
+    if (self->valid) {
+        for (i = self->count - 1; i >= 0; i--) {
+            if (fn_827F4010(self->children[i]) != self->values[i]) {
+                self->valid = 0;
+                break;
+            }
+        }
+    }
+    if (!(unsigned char)self->active || !(unsigned char)self->valid) {
+        fn_827F15D0(self);
+    }
+    self->updated = 1;
+}

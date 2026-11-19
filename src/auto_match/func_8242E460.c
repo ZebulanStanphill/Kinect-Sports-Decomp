@@ -1,36 +1,40 @@
-extern unsigned int *auStack_40;
-extern int fn_825200A8();
-extern int fn_8265BF48();
-extern unsigned int uRam83297704;
-extern unsigned int uRam83297708;
-extern unsigned int uRam8329770c;
-extern unsigned int uRam83297b88;
+typedef struct Owner_8242E460 {
+    char unk000[0x9c];
+    unsigned int *script; /* 0x9C */
+} Owner_8242E460;
 
+typedef struct Object_8242E460 {
+    char unk000[0x174];
+    Owner_8242E460 *owner; /* 0x174 */
+} Object_8242E460;
 
-unsigned __int64 fn_8242E460(int param_1)
+extern unsigned int lbl_83297B88;
+extern unsigned int lbl_83297704;
+extern unsigned int lbl_83297708;
+extern unsigned int lbl_8329770C;
+extern unsigned int fn_8265BF48(const char *name, int seed);
+extern int fn_825200A8(void *a, void *b);
 
+int fn_8242E460(Object_8242E460 *object)
 {
-  int iVar1;
-  unsigned int auStack_40 [16];
-  
-  if ((uRam83297b88 & 1) == 0) {
-    uRam83297b88 = uRam83297b88 | 1;
-    uRam83297704 = fn_8265BF48(0xffffffff821b8e78,0);
-  }
-  if ((uRam83297b88 & 2) == 0) {
-    uRam83297b88 = uRam83297b88 | 2;
-    uRam83297708 = fn_8265BF48(0xffffffff821b8eb8,0);
-  }
-  if ((uRam83297b88 & 4) == 0) {
-    uRam83297b88 = uRam83297b88 | 4;
-    uRam8329770c = fn_8265BF48(0xffffffff821b8ef4,0);
-  }
-  auStack_40[0] = **(unsigned int **)(*(int *)(param_1 + 0x174) + 0x9c);
-  iVar1 = fn_825200A8(auStack_40,0xffffffff83297704);
-  if (((iVar1 == 0) && (iVar1 = fn_825200A8(auStack_40,0xffffffff83297708), iVar1 == 0)) &&
-     (iVar1 = fn_825200A8(auStack_40,0xffffffff8329770c), iVar1 == 0)) {
-    return 0;
-  }
-  return 1;
-}
+    unsigned int script;
 
+    if ((lbl_83297B88 & 1) == 0) {
+        lbl_83297B88 |= 1;
+        lbl_83297704 = fn_8265BF48("AMID_BRS_script_athletics_main_e3hurdlesshowfloor_default_gbox", 0);
+    }
+    if ((lbl_83297B88 & 2) == 0) {
+        lbl_83297B88 |= 2;
+        lbl_83297708 = fn_8265BF48("AMID_BRS_script_athletics_main_e3biathlon1p_default_gbox", 0);
+    }
+    if ((lbl_83297B88 & 4) == 0) {
+        lbl_83297B88 |= 4;
+        lbl_8329770C = fn_8265BF48("AMID_BRS_script_athletics_main_e3biathlon_default_gbox", 0);
+    }
+    script = *object->owner->script;
+    if (fn_825200A8(&script, &lbl_83297704) == 0 && fn_825200A8(&script, &lbl_83297708) == 0 &&
+        fn_825200A8(&script, &lbl_8329770C) == 0) {
+        return 0;
+    }
+    return 1;
+}

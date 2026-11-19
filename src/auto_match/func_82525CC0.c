@@ -1,80 +1,79 @@
+typedef struct Renderer_82525CC0 Renderer_82525CC0;
+
+typedef struct RendererVtable_82525CC0 {
+    void *slots[43];
+    int (*IsEnabled)(Renderer_82525CC0 *self); /* 0xac */
+} RendererVtable_82525CC0;
+
+struct Renderer_82525CC0 {
+    RendererVtable_82525CC0 *vtable; /* 0x000 */
+    unsigned char pad4[0xa40];
+    void *buffers[16]; /* 0xa44 */
+    void *primary[16]; /* 0xa84 */
+    void *handles[16]; /* 0xac4 */
+    unsigned char padB04[0x20];
+    void *secondary[16]; /* 0xb24 */
+};
+
 extern int fn_82522838();
-extern int fn_82522CF8();
-extern int fn_82532AD0();
-extern int fn_82549798();
+extern char *fn_82522CF8();
 extern int fn_8259A230();
-extern int fn_8259C458();
+extern char *fn_8259C458();
 extern int fn_8259C5D8();
 extern int fn_8259C738();
 extern int fn_82A1BB18();
-extern unsigned int lbl_8326B7D0;
-extern unsigned int *lbl_832767CC;
+extern void *fn_82549798(int size, int alignment, int count, int flags);
+extern void *fn_82532AD0(int kind, void *buffer, void *primary, void *secondary);
+extern int lbl_8326B7D0[];
+extern int *lbl_832767CC;
 
-
-void fn_82525CC0(int *param_1,unsigned __int64 param_2)
-
+static __forceinline char *Allocate_82525CC0(unsigned int size)
 {
-  int iVar1;
-  int iVar2;
-  int *piVar3;
-  __int64 lVar4;
-  int iVar5;
-  unsigned int uVar6;
-  int iVar7;
-  unsigned int uVar9;
-  unsigned __int64 uVar8;
-  __int64 lVar10;
-  unsigned int *puVar11;
-  __int64 lVar12;
-  
-  lVar10 = (param_2 & 0x3fffffff) * 4;
-  lVar12 = 0;
-  do {
-    if (lbl_832767CC == (int *)0x0) {
-      fn_82522838();
-      if (lbl_832767CC == (int *)0x0) {
+    int *g;
+    char *s;
+    char *r;
+    unsigned int v;
+    unsigned int n;
+
+    if (lbl_832767CC == 0) {
         fn_82522838();
-      }
+        if (lbl_832767CC == 0) {
+            fn_82522838();
+        }
     }
-    piVar3 = lbl_832767CC;
-    if (*lbl_832767CC == 0) {
-      fn_82522838();
+    g = lbl_832767CC;
+    if (*g == 0) {
+        fn_82522838();
     }
-    lVar4 = fn_82A1BB18();
-    fn_8259C5D8(piVar3 + 2,1,lVar4 + 1);
+    fn_8259C5D8(g + 2, 1, fn_82A1BB18() + 1);
     fn_82A1BB18();
-    iVar5 = fn_8259A230();
-    iVar5 = fn_8259C458(*(unsigned int *)(&lbl_8326B7D0 + iVar5 * 4));
-    uVar9 = *(unsigned int *)(iVar5 + 0x28);
-    *(unsigned int *)(iVar5 + 0x28) = 0x10;
-    uVar6 = fn_82522CF8(iVar5,0x94);
-    if (0x10 < uVar9) {
-      uVar9 = 0x10;
+    s = fn_8259C458(lbl_8326B7D0[fn_8259A230()]);
+    v = *(unsigned int *)(s + 0x28);
+    *(unsigned int *)(s + 0x28) = 0x10;
+    r = fn_82522CF8(s, size);
+    n = v;
+    if (n > 0x10) {
+        n = 0x10;
     }
-    *(unsigned int *)(iVar5 + 0x28) = uVar9;
+    *(unsigned int *)(s + 0x28) = n;
     fn_82A1BB18();
-    fn_8259C738(piVar3 + 2);
-    iVar5 = (int)((lVar10 + lVar12 + 0x291U & 0xffffffff) << 2);
-    *(unsigned int *)(iVar5 + (int)param_1) = uVar6;
-    iVar1 = (int)((lVar10 + lVar12 + 0x2a1U & 0xffffffff) << 2);
-    uVar6 = fn_82549798(0x11c0,0x10,4,0);
-    *(unsigned int *)(iVar1 + (int)param_1) = uVar6;
-    iVar7 = (**(int (***)())(*param_1 + 0xac))(param_1);
-    iVar2 = (int)((lVar10 + lVar12 + 0x2c9U & 0xffffffff) << 2);
-    puVar11 = (unsigned int *)(iVar2 + (int)param_1);
-    if (iVar7 == 0) {
-      *(unsigned int *)(iVar2 + (int)param_1) = 0;
-    }
-    else {
-      uVar6 = fn_82549798(0x11c0,0x10,4,0);
-      *puVar11 = uVar6;
-    }
-    uVar6 = fn_82532AD0(0x47,*(unsigned int *)(iVar5 + (int)param_1),
-                              *(unsigned int *)(iVar1 + (int)param_1),*puVar11);
-    uVar8 = lVar10 + 0x2b1 + lVar12;
-    lVar12 = lVar12 + 1;
-    *(unsigned int *)((int)((uVar8 & 0xffffffff) << 2) + (int)param_1) = uVar6;
-  } while ((int)lVar12 < 4);
-  return;
+    fn_8259C738(g + 2);
+    return r;
 }
 
+void fn_82525CC0(Renderer_82525CC0 *self, int set)
+{
+    int i;
+
+    for (i = 0; i < 4; i++) {
+        self->buffers[set * 4 + i] = Allocate_82525CC0(0x94);
+        self->primary[set * 4 + i] = fn_82549798(0x11c0, 0x10, 4, 0);
+        if (self->vtable->IsEnabled(self) != 0) {
+            self->secondary[set * 4 + i] = fn_82549798(0x11c0, 0x10, 4, 0);
+        } else {
+            self->secondary[set * 4 + i] = 0;
+        }
+        self->handles[set * 4 + i] = fn_82532AD0(0x47, self->buffers[set * 4 + i], self->primary[set * 4 + i],
+                                                 self->secondary[set * 4 + i]);
+    }
+}

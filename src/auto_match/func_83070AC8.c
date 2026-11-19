@@ -1,32 +1,38 @@
-extern int fn_830708B8();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Tester_83070AC8 {
+    char unk000[0xd20];
+    float radius; /* 0xD20 */
+    int enabled;  /* 0xD24 */
+} Tester_83070AC8;
 
-unsigned __int64 fn_83070AC8(int param_1,unsigned __int64 param_2,__int64 param_3)
+extern unsigned char fn_830708B8(float radius, int flag, __vector4 a, __vector4 b, __vector4 c);
 
+unsigned char fn_83070AC8(Tester_83070AC8 *tester, __vector4 *points, int index)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  char cVar3;
-  unsigned __int64 uVar4;
-  
-  if (*(int *)(param_1 + 0xd24) == 0) {
-    uVar4 = 0;
-  }
-  else {
-    iVar1 = (int)param_3;
-    if ((iVar1 == 2) || (uVar4 = 0, iVar1 != 4)) {
-      uVar4 = 1;
-    }
-    uVar2 = fn_830708B8((double)*(float *)(param_1 + 0xd20),(param_3 + 2U & 0xfffffff) << 4,
-                              uVar4);
-    if ((iVar1 == 2) || (uVar4 = 0, iVar1 == 4)) {
-      uVar4 = 1;
-    }
-    cVar3 = fn_830708B8((double)*(float *)(param_1 + 0xd20),uVar2,uVar4);
-    if (((uVar2 & 0xff) != 0) || (uVar4 = 0, cVar3 != '\0')) {
-      uVar4 = 1;
-    }
-  }
-  return uVar4;
-}
+    __vector4 point;
+    __vector4 edgeA1;
+    __vector4 edgeB1;
+    __vector4 edgeA2;
+    __vector4 edgeB2;
+    unsigned char isTwo;
+    unsigned char isFour;
+    unsigned char hitA;
+    unsigned char hitB;
 
+    if (tester->enabled != 0) {
+        edgeB1 = points[9];
+        edgeA1 = points[7];
+        edgeB2 = points[13];
+        edgeA2 = points[11];
+        point = points[index + 2];
+        isTwo = index == 2;
+        isFour = index == 4;
+        hitA = fn_830708B8(tester->radius, isTwo || !isFour, edgeA1, edgeB1, point);
+        hitB = fn_830708B8(tester->radius, isTwo || isFour, edgeA2, edgeB2, point);
+        return hitA || hitB;
+    }
+    return 0;
+}

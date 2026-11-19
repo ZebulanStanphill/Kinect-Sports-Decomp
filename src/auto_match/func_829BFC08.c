@@ -1,138 +1,76 @@
-extern unsigned int uStack00000034;
+/* D3DX libjpeg color deconverter: YCCK samples to RGB through the YCC tables and ten lookup tables */
+typedef unsigned char JSAMPLE;
+typedef JSAMPLE *JSAMPROW;
+typedef JSAMPROW *JSAMPARRAY;
+typedef JSAMPARRAY *JSAMPIMAGE;
+typedef unsigned int JDIMENSION;
+typedef long INT32;
 
+typedef struct ColorDeconverter_829BFC08 {
+    void *start_pass;         /* 0x00 */
+    void *color_convert;      /* 0x04 */
+    int *Cr_r_tab;            /* 0x08 */
+    int *Cb_b_tab;            /* 0x0c */
+    INT32 *Cr_g_tab;          /* 0x10 */
+    INT32 *Cb_g_tab;          /* 0x14 */
+    unsigned int *tables[10]; /* 0x18 */
+} ColorDeconverter_829BFC08;
 
-void fn_829BFC08(int param_1,int *param_2,int param_3,int param_4,__int64 param_5)
+typedef struct DecompressInfo_829BFC08 {
+    char pad0[0x70];
+    JDIMENSION output_width; /* 0x70 */
+    char pad74[0x148 - 0x74];
+    JSAMPLE *sample_range_limit; /* 0x148 */
+    char pad14c[0x1cc - 0x14c];
+    ColorDeconverter_829BFC08 *cconvert; /* 0x1cc */
+} DecompressInfo_829BFC08;
 
+void fn_829BFC08(DecompressInfo_829BFC08 *cinfo, JSAMPIMAGE input_buf, JDIMENSION input_row,
+                 JSAMPARRAY output_buf, int num_rows)
 {
-  unsigned char bVar1;
-  unsigned char bVar2;
-  int iVar3;
-  unsigned int uVar4;
-  int iVar5;
-  int iVar6;
-  int iVar7;
-  int iVar8;
-  int iVar9;
-  int iVar10;
-  int iVar11;
-  int iVar12;
-  int iVar13;
-  int iVar14;
-  int iVar15;
-  int iVar16;
-  int iVar17;
-  int iVar18;
-  int iVar19;
-  int iVar20;
-  int iVar21;
-  int *piVar22;
-  int *piVar23;
-  int *piVar24;
-  unsigned char *pbVar25;
-  int iVar26;
-  int iVar27;
-  unsigned char *pbVar28;
-  int iVar29;
-  int iVar30;
-  unsigned char *puVar31;
-  unsigned char *pbVar32;
-  unsigned __int64 uVar33;
-  int *piVar34;
-  unsigned __int64 uVar35;
-  unsigned int uStack00000034;
-  
-  iVar3 = *(int *)(param_1 + 0x1cc);
-  uVar33 = param_5 - 1;
-  uVar4 = *(unsigned int *)(param_1 + 0x70);
-  iVar5 = *(int *)(param_1 + 0x148);
-  uStack00000034 = (unsigned int)uVar33;
-  iVar6 = *(int *)(iVar3 + 0x14);
-  iVar7 = *(int *)(iVar3 + 0x18);
-  iVar8 = *(int *)(iVar3 + 0x1c);
-  iVar9 = *(int *)(iVar3 + 0x20);
-  iVar10 = *(int *)(iVar3 + 0x24);
-  iVar11 = *(int *)(iVar3 + 0x28);
-  iVar12 = *(int *)(iVar3 + 0x2c);
-  iVar13 = *(int *)(iVar3 + 0x30);
-  iVar14 = *(int *)(iVar3 + 0x34);
-  iVar15 = *(int *)(iVar3 + 0x38);
-  iVar16 = *(int *)(iVar3 + 0x3c);
-  iVar17 = *(int *)(iVar3 + 8);
-  iVar18 = *(int *)(iVar3 + 0xc);
-  iVar3 = *(int *)(iVar3 + 0x10);
-  if (-1 < (__int64)uVar33) {
-    param_3 = param_3 << 2;
-    piVar34 = (int *)(param_4 + -4);
-    do {
-      uVar35 = (unsigned __int64)uVar4;
-      piVar34 = piVar34 + 1;
-      piVar22 = (int *)(param_3 + *param_2);
-      pbVar32 = *(unsigned char **)(param_2[1] + param_3);
-      piVar23 = (int *)(param_3 + param_2[2]);
-      piVar24 = (int *)(param_2[3] + param_3);
-      param_3 = param_3 + 4;
-      if (uVar35 != 0) {
-        puVar31 = (unsigned char *)(*piVar34 + -1);
-        iVar27 = *piVar22 - (int)pbVar32;
-        iVar26 = *piVar23 - (int)pbVar32;
-        iVar29 = *piVar24 - (int)pbVar32;
-        do {
-          bVar1 = *pbVar32;
-          pbVar25 = pbVar32 + iVar26;
-          bVar2 = pbVar32[iVar27];
-          pbVar28 = pbVar32 + iVar29;
-          pbVar32 = pbVar32 + 1;
-          iVar30 = (0xff - (unsigned int)*pbVar28) * 4;
-          iVar19 = (unsigned int)*(unsigned char *)(*(int *)((unsigned int)*pbVar25 * 4 + iVar17) + (unsigned int)bVar2 + iVar5) * 4;
-          iVar20 = (unsigned int)*(unsigned char *)((*(int *)((unsigned int)bVar1 * 4 + iVar6) +
-                                    *(int *)((unsigned int)*pbVar25 * 4 + iVar3) >> 0x10) + (unsigned int)bVar2 +
-                                  iVar5) * 4;
-          iVar21 = (unsigned int)*(unsigned char *)(*(int *)((unsigned int)bVar1 * 4 + iVar18) + (unsigned int)bVar2 + iVar5) * 4;
-          puVar31[1] = (char)((unsigned __int64)
-                              ((__int64)
-                               (int)(unsigned int)(unsigned short)((unsigned __int64)
-                                                   ((__int64)
-                                                    (int)(unsigned int)(unsigned short)((unsigned __int64)
-                                                                        ((__int64)
-                                                                         *(int *)(iVar19 + iVar8) *
-                                                                        (__int64)
-                                                                        *(int *)(iVar30 + iVar7)) >>
-                                                                       0x10) *
-                                                   (__int64)*(int *)(iVar20 + iVar11)) >> 0x10) *
-                              (__int64)*(int *)(iVar21 + iVar14)) >> 0x18);
-          puVar31[2] = (char)((unsigned __int64)
-                              ((__int64)
-                               (int)(unsigned int)(unsigned short)((unsigned __int64)
-                                                   ((__int64)
-                                                    (int)(unsigned int)(unsigned short)((unsigned __int64)
-                                                                        ((__int64)
-                                                                         *(int *)(iVar20 + iVar12) *
-                                                                        (__int64)
-                                                                        *(int *)(iVar30 + iVar7)) >>
-                                                                       0x10) *
-                                                   (__int64)*(int *)(iVar21 + iVar15)) >> 0x10) *
-                              (__int64)*(int *)(iVar19 + iVar9)) >> 0x18);
-          puVar31 = puVar31 + 3;
-          *puVar31 = (char)((unsigned __int64)
-                            ((__int64)
-                             (int)(unsigned int)(unsigned short)((unsigned __int64)
-                                                 ((__int64)
-                                                  (int)(unsigned int)(unsigned short)((unsigned __int64)
-                                                                      ((__int64)
-                                                                       *(int *)(iVar21 + iVar16) *
-                                                                      (__int64)
-                                                                      *(int *)(iVar30 + iVar7)) >>
-                                                                     0x10) *
-                                                 (__int64)*(int *)(iVar19 + iVar10)) >> 0x10) *
-                            (__int64)*(int *)(iVar20 + iVar13)) >> 0x18);
-          uVar35 = uVar35 - 1;
-        } while (uVar35 != 0);
-        uVar33 = (unsigned __int64)uStack00000034;
-      }
-      uVar33 = uVar33 - 1;
-      uStack00000034 = (unsigned int)uVar33;
-    } while (-1 < (__int64)uVar33);
-  }
-  return;
-}
+    ColorDeconverter_829BFC08 *cconvert = cinfo->cconvert;
+    register int y, cb, cr, k;
+    register int red, green, blue;
+    register JSAMPROW outptr;
+    register JSAMPROW inptr0, inptr1, inptr2, inptr3;
+    register JDIMENSION col;
+    JDIMENSION num_cols;
+    register JSAMPLE *range_limit = cinfo->sample_range_limit;
+    register unsigned int *tab0 = cconvert->tables[0];
+    register unsigned int *tab1 = cconvert->tables[1];
+    register unsigned int *tab2 = cconvert->tables[2];
+    register unsigned int *tab3 = cconvert->tables[3];
+    register unsigned int *tab4 = cconvert->tables[4];
+    register unsigned int *tab5 = cconvert->tables[5];
+    register unsigned int *tab6 = cconvert->tables[6];
+    register unsigned int *tab7 = cconvert->tables[7];
+    register unsigned int *tab8 = cconvert->tables[8];
+    register unsigned int *tab9 = cconvert->tables[9];
+    register int *Crrtab = cconvert->Cr_r_tab;
+    register int *Cbbtab = cconvert->Cb_b_tab;
+    register INT32 *Crgtab = cconvert->Cr_g_tab;
+    register INT32 *Cbgtab = cconvert->Cb_g_tab;
 
+    num_cols = cinfo->output_width;
+    while (--num_rows >= 0) {
+        inptr0 = input_buf[0][input_row];
+        inptr1 = input_buf[1][input_row];
+        inptr2 = input_buf[2][input_row];
+        inptr3 = input_buf[3][input_row];
+        input_row++;
+        outptr = *output_buf++;
+        for (col = 0; col < num_cols; col++) {
+            y = inptr0[col];
+            cb = inptr1[col];
+            cr = inptr2[col];
+            red = range_limit[y + Crrtab[cr]];
+            green = range_limit[y + ((int)((Cbgtab[cb] + Crgtab[cr]) >> 16))];
+            blue = range_limit[y + Cbbtab[cb]];
+            k = 255 - inptr3[col];
+            outptr[0] = (JSAMPLE)((((tab1[red] * tab0[k]) >> 16) * tab4[green] >> 16) * tab7[blue] >> 24);
+            outptr[1] = (JSAMPLE)((((tab5[green] * tab0[k]) >> 16) * tab8[blue] >> 16) * tab2[red] >> 24);
+            outptr[2] = (JSAMPLE)((((tab9[blue] * tab0[k]) >> 16) * tab3[red] >> 16) * tab6[green] >> 24);
+            outptr += 3;
+        }
+    }
+}

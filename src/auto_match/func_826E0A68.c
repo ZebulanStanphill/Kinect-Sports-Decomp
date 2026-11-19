@@ -1,86 +1,89 @@
-typedef unsigned char bool;
-extern unsigned int *auStack_58;
-extern int fn_8267BE38();
-extern int fn_82687270();
-extern int fn_8268B330();
-extern int fn_826A6A38();
-extern int fn_826C8C70();
-extern int fn_826E0920();
-extern int fn_826E8660();
-extern unsigned int iStack_4c;
-extern unsigned int iStack_50;
-extern unsigned int uStack_5c;
-extern unsigned int uStack_60;
-extern unsigned __int64 storeWordConditionalIndexed();
+typedef struct StringData_826E0A68 {
+    int pad0;
+    long refCount; /* 0x04 */
+    char text[1];  /* 0x08 */
+} StringData_826E0A68;
 
+typedef struct String_826E0A68 {
+    unsigned int tagged; /* data pointer, low two bits are flags */
+} String_826E0A68;
 
-void fn_826E0A68(int param_1,unsigned int *param_2)
+typedef struct Stream_826E0A68 {
+    char pad0[0x40];
+} Stream_826E0A68;
 
+typedef struct Loader_826E0A68 {
+    char pad0[0x28];
+    Stream_826E0A68 local; /* 0x28 */
+    char pad68[0x314 - 0x68];
+    Stream_826E0A68 *external; /* 0x314 */
+} Loader_826E0A68;
+
+typedef struct TagInfo_826E0A68 {
+    int tagType; /* 0x00 */
+} TagInfo_826E0A68;
+
+typedef struct Result_826E0A68 {
+    int first;
+    unsigned int second;
+} Result_826E0A68;
+
+extern long _InterlockedExchangeAdd(long volatile *target, long value);
+extern unsigned short fn_826A6A38(Loader_826E0A68 *loader);
+extern void fn_8268B330(String_826E0A68 *string);
+extern void fn_826E8660(Stream_826E0A68 *stream, String_826E0A68 *string);
+extern void fn_826C8C70(Stream_826E0A68 *stream, const char *format, ...);
+extern Result_826E0A68 *fn_826E0920(Result_826E0A68 *out, Loader_826E0A68 *loader, int *id,
+                                    const char *fileName, const char *exportName, unsigned short format,
+                                    unsigned short width, unsigned short height);
+extern void fn_82687270(unsigned int handle);
+extern void fn_8267BE38(void *data);
+
+static __forceinline const char *Text(String_826E0A68 *string)
 {
-  unsigned int uVar4;
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  __int64 lVar5;
-  unsigned int *puVar6;
-  int iVar7;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  unsigned char bVar8;
-  unsigned int uStack_60;
-  unsigned int uStack_5c;
-  unsigned int auStack_58 [2];
-  struct { int first; int second; } stack_pair_50;
-
-  
-  iVar7 = *(int *)(param_1 + 0x314);
-  if (iVar7 == 0) {
-    iVar7 = param_1 + 0x28;
-  }
-  uVar4 = fn_826A6A38(param_1);
-  uVar1 = fn_826A6A38(param_1);
-  uVar2 = fn_826A6A38(param_1);
-  uVar3 = fn_826A6A38(param_1);
-  fn_8268B330(&uStack_5c);
-  fn_8268B330(&uStack_60);
-  fn_826E8660(iVar7,&uStack_5c);
-  fn_826E8660(iVar7,&uStack_60);
-  fn_826C8C70(iVar7,0xffffffff8200cc18,*param_2,uVar4 & 0xffff,uVar1 & 0xffff,
-                    ((unsigned __int64)uStack_60 & 0xfffffffc) + 8,((unsigned __int64)uStack_5c & 0xfffffffc) + 8,
-                    uVar2 & 0xffff);
-  auStack_58[0] = uVar4 & 0xffff;
-  fn_826E0920(&stack_pair_50.first,param_1,auStack_58,((unsigned __int64)uStack_60 & 0xfffffffc) + 8,
-                ((unsigned __int64)uStack_5c & 0xfffffffc) + 8,uVar1,uVar2,uVar3);
-  if ((stack_pair_50.first == 0) && (stack_pair_50.second != 0)) {
-    fn_82687270();
-  }
-  lVar5 = ((unsigned __int64)uStack_60 & 0xfffffffc) + 4;
-  do {
-    puVar6 = (unsigned int *)lVar5;
-    uVar1 = (unsigned __int64)*puVar6;
-    if (in_RESERVE != '\0') {
-      uVar4 = storeWordConditionalIndexed(uVar1 - 1,0,lVar5);
-      *puVar6 = uVar4;
-      in_cr0 = 2;
-    }
-  } while (!(bool)(in_cr0 >> 1 & 1));
-  bVar8 = (uVar1 == 1) << 1;
-  if (uVar1 == 1) {
-    fn_8267BE38();
-  }
-  lVar5 = ((unsigned __int64)uStack_5c & 0xfffffffc) + 4;
-  do {
-    puVar6 = (unsigned int *)lVar5;
-    uVar1 = (unsigned __int64)*puVar6;
-    if (in_RESERVE != '\0') {
-      uVar4 = storeWordConditionalIndexed(uVar1 - 1,0,lVar5);
-      *puVar6 = uVar4;
-      bVar8 = 2;
-    }
-  } while (!(bool)(bVar8 >> 1 & 1));
-  if (uVar1 == 1) {
-    fn_8267BE38();
-  }
-  return;
+    return ((StringData_826E0A68 *)(string->tagged & ~3u))->text;
 }
 
+static __forceinline void Release(String_826E0A68 *string)
+{
+    StringData_826E0A68 *data = (StringData_826E0A68 *)(string->tagged & ~3u);
+    if (_InterlockedExchangeAdd(&data->refCount, -1) - 1 == 0) {
+        fn_8267BE38(data);
+    }
+}
+
+void fn_826E0A68(Loader_826E0A68 *loader, TagInfo_826E0A68 *tagInfo)
+{
+    Stream_826E0A68 *stream = loader->external;
+    int characterId;
+    unsigned short format;
+    unsigned short width;
+    unsigned short height;
+    String_826E0A68 exportName;
+    String_826E0A68 fileName;
+    int id;
+    Result_826E0A68 result;
+
+    if (stream == 0) {
+        stream = &loader->local;
+    }
+    characterId = fn_826A6A38(loader);
+    format = fn_826A6A38(loader);
+    width = fn_826A6A38(loader);
+    height = fn_826A6A38(loader);
+    fn_8268B330(&exportName);
+    fn_8268B330(&fileName);
+    fn_826E8660(stream, &exportName);
+    fn_826E8660(stream, &fileName);
+    fn_826C8C70(stream,
+                "  DefineExternalImage: tagInfo.TagType = %d, id = 0x%X, fmt = %d, name = '%s',"
+                " exp = '%s', w = %d, h = %d\n",
+                tagInfo->tagType, characterId, format, Text(&fileName), Text(&exportName), width, height);
+    id = characterId;
+    fn_826E0920(&result, loader, &id, Text(&fileName), Text(&exportName), format, width, height);
+    if (result.first == 0 && result.second != 0) {
+        fn_82687270(result.second);
+    }
+    Release(&fileName);
+    Release(&exportName);
+}
