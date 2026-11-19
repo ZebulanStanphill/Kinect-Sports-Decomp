@@ -1,54 +1,73 @@
-extern int fn_82A1E0C0();
-extern int fn_82A1E2C0();
-extern int fn_82A1E338();
-extern int fn_82A1E508();
-extern int fn_82A4AE20();
+typedef struct Event_82A5A540 {
+    int reserved00;
+    int signaled; /* 0x04 */
+} Event_82A5A540;
 
+typedef struct Worker_82A5A540 {
+    char reserved00[0xc];
+    void *thread; /* 0x0c */
+    int reserved10;
+    void *started;         /* 0x14 */
+    Event_82A5A540 *state; /* 0x18 */
+    char reserved1c[8];
+    char lock[0x1c]; /* 0x24 */
+} Worker_82A5A540;
 
-unsigned __int64 fn_82A5A540(int param_1,int param_2,unsigned __int64 param_3,int param_4,unsigned __int64 param_5,
-                       unsigned __int64 param_6)
+extern void RtlEnterCriticalSection(void *lock);
+extern void RtlLeaveCriticalSection(void *lock);
+extern int KeWaitForSingleObject(void *object, int reason, int mode, int alertable, void *timeout);
+extern void *fn_82A1E0C0(void *attributes, unsigned int stackSize, void *start, void *param,
+                         unsigned int flags, void *threadId);
+extern int fn_82A1E508(void *thread, unsigned int processor);
+extern int fn_82A1E338(void *thread, int priority);
+extern int fn_82A1E2C0(void *thread);
+extern int fn_82A1F470(void);
+extern void fn_82A4AE20(Worker_82A5A540 *self);
+extern int fn_82A59D40(void *param);
 
+int fn_82A5A540(Worker_82A5A540 *self, int keepRunning, int priority, unsigned int processorMask, int unused,
+                unsigned int stackSize)
 {
-  unsigned __int64 uVar1;
-  char cVar2;
-  unsigned __int64 uVar3;
-  
-  RtlEnterCriticalSection(param_1 + 0x24);
-  uVar3 = 0;
-  *(unsigned int *)(*(int *)(param_1 + 0x18) + 4) = 0;
-  uVar1 = fn_82A1E0C0(0,param_6,0xffffffff82a59d40,param_1,4,0);
-  *(int *)(param_1 + 0xc) = (int)uVar1;
-  if ((uVar1 & 0xffffffff) == 0) {
-    uVar3 = thunk_FUN_82a2b798();
-    if (0 < (int)uVar3) {
-      uVar3 = uVar3 & 0xffff | 0x80070000;
-    }
-  }
-  else {
-    if (param_4 == 1) {
-      cVar2 = '\0';
-    }
-    else if (param_4 == 2) {
-      cVar2 = '\x01';
-    }
-    else if (param_4 == 4) {
-      cVar2 = '\x02';
-    }
-    else if (param_4 == 8) {
-      cVar2 = '\x03';
-    }
-    else {
-      cVar2 = (param_4 != 0x10) + '\x04';
-    }
-    fn_82A1E508(uVar1,cVar2);
-    fn_82A1E338(*(unsigned int *)(param_1 + 0xc),param_3);
-    fn_82A1E2C0(*(unsigned int *)(param_1 + 0xc));
-    KeWaitForSingleObject(*(unsigned int *)(param_1 + 0x14),3,1,0,0);
-    if (param_2 == 0) {
-      fn_82A4AE20(param_1);
-    }
-  }
-  RtlLeaveCriticalSection(param_1 + 0x24);
-  return uVar3;
-}
+    int hr;
+    void *lock = self->lock;
+    unsigned int processor;
+    void *thread;
+    int error;
 
+    RtlEnterCriticalSection(lock);
+    hr = 0;
+    self->state->signaled = 0;
+    thread = fn_82A1E0C0(0, stackSize, fn_82A59D40, self, 4, 0);
+    self->thread = thread;
+    if (thread != 0) {
+        switch (processorMask) {
+        case 1:
+            processor = 0;
+            break;
+        case 2:
+            processor = 1;
+            break;
+        case 4:
+            processor = 2;
+            break;
+        case 8:
+            processor = 3;
+            break;
+        default:
+            processor = ((processorMask == 0x10) ^ 1) + 4;
+            break;
+        }
+        fn_82A1E508(thread, processor);
+        fn_82A1E338(self->thread, priority);
+        fn_82A1E2C0(self->thread);
+        KeWaitForSingleObject(self->started, 3, 1, 0, 0);
+        if (keepRunning == 0) {
+            fn_82A4AE20(self);
+        }
+    } else {
+        error = fn_82A1F470();
+        hr = error <= 0 ? error : (error & 0xffff) | 0x80070000;
+    }
+    RtlLeaveCriticalSection(lock);
+    return hr;
+}

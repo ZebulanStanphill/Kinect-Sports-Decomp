@@ -1,27 +1,35 @@
-extern unsigned int lbl_8329F620;
+/* CRT: switches a low-level file handle between text (0x4000) and binary (0x8000) mode and returns
+   the previous mode (the setmode worker without locking or validation). */
+typedef struct ioinfo {
+    int osfhnd;  /* 0x00 */
+    char osfile; /* 0x04 */
+    char pad5[0x23];
+    unsigned char textmode : 7; /* 0x28 */
+    unsigned char unicode : 1;
+    char pad29[0x1f];
+} ioinfo;
 
+extern ioinfo *lbl_8329F620[]; /* __pioinfo */
 
-unsigned __int64 fn_82F88588(unsigned int param_1,int param_2)
+#define FTEXT 0x80
 
+#define _pioinfo(i) (&lbl_8329F620[(i) >> 5][(i) & 31])
+
+int fn_82F88588(int fh, int mode)
 {
-  unsigned char bVar1;
-  int iVar2;
-  int iVar3;
-  
-  iVar2 = (param_1 & 0x1f) * 0x48;
-  iVar3 = (&lbl_8329F620)[(int)param_1 >> 5] + iVar2;
-  bVar1 = *(unsigned char *)(iVar3 + 4);
-  if (param_2 == 0x4000) {
-    *(unsigned char *)(iVar3 + 4) = *(unsigned char *)(iVar3 + 4) | 0x80;
-    iVar2 = (&lbl_8329F620)[(int)param_1 >> 5] + iVar2;
-    *(unsigned char *)(iVar2 + 0x28) = *(unsigned char *)(iVar2 + 0x28) & 1;
-  }
-  else if (param_2 == 0x8000) {
-    *(unsigned char *)(iVar3 + 4) = *(unsigned char *)(iVar3 + 4) & 0x7f;
-  }
-  if ((bVar1 & 0x80) == 0) {
-    return 0x8000;
-  }
-  return 0x4000;
-}
+    int oldmode;
 
+    oldmode = _pioinfo(fh)->osfile & FTEXT;
+    switch (mode) {
+    case 0x4000:
+        _pioinfo(fh)->osfile |= FTEXT;
+        _pioinfo(fh)->textmode = 0;
+        break;
+    case 0x8000:
+        _pioinfo(fh)->osfile &= ~FTEXT;
+        break;
+    }
+    if (oldmode == 0)
+        return 0x8000;
+    return 0x4000;
+}

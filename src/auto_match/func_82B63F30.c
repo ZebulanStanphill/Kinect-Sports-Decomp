@@ -1,79 +1,81 @@
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-extern int fn_82F68CC0();
+typedef struct Surface_82B63F30 {
+    int reserved00;
+    unsigned int format; /* 0x04 */
+    char reserved08[0x18];
+    unsigned int base; /* 0x20 */
+    char reserved24[0x18];
+    unsigned int left;   /* 0x3c */
+    unsigned int top;    /* 0x40 */
+    unsigned int width;  /* 0x44 */
+    unsigned int height; /* 0x48 */
+    int front;           /* 0x4c */
+    char reserved50[0x10];
+    unsigned int rowPitch;   /* 0x60 */
+    unsigned int slicePitch; /* 0x64 */
+    unsigned int copyWidth;  /* 0x68 */
+    unsigned int copyHeight; /* 0x6c */
+    unsigned int copyDepth;  /* 0x70 */
+} Surface_82B63F30;
 
+typedef struct Copy_82B63F30 {
+    Surface_82B63F30 *source; /* 0x00 */
+    Surface_82B63F30 *dest;   /* 0x04 */
+} Copy_82B63F30;
 
-unsigned __int64 fn_82B63F30(int *param_1)
+extern void *memcpy(void *dst, const void *src, unsigned int size);
 
+int fn_82B63F30(Copy_82B63F30 *copy)
 {
-  int iVar1;
-  unsigned int uVar2;
-  int iVar3;
-  unsigned __int64 uVar4;
-  int iVar5;
-  unsigned int uVar6;
-  int iVar7;
-  unsigned int uVar8;
-  __int64 lVar9;
-  __int64 lVar10;
-  __int64 lVar11;
-  __int64 lVar12;
-  unsigned int uVar13;
-  
-  iVar7 = *param_1;
-  if ((((*(unsigned int *)(iVar7 + 0x48) | *(unsigned int *)(iVar7 + 0x44) | *(unsigned int *)(iVar7 + 0x3c) |
-        *(unsigned int *)(iVar7 + 0x40)) & 3) != 0) ||
-     (iVar3 = param_1[1],
-     ((*(unsigned int *)(iVar3 + 0x48) | *(unsigned int *)(iVar3 + 0x44) | *(unsigned int *)(iVar3 + 0x40) |
-      *(unsigned int *)(iVar3 + 0x3c)) & 3) != 0)) {
-    return 0xffffffff80004005;
-  }
-  iVar3 = param_1[1];
-  uVar4 = (CONCAT44(*(unsigned int *)(iVar3 + 4),*(unsigned int *)(iVar3 + 4)) & 0xfffffffffffffeff) -
-          0x1a200052;
-  if (uVar4 != 0) {
-    if (((uVar4 & 0xffffffff) == 1) || ((uVar4 & 0xffffffff) == 2)) {
-      iVar5 = 0x10;
-      goto LAB_82b63fd8;
-    }
-    if (((uVar4 & 0xffffffff) != 0x28) && ((uVar4 & 0xffffffff) != 0x29)) {
-      return 0xffffffff80004005;
-    }
-  }
-  iVar5 = 8;
-LAB_82b63fd8:
-  iVar1 = param_1[1];
-  uVar8 = 0;
-  uVar2 = *(unsigned int *)(iVar1 + 0x68);
-  lVar10 = (__int64)(int)(*(unsigned int *)(iVar1 + 0x40) >> 2) * (__int64)*(int *)(iVar1 + 0x60) +
-           (__int64)*(int *)(iVar1 + 100) * (__int64)*(int *)(iVar1 + 0x4c) +
-           (__int64)(int)(*(unsigned int *)(iVar1 + 0x3c) >> 2) * (__int64)iVar5 +
-           (unsigned __int64)*(unsigned int *)(iVar1 + 0x20);
-  lVar9 = (__int64)(int)(*(unsigned int *)(iVar7 + 0x40) >> 2) * (__int64)*(int *)(iVar7 + 0x60) +
-          (__int64)*(int *)(iVar7 + 100) * (__int64)*(int *)(iVar7 + 0x4c) +
-          (__int64)(int)(*(unsigned int *)(iVar7 + 0x3c) >> 2) * (__int64)iVar5 +
-          (unsigned __int64)*(unsigned int *)(iVar7 + 0x20);
-  if (*(int *)(iVar3 + 0x70) != 0) {
-    uVar6 = *(unsigned int *)(iVar3 + 0x6c);
-    do {
-      uVar13 = 0;
-      lVar11 = lVar9;
-      lVar12 = lVar10;
-      if (uVar6 != 0) {
-        do {
-          fn_82F68CC0(lVar12,lVar11,(__int64)(int)(uVar2 >> 2) * (__int64)iVar5);
-          iVar3 = param_1[1];
-          iVar7 = *param_1;
-          uVar13 = uVar13 + 4;
-          uVar6 = *(unsigned int *)(iVar3 + 0x6c);
-          lVar12 = (unsigned __int64)*(unsigned int *)(iVar3 + 0x60) + lVar12;
-          lVar11 = (unsigned __int64)*(unsigned int *)(iVar7 + 0x60) + lVar11;
-        } while (uVar13 < uVar6);
-      }
-      uVar8 = uVar8 + 1;
-      lVar10 = (unsigned __int64)*(unsigned int *)(iVar3 + 100) + lVar10;
-      lVar9 = (unsigned __int64)*(unsigned int *)(iVar7 + 100) + lVar9;
-    } while (uVar8 < *(unsigned int *)(iVar3 + 0x70));
-  }
-  return 0;
-}
+    Surface_82B63F30 *source = copy->source;
+    int blockSize;
+    unsigned int destRow;
+    unsigned int sourceRow;
+    unsigned int destSlice;
+    unsigned int sourceSlice;
+    unsigned int slice;
+    unsigned int row;
+    unsigned int rowSize;
 
+    if (((source->height | source->width | source->left | source->top) & 3) != 0) {
+        return 0x80004005;
+    }
+    if (((copy->dest->height | copy->dest->width | copy->dest->top | copy->dest->left) & 3) != 0) {
+        return 0x80004005;
+    }
+    switch (copy->dest->format & ~0x100) {
+    case 0x1a200052:
+        blockSize = 8;
+        break;
+    case 0x1a200053:
+        blockSize = 16;
+        break;
+    case 0x1a200054:
+        blockSize = 16;
+        break;
+    case 0x1a20007a:
+        blockSize = 8;
+        break;
+    case 0x1a20007b:
+        blockSize = 8;
+        break;
+    default:
+        return 0x80004005;
+    }
+    rowSize = (copy->dest->copyWidth >> 2) * blockSize;
+    destSlice = (copy->dest->top >> 2) * copy->dest->rowPitch + copy->dest->slicePitch * copy->dest->front +
+                (copy->dest->left >> 2) * blockSize + copy->dest->base;
+    sourceSlice = (source->top >> 2) * source->rowPitch + source->slicePitch * source->front +
+                  (source->left >> 2) * blockSize + source->base;
+    for (slice = 0; slice < copy->dest->copyDepth; slice++) {
+        destRow = destSlice;
+        sourceRow = sourceSlice;
+        for (row = 0; row < copy->dest->copyHeight; row += 4) {
+            memcpy((void *)destRow, (void *)sourceRow, rowSize);
+            destRow += copy->dest->rowPitch;
+            sourceRow += copy->source->rowPitch;
+        }
+        destSlice += copy->dest->slicePitch;
+        sourceSlice += copy->source->slicePitch;
+    }
+    return 0;
+}

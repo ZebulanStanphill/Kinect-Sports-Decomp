@@ -1,54 +1,71 @@
-extern int fn_822C70F0();
-extern int fn_82301BE8();
-extern unsigned int lbl_821AEDD8;
-extern unsigned int ltcg_pool_0_0f;
+/* Constructor: base constructor (fn_822C70F0), then the owner, empty lists and slots, a zero offset
+   and values, and the setup from the owner's resources (fn_82301BE8). */
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __VMXGetReg(int reg);
 
-unsigned int *
-fn_823018E8(unsigned int *param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-             int param_5)
+typedef struct List_823018E8 {
+    void *first; /* 0x0 */
+    void *last;  /* 0x4 */
+    void *end;   /* 0x8 */
+    int padC;
+} List_823018E8;
 
+typedef struct Slot_823018E8 {
+    char pad0[0x40];
+    void *item; /* 0x40 */
+} Slot_823018E8;
+
+typedef struct Owner_823018E8 {
+    char pad0[0x118];
+    char *resources; /* 0x118 */
+} Owner_823018E8;
+
+typedef struct Obj_823018E8 {
+    void *vtable; /* 0x00 */
+    char pad4[0x50];
+    Owner_823018E8 *owner; /* 0x54 */
+    int pad58;
+    int count;              /* 0x5c */
+    int active;             /* 0x60 */
+    List_823018E8 lists[4]; /* 0x64 */
+    Slot_823018E8 slots[4]; /* 0xa4 */
+    int pad1b4[3];
+    __vector4 offset; /* 0x1c0 */
+    float values[4];  /* 0x1d0 */
+} Obj_823018E8;
+
+extern char lbl_821AEDD8[];
+extern void fn_822C70F0(Obj_823018E8 *self, int unused, void *source);
+extern void fn_82301BE8(Obj_823018E8 *self, char *resource, void *setup);
+
+Obj_823018E8 *fn_823018E8(Obj_823018E8 *self, int unused, void *source, void *setup, Owner_823018E8 *owner)
 {
-  unsigned int uVar1;
-  unsigned int *puVar2;
-  __int64 lVar3;
-  unsigned int in_register_000104d0;
-  unsigned int in_register_000104d4;
-  unsigned int in_register_000104d8;
-  unsigned int in_vr77;
-  
-  fn_822C70F0();
-  param_1[0x15] = param_5;
-  param_1[0x17] = 0;
-  puVar2 = param_1 + 0x17;
-  *param_1 = &lbl_821AEDD8;
-  param_1[0x18] = 0;
-  lVar3 = 4;
-  do {
-    puVar2[2] = 0;
-    puVar2[3] = 0;
-    puVar2 = puVar2 + 4;
-    *puVar2 = 0;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  puVar2 = param_1 + 0x28;
-  lVar3 = 4;
-  do {
-    puVar2 = puVar2 + 0x11;
-    *puVar2 = 0;
-    uVar1 = ltcg_pool_0_0f;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  param_1[0x74] = ltcg_pool_0_0f;
-  param_1[0x75] = uVar1;
-  param_1[0x76] = uVar1;
-  param_1[0x77] = uVar1;
-  puVar2 = (unsigned int *)((unsigned int)(param_1 + 0x70) & 0xfffffff0);
-  *puVar2 = in_register_000104d0;
-  puVar2[1] = in_register_000104d4;
-  puVar2[2] = in_register_000104d8;
-  puVar2[3] = in_vr77;
-  fn_82301BE8(param_1,(unsigned __int64)*(unsigned int *)(param_5 + 0x118) + 0x24,param_4);
-  return param_1;
-}
+    int i;
+    Slot_823018E8 *slot;
 
+    fn_822C70F0(self, unused, source);
+    self->owner = owner;
+    self->count = 0;
+    self->vtable = lbl_821AEDD8;
+    self->active = 0;
+    for (i = 0; i < 4; i++) {
+        self->lists[i].first = 0;
+        self->lists[i].last = 0;
+        self->lists[i].end = 0;
+    }
+    slot = self->slots;
+    for (i = 0; i < 4; i++) {
+        slot->item = 0;
+        slot++;
+    }
+    self->values[0] = 0.0f;
+    self->values[1] = 0.0f;
+    self->values[2] = 0.0f;
+    self->values[3] = 0.0f;
+    self->offset = __VMXGetReg(77);
+    fn_82301BE8(self, owner->resources + 0x24, setup);
+    return self;
+}

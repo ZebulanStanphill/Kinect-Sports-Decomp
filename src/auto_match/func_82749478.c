@@ -1,65 +1,65 @@
-extern int fn_826824B0();
-extern int fn_826957D0();
-extern int fn_82696BC8();
-extern int fn_826972E0();
+typedef struct Object_82749478 Object_82749478;
 
+typedef struct ObjectVtbl_82749478 {
+    void *slots[2];
+    int (*GetType)(Object_82749478 *self); /* 0x08 */
+} ObjectVtbl_82749478;
 
-void fn_82749478(int param_1)
+struct Object_82749478 {
+    ObjectVtbl_82749478 *vt;
+};
 
+typedef struct Channel_82749478 {
+    float multiply; /* 0x00 */
+    float add;      /* 0x04 */
+} Channel_82749478;
+
+typedef struct Transform_82749478 {
+    char pad00[8];
+    unsigned int refCount; /* 0x08 */
+    char pad0c[4];
+    Object_82749478 base; /* 0x10 */
+    char pad14[0x30 - 0x14];
+    Channel_82749478 channels[4]; /* 0x30 */
+} Transform_82749478;
+
+typedef struct Args_82749478 {
+    int pad00;
+    int result;              /* 0x04 */
+    Object_82749478 *target; /* 0x08 */
+    int pad0c[3];
+    int env;   /* 0x18 */
+    int count; /* 0x1c */
+} Args_82749478;
+
+extern void fn_826824B0(void *object);
+extern int fn_826957D0(Args_82749478 *args, int index);
+extern double fn_826972E0(int value, int env);
+extern void fn_82696BC8(int result, void *object);
+
+void fn_82749478(Args_82749478 *args)
 {
-  unsigned int uVar1;
-  int iVar3;
-  unsigned __int64 uVar2;
-  double dVar4;
-  
-  if ((*(int **)(param_1 + 8) != (int *)0x0) &&
-     (iVar3 = (**(int (***)())(**(int **)(param_1 + 8) + 8))(), iVar3 == 0x12)) {
-    iVar3 = *(int *)(param_1 + 8) + -0x10;
-    if (*(int *)(param_1 + 8) == 0) {
-      iVar3 = 0;
-    }
-    if (iVar3 != 0) {
-      *(unsigned int *)(iVar3 + 8) = *(int *)(iVar3 + 8) + 1U & 0x8fffffff;
-    }
-    fn_82696BC8(*(unsigned int *)(param_1 + 4),iVar3);
-    if (7 < *(int *)(param_1 + 0x1c)) {
-      uVar1 = *(unsigned int *)(param_1 + 0x18);
-      uVar2 = fn_826957D0(param_1,0);
-      dVar4 = (double)fn_826972E0(uVar2,uVar1);
-      *(float *)(iVar3 + 0x30) = (float)dVar4;
-      uVar1 = *(unsigned int *)(param_1 + 0x18);
-      uVar2 = fn_826957D0(param_1,1);
-      dVar4 = (double)fn_826972E0(uVar2,uVar1);
-      *(float *)(iVar3 + 0x38) = (float)dVar4;
-      uVar1 = *(unsigned int *)(param_1 + 0x18);
-      uVar2 = fn_826957D0(param_1,2);
-      dVar4 = (double)fn_826972E0(uVar2,uVar1);
-      *(float *)(iVar3 + 0x40) = (float)dVar4;
-      uVar1 = *(unsigned int *)(param_1 + 0x18);
-      uVar2 = fn_826957D0(param_1,3);
-      dVar4 = (double)fn_826972E0(uVar2,uVar1);
-      *(float *)(iVar3 + 0x48) = (float)dVar4;
-      uVar1 = *(unsigned int *)(param_1 + 0x18);
-      uVar2 = fn_826957D0(param_1,4);
-      dVar4 = (double)fn_826972E0(uVar2,uVar1);
-      *(float *)(iVar3 + 0x34) = (float)dVar4;
-      uVar1 = *(unsigned int *)(param_1 + 0x18);
-      uVar2 = fn_826957D0(param_1,5);
-      dVar4 = (double)fn_826972E0(uVar2,uVar1);
-      *(float *)(iVar3 + 0x3c) = (float)dVar4;
-      uVar1 = *(unsigned int *)(param_1 + 0x18);
-      uVar2 = fn_826957D0(param_1,6);
-      dVar4 = (double)fn_826972E0(uVar2,uVar1);
-      *(float *)(iVar3 + 0x44) = (float)dVar4;
-      uVar1 = *(unsigned int *)(param_1 + 0x18);
-      uVar2 = fn_826957D0(param_1,7);
-      dVar4 = (double)fn_826972E0(uVar2,uVar1);
-      *(float *)(iVar3 + 0x4c) = (float)dVar4;
-    }
-    if (iVar3 != 0) {
-      fn_826824B0(iVar3);
-    }
-  }
-  return;
-}
+    Transform_82749478 *transform;
 
+    if (args->target == 0 || args->target->vt->GetType(args->target) != 0x12) {
+        return;
+    }
+    transform = args->target != 0 ? (Transform_82749478 *)((char *)args->target - 0x10) : 0;
+    if (transform != 0) {
+        transform->refCount = (transform->refCount + 1) & 0x8fffffff;
+    }
+    fn_82696BC8(args->result, transform);
+    if (args->count > 7) {
+        transform->channels[0].multiply = (float)fn_826972E0(fn_826957D0(args, 0), args->env);
+        transform->channels[1].multiply = (float)fn_826972E0(fn_826957D0(args, 1), args->env);
+        transform->channels[2].multiply = (float)fn_826972E0(fn_826957D0(args, 2), args->env);
+        transform->channels[3].multiply = (float)fn_826972E0(fn_826957D0(args, 3), args->env);
+        transform->channels[0].add = (float)fn_826972E0(fn_826957D0(args, 4), args->env);
+        transform->channels[1].add = (float)fn_826972E0(fn_826957D0(args, 5), args->env);
+        transform->channels[2].add = (float)fn_826972E0(fn_826957D0(args, 6), args->env);
+        transform->channels[3].add = (float)fn_826972E0(fn_826957D0(args, 7), args->env);
+    }
+    if (transform != 0) {
+        fn_826824B0(transform);
+    }
+}

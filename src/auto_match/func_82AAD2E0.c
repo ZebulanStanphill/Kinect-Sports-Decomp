@@ -1,73 +1,75 @@
-extern unsigned int *auStack_40;
-extern int fn_82AAC8C0();
-extern unsigned int lbl_83160520;
+extern unsigned int lbl_83160520[6];
+extern unsigned int fn_82AAC8C0(unsigned int type, unsigned int count, void *state, unsigned int *flags);
 
-
-void fn_82AAD2E0(unsigned __int64 param_1,unsigned __int64 param_2,unsigned int param_3,unsigned __int64 param_4,
-                  unsigned int *param_5)
-
+static __forceinline unsigned int GetType(unsigned int token)
 {
-  unsigned int *puVar1;
-  unsigned int uVar2;
-  int iVar3;
-  int iVar4;
-  int iVar5;
-  unsigned __int64 uVar6;
-  unsigned int uVar7;
-  unsigned int *puVar8;
-  unsigned int *puVar9;
-  unsigned int auStack_40;
-  
-  puVar1 = (unsigned int *)*param_5;
-  *puVar1 = 0xc;
-  uVar7 = fn_82AAC8C0(((param_1 & 0xffffffff) >> 0x14 & 0x700 | param_1 & 0x1800) >> 8,
-                        param_1 & 0x7ff,param_4,&auStack_40);
-  if ((param_1 & 0xf0000) == 0xf0000) {
-    puVar8 = puVar1 + 2;
-    puVar1[1] = (auStack_40 & 0x3f) << 0x10 | uVar7 & 0xffff;
-  }
-  else {
-    puVar1[1] = (auStack_40 & 0x3f) << 0x10 | 0x400000 | uVar7 & 0xffff;
-    uVar7 = (unsigned int)((param_1 & 0x10000) != 0);
-    if ((param_1 & 0x20000) != 0) {
-      uVar7 = uVar7 | 4;
-    }
-    if ((param_1 & 0x40000) != 0) {
-      uVar7 = uVar7 | 0x10;
-    }
-    if ((param_1 & 0x80000) != 0) {
-      uVar7 = uVar7 | 0x40;
-    }
-    puVar1[2] = uVar7;
-    puVar8 = puVar1 + 3;
-  }
-  uVar6 = param_2 & 0xff0000;
-  uVar7 = -(unsigned int)((param_2 & 0xf000000) == 0xd000000) & 0x10000;
-  if ((uVar6 == 0xe40000) && (uVar7 == 0)) {
-    *puVar8 = 0x40020;
-  }
-  else {
-    uVar2 = *(unsigned int *)(&lbl_83160520 + ((unsigned int)uVar6 >> 0xe & 0xc));
-    iVar3 = *(int *)(&lbl_83160520 + ((unsigned int)((uVar6 >> 0x12) << 2) & 0xc));
-    iVar4 = *(int *)(&lbl_83160520 + ((unsigned int)((uVar6 >> 0x14) << 2) & 0xc));
-    iVar5 = *(int *)(&lbl_83160520 + ((unsigned int)(uVar6 >> 0x14) & 0xc));
-    *puVar8 = 0x440020;
-    puVar8 = puVar8 + 1;
-    *puVar8 = iVar5 << 0xc | iVar4 << 8 | iVar3 << 4 | uVar2 | uVar7;
-  }
-  puVar9 = puVar8 + 1;
-  if (param_3 == 0xe40000) {
-    *puVar9 = 0x40021;
-  }
-  else {
-    *puVar9 = 0x440021;
-    puVar9 = puVar8 + 2;
-    *puVar9 = *(int *)(&lbl_83160520 + (param_3 >> 0x14 & 0xc)) << 0xc |
-              *(int *)(&lbl_83160520 + (param_3 >> 0x14 & 3) * 4) << 8 |
-              *(int *)(&lbl_83160520 + (param_3 >> 0x12 & 3) * 4) << 4 |
-              *(unsigned int *)(&lbl_83160520 + (param_3 >> 0xe & 0xc));
-  }
-  *param_5 = puVar9 + 1;
-  return;
+    return (((token & ~0x700U) | ((token >> 20) & 0x700)) >> 8) & 0x1f;
 }
 
+void fn_82AAD2E0(unsigned int token, unsigned int source, unsigned int swizzle, void *state,
+                 unsigned int **destination)
+{
+    unsigned int *output;
+    unsigned int value;
+    unsigned int flags;
+    unsigned int mask;
+    unsigned int bits;
+    unsigned int shifted;
+    unsigned int sourceSwizzle;
+
+    output = *destination;
+    *output++ = 0xc;
+    value = fn_82AAC8C0(GetType(token), token & 0x7ff, state, &flags);
+    mask = token & 0xf0000;
+    if (mask != 0xf0000) {
+        *output++ = ((flags & 0x3f) << 16) | 0x400000 | (value & 0xffff);
+        bits = 0;
+        if (mask & 0x10000) {
+            bits = 1;
+        }
+        if (mask & 0x20000) {
+            bits |= 4;
+        }
+        if (mask & 0x40000) {
+            bits |= 0x10;
+        }
+        if (mask & 0x80000) {
+            bits |= 0x40;
+        }
+        *output++ = bits;
+    } else {
+        *output++ = ((flags & 0x3f) << 16) | (value & 0xffff);
+    }
+    sourceSwizzle = source & 0xff0000;
+    /* The source token is reused for its negate bit once its swizzle is taken. */
+    source = (source & 0xf000000) - 0xd000000 == 0 ? 0x10000 : 0;
+    if (sourceSwizzle == 0xe40000 && source == 0) {
+        *output++ = 0x40020;
+    } else {
+        shifted = sourceSwizzle >> 16;
+        bits = lbl_83160520[shifted & 3];
+        shifted >>= 2;
+        bits |= lbl_83160520[shifted & 3] << 4;
+        shifted >>= 2;
+        bits |= lbl_83160520[shifted & 3] << 8;
+        shifted >>= 2;
+        bits |= lbl_83160520[shifted & 3] << 12;
+        *output++ = 0x440020;
+        *output++ = bits | source;
+    }
+    if (swizzle != 0xe40000) {
+        *output++ = 0x440021;
+        shifted = swizzle >> 16;
+        bits = lbl_83160520[shifted & 3];
+        shifted >>= 2;
+        bits |= lbl_83160520[shifted & 3] << 4;
+        shifted >>= 2;
+        bits |= lbl_83160520[shifted & 3] << 8;
+        shifted >>= 2;
+        bits |= lbl_83160520[shifted & 3] << 12;
+        *output++ = bits;
+    } else {
+        *output++ = 0x40021;
+    }
+    *destination = output;
+}

@@ -1,73 +1,85 @@
-extern int fn_8267C838();
-extern int fn_8267C950();
-extern int fn_8267C9A0();
-extern int fn_8267CD28();
-extern int fn_8267EE78();
-extern int fn_82A1E650();
-extern int fn_82A2A618();
-extern int fn_82A2A790();
+typedef struct Waiter_8267CDA8 {
+    void *event;                  /* 0x0 */
+    struct Waiter_8267CDA8 *next; /* 0x4 */
+    struct Waiter_8267CDA8 *prev; /* 0x8 */
+} Waiter_8267CDA8;
 
+typedef struct WaitQueue_8267CDA8 {
+    char criticalSection[0x1c]; /* 0x0 */
+    Waiter_8267CDA8 *freeList;  /* 0x1c */
+    Waiter_8267CDA8 *head;      /* 0x20 */
+    Waiter_8267CDA8 *tail;      /* 0x24 */
+} WaitQueue_8267CDA8;
 
-unsigned __int64 fn_8267CDA8(int param_1,int param_2,unsigned __int64 param_3)
+typedef struct MutexImpl_8267CDA8 {
+    void *handle;            /* 0x0 */
+    unsigned char recursive; /* 0x4 */
+    unsigned int lockCount;  /* 0x8 */
+} MutexImpl_8267CDA8;
 
+typedef struct Mutex_8267CDA8 {
+    char pad0[0x10];
+    MutexImpl_8267CDA8 *impl; /* 0x10 */
+} Mutex_8267CDA8;
+
+extern void RtlEnterCriticalSection(void *section);
+extern void RtlLeaveCriticalSection(void *section);
+extern Waiter_8267CDA8 *fn_8267CD28(WaitQueue_8267CDA8 *queue);
+extern void fn_8267C9A0(WaitQueue_8267CDA8 *queue, Waiter_8267CDA8 *waiter);
+extern void fn_8267C950(WaitQueue_8267CDA8 *queue, Waiter_8267CDA8 *waiter);
+extern void fn_8267C838(MutexImpl_8267CDA8 *impl);
+extern void fn_8267EE78(Mutex_8267CDA8 *mutex);
+extern void fn_82A2A790(void *handle);
+extern void fn_82A2A618(void *handle, int count, int previous);
+extern unsigned int fn_82A1E650(void *event, int timeout);
+
+int fn_8267CDA8(WaitQueue_8267CDA8 *self, Mutex_8267CDA8 *mutex, int timeout)
 {
-  unsigned __int64 uVar1;
-  unsigned int *puVar2;
-  int iVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  unsigned __int64 uVar6;
-  
-  uVar5 = 0;
-  uVar6 = (unsigned __int64)*(unsigned int *)(*(int *)(param_2 + 0x10) + 8);
-  if (uVar6 == 0) {
-    uVar5 = 0;
-  }
-  else {
-    RtlEnterCriticalSection(param_1);
-    puVar2 = (unsigned int *)fn_8267CD28(param_1);
-    if (*(int *)(param_1 + 0x24) == 0) {
-      puVar2[2] = 0;
-      puVar2[1] = 0;
-      *(unsigned int **)(param_1 + 0x20) = puVar2;
-    }
-    else {
-      puVar2[2] = *(int *)(param_1 + 0x24);
-      *(unsigned int **)(*(int *)(param_1 + 0x24) + 4) = puVar2;
-      puVar2[1] = 0;
-    }
-    *(unsigned int **)(param_1 + 0x24) = puVar2;
-    RtlLeaveCriticalSection(param_1);
-    iVar3 = *(int *)(param_2 + 0x10);
-    *(unsigned int *)(iVar3 + 8) = 0;
-    uVar1 = uVar6;
-    if (*(char *)(iVar3 + 4) == '\0') {
-      fn_82A2A618(**(unsigned int **)(param_2 + 0x10),1,0);
-    }
-    else {
-      for (; uVar1 != 0; uVar1 = uVar1 - 1) {
-        fn_82A2A790(**(unsigned int **)(param_2 + 0x10));
-      }
-    }
-    fn_8267EE78(param_2);
-    uVar4 = 0xffffffffffffffff;
-    if ((int)param_3 != -1) {
-      uVar4 = param_3;
-    }
-    iVar3 = fn_82A1E650(*puVar2,uVar4);
-    RtlEnterCriticalSection(param_1);
-    if ((iVar3 == 0) || (iVar3 == 0x80)) {
-      uVar5 = 1;
-    }
-    else {
-      fn_8267C9A0(param_1,puVar2);
-    }
-    fn_8267C950(param_1,puVar2);
-    RtlLeaveCriticalSection(param_1);
-    for (; uVar6 != 0; uVar6 = uVar6 - 1) {
-      fn_8267C838(*(unsigned int *)(param_2 + 0x10));
-    }
-  }
-  return uVar5;
-}
+    int result = 0;
+    unsigned int lockCount = mutex->impl->lockCount;
+    Waiter_8267CDA8 *waiter;
+    MutexImpl_8267CDA8 *impl;
+    unsigned int status;
+    unsigned int i;
 
+    if (lockCount == 0) {
+        return 0;
+    }
+    RtlEnterCriticalSection(self);
+    waiter = fn_8267CD28(self);
+    if (self->tail != 0) {
+        waiter->prev = self->tail;
+        self->tail->next = waiter;
+        waiter->next = 0;
+    } else {
+        waiter->prev = 0;
+        waiter->next = 0;
+        self->head = waiter;
+    }
+    self->tail = waiter;
+    RtlLeaveCriticalSection(self);
+    impl = mutex->impl;
+    if (impl->recursive) {
+        impl->lockCount = 0;
+        for (i = 0; i < lockCount; i++) {
+            fn_82A2A790(mutex->impl->handle);
+        }
+    } else {
+        impl->lockCount = 0;
+        fn_82A2A618(mutex->impl->handle, 1, 0);
+    }
+    fn_8267EE78(mutex);
+    status = fn_82A1E650(waiter->event, timeout == -1 ? -1 : timeout);
+    RtlEnterCriticalSection(self);
+    if (status == 0 || status == 0x80) {
+        result = 1;
+    } else {
+        fn_8267C9A0(self, waiter);
+    }
+    fn_8267C950(self, waiter);
+    RtlLeaveCriticalSection(self);
+    for (i = 0; i < lockCount; i++) {
+        fn_8267C838(mutex->impl);
+    }
+    return result;
+}

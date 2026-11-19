@@ -1,65 +1,58 @@
-extern int fn_82F68B40();
-extern int fn_82F68B48();
-extern int fn_82F68B4C();
-extern int fn_82F68B5C();
-extern int fn_82F68B60();
-extern int fn_82F68B64();
-extern int fn_82F68B70();
-extern int fn_82F68B74();
-extern int fn_82F68B78();
+/* Havok: dispatches on the object's type byte to the handler for that type, passing the object's
+   data (0x1c) and the context; unknown types succeed (1). */
+typedef struct Object_82DA7910 {
+    unsigned char type; /* 0x00 */
+    char pad1[0x1b];
+    void *data; /* 0x1c */
+} Object_82DA7910;
 
+extern int fn_82DC3748(void *data, void *context, Object_82DA7910 *object);
+extern int fn_82DC39A0(void *data, void *context, Object_82DA7910 *object);
+extern int fn_82DC4358(void *data, void *context, Object_82DA7910 *object);
+extern int fn_82DC4C80(void *data, void *context, Object_82DA7910 *object);
+extern int fn_82DC4D68(void *data, void *context, Object_82DA7910 *object);
+extern int fn_82DC4E70(void *data, void *context, Object_82DA7910 *object);
+extern int fn_82DC4F30(void *data, void *context, Object_82DA7910 *object);
+extern int fn_82DC5050(void *data, void *context, Object_82DA7910 *object);
+extern int fn_82DC5128(void *data, void *context, Object_82DA7910 *object);
+extern int fn_82DC51F0(void *data, void *context, Object_82DA7910 *object);
+extern int fn_82DC54F8(void *data, void *context, Object_82DA7910 *object);
+extern int fn_82DC5700(void *data, void *context, Object_82DA7910 *object);
+extern int fn_82DC5928(void *data, void *context, Object_82DA7910 *object);
+extern int fn_82DC6B00(void *data, void *context, Object_82DA7910 *object);
 
-unsigned __int64 fn_82DA7910(unsigned __int64 param_1,unsigned char *param_2)
-
+int fn_82DA7910(void *context, Object_82DA7910 *object)
 {
-  unsigned __int64 uVar1;
-  
-  switch(*param_2) {
-  case 0:
-    uVar1 = fn_82F68B48(*(unsigned int *)(param_2 + 0x1c),param_1);
-    return uVar1;
-  case 1:
-    uVar1 = fn_82F68B78(*(unsigned int *)(param_2 + 0x1c),param_1);
-    return uVar1;
-  default:
+    switch (object->type) {
+    case 0:
+        return fn_82DC6B00(object->data, context, object);
+    case 1:
+        return fn_82DC5928(object->data, context, object);
+    case 3:
+        return fn_82DC5700(object->data, context, object);
+    case 4:
+        return fn_82DC54F8(object->data, context, object);
+    case 6:
+        return fn_82DC51F0(object->data, context, object);
+    case 7:
+        return fn_82DC4E70(object->data, context, object);
+    case 8:
+        return fn_82DC4F30(object->data, context, object);
+    case 9:
+        return fn_82DC5050(object->data, context, object);
+    case 10:
+        return fn_82DC5128(object->data, context, object);
+    case 11:
+        return fn_82DC4D68(object->data, context, object);
+    case 5:
+        return fn_82DC4C80(object->data, context, object);
+    case 12:
+        return fn_82DC4358(object->data, context, object);
+    case 13:
+    case 15:
+        return fn_82DC39A0(object->data, context, object);
+    case 14:
+        return fn_82DC3748(object->data, context, object);
+    }
     return 1;
-  case 3:
-    uVar1 = fn_82F68B64(*(unsigned int *)(param_2 + 0x1c),param_1);
-    return uVar1;
-  case 4:
-    uVar1 = fn_82F68B60(*(unsigned int *)(param_2 + 0x1c),param_1);
-    return uVar1;
-  case 5:
-    uVar1 = fn_82F68B74(*(unsigned int *)(param_2 + 0x1c),param_1);
-    return uVar1;
-  case 6:
-    uVar1 = fn_82F68B70(*(unsigned int *)(param_2 + 0x1c),param_1);
-    return uVar1;
-  case 7:
-    uVar1 = fn_82F68B78(*(unsigned int *)(param_2 + 0x1c),param_1);
-    return uVar1;
-  case 8:
-    uVar1 = fn_82F68B78(*(unsigned int *)(param_2 + 0x1c),param_1);
-    return uVar1;
-  case 9:
-    uVar1 = fn_82F68B78(*(unsigned int *)(param_2 + 0x1c),param_1);
-    return uVar1;
-  case 10:
-    uVar1 = fn_82F68B78(*(unsigned int *)(param_2 + 0x1c),param_1);
-    return uVar1;
-  case 0xb:
-    uVar1 = fn_82F68B70(*(unsigned int *)(param_2 + 0x1c),param_1);
-    return uVar1;
-  case 0xc:
-    uVar1 = fn_82F68B4C(*(unsigned int *)(param_2 + 0x1c),param_1);
-    return uVar1;
-  case 0xd:
-  case 0xf:
-    uVar1 = fn_82F68B40(*(unsigned int *)(param_2 + 0x1c),param_1);
-    return uVar1;
-  case 0xe:
-    uVar1 = fn_82F68B5C(*(unsigned int *)(param_2 + 0x1c),param_1);
-    return uVar1;
-  }
 }
-

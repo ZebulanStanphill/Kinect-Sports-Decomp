@@ -1,55 +1,70 @@
-#define _uStack00000028 ((*(unsigned __int64*)&uStack00000028))
-extern unsigned int lbl_8318A744;
-extern unsigned int uStack00000028;
-extern unsigned int uStack0000002c;
+typedef struct Value_82EEF878 {
+    unsigned int words[4];
+} Value_82EEF878;
 
+typedef struct Block_82EEF878 Block_82EEF878;
 
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
+typedef struct BlockVtbl_82EEF878 {
+    int (*Create)(Block_82EEF878 *self, Block_82EEF878 **block);
+} BlockVtbl_82EEF878;
 
-unsigned __int64 fn_82EEF878(unsigned int *param_1,unsigned int param_2,unsigned int param_3,unsigned __int64 param_4)
+struct Block_82EEF878 {
+    BlockVtbl_82EEF878 *vt; /* 0x0 */
+    unsigned int first;     /* 0x4 */
+    char pad8[0x14];
+    unsigned char used[4];      /* 0x1c */
+    Value_82EEF878 entries[20]; /* 0x20 */
+    Block_82EEF878 *next;       /* 0x160 */
+};
 
+extern const unsigned char lbl_8318A744[8];
+
+int fn_82EEF878(Block_82EEF878 *head, unsigned int index, Value_82EEF878 value)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  unsigned __int64 uVar3;
-  int iVar4;
-  unsigned int in_stack_00000020;
-  unsigned int uStack00000028;
-  unsigned int uStack0000002c;
-  unsigned int *apuStack_30 [12];
-  
-  puVar1 = (unsigned int *)0x0;
-  for (puVar2 = param_1;
-      (_uStack00000028 = param_4, puVar2 != (unsigned int *)0x0 && ((unsigned int)puVar2[1] <= param_2));
-      puVar2 = (unsigned int *)puVar2[0x58]) {
-    apuStack_30[0] = puVar2;
-    if (param_2 < puVar2[1] + 0x14) goto LAB_82eef920;
-    puVar1 = puVar2;
-  }
-  apuStack_30[0] = (unsigned int *)0x0;
-  if (param_1 == (unsigned int *)0x0) {
-    uVar3 = 0xffffffff8000ffff;
-  }
-  else {
-    uVar3 = (**(int (***)())*param_1)(param_1,apuStack_30);
-    if (-1 < (int)uVar3) {
-      apuStack_30[0][1] = (param_2 / 0x14) * 0x14;
-      if (puVar1 != (unsigned int *)0x0) {
-        puVar1[0x58] = apuStack_30[0];
-      }
-      apuStack_30[0][0x58] = puVar2;
-LAB_82eef920:
-      param_2 = param_2 - apuStack_30[0][1];
-      iVar4 = param_2 + 2;
-      uVar3 = 0;
-      *(unsigned char *)((int)apuStack_30[0] + (param_2 >> 3) + 0x1c) =
-           (&lbl_8318A744)[param_2 & 7] | *(unsigned char *)((int)apuStack_30[0] + (param_2 >> 3) + 0x1c);
-      apuStack_30[0][iVar4 * 4] = in_stack_00000020;
-      apuStack_30[0][iVar4 * 4 + 1] = param_3;
-      apuStack_30[0][iVar4 * 4 + 2] = uStack00000028;
-      apuStack_30[0][iVar4 * 4 + 3] = uStack0000002c;
-    }
-  }
-  return uVar3;
-}
+    Block_82EEF878 *previous = 0;
+    Block_82EEF878 *block = head;
+    Block_82EEF878 *created;
+    unsigned int offset;
+    unsigned char *used;
+    int hr;
 
+    if (block == 0) {
+    } else {
+        do {
+            if (index < block->first) {
+                break;
+            }
+            if (index >= block->first + 20) {
+            } else {
+                goto found;
+            }
+            previous = block;
+            block = block->next;
+        } while (block != 0);
+    }
+    created = 0;
+    if (head != 0) {
+        hr = head->vt->Create(head, &created);
+        if (hr < 0) {
+            return hr;
+        }
+        created->first = index / 20 * 20;
+        {
+            Block_82EEF878 *link = created;
+
+            if (previous != 0) {
+                previous->next = link;
+            }
+            link->next = block;
+        }
+        block = created;
+        goto found;
+    }
+    return 0x8000ffff;
+found:
+    offset = index - block->first;
+    used = &block->used[offset >> 3];
+    *used |= lbl_8318A744[offset & 7];
+    block->entries[offset] = value;
+    return 0;
+}

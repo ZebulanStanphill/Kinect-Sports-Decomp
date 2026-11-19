@@ -1,70 +1,56 @@
-extern int fn_82F68700();
-extern int fn_82F79400();
+extern unsigned int _ctrlfp(unsigned int newControl, unsigned int mask);
+extern unsigned int fn_82F68700(unsigned int hardwareControl);
+extern void KeEnableFpuExceptions(int enable);
 
-
-/* WARNING: Removing unreachable block (ram,0x82f68844) */
-/* WARNING: Removing unreachable block (ram,0x82f6881c) */
-/* WARNING: Removing unreachable block (ram,0x82f6882c) */
-/* WARNING: Removing unreachable block (ram,0x82f6883c) */
-/* WARNING: Removing unreachable block (ram,0x82f68834) */
-/* WARNING: Removing unreachable block (ram,0x82f68824) */
-
-unsigned __int64 fn_82F68780(unsigned __int64 param_1,unsigned __int64 param_2)
-
+static __forceinline unsigned int ToHardware_82F68780(unsigned int control)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  
-  uVar3 = param_1 & 0x300;
-  uVar1 = 0;
-  if (uVar3 != 0) {
-    if (uVar3 == 0x300) {
-      uVar1 = 1;
+    unsigned int rounding;
+    unsigned int hardware;
+
+    rounding = control & 0x300;
+    hardware = 0;
+    if (rounding != 0) {
+        if (rounding == 0x300) {
+            hardware = 1;
+        } else if (rounding == 0x200) {
+            hardware = 2;
+        } else if (rounding == 0x100) {
+            hardware = 3;
+        }
     }
-    else if (uVar3 == 0x200) {
-      uVar1 = 2;
+    if (control & 1) {
+        hardware |= 8;
     }
-    else if (uVar3 == 0x100) {
-      uVar1 = 3;
+    if (control & 2) {
+        hardware |= 0x20;
     }
-  }
-  if ((param_1 & 1) != 0) {
-    uVar1 = uVar1 | 8;
-  }
-  if ((param_1 & 2) != 0) {
-    uVar1 = uVar1 | 0x20;
-  }
-  if ((param_1 & 4) != 0) {
-    uVar1 = uVar1 | 0x40;
-  }
-  if ((param_1 & 8) != 0) {
-    uVar1 = uVar1 | 0x10;
-  }
-  if ((param_1 & 0x10) != 0) {
-    uVar1 = uVar1 | 0x80;
-  }
-  uVar3 = 0;
-  if ((param_2 & 1) != 0) {
-    uVar3 = 8;
-  }
-  if ((param_2 & 2) != 0) {
-    uVar3 = uVar3 | 0x20;
-  }
-  if ((param_2 & 4) != 0) {
-    uVar3 = uVar3 | 0x40;
-  }
-  if ((param_2 & 8) != 0) {
-    uVar3 = uVar3 | 0x10;
-  }
-  if ((param_2 & 0x10) != 0) {
-    uVar3 = uVar3 | 0x80;
-  }
-  fn_82F79400(uVar1,(param_2 & 0x300) >> 8 | uVar3);
-  uVar2 = fn_82F68700();
-  fn_82F79400(0,0);
-  uVar3 = fn_82F68700();
-  KeEnableFpuExceptions((uVar3 & 0x8001f) != 0x8001f);
-  return uVar2;
+    if (control & 4) {
+        hardware |= 0x40;
+    }
+    if (control & 8) {
+        hardware |= 0x10;
+    }
+    if (control & 0x10) {
+        hardware |= 0x80;
+    }
+    return hardware;
 }
 
+unsigned int fn_82F68780(unsigned int newControl, unsigned int mask)
+{
+    unsigned int result;
+    unsigned int current;
+    unsigned int rounding = mask & 0x300;
+    unsigned int other = mask & ~0x300;
+    unsigned int hardwareControl;
+
+    hardwareControl = ToHardware_82F68780(newControl);
+    result = fn_82F68700(_ctrlfp(hardwareControl, ToHardware_82F68780(other) | rounding >> 8));
+    current = fn_82F68700(_ctrlfp(0, 0));
+    if ((current & 0x8001f) != 0x8001f) {
+        KeEnableFpuExceptions(1);
+    } else {
+        KeEnableFpuExceptions(0);
+    }
+    return result;
+}

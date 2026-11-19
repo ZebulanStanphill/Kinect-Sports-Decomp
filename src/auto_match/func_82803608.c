@@ -1,135 +1,43 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern unsigned int lbl_83156D60;
-extern unsigned int lbl_83156D70;
-extern unsigned int lbl_83156D80;
-extern unsigned int lbl_83156D90;
-extern unsigned int lbl_83156DA0;
-extern unsigned int lbl_83156DB0;
-extern unsigned int uRam83156d74;
-extern unsigned int uRam83156d78;
-extern unsigned int uRam83156d7c;
-extern unsigned int uRam83156d84;
-extern unsigned int uRam83156d88;
-extern unsigned int uRam83156d8c;
-extern unsigned int uRam83156d94;
-extern unsigned int uRam83156d98;
-extern unsigned int uRam83156d9c;
-extern unsigned int uRam83156da4;
-extern unsigned int uRam83156da8;
-extern unsigned int uRam83156dac;
-extern unsigned int uRam83156db4;
-extern unsigned int uRam83156db8;
-extern unsigned int uRam83156dbc;
-extern V16 loadVectorLeftIndexed128();
-extern V16 loadVectorRightIndexed128();
+/* Copies the six default vectors of lbl_83156D60 to their outputs, then loads five unaligned vectors:
+   three from the source float array (bytes 0, 0xc, 0x18) and two from the other one (0x10, 0x20). */
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __lvlx(const void *base, int offset);
+__vector4 __lvrx(const void *base, int offset);
+__vector4 __vor(__vector4 a, __vector4 b);
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+typedef struct Source_82803608 {
+    int pad0;
+    float *values; /* 0x4 */
+} Source_82803608;
 
-void fn_82803608(int param_1,int param_2,int param_3,int param_4,int param_5,int param_6,
-                  int param_7,int param_8)
+typedef struct Other_82803608 {
+    char pad0[0x54];
+    float *values; /* 0x54 */
+} Other_82803608;
 
+extern __vector4 lbl_83156D60[6];
+
+static __forceinline __vector4 LoadUnaligned(const float *p, int offset)
 {
-  unsigned int *puVar1;
-  int iVar2;
-  unsigned int *puVar3;
-  unsigned int uVar4;
-  unsigned __int64 in_r0;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  int in_stack_00000054;
-  int in_stack_0000005c;
-  int in_stack_00000064;
-  int in_stack_0000006c;
-  int in_stack_00000074;
-  
-  iVar2 = (int)in_r0;
-  puVar1 = (unsigned int *)((unsigned int)(&lbl_83156D60 + iVar2) & 0xfffffff0);
-  uVar5 = puVar1[1];
-  uVar6 = puVar1[2];
-  uVar7 = puVar1[3];
-  puVar3 = (unsigned int *)(iVar2 + param_8 & 0xfffffff0);
-  *puVar3 = *puVar1;
-  puVar3[1] = uVar5;
-  puVar3[2] = uVar6;
-  puVar3[3] = uVar7;
-  uVar7 = uRam83156d7c;
-  uVar6 = uRam83156d78;
-  uVar5 = uRam83156d74;
-  puVar1 = (unsigned int *)(iVar2 + in_stack_00000054 & 0xfffffff0);
-  *puVar1 = lbl_83156D70;
-  puVar1[1] = uVar5;
-  puVar1[2] = uVar6;
-  puVar1[3] = uVar7;
-  uVar7 = uRam83156d8c;
-  uVar6 = uRam83156d88;
-  uVar5 = uRam83156d84;
-  puVar1 = (unsigned int *)(iVar2 + in_stack_0000005c & 0xfffffff0);
-  *puVar1 = lbl_83156D80;
-  puVar1[1] = uVar5;
-  puVar1[2] = uVar6;
-  puVar1[3] = uVar7;
-  uVar7 = uRam83156dbc;
-  uVar6 = uRam83156db8;
-  uVar5 = uRam83156db4;
-  puVar1 = (unsigned int *)(iVar2 + in_stack_00000064 & 0xfffffff0);
-  *puVar1 = lbl_83156DB0;
-  puVar1[1] = uVar5;
-  puVar1[2] = uVar6;
-  puVar1[3] = uVar7;
-  uVar7 = uRam83156d9c;
-  uVar6 = uRam83156d98;
-  uVar5 = uRam83156d94;
-  puVar1 = (unsigned int *)(iVar2 + in_stack_0000006c & 0xfffffff0);
-  *puVar1 = lbl_83156D90;
-  puVar1[1] = uVar5;
-  puVar1[2] = uVar6;
-  puVar1[3] = uVar7;
-  uVar4 = uRam83156dac;
-  uVar7 = uRam83156da8;
-  uVar6 = uRam83156da4;
-  uVar5 = lbl_83156DA0;
-  puVar1 = (unsigned int *)(iVar2 + in_stack_00000074 & 0xfffffff0);
-  *puVar1 = lbl_83156DA0;
-  puVar1[1] = uVar6;
-  puVar1[2] = uVar7;
-  puVar1[3] = uVar4;
-  loadVectorLeftIndexed128(in_r0,(unsigned __int64)*(unsigned int *)(param_1 + 4));
-  loadVectorRightIndexed128(0x10,(unsigned __int64)*(unsigned int *)(param_1 + 4));
-  puVar1 = (unsigned int *)(iVar2 + param_3 & 0xfffffff0);
-  *puVar1 = uVar5;
-  puVar1[1] = uVar6;
-  puVar1[2] = uVar7;
-  puVar1[3] = uVar4;
-  loadVectorRightIndexed128(0x1c,(unsigned __int64)*(unsigned int *)(param_1 + 4));
-  loadVectorLeftIndexed128(0xc,(unsigned __int64)*(unsigned int *)(param_1 + 4));
-  puVar1 = (unsigned int *)(iVar2 + param_4 & 0xfffffff0);
-  *puVar1 = uVar5;
-  puVar1[1] = uVar6;
-  puVar1[2] = uVar7;
-  puVar1[3] = uVar4;
-  loadVectorLeftIndexed128(0x18,(unsigned __int64)*(unsigned int *)(param_1 + 4));
-  loadVectorRightIndexed128(0x28,(unsigned __int64)*(unsigned int *)(param_1 + 4));
-  puVar1 = (unsigned int *)(iVar2 + param_5 & 0xfffffff0);
-  *puVar1 = uVar5;
-  puVar1[1] = uVar6;
-  puVar1[2] = uVar7;
-  puVar1[3] = uVar4;
-  loadVectorLeftIndexed128(0x10,(unsigned __int64)*(unsigned int *)(param_2 + 0x54));
-  loadVectorRightIndexed128(0x20,(unsigned __int64)*(unsigned int *)(param_2 + 0x54));
-  puVar1 = (unsigned int *)(iVar2 + param_6 & 0xfffffff0);
-  *puVar1 = uVar5;
-  puVar1[1] = uVar6;
-  puVar1[2] = uVar7;
-  puVar1[3] = uVar4;
-  loadVectorRightIndexed128(0x30,(unsigned __int64)*(unsigned int *)(param_2 + 0x54));
-  loadVectorLeftIndexed128(0x20,(unsigned __int64)*(unsigned int *)(param_2 + 0x54));
-  puVar1 = (unsigned int *)(iVar2 + param_7 & 0xfffffff0);
-  *puVar1 = uVar5;
-  puVar1[1] = uVar6;
-  puVar1[2] = uVar7;
-  puVar1[3] = uVar4;
-  return;
+    return __vor(__lvlx(p, offset), __lvrx(p, offset + 16));
 }
 
+void fn_82803608(Source_82803608 *source, Other_82803608 *other, __vector4 *out0, __vector4 *out1,
+                 __vector4 *out2, __vector4 *out3, __vector4 *out4, __vector4 *default0, __vector4 *default1,
+                 __vector4 *default2, __vector4 *default5, __vector4 *default3, __vector4 *default4)
+{
+    *default0 = lbl_83156D60[0];
+    *default1 = lbl_83156D60[1];
+    *default2 = lbl_83156D60[2];
+    *default5 = lbl_83156D60[5];
+    *default3 = lbl_83156D60[3];
+    *default4 = lbl_83156D60[4];
+    *out0 = LoadUnaligned(source->values, 0);
+    *out1 = LoadUnaligned(source->values, 0xc);
+    *out2 = LoadUnaligned(source->values, 0x18);
+    *out3 = LoadUnaligned(other->values, 0x10);
+    *out4 = LoadUnaligned(other->values, 0x20);
+}

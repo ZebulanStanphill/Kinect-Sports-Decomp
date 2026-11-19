@@ -1,77 +1,71 @@
-extern unsigned int *auStack_30;
-extern unsigned int lbl_8318A754;
-extern unsigned int stack0x00000018;
-extern unsigned int uStack00000020;
-extern unsigned int uStack00000028;
-extern unsigned int uStack00000030;
-extern unsigned int uStack00000038;
-extern unsigned int uStack00000040;
+typedef struct Value_82EF1AE0 {
+    unsigned __int64 words[5];
+} Value_82EF1AE0;
 
+typedef struct Block_82EF1AE0 Block_82EF1AE0;
 
-unsigned __int64
-fn_82EF1AE0(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-             unsigned __int64 param_5,unsigned __int64 param_6,unsigned __int64 param_7)
+typedef struct BlockVtbl_82EF1AE0 {
+    int (*Create)(Block_82EF1AE0 *self, Block_82EF1AE0 **block);
+} BlockVtbl_82EF1AE0;
 
+struct Block_82EF1AE0 {
+    BlockVtbl_82EF1AE0 *vt; /* 0x0 */
+    unsigned int pad4;      /* 0x4 */
+    unsigned int first;     /* 0x8 */
+    char padC[0x2c];
+    unsigned char used[8];      /* 0x38 */
+    Value_82EF1AE0 entries[20]; /* 0x40 */
+    Block_82EF1AE0 *next;       /* 0x360 */
+};
+
+extern const unsigned char lbl_8318A754[8];
+
+int fn_82EF1AE0(Block_82EF1AE0 *head, unsigned int index, Value_82EF1AE0 value)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  __int64 lVar4;
-  unsigned __int64 *puVar5;
-  unsigned __int64 uVar6;
-  unsigned __int64 uVar7;
-  __int64 lVar8;
-  unsigned __int64 uStack00000020;
-  unsigned __int64 uStack00000028;
-  unsigned __int64 uStack00000030;
-  unsigned __int64 uStack00000038;
-  unsigned __int64 uStack00000040;
-  unsigned int auStack_30 [12];
-  
-  uVar6 = param_1 & 0xffffffff;
-  uVar2 = 0;
-  uVar7 = param_1;
-  while ((iVar1 = (int)uVar7, uVar6 != 0 &&
-         ((unsigned __int64)*(unsigned int *)(iVar1 + 8) <= (param_2 & 0xffffffff)))) {
-    if ((param_2 & 0xffffffff) < (unsigned __int64)(*(unsigned int *)(iVar1 + 8) + 0x14)) goto LAB_82ef1b94;
-    uVar6 = (unsigned __int64)*(unsigned int *)(iVar1 + 0x360);
-    uVar2 = uVar7;
-    uVar7 = uVar6;
-  }
-  auStack_30[0] = 0;
-  if ((param_1 & 0xffffffff) == 0) {
-    uVar3 = 0xffffffff8000ffff;
-  }
-  else {
-    uStack00000020 = param_3;
-    uStack00000028 = param_4;
-    uStack00000030 = param_5;
-    uStack00000038 = param_6;
-    uStack00000040 = param_7;
-    uVar3 = (**(int (***)())*(unsigned int *)param_1)(param_1,auStack_30);
-    if (-1 < (int)uVar3) {
-      *(int *)(auStack_30[0] + 8) = (int)((param_2 & 0xffffffff) / 0x14) * 0x14;
-      if ((uVar2 & 0xffffffff) != 0) {
-        *(unsigned int *)((int)uVar2 + 0x360) = auStack_30[0];
-      }
-      *(int *)(auStack_30[0] + 0x360) = iVar1;
-      uVar7 = (unsigned __int64)auStack_30[0];
-LAB_82ef1b94:
-      param_2 = param_2 - *(unsigned int *)((int)uVar7 + 8);
-      iVar1 = (int)((param_2 & 0xffffffff) >> 3) + (int)uVar7;
-      lVar8 = 5;
-      *(unsigned char *)(iVar1 + 0x38) = (&lbl_8318A754)[(unsigned int)param_2 & 7] | *(unsigned char *)(iVar1 + 0x38);
-      lVar4 = param_2 * 0x28 + uVar7 + 0x38;
-      puVar5 = (unsigned __int64 *)&stack0x00000018;
-      do {
-        puVar5 = puVar5 + 1;
-        lVar4 = lVar4 + 8;
-        *(unsigned __int64 *)lVar4 = *puVar5;
-        lVar8 = lVar8 + -1;
-      } while (lVar8 != 0);
-      uVar3 = 0;
-    }
-  }
-  return uVar3;
-}
+    Block_82EF1AE0 *previous = 0;
+    Block_82EF1AE0 *block = head;
+    Block_82EF1AE0 *created;
+    unsigned int offset;
+    unsigned char *used;
+    int hr;
 
+    if (block == 0) {
+    } else {
+        do {
+            if (index < block->first) {
+                break;
+            }
+            if (index >= block->first + 20) {
+            } else {
+                goto found;
+            }
+            previous = block;
+            block = block->next;
+        } while (block != 0);
+    }
+    created = 0;
+    if (head != 0) {
+        hr = head->vt->Create(head, &created);
+        if (hr < 0) {
+            return hr;
+        }
+        created->first = index / 20 * 20;
+        {
+            Block_82EF1AE0 *link = created;
+
+            if (previous != 0) {
+                previous->next = link;
+            }
+            link->next = block;
+        }
+        block = created;
+        goto found;
+    }
+    return 0x8000ffff;
+found:
+    offset = index - block->first;
+    used = &block->used[offset >> 3];
+    *used |= lbl_8318A754[offset & 7];
+    block->entries[offset] = value;
+    return 0;
+}

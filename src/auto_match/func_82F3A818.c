@@ -1,65 +1,92 @@
-extern unsigned int *auStack_40;
-extern int fn_82EE3128();
-extern int fn_82F39FE0();
-extern unsigned int lbl_82162C1C;
-extern unsigned int lbl_831B9FE8;
+typedef struct Message_82F3A818 {
+    void *vt;
+    void *chain; /* 0x04 */
+    char pad08[0xc0 - 8];
+} Message_82F3A818;
 
+typedef struct Packet_82F3A818 {
+    int header[5];
+    Message_82F3A818 message; /* 0x14 */
+    int extra[2];             /* 0xd4 */
+} Packet_82F3A818;
 
-__int64 fn_82F3A818(unsigned __int64 param_1,unsigned __int64 param_2,int param_3)
+typedef struct Block_82F3A818 Block_82F3A818;
 
+typedef struct BlockVtbl_82F3A818 {
+    int (*Create)(Block_82F3A818 *self, Block_82F3A818 **block);
+} BlockVtbl_82F3A818;
+
+struct Block_82F3A818 {
+    BlockVtbl_82F3A818 *vt; /* 0x0 */
+    unsigned int first;     /* 0x4 */
+    char pad8[0xe0];
+    unsigned char used[4];       /* 0xe8 */
+    Packet_82F3A818 entries[20]; /* 0xec */
+    Block_82F3A818 *next;        /* 0x121c */
+};
+
+extern const unsigned char lbl_831B9FE8[8];
+extern char lbl_82162C1C[];
+
+extern Packet_82F3A818 *fn_82F39FE0(Packet_82F3A818 *dst, Packet_82F3A818 *src);
+extern int fn_82EE3128(Message_82F3A818 *message, int keep);
+
+static __forceinline void Message_destroy(Message_82F3A818 *message)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  __int64 lVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  unsigned int auStack_40 [16];
-  
-  uVar4 = param_1 & 0xffffffff;
-  uVar2 = 0;
-  uVar5 = param_1;
-  while ((iVar1 = (int)uVar5, uVar4 != 0 &&
-         ((unsigned __int64)*(unsigned int *)(iVar1 + 4) <= (param_2 & 0xffffffff)))) {
-    if ((param_2 & 0xffffffff) < (unsigned __int64)(*(unsigned int *)(iVar1 + 4) + 0x14)) goto LAB_82f3a8e8;
-    uVar4 = (unsigned __int64)*(unsigned int *)(iVar1 + 0x121c);
-    uVar2 = uVar5;
-    uVar5 = uVar4;
-  }
-  auStack_40[0] = 0;
-  if ((param_1 & 0xffffffff) == 0) {
-    *(unsigned char ***)(param_3 + 0x14) = &lbl_82162C1C;
-    if (*(int *)(param_3 + 0x18) == 0) {
-      fn_82EE3128(param_3 + 0x14,0);
-    }
-    lVar3 = -0x7fff0001;
-  }
-  else {
-    lVar3 = (**(int (***)())*(unsigned int *)param_1)(param_1,auStack_40);
-    if (lVar3 < 0) {
-      *(unsigned char ***)(param_3 + 0x14) = &lbl_82162C1C;
-      if (*(int *)(param_3 + 0x18) == 0) {
-        fn_82EE3128(param_3 + 0x14,0);
-      }
-    }
-    else {
-      *(int *)(auStack_40[0] + 4) = (int)((param_2 & 0xffffffff) / 0x14) * 0x14;
-      if ((uVar2 & 0xffffffff) != 0) {
-        *(unsigned int *)((int)uVar2 + 0x121c) = auStack_40[0];
-      }
-      *(int *)(auStack_40[0] + 0x121c) = iVar1;
-      uVar5 = (unsigned __int64)auStack_40[0];
-LAB_82f3a8e8:
-      param_2 = param_2 - *(unsigned int *)((int)uVar5 + 4);
-      iVar1 = (int)((param_2 & 0xffffffff) >> 3) + (int)uVar5;
-      *(unsigned char *)(iVar1 + 0xe8) = (&lbl_831B9FE8)[(unsigned int)param_2 & 7] | *(unsigned char *)(iVar1 + 0xe8);
-      fn_82F39FE0(param_2 * 0xdc + uVar5 + 0xec,param_3);
-      *(unsigned char ***)(param_3 + 0x14) = &lbl_82162C1C;
-      if (*(int *)(param_3 + 0x18) == 0) {
-        fn_82EE3128(param_3 + 0x14,0);
-      }
-      lVar3 = 0;
-    }
-  }
-  return lVar3;
+    message->vt = lbl_82162C1C;
+    if (message->chain == 0)
+        fn_82EE3128(message, 0);
 }
 
+int fn_82F3A818(Block_82F3A818 *head, unsigned int index, Packet_82F3A818 *packet)
+{
+    Block_82F3A818 *previous = 0;
+    Block_82F3A818 *block = head;
+    Block_82F3A818 *created;
+    unsigned int offset;
+    unsigned char *used;
+    int hr;
+
+    if (block == 0) {
+    } else {
+        do {
+            if (index < block->first) {
+                break;
+            }
+            if (index >= block->first + 20) {
+            } else {
+                goto found;
+            }
+            previous = block;
+            block = block->next;
+        } while (block != 0);
+    }
+    created = 0;
+    if (head != 0) {
+        hr = head->vt->Create(head, &created);
+        if (hr < 0) {
+            Message_destroy(&packet->message);
+            return hr;
+        }
+        created->first = index / 20 * 20;
+        {
+            Block_82F3A818 *link = created;
+
+            if (previous != 0) {
+                previous->next = link;
+            }
+            link->next = block;
+        }
+        block = created;
+        goto found;
+    }
+    Message_destroy(&packet->message);
+    return 0x8000ffff;
+found:
+    offset = index - block->first;
+    used = &block->used[offset >> 3];
+    *used |= lbl_831B9FE8[offset & 7];
+    fn_82F39FE0(&block->entries[offset], packet);
+    Message_destroy(&packet->message);
+    return 0;
+}

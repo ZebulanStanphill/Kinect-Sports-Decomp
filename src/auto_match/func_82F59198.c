@@ -1,54 +1,55 @@
-extern int fn_82F5D3D8();
-extern int fn_82F5DEE0();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_821AAD20;
-extern unsigned int uStack_18;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
-extern unsigned int uStack_24;
-extern unsigned int uStack_28;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
-extern unsigned int uStack_34;
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
+typedef struct Settings_82F59198 {
+    int enabled;        /* 0x00 */
+    float strength;     /* 0x04 */
+    float direction[3]; /* 0x08 */
+    int mode;           /* 0x14 */
+    float range;        /* 0x18 */
+    float minimum[2];   /* 0x1c */
+    float maximum[2];   /* 0x24 */
+} Settings_82F59198;
 
+typedef struct Effect_82F59198 {
+    int pad0;
+    unsigned char active;   /* 0x04 */
+    unsigned char disabled; /* 0x05 */
+    char pad6[2];
+    int mode; /* 0x08 */
+    int padC;
+    float range;        /* 0x10 */
+    float strength;     /* 0x14 */
+    float direction[3]; /* 0x18 */
+    int kind;           /* 0x24 */
+    char state[0x74];   /* 0x28 */
+    char target[4];     /* 0x9c */
+} Effect_82F59198;
 
-void fn_82F59198(int param_1)
+extern void fn_82F5DEE0(void *state, Settings_82F59198 *settings);
+extern void fn_82F5D3D8(void *target, void *state);
 
+void fn_82F59198(Effect_82F59198 *effect)
 {
-  unsigned int uStack_40;
-  unsigned int uStack_3c;
-  unsigned int uStack_38;
-  unsigned int uStack_34;
-  unsigned int uStack_30;
-  unsigned int uStack_2c;
-  unsigned int uStack_28;
-  unsigned int uStack_24;
-  unsigned int uStack_20;
-  unsigned int uStack_1c;
-  unsigned int uStack_18;
-  
-  if (*(char *)(param_1 + 4) != '\0') {
-    if (*(int *)(param_1 + 0x24) == 1) {
-      uStack_2c = *(unsigned int *)(param_1 + 8);
-      uStack_38 = *(unsigned int *)(param_1 + 0x18);
-      uStack_34 = *(unsigned int *)(param_1 + 0x1c);
-      uStack_30 = *(unsigned int *)(param_1 + 0x20);
-      uStack_28 = *(unsigned int *)(param_1 + 0x10);
-      uStack_40 = (unsigned int)(*(char *)(param_1 + 5) == '\0');
-      uStack_3c = *(unsigned int *)(param_1 + 0x14);
-      uStack_18 = lbl_82002AE0;
-      uStack_24 = lbl_821AAD20;
-      uStack_20 = lbl_821AAD20;
-      uStack_1c = lbl_82002AE0;
-      fn_82F5DEE0(param_1 + 0x28,&uStack_40);
-    }
-    else if (*(int *)(param_1 + 0x24) == 2) {
-      fn_82F5D3D8(param_1 + 0x9c,param_1 + 0x28);
-    }
-  }
-  return;
-}
+    Settings_82F59198 settings;
 
+    if (effect->active == 0) {
+        return;
+    }
+    switch (effect->kind) {
+    case 1:
+        settings.mode = effect->mode;
+        settings.enabled = effect->disabled == 0;
+        settings.direction[0] = effect->direction[0];
+        settings.direction[1] = effect->direction[1];
+        settings.direction[2] = effect->direction[2];
+        settings.range = effect->range;
+        settings.maximum[1] = 1.0f;
+        settings.strength = effect->strength;
+        settings.minimum[0] = 0.0f;
+        settings.minimum[1] = 0.0f;
+        settings.maximum[0] = 1.0f;
+        fn_82F5DEE0(effect->state, &settings);
+        break;
+    case 2:
+        fn_82F5D3D8(effect->target, effect->state);
+        break;
+    }
+}

@@ -1,83 +1,82 @@
-extern int fn_82ABDD90();
-extern int fn_82AD1978();
+typedef struct Operand_82B46F08 {
+    unsigned int reserved00 : 10;
+    unsigned int bank : 3;
+    unsigned int reserved13 : 2;
+    unsigned int channel : 3;
+    unsigned int index : 7;
+    unsigned int reserved25 : 7;
+} Operand_82B46F08;
 
+typedef struct Source_82B46F08 {
+    int reserved00[2];
+    Operand_82B46F08 operand; /* 0x08 */
+} Source_82B46F08;
 
-void fn_82B46F08(int param_1,int param_2,unsigned int *param_3)
+typedef union Encoding_82B46F08 {
+    struct {
+        unsigned int reserved00 : 23;
+        unsigned int op : 9;
+    } wide;
 
+    struct {
+        unsigned int reserved00 : 30;
+        unsigned int mode : 2;
+    } narrow;
+} Encoding_82B46F08;
+
+typedef struct Target_82B46F08 {
+    int reserved00;
+    int constant;               /* 0x04 */
+    Encoding_82B46F08 encoding; /* 0x08 */
+} Target_82B46F08;
+
+typedef struct Request_82B46F08 {
+    unsigned int flags;      /* 0x00 */
+    unsigned int extraFlags; /* 0x04 */
+    int reserved08;
+    void *literal; /* 0x0c */
+} Request_82B46F08;
+
+typedef struct Compiler_82B46F08 {
+    char reserved00[0x34];
+    unsigned int caps; /* 0x34 */
+} Compiler_82B46F08;
+
+extern int fn_82ABDD90(Compiler_82B46F08 *self, unsigned int index, unsigned int bank, unsigned int channel);
+extern int fn_82AD1978(Source_82B46F08 *source, void *literal);
+
+void fn_82B46F08(Compiler_82B46F08 *self, Source_82B46F08 *source, Request_82B46F08 *request)
 {
-  int iVar1;
-  unsigned int uVar2;
-  int iVar3;
-  unsigned int uVar4;
-  
-  uVar4 = *(unsigned int *)(param_2 + 8);
-  iVar1 = fn_82ABDD90(param_1,uVar4 >> 7 & 0x7f,uVar4 >> 0x13 & 7,uVar4 >> 0xe & 7);
-  uVar4 = *param_3;
-  iVar1 = iVar1 + param_2 + -0x10;
-  if ((uVar4 & 8) == 0) {
-    if ((uVar4 & 0x200) != 0) {
-      iVar3 = 5;
-LAB_82b46f5c:
-      uVar4 = iVar3 << 3 | *(unsigned int *)(iVar1 + 8) & 0xfffffe00;
-      goto LAB_82b4705c;
-    }
-    if ((uVar4 & 0x400) == 0) {
-      if ((uVar4 & 0x10) != 0) {
-        iVar3 = 1;
-        goto LAB_82b46f5c;
-      }
-      if ((uVar4 & 0x20) == 0) {
-        if ((uVar4 & 0x40) != 0) {
-          uVar4 = *(unsigned int *)(iVar1 + 8) & 0xfffffe00 | 0x10;
-          goto LAB_82b4705c;
-        }
-        if ((uVar4 & 0x80) != 0) {
-          uVar4 = *(unsigned int *)(iVar1 + 8) & 0xfffffe00 | 0x20;
-          goto LAB_82b4705c;
-        }
-        if ((uVar4 & 0x100) == 0) {
-          uVar4 = *(unsigned int *)(param_1 + 0x34);
-          if (((uVar4 & 0x400) == 0) || ((param_3[1] & 8) == 0)) {
-            if (((uVar4 & 0x400) != 0) && ((param_3[1] & 0x200) != 0)) {
-              iVar3 = 0x15;
-              goto LAB_82b46f5c;
-            }
-            if ((uVar4 & 0x200) == 0) {
-              return;
-            }
-            if ((param_3[1] & 0x400) == 0) {
-              return;
-            }
-            iVar3 = 0x27;
-          }
-          else {
-            iVar3 = 0x21;
-          }
-        }
-        else {
-          iVar3 = 9;
-        }
-      }
-      else {
-        iVar3 = 3;
-      }
-    }
-    else {
-      if (param_3[3] != 0) {
-        uVar2 = fn_82AD1978(param_2);
-        *(unsigned int *)(iVar1 + 4) = uVar2;
-        uVar4 = *(unsigned int *)(iVar1 + 8) & 0xfffffffc | 1;
-        goto LAB_82b4705c;
-      }
-      iVar3 = 7;
-    }
-  }
-  else {
-    iVar3 = 1;
-  }
-  uVar4 = iVar3 << 2 | *(unsigned int *)(iVar1 + 8) & 0xfffffe00;
-LAB_82b4705c:
-  *(unsigned int *)(iVar1 + 8) = uVar4;
-  return;
-}
+    int offset = fn_82ABDD90(self, source->operand.index, source->operand.bank, source->operand.channel);
+    Target_82B46F08 *target = (Target_82B46F08 *)((char *)source - 0x10 + offset);
+    unsigned int flags = request->flags;
 
+    if ((flags & 8) != 0) {
+        target->encoding.wide.op = 0x4;
+    } else if ((flags & 0x200) != 0) {
+        target->encoding.wide.op = 0x28;
+    } else if ((flags & 0x400) != 0) {
+        if (request->literal != 0) {
+            target->constant = fn_82AD1978(source, request->literal);
+            target->encoding.narrow.mode = 1;
+        } else {
+            target->encoding.wide.op = 0x1c;
+        }
+    } else if ((flags & 0x10) != 0) {
+        target->encoding.wide.op = 0x8;
+    } else if ((flags & 0x20) != 0) {
+        target->encoding.wide.op = 0xc;
+    } else if ((flags & 0x40) != 0) {
+        target->encoding.wide.op = 0x10;
+    } else if ((flags & 0x80) != 0) {
+        target->encoding.wide.op = 0x20;
+    } else if ((flags & 0x100) != 0) {
+        target->encoding.wide.op = 0x24;
+    } else if ((self->caps & 0x400) != 0 && (request->extraFlags & 8) != 0) {
+        target->encoding.wide.op = 0x84;
+    } else if ((self->caps & 0x400) != 0 && (request->extraFlags & 0x200) != 0) {
+        target->encoding.wide.op = 0xa8;
+    } else if ((self->caps & 0x200) != 0 && (request->extraFlags & 0x400) != 0) {
+        target->encoding.wide.op = 0x9c;
+    }
+}

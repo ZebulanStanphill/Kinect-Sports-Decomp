@@ -1,153 +1,65 @@
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_80;
-extern unsigned int *auStack_90;
-extern unsigned int *auStack_a0;
-extern unsigned int *auStack_ad;
-extern int fn_82CE6150();
-extern unsigned int lbl_82006848;
-extern unsigned int lbl_8323B1A0;
-extern unsigned int uStack_ae;
-extern unsigned int uStack_af;
-extern unsigned int uStack_b0;
+/* Havok: hkpWheelConstraintData::isValid (vtable slot). Both local transforms of the suspension base,
+   the steering rotations completed with a zero translation, and the suspension limit (min <= max)
+   must pass; fn_82CE6150 is the transform check with an epsilon, writing an hkBool. */
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Rotation_82D99B78 {
+    __vector4 column[3];
+} Rotation_82D99B78;
 
-unsigned char * fn_82D99B78(unsigned char *param_1,int param_2)
+typedef struct Transform_82D99B78 {
+    Rotation_82D99B78 rotation; /* 0x00 */
+    __vector4 translation;      /* 0x30 */
+} Transform_82D99B78;
 
+typedef struct WheelConstraintData_82D99B78 {
+    char pad0[0x20];
+    Transform_82D99B78 transformA; /* 0x20 */
+    Transform_82D99B78 transformB; /* 0x60 */
+    char padA0[0x4];
+    float linMin; /* 0xa4 */
+    float linMax; /* 0xa8 */
+    char padAC[0x24];
+    Rotation_82D99B78 rotationA; /* 0xd0 */
+    Rotation_82D99B78 rotationB; /* 0x100 */
+} WheelConstraintData_82D99B78;
+
+extern __vector4 lbl_8323B1A0;
+extern float lbl_82006848;
+extern char *fn_82CE6150(char *out, const Transform_82D99B78 *transform, float epsilon);
+
+static __forceinline void InitTransform(Transform_82D99B78 *transform, const Rotation_82D99B78 *rotation,
+                                        const __vector4 *translation)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int in_r0;
-  char *pcVar3;
-  unsigned char uVar4;
-  double dVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned int uVar8;
-  unsigned int uVar9;
-  unsigned int uVar10;
-  unsigned int uVar11;
-  unsigned int uVar12;
-  unsigned int uVar13;
-  unsigned int uVar14;
-  unsigned int uVar15;
-  unsigned int uVar16;
-  unsigned int uVar17;
-  unsigned int uVar18;
-  unsigned int uVar19;
-  unsigned int uVar20;
-  unsigned int uVar21;
-  unsigned int uVar22;
-  unsigned int uVar23;
-  unsigned int uVar24;
-  unsigned int uVar25;
-  unsigned int uVar26;
-  unsigned int uVar27;
-  unsigned int uVar28;
-  unsigned int uVar29;
-  unsigned int uVar30;
-  unsigned int uVar31;
-  unsigned int uVar32;
-  unsigned char uStack_b0;
-  unsigned char uStack_af;
-  unsigned char uStack_ae;
-  unsigned char auStack_ad [13];
-  unsigned char auStack_a0 [16];
-  unsigned char auStack_90 [16];
-  unsigned char auStack_80 [16];
-  unsigned char auStack_70 [16];
-  unsigned char auStack_60 [16];
-  unsigned char auStack_50 [16];
-  unsigned char auStack_40 [16];
-  unsigned char auStack_30 [24];
-  
-  puVar1 = (unsigned int *)(in_r0 + param_2 + 0xd0 & 0xfffffff0);
-  uVar30 = puVar1[1];
-  uVar31 = puVar1[2];
-  uVar32 = puVar1[3];
-  puVar2 = (unsigned int *)(in_r0 + param_2 + 0x100 & 0xfffffff0);
-  uVar26 = *puVar2;
-  uVar27 = puVar2[1];
-  uVar28 = puVar2[2];
-  uVar29 = puVar2[3];
-  puVar2 = (unsigned int *)((unsigned int)(&lbl_8323B1A0 + in_r0) & 0xfffffff0);
-  uVar6 = *puVar2;
-  uVar7 = puVar2[1];
-  uVar8 = puVar2[2];
-  uVar9 = puVar2[3];
-  puVar2 = (unsigned int *)(param_2 + 0xe0U & 0xfffffff0);
-  uVar22 = *puVar2;
-  uVar23 = puVar2[1];
-  uVar24 = puVar2[2];
-  uVar25 = puVar2[3];
-  puVar2 = (unsigned int *)(param_2 + 0xf0U & 0xfffffff0);
-  uVar18 = *puVar2;
-  uVar19 = puVar2[1];
-  uVar20 = puVar2[2];
-  uVar21 = puVar2[3];
-  puVar2 = (unsigned int *)(param_2 + 0x110U & 0xfffffff0);
-  uVar14 = *puVar2;
-  uVar15 = puVar2[1];
-  uVar16 = puVar2[2];
-  uVar17 = puVar2[3];
-  puVar2 = (unsigned int *)(param_2 + 0x120U & 0xfffffff0);
-  uVar10 = *puVar2;
-  uVar11 = puVar2[1];
-  uVar12 = puVar2[2];
-  uVar13 = puVar2[3];
-  puVar2 = (unsigned int *)((unsigned int)(auStack_a0 + in_r0) & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar30;
-  puVar2[2] = uVar31;
-  puVar2[3] = uVar32;
-  puVar1 = (unsigned int *)((unsigned int)(auStack_30 + in_r0) & 0xfffffff0);
-  *puVar1 = uVar6;
-  puVar1[1] = uVar7;
-  puVar1[2] = uVar8;
-  puVar1[3] = uVar9;
-  puVar1 = (unsigned int *)((unsigned int)(auStack_70 + in_r0) & 0xfffffff0);
-  *puVar1 = uVar6;
-  puVar1[1] = uVar7;
-  puVar1[2] = uVar8;
-  puVar1[3] = uVar9;
-  puVar1 = (unsigned int *)((unsigned int)(auStack_60 + in_r0) & 0xfffffff0);
-  *puVar1 = uVar26;
-  puVar1[1] = uVar27;
-  puVar1[2] = uVar28;
-  puVar1[3] = uVar29;
-  puVar1 = (unsigned int *)((unsigned int)(auStack_90 + in_r0) & 0xfffffff0);
-  *puVar1 = uVar22;
-  puVar1[1] = uVar23;
-  puVar1[2] = uVar24;
-  puVar1[3] = uVar25;
-  puVar1 = (unsigned int *)((unsigned int)(auStack_50 + in_r0) & 0xfffffff0);
-  *puVar1 = uVar14;
-  puVar1[1] = uVar15;
-  puVar1[2] = uVar16;
-  puVar1[3] = uVar17;
-  puVar1 = (unsigned int *)((unsigned int)(auStack_80 + in_r0) & 0xfffffff0);
-  *puVar1 = uVar18;
-  puVar1[1] = uVar19;
-  puVar1[2] = uVar20;
-  puVar1[3] = uVar21;
-  puVar1 = (unsigned int *)((unsigned int)(auStack_40 + in_r0) & 0xfffffff0);
-  *puVar1 = uVar10;
-  puVar1[1] = uVar11;
-  puVar1[2] = uVar12;
-  puVar1[3] = uVar13;
-  dVar5 = (double)lbl_82006848;
-  pcVar3 = (char *)fn_82CE6150(dVar5,auStack_ad,param_2 + 0x20);
-  if ((((*pcVar3 == '\0') ||
-       (pcVar3 = (char *)fn_82CE6150(dVar5,&uStack_ae,param_2 + 0x60), *pcVar3 == '\0')) ||
-      (pcVar3 = (char *)fn_82CE6150(dVar5,&uStack_b0,auStack_a0), *pcVar3 == '\0')) ||
-     ((pcVar3 = (char *)fn_82CE6150(dVar5,&uStack_af,auStack_60), *pcVar3 == '\0' ||
-      (uVar4 = 1, *(float *)(param_2 + 0xa8) < *(float *)(param_2 + 0xa4))))) {
-    uVar4 = 0;
-  }
-  *param_1 = uVar4;
-  return param_1;
+    transform->rotation.column[0] = rotation->column[0];
+    transform->rotation.column[1] = rotation->column[1];
+    transform->rotation.column[2] = rotation->column[2];
+    transform->translation = *translation;
 }
 
+char *fn_82D99B78(char *out, WheelConstraintData_82D99B78 *self)
+{
+    Transform_82D99B78 steeringA;
+    Transform_82D99B78 steeringB;
+    char okA;
+    char okB;
+    char okSteeringA;
+    char okSteeringB;
+    char result;
+    float epsilon;
+
+    InitTransform(&steeringA, &self->rotationA, &lbl_8323B1A0);
+    InitTransform(&steeringB, &self->rotationB, &lbl_8323B1A0);
+    epsilon = lbl_82006848;
+    if (*fn_82CE6150(&okA, &self->transformA, epsilon) == 0 ||
+        *fn_82CE6150(&okB, &self->transformB, epsilon) == 0 ||
+        *fn_82CE6150(&okSteeringA, &steeringA, epsilon) == 0 ||
+        *fn_82CE6150(&okSteeringB, &steeringB, epsilon) == 0 || self->linMin > self->linMax)
+        result = 0;
+    else
+        result = 1;
+    *out = result;
+    return out;
+}

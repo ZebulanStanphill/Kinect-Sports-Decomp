@@ -1,44 +1,71 @@
-extern int fn_82579288();
-extern int fn_825795A8();
-extern int fn_82579688();
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int lbl_83274B14;
-extern unsigned int lbl_83274B18;
-extern unsigned int lbl_83274B20;
-extern unsigned int uRam83274b24;
-extern unsigned int uRam83274b28;
-extern unsigned int uRam83274b2c;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Hit_82626020 {
+    char pad0[0x10];
+    __vector4 position; /* 0x10 */
+    char pad20[0x23 - 0x20];
+    unsigned char material; /* 0x23 */
+    int object;             /* 0x24 */
+} Hit_82626020;
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+typedef struct Results_82626020 {
+    char pad0[4];
+    Hit_82626020 *first; /* 0x4 */
+} Results_82626020;
 
-void fn_82626020(double param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4)
+typedef struct Query_82626020 {
+    int base; /* 0x0 */
+    char pad4[0x10 - 0x4];
+    Results_82626020 *results; /* 0x10 */
+    char pad14[0x188 - 0x14];
+    int offset;   /* 0x188 */
+    int capacity; /* 0x18c */
+    int size;     /* 0x190 */
+    char pad194[0x19c - 0x194];
+    unsigned short count; /* 0x19c */
+} Query_82626020;
 
+typedef struct LastHit_82626020 {
+    int pad0;
+    unsigned char material; /* 0x4 */
+    int object;             /* 0x8 */
+    int padC;
+    __vector4 position; /* 0x10 */
+} LastHit_82626020;
+
+typedef struct World_82626020 {
+    char pad0[0x6d0];
+    void *collision; /* 0x6d0 */
+} World_82626020;
+
+extern LastHit_82626020 lbl_83274B10;
+extern Query_82626020 *fn_82579288(void *collision);
+extern int fn_825795A8(Query_82626020 *query, const __vector4 *start, const __vector4 *end, int mask);
+extern int fn_82579688(Query_82626020 *query, const __vector4 *start, const __vector4 *end, float radius,
+                       int mask, int a, int b);
+
+void fn_82626020(World_82626020 *world, const __vector4 *start, const __vector4 *end, float radius)
 {
-  unsigned int *puVar1;
-  int *piVar2;
-  int iVar3;
-  
-  piVar2 = (int *)fn_82579288(*(unsigned int *)(param_2 + 0x6d0));
-  if (param_1 == (double)ltcg_pool_0_0f) {
-    iVar3 = fn_825795A8(piVar2,param_3,param_4,0x1000c);
-  }
-  else {
-    iVar3 = fn_82579688(param_1);
-  }
-  if (iVar3 != 0) {
-    iVar3 = *(int *)(piVar2[4] + 4);
-    lbl_83274B14 = *(unsigned char *)(iVar3 + 0x23);
-    lbl_83274B18 = *(unsigned int *)(iVar3 + 0x24);
-    puVar1 = (unsigned int *)(iVar3 + 0x10U & 0xfffffff0);
-    lbl_83274B20 = *puVar1;
-    uRam83274b24 = puVar1[1];
-    uRam83274b28 = puVar1[2];
-    uRam83274b2c = puVar1[3];
-  }
-  *(unsigned short *)(piVar2 + 0x67) = 0;
-  piVar2[100] = piVar2[99];
-  *(unsigned char *)(piVar2[0x62] + *piVar2 + 0x754) = 0;
-  return;
-}
+    Query_82626020 *query = fn_82579288(world->collision);
+    int hit;
 
+    if (radius != 0.0f) {
+        hit = fn_82579688(query, start, end, radius, 0x1000c, 0, 0);
+    } else {
+        hit = fn_825795A8(query, start, end, 0x1000c);
+    }
+    if (hit != 0) {
+        Hit_82626020 *first = query->results->first;
+        lbl_83274B10.material = first->material;
+        lbl_83274B10.object = first->object;
+        lbl_83274B10.position = first->position;
+    }
+    query->count = 0;
+    {
+        int *size = &query->size;
+        *size = query->capacity;
+    }
+    *((unsigned char *)query->offset + query->base + 0x754) = 0;
+}

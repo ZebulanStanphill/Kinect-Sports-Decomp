@@ -1,37 +1,21 @@
-extern unsigned int fStack00000010;
-extern unsigned int fStack00000014;
-extern unsigned int fStack00000018;
-extern int tan();
-extern unsigned int lbl_82015B38;
-extern unsigned int lbl_8207F260;
-extern unsigned int lbl_820885C8;
-extern unsigned int lbl_83218DD0;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
+
+double tan(double);
+
 extern unsigned int lbl_83218DD4;
+extern float lbl_83218DD0;
+extern const double lbl_8207F260;
 
+static const float halfWidth = 40.0f;
 
-void fn_829FCF78(int *param_1,int *param_2)
-
+void fn_829FCF78(__vector4 position, int *x, int *y)
 {
-  float fVar1;
-  double dVar2;
-  float in_register_00010010;
-  float in_register_00010014;
-  float in_register_00010018;
-  float fStack00000010;
-  float fStack00000014;
-  float fStack00000018;
-  
-  fStack00000010 = in_register_00010010;
-  fStack00000014 = in_register_00010014;
-  fStack00000018 = in_register_00010018;
-  if ((lbl_83218DD4 & 1) == 0) {
-    lbl_83218DD4 = lbl_83218DD4 | 1;
-    dVar2 = (double)tan(lbl_8207F260);
-    lbl_83218DD0 = lbl_820885C8 / (float)dVar2;
-  }
-  fVar1 = lbl_82015B38;
-  *param_1 = (int)((lbl_83218DD0 * fStack00000010) / fStack00000018 + lbl_820885C8);
-  *param_2 = (int)(fVar1 - (lbl_83218DD0 * fStack00000014) / fStack00000018);
-  return;
+    if ((lbl_83218DD4 & 1) == 0) {
+        lbl_83218DD4 |= 1;
+        lbl_83218DD0 = halfWidth / (float)tan(lbl_8207F260);
+    }
+    *x = (int)(lbl_83218DD0 * position.vector4_f32[0] / position.vector4_f32[2] + halfWidth);
+    *y = (int)(30.0f - lbl_83218DD0 * position.vector4_f32[1] / position.vector4_f32[2]);
 }
-

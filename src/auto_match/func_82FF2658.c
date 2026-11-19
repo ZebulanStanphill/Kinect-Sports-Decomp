@@ -1,65 +1,59 @@
-extern int fn_8301E600();
-extern int fn_8301EE18();
-extern unsigned int lbl_82014898;
-extern unsigned int lbl_821AAD20;
+/* Shortest time for any of the selected movers (bit i of the mask selects entry i of the mover table)
+   to reach one of the target's points (or the default point when it has none): distance (fn_8301E600)
+   over the mover's speed (fn_8301EE18). 0 when the target's own mover is selected. */
+typedef struct Point_82FF2658 {
+    float position[3]; /* 0x0 */
+    char padC[0xc];
+} Point_82FF2658;
 
+typedef struct Mover_82FF2658 {
+    char pad0[0x18];
+    float position[3]; /* 0x18 */
+    char pad24[0x90 - 0x24];
+} Mover_82FF2658;
 
-double fn_82FF2658(unsigned int *param_1)
+typedef struct Target_82FF2658 {
+    Point_82FF2658 *points;    /* 0x0 */
+    unsigned short pointCount; /* 0x4 */
+    unsigned char moverMask;   /* 0x6 */
+    unsigned char flags : 3;   /* 0x7 */
+    signed char ownMover : 5;
+} Target_82FF2658;
 
+extern float lbl_82014898;
+extern float lbl_831BC80C[];
+extern Mover_82FF2658 lbl_83264610[8];
+extern float fn_8301E600(const float *a, const float *b);
+extern float fn_8301EE18(int mover);
+
+float fn_82FF2658(Target_82FF2658 *target)
 {
-  unsigned __int64 uVar1;
-  __int64 lVar2;
-  unsigned __int64 uVar3;
-  unsigned int uVar4;
-  __int64 lVar5;
-  double dVar6;
-  double dVar7;
-  double dVar8;
-  double dVar9;
-  
-  uVar1 = (unsigned __int64)*(unsigned char *)((int)param_1 + 6);
-  uVar3 = 0;
-  dVar8 = (double)lbl_82014898;
-  if (uVar1 != 0) {
-    lVar2 = -0x7cd9b9d8;
-    dVar9 = dVar8;
-    do {
-      dVar8 = dVar9;
-      if ((uVar1 & 1) != 0) {
-        if ((unsigned __int64)(unsigned int)((int)((unsigned int)*(unsigned char *)((int)param_1 + 7) << 0x1b) >> 0x1b) ==
-            (uVar3 & 0xffffffff)) {
-          return (double)lbl_821AAD20;
-        }
-        if (*(short *)(param_1 + 1) == 0) {
-          dVar6 = (double)fn_8301E600(lVar2,0xffffffff831bc80c);
-          dVar7 = (double)fn_8301EE18(uVar3);
-          dVar8 = (double)(float)(dVar6 / dVar7);
-          if ((float)(dVar9 - (double)(float)(dVar6 / dVar7)) < 0.0) {
-            dVar8 = dVar9;
-          }
-        }
-        else {
-          uVar4 = 0;
-          lVar5 = 0;
-          do {
-            dVar6 = (double)fn_8301E600(lVar2,lVar5 + (unsigned __int64)*param_1);
-            dVar7 = (double)fn_8301EE18(uVar3);
-            uVar4 = uVar4 + 1;
-            lVar5 = lVar5 + 0x18;
-            dVar8 = (double)(float)(dVar6 / dVar7);
-            if ((float)(dVar9 - (double)(float)(dVar6 / dVar7)) < 0.0) {
-              dVar8 = dVar9;
-            }
-            dVar9 = dVar8;
-          } while (uVar4 < *(unsigned short *)(param_1 + 1));
-        }
-      }
-      uVar1 = uVar1 >> 1;
-      uVar3 = uVar3 + 1;
-      lVar2 = lVar2 + 0x90;
-      dVar9 = dVar8;
-    } while (uVar1 != 0);
-  }
-  return dVar8;
-}
+    unsigned int mask;
+    unsigned int mover;
+    unsigned int point;
+    float best;
+    float time;
 
+    mask = target->moverMask;
+    mover = 0;
+    best = lbl_82014898;
+    while (mask != 0) {
+        if (mask & 1) {
+            if (target->ownMover == mover)
+                return 0.0f;
+            if (target->pointCount != 0) {
+                for (point = 0; point < target->pointCount; point++) {
+                    time = fn_8301E600(lbl_83264610[mover].position, target->points[point].position) /
+                           fn_8301EE18(mover);
+                    best = best - time >= 0.0f ? time : best;
+                }
+            } else {
+                time = fn_8301E600(lbl_83264610[mover].position, lbl_831BC80C) / fn_8301EE18(mover);
+                best = best - time >= 0.0f ? time : best;
+            }
+        }
+        mask >>= 1;
+        mover++;
+    }
+    return best;
+}

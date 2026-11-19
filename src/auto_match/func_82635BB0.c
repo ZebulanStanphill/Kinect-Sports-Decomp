@@ -1,27 +1,42 @@
-#define CONCAT11(h,l) ((unsigned short)((((unsigned char)(h)) << 8) | ((unsigned char)(l))))
-#define CONCAT21(h,l) ((unsigned int)((((unsigned short)(h)) << 8) | ((unsigned char)(l))))
+typedef struct Page_82635BB0 {
+    unsigned int registers[0x8ea]; /* 0x0 */
+    unsigned __int64 usedWords;    /* 0x23a8 */
+    char pad23B0[0x23f8 - 0x23b0];
+    unsigned int dirty[0x48]; /* 0x23f8 */
+    char pad2518[0x255c - 0x2518];
+    int cached; /* 0x255c */
+    char pad2560[0x26d0 - 0x2560];
+} Page_82635BB0;
 
+typedef struct Pool_82635BB0 {
+    int current; /* 0x0 */
+    char pad4[0x170 - 0x4];
+    Page_82635BB0 pages[2]; /* 0x170 */
+} Pool_82635BB0;
 
-void fn_82635BB0(int *param_1,__int64 param_2,int param_3)
+typedef struct Color_82635BB0 {
+    unsigned char pad0[3];
+    unsigned char r; /* 0x3 */
+    unsigned char pad4[3];
+    unsigned char g; /* 0x7 */
+    unsigned char pad8[3];
+    unsigned char b; /* 0xb */
+} Color_82635BB0;
 
+static __forceinline void SetBit(unsigned int *bits, unsigned int index)
 {
-  int iVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  int iVar4;
-  
-  iVar1 = *param_1;
-  param_1[iVar1 * 0x9b4 + 0x9b3] = 0;
-  *(unsigned __int64 *)(param_1 + iVar1 * 0x9b4 + 0x946) =
-       1L << (0x3fU - param_2 & 0x7f) | *(unsigned __int64 *)(param_1 + iVar1 * 0x9b4 + 0x946);
-  iVar4 = iVar1 * 0x26d0 + 0x2568;
-  uVar2 = (unsigned int)((param_2 + 0x8c8U & 0x3fffffff) >> 3) & 0x7fffffc;
-  uVar3 = (unsigned int)((param_2 + 0x8c8U & 0x3fffffff) << 2);
-  *(unsigned int *)((int)param_1 + uVar2 + iVar4) =
-       1 << (uVar3 >> 2 & 0x1f) | *(unsigned int *)((int)param_1 + uVar2 + iVar4);
-  *(unsigned int *)((int)param_1 + uVar3 + iVar1 * 0x26d0 + 0x170) =
-       (unsigned int)CONCAT21(CONCAT11(*(unsigned char *)(param_3 + 0xb),*(unsigned char *)(param_3 + 7)),
-                      *(unsigned char *)(param_3 + 3));
-  return;
+    bits[index >> 5] |= 1 << (index & 0x1f);
 }
 
+void fn_82635BB0(Pool_82635BB0 *pool, unsigned int index, const Color_82635BB0 *color)
+{
+    Page_82635BB0 *page;
+    unsigned int offset;
+
+    page = &pool->pages[pool->current];
+    page->cached = 0;
+    page->usedWords |= (unsigned __int64)1 << (63 - index);
+    offset = (index + 0x8c8) * 4;
+    SetBit(page->dirty, offset >> 2);
+    *(unsigned int *)((char *)page->registers + offset) = ((color->b << 8 | color->g) << 8) | color->r;
+}

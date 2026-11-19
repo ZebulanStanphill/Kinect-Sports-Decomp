@@ -1,64 +1,80 @@
-extern int fn_829EA4C0();
-extern int fn_829EE638();
-extern int fn_829EE660();
+typedef struct Tap_829EB3F8 {
+    unsigned int offset; /* 0x0 */
+    int channelCount;    /* 0x4 */
+    const float *gains;  /* 0x8 */
+} Tap_829EB3F8;
 
+typedef struct TapVector_829EB3F8 {
+    int allocator;       /* 0x0 */
+    Tap_829EB3F8 *first; /* 0x4 */
+    Tap_829EB3F8 *last;  /* 0x8 */
+    Tap_829EB3F8 *end;   /* 0xc */
+} TapVector_829EB3F8;
 
-void fn_829EB3F8(int param_1,int param_2,int param_3,unsigned __int64 param_4,int param_5,
-                  __int64 param_6,unsigned __int64 param_7,unsigned int *param_8)
+typedef struct TapSet_829EB3F8 {
+    unsigned int stride;     /* 0x0 */
+    TapVector_829EB3F8 taps; /* 0x4 */
+} TapSet_829EB3F8;
 
+typedef struct Layout_829EB3F8 {
+    char pad0[0x1c];
+    int rowPitch;    /* 0x1c */
+    int pad20;       /* 0x20 */
+    int columnPitch; /* 0x24 */
+    int base;        /* 0x28 */
+} Layout_829EB3F8;
+
+typedef struct Mixer_829EB3F8 {
+    char pad0[0x20];
+    int samplesPerFrame; /* 0x20 */
+    char pad24[0x174 - 0x24];
+    float **channels; /* 0x174 */
+    char pad178[0x1dc - 0x178];
+    float *scratch; /* 0x1dc */
+} Mixer_829EB3F8;
+
+static __forceinline unsigned int TapCount(const TapVector_829EB3F8 *taps)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  __int64 lVar3;
-  int iVar4;
-  float *pfVar5;
-  int iVar6;
-  int iVar7;
-  unsigned int in_stack_00000054;
-  unsigned int in_stack_0000005c;
-  
-  if (0 < (int)param_6) {
-    uVar2 = (unsigned __int64)in_stack_0000005c;
-    do {
-      iVar7 = in_stack_00000054 * 0xc + param_8[2];
-      fn_829EA4C0(param_1,*(unsigned int *)(in_stack_00000054 * 0xc + param_8[2]) + uVar2,
-                    *(unsigned int *)(iVar7 + 4),param_7);
-      pfVar5 = *(float **)(iVar7 + 8);
-      lVar3 = (__int64)param_3 * (__int64)*(int *)(param_2 + 0x1c) +
-              (__int64)param_5 * (__int64)*(int *)(param_2 + 0x24) +
-              (unsigned __int64)*(unsigned int *)(param_2 + 0x28);
-      if (*(int *)(iVar7 + 4) < 2) {
-        if (*(int *)(iVar7 + 4) == 1) {
-          fn_829EE638((double)*pfVar5,**(unsigned int **)(param_1 + 0x174),lVar3);
-        }
-      }
-      else {
-        uVar1 = *(unsigned int *)(param_1 + 0x1dc);
-        fn_829EE638((double)*pfVar5,**(unsigned int **)(param_1 + 0x174),uVar1);
-        pfVar5 = pfVar5 + 1;
-        iVar6 = 1;
-        if (1 < *(int *)(iVar7 + 4) + -1) {
-          iVar4 = 4;
-          do {
-            fn_829EE660((double)*pfVar5,uVar1,*(unsigned int *)(*(int *)(param_1 + 0x174) + iVar4)
-                            ,uVar1);
-            iVar6 = iVar6 + 1;
-            iVar4 = iVar4 + 4;
-            pfVar5 = pfVar5 + 1;
-          } while (iVar6 < *(int *)(iVar7 + 4) + -1);
-        }
-        fn_829EE660((double)*pfVar5,uVar1,*(unsigned int *)(iVar6 * 4 + *(int *)(param_1 + 0x174))
-                        ,lVar3);
-      }
-      in_stack_00000054 = in_stack_00000054 + 1;
-      if ((unsigned int)((int)(param_8[3] - param_8[2]) / 0xc) <= in_stack_00000054) {
-        in_stack_00000054 = 0;
-        uVar2 = *param_8 + uVar2;
-      }
-      param_6 = param_6 + -1;
-      param_5 = param_5 + 1;
-    } while (param_6 != 0);
-  }
-  return;
+    return taps->last - taps->first;
 }
 
+extern void fn_829EA4C0(Mixer_829EB3F8 *self, unsigned int position, int channelCount, int source);
+extern void fn_829EE638(const float *x, float *out, float a, int count);
+extern void fn_829EE660(const float *y, const float *x, float *out, float a, int count);
+
+void fn_829EB3F8(Mixer_829EB3F8 *self, Layout_829EB3F8 *layout, int row, int frames, int column, int count,
+                 int source, TapSet_829EB3F8 *set, unsigned int tapIndex, unsigned int position)
+{
+    int i;
+
+    for (i = 0; i < count; i++) {
+        Tap_829EB3F8 *tap = &set->taps.first[tapIndex];
+        const float *gains;
+        float *dest;
+        int length;
+
+        fn_829EA4C0(self, tap->offset + position, tap->channelCount, source);
+        dest = (float *)(row * layout->rowPitch + column * layout->columnPitch + layout->base);
+        gains = tap->gains;
+        length = frames * self->samplesPerFrame;
+        if (tap->channelCount > 1) {
+            float *scratch = self->scratch;
+            int channel;
+
+            fn_829EE638(self->channels[0], scratch, *gains, length);
+            gains++;
+            for (channel = 1; channel < tap->channelCount - 1; channel++, gains++) {
+                fn_829EE660(scratch, self->channels[channel], scratch, *gains, length);
+            }
+            fn_829EE660(scratch, self->channels[channel], dest, *gains, length);
+        } else if (tap->channelCount == 1) {
+            fn_829EE638(self->channels[0], dest, *gains, length);
+        }
+        tapIndex++;
+        if (tapIndex >= TapCount(&set->taps)) {
+            tapIndex = 0;
+            position += set->stride;
+        }
+        column++;
+    }
+}

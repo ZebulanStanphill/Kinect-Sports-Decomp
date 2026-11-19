@@ -1,53 +1,85 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_82CE5040();
-extern int fn_82F63108();
-extern V16 vectorAddFloatingPoint();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vaddfp(__vector4 a, __vector4 b);
 
-void fn_82606440(int param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4)
+struct Impl_82606440;
 
+typedef struct ImplVt_82606440 {
+    void *copy;
+    void (*call)(struct Impl_82606440 *self, int id, int arg, void *transform, void *a, void *b, void *c,
+                 void *d);
+} ImplVt_82606440;
+
+typedef struct Impl_82606440 {
+    ImplVt_82606440 *vt;
+} Impl_82606440;
+
+typedef struct Function_82606440 {
+    int storage[4];
+    Impl_82606440 *impl; /* 0x10 */
+} Function_82606440;
+
+typedef struct Owner_82606440 {
+    char pad0[0x10];
+    int id; /* 0x10 */
+    char pad14[0x5c];
+    Function_82606440 onChange; /* 0x70 */
+} Owner_82606440;
+
+typedef struct Pose_82606440 {
+    char pad0[0x28];
+    float a;              /* 0x28 */
+    float b;              /* 0x2c */
+    float c[4];           /* 0x30 */
+    float d[4];           /* 0x40 */
+    char transform[0x40]; /* 0x50 */
+} Pose_82606440;
+
+typedef struct Body_82606440 {
+    char pad0[0x10];
+    __vector4 offset;   /* 0x10 */
+    __vector4 position; /* 0x20 */
+    char pad30[0x15];
+    unsigned char state;  /* 0x45 */
+    unsigned short flags; /* 0x46 */
+    char pad48[0x208];
+    Pose_82606440 pose; /* 0x250 */
+    char pad2E0[0x1f0];
+    char worldTransform[0x40]; /* 0x4d0 */
+} Body_82606440;
+
+extern void fn_82CE5040(void *out, void *transform, void *in);
+extern __declspec(noreturn) void fn_82F63108(void);
+
+static __forceinline void Call_82606440(Function_82606440 *f, int id, int arg, void *transform, void *a,
+                                        void *b, void *c, void *d)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int in_r0;
-  unsigned char bVar3;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs45 [16];
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned char auStack_40 [64];
-  
-  if ((*(unsigned short *)(param_2 + 0x46) & 4) == 0) {
-    puVar1 = (unsigned int *)(param_2 + 0x10U & 0xfffffff0);
-    uVar4 = puVar1[1];
-    uVar5 = puVar1[2];
-    uVar6 = puVar1[3];
-    vectorAddFloatingPoint(in_vs45,in_vs32);
-    puVar2 = (unsigned int *)((unsigned int)(auStack_40 + in_r0) & 0xfffffff0);
-    *puVar2 = *puVar1;
-    puVar2[1] = uVar4;
-    puVar2[2] = uVar5;
-    puVar2[3] = uVar6;
-    fn_82CE5040(param_2 + 0x4d0,param_3,auStack_40);
-    *(unsigned short *)(param_2 + 0x46) = *(unsigned short *)(param_2 + 0x46) | 4;
-  }
-  if ((*(unsigned short *)(param_2 + 0x46) & 0x80) == 0) {
-    fn_82CE5040(param_2 + 0x2a0,param_3,param_2 + 0x250);
-    bVar3 = *(unsigned char *)(param_2 + 0x45) ^ 2;
-    *(unsigned char *)(param_2 + 0x45) = bVar3;
-    if ((bVar3 & 7) != 0) {
-      if (*(int *)(param_1 + 0x80) == 0) {
-                    /* WARNING: Subroutine does not return */
+    if (f->impl == 0) {
         fn_82F63108();
-      }
-      (**(int (***)())(**(int **)(param_1 + 0x80) + 4))
-                (*(int **)(param_1 + 0x80),*(unsigned int *)(param_1 + 0x10),param_4,param_2 + 0x2a0,
-                 param_2 + 0x278,param_2 + 0x27c,param_2 + 0x280,param_2 + 0x290);
     }
-    *(unsigned short *)(param_2 + 0x46) = *(unsigned short *)(param_2 + 0x46) | 0x80;
-  }
-  return;
+    f->impl->vt->call(f->impl, id, arg, transform, a, b, c, d);
 }
 
+void fn_82606440(Owner_82606440 *owner, Body_82606440 *body, void *transform, int arg)
+{
+    __vector4 sum;
+    Pose_82606440 *pose;
+
+    if ((body->flags & 4) == 0) {
+        sum = __vaddfp(body->position, body->offset);
+        fn_82CE5040(body->worldTransform, transform, &sum);
+        body->flags |= 4;
+    }
+    if ((body->flags & 0x80) == 0) {
+        pose = &body->pose;
+        fn_82CE5040(pose->transform, transform, pose);
+        body->state ^= 2;
+        if (body->state & 7) {
+            Call_82606440(&owner->onChange, owner->id, arg, pose->transform, &pose->a, &pose->b, pose->c,
+                          pose->d);
+        }
+        body->flags |= 0x80;
+    }
+}

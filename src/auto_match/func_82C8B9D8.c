@@ -1,59 +1,29 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern V16 vectorSplatHalfWord();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float f[4];
+} __vector4;
 
+typedef union Splat_82C8B9D8 {
+    unsigned int words[4];
+    __vector4 vector;
+} Splat_82C8B9D8;
 
-void fn_82C8B9D8(unsigned __int64 param_1,int param_2)
+__vector4 __vsplth(__vector4 v, unsigned int i);
 
+void fn_82C8B9D8(short *coefficients, __vector4 *rows)
 {
-  unsigned int *puVar1;
-  int in_r0;
-  unsigned char in_vs32 [16];
-  unsigned int in_register_000100d0;
-  unsigned int in_register_000100d4;
-  unsigned int in_register_000100d8;
-  unsigned int in_vr13;
-  
-  vectorSplatHalfWord(in_vs32,1);
-  puVar1 = (unsigned int *)(in_r0 + param_2 & 0xfffffff0);
-  *puVar1 = in_register_000100d0;
-  puVar1[1] = in_register_000100d4;
-  puVar1[2] = in_register_000100d8;
-  puVar1[3] = in_vr13;
-  puVar1 = (unsigned int *)(param_2 + 0x10U & 0xfffffff0);
-  *puVar1 = in_register_000100d0;
-  puVar1[1] = in_register_000100d4;
-  puVar1[2] = in_register_000100d8;
-  puVar1[3] = in_vr13;
-  puVar1 = (unsigned int *)(param_2 + 0x20U & 0xfffffff0);
-  *puVar1 = in_register_000100d0;
-  puVar1[1] = in_register_000100d4;
-  puVar1[2] = in_register_000100d8;
-  puVar1[3] = in_vr13;
-  puVar1 = (unsigned int *)(param_2 + 0x30U & 0xfffffff0);
-  *puVar1 = in_register_000100d0;
-  puVar1[1] = in_register_000100d4;
-  puVar1[2] = in_register_000100d8;
-  puVar1[3] = in_vr13;
-  puVar1 = (unsigned int *)(param_2 + 0x40U & 0xfffffff0);
-  *puVar1 = in_register_000100d0;
-  puVar1[1] = in_register_000100d4;
-  puVar1[2] = in_register_000100d8;
-  puVar1[3] = in_vr13;
-  puVar1 = (unsigned int *)(param_2 + 0x50U & 0xfffffff0);
-  *puVar1 = in_register_000100d0;
-  puVar1[1] = in_register_000100d4;
-  puVar1[2] = in_register_000100d8;
-  puVar1[3] = in_vr13;
-  puVar1 = (unsigned int *)(param_2 + 0x60U & 0xfffffff0);
-  *puVar1 = in_register_000100d0;
-  puVar1[1] = in_register_000100d4;
-  puVar1[2] = in_register_000100d8;
-  puVar1[3] = in_vr13;
-  puVar1 = (unsigned int *)(param_2 + 0x70U & 0xfffffff0);
-  *puVar1 = in_register_000100d0;
-  puVar1[1] = in_register_000100d4;
-  puVar1[2] = in_register_000100d8;
-  puVar1[3] = in_vr13;
-  return;
-}
+    Splat_82C8B9D8 dc;
+    __vector4 value;
+    int dcValue = coefficients[0];
 
+    dcValue = dcValue + ((dcValue + 1) >> 1);
+    dc.words[0] = (unsigned short)((dcValue * 3 + 0x10) >> 5);
+    value = __vsplth(dc.vector, 1);
+    rows[0] = value;
+    rows[1] = value;
+    rows[2] = value;
+    rows[3] = value;
+    rows[4] = value;
+    rows[5] = value;
+    rows[6] = value;
+    rows[7] = value;
+}

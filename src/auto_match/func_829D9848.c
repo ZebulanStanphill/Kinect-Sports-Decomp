@@ -1,48 +1,78 @@
-extern unsigned int *auStack_1b0;
-extern unsigned int *auStack_200;
-extern unsigned int *auStack_208;
-extern int fn_829D6D18();
-extern int fn_82A1E658();
-extern int fn_82F691F0();
-extern int fn_831421DC();
-extern int fn_831421FC();
-extern int fn_8314220C();
-extern unsigned int iStack_20c;
-extern unsigned int uStack_210;
+typedef struct ProfileList_829D9848 {
+    char lock[0x1c];               /* 0x00 critical section */
+    unsigned int count;            /* 0x1c */
+    unsigned int capacity;         /* 0x20 */
+    unsigned int pad24;            /* 0x24 */
+    unsigned __int64 xuids[0x100]; /* 0x28 */
+} ProfileList_829D9848;
 
+typedef struct DeviceData_829D9848 {
+    unsigned int deviceId; /* 0x00 */
+    char rest[0x4c];
+} DeviceData_829D9848;
 
-unsigned __int64 fn_829D9848(int param_1)
+typedef struct Profile_829D9848 {
+    unsigned __int64 xuid; /* 0x00 */
+    char rest[0x180];
+} Profile_829D9848;
 
+extern int fn_829D6D18(ProfileList_829D9848 *list);
+extern void RtlEnterCriticalSection(void *lock);
+extern void RtlLeaveCriticalSection(void *lock);
+extern unsigned int XamContentCreateDeviceEnumerator(unsigned int contentType, unsigned int flags,
+                                                     unsigned int count, unsigned int *bufferSize,
+                                                     void **handle);
+extern unsigned int XamEnumerate(void *handle, unsigned int flags, void *buffer, unsigned int bufferSize,
+                                 unsigned int *itemsReturned, void *overlapped);
+extern unsigned int XamProfileCreateEnumerator(unsigned int deviceId, void **handle);
+extern unsigned int XamProfileEnumerate(void *handle, unsigned int flags, Profile_829D9848 *profile,
+                                        void *overlapped);
+extern unsigned char fn_82A1E658(void *handle);
+extern void *memset(void *dst, int value, unsigned int size);
+
+int fn_829D9848(ProfileList_829D9848 *list)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  unsigned int uStack_210;
-  int iStack_20c;
-  unsigned int auStack_208 [2];
-  unsigned int auStack_200 [20];
-  unsigned char auStack_1b0 [432];
-  
-  *(unsigned int *)(param_1 + 0x1c) = 0;
-  uVar1 = fn_829D6D18();
-  if (-1 < (int)uVar1) {
-    RtlEnterCriticalSection(param_1);
-    *(unsigned int *)(param_1 + 0x20) = 0x100;
-    iVar2 = fn_8314220C(0xffffffffffffffff,0,1,0,&uStack_210);
-    if (iVar2 == 0) {
-      while ((iVar2 = fn_831421DC(uStack_210,2,auStack_200,0x50,&iStack_20c,0), iVar2 == 0 &&
-             (iStack_20c != 0))) {
-        iVar2 = fn_831421FC(auStack_200[0],auStack_208);
-        if (iVar2 == 0) {
-                    /* WARNING: Subroutine does not return */
-          fn_82F691F0(auStack_1b0,0,0x188);
-        }
-        fn_82A1E658(auStack_208[0]);
-      }
-      fn_82A1E658(uStack_210);
-    }
-    RtlLeaveCriticalSection(param_1);
-    uVar1 = 0;
-  }
-  return uVar1;
-}
+    unsigned int count;
+    int hr;
+    unsigned int result;
+    void *deviceEnum;
+    unsigned int itemsReturned;
+    void *profileEnum;
+    DeviceData_829D9848 device;
+    Profile_829D9848 profile;
 
+    count = 0;
+    list->count = 0;
+    hr = fn_829D6D18(list);
+    if (hr < 0) {
+        return hr;
+    }
+    RtlEnterCriticalSection(list);
+    list->capacity = 0x100;
+    if (XamContentCreateDeviceEnumerator(0xffffffff, 0, 1, 0, &deviceEnum) == 0) {
+        while (XamEnumerate(deviceEnum, 2, &device, 0x50, &itemsReturned, 0) == 0) {
+            if (itemsReturned == 0) {
+                break;
+            }
+            if (XamProfileCreateEnumerator(device.deviceId, &profileEnum) == 0) {
+                for (;;) {
+                    memset(&profile, 0, sizeof(profile));
+                    result = XamProfileEnumerate(profileEnum, 0, &profile, 0);
+                    if (result == 0 && profile.xuid != 0) {
+                        if (count >= 0x100) {
+                            break;
+                        }
+                        list->xuids[count] = profile.xuid;
+                        count++;
+                    } else if (count >= 0x100 || result != 0) {
+                        break;
+                    }
+                }
+            }
+            fn_82A1E658(profileEnum);
+        }
+        fn_82A1E658(deviceEnum);
+    }
+    RtlLeaveCriticalSection(list);
+    return 0;
+}

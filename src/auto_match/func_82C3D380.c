@@ -1,63 +1,60 @@
-extern int fn_82C107F8();
-extern int fn_82C4D9B8();
-extern int fn_82C4DC18();
-extern unsigned int uStack_34;
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
-extern unsigned int uStack_44;
-extern unsigned int uStack_48;
-extern unsigned int uStack_4c;
-extern unsigned int uStack_50;
-extern unsigned int uStack_54;
-extern unsigned int uStack_58;
-extern unsigned int uStack_5c;
-extern unsigned int uStack_60;
+typedef struct Device_82C3D380 {
+    char pad00[0x20];
+    unsigned int width;  /* 0x20 */
+    unsigned int height; /* 0x24 */
+    char pad28[0x64 - 0x28];
+    unsigned int format; /* 0x64 */
+    unsigned int mode;   /* 0x68 */
+    unsigned int pitch;  /* 0x6c */
+    char pad70[0x1084 - 0x70];
+    int handle; /* 0x1084 */
+} Device_82C3D380;
 
+typedef struct Desc_82C3D380 {
+    char pad00[0x1c];
+    int usage; /* 0x1c */
+} Desc_82C3D380;
 
-unsigned __int64 fn_82C3D380(int param_1,int param_2)
+int fn_82C4D9B8(Desc_82C3D380 *desc, int handle, int *formats, int count, unsigned int *format,
+                unsigned int *mode, int *converted);
+int fn_82C4DC18(Desc_82C3D380 *desc, int handle, unsigned int mode, unsigned int *width, unsigned int *height,
+                unsigned int *pitch, int *converted);
+int fn_82C107F8(int handle, int usage, int flags, int reserved);
 
+int fn_82C3D380(Device_82C3D380 *self, Desc_82C3D380 *desc)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  int aiStack_70;
-  unsigned int uStack_60;
-  unsigned int uStack_5c;
-  unsigned int uStack_58;
-  unsigned int uStack_54;
-  unsigned int uStack_50;
-  unsigned int uStack_4c;
-  unsigned int uStack_48;
-  unsigned int uStack_44;
-  unsigned int uStack_40;
-  unsigned int uStack_3c;
-  unsigned int uStack_38;
-  unsigned int uStack_34;
-  
-  uVar1 = *(unsigned int *)(param_2 + 0x1c);
-  aiStack_70 = 0;
-  uStack_60 = 0xc;
-  uStack_5c = 1;
-  uStack_58 = 2;
-  uStack_54 = 3;
-  uStack_50 = 4;
-  uStack_4c = 5;
-  uStack_48 = 6;
-  uStack_44 = 7;
-  uStack_40 = 8;
-  uStack_3c = 9;
-  uStack_38 = 10;
-  uStack_34 = 0xb;
-  uVar2 = fn_82C4D9B8(param_2,*(unsigned int *)(param_1 + 0x1084),&uStack_60,0xc,param_1 + 100,
-                          (unsigned int *)(param_1 + 0x68),&aiStack_70);
-  if ((((-1 < (int)uVar2) &&
-       (uVar2 = fn_82C4DC18(param_2,*(unsigned int *)(param_1 + 0x1084),
-                                *(unsigned int *)(param_1 + 0x68),param_1 + 0x20,param_1 + 0x24,
-                                param_1 + 0x6c,&aiStack_70), -1 < (int)uVar2)) &&
-      (uVar2 = fn_82C107F8(*(unsigned int *)(param_1 + 0x1084),uVar1,0x90000,0), -1 < (int)uVar2
-      )) && (aiStack_70 != 0)) {
-    uVar2 = 0x500009;
-  }
-  return uVar2;
-}
+    int usage = desc->usage;
+    int converted;
+    int formats[12];
+    int hr;
 
+    converted = 0;
+    formats[0] = 12;
+    formats[1] = 1;
+    formats[2] = 2;
+    formats[3] = 3;
+    formats[4] = 4;
+    formats[5] = 5;
+    formats[6] = 6;
+    formats[7] = 7;
+    formats[8] = 8;
+    formats[9] = 9;
+    formats[10] = 10;
+    formats[11] = 11;
+    hr = fn_82C4D9B8(desc, self->handle, formats, 12, &self->format, &self->mode, &converted);
+    if (hr < 0) {
+        return hr;
+    }
+    hr = fn_82C4DC18(desc, self->handle, self->mode, &self->width, &self->height, &self->pitch, &converted);
+    if (hr < 0) {
+        return hr;
+    }
+    hr = fn_82C107F8(self->handle, usage, 0x90000, 0);
+    if (hr < 0) {
+        return hr;
+    }
+    if (converted != 0) {
+        hr = 0x500009;
+    }
+    return hr;
+}
