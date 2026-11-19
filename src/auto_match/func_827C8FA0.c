@@ -6,7 +6,7 @@ struct bstore { int pad[3]; void *temp_file; };
 extern unsigned int fn_82F67CF8(void *buf, unsigned int size, unsigned int count, void *file);
 extern int fn_82F6C060(void *file, long offset, int origin);
 
-void fn_827C8FA0(struct jcinfo *cinfo, struct bstore *info, void *buffer_address, long file_offset, long byte_count)
+void write_backing_store(struct jcinfo *cinfo, struct bstore *info, void *buffer_address, long file_offset, long byte_count)
 {
   if (fn_82F6C060(info->temp_file, file_offset, 0)) {
     cinfo->err->msg_code = 0x41;

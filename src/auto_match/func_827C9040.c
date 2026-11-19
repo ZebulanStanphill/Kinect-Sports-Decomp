@@ -1,9 +1,9 @@
 typedef unsigned int size_t;
 char *strncpy(char *, const char *, size_t);
 extern char lbl_82196582[];
-extern void fn_827C8F08(void);
-extern void fn_827C8FA0(void);
-extern void fn_827C9038(void);
+extern void read_backing_store(void);
+extern void write_backing_store(void);
+extern void close_backing_store(void);
 extern void *fn_82F6D428(void);
 
 struct Cinfo;
@@ -36,7 +36,7 @@ void jpeg_open_backing_store(Cinfo *cinfo, Mgr *info)
     strncpy(cinfo->err->s, lbl_82196582, 0x50);
     cinfo->err->error_exit(cinfo);
   }
-  info->read_backing_store = fn_827C8F08;
-  info->write_backing_store = fn_827C8FA0;
-  info->close_backing_store = fn_827C9038;
+  info->read_backing_store = read_backing_store;
+  info->write_backing_store = write_backing_store;
+  info->close_backing_store = close_backing_store;
 }
