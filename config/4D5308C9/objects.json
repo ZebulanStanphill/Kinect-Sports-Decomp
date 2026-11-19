@@ -220629,7 +220629,7 @@
           "/O2"
         ]
       },
-      "auto_match/func_82CFAE20.c": {
+      "auto_match/func_82CFAE20.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2"
@@ -220641,31 +220641,31 @@
           "/O2"
         ]
       },
-      "auto_match/func_82CFAF68.c": {
+      "auto_match/func_82CFAF68.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
       },
-      "auto_match/func_82CFAFB8.c": {
+      "auto_match/func_82CFAFB8.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
       },
-      "auto_match/func_82CFB030.c": {
+      "auto_match/func_82CFB030.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
       },
-      "auto_match/func_82CFB098.c": {
+      "auto_match/func_82CFB098.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
       },
-      "auto_match/func_82CFB158.c": {
+      "auto_match/func_82CFB158.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2"

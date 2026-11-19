@@ -41,8 +41,6 @@ protected:
     MemoryType m_memType;   // +0x18
 };
 
-extern "C" void fn_82CFAE20(void *self);   // hkBufferedStreamWriter::flushBuffer
-
 class hkBufferedStreamWriter : public hkStreamWriter {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_STREAM);
@@ -54,7 +52,7 @@ public:
     virtual void flush();
 
 protected:
-    void flushBuffer() { fn_82CFAE20(this); }
+    int flushBuffer();
 
     hkStreamWriter *m_stream;   // +0x8
     char *m_buf;                // +0xC
