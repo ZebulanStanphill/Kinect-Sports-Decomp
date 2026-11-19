@@ -4,15 +4,15 @@ extern int fn_82E75738();
 extern unsigned int lbl_8215EFB8;
 
 
-unsigned int * fn_82E75D70(unsigned int *param_1,unsigned int param_2)
+unsigned int * fn_82E75D70(unsigned int *self,unsigned int flags)
 
 {
-  *param_1 = &lbl_8215EFB8;
+  *self = &lbl_8215EFB8;
   fn_82E75508();
-  fn_82E75738(param_1);
-  if ((param_2 & 1) != 0) {
-    fn_82E4FE40(param_1);
+  fn_82E75738(self);
+  if ((flags & 1) != 0) {
+    fn_82E4FE40(self);
   }
-  return param_1;
+  return self;
 }
 

@@ -1,4 +1,4 @@
-int fn_82CEFCA8(int param_1, int param_2)
+int fn_82CEFCA8(int self, int param_2)
 {
-    return *(int *)(*(int *)(param_1 + 0x50) + param_2 * 4);
+    return *(int *)(*(int *)(self + 0x50) + param_2 * 4);
 }

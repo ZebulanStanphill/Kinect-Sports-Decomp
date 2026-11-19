@@ -1,9 +1,9 @@
 extern int fn_82F6BAB8();
 
 
-void fn_82CFB600(int param_1)
+void fn_82CFB600(int self)
 
 {
-  fn_82F6BAB8(*(unsigned int *)(param_1 + 8));
+  fn_82F6BAB8(*(unsigned int *)(self + 8));
   return;
 }

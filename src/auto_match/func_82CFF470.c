@@ -1,9 +1,9 @@
 extern int fn_82CFF298();
 
 
-void fn_82CFF470(int param_1)
+void fn_82CFF470(int self)
 
 {
-  fn_82CFF298(*(unsigned int *)(param_1 + 8));
+  fn_82CFF298(*(unsigned int *)(self + 8));
   return;
 }

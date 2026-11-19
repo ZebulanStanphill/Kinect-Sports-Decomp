@@ -8,7 +8,7 @@ extern int fn_82536D88();
 extern int fn_828648B8();
 extern int fn_828648F0();
 
-int fn_8286E8B0(int param_1, int param_2, int param_3)
+int fn_8286E8B0(int self, int param_2, int param_3)
 {
     int pos;
     char dot[16];
@@ -28,10 +28,10 @@ int fn_8286E8B0(int param_1, int param_2, int param_3)
             fn_822402F8(s, t);
             fn_82230300(t, 1, 0);
         }
-        fn_828648F0(param_1, s);
+        fn_828648F0(self, s);
         fn_82230300(s, 1, 0);
     } else {
-        fn_82292780(param_1, param_3);
+        fn_82292780(self, param_3);
     }
-    return param_1;
+    return self;
 }

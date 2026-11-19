@@ -2,13 +2,13 @@ extern int fn_82A4BE18();
 extern int fn_82A4F4E0();
 
 
-unsigned __int64 fn_82A4C258(unsigned __int64 param_1,unsigned int param_2)
+unsigned __int64 fn_82A4C258(unsigned __int64 self,unsigned int flags)
 
 {
   fn_82A4BE18();
-  if ((param_2 & 1) != 0) {
-    fn_82A4F4E0(param_1);
+  if ((flags & 1) != 0) {
+    fn_82A4F4E0(self);
   }
-  return param_1;
+  return self;
 }
 

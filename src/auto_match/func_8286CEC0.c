@@ -1,11 +1,11 @@
 extern int fn_8286CE28();
 
 
-unsigned __int64 fn_8286CEC0(int param_1)
+unsigned __int64 fn_8286CEC0(int self)
 
 {
-  *(unsigned char *)(param_1 + 4) = 1;
-  *(unsigned int *)(param_1 + 0xc) = *(unsigned int *)(param_1 + 8);
+  *(unsigned char *)(self + 4) = 1;
+  *(unsigned int *)(self + 0xc) = *(unsigned int *)(self + 8);
   fn_8286CE28();
   return 1;
 }

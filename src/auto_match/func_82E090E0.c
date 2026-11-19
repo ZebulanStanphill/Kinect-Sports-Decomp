@@ -3,7 +3,7 @@ extern int fn_82CEACC8();
 extern int *lbl_832654E4;
 extern int *lbl_832654E8;
 extern int *lbl_832654EC;
-void fn_82E090E0(int param_1, int param_2, int param_3)
+void fn_82E090E0(int self, int param_2, int param_3)
 {
   int *piVar1;
   unsigned int uVar2;

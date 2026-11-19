@@ -1,9 +1,9 @@
 typedef unsigned char bool;
 
 
-bool fn_8286E448(int param_1)
+bool fn_8286E448(int self)
 
 {
-  return *(int *)(param_1 + 0x14) == *(int *)(param_1 + 0x18);
+  return *(int *)(self + 0x14) == *(int *)(self + 0x18);
 }
 

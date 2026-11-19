@@ -1,6 +1,6 @@
-unsigned int fn_8287B7B8(int param_1)
+unsigned int fn_8287B7B8(int self)
 
 {
-  return *(unsigned int *)(param_1 + 0x68);
+  return *(unsigned int *)(self + 0x68);
 }
 

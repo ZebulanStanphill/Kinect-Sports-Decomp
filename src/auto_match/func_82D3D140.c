@@ -1,6 +1,6 @@
-__int64 fn_82D3D140(__int64 param_1)
+__int64 fn_82D3D140(__int64 self)
 
 {
-  return param_1 + 0x14;
+  return self + 0x14;
 }
 

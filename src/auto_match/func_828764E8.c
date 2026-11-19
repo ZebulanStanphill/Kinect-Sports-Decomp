@@ -6,7 +6,7 @@ extern int fn_82A29D80();
 
 
 int
-fn_828764E8(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,char *param_5,
+fn_828764E8(int self,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,char *param_5,
              unsigned __int64 *param_6)
 
 {
@@ -16,17 +16,17 @@ fn_828764E8(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsign
   union { unsigned __int64 value; unsigned int words[2]; } auStack_140;
   unsigned char auStack_130 [256];
   
-  if ((*param_5 == '\0') && (*(char *)(param_1 + 0x420) != '\0')) {
+  if ((*param_5 == '\0') && (*(char *)(self + 0x420) != '\0')) {
     *param_6 = 0;
     *(unsigned int *)(param_6 + 1) = 0;
-    *(unsigned int *)(param_6 + 3) = *(unsigned int *)(param_1 + 0x41c);
+    *(unsigned int *)(param_6 + 3) = *(unsigned int *)(self + 0x41c);
     *(unsigned int *)(param_6 + 2) = 0;
     *(unsigned int *)((int)param_6 + 0xc) = 0;
     return 1;
   }
   else {
     *param_5 = '\x01';
-    iVar2 = fn_82876E38(param_1 + 8,param_2,param_4,auStack_130);
+    iVar2 = fn_82876E38(self + 8,param_2,param_4,auStack_130);
     if (iVar2 == 1) {
       uVar1 = fn_82866018(auStack_130,param_3,0,0,(unsigned int *)((int)param_6 + 0x14));
       if ((int)uVar1 == 1) {
@@ -34,7 +34,7 @@ fn_828764E8(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsign
         auStack_140.words[1] = uVar3;
         *(unsigned int *)(param_6 + 1) = 0;
         *param_6 = auStack_140.value;
-        uVar3 = *(unsigned int *)(param_1 + 0x41c);
+        uVar3 = *(unsigned int *)(self + 0x41c);
         *(unsigned int *)(param_6 + 2) = 0;
         *(unsigned int *)((int)param_6 + 0xc) = 0;
         *(unsigned int *)(param_6 + 3) = uVar3;

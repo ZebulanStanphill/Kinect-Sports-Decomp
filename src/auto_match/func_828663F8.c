@@ -1,6 +1,6 @@
-__int64 fn_828663F8(__int64 param_1)
+__int64 fn_828663F8(__int64 self)
 
 {
-  return param_1 + 0x34;
+  return self + 0x34;
 }
 

@@ -12,17 +12,17 @@ typedef struct Obj_82D44850 {
   int count;
 } Obj_82D44850;
 
-char *fn_82D44850(char *param_1, Obj_82D44850 *param_2, int param_3, int param_4)
+char *fn_82D44850(char *self, Obj_82D44850 *param_2, int param_3, int param_4)
 {
   char tmp[1];
   int i;
   for (i = param_2->count - 1; i >= 0; i--) {
     Item_82D44850 *it = param_2->items[i];
     if (*it->sub.vt->f4(tmp, &it->sub, param_3, param_4) == 0) {
-      *param_1 = 0;
-      return param_1;
+      *self = 0;
+      return self;
     }
   }
-  *param_1 = 1;
-  return param_1;
+  *self = 1;
+  return self;
 }

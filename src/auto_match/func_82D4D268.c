@@ -1,4 +1,4 @@
-void fn_82D4D268(unsigned char *param_1,int param_2,unsigned int param_3)
+void fn_82D4D268(unsigned char *self,int param_2,unsigned int param_3)
 
 {
   int iVar1;
@@ -17,7 +17,7 @@ void fn_82D4D268(unsigned char *param_1,int param_2,unsigned int param_3)
   }
   iVar3 = -1;
 LAB_82d4d2a0:
-  *param_1 = (unsigned char)((unsigned int)iVar3 >> 0x1f) ^ 1;
+  *self = (unsigned char)((unsigned int)iVar3 >> 0x1f) ^ 1;
   return;
 }
 

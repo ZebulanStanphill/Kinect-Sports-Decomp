@@ -18,7 +18,7 @@ typedef struct Self_82DFA2F8 {
   int count;
 } Self_82DFA2F8;
 
-void fn_82DFA2F8(Self_82DFA2F8 *param_1, Sink_82DFA2F8 *param_2)
+void fn_82DFA2F8(Self_82DFA2F8 *self, Sink_82DFA2F8 *param_2)
 {
   Item_82DFA2F8 *it;
   int r;
@@ -26,16 +26,16 @@ void fn_82DFA2F8(Self_82DFA2F8 *param_1, Sink_82DFA2F8 *param_2)
   int off;
 
   i = 0;
-  if (0 < param_1->count) {
+  if (0 < self->count) {
     off = 0;
     do {
-      it = *(Item_82DFA2F8 **)(off + (int)param_1->arr);
+      it = *(Item_82DFA2F8 **)(off + (int)self->arr);
       if ((it->flags & (int)0x80000000) == 0) {
         r = fn_82CFF8D0(it->data, it->flags << 5);
         param_2->vt->Write(param_2, 3, "Points", it->data, it->n << 5, r);
       }
       i++;
       off += 4;
-    } while (i < param_1->count);
+    } while (i < self->count);
   }
 }

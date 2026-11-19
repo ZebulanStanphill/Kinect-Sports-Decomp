@@ -1,4 +1,4 @@
-int fn_82D39B60(int param_1)
+int fn_82D39B60(int self)
 {
-    return (int)(*(char *)(param_1 + 4) == 0);
+    return (int)(*(char *)(self + 4) == 0);
 }

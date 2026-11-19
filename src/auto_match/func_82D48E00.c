@@ -1,8 +1,8 @@
-int fn_82D48E00(unsigned int param_1)
+int fn_82D48E00(unsigned int self)
 
 {
-  if (param_1 != 0) {
-    return param_1 + 0x10;
+  if (self != 0) {
+    return self + 0x10;
   }
   return 0;
 }

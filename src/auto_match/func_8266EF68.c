@@ -2,7 +2,7 @@ extern int fn_8266EC60();
 extern int fn_82672AB8();
 
 
-void fn_8266EF68(unsigned __int64 param_1,int *param_2,unsigned __int64 param_3,unsigned __int64 param_4,
+void fn_8266EF68(unsigned __int64 self,int *param_2,unsigned __int64 param_3,unsigned __int64 param_4,
                   unsigned __int64 param_5)
 
 {

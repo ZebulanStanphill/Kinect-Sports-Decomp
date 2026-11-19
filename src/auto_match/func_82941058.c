@@ -2,13 +2,13 @@ extern int fn_8265C990();
 extern int fn_82940BE8();
 
 
-unsigned __int64 fn_82941058(unsigned __int64 param_1,unsigned int param_2)
+unsigned __int64 fn_82941058(unsigned __int64 self,unsigned int flags)
 
 {
   fn_82940BE8();
-  if ((param_2 & 1) != 0) {
-    fn_8265C990(param_1,0x24810000);
+  if ((flags & 1) != 0) {
+    fn_8265C990(self,0x24810000);
   }
-  return param_1;
+  return self;
 }
 

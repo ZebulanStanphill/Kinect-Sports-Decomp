@@ -1,6 +1,6 @@
-float  fn_82D9F730(int param_1)
+float  fn_82D9F730(int self)
 
 {
-  return (double)(__int64)(*(int *)(param_1 + 0x24) + -1);
+  return (double)(__int64)(*(int *)(self + 0x24) + -1);
 }
 

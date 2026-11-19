@@ -1,7 +1,7 @@
 extern int fn_82A2A518();
 
 
-unsigned int  fn_8267B288(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+unsigned int  fn_8267B288(unsigned __int64 self,unsigned __int64 param_2,unsigned __int64 param_3)
 
 {
   __int64 lVar1;

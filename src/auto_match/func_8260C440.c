@@ -11,27 +11,27 @@ extern unsigned int fn_82811400(void *, int);
 extern unsigned int lbl_821CAAD0;
 extern Heap_8260C440 *lbl_83156AA0;
 
-unsigned int *fn_8260C440(unsigned int *param_1, unsigned int param_2)
+unsigned int *fn_8260C440(unsigned int *self, unsigned int flags)
 {
   unsigned char auStack_40[32];
 
-  *param_1 = (unsigned int)&lbl_821CAAD0;
-  fn_8256D798(param_1 + 0x5b, 1, 0);
-  fn_825BF428(param_1 + 0x50);
-  fn_827DDF38(param_1 + 0x32);
-  fn_827D9F20(param_1 + 0x18);
-  if (param_1[0x17] != 0) {
-    fn_822315A0((void *)param_1[0x17]);
+  *self = (unsigned int)&lbl_821CAAD0;
+  fn_8256D798(self + 0x5b, 1, 0);
+  fn_825BF428(self + 0x50);
+  fn_827DDF38(self + 0x32);
+  fn_827D9F20(self + 0x18);
+  if (self[0x17] != 0) {
+    fn_822315A0((void *)self[0x17]);
   }
-  if (param_1[0x15] != 0) {
-    fn_822315A0((void *)param_1[0x15]);
+  if (self[0x15] != 0) {
+    fn_822315A0((void *)self[0x15]);
   }
-  if (param_1[0x13] != 0) {
-    fn_822315A0((void *)param_1[0x13]);
+  if (self[0x13] != 0) {
+    fn_822315A0((void *)self[0x13]);
   }
-  fn_827D9A90(param_1);
-  if ((param_2 & 1) != 0) {
-    lbl_83156AA0->vt->free(lbl_83156AA0, param_1, fn_82811400(auStack_40, 4));
+  fn_827D9A90(self);
+  if ((flags & 1) != 0) {
+    lbl_83156AA0->vt->free(lbl_83156AA0, self, fn_82811400(auStack_40, 4));
   }
-  return param_1;
+  return self;
 }

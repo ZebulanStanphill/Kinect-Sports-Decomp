@@ -1,6 +1,6 @@
-unsigned char fn_82D93870(int param_1)
+unsigned char fn_82D93870(int self)
 
 {
-  return *(unsigned char *)(param_1 + 0xd6) >> 1;
+  return *(unsigned char *)(self + 0xd6) >> 1;
 }
 

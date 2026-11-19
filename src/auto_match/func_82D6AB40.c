@@ -1,8 +1,8 @@
-void fn_82D6AB40(unsigned int *param_1)
+void fn_82D6AB40(unsigned int *self)
 
 {
-  (*(int (**)())(*(int *)param_1[3] + 0x1c))(param_1[3]);
-  (*(int (**)())*param_1)(param_1,1);
+  (*(int (**)())(*(int *)self[3] + 0x1c))(self[3]);
+  (*(int (**)())*self)(self,1);
   return;
 }
 

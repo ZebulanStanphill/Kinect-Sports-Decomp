@@ -1,6 +1,6 @@
-__int64 fn_8308AEB8(int param_1)
+__int64 fn_8308AEB8(int self)
 
 {
-  return (unsigned __int64)*(unsigned int *)(param_1 + 0xa4) - 1;
+  return (unsigned __int64)*(unsigned int *)(self + 0xa4) - 1;
 }
 

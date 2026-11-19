@@ -4,7 +4,7 @@ extern TimerStream *KeTlsGetValue(unsigned int);
 extern int fn_82DB4770(int, int, float *);
 extern unsigned int lbl_8323B4A0;
 
-void fn_82DB46B8(int param_1, int param_2, float *param_3)
+void fn_82DB46B8(int self, int param_2, float *param_3)
 {
   TimerStream *stream;
   unsigned int *e;
@@ -17,8 +17,8 @@ void fn_82DB46B8(int param_1, int param_2, float *param_3)
     e[1] = (unsigned int)__mftb();
     stream->current = e + 4;
   }
-  if (*param_3 >= *(float *)(param_1 + 0xc)) {
-    fn_82DB4770(param_1, param_2, param_3);
+  if (*param_3 >= *(float *)(self + 0xc)) {
+    fn_82DB4770(self, param_2, param_3);
   }
   stream = KeTlsGetValue(lbl_8323B4A0);
   if (stream->current < stream->end) {

@@ -14,7 +14,7 @@ typedef struct Obj_82DEFEE8 {
 extern unsigned int fn_82D7C120(char *, char *);
 extern void fn_82DB06D0(void);
 
-void fn_82DEFEE8(int param_1, Obj_82DEFEE8 *param_2)
+void fn_82DEFEE8(int self, Obj_82DEFEE8 *param_2)
 {
   char *x; char *y; unsigned int r;
   if (param_2->iface->vt->get(param_2->iface) != 0xb) {

@@ -1,4 +1,4 @@
-int fn_82677AE8(int param_1)
+int fn_82677AE8(int self)
 {
-    return *(char *)(param_1 + 0x10) == 0;
+    return *(char *)(self + 0x10) == 0;
 }

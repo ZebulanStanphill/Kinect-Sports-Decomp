@@ -2,13 +2,13 @@ extern void fn_8265CA20(void *);
 extern unsigned int lbl_82197010;
 
 
-unsigned int * fn_828ABF10(unsigned int *param_1,unsigned int param_2)
+unsigned int * fn_828ABF10(unsigned int *self,unsigned int flags)
 
 {
-  *param_1 = &lbl_82197010;
-  if ((param_2 & 1) != 0) {
-    fn_8265CA20(param_1);
+  *self = &lbl_82197010;
+  if ((flags & 1) != 0) {
+    fn_8265CA20(self);
   }
-  return param_1;
+  return self;
 }
 

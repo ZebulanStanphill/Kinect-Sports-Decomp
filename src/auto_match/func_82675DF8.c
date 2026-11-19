@@ -1,10 +1,10 @@
 extern int fn_8263C620();
 
 
-unsigned __int64 fn_82675DF8(int param_1)
+unsigned __int64 fn_82675DF8(int self)
 
 {
-  fn_8263C620(*(unsigned int *)(param_1 + 0x28));
+  fn_8263C620(*(unsigned int *)(self + 0x28));
   return 1;
 }
 

@@ -1,7 +1,7 @@
-unsigned __int64 fn_82CEB950(int param_1)
+unsigned __int64 fn_82CEB950(int self)
 
 {
-  *(unsigned int *)(param_1 + 0x14) = *(unsigned int *)(param_1 + 0xc);
+  *(unsigned int *)(self + 0x14) = *(unsigned int *)(self + 0xc);
   return 0;
 }
 

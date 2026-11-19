@@ -1,6 +1,6 @@
-unsigned int fn_82E14770(int param_1)
+unsigned int fn_82E14770(int self)
 
 {
-  return *(unsigned int *)(param_1 + 0x20);
+  return *(unsigned int *)(self + 0x20);
 }
 

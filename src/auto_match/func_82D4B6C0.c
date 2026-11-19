@@ -2,7 +2,7 @@ typedef struct Node_82D4B6C0 { char pad[0xc]; struct Node_82D4B6C0 *up; char pad
 typedef struct VObj_82D4B6C0 { int (**vt)(struct VObj_82D4B6C0 *, int); } VObj_82D4B6C0;
 extern int fn_82D4B3C0(int, int, unsigned, unsigned);
 
-void fn_82D4B6C0(int param_1, int param_2, int param_3, Node_82D4B6C0 *param_4, Node_82D4B6C0 *param_5, VObj_82D4B6C0 *param_6, VObj_82D4B6C0 *param_7, int param_8, int param_9)
+void fn_82D4B6C0(int self, int param_2, int param_3, Node_82D4B6C0 *param_4, Node_82D4B6C0 *param_5, VObj_82D4B6C0 *param_6, VObj_82D4B6C0 *param_7, int param_8, int param_9)
 {
   int a;
   int b;
@@ -18,5 +18,5 @@ void fn_82D4B6C0(int param_1, int param_2, int param_3, Node_82D4B6C0 *param_4, 
     while (n->up != 0) n = n->up;
     b = n->key;
   }
-  fn_82D4B3C0(param_1, param_2 - 0xc, a, b);
+  fn_82D4B3C0(self, param_2 - 0xc, a, b);
 }

@@ -1,6 +1,6 @@
-double fn_83096190(int param_1)
+double fn_83096190(int self)
 
 {
-  return (double)*(float *)(*(int *)(param_1 + 0x10) + 0x10);
+  return (double)*(float *)(*(int *)(self + 0x10) + 0x10);
 }
 

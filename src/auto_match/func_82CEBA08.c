@@ -1,6 +1,6 @@
-unsigned int fn_82CEBA08(int param_1)
+unsigned int fn_82CEBA08(int self)
 
 {
-  return *(unsigned int *)(param_1 + 0xc);
+  return *(unsigned int *)(self + 0xc);
 }
 

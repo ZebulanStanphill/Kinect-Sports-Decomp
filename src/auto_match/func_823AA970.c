@@ -1,6 +1,6 @@
-unsigned int fn_823AA970(int param_1)
+unsigned int fn_823AA970(int self)
 
 {
-  return *(unsigned int *)(param_1 + 0xc);
+  return *(unsigned int *)(self + 0xc);
 }
 

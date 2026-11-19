@@ -1,7 +1,7 @@
 extern int fn_82A1E658();
 
 
-char fn_82876698(unsigned __int64 param_1,int param_2)
+char fn_82876698(unsigned __int64 self,int param_2)
 
 {
   int iVar1;

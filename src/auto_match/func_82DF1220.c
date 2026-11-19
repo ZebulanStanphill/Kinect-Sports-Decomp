@@ -1,22 +1,22 @@
 extern int fn_82CE4118();
 
 
-void fn_82DF1220(int param_1)
+void fn_82DF1220(int self)
 
 {
   int iVar1;
   int iVar2;
   
   iVar1 = 0;
-  if (0 < *(int *)(param_1 + 0x24)) {
+  if (0 < *(int *)(self + 0x24)) {
     iVar2 = 0;
     do {
-      fn_82CE4118(*(unsigned int *)(iVar2 + *(int *)(param_1 + 0x20)));
+      fn_82CE4118(*(unsigned int *)(iVar2 + *(int *)(self + 0x20)));
       iVar1 = iVar1 + 1;
       iVar2 = iVar2 + 4;
-    } while (iVar1 < *(int *)(param_1 + 0x24));
+    } while (iVar1 < *(int *)(self + 0x24));
   }
-  *(unsigned int *)(param_1 + 0x24) = 0;
+  *(unsigned int *)(self + 0x24) = 0;
   return;
 }
 

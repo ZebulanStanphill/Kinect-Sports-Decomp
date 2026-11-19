@@ -1,4 +1,4 @@
-unsigned __int64 fn_8286BEB0(unsigned __int64 param_1,unsigned __int64 param_2,unsigned int *param_3)
+unsigned __int64 fn_8286BEB0(unsigned __int64 self,unsigned __int64 param_2,unsigned int *param_3)
 
 {
   (*(int (**)())(*(int *)*param_3 + 0x1c))(*param_3);

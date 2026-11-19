@@ -1,6 +1,6 @@
-unsigned int fn_82CE4728(int param_1)
+unsigned int fn_82CE4728(int self)
 
 {
-  return *(unsigned int *)(param_1 + 100) & 0xfffffffe;
+  return *(unsigned int *)(self + 100) & 0xfffffffe;
 }
 

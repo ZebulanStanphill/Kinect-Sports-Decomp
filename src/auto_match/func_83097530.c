@@ -1,6 +1,6 @@
-unsigned int fn_83097530(int param_1)
+unsigned int fn_83097530(int self)
 
 {
-  return *(unsigned int *)(*(int *)(param_1 + 8) + 4);
+  return *(unsigned int *)(*(int *)(self + 8) + 4);
 }
 

@@ -1,12 +1,12 @@
-void fn_82D6DCE0(int param_1)
+void fn_82D6DCE0(int self)
 
 {
-  if (*(int **)(param_1 + 0x10) == (int *)0x0) {
+  if (*(int **)(self + 0x10) == (int *)0x0) {
     return;
   }
                     /* WARNING: Could not recover jumptable at 0x82d6dcfc. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-  (*(int (**)())(**(int **)(param_1 + 0x10) + 0x34))(*(int **)(param_1 + 0x10));
+  (*(int (**)())(**(int **)(self + 0x10) + 0x34))(*(int **)(self + 0x10));
   return;
 }
 

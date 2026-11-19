@@ -1,4 +1,4 @@
-void fn_82DF0278(unsigned char *param_1,int param_2,int param_3,int param_4)
+void fn_82DF0278(unsigned char *self,int param_2,int param_3,int param_4)
 
 {
   int iVar1;
@@ -9,14 +9,14 @@ void fn_82DF0278(unsigned char *param_1,int param_2,int param_3,int param_4)
     piVar2 = *(int **)(param_2 + 0x2c);
     do {
       if ((*piVar2 + 0x10 == param_3) || (*piVar2 + 0x10 == param_4)) {
-        *param_1 = 0;
+        *self = 0;
         return;
       }
       iVar1 = iVar1 + 1;
       piVar2 = piVar2 + 1;
     } while (iVar1 < *(int *)(param_2 + 0x30));
   }
-  *param_1 = 1;
+  *self = 1;
   return;
 }
 

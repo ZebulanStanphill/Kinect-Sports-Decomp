@@ -1,7 +1,7 @@
-void fn_82D4C198(unsigned char *param_1)
+void fn_82D4C198(unsigned char *self)
 
 {
-  *param_1 = 0;
+  *self = 0;
   return;
 }
 

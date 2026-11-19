@@ -5,7 +5,7 @@ extern void fn_8268B8E8(void *out, char *s);
 extern void fn_8268BA10(void *out, int *s);
 extern char lbl_821AC4B4[];
 
-void fn_826756B8(void *param_1, void *param_2, int *param_3)
+void fn_826756B8(void *self, void *param_2, int *param_3)
 {
     char bufA[64];
     char bufB[64];

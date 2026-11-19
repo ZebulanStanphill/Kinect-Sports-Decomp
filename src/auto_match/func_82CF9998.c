@@ -1,9 +1,9 @@
-int  fn_82CF9998(int param_1)
+int  fn_82CF9998(int self)
 
 {
-  if ((unsigned __int64)*(unsigned int *)(param_1 + 0xc) == 0) {
+  if ((unsigned __int64)*(unsigned int *)(self + 0xc) == 0) {
     return -1;
   }
-  return (unsigned __int64)*(unsigned int *)(param_1 + 0xc) - (unsigned __int64)*(unsigned int *)(param_1 + 8);
+  return (unsigned __int64)*(unsigned int *)(self + 0xc) - (unsigned __int64)*(unsigned int *)(self + 8);
 }
 

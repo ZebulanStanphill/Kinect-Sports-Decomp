@@ -3,14 +3,14 @@ extern int fn_826C1AD8();
 extern int fn_827A80F8();
 
 
-__int64 fn_827AE4F8(__int64 param_1,unsigned int param_2)
+__int64 fn_827AE4F8(__int64 self,unsigned int flags)
 
 {
-  fn_827A80F8(param_1 + 0x30);
-  fn_826C1AD8(param_1);
-  if ((param_2 & 1) != 0) {
-    fn_8267BE38(param_1);
+  fn_827A80F8(self + 0x30);
+  fn_826C1AD8(self);
+  if ((flags & 1) != 0) {
+    fn_8267BE38(self);
   }
-  return param_1;
+  return self;
 }
 

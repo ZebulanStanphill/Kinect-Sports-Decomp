@@ -1,7 +1,7 @@
-void fn_82CF75A8(int param_1)
+void fn_82CF75A8(int self)
 
 {
-  *(int *)(param_1 + 0x14) = *(int *)(param_1 + 0xc) - *(int *)(param_1 + 4);
+  *(int *)(self + 0x14) = *(int *)(self + 0xc) - *(int *)(self + 4);
   return;
 }
 

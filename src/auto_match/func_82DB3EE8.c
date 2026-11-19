@@ -1,4 +1,4 @@
-int fn_82DB3EE8(void* param_1)
+int fn_82DB3EE8(void* self)
 {
-    return *(char*)((char*)param_1 + 0x20) == 0;
+    return *(char*)((char*)self + 0x20) == 0;
 }

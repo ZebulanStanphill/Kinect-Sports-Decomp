@@ -2,14 +2,14 @@ extern int fn_8267BE38();
 extern int fn_8267C488();
 
 
-int fn_8276AA98(int param_1,unsigned int param_2)
+int fn_8276AA98(int self,unsigned int flags)
 
 {
-  fn_8267BE38(*(unsigned int *)(param_1 + 0x1c));
-  fn_8267C488(param_1);
-  if ((param_2 & 1) != 0) {
-    fn_8267BE38(param_1);
+  fn_8267BE38(*(unsigned int *)(self + 0x1c));
+  fn_8267C488(self);
+  if ((flags & 1) != 0) {
+    fn_8267BE38(self);
   }
-  return param_1;
+  return self;
 }
 

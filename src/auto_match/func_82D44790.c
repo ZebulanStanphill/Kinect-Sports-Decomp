@@ -2,7 +2,7 @@ extern unsigned int *auStack_70;
 
 
 unsigned char *
-fn_82D44790(unsigned char *param_1,int param_2,int param_3,int param_4,
+fn_82D44790(unsigned char *self,int param_2,int param_3,int param_4,
              int param_5,int param_6,int param_7,int param_8,int param_9)
 
 {
@@ -21,14 +21,14 @@ fn_82D44790(unsigned char *param_1,int param_2,int param_3,int param_4,
                                  (auStack_70,iVar1 + 0xc,param_3,param_4,param_5,param_6,param_7,
                                   param_8,param_9);
       if (*pcVar2 == '\0') {
-        *param_1 = 0;
-        return param_1;
+        *self = 0;
+        return self;
       }
       uVar3 = uVar3 - 1;
       lVar4 = lVar4 + -4;
     } while (uVar3 >= 0);
   }
-  *param_1 = 1;
-  return param_1;
+  *self = 1;
+  return self;
 }
 

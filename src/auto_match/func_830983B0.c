@@ -1,6 +1,6 @@
-double fn_830983B0(int param_1)
+double fn_830983B0(int self)
 
 {
-  return (double)*(float *)(param_1 + 0x18);
+  return (double)*(float *)(self + 0x18);
 }
 

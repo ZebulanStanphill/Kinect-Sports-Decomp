@@ -1,6 +1,6 @@
-int fn_828709D8(int param_1)
+int fn_828709D8(int self)
 
 {
-  return *(int *)(param_1 + 8) - *(int *)(param_1 + 4) >> 2;
+  return *(int *)(self + 8) - *(int *)(self + 4) >> 2;
 }
 

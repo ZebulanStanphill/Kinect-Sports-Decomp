@@ -5,7 +5,7 @@ extern int fn_82D000A0();
 extern int fn_82D002F0();
 
 
-void fn_82E1ABA8(__int64 param_1,unsigned __int64 param_2)
+void fn_82E1ABA8(__int64 self,unsigned __int64 param_2)
 
 {
   unsigned int uVar1;
@@ -19,8 +19,8 @@ void fn_82E1ABA8(__int64 param_1,unsigned __int64 param_2)
     do {
       uVar2 = fn_82D00000(param_2,uVar1);
       uVar3 = fn_82D00020(param_2,uVar1);
-      fn_82D000A0(param_1 + 0x2c,uVar2,uVar3);
-      fn_82D000A0(param_1 + 0x3c,uVar3,uVar2);
+      fn_82D000A0(self + 0x2c,uVar2,uVar3);
+      fn_82D000A0(self + 0x3c,uVar3,uVar2);
       fn_82D002F0(&acStack_40,param_2,uVar1);
     } while (acStack_40 != '\0');
   }

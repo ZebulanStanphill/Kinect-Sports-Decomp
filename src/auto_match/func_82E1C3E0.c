@@ -1,6 +1,6 @@
-unsigned short fn_82E1C3E0(int param_1)
+unsigned short fn_82E1C3E0(int self)
 
 {
-  return *(unsigned short *)(param_1 + 0x50);
+  return *(unsigned short *)(self + 0x50);
 }
 

@@ -8,11 +8,11 @@ typedef struct {
   unsigned short id;
 } ObjB_82D67540;
 
-void fn_82D67540(ObjB_82D67540 *param_1, int param_2)
+void fn_82D67540(ObjB_82D67540 *self, int param_2)
 {
-  if (param_1->id != 0xffff) {
-    param_1->owner->vt->f14(param_1->owner, param_1->id, param_2);
-    param_1->id = 0xffff;
+  if (self->id != 0xffff) {
+    self->owner->vt->f14(self->owner, self->id, param_2);
+    self->id = 0xffff;
   }
-  param_1->vt->f0(param_1, 1);
+  self->vt->f0(self, 1);
 }

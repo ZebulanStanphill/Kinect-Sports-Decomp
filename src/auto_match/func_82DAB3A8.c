@@ -13,21 +13,21 @@ typedef struct Msg_82DAB3A8 {
 extern int fn_82DAD368(int obj, Msg_82DAB3A8 *msg);
 extern int fn_82DAF0B0(int obj, Msg_82DAB3A8 *msg);
 
-void fn_82DAB3A8(int param_1, unsigned short param_2, int param_3)
+void fn_82DAB3A8(int self, unsigned short param_2, int param_3)
 {
     Msg_82DAB3A8 msg;
     int a;
     int b;
 
-    a = *(int *)(param_1 + 0x10);
-    b = *(int *)(param_1 + 0x14);
+    a = *(int *)(self + 0x10);
+    b = *(int *)(self + 0x14);
     msg.id = param_2;
     msg.zero = 0;
     msg.a = a;
     msg.b = b;
-    msg.owner = param_1;
+    msg.owner = self;
     msg.arg = param_3;
-    fn_82DAF0B0(*(int *)(param_1 + 0xc), &msg);
+    fn_82DAF0B0(*(int *)(self + 0xc), &msg);
     if (*(unsigned short *)(a + 0x204) != 0) {
         fn_82DAD368(a, &msg);
     }

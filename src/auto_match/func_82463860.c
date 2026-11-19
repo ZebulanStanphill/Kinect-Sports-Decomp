@@ -2,13 +2,13 @@ extern int fn_824638B0();
 extern int fn_8265CA20();
 
 
-unsigned __int64 fn_82463860(unsigned __int64 param_1,unsigned int param_2)
+unsigned __int64 fn_82463860(unsigned __int64 self,unsigned int flags)
 
 {
   fn_824638B0();
-  if ((param_2 & 1) != 0) {
-    fn_8265CA20(param_1);
+  if ((flags & 1) != 0) {
+    fn_8265CA20(self);
   }
-  return param_1;
+  return self;
 }
 

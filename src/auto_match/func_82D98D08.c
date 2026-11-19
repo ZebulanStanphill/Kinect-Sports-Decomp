@@ -1,4 +1,4 @@
-void fn_82D98D08(unsigned __int64 param_1,char param_2,unsigned int *param_3)
+void fn_82D98D08(unsigned __int64 self,char param_2,unsigned int *param_3)
 
 {
   if (param_2 != '\0') {

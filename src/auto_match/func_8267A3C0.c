@@ -1,5 +1,5 @@
-__int64 fn_8267A3C0(int param_1)
+__int64 fn_8267A3C0(int self)
 
 {
-  return (unsigned __int64)*(unsigned int *)(*(int *)(param_1 + 8) + 8) - (unsigned __int64)*(unsigned int *)(param_1 + 0xc);
+  return (unsigned __int64)*(unsigned int *)(*(int *)(self + 8) + 8) - (unsigned __int64)*(unsigned int *)(self + 0xc);
 }

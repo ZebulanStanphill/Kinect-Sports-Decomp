@@ -3,14 +3,14 @@ extern int fn_82494388();
 extern unsigned int lbl_821BEE14;
 
 
-unsigned int * fn_82494218(unsigned int *param_1,unsigned int param_2)
+unsigned int * fn_82494218(unsigned int *self,unsigned int flags)
 
 {
-  *param_1 = &lbl_821BEE14;
+  *self = &lbl_821BEE14;
   fn_82494388();
-  if ((param_2 & 1) != 0) {
-    fn_8248F8E8(param_1);
+  if ((flags & 1) != 0) {
+    fn_8248F8E8(self);
   }
-  return param_1;
+  return self;
 }
 

@@ -1,6 +1,6 @@
 typedef struct { void *pad[9]; void (*f24)(void *, void *); } Vt_82DA7C78;
 
-void fn_82DA7C78(int param_1, int *param_2)
+void fn_82DA7C78(int self, int *param_2)
 {
   int a;
   int b;

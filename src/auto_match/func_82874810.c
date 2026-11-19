@@ -5,17 +5,17 @@ extern int fn_82873B68();
 
 
 extern char lbl_832116F8[];
-unsigned __int64 fn_82874810(unsigned __int64 param_1,unsigned int param_2)
+unsigned __int64 fn_82874810(unsigned __int64 self,unsigned int flags)
 
 {
   unsigned int uVar1;
   unsigned char auStack_30 [24];
   
   fn_82873B68();
-  if ((param_2 & 1) != 0) {
+  if ((flags & 1) != 0) {
     uVar1 = fn_82811400(auStack_30,4);
-    fn_82811238(lbl_832116F8,param_1,uVar1);
+    fn_82811238(lbl_832116F8,self,uVar1);
   }
-  return param_1;
+  return self;
 }
 

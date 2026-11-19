@@ -1,5 +1,5 @@
-void fn_82677928(int param_1)
+void fn_82677928(int self)
 {
-    *(int *)(param_1 + 0x2294) = 0;
-    *(int *)(param_1 + 0x22c0) = 0;
+    *(int *)(self + 0x2294) = 0;
+    *(int *)(self + 0x22c0) = 0;
 }

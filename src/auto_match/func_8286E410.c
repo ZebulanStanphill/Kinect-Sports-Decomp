@@ -2,7 +2,7 @@ extern int fn_82865170();
 extern int fn_82866690();
 
 
-void fn_8286E410(unsigned __int64 param_1,unsigned __int64 param_2)
+void fn_8286E410(unsigned __int64 self,unsigned __int64 param_2)
 
 {
   unsigned int uVar1;

@@ -7,7 +7,7 @@ typedef struct Ctx_82D6AF68 {
   int *src;
 } Ctx_82D6AF68;
 
-void fn_82D6AF68(int param_1, int *param_2, int param_3, int param_4, int param_5,
+void fn_82D6AF68(int self, int *param_2, int param_3, int param_4, int param_5,
                  int param_6)
 {
   int iVar1;
@@ -23,6 +23,6 @@ void fn_82D6AF68(int param_1, int *param_2, int param_3, int param_4, int param_
   first = *(int *)(iVar1 + 0x14);
   ctx.second = 0;
   ctx.first = first;
-  obj = *(int **)(param_1 + 0xc);
+  obj = *(int **)(self + 0xc);
   (*(int (**)())(*(int *)obj + 0x14))(obj, &ctx, param_3, param_4, param_5, param_6);
 }

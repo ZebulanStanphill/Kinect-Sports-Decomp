@@ -1,6 +1,6 @@
-int  fn_82D52390(int param_1)
+int  fn_82D52390(int self)
 
 {
-  return ((unsigned __int64)*(unsigned char *)(param_1 + 0x17) + 1) * 3;
+  return ((unsigned __int64)*(unsigned char *)(self + 0x17) + 1) * 3;
 }
 

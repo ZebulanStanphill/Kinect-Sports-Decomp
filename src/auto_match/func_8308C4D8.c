@@ -27,7 +27,7 @@ extern int fn_82CE5410(void);
 extern void fn_82CE6310(int, Buf *, int, int);
 extern void fn_8308AF58(Obj *, Item *, Out *);
 
-void fn_8308C4D8(Obj *param_1, Buf *param_2)
+void fn_8308C4D8(Obj *self, Buf *param_2)
 {
   int i;
   int n;
@@ -35,17 +35,17 @@ void fn_8308C4D8(Obj *param_1, Buf *param_2)
   int r;
   Item *it;
 
-  n = param_1->count - param_1->skip;
+  n = self->count - self->skip;
   r = fn_82CE5410();
   if ((int)(param_2->cap & 0x3fffffff) < n) {
     fn_82CE6310(*(int *)(r + 0x10), param_2, n, 0x20);
   }
-  param_2->n = param_1->count - param_1->skip;
+  param_2->n = self->count - self->skip;
   k = 0;
-  for (i = 0; i < param_1->count; i++) {
-    it = &param_1->items[i];
+  for (i = 0; i < self->count; i++) {
+    it = &self->items[i];
     if ((it->fc & 1) == 0) {
-      fn_8308AF58(param_1, it, &param_2->base[k]);
+      fn_8308AF58(self, it, &param_2->base[k]);
       k++;
     }
   }

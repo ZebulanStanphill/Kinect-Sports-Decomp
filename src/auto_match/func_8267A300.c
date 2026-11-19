@@ -1,6 +1,6 @@
-unsigned int fn_8267A300(int param_1)
+unsigned int fn_8267A300(int self)
 
 {
-  return *(unsigned int *)(*(int *)(param_1 + 8) + 8);
+  return *(unsigned int *)(*(int *)(self + 8) + 8);
 }
 

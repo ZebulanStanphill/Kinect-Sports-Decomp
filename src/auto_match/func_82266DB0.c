@@ -1,9 +1,9 @@
-void fn_82266DB0(int param_1)
+void fn_82266DB0(int self)
 
 {
   int *piVar1;
   
-  piVar1 = *(int **)(param_1 + 0xc);
+  piVar1 = *(int **)(self + 0xc);
   if (piVar1 == (int *)0x0) {
     return;
   }

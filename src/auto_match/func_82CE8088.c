@@ -12,7 +12,7 @@ extern void *fn_82CFB2D8(Node *n, void *x, int f);
 extern void fn_82CE4118(void *x);
 extern void *(*lbl_8317F4E4)(void *p, Scope *s);
 
-void *fn_82CE8088(void *param_1, void *param_2)
+void *fn_82CE8088(void *self, void *param_2)
 {
   Scope scope;
   Node *n;

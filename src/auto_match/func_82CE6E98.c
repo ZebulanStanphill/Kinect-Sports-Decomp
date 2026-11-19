@@ -8,13 +8,13 @@ typedef struct { SVT_82CE6E98 *vt; char pad[0x120 - 4]; int f120; char f124; cha
 typedef struct { int a; int b; int c; int d; int e; int f; int g; int h; int idx; } Rec_82CE6E98;
 typedef struct { char pad[0x1c]; Alloc_82CE6E98 al; } Mgr_82CE6E98;
 
-void fn_82CE6E98(char *param_1, Rec_82CE6E98 *param_2, int param_3)
+void fn_82CE6E98(char *self, Rec_82CE6E98 *param_2, int param_3)
 {
-  Slot_82CE6E98 *s = (Slot_82CE6E98 *)(param_1 + param_2->idx * 0x130 + 0xadc);
+  Slot_82CE6E98 *s = (Slot_82CE6E98 *)(self + param_2->idx * 0x130 + 0xadc);
   if ((param_3 & 2) != 0) {
     if (s->f128 != 0) {
       if (param_2->c - param_2->b != 0) {
-        ((Mgr_82CE6E98 *)param_1)->al.vt->f8(&((Mgr_82CE6E98 *)param_1)->al, param_2->b, param_2->c - param_2->b);
+        ((Mgr_82CE6E98 *)self)->al.vt->f8(&((Mgr_82CE6E98 *)self)->al, param_2->b, param_2->c - param_2->b);
         param_2->b = 0;
         param_2->a = 0;
         param_2->c = 0;
