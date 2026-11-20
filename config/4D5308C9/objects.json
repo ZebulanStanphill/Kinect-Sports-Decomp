@@ -22363,11 +22363,21 @@
           "/O1"
         ]
       },
-      "auto_match/func_822F8298.c": {
-        "status": "NonMatching",
+      "auto_match/func_822F8298.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/d2inlS200"
+        ],
+        "vc_include": true,
+        "ltcg_units": [
+          "auto_match/func_822F86F0.cpp",
+          "auto_match/func_822F8F38.cpp"
+        ],
+        "pool_aliases": {
+          "??$_Sort@PAU?$pair@PAUItem_822F8298@@M@std@@HUGreater_822F8298@@@std@@YAXPAU?$pair@PAUItem_822F8298@@M@0@0HUGreater_822F8298@@@Z": "fn_822F8298",
+          "??$_Unguarded_partition@PAU?$pair@PAUItem_822F8298@@M@std@@UGreater_822F8298@@@std@@YA?AU?$pair@PAU?$pair@PAUItem_822F8298@@M@std@@PAU12@@0@PAU?$pair@PAUItem_822F8298@@M@0@0UGreater_822F8298@@@Z": "fn_822F86F0"
+        }
       },
       "auto_match/func_822F8438.cpp": {
         "status": "Matching",
@@ -22383,11 +22393,16 @@
           "/O1"
         ]
       },
-      "auto_match/func_822F86F0.c": {
-        "status": "NonMatching",
+      "auto_match/func_822F86F0.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/d2inlS200"
+        ],
+        "vc_include": true,
+        "pool_aliases": {
+          "??$_Unguarded_partition@PAU?$pair@PAUItem_822F8298@@M@std@@UGreater_822F8298@@@std@@YA?AU?$pair@PAU?$pair@PAUItem_822F8298@@M@std@@PAU12@@0@PAU?$pair@PAUItem_822F8298@@M@0@0UGreater_822F8298@@@Z": "fn_822F86F0"
+        }
       },
       "auto_match/func_822F8A68.c": {
         "status": "Matching",
@@ -26733,11 +26748,21 @@
         ]
       },
       "auto_match/func_8233F2E0.c": "MISSING",
-      "auto_match/func_8233F530.c": {
-        "status": "NonMatching",
+      "auto_match/func_8233F530.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/d2inlS200"
+        ],
+        "vc_include": true,
+        "ltcg_units": [
+          "auto_match/func_8233F9F8.cpp",
+          "auto_match/func_8233FFA0.cpp"
+        ],
+        "pool_aliases": {
+          "??$_Sort@PAU?$pair@MH@std@@HUGreater_8233F530@@@std@@YAXPAU?$pair@MH@0@0HUGreater_8233F530@@@Z": "fn_8233F530",
+          "??$_Unguarded_partition@PAU?$pair@MH@std@@UGreater_8233F530@@@std@@YA?AU?$pair@PAU?$pair@MH@std@@PAU12@@0@PAU?$pair@MH@0@0UGreater_8233F530@@@Z": "fn_8233F9F8"
+        }
       },
       "auto_match/func_8233F6D0.c": {
         "status": "Matching",
@@ -26769,11 +26794,16 @@
           "/O1"
         ]
       },
-      "auto_match/func_8233F9F8.c": {
-        "status": "NonMatching",
+      "auto_match/func_8233F9F8.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/d2inlS200"
+        ],
+        "vc_include": true,
+        "pool_aliases": {
+          "??$_Unguarded_partition@PAU?$pair@MH@std@@UGreater_8233F530@@@std@@YA?AU?$pair@PAU?$pair@MH@std@@PAU12@@0@PAU?$pair@MH@0@0UGreater_8233F530@@@Z": "fn_8233F9F8"
+        }
       },
       "auto_match/func_8233FD78.c": {
         "status": "Matching",
@@ -45213,11 +45243,21 @@
           "/O1"
         ]
       },
-      "auto_match/func_8243EB18.c": {
-        "status": "NonMatching",
+      "auto_match/func_8243EB18.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/d2inlS200"
+        ],
+        "vc_include": true,
+        "ltcg_units": [
+          "auto_match/func_8243F850.cpp",
+          "auto_match/func_824406C0.c"
+        ],
+        "pool_aliases": {
+          "??$_Sort@PAUEntry_824406C0@@HUPredicate_8243EB18@@@std@@YAXPAUEntry_824406C0@@0HUPredicate_8243EB18@@@Z": "fn_8243EB18",
+          "??$_Unguarded_partition@PAUEntry_824406C0@@UPredicate_8243EB18@@@std@@YA?AU?$pair@PAUEntry_824406C0@@PAU1@@0@PAUEntry_824406C0@@0UPredicate_8243EB18@@@Z": "fn_8243F850"
+        }
       },
       "auto_match/func_8243ECC8.c": {
         "status": "NonMatching",
@@ -45237,11 +45277,16 @@
           "/O1"
         ]
       },
-      "auto_match/func_8243F850.c": {
-        "status": "NonMatching",
+      "auto_match/func_8243F850.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/d2inlS200"
+        ],
+        "vc_include": true,
+        "pool_aliases": {
+          "??$_Unguarded_partition@PAUEntry_824406C0@@UPredicate_8243EB18@@@std@@YA?AU?$pair@PAUEntry_824406C0@@PAU1@@0@PAUEntry_824406C0@@0UPredicate_8243EB18@@@Z": "fn_8243F850"
+        }
       },
       "auto_match/func_8243FCD8.c": {
         "status": "NonMatching",
@@ -51353,11 +51398,23 @@
           "/O1"
         ]
       },
-      "auto_match/func_8248EA08.c": {
-        "status": "NonMatching",
+      "auto_match/func_8248EA08.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/d2inlS200"
+        ],
+        "vc_include": true,
+        "ltcg_units": [
+          "auto_match/func_8248ECD0.cpp",
+          "auto_match/func_8248F390.c",
+          "auto_match/func_82365BD8.c",
+          "auto_match/func_823F2E20.c"
+        ],
+        "pool_aliases": {
+          "??$_Sort@PAV?$shared_ptr@UItem_8248ECD0@@@tr1@std@@HUPredicate_8248ECD0@@@std@@YAXPAV?$shared_ptr@UItem_8248ECD0@@@tr1@0@0HUPredicate_8248ECD0@@@Z": "fn_8248EA08",
+          "??$_Unguarded_partition@PAV?$shared_ptr@UItem_8248ECD0@@@tr1@std@@UPredicate_8248ECD0@@@std@@YA?AU?$pair@PAV?$shared_ptr@UItem_8248ECD0@@@tr1@std@@PAV123@@0@PAV?$shared_ptr@UItem_8248ECD0@@@tr1@0@0UPredicate_8248ECD0@@@Z": "fn_8248ECD0"
+        }
       },
       "auto_match/func_8248EB98.c": {
         "status": "NonMatching",
@@ -51365,11 +51422,17 @@
           "/O1"
         ]
       },
-      "auto_match/func_8248ECD0.c": {
-        "status": "NonMatching",
+      "auto_match/func_8248ECD0.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/d2inlS200"
+        ],
+        "vc_include": true,
+        "pool_aliases": {
+          "??$_Unguarded_partition@PAV?$shared_ptr@UItem_8248ECD0@@@tr1@std@@UPredicate_8248ECD0@@@std@@YA?AU?$pair@PAV?$shared_ptr@UItem_8248ECD0@@@tr1@std@@PAV123@@0@PAV?$shared_ptr@UItem_8248ECD0@@@tr1@0@0UPredicate_8248ECD0@@@Z": "fn_8248ECD0",
+          "??0?$shared_ptr@UItem_8248ECD0@@@tr1@std@@QAA@ABV012@@Z": "fn_82365BD8"
+        }
       },
       "auto_match/func_8248F0A0.c": {
         "status": "NonMatching",
@@ -51464,11 +51527,21 @@
           "__real@00000000": "ltcg_pool_0_0f"
         }
       },
-      "auto_match/func_8248FCC8.c": {
-        "status": "NonMatching",
+      "auto_match/func_8248FCC8.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/d2inlS200"
+        ],
+        "vc_include": true,
+        "ltcg_units": [
+          "auto_match/func_8248FEA8.cpp",
+          "auto_match/func_82490210.c"
+        ],
+        "pool_aliases": {
+          "??$_Sort@PAHH@std@@YAXPAH0H@Z": "fn_8248FCC8",
+          "??$_Unguarded_partition@PAH@std@@YA?AU?$pair@PAHPAH@0@PAH0@Z": "fn_8248FEA8"
+        }
       },
       "auto_match/func_8248FEA8.cpp": {
         "status": "Matching",
@@ -60046,11 +60119,16 @@
           "/O1"
         ]
       },
-      "auto_match/func_8250B1A8.c": {
-        "status": "NonMatching",
+      "auto_match/func_8250B1A8.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/d2inlS200"
+        ],
+        "vc_include": true,
+        "pool_aliases": {
+          "??$_Unguarded_partition@PAUEntry_8250BE90@@UPredicate_8250ACB8@@@std@@YA?AU?$pair@PAUEntry_8250BE90@@PAU1@@0@PAUEntry_8250BE90@@0UPredicate_8250ACB8@@@Z": "fn_8250B1A8"
+        }
       },
       "auto_match/func_8250B670.c": {
         "status": "Matching",
@@ -60058,11 +60136,16 @@
           "/O1"
         ]
       },
-      "auto_match/func_8250B780.c": {
-        "status": "NonMatching",
+      "auto_match/func_8250B780.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/d2inlS200"
+        ],
+        "vc_include": true,
+        "pool_aliases": {
+          "??$_Unguarded_partition@PAUEntry_8250AE88@@UPredicate_8250AE88@@@std@@YA?AU?$pair@PAUEntry_8250AE88@@PAU1@@0@PAUEntry_8250AE88@@0UPredicate_8250AE88@@@Z": "fn_8250B780"
+        }
       },
       "auto_match/func_8250BC10.c": {
         "status": "Matching",
@@ -65549,11 +65632,21 @@
           "/O1"
         ]
       },
-      "auto_match/func_825510B0.c": {
-        "status": "NonMatching",
+      "auto_match/func_825510B0.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/d2inlS200"
+        ],
+        "vc_include": true,
+        "ltcg_units": [
+          "auto_match/func_82551528.cpp",
+          "auto_match/func_82551ED8.c"
+        ],
+        "pool_aliases": {
+          "??$_Sort@PAUEntry_825510B0@@HULess_825510B0@@@std@@YAXPAUEntry_825510B0@@0HULess_825510B0@@@Z": "fn_825510B0",
+          "??$_Unguarded_partition@PAUEntry_825510B0@@ULess_825510B0@@@std@@YA?AU?$pair@PAUEntry_825510B0@@PAU1@@0@PAUEntry_825510B0@@0ULess_825510B0@@@Z": "fn_82551528"
+        }
       },
       "auto_match/func_82551260.c": {
         "status": "NonMatching",
@@ -65567,11 +65660,16 @@
           "/O1"
         ]
       },
-      "auto_match/func_82551528.c": {
-        "status": "NonMatching",
+      "auto_match/func_82551528.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/d2inlS200"
+        ],
+        "vc_include": true,
+        "pool_aliases": {
+          "??$_Unguarded_partition@PAUEntry_825510B0@@ULess_825510B0@@@std@@YA?AU?$pair@PAUEntry_825510B0@@PAU1@@0@PAUEntry_825510B0@@0ULess_825510B0@@@Z": "fn_82551528"
+        }
       },
       "auto_match/func_825519F8.c": {
         "status": "Matching",
