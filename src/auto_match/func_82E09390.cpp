@@ -2,8 +2,6 @@
 
 typedef hkCachedHashMap<hkStringMapOperations> StringHashMap;
 
-extern "C" void fn_82D000A0(void *dst, hkUlong key, hkUlong val);
-
 extern "C" void fn_82E09390(char *dst, char *src)
 {
     const StringHashMap *map;
@@ -19,7 +17,7 @@ extern "C" void fn_82E09390(char *dst, char *src)
             break;
         val = map->getValue(it);
         key = map->getKey(it);
-        fn_82D000A0(dst + 8, key, val);
+        reinterpret_cast<StringHashMap *>(dst + 8)->insert(key, val);
         it = map->getNext(it);
     }
 }

@@ -11,7 +11,6 @@
 // in a stack temporary; the function ignores it.
 extern "C" {
 void fn_82D00388(void *self, hkContainerHeapAllocator a);           // hkCachedHashMap<hkStringMapOperations, hkContainerHeapAllocator>::hkCachedHashMap
-void fn_82D000A0(void *map, const char *key, hkUlong value);       // hkCachedHashMap<hkStringMapOperations>::insert
 }
 
 // The string maps here take 0x10 bytes: after the shared hkStringMap's 0xC
@@ -25,7 +24,6 @@ template <typename V>
 class hkStringMapC : public hkStringMap<V> {
 public:
     HK_FORCE_INLINE hkStringMapC() { fn_82D00388(this, hkContainerHeapAllocator()); }
-    HK_FORCE_INLINE void insert(const char *key, V val) { fn_82D000A0(this, key, hkUlong(val)); }
     hkContainerHeapAllocator m_alloc;   // +0xC
 };
 

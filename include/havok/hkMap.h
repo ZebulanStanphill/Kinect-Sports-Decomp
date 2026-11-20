@@ -13,8 +13,8 @@
 //   int m_hashMod. This declaration describes the 0xC-byte storage prefix.
 //   The allocation holds three arrays (hashes, keys, values), each with
 //   m_hashMod + 1 entries; an empty hash slot holds -1, and an Iterator is a
-//   slot index (m_hashMod + 1 = end). Its destructor is out of line
-//   (fn_82D003F0). hkStringMap<V> holds one and forwards to it inline.
+//   slot index (m_hashMod + 1 = end). Its destructor and insert are out of
+//   line. hkStringMap<V> holds one and forwards to it inline.
 #ifndef HAVOK_HKMAP_H
 #define HAVOK_HKMAP_H
 #include "havok/hkArray.h"
@@ -22,7 +22,6 @@
 extern "C" {
 void fn_82CEA4B8(void *self, hkMemoryAllocator *alloc);   // hkMapBase<hkUlong, hkUlong>::clearAndDeallocate
 void fn_82BA02A8(void *self);                             // empty function: hkMapBase<hkUlong, hkUlong>::~hkMapBase
-void fn_82D003F0(void *self);                             // hkCachedHashMap<hkStringMapOperations, hkContainerHeapAllocator>::~hkCachedHashMap
 void fn_82CEAB00(void *self, hkMemoryAllocator *alloc, int numElements);   // hkMapBase<hkUlong, hkUlong>::reserve
 }
 
@@ -68,7 +67,8 @@ class hkCachedHashMap {
 public:
     typedef class Dummy *Iterator;
 
-    HK_FORCE_INLINE ~hkCachedHashMap() { fn_82D003F0(this); }
+    ~hkCachedHashMap();
+    void insert(hkUlong key, hkUlong val);
     Iterator getIterator() const;
     hkUlong getKey(Iterator it) const;
     hkUlong getValue(Iterator it) const;
@@ -94,6 +94,7 @@ public:
     HK_FORCE_INLINE void setValue(Iterator it, V value) { m_map.setValue(it, hkUlong(value)); }
     HK_FORCE_INLINE Iterator getNext(Iterator it) const { return m_map.getNext(it); }
     HK_FORCE_INLINE Iterator findKey(const char *key) const { return m_map.findKey(hkUlong(key)); }
+    HK_FORCE_INLINE void insert(const char *key, V val) { m_map.insert(hkUlong(key), hkUlong(val)); }
     HK_FORCE_INLINE void clear() { m_map.clear(); }
     HK_FORCE_INLINE hkBool isValid(Iterator it) const { return m_map.isValid(it); }
 

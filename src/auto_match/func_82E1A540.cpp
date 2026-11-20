@@ -10,7 +10,6 @@ struct Entry_82E1A540 {
     int value;
 };
 
-extern "C" void fn_82D000A0(void *map, int key, int v);
 extern "C" void fn_82D00388(void *map, Flag_82E1A540 flag);
 
 template <typename T> static HK_FORCE_INLINE void constructWithCopy(T *t, int n, const T &tcopy) { for (int i = 0; i < n; ++i) t[i] = tcopy; }
@@ -49,7 +48,7 @@ extern "C" void fn_82E1A540(Obj_82E1A540 *self, int key, int name)
     hkBool valid = map->isValid(it);
     if (!valid) {
         value = reinterpret_cast<int>(hkString::strDup(reinterpret_cast<const char *>(name), hkMemoryRouter::getInstance().heap()));
-        fn_82D000A0(map, value, 0);
+        map->insert(value, 0);
     } else {
         value = map->getKey(it);
         map->setValue(it, 0);

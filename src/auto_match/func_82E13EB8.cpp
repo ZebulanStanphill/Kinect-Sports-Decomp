@@ -12,11 +12,9 @@ public:
     virtual void merge(const hkClassNameRegistry &mergeFrom);             // +0x24
 };
 
-extern "C" void fn_82D003F0(void *map);   // hkStringMap destructor
-
 struct StringMap_82E13EB8 {
-    int m_data[4];
-    HK_FORCE_INLINE ~StringMap_82E13EB8() { fn_82D003F0(this); }
+    hkCachedHashMap<hkStringMapOperations> m_map;
+    int m_alloc;
 };
 
 class hkDynamicClassNameRegistry : public hkClassNameRegistry {
