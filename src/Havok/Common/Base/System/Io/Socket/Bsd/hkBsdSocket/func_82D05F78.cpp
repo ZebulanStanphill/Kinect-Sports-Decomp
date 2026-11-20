@@ -39,7 +39,6 @@ int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, const
 int __WSAFDIsSet(SOCKET s, fd_set *set);
 SOCKET accept(SOCKET s, sockaddr_in *addr, int *addrlen);
 int setsockopt(SOCKET s, int level, int optname, const char *optval, int optlen);
-void fn_82CE6310(hkMemoryAllocator *alloc, void *array, int numElem, int sizeElem);   // hkArrayUtil::_reserve
 void fn_82D04B90(void *str, const char *fmt, ...);                       // hkStringBuf::printf
 void fn_82CEE578(hkErrStream *s, void *buf, int bufSize);                // hkErrStream::hkErrStream
 void fn_82CEE238(hkErrStream *s, void *str);                             // operator<<(hkStringBuf)
@@ -56,7 +55,7 @@ struct hkStringBuf {
         int capacity = m_capacityAndFlags & 0x3fffffff;
         if (capacity < 1) {
             int cap2 = 2 * capacity;
-            fn_82CE6310(&a, this, (1 < cap2) ? cap2 : 1, 1);
+            hkArrayUtil::_reserve(a, this, (1 < cap2) ? cap2 : 1, 1);
         }
         m_size = 1;
         m_data[0] = 0;

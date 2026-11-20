@@ -6,7 +6,6 @@
 // vtable and keeps its fn_ name; `this` is written as an explicit first parameter.
 #include "havok/hkBase.h"
 
-extern "C" void fn_82CE63B0(hkMemoryAllocator *alloc, void *array, int sizeElem);   // hkArrayUtil::_reserveMore
 
 inline void *operator new(hk_size_t, void *p) throw() { return p; }
 
@@ -21,7 +20,7 @@ public:
     HK_FORCE_INLINE void _pushBack(hkMemoryAllocator &alloc, const T &e)
     {
         if (this->m_size == this->getCapacity()) {
-            fn_82CE63B0(&alloc, this, sizeof(T));
+            hkArrayUtil::_reserveMore(alloc, this, sizeof(T));
         }
         pushBackUnchecked(e);
     }

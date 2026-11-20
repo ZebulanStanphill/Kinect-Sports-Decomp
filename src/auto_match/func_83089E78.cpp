@@ -2,7 +2,6 @@
 // owner's type is 5.
 #include "havok/hkBase.h"
 
-extern "C" void fn_82CE6310(hkMemoryAllocator *alloc, void *array, int reqCapacity, int sizeElem);
 
 inline void *operator new(hk_size_t, void *p)
 {
@@ -41,7 +40,7 @@ template <typename T> HK_FORCE_INLINE void CopyFrom_83089E78(hkArray<T> &self, c
         if (capacity < newSize) {
             int cap2 = 2 * capacity;
             int newCapacity = (newSize < cap2) ? cap2 : newSize;
-            fn_82CE6310(&alloc, &self, newCapacity, sizeof(T));
+            hkArrayUtil::_reserve(alloc, &self, newCapacity, sizeof(T));
         }
     }
     ArrayUtil_83089E78::copy(self.m_data, a.m_data, copiedSize);

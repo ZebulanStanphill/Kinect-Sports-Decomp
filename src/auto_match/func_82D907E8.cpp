@@ -1,6 +1,5 @@
 #include "havok/hkBase.h"
 
-extern "C" void fn_82CE63B0(hkMemoryAllocator *, void *, int);
 
 template <typename T> static HK_FORCE_INLINE void constructWithCopy(T *t, int n, const T &tcopy) { for (int i = 0; i < n; ++i) t[i] = tcopy; }
 
@@ -16,7 +15,7 @@ public:
     HK_FORCE_INLINE void push(Elem_82D907E8 *const &v)
     {
         hkMemoryAllocator &alloc = hkMemoryRouter::getInstance().heap();
-        if (m_size == getCapacity()) fn_82CE63B0(&alloc, this, sizeof(Elem_82D907E8 *));
+        if (m_size == getCapacity()) hkArrayUtil::_reserveMore(alloc, this, sizeof(Elem_82D907E8 *));
         constructWithCopy(m_data + m_size, 1, v);
         m_size++;
     }

@@ -1,7 +1,7 @@
 // hkpSaveContactPointsUtil-style serialisation of an hkpAgent1nTrack: copies
 // every 512-byte sector and records an hkpSerializedTrack1nInfo per entry.
 #include "havok/hkBase.h"
-extern "C" { void fn_82CE6310(hkMemoryAllocator *,void *,int,int); void fn_82CE63B0(hkMemoryAllocator *,void *,int); void *memcpy(void *,const void *,unsigned); }
+extern "C" { void *memcpy(void *,const void *,unsigned); }
 class hkpSerializedTrack1nInfo {
 public:
  HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE,hkpSerializedTrack1nInfo);
@@ -20,7 +20,7 @@ extern "C" int fn_82DF6CD0(char *,hkBool,void *,int *,void *,char **,hkpSerializ
 template<class T> static HK_FORCE_INLINE void constructWithCopy(T *t,int n,const T &tcopy) { for(int i=0;i<n;++i) t[i]=tcopy; }
 template<class T> static HK_FORCE_INLINE void pushBack(hkArrayBase<T> *a,const T &value) {
  hkMemoryRouter *r=hkMemoryRouter::getInstancePtr();
- if(a->m_size==a->getCapacity()) fn_82CE63B0(&r->heap(),a,sizeof(T));
+ if(a->m_size==a->getCapacity()) hkArrayUtil::_reserveMore(r->heap(),a,sizeof(T));
  constructWithCopy<T>(a->m_data+a->m_size,1,value); a->m_size++;
 }
 extern "C" int fn_82DF7AF8(hkArrayBase<Track *> *source,void *world,Result *result) {
@@ -30,7 +30,7 @@ extern "C" int fn_82DF7AF8(hkArrayBase<Track *> *source,void *world,Result *resu
  if(capacity<n) {
   int cap2=2*capacity;
   int newSize=(n<cap2)?cap2:n;
-  fn_82CE6310(&alloc,&result->tracks,newSize,4);
+  hkArrayUtil::_reserve(alloc,&result->tracks,newSize,4);
  }
  for(int i=0;i<source->m_size;++i) {
   Track *t=source->m_data[i];
@@ -44,7 +44,7 @@ extern "C" int fn_82DF7AF8(hkArrayBase<Track *> *source,void *world,Result *resu
    p+=size;
   }
   hkMemoryRouter *r=hkMemoryRouter::getInstancePtr();
-  if(result->tracks.m_size==result->tracks.getCapacity()) fn_82CE63B0(&r->heap(),&result->tracks,4);
+  if(result->tracks.m_size==result->tracks.getCapacity()) hkArrayUtil::_reserveMore(r->heap(),&result->tracks,4);
   ++result->tracks.m_size;
   result->tracks.m_data[i]=new Track;
   memcpy(result->tracks.m_data[i],t,512);

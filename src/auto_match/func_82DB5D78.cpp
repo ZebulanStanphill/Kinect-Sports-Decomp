@@ -56,7 +56,6 @@ struct Island_82DB5D78 {
     hkArray<Entity_82DB5D78 *> entities; // +0x48
 };
 
-extern "C" void fn_82CE63B0(hkMemoryAllocator *, void *, int);
 extern "C" void fn_83081170(hkReal time, hkMotionState *motionState);
 extern "C" float fn_82D80A50(Clock_82DB5D78 *clock);
 
@@ -73,7 +72,7 @@ class Entities_82DB5D78 : public hkArrayBase<Entity_82DB5D78 *>
     {
         hkMemoryAllocator &alloc = hkMemoryRouter::getInstance().heap();
         if (m_size == getCapacity())
-            fn_82CE63B0(&alloc, this, sizeof(Entity_82DB5D78 *));
+            hkArrayUtil::_reserveMore(alloc, this, sizeof(Entity_82DB5D78 *));
         constructWithCopy(m_data + m_size, 1, v);
         m_size++;
     }

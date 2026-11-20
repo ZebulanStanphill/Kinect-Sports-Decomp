@@ -1,6 +1,5 @@
 #include "havok/hkBase.h"
 
-extern "C" void fn_82CE63B0(hkMemoryAllocator *alloc, void *array, int elemSize); // hkArrayUtil::_reserveMore
 
 template <typename T>
 static HK_FORCE_INLINE void constructWithCopy(T *p, int n, const T &tcopy)
@@ -29,7 +28,7 @@ public:
     HK_FORCE_INLINE void _pushBack(hkMemoryAllocator &alloc, const T &e)
     {
         if (this->m_size == this->getCapacity()) {
-            fn_82CE63B0(&alloc, this, sizeof(T));
+            hkArrayUtil::_reserveMore(alloc, this, sizeof(T));
         }
         pushBackUnchecked(e);
     }

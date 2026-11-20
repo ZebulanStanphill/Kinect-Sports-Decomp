@@ -14,6 +14,7 @@
 #ifndef HAVOK_HKARRAY_H
 #define HAVOK_HKARRAY_H
 #include "havok/hkMemoryRouter.h"
+#include "havok/hkArrayUtil.h"
 
 struct hkContainerHeapAllocator {
     struct Allocator {
@@ -27,27 +28,6 @@ struct hkContainerTempAllocator {
         static HK_FORCE_INLINE hkMemoryAllocator &get(const void *) { return hkMemoryRouter::getInstance().temp(); }
     };
     static HK_FORCE_INLINE hkMemoryAllocator &get(const void *p) { return Allocator::get(p); }
-};
-
-// Havok dispatches on hkIsPodType<T>; elements with trivial destructors are
-// not visited at all (an empty loop would survive in the generated code).
-template <bool B>
-struct hkArrayTypeIsPod {};
-
-struct hkArrayUtil {
-    template <typename T>
-    static HK_FORCE_INLINE void HK_CALL destruct(T *t, int n, hkArrayTypeIsPod<true>) {}
-    template <typename T>
-    static HK_FORCE_INLINE void HK_CALL destruct(T *t, int n, hkArrayTypeIsPod<false>)
-    {
-        for (int i = 0; i < n; ++i)
-            t[i].~T();
-    }
-    template <typename T>
-    static HK_FORCE_INLINE void HK_CALL destruct(T *t, int n)
-    {
-        destruct(t, n, hkArrayTypeIsPod<__has_trivial_destructor(T)>());
-    }
 };
 
 template <typename T>

@@ -2,7 +2,7 @@
 // hkpContactMgr *) (Physics/Collide/Agent/MiscAgent/HeightField/hkpHeightFieldAgent.cpp): with a contact
 // manager, one contact point id per collision sphere of body A's shape, all HK_INVALID_CONTACT_POINT.
 // hkArray::setSize(n, fill) is inlined: the allocator is fetched first, the capacity is doubled or set to n
-// through hkArrayUtil::_reserve (fn_82CE6310, which keeps its fn_ name), then the new items are filled.
+// through hkArrayUtil::_reserve , then the new items are filled.
 #include "havok/hkBase.h"
 
 class hkpCdBody;
@@ -39,12 +39,11 @@ public:
 typedef hkUint16 hkContactPointId;
 #define HK_INVALID_CONTACT_POINT 0xffff
 
-extern "C" void fn_82CE6310(hkMemoryAllocator *alloc, void *array, int reqCapacity, int sizeElem);   // hkArrayUtil::_reserve
 
 struct hkArrayUtil_ {
     static HK_FORCE_INLINE void HK_CALL _reserve(hkMemoryAllocator &a, void *array, int reqCapacity, int sizeElem)
     {
-        fn_82CE6310(&a, array, reqCapacity, sizeElem);
+        hkArrayUtil::_reserve(a, array, reqCapacity, sizeElem);
     }
     template <typename T>
     static HK_FORCE_INLINE void HK_CALL constructWithCopy(T *p, int n, const T &fill)

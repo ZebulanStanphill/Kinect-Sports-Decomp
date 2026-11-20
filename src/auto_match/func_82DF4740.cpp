@@ -1,6 +1,5 @@
 #include "havok/hkBase.h"
 
-extern "C" void fn_82CE63B0(hkMemoryAllocator *alloc, void *array, int elemSize); // hkArrayUtil::_reserveMore
 extern "C" void fn_82D8A058(int, void *);
 extern "C" void fn_82D81078(int, int, int);
 
@@ -23,7 +22,7 @@ public:
     HK_FORCE_INLINE void _pushBack(hkMemoryAllocator &alloc, const T &e)
     {
         if (this->m_size == this->getCapacity()) {
-            fn_82CE63B0(&alloc, this, sizeof(T));
+            hkArrayUtil::_reserveMore(alloc, this, sizeof(T));
         }
         pushBackUnchecked(e);
     }

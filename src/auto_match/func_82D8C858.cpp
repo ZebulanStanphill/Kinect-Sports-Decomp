@@ -10,7 +10,6 @@ struct Element_82D8C858 {
     unsigned __int64 hi;
 };
 
-extern "C" void fn_82CE6310(hkMemoryAllocator *alloc, void *array, int numElements, int elementSize);
 
 template <typename T> static __forceinline void CopyElements(T *dst, const T *src, int count)
 {
@@ -35,7 +34,7 @@ template <typename T> class CopyableArray_82D8C858 : public hkArray<T>
         int capacity = this->getCapacity();
 
         if (capacity < newSize)
-            fn_82CE6310(&alloc, this, newSize < capacity * 2 ? capacity * 2 : newSize, sizeof(T));
+            hkArrayUtil::_reserve(alloc, this, newSize < capacity * 2 ? capacity * 2 : newSize, sizeof(T));
         CopyElements(this->m_data, other.m_data, copied);
         ConstructElements(this->m_data + copied, other.m_data + copied, newSize - copied);
         this->m_size = newSize;

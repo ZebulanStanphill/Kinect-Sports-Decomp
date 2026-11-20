@@ -10,7 +10,6 @@ struct Entry_82E1A540 {
     int value;
 };
 
-extern "C" void fn_82CE63B0(hkMemoryAllocator *alloc, void *arr, int elemSize);
 extern "C" int fn_82CFBEB8(int name, hkMemoryAllocator *alloc);
 extern "C" void fn_82D000A0(void *map, int key, int v);
 extern "C" void fn_82D00388(void *map, Flag_82E1A540 flag);
@@ -24,7 +23,7 @@ public:
     HK_FORCE_INLINE void pushBack(const Entry_82E1A540 &e)
     {
         hkMemoryAllocator &alloc = hkMemoryRouter::getInstance().heap();
-        if (m_size == getCapacity()) fn_82CE63B0(&alloc, this, sizeof(Entry_82E1A540));
+        if (m_size == getCapacity()) hkArrayUtil::_reserveMore(alloc, this, sizeof(Entry_82E1A540));
         constructWithCopy(m_data + m_size, 1, e);
         m_size++;
     }

@@ -25,7 +25,6 @@ inline void *operator new(unsigned int, void *where)
     return where;
 }
 
-extern "C" void fn_82CE6310(hkMemoryAllocator *alloc, void *array, int numElements, int elementSize);
 
 // hkRefPtr with its copy constructor and assignment (the source pointer is
 // read again after each reference call).
@@ -83,7 +82,7 @@ template <typename T> class CopyableArray_82D43AA0 : public hkArray<T>
         int capacity = this->getCapacity();
 
         if (capacity < newSize)
-            fn_82CE6310(&alloc, this, newSize < capacity * 2 ? capacity * 2 : newSize, sizeof(T));
+            hkArrayUtil::_reserve(alloc, this, newSize < capacity * 2 ? capacity * 2 : newSize, sizeof(T));
         hkArrayUtil::destruct(this->m_data + newSize, oldSize - newSize);
         CopyElements(this->m_data, other.m_data, copied);
         ConstructElements(this->m_data + copied, other.m_data + copied, newSize - copied);

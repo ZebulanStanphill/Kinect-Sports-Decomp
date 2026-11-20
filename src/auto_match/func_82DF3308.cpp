@@ -1,6 +1,5 @@
 #include "havok/hkBase.h"
 
-extern "C" void fn_82CE63B0(hkMemoryAllocator *, void *, int);
 extern "C" void *fn_82D8E600(void);
 extern "C" void fn_82D819D8(int, void *);
 extern "C" void fn_82D84348(int, void *);
@@ -19,7 +18,7 @@ public:
     HK_FORCE_INLINE void push(void *const &v)
     {
         hkMemoryAllocator &alloc = hkMemoryRouter::getInstance().heap();
-        if (m_size == getCapacity()) fn_82CE63B0(&alloc, this, sizeof(void *));
+        if (m_size == getCapacity()) hkArrayUtil::_reserveMore(alloc, this, sizeof(void *));
         constructWithCopy(m_data + m_size, 1, v);
         m_size++;
     }

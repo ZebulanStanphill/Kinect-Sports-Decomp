@@ -1,6 +1,5 @@
 #include "havok/hkBase.h"
 
-extern "C" void fn_82CE63B0(hkMemoryAllocator *alloc, void *array, int elemSize); // hkArrayUtil::_reserveMore
 
 struct Elem_82D93670 {
     void *key;
@@ -28,7 +27,7 @@ extern "C" void fn_82D93670(Owner_82D93670 *self, void *key, unsigned __int64 va
     hkArrayBase<Elem_82D93670> *l = &self->list;
     hkMemoryAllocator &alloc = hkMemoryRouter::getInstance().heap();
     if (l->m_size == l->getCapacity()) {
-        fn_82CE63B0(&alloc, l, sizeof(Elem_82D93670));
+        hkArrayUtil::_reserveMore(alloc, l, sizeof(Elem_82D93670));
     }
     Elem_82D93670 *p = l->m_data + l->m_size;
     l->m_size++;

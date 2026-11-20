@@ -12,14 +12,14 @@ class hkBinaryPackfileReader { public:
  virtual const char *getContentsVersion();virtual void v11();virtual void v12();virtual void v13();virtual int getSectionIndex(const char *);virtual void *getClassByName(int,int); HK_FORCE_INLINE void findClasses(hkArray<ClassLocation> &out);
  char pad[0x18]; hkPackfileHeader *m_header; hkPackfileSectionHeader *m_sections; void **m_sectionData;
 };
-extern "C" {int fn_82CFBBF0(const char *,const char *);const char *fn_82CEAC20(void *);void fn_82CE63B0(hkMemoryAllocator *,void *,int);}
+extern "C" {int fn_82CFBBF0(const char *,const char *);const char *fn_82CEAC20(void *);}
 struct hkClassMember {int a;void *m_enum;};
 extern "C" hkClassMember *fn_82CEAFA8(void *,const char *);
 extern "C" char lbl_8323AEC8[];
 extern "C" char lbl_8204EF40[];
 static HK_FORCE_INLINE ClassLocation &expandOne(hkArray<ClassLocation> &a) {
  hkMemoryAllocator &alloc=hkContainerHeapAllocator::get(&a);
- if(a.m_size==a.getCapacity())fn_82CE63B0(&alloc,&a,sizeof(ClassLocation));
+ if(a.m_size==a.getCapacity())hkArrayUtil::_reserveMore(alloc,&a,sizeof(ClassLocation));
  return a.m_data[a.m_size++];
 }
 HK_FORCE_INLINE void hkBinaryPackfileReader::findClasses(hkArray<ClassLocation> &out) {

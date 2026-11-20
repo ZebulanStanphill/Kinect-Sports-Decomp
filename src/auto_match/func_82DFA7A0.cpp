@@ -1,6 +1,5 @@
 // hkpTyremarksInfo::hkpTyremarksInfo(const hkpVehicleData &, int num_points)
 #include "havok/hkBase.h"
-extern "C" void fn_82CE6310(hkMemoryAllocator *alloc, void *array, int reqCapacity, int sizeElem);   // hkArrayUtil::_reserve
 
 // hkArray with the inlined setSize/clear this unit uses. setSize fetches the allocator first, then
 // doubles the capacity or sets it to n through hkArrayUtil::_reserve; m_size is stored through the
@@ -16,7 +15,7 @@ public:
         if (capacity < n) {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            fn_82CE6310(&a, this, newSize, sizeof(T));
+            hkArrayUtil::_reserve(a, this, newSize, sizeof(T));
         }
     }
     HK_FORCE_INLINE void _setSize(hkMemoryAllocator &a, int n)

@@ -4,8 +4,7 @@
 class hkpWorld;
 class hkpEntity;
 
-// hkArrayUtil::_reserve is out of line (fn_82CE6310); hkArrayBase::_reserve inlines the growth policy.
-extern "C" void fn_82CE6310(hkMemoryAllocator *alloc, void *array, int reqCapacity, int sizeElem);
+// hkArrayUtil::_reserve is out of line. hkArrayBase::_reserve inlines the growth policy.
 template <typename T>
 HK_FORCE_INLINE void hkArrayReserve(hkArray<T> &arr, int n)
 {
@@ -14,7 +13,7 @@ HK_FORCE_INLINE void hkArrayReserve(hkArray<T> &arr, int n)
     if (capacity < n) {
         int cap2 = 2 * capacity;
         int newSize = (n < cap2) ? cap2 : n;
-        fn_82CE6310(&a, &arr, newSize, int(sizeof(T)));
+        hkArrayUtil::_reserve(a, &arr, newSize, int(sizeof(T)));
     }
 }
 

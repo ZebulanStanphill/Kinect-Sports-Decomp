@@ -1,5 +1,6 @@
+#include "havok/hkArrayUtil.h"
+
 extern "C" int fn_82CE5410();
-extern "C" void fn_82CE6310(void *heap, void *arr, int n, int esz);
 extern "C" void *memcpy(void *d, const void *s, unsigned int n);
 
 inline void *operator new(unsigned int, void *p) throw() { return p; }
@@ -37,7 +38,7 @@ extern "C" int fn_82DF71E8(Node_82DF71E8 *src, void *arg, Dst_82DF71E8 *dst)
   if ((dst->cap & 0x3fffffff) < n) {
     int grow = (dst->cap & 0x3fffffff) << 1;
     int m = n < grow ? grow : n;
-    fn_82CE6310(heap, dst, m, 4);
+    hkArrayUtil::_reserve(*reinterpret_cast<hkMemoryAllocator *>(heap), dst, m, 4);
   }
   dst->size = n;
   for (int i = 0; i < src->nblocks; i++) {

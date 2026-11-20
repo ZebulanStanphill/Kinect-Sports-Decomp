@@ -4,7 +4,6 @@
 // size is set back to n so a terminating zero stays in the buffer).
 #include "havok/hkBase.h"
 
-extern "C" void fn_82CE6310(hkMemoryAllocator *alloc, void *array, int reqCapacity, int sizeElem);   // hkArrayUtil::_reserve
 
 template <typename T>
 static HK_FORCE_INLINE void constructWithCopy(T *p, int n, const T &fill)
@@ -22,7 +21,7 @@ public:
         if (capacity < n) {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            fn_82CE6310(&a, this, newSize, sizeof(T));
+            hkArrayUtil::_reserve(a, this, newSize, sizeof(T));
         }
     }
     HK_FORCE_INLINE void setSize(int n, const T &fill)

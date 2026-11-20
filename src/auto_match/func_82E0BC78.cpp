@@ -12,7 +12,6 @@
 
 extern "C" {
 void fn_82CEA160(void *self, hkMemoryAllocator *alloc, hkUlong key, hkUlong val);   // hkMapBase<hkUlong, hkUlong>::insert
-void fn_82CE6310(hkMemoryAllocator *alloc, void *array, int reqCapacity, int sizeElem);   // hkArrayUtil::_reserve
 }
 
 struct hkVariant {
@@ -31,7 +30,7 @@ public:
         if (capacity < n) {
             int cap2 = 2 * capacity;
             int newSize = (n < cap2) ? cap2 : n;
-            fn_82CE6310(&a, this, newSize, sizeof(T));
+            hkArrayUtil::_reserve(a, this, newSize, sizeof(T));
         }
     }
     HK_FORCE_INLINE void reserve(int n) { _reserve(hkContainerHeapAllocator::get(this), n); }

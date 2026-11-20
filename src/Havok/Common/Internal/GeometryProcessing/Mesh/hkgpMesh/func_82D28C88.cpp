@@ -126,7 +126,6 @@ HK_FORCE_INLINE int indexOf(const hkArrayBase<T> &a, const T &t, int startIdx = 
     return -1;
 }
 
-extern "C" void fn_82CE63B0(hkMemoryAllocator *alloc, void *array, int sizeElem);   // hkArrayUtil::_reserveMore
 template <typename T>
 static HK_FORCE_INLINE void constructWithCopy(T *p, int n, const T &tcopy)
 {
@@ -143,7 +142,7 @@ template <typename T>
 HK_FORCE_INLINE void _pushBack(hkArray<T> &a, hkMemoryAllocator &alloc, const T &t)
 {
     if (a.m_size == a.getCapacity())
-        fn_82CE63B0(&alloc, &a, sizeof(T));
+        hkArrayUtil::_reserveMore(alloc, &a, sizeof(T));
     pushBackUnchecked(a, t);
 }
 template <typename T>

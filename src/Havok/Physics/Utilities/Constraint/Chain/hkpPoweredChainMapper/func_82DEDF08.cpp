@@ -10,8 +10,6 @@ class hkpPoweredChainData;
 inline void *operator new(hk_size_t, void *p) throw() { return p; }
 
 extern "C" {
-void fn_82CE6310(hkMemoryAllocator *alloc, void *array, int numElem, int sizeElem);   // hkArrayUtil::_reserve
-void fn_82CE63B0(hkMemoryAllocator *alloc, void *array, int sizeElem);                // hkArrayUtil::_reserveMore
 void fn_82CEA160(void *map, hkMemoryAllocator *alloc, hkUlong key, hkUlong val);      // hkMapBase<hkUlong, hkUlong>::insert
 int fn_82CEA220(const void *map, hkUlong key);                                         // hkMapBase<hkUlong, hkUlong>::findKey
 }
@@ -46,7 +44,7 @@ static HK_FORCE_INLINE void arrayReserve(hkArrayBase<T> &a, hkMemoryAllocator &a
     {
         int cap2 = 2 * capacity;
         int newSize = (n < cap2) ? cap2 : n;
-        fn_82CE6310(&alloc, &a, newSize, sizeof(T));
+        hkArrayUtil::_reserve(alloc, &a, newSize, sizeof(T));
     }
 }
 
@@ -74,7 +72,7 @@ static HK_FORCE_INLINE void arrayPushBack(hkArrayBase<T> &a, const T &t)
 {
     hkMemoryRouter *router = hkMemoryRouter::getInstancePtr();
     if (a.m_size == a.getCapacity())
-        fn_82CE63B0(&router->heap(), &a, sizeof(T));
+        hkArrayUtil::_reserveMore(router->heap(), &a, sizeof(T));
     constructWithCopy(a.m_data + a.m_size, 1, t);
     a.m_size++;
 }
@@ -84,7 +82,7 @@ static HK_FORCE_INLINE T &arrayExpandOne(hkArrayBase<T> &a)
 {
     hkMemoryRouter *router = hkMemoryRouter::getInstancePtr();
     if (a.m_size == a.getCapacity())
-        fn_82CE63B0(&router->heap(), &a, sizeof(T));
+        hkArrayUtil::_reserveMore(router->heap(), &a, sizeof(T));
     return a.m_data[a.m_size++];
 }
 

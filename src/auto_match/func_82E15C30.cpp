@@ -6,13 +6,12 @@ class hkMemoryResourceContainer:public hkReferencedObject {
 public: int pad8;ContainerLookup *parent;char pad10[12];hkArrayBase<hkMemoryResourceContainer*> children;
 hkMemoryResourceContainer(const char*);
 };
-extern "C" void fn_82CE63B0(hkMemoryAllocator*,void*,int);
 extern "C" hkMemoryResourceContainer *fn_82E15C30(hkMemoryResourceContainer *self,const char *name) {
  hkMemoryResourceContainer *r=((ContainerLookup*)self)->find(name,0);
  if(!r) {
   r=new hkMemoryResourceContainer(name);if(r)r->addReference();
   hkArrayBase<hkMemoryResourceContainer*> *a=&self->children;
-  hkMemoryAllocator &al=hkMemoryRouter::getInstance().heap();if(a->m_size==a->getCapacity())fn_82CE63B0(&al,a,4);
+  hkMemoryAllocator &al=hkMemoryRouter::getInstance().heap();if(a->m_size==a->getCapacity())hkArrayUtil::_reserveMore(al,a,4);
   hkMemoryResourceContainer **p=a->m_data+a->m_size;if(p){if(r)r->addReference();*p=r;}++a->m_size;
   if(r)r->removeReference();r->parent=(ContainerLookup*)self;r->removeReference();
  }

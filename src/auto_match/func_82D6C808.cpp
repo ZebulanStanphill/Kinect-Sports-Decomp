@@ -1,3 +1,5 @@
+#include "havok/hkArrayUtil.h"
+
 // hkpShapeCollectionAgent::hkpShapeCollectionAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
 // const hkpCollisionInput &input, hkpContactMgr *mgr)
 // (Physics/Collide/Agent/CompoundAgent/ShapeCollection/hkpShapeCollectionAgent.cpp): reserves one
@@ -183,12 +185,11 @@ public:
     hkpContactMgr *m_contactMgr;   // +0x8
 };
 
-extern "C" void fn_82CE6310(hkMemoryAllocator *alloc, void *array, int reqCapacity, int sizeElem);   // hkArrayUtil::_reserve
 
 struct hkArrayUtil_ {
     static HK_FORCE_INLINE void HK_CALL _reserve(hkMemoryAllocator &a, void *array, int reqCapacity, int sizeElem)
     {
-        fn_82CE6310(&a, array, reqCapacity, sizeElem);
+        hkArrayUtil::_reserve(a, array, reqCapacity, sizeElem);
     }
 };
 

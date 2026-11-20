@@ -1,6 +1,5 @@
 #include "havok/hkBase.h"
 
-extern "C" void fn_82CE63B0(hkMemoryAllocator *alloc, void *array, int elemSize); // hkArrayUtil::_reserveMore
 extern "C" void fn_82CE3F80(void);   // lock
 extern "C" void fn_82CE3FE8(void);   // unlock
 
@@ -23,7 +22,7 @@ public:
     HK_FORCE_INLINE void _pushBack(hkMemoryAllocator &alloc, const T &e)
     {
         if (this->m_size == this->getCapacity()) {
-            fn_82CE63B0(&alloc, this, sizeof(T));
+            hkArrayUtil::_reserveMore(alloc, this, sizeof(T));
         }
         pushBackUnchecked(e);
     }
@@ -59,7 +58,7 @@ extern "C" void fn_82DA6368(Owner_82DA6368 *self, hkReferencedObject *a, hkRefer
     Arr<Elem_82DA6368> *l = &self->list;
     hkMemoryAllocator &alloc = hkMemoryRouter::getInstance().heap();
     if (l->m_size == l->getCapacity()) {
-        fn_82CE63B0(&alloc, l, sizeof(Elem_82DA6368));
+        hkArrayUtil::_reserveMore(alloc, l, sizeof(Elem_82DA6368));
     }
     Elem_82DA6368 *p = l->m_data + l->m_size;
     l->m_size++;

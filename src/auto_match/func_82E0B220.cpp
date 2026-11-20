@@ -1,6 +1,5 @@
 #include "havok/hkBase.h"
 
-extern "C" void fn_82CE6310(hkMemoryAllocator *heap, void *array, int count, int size);
 
 template <typename T> static HK_FORCE_INLINE void FillValues(T *values, int count, const T &value)
 {
@@ -18,7 +17,7 @@ class Array_82E0B220 : public hkArrayBase<int>
         if (capacity < count) {
             int doubled = capacity * 2;
             int next = count < doubled ? doubled : count;
-            fn_82CE6310(&heap, this, next, sizeof(int));
+            hkArrayUtil::_reserve(heap, this, next, sizeof(int));
         }
     }
 

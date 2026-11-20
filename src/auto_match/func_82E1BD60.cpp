@@ -2,7 +2,6 @@
 // (its second word links the free list), else grow the array by one. Havok code: /O2.
 #include "havok/hkBase.h"
 
-extern "C" void fn_82CE63B0(hkMemoryAllocator *, void *, int);
 
 struct Slot_82E1BD60 {
     int value;
@@ -14,7 +13,7 @@ public:
     HK_FORCE_INLINE void expandOne()
     {
         hkMemoryAllocator &alloc = hkMemoryRouter::getInstance().heap();
-        if (m_size == getCapacity()) fn_82CE63B0(&alloc, this, sizeof(Slot_82E1BD60));
+        if (m_size == getCapacity()) hkArrayUtil::_reserveMore(alloc, this, sizeof(Slot_82E1BD60));
         m_size++;
     }
 };

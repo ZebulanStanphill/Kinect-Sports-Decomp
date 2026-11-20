@@ -149,13 +149,12 @@ public:
 // LocalInplaceArray<T, N> (Common/Base/Container/Array/hkArray.h): an hkArray whose first buffer is the
 // N elements that follow it (capacity N | DONT_DEALLOCATE_FLAG). setSize/reserve are hkArray's: the
 // allocator is fetched first, then the capacity is doubled or set to n through hkArrayUtil::_reserve
-// (fn_82CE6310, which keeps its fn_ name).
-extern "C" void fn_82CE6310(hkMemoryAllocator *alloc, void *array, int reqCapacity, int sizeElem);   // hkArrayUtil::_reserve
+// .
 
 struct hkArrayUtil_ {
     static HK_FORCE_INLINE void HK_CALL _reserve(hkMemoryAllocator &a, void *array, int reqCapacity, int sizeElem)
     {
-        fn_82CE6310(&a, array, reqCapacity, sizeElem);
+        hkArrayUtil::_reserve(a, array, reqCapacity, sizeElem);
     }
 };
 

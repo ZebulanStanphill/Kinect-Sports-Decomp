@@ -28,13 +28,12 @@ class hkgpMesh { public:
  char data[0x38]; IConvexOverlap *overlap;
 };
 extern "C" void fn_82D38870(void *,const hkAabbTreeData::hkAabbTreeAabb &,Query::Collector *);
-extern "C" void fn_82CE63B0(hkMemoryAllocator *,void *,int);
 // hkArrayUtil::constructWithCopy for POD elements: a loop over n copies.
 template <typename T> static HK_FORCE_INLINE void constructWithCopy(T *t, int n, const T &tcopy) { for (int i = 0; i < n; ++i) t[i] = tcopy; }
-// hkArrayBase<T>::_pushBack: reserve through hkArrayUtil::_reserveMore (fn_82CE63B0), then construct in place.
+// hkArrayBase<T>::_pushBack: reserve through hkArrayUtil::_reserveMore, then construct in place.
 class Output : public hkArrayBase<void *> { public: HK_FORCE_INLINE void push(void *const &v) {
  hkMemoryAllocator &alloc=hkMemoryRouter::getInstance().heap();
- if (m_size == getCapacity()) fn_82CE63B0(&alloc,this,sizeof(void *));
+ if (m_size == getCapacity()) hkArrayUtil::_reserveMore(alloc,this,sizeof(void *));
  constructWithCopy(m_data + m_size, 1, v);
  m_size++;
 } };

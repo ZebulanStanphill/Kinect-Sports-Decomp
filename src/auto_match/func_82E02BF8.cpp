@@ -100,9 +100,8 @@ struct hkxAttributeGroup {
 
 // hkArray assignment for element types with constructors
 // (hkArrayBase::_copyFromArray, inlined): reserve (hkArrayUtil::_reserve,
-// fn_82CE6310, keeps its fn_ name), destroy the surplus, assign the common
+// hkArrayUtil::_reserve, keeps its fn_ name), destroy the surplus, assign the common
 // part, copy-construct the rest.
-extern "C" void fn_82CE6310(hkMemoryAllocator *alloc, void *array, int reqCapacity, int sizeElem);   // hkArrayUtil::_reserve
 
 inline void *operator new(hk_size_t, void *p) { return p; }
 
@@ -139,7 +138,7 @@ HK_FORCE_INLINE void hkArrayCopyFrom(hkArray<T> &self, const hkArrayBase<T> &a)
         if (capacity < newSize) {
             int cap2 = 2 * capacity;
             int newCapacity = (newSize < cap2) ? cap2 : newSize;
-            fn_82CE6310(&alloc, &self, newCapacity, sizeof(T));
+            hkArrayUtil::_reserve(alloc, &self, newCapacity, sizeof(T));
         }
     }
     hkArrayUtilC::destruct(self.m_data + newSize, oldSize - newSize);

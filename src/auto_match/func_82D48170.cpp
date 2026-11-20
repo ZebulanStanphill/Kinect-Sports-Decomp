@@ -1,3 +1,5 @@
+#include "havok/hkArrayUtil.h"
+
 // hkpCompressedSampledHeightFieldShape::hkpCompressedSampledHeightFieldShape(const hkpSampledHeightFieldShape *)
 // (Physics/Collide/Shape/HeightField/CompressedSampledHeightField/hkpCompressedSampledHeightFieldShape.cpp), /O2 /QVMXReserve.
 // HK_REAL_MAX and -HK_REAL_MAX are literals (__real@7f7fffee, __real@ff7fffee); 1.0f / 65535.0f is a
@@ -11,7 +13,6 @@ typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
 } __vector4;
 
 extern "C" double __fsel(double a, double b, double c);
-extern "C" void fn_82CE6310(hkMemoryAllocator *alloc, void *array, int reqCapacity, int sizeElem);   // hkArrayUtil::_reserve
 
 class hkVector4 {
 public:
@@ -31,7 +32,7 @@ static HK_FORCE_INLINE void _reserve(hkArrayBase<T> &self, hkMemoryAllocator &al
     if (capacity < n) {
         int cap2 = 2 * capacity;
         int newSize = (n < cap2) ? cap2 : n;
-        fn_82CE6310(&alloc, &self, newSize, sizeof(T));
+        hkArrayUtil::_reserve(alloc, &self, newSize, sizeof(T));
     }
 }
 

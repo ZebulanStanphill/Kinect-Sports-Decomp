@@ -1,6 +1,5 @@
 #include "havok/hkBase.h"
 
-extern "C" void fn_82CE63B0(hkMemoryAllocator *alloc, void *array, int elemSize); // hkArrayUtil::_reserveMore
 
 typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
     float vector4_f32[4];
@@ -30,7 +29,7 @@ extern "C" void fn_82D9AFC0(Owner_82D9AFC0 *self, const hkVector4 &a, const hkVe
     hkArrayBase<Elem_82D9AFC0> *l = &self->list;
     hkMemoryAllocator &alloc = hkMemoryRouter::getInstance().heap();
     if (l->m_size == l->getCapacity()) {
-        fn_82CE63B0(&alloc, l, sizeof(Elem_82D9AFC0));
+        hkArrayUtil::_reserveMore(alloc, l, sizeof(Elem_82D9AFC0));
     }
     Elem_82D9AFC0 *p = l->m_data + l->m_size;
     l->m_size++;

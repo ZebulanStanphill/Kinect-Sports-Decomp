@@ -28,10 +28,9 @@ class hkgpMesh { public:
  char data[0x38]; IConvexOverlap *overlap;
 };
 extern "C" void fn_82D38870(void *,const hkAabbTreeData::hkAabbTreeAabb &,Query::Collector *);
-extern "C" void fn_82CE63B0(hkMemoryAllocator *,void *,int);
 static HK_FORCE_INLINE void push(hkArrayBase<void *> &a,void *v) {
  hkMemoryAllocator &alloc=hkMemoryRouter::getInstance().heap();
- if (a.m_size == a.getCapacity()) fn_82CE63B0(&alloc,&a,4);
+ if (a.m_size == a.getCapacity()) hkArrayUtil::_reserveMore(alloc,&a,4);
  a.m_data[a.m_size++]=v;
 }
 

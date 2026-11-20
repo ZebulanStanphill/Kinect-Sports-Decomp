@@ -1,5 +1,4 @@
 #include "havok/hkBase.h"
-extern "C" void fn_82CE63B0(hkMemoryAllocator *, void *, int);
 extern "C" void fn_82DAF6D0(void *, void *);
 
 template <typename T> static HK_FORCE_INLINE void constructWithCopy(T *t, int n, const T &tcopy)
@@ -15,7 +14,7 @@ class Output_82D914D8 : public hkArrayBase<void *>
     {
         hkMemoryAllocator &alloc = hkMemoryRouter::getInstance().heap();
         if (m_size == getCapacity())
-            fn_82CE63B0(&alloc, this, sizeof(void *));
+            hkArrayUtil::_reserveMore(alloc, this, sizeof(void *));
         constructWithCopy(m_data + m_size, 1, v);
         m_size++;
     }

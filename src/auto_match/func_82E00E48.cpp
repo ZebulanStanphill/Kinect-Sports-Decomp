@@ -63,7 +63,6 @@ public:
 extern "C" {
 void fn_82D9A420(class hkpPhantom *phantom, hkpPhantomOverlapListener *listener);   // hkpPhantom::removePhantomOverlapListener
 void fn_82D9A5F8(class hkpPhantom *phantom, hkpPhantomOverlapListener *listener);   // hkpPhantom::addPhantomOverlapListener
-void fn_82CE6310(hkMemoryAllocator *alloc, void *array, int reqElems, int elemSize);   // hkArrayUtil::_reserve
 }
 
 class hkpPhantom : public hkReferencedObject {
@@ -87,7 +86,7 @@ public:
         if (cap < n) {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            fn_82CE6310(&alloc, this, newSize, sizeof(T));
+            hkArrayUtil::_reserve(alloc, this, newSize, sizeof(T));
         }
         this->m_size = n;
     }

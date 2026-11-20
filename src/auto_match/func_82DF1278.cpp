@@ -6,7 +6,6 @@ typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float vec
 extern "C" __vector4 __vspltw(__vector4, unsigned int);
 extern "C" void __stvewx(__vector4, void *, int);
 
-extern "C" void fn_82CE63B0(hkMemoryAllocator *, void *, int);
 
 template <typename T> static HK_FORCE_INLINE void constructWithCopy(T *t, int n, const T &tcopy) { for (int i = 0; i < n; ++i) t[i] = tcopy; }
 
@@ -28,7 +27,7 @@ public:
     HK_FORCE_INLINE void push(Object_82DF1278 *const &v)
     {
         hkMemoryAllocator &alloc = hkMemoryRouter::getInstance().heap();
-        if (m_size == getCapacity()) fn_82CE63B0(&alloc, this, sizeof(Object_82DF1278 *));
+        if (m_size == getCapacity()) hkArrayUtil::_reserveMore(alloc, this, sizeof(Object_82DF1278 *));
         constructWithCopy(m_data + m_size, 1, v);
         m_size++;
     }

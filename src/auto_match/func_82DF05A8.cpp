@@ -112,7 +112,6 @@ extern "C" {
 void *fn_82DF06C0(hkpEntity *entity);                                // hkpEntity::getEntityListeners
 void fn_82D8A228(hkpEntity *entity, hkpEntityListener *listener);    // hkpEntity::removeEntityListener
 void fn_82D8A110(hkpEntity *entity, hkpEntityListener *listener);    // hkpEntity::addEntityListener
-int fn_82CE63B0(hkMemoryAllocator *alloc, void *array, int sizeElem); // hkArrayUtil::_reserveMore
 }
 
 // Havok's small array (Common/Base/Container/Array/hkSmallArray.h): T *m_data; hkUint16 m_size, m_capacityAndFlags.
@@ -169,7 +168,7 @@ public:
     {
         hkMemoryAllocator &alloc = hkContainerHeapAllocator::get(this);
         if (this->m_size == this->getCapacity())
-            fn_82CE63B0(&alloc, this, sizeof(T));
+            hkArrayUtil::_reserveMore(alloc, this, sizeof(T));
         construct(this->m_data + this->m_size, 1, t);
         this->m_size++;
     }

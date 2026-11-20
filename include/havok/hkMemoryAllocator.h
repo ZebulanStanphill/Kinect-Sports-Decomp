@@ -7,7 +7,7 @@
 //   +0x08 blockFree(void *p, int numBytes)     pure
 //   +0x0C bufAlloc(int &reqNumInOut, int elemSize)   fn_82CE6988: blockAlloc(n * elemSize)
 //   +0x10 bufFree(void *p, int num, int elemSize)    fn_82CE69A0: blockFree(p, num * elemSize)
-//   +0x14 bufRealloc(...)                             fn_82CE6A70
+//   +0x14 bufRealloc(void *p, int oldNum, int &reqNumInOut, int elemSize)   fn_82CE6A70
 // The parameter lists of slots 3-5 are read from the default implementations;
 // their names follow Havok 2010 but are not confirmed.
 #ifndef HAVOK_HKMEMORYALLOCATOR_H
@@ -21,6 +21,7 @@ public:
     virtual void blockFree(void *p, int numBytes) = 0;
     virtual void *bufAlloc(int &reqNumInOut, int elemSize);
     virtual void bufFree(void *p, int num, int elemSize);
+    virtual void *bufRealloc(void *p, int oldNum, int &reqNumInOut, int elemSize);
 };
 
 #endif

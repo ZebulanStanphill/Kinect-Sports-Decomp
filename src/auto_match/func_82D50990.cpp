@@ -1,3 +1,5 @@
+#include "havok/hkArrayUtil.h"
+
 #include "havok/hkpShape.h"
 typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
     float f[4]; unsigned int u[4];
@@ -18,7 +20,6 @@ public:
     char pad1c; hkBool m_useProjectionBasedHeight; char pad1e[2];
     hkVector4 m_intToFloatScale, m_floatToIntScale, m_floatToIntOffsetFloorCorrected, m_extents;
 };
-extern "C" void fn_82CE6310(hkMemoryAllocator *, void *, int, int);
 class hkpStorageSampledHeightFieldShape : public hkpSampledHeightFieldShape {
 public:
     HK_FORCE_INLINE hkpStorageSampledHeightFieldShape(const hkpSampledHeightFieldShape *src);
@@ -43,7 +44,7 @@ HK_FORCE_INLINE hkpStorageSampledHeightFieldShape::hkpStorageSampledHeightFieldS
     if (a.getCapacity() < n) {
         int cap;
         if(n < a.getCapacity() * 2) cap = a.getCapacity() * 2; else cap = n;
-        fn_82CE6310(&alloc, &a, cap, sizeof(float));
+        hkArrayUtil::_reserve(alloc, &a, cap, sizeof(float));
     }
     a.m_size = n;
     for (int z = 0; z < m_zRes; ++z) {

@@ -1,5 +1,5 @@
 #include "havok/hkBase.h"
-extern "C" { void fn_82CEDB38(void *,const char *); void fn_82CE63B0(hkMemoryAllocator *,void *,int); void fn_82CE75A8(void *,void *,void *); void fn_82CE7240(void *); }
+extern "C" { void fn_82CEDB38(void *,const char *); void fn_82CE75A8(void *,void *,void *); void fn_82CE7240(void *); }
 class Allocator { public:
  virtual void f0(); virtual void f1(); virtual void f2(); virtual void f3(); virtual void f4();
  virtual void f5(); virtual void f6(); virtual void f7(); virtual void f8(); virtual void f9();
@@ -27,7 +27,7 @@ public:
     HK_FORCE_INLINE void _pushBack(hkMemoryAllocator &alloc, const T &e)
     {
         if (this->m_size == this->getCapacity()) {
-            fn_82CE63B0(&alloc, this, sizeof(T));
+            hkArrayUtil::_reserveMore(alloc, this, sizeof(T));
         }
         pushBackUnchecked(e);
     }

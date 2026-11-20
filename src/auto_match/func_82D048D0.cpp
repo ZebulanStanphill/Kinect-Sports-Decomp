@@ -1,6 +1,5 @@
 #include "havok/hkBase.h"
 
-extern "C" void fn_82CE63B0(hkMemoryAllocator *alloc, void *array, int elemSize); // hkArrayUtil::_reserveMore
 
 // hkArrayUtil::constructWithCopy (POD version): a loop over n copies.
 template <typename T> static HK_FORCE_INLINE void constructWithCopy(T *p, int n, const T &tcopy)
@@ -22,7 +21,7 @@ template <typename T> class Array_82D048D0 : public hkArrayBase<T>
     HK_FORCE_INLINE void _pushBack(hkMemoryAllocator &alloc, const T &e)
     {
         if (this->m_size == this->getCapacity()) {
-            fn_82CE63B0(&alloc, this, sizeof(T));
+            hkArrayUtil::_reserveMore(alloc, this, sizeof(T));
         }
         pushBackUnchecked(e);
     }
