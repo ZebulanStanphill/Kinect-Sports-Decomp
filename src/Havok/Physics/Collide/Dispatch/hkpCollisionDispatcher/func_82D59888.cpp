@@ -31,7 +31,6 @@ void fn_82CEE578(hkErrStream *, void *buf, int bufSize); // hkErrStream::hkErrSt
 void fn_82CEE238(hkErrStream *, const hkStringBuf *); // operator<<(const hkStringBuf &)
 void fn_82CEDB38(hkErrStream *, const char *); // operator<<(const char *)
 void fn_82CED958(hkErrStream *); // ~hkErrStream
-int fn_82CFBB60(char *buf, int n, const char *fmt, ...); // hkString::snprintf
 }
 
 class hkErrStream {
@@ -74,7 +73,7 @@ extern "C" void fn_82D59888(hkpCollisionDispatcher *self)
                     const char *name = fn_82D6F1D8(b);
                     const char *typeA = fn_82D6F1D8(e->m_typeA);
                     const char *typeB = fn_82D6F1D8(e->m_typeB);
-                    fn_82CFBB60(text, 255, "vs %30s <%i:%s-%s>", name, e->m_priority, typeA, typeB);
+                    hkString::snprintf(text, 255, "vs %30s <%i:%s-%s>", name, e->m_priority, typeA, typeB);
                     hkErrStream ostr(buffer, 512);
                     fn_82CEDB38(&ostr, text);
                     lbl_8323B464->message(0, -1, buffer, ".\\Dispatch\\hkpCollisionDispatcher.cpp", 0x231);
@@ -95,7 +94,7 @@ extern "C" void fn_82D59888(hkpCollisionDispatcher *self)
                     const char *name = fn_82D6F1D8(b);
                     const char *typeA = fn_82D6F1D8(e->m_typeA);
                     const char *typeB = fn_82D6F1D8(e->m_typeB);
-                    fn_82CFBB60(text, 255, "vs %30s <%i:%s-%s>", name, e->m_priority, typeA, typeB);
+                    hkString::snprintf(text, 255, "vs %30s <%i:%s-%s>", name, e->m_priority, typeA, typeB);
                     hkErrStream ostr(buffer, 512);
                     fn_82CEDB38(&ostr, text);
                     lbl_8323B464->message(0, -1, buffer, ".\\Dispatch\\hkpCollisionDispatcher.cpp", 0x248);

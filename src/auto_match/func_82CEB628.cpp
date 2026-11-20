@@ -10,11 +10,11 @@
 // a local (base first in the add); the flags are updated before the subtype is
 // cleared (otherwise the member copy's destination address is folded to one addi).
 #include "havok/hkClass.h"
+#include "havok/hkString.h"
 
 #include "havok/hkOArchive.h"
 
 extern "C" {
-int fn_82CFBE40(const char *s);                                     // hkString::strLen
 }
 
 void hkClass::writeSignature(hkStreamWriter *w) const
@@ -48,7 +48,7 @@ void hkClass::writeSignature(hkStreamWriter *w) const
         }
         if (mem.m_enum)
             member.getEnumClass().writeSignature(w);
-        oa.writeRaw(mem.m_name, fn_82CFBE40(mem.m_name));
+        oa.writeRaw(mem.m_name, hkString::strLen(mem.m_name));
         oa.write16(mem.m_type);
         oa.write16(mem.m_subtype);
         if (extraSubtype)

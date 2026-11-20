@@ -1,17 +1,17 @@
 #include "havok/hkArrayUtil.h"
+#include "havok/hkString.h"
 
 typedef struct { char *s; int len; unsigned cap; } Str_82D04F70;
 typedef struct { int pad[3]; void *alloc; } Ctx_82D04F70;
 extern "C" Ctx_82D04F70 *fn_82CE5410();
 extern "C" int fn_82CF68D0(char *, const char *, int);
-extern "C" int fn_82CFBE40(const char *);
 
 extern "C" void fn_82D04F70(Str_82D04F70 *p, const char *src, int n)
 {
   int base, end, newlen, cap;
   void *a;
   if (n < 0) {
-    n = fn_82CFBE40(src);
+    n = hkString::strLen(src);
   }
   base = p->len - 1;
   end = base + n;

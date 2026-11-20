@@ -1,6 +1,6 @@
 #include "havok/hkClass.h"
+#include "havok/hkString.h"
 
-extern "C" int fn_82CFBBF0(const char *a, const char *b);  // hkString::strCmp
 
 // hkClass::getMemberIndexByName(const char *) const, kept on its fn_ name: the first member
 // (inherited ones included) whose name equals the key.
@@ -30,7 +30,7 @@ extern "C" int fn_82CEB070(const hkClass *self, const char *key)
     } while (s != 0);
     e = self->m_declaredMembers;
 found:
-    if (fn_82CFBBF0(e->m_name, key) == 0) {
+    if (hkString::strCmp(e->m_name, key) == 0) {
       return i;
     }
   }

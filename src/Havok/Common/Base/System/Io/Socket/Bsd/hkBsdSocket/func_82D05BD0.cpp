@@ -23,7 +23,6 @@ struct hkErrStream {
 };
 
 extern "C" {
-void fn_82CFC060(void *dst, int value, int size);             // hkString::memSet
 unsigned int inet_addr(const char *cp);
 int socket(int af, int type, int protocol);
 int connect(int s, const sockaddr_in *name, int namelen);
@@ -51,7 +50,7 @@ static HK_FORCE_INLINE hkBool isDigit(int c)
 extern "C" int fn_82D05BD0(hkBsdSocket *self, const char *servername, int port)
 {
     sockaddr_in server;
-    fn_82CFC060(&server, 0, sizeof(server));
+    hkString::memSet(&server, 0, sizeof(server));
     server.sin_family = 2; // AF_INET
     server.sin_port = (unsigned short)port;
     if (isDigit(servername[0])) {

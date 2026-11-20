@@ -3,11 +3,7 @@
 // gets its own stack slot and destroys its string before returning; plain C locals share one slot.
 #include "havok/hkBase.h"
 extern "C" {
-int fn_82CFBC20(const char *, const char *, int);
-int fn_82CFBE40(const char *);
-const char *fn_82CFBEA8(const char *, int);
 int fn_82CFD9A0(const char *);
-int fn_82CFBE68(const char *, int);
 }
 struct Str;
 extern "C" void fn_82D052F0(Str *, const char *, int);
@@ -19,18 +15,18 @@ struct Str {
  char *m_data; int m_size; int m_cap; char m_storage[36];
 };
 extern "C" int fn_82CFDB58(const char *s) {
- if (fn_82CFBC20(s, "hkArray<", 8) == 0) {
-  Str t(s + 8, fn_82CFBE40(s + 8) - 1);
+ if (hkString::strNcmp(s, "hkArray<", 8) == 0) {
+  Str t(s + 8, hkString::strLen(s + 8) - 1);
   return fn_82CFD9A0(t.cString());
- } else if (fn_82CFBC20(s, "hkSimpleArray<", 14) == 0) {
-  Str t(s + 14, fn_82CFBE40(s + 14) - 1);
+ } else if (hkString::strNcmp(s, "hkSimpleArray<", 14) == 0) {
+  Str t(s + 14, hkString::strLen(s + 14) - 1);
   return fn_82CFD9A0(t.cString());
  } else {
-  const char *open = fn_82CFBEA8(s, '[');
+  const char *open = hkString::strChr(s, '[');
   if (open) {
-   const char *close = fn_82CFBEA8(s, ']');
+   const char *close = hkString::strChr(s, ']');
    Str t(open + 1, (int)(close - open) - 1);
-   return fn_82CFBE68(t.cString(), 0);
+   return hkString::atoi(t.cString(), 0);
   }
  }
  return 0;

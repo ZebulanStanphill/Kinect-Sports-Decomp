@@ -1,19 +1,37 @@
-// hkString (Common/Base/Container/String/hkString.h): only the static memory
-// helpers, which are out of line in the game and keep their fn_ names
-// (Matching C units call fn_82CFC050).
+// hkString (Common/Base/Container/String/hkString.h): the static string and memory
+// helpers, out of line in the game (hkString.cpp, 0x82CFBB60-0x82CFC0A8).
+// memCpy (fn_82CFC050) keeps its fn_ name: its code (a branch to memcpy) lies in an
+// assembly gap with no configured unit, so callers reach it through the inline forwarder.
 #ifndef HAVOK_HKSTRING_H
 #define HAVOK_HKSTRING_H
+
 #include "havok/hkBaseTypes.h"
 
-extern "C" {
-void fn_82CFC050(void *dst, const void *src, int n);   // hkString::memCpy
-void fn_82CFC060(void *dst, int c, int n);              // hkString::memSet
-}
+extern "C" void fn_82CFC050(void *dst, const void *src, int n);
 
 class hkString {
 public:
-    static HK_FORCE_INLINE void HK_CALL memCpy(void *dst, const void *src, int n) { fn_82CFC050(dst, src, n); }
-    static HK_FORCE_INLINE void HK_CALL memSet(void *dst, int c, int n) { fn_82CFC060(dst, c, n); }
+    static int HK_CALL snprintf(char *buf, int count, const char *format, ...);
+    static int HK_CALL strCmp(const char *lhs, const char *rhs);
+    static int HK_CALL strNcmp(const char *lhs, const char *rhs, int n);
+    static void HK_CALL strCpy(char *dst, const char *src);
+    static void HK_CALL strNcpy(char *dst, const char *src, int n);
+    static int HK_CALL strLen(const char *str);
+    static int HK_CALL atoi(const char *str, int base = 0);
+    static hkReal HK_CALL atof(const char *str);
+    static const char *HK_CALL strStr(const char *str, const char *needle);
+    static const char *HK_CALL strChr(const char *str, int ch);
+    static const char *HK_CALL strRchr(const char *str, int ch);
+    static char *HK_CALL strLwr(char *str);
+    static char *HK_CALL strUpr(char *str);
+
+    static HK_FORCE_INLINE void HK_CALL memCpy(void *dst, const void *src, int n)
+    {
+        fn_82CFC050(dst, src, n);
+    }
+    static void HK_CALL memMove(void *dst, const void *src, int n);
+    static void HK_CALL memSet(void *dst, int ch, int n);
+    static int HK_CALL memCmp(const void *lhs, const void *rhs, int n);
 };
 
 #endif
