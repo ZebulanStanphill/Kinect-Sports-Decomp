@@ -1,7 +1,10 @@
-extern int fn_82CFBC28();
+#include "havok/hkString.h"
+
+extern "C" {
 
 
-unsigned __int64 fn_82E08B58(int param_1,unsigned __int64 param_2,unsigned int *param_3)
+
+unsigned __int64 fn_82E08B58(int param_1,const char *param_2,unsigned int *param_3)
 
 {
   int iVar1;
@@ -12,7 +15,7 @@ unsigned __int64 fn_82E08B58(int param_1,unsigned __int64 param_2,unsigned int *
   if (0 < *(int *)(param_1 + 0xc)) {
     iVar3 = 0;
     do {
-      iVar1 = fn_82CFBC28(param_2,*(unsigned int *)(iVar3 + *(int *)(param_1 + 8) + 4) & 0xfffffffe);
+      iVar1 = hkString::strCasecmp((const char *)(param_2), (const char *)(*(unsigned int *)(iVar3 + *(int *)(param_1 + 8) + 4) & 0xfffffffe));
       if (iVar1 == 0) {
         *param_3 = *(unsigned int *)(iVar2 * 8 + *(int *)(param_1 + 8));
         return 0;
@@ -24,3 +27,4 @@ unsigned __int64 fn_82E08B58(int param_1,unsigned __int64 param_2,unsigned int *
   return 1;
 }
 
+}

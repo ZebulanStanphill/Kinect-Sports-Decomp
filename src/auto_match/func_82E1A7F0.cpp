@@ -1,12 +1,11 @@
 #include "havok/hkMap.h"
+#include "havok/hkString.h"
 
 typedef hkCachedHashMap<hkStringMapOperations> StringHashMap;
 
-extern "C" void fn_82CFBF28(void *, void *);
-
 static void release(void *v)
 {
-    fn_82CFBF28(v, &hkMemoryRouter::getInstance().heap());
+    hkString::strFree(static_cast<char *>(v), hkMemoryRouter::getInstance().heap());
 }
 
 extern "C" void fn_82E1A7F0(StringHashMap *map)

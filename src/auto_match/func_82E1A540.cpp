@@ -10,13 +10,10 @@ struct Entry_82E1A540 {
     int value;
 };
 
-extern "C" int fn_82CFBEB8(int name, hkMemoryAllocator *alloc);
 extern "C" void fn_82D000A0(void *map, int key, int v);
 extern "C" void fn_82D00388(void *map, Flag_82E1A540 flag);
 
 template <typename T> static HK_FORCE_INLINE void constructWithCopy(T *t, int n, const T &tcopy) { for (int i = 0; i < n; ++i) t[i] = tcopy; }
-
-static HK_FORCE_INLINE int strDup(int name, hkMemoryAllocator &alloc) { return fn_82CFBEB8(name, &alloc); }
 
 class Entries_82E1A540 : public hkArrayBase<Entry_82E1A540> {
 public:
@@ -51,7 +48,7 @@ extern "C" void fn_82E1A540(Obj_82E1A540 *self, int key, int name)
     int value;
     hkBool valid = map->isValid(it);
     if (!valid) {
-        value = strDup(name, hkMemoryRouter::getInstance().heap());
+        value = reinterpret_cast<int>(hkString::strDup(reinterpret_cast<const char *>(name), hkMemoryRouter::getInstance().heap()));
         fn_82D000A0(map, value, 0);
     } else {
         value = map->getKey(it);

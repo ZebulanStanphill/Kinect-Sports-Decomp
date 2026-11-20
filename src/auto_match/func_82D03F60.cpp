@@ -1,9 +1,9 @@
 #include "havok/hkArrayUtil.h"
+#include "havok/hkString.h"
 
-extern "C" unsigned int fn_82CFBEB8(unsigned __int64, int);
 
 
-extern "C" void fn_82D03F60(int *param_1,unsigned __int64 param_2,unsigned int param_3,unsigned int param_4)
+extern "C" void fn_82D03F60(int *param_1,const char *param_2,unsigned int param_3,unsigned int param_4)
 
 {
   int iVar1;
@@ -16,7 +16,7 @@ extern "C" void fn_82D03F60(int *param_1,unsigned __int64 param_2,unsigned int p
   iVar1 = param_1[1];
   param_1[1] = iVar1 + 1;
   puVar3 = (unsigned int *)(iVar1 * 0xc + *param_1);
-  uVar2 = fn_82CFBEB8(param_2,param_1[3]);
+  uVar2 = reinterpret_cast<unsigned int>(hkString::strDup(param_2, *reinterpret_cast<hkMemoryAllocator *>(param_1[3])));
   *puVar3 = uVar2;
   puVar3[2] = param_3;
   puVar3[1] = param_4;
