@@ -1,86 +1,65 @@
-typedef unsigned char bool;
-extern int fn_82BD51F0();
-extern int fn_82BD6260();
-extern int fn_82BDC130();
-extern unsigned int lbl_821AAD20;
-extern unsigned __int64 storeWordConditionalIndexed();
+long _InterlockedCompareExchange(long volatile *dest, long exchange, long comparand);
 
+typedef struct Item_82BD6990 Item_82BD6990;
 
-void fn_82BD6990(__int64 param_1)
+typedef struct ItemVtbl_82BD6990 {
+    void *slots0[3];
+    void (*Release)(Item_82BD6990 *self); /* 0xc */
+} ItemVtbl_82BD6990;
 
+struct Item_82BD6990 {
+    ItemVtbl_82BD6990 *vt;
+};
+
+typedef struct Chat_82BD6990 {
+    char pad0[4];
+    int closed;              /* 0x4 */
+    void *engine;            /* 0x8 */
+    void *voice;             /* 0xc */
+    Item_82BD6990 *items[4]; /* 0x10 */
+    char pad20[4];
+    int active[2];          /* 0x24 */
+    unsigned int itemCount; /* 0x2c */
+    char pad30[0x24];
+    volatile long state; /* 0x54 */
+    char pad58[0x44];
+    void *manager;         /* 0x9c */
+    char overlapped[0x1c]; /* 0xa0 */
+    char padbc[8];
+    float level; /* 0xc4 */
+} Chat_82BD6990;
+
+extern unsigned int XMsgCancelIORequest(void *overlapped, int wait);
+extern unsigned int XamVoiceClose(void *voice);
+extern void fn_82BDC130(void *engine);
+extern void fn_82BD51F0(void *manager, Chat_82BD6990 *chat);
+extern void fn_82BD6260(void *manager);
+
+void fn_82BD6990(Chat_82BD6990 *self)
 {
-  unsigned int uVar1;
-  int iVar2;
-  unsigned int uVar3;
-  __int64 lVar4;
-  unsigned int *puVar5;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  lVar4 = param_1 + 0x54;
-  XMsgCancelIORequest(param_1 + 0xa0,1);
-  iVar2 = (int)param_1;
-  uVar3 = *(unsigned int *)(iVar2 + 0x54);
-  while (uVar3 != 0) {
-    do {
-      puVar5 = (unsigned int *)lVar4;
-      uVar3 = *puVar5;
-      if (uVar3 != 2) {
-        if (in_RESERVE != '\0') {
-          uVar1 = storeWordConditionalIndexed((unsigned __int64)uVar3,0,lVar4);
-          *puVar5 = uVar1;
-          in_cr0 = 2;
-        }
-        break;
-      }
-      if (in_RESERVE != '\0') {
-        uVar1 = storeWordConditionalIndexed(3,0,lVar4);
-        *puVar5 = uVar1;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-    if (uVar3 == 2) goto LAB_82bd6a3c;
-    do {
-      if (*puVar5 != 1) {
-        if (in_RESERVE != '\0') {
-          uVar3 = storeWordConditionalIndexed((unsigned __int64)*puVar5,0,lVar4);
-          *puVar5 = uVar3;
-          in_cr0 = 2;
-        }
-        break;
-      }
-      if (in_RESERVE != '\0') {
-        uVar3 = storeWordConditionalIndexed(0,0,lVar4);
-        *puVar5 = uVar3;
-        in_cr0 = 2;
-      }
-    } while (!(bool)(in_cr0 >> 1 & 1));
-    uVar3 = *puVar5;
-  }
-LAB_82bd6a48:
-  if (*(int *)(iVar2 + 0xc) != 0) {
-    XamVoiceClose();
-    *(unsigned int *)(iVar2 + 0xc) = 0;
-  }
-  fn_82BDC130(*(unsigned int *)(iVar2 + 8));
-  *(unsigned int *)(iVar2 + 0xc4) = lbl_821AAD20;
-  fn_82BD51F0(*(unsigned int *)(iVar2 + 0x9c),param_1);
-  *(unsigned int *)(iVar2 + 4) = 1;
-  fn_82BD6260(*(unsigned int *)(iVar2 + 0x9c));
-  uVar3 = 0;
-  if (*(int *)(iVar2 + 0x2c) != 0) {
-    param_1 = param_1 + 0x20;
-    do {
-      (**(int (***)())(**(int **)((int)param_1 + -0x10) + 0xc))();
-      uVar3 = uVar3 + 1;
-      param_1 = param_1 + 4;
-      *(unsigned int *)param_1 = 0;
-    } while (uVar3 < *(unsigned int *)(iVar2 + 0x2c));
-  }
-  return;
-LAB_82bd6a3c:
-  do {
-  } while (*puVar5 != 0);
-  goto LAB_82bd6a48;
-}
+    volatile long *state = &self->state;
+    unsigned int i;
 
+    XMsgCancelIORequest(self->overlapped, 1);
+    while (*state != 0) {
+        if ((unsigned long)_InterlockedCompareExchange(state, 3, 2) == 2) {
+            while (*state != 0) {
+            }
+            break;
+        }
+        _InterlockedCompareExchange(state, 0, 1);
+    }
+    if (self->voice != 0) {
+        XamVoiceClose(self->voice);
+        self->voice = 0;
+    }
+    fn_82BDC130(self->engine);
+    self->level = 0.0f;
+    fn_82BD51F0(self->manager, self);
+    self->closed = 1;
+    fn_82BD6260(self->manager);
+    for (i = 0; i < self->itemCount; i++) {
+        self->items[i]->vt->Release(self->items[i]);
+        self->active[i] = 0;
+    }
+}

@@ -1,54 +1,38 @@
-extern int fn_829E99A0();
-extern int fn_829E9EA0();
+typedef struct Elem_829EA3B0 {
+    int v[3];
+} Elem_829EA3B0;
 
+typedef struct Array_829EA3B0 {
+    int unknown0;              /* 0x0 */
+    Elem_829EA3B0 *begin;      /* 0x4 */
+    Elem_829EA3B0 *end;        /* 0x8 */
+    Elem_829EA3B0 *storageEnd; /* 0xc */
+} Array_829EA3B0;
 
-unsigned __int64 fn_829EA3B0(int param_1,unsigned __int64 param_2)
+#define GROW_BY(capacity) ((capacity) == 0 ? 4 : ((capacity) + 7) >> 3)
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
 
+extern unsigned char fn_829E9EA0(Array_829EA3B0 *array, unsigned int count);
+extern Elem_829EA3B0 *fn_829E99A0(Array_829EA3B0 *array, Elem_829EA3B0 *first, Elem_829EA3B0 *last);
+
+int fn_829EA3B0(Array_829EA3B0 *array, unsigned int count)
 {
-  char cVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  __int64 lVar4;
-  unsigned int uVar5;
-  
-  uVar5 = *(unsigned int *)(param_1 + 4);
-  uVar2 = (unsigned __int64)(unsigned int)((int)(*(int *)(param_1 + 8) - uVar5) / 0xc);
-  if (uVar2 < (param_2 & 0xffffffff)) {
-    uVar5 = (int)(*(int *)(param_1 + 0xc) - uVar5) / 0xc;
-    lVar4 = (__int64)(int)uVar5;
-    if ((unsigned __int64)uVar5 < (param_2 & 0xffffffff)) {
-      if (uVar5 == 0) {
-        uVar2 = 4;
-      }
-      else {
-        uVar2 = (lVar4 + 7U & 0xffffffff) >> 3;
-      }
-      uVar3 = param_2 - lVar4;
-      if ((uVar3 & 0xffffffff) <= uVar2) {
-        if (uVar5 == 0) {
-          uVar3 = 4;
-        }
-        else {
-          uVar3 = (lVar4 + 7U & 0xffffffff) >> 3;
-        }
-      }
-      cVar1 = fn_829E9EA0(param_1,uVar3);
-      if (cVar1 == '\0') {
-        return 0xffffffff8007000e;
-      }
-    }
-    uVar5 = *(unsigned int *)(param_1 + 8);
-    if ((unsigned __int64)uVar5 != ((unsigned __int64)*(unsigned int *)(param_1 + 4) + param_2 * 0xc & 0xffffffff)) {
-      do {
-        uVar5 = uVar5 + 0xc;
-      } while ((unsigned __int64)uVar5 != ((unsigned __int64)*(unsigned int *)(param_1 + 4) + param_2 * 0xc & 0xffffffff))
-      ;
-    }
-    *(unsigned int *)(param_1 + 8) = uVar5;
-  }
-  else if ((param_2 & 0xffffffff) < uVar2) {
-    fn_829E99A0(param_1,param_2 * 0xc + (unsigned __int64)uVar5);
-  }
-  return 0;
-}
+    unsigned int size = array->end - array->begin;
 
+    if (count > size) {
+        unsigned int capacity = array->storageEnd - array->begin;
+        Elem_829EA3B0 *p;
+
+        if (count > capacity) {
+            if (!fn_829E9EA0(array, MAX(count - capacity, GROW_BY(capacity)))) {
+                return 0x8007000E;
+            }
+        }
+        for (p = array->end; p != array->begin + count; p++) {
+        }
+        array->end = p;
+    } else if (count < size) {
+        fn_829E99A0(array, array->begin + count, array->end);
+    }
+    return 0;
+}

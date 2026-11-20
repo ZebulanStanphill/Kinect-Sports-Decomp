@@ -1,79 +1,65 @@
-typedef unsigned char bool;
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_80;
-extern int fn_8280A5D8();
-extern int fn_82810240();
-extern int fn_82810280();
-extern int fn_82F6A544();
-extern int fn_82F6A590();
-extern unsigned int lbl_820069B4;
-extern unsigned int lbl_8201DCBC;
-extern unsigned int lbl_821AAD20;
-extern unsigned int lbl_831F13C0;
+typedef struct Vec3_827EE1F8 {
+    float x;
+    float y;
+    float z;
+} Vec3_827EE1F8;
 
+extern int lbl_831F13C0;
+extern float lbl_820069B4;
+extern float lbl_8201DCBC;
+extern void fn_82810240(const Vec3_827EE1F8 *a, const Vec3_827EE1F8 *b, Vec3_827EE1F8 *out);
+extern float fn_82810280(const Vec3_827EE1F8 *a, const Vec3_827EE1F8 *b);
+extern float fn_8280A5D8(float value);
 
-void fn_827EE1F8(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5,float *param_6)
-
+int fn_827EE1F8(const Vec3_827EE1F8 *origin, const Vec3_827EE1F8 *direction, const Vec3_827EE1F8 *edge1,
+                const Vec3_827EE1F8 *edge2, float maxT, float *hitT)
 {
-  unsigned __int64 uVar1;
-  bool bVar2;
-  double extraout_f1;
-  double dVar3;
-  double dVar4;
-  double dVar5;
-  double dVar6;
-  double dVar7;
-  double dVar8;
-  unsigned char auStack_80 [16];
-  unsigned char auStack_70 [112];
-  
-  uVar1 = fn_82F6A544();
-  dVar6 = extraout_f1;
-  fn_82810240(param_4,param_3,auStack_70);
-  dVar3 = (double)fn_82810280(param_2,auStack_70);
-  dVar7 = (double)lbl_821AAD20;
-  dVar8 = (double)(float)(dVar3 * dVar7);
-  if (dVar7 <= dVar3) {
-    if ((((double)lbl_820069B4 <= dVar3) &&
-        (dVar4 = (double)fn_82810280(uVar1,auStack_70), dVar8 <= dVar4)) && (dVar4 <= dVar3)) {
-      fn_82810240(uVar1,param_2,auStack_80);
-      dVar5 = (double)fn_82810280(param_4,auStack_80);
-      if ((dVar8 <= dVar5) && ((double)(float)(dVar5 + dVar4) <= dVar3)) {
-        dVar8 = (double)fn_82810280(param_3,auStack_80);
-        if (lbl_831F13C0 == 0) {
-          if (dVar8 <= (double)(float)(dVar3 * dVar6)) goto LAB_827ee3a8;
-        }
-        else if (dVar8 <= (double)(float)(dVar3 * dVar6)) {
-          bVar2 = dVar8 < dVar7;
-          goto LAB_827ee3a4;
-        }
-      }
-    }
-  }
-  else if (((dVar3 <= (double)lbl_8201DCBC) &&
-           (dVar4 = (double)fn_82810280(uVar1,auStack_70), dVar4 <= dVar8)) && (dVar3 <= dVar4)) {
-    fn_82810240(uVar1,param_2,auStack_80);
-    dVar5 = (double)fn_82810280(param_4,auStack_80);
-    if ((dVar5 <= dVar8) && (dVar3 <= (double)(float)(dVar5 + dVar4))) {
-      dVar8 = (double)fn_82810280(param_3,auStack_80);
-      if (lbl_831F13C0 == 0) {
-        bVar2 = dVar8 < (double)(float)(dVar3 * dVar6);
-LAB_827ee3a4:
-        if (!bVar2) {
-LAB_827ee3a8:
-          dVar6 = (double)fn_8280A5D8(dVar3);
-          *param_6 = (float)(dVar6 * dVar8);
-          uVar1 = 1;
-          goto LAB_827ee2f8;
-        }
-      }
-      else if (((double)(float)(dVar3 * dVar6) <= dVar8) && (dVar8 <= dVar7)) goto LAB_827ee3a8;
-    }
-  }
-  uVar1 = 0;
-LAB_827ee2f8:
-  fn_82F6A590(uVar1);
-  return;
-}
+    Vec3_827EE1F8 normal;
+    Vec3_827EE1F8 cross;
+    float det;
+    float tolerance;
+    float u;
+    float v;
+    float t;
 
+    fn_82810240(edge2, edge1, &normal);
+    det = fn_82810280(direction, &normal);
+    tolerance = det * 0.0f;
+    if (det < 0.0f) {
+        if (det > lbl_8201DCBC) {
+            return 0;
+        }
+        u = fn_82810280(origin, &normal);
+        if (u > tolerance || u < det) {
+            return 0;
+        }
+        fn_82810240(origin, direction, &cross);
+        v = fn_82810280(edge2, &cross);
+        if (v > tolerance || v + u < det) {
+            return 0;
+        }
+        t = fn_82810280(edge1, &cross);
+        if (lbl_831F13C0 == 0 ? t < det * maxT : (t < det * maxT || t > 0.0f)) {
+            return 0;
+        }
+    } else {
+        if (det < lbl_820069B4) {
+            return 0;
+        }
+        u = fn_82810280(origin, &normal);
+        if (u < tolerance || u > det) {
+            return 0;
+        }
+        fn_82810240(origin, direction, &cross);
+        v = fn_82810280(edge2, &cross);
+        if (v < tolerance || v + u > det) {
+            return 0;
+        }
+        t = fn_82810280(edge1, &cross);
+        if (lbl_831F13C0 == 0 ? t > det * maxT : (t > det * maxT || t < 0.0f)) {
+            return 0;
+        }
+    }
+    *hitT = fn_8280A5D8(det) * t;
+    return 1;
+}

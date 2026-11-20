@@ -1,48 +1,17 @@
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_82021544;
+#include <math.h>
 
-
-void fn_82FE5AE0(double param_1,float *param_2,unsigned __int64 param_3,int param_4)
-
+void fn_82FE5AE0(float *samples, float gain, int count)
 {
-  unsigned int uVar2;
-  __int64 lVar1;
-  float *pfVar3;
-  float *pfVar4;
-  double dVar5;
-  
-  dVar5 = (double)lbl_82002AE0;
-  if (dVar5 < param_1) {
-    param_1 = dVar5;
-  }
-  if (ABS((float)(param_1 - dVar5)) <= lbl_82021544) {
-    return;
-  }
-  pfVar3 = param_2 + param_4;
-  if (pfVar3 <= param_2) {
-    return;
-  }
-  uVar2 = (int)pfVar3 + (3 - (int)param_2);
-  if (3 < (int)(((int)uVar2 >> 2) + (unsigned int)((int)uVar2 < 0 && (uVar2 & 3) != 0))) {
-    do {
-      *param_2 = (float)((double)*param_2 * param_1);
-      param_2[1] = (float)((double)param_2[1] * param_1);
-      param_2[2] = (float)((double)param_2[2] * param_1);
-      param_2[3] = (float)((double)param_2[3] * param_1);
-      param_2 = param_2 + 4;
-    } while ((int)param_2 < (int)(pfVar3 + -3));
-  }
-  if (pfVar3 <= param_2) {
-    return;
-  }
-  pfVar4 = param_2 + -1;
-  lVar1 = (unsigned __int64)((unsigned int)((int)pfVar3 + (-1 - (int)param_2)) >> 2) + 1;
-  do {
-    pfVar3 = pfVar4 + 1;
-    pfVar4 = pfVar4 + 1;
-    *pfVar4 = (float)((double)*pfVar3 * param_1);
-    lVar1 = lVar1 + -1;
-  } while (lVar1 != 0);
-  return;
-}
+    float *end;
 
+    if (gain > 1.0f) {
+        gain = 1.0f;
+    }
+    if (fabsf(gain - 1.0f) <= 0.01f) {
+        return;
+    }
+    end = samples + count;
+    for (; samples < end; samples++) {
+        *samples = *samples * gain;
+    }
+}

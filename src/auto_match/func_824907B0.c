@@ -1,65 +1,110 @@
-extern int fn_8229EBD8();
-extern int fn_8248FAB0();
-extern int fn_8265C9E0();
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int lbl_8329618C;
+typedef struct Device_824907B0 {
+    char pad0[0x820];
+    float speed; /* 0x820 */
+} Device_824907B0;
 
+typedef struct Node_824907B0 {
+    char pad0[4];
+    Device_824907B0 *device; /* 0x4 */
+} Node_824907B0;
 
-void fn_824907B0(unsigned int *param_1)
+typedef struct Globals_824907B0 {
+    char pad0[0xec];
+    Node_824907B0 *node; /* 0xec */
+} Globals_824907B0;
 
+typedef struct Clock_824907B0 Clock_824907B0;
+typedef struct Player_824907B0 Player_824907B0;
+
+typedef struct ClockVtbl_824907B0 {
+    void *slot0;
+    void (*attach)(Clock_824907B0 *self, Player_824907B0 *player); /* 0x4 */
+    void (*start)(Clock_824907B0 *self, Player_824907B0 *player);  /* 0x8 */
+} ClockVtbl_824907B0;
+
+struct Clock_824907B0 {
+    ClockVtbl_824907B0 *vtbl; /* 0x0 */
+    char pad4[0x28];
+    float speed; /* 0x2c */
+    char pad30[0x4];
+    unsigned int minFrames; /* 0x34 */
+};
+
+typedef struct Listener_824907B0 Listener_824907B0;
+
+typedef struct ListenerVtbl_824907B0 {
+    void *slot0;
+    void (*reset)(Listener_824907B0 *self, int frame); /* 0x4 */
+} ListenerVtbl_824907B0;
+
+struct Listener_824907B0 {
+    ListenerVtbl_824907B0 *vtbl;
+};
+
+struct Player_824907B0 {
+    int frameCount;              /* 0x0 */
+    unsigned int *defaultFrames; /* 0x4 */
+    char pad8[0xc];
+    unsigned int frames; /* 0x14 */
+    char pad18[0x4];
+    Clock_824907B0 *clock;              /* 0x1c */
+    Listener_824907B0 **listenersBegin; /* 0x20 */
+    Listener_824907B0 **listenersEnd;   /* 0x24 */
+    char pad28[0x10];
+    float time; /* 0x38 */
+    char pad3c[0x4];
+    int playing; /* 0x40 */
+    char pad44[0x10];
+    float speed;            /* 0x54 */
+    unsigned int alignment; /* 0x58 */
+    void *timeline;         /* 0x5c */
+};
+
+extern Globals_824907B0 lbl_832960A0;
+extern void *fn_8265C9E0(unsigned int size);
+extern void *fn_8229EBD8(void *memory);
+extern void fn_8248FAB0(Clock_824907B0 *clock, Player_824907B0 *player);
+
+void fn_824907B0(Player_824907B0 *self)
 {
-  int *piVar1;
-  unsigned int *puVar2;
-  int iVar3;
-  unsigned int uVar4;
-  unsigned int *puVar5;
-  
-  iVar3 = fn_8265C9E0(0x18);
-  if (iVar3 == 0) {
-    uVar4 = 0;
-  }
-  else {
-    uVar4 = fn_8229EBD8();
-  }
-  param_1[0x17] = uVar4;
-  piVar1 = (int *)param_1[7];
-  param_1[0x10] = 1;
-  param_1[0xe] = ltcg_pool_0_0f;
-  if (piVar1 == (int *)0x0) {
-    uVar4 = *(unsigned int *)param_1[1];
-  }
-  else {
-    (**(int (***)())(*piVar1 + 4))(piVar1,param_1);
-    if (param_1[7] != 0) {
-      fn_8248FAB0(param_1[7],param_1);
-    }
-    uVar4 = *(unsigned int *)(param_1[7] + 0x34);
-    if (uVar4 < *(unsigned int *)param_1[1]) {
-      param_1[5] = *(unsigned int *)param_1[1];
-      goto LAB_82490854;
-    }
-  }
-  param_1[5] = uVar4;
-LAB_82490854:
-  puVar5 = (unsigned int *)param_1[8];
-  puVar2 = (unsigned int *)param_1[9];
-  param_1[5] = (param_1[0x16] + param_1[5]) - 1 & ~(param_1[0x16] - 1);
-  for (; puVar5 != puVar2; puVar5 = puVar5 + 1) {
-    (**(int (***)())(*(int *)*puVar5 + 4))((int *)*puVar5,(unsigned __int64)*param_1 - 1);
-  }
-  piVar1 = (int *)param_1[7];
-  if (piVar1 != (int *)0x0) {
-    (**(int (***)())(*piVar1 + 8))(piVar1,param_1);
-    uVar4 = piVar1[0xb];
-    param_1[0x15] = uVar4;
-    if (lbl_8329618C == 0) {
-      iVar3 = 0;
-    }
-    else {
-      iVar3 = *(int *)(lbl_8329618C + 4);
-    }
-    *(unsigned int *)(iVar3 + 0x820) = uVar4;
-  }
-  return;
-}
+    void *memory;
+    Listener_824907B0 **it;
+    Listener_824907B0 **end;
+    Clock_824907B0 *clock;
+    unsigned int minFrames;
+    float speed;
+    unsigned int alignment;
 
+    memory = fn_8265C9E0(0x18);
+    self->timeline = memory != 0 ? fn_8229EBD8(memory) : 0;
+    self->playing = 1;
+    self->time = 0.0f;
+    if (self->clock != 0) {
+        self->clock->vtbl->attach(self->clock, self);
+        if (self->clock != 0) {
+            fn_8248FAB0(self->clock, self);
+        }
+        minFrames = self->clock->minFrames;
+        if (*self->defaultFrames > minFrames) {
+            self->frames = *self->defaultFrames;
+        } else {
+            self->frames = minFrames;
+        }
+    } else {
+        self->frames = *self->defaultFrames;
+    }
+    alignment = self->alignment;
+    it = self->listenersBegin;
+    end = self->listenersEnd;
+    self->frames = (self->frames + alignment - 1) & ~(self->alignment - 1);
+    for (; it != end; it++) {
+        (*it)->vtbl->reset(*it, self->frameCount - 1);
+    }
+    clock = self->clock;
+    if (clock != 0) {
+        clock->vtbl->start(clock, self);
+        speed = clock->speed;
+        self->speed = speed;
+        (lbl_832960A0.node != 0 ? lbl_832960A0.node->device : 0)->speed = speed;
+    }
+}

@@ -1,39 +1,42 @@
-void fn_82A2B900(int param_1,unsigned int param_2,int param_3)
+typedef struct Entry_82A2B900 {
+    char pad0[5];
+    unsigned char next; /* 0x5 */
+    unsigned char prev; /* 0x6 */
+    char pad7;
+} Entry_82A2B900;
 
+typedef struct List_82A2B900 {
+    char pad0[0x30];
+    Entry_82A2B900 *entries; /* 0x30 */
+    char pad34[0x95];
+    unsigned char head; /* 0xc9 */
+} List_82A2B900;
+
+void fn_82A2B900(List_82A2B900 *list, unsigned int index, unsigned int makeHead)
 {
-  unsigned char bVar1;
-  unsigned char bVar2;
-  unsigned char bVar3;
-  int iVar4;
-  unsigned char uVar5;
-  int iVar6;
-  int iVar7;
-  
-  bVar1 = *(unsigned char *)(param_1 + 0xc9);
-  iVar4 = *(int *)(param_1 + 0x30);
-  iVar6 = (unsigned int)bVar1 * 8 + iVar4;
-  if (param_2 == bVar1) {
-    if (param_3 == 0) {
-      *(unsigned char *)(param_1 + 0xc9) = *(unsigned char *)(iVar6 + 5);
-    }
-  }
-  else {
-    uVar5 = (unsigned char)param_2;
-    if (param_2 != *(unsigned char *)(iVar6 + 6)) {
-      iVar7 = param_2 * 8 + iVar4;
-      bVar2 = *(unsigned char *)(iVar7 + 6);
-      bVar3 = *(unsigned char *)(iVar7 + 5);
-      *(unsigned char *)((unsigned int)bVar2 * 8 + iVar4 + 5) = bVar3;
-      *(unsigned char *)((unsigned int)bVar3 * 8 + iVar4 + 6) = bVar2;
-      *(unsigned char *)(iVar7 + 5) = bVar1;
-      *(unsigned char *)(iVar7 + 6) = *(unsigned char *)(iVar6 + 6);
-      *(unsigned char *)((unsigned int)*(unsigned char *)(iVar6 + 6) * 8 + iVar4 + 5) = uVar5;
-      *(unsigned char *)(iVar6 + 6) = uVar5;
-    }
-    if (param_3 != 0) {
-      *(unsigned char *)(param_1 + 0xc9) = uVar5;
-    }
-  }
-  return;
-}
+    unsigned int head = list->head;
+    Entry_82A2B900 *entries = list->entries;
+    Entry_82A2B900 *headEntry = &entries[head];
 
+    if (index == head) {
+        if (makeHead == 0) {
+            list->head = headEntry->next;
+        }
+    } else {
+        if (index != headEntry->prev) {
+            Entry_82A2B900 *entry = &entries[index];
+            unsigned char prev = entry->prev;
+            unsigned char next = entry->next;
+
+            entries[prev].next = next;
+            entries[next].prev = prev;
+            entry->next = head;
+            entry->prev = headEntry->prev;
+            entries[headEntry->prev].next = (unsigned char)index;
+            headEntry->prev = (unsigned char)index;
+        }
+        if (makeHead != 0) {
+            list->head = index;
+        }
+    }
+}

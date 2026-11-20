@@ -1,56 +1,49 @@
-extern int fn_8247E6E0();
-extern int fn_8257B0F8();
-extern int fn_826670F0();
-extern int fn_8266C340();
-extern int fn_82F69B70();
-extern int fn_82F69CA0();
-extern unsigned int iStack_20;
+extern void fn_8266C340(const unsigned short *format, ...);
+extern int fn_82F69B70(const char *string);
+extern int fn_82F69CA0(char *string, unsigned int size);
+extern char *fn_8247E6E0(const char *string, const char *pattern);
+extern char *fn_8257B0F8(const char *string, int character);
+extern void fn_826670F0(char *string, int length, char *position);
 
+#define XLIP_ASSERT(condition, line)                                                                         \
+    if (!(condition)) {                                                                                      \
+        fn_8266C340(L"Assert failed. File: %s. Line: %d. Condition: %s", L".\\XLipComponent.cpp", line,      \
+                    L#condition);                                                                            \
+    }
 
-void fn_82665488(char *param_1)
-
+void fn_82665488(char *pszPath)
 {
-  int iVar1;
-  char *pcStack00000014;
-  int iStack_20;
-  char *pcStack_1c;
-  char *pcStack_18;
-  
-  pcStack00000014 = param_1;
-  if (param_1 == (char *)0x0) {
-    fn_8266C340(0xffffffff820015c0,0xffffffff82001e74,0x323,0xffffffff820024ac);
-  }
-  iStack_20 = fn_82F69B70(pcStack00000014);
-  if (iStack_20 < 1) {
-    fn_8266C340(0xffffffff820015c0,0xffffffff82001e74,0x327,0xffffffff82002494);
-  }
-  fn_82F69CA0(pcStack00000014,iStack_20 + 1);
-  iVar1 = fn_8247E6E0(pcStack00000014,0xffffffff82002490);
-  if (iVar1 == 0) {
-    pcStack_18 = pcStack00000014;
-  }
-  else {
-    pcStack_18 = (char *)(iVar1 + 2);
-  }
-  pcStack_1c = pcStack_18;
-  while ((pcStack_1c != (char *)0x0 && (*pcStack_1c != '\0'))) {
-    if (*pcStack_1c == '\\') {
-      while (*pcStack_1c == '\\') {
-        fn_826670F0(pcStack00000014,iStack_20,pcStack_1c);
-        iStack_20 = iStack_20 + -1;
-      }
-      pcStack_1c = pcStack_1c + 1;
-    }
-    else {
-      pcStack_1c = (char *)fn_8257B0F8(pcStack_1c,0x5c);
-      if (pcStack_1c != (char *)0x0) {
-        pcStack_1c = pcStack_1c + 1;
-      }
-    }
-  }
-  if (pcStack00000014[iStack_20 + -1] == '\\') {
-    pcStack00000014[iStack_20 + -1] = '\0';
-  }
-  return;
-}
+    int cchPath;
+    char *pszScan;
+    char *pszDrive;
 
+    XLIP_ASSERT(pszPath, 0x323);
+    cchPath = fn_82F69B70(pszPath);
+    XLIP_ASSERT(cchPath > 0, 0x327);
+    fn_82F69CA0(pszPath, cchPath + 1);
+    pszDrive = fn_8247E6E0(pszPath, ":\\");
+    if (pszDrive == 0) {
+        pszDrive = pszPath;
+    } else {
+        pszDrive = pszDrive + 2;
+    }
+    pszScan = pszDrive;
+    while (pszScan != 0 && *pszScan != 0) {
+        if (*pszScan == '\\') {
+            while (*pszScan == '\\') {
+                fn_826670F0(pszPath, cchPath, pszScan);
+                cchPath--;
+            }
+            pszScan++;
+        } else {
+            pszScan = fn_8257B0F8(pszScan, '\\');
+            if (pszScan != 0) {
+                pszScan++;
+            }
+        }
+    }
+    if (pszPath[cchPath - 1] == '\\') {
+        cchPath--;
+        pszPath[cchPath] = 0;
+    }
+}

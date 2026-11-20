@@ -1,100 +1,79 @@
-unsigned __int64
-fn_8299D5C0(int param_1,int param_2,unsigned int param_3,unsigned int param_4,int *param_5,__int64 param_6,
-             unsigned int *param_7,unsigned int *param_8)
+typedef struct Instr_8299D5C0 {
+    unsigned int opcode;      /* 0x00 */
+    unsigned int destCount;   /* 0x04 */
+    unsigned int *dests;      /* 0x08 */
+    unsigned int sourceCount; /* 0x0c */
+    unsigned int *sources;    /* 0x10 */
+} Instr_8299D5C0;
 
+typedef struct Reg_8299D5C0 {
+    char pad00[0x10];
+    unsigned int type; /* 0x10 */
+    char pad14[0x24];
+    unsigned int alias; /* 0x38 */
+} Reg_8299D5C0;
+
+typedef struct Compiler_8299D5C0 {
+    char pad00[0x14];
+    Reg_8299D5C0 **regs; /* 0x14 */
+} Compiler_8299D5C0;
+
+int fn_8299D5C0(Compiler_8299D5C0 *compiler, Instr_8299D5C0 **instrs, unsigned int begin, unsigned int end,
+                unsigned int *targets, unsigned int targetCount, unsigned int *maxWrites, int *readsConstant,
+                int *partialWrite)
 {
-  unsigned int *puVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned __int64 uVar4;
-  unsigned int uVar5;
-  int iVar6;
-  int iVar7;
-  int *piVar8;
-  unsigned int uVar9;
-  __int64 lVar10;
-  unsigned int uVar11;
-  int *piVar12;
-  unsigned __int64 uVar13;
-  __int64 lVar14;
-  unsigned int uVar15;
-  __int64 lVar16;
-  unsigned __int64 uVar17;
-  unsigned int *in_stack_00000054;
-  
-  *param_8 = 0;
-  uVar9 = 0;
-  *in_stack_00000054 = 0;
-  if (param_3 < param_4) {
-    iVar7 = param_4 - param_3;
-    piVar8 = (int *)(param_3 * 4 + param_2);
-    uVar9 = 0;
-    do {
-      puVar1 = (unsigned int *)*piVar8;
-      if ((puVar1 != (unsigned int *)0x0) && (uVar2 = *puVar1, uVar2 != 0)) {
-        uVar3 = puVar1[1];
-        uVar4 = (unsigned __int64)uVar2 & 0xfffff;
-        uVar11 = 0;
-        trapWord(6,uVar4,0);
-        lVar10 = param_6;
-        piVar12 = param_5;
-        if ((int)param_6 != 0) {
-          do {
-            if (uVar3 / uVar4 != 0) {
-              lVar14 = 0;
-              uVar13 = uVar3 / uVar4;
-              do {
-                uVar15 = 0;
-                lVar16 = lVar14;
-                uVar17 = uVar4;
-                if ((uVar2 & 0xfffff) != 0) {
-                  do {
-                    iVar6 = *(int *)(puVar1[2] + (int)lVar16);
-                    if ((*(int *)(*(int *)(iVar6 * 4 + *(int *)(param_1 + 0x14)) + 0x38) == *piVar12
-                        ) || (iVar6 == *piVar12)) {
-                      uVar11 = uVar11 + 1;
-                      uVar15 = uVar15 + 1;
-                      if (uVar9 < uVar11) {
-                        uVar9 = uVar11;
-                      }
-                      if ((puVar1[3] == 1) &&
-                         (*(int *)(*(int *)(*(int *)puVar1[4] * 4 + *(int *)(param_1 + 0x14)) + 0x10
-                                  ) == 3)) {
-                        *param_8 = 1;
-                      }
-                      if (((*puVar1 & 0xfff00000) != 0x50000000) && (uVar5 = 0, puVar1[3] != 0)) {
-                        iVar6 = 0;
-                        do {
-                          if (*(int *)(*(int *)(*(int *)(puVar1[4] + iVar6) * 4 +
-                                               *(int *)(param_1 + 0x14)) + 0x10) == 3) {
-                            *param_8 = 1;
-                          }
-                          uVar5 = uVar5 + 1;
-                          iVar6 = iVar6 + 4;
-                        } while (uVar5 < puVar1[3]);
-                      }
-                    }
-                    uVar17 = uVar17 - 1;
-                    lVar16 = lVar16 + 4;
-                  } while (uVar17 != 0);
-                }
-                if ((uVar15 != uVar4) && (uVar15 != 0)) {
-                  *in_stack_00000054 = 1;
-                }
-                uVar13 = uVar13 - 1;
-                lVar14 = ((unsigned __int64)uVar2 & 0xfffff) * 4 + lVar14;
-              } while (uVar13 != 0);
-            }
-            lVar10 = lVar10 + -1;
-            piVar12 = piVar12 + 1;
-          } while (lVar10 != 0);
-        }
-      }
-      iVar7 = iVar7 + -1;
-      piVar8 = piVar8 + 1;
-    } while (iVar7 != 0);
-  }
-  *param_7 = uVar9;
-  return 0;
-}
+    unsigned int maxCount;
+    unsigned int i;
 
+    *readsConstant = 0;
+    maxCount = 0;
+    *partialWrite = 0;
+    for (i = begin; i < end; i++) {
+        Instr_8299D5C0 *instr = instrs[i];
+
+        if (instr != 0 && instr->opcode != 0) {
+            unsigned int width = instr->opcode & 0xfffff;
+            unsigned int writes = 0;
+            unsigned int groups = instr->destCount / width;
+            unsigned int t;
+
+            for (t = 0; t < targetCount; t++) {
+                unsigned int g;
+
+                for (g = 0; g < groups; g++) {
+                    unsigned int hits = 0;
+                    unsigned int k;
+
+                    for (k = 0; k < width; k++) {
+                        unsigned int dest = instr->dests[g * width + k];
+
+                        if (compiler->regs[dest]->alias == targets[t] || dest == targets[t]) {
+                            writes++;
+                            hits++;
+                            if (writes > maxCount) {
+                                maxCount = writes;
+                            }
+                            if (instr->sourceCount == 1 && compiler->regs[instr->sources[0]]->type == 3) {
+                                *readsConstant = 1;
+                            }
+                            if ((instr->opcode & 0xfff00000) != 0x50000000) {
+                                unsigned int s;
+
+                                for (s = 0; s < instr->sourceCount; s++) {
+                                    if (compiler->regs[instr->sources[s]]->type == 3) {
+                                        *readsConstant = 1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (hits != width && hits != 0) {
+                        *partialWrite = 1;
+                    }
+                }
+            }
+        }
+    }
+    *maxWrites = maxCount;
+    return 0;
+}

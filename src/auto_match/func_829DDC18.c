@@ -1,52 +1,93 @@
-extern unsigned int *auStack_40;
-extern int fn_829DD678();
-extern int fn_829DD700();
-extern int fn_829DD850();
-extern unsigned int lbl_8200133C;
-extern unsigned int lbl_832179FC;
-extern unsigned int *lbl_83217A00;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+double fabs(double x);
 
-void fn_829DDC18(int param_1,int param_2,unsigned int *param_3,float *param_4)
+typedef struct Vec_829DDC18 {
+    __vector4 v;
+} Vec_829DDC18;
 
+typedef struct Target_829DDC18 {
+    unsigned char enabled; /* 0x0 */
+    char pad1[3];
+    float value;     /* 0x4 */
+    float tolerance; /* 0x8 */
+} Target_829DDC18;
+
+typedef struct Targets_829DDC18 {
+    __vector4 head;           /* 0x00 */
+    Target_829DDC18 items[8]; /* 0x10 */
+} Targets_829DDC18;
+
+typedef struct Samples_829DDC18 {
+    unsigned int count; /* 0x0 */
+    char data[0x25c];
+} Samples_829DDC18;
+
+typedef struct Tracker_829DDC18 {
+    char pad00[0x14];
+    int index;                   /* 0x14 */
+    Samples_829DDC18 samples[8]; /* 0x18 */
+} Tracker_829DDC18;
+
+typedef struct Tolerance_829DDC18 {
+    float minimum; /* 0x0 */
+    float scale;   /* 0x4 */
+} Tolerance_829DDC18;
+
+typedef struct Settings_829DDC18 {
+    char pad0[0x8f0c4];
+    Tolerance_829DDC18 tolerance; /* 0x8f0c4 */
+} Settings_829DDC18;
+
+typedef struct Listener_829DDC18 Listener_829DDC18;
+
+typedef struct ListenerVtbl_829DDC18 {
+    void *slot0;
+    void *slot1;
+    void *slot2;
+    void (*Report)(Listener_829DDC18 *self, int state, float distance); /* 0xc */
+} ListenerVtbl_829DDC18;
+
+struct Listener_829DDC18 {
+    ListenerVtbl_829DDC18 *vt;
+};
+
+extern Settings_829DDC18 *lbl_832179FC;
+extern Listener_829DDC18 *lbl_83217A00;
+
+extern Vec_829DDC18 fn_829DD678(Tracker_829DDC18 *self);
+extern unsigned char fn_829DD700(__vector4 a, __vector4 b);
+extern float fn_829DD850(Samples_829DDC18 *samples);
+
+void fn_829DDC18(Tracker_829DDC18 *self, Targets_829DDC18 *targets, int *state, float *distance)
 {
-  float fVar1;
-  float fVar2;
-  int iVar3;
-  char cVar4;
-  float *pfVar5;
-  unsigned int uVar6;
-  int *piVar7;
-  double dVar8;
-  unsigned char auStack_40 [1];
-  
-  *param_3 = 4;
-  *param_4 = lbl_8200133C;
-  param_2 = *(int *)(param_1 + 0x14) * 0xc + param_2;
-  piVar7 = (int *)(*(int *)(param_1 + 0x14) * 0x260 + param_1 + 0x18);
-  if ((*(char *)(param_2 + 0x10) != '\0') && (*piVar7 != 0)) {
-    fn_829DD678(auStack_40,param_1);
-    cVar4 = fn_829DD700();
-    if (cVar4 != '\0') {
-      dVar8 = (double)fn_829DD850(piVar7);
-      iVar3 = lbl_832179FC;
-      pfVar5 = (float *)(lbl_832179FC + 0x8f0c4);
-      fVar1 = ABS((float)(dVar8 - (double)*(float *)(param_2 + 0x14)));
-      *param_4 = fVar1;
-      fVar2 = *(float *)(iVar3 + 0x8f0c8) * *(float *)(param_2 + 0x18);
-      if (fVar2 < *pfVar5) {
-        fVar2 = *pfVar5;
-      }
-      uVar6 = 1;
-      if (fVar2 < fVar1) {
-        uVar6 = 2;
-      }
-      *param_3 = uVar6;
-    }
-  }
-  if (lbl_83217A00 != (int *)0x0) {
-    (**(int (***)())(*lbl_83217A00 + 0xc))((double)*param_4,lbl_83217A00,*param_3);
-  }
-  return;
-}
+    Target_829DDC18 *target;
+    Samples_829DDC18 *samples;
 
+    *state = 4;
+    *distance = -1.0f;
+    samples = &self->samples[self->index];
+    target = &targets->items[self->index];
+    if (target->enabled != 0 && samples->count > 0) {
+        if (fn_829DD700(targets->head, fn_829DD678(self).v)) {
+            Tolerance_829DDC18 *limits;
+            float difference;
+            float tolerance;
+            int result;
+
+            difference = (float)fabs(fn_829DD850(samples) - target->value);
+            *distance = difference;
+            limits = &lbl_832179FC->tolerance;
+            tolerance = limits->scale * target->tolerance;
+            if (limits->minimum > tolerance) {
+                tolerance = limits->minimum;
+            }
+            *state = difference <= tolerance ? 1 : 2;
+        }
+    }
+    if (lbl_83217A00 != 0) {
+        lbl_83217A00->vt->Report(lbl_83217A00, *state, *distance);
+    }
+}

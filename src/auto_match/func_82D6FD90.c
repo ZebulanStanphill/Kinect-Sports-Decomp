@@ -1,77 +1,102 @@
-#define true 1
-extern unsigned int lbl_8200133C;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vxor(__vector4 a, __vector4 b);
 
-void fn_82D6FD90(int *param_1,int *param_2)
+typedef struct Record_82D6FD90 {
+    unsigned char type; /* 0x0 */
+    unsigned char id;   /* 0x1 */
+    unsigned char pad2;
+    unsigned char size; /* 0x3 */
+    char pad4[8];
+    float weight;    /* 0xc */
+    __vector4 value; /* 0x10 */
+} Record_82D6FD90;
 
+typedef struct Block_82D6FD90 {
+    int size; /* 0x0 */
+    char pad4[0xc];
+    unsigned char data[1]; /* 0x10 */
+} Block_82D6FD90;
+
+typedef struct Stream_82D6FD90 {
+    Block_82D6FD90 **blocks; /* 0x0 */
+} Stream_82D6FD90;
+
+typedef struct Context_82D6FD90 Context_82D6FD90;
+
+typedef struct Handler_82D6FD90 {
+    void (*process)(Record_82D6FD90 *record, void *data, Context_82D6FD90 *context);
+    char pad4[0x4c];
+} Handler_82D6FD90;
+
+struct Context_82D6FD90 {
+    Handler_82D6FD90 *handlers; /* 0x0 */
+};
+
+static __forceinline void SetZero(__vector4 *v)
 {
-  unsigned char bVar1;
-  int *piVar2;
-  int iVar3;
-  int (**pcVar4)();
-  unsigned int *puVar5;
-  unsigned char *pbVar6;
-  int iVar7;
-  unsigned char *pbVar8;
-  unsigned char *pbVar9;
-  double dVar10;
-  unsigned int in_register_000100d0;
-  unsigned int in_register_000100d4;
-  unsigned int in_register_000100d8;
-  unsigned int in_vr13;
-  
-  iVar7 = 4;
-  piVar2 = *(int **)*param_1;
-  pbVar6 = (unsigned char *)((int)piVar2 + *piVar2 + 0x10);
-  dVar10 = (double)lbl_8200133C;
-  pbVar8 = (unsigned char *)(piVar2 + 4);
-  do {
-    bVar1 = *pbVar8;
-    pbVar9 = pbVar8;
-    if (bVar1 < 0xf) {
-      iVar3 = *(int *)((unsigned int)bVar1 * 4 + -0x7d29020c);
-      switch(bVar1) {
-      case 0:
-        pbVar9 = pbVar8 + pbVar8[3];
-        break;
-      case 1:
-        return;
-      default:
-        pbVar9 = pbVar8 + pbVar8[3];
-        pcVar4 = *(int (***)())((pbVar8[1] + 0x49) * 0x50 + *param_2);
-        if (pcVar4 != (int (**)())0x0) {
-          (*pcVar4)(pbVar8,pbVar8 + 0x10,param_2);
-        }
-        break;
-      case 4:
-      case 5:
-      case 0xc:
-      case 0xd:
-        *(float *)(pbVar8 + 0xc) = (float)dVar10;
-        puVar5 = (unsigned int *)((unsigned int)(pbVar8 + iVar3 + 0x10) & 0xfffffff0);
-        *puVar5 = in_register_000100d0;
-        puVar5[1] = in_register_000100d4;
-        puVar5[2] = in_register_000100d8;
-        puVar5[3] = in_vr13;
-        pbVar9 = pbVar8 + pbVar8[3];
-        pcVar4 = *(int (***)())((pbVar8[1] + 0x49) * 0x50 + *param_2);
-        if (pcVar4 != (int (**)())0x0) {
-          (*pcVar4)(pbVar8,pbVar8 + 0x20,param_2);
-        }
-        break;
-      case 7:
-      case 8:
-      case 9:
-        break;
-      }
-    }
-    pbVar8 = pbVar9;
-    if (pbVar6 <= pbVar9) {
-      piVar2 = *(int **)(iVar7 + *param_1);
-      iVar7 = iVar7 + 4;
-      pbVar8 = (unsigned char *)(piVar2 + 4);
-      pbVar6 = (unsigned char *)((int)piVar2 + *piVar2 + 0x10);
-    }
-  } while( true );
+    *v = __vxor(*v, *v);
 }
 
+void fn_82D6FD90(Stream_82D6FD90 *stream, Context_82D6FD90 *context)
+{
+    Block_82D6FD90 *block = stream->blocks[0];
+    Record_82D6FD90 *record = (Record_82D6FD90 *)block->data;
+    unsigned char *end = block->data + block->size;
+    int next = 1;
+
+    for (;;) {
+        Record_82D6FD90 *current = record;
+        switch (current->type) {
+        case 7:
+        case 8:
+        case 9:
+            break;
+        case 2:
+        case 3:
+        case 6:
+        case 10:
+        case 11:
+        case 14: {
+            void (*process)(Record_82D6FD90 *, void *, Context_82D6FD90 *);
+            void *data;
+            data = &record->value;
+            record = (Record_82D6FD90 *)((unsigned char *)record + record->size);
+            process = context->handlers[current->id + 0x49].process;
+            if (process != 0) {
+                process(current, data, context);
+            }
+            break;
+        }
+        case 4:
+        case 5:
+        case 12:
+        case 13: {
+            void (*process)(Record_82D6FD90 *, void *, Context_82D6FD90 *);
+            void *data;
+            record->weight = -1.0f;
+            SetZero(&record->value);
+            data = (unsigned char *)record + 0x20;
+            record = (Record_82D6FD90 *)((unsigned char *)record + record->size);
+            process = context->handlers[current->id + 0x49].process;
+            if (process != 0) {
+                process(current, data, context);
+            }
+            break;
+        }
+        case 1:
+            return;
+        case 0:
+            record = (Record_82D6FD90 *)((unsigned char *)current + current->size);
+            break;
+        }
+        if ((unsigned char *)record >= end) {
+            block = stream->blocks[next];
+            next++;
+            record = (Record_82D6FD90 *)block->data;
+            end = block->data + block->size;
+        }
+    }
+}

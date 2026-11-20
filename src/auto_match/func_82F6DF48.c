@@ -1,16 +1,19 @@
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-extern unsigned int uStack00000010;
-extern unsigned int uStack00000018;
+typedef union DoubleBits_82F6DF48 {
+    double value;
 
+    struct {
+        unsigned int high; /* 0x0 */
+        unsigned int low;  /* 0x4 */
+    } words;
+} DoubleBits_82F6DF48;
 
-unsigned __int64 fn_82F6DF48(unsigned __int64 param_1,unsigned __int64 param_2)
-
+double fn_82F6DF48(double magnitude, double sign)
 {
-  unsigned int uStack00000010;
-  unsigned int uStack00000018;
-  
-  uStack00000018 = (unsigned int)((unsigned __int64)param_2 >> 0x20);
-  uStack00000010 = (unsigned int)((unsigned __int64)param_1 >> 0x20);
-  return CONCAT44(uStack00000010 & 0x7fffffff | uStack00000018 & 0x80000000,(int)param_1);
-}
+    DoubleBits_82F6DF48 result;
 
+    result.value = 0.0;
+    result.words.low = ((DoubleBits_82F6DF48 *)&magnitude)->words.low;
+    result.words.high = (((DoubleBits_82F6DF48 *)&magnitude)->words.high & 0x7fffffff) |
+                        (((DoubleBits_82F6DF48 *)&sign)->words.high & 0x80000000);
+    return result.value;
+}

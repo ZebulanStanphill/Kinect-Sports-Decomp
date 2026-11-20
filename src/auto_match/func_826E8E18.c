@@ -1,67 +1,45 @@
-extern int fn_826E8488();
-extern int fn_826E8560();
-extern int fn_826E8610();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_8200D4C0;
-extern unsigned int lbl_821AAD20;
+typedef struct Stream_826E8E18 {
+    char pad0[0x15];
+    unsigned char unusedBits; /* 0x15 */
+} Stream_826E8E18;
 
+typedef struct Cxform_826E8E18 {
+    float m[4][2]; /* [channel][0] = multiply, [channel][1] = add */
+} Cxform_826E8E18;
 
-void fn_826E8E18(int param_1,float *param_2)
+extern unsigned int fn_826E8488(Stream_826E8E18 *stream, int bits);
+extern unsigned int fn_826E8560(Stream_826E8E18 *stream);
+extern int fn_826E8610(Stream_826E8E18 *stream, int bits);
 
+void fn_826E8E18(Stream_826E8E18 *stream, Cxform_826E8E18 *cxform)
 {
-  float fVar1;
-  int iVar3;
-  int iVar4;
-  unsigned __int64 uVar2;
-  float *pfVar5;
-  __int64 lVar6;
-  double dVar7;
-  
-  *(unsigned char *)(param_1 + 0x15) = 0;
-  iVar3 = fn_826E8560();
-  iVar4 = fn_826E8560(param_1);
-  uVar2 = fn_826E8488(param_1,4);
-  fVar1 = lbl_82002AE0;
-  if (iVar4 == 0) {
-    pfVar5 = param_2 + -2;
-    lVar6 = 4;
-    do {
-      pfVar5 = pfVar5 + 2;
-      *pfVar5 = fVar1;
-      lVar6 = lVar6 + -1;
-    } while (lVar6 != 0);
-  }
-  else {
-    iVar4 = fn_826E8610(param_1,uVar2);
-    dVar7 = (double)lbl_8200D4C0;
-    *param_2 = (float)((double)(__int64)iVar4 * dVar7);
-    iVar4 = fn_826E8610(param_1,uVar2);
-    param_2[2] = (float)((double)(__int64)iVar4 * dVar7);
-    iVar4 = fn_826E8610(param_1,uVar2);
-    param_2[4] = (float)((double)(__int64)iVar4 * dVar7);
-    iVar4 = fn_826E8610(param_1,uVar2);
-    param_2[6] = (float)((double)(__int64)iVar4 * dVar7);
-  }
-  fVar1 = lbl_821AAD20;
-  if (iVar3 == 0) {
-    param_2 = param_2 + -1;
-    lVar6 = 4;
-    do {
-      param_2 = param_2 + 2;
-      *param_2 = fVar1;
-      lVar6 = lVar6 + -1;
-    } while (lVar6 != 0);
-  }
-  else {
-    iVar3 = fn_826E8610(param_1,uVar2);
-    param_2[1] = (float)(__int64)iVar3;
-    iVar3 = fn_826E8610(param_1,uVar2);
-    param_2[3] = (float)(__int64)iVar3;
-    iVar3 = fn_826E8610(param_1,uVar2);
-    param_2[5] = (float)(__int64)iVar3;
-    iVar3 = fn_826E8610(param_1,uVar2);
-    param_2[7] = (float)(__int64)iVar3;
-  }
-  return;
-}
+    unsigned int hasAdd;
+    unsigned int hasMult;
+    int bits;
+    int i;
 
+    stream->unusedBits = 0;
+    hasAdd = fn_826E8560(stream);
+    hasMult = fn_826E8560(stream);
+    bits = fn_826E8488(stream, 4);
+    if (hasMult != 0) {
+        cxform->m[0][0] = (float)fn_826E8610(stream, bits) * (1.0f / 256.0f);
+        cxform->m[1][0] = (float)fn_826E8610(stream, bits) * (1.0f / 256.0f);
+        cxform->m[2][0] = (float)fn_826E8610(stream, bits) * (1.0f / 256.0f);
+        cxform->m[3][0] = (float)fn_826E8610(stream, bits) * (1.0f / 256.0f);
+    } else {
+        for (i = 0; i < 4; i++) {
+            cxform->m[i][0] = 1.0f;
+        }
+    }
+    if (hasAdd != 0) {
+        cxform->m[0][1] = (float)fn_826E8610(stream, bits);
+        cxform->m[1][1] = (float)fn_826E8610(stream, bits);
+        cxform->m[2][1] = (float)fn_826E8610(stream, bits);
+        cxform->m[3][1] = (float)fn_826E8610(stream, bits);
+    } else {
+        for (i = 0; i < 4; i++) {
+            cxform->m[i][1] = 0.0f;
+        }
+    }
+}

@@ -1,69 +1,91 @@
-typedef unsigned char bool;
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_80;
-extern int fn_8267BE38();
-extern int fn_8267C4F0();
-extern int fn_8268B330();
-extern int fn_826EF268();
-extern int fn_826EFAF8();
-extern int fn_826EFDB8();
-extern int fn_8278FAF0();
-extern int fn_82F6A3F0();
-extern unsigned int lbl_8200C4D4;
-extern unsigned int uStack_58;
-extern unsigned __int64 storeWordConditionalIndexed();
+typedef struct StringData_82712A28 {
+    unsigned int size; /* 0x0 */
+    long refCount;     /* 0x4 */
+    char text[1];      /* 0x8 */
+} StringData_82712A28;
 
+typedef struct String_82712A28 {
+    unsigned int tagged; /* 0x0 */
+} String_82712A28;
 
-unsigned __int64 fn_82712A28(int param_1)
+typedef struct Formatter_82712A28 {
+    char pad0[0xc];
+    void *streamVtbl; /* 0xc */
+    char pad10[0x8];
+    char *text; /* 0x18 */
+    char pad1c[0x30];
+} Formatter_82712A28;
 
+typedef struct Settings_82712A28 Settings_82712A28;
+
+typedef struct SettingsVtbl_82712A28 {
+    void *slot0;
+    void (*get)(Settings_82712A28 *self, const char *key, String_82712A28 *value); /* 0x4 */
+    void (*set)(Settings_82712A28 *self, const char *key, const char *value);      /* 0x8 */
+} SettingsVtbl_82712A28;
+
+struct Settings_82712A28 {
+    SettingsVtbl_82712A28 *vtbl; /* 0x0 */
+    char pad4[0x8];
+    int loaded; /* 0xc */
+};
+
+typedef struct Registry_82712A28 Registry_82712A28;
+
+typedef struct RegistryVtbl_82712A28 {
+    void *slots[3];
+    Settings_82712A28 *(*find)(Registry_82712A28 *self, int id); /* 0xc */
+} RegistryVtbl_82712A28;
+
+struct Registry_82712A28 {
+    RegistryVtbl_82712A28 *vtbl;
+};
+
+typedef struct Game_82712A28 {
+    char pad0[0x8];
+    Registry_82712A28 registry; /* 0x8 */
+} Game_82712A28;
+
+extern char lbl_8200C4D4[];
+extern long _InterlockedExchangeAdd(long volatile *value, long add);
+extern void fn_8267C4F0(Settings_82712A28 *settings);
+extern unsigned int fn_8278FAF0(void);
+extern void fn_826EFAF8(Formatter_82712A28 *formatter, unsigned int value);
+extern void fn_826EFDB8(Formatter_82712A28 *formatter);
+extern void fn_826EF268(Formatter_82712A28 *formatter);
+extern void fn_8268B330(String_82712A28 *string);
+extern unsigned int fn_82F6A3F0(const char *text, char **end, int base);
+extern void fn_8267BE38(void *block);
+
+unsigned int fn_82712A28(Game_82712A28 *self)
 {
-  unsigned int uVar1;
-  int *piVar3;
-  unsigned __int64 uVar2;
-  __int64 lVar4;
-  unsigned int *puVar5;
-  unsigned __int64 uVar6;
-  char in_RESERVE;
-  unsigned char bVar7;
-  unsigned int auStack_80 [4];
-  unsigned char auStack_70 [12];
-  unsigned char **ppuStack_64;
-  unsigned int uStack_58;
-  
-  piVar3 = (int *)(**(int (***)())(*(int *)(param_1 + 8) + 0xc))(param_1 + 8,0x24);
-  bVar7 = (piVar3 == (int *)0x0) << 1;
-  if (piVar3 == (int *)0x0) {
-    uVar2 = fn_8278FAF0();
-  }
-  else {
-    fn_8267C4F0(piVar3);
-    if (piVar3[3] == 0) {
-      uVar2 = fn_8278FAF0();
-      fn_826EFAF8(auStack_70,uVar2);
-      fn_826EFDB8(auStack_70);
-      (**(int (***)())(*piVar3 + 8))(piVar3,0xffffffff8200ef60,uStack_58);
-      ppuStack_64 = &lbl_8200C4D4;
-      fn_826EF268(auStack_70);
-    }
-    else {
-      fn_8268B330(auStack_80);
-      (**(int (***)())(*piVar3 + 4))(piVar3,0xffffffff8200ef60,auStack_80);
-      uVar2 = fn_82F6A3F0(((unsigned __int64)auStack_80[0] & 0xfffffffc) + 8,0,10);
-      lVar4 = ((unsigned __int64)auStack_80[0] & 0xfffffffc) + 4;
-      do {
-        puVar5 = (unsigned int *)lVar4;
-        uVar6 = (unsigned __int64)*puVar5;
-        if (in_RESERVE != '\0') {
-          uVar1 = storeWordConditionalIndexed(uVar6 - 1,0,lVar4);
-          *puVar5 = uVar1;
-          bVar7 = 2;
-        }
-      } while (!(bool)(bVar7 >> 1 & 1));
-      if (uVar6 == 1) {
-        fn_8267BE38();
-      }
-    }
-  }
-  return uVar2;
-}
+    Settings_82712A28 *settings;
+    unsigned int seed;
+    Formatter_82712A28 formatter;
+    String_82712A28 value;
+    StringData_82712A28 *data;
 
+    settings = self->registry.vtbl->find(&self->registry, 0x24);
+    if (settings != 0) {
+        fn_8267C4F0(settings);
+        if (settings->loaded == 0) {
+            seed = fn_8278FAF0();
+            fn_826EFAF8(&formatter, seed);
+            fn_826EFDB8(&formatter);
+            settings->vtbl->set(settings, "random", formatter.text);
+            formatter.streamVtbl = lbl_8200C4D4;
+            fn_826EF268(&formatter);
+        } else {
+            fn_8268B330(&value);
+            settings->vtbl->get(settings, "random", &value);
+            seed = fn_82F6A3F0(((StringData_82712A28 *)(value.tagged & ~3u))->text, 0, 10);
+            data = (StringData_82712A28 *)(value.tagged & ~3u);
+            if (_InterlockedExchangeAdd(&data->refCount, -1) - 1 == 0) {
+                fn_8267BE38(data);
+            }
+        }
+    } else {
+        seed = fn_8278FAF0();
+    }
+    return seed;
+}

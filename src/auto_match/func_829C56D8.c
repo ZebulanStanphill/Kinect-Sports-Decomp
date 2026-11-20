@@ -1,66 +1,70 @@
-extern unsigned int lbl_82006848;
-extern unsigned int lbl_83214E10;
-extern unsigned int lbl_83214E1C;
-extern unsigned int lbl_83214E20;
-extern unsigned int lbl_83214E30;
-extern unsigned int lbl_83214F3C;
-extern unsigned int lbl_83214F50;
+typedef struct Camera_829C56D8 {
+    char pad00[0x60];
+    unsigned int tiltStatus; /* 0x60 */
+    char pad64[0x8];
+    float tiltTime;               /* 0x6c */
+    unsigned int elevationStatus; /* 0x70 */
+    char pad74[0xc];
+    float elevationTime; /* 0x80 */
+    char pad84[0x108];
+    float ticks; /* 0x18c */
+    char pad190[0x10];
+    unsigned int mode; /* 0x1a0 */
+    char pad1a4[0x5c];
+} Camera_829C56D8;
 
+extern Camera_829C56D8 lbl_83214DB0;
+extern const float lbl_82006848;
 
-void fn_829C56D8(unsigned int param_1)
+extern void XamNuiCameraElevationStopMovement(void);
+extern void XamNuiCameraTiltReportStatus(unsigned int message, unsigned int *status);
 
+void fn_829C56D8(unsigned int code)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  
-  if (param_1 < 0x1a) {
-    if (param_1 == 0x19) {
-      param_1 = 4;
-LAB_829c5748:
-      XamNuiCameraElevationStopMovement();
-    }
-    else if (param_1 == 0) {
-      param_1 = 0;
-    }
-    else if (param_1 == 5) {
-      param_1 = 8;
-    }
-    else {
-      if (param_1 != 0x15) goto LAB_829c573c;
-      param_1 = 2;
-    }
-  }
-  else if (param_1 == 0x1f) {
-    param_1 = 5;
-  }
-  else if (param_1 == 0x3e3) {
-    param_1 = 7;
-  }
-  else {
-LAB_829c573c:
-    if (param_1 == 4) goto LAB_829c5748;
-  }
-  if (3 < lbl_83214F50) {
-    return;
-  }
-  if (lbl_83214F50 == 0) {
-    if (param_1 != 3) {
-      return;
-    }
-  }
-  else if (lbl_83214F50 == 1) {
-    uVar2 = 0xffffffff83214e20;
-    uVar1 = 0x2b00c;
-    lbl_83214E30 = lbl_83214F3C * lbl_82006848;
-    lbl_83214E20 = param_1;
-    goto LAB_829c57dc;
-  }
-  uVar2 = 0xffffffff83214e10;
-  uVar1 = 0x2b006;
-  lbl_83214E1C = lbl_83214F3C * lbl_82006848;
-  lbl_83214E10 = param_1;
-LAB_829c57dc:
-  XamNuiCameraTiltReportStatus(uVar1,uVar2);
-  return;
-}
+    unsigned int status;
 
+    switch (code) {
+    case 0:
+        status = 0;
+        break;
+    case 5:
+        status = 8;
+        break;
+    case 0x15:
+        status = 2;
+        break;
+    case 0x19:
+        status = 4;
+        break;
+    case 0x1f:
+        status = 5;
+        break;
+    case 0x3e3:
+        status = 7;
+        break;
+    default:
+        status = code;
+        break;
+    }
+    if (status == 4) {
+        XamNuiCameraElevationStopMovement();
+    }
+    switch (lbl_83214DB0.mode) {
+    case 1:
+        lbl_83214DB0.elevationStatus = status;
+        lbl_83214DB0.elevationTime = lbl_82006848 * lbl_83214DB0.ticks;
+        XamNuiCameraTiltReportStatus(0x2b00c, &lbl_83214DB0.elevationStatus);
+        break;
+    case 0:
+        if (status != 3) {
+            break;
+        }
+        /* fall through */
+    case 2:
+    case 3:
+        lbl_83214DB0.tiltStatus = status;
+        lbl_83214DB0.tiltTime = lbl_82006848 * lbl_83214DB0.ticks;
+        XamNuiCameraTiltReportStatus(0x2b006, &lbl_83214DB0.tiltStatus);
+        break;
+    }
+}

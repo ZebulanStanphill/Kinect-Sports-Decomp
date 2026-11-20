@@ -1,86 +1,105 @@
-extern int fn_822315A0();
-extern int fn_82273C88();
-extern int fn_82273CD8();
-extern int fn_82279C58();
-extern int fn_82672C20();
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
-extern unsigned int uStack_40;
+typedef struct Var_8227B800 {
+    int a;
+    int b;
 
+    union {
+        double d;
+        int i;
+    } u;
+} Var_8227B800;
 
-void fn_8227B668(int param_1,unsigned int param_2,unsigned int param_3)
+typedef struct Ref_8227B800 {
+    void *p;
+    void *rc;
+} Ref_8227B800;
 
+typedef struct Screen_8227B668 {
+    char pad0[0xa48];
+    int fa48;   /* 0xa48 */
+    float fa4c; /* 0xa4c */
+    char pad1[0x1c];
+    int fa6c; /* 0xa6c */
+    char pad2[0x14];
+    int configuration; /* 0xa84 */
+} Screen_8227B668;
+
+extern void fn_82273CD8(Var_8227B800 *, int);
+extern void fn_82273C88(Var_8227B800 *);
+extern Ref_8227B800 *fn_82279C58(Ref_8227B800 *, void *);
+extern void fn_82672C20(void *, const char *, Var_8227B800 *, int);
+extern void fn_822315A0(void *);
+
+void fn_8227B668(Screen_8227B668 *self, unsigned int players, unsigned int mode)
 {
-  unsigned int *puVar1;
-  int iVar2;
-  double dVar3;
-  unsigned __int64 uStack_40;
-  struct { unsigned int first; unsigned int second; } stack_pair_30;
+    Var_8227B800 v;
+    Ref_8227B800 r;
+    double value;
 
-  double dStack_28;
-
-  iVar2 = 8;
-  *(unsigned int *)(param_1 + 0xa84) = 8;
-  if (param_3 < 2) {
-    if (param_2 == 1) {
-      *(unsigned int *)(param_1 + 0xa84) = 0;
-      goto LAB_8227b76c;
+    self->configuration = 8;
+    switch (mode) {
+    case 0:
+    case 1:
+        switch (players) {
+        case 1:
+            self->configuration = 0;
+            break;
+        case 2:
+            self->configuration = 1;
+            break;
+        case 3:
+            self->configuration = 6;
+            break;
+        case 4:
+            self->configuration = 7;
+            break;
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+            self->configuration = 8;
+            break;
+        }
+        break;
+    case 2:
+        switch (players) {
+        case 2:
+            self->configuration = 10;
+            break;
+        case 3:
+            self->configuration = 11;
+            break;
+        case 4:
+            self->configuration = 12;
+            break;
+        }
+        break;
+    case 3:
+        switch (players) {
+        case 3:
+            self->configuration = 13;
+            break;
+        case 4:
+            self->configuration = 14;
+            break;
+        }
+        break;
+    case 4:
+        self->configuration = ((self->fa6c == 0) ^ 1) + 2;
+        break;
+    case 5:
+        self->configuration = 9;
+        break;
     }
-    if (param_2 == 2) {
-      iVar2 = 1;
+    self->fa48 = 0;
+    v.a = 0;
+    v.b = 0;
+    value = (double)self->configuration;
+    self->fa4c = 0.0f;
+    fn_82273CD8(&v, 3);
+    v.u.d = value;
+    fn_82672C20(fn_82279C58(&r, self)->p, "_root.mainCtrl.setConfiguration", &v, 1);
+    if (r.rc != 0) {
+        fn_822315A0(r.rc);
     }
-    else if (param_2 == 3) {
-      iVar2 = 6;
-    }
-    else if (param_2 == 4) {
-      iVar2 = 7;
-    }
-    else if ((param_2 < 5) || (8 < param_2)) goto LAB_8227b76c;
-  }
-  else if (param_3 == 2) {
-    if (param_2 == 2) {
-      iVar2 = 10;
-    }
-    else if (param_2 == 3) {
-      iVar2 = 0xb;
-    }
-    else {
-      if (param_2 != 4) goto LAB_8227b76c;
-      iVar2 = 0xc;
-    }
-  }
-  else if (param_3 < 4) {
-    if (param_2 == 3) {
-      iVar2 = 0xd;
-    }
-    else {
-      if (param_2 != 4) goto LAB_8227b76c;
-      iVar2 = 0xe;
-    }
-  }
-  else if (param_3 == 4) {
-    iVar2 = ((unsigned int)LZCOUNT(*(unsigned int *)(param_1 + 0xa6c)) >> 5 ^ 1) + 2;
-  }
-  else {
-    if (5 < param_3) goto LAB_8227b76c;
-    iVar2 = 9;
-  }
-  *(int *)(param_1 + 0xa84) = iVar2;
-LAB_8227b76c:
-  *(unsigned int *)(param_1 + 0xa48) = 0;
-  stack_pair_30.first = 0;
-  stack_pair_30.second = 0;
-  uStack_40 = (__int64)*(int *)(param_1 + 0xa84);
-  *(unsigned int *)(param_1 + 0xa4c) = ltcg_pool_0_0f;
-  dVar3 = (double)uStack_40;
-  fn_82273CD8(&stack_pair_30.first,3);
-  dStack_28 = dVar3;
-  puVar1 = (unsigned int *)fn_82279C58(&uStack_40,param_1);
-  fn_82672C20(*puVar1,0xffffffff821a84ac,&stack_pair_30.first,1);
-  if ((((unsigned __int64)(uStack_40) >> 32) & 0xFFFFFFFF) != 0) {
-    fn_822315A0();
-  }
-  fn_82273C88(&stack_pair_30.first);
-  return;
+    fn_82273C88(&v);
 }

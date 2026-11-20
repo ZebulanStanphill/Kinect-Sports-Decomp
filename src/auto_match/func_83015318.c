@@ -1,87 +1,118 @@
-#define true 1
-extern int fn_82FA5190();
-extern int fn_82FF38E8();
-extern int fn_82FF4618();
-extern unsigned int iStack_50;
-extern unsigned int lbl_831BC768;
-extern unsigned int uStack_4c;
+typedef struct Value_83015318 Value_83015318;
 
+typedef struct ValueVtbl_83015318 {
+    void *slots[4];
+    void (*release)(Value_83015318 *value, void *context); /* 0x10 */
+} ValueVtbl_83015318;
 
-unsigned __int64 fn_83015318(int param_1)
+struct Value_83015318 {
+    ValueVtbl_83015318 *vtbl;
+};
 
+typedef struct Node_83015318 {
+    struct Node_83015318 *next; /* 0x0 */
+    int pad4[2];
+    Value_83015318 *value; /* 0xc */
+} Node_83015318;
+
+typedef struct Map_83015318 {
+    int handle;                   /* 0x0 */
+    Node_83015318 *buckets[0x1f]; /* 0x4 */
+    unsigned int count;           /* 0x80 */
+} Map_83015318;
+
+typedef struct MapIterator_83015318 {
+    Node_83015318 **buckets; /* 0x0 */
+    unsigned int index;      /* 0x4 */
+    Node_83015318 *node;     /* 0x8 */
+} MapIterator_83015318;
+
+typedef struct Entry_83015318 {
+    int pad0[4];
+    void *data;         /* 0x10 */
+    unsigned int size;  /* 0x14 */
+    unsigned int extra; /* 0x18 */
+} Entry_83015318;
+
+typedef struct Buffer_83015318 {
+    void *data;         /* 0x0 */
+    unsigned int size;  /* 0x4 */
+    unsigned int extra; /* 0x8 */
+} Buffer_83015318;
+
+typedef struct Self_83015318 {
+    int pad0;
+    Map_83015318 map;                /* 0x4 */
+    Entry_83015318 *entriesBegin;    /* 0x88 */
+    Entry_83015318 *entriesEnd;      /* 0x8c */
+    Entry_83015318 *entriesCapacity; /* 0x90 */
+    int pad94[2];
+    Buffer_83015318 buffers[2][2]; /* 0x9c */
+} Self_83015318;
+
+extern void *lbl_831BC768;
+extern int lbl_831BC7F4[2];
+extern void fn_82FF4618(MapIterator_83015318 *it, Map_83015318 *map);
+extern void fn_82FF38E8(Map_83015318 *map);
+extern void fn_82FA5190(void *heap, void *data);
+
+int fn_83015318(Self_83015318 *self)
 {
-  int *piVar1;
-  int iVar2;
-  int *piVar3;
-  unsigned int uVar4;
-  int iVar5;
-  int *piVar6;
-  int iVar7;
-  unsigned int *puVar8;
-  struct { int first; unsigned int second; } stack_pair_50;
+    MapIterator_83015318 begin;
+    MapIterator_83015318 it;
+    Entry_83015318 *entry;
+    Value_83015318 *value;
+    Buffer_83015318 *buffer;
+    int i;
+    int j;
 
-  int *piStack_48;
-  
-  piVar3 = (int *)(param_1 + 4);
-  fn_82FF4618(&stack_pair_50.first,piVar3);
-  uVar4 = stack_pair_50.second;
-  piVar6 = piStack_48;
-joined_r0x83015340:
-  if (piVar6 == (int *)0x0) {
-    if (*piVar3 != -1) {
-      fn_82FF38E8(piVar3);
-      *piVar3 = -1;
+    fn_82FF4618(&begin, &self->map);
+    if (begin.node != 0) {
+        it = begin;
+        do {
+            value = it.node->value;
+            if (value != 0) {
+                value->vtbl->release(value, lbl_831BC7F4);
+            }
+            it.node = it.node->next;
+            while (it.node == 0) {
+                it.index++;
+                if (it.index >= 0x1f) {
+                    break;
+                }
+                it.node = it.buckets[it.index];
+            }
+        } while (it.node != 0);
     }
-    iVar7 = *(int *)(param_1 + 0x88);
-    if (iVar7 != *(int *)(param_1 + 0x8c)) {
-      do {
-        if (*(int *)(iVar7 + 0x10) != 0) {
-          fn_82FA5190(lbl_831BC768);
-          *(unsigned int *)(iVar7 + 0x10) = 0;
+    if (self->map.handle != -1) {
+        fn_82FF38E8(&self->map);
+        self->map.handle = -1;
+    }
+    for (entry = self->entriesBegin; entry != self->entriesEnd; entry++) {
+        if (entry->data != 0) {
+            fn_82FA5190(lbl_831BC768, entry->data);
+            entry->data = 0;
         }
-        *(unsigned int *)(iVar7 + 0x14) = 0;
-        *(unsigned int *)(iVar7 + 0x18) = 0;
-        iVar7 = iVar7 + 0x1c;
-      } while (iVar7 != *(int *)(param_1 + 0x8c));
+        entry->size = 0;
+        entry->extra = 0;
     }
-    if (*(int *)(param_1 + 0x88) != 0) {
-      *(int *)(param_1 + 0x8c) = *(int *)(param_1 + 0x88);
-      fn_82FA5190(lbl_831BC768);
-      *(unsigned int *)(param_1 + 0x88) = 0;
-      *(unsigned int *)(param_1 + 0x8c) = 0;
-      *(unsigned int *)(param_1 + 0x90) = 0;
+    if (self->entriesBegin != 0) {
+        self->entriesEnd = self->entriesBegin;
+        fn_82FA5190(lbl_831BC768, self->entriesBegin);
+        self->entriesBegin = 0;
+        self->entriesEnd = 0;
+        self->entriesCapacity = 0;
     }
-    iVar7 = 0xd;
-    do {
-      iVar5 = 0;
-      do {
-        iVar2 = (iVar7 + iVar5) * 0xc;
-        puVar8 = (unsigned int *)(iVar2 + param_1);
-        if (*(int *)(iVar2 + param_1) != 0) {
-          fn_82FA5190(lbl_831BC768);
-          *puVar8 = 0;
+    for (i = 0; i < 2; i++) {
+        for (j = 0; j < 2; j++) {
+            buffer = &self->buffers[i][j];
+            if (buffer->data != 0) {
+                fn_82FA5190(lbl_831BC768, buffer->data);
+                buffer->data = 0;
+            }
+            buffer->size = 0;
+            buffer->extra = 0;
         }
-        iVar5 = iVar5 + 1;
-        puVar8[1] = 0;
-        puVar8[2] = 0;
-      } while (iVar5 < 2);
-      iVar7 = iVar7 + 2;
-    } while (iVar7 < 0x11);
+    }
     return 1;
-  }
-  do {
-    do {
-      piVar1 = (int *)piVar6[3];
-      if (piVar1 != (int *)0x0) {
-        (**(int (***)())(*piVar1 + 0x10))(piVar1,0xffffffff831bc7f4);
-      }
-      piVar6 = (int *)*piVar6;
-    } while (piVar6 != (int *)0x0);
-    do {
-      uVar4 = uVar4 + 1;
-      if (0x1e < uVar4) goto joined_r0x83015340;
-      piVar6 = *(int **)(uVar4 * 4 + stack_pair_50.first);
-    } while (piVar6 == (int *)0x0);
-  } while( true );
 }
-

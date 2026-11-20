@@ -1,73 +1,87 @@
-extern unsigned int *auStack_80;
-extern int fn_82D2D320();
-extern int fn_82D2D400();
-extern unsigned int lbl_8323B1A0;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Vertex_82D252C0 {
+    struct Vertex_82D252C0 *next; /* 0x00 */
+    struct Vertex_82D252C0 *prev; /* 0x04 */
+    int pad08[2];
+    __vector4 position; /* 0x10 */
+    __vector4 normal;   /* 0x20 */
+    __vector4 data;     /* 0x30 */
+    int indexA;         /* 0x40 */
+    int indexB;         /* 0x44 */
+} Vertex_82D252C0;
 
-void fn_82D252C0(__int64 param_1,int param_2,int param_3)
+/* Links are tagged pointers: the neighbouring triangle with the edge index in the low two bits. */
+typedef struct Triangle_82D252C0 {
+    struct Triangle_82D252C0 *next; /* 0x00 */
+    struct Triangle_82D252C0 *prev; /* 0x04 */
+    Vertex_82D252C0 *vertices[3];   /* 0x08 */
+    unsigned int links[3];          /* 0x14 */
+} Triangle_82D252C0;
 
+typedef struct List_82D252C0 {
+    void *pool;
+    int ready;
+    int pad08;
+    void *head;
+    int count;
+} List_82D252C0;
+
+typedef struct Mesh_82D252C0 {
+    char pad00[0x8];
+    List_82D252C0 vertices; /* 0x08 */
+    char pad1c[0x4];
+    List_82D252C0 triangles; /* 0x20 */
+} Mesh_82D252C0;
+
+extern __vector4 lbl_8323B1A0;
+
+extern Vertex_82D252C0 *fn_82D2D320(List_82D252C0 *list, Vertex_82D252C0 *source);
+extern Triangle_82D252C0 *fn_82D2D400(List_82D252C0 *list, Triangle_82D252C0 *source);
+
+void fn_82D252C0(Mesh_82D252C0 *mesh, Triangle_82D252C0 *triangle, const __vector4 *position)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  int in_r0;
-  int iVar5;
-  int iVar6;
-  int iVar7;
-  unsigned int uVar8;
-  unsigned int uVar9;
-  unsigned int uVar10;
-  unsigned char auStack_80 [64];
-  unsigned int uStack_40;
-  unsigned int uStack_3c;
-  
-  uStack_40 = 0xffffffff;
-  uStack_3c = 0xffffffff;
-  iVar5 = fn_82D2D320(param_1 + 8,auStack_80);
-  puVar1 = (unsigned int *)((unsigned int)(&lbl_8323B1A0 + in_r0) & 0xfffffff0);
-  uVar8 = puVar1[1];
-  uVar9 = puVar1[2];
-  uVar10 = puVar1[3];
-  puVar2 = (unsigned int *)(iVar5 + 0x30U & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar8;
-  puVar2[2] = uVar9;
-  puVar2[3] = uVar10;
-  puVar1 = (unsigned int *)(in_r0 + param_3 & 0xfffffff0);
-  uVar8 = puVar1[1];
-  uVar9 = puVar1[2];
-  uVar10 = puVar1[3];
-  puVar2 = (unsigned int *)(iVar5 + 0x10U & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar8;
-  puVar2[2] = uVar9;
-  puVar2[3] = uVar10;
-  iVar6 = fn_82D2D400(param_1 + 0x20,param_2);
-  iVar7 = fn_82D2D400(param_1 + 0x20,param_2);
-  *(int *)(param_2 + 8) = iVar5;
-  *(int *)(iVar6 + 0xc) = iVar5;
-  *(int *)(iVar7 + 0x10) = iVar5;
-  uVar3 = *(unsigned int *)(param_2 + 0x1c) & 0xfffffffc;
-  uVar4 = *(unsigned int *)(param_2 + 0x1c) & 3;
-  *(unsigned int *)(iVar6 + 0x1c) = uVar4 + uVar3;
-  if (uVar3 != 0) {
-    *(int *)((uVar4 + 5) * 4 + uVar3) = iVar6 + 2;
-  }
-  uVar3 = *(unsigned int *)(param_2 + 0x14) & 0xfffffffc;
-  uVar4 = *(unsigned int *)(param_2 + 0x14) & 3;
-  *(unsigned int *)(iVar7 + 0x14) = uVar4 + uVar3;
-  if (uVar3 != 0) {
-    *(int *)((uVar4 + 5) * 4 + uVar3) = iVar7;
-  }
-  *(int *)(param_2 + 0x14) = iVar7 + 1;
-  *(int *)(iVar7 + 0x18) = param_2;
-  *(int *)(iVar6 + 0x14) = iVar7 + 2;
-  *(int *)(iVar7 + 0x1c) = iVar6;
-  *(int *)(iVar6 + 0x18) = param_2 + 2;
-  *(int *)(param_2 + 0x1c) = iVar6 + 1;
-  return;
-}
+    Vertex_82D252C0 source;
+    Vertex_82D252C0 *vertex;
+    Triangle_82D252C0 *first;
+    Triangle_82D252C0 *second;
+    unsigned int link;
+    Triangle_82D252C0 *neighbour;
+    unsigned int edge;
 
+    source.indexA = -1;
+    source.indexB = -1;
+    vertex = fn_82D2D320(&mesh->vertices, &source);
+    vertex->data = lbl_8323B1A0;
+    vertex->position = *position;
+    first = fn_82D2D400(&mesh->triangles, triangle);
+    second = fn_82D2D400(&mesh->triangles, triangle);
+    triangle->vertices[0] = vertex;
+    first->vertices[1] = vertex;
+    second->vertices[2] = vertex;
+
+    link = triangle->links[2];
+    neighbour = (Triangle_82D252C0 *)(link & ~3);
+    edge = link & 3;
+    first->links[2] = edge + (unsigned int)neighbour;
+    if (neighbour != 0) {
+        neighbour->links[edge] = (unsigned int)first + 2;
+    }
+
+    link = triangle->links[0];
+    neighbour = (Triangle_82D252C0 *)(link & ~3);
+    edge = link & 3;
+    second->links[0] = edge + (unsigned int)neighbour;
+    if (neighbour != 0) {
+        neighbour->links[edge] = (unsigned int)second;
+    }
+
+    triangle->links[0] = (unsigned int)second + 1;
+    second->links[1] = (unsigned int)triangle;
+    first->links[0] = (unsigned int)second + 2;
+    second->links[2] = (unsigned int)first;
+    first->links[1] = (unsigned int)triangle + 2;
+    triangle->links[2] = (unsigned int)first + 1;
+}

@@ -1,84 +1,23 @@
-extern unsigned int lbl_8200133C;
-extern unsigned int lbl_8208E08C;
-extern unsigned int lbl_8208E090;
-extern unsigned int uStack_a;
+extern float lbl_8208E08C;
+extern float lbl_8208E090;
 
-
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
-
-void fn_82A67CA8(int param_1,int param_2,unsigned int param_3)
-
+/* Converts count floats from src to 16-bit samples in dst, clamping each to [-1, 32767/32768]. */
+/* __restrict on both pointers is the original's: it loads the next src element before it
+   stores the previous dst element, which the compiler does only when they cannot alias. */
+void fn_82A67CA8(short *__restrict dst, const float *__restrict src, unsigned int count)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  float fVar5;
-  int iVar6;
-  unsigned short *puVar7;
-  unsigned int uVar8;
-  float *pfVar9;
-  unsigned short uStack_a;
-  
-  fVar5 = lbl_8208E090;
-  fVar4 = lbl_8208E08C;
-  fVar3 = lbl_8200133C;
-  uVar8 = 0;
-  if (3 < (int)param_3) {
-    puVar7 = (unsigned short *)(param_1 + -2);
-    pfVar9 = (float *)(param_2 + 8);
-    do {
-      fVar1 = pfVar9[-2];
-      fVar2 = fVar3;
-      if ((fVar3 <= fVar1) && (fVar2 = fVar1, fVar4 < fVar1)) {
-        fVar2 = fVar4;
-      }
-      fVar1 = pfVar9[-1];
-      uStack_a = (unsigned short)(int)(fVar2 * fVar5);
-      puVar7[1] = uStack_a;
-      fVar2 = fVar3;
-      if ((fVar3 <= fVar1) && (fVar2 = fVar1, fVar4 < fVar1)) {
-        fVar2 = fVar4;
-      }
-      fVar1 = *pfVar9;
-      uStack_a = (unsigned short)(int)(fVar2 * fVar5);
-      puVar7[2] = uStack_a;
-      fVar2 = fVar3;
-      if ((fVar3 <= fVar1) && (fVar2 = fVar1, fVar4 < fVar1)) {
-        fVar2 = fVar4;
-      }
-      fVar1 = pfVar9[1];
-      uStack_a = (unsigned short)(int)(fVar2 * fVar5);
-      puVar7[3] = uStack_a;
-      fVar2 = fVar3;
-      if ((fVar3 <= fVar1) && (fVar2 = fVar1, fVar4 < fVar1)) {
-        fVar2 = fVar4;
-      }
-      uVar8 = uVar8 + 4;
-      pfVar9 = pfVar9 + 4;
-      uStack_a = (unsigned short)(int)(fVar2 * fVar5);
-      puVar7 = puVar7 + 4;
-      *puVar7 = uStack_a;
-    } while (uVar8 < param_3 - 3);
-  }
-  if (uVar8 < param_3) {
-    iVar6 = param_3 - uVar8;
-    puVar7 = (unsigned short *)(uVar8 * 2 + param_1 + -2);
-    pfVar9 = (float *)(uVar8 * 4 + param_2);
-    do {
-      fVar1 = *pfVar9;
-      fVar2 = fVar3;
-      if ((fVar3 <= fVar1) && (fVar2 = fVar1, fVar4 < fVar1)) {
-        fVar2 = fVar4;
-      }
-      pfVar9 = pfVar9 + 1;
-      uStack_a = (unsigned short)(int)(fVar2 * fVar5);
-      puVar7 = puVar7 + 1;
-      *puVar7 = uStack_a;
-      iVar6 = iVar6 + -1;
-    } while (iVar6 != 0);
-    return;
-  }
-  return;
-}
+    float scale = lbl_8208E090;
+    float max = lbl_8208E08C;
+    unsigned int i;
 
+    for (i = 0; i < count; i++) {
+        float value = src[i];
+
+        if (value < -1.0f) {
+            value = -1.0f;
+        } else if (value > max) {
+            value = max;
+        }
+        dst[i] = (short)(value * scale);
+    }
+}

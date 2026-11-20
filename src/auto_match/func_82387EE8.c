@@ -1,41 +1,98 @@
-extern int fn_822315A0();
-extern int fn_82263430();
-extern unsigned int lbl_831DCCF0;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Ref_82387EE8 {
+    struct Ball_82387EE8 *p;
+    void *rc;
+} Ref_82387EE8;
 
-void fn_82387EE8(int param_1,unsigned __int64 param_2,int param_3)
+typedef struct Ball_82387EE8 {
+    char pad0[0x20];
+    __vector4 position; /* 0x20 */
+} Ball_82387EE8;
 
+typedef struct Player_82387EE8 {
+    char pad0[0x20];
+    float score; /* 0x20 */
+} Player_82387EE8;
+
+typedef struct Team_82387EE8 {
+    Player_82387EE8 **players; /* 0x0 */
+    int pad4[3];
+    int current; /* 0x10 */
+} Team_82387EE8;
+
+typedef struct Teams_82387EE8 {
+    Team_82387EE8 *team0; /* 0x0 */
+    Team_82387EE8 *team1; /* 0x4 */
+} Teams_82387EE8;
+
+typedef struct Shot_82387EE8 {
+    int type; /* 0x0 */
+    int pad4[3];
+    __vector4 ball;     /* 0x10 */
+    __vector4 velocity; /* 0x20 */
+    __vector4 target;   /* 0x30 */
+    __vector4 player;   /* 0x40 */
+    int dive;           /* 0x50 */
+    float power;        /* 0x54 */
+    int teamId;         /* 0x58 */
+    int playerId;       /* 0x5c */
+    int event;          /* 0x60 */
+    int pad64[3];
+    int matchCounter; /* 0x70 */
+    int rallyCounter; /* 0x74 */
+} Shot_82387EE8;
+
+typedef struct Game_82387EE8 {
+    char pad0[0x8];
+    Teams_82387EE8 **teams; /* 0x8 */
+    char pad1[0x1f0];
+    int touches; /* 0x1fc */
+    char pad2[0x370];
+    Shot_82387EE8 shot; /* 0x570 */
+} Game_82387EE8;
+
+typedef struct Self_82387EE8 {
+    void *vt;
+    Game_82387EE8 *game; /* 0x4 */
+} Self_82387EE8;
+
+extern const char *lbl_831DCCF0[];
+
+extern void fn_82263430(int match, int rally, int scoringTeam, int touches, int score0, int score1,
+                        __vector4 ballPos, const char *shot, __vector4 ball, __vector4 velocity,
+                        __vector4 target, __vector4 pos, const char *dive, float power, int team, int player,
+                        int event);
+extern void fn_822315A0(void *);
+
+void fn_82387EE8(Self_82387EE8 *self, int scoringTeam, Ref_82387EE8 *ball)
 {
-  int iVar1;
-  int iVar2;
-  int *piVar3;
-  int *piVar4;
-  unsigned __int64 uVar5;
-  
-  uVar5 = 0xffffffff821b42c0;
-  iVar1 = *(int *)(param_1 + 4);
-  iVar2 = *(int *)(iVar1 + 0x5c0);
-  if (iVar2 == 1) {
-    uVar5 = 0xffffffff821b42c8;
-  }
-  else if (iVar2 == 2) {
-    uVar5 = 0xffffffff821b42d0;
-  }
-  else if (iVar2 == 4) {
-    uVar5 = 0xffffffff821b42d8;
-  }
-  piVar3 = (int *)**(int **)(*(int *)(param_1 + 4) + 8);
-  piVar4 = (int *)piVar3[1];
-  piVar3 = (int *)*piVar3;
-  fn_82263430((double)*(float *)(iVar1 + 0x5c4),*(unsigned int *)(iVar1 + 0x5e0),
-                    *(unsigned int *)(iVar1 + 0x5e4),param_2,
-                    *(unsigned int *)(*(int *)(param_1 + 4) + 0x1fc),
-                    (int)*(float *)(*(int *)(piVar3[4] * 4 + *piVar3) + 0x20),
-                    (int)*(float *)(*(int *)(piVar4[4] * 4 + *piVar4) + 0x20),
-                    (&lbl_831DCCF0)[*(int *)(iVar1 + 0x570)],uVar5);
-  if (*(int *)(param_3 + 4) != 0) {
-    fn_822315A0();
-  }
-  return;
-}
+    Shot_82387EE8 *shot;
+    const char *dive;
+    Teams_82387EE8 *teams;
 
+    shot = &self->game->shot;
+    dive = "None";
+    switch (shot->dive) {
+    case 1:
+        dive = "Forward";
+        break;
+    case 2:
+        dive = "Left";
+        break;
+    case 4:
+        dive = "Right";
+        break;
+    }
+    teams = *self->game->teams;
+    fn_82263430(shot->matchCounter, shot->rallyCounter, scoringTeam, self->game->touches,
+                (int)teams->team0->players[teams->team0->current]->score,
+                (int)teams->team1->players[teams->team1->current]->score, ball->p->position,
+                lbl_831DCCF0[shot->type], shot->ball, shot->velocity, shot->target, shot->player, dive,
+                shot->power, shot->teamId, shot->playerId, shot->event);
+    if (ball->rc != 0) {
+        fn_822315A0(ball->rc);
+    }
+}

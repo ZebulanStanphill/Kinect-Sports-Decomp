@@ -1,49 +1,49 @@
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_60;
-extern unsigned int fStack_68;
-extern unsigned int fStack_6c;
-extern unsigned int fStack_70;
-extern int fn_827E9A68();
-extern int fn_827EF590();
-extern int fn_827EF608();
-extern int fn_8280A5E8();
-extern int fn_82810328();
-extern int fn_8281CAE8();
-extern unsigned int lbl_82002AE0;
+typedef struct Vec3_827EDD58 {
+    float x;
+    float y;
+    float z;
+} Vec3_827EDD58;
 
+typedef struct Vec4_827EDD58 {
+    float x;
+    float y;
+    float z;
+    float w;
+} Vec4_827EDD58;
 
-unsigned __int64
-fn_827EDD58(double param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-             unsigned __int64 param_5,unsigned __int64 param_6,float *param_7,unsigned __int64 param_8,
-             unsigned __int64 param_9)
+extern const Vec3_827EDD58 lbl_821CA1A0;
+extern int fn_827E9A68(const Vec4_827EDD58 *origin, const Vec4_827EDD58 *velocity,
+                       const Vec3_827EDD58 *center, float radius, const Vec3_827EDD58 *otherVelocity,
+                       float maxTime, float *hitTime);
+extern void fn_827EF590(const Vec4_827EDD58 *scale, Vec4_827EDD58 *out);
+extern void fn_827EF608(const Vec4_827EDD58 *m, const Vec4_827EDD58 *in, Vec4_827EDD58 *out);
+extern int fn_8280A5E8(float value);
+extern void fn_82810328(const void *a, const void *b, Vec4_827EDD58 *out);
+extern void fn_8281CAE8(const void *transform, const Vec4_827EDD58 *in, Vec4_827EDD58 *out);
 
+int fn_827EDD58(const Vec3_827EDD58 *start, float radius, const Vec3_827EDD58 *otherStart,
+                const Vec3_827EDD58 *center, const float *extents, const void *transform,
+                const Vec3_827EDD58 *otherCenter, float maxTime, float *hitTime)
 {
-  int iVar2;
-  unsigned __int64 uVar1;
-  struct { float first; float second; } stack_pair_70;
+    struct {
+        Vec4_827EDD58 size;
+        Vec4_827EDD58 other;
+        Vec4_827EDD58 offset;
+        Vec4_827EDD58 inverse;
+    } L;
 
-  float fStack_68;
-  unsigned char auStack_60 [16];
-  unsigned char auStack_50 [16];
-  unsigned char auStack_40 [16];
-  
-  stack_pair_70.first = (float)((double)*param_7 + param_1);
-  stack_pair_70.second = (float)((double)param_7[1] + param_1);
-  fStack_68 = (float)((double)param_7[2] + param_1);
-  fn_82810328(param_3,param_6,auStack_50);
-  fn_82810328(param_5,param_9,auStack_60);
-  fn_8281CAE8(param_8,auStack_50,auStack_50);
-  fn_8281CAE8(param_8,auStack_60,auStack_60);
-  iVar2 = fn_8280A5E8((double)stack_pair_70.first);
-  if (((iVar2 == 0) && (iVar2 = fn_8280A5E8((double)stack_pair_70.second), iVar2 == 0)) &&
-     (iVar2 = fn_8280A5E8((double)fStack_68), iVar2 == 0)) {
-    fn_827EF590(&stack_pair_70.first,auStack_40);
-    fn_827EF608(auStack_40,auStack_50,auStack_50);
-    fn_827EF608(auStack_40,auStack_60,auStack_60);
-    uVar1 = fn_827E9A68((double)lbl_82002AE0,param_2,auStack_50,auStack_60);
-    return uVar1;
-  }
-  return 0;
+    L.size.x = extents[0] + radius;
+    L.size.y = extents[1] + radius;
+    L.size.z = extents[2] + radius;
+    fn_82810328(start, center, &L.offset);
+    fn_82810328(otherStart, otherCenter, &L.other);
+    fn_8281CAE8(transform, &L.offset, &L.offset);
+    fn_8281CAE8(transform, &L.other, &L.other);
+    if (fn_8280A5E8(L.size.x) == 0 && fn_8280A5E8(L.size.y) == 0 && fn_8280A5E8(L.size.z) == 0) {
+        fn_827EF590(&L.size, &L.inverse);
+        fn_827EF608(&L.inverse, &L.offset, &L.offset);
+        fn_827EF608(&L.inverse, &L.other, &L.other);
+        return fn_827E9A68(&L.offset, &L.other, &lbl_821CA1A0, 1.0f, &lbl_821CA1A0, maxTime, hitTime);
+    }
+    return 0;
 }
-

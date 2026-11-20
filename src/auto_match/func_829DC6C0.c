@@ -1,33 +1,32 @@
-extern unsigned int lbl_832179FC;
+typedef struct Range_829DC6C0 {
+    float minimum; /* 0x00 */
+    float maximum; /* 0x04 */
+    float scale;   /* 0x08 */
+    float unused;  /* 0x0c */
+    float offset;  /* 0x10 */
+} Range_829DC6C0;
 
+typedef struct Settings_829DC6C0 {
+    char pad0[0x8f054];
+    Range_829DC6C0 low;  /* 0x8f054 */
+    Range_829DC6C0 high; /* 0x8f068 */
+    int pad8f07c;
+    unsigned int threshold; /* 0x8f080 */
+} Settings_829DC6C0;
 
-void fn_829DC6C0(unsigned int param_1,unsigned int *param_2,unsigned int *param_3,unsigned int *param_4,
-                  unsigned int *param_5)
+extern Settings_829DC6C0 *lbl_832179FC;
 
+void fn_829DC6C0(unsigned int value, float *minimum, float *maximum, float *scale, float *offset)
 {
-  unsigned int uVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  int iVar5;
-  
-  iVar2 = lbl_832179FC;
-  if (*(unsigned int *)(lbl_832179FC + 0x8f080) < param_1) {
-    iVar4 = 0x8f06c;
-    iVar3 = 0x8f070;
-    uVar1 = *(unsigned int *)(lbl_832179FC + 0x8f068);
-    iVar5 = 0x8f078;
-  }
-  else {
-    iVar4 = 0x8f058;
-    iVar3 = 0x8f05c;
-    uVar1 = *(unsigned int *)(lbl_832179FC + 0x8f054);
-    iVar5 = 0x8f064;
-  }
-  *param_2 = uVar1;
-  *param_3 = *(unsigned int *)(iVar2 + iVar4);
-  *param_4 = *(unsigned int *)(iVar2 + iVar3);
-  *param_5 = *(unsigned int *)(iVar2 + iVar5);
-  return;
+    if (value > lbl_832179FC->threshold) {
+        *minimum = lbl_832179FC->high.minimum;
+        *maximum = lbl_832179FC->high.maximum;
+        *scale = lbl_832179FC->high.scale;
+        *offset = lbl_832179FC->high.offset;
+    } else {
+        *minimum = lbl_832179FC->low.minimum;
+        *maximum = lbl_832179FC->low.maximum;
+        *scale = lbl_832179FC->low.scale;
+        *offset = lbl_832179FC->low.offset;
+    }
 }
-

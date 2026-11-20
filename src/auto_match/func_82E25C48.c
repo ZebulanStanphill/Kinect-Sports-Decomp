@@ -1,82 +1,149 @@
-extern int fn_82F64CE0();
+typedef struct Guid_82E25C48 {
+    unsigned int data[4];
+} Guid_82E25C48;
 
+typedef struct Attributes_82E25C48 Attributes_82E25C48;
 
-__int64 fn_82E25C48(int *param_1,unsigned int *param_2,unsigned int param_3)
+typedef struct AttributesVtbl_82E25C48 {
+    void *slots0[20];
+    int (*DeleteAllItems)(Attributes_82E25C48 *self);                                              /* 0x50 */
+    int (*SetUINT32)(Attributes_82E25C48 *self, const Guid_82E25C48 *key, unsigned int value);     /* 0x54 */
+    int (*SetUINT64)(Attributes_82E25C48 *self, const Guid_82E25C48 *key, unsigned __int64 value); /* 0x58 */
+    int (*SetDouble)(Attributes_82E25C48 *self, const Guid_82E25C48 *key, double value);           /* 0x5c */
+    int (*SetGUID)(Attributes_82E25C48 *self, const Guid_82E25C48 *key,
+                   const Guid_82E25C48 *value); /* 0x60 */
+    int (*SetString)(Attributes_82E25C48 *self, const Guid_82E25C48 *key,
+                     const unsigned short *value); /* 0x64 */
+    int (*SetBlob)(Attributes_82E25C48 *self, const Guid_82E25C48 *key, const unsigned char *data,
+                   unsigned int size);             /* 0x68 */
+    void *SetUnknown;                              /* 0x6c */
+    int (*LockStore)(Attributes_82E25C48 *self);   /* 0x70 */
+    int (*UnlockStore)(Attributes_82E25C48 *self); /* 0x74 */
+} AttributesVtbl_82E25C48;
 
+struct Attributes_82E25C48 {
+    AttributesVtbl_82E25C48 *vt;
+};
+
+typedef struct Item_82E25C48 {
+    Guid_82E25C48 key;   /* 0x0 */
+    unsigned short type; /* 0x10 */
+    char pad12[6];
+
+    union {
+        unsigned int u32;
+        unsigned __int64 u64;
+        double f64;
+
+        struct {
+            unsigned int size;   /* 0x18 */
+            unsigned int offset; /* 0x1c */
+        } blob;
+    } value; /* 0x18 */
+} Item_82E25C48;
+
+typedef struct Header_82E25C48 {
+    unsigned int magic;     /* 0x0 */
+    unsigned int count;     /* 0x4 */
+    Item_82E25C48 items[1]; /* 0x8 */
+} Header_82E25C48;
+
+extern unsigned int fn_82F64CE0(const unsigned short *string);
+
+int fn_82E25C48(Attributes_82E25C48 *attributes, const unsigned char *data, unsigned int size)
 {
-  short sVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned int *puVar4;
-  __int64 lVar5;
-  int iVar6;
-  unsigned int *puVar7;
-  int (**pcVar8)();
-  unsigned int *puVar9;
-  unsigned int uVar10;
-  unsigned int *puVar11;
-  unsigned int *puVar12;
-  
-  puVar9 = (unsigned int *)((int)param_2 + param_3);
-  lVar5 = (**(int (***)())(*param_1 + 0x70))();
-  if (-1 < lVar5) {
-    if ((7 < param_3) && (*param_2 == 0x494d4641)) {
-      uVar2 = param_2[1];
-      if (uVar2 * 0x20 + 8 <= param_3) {
-        puVar11 = param_2 + uVar2 * 8 + 2;
-        lVar5 = (**(int (***)())(*param_1 + 0x50))(param_1);
-        if ((-1 < lVar5) && (uVar10 = 0, puVar4 = param_2, uVar2 != 0)) {
-          do {
-            puVar12 = puVar4 + 8;
-            sVar1 = *(short *)(puVar4 + 6);
-            if (sVar1 == 5) {
-              lVar5 = (**(int (***)())(*param_1 + 0x5c))(*(unsigned __int64 *)puVar12,param_1,puVar4 + 2);
-            }
-            else {
-              if (sVar1 == 0x13) {
-                puVar7 = (unsigned int *)*puVar12;
-                pcVar8 = *(int (***)())(*param_1 + 0x54);
-              }
-              else {
-                if (sVar1 == 0x15) {
-                  lVar5 = (**(int (***)())(*param_1 + 0x58))(param_1,puVar4 + 2,*(unsigned __int64 *)puVar12);
-                  goto LAB_82e25e40;
-                }
-                if (sVar1 == 0x1f) {
-                  uVar3 = *puVar12;
-                  puVar7 = (unsigned int *)(puVar4[9] + (int)param_2);
-                  if (((((uVar3 < 2) || ((uVar3 & 1) != 0)) || (puVar7 < puVar11)) ||
-                      ((puVar9 < (unsigned int *)(uVar3 + (int)puVar7) ||
-                       (*(short *)(((uVar3 >> 1) - 1) * 2 + (int)puVar7) != 0)))) ||
-                     (iVar6 = fn_82F64CE0(puVar7), iVar6 != (uVar3 >> 1) - 1)) goto LAB_82e25e5c;
-                  pcVar8 = *(int (***)())(*param_1 + 100);
-                }
-                else {
-                  if (sVar1 != 0x48) {
-                    if (((sVar1 == 0x1011) && (puVar11 <= (unsigned int *)(puVar4[9] + (int)param_2))) &&
-                       ((unsigned int *)(*puVar12 + (int)(puVar4[9] + (int)param_2)) <= puVar9)) {
-                      lVar5 = (**(int (***)())(*param_1 + 0x68))(param_1,puVar4 + 2);
-                      goto LAB_82e25e40;
-                    }
-                    goto LAB_82e25e5c;
-                  }
-                  puVar7 = (unsigned int *)(puVar4[9] + (int)param_2);
-                  if ((puVar7 < puVar11) || (puVar9 < puVar7 + 4)) goto LAB_82e25e5c;
-                  pcVar8 = *(int (***)())(*param_1 + 0x60);
-                }
-              }
-              lVar5 = (*pcVar8)(param_1,puVar4 + 2,puVar7);
-            }
-LAB_82e25e40:;} while ((-1 < lVar5) && (uVar10 = uVar10 + 1, puVar4 = puVar12, uVar10 < uVar2));
-        }
-        goto LAB_82e25e64;
-      }
-    }
-LAB_82e25e5c:
-    lVar5 = -0x7ff8ffa9;
-  }
-LAB_82e25e64:
-  (**(int (***)())(*param_1 + 0x74))(param_1);
-  return lVar5;
-}
+    const Header_82E25C48 *header = (const Header_82E25C48 *)data;
+    const unsigned char *end = data + size;
+    const unsigned char *payload;
+    unsigned int count;
+    const Item_82E25C48 *items;
+    unsigned int needed;
+    unsigned int i;
+    int hr;
 
+    hr = attributes->vt->LockStore(attributes);
+    if (hr >= 0) {
+        if (size < 8 || header->magic != 0x494d4641) {
+            goto invalid;
+        }
+        count = header->count;
+        items = header->items;
+        needed = count * 0x20 + 8;
+        if (size < needed) {
+            goto invalid;
+        }
+        payload = data + needed;
+        hr = attributes->vt->DeleteAllItems(attributes);
+        if (hr >= 0) {
+            for (i = 0; i < count; i++) {
+                const Item_82E25C48 *item = &items[i];
+                switch (item->type) {
+                case 5:
+                    hr = attributes->vt->SetDouble(attributes, &item->key, item->value.f64);
+                    if (hr < 0) {
+                        goto done;
+                    }
+                    break;
+                case 0x13:
+                    hr = attributes->vt->SetUINT32(attributes, &item->key, item->value.u32);
+                    if (hr < 0) {
+                        goto done;
+                    }
+                    break;
+                case 0x15:
+                    hr = attributes->vt->SetUINT64(attributes, &item->key, item->value.u64);
+                    if (hr < 0) {
+                        goto done;
+                    }
+                    break;
+                case 0x1f: {
+                    unsigned int bytes = item->value.blob.size;
+                    const unsigned short *string = (const unsigned short *)(data + item->value.blob.offset);
+                    unsigned int length = (item->value.blob.size >> 1) - 1;
+                    if (bytes < 2 || (item->value.blob.size & 1) != 0 ||
+                        (const unsigned char *)string < payload ||
+                        (const unsigned char *)string + item->value.blob.size > end || string[length] != 0 ||
+                        fn_82F64CE0(string) != length) {
+                        goto invalid;
+                    }
+                    hr = attributes->vt->SetString(attributes, &item->key, string);
+                    if (hr < 0) {
+                        goto done;
+                    }
+                    break;
+                }
+                case 0x48: {
+                    const unsigned char *guid = data + item->value.blob.offset;
+                    if (guid < payload || guid + 0x10 > end) {
+                        goto invalid;
+                    }
+                    hr = attributes->vt->SetGUID(attributes, &item->key, (const Guid_82E25C48 *)guid);
+                    if (hr < 0) {
+                        goto done;
+                    }
+                    break;
+                }
+                case 0x1011: {
+                    const unsigned char *blob = data + item->value.blob.offset;
+                    if (blob < payload || blob + item->value.blob.size > end) {
+                        goto invalid;
+                    }
+                    hr = attributes->vt->SetBlob(attributes, &item->key, blob, item->value.blob.size);
+                    if (hr < 0) {
+                        goto done;
+                    }
+                    break;
+                }
+                default:
+                    goto invalid;
+                }
+            }
+        }
+        goto done;
+    invalid:
+        hr = 0x80070057;
+    }
+done:
+    attributes->vt->UnlockStore(attributes);
+    return hr;
+}

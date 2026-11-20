@@ -1,65 +1,100 @@
-extern unsigned int fStack_38;
-extern unsigned int fStack_3c;
-extern int fn_82D95480();
-extern unsigned int iStack_30;
-extern unsigned int iStack_40;
-extern unsigned int iStack_44;
-extern unsigned int iStack_48;
-extern unsigned int iStack_4c;
-extern unsigned int iStack_50;
-extern unsigned int lbl_821AAD20;
-extern unsigned int uStack_34;
+typedef struct Body_82D95350 {
+    char pad0[0x10];
+    char motion[0x130]; /* 0x10 */
+    char center[0x10];  /* 0x140 */
+} Body_82D95350;
 
+typedef struct Shape_82D95350 {
+    char pad0[0xf];
+    unsigned char flags; /* 0xf */
+} Shape_82D95350;
 
-void fn_82D95350(int *param_1,int *param_2)
+typedef struct Input_82D95350 {
+    unsigned int which;    /* 0x0 */
+    Body_82D95350 *bodyA;  /* 0x4 */
+    Body_82D95350 *bodyB;  /* 0x8 */
+    char *info;            /* 0xc */
+    int state;             /* 0x10 */
+    void *direction;       /* 0x14 */
+    Shape_82D95350 *shape; /* 0x18 */
+    int pad1c;
+    float *distance; /* 0x20 */
+    float *time;     /* 0x24 */
+} Input_82D95350;
 
+typedef struct Query_82D95350 {
+    char *motionA;           /* 0x0 */
+    char *motionB;           /* 0x4 */
+    Body_82D95350 *selected; /* 0x8 */
+    void *direction;         /* 0xc */
+    Shape_82D95350 *shape;   /* 0x10 */
+    float time;              /* 0x14 */
+    float distance;          /* 0x18 */
+    int started;             /* 0x1c */
+    char *info;              /* 0x20 */
+} Query_82D95350;
+
+typedef struct Solver_82D95350 Solver_82D95350;
+
+typedef struct SolverVtbl_82D95350 {
+    void *slots[7];
+    void (*solve)(Solver_82D95350 *self, Query_82D95350 *query); /* 0x1c */
+} SolverVtbl_82D95350;
+
+struct Solver_82D95350 {
+    SolverVtbl_82D95350 *vtbl;
+};
+
+extern float fn_82D95480(Body_82D95350 *bodyA, Body_82D95350 *bodyB, char *centerA, char *centerB,
+                         void *direction);
+
+void fn_82D95350(Solver_82D95350 *self, Input_82D95350 *in)
 {
-  float fVar1;
-  int iVar2;
-  double dVar3;
-  double dVar4;
-  int iStack_50;
-  int iStack_4c;
-  int iStack_48;
-  int iStack_44;
-  int iStack_40;
-  float fStack_3c;
-  float fStack_38;
-  unsigned int uStack_34;
-  int iStack_30;
-  
-  if (((*(unsigned char *)(param_2[6] + 0xf) & 1) != 0) && (iVar2 = param_2[4], iVar2 != 3)) {
-    fVar1 = lbl_821AAD20;
-    if (0 >= iVar2) {
-      fVar1 = *(float *)param_2[9];
-    }
-    dVar4 = (double)fVar1;
-    if ((float *)param_2[8] == (float *)0x0) {
-      dVar3 = (double)fn_82D95480((unsigned __int64)(unsigned int)param_2[1],(unsigned __int64)(unsigned int)param_2[2],
-                                   (unsigned __int64)(unsigned int)param_2[1] + 0x140,
-                                   (unsigned __int64)(unsigned int)param_2[2] + 0x140,param_2[5]);
-    }
-    else {
-      dVar3 = (double)*(float *)param_2[8];
-    }
-    fStack_3c = (float)dVar4;
-    fStack_38 = (float)dVar3;
-    iStack_30 = param_2[3] + 0x14;
-    iStack_44 = param_2[5];
-    iStack_50 = param_2[1] + 0x10;
-    iStack_40 = param_2[6];
-    iStack_4c = param_2[2] + 0x10;
-    uStack_34 = (unsigned int)(0 < iVar2);
-    iStack_48 = param_2[1];
-    if ((*param_2 != 0) && (iStack_48 = param_2[2], *param_2 != 1)) {
-      iStack_48 = 0;
-    }
-    (**(int (***)())(*param_1 + 0x1c))(param_1,&iStack_50);
-    *(float *)param_2[8] = fStack_38;
-    if (param_2[4] < 1) {
-      *(float *)param_2[9] = fStack_3c;
-    }
-  }
-  return;
-}
+    Query_82D95350 query;
+    float time;
+    float distance;
+    int started;
 
+    if ((in->shape->flags & 1) == 0) {
+        return;
+    }
+    if (in->state == 3) {
+        return;
+    }
+    if (in->state <= 0) {
+        started = 0;
+        time = *in->time;
+    } else {
+        started = 1;
+        time = 0.0f;
+    }
+    if (in->distance != 0) {
+        distance = *in->distance;
+    } else {
+        distance = fn_82D95480(in->bodyA, in->bodyB, in->bodyA->center, in->bodyB->center, in->direction);
+    }
+    query.motionA = in->bodyA->motion;
+    query.motionB = in->bodyB->motion;
+    query.direction = in->direction;
+    query.shape = in->shape;
+    query.time = time;
+    query.distance = distance;
+    query.started = started;
+    query.info = in->info + 0x14;
+    switch (in->which) {
+    case 0:
+        query.selected = in->bodyA;
+        break;
+    case 1:
+        query.selected = in->bodyB;
+        break;
+    default:
+        query.selected = 0;
+        break;
+    }
+    self->vtbl->solve(self, &query);
+    *in->distance = query.distance;
+    if (in->state <= 0) {
+        *in->time = query.time;
+    }
+}
