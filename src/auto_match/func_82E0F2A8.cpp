@@ -1,3 +1,7 @@
+#include "havok/hkClass.h"
+
+extern "C" {
+
 typedef struct Map_82E0F2A8 {
     void *elems;
     int size;
@@ -12,7 +16,7 @@ typedef struct Memory_82E0F2A8 {
 typedef struct Factory_82E0F2A8 Factory_82E0F2A8;
 typedef struct FactoryVt_82E0F2A8 {
     void *slots[4];
-    void *(*create)(Factory_82E0F2A8 *self, void *cls); /* 0x10 */
+    void *(*create)(Factory_82E0F2A8 *self, const char *className); /* 0x10 */
 } FactoryVt_82E0F2A8;
 struct Factory_82E0F2A8 { FactoryVt_82E0F2A8 *vt; };
 
@@ -26,19 +30,17 @@ typedef struct ListenerVt_82E0F2A8 {
 struct Listener_82E0F2A8 { ListenerVt_82E0F2A8 *vt; };
 
 extern char lbl_8323AE68[];
-extern Memory_82E0F2A8 *fn_82CE5410(void);
 extern void fn_82CEA160(Map_82E0F2A8 *map, void *alloc, void *key, void *value);
 extern int fn_82CEA220(Map_82E0F2A8 *map, void *key);
-extern void *fn_82CEAC20(void *obj);
 
 void fn_82E0F2A8(Listener_82E0F2A8 *self, void **objPtr, Factory_82E0F2A8 *factory, Map_82E0F2A8 *done)
 {
     void *copy;
     if (*objPtr != 0 && fn_82CEA220(done, *objPtr) > done->hashMod) {
-        copy = factory->vt->create(factory, fn_82CEAC20(*objPtr));
+        copy = factory->vt->create(factory, ((const hkClass *)(*objPtr))->getName());
         if (copy != 0) {
             void *obj = *objPtr;
-            Memory_82E0F2A8 *mem = fn_82CE5410();
+            Memory_82E0F2A8 *mem = (Memory_82E0F2A8 *)fn_82CE5410();
             fn_82CEA160(done, mem->alloc, copy, obj);
             self->vt->onObject(self, *objPtr, copy, lbl_8323AE68);
             self->vt->onCreated(self, copy);
@@ -46,4 +48,6 @@ void fn_82E0F2A8(Listener_82E0F2A8 *self, void **objPtr, Factory_82E0F2A8 *facto
             self->vt->onObject(self, *objPtr, 0, 0);
         }
     }
+}
+
 }

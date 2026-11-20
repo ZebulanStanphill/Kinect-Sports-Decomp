@@ -1,3 +1,4 @@
+#include "havok/hkClass.h"
 #include "havok/hkBase.h"
 #include "havok/hkString.h"
 struct hkPackfileHeader { int m_magic[2]; int m_userTag; int m_fileVersion; int m_layoutRules; int m_numSections; int m_contentsSectionIndex; int m_contentsSectionOffset; };
@@ -13,10 +14,8 @@ class hkBinaryPackfileReader { public:
  virtual const char *getContentsVersion();virtual void v11();virtual void v12();virtual void v13();virtual int getSectionIndex(const char *);virtual void *getClassByName(int,int); HK_FORCE_INLINE void findClasses(hkArray<ClassLocation> &out);
  char pad[0x18]; hkPackfileHeader *m_header; hkPackfileSectionHeader *m_sections; void **m_sectionData;
 };
-extern "C" const char *fn_82CEAC20(void *);
-struct hkClassMember {int a;void *m_enum;};
 extern "C" hkClassMember *fn_82CEAFA8(void *,const char *);
-extern "C" char lbl_8323AEC8[];
+extern "C" hkClass lbl_8323AEC8;
 extern "C" char lbl_8204EF40[];
 static HK_FORCE_INLINE ClassLocation &expandOne(hkArray<ClassLocation> &a) {
  hkMemoryAllocator &alloc=hkContainerHeapAllocator::get(&a);
@@ -48,8 +47,8 @@ HK_FORCE_INLINE void hkBinaryPackfileReader::findClasses(hkArray<ClassLocation> 
  }
  for(int i=0;i<out.m_size;++i) {
   void *obj=out.m_data[i].m_object;
-  if(hkString::strCmp(fn_82CEAC20(obj),"hctAttributeDescription")==0) {
-   hkClassMember *m=fn_82CEAFA8(obj,lbl_8204EF40);if(m->m_enum==0)m->m_enum=lbl_8323AEC8;
+  if(hkString::strCmp(static_cast<const hkClass *>(obj)->getName(),"hctAttributeDescription")==0) {
+   hkClassMember *m=fn_82CEAFA8(obj,lbl_8204EF40);if(m->m_class==0)m->m_class=&lbl_8323AEC8;
   }
  }
 }

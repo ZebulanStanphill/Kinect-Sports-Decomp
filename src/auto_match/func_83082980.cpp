@@ -2,8 +2,6 @@
 
 extern "C" int fn_82CEA280(void *ctx, const hkClass *node, int a);
 extern "C" void fn_82CEA160(void *ctx, hkMemoryAllocator *heap, const hkClass *node, int flags);
-extern "C" int fn_82CEAF18(const hkClass *node);
-extern "C" const hkClassMember *fn_82CEAF20(const hkClass *node, int i);
 extern "C" const hkClass *fn_82CEAC30(const hkClass *node);
 
 extern "C" void fn_83082980(const hkClass *node, void *ctx, int mask, void (*cb)(const hkClassMember *))
@@ -16,8 +14,8 @@ extern "C" void fn_83082980(const hkClass *node, void *ctx, int mask, void (*cb)
   if ((flags & mask) != 0)
     return;
   fn_82CEA160(ctx, &hkMemoryRouter::getInstance().heap(), node, flags | mask);
-  for (i = 0; i < fn_82CEAF18(node); i++) {
-    child = fn_82CEAF20(node, i);
+  for (i = 0; i < node->getNumDeclaredMembers(); i++) {
+    child = &node->getDeclaredMember(i);
     sub = child->getClass();
     if (sub != 0)
       fn_83082980(sub, ctx, mask, cb);

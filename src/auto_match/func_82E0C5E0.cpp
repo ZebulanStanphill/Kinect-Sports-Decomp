@@ -1,3 +1,7 @@
+#include "havok/hkClass.h"
+
+extern "C" {
+
 typedef struct Array_82E0C5E0 {
     void **data;
     int size;
@@ -29,7 +33,7 @@ struct Map_82E0C5E0 {
 typedef struct Mapper_82E0C5E0 Mapper_82E0C5E0;
 typedef struct MapperVt_82E0C5E0 {
     void *s00[4];
-    void *(*map)(Mapper_82E0C5E0 *, void *);                  /* 0x10 */
+    void *(*map)(Mapper_82E0C5E0 *, const char *className);                  /* 0x10 */
 } MapperVt_82E0C5E0;
 struct Mapper_82E0C5E0 {
     MapperVt_82E0C5E0 *vt;
@@ -61,10 +65,6 @@ typedef struct Router_82E0C5E0 {
     Alloc_82E0C5E0 *heap;   /* 0x10 */
 } Router_82E0C5E0;
 
-extern void fn_82CE4040(void *p);
-extern void fn_82CE4118(void *p);
-extern Router_82E0C5E0 *fn_82CE5410(void);
-extern void *fn_82CEAC20(void *p);
 extern Source_82E0C5E0 *fn_82E0BA38(Owner_82E0C5E0 *p);
 extern char lbl_8323AE68[];
 
@@ -81,7 +81,7 @@ void fn_82E0C5E0(Owner_82E0C5E0 *self, Mapper_82E0C5E0 *mapper)
     map = self->vt->getMap(self);
     src = fn_82E0BA38(self);
     if (src != 0) {
-        fn_82CE4040(src);
+        fn_82CE4040((const hkReferencedObject *)src);
     }
     arr.data = 0;
     arr.size = 0;
@@ -89,7 +89,7 @@ void fn_82E0C5E0(Owner_82E0C5E0 *self, Mapper_82E0C5E0 *mapper)
     src->vt->getItems(src, &arr);
     for (i = 0; i < arr.size; i++) {
         void *item = arr.data[i];
-        void *mapped = mapper->vt->map(mapper, fn_82CEAC20(item));
+        void *mapped = mapper->vt->map(mapper, ((const hkClass *)(item))->getName());
         if (mapped != 0 && mapped != item) {
             src->vt->remove(src, mapped, 0);
             map->vt->replace(map, item, mapped, lbl_8323AE68);
@@ -97,20 +97,22 @@ void fn_82E0C5E0(Owner_82E0C5E0 *self, Mapper_82E0C5E0 *mapper)
         }
     }
     if (wasNull) {
-        fn_82CE4118(self->f78);
+        fn_82CE4118((const hkReferencedObject *)self->f78);
         self->f78 = 0;
     }
-    fn_82CE4040(src);
+    fn_82CE4040((const hkReferencedObject *)src);
     if (self->f7c != 0) {
-        fn_82CE4118(self->f7c);
+        fn_82CE4118((const hkReferencedObject *)self->f7c);
     }
     self->f7c = src;
-    heap = fn_82CE5410()->heap;
+    heap = (Alloc_82E0C5E0 *)&hkMemoryRouter::getInstance().heap();
     arr.size = 0;
     if ((arr.capacityAndFlags & (int)0x80000000) == 0) {
         heap->vt->bufFree(heap, arr.data, arr.capacityAndFlags & 0x3fffffff, 4);
     }
     arr.data = 0;
     arr.capacityAndFlags = (int)0x80000000;
-    fn_82CE4118(src);
+    fn_82CE4118((const hkReferencedObject *)src);
+}
+
 }

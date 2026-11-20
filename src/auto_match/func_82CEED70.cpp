@@ -1,23 +1,25 @@
+#include "havok/hkClass.h"
+
+extern "C" {
+
 extern unsigned int *auStack_30;
-extern int fn_82CEAF18();
-extern int fn_82CEAF20();
-extern int fn_82CEEC58();
+extern int fn_82CEEC58(unsigned char *result, const hkClassMember *member);
 
 
-unsigned char * fn_82CEED70(unsigned char *param_1,unsigned __int64 param_2)
+unsigned char * fn_82CEED70(unsigned char *param_1,const hkClass *param_2)
 
 {
   int iVar2;
-  unsigned int uVar1;
+  const hkClassMember *uVar1;
   char *pcVar3;
   int lVar4;
   unsigned char auStack_30 [1];
   
-  iVar2 = fn_82CEAF18(param_2);
+  iVar2 = ((const hkClass *)(param_2))->getNumDeclaredMembers();
   lVar4 = 0;
   if (0 < iVar2) {
     do {
-      uVar1 = fn_82CEAF20(param_2,lVar4);
+      uVar1 = &((const hkClass *)(param_2))->getDeclaredMember(lVar4);
       pcVar3 = (char *)fn_82CEEC58(auStack_30,uVar1);
       if (*pcVar3 == '\0') {
         *param_1 = 0;
@@ -30,3 +32,4 @@ unsigned char * fn_82CEED70(unsigned char *param_1,unsigned __int64 param_2)
   return param_1;
 }
 
+}

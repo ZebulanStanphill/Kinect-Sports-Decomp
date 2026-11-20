@@ -1,3 +1,4 @@
+#include "havok/hkClass.h"
 #include "havok/hkString.h"
 
 typedef struct Seg_82CEAD98 {
@@ -9,8 +10,6 @@ typedef struct Seg_82CEAD98 {
   int size;
 } Seg_82CEAD98;
 
-extern "C" int fn_82CEAD08(Seg_82CEAD98 *);
-
 extern "C" char *fn_82CEAD98(Seg_82CEAD98 *self, int key)
 {
   int i;
@@ -19,7 +18,7 @@ extern "C" char *fn_82CEAD98(Seg_82CEAD98 *self, int key)
   Seg_82CEAD98 *s;
   char *e;
 
-  for (i = 0; i < fn_82CEAD08(self); i++) {
+  for (i = 0; i < reinterpret_cast<const hkClass *>(self)->getNumEnums(); i++) {
     total = self->size;
     for (s = self->next; s != 0; s = s->next) {
       total = s->size + total;

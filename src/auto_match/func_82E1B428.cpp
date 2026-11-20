@@ -1,3 +1,4 @@
+#include "havok/hkClass.h"
 #include "havok/hkArrayUtil.h"
 
 typedef struct Ctx_82E1B428 {
@@ -27,12 +28,8 @@ typedef struct Span_82E1B428 {
     int count;
 } Span_82E1B428;
 extern "C" char lbl_8323AE68[];
-extern "C" Ctx_82E1B428 *fn_82CE5410(void);
-extern "C" void fn_82CEAB00(Sub_82E1B428 *sub, void *alloc, int a);
-extern "C" void *fn_82CE52E0(void *alloc, int size);
 extern "C" void *fn_82CEAC28(void *p);
-extern "C" void *fn_82CEAC20(void *p);
-extern "C" void *fn_82CFC288(void *p);
+extern "C" void *fn_82CFC288(const char *name);
 extern "C" void fn_82CFFF50(Var_82E1B428 *out, void *obj, void *klass);
 extern "C" void fn_82CFFC80(Var_82E1B428 *out, Var_82E1B428 *v, const char *name);
 extern "C" void *fn_82CFFD70(Var_82E1B428 *v);
@@ -74,7 +71,7 @@ extern "C" void *fn_82E1B428(Array_82E1B428 *arr, void *src, void *klass, void *
     Var_82E1B428 vb0;
     Var_82E1B428 vb8;
 
-    alloc = fn_82CE5410()->alloc;
+    alloc = reinterpret_cast<Ctx_82E1B428 *>(fn_82CE5410())->alloc;
     oldSize = arr->size;
     n = oldSize + 1;
     cap = arr->capAndFlags & 0x3fffffff;
@@ -87,12 +84,12 @@ extern "C" void *fn_82E1B428(Array_82E1B428 *arr, void *src, void *klass, void *
         e->sub.a = 0;
         e->sub.b = 0;
         e->sub.c = -1;
-        ctx = fn_82CE5410();
-        fn_82CEAB00(&e->sub, ctx->alloc, 0);
+        ctx = reinterpret_cast<Ctx_82E1B428 *>(fn_82CE5410());
+        fn_82CEAB00(&e->sub, static_cast<hkMemoryAllocator *>(ctx->alloc), 0);
     }
     e = &arr->data[oldSize];
     arr->size++;
-    e->obj = fn_82CE52E0(fn_82CE5410()->alloc, 0x30);
+    e->obj = fn_82CE52E0(static_cast<hkMemoryAllocator *>(reinterpret_cast<Ctx_82E1B428 *>(fn_82CE5410())->alloc), 0x30);
     if (fn_82CEAC28(src) != 0) {
         fn_82CFFF50(&v88, e->obj, lbl_8323AE68);
         fn_82CFFC80(&v90, &v88, "parent");
@@ -100,9 +97,9 @@ extern "C" void *fn_82E1B428(Array_82E1B428 *arr, void *src, void *klass, void *
     }
     fn_82CFFF50(&v80, src, lbl_8323AE68);
     if (klass != 0) {
-        cls = fn_82CFC288(klass);
+        cls = fn_82CFC288(static_cast<const char *>(klass));
     } else {
-        cls = fn_82CFC288(fn_82CEAC20(src));
+        cls = fn_82CFC288(static_cast<const hkClass *>(src)->getName());
     }
     fn_82CFFC80(&v98, &v80, "declaredEnums");
     enums = fn_82CFFEB8(&v98, 0);

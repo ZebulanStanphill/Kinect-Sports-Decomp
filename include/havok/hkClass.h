@@ -9,10 +9,19 @@
 
 class hkClass {
 public:
-    int getObjectSize() const;
+    const char *getName() const;
+    int getNumInterfaces() const;
+    int getNumDeclaredInterfaces() const;
+    int getNumEnums() const;
+    const hkClassEnum &getDeclaredEnum(int enumIndex) const;
+    int getNumDeclaredEnums() const;
     int getNumMembers() const;
     const hkClassMember &getMember(int memberIndex) const;
     hkClassMember &getMember(int memberIndex);
+    int getNumDeclaredMembers() const;
+    const hkClassMember &getDeclaredMember(int memberIndex) const;
+    int getObjectSize() const;
+    int getDescribedVersion() const;
     void writeSignature(hkStreamWriter *w) const;
 
     const char *m_name;                       // +0x00
