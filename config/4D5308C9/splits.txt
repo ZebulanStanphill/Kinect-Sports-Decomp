@@ -45710,7 +45710,7 @@ auto_match/func_825A5420.cpp:
 	.pdata      start:0x821F0B00 end:0x821F0B08
 	.text       start:0x825A5420 end:0x825A54A4
 
-auto_match/func_825A54A8.c:
+auto_match/func_825A54A8.cpp:
 	.pdata      start:0x821F0B08 end:0x821F0B10
 	.text       start:0x825A54A8 end:0x825A55D8
 
@@ -138282,7 +138282,7 @@ auto_match/func_82CED060.c:
 	.pdata      start:0x82215A30 end:0x82215A38
 	.text       start:0x82CED060 end:0x82CED0A0
 
-auto_match/func_82CED0A0.c:
+auto_match/func_82CED0A0.cpp:
 	.text       start:0x82CED0A0 end:0x82CED0A8
 
 auto_match/func_82CED0A8.c:
@@ -139823,11 +139823,11 @@ auto_match/func_82CFE198.c:
 auto_match/func_82CFE1A0.c:
 	.text       start:0x82CFE1A0 end:0x82CFE1AC
 
-auto_match/func_82CFE1B0.c:
+auto_match/func_82CFE1B0.cpp:
 	.pdata      start:0x822162A8 end:0x822162B0
 	.text       start:0x82CFE1B0 end:0x82CFE1F0
 
-auto_match/func_82CFE1F0.c:
+auto_match/func_82CFE1F0.cpp:
 	.text       start:0x82CFE1F0 end:0x82CFE1F8
 
 auto_match/func_82CFE1F8.c:
@@ -139850,7 +139850,7 @@ auto_match/func_82CFE370.cpp:
 	.pdata      start:0x822162D0 end:0x822162D8
 	.text       start:0x82CFE370 end:0x82CFE3B8
 
-auto_match/func_82CFE3B8.c:
+auto_match/func_82CFE3B8.cpp:
 	.pdata      start:0x822162D8 end:0x822162E0
 	.text       start:0x82CFE3B8 end:0x82CFE3E8
 
@@ -139858,7 +139858,7 @@ auto_match/func_82CFE3E8.c:
 	.pdata      start:0x822162E0 end:0x822162E8
 	.text       start:0x82CFE3E8 end:0x82CFE418
 
-auto_match/func_82CFE418.c:
+auto_match/func_82CFE418.cpp:
 	.pdata      start:0x822162E8 end:0x822162F0
 	.text       start:0x82CFE418 end:0x82CFE448
 
@@ -156986,7 +156986,7 @@ auto_match/func_82E09178.cpp:
 	.pdata      start:0x8221B618 end:0x8221B620
 	.text       start:0x82E09178 end:0x82E09228
 
-auto_match/func_82E09228.c:
+auto_match/func_82E09228.cpp:
 	.pdata      start:0x8221B620 end:0x8221B628
 	.text       start:0x82E09228 end:0x82E0929C
 
@@ -157447,7 +157447,7 @@ auto_match/func_82E124B0.c:
 	.pdata      start:0x8221B928 end:0x8221B930
 	.text       start:0x82E124B0 end:0x82E12520
 
-auto_match/func_82E12520.c:
+auto_match/func_82E12520.cpp:
 	.pdata      start:0x8221B930 end:0x8221B938
 	.text       start:0x82E12520 end:0x82E12584
 
@@ -157962,7 +157962,7 @@ Havok/Common/Serialize/Copier/hkObjectCopier/func_82E18720.c:
 	.pdata      start:0x8221BC80 end:0x8221BC88
 	.text       start:0x82E18720 end:0x82E18F88
 
-Havok/Common/Serialize/Copier/hkObjectCopier/func_82E18F88.c:
+Havok/Common/Serialize/Copier/hkObjectCopier/func_82E18F88.cpp:
 	.pdata      start:0x8221BC88 end:0x8221BC90
 	.text       start:0x82E18F88 end:0x82E19000
 

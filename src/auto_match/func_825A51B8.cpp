@@ -1,10 +1,8 @@
-#include "havok/hkBase.h"
+#include "havok/hkMemoryStreamReader.h"
 inline void *operator new(unsigned int,void *p) throw() { return p; }
 extern "C" {
 void fn_82E0B980(void *);
 void fn_82E0C7A0(void *);
-void fn_82CEBB90(void *, const void *, int, int);
-void fn_82CEBC18(void *);
 unsigned char *fn_82CEBB58(void *, void *);
 int fn_82E0D7E8(void *, void *);
 void *fn_82E12AC8(void *, const char *);
@@ -19,11 +17,6 @@ struct PackfileReader {
     HK_FORCE_INLINE PackfileReader() { fn_82E0B980(this); }
     HK_FORCE_INLINE ~PackfileReader() { fn_82E0C7A0(this); }
     char data[0x80];
-};
-struct MemoryStream {
-    HK_FORCE_INLINE MemoryStream(const void *p,int n) { fn_82CEBB90(this,p,n,2); }
-    HK_FORCE_INLINE ~MemoryStream() { fn_82CEBC18(this); }
-    char data[0x1C];
 };
 struct Blob {
     const char *data;
@@ -56,15 +49,15 @@ extern "C" void fn_825A51B8(Obj *o)
     if (blob->count==1) {
         PackfileReader &reader=*new (stack.reader) PackfileReader;
         o->state=1;
-        MemoryStream &stream=*new (stack.stream) MemoryStream(blob->data,blob->size);
+        new (stack.stream) hkMemoryStreamReader(blob->data, blob->size, hkMemoryStreamReader::MEMORY_INPLACE);
 
-        if (*fn_82CEBB58(&stack.result,&stream) && fn_82E0D7E8(&reader,&stream)==0) {
+        if (*fn_82CEBB58(&stack.result,stack.stream) && fn_82E0D7E8(&reader,stack.stream)==0) {
             o->shape=(hkReferencedObject *)fn_82E12AC8(&reader,"hkpConvexVerticesShape");
             hkReferencedObject *r=fn_82E0C868(&reader);
             r->addReference(); r->addReference();
             *fn_825A2410(&o->reference)=r;
         }
-        stream.~MemoryStream();
+        reinterpret_cast<hkMemoryStreamReader *>(stack.stream)->hkMemoryStreamReader::~hkMemoryStreamReader();
         reader.~PackfileReader();
     } else {
         o->state=2;
@@ -75,15 +68,15 @@ extern "C" void fn_825A51B8(Obj *o)
         for (int i=0;i<count;++i) {
             const char *data=blob->data+offsets[i];
             PackfileReader &reader=*new (stack.reader) PackfileReader;
-            MemoryStream &stream=*new (stack.stream) MemoryStream(data,sizes[i]);
+            new (stack.stream) hkMemoryStreamReader(data, sizes[i], hkMemoryStreamReader::MEMORY_INPLACE);
     
-            if (*fn_82CEBB58(&stack.result,&stream) && fn_82E0D7E8(&reader,&stream)==0) {
+            if (*fn_82CEBB58(&stack.result,stack.stream) && fn_82E0D7E8(&reader,stack.stream)==0) {
                 shapes[i]=(hkReferencedObject *)fn_82E12AC8(&reader,"hkpConvexVerticesShape");
                 hkReferencedObject *r=fn_82E0C868(&reader);
                 r->addReference(); r->addReference();
                 *fn_825A2410(&o->reference)=r;
             }
-            stream.~MemoryStream();
+            reinterpret_cast<hkMemoryStreamReader *>(stack.stream)->hkMemoryStreamReader::~hkMemoryStreamReader();
             reader.~PackfileReader();
         }
         hkReferencedObject *shape=(hkReferencedObject *)hkReferencedObject::operator new(0x70);

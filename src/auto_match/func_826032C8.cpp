@@ -8,18 +8,9 @@
 #include "havok/hkBase.h"
 inline void *operator new(unsigned int,void *p) throw() { return p; }
 
-class hkStreamReader : public hkReferencedObject {
-public:
-    virtual hkBool isOk() const = 0;
-    virtual int read(void *buf, int nbytes) = 0;
-};
+#include "havok/hkStreamReader.h"
 
-class hkStreamWriter : public hkReferencedObject {
-public:
-    virtual hkBool isOk() const = 0;
-    virtual int write(const void *buf, int nbytes) = 0;
-    virtual void flush() {}                               // +0x14
-};
+#include "havok/hkStreamWriter.h"
 
 // hkSingleton<hkFileSystem>::s_instance is lbl_8323B4A4.
 class hkFileSystem : public hkReferencedObject {
@@ -103,18 +94,7 @@ public:
     TrackOwnership m_ownerShip;  // +0xC
 };
 
-class hkIArchive : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_BASE_CLASS);
-    hkIArchive(hkStreamReader *sb, hkBool byteswap);
-    hkIArchive(const char *filename, hkBool byteswap);
-    hkIArchive(const void *mem, int memSize, hkBool byteswap);
-    virtual ~hkIArchive();
-
-protected:
-    hkStreamReader *m_streamReader;   // +0x8
-    hkBool m_byteSwap;                // +0xC
-};
+#include "havok/hkIArchive.h"
 
 extern "C" {
 int *fn_825A2410(int *p);
@@ -124,7 +104,6 @@ int fn_82E0D7E8(void *reader, hkStreamReader *sr);
 void fn_82E10A30(void *reader, unsigned int v);
 void *fn_82E12AC8(void *reader, const char *className);
 hkReferencedObject *fn_82E0C868(void *reader);
-hkStreamReader *fn_82CED0A0(hkIArchive *ar);   // hkIArchive::getStreamReader
 extern unsigned int lbl_8323FDE4;
 }
 
@@ -187,7 +166,7 @@ extern "C" void fn_826032C8(Obj *o)
     if (b->size0 != 0) {
         hkIArchive ar(b->data0, b->size0, false);
         PackfileReader &reader = *new (storage.data) PackfileReader;
-        fn_82E0D7E8(&reader, fn_82CED0A0(&ar));
+        fn_82E0D7E8(&reader, ar.getStreamReader());
         fn_82E10A30(&reader, lbl_8323FDE4);
         o->physicsData = fn_82E12AC8(&reader, "hkpPhysicsData");
         hkReferencedObject *d = fn_82E0C868(&reader);
@@ -199,7 +178,7 @@ extern "C" void fn_826032C8(Obj *o)
     if (b->size1 != 0) {
         hkIArchive ar(b->data1, b->size1, false);
         PackfileReader &reader = *new (storage.data) PackfileReader;
-        fn_82E0D7E8(&reader, fn_82CED0A0(&ar));
+        fn_82E0D7E8(&reader, ar.getStreamReader());
         o->system = (PhysicsSystem *)fn_82E12AC8(&reader, "hkpPhysicsSystem");
         hkReferencedObject *d = fn_82E0C868(&reader);
         d->addReference();

@@ -11,27 +11,19 @@
 // cleared (otherwise the member copy's destination address is folded to one addi).
 #include "havok/hkClass.h"
 
-class hkOArchive {
-public:
-    hkOArchive(hkStreamWriter *writer, hkBool byteSwap);
-    virtual ~hkOArchive();
-    int m_data[3];
-};
+#include "havok/hkOArchive.h"
 
 extern "C" {
-void fn_82CFE418(hkOArchive *self, int i);                          // hkOArchive::write32
-void fn_82CFE3B8(hkOArchive *self, hkUint16 i);                     // hkOArchive::write16u
-void fn_82CFE180(hkOArchive *self, const char *buf, int nbytes);    // hkOArchive::writeRaw
 int fn_82CFBE40(const char *s);                                     // hkString::strLen
 }
 
 void hkClass::writeSignature(hkStreamWriter *w) const
 {
     hkOArchive oa(w, true);
-    fn_82CFE418(&oa, m_numImplementedInterfaces);
+    oa.write32(m_numImplementedInterfaces);
     for (int i = 0; i < m_numDeclaredEnums; ++i)
         m_declaredEnums[i].writeSignature(w);
-    fn_82CFE418(&oa, m_numDeclaredEnums);
+    oa.write32(m_numDeclaredEnums);
     for (int i = 0; i < m_numDeclaredMembers; ++i) {
         const hkClassMember *members = m_declaredMembers;
         const hkClassMember &member = members[i];
@@ -56,13 +48,13 @@ void hkClass::writeSignature(hkStreamWriter *w) const
         }
         if (mem.m_enum)
             member.getEnumClass().writeSignature(w);
-        fn_82CFE180(&oa, mem.m_name, fn_82CFBE40(mem.m_name));
-        fn_82CFE3B8(&oa, mem.m_type);
-        fn_82CFE3B8(&oa, mem.m_subtype);
+        oa.writeRaw(mem.m_name, fn_82CFBE40(mem.m_name));
+        oa.write16(mem.m_type);
+        oa.write16(mem.m_subtype);
         if (extraSubtype)
-            fn_82CFE3B8(&oa, extraSubtype);
-        fn_82CFE3B8(&oa, mem.m_cArraySize);
-        fn_82CFE3B8(&oa, mem.m_flags);
+            oa.write16(extraSubtype);
+        oa.write16(mem.m_cArraySize);
+        oa.write16(mem.m_flags);
     }
-    fn_82CFE418(&oa, m_numDeclaredMembers);
+    oa.write32(m_numDeclaredMembers);
 }

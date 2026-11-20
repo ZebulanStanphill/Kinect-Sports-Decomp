@@ -1,18 +1,9 @@
-// hkIArchive::hkIArchive(const void *, int, hkBool) (hkIArchive.cpp). Its `new hkMemoryStreamReader(mem, memSize, MEMORY_INPLACE)` is written out (class operator new, then the constructor fn_82CEBB90), because that constructor keeps its fn_ name.
+// hkIArchive::hkIArchive(const void *, int, hkBool) (hkIArchive.cpp).
 #include "havok/hkBase.h"
 
-class hkStreamReader : public hkReferencedObject {
-public:
-    virtual hkBool isOk() const = 0;
-    virtual int read(void *buf, int nbytes) = 0;
-};
+#include "havok/hkStreamReader.h"
 
-class hkStreamWriter : public hkReferencedObject {
-public:
-    virtual hkBool isOk() const = 0;
-    virtual int write(const void *buf, int nbytes) = 0;
-    virtual void flush() {}                               // +0x14
-};
+#include "havok/hkStreamWriter.h"
 
 // hkSingleton<hkFileSystem>::s_instance is lbl_8323B4A4.
 class hkFileSystem : public hkReferencedObject {
@@ -24,35 +15,7 @@ public:
 extern "C" hkFileSystem *lbl_8323B4A4;
 inline hkFileSystem &hkFileSystem::getInstance() { return *lbl_8323B4A4; }
 
-class hkMemoryStreamReader;
-extern "C" {
-hkMemoryStreamReader *fn_82CEBB90(hkMemoryStreamReader *self, const void *mem, int memSize, int mt);  // hkMemoryStreamReader::hkMemoryStreamReader
-void fn_82CEBC18(hkMemoryStreamReader *self);                                                       // hkMemoryStreamReader::~hkMemoryStreamReader
-}
-
-class hkMemoryStreamReader : public hkStreamReader {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_STREAM);
-    enum MemoryType { MEMORY_COPY, MEMORY_TAKE, MEMORY_INPLACE };
-    // Constructor and destructor are out of line in the game as fn_82CEBB90 and
-    // fn_82CEBC18, which keep their fn_ names because a Matching C unit
-    // (fn_825A54A8) calls them. The destructor is defined inline (forced) so
-    // that it can be expanded into the extern "C" definition of fn_82CEBC18.
-    virtual HK_FORCE_INLINE ~hkMemoryStreamReader()
-    {
-        if (m_memType == MEMORY_COPY || m_memType == MEMORY_TAKE)
-            hkDeallocate<char>(m_buf);
-    }
-    virtual hkBool isOk() const;
-    virtual int read(void *buf, int nbytes);
-
-protected:
-    char *m_buf;            // +0x8
-    int m_bufCurrent;       // +0xC
-    int m_bufSize;          // +0x10
-    int m_markPos;          // +0x14
-    MemoryType m_memType;   // +0x18
-};
+#include "havok/hkMemoryStreamReader.h"
 
 class hkBufferedStreamWriter : public hkStreamWriter {
 public:
@@ -109,56 +72,14 @@ public:
     TrackOwnership m_ownerShip;  // +0xC
 };
 
-class hkIArchive : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_BASE_CLASS);
-    hkIArchive(hkStreamReader *sb, hkBool byteswap);
-    hkIArchive(const char *filename, hkBool byteswap);
-    hkIArchive(const void *mem, int memSize, hkBool byteswap);
-    virtual ~hkIArchive();
+#include "havok/hkIArchive.h"
 
-protected:
-    hkStreamReader *m_streamReader;   // +0x8
-    hkBool m_byteSwap;                // +0xC
-};
+#include "havok/hkOArchive.h"
 
-class hkOArchive : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_BASE_CLASS);
-    hkOArchive(hkStreamWriter *sw, hkBool byteswap);
-    hkOArchive(const char *filename, hkBool byteswap);
-    hkOArchive(void *mem, int memSize, hkBool byteswap);
-    hkOArchive(hkArray<char> &buf, hkBool byteswap);
-    virtual ~hkOArchive();
-
-protected:
-    hkStreamWriter *m_writer;   // +0x8
-    hkBool m_byteSwap;          // +0xC
-};
-
-class hkOstream : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_STREAM);
-    hkOstream(hkStreamWriter *sw);
-    hkOstream(const char *filename);
-    hkOstream(void *mem, int memSize, hkBool isString);
-    hkOstream(hkMemoryTrack *track);
-    hkOstream(hkArray<char> &buf);
-    virtual ~hkOstream();
-    virtual const hkClass *getClassType() const;
-    virtual void calcContentStatistics(hkStatisticsCollector *collector, const hkClass *cls) const;
-
-protected:
-    // A reference-counted writer, managed with the lock-free reference
-    // functions (fn_82CE3E28 / fn_82CE3E48).
-    hkStreamWriter *m_writer;   // +0x8
-};
+#include "havok/hkOstream.h"
 
 hkIArchive::hkIArchive(const void *mem, int memSize, hkBool byteswap)
     : m_byteSwap(byteswap)
 {
-    // new hkMemoryStreamReader(mem, memSize, hkMemoryStreamReader::MEMORY_INPLACE)
-    void *p = hkMemoryStreamReader::operator new(sizeof(hkMemoryStreamReader));
-    m_streamReader = fn_82CEBB90(static_cast<hkMemoryStreamReader *>(p), mem, memSize,
-                                 hkMemoryStreamReader::MEMORY_INPLACE);
+    m_streamReader = new hkMemoryStreamReader(mem, memSize, hkMemoryStreamReader::MEMORY_INPLACE);
 }

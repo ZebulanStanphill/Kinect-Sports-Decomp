@@ -70433,7 +70433,7 @@
           "/QVMXReserve"
         ]
       },
-      "auto_match/func_825A54A8.c": {
+      "auto_match/func_825A54A8.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O1"
@@ -218894,7 +218894,7 @@
           "/O2"
         ]
       },
-      "auto_match/func_82CED0A0.c": {
+      "auto_match/func_82CED0A0.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O1"
@@ -221449,13 +221449,13 @@
           "/O1"
         ]
       },
-      "auto_match/func_82CFE1B0.c": {
+      "auto_match/func_82CFE1B0.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
       },
-      "auto_match/func_82CFE1F0.c": {
+      "auto_match/func_82CFE1F0.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O1"
@@ -221491,7 +221491,7 @@
           "/O2"
         ]
       },
-      "auto_match/func_82CFE3B8.c": {
+      "auto_match/func_82CFE3B8.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O1"
@@ -221503,7 +221503,7 @@
           "/O1"
         ]
       },
-      "auto_match/func_82CFE418.c": {
+      "auto_match/func_82CFE418.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O1"
@@ -249023,7 +249023,7 @@
           "/O2"
         ]
       },
-      "auto_match/func_82E09228.c": {
+      "auto_match/func_82E09228.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2"
@@ -249753,8 +249753,8 @@
           "/O2"
         ]
       },
-      "auto_match/func_82E12520.c": {
-        "status": "NonMatching",
+      "auto_match/func_82E12520.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
@@ -250569,7 +250569,7 @@
           "/O2"
         ]
       },
-      "Havok/Common/Serialize/Copier/hkObjectCopier/func_82E18F88.c": {
+      "Havok/Common/Serialize/Copier/hkObjectCopier/func_82E18F88.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2"

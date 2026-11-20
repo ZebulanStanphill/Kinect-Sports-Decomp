@@ -5,18 +5,9 @@
 // The copier's own helpers keep their fn_ names.
 #include "havok/hkBase.h"
 
-class hkStreamReader : public hkReferencedObject {
-public:
-    virtual hkBool isOk() const = 0;
-    virtual int read(void *buf, int nbytes) = 0;
-};
+#include "havok/hkStreamReader.h"
 
-class hkStreamWriter : public hkReferencedObject {
-public:
-    virtual hkBool isOk() const = 0;
-    virtual int write(const void *buf, int nbytes) = 0;
-    virtual void flush() {}                               // +0x14
-};
+#include "havok/hkStreamWriter.h"
 
 // hkSingleton<hkFileSystem>::s_instance is lbl_8323B4A4.
 class hkFileSystem : public hkReferencedObject {
@@ -100,34 +91,9 @@ public:
     TrackOwnership m_ownerShip;  // +0xC
 };
 
-class hkIArchive : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_BASE_CLASS);
-    hkIArchive(hkStreamReader *sb, hkBool byteswap);
-    hkIArchive(const char *filename, hkBool byteswap);
-    hkIArchive(const void *mem, int memSize, hkBool byteswap);
-    virtual ~hkIArchive();
+#include "havok/hkIArchive.h"
 
-protected:
-    hkStreamReader *m_streamReader;   // +0x8
-    hkBool m_byteSwap;                // +0xC
-};
-
-class hkOArchive : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_BASE_CLASS);
-    hkOArchive(hkStreamWriter *sw, hkBool byteswap);
-    hkOArchive(const char *filename, hkBool byteswap);
-    hkOArchive(void *mem, int memSize, hkBool byteswap);
-    hkOArchive(hkArray<char> &buf, hkBool byteswap);
-    virtual ~hkOArchive();
-
-protected:
-    hkStreamWriter *m_writer;   // +0x8
-    hkBool m_byteSwap;          // +0xC
-};
-
-enum hkResult { HK_SUCCESS = 0, HK_FAILURE = 1 };
+#include "havok/hkOArchive.h"
 
 class hkRelocationInfo;
 class hkObjectCopier;
@@ -138,7 +104,6 @@ int fn_82E18720(hkObjectCopier *self, const void *dataIn, const hkClass &klassIn
 void fn_82E182B0(hkStreamWriter *w, int align);                           // writePadding
 void fn_82E19000(hkObjectCopier *self, const void *dataIn, const hkClass &klassIn, hkOArchive &dataOut,
                  const hkClass &klassOut, int objectStart, hkRelocationInfo &reloc, void *extra);   // saveExtras
-hkBool *fn_82CFE1B0(hkBool *result, const hkOArchive *oa);                // hkOArchive::isOk
 }
 
 class hkObjectCopier : public hkReferencedObject {
@@ -159,6 +124,5 @@ hkResult hkObjectCopier::copyObject(const void *dataIn, const hkClass &klassIn, 
     fn_82E182B0(dataOut, 16);
     fn_82E19000(this, dataIn, klassIn, dataArchive, klassOut, objectStart, reloc, HK_NULL);
     fn_82E182B0(dataOut, 16);
-    hkBool ok;
-    return *fn_82CFE1B0(&ok, &dataArchive) ? HK_SUCCESS : HK_FAILURE;
+    return dataArchive.isOk() ? HK_SUCCESS : HK_FAILURE;
 }

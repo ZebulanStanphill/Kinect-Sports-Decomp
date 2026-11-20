@@ -1,4 +1,4 @@
-// hkMemoryStreamReader scalar deleting destructor (vtable slot 0). It calls the destructor fn_82E025E0, which keeps its fn_ name, so it is written out by hand and keeps its own.
+// hkxSparselyAnimatedInt's scalar deleting destructor (slot 0 of ??_7hkxSparselyAnimatedInt@@6B@), written with a stand-in class named hkMemoryStreamReader (only its class allocator is used). It calls hkxSparselyAnimatedInt's destructor fn_82E025E0, which keeps its fn_ name.
 #include "havok/hkBase.h"
 
 class hkStreamReader : public hkReferencedObject {
@@ -26,18 +26,14 @@ inline hkFileSystem &hkFileSystem::getInstance() { return *lbl_8323B4A4; }
 
 class hkMemoryStreamReader;
 extern "C" {
-hkMemoryStreamReader *fn_82CEBB90(hkMemoryStreamReader *self, const void *mem, int memSize, int mt);  // hkMemoryStreamReader::hkMemoryStreamReader
-void fn_82E025E0(hkMemoryStreamReader *self);                                                       // hkMemoryStreamReader::~hkMemoryStreamReader
+void fn_82E025E0(hkMemoryStreamReader *self);   // hkxSparselyAnimatedInt::~hkxSparselyAnimatedInt
 }
 
 class hkMemoryStreamReader : public hkStreamReader {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_STREAM);
     enum MemoryType { MEMORY_COPY, MEMORY_TAKE, MEMORY_INPLACE };
-    // Constructor and destructor are out of line in the game as fn_82CEBB90 and
-    // fn_82E025E0, which keep their fn_ names because a Matching C unit
-    // (fn_825A54A8) calls them. The destructor is defined inline (forced) so
-    // that it can be expanded into the extern "C" definition of fn_82E025E0.
+    // The stand-in's destructor is not used here: this unit calls fn_82E025E0.
     virtual HK_FORCE_INLINE ~hkMemoryStreamReader()
     {
         if (m_memType == MEMORY_COPY || m_memType == MEMORY_TAKE)

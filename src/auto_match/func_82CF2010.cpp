@@ -7,18 +7,9 @@
 // local buffer and destroyed with an explicit call.
 #include "havok/hkBase.h"
 
-class hkStreamReader : public hkReferencedObject {
-public:
-    virtual hkBool isOk() const = 0;
-    virtual int read(void *buf, int nbytes) = 0;
-};
+#include "havok/hkStreamReader.h"
 
-class hkStreamWriter : public hkReferencedObject {
-public:
-    virtual hkBool isOk() const = 0;
-    virtual int write(const void *buf, int nbytes) = 0;
-    virtual void flush() {}                               // +0x14
-};
+#include "havok/hkStreamWriter.h"
 
 // hkSingleton<hkFileSystem>::s_instance is lbl_8323B4A4.
 class hkFileSystem : public hkReferencedObject {
@@ -102,15 +93,7 @@ public:
     TrackOwnership m_ownerShip;  // +0xC
 };
 
-class hkOstream : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_STREAM);
-    hkOstream(hkArray<char> &buf);
-    virtual ~hkOstream();
-
-protected:
-    hkStreamWriter *m_writer;   // +0x8
-};
+#include "havok/hkOstream.h"
 
 struct StatsOptions {
     int m_firstColumn;        // +0x0
@@ -123,7 +106,6 @@ struct StatsOptions {
 extern "C" {
 void fn_82CED958(hkOstream *os);                                   // hkOstream::~hkOstream
 void fn_82CEDE90(hkOstream *os, const char *fmt, ...);             // hkOstream::printf
-void fn_82CEDAE8(hkOstream *os, char c);                           // hkOstream::operator<<(char)
 void fn_82CEDB38(hkOstream *os, const char *s);                    // hkOstream::operator<<(const char *)
 int fn_82CF0DC8(void *nodes, int depth, int a, hkUint8 b);
 void fn_82CF1C18(hkOstream *os, void *nodes, int depth, int numThreads, int numSpus, StatsOptions *options);
@@ -133,7 +115,7 @@ static HK_FORCE_INLINE void padTo(hkOstream *os, hkArray<char> &buf, StatsOption
 {
     int pad = options->m_columnWidth * column - buf.getSize() + options->m_firstColumn;
     for (int i = 0; i < pad; i++)
-        fn_82CEDAE8(os, ' ');
+        *os << ' ';
 }
 
 extern "C" void fn_82CF2010(void *nodes, int numThreads, int numSpus, hkOstream *outStream, StatsOptions *options)
