@@ -38,12 +38,15 @@ public:
     hkQuadReal m_real;
 };
 
+class hkTransform;
+
 class hkVector4 {
 public:
     HK_FORCE_INLINE void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
     HK_FORCE_INLINE void setSub4(const hkVector4 &a, const hkVector4 &b) { m_quad = __vsubfp(a.m_quad, b.m_quad); }
     HK_FORCE_INLINE void setMul4(const hkSimdReal &s, const hkVector4 &a) { m_quad = __vmulfp(a.m_quad, s.m_real); }
     HK_FORCE_INLINE void addMul4(const hkSimdReal &s, const hkVector4 &a) { m_quad = __vmaddfp(a.m_quad, s.m_real, m_quad); }
+    void setTransformedPos(const hkTransform &t, const hkVector4 &v);
     hkQuadReal m_quad;
 };
 
@@ -83,7 +86,6 @@ public:
 };
 
 extern "C" {
-void fn_82CE5040(hkVector4 *out, const hkTransform &t, const hkVector4 &v);   // setTransformedPos
 void fn_82D89BD8(hkpRigidBody *body);   // hkpEntity::activate
 }
 extern "C" const float lbl_821456B0;
@@ -114,9 +116,9 @@ extern "C" void fn_82DF0090(hkpDashpotAction *self, const hkStepInfo &stepInfo)
     const hkReal dt = stepInfo.m_deltaTime * lbl_821456B0;
 
     hkVector4 pa;
-    fn_82CE5040(&pa, ra->getTransform(), self->m_point[0]);
+    pa.setTransformedPos(ra->getTransform(), self->m_point[0]);
     hkVector4 pb;
-    fn_82CE5040(&pb, rb->getTransform(), self->m_point[1]);
+    pb.setTransformedPos(rb->getTransform(), self->m_point[1]);
 
     hkVector4 dir;
     dir.setSub4(pa, pb);

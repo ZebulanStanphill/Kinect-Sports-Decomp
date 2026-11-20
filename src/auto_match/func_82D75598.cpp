@@ -1,3 +1,4 @@
+#include "havok/hkTransform.h"
 // hkpGskBaseAgent::getClosestPoints (GSK closest point between two convex bodies, reported to a collector).
 #include "havok/hkBase.h"
 
@@ -15,20 +16,6 @@ static HK_FORCE_INLINE void timer(const char *s)
 		t->next = p + 3;
 	}
 }
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float f[4]; unsigned int u[4]; } __vector4;
-class hkVector4 {
-public:
-	HK_FORCE_INLINE hkVector4() {}
-	HK_FORCE_INLINE hkVector4(const hkVector4 &v) { m_quad = v.m_quad; }
-	HK_FORCE_INLINE void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-	__vector4 m_quad;
-};
-class hkTransform {
-public:
-	hkVector4 m_rotation[3];
-	hkVector4 m_translation;
-};
 
 class hkpShape;
 class hkpCdBody {
@@ -88,7 +75,6 @@ struct hkpGskBaseAgent {
 };
 
 extern "C" {
-void fn_82CE6820(hkTransform *self, const hkTransform &a, const hkTransform &b);
 int fn_82DD6E28(const GetClosestPointInput &input, hkpGskCache *cache, hkVector4 *separatingNormal, hkVector4 &pointOnB);
 }
 
@@ -96,7 +82,7 @@ extern "C" void fn_82D75598(hkpGskBaseAgent *self, const hkpCdBody &bodyA, const
 {
 	timer("TtGsk");
 	hkTransform aTb;
-	fn_82CE6820(&aTb, *bodyA.m_motion, *bodyB.m_motion);
+	aTb.setMulInverseMul(*bodyA.m_motion, *bodyB.m_motion);
 	GetClosestPointInput in;
 	in.m_shapeA = bodyA.m_shape;
 	in.m_shapeB = bodyB.m_shape;

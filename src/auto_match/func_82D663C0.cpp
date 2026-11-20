@@ -46,12 +46,10 @@ public:
     hkQuadReal m_quad;
 };
 
-// hkTransform::setMul is out of line (fn_82CE6768, keeps its fn_ name: Matching units call it).
-extern "C" void fn_82CE6768(hkTransform *self, const hkTransform *a, const hkTransform *b);   // hkTransform::setMul
 
 class hkTransform {
 public:
-    HK_FORCE_INLINE void setMul(const hkTransform &a, const hkTransform &b) { fn_82CE6768(this, &a, &b); }
+    void setMul(const hkTransform &a, const hkTransform &b);
 
     hkVector4 m_rotation[3];   // +0x0 (hkRotation)
     hkVector4 m_translation;   // +0x30

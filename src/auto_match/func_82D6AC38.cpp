@@ -1,7 +1,7 @@
 // hkpTransformAgent::createTransformAAgent: new hkpTransformAgent(bodyA, bodyB, input, mgr), constructor inlined.
 // hkpTransformAgent (Physics/Collide/Agent/MiscAgent/Transform/hkpTransformAgent.cpp): its constructor (inlined into
 // the creation functions) copies A's motion state (hkMotionState's copy constructor, out of line: fn_82D6B540),
-// multiplies its transform by the transform shape's (hkTransform::setMul, fn_82CE6768, keeps its fn_ name) and
+// multiplies its transform by the transform shape's (hkTransform::setMul) and
 // creates the child agent through the dispatcher (hkpCollisionDispatcher::getNewCollisionAgent, inlined).
 #include "havok/hkBase.h"
 
@@ -14,7 +14,6 @@ typedef int hkpShapeType;
 typedef hkUint32 hkpShapeKey;
 typedef int hkBool32;
 
-extern "C" void fn_82CE6768(hkTransform *self, const hkTransform *a, const hkTransform *b);   // hkTransform::setMul
 
 class __declspec(align(16)) hkVector4 {
 public:
@@ -23,7 +22,7 @@ public:
 
 class hkTransform {
 public:
-    HK_FORCE_INLINE void setMul(const hkTransform &a, const hkTransform &b) { fn_82CE6768(this, &a, &b); }
+    void setMul(const hkTransform &a, const hkTransform &b);
 
     hkVector4 m_rotation[3];   // +0x0
     hkVector4 m_translation;   // +0x30

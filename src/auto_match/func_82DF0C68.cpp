@@ -1,3 +1,4 @@
+#include "havok/hkTransform.h"
 // hkpGravityGun body picking (Physics/Utilities/Weapons/hkpGravityGun.cpp): over the world's active, then
 // inactive simulation islands, take the entity in front of the view (local x from 0.1 to
 // m_maxDistOfObjectPicked) with the smallest (|y| + |z|) / (x + 1), plus 0.1 for bodies heavier than
@@ -10,11 +11,6 @@
 // allocation).
 #include "havok/hkBase.h"
 
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
 typedef hkUint32 hkpShapeKey;
 
 extern "C" double fabs(double);
@@ -23,27 +19,11 @@ struct hkMath {
     static HK_FORCE_INLINE hkReal fabs(hkReal r) { return (hkReal)::fabs(r); }
 };
 
-class hkVector4 {
-public:
-    HK_FORCE_INLINE void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    HK_FORCE_INLINE hkReal &operator()(int i) { return m_quad.vector4_f32[i]; }
-    HK_FORCE_INLINE const hkReal &operator()(int i) const { return m_quad.vector4_f32[i]; }
-    hkQuadReal m_quad;
-};
-
-class hkTransform {
-public:
-    HK_FORCE_INLINE const hkVector4 &getTranslation() const { return m_translation; }
-    hkVector4 m_rotation[3];
-    hkVector4 m_translation;   // +0x30
-};
-
 class hkpCollidable;
 class hkpMotion;
 class hkpCdBody;
 
 extern "C" {
-void fn_82CE5088(hkVector4 *self, const hkTransform *a, const hkVector4 *b);   // hkVector4::setTransformedInversePos
 hkReal fn_82D93128(const hkpMotion *self);                                    // hkpMotion::getMass
 }
 
@@ -163,7 +143,7 @@ extern "C" hkpRigidBody *fn_82DF0C68(hkpGravityGun *self, const hkTransform *vie
             {
                 hkpRigidBody *body = island->m_entities[b];
                 hkVector4 local;
-                fn_82CE5088(&local, viewTransform, &body->getPosition());
+                local.setTransformedInversePos(*viewTransform, body->getPosition());
                 if (local(0) < 0.1f || local(0) > self->m_maxDistOfObjectPicked || body == characterBody)
                     continue;
 

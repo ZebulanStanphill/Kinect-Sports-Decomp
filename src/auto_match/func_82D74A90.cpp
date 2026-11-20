@@ -1,3 +1,4 @@
+#include "havok/hkTransform.h"
 // hkpGskBaseAgent::hkpGskBaseAgent(const hkpCdBody &, const hkpCdBody &, hkpContactMgr *) (hkpGskBaseAgent.cpp).
 // Havok collision agents (Physics/Collide/Agent/hkpCollisionAgent.h, hkpIterativeLinearCastAgent.h,
 // Agent/Util/Symmetric/hkpSymmetricAgent.h, hkpSymmetricAgentLinearCast.h, hkpSymmetricAgentFlip*Collector.h).
@@ -27,40 +28,6 @@ struct hkpProcessCollisionOutput;
 typedef int hkBool32;
 
 
-// hkVector4 holds a VMX register (hkQuadReal is the XDK's __vector4); setNeg4 flips the sign bits with
-// __vxor and the sign-mask constant lbl_8209AB20 (0x80000000 x 4). Copy construction is bitwise (the inputs
-// are copied as blocks of doublewords); assignment goes through the vector register (lvx/stvx).
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-extern "C" __vector4 __vxor(__vector4 a, __vector4 b);   // VMX intrinsic
-extern "C" const hkQuadReal lbl_8209AB20;               // sign mask
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    HK_FORCE_INLINE void setNeg4(const hkVector4 &v) { m_quad = __vxor(v.m_quad, lbl_8209AB20); }
-    HK_FORCE_INLINE void setZero4() { m_quad = __vxor(m_quad, m_quad); }
-    HK_FORCE_INLINE hkReal &operator()(int i) { return m_quad.vector4_f32[i]; }
-
-    hkQuadReal m_quad;
-};
-
-// hkTransform::setMul and setMulInverseMul are out of line (fn_82CE6768, fn_82CE6820; they keep their fn_ names:
-// Matching units call setMul).
-extern "C" void fn_82CE6768(hkTransform *self, const hkTransform *a, const hkTransform *b);   // hkTransform::setMul
-extern "C" void fn_82CE6820(hkTransform *self, const hkTransform *a, const hkTransform *b);   // hkTransform::setMulInverseMul
-
-class hkTransform {
-public:
-    HK_FORCE_INLINE void setMul(const hkTransform &a, const hkTransform &b) { fn_82CE6768(this, &a, &b); }
-    HK_FORCE_INLINE void setMulInverseMul(const hkTransform &a, const hkTransform &b) { fn_82CE6820(this, &a, &b); }
-
-    hkVector4 m_rotation[3];   // +0x0 (hkRotation)
-    hkVector4 m_translation;   // +0x30
-};
 
 // hkMotionState (0xB0): its (implicit) copy constructor is emitted out of line, fn_82D6B540.
 class hkMotionState {

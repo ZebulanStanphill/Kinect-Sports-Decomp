@@ -1,3 +1,4 @@
+#include "havok/hkTransform.h"
 // hkpConvexListAgent3::process (agent3 process function for hkpConvexListShape).
 // Needs /O2 /QVMXReserve (flag file) and lbl_82005344=__real@40000000 (2.0f literal, kept in f31).
 // The goto into the loop makes the CFG irreducible: the placement new then needs an explicit
@@ -21,24 +22,10 @@ static HK_FORCE_INLINE void timer(const char *s, const char *next = 0)
 	}
 }
 
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float f[4]; unsigned int u[4]; } __vector4;
 extern "C" double __fsel(double, double, double);
 struct hkMath {
 	static HK_FORCE_INLINE hkReal min2(hkReal x, hkReal y) { return (hkReal)__fsel(x - y, y, x); }
 };
-class hkVector4 {
-public:
-	HK_FORCE_INLINE hkVector4() {}
-	HK_FORCE_INLINE hkVector4(const hkVector4 &v) { m_quad = v.m_quad; }
-	HK_FORCE_INLINE void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-	__vector4 m_quad;
-};
-class hkTransform {
-public:
-	hkVector4 m_rotation[3];
-	hkVector4 m_translation;
-};
-
 class hkpShape;
 class hkpCollidable;
 class hkpCdBody {
@@ -166,7 +153,6 @@ struct GetClosestPointInput {
 extern "C" {
 void fn_82D5BDC0(hkpProcessCollisionOutputBackup *self, const hkpProcessCollisionOutput &output);
 void fn_82D5BCE0(hkpProcessCollisionOutputBackup *self, const hkpCdBody *bodyA, const hkpCdBody *bodyB, hkpProcessCollisionOutput &output, hkpContactMgr *mgr);
-void fn_82CE6820(hkTransform *self, const hkTransform &a, const hkTransform &b);
 int fn_82DD6E28(const GetClosestPointInput &input, hkpGskCache *cache, hkVector4 *separatingNormal, hkVector4 &pointOnB);
 void fn_82D70D40(hkpAgent1nTrack *track, hkpCollisionDispatcher *dispatcher, hkpContactMgr *mgr, hkpConstraintOwner *owner);
 hkpAgentData *fn_82D69C40(const hkpAgent3ProcessInput &input, hkpAgentEntry *entry, hkpAgentData *agentData, hkVector4 *separatingNormal, hkpProcessCollisionOutput &output);
@@ -194,7 +180,7 @@ extern "C" hkpAgentData *fn_82D5B3B0(const hkpAgent3ProcessInput &input, hkpAgen
 		if (numTimesToCheck < 0) {
 			getStreamData(gskCache)->m_numTimesToCheck = 25;
 			hkTransform aTb;
-			fn_82CE6820(&aTb, *input.m_bodyA->m_motion, *input.m_bodyB->m_motion);
+			aTb.setMulInverseMul(*input.m_bodyA->m_motion, *input.m_bodyB->m_motion);
 			GetClosestPointInput in;
 			in.m_shapeA = input.m_bodyA->m_shape;
 			in.m_shapeB = input.m_bodyB->m_shape;
@@ -220,7 +206,7 @@ gskMode:
 				hkReal penB = input.m_bodyB->getRootCollidable()->m_allowedPenetrationDepth;
 				hkReal penA = input.m_bodyA->getRootCollidable()->m_allowedPenetrationDepth;
 				hkReal minPen = hkMath::min2(penA, penB);
-				if (separatingNormal->m_quad.f[3] >= -(minPen * 2.0f)) goto done;
+				if (separatingNormal->m_quad.vector4_f32[3] >= -(minPen * 2.0f)) goto done;
 			}
 			fn_82D5BCE0(&backup, input.m_bodyA, input.m_bodyB, output, input.m_contactMgr);
 			fn_82D699A8(entry, agentData, input.m_contactMgr, output.m_constraintOwner);
@@ -232,7 +218,7 @@ gskMode:
 		}
 	}
 	{
-		separatingNormal->m_quad.f[3] = lbl_82138F84;
+		separatingNormal->m_quad.vector4_f32[3] = lbl_82138F84;
 		int n = cls->m_childShapes.m_size;
 		char **stack = (char **)hkMemoryRouter::getInstance().m_stack;
 		hkUint32 *hitList = (hkUint32 *)*stack;

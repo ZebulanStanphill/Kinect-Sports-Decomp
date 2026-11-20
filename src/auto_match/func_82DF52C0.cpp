@@ -1,10 +1,7 @@
+#include "havok/hkTransform.h"
 // hkpSpringAction::setPositionsInWorldSpace shape: both pivots are moved into the local
-// space of their bodies (fn_82CE5088 = hkVector4::setTransformedInversePos) and the rest
+// space of their bodies and the rest
 // length becomes the distance between the two world pivots.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
 extern "C" {
 __vector4 __vmulfp(__vector4, __vector4);
 __vector4 __vsubfp(__vector4, __vector4);
@@ -21,28 +18,6 @@ extern const hkQuadReal lbl_82132D70;   // Havok's global vector of four 0.5s
 
 class hkTransform;
 class hkVector4;
-extern "C" void fn_82CE5088(hkVector4 *self, const hkTransform *t, const hkVector4 *v);
-
-class hkVector4 {
-public:
-    __forceinline void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    __forceinline void setSub4(const hkVector4 &a, const hkVector4 &b) { m_quad = __vsubfp(a.m_quad, b.m_quad); }
-    __forceinline void setTransformedInversePos(const hkTransform &t, const hkVector4 &v) { fn_82CE5088(this, &t, &v); }
-    __forceinline float length3() const
-    {
-        const hkQuadReal zero = __vspltisw(0);
-        const hkQuadReal len2 = __vmsum3fp(m_quad, m_quad);
-        hkQuadReal e = __vrsqrtefp(len2);
-        const hkQuadReal halfLen2 = __vmulfp(len2, lbl_82132D70);
-        e = __vmaddfp(e, __vnmsubfp(halfLen2, __vmulfp(e, e), lbl_82132D70), e);
-        e = __vmaddfp(e, __vnmsubfp(halfLen2, __vmulfp(e, e), lbl_82132D70), e);
-        e = __vsel(e, zero, __vcmpeqfp(zero, len2));
-        float r;
-        __stvewx(__vmulfp(len2, e), &r, 0);
-        return r;
-    }
-    hkQuadReal m_quad;
-};
 
 struct Entity_82DF52C0 {
     char pad[0xf0];

@@ -1,5 +1,5 @@
 // hkpSpringAction::setPositionsInBodySpace shape: stores both local pivots, moves them to
-// world space (fn_82CE5040 = hkVector4::setTransformedPos) and sets the rest length to the
+// world space (hkVector4::setTransformedPos) and sets the rest length to the
 // distance between them.
 typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
     float vector4_f32[4];
@@ -21,13 +21,12 @@ extern const hkQuadReal lbl_82132D70;   // Havok's global vector of four 0.5s
 
 class hkTransform;
 class hkVector4;
-extern "C" void fn_82CE5040(hkVector4 *self, const hkTransform *t, const hkVector4 *v);
 
 class hkVector4 {
 public:
     __forceinline void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
     __forceinline void setSub4(const hkVector4 &a, const hkVector4 &b) { m_quad = __vsubfp(a.m_quad, b.m_quad); }
-    __forceinline void setTransformedPos(const hkTransform &t, const hkVector4 &v) { fn_82CE5040(this, &t, &v); }
+    void setTransformedPos(const hkTransform &t, const hkVector4 &v);
     __forceinline float length3() const
     {
         const hkQuadReal zero = __vspltisw(0);
