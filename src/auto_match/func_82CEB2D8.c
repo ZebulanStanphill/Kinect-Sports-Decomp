@@ -1,2 +1,0 @@
-typedef struct Object Object;typedef struct {void *reserved[4];void (*call)(Object *,void *,int);} Vtable;struct Object {Vtable *vtable;};extern int fn_82CEB1F0(void *,int,void **,void **);extern int fn_82CFD5F0(void *);
-int fn_82CEB2D8(void *source,int index,Object *output) {void *value,*record;int status=fn_82CEB1F0(source,index,&value,&record);if(status==0)output->vtable->call(output,value,fn_82CFD5F0(record));return status;}

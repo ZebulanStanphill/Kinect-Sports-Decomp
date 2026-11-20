@@ -1,4 +1,4 @@
-#include "havok/hkBase.h"
+#include "havok/hkClass.h"
 
 extern "C" void fn_82CE63B0(hkMemoryAllocator *alloc, void *array, int elemSize); // hkArrayUtil::_reserveMore
 
@@ -10,56 +10,36 @@ template <typename T> static HK_FORCE_INLINE void constructWithCopy(T *p, int n,
     }
 }
 
-template <typename T> class Array_82CFEA08 : public hkArrayBase<T>
+// hkArray::_pushBack / pushBack, inlined (the allocator is fetched first).
+template <typename T> static HK_FORCE_INLINE void _pushBack(hkMemoryAllocator &alloc, hkArray<T> &a, const T &e)
 {
-  public:
-    HK_FORCE_INLINE void pushBackUnchecked(const T &e)
-    {
-        constructWithCopy(this->m_data + this->m_size, 1, e);
-        this->m_size++;
+    if (a.m_size == a.getCapacity()) {
+        fn_82CE63B0(&alloc, &a, sizeof(T));
     }
+    constructWithCopy(a.m_data + a.m_size, 1, e);
+    a.m_size++;
+}
 
-    HK_FORCE_INLINE void _pushBack(hkMemoryAllocator &alloc, const T &e)
-    {
-        if (this->m_size == this->getCapacity()) {
-            fn_82CE63B0(&alloc, this, sizeof(T));
-        }
-        pushBackUnchecked(e);
-    }
+template <typename T> static HK_FORCE_INLINE void pushBack(hkArray<T> &a, const T &e)
+{
+    _pushBack(hkContainerHeapAllocator::get(&a), a, e);
+}
 
-    HK_FORCE_INLINE void pushBack(const T &e)
-    {
-        _pushBack(hkContainerHeapAllocator::get(this), e);
-    }
-};
-
-struct Item_82CFEA08 {
-    int value;        /* 0x0 */
-    const char *name; /* 0x4 */
-};
-
-struct ClassEnum_82CFEA08 {
-    const char *name;     /* 0x0 */
-    Item_82CFEA08 *items; /* 0x4 */
-    int numItems;         /* 0x8 */
-};
-
-// hkClassEnum::decomposeFlags: walks the items from the last to the first, appending the name of every
-// item whose bits are all set and clearing them; fails (1) when bits are left over.
-extern "C" int fn_82CFEA08(ClassEnum_82CFEA08 *self, int flags, Array_82CFEA08<const char *> &bitsOut,
-                           int &bitsLeft)
+// Walks the items from the last to the first, appending the name of every item
+// whose bits are all set and clearing them; fails when bits are left over.
+hkResult hkClassEnum::decomposeFlags(int flagValue, hkArray<const char *> &bitsOut, int &bitsOver) const
 {
     bitsOut.m_size = 0;
-    for (int i = self->numItems - 1; i >= 0 && flags != 0; --i) {
-        int value = self->items[i].value;
+    for (int i = m_numItems - 1; i >= 0 && flagValue != 0; --i) {
+        int value = m_items[i].m_value;
 
-        if ((value & flags) == value) {
-            const char *name = self->items[i].name;
+        if ((value & flagValue) == value) {
+            const char *name = m_items[i].m_name;
 
-            bitsOut.pushBack(name);
-            flags &= ~value;
+            pushBack(bitsOut, name);
+            flagValue &= ~value;
         }
     }
-    bitsLeft = flags;
-    return flags != 0;
+    bitsOver = flagValue;
+    return flagValue != 0 ? HK_FAILURE : HK_SUCCESS;
 }
