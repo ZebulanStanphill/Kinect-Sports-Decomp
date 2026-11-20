@@ -20378,7 +20378,8 @@
       "auto_match/func_822D9E28.c": {
         "status": "Matching",
         "extra_cflags": [
-          "/O1"
+          "/O1",
+          "/Ob0"
         ]
       },
       "auto_match/func_822D9E80.c": {
@@ -20436,11 +20437,22 @@
           "/O1"
         ]
       },
-      "auto_match/func_822DB878.c": {
-        "status": "NonMatching",
+      "auto_match/func_822DB878.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/d2inlS200"
+        ],
+        "vc_include": true,
+        "ltcg_units": [
+          "auto_match/func_822DBDC8.cpp",
+          "auto_match/func_822DCBC0.c",
+          "auto_match/func_822D9E28.c"
+        ],
+        "pool_aliases": {
+          "??$_Sort@PAUEntry_822DB878@@HUPredicate_822DB878@@@std@@YAXPAUEntry_822DB878@@0HUPredicate_822DB878@@@Z": "fn_822DB878",
+          "??$_Unguarded_partition@PAUEntry_822DB878@@UPredicate_822DB878@@@std@@YA?AU?$pair@PAUEntry_822DB878@@PAU1@@0@PAUEntry_822DB878@@0UPredicate_822DB878@@@Z": "fn_822DBDC8"
+        }
       },
       "auto_match/func_822DBA58.c": {
         "status": "NonMatching",
@@ -20460,11 +20472,19 @@
           "/O1"
         ]
       },
-      "auto_match/func_822DBDC8.c": {
-        "status": "NonMatching",
+      "auto_match/func_822DBDC8.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/d2inlS200"
+        ],
+        "vc_include": true,
+        "ltcg_units": [
+          "auto_match/func_822D9E28.c"
+        ],
+        "pool_aliases": {
+          "??$_Unguarded_partition@PAUEntry_822DB878@@UPredicate_822DB878@@@std@@YA?AU?$pair@PAUEntry_822DB878@@PAU1@@0@PAUEntry_822DB878@@0UPredicate_822DB878@@@Z": "fn_822DBDC8"
+        }
       },
       "auto_match/func_822DC278.cpp": {
         "status": "Matching",
@@ -60070,7 +60090,8 @@
       "auto_match/func_8250A688.c": {
         "status": "Matching",
         "extra_cflags": [
-          "/O1"
+          "/O1",
+          "/Ob0"
         ]
       },
       "auto_match/func_8250A6F0.c": "MISSING",
@@ -60088,17 +60109,39 @@
           "/O1"
         ]
       },
-      "auto_match/func_8250ACB8.c": {
-        "status": "NonMatching",
+      "auto_match/func_8250ACB8.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/d2inlS200"
+        ],
+        "vc_include": true,
+        "ltcg_units": [
+          "auto_match/func_8250B1A8.cpp",
+          "auto_match/func_8250BE90.cpp"
+        ],
+        "pool_aliases": {
+          "??$_Sort@PAUEntry_8250BE90@@HUPredicate_8250ACB8@@@std@@YAXPAUEntry_8250BE90@@0HUPredicate_8250ACB8@@@Z": "fn_8250ACB8",
+          "??$_Unguarded_partition@PAUEntry_8250BE90@@UPredicate_8250ACB8@@@std@@YA?AU?$pair@PAUEntry_8250BE90@@PAU1@@0@PAUEntry_8250BE90@@0UPredicate_8250ACB8@@@Z": "fn_8250B1A8",
+          "??$_Adjust_heap@PAUEntry_8250BE90@@HU1@UPredicate_8250ACB8@@@std@@YAXPAUEntry_8250BE90@@HH$$QAU1@UPredicate_8250ACB8@@@Z": "fn_8250BE90"
+        }
       },
-      "auto_match/func_8250AE88.c": {
-        "status": "NonMatching",
+      "auto_match/func_8250AE88.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/d2inlS200"
+        ],
+        "vc_include": true,
+        "ltcg_units": [
+          "auto_match/func_8250B780.cpp",
+          "auto_match/func_8250C138.c",
+          "auto_match/func_8250A688.c"
+        ],
+        "pool_aliases": {
+          "??$_Sort@PAUEntry_8250AE88@@HUPredicate_8250AE88@@@std@@YAXPAUEntry_8250AE88@@0HUPredicate_8250AE88@@@Z": "fn_8250AE88",
+          "??$_Unguarded_partition@PAUEntry_8250AE88@@UPredicate_8250AE88@@@std@@YA?AU?$pair@PAUEntry_8250AE88@@PAU1@@0@PAUEntry_8250AE88@@0UPredicate_8250AE88@@@Z": "fn_8250B780"
+        }
       },
       "auto_match/func_8250B068.c": {
         "status": "Matching",
@@ -60162,8 +60205,13 @@
       "auto_match/func_8250BE90.cpp": {
         "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/d2inlS200"
+        ],
+        "vc_include": true,
+        "pool_aliases": {
+          "??$_Adjust_heap@PAUEntry_8250BE90@@HU1@UPredicate_8250ACB8@@@std@@YAXPAUEntry_8250BE90@@HH$$QAU1@UPredicate_8250ACB8@@@Z": "fn_8250BE90"
+        }
       },
       "auto_match/func_8250BFE0.c": {
         "status": "Matching",

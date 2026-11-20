@@ -7,7 +7,9 @@ typedef struct Point_8250A688 {
 extern const float lbl_821954B0[0xa28 / 4];
 extern const float lbl_8218EC10;
 
-unsigned char fn_8250A688(Point_8250A688 *a, Point_8250A688 *b)
+/* The sort predicate of fn_8250AE88, an inline function in the original (as fn_822D9E28 is):
+   `extern __inline` gives its out-of-line copy, and /Ob0 keeps it a call inside the sort. */
+extern __inline unsigned char fn_8250A688(Point_8250A688 *a, Point_8250A688 *b)
 {
     if (a->y < lbl_821954B0[0x46] || a->y > lbl_8218EC10 || b->y < lbl_821954B0[0x46] || b->y > lbl_8218EC10)
         return a->y < b->y;
