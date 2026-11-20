@@ -1,55 +1,50 @@
-#define true 1
-extern int fn_828EA608();
-extern int fn_828EB518();
-extern int fn_82F691F0();
-extern unsigned int lbl_83265988;
-extern unsigned int lbl_8327FFFC;
-extern unsigned int lbl_83280000;
-extern unsigned int lbl_8328026C;
+/* Finishes the first pending entry of a user that belongs to the user's current device: reports
+   it through an XMsg request and remembers that a request was issued. */
 
+typedef struct Entry_8255B830 {
+    void *owner;     /* 0x0 */
+    unsigned int id; /* 0x4 */
+    int state;       /* 0x8 */
+} Entry_8255B830;
 
-void fn_8255B830(unsigned int param_1)
+typedef struct Row_8255B830 {
+    Entry_8255B830 entries[50]; /* 0x000 */
+    char result[0x1c];          /* 0x258 */
+    int issued;                 /* 0x274 */
+    unsigned int user;          /* 0x278 */
+    unsigned int id;            /* 0x27c */
+} Row_8255B830;
 
+extern Row_8255B830 lbl_8327FFF8[];
+extern void *lbl_83265988;
+extern void *fn_828EB518(unsigned int index);
+extern unsigned char fn_828EA608(void *device);
+extern unsigned int fn_82A1BD58(unsigned int kind, void *request, void *result);
+extern void *memset(void *dest, int value, unsigned int size);
+
+void fn_8255B830(unsigned char user)
 {
-  char cVar1;
-  unsigned __int64 uVar2;
-  int iVar3;
-  int iVar4;
-  int iVar5;
-  int iVar6;
-  
-  param_1 = param_1 & 0xff;
-  if (param_1 == 0xff) {
-    uVar2 = (unsigned __int64)lbl_83265988;
-  }
-  else {
-    uVar2 = fn_828EB518(param_1);
-  }
-  iVar6 = param_1 * 0x280;
-  iVar3 = 0;
-  iVar4 = 0;
-  do {
-    iVar5 = iVar4 + iVar6;
-    if (*(int *)(&lbl_83280000 + iVar5) != 0) {
-      if ((uVar2 & 0xffffffff) != 0) {
-        cVar1 = fn_828EA608(uVar2);
-        if ((cVar1 != '\0') && ((unsigned __int64)*(unsigned int *)(iVar5 + -0x7cd80008) == (uVar2 & 0xffffffff)))
-        {
-          *(unsigned int *)(iVar6 + -0x7cd7fd90) = param_1;
-          *(unsigned int *)(iVar6 + -0x7cd7fd8c) =
-               *(unsigned int *)(&lbl_8327FFFC + iVar3 * 0xc + iVar6);
-                    /* WARNING: Subroutine does not return */
-          fn_82F691F0(iVar6 + -0x7cd7fdb0,0,0x1c);
-        }
-      }
-      *(unsigned int *)(&lbl_83280000 + iVar5) = 0;
-    }
-    iVar4 = iVar4 + 0xc;
-    iVar3 = iVar3 + 1;
-    if (599 < iVar4) {
-      *(unsigned int *)(&lbl_8328026C + iVar6) = 0;
-      return;
-    }
-  } while( true );
-}
+    void *device;
+    int i;
 
+    if (user == 0xff) {
+        device = lbl_83265988;
+    } else {
+        device = fn_828EB518(user);
+    }
+    for (i = 0; i < 50; i++) {
+        if (lbl_8327FFF8[user].entries[i].state != 0) {
+            if (device != 0 && fn_828EA608(device) && lbl_8327FFF8[user].entries[i].owner == device) {
+                lbl_8327FFF8[user].user = user;
+                lbl_8327FFF8[user].id = lbl_8327FFF8[user].entries[i].id;
+                memset(lbl_8327FFF8[user].result, 0, 0x1c);
+                fn_82A1BD58(1, &lbl_8327FFF8[user].user, lbl_8327FFF8[user].result);
+                lbl_8327FFF8[user].entries[i].state = 0;
+                lbl_8327FFF8[user].issued = 1;
+                return;
+            }
+            lbl_8327FFF8[user].entries[i].state = 0;
+        }
+    }
+    lbl_8327FFF8[user].issued = 0;
+}

@@ -1,116 +1,132 @@
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern int fn_82F63108();
-extern unsigned int lbl_831C6508;
-extern unsigned int lbl_831CEBB4;
-extern unsigned int lbl_831CEBBC;
-extern unsigned int lbl_831CEE98;
-extern unsigned int lbl_831CEE9C;
-extern unsigned int lbl_831CEEA8;
+typedef struct Impl_822869F0 Impl_822869F0;
 
+typedef struct ImplVtbl_822869F0 {
+    void *copy;
+    void (*call)(Impl_822869F0 *self, int context, const char *key, char *out, int size); /* 0x04 */
+} ImplVtbl_822869F0;
 
-void fn_822869F0(int param_1)
+struct Impl_822869F0 {
+    ImplVtbl_822869F0 *vt;
+};
 
+typedef struct Function_822869F0 {
+    int storage[4];
+    Impl_822869F0 *impl; /* 0x10 */
+} Function_822869F0;
+
+typedef struct Slot_822869F0 {
+    int state; /* 0x00 */
+    char pad4[0x18];
+    int team; /* 0x1c */
+    char pad20[0x20];
+} Slot_822869F0;
+
+typedef struct Game_822869F0 {
+    char pad0[0x18b8];
+    unsigned int mode; /* 0x18b8 */
+} Game_822869F0;
+
+typedef struct TeamSetup_822869F0 {
+    char pad0[0x680];
+    Function_822869F0 localize; /* 0x680 */
+    char pad694[0x6a8 - 0x694];
+    Slot_822869F0 slots[4]; /* 0x6a8 */
+    char pad7a8[0x7d0 - 0x7a8];
+    char title[0x200];    /* 0x7d0 */
+    char subtitle[0x100]; /* 0x9d0 */
+    char padad0[0x11f0 - 0xad0];
+    Game_822869F0 *game; /* 0x11f0 */
+} TeamSetup_822869F0;
+
+extern const char *lbl_831CEE98[4];
+extern const char *lbl_831CEBB4[69];
+extern const char *lbl_831CEEA8[2];
+extern const char *lbl_831C6508[37];
+extern __declspec(noreturn) void fn_82F63108(void);
+
+static __forceinline void Localize(Function_822869F0 *f, const char *key, char *out)
 {
-  unsigned char *puVar1;
-  unsigned int uVar2;
-  int *piVar3;
-  unsigned char **ppuVar4;
-  int iVar5;
-  unsigned __int64 uVar6;
-  __int64 lVar7;
-  
-  uVar6 = 0;
-  uVar2 = *(unsigned int *)(*(int *)(param_1 + 0x11f0) + 0x18b8);
-  puVar1 = lbl_831CEE98;
-  if (uVar2 == 0) {
-    uVar2 = *(unsigned int *)(param_1 + 0x6e8);
-    if (uVar2 < 2) {
-LAB_82286b54:
-      uVar6 = ZEXT48(lbl_831CEBB4);
-      goto LAB_82286b58;
-    }
-    if (uVar2 == 2) {
-LAB_82286b38:
-      iVar5 = *(int *)(param_1 + 0x704);
-      goto LAB_82286b3c;
-    }
-    if (3 < uVar2) {
-      uVar6 = 0xffffffff821a9314;
-      goto LAB_82286b58;
-    }
-  }
-  else {
-    if (uVar2 == 1) {
-      puVar1 = lbl_831CEE9C;
-      if (*(int *)(param_1 + 0x6e8) == 4) {
-        puVar1 = lbl_831CEE98;
-      }
-      iVar5 = *(int *)(param_1 + 0x768) + -4;
-      if (*(int *)(param_1 + 0x728) == 2) {
-        iVar5 = *(int *)(param_1 + 0x744);
-LAB_82286b3c:
-        iVar5 = iVar5 << 2;
-        ppuVar4 = &lbl_831C6508;
-      }
-      else {
-        iVar5 = (iVar5 - (*(int *)(param_1 + 0x768) + -5 + (unsigned int)(iVar5 == 0))) * 4;
-        if (*(int *)(param_1 + 0x728) == 3) {
-          ppuVar4 = &lbl_831CEEA8;
-        }
-        else {
-          ppuVar4 = &lbl_831CEBB4;
-        }
-      }
-      uVar6 = (unsigned __int64)*(unsigned int *)(iVar5 + (int)ppuVar4);
-      goto LAB_82286b58;
-    }
-    if (2 < uVar2) {
-      return;
-    }
-    uVar2 = *(unsigned int *)(param_1 + 0x6e8);
-    if (uVar2 < 2) {
-      uVar2 = 0;
-      piVar3 = (int *)(param_1 + 0x6a8);
-      lVar7 = 4;
-      do {
-        if (*piVar3 != 4) {
-          uVar2 = uVar2 + 1;
-        }
-        piVar3 = piVar3 + 0x10;
-        lVar7 = lVar7 + -1;
-      } while (lVar7 != 0);
-      if (2 < uVar2) {
-        uVar6 = ZEXT48(lbl_831CEBBC);
-        goto LAB_82286b58;
-      }
-      goto LAB_82286b54;
-    }
-    if (uVar2 == 2) goto LAB_82286b38;
-    if (3 < uVar2) {
-      if (uVar2 == 4) {
-        uVar6 = 0xffffffff821a9328;
-      }
-      goto LAB_82286b58;
-    }
-  }
-  uVar6 = ZEXT48(lbl_831CEEA8);
-LAB_82286b58:
-  if (puVar1 != (unsigned char *)0x0) {
-    if (*(int *)(param_1 + 0x690) == 0) {
-                    /* WARNING: Subroutine does not return */
-      fn_82F63108();
-    }
-    (**(int (***)())(**(int **)(param_1 + 0x690) + 4))
-              (*(int **)(param_1 + 0x690),0,puVar1,param_1 + 2000,0x100);
-  }
-  if ((uVar6 & 0xffffffff) != 0) {
-    if (*(int *)(param_1 + 0x690) == 0) {
-                    /* WARNING: Subroutine does not return */
-      fn_82F63108();
-    }
-    (**(int (***)())(**(int **)(param_1 + 0x690) + 4))
-              (*(int **)(param_1 + 0x690),0,uVar6,param_1 + 0x9d0,0x100);
-  }
-  return;
+    if (f->impl == 0)
+        fn_82F63108();
+    f->impl->vt->call(f->impl, 0, key, out, 0x100);
 }
 
+void fn_822869F0(TeamSetup_822869F0 *self)
+{
+    const char *subtitle = 0;
+    const char *title;
+    unsigned int active;
+    int i;
+    int several;
+
+    switch (self->game->mode) {
+    case 0:
+        title = lbl_831CEE98[0];
+        switch (self->slots[1].state) {
+        case 0:
+        case 1:
+            subtitle = lbl_831CEBB4[0];
+            break;
+        case 2:
+            subtitle = lbl_831C6508[self->slots[1].team];
+            break;
+        case 3:
+            subtitle = lbl_831CEEA8[0];
+            break;
+        default:
+            subtitle = "teamsetup_opponent";
+            break;
+        }
+        break;
+    case 1:
+        if (self->slots[1].state == 4)
+            title = lbl_831CEE98[0];
+        else
+            title = lbl_831CEE98[1];
+        several = self->slots[3].state - 4 != 0;
+        switch (self->slots[2].state) {
+        case 2:
+            subtitle = lbl_831C6508[self->slots[2].team];
+            break;
+        case 3:
+            subtitle = lbl_831CEEA8[several];
+            break;
+        default:
+            subtitle = lbl_831CEBB4[several];
+            break;
+        }
+        break;
+    case 2:
+        title = lbl_831CEE98[0];
+        switch (self->slots[1].state) {
+        case 0:
+        case 1:
+            active = 0;
+            for (i = 0; i < 4; i++) {
+                if (self->slots[i].state != 4)
+                    active++;
+            }
+            if (active > 2)
+                subtitle = lbl_831CEBB4[2];
+            else
+                subtitle = lbl_831CEBB4[0];
+            break;
+        case 2:
+            subtitle = lbl_831C6508[self->slots[1].team];
+            break;
+        case 3:
+            subtitle = lbl_831CEEA8[0];
+            break;
+        case 4:
+            subtitle = "teamsetup_otherplayers";
+            break;
+        }
+        break;
+    default:
+        return;
+    }
+    if (title != 0)
+        Localize(&self->localize, title, self->title);
+    if (subtitle != 0)
+        Localize(&self->localize, subtitle, self->subtitle);
+}

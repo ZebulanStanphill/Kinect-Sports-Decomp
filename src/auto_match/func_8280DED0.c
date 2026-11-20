@@ -1,37 +1,27 @@
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_821AAD20;
+typedef struct Quat_8280DED0 {
+    float x;
+    float y;
+    float z;
+    float w;
+} Quat_8280DED0;
 
-
-double fn_8280DED0(float *param_1,float *param_2,float *param_3)
-
+/* Copies q into out on the same hemisphere as r and returns their clamped dot product. */
+float fn_8280DED0(const Quat_8280DED0 *q, const Quat_8280DED0 *r, Quat_8280DED0 *out)
 {
-  double dVar1;
-  double dVar2;
-  
-  dVar2 = (double)lbl_821AAD20;
-  dVar1 = (double)(*param_2 * *param_1 +
-                  param_2[2] * param_1[2] + param_2[1] * param_1[1] + param_2[3] * param_1[3]);
-  if (dVar2 <= dVar1) {
-    if (param_3 != param_1) {
-      *param_3 = *param_1;
-      param_3[1] = param_1[1];
-      param_3[2] = param_1[2];
-      param_3[3] = param_1[3];
-    }
-  }
-  else {
-    *param_3 = -*param_1;
-    param_3[1] = -param_1[1];
-    dVar1 = -dVar1;
-    param_3[2] = -param_1[2];
-    param_3[3] = -param_1[3];
-  }
-  if (dVar1 < dVar2) {
-    return dVar2;
-  }
-  if (dVar1 <= (double)lbl_82002AE0) {
-    return dVar1;
-  }
-  return (double)lbl_82002AE0;
-}
+    float dot = r->x * q->x + (r->z * q->z + (r->y * q->y + r->w * q->w));
 
+    if (dot < 0.0f) {
+        out->x = -q->x;
+        out->y = -q->y;
+        dot = -dot;
+        out->z = -q->z;
+        out->w = -q->w;
+    } else if (out != q) {
+        *out = *q;
+    }
+    if (dot < 0.0f)
+        dot = 0.0f;
+    else if (dot > 1.0f)
+        dot = 1.0f;
+    return dot;
+}

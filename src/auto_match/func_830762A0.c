@@ -1,44 +1,43 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern unsigned int *auStack_40;
-extern int fn_8306ED78();
-extern int fn_8306ED98();
-extern V16 vectorConditionalSelect();
-extern V16 vectorConvertFromSignedFixedPoint128();
-extern V16 vectorMultiplyAddFloatingPoint();
-extern V16 vectorNegativeMultiplySubtractFloatingPoint();
-extern V16 vectorSplatImmediateSignedWord128();
-extern void *memcpy(void *, const void *, unsigned int);
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vmulfp(__vector4 a, __vector4 b);
+__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
+__vector4 __vnmsubfp(__vector4 a, __vector4 c, __vector4 b);
+__vector4 __vmsum4fp(__vector4 a, __vector4 b);
+__vector4 __vrsqrtefp(__vector4 v);
+__vector4 __vcmpeqfp(__vector4 a, __vector4 b);
+__vector4 __vsel(__vector4 a, __vector4 b, __vector4 mask);
+__vector4 __vspltisw(int value);
+__vector4 __vcfsx(__vector4 v, int scale);
 
-void fn_830762A0(void)
+extern __vector4 fn_8306ED78(__vector4 a, __vector4 b); /* cross product */
+extern float fn_8306ED98(__vector4 a, __vector4 b);     /* dot product of x, y, z */
 
+/* Shortest-arc rotation quaternion between two unit vectors. */
+__vector4 fn_830762A0(__vector4 from, __vector4 to)
 {
-  unsigned int *puVar1;
-  int in_r0;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs41 [16];
-  unsigned char in_vs42 [16];
-  unsigned char in_vs43 [16];
-  unsigned char in_vs44 [16];
-  unsigned char in_vs45 [16];
-  unsigned int in_register_00010020;
-  unsigned int in_register_00010024;
-  unsigned int in_register_00010028;
-  unsigned int in_vr2;
-  unsigned char auVar2 [16];
-  unsigned char auStack_40 [64];
-  
-  fn_8306ED78();
-  puVar1 = (unsigned int *)((unsigned int)(auStack_40 + in_r0) & 0xfffffff0);
-  *puVar1 = in_register_00010020;
-  puVar1[1] = in_register_00010024;
-  puVar1[2] = in_register_00010028;
-  puVar1[3] = in_vr2;
-  fn_8306ED98();{ V16 _vt0 = vectorSplatImmediateSignedWord128(1); memcpy(auVar2, &_vt0, 16); }
-  vectorSplatImmediateSignedWord128(0);
-  vectorConvertFromSignedFixedPoint128(auVar2,1);
-  altv207_13(in_vs32,in_vs42);{ V16 _vt1 = vectorNegativeMultiplySubtractFloatingPoint(in_vs44,in_vs43,in_vs42); memcpy(auVar2, &_vt1, 16); }{ V16 _vt2 = vectorMultiplyAddFloatingPoint(in_vs32,auVar2,in_vs32); memcpy(auVar2, &_vt2, 16); }
-  vectorConditionalSelect(auVar2,in_vs45,in_vs41);
-  return;
-}
+    __vector4 axis;
+    __vector4 q;
+    __vector4 one;
+    __vector4 zero;
+    __vector4 half;
+    __vector4 lengthSquared;
+    __vector4 estimate;
+    __vector4 correction;
 
+    axis = fn_8306ED78(to, from);
+    q.vector4_f32[0] = axis.vector4_f32[0];
+    q.vector4_f32[1] = axis.vector4_f32[1];
+    q.vector4_f32[2] = axis.vector4_f32[2];
+    q.vector4_f32[3] = fn_8306ED98(to, from) + 1.0f;
+    one = __vspltisw(1);
+    zero = __vspltisw(0);
+    half = __vcfsx(one, 1);
+    lengthSquared = __vmsum4fp(q, q);
+    estimate = __vrsqrtefp(lengthSquared);
+    correction = __vnmsubfp(__vmulfp(lengthSquared, half), __vmulfp(estimate, estimate), half);
+    estimate = __vmaddfp(estimate, correction, estimate);
+    return __vsel(__vmulfp(q, estimate), lengthSquared, __vcmpeqfp(lengthSquared, zero));
+}

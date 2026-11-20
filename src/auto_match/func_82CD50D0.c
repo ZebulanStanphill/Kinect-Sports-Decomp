@@ -1,70 +1,64 @@
-void fn_82CD50D0(int param_1,int param_2,int param_3,int param_4,__int64 param_5,__int64 param_6
-                  ,int param_7)
+typedef struct Image_82CD50D0 {
+    char pad0[0x3890];
+    int width; /* 0x3890 */
+    char pad3894[0x8];
+    int dstStride; /* 0x389c */
+    int unused38a0;
+    unsigned int dst; /* 0x38a4 */
+    char pad38a8[0x24];
+    unsigned int srcY; /* 0x38cc */
+    unsigned int srcU; /* 0x38d0 */
+    unsigned int srcV; /* 0x38d4 */
+    char pad38d8[0x24];
+    int srcStride; /* 0x38fc */
+    char pad3900[0x20];
+    int lumaStride;    /* 0x3920 */
+    int chromaStrideU; /* 0x3924 */
+    int chromaStrideV; /* 0x3928 */
+} Image_82CD50D0;
 
+void fn_82CD50D0(unsigned char *dst, unsigned char *srcY, unsigned char *srcU, unsigned char *srcV, int first,
+                 int last, Image_82CD50D0 *image)
 {
-  unsigned char *puVar1;
-  unsigned char *puVar2;
-  int iVar3;
-  unsigned char *puVar4;
-  int iVar5;
-  int iVar6;
-  unsigned char *puVar7;
-  int iVar8;
-  unsigned char *puVar9;
-  int iVar10;
-  int iVar11;
-  unsigned int uVar12;
-  
-  iVar11 = *(int *)(param_7 + 0x3920);
-  param_6 = param_6 - param_5;
-  iVar3 = (int)param_5;
-  if (iVar11 == 0) {
-    iVar6 = *(int *)(param_7 + 0x38fc) * iVar3;
-    uVar12 = *(int *)(param_7 + 0x38fc) - *(int *)(param_7 + 0x3890);
-    iVar8 = iVar6 >> 1;
-    iVar10 = ((int)uVar12 >> 1) + (unsigned int)((int)uVar12 < 0 && (uVar12 & 1) != 0);
-    iVar11 = iVar10;
-  }
-  else {
-    uVar12 = *(unsigned int *)(param_7 + 0x3890);
-    iVar6 = iVar11 * iVar3;
-    iVar5 = ((int)uVar12 >> 1) + (unsigned int)((int)uVar12 < 0 && (uVar12 & 1) != 0);
-    iVar8 = *(int *)(param_7 + 0x3924) * iVar3;
-    uVar12 = iVar11 - uVar12;
-    iVar10 = *(int *)(param_7 + 0x3928) - iVar5;
-    iVar11 = *(int *)(param_7 + 0x3924) - iVar5;
-  }
-  puVar9 = (unsigned char *)(*(int *)(param_7 + 0x38cc) + iVar6 + param_2);
-  param_1 = *(int *)(param_7 + 0x389c) * iVar3 + *(int *)(param_7 + 0x38a4) + param_1;
-  if (0 < (int)param_6) {
-    iVar3 = *(int *)(param_7 + 0x3890);
-    puVar4 = (unsigned char *)(*(int *)(param_7 + 0x38d0) + iVar8 + param_3 + -1);
-    puVar2 = (unsigned char *)(*(int *)(param_7 + 0x38d4) + iVar8 + param_4 + -1);
-    do {
-      iVar8 = 0;
-      if (0 < iVar3) {
-        puVar7 = (unsigned char *)(param_1 + -1);
-        do {
-          iVar8 = iVar8 + 2;
-          puVar7[1] = *puVar9;
-          puVar1 = puVar9 + 1;
-          puVar9 = puVar9 + 2;
-          puVar7[3] = *puVar1;
-          puVar4 = puVar4 + 1;
-          puVar7[2] = *puVar4;
-          puVar2 = puVar2 + 1;
-          puVar7 = puVar7 + 4;
-          *puVar7 = *puVar2;
-          iVar3 = *(int *)(param_7 + 0x3890);
-        } while (iVar8 < iVar3);
-      }
-      puVar9 = puVar9 + uVar12;
-      puVar4 = puVar4 + iVar11;
-      puVar2 = puVar2 + iVar10;
-      param_1 = *(int *)(param_7 + 0x389c) + param_1;
-      param_6 = param_6 + -1;
-    } while (param_6 != 0);
-  }
-  return;
-}
+    int count = last - first;
+    int lumaOffset;
+    int chromaOffset;
+    int lumaSkip;
+    int chromaSkipU;
+    int chromaSkipV;
+    int i;
 
+    if (image->lumaStride != 0) {
+        lumaOffset = image->lumaStride * first;
+        chromaOffset = image->chromaStrideU * first;
+        lumaSkip = image->lumaStride - image->width;
+        chromaSkipU = image->chromaStrideU - image->width / 2;
+        chromaSkipV = image->chromaStrideV - image->width / 2;
+    } else {
+        lumaOffset = image->srcStride * first;
+        chromaOffset = lumaOffset >> 1;
+        lumaSkip = image->srcStride - image->width;
+        chromaSkipU = lumaSkip / 2;
+        chromaSkipV = chromaSkipU;
+    }
+    srcY += image->srcY + lumaOffset;
+    srcU += image->srcU + chromaOffset;
+    srcV += image->srcV + chromaOffset;
+    dst += image->dstStride * first + image->dst;
+    for (i = 0; i < count; i++) {
+        unsigned char *out = dst;
+        int x;
+        for (x = 0; x < image->width; x += 2) {
+            out[0] = srcY[0];
+            out[2] = srcY[1];
+            srcY += 2;
+            out[1] = *srcU++;
+            out[3] = *srcV++;
+            out += 4;
+        }
+        srcY += lumaSkip;
+        srcU += chromaSkipU;
+        srcV += chromaSkipV;
+        dst += image->dstStride;
+    }
+}

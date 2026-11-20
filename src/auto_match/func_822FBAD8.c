@@ -1,35 +1,62 @@
-extern int fn_8223B688();
-extern int fn_822C70F0();
-extern int fn_822FBF10();
-extern unsigned int lbl_821AE85C;
+typedef struct String_822FBAD8 {
+    int words[7];
+} String_822FBAD8;
 
+typedef struct Vector_822FBAD8 {
+    void *first; /* 0x0 */
+    void *last;  /* 0x4 */
+    void *end;   /* 0x8 */
+} Vector_822FBAD8;
 
-unsigned int *
-fn_822FBAD8(double param_1,double param_2,double param_3,unsigned int *param_4,unsigned __int64 param_5,
-             unsigned __int64 param_6,unsigned int param_7,int param_8,unsigned __int64 param_9)
-
+static __forceinline void InitVector(Vector_822FBAD8 *vector)
 {
-  unsigned int in_stack_0000005c;
-  unsigned int in_stack_00000064;
-  
-  fn_822C70F0();
-  *param_4 = &lbl_821AE85C;
-  param_4[0x15] = 0;
-  param_4[0x16] = 0;
-  param_4[0x17] = 0;
-  param_4[0x19] = param_7;
-  param_4[0x1a] = param_8;
-  param_4[0x1b] = param_8 + 0x24;
-  fn_8223B688(param_4 + 0x1c,param_9);
-  param_4[0x25] = (float)param_1;
-  param_4[0x26] = (float)param_2;
-  param_4[0x23] = 0;
-  param_4[0x27] = (float)param_3;
-  param_4[0x24] = 0;
-  fn_8223B688(param_4 + 0x28,in_stack_0000005c);
-  fn_8223B688(param_4 + 0x2f,in_stack_00000064);
-  param_4[0x14] = 1;
-  fn_822FBF10(param_4);
-  return param_4;
+    vector->first = 0;
+    vector->last = 0;
+    vector->end = 0;
 }
 
+typedef struct Obj_822FBAD8 {
+    void *vt; /* 0x00 */
+    int pad4[0x13];
+    int active;            /* 0x50 */
+    Vector_822FBAD8 items; /* 0x54 */
+    int pad60;
+    int f64;                /* 0x64 */
+    int base;               /* 0x68 */
+    int baseEnd;            /* 0x6c */
+    String_822FBAD8 name;   /* 0x70 */
+    int f8c;                /* 0x8c */
+    int f90;                /* 0x90 */
+    float x;                /* 0x94 */
+    float y;                /* 0x98 */
+    float z;                /* 0x9c */
+    String_822FBAD8 first;  /* 0xa0 */
+    String_822FBAD8 second; /* 0xbc */
+} Obj_822FBAD8;
+
+extern void fn_822C70F0(Obj_822FBAD8 *self, void *unused, void *source);
+extern void fn_8223B688(String_822FBAD8 *self, const void *source);
+extern void fn_822FBF10(Obj_822FBAD8 *self);
+extern char lbl_821AE85C[];
+
+Obj_822FBAD8 *fn_822FBAD8(Obj_822FBAD8 *self, void *unused, void *source, int value, int base,
+                          const void *name, float x, float y, float z, const void *first, const void *second)
+{
+    fn_822C70F0(self, unused, source);
+    self->vt = lbl_821AE85C;
+    InitVector(&self->items);
+    self->f64 = value;
+    self->base = base;
+    self->baseEnd = base + 0x24;
+    fn_8223B688(&self->name, name);
+    self->x = x;
+    self->y = y;
+    self->f8c = 0;
+    self->z = z;
+    self->f90 = 0;
+    fn_8223B688(&self->first, first);
+    fn_8223B688(&self->second, second);
+    self->active = 1;
+    fn_822FBF10(self);
+    return self;
+}

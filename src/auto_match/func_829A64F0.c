@@ -1,85 +1,98 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_82975B00();
+typedef struct Compiler_829A64F0 Compiler_829A64F0;
 
+typedef struct CompilerVtbl_829A64F0 {
+    char pad0[0x70];
+    unsigned int (*getType)(Compiler_829A64F0 *self, unsigned int token);   /* 0x70 */
+    unsigned int (*getNumber)(Compiler_829A64F0 *self, unsigned int token); /* 0x74 */
+} CompilerVtbl_829A64F0;
 
-unsigned __int64 fn_829A64F0(int *param_1)
+typedef struct Decl_829A64F0 {
+    int unknown0;
+    unsigned int flags; /* 0x4 */
+} Decl_829A64F0;
 
+typedef struct Instr_829A64F0 {
+    int unknown0;
+    int decl; /* 0x04 */
+    char pad8[0x8];
+    unsigned int component; /* 0x10 */
+    char pad14[0x4c];
+    int location; /* 0x60 */
+    char pad64[0x8];
+    unsigned int token; /* 0x6c */
+} Instr_829A64F0;
+
+struct Compiler_829A64F0 {
+    CompilerVtbl_829A64F0 *vt; /* 0x000 */
+    int unknown4;
+    unsigned int instrCount; /* 0x008 */
+    int unknownC;
+    Decl_829A64F0 **decls;   /* 0x010 */
+    Instr_829A64F0 **instrs; /* 0x014 */
+    char pad18[0x144];
+    int skip; /* 0x15c */
+};
+
+void *memset(void *dest, int value, unsigned int size);
+extern void fn_82975B00(Compiler_829A64F0 *self, int location, int error, const char *format, ...);
+
+int fn_829A64F0(Compiler_829A64F0 *self)
 {
-  int iVar1;
-  unsigned char bVar2;
-  bool bVar3;
-  bool bVar4;
-  unsigned __int64 uVar5;
-  int iVar6;
-  int iVar7;
-  int *piVar8;
-  unsigned int uVar9;
-  int iVar10;
-  unsigned int uVar11;
-  __int64 lVar12;
-  int aiStack_80 [32];
-  
-  if (param_1[0x57] == 0) {
-    bVar3 = false;
-    bVar4 = false;
-    bVar2 = 0;
-    aiStack_80[2] = 0;
-    aiStack_80[3] = 0;
-    uVar9 = 0;
-    uVar11 = 0;
-    if (param_1[2] != 0) {
-      iVar10 = 0;
-      do {
-        iVar1 = *(int *)(iVar10 + param_1[5]);
-        if ((*(unsigned int *)(*(int *)(*(int *)(iVar1 + 4) * 4 + param_1[4]) + 4) & 0x20) != 0) {
-          iVar6 = (**(int (***)())(*param_1 + 0x70))(param_1,*(unsigned int *)(iVar1 + 0x6c));
-          iVar7 = (**(int (***)())(*param_1 + 0x74))(param_1,*(unsigned int *)(iVar1 + 0x6c));
-          if (iVar6 == 1) {
-            if (iVar7 == 0) {
-              uVar9 = *(unsigned int *)(iVar1 + 0x60);
-              aiStack_80[*(int *)(iVar1 + 0x10)] = 1;
-            }
-          }
-          else if (iVar6 == 5) {
-            if (((iVar7 == 0) && (*(int *)(iVar1 + 0x10) != 0)) && (!bVar4)) {
-              fn_82975B00(param_1,*(unsigned int *)(iVar1 + 0x60),0x11bc,0xffffffff820386f4);
-              bVar4 = true;
-              goto LAB_829a6634;
-            }
-          }
-          else if (((iVar6 == 0xc) && (iVar7 == 0)) && ((*(int *)(iVar1 + 0x10) != 0 && (!bVar3))))
-          {
-            fn_82975B00(param_1,*(unsigned int *)(iVar1 + 0x60),0x11bc,0xffffffff82051e64);
-            bVar3 = true;
-LAB_829a6634:
-            bVar2 = 1;
-          }
-        }
-        uVar11 = uVar11 + 1;
-        iVar10 = iVar10 + 4;
-      } while (uVar11 < (unsigned int)param_1[2]);
-    }
-    iVar10 = 0;
-    piVar8 = aiStack_80;
-    lVar12 = 4;
-    do {
-      if (*piVar8 != 0) {
-        iVar10 = iVar10 + 1;
-      }
-      piVar8 = piVar8 + 1;
-      lVar12 = lVar12 + -1;
-    } while (lVar12 != 0);
-    if (iVar10 != 4) {
-      fn_82975B00(param_1,uVar9,0x11bd,0xffffffff820386b0);
-      bVar2 = 1;
-    }
-    uVar5 = -(unsigned __int64)bVar2 & 0xffffffff80004005;
-  }
-  else {
-    uVar5 = 0;
-  }
-  return uVar5;
-}
+    int fogReported;
+    int psizeReported;
+    int failed;
+    int written[4];
+    int location;
+    unsigned int i;
+    unsigned int count;
 
+    if (self->skip != 0) {
+        return 0;
+    }
+    fogReported = 0;
+    psizeReported = 0;
+    memset(written, 0, sizeof(written));
+    failed = 0;
+    location = 0;
+    for (i = 0; i < self->instrCount; i++) {
+        Instr_829A64F0 *instr = self->instrs[i];
+        if (self->decls[instr->decl]->flags & 0x20) {
+            unsigned int type = self->vt->getType(self, instr->token);
+            unsigned int number = self->vt->getNumber(self, instr->token);
+            switch (type) {
+            case 1:
+                if (number == 0) {
+                    location = instr->location;
+                    written[instr->component] = 1;
+                }
+                break;
+            case 5:
+                if (number == 0 && instr->component > 0 && !psizeReported) {
+                    fn_82975B00(self, instr->location, 0x11bc, "PSIZE must be a scalar");
+                    psizeReported = 1;
+                    failed = 1;
+                }
+                break;
+            case 0xc:
+                if (number == 0 && instr->component > 0 && !fogReported) {
+                    fn_82975B00(self, instr->location, 0x11bc, "FOG must be a scalar");
+                    fogReported = 1;
+                    failed = 1;
+                }
+                break;
+            }
+        }
+    }
+    count = 0;
+    for (i = 0; i < 4; i++) {
+        if (written[i] != 0) {
+            count++;
+        }
+    }
+    if (count != 4) {
+        fn_82975B00(self, location, 0x11bd,
+                    "vertex shader must minimally write all four components of POSITION");
+        failed = 1;
+    }
+    return failed ? 0x80004005 : 0;
+}

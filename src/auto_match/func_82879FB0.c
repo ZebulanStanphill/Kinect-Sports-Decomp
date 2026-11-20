@@ -1,80 +1,43 @@
-typedef unsigned char bool;
-#define false 0
-extern int fn_82809CB0();
-extern int fn_8287C010();
-extern int fn_8287C0A8();
-extern int fn_8287C138();
-extern int fn_82F6A540();
-extern int fn_82F6A58C();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_8201543C;
-extern unsigned int lbl_821AAD20;
-extern unsigned int stack0x0000001c;
+extern float lbl_8201543C;
+extern float fn_8287C138(float *angle);
+extern float fn_8287C0A8(float from, float to);
+extern float fn_82809CB0(float x);
+extern void fn_8287C010(float *value);
 
-
-void fn_82879FB0(unsigned __int64 param_1,double param_2,double param_3,double param_4,double param_5,
-                  unsigned __int64 param_6,unsigned __int64 param_7,unsigned __int64 param_8)
-
+void fn_82879FB0(float *angle, float target, float *velocity, float stiffness, float damping, float weight,
+                 float threshold)
 {
-  float fVar1;
-  float *pfVar2;
-  float *pfVar3;
-  bool bVar4;
-  double extraout_f1;
-  double dVar5;
-  double dVar6;
-  double dVar7;
-  double dVar8;
-  double dVar9;
-  float in_stack_0000001c;
-  
-  pfVar2 = (float *)fn_82F6A540();
-  in_stack_0000001c = (float)extraout_f1;
-  fn_8287C138();
-  fn_8287C138(&stack0x0000001c);
-  fVar1 = lbl_821AAD20;
-  dVar7 = (double)lbl_821AAD20;
-  pfVar3 = (float *)param_8;
-  if (param_4 == dVar7) {
-    *pfVar2 = in_stack_0000001c;
-    *pfVar3 = fVar1;
-  }
-  else {
-    dVar8 = dVar7;
-    if ((dVar7 <= param_4) && (dVar8 = (double)lbl_82002AE0, param_4 <= (double)lbl_82002AE0)) {
-      dVar8 = param_4;
-    }
-    dVar5 = (double)fn_8287C0A8((double)*pfVar2,(double)in_stack_0000001c);
-    bVar4 = false;
-    fVar1 = (float)((double)(float)((double)(float)(dVar5 * param_2 - (double)*pfVar3) * param_3) *
-                    dVar8 + (double)*pfVar3);
-    *pfVar3 = fVar1;
-    dVar9 = (double)(float)((double)fVar1 * dVar8);
-    dVar6 = (double)fn_82809CB0();
-    if (dVar6 < param_5) {
-      if (dVar7 < dVar5 == dVar7 < dVar9) {
-        dVar6 = (double)fn_82809CB0(dVar9);
-        dVar5 = (double)fn_82809CB0(dVar5);
-        bVar4 = dVar5 < dVar6;
-      }
-      else {
-        dVar6 = (double)fn_82809CB0(dVar9);
-        dVar5 = (double)fn_82809CB0(dVar5);
-        bVar4 = (double)(float)((double)lbl_8201543C - dVar5) < dVar6;
-      }
-    }
-    if (bVar4) {
-      *pfVar2 = in_stack_0000001c;
-      *pfVar3 = (float)dVar7;
-    }
-    else {
-      *pfVar2 = (float)((double)*pfVar3 * dVar8 + (double)*pfVar2);
-    }
-    fn_8287C010(pfVar2);
-    fn_8287C010(param_8);
-    fn_8287C138(pfVar2);
-  }
-  fn_82F6A58C();
-  return;
-}
+    float step;
+    float offset;
+    float move;
+    unsigned char arrived;
 
+    fn_8287C138(angle);
+    fn_8287C138(&target);
+    if (weight == 0.0f) {
+        *angle = target;
+        *velocity = 0.0f;
+        return;
+    }
+    step = weight < 0.0f ? 0.0f : (weight > 1.0f ? 1.0f : weight);
+    offset = fn_8287C0A8(*angle, target);
+    *velocity = step * ((offset * stiffness - *velocity) * damping) + *velocity;
+    move = *velocity * step;
+    arrived = 0;
+    if (fn_82809CB0(*velocity) < threshold) {
+        if ((offset > 0.0f) != (move > 0.0f)) {
+            arrived = fn_82809CB0(move) > lbl_8201543C - fn_82809CB0(offset);
+        } else {
+            arrived = fn_82809CB0(move) > fn_82809CB0(offset);
+        }
+    }
+    if (arrived) {
+        *angle = target;
+        *velocity = 0.0f;
+    } else {
+        *angle = *velocity * step + *angle;
+    }
+    fn_8287C010(angle);
+    fn_8287C010(velocity);
+    fn_8287C138(angle);
+}

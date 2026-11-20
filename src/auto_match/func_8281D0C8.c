@@ -1,68 +1,46 @@
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_60;
-extern unsigned int fStack_38;
-extern unsigned int fStack_3c;
-extern unsigned int fStack_40;
-extern unsigned int fStack_48;
-extern unsigned int fStack_4c;
-extern unsigned int fStack_50;
-extern int fn_828095F8();
-extern int fn_82810240();
-extern int fn_82810280();
-extern int fn_82810B78();
-extern unsigned int lbl_8200133C;
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_82002C5C;
-extern unsigned int lbl_8201DD74;
-extern unsigned int lbl_821AAD20;
+typedef struct Vec3_8281D0C8 {
+    float x;
+    float y;
+    float z;
+} Vec3_8281D0C8;
 
+extern void fn_82810B78(const Vec3_8281D0C8 *in, Vec3_8281D0C8 *out);
+extern float fn_82810280(const Vec3_8281D0C8 *a, const Vec3_8281D0C8 *b);
+extern void fn_82810240(const Vec3_8281D0C8 *a, const Vec3_8281D0C8 *b, Vec3_8281D0C8 *out);
+extern float fn_828095F8(float x);
 
-double fn_8281D0C8(unsigned __int64 param_1,unsigned __int64 param_2,float *param_3)
-
+/* Rotation from one direction to another: writes the rotation axis and returns the angle. */
+float fn_8281D0C8(const Vec3_8281D0C8 *from, const Vec3_8281D0C8 *to, Vec3_8281D0C8 *axis)
 {
-  float fVar1;
-  float *pfVar2;
-  double dVar3;
-  unsigned char auStack_60 [16];
-  float fStack_50;
-  float fStack_4c;
-  float fStack_48;
-  float fStack_40;
-  float fStack_3c;
-  float fStack_38;
-  unsigned char auStack_30 [24];
-  
-  fn_82810B78(param_1,auStack_60);
-  fn_82810B78(param_2,auStack_30);
-  dVar3 = (double)fn_82810280(auStack_30,auStack_60);
-  if (dVar3 < (double)lbl_82002AE0) {
-    if ((double)lbl_8200133C < dVar3) {
-      fn_82810240(auStack_30,auStack_60,param_3);
-      dVar3 = (double)fn_828095F8(dVar3);
-    }
-    else {
-      fStack_50 = lbl_82002AE0;
-      fStack_3c = lbl_82002AE0;
-      fStack_48 = lbl_821AAD20;
-      fStack_4c = lbl_821AAD20;
-      fStack_38 = lbl_821AAD20;
-      fStack_40 = lbl_821AAD20;
-      dVar3 = (double)fn_82810280(auStack_60,&fStack_50);
-      pfVar2 = &fStack_40;
-      if (dVar3 <= (double)lbl_82002C5C) {
-        pfVar2 = &fStack_50;
-      }
-      fn_82810240(auStack_60,pfVar2,param_3);
-      dVar3 = (double)lbl_8201DD74;
-    }
-  }
-  else {
-    *param_3 = lbl_82002AE0;
-    fVar1 = lbl_821AAD20;
-    dVar3 = (double)lbl_821AAD20;
-    param_3[1] = lbl_821AAD20;
-    param_3[2] = fVar1;
-  }
-  return dVar3;
-}
+    Vec3_8281D0C8 a;
+    Vec3_8281D0C8 b;
+    float dot;
 
+    fn_82810B78(from, &a);
+    fn_82810B78(to, &b);
+    dot = fn_82810280(&b, &a);
+    if (dot >= 1.0f) {
+        axis->x = 1.0f;
+        axis->y = 0.0f;
+        axis->z = 0.0f;
+        return 0.0f;
+    }
+    if (dot <= -1.0f) {
+        Vec3_8281D0C8 xAxis;
+        Vec3_8281D0C8 yAxis;
+
+        xAxis.x = 1.0f;
+        yAxis.y = 1.0f;
+        xAxis.z = 0.0f;
+        xAxis.y = 0.0f;
+        yAxis.z = 0.0f;
+        yAxis.x = 0.0f;
+        if (fn_82810280(&a, &xAxis) > 0.5f)
+            fn_82810240(&a, &yAxis, axis);
+        else
+            fn_82810240(&a, &xAxis, axis);
+        return 3.14159274f;
+    }
+    fn_82810240(&b, &a, axis);
+    return fn_828095F8(dot);
+}

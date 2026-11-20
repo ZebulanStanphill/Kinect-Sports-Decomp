@@ -1,50 +1,57 @@
-extern int fn_82547C80();
-extern unsigned int lbl_82191D8C;
-extern unsigned int lbl_82191D9C;
-extern unsigned int lbl_82191DA0;
-extern unsigned int ltcg_pool_0_0f;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Band_8241FA30 {
+    float width; /* 0x0 */
+    int soundA;  /* 0x4 */
+    int soundB;  /* 0x8 */
+} Band_8241FA30;
 
-void fn_8241FA30(int *param_1)
+extern Band_8241FA30 lbl_82191D98[22];
 
+typedef struct Player_8241FA30 Player_8241FA30;
+
+typedef struct Game_8241FA30 {
+    char pad0[0x2b20];
+    Player_8241FA30 *localPlayer; /* 0x2b20 */
+    char pad2b24[0xd8];
+    char **audio; /* 0x2bfc */
+} Game_8241FA30;
+
+struct Player_8241FA30 {
+    Game_8241FA30 *game; /* 0x0 */
+    char pad4[0x1cc];
+    float offsetA; /* 0x1d0 */
+    char pad1d4[0x3c];
+    float offsetB; /* 0x210 */
+};
+
+extern void fn_82547C80(void *queue, unsigned char sound, unsigned char play);
+
+void fn_8241FA30(Player_8241FA30 *player, __vector4 position)
 {
-  float fVar1;
-  float fVar2;
-  float *pfVar3;
-  int iVar4;
-  unsigned int uVar5;
-  float in_register_00010010;
-  
-  fVar1 = (in_register_00010010 - (float)param_1[0x74]) - (float)param_1[0x84];
-  iVar4 = 0;
-  if (ltcg_pool_0_0f < fVar1) {
-    uVar5 = 0;
-    pfVar3 = (float *)&lbl_82191D8C;
-    fVar2 = ltcg_pool_0_0f;
-    do {
-      if (0xfb < uVar5) break;
-      pfVar3 = pfVar3 + 3;
-      iVar4 = iVar4 + 1;
-      fVar2 = *pfVar3 + fVar2;
-      uVar5 = uVar5 + 0xc;
-    } while (fVar2 < fVar1);
-  }
-  uVar5 = 0xffffffffU - ((int)(iVar4 - 1U) >> 0x1f) & iVar4 - 1U;
-  if (0x14 < (int)uVar5) {
-    uVar5 = 0x15;
-  }
-  if (*(unsigned int *)(&lbl_82191D9C + uVar5 * 0xc) != 0xffffffff) {
-    if (param_1 == *(int **)(*param_1 + 0x2b20)) {
-      fn_82547C80((unsigned __int64)**(unsigned int **)(*param_1 + 0x2bfc) + 0xd0,
-                   *(unsigned int *)(&lbl_82191D9C + uVar5 * 0xc) & 0xff,1);
-    }
-  }
-  if (*(unsigned int *)(&lbl_82191DA0 + uVar5 * 0xc) != 0xffffffff) {
-    if (param_1 == *(int **)(*param_1 + 0x2b20)) {
-      fn_82547C80((unsigned __int64)**(unsigned int **)(*param_1 + 0x2bfc) + 0xd0,
-                   *(unsigned int *)(&lbl_82191DA0 + uVar5 * 0xc) & 0xff,1);
-    }
-  }
-  return;
-}
+    float distance = position.vector4_f32[0] - player->offsetA - player->offsetB;
+    float total = 0.0f;
+    unsigned int i = 0;
+    int band;
 
+    while (distance > total) {
+        if (i >= sizeof(lbl_82191D98) / sizeof(lbl_82191D98[0]) - 1) {
+            break;
+        }
+        total += lbl_82191D98[i].width;
+        i++;
+    }
+    band = i - 1;
+    if (band < 0) {
+        band = 0;
+    }
+    band = band < 21 ? band : 21;
+    if (lbl_82191D98[band].soundA != -1 && player == player->game->localPlayer) {
+        fn_82547C80(*player->game->audio + 0xd0, (unsigned char)lbl_82191D98[band].soundA, 1);
+    }
+    if (lbl_82191D98[band].soundB != -1 && player == player->game->localPlayer) {
+        fn_82547C80(*player->game->audio + 0xd0, (unsigned char)lbl_82191D98[band].soundB, 1);
+    }
+}

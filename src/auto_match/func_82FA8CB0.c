@@ -1,65 +1,90 @@
-extern unsigned int fStack_34;
-extern unsigned int fStack_38;
-extern int fn_82FF5400();
-extern int fn_82FF59A8();
-extern unsigned int iStack_2c;
-extern unsigned int iStack_30;
-extern unsigned int lbl_8216CBF0;
-extern float lbl_8216CBF4;
-extern unsigned int lbl_821AAD20;
-extern unsigned int lbl_832642F4;
-extern unsigned int uStack_28;
-extern unsigned int uStack_3c;
+typedef struct Voice_82FA8CB0 Voice_82FA8CB0;
 
+typedef struct VoiceVtbl_82FA8CB0 {
+    void (*SetVolume)(Voice_82FA8CB0 *self, int flags, float volume, int now);
+} VoiceVtbl_82FA8CB0;
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+struct Voice_82FA8CB0 {
+    VoiceVtbl_82FA8CB0 *vt;
+};
 
-unsigned __int64 fn_82FA8CB0(int param_1,int *param_2,char param_3)
+typedef struct Target_82FA8CB0 Target_82FA8CB0;
 
+typedef struct TargetVtbl_82FA8CB0 {
+    void *slot0;
+    void *slot1;
+    void *slot2;
+    void (*Update)(Target_82FA8CB0 *self);                                            /* 0xc */
+    void (*SetByte)(Target_82FA8CB0 *self, unsigned char *value, unsigned char init); /* 0x10 */
+} TargetVtbl_82FA8CB0;
+
+struct Target_82FA8CB0 {
+    TargetVtbl_82FA8CB0 *vt;
+};
+
+typedef struct Sound_82FA8CB0 {
+    void *vt;
+    Target_82FA8CB0 target; /* 0x4 */
+    unsigned char pad8[0x18 - 0x8];
+    Voice_82FA8CB0 voice; /* 0x18 */
+    void *volumeHandle;   /* 0x1c */
+    void *pitchHandle;    /* 0x20 */
+    unsigned char flags;  /* 0x24 */
+    unsigned char pad25[0x30 - 0x25];
+    unsigned short pauses; /* 0x30 */
+    unsigned char pad32;
+    unsigned char level; /* 0x33 */
+} Sound_82FA8CB0;
+
+typedef struct FadeParams_82FA8CB0 {
+    int time;  /* 0x0 */
+    int curve; /* 0x4 */
+} FadeParams_82FA8CB0;
+
+typedef struct Fade_82FA8CB0 {
+    Voice_82FA8CB0 *voice; /* 0x0 */
+    int flags;             /* 0x4 */
+    float from;            /* 0x8 */
+    float to;              /* 0xc */
+    int time;              /* 0x10 */
+    int curve;             /* 0x14 */
+    unsigned char active;  /* 0x18 */
+} Fade_82FA8CB0;
+
+extern void *lbl_832642F4;
+extern const float lbl_8216CBF0;
+extern const float lbl_8216CBF4;
+extern void fn_82FF5400(void *mgr, void *handle, int flags, float value, int time, int curve, int mode);
+extern void *fn_82FF59A8(void *mgr, Fade_82FA8CB0 *fade, int a, int b);
+
+int fn_82FA8CB0(Sound_82FA8CB0 *self, FadeParams_82FA8CB0 *params, unsigned char force)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  unsigned int *puStack_40;
-  unsigned int uStack_3c;
-  float fStack_38;
-  float fStack_34;
-  int iStack_30;
-  int iStack_2c;
-  unsigned char uStack_28;
-  
-  if ((param_3 == '\0') && (1 < *(unsigned short *)(param_1 + 0x30))) {
-    *(unsigned short *)(param_1 + 0x30) = *(unsigned short *)(param_1 + 0x30) - 1;
-  }
-  else {
-    *(unsigned short *)(param_1 + 0x30) = 0;
-    if (*(int *)(param_1 + 0x20) == 0) {
-      if (*param_2 < 1) {
-        *(unsigned char *)(param_1 + 0x33) = 0xff;
-        (**(int (***)())(*(int *)(param_1 + 4) + 0x10))(param_1 + 4,param_1 + 0x33,0xff);
-      }
-      else {
-        iStack_2c = param_2[1];
-        puVar2 = (unsigned int *)(param_1 + 0x18);
-        fStack_34 = lbl_821AAD20;
-        uStack_3c = 0x8000000;
-        uStack_28 = 1;
-        fStack_38 = (float)*(unsigned char *)(param_1 + 0x33) * lbl_8216CBF4 - lbl_8216CBF0;
-        puStack_40 = puVar2;
-        iStack_30 = *param_2;
-        iVar1 = fn_82FF59A8(lbl_832642F4,&puStack_40,1,0);
-        *(int *)(param_1 + 0x20) = iVar1;
-        *(unsigned char *)(param_1 + 0x24) = *(unsigned char *)(param_1 + 0x24) | 0x40;
-        if (iVar1 == 0) {
-          (**(int (***)())*puVar2)((double)fStack_34,puVar2,uStack_3c);
-        }
-      }
-    }
-    else {
-      fn_82FF5400((double)lbl_821AAD20,lbl_832642F4,*(int *)(param_1 + 0x20),0x8000000,
-                        0xffffffff821b0000,*param_2,param_2[1],0);
-    }
-    (**(int (***)())(*(int *)(param_1 + 4) + 0xc))(param_1 + 4);
-  }
-  return 1;
-}
+    Fade_82FA8CB0 fade;
 
+    if (!force && self->pauses > 1) {
+        self->pauses--;
+        return 1;
+    }
+    self->pauses = 0;
+    if (self->pitchHandle != 0) {
+        fn_82FF5400(lbl_832642F4, self->pitchHandle, 0x8000000, 0.0f, params->time, params->curve, 0);
+    } else if (params->time > 0) {
+        fade.time = params->time;
+        fade.flags = 0x8000000;
+        fade.curve = params->curve;
+        fade.voice = &self->voice;
+        fade.from = self->level * lbl_8216CBF4 - lbl_8216CBF0;
+        fade.active = 1;
+        fade.to = 0.0f;
+        self->pitchHandle = fn_82FF59A8(lbl_832642F4, &fade, 1, 0);
+        self->flags |= 0x40;
+        if (self->pitchHandle == 0) {
+            self->voice.vt->SetVolume(&self->voice, fade.flags, fade.to, 1);
+        }
+    } else {
+        self->level = 0xff;
+        self->target.vt->SetByte(&self->target, &self->level, 0xff);
+    }
+    self->target.vt->Update(&self->target);
+    return 1;
+}

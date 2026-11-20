@@ -1,62 +1,81 @@
-extern unsigned int fStack_44;
-extern int fn_82FF5400();
-extern int fn_82FF59A8();
-extern unsigned int iStack_3c;
-extern unsigned int iStack_40;
-extern unsigned int lbl_8216C698;
-extern unsigned int lbl_821AAD20;
-extern unsigned int lbl_832642F4;
-extern unsigned int uStack_38;
-extern unsigned int uStack_48;
-extern unsigned int uStack_4c;
+typedef struct Voice_82FA8948 Voice_82FA8948;
 
+typedef struct VoiceVtbl_82FA8948 {
+    void (*SetVolume)(Voice_82FA8948 *self, int flags, float volume, int now);
+} VoiceVtbl_82FA8948;
 
-unsigned __int64 fn_82FA8948(int param_1,int *param_2,unsigned __int64 param_3,unsigned __int64 param_4)
+struct Voice_82FA8948 {
+    VoiceVtbl_82FA8948 *vt;
+};
 
+typedef struct Target_82FA8948 Target_82FA8948;
+
+typedef struct TargetVtbl_82FA8948 {
+    void (*Stop)(Target_82FA8948 *self, int arg); /* 0x0 */
+} TargetVtbl_82FA8948;
+
+struct Target_82FA8948 {
+    TargetVtbl_82FA8948 *vt;
+};
+
+typedef struct FadeHandle_82FA8948 {
+    unsigned char pad0[0x18];
+    float elapsed; /* 0x18 */
+} FadeHandle_82FA8948;
+
+typedef struct Sound_82FA8948 {
+    void *vt;
+    Target_82FA8948 target; /* 0x4 */
+    unsigned char pad8[0x18 - 0x8];
+    Voice_82FA8948 voice;              /* 0x18 */
+    FadeHandle_82FA8948 *volumeHandle; /* 0x1c */
+    void *pitchHandle;                 /* 0x20 */
+    unsigned char flags;               /* 0x24 */
+} Sound_82FA8948;
+
+typedef struct FadeParams_82FA8948 {
+    int time;   /* 0x0 */
+    int curve;  /* 0x4 */
+    int offset; /* 0x8 */
+} FadeParams_82FA8948;
+
+typedef struct Fade_82FA8948 {
+    Voice_82FA8948 *voice; /* 0x0 */
+    int flags;             /* 0x4 */
+    float from;            /* 0x8 */
+    float to;              /* 0xc */
+    int time;              /* 0x10 */
+    int curve;             /* 0x14 */
+    unsigned char active;  /* 0x18 */
+} Fade_82FA8948;
+
+extern void *lbl_832642F4;
+extern const float lbl_8216C698;
+extern void fn_82FF5400(void *mgr, void *handle, int flags, float value, int time, int curve, int mode);
+extern FadeHandle_82FA8948 *fn_82FF59A8(void *mgr, Fade_82FA8948 *fade, int a, int b);
+
+int fn_82FA8948(Sound_82FA8948 *self, FadeParams_82FA8948 *params, int arg)
 {
-  unsigned int uVar1;
-  int iVar2;
-  unsigned int *puVar3;
-  unsigned int *puStack_50;
-  unsigned int uStack_4c;
-  unsigned int uStack_48;
-  float fStack_44;
-  int iStack_40;
-  int iStack_3c;
-  unsigned char uStack_38;
-  
-  if (*(int *)(param_1 + 0x1c) == 0) {
-    if (0 < *param_2) {
-      iStack_3c = param_2[1];
-      puVar3 = (unsigned int *)(param_1 + 0x18);
-      uStack_4c = 0x1000000;
-      uStack_38 = 1;
-      uStack_48 = lbl_8216C698;
-      fStack_44 = lbl_821AAD20;
-      puStack_50 = puVar3;
-      iStack_40 = *param_2;
-      iVar2 = fn_82FF59A8(lbl_832642F4,&puStack_50,1,0);
-      *(int *)(param_1 + 0x1c) = iVar2;
-      *(unsigned char *)(param_1 + 0x24) = *(unsigned char *)(param_1 + 0x24) | 0x80;
-      if (iVar2 == 0) {
-        (**(int (***)())*puVar3)((double)fStack_44,puVar3,uStack_4c);
-      }
-      else {
-        uVar1 = param_2[2];
-        if (uVar1 != 0) {
-          *(float *)(iVar2 + 0x18) =
-               (float)(__int64)
-                      (int)(((int)uVar1 >> 10) + (unsigned int)((int)uVar1 < 0 && (uVar1 & 0x3ff) != 0)) +
-               *(float *)(iVar2 + 0x18);
-        }
-      }
-    }
-  }
-  else {
-    fn_82FF5400((double)lbl_821AAD20,lbl_832642F4,*(int *)(param_1 + 0x1c),0x1000000,param_4,
-                      *param_2,param_2[1],0);
-  }
-  (*(int (**)())**(unsigned int **)(param_1 + 4))(param_1 + 4,param_3);
-  return 1;
-}
+    Fade_82FA8948 fade;
 
+    if (self->volumeHandle != 0) {
+        fn_82FF5400(lbl_832642F4, self->volumeHandle, 0x1000000, 0.0f, params->time, params->curve, 0);
+    } else if (params->time > 0) {
+        fade.time = params->time;
+        fade.flags = 0x1000000;
+        fade.curve = params->curve;
+        fade.voice = &self->voice;
+        fade.from = lbl_8216C698;
+        fade.active = 1;
+        fade.to = 0.0f;
+        self->volumeHandle = fn_82FF59A8(lbl_832642F4, &fade, 1, 0);
+        self->flags |= 0x80;
+        if (self->volumeHandle == 0) {
+            self->voice.vt->SetVolume(&self->voice, fade.flags, fade.to, 1);
+        } else if (params->offset != 0) {
+            self->volumeHandle->elapsed += params->offset / 1024;
+        }
+    }
+    self->target.vt->Stop(&self->target, arg);
+    return 1;
+}

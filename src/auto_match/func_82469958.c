@@ -1,87 +1,78 @@
-typedef unsigned char bool;
-extern int fn_82273C88();
-extern int fn_82672C20();
-extern int iRam831c6e20;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+typedef struct Val_82469958 {
+    int w0;   /* 0x0 */
+    int type; /* 0x4 */
 
+    union {
+        void *p;
+        double d;
+    } u; /* 0x8 */
+} Val_82469958;
 
-void fn_82469958(int *param_1,unsigned __int64 param_2)
+typedef struct Board_82469958 {
+    int state; /* 0x00 */
+    int movie; /* 0x04 */
+    char pad08[0x14 - 0x08];
+    float winningScore; /* 0x14 */
+} Board_82469958;
 
+extern float lbl_831C6E20;
+extern void fn_82273C88(Val_82469958 *value);
+extern void fn_82672C20(int movie, const char *path, Val_82469958 *args, int count);
+
+void fn_82469958(Board_82469958 *self, int state)
 {
-  bool bVar1;
-  int iVar2;
-  int iVar4;
-  unsigned __int64 uVar3;
-  unsigned int uStack_30;
-  unsigned int uStack_2c;
-  
-  iVar2 = *param_1;
-  uStack_30 = 0;
-  iVar4 = (int)param_2;
-  uStack_2c = 0;
-  if (iVar4 == iVar2) goto LAB_82469b00;
-  if ((5 < iVar2) && (iVar2 < 9)) {
-    fn_82672C20(param_1[1],0xffffffff821bc1b0,0,0);
-  }
-  *param_1 = iVar4;
-  if (8 < (param_2 & 0xffffffff)) goto LAB_82469b00;
-  bVar1 = iVar4 != 0;
-  if (param_2 == 1 && bVar1) {
-    if (((iVar2 == 3) || (iVar2 == 4)) || (iVar2 == 5)) {
-      uVar3 = 0xffffffff821bc1f8;
-      goto LAB_82469a28;
-    }
-    iVar4 = param_1[1];
-    if (iVar2 == 2) {
-      uVar3 = 0xffffffff821bc20c;
-    }
-    else {
-      uVar3 = 0xffffffff821bc220;
-    }
-  }
-  else if (param_2 == 2 && bVar1) {
-    iVar4 = param_1[1];
-    if (iVar2 == 0) {
-      uVar3 = 0xffffffff821bc230;
-    }
-    else {
-      uVar3 = 0xffffffff821bc240;
-    }
-  }
-  else {
-    if (param_2 == 3 && bVar1) {
-      uVar3 = 0xffffffff821bc254;
-    }
-    else if (param_2 == 4 && bVar1) {
-      uVar3 = 0xffffffff821bc268;
-    }
-    else if (param_2 == 5 && bVar1) {
-      uVar3 = 0xffffffff821bc280;
-    }
-    else {
-      if (((param_2 == 6 && bVar1) || (param_2 == 7 && bVar1)) || (bVar1)) {
-        fn_82672C20(param_1[1],0xffffffff821bc298,0,0);
-        param_1[5] = iRam831c6e20;
-        goto LAB_82469b00;
-      }
-      if (iVar2 == 2) {
-        uVar3 = 0xffffffff821bc1c8;
-      }
-      else if (iVar2 == 1) {
-        uVar3 = 0xffffffff821bc1d8;
-      }
-      else {
-        if (((iVar2 == 6) || (iVar2 == 7)) || (iVar2 == 8)) goto LAB_82469b00;
-        uVar3 = 0xffffffff821bc1e8;
-      }
-    }
-LAB_82469a28:
-    iVar4 = param_1[1];
-  }
-  fn_82672C20(iVar4,uVar3,0,0);
-LAB_82469b00:
-  fn_82273C88(&uStack_30);
-  return;
-}
+    int previous = self->state;
+    Val_82469958 result;
 
+    result.w0 = 0;
+    result.type = 0;
+    if (state != previous) {
+        if (previous >= 6 && previous <= 8) {
+            fn_82672C20(self->movie, "_root.winningScoreOut", 0, 0);
+        }
+        self->state = state;
+        switch (state) {
+        case 0:
+            if (previous == 2) {
+                fn_82672C20(self->movie, "_root.GoTo3out", 0, 0);
+            } else if (previous == 1) {
+                fn_82672C20(self->movie, "_root.GoTo2out", 0, 0);
+            } else if (previous != 6 && previous != 7 && previous != 8) {
+                fn_82672C20(self->movie, "_root.GoTonone", 0, 0);
+            }
+            break;
+        case 1:
+            if (previous == 3 || previous == 4 || previous == 5) {
+                fn_82672C20(self->movie, "_root.CancelLoop", 0, 0);
+            } else if (previous == 2) {
+                fn_82672C20(self->movie, "_root.GoToMiddleout", 0, 0);
+            } else {
+                fn_82672C20(self->movie, "_root.GoTo2in", 0, 0);
+            }
+            break;
+        case 2:
+            if (previous == 0) {
+                fn_82672C20(self->movie, "_root.GoTo3in", 0, 0);
+            } else {
+                fn_82672C20(self->movie, "_root.GoToMiddlein", 0, 0);
+            }
+            break;
+        case 3:
+            fn_82672C20(self->movie, "_root.GoToCountUp", 0, 0);
+            break;
+        case 4:
+            fn_82672C20(self->movie, "_root.GoToRedCountUp", 0, 0);
+            break;
+        case 5:
+            fn_82672C20(self->movie, "_root.GoToBlueCountUp", 0, 0);
+            break;
+        case 6:
+        case 7:
+        case 8:
+            fn_82672C20(self->movie, "_root.winningScoreIn", 0, 0);
+            self->winningScore = lbl_831C6E20;
+            break;
+        }
+    }
+    fn_82273C88(&result);
+}

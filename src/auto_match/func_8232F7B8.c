@@ -1,91 +1,120 @@
-typedef unsigned char bool;
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern unsigned int *auStack_40;
-extern int fn_822315A0();
-extern int fn_8223AAC0();
-extern int fn_822BFB28();
-extern int fn_822C1928();
-extern unsigned __int64 storeWordConditionalIndexed();
+long _InterlockedDecrement(long volatile *addend);
 
+typedef struct String_8232F7B8 {
+    union {
+        char buf[16];
+        char *ptr;
+    } bx;
 
-void fn_8232F7B8(int param_1,unsigned int *param_2)
+    unsigned int size;
+    unsigned int res;
+} String_8232F7B8;
 
+typedef struct Event_8232F7B8 {
+    int id;               /* 0x0 */
+    String_8232F7B8 name; /* 0x4 */
+} Event_8232F7B8;
+
+typedef struct Message_8232F7B8 {
+    Event_8232F7B8 *event; /* 0x0 */
+} Message_8232F7B8;
+
+typedef struct Rep_8232F7B8 Rep_8232F7B8;
+
+typedef struct RepVt_8232F7B8 {
+    void (*destroy)(Rep_8232F7B8 *rep);
+    void (*deleteThis)(Rep_8232F7B8 *rep);
+} RepVt_8232F7B8;
+
+struct Rep_8232F7B8 {
+    RepVt_8232F7B8 *vt; /* 0x0 */
+    long uses;          /* 0x4 */
+    long weaks;         /* 0x8 */
+};
+
+typedef struct Hit_8232F7B8 {
+    int state;   /* 0x0 */
+    int moveId;  /* 0x4 */
+    int hitType; /* 0x8 */
+} Hit_8232F7B8;
+
+typedef struct Fighter_8232F7B8 {
+    void *vt; /* 0x0 */
+    int pad4;
+    unsigned int guard; /* 0x8 */
+    Hit_8232F7B8 hit;   /* 0xc */
+} Fighter_8232F7B8;
+
+typedef struct WeakPtr_8232F7B8 {
+    Fighter_8232F7B8 *ptr; /* 0x0 */
+    Rep_8232F7B8 *rep;     /* 0x4 */
+} WeakPtr_8232F7B8;
+
+typedef struct Controller_8232F7B8 {
+    char pad0[0xc];
+    void *source; /* 0x0c */
+    int pad10;
+    int blockLow;     /* 0x14 */
+    int blockHigh;    /* 0x18 */
+    int animateMoves; /* 0x1c */
+} Controller_8232F7B8;
+
+extern unsigned int fn_822C1928(const String_8232F7B8 *self, const char *ptr, unsigned int off,
+                                unsigned int count);
+extern WeakPtr_8232F7B8 *fn_822BFB28(WeakPtr_8232F7B8 *out, void *source);
+extern unsigned char fn_8223AAC0(Rep_8232F7B8 *rep);
+extern void fn_822315A0(Rep_8232F7B8 *rep);
+
+static __forceinline void Decwref(Rep_8232F7B8 *rep)
 {
-  int iVar1;
-  unsigned int uVar2;
-  int iVar3;
-  int *piVar4;
-  char cVar5;
-  __int64 lVar6;
-  unsigned int uVar7;
-  unsigned int *puVar8;
-  int iVar9;
-  __int64 lVar10;
-  int iVar11;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  unsigned char auStack_40 [4];
-  int *piStack_3c;
-  
-  *(unsigned int *)(param_1 + 0x18) = 0;
-  *(unsigned int *)(param_1 + 0x14) = 0;
-  iVar3 = fn_822C1928((unsigned __int64)*param_2 + 4,0xffffffff821acc04,0,9);
-  if (iVar3 != -1) {
-    *(unsigned int *)(param_1 + 0x18) = 1;
-  }
-  iVar3 = fn_822C1928((unsigned __int64)*param_2 + 4,0xffffffff821acc10,0,8);
-  if (iVar3 != -1) {
-    *(unsigned int *)(param_1 + 0x14) = 1;
-  }
-  lVar10 = (unsigned __int64)*param_2 + 4;
-  iVar3 = fn_822C1928(lVar10,0xffffffff821acc7c,0,5);
-  if ((iVar3 == -1) && (iVar3 = fn_822C1928(lVar10,0xffffffff821acc30,0,9), iVar3 == -1)) {
-    iVar3 = fn_822C1928(lVar10,0xffffffff821acce8,0,8);
-    uVar7 = 0;
-    if (iVar3 == -1) goto LAB_8232f8a0;
-  }
-  uVar7 = 1;
-LAB_8232f8a0:
-  *(unsigned int *)(param_1 + 0x1c) = (unsigned int)LZCOUNT(uVar7) >> 5;
-  iVar3 = fn_822C1928((unsigned __int64)*param_2 + 4,0xffffffff821acc7c,0,5);
-  if (iVar3 != -1) {
-    piVar4 = (int *)fn_822BFB28(auStack_40,*(unsigned int *)(param_1 + 0xc));
-    iVar3 = piVar4[1];
-    iVar1 = *piVar4;
-    iVar11 = 0;
-    iVar9 = 0;
-    if (iVar3 != 0) {
-      cVar5 = fn_8223AAC0(iVar3);
-      in_cr0 = (cVar5 == '\0') << 1;
-      if (cVar5 != '\0') {
-        iVar11 = iVar1;
-        iVar9 = iVar3;
-      }
+    if (_InterlockedDecrement(&rep->weaks) == 0) {
+        rep->vt->deleteThis(rep);
     }
-    if (ZEXT48(piStack_3c) != 0) {
-      lVar10 = ZEXT48(piStack_3c) + 8;
-      do {
-        puVar8 = (unsigned int *)lVar10;
-        lVar6 = (unsigned __int64)*puVar8 - 1;
-        if (in_RESERVE != '\0') {
-          uVar2 = storeWordConditionalIndexed(lVar6,0,lVar10);
-          *puVar8 = uVar2;
-          in_cr0 = 2;
-        }
-      } while (!(bool)(in_cr0 >> 1 & 1));
-      if ((int)lVar6 == 0) {
-        (**(int (***)())(*piStack_3c + 4))();
-      }
-    }
-    if (iVar11 != 0) {
-      *(unsigned int *)(iVar11 + 0x10) = 1;
-      *(unsigned int *)(iVar11 + 0xc) = 5;
-      *(unsigned int *)(iVar11 + 0x14) = 4;
-    }
-    if (iVar9 != 0) {
-      fn_822315A0(iVar9);
-    }
-  }
-  return;
 }
 
+static __forceinline void ReleaseWeak(Rep_8232F7B8 **rep)
+{
+    if (*rep != 0) {
+        Decwref(*rep);
+    }
+}
+
+static __forceinline int IsHit(const String_8232F7B8 *name)
+{
+    return fn_822C1928(name, "punch", 0, 5) != -1 || fn_822C1928(name, "knockback", 0, 9) != -1 ||
+           fn_822C1928(name, "stuninto", 0, 8) != -1;
+}
+
+void fn_8232F7B8(Controller_8232F7B8 *self, Message_8232F7B8 *message)
+{
+    self->blockHigh = 0;
+    self->blockLow = 0;
+    if (fn_822C1928(&message->event->name, "blockhigh", 0, 9) != -1) {
+        self->blockHigh = 1;
+    }
+    if (fn_822C1928(&message->event->name, "blocklow", 0, 8) != -1) {
+        self->blockLow = 1;
+    }
+    self->animateMoves = !IsHit(&message->event->name);
+    if (fn_822C1928(&message->event->name, "punch", 0, 5) != -1) {
+        WeakPtr_8232F7B8 weak;
+        WeakPtr_8232F7B8 *source = fn_822BFB28(&weak, self->source);
+        Rep_8232F7B8 *rep = source->rep;
+        Fighter_8232F7B8 *ptr = source->ptr;
+        Fighter_8232F7B8 *fighter = 0;
+        Rep_8232F7B8 *lockedRep = 0;
+
+        if (rep != 0 && fn_8223AAC0(rep) != 0) {
+            lockedRep = rep;
+            fighter = ptr;
+        }
+        ReleaseWeak(&weak.rep);
+        if (fighter != 0) {
+            Hit_8232F7B8 hit = {5, 1, 4};
+            fighter->hit = hit;
+        }
+        if (lockedRep != 0) {
+            fn_822315A0(lockedRep);
+        }
+    }
+}

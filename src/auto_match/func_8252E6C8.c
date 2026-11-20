@@ -1,33 +1,51 @@
-extern int fn_8263FB88();
-extern unsigned int lbl_821916FC;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Device_82623D60 {
+    char pad0[0x30];
+    int vertexCursor; /* 0x30 */
+    char pad34[0x3554 - 0x34];
+    int vertexStart; /* 0x3554 */
+} Device_82623D60;
 
+typedef struct Vertex_8252E6C8 {
+    float x;
+    float y;
+    float u;
+    float v;
+} Vertex_8252E6C8;
 
-void fn_8252E6C8(int param_1,int param_2,int param_3)
+extern Vertex_8252E6C8 *fn_8263FB88(Device_82623D60 *device, int primitive, int count, int stride);
 
+static __forceinline int BeginVertices(Device_82623D60 *device, int primitive, int count, int stride,
+                                       Vertex_8252E6C8 **vertices)
 {
-  float fVar1;
-  unsigned int uVar2;
-  unsigned int *puVar3;
-  
-  puVar3 = (unsigned int *)fn_8263FB88(param_1,4,3,0x10);
-  uVar2 = ltcg_pool_0_0f;
-  if (-1 < (__int64)-(unsigned __int64)(puVar3 == (unsigned int *)0x0)) {
-    *puVar3 = ltcg_pool_0_0f;
-    puVar3[1] = uVar2;
-    puVar3[2] = uVar2;
-    puVar3[3] = uVar2;
-    fVar1 = lbl_821916FC;
-    puVar3[5] = uVar2;
-    puVar3[7] = uVar2;
-    puVar3[8] = uVar2;
-    puVar3[10] = uVar2;
-    puVar3[6] = fVar1;
-    puVar3[0xb] = fVar1;
-    puVar3[9] = (float)(__int64)param_3 * fVar1;
-    puVar3[4] = (float)(__int64)param_2 * fVar1;
-    *(unsigned int *)(param_1 + 0x30) = *(unsigned int *)(param_1 + 0x3554);
-  }
-  return;
+    Vertex_8252E6C8 *data = fn_8263FB88(device, primitive, count, stride);
+
+    *vertices = data;
+    return data != 0 ? 0 : 0x8007000E;
 }
 
+static __forceinline void EndVertices(Device_82623D60 *device)
+{
+    device->vertexCursor = device->vertexStart;
+}
+
+/* Draws one triangle covering a width x height rectangle, texture coordinates 0 to 2. */
+void fn_8252E6C8(Device_82623D60 *device, int width, int height)
+{
+    Vertex_8252E6C8 *tri;
+
+    if (BeginVertices(device, 4, 3, sizeof(Vertex_8252E6C8), &tri) >= 0) {
+        tri[0].x = 0.0f;
+        tri[0].y = 0.0f;
+        tri[0].u = 0.0f;
+        tri[0].v = 0.0f;
+        tri[1].x = (float)width * 2.0f;
+        tri[1].y = 0.0f;
+        tri[1].u = 2.0f;
+        tri[1].v = 0.0f;
+        tri[2].x = 0.0f;
+        tri[2].y = (float)height * 2.0f;
+        tri[2].u = 0.0f;
+        tri[2].v = 2.0f;
+        EndVertices(device);
+    }
+}

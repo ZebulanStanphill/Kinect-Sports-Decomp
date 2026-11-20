@@ -1,49 +1,53 @@
-typedef unsigned char bool;
-extern int fn_82BD6260();
-extern int fn_82BD6990();
-extern int fn_82BDC780();
-extern int fn_82F68CC0();
-extern int fn_831430AC();
-extern unsigned __int64 storeWordConditionalIndexed();
+long _InterlockedExchange(long volatile *target, long value);
 
+typedef struct Format_82BD7170 {
+    unsigned char bytes[0x36];
+} Format_82BD7170;
 
-__int64 fn_82BD7170(__int64 param_1,unsigned __int64 param_2)
+typedef struct Voice_82BD7170 {
+    int port;     /* 0x0 */
+    int state;    /* 0x4 */
+    void *engine; /* 0x8 */
+    void *voice;  /* 0xc */
+    char pad10[0x54 - 0x10];
+    long busy; /* 0x54 */
+    char pad58[0x60 - 0x58];
+    Format_82BD7170 format; /* 0x60 */
+    char pad96[0x9c - 0x96];
+    void *queue; /* 0x9c */
+    char pada0[0xd0 - 0xa0];
+    int flags; /* 0xd0 */
+} Voice_82BD7170;
 
+extern const Format_82BD7170 lbl_820E8748;
+
+extern void fn_82BD6990(Voice_82BD7170 *self);
+extern long XamVoiceCreate(int port, unsigned int flags, void **voice);
+extern void XamVoiceClose(void *voice);
+extern long fn_82BDC780(void *engine, int port);
+extern void fn_82BD6260(void *queue);
+
+long fn_82BD7170(Voice_82BD7170 *self, int port)
 {
-  unsigned int uVar1;
-  unsigned int *puVar2;
-  __int64 lVar3;
-  int *piVar4;
-  char in_RESERVE;
-  unsigned char bVar5;
-  
-  fn_82BD6990();
-  lVar3 = fn_831430AC(param_2,0xf,param_1 + 0xc);
-  bVar5 = (lVar3 == 0) << 1;
-  if (-1 < lVar3) {
-    puVar2 = (unsigned int *)param_1;
-    lVar3 = fn_82BDC780(puVar2[2],param_2);
-    *puVar2 = (int)param_2;
-    puVar2[1] = 0;
-    fn_82BD6260(puVar2[0x27]);
-    puVar2[0x34] = 0x26404;
-    do {
-      if (in_RESERVE != '\0') {
-        uVar1 = storeWordConditionalIndexed(1,0,param_1 + 0x54);
-        *(unsigned int *)(param_1 + 0x54) = uVar1;
-        bVar5 = 2;
-      }
-    } while (!(bool)(bVar5 >> 1 & 1));
-    fn_82F68CC0(param_1 + 0x60,0xffffffff820e8748,0x36);
-    if (-1 < (int)lVar3) {
-      return lVar3;
-    }
-  }
-  piVar4 = (int *)(param_1 + 0xc);
-  if (*piVar4 != 0) {
-    XamVoiceClose();
-    *piVar4 = 0;
-  }
-  return lVar3;
-}
+    long hr;
 
+    fn_82BD6990(self);
+    hr = XamVoiceCreate(port, 0xf, &self->voice);
+    if (hr >= 0) {
+        hr = fn_82BDC780(self->engine, port);
+        self->port = port;
+        self->state = 0;
+        fn_82BD6260(self->queue);
+        self->flags = 0x26404;
+        _InterlockedExchange(&self->busy, 1);
+        self->format = lbl_820E8748;
+        if (hr >= 0) {
+            return hr;
+        }
+    }
+    if (self->voice != 0) {
+        XamVoiceClose(self->voice);
+        self->voice = 0;
+    }
+    return hr;
+}

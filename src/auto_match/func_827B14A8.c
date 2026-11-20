@@ -1,27 +1,30 @@
-void fn_827B14A8(int param_1,unsigned int param_2,unsigned int param_3,unsigned int param_4)
+typedef struct PagedBuffer_827B14A8 {
+    int unk0[3];
+    unsigned char **pages; /* 0x0c */
+} PagedBuffer_827B14A8;
 
+typedef struct Writer_827B14A8 {
+    int unk0[2];
+    PagedBuffer_827B14A8 *buffer; /* 0x08 */
+    int unk0c[24];
+    unsigned int pos; /* 0x6c */
+} Writer_827B14A8;
+
+static __forceinline void PutByte(PagedBuffer_827B14A8 *buffer, unsigned int offset, unsigned char value)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  
-  uVar2 = *(int *)(param_1 + 0x6c) + 4;
-  uVar1 = *(int *)(param_1 + 0x6c) + 5;
-  *(char *)(*(int *)((uVar2 >> 10 & 0x3ffffc) + *(int *)(*(int *)(param_1 + 8) + 0xc)) +
-           (uVar2 & 0xfff)) = (char)param_2;
-  *(char *)(*(int *)((uVar1 >> 10 & 0x3ffffc) + *(int *)(*(int *)(param_1 + 8) + 0xc)) +
-           (uVar1 & 0xfff)) = (char)((unsigned int)param_2 >> 8);
-  uVar2 = *(int *)(param_1 + 0x6c) + 6;
-  uVar1 = *(int *)(param_1 + 0x6c) + 7;
-  *(char *)(*(int *)((uVar2 >> 10 & 0x3ffffc) + *(int *)(*(int *)(param_1 + 8) + 0xc)) +
-           (uVar2 & 0xfff)) = (char)param_3;
-  *(char *)(*(int *)((uVar1 >> 10 & 0x3ffffc) + *(int *)(*(int *)(param_1 + 8) + 0xc)) +
-           (uVar1 & 0xfff)) = (char)((unsigned int)param_3 >> 8);
-  uVar2 = *(int *)(param_1 + 0x6c) + 8;
-  uVar1 = *(int *)(param_1 + 0x6c) + 9;
-  *(char *)(*(int *)((uVar2 >> 10 & 0x3ffffc) + *(int *)(*(int *)(param_1 + 8) + 0xc)) +
-           (uVar2 & 0xfff)) = (char)param_4;
-  *(char *)(*(int *)((uVar1 >> 10 & 0x3ffffc) + *(int *)(*(int *)(param_1 + 8) + 0xc)) +
-           (uVar1 & 0xfff)) = (char)((unsigned int)param_4 >> 8);
-  return;
+    buffer->pages[offset >> 12][offset & 0xfff] = value;
 }
 
+static __forceinline void PutShort(Writer_827B14A8 *writer, unsigned int offset, int value)
+{
+    unsigned int at = writer->pos + offset;
+    PutByte(writer->buffer, at, (unsigned char)value);
+    PutByte(writer->buffer, at + 1, (unsigned char)(value >> 8));
+}
+
+void fn_827B14A8(Writer_827B14A8 *writer, int x, int y, int z)
+{
+    PutShort(writer, 4, x);
+    PutShort(writer, 6, y);
+    PutShort(writer, 8, z);
+}

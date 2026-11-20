@@ -1,69 +1,100 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
+typedef struct Node_82B80D50 Node_82B80D50;
+typedef struct Use_82B80D50 Use_82B80D50;
 
+struct Use_82B80D50 {
+    union {
+        unsigned int word;
 
-unsigned __int64 fn_82B80D50(int param_1,unsigned int *param_2,unsigned int param_3,unsigned int param_4,unsigned int param_5)
+        struct {
+            unsigned int : 19;
+            unsigned int swizzle : 8; /* bits 5-12 */
+            unsigned int mask : 5;    /* bits 0-4 */
+        } write;
 
+        struct {
+            unsigned int : 23;
+            unsigned int select : 8; /* bits 1-8 */
+            unsigned int : 1;
+        } read;
+    } bits; /* 0x0 */
+
+    int pad4;
+    Use_82B80D50 *next;  /* 0x8 */
+    Node_82B80D50 *node; /* 0xc */
+};
+
+struct Node_82B80D50 {
+    int pad0;
+    Use_82B80D50 *uses; /* 0x04 */
+    unsigned int info;  /* 0x08: kind in bits 19-21, opcode in bits 7-13 */
+    char padC[0x20];
+    Use_82B80D50 *source0; /* 0x2c */
+    Use_82B80D50 *source1; /* 0x30 */
+};
+
+static __forceinline unsigned char IsAluOp(unsigned int op)
 {
-  unsigned int *puVar1;
-  bool bVar2;
-  bool bVar3;
-  unsigned int uVar4;
-  unsigned int *puVar5;
-  
-  uVar4 = *(unsigned int *)(param_1 + 8) >> 7 & 0x7f;
-  if ((uVar4 == 0) || (bVar2 = true, 0x66 < uVar4)) {
-    bVar2 = false;
-  }
-  if (bVar2) {
-    uVar4 = *(unsigned int *)(param_3 + 8) >> 7 & 0x7f;
-    if ((uVar4 == 0x7d) || (bVar2 = false, uVar4 == 0x7c)) {
-      bVar2 = true;
+    if (op >= 1 && op <= 0x66) {
+        return 1;
     }
-    if (bVar2) {
-      if ((*(unsigned int *)(param_1 + 8) & 0x380000) < 0x100001) goto LAB_82b80db0;
-      uVar4 = *(unsigned int *)((*(unsigned int **)(param_1 + 0x2c))[3] + 8) >> 7 & 0x7f;
-      if ((uVar4 == 0x7d) || (bVar2 = false, uVar4 == 0x7c)) {
-        bVar2 = true;
-      }
-      uVar4 = *(unsigned int *)((*(unsigned int **)(param_1 + 0x30))[3] + 8) >> 7 & 0x7f;
-      if ((uVar4 == 0x7d) || (bVar3 = false, uVar4 == 0x7c)) {
-        bVar3 = true;
-      }
-      if (((bVar2) && (bVar3)) && (((**(unsigned int **)(param_1 + 0x30) ^ param_5) & 0x18) != 0)) {
-        return 0;
-      }
-      if ((!bVar2) && (!bVar3)) goto LAB_82b80db0;
-      bVar2 = ((**(unsigned int **)(param_1 + 0x2c) >> 1 & 0xff ^ param_5 >> 1) & 1) == 0;
-    }
-    else {
-      bVar2 = (param_5 & 8) == 0;
-    }
-  }
-  else {
-    if ((param_5 & 0xfffffffe) != 0) {
-      return 0;
-    }
-    uVar4 = *(unsigned int *)(param_3 + 8) >> 7 & 0x7f;
-    if ((uVar4 == 0x7d) || (bVar2 = false, uVar4 == 0x7c)) {
-      bVar2 = true;
-    }
-    bVar2 = !bVar2;
-  }
-  if (!bVar2) {
     return 0;
-  }
-LAB_82b80db0:
-  puVar5 = (unsigned int *)(param_2[3] + 4);
-  for (puVar1 = (unsigned int *)*puVar5; puVar1 != param_2; puVar1 = (unsigned int *)puVar1[2]) {
-    puVar5 = puVar1 + 2;
-  }
-  *puVar5 = param_2[2];
-  param_2[2] = *(unsigned int *)(param_3 + 4);
-  *(unsigned int **)(param_3 + 4) = param_2;
-  param_2[3] = param_3;
-  *param_2 = param_5 & 0x1f | (param_4 & 0xff) << 5 | *param_2 & 0xffffe000;
-  return 1;
 }
 
+static __forceinline unsigned char IsConstant(Node_82B80D50 *node)
+{
+    unsigned int op = (node->info >> 7) & 0x7f;
+
+    if (op == 0x7d || op == 0x7c) {
+        return 1;
+    }
+    return 0;
+}
+
+unsigned char fn_82B80D50(Node_82B80D50 *node, Use_82B80D50 *use, Node_82B80D50 *target, unsigned int swizzle,
+                          unsigned int mask)
+{
+    Use_82B80D50 **link;
+    Use_82B80D50 *current;
+    Use_82B80D50 *source0;
+    Use_82B80D50 *source1;
+    int constant0;
+    int constant1;
+
+    if (!IsAluOp((node->info >> 7) & 0x7f)) {
+        if ((mask & ~1) != 0) {
+            return 0;
+        }
+        if (IsConstant(target)) {
+            return 0;
+        }
+    } else if (IsConstant(target)) {
+        if ((node->info & 0x380000) > 0x100000) {
+            source0 = node->source0;
+            source1 = node->source1;
+            constant0 = IsConstant(source0->node);
+            constant1 = IsConstant(source1->node);
+            if ((unsigned char)constant0 && (unsigned char)constant1 &&
+                ((source1->bits.word ^ mask) & 0x18) != 0) {
+                return 0;
+            }
+            if ((unsigned char)constant0 || (unsigned char)constant1) {
+                if ((((unsigned char)source0->bits.read.select ^ (mask >> 1)) & 1) != 0) {
+                    return 0;
+                }
+            }
+        }
+    } else if ((mask & 8) != 0) {
+        return 0;
+    }
+    link = &use->node->uses;
+    while ((current = *link) != use) {
+        link = &current->next;
+    }
+    *link = use->next;
+    use->next = target->uses;
+    target->uses = use;
+    use->node = target;
+    use->bits.write.swizzle = swizzle;
+    use->bits.write.mask = mask;
+    return 1;
+}

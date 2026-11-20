@@ -1,69 +1,64 @@
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_70;
-extern int fn_82D33BC0();
-extern int fn_82D362D8();
-extern int fn_82D363A0();
-extern unsigned int uStack_38;
-extern unsigned int uStack_40;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Aabb_82D36728 {
+    __vector4 min; /* 0x00 */
+    __vector4 max; /* 0x10 */
+} Aabb_82D36728;
 
-unsigned __int64 fn_82D36728(int param_1,int param_2,unsigned int param_3)
+typedef struct Node_82D36728 {
+    Aabb_82D36728 aabb;  /* 0x00 */
+    unsigned int data;   /* 0x20 */
+    unsigned int pad24;  /* 0x24 */
+    unsigned int parent; /* 0x28 */
+    unsigned int next;   /* 0x2c */
+} Node_82D36728;
 
+typedef struct Pool_82D36728 {
+    Node_82D36728 *nodes; /* 0x00 */
+    int capacity;         /* 0x04 */
+    int f8;               /* 0x08 */
+    int *freeList;        /* 0x0c */
+    int freeCount;        /* 0x10 */
+} Pool_82D36728;
+
+typedef struct Tree_82D36728 {
+    char pad0[0x10];
+    Node_82D36728 *rootNode; /* 0x10 */
+    unsigned int root;       /* 0x14 */
+    int count;               /* 0x18 */
+    Pool_82D36728 pool;      /* 0x1c */
+} Tree_82D36728;
+
+extern unsigned int fn_82D362D8(Pool_82D36728 *pool, Node_82D36728 **rootNode, unsigned int *root,
+                                const Node_82D36728 *src);
+extern Node_82D36728 *fn_82D363A0(Pool_82D36728 *pool, Node_82D36728 **rootNode, unsigned int *root,
+                                  unsigned int *out);
+extern void fn_82D33BC0(Tree_82D36728 *tree, unsigned int root, unsigned int leaf, unsigned int branch);
+
+unsigned int fn_82D36728(Tree_82D36728 *self, const Aabb_82D36728 *aabb, unsigned int data)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int iVar3;
-  int in_r0;
-  unsigned __int64 uVar4;
-  int *piVar5;
-  int *piVar6;
-  int *piVar7;
-  unsigned int uVar8;
-  unsigned int uVar9;
-  unsigned int uVar10;
-  unsigned int auStack_70;
-  unsigned char auStack_60 [16];
-  unsigned char auStack_50 [16];
-  unsigned int uStack_40;
-  unsigned int uStack_38;
-  
-  puVar1 = (unsigned int *)(in_r0 + param_2 & 0xfffffff0);
-  uVar8 = puVar1[1];
-  uVar9 = puVar1[2];
-  uVar10 = puVar1[3];
-  piVar7 = (int *)(param_1 + 0x14);
-  puVar2 = (unsigned int *)((unsigned int)(auStack_60 + in_r0) & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar8;
-  puVar2[2] = uVar9;
-  puVar2[3] = uVar10;
-  puVar1 = (unsigned int *)(param_2 + 0x10U & 0xfffffff0);
-  uVar8 = puVar1[1];
-  uVar9 = puVar1[2];
-  uVar10 = puVar1[3];
-  uStack_38 = 0x80000000;
-  puVar2 = (unsigned int *)((unsigned int)(auStack_50 + in_r0) & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar8;
-  puVar2[2] = uVar9;
-  puVar2[3] = uVar10;
-  piVar6 = (int *)(param_1 + 0x10);
-  piVar5 = (int *)(param_1 + 0x1c);
-  uStack_40 = param_3;
-  uVar4 = fn_82D362D8(piVar5,piVar6,piVar7,auStack_60);
-  if (*(int *)(param_1 + 0x14) == 0x7fffffff) {
-    iVar3 = (int)uVar4 * 0x30 + *piVar5;
-    *(unsigned int *)(iVar3 + 0x2c) = 0x7fffffff;
-    *(unsigned int *)(iVar3 + 0x28) = *(unsigned int *)(iVar3 + 0x28) | 0x7fffffff;
-    *piVar6 = iVar3;
-    *piVar7 = (int)uVar4;
-  }
-  else {
-    fn_82D363A0(piVar5,piVar6,piVar7,&auStack_70);
-    fn_82D33BC0(param_1,*piVar7,uVar4,auStack_70);
-  }
-  *(int *)(param_1 + 0x18) = *(int *)(param_1 + 0x18) + 1;
-  return uVar4;
-}
+    Node_82D36728 leaf;
+    unsigned int index;
+    unsigned int branch;
 
+    leaf.aabb.min = aabb->min;
+    leaf.aabb.max = aabb->max;
+    leaf.data = data;
+    leaf.parent = 0x80000000;
+    index = fn_82D362D8(&self->pool, &self->rootNode, &self->root, &leaf);
+    if (self->root == 0x7fffffff) {
+        Node_82D36728 *node = &self->pool.nodes[index];
+
+        node->next = 0x7fffffff;
+        node->parent |= 0x7fffffff;
+        self->rootNode = node;
+        self->root = index;
+    } else {
+        fn_82D363A0(&self->pool, &self->rootNode, &self->root, &branch);
+        fn_82D33BC0(self, self->root, index, branch);
+    }
+    self->count++;
+    return index;
+}

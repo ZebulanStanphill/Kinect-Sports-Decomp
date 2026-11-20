@@ -1,80 +1,97 @@
-#define true 1
-extern int fn_82AB15D0();
+extern int fn_82AB15D0(int level, const char *format, ...);
 
+#define ASSERT_82BB31A0(cond, text, line)                                                                    \
+    if (!(cond)) {                                                                                           \
+        fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", text,                                                 \
+                    "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode"              \
+                    "\\compiler\\ir\\ssa.cpp",                                                               \
+                    line);                                                                                   \
+    }
 
-void fn_82BB31A0(int *param_1)
+typedef struct Values_82BB31A0 {
+    int unknown0;
+    int **values; /* 0x4 */
+} Values_82BB31A0;
 
+typedef struct Register_82BB31A0 {
+    char pad0[0x2c];
+    Values_82BB31A0 *values; /* 0x2c */
+} Register_82BB31A0;
+
+typedef struct Instr_82BB31A0 Instr_82BB31A0;
+
+typedef struct InstrVtbl_82BB31A0 {
+    char pad0[0x4c];
+    unsigned char (*HasSource)(Instr_82BB31A0 *self);                               /* 0x4c */
+    unsigned int (*GetComponent)(Instr_82BB31A0 *self, int operand, int component); /* 0x50 */
+} InstrVtbl_82BB31A0;
+
+struct Instr_82BB31A0 {
+    InstrVtbl_82BB31A0 *vt; /* 0x00 */
+    char pad4[0x10];
+    int sourceIndex;                /* 0x14 */
+    int opcode;                     /* 0x18 */
+    Register_82BB31A0 *operands[2]; /* 0x1c */
+    char pad24[0xc0];
+    unsigned int flags; /* 0xe4 */
+};
+
+typedef struct Context_82BB31A0 {
+    char pad0[0x5f8];
+    int nextValue; /* 0x5f8 */
+} Context_82BB31A0;
+
+typedef struct Resolver_82BB31A0 {
+    int values[4];         /* 0x000 */
+    Instr_82BB31A0 *instr; /* 0x010 */
+    char pad14[0xf0];
+    Context_82BB31A0 *context; /* 0x104 */
+} Resolver_82BB31A0;
+
+void fn_82BB31A0(Resolver_82BB31A0 *self)
 {
-  unsigned int uVar1;
-  char cVar3;
-  int iVar2;
-  int iVar4;
-  int iVar5;
-  __int64 lVar6;
-  int *piVar7;
-  
-  piVar7 = *(int **)(*(int *)(*(int *)(param_1[4] + 0x1c) + 0x2c) + 4);
-  if (piVar7 == (int *)0x0) {
-    iVar4 = 0;
-  }
-  else {
-    iVar4 = *piVar7;
-  }
-  lVar6 = 0;
-  iVar5 = 0;
-  piVar7 = param_1;
-  do {
-    uVar1 = (**(int (***)())(*(int *)param_1[4] + 0x50))((int *)param_1[4],0,lVar6);
-    if (uVar1 == 0) {
-LAB_82bb323c:
-      cVar3 = (**(int (***)())(*(int *)param_1[4] + 0x4c))();
-      if (cVar3 == '\0') {
-        iVar2 = *(int *)(param_1[0x41] + 0x5f8) + 1;
-        *(int *)(param_1[0x41] + 0x5f8) = iVar2;
-      }
-      else {
-        iVar2 = (**(int (***)())(*(int *)param_1[4] + 0x50))((int *)param_1[4],1,lVar6);
-        iVar2 = *(int *)(**(int **)(*(int *)(*(int *)(param_1[4] + 0x20) + 0x2c) + 4) + iVar2 * 4);
-      }
-LAB_82bb3334:
-      *piVar7 = iVar2;
-    }
-    else {
-      if (uVar1 == 1) {
-        iVar2 = param_1[4];
-        if ((*(unsigned int *)(iVar2 + 0xe4) >> 9 & 1) == 0) {
-          if ((iVar4 == 0) || (*(int *)(iVar2 + 0x18) == 0x89)) {
-            if (*(int *)(iVar2 + 0x18) != 0x89) {
-              fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820dfeb8,0xffffffff820dfe60,0x367);
-            }
-            iVar2 = 3;
-          }
-          else {
-            iVar2 = *(int *)((iVar4 - (int)param_1) + (int)piVar7);
-          }
-        }
-        else {
-          iVar2 = *(int *)(**(int **)(*(int *)(*(int *)((*(int *)(iVar2 + 0x14) + 7) * 4 + iVar2) +
-                                              0x2c) + 4) + iVar5);
-        }
-        goto LAB_82bb3334;
-      }
-      if (uVar1 < 3) {
-        iVar2 = 2;
-        goto LAB_82bb3334;
-      }
-      if (uVar1 == 3) {
-        iVar2 = 1;
-        goto LAB_82bb3334;
-      }
-      if (uVar1 < 8) goto LAB_82bb323c;
-    }
-    iVar5 = iVar5 + 4;
-    lVar6 = lVar6 + 1;
-    piVar7 = piVar7 + 1;
-    if (0xf < iVar5) {
-      return;
-    }
-  } while( true );
-}
+    int *first;
+    int i;
 
+    if (self->instr->operands[0]->values->values != 0) {
+        Values_82BB31A0 *values;
+        values = self->instr->operands[0]->values;
+        first = *values->values;
+    } else {
+        first = 0;
+    }
+    for (i = 0; i < 4; i++) {
+        switch (self->instr->vt->GetComponent(self->instr, 0, i)) {
+        case 1:
+            if ((unsigned char)((self->instr->flags >> 9) & 1)) {
+                self->values[i] =
+                    (*self->instr->operands[self->instr->sourceIndex]->values->values)[i];
+            } else if (first != 0 && self->instr->opcode != 0x89) {
+                self->values[i] = first[i];
+            } else {
+                ASSERT_82BB31A0(self->instr->opcode == 0x89, "inst->GetOpcode() == R400Tables::IR_PHI_NODE",
+                                0x367);
+                self->values[i] = 3;
+            }
+            break;
+        case 2:
+            self->values[i] = 2;
+            break;
+        case 3:
+            self->values[i] = 1;
+            break;
+        case 0:
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+            if (self->instr->vt->HasSource(self->instr)) {
+                unsigned int index = self->instr->vt->GetComponent(self->instr, 1, i);
+                self->values[i] = (*self->instr->operands[1]->values->values)[index];
+            } else {
+                self->values[i] = ++self->context->nextValue;
+            }
+            break;
+        }
+    }
+}

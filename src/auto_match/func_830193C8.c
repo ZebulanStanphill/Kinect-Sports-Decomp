@@ -1,75 +1,76 @@
-extern int fn_83016920();
-extern int fn_8302A5B8();
-extern int fn_8302A8F0();
-extern unsigned int lbl_8326437C;
-extern unsigned int lbl_83264380;
-extern unsigned int uStack_20;
+typedef struct Key_830193C8 {
+    float time;         /* 0x0 */
+    unsigned int value; /* 0x4 */
+    int interp;         /* 0x8 */
+} Key_830193C8;
 
+typedef struct Track_830193C8 {
+    Key_830193C8 *keys; /* 0x0 */
+    unsigned int count; /* 0x4 */
+    int target;         /* 0x8 */
+} Track_830193C8;
 
-unsigned __int64 fn_830193C8(double param_1,int *param_2)
+typedef struct Tables_830193C8 {
+    void *tables[10]; /* 0x0 */
+} Tables_830193C8;
 
+extern Tables_830193C8 lbl_83264368;
+extern float fn_83016920(Tables_830193C8 *tables, float t, float from, float to, int interp);
+extern float fn_8302A5B8(void *table, float value);
+extern float fn_8302A8F0(void *table, float value);
+
+static __forceinline unsigned int Evaluate(Track_830193C8 *track, float time)
 {
-  int iVar1;
-  unsigned int uVar2;
-  float *pfVar3;
-  unsigned __int64 uVar4;
-  int iVar5;
-  unsigned int uVar6;
-  double dVar7;
-  unsigned __int64 uStack_20;
-  
-  iVar1 = *param_2;
-  uVar6 = 0;
-  if ((iVar1 != 0) && (uVar2 = param_2[1], uVar2 != 0)) {
-    if (uVar2 == 1) {
-      uVar4 = (unsigned __int64)*(unsigned int *)(iVar1 + 4);
-      goto LAB_83019464;
-    }
-    if (uVar2 != 0) {
-      iVar5 = 0;
-      do {
-        if (param_1 <= (double)*(float *)(iVar5 + iVar1)) {
-LAB_830194a4:
-          uVar4 = (unsigned __int64)*(unsigned int *)(uVar6 * 0xc + iVar1 + 4);
-          goto LAB_83019464;
+    unsigned int result;
+    Key_830193C8 *keys = track->keys;
+    unsigned int count;
+    unsigned int i = 0;
+
+    if (keys != 0 && (count = track->count) != 0) {
+        if (count == 1) {
+            return keys[0].value;
         }
-        if ((uVar6 < uVar2 - 1) && (param_1 < (double)*(float *)(iVar5 + iVar1 + 0xc))) {
-          pfVar3 = (float *)(uVar6 * 0xc + iVar1);
-          if (pfVar3[2] == 5.60519e-45) {
-            uVar4 = (__int64)
-                    ((double)((float)(param_1 - (double)*pfVar3) /
-                             (float)((double)pfVar3[3] - (double)*pfVar3)) *
-                     (double)(float)((double)(unsigned int)pfVar3[4] - (double)(unsigned int)pfVar3[1]) +
-                    (double)(unsigned int)pfVar3[1]) & 0xffffffff;
-          }
-          else if (pfVar3[2] == 1.26117e-44) {
-            uVar4 = (unsigned __int64)(unsigned int)pfVar3[1];
-          }
-          else {
-            dVar7 = (double)fn_83016920((double)((float)(param_1 - (double)*pfVar3) /
-                                                  (float)((double)pfVar3[3] - (double)*pfVar3)),
-                                          (double)(unsigned int)pfVar3[1],(double)(unsigned int)pfVar3[4],
-                                          0xffffffff83264368);
-            uVar4 = (__int64)dVar7 & 0xffffffff;
-          }
-          goto LAB_83019464;
+        for (; i < count; i++) {
+            if (time <= track->keys[i].time) {
+                return track->keys[i].value;
+            }
+            if (i < count - 1 && time < track->keys[i + 1].time) {
+                Key_830193C8 *key = &keys[i];
+                float to;
+                float from;
+
+                if (keys[i].interp == 4) {
+                    return (unsigned int)((time - key[0].time) / (key[1].time - key[0].time) *
+                                              ((float)key[1].value - (float)key[0].value) +
+                                          (float)key[0].value);
+                }
+                if (keys[i].interp == 9) {
+                    return key->value;
+                }
+                to = (float)key[1].value;
+                from = (float)key[0].value;
+                return (unsigned int)fn_83016920(
+                    &lbl_83264368, (time - key[0].time) / (key[1].time - key[0].time), from, to, key->interp);
+            }
+            if (i == count - 1) {
+                return keys[i].value;
+            }
         }
-        if (uVar6 == uVar2 - 1) goto LAB_830194a4;
-        uVar6 = uVar6 + 1;
-        iVar5 = iVar5 + 0xc;
-      } while (uVar6 < uVar2);
     }
-  }
-  uVar4 = uStack_20 >> 0x20;
-LAB_83019464:
-  if (param_2[2] == 1) {
-    dVar7 = (double)fn_8302A5B8((double)uVar4,lbl_8326437C);
-    uVar4 = (__int64)dVar7 & 0xffffffff;
-  }
-  else if (param_2[2] == 2) {
-    dVar7 = (double)fn_8302A8F0((double)uVar4,lbl_83264380);
-    uVar4 = (__int64)dVar7 & 0xffffffff;
-  }
-  return uVar4;
+    return result;
 }
 
+unsigned int fn_830193C8(Track_830193C8 *track, float time)
+{
+    unsigned int value = Evaluate(track, time);
+
+    switch (track->target) {
+    case 1:
+        value = (unsigned int)fn_8302A5B8(lbl_83264368.tables[5], (float)value);
+        break;
+    case 2:
+        value = (unsigned int)fn_8302A8F0(lbl_83264368.tables[6], (float)value);
+        break;
+    }
+    return value;
+}

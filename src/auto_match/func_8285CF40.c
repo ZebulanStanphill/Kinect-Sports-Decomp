@@ -1,37 +1,43 @@
-extern int fn_8280A5D8();
-extern int fn_82811898();
-extern unsigned int lbl_82002C5C;
-extern unsigned int lbl_832115A6;
+typedef struct Point_8285D578 {
+    float x; /* 0x0 */
+    float y; /* 0x4 */
+} Point_8285D578;
 
+typedef struct Rect_8285CF40 {
+    float x;      /* 0x0 */
+    float y;      /* 0x4 */
+    float width;  /* 0x8 */
+    float height; /* 0xc */
+} Rect_8285CF40;
 
-void fn_8285CF40(float *param_1,float *param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  float *param_5)
+typedef struct Globals_8285CF40 {
+    char pad0[0x266];
+    unsigned char noHalfPixelOffset; /* 0x266 */
+} Globals_8285CF40;
 
+extern Globals_8285CF40 lbl_83211340;
+
+extern void fn_82811898(Point_8285D578 *point, float x, float y);
+extern float fn_8280A5D8(float value);
+
+void fn_8285CF40(const Rect_8285CF40 *rect, const float *in, Point_8285D578 *halfSize, Point_8285D578 *centre,
+                 float *out)
 {
-  double dVar1;
-  double dVar2;
-  double dVar3;
-  double dVar4;
-  
-  dVar4 = (double)lbl_82002C5C;
-  dVar3 = (double)(float)((double)param_1[2] * dVar4);
-  dVar2 = (double)(float)((double)param_1[3] * dVar4);
-  fn_82811898(dVar3,-dVar2,param_3);
-  if (lbl_832115A6 == '\0') {
-    dVar1 = (double)(float)((double)param_1[1] + dVar2) + dVar4;
-    dVar4 = (double)(float)((double)*param_1 + dVar3) + dVar4;
-  }
-  else {
-    dVar1 = (double)param_1[1] + dVar2;
-    dVar4 = (double)*param_1 + dVar3;
-  }
-  fn_82811898((double)(float)dVar4,(double)(float)dVar1,param_4);
-  dVar4 = (double)fn_8280A5D8(dVar2);
-  dVar2 = (double)fn_8280A5D8(dVar3);
-  *param_5 = (float)((double)*param_2 * dVar4);
-  param_5[1] = (float)((double)param_2[1] * dVar4);
-  param_5[2] = (float)((double)param_2[2] * dVar2);
-  param_5[3] = (float)((double)param_2[3] * dVar2);
-  return;
-}
+    float halfWidth = rect->width * 0.5f;
+    float halfHeight = rect->height * 0.5f;
+    float scaleY;
+    float scaleX;
 
+    fn_82811898(halfSize, halfWidth, -halfHeight);
+    if (lbl_83211340.noHalfPixelOffset == 0) {
+        fn_82811898(centre, rect->x + halfWidth + 0.5f, rect->y + halfHeight + 0.5f);
+    } else {
+        fn_82811898(centre, rect->x + halfWidth, rect->y + halfHeight);
+    }
+    scaleY = fn_8280A5D8(halfHeight);
+    scaleX = fn_8280A5D8(halfWidth);
+    out[0] = in[0] * scaleY;
+    out[1] = in[1] * scaleY;
+    out[2] = in[2] * scaleX;
+    out[3] = in[3] * scaleX;
+}

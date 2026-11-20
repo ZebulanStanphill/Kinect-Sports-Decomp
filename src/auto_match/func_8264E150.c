@@ -1,70 +1,86 @@
-typedef unsigned char bool;
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
+/* Builds the per-tile predication masks of a list of predicated regions: a region either names
+   screen bounds (in 8-pixel units) and gets two bits per tiling rectangle it overlaps, or (low
+   bit set) names an occlusion query whose sample counts decide whether all its bits are set.
+   The masks are written to memory the GPU reads, so each is flushed from the cache. */
+typedef struct Rect_8264E150 {
+    unsigned int left;   /* 0x00 */
+    unsigned int top;    /* 0x04 */
+    unsigned int right;  /* 0x08 */
+    unsigned int bottom; /* 0x0c */
+} Rect_8264E150;
 
+typedef struct Tiling_8264E150 {
+    int unk00;              /* 0x00 */
+    unsigned int count;     /* 0x04 */
+    Rect_8264E150 rects[1]; /* 0x08 */
+} Tiling_8264E150;
 
-void fn_8264E150(int param_1,unsigned int *param_2)
+typedef struct Region_8264E150 {
+    unsigned int address; /* 0x00 */
+    unsigned int *mask;   /* 0x04 */
+} Region_8264E150;
 
+typedef struct Bounds_8264E150 {
+    unsigned short left;   /* 0x00 */
+    unsigned short right;  /* 0x02 */
+    unsigned short top;    /* 0x04 */
+    unsigned short bottom; /* 0x06 */
+} Bounds_8264E150;
+
+void __dcbf(int offset, void const *base);
+unsigned long _byteswap_ulong(unsigned long value);
+
+void fn_8264E150(Tiling_8264E150 *self, unsigned int *block)
 {
-  bool bVar1;
-  int iVar2;
-  unsigned int *puVar3;
-  unsigned int *puVar4;
-  unsigned short *puVar5;
-  unsigned __int64 uVar6;
-  int iVar7;
-  unsigned int uVar8;
-  __int64 lVar9;
-  unsigned int *puVar10;
-  
-  iVar2 = *(int *)(param_1 + 4);
-  do {
-    puVar3 = (unsigned int *)*param_2;
-    for (param_2 = param_2 + 1; param_2 < puVar3; param_2 = param_2 + 2) {
-      puVar4 = (unsigned int *)param_2[1];
-      uVar6 = (unsigned __int64)*param_2 & 0xfffffffc;
-      lVar9 = uVar6 - 0x40000000;
-      dataCacheBlockFlush(lVar9);
-      if ((*param_2 & 1) == 0) {
-        iVar7 = iVar2 + -1;
-        puVar5 = (unsigned short *)lVar9;
-        uVar8 = 0;
-        puVar10 = (unsigned int *)(iVar7 * 0x10 + param_1 + 0xc);
-        do {
-          uVar8 = uVar8 << 2;
-          if ((((puVar10[-1] < (puVar5[1] + 1) * 8) && ((unsigned int)*puVar5 << 3 < puVar10[1])) &&
-              (*puVar10 < (puVar5[3] + 1) * 8)) && ((unsigned int)puVar5[2] << 3 < puVar10[2])) {
-            uVar8 = uVar8 | 3;
-          }
-          bVar1 = iVar7 != 0;
-          iVar7 = iVar7 + -1;
-          puVar10 = puVar10 + -4;
-        } while (bVar1);
-      }
-      else {
-        iVar7 = (int)uVar6;
-        uVar8 = -(unsigned int)(((((unsigned __int64)*(unsigned char *)(iVar7 + -0x3fffffed) << 0x18 |
-                           (unsigned __int64)*(unsigned char *)(iVar7 + -0x3fffffee) << 0x10 |
-                           (unsigned __int64)*(unsigned char *)(iVar7 + -0x3fffffef) << 8 |
-                          (unsigned __int64)*(unsigned char *)(iVar7 + -0x3ffffff0)) -
-                         ((unsigned __int64)*(unsigned char *)(iVar7 + -0x3fffffcd) << 0x18 |
-                          (unsigned __int64)*(unsigned char *)(iVar7 + -0x3fffffce) << 0x10 |
-                          (unsigned __int64)*(unsigned char *)(iVar7 + -0x3fffffcf) << 8 |
-                         (unsigned __int64)*(unsigned char *)(iVar7 + -0x3fffffd0))) -
-                        ((unsigned __int64)*(unsigned char *)(iVar7 + -0x3fffffc9) << 0x18 |
-                         (unsigned __int64)*(unsigned char *)(iVar7 + -0x3fffffca) << 0x10 |
-                         (unsigned __int64)*(unsigned char *)(iVar7 + -0x3fffffcb) << 8 |
-                        (unsigned __int64)*(unsigned char *)(iVar7 + -0x3fffffcc))) +
-                        ((unsigned __int64)*(unsigned char *)(iVar7 + -0x3fffffe9) << 0x18 |
-                         (unsigned __int64)*(unsigned char *)(iVar7 + -0x3fffffea) << 0x10 |
-                         (unsigned __int64)*(unsigned char *)(iVar7 + -0x3fffffeb) << 8 |
-                        (unsigned __int64)*(unsigned char *)(iVar7 + -0x3fffffec)) != 0);
-      }
-      *puVar4 = uVar8;
-      dataCacheBlockFlush(((unsigned __int64)((unsigned int)puVar4 >> 0x14) + 0x200 & 0x1000) +
-                          (ZEXT48(puVar4) & 0x1fffffff) + -0x40000000);
-    }
-    param_2 = (unsigned int *)*param_2;
-  } while (param_2 != (unsigned int *)0xc0000000);
-  return;
-}
+    unsigned int count = self->count;
+    Rect_8264E150 *rects = self->rects;
+    Region_8264E150 *region;
+    Region_8264E150 *end;
+    Rect_8264E150 *rect;
+    unsigned int mask;
+    unsigned int i;
+    unsigned int *dest;
+    unsigned int *samples;
+    unsigned int passed;
+    Bounds_8264E150 *bounds;
+    unsigned int right;
+    unsigned int bottom;
+    unsigned int left;
+    unsigned int top;
 
+    do {
+        end = (Region_8264E150 *)block[0];
+        for (region = (Region_8264E150 *)(block + 1); region < end; region++) {
+            unsigned int address = region->address;
+
+            dest = region->mask;
+            bounds = (Bounds_8264E150 *)((address & ~3) + 0xc0000000);
+            __dcbf(0, bounds);
+            if ((address & 1) == 0) {
+                right = (bounds->right + 1) * 8;
+                bottom = (bounds->bottom + 1) * 8;
+                mask = 0;
+                left = bounds->left * 8;
+                top = bounds->top * 8;
+                i = count - 1;
+                do {
+                    rect = &rects[i];
+                    mask <<= 2;
+                    if (rect->left < right && rect->right > left && rect->top < bottom &&
+                        rect->bottom > top) {
+                        mask |= 3;
+                    }
+                } while (i-- != 0);
+            } else {
+                samples = (unsigned int *)bounds;
+                passed = _byteswap_ulong(samples[4]) - _byteswap_ulong(samples[12]) -
+                         _byteswap_ulong(samples[13]) + _byteswap_ulong(samples[5]);
+                mask = passed != 0 ? 0xffffffff : 0;
+            }
+            *dest = mask;
+            __dcbf(0, (void *)(((unsigned int)dest & 0x1fffffff) +
+                               ((((unsigned int)dest >> 20) + 0x200) & 0x1000) + 0xc0000000));
+        }
+        block = *(unsigned int **)region;
+    } while (block != (unsigned int *)0xc0000000);
+}

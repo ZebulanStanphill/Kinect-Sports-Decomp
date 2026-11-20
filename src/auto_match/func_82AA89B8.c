@@ -1,54 +1,51 @@
-#define CONCAT11(h,l) ((unsigned short)((((unsigned char)(h)) << 8) | ((unsigned char)(l))))
-extern int fn_82F68CC0();
+unsigned short __loadshortbytereverse(int offset, const void *base);
+unsigned int __loadwordbytereverse(int offset, const void *base);
+void *memcpy(void *dest, const void *src, unsigned int size);
 
+typedef struct Stream_82AA89B8 {
+    const void *data; /* 0x0 */
+    int size;         /* 0x4 */
+    int position;     /* 0x8 */
+} Stream_82AA89B8;
 
-unsigned __int64 fn_82AA89B8(int param_1)
+typedef struct Header_82AA89B8 {
+    char tag[8];           /* 0x00 */
+    unsigned short short8; /* 0x08 */
+    unsigned short shortA; /* 0x0a */
+    unsigned short shortC; /* 0x0c */
+    unsigned short shortE; /* 0x0e */
+    unsigned int word10;   /* 0x10 */
+    unsigned int word14;   /* 0x14 */
+    unsigned int word18;   /* 0x18 */
+    unsigned int word1C;   /* 0x1c */
+    unsigned int word20;   /* 0x20 */
+    unsigned int word24;   /* 0x24 */
+    char pad28[0xc0];
+    Stream_82AA89B8 *stream; /* 0xe8 */
+} Header_82AA89B8;
 
+int fn_82AA89B8(Header_82AA89B8 *header)
 {
-  unsigned int *puVar1;
-  unsigned __int64 uVar2;
-  
-  puVar1 = *(unsigned int **)(param_1 + 0xe8);
-  if ((int)puVar1[1] < 0) {
-    uVar2 = 0xfffffffffffffff5;
-  }
-  else {
-    puVar1[2] = 0;
-    if ((int)puVar1[1] < 0x28) {
-      uVar2 = 0xfffffffffffffff4;
-    }
-    else {
-      fn_82F68CC0(param_1,*puVar1,0x28);
-      uVar2 = 0;
-      puVar1[2] = puVar1[2] + 0x28;
-      *(unsigned short *)(param_1 + 8) = CONCAT11(*(unsigned char *)(param_1 + 9),*(unsigned char *)(param_1 + 8))
-      ;
-      *(unsigned short *)(param_1 + 10) =
-           CONCAT11(*(unsigned char *)(param_1 + 0xb),*(unsigned char *)(param_1 + 10));
-      *(unsigned short *)(param_1 + 0xc) =
-           CONCAT11(*(unsigned char *)(param_1 + 0xd),*(unsigned char *)(param_1 + 0xc));
-      *(unsigned short *)(param_1 + 0xe) =
-           CONCAT11(*(unsigned char *)(param_1 + 0xf),*(unsigned char *)(param_1 + 0xe));
-      *(unsigned int *)(param_1 + 0x10) =
-           (unsigned int)*(unsigned char *)(param_1 + 0x13) << 0x18 | (unsigned int)*(unsigned char *)(param_1 + 0x12) << 0x10 |
-           (unsigned int)*(unsigned char *)(param_1 + 0x11) << 8 | (unsigned int)*(unsigned char *)(param_1 + 0x10);
-      *(unsigned int *)(param_1 + 0x14) =
-           (unsigned int)*(unsigned char *)(param_1 + 0x17) << 0x18 | (unsigned int)*(unsigned char *)(param_1 + 0x16) << 0x10 |
-           (unsigned int)*(unsigned char *)(param_1 + 0x15) << 8 | (unsigned int)*(unsigned char *)(param_1 + 0x14);
-      *(unsigned int *)(param_1 + 0x18) =
-           (unsigned int)*(unsigned char *)(param_1 + 0x1b) << 0x18 | (unsigned int)*(unsigned char *)(param_1 + 0x1a) << 0x10 |
-           (unsigned int)*(unsigned char *)(param_1 + 0x19) << 8 | (unsigned int)*(unsigned char *)(param_1 + 0x18);
-      *(unsigned int *)(param_1 + 0x1c) =
-           (unsigned int)*(unsigned char *)(param_1 + 0x1f) << 0x18 | (unsigned int)*(unsigned char *)(param_1 + 0x1e) << 0x10 |
-           (unsigned int)*(unsigned char *)(param_1 + 0x1d) << 8 | (unsigned int)*(unsigned char *)(param_1 + 0x1c);
-      *(unsigned int *)(param_1 + 0x20) =
-           (unsigned int)*(unsigned char *)(param_1 + 0x23) << 0x18 | (unsigned int)*(unsigned char *)(param_1 + 0x22) << 0x10 |
-           (unsigned int)*(unsigned char *)(param_1 + 0x21) << 8 | (unsigned int)*(unsigned char *)(param_1 + 0x20);
-      *(unsigned int *)(param_1 + 0x24) =
-           (unsigned int)*(unsigned char *)(param_1 + 0x27) << 0x18 | (unsigned int)*(unsigned char *)(param_1 + 0x26) << 0x10 |
-           (unsigned int)*(unsigned char *)(param_1 + 0x25) << 8 | (unsigned int)*(unsigned char *)(param_1 + 0x24);
-    }
-  }
-  return uVar2;
-}
+    Stream_82AA89B8 *stream = header->stream;
 
+    if (stream->size < 0) {
+        return -11;
+    }
+    stream->position = 0;
+    if (stream->size < 0x28) {
+        return -12;
+    }
+    memcpy(header, stream->data, 0x28);
+    stream->position += 0x28;
+    header->short8 = __loadshortbytereverse(0, &header->short8);
+    header->shortA = __loadshortbytereverse(0, &header->shortA);
+    header->shortC = __loadshortbytereverse(0, &header->shortC);
+    header->shortE = __loadshortbytereverse(0, &header->shortE);
+    header->word10 = __loadwordbytereverse(0, &header->word10);
+    header->word14 = __loadwordbytereverse(0, &header->word14);
+    header->word18 = __loadwordbytereverse(0, &header->word18);
+    header->word1C = __loadwordbytereverse(0, &header->word1C);
+    header->word20 = __loadwordbytereverse(0, &header->word20);
+    header->word24 = __loadwordbytereverse(0, &header->word24);
+    return 0;
+}

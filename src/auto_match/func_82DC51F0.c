@@ -1,107 +1,148 @@
-#define TBLr 0
-extern int fn_82CE8AF0();
-extern int fn_82CE8E78();
-extern int fn_830ABD78();
-extern int fn_830B1390();
-extern unsigned int iStack_a8;
-extern unsigned int lbl_8202CF7C;
+extern unsigned __int64 __mftb();
+
+typedef struct TimerEntryA {
+    const char *name;
+    unsigned int time;
+    int pad;
+    const char *name2;
+} TimerEntryA;
+
+typedef struct TimerEntryB {
+    const char *name;
+    unsigned int time;
+    unsigned int pad;
+} TimerEntryB;
+
+typedef struct TimerStream {
+    void *pad;
+    char *current;
+    void *pad2;
+    char *end;
+} TimerStream;
+
+extern TimerStream *KeTlsGetValue(unsigned int);
 extern unsigned int lbl_8323B4A0;
-extern unsigned int uStack_8a;
-extern unsigned int uStack_8c;
-extern unsigned int uStack_90;
-extern unsigned int uStack_a0;
-extern unsigned int uStack_a4;
-extern unsigned int uStack_ac;
-extern unsigned int uStack_b0;
-extern unsigned int uStack_ba;
-extern unsigned int uStack_bc;
-extern unsigned int uStack_be;
-extern unsigned int uStack_bf;
-extern unsigned int uStack_c0;
 
+typedef struct Block_82DC51F0 {
+    int v[4];
+} Block_82DC51F0;
 
-void fn_82DC51F0(unsigned int *param_1,unsigned __int64 param_2,int param_3)
+typedef struct Cfg_82DC51F0 {
+    char pad00[0x14];
+    int f14; /* 0x14 */
+    char pad18[0x30 - 0x18];
+    int f30; /* 0x30 */
+    char pad34[0x3c - 0x34];
+    int f3c; /* 0x3c */
+    int f40; /* 0x40 */
+    char pad44[0x54 - 0x44];
+    unsigned short f54; /* 0x54 */
+    char pad56[0x78 - 0x56];
+    int f78; /* 0x78 */
+} Cfg_82DC51F0;
 
+typedef struct Arg_82DC51F0 {
+    char pad00[0x10];
+    unsigned short f10; /* 0x10 */
+    int f14;            /* 0x14 */
+    Cfg_82DC51F0 *cfg;  /* 0x18 */
+    int f1c;            /* 0x1c */
+    char *buffer;       /* 0x20 */
+    int f24;            /* 0x24 */
+    int f28;            /* 0x28 */
+    int f2c;            /* 0x2c */
+    int blocksOffset;   /* 0x30 */
+    int f34;            /* 0x34 */
+    unsigned int size;  /* 0x38 */
+} Arg_82DC51F0;
+
+typedef struct Job_82DC51F0 {
+    unsigned char type; /* 0x00 */
+    unsigned char f01;  /* 0x01 */
+    unsigned char f02;  /* 0x02 */
+    unsigned short f04; /* 0x04 */
+    unsigned short f06; /* 0x06 */
+    char pad08[0x10 - 0x08];
+    unsigned short f10; /* 0x10 */
+    int f14;            /* 0x14 */
+    Cfg_82DC51F0 *cfg;  /* 0x18 */
+    int f1c;            /* 0x1c */
+    int f20;            /* 0x20 */
+    char pad24[0x30 - 0x24];
+    int f30;            /* 0x30 */
+    unsigned short f34; /* 0x34 */
+    unsigned short f36; /* 0x36 */
+    char pad38[0x80 - 0x38];
+} Job_82DC51F0;
+
+extern void fn_830ABD78(char *solver, char *a, char *b, Block_82DC51F0 *blocks);
+extern void fn_82CE8AF0(void *out, Job_82DC51F0 *job, int flags);
+extern void fn_830B1390(char *solver, int a, int b, int c);
+extern void fn_82CE8E78(void *out, Arg_82DC51F0 *a, Arg_82DC51F0 *b, int flags);
+
+void fn_82DC51F0(char **self, void *out, Arg_82DC51F0 *a)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  int iVar3;
-  int iVar4;
-  unsigned int *puVar5;
-  unsigned __int64 uVar6;
-  unsigned char uStack_c0;
-  unsigned char uStack_bf;
-  unsigned char uStack_be;
-  unsigned short uStack_bc;
-  unsigned short uStack_ba;
-  unsigned short uStack_b0;
-  unsigned int uStack_ac;
-  int iStack_a8;
-  unsigned int uStack_a4;
-  unsigned int uStack_a0;
-  unsigned int uStack_90;
-  unsigned short uStack_8c;
-  unsigned short uStack_8a;
-  
-  iVar3 = KeTlsGetValue(lbl_8323B4A0);
-  puVar5 = *(unsigned int **)(iVar3 + 4);
-  if (puVar5 < *(unsigned int **)(iVar3 + 0xc)) {
-    *puVar5 = "LtIntegrate";
-    puVar5[3] = "StSolve";
-    uVar2 = TBLr;
-    puVar5[1] = (int)uVar2;
-    *(unsigned int **)(iVar3 + 4) = puVar5 + 4;
-  }
-  iVar3 = *(int *)(param_3 + 0x20);
-  iVar4 = *(int *)(param_3 + 0x28);
-  iVar1 = *(int *)(param_3 + 0x2c);
-  uVar6 = (((unsigned __int64)*(unsigned int *)(param_3 + 0x38) & 0x3fffffff) * 4 + 0xf & 0xffffffff) >> 4;
-  if ((int)uVar6 != 0) {
-    puVar5 = (unsigned int *)(*(int *)(param_3 + 0x30) + iVar3 + -4);
-    do {
-      puVar5[1] = 0;
-      puVar5[2] = 0;
-      puVar5[3] = 0;
-      puVar5 = puVar5 + 4;
-      *puVar5 = 0;
-      uVar6 = uVar6 - 1;
-    } while (uVar6 != 0);
-  }
-  fn_830ABD78((unsigned __int64)*param_1 + 0x1e0,iVar1 + iVar3,iVar4 + iVar3);
-  uStack_b0 = *(unsigned short *)(param_3 + 0x10);
-  uStack_c0 = 0xb;
-  uStack_ac = *(unsigned int *)(param_3 + 0x14);
-  uStack_bf = 0;
-  uStack_be = 2;
-  uStack_bc = 0x40;
-  uStack_ba = 0xffff;
-  iVar3 = *(int *)(param_3 + 0x18);
-  uStack_a4 = *(unsigned int *)(param_3 + 0x1c);
-  uStack_a0 = *(unsigned int *)(iVar3 + 0x78);
-  uStack_8a = 0;
-  uStack_8c = *(unsigned short *)(iVar3 + 0x54);
-  uStack_90 = *(unsigned int *)(iVar3 + 0x14);
-  iStack_a8 = iVar3;
-  fn_82CE8AF0(param_2,&uStack_c0,0);
-  iVar4 = KeTlsGetValue(lbl_8323B4A0);
-  puVar5 = *(unsigned int **)(iVar4 + 4);
-  if (puVar5 < *(unsigned int **)(iVar4 + 0xc)) {
-    *puVar5 = "StSolverExport";
-    uVar2 = TBLr;
-    puVar5[1] = (int)uVar2;
-    *(unsigned int **)(iVar4 + 4) = puVar5 + 3;
-  }
-  fn_830B1390((unsigned __int64)*param_1 + 0x1e0,*(unsigned int *)(iVar3 + 0x40),
-                  *(unsigned int *)(iVar3 + 0x3c),*(unsigned int *)(iVar3 + 0x30));
-  iVar3 = KeTlsGetValue(lbl_8323B4A0);
-  puVar5 = *(unsigned int **)(iVar3 + 4);
-  if (puVar5 < *(unsigned int **)(iVar3 + 0xc)) {
-    *puVar5 = &lbl_8202CF7C;
-    uVar2 = TBLr;
-    puVar5[1] = (int)uVar2;
-    *(unsigned int **)(iVar3 + 4) = puVar5 + 3;
-  }
-  fn_82CE8E78(param_2,param_3,param_3,0);
-  return;
-}
+    TimerStream *s;
+    TimerEntryA *ea;
+    TimerEntryB *eb;
+    Cfg_82DC51F0 *c;
+    Block_82DC51F0 *blocks;
+    Job_82DC51F0 job;
+    char *buffer;
+    char *first;
+    char *second;
+    int i;
+    int n;
 
+    s = KeTlsGetValue(lbl_8323B4A0);
+    if (s->current < s->end) {
+        ea = (TimerEntryA *)s->current;
+        ea->name = "LtIntegrate";
+        ea->name2 = "StSolve";
+        ea->time = (unsigned)__mftb();
+        s->current = (char *)(ea + 1);
+    }
+    buffer = a->buffer;
+    second = buffer + a->f28;
+    first = buffer + a->f2c;
+    blocks = (Block_82DC51F0 *)(buffer + a->blocksOffset);
+    n = (a->size * 4 + 15) >> 4;
+    for (i = 0; i < n; i++) {
+        blocks[i].v[0] = 0;
+        blocks[i].v[1] = 0;
+        blocks[i].v[2] = 0;
+        blocks[i].v[3] = 0;
+    }
+    fn_830ABD78(*self + 0x1e0, first, second, blocks);
+    job.type = 0xb;
+    job.f01 = 0;
+    job.f02 = 2;
+    job.f04 = 0x40;
+    job.f06 = 0xffff;
+    job.f10 = a->f10;
+    job.f14 = a->f14;
+    c = a->cfg;
+    job.cfg = c;
+    job.f1c = a->f1c;
+    job.f20 = c->f78;
+    job.f36 = 0;
+    job.f34 = c->f54;
+    job.f30 = c->f14;
+    fn_82CE8AF0(out, &job, 0);
+    s = KeTlsGetValue(lbl_8323B4A0);
+    if (s->current < s->end) {
+        eb = (TimerEntryB *)s->current;
+        eb->name = "StSolverExport";
+        eb->time = (unsigned)__mftb();
+        s->current = (char *)(eb + 1);
+    }
+    fn_830B1390(*self + 0x1e0, c->f40, c->f3c, c->f30);
+    s = KeTlsGetValue(lbl_8323B4A0);
+    if (s->current < s->end) {
+        eb = (TimerEntryB *)s->current;
+        eb->name = "lt";
+        eb->time = (unsigned)__mftb();
+        s->current = (char *)(eb + 1);
+    }
+    fn_82CE8E78(out, a, a, 0);
+}
