@@ -1,32 +1,40 @@
-extern int fn_8267C8D8();
-extern int fn_8267CF60();
-extern int fn_8267D9C0();
+/* Both flags are written by other threads while a waiter polls them under the condition variable.
+   They are volatile in the original: only then does the compiler keep the two byte loads after
+   the wait in source order (the sibling fn_8267E350 that clears them matches with volatile too). */
+typedef struct Event_8267E2B0 {
+    char pad0[0x10];
+    volatile unsigned char signaled;  /* 0x10 */
+    volatile unsigned char autoReset; /* 0x11 */
+    char pad12[2];
+    char mutex[0x14]; /* 0x14 */
+    char cond[4];     /* 0x28 */
+} Event_8267E2B0;
 
+extern void fn_8267C8D8(void *mutex);
+extern void fn_8267CF60(void *cond, void *mutex, unsigned int timeout);
+extern void fn_8267D9C0(void *mutex);
 
-unsigned char fn_8267E2B0(int param_1,unsigned __int64 param_2)
-
+unsigned char fn_8267E2B0(Event_8267E2B0 *self, unsigned int timeout)
 {
-  unsigned char uVar1;
-  int iVar2;
-  
-  iVar2 = param_1 + 0x14;
-  fn_8267C8D8(iVar2);
-  if (((param_2 & 0xffffffff) != 0) && (*(char *)(param_1 + 0x10) == '\0')) {
-    if ((int)param_2 == -1) {
-      do {
-        fn_8267CF60(param_1 + 0x28,iVar2,0xffffffffffffffff);
-      } while (*(char *)(param_1 + 0x10) == '\0');
-    }
-    else {
-      fn_8267CF60(param_1 + 0x28,iVar2,param_2);
-    }
-  }
-  uVar1 = *(unsigned char *)(param_1 + 0x10);
-  if (*(char *)(param_1 + 0x11) != '\0') {
-    *(unsigned char *)(param_1 + 0x11) = 0;
-    *(unsigned char *)(param_1 + 0x10) = 0;
-  }
-  fn_8267D9C0(iVar2);
-  return uVar1;
-}
+    unsigned char r;
 
+    fn_8267C8D8(self->mutex);
+    if (timeout != 0) {
+        if (timeout != 0xffffffff) {
+            if (self->signaled == 0) {
+                fn_8267CF60(self->cond, self->mutex, timeout);
+            }
+        } else {
+            while (self->signaled == 0) {
+                fn_8267CF60(self->cond, self->mutex, 0xffffffff);
+            }
+        }
+    }
+    r = self->signaled;
+    if (self->autoReset != 0) {
+        self->autoReset = 0;
+        self->signaled = 0;
+    }
+    fn_8267D9C0(self->mutex);
+    return r;
+}

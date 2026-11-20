@@ -12863,7 +12863,7 @@
         ]
       },
       "auto_match/func_8227EBB0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -17572,7 +17572,7 @@
         ]
       },
       "auto_match/func_822B40A0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -18674,11 +18674,15 @@
           "/O1"
         ]
       },
-      "auto_match/func_822C4718.c": {
-        "status": "NonMatching",
+      "auto_match/func_822C4718.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/QVMXReserve"
+        ],
+        "pool_aliases": {
+          "__real@00000000": "ltcg_pool_0_0f"
+        }
       },
       "auto_match/func_822C47A8.c": {
         "status": "NonMatching",
@@ -20320,9 +20324,10 @@
         ]
       },
       "auto_match/func_822D8A28.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
+          "/O1",
+          "/QVMXReserve"
         ]
       },
       "auto_match/func_822D8AE0.c": {
@@ -22183,10 +22188,13 @@
           "/O1"
         ]
       },
-      "auto_match/func_822F3EC0.c": {
-        "status": "NonMatching",
+      "auto_match/func_822F3EC0.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
+        ],
+        "ltcg_units": [
+          "auto_match/func_823A74D8.c"
         ]
       },
       "auto_match/func_822F4038.c": {
@@ -29185,9 +29193,12 @@
         ]
       },
       "auto_match/func_823651B8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
+        ],
+        "ltcg_units": [
+          "auto_match/func_82365C38.c"
         ]
       },
       "auto_match/func_82365300.c": {
@@ -34382,7 +34393,7 @@
         ]
       },
       "auto_match/func_823A74D8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -35721,7 +35732,7 @@
         ]
       },
       "auto_match/func_823B93C0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -45443,7 +45454,7 @@
         ]
       },
       "auto_match/func_82442848.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -49988,7 +49999,7 @@
         ]
       },
       "auto_match/func_8247E6E8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -73596,10 +73607,13 @@
         ]
       },
       "auto_match/func_825E4788.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "pool_aliases": {
+          "__real@00000000": "ltcg_pool_0_0f"
+        }
       },
       "auto_match/func_825E48D0.c": {
         "status": "Matching",
@@ -80118,7 +80132,7 @@
         ]
       },
       "auto_match/func_82645EA8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -87040,7 +87054,7 @@
         ]
       },
       "auto_match/func_8267E2B0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -87810,7 +87824,7 @@
         ]
       },
       "auto_match/func_82683B40.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -90080,7 +90094,7 @@
         ]
       },
       "auto_match/func_82692008.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -93425,7 +93439,7 @@
         ]
       },
       "auto_match/func_826AABD0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -93497,7 +93511,7 @@
         ]
       },
       "auto_match/func_826AB3F8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -94124,9 +94138,13 @@
         ]
       },
       "auto_match/func_826B14D8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
+        ],
+        "ltcg_units": [
+          "auto_match/func_826AF898.c",
+          "auto_match/func_826AB3F8.c"
         ]
       },
       "auto_match/func_826B1560.c": {
@@ -98492,8 +98510,8 @@
           "/O1"
         ]
       },
-      "auto_match/func_826DB430.c": {
-        "status": "NonMatching",
+      "auto_match/func_826DB430.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -104012,11 +104030,14 @@
           "/O1"
         ]
       },
-      "auto_match/func_82711940.c": {
-        "status": "NonMatching",
+      "auto_match/func_82711940.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "pool_aliases": {
+          "__real@0000000000000000": "lbl_82005710"
+        }
       },
       "auto_match/func_82711A18.c": {
         "status": "NonMatching",
@@ -105518,11 +105539,19 @@
           "/O1"
         ]
       },
-      "auto_match/func_8271C770.c": {
-        "status": "NonMatching",
+      "auto_match/func_8271C770.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O2"
-        ]
+          "/O1"
+        ],
+        "ltcg_units": [
+          "auto_match/func_82681838.c",
+          "auto_match/func_8269A190.c"
+        ],
+        "pool_aliases": {
+          "??_7VarsVisitor_8271C770@@6B@": "lbl_8200FCF0",
+          "??_7MemberVisitor_8271C770@@6B@": "lbl_8200C4D4"
+        }
       },
       "auto_match/func_8271C8C8.cpp": {
         "status": "Matching",
@@ -116252,11 +116281,17 @@
           "?GetParagraphByIndex@StyledText_82791070@@QAA?AUParagraphsIterator_82791070@@IPAI@Z": "fn_82791070"
         }
       },
-      "auto_match/func_82791138.c": {
-        "status": "NonMatching",
+      "auto_match/func_82791138.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [
+          "auto_match/func_8278FED0.c"
+        ],
+        "pool_aliases": {
+          "?GetNearestParagraphByIndex@StyledText_82791138@@QAA?AUParagraphsIterator_82791138@@IPAI@Z": "fn_82791138"
+        }
       },
       "auto_match/func_827911E8.c": {
         "status": "NonMatching",
@@ -116393,11 +116428,14 @@
           "??DCharIterator_82791FD0@@QAAAAUCharacter_82791FD0@@XZ": "fn_82791FD0"
         }
       },
-      "auto_match/func_827920C8.c": {
-        "status": "NonMatching",
+      "auto_match/func_827920C8.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "pool_aliases": {
+          "??ECharIterator_827920C8@@QAAXXZ": "fn_827920C8"
+        }
       },
       "auto_match/func_82792180.c": {
         "status": "NonMatching",
@@ -117129,7 +117167,7 @@
         ]
       },
       "auto_match/func_8279A300.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -118848,9 +118886,13 @@
         ]
       },
       "auto_match/func_827B0790.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
+        ],
+        "ltcg_units": [
+          "auto_match/func_827664B0.c",
+          "auto_match/func_82766860.c"
         ]
       },
       "auto_match/func_827B08A0.c": {
@@ -125920,7 +125962,7 @@
         ]
       },
       "auto_match/func_827F2D60.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -125932,7 +125974,7 @@
         ]
       },
       "auto_match/func_827F2E40.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -131886,7 +131928,7 @@
         ]
       },
       "auto_match/func_82813680.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -136783,7 +136825,7 @@
         ]
       },
       "auto_match/func_8282EAE8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -138587,12 +138629,19 @@
           "/Og-"
         ]
       },
-      "auto_match/func_8284A7C0.c": {
-        "status": "NonMatching",
+      "auto_match/func_8284A7C0.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1",
           "/Og-"
-        ]
+        ],
+        "vc_include": true,
+        "pool_aliases": {
+          "??0?$_Tree_unchecked_const_iterator@V?$_Tree_val@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@std@@U_Iterator_base0@2@@std@@QAA@PAU_Node@?$_Tree_nod@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@1@PBV?$_Tree_val@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@1@@Z": "fn_8284A410",
+          "?_Lbound@?$_Tree@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@std@@IAAPAU_Node@?$_Tree_nod@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@2@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z": "fn_8284A658",
+          "?compare@?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@QBAHABV12@@Z": "fn_822462F0",
+          "?find@?$_Tree@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@std@@QAA?AV?$_Tree_iterator@V?$_Tree_val@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@std@@@2@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z": "fn_8284A7C0"
+        }
       },
       "auto_match/func_8284A8C8.cpp": {
         "status": "Matching",
@@ -138607,12 +138656,21 @@
           "/Od"
         ]
       },
-      "auto_match/func_8284A940.c": {
-        "status": "NonMatching",
+      "auto_match/func_8284A940.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1",
           "/Og-"
-        ]
+        ],
+        "vc_include": true,
+        "pool_aliases": {
+          "??$_Dest_val@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@std@@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@2@@std@@YAXAAV?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@0@PAU?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@0@@Z": "fn_8284A910",
+          "??3@YAXPAX@Z": "fn_8265CA20",
+          "?_Insert@?$_Tree@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@std@@IAA?AV?$_Tree_iterator@V?$_Tree_val@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@std@@@2@_NPAU_Node@?$_Tree_nod@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@2@1@Z": "fn_8284A940",
+          "?_Lrotate@?$_Tree@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@std@@IAAXPAU_Node@?$_Tree_nod@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@2@@Z": "fn_8284A4E8",
+          "?_Rrotate@?$_Tree@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@std@@IAAXPAU_Node@?$_Tree_nod@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@2@@Z": "fn_8284A328",
+          "?_Xlength_error@std@@YAXPBD@Z": "fn_82F622A8"
+        }
       },
       "auto_match/func_8284AD60.c": {
         "status": "NonMatching",
@@ -138621,12 +138679,20 @@
           "/Og-"
         ]
       },
-      "auto_match/func_8284ADC8.c": {
-        "status": "NonMatching",
+      "auto_match/func_8284ADC8.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1",
           "/Og-"
-        ]
+        ],
+        "vc_include": true,
+        "pool_aliases": {
+          "??$_Dest_val@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@std@@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@2@@std@@YAXAAV?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@0@PAU?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@0@@Z": "fn_8284A910",
+          "??3@YAXPAX@Z": "fn_8265CA20",
+          "?_Lrotate@?$_Tree@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@std@@IAAXPAU_Node@?$_Tree_nod@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@2@@Z": "fn_8284A4E8",
+          "?_Rrotate@?$_Tree@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@std@@IAAXPAU_Node@?$_Tree_nod@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@2@@Z": "fn_8284A328",
+          "?_Xout_of_range@std@@YAXPBD@Z": "fn_82F622E0"
+        }
       },
       "auto_match/func_8284B4A8.cpp": {
         "status": "Matching",
@@ -138636,12 +138702,21 @@
         ],
         "vc_include": true
       },
-      "auto_match/func_8284B530.c": {
-        "status": "NonMatching",
+      "auto_match/func_8284B530.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1",
           "/Og-"
-        ]
+        ],
+        "vc_include": true,
+        "pool_aliases": {
+          "??$_Dest_val@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@std@@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@2@@std@@YAXAAV?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@0@PAU?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@0@@Z": "fn_8284A910",
+          "??3@YAXPAX@Z": "fn_8265CA20",
+          "??F?$_Tree_unchecked_const_iterator@V?$_Tree_val@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@std@@U_Iterator_base0@2@@std@@QAAAAV01@XZ": "fn_8284A218",
+          "?_Insert@?$_Tree@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@std@@IAA?AV?$_Tree_iterator@V?$_Tree_val@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@std@@@2@_NPAU_Node@?$_Tree_nod@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@2@1@Z": "fn_8284A940",
+          "?_Linsert@?$_Tree@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@std@@QAA?AU?$pair@V?$_Tree_iterator@V?$_Tree_val@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@std@@@std@@_N@2@PAU_Node@?$_Tree_nod@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@2@_N@Z": "fn_8284B530",
+          "?compare@?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@QBAHABV12@@Z": "fn_822462F0"
+        }
       },
       "auto_match/func_8284B810.cpp": {
         "status": "Matching",
@@ -138651,12 +138726,21 @@
         ],
         "vc_include": true
       },
-      "auto_match/func_8284B898.c": {
-        "status": "NonMatching",
+      "auto_match/func_8284B898.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1",
           "/Og-"
-        ]
+        ],
+        "vc_include": true,
+        "pool_aliases": {
+          "??0?$_Tree_unchecked_const_iterator@V?$_Tree_val@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@std@@U_Iterator_base0@2@@std@@QAA@PAU_Node@?$_Tree_nod@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@1@PBV?$_Tree_val@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@1@@Z": "fn_8284A410",
+          "??F?$_Tree_unchecked_const_iterator@V?$_Tree_val@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@std@@U_Iterator_base0@2@@std@@QAAAAV01@XZ": "fn_8284A218",
+          "?_Insert@?$_Tree@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@std@@IAA?AV?$_Tree_iterator@V?$_Tree_val@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@std@@@2@_NPAU_Node@?$_Tree_nod@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@2@1@Z": "fn_8284A940",
+          "?_Insert@?$_Tree@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@std@@QAA?AV?$_Tree_iterator@V?$_Tree_val@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@std@@@2@V?$_Tree_const_iterator@V?$_Tree_val@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@std@@@2@PAU_Node@?$_Tree_nod@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@2@@Z": "fn_8284B898",
+          "?_Linsert@?$_Tree@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@std@@QAA?AU?$pair@V?$_Tree_iterator@V?$_Tree_val@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@std@@@std@@_N@2@PAU_Node@?$_Tree_nod@V?$_Tmap_traits@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UValue_8284B810@@@std@@@2@$0A@@std@@@2@_N@Z": "fn_8284B530",
+          "?compare@?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@QBAHABV12@@Z": "fn_822462F0"
+        }
       },
       "auto_match/func_8284BFC0.c": {
         "status": "NonMatching",
@@ -153020,11 +153104,18 @@
           "/O2"
         ]
       },
-      "auto_match/func_828A4E50.c": {
-        "status": "NonMatching",
+      "auto_match/func_828A4E50.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
-        ]
+        ],
+        "ltcg_units": [
+          "auto_match/func_828A2E00.cpp",
+          "auto_match/func_828A1DE8.c"
+        ],
+        "pool_aliases": {
+          "?Find_828A2E00@@YA?AUIterator_828A2E00@@U1@0ABH@Z": "fn_828A2E00"
+        }
       },
       "auto_match/func_828A4ED0.c": {
         "status": "Matching",
@@ -156599,11 +156690,12 @@
           "/O1"
         ]
       },
-      "auto_match/func_828BFD18.c": {
-        "status": "NonMatching",
+      "auto_match/func_828BFD18.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
-        ]
+        ],
+        "vc_include": true
       },
       "auto_match/func_828BFDA8.c": {
         "status": "Matching",
@@ -157255,11 +157347,15 @@
           "/O2"
         ]
       },
-      "auto_match/func_828C48B0.c": {
-        "status": "NonMatching",
+      "auto_match/func_828C48B0.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
-        ]
+        ],
+        "vc_include": true,
+        "pool_aliases": {
+          "??$_Push_heap@V?$_Deque_unchecked_iterator@PAUItem_828C59F0@@V?$allocator@PAUItem_828C59F0@@@std@@@std@@HPAUItem_828C59F0@@ULess_828C59F0@@@std@@YAXV?$_Deque_unchecked_iterator@PAUItem_828C59F0@@V?$allocator@PAUItem_828C59F0@@@std@@@0@HH$$QAPAUItem_828C59F0@@ULess_828C59F0@@@Z": "fn_828C48B0"
+        }
       },
       "auto_match/func_828C49F8.c": {
         "status": "NonMatching",
@@ -157279,11 +157375,16 @@
           "/O2"
         ]
       },
-      "auto_match/func_828C4EA8.c": {
-        "status": "NonMatching",
+      "auto_match/func_828C4EA8.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
-        ]
+        ],
+        "vc_include": true,
+        "pool_aliases": {
+          "??$_Adjust_heap@V?$_Deque_unchecked_iterator@PAUItem_828C59F0@@V?$allocator@PAUItem_828C59F0@@@std@@@std@@HPAUItem_828C59F0@@ULess_828C59F0@@@std@@YAXV?$_Deque_unchecked_iterator@PAUItem_828C59F0@@V?$allocator@PAUItem_828C59F0@@@std@@@0@HH$$QAPAUItem_828C59F0@@ULess_828C59F0@@@Z": "fn_828C4EA8",
+          "??$_Push_heap@V?$_Deque_unchecked_iterator@PAUItem_828C59F0@@V?$allocator@PAUItem_828C59F0@@@std@@@std@@HPAUItem_828C59F0@@ULess_828C59F0@@@std@@YAXV?$_Deque_unchecked_iterator@PAUItem_828C59F0@@V?$allocator@PAUItem_828C59F0@@@std@@@0@HH$$QAPAUItem_828C59F0@@ULess_828C59F0@@@Z": "fn_828C48B0"
+        }
       },
       "auto_match/func_828C5068.cpp": {
         "status": "Matching",
@@ -157310,11 +157411,16 @@
           "/O2"
         ]
       },
-      "auto_match/func_828C59F0.c": {
-        "status": "NonMatching",
+      "auto_match/func_828C59F0.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
-        ]
+        ],
+        "vc_include": true,
+        "pool_aliases": {
+          "??$_Adjust_heap@V?$_Deque_unchecked_iterator@PAUItem_828C59F0@@V?$allocator@PAUItem_828C59F0@@@std@@@std@@HPAUItem_828C59F0@@ULess_828C59F0@@@std@@YAXV?$_Deque_unchecked_iterator@PAUItem_828C59F0@@V?$allocator@PAUItem_828C59F0@@@std@@@0@HH$$QAPAUItem_828C59F0@@ULess_828C59F0@@@Z": "fn_828C4EA8",
+          "??$_Make_heap@V?$_Deque_unchecked_iterator@PAUItem_828C59F0@@V?$allocator@PAUItem_828C59F0@@@std@@@std@@HPAUItem_828C59F0@@ULess_828C59F0@@@std@@YAXV?$_Deque_unchecked_iterator@PAUItem_828C59F0@@V?$allocator@PAUItem_828C59F0@@@std@@@0@0ULess_828C59F0@@PAHPAPAUItem_828C59F0@@@Z": "fn_828C59F0"
+        }
       },
       "auto_match/func_828C5A90.c": {
         "status": "NonMatching",
@@ -159129,11 +159235,15 @@
           "/O2"
         ]
       },
-      "auto_match/func_828D5268.c": {
-        "status": "NonMatching",
+      "auto_match/func_828D5268.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O2"
-        ]
+        ],
+        "vc_include": true,
+        "pool_aliases": {
+          "??$_Copy_impl@V?$_Deque_unchecked_iterator@UElem_828D5268@@V?$allocator@UElem_828D5268@@@std@@@std@@V12@@std@@YA?AV?$_Deque_unchecked_iterator@UElem_828D5268@@V?$allocator@UElem_828D5268@@@std@@@0@V10@00U_Nonscalar_ptr_iterator_tag@0@@Z": "fn_828D5268"
+        }
       },
       "auto_match/func_828D5330.cpp": {
         "status": "Matching",
@@ -162845,9 +162955,13 @@
         ]
       },
       "auto_match/func_828F5690.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
+          "/O1",
+          "/Oi"
+        ],
+        "ltcg_units": [
+          "auto_match/func_828F5390.c"
         ]
       },
       "auto_match/func_828F5778.c": {
@@ -167221,8 +167335,8 @@
           "/O1"
         ]
       },
-      "auto_match/func_8295DA88.c": {
-        "status": "NonMatching",
+      "auto_match/func_8295DA88.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -172472,7 +172586,7 @@
         ]
       },
       "auto_match/func_829D6C98.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -173152,9 +173266,9 @@
         ]
       },
       "auto_match/func_829DEE48.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O2"
+          "/O1"
         ]
       },
       "auto_match/func_829DEEE8.c": {
@@ -174045,9 +174159,12 @@
         ]
       },
       "auto_match/func_829E6288.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
+        ],
+        "ltcg_units": [
+          "auto_match/func_829D47B0.c"
         ]
       },
       "auto_match/func_829E6388.c": {
@@ -177413,9 +177530,9 @@
         ]
       },
       "auto_match/func_82A26628.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O2"
+          "/O1"
         ]
       },
       "auto_match/func_82A26800.c": {

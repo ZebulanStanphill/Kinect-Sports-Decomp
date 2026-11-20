@@ -1,90 +1,66 @@
-typedef unsigned char bool;
-#define true 1
-extern unsigned __int64 storeWordConditionalIndexed();
+long _InterlockedCompareExchange(long *, long, long);
+#define __lwsync() __emit(0x7C2004AC)
 
+typedef struct Node_823B93C0 Node_823B93C0;
+typedef struct Group_823B93C0 Group_823B93C0;
 
-void fn_823B93C0(int *param_1,__int64 param_2)
+typedef struct List_823B93C0 {
+    Node_823B93C0 *next; /* 0x0 */
+    Node_823B93C0 *prev; /* 0x4 */
+    long lock;           /* 0x8 */
+} List_823B93C0;
 
+struct Node_823B93C0 {
+    Node_823B93C0 *next;   /* 0x0 */
+    Node_823B93C0 *prev;   /* 0x4 */
+    Group_823B93C0 *group; /* 0x8 */
+};
+
+struct Group_823B93C0 {
+    int pad0;           /* 0x0 */
+    List_823B93C0 list; /* 0x4 */
+};
+
+static __forceinline void Acquire(List_823B93C0 *list)
 {
-  unsigned int uVar1;
-  int iVar2;
-  unsigned int uVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  __int64 lVar6;
-  unsigned int *puVar7;
-  int *piVar8;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  
-  uVar4 = param_2 + 0x68;
-  if ((int)param_2 == 0) {
-    uVar4 = 0;
-  }
-  uVar5 = (unsigned __int64)(unsigned int)param_1[2];
-  if ((uVar4 & 0xffffffff) == uVar5) {
-    return;
-  }
-  if (uVar5 != 0) {
-    lVar6 = uVar5 + 0xc;
-LAB_823b93f4:
-    do {
-      puVar7 = (unsigned int *)lVar6;
-      uVar1 = *puVar7;
-      if (uVar1 == 0) {
-        if (in_RESERVE != '\0') {
-          uVar3 = storeWordConditionalIndexed(1,0,lVar6);
-          *puVar7 = uVar3;
-          in_cr0 = 2;
-        }
-        if (!(bool)(in_cr0 >> 1 & 1)) goto LAB_823b93f4;
-      }
-      else if (in_RESERVE != '\0') {
-        uVar3 = storeWordConditionalIndexed((unsigned __int64)uVar1,0,lVar6);
-        *puVar7 = uVar3;
-        in_cr0 = 2;
-      }
-    } while (uVar1 != 0);
-    sync(1);
-    *(int *)(*param_1 + 4) = param_1[1];
-    *(int *)param_1[1] = *param_1;
-    sync(1);
-    *puVar7 = 0;
-  }
-  param_1[2] = (int)uVar4;
-  if ((uVar4 & 0xffffffff) == 0) {
-    return;
-  }
-  lVar6 = uVar4 + 0xc;
-LAB_823b9464:
-  do {
-    puVar7 = (unsigned int *)lVar6;
-    uVar1 = *puVar7;
-    if (uVar1 == 0) {
-      if (in_RESERVE != '\0') {
-        uVar3 = storeWordConditionalIndexed(1,0,lVar6);
-        *puVar7 = uVar3;
-        in_cr0 = 2;
-      }
-      if (!(bool)(in_cr0 >> 1 & 1)) goto LAB_823b9464;
+    while (_InterlockedCompareExchange(&list->lock, 1, 0) != 0) {
     }
-    else if (in_RESERVE != '\0') {
-      uVar3 = storeWordConditionalIndexed((unsigned __int64)uVar1,0,lVar6);
-      *puVar7 = uVar3;
-      in_cr0 = 2;
-    }
-    if (uVar1 == 0) {
-      sync(1);
-      piVar8 = (int *)(param_1[2] + 4);
-      iVar2 = *piVar8;
-      param_1[1] = (int)piVar8;
-      *param_1 = iVar2;
-      *(int **)(*piVar8 + 4) = param_1;
-      *piVar8 = (int)param_1;
-      sync(1);
-      *puVar7 = 0;
-      return;
-    }
-  } while( true );
+    __lwsync();
 }
 
+static __forceinline void Release(List_823B93C0 *list)
+{
+    __lwsync();
+    list->lock = 0;
+}
+
+void fn_823B93C0(Node_823B93C0 *self, char *owner)
+{
+    Group_823B93C0 *group = owner ? (Group_823B93C0 *)(owner + 0x68) : 0;
+    List_823B93C0 *list;
+    Node_823B93C0 *head;
+    Node_823B93C0 *next;
+
+    if (group == self->group) {
+        return;
+    }
+    if (self->group) {
+        list = &self->group->list;
+        Acquire(list);
+        self->next->prev = self->prev;
+        self->prev->next = self->next;
+        Release(list);
+    }
+    self->group = group;
+    if (group) {
+        list = &group->list;
+        Acquire(list);
+        head = (Node_823B93C0 *)&self->group->list;
+        next = head->next;
+        self->prev = head;
+        self->next = next;
+        head->next->prev = self;
+        head->next = self;
+        Release(list);
+    }
+}

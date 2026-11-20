@@ -1,41 +1,50 @@
-extern unsigned int *auStack_30;
-extern int fn_829D47B0();
-extern int fn_829E6798();
-extern int fn_829E71F0();
-extern int fn_829E7260();
-extern int fn_82A28E60();
-extern unsigned int lbl_832179FC;
+/* Builds the context's table from the inputs, expands it through a scratch
+   buffer of two halves and applies it; the buffer is freed on every path.
+   The original loads the buffer pointer straight into its saved register
+   after the allocation call, which needs link-time code generation with the
+   allocator (fn_829D47B0). */
+extern void fn_829D47B0(unsigned char **out, unsigned int size);
+extern void fn_82A28E60(void *heap, int flags, void *p);
+extern char *lbl_832179FC;
 
+typedef struct Context_829E6288 {
+    char pad0[0x10];
+    char header[0x28]; /* 0x10 */
+    int count;         /* 0x38 */
+    char table[4];     /* 0x3c */
+} Context_829E6288;
 
-__int64 fn_829E6288(void)
+extern int fn_829E7260(void *a, void *b, void *c, Context_829E6288 *ctx, void *header, void *table);
+extern int fn_829E71F0(void *table, unsigned char *begin, unsigned char *end);
+extern int fn_829E6798(void *table, int count, unsigned char *buffer);
 
+static __forceinline void Free_829E6288(void *p)
 {
-  __int64 lVar1;
-  int in_r6;
-  unsigned __int64 uVar2;
-  unsigned int auStack_30 [12];
-  
-  lVar1 = fn_829E7260();
-  if ((int)lVar1 == 0) {
-    fn_829D47B0(auStack_30,0x10e00);
-    uVar2 = (unsigned __int64)auStack_30[0];
-    lVar1 = fn_829E71F0(in_r6 + 0x3c,uVar2,uVar2 + 0x8700);
-    if (lVar1 == 0) {
-      lVar1 = fn_829E6798(in_r6 + 0x3c,*(unsigned int *)(in_r6 + 0x38),uVar2);
-      if (lVar1 == 0) {
-        if (uVar2 != 0) {
-          fn_82A28E60(*(unsigned int *)(lbl_832179FC + 0x8f4cc),0,uVar2);
-        }
-        lVar1 = 0;
-      }
-      else if (uVar2 != 0) {
-        fn_82A28E60(*(unsigned int *)(lbl_832179FC + 0x8f4cc),0,uVar2);
-      }
+    if (p != 0) {
+        fn_82A28E60(*(void **)(lbl_832179FC + 0x8f4cc), 0, p);
     }
-    else if (uVar2 != 0) {
-      fn_82A28E60(*(unsigned int *)(lbl_832179FC + 0x8f4cc),0,uVar2);
-    }
-  }
-  return lVar1;
 }
 
+int fn_829E6288(void *a, void *b, void *c, Context_829E6288 *ctx)
+{
+    int result;
+    unsigned char *buffer;
+
+    result = fn_829E7260(a, b, c, ctx, ctx->header, ctx->table);
+    if (result != 0) {
+        return result;
+    }
+    fn_829D47B0(&buffer, 0x10e00);
+    result = fn_829E71F0(ctx->table, buffer, buffer + 0x8700);
+    if (result != 0) {
+        Free_829E6288(buffer);
+        return result;
+    }
+    result = fn_829E6798(ctx->table, ctx->count, buffer);
+    if (result != 0) {
+        Free_829E6288(buffer);
+        return result;
+    }
+    Free_829E6288(buffer);
+    return 0;
+}

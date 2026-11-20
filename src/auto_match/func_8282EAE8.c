@@ -1,21 +1,25 @@
-void fn_8282EAE8(int param_1,int param_2,int param_3,int *param_4)
+typedef struct Item_8282EAE8 {
+    unsigned int first;  /* 0x0 */
+    unsigned int size;   /* 0x4 */
+    unsigned int third;  /* 0x8 */
+    unsigned int offset; /* 0xc */
+} Item_8282EAE8;
 
+/* The heap's ordering predicate: an item sorts before another when it ends at or before
+   the other's offset. */
+static __forceinline unsigned char EndsBefore(const Item_8282EAE8 *left, const Item_8282EAE8 *right)
 {
-  int iVar1;
-  int iVar2;
-  unsigned int uVar3;
-  
-  uVar3 = param_2 - 1;
-  iVar2 = ((int)uVar3 >> 1) + (unsigned int)((int)uVar3 < 0 && (uVar3 & 1) != 0);
-  while ((param_3 < param_2 &&
-         (iVar1 = *(int *)(iVar2 * 4 + param_1),
-         (unsigned int)(*(int *)(iVar1 + 0xc) + *(int *)(iVar1 + 4)) <= *(unsigned int *)(*param_4 + 0xc)))) {
-    uVar3 = iVar2 - 1;
-    *(int *)(param_2 * 4 + param_1) = iVar1;
-    param_2 = iVar2;
-    iVar2 = ((int)uVar3 >> 1) + (unsigned int)((int)uVar3 < 0 && (uVar3 & 1) != 0);
-  }
-  *(int *)(param_2 * 4 + param_1) = *param_4;
-  return;
+    return left->offset + left->size <= right->offset;
 }
 
+/* std::_Push_heap over item pointers; the predicate object is empty and passed by value. */
+void fn_8282EAE8(Item_8282EAE8 **first, int hole, int top, Item_8282EAE8 **value, unsigned int predicate)
+{
+    int index;
+
+    for (index = (hole - 1) / 2; top < hole && EndsBefore(first[index], *value); index = (hole - 1) / 2) {
+        first[hole] = first[index];
+        hole = index;
+    }
+    first[hole] = *value;
+}

@@ -1,75 +1,79 @@
-#define true 1
-extern int fn_822315A0();
-extern int fn_82248B90();
-extern int fn_8225F160();
-extern int fn_823AB158();
-extern int fn_82511928();
-extern int fn_825138E0();
-extern int fn_8288F948();
-extern int fn_828A12E8();
-extern unsigned int iStack_24;
-extern unsigned int iStack_28;
-extern unsigned int iStack_2c;
-extern unsigned int lbl_83265988;
-extern unsigned int lbl_83297810;
+typedef struct Pair_8247E6E8 {
+    char *object;
+    void *reference;
+} Pair_8247E6E8;
 
+typedef struct Iterator_8247E6E8 {
+    unsigned int key;
+    char *node;
+} Iterator_8247E6E8;
 
-unsigned char fn_8247E6E8(int param_1)
+extern void *lbl_83297810;
+extern char *lbl_83265988;
+extern void *fn_82511928(void);
+extern void fn_825138E0(Pair_8247E6E8 *, void *, int);
+extern void *fn_828A12E8(unsigned int key);
+extern char *fn_8288F948(void *map, int index);
+extern char *fn_823AB158(char *object);
+extern void fn_82248B90(char **node);
+extern void fn_8225F160(void);
+extern void fn_822315A0(void *reference);
 
+static __forceinline int HasNext_8247E6E8(char *node, unsigned int key)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  int iVar3;
-  int iVar4;
-  unsigned __int64 uVar5;
-  unsigned char bVar6;
-  int iStack_2c;
-  struct { int first; int second; } stack_pair_28;
-
-  
-  uVar5 = (unsigned __int64)lbl_83297810;
-  if (uVar5 == 0) {
-    uVar5 = fn_82511928();
-  }
-  fn_825138E0(&stack_pair_28.first,uVar5,1);
-  if (stack_pair_28.first == 0) {
-    fn_8225F160();
-    if (lbl_83265988 == 0) {
-      bVar6 = 0;
+    if (node != *(char **)(fn_8288F948(fn_828A12E8(key), 1) + 4)) {
+        return 1;
     }
-    else {
-      iVar3 = *(int *)(lbl_83265988 + 0xf0);
-LAB_8247e7e0:
-      bVar6 = *(unsigned char *)(*(int *)(iVar3 + 8) + 8) >> 4 & 1;
-    }
-    if (stack_pair_28.second != 0) {
-      fn_822315A0();
-    }
-  }
-  else {
-    uVar1 = *(unsigned int *)(stack_pair_28.first + 8);
-    uVar2 = fn_828A12E8(uVar1);
-    iVar3 = fn_8288F948(uVar2,1);
-    iStack_2c = **(int **)(iVar3 + 4);
-    while( true ) {
-      iVar3 = iStack_2c;
-      uVar2 = fn_828A12E8(uVar1);
-      iVar4 = fn_8288F948(uVar2,1);
-      if (iVar3 == *(int *)(iVar4 + 4)) break;
-      iVar3 = *(int *)(iVar3 + 0x14);
-      iVar4 = fn_823AB158(iVar3);
-      if ((iVar4 == param_1) || (*(int *)(iVar3 + 0x864) == param_1)) {
-        iVar3 = fn_823AB158(iVar3);
-        iVar3 = *(int *)(iVar3 + 0xf0);
-        goto LAB_8247e7e0;
-      }
-      fn_82248B90(&iStack_2c);
-    }
-    if (stack_pair_28.second != 0) {
-      fn_822315A0();
-    }
-    bVar6 = 0;
-  }
-  return bVar6;
+    return 0;
 }
 
+static __forceinline void *GetManager(void)
+{
+    if (lbl_83297810 != 0) {
+        return lbl_83297810;
+    }
+    return fn_82511928();
+}
+
+unsigned char fn_8247E6E8(char *self)
+{
+    Pair_8247E6E8 pair;
+    Iterator_8247E6E8 iterator;
+    unsigned char result;
+    char *state;
+    fn_825138E0(&pair, GetManager(), 1);
+    if (pair.object != 0) {
+        char *node;
+        unsigned int key = *(unsigned int *)(pair.object + 8);
+        iterator.key = key;
+        node = **(char ***)(fn_8288F948(fn_828A12E8(key), 1) + 4);
+        iterator.node = node;
+        while (HasNext_8247E6E8(node, key)) {
+            node = *(char **)(node + 0x14);
+            if (fn_823AB158(node) == self || *(char **)(node + 0x864) == self) {
+                state = *(char **)(fn_823AB158(node) + 0xf0);
+                goto found;
+            }
+            fn_82248B90(&iterator.node);
+            node = iterator.node;
+            key = iterator.key;
+        }
+        if (pair.reference != 0) {
+            fn_822315A0(pair.reference);
+        }
+        return 0;
+    } else {
+        fn_8225F160();
+        if (lbl_83265988 != 0) {
+            state = *(char **)(lbl_83265988 + 0xf0);
+        found:
+            result = (*(unsigned char *)(*(char **)(state + 8) + 8) >> 4) & 1;
+        } else {
+            result = 0;
+        }
+        if (pair.reference != 0) {
+            fn_822315A0(pair.reference);
+        }
+    }
+    return result;
+}

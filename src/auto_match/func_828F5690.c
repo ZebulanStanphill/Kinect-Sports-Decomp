@@ -1,53 +1,56 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_828F5390();
+/* Looks a name up in the hash table (sorted chains) and reports whether the
+   entry depends on itself: an entry already being visited answers 1; otherwise
+   it is marked, its children of kind 9 are followed through the names they
+   refer to, and the mark is cleared again.
+   The original keeps the name in r8 across the hash call (link-time code
+   generation with fn_828F5390) and has strcmp inline (/Oi). */
+extern int strcmp(const char *, const char *);
+extern unsigned int fn_828F5390(void *, const char *);
 
+typedef struct Node_828F5690 {
+    const char *name; /* 0x00 */
+    int pad4;
+    struct Node_828F5690 *children; /* 0x08 */
+    struct Node_828F5690 *next;     /* 0x0c */
+    int state;                      /* 0x10 */
+    int pad14;
+    const char *reference; /* 0x18 */
+} Node_828F5690;
 
-bool fn_828F5690(int param_1,__int64 param_2)
+typedef struct Table_828F5690 {
+    char pad0[0x78];
+    Node_828F5690 *buckets[1]; /* 0x78 */
+} Table_828F5690;
 
+int fn_828F5690(Table_828F5690 *self, const char *name);
+
+int fn_828F5690(Table_828F5690 *self, const char *name)
 {
-  unsigned int *puVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  int iVar4;
-  int iVar5;
-  unsigned char *pbVar6;
-  __int64 lVar7;
-  
-  iVar4 = fn_828F5390();
-  puVar1 = *(unsigned int **)((iVar4 + 0x1e) * 4 + param_1);
-  do {
-    if (puVar1 == (unsigned int *)0x0) {
-      return false;
-    }
-    pbVar6 = (unsigned char *)*puVar1;
-    lVar7 = param_2;
-    do {
-      uVar3 = (unsigned int)*pbVar6;
-      uVar2 = (unsigned int)*(unsigned char *)lVar7;
-      if (*(unsigned char *)lVar7 == 0) break;
-      lVar7 = lVar7 + 1;
-      pbVar6 = pbVar6 + 1;
-    } while (uVar2 == uVar3);
-    if ((int)(uVar2 - uVar3) < 0) {
-      return false;
-    }
-    if (uVar2 == uVar3) {
-      if (puVar1[4] == 0) {
-        iVar4 = puVar1[2];
-        puVar1[4] = 1;
-        while ((iVar4 != 0 &&
-               ((*(int *)(iVar4 + 0x10) != 9 ||
-                (iVar5 = fn_828F5690(param_1,*(unsigned int *)(iVar4 + 0x18)), iVar5 == 0))))) {
-          iVar4 = *(int *)(iVar4 + 0xc);
-        }
-        puVar1[4] = 0;
-        return iVar4 != 0;
-      }
-      return true;
-    }
-    puVar1 = (unsigned int *)puVar1[3];
-  } while( true );
-}
+    Node_828F5690 *node;
+    Node_828F5690 *child;
 
+    for (node = self->buckets[fn_828F5390(self, name)]; node != 0; node = node->next) {
+        int order = strcmp(name, node->name);
+
+        if (order < 0) {
+            return 0;
+        }
+        if (order == 0) {
+            break;
+        }
+    }
+    if (node == 0) {
+        return 0;
+    }
+    if (node->state != 0) {
+        return 1;
+    }
+    node->state = 1;
+    for (child = node->children; child != 0; child = child->next) {
+        if (child->state == 9 && fn_828F5690(self, child->reference) != 0) {
+            break;
+        }
+    }
+    node->state = 0;
+    return 0 != child;
+}

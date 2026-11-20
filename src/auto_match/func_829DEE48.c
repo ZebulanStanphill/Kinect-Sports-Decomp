@@ -1,49 +1,48 @@
-extern unsigned int *auStack_50;
-extern int fn_829DE7F0();
-extern int memcpy();
-extern unsigned int iStack_54;
+/* Copies up to ten items of the source list into the destination: all of them
+   in order when there are ten or fewer, otherwise the ten that fn_829DE7F0
+   picks. The count is read into a local for the first test and read again
+   through the member for the copy the index loop is bounded by (that second
+   read is what makes the loop's guard a cr0 compare). */
+typedef struct Item_829DEE48 {
+    unsigned char data[0x590];
+} Item_829DEE48;
 
+typedef struct Source_829DEE48 {
+    Item_829DEE48 items[20]; /* 0x0 */
+    unsigned int count;      /* 0x6f40 */
+} Source_829DEE48;
 
-void fn_829DEE48(int param_1,int param_2)
+typedef struct Dest_829DEE48 {
+    Item_829DEE48 items[10]; /* 0x0 */
+    unsigned int count;      /* 0x37a0 */
+} Dest_829DEE48;
 
+typedef struct Ctx_829DEE48 {
+    Source_829DEE48 *source; /* 0x0 */
+    int pad4[3];
+} Ctx_829DEE48;
+
+void *memcpy(void *dst, const void *src, unsigned int size);
+extern void fn_829DE7F0(unsigned int count, unsigned int max, Ctx_829DEE48 *ctx, unsigned int *indices);
+
+void fn_829DEE48(Source_829DEE48 *src, Dest_829DEE48 *dst)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  int *piVar3;
-  unsigned __int64 uVar4;
-  int aiStack_60 [3];
-  int iStack_54;
-  unsigned char auStack_50 [16];
-  
-  uVar1 = (unsigned __int64)*(unsigned int *)(param_1 + 0x6f40);
-  if (uVar1 < 0xb) {
-    iVar2 = 0;
-    if (0 < (int)*(unsigned int *)(param_1 + 0x6f40)) {
-      piVar3 = &iStack_54;
-      uVar4 = uVar1;
-      do {
-        piVar3 = piVar3 + 1;
-        *piVar3 = iVar2;
-        iVar2 = iVar2 + 1;
-        uVar4 = uVar4 - 1;
-      } while (uVar4 != 0);
-    }
-  }
-  else {
-    aiStack_60[0] = param_1;
-    fn_829DE7F0(uVar1,10,aiStack_60,auStack_50);
-    uVar1 = 10;
-  }
-  *(int *)(param_2 + 0x37a0) = (int)uVar1;
-  if (uVar1 != 0) {
-    piVar3 = &iStack_54;
-    do {
-      piVar3 = piVar3 + 1;
-      memcpy(param_2,*piVar3 * 0x590 + param_1,0x590);
-      uVar1 = uVar1 - 1;
-      param_2 = param_2 + 0x590;
-    } while (uVar1 != 0);
-  }
-  return;
-}
+    unsigned int count = src->count;
+    unsigned int indices[10];
+    Ctx_829DEE48 ctx;
+    unsigned int n;
+    int i;
 
+    if (count > 10) {
+        ctx.source = src;
+        fn_829DE7F0(count, 10, &ctx, indices);
+        n = 10;
+    } else {
+        n = src->count;
+        for (i = 0; i < (int)n; i++)
+            indices[i] = i;
+    }
+    dst->count = n;
+    for (i = 0; (unsigned int)i < n; i++)
+        memcpy(&dst->items[i], &src->items[indices[i]], sizeof(Item_829DEE48));
+}

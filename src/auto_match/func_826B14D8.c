@@ -1,27 +1,34 @@
-extern int fn_826AF898();
-extern int fn_826B1330();
-extern unsigned int iStack0000001c;
-extern unsigned int stack0x0000001c;
+typedef struct Entry_826B14D8 {
+    int key;            /* 0x0 */
+    unsigned int value; /* 0x4 */
+} Entry_826B14D8;
 
+typedef struct Object_826B14D8 {
+    char pad0[0x8];
+    unsigned int slots[(0x278 - 0x8) / 4]; /* 0x008 */
+    char hash[0x8];                        /* 0x278 */
+} Object_826B14D8;
 
-unsigned int fn_826B14D8(__int64 param_1,int param_2)
+extern Entry_826B14D8 *fn_826AF898(void *hash, int *key);
+extern void fn_826B1330(Object_826B14D8 *self, unsigned int *slot);
 
+static __forceinline unsigned int *Find(void *hash, int *key)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  int iStack0000001c;
-  
-  iStack0000001c = param_2;
-  iVar1 = fn_826AF898(param_1 + 0x278,&stack0x0000001c);
-  puVar2 = (unsigned int *)(-(unsigned int)(iVar1 != 0) & iVar1 + 4U);
-  if (puVar2 == (unsigned int *)0x0) {
-    fn_826B1330(param_1,((unsigned __int64)(param_2 + 2) & 0x3fffffff) * 4 + param_1);
-    iVar1 = fn_826AF898(param_1 + 0x278,&stack0x0000001c);
-    puVar2 = (unsigned int *)(-(unsigned int)(iVar1 != 0) & iVar1 + 4U);
-    if (puVar2 == (unsigned int *)0x0) {
-      return 0;
-    }
-  }
-  return *puVar2;
+    Entry_826B14D8 *entry = fn_826AF898(hash, key);
+    return entry ? &entry->value : 0;
 }
 
+/* The key is passed by reference and still read from a register afterwards:
+   exact only when compiled together with the lookup and its callee. */
+unsigned int fn_826B14D8(Object_826B14D8 *self, int id)
+{
+    unsigned int *value = Find(self->hash, &id);
+    if (value == 0) {
+        fn_826B1330(self, &self->slots[id]);
+        value = Find(self->hash, &id);
+    }
+    if (value != 0) {
+        return *value;
+    }
+    return 0;
+}

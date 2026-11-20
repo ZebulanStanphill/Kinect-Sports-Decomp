@@ -1,22 +1,35 @@
-__int64 fn_829D6C98(int param_1)
+/* Takes the next free item of a locked pool: 0 when the cursor is at the end
+   or the slot is empty (an empty slot also closes the pool by moving the
+   cursor to the end). */
+typedef struct Pool_829D6C98 {
+    char lock[0x1c]; /* 0x0 */
+    int pad1c;
+    unsigned int next; /* 0x20 */
+    int pad24;
+    unsigned __int64 items[0x100]; /* 0x28 */
+} Pool_829D6C98;
 
+extern void RtlEnterCriticalSection(void *lock);
+extern void RtlLeaveCriticalSection(void *lock);
+
+unsigned __int64 fn_829D6C98(Pool_829D6C98 *self)
 {
-  unsigned int uVar1;
-  __int64 lVar2;
-  
-  RtlEnterCriticalSection();
-  uVar1 = *(unsigned int *)(param_1 + 0x20);
-  if (uVar1 < 0x100) {
-    lVar2 = *(__int64 *)((uVar1 + 5) * 8 + param_1);
-    if (lVar2 != 0) {
-      *(unsigned int *)(param_1 + 0x20) = uVar1 + 1;
-      goto LAB_829d6cc4;
-    }
-    *(unsigned int *)(param_1 + 0x20) = 0x100;
-  }
-  lVar2 = 0;
-LAB_829d6cc4:
-  RtlLeaveCriticalSection(param_1);
-  return lVar2;
-}
+    unsigned __int64 item;
+    unsigned int i;
 
+    RtlEnterCriticalSection(self->lock);
+    i = self->next;
+    if (i >= 0x100) {
+        RtlLeaveCriticalSection(self->lock);
+        return 0;
+    }
+    if (self->items[i] != 0) {
+        item = self->items[i];
+        self->next = i + 1;
+        RtlLeaveCriticalSection(self->lock);
+        return item;
+    }
+    self->next = 0x100;
+    RtlLeaveCriticalSection(self->lock);
+    return 0;
+}

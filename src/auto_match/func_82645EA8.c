@@ -1,67 +1,71 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_82645110();
+typedef struct Surface_82645EA8 Surface_82645EA8;
 
+typedef struct Device_82645EA8 {
+    char pad0[0x30];
+    unsigned int *cursor; /* 0x30 */
+    int pad34;
+    unsigned int *limit; /* 0x38 */
+    char pad3C[0x2ab4 - 0x3c];
+    unsigned int predication; /* 0x2ab4 */
+    int predicationCount;     /* 0x2ab8 */
+    unsigned char stateFlags; /* 0x2abc */
+    char pad2ABD[0x304b - 0x2abd];
+    unsigned char suspended; /* 0x304b */
+    char pad304C[0x3148 - 0x304c];
+    Surface_82645EA8 *targets[5]; /* 0x3148 */
+    char pad315C[0x3254 - 0x315c];
+    unsigned int tile; /* 0x3254 */
+    int x3258;         /* 0x3258 */
+    int tiling;        /* 0x325c */
+    char pad3260[0x3268 - 0x3260];
+    Surface_82645EA8 *savedTargets[5]; /* 0x3268 */
+} Device_82645EA8;
 
-void fn_82645EA8(int param_1,int param_2)
+extern unsigned int *fn_82645110(Device_82645EA8 *device);
 
+static __forceinline unsigned char TargetsUnchanged(Device_82645EA8 *device)
 {
-  unsigned char bVar1;
-  bool bVar2;
-  unsigned int uVar3;
-  unsigned char bVar4;
-  
-  if (param_2 != 0) {
-    *(int *)(param_1 + 0x3254) = param_2;
-    *(unsigned int *)(param_1 + 0x325c) = 1;
-    *(unsigned char *)(param_1 + 0x2abc) = *(unsigned char *)(param_1 + 0x2abc) & 0xfe;
-    goto LAB_82645fc8;
-  }
-  bVar1 = *(unsigned char *)(param_1 + 0x2abc);
-  *(unsigned int *)(param_1 + 0x325c) = 0;
-  if ((((bVar1 & 8) == 0) && ((bVar1 & 4) == 0)) && (*(char *)(param_1 + 0x304b) == '\0')) {
-    if ((bVar1 & 0x10) == 0) {
-      if (((((bVar1 & 0x20) == 0) ||
-           ((*(int *)(param_1 + 0x3268) != *(int *)(param_1 + 0x3148) &&
-            (*(int *)(param_1 + 0x3148) != 0)))) ||
-          ((*(int *)(param_1 + 0x326c) != *(int *)(param_1 + 0x314c) &&
-           (*(int *)(param_1 + 0x314c) != 0)))) ||
-         ((((*(int *)(param_1 + 0x3270) != *(int *)(param_1 + 0x3150) &&
-            (*(int *)(param_1 + 0x3150) != 0)) ||
-           ((*(int *)(param_1 + 0x3274) != *(int *)(param_1 + 0x3154) &&
-            (*(int *)(param_1 + 0x3154) != 0)))) ||
-          ((*(int *)(param_1 + 0x3278) != *(int *)(param_1 + 0x3158) &&
-           (*(int *)(param_1 + 0x3158) != 0)))))) {
-        bVar2 = false;
-      }
-      else {
-        bVar2 = true;
-      }
+    if ((device->stateFlags & 0x20) &&
+        (device->savedTargets[0] == device->targets[0] || device->targets[0] == 0) &&
+        (device->savedTargets[1] == device->targets[1] || device->targets[1] == 0) &&
+        (device->savedTargets[2] == device->targets[2] || device->targets[2] == 0) &&
+        (device->savedTargets[3] == device->targets[3] || device->targets[3] == 0) &&
+        (device->savedTargets[4] == device->targets[4] || device->targets[4] == 0)) {
+        return 1;
     }
-    else {
-      bVar2 = true;
-    }
-    bVar4 = 1;
-    if (!bVar2) goto LAB_82645f98;
-  }
-  else {
-LAB_82645f98:
-    bVar4 = 0;
-  }
-  *(unsigned char *)(param_1 + 0x2abc) = bVar4 | bVar1 & 0xfe;
-  *(unsigned int *)(param_1 + 0x3254) = 0xffffffff;
-LAB_82645fc8:
-  uVar3 = *(unsigned int *)(param_1 + 0x30);
-  *(unsigned int *)(param_1 + 0x3258) = 0;
-  *(int *)(param_1 + 0x2ab4) = param_2;
-  *(unsigned int *)(param_1 + 0x2ab8) = 0;
-  if (*(unsigned int *)(param_1 + 0x38) < uVar3) {
-    uVar3 = fn_82645110(param_1);
-  }
-  *(unsigned int *)(uVar3 + 4) = 0xc0006000;
-  *(unsigned int *)(uVar3 + 8) = *(unsigned int *)(param_1 + 0x3254);
-  *(unsigned int **)(param_1 + 0x30) = (unsigned int *)(uVar3 + 8);
-  return;
+    return 0;
 }
 
+static __forceinline unsigned char UsesSavedTargets(Device_82645EA8 *device)
+{
+    return (device->stateFlags & 0x10) ? 1 : TargetsUnchanged(device);
+}
+
+void fn_82645EA8(Device_82645EA8 *device, unsigned int tile)
+{
+    unsigned int *cursor;
+
+    if (tile == 0) {
+        device->tiling = 0;
+        device->stateFlags =
+            (device->stateFlags & 0xfe) | ((!(device->stateFlags & 8) && !(device->stateFlags & 4) &&
+                                            !device->suspended && UsesSavedTargets(device)) &
+                                           1);
+        device->tile = -1;
+        device->x3258 = 0;
+    } else {
+        device->tile = tile;
+        device->x3258 = 0;
+        device->tiling = 1;
+        device->stateFlags &= 0xfe;
+    }
+    device->predication = tile;
+    device->predicationCount = 0;
+    cursor = device->cursor;
+    if (cursor > device->limit) {
+        cursor = fn_82645110(device);
+    }
+    *++cursor = 0xc0006000;
+    *++cursor = device->tile;
+    device->cursor = cursor;
+}

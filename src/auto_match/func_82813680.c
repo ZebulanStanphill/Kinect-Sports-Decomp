@@ -1,31 +1,52 @@
-extern int fn_82813428();
+#define __lwsync() __emit(0x7C2004AC)
 
+typedef struct Node_82813680 {
+    struct Node_82813680 *next;
+} Node_82813680;
 
-void fn_82813680(__int64 *param_1,unsigned int *param_2)
+typedef union Tagged_82813680 {
+    __int64 value;
 
+    struct {
+        Node_82813680 *top;
+        unsigned int count;
+    } parts;
+} Tagged_82813680;
+
+typedef struct Stack_82813680 {
+    __int64 head;
+    __int64 pad8;
+    __int64 barrier;
+} Stack_82813680;
+
+typedef struct Swap_82813680 {
+    Tagged_82813680 old;
+    Node_82813680 *node;
+    Stack_82813680 *stack;
+} Swap_82813680;
+
+extern unsigned char fn_82813428(Swap_82813680 *swap);
+
+void fn_82813680(Stack_82813680 *stack, Node_82813680 *node)
 {
-  char cVar1;
-  __int64 lVar2;
-  __int64 lStack_30;
-  unsigned int *puStack_28;
-  __int64 *plStack_24;
-  
-  if (param_2 != (unsigned int *)0x0) {
-    do {
-      do {
-        lVar2 = *param_1;
-        lStack_30 = ((((unsigned __int64)(lStack_30)) & (~(((unsigned __int64)0xFFFFFFFF) << 0))) | ((((unsigned __int64)((unsigned int)((unsigned __int64)lVar2 >> 0x20))) & ((unsigned __int64)0xFFFFFFFF)) << 0));
-        *param_2 = (((unsigned __int64)(lStack_30) >> 0) & 0xFFFFFFFF);
-      } while (lVar2 != *param_1);
-      if (param_1[2] == 0) {
-        sync(1);
-      }
-      lStack_30 = lVar2;
-      puStack_28 = param_2;
-      plStack_24 = param_1;
-      cVar1 = fn_82813428(&lStack_30);
-    } while (cVar1 == '\0');
-  }
-  return;
-}
+    Swap_82813680 swap;
+    unsigned char same;
+    unsigned char needSync;
 
+    if (node == 0) {
+        return;
+    }
+    do {
+        do {
+            swap.stack = stack;
+            swap.old.value = stack->head;
+            node->next = swap.old.parts.top;
+            same = swap.old.value == swap.stack->head;
+        } while (!same);
+        needSync = stack->barrier == 0;
+        if (needSync) {
+            __lwsync();
+        }
+        swap.node = node;
+    } while (!fn_82813428(&swap));
+}

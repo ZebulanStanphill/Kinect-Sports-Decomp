@@ -1,28 +1,48 @@
-#define _uStack00000030 ((*(unsigned __int64*)&uStack00000030))
-#define _uStack00000038 ((*(unsigned __int64*)&uStack00000038))
-extern int fn_82441D38();
-extern unsigned int uStack00000030;
-extern unsigned int uStack00000034;
-extern unsigned int uStack00000038;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Position_82442848 {
+    float x;
+    float y;
+    float z;
+} Position_82442848;
 
-void fn_82442848(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4)
+typedef struct Listener_82442848 Listener_82442848;
 
+typedef struct ListenerVtbl_82442848 {
+    void (*slot0)(void);
+    void (*SetPosition)(Listener_82442848 *self, int mode, __vector4 value, Position_82442848 position);
+} ListenerVtbl_82442848;
+
+struct Listener_82442848 {
+    ListenerVtbl_82442848 *vt;
+};
+
+typedef struct Target_82442848 {
+    char pad00[0x60];
+    Position_82442848 position; /* 0x60 */
+    char pad6C[0xdc - 0x6c];
+    Listener_82442848 listener; /* 0xdc */
+} Target_82442848;
+
+typedef struct Self_82442848 {
+    char pad00[0x14];
+    Target_82442848 *target; /* 0x14 */
+} Self_82442848;
+
+extern void fn_82441D38(Self_82442848 *self, int mode, __vector4 value, Position_82442848 position);
+
+void fn_82442848(Self_82442848 *self, int mode, __vector4 value, Position_82442848 position)
 {
-  int iVar1;
-  unsigned int uStack00000030;
-  unsigned int uStack00000034;
-  unsigned int uStack00000038;
-  
-  _uStack00000030 = param_3;
-  _uStack00000038 = param_4;
-  fn_82441D38();
-  iVar1 = *(int *)(param_1 + 0x14);
-  *(unsigned int *)(iVar1 + 0x60) = uStack00000030;
-  *(unsigned int *)(iVar1 + 100) = uStack00000034;
-  *(unsigned int *)(iVar1 + 0x68) = uStack00000038;
-  (**(int (***)())(*(int *)(*(int *)(param_1 + 0x14) + 0xdc) + 4))
-            (*(int *)(param_1 + 0x14) + 0xdc,param_2,param_3,param_4 & 0xffffffff00000000);
-  return;
-}
+    Listener_82442848 *listener;
+    Position_82442848 *stored;
 
+    fn_82441D38(self, mode, value, position);
+    stored = &self->target->position;
+    stored->x = position.x;
+    stored->y = position.y;
+    stored->z = position.z;
+    listener = &self->target->listener;
+    listener->vt->SetPosition(listener, mode, value, position);
+}

@@ -1,48 +1,56 @@
-unsigned __int64 fn_8227EBB0(int param_1)
+typedef struct Item_8227EBB0 {
+    char pad0[0x18];
+    unsigned int priority; /* 0x18 */
+    char pad1C[0x6c - 0x1c];
+    unsigned int flagsPad : 30;
+    unsigned int disabled : 1; /* 0x6c, bit 1 */
+    unsigned int hidden : 1;   /* 0x6c, bit 0 */
+} Item_8227EBB0;
 
+typedef struct Manager_8227EBB0 {
+    char pad0[0xc];
+    Item_8227EBB0 **begin; /* 0xc */
+    Item_8227EBB0 **end;   /* 0x10 */
+    char pad14[0x2c - 0x14];
+    int current; /* 0x2c */
+} Manager_8227EBB0;
+
+int fn_8227EBB0(Manager_8227EBB0 *manager)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  unsigned int uVar5;
-  unsigned __int64 uVar6;
-  unsigned __int64 uVar7;
-  unsigned __int64 uVar8;
-  int *piVar9;
-  
-  uVar1 = *(unsigned int *)(param_1 + 0x2c);
-  uVar5 = 0;
-  uVar6 = 0xffffffffffffffff;
-  if (uVar1 != 0xffffffff) {
-    uVar6 = (unsigned __int64)*(unsigned int *)(*(int *)(uVar1 * 4 + *(int *)(param_1 + 0xc)) + 0x18) - 1;
-    uVar6 = ((uVar6 & 0xffffffff) >> 0x1f) - 1 & uVar6;
-  }
-  piVar9 = *(int **)(param_1 + 0xc);
-  uVar7 = 0;
-  uVar3 = 0xffffffffffffffff;
-  if (piVar9 != *(int **)(param_1 + 0x10)) {
-    do {
-      uVar8 = (unsigned __int64)*(unsigned int *)(*piVar9 + 0x6c);
-      uVar4 = uVar3;
-      if ((((~uVar8 & 0xffffffff) >> 1 & 1) != 0) && ((~uVar8 & 1) != 0)) {
-        uVar2 = *(unsigned int *)(*piVar9 + 0x18);
-        uVar4 = uVar7;
-        if ((unsigned __int64)uVar2 == (uVar6 & 0xffffffff)) break;
-        uVar4 = uVar3;
-        if ((uVar5 <= uVar2) && ((unsigned __int64)uVar2 < (uVar6 & 0xffffffff))) {
-          uVar4 = uVar7;
-          uVar5 = uVar2;
-        }
-      }
-      piVar9 = piVar9 + 1;
-      uVar7 = uVar7 + 1;
-      uVar3 = uVar4;
-    } while (piVar9 != *(int **)(param_1 + 0x10));
-    if ((int)uVar4 != -1) {
-      return uVar4;
-    }
-  }
-  return (unsigned __int64)uVar1;
-}
+    int current;
+    unsigned int best;
+    unsigned int limit;
+    unsigned int result;
+    unsigned int index;
+    unsigned int priority;
+    Item_8227EBB0 **it;
 
+    current = manager->current;
+    best = 0;
+    limit = 0xffffffff;
+    result = 0xffffffff;
+    if (current != -1) {
+        limit = manager->begin[current]->priority - 1;
+        if ((int)limit < 0) {
+            limit = 0;
+        }
+    }
+    index = 0;
+    for (it = manager->begin; it != manager->end; it++, index++) {
+        if ((unsigned char)!(*it)->disabled && (unsigned char)!(*it)->hidden) {
+            priority = (*it)->priority;
+            if (priority == limit) {
+                result = index;
+                break;
+            }
+            if (best <= priority && priority < limit) {
+                best = priority;
+                result = index;
+            }
+        }
+    }
+    if (result == 0xffffffff) {
+        result = current;
+    }
+    return result;
+}
