@@ -216,28 +216,6 @@ public:
 struct hkVersionRegistryUpdater;
 extern "C" hkVersionRegistryUpdater *lbl_832760A0[];   // hkVersionRegistry::StaticLinkedUpdaters (null-terminated)
 
-// hkStringMap's out-of-line members used by ~hkVersionRegistry (they keep
-// their fn_ names: Matching C units call them). isValid returns an hkBool,
-// so through a hidden result pointer.
-extern "C" {
-int fn_82CFFFC8(const void *map);                     // getIterator
-hkBool fn_82D002F0(const void *map, int it);          // isValid
-hkUlong fn_82D00020(const void *map, int it);         // getValue
-int fn_82D00060(const void *map, int it);             // getNext
-void fn_82D002A8(void *map);                          // clear
-}
-
-template <typename V>
-class hkStringMapI : public hkStringMapC<V> {
-public:
-    typedef int Iterator;
-    HK_FORCE_INLINE Iterator getIterator() const { return fn_82CFFFC8(this); }
-    HK_FORCE_INLINE hkBool isValid(Iterator it) const { return fn_82D002F0(this, it); }
-    HK_FORCE_INLINE V getValue(Iterator it) const { return (V)fn_82D00020(this, it); }
-    HK_FORCE_INLINE Iterator getNext(Iterator it) const { return fn_82D00060(this, it); }
-    HK_FORCE_INLINE void clear() { fn_82D002A8(this); }
-};
-
 // The updater list points at the static, null-terminated array: hkArray's
 // user-buffer constructor (size, capacity, DONT_DEALLOCATE_FLAG).
 template <typename T>
@@ -267,7 +245,7 @@ public:
     }
 
     hkArrayUserBuffer<const Updater *> m_updaters;                                 // +0x8
-    hkStringMapI<hkDynamicClassNameRegistry *> m_versionToClassNameRegistry;     // +0x14
+    hkStringMapC<hkDynamicClassNameRegistry *> m_versionToClassNameRegistry;     // +0x14
 };
 
 // hkRenamedClassNameRegistry (Common/Serialize/Util/hkRenamedClassNameRegistry.h,
@@ -301,7 +279,7 @@ public:
 
 hkVersionRegistry::~hkVersionRegistry()
 {
-    for (hkStringMapI<hkDynamicClassNameRegistry *>::Iterator it = m_versionToClassNameRegistry.getIterator();
+    for (hkStringMapC<hkDynamicClassNameRegistry *>::Iterator it = m_versionToClassNameRegistry.getIterator();
          m_versionToClassNameRegistry.isValid(it); it = m_versionToClassNameRegistry.getNext(it)) {
         m_versionToClassNameRegistry.getValue(it)->removeReferenceLockUnchecked();
     }

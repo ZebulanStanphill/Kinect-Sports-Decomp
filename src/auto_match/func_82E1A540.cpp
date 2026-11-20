@@ -1,5 +1,7 @@
 #include "havok/hkBase.h"
 
+typedef hkCachedHashMap<hkStringMapOperations> StringHashMap;
+
 struct Flag_82E1A540 {
 };
 
@@ -10,11 +12,7 @@ struct Entry_82E1A540 {
 
 extern "C" void fn_82CE63B0(hkMemoryAllocator *alloc, void *arr, int elemSize);
 extern "C" int fn_82CFBEB8(int name, hkMemoryAllocator *alloc);
-extern "C" int fn_82D00000(void *map, int it);
-extern "C" void fn_82D00040(void *map, int it, int v);
 extern "C" void fn_82D000A0(void *map, int key, int v);
-extern "C" int fn_82D001D8(void *map, int key);
-extern "C" hkBool fn_82D002F0(void *map, int it);
 extern "C" void fn_82D00388(void *map, Flag_82E1A540 flag);
 
 template <typename T> static HK_FORCE_INLINE void constructWithCopy(T *t, int n, const T &tcopy) { for (int i = 0; i < n; ++i) t[i] = tcopy; }
@@ -35,7 +33,7 @@ public:
 struct Obj_82E1A540 {
     int pad00[9];
     Entries_82E1A540 entries;
-    void *map;
+    StringHashMap *map;
 };
 
 extern "C" void fn_82E1A540(Obj_82E1A540 *self, int key, int name)
@@ -47,18 +45,18 @@ extern "C" void fn_82E1A540(Obj_82E1A540 *self, int key, int name)
         } else {
             mem = 0;
         }
-        self->map = mem;
+        self->map = static_cast<StringHashMap *>(mem);
     }
-    void *map = self->map;
-    int it = fn_82D001D8(map, name);
+    StringHashMap *map = self->map;
+    StringHashMap::Iterator it = map->findKey(name);
     int value;
-    hkBool valid = fn_82D002F0(map, it);
+    hkBool valid = map->isValid(it);
     if (!valid) {
         value = strDup(name, hkMemoryRouter::getInstance().heap());
         fn_82D000A0(map, value, 0);
     } else {
-        value = fn_82D00000(map, it);
-        fn_82D00040(map, it, 0);
+        value = map->getKey(it);
+        map->setValue(it, 0);
     }
     Entry_82E1A540 e;
     e.key = key;
