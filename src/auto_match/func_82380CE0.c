@@ -1,31 +1,26 @@
-#define NAN(x) ((x) != (x))
-extern unsigned int lbl_821954D8;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Object_82380CE0 {
+    char pad0[0x7c];
+    float speed0; // 0x7c
+    float speed1; // 0x80
+    float speed2; // 0x84
+    char pad88[0x14];
+    int stage1; // 0x9c
+    int stage2; // 0xa0
+    char padA4[0x164];
+    float speed;  // 0x208
+    int progress; // 0x20c
+} Object_82380CE0;
 
-
-double fn_82380CE0(int param_1)
-
+float fn_82380CE0(Object_82380CE0 *self)
 {
-  float fVar1;
-  double dVar2;
-  double dVar3;
-  
-  if (*(int *)(param_1 + 0xa0) + *(int *)(param_1 + 0x9c) < *(int *)(param_1 + 0x20c)) {
-    dVar2 = (double)*(float *)(param_1 + 0x84);
-  }
-  else if (*(int *)(param_1 + 0x9c) < *(int *)(param_1 + 0x20c)) {
-    dVar2 = (double)*(float *)(param_1 + 0x80);
-  }
-  else {
-    dVar2 = (double)*(float *)(param_1 + 0x7c);
-  }
-  fVar1 = (float)((double)*(float *)(param_1 + 0x208) - dVar2);
-  dVar3 = (double)*(float *)(param_1 + 0x208);
-  if (*(float *)(&lbl_821954D8 +
-                ((unsigned int)(unsigned char)((fVar1 < ltcg_pool_0_0f) << 2) |
-                (unsigned int)(NAN(fVar1) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
-    dVar3 = dVar2;
-  }
-  return dVar3;
-}
+    float minimum;
 
+    if (self->progress > self->stage2 + self->stage1) {
+        minimum = self->speed2;
+    } else if (self->progress > self->stage1) {
+        minimum = self->speed1;
+    } else {
+        minimum = self->speed0;
+    }
+    return self->speed - minimum >= 0.0f ? self->speed : minimum;
+}

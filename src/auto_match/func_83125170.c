@@ -1,36 +1,21 @@
-extern int fn_8265BF48();
-extern unsigned int lbl_82192330;
-extern unsigned int lbl_82195704;
-extern unsigned int lbl_82195EAC;
-extern unsigned int lbl_82195EB0;
-extern unsigned int lbl_83296D5C;
-extern unsigned int lbl_83296D60;
-extern unsigned int lbl_83296D64;
-extern unsigned int lbl_83296D68;
-extern unsigned int lbl_83296D6C;
-extern unsigned int lbl_83296D70;
-extern unsigned int lbl_83296D74;
-extern unsigned int lbl_83296D78;
-extern unsigned int lbl_83296D7C;
-extern unsigned int lbl_83296D80;
+typedef struct Intro_83125170 {
+    int movieId;    /* 0x0 */
+    float duration; /* 0x4 */
+} Intro_83125170;
 
+extern int fn_8265BF48(const char *name, int flags);
+extern Intro_83125170 lbl_83296D5C[];
 
 void fn_83125170(void)
-
 {
-  double dVar1;
-  
-  lbl_83296D5C = fn_8265BF48(0xffffffff821c4d80,0);
-  lbl_83296D60 = lbl_82192330;
-  lbl_83296D64 = fn_8265BF48(0xffffffff821c4d60,0);
-  dVar1 = (double)lbl_82195EAC;
-  lbl_83296D68 = lbl_82195EAC;
-  lbl_83296D6C = fn_8265BF48(0xffffffff821c4d38,0);
-  lbl_83296D70 = lbl_82195EB0;
-  lbl_83296D74 = fn_8265BF48(0xffffffff821c4d10,0);
-  lbl_83296D78 = lbl_82195704;
-  lbl_83296D7C = fn_8265BF48(0xffffffff821c4ce8,0);
-  lbl_83296D80 = (float)dVar1;
-  return;
+    lbl_83296D5C[0].movieId = fn_8265BF48("aid_xmv_banjox_levelintros_banjoland", 0);
+    lbl_83296D5C[0].duration = 50.0f;
+    lbl_83296D5C[1].movieId = fn_8265BF48("aid_xmv_banjox_levelintros_cpu", 0);
+    lbl_83296D5C[1].duration = 59.0f;
+    lbl_83296D5C[2].movieId = fn_8265BF48("aid_xmv_banjox_levelintros_logsolympics", 0);
+    lbl_83296D5C[2].duration = 61.16f;
+    lbl_83296D5C[3].movieId = fn_8265BF48("aid_xmv_banjox_levelintros_nuttyacres", 0);
+    lbl_83296D5C[3].duration = 58.0f;
+    lbl_83296D5C[4].movieId = fn_8265BF48("aid_xmv_banjox_levelintros_terrorium", 0);
+    lbl_83296D5C[4].duration = 59.0f;
 }
-

@@ -1,36 +1,39 @@
-typedef unsigned char bool;
-extern unsigned int lbl_821956B4;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct ModeControl_826385D0 {
+    unsigned int pad0 : 19;
+    unsigned int offsetBack : 1;  /* bit 12 */
+    unsigned int offsetFront : 1; /* bit 11 */
+    unsigned int pad1 : 11;
+} ModeControl_826385D0;
 
+typedef struct Device_826385D0 {
+    char pad0[0x10];
+    unsigned __int64 dirty; /* 0x10 */
+    char pad18[0x8];
+    unsigned __int64 dirtyStates; /* 0x20 */
+    char pad28[0x2948 - 0x28];
+    ModeControl_826385D0 mode; /* 0x2948 */
+    char pad294c[0x2a50 - 0x294c];
+    float frontOffset; /* 0x2a50 */
+    float frontScale;  /* 0x2a54 */
+    float backOffset;  /* 0x2a58 */
+    float backScale;   /* 0x2a5c */
+} Device_826385D0;
 
-void fn_826385D0(int param_1,float param_2)
-
+static __forceinline void SetDirty(unsigned __int64 *flags, unsigned __int64 bits)
 {
-  unsigned int uVar1;
-  float fVar2;
-  int iVar3;
-  int iVar4;
-  unsigned __int64 uVar5;
-  bool bVar6;
-  
-  fVar2 = ltcg_pool_0_0f;
-  param_2 = param_2 * lbl_821956B4;
-  if ((param_2 != ltcg_pool_0_0f) || (iVar3 = 0, *(float *)(param_1 + 0x2a54) != ltcg_pool_0_0f)) {
-    iVar3 = 1;
-  }
-  uVar1 = *(unsigned int *)(param_1 + 0x2948);
-  bVar6 = param_2 != ltcg_pool_0_0f;
-  *(unsigned int *)(param_1 + 0x2948) = iVar3 << 0xb | uVar1 & 0xfffff7ff;
-  if ((bVar6) || (iVar4 = 0, *(float *)(param_1 + 0x2a5c) != fVar2)) {
-    iVar4 = 1;
-  }
-  *(float *)(param_1 + 0x2a50) = param_2;
-  *(float *)(param_1 + 0x2a58) = param_2;
-  *(unsigned int *)(param_1 + 0x2948) = iVar4 << 0xc | iVar3 << 0xb | uVar1 & 0xffffe7ff;
-  uVar5 = *(unsigned __int64 *)(param_1 + 0x20);
-  *(unsigned __int64 *)(param_1 + 0x20) = uVar5 | 0x200000000000;
-  *(unsigned __int64 *)(param_1 + 0x20) = uVar5 | 0x280000000000;
-  *(unsigned __int64 *)(param_1 + 0x10) = *(unsigned __int64 *)(param_1 + 0x10) | 0x40;
-  return;
+    *flags |= bits;
 }
 
+/* Sets the depth bias (a float passed as its bits) for front and back faces. */
+void fn_826385D0(Device_826385D0 *device, unsigned int value)
+{
+    float bias = *(float *)&value * 16.0f;
+
+    device->mode.offsetFront = bias != 0.0f || device->frontScale != 0.0f;
+    device->mode.offsetBack = bias != 0.0f || device->backScale != 0.0f;
+    device->frontOffset = bias;
+    device->backOffset = bias;
+    SetDirty(&device->dirtyStates, 0x200000000000);
+    SetDirty(&device->dirtyStates, 0x80000000000);
+    SetDirty(&device->dirty, 0x40);
+}

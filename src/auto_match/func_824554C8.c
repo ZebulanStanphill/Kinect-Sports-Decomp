@@ -1,33 +1,58 @@
-extern int fn_824556F0();
-extern int fn_8254E7D8();
-extern unsigned int lbl_82192734;
-extern unsigned int lbl_82195530;
-extern unsigned int lbl_821CA460;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __VMXGetReg(int n);
 
-void fn_824554C8(int param_1)
+typedef struct Anim_824554C8 {
+    int f0;
+    void *active; /* 0x004 */
+    char pad8[0x1c4];
+    int f1CC;   /* 0x1cc */
+    float f1D0; /* 0x1d0 */
+    int f1D4;   /* 0x1d4 */
+    char pad1D8[8];
+    float f1E0; /* 0x1e0 */
+} Anim_824554C8;
 
+typedef struct Self_824554C8 {
+    char pad0[0xc];
+    char fC[0x60]; /* 0x0c */
+    float speed;   /* 0x6c */
+    char pad70[0xc];
+    Anim_824554C8 *anim; /* 0x7c */
+    char pad80[0x10];
+    int initialized; /* 0x90 */
+} Self_824554C8;
+
+void fn_824556F0(Self_824554C8 *self, void *data);
+void fn_8254E7D8(Anim_824554C8 *anim, float a, float b, float c, __vector4 v);
+
+static __forceinline void Blend(Anim_824554C8 *anim, float speed, __vector4 zero)
 {
-  int iVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  
-  if (*(int *)(param_1 + 0x90) == 0) {
-    fn_824556F0(param_1,param_1 + 0xc);
-    *(unsigned int *)(param_1 + 0x90) = 1;
-  }
-  if (*(int *)(*(int *)(param_1 + 0x7c) + 4) != 0) {
-    fn_8254E7D8((double)lbl_82195530,(double)*(float *)(param_1 + 0x6c));
-  }
-  iVar1 = *(int *)(param_1 + 0x7c);
-  if (*(int *)(iVar1 + 4) != 0) {
-    *(unsigned int *)(iVar1 + 0x1d4) = 0;
-    uVar2 = lbl_82192734;
-    *(unsigned int *)(iVar1 + 0x1cc) = 0;
-    uVar3 = lbl_821CA460;
-    *(unsigned int *)(iVar1 + 0x1d0) = uVar2;
-    *(unsigned int *)(iVar1 + 0x1e0) = uVar3;
-  }
-  return;
+    if (anim->active != 0) {
+        fn_8254E7D8(anim, 3.402823466e+38f, speed, speed, zero);
+    }
 }
 
+void fn_824554C8(Self_824554C8 *self)
+{
+    Anim_824554C8 *anim;
+    float rate;
+    float weight;
+
+    if (self->initialized == 0) {
+        fn_824556F0(self, self->fC);
+        self->initialized = 1;
+    }
+    Blend(self->anim, self->speed, __VMXGetReg(77));
+    anim = self->anim;
+    if (anim->active != 0) {
+        anim->f1D4 = 0;
+        rate = -1.0f;
+        anim->f1CC = 0;
+        weight = 1.0f;
+        anim->f1D0 = rate;
+        anim->f1E0 = weight;
+    }
+}
