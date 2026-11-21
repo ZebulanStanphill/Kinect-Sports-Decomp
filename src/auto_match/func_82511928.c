@@ -1,57 +1,68 @@
-extern unsigned int *puRam83297814;
-#define true 1
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-extern int fn_82511A50();
-extern int fn_82A1BB18();
-extern int atexit();
-extern __int64 lRam83297818;
-extern unsigned int lbl_832977D0;
-extern unsigned int lbl_83297810;
-extern unsigned int uRam832977cc;
-extern unsigned __int64 storeDoubleWordConditionalIndexed();
+#define __lwsync() __emit(0x7C2004AC)
 
+void __emit(unsigned int opcode);
+__int64 _InterlockedCompareExchange64(__int64 volatile *dest, __int64 exchange, __int64 comparand);
 
-unsigned int * fn_82511928(void)
+typedef struct Service_82511928 Service_82511928;
 
+typedef struct ServiceVtbl_82511928 {
+    void (*slot0)(Service_82511928 *self);
+    void (*initialize)(Service_82511928 *self); /* 0x04 */
+} ServiceVtbl_82511928;
+
+struct Service_82511928 {
+    ServiceVtbl_82511928 *vt; /* 0x00 */
+};
+
+typedef union Owner_82511928 {
+    __int64 value;
+
+    struct {
+        unsigned int thread;
+        unsigned int count;
+    } parts;
+} Owner_82511928;
+
+extern unsigned int fn_82A1BB18(void);
+extern Service_82511928 *fn_82511A50(void);
+extern void fn_8313F038(void);
+extern int atexit(void (*func)(void));
+
+extern unsigned int lbl_832977CC;
+extern Service_82511928 lbl_832977D0;
+extern Service_82511928 *lbl_83297810;
+/* volatile: published under the lock and re-read after every store (double-checked init) */
+extern Service_82511928 *volatile lbl_83297814;
+extern __int64 volatile lbl_83297818;
+
+Service_82511928 *fn_82511928(void)
 {
-  __int64 lVar1;
-  unsigned int uVar2;
-  __int64 lVar3;
+    Owner_82511928 owner;
+    __int64 previous;
+    Service_82511928 *service;
 
-  uVar2 = fn_82A1BB18();
-  lVar1 = CONCAT44(uVar2,1);
-  lVar3 = lRam83297818;
-  if (lRam83297818 == 0) {
-    lRam83297818 = storeDoubleWordConditionalIndexed(lVar1,0,0xffffffff83297818);
-  }
-  else {
-    lRam83297818 = storeDoubleWordConditionalIndexed(lRam83297818,0,0xffffffff83297818);
-  }
-  while( true ) {
-    if (lVar3 == lVar1) {
-      return puRam83297814;
+    owner.parts.thread = fn_82A1BB18();
+    owner.parts.count = 1;
+    for (;;) {
+        previous = _InterlockedCompareExchange64(&lbl_83297818, owner.value, 0);
+        if (previous == owner.value)
+            return lbl_83297814;
+        if (previous == 0)
+            break;
     }
-    if (lVar3 == 0) break;
-    lVar3 = lRam83297818;
-    if (lRam83297818 == 0) {
-      lRam83297818 = storeDoubleWordConditionalIndexed(lVar1,0,0xffffffff83297818);
+    __lwsync();
+    if (lbl_83297810 == 0) {
+        if ((lbl_832977CC & 1) == 0) {
+            lbl_832977CC |= 1;
+            fn_82511A50();
+            atexit(fn_8313F038);
+        }
+        lbl_83297814 = &lbl_832977D0;
+        service = lbl_83297814;
+        service->vt->initialize(service);
+        lbl_83297810 = lbl_83297814;
+        __lwsync();
     }
-    else {
-      lRam83297818 = storeDoubleWordConditionalIndexed(lRam83297818,0,0xffffffff83297818);
-    }
-  }
-  sync(1);
-  if (lbl_83297810 == (unsigned int *)0x0) {
-    if ((uRam832977cc & 1) == 0) {
-      uRam832977cc = uRam832977cc | 1;
-      fn_82511A50();
-      atexit(0xffffffff8313f038);
-    }
-    puRam83297814 = &lbl_832977D0;
-    (**(int (***)())(lbl_832977D0 + 4))();
-    lbl_83297810 = puRam83297814;
-    sync(1);
-  }
-  lRam83297818 = 0;
-  return lbl_83297810;
+    lbl_83297818 = 0;
+    return lbl_83297810;
 }

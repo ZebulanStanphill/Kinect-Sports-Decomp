@@ -1,64 +1,73 @@
-extern int fn_824560A0();
-extern int fn_8252CAF8();
-extern int fn_825327A8();
+typedef struct String_82456250 {
+    union {
+        char *ptr;
+        char buf[16];
+    } u; /* 0x0 */
 
+    unsigned int size;     /* 0x10 */
+    unsigned int capacity; /* 0x14 */
+    int pad18;
+} String_82456250;
 
-void fn_82456250(unsigned int *param_1,int param_2)
+typedef struct Layer_82456250 {
+    void *animation;      /* 0x0 */
+    String_82456250 name; /* 0x4 */
+    char pad20[0x3c - 0x20];
+    int playing; /* 0x3c */
+    char pad40[0x6c - 0x40];
+} Layer_82456250;
 
+typedef struct Self_82456250 {
+    Layer_82456250 layers[3]; /* 0x0 */
+    int state;                /* 0x144 */
+    int first;                /* 0x148 */
+    int second;               /* 0x14c */
+    int blended;              /* 0x150 */
+    int speed;                /* 0x154 */
+    int blend;                /* 0x158 */
+    int swapped;              /* 0x15c */
+} Self_82456250;
+
+extern void fn_825327A8(void *animation, const char *name);
+extern void fn_8252CAF8(void *animation, int play, int flags);
+extern void fn_824560A0(Layer_82456250 *layer, int clip, int loop, int speed, int forward, int blend);
+
+static __forceinline const char *CStr(String_82456250 *s)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  unsigned int *puVar3;
-  
-  if (param_2 == 1) {
-    puVar3 = param_1 + 1;
-    if (0xf < (unsigned int)param_1[6]) {
-      puVar3 = (unsigned int *)*puVar3;
+    if (s->capacity >= 0x10) {
+        return s->u.ptr;
     }
-    fn_825327A8(*param_1,puVar3);
-    fn_8252CAF8(*param_1,1,0);
-    param_1[0xf] = 1;
-    puVar3 = param_1 + 0x1c;
-    if (0xf < (unsigned int)param_1[0x21]) {
-      puVar3 = (unsigned int *)*puVar3;
-    }
-    fn_825327A8(param_1[0x1b],puVar3);
-    fn_8252CAF8(param_1[0x1b],1,0);
-    param_1[0x2a] = 1;
-    puVar3 = param_1 + 0x37;
-    if (0xf < (unsigned int)param_1[0x3c]) {
-      puVar3 = (unsigned int *)*puVar3;
-    }
-    fn_825327A8(param_1[0x36],puVar3);
-    fn_8252CAF8(param_1[0x36],1,0);
-    param_1[0x45] = 1;
-  }
-  else if (param_2 == 2) {
-    if (param_1[0x54] == 0) {
-      fn_824560A0(param_1,param_1[0x52],0,param_1[0x55],1,param_1[0x56]);
-      fn_824560A0(param_1 + 0x1b,param_1[0x52],1,param_1[0x55],1,param_1[0x56]);
-      uVar2 = 0;
-    }
-    else {
-      if (param_1[0x57] == 0) {
-        uVar1 = param_1[0x53];
-      }
-      else {
-        uVar1 = param_1[0x52];
-      }
-      fn_824560A0(param_1,uVar1,0,param_1[0x55],param_1[0x57],param_1[0x56]);
-      if (param_1[0x57] == 0) {
-        uVar1 = param_1[0x52];
-      }
-      else {
-        uVar1 = param_1[0x53];
-      }
-      fn_824560A0(param_1 + 0x1b,uVar1,0,param_1[0x55],param_1[0x57] == 0,param_1[0x56]);
-      uVar2 = 1;
-    }
-    fn_824560A0(param_1 + 0x36,param_1[0x52],uVar2,param_1[0x55],1,param_1[0x56]);
-  }
-  param_1[0x51] = param_2;
-  return;
+    return s->u.buf;
 }
 
+static __forceinline void Play(Layer_82456250 *layer)
+{
+    fn_825327A8(layer->animation, CStr(&layer->name));
+    fn_8252CAF8(layer->animation, 1, 0);
+    layer->playing = 1;
+}
+
+void fn_82456250(Self_82456250 *self, int state)
+{
+    switch (state) {
+    case 1:
+        Play(&self->layers[0]);
+        Play(&self->layers[1]);
+        Play(&self->layers[2]);
+        break;
+    case 2:
+        if (self->blended != 0) {
+            fn_824560A0(&self->layers[0], self->swapped != 0 ? self->first : self->second, 0, self->speed,
+                        self->swapped, self->blend);
+            fn_824560A0(&self->layers[1], self->swapped != 0 ? self->second : self->first, 0, self->speed,
+                        self->swapped == 0, self->blend);
+            fn_824560A0(&self->layers[2], self->first, 1, self->speed, 1, self->blend);
+        } else {
+            fn_824560A0(&self->layers[0], self->first, 0, self->speed, 1, self->blend);
+            fn_824560A0(&self->layers[1], self->first, 1, self->speed, 1, self->blend);
+            fn_824560A0(&self->layers[2], self->first, 0, self->speed, 1, self->blend);
+        }
+        break;
+    }
+    self->state = state;
+}

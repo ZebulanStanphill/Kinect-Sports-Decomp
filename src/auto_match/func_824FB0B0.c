@@ -1,36 +1,55 @@
-extern int fn_82528FA8();
-extern unsigned int lbl_82005748;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int uStack_18;
-extern unsigned int uStack_1c;
-extern unsigned int uStack_20;
+typedef struct Vec3_824FB0B0 {
+    float x;
+    float y;
+    float z;
+} Vec3_824FB0B0;
 
+typedef struct Actor_824FB0B0 {
+    char pad0[0x2b0];
+    float range; /* 0x2b0 */
+    char pad2b4[0xb70 - 0x2b4];
+    int state; /* 0xb70 */
+    char padb74[0xba0 - 0xb74];
+    unsigned char visible; /* 0xba0 */
+    unsigned char active;  /* 0xba1 */
+} Actor_824FB0B0;
 
-void fn_824FB0B0(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5)
+typedef struct Name_824FB0B0 {
+    const char *text; /* 0x00 */
+} Name_824FB0B0;
 
+typedef struct Self_824FB0B0 {
+    char pad0[0x20];
+    Actor_824FB0B0 *current; /* 0x20 */
+    char pad24[0x1b8 - 0x24];
+    Actor_824FB0B0 *actor; /* 0x1b8 */
+    int pad1bc;
+    Name_824FB0B0 name; /* 0x1c0 */
+} Self_824FB0B0;
+
+extern const float lbl_821962C0[4];
+extern const float lbl_821CA45C[2];
+
+extern Actor_824FB0B0 *fn_82528FA8(void *scene, Name_824FB0B0 *name, const float *orientation,
+                                   Vec3_824FB0B0 *position, float scale, int flags);
+
+void fn_824FB0B0(Self_824FB0B0 *self, void *scene)
 {
-  int iVar1;
-  struct { unsigned int first; unsigned int second; } stack_pair_20;
+    Vec3_824FB0B0 position;
+    Actor_824FB0B0 *actor;
 
-  unsigned int uStack_18;
-  
-  if (*(int *)(param_1 + 0x1c0) != 0) {
-    stack_pair_20.first = ltcg_pool_0_0f;
-    stack_pair_20.second = ltcg_pool_0_0f;
-    uStack_18 = ltcg_pool_0_0f;
-    iVar1 = fn_82528FA8((double)lbl_821CA460,param_2,param_1 + 0x1c0,0xffffffff821962c0,
-                              &stack_pair_20.first,param_5,0);
-    if (iVar1 != 0) {
-      *(int *)(param_1 + 0x1b8) = iVar1;
-      *(unsigned int *)(iVar1 + 0x2b0) = lbl_82005748;
-      *(unsigned int *)(*(int *)(param_1 + 0x1b8) + 0xb70) = 2;
-      *(unsigned char *)(*(int *)(param_1 + 0x1b8) + 0xba0) = 0;
-      *(unsigned char *)(*(int *)(param_1 + 0x1b8) + 0xba1) = 0;
-      *(int *)(param_1 + 0x20) = iVar1;
+    if (self->name.text != 0) {
+        position.x = 0.0f;
+        position.y = 0.0f;
+        position.z = 0.0f;
+        actor = fn_82528FA8(scene, &self->name, lbl_821962C0, &position, lbl_821CA45C[1], 0);
+        if (actor != 0) {
+            self->actor = actor;
+            actor->range = 100.0f;
+            self->actor->state = 2;
+            self->actor->visible = 0;
+            self->actor->active = 0;
+            self->current = actor;
+        }
     }
-  }
-  return;
 }
-

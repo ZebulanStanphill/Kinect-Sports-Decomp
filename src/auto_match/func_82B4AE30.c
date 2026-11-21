@@ -1,97 +1,147 @@
-extern int fn_82AA66A8();
-extern int fn_82ABE9F0();
-extern int fn_82F68CC0();
+typedef struct Value_82B4AE30 {
+    int pad0;
+    int kind; /* 0x04: 0xb */
+    char pad8[0x8];
+    unsigned int index; /* 0x10 */
+    char pad14[0x18];
+    unsigned int flags; /* 0x2c */
+} Value_82B4AE30;
 
+typedef struct Item_82B4AE30 {
+    int pad0;
+    int kind; /* 0x04: 6 */
+    char pad8[0x8];
+    int count; /* 0x10 */
+    int pad14;
+    Value_82B4AE30 *value; /* 0x18 */
+} Item_82B4AE30;
 
-void fn_82B4AE30(int param_1,int param_2,int param_3,int param_4,int param_5)
+typedef struct Node_82B4AE30 {
+    int pad0;
+    int kind;                   /* 0x04: 1 */
+    Item_82B4AE30 *item;        /* 0x08 */
+    struct Node_82B4AE30 *next; /* 0x0c */
+} Node_82B4AE30;
 
+typedef struct Info_82B4AE30 {
+    char pad0[0x10];
+    unsigned int keep; /* 0x10 */
+    char pad14[0x18];
+    Node_82B4AE30 *list; /* 0x2c */
+} Info_82B4AE30;
+
+typedef struct Entry_82B4AE30 {
+    unsigned int pad0 : 15;
+    unsigned int count : 14; /* slots, 8 bytes each */
+    unsigned int pad0b : 3;
+    unsigned int pad4 : 29;
+    unsigned int shared : 1;
+    unsigned int pad4b : 2;
+    char pad8[0x20];
+} Entry_82B4AE30;
+
+typedef struct Pool_82B4AE30 {
+    char pad0[0xc];
+    Entry_82B4AE30 *entries; /* 0x0c */
+    int pad10;
+    unsigned int count; /* 0x14 */
+} Pool_82B4AE30;
+
+typedef struct Ctx_82B4AE30 {
+    char pad0[0xc];
+    Entry_82B4AE30 *entries; /* 0x0c */
+} Ctx_82B4AE30;
+
+typedef struct Slot_82B4AE30 {
+    unsigned int pad0 : 31;
+    unsigned int bound : 1;
+    unsigned int owner : 15;
+    unsigned int flag : 1;
+    unsigned int index : 14;
+    unsigned int kind : 2;
+} Slot_82B4AE30;
+
+typedef struct Holder_82B4AE30 {
+    char pad0[0x50];
+    Slot_82B4AE30 **slots; /* 0x50 */
+} Holder_82B4AE30;
+
+extern __declspec(noreturn) void fn_82AA66A8(void *ctx, int code, ...);
+extern void *fn_82ABE9F0(Pool_82B4AE30 *pool, unsigned int size, int flags);
+extern void *memcpy(void *dst, const void *src, unsigned int size);
+
+static __forceinline Node_82B4AE30 *AsNode(void *ctx, Node_82B4AE30 *n)
 {
-  int *piVar1;
-  unsigned int uVar2;
-  int iVar3;
-  unsigned int uVar4;
-  int iVar6;
-  unsigned __int64 uVar5;
-  int iVar7;
-  unsigned int uVar8;
-  unsigned int *puVar9;
-  unsigned int uVar10;
-  int iVar11;
-  int *piVar12;
-  
-  piVar1 = *(int **)(param_3 + 0x50);
-  if (piVar1 != (int *)0x0) {
-    uVar2 = *(unsigned int *)(param_5 + 0x14);
-    iVar6 = fn_82ABE9F0(param_5,uVar2 << 2,0);
-    uVar10 = 0;
-    if (uVar2 != 0) {
-      iVar11 = 0;
-      piVar12 = piVar1;
-      do {
-        if (*piVar12 != 0) {
-          if (uVar10 == *(unsigned int *)(param_4 + 0x10)) {
-LAB_82b4af44:
-            *(int *)((iVar6 - (int)piVar1) + (int)piVar12) = *piVar12;
-            *piVar12 = 0;
-          }
-          else {
-            iVar7 = *(int *)(param_4 + 0x2c);
-            if ((iVar7 != 0) && (*(int *)(iVar7 + 4) != 1)) {
-                    /* WARNING: Subroutine does not return */
-              fn_82AA66A8(param_1,0x12c1);
-            }
-            if (iVar7 != 0) {
-              do {
-                iVar3 = *(int *)(iVar7 + 8);
-                if (*(int *)(iVar3 + 4) == 6) {
-                  if (*(int *)(iVar3 + 0x10) != 1) {
-                    /* WARNING: Subroutine does not return */
-                    fn_82AA66A8(param_1,0x12c1);
-                  }
-                  iVar3 = *(int *)(iVar3 + 0x18);
-                  if ((iVar3 == 0) || (*(int *)(iVar3 + 4) != 0xb)) {
-                    /* WARNING: Subroutine does not return */
-                    fn_82AA66A8(param_1,0x12c1);
-                  }
-                  if (((*(unsigned int *)(iVar3 + 0x2c) & 0x20) != 0) && (uVar10 == *(unsigned int *)(iVar3 + 0x10))
-                     ) break;
-                }
-                iVar7 = *(int *)(iVar7 + 0xc);
-                if ((iVar7 != 0) && (*(int *)(iVar7 + 4) != 1)) {
-                    /* WARNING: Subroutine does not return */
-                  fn_82AA66A8(param_1,0x12c1);
-                }
-              } while (iVar7 != 0);
-              if (iVar7 != 0) goto LAB_82b4af44;
-            }
-            uVar8 = *(unsigned int *)(*(int *)(param_5 + 0xc) + iVar11) & 0x1fff8;
-            uVar5 = fn_82ABE9F0(param_5,uVar8,0);
-            fn_82F68CC0(uVar5,*piVar12,uVar8);
-            *(int *)((iVar6 - (int)piVar1) + (int)piVar12) = (int)uVar5;
-            if ((*(unsigned int *)(*(int *)(param_5 + 0xc) + iVar11 + 4) >> 2 & 1) != 0) {
-              uVar8 = 0;
-              if ((*(unsigned int *)(iVar11 + *(int *)(param_1 + 0xc)) & 0x1fff8) != 0) {
-                iVar7 = 0;
-                do {
-                  puVar9 = (unsigned int *)(iVar7 + *piVar12);
-                  iVar7 = iVar7 + 8;
-                  *puVar9 = *puVar9 | 1;
-                  uVar4 = uVar8 & 0x3fff;
-                  uVar8 = uVar8 + 1;
-                  puVar9[1] = uVar4 << 2 | puVar9[1] & 0x10000 | uVar10 << 0x11;
-                } while (uVar8 < (*(unsigned int *)(iVar11 + *(int *)(param_1 + 0xc)) >> 3 & 0x3fff));
-              }
-            }
-          }
-        }
-        uVar10 = uVar10 + 1;
-        piVar12 = piVar12 + 1;
-        iVar11 = iVar11 + 0x28;
-      } while (uVar10 < uVar2);
-    }
-    *(int **)(param_2 + 0x50) = piVar1;
-    *(int *)(param_3 + 0x50) = iVar6;
-  }
-  return;
+    if (n != 0 && n->kind != 1)
+        fn_82AA66A8(ctx, 0x12c1);
+    return n;
 }
 
+static __forceinline Value_82B4AE30 *AsValue(void *ctx, Value_82B4AE30 *v)
+{
+    if (v == 0 || v->kind != 0xb)
+        fn_82AA66A8(ctx, 0x12c1);
+    return v;
+}
+
+static __forceinline Node_82B4AE30 *FindUse(Ctx_82B4AE30 *ctx, Info_82B4AE30 *info, unsigned int index)
+{
+    Node_82B4AE30 *node;
+    Value_82B4AE30 *value;
+
+    for (node = AsNode(ctx, info->list); node != 0; node = AsNode(ctx, node->next)) {
+        if (node->item->kind == 6) {
+            if (node->item->count != 1)
+                fn_82AA66A8(ctx, 0x12c1);
+            value = AsValue(ctx, node->item->value);
+            if ((value->flags & 0x20) != 0 && index == value->index)
+                break;
+        }
+    }
+    return node;
+}
+
+void fn_82B4AE30(Ctx_82B4AE30 *ctx, Holder_82B4AE30 *oldHolder, Holder_82B4AE30 *holder, Info_82B4AE30 *info,
+                 Pool_82B4AE30 *pool)
+{
+    Slot_82B4AE30 **slots = holder->slots;
+    Slot_82B4AE30 **copies;
+    unsigned int count;
+    unsigned int i;
+    unsigned int j;
+    unsigned int size;
+    Slot_82B4AE30 *copy;
+    Slot_82B4AE30 *slot;
+
+    if (slots == 0)
+        return;
+    count = pool->count;
+    copies = (Slot_82B4AE30 **)fn_82ABE9F0(pool, count * 4, 0);
+    for (i = 0; i < count; i++) {
+        if (slots[i] == 0)
+            continue;
+        if (i == info->keep) {
+            copies[i] = slots[i];
+            slots[i] = 0;
+        } else if (FindUse(ctx, info, i) != 0) {
+            copies[i] = slots[i];
+            slots[i] = 0;
+        } else {
+            size = pool->entries[i].count * 8;
+            copy = (Slot_82B4AE30 *)fn_82ABE9F0(pool, size, 0);
+            memcpy(copy, slots[i], size);
+            copies[i] = copy;
+            if ((unsigned char)pool->entries[i].shared != 0) {
+                for (j = 0; j < ctx->entries[i].count; j++) {
+                    slot = &slots[i][j];
+                    slot->bound = 1;
+                    slot->kind = 0;
+                    slot->owner = i;
+                    slot->index = j;
+                }
+            }
+        }
+    }
+    oldHolder->slots = slots;
+    holder->slots = copies;
+}

@@ -1,67 +1,88 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern V16 vectorConditionalSelect();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __VMXGetReg(int n);
+__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
+__vector4 __vmsum4fp(__vector4 a, __vector4 b);
 
-bool fn_825ED6A8(int param_1,int *param_2)
+extern const __vector4 lbl_82196750;
 
+typedef struct Cfg_825ED6A8 {
+    char pad0[0x90];
+    int f90; /* 0x90 */
+} Cfg_825ED6A8;
+
+typedef struct Body_825ED6A8 {
+    Cfg_825ED6A8 *cfg; /* 0x00 */
+    int pad4[3];
+    __vector4 position; /* 0x10 */
+    float radius;       /* 0x20 */
+    int pad24[21];
+    unsigned int flags[1]; /* 0x78 */
+} Body_825ED6A8;
+
+typedef struct Arg_825ED6A8 {
+    Body_825ED6A8 *body; /* 0x00 */
+    int pad4[3];
+    int valid; /* 0x10 */
+} Arg_825ED6A8;
+
+typedef struct Plane_825ED6A8 {
+    __vector4 plane; /* 0x00 */
+    char pad10[0x1f0];
+} Plane_825ED6A8;
+
+typedef struct Owner_825ED6A8 {
+    char pad0[0x30];
+    int mode; /* 0x30 */
+    char pad34[0x11c];
+    Plane_825ED6A8 planes[5]; /* 0x150 */
+    char padB50[0x8c];
+    unsigned char enabled; /* 0xbdc */
+} Owner_825ED6A8;
+
+typedef struct Self_825ED6A8 {
+    int pad0;
+    Owner_825ED6A8 *owner; /* 0x04 */
+    int pad8[2];
+    int index; /* 0x10 */
+    int pad14[7];
+    int side; /* 0x30 */
+} Self_825ED6A8;
+
+static __forceinline unsigned char IsActive(Owner_825ED6A8 *owner)
 {
-  float fVar1;
-  float fVar2;
-  float *pfVar3;
-  bool bVar4;
-  int in_r0;
-  int iVar5;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs44 [16];
-  unsigned char in_vs45 [16];
-  float in_register_00010430;
-  float in_register_00010434;
-  float in_register_00010438;
-  float in_vr67;
-  float afStack_10 [4];
-  
-  if (param_2[4] == 0) {
-    return false;
-  }
-  param_2 = (int *)*param_2;
-  if ((param_2[*(int *)(param_1 + 0x10) + 0x1e] & 0x20U) == 0) {
-    if ((*(int *)(*param_2 + 0x90) != 0) && (*(char *)(*(int *)(param_1 + 4) + 0xbdc) == '\0')) {
-      return false;
-    }
-    iVar5 = *(int *)(param_1 + 4);
-    if ((*(int *)(iVar5 + 0x30) != 1) || (bVar4 = true, *(char *)(iVar5 + 0xbdc) == '\0')) {
-      bVar4 = false;
-    }
-    if (bVar4) {
-      fVar1 = (float)param_2[8];
-      vectorConditionalSelect(in_vs45,in_vs32,in_vs44);
-      pfVar3 = (float *)(*(int *)(param_1 + 0x10) * 0x200 + iVar5 + 0x150U & 0xfffffff0);
-      fVar2 = in_register_00010430 * *pfVar3 + in_register_00010434 * pfVar3[1] +
-              in_register_00010438 * pfVar3[2] + in_vr67 * pfVar3[3];
-      pfVar3 = (float *)((int)afStack_10 + in_r0 & 0xfffffff0);
-      *pfVar3 = fVar2;
-      pfVar3[1] = fVar2;
-      pfVar3[2] = fVar2;
-      pfVar3[3] = fVar2;
-      if (afStack_10[0] <= fVar1) {
-        iVar5 = 0;
-        if (-fVar1 <= afStack_10[0]) {
-          iVar5 = 2;
-        }
-      }
-      else {
-        iVar5 = 1;
-      }
-      iVar5 = *(int *)(param_1 + 0x30) - iVar5;
-    }
-    else {
-      iVar5 = *(int *)(param_1 + 0x30) + -2;
-    }
-    return iVar5 == 0;
-  }
-  return false;
+    return owner->mode == 1 && owner->enabled != 0;
 }
 
+static __forceinline int Classify(Owner_825ED6A8 *owner, int index, Body_825ED6A8 *body)
+{
+    __vector4 mask = __VMXGetReg(67);
+    float radius = body->radius;
+    __vector4 point = __vsel(body->position, lbl_82196750, mask);
+    __vector4 d = __vmsum4fp(point, owner->planes[index].plane);
+    float dist = d.vector4_f32[0];
+
+    if (dist > radius)
+        return 1;
+    if (dist < -radius)
+        return 0;
+    return 2;
+}
+
+int fn_825ED6A8(Self_825ED6A8 *self, Arg_825ED6A8 *arg)
+{
+    Body_825ED6A8 *body;
+
+    if (arg->valid == 0)
+        return 0;
+    body = arg->body;
+    if ((body->flags[self->index] & 0x20) != 0)
+        return 0;
+    if (body->cfg->f90 != 0 && self->owner->enabled == 0)
+        return 0;
+    if (!IsActive(self->owner))
+        return self->side == 2;
+    return Classify(self->owner, self->index, body) == self->side;
+}

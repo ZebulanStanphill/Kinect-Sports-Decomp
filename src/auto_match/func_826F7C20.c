@@ -1,71 +1,93 @@
-typedef unsigned char bool;
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_80;
-extern int fn_8267BE38();
-extern int fn_8267C4F0();
-extern int fn_8268B330();
-extern int fn_826933E8();
-extern int fn_826EF268();
-extern int fn_826EFBA8();
-extern int fn_826EFDB8();
-extern int fn_82F6C9F8();
-extern unsigned int lbl_8200C4D4;
-extern unsigned int uStack_58;
-extern unsigned __int64 storeWordConditionalIndexed();
+typedef struct StringData_826F7C20 {
+    unsigned int size; /* 0x0 */
+    long refCount;     /* 0x4 */
+    char text[1];      /* 0x8 */
+} StringData_826F7C20;
 
+typedef struct String_826F7C20 {
+    unsigned int tagged; /* 0x0 */
+} String_826F7C20;
 
-__int64 fn_826F7C20(int param_1)
+typedef struct Formatter_826F7C20 {
+    char pad0[0xc];
+    void *streamVtbl; /* 0xc */
+    char pad10[0x8];
+    char *text; /* 0x18 */
+    char pad1c[0x30];
+} Formatter_826F7C20;
 
+typedef struct Settings_826F7C20 Settings_826F7C20;
+
+typedef struct SettingsVtbl_826F7C20 {
+    void *slot0;
+    void (*get)(Settings_826F7C20 *self, const char *key, String_826F7C20 *value); /* 0x4 */
+    void (*set)(Settings_826F7C20 *self, const char *key, const char *value);      /* 0x8 */
+} SettingsVtbl_826F7C20;
+
+struct Settings_826F7C20 {
+    SettingsVtbl_826F7C20 *vtbl; /* 0x0 */
+    char pad4[0x8];
+    int loaded; /* 0xc */
+};
+
+typedef struct Registry_826F7C20 Registry_826F7C20;
+
+typedef struct RegistryVtbl_826F7C20 {
+    void *slots[3];
+    Settings_826F7C20 *(*find)(Registry_826F7C20 *self, int id); /* 0xc */
+} RegistryVtbl_826F7C20;
+
+struct Registry_826F7C20 {
+    RegistryVtbl_826F7C20 *vtbl;
+};
+
+typedef struct Game_826F7C20 {
+    char pad0[0x8];
+    Registry_826F7C20 registry; /* 0x8 */
+    char padC[0xa9c];
+    __int64 startTime; /* 0xaa8 */
+} Game_826F7C20;
+
+extern char lbl_8200C4D4[];
+extern long _InterlockedExchangeAdd(long volatile *value, long add);
+extern void fn_8267C4F0(Settings_826F7C20 *settings);
+extern unsigned __int64 fn_826933E8(void);
+extern void fn_826EFBA8(Formatter_826F7C20 *formatter, __int64 value);
+extern void fn_826EFDB8(Formatter_826F7C20 *formatter);
+extern void fn_826EF268(Formatter_826F7C20 *formatter);
+extern void fn_8268B330(String_826F7C20 *string);
+extern __int64 fn_82F6C9F8(const char *text, char **end, int base);
+extern void fn_8267BE38(void *block);
+
+__int64 fn_826F7C20(Game_826F7C20 *self)
 {
-  unsigned int uVar1;
-  int *piVar3;
-  unsigned __int64 uVar2;
-  __int64 lVar4;
-  unsigned int *puVar5;
-  __int64 lVar6;
-  char in_RESERVE;
-  unsigned char bVar7;
-  unsigned int auStack_80 [4];
-  unsigned char auStack_70 [12];
-  unsigned char **ppuStack_64;
-  unsigned int uStack_58;
-  
-  piVar3 = (int *)(**(int (***)())(*(int *)(param_1 + 8) + 0xc))(param_1 + 8,0x24);
-  bVar7 = (piVar3 == (int *)0x0) << 1;
-  if (piVar3 == (int *)0x0) {
-    uVar2 = fn_826933E8();
-    lVar6 = uVar2 / 1000 - *(__int64 *)(param_1 + 0xaa8);
-  }
-  else {
-    fn_8267C4F0(piVar3);
-    if (piVar3[3] == 0) {
-      uVar2 = fn_826933E8();
-      lVar6 = uVar2 / 1000 - *(__int64 *)(param_1 + 0xaa8);
-      fn_826EFBA8(auStack_70,lVar6);
-      fn_826EFDB8(auStack_70);
-      (**(int (***)())(*piVar3 + 8))(piVar3,0xffffffff8200dbc4,uStack_58);
-      ppuStack_64 = &lbl_8200C4D4;
-      fn_826EF268(auStack_70);
-    }
-    else {
-      fn_8268B330(auStack_80);
-      (**(int (***)())(*piVar3 + 4))(piVar3,0xffffffff8200dbc4,auStack_80);
-      lVar6 = fn_82F6C9F8(((unsigned __int64)auStack_80[0] & 0xfffffffc) + 8,0,10);
-      lVar4 = ((unsigned __int64)auStack_80[0] & 0xfffffffc) + 4;
-      do {
-        puVar5 = (unsigned int *)lVar4;
-        uVar2 = (unsigned __int64)*puVar5;
-        if (in_RESERVE != '\0') {
-          uVar1 = storeWordConditionalIndexed(uVar2 - 1,0,lVar4);
-          *puVar5 = uVar1;
-          bVar7 = 2;
-        }
-      } while (!(bool)(bVar7 >> 1 & 1));
-      if (uVar2 == 1) {
-        fn_8267BE38();
-      }
-    }
-  }
-  return lVar6;
-}
+    Settings_826F7C20 *settings;
+    __int64 time;
+    Formatter_826F7C20 formatter;
+    String_826F7C20 value;
+    StringData_826F7C20 *data;
 
+    settings = self->registry.vtbl->find(&self->registry, 0x24);
+    if (settings != 0) {
+        fn_8267C4F0(settings);
+        if (settings->loaded == 0) {
+            time = fn_826933E8() / 1000 - self->startTime;
+            fn_826EFBA8(&formatter, time);
+            fn_826EFDB8(&formatter);
+            settings->vtbl->set(settings, "timer", formatter.text);
+            formatter.streamVtbl = lbl_8200C4D4;
+            fn_826EF268(&formatter);
+        } else {
+            fn_8268B330(&value);
+            settings->vtbl->get(settings, "timer", &value);
+            time = fn_82F6C9F8(((StringData_826F7C20 *)(value.tagged & ~3u))->text, 0, 10);
+            data = (StringData_826F7C20 *)(value.tagged & ~3u);
+            if (_InterlockedExchangeAdd(&data->refCount, -1) - 1 == 0) {
+                fn_8267BE38(data);
+            }
+        }
+    } else {
+        time = fn_826933E8() / 1000 - self->startTime;
+    }
+    return time;
+}

@@ -1,56 +1,40 @@
-extern unsigned int fStack_58;
-extern unsigned int fStack_5c;
-extern unsigned int fStack_60;
-extern int fn_82810328();
-extern unsigned int lbl_82005C88;
-extern unsigned int lbl_821CA1A0;
-extern unsigned int lbl_821CA1A4;
-extern unsigned int lbl_821CA1A8;
+typedef struct Vec3_82874AE0 {
+    float x;
+    float y;
+    float z;
+} Vec3_82874AE0;
 
+typedef struct Points_82874AE0 {
+    char pad00[0x14];
+    int count;            /* 0x14 */
+    Vec3_82874AE0 *begin; /* 0x18 */
+    Vec3_82874AE0 *end;   /* 0x1c */
+} Points_82874AE0;
 
-float * fn_82874AE0(float *param_1,int param_2,unsigned __int64 param_3)
+extern const Vec3_82874AE0 lbl_821CA1A0;
+extern void fn_82810328(const Vec3_82874AE0 *a, const Vec3_82874AE0 *b, Vec3_82874AE0 *out);
 
+/* Returns the offset from the nearest point to the given position. */
+Vec3_82874AE0 fn_82874AE0(Points_82874AE0 *self, const Vec3_82874AE0 *position)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  unsigned __int64 uVar4;
-  double dVar5;
-  double dVar6;
-  struct { float first; float second; } stack_pair_60;
+    Vec3_82874AE0 best;
+    Vec3_82874AE0 offset;
+    Vec3_82874AE0 *point;
+    float bestDistance;
+    float distance;
 
-  float fStack_58;
-  
-  fVar2 = lbl_821CA1A8;
-  fVar3 = lbl_821CA1A4;
-  if (*(int *)(param_2 + 0x14) == 0) {
-    *param_1 = lbl_821CA1A0;
-    param_1[1] = fVar3;
-    param_1[2] = fVar2;
-  }
-  else {
-    uVar4 = (unsigned __int64)*(unsigned int *)(param_2 + 0x18);
-    dVar6 = (double)lbl_82005C88;
-    fVar3 = lbl_821CA1A0;
-    fVar2 = lbl_821CA1A4;
-    fVar1 = lbl_821CA1A8;
-    if (uVar4 != *(unsigned int *)(param_2 + 0x1c)) {
-      do {
-        fn_82810328(param_3,uVar4,&stack_pair_60.first);
-        dVar5 = (double)(stack_pair_60.first * stack_pair_60.first + fStack_58 * fStack_58 + stack_pair_60.second * stack_pair_60.second);
-        if (dVar5 < dVar6) {
-          dVar6 = dVar5;
-          fVar3 = stack_pair_60.first;
-          fVar2 = stack_pair_60.second;
-          fVar1 = fStack_58;
-        }
-        uVar4 = uVar4 + 0xc;
-      } while ((uVar4 & 0xffffffff) != (unsigned __int64)*(unsigned int *)(param_2 + 0x1c));
+    if (self->count == 0) {
+        return lbl_821CA1A0;
     }
-    *param_1 = fVar3;
-    param_1[1] = fVar2;
-    param_1[2] = fVar1;
-  }
-  return param_1;
+    best = lbl_821CA1A0;
+    bestDistance = 3.402823466e+38f;
+    for (point = self->begin; point != self->end; point++) {
+        fn_82810328(position, point, &offset);
+        distance = offset.x * offset.x + offset.y * offset.y + offset.z * offset.z;
+        if (distance < bestDistance) {
+            bestDistance = distance;
+            best = offset;
+        }
+    }
+    return best;
 }
-

@@ -1,46 +1,35 @@
-unsigned __int64 fn_82920870(int param_1,unsigned int param_2,int param_3,int param_4,int param_5,int param_6)
-
+/* Halves a 32-bit image in both directions, averaging each 2x2 block (rounded). */
+int fn_82920870(unsigned int *dst, unsigned char *src, unsigned int width, unsigned int height,
+                unsigned int pitch, int dstPitch)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned int *puVar3;
-  unsigned int *puVar4;
-  __int64 lVar5;
-  unsigned int uVar6;
-  unsigned int *puVar7;
-  unsigned int *puVar8;
-  unsigned int uVar9;
-  unsigned int uVar10;
-  
-  uVar9 = param_4 * param_5 + param_2;
-  if (param_2 < uVar9) {
-    uVar10 = param_3 * 4 + param_2;
-    do {
-      if (param_2 < uVar10) {
-        puVar8 = (unsigned int *)(param_2 + 4);
-        puVar7 = (unsigned int *)(param_1 + -4);
-        lVar5 = (unsigned __int64)((uVar10 - param_2) - 1 >> 3) + 1;
-        do {
-          uVar2 = *(unsigned int *)(param_5 + -4 + (int)puVar8);
-          puVar3 = puVar8 + -1;
-          puVar4 = (unsigned int *)((int)puVar8 + param_5);
-          uVar1 = *puVar8;
-          uVar6 = (*puVar3 & 0xff00ff) + (uVar2 & 0xff00ff) + (*puVar4 & 0xff00ff) +
-                  (uVar1 & 0xff00ff) + 0x20002;
-          puVar8 = puVar8 + 2;
-          puVar7 = puVar7 + 1;
-          *puVar7 = uVar6 >> 2 & 0xff0000 |
-                    uVar6 >> 2 & 0xff |
-                    (*puVar3 >> 2 & 0x3fc03fc0) + (uVar2 >> 2 & 0x3fc03fc0) +
-                    (*puVar4 >> 2 & 0x3fc03fc0) + (uVar1 >> 2 & 0x3fc03fc0) + 0x800080 & 0xff00ff00;
-          lVar5 = lVar5 + -1;
-        } while (lVar5 != 0);
-      }
-      param_2 = param_5 * 2 + param_2;
-      param_1 = param_1 + param_6;
-      uVar10 = uVar10 + param_5 * 2;
-    } while (param_2 < uVar9);
-  }
-  return 0;
-}
+    unsigned char *end = src + height * pitch;
 
+    if (src < end) {
+        do {
+            unsigned char *rowEnd = src + width * 4;
+            unsigned int *out = dst;
+            unsigned char *p;
+
+            for (p = src; p < rowEnd; p += 8) {
+                unsigned char *next = p + 4;
+                unsigned int topRight = *(unsigned int *)next;
+                unsigned int bottomRight = *(unsigned int *)(next + pitch);
+                unsigned int bottomLeft = *(unsigned int *)(p + pitch);
+                unsigned int topLeft = *(unsigned int *)p;
+                unsigned int low;
+                unsigned int high;
+
+                /* red and blue sums, rounded */
+                low = (topLeft & 0xff00ff) + (bottomLeft & 0xff00ff) + (bottomRight & 0xff00ff) +
+                      (topRight & 0xff00ff) + 0x20002;
+                /* green and alpha sums, already divided by four */
+                high = ((topLeft >> 2) & 0x3fc03fc0) + ((bottomLeft >> 2) & 0x3fc03fc0) +
+                       ((bottomRight >> 2) & 0x3fc03fc0) + ((topRight >> 2) & 0x3fc03fc0) + 0x800080;
+                *out++ = ((low >> 2) & 0xff00ff) | (high & 0xff00ff00);
+            }
+            dst = (unsigned int *)((unsigned char *)dst + dstPitch);
+            src += pitch * 2;
+        } while (src < end);
+    }
+    return 0;
+}

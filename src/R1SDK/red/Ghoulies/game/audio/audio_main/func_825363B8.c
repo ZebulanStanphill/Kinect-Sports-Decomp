@@ -1,73 +1,103 @@
-extern unsigned int *auStack_110;
-extern unsigned int *auStack_80;
-extern unsigned int *auStack_a4;
-extern unsigned int *auStack_c0;
-extern unsigned int *auStack_f0;
-extern unsigned int fStack_f4;
-extern int fn_82230300();
-extern int fn_8223B688();
-extern int fn_82864898();
-extern int fn_828648F0();
-extern unsigned int *lbl_8327F868;
+typedef struct String_825363B8 {
+    char data[0x1c];
+} String_825363B8;
 
+typedef struct Variant_825363B8 {
+    char data[0x24];
+} Variant_825363B8;
 
-unsigned __int64 fn_825363B8(int *param_1,int *param_2,unsigned int *param_3)
+typedef struct Rtpc_825363B8 {
+    String_825363B8 name; /* 0x00 */
+    float value;          /* 0x1c */
+} Rtpc_825363B8;
 
+typedef struct Switch_825363B8 {
+    String_825363B8 group; /* 0x00 */
+    String_825363B8 state; /* 0x1c */
+} Switch_825363B8;
+
+typedef struct RtpcList_825363B8 {
+    Rtpc_825363B8 *begin;
+    Rtpc_825363B8 *end;
+    Rtpc_825363B8 *last;
+} RtpcList_825363B8;
+
+typedef struct SwitchList_825363B8 {
+    Switch_825363B8 *begin;
+    Switch_825363B8 *end;
+    Switch_825363B8 *last;
+} SwitchList_825363B8;
+
+typedef struct Logger_825363B8 Logger_825363B8;
+
+typedef struct LoggerVtbl_825363B8 {
+    void *slots[2];
+    void (*Log)(Logger_825363B8 *self, const char *file, int line, const char *message); /* 0x08 */
+} LoggerVtbl_825363B8;
+
+struct Logger_825363B8 {
+    LoggerVtbl_825363B8 *vt;
+};
+
+typedef struct Audio_825363B8 Audio_825363B8;
+
+typedef struct AudioVtbl_825363B8 {
+    void *slots0[10];
+    int (*SetRTPCValue)(Audio_825363B8 *self, Variant_825363B8 *name, float value); /* 0x28 */
+    void *slots1[1];
+    int (*SetSwitch)(Audio_825363B8 *self, Variant_825363B8 *group, Variant_825363B8 *state); /* 0x30 */
+} AudioVtbl_825363B8;
+
+struct Audio_825363B8 {
+    AudioVtbl_825363B8 *vt;
+};
+
+extern Logger_825363B8 *lbl_8327F868;
+
+extern void fn_8223B688(String_825363B8 *self, const String_825363B8 *source);
+extern void fn_82230300(String_825363B8 *self, unsigned char built, unsigned int size);
+extern Variant_825363B8 *fn_828648F0(Variant_825363B8 *self, const String_825363B8 *name);
+extern void fn_82864898(Variant_825363B8 *self);
+
+int fn_825363B8(Audio_825363B8 *self, RtpcList_825363B8 *rtpcs, SwitchList_825363B8 *switches)
 {
-  int iVar1;
-  unsigned char bVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  unsigned __int64 uVar6;
-  int iVar7;
-  double dVar8;
-  unsigned char auStack_110 [28];
-  float fStack_f4;
-  unsigned char auStack_f0 [48];
-  unsigned char auStack_c0 [28];
-  unsigned char auStack_a4 [36];
-  unsigned char auStack_80 [128];
-  
-  iVar7 = *param_2;
-  bVar2 = 0;
-  if (iVar7 != param_2[1]) {
-    do {
-      fn_8223B688(auStack_110,iVar7);
-      fStack_f4 = *(float *)(iVar7 + 0x1c);
-      dVar8 = (double)fStack_f4;
-      iVar1 = *param_1;
-      uVar3 = fn_828648F0(auStack_f0,auStack_110);
-      uVar4 = (**(int (***)())(iVar1 + 0x28))(dVar8,param_1,uVar3);
-      fn_82864898(auStack_f0);
-      if ((uVar4 & 0xffffffff) >> 0x1f != 0) {
-        (**(int (***)())(*lbl_8327F868 + 8))(lbl_8327F868,0xffffffff821c3b18,0xabb,0xffffffff821c3ecc);
-        bVar2 = 1;
-      }
-      fn_82230300(auStack_110,1,0);
-      iVar7 = iVar7 + 0x20;
-    } while (iVar7 != param_2[1]);
-  }
-  uVar4 = (unsigned __int64)*param_3;
-  if (uVar4 != param_3[1]) {
-    do {
-      fn_8223B688(auStack_c0,uVar4);
-      fn_8223B688(auStack_a4,uVar4 + 0x1c);
-      iVar7 = *param_1;
-      uVar3 = fn_828648F0(auStack_80,auStack_a4);
-      uVar5 = fn_828648F0(auStack_f0,auStack_c0);
-      uVar6 = (**(int (***)())(iVar7 + 0x30))(param_1,uVar5,uVar3);
-      fn_82864898(auStack_f0);
-      fn_82864898(auStack_80);
-      if ((uVar6 & 0xffffffff) >> 0x1f != 0) {
-        (**(int (***)())(*lbl_8327F868 + 8))(lbl_8327F868,0xffffffff821c3b18,0xac6,0xffffffff821c3ee4);
-        bVar2 = 1;
-      }
-      fn_82230300(auStack_a4,1,0);
-      fn_82230300(auStack_c0,1,0);
-      uVar4 = uVar4 + 0x38;
-    } while ((uVar4 & 0xffffffff) != (unsigned __int64)param_3[1]);
-  }
-  return -(unsigned __int64)bVar2 & 0xffffffff80004005;
-}
+    Rtpc_825363B8 rtpcEntry;
+    Variant_825363B8 first;
+    Switch_825363B8 switchEntry;
+    Variant_825363B8 second;
+    unsigned char failed = 0;
+    unsigned char error;
+    Rtpc_825363B8 *rtpc;
+    Switch_825363B8 *sw;
 
+    for (rtpc = rtpcs->begin; rtpc != rtpcs->end; rtpc++) {
+        fn_8223B688(&rtpcEntry.name, &rtpc->name);
+        rtpcEntry.value = rtpc->value;
+        error = self->vt->SetRTPCValue(self, fn_828648F0(&first, &rtpcEntry.name), rtpcEntry.value) < 0;
+        fn_82864898(&first);
+        if (error) {
+            lbl_8327F868->vt->Log(
+                lbl_8327F868, "D:\\Work\\R1SDK\\Olympus_testing\\red\\Ghoulies\\game\\audio\\audio_main.cpp",
+                0xabb, "Failed to SetRTPCValue\n");
+            failed = 1;
+        }
+        fn_82230300(&rtpcEntry.name, 1, 0);
+    }
+    for (sw = switches->begin; sw != switches->end; sw++) {
+        fn_8223B688(&switchEntry.group, &sw->group);
+        fn_8223B688(&switchEntry.state, &sw->state);
+        error = self->vt->SetSwitch(self, fn_828648F0(&first, &switchEntry.group),
+                                    fn_828648F0(&second, &switchEntry.state)) < 0;
+        fn_82864898(&first);
+        fn_82864898(&second);
+        if (error) {
+            lbl_8327F868->vt->Log(
+                lbl_8327F868, "D:\\Work\\R1SDK\\Olympus_testing\\red\\Ghoulies\\game\\audio\\audio_main.cpp",
+                0xac6, "Failed to SetSwitch\n");
+            failed = 1;
+        }
+        fn_82230300(&switchEntry.state, 1, 0);
+        fn_82230300(&switchEntry.group, 1, 0);
+    }
+    return failed ? 0x80004005 : 0;
+}

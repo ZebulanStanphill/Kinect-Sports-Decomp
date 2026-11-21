@@ -1,46 +1,59 @@
-extern unsigned int *auStack_38;
-extern int fn_824FAC80();
-extern int fn_8251F720();
-extern int fn_8255F880();
-extern int fn_8255F8D0();
-extern int fn_827F2D60();
-extern unsigned int iStack_3c;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int uStack_40;
+typedef struct Temporary_8255F880 {
+    int a; /* 0x0 */
+    int b; /* 0x4 */
+} Temporary_8255F880;
 
+typedef struct Source_824FAB98 {
+    unsigned int first;  /* 0x0 */
+    unsigned int second; /* 0x4 */
+} Source_824FAB98;
 
-void fn_824FAB98(int param_1)
+typedef struct Animation_824FAB98 {
+    void *table;        /* 0x0 */
+    void *player;       /* 0x4 */
+    unsigned int value; /* 0x8 */
+    unsigned int blend; /* 0xc */
+} Animation_824FAB98;
 
+typedef struct Self_824FAB98 {
+    char pad000[0x70];
+    int state; /* 0x70 */
+    char pad074[0x200 - 0x74];
+    Animation_824FAB98 animation; /* 0x200 */
+    int count;                    /* 0x210 */
+    unsigned int firsts[5];       /* 0x214 */
+    unsigned int seconds[5];      /* 0x228 */
+} Self_824FAB98;
+
+extern float lbl_821CA45C[2];
+extern void fn_8255F880(Temporary_8255F880 *temporary, Source_824FAB98 *source);
+extern unsigned int fn_8255F8D0(Temporary_8255F880 *temporary, float low, float high, int flags);
+extern unsigned int fn_8251F720(unsigned int *second, int flags);
+extern void fn_827F2D60(void *player, unsigned int value, float time, int mode, int flags);
+extern int fn_824FAC80(Self_824FAB98 *self, float time, Animation_824FAB98 *animation);
+
+void fn_824FAB98(Self_824FAB98 *self)
 {
-  int iVar1;
-  unsigned int uVar2;
-  double dVar3;
-  unsigned int uStack_40;
-  int iStack_3c;
-  unsigned char auStack_38 [56];
-  
-  uStack_40 = *(unsigned int *)((*(int *)(param_1 + 0x210) + 0x84) * 4 + param_1);
-  iVar1 = *(int *)((*(int *)(param_1 + 0x210) + 0x89) * 4 + param_1);
-  iStack_3c = iVar1;
-  fn_8255F880(auStack_38,&uStack_40);
-  dVar3 = (double)ltcg_pool_0_0f;
-  uVar2 = fn_8255F8D0(dVar3,(double)lbl_821CA460,auStack_38);
-  *(unsigned int *)(param_1 + 0x208) = uVar2;
-  if (*(int *)(param_1 + 0x20c) == 0) {
-    if (iVar1 == 0) {
-      *(unsigned int *)(param_1 + 0x20c) = 0;
-    }
-    else {
-      uVar2 = fn_8251F720(&iStack_3c,0);
-      *(unsigned int *)(param_1 + 0x20c) = uVar2;
-    }
-  }
-  if (*(int *)(param_1 + 0x208) != 0) {
-    fn_827F2D60(dVar3,*(unsigned int *)(param_1 + 0x204));
-  }
-  fn_824FAC80(dVar3,param_1);
-  *(unsigned int *)(param_1 + 0x70) = 2;
-  return;
-}
+    Source_824FAB98 source;
+    Temporary_8255F880 temporary;
+    Animation_824FAB98 *animation = &self->animation;
+    unsigned int second;
 
+    source.first = self->firsts[self->count - 1];
+    second = self->seconds[self->count - 1];
+    source.second = second;
+    fn_8255F880(&temporary, &source);
+    animation->value = fn_8255F8D0(&temporary, 0.0f, lbl_821CA45C[1], 1);
+    if (animation->blend == 0) {
+        if (second != 0) {
+            animation->blend = fn_8251F720(&source.second, 0);
+        } else {
+            animation->blend = 0;
+        }
+    }
+    if (animation->value != 0) {
+        fn_827F2D60(animation->player, animation->value, 0.0f, 0x12, 0);
+    }
+    fn_824FAC80(self, 0.0f, animation);
+    self->state = 2;
+}

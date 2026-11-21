@@ -1,54 +1,35 @@
-typedef unsigned char bool;
-#define true 1
-extern int fn_828E9D90();
-extern int fn_828E9DA8();
-extern int fn_828E9FF8();
-extern unsigned int lbl_82002AE0;
+typedef struct BitReader_828E5538 BitReader_828E5538;
 
+extern int fn_828E9DA8(BitReader_828E5538 *reader);
+extern int fn_828E9D90(BitReader_828E5538 *reader);
+extern unsigned int fn_828E9FF8(BitReader_828E5538 *reader, int bits);
 
-double fn_828E5538(unsigned __int64 param_1,__int64 param_2,__int64 param_3)
-
+static __forceinline unsigned int ReadBits(BitReader_828E5538 *reader, int bits)
 {
-  unsigned __int64 uVar1;
-  int iVar3;
-  int iVar4;
-  __int64 lVar2;
-  unsigned int uVar5;
-  int iVar6;
-  bool bVar7;
-  double dVar8;
-  
-  uVar5 = (unsigned int)param_3;
-  bVar7 = true;
-  if ((int)uVar5 < 0) {
-    dVar8 = (double)(lbl_82002AE0 / (float)(__int64)(1 << (-uVar5 & 0x3f)));
-  }
-  else {
-    dVar8 = (double)(__int64)(1 << (uVar5 & 0x3f));
-  }
-  uVar1 = 0;
-  iVar6 = (int)(param_2 + param_3);
-  if (0 < iVar6) {
-    iVar3 = fn_828E9DA8(param_1);
-    iVar4 = fn_828E9D90(param_1);
-    if (iVar3 - iVar4 < 1) {
-      lVar2 = 0;
+    if (bits <= fn_828E9DA8(reader) - fn_828E9D90(reader)) {
+        return fn_828E9FF8(reader, bits);
     }
-    else {
-      lVar2 = fn_828E9FF8(param_1,1);
-    }
-    bVar7 = lVar2 != 0;
-    iVar3 = fn_828E9DA8(param_1);
-    iVar4 = fn_828E9D90(param_1);
-    if (iVar3 - iVar4 < iVar6) {
-      uVar1 = 0;
-    }
-    else {
-      uVar1 = fn_828E9FF8(param_1,param_2 + param_3);
-    }
-  }
-  return (double)(float)((double)(__int64)
-                                 ((__int64)(int)((-(unsigned int)bVar7 & 2) - 1) * (uVar1 & 0xffffffff)) /
-                        dVar8);
+    return 0;
 }
 
+/* Reads a sign bit and a fixed-point magnitude of intBits + fracBits bits. */
+float fn_828E5538(BitReader_828E5538 *reader, int intBits, int fracBits)
+{
+    int total = intBits + fracBits;
+    unsigned char positive;
+    unsigned int value;
+    float scale;
+
+    if (fracBits >= 0) {
+        scale = (float)(1 << fracBits);
+    } else {
+        scale = 1.0f / (float)(1 << -fracBits);
+    }
+    positive = 1;
+    value = 0;
+    if (total > 0) {
+        positive = ReadBits(reader, 1) != 0;
+        value = ReadBits(reader, total);
+    }
+    return (float)((__int64)(positive ? 1 : -1) * value) / scale;
+}

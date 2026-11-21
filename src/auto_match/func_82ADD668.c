@@ -1,78 +1,97 @@
-#define true 1
-extern int fn_82AA66A8();
-extern int fn_82ADD198();
+typedef struct Range_82ADD668 {
+    unsigned int pad : 13;
+    unsigned int count : 3;  /* bits 16-18 */
+    unsigned int start : 16; /* low half */
+} Range_82ADD668;
 
+typedef struct Inst_82ADD668 {
+    char pad00[0x8];
+    unsigned int pad08 : 27;
+    unsigned int writeMask : 4; /* bits 1-4 */
+    unsigned int pad08b : 1;
+    char pad0c[0x10 - 0x0c];
+    Range_82ADD668 range; /* 0x10 */
+} Inst_82ADD668;
 
-void fn_82ADD668(int param_1,int param_2)
+typedef struct Value_82ADD668 {
+    unsigned __int64 *used[4]; /* 0x00: one bit set per register, per slot */
+    char pad10[0xc0 - 0x10];
+    unsigned int pad0 : 10;
+    unsigned int swizzle : 8; /* bits 14-21: two bits per slot */
+    unsigned int pad1 : 11;
+    unsigned int slots : 3; /* bits 0-2 */
+} Value_82ADD668;
 
+typedef struct Ctx_82ADD668 {
+    char pad[0x2b0];
+    Value_82ADD668 **values; /* 0x2b0 */
+} Ctx_82ADD668;
+
+extern unsigned int fn_82ADD198(Ctx_82ADD668 *ctx, unsigned int id);
+/* Reports an internal error and does not return here: the code after each call is laid out as if
+   nothing followed it, and no value has to survive the call. */
+extern __declspec(noreturn) void fn_82AA66A8(Ctx_82ADD668 *ctx, int code);
+
+/* Keeps the mask loop's test at its top, as the original has it. */
+static __forceinline int IsSet(unsigned int mask)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  int iVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned __int64 uVar7;
-  unsigned __int64 uVar8;
-  
-  uVar8 = (unsigned __int64)*(unsigned short *)(param_2 + 0x12);
-  while( true ) {
-    if (((unsigned __int64)(*(unsigned int *)(param_2 + 0x10) >> 0x10) & 7) +
-        ((unsigned __int64)*(unsigned int *)(param_2 + 0x10) & 0xffff) <= (uVar8 & 0xffffffff)) {
-                    /* WARNING: Subroutine does not return */
-      fn_82AA66A8(param_1,0x12c0);
+    if (mask != 0) {
+        return 1;
     }
-    iVar3 = fn_82ADD198(param_1,uVar8);
-    iVar3 = *(int *)(iVar3 * 4 + *(int *)(param_1 + 0x2b0));
-    if (iVar3 != 0) break;
-    uVar8 = uVar8 + 1;
-  }
-  uVar8 = 0xffff;
-  uVar4 = *(unsigned int *)(param_2 + 8) >> 1 & 0xf;
-  do {
-    if (uVar4 == 0) {
-      if ((uVar8 & 0xffffffff) == 0xffff) {
-                    /* WARNING: Subroutine does not return */
-        fn_82AA66A8(param_1,0x12c0);
-      }
-      return;
-    }
-    uVar1 = *(unsigned int *)(iVar3 + 0xc0);
-    uVar5 = 0;
-    if ((uVar1 & 7) != 0) {
-      uVar6 = 0;
-      do {
-        if ((0x1fU - LZCOUNT(uVar4 & ~(uVar4 - 1)) & 0xffffffff) ==
-            ((unsigned __int64)((uVar1 >> 0xe & 0xff) >> (uVar6 & 0x3f)) & 3)) break;
-        uVar5 = uVar5 + 1;
-        uVar6 = uVar6 + 2;
-      } while (uVar5 < (uVar1 & 7));
-    }
-    if ((uVar1 & 7) <= uVar5) {
-                    /* WARNING: Subroutine does not return */
-      fn_82AA66A8(param_1,0x12c0);
-    }
-    uVar1 = *(unsigned int *)(param_2 + 0x10);
-    uVar2 = (unsigned __int64)uVar1 & 0xffff;
-    uVar7 = uVar2;
-    if (uVar2 < ((unsigned __int64)(uVar1 >> 0x10) & 7) + ((unsigned __int64)uVar1 & 0xffff)) {
-      do {
-        if ((1L << (uVar7 & 0x3f) &
-            *(unsigned __int64 *)(((unsigned int)uVar7 >> 3 & 0x1ffffff8) + *(int *)(uVar5 * 4 + iVar3))) != 0) {
-          if ((uVar7 & 0xffffffff) < (uVar8 & 0xffffffff)) {
-            uVar8 = uVar7;
-          }
-          break;
-        }
-        uVar7 = uVar7 + 1;
-      } while ((uVar7 & 0xffffffff) < ((unsigned __int64)(uVar1 >> 0x10) & 7) + uVar2);
-    }
-    if (((unsigned __int64)(*(unsigned int *)(param_2 + 0x10) >> 0x10) & 7) +
-        ((unsigned __int64)*(unsigned int *)(param_2 + 0x10) & 0xffff) <= (uVar7 & 0xffffffff)) {
-                    /* WARNING: Subroutine does not return */
-      fn_82AA66A8(param_1,0x12c0);
-    }
-    uVar4 = uVar4 - (uVar4 & ~(uVar4 - 1));
-  } while( true );
+    return 0;
 }
 
+static __forceinline unsigned char IsUsed(unsigned __int64 *bits, unsigned int index)
+{
+    return (bits[index >> 6] & ((unsigned __int64)1 << (index & 63))) != 0;
+}
+
+/* Returns the lowest register the instruction's written components use. */
+unsigned int fn_82ADD668(Ctx_82ADD668 *ctx, Inst_82ADD668 *inst)
+{
+    unsigned int index;
+    Value_82ADD668 *value;
+    unsigned int mask;
+    unsigned int lowest;
+    unsigned int component;
+    unsigned int slot;
+    unsigned int reg;
+
+    for (index = inst->range.start;; index++) {
+        if (index >= inst->range.start + inst->range.count) {
+            fn_82AA66A8(ctx, 0x12c0);
+        }
+        value = ctx->values[fn_82ADD198(ctx, index)];
+        if (value != 0) {
+            break;
+        }
+    }
+
+    lowest = 0xffff;
+    for (mask = inst->writeMask; IsSet(mask); mask -= mask & ~(mask - 1)) {
+        component = 31 - _CountLeadingZeros(mask & ~(mask - 1));
+        for (slot = 0; slot < value->slots; slot++) {
+            if (component == ((value->swizzle >> (slot * 2)) & 3)) {
+                break;
+            }
+        }
+        if (slot >= value->slots) {
+            fn_82AA66A8(ctx, 0x12c0);
+        }
+        for (reg = inst->range.start; reg < inst->range.start + inst->range.count; reg++) {
+            if (IsUsed(value->used[slot], reg)) {
+                if (reg < lowest) {
+                    lowest = reg;
+                }
+                break;
+            }
+        }
+        if (reg >= inst->range.start + inst->range.count) {
+            fn_82AA66A8(ctx, 0x12c0);
+        }
+    }
+    if (lowest == 0xffff) {
+        fn_82AA66A8(ctx, 0x12c0);
+    }
+    return lowest;
+}

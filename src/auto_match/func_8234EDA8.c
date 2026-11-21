@@ -1,66 +1,76 @@
-extern unsigned int *auStack_2c;
-extern unsigned int *auStack_30;
-extern int fn_8234EED8();
-extern int fn_824A1C90();
-extern int fn_8265C9E0();
-extern int fn_827F22D0();
-extern int fn_827F2D60();
-extern int fn_82F51E28();
-extern int fn_82F520B0();
-extern unsigned int lbl_8218E8E8;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Target_8234EDA8 Target_8234EDA8;
 
+typedef struct TargetVtbl_8234EDA8 {
+    void *slot0;
+    int (*isValid)(Target_8234EDA8 *self); /* 0x04 */
+} TargetVtbl_8234EDA8;
 
-void fn_8234EDA8(int param_1,int *param_2)
+struct Target_8234EDA8 {
+    TargetVtbl_8234EDA8 *vt; /* 0x00 */
+};
 
+typedef struct Source_8234EDA8 Source_8234EDA8;
+
+typedef struct SourceVtbl_8234EDA8 {
+    void *slots[27];
+    int (*getLink)(Source_8234EDA8 *self, int *link, unsigned char *flags); /* 0x6c */
+} SourceVtbl_8234EDA8;
+
+struct Source_8234EDA8 {
+    SourceVtbl_8234EDA8 *vt; /* 0x00 */
+};
+
+typedef struct Tracker_8234EDA8 {
+    char pad0[0xd4];
+    int x; /* 0xd4 */
+    int y; /* 0xd8 */
+} Tracker_8234EDA8;
+
+typedef struct Self_8234EDA8 {
+    void *owner; /* 0x00 */
+    void *scene; /* 0x04 */
+    char pad8[0x20];
+    Source_8234EDA8 *source;   /* 0x28 */
+    Target_8234EDA8 *target;   /* 0x2c */
+    Tracker_8234EDA8 *tracker; /* 0x30 */
+    int x;                     /* 0x34 */
+    int y;                     /* 0x38 */
+} Self_8234EDA8;
+
+extern float lbl_8218E8E8;
+
+extern void fn_8234EED8(Self_8234EDA8 *self);
+extern unsigned char fn_82F51E28(Target_8234EDA8 *target);
+extern void fn_82F520B0(Target_8234EDA8 *target, int link, unsigned char flags);
+extern void *fn_8265C9E0(unsigned int size);
+extern Tracker_8234EDA8 *fn_824A1C90(void *memory, Source_8234EDA8 *source, Target_8234EDA8 *target);
+extern unsigned char fn_827F22D0(void *scene);
+extern void fn_827F2D60(void *scene, Tracker_8234EDA8 *tracker, float time, int mode, int flags);
+
+void fn_8234EDA8(Self_8234EDA8 *self, Target_8234EDA8 *target)
 {
-  float fVar1;
-  __int64 lVar2;
-  char cVar6;
-  int iVar5;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  unsigned int uVar7;
-  unsigned char auStack_30 [4];
-  unsigned int auStack_2c [11];
-  
-  uVar7 = 0;
-  if (param_2 != (int *)0x0) {
-    lVar2 = (**(int (***)())(*param_2 + 4))(param_2);
-    uVar7 = -(unsigned int)(lVar2 != 0) & (unsigned int)param_2;
-  }
-  if (uVar7 != *(unsigned int *)(param_1 + 0x2c)) {
-    if (uVar7 == 0) {
-      fn_8234EED8(param_1);
-    }
-    else {
-      cVar6 = fn_82F51E28(uVar7);
-      if ((cVar6 == '\0') &&
-         (iVar5 = (**(int (***)())(**(int **)(param_1 + 0x28) + 0x6c))
-                            (*(int **)(param_1 + 0x28),auStack_2c,auStack_30), iVar5 != 0)) {
-        fn_82F520B0(uVar7,auStack_2c[0],auStack_30[0]);
-      }
-      uVar3 = fn_8265C9E0(0xe0);
-      if ((uVar3 & 0xffffffff) == 0) {
-        uVar4 = 0;
-      }
-      else {
-        uVar4 = fn_824A1C90(uVar3,*(unsigned int *)(param_1 + 0x28),uVar7);
-      }
-      cVar6 = fn_827F22D0(*(unsigned int *)(param_1 + 4));
-      fVar1 = lbl_8218E8E8;
-      if (cVar6 != '\0') {
-        fVar1 = ltcg_pool_0_0f;
-      }
-      fn_827F2D60((double)fVar1,*(unsigned int *)(param_1 + 4),uVar4);
-      *(int *)(param_1 + 0x30) = (int)uVar4;
-    }
-    *(unsigned int *)(param_1 + 0x2c) = uVar7;
-  }
-  if (*(int *)(param_1 + 0x30) != 0) {
-    *(unsigned int *)(*(int *)(param_1 + 0x30) + 0xd4) = *(unsigned int *)(param_1 + 0x34);
-    *(unsigned int *)(*(int *)(param_1 + 0x30) + 0xd8) = *(unsigned int *)(param_1 + 0x38);
-  }
-  return;
-}
+    int link;
+    unsigned char flags;
+    void *memory;
+    Tracker_8234EDA8 *tracker;
 
+    if (target != 0)
+        target = target->vt->isValid(target) ? target : 0;
+    if (target != self->target) {
+        if (target != 0) {
+            if (!fn_82F51E28(target) && self->source->vt->getLink(self->source, &link, &flags) != 0)
+                fn_82F520B0(target, link, flags);
+            memory = fn_8265C9E0(0xe0);
+            tracker = memory ? fn_824A1C90(memory, self->source, target) : 0;
+            fn_827F2D60(self->scene, tracker, fn_827F22D0(self->scene) ? 0.0f : lbl_8218E8E8, 0x12, 0);
+            self->tracker = tracker;
+        } else {
+            fn_8234EED8(self);
+        }
+        self->target = target;
+    }
+    if (self->tracker != 0) {
+        self->tracker->x = self->x;
+        self->tracker->y = self->y;
+    }
+}

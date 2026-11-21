@@ -1,71 +1,77 @@
-unsigned __int64
-fn_826367A8(unsigned int *param_1, unsigned int *param_2, __int64 param_3, unsigned __int64 param_4, __int64 param_5, unsigned __int64 param_6, unsigned __int64 param_7, int (**param_8)(), unsigned int in_stack_00000054)
+typedef struct Desc_826367A8 {
+    unsigned int extra : 4; /* bits 28-31 */
+    unsigned int mask : 12; /* bits 16-27 */
+    unsigned int pad0 : 1;
+    unsigned int count : 3;  /* bits 12-14 */
+    unsigned int first : 12; /* bits 0-11 */
+    unsigned int pad4 : 16;
+    unsigned int type : 4;   /* bits 12-15 */
+    unsigned int shared : 1; /* bit 11 */
+    unsigned int pad4b : 9;
+    unsigned int extraLow : 2; /* bits 0-1 */
+} Desc_826367A8;
 
+typedef int (*Callback_826367A8)(unsigned int flags, unsigned int index, unsigned char *data, void *context);
+
+int fn_826367A8(Desc_826367A8 *desc, unsigned int *size, unsigned char *data, unsigned int limit,
+                unsigned char *sharedData, unsigned int sharedLimit, unsigned int mode,
+                Callback_826367A8 callback, void *context)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned __int64 uVar4;
-  unsigned int uVar5;
-  unsigned __int64 uVar6;
-  unsigned __int64 uVar7;
-  unsigned int uVar8;
+    int hr = 0;
+    unsigned int start;
+    unsigned int count;
+    unsigned int offset;
+    unsigned int mask;
+    unsigned int extra;
+    unsigned int i;
+    unsigned int flags;
+    unsigned char *element;
+    unsigned char *base;
 
-  
-  uVar4 = 0;
-  if (((unsigned __int64)*param_2 == (param_4 & 0xffffffff)) && ((param_1[1] & 0x800) == 0)) {
-    *param_2 = (*param_1 & 0xfff) * 0xc;
-  }
-  if ((param_7 & 6) != 0) {
-    uVar1 = param_1[1];
-    if ((uVar1 & 0x800) == 0) {
-      uVar5 = *param_2;
-    }
-    else {
-      uVar5 = 0;
-      param_4 = param_6;
-      param_3 = param_5;
-    }
-    uVar2 = *param_1;
-    uVar3 = uVar2 >> 0xc;
-    if ((uVar3 & 7) != 0) {
-      uVar6 = ((unsigned __int64)uVar2 & 0xfff) * 0xc;
-      if ((uVar6 < uVar5) || ((param_4 & 0xffffffff) < ((unsigned __int64)uVar3 & 7) * 0xc + uVar6)) {
-        uVar4 = 0xffffffff80004005;
-      }
-      else {
-        param_3 = uVar6 + param_3;
-        uVar5 = uVar2 >> 0x10 & 0xfff;
-        uVar6 = 0;
-        if ((uVar3 & 7) != 0) {
-          uVar8 = 0;
-          do {
-            uVar7 = (-(unsigned __int64)((1 << (uVar8 & 0x3f) & uVar5) != 0) & 0xfffffffe) + 4;
-            if ((2 << (uVar8 & 0x3f) & uVar5) != 0) {
-              uVar7 = uVar7 | 0x20;
-            }
-            if ((1 << ((unsigned int)uVar6 & 0x3f) & ((uVar1 & 3) << 4 | uVar2 >> 0x1c)) != 0) {
-              uVar7 = uVar7 | 0x10;
-            }
-            if ((param_1[1] & 0x800) != 0) {
-              uVar7 = uVar7 | 0x40;
-            }
-            if ((param_1[1] & 0xf000) == 0x5000) {
-              uVar7 = uVar7 | 0x80;
-            }
-            if (((uVar7 & param_7 & 6) != 0) &&
-               (uVar4 = (*param_8)(uVar7,((unsigned __int64)*param_1 & 0xfff) + uVar6,param_3,
-                                   in_stack_00000054), (int)uVar4 < 0)) {
-              return uVar4;
-            }
-            uVar6 = uVar6 + 1;
-            uVar8 = uVar8 + 2;
-            param_3 = param_3 + 0xc;
-          } while ((uVar6 & 0xffffffff) < ((unsigned __int64)uVar3 & 7));
+    if (*size == limit && !desc->shared)
+        *size = desc->first * 12;
+    if ((mode & 6) != 0) {
+        if (desc->shared) {
+            start = 0;
+            base = sharedData;
+            limit = sharedLimit;
+        } else {
+            start = *size;
+            base = data;
         }
-      }
-    }
-  }
-  return uVar4;
-}
+        count = desc->count;
+        if (count != 0) {
+            offset = desc->first * 12;
+            if (offset < start || count * 12 + offset > limit) {
+                hr = 0x80004005;
+            } else {
+                element = base + offset;
+                mask = desc->mask;
+                extra = desc->extraLow << 4 | desc->extra;
+                for (i = 0; i < count; i++, element += 12) {
+                    unsigned char high = (mask & (2 << (i * 2))) != 0;
+                    unsigned char hasExtra = (extra & (1 << i)) != 0;
 
+                    if (mask & (1 << (i * 2)))
+                        flags = 2;
+                    else
+                        flags = 4;
+                    if (high)
+                        flags |= 0x20;
+                    if (hasExtra)
+                        flags |= 0x10;
+                    if (desc->shared)
+                        flags |= 0x40;
+                    if (desc->type == 5)
+                        flags |= 0x80;
+                    if ((flags & mode & 6) != 0) {
+                        hr = callback(flags, desc->first + i, element, context);
+                        if (hr < 0)
+                            break;
+                    }
+                }
+            }
+        }
+    }
+    return hr;
+}

@@ -1,97 +1,81 @@
-typedef unsigned char bool;
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_38;
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_48;
-extern unsigned int *auStack_50;
-extern int fn_822315A0();
-extern int fn_822E5F48();
-extern unsigned int iStack_2c;
-extern unsigned int iStack_34;
-extern unsigned int iStack_3c;
-extern unsigned int iStack_44;
-extern unsigned int iStack_4c;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Sp_822F0780 {
+    int *px;
+    int *rep;
+} Sp_822F0780;
 
+typedef struct Swing_822F0780 {
+    char pad0[0x8];
+    float spin;   /* 0x08 */
+    int forehand; /* 0x0c */
+} Swing_822F0780;
 
-unsigned __int64 fn_822F0780(int param_1)
+typedef struct World_822F0780 {
+    char pad0[0x178];
+    int mode; /* 0x178 */
+} World_822F0780;
 
+typedef struct Ctx_822F0780 {
+    char pad0[0xc];
+    int player;            /* 0x0c */
+    World_822F0780 *world; /* 0x10 */
+} Ctx_822F0780;
+
+extern void fn_822315A0(void *rep);
+extern int **fn_822E5F48(Sp_822F0780 *out, int player);
+
+static __forceinline Swing_822F0780 *GetSwing_822F0780(Sp_822F0780 *temp, int player)
 {
-  float fVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  int *piVar4;
-  bool bVar5;
-  double dVar6;
-  unsigned char auStack_50 [4];
-  int iStack_4c;
-  unsigned char auStack_48 [4];
-  int iStack_44;
-  unsigned char auStack_40 [4];
-  int iStack_3c;
-  unsigned char auStack_38 [4];
-  int iStack_34;
-  unsigned char auStack_30 [4];
-  int iStack_2c;
-  
-  if (*(int *)(*(int *)(param_1 + 0x10) + 0x178) == 2) {
-    uVar3 = 0xffffffff821ae41c;
-  }
-  else {
-    piVar4 = (int *)fn_822E5F48(auStack_50,*(unsigned int *)(param_1 + 0xc));
-    iVar2 = *(int *)(*piVar4 + 0xc);
-    if (iStack_4c != 0) {
-      fn_822315A0(iStack_4c);
-    }
-    if (iVar2 == 0) {
-      piVar4 = (int *)fn_822E5F48(auStack_38,*(unsigned int *)(param_1 + 0xc));
-      dVar6 = (double)ltcg_pool_0_0f;
-      bVar5 = (double)*(float *)(*piVar4 + 8) <= dVar6;
-      if (iStack_34 != 0) {
-        fn_822315A0();
-      }
-      if (bVar5) {
-        piVar4 = (int *)fn_822E5F48(auStack_30,*(unsigned int *)(param_1 + 0xc));
-        fVar1 = *(float *)(*piVar4 + 8);
-        if (iStack_2c != 0) {
-          fn_822315A0();
-        }
-        if (dVar6 <= (double)fVar1) {
-          uVar3 = 0xffffffff821ae4ac;
-        }
-        else {
-          uVar3 = 0xffffffff821ae494;
-        }
-      }
-      else {
-        uVar3 = 0xffffffff821ae47c;
-      }
-    }
-    else {
-      piVar4 = (int *)fn_822E5F48(auStack_48,*(unsigned int *)(param_1 + 0xc));
-      dVar6 = (double)ltcg_pool_0_0f;
-      bVar5 = (double)*(float *)(*piVar4 + 8) <= dVar6;
-      if (iStack_44 != 0) {
-        fn_822315A0();
-      }
-      if (bVar5) {
-        piVar4 = (int *)fn_822E5F48(auStack_40,*(unsigned int *)(param_1 + 0xc));
-        fVar1 = *(float *)(*piVar4 + 8);
-        if (iStack_3c != 0) {
-          fn_822315A0();
-        }
-        if (dVar6 <= (double)fVar1) {
-          uVar3 = 0xffffffff821ae464;
-        }
-        else {
-          uVar3 = 0xffffffff821ae44c;
-        }
-      }
-      else {
-        uVar3 = 0xffffffff821ae434;
-      }
-    }
-  }
-  return uVar3;
+    return (Swing_822F0780 *)*fn_822E5F48(temp, player);
 }
 
+const char *fn_822F0780(Ctx_822F0780 *self)
+{
+    Sp_822F0780 handTemp;
+    Sp_822F0780 forehandTopTemp;
+    Sp_822F0780 forehandBackTemp;
+    Sp_822F0780 backhandTopTemp;
+    Sp_822F0780 backhandBackTemp;
+    int forehand;
+    unsigned char topspin;
+    unsigned char backspin;
+
+    if (self->world->mode == 2) {
+        return "serve_quick_straight";
+    }
+    forehand = GetSwing_822F0780(&handTemp, self->player)->forehand;
+    if (handTemp.rep != 0) {
+        fn_822315A0(handTemp.rep);
+    }
+    if (forehand != 0) {
+        topspin = GetSwing_822F0780(&forehandTopTemp, self->player)->spin > 0.0f;
+        if (forehandTopTemp.rep != 0) {
+            fn_822315A0(forehandTopTemp.rep);
+        }
+        if (topspin) {
+            return "serve_forehand_topspin";
+        }
+        backspin = GetSwing_822F0780(&forehandBackTemp, self->player)->spin < 0.0f;
+        if (forehandBackTemp.rep != 0) {
+            fn_822315A0(forehandBackTemp.rep);
+        }
+        if (backspin) {
+            return "serve_forehand_backspin";
+        }
+        return "serve_forehand_normal";
+    }
+    topspin = GetSwing_822F0780(&backhandTopTemp, self->player)->spin > 0.0f;
+    if (backhandTopTemp.rep != 0) {
+        fn_822315A0(backhandTopTemp.rep);
+    }
+    if (topspin) {
+        return "serve_backhand_topspin";
+    }
+    backspin = GetSwing_822F0780(&backhandBackTemp, self->player)->spin < 0.0f;
+    if (backhandBackTemp.rep != 0) {
+        fn_822315A0(backhandBackTemp.rep);
+    }
+    if (backspin) {
+        return "serve_backhand_backspin";
+    }
+    return "serve_backhand_normal";
+}

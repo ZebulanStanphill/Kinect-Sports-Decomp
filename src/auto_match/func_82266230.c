@@ -1,103 +1,79 @@
-extern int XMemSet();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float f[4];
+} __vector4;
 
+typedef struct Setup_82266230 {
+    char name[0x40]; /* 0x00 */
+    int field40;     /* 0x40 */
+    int field44;     /* 0x44 */
+    int field48;     /* 0x48 */
+    int field4C;     /* 0x4c */
+    __vector4 color; /* 0x50 */
+    float x;         /* 0x60 */
+    float y;         /* 0x64 */
+    int hasPair;     /* 0x68 */
+    int pairFirst;   /* 0x6c */
+    int pairSecond;  /* 0x70 */
+    int extra;       /* 0x74 */
+    char pad78[0x8];
+    __vector4 color2;    /* 0x80 */
+    __vector4 color3;    /* 0x90 */
+    int fieldA0;         /* 0xa0 */
+    char reserved[0x24]; /* 0xa4 */
+} Setup_82266230;
 
-void fn_82266230(double param_1,double param_2,char *param_3,int param_4,unsigned int param_5,
-                  unsigned int param_6,unsigned int *param_7,unsigned int *param_8)
+extern void XMemSet(void *dest, int value, unsigned int size);
 
+static __forceinline int IsSet(int *value)
 {
-  char cVar1;
-  unsigned int *puVar2;
-  char *pcVar4;
-  unsigned __int64 uVar3;
-  int iVar5;
-  unsigned int in_register_00010010;
-  unsigned int in_register_00010014;
-  unsigned int in_register_00010018;
-  unsigned int in_vr1;
-  unsigned int in_register_00010020;
-  unsigned int in_register_00010024;
-  unsigned int in_register_00010028;
-  unsigned int in_vr2;
-  unsigned int in_register_00010030;
-  unsigned int in_register_00010034;
-  unsigned int in_register_00010038;
-  unsigned int in_vr3;
-  unsigned int *in_stack_00000064;
-  unsigned int *in_stack_0000006c;
-  int *in_stack_00000074;
-  unsigned int in_stack_000000a4;
-  
-  *(float *)(param_3 + 0x60) = (float)param_1;
-  *(float *)(param_3 + 100) = (float)param_2;
-  *(unsigned int *)(param_3 + 0x40) = param_5;
-  *(unsigned int *)(param_3 + 0x44) = param_6;
-  *(unsigned int *)(param_3 + 0xa0) = in_stack_000000a4;
-  puVar2 = (unsigned int *)((unsigned int)(param_3 + 0x50) & 0xfffffff0);
-  *puVar2 = in_register_00010010;
-  puVar2[1] = in_register_00010014;
-  puVar2[2] = in_register_00010018;
-  puVar2[3] = in_vr1;
-  puVar2 = (unsigned int *)((unsigned int)(param_3 + 0x80) & 0xfffffff0);
-  *puVar2 = in_register_00010020;
-  puVar2[1] = in_register_00010024;
-  puVar2[2] = in_register_00010028;
-  puVar2[3] = in_vr2;
-  puVar2 = (unsigned int *)((unsigned int)(param_3 + 0x90) & 0xfffffff0);
-  *puVar2 = in_register_00010030;
-  puVar2[1] = in_register_00010034;
-  puVar2[2] = in_register_00010038;
-  puVar2[3] = in_vr3;
-  *(unsigned int *)(param_3 + 0x48) = *param_7;
-  *(unsigned int *)(param_3 + 0x4c) = *param_8;
-  pcVar4 = param_3;
-  do {
-    if (param_3 + 0x40 <= pcVar4) break;
-    cVar1 = pcVar4[param_4 - (int)param_3];
-    *pcVar4 = cVar1;
-    pcVar4 = pcVar4 + 1;
-  } while (cVar1 != '\0');
-  if (pcVar4 == param_3 + 0x40) {
-    pcVar4[-1] = '\0';
-  }
-  if (in_stack_00000064 == (unsigned int *)0x0) {
-LAB_822662f0:
-    iVar5 = 0;
-  }
-  else {
-    uVar3 = (unsigned __int64)*in_stack_00000064;
-    if ((uVar3 == (uVar3 - 1) + (unsigned __int64)(uVar3 == 0)) || (in_stack_0000006c == (unsigned int *)0x0))
-    goto LAB_822662f0;
-    uVar3 = (unsigned __int64)*in_stack_0000006c;
-    iVar5 = 1;
-    if (uVar3 == (uVar3 - 1) + (unsigned __int64)(uVar3 == 0)) goto LAB_822662f0;
-  }
-  *(int *)(param_3 + 0x68) = iVar5;
-  if (iVar5 == 0) {
-    param_3[0x6c] = '\0';
-    param_3[0x6d] = '\0';
-    param_3[0x6e] = '\0';
-    param_3[0x6f] = '\0';
-    param_3[0x70] = '\0';
-    param_3[0x71] = '\0';
-    param_3[0x72] = '\0';
-    param_3[0x73] = '\0';
-  }
-  else {
-    *(unsigned int *)(param_3 + 0x6c) = *in_stack_00000064;
-    *(unsigned int *)(param_3 + 0x70) = *in_stack_0000006c;
-  }
-  if (in_stack_00000074 != (int *)0x0) {
-    if (*in_stack_00000074 != 0) {
-      *(int *)(param_3 + 0x74) = *in_stack_00000074;
-      goto LAB_82266344;
+    if (value == 0) {
+        return 0;
     }
-  }
-  param_3[0x74] = '\0';
-  param_3[0x75] = '\0';
-  param_3[0x76] = '\0';
-  param_3[0x77] = '\0';
-LAB_82266344:
-  XMemSet(param_3 + 0xa4,0,0x24);
-  return;
+    return *value != 0;
 }
 
+void fn_82266230(Setup_82266230 *self, const char *name, int field40, int field44, int *field48, int *field4C,
+                 float x, float y, __vector4 color, int *pairFirst, int *pairSecond, int *extra,
+                 __vector4 color2, __vector4 color3, int fieldA0)
+{
+    char *dst;
+    char *end;
+    int hasPair;
+
+    self->x = x;
+    self->y = y;
+    self->field40 = field40;
+    self->field44 = field44;
+    self->fieldA0 = fieldA0;
+    self->color = color;
+    self->color2 = color2;
+    self->color3 = color3;
+    self->field48 = *field48;
+    self->field4C = *field4C;
+    dst = self->name;
+    end = self->name + sizeof(self->name);
+    while (dst < end && (*dst++ = *name++) != 0) {
+    }
+    if (dst == end) {
+        dst[-1] = 0;
+    }
+    if (IsSet(pairFirst) && IsSet(pairSecond)) {
+        hasPair = 1;
+    } else {
+        hasPair = 0;
+    }
+    self->hasPair = hasPair;
+    if (hasPair != 0) {
+        self->pairFirst = *pairFirst;
+        self->pairSecond = *pairSecond;
+    } else {
+        self->pairFirst = 0;
+        self->pairSecond = 0;
+    }
+    if (IsSet(extra)) {
+        self->extra = *extra;
+    } else {
+        self->extra = 0;
+    }
+    XMemSet(self->reserved, 0, sizeof(self->reserved));
+}

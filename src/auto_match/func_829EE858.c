@@ -1,40 +1,30 @@
-extern int fn_829F1960();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_82002C28;
-extern unsigned int lbl_82015BD0;
-extern unsigned int lbl_82015BD8;
-extern float lbl_82079F20;
-extern float lbl_82079F24;
-extern unsigned int lbl_82079F28;
-extern unsigned int lbl_83218B9C;
-extern unsigned int uStack_28;
-extern unsigned int uStack_30;
+#include <math.h>
 
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
-void fn_829EE858(void)
+extern void fn_829F1960(int *x, int *y, __vector4 position);
 
+extern const float lbl_82015BD0; /* screen centre x */
+extern const float lbl_82015BD8; /* screen centre y */
+extern const float lbl_82079F20; /* 1 / half height */
+extern const float lbl_82079F24; /* 1 / half width */
+extern int lbl_83218B9C;
+
+int fn_829EE858(const __vector4 *position)
 {
-  float fVar1;
-  double dVar2;
-  unsigned __int64 uStack_30;
-  unsigned __int64 uStack_28;
-  
-  fVar1 = lbl_82079F28;
-  if (lbl_83218B9C != 0) {
-    fVar1 = lbl_82002C28;
-  }
-  dVar2 = (double)fVar1;
-  uStack_30 = (unsigned __int64)(((unsigned __int64)(uStack_30) >> 32) & 0xFFFFFFFF);
-  uStack_28 = (unsigned __int64)(((unsigned __int64)(uStack_28) >> 32) & 0xFFFFFFFF);
-  fn_829F1960(&uStack_30,&uStack_28);
-  if ((dVar2 <= (double)(lbl_82002AE0 -
-                        ABS(((float)(__int64)(((unsigned __int64)(uStack_30) >> 0) & 0xFFFFFFFF) - lbl_82015BD0) * lbl_82079F24))) &&
-     (dVar2 <= (double)(lbl_82002AE0 -
-                       ABS(((float)(__int64)(((unsigned __int64)(uStack_28) >> 0) & 0xFFFFFFFF) - lbl_82015BD8) * lbl_82079F20)))) {
-    lbl_83218B9C = 1;
-    return;
-  }
-  lbl_83218B9C = 0;
-  return;
-}
+    float threshold;
+    int x;
+    int y;
 
+    if (lbl_83218B9C != 0)
+        threshold = 0.25f;
+    else
+        threshold = 0.35f;
+    x = 0;
+    y = 0;
+    fn_829F1960(&x, &y, *position);
+    return lbl_83218B9C = 1.0f - fabsf(((float)x - lbl_82015BD0) * lbl_82079F24) >= threshold &&
+                          1.0f - fabsf(((float)y - lbl_82015BD8) * lbl_82079F20) >= threshold;
+}

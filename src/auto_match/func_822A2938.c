@@ -1,60 +1,70 @@
-extern unsigned int *auStack_10b8;
-extern unsigned int *auStack_10c0;
-extern unsigned int *auStack_10d0;
-extern int fn_822315A0();
-extern int fn_8226D2A8();
-extern int fn_8226D388();
-extern int fn_8226D6A0();
-extern int fn_8226FE40();
-extern int fn_822A2C28();
-extern int fn_822A2E90();
-extern int fn_823F2E20();
-extern unsigned int iStack_10bc;
-extern unsigned int iStack_10cc;
-extern unsigned int lbl_82192488;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int lbl_831D12AC;
-extern unsigned int lbl_831D12B4;
-extern unsigned int lbl_831D12CC;
-extern unsigned int lbl_831D1320;
-extern unsigned int lbl_831D1328;
-extern unsigned int uStack_10b0;
-extern unsigned int uStack_10b4;
+typedef struct Game_822A2938 {
+    char pad0[0x2a8];
+    int ready; /* 0x2a8 */
+} Game_822A2938;
 
+typedef struct Globals_822A2938 {
+    char pad0[0x14];
+    void *screen; /* 0x14 */
+    char pad18[0x1c - 0x18];
+    int loaded; /* 0x1c */
+    char pad20[0x34 - 0x20];
+    int flash; /* 0x34 */
+    char pad38[0x88 - 0x38];
+    int active; /* 0x88 */
+    char pad8C[0x90 - 0x8c];
+    Game_822A2938 *game; /* 0x90 */
+} Globals_822A2938;
 
-void fn_822A2938(unsigned __int64 param_1)
+typedef struct Ref_822A2938 {
+    void *object; /* 0x0 */
+    void *rep;    /* 0x4 */
+} Ref_822A2938;
 
+typedef struct Desc_822A2938 {
+    int a;       /* 0x0 */
+    void *rep;   /* 0x4 */
+    int flag;    /* 0x8 */
+    int mode;    /* 0xc */
+    float delay; /* 0x10 */
+    unsigned char rest[0x10a0 - 0x14];
+} Desc_822A2938;
+
+extern Globals_822A2938 lbl_831D1298;
+extern const float lbl_82192438[0x2c];
+
+extern void fn_8226D2A8(Desc_822A2938 *desc);
+extern void fn_822A2C28(Game_822A2938 *game, float dt);
+extern int fn_8226FE40(void *screen);
+extern void fn_8226D6A0(void *screen);
+extern void *fn_822A2E90(Ref_822A2938 *out, Game_822A2938 *game, int *flag);
+extern void fn_823F2E20(Desc_822A2938 *desc, void *src);
+extern void fn_822315A0(void *rep);
+extern void *fn_8226D388(Desc_822A2938 *desc);
+
+void fn_822A2938(float dt)
 {
-  int iVar2;
-  unsigned __int64 uVar1;
-  unsigned char auStack_10d0 [4];
-  int iStack_10cc;
-  unsigned char auStack_10c0 [4];
-  int iStack_10bc;
-  unsigned char auStack_10b8 [4];
-  unsigned int uStack_10b4;
-  unsigned int uStack_10b0;
-  
-  fn_8226D2A8(auStack_10c0);
-  fn_822A2C28(param_1,lbl_831D1328);
-  if ((((lbl_831D1320 != 0) && (lbl_831D12B4 != 0)) && (lbl_831D12AC != 0)) &&
-     ((iVar2 = fn_8226FE40(), iVar2 != 0 && (*(int *)(lbl_831D1328 + 0x2a8) != 0)))) {
-    fn_8226D6A0(lbl_831D12AC);
-    uVar1 = fn_822A2E90(auStack_10d0,lbl_831D1328,auStack_10b8);
-    fn_823F2E20(auStack_10c0,uVar1);
-    if (iStack_10cc != 0) {
-      fn_822315A0();
-    }
-    uStack_10b4 = 0;
-    uStack_10b0 = ltcg_pool_0_0f;
-    if (lbl_831D12CC != 0) {
-      uStack_10b0 = lbl_82192488;
-    }
-    lbl_831D12AC = fn_8226D388(auStack_10c0);
-  }
-  if (iStack_10bc != 0) {
-    fn_822315A0();
-  }
-  return;
-}
+    Ref_822A2938 ref;
+    Desc_822A2938 desc;
 
+    fn_8226D2A8(&desc);
+    fn_822A2C28(lbl_831D1298.game, dt);
+    if (lbl_831D1298.active != 0 && lbl_831D1298.loaded != 0 && lbl_831D1298.screen != 0 &&
+        fn_8226FE40(lbl_831D1298.screen) != 0 && lbl_831D1298.game->ready != 0) {
+        fn_8226D6A0(lbl_831D1298.screen);
+        fn_823F2E20(&desc, fn_822A2E90(&ref, lbl_831D1298.game, &desc.flag));
+        if (ref.rep != 0) {
+            fn_822315A0(ref.rep);
+        }
+        desc.mode = 0;
+        if (lbl_831D1298.flash != 0) {
+            desc.delay = lbl_82192438[0x14];
+        } else {
+            desc.delay = 0.0f;
+        }
+        lbl_831D1298.screen = fn_8226D388(&desc);
+    }
+    if (desc.rep != 0) {
+        fn_822315A0(desc.rep);
+    }
+}

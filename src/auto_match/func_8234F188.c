@@ -1,42 +1,55 @@
-extern unsigned int *auStack_50;
-extern int fn_8251F720();
-extern int fn_8255F448();
-extern int fn_8255F880();
-extern int fn_8255F8D0();
-extern int fn_827F21F0();
-extern int fn_827F2220();
-extern int fn_827F5730();
-extern int fn_82F6A548();
-extern int fn_82F6A594();
-extern unsigned int lbl_821CA460;
+typedef struct Temporary_8234F188 {
+    int words[2];
+} Temporary_8234F188;
 
+typedef struct Animation_8234F188 Animation_8234F188;
 
-void fn_8234F188(unsigned __int64 param_1,unsigned __int64 param_2,double param_3,double param_4,
-                  unsigned __int64 param_5,unsigned __int64 param_6,unsigned __int64 param_7)
+typedef struct Player_8234F188 {
+    char pad0[0x160];
+    int name;    /* 0x160 */
+    int pad164;  /* 0x164 */
+    int current; /* 0x168 */
+    char pad16c[0x18];
+    float time; /* 0x184 */
+} Player_8234F188;
 
+typedef struct Owner_8234F188 {
+    char pad0[0x4];
+    Player_8234F188 *player; /* 0x04 */
+    char pad8[0x4];
+    void *blender; /* 0x0c */
+    char pad10[0x4];
+    float blendTime; /* 0x14 */
+} Owner_8234F188;
+
+extern const float lbl_821CA45C[2];
+
+extern void fn_8255F880(Temporary_8234F188 *temporary, void *source);
+extern Animation_8234F188 *fn_8255F8D0(Temporary_8234F188 *temporary, float start, float end, int flags);
+extern int fn_8251F720(int *name, int flags);
+extern void fn_8255F448(Player_8234F188 *player, Animation_8234F188 *animation, int id, int flags);
+extern void fn_827F21F0(Player_8234F188 *player);
+extern void fn_827F2220(Player_8234F188 *player);
+extern void fn_827F5730(void *blender, float weight, float time);
+
+void fn_8234F188(Owner_8234F188 *self, void *source, int *name, float start, float end, float time,
+                 float blendTime)
 {
-  int iVar1;
-  int iVar4;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 extraout_f1;
-  unsigned char auStack_50 [80];
-  
-  iVar4 = fn_82F6A548();
-  uVar2 = extraout_f1;
-  fn_8255F880(auStack_50);
-  uVar2 = fn_8255F8D0(uVar2,param_2,auStack_50);
-  *(float *)(*(int *)(iVar4 + 4) + 0x184) = (float)param_3;
-  iVar1 = *(int *)(iVar4 + 4);
-  uVar3 = fn_8251F720(param_7,0);
-  fn_8255F448(iVar1,uVar2,uVar3,0);
-  *(unsigned int *)(iVar1 + 0x168) = 0;
-  *(unsigned int *)(iVar1 + 0x160) = *(unsigned int *)param_7;
-  fn_827F21F0(*(unsigned int *)(iVar4 + 4));
-  fn_827F2220(*(unsigned int *)(iVar4 + 4));
-  fn_827F5730((double)lbl_821CA460,param_4,*(unsigned int *)(iVar4 + 0xc));
-  *(float *)(iVar4 + 0x14) = (float)param_4;
-  fn_82F6A594();
-  return;
-}
+    Temporary_8234F188 temporary;
+    Animation_8234F188 *animation;
+    Player_8234F188 *player;
+    int id;
 
+    fn_8255F880(&temporary, source);
+    animation = fn_8255F8D0(&temporary, start, end, 1);
+    self->player->time = time;
+    player = self->player;
+    id = fn_8251F720(name, 0);
+    fn_8255F448(player, animation, id, 0);
+    player->current = 0;
+    player->name = *name;
+    fn_827F21F0(self->player);
+    fn_827F2220(self->player);
+    fn_827F5730(self->blender, lbl_821CA45C[1], blendTime);
+    self->blendTime = blendTime;
+}
