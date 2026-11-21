@@ -26,6 +26,8 @@ public:
     hkOstream &operator<<(char c);
     hkOstream &operator<<(const char *str);
 
+    void printf(const char *fmt, ...);
+
 protected:
     // A reference-counted writer, managed with the lock-free reference
     // functions (fn_82CE3E28 / fn_82CE3E48).

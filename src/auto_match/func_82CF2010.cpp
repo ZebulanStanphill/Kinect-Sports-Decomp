@@ -101,7 +101,6 @@ struct StatsOptions {
 };
 
 extern "C" {
-void fn_82CEDE90(hkOstream *os, const char *fmt, ...);             // hkOstream::printf
 int fn_82CF0DC8(void *nodes, int depth, int a, hkUint8 b);
 void fn_82CF1C18(hkOstream *os, void *nodes, int depth, int numThreads, int numSpus, StatsOptions *options);
 }
@@ -118,28 +117,28 @@ extern "C" void fn_82CF2010(void *nodes, int numThreads, int numSpus, hkOstream 
     options->m_firstColumn = fn_82CF0DC8(nodes, 0, options->m_unknown8, options->m_unknown10);
     hkArray<char> buf;
     hkOstream os(buf);
-    fn_82CEDE90(&os, "Timer Name");
+    os.printf("Timer Name");
     if (numThreads > 1 || numSpus > 0) {
         for (int i = 0; i < numThreads; i++) {
             padTo(&os, buf, options, i);
-            fn_82CEDE90(&os, "Thread %d", i);
+            os.printf("Thread %d", i);
         }
         for (int i = 0; i < numSpus; i++) {
             padTo(&os, buf, options, i + numThreads);
-            fn_82CEDE90(&os, "Spu %d", i);
+            os.printf("Spu %d", i);
         }
         int column = numThreads + numSpus;
         if (numThreads > 1) {
             padTo(&os, buf, options, column);
             column++;
-            fn_82CEDE90(&os, "Average Cpu");
+            os.printf("Average Cpu");
         }
         if (numSpus > 1) {
             padTo(&os, buf, options, column);
-            fn_82CEDE90(&os, "Average Spu");
+            os.printf("Average Spu");
         }
     }
     *outStream << buf.m_data;
-    fn_82CEDE90(outStream, "\n\n");
+    outStream->printf("\n\n");
     fn_82CF1C18(outStream, nodes, 0, numThreads, numSpus, options);
 }

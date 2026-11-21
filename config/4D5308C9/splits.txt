@@ -139623,7 +139623,7 @@ auto_match/func_82CF8A08.c:
 auto_match/func_82CF8AA0.c:
 	.text       start:0x82CF8AA0 end:0x82CF8AF0
 
-auto_match/func_82CF8AF0.c:
+auto_match/func_82CF8AF0.cpp:
 	.text       start:0x82CF8AF0 end:0x82CF8B00
 
 auto_match/func_82CF8B00.c:

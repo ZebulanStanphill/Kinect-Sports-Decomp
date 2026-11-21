@@ -221778,7 +221778,7 @@
           "/O2"
         ]
       },
-      "auto_match/func_82CF8AF0.c": {
+      "auto_match/func_82CF8AF0.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O1"
