@@ -1,43 +1,44 @@
-extern int fn_826972E0();
-extern int fn_82F68918();
-extern int fn_82F6A7A0();
-extern unsigned int lbl_82005710;
-extern unsigned int lbl_82006268;
-extern unsigned int lbl_82006270;
-extern unsigned int lbl_82006278;
+typedef struct Value_82697610 {
+    unsigned char type; /* 0x0 */
+    char pad1[0x8 - 0x1];
+    int integer; /* 0x8 */
+} Value_82697610;
 
+extern const double lbl_82006278;
+extern const double lbl_82006270;
+extern const double lbl_82006268;
 
-unsigned __int64 fn_82697610(char *param_1)
+double fabs(double x);
 
+extern double fn_826972E0(Value_82697610 *value, void *env);
+extern double fn_82F68918(double x);
+extern double fn_82F6A7A0(double x, double y);
+
+static __forceinline unsigned char IsNaNOrInfinite(double x)
 {
-  unsigned __int64 uVar1;
-  double dVar2;
-  unsigned __int64 uVar3;
-  double dVar4;
-  double dVar5;
-  
-  if (*param_1 == '\x04') {
-    uVar1 = (unsigned __int64)*(unsigned int *)(param_1 + 8);
-  }
-  else {
-    dVar2 = (double)fn_826972E0();
-    if ((dVar2 == lbl_82005710) || (((unsigned __int64)dVar2 & 0x7ff0000000000000) == 0x7ff0000000000000))
-    {
-      uVar1 = 0;
-    }
-    else if ((dVar2 < lbl_82006278) || (lbl_82006270 < dVar2)) {
-      dVar5 = lbl_82005710;
-      uVar3 = fn_82F68918(ABS(dVar2));
-      dVar4 = (double)fn_82F6A7A0(uVar3,lbl_82006268);
-      uVar1 = (__int64)dVar4 & 0xffffffff;
-      if (dVar2 < dVar5) {
-        uVar1 = -uVar1;
-      }
-    }
-    else {
-      uVar1 = (unsigned __int64)(unsigned int)(int)dVar2;
-    }
-  }
-  return uVar1;
+    return (*(unsigned __int64 *)&x & 0x7ff0000000000000) == 0x7ff0000000000000;
 }
 
+int fn_82697610(Value_82697610 *value, void *env)
+{
+    double number;
+    unsigned int result;
+    double whole;
+
+    if (value->type == 4) {
+        return value->integer;
+    }
+    number = fn_826972E0(value, env);
+    if (number == 0.0 || IsNaNOrInfinite(number)) {
+        return 0;
+    }
+    if (number < lbl_82006278 || number > lbl_82006270) {
+        whole = fn_82F68918(fabs(number));
+        result = (unsigned int)fn_82F6A7A0(whole, lbl_82006268);
+        if (number < 0.0) {
+            result = -result;
+        }
+        return (int)result;
+    }
+    return (int)number;
+}

@@ -1,101 +1,124 @@
-#define true 1
-extern int fn_82248B90();
-extern int fn_823AA2A8();
-extern int fn_823AB158();
-extern int fn_823AB478();
-extern int fn_8288F9A0();
-extern int fn_828A12E8();
-extern int fn_828A9288();
-extern int fn_828A9948();
-extern int fn_828EA610();
-extern int fn_828EB518();
-extern int fn_82AB8588();
-extern unsigned int lbl_83265988;
-extern unsigned int lbl_832659AC;
+/* For each of the four players: when the player's controller id is known and listed, makes sure
+   the player (and a linked one) is registered when enable is set; otherwise destroys the first
+   registered object that belongs to the player. The cursor keeps its owner beside the node, so the
+   owner is read again after every advance; the node stays in a register across the end() calls only
+   when the iterator advance fn_82248B90 is linked with link-time code generation. */
+typedef struct Object_82514AD8 Object_82514AD8;
 
+typedef struct ObjectVtable_82514AD8 {
+    void (*destroy)(Object_82514AD8 *self, int flags); /* 0x0 */
+} ObjectVtable_82514AD8;
 
-void fn_82514AD8(__int64 param_1,char param_2)
+struct Object_82514AD8 {
+    ObjectVtable_82514AD8 *vtable;
+};
 
+typedef struct Node_82514AD8 {
+    struct Node_82514AD8 *left; /* 0x00 */
+    char pad04[0x10];
+    Object_82514AD8 *value; /* 0x14 */
+} Node_82514AD8;
+
+typedef struct Map_82514AD8 {
+    int unknown0;
+    Node_82514AD8 *head; /* 0x4 */
+} Map_82514AD8;
+
+typedef struct Manager_82514AD8 {
+    char pad00[0x60];
+    char list[4]; /* 0x60 */
+} Manager_82514AD8;
+
+typedef struct Cursor_82514AD8 {
+    Manager_82514AD8 *owner;
+    Node_82514AD8 *node;
+} Cursor_82514AD8;
+
+typedef struct IdList_82514AD8 {
+    unsigned int ids[9];
+    unsigned int count; /* 0x24 */
+} IdList_82514AD8;
+
+extern IdList_82514AD8 lbl_83265988;
+
+extern void *fn_828A9948(Manager_82514AD8 *self, unsigned int player);
+extern unsigned int fn_828EB518(unsigned int player);
+extern unsigned char fn_828EA610(unsigned int id);
+extern unsigned int fn_82AB8588(unsigned int id);
+extern int fn_823AA2A8(void *list);
+extern void fn_828A9288(Manager_82514AD8 *self, unsigned int id, int first);
+extern void *fn_828A12E8(Manager_82514AD8 *self);
+extern Map_82514AD8 *fn_8288F9A0(void *holder, int kind);
+extern void *fn_823AB158(Object_82514AD8 *object);
+extern unsigned int fn_823AB478(void *owner);
+extern void fn_82248B90(Node_82514AD8 **node);
+
+static __forceinline unsigned char IsListed(unsigned int id)
 {
-  unsigned int *puVar1;
-  unsigned char bVar2;
-  int iVar5;
-  unsigned __int64 uVar3;
-  char cVar7;
-  unsigned __int64 uVar4;
-  int iVar6;
-  unsigned int uVar8;
-  unsigned int *puVar9;
-  unsigned __int64 uVar10;
-  unsigned __int64 uVar11;
-  int aiStack_5c [23];
-  
-  uVar10 = 0;
-  do {
-    iVar5 = fn_828A9948(param_1,uVar10);
-    uVar11 = 0;
-    iVar6 = 0;
-    uVar3 = fn_828EB518(uVar10);
-    if ((uVar3 & 0xffffffff) == 0) {
-LAB_82514c30:
-      uVar4 = fn_828A12E8(param_1);
-      iVar6 = fn_8288F9A0(uVar4,1);
-      aiStack_5c[0] = **(int **)(iVar6 + 4);
-      while( true ) {
-        iVar6 = aiStack_5c[0];
-        uVar4 = fn_828A12E8((int)param_1);
-        iVar5 = fn_8288F9A0(uVar4,1);
-        if (iVar6 == *(int *)(iVar5 + 4)) break;
-        puVar1 = *(unsigned int **)(iVar6 + 0x14);
-        fn_823AB158(puVar1);
-        uVar11 = fn_823AB478();
-        if ((uVar11 & 0xffffffff) == (uVar10 & 0xffffffff)) {
-          if (puVar1 != (unsigned int *)0x0) {
-            (**(int (***)())*puVar1)(puVar1,1);
-          }
-          break;
+    unsigned int i;
+
+    for (i = 0; i < lbl_83265988.count; i++) {
+        if (lbl_83265988.ids[i] == id) {
+            return 1;
         }
-        fn_82248B90(aiStack_5c);
-      }
     }
-    else {
-      uVar8 = 0;
-      puVar9 = &lbl_83265988;
-      if (lbl_832659AC != 0) {
-        do {
-          if ((unsigned __int64)*puVar9 == (uVar3 & 0xffffffff)) {
-            bVar2 = 1;
-            goto LAB_82514b58;
-          }
-          uVar8 = uVar8 + 1;
-          puVar9 = puVar9 + 1;
-        } while (uVar8 < lbl_832659AC);
-      }
-      bVar2 = 0;
-LAB_82514b58:
-      uVar3 = -(unsigned __int64)bVar2 & uVar3;
-      if ((uVar3 & 0xffffffff) == 0) goto LAB_82514c30;
-      cVar7 = fn_828EA610(uVar3);
-      if (cVar7 != '\0') {
-        fn_82AB8588(uVar3);
-        uVar11 = fn_828EB518();
-        uVar4 = fn_82AB8588(uVar3);
-        iVar6 = fn_828A9948(param_1,uVar4);
-        if (((uVar11 & 0xffffffff) == 0) || (iVar6 == 0)) goto LAB_82514c30;
-      }
-      if (((cVar7 != '\0') && (iVar6 == 0)) && (param_2 != '\0')) {
-        iVar6 = fn_823AA2A8(param_1 + 0x60);
-        fn_828A9288(param_1,uVar11,iVar6 == 0);
-      }
-      if ((iVar5 == 0) && (param_2 != '\0')) {
-        iVar6 = fn_823AA2A8(param_1 + 0x60);
-        fn_828A9288(param_1,uVar3,iVar6 == 0);
-      }
-    }
-    uVar10 = uVar10 + 1;
-    if (3 < (uVar10 & 0xffffffff)) {
-      return;
-    }
-  } while( true );
+    return 0;
 }
 
+static __forceinline int NotEnd(Cursor_82514AD8 *cursor)
+{
+    if (cursor->node != fn_8288F9A0(fn_828A12E8(cursor->owner), 1)->head) {
+        return 1;
+    }
+    return 0;
+}
+
+void fn_82514AD8(Manager_82514AD8 *self, unsigned char enable)
+{
+    unsigned int player;
+
+    for (player = 0; player < 4; player++) {
+        void *existing = fn_828A9948(self, player);
+        unsigned char linked = 0;
+        unsigned int linkedId = 0;
+        void *linkedEntry = 0;
+        unsigned int id = fn_828EB518(player);
+
+        if (id != 0) {
+            id = IsListed(id) ? id : 0;
+            if (id != 0) {
+                if (fn_828EA610(id)) {
+                    linked = 1;
+                    linkedId = fn_828EB518(fn_82AB8588(id));
+                    linkedEntry = fn_828A9948(self, fn_82AB8588(id));
+                }
+                if (!linked || (linkedId != 0 && linkedEntry != 0)) {
+                    if (linked && linkedEntry == 0 && enable) {
+                        fn_828A9288(self, linkedId, fn_823AA2A8(self->list) == 0);
+                    }
+                    if (existing == 0 && enable) {
+                        fn_828A9288(self, id, fn_823AA2A8(self->list) == 0);
+                    }
+                    continue;
+                }
+            }
+        }
+        {
+            Cursor_82514AD8 cursor;
+
+            cursor.owner = self;
+            cursor.node = fn_8288F9A0(fn_828A12E8(self), 1)->head->left;
+            while (NotEnd(&cursor)) {
+                Object_82514AD8 *object = cursor.node->value;
+
+                if (fn_823AB478(fn_823AB158(object)) == player) {
+                    if (object != 0) {
+                        object->vtable->destroy(object, 1);
+                    }
+                    break;
+                }
+                fn_82248B90(&cursor.node);
+            }
+        }
+    }
+}

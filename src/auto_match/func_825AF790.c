@@ -1,49 +1,37 @@
-unsigned __int64 fn_825AF790(int param_1,unsigned __int64 param_2)
-
+unsigned __int64 fn_825AF790(const unsigned char *data, unsigned __int64 bitPos)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  unsigned __int64 uVar6;
-  
-  uVar5 = param_2 >> 3;
-  uVar6 = 3;
-  uVar4 = 0;
-  param_2 = param_2 & 7;
-  do {
-    iVar1 = (int)uVar5;
-    if (param_2 == 0) {
-      if (uVar6 < 8) {
-        uVar2 = uVar6 & 0x7f;
-        uVar3 = 8 - uVar6;
-        uVar4 = uVar4 << (uVar6 & 0x7f);
-        uVar6 = 0;
-        uVar2 = ((unsigned __int64)*(unsigned char *)(iVar1 + param_1) & (1L << uVar2) + -1 << (uVar3 & 0x7f)) >>
-                (uVar3 & 0x7f);
-      }
-      else {
-        uVar4 = uVar4 << 8;
-        uVar6 = uVar6 - 8;
-        uVar5 = uVar5 + 1;
-        uVar2 = (unsigned __int64)*(unsigned char *)(iVar1 + param_1);
-      }
-      uVar4 = uVar2 | uVar4;
-    }
-    else {
-      uVar4 = 8 - param_2;
-      if (uVar6 < 8 - param_2) {
-        uVar4 = uVar6;
-      }
-      param_2 = (8 - uVar4) - param_2;
-      uVar6 = uVar6 - uVar4;
-      uVar5 = uVar5 + 1;
-      uVar4 = ((unsigned __int64)*(unsigned char *)(iVar1 + param_1) &
-              (1L << (uVar4 & 0x7f)) + -1 << (param_2 & 0x7f)) >> (param_2 & 0x7f);
-      param_2 = 0;
-    }
-  } while (uVar6 != 0);
-  return uVar4;
-}
+    unsigned __int64 byteIndex;
+    unsigned __int64 bitOffset;
+    unsigned __int64 remaining;
+    unsigned __int64 value;
+    unsigned __int64 count;
+    unsigned __int64 shift;
 
+    byteIndex = bitPos >> 3;
+    remaining = 3;
+    value = 0;
+    bitOffset = bitPos & 7;
+    do {
+        if (bitOffset != 0) {
+            count = 8 - bitOffset;
+            if (count > remaining) {
+                count = remaining;
+            }
+            shift = 8 - count - bitOffset;
+            remaining -= count;
+            value = (data[byteIndex] & ((((unsigned __int64)1 << count) - 1) << shift)) >> shift;
+            byteIndex++;
+            bitOffset = 0;
+        } else if (remaining >= 8) {
+            value = (value << 8) | data[byteIndex];
+            remaining -= 8;
+            byteIndex++;
+        } else {
+            shift = 8 - remaining;
+            value = (value << remaining) |
+                    ((data[byteIndex] & ((((unsigned __int64)1 << remaining) - 1) << shift)) >> shift);
+            remaining = 0;
+        }
+    } while (remaining != 0);
+    return value;
+}

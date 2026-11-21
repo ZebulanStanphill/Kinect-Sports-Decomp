@@ -1,59 +1,71 @@
-extern int fn_82ABE9F0();
-extern int fn_82AE5AC8();
-extern int fn_82F691F0();
+typedef struct Device_82ADE7E8 Device_82ADE7E8;
 
+typedef struct Slot_82ADE7E8 {
+    Device_82ADE7E8 *device; /* 0x00 */
+    int pad4;                /* 0x04 */
+    __int64 bits[4];         /* 0x08 */
+} Slot_82ADE7E8;
 
-int fn_82ADE7E8(int param_1)
+typedef struct Block_82ADE7E8 {
+    struct Block_82ADE7E8 *nextFree; /* 0x00 */
+    char pad4[0xc];
+    char *data[4];          /* 0x10 */
+    Slot_82ADE7E8 slots[4]; /* 0x20 */
+    char padc0[0x8];
+    struct Block_82ADE7E8 *next; /* 0xc8 */
+    char padcc[0x4];
+} Block_82ADE7E8;
 
+struct Device_82ADE7E8 {
+    char pad0[0x2a0];
+    unsigned int stride; /* 0x2a0 */
+    char pad2a4[0x2b8 - 0x2a4];
+    Block_82ADE7E8 *blocks;     /* 0x2b8 */
+    int blockCount;             /* 0x2bc */
+    Block_82ADE7E8 *freeBlocks; /* 0x2c0 */
+    char pad2c4[0x318 - 0x2c4];
+    unsigned int slotBits; /* 0x318 */
+};
+
+extern void *memset(void *dst, int value, unsigned int size);
+extern void *fn_82ABE9F0(Device_82ADE7E8 *device, unsigned int size, int tag);
+extern void fn_82AE5AC8(Slot_82ADE7E8 *slot, unsigned int first, unsigned int count);
+
+Block_82ADE7E8 *fn_82ADE7E8(Device_82ADE7E8 *device)
 {
-  unsigned int *puVar1;
-  int iVar2;
-  int iVar3;
-  unsigned __int64 uVar4;
-  __int64 lVar5;
-  int *piVar6;
-  int iVar7;
-  int *piVar8;
-  
-  puVar1 = *(unsigned int **)(param_1 + 0x2c0);
-  if (puVar1 != (unsigned int *)0x0) {
-    *(unsigned int *)(param_1 + 0x2c0) = *puVar1;
-                    /* WARNING: Subroutine does not return */
-    fn_82F691F0(puVar1,0,200);
-  }
-  iVar3 = fn_82ABE9F0(param_1,((unsigned __int64)*(unsigned int *)(param_1 + 0x2a0) & 0x7ffffff) * 0x20 +
-                                    0xd0,0x34);
-  *(unsigned int *)(iVar3 + 200) = *(unsigned int *)(param_1 + 0x2b8);
-  *(int *)(param_1 + 0x2b8) = iVar3;
-  iVar7 = iVar3 + 0xd0;
-  piVar8 = (int *)(iVar3 + 0x20);
-  piVar6 = (int *)(iVar3 + 0x10);
-  *(int *)(param_1 + 700) = *(int *)(param_1 + 700) + 1;
-  lVar5 = 4;
-  do {
-    *piVar6 = iVar7;
-    iVar2 = *(int *)(param_1 + 0x2a0);
-    *piVar8 = param_1;
-    iVar7 = iVar2 * 8 + iVar7;
-    piVar8[2] = 0;
-    piVar8[3] = 0;
-    piVar8[4] = 0;
-    piVar8[5] = 0;
-    piVar8[6] = 0;
-    piVar8[7] = 0;
-    piVar8[8] = 0;
-    piVar8[9] = 0;
-    uVar4 = (unsigned __int64)*(unsigned int *)(param_1 + 0x318);
-    if (uVar4 == 0) {
-      uVar4 = 0x20;
-    }
-    if (uVar4 < 0x40) {
-      fn_82AE5AC8(piVar8,uVar4,0x40 - uVar4);
-    }
-    lVar5 = lVar5 + -1;
-    piVar6 = piVar6 + 1;
-    piVar8 = piVar8 + 10;
-  } while (lVar5 != 0);
-  return iVar3;
-}
+    unsigned int size;
+    Block_82ADE7E8 *block;
+    char *data;
+    unsigned int bits;
+    Slot_82ADE7E8 *slot;
+    int i;
+    int j;
 
+    size = device->stride * 32 + sizeof(Block_82ADE7E8);
+    block = device->freeBlocks;
+    if (block != 0) {
+        device->freeBlocks = block->nextFree;
+        memset(block, 0, 200);
+        memset((char *)block + sizeof(Block_82ADE7E8), 0, size - sizeof(Block_82ADE7E8));
+    } else {
+        block = (Block_82ADE7E8 *)fn_82ABE9F0(device, size, 0x34);
+        block->next = device->blocks;
+        device->blocks = block;
+    }
+    device->blockCount++;
+    data = (char *)block + sizeof(Block_82ADE7E8);
+    for (i = 0; i < 4; i++) {
+        block->data[i] = data;
+        data += device->stride * 8;
+        slot = &block->slots[i];
+        slot->device = device;
+        for (j = 0; j < 4; j++) {
+            slot->bits[j] = 0;
+        }
+        bits = device->slotBits != 0 ? device->slotBits : 32;
+        if (bits < 64) {
+            fn_82AE5AC8(slot, bits, 64 - bits);
+        }
+    }
+    return block;
+}

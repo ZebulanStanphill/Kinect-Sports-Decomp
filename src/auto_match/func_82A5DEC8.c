@@ -1,41 +1,88 @@
-unsigned char fn_82A5DEC8(int param_1)
+typedef struct XmaStream_82A5DEC8 {
+    unsigned int bytesPerSec;   /* 0x00 */
+    unsigned int sampleRate;    /* 0x04 */
+    unsigned int loopStart;     /* 0x08 */
+    unsigned int loopEnd;       /* 0x0c */
+    unsigned char subframeData; /* 0x10 */
+    unsigned char channels;     /* 0x11 */
+    unsigned short channelMask; /* 0x12 */
+} XmaStream_82A5DEC8;
 
+typedef struct XmaFormat_82A5DEC8 {
+    unsigned short formatTag;      /* 0x00 */
+    unsigned short bitsPerSample;  /* 0x02 */
+    unsigned short encodeOptions;  /* 0x04 */
+    unsigned short largestSkip;    /* 0x06 */
+    unsigned short numStreams;     /* 0x08 */
+    unsigned char loopCount;       /* 0x0a */
+    unsigned char version;         /* 0x0b */
+    XmaStream_82A5DEC8 streams[1]; /* 0x0c */
+} XmaFormat_82A5DEC8;
+
+typedef struct WaveFormatEx_82A5DEC8 {
+    unsigned short formatTag;     /* 0x00 */
+    unsigned short channels;      /* 0x02 */
+    unsigned int samplesPerSec;   /* 0x04 */
+    unsigned int avgBytesPerSec;  /* 0x08 */
+    unsigned short blockAlign;    /* 0x0c */
+    unsigned short bitsPerSample; /* 0x0e */
+    unsigned short extraSize;     /* 0x10 */
+} WaveFormatEx_82A5DEC8;
+
+static __forceinline unsigned short CountBits(unsigned short mask)
 {
-  unsigned char bVar1;
-  unsigned char *pbVar2;
-  unsigned __int64 uVar3;
-  unsigned short uVar4;
-  unsigned short uVar5;
-  
-  if (*(unsigned short *)(param_1 + 0x10) < 0x20) {
-    return 0;
-  }
-  uVar3 = (unsigned __int64)*(unsigned short *)(param_1 + 8);
-  bVar1 = -(*(int *)(param_1 + 0x10) != 0) &
-          -(uVar3 != 0) &
-          -(*(char *)(param_1 + 0xb) == '\x02') & -(*(short *)(param_1 + 2) == 0x10) & 1U;
-  if (*(unsigned short *)(param_1 + 8) != 0) {
-    pbVar2 = (unsigned char *)(param_1 + 0x1c);
-    do {
-      bVar1 = -((*pbVar2 & 0xf0) < 0x31) &
-              -((*pbVar2 & 0xf) < 5) &
-              -(*(int *)(param_1 + 0x10) == *(int *)(pbVar2 + -0xc)) & bVar1;
-      if (pbVar2[1] != 1) {
-        bVar1 = -(pbVar2[1] == 2) & bVar1;
-      }
-      uVar5 = *(unsigned short *)(pbVar2 + 2);
-      if (uVar5 != 0) {
-        uVar4 = 0;
-        for (; uVar5 != 0; uVar5 = uVar5 - 1 & uVar5) {
-          uVar4 = uVar4 + 1;
-        }
-        bVar1 = -(pbVar2[1] == uVar4) & bVar1;
-      }
-      pbVar2 = pbVar2 + 0x14;
-      uVar3 = uVar3 - 1;
-    } while (uVar3 != 0);
-    return bVar1;
-  }
-  return bVar1;
+    unsigned short bits;
+
+    bits = 0;
+    while (mask != 0) {
+        bits++;
+        mask &= mask - 1;
+    }
+    return bits;
 }
 
+int fn_82A5DEC8(const XmaFormat_82A5DEC8 *format)
+{
+    int valid = 1;
+    int i;
+    const XmaStream_82A5DEC8 *stream;
+
+    if (((const WaveFormatEx_82A5DEC8 *)format)->extraSize < 0x20) {
+        return 0;
+    }
+    if (!(format->bitsPerSample == 16)) {
+        valid = 0;
+    }
+    if (!(format->version == 2)) {
+        valid = 0;
+    }
+    if (!(format->numStreams != 0)) {
+        valid = 0;
+    }
+    if (!(format->streams[0].sampleRate != 0)) {
+        valid = 0;
+    }
+    for (i = 0; i < format->numStreams; i++) {
+        stream = &format->streams[i];
+        if (!(stream->sampleRate == format->streams[0].sampleRate)) {
+            valid = 0;
+        }
+        if (!((stream->subframeData & 0xf) <= 4)) {
+            valid = 0;
+        }
+        if (!((stream->subframeData & 0xf0) <= 0x30)) {
+            valid = 0;
+        }
+        if (stream->channels != 1) {
+            if (!(stream->channels == 2)) {
+                valid = 0;
+            }
+        }
+        if (stream->channelMask != 0) {
+            if (CountBits(stream->channelMask) != stream->channels) {
+                valid = 0;
+            }
+        }
+    }
+    return valid;
+}

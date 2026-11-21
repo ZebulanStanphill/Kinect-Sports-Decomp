@@ -1,75 +1,112 @@
-extern unsigned int *auStack_40;
-extern int fn_82C10F40();
-extern int fn_82C10F68();
-extern int fn_82C10FD0();
-extern int fn_82C11038();
-extern int fn_82C11CB8();
-extern unsigned int uStack_38;
+typedef struct Entry_82C23858 {
+    unsigned char id; /* 0x00 */
+    char pad1[0x40 - 0x1];
+    int voice; /* 0x40 */
+    char pad44[0x50 - 0x44];
+    int active;           /* 0x50 */
+    unsigned int mask[4]; /* 0x54 */
+    int volume;           /* 0x64 */
+} Entry_82C23858;
 
+typedef struct Track_82C23858 {
+    char pad0[0x64];
+    int volume; /* 0x64 */
+} Track_82C23858;
 
-unsigned __int64 fn_82C23858(int param_1,int param_2,unsigned char *param_3,int *param_4)
+typedef struct Settings_82C23858 {
+    char pad0[0x48];
+    short count; /* 0x48 */
+} Settings_82C23858;
 
+typedef struct Context_82C23858 {
+    char pad0[4];
+    Settings_82C23858 *settings; /* 0x04 */
+    char pad8[0x94 - 0x8];
+    void *items; /* 0x94 */
+    char pad98[0xb4 - 0x98];
+    int pendingB4; /* 0xb4 */
+    char padB8[0xe4 - 0xb8];
+    int pendingE4; /* 0xe4 */
+    int failed;    /* 0xe8 */
+} Context_82C23858;
+
+typedef struct Message_82C23858 {
+    unsigned char track; /* 0x0 */
+    int volume;          /* 0x4 */
+} Message_82C23858;
+
+typedef struct Status_82C23858 {
+    int completed; /* 0x0 */
+    int result;    /* 0x4 */
+} Status_82C23858;
+
+extern int fn_82C10F40(void *table, unsigned char index, Track_82C23858 **out);
+extern int fn_82C10F68(void *table, int *cursor, Entry_82C23858 **item, unsigned char *flag);
+extern int fn_82C10FD0(void *table, int cursor, Entry_82C23858 **item, unsigned char *flag);
+extern int fn_82C11038(void *table, int cursor);
+extern int fn_82C11CB8(int volume, unsigned char id, unsigned int *mask, int voice);
+
+int fn_82C23858(Context_82C23858 *self, int message, Message_82C23858 *data, Status_82C23858 *status)
 {
-  unsigned char bVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  unsigned char auStack_40 [4];
-  unsigned char *puStack_3c;
-  struct { unsigned int first; int second; } stack_pair_38;
+    unsigned char index;
+    Track_82C23858 *track;
+    Entry_82C23858 *item;
+    unsigned char flag;
+    int cursor;
+    int hr;
 
-  
-  if (*param_4 == 0) {
-    if (param_2 == 0x20050) {
-      bVar1 = *param_3;
-      stack_pair_38.first = 0;
-      puStack_3c = (unsigned char *)0x0;
-      uVar3 = fn_82C10F40(*(unsigned int *)(param_1 + 0x94),bVar1,&stack_pair_38.second);
-      if ((-1 < (int)uVar3) &&
-         (*(unsigned int *)(stack_pair_38.second + 100) = *(unsigned int *)(param_3 + 4),
-         0 < *(short *)(*(int *)(param_1 + 4) + 0x48))) {
-        uVar3 = fn_82C10F68(*(unsigned int *)(param_1 + 0x94),&stack_pair_38.first,&puStack_3c,auStack_40);
-        if ((uVar3 & 0xffffffff) != 0x80500016) {
-          if ((int)uVar3 < 0) {
-            return uVar3;
-          }
-          do {
-            if ((int)uVar3 < 0) {
-              return uVar3;
+    if (status->completed != 0) {
+        hr = 0;
+        if (message == 0x20030) {
+            self->pendingE4 = 0;
+            if (status->result >= 0) {
+                self->pendingB4 = 0;
+            } else {
+                self->failed = 1;
+                hr = status->result;
             }
-            if ((*(int *)(puStack_3c + 0x50) != 0) &&
-               (uVar2 = 1 << ((unsigned int)bVar1 + ((int)(unsigned int)bVar1 >> 5) * -0x20 & 0x3f),
-               (*(unsigned int *)(puStack_3c + ((bVar1 >> 5) + 0x15) * 4) & uVar2) == uVar2)) {
-              *(unsigned int *)(puStack_3c + 100) = *(unsigned int *)(stack_pair_38.second + 100);
-              uVar3 = fn_82C11CB8(*(unsigned int *)(puStack_3c + 100),*puStack_3c,puStack_3c + 0x54,
-                                    *(unsigned int *)(puStack_3c + 0x40));
-              if ((int)uVar3 < 0) {
-                return uVar3;
-              }
-            }
-            uVar3 = fn_82C10FD0(*(unsigned int *)(param_1 + 0x94),stack_pair_38.first,&puStack_3c,auStack_40);
-          } while ((uVar3 & 0xffffffff) != 0x80500016);
         }
-        uVar3 = fn_82C11038(*(unsigned int *)(param_1 + 0x94),stack_pair_38.first);
-        uVar3 = -(unsigned __int64)(uVar3 != 0xffffffff80500016) & uVar3;
-      }
+        return hr;
     }
-    else {
-      uVar3 = 0xffffffff805000b2;
+    if (message != 0x20050) {
+        return 0x805000B2;
     }
-  }
-  else {
-    uVar3 = 0;
-    if (param_2 == 0x20030) {
-      *(unsigned int *)(param_1 + 0xe4) = 0;
-      if (param_4[1] < 0) {
-        *(unsigned int *)(param_1 + 0xe8) = 1;
-        uVar3 = (unsigned __int64)(unsigned int)param_4[1];
-      }
-      else {
-        *(unsigned int *)(param_1 + 0xb4) = 0;
-      }
+    index = data->track;
+    cursor = 0;
+    item = 0;
+    hr = fn_82C10F40(self->items, index, &track);
+    if (hr < 0) {
+        return hr;
     }
-  }
-  return uVar3;
+    track->volume = data->volume;
+    if (self->settings->count <= 0) {
+        return hr;
+    }
+    hr = fn_82C10F68(self->items, &cursor, &item, &flag);
+    if (hr != 0x80500016) {
+        if (hr < 0) {
+            return hr;
+        }
+        do {
+            if (hr < 0) {
+                return hr;
+            }
+            if (item->active != 0) {
+                unsigned int bit = 1 << (index % 32);
+                if ((item->mask[index >> 5] & bit) == bit) {
+                    item->volume = track->volume;
+                    {
+                        int volume = item->volume;
+                        hr = fn_82C11CB8(volume, item->id, item->mask, item->voice);
+                    }
+                    if (hr < 0) {
+                        return hr;
+                    }
+                }
+            }
+            hr = fn_82C10FD0(self->items, cursor, &item, &flag);
+        } while (hr != 0x80500016);
+    }
+    hr = fn_82C11038(self->items, cursor);
+    return 0x80500016 != hr ? hr : 0;
 }
-

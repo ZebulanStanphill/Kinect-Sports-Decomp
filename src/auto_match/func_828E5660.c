@@ -1,58 +1,45 @@
-typedef unsigned char bool;
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-#define _iStack_38 ((*(unsigned __int64*)&iStack_38))
-extern int fn_8223C478();
-extern int fn_828E9DB8();
-extern unsigned int iStack_34;
-extern unsigned int iStack_38;
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_821AAD20;
+typedef struct BitWriter_828E5660 BitWriter_828E5660;
 
+extern void fn_8223C478(BitWriter_828E5660 *writer, int bits, int flags);
+extern int fn_828E9DB8(BitWriter_828E5660 *writer, unsigned int value, int bits);
 
-bool fn_828E5660(double param_1,unsigned __int64 param_2,unsigned __int64 param_3,__int64 param_4,
-                  __int64 param_5)
+double fabs(double x);
 
+static __forceinline const unsigned int *Min(const unsigned int *left, const unsigned int *right)
 {
-  int iVar1;
-  unsigned char uVar2;
-  unsigned int uVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  unsigned __int64 uVar6;
-  int *piVar7;
-  double dVar8;
-  int aiStack_40 [2];
-  int iStack_38;
-  int iStack_34;
-  
-  uVar3 = (unsigned int)param_5;
-  param_4 = param_4 + param_5;
-  if ((int)uVar3 < 0) {
-    dVar8 = (double)(lbl_82002AE0 / (float)(__int64)(1 << (-uVar3 & 0x3f)));
-  }
-  else {
-    dVar8 = (double)(__int64)(1 << (uVar3 & 0x3f));
-  }
-  iStack_34 = (int)(__int64)ABS((float)(dVar8 * param_1));
-  uVar4 = (__int64)ABS((float)(dVar8 * param_1)) & 0xffffffff;
-  _iStack_38 = CONCAT44(iStack_34,iStack_34);
-  if (((double)lbl_821AAD20 <= param_1) || (uVar2 = 0, iStack_34 == 0)) {
-    uVar2 = 1;
-  }
-  uVar6 = (unsigned __int64)(unsigned int)(1 << ((unsigned int)param_4 & 0x3f));
-  uVar5 = uVar6 - 1;
-  aiStack_40[0] = (int)uVar5;
-  piVar7 = aiStack_40;
-  if (uVar4 <= (uVar5 & 0xffffffff)) {
-    piVar7 = &iStack_38;
-  }
-  iVar1 = *piVar7;
-  if (0 < (int)(unsigned int)param_4) {
-    fn_8223C478(param_2,1,0);
-    fn_828E9DB8(param_2,uVar2,1);
-    fn_8223C478(param_2,param_4,0);
-    fn_828E9DB8(param_2,iVar1,param_4);
-  }
-  return uVar4 < uVar6;
+    return *right < *left ? right : left;
 }
 
+static __forceinline void WriteBits(BitWriter_828E5660 *writer, unsigned int value, int bits)
+{
+    fn_8223C478(writer, bits, 0);
+    fn_828E9DB8(writer, value, bits);
+}
+
+/* Writes a sign bit and a fixed-point magnitude of intBits + fracBits bits;
+   returns whether the value fit without clipping. */
+unsigned char fn_828E5660(BitWriter_828E5660 *writer, float value, int intBits, int fracBits)
+{
+    int total = intBits + fracBits;
+    float scale;
+    unsigned int magnitude;
+    unsigned int limit;
+    unsigned char clipped;
+    unsigned char positive;
+
+    if (fracBits >= 0) {
+        scale = (float)(1 << fracBits);
+    } else {
+        scale = 1.0f / (float)(1 << -fracBits);
+    }
+    magnitude = (unsigned int)fabs(scale * value);
+    positive = value >= 0.0f || magnitude == 0;
+    clipped = magnitude >= (unsigned int)(1 << total);
+    limit = (1 << total) - 1;
+    magnitude = *Min(&magnitude, &limit);
+    if (total > 0) {
+        WriteBits(writer, positive != 0, 1);
+        WriteBits(writer, magnitude, total);
+    }
+    return !clipped;
+}

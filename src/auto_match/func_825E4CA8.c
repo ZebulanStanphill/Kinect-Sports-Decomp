@@ -1,33 +1,25 @@
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-#define _fStack_60 ((*(unsigned __int64*)&fStack_60))
-extern unsigned int fStack_5c;
-extern unsigned int fStack_60;
-extern int fn_825E4EB0();
-extern int fn_8284C850();
-extern int fn_8284C858();
-extern unsigned int lbl_8218E8E8;
+typedef struct Vector2_825E4CA8 {
+    float x;
+    float y;
+} Vector2_825E4CA8;
 
+extern int fn_8284C850(void *view);
+extern int fn_8284C858(void *view);
+extern void fn_825E4EB0(void *target, Vector2_825E4CA8 *offset, float time, const float *from,
+                        const float *to, void *arg5, void *arg6);
 
-void fn_825E4CA8(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,float *param_4,
-                  float *param_5,float *param_6)
-
+void fn_825E4CA8(void *view, void *target, const float *scale, const float *from, const float *to, float time,
+                 void *arg6, void *arg7)
 {
-  int iVar1;
-  double dVar2;
-  float fStack_60;
-  float fStack_5c;
-  __int64 lStack_58;
-  
-  fStack_5c = (float)fn_8284C850();
-  dVar2 = (double)lbl_8218E8E8;
-  fStack_60 = (float)((double)((float)(__int64)(int)fStack_5c * (*param_6 - *param_5)) * dVar2) *
-              *param_4;
-  iVar1 = fn_8284C858(param_2);
-  lStack_58 = (__int64)iVar1;
-  _fStack_60 = CONCAT44(fStack_60,
-                        (float)((double)((float)lStack_58 * (param_6[1] - param_5[1])) * dVar2) *
-                        param_4[1]);
-  fn_825E4EB0(param_1,param_3,&fStack_60);
-  return;
-}
+    float offsetX;
 
+    offsetX = scale[0] * ((float)fn_8284C850(view) * (to[0] - from[0]) * 0.5f);
+
+    {
+        Vector2_825E4CA8 offset;
+
+        offset.x = offsetX;
+        offset.y = scale[1] * ((float)fn_8284C858(view) * (to[1] - from[1]) * 0.5f);
+        fn_825E4EB0(target, &offset, time, from, to, arg6, arg7);
+    }
+}

@@ -1,96 +1,106 @@
-typedef unsigned char bool;
-#define CONCAT11(h,l) ((unsigned short)((((unsigned char)(h)) << 8) | ((unsigned char)(l))))
-extern int fn_8267BE38();
-extern int fn_82687270();
-extern int fn_8268B330();
-extern int fn_826C8C70();
-extern int fn_826E0920();
-extern int fn_826E7800();
-extern int fn_826E8660();
-extern unsigned int iStack_44;
-extern unsigned int iStack_48;
-extern unsigned int uStack_4c;
-extern unsigned int uStack_50;
-extern unsigned __int64 storeWordConditionalIndexed();
+typedef struct StringData_826E1288 {
+    int pad0;
+    long refCount; /* 0x04 */
+    char text[1];  /* 0x08 */
+} StringData_826E1288;
 
+typedef struct String_826E1288 {
+    unsigned int tagged; /* data pointer, low two bits are flags */
+} String_826E1288;
 
-void fn_826E1288(int param_1,unsigned int *param_2)
+typedef struct Stream_826E1288 {
+    char pad0[0x15];
+    unsigned char unusedBits; /* 0x15 */
+    char pad16[0x16];
+    int pos;  /* 0x2c */
+    int size; /* 0x30 */
+    char pad34[0x8];
+    unsigned char *data; /* 0x3c */
+} Stream_826E1288;
 
+typedef struct Loader_826E1288 {
+    char pad0[0x28];
+    Stream_826E1288 local; /* 0x28 */
+    char pad68[0x314 - 0x68];
+    Stream_826E1288 *external; /* 0x314 */
+} Loader_826E1288;
+
+typedef struct TagInfo_826E1288 {
+    int tagType; /* 0x00 */
+} TagInfo_826E1288;
+
+typedef struct Result_826E1288 {
+    int first;
+    unsigned int second;
+} Result_826E1288;
+
+extern long _InterlockedExchangeAdd(long volatile *target, long value);
+extern void fn_826E7800(Stream_826E1288 *stream, int count);
+extern void fn_8268B330(String_826E1288 *string);
+extern void fn_826E8660(Stream_826E1288 *stream, String_826E1288 *string);
+extern void fn_826C8C70(Stream_826E1288 *stream, const char *format, ...);
+extern Result_826E1288 *fn_826E0920(Result_826E1288 *out, Loader_826E1288 *loader, int *id,
+                                    const char *fileName, const char *exportName, unsigned short format,
+                                    unsigned short width, unsigned short height);
+extern void fn_82687270(unsigned int handle);
+extern void fn_8267BE38(void *data);
+
+extern const char lbl_82196582[];
+
+static __forceinline unsigned short ReadU16(Stream_826E1288 *stream)
 {
-  unsigned char uVar1;
-  unsigned char uVar2;
-  unsigned short uVar3;
-  unsigned short uVar4;
-  unsigned char *puVar6;
-  unsigned __int64 uVar5;
-  int iVar8;
-  __int64 lVar7;
-  unsigned int *puVar9;
-  unsigned int uVar10;
-  int iVar11;
-  char in_RESERVE;
-  unsigned char in_cr0;
-  unsigned int uStack_50;
-  unsigned int uStack_4c;
-  int iStack_48;
-  int iStack_44;
-  
-  iVar11 = *(int *)(param_1 + 0x314);
-  if (iVar11 == 0) {
-    iVar11 = param_1 + 0x28;
-  }
-  *(unsigned char *)(iVar11 + 0x15) = 0;
-  if (*(int *)(iVar11 + 0x30) - *(int *)(iVar11 + 0x2c) < 2) {
-    fn_826E7800(iVar11,2);
-  }
-  iVar8 = *(int *)(iVar11 + 0x2c) + 2;
-  puVar6 = (unsigned char *)(*(int *)(iVar11 + 0x3c) + *(int *)(iVar11 + 0x2c));
-  uVar1 = puVar6[1];
-  uVar2 = *puVar6;
-  *(int *)(iVar11 + 0x2c) = iVar8;
-  *(unsigned char *)(iVar11 + 0x15) = 0;
-  uVar10 = CONCAT11(uVar1,uVar2) | 0x50000;
-  if (*(int *)(iVar11 + 0x30) - iVar8 < 2) {
-    fn_826E7800(iVar11,2);
-  }
-  iVar8 = *(int *)(iVar11 + 0x2c) + 2;
-  puVar6 = (unsigned char *)(*(int *)(iVar11 + 0x3c) + *(int *)(iVar11 + 0x2c));
-  uVar1 = puVar6[1];
-  uVar2 = *puVar6;
-  *(int *)(iVar11 + 0x2c) = iVar8;
-  *(unsigned char *)(iVar11 + 0x15) = 0;
-  uVar3 = CONCAT11(uVar1,uVar2);
-  if (*(int *)(iVar11 + 0x30) - iVar8 < 2) {
-    fn_826E7800(iVar11,2);
-  }
-  puVar6 = (unsigned char *)(*(int *)(iVar11 + 0x3c) + *(int *)(iVar11 + 0x2c));
-  uVar1 = puVar6[1];
-  uVar2 = *puVar6;
-  *(int *)(iVar11 + 0x2c) = *(int *)(iVar11 + 0x2c) + 2;
-  uVar4 = CONCAT11(uVar1,uVar2);
-  fn_8268B330(&uStack_50);
-  fn_826E8660(iVar11,&uStack_50);
-  fn_826C8C70(iVar11,0xffffffff8200ce80,*param_2,uVar10,uVar3,
-                    ((unsigned __int64)uStack_50 & 0xfffffffc) + 8,uVar4);
-  uStack_4c = uVar10;
-  fn_826E0920(&iStack_48,param_1,&uStack_4c,((unsigned __int64)uStack_50 & 0xfffffffc) + 8,
-                0xffffffff82196582,uVar3,uVar4,uVar4);
-  if ((iStack_48 == 0) && (iStack_44 != 0)) {
-    fn_82687270();
-  }
-  lVar7 = ((unsigned __int64)uStack_50 & 0xfffffffc) + 4;
-  do {
-    puVar9 = (unsigned int *)lVar7;
-    uVar5 = (unsigned __int64)*puVar9;
-    if (in_RESERVE != '\0') {
-      uVar10 = storeWordConditionalIndexed(uVar5 - 1,0,lVar7);
-      *puVar9 = uVar10;
-      in_cr0 = 2;
+    unsigned char *bytes;
+    unsigned short value;
+
+    stream->unusedBits = 0;
+    if (stream->size - stream->pos < 2) {
+        fn_826E7800(stream, 2);
     }
-  } while (!(bool)(in_cr0 >> 1 & 1));
-  if (uVar5 == 1) {
-    fn_8267BE38();
-  }
-  return;
+    bytes = stream->data + stream->pos;
+    value = (bytes[1] << 8) | bytes[0];
+    stream->pos += 2;
+    return value;
 }
 
+static __forceinline const char *Text(String_826E1288 *string)
+{
+    return ((StringData_826E1288 *)(string->tagged & ~3u))->text;
+}
+
+static __forceinline void Release(String_826E1288 *string)
+{
+    StringData_826E1288 *data = (StringData_826E1288 *)(string->tagged & ~3u);
+    if (_InterlockedExchangeAdd(&data->refCount, -1) - 1 == 0) {
+        fn_8267BE38(data);
+    }
+}
+
+void fn_826E1288(Loader_826E1288 *loader, TagInfo_826E1288 *tagInfo)
+{
+    Stream_826E1288 *stream = loader->external;
+    int characterId;
+    unsigned short format;
+    unsigned short size;
+    String_826E1288 fileName;
+    int id;
+    Result_826E1288 result;
+
+    if (stream == 0) {
+        stream = &loader->local;
+    }
+    characterId = ReadU16(stream) | 0x50000;
+    format = ReadU16(stream);
+    size = ReadU16(stream);
+    fn_8268B330(&fileName);
+    fn_826E8660(stream, &fileName);
+    fn_826C8C70(stream,
+                "  DefineExternalGradientImage: tagInfo.TagType = %d, id = 0x%X, fmt = %d, name = '%s',"
+                " size = %d\n",
+                tagInfo->tagType, characterId, format, Text(&fileName), size);
+    id = characterId;
+    fn_826E0920(&result, loader, &id, Text(&fileName), lbl_82196582, format, size, size);
+    if (result.first == 0 && result.second != 0) {
+        fn_82687270(result.second);
+    }
+    Release(&fileName);
+}

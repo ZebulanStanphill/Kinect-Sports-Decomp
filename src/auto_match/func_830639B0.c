@@ -1,38 +1,56 @@
-typedef unsigned char bool;
-#define true 1
-extern int fn_8305ED48();
-extern int fn_8305F320();
-extern int fn_83066810();
-extern unsigned int lbl_8217E8A0;
-extern unsigned int uStack_28;
-extern unsigned int uStack_2c;
+typedef struct Vertices_830639B0 {
+    int unused;
+} Vertices_830639B0;
 
+typedef struct BspNode_830639B0 {
+    char pad0[0x10];
+    char plane[0x20];               /* 0x10 */
+    struct BspNode_830639B0 *front; /* 0x30 */
+    struct BspNode_830639B0 *back;  /* 0x34 */
+} BspNode_830639B0;
 
-void fn_830639B0(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5)
+typedef struct NodeIterator_830639B0 NodeIterator_830639B0;
 
+typedef struct NodeIteratorVt_830639B0 {
+    void *dtor;
+    BspNode_830639B0 *(*next)(NodeIterator_830639B0 *self, BspNode_830639B0 *node);
+} NodeIteratorVt_830639B0;
+
+struct NodeIterator_830639B0 {
+    const NodeIteratorVt_830639B0 *vt; /* 0x0 */
+    BspNode_830639B0 *root;            /* 0x4 */
+    BspNode_830639B0 *current;         /* 0x8 */
+};
+
+typedef struct Splitter_830639B0 {
+    char pad0[0x30];
+    float epsilon; /* 0x30 */
+} Splitter_830639B0;
+
+extern const NodeIteratorVt_830639B0 lbl_8217E8A0;
+
+extern void fn_8305ED48(Vertices_830639B0 *vertices, void *plane, int a, int b);
+extern int fn_83066810(void *plane, Vertices_830639B0 *vertices, float epsilon, unsigned char *onPlane);
+extern void fn_8305F320(Vertices_830639B0 *source, void *plane, Vertices_830639B0 *front,
+                        Vertices_830639B0 *back, float epsilon);
+
+void fn_830639B0(Splitter_830639B0 *self, BspNode_830639B0 *root, Vertices_830639B0 *vertices, int a, int b)
 {
-  bool bVar1;
-  int iVar2;
-  unsigned char **ppuStack_30;
-  unsigned int uStack_2c;
-  unsigned int uStack_28;
-  
-  fn_8305ED48(param_3,param_2 + 0x10,param_4,param_5);
-  uStack_2c = (unsigned int)param_2;
-  ppuStack_30 = &lbl_8217E8A0;
-  uStack_28 = uStack_2c;
-  while( true ) {
-    uStack_28 = (*(int (**)())ppuStack_30[1])(&ppuStack_30,param_2);
-    if (uStack_28 == 0) break;
-    bVar1 = *(int *)(uStack_28 + 0x30) == (int)param_2;
-    iVar2 = fn_83066810((double)*(float *)(param_1 + 0x30),uStack_28 + 0x10,param_3);
-    if (iVar2 == 3) {
-      fn_8305F320((double)*(float *)(param_1 + 0x30),param_3,(unsigned __int64)uStack_28 + 0x10,
-                        -(unsigned __int64)!bVar1 & param_3,-(unsigned __int64)bVar1 & param_3);
-    }
-    param_2 = (unsigned __int64)uStack_28;
-  }
-  return;
-}
+    NodeIterator_830639B0 it;
+    BspNode_830639B0 *previous;
+    unsigned char isFront;
 
+    fn_8305ED48(vertices, root->plane, a, b);
+    it.vt = &lbl_8217E8A0;
+    it.root = root;
+    it.current = root;
+    previous = root;
+    while ((it.current = it.vt->next(&it, previous)) != 0) {
+        isFront = previous == it.current->front;
+        if (fn_83066810(it.current->plane, vertices, self->epsilon, 0) == 3) {
+            fn_8305F320(vertices, it.current->plane, isFront ? 0 : vertices, isFront ? vertices : 0,
+                        self->epsilon);
+        }
+        previous = it.current;
+    }
+}

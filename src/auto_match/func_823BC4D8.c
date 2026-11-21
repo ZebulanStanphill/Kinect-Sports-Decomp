@@ -1,77 +1,93 @@
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_5c;
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_78;
-extern unsigned int *auStack_80;
-extern int fn_822315A0();
-extern int fn_82365BD8();
-extern int fn_823BC978();
-extern unsigned int iStack_6c;
-extern unsigned int iStack_74;
-extern unsigned int iStack_7c;
-extern unsigned int lbl_821B5EA4;
-extern unsigned int uStack_30;
-extern unsigned int uStack_61;
+typedef struct Shared_823BC4D8 {
+    void *object;     /* 0x0 */
+    void *references; /* 0x4 */
+} Shared_823BC4D8;
 
+typedef struct Node_823BC4D8 {
+    struct Node_823BC4D8 *left; /* 0x0 */
+    char pad4[0x8];
+    unsigned int key; /* 0xc */
+} Node_823BC4D8;
 
-unsigned int fn_823BC4D8(int param_1)
+typedef struct Owner_823BC4D8 {
+    char pad0[0x24];
+    Node_823BC4D8 *head; /* 0x24 */
+} Owner_823BC4D8;
 
+typedef struct Impl_823BC4D8 Impl_823BC4D8;
+
+typedef struct ImplVtable_823BC4D8 {
+    Impl_823BC4D8 *(*copy)(Impl_823BC4D8 *self, void *where);
+    void *unused4;
+    void *unused8;
+    void (*destroy)(Impl_823BC4D8 *self, int deleteThis);
+} ImplVtable_823BC4D8;
+
+struct Impl_823BC4D8 {
+    ImplVtable_823BC4D8 *vtable; /* 0x0 */
+    Shared_823BC4D8 value;       /* 0x4 */
+};
+
+typedef struct Function_823BC4D8 {
+    char storage[16];      /* 0x00 */
+    Impl_823BC4D8 *target; /* 0x10 */
+} Function_823BC4D8;
+
+extern ImplVtable_823BC4D8 lbl_821B5EA4;
+extern Shared_823BC4D8 *fn_82365BD8(Shared_823BC4D8 *dst, Shared_823BC4D8 *src);
+extern void fn_822315A0(void *references);
+extern Node_823BC4D8 **fn_823BC978(Node_823BC4D8 **out, Node_823BC4D8 *node, Node_823BC4D8 *end,
+                                   Function_823BC4D8 *predicate);
+
+unsigned int fn_823BC4D8(Owner_823BC4D8 *self, Shared_823BC4D8 *target)
 {
-  unsigned int *puVar1;
-  unsigned int uVar2;
-  int iVar3;
-  int *piVar4;
-  unsigned char *puVar5;
-  unsigned char auStack_80 [4];
-  int iStack_7c;
-  unsigned char auStack_78 [4];
-  int iStack_74;
-  unsigned char auStack_70 [4];
-  int iStack_6c;
-  unsigned char uStack_61;
-  unsigned char **ppuStack_60;
-  unsigned char auStack_5c [12];
-  unsigned char ***pppuStack_50;
-  unsigned char auStack_40 [16];
-  unsigned int uStack_30;
-  
-  fn_82365BD8(auStack_70);
-  fn_82365BD8(auStack_78,auStack_70);
-  fn_82365BD8(auStack_80,auStack_78);
-  ppuStack_60 = &lbl_821B5EA4;
-  fn_82365BD8(auStack_5c,auStack_80);
-  pppuStack_50 = &ppuStack_60;
-  if (iStack_7c != 0) {
-    fn_822315A0();
-  }
-  if (iStack_74 != 0) {
-    fn_822315A0();
-  }
-  if (iStack_6c != 0) {
-    fn_822315A0();
-  }
-  puVar1 = *(unsigned int **)(param_1 + 0x24);
-  uVar2 = *puVar1;
-  if (pppuStack_50 == (unsigned char ***)0x0) {
-    uStack_30 = 0;
-  }
-  else {
-    puVar5 = auStack_40;
-    if (pppuStack_50 != &ppuStack_60) {
-      puVar5 = (unsigned char *)0x0;
-    }
-    uStack_30 = (*(int (**)())**pppuStack_50)(pppuStack_50,puVar5);
-  }
-  piVar4 = (int *)fn_823BC978(auStack_80,uVar2,puVar1,auStack_40);
-  iVar3 = *piVar4;
-  if (pppuStack_50 != (unsigned char ***)0x0) {
-    (*(int (**)())(*pppuStack_50)[3])
-              (pppuStack_50,
-               (int)(auStack_5c + -(int)pppuStack_50 + -4) -
-               (int)(&uStack_61 +
-                    (unsigned int)(auStack_5c + -(int)pppuStack_50 + -4 == (unsigned char *)0x0) +
-                    -(int)pppuStack_50));
-  }
-  return *(unsigned int *)(iVar3 + 0xc);
-}
+    Function_823BC4D8 predicate;
+    Function_823BC4D8 copy;
+    Node_823BC4D8 *head;
+    Node_823BC4D8 *first;
+    Node_823BC4D8 *found;
 
+    {
+        Shared_823BC4D8 bound;
+        Shared_823BC4D8 argument;
+        Shared_823BC4D8 stored;
+        Impl_823BC4D8 *impl;
+
+        fn_82365BD8(&bound, target);
+        fn_82365BD8(&argument, &bound);
+        fn_82365BD8(&stored, &argument);
+        impl = (Impl_823BC4D8 *)predicate.storage;
+        impl->vtable = &lbl_821B5EA4;
+        fn_82365BD8(&impl->value, &stored);
+        predicate.target = impl;
+        if (stored.references != 0) {
+            fn_822315A0(stored.references);
+        }
+        if (argument.references != 0) {
+            fn_822315A0(argument.references);
+        }
+        if (bound.references != 0) {
+            fn_822315A0(bound.references);
+        }
+    }
+    head = self->head;
+    first = head->left;
+    if (predicate.target == 0) {
+        copy.target = 0;
+    } else {
+        if ((void *)predicate.target == (void *)&predicate) {
+            copy.target = predicate.target->vtable->copy(predicate.target, copy.storage);
+        } else {
+            copy.target = predicate.target->vtable->copy(predicate.target, 0);
+        }
+    }
+    {
+        Node_823BC4D8 *result;
+        found = *fn_823BC978(&result, first, head, &copy);
+    }
+    if (predicate.target != 0) {
+        predicate.target->vtable->destroy(predicate.target, (void *)predicate.target != (void *)&predicate);
+        predicate.target = 0;
+    }
+    return found->key;
+}

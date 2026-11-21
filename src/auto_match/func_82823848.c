@@ -1,67 +1,78 @@
-extern int fn_82823728();
+typedef struct Header_82823848 {
+    int count;    /* 0x0 */
+    unsigned pos; /* 0x4 */
+} Header_82823848;
 
+typedef struct Buffer_82823848 {
+    Header_82823848 *header; /* 0x00 */
+    int pad4;                /* 0x04 */
+    unsigned f8;             /* 0x08 */
+    char padc[8];            /* 0x0c */
+    unsigned f14;            /* 0x14 */
+    unsigned capacity;       /* 0x18 */
+    unsigned start;          /* 0x1c */
+    unsigned end;            /* 0x20 */
+    unsigned f24;            /* 0x24 */
+    unsigned longest;        /* 0x28 */
+} Buffer_82823848;
 
-unsigned __int64 fn_82823848(int param_1,int *param_2,unsigned int param_3,unsigned __int64 param_4,int *param_5)
+extern int fn_82823728(char *records, Buffer_82823848 *b, unsigned length, unsigned *size);
 
+int fn_82823848(char *records, Buffer_82823848 *b, int type, int length, unsigned *size)
 {
-  unsigned int uVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  int iVar5;
-  unsigned char *puVar6;
-  unsigned __int64 uVar4;
-  
-  if ((unsigned int)param_2[6] < *param_5 + 5U) {
-    return 1;
-  }
-  iVar2 = (int)param_4;
-  if ((*(int *)*param_2 < 1) ||
-     (iVar5 = *(int *)*param_2 * 5 + param_1, *(unsigned char *)(iVar5 + -5) != param_3)) {
-    if ((param_3 == 1) || (uVar3 = 0, param_3 == 2)) {
-      uVar3 = param_4;
-    }
-    uVar3 = fn_82823728(param_1,param_2,uVar3,param_5);
-    if ((int)uVar3 != 0) {
-      return uVar3;
-    }
-    puVar6 = (unsigned char *)(*(int *)*param_2 * 5 + param_1);
-    *puVar6 = (char)param_3;
-    *(int *)(puVar6 + 1) = iVar2;
-    *(int *)*param_2 = *(int *)*param_2 + 1;
-    *param_5 = *param_5 + 5;
-  }
-  else {
-    *(int *)(iVar5 + -4) = *(int *)(iVar5 + -4) + iVar2;
-  }
-  if (param_3 == 0) {
-    uVar1 = param_2[7];
-    uVar4 = (unsigned __int64)(unsigned int)param_2[8] - (unsigned __int64)uVar1;
-    if (0 < (__int64)uVar4) {
-      if ((uVar4 & 0xffffffff) < (unsigned __int64)(unsigned int)param_2[10]) {
-        uVar4 = (unsigned __int64)(unsigned int)param_2[10];
-      }
-      param_2[10] = (int)uVar4;
-    }
-    param_2[8] = param_2[8] + iVar2;
-  }
-  else {
-    if (param_3 == 1) {
-      *(int *)(*param_2 + 4) = *(int *)(*param_2 + 4) + iVar2;
-      param_2[7] = param_2[7] + iVar2;
-      param_2[8] = param_2[8] + iVar2;
-      return 0;
-    }
-    if (param_3 < 3) {
-      *(int *)(*param_2 + 4) = *(int *)(*param_2 + 4) + iVar2;
-      param_2[8] = param_2[8] + iVar2;
-      return 0;
-    }
-    if (param_3 != 3) {
-      return 0;
-    }
-    uVar1 = param_2[7];
-  }
-  param_2[7] = uVar1 + iVar2;
-  return 0;
-}
+    unsigned char *rec;
+    int result;
+    unsigned arg;
+    int span;
 
+    if (*size + 5 > b->capacity) {
+        return 1;
+    }
+    if (b->header->count > 0) {
+        rec = (unsigned char *)(b->header->count * 5 + records);
+        if (rec[-5] == type) {
+            *(int *)(rec - 4) += length;
+            goto update;
+        }
+    }
+    arg = 0;
+    if (type == 1 || type == 2) {
+        arg = length;
+    }
+    result = fn_82823728(records, b, arg, size);
+    if (result != 0) {
+        return result;
+    }
+    rec = (unsigned char *)(b->header->count * 5 + records);
+    rec[0] = type;
+    *(int *)(rec + 1) = length;
+    b->header->count++;
+    *size += 5;
+update:
+    switch (type) {
+    case 0:
+        span = b->end - b->start;
+        if (span > 0) {
+            if (b->longest > (unsigned)span) {
+                span = b->longest;
+            }
+            b->longest = span;
+        }
+        b->start += length;
+        b->end += length;
+        break;
+    case 1:
+        b->header->pos += length;
+        b->start += length;
+        b->end += length;
+        break;
+    case 2:
+        b->header->pos += length;
+        b->end += length;
+        break;
+    case 3:
+        b->start += length;
+        break;
+    }
+    return 0;
+}

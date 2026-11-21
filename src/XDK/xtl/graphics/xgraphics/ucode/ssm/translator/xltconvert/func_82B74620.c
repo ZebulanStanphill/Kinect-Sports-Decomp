@@ -1,41 +1,109 @@
-extern int fn_82AB15D0();
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
 
+#define XLT_FILE                                                                                             \
+    "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\"                                   \
+    "ucode\\ssm\\translator\\xltconvert.cpp"
 
-unsigned int * fn_82B74620(int param_1,unsigned short *param_2,unsigned int *param_3)
+#define XLT_ASSERT(e, line)                                                                                  \
+    if (!(e))                                                                                                \
+    fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, XLT_FILE, line)
 
+/* IL tokens; the first bit-field is the most significant one on this target. */
+typedef struct OpCode_82B74620 {
+    unsigned int reserved : 2;
+    unsigned int priModifierPresent : 1;
+    unsigned int secModifierPresent : 1;
+    unsigned int control : 12;
+    unsigned int code : 16;
+} OpCode_82B74620;
+
+typedef struct Register_82B74620 {
+    unsigned int extended : 1;
+    unsigned int reserved : 4;
+    unsigned int immediatePresent : 1;
+    unsigned int dimension : 1;
+    unsigned int relativeAddressHigh : 1;
+    unsigned int relativeAddress : 1;
+    unsigned int modifierPresent : 1;
+    unsigned int registerType : 6;
+    unsigned int registerNum : 16;
+} Register_82B74620;
+
+typedef struct SourceModifier_82B74620 {
+    unsigned int other : 16;
+    unsigned int negateW : 1;
+    unsigned int swizzleW : 3;
+    unsigned int negateZ : 1;
+    unsigned int swizzleZ : 3;
+    unsigned int negateY : 1;
+    unsigned int swizzleY : 3;
+    unsigned int negateX : 1;
+    unsigned int swizzleX : 3;
+} SourceModifier_82B74620;
+
+typedef struct Assembler_82B74620 {
+    char padding[0x5b40];
+    unsigned int scratchRegister; /* 0x5b40 */
+    unsigned int sourceRegister;  /* 0x5b44 */
+} Assembler_82B74620;
+
+typedef struct Context_82B74620 {
+    char padding[0x1c];
+    Assembler_82B74620 *assembler; /* 0x1c */
+} Context_82B74620;
+
+unsigned int *fn_82B74620(Context_82B74620 *context, unsigned short *source, unsigned int *out)
 {
-  unsigned short uVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  
-  iVar2 = *(int *)(param_1 + 0x1c);
-  uVar1 = *param_2;
-  *(unsigned short *)((int)param_3 + 2) = 0x71;
-  *param_3 = *param_3 & 0xe000ffff;
-  uVar1 = uVar1 & 7;
-  *(short *)((int)param_3 + 6) = (short)*(unsigned int *)(iVar2 + 0x5b40);
-  param_3[1] = param_3[1] & 0xff00ffff | 0x40000;
-  *(short *)((int)param_3 + 10) = (short)*(unsigned int *)(iVar2 + 0x5b44);
-  param_3[2] = param_3[2] & 0xff00ffff | 0x440000;
-  if (uVar1 != 1) {
-    if (uVar1 == 2) {
-      uVar3 = 1;
-      goto LAB_82b746d4;
-    }
-    if (uVar1 == 3) {
-      uVar3 = 2;
-      goto LAB_82b746d4;
-    }
-    if (uVar1 == 4) {
-      uVar3 = 3;
-      goto LAB_82b746d4;
-    }
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff821b597c,0xffffffff820da3b8,0x20b6);
-  }
-  uVar3 = 0;
-LAB_82b746d4:
-  param_3[3] = (unsigned int)(uVar3 << 0xc) |
-               (unsigned int)((uVar3 << 4 | uVar3) << 4) | param_3[3] & 0xffff8888 | (unsigned int)uVar3;
-  return param_3 + 4;
-}
+    Assembler_82B74620 *assembler;
+    unsigned int component;
+    unsigned int swizzle;
+    OpCode_82B74620 *opcode;
+    Register_82B74620 *destination;
+    Register_82B74620 *operand;
+    SourceModifier_82B74620 *modifier;
 
+    assembler = context->assembler;
+    component = *source & 7;
+    opcode = (OpCode_82B74620 *)out;
+    opcode->code = 0x71;
+    opcode->control = 0;
+    opcode->secModifierPresent = 0;
+    out++;
+    destination = (Register_82B74620 *)out;
+    destination->registerNum = assembler->scratchRegister;
+    destination->registerType = 4;
+    destination->modifierPresent = 0;
+    destination->relativeAddress = 0;
+    out++;
+    operand = (Register_82B74620 *)out;
+    operand->registerNum = assembler->sourceRegister;
+    operand->registerType = 4;
+    operand->modifierPresent = 1;
+    operand->relativeAddress = 0;
+    out++;
+    switch (component) {
+    case 1:
+        swizzle = 0;
+        break;
+    case 2:
+        swizzle = 1;
+        break;
+    case 3:
+        swizzle = 2;
+        break;
+    case 4:
+        swizzle = 3;
+        break;
+    default:
+        XLT_ASSERT(0, 0x20b6);
+        swizzle = 0;
+        break;
+    }
+    modifier = (SourceModifier_82B74620 *)out;
+    modifier->swizzleX = swizzle;
+    modifier->swizzleY = swizzle;
+    modifier->swizzleZ = swizzle;
+    modifier->swizzleW = swizzle;
+    out++;
+    return out;
+}

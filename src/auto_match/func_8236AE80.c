@@ -1,42 +1,48 @@
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
-extern float lbl_8327F894;
+typedef struct Sound_8236AE80 {
+    char pad0[0x4];
+    float volume; /* 0x04 */
+    char pad8[0x14];
+    float paused; /* 0x1c */
+} Sound_8236AE80;
 
+typedef struct Fader_8236AE80 {
+    char pad0[0x1350];
+    unsigned char active; /* 0x1350 */
+    char pad1351[0x3];
+    float level;           /* 0x1354 */
+    float delay;           /* 0x1358 */
+    float rate;            /* 0x135c */
+    Sound_8236AE80 *sound; /* 0x1360 */
+} Fader_8236AE80;
 
-void fn_8236AE80(int param_1)
+extern const float lbl_821CA45C[2];
+extern float lbl_8327F880[8]; /* frame timing; [5] is the frame time */
 
+void fn_8236AE80(Fader_8236AE80 *self)
 {
-  float fVar1;
-  int iVar2;
-  float fVar3;
-  float fVar4;
-  float fVar5;
-  
-  fVar4 = ltcg_pool_0_0f;
-  fVar5 = lbl_821CA460;
-  if (*(char *)(param_1 + 0x1350) != '\0') {
-    *(float *)(*(int *)(param_1 + 0x1360) + 4) = lbl_821CA460;
-    iVar2 = *(int *)(param_1 + 0x1360);
-    fVar3 = fVar4;
-    if (*(float *)(iVar2 + 0x1c) <= fVar4) {
-      fVar3 = *(float *)(iVar2 + 4) * lbl_8327F894;
-    }
-    fVar1 = *(float *)(param_1 + 0x1358);
-    if (fVar1 <= fVar3) {
-      *(float *)(param_1 + 0x1358) = fVar4;
-      fVar4 = *(float *)(param_1 + 0x135c) * (fVar3 - fVar1) + *(float *)(param_1 + 0x1354);
-      *(float *)(param_1 + 0x1354) = fVar4;
-      if (fVar5 <= fVar4) {
-        *(float *)(param_1 + 0x1354) = fVar5;
-        *(unsigned char *)(param_1 + 0x1350) = 0;
-      }
-    }
-    else {
-      *(float *)(param_1 + 0x1358) = fVar1 - fVar3;
-    }
-    *(unsigned int *)(iVar2 + 4) = *(unsigned int *)(param_1 + 0x1354);
-    return;
-  }
-  return;
-}
+    float one;
+    float elapsed;
 
+    if (self->active == 0) {
+        return;
+    }
+    one = lbl_821CA45C[1];
+    self->sound->volume = one;
+    if (self->sound->paused > 0.0f) {
+        elapsed = 0.0f;
+    } else {
+        elapsed = self->sound->volume * lbl_8327F880[5];
+    }
+    if (elapsed < self->delay) {
+        self->delay -= elapsed;
+    } else {
+        elapsed -= self->delay;
+        self->delay = 0.0f;
+        self->level = self->rate * elapsed + self->level;
+        if (self->level >= one) {
+            self->level = one;
+            self->active = 0;
+        }
+    }
+    self->sound->volume = self->level;
+}

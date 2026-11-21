@@ -1,43 +1,57 @@
-extern int fn_82A29A38();
-extern unsigned int lbl_83160520;
+/* Writes a move instruction for a shader source operand: the opcode word with the negate field,
+   the source swizzle remapped through lbl_83160520 unless it is the identity, then two constant
+   words. */
+typedef union Word_82AAC9C0 {
+    unsigned int value;
 
+    struct {
+        unsigned int pad : 13;
+        unsigned int negate : 3;
+        unsigned int opcode : 16;
+    } bits;
+} Word_82AAC9C0;
 
-void fn_82AAC9C0(unsigned __int64 param_1,unsigned int param_2,int *param_3)
+extern unsigned int lbl_83160520[6];
+extern void fn_82A29A38(void);
 
+void fn_82AAC9C0(unsigned int source, int opcode, unsigned int **destination)
 {
-  unsigned int *puVar1;
-  int iVar2;
-  unsigned int uVar3;
-  int iVar4;
-  int iVar5;
-  unsigned int *puVar6;
-  
-  puVar1 = (unsigned int *)*param_3;
-  if ((param_2 != 0x34) && (param_2 != 7)) {
-    fn_82A29A38();
-  }
-  param_2 = param_2 & 0xffff;
-  if ((param_1 & 0xf000000) == 0xd000000) {
-    param_2 = param_2 | 0x10000;
-  }
-  param_1 = param_1 & 0xff0000;
-  *puVar1 = param_2;
-  puVar6 = puVar1 + 1;
-  if (param_1 == 0xe40000) {
-    *puVar6 = 0x40020;
-  }
-  else {
-    iVar2 = *(int *)(&lbl_83160520 + ((unsigned int)((param_1 >> 0x12) << 2) & 0xc));
-    uVar3 = *(unsigned int *)(&lbl_83160520 + ((unsigned int)param_1 >> 0xe & 0xc));
-    iVar4 = *(int *)(&lbl_83160520 + ((unsigned int)((param_1 >> 0x14) << 2) & 0xc));
-    iVar5 = *(int *)(&lbl_83160520 + ((unsigned int)(param_1 >> 0x14) & 0xc));
-    *puVar6 = 0x440020;
-    puVar6 = puVar1 + 2;
-    *puVar6 = iVar5 << 0xc | iVar4 << 8 | iVar2 << 4 | uVar3;
-  }
-  puVar6[1] = 0x410000;
-  puVar6[2] = 0x4444;
-  *param_3 = (int)(puVar6 + 3);
-  return;
-}
+    unsigned int *output;
+    Word_82AAC9C0 word;
+    unsigned int sourceSwizzle;
+    unsigned int shifted;
+    unsigned int bits;
 
+    output = *destination;
+    if (opcode != 0x34 && opcode != 7) {
+        fn_82A29A38();
+    }
+    word.value = opcode & 0xffff;
+    if ((source & 0xf000000) == 0xd000000) {
+        word.bits.negate = 1;
+    } else {
+        word.bits.negate = 0;
+    }
+    *output++ = word.value;
+    sourceSwizzle = source & 0xff0000;
+    if (sourceSwizzle != 0xe40000) {
+        unsigned int wComponent;
+
+        shifted = sourceSwizzle >> 16;
+        bits = lbl_83160520[shifted & 3];
+        shifted >>= 2;
+        bits |= lbl_83160520[shifted & 3] << 4;
+        shifted >>= 2;
+        bits |= lbl_83160520[shifted & 3] << 8;
+        shifted >>= 2;
+        wComponent = lbl_83160520[shifted & 3];
+        *output++ = 0x440020;
+        bits |= wComponent << 12;
+        *output++ = bits;
+    } else {
+        *output++ = 0x40020;
+    }
+    *output++ = 0x410000;
+    *output++ = 0x4444;
+    *destination = output;
+}

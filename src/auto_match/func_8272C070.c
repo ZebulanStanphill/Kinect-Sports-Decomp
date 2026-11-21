@@ -1,11 +1,24 @@
-extern int cos();
-extern unsigned int lbl_82011628;
+#include <math.h>
 
+typedef struct Polar_8272C070 {
+    char pad0[0x10];
+    short angle;  /* 0x10 */
+    short length; /* 0x12 */
+    short x;      /* 0x14 */
+    short y;      /* 0x16 */
+} Polar_8272C070;
 
-void fn_8272C070(int param_1)
+extern const float lbl_82011628;
 
+void fn_8272C070(Polar_8272C070 *self)
 {
-                    /* WARNING: Subroutine does not return */
-  cos((double)((float)(__int64)*(short *)(param_1 + 0x10) * lbl_82011628));
-}
+    float radians;
+    float cosine;
+    float sine;
 
+    radians = (float)self->angle * lbl_82011628;
+    cosine = (float)cos(radians);
+    self->x = (short)(self->length * cosine);
+    sine = (float)sin(radians);
+    self->y = (short)(self->length * sine);
+}

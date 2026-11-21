@@ -1,105 +1,67 @@
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_80;
-extern unsigned int *auStack_90;
-extern unsigned int *auStack_a0;
-extern unsigned int *auStack_b0;
-extern int fn_828095F8();
-extern int fn_82810240();
-extern int fn_82810280();
-extern int fn_82810328();
-extern int fn_82810B78();
-extern int fn_82810BE8();
-extern int fn_8305F778();
-extern unsigned int lbl_8201DCB8;
-extern unsigned int lbl_8201E038;
-extern unsigned int lbl_8217E6B0;
-extern unsigned int lbl_821AAD20;
+/* Tests whether the polygon winds positively around its normal: sums the signed turning angles at
+   every vertex and fails on a degenerate normal or a zero-length edge. */
+typedef struct Polygon_8305D990 {
+    char padding[0x28];
+    void *vertices;  /* 0x28 */
+    int *indices;    /* 0x2c */
+    int count;       /* 0x30 */
+    float normal[4]; /* 0x34 */
+} Polygon_8305D990;
 
+extern float lbl_8201E038;
+extern float lbl_8217E6B0;
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+extern void fn_8305F778(void *vertices, int index, float *out);
+extern void fn_82810328(const float *first, const float *second, float *out);
+extern void fn_82810240(const float *first, const float *second, float *out);
+extern float fn_82810BE8(const float *vector);
+extern void fn_82810B78(const float *vector, float *out);
+extern float fn_82810280(const float *first, const float *second);
+extern float fn_828095F8(float value);
 
-unsigned __int64 fn_8305D990(int param_1)
-
+int fn_8305D990(Polygon_8305D990 *self)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  int iVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  int iVar6;
-  double dVar7;
-  double dVar8;
-  double dVar9;
-  double dVar10;
-  unsigned char auStack_b0 [1];
-  unsigned char auStack_a0 [16];
-  unsigned char auStack_90 [16];
-  unsigned char auStack_80 [16];
-  unsigned char auStack_70 [16];
-  unsigned char auStack_60 [96];
-  
-  dVar7 = (double)fn_82810BE8(param_1 + 0x34);
-  if (((double)lbl_8201E038 < dVar7) && (dVar7 < (double)lbl_8217E6B0)) {
-    uVar1 = *(unsigned int *)(param_1 + 0x30);
-    dVar7 = (double)lbl_821AAD20;
-    if (0 < (int)uVar1) {
-      iVar3 = 0;
-      uVar5 = 0xffffffffffffffff;
-      dVar9 = (double)lbl_8201DCB8;
-      dVar10 = dVar7;
-      do {
-        uVar2 = uVar5 - 1;
-        if ((__int64)uVar2 < 0) {
-          uVar2 = (uVar5 + uVar1) - 1;
-        }
-        iVar6 = (int)uVar5;
-        uVar4 = uVar5 + uVar1;
-        if (-1 < iVar6) {
-          uVar4 = uVar5;
-        }
-        fn_8305F778(*(unsigned int *)(param_1 + 0x28),
-                     *(unsigned int *)((int)((uVar2 & 0xffffffff) << 2) + *(int *)(param_1 + 0x2c)),
-                     auStack_80);
-        fn_8305F778(*(unsigned int *)(param_1 + 0x28),
-                     *(unsigned int *)((int)((uVar4 & 0xffffffff) << 2) + *(int *)(param_1 + 0x2c)),
-                     auStack_90);
-        fn_8305F778(*(unsigned int *)(param_1 + 0x28),
-                     *(unsigned int *)(*(int *)(param_1 + 0x2c) + iVar3),auStack_70);
-        fn_82810328(auStack_90,auStack_80,auStack_a0);
-        fn_82810328(auStack_70,auStack_90,auStack_b0);
-        dVar8 = (double)fn_82810BE8(auStack_a0);
-        if (dVar8 < dVar9) {
-          return 0;
-        }
-        dVar8 = (double)fn_82810BE8(auStack_b0);
-        if (dVar8 < dVar9) {
-          return 0;
-        }
-        fn_82810B78(auStack_a0,auStack_a0);
-        fn_82810B78(auStack_b0,auStack_b0);
-        fn_82810240(auStack_a0,auStack_b0,auStack_60);
-        dVar8 = (double)fn_82810280(auStack_60,param_1 + 0x34);
-        if (dVar8 <= dVar7) {
-          fn_82810280(auStack_a0,auStack_b0);
-          dVar8 = (double)fn_828095F8();
-          dVar8 = dVar10 - dVar8;
-        }
-        else {
-          fn_82810280(auStack_a0,auStack_b0);
-          dVar8 = (double)fn_828095F8();
-          dVar8 = dVar8 + dVar10;
-        }
-        dVar10 = (double)(float)dVar8;
-        uVar5 = uVar5 + 1;
-        uVar1 = *(unsigned int *)(param_1 + 0x30);
-        iVar3 = iVar3 + 4;
-      } while (iVar6 + 2 < (int)uVar1);
-      if (dVar7 < dVar10) {
-        return 1;
-      }
-    }
-  }
-  return 0;
-}
+    float previous[4];
+    float current[4];
+    float next[4];
+    float inEdge[4];
+    float outEdge[4];
+    float cross[4];
+    float length;
+    float turning;
+    int i;
 
+    length = fn_82810BE8(self->normal);
+    if (length > lbl_8201E038 && length < lbl_8217E6B0) {
+        turning = 0.0f;
+        for (i = 0; i < self->count; i++) {
+            int before = i - 1;
+            int previousIndex = before - 1 < 0 ? before - 1 + self->count : before - 1;
+            int currentIndex = before < 0 ? before + self->count : before;
+
+            fn_8305F778(self->vertices, self->indices[previousIndex], previous);
+            fn_8305F778(self->vertices, self->indices[currentIndex], current);
+            fn_8305F778(self->vertices, self->indices[i], next);
+            fn_82810328(current, previous, inEdge);
+            fn_82810328(next, current, outEdge);
+            if (fn_82810BE8(inEdge) < 1e-05f) {
+                return 0;
+            }
+            if (fn_82810BE8(outEdge) < 1e-05f) {
+                return 0;
+            }
+            fn_82810B78(inEdge, inEdge);
+            fn_82810B78(outEdge, outEdge);
+            fn_82810240(inEdge, outEdge, cross);
+            if (fn_82810280(cross, self->normal) > 0.0f) {
+                turning += fn_828095F8(fn_82810280(inEdge, outEdge));
+            } else {
+                turning -= fn_828095F8(fn_82810280(inEdge, outEdge));
+            }
+        }
+        if (turning > 0.0f) {
+            return 1;
+        }
+    }
+    return 0;
+}

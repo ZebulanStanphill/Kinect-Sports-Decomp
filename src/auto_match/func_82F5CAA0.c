@@ -1,91 +1,37 @@
-extern unsigned int *auStack_10;
-extern unsigned int *auStack_20;
-extern unsigned int *auStack_30;
-extern unsigned int fStack_18;
-extern unsigned int fStack_1c;
-extern unsigned int fStack_2c;
-extern unsigned int fStack_8;
-extern unsigned int lbl_8207F514;
+/* Tests whether the left or right hand of a tracked skeleton is raised: the hand at or above its
+   elbow and no more than 0.06 in front of its shoulder (the layout of a Kinect skeleton frame:
+   tracking state at 0, the twenty joint positions from 0x20). */
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Skeleton_82F5CAA0 {
+    int trackingState;            /* 0x00 */
+    int trackingId;               /* 0x04 */
+    int enrollmentIndex;          /* 0x08 */
+    int userIndex;                /* 0x0c */
+    __vector4 position;           /* 0x10 */
+    __vector4 jointPositions[20]; /* 0x20 */
+} Skeleton_82F5CAA0;
 
-unsigned __int64 fn_82F5CAA0(unsigned __int64 param_1,int param_2,int param_3)
-
+static __forceinline float GetY(__vector4 v)
 {
-  unsigned int *puVar1;
-  int in_r0;
-  int iVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned int uVar8;
-  unsigned int uVar9;
-  unsigned int uVar10;
-  unsigned int uVar11;
-  unsigned int uVar12;
-  unsigned int uVar13;
-  unsigned int uVar14;
-  unsigned char auStack_30 [4];
-  float fStack_2c;
-  unsigned char auStack_20 [4];
-  float fStack_1c;
-  float fStack_18;
-  unsigned char auStack_10 [8];
-  float fStack_8;
-  
-  iVar2 = param_2 + 0x90;
-  if (param_3 != 0) {
-    iVar2 = param_2 + 0xd0;
-  }
-  puVar1 = (unsigned int *)(in_r0 + iVar2 & 0xfffffff0);
-  uVar11 = *puVar1;
-  uVar12 = puVar1[1];
-  uVar13 = puVar1[2];
-  uVar14 = puVar1[3];
-  iVar2 = param_2 + 0x70;
-  puVar1 = (unsigned int *)((unsigned int)(auStack_10 + in_r0) & 0xfffffff0);
-  *puVar1 = uVar11;
-  puVar1[1] = uVar12;
-  puVar1[2] = uVar13;
-  puVar1[3] = uVar14;
-  if (param_3 != 0) {
-    iVar2 = param_2 + 0xb0;
-  }
-  puVar1 = (unsigned int *)(in_r0 + iVar2 & 0xfffffff0);
-  uVar3 = *puVar1;
-  uVar4 = puVar1[1];
-  uVar5 = puVar1[2];
-  uVar6 = puVar1[3];
-  if (param_3 == 0) {
-    param_2 = param_2 + 0x60;
-  }
-  else {
-    param_2 = param_2 + 0xa0;
-  }
-  puVar1 = (unsigned int *)(in_r0 + param_2 & 0xfffffff0);
-  uVar7 = *puVar1;
-  uVar8 = puVar1[1];
-  uVar9 = puVar1[2];
-  uVar10 = puVar1[3];
-  puVar1 = (unsigned int *)((unsigned int)(auStack_30 + in_r0) & 0xfffffff0);
-  *puVar1 = uVar11;
-  puVar1[1] = uVar12;
-  puVar1[2] = uVar13;
-  puVar1[3] = uVar14;
-  puVar1 = (unsigned int *)((unsigned int)(auStack_20 + in_r0) & 0xfffffff0);
-  *puVar1 = uVar3;
-  puVar1[1] = uVar4;
-  puVar1[2] = uVar5;
-  puVar1[3] = uVar6;
-  puVar1 = (unsigned int *)((unsigned int)(auStack_20 + in_r0) & 0xfffffff0);
-  *puVar1 = uVar7;
-  puVar1[1] = uVar8;
-  puVar1[2] = uVar9;
-  puVar1[3] = uVar10;
-  if ((fStack_8 <= fStack_18 + lbl_8207F514) && (fStack_1c <= fStack_2c)) {
-    return 1;
-  }
-  return 0;
+    return v.vector4_f32[1];
 }
 
+static __forceinline float GetZ(__vector4 v)
+{
+    return v.vector4_f32[2];
+}
+
+int fn_82F5CAA0(void *self, __vector4 unused, Skeleton_82F5CAA0 *skeleton, int right)
+{
+    __vector4 *joints = skeleton->jointPositions;
+    __vector4 hand = *(right == 0 ? &joints[7] : &joints[11]);
+    __vector4 elbow = *(right == 0 ? &joints[5] : &joints[9]);
+    __vector4 shoulder = *(right == 0 ? &joints[4] : &joints[8]);
+    float shoulderZ = GetZ(shoulder);
+    int above = GetY(hand) >= GetY(elbow);
+
+    return hand.vector4_f32[2] <= shoulderZ + 0.06f && above;
+}

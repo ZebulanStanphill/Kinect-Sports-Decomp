@@ -1,38 +1,35 @@
-extern unsigned int lbl_82090FB8;
-extern unsigned int lbl_82090FC0;
+extern double lbl_82090FB8;
+extern double lbl_82090FC0;
 
+/* A table of rows of three doubles: segment start, offset and slope. */
+typedef struct Curve_82A70D38 {
+    char pad0[0x30];
+    double *table;      /* 0x30 */
+    unsigned int count; /* 0x34 */
+} Curve_82A70D38;
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
-
-__int64 fn_82A70D38(int param_1,int param_2)
-
+int fn_82A70D38(Curve_82A70D38 *curve, int value)
 {
-  __int64 lVar1;
-  double *pdVar2;
-  double *pdVar3;
-  int iVar4;
-  double *pdVar5;
-  
-  iVar4 = 0;
-  pdVar5 = *(double **)(param_1 + 0x30);
-  lVar1 = (unsigned __int64)*(unsigned int *)(param_1 + 0x34) - 1;
-  pdVar3 = pdVar5 + 1;
-  pdVar2 = pdVar5 + 2;
-  if (0 < lVar1) {
-    do {
-      if (((int)(*pdVar5 * lbl_82090FC0) <= param_2) &&
-         (param_2 <= (int)(pdVar5[3] * lbl_82090FC0))) {
-        return (__int64)
-               (int)((__int64)(int)(*pdVar2 * lbl_82090FC0) *
-                     (__int64)(param_2 - (int)(*pdVar5 * lbl_82090FC0)) >> 0x14) -
-               (unsigned __int64)(unsigned int)(int)(*pdVar3 * lbl_82090FB8);
-      }
-      iVar4 = iVar4 + 1;
-      pdVar5 = pdVar5 + 3;
-      pdVar3 = pdVar3 + 3;
-      pdVar2 = pdVar2 + 3;
-    } while (iVar4 < (int)lVar1);
-  }
-  return 0;
-}
+    double *start;
+    double *offset;
+    double *slope;
+    int last;
+    int i;
 
+    start = &curve->table[0];
+    offset = &curve->table[1];
+    slope = &curve->table[2];
+    last = curve->count - 1;
+    for (i = 0; i < last; i++) {
+        if (value >= (int)(*start * lbl_82090FC0) && value <= (int)(start[3] * lbl_82090FC0)) {
+            return (int)(((__int64)(int)(*slope * lbl_82090FC0) *
+                          (__int64)(value - (int)(*start * lbl_82090FC0))) >>
+                         20) -
+                   (int)(*offset * lbl_82090FB8);
+        }
+        start += 3;
+        offset += 3;
+        slope += 3;
+    }
+    return 0;
+}

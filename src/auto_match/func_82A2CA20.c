@@ -1,41 +1,69 @@
-void fn_82A2CA20(int param_1,unsigned __int64 param_2,unsigned int param_3)
+typedef struct PageEntry_82A2CA20 {
+    char pad0[0x28];
+    unsigned char flags;    /* 0x28 */
+    unsigned char pages[3]; /* 0x29: 24-bit little-endian page count */
+    char pad2c[0x8];
+    unsigned int size; /* 0x34 */
+    char pad38[0x8];
+} PageEntry_82A2CA20;
 
+typedef struct Resource_82A2CA20 {
+    char pad0[0x18];
+    unsigned int size;      /* 0x18 */
+    unsigned int committed; /* 0x1c */
+    char pad20[0x15];
+    unsigned char flags; /* 0x35 */
+    unsigned short page; /* 0x36 */
+} Resource_82A2CA20;
+
+typedef struct Link_82A2CA20 {
+    struct Link_82A2CA20 *next; /* 0x00 */
+} Link_82A2CA20;
+
+typedef struct Holder_82A2CA20 {
+    Resource_82A2CA20 *resource; /* 0x00 */
+    char pad4[0x44];
+    Link_82A2CA20 link; /* 0x48 */
+} Holder_82A2CA20;
+
+typedef struct Heap_82A2CA20 {
+    char pad0[0x80];
+    Link_82A2CA20 resources; /* 0x80 */
+} Heap_82A2CA20;
+
+void fn_82A2CA20(Heap_82A2CA20 *self, unsigned int offset, PageEntry_82A2CA20 *entries)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  unsigned int uVar3;
-  __int64 lVar4;
-  unsigned int *puVar5;
-  unsigned char *pbVar6;
-  
-  if (param_3 < param_3 + 0x1000) {
-    pbVar6 = (unsigned char *)(param_3 + 0x29);
-    lVar4 = (unsigned __int64)(((param_3 + 0x1000) - param_3) - 1 >> 6) + 1;
-    do {
-      if ((pbVar6[-1] & 0x80) == 0) {
-        uVar2 = ((unsigned __int64)*(unsigned int *)(pbVar6 + 0xb) + 0xfff & 0xffffffff) >> 0xc;
-        if (uVar2 < ((unsigned __int64)pbVar6[2] * 0x100 + (unsigned __int64)pbVar6[1]) * 0x100 +
-                    (unsigned __int64)*pbVar6) {
-          *pbVar6 = (unsigned char)uVar2;
-          pbVar6[1] = (unsigned char)(uVar2 >> 8);
-          pbVar6[2] = (unsigned char)(uVar2 >> 0x10);
-        }
-      }
-      pbVar6 = pbVar6 + 0x40;
-      lVar4 = lVar4 + -1;
-    } while (lVar4 != 0);
-  }
-  uVar2 = (param_2 & 0xffffffff) >> 6;
-  puVar5 = *(unsigned int **)(param_1 + 0x80);
-  while (puVar5 != (unsigned int *)(param_1 + 0x80)) {
-    iVar1 = puVar5[-0x12];
-    puVar5 = (unsigned int *)*puVar5;
-    if (((((*(unsigned char *)(iVar1 + 0x35) & 2) == 0) && (uVar2 <= *(unsigned short *)(iVar1 + 0x36))) &&
-        ((unsigned __int64)*(unsigned short *)(iVar1 + 0x36) < uVar2 + 0x40)) &&
-       (uVar3 = *(int *)(iVar1 + 0x18) + 0xfffU & 0xfffff000, uVar3 < *(unsigned int *)(iVar1 + 0x1c))) {
-      *(unsigned int *)(iVar1 + 0x1c) = uVar3;
-    }
-  }
-  return;
-}
+    PageEntry_82A2CA20 *entry;
+    PageEntry_82A2CA20 *end;
+    unsigned int pages;
+    unsigned int first;
+    unsigned int last;
+    Link_82A2CA20 *link;
+    Resource_82A2CA20 *resource;
+    unsigned int committed;
 
+    end = (PageEntry_82A2CA20 *)((char *)entries + 0x1000);
+    for (entry = entries; entry < end; entry++) {
+        if ((entry->flags & 0x80) == 0) {
+            pages = (entry->size + 0xfff) >> 12;
+            if (((entry->pages[2] << 8) + entry->pages[1] << 8) + entry->pages[0] > pages) {
+                entry->pages[0] = (unsigned char)pages;
+                entry->pages[1] = (unsigned char)(pages >> 8);
+                entry->pages[2] = (unsigned char)(pages >> 16);
+            }
+        }
+    }
+    first = offset >> 6;
+    link = self->resources.next;
+    last = first + 0x40;
+    while (link != &self->resources) {
+        resource = ((Holder_82A2CA20 *)((char *)link - 0x48))->resource;
+        link = link->next;
+        if ((resource->flags & 2) == 0 && resource->page >= first && resource->page < last) {
+            committed = (resource->size + 0xfff) & ~0xfff;
+            if (resource->committed > committed) {
+                resource->committed = committed;
+            }
+        }
+    }
+}

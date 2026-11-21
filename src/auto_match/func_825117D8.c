@@ -1,67 +1,76 @@
-extern unsigned int **ppuRam83297968;
-#define true 1
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-extern int fn_82A1BB18();
-extern int atexit();
-extern int iRam83297804;
-extern __int64 lRam83297808;
-extern unsigned int lbl_821C097C;
-extern unsigned int lbl_83297800;
-extern unsigned int uRam8329796c;
-extern unsigned int uRam83297970;
-extern unsigned int uRam83297971;
-extern unsigned int uRam83297972;
-extern unsigned int uRam83297d14;
-extern unsigned __int64 storeDoubleWordConditionalIndexed();
+#define __lwsync() __emit(0x7C2004AC)
 
+void __emit(unsigned int opcode);
+__int64 _InterlockedCompareExchange64(__int64 volatile *dest, __int64 exchange, __int64 comparand);
 
-/* WARNING: Restarted to delay deadcode elimination for space: ram */
+typedef struct Service_825117D8 Service_825117D8;
 
-unsigned char *** fn_825117D8(void)
+typedef struct ServiceVtbl_825117D8 {
+    void (*slot0)(Service_825117D8 *self);
+    void (*initialize)(Service_825117D8 *self); /* 0x04 */
+} ServiceVtbl_825117D8;
 
+struct Service_825117D8 {
+    ServiceVtbl_825117D8 *vt; /* 0x00 */
+    unsigned int value;       /* 0x04 */
+    unsigned char flag8;      /* 0x08 */
+    unsigned char flag9;      /* 0x09 */
+    unsigned char flagA;      /* 0x0A */
+};
+
+typedef union Owner_825117D8 {
+    __int64 value;
+
+    struct {
+        unsigned int thread;
+        unsigned int count;
+    } parts;
+} Owner_825117D8;
+
+extern unsigned int fn_82A1BB18(void);
+extern void fn_8313F020(void);
+extern int atexit(void (*func)(void));
+
+extern ServiceVtbl_825117D8 lbl_821C097C;
+extern unsigned int lbl_83297D14;
+extern Service_825117D8 lbl_83297968;
+extern Service_825117D8 *lbl_83297800;
+/* volatile: published under the lock and re-read after every store (double-checked init) */
+extern Service_825117D8 *volatile lbl_83297804;
+extern __int64 volatile lbl_83297808;
+
+Service_825117D8 *fn_825117D8(void)
 {
-  __int64 lVar1;
-  unsigned int uVar2;
-  __int64 lVar3;
+    Owner_825117D8 owner;
+    __int64 previous;
+    Service_825117D8 *service;
 
-  uVar2 = fn_82A1BB18();
-  lVar1 = CONCAT44(uVar2,1);
-  lVar3 = lRam83297808;
-  if (lRam83297808 == 0) {
-    lRam83297808 = storeDoubleWordConditionalIndexed(lVar1,0,0xffffffff83297808);
-  }
-  else {
-    lRam83297808 = storeDoubleWordConditionalIndexed(lRam83297808,0,0xffffffff83297808);
-  }
-  while( true ) {
-    if (lVar3 == lVar1) {
-      return iRam83297804;
+    owner.parts.thread = fn_82A1BB18();
+    owner.parts.count = 1;
+    for (;;) {
+        previous = _InterlockedCompareExchange64(&lbl_83297808, owner.value, 0);
+        if (previous == owner.value)
+            return lbl_83297804;
+        if (previous == 0)
+            break;
     }
-    if (lVar3 == 0) break;
-    lVar3 = lRam83297808;
-    if (lRam83297808 == 0) {
-      lRam83297808 = storeDoubleWordConditionalIndexed(lVar1,0,0xffffffff83297808);
+    __lwsync();
+    if (lbl_83297800 == 0) {
+        if ((lbl_83297D14 & 1) == 0) {
+            lbl_83297D14 |= 1;
+            lbl_83297968.vt = &lbl_821C097C;
+            lbl_83297968.value = 0;
+            lbl_83297968.flag8 = 0;
+            lbl_83297968.flag9 = 1;
+            lbl_83297968.flagA = 0;
+            atexit(fn_8313F020);
+        }
+        lbl_83297804 = &lbl_83297968;
+        service = lbl_83297804;
+        service->vt->initialize(service);
+        lbl_83297800 = lbl_83297804;
+        __lwsync();
     }
-    else {
-      lRam83297808 = storeDoubleWordConditionalIndexed(lRam83297808,0,0xffffffff83297808);
-    }
-  }
-  sync(1);
-  if (lbl_83297800 == 0) {
-    if ((uRam83297d14 & 1) == 0) {
-      uRam8329796c = 0;
-      uRam83297d14 = uRam83297d14 | 1;
-      uRam83297970 = 0;
-      uRam83297972 = 0;
-      ppuRam83297968 = &lbl_821C097C;
-      uRam83297971 = 1;
-      atexit(0xffffffff8313f020);
-    }
-    iRam83297804 = &ppuRam83297968;
-    (*(int (**)())ppuRam83297968[1])();
-    lbl_83297800 = (int)iRam83297804;
-    sync(1);
-  }
-  lRam83297808 = 0;
-  return (unsigned char ***)lbl_83297800;
+    lbl_83297808 = 0;
+    return lbl_83297800;
 }

@@ -1,40 +1,44 @@
-#define CONCAT11(h,l) ((unsigned short)((((unsigned char)(h)) << 8) | ((unsigned char)(l))))
-#define CONCAT21(h,l) ((unsigned int)((((unsigned short)(h)) << 8) | ((unsigned char)(l))))
-#define CONCAT31(h,l) ((unsigned int)((((unsigned int)(h)) << 8) | ((unsigned char)(l))))
-extern unsigned int uStack_10;
+typedef struct BitTable_825E49E0 {
+    int base;            /* 0x00 */
+    int unk04[6];        /* 0x04 */
+    int bitsPerEntry;    /* 0x1c */
+    int unk20[2];        /* 0x20 */
+    unsigned char *data; /* 0x28 */
+} BitTable_825E49E0;
 
-
-unsigned int fn_825E49E0(int *param_1,unsigned int param_2)
-
+unsigned int fn_825E49E0(BitTable_825E49E0 *table, unsigned short index)
 {
-  int iVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  int iVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned char *puVar8;
-  unsigned int uStack_10;
-  
-  iVar1 = param_1[7];
-  uVar4 = 1;
-  uVar6 = 0;
-  uVar2 = ((param_2 & 0xffff) - *param_1) * iVar1;
-  iVar5 = 0;
-  uVar3 = uVar2 + (((int)uVar2 >> 3) + (unsigned int)((int)uVar2 < 0 && (uVar2 & 7) != 0)) * -8;
-  uVar7 = 0;
-  if (0 < iVar1) {
-    do {
-      iVar5 = iVar5 + 1;
-      uVar6 = uVar7 | uVar4;
-      uVar4 = uVar4 << 1;
-      uVar7 = uVar6;
-    } while (iVar5 < iVar1);
-  }
-  puVar8 = (unsigned char *)
-           (param_1[10] + ((int)uVar2 >> 3) + (unsigned int)((int)uVar2 < 0 && (uVar2 & 7) != 0));
-  uStack_10 = CONCAT31(CONCAT21(CONCAT11(puVar8[3],puVar8[2]),puVar8[1]),*puVar8);
-  return (uVar6 << (uVar3 & 0x3f) & uStack_10) >> (uVar3 & 0x3f);
-}
+    int bits;
+    int bitPos;
+    int byteOffset;
+    int shift;
+    unsigned int mask;
+    unsigned int bit;
+    int i;
+    unsigned int value;
+    unsigned char *src;
+    unsigned char *dst;
 
+    bits = table->bitsPerEntry;
+    bit = 1;
+    mask = 0;
+    i = 0;
+    bitPos = (index - table->base) * bits;
+    byteOffset = bitPos / 8;
+    shift = bitPos % 8;
+    if (0 < bits) {
+        do {
+            i++;
+            mask |= bit;
+            bit <<= 1;
+        } while (i < bits);
+    }
+    value = 0;
+    src = table->data + byteOffset;
+    dst = (unsigned char *)&value;
+    dst[0] = src[3];
+    dst[1] = src[2];
+    dst[2] = src[1];
+    dst[3] = src[0];
+    return ((mask << shift) & value) >> shift;
+}

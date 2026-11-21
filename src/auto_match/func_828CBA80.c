@@ -1,67 +1,80 @@
-extern unsigned int *puRam832143e8;
-#define true 1
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-extern int fn_82A1BB18();
-extern int atexit();
-extern __int64 lRam832143f0;
-extern unsigned int lbl_820264A0;
-extern unsigned int lbl_832143CC;
-extern unsigned int lbl_832143D0;
-extern unsigned int lbl_832143D4;
-extern unsigned int lbl_832143D8;
-extern unsigned int lbl_832143DC;
-extern unsigned int lbl_832143E4;
-extern unsigned int uRam832143e0;
-extern unsigned __int64 storeDoubleWordConditionalIndexed();
+#define __lwsync() __emit(0x7C2004AC)
 
+void __emit(unsigned int opcode);
+__int64 _InterlockedCompareExchange64(__int64 volatile *dest, __int64 exchange, __int64 comparand);
 
-/* WARNING: Restarted to delay deadcode elimination for space: ram */
+typedef struct Service_828CBA80 Service_828CBA80;
 
-unsigned char ** fn_828CBA80(void)
+typedef struct ServiceVtbl_828CBA80 {
+    void (*slot0)(Service_828CBA80 *self);
+    void (*initialize)(Service_828CBA80 *self); /* 0x04 */
+} ServiceVtbl_828CBA80;
 
+typedef struct Header_828CBA80 {
+    struct Header_828CBA80 *parent; /* 0x00 */
+    struct Header_828CBA80 *left;   /* 0x04 */
+    struct Header_828CBA80 *right;  /* 0x08 */
+} Header_828CBA80;
+
+struct Service_828CBA80 {
+    ServiceVtbl_828CBA80 *vt; /* 0x00 */
+    Header_828CBA80 header;   /* 0x04 */
+    unsigned int count;       /* 0x10 */
+};
+
+typedef union Owner_828CBA80 {
+    __int64 value;
+
+    struct {
+        unsigned int thread;
+        unsigned int count;
+    } parts;
+} Owner_828CBA80;
+
+extern unsigned int fn_82A1BB18(void);
+extern void fn_831413D8(void);
+extern int atexit(void (*func)(void));
+
+extern ServiceVtbl_828CBA80 lbl_820264A0;
+extern unsigned int lbl_832143E0;
+extern Service_828CBA80 lbl_832143CC;
+extern Service_828CBA80 *lbl_832143E4;
+/* volatile: published under the lock and re-read after every store (double-checked init) */
+extern Service_828CBA80 *volatile lbl_832143E8;
+extern __int64 volatile lbl_832143F0;
+
+Service_828CBA80 *fn_828CBA80(void)
 {
-  __int64 lVar1;
-  __int64 lVar2;
-  unsigned int uVar3;
+    Owner_828CBA80 owner;
+    __int64 previous;
+    Service_828CBA80 *service;
 
-  uVar3 = fn_82A1BB18();
-  lVar1 = CONCAT44(uVar3,1);
-  lVar2 = lRam832143f0;
-  if (lRam832143f0 == 0) {
-    lRam832143f0 = storeDoubleWordConditionalIndexed(lVar1,0,0xffffffff832143f0);
-  }
-  else {
-    lRam832143f0 = storeDoubleWordConditionalIndexed(lRam832143f0,0,0xffffffff832143f0);
-  }
-  while( true ) {
-    if (lVar2 == lVar1) {
-      return puRam832143e8;
+    owner.parts.thread = fn_82A1BB18();
+    owner.parts.count = 1;
+    for (;;) {
+        previous = _InterlockedCompareExchange64(&lbl_832143F0, owner.value, 0);
+        if (previous == owner.value)
+            return lbl_832143E8;
+        if (previous == 0)
+            break;
     }
-    if (lVar2 == 0) break;
-    lVar2 = lRam832143f0;
-    if (lRam832143f0 == 0) {
-      lRam832143f0 = storeDoubleWordConditionalIndexed(lVar1,0,0xffffffff832143f0);
+    __lwsync();
+    if (lbl_832143E4 == 0) {
+        if ((lbl_832143E0 & 1) == 0) {
+            lbl_832143E0 |= 1;
+            lbl_832143CC.vt = &lbl_820264A0;
+            lbl_832143CC.header.parent = 0;
+            lbl_832143CC.header.left = &lbl_832143CC.header;
+            lbl_832143CC.header.right = &lbl_832143CC.header;
+            lbl_832143CC.count = 0;
+            atexit(fn_831413D8);
+        }
+        lbl_832143E8 = &lbl_832143CC;
+        service = lbl_832143E8;
+        service->vt->initialize(service);
+        lbl_832143E4 = lbl_832143E8;
+        __lwsync();
     }
-    else {
-      lRam832143f0 = storeDoubleWordConditionalIndexed(lRam832143f0,0,0xffffffff832143f0);
-    }
-  }
-  sync(1);
-  if (lbl_832143E4 == (unsigned int *)0x0) {
-    if ((uRam832143e0 & 1) == 0) {
-      lbl_832143D0 = 0;
-      uRam832143e0 = uRam832143e0 | 1;
-      lbl_832143DC = 0;
-      lbl_832143CC = &lbl_820264A0;
-      lbl_832143D4 = &lbl_832143D0;
-      lbl_832143D8 = &lbl_832143D0;
-      atexit(0xffffffff831413d8);
-    }
-    puRam832143e8 = &lbl_832143CC;
-    (**(int (***)())(lbl_832143CC + 4))();
-    lbl_832143E4 = puRam832143e8;
-    sync(1);
-  }
-  lRam832143f0 = 0;
-  return (unsigned char **)lbl_832143E4;
+    lbl_832143F0 = 0;
+    return lbl_832143E4;
 }

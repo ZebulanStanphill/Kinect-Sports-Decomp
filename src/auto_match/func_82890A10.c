@@ -1,110 +1,101 @@
-extern unsigned int *auStack_260;
-extern unsigned int *auStack_280;
-extern unsigned int *auStack_288;
-extern unsigned int *auStack_290;
-extern int fn_82230360();
-extern int fn_823AA970();
-extern int fn_8265CA20();
-extern int fn_828B5580();
-extern int fn_828B55B0();
-extern int fn_828B5A20();
-extern int fn_82F6DCE0();
-extern unsigned int uStack_24c;
-extern unsigned int uStack_250;
-extern unsigned int uStack_26c;
-extern unsigned int uStack_270;
+typedef struct String_82890A10 {
+    union {
+        char buffer[16]; /* 0x00 */
+        char *pointer;   /* 0x00 */
+    } text;
 
+    unsigned int size;     /* 0x10 */
+    unsigned int capacity; /* 0x14 */
+} String_82890A10;
 
-unsigned char * fn_82890A10(unsigned char *param_1,int param_2,unsigned __int64 param_3)
+typedef struct Id_82890A10 {
+    unsigned short index;      /* 0x00 */
+    unsigned short type;       /* 0x02 */
+    unsigned short generation; /* 0x04 */
+    unsigned char state;       /* 0x06 */
+    unsigned char valid;       /* 0x07 */
+} Id_82890A10;
 
+typedef struct Peer_82890A10 {
+    char pad0[0x26];
+    unsigned char local; /* 0x26 */
+} Peer_82890A10;
+
+typedef struct Owner_82890A10 {
+    char pad0[0x38];
+    Peer_82890A10 *peer; /* 0x38 */
+} Owner_82890A10;
+
+typedef struct NetObject_82890A10 {
+    char pad0[0x10];
+    void *context;  /* 0x10 */
+    Id_82890A10 id; /* 0x14 */
+    char pad1c[0x34 - 0x1c];
+    Owner_82890A10 *owner; /* 0x34 */
+} NetObject_82890A10;
+
+extern void fn_828B5580(Id_82890A10 *self, const Id_82890A10 *other);
+extern void fn_828B55B0(Id_82890A10 *self);
+extern String_82890A10 *fn_828B5A20(String_82890A10 *out, Id_82890A10 *id, unsigned char rich, void *context);
+extern int fn_823AA970(Peer_82890A10 *peer);
+extern int fn_82F6DCE0(char *, unsigned int, const char *, ...);
+extern void fn_82230360(String_82890A10 *self, const char *text, unsigned int length);
+extern void fn_8265CA20(void *p);
+extern unsigned int strlen(const char *);
+
+static __forceinline unsigned char IsLocal(NetObject_82890A10 *self)
 {
-  int iVar1;
-  unsigned int uVar2;
-  unsigned int *puVar4;
-  unsigned __int64 uVar3;
-  unsigned char *puVar5;
-  char cVar7;
-  char *pcVar6;
-  unsigned __int64 uVar8;
-  unsigned char auStack_290 [8];
-  unsigned char auStack_288 [8];
-  unsigned int auStack_280 [4];
-  unsigned int uStack_270;
-  unsigned int uStack_26c;
-  unsigned int auStack_260 [4];
-  unsigned int uStack_250;
-  unsigned int uStack_24c;
-  char acStack_240 [560];
-  
-  iVar1 = *(int *)(param_2 + 0x34);
-  if ((param_3 & 0xff) == 0) {
-    if ((iVar1 == 0) || (*(int *)(iVar1 + 0x38) == 0)) {
-      cVar7 = '\0';
+    if (self->owner != 0 && self->owner->peer != 0) {
+        return self->owner->peer->local;
     }
-    else {
-      cVar7 = *(char *)(*(int *)(iVar1 + 0x38) + 0x26);
-    }
-    if (cVar7 == '\0') {
-      uVar8 = 0xffffffff820237d0;
-    }
-    else {
-      uVar8 = 0xffffffff820237d8;
-    }
-    uVar2 = *(unsigned int *)(param_2 + 0x10);
-    fn_828B5580(auStack_288,param_2 + 0x14);
-    puVar4 = (unsigned int *)fn_828B5A20(auStack_260,auStack_288,param_3,uVar2);
-    if (0xf < (unsigned int)puVar4[5]) {
-      puVar4 = (unsigned int *)*puVar4;
-    }
-    uVar3 = fn_823AA970(*(unsigned int *)(*(int *)(param_2 + 0x34) + 0x38));
-    fn_82F6DCE0(acStack_240,0x200,0xffffffff8202376c,uVar8,uVar3,puVar4);
-    if (0xf < uStack_24c) {
-      fn_8265CA20(auStack_260[0]);
-    }
-    uStack_250 = 0;
-    auStack_260[0] = auStack_260[0] & 0xffffff;
-    puVar5 = auStack_288;
-    uStack_24c = 0xf;
-  }
-  else {
-    if ((iVar1 == 0) || (*(int *)(iVar1 + 0x38) == 0)) {
-      cVar7 = '\0';
-    }
-    else {
-      cVar7 = *(char *)(*(int *)(iVar1 + 0x38) + 0x26);
-    }
-    if (cVar7 == '\0') {
-      uVar8 = 0xffffffff820237d0;
-    }
-    else {
-      uVar8 = 0xffffffff820237d8;
-    }
-    uVar2 = *(unsigned int *)(param_2 + 0x10);
-    fn_828B5580(auStack_290,param_2 + 0x14);
-    puVar4 = (unsigned int *)fn_828B5A20(auStack_280,auStack_290,param_3,uVar2);
-    if (0xf < (unsigned int)puVar4[5]) {
-      puVar4 = (unsigned int *)*puVar4;
-    }
-    uVar3 = fn_823AA970(*(unsigned int *)(*(int *)(param_2 + 0x34) + 0x38));
-    fn_82F6DCE0(acStack_240,0x200,0xffffffff82023788,uVar8,uVar3,puVar4);
-    if (0xf < uStack_26c) {
-      fn_8265CA20(auStack_280[0]);
-    }
-    uStack_270 = 0;
-    auStack_280[0] = auStack_280[0] & 0xffffff;
-    puVar5 = auStack_290;
-    uStack_26c = 0xf;
-  }
-  fn_828B55B0(puVar5);
-  *(unsigned int *)(param_1 + 0x14) = 0xf;
-  *(unsigned int *)(param_1 + 0x10) = 0;
-  *param_1 = 0;
-  pcVar6 = acStack_240;
-  do {
-    cVar7 = *pcVar6;
-    pcVar6 = pcVar6 + 1;
-  } while (cVar7 != '\0');
-  fn_82230360(param_1,acStack_240,pcVar6 + (-1 - (int)acStack_240));
-  return param_1;
+    return 0;
 }
 
+static __forceinline const char *CStr(String_82890A10 *s)
+{
+    return s->capacity >= 16 ? s->text.pointer : s->text.buffer;
+}
+
+static __forceinline void Destroy(String_82890A10 *s)
+{
+    if (s->capacity >= 16) {
+        fn_8265CA20(s->text.pointer);
+    }
+    s->capacity = 15;
+    s->size = 0;
+    s->text.buffer[0] = 0;
+}
+
+String_82890A10 *fn_82890A10(String_82890A10 *out, NetObject_82890A10 *self, unsigned char rich)
+{
+    char buffer[512];
+    Id_82890A10 richId;
+    Id_82890A10 plainId;
+
+    if (rich) {
+        String_82890A10 name;
+        const char *where = IsLocal(self) ? "Local" : "Remote";
+        void *context = self->context;
+
+        fn_828B5580(&richId, &self->id);
+        fn_82F6DCE0(buffer, 512, "<font color=blue>NETOBJ</font>{%s{MUID=%d} <font color=gray>%s</font>}",
+                    where, fn_823AA970(self->owner->peer), CStr(fn_828B5A20(&name, &richId, rich, context)));
+        Destroy(&name);
+        fn_828B55B0(&richId);
+    } else {
+        String_82890A10 name;
+        const char *where = IsLocal(self) ? "Local" : "Remote";
+        void *context = self->context;
+
+        fn_828B5580(&plainId, &self->id);
+        fn_82F6DCE0(buffer, 512, "NETOBJ{%s{MUID=%d} %s}", where, fn_823AA970(self->owner->peer),
+                    CStr(fn_828B5A20(&name, &plainId, rich, context)));
+        Destroy(&name);
+        fn_828B55B0(&plainId);
+    }
+    out->capacity = 15;
+    out->size = 0;
+    out->text.buffer[0] = 0;
+    fn_82230360(out, buffer, strlen(buffer));
+    return out;
+}
