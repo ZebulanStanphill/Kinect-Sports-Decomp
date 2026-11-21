@@ -1,49 +1,37 @@
-#define true 1
-
-
-void fn_8232A988(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4)
-
+void fn_8232A988(unsigned char *data, unsigned __int64 value, unsigned __int64 bitPos,
+                 unsigned __int64 remaining)
 {
-  int iVar1;
-  unsigned char bVar2;
-  unsigned __int64 uVar3;
-  unsigned char bVar4;
-  unsigned __int64 uVar5;
-  
-  uVar5 = param_3 >> 3;
-  param_3 = param_3 & 7;
-  do {
-    iVar1 = (int)uVar5;
-    if (param_3 == 0) {
-      if (param_4 < 8) {
-        bVar2 = (unsigned char)((1L << (param_4 & 0x7f)) + -1 << (8 - param_4 & 0x7f));
-        bVar4 = (unsigned char)(param_2 << (8 - param_4 & 0x7f)) & bVar2;
-        bVar2 = ~bVar2 & *(unsigned char *)(iVar1 + param_1);
-        param_4 = 0;
-        goto LAB_8232aa44;
-      }
-      param_4 = param_4 - 8;
-      uVar5 = uVar5 + 1;
-      *(char *)(iVar1 + param_1) = (char)(param_2 >> (param_4 & 0x7f));
-    }
-    else {
-      uVar3 = 8 - param_3;
-      if (param_4 < 8 - param_3) {
-        uVar3 = param_4;
-      }
-      param_4 = param_4 - uVar3;
-      param_3 = (8 - uVar3) - param_3;
-      bVar2 = (unsigned char)((1L << (uVar3 & 0x7f)) + -1 << (param_3 & 0x7f));
-      bVar4 = (unsigned char)((param_2 >> (param_4 & 0x7f)) << (param_3 & 0x7f)) & bVar2;
-      uVar5 = uVar5 + 1;
-      bVar2 = ~bVar2 & *(unsigned char *)(iVar1 + param_1);
-      param_3 = 0;
-LAB_8232aa44:
-      *(unsigned char *)(iVar1 + param_1) = bVar4 | bVar2;
-    }
-    if (param_4 == 0) {
-      return;
-    }
-  } while( true );
-}
+    unsigned __int64 byteIndex;
+    unsigned __int64 bitOffset;
+    unsigned __int64 count;
+    unsigned __int64 shift;
+    unsigned __int64 mask;
 
+    byteIndex = bitPos >> 3;
+    bitOffset = bitPos & 7;
+    do {
+        if (bitOffset != 0) {
+            count = 8 - bitOffset;
+            if (count > remaining) {
+                count = remaining;
+            }
+            shift = 8 - count - bitOffset;
+            remaining -= count;
+            mask = (((unsigned __int64)1 << count) - 1) << shift;
+            data[byteIndex] = (unsigned char)(((value >> remaining) << shift) & mask) |
+                              ((unsigned char)~mask & data[byteIndex]);
+            byteIndex++;
+            bitOffset = 0;
+        } else if (remaining >= 8) {
+            remaining -= 8;
+            data[byteIndex] = (unsigned char)(value >> remaining);
+            byteIndex++;
+        } else {
+            shift = 8 - remaining;
+            mask = (((unsigned __int64)1 << remaining) - 1) << shift;
+            data[byteIndex] =
+                (unsigned char)((value << shift) & mask) | ((unsigned char)~mask & data[byteIndex]);
+            remaining = 0;
+        }
+    } while (remaining != 0);
+}

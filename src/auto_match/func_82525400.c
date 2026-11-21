@@ -1,80 +1,75 @@
-extern int fn_82524548();
-extern int fn_82526260();
-extern int fn_8265C990();
-extern int fn_827EFAE8();
-extern int fn_82A1F238();
-extern unsigned int iStack_3c;
-extern unsigned int lbl_8218E8E8;
+typedef struct Player_82525400 Player_82525400;
 
+typedef struct PlayerVtbl_82525400 {
+    void *slot0;
+    void *slot4;
+    void *slot8;
+    void (*Reset)(Player_82525400 *self); /* 0xc */
+    void *slot10;
+    int (*IsActive)(Player_82525400 *self); /* 0x14 */
+} PlayerVtbl_82525400;
 
-void fn_82525400(int *param_1)
+struct Player_82525400 {
+    PlayerVtbl_82525400 *vtbl; /* 0x0 */
+    char pad4[0x1dc];
+    char leftTarget[0x3e8];  /* 0x1e0 */
+    char rightTarget[0x3ec]; /* 0x5c8 */
+    int side;                /* 0x9b4 */
+    int dirty;               /* 0x9b8 */
+    char pad9BC[0x148];
+    void *buffer;       /* 0xb04 */
+    void *stream;       /* 0xb08 */
+    unsigned int delay; /* 0xb0c */
+    int release;        /* 0xb10 */
+    char padB14[0x54];
+    void *table; /* 0xb68 */
+    char padB6C[0xd74];
+    unsigned int values[5]; /* 0x18e0 */
+    unsigned int state;     /* 0x18f4 */
+};
 
+extern unsigned int lbl_831C2114[];
+
+extern void fn_82524548(Player_82525400 *self);
+extern float *fn_827EFAE8(void *table, unsigned short id);
+extern void fn_82526260(void *target, void *buffer, void *stream);
+extern void fn_8265C990(void *p, unsigned int flags);
+extern void fn_82A1F238(void *p);
+
+void fn_82525400(Player_82525400 *self)
 {
-  int iVar1;
-  float *pfVar2;
-  int *piVar3;
-  __int64 lVar4;
-  unsigned int *puVar5;
-  double dVar6;
-  int iStack_3c;
-  
-  iVar1 = (**(int (***)())(*param_1 + 0x14))();
-  if (iVar1 == 0) {
-    (**(int (***)())(*param_1 + 0xc))(param_1);
-  }
-  else if (param_1[0x26e] != 0) {
-    fn_82524548(param_1);
-    param_1[0x26e] = 0;
-  }
-  if (param_1[0x2da] != 0) {
-    piVar3 = param_1 + 0x637;
-    puVar5 = (unsigned int *)0x831c2114;
-    dVar6 = (double)lbl_8218E8E8;
-    do {
-      pfVar2 = (float *)fn_827EFAE8(param_1[0x2da],*puVar5 & 0xffff);
-      puVar5 = puVar5 + 1;
-      iStack_3c = (int)(__int64)((double)*pfVar2 - dVar6);
-      piVar3 = piVar3 + 1;
-      *piVar3 = iStack_3c;
-    } while ((int)puVar5 < -0x7ce3ded8);
-    if (param_1[0x63b] == 0xb) {
-      iVar1 = 0xc;
-    }
-    else {
-      if (param_1[0x63b] != 0xc) goto LAB_825254e0;
-      iVar1 = 0xb;
-    }
-    param_1[0x63c] = iVar1;
-  }
-LAB_825254e0:
-  if (((unsigned __int64)(unsigned int)param_1[0x2c3] != 0) &&
-     (lVar4 = (unsigned __int64)(unsigned int)param_1[0x2c3] - 1, param_1[0x2c3] = (int)lVar4, lVar4 == 0)) {
-    if (param_1[0x2c4] == 0) {
-      if (param_1[0x2c1] != 0) {
-        fn_8265C990(param_1[0x2c1],0x21006000);
-        param_1[0x2c1] = 0;
-      }
-      if (param_1[0x2c2] == 0) {
-        return;
-      }
-      fn_82A1F238();
-    }
-    else {
-      if (param_1[0x2c1] == 0) {
-        return;
-      }
-      if (param_1[0x2c2] == 0) {
-        return;
-      }
-      piVar3 = param_1 + 0x172;
-      if (param_1[0x26d] != 1) {
-        piVar3 = param_1 + 0x78;
-      }
-      fn_82526260(piVar3);
-      param_1[0x2c1] = 0;
-    }
-    param_1[0x2c2] = 0;
-  }
-  return;
-}
+    int i;
 
+    if (self->vtbl->IsActive(self) == 0) {
+        self->vtbl->Reset(self);
+    } else if (self->dirty != 0) {
+        fn_82524548(self);
+        self->dirty = 0;
+    }
+    if (self->table != 0) {
+        for (i = 0; i < 5; i++)
+            self->values[i] =
+                (unsigned int)(*fn_827EFAE8(self->table, (unsigned short)lbl_831C2114[i]) - 0.5f);
+        if (self->values[3] == 0xb)
+            self->values[4] = 0xc;
+        else if (self->values[3] == 0xc)
+            self->values[4] = 0xb;
+    }
+    if (self->delay != 0 && --self->delay == 0) {
+        if (self->release != 0) {
+            if (self->buffer == 0 || self->stream == 0)
+                return;
+            fn_82526260(self->side == 1 ? self->rightTarget : self->leftTarget, self->buffer, self->stream);
+            self->buffer = 0;
+        } else {
+            if (self->buffer != 0) {
+                fn_8265C990(self->buffer, 0x21006000);
+                self->buffer = 0;
+            }
+            if (self->stream == 0)
+                return;
+            fn_82A1F238(self->stream);
+        }
+        self->stream = 0;
+    }
+}

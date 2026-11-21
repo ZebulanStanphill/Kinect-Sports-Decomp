@@ -1,40 +1,29 @@
-extern int fn_827797D8();
-extern unsigned int lbl_82005328;
-extern unsigned int lbl_821AAD20;
-extern unsigned int uStack_30;
-extern unsigned int uStack_38;
-extern unsigned int uStack_40;
+typedef struct Color_82779958 {
+    unsigned char alpha; /* 0x00 */
+    unsigned char red;   /* 0x01 */
+    unsigned char green; /* 0x02 */
+    unsigned char blue;  /* 0x03 */
+} Color_82779958;
 
+extern const float lbl_82005328; /* 1.0f / 255.0f */
 
-void fn_82779958(int param_1,float *param_2,float *param_3,float *param_4)
+extern void fn_827797D8(double red, double green, double blue, double *hue, double *saturation,
+                        double *intensity);
 
+void fn_82779958(Color_82779958 *color, float *hue, float *saturation, float *intensity)
 {
-  double dVar1;
-  double dVar2;
-  double dVar3;
-  unsigned __int64 uStack_40;
-  unsigned __int64 uStack_38;
-  unsigned __int64 uStack_30;
-  
-  dVar3 = (double)lbl_821AAD20;
-  dVar1 = dVar3;
-  if (*(unsigned char *)(param_1 + 1) != 0) {
-    uStack_40 = (double)(__int64)(int)(unsigned int)*(unsigned char *)(param_1 + 1);
-    dVar1 = (double)((float)(__int64)uStack_40 * lbl_82005328);
-  }
-  dVar2 = dVar3;
-  if (*(unsigned char *)(param_1 + 2) != 0) {
-    uStack_40 = (double)(__int64)(int)(unsigned int)*(unsigned char *)(param_1 + 2);
-    dVar2 = (double)((float)(__int64)uStack_40 * lbl_82005328);
-  }
-  if (*(unsigned char *)(param_1 + 3) != 0) {
-    uStack_40 = (double)(__int64)(int)(unsigned int)*(unsigned char *)(param_1 + 3);
-    dVar3 = (double)((float)(__int64)uStack_40 * lbl_82005328);
-  }
-  fn_827797D8(dVar1,dVar2,dVar3);
-  *param_2 = (float)uStack_40;
-  *param_3 = (float)uStack_38;
-  *param_4 = (float)uStack_30;
-  return;
-}
+    double h;
+    double s;
+    double i;
+    float red;
+    float green;
+    float blue;
 
+    red = color->red == 0 ? 0.0f : color->red * lbl_82005328;
+    green = color->green == 0 ? 0.0f : color->green * lbl_82005328;
+    blue = color->blue == 0 ? 0.0f : color->blue * lbl_82005328;
+    fn_827797D8(red, green, blue, &h, &s, &i);
+    *hue = (float)h;
+    *saturation = (float)s;
+    *intensity = (float)i;
+}

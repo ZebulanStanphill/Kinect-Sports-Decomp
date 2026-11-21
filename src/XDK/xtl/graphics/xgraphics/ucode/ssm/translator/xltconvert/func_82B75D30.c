@@ -1,81 +1,123 @@
-extern int fn_82AB15D0();
+extern void fn_82AB15D0(void *obj, const char *fmt, const char *expr, const char *file, int line);
 
+#define XLT_FILE                                                                                             \
+    "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\"                                   \
+    "ucode\\ssm\\translator\\xltconvert.cpp"
 
-unsigned int * fn_82B75D30(unsigned int *param_1,unsigned int *param_2,unsigned int *param_3,unsigned int *param_4)
+#define XLT_ASSERT(e, line)                                                                                  \
+    if (!(e))                                                                                                \
+    fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", #e, XLT_FILE, line)
 
+/* IL tokens; the first bit-field is the most significant one on this target. */
+typedef struct OpCode_82B75D30 {
+    unsigned int reserved : 2;
+    unsigned int priModifierPresent : 1;
+    unsigned int secModifierPresent : 1;
+    unsigned int control : 12;
+    unsigned int code : 16;
+} OpCode_82B75D30;
+
+typedef struct Register_82B75D30 {
+    unsigned int header : 8; /* written as one byte (stb) */
+    unsigned int relativeAddress : 1;
+    unsigned int modifierPresent : 1;
+    unsigned int registerType : 6;
+    unsigned int registerNum : 16;
+} Register_82B75D30;
+
+typedef struct SourceModifier_82B75D30 {
+    unsigned int other : 16;
+    unsigned int negateW : 1;
+    unsigned int swizzleW : 3;
+    unsigned int negateZ : 1;
+    unsigned int swizzleZ : 3;
+    unsigned int negateY : 1;
+    unsigned int swizzleY : 3;
+    unsigned int negateX : 1;
+    unsigned int swizzleX : 3;
+} SourceModifier_82B75D30;
+
+typedef struct DestinationModifier_82B75D30 {
+    unsigned int other : 19;
+    unsigned int shiftScale : 4;
+    unsigned int reserved : 9;
+} DestinationModifier_82B75D30;
+
+unsigned int *fn_82B75D30(Register_82B75D30 *source, DestinationModifier_82B75D30 *modifier,
+                          unsigned int *relative, unsigned int *out)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned short uVar4;
-  unsigned int *puVar6;
-  unsigned __int64 uVar5;
-  unsigned int *puVar7;
-  
-  *(unsigned short *)((int)param_4 + 2) = 0x49;
-  *param_4 = *param_4 & 0xe000ffff;
-  puVar6 = param_4 + 2;
-  *(short *)((int)param_4 + 6) = (short)*param_1;
-  uVar1 = param_4[1];
-  uVar3 = *param_1 & 0x3f0000;
-  param_4[1] = uVar1 & 0xffc0ffff | uVar3;
-  uVar2 = *param_1;
-  param_4[1] = uVar1 & 0xff40ffff | uVar3 | uVar2 & 0x800000;
-  param_4[1] = uVar1 & 0xff00ffff | uVar3 | uVar2 & 0x800000 | *param_1 & 0x400000;
-  if ((*param_1 & 0x400000) != 0) {
-    *puVar6 = *param_2;
-    puVar6 = param_4 + 3;
-  }
-  if ((*param_1 & 0x800000) != 0) {
-    *puVar6 = *param_3;
-    puVar6 = puVar6 + 1;
-  }
-  puVar7 = puVar6 + 1;
-  *(short *)((int)puVar6 + 2) = (short)*param_1;
-  uVar1 = *puVar6;
-  uVar2 = *param_1;
-  *puVar6 = uVar1 & 0xffc0ffff | uVar2 & 0x3f0000;
-  *puVar6 = uVar1 & 0xff00ffff | uVar2 & 0x3f0000 | *param_1 & 0x800000;
-  uVar1 = *param_2 >> 9 & 0xf;
-  if (uVar1 == 1) {
-code_r0x82b75e50:
-    uVar4 = 2;
-code_r0x82b75e54:
-    uVar5 = 0;
-  }
-  else {
-    if (uVar1 == 2) {
-      uVar4 = 2;
-code_r0x82b75ee4:
-      uVar5 = 1;
-      goto code_r0x82b75e58;
-    }
-    if (uVar1 == 3) {
-      uVar4 = 2;
-    }
-    else {
-      if (uVar1 == 4) {
-        uVar4 = 3;
-        goto code_r0x82b75e54;
-      }
-      if (uVar1 == 5) {
-        uVar4 = 3;
-        goto code_r0x82b75ee4;
-      }
-      if (uVar1 != 6) {
-        fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff821b597c,0xffffffff820da3b8,0x2b85);
-        goto code_r0x82b75e50;
-      }
-      uVar4 = 3;
-    }
-    uVar5 = 2;
-  }
-code_r0x82b75e58:
-  *(unsigned short *)((int)puVar6 + 6) = uVar4;
-  *puVar7 = *puVar7 & 0xff00ffff | 0x410000;
-  *(unsigned char *)puVar7 = 1;
-  puVar6[2] = (unsigned int)(uVar5 << 0xc) |
-              (unsigned int)((uVar5 << 4 | uVar5) << 4) | puVar6[2] & 0xffff8888 | (unsigned int)uVar5;
-  return puVar6 + 3;
-}
+    unsigned int count;
+    unsigned int swizzle;
+    OpCode_82B75D30 *opcode;
+    Register_82B75D30 *constant;
+    SourceModifier_82B75D30 *sourceModifier;
 
+    opcode = (OpCode_82B75D30 *)out;
+    opcode->code = 0x49;
+    opcode->control = 0;
+    opcode->secModifierPresent = 0;
+    out++;
+    ((Register_82B75D30 *)out)->registerNum = source->registerNum;
+    ((Register_82B75D30 *)out)->registerType = source->registerType;
+    ((Register_82B75D30 *)out)->relativeAddress = source->relativeAddress;
+    ((Register_82B75D30 *)out)->modifierPresent = source->modifierPresent;
+    out++;
+    if (source->modifierPresent) {
+        *out = *(unsigned int *)modifier;
+        out++;
+    }
+    if (source->relativeAddress) {
+        *out = *relative;
+        out++;
+    }
+    ((Register_82B75D30 *)out)->registerNum = source->registerNum;
+    ((Register_82B75D30 *)out)->registerType = source->registerType;
+    ((Register_82B75D30 *)out)->relativeAddress = source->relativeAddress;
+    ((Register_82B75D30 *)out)->modifierPresent = 0;
+    out++;
+    switch (modifier->shiftScale) {
+    case 1:
+        count = 2;
+        swizzle = 0;
+        break;
+    case 2:
+        count = 2;
+        swizzle = 1;
+        break;
+    case 3:
+        count = 2;
+        swizzle = 2;
+        break;
+    case 4:
+        count = 3;
+        swizzle = 0;
+        break;
+    case 5:
+        count = 3;
+        swizzle = 1;
+        break;
+    case 6:
+        count = 3;
+        swizzle = 2;
+        break;
+    default:
+        XLT_ASSERT(0, 0x2b85);
+        count = 2;
+        swizzle = 0;
+        break;
+    }
+    constant = (Register_82B75D30 *)out;
+    constant->registerNum = count;
+    constant->registerType = 1;
+    constant->modifierPresent = 1;
+    constant->relativeAddress = 0;
+    constant->header = 1;
+    out++;
+    sourceModifier = (SourceModifier_82B75D30 *)out;
+    sourceModifier->swizzleX = swizzle;
+    sourceModifier->swizzleY = swizzle;
+    sourceModifier->swizzleZ = swizzle;
+    sourceModifier->swizzleW = swizzle;
+    out++;
+    return out;
+}

@@ -1,38 +1,33 @@
-extern double sqrt(double);
-#define SQRT(x) sqrt(x)
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_82005344;
-extern unsigned int lbl_821AAD20;
+#include <math.h>
 
+typedef struct Rotation_82CEC3F0 {
+    float cosine; /* 0x0 */
+    float sine;   /* 0x4 */
+    int p;        /* 0x8 */
+    int q;        /* 0xc */
+} Rotation_82CEC3F0;
 
-void fn_82CEC3F0(int param_1,float param_2,unsigned __int64 param_3,float *param_4)
-
+/* One Jacobi rotation: the cosine and sine that zero the symmetric matrix's element (p, q). */
+void fn_82CEC3F0(const float *matrix, int p, int q, Rotation_82CEC3F0 *rotation)
 {
-  float fVar1;
-  float fVar2;
-  
-  param_4[2] = param_2;
-  param_4[3] = (float)param_3;
-  fVar1 = *(float *)((int)(((param_3 & 0x3fffffff) * 4 + (unsigned __int64)(unsigned int)param_2 & 0xffffffff) << 2
-                          ) + param_1);
-  if (fVar1 != lbl_821AAD20) {
-    fVar1 = (*(float *)((int)((param_3 + (param_3 & 0x3fffffff) * 4 & 0xffffffff) << 2) + param_1) -
-            *(float *)((int)param_2 * 0x14 + param_1)) / (fVar1 * lbl_82005344);
-    fVar2 = SQRT(fVar1 * fVar1 + lbl_82002AE0);
-    if (fVar1 < lbl_821AAD20) {
-      fVar1 = fVar1 - fVar2;
-    }
-    else {
-      fVar1 = fVar2 + fVar1;
-    }
-    fVar1 = lbl_82002AE0 / fVar1;
-    fVar2 = lbl_82002AE0 / SQRT(fVar1 * fVar1 + lbl_82002AE0);
-    *param_4 = fVar2;
-    param_4[1] = fVar2 * fVar1;
-    return;
-  }
-  param_4[1] = lbl_821AAD20;
-  *param_4 = lbl_82002AE0;
-  return;
-}
+    rotation->p = p;
+    rotation->q = q;
+    if (matrix[q * 4 + p] != 0.0f) {
+        float tau = (matrix[q * 4 + q] - matrix[p * 4 + p]) / (matrix[q * 4 + p] * 2.0f);
+        float root = sqrtf(tau * tau + 1.0f);
+        float t;
+        float c;
 
+        if (tau >= 0.0f) {
+            t = 1.0f / (root + tau);
+        } else {
+            t = 1.0f / (tau - root);
+        }
+        c = 1.0f / sqrtf(t * t + 1.0f);
+        rotation->cosine = c;
+        rotation->sine = c * t;
+        return;
+    }
+    rotation->sine = 0.0f;
+    rotation->cosine = 1.0f;
+}

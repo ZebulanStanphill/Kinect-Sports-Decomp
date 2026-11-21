@@ -1,55 +1,40 @@
-extern unsigned int fStack_10;
+typedef struct Element_8250FBF0 {
+    unsigned __int64 first;  /* 0x00 */
+    unsigned __int64 second; /* 0x08 */
+    float key;               /* 0x10 */
+    unsigned int pad14;
+    unsigned __int64 fourth; /* 0x18 */
+} Element_8250FBF0;
 
-
-void fn_8250FBF0(unsigned __int64 *param_1,unsigned __int64 *param_2)
-
+static __forceinline int KeyLess(const Element_8250FBF0 *left, const Element_8250FBF0 *right)
 {
-  unsigned __int64 *puVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  unsigned __int64 *puVar6;
-  float fStack_10;
-  
-  puVar1 = param_1;
-  if (param_1 == param_2) {
-    return;
-  }
-  while (puVar6 = puVar1 + 4, puVar6 != param_2) {
-    uVar5 = *puVar6;
-    uVar4 = puVar1[5];
-    uVar3 = puVar1[6];
-    uVar2 = puVar1[7];
-    fStack_10 = (float)((unsigned __int64)uVar3 >> 0x20);
-    puVar1 = puVar6;
-    if (*(float *)(param_1 + 2) <= fStack_10) {
-      while (fStack_10 < *(float *)(puVar6 + -2)) {
-        *puVar6 = puVar6[-4];
-        puVar6[1] = puVar6[-3];
-        puVar6[2] = puVar6[-2];
-        puVar6[3] = puVar6[-1];
-        puVar6 = puVar6 + -4;
-      }
-      *puVar6 = uVar5;
-      puVar6[1] = uVar4;
-      puVar6[2] = uVar3;
-      puVar6[3] = uVar2;
-    }
-    else {
-      while (param_1 != puVar6) {
-        *puVar6 = puVar6[-4];
-        puVar6[1] = puVar6[-3];
-        puVar6[2] = puVar6[-2];
-        puVar6[3] = puVar6[-1];
-        puVar6 = puVar6 + -4;
-      }
-      *param_1 = uVar5;
-      param_1[1] = uVar4;
-      param_1[2] = uVar3;
-      param_1[3] = uVar2;
-    }
-  }
-  return;
+    return left->key < right->key;
 }
 
+/* Insertion sort of [first, last) by ascending key (std::_Insertion_sort1). */
+void fn_8250FBF0(Element_8250FBF0 *first, Element_8250FBF0 *last)
+{
+    Element_8250FBF0 *next;
+
+    if (first == last)
+        return;
+    for (next = first; ++next != last;) {
+        Element_8250FBF0 *next1 = next;
+        Element_8250FBF0 value = *next;
+
+        if (KeyLess(&value, first)) {
+            Element_8250FBF0 *src = next;
+            Element_8250FBF0 *dest = ++next1;
+
+            while (first != src)
+                *--dest = *--src;
+            *first = value;
+        } else {
+            Element_8250FBF0 *first1;
+
+            for (first1 = next1; KeyLess(&value, --first1); next1 = first1)
+                *next1 = *first1;
+            *next1 = value;
+        }
+    }
+}

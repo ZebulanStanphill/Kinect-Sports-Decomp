@@ -1,13 +1,19 @@
-void fn_827AF288(int param_1,int param_2)
+typedef struct Cursor_827AF288 {
+    int unk0;
+    unsigned int position; /* 0x4 */
+    unsigned int end;      /* 0x8 */
+} Cursor_827AF288;
 
+extern void fn_827AF130(Cursor_827AF288 *self);
+
+void fn_827AF288(Cursor_827AF288 *self, unsigned int count)
 {
-  if (*(unsigned int *)(param_1 + 8) <= *(unsigned int *)(param_1 + 4)) {
-    return;
-  }
-  if (param_2 == 0) {
-    return;
-  }
-  *(unsigned int *)(param_1 + 4) = *(unsigned int *)(param_1 + 4) + param_2;
-  fn_827AF130();
-  return;
+    if (self->position >= self->end) {
+        return;
+    }
+    if (count == 0) {
+        return;
+    }
+    self->position += count;
+    fn_827AF130(self);
 }

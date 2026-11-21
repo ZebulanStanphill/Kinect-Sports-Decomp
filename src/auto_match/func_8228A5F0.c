@@ -1,57 +1,88 @@
-extern unsigned int *auStack_400;
-extern unsigned int *auStack_40c;
-extern int fn_8228ABB8();
-extern int fn_8228ACD0();
-extern int fn_82486098();
-extern int fn_82520780();
-extern unsigned int lbl_8218E8E8;
-extern unsigned int uStack_410;
+typedef struct Data_8228A5F0 {
+    char pad0[0x1498];
+    int mode; /* 0x1498 */
+    char pad149c[0x4];
+    int playerId; /* 0x14a0 */
+    char pad14a4[0x18b8 - 0x14a4];
+    int state; /* 0x18b8 */
+} Data_8228A5F0;
 
+typedef struct Source_8228A5F0 {
+    char pad0[0x8c4];
+    int first;  /* 0x8c4 */
+    int second; /* 0x8c8 */
+} Source_8228A5F0;
 
-void fn_8228A5F0(int param_1)
+typedef struct Slot_8228A5F0 {
+    int state; /* 0x00 */
+    char pad4[0x4];
+    __int64 time;            /* 0x08 */
+    int pending;             /* 0x10 */
+    int active;              /* 0x14 */
+    Source_8228A5F0 *source; /* 0x18 */
+    int id;                  /* 0x1c */
+    char pad20[0x20];
+} Slot_8228A5F0;
 
+typedef struct Game_8228A5F0 {
+    char pad0[0x520];
+    char table[0x188];         /* 0x520 */
+    Slot_8228A5F0 slots[0x2d]; /* 0x6a8 */
+    char pad11e8[0x8];
+    Data_8228A5F0 *data; /* 0x11f0 */
+} Game_8228A5F0;
+
+extern unsigned int lbl_83265A28;
+extern const float lbl_8218E8E8[5];
+extern int fn_82520780(unsigned int *seed, float chance);
+extern void fn_82486098(Data_8228A5F0 *data, int index, int choice, char *text);
+extern void fn_8228ABB8(Game_8228A5F0 *self, int index, char *text, int *first, int *second);
+extern void fn_8228ACD0(Game_8228A5F0 *self, int index, char *table);
+
+void fn_8228A5F0(Game_8228A5F0 *self)
 {
-  int iVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  struct { unsigned int first; unsigned int second; } stack_pair_410;
+    int next;
 
-  unsigned char auStack_400 [1000];
-  
-  if (*(int *)(*(int *)(param_1 + 0x11f0) + 0x18b8) == 1) {
-    if (*(int *)(param_1 + 0x6e8) == 4) {
-      if (*(int *)(param_1 + 0x768) != 4) {
-        *(unsigned int *)(param_1 + 0x768) = 4;
-      }
+    if (self->data->state != 1)
+        return;
+    if (self->slots[1].state == 4) {
+        if (self->slots[3].state != 4)
+            self->slots[3].state = 4;
+        return;
     }
-    else {
-      iVar1 = *(int *)(param_1 + 0x728);
-      if (iVar1 != *(int *)(param_1 + 0x768)) {
-        if (iVar1 == 2) {
-          stack_pair_410.first = *(unsigned int *)(*(int *)(param_1 + 0x740) + 0x8c4);
-          stack_pair_410.second = *(unsigned int *)(*(int *)(param_1 + 0x740) + 0x8c8);
-          uVar3 = fn_82520780((double)lbl_8218E8E8,0xffffffff83265a28);
-          iVar1 = *(int *)(param_1 + 0x11f0);
-          uVar2 = *(unsigned int *)(param_1 + 0x744);
-          *(unsigned int *)(iVar1 + 0x1498) = 2;
-          *(unsigned int *)(iVar1 + 0x14a0) = uVar2;
-          fn_82486098(iVar1,3,uVar3,auStack_400);
-          fn_8228ABB8(param_1,3,auStack_400,&stack_pair_410.first,&stack_pair_410.second);
-          *(unsigned int *)(param_1 + 0x768) = 2;
-          *(unsigned int *)(param_1 + 0x778) = 0;
-          *(unsigned int *)(param_1 + 0x77c) = 1;
-          *(unsigned int *)(param_1 + 0x784) = *(unsigned int *)(param_1 + 0x744);
-        }
-        else if (iVar1 == 3) {
-          fn_8228ACD0(param_1,3,param_1 + 0x520);
-          *(unsigned __int64 *)(param_1 + 0x770) = 0;
-          *(unsigned int *)(param_1 + 0x768) = 3;
-          *(unsigned int *)(param_1 + 0x778) = 0;
-          *(unsigned int *)(param_1 + 0x77c) = 1;
-        }
-      }
+    next = self->slots[2].state;
+    if (next == self->slots[3].state)
+        return;
+    switch (next) {
+    case 2: {
+        int sourceFirst = self->slots[2].source->first;
+        int sourceSecond = self->slots[2].source->second;
+        int second = sourceSecond;
+        int first = sourceFirst;
+        char text[1000];
+        int choice;
+        Data_8228A5F0 *data;
+        int id;
+
+        choice = fn_82520780(&lbl_83265A28, lbl_8218E8E8[0]);
+        data = self->data;
+        id = self->slots[2].id;
+        data->mode = 2;
+        data->playerId = id;
+        fn_82486098(data, 3, choice, text);
+        fn_8228ABB8(self, 3, text, &first, &second);
+        self->slots[3].state = 2;
+        self->slots[3].pending = 0;
+        self->slots[3].active = 1;
+        self->slots[3].id = self->slots[2].id;
+        break;
     }
-  }
-  return;
+    case 3:
+        fn_8228ACD0(self, 3, self->table);
+        self->slots[3].time = 0;
+        self->slots[3].state = 3;
+        self->slots[3].pending = 0;
+        self->slots[3].active = 1;
+        break;
+    }
 }
-

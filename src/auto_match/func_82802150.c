@@ -1,35 +1,23 @@
-extern unsigned int lbl_82002C5C;
-extern unsigned int lbl_82005344;
-extern unsigned int lbl_820145BC;
-extern unsigned int lbl_82016290;
+typedef struct Curve_82802150 {
+    unsigned int points[4]; /* 0x00 */
+} Curve_82802150;
 
-
-void fn_82802150(double param_1,double param_2,double param_3,unsigned int *param_4)
-
+void fn_82802150(Curve_82802150 *curve, float t, float scale, float offset, float *out)
 {
-  float *in_r7;
-  double dVar1;
-  double dVar2;
-  double dVar3;
-  double dVar4;
-  double dVar5;
-  double dVar6;
-  
-  dVar1 = (double)lbl_82002C5C;
-  dVar3 = (double)(float)((double)(float)((double)*param_4 + param_3) * param_2);
-  dVar4 = (double)(float)((double)(float)((double)param_4[2] + param_3) * param_2);
-  dVar6 = (double)(float)((double)(float)((double)param_4[1] + param_3) * param_2);
-  dVar5 = (double)(float)((double)(float)((double)(float)((double)param_4[3] + param_3) * param_2) *
-                         dVar1);
-  dVar2 = (double)(float)(dVar3 * dVar1);
-  *in_r7 = (float)((double)(float)((double)(float)((double)((float)(dVar6 * (double)lbl_820145BC -
-                                                                   (double)(float)(dVar4 * (double)
-                                                  lbl_820145BC)) + (float)(dVar5 - dVar2)) * param_1
-                                                  + (double)(-(float)(dVar6 * (double)lbl_82016290 -
-                                                                     dVar3) +
-                                                            (float)(dVar4 * (double)lbl_82005344 -
-                                                                   dVar5))) * param_1 +
-                                  (double)(float)(dVar4 * dVar1 - dVar2)) * param_1 + dVar6);
-  return;
-}
+    float p0;
+    float p1;
+    float p2;
+    float p3;
+    float a;
+    float b;
+    float c;
 
+    p0 = ((float)curve->points[0] + offset) * scale;
+    p1 = ((float)curve->points[1] + offset) * scale;
+    p2 = ((float)curve->points[2] + offset) * scale;
+    p3 = ((float)curve->points[3] + offset) * scale;
+    a = (1.5f * p1 - 1.5f * p2) + (0.5f * p3 - 0.5f * p0);
+    b = (p0 - 2.5f * p1) + (2.0f * p2 - 0.5f * p3);
+    c = 0.5f * p2 - 0.5f * p0;
+    *out = ((a * t + b) * t + c) * t + p1;
+}

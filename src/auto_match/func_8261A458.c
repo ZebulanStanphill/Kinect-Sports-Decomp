@@ -1,12 +1,17 @@
-unsigned __int64 fn_8261A458(int param_1,int param_2)
+typedef struct Obj_8261A458 {
+    int unk0;
+    int unk4;
+    int unk8;
+    unsigned char flagC; /* 0x0c */
+} Obj_8261A458;
 
+extern int fn_82591730(Obj_8261A458 *self, int param, unsigned int value);
+
+int fn_8261A458(Obj_8261A458 *self, int param, unsigned int value)
 {
-  unsigned __int64 uVar1;
-  
-  if (param_2 != 0x16) {
-    uVar1 = fn_82591730();
-    return uVar1;
-  }
-  *(unsigned char *)(param_1 + 0xc) = 1;
-  return 0;
+    if (param != 0x16) {
+        return fn_82591730(self, param, value);
+    }
+    self->flagC = 1;
+    return 0;
 }

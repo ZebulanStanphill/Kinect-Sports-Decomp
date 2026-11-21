@@ -1,97 +1,72 @@
-extern int fn_82A6CF00();
-extern int fn_82BA02A8();
+typedef unsigned char (*ByteFilter_82A75588)(unsigned char value);
 
+typedef struct BitReader_82A75588 {
+    char pad00[0x1c];
+    const unsigned char *input; /* 0x1C */
+    unsigned int remaining;     /* 0x20 */
+    unsigned int bits;          /* 0x24 */
+    unsigned int bitCount;      /* 0x28 */
+    unsigned int tail;          /* 0x2C */
+    unsigned int tailBits;      /* 0x30 */
+    char pad34[0x20];
+    ByteFilter_82A75588 filter; /* 0x54 */
+} BitReader_82A75588;
 
-unsigned __int64 fn_82A75588(int param_1,unsigned __int64 param_2)
+extern unsigned char fn_82BA02A8(unsigned char value);
+extern int fn_82A6CF00(BitReader_82A75588 *reader, int flags, unsigned int limit);
 
+int fn_82A75588(BitReader_82A75588 *reader, unsigned int limit)
 {
-  unsigned char bVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned __int64 uVar6;
-  unsigned int uVar7;
-  unsigned int uVar8;
-  unsigned __int64 uVar9;
-  unsigned int uVar10;
-  unsigned char *pbVar11;
-  unsigned __int64 uVar12;
-  
-  uVar12 = (unsigned __int64)*(unsigned int *)(param_1 + 0x20);
-  uVar2 = 0;
-  uVar5 = *(unsigned int *)(param_1 + 0x30);
-  uVar10 = *(unsigned int *)(param_1 + 0x28);
-  uVar9 = (unsigned __int64)uVar10;
-  uVar7 = *(unsigned int *)(param_1 + 0x24);
-  uVar6 = (unsigned __int64)uVar7;
-  pbVar11 = *(unsigned char **)(param_1 + 0x1c);
-  if ((((unsigned __int64)*(unsigned int *)(param_1 + 0x20) & 0x1fffffff) * 8 + (unsigned __int64)uVar5 + uVar9 &
-      0xffffffff) < (param_2 & 0xffffffff)) {
-    uVar3 = uVar9;
-    if (*(int (***)())(param_1 + 0x54) == fn_82BA02A8) {
-      while (uVar3 < 0x19) {
-        uVar10 = (unsigned int)uVar9;
-        uVar7 = (unsigned int)uVar6;
-        if ((uVar12 & 0xffffffff) == 0) break;
-        uVar9 = uVar9 + 8;
-        uVar10 = (unsigned int)uVar9;
-        uVar6 = (uVar6 & 0xffffff) << 8 | (unsigned __int64)*pbVar11;
-        uVar7 = (unsigned int)uVar6;
-        pbVar11 = pbVar11 + 1;
-        uVar12 = uVar12 - 1;
-        uVar3 = uVar9 & 0xffffffff;
-      }
-      uVar8 = 0;
-      if ((uVar12 & 0xffffffff) != 0) {
-        uVar5 = (int)((uVar12 & 0xffffffff) << 3) + uVar5;
-        uVar9 = uVar12;
-        uVar8 = 0;
-        do {
-          bVar1 = *pbVar11;
-          pbVar11 = pbVar11 + 1;
-          uVar8 = uVar8 << 8 | (unsigned int)bVar1;
-          uVar12 = uVar12 - 1;
-          uVar9 = uVar9 - 1;
-        } while (uVar9 != 0);
-      }
-    }
-    else {
-      while (uVar3 < 0x19) {
-        uVar10 = (unsigned int)uVar9;
-        uVar7 = (unsigned int)uVar6;
-        if ((uVar12 & 0xffffffff) == 0) break;
-        uVar3 = (**(int (***)())(param_1 + 0x54))(*pbVar11);
-        uVar9 = uVar9 + 8;
-        uVar10 = (unsigned int)uVar9;
-        uVar6 = (uVar6 & 0xffffff) << 8 | uVar3 & 0xffffffff000000ff;
-        uVar7 = (unsigned int)uVar6;
-        pbVar11 = pbVar11 + 1;
-        uVar12 = uVar12 - 1;
-        uVar3 = uVar9 & 0xffffffff;
-      }
-      uVar8 = 0;
-      if ((uVar12 & 0xffffffff) != 0) {
-        uVar5 = (int)((uVar12 & 0xffffffff) << 3) + uVar5;
-        uVar9 = uVar12;
-        uVar8 = 0;
-        do {
-          uVar4 = (**(int (***)())(param_1 + 0x54))(*pbVar11);
-          uVar8 = uVar8 << 8 | uVar4 & 0xff;
-          uVar9 = uVar9 - 1;
-          pbVar11 = pbVar11 + 1;
-          uVar12 = 0;
-        } while (uVar9 != 0);
-      }
-    }
-    *(unsigned int *)(param_1 + 0x24) = uVar7;
-    *(unsigned int *)(param_1 + 0x28) = uVar10;
-    *(int *)(param_1 + 0x20) = (int)uVar12;
-    *(unsigned char **)(param_1 + 0x1c) = pbVar11;
-    *(unsigned int *)(param_1 + 0x30) = uVar5;
-    *(unsigned int *)(param_1 + 0x2c) = uVar8;
-    uVar2 = fn_82A6CF00(param_1,0,param_2);
-  }
-  return uVar2;
-}
+    unsigned int remaining = reader->remaining;
+    int result = 0;
+    unsigned int tailBits;
+    unsigned int bitCount = reader->bitCount;
+    unsigned int bits = reader->bits;
+    const unsigned char *input = reader->input;
+    unsigned int tail;
 
+    tailBits = reader->tailBits;
+    if (limit > remaining * 8 + tailBits + bitCount) {
+        if (reader->filter == fn_82BA02A8) {
+            while (bitCount <= 24 && remaining != 0) {
+                bits = (bits << 8) | *input;
+                bitCount += 8;
+                input++;
+                remaining--;
+            }
+            tail = 0;
+            if (remaining != 0) {
+                tailBits += remaining * 8;
+                while (remaining != 0) {
+                    tail = (tail << 8) | *input;
+                    input++;
+                    remaining--;
+                }
+            }
+        } else {
+            while (bitCount <= 24 && remaining != 0) {
+                bits = (bits << 8) | reader->filter(*input);
+                bitCount += 8;
+                input++;
+                remaining--;
+            }
+            tail = 0;
+            if (remaining != 0) {
+                tailBits += remaining * 8;
+                do {
+                    tail = (tail << 8) | reader->filter(*input);
+                    input++;
+                    remaining--;
+                } while (remaining != 0);
+            }
+        }
+        reader->bits = bits;
+        reader->bitCount = bitCount;
+        reader->remaining = remaining;
+        reader->input = input;
+        reader->tailBits = tailBits;
+        reader->tail = tail;
+        result = fn_82A6CF00(reader, 0, limit);
+    }
+    return result;
+}

@@ -1,58 +1,70 @@
-extern unsigned int lbl_831BB388;
-extern unsigned int lbl_831BB398;
-extern unsigned int lbl_831BB3A8;
-extern unsigned int lbl_831BB3B0;
-extern unsigned int lbl_831BB3B8;
-extern unsigned int lbl_831BB3C0;
-extern unsigned int lbl_831BB3C8;
-extern unsigned int lbl_831BB3D0;
-extern unsigned int lbl_831BB3D8;
-extern unsigned int lbl_831BB3E0;
-extern unsigned int lbl_831BB3E8;
-extern unsigned int lbl_831BB3F0;
-extern unsigned int lbl_831BB430;
+// Arctangent: reduces |x| above 1 to 1/|x| and above tan(pi/12) by the pi/6 rotation, then a
+// rational approximation; the offset table adds the reductions back.
+typedef struct AtanTable_82F64F30 {
+    double epsilon;        /* 0x00 */
+    double halfPi;         /* 0x08 */
+    double pi;             /* 0x10 */
+    double tanPi12;        /* 0x18 */
+    double sqrt3Minus1;    /* 0x20 */
+    double sqrt3;          /* 0x28 */
+    double huge;           /* 0x30 */
+    double numerator[4];   /* 0x38 */
+    double denominator[4]; /* 0x58 */
+    double one;            /* 0x78 */
+    double offset[4];      /* 0x80: 0, pi/6, pi/2, pi/3 */
+    double minimum;        /* 0xA0 */
+    float zero;            /* 0xA8 */
+    float half;            /* 0xAC */
+    float onef;            /* 0xB0 */
+    float padB4[3];
+} AtanTable_82F64F30;
 
+extern AtanTable_82F64F30 lbl_831BB380;
 
-double fn_82F64F30(double param_1)
+double fabs(double x);
 
+double fn_82F64F30(double x)
 {
-  unsigned int uVar1;
-  double dVar2;
-  double dVar3;
-  double dVar4;
-  
-  dVar2 = ABS(param_1);
-  dVar4 = (double)lbl_831BB430;
-  if (dVar2 <= dVar4) {
-    uVar1 = 0;
-    dVar3 = dVar2;
-  }
-  else {
-    dVar3 = lbl_831BB388;
-    if (lbl_831BB3B0 < dVar2) goto LAB_82f64ffc;
-    uVar1 = 2;
-    dVar3 = dVar4 / dVar2;
-  }
-  if (lbl_831BB398 < dVar3) {
-    uVar1 = uVar1 + 1;
-    dVar3 = (lbl_831BB3A8 * dVar3 - dVar4) / (lbl_831BB3A8 + dVar3);
-  }
-  dVar4 = dVar3 * dVar3;
-  dVar3 = ((((lbl_831BB3D0 * dVar4 + lbl_831BB3C8) * dVar4 + lbl_831BB3C0) * dVar4 + lbl_831BB3B8) *
-           dVar4 * dVar3) /
-          ((((lbl_831BB3F0 + dVar4) * dVar4 + lbl_831BB3E8) * dVar4 + lbl_831BB3E0) * dVar4 +
-          lbl_831BB3D8) + dVar3;
-  if (1 < uVar1) {
-    dVar3 = -dVar3;
-  }
-  dVar3 = *(double *)(uVar1 * 8 + -0x7ce44c00) + dVar3;
-LAB_82f64ffc:
-  if (dVar2 != 0.0) {
-    if (param_1 < 0.0) {
-      dVar3 = -dVar3;
-    }
-    return dVar3;
-  }
-  return param_1;
-}
+    AtanTable_82F64F30 *t = &lbl_831BB380;
 
+    union {
+        double d;
+        __int64 bits;
+    } a;
+
+    double y;
+    double w;
+    double r;
+    int index;
+
+    a.d = fabs(x);
+    y = a.d;
+    if (y > t->onef) {
+        if (y > t->huge) {
+            r = t->halfPi;
+            goto done;
+        }
+        index = 2;
+        y = t->onef / y;
+    } else {
+        index = 0;
+    }
+    if (y > t->tanPi12) {
+        index++;
+        y = (t->sqrt3 * y - t->onef) / (t->sqrt3 + y);
+    }
+    w = y * y;
+    r = (((t->numerator[3] * w + t->numerator[2]) * w + t->numerator[1]) * w + t->numerator[0]) * w * y /
+            ((((w + t->denominator[3]) * w + t->denominator[2]) * w + t->denominator[1]) * w +
+             t->denominator[0]) +
+        y;
+    if (index > 1) {
+        r = -r;
+    }
+    r = t->offset[index] + r;
+done:
+    if (a.bits == 0) {
+        return x;
+    }
+    return x >= 0.0 ? r : -r;
+}

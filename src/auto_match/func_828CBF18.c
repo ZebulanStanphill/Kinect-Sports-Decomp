@@ -1,75 +1,98 @@
-extern unsigned int *auStack_60;
-extern int fn_82230360();
-extern int fn_8265CA20();
-extern int fn_8288B460();
-extern int fn_8288F180();
-extern int fn_8288F1E8();
-extern int fn_828B55B0();
-extern int fn_828BDE70();
-extern int fn_82F622E0();
+extern void fn_82230360(void *s, const char *text, unsigned int length);
+extern void fn_8265CA20(void *p);
+extern unsigned char fn_8288B460(void *object, int id, int flag);
+extern void fn_8288F180(void *object, int id, void *message);
+extern void *fn_8288F1E8(void *context, void *key);
+extern void fn_828B55B0(void *p);
+extern void fn_828BDE70(void *p);
+extern __declspec(noreturn) void fn_82F622E0(const char *message);
 extern unsigned int lbl_82025A98;
 extern unsigned int lbl_82025AA0;
-extern unsigned int uStack_4c;
-extern unsigned int uStack_50;
 
+typedef struct VObj_828CBF18 {
+    void (**vt)(struct VObj_828CBF18 *, int);
+} VObj_828CBF18;
 
-void fn_828CBF18(unsigned int *param_1)
+typedef struct Vector_828CBF18 {
+    VObj_828CBF18 **first; /* 0x00 */
+    VObj_828CBF18 **last;  /* 0x04 */
+    VObj_828CBF18 **end;   /* 0x08 */
+} Vector_828CBF18;
 
+typedef struct String_828CBF18 {
+    union {
+        char buffer[16];
+        char *pointer;
+    } text; /* 0x00 */
+
+    unsigned int size;       /* 0x10 */
+    unsigned int capacity;   /* 0x14 */
+    unsigned char allocator; /* 0x18 */
+} String_828CBF18;
+
+typedef struct Mgr_828CBF18 {
+    unsigned int *vt; /* 0x00 */
+    char pad04[0x4c];
+    unsigned int *vt50; /* 0x50 */
+    char pad54[0x18];
+    void *context; /* 0x6c */
+    char pad70[0x10];
+    char sub80[8];       /* 0x80 */
+    int id;              /* 0x88 */
+    unsigned char owned; /* 0x8c */
+    char pad8d[3];
+    Vector_828CBF18 items; /* 0x90 */
+    char pad9c[8];
+    int target; /* 0xa4 */
+} Mgr_828CBF18;
+
+static __forceinline VObj_828CBF18 **At(Vector_828CBF18 *v, unsigned int index)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  unsigned int uVar3;
-  unsigned __int64 uVar4;
-  char cVar5;
-  int *piVar6;
-  unsigned int uVar7;
-  int iVar8;
-  unsigned int auStack_60 [4];
-  unsigned int uStack_50;
-  unsigned int uStack_4c;
-  
-  *param_1 = &lbl_82025AA0;
-  param_1[0x14] = &lbl_82025A98;
-  piVar6 = param_1 + 0x24;
-  uVar7 = 0;
-  uVar3 = (int)(param_1[0x25] - param_1[0x24]) >> 2;
-  if (uVar3 != 0) {
-    iVar8 = 0;
-    do {
-      iVar1 = *piVar6;
-      if ((unsigned int)(param_1[0x25] - iVar1 >> 2) <= uVar7) {
-                    /* WARNING: Subroutine does not return */
-        fn_82F622E0(0xffffffff821ae698);
-      }
-      puVar2 = *(unsigned int **)(iVar8 + iVar1);
-      *(unsigned int *)(iVar8 + iVar1) = 0;
-      if (puVar2 != (unsigned int *)0x0) {
-        (**(int (***)())*puVar2)(puVar2,1);
-      }
-      uVar7 = uVar7 + 1;
-      iVar8 = iVar8 + 4;
-    } while (uVar7 < uVar3);
-  }
-  if (((*(char *)(param_1 + 0x23) != '\0') &&
-      (uVar4 = fn_8288F1E8(param_1[0x1b],param_1 + 0x20), (uVar4 & 0xffffffff) != 0)) &&
-     (cVar5 = fn_8288B460(uVar4,param_1[0x22],1), cVar5 != '\0')) {
-    uStack_50 = 0;
-    auStack_60[0] = auStack_60[0] & 0xffffff;
-    uStack_4c = 0xf;
-    fn_82230360(auStack_60,0xffffffff820264a8,0x27);
-    fn_8288F180(uVar4,param_1[0x29],auStack_60);
-    if (0xf < uStack_4c) {
-      fn_8265CA20(auStack_60[0]);
+    if ((unsigned int)(v->last - v->first) <= index) {
+        fn_82F622E0("invalid vector<T> subscript");
     }
-  }
-  if (*piVar6 != 0) {
-    fn_8265CA20();
-  }
-  *piVar6 = 0;
-  param_1[0x25] = 0;
-  param_1[0x26] = 0;
-  fn_828B55B0(param_1 + 0x20);
-  fn_828BDE70(param_1);
-  return;
+    return &v->first[index];
 }
 
+void fn_828CBF18(Mgr_828CBF18 *m)
+{
+    Vector_828CBF18 *items;
+    unsigned int count;
+    unsigned int i;
+
+    m->vt = &lbl_82025AA0;
+    m->vt50 = &lbl_82025A98;
+    items = &m->items;
+    count = items->last - items->first;
+    for (i = 0; i < count; i++) {
+        VObj_828CBF18 **slot = At(items, i);
+        VObj_828CBF18 *o = *slot;
+
+        *slot = 0;
+        if (o != 0) {
+            (*(void (*)(VObj_828CBF18 *, int)) * (unsigned int *)o->vt)(o, 1);
+        }
+    }
+    if (m->owned != 0) {
+        void *object = fn_8288F1E8(m->context, m->sub80);
+        if (object != 0 && fn_8288B460(object, m->id, 1) != 0) {
+            String_828CBF18 message;
+            message.capacity = 15;
+            message.size = 0;
+            message.text.buffer[0] = 0;
+            fn_82230360(&message, "net obj ownership transfer msg destruct", 0x27);
+            fn_8288F180(object, m->target, &message);
+            if (message.capacity >= 16) {
+                fn_8265CA20(message.text.pointer);
+            }
+        }
+    }
+    if (items->first != 0) {
+        fn_8265CA20(items->first);
+    }
+    items->first = 0;
+    items->last = 0;
+    items->end = 0;
+    fn_828B55B0(m->sub80);
+    fn_828BDE70(m);
+}

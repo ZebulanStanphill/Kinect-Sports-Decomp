@@ -1,66 +1,89 @@
-extern int fn_82691CD8();
-extern int fn_82691F88();
-extern int fn_82692008();
-extern int fn_82692200();
-extern unsigned int lbl_82005F20;
+typedef struct Item_82692370 Item_82692370;
 
+typedef struct FreeList_82692370 {
+    Item_82692370 *head; /* 0x0 */
+    Item_82692370 *tail; /* 0x4 */
+} FreeList_82692370;
 
-void fn_82692370(int param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+typedef struct Block_82692370 {
+    char reserved00[0x10];
+    int used; /* 0x10 */
+} Block_82692370;
 
+struct Item_82692370 {
+    Item_82692370 *next;     /* 0x0 */
+    FreeList_82692370 *prev; /* 0x4 */
+    Block_82692370 *block;   /* 0x8 */
+};
+
+typedef struct Pool_82692370 {
+    char reserved00[0xc];
+    unsigned int shift;     /* 0x00c */
+    unsigned int alignMask; /* 0x010 */
+    char reserved14[0x1a0];
+    FreeList_82692370 freeLists[8]; /* 0x1b4 */
+    unsigned char smallEnabled;     /* 0x1f4 */
+    char reserved1f5[0xf];
+    unsigned int pageThreshold; /* 0x204 */
+    char reserved208[0x8];
+    unsigned int totalSize; /* 0x210 */
+} Pool_82692370;
+
+extern const unsigned int lbl_82005F20[8];
+extern Item_82692370 *fn_82692008(Pool_82692370 *pool, unsigned int sizeClass);
+extern void *fn_82692200(Pool_82692370 *pool, unsigned int size);
+extern void *fn_82691F88(Pool_82692370 *pool, unsigned int size, unsigned int alignment);
+extern void *fn_82691CD8(Pool_82692370 *pool, unsigned int size, unsigned int alignment);
+
+static __forceinline Item_82692370 *AllocSmall_82692370(Pool_82692370 *pool, unsigned int size)
 {
-  int *piVar1;
-  unsigned __int64 uVar2;
-  int iVar3;
-  unsigned int uVar4;
-  
-  if ((param_3 - 1 & 0xffffffff) <= (unsigned __int64)*(unsigned int *)(param_1 + 0x10)) {
-    fn_82692200();
-    return;
-  }
-  if ((param_2 & 0xffffffff) < 0x10) {
-    param_2 = 0x10;
-  }
-  uVar2 = (unsigned __int64)*(unsigned int *)(param_1 + 0x10) + 1;
-  if ((param_3 & 0xffffffff) < (uVar2 & 0xffffffff)) {
-    param_3 = uVar2;
-  }
-  if ((param_2 & 0xffffffff) < (param_3 & 0xffffffff)) {
-    param_2 = param_3;
-  }
-  uVar2 = (param_2 + param_3) - 1 & ~(param_3 - 1);
-  if ((*(char *)(param_1 + 500) == '\0') ||
-     ((unsigned __int64)(unsigned int)(8 << (*(unsigned int *)(param_1 + 0xc) & 0x3f)) < (uVar2 & 0xffffffff))) {
-LAB_82692508:
-    if ((uVar2 & 0xffffffff) < (unsigned __int64)*(unsigned int *)(param_1 + 0x204)) {
-      fn_82691F88();
+    unsigned int sizeClass;
+    Item_82692370 *item;
+
+    sizeClass = lbl_82005F20[(size - 1) >> pool->shift];
+    item = pool->freeLists[sizeClass].tail;
+    if (item == (Item_82692370 *)&pool->freeLists[sizeClass]) {
+        item = fn_82692008(pool, sizeClass);
+        if (item == 0) {
+            return 0;
+        }
     }
-    else {
-      fn_82691CD8(param_1,uVar2,param_3);
-    }
-  }
-  else {
-    uVar4 = (int)uVar2 - 1;
-    iVar3 = *(int *)(&lbl_82005F20 + (uVar4 >> (*(unsigned int *)(param_1 + 0xc) & 0x3f)) * 4);
-    piVar1 = *(int **)((iVar3 + 0x37) * 8 + param_1);
-    if ((piVar1 == (int *)(iVar3 * 8 + param_1 + 0x1b4)) &&
-       (piVar1 = (int *)fn_82692008(param_1,iVar3), piVar1 == (int *)0x0)) {
-      iVar3 = *(int *)(&lbl_82005F20 + (uVar4 >> (*(unsigned int *)(param_1 + 0xc) & 0x3f)) * 4);
-      piVar1 = *(int **)((iVar3 + 0x37) * 8 + param_1);
-      if ((piVar1 == (int *)(iVar3 * 8 + param_1 + 0x1b4)) &&
-         (piVar1 = (int *)fn_82692008(param_1,iVar3), piVar1 == (int *)0x0)) goto LAB_82692508;
-      *(int *)(*piVar1 + 4) = piVar1[1];
-      *(int *)piVar1[1] = *piVar1;
-      *(int *)(piVar1[2] + 0x10) = *(int *)(piVar1[2] + 0x10) + 1;
-      iVar3 = *(int *)(param_1 + 0x210) - (iVar3 + 1 << (*(unsigned int *)(param_1 + 0xc) & 0x3f));
-    }
-    else {
-      *(int *)(*piVar1 + 4) = piVar1[1];
-      *(int *)piVar1[1] = *piVar1;
-      *(int *)(piVar1[2] + 0x10) = *(int *)(piVar1[2] + 0x10) + 1;
-      iVar3 = *(int *)(param_1 + 0x210) - (iVar3 + 1 << (*(unsigned int *)(param_1 + 0xc) & 0x3f));
-    }
-    *(int *)(param_1 + 0x210) = iVar3;
-  }
-  return;
+    item->next->prev = item->prev;
+    item->prev->head = item->next;
+    item->block->used++;
+    pool->totalSize -= (sizeClass + 1) << pool->shift;
+    return item;
 }
 
+void *fn_82692370(Pool_82692370 *pool, unsigned int size, unsigned int alignment)
+{
+    Item_82692370 *item;
+
+    if (alignment - 1 <= pool->alignMask) {
+        return fn_82692200(pool, size);
+    }
+    if (size < 16) {
+        size = 16;
+    }
+    if (alignment < pool->alignMask + 1) {
+        alignment = pool->alignMask + 1;
+    }
+    if (size < alignment) {
+        size = alignment;
+    }
+    size = (size + alignment - 1) & ~(alignment - 1);
+    if (pool->smallEnabled != 0 && size <= (8u << pool->shift)) {
+        item = AllocSmall_82692370(pool, size);
+        if (item != 0) {
+            return item;
+        }
+        item = AllocSmall_82692370(pool, size);
+        if (item != 0) {
+            return item;
+        }
+    }
+    if (size < pool->pageThreshold) {
+        return fn_82691F88(pool, size, alignment);
+    }
+    return fn_82691CD8(pool, size, alignment);
+}

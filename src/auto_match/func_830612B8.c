@@ -1,126 +1,131 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern unsigned int *auStack_90;
-extern unsigned int *auStack_b0;
-extern int fn_82810280();
-extern int fn_8305D7D0();
-extern int fn_8305DB40();
-extern int fn_83060438();
-extern int fn_83066810();
-extern int fn_830677A0();
-extern int fn_830678C8();
-extern int fn_830679A8();
-extern unsigned int lbl_8201DCB8;
-extern unsigned int lbl_821AAD20;
-extern unsigned int uStack_b4;
+typedef struct Key_830612B8 {
+    int v;
+} Key_830612B8;
 
+typedef struct Node_830612B8 Node_830612B8;
 
-unsigned __int64
-fn_830612B8(unsigned __int64 param_1,int param_2,int *param_3,unsigned __int64 param_4,unsigned __int64 param_5)
+typedef struct Ent_830612B8 {
+    Key_830612B8 *p;
+    Node_830612B8 *node;
+} Ent_830612B8;
 
+typedef struct Vec_830612B8 {
+    int pad;
+    Ent_830612B8 *begin;
+    Ent_830612B8 *end;
+    int pad2[3];
+} Vec_830612B8;
+
+typedef struct Obj_830612B8 {
+    char pad[0x18];
+    int count; /* 0x18 */
+    char pad2[0x10];
+    Vec_830612B8 *vecs; /* 0x2c */
+} Obj_830612B8;
+
+typedef struct Plane_830612B8 {
+    float a;
+    float b;
+    float c;
+    float d;
+    float extra;
+} Plane_830612B8;
+
+extern void fn_83060438(Vec_830612B8 *);
+extern void fn_830677A0(void *, int, const char *);
+extern void fn_830678C8(void *);
+extern void fn_830679A8(void *);
+extern float fn_8305DB40(Node_830612B8 *node);
+extern void fn_8305D7D0(Node_830612B8 *node, Plane_830612B8 *plane);
+extern int fn_83066810(Plane_830612B8 *plane, Node_830612B8 *node, float epsilon, unsigned char *onPlane);
+extern float fn_82810280(Plane_830612B8 *a, Plane_830612B8 *b);
+
+int fn_830612B8(Obj_830612B8 *o, int *errs, float epsilon, void *ctx)
 {
-  int iVar1;
-  bool bVar2;
-  unsigned int uVar3;
-  int iVar4;
-  int iVar5;
-  int iVar6;
-  int iVar8;
-  unsigned __int64 uVar7;
-  unsigned __int64 uVar9;
-  int iVar10;
-  int iVar11;
-  int iVar12;
-  double dVar13;
-  double dVar14;
-  double dVar15;
-  char cStack_c0;
-  char cStack_bf;
-  int *piStack_b8;
-  unsigned int uStack_b4;
-  unsigned char auStack_b0 [32];
-  unsigned char auStack_90 [144];
-  
-  uVar9 = 1;
-  if (param_3 != (int *)0x0) {
-    *param_3 = 0;
-  }
-  if ((param_5 & 0xffffffff) != 0) {
-    fn_830677A0(param_5,*(unsigned int *)(param_2 + 0x18),0xffffffff8217e6f4);
-  }
-  iVar10 = 0;
-  iVar11 = *(int *)(param_2 + 0x2c);
-  if (0 < *(int *)(param_2 + 0x18)) {
-    dVar14 = (double)lbl_821AAD20;
-    dVar15 = (double)lbl_8201DCB8;
-    do {
-      iVar1 = *(int *)(iVar11 + 8) - *(int *)(iVar11 + 4) >> 3;
-      fn_83060438(iVar11);
-      iVar12 = 0;
-      if (0 < iVar1) {
-        do {
-          iVar4 = *(int *)(iVar11 + 4);
-          iVar5 = iVar12 * 8;
-          iVar12 = iVar12 + 1;
-          iVar6 = 1;
-          piStack_b8 = (int *)((unsigned __int64)*(unsigned __int64 *)(iVar5 + iVar4) >> 0x20);
-          iVar5 = *piStack_b8;
-          if (iVar1 <= iVar12) break;
-          iVar8 = iVar12 * 8;
-          do {
-            piStack_b8 = (int *)((unsigned __int64)*(unsigned __int64 *)(iVar8 + iVar4) >> 0x20);
-            if (*piStack_b8 != iVar5) break;
-            iVar12 = iVar12 + 1;
-            iVar6 = iVar6 + 1;
-            iVar8 = iVar8 + 8;
-          } while (iVar12 < iVar1);
-          if ((iVar6 == 2) && (iVar10 < iVar5)) {
-            uVar7 = *(unsigned __int64 *)(iVar12 * 8 + iVar4 + -8);
-            uStack_b4 = (unsigned int)*(unsigned __int64 *)((iVar12 + -2) * 8 + iVar4);
-            uVar3 = uStack_b4;
-            dVar13 = (double)fn_8305DB40(uStack_b4);
-            if (dVar15 < dVar13) {
-              uStack_b4 = (unsigned int)uVar7;
-              dVar13 = (double)fn_8305DB40(uStack_b4);
-              if (dVar15 < dVar13) {
-                fn_8305D7D0(uVar3,auStack_90);
-                fn_8305D7D0(uStack_b4,auStack_b0);
-                iVar4 = fn_83066810(param_1,auStack_90,uStack_b4);
-                iVar5 = fn_83066810(param_1,auStack_b0,uVar3);
-                bVar2 = false;
-                if ((cStack_c0 == '\0') && (cStack_bf == '\0')) {
-                  if (iVar4 != iVar5) {
-LAB_83061488:
-                    bVar2 = true;
-                  }
-                }
-                else {
-                  dVar13 = (double)fn_82810280(auStack_90,auStack_b0);
-                  if (dVar13 < dVar14) goto LAB_83061488;
-                }
-                if (bVar2) {
-                  if (param_3 == (int *)0x0) {
-                    return 0;
-                  }
-                  uVar9 = 0;
-                  *param_3 = *param_3 + 1;
-                }
-              }
-            }
-          }
-        } while (iVar12 < iVar1);
-      }
-      if ((param_5 & 0xffffffff) != 0) {
-        fn_830679A8(param_5);
-      }
-      iVar10 = iVar10 + 1;
-      iVar11 = iVar11 + 0x18;
-    } while (iVar10 < *(int *)(param_2 + 0x18));
-  }
-  if ((param_5 & 0xffffffff) != 0) {
-    fn_830678C8(param_5);
-  }
-  return uVar9;
-}
+    int ok;
+    int i, j, n, run;
+    Vec_830612B8 *vp;
+    Ent_830612B8 e;
+    int key;
 
+    ok = 1;
+    if (errs != 0) {
+        *errs = 0;
+    }
+    if (ctx != 0) {
+        fn_830677A0(ctx, o->count, "Checking normals consistency");
+    }
+    i = 0;
+    vp = o->vecs;
+    if (0 < o->count) {
+        do {
+            n = vp->end - vp->begin;
+            fn_83060438(vp);
+            j = 0;
+            if (0 < n) {
+                do {
+                    e = vp->begin[j];
+                    j++;
+                    run = 1;
+                    key = e.p->v;
+                    while (j < n) {
+                        e = vp->begin[j];
+                        if (e.p->v != key) {
+                            break;
+                        }
+                        run++;
+                        j++;
+                    }
+                    if (run == 2 && i < key) {
+                        Node_830612B8 *first;
+                        Node_830612B8 *second;
+
+                        e = vp->begin[j - 2];
+                        first = e.node;
+                        e = vp->begin[j - 1];
+                        if (fn_8305DB40(first) > 1e-5f) {
+                            second = e.node;
+                            if (fn_8305DB40(second) > 1e-5f) {
+                                Plane_830612B8 planeA;
+                                Plane_830612B8 planeB;
+                                unsigned char onPlane[2];
+                                int sideA;
+                                int sideB;
+                                unsigned char flipped;
+
+                                fn_8305D7D0(first, &planeA);
+                                fn_8305D7D0(second, &planeB);
+                                sideA = fn_83066810(&planeA, second, epsilon, &onPlane[0]);
+                                sideB = fn_83066810(&planeB, first, epsilon, &onPlane[1]);
+                                flipped = 0;
+                                if (onPlane[0] == 0 && onPlane[1] == 0) {
+                                    if (sideA != sideB) {
+                                        flipped = 1;
+                                    }
+                                } else if (fn_82810280(&planeA, &planeB) < 0.0f) {
+                                    flipped = 1;
+                                }
+                                if (flipped) {
+                                    if (errs == 0) {
+                                        return 0;
+                                    }
+                                    ok = 0;
+                                    *errs = *errs + 1;
+                                }
+                            }
+                        }
+                    }
+                } while (j < n);
+            }
+            if (ctx != 0) {
+                fn_830679A8(ctx);
+            }
+            i++;
+            vp++;
+        } while (i < o->count);
+    }
+    if (ctx != 0) {
+        fn_830678C8(ctx);
+    }
+    return ok;
+}

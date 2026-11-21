@@ -1,12 +1,16 @@
-unsigned __int64 fn_82E7E6B8(int param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+extern int fn_82E7B958(void *object, unsigned short id, void *a, void *b);
 
+typedef struct Obj_82E7E6B8 {
+    int pad00[3];
+    unsigned short id; /* 0x0C */
+    char *inner;       /* 0x10 */
+} Obj_82E7E6B8;
+
+int fn_82E7E6B8(Obj_82E7E6B8 *self, void *a, void *b)
 {
-  unsigned __int64 uVar1;
-  
-  if ((unsigned __int64)*(unsigned int *)(param_1 + 0x10) == 0) {
-    return 0xffffffff80004003;
-  }
-  uVar1 = fn_82E7B958((unsigned __int64)*(unsigned int *)(param_1 + 0x10) + 0x10,*(unsigned short *)(param_1 + 0xc),
-                      param_2,param_3);
-  return uVar1;
+    char *inner = self->inner;
+    if (inner == 0) {
+        return 0x80004003;
+    }
+    return fn_82E7B958(inner + 0x10, self->id, a, b);
 }

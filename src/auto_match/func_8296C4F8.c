@@ -1,72 +1,71 @@
-unsigned __int64 fn_8296C4F8(int param_1,unsigned int *param_2)
+typedef struct Value_8296C4F8 {
+    char pad0[0x8];
+    int definition; /* 0x08 */
+    char padc[0x34];
+    unsigned int mask; /* 0x40 */
+    char pad44[0x4];
+    int reg; /* 0x48 */
+} Value_8296C4F8;
 
+typedef struct Register_8296C4F8 {
+    char pad0[0x24];
+    unsigned int slot; /* 0x24 */
+    unsigned int used; /* 0x28 */
+} Register_8296C4F8;
+
+typedef struct Program_8296C4F8 {
+    char pad0[0x14];
+    Value_8296C4F8 **values;       /* 0x14 */
+    Register_8296C4F8 **registers; /* 0x18 */
+} Program_8296C4F8;
+
+typedef struct Instruction_8296C4F8 {
+    unsigned int token; /* 0x00: opcode in the top 12 bits, width in the low 20 */
+    unsigned int count; /* 0x04 */
+    int *destinations;  /* 0x08 */
+    int pad0c;
+    int *sources; /* 0x10 */
+} Instruction_8296C4F8;
+
+int fn_8296C4F8(Program_8296C4F8 *program, Instruction_8296C4F8 *instruction)
 {
-  unsigned int uVar1;
-  int iVar2;
-  int iVar3;
-  unsigned __int64 uVar4;
-  __int64 lVar5;
-  int iVar6;
-  __int64 lVar7;
-  unsigned __int64 uVar8;
-  unsigned __int64 uVar9;
-  
-  uVar1 = *param_2;
-  if ((uVar1 & 0xfff00000) != 0) {
-    uVar4 = (unsigned __int64)uVar1 & 0xfffff;
-    uVar8 = param_2[1] / uVar4;
-    trapWord(6,uVar4,0);
-    if ((int)uVar8 != 0) {
-      lVar5 = 0;
-      do {
-        lVar7 = 0;
-        if ((uVar1 & 0xfffff) != 0) {
-          iVar6 = 0;
-          uVar9 = uVar4;
-          do {
-            iVar2 = *(int *)(*(int *)((int)((lVar5 + lVar7 & 0xffffffffU) << 2) + param_2[2]) * 4 +
-                            *(int *)(param_1 + 0x14));
-            if ((*(int *)(iVar2 + 0x48) != -1) && (*(int *)(iVar2 + 8) == -1)) {
-              iVar3 = *(int *)(*(int *)(iVar2 + 0x48) * 4 + *(int *)(param_1 + 0x18));
-              if ((*param_2 & 0xfff00000) == 0x11300000) {
-                *(unsigned int *)(iVar2 + 0x40) =
-                     *(unsigned int *)
-                      (*(int *)(*(int *)(param_2[4] + iVar6) * 4 + *(int *)(param_1 + 0x14)) + 0x40)
-                ;
-              }
-              else {
-                *(unsigned int *)(iVar2 + 0x40) =
-                     1 << (*(unsigned int *)(iVar3 + 0x24) & 0x3f) | *(unsigned int *)(iVar2 + 0x40);
-                *(unsigned int *)(iVar3 + 0x28) = 1;
-              }
-            }
-            lVar7 = lVar7 + 1;
-            iVar6 = iVar6 + 4;
-            uVar9 = uVar9 - 1;
-          } while (uVar9 != 0);
-        }
-        lVar7 = 0;
-        uVar9 = uVar4;
-        if ((uVar1 & 0xfffff) != 0) {
-          do {
-            iVar2 = *(int *)(*(int *)((int)((lVar5 + lVar7 & 0xffffffffU) << 2) + param_2[2]) * 4 +
-                            *(int *)(param_1 + 0x14));
-            iVar6 = *(int *)(iVar2 + 0x48);
-            if (((iVar6 != -1) && (*(int *)(iVar2 + 8) == -1)) &&
-               (iVar6 = *(int *)(iVar6 * 4 + *(int *)(param_1 + 0x18)), *(int *)(iVar6 + 0x28) != 0)
-               ) {
-              *(unsigned int *)(iVar6 + 0x28) = 0;
-              *(unsigned int *)(iVar6 + 0x24) = *(int *)(iVar6 + 0x24) + 1U & 0x1f;
-            }
-            lVar7 = lVar7 + 1;
-            uVar9 = uVar9 - 1;
-          } while (uVar9 != 0);
-        }
-        uVar8 = uVar8 - 1;
-        lVar5 = lVar5 + uVar4;
-      } while (uVar8 != 0);
-    }
-  }
-  return 0;
-}
+    unsigned int token = instruction->token;
+    unsigned int width;
+    unsigned int rows;
+    unsigned int i;
+    unsigned int row;
 
+    if ((token & 0xfff00000) == 0)
+        return 0;
+    width = token & 0xfffff;
+    rows = instruction->count / width;
+    for (row = 0; row < rows; row++) {
+        for (i = 0; i < width; i++) {
+            Value_8296C4F8 *value = program->values[instruction->destinations[row * width + i]];
+
+            if (value->reg != -1 && value->definition == -1) {
+                Register_8296C4F8 *reg = program->registers[value->reg];
+
+                if ((instruction->token & 0xfff00000) == 0x11300000) {
+                    value->mask = program->values[instruction->sources[i]]->mask;
+                } else {
+                    value->mask |= 1 << reg->slot;
+                    reg->used = 1;
+                }
+            }
+        }
+        for (i = 0; i < width; i++) {
+            Value_8296C4F8 *value = program->values[instruction->destinations[row * width + i]];
+
+            if (value->reg != -1 && value->definition == -1) {
+                Register_8296C4F8 *reg = program->registers[value->reg];
+
+                if (reg->used != 0) {
+                    reg->used = 0;
+                    reg->slot = (reg->slot + 1) & 0x1f;
+                }
+            }
+        }
+    }
+    return 0;
+}

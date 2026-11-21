@@ -1,43 +1,29 @@
-extern unsigned int *auStack_60;
-extern int sprintf();
-extern unsigned int lbl_8200D898;
-extern unsigned int lbl_821AAD20;
-extern unsigned int uStack_57;
+extern int sprintf(char *buffer, const char *format, ...);
 
-
-void fn_82BD2990(double param_1,unsigned __int64 param_2,unsigned __int64 param_3)
-
+/* Formats value as sign, integer part and nine fraction digits ("+12.500000000"). */
+void fn_82BD2990(float value, char *out)
 {
-  double dVar1;
-  unsigned char uVar2;
-  int iVar3;
-  int iVar4;
-  double dVar5;
-  double dVar6;
-  unsigned char auStack_60 [9];
-  unsigned char uStack_57;
-  
-  if (param_1 < (double)lbl_821AAD20) {
-    uVar2 = 0x2d;
-    param_1 = -param_1;
-  }
-  else {
-    uVar2 = 0x2b;
-  }
-  dVar5 = (double)lbl_8200D898;
-  iVar4 = 0;
-  dVar1 = param_1 - (double)(__int64)(int)param_1;
-  dVar6 = (double)(float)dVar1;
-  iVar3 = (int)dVar1;
-  do {
-    dVar1 = (double)(float)(dVar6 - (double)(__int64)iVar3) * dVar5;
-    dVar6 = (double)(float)dVar1;
-    iVar3 = (int)dVar1;
-    sprintf(auStack_60 + iVar4,0xffffffff821aa66c,iVar3);
-    iVar4 = iVar4 + 1;
-  } while (iVar4 < 9);
-  uStack_57 = 0;
-  sprintf(param_3,0xffffffff820e8354,uVar2,(int)param_1,auStack_60);
-  return;
-}
+    char sign;
+    int whole;
+    int digit;
+    float fraction;
+    char digits[10];
+    int i;
 
+    if (value >= 0.0f) {
+        sign = '+';
+    } else {
+        sign = '-';
+        value = -value;
+    }
+    whole = (int)value;
+    fraction = value - (float)whole;
+    digit = (int)fraction;
+    for (i = 0; i < 9; i++) {
+        fraction = (fraction - (float)digit) * 10.0f;
+        digit = (int)fraction;
+        sprintf(digits + i, "%d", digit);
+    }
+    digits[9] = 0;
+    sprintf(out, "%c%d.%s", sign, whole, digits);
+}

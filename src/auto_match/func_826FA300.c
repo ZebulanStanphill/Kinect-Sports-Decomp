@@ -1,83 +1,86 @@
-#define CONCAT11(h,l) ((unsigned short)((((unsigned char)(h)) << 8) | ((unsigned char)(l))))
-extern unsigned int *auStack_5c;
-extern unsigned int *auStack_7c;
-extern int fn_8267C498();
-extern int fn_826C6248();
-extern int fn_826C8C70();
-extern int fn_826E7408();
-extern int fn_826E7438();
-extern int fn_826E7800();
-extern int fn_826E7B08();
-extern int fn_826E8AF0();
-extern int fn_826E8C68();
-extern int fn_826E92E8();
-extern int fn_826E9330();
-extern unsigned int iStack_80;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
+typedef struct Stream_826FA300 {
+    char pad0[0x15];
+    unsigned char unusedBits; /* 0x15 */
+    char pad16[0x16];
+    int pos;     /* 0x2c */
+    int size;    /* 0x30 */
+    int filePos; /* 0x34 */
+    char pad38[0x4];
+    unsigned char *data; /* 0x3c */
+} Stream_826FA300;
 
+typedef struct PlaceTail_826FA300 {
+    float ratio;              /* 0x3c */
+    int depth;                /* 0x40 */
+    unsigned int characterId; /* 0x44 */
+    short clipDepth;          /* 0x48 */
+    char unk4A;               /* 0x4a */
+    char unk4B;               /* 0x4b */
+} PlaceTail_826FA300;
 
-__int64 fn_826FA300(int param_1)
+typedef struct PlaceObject_826FA300 {
+    void *data;              /* 0x00 */
+    char cxform[0x20];       /* 0x04 */
+    char matrix[0x18];       /* 0x24 */
+    PlaceTail_826FA300 tail; /* 0x3c */
+} PlaceObject_826FA300;
 
+extern int fn_826E7408(Stream_826FA300 *stream);
+extern unsigned char fn_826E7438(Stream_826FA300 *stream);
+extern void fn_826C6248(PlaceObject_826FA300 *place);
+extern void fn_826E7800(Stream_826FA300 *stream, int count);
+extern void fn_826E8AF0(Stream_826FA300 *stream, void *matrix);
+extern void fn_826C8C70(Stream_826FA300 *stream, const char *format, ...);
+extern void fn_826E9330(Stream_826FA300 *stream, void *matrix);
+extern void fn_826E8C68(Stream_826FA300 *stream, void *cxform);
+extern void fn_826E92E8(Stream_826FA300 *stream, void *cxform);
+extern void fn_826E7B08(Stream_826FA300 *stream, int pos);
+extern void fn_8267C498(void *data);
+
+static __forceinline unsigned short ReadU16(Stream_826FA300 *stream)
 {
-  unsigned char uVar1;
-  unsigned char uVar2;
-  int iVar3;
-  int iVar4;
-  __int64 lVar5;
-  char cVar7;
-  int iVar6;
-  unsigned char *puVar8;
-  int iVar9;
-  __int64 lVar10;
-  int iStack_80;
-  unsigned char auStack_7c [32];
-  unsigned char auStack_5c [12];
-  unsigned int uStack_40;
-  unsigned int uStack_3c;
-  
-  lVar10 = ((unsigned __int64)*(unsigned int *)(param_1 + 0x2c) - (unsigned __int64)*(unsigned int *)(param_1 + 0x30)) +
-           (unsigned __int64)*(unsigned int *)(param_1 + 0x34);
-  lVar5 = fn_826E7408();
-  cVar7 = fn_826E7438(param_1);
-  if (cVar7 != '\0') {
-    fn_826C6248(&iStack_80);
-    *(unsigned char *)(param_1 + 0x15) = 0;
-    if (*(int *)(param_1 + 0x30) - *(int *)(param_1 + 0x2c) < 2) {
-      fn_826E7800(param_1,2);
+    unsigned char *bytes;
+    unsigned short value;
+
+    stream->unusedBits = 0;
+    if (stream->size - stream->pos < 2) {
+        fn_826E7800(stream, 2);
     }
-    iVar9 = *(int *)(param_1 + 0x2c) + 2;
-    puVar8 = (unsigned char *)(*(int *)(param_1 + 0x3c) + *(int *)(param_1 + 0x2c));
-    uVar1 = puVar8[1];
-    uVar2 = *puVar8;
-    *(int *)(param_1 + 0x2c) = iVar9;
-    *(unsigned char *)(param_1 + 0x15) = 0;
-    uStack_3c = (unsigned int)CONCAT11(uVar1,uVar2);
-    if (*(int *)(param_1 + 0x30) - iVar9 < 2) {
-      fn_826E7800(param_1,2);
-    }
-    puVar8 = (unsigned char *)(*(int *)(param_1 + 0x3c) + *(int *)(param_1 + 0x2c));
-    uVar1 = puVar8[1];
-    uVar2 = *puVar8;
-    *(int *)(param_1 + 0x2c) = *(int *)(param_1 + 0x2c) + 2;
-    uStack_40 = (unsigned int)CONCAT11(uVar1,uVar2);
-    fn_826E8AF0(param_1,auStack_5c);
-    fn_826C8C70(param_1,0xffffffff8200dc5c,uStack_3c & 0xffff,uStack_40);
-    fn_826E9330(param_1,auStack_5c);
-    iVar9 = *(int *)(param_1 + 0x2c);
-    iVar3 = *(int *)(param_1 + 0x30);
-    iVar4 = *(int *)(param_1 + 0x34);
-    iVar6 = fn_826E7408(param_1);
-    if ((iVar9 - iVar3) + iVar4 < iVar6) {
-      fn_826E8C68(param_1,auStack_7c);
-      fn_826C8C70(param_1,0xffffffff8200dc50);
-      fn_826E92E8(param_1,auStack_7c);
-    }
-    fn_826E7B08(param_1,lVar10);
-    if (iStack_80 != 0) {
-      fn_8267C498();
-    }
-  }
-  return lVar5 - lVar10;
+    bytes = stream->data + stream->pos;
+    value = (bytes[1] << 8) | bytes[0];
+    stream->pos += 2;
+    return value;
 }
 
+static __forceinline int Tell(Stream_826FA300 *stream)
+{
+    return stream->pos - stream->size + stream->filePos;
+}
+
+int fn_826FA300(Stream_826FA300 *stream)
+{
+    int start = Tell(stream);
+    int remaining = fn_826E7408(stream) - start;
+
+    if (fn_826E7438(stream)) {
+        PlaceObject_826FA300 place;
+
+        fn_826C6248(&place);
+        place.tail.characterId = ReadU16(stream);
+        place.tail.depth = ReadU16(stream);
+        fn_826E8AF0(stream, place.matrix);
+        fn_826C8C70(stream, "  CharId = %d\n  depth = %d\n  mat = \n", (unsigned short)place.tail.characterId,
+                    place.tail.depth);
+        fn_826E9330(stream, place.matrix);
+        if (Tell(stream) < fn_826E7408(stream)) {
+            fn_826E8C68(stream, place.cxform);
+            fn_826C8C70(stream, "  cxform:\n");
+            fn_826E92E8(stream, place.cxform);
+        }
+        fn_826E7B08(stream, start);
+        if (place.data != 0) {
+            fn_8267C498(place.data);
+        }
+    }
+    return remaining;
+}

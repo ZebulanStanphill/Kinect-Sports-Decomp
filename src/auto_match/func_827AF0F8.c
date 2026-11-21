@@ -1,18 +1,26 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
+typedef struct Buffer_827AF0F8 {
+    int pad00;
+    unsigned int size; /* 0x04 */
+} Buffer_827AF0F8;
 
-void fn_827AF0F8(int *param_1)
+typedef struct Reader_827AF0F8 {
+    Buffer_827AF0F8 *buffer; /* 0x00 */
+    int pad04;
+    unsigned int position; /* 0x08 */
+    char pad0C[0x10];
+    void *current; /* 0x1C */
+} Reader_827AF0F8;
 
+extern void fn_827AEE78(Reader_827AF0F8 *self);
+
+static unsigned char IsAtEnd(Reader_827AF0F8 *self)
 {
-  bool bVar1;
-  
-  if ((*(unsigned int *)(*param_1 + 4) <= (unsigned int)param_1[2]) || (bVar1 = false, param_1[7] == 0)) {
-    bVar1 = true;
-  }
-  if (bVar1) {
-    return;
-  }
-  fn_827AEE78();
-  return;
+    return self->position >= self->buffer->size || self->current == 0;
+}
+
+void fn_827AF0F8(Reader_827AF0F8 *self)
+{
+    if (!IsAtEnd(self)) {
+        fn_827AEE78(self);
+    }
 }

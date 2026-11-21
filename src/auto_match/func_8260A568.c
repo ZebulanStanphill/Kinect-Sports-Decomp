@@ -1,101 +1,58 @@
-void fn_8260A568(unsigned short *param_1,unsigned short *param_2)
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Matrix_8260A568 {
+    __vector4 r[4];
+} Matrix_8260A568;
+
+typedef struct State_8260A568 {
+    unsigned short id;      /* 0x00 */
+    Matrix_8260A568 first;  /* 0x10 */
+    Matrix_8260A568 second; /* 0x50 */
+    int unk90;              /* 0x90 */
+    int unk94;              /* 0x94 */
+    int unk98;              /* 0x98 */
+    int unk9C;              /* 0x9c */
+    int unkA0;              /* 0xa0 */
+    int unkA4;              /* 0xa4 */
+    unsigned short unkA8;   /* 0xa8 */
+    unsigned short unkAA;   /* 0xaa */
+    unsigned short unkAC;   /* 0xac */
+    unsigned short unkAE;   /* 0xae */
+    unsigned short unkB0;   /* 0xb0 */
+    unsigned short unkB2;   /* 0xb2 */
+    int unkB4;              /* 0xb4 */
+    int unkB8;              /* 0xb8 */
+    int unkBC;              /* 0xbc */
+} State_8260A568;
+
+static __forceinline void CopyMatrix_8260A568(Matrix_8260A568 *dst, const Matrix_8260A568 *src)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int in_r0;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  
-  *param_1 = *param_2;
-  puVar1 = (unsigned int *)((int)param_2 + in_r0 + 0x10 & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (unsigned int *)((int)param_1 + in_r0 + 0x10 & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  puVar1 = (unsigned int *)((unsigned int)(param_2 + 0x10) & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (unsigned int *)((unsigned int)(param_1 + 0x10) & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  puVar1 = (unsigned int *)((unsigned int)(param_2 + 0x18) & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (unsigned int *)((unsigned int)(param_1 + 0x18) & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  puVar1 = (unsigned int *)((unsigned int)(param_2 + 0x20) & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (unsigned int *)((unsigned int)(param_1 + 0x20) & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  puVar1 = (unsigned int *)((int)param_2 + in_r0 + 0x50 & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (unsigned int *)((int)param_1 + in_r0 + 0x50 & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  puVar1 = (unsigned int *)((unsigned int)(param_2 + 0x30) & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (unsigned int *)((unsigned int)(param_1 + 0x30) & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  puVar1 = (unsigned int *)((unsigned int)(param_2 + 0x38) & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (unsigned int *)((unsigned int)(param_1 + 0x38) & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  puVar1 = (unsigned int *)((unsigned int)(param_2 + 0x40) & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (unsigned int *)((unsigned int)(param_1 + 0x40) & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  *(unsigned int *)(param_1 + 0x48) = *(unsigned int *)(param_2 + 0x48);
-  *(unsigned int *)(param_1 + 0x4a) = *(unsigned int *)(param_2 + 0x4a);
-  *(unsigned int *)(param_1 + 0x4c) = *(unsigned int *)(param_2 + 0x4c);
-  *(unsigned int *)(param_1 + 0x4e) = *(unsigned int *)(param_2 + 0x4e);
-  *(unsigned int *)(param_1 + 0x50) = *(unsigned int *)(param_2 + 0x50);
-  *(unsigned int *)(param_1 + 0x52) = *(unsigned int *)(param_2 + 0x52);
-  param_1[0x54] = param_2[0x54];
-  param_1[0x55] = param_2[0x55];
-  param_1[0x56] = param_2[0x56];
-  param_1[0x57] = param_2[0x57];
-  param_1[0x58] = param_2[0x58];
-  param_1[0x59] = param_2[0x59];
-  *(unsigned int *)(param_1 + 0x5a) = *(unsigned int *)(param_2 + 0x5a);
-  *(unsigned int *)(param_1 + 0x5c) = *(unsigned int *)(param_2 + 0x5c);
-  *(unsigned int *)(param_1 + 0x5e) = *(unsigned int *)(param_2 + 0x5e);
-  return;
+    dst->r[0] = src->r[0];
+    dst->r[1] = src->r[1];
+    dst->r[2] = src->r[2];
+    dst->r[3] = src->r[3];
 }
 
+void fn_8260A568(State_8260A568 *dst, State_8260A568 *src)
+{
+    dst->id = src->id;
+    CopyMatrix_8260A568(&dst->first, &src->first);
+    CopyMatrix_8260A568(&dst->second, &src->second);
+    dst->unk90 = src->unk90;
+    dst->unk94 = src->unk94;
+    dst->unk98 = src->unk98;
+    dst->unk9C = src->unk9C;
+    dst->unkA0 = src->unkA0;
+    dst->unkA4 = src->unkA4;
+    dst->unkA8 = src->unkA8;
+    dst->unkAA = src->unkAA;
+    dst->unkAC = src->unkAC;
+    dst->unkAE = src->unkAE;
+    dst->unkB0 = src->unkB0;
+    dst->unkB2 = src->unkB2;
+    dst->unkB4 = src->unkB4;
+    dst->unkB8 = src->unkB8;
+    dst->unkBC = src->unkBC;
+}

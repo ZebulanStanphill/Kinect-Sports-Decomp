@@ -1,118 +1,126 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_82ABDD90();
-extern int fn_82B85910();
+typedef struct Owner_82AF62F8 {
+    char pad0[0x30];
+    unsigned int id; /* 0x30: low 19 bits */
+} Owner_82AF62F8;
 
+typedef struct Context_82AF62F8 {
+    char pad0[0x234];
+    Owner_82AF62F8 *global; /* 0x234 */
+} Context_82AF62F8;
 
-__int64 fn_82AF62F8(unsigned int param_1,unsigned int param_2)
+typedef struct Page_82AF62F8 {
+    struct {
+        char pad0[0x94];
+        Context_82AF62F8 *context; /* 0x94 */
+    } *heap;
+} Page_82AF62F8;
 
+typedef struct Entry_82AF62F8 {
+    unsigned int pad0 : 3;
+    unsigned int offset : 14;
+    unsigned int index : 15;
+    unsigned int pad4a : 11;
+    unsigned int valid : 1;
+    unsigned int pad4b : 20;
+} Entry_82AF62F8;
+
+typedef struct Node_82AF62F8 {
+    char pad0[0x8];
+    unsigned int pad8a : 1;
+    unsigned int bound : 1;
+    unsigned int pad8b : 8;
+    unsigned int space : 3;
+    unsigned int pad8c : 2;
+    unsigned int count : 3;
+    unsigned int kind : 7;
+    unsigned int pad8d : 7;
+    char padc[0x4];
+    unsigned int order; /* 0x10: low 16 bits */
+    unsigned int slot;  /* 0x14 */
+    char pad18[0x4];
+    Owner_82AF62F8 *owner; /* 0x1c */
+    char pad20[0xc];
+    unsigned int keys[1]; /* 0x2c */
+} Node_82AF62F8;
+
+extern int fn_82ABDD90(Context_82AF62F8 *context, unsigned int kind, unsigned int space, unsigned int count);
+extern unsigned char fn_82B85910(Node_82AF62F8 *a, Node_82AF62F8 *b);
+
+static __forceinline unsigned char IsSampler(unsigned int kind)
 {
-  int iVar1;
-  int iVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int *puVar5;
-  bool bVar6;
-  int iVar8;
-  __int64 lVar7;
-  char cVar9;
-  unsigned __int64 uVar10;
-  unsigned __int64 uVar11;
-  unsigned int *puVar12;
-  
-  if (param_1 == param_2) {
+    if (kind == 0x7d || kind == 0x7c) {
+        return 1;
+    }
     return 0;
-  }
-  iVar8 = *(int *)(param_1 + 0x1c);
-  iVar1 = *(int *)(param_2 + 0x1c);
-  if (iVar8 == iVar1) {
-    iVar2 = *(int *)(*(int *)(param_1 & 0xfffff000) + 0x94);
-    if ((iVar8 == *(int *)(iVar2 + 0x234)) && (iVar1 == *(int *)(iVar2 + 0x234))) {
-      if (((*(unsigned int *)(param_1 + 8) & 0x40000000) == 0) ||
-         ((*(unsigned int *)(param_2 + 8) & 0x40000000) == 0)) goto LAB_82af64cc;
-      uVar11 = (unsigned __int64)(*(unsigned int *)(param_1 + 0x14) >> 3);
-      uVar10 = (unsigned __int64)(*(unsigned int *)(param_2 + 0x14) >> 3);
-    }
-    else {
-      uVar3 = *(unsigned int *)(param_1 + 8) >> 7 & 0x7f;
-      if ((uVar3 == 0x7d) || (bVar6 = false, uVar3 == 0x7c)) {
-        bVar6 = true;
-      }
-      if (bVar6) {
-        uVar4 = *(unsigned int *)(param_2 + 8) >> 7 & 0x7f;
-        if ((uVar4 == 0x7d) || (bVar6 = false, uVar4 == 0x7c)) {
-          bVar6 = true;
-        }
-        if (!bVar6) {
-          return 1;
-        }
-        if (uVar3 == 0x7c) {
-          if (uVar4 != 0x7c) {
-            return 1;
-          }
-          uVar3 = *(unsigned int *)(param_1 + 8);
-          iVar8 = fn_82ABDD90(iVar2,uVar3 >> 7 & 0x7f,uVar3 >> 0x13 & 7,uVar3 >> 0xe & 7);
-          uVar3 = *(unsigned int *)(param_2 + 8);
-          puVar12 = (unsigned int *)(iVar8 + (param_1 - 8));
-          iVar8 = fn_82ABDD90(iVar2,uVar3 >> 7 & 0x7f,uVar3 >> 0x13 & 7,uVar3 >> 0xe & 7);
-          puVar5 = (unsigned int *)(iVar8 + (param_2 - 8));
-          if (((puVar12[1] & 0x100000) != 0) && ((puVar5[1] & 0x100000) != 0)) {
-            uVar3 = *puVar12;
-            uVar4 = *puVar5;
-            lVar7 = ((unsigned __int64)uVar3 & 0x7fff) - ((unsigned __int64)uVar4 & 0x7fff);
-            if (lVar7 != 0) {
-              return lVar7;
-            }
-            uVar10 = (unsigned __int64)(uVar4 >> 0xf) & 0x3fff;
-            uVar11 = (unsigned __int64)(uVar3 >> 0xf) & 0x3fff;
-            goto LAB_82af6528;
-          }
-        }
-        else {
-          if (uVar4 == 0x7c) {
-            return -1;
-          }
-          uVar3 = *(unsigned int *)(param_1 + 8) >> 0xe;
-          uVar11 = (unsigned __int64)uVar3 & 7;
-          uVar10 = (unsigned __int64)(*(unsigned int *)(param_2 + 8) >> 0xe) & 7;
-          if (uVar11 != uVar10) {
-            return uVar11 - uVar10;
-          }
-          uVar10 = 0;
-          if ((uVar3 & 7) != 0) {
-            puVar12 = (unsigned int *)(param_2 + 0x2c);
-            do {
-              lVar7 = (unsigned __int64)*(unsigned int *)((param_1 - param_2) + (int)puVar12) - (unsigned __int64)*puVar12
-              ;
-              if (lVar7 != 0) {
-                return lVar7;
-              }
-              uVar10 = uVar10 + 1;
-              puVar12 = puVar12 + 1;
-            } while ((uVar10 & 0xffffffff) < uVar11);
-          }
-        }
-LAB_82af64cc:
-        cVar9 = fn_82B85910(param_1,param_2);
-        return (-(unsigned __int64)(cVar9 != '\0') & 2) - 1;
-      }
-      uVar3 = *(unsigned int *)(param_2 + 8) >> 7 & 0x7f;
-      if ((uVar3 == 0x7d) || (bVar6 = false, uVar3 == 0x7c)) {
-        bVar6 = true;
-      }
-      if (bVar6) {
-        return -1;
-      }
-      uVar11 = (unsigned __int64)*(unsigned int *)(param_1 + 0x10) & 0xffff;
-      uVar10 = (unsigned __int64)*(unsigned int *)(param_2 + 0x10) & 0xffff;
-    }
-  }
-  else {
-    uVar10 = (unsigned __int64)*(unsigned int *)(iVar1 + 0x30) & 0x7ffff;
-    uVar11 = (unsigned __int64)*(unsigned int *)(iVar8 + 0x30) & 0x7ffff;
-  }
-LAB_82af6528:
-  return uVar11 - uVar10;
 }
 
+/* Sort order of two nodes: by owner, then by slot, sampler kind, entry or key. */
+int fn_82AF62F8(Node_82AF62F8 *a, Node_82AF62F8 *b)
+{
+    Context_82AF62F8 *context;
+    unsigned int kindA;
+    unsigned int kindB;
+
+    if (a == b)
+        return 0;
+    if (a->owner != b->owner)
+        return (a->owner->id & 0x7ffff) - (b->owner->id & 0x7ffff);
+    context = ((Page_82AF62F8 *)((unsigned int)a & ~0xfff))->heap->context;
+    if (a->owner == context->global && b->owner == context->global) {
+        if (!a->bound || !b->bound)
+            goto byCallback;
+        return (a->slot >> 3) - (b->slot >> 3);
+    }
+    kindA = a->kind;
+    if (IsSampler(kindA)) {
+        unsigned char samplerB;
+
+        kindB = b->kind;
+        samplerB = IsSampler(kindB);
+        if (!samplerB) {
+        } else {
+            if (kindA == 0x7c) {
+                if (kindB == 0x7c) {
+                    Entry_82AF62F8 *entryA;
+                    Entry_82AF62F8 *entryB;
+                    int diff;
+
+                    entryA =
+                        (Entry_82AF62F8 *)((char *)a - 8 + fn_82ABDD90(context, a->kind, a->space, a->count));
+                    entryB =
+                        (Entry_82AF62F8 *)((char *)b - 8 + fn_82ABDD90(context, b->kind, b->space, b->count));
+                    if (!entryA->valid || !entryB->valid)
+                        goto byCallback;
+                    diff = entryA->index - entryB->index;
+                    if (diff != 0)
+                        return diff;
+                    return entryA->offset - entryB->offset;
+                }
+            } else {
+                unsigned int countA;
+                unsigned int countB;
+                unsigned int i;
+
+                if (kindB == 0x7c)
+                    return -1;
+                countA = a->count;
+                countB = b->count;
+                if (countA != countB)
+                    return countA - countB;
+                for (i = 0; i < countA; i++) {
+                    int diff = a->keys[i] - b->keys[i];
+
+                    if (diff != 0)
+                        return diff;
+                }
+                goto byCallback;
+            }
+        }
+        return 1;
+    byCallback:
+        return fn_82B85910(a, b) ? 1 : -1;
+    }
+    if (IsSampler(b->kind))
+        return -1;
+    return (int)(a->order & 0xffff) - (int)(b->order & 0xffff);
+}

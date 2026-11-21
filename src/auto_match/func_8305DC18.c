@@ -1,82 +1,51 @@
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_80;
-extern unsigned int *auStack_90;
-extern unsigned int *auStack_a0;
-extern unsigned int *auStack_b0;
-extern int fn_82809CB0();
-extern int fn_82810240();
-extern int fn_82810280();
-extern int fn_82810328();
-extern int fn_82810B78();
-extern int fn_82F6A548();
-extern int fn_82F6A594();
-extern int fn_8305F778();
-extern unsigned int lbl_8201DCB8;
-extern unsigned int lbl_821AAD20;
+/* Tests whether the polygon is convex: the cross product of every pair of consecutive edges must
+   point to the same side of the normal, ignoring corners where the two edges are parallel. */
+typedef struct Polygon_8305DC18 {
+    char padding[0x28];
+    void *vertices;  /* 0x28 */
+    int *indices;    /* 0x2c */
+    int count;       /* 0x30 */
+    float normal[4]; /* 0x34 */
+} Polygon_8305DC18;
 
+extern void fn_8305F778(void *vertices, int index, float *out);
+extern void fn_82810328(const float *first, const float *second, float *out);
+extern void fn_82810240(const float *first, const float *second, float *out);
+extern void fn_82810B78(const float *vector, float *out);
+extern float fn_82810280(const float *first, const float *second);
+extern float fn_82809CB0(float value);
 
-void fn_8305DC18(void)
-
+int fn_8305DC18(Polygon_8305DC18 *self)
 {
-  int iVar2;
-  unsigned __int64 uVar1;
-  int iVar3;
-  __int64 lVar4;
-  double dVar5;
-  double dVar6;
-  double dVar7;
-  double dVar8;
-  double dVar9;
-  unsigned char auStack_b0 [16];
-  unsigned char auStack_a0 [16];
-  unsigned char auStack_90 [16];
-  unsigned char auStack_80 [16];
-  unsigned char auStack_70 [16];
-  unsigned char auStack_60 [96];
-  
-  iVar2 = fn_82F6A548();
-  if (3 < *(int *)(iVar2 + 0x30)) {
-    lVar4 = 2;
-    dVar8 = (double)lbl_821AAD20;
-    if (2 < *(int *)(iVar2 + 0x30) + 2) {
-      iVar3 = 0;
-      dVar7 = (double)lbl_8201DCB8;
-      dVar9 = dVar8;
-      do {
-        fn_8305F778(*(unsigned int *)(iVar2 + 0x28),*(unsigned int *)(iVar3 + *(int *)(iVar2 + 0x2c)),
-                     auStack_80);
-        fn_8305F778(*(unsigned int *)(iVar2 + 0x28),
-                     *(unsigned int *)
-                      ((int)(((lVar4 + -1) -
-                              (__int64)((int)(lVar4 + -1) / *(int *)(iVar2 + 0x30)) *
-                              (__int64)*(int *)(iVar2 + 0x30) & 0xffffffffU) << 2) +
-                      *(int *)(iVar2 + 0x2c)),auStack_90);
-        fn_8305F778(*(unsigned int *)(iVar2 + 0x28),
-                     *(unsigned int *)
-                      ((int)((lVar4 - (__int64)((int)lVar4 / *(int *)(iVar2 + 0x30)) *
-                                      (__int64)*(int *)(iVar2 + 0x30) & 0xffffffffU) << 2) +
-                      *(int *)(iVar2 + 0x2c)),auStack_70);
-        fn_82810328(auStack_90,auStack_80,auStack_a0);
-        fn_82810328(auStack_70,auStack_90,auStack_b0);
-        fn_82810B78(auStack_a0,auStack_a0);
-        fn_82810B78(auStack_b0,auStack_b0);
-        fn_82810240(auStack_a0,auStack_b0,auStack_60);
-        dVar5 = (double)fn_82810280(auStack_60,iVar2 + 0x34);
-        dVar6 = (double)fn_82809CB0();
-        if ((dVar7 < dVar6) && (dVar6 = dVar5 * dVar9, dVar9 = dVar5, (double)(float)dVar6 < dVar8))
-        {
-          uVar1 = 0;
-          goto switchD_82f20fb0_default;
-        }
-        lVar4 = lVar4 + 1;
-        iVar3 = iVar3 + 4;
-      } while ((int)lVar4 < *(int *)(iVar2 + 0x30) + 2);
-    }
-  }
-  uVar1 = 1;
-switchD_82f20fb0_default:
-  fn_82F6A594(uVar1);
-  return;
-}
+    float previous[4];
+    float current[4];
+    float next[4];
+    float inEdge[4];
+    float outEdge[4];
+    float cross[4];
+    float side;
+    float lastSide;
+    int i;
 
+    if (self->count > 3) {
+        lastSide = 0.0f;
+        for (i = 2; i < self->count + 2; i++) {
+            fn_8305F778(self->vertices, self->indices[i - 2], previous);
+            fn_8305F778(self->vertices, self->indices[(i - 1) % self->count], current);
+            fn_8305F778(self->vertices, self->indices[i % self->count], next);
+            fn_82810328(current, previous, inEdge);
+            fn_82810328(next, current, outEdge);
+            fn_82810B78(inEdge, inEdge);
+            fn_82810B78(outEdge, outEdge);
+            fn_82810240(inEdge, outEdge, cross);
+            side = fn_82810280(cross, self->normal);
+            if (fn_82809CB0(side) > 1e-05f) {
+                if (side * lastSide < 0.0f) {
+                    return 0;
+                }
+                lastSide = side;
+            }
+        }
+    }
+    return 1;
+}

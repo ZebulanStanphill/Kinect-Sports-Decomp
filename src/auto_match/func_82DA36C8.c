@@ -1,103 +1,107 @@
-#define TBLr 0
-extern unsigned int fStack_24;
-extern unsigned int fStack_28;
-extern unsigned int fStack_2c;
-extern unsigned int fStack_30;
-extern int fn_82DA32A8();
-extern int fn_82DAEB78();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_82132BC4;
-extern unsigned int lbl_821AAD20;
+typedef struct ProfEntry_82DA36C8 {
+    const char *name;
+    unsigned int time;
+    unsigned int pad;
+} ProfEntry_82DA36C8;
+
+typedef struct ProfBuf_82DA36C8 {
+    int unk0;
+    ProfEntry_82DA36C8 *cur;
+    int unk8;
+    ProfEntry_82DA36C8 *end;
+} ProfBuf_82DA36C8;
+
+typedef struct StepInfo_82DA36C8 {
+    float startTime;
+    float endTime;
+    float deltaTime;
+    float invDeltaTime;
+} StepInfo_82DA36C8;
+
+typedef struct World_82DA36C8 {
+    char pad0[0x184];
+    int postCollideCallback; /* 0x184 */
+} World_82DA36C8;
+
+typedef struct Simulation_82DA36C8 Simulation_82DA36C8;
+
+typedef struct SimulationVtbl_82DA36C8 {
+    void *slots[13];
+    void (*Collide)(Simulation_82DA36C8 *self, StepInfo_82DA36C8 *step); /* 0x34 */
+} SimulationVtbl_82DA36C8;
+
+struct Simulation_82DA36C8 {
+    SimulationVtbl_82DA36C8 *vt; /* 0x00 */
+    char pad4[0x8];
+    World_82DA36C8 *world; /* 0x0c */
+    unsigned char stepped; /* 0x10 */
+    char pad11[0x7];
+    float currentTime; /* 0x18 */
+    float stepSize;    /* 0x1c */
+    char pad20[0x8];
+    unsigned int status; /* 0x28 */
+};
+
+extern void *KeTlsGetValue(unsigned int index);
+unsigned __int64 __mftb(void);
+extern int fn_82DA32A8(Simulation_82DA36C8 *self);
+extern void fn_82DAEB78(World_82DA36C8 *world, StepInfo_82DA36C8 *step);
 extern unsigned int lbl_8323B4A0;
-extern unsigned int lbl_8323B520;
+extern int lbl_8323B520;
 
-
-unsigned __int64 fn_82DA36C8(int *param_1)
-
+static __forceinline void Prof_82DA36C8(const char *name)
 {
-  unsigned int *puVar1;
-  unsigned __int64 uVar2;
-  int iVar4;
-  unsigned __int64 uVar3;
-  float fStack_30;
-  float fStack_2c;
-  float fStack_28;
-  float fStack_24;
-  
-  iVar4 = KeTlsGetValue(lbl_8323B4A0);
-  puVar1 = *(unsigned int **)(iVar4 + 4);
-  if (puVar1 < *(unsigned int **)(iVar4 + 0xc)) {
-    *puVar1 = "TtPhysics";
-    uVar3 = TBLr;
-    puVar1[1] = (int)uVar3;
-    *(unsigned int **)(iVar4 + 4) = puVar1 + 3;
-  }
-  if (param_1[10] == 0) {
-    fStack_30 = (float)param_1[6];
-    fStack_2c = fStack_30 + (float)param_1[7];
-    fStack_28 = fStack_2c - fStack_30;
-    fStack_24 = lbl_821AAD20;
-    if (fStack_28 != lbl_821AAD20) {
-      fStack_24 = lbl_82002AE0 / fStack_28;
+    ProfBuf_82DA36C8 *b = (ProfBuf_82DA36C8 *)KeTlsGetValue(lbl_8323B4A0);
+    ProfEntry_82DA36C8 *e = b->cur;
+    if (e < b->end) {
+        e->name = name;
+        e->time = (unsigned int)__mftb();
+        b->cur = e + 1;
     }
-    (**(int (***)())(*param_1 + 0x34))(param_1,&fStack_30);
-    if (lbl_8323B520 == 1) {
-      param_1[10] = 2;
-      iVar4 = KeTlsGetValue(lbl_8323B4A0);
-      puVar1 = *(unsigned int **)(iVar4 + 4);
-      if (puVar1 < *(unsigned int **)(iVar4 + 0xc)) {
-        *puVar1 = &lbl_82132BC4;
-        uVar3 = TBLr;
-        puVar1[1] = (int)uVar3;
-        *(unsigned int **)(iVar4 + 4) = puVar1 + 3;
-      }
-      uVar3 = 2;
-    }
-    else {
-      param_1[6] = (int)((float)param_1[6] + (float)param_1[7]);
-      if (*(int *)(param_1[3] + 0x184) != 0) {
-        iVar4 = KeTlsGetValue(lbl_8323B4A0);
-        puVar1 = *(unsigned int **)(iVar4 + 4);
-        if (puVar1 < *(unsigned int **)(iVar4 + 0xc)) {
-          *puVar1 = "TtPostCollideCB";
-          uVar3 = TBLr;
-          puVar1[1] = (int)uVar3;
-          *(unsigned int **)(iVar4 + 4) = puVar1 + 3;
-        }
-        fn_82DAEB78(param_1[3],&fStack_30);
-        iVar4 = KeTlsGetValue(lbl_8323B4A0);
-        puVar1 = *(unsigned int **)(iVar4 + 4);
-        if (puVar1 < *(unsigned int **)(iVar4 + 0xc)) {
-          *puVar1 = &lbl_82132BC4;
-          uVar3 = TBLr;
-          puVar1[1] = (int)uVar3;
-          *(unsigned int **)(iVar4 + 4) = puVar1 + 3;
-        }
-      }
-      *(unsigned char *)(param_1 + 4) = 1;
-      param_1[10] = 0;
-      iVar4 = KeTlsGetValue(lbl_8323B4A0);
-      puVar1 = *(unsigned int **)(iVar4 + 4);
-      if (puVar1 < *(unsigned int **)(iVar4 + 0xc)) {
-        *puVar1 = &lbl_82132BC4;
-        uVar3 = TBLr;
-        puVar1[1] = (int)uVar3;
-        *(unsigned int **)(iVar4 + 4) = puVar1 + 3;
-      }
-      uVar3 = 0;
-    }
-  }
-  else {
-    uVar3 = fn_82DA32A8(param_1);
-    iVar4 = KeTlsGetValue(lbl_8323B4A0);
-    puVar1 = *(unsigned int **)(iVar4 + 4);
-    if (puVar1 < *(unsigned int **)(iVar4 + 0xc)) {
-      *puVar1 = &lbl_82132BC4;
-      uVar2 = TBLr;
-      puVar1[1] = (int)uVar2;
-      *(unsigned int **)(iVar4 + 4) = puVar1 + 3;
-    }
-  }
-  return uVar3;
 }
 
+static __forceinline float SafeInverse(float value)
+{
+    if (value == 0.0f) {
+        return 0.0f;
+    }
+    return 1.0f / value;
+}
+
+static __forceinline void InitStep(StepInfo_82DA36C8 *step, float start, float end)
+{
+    step->startTime = start;
+    step->endTime = end;
+    step->deltaTime = end - start;
+    step->invDeltaTime = SafeInverse(step->deltaTime);
+}
+
+int fn_82DA36C8(Simulation_82DA36C8 *self)
+{
+    StepInfo_82DA36C8 step;
+
+    Prof_82DA36C8("TtPhysics");
+    if (self->status != 0) {
+        int result = fn_82DA32A8(self);
+
+        Prof_82DA36C8("Et");
+        return result;
+    }
+    InitStep(&step, self->currentTime, self->currentTime + self->stepSize);
+    self->vt->Collide(self, &step);
+    if (lbl_8323B520 == 1) {
+        self->status = 2;
+        Prof_82DA36C8("Et");
+        return 2;
+    }
+    self->currentTime = self->currentTime + self->stepSize;
+    if (self->world->postCollideCallback != 0) {
+        Prof_82DA36C8("TtPostCollideCB");
+        fn_82DAEB78(self->world, &step);
+        Prof_82DA36C8("Et");
+    }
+    self->stepped = 1;
+    self->status = 0;
+    Prof_82DA36C8("Et");
+    return 0;
+}

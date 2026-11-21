@@ -1,56 +1,76 @@
-extern unsigned int lbl_8208DD78;
-extern unsigned int lbl_8208DD7C;
+extern float lbl_8208DD74;
+extern float lbl_8208DD78;
+extern float lbl_8208DD7C;
 
+typedef struct Format_82E33170 {
+    char pad0[0x30];
+    float ratio; /* 0x30 */
+    char pad34[0x50 - 0x34];
+    int codec; /* 0x50 */
+    char pad54[0xd4 - 0x54];
+    int enabled;    /* 0xd4 */
+    int interlaced; /* 0xd8 */
+} Format_82E33170;
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+typedef struct Encoder_82E33170 {
+    Format_82E33170 *format; /* 0x0000 */
+    char pad4[0x7670 - 0x4];
+    int levelA; /* 0x7670 */
+    int levelB; /* 0x7674 */
+    int levelC; /* 0x7678 */
+} Encoder_82E33170;
 
-void fn_82E33170(int *param_1)
-
+void fn_82E33170(Encoder_82E33170 *self)
 {
-  float fVar1;
-  int iVar2;
-  int iVar3;
-  
-  iVar2 = *param_1;
-  iVar3 = 3;
-  param_1[0x1d9c] = 5;
-  param_1[0x1d9d] = 3;
-  param_1[0x1d9e] = 2;
-  if (*(int *)(iVar2 + 0xd4) == 0) {
-    param_1[0x1d9c] = 1;
-    param_1[0x1d9d] = 1;
-    param_1[0x1d9e] = 1;
-    return;
-  }
-  fVar1 = *(float *)(iVar2 + 0x30);
-  if (*(int *)(iVar2 + 0xd8) == 0) {
-    if (lbl_8208DD7C < fVar1) {
-      if (lbl_8208DD78 < fVar1) {
-        param_1[0x1d9d] = 5;
-        param_1[0x1d9e] = 5;
-        param_1[0x1d9c] = 6;
-        return;
-      }
-      param_1[0x1d9d] = 6;
-      param_1[0x1d9c] = 7;
-      param_1[0x1d9e] = 6;
-      return;
-    }
-code_r0x82e33218:
-    param_1[0x1d9c] = 5;
-    param_1[0x1d9d] = 3;
-    param_1[0x1d9e] = 2;
-    return;
-  }
-  if (lbl_8208DD7C < fVar1) {
-    if (lbl_8208DD78 < fVar1) goto code_r0x82e33218;
-  }
-  else {
-    iVar3 = 4;
-  }
-  param_1[0x1d9c] = 5;
-  param_1[0x1d9d] = iVar3;
-  param_1[0x1d9e] = iVar3;
-  return;
-}
+    Format_82E33170 *format = self->format;
+    int *levelB = &self->levelB;
 
+    self->levelA = 5;
+    *levelB = 3;
+    self->levelC = 2;
+    if (format->enabled == 0) {
+        self->levelA = 1;
+        *levelB = 1;
+        self->levelC = 1;
+        return;
+    }
+    if (format->interlaced != 0) {
+        if (format->ratio <= lbl_8208DD7C) {
+            self->levelA = 5;
+            *levelB = 4;
+            self->levelC = 4;
+        } else if (format->ratio <= lbl_8208DD78) {
+            self->levelA = 5;
+            *levelB = 3;
+            self->levelC = 3;
+        } else if (format->ratio < 2.0f && format->ratio < lbl_8208DD74) {
+            if (format->codec == 0x5622) {
+                self->levelA = 5;
+                *levelB = 3;
+                self->levelC = 2;
+            } else {
+                self->levelA = 5;
+                *levelB = 3;
+                self->levelC = 2;
+            }
+        } else {
+            self->levelA = 5;
+            *levelB = 3;
+            self->levelC = 2;
+        }
+    } else if (format->ratio > lbl_8208DD7C) {
+        if (format->ratio <= lbl_8208DD78) {
+            *levelB = 6;
+            self->levelA = 7;
+            self->levelC = 6;
+        } else {
+            *levelB = 5;
+            self->levelA = 6;
+            self->levelC = 5;
+        }
+    } else {
+        self->levelA = 5;
+        *levelB = 3;
+        self->levelC = 2;
+    }
+}

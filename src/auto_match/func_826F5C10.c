@@ -1,47 +1,42 @@
-extern unsigned int *auStack_1c;
-extern int fn_82F6A3E8();
-extern unsigned int uStack_20;
+extern int fn_82F6A3E8(const char *text, char **end, int radix);
 
-
-unsigned __int64 fn_826F5C10(char *param_1,unsigned int *param_2,char param_3)
-
+/* Parses a movie level name: a plain number, or "_level" followed by a number (letter case
+   ignored unless caseSensitive is set). Returns the level and stores where the number ended,
+   or returns -1. */
+int fn_826F5C10(const char *name, char **end, unsigned char caseSensitive)
 {
-  char cVar1;
-  unsigned __int64 uVar2;
-  unsigned int uStack_20;
-  unsigned int auStack_1c;
-  
-  cVar1 = *param_1;
-  if ((cVar1 < '0') || ('9' < cVar1)) {
-    if (cVar1 == '_') {
-      if (param_3 == '\0') {
-        if (((((param_1[1] == 'l') || (param_1[1] == 'L')) &&
-             ((param_1[2] == 'e' || (param_1[2] == 'E')))) &&
-            (((param_1[3] == 'v' || (param_1[3] == 'V')) &&
-             ((param_1[4] == 'e' || (param_1[4] == 'E')))))) &&
-           ((param_1[5] == 'l' || (param_1[5] == 'L')))) goto LAB_826f5d38;
-      }
-      else if (((param_1[1] == 'l') &&
-               (((param_1[2] == 'e' && (param_1[3] == 'v')) && (param_1[4] == 'e')))) &&
-              (param_1[5] == 'l')) {
-LAB_826f5d38:
-        cVar1 = param_1[6];
-        if (('/' < cVar1) && (cVar1 < ':')) {
-          auStack_1c = 0;
-          uVar2 = fn_82F6A3E8(param_1 + 6,&auStack_1c,10);
-          uStack_20 = auStack_1c;
-          goto LAB_826f5c54;
-        }
-      }
-    }
-    uVar2 = 0xffffffffffffffff;
-  }
-  else {
-    uStack_20 = 0;
-    uVar2 = fn_82F6A3E8(param_1,&uStack_20,10);
-LAB_826f5c54:
-    *param_2 = uStack_20;
-  }
-  return uVar2;
-}
+    char *numberEnd;
+    int level;
+    const char *number;
 
+    if (name[0] >= '0' && name[0] <= '9') {
+        numberEnd = 0;
+        level = fn_82F6A3E8(name, &numberEnd, 10);
+        *end = numberEnd;
+        return level;
+    }
+    if (name[0] == '_') {
+        if (caseSensitive) {
+            if (name[1] == 'l' && name[2] == 'e' && name[3] == 'v' && name[4] == 'e' && name[5] == 'l') {
+                goto parse;
+            }
+        } else if ((name[1] == 'l' || name[1] == 'L') && (name[2] == 'e' || name[2] == 'E') &&
+                   (name[3] == 'v' || name[3] == 'V') && (name[4] == 'e' || name[4] == 'E') &&
+                   (name[5] == 'l' || name[5] == 'L')) {
+            goto parse;
+        }
+    }
+    return -1;
+parse:
+    number = name + 6;
+    if (number[0] < '0' || number[0] > '9') {
+        return -1;
+    }
+    {
+        char *levelEnd = 0;
+
+        level = fn_82F6A3E8(number, &levelEnd, 10);
+        *end = levelEnd;
+    }
+    return level;
+}

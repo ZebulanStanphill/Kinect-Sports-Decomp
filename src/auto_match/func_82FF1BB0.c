@@ -1,77 +1,67 @@
-typedef unsigned char bool;
-extern int fn_82FF1AD8();
-extern int fn_83027260();
-extern int fn_830272C8();
-extern int fn_83027308();
-extern int fn_83027378();
-extern int fn_83027398();
-extern int fn_830273A8();
-extern int fn_83027490();
-extern unsigned int lbl_82005748;
-extern unsigned int lbl_821AAD20;
-extern unsigned int uStack_1a;
+typedef struct Player_82FF1BB0 Player_82FF1BB0;
 
+typedef struct Voice_82FF1BB0 {
+    char pad0[0x38];
+    Player_82FF1BB0 *player; /* 0x38 */
+    char pad3c[0x150 - 0x3c];
+    float pitch;           /* 0x150 */
+    float volume;          /* 0x154 */
+    unsigned char enabled; /* 0x158 */
+    char pad159;
+    unsigned short percent; /* 0x15a */
+} Voice_82FF1BB0;
 
-void fn_82FF1BB0(double param_1,int param_2,unsigned __int64 param_3,__int64 param_4)
+extern float fn_82FF1AD8(Voice_82FF1BB0 *self, float value);
+extern void fn_83027260(Player_82FF1BB0 *player, int value);
+extern void fn_830272C8(Player_82FF1BB0 *player);
+extern void fn_83027308(Player_82FF1BB0 *player);
+extern void fn_83027378(Player_82FF1BB0 *player, int on);
+extern void fn_830273A8(Player_82FF1BB0 *player, int on);
+extern void fn_83027490(Player_82FF1BB0 *player, int value);
+extern void fn_83027398(Player_82FF1BB0 *player, int value);
 
+void fn_82FF1BB0(Voice_82FF1BB0 *self, float value, int param)
 {
-  bool bVar1;
-  int iVar2;
-  double dVar3;
-  unsigned short uStack_1a;
-  
-  iVar2 = (int)param_4;
-  if (iVar2 < 0x16) {
-    if (iVar2 == 0x15) {
-      dVar3 = (double)fn_82FF1AD8(param_2);
-      *(float *)(param_2 + 0x154) = (float)dVar3;
-      return;
-    }
-    if (iVar2 == 0xb) {
-      uStack_1a = (unsigned short)(__int64)(param_1 * (double)lbl_82005748);
-      *(unsigned short *)(param_2 + 0x15a) = uStack_1a;
-      return;
-    }
-    if (iVar2 == 0x14) {
-      dVar3 = (double)fn_82FF1AD8();
-      *(float *)(param_2 + 0x150) = (float)dVar3;
-      return;
-    }
-  }
-  else if (iVar2 == 0x21) {
-    *(bool *)(param_2 + 0x158) = (double)lbl_821AAD20 < param_1;
-    return;
-  }
-  iVar2 = *(int *)(param_2 + 0x38);
-  if (((iVar2 == 0) || (7 < (param_4 - 0x20U & 0xffffffff))) ||
-     (bVar1 = (int)(param_4 - 0x20U) != 0, param_4 == 0x21 && bVar1)) {
-    return;
-  }
-  if (param_4 == 0x22 && bVar1) {
-    fn_830272C8();
-    return;
-  }
-  if (param_4 == 0x23 && bVar1) {
-    fn_83027308();
-    return;
-  }
-  if (param_4 == 0x24 && bVar1) {
-    fn_83027378(iVar2,param_1 != (double)lbl_821AAD20);
-    return;
-  }
-  if (param_4 == 0x25 && bVar1) {
-    fn_830273A8(iVar2,param_1 != (double)lbl_821AAD20);
-    return;
-  }
-  if (param_4 == 0x26 && bVar1) {
-    fn_83027490(iVar2,(int)param_1);
-    return;
-  }
-  if (bVar1) {
-    fn_83027398(iVar2,(int)param_1);
-    return;
-  }
-  fn_83027260(iVar2,(int)param_1);
-  return;
-}
+    Player_82FF1BB0 *player;
 
+    switch (param) {
+    case 0xb:
+        self->percent = (unsigned short)(value * 100.0f);
+        return;
+    case 0x14:
+        self->pitch = fn_82FF1AD8(self, value);
+        return;
+    case 0x15:
+        self->volume = fn_82FF1AD8(self, value);
+        return;
+    case 0x21:
+        self->enabled = value > 0.0f;
+        return;
+    }
+    player = self->player;
+    if (player == 0)
+        return;
+    switch (param) {
+    case 0x20:
+        fn_83027260(player, (int)value);
+        break;
+    case 0x22:
+        fn_830272C8(player);
+        break;
+    case 0x23:
+        fn_83027308(player);
+        break;
+    case 0x24:
+        fn_83027378(player, value != 0.0f);
+        break;
+    case 0x25:
+        fn_830273A8(player, value != 0.0f);
+        break;
+    case 0x26:
+        fn_83027490(player, (int)value);
+        break;
+    case 0x27:
+        fn_83027398(player, (int)value);
+        break;
+    }
+}

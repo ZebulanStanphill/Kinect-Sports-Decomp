@@ -1,66 +1,80 @@
-extern unsigned int *auStack_90;
-extern int fn_8268CC00();
-extern int fn_82695468();
-extern int fn_826954C0();
-extern int fn_826957D0();
-extern int fn_826972E0();
-extern int cos();
-extern int fn_82F6A53C();
-extern int fn_82F6A588();
-extern unsigned int lbl_821AAD20;
+#include <math.h>
 
+typedef struct Parser_82742508 {
+    int a;
+    int b;
+    char *node;
+    char pad0c[0x18 - 0xc];
+    int ctx;
+    int count;
+} Parser_82742508;
 
-void fn_82742508(void)
+typedef struct Matrix_82742508 {
+    float a, b, tx;
+    float c, d, ty;
+} Matrix_82742508;
 
+extern unsigned char fn_82695468(Parser_82742508 *p, int kind);
+extern void fn_826954C0(Parser_82742508 *p, const char *name, int a, int b);
+extern int fn_826957D0(Parser_82742508 *p, int index);
+extern double fn_826972E0(int arg, int ctx);
+extern void fn_8268CC00(Matrix_82742508 *m);
+extern void fn_8268CF60(Matrix_82742508 *p, const Matrix_82742508 *m);
+extern void fn_82741C18(char *obj, int ctx, Matrix_82742508 *m);
+
+void fn_82742508(Parser_82742508 *parser)
 {
-  unsigned int uVar1;
-  int iVar3;
-  char cVar4;
-  unsigned __int64 uVar2;
-  int iVar5;
-  double dVar6;
-  unsigned char auStack_90 [96];
-  
-  iVar3 = fn_82F6A53C();
-  cVar4 = fn_82695468(iVar3,0xf);
-  if (cVar4 == '\0') {
-    fn_826954C0(iVar3,0xffffffff8200ef08,0,0);
-  }
-  else {
-    iVar5 = *(int *)(iVar3 + 8) + -0x10;
-    if (*(int *)(iVar3 + 8) == 0) {
-      iVar5 = 0;
-    }
-    if ((iVar5 != 0) && (1 < *(int *)(iVar3 + 0x1c))) {
-      fn_8268CC00(auStack_90);
-      uVar1 = *(unsigned int *)(iVar3 + 0x18);
-      uVar2 = fn_826957D0(iVar3,0);
-      fn_826972E0(uVar2,uVar1);
-      uVar1 = *(unsigned int *)(iVar3 + 0x18);
-      uVar2 = fn_826957D0(iVar3,1);
-      fn_826972E0(uVar2,uVar1);
-      dVar6 = (double)lbl_821AAD20;
-      if (2 < *(int *)(iVar3 + 0x1c)) {
-        uVar1 = *(unsigned int *)(iVar3 + 0x18);
-        uVar2 = fn_826957D0(iVar3,2);
-        dVar6 = (double)fn_826972E0(uVar2,uVar1);
-        dVar6 = (double)(float)dVar6;
-        if (3 < *(int *)(iVar3 + 0x1c)) {
-          uVar1 = *(unsigned int *)(iVar3 + 0x18);
-          uVar2 = fn_826957D0(iVar3,3);
-          fn_826972E0(uVar2,uVar1);
-          if (4 < *(int *)(iVar3 + 0x1c)) {
-            uVar1 = *(unsigned int *)(iVar3 + 0x18);
-            uVar2 = fn_826957D0(iVar3,4);
-            fn_826972E0(uVar2,uVar1);
-          }
-        }
-      }
-                    /* WARNING: Subroutine does not return */
-      cos(dVar6);
-    }
-  }
-  fn_82F6A588();
-  return;
-}
+    char *obj;
+    float x;
+    float y;
+    float angle;
+    float tx;
+    float ty;
+    float cosine;
+    float sine;
+    Matrix_82742508 m;
+    Matrix_82742508 rotation;
 
+    if (fn_82695468(parser, 0xf) == 0) {
+        fn_826954C0(parser, "Matrix", 0, 0);
+        return;
+    }
+    obj = parser->node ? parser->node - 0x10 : 0;
+    if (obj != 0 && parser->count > 1) {
+        fn_8268CC00(&m);
+        x = (float)fn_826972E0(fn_826957D0(parser, 0), parser->ctx);
+        y = (float)fn_826972E0(fn_826957D0(parser, 1), parser->ctx);
+        angle = 0.0f;
+        tx = x * 0.5f;
+        ty = y * 0.5f;
+        if (parser->count > 2) {
+            angle = (float)fn_826972E0(fn_826957D0(parser, 2), parser->ctx);
+            if (parser->count > 3) {
+                tx += (float)fn_826972E0(fn_826957D0(parser, 3), parser->ctx);
+                if (parser->count > 4) {
+                    ty += (float)fn_826972E0(fn_826957D0(parser, 4), parser->ctx);
+                }
+            }
+        }
+        x *= 0.0006103515625f;
+        y *= 0.0006103515625f;
+        cosine = (float)cos(angle);
+        sine = (float)sin(angle);
+        rotation.a = cosine;
+        rotation.b = -sine;
+        rotation.tx = 0.0f;
+        rotation.c = sine;
+        rotation.d = cosine;
+        rotation.ty = 0.0f;
+        fn_8268CF60(&m, &rotation);
+        m.a *= x;
+        m.b *= x;
+        m.tx *= x;
+        m.c *= y;
+        m.d *= y;
+        m.ty *= y;
+        m.tx += tx;
+        m.ty += ty;
+        fn_82741C18(obj, parser->ctx, &m);
+    }
+}

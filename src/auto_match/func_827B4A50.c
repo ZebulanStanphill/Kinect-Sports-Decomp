@@ -1,6 +1,6 @@
-void fn_827B4A50(unsigned __int64 param_1)
+extern void fn_827B47E0(void *self, void *list, float x, float y, float z, float w, int flags);
 
+void fn_827B4A50(void *self, void *list, float scale, int flags)
 {
-  fn_827B47E0(param_1,param_1,0);
-  return;
+    fn_827B47E0(self, list, scale, scale, 0.0f, 0.0f, flags);
 }

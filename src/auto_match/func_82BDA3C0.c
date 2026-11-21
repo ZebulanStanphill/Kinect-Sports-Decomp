@@ -1,13 +1,22 @@
-void fn_82BDA3C0(int param_1,int param_2,int param_3)
+typedef struct Device_82BDA3C0 {
+    char pad000[0x114];
+    int dirty; /* 0x114 */
+} Device_82BDA3C0;
 
+typedef struct State_82BDA3C0 {
+    int pad00[2];
+    Device_82BDA3C0 *device; /* 0x08 */
+    int pad0C[6];
+    unsigned int values[1]; /* 0x24, count unknown */
+} State_82BDA3C0;
+
+extern void fn_82BD9BA0(State_82BDA3C0 *self);
+
+void fn_82BDA3C0(State_82BDA3C0 *self, int index, unsigned int value)
 {
-  int iVar1;
-  
-  iVar1 = (param_2 + 9) * 4;
-  if (param_3 != *(int *)(iVar1 + param_1)) {
-    *(int *)(iVar1 + param_1) = param_3;
-    *(unsigned int *)(*(int *)(param_1 + 8) + 0x114) = 1;
-  }
-  fn_82BD9BA0();
-  return;
+    if (value != self->values[index]) {
+        self->values[index] = value;
+        self->device->dirty = 1;
+    }
+    fn_82BD9BA0(self);
 }

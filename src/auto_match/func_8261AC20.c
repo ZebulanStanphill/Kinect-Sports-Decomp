@@ -1,12 +1,15 @@
-unsigned __int64 fn_8261AC20(int param_1,int param_2,__int64 param_3)
+typedef struct Obj_8261AC20 {
+    char pad0[0x1d];
+    unsigned char enabled; /* 0x1d */
+} Obj_8261AC20;
 
+extern int fn_82591730(Obj_8261AC20 *self, int param, unsigned int value);
+
+int fn_8261AC20(Obj_8261AC20 *self, int param, unsigned int value)
 {
-  unsigned __int64 uVar1;
-  
-  if (param_2 != 0) {
-    uVar1 = fn_82591730();
-    return uVar1;
-  }
-  *(char *)(param_1 + 0x1d) = '\x01' - (param_3 == 0);
-  return 1;
+    if (param != 0) {
+        return fn_82591730(self, param, value);
+    }
+    self->enabled = value != 0;
+    return 1;
 }

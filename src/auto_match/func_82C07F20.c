@@ -1,69 +1,69 @@
-unsigned __int64 fn_82C07F20(int param_1,__int64 param_2,unsigned int *param_3,int *param_4)
+typedef struct Device_82C07F20 {
+    char pad0[0x228];
+    int surface; /* 0x228 */
+} Device_82C07F20;
 
+typedef struct Dimensions_82C07F20 {
+    int f0;
+    int width;  /* 0x4 */
+    int height; /* 0x8 */
+} Dimensions_82C07F20;
+
+typedef struct Stream_82C07F20 {
+    char pad0[0x28];
+    int area;       /* 0x28 */
+    void *surface;  /* 0x2c */
+    void *callback; /* 0x30 */
+    short format;   /* 0x34 */
+    short channels; /* 0x36 */
+    char pad38[0x10];
+    Device_82C07F20 *device; /* 0x48 */
+} Stream_82C07F20;
+
+int fn_82C07F20(Stream_82C07F20 *stream, int property, int value, int *locked)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  
-  iVar2 = (int)param_2;
-  uVar1 = 0;
-  if (*param_4 != 0) {
-    return uVar1;
-  }
-  if (iVar2 < 0x90061) {
-    if (iVar2 == 0x90060) {
-      return uVar1;
-    }
-    if (iVar2 < 0x90031) {
-      if (iVar2 == 0x90030) {
-        *(short *)(param_1 + 0x36) = (short)param_3;
-        return uVar1;
-      }
-      if (iVar2 == 0x90000) {
-        return uVar1;
-      }
-      if (iVar2 == 0x90010) {
-        *param_3 = 0xffffffff;
-        return uVar1;
-      }
-      if (iVar2 != 0x90020) {
-        return 0xffffffff805000b2;
-      }
-      *(unsigned int **)(param_1 + 0x30) = param_3;
-      return uVar1;
-    }
-    uVar3 = param_2 - 0x90040;
-    if (uVar3 == 0) {
-      *(short *)(param_1 + 0x34) = (short)param_3;
-      return uVar1;
-    }
-  }
-  else {
-    if (iVar2 < 0x90091) {
-      if (iVar2 == 0x90090) {
-        return uVar1;
-      }
-      if (param_2 - 0x90070U == 0) {
-        *(unsigned int *)(param_1 + 0x28) = param_3[2] * param_3[1];
-        return uVar1;
-      }
-      if ((param_2 - 0x90070U & 0xffffffff) != 0x10) {
-        return 0xffffffff805000b2;
-      }
-      if (param_3 == *(unsigned int **)(*(int *)(param_1 + 0x48) + 0x228)) {
-        *(unsigned int **)(param_1 + 0x2c) = param_3;
-        return uVar1;
-      }
-      return 0xffffffff805000b7;
-    }
-    uVar3 = param_2 - 0x900a0;
-    if (uVar3 == 0) {
-      return uVar1;
-    }
-  }
-  if ((uVar3 & 0xffffffff) != 0x10) {
-    return 0xffffffff805000b2;
-  }
-  return uVar1;
-}
+    Device_82C07F20 *device = stream->device;
+    int hr = 0;
 
+    if (*locked == 0) {
+        switch (property) {
+        case 0x90000:
+            break;
+        case 0x90010:
+            *(int *)value = -1;
+            break;
+        case 0x90020:
+            stream->callback = (void *)value;
+            break;
+        case 0x90030:
+            stream->channels = (short)value;
+            break;
+        case 0x90040:
+            stream->format = (short)value;
+            break;
+        case 0x90050:
+            break;
+        case 0x90060:
+            break;
+        case 0x90070:
+            stream->area = ((Dimensions_82C07F20 *)value)->height * ((Dimensions_82C07F20 *)value)->width;
+            break;
+        case 0x90080:
+            if (value != device->surface)
+                hr = 0x805000b7;
+            else
+                stream->surface = (void *)value;
+            break;
+        case 0x90090:
+            break;
+        case 0x900a0:
+            break;
+        case 0x900b0:
+            break;
+        default:
+            hr = 0x805000b2;
+            break;
+        }
+    }
+    return hr;
+}

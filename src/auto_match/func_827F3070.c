@@ -1,47 +1,79 @@
-extern int fn_827F4010();
-extern int fn_827F4100();
-extern int fn_827F4248();
-extern int fn_827FA468();
-extern int fn_827FA5E8();
-extern unsigned int lbl_8201DD20;
-extern unsigned int lbl_821AAD20;
+typedef struct Desc_827F3070 {
+    int f0;
+    void *owner; /* 0x4 */
+} Desc_827F3070;
 
+typedef struct Voice_827F3070 {
+    void *vtbl; /* 0x0 */
+    char pad4[0x1c];
+    void *player; /* 0x20 */
+    char pad24[0xc];
+    int position; /* 0x30 */
+    char pad34[0xc];
+    void *stream; /* 0x40 */
+    char pad44[0xc];
+    unsigned char playing; /* 0x50 */
+    unsigned char flags;   /* 0x51 */
+    unsigned char looping; /* 0x52 */
+    unsigned char paused;  /* 0x53 */
+    unsigned char muted;   /* 0x54 */
+    char pad55[3];
+    int cue;               /* 0x58 */
+    unsigned short handle; /* 0x5c */
+    char pad5E[2];
+    char params[0x94]; /* 0x60 */
+    float volume;      /* 0xf4 */
+    float pitch;       /* 0xf8 */
+    char padFC[8];
+    int pending;   /* 0x104 */
+    void *source;  /* 0x108 */
+    int callbacks; /* 0x10c */
+} Voice_827F3070;
 
-unsigned int * fn_827F3070(unsigned int *param_1,int param_2)
+extern char lbl_8201DD20[];
 
+extern void fn_827F4248(Voice_827F3070 *self, void *params, void *owner, int a, int b);
+extern void fn_827F4100(void *params, Desc_827F3070 *desc);
+extern void *fn_827FA468(unsigned int size);
+extern void *fn_827FA5E8(void *memory, Voice_827F3070 *voice, void *owner);
+extern void *fn_827F4010(void *player);
+
+static __forceinline void SetFlags(unsigned char *flags, unsigned char mask)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  unsigned int uVar3;
-  
-  fn_827F4248(param_1,param_1 + 0x18,*(unsigned int *)(param_2 + 4),0,0);
-  *param_1 = &lbl_8201DD20;
-  *(unsigned char *)((int)param_1 + 0x51) = 0;
-  *(unsigned char *)((int)param_1 + 0x52) = 0;
-  *(unsigned char *)((int)param_1 + 0x53) = 0;
-  *(unsigned char *)(param_1 + 0x15) = 0;
-  param_1[0x16] = 0;
-  *(unsigned short *)(param_1 + 0x17) = 0;
-  fn_827F4100(param_1 + 0x18,param_2);
-  param_1[0x41] = 0;
-  param_1[0x43] = 0;
-  uVar3 = lbl_821AAD20;
-  param_1[0x3d] = lbl_821AAD20;
-  param_1[0x3e] = uVar3;
-  uVar1 = fn_827FA468(0xb4);
-  if ((uVar1 & 0xffffffff) == 0) {
-    uVar2 = 0;
-  }
-  else {
-    uVar2 = fn_827FA5E8(uVar1,param_1,*(unsigned int *)(param_2 + 4));
-  }
-  param_1[8] = (int)uVar2;
-  uVar3 = fn_827F4010(uVar2);
-  param_1[0x10] = uVar3;
-  param_1[0xc] = 0;
-  *(unsigned char *)(param_1 + 0x14) = 0;
-  param_1[0x42] = (int)uVar2;
-  *(unsigned char *)((int)param_1 + 0x51) = *(unsigned char *)((int)param_1 + 0x51) | 1;
-  return param_1;
+    *flags |= mask;
 }
 
+Voice_827F3070 *fn_827F3070(Voice_827F3070 *self, Desc_827F3070 *desc)
+{
+    void *memory;
+    void *player;
+
+    fn_827F4248(self, self->params, desc->owner, 0, 0);
+    self->vtbl = lbl_8201DD20;
+    {
+        unsigned char *flags = &self->flags;
+        *flags = 0;
+    }
+    self->looping = 0;
+    self->paused = 0;
+    self->muted = 0;
+    self->cue = 0;
+    self->handle = 0;
+    fn_827F4100(self->params, desc);
+    self->pending = 0;
+    self->callbacks = 0;
+    self->volume = 0.0f;
+    self->pitch = 0.0f;
+    memory = fn_827FA468(0xb4);
+    if (memory != 0)
+        player = fn_827FA5E8(memory, self, desc->owner);
+    else
+        player = 0;
+    self->player = player;
+    self->stream = fn_827F4010(player);
+    self->position = 0;
+    self->playing = 0;
+    self->source = player;
+    SetFlags(&self->flags, 1);
+    return self;
+}

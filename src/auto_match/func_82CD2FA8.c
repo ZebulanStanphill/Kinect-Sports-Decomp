@@ -1,74 +1,80 @@
-unsigned __int64 fn_82CD2FA8(int *param_1)
+#include <stdlib.h>
 
+typedef struct Surface_82CD2FA8 {
+    int pad0;
+    int width;  /* 0x04 */
+    int height; /* 0x08 */
+    int padc;
+    unsigned int format; /* 0x10 */
+} Surface_82CD2FA8;
+
+typedef struct Blit_82CD2FA8 {
+    Surface_82CD2FA8 *source; /* 0x0000 */
+    Surface_82CD2FA8 *dest;   /* 0x0004 */
+    char pad8[0x38e4 - 0x8];
+    int left;    /* 0x38e4 */
+    int top;     /* 0x38e8 */
+    int right;   /* 0x38ec */
+    int bottom;  /* 0x38f0 */
+    int useRect; /* 0x38f4 */
+} Blit_82CD2FA8;
+
+static __forceinline int IsPackedYuv(unsigned int format)
 {
-  int iVar1;
-  unsigned int uVar2;
-  int iVar3;
-  unsigned int uVar4;
-  int iVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  
-  iVar1 = *param_1;
-  uVar2 = *(unsigned int *)(iVar1 + 4);
-  if (0 < (int)uVar2) {
-    iVar3 = param_1[1];
-    uVar4 = *(unsigned int *)(iVar3 + 4);
-    if (0 < (int)uVar4) {
-      iVar5 = *(int *)(iVar1 + 0x10);
-      if (((iVar5 != 0) && (iVar5 != 3)) ||
-         ((*(int *)(iVar3 + 0x10) != 0 && (*(int *)(iVar3 + 0x10) != 3)))) {
-        if (param_1[0xe3d] == 0) {
-          if (uVar2 != uVar4) {
-            return 6;
-          }
-          uVar6 = *(unsigned int *)(iVar3 + 8);
-          uVar7 = (int)*(unsigned int *)(iVar1 + 8) >> 0x1f;
-          if ((*(unsigned int *)(iVar1 + 8) ^ uVar7) - uVar7 !=
-              (uVar6 ^ (int)uVar6 >> 0x1f) - ((int)uVar6 >> 0x1f)) {
-            return 6;
-          }
-        }
-        else {
-          if (uVar4 != param_1[0xe3b] - param_1[0xe39]) {
-            return 6;
-          }
-          uVar6 = *(unsigned int *)(iVar3 + 8);
-          if ((uVar6 ^ (int)uVar6 >> 0x1f) - ((int)uVar6 >> 0x1f) != param_1[0xe3c] - param_1[0xe3a]
-             ) {
-            return 6;
-          }
-        }
-        if ((iVar5 == 0x31313450) &&
-           (uVar2 != (((int)uVar2 >> 2) + (unsigned int)((int)uVar2 < 0 && (uVar2 & 3) != 0)) * 4)) {
-          return 6;
-        }
-        iVar3 = *(int *)(iVar3 + 0x10);
-        if ((iVar3 == 0x31313450) &&
-           (uVar4 != (((int)uVar4 >> 2) + (unsigned int)((int)uVar4 < 0 && (uVar4 & 3) != 0)) * 4)) {
-          return 6;
-        }
-        if ((((((iVar5 == 0x32595559) || (iVar5 == 0x59565955)) || (iVar5 == 0x55595659)) ||
-             ((iVar5 == 0x56555949 || (iVar5 == 0x30323449)))) || (iVar5 == 0x32323450)) &&
-           ((uVar2 & 1) != 0)) {
-          return 6;
-        }
-        if ((((iVar3 == 0x32595559) || (iVar3 == 0x59565955)) ||
-            ((iVar3 == 0x55595659 ||
-             (((iVar3 == 0x56555949 || (iVar3 == 0x30323449)) || (iVar3 == 0x32323450)))))) &&
-           ((uVar4 & 1) != 0)) {
-          return 6;
-        }
-        if (((iVar5 == 0x56555949) || (iVar5 == 0x30323449)) && ((*(unsigned int *)(iVar1 + 8) & 1) != 0)) {
-          return 6;
-        }
-        if (((iVar3 == 0x56555949) || (iVar3 == 0x30323449)) && ((uVar6 & 1) != 0)) {
-          return 6;
-        }
-      }
-      return 0;
-    }
-  }
-  return 6;
+    return format == 0x32595559 || format == 0x59565955 || format == 0x55595659 || format == 0x56555949 ||
+           format == 0x30323449 || format == 0x32323450;
 }
 
+static __forceinline int IsPlanar(unsigned int format)
+{
+    return format == 0x56555949 || format == 0x30323449;
+}
+
+int fn_82CD2FA8(Blit_82CD2FA8 *self)
+{
+    Surface_82CD2FA8 *source = self->source;
+    Surface_82CD2FA8 *dest;
+    unsigned int sourceFormat;
+    unsigned int destFormat;
+
+    if (source->width <= 0) {
+        return 6;
+    }
+    dest = self->dest;
+    if (dest->width <= 0) {
+        return 6;
+    }
+    sourceFormat = source->format;
+    if ((sourceFormat == 0 || sourceFormat == 3) && (dest->format == 0 || dest->format == 3)) {
+        return 0;
+    }
+    if (self->useRect != 0) {
+        if (dest->width != self->right - self->left || abs(dest->height) != self->bottom - self->top) {
+            return 6;
+        }
+    } else {
+        if (source->width != dest->width || abs(source->height) != abs(dest->height)) {
+            return 6;
+        }
+    }
+    if (sourceFormat == 0x31313450 && source->width % 4 != 0) {
+        return 6;
+    }
+    destFormat = dest->format;
+    if (destFormat == 0x31313450 && dest->width % 4 != 0) {
+        return 6;
+    }
+    if (IsPackedYuv(sourceFormat) && (source->width & 1) != 0) {
+        return 6;
+    }
+    if (IsPackedYuv(destFormat) && (dest->width & 1) != 0) {
+        return 6;
+    }
+    if (IsPlanar(sourceFormat) && (source->height & 1) != 0) {
+        return 6;
+    }
+    if (IsPlanar(destFormat) && (dest->height & 1) != 0) {
+        return 6;
+    }
+    return 0;
+}
