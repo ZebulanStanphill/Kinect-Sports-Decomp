@@ -1,38 +1,30 @@
-extern int fn_825077E8();
-extern unsigned int lbl_821917B4;
-extern unsigned int lbl_82192D74;
-extern unsigned int lbl_82193B00;
-extern unsigned int lbl_82193D04;
+/* Picks one of five level entries by a 0..1 fraction (the float thresholds come from
+   a shared LTCG constant pool, lbl_82193AD8 - 0x2324 .. + 0x22c). */
+typedef struct Meter_82457328 {
+    int levels[5];
+    char pad14[4];
+    void *target;
+    int shown;
+} Meter_82457328;
 
+extern void fn_825077E8(void *target, int *level, int flag);
 
-void fn_82457328(double param_1,int param_2)
-
+void fn_82457328(Meter_82457328 *self, float fraction)
 {
-  int iVar1;
-  
-  if ((*(int *)(param_2 + 0x18) != 0) && (*(int *)(param_2 + 0x1c) == 0)) {
-    if ((double)lbl_821917B4 <= param_1) {
-      if ((double)lbl_82193D04 <= param_1) {
-        if ((double)lbl_82192D74 <= param_1) {
-          iVar1 = param_2 + 4;
-          if ((double)lbl_82193B00 <= param_1) {
-            iVar1 = param_2;
-          }
-        }
-        else {
-          iVar1 = param_2 + 8;
-        }
-      }
-      else {
-        iVar1 = param_2 + 0xc;
-      }
-    }
-    else {
-      iVar1 = param_2 + 0x10;
-    }
-    fn_825077E8(*(int *)(param_2 + 0x18),iVar1,1);
-    *(unsigned int *)(param_2 + 0x1c) = 1;
-  }
-  return;
-}
+    int *level;
 
+    if (self->target != 0 && self->shown == 0) {
+        if (fraction < 0.25f)
+            level = &self->levels[4];
+        else if (fraction < 0.4f)
+            level = &self->levels[3];
+        else if (fraction < 0.6f)
+            level = &self->levels[2];
+        else if (fraction < 0.75f)
+            level = &self->levels[1];
+        else
+            level = &self->levels[0];
+        fn_825077E8(self->target, level, 1);
+        self->shown = 1;
+    }
+}
