@@ -363,7 +363,7 @@ extern void * memset (void * dest, int c, size_t count);
 extern void * memcpy (void * dest, const void * src, size_t count);
 
 void
-fn_827C1EC0 (j_decompress_ptr cinfo)
+prepare_range_limit_table (j_decompress_ptr cinfo)
 {
   JSAMPLE * table;
   int i;

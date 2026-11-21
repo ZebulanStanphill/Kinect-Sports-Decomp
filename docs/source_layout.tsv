@@ -731,10 +731,14 @@ R1SDK/red/Ghoulies/game/audio/audio_main/func_82552890.c	D:\Work\R1SDK\Olympus_t
 R1SDK/red/Ghoulies/game/audio/audio_main/func_82552A18.c	D:\Work\R1SDK\Olympus_testing\red\Ghoulies\game\audio\audio_main.cpp	assert-ltcg	strong
 R1SDK/red/Ghoulies/game/audio/audio_main/func_8260F790.c	D:\Work\R1SDK\Olympus_testing\red\Ghoulies\game\audio\audio_main.cpp	assert-ltcg	strong
 R1SDK/red/Ghoulies/game/havok/havok_system/func_8260AD90.c	D:\Work\R1SDK\Olympus_testing\red\Ghoulies\game\havok\havok_system.cpp	assert-ltcg	strong
+Scaleform/jpeg-6b/jccoefct/func_827CDA90.c	Scaleform/jpeg-6b/jccoefct.c	upstream	direct
 Scaleform/jpeg-6b/jccoefct/func_827CDEB0.c	Scaleform/jpeg-6b/jccoefct.c	upstream	direct
 Scaleform/jpeg-6b/jccoefct/func_827CE0C8.c	Scaleform/jpeg-6b/jccoefct.c	between-anchors	strong
 Scaleform/jpeg-6b/jccoefct/func_827CE1D0.c	Scaleform/jpeg-6b/jccoefct.c	upstream	direct
+Scaleform/jpeg-6b/jcdctmgr/func_827CE2E8.c	Scaleform/jpeg-6b/jcdctmgr.c	upstream	direct
 Scaleform/jpeg-6b/jcdctmgr/func_827CE568.c	Scaleform/jpeg-6b/jcdctmgr.c	upstream	direct
+Scaleform/jpeg-6b/jcdctmgr/func_827CE6E8.c	Scaleform/jpeg-6b/jcdctmgr.c	upstream	direct
+Scaleform/jpeg-6b/jcdctmgr/func_827CE8C8.c	Scaleform/jpeg-6b/jcdctmgr.c	upstream	direct
 Scaleform/jpeg-6b/jcparam/func_827BE778.c	Scaleform/jpeg-6b/jcparam.c	upstream	direct
 Scaleform/jpeg-6b/jcparam/func_827BE8A0.c	Scaleform/jpeg-6b/jcparam.c	between-anchors	strong
 Scaleform/jpeg-6b/jcparam/func_827BE8F8.c	Scaleform/jpeg-6b/jcparam.c	upstream	direct
@@ -1185,6 +1189,7 @@ XDK/xtl/graphics/xgraphics/ucode/ssm/statecache/shaderstore/func_82AB9C00.c	e:\x
 XDK/xtl/graphics/xgraphics/ucode/ssm/statecache/statepostprocessor/func_82B6A3E8.c	e:\xenon\xdk-main-jul10\core\private\xtl\graphics\xgraphics\ucode\ssm\statecache\statepostprocessor.cpp	assert	direct
 XDK/xtl/graphics/xgraphics/ucode/ssm/statecache/statepostprocessor/func_82B6A5A8.c	e:\xenon\xdk-main-jul10\core\private\xtl\graphics\xgraphics\ucode\ssm\statecache\statepostprocessor.cpp	assert	direct
 XDK/xtl/graphics/xgraphics/ucode/ssm/statecache/statepostprocessor/func_82B6A768.c	e:\xenon\xdk-main-jul10\core\private\xtl\graphics\xgraphics\ucode\ssm\statecache\statepostprocessor.cpp	assert	direct
+XDK/xtl/graphics/xgraphics/ucode/ssm/statecache/statepostprocessor/func_82B6AB18.c	e:\xenon\xdk-main-jul10\core\private\xtl\graphics\xgraphics\ucode\ssm\statecache\statepostprocessor.cpp	assert	direct
 XDK/xtl/graphics/xgraphics/ucode/ssm/statecache/statepreprocessor/func_82B693B0.c	e:\xenon\xdk-main-jul10\core\private\xtl\graphics\xgraphics\ucode\ssm\statecache\statepreprocessor.cpp	assert	direct
 XDK/xtl/graphics/xgraphics/ucode/ssm/statecompiler/compiledprogram/func_82B7F170.c	e:\xenon\xdk-main-jul10\core\private\xtl\graphics\xgraphics\ucode\ssm\statecompiler\compiledprogram.cpp	assert	direct
 XDK/xtl/graphics/xgraphics/ucode/ssm/statecompiler/compiledprogram/func_82B7F298.c	e:\xenon\xdk-main-jul10\core\private\xtl\graphics\xgraphics\ucode\ssm\statecompiler\compiledprogram.cpp	assert	direct
@@ -1525,4 +1530,5 @@ game/sport/sport/func_82352358.c	D:\Work\Incubation\Olympus_Testing\Incubation\g
 game/ui/ui_game/ui_game_loading/ui_game_loading_incubation/func_822A1AF8.c	D:\Work\Incubation\Olympus_Testing\Incubation\game\ui\ui_game\ui_game_loading\ui_game_loading_incubation.cpp	assert-ltcg	strong
 game/ui/ui_game/ui_game_loading/ui_game_loading_incubation/func_822A1DD8.c	D:\Work\Incubation\Olympus_Testing\Incubation\game\ui\ui_game\ui_game_loading\ui_game_loading_incubation.cpp	assert-ltcg	strong
 game/ui/ui_videotutorial/func_8228E7E8.c	D:\Work\Incubation\Olympus_Testing\Incubation\game\ui\ui_videotutorial.cpp	assert-ltcg	strong
+game/ui/ui_videotutorial/func_8228F648.c	D:\Work\Incubation\Olympus_Testing\Incubation\game\ui\ui_videotutorial.cpp	assert	direct
 game/ui/ui_videotutorial/func_8228F738.c	D:\Work\Incubation\Olympus_Testing\Incubation\game\ui\ui_videotutorial.cpp	assert-ltcg	strong

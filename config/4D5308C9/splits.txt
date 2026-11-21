@@ -8643,7 +8643,7 @@ auto_match/func_8228F4F0.c:
 	.pdata      start:0x821E0A10 end:0x821E0A18
 	.text       start:0x8228F4F0 end:0x8228F644
 
-auto_match/func_8228F648.c:
+game/ui/ui_videotutorial/func_8228F648.c:
 	.pdata      start:0x821E0A18 end:0x821E0A20
 	.text       start:0x8228F648 end:0x8228F738
 
@@ -77600,7 +77600,7 @@ Scaleform/jpeg-6b/jcmainct.c:
 auto_match/func_827CDA40.c:
 	.text       start:0x827CDA40 end:0x827CDA90
 
-auto_match/func_827CDA90.c:
+Scaleform/jpeg-6b/jccoefct/func_827CDA90.c:
 	.pdata      start:0x821FE090 end:0x821FE098
 	.text       start:0x827CDA90 end:0x827CDCE0
 
@@ -77620,7 +77620,7 @@ Scaleform/jpeg-6b/jccoefct/func_827CE1D0.c:
 	.pdata      start:0x821FE0B0 end:0x821FE0B8
 	.text       start:0x827CE1D0 end:0x827CE2E4
 
-auto_match/func_827CE2E8.c:
+Scaleform/jpeg-6b/jcdctmgr/func_827CE2E8.c:
 	.pdata      start:0x821FE0B8 end:0x821FE0C0
 	.text       start:0x827CE2E8 end:0x827CE564
 
@@ -77628,11 +77628,11 @@ Scaleform/jpeg-6b/jcdctmgr/func_827CE568.c:
 	.pdata      start:0x821FE0C0 end:0x821FE0C8
 	.text       start:0x827CE568 end:0x827CE6E8
 
-auto_match/func_827CE6E8.c:
+Scaleform/jpeg-6b/jcdctmgr/func_827CE6E8.c:
 	.pdata      start:0x821FE0C8 end:0x821FE0D0
 	.text       start:0x827CE6E8 end:0x827CE8C4
 
-auto_match/func_827CE8C8.c:
+Scaleform/jpeg-6b/jcdctmgr/func_827CE8C8.c:
 	.pdata      start:0x821FE0D0 end:0x821FE0D8
 	.text       start:0x827CE8C8 end:0x827CE9B8
 
@@ -124169,7 +124169,7 @@ XDK/xtl/graphics/xgraphics/ucode/ssm/statecache/statepostprocessor/func_82B6A768
 	.pdata      start:0x82210038 end:0x82210040
 	.text       start:0x82B6A768 end:0x82B6AB14
 
-auto_match/func_82B6AB18.c:
+XDK/xtl/graphics/xgraphics/ucode/ssm/statecache/statepostprocessor/func_82B6AB18.c:
 	.pdata      start:0x82210040 end:0x82210048
 	.text       start:0x82B6AB18 end:0x82B6AC44
 

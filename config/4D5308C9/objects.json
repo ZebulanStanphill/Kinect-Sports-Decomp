@@ -14239,7 +14239,7 @@
           "/O1"
         ]
       },
-      "auto_match/func_8228F648.c": {
+      "game/ui/ui_videotutorial/func_8228F648.c": {
         "status": "NonMatching",
         "extra_cflags": [
           "/O1"
@@ -121103,7 +121103,7 @@
           "/O1"
         ]
       },
-      "auto_match/func_827CDA90.c": {
+      "Scaleform/jpeg-6b/jccoefct/func_827CDA90.c": {
         "status": "Matching",
         "extra_cflags": [
           "/O1"
@@ -121136,7 +121136,7 @@
           "/O1"
         ]
       },
-      "auto_match/func_827CE2E8.c": {
+      "Scaleform/jpeg-6b/jcdctmgr/func_827CE2E8.c": {
         "status": "Matching",
         "extra_cflags": [
           "/O1"
@@ -121148,15 +121148,15 @@
           "/O1"
         ]
       },
-      "auto_match/func_827CE6E8.c": {
+      "Scaleform/jpeg-6b/jcdctmgr/func_827CE6E8.c": {
         "status": "Matching",
         "extra_cflags": [
           "/O1",
           "/fp:precise"
         ]
       },
-      "auto_match/func_827CE8C8.c": {
-        "status": "NonMatching",
+      "Scaleform/jpeg-6b/jcdctmgr/func_827CE8C8.c": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -197256,7 +197256,7 @@
           "/O1"
         ]
       },
-      "auto_match/func_82B6AB18.c": {
+      "XDK/xtl/graphics/xgraphics/ucode/ssm/statecache/statepostprocessor/func_82B6AB18.c": {
         "status": "NonMatching",
         "extra_cflags": [
           "/O1"

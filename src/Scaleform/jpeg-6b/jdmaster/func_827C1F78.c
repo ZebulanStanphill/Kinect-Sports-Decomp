@@ -78,7 +78,7 @@ struct Cinfo_827C1F78 {
 
 extern boolean use_merged_upsample(struct Cinfo_827C1F78 *cinfo);
 extern void jpeg_calc_output_dimensions(struct Cinfo_827C1F78 *cinfo);
-extern void fn_827C1EC0(struct Cinfo_827C1F78 *cinfo);
+extern void prepare_range_limit_table(struct Cinfo_827C1F78 *cinfo);
 extern void jinit_d_coef_controller(struct Cinfo_827C1F78 *cinfo, int need_full_buffer);
 extern void jinit_huff_decoder(struct Cinfo_827C1F78 *cinfo);
 extern void jinit_phuff_decoder(struct Cinfo_827C1F78 *cinfo);
@@ -96,7 +96,7 @@ void master_selection(struct Cinfo_827C1F78 *cinfo)
   struct my_decomp_master_827C1F78 *master = cinfo->master;
 
   jpeg_calc_output_dimensions(cinfo);
-  fn_827C1EC0(cinfo);
+  prepare_range_limit_table(cinfo);
 
   master->pass_number = 0;
   master->using_merged_upsample = use_merged_upsample(cinfo);

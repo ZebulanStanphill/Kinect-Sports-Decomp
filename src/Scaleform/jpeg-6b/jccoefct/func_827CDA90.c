@@ -1,4 +1,4 @@
-/* Corresponds to libjpeg 6b jcdctmgr.c forward_DCT_float (open-source IJG libjpeg 6b): the upstream function with the declarations it uses, preprocessed, symbols renamed to the game's. */
+/* Corresponds to libjpeg 6b jccoefct.c compress_data (open-source IJG libjpeg 6b): the upstream function with the declarations it uses, preprocessed, symbols renamed to the game's. */
 typedef unsigned char boolean;
 typedef unsigned int size_t;
 typedef unsigned char JSAMPLE;
@@ -13,7 +13,6 @@ typedef JSAMPARRAY *JSAMPIMAGE;
 typedef JCOEF JBLOCK[64];
 typedef JBLOCK  *JBLOCKROW;
 typedef JBLOCKROW *JBLOCKARRAY;
-typedef JCOEF  *JCOEFPTR;
 typedef struct {
 
   UINT16 quantval[64];
@@ -289,69 +288,78 @@ struct jpeg_marker_writer {
   void (*write_marker_header) (j_compress_ptr cinfo, int marker, unsigned int datalen);
   void (*write_marker_byte) (j_compress_ptr cinfo, int val);
 };
-typedef int DCTELEM;
-typedef void (*forward_DCT_method_ptr) (DCTELEM * data);
-typedef void (*float_DCT_method_ptr) (float * data);
+extern void jzero_far (void  * target, size_t bytestozero);
 typedef struct {
-  struct jpeg_forward_dct pub;
+  struct jpeg_c_coef_controller pub;
 
-  forward_DCT_method_ptr do_dct;
+  JDIMENSION iMCU_row_num;
+  JDIMENSION mcu_ctr;
+  int MCU_vert_offset;
+  int MCU_rows_per_iMCU_row;
 
-  DCTELEM * divisors[4];
+  JBLOCKROW MCU_buffer[10];
 
-  float_DCT_method_ptr do_float_dct;
-  float * float_divisors[4];
-} my_fdct_controller;
-typedef my_fdct_controller * my_fdct_ptr;
+  jvirt_barray_ptr whole_image[10];
+} my_coef_controller;
+typedef my_coef_controller * my_coef_ptr;
+extern void fn_827CDA40 (j_compress_ptr cinfo);
 
-void
-fn_827CE6E8 (j_compress_ptr cinfo, jpeg_component_info * compptr,
-		   JSAMPARRAY sample_data, JBLOCKROW coef_blocks,
-		   JDIMENSION start_row, JDIMENSION start_col,
-		   JDIMENSION num_blocks)
+boolean
+compress_data (j_compress_ptr cinfo, JSAMPIMAGE input_buf)
 {
-  my_fdct_ptr fdct = (my_fdct_ptr) cinfo->fdct;
-  float_DCT_method_ptr do_dct = fdct->do_float_dct;
-  float * divisors = fdct->float_divisors[compptr->quant_tbl_no];
-  float workspace[64];
-  JDIMENSION bi;
+  my_coef_ptr coef = (my_coef_ptr) cinfo->coef;
+  JDIMENSION MCU_col_num;
+  JDIMENSION last_MCU_col = cinfo->MCUs_per_row - 1;
+  JDIMENSION last_iMCU_row = cinfo->total_iMCU_rows - 1;
+  int blkn, bi, ci, yindex, yoffset, blockcnt;
+  JDIMENSION ypos, xpos;
+  jpeg_component_info *compptr;
 
-  sample_data += start_row;
-
-  for (bi = 0; bi < num_blocks; bi++, start_col += 8) {
-
-    { register float *workspaceptr;
-      register JSAMPROW elemptr;
-      register int elemr;
-
-      workspaceptr = workspace;
-      for (elemr = 0; elemr < 8; elemr++) {
-	elemptr = sample_data[elemr] + start_col;
-
-	*workspaceptr++ = (float) (((int) (*elemptr++)) - 128);
-	*workspaceptr++ = (float) (((int) (*elemptr++)) - 128);
-	*workspaceptr++ = (float) (((int) (*elemptr++)) - 128);
-	*workspaceptr++ = (float) (((int) (*elemptr++)) - 128);
-	*workspaceptr++ = (float) (((int) (*elemptr++)) - 128);
-	*workspaceptr++ = (float) (((int) (*elemptr++)) - 128);
-	*workspaceptr++ = (float) (((int) (*elemptr++)) - 128);
-	*workspaceptr++ = (float) (((int) (*elemptr++)) - 128);
-
+  for (yoffset = coef->MCU_vert_offset; yoffset < coef->MCU_rows_per_iMCU_row;
+       yoffset++) {
+    for (MCU_col_num = coef->mcu_ctr; MCU_col_num <= last_MCU_col;
+	 MCU_col_num++) {
+      blkn = 0;
+      for (ci = 0; ci < cinfo->comps_in_scan; ci++) {
+	compptr = cinfo->cur_comp_info[ci];
+	blockcnt = (MCU_col_num < last_MCU_col) ? compptr->MCU_width
+						: compptr->last_col_width;
+	xpos = MCU_col_num * compptr->MCU_sample_width;
+	ypos = yoffset * 8;
+	for (yindex = 0; yindex < compptr->MCU_height; yindex++) {
+	  if (coef->iMCU_row_num < last_iMCU_row ||
+	      yoffset+yindex < compptr->last_row_height) {
+	    (*cinfo->fdct->forward_DCT) (cinfo, compptr,
+					 input_buf[compptr->component_index],
+					 coef->MCU_buffer[blkn],
+					 ypos, xpos, (JDIMENSION) blockcnt);
+	    if (blockcnt < compptr->MCU_width) {
+	      jzero_far((void *) coef->MCU_buffer[blkn + blockcnt],
+			(compptr->MCU_width - blockcnt) * ((size_t) sizeof(JBLOCK)));
+	      for (bi = blockcnt; bi < compptr->MCU_width; bi++) {
+		coef->MCU_buffer[blkn+bi][0][0] = coef->MCU_buffer[blkn+bi-1][0][0];
+	      }
+	    }
+	  } else {
+	    jzero_far((void *) coef->MCU_buffer[blkn],
+		      compptr->MCU_width * ((size_t) sizeof(JBLOCK)));
+	    for (bi = 0; bi < compptr->MCU_width; bi++) {
+	      coef->MCU_buffer[blkn+bi][0][0] = coef->MCU_buffer[blkn-1][0][0];
+	    }
+	  }
+	  blkn += compptr->MCU_width;
+	  ypos += 8;
+	}
+      }
+      if (! (*cinfo->entropy->encode_mcu) (cinfo, coef->MCU_buffer)) {
+	coef->MCU_vert_offset = yoffset;
+	coef->mcu_ctr = MCU_col_num;
+	return 0;
       }
     }
-
-    (*do_dct) (workspace);
-
-    { register float temp;
-      register int i;
-      register JCOEFPTR output_ptr = coef_blocks[bi];
-
-      for (i = 0; i < 64; i++) {
-
-	temp = workspace[i] * divisors[i];
-
-	output_ptr[i] = (JCOEF) ((int) (temp + (float) 16384.5) - 16384);
-      }
-    }
+    coef->mcu_ctr = 0;
   }
+  coef->iMCU_row_num++;
+  fn_827CDA40(cinfo);
+  return 1;
 }

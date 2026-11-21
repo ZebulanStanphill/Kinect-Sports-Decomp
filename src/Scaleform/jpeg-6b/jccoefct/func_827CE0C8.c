@@ -433,7 +433,7 @@ JWRN_TOO_MUCH_DATA ,
   JMSG_LASTMSGCODE
 } J_MESSAGE_CODE;
 extern void fn_827CDA40 (j_compress_ptr cinfo);
-boolean fn_827CDA90 (j_compress_ptr cinfo, JSAMPIMAGE input_buf);
+boolean compress_data (j_compress_ptr cinfo, JSAMPIMAGE input_buf);
 boolean compress_first_pass (j_compress_ptr cinfo, JSAMPIMAGE input_buf);
 boolean compress_output (j_compress_ptr cinfo, JSAMPIMAGE input_buf);
 
@@ -449,7 +449,7 @@ start_pass_coef (j_compress_ptr cinfo, J_BUF_MODE pass_mode)
   case JBUF_PASS_THRU:
     if (coef->whole_image[0] != ((void *)0))
       ((cinfo)->err->msg_code = (JERR_BAD_BUFFER_MODE), (*(cinfo)->err->error_exit) ((j_common_ptr) (cinfo)));
-    coef->pub.compress_data = fn_827CDA90;
+    coef->pub.compress_data = compress_data;
     break;
   case JBUF_SAVE_AND_PASS:
     if (coef->whole_image[0] == ((void *)0))

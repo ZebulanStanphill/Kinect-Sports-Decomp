@@ -437,7 +437,7 @@ typedef struct {
 typedef my_fdct_controller * my_fdct_ptr;
 
 void
-fn_827CE2E8 (j_compress_ptr cinfo)
+start_pass_fdctmgr (j_compress_ptr cinfo)
 {
   my_fdct_ptr fdct = (my_fdct_ptr) cinfo->fdct;
   int ci, qtblno, i;
