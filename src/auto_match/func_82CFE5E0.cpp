@@ -1,3 +1,7 @@
+#include "havok/hkString.h"
+
+extern "C" {
+
 struct Stream_82CFE5E0;
 struct StreamVtbl_82CFE5E0 {
     void *slots[4];
@@ -6,7 +10,6 @@ struct StreamVtbl_82CFE5E0 {
 struct Stream_82CFE5E0 { struct StreamVtbl_82CFE5E0 *vt; };
 struct Writer_82CFE5E0 { void *vt; int pad; struct Stream_82CFE5E0 *stream; unsigned char swap; };
 
-extern void fn_82CFC050(void *dst, const void *src, int size);
 
 void fn_82CFE5E0(struct Writer_82CFE5E0 *self, const unsigned char *data, int size)
 {
@@ -28,8 +31,10 @@ void fn_82CFE5E0(struct Writer_82CFE5E0 *self, const unsigned char *data, int si
         if (left < 0x200) {
             chunk = last;
         }
-        fn_82CFC050(buffer, p, chunk);
+        hkString::memCpy(buffer, p, chunk);
         self->stream->vt->write(self->stream, buffer, chunk);
         p += chunk;
     }
+}
+
 }

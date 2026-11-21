@@ -1,3 +1,7 @@
+#include "havok/hkString.h"
+
+extern "C" {
+
 typedef struct StreamWriter_82CFDFE0 StreamWriter_82CFDFE0;
 
 typedef struct StreamWriterVtbl_82CFDFE0 {
@@ -16,7 +20,6 @@ typedef struct Archive_82CFDFE0 {
     unsigned char byteSwap;        /* 0xc */
 } Archive_82CFDFE0;
 
-extern void fn_82CFC050(void *dst, const void *src, int nbytes);
 
 static __forceinline void SwapBytes_82CFDFE0(unsigned char *a, unsigned char *b)
 {
@@ -52,7 +55,7 @@ void fn_82CFDFE0(Archive_82CFDFE0 *self, const void *data, int elemSize, int cou
             chunkBytes = lastBytes;
             chunkCount = lastCount;
         }
-        fn_82CFC050(buf, src, chunkBytes);
+        hkString::memCpy(buf, src, chunkBytes);
         switch (elemSize) {
         case 2: {
             unsigned char *q = buf;
@@ -90,4 +93,6 @@ void fn_82CFDFE0(Archive_82CFDFE0 *self, const void *data, int elemSize, int cou
         remaining -= chunkBytes;
         src += chunkBytes;
     }
+}
+
 }

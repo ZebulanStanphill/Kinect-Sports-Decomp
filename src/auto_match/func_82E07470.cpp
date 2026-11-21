@@ -1,3 +1,7 @@
+#include "havok/hkString.h"
+
+extern "C" {
+
 typedef struct Buffer_82E07470 {
     char padding[8];
     void *data0; /* 0x8 */
@@ -21,7 +25,6 @@ typedef struct Buffer_82E07470 {
 
 extern int fn_82E07698(void *, void *);
 extern void fn_82E07080(Buffer_82E07470 *, unsigned int, void *);
-extern void fn_82CFC050(void *, const void *, unsigned int);
 extern void fn_82E06C88(Buffer_82E07470 *, Buffer_82E07470 *, unsigned int, unsigned int);
 
 void fn_82E07470(Buffer_82E07470 *self, Buffer_82E07470 *source, unsigned char resize)
@@ -40,19 +43,19 @@ void fn_82E07470(Buffer_82E07470 *self, Buffer_82E07470 *source, unsigned char r
             count = ownCount;
         }
         if (self->stride4 != 0) {
-            fn_82CFC050(self->data4, source->data4, self->stride4 * count);
+            hkString::memCpy(self->data4, source->data4, self->stride4 * count);
         }
         if (self->stride3 != 0) {
-            fn_82CFC050(self->data3, source->data3, self->stride3 * count);
+            hkString::memCpy(self->data3, source->data3, self->stride3 * count);
         }
         if (self->stride2 != 0) {
-            fn_82CFC050(self->data2, source->data2, self->stride2 * count);
+            hkString::memCpy(self->data2, source->data2, self->stride2 * count);
         }
         if (self->stride1 != 0) {
-            fn_82CFC050(self->data1, source->data1, self->stride1 * count);
+            hkString::memCpy(self->data1, source->data1, self->stride1 * count);
         }
         if (self->stride0 != 0) {
-            fn_82CFC050(self->data0, source->data0, self->stride0 * count);
+            hkString::memCpy(self->data0, source->data0, self->stride0 * count);
         }
     } else {
         unsigned int i;
@@ -60,4 +63,6 @@ void fn_82E07470(Buffer_82E07470 *self, Buffer_82E07470 *source, unsigned char r
             fn_82E06C88(self, source, i, i);
         }
     }
+}
+
 }

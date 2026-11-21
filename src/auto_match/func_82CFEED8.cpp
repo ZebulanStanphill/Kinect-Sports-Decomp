@@ -1,7 +1,7 @@
+#include "havok/hkString.h"
 #include "havok/hkArrayUtil.h"
 
 extern "C" int fn_82CE5410();
-extern "C" void fn_82CFC050(void *, const void *, int);
 typedef struct Str_82CFEED8 { char *data; int size; unsigned int capf; } Str_82CFEED8;
 typedef struct Ctx_82CFEED8 { char pad[0x10]; void *alloc; } Ctx_82CFEED8;
 typedef struct Buf_82CFEED8 { int pad[2]; Str_82CFEED8 *str; int pos; } Buf_82CFEED8;
@@ -31,7 +31,7 @@ extern "C" int fn_82CFEED8(Buf_82CFEED8 *b, void *src, int n)
   else if ((int)(s->capf & 0x3fffffff) > size) {
     s->data[size] = 0;
   }
-  fn_82CFC050(b->str->data + b->pos, src, n);
+  hkString::memCpy(b->str->data + b->pos, src, n);
   b->pos += n;
   return n;
 }

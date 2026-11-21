@@ -1,6 +1,6 @@
+#include "havok/hkString.h"
 #include "havok/hkClassMember.h"
 
-extern "C" void fn_82CFC050(void *, void *, unsigned int);
 extern "C" int fn_82CFFC80(void *, unsigned __int64, unsigned __int64);
 extern "C" char *fn_82CFFD50(void *, void *);
 extern "C" void *fn_82CFFD68(void *);
@@ -20,7 +20,7 @@ extern "C" void fn_82E0E668(unsigned __int64 param_1, unsigned __int64 param_2, 
   {
     uVar1 = fn_82CFFEF0(L.b)->getSizeInBytes();
     uVar2 = fn_82CFFD68(L.a);
-    fn_82CFC050(fn_82CFFD68(L.b), uVar2, uVar1);
+    hkString::memCpy(fn_82CFFD68(L.b), uVar2, uVar1);
   }
   return;
 }

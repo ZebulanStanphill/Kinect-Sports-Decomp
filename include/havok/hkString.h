@@ -1,7 +1,5 @@
 // hkString (Common/Base/Container/String/hkString.h): the static string and memory
 // helpers, out of line in the game (hkString.cpp, 0x82CFBB60-0x82CFC188).
-// memCpy (fn_82CFC050) keeps its fn_ name: its code (a branch to memcpy) lies in an
-// assembly gap with no configured unit, so callers reach it through the inline forwarder.
 #ifndef HAVOK_HKSTRING_H
 #define HAVOK_HKSTRING_H
 
@@ -9,7 +7,6 @@
 
 class hkMemoryAllocator;
 
-extern "C" void fn_82CFC050(void *dst, const void *src, int n);
 
 class hkString {
 public:
@@ -32,10 +29,7 @@ public:
     static char *HK_CALL strLwr(char *str);
     static char *HK_CALL strUpr(char *str);
 
-    static HK_FORCE_INLINE void HK_CALL memCpy(void *dst, const void *src, int n)
-    {
-        fn_82CFC050(dst, src, n);
-    }
+    static void HK_CALL memCpy(void *dst, const void *src, int n);
     static void HK_CALL memMove(void *dst, const void *src, int n);
     static void HK_CALL memSet(void *dst, int ch, int n);
     static int HK_CALL memCmp(const void *lhs, const void *rhs, int n);

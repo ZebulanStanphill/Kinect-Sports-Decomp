@@ -1,3 +1,4 @@
+#include "havok/hkString.h"
 #include "havok/hkArrayUtil.h"
 
 typedef struct IndexArray_82D07CB0 {
@@ -12,7 +13,6 @@ typedef struct Memory_82D07CB0 {
 } Memory_82D07CB0;
 
 extern "C" Memory_82D07CB0 *fn_82CE5410(void);
-extern "C" void fn_82CFC050(void *dst, const void *src, int size);
 
 static __forceinline unsigned short *ExpandBy(IndexArray_82D07CB0 *array, int count)
 {
@@ -41,7 +41,7 @@ extern "C" void fn_82D07CB0(int type, const unsigned short *source, int count, i
     case 3:
         out = ExpandBy(indices, count);
         if (offset == 0) {
-            fn_82CFC050(out, source, count * 2);
+            hkString::memCpy(out, source, count * 2);
         } else {
             for (i = 0; i < count; i++) {
                 out[i] = source[i] + offset;

@@ -1,3 +1,4 @@
+#include "havok/hkString.h"
 // Havok serialization helper (keeps its fn_ name): copies the objects selected by `indices` into one new
 // heap block. Each object is written with a PackfileObjectCopier (an hkObjectCopier between the host layout
 // rules) into an hkArray<char> through an hkOstream, its offset recorded in the output array; then the block
@@ -19,7 +20,6 @@ extern "C" {
 void fn_82E19DB0(void *self, void *other);                             // hkStructureLayout::LayoutRules copy (out of line)
 void fn_82CEA160(void *self, hkMemoryAllocator *alloc, void *key, int value);   // hkMapBase<hkUlong, hkUlong>::insert
 void fn_82E1A688(void *self);                                          // hkRelocationInfo::~hkRelocationInfo
-void fn_82CFC050(void *dst, const void *src, int n);                   // hkString::memCpy
 extern char lbl_83187414[];                                            // hkStructureLayout::HostLayoutRules
 }
 
@@ -124,7 +124,7 @@ extern "C" char *fn_82E0F818(hkArrayBase<Object> *objects, hkArrayBase<Offset> *
         int size = buffer.m_size;
         char *result = (char *)hkMemoryRouter::getInstance().heap().blockAlloc(size);
         tracker->addChunk(result, buffer.m_size, 5);
-        fn_82CFC050(result, buffer.m_data, buffer.m_size);
+        hkString::memCpy(result, buffer.m_data, buffer.m_size);
         for (int i = 0; i < indices->m_size; i++)
             offsets->m_data[indices->m_data[i]].m_offset += (int)result;
         for (int i = 0; i < reloc.m_local.m_size; i++) {

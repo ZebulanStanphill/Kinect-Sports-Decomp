@@ -1,3 +1,4 @@
+#include "havok/hkString.h"
 typedef struct Allocator_82D844A8 Allocator_82D844A8;
 
 typedef struct AllocatorVtbl_82D844A8 {
@@ -81,7 +82,6 @@ typedef struct World_82D844A8 {
     int locked; /* 0x94 */
 } World_82D844A8;
 
-extern "C" void fn_82CFC050(void *dst, const void *src, int size);
 extern "C" void fn_82D89BD8(void *entity);
 extern "C" void fn_82DA6530(void *queue, Command_82D844A8 *command);
 
@@ -108,7 +108,7 @@ extern "C" void fn_82D844A8(World_82D844A8 *self, void *aabb)
         command.size = 0x20;
         alloc = fn_82CE5410()->alloc;
         command.data = alloc->vtbl->Alloc(alloc, 0x20);
-        fn_82CFC050(command.data, aabb, 0x20);
+        hkString::memCpy(command.data, aabb, 0x20);
         fn_82DA6530(self->queue, &command);
     } else {
         int i;

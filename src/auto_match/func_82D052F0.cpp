@@ -1,3 +1,4 @@
+#include "havok/hkString.h"
 #include "havok/hkArrayUtil.h"
 
 struct ctx {
@@ -13,7 +14,6 @@ struct str {
 };
 
 extern "C" struct ctx *fn_82CE5410(void);
-extern "C" void fn_82CFC050(char *dst, const char *src, int n);
 
 extern "C" struct str *fn_82D052F0(struct str *s, const char *src, int n)
 {
@@ -34,6 +34,6 @@ extern "C" struct str *fn_82D052F0(struct str *s, const char *src, int n)
   }
   s->len = len;
   s->data[n] = 0;
-  fn_82CFC050(s->data, src, n);
+  hkString::memCpy(s->data, src, n);
   return s;
 }
