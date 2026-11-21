@@ -1,18 +1,21 @@
-extern unsigned int lbl_821957EC;
-extern unsigned int uStack_c;
+/* Sampler state setter: stores a float value scaled by a constant (-8.0f) and truncated into a
+   4-bit field of sampler `index`'s third word, then marks the sampler dirty (bit index + 32
+   from the MSB). */
+typedef struct Sampler_82639840 {
+    unsigned int w[6];
+} Sampler_82639840;
 
+typedef struct State_82639840 {
+    char pad0[0x18];
+    unsigned __int64 dirty; /* 0x18 */
+    char pad20[0x480 - 0x20];
+    Sampler_82639840 samplers[1]; /* 0x480 */
+} State_82639840;
 
-void fn_82639840(int param_1,int param_2,float param_3)
-
+void fn_82639840(State_82639840 *self, int index, unsigned int value)
 {
-  int iVar1;
-  unsigned int uStack_c;
-  
-  iVar1 = (param_2 + 0x30) * 0x18 + param_1;
-  uStack_c = (unsigned int)(__int64)(param_3 * lbl_821957EC);
-  *(unsigned int *)(iVar1 + 0x14) = (uStack_c & 0xf) << 5 | *(unsigned int *)(iVar1 + 0x14) & 0xfffffe1f;
-  *(unsigned __int64 *)(param_1 + 0x18) =
-       0x8000000000000000U >> (param_2 + 0x20U & 0x7f) | *(unsigned __int64 *)(param_1 + 0x18);
-  return;
+    Sampler_82639840 *s = &self->samplers[index];
+    unsigned int v = (unsigned int)(*(float *)&value * -8.0f);
+    s->w[5] = (v & 0xf) << 5 | s->w[5] & 0xfffffe1f;
+    self->dirty = 0x8000000000000000ULL >> (unsigned int)(index + 32) | self->dirty;
 }
-

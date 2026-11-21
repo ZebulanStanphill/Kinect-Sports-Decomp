@@ -1,24 +1,35 @@
-extern int sin();
-extern float lbl_8219564C;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
+/* Current strength of a decaying effect: the amplitude, swung by a sine
+ * while the ramp-up time has not elapsed, fading out quadratically over the
+ * duration; zero when the effect is inactive. */
+typedef struct Effect_825CABA8 {
+    char pad00[0x2C];
+    int active; /* 0x2C */
+    char pad30[0x8];
+    float amplitude; /* 0x38 */
+    char pad3C[0x4];
+    float duration; /* 0x40 */
+    float time;     /* 0x44 */
+    float rampTime; /* 0x48 */
+} Effect_825CABA8;
 
+extern double sin(double x);
 
-double fn_825CABA8(int param_1)
-
+float fn_825CABA8(Effect_825CABA8 *self)
 {
-  float fVar1;
-  
-  fVar1 = ltcg_pool_0_0f;
-  if (*(int *)(param_1 + 0x2c) != 0) {
-    if (*(float *)(param_1 + 0x44) < *(float *)(param_1 + 0x48)) {
-                    /* WARNING: Subroutine does not return */
-      sin((double)((*(float *)(param_1 + 0x44) / *(float *)(param_1 + 0x48)) *
-                                lbl_8219564C));
-    }
-    fVar1 = *(float *)(param_1 + 0x44) / *(float *)(param_1 + 0x40);
-    fVar1 = -(fVar1 * fVar1 - lbl_821CA460) * *(float *)(param_1 + 0x38);
-  }
-  return (double)fVar1;
-}
+    float scale;
+    float ramp;
+    float fade;
+    float wave;
 
+    if (self->active != 0) {
+        scale = self->amplitude;
+        if (self->time < self->rampTime) {
+            ramp = self->time / self->rampTime;
+            wave = -(float)sin(4.712389f * ramp);
+            scale = wave * ramp * scale;
+        }
+        fade = self->time / self->duration;
+        return (1.0f - fade * fade) * scale;
+    }
+    return 0.0f;
+}

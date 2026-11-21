@@ -1,33 +1,25 @@
-#define NAN(x) ((x) != (x))
-extern int fn_8229A000();
-extern unsigned int lbl_821954D8;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Timer_8229A4C8 {
+    char pad00[0x120c];
+    int state; /* 0x120c */
+    char pad1210[12];
 
+    union {
+        unsigned int bits;
+        float seconds;
+    } remaining; /* 0x121c */
+} Timer_8229A4C8;
 
-unsigned __int64 fn_8229A4C8(double param_1,int param_2)
+extern void fn_8229A000(Timer_8229A4C8 *);
 
+int fn_8229A4C8(Timer_8229A4C8 *self, float delta)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  
-  fVar4 = ltcg_pool_0_0f;
-  if ((*(int *)(param_2 + 0x120c) == 4) && (*(int *)(param_2 + 0x121c) != 0)) {
-    fVar1 = (float)((double)*(float *)(param_2 + 0x121c) - param_1);
-    fVar2 = -fVar1;
-    fVar3 = ltcg_pool_0_0f;
-    if (*(float *)(&lbl_821954D8 +
-                  ((unsigned int)(unsigned char)((fVar2 < ltcg_pool_0_0f) << 2) |
-                  (unsigned int)(NAN(fVar2) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
-      fVar3 = fVar1;
+    if (self->state == 4 && self->remaining.bits != 0) {
+        float remaining = self->remaining.seconds - delta;
+        self->remaining.seconds = -remaining >= 0.0f ? 0.0f : remaining;
+        if (self->remaining.seconds == 0.0f) {
+            fn_8229A000(self);
+            self->state = 0;
+        }
     }
-    *(float *)(param_2 + 0x121c) = fVar3;
-    if (fVar3 == fVar4) {
-      fn_8229A000();
-      *(unsigned int *)(param_2 + 0x120c) = 0;
-    }
-  }
-  return 0;
+    return 0;
 }
-

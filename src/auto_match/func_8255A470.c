@@ -1,44 +1,40 @@
-extern unsigned int lbl_82195590;
-extern unsigned int lbl_82195598;
-extern unsigned int lbl_821955A0;
+extern double __fctid(double);
+extern double __fcfid(double);
+double fabs(double x);
 
+/* 1 / (2 * pi) as a float, 0.5 (just below) and 2 * pi as doubles */
+#define INV_TWO_PI 0.15915494f
+#define HALF 0.49999999
+#define TWO_PI 6.2831854820251465
 
-double fn_8255A470(double param_1,double param_2,double param_3)
-
+/* Maps an angle to [0, 2 pi). */
+static __forceinline float WrapPositive(float angle)
 {
-  double dVar1;
-  double dVar2;
-  double dVar3;
-  double dVar4;
-  double dVar5;
-  
-  dVar2 = (double)lbl_82195590;
-  dVar5 = (double)(float)(((double)(float)(param_2 * dVar2) -
-                          (double)(__int64)((double)(float)(param_2 * dVar2) - lbl_82195598)) *
-                         lbl_821955A0);
-  dVar4 = (double)(float)(((double)(float)(param_3 * dVar2) -
-                          (double)(__int64)((double)(float)(param_3 * dVar2) - lbl_82195598)) *
-                         lbl_821955A0);
-  dVar3 = (double)(float)(((double)(float)(param_1 * dVar2) -
-                          (double)(__int64)((double)(float)(param_1 * dVar2) - lbl_82195598)) *
-                         lbl_821955A0);
-  if (dVar4 < dVar5) {
-    if (dVar3 <= dVar4) {
-      return dVar3;
-    }
-    if (dVar5 <= dVar3) {
-      return dVar3;
-    }
-  }
-  else if ((dVar5 <= dVar3) && (dVar3 <= dVar4)) {
-    return dVar3;
-  }
-  dVar1 = (double)(float)(dVar5 - dVar3) * dVar2;
-  dVar2 = (double)(float)(dVar4 - dVar3) * dVar2;
-  if (ABS((float)(((double)(float)dVar2 - (double)(__int64)dVar2) * lbl_821955A0)) <=
-      ABS((float)(((double)(float)dVar1 - (double)(__int64)dVar1) * lbl_821955A0))) {
-    return dVar4;
-  }
-  return dVar5;
+    double turns = (float)(angle * INV_TWO_PI);
+
+    return (float)((turns - (float)__fcfid(__fctid(turns - HALF))) * TWO_PI);
 }
 
+/* Maps an angle to (-2 pi, 2 pi) by dropping whole turns. */
+static __forceinline float WrapTurns(float angle)
+{
+    double turns = (float)(angle * INV_TWO_PI);
+
+    return (float)((turns - (float)__fcfid(__fctid(turns))) * TWO_PI);
+}
+
+/* Clamps angle into the arc from low to high, returning the nearer end when it lies outside. */
+float fn_8255A470(float angle, float low, float high)
+{
+    low = WrapPositive(low);
+    high = WrapPositive(high);
+    angle = WrapPositive(angle);
+    if (high >= low) {
+        if (angle < low || angle > high) {
+            angle = fabs(WrapTurns(low - angle)) < fabs(WrapTurns(high - angle)) ? low : high;
+        }
+    } else if (angle > high && angle < low) {
+        angle = fabs(WrapTurns(low - angle)) < fabs(WrapTurns(high - angle)) ? low : high;
+    }
+    return angle;
+}

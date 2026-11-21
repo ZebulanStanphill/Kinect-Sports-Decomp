@@ -1,40 +1,32 @@
-#define NAN(x) ((x) != (x))
-extern int fn_8232C528();
-extern unsigned int lbl_821954D8;
-extern unsigned int ltcg_pool_0_0f;
 
+extern void fn_8232C528(void *self, int state);
 
-void fn_8232DBE0(double param_1,int param_2)
+typedef struct Controller_8232DBE0 Controller_8232DBE0;
 
+typedef struct ControllerVtable_8232DBE0 {
+    void *slots[5];
+    void (*change)(Controller_8232DBE0 *self, int oldState, int state);
+} ControllerVtable_8232DBE0;
+
+struct Controller_8232DBE0 {
+    ControllerVtable_8232DBE0 *vtable;
+    int unused;
+    int state;
+};
+
+void fn_8232DBE0(char *self, float delta)
 {
-  float fVar1;
-  int *piVar2;
-  int iVar3;
-  float fVar4;
-  float fVar5;
-  float fVar6;
-  
-  if (*(int *)(*(int *)(param_2 + 8) + 0x7a4) == 0) {
-    fn_8232C528(*(unsigned int *)(param_2 + 0xc),2);
-  }
-  fVar6 = ltcg_pool_0_0f;
-  if ((*(int *)(param_2 + 100) != 0) && (*(int *)(param_2 + 0x68) != 0)) {
-    fVar1 = (float)((double)*(float *)(param_2 + 0x68) - param_1);
-    fVar4 = -fVar1;
-    fVar5 = ltcg_pool_0_0f;
-    if (*(float *)(&lbl_821954D8 +
-                  ((unsigned int)(unsigned char)((fVar4 < ltcg_pool_0_0f) << 2) |
-                  (unsigned int)(NAN(fVar4) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
-      fVar5 = fVar1;
+    if (*(int *)(*(char **)(self + 8) + 0x7a4) == 0) {
+        fn_8232C528(*(void **)(self + 0xc), 2);
     }
-    *(float *)(param_2 + 0x68) = fVar5;
-    if (fVar5 == fVar6) {
-      piVar2 = *(int **)(param_2 + 0xc);
-      iVar3 = piVar2[2];
-      piVar2[2] = 2;
-      (**(int (***)())(*piVar2 + 0x14))(piVar2,iVar3,2);
+    if (*(int *)(self + 0x64) != 0 && *(unsigned int *)(self + 0x68) != 0) {
+        float time = *(float *)(self + 0x68) - delta;
+        *(float *)(self + 0x68) = -time >= 0.0f ? 0.0f : time;
+        if (*(float *)(self + 0x68) == 0.0f) {
+            Controller_8232DBE0 *controller = *(Controller_8232DBE0 **)(self + 0xc);
+            int oldState = controller->state;
+            controller->state = 2;
+            controller->vtable->change(controller, oldState, 2);
+        }
     }
-  }
-  return;
 }
-

@@ -64,6 +64,12 @@ class Object:
             # this unit; if set (even to []), the unit is built with /GL and
             # link.exe /LTCG by tools/ltcg_obj.py
             "ltcg_units": None,
+            # true: the unit's link also gets the pool primers (src/pools/pool_homes.c,
+            # pool_821954B0_2.c, pool_821954B0.c), LAST and in this order: LTCG generates
+            # code in reverse link order, so they recreate the original's constant pool
+            # lbl_821954B0 (__pool@_0) and its constant homes before the unit is compiled.
+            # The unit also needs "pool_aliases": {"__pool@_0": "lbl_821954B0"}
+            "ltcg_pool": None,
             "mw_version": None,
             # {compiled symbol: original symbol}: renamed in the unit's object after
             # compiling (tools/coff_rename.py), e.g. a literal's __real@ constant to
@@ -1093,6 +1099,18 @@ def generate_build_ninja(
                     "cflags": unit_cflags(other),
                 })
                 implicit.append(other.src_path)
+            if obj.options.get("ltcg_pool"):
+                # the pool primers are not units of the game: plain sources of the repository
+                for pool_name in ("pool_homes.c", "pool_821954B0_2.c", "pool_821954B0.c"):
+                    pool_src = Path(config.src_dir) / "pools" / pool_name
+                    if not pool_src.exists():
+                        sys.exit(f"{obj.name}: ltcg_pool needs {pool_src} (km/pools/make_primer.py writes it)")
+                    others.append({
+                        "name": f"pools/{pool_name}",
+                        "source": pool_src.as_posix(),
+                        "cflags": ["/nologo", "/c", "/TC", "/O1"],
+                    })
+                    implicit.append(pool_src)
             compilers_dir = config.compilers()
             spec = {
                 "wrapper": str(config.ltcg_wrapper) if config.ltcg_wrapper else None,
