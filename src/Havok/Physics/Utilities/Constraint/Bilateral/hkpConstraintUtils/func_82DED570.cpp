@@ -1,3 +1,7 @@
+#include "havok/hkOstream.h"
+
+extern "C" {
+
 typedef struct Obj_82DED570 Obj_82DED570;
 
 typedef struct ObjVt_82DED570 {
@@ -30,8 +34,6 @@ typedef struct Ostream_82DED570 {
 extern Err_82DED570 *lbl_8323B464;
 
 extern void fn_82CEE578(Ostream_82DED570 *os, char *buf, int size);
-extern void fn_82CEDB38(Ostream_82DED570 *os, const char *text);
-extern void fn_82CED958(Ostream_82DED570 *os);
 extern void *fn_82D97698(Obj_82DED570 *self);
 extern void *fn_82D97748(Obj_82DED570 *self);
 extern void *fn_82D977A8(Obj_82DED570 *self);
@@ -57,11 +59,13 @@ int fn_82DED570(Obj_82DED570 *data, void **motor0, void **motor1, void **motor2)
         *motor1 = 0;
         *motor0 = 0;
         fn_82CEE578(&os, buf, 0x200);
-        fn_82CEDB38(&os, "This type of constraint does not have motors");
+        *(hkOstream *)&os << "This type of constraint does not have motors";
         lbl_8323B464->vt->message(lbl_8323B464, 1, 0xabbae233, buf,
                                   ".\\Constraint\\Bilateral\\hkpConstraintUtils.cpp", 0x104);
-        fn_82CED958(&os);
+        ((hkOstream *)&os)->hkOstream::~hkOstream();
         return 1;
     }
     return 0;
+}
+
 }

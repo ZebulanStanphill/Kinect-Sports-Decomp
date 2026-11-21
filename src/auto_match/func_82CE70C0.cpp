@@ -1,5 +1,5 @@
-#include "havok/hkBase.h"
-extern "C" { void fn_82CEDB38(void *,const char *); void fn_82CE75A8(void *,void *,void *); void fn_82CE7240(void *); }
+#include "havok/hkOstream.h"
+extern "C" { void fn_82CE75A8(void *,hkOstream *,void *); void fn_82CE7240(void *); }
 class Allocator { public:
  virtual void f0(); virtual void f1(); virtual void f2(); virtual void f3(); virtual void f4();
  virtual void f5(); virtual void f6(); virtual void f7(); virtual void f8(); virtual void f9();
@@ -35,9 +35,9 @@ public:
 };
 struct Entry { char pad0[0x130 - 0x12c - 8 + 0x12c]; };
 struct Overview { int total; Arr<void *> allocators; Arr<int> sizes; int used, allocated; Overview():total(0),used(0),allocated(0) {} };
-extern "C" void fn_82CE70C0(char *self,void *out) {
- fn_82CEDB38(out,"hkFreeListMemorySystem memory overview:\n");
- fn_82CEDB38(out,"=======================================\n\n");
+extern "C" void fn_82CE70C0(char *self,hkOstream &out) {
+ out << "hkFreeListMemorySystem memory overview:\n";
+ out << "=======================================\n\n";
  Overview info;
  info.allocated=((Allocator *)(self+0x1c))->allocated();
  info.total=*(int *)(self+0x974);
@@ -49,5 +49,5 @@ extern "C" void fn_82CE70C0(char *self,void *out) {
   }
   p+=0x4c;
  } while(--n);
- fn_82CE75A8(self,out,&info); fn_82CE7240(&info);
+ fn_82CE75A8(self,&out,&info); fn_82CE7240(&info);
 }

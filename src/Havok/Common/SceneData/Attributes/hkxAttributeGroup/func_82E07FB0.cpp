@@ -1,4 +1,8 @@
 /* hkxAttributeGroup::getMatrixValue(name, warnIfNotFound, value): returns 0 (HK_SUCCESS) when found. */
+#include "havok/hkOstream.h"
+
+extern "C" {
+
 typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
     float vector4_f32[4];
 } __vector4;
@@ -36,9 +40,7 @@ extern Error_82E07FB0 *lbl_8323B464;
 extern char lbl_8323F2EC[];
 extern Attribute_82E07FB0 *fn_82E07840(const AttributeGroup_82E07FB0 *group, const char *name, const void *klass);
 extern void fn_82CEE578(Ostream_82E07FB0 *os, char *buf, int size);
-extern Ostream_82E07FB0 *fn_82CEDB38(Ostream_82E07FB0 *os, const char *s);
 extern Ostream_82E07FB0 *fn_82CEE128(Ostream_82E07FB0 *os, const AttributeGroup_82E07FB0 *name);
-extern void fn_82CED958(Ostream_82E07FB0 *os);
 
 int fn_82E07FB0(const AttributeGroup_82E07FB0 *self, const char *name, unsigned char warnIfNotFound, Matrix4_82E07FB0 *value)
 {
@@ -57,11 +59,11 @@ int fn_82E07FB0(const AttributeGroup_82E07FB0 *self, const char *name, unsigned 
         char buf[512];
 
         fn_82CEE578(&os, buf, 0x200);
-        fn_82CEDB38(fn_82CEE128(fn_82CEDB38(fn_82CEDB38(fn_82CEDB38(&os, "Matrix attribute "), name),
-                                            " not found in "), self),
-                    " attribute group");
+        *(hkOstream *)(fn_82CEE128((Ostream_82E07FB0 *)&(*(hkOstream *)&os << "Matrix attribute " << name << " not found in "), self)) << " attribute group";
         lbl_8323B464->vt->message(lbl_8323B464, 1, 0xabbaab81, buf, ".\\Attributes\\hkxAttributeGroup.cpp", 0xc4);
-        fn_82CED958(&os);
+        ((hkOstream *)&os)->hkOstream::~hkOstream();
     }
     return 1;
+}
+
 }

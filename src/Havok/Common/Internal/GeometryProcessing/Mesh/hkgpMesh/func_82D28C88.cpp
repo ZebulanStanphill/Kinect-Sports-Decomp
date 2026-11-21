@@ -11,21 +11,19 @@
 //   hence the static __declspec(noinline) copy of the Matching C unit's function. Without it: 97.2%.
 // - The operand order of the pair loops' add/lwzx (array base first) follows the function's symbol numbering:
 //   the named tolerance and the pair reference in the trimming loop are needed for it.
-#include "havok/hkBase.h"
+#include "havok/hkOstream.h"
 
 extern "C" void fn_8265CA20(void *p);   // global operator delete
 
-// hkErrStream (Common/Base/System/Io/OStream/hkOStream.h): its constructor, operator<<(const char *) and
-// destructor are out of line and keep their fn_ names; the constructor is called on the object directly.
+// hkErrStream (Common/Base/System/Io/OStream/hkOStream.h) derives from hkOstream: its constructor is out of
+// line and keeps its fn_ name, called on the object directly; operator<< and the destructor are hkOstream's.
 struct hkErrStream;
 extern "C" {
 void fn_82CEE578(hkErrStream *self, void *buf, int bufSize);   // hkErrStream::hkErrStream
-void fn_82CEDB38(hkErrStream *self, const char *s);            // hkOstream::operator<<(const char *)
-void fn_82CED958(hkErrStream *self);                           // hkErrStream::~hkErrStream
 }
 struct hkErrStream {
-    HK_FORCE_INLINE ~hkErrStream() { fn_82CED958(this); }
-    HK_FORCE_INLINE hkErrStream &operator<<(const char *s) { fn_82CEDB38(this, s); return *this; }
+    HK_FORCE_INLINE ~hkErrStream() { ((hkOstream *)this)->hkOstream::~hkOstream(); }
+    HK_FORCE_INLINE hkErrStream &operator<<(const char *s) { *(hkOstream *)this << s; return *this; }
     char m_data[0xc];
 };
 

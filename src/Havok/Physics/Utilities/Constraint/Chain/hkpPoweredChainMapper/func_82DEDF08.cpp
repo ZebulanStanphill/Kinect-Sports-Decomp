@@ -2,7 +2,7 @@
 // a powered chain for each entity pair from the given constraints and records, per constraint (link), which chains
 // and chain entries it maps to. On failure it warns, releases what it built and returns HK_NULL. Built with /O2
 // (flag file). The function keeps its fn_ name; every callee keeps its fn_ name too.
-#include "havok/hkBase.h"
+#include "havok/hkOstream.h"
 
 class hkpEntity;
 class hkpPoweredChainData;
@@ -103,22 +103,20 @@ public:
     hkMap<hkUlong, hkUlong> m_map;
 };
 
-// hkErrStream keeps its fn_ constructor and destructor. HK_WARN calls the constructor directly: through an inline
+// hkErrStream keeps its fn_ constructor; its destructor is hkOstream's. HK_WARN calls the constructor directly: through an inline
 // wrapper constructor taking the buffer, the compiler stops sharing one stack slot between the four message
 // buffers (the streams themselves get one slot each, as in the original).
 class hkErrStream;
 extern "C" {
 hkErrStream *fn_82CEE578(hkErrStream *self, void *buf, int bufSize);   // hkErrStream::hkErrStream(void *, int)
-void *fn_82CEDB38(void *self, const char *s);                          // hkOstream::operator<<(const char *)
-void fn_82CED958(void *self);                                          // hkErrStream::~hkErrStream
 }
 
 class hkErrStream {
 public:
-    HK_FORCE_INLINE ~hkErrStream() { fn_82CED958(this); }
+    HK_FORCE_INLINE ~hkErrStream() { ((hkOstream *)this)->hkOstream::~hkOstream(); }
     HK_FORCE_INLINE hkErrStream &operator<<(const char *s)
     {
-        fn_82CEDB38(this, s);
+        *(hkOstream *)this << s;
         return *this;
     }
 
@@ -145,7 +143,6 @@ HK_FORCE_INLINE hkError &hkError::getInstance() { return *lbl_8323B464; }
                                        ".\\Constraint\\Chain\\hkpPoweredChainMapper.cpp", LINE);         \
     }
 
-enum hkResult { HK_SUCCESS = 0, HK_FAILURE = 1 };
 
 class hkpConstraintData : public hkReferencedObject {
 public:

@@ -1,3 +1,7 @@
+#include "havok/hkOstream.h"
+
+extern "C" {
+
 void __debugbreak(void);
 
 typedef struct ErrorVtbl_82D2A660 {
@@ -17,8 +21,6 @@ typedef struct Ostream_82D2A660 {
 
 extern Error_82D2A660 *lbl_8323B464;
 extern void fn_82CEE578(Ostream_82D2A660 *os, char *buf, int size);
-extern Ostream_82D2A660 *fn_82CEDB38(Ostream_82D2A660 *os, const char *s);
-extern void fn_82CED958(Ostream_82D2A660 *os);
 
 int fn_82D2A660(void)
 {
@@ -26,11 +28,13 @@ int fn_82D2A660(void)
     char buf[512];
 
     fn_82CEE578(&os, buf, 0x200);
-    fn_82CEDB38(&os, "Not implemented");
+    *(hkOstream *)&os << "Not implemented";
     if (lbl_8323B464->vt->message(lbl_8323B464, 3, 0xcfa7dfcc, buf,
             "d:\\build\\20090926_024535\\Source\\Common/Internal/GeometryProcessing/Mesh/hkgpMesh.h", 0x111) != 0) {
         __debugbreak();
     }
-    fn_82CED958(&os);
+    ((hkOstream *)&os)->hkOstream::~hkOstream();
     return 0;
+}
+
 }

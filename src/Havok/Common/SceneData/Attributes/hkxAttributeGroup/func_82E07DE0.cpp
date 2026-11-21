@@ -1,4 +1,8 @@
 /* hkxAttributeGroup::getVectorValue(name, warnIfNotFound, value): returns 0 (HK_SUCCESS) when found; the original message text says "Float attribute". */
+#include "havok/hkOstream.h"
+
+extern "C" {
+
 typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
     float vector4_f32[4];
 } __vector4;
@@ -32,9 +36,7 @@ extern Error_82E07DE0 *lbl_8323B464;
 extern char lbl_8323F34C[];
 extern Attribute_82E07DE0 *fn_82E07840(const AttributeGroup_82E07DE0 *group, const char *name, const void *klass);
 extern void fn_82CEE578(Ostream_82E07DE0 *os, char *buf, int size);
-extern Ostream_82E07DE0 *fn_82CEDB38(Ostream_82E07DE0 *os, const char *s);
 extern Ostream_82E07DE0 *fn_82CEE128(Ostream_82E07DE0 *os, const AttributeGroup_82E07DE0 *name);
-extern void fn_82CED958(Ostream_82E07DE0 *os);
 
 int fn_82E07DE0(const AttributeGroup_82E07DE0 *self, const char *name, unsigned char warnIfNotFound, __vector4 *value)
 {
@@ -49,11 +51,11 @@ int fn_82E07DE0(const AttributeGroup_82E07DE0 *self, const char *name, unsigned 
         char buf[512];
 
         fn_82CEE578(&os, buf, 0x200);
-        fn_82CEDB38(fn_82CEE128(fn_82CEDB38(fn_82CEDB38(fn_82CEDB38(&os, "Float attribute "), name),
-                                            " not found in "), self),
-                    " attribute group");
+        *(hkOstream *)(fn_82CEE128((Ostream_82E07DE0 *)&(*(hkOstream *)&os << "Float attribute " << name << " not found in "), self)) << " attribute group";
         lbl_8323B464->vt->message(lbl_8323B464, 1, 0xabbaab81, buf, ".\\Attributes\\hkxAttributeGroup.cpp", 0xa2);
-        fn_82CED958(&os);
+        ((hkOstream *)&os)->hkOstream::~hkOstream();
     }
     return 1;
+}
+
 }

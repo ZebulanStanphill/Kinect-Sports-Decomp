@@ -2,9 +2,9 @@
 // hkStringBuf(const char *s0, const char *s1, s2..s5 = HK_NULL) is the out-of-line
 // constructor fn_82D05288, renamed so the call is a real C++ constructor call (this
 // first, then the defaulted s2..s5 in order). hkErrStream keeps its fn_ constructor
-// and destructor behind inline wrappers; its destructor keeps the four streams in
+// behind an inline wrapper, and the inline destructor calls hkOstream's; its destructor keeps the four streams in
 // separate stack slots, while the plain char buffers share theirs.
-#include "havok/hkBase.h"
+#include "havok/hkOstream.h"
 
 class hkError : public hkReferencedObject {
 public:
@@ -29,14 +29,12 @@ extern hkError *lbl_8323B464; // hkSingleton<hkError>::s_instance
 const char *fn_82D6F1D8(int shapeType); // hkGetShapeTypeName
 void fn_82CEE578(hkErrStream *, void *buf, int bufSize); // hkErrStream::hkErrStream
 void fn_82CEE238(hkErrStream *, const hkStringBuf *); // operator<<(const hkStringBuf &)
-void fn_82CEDB38(hkErrStream *, const char *); // operator<<(const char *)
-void fn_82CED958(hkErrStream *); // ~hkErrStream
 }
 
 class hkErrStream {
 public:
     HK_FORCE_INLINE hkErrStream(void *buf, int bufSize) { fn_82CEE578(this, buf, bufSize); }
-    HK_FORCE_INLINE ~hkErrStream() { fn_82CED958(this); }
+    HK_FORCE_INLINE ~hkErrStream() { ((hkOstream *)this)->hkOstream::~hkOstream(); }
     char m_data[16];
 };
 
@@ -75,7 +73,7 @@ extern "C" void fn_82D59888(hkpCollisionDispatcher *self)
                     const char *typeB = fn_82D6F1D8(e->m_typeB);
                     hkString::snprintf(text, 255, "vs %30s <%i:%s-%s>", name, e->m_priority, typeA, typeB);
                     hkErrStream ostr(buffer, 512);
-                    fn_82CEDB38(&ostr, text);
+                    *(hkOstream *)&ostr << text;
                     lbl_8323B464->message(0, -1, buffer, ".\\Dispatch\\hkpCollisionDispatcher.cpp", 0x231);
                 }
             }
@@ -96,7 +94,7 @@ extern "C" void fn_82D59888(hkpCollisionDispatcher *self)
                     const char *typeB = fn_82D6F1D8(e->m_typeB);
                     hkString::snprintf(text, 255, "vs %30s <%i:%s-%s>", name, e->m_priority, typeA, typeB);
                     hkErrStream ostr(buffer, 512);
-                    fn_82CEDB38(&ostr, text);
+                    *(hkOstream *)&ostr << text;
                     lbl_8323B464->message(0, -1, buffer, ".\\Dispatch\\hkpCollisionDispatcher.cpp", 0x248);
                 }
             }

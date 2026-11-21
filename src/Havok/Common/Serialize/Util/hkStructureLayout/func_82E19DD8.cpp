@@ -1,3 +1,4 @@
+#include "havok/hkOstream.h"
 #include "havok/hkClass.h"
 
 typedef struct LayoutRules_82E19DD8 {
@@ -21,8 +22,6 @@ typedef struct Stream_82E19DD8 {
 extern "C" {
 extern Error_82E19DD8 *lbl_8323B464;
 void fn_82CEE578(Stream_82E19DD8 *s, char *buf, int size);
-Stream_82E19DD8 *fn_82CEDB38(Stream_82E19DD8 *s, const char *text);
-void fn_82CED958(Stream_82E19DD8 *s);
 }
 
 extern "C" int fn_82E19DD8(const hkClassMember *member, const LayoutRules_82E19DD8 *rules, unsigned int type)
@@ -86,12 +85,12 @@ extern "C" int fn_82E19DD8(const hkClassMember *member, const LayoutRules_82E19D
         char buf[0x200];
 
         fn_82CEE578(&s, buf, 0x200);
-        fn_82CEDB38(&s, "Unknown class member type in structureLayout::getMemberSize().");
+        *(hkOstream *)&s << "Unknown class member type in structureLayout::getMemberSize().";
         if (lbl_8323B464->vt->message(lbl_8323B464, 3, 0x50a18b58, buf, ".\\Util\\hkStructureLayout.cpp",
                                       0xc5) != 0) {
             __debugbreak();
         }
-        fn_82CED958(&s);
+        ((hkOstream *)&s)->hkOstream::~hkOstream();
     }
     }
     return size;

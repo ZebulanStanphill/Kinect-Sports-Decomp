@@ -1,3 +1,7 @@
+#include "havok/hkOstream.h"
+
+extern "C" {
+
 typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
     float vector4_f32[4];
 } __vector4;
@@ -26,9 +30,7 @@ typedef struct { char d[16]; } Stream_82D0B8E8;
 extern Error_82D0B8E8 *lbl_8323B464;
 extern char lbl_821C24F0[];
 extern void fn_82CEE578(Stream_82D0B8E8 *s, char *buf, int size);
-extern Stream_82D0B8E8 *fn_82CEDB38(Stream_82D0B8E8 *s, const char *text);
 extern Stream_82D0B8E8 *fn_82CEDCF0(Stream_82D0B8E8 *s, int v);
-extern void fn_82CED958(Stream_82D0B8E8 *s);
 
 void fn_82D0B8E8(Hull_82D0B8E8 *hull, Matrix4_82D0B8E8 *inertia, __vector4 *com)
 {
@@ -37,11 +39,11 @@ void fn_82D0B8E8(Hull_82D0B8E8 *hull, Matrix4_82D0B8E8 *inertia, __vector4 *com)
     Stream_82D0B8E8 s;
     char buf[0x200];
     fn_82CEE578(&s, buf, 0x200);
-    fn_82CEDB38(fn_82CEDCF0(fn_82CEDB38(&s, "No mass properties available ("), d->id), lbl_821C24F0);
+    *(hkOstream *)(fn_82CEDCF0((Stream_82D0B8E8 *)&(*(hkOstream *)&s << "No mass properties available ("), d->id)) << lbl_821C24F0;
     if (lbl_8323B464->vt->message(lbl_8323B464, 3, 0x79f9d887, buf, ".\\GeometryProcessing\\ConvexHull\\hkgpConvexHull.cpp", 0x14c) != 0) {
       __debugbreak();
     }
-    fn_82CED958(&s);
+    ((hkOstream *)&s)->hkOstream::~hkOstream();
   }
   {
     const Matrix4_82D0B8E8 *m = &hull->data->inertia;
@@ -51,4 +53,6 @@ void fn_82D0B8E8(Hull_82D0B8E8 *hull, Matrix4_82D0B8E8 *inertia, __vector4 *com)
     inertia->col[3] = m->col[3];
   }
   *com = hull->data->com;
+}
+
 }

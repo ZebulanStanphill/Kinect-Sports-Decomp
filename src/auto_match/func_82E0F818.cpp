@@ -16,7 +16,6 @@ class hkRelocationInfo;
 enum hkResult { HK_SUCCESS = 0, HK_FAILURE = 1 };
 
 extern "C" {
-void fn_82CED958(void *self);                                          // hkOstream::~hkOstream
 void fn_82E19DB0(void *self, void *other);                             // hkStructureLayout::LayoutRules copy (out of line)
 void fn_82CEA160(void *self, hkMemoryAllocator *alloc, void *key, int value);   // hkMapBase<hkUlong, hkUlong>::insert
 void fn_82E1A688(void *self);                                          // hkRelocationInfo::~hkRelocationInfo
@@ -24,14 +23,13 @@ void fn_82CFC050(void *dst, const void *src, int n);                   // hkStri
 extern char lbl_83187414[];                                            // hkStructureLayout::HostLayoutRules
 }
 
-// Constructor renamed (??0hkOstream, func_82CEE1B0), destructor kept as fn_82CED958.
-class hkOstream {
+// hkOstream (Common/Base/System/Io/OStream/hkOStream.h) with its writer public: the copier is handed the
+// stream's writer directly.
+class hkOstream : public hkReferencedObject {
 public:
     hkOstream(hkArray<char> &buffer);
-    ~hkOstream() { fn_82CED958(this); }
+    virtual ~hkOstream();
 
-    void *m_vtable;
-    int m_memSizeAndRefCount;
     hkStreamWriter *m_writer;   // +0x8
 };
 

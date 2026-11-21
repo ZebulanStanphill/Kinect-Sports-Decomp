@@ -14,18 +14,18 @@ extern "C" {
 extern hkError *lbl_8323B464;                                  // hkSingleton<hkError>::s_instance
 void *fn_82CEA280(void *registry, void *object, int flags);    // class of an object
 void fn_82CEE578(hkErrStream *stream, void *buf, int bufSize); // hkErrStream::hkErrStream
-void fn_82CED958(hkErrStream *stream);                         // ~hkErrStream
 }
 
-class hkOstream
+class hkOstream : public hkReferencedObject
 {
   public:
-    hkOstream &operator<<(const char *text);    // fn_82CEDB38
+    virtual ~hkOstream();
+    hkOstream &operator<<(const char *text);
     hkOstream &operator<<(const void *pointer); // fn_82CED9E8
-    char m_data[16];
 };
 
-class hkErrStream : public hkOstream
+// hkErrStream derives from hkOstream; its constructor keeps its fn_ name and is called on the object directly.
+class hkErrStream
 {
   public:
     HK_FORCE_INLINE hkErrStream(void *buf, int bufSize)
@@ -35,8 +35,10 @@ class hkErrStream : public hkOstream
 
     HK_FORCE_INLINE ~hkErrStream()
     {
-        fn_82CED958(this);
+        ((hkOstream *)this)->hkOstream::~hkOstream();
     }
+
+    char m_data[16];
 };
 
 struct Variant_82E0A208 {
@@ -55,7 +57,7 @@ extern "C" void fn_82E0A208(Variant_82E0A208 *variants, int count, void *registr
                 char buffer[512];
                 hkErrStream ostr(buffer, 512);
 
-                ostr << "Can not find class pointer for an object at 0x" << variant.object << ".\n"
+                *(hkOstream *)&ostr << "Can not find class pointer for an object at 0x" << variant.object << ".\n"
                      << "You will have to set manually corresponding class pointer in the variant. "
                         "Otherwise you have to store metadata in the packfile.";
                 lbl_8323B464->message(1, 0x67fde46, buffer, ".\\Packfile\\Binary\\hkBinaryPackfileReader.cpp",

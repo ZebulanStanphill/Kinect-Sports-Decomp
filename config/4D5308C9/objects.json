@@ -219646,13 +219646,13 @@
           "/O2"
         ]
       },
-      "Havok/Common/Base/System/Error/hkError/func_82CEE5F8.c": {
+      "Havok/Common/Base/System/Error/hkError/func_82CEE5F8.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
       },
-      "Havok/Common/Base/System/Error/hkError/func_82CEE700.c": {
+      "Havok/Common/Base/System/Error/hkError/func_82CEE700.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2"
@@ -223428,7 +223428,7 @@
           "/O1"
         ]
       },
-      "Havok/Common/Base/System/Io/Socket/Bsd/hkBsdSocket/func_82D05A88.c": {
+      "Havok/Common/Base/System/Io/Socket/Bsd/hkBsdSocket/func_82D05A88.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2"
@@ -223976,13 +223976,13 @@
           "/O1"
         ]
       },
-      "Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B2B0.c": {
+      "Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B2B0.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
       },
-      "Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B378.c": {
+      "Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B378.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2"
@@ -224000,7 +224000,7 @@
           "/O1"
         ]
       },
-      "Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B458.c": {
+      "Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B458.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2"
@@ -224024,7 +224024,7 @@
           "/O1"
         ]
       },
-      "Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B548.c": {
+      "Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B548.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2"
@@ -224036,7 +224036,7 @@
           "/O1"
         ]
       },
-      "Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B618.c": {
+      "Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B618.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2"
@@ -224048,13 +224048,13 @@
           "/O1"
         ]
       },
-      "Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B6F8.c": {
+      "Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B6F8.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
       },
-      "Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B7C0.c": {
+      "Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B7C0.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2"
@@ -224066,20 +224066,20 @@
           "/O2"
         ]
       },
-      "Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B8E8.c": {
+      "Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B8E8.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2",
           "/QVMXReserve"
         ]
       },
-      "Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B9E0.c": {
+      "Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B9E0.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
       },
-      "Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0BAA8.c": {
+      "Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0BAA8.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2"
@@ -224961,7 +224961,7 @@
           "/O1"
         ]
       },
-      "Havok/Common/Internal/GeometryProcessing/Mesh/hkgpMesh/func_82D20378.c": {
+      "Havok/Common/Internal/GeometryProcessing/Mesh/hkgpMesh/func_82D20378.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2"
@@ -225153,7 +225153,7 @@
           "/O2"
         ]
       },
-      "auto_match/func_82D2A660.c": {
+      "auto_match/func_82D2A660.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2"
@@ -225394,7 +225394,7 @@
           "/O1"
         ]
       },
-      "auto_match/func_82D2CF18.c": {
+      "auto_match/func_82D2CF18.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2",
@@ -244899,14 +244899,14 @@
           "/O2"
         ]
       },
-      "Havok/Physics/Utilities/Constraint/Bilateral/hkpConstraintUtils/func_82DED480.c": {
+      "Havok/Physics/Utilities/Constraint/Bilateral/hkpConstraintUtils/func_82DED480.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2",
           "/QVMXReserve"
         ]
       },
-      "Havok/Physics/Utilities/Constraint/Bilateral/hkpConstraintUtils/func_82DED570.c": {
+      "Havok/Physics/Utilities/Constraint/Bilateral/hkpConstraintUtils/func_82DED570.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2"
@@ -249169,13 +249169,13 @@
           "/O1"
         ]
       },
-      "Havok/Common/SceneData/Attributes/hkxAttributeGroup/func_82E07968.c": {
+      "Havok/Common/SceneData/Attributes/hkxAttributeGroup/func_82E07968.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
       },
-      "Havok/Common/SceneData/Attributes/hkxAttributeGroup/func_82E07A88.c": {
+      "Havok/Common/SceneData/Attributes/hkxAttributeGroup/func_82E07A88.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2"
@@ -249187,33 +249187,33 @@
           "/O1"
         ]
       },
-      "Havok/Common/SceneData/Attributes/hkxAttributeGroup/func_82E07BD0.c": {
+      "Havok/Common/SceneData/Attributes/hkxAttributeGroup/func_82E07BD0.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
       },
-      "Havok/Common/SceneData/Attributes/hkxAttributeGroup/func_82E07CF8.c": {
+      "Havok/Common/SceneData/Attributes/hkxAttributeGroup/func_82E07CF8.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2"
         ]
       },
-      "Havok/Common/SceneData/Attributes/hkxAttributeGroup/func_82E07DE0.c": {
+      "Havok/Common/SceneData/Attributes/hkxAttributeGroup/func_82E07DE0.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2",
           "/QVMXReserve"
         ]
       },
-      "Havok/Common/SceneData/Attributes/hkxAttributeGroup/func_82E07EC8.c": {
+      "Havok/Common/SceneData/Attributes/hkxAttributeGroup/func_82E07EC8.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2",
           "/QVMXReserve"
         ]
       },
-      "Havok/Common/SceneData/Attributes/hkxAttributeGroup/func_82E07FB0.c": {
+      "Havok/Common/SceneData/Attributes/hkxAttributeGroup/func_82E07FB0.cpp": {
         "status": "Matching",
         "extra_cflags": [
           "/O2",
@@ -249695,7 +249695,6 @@
           "/O2"
         ],
         "pool_aliases": {
-          "??6hkOstream@@QAAAAV0@PBD@Z": "fn_82CEDB38",
           "??6hkOstream@@QAAAAV0@PBX@Z": "fn_82CED9E8"
         }
       },

@@ -6,7 +6,7 @@
 //   computed before them (maxFd); with the folded stores written directly, or with
 //   `m_socket + 1` inside the call, the addi moves to just before the call.
 // - hkStringBuf's constructor reserves with hkArray::reserve's `(n < cap2) ? cap2 : n`.
-#include "havok/hkBase.h"
+#include "havok/hkOstream.h"
 typedef unsigned int SOCKET;
 struct fd_set { unsigned int fd_count; SOCKET fd_array[64]; };
 struct timeval { long tv_sec; long tv_usec; };
@@ -33,7 +33,7 @@ public:
     virtual void v0(); virtual void v1(); virtual void v2();
     virtual void message(int type, int id, const char *description, const char *file, int line);
 };
-struct hkErrStream { char m_data[12]; };   // hkOstream over a char buffer; fn_ ctor/dtor
+struct hkErrStream { char m_data[12]; };   // hkOstream over a char buffer; fn_ ctor
 extern "C" {
 int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, const timeval *timeout);
 int __WSAFDIsSet(SOCKET s, fd_set *set);
@@ -42,7 +42,6 @@ int setsockopt(SOCKET s, int level, int optname, const char *optval, int optlen)
 void fn_82D04B90(void *str, const char *fmt, ...);                       // hkStringBuf::printf
 void fn_82CEE578(hkErrStream *s, void *buf, int bufSize);                // hkErrStream::hkErrStream
 void fn_82CEE238(hkErrStream *s, void *str);                             // operator<<(hkStringBuf)
-void fn_82CED958(hkErrStream *s);                                        // ~hkErrStream
 extern hkError *lbl_8323B464;                                            // hkError singleton
 }
 
@@ -98,7 +97,7 @@ extern "C" hkSocket *fn_82D05F78(hkBsdSocket *self)
             fn_82CEE578(&ostr, reportBuf, sizeof(reportBuf));
             fn_82CEE238(&ostr, &str);
             lbl_8323B464->message(0, -1, reportBuf, ".\\System\\Io\\Socket\\Bsd\\hkBsdSocket.cpp", 0x193);
-            fn_82CED958(&ostr);
+            ((hkOstream *)&ostr)->hkOstream::~hkOstream();
             if (s == INVALID_SOCKET) return 0;
             int flag = 1;
             setsockopt(s, 6, 1, (char *)&flag, sizeof(int));

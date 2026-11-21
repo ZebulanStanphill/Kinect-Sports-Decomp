@@ -1,3 +1,7 @@
+#include "havok/hkOstream.h"
+
+extern "C" {
+
 typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
     float vector4_f32[4];
 } __vector4;
@@ -52,8 +56,6 @@ typedef struct Ostream_82DED480 {
 extern Err_82DED480 *lbl_8323B464;
 
 extern void fn_82CEE578(Ostream_82DED480 *os, char *buf, int size);
-extern void fn_82CEDB38(Ostream_82DED480 *os, const char *text);
-extern void fn_82CED958(Ostream_82DED480 *os);
 
 /* hkpConstraintUtils.cpp: copy a constraint's two pivots by constraint data type */
 int fn_82DED480(Instance_82DED480 *constraint, __vector4 *pivotInA, __vector4 *pivotInB)
@@ -81,11 +83,13 @@ int fn_82DED480(Instance_82DED480 *constraint, __vector4 *pivotInA, __vector4 *p
         break;
     default:
         fn_82CEE578(&os, buf, 0x200);
-        fn_82CEDB38(&os, "Unsupported type of constraint in prepareSystemForRagdoll()");
+        *(hkOstream *)&os << "Unsupported type of constraint in prepareSystemForRagdoll()";
         lbl_8323B464->vt->message(lbl_8323B464, 1, 0xabbabf3b, buf,
                                   ".\\Constraint\\Bilateral\\hkpConstraintUtils.cpp", 0xe2);
-        fn_82CED958(&os);
+        ((hkOstream *)&os)->hkOstream::~hkOstream();
         return 1;
     }
     return 0;
+}
+
 }

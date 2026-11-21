@@ -138495,11 +138495,11 @@ auto_match/func_82CEE578.cpp:
 	.pdata      start:0x82215B98 end:0x82215BA0
 	.text       start:0x82CEE578 end:0x82CEE5F8
 
-Havok/Common/Base/System/Error/hkError/func_82CEE5F8.c:
+Havok/Common/Base/System/Error/hkError/func_82CEE5F8.cpp:
 	.pdata      start:0x82215BA0 end:0x82215BA8
 	.text       start:0x82CEE5F8 end:0x82CEE6FC
 
-Havok/Common/Base/System/Error/hkError/func_82CEE700.c:
+Havok/Common/Base/System/Error/hkError/func_82CEE700.cpp:
 	.pdata      start:0x82215BA8 end:0x82215BB0
 	.text       start:0x82CEE700 end:0x82CEE78C
 
@@ -140743,7 +140743,7 @@ auto_match/func_82D05A78.c:
 auto_match/func_82D05A80.c:
 	.text       start:0x82D05A80 end:0x82D05A88
 
-Havok/Common/Base/System/Io/Socket/Bsd/hkBsdSocket/func_82D05A88.c:
+Havok/Common/Base/System/Io/Socket/Bsd/hkBsdSocket/func_82D05A88.cpp:
 	.pdata      start:0x822166F8 end:0x82216700
 	.text       start:0x82D05A88 end:0x82D05B6C
 
@@ -141070,11 +141070,11 @@ auto_match/func_82D0B2A0.c:
 auto_match/func_82D0B2A8.c:
 	.text       start:0x82D0B2A8 end:0x82D0B2B0
 
-Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B2B0.c:
+Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B2B0.cpp:
 	.pdata      start:0x82216830 end:0x82216838
 	.text       start:0x82D0B2B0 end:0x82D0B378
 
-Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B378.c:
+Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B378.cpp:
 	.pdata      start:0x82216838 end:0x82216840
 	.text       start:0x82D0B378 end:0x82D0B434
 
@@ -141084,7 +141084,7 @@ Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B438
 Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B448.c:
 	.text       start:0x82D0B448 end:0x82D0B454
 
-Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B458.c:
+Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B458.cpp:
 	.pdata      start:0x82216840 end:0x82216848
 	.text       start:0x82D0B458 end:0x82D0B51C
 
@@ -141097,25 +141097,25 @@ Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B528
 Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B538.c:
 	.text       start:0x82D0B538 end:0x82D0B544
 
-Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B548.c:
+Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B548.cpp:
 	.pdata      start:0x82216848 end:0x82216850
 	.text       start:0x82D0B548 end:0x82D0B60C
 
 Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B610.c:
 	.text       start:0x82D0B610 end:0x82D0B618
 
-Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B618.c:
+Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B618.cpp:
 	.pdata      start:0x82216850 end:0x82216858
 	.text       start:0x82D0B618 end:0x82D0B6DC
 
 Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B6F0.c:
 	.text       start:0x82D0B6F0 end:0x82D0B6F8
 
-Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B6F8.c:
+Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B6F8.cpp:
 	.pdata      start:0x82216858 end:0x82216860
 	.text       start:0x82D0B6F8 end:0x82D0B7C0
 
-Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B7C0.c:
+Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B7C0.cpp:
 	.pdata      start:0x82216860 end:0x82216868
 	.text       start:0x82D0B7C0 end:0x82D0B888
 
@@ -141123,15 +141123,15 @@ Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B888
 	.pdata      start:0x82216868 end:0x82216870
 	.text       start:0x82D0B888 end:0x82D0B8E4
 
-Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B8E8.c:
+Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B8E8.cpp:
 	.pdata      start:0x82216870 end:0x82216878
 	.text       start:0x82D0B8E8 end:0x82D0B9DC
 
-Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B9E0.c:
+Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0B9E0.cpp:
 	.pdata      start:0x82216878 end:0x82216880
 	.text       start:0x82D0B9E0 end:0x82D0BAA8
 
-Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0BAA8.c:
+Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0BAA8.cpp:
 	.pdata      start:0x82216880 end:0x82216888
 	.text       start:0x82D0BAA8 end:0x82D0BB70
 
@@ -141779,7 +141779,7 @@ auto_match/func_82D20330.c:
 	.pdata      start:0x82216C58 end:0x82216C60
 	.text       start:0x82D20330 end:0x82D20374
 
-Havok/Common/Internal/GeometryProcessing/Mesh/hkgpMesh/func_82D20378.c:
+Havok/Common/Internal/GeometryProcessing/Mesh/hkgpMesh/func_82D20378.cpp:
 	.pdata      start:0x82216C60 end:0x82216C68
 	.text       start:0x82D20378 end:0x82D20444
 
@@ -141946,7 +141946,7 @@ auto_match/func_82D2A618.cpp:
 	.pdata      start:0x82216DA0 end:0x82216DA8
 	.text       start:0x82D2A618 end:0x82D2A660
 
-auto_match/func_82D2A660.c:
+auto_match/func_82D2A660.cpp:
 	.pdata      start:0x82216DA8 end:0x82216DB0
 	.text       start:0x82D2A660 end:0x82D2A6E8
 
@@ -142110,7 +142110,7 @@ auto_match/func_82D2CE58.c:
 auto_match/func_82D2CF10.c:
 	.text       start:0x82D2CF10 end:0x82D2CF18
 
-auto_match/func_82D2CF18.c:
+auto_match/func_82D2CF18.cpp:
 	.pdata      start:0x82216ED8 end:0x82216EE0
 	.text       start:0x82D2CF18 end:0x82D2CFE0
 
@@ -154283,11 +154283,11 @@ auto_match/func_82DED240.c:
 	.pdata      start:0x8221A9C0 end:0x8221A9C8
 	.text       start:0x82DED240 end:0x82DED480
 
-Havok/Physics/Utilities/Constraint/Bilateral/hkpConstraintUtils/func_82DED480.c:
+Havok/Physics/Utilities/Constraint/Bilateral/hkpConstraintUtils/func_82DED480.cpp:
 	.pdata      start:0x8221A9C8 end:0x8221A9D0
 	.text       start:0x82DED480 end:0x82DED570
 
-Havok/Physics/Utilities/Constraint/Bilateral/hkpConstraintUtils/func_82DED570.c:
+Havok/Physics/Utilities/Constraint/Bilateral/hkpConstraintUtils/func_82DED570.cpp:
 	.pdata      start:0x8221A9D0 end:0x8221A9D8
 	.text       start:0x82DED570 end:0x82DED674
 
@@ -156826,34 +156826,34 @@ auto_match/func_82E07948.c:
 auto_match/func_82E07958.c:
 	.text       start:0x82E07958 end:0x82E07964
 
-Havok/Common/SceneData/Attributes/hkxAttributeGroup/func_82E07968.c:
+Havok/Common/SceneData/Attributes/hkxAttributeGroup/func_82E07968.cpp:
 	.pdata      start:0x8221B558 end:0x8221B560
 	.text       start:0x82E07968 end:0x82E07A88
 
-Havok/Common/SceneData/Attributes/hkxAttributeGroup/func_82E07A88.c:
+Havok/Common/SceneData/Attributes/hkxAttributeGroup/func_82E07A88.cpp:
 	.pdata      start:0x8221B560 end:0x8221B568
 	.text       start:0x82E07A88 end:0x82E07BC4
 
 Havok/Common/SceneData/Attributes/hkxAttributeGroup/func_82E07BC8.c:
 	.text       start:0x82E07BC8 end:0x82E07BCC
 
-Havok/Common/SceneData/Attributes/hkxAttributeGroup/func_82E07BD0.c:
+Havok/Common/SceneData/Attributes/hkxAttributeGroup/func_82E07BD0.cpp:
 	.pdata      start:0x8221B568 end:0x8221B570
 	.text       start:0x82E07BD0 end:0x82E07CF4
 
-Havok/Common/SceneData/Attributes/hkxAttributeGroup/func_82E07CF8.c:
+Havok/Common/SceneData/Attributes/hkxAttributeGroup/func_82E07CF8.cpp:
 	.pdata      start:0x8221B570 end:0x8221B578
 	.text       start:0x82E07CF8 end:0x82E07DDC
 
-Havok/Common/SceneData/Attributes/hkxAttributeGroup/func_82E07DE0.c:
+Havok/Common/SceneData/Attributes/hkxAttributeGroup/func_82E07DE0.cpp:
 	.pdata      start:0x8221B578 end:0x8221B580
 	.text       start:0x82E07DE0 end:0x82E07EC4
 
-Havok/Common/SceneData/Attributes/hkxAttributeGroup/func_82E07EC8.c:
+Havok/Common/SceneData/Attributes/hkxAttributeGroup/func_82E07EC8.cpp:
 	.pdata      start:0x8221B580 end:0x8221B588
 	.text       start:0x82E07EC8 end:0x82E07FAC
 
-Havok/Common/SceneData/Attributes/hkxAttributeGroup/func_82E07FB0.c:
+Havok/Common/SceneData/Attributes/hkxAttributeGroup/func_82E07FB0.cpp:
 	.pdata      start:0x8221B588 end:0x8221B590
 	.text       start:0x82E07FB0 end:0x82E080B8
 

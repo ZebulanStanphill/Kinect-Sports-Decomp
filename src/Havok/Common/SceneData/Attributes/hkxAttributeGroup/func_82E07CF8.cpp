@@ -1,4 +1,8 @@
 /* hkxAttributeGroup::getFloatValue(name, warnIfNotFound, value): returns 0 (HK_SUCCESS) when found. */
+#include "havok/hkOstream.h"
+
+extern "C" {
+
 typedef struct ErrorVtbl_82E07CF8 {
     void *slot0;
     void *slot1;
@@ -28,9 +32,7 @@ extern Error_82E07CF8 *lbl_8323B464;
 extern char lbl_8323F2BC[];
 extern Attribute_82E07CF8 *fn_82E07840(const AttributeGroup_82E07CF8 *group, const char *name, const void *klass);
 extern void fn_82CEE578(Ostream_82E07CF8 *os, char *buf, int size);
-extern Ostream_82E07CF8 *fn_82CEDB38(Ostream_82E07CF8 *os, const char *s);
 extern Ostream_82E07CF8 *fn_82CEE128(Ostream_82E07CF8 *os, const AttributeGroup_82E07CF8 *name);
-extern void fn_82CED958(Ostream_82E07CF8 *os);
 
 int fn_82E07CF8(const AttributeGroup_82E07CF8 *self, const char *name, unsigned char warnIfNotFound, float *value)
 {
@@ -45,11 +47,11 @@ int fn_82E07CF8(const AttributeGroup_82E07CF8 *self, const char *name, unsigned 
         char buf[512];
 
         fn_82CEE578(&os, buf, 0x200);
-        fn_82CEDB38(fn_82CEE128(fn_82CEDB38(fn_82CEDB38(fn_82CEDB38(&os, "Float attribute "), name),
-                                            " not found in "), self),
-                    " attribute group");
+        *(hkOstream *)(fn_82CEE128((Ostream_82E07CF8 *)&(*(hkOstream *)&os << "Float attribute " << name << " not found in "), self)) << " attribute group";
         lbl_8323B464->vt->message(lbl_8323B464, 1, 0xabbaab81, buf, ".\\Attributes\\hkxAttributeGroup.cpp", 0x91);
-        fn_82CED958(&os);
+        ((hkOstream *)&os)->hkOstream::~hkOstream();
     }
     return 1;
+}
+
 }

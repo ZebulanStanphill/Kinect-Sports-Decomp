@@ -1,25 +1,13 @@
+// hkOstream::operator<<(const char *) (Common/Base/System/Io/OStream/hkOStream.cpp).
+#include "havok/hkOstream.h"
 #include "havok/hkString.h"
 
-typedef struct Stream_82CEDB38 Stream_82CEDB38;
-typedef struct {
-  void *f0, *f4, *f8, *fc;
-  void (*write)(Stream_82CEDB38 *, const char *, unsigned);
-} StreamVtbl_82CEDB38;
-struct Stream_82CEDB38 { StreamVtbl_82CEDB38 *vt; };
-typedef struct Ostream_82CEDB38 {
-  void *vt;
-  int f4;
-  Stream_82CEDB38 *writer;
-} Ostream_82CEDB38;
-
-extern "C" Ostream_82CEDB38 *fn_82CEDB38(Ostream_82CEDB38 *self, const char *str)
+hkOstream &hkOstream::operator<<(const char *str)
 {
-  Stream_82CEDB38 *s = self->writer;
-  if (str != 0) {
-    StreamVtbl_82CEDB38 *vt = s->vt;
-    vt->write(s, str, hkString::strLen(str));
-  } else {
-    s->vt->write(s, "(null)", 6);
-  }
-  return self;
+    hkStreamWriter *writer = m_writer;
+    if (str)
+        writer->write(str, hkString::strLen(str));
+    else
+        writer->write("(null)", 6);
+    return *this;
 }

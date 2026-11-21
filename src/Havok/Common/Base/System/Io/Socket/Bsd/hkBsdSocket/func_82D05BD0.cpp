@@ -1,6 +1,6 @@
 // hkBsdSocket::connect(const char *servername, int port) (Common/Base/System/Io/Socket/Bsd/hkBsdSocket.cpp),
 // Xbox 360 build: only numeric addresses are accepted; a host name raises an error report.
-#include "havok/hkBase.h"
+#include "havok/hkOstream.h"
 
 struct sockaddr_in {
     unsigned short sin_family; /* 0x0 */
@@ -27,8 +27,6 @@ unsigned int inet_addr(const char *cp);
 int socket(int af, int type, int protocol);
 int connect(int s, const sockaddr_in *name, int namelen);
 void fn_82CEE578(hkErrStream *s, void *buf, int bufSize);     // hkErrStream::hkErrStream
-void fn_82CEDB38(hkErrStream *s, const char *str);            // operator<<(const char *)
-void fn_82CED958(hkErrStream *s);                             // ~hkErrStream
 extern hkError *lbl_8323B464;                                 // hkError singleton
 }
 
@@ -59,11 +57,11 @@ extern "C" int fn_82D05BD0(hkBsdSocket *self, const char *servername, int port)
         char buf[512];
         hkErrStream os;
         fn_82CEE578(&os, buf, sizeof(buf));
-        fn_82CEDB38(&os, "Hostname lookup not supported on xbox");
+        *(hkOstream *)&os << "Hostname lookup not supported on xbox";
         if (lbl_8323B464->message(3, 0x2a9c1ba2, buf, ".\\System\\Io\\Socket\\Bsd\\hkBsdSocket.cpp", 0xc3)) {
             __debugbreak();
         }
-        fn_82CED958(&os);
+        ((hkOstream *)&os)->hkOstream::~hkOstream();
     }
     if (self->m_socket == -1) {
         self->close();

@@ -2,9 +2,6 @@
 // MonitorStreamAnalyzer): "Timer Name", one padded column per thread and SPU,
 // the averages, into a string built by an hkOstream over an hkArray<char>,
 // then hands it to the output stream and prints the nodes (fn_82CF1C18).
-// hkOstream(hkArray<char> &) is renamed, while ~hkOstream keeps its fn_ name
-// (fn_82CED958, ~100 C callers), so the stream is constructed in place in a
-// local buffer and destroyed with an explicit call.
 #include "havok/hkBase.h"
 
 #include "havok/hkStreamReader.h"
@@ -104,9 +101,7 @@ struct StatsOptions {
 };
 
 extern "C" {
-void fn_82CED958(hkOstream *os);                                   // hkOstream::~hkOstream
 void fn_82CEDE90(hkOstream *os, const char *fmt, ...);             // hkOstream::printf
-void fn_82CEDB38(hkOstream *os, const char *s);                    // hkOstream::operator<<(const char *)
 int fn_82CF0DC8(void *nodes, int depth, int a, hkUint8 b);
 void fn_82CF1C18(hkOstream *os, void *nodes, int depth, int numThreads, int numSpus, StatsOptions *options);
 }
@@ -122,35 +117,29 @@ extern "C" void fn_82CF2010(void *nodes, int numThreads, int numSpus, hkOstream 
 {
     options->m_firstColumn = fn_82CF0DC8(nodes, 0, options->m_unknown8, options->m_unknown10);
     hkArray<char> buf;
-    union {
-        char storage[sizeof(hkOstream)];
-        void *align;
-    } osMem;
-    new (osMem.storage) hkOstream(buf);
-    hkOstream *os = reinterpret_cast<hkOstream *>(osMem.storage);
-    fn_82CEDE90(os, "Timer Name");
+    hkOstream os(buf);
+    fn_82CEDE90(&os, "Timer Name");
     if (numThreads > 1 || numSpus > 0) {
         for (int i = 0; i < numThreads; i++) {
-            padTo(os, buf, options, i);
-            fn_82CEDE90(os, "Thread %d", i);
+            padTo(&os, buf, options, i);
+            fn_82CEDE90(&os, "Thread %d", i);
         }
         for (int i = 0; i < numSpus; i++) {
-            padTo(os, buf, options, i + numThreads);
-            fn_82CEDE90(os, "Spu %d", i);
+            padTo(&os, buf, options, i + numThreads);
+            fn_82CEDE90(&os, "Spu %d", i);
         }
         int column = numThreads + numSpus;
         if (numThreads > 1) {
-            padTo(os, buf, options, column);
+            padTo(&os, buf, options, column);
             column++;
-            fn_82CEDE90(os, "Average Cpu");
+            fn_82CEDE90(&os, "Average Cpu");
         }
         if (numSpus > 1) {
-            padTo(os, buf, options, column);
-            fn_82CEDE90(os, "Average Spu");
+            padTo(&os, buf, options, column);
+            fn_82CEDE90(&os, "Average Spu");
         }
     }
-    fn_82CEDB38(outStream, buf.m_data);
+    *outStream << buf.m_data;
     fn_82CEDE90(outStream, "\n\n");
     fn_82CF1C18(outStream, nodes, 0, numThreads, numSpus, options);
-    fn_82CED958(os);
 }
