@@ -1,130 +1,139 @@
-extern int fn_82359C18();
-extern int fn_8252DDF0();
-extern int fn_82F68CC0();
-extern unsigned int lbl_8218EC10;
-extern unsigned int lbl_821916FC;
-extern unsigned int lbl_821917B0;
-extern unsigned int lbl_821922D0;
-extern unsigned int lbl_821955C0;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int lbl_832967B8;
-extern unsigned int stack0x00000020;
-extern unsigned int uStack00000020;
-extern unsigned int uStack00000028;
-extern unsigned int uStack00000030;
-extern unsigned int uStack00000038;
-extern unsigned int uStack00000040;
-extern unsigned int uStack00000048;
-extern unsigned int uStack00000050;
+#include <string.h>
 
+typedef struct Desc_824E70F8 {
+    int enabled;            /* 0x00 */
+    int pad04[5];           /* 0x04 */
+    int hasColor;           /* 0x18 */
+    unsigned int colors[3]; /* 0x1C */
+    int hasScale;           /* 0x28 */
+    float scale;            /* 0x2C */
+    float alpha;            /* 0x30 */
+    int hasRange;           /* 0x34 */
+    float rangeMax;         /* 0x38 */
+    float rangeStep;        /* 0x3C */
+    float rangeMin;         /* 0x40 */
+    int pad44[9];           /* 0x44 */
+} Desc_824E70F8;
 
-void fn_824E70F8(double param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5,unsigned __int64 param_6,unsigned __int64 param_7,unsigned __int64 param_8,
-                  unsigned __int64 param_9)
+typedef struct Callback_824E70F8 Callback_824E70F8;
 
+typedef struct CallbackImpl_824E70F8 {
+    struct CallbackImplVtbl_824E70F8 {
+        struct CallbackImpl_824E70F8 *(*clone)(struct CallbackImpl_824E70F8 *self, Callback_824E70F8 *dst);
+        void *slot4;
+        void *slot8;
+        void (*destroy)(struct CallbackImpl_824E70F8 *self, int free);
+    } *vt;
+} CallbackImpl_824E70F8;
+
+struct Callback_824E70F8 {
+    int buf[4];                  /* 0x00 */
+    CallbackImpl_824E70F8 *impl; /* 0x10 */
+};
+
+typedef struct Slot_824E70F8 {
+    Desc_824E70F8 preset;     /* 0x000 */
+    Desc_824E70F8 current;    /* 0x068 */
+    Desc_824E70F8 request;    /* 0x0D0 */
+    int active;               /* 0x138 */
+    float duration;           /* 0x13C */
+    int pad140[3];            /* 0x140 */
+    float startTime;          /* 0x14C */
+    int count;                /* 0x150 */
+    int pad154;               /* 0x154 */
+    Callback_824E70F8 onDone; /* 0x158 */
+    int pad16C;               /* 0x16C */
+} Slot_824E70F8;
+
+typedef struct Self_824E70F8 {
+    int pad00[4];           /* 0x000 */
+    Slot_824E70F8 slots[2]; /* 0x010 */
+    char pad2F0[0x10];      /* 0x2F0 */
+    float time;             /* 0x300 */
+} Self_824E70F8;
+
+extern Desc_824E70F8 lbl_832967B8[];
+/* The fallback is the link-time pool's double slot +0x110, (double)1e-05f, as in the Matching
+   sibling func_824E7360: written as a literal, the compiler folds __fsel(a - b, a, b) into the
+   compare-and-table select. */
+extern const double lbl_821954B0[];
+extern void fn_8252DDF0(Desc_824E70F8 *desc, int index);
+extern void fn_82359C18(Callback_824E70F8 *callback);
+
+double __fsel(double a, double b, double c);
+
+static __forceinline void LoadPreset(Desc_824E70F8 *dst, int index)
 {
-  int *piVar1;
-  int iVar2;
-  unsigned int uVar3;
-  int *piVar4;
-  unsigned int *puVar5;
-  unsigned int *puVar6;
-  int *piVar7;
-  int iVar8;
-  unsigned __int64 uStack00000020;
-  unsigned __int64 uStack00000028;
-  unsigned __int64 uStack00000030;
-  unsigned __int64 uStack00000038;
-  unsigned __int64 uStack00000040;
-  unsigned __int64 uStack00000048;
-  unsigned __int64 uStack00000050;
-  int in_stack_00000094;
-  int *in_stack_0000009c;
-  
-  iVar2 = in_stack_00000094;
-  piVar4 = in_stack_0000009c;
-  uStack00000020 = param_3;
-  uStack00000028 = param_4;
-  uStack00000030 = param_5;
-  uStack00000038 = param_6;
-  uStack00000040 = param_7;
-  uStack00000048 = param_8;
-  uStack00000050 = param_9;
-  if ((-1 < in_stack_00000094) && (in_stack_00000094 < 2)) {
-    iVar8 = in_stack_00000094 * 0x170 + param_2;
-    puVar6 = &lbl_832967B8;
-    if ((*(int *)(iVar8 + 0x160) == 0) && (*(int *)(iVar8 + 0x148) == 0)) {
-      if (-2 < in_stack_00000094) {
-        puVar5 = puVar6;
-        if (in_stack_00000094 != -1) {
-          puVar5 = &lbl_832967B8 + in_stack_00000094 * 0x1a;
+    if (index >= -1) {
+        if (index == -1) {
+            memcpy(dst, &lbl_832967B8[0], sizeof(Desc_824E70F8));
+        } else {
+            memcpy(dst, &lbl_832967B8[index], sizeof(Desc_824E70F8));
         }
-        fn_82F68CC0(iVar8 + 0x10,puVar5,0x68);
-      }
     }
-    *(int *)(iVar8 + 0x160) = *(int *)(iVar8 + 0x160) + 1;
-    if (-2 < iVar2) {
-      if (iVar2 != -1) {
-        puVar6 = &lbl_832967B8 + iVar2 * 0x1a;
-      }
-      fn_82F68CC0(iVar8 + 0x78,puVar6,0x68);
-    }
-    if (*(int *)(iVar8 + 0xac) == 0) {
-      *(unsigned int *)(iVar8 + 0xb0) = lbl_821922D0;
-      uVar3 = lbl_821916FC;
-      *(unsigned int *)(iVar8 + 0xb8) = ltcg_pool_0_0f;
-      *(unsigned int *)(iVar8 + 0xb4) = uVar3;
-    }
-    if (*(int *)(iVar8 + 0xa0) == 0) {
-      *(unsigned int *)(iVar8 + 0xa4) = lbl_821917B0;
-      *(unsigned int *)(iVar8 + 0xa8) = lbl_821CA460;
-    }
-    if (*(int *)(iVar8 + 0x90) == 0) {
-      *(unsigned int *)(iVar8 + 0x94) = 0x7f7f7f00;
-      *(unsigned int *)(iVar8 + 0x98) = 0x7f7f7f00;
-      *(unsigned int *)(iVar8 + 0x9c) = 0x7f7f7f00;
-    }
-    fn_82F68CC0((unsigned int *)(iVar8 + 0xe0),&stack0x00000020,0x68);
-    if (*(int *)(iVar8 + 0x114) != 0) {
-      *(unsigned int *)(iVar8 + 0xac) = 1;
-    }
-    if (*(int *)(iVar8 + 0x108) != 0) {
-      *(unsigned int *)(iVar8 + 0xa0) = 1;
-    }
-    if (*(int *)(iVar8 + 0xf8) != 0) {
-      *(unsigned int *)(iVar8 + 0x90) = 1;
-    }
-    *(unsigned int *)(iVar8 + 0xe0) = 1;
-    fn_8252DDF0(iVar8 + 0x78,iVar2);
-    piVar4 = in_stack_0000009c;
-    piVar7 = (int *)(iVar8 + 0x168);
-    if ((float)(param_1 - (double)lbl_8218EC10) < 0.0) {
-      param_1 = lbl_821955C0;
-    }
-    *(float *)(iVar8 + 0x14c) = (float)param_1;
-    uVar3 = *(unsigned int *)(param_2 + 0x300);
-    *(unsigned int *)(iVar8 + 0x148) = 1;
-    *(unsigned int *)(iVar8 + 0x15c) = uVar3;
-    if (piVar7 != in_stack_0000009c) {
-      piVar1 = *(int **)(iVar8 + 0x178);
-      if (piVar1 != (int *)0x0) {
-        (**(int (***)())(*piVar1 + 0xc))(piVar1,piVar7 != piVar1);
-        *(unsigned int *)(iVar8 + 0x178) = 0;
-      }
-      if ((int *)piVar4[4] == (int *)0x0) {
-        *(unsigned int *)(iVar8 + 0x178) = 0;
-      }
-      else {
-        if ((int *)piVar4[4] != piVar4) {
-          piVar7 = (int *)0x0;
-        }
-        uVar3 = (*(int (**)())**(unsigned int **)piVar4[4])((unsigned int *)piVar4[4],piVar7);
-        *(unsigned int *)(iVar8 + 0x178) = uVar3;
-      }
-    }
-  }
-  fn_82359C18(piVar4);
-  return;
 }
 
+void fn_824E70F8(Self_824E70F8 *self, Desc_824E70F8 desc, float duration, int index,
+                 Callback_824E70F8 *onDone)
+{
+    Callback_824E70F8 *dst;
+    Desc_824E70F8 *current;
+
+    if (index < 0 || index > 1) {
+        fn_82359C18(onDone);
+        return;
+    }
+    if (self->slots[index].count == 0 && self->slots[index].active == 0) {
+        LoadPreset(&self->slots[index].preset, index);
+    }
+    self->slots[index].count++;
+    current = &self->slots[index].current;
+    LoadPreset(current, index);
+    /* 2.0f is read through its own home lbl_821916FC (never through a neighbour's base) */
+    if (self->slots[index].current.hasRange == 0) {
+        self->slots[index].current.rangeMax = 10.0f;
+        self->slots[index].current.rangeMin = 0.0f;
+        self->slots[index].current.rangeStep = 2.0f;
+    }
+    if (self->slots[index].current.hasScale == 0) {
+        self->slots[index].current.scale = 1.5f;
+        self->slots[index].current.alpha = 1.0f;
+    }
+    if (self->slots[index].current.hasColor == 0) {
+        self->slots[index].current.colors[0] = 0x7F7F7F00;
+        self->slots[index].current.colors[1] = 0x7F7F7F00;
+        self->slots[index].current.colors[2] = 0x7F7F7F00;
+    }
+    self->slots[index].request = desc;
+    if (self->slots[index].request.hasRange != 0) {
+        self->slots[index].current.hasRange = 1;
+    }
+    if (self->slots[index].request.hasScale != 0) {
+        self->slots[index].current.hasScale = 1;
+    }
+    if (self->slots[index].request.hasColor != 0) {
+        self->slots[index].current.hasColor = 1;
+    }
+    self->slots[index].request.enabled = 1;
+    fn_8252DDF0(current, index);
+    self->slots[index].duration = (float)__fsel(duration - 1e-05f, duration, lbl_821954B0[0x22]);
+    self->slots[index].startTime = self->time;
+    self->slots[index].active = 1;
+    dst = &self->slots[index].onDone;
+    if (dst != onDone) {
+        if (dst->impl != 0) {
+            dst->impl->vt->destroy(dst->impl, (void *)dst->impl != (void *)dst);
+            dst->impl = 0;
+        }
+        if (onDone->impl == 0) {
+            dst->impl = 0;
+        } else {
+            if ((void *)onDone->impl == (void *)onDone) {
+                dst->impl = onDone->impl->vt->clone(onDone->impl, dst);
+            } else {
+                dst->impl = onDone->impl->vt->clone(onDone->impl, 0);
+            }
+        }
+    }
+    fn_82359C18(onDone);
+}

@@ -1,113 +1,107 @@
-#define NAN(x) ((x) != (x))
-extern unsigned int *auStack_58;
-extern unsigned int iStack_5c;
-extern unsigned int lbl_82005748;
-extern unsigned int lbl_821954D8;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int uStack_60;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float v[4];
+} __vector4;
 
+__vector4 __vsubfp(__vector4 a, __vector4 b);
+__vector4 __vmsum3fp(__vector4 a, __vector4 b);
 
-/* WARNING: Removing unreachable block (ram,0x824a5404) */
-/* WARNING: Removing unreachable block (ram,0x824a5418) */
-/* WARNING: Removing unreachable block (ram,0x824a541c) */
-/* WARNING: Removing unreachable block (ram,0x824a547c) */
-/* WARNING: Removing unreachable block (ram,0x824a5488) */
-/* WARNING: Removing unreachable block (ram,0x824a5498) */
+typedef struct Body_824A5348 {
+    __vector4 vectors[64];
+} Body_824A5348;
 
-void fn_824A5348(int param_1,int *param_2)
+typedef struct Node_824A5348 {
+    char pad[0x40];
+    Body_824A5348 *body; /* 0x40 */
+} Node_824A5348;
+typedef struct Source_824A5348 Source_824A5348;
 
+typedef struct Vtable_824A5348 {
+    void (*get)(Source_824A5348 *, int *, int *);
+    void (*read)(Source_824A5348 *, int, Node_824A5348 **);
+} Vtable_824A5348;
+
+struct Source_824A5348 {
+    Vtable_824A5348 *vt;
+};
+
+typedef struct State_824A5348 {
+    char pad[0x38];
+    unsigned char side; /* 0x38 */
+    char gap[3];
+    float stillRadius;  /* 0x3c */
+    float minReach;     /* 0x40 */
+    float activeDecay;  /* 0x44 */
+    float idleDecay;    /* 0x48 */
+    int maxStillFrames; /* 0x4c */
+    char gap2[0x18];
+    int stillFrames; /* 0x68 */
+    float reach;     /* 0x6c */
+    char gap3[4];
+    unsigned char active; /* 0x74 */
+} State_824A5348;
+
+void fn_824A5348(State_824A5348 *self, Source_824A5348 *src)
 {
-  float fVar1;
-  int iVar2;
-  int iVar3;
-  unsigned int *puVar4;
-  unsigned int *puVar5;
-  unsigned int uVar6;
-  float *pfVar7;
-  int in_r0;
-  float fVar8;
-  float fVar9;
-  unsigned int uVar10;
-  unsigned int uVar11;
-  unsigned int uVar12;
-  unsigned int uStack_60;
-  int iStack_5c;
-  unsigned char auStack_58 [8];
-  float afStack_50 [20];
-  
-  (**(int (***)())*param_2)(param_2,auStack_58,&uStack_60);
-  (**(int (***)())(*param_2 + 4))(param_2,uStack_60,&iStack_5c);
-  iVar2 = *(int *)(iStack_5c + 0x40);
-  iVar3 = ((-(unsigned int)(*(char *)(param_1 + 0x38) != '\0') & 5) + 10) * 0x40;
-  puVar4 = (unsigned int *)(iVar2 + 0x140U & 0xfffffff0);
-  uVar10 = puVar4[1];
-  uVar11 = puVar4[2];
-  uVar12 = puVar4[3];
-  puVar5 = (unsigned int *)((int)afStack_50 + in_r0 & 0xfffffff0);
-  *puVar5 = *puVar4;
-  puVar5[1] = uVar10;
-  puVar5[2] = uVar11;
-  puVar5[3] = uVar12;
-  puVar4 = (unsigned int *)(iVar3 + iVar2 & 0xfffffff0);
-  uVar10 = puVar4[1];
-  uVar11 = puVar4[2];
-  uVar12 = puVar4[3];
-  puVar5 = (unsigned int *)((int)afStack_50 + in_r0 & 0xfffffff0);
-  *puVar5 = *puVar4;
-  puVar5[1] = uVar10;
-  puVar5[2] = uVar11;
-  puVar5[3] = uVar12;
-  *(unsigned char *)(param_1 + 0x74) = 0;
-  if (*(char *)(param_1 + 0x74) != '\0') {
-    fVar1 = *(float *)(param_1 + 0x6c);
-    puVar4 = (unsigned int *)(iVar3 + iVar2 + 0x10U & 0xfffffff0);
-    uVar10 = puVar4[1];
-    uVar11 = puVar4[2];
-    uVar12 = puVar4[3];
-    puVar5 = (unsigned int *)((int)afStack_50 + in_r0 & 0xfffffff0);
-    *puVar5 = *puVar4;
-    puVar5[1] = uVar10;
-    puVar5[2] = uVar11;
-    puVar5[3] = uVar12;
-    uVar6 = (int)afStack_50 + in_r0 & 0xfffffff0;
-    fVar8 = *(float *)(uVar6 + 4);
-    fVar9 = *(float *)(uVar6 + 8);
-    fVar8 = fVar8 * fVar8 + 0.0 + fVar9 * fVar9;
-    pfVar7 = (float *)((int)afStack_50 + in_r0 & 0xfffffff0);
-    *pfVar7 = fVar8;
-    pfVar7[1] = fVar8;
-    pfVar7[2] = fVar8;
-    pfVar7[3] = fVar8;
-    if (fVar1 < afStack_50[0]) {
-      *(float *)(param_1 + 0x6c) = afStack_50[0];
-    }
-    if (*(float *)(param_1 + 0x6c) < *(float *)(param_1 + 0x40)) {
-      *(unsigned char *)(param_1 + 0x74) = 0;
-    }
-  }
-  if (*(char *)(param_1 + 0x74) == '\0') {
-    fVar1 = *(float *)(param_1 + 0x48);
-  }
-  else {
-    fVar1 = *(float *)(param_1 + 0x44);
-  }
-  fVar1 = *(float *)(param_1 + 0x6c) - fVar1;
-  if (*(float *)(&lbl_821954D8 +
-                ((unsigned int)(unsigned char)((fVar1 < ltcg_pool_0_0f) << 2) |
-                (unsigned int)(NAN(fVar1) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
-    fVar1 = ltcg_pool_0_0f;
-  }
-  fVar8 = lbl_82005748;
-  if (*(float *)(&lbl_821954D8 +
-                ((unsigned int)(unsigned char)((fVar1 - lbl_82005748 < ltcg_pool_0_0f) << 2) |
-                (unsigned int)(NAN(fVar1 - lbl_82005748) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
-    fVar8 = fVar1;
-  }
-  *(float *)(param_1 + 0x6c) = fVar8;
-  if (*(char *)(param_1 + 0x74) == '\0') {
-    *(unsigned int *)(param_1 + 0x68) = 0;
-    *(unsigned char *)(param_1 + 0x74) = 0;
-  }
-  return;
-}
+    int index;
+    Node_824A5348 *node;
+    int first;
+    Node_824A5348 *prevNode;
+    __vector4 value;
+    __vector4 hand;
+    float headY;
+    float decay;
+    float reach;
+    Body_824A5348 *body;
+    int joint;
+    int prev;
+    __vector4 *joints;
+    __vector4 delta;
 
+    src->vt->get(src, &first, &index);
+    src->vt->read(src, index, &node);
+    joint = self->side ? 15 : 10;
+    body = node->body;
+    value = body->vectors[20];
+    headY = value.v[1];
+    joints = &body->vectors[joint * 4];
+    hand = joints[0];
+    value = hand;
+    self->active = value.v[1] > headY;
+    if (self->active) {
+        prev = index - 1;
+        src->vt->read(src, prev < first ? first : prev, &prevNode);
+        joint = self->side ? 15 : 10;
+        delta = __vsubfp(prevNode->body->vectors[joint * 4], hand);
+        value = __vmsum3fp(delta, delta);
+        if (value.v[0] < self->stillRadius * self->stillRadius) {
+            self->stillFrames++;
+        }
+        if (self->stillFrames > self->maxStillFrames) {
+            self->stillFrames = 0;
+            self->active = 0;
+        }
+    }
+    if (self->active) {
+        value = joints[1];
+        value.v[2] = value.v[2] * 2.0f;
+        value = __vmsum3fp(value, value);
+        if (value.v[0] > self->reach) {
+            self->reach = value.v[0];
+        }
+        if (self->reach < self->minReach) {
+            self->active = 0;
+        }
+    }
+    if (self->active) {
+        decay = self->activeDecay;
+    } else {
+        decay = self->idleDecay;
+    }
+    reach = self->reach - decay;
+    reach = reach >= 0.0f ? reach : 0.0f;
+    self->reach = reach - 100.0f >= 0.0f ? 100.0f : reach;
+    if (!self->active) {
+        self->stillFrames = 0;
+        self->active = 0;
+    }
+}

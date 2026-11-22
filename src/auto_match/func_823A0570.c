@@ -1,45 +1,35 @@
-#define NAN(x) ((x) != (x))
-extern int fn_8254EEB8();
-extern unsigned int lbl_82005748;
-extern unsigned int lbl_8218E8E8;
-extern unsigned int lbl_82192D74;
-extern unsigned int lbl_821954D8;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Audio_823A0570 {
+    char pad0[0x4];
+    unsigned int active; /* 0x4 */
+} Audio_823A0570;
 
+typedef struct Speaker_823A0570 {
+    char pad0[0x40];
+    Audio_823A0570 *audio; /* 0x40 */
+    char pad44[0xe8];
+    float level; /* 0x12c */
+} Speaker_823A0570;
 
-void fn_823A0570(int param_1,float *param_2)
+extern void fn_8254EEB8(Audio_823A0570 *target, int sound, float volume, float pitch, float pan);
 
+static __forceinline float Min(float a, float b)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  double dVar5;
-  double dVar6;
-  double dVar7;
-  
-  fVar4 = ltcg_pool_0_0f;
-  fVar2 = param_2[2];
-  dVar5 = (double)lbl_8218E8E8;
-  fVar3 = *param_2 * lbl_82005748;
-  fVar1 = (float)((double)fVar2 - dVar5);
-  dVar7 = (double)lbl_82192D74;
-  *(float *)(param_1 + 300) = fVar3;
-  dVar6 = (double)fVar2;
-  if (*(float *)(&lbl_821954D8 +
-                ((unsigned int)(unsigned char)((fVar1 < fVar4) << 2) | (unsigned int)(NAN(fVar1) || NAN(fVar4)) << 2)) < 0.0)
-  {
-    dVar6 = dVar5;
-  }
-  if (*(int *)(*(int *)(param_1 + 0x40) + 4) != 0) {
-    fVar1 = (float)((double)(float)(dVar6 * dVar7) - dVar5);
-    if (*(float *)(&lbl_821954D8 +
-                  ((unsigned int)(unsigned char)((fVar1 < fVar4) << 2) | (unsigned int)(NAN(fVar1) || NAN(fVar4)) << 2)) <
-        0.0) {
-      dVar5 = (double)(float)(dVar6 * dVar7);
-    }
-    fn_8254EEB8(dVar6,dVar5,(double)param_2[1],*(int *)(param_1 + 0x40),(int)fVar3);
-  }
-  return;
+    return b - a >= 0.0f ? a : b;
 }
 
+static __forceinline float Max(float a, float b)
+{
+    return a - b >= 0.0f ? a : b;
+}
+
+void fn_823A0570(Speaker_823A0570 *self, float *input)
+{
+    float volume = Max(input[2], 0.5f);
+    float pitch = volume * 0.6f;
+    float level = input[0] * 100.0f;
+
+    self->level = level;
+    if (self->audio->active != 0) {
+        fn_8254EEB8(self->audio, (int)level, volume, Min(0.5f, pitch), input[1]);
+    }
+}
