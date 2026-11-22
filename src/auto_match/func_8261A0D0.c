@@ -1,15 +1,11 @@
-extern int fn_82539560();
-extern unsigned int lbl_82191F78;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
+extern float fn_82539560(float x, float inMin, float inMax, float outMin, float outMax);
 
-
-void fn_8261A0D0(int param_1,int param_2)
-
+unsigned int fn_8261A0D0(int count, int index)
 {
-                    /* WARNING: Subroutine does not return */
-  fn_82539560((double)(float)((double)(__int64)((param_1 - param_2) + -1) /
-                              (double)(__int64)(param_1 + -1)),(double)lbl_82191F78,
-               (double)lbl_821CA460,(double)lbl_821CA460,(double)ltcg_pool_0_0f);
-}
+    float t = (float)(count - index - 1) / (float)(count - 1);
+    float boost = t * 1.6f;
+    float fade = fn_82539560(t, 0.9f, 1.0f, 1.0f, 0.0f);
+    float level = boost - 1.0f >= 0.0f ? 1.0f : boost;
 
+    return ((unsigned int)(unsigned char)(fade * level * 255.0f) << 24) | 0xffffff;
+}

@@ -1,72 +1,53 @@
-#define NAN(x) ((x) != (x))
-extern unsigned int *auStack_20;
-extern unsigned int fStack_1c;
-extern int fn_824AA258();
-extern int fn_824AA3D8();
-extern unsigned int lbl_821914EC;
-extern unsigned int lbl_821914FC;
-extern unsigned int lbl_821954D8;
-extern unsigned int ltcg_pool_0_0f;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Range_824A9FD8 {
+    float minimum; /* 0x00 */
+    float maximum; /* 0x04 */
+    int joint;     /* 0x08 */
+    int useFilter; /* 0x0C */
+} Range_824A9FD8;
 
-double fn_824A9FD8(int param_1,unsigned __int64 param_2)
+typedef struct Gesture_824A9FD8 {
+    char pad0[0x40];
+    int mirrored; /* 0x40 */
+} Gesture_824A9FD8;
 
+extern const Range_824A9FD8 lbl_821914EC[2];
+extern int fn_824AA0C8(void);
+extern __vector4 *fn_824AA3D8(__vector4 *out, Gesture_824A9FD8 *self, void *skeleton, int joint,
+                              int (*filter)(void));
+extern __vector4 *fn_824AA258(__vector4 *out, Gesture_824A9FD8 *self, void *skeleton, int joint);
+
+static __forceinline float Select_824A9FD8(float condition, float a, float b)
 {
-  float fVar1;
-  unsigned int *puVar2;
-  unsigned int *puVar3;
-  int in_r0;
-  int iVar4;
-  float *pfVar5;
-  double dVar6;
-  double dVar7;
-  double dVar8;
-  double dVar9;
-  unsigned int uVar10;
-  unsigned int uVar11;
-  unsigned int uVar12;
-  unsigned char auStack_20 [4];
-  float fStack_1c;
-  
-  if (*(int *)(param_1 + 0x40) == 0) {
-    pfVar5 = (float *)&lbl_821914EC;
-  }
-  else {
-    pfVar5 = (float *)&lbl_821914FC;
-  }
-  if (pfVar5[3] == 0.0) {
-    iVar4 = fn_824AA258(auStack_20,param_1,param_2,pfVar5[2]);
-  }
-  else {
-    iVar4 = fn_824AA3D8();
-  }
-  puVar2 = (unsigned int *)(in_r0 + iVar4 & 0xfffffff0);
-  uVar10 = puVar2[1];
-  uVar11 = puVar2[2];
-  uVar12 = puVar2[3];
-  fVar1 = *pfVar5;
-  puVar3 = (unsigned int *)((unsigned int)(auStack_20 + in_r0) & 0xfffffff0);
-  *puVar3 = *puVar2;
-  puVar3[1] = uVar10;
-  puVar3[2] = uVar11;
-  puVar3[3] = uVar12;
-  dVar6 = -(double)fStack_1c;
-  dVar8 = (double)ltcg_pool_0_0f;
-  if ((double)fVar1 <= dVar6) {
-    dVar9 = (double)pfVar5[1];
-    if (*(float *)(&lbl_821954D8 +
-                  ((unsigned int)(unsigned char)((dVar6 < dVar8) << 2) | (unsigned int)(NAN(dVar6) || NAN(dVar8)) << 2)) <
-        0.0) {
-      dVar6 = dVar8;
-    }
-    dVar7 = dVar9;
-    if (*(float *)(&lbl_821954D8 +
-                  ((unsigned int)(unsigned char)(((double)(float)(dVar6 - dVar9) < dVar8) << 2) |
-                  (unsigned int)(NAN((double)(float)(dVar6 - dVar9)) || NAN(dVar8)) << 2)) < 0.0) {
-      dVar7 = dVar6;
-    }
-    dVar8 = (double)(float)(dVar7 / dVar9);
-  }
-  return dVar8;
+    return condition >= 0.0f ? a : b;
 }
 
+float fn_824A9FD8(Gesture_824A9FD8 *self, void *skeleton)
+{
+    const Range_824A9FD8 *range;
+    __vector4 position;
+    float height;
+    float result;
+
+    if (self->mirrored != 0) {
+        range = &lbl_821914EC[1];
+    } else {
+        range = &lbl_821914EC[0];
+    }
+    if (range->useFilter != 0) {
+        position = *fn_824AA3D8(&position, self, skeleton, range->joint, fn_824AA0C8);
+    } else {
+        position = *fn_824AA258(&position, self, skeleton, range->joint);
+    }
+    result = 0.0f;
+    height = -position.vector4_f32[1];
+    if (height >= range->minimum) {
+        height = Select_824A9FD8(height, height, 0.0f);
+        height = Select_824A9FD8(height - range->maximum, range->maximum, height);
+        result = height / range->maximum;
+    }
+    return result;
+}

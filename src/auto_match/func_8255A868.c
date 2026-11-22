@@ -1,22 +1,22 @@
-extern float lbl_82195590;
-extern float lbl_821955A0;
+extern double __fctid(double);
+extern double __fcfid(double);
 
+/* 1 / (2 * pi) as a float and 2 * pi as a double */
+#define INV_TWO_PI 0.15915494f
+#define TWO_PI 6.2831854820251465
 
-void fn_8255A868(float *param_1,float *param_2,float *param_3)
-
+/* Maps an angle to (-2 pi, 2 pi) by dropping whole turns. */
+static __forceinline float WrapTurns(float angle)
 {
-  float fVar1;
-  float fVar2;
-  double dVar3;
-  
-  dVar3 = lbl_821955A0;
-  fVar2 = lbl_82195590;
-  fVar1 = (*param_2 - *param_3) * lbl_82195590;
-  *param_1 = (float)(((double)fVar1 - (double)(__int64)fVar1) * lbl_821955A0);
-  fVar1 = (param_2[1] - param_3[1]) * fVar2;
-  param_1[1] = (float)(((double)fVar1 - (double)(__int64)fVar1) * dVar3);
-  fVar2 = (param_2[2] - param_3[2]) * fVar2;
-  param_1[2] = (float)(((double)fVar2 - (double)(__int64)fVar2) * dVar3);
-  return;
+    double turns = (float)(angle * INV_TWO_PI);
+
+    return (float)((turns - (float)__fcfid(__fctid(turns))) * TWO_PI);
 }
 
+/* Per-axis angle difference a - b, wrapped by whole turns. */
+void fn_8255A868(float *out, float *a, float *b)
+{
+    out[0] = WrapTurns(a[0] - b[0]);
+    out[1] = WrapTurns(a[1] - b[1]);
+    out[2] = WrapTurns(a[2] - b[2]);
+}

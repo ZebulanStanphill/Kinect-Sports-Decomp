@@ -1,34 +1,42 @@
-#define NAN(x) ((x) != (x))
-extern int fn_8229D418();
-extern unsigned int lbl_821916FC;
-extern unsigned int lbl_821954D8;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Logger_8236B638 {
+    char pad0[0x14];
+    void *channel; /* 0x14 */
+} Logger_8236B638;
 
+typedef struct Game_8236B638 {
+    char pad0[0xd4];
+    Logger_8236B638 *logger; /* 0xd4 */
+} Game_8236B638;
 
-void fn_8236B638(int param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+typedef struct Player_8236B638 {
+    Game_8236B638 *game; /* 0x0 */
+    char pad4[0xd8];
+    float energy; /* 0xdc */
+} Player_8236B638;
 
+typedef struct Self_8236B638 {
+    char pad0[0x4b0];
+    Player_8236B638 *player; /* 0x4b0 */
+} Self_8236B638;
+
+extern char lbl_820E975C[]; /* "" */
+extern void fn_8229D418(void *channel, const char *text, void *arg);
+
+static __forceinline float Select(float test, float a, float b)
 {
-  int *piVar1;
-  float fVar2;
-  double dVar3;
-  double dVar4;
-  
-  piVar1 = *(int **)(param_1 + 0x4b0);
-  dVar4 = (double)ltcg_pool_0_0f;
-  if ((double)(float)piVar1[0x37] <= dVar4) {
-    if ((param_3 & 0xffffffff) == 0) {
-      param_3 = 0xffffffff820e975c;
-    }
-    fn_8229D418(*(unsigned int *)(*(int *)(*piVar1 + 0xd4) + 0x14),param_3,param_2);
-  }
-  dVar3 = (double)((float)piVar1[0x37] - lbl_821916FC);
-  fVar2 = (float)piVar1[0x37];
-  if (*(float *)(&lbl_821954D8 +
-                ((unsigned int)(unsigned char)((dVar3 < dVar4) << 2) | (unsigned int)(NAN(dVar3) || NAN(dVar4)) << 2)) < 0.0)
-  {
-    fVar2 = lbl_821916FC;
-  }
-  piVar1[0x37] = (int)fVar2;
-  return;
+    return test >= 0.0f ? a : b;
 }
 
+void fn_8236B638(Self_8236B638 *self, void *arg, const char *text)
+{
+    Player_8236B638 *player = self->player;
+
+    if (player->energy <= 0.0f) {
+        if (text == 0) {
+            fn_8229D418(player->game->logger->channel, lbl_820E975C, arg);
+        } else {
+            fn_8229D418(player->game->logger->channel, text, arg);
+        }
+    }
+    player->energy = Select(player->energy - 2.0f, player->energy, 2.0f);
+}

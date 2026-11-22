@@ -1,39 +1,36 @@
-extern int fn_822CF9D8();
-extern unsigned int lbl_8218E8E8;
-extern unsigned int lbl_82191FB0;
-extern unsigned int lbl_82193D04;
-extern unsigned int lbl_821CA460;
+/* Decides from the current distance band whether an event happens (always near, by chance in between). */
+extern float fn_822CF9D8(void);
 extern unsigned int lbl_83265A28;
 
-
-unsigned __int64 fn_822CFA98(void)
-
+static __forceinline float RandomUnit(void)
 {
-  unsigned __int64 uVar1;
-  __int64 lVar2;
-  double dVar3;
-  
-  dVar3 = (double)fn_822CF9D8();
-  if (dVar3 <= (double)lbl_82191FB0) {
-    lVar2 = 1;
-    if (dVar3 <= (double)lbl_82193D04) {
-      lVar2 = 2;
-    }
-  }
-  else {
-    lVar2 = 0;
-  }
-  if (lVar2 == 0) {
-    uVar1 = 1;
-  }
-  else {
-    if ((lVar2 == 1) &&
-       (lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f,
-       lbl_8218E8E8 < (float)(lbl_83265A28 & 0x7fffff | 0x3f800000) - lbl_821CA460)) {
-      return 1;
-    }
-    uVar1 = 0;
-  }
-  return uVar1;
+    union {
+        unsigned int bits;
+        float value;
+    } u;
+
+    lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
+    u.bits = (lbl_83265A28 & 0x7fffff) | 0x3f800000;
+    return u.value - 1.0f;
 }
 
+int fn_822CFA98(void)
+{
+    float distance = fn_822CF9D8();
+    unsigned int band;
+
+    if (distance > 0.7f) {
+        band = 0;
+    } else if (distance > 0.4f) {
+        band = 1;
+    } else {
+        band = 2;
+    }
+    switch (band) {
+    case 0:
+        return 1;
+    case 1:
+        return RandomUnit() > 0.5f;
+    }
+    return 0;
+}

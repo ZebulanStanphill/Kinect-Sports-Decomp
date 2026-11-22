@@ -1,29 +1,67 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern int fn_82559FF0();
-extern unsigned int lbl_82195890;
-extern unsigned int lbl_82195894;
-extern V16 vectorSubtractFloatingPoint();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vsubfp(__vector4 a, __vector4 b);
 
-unsigned __int64 fn_824AF6D0(int param_1)
+typedef struct Frame_824AF6D0 {
+    __vector4 joints[15]; /* 0x00 */
+} Frame_824AF6D0;
 
+typedef struct Ring_824AF6D0 {
+    Frame_824AF6D0 *buff;  /* 0x0 */
+    Frame_824AF6D0 *end;   /* 0x4 */
+    Frame_824AF6D0 *first; /* 0x8 */
+    Frame_824AF6D0 *last;  /* 0xc */
+    unsigned int size;     /* 0x10 */
+} Ring_824AF6D0;
+
+typedef struct History_824AF6D0 {
+    int pad0;
+    Ring_824AF6D0 frames; /* 0x4 */
+    char pad18[0x38 - 0x18];
+    int mirrored; /* 0x38 */
+} History_824AF6D0;
+
+typedef struct Self_824AF6D0 {
+    char pad0[0x3c];
+    History_824AF6D0 *history; /* 0x3c */
+} Self_824AF6D0;
+
+extern int fn_82559FF0(__vector4 v, float *out);
+
+static __forceinline Frame_824AF6D0 *Add(const Ring_824AF6D0 *ring, Frame_824AF6D0 *p, int n)
 {
-  unsigned char in_vs32 [16];
-  unsigned char in_vs45 [16];
-  float afStack_20 [4];
-  
-  if (*(int *)(*(int *)(param_1 + 0x3c) + 0x14) != 0) {
-    vectorSubtractFloatingPoint(in_vs32,in_vs45);
-    fn_82559FF0(afStack_20);
-    if (*(int *)(*(int *)(param_1 + 0x3c) + 0x38) == 0) {
-      if (afStack_20[0] < lbl_82195894) {
-        return 1;
-      }
-    }
-    else if (lbl_82195890 < afStack_20[0]) {
-      return 1;
-    }
-  }
-  return 0;
+    return p + (n < ring->end - p ? n : n - (ring->end - ring->buff));
 }
 
+static __forceinline Frame_824AF6D0 *Back(Ring_824AF6D0 *ring)
+{
+    if (ring->size != 0) {
+        return Add(ring, ring->first, ring->size - 1);
+    }
+    return 0;
+}
+
+int fn_824AF6D0(Self_824AF6D0 *self)
+{
+    History_824AF6D0 *history;
+    Frame_824AF6D0 *frame;
+    int side;
+    float angle;
+
+    history = self->history;
+    if (history->frames.size > 0) {
+        side = history->mirrored != 0;
+        frame = Back(&history->frames);
+        fn_82559FF0(__vsubfp(frame->joints[9 - side], frame->joints[8 + side]), &angle);
+        if (self->history->mirrored != 0) {
+            if (angle > 2.0008454f) {
+                return 1;
+            }
+        } else if (angle < -2.0008454f) {
+            return 1;
+        }
+    }
+    return 0;
+}

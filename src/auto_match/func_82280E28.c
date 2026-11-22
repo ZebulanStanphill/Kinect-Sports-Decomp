@@ -1,57 +1,78 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-extern unsigned int *auStack_80;
-extern int fn_8226B6A8();
-extern int fn_8226CA38();
-extern int fn_82275128();
-extern int fn_822811F8();
-extern int fn_82F68CC0();
-extern unsigned int lbl_821954C8;
-extern unsigned int uStack_88;
-extern unsigned int uStack_8c;
-extern unsigned int uStack_90;
+typedef struct Pose_82280E28 {
+    unsigned char data[0x70];
+} Pose_82280E28;
 
+typedef struct Point_82280E28 {
+    float x;
+    float y;
+} Point_82280E28;
 
-void fn_82280E28(int param_1)
+typedef struct Target_82280E28 {
+    char pad00[0x38];
+    Pose_82280E28 pose;    /* 0x38 */
+    Point_82280E28 screen; /* 0xa8 */
+} Target_82280E28;
 
+typedef struct Item_82280E28 {
+    char pad00[0x24];
+    Point_82280E28 position; /* 0x24 */
+    char pad2c[0x15];
+    unsigned char visible; /* 0x41 */
+    unsigned char active;  /* 0x42 */
+} Item_82280E28;
+
+typedef struct ItemList_82280E28 {
+    Item_82280E28 *items[2];
+    int current; /* 0x08 */
+} ItemList_82280E28;
+
+typedef struct Self_82280E28 {
+    char pad00[0x7c];
+    void *view; /* 0x7c */
+    char pad80[0x4];
+    Target_82280E28 *target; /* 0x84 */
+} Self_82280E28;
+
+extern void fn_8226B6A8(void *view, float time);
+extern void fn_822811F8(Pose_82280E28 *pose);
+extern ItemList_82280E28 *fn_82275128(void);
+extern unsigned char fn_8226CA38(void *view, Point_82280E28 *in, Point_82280E28 *out);
+
+void fn_82280E28(Self_82280E28 *self, float time)
 {
-  bool bVar1;
-  int iVar2;
-  char cVar3;
-  unsigned __int64 uVar4;
-  unsigned int uStack_90;
-  unsigned int uStack_8c;
-  unsigned __int64 uStack_88;
-  unsigned char auStack_80 [112];
-  
-  fn_8226B6A8(*(unsigned int *)(param_1 + 0x7c));
-  uVar4 = (unsigned __int64)*(unsigned int *)(param_1 + 0x84);
-  if (uVar4 != 0) {
-    fn_822811F8(auStack_80);
-    fn_82F68CC0(uVar4 + 0x38,auStack_80,0x70);
-  }
-  if (*(int *)(param_1 + 0x84) != 0) {
-    iVar2 = fn_82275128();
-    iVar2 = *(int *)(*(int *)(iVar2 + 8) * 4 + iVar2);
-    if (iVar2 == 0) {
-      return;
-    }
-    if ((*(char *)(iVar2 + 0x41) == '\0') || (bVar1 = true, *(char *)(iVar2 + 0x42) == '\0')) {
-      bVar1 = false;
-    }
-    if (bVar1) {
-      uStack_88 = *(unsigned __int64 *)(iVar2 + 0x24);
-      cVar3 = fn_8226CA38(*(unsigned int *)(param_1 + 0x7c),&uStack_88,&uStack_90);
-      if (cVar3 != '\0') {
-        *(unsigned __int64 *)(*(int *)(param_1 + 0x84) + 0xa8) = CONCAT44(uStack_90,uStack_8c);
-        return;
-      }
-    }
-    *(unsigned __int64 *)(*(int *)(param_1 + 0x84) + 0xa8) = CONCAT44(lbl_821954C8,lbl_821954C8);
-    return;
-  }
-  return;
-}
+    Target_82280E28 *target;
+    ItemList_82280E28 *list;
+    Item_82280E28 *item;
+    unsigned char usable;
+    Pose_82280E28 pose;
+    Point_82280E28 position;
+    Point_82280E28 screen;
 
+    fn_8226B6A8(self->view, time);
+    target = self->target;
+    if (target != 0) {
+        fn_822811F8(&pose);
+        target->pose = pose;
+    }
+    if (self->target != 0) {
+        list = fn_82275128();
+        item = list->items[list->current];
+        if (item != 0) {
+            if (item->visible != 0 && item->active != 0) {
+                usable = 1;
+            } else {
+                usable = 0;
+            }
+            if (usable != 0) {
+                position = item->position;
+                if (fn_8226CA38(self->view, &position, &screen) != 0) {
+                    self->target->screen = screen;
+                    return;
+                }
+            }
+            screen.x = 1000.0f;
+            screen.y = 1000.0f;
+            self->target->screen = screen;
+        }
+    }
+}

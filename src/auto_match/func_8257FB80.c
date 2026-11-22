@@ -1,28 +1,33 @@
-extern unsigned int lbl_82195518;
-extern unsigned int lbl_82195590;
-extern float lbl_821955A0;
+extern double __fctid(double);
+extern double __fcfid(double);
 
+typedef struct Entry_8257FB80 {
+    char pad0[0x18];
+    float angles[3]; /* 0x18 */
+    int changed;     /* 0x24 */
+    char pad28[0x30 - 0x28];
+} Entry_8257FB80;
 
-void fn_8257FB80(int param_1,int param_2,float *param_3)
+typedef struct Table_8257FB80 {
+    Entry_8257FB80 entries[1]; /* 0x00, stride 0x30 */
+} Table_8257FB80;
 
+static __forceinline float WrapAngle(float angle)
 {
-  double dVar1;
-  
-  dVar1 = (double)(__int64)lbl_82195518;
-  if ((((float)(((double)(*param_3 * lbl_82195590) - (double)(__int64)(*param_3 * lbl_82195590)) *
-               lbl_821955A0) == (float)(-dVar1 * lbl_821955A0)) &&
-      ((float)(((double)(param_3[1] * lbl_82195590) - (double)(__int64)(param_3[1] * lbl_82195590))
-              * lbl_821955A0) == (float)(-dVar1 * lbl_821955A0))) &&
-     ((float)(((double)(param_3[2] * lbl_82195590) - (double)(__int64)(param_3[2] * lbl_82195590))
-             * lbl_821955A0) == (float)(-dVar1 * lbl_821955A0))) {
-    *(unsigned int *)(param_2 * 0x30 + param_1 + 0x24) = 0;
-    return;
-  }
-  param_1 = param_2 * 0x30 + param_1;
-  *(unsigned int *)(param_1 + 0x24) = 1;
-  *(float *)(param_1 + 0x18) = *param_3;
-  *(float *)(param_1 + 0x1c) = param_3[1];
-  *(float *)(param_1 + 0x20) = param_3[2];
-  return;
+    double turns = (float)(angle * 0.15915494f);
+
+    return (float)((turns - (float)__fcfid(__fctid(turns))) * 6.2831854820251465);
 }
 
+void fn_8257FB80(Table_8257FB80 *self, int index, const float *angles)
+{
+    if (WrapAngle(angles[0]) == WrapAngle(0.0f) && WrapAngle(angles[1]) == WrapAngle(0.0f) &&
+        WrapAngle(angles[2]) == WrapAngle(0.0f)) {
+        self->entries[index].changed = 0;
+    } else {
+        self->entries[index].changed = 1;
+        self->entries[index].angles[0] = angles[0];
+        self->entries[index].angles[1] = angles[1];
+        self->entries[index].angles[2] = angles[2];
+    }
+}

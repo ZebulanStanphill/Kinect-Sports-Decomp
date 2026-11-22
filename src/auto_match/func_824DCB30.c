@@ -1,43 +1,26 @@
-extern unsigned int lbl_8218E0C8;
-extern unsigned int lbl_82191598;
-extern unsigned int lbl_821954C8;
-extern unsigned int lbl_821955CC;
-extern unsigned int lbl_821955D0;
-extern unsigned int lbl_821CA460;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
-
-void fn_824DCB30(int *param_1,int *param_2,unsigned short *param_3)
-
+/* Projects a skeleton-space point onto the 320x240 depth image and packs the depth in
+   millimetres (shifted left by three) for the depth value. */
+void fn_824DCB30(__vector4 point, int *depthX, int *depthY, unsigned short *depthValue)
 {
-  float fVar1;
-  unsigned short uVar2;
-  float in_register_00010010;
-  float in_register_00010014;
-  float in_register_00010018;
-  
-  if (param_1 == (int *)0x0) {
-    return;
-  }
-  if (param_2 == (int *)0x0) {
-    return;
-  }
-  if (param_3 == (unsigned short *)0x0) {
-    return;
-  }
-  if (in_register_00010018 <= lbl_821955CC) {
-    uVar2 = 0;
-    *param_1 = 0;
-    *param_2 = 0;
-  }
-  else {
-    uVar2 = (unsigned short)(((__int64)(in_register_00010018 * lbl_821954C8) & 0x1fffU) << 3);
-    fVar1 = (lbl_821CA460 / in_register_00010018) * in_register_00010014 * lbl_821955D0 -
-            lbl_82191598;
-    *param_1 = (int)((lbl_821CA460 / in_register_00010018) * in_register_00010010 * lbl_821955D0 +
-                    lbl_8218E0C8);
-    *param_2 = (int)-fVar1;
-  }
-  *param_3 = uVar2;
-  return;
-}
+    float z;
 
+    if (depthX == 0 || depthY == 0 || depthValue == 0) {
+        return;
+    }
+    z = point.vector4_f32[2];
+    if (z > 1.1920929e-07f) {
+        unsigned short value = (unsigned short)(((unsigned short)(z * 1000.0f) & 0x1fff) << 3);
+
+        *depthX = (int)(point.vector4_f32[0] / z * 285.63f + 160.0f);
+        *depthY = (int)(120.0f - point.vector4_f32[1] / z * 285.63f);
+        *depthValue = value;
+    } else {
+        *depthX = 0;
+        *depthY = 0;
+        *depthValue = 0;
+    }
+}

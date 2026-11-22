@@ -1,40 +1,38 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern unsigned int lbl_8218E8E8;
-extern unsigned int lbl_821925C0;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Owner_822D1320 {
+    char pad0[0x2c];
+    int team; /* 0x2c */
+    char pad30[0x310 - 0x30];
+    int neutral; /* 0x310 */
+} Owner_822D1320;
 
+typedef struct Actor_822D1320 {
+    char pad0[0x14];
+    Owner_822D1320 *owner; /* 0x14 */
+} Actor_822D1320;
 
-bool fn_822D1320(double param_1,int param_2,int param_3,unsigned __int64 param_4,int param_5)
+typedef struct Target_822D1320 {
+    char pad0[0x2c];
+    int team; /* 0x2c */
+    char pad30[0x2a4 - 0x30];
+    int allowZero; /* 0x2a4 */
+} Target_822D1320;
 
+int fn_822D1320(Actor_822D1320 *actor, Target_822D1320 *target, float value, int forced)
 {
-  float fVar1;
-  
-  if (param_5 != 0) {
-    if ((double)ltcg_pool_0_0f <= param_1) {
-      return false;
+    if (forced != 0) {
+        return value < 0.0f;
     }
-    return true;
-  }
-  if ((*(int *)(*(int *)(param_2 + 0x14) + 0x2c) == *(int *)(param_3 + 0x2c)) ||
-     (*(int *)(*(int *)(param_2 + 0x14) + 0x310) != 0)) {
-    if (param_1 < (double)ltcg_pool_0_0f) {
-      return false;
+    if (actor->owner->team == target->team || actor->owner->neutral != 0) {
+        if (value < 0.0f) {
+            return 0;
+        }
+        return 1;
     }
-  }
-  else {
-    if (param_1 == (double)ltcg_pool_0_0f) {
-      return *(int *)(param_3 + 0x2a4) != 0;
+    if (value == 0.0f) {
+        return target->allowZero != 0;
     }
-    fVar1 = lbl_8218E8E8;
-    if (param_1 < (double)ltcg_pool_0_0f) {
-      fVar1 = lbl_821925C0;
+    if (value < 0.0f) {
+        return value > -0.5f ? 0 : 1;
     }
-    if ((double)fVar1 < param_1) {
-      return false;
-    }
-  }
-  return true;
+    return value > 0.5f ? 0 : 1;
 }
-

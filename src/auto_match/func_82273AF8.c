@@ -1,153 +1,72 @@
-extern unsigned int *auStack_60;
-extern unsigned int lbl_82195FE0;
-extern unsigned int lbl_82195FF0;
-extern unsigned int lbl_82196000;
-extern unsigned int lbl_82196010;
-extern unsigned int lbl_82196020;
-extern unsigned int lbl_82196030;
-extern unsigned int lbl_821CA460;
+/* Scalar sine and cosine (XMScalarSinCos shape): the angle is reduced to [-pi, pi), then the powers of x
+   are dotted with the sine and cosine coefficient tables. */
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vspltw(__vector4 v, unsigned int i);
+__vector4 __vmsum4fp(__vector4 a, __vector4 b);
+__vector4 __vmulfp(__vector4 a, __vector4 b);
+double fabs(double);
 
-void fn_82273AF8(float *param_1,float *param_2)
+extern const __vector4 lbl_82195FE0; /* sine coefficients 0 */
+extern const __vector4 lbl_82195FF0; /* sine coefficients 1 */
+extern const __vector4 lbl_82196000; /* sine coefficients 2 */
+extern const __vector4 lbl_82196010; /* cosine coefficients 0 */
+extern const __vector4 lbl_82196020; /* cosine coefficients 1 */
+extern const __vector4 lbl_82196030; /* cosine coefficients 2 */
 
+typedef union Vec_82273AF8 {
+    __vector4 v;
+    float f[4];
+} Vec_82273AF8;
+
+static __forceinline float GetX(__vector4 v)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  float fVar5;
-  float fVar6;
-  float fVar7;
-  float fVar8;
-  float fVar9;
-  float *pfVar10;
-  float *pfVar11;
-  float fVar12;
-  int in_r0;
-  float fVar13;
-  float fVar14;
-  float fVar15;
-  float fVar16;
-  float in_register_00010050;
-  float in_register_00010054;
-  float in_register_00010058;
-  float in_vr5;
-  float in_register_00010060;
-  float in_register_00010064;
-  float in_register_00010068;
-  float in_vr6;
-  float fVar17;
-  float fVar18;
-  float fVar19;
-  float fVar20;
-  float fVar21;
-  float fVar22;
-  float fVar23;
-  float fVar24;
-  float fVar25;
-  float fVar26;
-  float fVar27;
-  float fVar28;
-  float fVar29;
-  float fVar30;
-  float fVar31;
-  float fVar32;
-  float fVar33;
-  float fVar34;
-  float fVar35;
-  float fVar36;
-  unsigned char auStack_60 [16];
-  float afStack_50 [4];
-  float afStack_40 [4];
-  float afStack_30 [4];
-  float afStack_20 [4];
-  
-  fVar12 = lbl_821CA460;
-  pfVar10 = (float *)((unsigned int)(&lbl_82195FE0 + in_r0) & 0xfffffff0);
-  fVar33 = *pfVar10;
-  fVar34 = pfVar10[1];
-  fVar35 = pfVar10[2];
-  fVar36 = pfVar10[3];
-  pfVar10 = (float *)((unsigned int)(&lbl_82196020 + in_r0) & 0xfffffff0);
-  fVar29 = *pfVar10;
-  fVar30 = pfVar10[1];
-  fVar31 = pfVar10[2];
-  fVar32 = pfVar10[3];
-  pfVar10 = (float *)((unsigned int)(&lbl_82196010 + in_r0) & 0xfffffff0);
-  pfVar11 = (float *)((unsigned int)(&lbl_82195FF0 + in_r0) & 0xfffffff0);
-  fVar25 = *pfVar11;
-  fVar26 = pfVar11[1];
-  fVar27 = pfVar11[2];
-  fVar28 = pfVar11[3];
-  pfVar11 = (float *)((unsigned int)(&lbl_82196030 + in_r0) & 0xfffffff0);
-  fVar21 = *pfVar11;
-  fVar22 = pfVar11[1];
-  fVar23 = pfVar11[2];
-  fVar24 = pfVar11[3];
-  pfVar11 = (float *)((unsigned int)(&lbl_82196000 + in_r0) & 0xfffffff0);
-  fVar17 = *pfVar11;
-  fVar18 = pfVar11[1];
-  fVar19 = pfVar11[2];
-  fVar20 = pfVar11[3];
-  pfVar11 = (float *)((unsigned int)(auStack_60 + in_r0) & 0xfffffff0);
-  fVar13 = *pfVar11;
-  fVar14 = pfVar11[1];
-  fVar15 = pfVar11[2];
-  fVar16 = pfVar11[3];
-  fVar2 = fVar13 * fVar13;
-  fVar4 = fVar14 * fVar14;
-  fVar6 = fVar15 * fVar15;
-  fVar8 = fVar16 * fVar16;
-  fVar1 = fVar2 * *pfVar10 + fVar4 * pfVar10[1] + fVar6 * pfVar10[2] + fVar8 * pfVar10[3];
-  fVar3 = in_register_00010050 * in_register_00010060;
-  fVar5 = in_register_00010054 * in_register_00010064;
-  fVar7 = in_register_00010058 * in_register_00010068;
-  fVar9 = in_vr5 * in_vr6;
-  pfVar10 = (float *)((int)afStack_30 + in_r0 & 0xfffffff0);
-  *pfVar10 = fVar1;
-  pfVar10[1] = fVar1;
-  pfVar10[2] = fVar1;
-  pfVar10[3] = fVar1;
-  fVar1 = fVar2 * fVar13 * fVar33 + fVar4 * fVar14 * fVar34 + fVar6 * fVar15 * fVar35 +
-          fVar8 * fVar16 * fVar36;
-  fVar33 = fVar2 * fVar13 * fVar3;
-  fVar34 = fVar4 * fVar14 * fVar5;
-  fVar15 = fVar6 * fVar15 * fVar7;
-  fVar16 = fVar8 * fVar16 * fVar9;
-  fVar13 = fVar33 * fVar25 + fVar34 * fVar26 + fVar15 * fVar27 + fVar16 * fVar28;
-  fVar14 = fVar2 * fVar3 * fVar29 + fVar4 * fVar5 * fVar30 + fVar6 * fVar7 * fVar31 +
-           fVar8 * fVar9 * fVar32;
-  pfVar10 = (float *)((int)afStack_20 + in_r0 & 0xfffffff0);
-  *pfVar10 = fVar1;
-  pfVar10[1] = fVar1;
-  pfVar10[2] = fVar1;
-  pfVar10[3] = fVar1;
-  fVar1 = fVar33 * fVar3 * fVar17 + fVar34 * fVar5 * fVar18 + fVar15 * fVar7 * fVar19 +
-          fVar16 * fVar9 * fVar20;
-  fVar2 = fVar2 * fVar3 * fVar3 * fVar21 + fVar4 * fVar5 * fVar5 * fVar22 +
-          fVar6 * fVar7 * fVar7 * fVar23 + fVar8 * fVar9 * fVar9 * fVar24;
-  pfVar10 = (float *)((int)afStack_40 + in_r0 & 0xfffffff0);
-  *pfVar10 = fVar13;
-  pfVar10[1] = fVar13;
-  pfVar10[2] = fVar13;
-  pfVar10[3] = fVar13;
-  pfVar10 = (float *)((int)afStack_50 + in_r0 & 0xfffffff0);
-  *pfVar10 = fVar14;
-  pfVar10[1] = fVar14;
-  pfVar10[2] = fVar14;
-  pfVar10[3] = fVar14;
-  pfVar10 = (float *)((unsigned int)(auStack_60 + in_r0) & 0xfffffff0);
-  *pfVar10 = fVar1;
-  pfVar10[1] = fVar1;
-  pfVar10[2] = fVar1;
-  pfVar10[3] = fVar1;
-  pfVar10 = (float *)((int)afStack_50 + in_r0 & 0xfffffff0);
-  *pfVar10 = fVar2;
-  pfVar10[1] = fVar2;
-  pfVar10[2] = fVar2;
-  pfVar10[3] = fVar2;
-  *param_2 = afStack_50[0] + afStack_50[0] + afStack_30[0];
-  *param_1 = fVar12 + afStack_40[0] + afStack_20[0];
-  return;
+    Vec_82273AF8 u;
+    u.v = v;
+    return u.f[0];
 }
 
+static __forceinline float ModAngle(float value)
+{
+    float t;
+
+    value = value + 3.14159274f;
+    t = (float)fabs(value);
+    t = t - 6.28318548f * (float)(__int64)(t * 0.159154937f);
+    t = t - 3.14159274f;
+    return value >= 0.0f ? t : -t;
+}
+
+void fn_82273AF8(float *s, float *c, float value)
+{
+    Vec_82273AF8 p;
+    __vector4 v0123, v0246, v1, v2, v6, v1357, v8, v9, v8b, v17, v16;
+    float c0, s0, s1, c1, s2, c2;
+
+    value = ModAngle(value);
+    p.f[0] = 1.0f;
+    p.f[1] = value;
+    p.f[2] = value * value;
+    p.f[3] = value * value * value;
+    v0123 = p.v;
+    v2 = __vspltw(v0123, 2);
+    v0246 = __vmulfp(v0123, v0123);
+    c0 = GetX(__vmsum4fp(v0246, lbl_82196010));
+    v1 = __vspltw(v0123, 1);
+    v6 = __vspltw(v0246, 3);
+    v1357 = __vmulfp(v0246, v1);
+    v8 = __vmulfp(v6, v2);
+    v9 = __vmulfp(v1357, v8);
+    v17 = __vmulfp(v9, v8);
+    v8b = __vmulfp(v0246, v8);
+    s0 = GetX(__vmsum4fp(v1357, lbl_82195FE0));
+    s1 = GetX(__vmsum4fp(v9, lbl_82195FF0));
+    s2 = GetX(__vmsum4fp(v17, lbl_82196000));
+    v16 = __vmulfp(v8b, v8);
+    c1 = GetX(__vmsum4fp(v8b, lbl_82196020));
+    c2 = GetX(__vmsum4fp(v16, lbl_82196030));
+    *c = c2 + c1 + c0;
+    *s = s2 + s1 + s0;
+}

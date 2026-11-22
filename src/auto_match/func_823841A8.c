@@ -1,81 +1,107 @@
-#define NAN(x) ((x) != (x))
-extern unsigned int *auStack_40;
-extern int fn_823845A0();
-extern int fn_82535298();
-extern int fn_82536288();
-extern float lbl_8218E8E8;
-extern unsigned int lbl_821954D8;
-extern unsigned int ltcg_pool_0_0f;
+/* Two-part caption update: after the start delay the second panel starts its animation (and the
+   intro sound plays); once started, the middle and end cue sounds play at their times; when the
+   whole duration is over the caption is reset. Both panels are then updated. */
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Panel_823841A8 Panel_823841A8;
 
-void fn_823841A8(double param_1,int param_2)
+typedef struct PanelVtbl_823841A8 {
+    void *slot0;
+    void (*start)(Panel_823841A8 *self, float delay, float duration, float a, float b, float c, float d,
+                  float e, float f, __vector4 from, __vector4 to, int g, int h, int i);
+    void (*update)(Panel_823841A8 *self, float dt);
+} PanelVtbl_823841A8;
 
+struct Panel_823841A8 {
+    PanelVtbl_823841A8 *vt;
+    char pad4[0xf0 - 4];
+};
+
+typedef struct Sound_823841A8 {
+    int bank; /* 0x00 */
+} Sound_823841A8;
+
+typedef struct Caption_823841A8 {
+    char pad0[0x10];
+    Panel_823841A8 first;  /* 0x010 */
+    Panel_823841A8 second; /* 0x100 */
+    int style;             /* 0x1f0 */
+    char pad1F4[0xc];
+    __vector4 v[5];   /* 0x200 */
+    float duration;   /* 0x250 */
+    float time;       /* 0x254 */
+    float startTime;  /* 0x258 */
+    float secondTime; /* 0x25c */
+    float endTime;    /* 0x260 */
+    float pad264;
+    int middleCue;         /* 0x268 */
+    int endCue;            /* 0x26c */
+    int started;           /* 0x270 */
+    int middlePlayed;      /* 0x274 */
+    int endPlayed;         /* 0x278 */
+    int soundsEnabled;     /* 0x27c */
+    int active;            /* 0x280 */
+    int silent;            /* 0x284 */
+    Sound_823841A8 *sound; /* 0x288 */
+    float *curve;          /* 0x28c */
+} Caption_823841A8;
+
+extern char lbl_83296BC0[];
+extern char lbl_83296BD0[];
+
+extern int fn_82535298(int *h, int id, void *a, void *b);
+extern void fn_82536288(int *h);
+extern void fn_823845A0(Caption_823841A8 *self);
+
+static __forceinline void PlayCue(int cue, int bank)
 {
-  float fVar1;
-  float *pfVar2;
-  double dVar3;
-  double dVar4;
-  double dVar5;
-  unsigned int auStack_40 [16];
-  
-  if (*(int *)(param_2 + 0x280) != 0) {
-    fVar1 = (float)(param_1 + (double)*(float *)(param_2 + 0x254));
-    *(float *)(param_2 + 0x254) = fVar1;
-    if (*(int *)(param_2 + 0x270) == 0) {
-      if (*(float *)(param_2 + 600) <= fVar1) {
-        pfVar2 = *(float **)(param_2 + 0x28c);
-        (**(int (***)())(*(int *)(param_2 + 0x100) + 4))
-                  ((double)(*(float *)(param_2 + 0x25c) - fVar1),
-                   (double)(*(float *)(param_2 + 0x250) - *(float *)(param_2 + 0x25c)),
-                   (double)pfVar2[2],(double)pfVar2[3],(double)pfVar2[4],(double)pfVar2[5],
-                   (double)*pfVar2,(double)pfVar2[1],param_2 + 0x100);
-        if (((*(unsigned int **)(param_2 + 0x288) != (unsigned int *)0x0) &&
-            (*(int *)(param_2 + 0x284) == 0)) && (*(int *)(param_2 + 0x27c) != 0)) {
-          auStack_40[0] = *(unsigned int *)(param_2 + 0x268);
-          auStack_40[0] =
-               fn_82535298(auStack_40,**(unsigned int **)(param_2 + 0x288),0xffffffff83296bc0,
-                                 0xffffffff83296bd0);
-          fn_82536288(auStack_40);
-        }
-        *(unsigned int *)(param_2 + 0x270) = 1;
-      }
-    }
-    else {
-      dVar4 = (double)*(float *)(param_2 + 600);
-      dVar3 = (double)ltcg_pool_0_0f;
-      dVar5 = (double)(float)((double)(float)((double)*(float *)(param_2 + 0x260) - dVar4) + dVar4);
-      if (*(float *)(&lbl_821954D8 +
-                    ((unsigned int)(unsigned char)((-dVar4 < dVar3) << 2) | (unsigned int)(NAN(-dVar4) || NAN(dVar3)) << 2))
-          < 0.0) {
-        dVar3 = dVar4;
-      }
-      if (((((float)(dVar3 + dVar5) * lbl_8218E8E8 <= fVar1) && (*(int *)(param_2 + 0x274) == 0)) &&
-          (*(int *)(param_2 + 0x284) == 0)) &&
-         ((*(int *)(param_2 + 0x27c) != 0 &&
-          (*(unsigned int **)(param_2 + 0x288) != (unsigned int *)0x0)))) {
-        auStack_40[0] = *(unsigned int *)(param_2 + 0x268);
-        auStack_40[0] =
-             fn_82535298(auStack_40,**(unsigned int **)(param_2 + 0x288),0xffffffff83296bc0,
-                               0xffffffff83296bd0);
-        fn_82536288(auStack_40);
-        *(unsigned int *)(param_2 + 0x274) = 1;
-      }
-      if (((dVar5 <= (double)*(float *)(param_2 + 0x254)) && (*(int *)(param_2 + 0x278) == 0)) &&
-         (*(unsigned int **)(param_2 + 0x288) != (unsigned int *)0x0)) {
-        auStack_40[0] = *(unsigned int *)(param_2 + 0x26c);
-        auStack_40[0] =
-             fn_82535298(auStack_40,**(unsigned int **)(param_2 + 0x288),0xffffffff83296bc0,
-                               0xffffffff83296bd0);
-        fn_82536288(auStack_40);
-        *(unsigned int *)(param_2 + 0x278) = 1;
-      }
-    }
-    if (*(float *)(param_2 + 0x250) <= *(float *)(param_2 + 0x254)) {
-      fn_823845A0(param_2);
-    }
-  }
-  (**(int (***)())(*(int *)(param_2 + 0x10) + 8))(param_1,param_2 + 0x10);
-  (**(int (***)())(*(int *)(param_2 + 0x100) + 8))(param_1,param_2 + 0x100);
-  return;
+    int h = cue;
+
+    h = fn_82535298(&h, bank, lbl_83296BC0, lbl_83296BD0);
+    fn_82536288(&h);
 }
 
+void fn_823841A8(Caption_823841A8 *self, float dt)
+{
+    float time;
+    float start;
+    float end;
+    float *curve;
+
+    if (self->active != 0) {
+        time = self->time + dt;
+        self->time = time;
+        if (self->started == 0) {
+            if (time >= self->startTime) {
+                curve = self->curve;
+                self->second.vt->start(&self->second, self->secondTime - time,
+                                       self->duration - self->secondTime, curve[2], curve[3], curve[4],
+                                       curve[5], curve[0], curve[1], self->v[3], self->v[4], 0, self->style,
+                                       self->silent == 0);
+                if (self->sound != 0 && self->silent == 0 && self->soundsEnabled != 0) {
+                    PlayCue(self->middleCue, self->sound->bank);
+                }
+                self->started = 1;
+            }
+        } else {
+            start = self->startTime;
+            end = self->endTime - start + start;
+            if (time >= ((-start >= 0.0f ? 0.0f : start) + end) * 0.5f && self->middlePlayed == 0 &&
+                self->silent == 0 && self->soundsEnabled != 0 && self->sound != 0) {
+                PlayCue(self->middleCue, self->sound->bank);
+                self->middlePlayed = 1;
+            }
+            if (self->time >= end && self->endPlayed == 0 && self->sound != 0) {
+                PlayCue(self->endCue, self->sound->bank);
+                self->endPlayed = 1;
+            }
+        }
+        if (self->time >= self->duration) {
+            fn_823845A0(self);
+        }
+    }
+    self->first.vt->update(&self->first, dt);
+    self->second.vt->update(&self->second, dt);
+}

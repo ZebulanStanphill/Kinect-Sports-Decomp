@@ -1,32 +1,41 @@
-extern int fn_8223A9E0();
-extern unsigned int lbl_82195518;
+/* Unpacks an unsigned 14-bit float (4-bit exponent, 10-bit mantissa) from a bit buffer. */
+typedef union Bits_82239318 {
+    unsigned __int64 u;
+    double d;
+} Bits_82239318;
 
+extern unsigned __int64 fn_8223A9E0(void *buf, int offset, int width);
 
-double fn_82239318(unsigned __int64 param_1)
-
+float fn_82239318(void *buf)
 {
-  __int64 lVar1;
-  __int64 lVar2;
-  unsigned __int64 uVar3;
-  double dVar4;
-  
-  lVar1 = fn_8223A9E0(param_1,0,4);
-  lVar2 = fn_8223A9E0(param_1,4,10);
-  if (lVar1 == 0) {
-    dVar4 = lbl_82195518;
-    if (lVar2 == 0) goto LAB_822393b0;
-    lVar1 = 0x3f9;
-    for (uVar3 = lVar2 << 0x2a; (uVar3 & 0xfff0000000000000) == 0; uVar3 = uVar3 << 1) {
-      lVar1 = lVar1 + -1;
-    }
-    uVar3 = uVar3 & 0xfffffffffffff;
-  }
-  else {
-    lVar1 = lVar1 + 0x3f8;
-    uVar3 = lVar2 << 0x2a;
-  }
-  dVar4 = (double)(lVar1 << 0x34 | uVar3);
-LAB_822393b0:
-  return (double)(float)dVar4;
-}
+    __int64 exponent;
+    unsigned __int64 mantissa;
+    double value;
 
+    exponent = fn_8223A9E0(buf, 0, 4);
+    mantissa = fn_8223A9E0(buf, 4, 10);
+    if (exponent == 0) {
+        if (mantissa == 0) {
+            value = 0.0;
+            goto done;
+        }
+        mantissa <<= 42;
+        exponent = 0x3f9;
+        while ((mantissa & 0xfff0000000000000ULL) == 0) {
+            mantissa <<= 1;
+            exponent--;
+        }
+        mantissa &= 0xfffffffffffffULL;
+    } else {
+        exponent += 0x3f8;
+        mantissa <<= 42;
+    }
+    {
+        Bits_82239318 bits;
+
+        bits.u = ((unsigned __int64)exponent << 52) | mantissa;
+        value = bits.d;
+    }
+done:
+    return (float)value;
+}

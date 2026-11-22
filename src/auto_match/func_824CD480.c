@@ -1,34 +1,26 @@
-extern int XMemSet();
-extern unsigned int lbl_821912A4;
-extern unsigned int lbl_821917B4;
-extern unsigned int lbl_821929B0;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __VMXGetReg(int n);
+extern void *XMemSet(void *dst, int value, unsigned int size);
 
-int fn_824CD480(int param_1)
+typedef struct Settings_824CD480 {
+    __vector4 origin; /* 0x0 */
+    char slots[0x40]; /* 0x10 */
+    float scale[3];   /* 0x50 */
+    float threshold;  /* 0x5c */
+    float step;       /* 0x60 */
+} Settings_824CD480;
 
+Settings_824CD480 *fn_824CD480(Settings_824CD480 *self)
 {
-  unsigned int *puVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  int in_r0;
-  unsigned int in_register_000104d0;
-  unsigned int in_register_000104d4;
-  unsigned int in_register_000104d8;
-  unsigned int in_vr77;
-  
-  puVar1 = (unsigned int *)(in_r0 + param_1 & 0xfffffff0);
-  *puVar1 = in_register_000104d0;
-  puVar1[1] = in_register_000104d4;
-  puVar1[2] = in_register_000104d8;
-  puVar1[3] = in_vr77;
-  uVar3 = lbl_821917B4;
-  uVar2 = lbl_821912A4;
-  *(unsigned int *)(param_1 + 0x60) = lbl_821929B0;
-  *(unsigned int *)(param_1 + 0x50) = uVar3;
-  *(unsigned int *)(param_1 + 0x54) = uVar3;
-  *(unsigned int *)(param_1 + 0x58) = uVar3;
-  *(unsigned int *)(param_1 + 0x5c) = uVar2;
-  XMemSet(param_1 + 0x10,0,0x40);
-  return param_1;
+    self->origin = __VMXGetReg(77);
+    self->step = 0.05f;
+    self->scale[0] = 0.25f;
+    self->scale[1] = 0.25f;
+    self->scale[2] = 0.25f;
+    self->threshold = 0.03f;
+    XMemSet(self->slots, 0, sizeof(self->slots));
+    return self;
 }
-

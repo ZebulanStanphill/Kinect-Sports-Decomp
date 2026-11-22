@@ -1,52 +1,69 @@
-extern unsigned int *auStack_50;
-extern int fn_82292AE8();
-extern int fn_82292DB8();
-extern int fn_82293000();
-extern int fn_82293088();
-extern int fn_822930F8();
-extern int fn_82809CB0();
-extern int fn_82864898();
-extern int fn_82864988();
-extern unsigned int lbl_8218EC10;
-extern float lbl_82191144;
-extern unsigned int *lbl_8327F848;
+/* Updates the music state, then eases the master bus volume towards its target. */
+typedef struct Music_822931D8 {
+    int request[4]; /* 0x00 */
+    int playing;    /* 0x10 */
+} Music_822931D8;
 
+typedef struct Volume_822931D8 {
+    char pad[0x58];
+    float current; /* 0x58 */
+    float target;  /* 0x5c */
+} Volume_822931D8;
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+typedef struct Mixer_822931D8 Mixer_822931D8;
 
-void fn_822931D8(int *param_1)
+typedef struct MixerVt_822931D8 {
+    void *slot0;
+    void *slot4;
+    void *slot8;
+    void *slotC;
+    void (*SetVolume)(Mixer_822931D8 *self, void *name, float volume); /* 0x10 */
+} MixerVt_822931D8;
 
+struct Mixer_822931D8 {
+    MixerVt_822931D8 *vt;
+};
+
+typedef struct Name_822931D8 {
+    int words[8];
+} Name_822931D8;
+
+extern void fn_82292DB8(Music_822931D8 *music);
+extern void fn_82293000(Music_822931D8 *music);
+extern void fn_82293088(Music_822931D8 *music);
+extern void fn_822930F8(Music_822931D8 *music);
+extern Volume_822931D8 *fn_82292AE8(void);
+extern void *fn_82864988(Name_822931D8 *name, const char *text);
+extern void fn_82864898(Name_822931D8 *name);
+extern float fn_82809CB0(float x);
+extern Mixer_822931D8 *lbl_8327F848;
+
+void fn_822931D8(Music_822931D8 *music)
 {
-  float fVar1;
-  int iVar2;
-  int iVar4;
-  unsigned __int64 uVar3;
-  double dVar5;
-  unsigned char auStack_50 [16];
-  
-  if (((((*param_1 == 0) && (param_1[1] == 0)) && (param_1[2] == 0)) && (param_1[3] == 0)) ||
-     (param_1[4] != 0)) {
-    fn_82293000(param_1);
-    fn_82293088(param_1);
-    fn_822930F8(param_1);
-  }
-  else {
-    fn_82292DB8(param_1);
-  }
-  iVar4 = fn_82292AE8();
-  dVar5 = (double)*(float *)(iVar4 + 0x58);
-  if (dVar5 != (double)*(float *)(iVar4 + 0x5c)) {
-    iVar2 = *lbl_8327F848;
-    uVar3 = fn_82864988(auStack_50,0xffffffff821c3f50);
-    (**(int (***)())(iVar2 + 0x10))(dVar5,lbl_8327F848,uVar3);
-    fn_82864898(auStack_50);
-    dVar5 = (double)fn_82809CB0((double)(*(float *)(iVar4 + 0x58) - *(float *)(iVar4 + 0x5c)));
-    fVar1 = *(float *)(iVar4 + 0x5c);
-    if ((double)lbl_8218EC10 <= dVar5) {
-      fVar1 = (fVar1 - *(float *)(iVar4 + 0x58)) * lbl_82191144 + *(float *)(iVar4 + 0x58);
-    }
-    *(float *)(iVar4 + 0x58) = fVar1;
-  }
-  return;
-}
+    Volume_822931D8 *volume;
+    float current;
+    float next;
+    Name_822931D8 name;
 
+    if ((music->request[0] != 0 || music->request[1] != 0 || music->request[2] != 0 ||
+         music->request[3] != 0) &&
+        music->playing == 0) {
+        fn_82292DB8(music);
+    } else {
+        fn_82293000(music);
+        fn_82293088(music);
+        fn_822930F8(music);
+    }
+    volume = fn_82292AE8();
+    current = volume->current;
+    if (current != volume->target) {
+        lbl_8327F848->vt->SetVolume(lbl_8327F848, fn_82864988(&name, "main_bus_volume_master"), current);
+        fn_82864898(&name);
+        if (fn_82809CB0(volume->current - volume->target) < 0.00001f) {
+            next = volume->target;
+        } else {
+            next = (volume->target - volume->current) * 0.08f + volume->current;
+        }
+        volume->current = next;
+    }
+}

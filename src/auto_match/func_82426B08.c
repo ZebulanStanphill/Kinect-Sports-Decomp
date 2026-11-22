@@ -1,41 +1,69 @@
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern int fn_82508078();
-extern float lbl_821954D4;
-extern unsigned int lbl_821CA460;
+typedef struct Elem_82426B08 {
+    int f0;
+    int f4;
+    char pad8[0x1ac - 8];
+} Elem_82426B08;
+
+typedef struct Vec_82426B08 {
+    Elem_82426B08 *begin;
+    Elem_82426B08 *end;
+} Vec_82426B08;
+
+typedef struct Obj_82426B08 {
+    int f0;
+    int f4;
+    Vec_82426B08 elems;
+    int f10;
+    int f14;
+    int index;
+} Obj_82426B08;
+
+typedef struct Owner_82426B08 {
+    char pad0[0xa4];
+    int fA4;
+    char padA8[0x2b20 - 0xa8];
+    Obj_82426B08 *current;
+} Owner_82426B08;
+
+typedef struct Self_82426B08 {
+    int f0;
+    Obj_82426B08 *obj;
+    Owner_82426B08 *owner;
+} Self_82426B08;
+
+extern void fn_82508078(int a, const char *name, int c);
 extern unsigned int lbl_83265A28;
 
-
-void fn_82426B08(int param_1)
-
+static __forceinline int Vec_size(Vec_82426B08 *v)
 {
-  int iVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  char *apcStack_18 [6];
-  
-  iVar1 = *(int *)(param_1 + 4);
-  if (((*(int *)(iVar1 + 0xc) - *(int *)(iVar1 + 8)) / 0x1ac == 1) &&
-     (*(int *)(*(int *)(iVar1 + 0x18) * 0x1ac + *(int *)(iVar1 + 8) + 4) != 0)) {
-    apcStack_18[0] = "bowlerquickmatchenjoy";
-    lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
-    apcStack_18[1] = "bowlerquickmatchpractise";
-    apcStack_18[2] = "bowlerquickmatchpressure";
-    if (*(int *)(param_1 + 4) != *(int *)(*(int *)(param_1 + 8) + 0x2b20)) {
-      return;
-    }
-    uVar2 = *(unsigned int *)(*(int *)(param_1 + 8) + 0xa4);
-    uVar3 = ZEXT48(apcStack_18
-                   [-(int)(((float)(lbl_83265A28 & 0x7fffff | 0x3f800000) - lbl_821CA460) *
-                          lbl_821954D4)]);
-  }
-  else {
-    if (iVar1 != *(int *)(*(int *)(param_1 + 8) + 0x2b20)) {
-      return;
-    }
-    uVar2 = *(unsigned int *)(*(int *)(param_1 + 8) + 0xa4);
-    uVar3 = 0xffffffff821b8838;
-  }
-  fn_82508078(uVar2,uVar3,0);
-  return;
+    return v->end - v->begin;
 }
 
+void fn_82426B08(Self_82426B08 *self)
+{
+    Obj_82426B08 *obj;
+    const char *names[3];
+
+    union {
+        unsigned int u;
+        float f;
+    } r;
+
+    obj = self->obj;
+    if (Vec_size(&obj->elems) == 1 && self->obj->elems.begin[obj->index].f4 != 0) {
+        names[0] = "bowlerquickmatchenjoy";
+        lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
+        names[1] = "bowlerquickmatchpractise";
+        names[2] = "bowlerquickmatchpressure";
+        r.u = (lbl_83265A28 & 0x7fffff) | 0x3f800000;
+        if (self->obj != self->owner->current) {
+            return;
+        }
+        fn_82508078(self->owner->fA4, names[-(int)((r.f - 1.0f) * -3.0f)], 0);
+    } else {
+        if (obj != self->owner->current) {
+            return;
+        }
+        fn_82508078(self->owner->fA4, "bowlerwelcome", 0);
+    }
+}

@@ -1,163 +1,165 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef struct { unsigned __int64 lo, hi; } V16;
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-#define NAN(x) ((x) != (x))
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_80;
-extern int fn_82412588();
-extern int fn_8241CEB8();
-extern int fn_82539560();
-extern int fn_8253A918();
-extern unsigned int lbl_82191F78;
-extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821962E0;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int stack0x00000000;
-extern V16 loadVectorLeftIndexed128();
+/* Bowling pin hits: in a replay, triggers the recorded pin hit; otherwise finds the strongest
+   pin hit, triggers the first upward hit inside the lane box, and adds the hit strength
+   (remapped, capped at the player's maximum) to the accumulated push. */
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __lvlx(const void *base, int offset);
+__vector4 __vspltw(__vector4 v, int element);
+__vector4 __vmulfp(__vector4 a, __vector4 b);
+__vector4 __vmsum3fp(__vector4 a, __vector4 b);
 
-void fn_82412308(int param_1)
+typedef struct Hit_82412308 {
+    __vector4 position;  /* 0x00 */
+    __vector4 direction; /* 0x10 */
+    char pad20[0x94 - 0x20];
+    void *owner; /* 0x94 */
+    char pad98[4];
+    unsigned int flags; /* 0x9c */
+    char padA0[4];
+    float strength; /* 0xa4 */
+    char padA8[0xd0 - 0xa8];
+} Hit_82412308;
 
+typedef struct Player_82412308 {
+    char pad0[0x278];
+    float maxRange; /* 0x278 */
+    char pad27C[0x2f4 - 0x27c];
+    float minStrength; /* 0x2f4 */
+    char pad2F8[0xa20 - 0x2f8];
+    int pushEnabled;    /* 0xa20 */
+    float pushRange[4]; /* 0xa24 */
+    float pushMax;      /* 0xa34 */
+    char padA38[4];
+    int secondSide; /* 0xa3c */
+} Player_82412308;
+
+typedef struct Control_82412308 {
+    Player_82412308 *player; /* 0x000 */
+    char pad4[0x1e0 - 4];
+    __vector4 pushDirection; /* 0x1e0 */
+    char pad1F0[0x210 - 0x1f0];
+    __vector4 boxMin; /* 0x210 */
+    __vector4 boxMax; /* 0x220 */
+} Control_82412308;
+
+typedef struct World_82412308 {
+    char pad0[0x50];
+    __vector4 position; /* 0x050 */
+    char pad60[0x380 - 0x60];
+    Hit_82412308 *hitsBegin; /* 0x380 */
+    Hit_82412308 *hitsEnd;   /* 0x384 */
+} World_82412308;
+
+typedef struct Self_82412308 {
+    char pad0[8];
+    int replay; /* 0x008 */
+    char padC[0x24 - 0xc];
+    Control_82412308 *control; /* 0x024 */
+    World_82412308 *world;     /* 0x028 */
+    char pad2C[0x34 - 0x2c];
+    int triggered; /* 0x034 */
+    char pad38[0x48 - 0x38];
+    float distance; /* 0x048 */
+    char pad4C[0x8c - 0x4c];
+    float push; /* 0x08c */
+    char pad90[0xd0 - 0x90];
+    float delay; /* 0x0d0 */
+    char padD4[0x110 - 0xd4];
+    int firstPushSet; /* 0x110 */
+    char pad114[0x120 - 0x114];
+    __vector4 firstPush; /* 0x120 */
+    int secondPushSet;   /* 0x130 */
+    char pad134[0x140 - 0x134];
+    __vector4 secondPush; /* 0x140 */
+} Self_82412308;
+
+extern const __vector4 lbl_821962E0;
+/* Tuning table; element 0x36 (0.9f) is the minimum upward component of a pin hit. It is read as a
+   variable: a literal would be kept in a register across the loop. */
+extern const float lbl_82191EA0[0xd0];
+
+extern void *fn_8241CEB8(Control_82412308 *control, Self_82412308 *self, int kind);
+extern void fn_82412588(Self_82412308 *self, __vector4 position);
+extern int fn_8253A918(const void *point, const __vector4 *lo, const __vector4 *hi);
+extern float fn_82539560(float x, float inMin, float inMax, float outMin, float outMax);
+
+static __forceinline __vector4 Replicate(float value)
 {
-  unsigned int uVar1;
-  unsigned int *puVar2;
-  float *pfVar3;
-  unsigned int *puVar4;
-  bool bVar5;
-  unsigned __int64 in_r0;
-  unsigned __int64 uVar6;
-  int iVar7;
-  int *piVar8;
-  unsigned int uVar9;
-  double dVar10;
-  double dVar11;
-  double dVar12;
-  float fVar13;
-  unsigned int uVar14;
-  float fVar15;
-  unsigned int uVar16;
-  float fVar17;
-  unsigned int uVar18;
-  float fVar19;
-  float fVar20;
-  float fVar21;
-  float fVar22;
-  float fVar23;
-  unsigned char auStack_80 [16];
-  unsigned char auStack_70 [16];
-  float afStack_60 [24];
-  
-  uVar6 = ZEXT48(&stack0x00000000);
-  if (*(int *)(param_1 + 8) == 0) {
-    piVar8 = *(int **)(param_1 + 0x24);
-    iVar7 = *piVar8;
-    puVar2 = (unsigned int *)((unsigned int)(piVar8 + 0x84) & 0xfffffff0);
-    uVar14 = puVar2[1];
-    uVar16 = puVar2[2];
-    uVar18 = puVar2[3];
-    uVar9 = *(unsigned int *)(*(int *)(param_1 + 0x28) + 0x380);
-    pfVar3 = (float *)((unsigned int)(piVar8 + 0x88) & 0xfffffff0);
-    fVar20 = *pfVar3;
-    fVar21 = pfVar3[1];
-    fVar22 = pfVar3[2];
-    fVar23 = pfVar3[3];
-    uVar1 = *(unsigned int *)(*(int *)(param_1 + 0x28) + 900);
-    bVar5 = false;
-    puVar4 = (unsigned int *)((unsigned int)(auStack_70 + (int)in_r0) & 0xfffffff0);
-    *puVar4 = *puVar2;
-    puVar4[1] = uVar14;
-    puVar4[2] = uVar16;
-    puVar4[3] = uVar18;
-    dVar11 = (double)ltcg_pool_0_0f;
-    dVar12 = (double)*(float *)(iVar7 + 0xa24);
-    pfVar3 = (float *)((unsigned int)(auStack_80 + (int)in_r0) & 0xfffffff0);
-    *pfVar3 = fVar20;
-    pfVar3[1] = fVar21;
-    pfVar3[2] = fVar22;
-    pfVar3[3] = fVar23;
-    for (; uVar9 < uVar1; uVar9 = uVar9 + 0xd0) {
-      if ((*(int *)(uVar9 + 0x94) != 0) && ((*(unsigned int *)(uVar9 + 0x9c) & 1) != 0)) {
-        dVar10 = (double)*(float *)(uVar9 + 0xa4);
-        if (dVar12 < dVar10) {
-          bVar5 = true;
-          dVar12 = dVar10;
-        }
-        if ((((*(float *)(param_1 + 0x48) < *(float *)(**(int **)(param_1 + 0x24) + 0x278)) &&
-             ((double)*(float *)(param_1 + 0xd0) == dVar11)) &&
-            ((double)*(float *)(**(int **)(param_1 + 0x24) + 0x2f4) < dVar10)) &&
-           (iVar7 = fn_8253A918(uVar9,uVar6 - 0x70,uVar6 - 0x80), fVar13 = lbl_82191F78, iVar7 != 0
-           )) {
-          pfVar3 = (float *)(uVar9 + 0x10 & 0xfffffff0);
-          fVar20 = *pfVar3;
-          fVar21 = pfVar3[1];
-          fVar22 = pfVar3[2];
-          fVar23 = pfVar3[3];
-          fVar15 = fVar20 * 0.0 +
-                   fVar21 * *(float *)(((unsigned int)(&lbl_821962E0 + (int)in_r0) & 0xfffffff0) + 4) +
-                   fVar22 * *(float *)(((unsigned int)(&lbl_821962E0 + (int)in_r0) & 0xfffffff0) + 8);
-          pfVar3 = (float *)((int)afStack_60 + (int)in_r0 & 0xfffffff0);
-          *pfVar3 = fVar15;
-          pfVar3[1] = fVar15;
-          pfVar3[2] = fVar15;
-          pfVar3[3] = fVar15;
-          if ((fVar13 < afStack_60[0]) && (*(int *)(param_1 + 0x34) == 0)) {
-            fn_82412588(param_1);
-          }
-        }
-      }
-    }
-    if (*(int *)(param_1 + 0x34) == 0) {
-      piVar8 = *(int **)(param_1 + 0x24);
-      iVar7 = *piVar8;
-      if ((*(int *)(iVar7 + 0xa20) != 0) && (bVar5)) {
-        dVar12 = (double)fn_82539560(dVar12,(double)*(float *)(iVar7 + 0xa24),
-                                      (double)*(float *)(iVar7 + 0xa28),
-                                      (double)*(float *)(iVar7 + 0xa2c),
-                                      (double)*(float *)(iVar7 + 0xa30));
-        fVar13 = (float)((double)*(float *)(param_1 + 0x8c) + dVar12);
-        dVar12 = (double)(*(float *)(iVar7 + 0xa34) - fVar13);
-        if (*(float *)(&lbl_821954D8 +
-                      ((unsigned int)(unsigned char)((dVar12 < dVar11) << 2) |
-                      (unsigned int)(NAN(dVar12) || NAN(dVar11)) << 2)) < 0.0) {
-          fVar13 = *(float *)(iVar7 + 0xa34);
-        }
-        *(float *)(param_1 + 0x8c) = fVar13;
-        if (*(int *)(*piVar8 + 0xa3c) == 0) {
-          *(unsigned int *)(param_1 + 0x110) = 1;
-          iVar7 = 0x120;
-          pfVar3 = (float *)((unsigned int)(piVar8 + 0x78) & 0xfffffff0);
-          fVar13 = *pfVar3;
-          fVar15 = pfVar3[1];
-          fVar17 = pfVar3[2];
-          fVar19 = pfVar3[3];
-          loadVectorLeftIndexed128(in_r0,uVar6 - 0x90);
-        }
-        else {
-          *(unsigned int *)(param_1 + 0x130) = 1;
-          iVar7 = 0x140;
-          loadVectorLeftIndexed128(in_r0,uVar6 - 0x90);
-          pfVar3 = (float *)((unsigned int)(piVar8 + 0x78) & 0xfffffff0);
-          fVar13 = *pfVar3;
-          fVar15 = pfVar3[1];
-          fVar17 = pfVar3[2];
-          fVar19 = pfVar3[3];
-        }
-        pfVar3 = (float *)(param_1 + iVar7 & 0xfffffff0);
-        *pfVar3 = fVar13 * fVar20;
-        pfVar3[1] = fVar15 * fVar21;
-        pfVar3[2] = fVar17 * fVar22;
-        pfVar3[3] = fVar19 * fVar23;
-      }
-    }
-  }
-  else {
-    iVar7 = fn_8241CEB8(*(unsigned int *)(param_1 + 0x24),param_1,3);
-    if (iVar7 != 0) {
-      fn_82412588(param_1);
-    }
-  }
-  return;
+    __vector4 v = __lvlx(&value, 0);
+    return __vspltw(v, 0);
 }
 
+void fn_82412308(Self_82412308 *self)
+{
+    Hit_82412308 *hit;
+    Hit_82412308 *end;
+    Player_82412308 *player;
+    Control_82412308 *control;
+    float best;
+    float strength;
+    float add;
+    float room;
+    float total;
+    float max;
+    float current;
+    int found;
+    __vector4 boxMin;
+    __vector4 boxMax;
+    __vector4 dot;
+
+    if (self->replay != 0) {
+        if (fn_8241CEB8(self->control, self, 3) != 0) {
+            fn_82412588(self, self->world->position);
+        }
+        return;
+    }
+    control = self->control;
+    hit = self->world->hitsBegin;
+    end = self->world->hitsEnd;
+    found = 0;
+    boxMin = control->boxMin;
+    boxMax = control->boxMax;
+    best = control->player->pushRange[0];
+    for (; hit < end; hit++) {
+        if (hit->owner == 0 || (hit->flags & 1) == 0) {
+            continue;
+        }
+        strength = hit->strength;
+        if (strength > best) {
+            found = 1;
+            best = strength;
+        }
+        if (self->distance < self->control->player->maxRange && self->delay == 0.0f &&
+            strength > self->control->player->minStrength && fn_8253A918(hit, &boxMin, &boxMax) != 0) {
+            dot = __vmsum3fp(hit->direction, lbl_821962E0);
+            if (dot.vector4_f32[0] > lbl_82191EA0[0x36] && self->triggered == 0) {
+                fn_82412588(self, hit->position);
+            }
+        }
+    }
+    if (self->triggered != 0) {
+        return;
+    }
+    control = self->control;
+    player = control->player;
+    if (player->pushEnabled == 0 || found == 0) {
+        return;
+    }
+    add = fn_82539560(best, player->pushRange[0], player->pushRange[1], player->pushRange[2],
+                      player->pushRange[3]);
+    current = self->push;
+    total = current + add;
+    max = player->pushMax;
+    room = max - current;
+    add = add - room >= 0.0f ? room : add;
+    self->push = max - total >= 0.0f ? total : max;
+    if (control->player->secondSide == 0) {
+        self->firstPushSet = 1;
+        self->firstPush = __vmulfp(control->pushDirection, Replicate(-add));
+    } else {
+        self->secondPushSet = 1;
+        self->secondPush = __vmulfp(control->pushDirection, Replicate(-add));
+    }
+}

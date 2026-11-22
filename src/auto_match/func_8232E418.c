@@ -1,61 +1,67 @@
-#define NAN(x) ((x) != (x))
-extern int fn_822C72E0();
-extern int fn_8232E628();
-extern unsigned int lbl_821954D8;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Owner_8232E418 {
+    char pad0[0x114];
+    struct Actor_8232E418 *actor; /* 0x114 */
+} Owner_8232E418;
 
+typedef struct Actor_8232E418 {
+    char pad0[0x20];
+    void *anim; /* 0x20 */
+} Actor_8232E418;
 
-void fn_8232E418(double param_1,int param_2)
+typedef struct Fighter_8232E418 {
+    char pad0[0x8];
+    Actor_8232E418 *actor; /* 0x8 */
+    Owner_8232E418 *owner; /* 0xc */
+    unsigned int state;    /* 0x10 */
+    int pendingReset;      /* 0x14 */
+    char pad18[0x8];
+    int failPlayed; /* 0x20 */
+    char pad24[0x8];
+    int conscious;  /* 0x2c */
+    int quick;      /* 0x30 */
+    float downTime; /* 0x34 */
+} Fighter_8232E418;
 
+extern void fn_822C72E0(void *anim, const char *name);
+extern void fn_8232E628(Fighter_8232E418 *self, int flag);
+
+void fn_8232E418(Fighter_8232E418 *self, float dt)
 {
-  float fVar1;
-  unsigned int uVar2;
-  float fVar3;
-  float fVar4;
-  float fVar5;
-  unsigned __int64 uVar6;
-  
-  fVar5 = ltcg_pool_0_0f;
-  uVar2 = *(unsigned int *)(param_2 + 0x10);
-  if (uVar2 == 0) {
-    if (*(int *)(param_2 + 0x14) != 0) {
-      fn_8232E628(param_2,1);
-    }
-  }
-  else if (uVar2 == 1) {
-    if (*(int *)(param_2 + 0x2c) == 0) {
-      uVar6 = 0xffffffff821acc50;
-    }
-    else {
-      if (*(int *)(param_2 + 0x34) == 0) {
-        return;
-      }
-      fVar1 = (float)((double)*(float *)(param_2 + 0x34) - param_1);
-      fVar3 = -fVar1;
-      fVar4 = ltcg_pool_0_0f;
-      if (*(float *)(&lbl_821954D8 +
-                    ((unsigned int)(unsigned char)((fVar3 < ltcg_pool_0_0f) << 2) |
-                    (unsigned int)(NAN(fVar3) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
-        fVar4 = fVar1;
-      }
-      *(float *)(param_2 + 0x34) = fVar4;
-      if (fVar4 != fVar5) {
-        return;
-      }
-      if (*(int *)(param_2 + 0x30) == 0) {
-        uVar6 = 0xffffffff821acc28;
-      }
-      else {
-        uVar6 = 0xffffffff821afe68;
-      }
-    }
-    fn_822C72E0(*(unsigned int *)(*(int *)(param_2 + 8) + 0x20),uVar6);
-  }
-  else if ((uVar2 < 3) && (*(int *)(param_2 + 0x20) == 0)) {
-    fn_822C72E0(*(unsigned int *)(*(int *)(*(int *)(param_2 + 0xc) + 0x114) + 0x20),
-                      0xffffffff821afe74);
-    *(unsigned int *)(param_2 + 0x20) = 1;
-  }
-  return;
-}
+    const char *name;
+    float t;
 
+    switch (self->state) {
+    case 0:
+        if (self->pendingReset != 0) {
+            fn_8232E628(self, 1);
+        }
+        break;
+    case 1:
+        if (self->conscious != 0) {
+            if (*(unsigned int *)&self->downTime == 0) {
+                return;
+            }
+            t = self->downTime - dt;
+            t = -t >= 0.0f ? 0.0f : t;
+            self->downTime = t;
+            if (t != 0.0f) {
+                return;
+            }
+            if (self->quick != 0) {
+                name = "getupquick";
+            } else {
+                name = "getup";
+            }
+            fn_822C72E0(self->actor->anim, name);
+        } else {
+            fn_822C72E0(self->actor->anim, "knockedout");
+        }
+        break;
+    case 2:
+        if (self->failPlayed == 0) {
+            fn_822C72E0(self->owner->actor->anim, "fail");
+            self->failPlayed = 1;
+        }
+        break;
+    }
+}

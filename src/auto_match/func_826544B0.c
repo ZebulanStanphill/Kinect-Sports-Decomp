@@ -1,85 +1,62 @@
-extern unsigned int *auStack_10;
-extern unsigned int lbl_82195FE0;
-extern unsigned int lbl_82195FF0;
-extern unsigned int lbl_82196000;
-extern unsigned int lbl_821CA460;
+/* Scalar sine (XMScalarSin shape): the angle is reduced to [-pi, pi), then the odd powers of x are
+   dotted with the sine coefficient tables. */
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vspltw(__vector4 v, unsigned int i);
+__vector4 __vmsum4fp(__vector4 a, __vector4 b);
+__vector4 __vmulfp(__vector4 a, __vector4 b);
+double fabs(double);
 
-double fn_826544B0(void)
+extern const __vector4 lbl_82195FE0; /* sine coefficients 0 */
+extern const __vector4 lbl_82195FF0; /* sine coefficients 1 */
+extern const __vector4 lbl_82196000; /* sine coefficients 2 */
 
+typedef union Vec_826544B0 {
+    __vector4 v;
+    float f[4];
+} Vec_826544B0;
+
+static __forceinline float GetX(__vector4 v)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  float fVar5;
-  float *pfVar6;
-  float *pfVar7;
-  float fVar8;
-  int in_r0;
-  float fVar9;
-  float fVar10;
-  float fVar11;
-  float fVar12;
-  float in_register_00010090;
-  float in_register_00010094;
-  float in_register_00010098;
-  float in_vr9;
-  float fVar13;
-  float fVar14;
-  float fVar15;
-  float fVar16;
-  float fVar17;
-  float fVar18;
-  float fVar19;
-  float fVar20;
-  unsigned char auStack_10 [16];
-  
-  fVar8 = lbl_821CA460;
-  pfVar6 = (float *)((unsigned int)(&lbl_82195FE0 + in_r0) & 0xfffffff0);
-  pfVar7 = (float *)((unsigned int)(&lbl_82196000 + in_r0) & 0xfffffff0);
-  fVar13 = *pfVar7;
-  fVar14 = pfVar7[1];
-  fVar15 = pfVar7[2];
-  fVar16 = pfVar7[3];
-  pfVar7 = (float *)((unsigned int)(&lbl_82195FF0 + in_r0) & 0xfffffff0);
-  fVar17 = *pfVar7;
-  fVar18 = pfVar7[1];
-  fVar19 = pfVar7[2];
-  fVar20 = pfVar7[3];
-  pfVar7 = (float *)((unsigned int)(auStack_10 + in_r0) & 0xfffffff0);
-  fVar9 = *pfVar7;
-  fVar10 = pfVar7[1];
-  fVar11 = pfVar7[2];
-  fVar12 = pfVar7[3];
-  fVar2 = fVar9 * fVar9 * fVar9;
-  fVar3 = fVar10 * fVar10 * fVar10;
-  fVar4 = fVar11 * fVar11 * fVar11;
-  fVar5 = fVar12 * fVar12 * fVar12;
-  fVar1 = fVar2 * *pfVar6 + fVar3 * pfVar6[1] + fVar4 * pfVar6[2] + fVar5 * pfVar6[3];
-  pfVar6 = (float *)((unsigned int)(auStack_10 + in_r0) & 0xfffffff0);
-  *pfVar6 = fVar1;
-  pfVar6[1] = fVar1;
-  pfVar6[2] = fVar1;
-  pfVar6[3] = fVar1;
-  fVar2 = fVar2 * in_register_00010090 * fVar9;
-  fVar3 = fVar3 * in_register_00010094 * fVar10;
-  fVar4 = fVar4 * in_register_00010098 * fVar11;
-  fVar5 = fVar5 * in_vr9 * fVar12;
-  fVar1 = fVar2 * fVar17 + fVar3 * fVar18 + fVar4 * fVar19 + fVar5 * fVar20;
-  fVar2 = fVar2 * in_register_00010090 * fVar9 * fVar13 +
-          fVar3 * in_register_00010094 * fVar10 * fVar14 +
-          fVar4 * in_register_00010098 * fVar11 * fVar15 + fVar5 * in_vr9 * fVar12 * fVar16;
-  pfVar6 = (float *)((unsigned int)(auStack_10 + in_r0) & 0xfffffff0);
-  *pfVar6 = fVar1;
-  pfVar6[1] = fVar1;
-  pfVar6[2] = fVar1;
-  pfVar6[3] = fVar1;
-  pfVar6 = (float *)((unsigned int)(auStack_10 + in_r0) & 0xfffffff0);
-  *pfVar6 = fVar2;
-  pfVar6[1] = fVar2;
-  pfVar6[2] = fVar2;
-  pfVar6[3] = fVar2;
-  return (double)(fVar8 + fVar8 + fVar8);
+    Vec_826544B0 u;
+    u.v = v;
+    return u.f[0];
 }
 
+static __forceinline float ModAngle(float value)
+{
+    float t;
+
+    value = value + 3.14159274f;
+    t = (float)fabs(value);
+    t = t - 6.28318548f * (float)(__int64)(t * 0.159154937f);
+    t = t - 3.14159274f;
+    return value >= 0.0f ? t : -t;
+}
+
+float fn_826544B0(float value)
+{
+    Vec_826544B0 p;
+    __vector4 v0123, v0246, v1, v1357, v7, v8, v9, v17;
+    float s0, s1, s2;
+
+    value = ModAngle(value);
+    p.f[0] = 1.0f;
+    p.f[1] = value;
+    p.f[2] = value * value;
+    p.f[3] = value * value * value;
+    v0123 = p.v;
+    v0246 = __vmulfp(v0123, v0123);
+    v1 = __vspltw(v0123, 1);
+    v1357 = __vmulfp(v0246, v1);
+    v7 = __vspltw(v1357, 3);
+    s0 = GetX(__vmsum4fp(v1357, lbl_82195FE0));
+    v8 = __vmulfp(v7, v1);
+    v9 = __vmulfp(v1357, v8);
+    v17 = __vmulfp(v9, v8);
+    s1 = GetX(__vmsum4fp(v9, lbl_82195FF0));
+    s2 = GetX(__vmsum4fp(v17, lbl_82196000));
+    return s2 + s1 + s0;
+}

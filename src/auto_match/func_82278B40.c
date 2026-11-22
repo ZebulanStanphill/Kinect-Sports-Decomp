@@ -1,24 +1,16 @@
-typedef unsigned char bool;
-extern unsigned int lbl_82192734;
-extern unsigned int lbl_82193CC0;
-extern unsigned int lbl_82195634;
-extern unsigned int ltcg_pool_0_0f;
+/* Restarts an oscillator in mode 2 and reports whether its value is at rest (within 0.001 of zero). */
+typedef struct State_82278B40 {
+    float period;    /* 0x00 */
+    float frequency; /* 0x04 */
+    float elapsed;   /* 0x08 */
+    float value;     /* 0x0c */
+    int mode;        /* 0x10 */
+} State_82278B40;
 
-
-unsigned __int64 fn_82278B40(float *param_1)
-
+int fn_82278B40(State_82278B40 *self)
 {
-  float fVar1;
-  bool bVar2;
-  
-  fVar1 = lbl_82192734;
-  param_1[4] = 2.8026e-45;
-  bVar2 = lbl_82195634 <= param_1[3];
-  param_1[2] = ltcg_pool_0_0f;
-  param_1[1] = fVar1 / *param_1;
-  if ((bVar2) && (param_1[3] <= lbl_82193CC0)) {
-    return 1;
-  }
-  return 0;
+    self->elapsed = 0.0f;
+    self->mode = 2;
+    self->frequency = -1.0f / self->period;
+    return self->value >= -0.001f && self->value <= 0.001f;
 }
-

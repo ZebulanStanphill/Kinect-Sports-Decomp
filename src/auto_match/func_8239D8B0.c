@@ -1,65 +1,60 @@
-typedef unsigned char bool;
-extern int fn_823A03F0();
-extern int fn_82536070();
-extern unsigned int lbl_8218E8E8;
-extern unsigned int lbl_821917B4;
-extern unsigned int lbl_82193B00;
+typedef struct Mode_8239D8B0 {
+    char pad00[0x40];
+    unsigned int state; /* 0x40 */
+} Mode_8239D8B0;
 
+typedef struct Game_8239D8B0 {
+    char pad000[0xa0];
+    Mode_8239D8B0 *mode; /* 0x0a0 */
+    char pad0a4[0xd4];
+    int stage; /* 0x178 */
+    char pad17c[0x160];
+    void *progress; /* 0x2dc */
+    char pad2e0[0x8f4];
+    int musicEnabled; /* 0xbd4 */
+} Game_8239D8B0;
 
-void fn_8239D8B0(int param_1,unsigned __int64 param_2)
+extern float fn_823A03F0(void *progress, int arg, int final);
+extern void fn_82536070(const char *name, const char *value);
 
+void fn_8239D8B0(Game_8239D8B0 *self, int arg)
 {
-  int iVar1;
-  bool bVar2;
-  unsigned __int64 uVar3;
-  double dVar4;
-  
-  bVar2 = *(int *)(param_1 + 0x178) == 1;
-  dVar4 = (double)fn_823A03F0(*(unsigned int *)(param_1 + 0x2dc),param_2,bVar2);
-  if (bVar2) {
-    if (dVar4 <= (double)lbl_82193B00) {
-      if (dVar4 <= (double)lbl_8218E8E8) {
-        iVar1 = *(int *)(param_1 + 0xa0);
-        if (dVar4 <= (double)lbl_821917B4) {
-          if ((iVar1 != 0) && (*(int *)(iVar1 + 0x40) == 1)) {
-            return;
-          }
-          if (*(int *)(param_1 + 0xbd4) == 0) {
-            return;
-          }
-          uVar3 = 0xffffffff821b34ac;
-        }
-        else {
-          if ((iVar1 != 0) && (*(int *)(iVar1 + 0x40) == 1)) {
-            return;
-          }
-          if (*(int *)(param_1 + 0xbd4) == 0) {
-            return;
-          }
-          uVar3 = 0xffffffff821b34c4;
-        }
-      }
-      else {
-        if ((*(int *)(param_1 + 0xa0) != 0) && (*(int *)(*(int *)(param_1 + 0xa0) + 0x40) == 1)) {
-          return;
-        }
-        if (*(int *)(param_1 + 0xbd4) == 0) {
-          return;
-        }
-        uVar3 = 0xffffffff821b34cc;
-      }
-    }
-    else {
-      if ((*(int *)(param_1 + 0xa0) != 0) && (*(int *)(*(int *)(param_1 + 0xa0) + 0x40) == 1)) {
+    int final = self->stage == 1;
+    float ratio = fn_823A03F0(self->progress, arg, final);
+    if (!final) {
         return;
-      }
-      if (*(int *)(param_1 + 0xbd4) == 0) {
-        return;
-      }
-      uVar3 = 0xffffffff821b34d4;
     }
-    fn_82536070(0xffffffff821b34b4,uVar3);
-  }
-  return;
+    if (ratio > 0.75f) {
+        if ((int)self->mode != 0 && self->mode->state == 1) {
+            return;
+        }
+        if (self->musicEnabled == 0) {
+            return;
+        }
+        fn_82536070("music_minigame", "mini04");
+    } else if (ratio > 0.5f) {
+        if ((int)self->mode != 0 && self->mode->state == 1) {
+            return;
+        }
+        if (self->musicEnabled == 0) {
+            return;
+        }
+        fn_82536070("music_minigame", "mini03");
+    } else if (ratio > 0.25f) {
+        if ((int)self->mode != 0 && self->mode->state == 1) {
+            return;
+        }
+        if (self->musicEnabled == 0) {
+            return;
+        }
+        fn_82536070("music_minigame", "mini02");
+    } else {
+        if ((int)self->mode != 0 && self->mode->state == 1) {
+            return;
+        }
+        if (self->musicEnabled == 0) {
+            return;
+        }
+        fn_82536070("music_minigame", "mini01");
+    }
 }
-

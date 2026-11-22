@@ -1,46 +1,59 @@
-#define NAN(x) ((x) != (x))
-extern int fn_8229FDA0();
-extern int fn_8229FF28();
-extern int fn_82417F58();
-extern unsigned int lbl_821954D8;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Object_82423658 {
+    char padding[0x1a0];
+    int active; // 0x1a0
+    char padding1a4[0x10];
+    int state; // 0x1b4
+    char padding1b8[0x28];
+    int pending; // 0x1e0
+} Object_82423658;
 
+extern Object_82423658 *fn_82417F58(Object_82423658 *self);
+extern void fn_8229FF28(void *, unsigned int);
+extern void fn_8229FDA0(void *, unsigned int);
 
-void fn_82423658(double param_1,int param_2,int param_3)
+typedef struct Owner_82423658 {
+    char padding[0xc];
+    void *target; // 0x0c
+} Owner_82423658;
 
+typedef struct Context_82423658 {
+    char padding[0xd4];
+    Owner_82423658 *owner; // 0xd4
+} Context_82423658;
+
+typedef struct State_82423658 {
+    int padding;
+    Object_82423658 *object;   // 0x04
+    Context_82423658 *context; // 0x08
+    char paddingc[0x50];
+    float remaining; // 0x5c
+} State_82423658;
+
+typedef struct Request_82423658 {
+    char padding[0x30];
+    unsigned int first; // 0x30
+    char padding34[8];
+    unsigned int second; // 0x3c
+} Request_82423658;
+
+void fn_82423658(State_82423658 *self, Request_82423658 *request, float elapsed)
 {
-  float fVar1;
-  unsigned int uVar2;
-  float fVar3;
-  float fVar4;
-  float fVar5;
-  int iVar6;
-  
-  fVar5 = ltcg_pool_0_0f;
-  if (*(int *)(*(int *)(param_2 + 4) + 0x1b4) == 4) {
-    fVar1 = (float)((double)*(float *)(param_2 + 0x5c) - param_1);
-    fVar3 = -fVar1;
-    fVar4 = ltcg_pool_0_0f;
-    if (*(float *)(&lbl_821954D8 +
-                  ((unsigned int)(unsigned char)((fVar3 < ltcg_pool_0_0f) << 2) |
-                  (unsigned int)(NAN(fVar3) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
-      fVar4 = fVar1;
+    Owner_82423658 *owner;
+    unsigned int second;
+    if (self->object->state == 4) {
+        float remaining = self->remaining - elapsed;
+        self->remaining = -remaining >= 0.0f ? 0.0f : remaining;
+        if (self->remaining != 0.0f) {
+            return;
+        }
+    } else {
+        Object_82423658 *object = fn_82417F58(self->object);
+        if (object->active == 0 && object->pending == 0) {
+            return;
+        }
     }
-    *(float *)(param_2 + 0x5c) = fVar4;
-    if (fVar4 != fVar5) {
-      return;
-    }
-  }
-  else {
-    iVar6 = fn_82417F58();
-    if ((*(int *)(iVar6 + 0x1a0) == 0) && (*(int *)(iVar6 + 0x1e0) == 0)) {
-      return;
-    }
-  }
-  uVar2 = *(unsigned int *)(param_3 + 0x3c);
-  iVar6 = *(int *)(*(int *)(param_2 + 8) + 0xd4);
-  fn_8229FF28(*(unsigned int *)(iVar6 + 0xc),*(unsigned int *)(param_3 + 0x30));
-  fn_8229FDA0(*(unsigned int *)(iVar6 + 0xc),uVar2);
-  return;
+    second = request->second;
+    owner = self->context->owner;
+    fn_8229FF28(owner->target, request->first);
+    fn_8229FDA0(owner->target, second);
 }
-

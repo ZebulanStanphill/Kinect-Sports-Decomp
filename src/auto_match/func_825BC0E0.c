@@ -1,140 +1,88 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-#define NAN(x) ((x) != (x))
-extern double sqrt(double);
-#define SQRT(x) sqrt(x)
-extern unsigned int fStack_48;
-extern unsigned int fStack_4c;
-extern unsigned int fStack_50;
-extern int fn_8255AE78();
-extern unsigned int lbl_821954D8;
-extern unsigned int ltcg_pool_0_0f;
-extern V16 vectorSubtractFloatingPoint();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vsubfp(__vector4 a, __vector4 b);
 
-int fn_825BC0E0(int param_1,unsigned __int64 param_2,float *param_3)
+typedef struct Box_825BC0E0 {
+    unsigned short kind; /* 0x00 */
+    unsigned int flags;  /* 0x04 */
+    char pad8[0x18];
+    __vector4 center; /* 0x20 */
+    float halfX;      /* 0x30 */
+    float halfY;      /* 0x34 */
+    float halfZ;      /* 0x38 */
+    float angle;      /* 0x3c */
+} Box_825BC0E0;
 
+extern __vector4 fn_8255AE78(__vector4 v, float angle);
+#include <math.h>
+
+static __forceinline float Max(float a, float b)
 {
-  float fVar1;
-  unsigned int uVar2;
-  unsigned int *puVar3;
-  unsigned int *puVar4;
-  int in_r0;
-  int iVar5;
-  double dVar6;
-  double dVar7;
-  double dVar8;
-  double dVar9;
-  double dVar10;
-  double dVar11;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs45 [16];
-  unsigned int uVar12;
-  unsigned int uVar13;
-  unsigned int uVar14;
-  unsigned int in_register_00010010;
-  unsigned int in_register_00010014;
-  unsigned int in_register_00010018;
-  unsigned int in_vr1;
-  float fStack_50;
-  float fStack_4c;
-  float fStack_48;
-  
-  uVar2 = *(unsigned int *)(param_1 + 4);
-  fVar1 = *(float *)(param_1 + 0x3c);
-  vectorSubtractFloatingPoint(in_vs32,in_vs45);
-  dVar10 = (double)ltcg_pool_0_0f;
-  puVar3 = (unsigned int *)((int)&fStack_50 + in_r0 & 0xfffffff0);
-  *puVar3 = in_register_00010010;
-  puVar3[1] = in_register_00010014;
-  puVar3[2] = in_register_00010018;
-  puVar3[3] = in_vr1;
-  dVar11 = dVar10;
-  if ((double)fVar1 != dVar10) {
-    fn_8255AE78(-(double)fVar1);
-    puVar3 = (unsigned int *)((int)&fStack_50 + in_r0 & 0xfffffff0);
-    *puVar3 = in_register_00010010;
-    puVar3[1] = in_register_00010014;
-    puVar3[2] = in_register_00010018;
-    puVar3[3] = in_vr1;
-  }
-  dVar9 = (double)(fStack_50 - *(float *)(param_1 + 0x30));
-  dVar8 = (double)(fStack_48 - *(float *)(param_1 + 0x38));
-  iVar5 = 1;
-  dVar6 = (double)(-*(float *)(param_1 + 0x30) - fStack_50);
-  dVar7 = (double)(-*(float *)(param_1 + 0x38) - fStack_48);
-  if ((((dVar11 < dVar6) || (dVar11 < dVar9)) || (dVar11 < dVar7)) || (dVar11 < dVar8)) {
-    iVar5 = 0;
-    if (*(float *)(&lbl_821954D8 +
-                  ((unsigned int)(unsigned char)((dVar6 < dVar11) << 2) | (unsigned int)(NAN(dVar6) || NAN(dVar11)) << 2)) <
-        0.0) {
-      dVar6 = dVar11;
-    }
-    if (*(float *)(&lbl_821954D8 +
-                  ((unsigned int)(unsigned char)((dVar7 < dVar11) << 2) | (unsigned int)(NAN(dVar7) || NAN(dVar11)) << 2)) <
-        0.0) {
-      dVar7 = dVar11;
-    }
-    if (*(float *)(&lbl_821954D8 +
-                  ((unsigned int)(unsigned char)(((double)(float)(dVar9 - dVar6) < dVar11) << 2) |
-                  (unsigned int)(NAN((double)(float)(dVar9 - dVar6)) || NAN(dVar11)) << 2)) < 0.0) {
-      dVar9 = dVar6;
-    }
-    if (*(float *)(&lbl_821954D8 +
-                  ((unsigned int)(unsigned char)(((double)(float)(dVar8 - dVar7) < dVar11) << 2) |
-                  (unsigned int)(NAN((double)(float)(dVar8 - dVar7)) || NAN(dVar11)) << 2)) < 0.0) {
-      dVar8 = dVar7;
-    }
-    dVar10 = (double)SQRT((float)(dVar8 * dVar8 + (double)(float)(dVar9 * dVar9)));
-  }
-  if ((uVar2 & 0x80) == 0) {
-    puVar3 = (unsigned int *)(in_r0 + param_1 + 0x20 & 0xfffffff0);
-    uVar12 = puVar3[1];
-    uVar13 = puVar3[2];
-    uVar14 = puVar3[3];
-    vectorSubtractFloatingPoint(in_vs45,in_vs32);
-    fVar1 = *(float *)(param_1 + 0x34);
-    puVar4 = (unsigned int *)((int)&fStack_50 + in_r0 & 0xfffffff0);
-    *puVar4 = *puVar3;
-    puVar4[1] = uVar12;
-    puVar4[2] = uVar13;
-    puVar4[3] = uVar14;
-    dVar9 = (double)fVar1;
-    if ((double)fVar1 == dVar11) {
-      dVar6 = (double)(float)((double)*(float *)(param_1 + 0x30) -
-                             (double)*(float *)(param_1 + 0x38));
-      dVar9 = (double)*(float *)(param_1 + 0x30);
-      if (*(float *)(&lbl_821954D8 +
-                    ((unsigned int)(unsigned char)((dVar6 < dVar11) << 2) | (unsigned int)(NAN(dVar6) || NAN(dVar11)) << 2))
-          < 0.0) {
-        dVar9 = (double)*(float *)(param_1 + 0x38);
-      }
-    }
-    dVar6 = (double)(float)(ABS((double)fStack_4c) - dVar9);
-    dVar9 = dVar11;
-    if (dVar11 < dVar6) {
-      dVar9 = dVar6;
-    }
-    if ((iVar5 == 0) || (dVar11 < dVar6)) {
-      iVar5 = 0;
-      if (*(float *)(&lbl_821954D8 +
-                    ((unsigned int)(unsigned char)((dVar10 < dVar11) << 2) | (unsigned int)(NAN(dVar10) || NAN(dVar11)) << 2)
-                    ) < 0.0) {
-        dVar10 = dVar11;
-      }
-      if (*(float *)(&lbl_821954D8 +
-                    ((unsigned int)(unsigned char)((dVar9 < dVar11) << 2) | (unsigned int)(NAN(dVar9) || NAN(dVar11)) << 2))
-          < 0.0) {
-        dVar9 = dVar11;
-      }
-      *param_3 = SQRT((float)(dVar9 * dVar9 + (double)(float)(dVar10 * dVar10)));
-    }
-    else {
-      iVar5 = 1;
-    }
-  }
-  else {
-    *param_3 = (float)dVar10;
-  }
-  return iVar5;
+    return a - b >= 0.0f ? a : b;
 }
 
+/* Distance from a point to a box rotated about Y; returns 1 when the point is inside. */
+int fn_825BC0E0(Box_825BC0E0 *box, __vector4 *point, float *outDist)
+{
+    int checkY = 1;
+    float dist = 0.0f;
+    int inside;
+    __vector4 local;
+    float outX;
+    float outZ;
+    float overX;
+    float overZ;
+    float halfY;
+    float overY;
+    float overYClamped;
+    float absY;
+    int insideY;
+
+    if (box->flags & 0x80) {
+        checkY = 0;
+    }
+    local = __vsubfp(*point, box->center);
+    if (box->angle != 0.0f) {
+        local = fn_8255AE78(local, -box->angle);
+    }
+    overX = local.vector4_f32[0] - box->halfX;
+    overZ = local.vector4_f32[2] - box->halfZ;
+    inside = 1;
+    outX = -box->halfX - local.vector4_f32[0];
+    outZ = -box->halfZ - local.vector4_f32[2];
+    if (outX > 0.0f || overX > 0.0f || outZ > 0.0f || overZ > 0.0f) {
+        inside = 0;
+        outX = Max(outX, 0.0f);
+        overX = Max(overX, outX);
+        outZ = Max(outZ, 0.0f);
+        overZ = Max(overZ, outZ);
+        dist = sqrtf(overZ * overZ + overX * overX);
+    }
+    if (checkY) {
+        overYClamped = 0.0f;
+        local = __vsubfp(*point, box->center);
+        absY = fabsf(local.vector4_f32[1]);
+        halfY = box->halfY;
+        if (halfY == 0.0f) {
+            halfY = Max(box->halfX, box->halfZ);
+        }
+        overY = absY - halfY;
+        if (overY > 0.0f) {
+            overYClamped = overY;
+            insideY = 0;
+        } else {
+            insideY = 1;
+        }
+        if (inside && insideY) {
+            return 1;
+        }
+        dist = Max(dist, 0.0f);
+        overYClamped = Max(overYClamped, 0.0f);
+        *outDist = sqrtf(overYClamped * overYClamped + dist * dist);
+        return 0;
+    }
+    *outDist = dist;
+    return inside;
+}

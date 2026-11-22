@@ -1,139 +1,142 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-extern float fRam832968bc;
-extern unsigned int fStack_64;
-extern unsigned int fStack_68;
-extern int fn_825308E8();
-extern int fn_82530948();
-extern int fn_82531118();
-extern int fn_825315E0();
-extern int fn_82531E50();
-extern int fn_82539560();
-extern int fn_82A1BB18();
-extern int fn_82F6A540();
-extern int fn_82F6A58C();
-extern unsigned int lbl_82192734;
-extern unsigned int lbl_821955C8;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int lbl_8320A898;
-extern unsigned int lbl_832968B0;
-extern unsigned int lbl_832968B4;
-extern unsigned int lbl_832968B8;
-extern unsigned int lbl_832968D0;
-extern unsigned int lbl_832968D8;
-extern unsigned int uStack_70;
-extern V16 vectorMergeHighWord();
-extern V16 vectorMergeLowWord();
-extern void *memcpy(void *, const void *, unsigned int);
+/* Projects a world point to screen pixels: transforms it by the view and projection matrices,
+   rejects points behind the camera, optionally reports whether the projected point is inside the
+   given half extents, and maps the result from [-1, 1] to the viewport. */
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vmrghw(__vector4 a, __vector4 b);
+__vector4 __vmrglw(__vector4 a, __vector4 b);
+__vector4 __vmsum4fp(__vector4 a, __vector4 b);
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+typedef struct Vec3_82531F18 {
+    float x;
+    float y;
+    float z;
+} Vec3_82531F18;
 
-void fn_82531F18(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,float *param_4,
-                  unsigned __int64 param_5)
+typedef __declspec(align(16)) struct Float4_82531F18 {
+    float x;
+    float y;
+    float z;
+    float w;
+} Float4_82531F18;
 
+typedef struct Point_82531F18 {
+    float x;
+    float y;
+} Point_82531F18;
+
+typedef struct Matrix_82531F18 {
+    __vector4 r[4];
+} Matrix_82531F18;
+
+typedef struct Matrices_82531F18 {
+    Matrix_82531F18 view;       /* 0x00 */
+    Matrix_82531F18 projection; /* 0x40 */
+} Matrices_82531F18;
+
+typedef struct Viewport_82531F18 {
+    unsigned int x;      /* 0x0 */
+    unsigned int y;      /* 0x4 */
+    unsigned int width;  /* 0x8 */
+    unsigned int height; /* 0xc */
+} Viewport_82531F18;
+
+typedef struct Context_82531F18 {
+    char pad0[0x2a88];
+    int id; /* 0x2a88 */
+} Context_82531F18;
+
+extern Context_82531F18 *lbl_8320A898;
+extern Matrices_82531F18 lbl_83296890;
+
+extern int fn_82A1BB18(void);
+extern void fn_82530948(Context_82531F18 *ctx);
+extern void fn_825315E0(Context_82531F18 *ctx);
+extern void fn_82531118(void);
+extern Viewport_82531F18 *fn_825308E8(void);
+extern int fn_82531E50(Point_82531F18 point, float halfWidth, float halfHeight);
+extern float fn_82539560(float x, float inMin, float inMax, float outMin, float outMax);
+
+static __forceinline Matrix_82531F18 Transpose(const Matrix_82531F18 *m)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  float fVar5;
-  int in_r0;
-  float *pfVar8;
-  unsigned __int64 uVar6;
-  unsigned int *puVar9;
-  unsigned __int64 uVar7;
-  unsigned int uVar10;
-  unsigned int uVar11;
-  unsigned __int64 extraout_f1;
-  double dVar12;
-  double dVar13;
-  double dVar14;
-  double dVar15;
-  unsigned char in_vs32 [16];
-  unsigned char auVar16 [16];
-  unsigned char auVar17 [16];
-  unsigned char auVar18 [16];
-  unsigned char in_vs43 [16];
-  unsigned char auVar19 [16];
-  unsigned char in_vs44 [16];
-  unsigned char auVar20 [16];
-  unsigned char in_vs45 [16];
-  unsigned char auVar21 [16];
-  unsigned __int64 uStack_70;
-  float fStack_68;
-  float fStack_64;
-  
-  pfVar8 = (float *)fn_82F6A540();
-  uVar11 = *(unsigned int *)(lbl_8320A898 + 0x2a88);
-  uVar7 = extraout_f1;
-  uVar6 = fn_82A1BB18();
-  uVar11 = -(unsigned int)(uVar6 == uVar11) & lbl_8320A898;
-  fn_82530948(uVar11);
-  fn_825315E0(uVar11);
-  fn_82531118();
-  puVar9 = (unsigned int *)fn_825308E8();
-  fVar5 = lbl_821CA460;
-  fVar4 = lbl_821955C8;
-  fVar1 = *pfVar8;
-  fVar2 = pfVar8[1];
-  uStack_70 = *(unsigned __int64 *)pfVar8;
-  fStack_68 = pfVar8[2];{ V16 _vt0 = vectorMergeHighWord(in_vs32,in_vs45); memcpy(auVar18, &_vt0, 16); }{ V16 _vt1 = vectorMergeLowWord(in_vs32,in_vs45); memcpy(auVar21, &_vt1, 16); }{ V16 _vt2 = vectorMergeHighWord(in_vs44,in_vs43); memcpy(auVar16, &_vt2, 16); }
-  dVar13 = (double)lbl_821CA460;{ V16 _vt3 = vectorMergeLowWord(in_vs44,in_vs43); memcpy(auVar20, &_vt3, 16); }
-  fStack_64 = lbl_821CA460;
-  pfVar8 = (float *)((int)&uStack_70 + in_r0 & 0xfffffff0);{ V16 _vt4 = vectorMergeHighWord(auVar18,auVar16); memcpy(auVar19, &_vt4, 16); }{ V16 _vt5 = vectorMergeLowWord(auVar18,auVar16); memcpy(auVar18, &_vt5, 16); }
-  vectorMergeHighWord(auVar21,auVar20);
-  vectorMergeLowWord(auVar21,auVar20);
-  fVar3 = *pfVar8 * lbl_832968B0 + pfVar8[1] * lbl_832968B4 + pfVar8[2] * lbl_832968B8 +
-          pfVar8[3] * fRam832968bc;{ V16 _vt6 = vectorMergeHighWord(auVar20,auVar18); memcpy(auVar21, &_vt6, 16); }{ V16 _vt7 = vectorMergeHighWord(auVar19,in_vs32); memcpy(auVar16, &_vt7, 16); }{ V16 _vt8 = vectorMergeHighWord(auVar21,auVar16); memcpy(auVar16, &_vt8, 16); }
-  pfVar8 = (float *)((int)&uStack_70 + in_r0 & 0xfffffff0);
-  *pfVar8 = fVar3;
-  pfVar8[1] = fVar3;
-  pfVar8[2] = fVar3;
-  pfVar8[3] = fVar3;
-  if (fStack_68 <= fVar4) {{ V16 _vt9 = vectorMergeHighWord(auVar21,auVar20); memcpy(auVar17, &_vt9, 16); }{ V16 _vt10 = vectorMergeLowWord(auVar21,auVar20); memcpy(auVar21, &_vt10, 16); }{ V16 _vt11 = vectorMergeHighWord(auVar19,auVar18); memcpy(auVar20, &_vt11, 16); }
-    dVar12 = (double)ltcg_pool_0_0f;{ V16 _vt12 = vectorMergeLowWord(auVar19,auVar18); memcpy(auVar19, &_vt12, 16); }{ V16 _vt13 = vectorMergeHighWord(auVar17,auVar20); memcpy(auVar18, &_vt13, 16); }{ V16 _vt14 = vectorMergeLowWord(auVar17,auVar20); memcpy(auVar20, &_vt14, 16); }
-    vectorMergeHighWord(auVar21,auVar19);
-    vectorMergeLowWord(auVar21,auVar19);
-    fVar3 = fVar3 * (((unsigned __int64)(lbl_832968D0) >> 0) & 0xFFFFFFFF) + fVar3 * (((unsigned __int64)(lbl_832968D0) >> 32) & 0xFFFFFFFF) + fVar3 * (((unsigned __int64)(lbl_832968D8) >> 0) & 0xFFFFFFFF) +
-            fVar3 * (((unsigned __int64)(lbl_832968D8) >> 32) & 0xFFFFFFFF);{ V16 _vt15 = vectorMergeHighWord(auVar19,auVar18); memcpy(auVar18, &_vt15, 16); }{ V16 _vt16 = vectorMergeHighWord(auVar20,auVar16); memcpy(auVar16, &_vt16, 16); }
-    vectorMergeHighWord(auVar18,auVar16);
-    pfVar8 = (float *)((int)&uStack_70 + in_r0 & 0xfffffff0);
-    *pfVar8 = fVar3;
-    pfVar8[1] = fVar3;
-    pfVar8[2] = fVar3;
-    pfVar8[3] = fVar3;
-    dVar14 = dVar12;
-    dVar15 = dVar12;
-    if ((double)fVar5 != dVar12) {
-      fVar3 = (float)(dVar13 / (double)fVar5);
-      dVar14 = (double)(fVar3 * fVar2);
-      dVar15 = (double)(fVar3 * fVar1);
-    }
-    if ((param_5 & 0xffffffff) != 0) {
-      uStack_70 = CONCAT44((float)dVar15,(float)dVar14);
-      uVar10 = fn_82531E50(uVar7,param_2,uStack_70);
-      *(unsigned int *)param_5 = uVar10;
-    }
-    uStack_70 = (unsigned __int64)puVar9[2];
-    dVar13 = (double)fn_82539560(dVar15,(double)lbl_82192734,dVar13,dVar12,(double)uStack_70);
-    *param_4 = (float)dVar13;
-    uStack_70 = (unsigned __int64)puVar9[3];
-    dVar13 = (double)fn_82539560(dVar14);
-    param_4[1] = (float)dVar13;
-    uVar7 = 1;
-    *param_4 = (float)*puVar9 + *param_4;
-    uStack_70 = (unsigned __int64)puVar9[1];
-    param_4[1] = (float)((double)uStack_70 + dVar13);
-  }
-  else {
-    if ((param_5 & 0xffffffff) != 0) {
-      *(unsigned int *)param_5 = 0;
-    }
-    uVar7 = 0;
-  }
-  fn_82F6A58C(uVar7);
-  return;
+    Matrix_82531F18 p;
+    Matrix_82531F18 t;
+
+    p.r[0] = __vmrghw(m->r[0], m->r[2]);
+    p.r[1] = __vmrghw(m->r[1], m->r[3]);
+    p.r[2] = __vmrglw(m->r[0], m->r[2]);
+    p.r[3] = __vmrglw(m->r[1], m->r[3]);
+    t.r[0] = __vmrghw(p.r[0], p.r[1]);
+    t.r[1] = __vmrglw(p.r[0], p.r[1]);
+    t.r[2] = __vmrghw(p.r[2], p.r[3]);
+    t.r[3] = __vmrglw(p.r[2], p.r[3]);
+    return t;
 }
 
+static __forceinline __vector4 Transform(__vector4 v, const Matrix_82531F18 *m)
+{
+    Matrix_82531F18 t = Transpose(m);
+    __vector4 x, y, z, w;
+
+    x = __vmsum4fp(v, t.r[0]);
+    y = __vmsum4fp(v, t.r[1]);
+    z = __vmsum4fp(v, t.r[2]);
+    w = __vmsum4fp(v, t.r[3]);
+    return __vmrghw(__vmrghw(x, z), __vmrghw(y, w));
+}
+
+int fn_82531F18(const Vec3_82531F18 *position, Point_82531F18 *screen, int *visible, float halfWidth,
+                float halfHeight)
+{
+    Context_82531F18 *ctx;
+    int id;
+    Viewport_82531F18 *viewport;
+    __vector4 v;
+    float sx;
+    float sy;
+
+    id = lbl_8320A898->id;
+    ctx = id == fn_82A1BB18() ? lbl_8320A898 : 0;
+    fn_82530948(ctx);
+    fn_825315E0(ctx);
+    fn_82531118();
+    viewport = fn_825308E8();
+    {
+        Float4_82531F18 point;
+
+        point.x = position->x;
+        point.y = position->y;
+        point.z = position->z;
+        point.w = 1.0f;
+        v = *(__vector4 *)&point;
+    }
+    v = Transform(v, &lbl_83296890.view);
+    if (v.vector4_f32[2] > -1.0e-05f) {
+        if (visible != 0) {
+            *visible = 0;
+        }
+        return 0;
+    }
+    v = Transform(v, &lbl_83296890.projection);
+    if (v.vector4_f32[3] != 0.0f) {
+        sx = v.vector4_f32[0] / v.vector4_f32[3];
+        sy = v.vector4_f32[1] / v.vector4_f32[3];
+    } else {
+        sx = 0.0f;
+        sy = 0.0f;
+    }
+    if (visible != 0) {
+        Point_82531F18 point;
+
+        point.x = sx;
+        point.y = sy;
+        *visible = fn_82531E50(point, halfWidth, halfHeight);
+    }
+    screen->x = fn_82539560(sx, -1.0f, 1.0f, 0.0f, (float)viewport->width);
+    screen->y = fn_82539560(sy, -1.0f, 1.0f, (float)viewport->height, 0.0f);
+    screen->x = (float)viewport->x + screen->x;
+    screen->y = (float)viewport->y + screen->y;
+    return 1;
+}

@@ -1,200 +1,203 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern int fn_8242F4F8();
-extern int fn_82432270();
-extern int fn_82539560();
-extern int fn_82570840();
-extern int fn_825709D8();
-extern unsigned int lbl_821917A8;
-extern unsigned int lbl_82191F78;
-extern unsigned int lbl_821962C0;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int lbl_831E4D40;
-extern unsigned int lbl_831E4D44;
-extern unsigned int uStack_28;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
-extern V16 loadVectorLeftIndexed128();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __lvlx(const void *base, int offset);
+__vector4 __vspltw(__vector4 v, unsigned int i);
+__vector4 __VMXGetReg(int n);
 
-void fn_824300F0(unsigned __int64 param_1,int param_2)
+typedef struct Vec_824300F0 {
+    __vector4 v;
+} Vec_824300F0;
 
+typedef struct Body_824300F0 {
+    char pad0[0x50];
+    __vector4 position; /* 0x50 */
+} Body_824300F0;
+
+typedef struct Node_824300F0 {
+    Body_824300F0 *body; /* 0x0 */
+} Node_824300F0;
+
+typedef struct Source_824300F0 Source_824300F0;
+
+typedef struct SourceVtbl_824300F0 {
+    void *slot0;
+    void *slot4;
+    void *slot8;
+    Vec_824300F0 *(*GetTarget)(Vec_824300F0 *out, Source_824300F0 *self);
+} SourceVtbl_824300F0;
+
+struct Source_824300F0 {
+    SourceVtbl_824300F0 *vt; /* 0x0 */
+    Node_824300F0 *node;     /* 0x4 */
+};
+
+typedef struct Look_824300F0 {
+    char pad0[0x38];
+    Source_824300F0 *source; /* 0x38 */
+    char pad3C[0x68 - 0x3C];
+    int mode; /* 0x68 */
+    char pad6C[0x74 - 0x6C];
+    int blendHandle;       /* 0x74 */
+    int scaleHandle;       /* 0x78 */
+    const char *blendName; /* 0x7C */
+    const char *scaleName; /* 0x80 */
+    float scale;           /* 0x84 */
+    float scaleIn;         /* 0x88 */
+    float scaleOut;        /* 0x8C */
+    float blend;           /* 0x90 */
+    char pad94[0xE0 - 0x94];
+    int tracking; /* 0xE0 */
+    char padE4[0xF0 - 0xE4];
+    __vector4 position;     /* 0xF0 */
+    __vector4 lastPosition; /* 0x100 */
+    __vector4 target;       /* 0x110 */
+    __vector4 lastTarget;   /* 0x120 */
+    char pad130[0x140 - 0x130];
+    void *anims; /* 0x140 */
+} Look_824300F0;
+
+typedef struct Character_824300F0 {
+    char pad0[0x8];
+    char unk8; /* 0x08 */
+} Character_824300F0;
+
+typedef struct Player_824300F0 {
+    char pad0[0x40];
+    Character_824300F0 *character; /* 0x40 */
+} Player_824300F0;
+
+typedef struct Roster_824300F0 {
+    char pad0[0x1C4];
+    Player_824300F0 **players; /* 0x1C4 */
+    char pad1C8[0x1D4 - 0x1C8];
+    int current; /* 0x1D4 */
+} Roster_824300F0;
+
+typedef struct Team_824300F0 {
+    char pad0[0x40];
+    Roster_824300F0 *roster; /* 0x40 */
+} Team_824300F0;
+
+typedef struct Match_824300F0 {
+    char pad0[0x174];
+    char *teams; /* 0x174 */
+} Match_824300F0;
+
+typedef struct Self_824300F0 {
+    char pad0[0x20];
+    int owner; /* 0x20 */
+    char pad24[0x220 - 0x24];
+    float distance; /* 0x220 */
+    char pad224[0x240 - 0x224];
+    Match_824300F0 *match; /* 0x240 */
+    Look_824300F0 *look;   /* 0x244 */
+} Self_824300F0;
+
+extern const __vector4 lbl_821962C0;
+extern float lbl_831E4D40;
+extern float lbl_831E4D44;
+extern void fn_82432270(Self_824300F0 *self, float dt);
+extern void fn_8242F4F8(Self_824300F0 *self, float dt);
+extern float fn_82539560(float x, float inMin, float inMax, float outMin, float outMax);
+extern int fn_82570840(void *anims, const char **name, unsigned char loop, int *owner);
+extern int fn_825709D8(void *anims, int handle, __vector4 *scale, float in, float out);
+
+static __forceinline __vector4 Replicate(float s)
 {
-  float fVar1;
-  float fVar2;
-  unsigned int uVar3;
-  unsigned int *puVar4;
-  int in_r0;
-  int iVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned int *puVar8;
-  double dVar9;
-  double dVar10;
-  double dVar11;
-  unsigned int uVar12;
-  unsigned int uVar13;
-  unsigned int uVar14;
-  unsigned int in_register_000104d0;
-  unsigned int in_register_000104d4;
-  unsigned int in_register_000104d8;
-  unsigned int in_vr77;
-  unsigned int uStack_30;
-  unsigned int uStack_2c;
-  unsigned int uStack_28;
-  
-  iVar5 = *(int *)(*(int *)(param_2 + 0x240) + 0x174);
-  if ((((*(int *)(*(int *)(iVar5 + 0x5c) + 0x1d4) == -1) ||
-       (iVar5 = *(int *)(iVar5 + 0x5c),
-       iVar5 = *(int *)(*(int *)(iVar5 + 0x1d4) * 4 + *(int *)(iVar5 + 0x1c4)), iVar5 == 0)) ||
-      (*(char *)(*(int *)(iVar5 + 0x40) + 8) != '\0')) ||
-     (*(int *)(*(int *)(param_2 + 0x244) + 0x68) == 0xd)) {
-    fn_82432270(param_1,param_2);
-    if (*(int *)(*(int *)(param_2 + 0x244) + 0x38) == 0) {
-      puVar8 = (unsigned int *)((unsigned int)(&lbl_821962C0 + in_r0) & 0xfffffff0);
-      uVar7 = puVar8[1];
-      uVar13 = puVar8[2];
-      uVar14 = puVar8[3];
-      puVar4 = (unsigned int *)(*(int *)(param_2 + 0x244) + 0xf0U & 0xfffffff0);
-      *puVar4 = *puVar8;
-      puVar4[1] = uVar7;
-      puVar4[2] = uVar13;
-      puVar4[3] = uVar14;
-      puVar8 = (unsigned int *)((unsigned int)(&lbl_821962C0 + in_r0) & 0xfffffff0);
-      uVar7 = puVar8[1];
-      uVar13 = puVar8[2];
-      uVar14 = puVar8[3];
-      puVar4 = (unsigned int *)(*(int *)(param_2 + 0x244) + 0x100U & 0xfffffff0);
-      *puVar4 = *puVar8;
-      puVar4[1] = uVar7;
-      puVar4[2] = uVar13;
-      puVar4[3] = uVar14;
-      puVar8 = (unsigned int *)((unsigned int)(&lbl_821962C0 + in_r0) & 0xfffffff0);
-      uVar7 = puVar8[1];
-      uVar13 = puVar8[2];
-      uVar14 = puVar8[3];
-      puVar4 = (unsigned int *)(*(int *)(param_2 + 0x244) + 0x110U & 0xfffffff0);
-      *puVar4 = *puVar8;
-      puVar4[1] = uVar7;
-      puVar4[2] = uVar13;
-      puVar4[3] = uVar14;
-      puVar8 = (unsigned int *)((unsigned int)(&lbl_821962C0 + in_r0) & 0xfffffff0);
-      uVar7 = *puVar8;
-      uVar13 = puVar8[1];
-      uVar14 = puVar8[2];
-      uVar12 = puVar8[3];
-      puVar8 = (unsigned int *)(*(int *)(param_2 + 0x244) + 0x120U & 0xfffffff0);
-      *puVar8 = uVar7;
-      puVar8[1] = uVar13;
-      puVar8[2] = uVar14;
-      puVar8[3] = uVar12;
-      *(unsigned int *)(*(int *)(param_2 + 0x244) + 0xe0) = 0;
-    }
-    else {
-      puVar8 = (unsigned int *)(*(int *)(param_2 + 0x244) + 0xf0U & 0xfffffff0);
-      uVar7 = puVar8[1];
-      uVar13 = puVar8[2];
-      uVar14 = puVar8[3];
-      puVar4 = (unsigned int *)(*(int *)(param_2 + 0x244) + 0x100U & 0xfffffff0);
-      *puVar4 = *puVar8;
-      puVar4[1] = uVar7;
-      puVar4[2] = uVar13;
-      puVar4[3] = uVar14;
-      puVar8 = (unsigned int *)(*(int *)(param_2 + 0x244) + 0x110U & 0xfffffff0);
-      uVar7 = puVar8[1];
-      uVar13 = puVar8[2];
-      uVar14 = puVar8[3];
-      puVar4 = (unsigned int *)(*(int *)(param_2 + 0x244) + 0x120U & 0xfffffff0);
-      *puVar4 = *puVar8;
-      puVar4[1] = uVar7;
-      puVar4[2] = uVar13;
-      puVar4[3] = uVar14;
-      iVar5 = **(int **)(*(int *)(*(int *)(param_2 + 0x244) + 0x38) + 4);
-      uVar7 = in_vr77;
-      uVar13 = in_register_000104d8;
-      uVar14 = in_register_000104d4;
-      uVar12 = in_register_000104d0;
-      if (iVar5 != 0) {
-        puVar8 = (unsigned int *)(iVar5 + 0x50U & 0xfffffff0);
-        uVar7 = puVar8[3];
-        uVar13 = puVar8[2];
-        uVar14 = puVar8[1];
-        uVar12 = *puVar8;
-      }
-      puVar8 = (unsigned int *)(*(int *)(param_2 + 0x244) + 0xf0U & 0xfffffff0);
-      *puVar8 = uVar12;
-      puVar8[1] = uVar14;
-      puVar8[2] = uVar13;
-      puVar8[3] = uVar7;
-      iVar5 = (**(int (***)())(**(int **)(*(int *)(param_2 + 0x244) + 0x38) + 0xc))(&uStack_30);
-      puVar8 = (unsigned int *)(in_r0 + iVar5 & 0xfffffff0);
-      uVar7 = *puVar8;
-      uVar13 = puVar8[1];
-      uVar14 = puVar8[2];
-      uVar12 = puVar8[3];
-      puVar8 = (unsigned int *)(*(int *)(param_2 + 0x244) + 0x110U & 0xfffffff0);
-      *puVar8 = uVar7;
-      puVar8[1] = uVar13;
-      puVar8[2] = uVar14;
-      puVar8[3] = uVar12;
-      if (*(int *)(*(int *)(param_2 + 0x244) + 0xe0) == 0) {
-        *(unsigned int *)(*(int *)(param_2 + 0x244) + 0xe0) = 1;
-      }
-    }
-    fn_8242F4F8(param_1,param_2);
-    iVar5 = *(int *)(param_2 + 0x244);
-    puVar8 = &lbl_821917A8;
-    dVar10 = (double)*(float *)(iVar5 + 0x90);
-    dVar9 = (double)fn_82539560((double)*(float *)(param_2 + 0x220),(double)lbl_831E4D40,
-                                 (double)lbl_831E4D44,(double)ltcg_pool_0_0f,(double)lbl_82191F78);
-    dVar11 = (double)lbl_821CA460;
-    *(float *)(iVar5 + 0x90) =
-         (float)((double)(float)((double)(float)(dVar11 - dVar9) - dVar10) *
-                 (double)(float)puVar8[0xb] + dVar10);
-    iVar5 = *(int *)(param_2 + 0x244);
-    if (*(int *)(*(int *)(param_2 + 0x244) + 0x78) == -1) {
-      if (*(int *)(iVar5 + 0x80) != 0) {
-        uVar6 = fn_82570840(*(unsigned int *)(*(int *)(param_2 + 0x244) + 0x140),
-                                  *(int *)(param_2 + 0x244) + 0x80,1,param_2 + 0x20);
-        *(unsigned int *)(*(int *)(param_2 + 0x244) + 0x78) = uVar6;
-      }
-    }
-    else {
-      uStack_30 = *(unsigned int *)(iVar5 + 0x84);
-      uVar6 = *(unsigned int *)(iVar5 + 0x78);
-      uVar3 = *(unsigned int *)(iVar5 + 0x140);
-      fVar2 = *(float *)(iVar5 + 0x8c);
-      fVar1 = *(float *)(iVar5 + 0x88);
-      puVar8 = (unsigned int *)((int)&uStack_30 + in_r0 & 0xfffffff0);
-      *puVar8 = in_register_000104d0;
-      puVar8[1] = in_register_000104d4;
-      puVar8[2] = in_register_000104d8;
-      puVar8[3] = in_vr77;
-      uStack_2c = uStack_30;
-      uStack_28 = uStack_30;
-      fn_825709D8((double)fVar1,(double)fVar2,uVar3,uVar6,&uStack_30);
-    }
-    if (*(int *)(*(int *)(param_2 + 0x244) + 0x74) == -1) {
-      if (*(int *)(*(int *)(param_2 + 0x244) + 0x7c) != 0) {
-        uVar7 = fn_82570840(*(unsigned int *)(*(int *)(param_2 + 0x244) + 0x140),
-                                  *(int *)(param_2 + 0x244) + 0x7c,1,param_2 + 0x20);
-        *(unsigned int *)(*(int *)(param_2 + 0x244) + 0x74) = uVar7;
-      }
-    }
-    else {
-      iVar5 = *(int *)(param_2 + 0x244);
-      loadVectorLeftIndexed128(0xffffffff821ca45c,4);
-      uVar6 = *(unsigned int *)(iVar5 + 0x74);
-      fVar2 = *(float *)(iVar5 + 0x90);
-      uVar3 = *(unsigned int *)(iVar5 + 0x140);
-      puVar8 = (unsigned int *)((int)&uStack_30 + in_r0 & 0xfffffff0);
-      *puVar8 = uVar7;
-      puVar8[1] = uVar13;
-      puVar8[2] = uVar14;
-      puVar8[3] = uVar12;
-      fn_825709D8((double)fVar2,dVar11,uVar3,uVar6,&uStack_30);
-    }
-  }
-  return;
+    return __vspltw(__lvlx(&s, 0), 0);
 }
 
+static __forceinline float Lerp(float from, float to, float t)
+{
+    return (to - from) * t + from;
+}
+
+static __forceinline Player_824300F0 *CurrentPlayer(Team_824300F0 *team)
+{
+    if (team->roster->current == -1) {
+        return 0;
+    }
+    return team->roster->players[team->roster->current];
+}
+
+static __forceinline __vector4 SourcePosition(Source_824300F0 *source)
+{
+    Body_824300F0 *body = source->node->body;
+
+    if (body != 0) {
+        return body->position;
+    }
+    return __VMXGetReg(77);
+}
+
+static __forceinline void PlayScaled(void *anims, int handle, float size, float in, float out)
+{
+    __vector4 scale = __VMXGetReg(77);
+
+    scale.vector4_f32[2] = size;
+    scale.vector4_f32[1] = size;
+    scale.vector4_f32[0] = size;
+    fn_825709D8(anims, handle, &scale, in, out);
+}
+
+static __forceinline void PlayUniform(void *anims, int handle, float size, float in, float out)
+{
+    __vector4 scale = Replicate(size);
+
+    fn_825709D8(anims, handle, &scale, in, out);
+}
+
+void fn_824300F0(Self_824300F0 *self, float dt)
+{
+    Player_824300F0 *player;
+
+    player = CurrentPlayer((Team_824300F0 *)(self->match->teams + 0x1C));
+    if (player != 0 && player->character->unk8 == 0 && self->look->mode != 13) {
+        return;
+    }
+    fn_82432270(self, dt);
+    if (self->look->source != 0) {
+        self->look->lastPosition = self->look->position;
+        self->look->lastTarget = self->look->target;
+        {
+            __vector4 position = SourcePosition(self->look->source);
+
+            self->look->position = position;
+        }
+        {
+            Vec_824300F0 result;
+
+            self->look->target = self->look->source->vt->GetTarget(&result, self->look->source)->v;
+        }
+        if (self->look->tracking == 0) {
+            self->look->tracking = 1;
+        }
+    } else {
+        self->look->position = lbl_821962C0;
+        self->look->lastPosition = lbl_821962C0;
+        self->look->target = lbl_821962C0;
+        self->look->lastTarget = lbl_821962C0;
+        self->look->tracking = 0;
+    }
+    fn_8242F4F8(self, dt);
+    self->look->blend = Lerp(
+        self->look->blend, 1.0f - fn_82539560(self->distance, lbl_831E4D40, lbl_831E4D44, 0.0f, 0.9f), 0.1f);
+    if (self->look->scaleHandle == -1) {
+        if (self->look->scaleName != 0) {
+            self->look->scaleHandle = fn_82570840(self->look->anims, &self->look->scaleName, 1, &self->owner);
+        }
+    } else {
+        Look_824300F0 *look = self->look;
+
+        PlayScaled(look->anims, look->scaleHandle, look->scale, look->scaleIn, look->scaleOut);
+    }
+    if (self->look->blendHandle == -1) {
+        if (self->look->blendName != 0) {
+            self->look->blendHandle = fn_82570840(self->look->anims, &self->look->blendName, 1, &self->owner);
+        }
+    } else {
+        PlayUniform(self->look->anims, self->look->blendHandle, 1.0f, self->look->blend, 1.0f);
+    }
+}

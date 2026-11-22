@@ -1,30 +1,48 @@
-extern unsigned int *auStack_28;
-extern float fRam831c48b0;
-extern float fRam831c48b4;
-extern int fn_824B49D8();
-extern int fn_82539560();
-extern float lbl_821956D4;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+double fabs(double x);
 
+typedef struct Skeleton_824B4AB8 Skeleton_824B4AB8;
+typedef struct Source_824B4AB8 Source_824B4AB8;
 
-void fn_824B4AB8(int param_1,int *param_2)
+typedef struct SourceVtbl_824B4AB8 {
+    void (*GetUser)(Source_824B4AB8 *self, int *index, void **user);
+    void (*GetSkeleton)(Source_824B4AB8 *self, void *user, Skeleton_824B4AB8 **skeleton);
+} SourceVtbl_824B4AB8;
 
+struct Source_824B4AB8 {
+    SourceVtbl_824B4AB8 *vt;
+};
+
+typedef struct Range_824B4AB8 {
+    float lo; /* 0x00 */
+    float hi; /* 0x04 */
+} Range_824B4AB8;
+
+typedef struct Tracker_824B4AB8 {
+    void *vt; /* 0x00 */
+    char pad04[0x38];
+    int alt; /* 0x3c */
+    char pad40[0x8];
+    float value;     /* 0x48 */
+    float angles[3]; /* 0x4c */
+} Tracker_824B4AB8;
+
+extern Range_824B4AB8 lbl_831C48B0;
+extern void fn_824B49D8(float *angles, Skeleton_824B4AB8 *skeleton, int from, int to);
+extern float fn_82539560(float x, float inMin, float inMax, float outMin, float outMax);
+
+float fn_824B4AB8(Tracker_824B4AB8 *self, Source_824B4AB8 *src)
 {
-  int iVar1;
-  unsigned int uStack_30;
-  unsigned int uStack_2c;
-  unsigned char auStack_28 [40];
-  
-  iVar1 = *(int *)(param_1 + 0x3c);
-  (**(int (***)())*param_2)(param_2,auStack_28,&uStack_30);
-  (**(int (***)())(*param_2 + 4))(param_2,uStack_30,&uStack_2c);
-  fn_824B49D8(param_1 + 0x4c,uStack_2c,(-(unsigned __int64)(iVar1 != 0) & 0xfffffffc) + 10,
-                    (-(unsigned __int64)(iVar1 != 0) & 0xfffffffc) + 9);
-                    /* WARNING: Subroutine does not return */
-  fn_82539560(ABS((double)(*(float *)(param_1 + 0x50) * lbl_821956D4)),(double)fRam831c48b0,
-               (double)fRam831c48b4,(double)ltcg_pool_0_0f,(double)lbl_821CA460);
-}
+    int alt = self->alt;
+    int index;
+    void *user;
+    Skeleton_824B4AB8 *skeleton;
+    float degrees;
 
+    src->vt->GetUser(src, &index, &user);
+    src->vt->GetSkeleton(src, user, &skeleton);
+    fn_824B49D8(self->angles, skeleton, alt ? 6 : 10, alt ? 5 : 9);
+    degrees = self->angles[1] * 57.295776f;
+    self->value = -(fn_82539560(fabs(degrees), lbl_831C48B0.lo, lbl_831C48B0.hi, 0.0f, 1.0f) *
+                    (degrees >= 0.0f ? 1.0f : -1.0f));
+    return 0.0f;
+}

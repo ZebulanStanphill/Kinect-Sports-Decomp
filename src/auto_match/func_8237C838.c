@@ -1,28 +1,38 @@
-extern int fn_822B6C98();
-extern int fn_822CEEC8();
-extern int fn_82A1E1A8();
-extern float lbl_821954C8;
-extern unsigned int uStack_30;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Unit_8237C838 {
+    char pad0[0x24];
+    int active; /* 0x24 */
+} Unit_8237C838;
 
-void fn_8237C838(int param_1,int param_2)
+typedef struct Obj_8237C838 {
+    char pad0[0x118];
+    float volume; /* 0x118 */
+    char pad11c[0x190 - 0x11c];
+    float lo; /* 0x190 */
+    float hi; /* 0x194 */
+} Obj_8237C838;
 
+extern __vector4 *fn_822B6C98(__vector4 *out, Unit_8237C838 *unit, int index);
+extern int fn_822CEEC8(Unit_8237C838 *unit);
+extern void fn_82A1E1A8(unsigned int value);
+
+void fn_8237C838(Obj_8237C838 *self, Unit_8237C838 *unit)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned __int64 uStack_30;
-  
-  if (*(int *)(param_2 + 0x24) != 0) {
-    fn_822B6C98(&uStack_30,param_2,9);
-    if (*(float *)(param_1 + 0x194) < (((unsigned __int64)(uStack_30) >> 32) & 0xFFFFFFFF)) {
-      uVar2 = (unsigned int)(*(float *)(param_1 + 400) < (((unsigned __int64)(uStack_30) >> 0) & 0xFFFFFFFF));
-      uVar1 = fn_822CEEC8(param_2);
-      if (uVar2 != uVar1) {
-        uStack_30 = (__int64)(*(float *)(param_1 + 0x118) * lbl_821954C8);
-        fn_82A1E1A8((((unsigned __int64)(uStack_30) >> 32) & 0xFFFFFFFF));
-      }
-    }
-  }
-  return;
-}
+    int below;
 
+    if (unit->active == 0)
+        return;
+    {
+        __vector4 range;
+
+        fn_822B6C98(&range, unit, 9);
+        if (self->hi >= range.vector4_f32[1])
+            return;
+        below = self->lo < range.vector4_f32[0];
+    }
+    if (below != fn_822CEEC8(unit))
+        fn_82A1E1A8((unsigned int)(self->volume * 1000.0f));
+}

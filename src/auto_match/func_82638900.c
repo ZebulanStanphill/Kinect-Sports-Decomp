@@ -1,12 +1,26 @@
-extern unsigned int lbl_821956B4;
+/* Stores a scalar, its 16-bit fixed-point copy (x 16) and marks the value as changed. */
+typedef union Value_82638900 {
+    float scalar;
+    unsigned int bits;
+} Value_82638900;
 
+typedef struct Object_82638900 {
+    char padding[0x18];
+    unsigned __int64 flags; /* 0x18 */
+    char padding20[0x294a];
+    short packed; /* 0x296a */
+    char paddingPacked[0x5bc];
+    float scalar; /* 0x2f28 */
+} Object_82638900;
 
-void fn_82638900(int param_1,float param_2)
-
+static __forceinline void SetFlags(unsigned __int64 *flags, unsigned __int64 mask)
 {
-  *(float *)(param_1 + 0x2f28) = param_2;
-  *(short *)(param_1 + 0x296a) = (short)(int)(param_2 * lbl_821956B4);
-  *(unsigned __int64 *)(param_1 + 0x18) = *(unsigned __int64 *)(param_1 + 0x18) | 0x20000000000000;
-  return;
+    *flags |= mask;
 }
 
+void fn_82638900(Object_82638900 *self, Value_82638900 value)
+{
+    self->scalar = value.scalar;
+    self->packed = (short)(int)(value.scalar * 16.0f);
+    SetFlags(&self->flags, 0x20000000000000ULL);
+}

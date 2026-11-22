@@ -1,21 +1,33 @@
-extern int fn_8250EC68();
-extern float lbl_82195714;
+typedef struct Motion_82304100 {
+    char pad00[0x48];
+    float x; /* 0x48 */
+    float y; /* 0x4c */
+} Motion_82304100;
 
+typedef struct Body_82304100 {
+    char pad00[0xc0];
+    Motion_82304100 motion; /* 0xc0 */
+} Body_82304100;
 
-void fn_82304100(int param_1)
+typedef struct Obj_82304100 {
+    char pad00[0x50];
+    int active;          /* 0x50 */
+    Body_82304100 *body; /* 0x54 */
+    char pad58[0x14];
+    char controller[0x54];   /* 0x6c */
+    unsigned char suspended; /* 0xc0 */
+} Obj_82304100;
 
+extern void fn_8250EC68(void *controller);
+
+void fn_82304100(Obj_82304100 *self)
 {
-  int iVar1;
-  float fVar2;
-  
-  *(unsigned int *)(param_1 + 0x50) = 0;
-  if (*(char *)(param_1 + 0xc0) == '\0') {
-    fn_8250EC68(param_1 + 0x6c);
-  }
-  iVar1 = *(int *)(param_1 + 0x54);
-  fVar2 = *(float *)(iVar1 + 0x10c) * lbl_82195714;
-  *(float *)(iVar1 + 0x108) = *(float *)(iVar1 + 0x108) * lbl_82195714;
-  *(float *)(iVar1 + 0x10c) = fVar2;
-  return;
+    Motion_82304100 *motion;
+    self->active = 0;
+    if (self->suspended == 0) {
+        fn_8250EC68(self->controller);
+    }
+    motion = &self->body->motion;
+    motion->x *= 0.6666667f;
+    motion->y *= 0.6666667f;
 }
-

@@ -1,108 +1,106 @@
-extern unsigned int *auStack_240;
-extern unsigned int *auStack_280;
-extern int fn_82250A18();
-extern int fn_82297868();
-extern int fn_82297DB0();
-extern int fn_8229B6C8();
-extern int fn_8229C8C8();
-extern int fn_8229C9C0();
-extern int fn_8229CBD0();
-extern int fn_82358FD8();
-extern int fn_82F64CE0();
-extern unsigned int iStack_290;
-extern unsigned int iStack_2b0;
-extern unsigned int lbl_821922D4;
-extern unsigned int lbl_82192604;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int lbl_832975B0;
-extern unsigned int uStack_28c;
-extern unsigned int uStack_2ac;
+/* Shows the "get ready" caption with the names of one or two players, the optional objective
+   title and line, then starts the caption timer (20 s or 3 s unless overridden). */
+typedef struct WString_8229B268 {
+    union {
+        unsigned short buf[8];
+        unsigned short *ptr;
+    } bx; /* 0x00 */
 
+    unsigned int size; /* 0x10 */
+    unsigned int res;  /* 0x14 */
+    char alval;        /* 0x18 */
+} WString_8229B268;
 
-void fn_8229B268(unsigned __int64 param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  unsigned int param_5,unsigned __int64 param_6,unsigned __int64 param_7)
+typedef struct Player_8229B268 {
+    char pad0[0x30];
+    unsigned short name[1]; /* 0x30 */
+} Player_8229B268;
 
+typedef struct Caption_8229B268 {
+    char pad0[0xc];
+    int busy; /* 0x0c */
+    char pad10[0x4c - 0x10];
+    int strings; /* 0x4c */
+    char pad50[0x70 - 0x50];
+    WString_8229B268 line1; /* 0x70 */
+    WString_8229B268 line2; /* 0x8c */
+} Caption_8229B268;
+
+typedef struct Settings_8229B268 {
+    char pad0[4];
+    unsigned char longCaption; /* 0x04 */
+} Settings_8229B268;
+
+extern Settings_8229B268 *lbl_832975B0;
+extern char lbl_820E975C[];
+
+extern Settings_8229B268 *fn_82250A18(void);
+extern void fn_82297DB0(WString_8229B268 *s, int a, int b);
+extern void fn_82297868(WString_8229B268 *s, const unsigned short *text, unsigned int length);
+extern unsigned int fn_82F64CE0(const unsigned short *text);
+extern int fn_82A1E1A0(const unsigned short *text);
+extern void fn_82358FD8(int strings, unsigned short *buf, int size, const char *key);
+extern void fn_8229C9C0(Caption_8229B268 *self, int type, const unsigned short *a, const unsigned short *b,
+                        const unsigned short *c, const unsigned short *d);
+extern void fn_8229C8C8(Caption_8229B268 *self, int type, const unsigned short *a, const unsigned short *b,
+                        const char *c);
+extern void fn_8229CBD0(Caption_8229B268 *self, const unsigned short *title, const unsigned short *line);
+extern void fn_8229B6C8(Caption_8229B268 *self, float duration, float delay, int arg);
+
+static __forceinline const unsigned short *CStr(const WString_8229B268 *s)
 {
-  float fVar1;
-  float fVar2;
-  unsigned __int64 uVar3;
-  int iVar4;
-  unsigned int *******pppppppuVar5;
-  double dVar6;
-  double dVar7;
-  unsigned int ******appppppuStack_2c0 [4];
-  int iStack_2b0;
-  unsigned int uStack_2ac;
-  unsigned int ******appppppuStack_2a0 [4];
-  int iStack_290;
-  unsigned int uStack_28c;
-  unsigned char auStack_280 [64];
-  unsigned char auStack_240 [576];
-  
-  fVar2 = ltcg_pool_0_0f;
-  dVar7 = (double)ltcg_pool_0_0f;
-  if (*(int *)(param_2 + 0xc) != 0) {
-    return;
-  }
-  if (((param_3 & 0xffffffff) == 0) && ((param_4 & 0xffffffff) == 0)) {
-    return;
-  }
-  *(unsigned int *)(param_2 + 0x4c) = param_5;
-  fn_82297DB0(appppppuStack_2c0,0,0);
-  fn_82297DB0(appppppuStack_2a0,0,0);
-  if ((param_3 & 0xffffffff) != 0) {
-    uVar3 = fn_82F64CE0(param_3 + 0x30);
-    fn_82297868(appppppuStack_2c0,param_3 + 0x30,uVar3);
-  }
-  if ((param_4 & 0xffffffff) != 0) {
-    uVar3 = fn_82F64CE0(param_4 + 0x30);
-    fn_82297868(appppppuStack_2a0,param_4 + 0x30,uVar3);
-  }
-  fn_82358FD8(*(unsigned int *)(param_2 + 0x4c),auStack_240,0x100,0xffffffff821aafa4);
-  uVar3 = fn_82F64CE0(auStack_240);
-  fn_82297868(param_2 + 0x70,auStack_240,uVar3);
-  if (iStack_2b0 == 0) {
-    pppppppuVar5 = appppppuStack_2a0;
-  }
-  else {
-    if (iStack_290 != 0) {
-      uVar3 = fn_82F64CE0(auStack_240);
-      fn_82297868(param_2 + 0x8c,auStack_240,uVar3);
-      if (uStack_28c < 8) {
-        appppppuStack_2a0[0] = appppppuStack_2a0;
-      }
-      if (uStack_2ac < 8) {
-        appppppuStack_2c0[0] = appppppuStack_2c0;
-      }
-      fn_8229C9C0(param_2,1,appppppuStack_2c0[0],auStack_240,appppppuStack_2a0[0],auStack_240);
-      goto LAB_8229b400;
-    }
-    pppppppuVar5 = appppppuStack_2c0;
-  }
-  if ((unsigned int ******)0x7 < pppppppuVar5[5]) {
-    pppppppuVar5 = (unsigned int *******)*pppppppuVar5;
-  }
-  fn_8229C8C8(param_2,0,pppppppuVar5,auStack_240,0xffffffff820e975c);
-LAB_8229b400:
-  if (((param_7 & 0xffffffff) != 0) && (iVar4 = thunk_FUN_82f64ce0(param_7), 0 < iVar4)) {
-    fn_82358FD8(*(unsigned int *)(param_2 + 0x4c),auStack_280,0x20,0xffffffff821a8344);
-    fn_8229CBD0(param_2,auStack_280,param_7);
-  }
-  iVar4 = lbl_832975B0;
-  if (lbl_832975B0 == 0) {
-    iVar4 = fn_82250A18();
-  }
-  fVar1 = lbl_82192604;
-  if (*(char *)(iVar4 + 4) != '\0') {
-    fVar1 = lbl_821922D4;
-  }
-  dVar6 = (double)fVar1;
-  if (fVar2 != 0.0) {
-    dVar6 = dVar7;
-  }
-  fn_8229B6C8(dVar6,param_1,param_2);
-  fn_82297DB0(appppppuStack_2a0,1,0);
-  fn_82297DB0(appppppuStack_2c0,1,0);
-  return;
+    return 8 <= s->res ? s->bx.ptr : s->bx.buf;
 }
 
+static __forceinline void AssignText(WString_8229B268 *s, const unsigned short *text)
+{
+    fn_82297868(s, text, fn_82F64CE0(text));
+}
+
+void fn_8229B268(Caption_8229B268 *self, Player_8229B268 *first, Player_8229B268 *second, int strings,
+                 float delay, const unsigned short *objective, int arg)
+{
+    float duration;
+    float overrideDuration = 0.0f;
+    WString_8229B268 firstName;
+    WString_8229B268 secondName;
+    unsigned short caption[0x100];
+    unsigned short title[0x20];
+    Settings_8229B268 *settings;
+
+    if (self->busy != 0) {
+        return;
+    }
+    if (first == 0 && second == 0) {
+        return;
+    }
+    self->strings = strings;
+    fn_82297DB0(&firstName, 0, 0);
+    fn_82297DB0(&secondName, 0, 0);
+    if (first != 0) {
+        AssignText(&firstName, first->name);
+    }
+    if (second != 0) {
+        AssignText(&secondName, second->name);
+    }
+    fn_82358FD8(self->strings, caption, 0x100, "caption_getready");
+    AssignText(&self->line1, caption);
+    if (firstName.size != 0 && secondName.size != 0) {
+        AssignText(&self->line2, caption);
+        fn_8229C9C0(self, 1, CStr(&firstName), caption, CStr(&secondName), caption);
+    } else {
+        fn_8229C8C8(self, 0, CStr(firstName.size != 0 ? &firstName : &secondName), caption, lbl_820E975C);
+    }
+    if (objective != 0 && fn_82A1E1A0(objective) > 0) {
+        fn_82358FD8(self->strings, title, 0x20, "resultslabel_objectiveTitle");
+        fn_8229CBD0(self, title, objective);
+    }
+    settings = lbl_832975B0 ? lbl_832975B0 : fn_82250A18();
+    duration = settings->longCaption ? 20.0f : 3.0f;
+    if (*(unsigned int *)&overrideDuration != 0) {
+        duration = overrideDuration;
+    }
+    fn_8229B6C8(self, duration, delay, arg);
+    fn_82297DB0(&secondName, 1, 0);
+    fn_82297DB0(&firstName, 1, 0);
+}

@@ -1,53 +1,74 @@
-#define NAN(x) ((x) != (x))
-extern int iRam831cdb40;
-extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Settings_822D15E0 {
+    char pad0[0x8];
+    int enabled; /* 0x8 */
+    char padC[0x16c];
+} Settings_822D15E0;
 
+typedef struct Limit_822D15E0 {
+    char pad0[0x64];
+    float low; /* 0x64 */
+    char pad68[0x4];
+    float high; /* 0x6c */
+} Limit_822D15E0;
 
-void fn_822D15E0(double param_1,int param_2)
+typedef struct Model_822D15E0 {
+    char pad0[0x13c];
+    Limit_822D15E0 *lower; /* 0x13c */
+    Limit_822D15E0 *upper; /* 0x140 */
+} Model_822D15E0;
 
+typedef struct Body_822D15E0 {
+    char pad0[0x24];
+    Model_822D15E0 *model; /* 0x24 */
+} Body_822D15E0;
+
+typedef struct Range_822D15E0 {
+    float from;  /* 0x0 */
+    float to;    /* 0x4 */
+    float value; /* 0x8 */
+} Range_822D15E0;
+
+typedef struct Output_822D15E0 {
+    char pad0[0x3c];
+    Range_822D15E0 first;  /* 0x3c */
+    Range_822D15E0 second; /* 0x48 */
+} Output_822D15E0;
+
+typedef struct Actor_822D15E0 {
+    char pad0[0x14];
+    Body_822D15E0 *body;     /* 0x14 */
+    Output_822D15E0 *output; /* 0x18 */
+} Actor_822D15E0;
+
+extern Settings_822D15E0 lbl_831CDB38;
+
+static __forceinline void Interpolate(Range_822D15E0 *range, float t)
 {
-  int iVar1;
-  int iVar2;
-  double dVar3;
-  double dVar4;
-  double dVar5;
-  
-  if (iRam831cdb40 != 0) {
-    iVar1 = *(int *)(*(int *)(param_2 + 0x14) + 0x24);
-    dVar5 = (double)lbl_821CA460;
-    iVar2 = *(int *)(iVar1 + 0x13c);
-    dVar4 = dVar5;
-    if (iVar2 != 0) {
-      dVar4 = (double)*(float *)(iVar2 + 100);
-    }
-    iVar1 = *(int *)(iVar1 + 0x140);
-    if (iVar1 != 0) {
-      dVar5 = (double)*(float *)(iVar1 + 0x6c);
-    }
-    iVar1 = *(int *)(param_2 + 0x18);
-    dVar3 = param_1;
-    if (*(float *)(&lbl_821954D8 +
-                  ((unsigned int)(unsigned char)(((float)(param_1 - dVar4) < ltcg_pool_0_0f) << 2) |
-                  (unsigned int)(NAN((float)(param_1 - dVar4)) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
-      dVar3 = dVar4;
-    }
-    if (*(float *)(&lbl_821954D8 +
-                  ((unsigned int)(unsigned char)(((float)(param_1 - dVar5) < ltcg_pool_0_0f) << 2) |
-                  (unsigned int)(NAN((float)(param_1 - dVar5)) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
-      param_1 = dVar5;
-    }
-    *(float *)(iVar1 + 0x44) =
-         (float)(dVar3 * (double)(float)((double)*(float *)(iVar1 + 0x40) -
-                                        (double)*(float *)(iVar1 + 0x3c)) +
-                (double)*(float *)(iVar1 + 0x3c));
-    *(float *)(iVar1 + 0x50) =
-         (float)(param_1 * (double)(float)((double)*(float *)(iVar1 + 0x4c) -
-                                          (double)*(float *)(iVar1 + 0x48)) +
-                (double)*(float *)(iVar1 + 0x48));
-    return;
-  }
-  return;
+    range->value = t * (range->to - range->from) + range->from;
 }
 
+static __forceinline float Max(float a, float b)
+{
+    return a - b >= 0.0f ? a : b;
+}
+
+void fn_822D15E0(Actor_822D15E0 *self, float amount)
+{
+    Model_822D15E0 *model;
+    Output_822D15E0 *output;
+    float low;
+    float high;
+    float first;
+    float second;
+
+    if (lbl_831CDB38.enabled != 0) {
+        model = self->body->model;
+        low = model->lower != 0 ? model->lower->low : 1.0f;
+        high = model->upper != 0 ? model->upper->high : 1.0f;
+        output = self->output;
+        first = Max(amount, low);
+        second = Max(amount, high);
+        Interpolate(&output->first, first);
+        Interpolate(&output->second, second);
+    }
+}

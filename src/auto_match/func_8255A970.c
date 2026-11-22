@@ -1,32 +1,39 @@
-extern float lbl_82195590;
-extern unsigned int lbl_82195598;
-extern float lbl_821955A0;
+extern double __fctid(double);
+extern double __fcfid(double);
 
+typedef struct Angles_8255A970 {
+    float x;
+    float y;
+    float z;
+} Angles_8255A970;
 
-void fn_8255A970(double param_1,float *param_2,float *param_3,unsigned __int64 param_4,float *param_5)
-
+/* Maps an angle to [0, 2 pi). */
+static __forceinline float WrapPositive(float angle)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  double dVar4;
-  double dVar5;
-  double dVar6;
-  
-  fVar1 = (float)((double)*param_3 - (double)*param_2) * lbl_82195590;
-  fVar2 = (float)((double)param_3[1] - (double)param_2[1]) * lbl_82195590;
-  fVar3 = (float)((double)param_3[2] - (double)param_2[2]) * lbl_82195590;
-  dVar6 = (double)((float)((double)(float)(((double)fVar1 - (double)(__int64)fVar1) * lbl_821955A0)
-                           * param_1 + (double)*param_2) * lbl_82195590);
-  dVar5 = (double)((float)((double)(float)(((double)fVar2 - (double)(__int64)fVar2) * lbl_821955A0)
-                           * param_1 + (double)param_2[1]) * lbl_82195590);
-  dVar4 = (double)((float)((double)(float)(((double)fVar3 - (double)(__int64)fVar3) * lbl_821955A0)
-                           * param_1 + (double)param_2[2]) * lbl_82195590);
-  dVar5 = (dVar5 - (double)(__int64)(dVar5 - lbl_82195598)) * lbl_821955A0;
-  dVar4 = (dVar4 - (double)(__int64)(dVar4 - lbl_82195598)) * lbl_821955A0;
-  *param_5 = (float)((dVar6 - (double)(__int64)(dVar6 - lbl_82195598)) * lbl_821955A0);
-  param_5[1] = (float)dVar5;
-  param_5[2] = (float)dVar4;
-  return;
+    double turns = (float)(angle * 0.15915494f);
+
+    return (float)((turns - (float)__fcfid(__fctid(turns - 0.49999999))) * 6.2831854820251465);
 }
 
+/* Maps an angle to (-2 pi, 2 pi) by dropping whole turns. */
+static __forceinline float WrapTurns(float angle)
+{
+    double turns = (float)(angle * 0.15915494f);
+
+    return (float)((turns - (float)__fcfid(__fctid(turns))) * 6.2831854820251465);
+}
+
+/* Interpolates each angle from its value in from towards to by the fraction t. */
+void fn_8255A970(const Angles_8255A970 *from, const Angles_8255A970 *to, float t, Angles_8255A970 *out)
+{
+    float dx = WrapTurns(to->x - from->x);
+    float dy = WrapTurns(to->y - from->y);
+    float dz = WrapTurns(to->z - from->z);
+    float x = WrapPositive(dx * t + from->x);
+    float y = WrapPositive(dy * t + from->y);
+    float z = WrapPositive(dz * t + from->z);
+
+    out->x = x;
+    out->y = y;
+    out->z = z;
+}

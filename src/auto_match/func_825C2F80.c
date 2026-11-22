@@ -1,28 +1,41 @@
-extern unsigned int lbl_82193E2C;
-extern float lbl_82195590;
-extern float lbl_821955A0;
-extern unsigned int lbl_821CA460;
+extern double __fctid(double);
+extern double __fcfid(double);
+
+/* the random number generator's state */
 extern unsigned int lbl_83265A28;
 
-
-double fn_825C2F80(double param_1,double param_2)
-
+/* Returns a pseudo-random number in [0, 1). */
+static __forceinline float RandomUnit(void)
 {
-  float fVar1;
-  
-  if (param_2 < param_1) {
+    union {
+        unsigned int bits;
+        float value;
+    } random;
+
     lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
-    fVar1 = (float)((double)(float)(param_2 - (double)(float)(param_1 - (double)lbl_82193E2C)) *
-                    (double)((float)(lbl_83265A28 & 0x7fffff | 0x3f800000) - lbl_821CA460) +
-                   (double)(float)(param_1 - (double)lbl_82193E2C)) * lbl_82195590;
-    return (double)(float)(((double)fVar1 - (double)(__int64)fVar1) * lbl_821955A0);
-  }
-  if (param_2 <= param_1) {
-    return param_1;
-  }
-  lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
-  return (double)(float)((double)(float)(param_2 - param_1) *
-                         (double)((float)(lbl_83265A28 & 0x7fffff | 0x3f800000) - lbl_821CA460) +
-                        param_1);
+    random.bits = (lbl_83265A28 & 0x7fffff) | 0x3f800000;
+    return random.value - 1.0f;
 }
 
+/* Maps an angle to (-2 pi, 2 pi) by dropping whole turns. */
+static __forceinline float WrapTurns(float angle)
+{
+    double turns = (float)(angle * 0.15915494f);
+
+    return (float)((turns - (float)__fcfid(__fctid(turns))) * 6.2831854820251465);
+}
+
+/* Returns a random angle from from up to to (through a whole turn when to is smaller). */
+float fn_825C2F80(float from, float to)
+{
+    float start;
+
+    if (from > to) {
+        start = from - 6.2831855f;
+        return WrapTurns((to - start) * RandomUnit() + start);
+    }
+    if (from < to) {
+        return (to - from) * RandomUnit() + from;
+    }
+    return from;
+}

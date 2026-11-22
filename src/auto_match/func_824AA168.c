@@ -1,38 +1,46 @@
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_50;
-extern unsigned int fStack_3c;
-extern unsigned int fStack_4c;
-extern int fn_824AA530();
-extern unsigned int lbl_82195898;
-extern unsigned int ltcg_pool_0_0f;
+#include <math.h>
 
+typedef struct Vec3_824AA530 {
+    float x; /* 0x0 */
+    float y; /* 0x4 */
+    float z; /* 0x8 */
+} Vec3_824AA530;
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+typedef struct Tracker_824AA168 Tracker_824AA168;
 
-void fn_824AA168(int *param_1,unsigned __int64 param_2)
+typedef struct TrackerVtbl_824AA168 {
+    void *slots[10];
+    float (*Evaluate)(Tracker_824AA168 *self, void *source); /* 0x28 */
+} TrackerVtbl_824AA168;
 
+struct Tracker_824AA168 {
+    TrackerVtbl_824AA168 *vt; /* 0x00 */
+    char pad04[0x30 - 0x04];
+    float value; /* 0x30 */
+    char pad34[0x3c - 0x34];
+    int mirrored;    /* 0x3c */
+    int matchesSide; /* 0x40 */
+    int beyondLimit; /* 0x44 */
+};
+
+extern void fn_824AA530(Vec3_824AA530 *out, void *source, int first, int second);
+
+void fn_824AA168(Tracker_824AA168 *self, void *source)
 {
-  float fVar1;
-  __int64 lVar2;
-  __int64 lVar3;
-  double dVar4;
-  unsigned char auStack_50 [4];
-  float fStack_4c;
-  unsigned char auStack_40 [4];
-  float fStack_3c;
-  
-  lVar3 = (-(unsigned __int64)(param_1[0xf] != 0) & 0xfffffffc) + 10;
-  lVar2 = (-(unsigned __int64)(param_1[0xf] != 0) & 0xfffffffc) + 9;
-  fn_824AA530(auStack_50,param_2,lVar3,lVar2);
-  fn_824AA530(auStack_40,param_2,lVar3,lVar2);
-  fVar1 = lbl_82195898;
-  if (ABS(fStack_4c) <= ABS(fStack_3c)) {
-    fStack_4c = fStack_3c;
-  }
-  param_1[0x10] = (unsigned int)LZCOUNT(param_1[0xf] - (unsigned int)(ltcg_pool_0_0f < fStack_4c)) >> 5;
-  param_1[0x11] = (unsigned int)(fVar1 < ABS(fStack_4c));
-  dVar4 = (double)(**(int (***)())(*param_1 + 0x28))(param_1,param_2);
-  param_1[0xc] = (int)(float)dVar4;
-  return;
-}
+    int first = self->mirrored ? 6 : 10;
+    int second = self->mirrored ? 5 : 9;
+    Vec3_824AA530 a;
+    Vec3_824AA530 b;
+    float y;
 
+    fn_824AA530(&a, source, first, second);
+    fn_824AA530(&b, source, first, second);
+    y = a.y;
+
+    if (!(fabsf(y) > fabsf(b.y))) {
+        y = b.y;
+    }
+    self->matchesSide = (y > 0.0f) == self->mirrored;
+    self->beyondLimit = fabsf(y) > 1.7453293f;
+    self->value = self->vt->Evaluate(self, source);
+}

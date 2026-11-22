@@ -1,129 +1,105 @@
-typedef unsigned char bool;
-#define false 0
-#define NAN(x) ((x) != (x))
-extern float fRam831d3bd4;
-extern float fRam831d3bd8;
-extern float fRam831d3bdc;
-extern float fRam831d3be0;
-extern float fRam831d3be4;
-extern float fRam831d3be8;
-extern float fRam831d3bec;
-extern float fRam831d3bf0;
-extern float fRam831d3bf4;
-extern int fn_82477F00();
-extern int fn_82552720();
-extern int fn_825529B0();
-extern int fn_82552B50();
-extern unsigned int lbl_821954D8;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Tuning_82477C80 {
+    char pad000[0x124];
+    float areaMinX;      /* 0x124 */
+    float areaMaxX;      /* 0x128 */
+    float areaMinY;      /* 0x12c */
+    float areaMaxY;      /* 0x130 */
+    float enableDelay;   /* 0x134 */
+    float idleTimeout;   /* 0x138 */
+    float promptDelay;   /* 0x13c */
+    float promptTimeout; /* 0x140 */
+    float cooldown;      /* 0x144 */
+} Tuning_82477C80;
 
+typedef struct Owner_82477C80 {
+    char pad000[0x84c];
+    char sounds[4]; /* 0x84c */
+} Owner_82477C80;
 
-void fn_82477C80(double param_1,int param_2)
+typedef struct Hint_82477C80 {
+    char pad000[0xd4];
+    unsigned int idleSound;   /* 0xd4 */
+    unsigned int promptSound; /* 0xd8 */
+    char pad0dc[0xec - 0xdc];
+    unsigned int flags;     /* 0xec */
+    unsigned int showFlags; /* 0xf0 */
+    char pad0f4[0x148 - 0xf4];
+    float promptTime;     /* 0x148 */
+    float idleTime;       /* 0x14c */
+    unsigned char active; /* 0x150 */
+    char pad151[0x158 - 0x151];
+    float cooldown;        /* 0x158 */
+    Owner_82477C80 *owner; /* 0x15c */
+    int pad160;
+    void *voice; /* 0x164 */
+} Hint_82477C80;
 
+extern Tuning_82477C80 lbl_831D3AB0;
+
+extern unsigned char fn_82477F00(float minX, float maxX, float minY, float maxY);
+extern int fn_825529B0(void **voice);
+extern int fn_82552720(void *sounds, void **voice, unsigned int *sound, void *d, int e, void *f, void *g);
+extern void fn_82552B50(void **voice, unsigned char destroy);
+
+static __forceinline int IsValid(unsigned int *sound)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  int iVar5;
-  int *piVar6;
-  int iVar7;
-  bool bVar8;
-  bool bVar9;
-  double dVar10;
-  
-  fn_82477F00((double)fRam831d3bd4,(double)fRam831d3bd8,(double)fRam831d3bdc,
-                    (double)fRam831d3be0);
-  if (*(char *)(param_2 + 0x150) == '\0') {
-    fVar2 = (float)((double)*(float *)(param_2 + 0x158) - param_1);
-    *(float *)(param_2 + 0x158) = fVar2;
-    fVar1 = fRam831d3bf4;
-    fVar4 = ltcg_pool_0_0f;
-    bVar8 = NAN(ltcg_pool_0_0f);
-    bVar9 = fVar2 < ltcg_pool_0_0f;
-    *(float *)(param_2 + 0x148) = ltcg_pool_0_0f;
-    if (*(float *)(&lbl_821954D8 + ((unsigned int)(unsigned char)(bVar9 << 2) | (unsigned int)(NAN(fVar2) || bVar8) << 2)) <
-        0.0) {
-      fVar2 = fVar4;
-    }
-    fVar3 = fVar2 - fVar1;
-    if (*(float *)(&lbl_821954D8 +
-                  ((unsigned int)(unsigned char)((fVar3 < fVar4) << 2) | (unsigned int)(NAN(fVar3) || NAN(fVar4)) << 2)) <
-        0.0) {
-      fVar1 = fVar2;
-    }
-    *(float *)(param_2 + 0x158) = fVar1;
-    if (fRam831d3be4 < fVar4) {
-      *(float *)(param_2 + 0x148) = fVar4;
-      *(float *)(param_2 + 0x14c) = fVar4;
-      *(unsigned char *)(param_2 + 0x150) = 1;
-      *(unsigned int *)(param_2 + 0xec) = *(unsigned int *)(param_2 + 0xec) | 0x10;
-    }
-  }
-  else {
-    iVar7 = param_2 + 0x164;
-    if (*(float *)(param_2 + 0x14c) <= fRam831d3bec) {
-      iVar5 = fn_825529B0(iVar7);
-      dVar10 = (double)ltcg_pool_0_0f;
-      if ((iVar5 == 0) && ((double)*(float *)(param_2 + 0x14c) <= dVar10)) {
-        piVar6 = (int *)(param_2 + 0xd4);
-        if (piVar6 == (int *)0x0) {
-          bVar8 = false;
-        }
-        else {
-          bVar8 = *piVar6 != 0;
-        }
-        if (bVar8) {
-          fn_82552720((unsigned __int64)*(unsigned int *)(param_2 + 0x15c) + 0x84c,iVar7,piVar6,0,4,0,0);
-        }
-      }
-      fVar2 = (float)((double)*(float *)(param_2 + 0x14c) + param_1);
-      fVar1 = (float)(param_1 + (double)*(float *)(param_2 + 0x148));
-      *(float *)(param_2 + 0x14c) = fVar2;
-      *(float *)(param_2 + 0x148) = fVar1;
-      if (fRam831d3bec < fVar2) {
-        iVar5 = fn_825529B0(iVar7);
-        if (iVar5 != 0) {
-          fn_82552B50(iVar7,1);
-        }
-        *(float *)(param_2 + 0x148) = (float)dVar10;
-        goto LAB_82477ed8;
-      }
-      bVar8 = fRam831d3be8 < fVar1;
-    }
-    else {
-      iVar5 = fn_825529B0(iVar7);
-      dVar10 = (double)ltcg_pool_0_0f;
-      if ((iVar5 == 0) && ((double)*(float *)(param_2 + 0x148) <= dVar10)) {
-        piVar6 = (int *)(param_2 + 0xd8);
-        if (piVar6 == (int *)0x0) {
-          bVar8 = false;
-        }
-        else {
-          bVar8 = *piVar6 != 0;
-        }
-        if (bVar8) {
-          fn_82552720((unsigned __int64)*(unsigned int *)(param_2 + 0x15c) + 0x84c,iVar7,piVar6,0,4,0,0);
-        }
-      }
-      fVar2 = (float)(param_1 + (double)*(float *)(param_2 + 0x148));
-      *(float *)(param_2 + 0x148) = fVar2;
-      bVar8 = fRam831d3bf0 < fVar2;
-    }
-    if (bVar8) {
-      iVar5 = fn_825529B0(iVar7);
-      if (iVar5 != 0) {
-        fn_82552B50(iVar7,1);
-      }
-      *(float *)(param_2 + 0x148) = (float)dVar10;
-      *(float *)(param_2 + 0x158) = fRam831d3bf4;
-      *(unsigned char *)(param_2 + 0x150) = 0;
-    }
-  }
-LAB_82477ed8:
-  if (*(char *)(param_2 + 0x150) != '\0') {
-    *(unsigned int *)(param_2 + 0xf0) = *(unsigned int *)(param_2 + 0xf0) | 0x10;
-  }
-  return;
+    if (sound)
+        return *sound != 0;
+    return 0;
 }
 
+static __forceinline float Clamp(float value, float low, float high)
+{
+    value = value - low >= 0.0f ? value : low;
+    return value - high >= 0.0f ? high : value;
+}
+
+void fn_82477C80(Hint_82477C80 *self, float dt)
+{
+    fn_82477F00(lbl_831D3AB0.areaMinX, lbl_831D3AB0.areaMaxX, lbl_831D3AB0.areaMinY, lbl_831D3AB0.areaMaxY);
+    if (!self->active) {
+        float cooldown;
+
+        self->cooldown -= dt;
+        cooldown = Clamp(self->cooldown, 0.0f, lbl_831D3AB0.cooldown);
+        self->promptTime = 0.0f;
+        self->cooldown = cooldown;
+        if (lbl_831D3AB0.enableDelay < 0.0f) {
+            self->promptTime = 0.0f;
+            self->idleTime = 0.0f;
+            self->active = 1;
+            self->flags |= 0x10;
+        }
+    } else {
+        if (self->idleTime > lbl_831D3AB0.promptDelay) {
+            if (!fn_825529B0(&self->voice) && !(self->promptTime > 0.0f) && IsValid(&self->promptSound))
+                fn_82552720(self->owner->sounds, &self->voice, &self->promptSound, 0, 4, 0, 0);
+            self->promptTime += dt;
+            if (self->promptTime > lbl_831D3AB0.promptTimeout) {
+                if (fn_825529B0(&self->voice))
+                    fn_82552B50(&self->voice, 1);
+                self->promptTime = 0.0f;
+                self->cooldown = lbl_831D3AB0.cooldown;
+                self->active = 0;
+            }
+        } else {
+            if (!fn_825529B0(&self->voice) && !(self->idleTime > 0.0f) && IsValid(&self->idleSound))
+                fn_82552720(self->owner->sounds, &self->voice, &self->idleSound, 0, 4, 0, 0);
+            self->idleTime += dt;
+            self->promptTime += dt;
+            if (self->idleTime > lbl_831D3AB0.promptDelay) {
+                if (fn_825529B0(&self->voice))
+                    fn_82552B50(&self->voice, 1);
+                self->promptTime = 0.0f;
+            } else if (self->promptTime > lbl_831D3AB0.idleTimeout) {
+                if (fn_825529B0(&self->voice))
+                    fn_82552B50(&self->voice, 1);
+                self->promptTime = 0.0f;
+                self->cooldown = lbl_831D3AB0.cooldown;
+                self->active = 0;
+            }
+        }
+    }
+    if (self->active)
+        self->showFlags |= 0x10;
+}

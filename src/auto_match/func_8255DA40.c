@@ -1,29 +1,20 @@
-#define NAN(x) ((x) != (x))
-extern unsigned int lbl_821954D8;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Obj_8255DA40 {
+    char pad0[0xa0];
+    float c; /* 0xa0 */
+    float a; /* 0xa4 */
+    float b; /* 0xa8 */
+    char padAC[0x2b0 - 0xac];
+    float scale2; /* 0x2b0 */
+    char pad2B4[0x8bc - 0x2b4];
+    float scale1; /* 0x8bc */
+} Obj_8255DA40;
 
-
-double fn_8255DA40(int param_1)
-
+static __forceinline float Max(float x, float y)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  
-  fVar1 = *(float *)(param_1 + 0xa4) - *(float *)(param_1 + 0xa8);
-  fVar2 = *(float *)(param_1 + 0xa4);
-  if (*(float *)(&lbl_821954D8 +
-                ((unsigned int)(unsigned char)((fVar1 < ltcg_pool_0_0f) << 2) |
-                (unsigned int)(NAN(fVar1) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
-    fVar2 = *(float *)(param_1 + 0xa8);
-  }
-  fVar1 = *(float *)(param_1 + 0xa0) - fVar2;
-  fVar3 = *(float *)(param_1 + 0xa0);
-  if (*(float *)(&lbl_821954D8 +
-                ((unsigned int)(unsigned char)((fVar1 < ltcg_pool_0_0f) << 2) |
-                (unsigned int)(NAN(fVar1) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
-    fVar3 = fVar2;
-  }
-  return (double)(fVar3 * *(float *)(param_1 + 0x8bc) * *(float *)(param_1 + 0x2b0));
+    return x - y >= 0.0f ? x : y;
 }
 
+float fn_8255DA40(Obj_8255DA40 *o)
+{
+    return Max(o->c, Max(o->a, o->b)) * o->scale1 * o->scale2;
+}

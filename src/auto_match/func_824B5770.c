@@ -1,79 +1,47 @@
-#define NAN(x) ((x) != (x))
-extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int lbl_831C4610;
-extern unsigned int lbl_831C4614;
-extern unsigned int lbl_831C461C;
-extern unsigned int lbl_831C4620;
+#include <math.h>
 
+typedef struct Range_824B5770 {
+    float minimum; /* 0x0 */
+    float maximum; /* 0x4 */
+    int mode;      /* 0x8 */
+} Range_824B5770;
 
-double fn_824B5770(int param_1,int param_2,int param_3,int param_4)
+typedef struct Settings_824B5770 {
+    Range_824B5770 previous; /* 0x0 */
+    Range_824B5770 current;  /* 0xc */
+} Settings_824B5770;
 
+typedef struct Obj_824B5770 {
+    char pad0[0x48];
+    float currentValue;  /* 0x48 */
+    float previousValue; /* 0x4c */
+    int allowPositive;   /* 0x50 */
+    int allowNegative;   /* 0x54 */
+    int usePrevious;     /* 0x58 */
+} Obj_824B5770;
+
+extern Settings_824B5770 lbl_831C4610;
+
+extern float fn_82539560(float x, float inMin, float inMax, float outMin, float outMax);
+
+float fn_824B5770(Obj_824B5770 *self, int allowPositive, int allowNegative, int usePrevious)
 {
-  float fVar1;
-  float fVar2;
-  double dVar3;
-  double dVar4;
-  double dVar5;
-  double dVar6;
-  
-  if ((param_2 == 0) && (param_3 == 0)) {
-    return (double)ltcg_pool_0_0f;
-  }
-  *(int *)(param_1 + 0x50) = param_2;
-  *(int *)(param_1 + 0x54) = param_3;
-  *(int *)(param_1 + 0x58) = param_4;
-  if (param_4 == 0) {
-    fVar1 = *(float *)(param_1 + 0x48);
-  }
-  else {
-    fVar1 = *(float *)(param_1 + 0x4c);
-  }
-  dVar3 = (double)fVar1;
-  dVar5 = (double)ltcg_pool_0_0f;
-  dVar4 = dVar3;
-  if ((param_2 == 0) &&
-     (dVar4 = dVar5,
-     *(float *)(&lbl_821954D8 +
-               ((unsigned int)(unsigned char)((dVar3 < dVar5) << 2) | (unsigned int)(NAN(dVar3) || NAN(dVar5)) << 2)) < 0.0))
-  {
-    dVar4 = dVar3;
-  }
-  if ((param_3 == 0) &&
-     (*(float *)(&lbl_821954D8 +
-                ((unsigned int)(unsigned char)((dVar4 < dVar5) << 2) | (unsigned int)(NAN(dVar4) || NAN(dVar5)) << 2)) < 0.0)
-     ) {
-    dVar4 = dVar5;
-  }
-  fVar1 = lbl_831C4620;
-  if (param_4 != 0) {
-    fVar1 = lbl_831C4614;
-  }
-  fVar2 = lbl_831C461C;
-  if (param_4 != 0) {
-    fVar2 = lbl_831C4610;
-  }
-  dVar3 = (double)fVar2;
-  dVar6 = (double)lbl_821CA460;
-  if ((double)fVar1 != dVar3) {
-    dVar4 = (double)(float)((double)((float)(ABS(dVar4) - dVar3) / (float)((double)fVar1 - dVar3)) *
-                            (double)(float)(dVar6 - dVar5) + dVar5);
-    if (dVar6 <= dVar5) {
-      if (dVar6 <= dVar4) {
-        if (dVar5 < dVar4) {
-          return dVar5;
-        }
-        return dVar4;
-      }
-    }
-    else if (dVar4 <= dVar6) {
-      if (dVar4 < dVar5) {
-        return dVar5;
-      }
-      return dVar4;
-    }
-  }
-  return dVar6;
-}
+    float value;
 
+    if (allowPositive == 0 && allowNegative == 0) {
+        return 0.0f;
+    }
+    self->allowPositive = allowPositive;
+    self->allowNegative = allowNegative;
+    self->usePrevious = usePrevious;
+    value = usePrevious != 0 ? self->previousValue : self->currentValue;
+    if (allowPositive == 0) {
+        value = value >= 0.0f ? 0.0f : value;
+    }
+    if (allowNegative == 0) {
+        value = value >= 0.0f ? value : 0.0f;
+    }
+    return fn_82539560(
+        fabs(value), usePrevious != 0 ? lbl_831C4610.previous.minimum : lbl_831C4610.current.minimum,
+        usePrevious != 0 ? lbl_831C4610.previous.maximum : lbl_831C4610.current.maximum, 0.0f, 1.0f);
+}

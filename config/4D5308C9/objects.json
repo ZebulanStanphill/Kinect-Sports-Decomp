@@ -5500,10 +5500,15 @@
         ]
       },
       "auto_match/func_82239318.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_822393D0.c": {
         "status": "NonMatching",
@@ -5512,10 +5517,15 @@
         ]
       },
       "auto_match/func_822395B8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_82239670.c": {
         "status": "NonMatching",
@@ -11489,10 +11499,16 @@
         }
       },
       "auto_match/func_8226AA50.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/QVMXReserve"
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_8226AAB8.c": {
         "status": "Matching",
@@ -11517,10 +11533,16 @@
         ]
       },
       "auto_match/func_8226AC78.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/QVMXReserve"
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_8226ACE8.c": {
         "status": "Matching",
@@ -12003,10 +12025,17 @@
         ]
       },
       "auto_match/func_82273AF8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/Oi",
+          "/QVMXReserve"
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_82273C88.c": {
         "status": "Matching",
@@ -12388,10 +12417,15 @@
       },
       "auto_match/func_822789D0.c": "MISSING",
       "auto_match/func_82278B40.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_82278BA0.c": {
         "status": "NonMatching",
@@ -12701,10 +12735,18 @@
         ]
       },
       "auto_match/func_8227C810.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [
+          "auto_match/func_8227C0A8.c",
+          "auto_match/func_82526C70.c"
+        ],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_8227CAB8.c": {
         "status": "Matching",
@@ -13104,17 +13146,26 @@
         ]
       },
       "auto_match/func_82280E28.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [
+          "auto_match/func_822811F8.c"
+        ],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_82280F18.c": "MISSING",
       "auto_match/func_822811F8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "ltcg_pool": true
       },
       "auto_match/func_82281308.c": {
         "status": "NonMatching",
@@ -14621,10 +14672,12 @@
         ]
       },
       "auto_match/func_822931D8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "ltcg_pool": true
       },
       "auto_match/func_822932E8.cpp": {
         "status": "Matching",
@@ -15543,10 +15596,12 @@
         }
       },
       "auto_match/func_8229B268.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "ltcg_pool": true
       },
       "auto_match/func_8229B4C8.c": {
         "status": "NonMatching",
@@ -16114,10 +16169,15 @@
         ]
       },
       "auto_match/func_822A06C8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_822A0790.c": {
         "status": "Matching",
@@ -18810,10 +18870,19 @@
         ]
       },
       "auto_match/func_822C49D8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/Oi",
+          "/QVMXReserve"
+        ],
+        "ltcg_units": [
+          "auto_match/func_822B69A0.c"
+        ],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_822C4A30.c": {
         "status": "NonMatching",
@@ -19053,10 +19122,17 @@
       "auto_match/func_822C6D68.c": "MISSING",
       "auto_match/func_822C6F10.c": "MISSING",
       "auto_match/func_822C6FB0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/Oi"
+        ],
+        "vc_include": true,
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_822C7078.c": {
         "status": "Matching",
@@ -19240,10 +19316,15 @@
         ]
       },
       "auto_match/func_822C9B00.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O2"
-        ]
+          "/O1"
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_822C9BF8.c": {
         "status": "NonMatching",
@@ -19650,10 +19731,12 @@
       },
       "auto_match/func_822CDCF8.c": "MISSING",
       "auto_match/func_822CDE58.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "ltcg_pool": true
       },
       "auto_match/func_822CDF28.c": "MISSING",
       "auto_match/func_822CE1C0.c": {
@@ -19732,10 +19815,12 @@
         ]
       },
       "auto_match/func_822CF300.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "ltcg_pool": true
       },
       "auto_match/func_822CF640.c": {
         "status": "Matching",
@@ -19774,10 +19859,12 @@
         ]
       },
       "auto_match/func_822CFA98.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "ltcg_pool": true
       },
       "auto_match/func_822CFB50.c": {
         "status": "NonMatching",
@@ -19877,10 +19964,12 @@
       },
       "auto_match/func_822D0858.c": "MISSING",
       "auto_match/func_822D1320.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "ltcg_pool": true
       },
       "auto_match/func_822D13D0.c": {
         "status": "NonMatching",
@@ -19895,10 +19984,15 @@
         ]
       },
       "auto_match/func_822D15E0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_822D16B8.c": {
         "status": "Matching",
@@ -20929,10 +21023,19 @@
         ]
       },
       "auto_match/func_822DFE60.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/QVMXReserve"
+        ],
+        "ltcg_units": [
+          "auto_match/func_822CEEC8.c",
+          "auto_match/func_82539560.c"
+        ],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_822E00E8.c": {
         "status": "Matching",
@@ -23485,10 +23588,15 @@
       },
       "auto_match/func_82303FE0.c": "MISSING",
       "auto_match/func_82304100.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_82304170.c": {
         "status": "NonMatching",
@@ -23704,11 +23812,17 @@
           "/QVMXReserve"
         ]
       },
-      "auto_match/func_82308868.c": {
-        "status": "NonMatching",
+      "auto_match/func_82308868.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/QVMXReserve"
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_82308AE8.c": "MISSING",
       "auto_match/func_82308BF0.c": "MISSING",
@@ -23973,10 +24087,15 @@
       },
       "auto_match/func_8230E300.c": "MISSING",
       "auto_match/func_8230E4A8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_8230E570.c": {
         "status": "NonMatching",
@@ -24543,10 +24662,14 @@
         ]
       },
       "auto_match/func_8231A560.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [
+          "auto_match/func_82369160.c"
+        ],
+        "ltcg_pool": true
       },
       "auto_match/func_8231A628.c": "MISSING",
       "auto_match/func_8231A9D8.c": {
@@ -24638,10 +24761,18 @@
         ]
       },
       "auto_match/func_8231F730.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/QVMXReserve"
+        ],
+        "ltcg_units": [
+          "auto_match/func_822ABA88.cpp"
+        ],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_8231F800.c": {
         "status": "Matching",
@@ -24916,10 +25047,15 @@
         ]
       },
       "auto_match/func_82321728.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_82321818.c": "MISSING",
       "auto_match/func_82321A10.cpp": {
@@ -25265,10 +25401,16 @@
         ]
       },
       "auto_match/func_823298E0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/Oi"
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_82329A10.cpp": {
         "status": "Matching",
@@ -25753,10 +25895,15 @@
         ]
       },
       "auto_match/func_8232C768.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_8232C828.c": {
         "status": "Matching",
@@ -26012,10 +26159,15 @@
         ]
       },
       "auto_match/func_8232E418.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_8232E540.cpp": {
         "status": "Matching",
@@ -27199,11 +27351,17 @@
           "/QVMXReserve"
         ]
       },
-      "auto_match/func_823429D0.c": {
-        "status": "NonMatching",
+      "auto_match/func_823429D0.cpp": {
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/QVMXReserve"
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_82342C60.c": {
         "status": "Matching",
@@ -27285,10 +27443,15 @@
       },
       "auto_match/func_82344A08.c": "MISSING",
       "auto_match/func_82344C28.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_82344CD8.c": {
         "status": "Matching",
@@ -27391,10 +27554,15 @@
         ]
       },
       "auto_match/func_823477E8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_82347890.c": {
         "status": "NonMatching",
@@ -27526,11 +27694,17 @@
           "/O1"
         ]
       },
-      "auto_match/func_8234B338.c": {
-        "status": "NonMatching",
+      "auto_match/func_8234B338.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "vc_include": true,
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_8234B400.c": {
         "status": "Matching",
@@ -28906,10 +29080,15 @@
         ]
       },
       "game/sport/controller/sport_controller_bowling/func_823602F0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_823605C0.c": {
         "status": "Matching",
@@ -29840,10 +30019,16 @@
         ]
       },
       "auto_match/func_82368DA0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/QVMXReserve"
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_82368E38.c": {
         "status": "NonMatching",
@@ -30081,10 +30266,15 @@
         }
       },
       "auto_match/func_8236B638.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_8236B6E8.c": {
         "status": "Matching",
@@ -31466,10 +31656,17 @@
         ]
       },
       "auto_match/func_8237C838.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [
+          "auto_match/func_822CEEC8.c"
+        ],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_8237C8E0.c": "MISSING",
       "auto_match/func_8237CA48.c": {
@@ -31585,10 +31782,15 @@
         ]
       },
       "auto_match/func_82380C18.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_82380CE0.c": {
         "status": "Matching",
@@ -32031,10 +32233,15 @@
         ]
       },
       "auto_match/func_823841A8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_82384438.c": "MISSING",
       "auto_match/func_823845A0.c": {
@@ -32721,10 +32928,17 @@
         }
       },
       "auto_match/func_8238DF50.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [
+          "auto_match/func_82278B40.c"
+        ],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_8238DFD0.c": {
         "status": "NonMatching",
@@ -33920,10 +34134,12 @@
         ]
       },
       "auto_match/func_8239D8B0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "ltcg_pool": true
       },
       "auto_match/func_8239D9F8.c": {
         "status": "NonMatching",
@@ -34120,10 +34336,15 @@
         ]
       },
       "auto_match/func_823A0638.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_823A0700.c": {
         "status": "Matching",
@@ -35235,10 +35456,15 @@
         ]
       },
       "auto_match/func_823AB400.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_823AB470.c": {
         "status": "Matching",
@@ -37009,10 +37235,16 @@
         ]
       },
       "auto_match/func_823CC7F0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/QVMXReserve"
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_823CC900.c": {
         "status": "Matching",
@@ -37533,16 +37765,26 @@
         ]
       },
       "auto_match/func_823D5728.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_823D57F0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_823D5898.c": {
         "status": "Matching",
@@ -37971,10 +38213,16 @@
         ]
       },
       "auto_match/func_823DB548.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/QVMXReserve"
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_823DB6B8.c": {
         "status": "Matching",
@@ -41825,10 +42073,17 @@
         ]
       },
       "auto_match/func_82404638.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [
+          "auto_match/func_82F63108.c"
+        ],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_82404710.cpp": {
         "status": "Matching",
@@ -42913,10 +43168,17 @@
         ]
       },
       "auto_match/func_824107D0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [
+          "auto_match/func_8252AF80.c"
+        ],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_824108A0.c": "MISSING",
       "auto_match/func_82410E40.c": "MISSING",
@@ -42959,10 +43221,19 @@
         ]
       },
       "auto_match/func_82412308.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/QVMXReserve"
+        ],
+        "ltcg_units": [
+          "auto_match/func_82539560.c",
+          "auto_match/func_8253A918.c"
+        ],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_82412588.c": {
         "status": "NonMatching",
@@ -43699,10 +43970,18 @@
         ]
       },
       "auto_match/func_82423658.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [
+          "auto_match/func_82417F58.c",
+          "auto_match/func_822ABA88.cpp"
+        ],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_82423728.c": {
         "status": "Matching",
@@ -43928,10 +44207,15 @@
         ]
       },
       "auto_match/func_82426B08.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_82426C30.cpp": {
         "status": "Matching",
@@ -44151,10 +44435,16 @@
         ]
       },
       "auto_match/func_82429BA8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/Oi"
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_82429CB8.cpp": {
         "status": "Matching",
@@ -44308,10 +44598,15 @@
         ]
       },
       "auto_match/func_8242BC50.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_8242BD70.c": {
         "status": "Matching",
@@ -44788,10 +45083,15 @@
       },
       "auto_match/func_8242F4F8.c": "MISSING",
       "auto_match/func_824300F0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/QVMXReserve"
+        ],
+        "ltcg_units": [
+          "auto_match/func_82539560.c"
+        ],
+        "ltcg_pool": true
       },
       "auto_match/func_824303D8.c": {
         "status": "NonMatching",
@@ -47685,10 +47985,17 @@
         ]
       },
       "auto_match/func_8245C8D0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/Oi"
+        ],
+        "vc_include": true,
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_8245CB70.c": {
         "status": "Matching",
@@ -48070,10 +48377,14 @@
       },
       "auto_match/func_82461B30.c": "MISSING",
       "auto_match/func_82461C38.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/Oi",
+          "/QVMXReserve"
+        ],
+        "ltcg_units": [],
+        "ltcg_pool": true
       },
       "auto_match/func_82461CE0.c": "MISSING",
       "auto_match/func_82461E68.c": {
@@ -49466,10 +49777,16 @@
         ]
       },
       "auto_match/func_82475788.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/QVMXReserve"
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_82475A58.c": {
         "status": "NonMatching",
@@ -49621,16 +49938,23 @@
         ]
       },
       "auto_match/func_824779E0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "ltcg_pool": true
       },
       "auto_match/func_82477C80.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_82477F00.c": {
         "status": "Matching",
@@ -53113,11 +53437,17 @@
         ]
       },
       "auto_match/func_8249D008.c": "MISSING",
-      "auto_match/func_8249D070.c": {
-        "status": "NonMatching",
+      "auto_match/func_8249D070.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "vc_include": true,
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_8249D128.cpp": {
         "status": "Matching",
@@ -53127,11 +53457,17 @@
         ],
         "vc_include": true
       },
-      "auto_match/func_8249D1C0.c": {
-        "status": "NonMatching",
+      "auto_match/func_8249D1C0.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "vc_include": true,
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_8249D278.cpp": {
         "status": "Matching",
@@ -53357,11 +53693,13 @@
           "__real@00000000": "ltcg_pool_0_0f"
         }
       },
-      "auto_match/func_8249F8C0.c": {
-        "status": "NonMatching",
+      "auto_match/func_8249F8C0.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "ltcg_pool": true
       },
       "auto_match/func_8249FA80.c": {
         "status": "Matching",
@@ -53562,10 +53900,15 @@
       },
       "auto_match/func_824A1DC8.c": "MISSING",
       "auto_match/func_824A2040.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_824A2128.c": {
         "status": "Matching",
@@ -53589,10 +53932,15 @@
         ]
       },
       "auto_match/func_824A2308.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_824A23A0.c": {
         "status": "Matching",
@@ -53984,16 +54332,26 @@
         ]
       },
       "auto_match/func_824A6D90.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_824A6E70.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_824A6F50.c": {
         "status": "Matching",
@@ -54244,10 +54602,16 @@
         ]
       },
       "auto_match/func_824A9FD8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/QVMXReserve"
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_824AA0C8.c": {
         "status": "Matching",
@@ -54262,10 +54626,17 @@
         ]
       },
       "auto_match/func_824AA168.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/Oi"
+        ],
+        "vc_include": true,
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_824AA258.c": {
         "status": "NonMatching",
@@ -54294,10 +54665,20 @@
         ]
       },
       "auto_match/func_824AA8D8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/Oi",
+          "/QVMXReserve"
+        ],
+        "vc_include": true,
+        "ltcg_units": [
+          "auto_match/func_82539560.c"
+        ],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_824AA980.c": {
         "status": "Matching",
@@ -54377,10 +54758,16 @@
         }
       },
       "auto_match/func_824AB2E0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/QVMXReserve"
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_824AB3D0.c": {
         "status": "Matching",
@@ -54801,10 +55188,16 @@
         ]
       },
       "auto_match/func_824AF6D0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/QVMXReserve"
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_824AF7C8.c": {
         "status": "Matching",
@@ -54874,10 +55267,16 @@
       },
       "auto_match/func_824B0238.c": "MISSING",
       "auto_match/func_824B0460.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/QVMXReserve"
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_824B0580.c": "MISSING",
       "auto_match/func_824B0BC8.c": "MISSING",
@@ -55045,10 +55444,15 @@
         ]
       },
       "auto_match/func_824B24D0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_824B25B8.c": {
         "status": "Matching",
@@ -55251,10 +55655,18 @@
         }
       },
       "auto_match/func_824B4AB8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/Oi"
+        ],
+        "ltcg_units": [
+          "auto_match/func_82539560.c"
+        ],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_824B4BB8.c": {
         "status": "Matching",
@@ -55266,10 +55678,17 @@
         }
       },
       "auto_match/func_824B4C48.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [
+          "auto_match/func_82539560.c"
+        ],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_824B4D00.c": {
         "status": "Matching",
@@ -55353,10 +55772,17 @@
         ]
       },
       "auto_match/func_824B5770.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/Oi"
+        ],
+        "vc_include": true,
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_824B5850.c": {
         "status": "Matching",
@@ -57392,10 +57818,13 @@
         ]
       },
       "auto_match/func_824CD480.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/QVMXReserve"
+        ],
+        "ltcg_units": [],
+        "ltcg_pool": true
       },
       "auto_match/func_824CD4E8.c": {
         "status": "Matching",
@@ -57577,13 +58006,20 @@
       "auto_match/func_824D1D20.c": "MISSING",
       "auto_match/func_824D2070.c": "MISSING",
       "auto_match/func_824D2888.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [
+          "auto_match/func_824D2980.c"
+        ],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_824D2980.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
         ]
@@ -58193,10 +58629,15 @@
         ]
       },
       "auto_match/func_824DCB30.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_824DCBE8.c": {
         "status": "NonMatching",
@@ -59090,11 +59531,19 @@
           "__real@00000000": "ltcg_pool_0_0f"
         }
       },
-      "auto_match/func_824E6D50.c": {
-        "status": "NonMatching",
+      "auto_match/func_824E6D50.cpp": {
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "vc_include": true,
+        "ltcg_units": [
+          "auto_match/func_824E6C20.c"
+        ],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_824E6FB0.c": {
         "status": "NonMatching",
@@ -63901,10 +64350,12 @@
         ]
       },
       "auto_match/func_825300A8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "ltcg_pool": true
       },
       "auto_match/func_82530158.c": {
         "status": "NonMatching",
@@ -63984,10 +64435,18 @@
         ]
       },
       "auto_match/func_82531F18.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/QVMXReserve"
+        ],
+        "ltcg_units": [
+          "auto_match/func_82539560.c"
+        ],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_825321B0.c": "MISSING",
       "auto_match/func_82532658.c": {
@@ -64970,10 +65429,15 @@
         ]
       },
       "auto_match/func_8253FEF8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_8253FF60.c": {
         "status": "Matching",
@@ -65197,10 +65661,15 @@
         }
       },
       "auto_match/func_825428F8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_82542968.c": "MISSING",
       "auto_match/func_82542B18.c": {
@@ -65741,10 +66210,15 @@
         ]
       },
       "auto_match/func_8254A748.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_8254A7D0.c": {
         "status": "Matching",
@@ -66204,10 +66678,15 @@
         ]
       },
       "auto_match/func_825521F0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_825522C0.c": "MISSING",
       "auto_match/func_825523D0.c": {
@@ -66767,10 +67246,15 @@
         }
       },
       "auto_match/func_8255A868.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_8255A900.c": {
         "status": "Matching",
@@ -66785,10 +67269,15 @@
         }
       },
       "auto_match/func_8255A970.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_8255AA78.c": {
         "status": "NonMatching",
@@ -66997,10 +67486,15 @@
       "auto_match/func_8255D288.c": "MISSING",
       "auto_match/func_8255D638.c": "MISSING",
       "auto_match/func_8255DA40.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_8255DAB8.c": {
         "status": "Matching",
@@ -67016,10 +67510,16 @@
       },
       "auto_match/func_8255DBB8.c": "MISSING",
       "auto_match/func_8255DDE0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/QVMXReserve"
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_8255DEA0.c": "MISSING",
       "auto_match/func_8255E0B0.c": {
@@ -67264,9 +67764,12 @@
         ]
       },
       "auto_match/func_82560690.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
+        ],
+        "ltcg_units": [
+          "auto_match/func_825602B8.c"
         ]
       },
       "auto_match/func_82560708.c": {
@@ -67292,10 +67795,16 @@
         ]
       },
       "auto_match/func_825613E0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/QVMXReserve"
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_82561528.c": {
         "status": "NonMatching",
@@ -68908,10 +69417,15 @@
       },
       "auto_match/func_8257F5C0.c": "MISSING",
       "auto_match/func_8257FB80.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_8257FC80.c": {
         "status": "NonMatching",
@@ -71534,10 +72048,17 @@
       },
       "auto_match/func_825AE6C0.c": "MISSING",
       "auto_match/func_825AE918.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/Oi",
+          "/QVMXReserve"
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_825AEA58.c": "MISSING",
       "auto_match/func_825AEC98.c": {
@@ -72418,10 +72939,18 @@
       },
       "auto_match/func_825BBFA8.c": "MISSING",
       "auto_match/func_825BC0E0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/Oi",
+          "/QVMXReserve"
+        ],
+        "vc_include": true,
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_825BC3B0.c": {
         "status": "NonMatching",
@@ -72858,10 +73387,15 @@
       },
       "auto_match/func_825C2EB8.c": "MISSING",
       "auto_match/func_825C2F80.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_825C3060.c": {
         "status": "Matching",
@@ -73327,10 +73861,18 @@
         ]
       },
       "auto_match/func_825C86C0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/Oi",
+          "/QVMXReserve"
+        ],
+        "vc_include": true,
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_825C89B0.c": {
         "status": "NonMatching",
@@ -73535,10 +74077,15 @@
       },
       "auto_match/func_825CE658.c": "MISSING",
       "auto_match/func_825CEA70.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_825CEB28.c": {
         "status": "NonMatching",
@@ -74044,10 +74591,16 @@
       },
       "auto_match/func_825DA6C8.c": "MISSING",
       "auto_match/func_825DB4D0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/Oi"
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_825DB5C8.c": {
         "status": "NonMatching",
@@ -74095,10 +74648,15 @@
       },
       "auto_match/func_825DCE60.c": "MISSING",
       "auto_match/func_825DD5C8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_825DD6C0.c": {
         "status": "NonMatching",
@@ -75411,10 +75969,16 @@
         ]
       },
       "auto_match/func_82602390.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/QVMXReserve"
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_82602620.c": {
         "status": "Matching",
@@ -76839,10 +77403,17 @@
       },
       "auto_match/func_82619D78.c": "MISSING",
       "auto_match/func_8261A0D0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [
+          "auto_match/func_82539560.c"
+        ],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_8261A1B0.c": {
         "status": "Matching",
@@ -77041,10 +77612,17 @@
         ]
       },
       "auto_match/func_8261D758.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [
+          "auto_match/func_82539560.c"
+        ],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_8261D808.c": {
         "status": "NonMatching",
@@ -77065,10 +77643,16 @@
         ]
       },
       "auto_match/func_8261DBA8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/QVMXReserve"
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_8261DCB8.c": "MISSING",
       "auto_match/func_8261E158.c": "MISSING",
@@ -77161,28 +77745,48 @@
       "auto_match/func_826204D0.c": "MISSING",
       "auto_match/func_82620720.c": "MISSING",
       "auto_match/func_82621418.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_82621460.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_826214A8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_82621500.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_82621548.c": {
         "status": "NonMatching",
@@ -77224,10 +77828,15 @@
         ]
       },
       "auto_match/func_82622638.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_826228F0.c": {
         "status": "NonMatching",
@@ -77610,10 +78219,13 @@
         ]
       },
       "auto_match/func_82626968.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/QVMXReserve"
+        ],
+        "ltcg_units": [],
+        "ltcg_pool": true
       },
       "auto_match/func_82626A18.c": "MISSING",
       "auto_match/func_82627300.c": {
@@ -79466,16 +80078,26 @@
         ]
       },
       "auto_match/func_82638900.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_82638958.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_826389B0.c": {
         "status": "Matching",
@@ -81559,10 +82181,17 @@
         ]
       },
       "auto_match/func_826544B0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/Oi",
+          "/QVMXReserve"
+        ],
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_826545C0.c": "MISSING",
       "auto_match/func_82654798.c": {
@@ -81586,10 +82215,17 @@
       },
       "auto_match/func_82654FC0.c": "MISSING",
       "auto_match/func_826554A8.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
-          "/O1"
-        ]
+          "/O1",
+          "/Oi"
+        ],
+        "vc_include": true,
+        "ltcg_units": [],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_82655748.c": {
         "status": "NonMatching",

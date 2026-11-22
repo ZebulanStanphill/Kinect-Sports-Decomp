@@ -1,49 +1,47 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern unsigned int stack0x00000000;
-extern V16 loadVectorLeftIndexed128();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __lvlx(const void *base, int offset);
+__vector4 __vspltw(__vector4 v, unsigned int i);
+__vector4 __vmulfp(__vector4 a, __vector4 b);
 
-void fn_8255DDE0(int param_1,int param_2,int param_3)
+typedef struct Axes_8255DDE0 {
+    char pad0[0x80];
+    __vector4 forward; /* 0x80 */
+    __vector4 up;      /* 0x90 */
+} Axes_8255DDE0;
 
+typedef struct Body_8255DDE0 {
+    char pad0[0xa0];
+    float speed;    /* 0xa0 */
+    float minSpeed; /* 0xa4 */
+    float floor;    /* 0xa8 */
+    char padAC[0x1a4];
+    Axes_8255DDE0 axes; /* 0x250 */
+    char pad2F0[0x5cc];
+    float scale; /* 0x8bc */
+} Body_8255DDE0;
+
+static __forceinline __vector4 Replicate(float s)
 {
-  float *pfVar1;
-  float *pfVar2;
-  unsigned __int64 in_r0;
-  float in_register_00010000;
-  float in_ACC;
-  float in_register_00010008;
-  float in_vr0;
-  float fVar3;
-  float fVar4;
-  float fVar5;
-  
-  if (param_2 != 0) {
-    loadVectorLeftIndexed128(in_r0,ZEXT48(&stack0x00000000) - 0x10);
-    pfVar1 = (float *)(param_1 + 0x2d0U & 0xfffffff0);
-    in_register_00010000 = *pfVar1 * in_register_00010000;
-    in_ACC = pfVar1[1] * in_ACC;
-    in_register_00010008 = pfVar1[2] * in_register_00010008;
-    in_vr0 = pfVar1[3] * in_vr0;
-    pfVar1 = (float *)((int)in_r0 + param_2 & 0xfffffff0);
-    *pfVar1 = in_register_00010000;
-    pfVar1[1] = in_ACC;
-    pfVar1[2] = in_register_00010008;
-    pfVar1[3] = in_vr0;
-  }
-  if (param_3 == 0) {
-    return;
-  }
-  loadVectorLeftIndexed128(in_r0,ZEXT48(&stack0x00000000) - 0x10);
-  pfVar1 = (float *)(param_1 + 0x2e0U & 0xfffffff0);
-  fVar3 = pfVar1[1];
-  fVar4 = pfVar1[2];
-  fVar5 = pfVar1[3];
-  pfVar2 = (float *)((int)in_r0 + param_3 & 0xfffffff0);
-  *pfVar2 = *pfVar1 * in_register_00010000;
-  pfVar2[1] = fVar3 * in_ACC;
-  pfVar2[2] = fVar4 * in_register_00010008;
-  pfVar2[3] = fVar5 * in_vr0;
-  return;
+    return __vspltw(__lvlx(&s, 0), 0);
 }
 
+static __forceinline float Max(float a, float b)
+{
+    return a - b >= 0.0f ? a : b;
+}
+
+void fn_8255DDE0(Body_8255DDE0 *self, __vector4 *forward, __vector4 *up)
+{
+    float speed = Max(self->speed, Max(self->minSpeed, self->floor)) * self->scale;
+    Axes_8255DDE0 *axes = &self->axes;
+
+    if (forward != 0) {
+        *forward = __vmulfp(axes->forward, Replicate(speed));
+    }
+    if (up != 0) {
+        *up = __vmulfp(axes->up, Replicate(speed));
+    }
+}

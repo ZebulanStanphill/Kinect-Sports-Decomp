@@ -1,49 +1,49 @@
-extern unsigned int lbl_8218EC10;
-extern unsigned int lbl_821955C0;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int lbl_8327F844;
+typedef struct Fade_825300A8 {
+    unsigned char active; /* 0x00 */
+    float duration;       /* 0x04 */
+    float rateY;          /* 0x08 */
+    float rateX;          /* 0x0c */
+    float y;              /* 0x10 */
+    float x;              /* 0x14 */
+    float targetY;        /* 0x18 */
+    float targetX;        /* 0x1c */
+    int mode;             /* 0x20 */
+    float unknown24;      /* 0x24 */
+    float unknown28;      /* 0x28 */
+} Fade_825300A8;
 
+typedef struct Manager_825300A8 {
+    char pad00[0x40];
+    Fade_825300A8 fades[2]; /* 0x40 */
+} Manager_825300A8;
 
-void fn_825300A8(double param_1,unsigned __int64 param_2,int param_3)
+extern Manager_825300A8 *lbl_8327F844;
+/* the shortest duration (a double 0.00001f): read from the constant, so __fsel stays a plain fsel */
+extern const double lbl_821954B0[];
+extern double __fsel(double a, double b, double c);
 
+void fn_825300A8(float duration, int index)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  double dVar4;
-  float fVar5;
-  int iVar6;
-  int iVar7;
-  double dVar8;
-  
-  iVar6 = lbl_8327F844;
-  fVar5 = ltcg_pool_0_0f;
-  if (param_3 < 0) {
-    return;
-  }
-  if (1 < param_3) {
-    return;
-  }
-  iVar7 = param_3 * 0x2c + lbl_8327F844;
-  if ((*(char *)(iVar7 + 0x40) != '\0') && (*(float *)(iVar7 + 0x4c) < ltcg_pool_0_0f)) {
-    return;
-  }
-  *(float *)(iVar7 + 0x5c) = ltcg_pool_0_0f;
-  dVar4 = lbl_821955C0;
-  fVar1 = *(float *)(iVar7 + 0x54);
-  fVar2 = *(float *)(iVar7 + 0x50);
-  dVar8 = (double)lbl_8218EC10;
-  *(unsigned char *)(iVar7 + 0x40) = 1;
-  fVar3 = lbl_821CA460;
-  *(float *)((param_3 + 2) * 0x2c + iVar6) = fVar5;
-  if ((float)(param_1 - dVar8) < 0.0) {
-    param_1 = dVar4;
-  }
-  *(float *)(iVar7 + 0x44) = (float)param_1;
-  fVar3 = fVar3 / (float)param_1;
-  *(float *)(iVar7 + 0x4c) = -(fVar1 * fVar3);
-  *(float *)(iVar7 + 0x48) = -(fVar2 * fVar3);
-  return;
-}
+    Manager_825300A8 *manager;
+    float scale;
+    float clamped;
 
+    if (index < 0) {
+        return;
+    }
+    if (index >= 2) {
+        return;
+    }
+    manager = lbl_8327F844;
+    if (manager->fades[index].active && manager->fades[index].rateX < 0.0f) {
+        return;
+    }
+    manager->fades[index].targetX = 0.0f;
+    clamped = (float)__fsel(duration - 0.00001f, duration, lbl_821954B0[0x22]);
+    manager->fades[index].active = 1;
+    manager->fades[index].targetY = 0.0f;
+    manager->fades[index].duration = clamped;
+    scale = 1.0f / manager->fades[index].duration;
+    manager->fades[index].rateX = -(manager->fades[index].x * scale);
+    manager->fades[index].rateY = -(manager->fades[index].y * scale);
+}

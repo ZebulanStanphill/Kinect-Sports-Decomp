@@ -1,23 +1,28 @@
-extern int fn_82539560();
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Fade_8261D758 {
+    void *target; /* 0x0 */
+    char pad4[0x10];
+    float delay;    /* 0x14 */
+    float elapsed;  /* 0x18 */
+    float duration; /* 0x1c */
+} Fade_8261D758;
 
+extern float fn_82539560(float x, float inMin, float inMax, float outMin, float outMax);
+extern void fn_8252AFE0(void *target, float alpha);
 
-/* WARNING: Removing unreachable block (ram,0x8261d7a4) */
-/* WARNING: Removing unreachable block (ram,0x8261d7d8) */
-/* WARNING: Removing unreachable block (ram,0x8261d7dc) */
-
-void fn_8261D758(int param_1)
-
+void fn_8261D758(Fade_8261D758 *self)
 {
-  double dVar1;
-  
-  dVar1 = (double)ltcg_pool_0_0f;
-  if (dVar1 < (double)*(float *)(param_1 + 0x14)) {
-    return;
-  }
-                    /* WARNING: Subroutine does not return */
-  fn_82539560((double)*(float *)(param_1 + 0x18),(double)*(float *)(param_1 + 0x1c),dVar1,dVar1,
-               (double)lbl_821CA460);
-}
+    float amount;
+    int alpha;
 
+    amount = self->delay <= 0.0f ? fn_82539560(self->elapsed, self->duration, 0.0f, 0.0f, 1.0f) : 0.0f;
+    if (amount > 0.0f) {
+        alpha = 0xff - (int)(amount * 255.0f);
+        if (alpha < 0) {
+            alpha = 0;
+        }
+        if (alpha >= 0xff) {
+            alpha = 0xff;
+        }
+        fn_8252AFE0(self->target, (float)(unsigned char)alpha);
+    }
+}

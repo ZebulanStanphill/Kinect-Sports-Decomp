@@ -1,32 +1,27 @@
-extern int fn_82F4FEB8();
-extern int fn_82F51A50();
-extern int fn_82F520B0();
-extern unsigned int lbl_821955D8;
-extern unsigned int lbl_821BF554;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Obj_824A2308 {
+    void *vtable; /* 0x00 */
+    int f4;       /* 0x04 */
+    int f8;       /* 0x08 */
+    float fc;     /* 0x0C */
+    float f10;    /* 0x10 */
+    float f14;    /* 0x14 */
+    int f18;      /* 0x18 */
+} Obj_824A2308;
 
+extern int fn_82F4FEB8(void);
+extern void fn_82F51A50(Obj_824A2308 *self);
+extern void fn_82F520B0(Obj_824A2308 *self, int v, int flags);
+extern char lbl_821BF554[];
 
-unsigned int * fn_824A2308(unsigned int *param_1,unsigned int param_2)
-
+Obj_824A2308 *fn_824A2308(Obj_824A2308 *self, int value)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned __int64 uVar4;
-  
-  fn_82F51A50();
-  param_1[2] = param_2;
-  uVar3 = ltcg_pool_0_0f;
-  uVar1 = lbl_821955D8;
-  param_1[6] = 0;
-  uVar2 = lbl_821CA460;
-  *param_1 = &lbl_821BF554;
-  param_1[3] = uVar3;
-  param_1[4] = uVar1;
-  param_1[5] = uVar2;
-  uVar4 = fn_82F4FEB8();
-  fn_82F520B0(param_1,uVar4,0);
-  return param_1;
+    fn_82F51A50(self);
+    self->f8 = value;
+    self->f18 = 0;
+    self->vtable = lbl_821BF554;
+    self->fc = 0.0f;
+    self->f10 = 1.3089969f;
+    self->f14 = 1.0f;
+    fn_82F520B0(self, fn_82F4FEB8(), 0);
+    return self;
 }
-

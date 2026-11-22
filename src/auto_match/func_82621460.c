@@ -1,17 +1,18 @@
-extern unsigned int lbl_82195590;
-extern float lbl_821955A0;
+extern double __fctid(double);
+extern double __fcfid(double);
 
+typedef struct Angles_82621460 {
+    float angles[4];
+    char pad10[0x24 - 0x10];
+    int wrap;
+} Angles_82621460;
 
-void fn_82621460(double param_1,int param_2)
-
+void fn_82621460(Angles_82621460 *self, float value)
 {
-  if (*(int *)(param_2 + 0x24) != 0) {
-    *(float *)(param_2 + 8) =
-         (float)(((double)(float)(param_1 * (double)lbl_82195590) -
-                 (double)(__int64)(param_1 * (double)lbl_82195590)) * lbl_821955A0);
-    return;
-  }
-  *(float *)(param_2 + 8) = (float)param_1;
-  return;
+    if (self->wrap) {
+        double turns = (float)(value * 0.15915494f);
+        self->angles[2] = (float)((turns - (float)__fcfid(__fctid(turns))) * 6.2831855f);
+    } else {
+        self->angles[2] = value;
+    }
 }
-

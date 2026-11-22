@@ -1,141 +1,123 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-extern unsigned int fStack_58;
-extern unsigned int fStack_68;
-extern int fn_825C89B0();
-extern int fn_825CADE0();
-extern int fn_825CAF68();
-extern int fn_825CB068();
-extern int fn_82F6A540();
-extern int fn_82F6A58C();
-extern unsigned int lbl_8218EC10;
-extern unsigned int lbl_82192604;
-extern unsigned int lbl_821954D4;
-extern unsigned int lbl_82195690;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int uStack_70;
-extern V16 vectorSubtractFloatingPoint();
+#include <math.h>
 
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
-void fn_825C86C0(unsigned __int64 param_1,double param_2,double param_3)
+__vector4 __vsubfp(__vector4 a, __vector4 b);
 
+typedef struct Cell_825C86C0 {
+    int patch; /* 0x0 */
+    int pad4;
+} Cell_825C86C0;
+
+typedef struct Grid_825C86C0 {
+    char pad00[0x60];
+    float originX; /* 0x60 */
+    float pad64;
+    float originZ; /* 0x68 */
+    char pad6c[0x80 - 0x6c];
+    float cellWidth; /* 0x80 */
+    float pad84;
+    float cellDepth; /* 0x88 */
+    float pad8c;
+    int columns;          /* 0x90 */
+    int rows;             /* 0x94 */
+    Cell_825C86C0 *cells; /* 0x98 */
+} Grid_825C86C0;
+
+typedef struct Shape_825C86C0 {
+    char pad000[0x10];
+    int bumpy; /* 0x10 */
+    char pad014[0x30 - 0x14];
+    __vector4 corner;  /* 0x30 */
+    __vector4 edgeEnd; /* 0x40 */
+    __vector4 sideEnd; /* 0x50 */
+    char pad060[0x134 - 0x60];
+    int sloped;          /* 0x134 */
+    Grid_825C86C0 *grid; /* 0x138 */
+    char pad13c[0x14c - 0x13c];
+    int gridded; /* 0x14c */
+    char pad150[0x158 - 0x150];
+    float bumpHeight; /* 0x158 */
+    float rimHeight;  /* 0x15c */
+} Shape_825C86C0;
+
+typedef struct Surface_825C86C0 {
+    int pad00;
+    int useSlope; /* 0x04 */
+    int useGrid;  /* 0x08 */
+    char pad0c[0x14 - 0xc];
+    float offset; /* 0x14 */
+    char pad18[0x2c - 0x18];
+    int useWaves; /* 0x2c */
+    char pad30[0x54 - 0x30];
+    Shape_825C86C0 *shape; /* 0x54 */
+} Surface_825C86C0;
+
+extern int fn_825C89B0(Surface_825C86C0 *self, int cell, float *height, float x, float z, float u, float v);
+extern int fn_825CAF68(Surface_825C86C0 *self, float u, float v);
+extern float fn_825CADE0(Surface_825C86C0 *self, float x, float z);
+extern float fn_825CB068(Surface_825C86C0 *self, float x, float z, float u, float v);
+
+static __forceinline const float *MaxOf(const float *a, const float *b)
 {
-  float fVar1;
-  float fVar2;
-  int iVar3;
-  unsigned int *puVar4;
-  unsigned int *puVar5;
-  float fVar6;
-  int in_r0;
-  int iVar7;
-  int iVar8;
-  int iVar9;
-  float *pfVar10;
-  float *pfVar11;
-  double extraout_f1;
-  double dVar12;
-  double dVar13;
-  double dVar14;
-  double dVar15;
-  double dVar16;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs44 [16];
-  unsigned char in_vs45 [16];
-  unsigned int uVar17;
-  unsigned int uVar18;
-  unsigned int uVar19;
-  unsigned int uVar20;
-  unsigned int uVar21;
-  unsigned int uVar22;
-  unsigned int uVar23;
-  unsigned __int64 uStack_70;
-  float fStack_68;
-  float afStack_60 [2];
-  float fStack_58;
-  
-  iVar7 = fn_82F6A540();
-  fVar1 = lbl_8218EC10;
-  iVar8 = *(int *)(iVar7 + 0x54);
-  puVar4 = (unsigned int *)(iVar8 + 0x30U & 0xfffffff0);
-  uVar17 = puVar4[1];
-  uVar18 = puVar4[2];
-  uVar19 = puVar4[3];
-  vectorSubtractFloatingPoint(in_vs45,in_vs32);
-  puVar5 = (unsigned int *)(iVar8 + 0x50U & 0xfffffff0);
-  uVar20 = *puVar5;
-  uVar21 = puVar5[1];
-  uVar22 = puVar5[2];
-  uVar23 = puVar5[3];
-  vectorSubtractFloatingPoint(in_vs45,in_vs44);
-  dVar14 = (double)ltcg_pool_0_0f;
-  puVar5 = (unsigned int *)((int)&uStack_70 + in_r0 & 0xfffffff0);
-  *puVar5 = *puVar4;
-  puVar5[1] = uVar17;
-  puVar5[2] = uVar18;
-  puVar5[3] = uVar19;
-  puVar4 = (unsigned int *)((int)afStack_60 + in_r0 & 0xfffffff0);
-  *puVar4 = uVar20;
-  puVar4[1] = uVar21;
-  puVar4[2] = uVar22;
-  puVar4[3] = uVar23;
-  fVar6 = fStack_58 * (((unsigned __int64)(uStack_70) >> 0) & 0xFFFFFFFF) - fStack_68 * afStack_60[0];
-  dVar12 = dVar14;
-  dVar15 = dVar14;
-  if (fVar1 < ABS(fVar6)) {
-    fVar1 = (float)(extraout_f1 - (double)*(float *)(iVar8 + 0x30));
-    fVar2 = (float)(param_3 - (double)*(float *)(iVar8 + 0x38));
-    dVar12 = (double)((fVar2 * (((unsigned __int64)(uStack_70) >> 0) & 0xFFFFFFFF) - fVar1 * fStack_68) / fVar6);
-    dVar15 = (double)((fVar1 * fStack_58 - fVar2 * afStack_60[0]) / fVar6);
-  }
-  if ((((dVar14 <= dVar15) && (dVar15 <= (double)lbl_821CA460)) && (dVar14 <= dVar12)) &&
-     (dVar12 <= (double)lbl_821CA460)) {
-    iVar8 = *(int *)(iVar7 + 0x54);
-    dVar14 = extraout_f1;
-    if ((*(int *)(iVar8 + 0x14c) != 0) && (*(int *)(iVar7 + 8) != 0)) {
-      iVar3 = *(int *)(iVar8 + 0x138);
-      iVar9 = (int)((float)(extraout_f1 - (double)*(float *)(iVar3 + 0x60)) /
-                   *(float *)(iVar3 + 0x80));
-      iVar3 = (int)((float)(param_3 - (double)*(float *)(iVar3 + 0x68)) / *(float *)(iVar3 + 0x88));
-      uStack_70 = (__int64)iVar3;
-      if ((((-1 < iVar9) && ((iVar9 < *(int *)(*(int *)(iVar8 + 0x138) + 0x90) && (-1 < iVar3)))) &&
-          (iVar3 < *(int *)(*(int *)(iVar8 + 0x138) + 0x94))) &&
-         (iVar8 = *(int *)(*(int *)(iVar7 + 0x54) + 0x138),
-         iVar9 = *(int *)(iVar8 + 0x94) * iVar3 + iVar9,
-         *(int *)(*(int *)(iVar8 + 0x98) + iVar9 * 8) != 0)) {
-        uStack_70 = CONCAT44((float)param_2,iVar3);
-        iVar8 = fn_825C89B0(extraout_f1,param_3,dVar15,dVar12,iVar7,iVar9,&uStack_70);
-        if (iVar8 != 0) {
-          dVar12 = (double)(((unsigned __int64)(uStack_70) >> 0) & 0xFFFFFFFF);
-          goto LAB_825c8990;
-        }
-      }
-    }
-    if (((*(int *)(*(int *)(iVar7 + 0x54) + 0x134) != 0) && (*(int *)(iVar7 + 4) != 0)) &&
-       (iVar8 = fn_825CAF68(dVar15,dVar12,iVar7), iVar8 == 0)) {
-      dVar16 = (double)*(float *)(*(int *)(iVar7 + 0x54) + 0x34);
-      if (*(int *)(iVar7 + 0x2c) != 0) {
-        dVar13 = (double)fn_825CADE0(dVar14,param_3,iVar7);
-        dVar16 = (double)(float)(dVar13 + dVar16);
-      }
-      pfVar10 = (float *)(*(int *)(iVar7 + 0x54) + 0x15c);
-      pfVar11 = (float *)(*(int *)(iVar7 + 0x54) + 0x158);
-      if (*pfVar11 < *pfVar10) {
-        pfVar11 = pfVar10;
-      }
-      if (((*(int *)(*(int *)(iVar7 + 0x54) + 0x10) != 0) &&
-          ((float)(param_2 - dVar16) <= *pfVar11 + lbl_82192604)) &&
-         (lbl_821954D4 < (float)(param_2 - dVar16))) {
-        dVar12 = (double)fn_825CB068(dVar14,param_3,dVar15,dVar12,iVar7);
-        dVar16 = (double)(float)(dVar12 + dVar16);
-      }
-      dVar12 = (double)(float)((double)*(float *)(iVar7 + 0x14) + dVar16);
-      goto LAB_825c8990;
-    }
-  }
-  dVar12 = (double)lbl_82195690;
-LAB_825c8990:
-  fn_82F6A58C(dVar12);
-  return;
+    return *a < *b ? b : a;
 }
 
+/* The y component of the cross product of two vectors in the xz plane. */
+#define CROSS_Y(a, b) ((a).vector4_f32[0] * (b).vector4_f32[2] - (b).vector4_f32[0] * (a).vector4_f32[2])
+
+float fn_825C86C0(Surface_825C86C0 *self, float x, float y, float z)
+{
+    __vector4 edge;
+    __vector4 side;
+    float det;
+    float u;
+    float v;
+    float height;
+    float level;
+    float rise;
+    const float *top;
+
+    edge = __vsubfp(self->shape->edgeEnd, self->shape->corner);
+    side = __vsubfp(self->shape->sideEnd, self->shape->corner);
+    det = CROSS_Y(edge, side);
+    if (fabsf(det) > 1e-05f) {
+        float dx = x - self->shape->corner.vector4_f32[0];
+        float dz = z - self->shape->corner.vector4_f32[2];
+
+        u = (dz * edge.vector4_f32[0] - dx * edge.vector4_f32[2]) / det;
+        v = (dx * side.vector4_f32[2] - dz * side.vector4_f32[0]) / CROSS_Y(edge, side);
+    } else {
+        v = 0.0f;
+        u = 0.0f;
+    }
+    if (v < 0.0f || v > 1.0f || u < 0.0f || u > 1.0f)
+        return -3.402823466e+38f;
+    if (self->shape->gridded != 0 && self->useGrid != 0) {
+        int column = (int)((x - self->shape->grid->originX) / self->shape->grid->cellWidth);
+        int row = (int)((z - self->shape->grid->originZ) / self->shape->grid->cellDepth);
+
+        if (column >= 0 && column < self->shape->grid->columns && row >= 0 && row < self->shape->grid->rows) {
+            int cell = self->shape->grid->rows * row + column;
+
+            if (self->shape->grid->cells[cell].patch != 0) {
+                height = y;
+                if (fn_825C89B0(self, cell, &height, x, z, v, u))
+                    return height;
+            }
+        }
+    }
+    if (self->shape->sloped != 0 && self->useSlope != 0 && fn_825CAF68(self, v, u) == 0) {
+        level = self->shape->corner.vector4_f32[1];
+        if (self->useWaves != 0)
+            level = fn_825CADE0(self, x, z) + level;
+        top = MaxOf(&self->shape->bumpHeight, &self->shape->rimHeight);
+        rise = y - level;
+        if (self->shape->bumpy != 0 && rise <= *top + 3.0f && rise > -3.0f)
+            level = fn_825CB068(self, x, z, v, u) + level;
+        return self->offset + level;
+    }
+    return -3.402823466e+38f;
+}

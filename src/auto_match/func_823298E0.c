@@ -1,50 +1,64 @@
-extern int fn_8223A9E0();
-extern int fn_8232A988();
-extern int fn_823B4900();
-extern unsigned int lbl_82195620;
-extern unsigned int uStack_30;
+/* Reads a 33-bit packed float (sign, 8-bit exponent, 24-bit mantissa) from a bit reader,
+   unpacks the fields through a byte buffer and rebuilds the value as a double. */
+void *memset(void *dest, int value, unsigned int size);
 
+typedef struct BitBuf_823298E0 {
+    unsigned char bytes[5];
+} BitBuf_823298E0;
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+typedef union Bits_823298E0 {
+    unsigned __int64 u;
+    double d;
+} Bits_823298E0;
 
-void fn_823298E0(unsigned __int64 param_1,unsigned __int64 param_2,float *param_3)
+extern unsigned __int64 fn_823B4900(void *reader, int bits, int a, int b);
+extern void fn_8232A988(BitBuf_823298E0 *buf, unsigned __int64 value, int offset, int width);
+extern unsigned __int64 fn_8223A9E0(BitBuf_823298E0 *buf, int offset, int width);
 
+void fn_823298E0(void *self, void *reader, float *out)
 {
-  unsigned __int64 uVar1;
-  __int64 lVar2;
-  __int64 lVar3;
-  __int64 lVar4;
-  unsigned __int64 uVar5;
-  double dVar6;
-  unsigned __int64 uStack_30;
-  
-  uVar1 = fn_823B4900(param_2,0x21,0,0);
-  uStack_30 = ((((unsigned __int64)(uStack_30)) & (~(((unsigned __int64)0xFFFFFFFF) << 32))) | ((((unsigned __int64)((((unsigned __int64)(uStack_30) >> 32) & 0xFFFFFFFF) & 0xffffff)) & ((unsigned __int64)0xFFFFFFFF)) << 32));
-  uStack_30 = (unsigned __int64)(((unsigned __int64)(uStack_30) >> 32) & 0xFFFFFFFF);
-  fn_8232A988(&uStack_30,uVar1 >> 0x20 & 1,0,1);
-  fn_8232A988(&uStack_30,uVar1 >> 0x18 & 0xff,1,8);
-  fn_8232A988(&uStack_30,uVar1 & 0xffffff,9,0x18);
-  lVar2 = fn_8223A9E0(&uStack_30,0,1);
-  lVar3 = fn_8223A9E0(&uStack_30,1,8);
-  lVar4 = fn_8223A9E0(&uStack_30,9,0x18);
-  if (lVar3 == 0) {
-    dVar6 = lbl_82195620;
-    if (lVar4 == 0) goto LAB_823299f4;
-    uVar5 = 0x381;
-    for (uVar1 = lVar4 << 0x1c; (uVar1 & 0xfff0000000000000) == 0; uVar1 = uVar1 << 1) {
-      uVar5 = uVar5 - 1;
-    }
-    uVar1 = uVar1 & 0xfffffffffffff;
-  }
-  else {
-    uVar5 = lVar3 + 0x380;
-    uVar1 = lVar4 << 0x1c;
-  }
-  dVar6 = (double)((lVar2 << 0xb | uVar5) << 0x34 | uVar1);
-LAB_823299f4:
-  if (param_3 != (float *)0x0) {
-    *param_3 = (float)dVar6;
-  }
-  return;
-}
+    unsigned __int64 packed;
+    __int64 sign;
+    __int64 exponent;
+    unsigned __int64 mantissa;
+    double value;
 
+    packed = fn_823B4900(reader, 0x21, 0, 0);
+    {
+        BitBuf_823298E0 buf;
+
+        memset(&buf, 0, sizeof(buf));
+        fn_8232A988(&buf, (packed >> 32) & 1, 0, 1);
+        fn_8232A988(&buf, (packed >> 24) & 0xff, 1, 8);
+        fn_8232A988(&buf, packed & 0xffffff, 9, 0x18);
+        sign = fn_8223A9E0(&buf, 0, 1);
+        exponent = fn_8223A9E0(&buf, 1, 8);
+        mantissa = fn_8223A9E0(&buf, 9, 0x18);
+    }
+    if (exponent == 0) {
+        if (mantissa == 0) {
+            value = -0.0;
+            goto done;
+        }
+        mantissa <<= 28;
+        exponent = 0x381;
+        while ((mantissa & 0xfff0000000000000ULL) == 0) {
+            mantissa <<= 1;
+            exponent--;
+        }
+        mantissa &= 0xfffffffffffffULL;
+    } else {
+        exponent += 0x380;
+        mantissa <<= 28;
+    }
+    {
+        Bits_823298E0 bits;
+
+        bits.u = (((unsigned __int64)sign << 11 | (unsigned __int64)exponent) << 52) | mantissa;
+        value = bits.d;
+    }
+done:
+    if (out != 0) {
+        *out = (float)value;
+    }
+}

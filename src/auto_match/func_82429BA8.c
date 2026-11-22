@@ -1,42 +1,61 @@
-extern unsigned int *auStack_30;
-extern int fn_8223A9E0();
-extern int fn_8232A988();
-extern int fn_823B4900();
-extern unsigned int lbl_82195518;
+/* Reads an unsigned 8-bit packed float (3-bit exponent, 5-bit mantissa) from a bit reader,
+   unpacks the fields through a byte buffer and rebuilds the value as a double. */
+void *memset(void *dest, int value, unsigned int size);
 
+typedef struct BitBuf_82429BA8 {
+    unsigned char bytes[1];
+} BitBuf_82429BA8;
 
-void fn_82429BA8(unsigned __int64 param_1,unsigned __int64 param_2,float *param_3)
+typedef union Bits_82429BA8 {
+    unsigned __int64 u;
+    double d;
+} Bits_82429BA8;
 
+extern unsigned __int64 fn_823B4900(void *reader, int bits, int a, int b);
+extern void fn_8232A988(BitBuf_82429BA8 *buf, unsigned __int64 value, int offset, int width);
+extern unsigned __int64 fn_8223A9E0(BitBuf_82429BA8 *buf, int offset, int width);
+
+void fn_82429BA8(void *self, void *reader, float *out)
 {
-  unsigned __int64 uVar1;
-  __int64 lVar2;
-  __int64 lVar3;
-  double dVar4;
-  unsigned char auStack_30 [24];
-  
-  uVar1 = fn_823B4900(param_2,8,0,0);
-  fn_8232A988(auStack_30,uVar1 >> 5 & 7,0,3);
-  fn_8232A988(auStack_30,uVar1 & 0x1f,3,5);
-  lVar2 = fn_8223A9E0(auStack_30,0,3);
-  lVar3 = fn_8223A9E0(auStack_30,3,5);
-  if (lVar2 == 0) {
-    dVar4 = lbl_82195518;
-    if (lVar3 == 0) goto LAB_82429c90;
-    lVar2 = 0x3fd;
-    for (uVar1 = lVar3 << 0x2f; (uVar1 & 0xfff0000000000000) == 0; uVar1 = uVar1 << 1) {
-      lVar2 = lVar2 + -1;
-    }
-    uVar1 = uVar1 & 0xfffffffffffff;
-  }
-  else {
-    lVar2 = lVar2 + 0x3fc;
-    uVar1 = lVar3 << 0x2f;
-  }
-  dVar4 = (double)(lVar2 << 0x34 | uVar1);
-LAB_82429c90:
-  if (param_3 != (float *)0x0) {
-    *param_3 = (float)dVar4;
-  }
-  return;
-}
+    unsigned __int64 packed;
+    __int64 exponent;
+    unsigned __int64 mantissa;
+    double value;
 
+    packed = fn_823B4900(reader, 8, 0, 0);
+    {
+        BitBuf_82429BA8 buf;
+
+        memset(&buf, 0, sizeof(buf));
+        fn_8232A988(&buf, (packed >> 5) & 7, 0, 3);
+        fn_8232A988(&buf, packed & 0x1f, 3, 5);
+        exponent = fn_8223A9E0(&buf, 0, 3);
+        mantissa = fn_8223A9E0(&buf, 3, 5);
+    }
+    if (exponent == 0) {
+        if (mantissa == 0) {
+            value = 0.0;
+            goto done;
+        }
+        mantissa <<= 47;
+        exponent = 0x3fd;
+        while ((mantissa & 0xfff0000000000000ULL) == 0) {
+            mantissa <<= 1;
+            exponent--;
+        }
+        mantissa &= 0xfffffffffffffULL;
+    } else {
+        exponent += 0x3fc;
+        mantissa <<= 47;
+    }
+    {
+        Bits_82429BA8 bits;
+
+        bits.u = ((unsigned __int64)exponent << 52) | mantissa;
+        value = bits.d;
+    }
+done:
+    if (out != 0) {
+        *out = (float)value;
+    }
+}

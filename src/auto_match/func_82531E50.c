@@ -16,7 +16,7 @@ extern const float lbl_821CA45C[2];
 extern float lbl_821916FC;
 extern Display_82531E50 *fn_825308E8(void);
 
-unsigned char fn_82531E50(Point_82531E50 point, float halfWidth, float halfHeight)
+int fn_82531E50(Point_82531E50 point, float halfWidth, float halfHeight)
 {
     Display_82531E50 *display;
     float bottom;

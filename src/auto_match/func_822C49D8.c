@@ -1,18 +1,16 @@
-typedef unsigned char bool;
-extern unsigned int *auStack_20;
-extern int fn_822B69A0();
-extern int fn_8255A260();
-extern unsigned int lbl_821958E8;
+/* Reports whether direction is within 2.5 degrees (0.0436 rad) of the object's facing direction. */
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+double fabs(double x);
 
-bool fn_822C49D8(unsigned __int64 param_1)
+extern __vector4 *fn_822B69A0(__vector4 *out, const void *object);
+extern float fn_8255A260(__vector4 first, __vector4 second);
 
+int fn_822C49D8(const void *object, __vector4 direction)
 {
-  double dVar1;
-  unsigned char auStack_20 [1];
-  
-  fn_822B69A0(auStack_20,param_1);
-  dVar1 = (double)fn_8255A260();
-  return ABS(dVar1) < (double)lbl_821958E8;
-}
+    __vector4 facing;
 
+    return (float)fabs(fn_8255A260(*fn_822B69A0(&facing, object), direction)) < 0.043633234f;
+}

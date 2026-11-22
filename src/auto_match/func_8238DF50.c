@@ -1,25 +1,36 @@
-extern int fn_82278B40();
-extern int fn_82359698();
-extern unsigned int lbl_821955F0;
-extern unsigned int lbl_82195638;
+typedef struct Fader_8238DF50 {
+    float period;    /* 0x0 */
+    float frequency; /* 0x4 */
+    float elapsed;   /* 0x8 */
+    float value;     /* 0xc */
+    int mode;        /* 0x10 */
+} Fader_8238DF50;
 
+typedef struct Owner_8238DF50 {
+    char pad0[0x9a0];
+    Fader_8238DF50 fader; /* 0x9a0 */
+} Owner_8238DF50;
 
-void fn_8238DF50(int param_1)
+typedef struct Waiter_8238DF50 {
+    char pad0[0x8];
+    Owner_8238DF50 *owner; /* 0x8 */
+    char padC[0x1c];
+    int waiting; /* 0x28 */
+    int next;    /* 0x2c */
+} Waiter_8238DF50;
 
+extern int fn_82278B40(Fader_8238DF50 *fader);
+extern void fn_82359698(Owner_8238DF50 *owner, int next);
+
+void fn_8238DF50(Waiter_8238DF50 *self)
 {
-  float fVar1;
-  unsigned __int64 uVar2;
-  
-  uVar2 = (unsigned __int64)*(unsigned int *)(param_1 + 8);
-  if (((*(int *)(param_1 + 0x28) != 0) &&
-      (fVar1 = *(float *)(*(unsigned int *)(param_1 + 8) + 0x9ac), lbl_821955F0 <= fVar1)) &&
-     (fVar1 <= lbl_82195638)) {
-    fn_82278B40(uVar2 + 0x9a0);
-    *(unsigned int *)(param_1 + 0x28) = 0;
-  }
-  if (*(int *)(param_1 + 0x28) == 0) {
-    fn_82359698(uVar2,*(unsigned int *)(param_1 + 0x2c));
-  }
-  return;
-}
+    Owner_8238DF50 *owner = self->owner;
 
+    if (self->waiting != 0 && owner->fader.value >= 0.999f && owner->fader.value <= 1.001f) {
+        fn_82278B40(&owner->fader);
+        self->waiting = 0;
+    }
+    if (self->waiting == 0) {
+        fn_82359698(owner, self->next);
+    }
+}

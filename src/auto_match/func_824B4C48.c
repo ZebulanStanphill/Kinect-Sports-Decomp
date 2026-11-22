@@ -1,27 +1,33 @@
-extern int fn_824B4798();
-extern int fn_82539560();
-extern unsigned int lbl_821956D4;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int lbl_831C4848;
-extern unsigned int lbl_831C484C;
-extern unsigned int lbl_831C4850;
+typedef struct Range_824B4C48 {
+    float lo;
+    float hi;
+    float z;
+} Range_824B4C48;
 
+typedef struct Config_824B4C48 {
+    int key;
+    float lo;
+    float hi;
+} Config_824B4C48;
 
-void fn_824B4C48(int param_1,unsigned __int64 param_2)
+typedef struct Obj_824B4C48 {
+    char pad[0x3c];
+    int alt; /* 0x3c */
+    char pad40[0x48 - 0x40];
+    float value;          /* 0x48 */
+    Range_824B4C48 range; /* 0x4c */
+} Obj_824B4C48;
 
+extern Config_824B4C48 lbl_831C4848;
+extern void fn_824B4798(Range_824B4C48 *out, void *src, int first, int second, int key, int mode);
+extern float fn_82539560(float v, float inLo, float inHi, float outLo, float outHi);
+
+float fn_824B4C48(Obj_824B4C48 *self, void *src)
 {
-  float fVar1;
-  
-  fn_824B4798(param_1 + 0x4c,param_2,
-                (-(unsigned __int64)(*(int *)(param_1 + 0x3c) != 0) & 0xfffffffc) + 10,
-                (-(unsigned __int64)(*(int *)(param_1 + 0x3c) != 0) & 0xfffffffc) + 9,lbl_831C4848,1);
-  fVar1 = *(float *)(param_1 + 0x50);
-  if (*(float *)(param_1 + 0x50) < *(float *)(param_1 + 0x4c)) {
-    fVar1 = *(float *)(param_1 + 0x4c);
-  }
-                    /* WARNING: Subroutine does not return */
-  fn_82539560((double)(fVar1 * lbl_821956D4),(double)lbl_831C484C,(double)lbl_831C4850,
-               (double)ltcg_pool_0_0f,(double)lbl_821CA460);
-}
+    float largest;
 
+    fn_824B4798(&self->range, src, self->alt ? 6 : 10, self->alt ? 5 : 9, lbl_831C4848.key, 1);
+    largest = self->range.lo > self->range.hi ? self->range.lo : self->range.hi;
+    self->value = fn_82539560(largest * 57.295776f, lbl_831C4848.lo, lbl_831C4848.hi, 0.0f, 1.0f);
+    return 0.0f;
+}

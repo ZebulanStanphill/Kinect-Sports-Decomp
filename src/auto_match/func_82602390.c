@@ -1,136 +1,89 @@
-#define NAN(x) ((x) != (x))
-extern int fn_82627340();
-extern int fn_82627DB0();
-extern int fn_82F6A548();
-extern int fn_82F6A594();
-extern unsigned int lbl_821954D8;
-extern unsigned int ltcg_pool_0_0f;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Body_82602390 {
+    float x; /* 0x000 */
+    float y; /* 0x004 */
+    float z; /* 0x008 */
+    char pad0c[0x70];
+    float radius; /* 0x07c */
+    char pad80[0x22];
+    unsigned short next; /* 0x0a2 */
+    char pada4[0x12c];
+} Body_82602390;
 
-/* WARNING: Removing unreachable block (ram,0x8260259c) */
-/* WARNING: Removing unreachable block (ram,0x826025a8) */
-/* WARNING: Removing unreachable block (ram,0x826025e4) */
-/* WARNING: Removing unreachable block (ram,0x826025e8) */
+typedef struct World_82602390 {
+    char pad[6];
+    short count; /* 0x006 */
+    char pad8[0x28];
+    __vector4 center;    /* 0x030 */
+    __vector4 boundsMin; /* 0x040 */
+    __vector4 boundsMax; /* 0x050 */
+    char pad60[0x240];
+    Body_82602390 bodies[1]; /* 0x2a0 */
+} World_82602390;
 
-void fn_82602390(unsigned __int64 param_1,__int64 param_2)
+extern unsigned int lbl_83265A28;
 
+extern int fn_82627340(void *context, Body_82602390 *body, float dt, int *hit, int *kind);
+extern void fn_82627DB0(World_82602390 *world, Body_82602390 *body);
+extern void fn_82601940(void *context, World_82602390 *world, Body_82602390 *body, int flip);
+
+static __forceinline float Random(unsigned int *seed)
 {
-  float fVar1;
-  short sVar2;
-  int iVar3;
-  unsigned int *puVar4;
-  float *pfVar5;
-  float *pfVar6;
-  int iVar7;
-  float fVar8;
-  float fVar9;
-  int in_r0;
-  unsigned __int64 uVar10;
-  int iVar11;
-  __int64 lVar12;
-  unsigned __int64 uVar13;
-  __int64 lVar14;
-  unsigned __int64 extraout_f1;
-  double dVar15;
-  unsigned __int64 uVar16;
-  double dVar17;
-  unsigned int uVar18;
-  unsigned int uVar19;
-  unsigned int uVar20;
-  unsigned int uVar21;
-  
-  uVar10 = fn_82F6A548();
-  iVar3 = (int)param_2;
-  sVar2 = *(short *)(iVar3 + 6);
-  pfVar5 = (float *)(iVar3 + 0x40);
-  puVar4 = (unsigned int *)(iVar3 + 0x30U & 0xfffffff0);
-  uVar18 = *puVar4;
-  uVar19 = puVar4[1];
-  uVar20 = puVar4[2];
-  uVar21 = puVar4[3];
-  pfVar6 = (float *)(iVar3 + 0x50);
-  puVar4 = (unsigned int *)(in_r0 + (int)pfVar5 & 0xfffffff0);
-  *puVar4 = uVar18;
-  puVar4[1] = uVar19;
-  puVar4[2] = uVar20;
-  puVar4[3] = uVar21;
-  puVar4 = (unsigned int *)(in_r0 + (int)pfVar6 & 0xfffffff0);
-  *puVar4 = uVar18;
-  puVar4[1] = uVar19;
-  puVar4[2] = uVar20;
-  puVar4[3] = uVar21;
-  if (0 < sVar2) {
-    uVar13 = 0;
-    dVar17 = (double)ltcg_pool_0_0f;
-    uVar16 = extraout_f1;
-    do {
-      lVar12 = uVar13 * 0x1d0 + param_2;
-      lVar14 = lVar12 + 0x2a0;
-      iVar7 = (int)lVar12;
-      if (*(short *)(iVar7 + 0x342) == -2) {
-        iVar11 = fn_82627340(uVar16,uVar10,lVar14);
-        if (iVar11 == 0) {
-          fn_82627DB0(param_2,lVar14);
-        }
-        else {
-          fVar1 = *(float *)(iVar7 + 0x31c);
-          fVar8 = *(float *)lVar14 - fVar1;
-          dVar15 = (double)(*pfVar5 - fVar8);
-          if (*(float *)(&lbl_821954D8 +
-                        ((unsigned int)(unsigned char)((dVar15 < dVar17) << 2) |
-                        (unsigned int)(NAN(dVar15) || NAN(dVar17)) << 2)) < 0.0) {
-            fVar8 = *pfVar5;
-          }
-          *pfVar5 = fVar8;
-          fVar8 = *(float *)(iVar7 + 0x2a4) - fVar1;
-          dVar15 = (double)(*(float *)(iVar3 + 0x44) - fVar8);
-          if (*(float *)(&lbl_821954D8 +
-                        ((unsigned int)(unsigned char)((dVar15 < dVar17) << 2) |
-                        (unsigned int)(NAN(dVar15) || NAN(dVar17)) << 2)) < 0.0) {
-            fVar8 = *(float *)(iVar3 + 0x44);
-          }
-          *(float *)(iVar3 + 0x44) = fVar8;
-          fVar8 = *(float *)(iVar7 + 0x2a8) - fVar1;
-          dVar15 = (double)(*(float *)(iVar3 + 0x48) - fVar8);
-          if (*(float *)(&lbl_821954D8 +
-                        ((unsigned int)(unsigned char)((dVar15 < dVar17) << 2) |
-                        (unsigned int)(NAN(dVar15) || NAN(dVar17)) << 2)) < 0.0) {
-            fVar8 = *(float *)(iVar3 + 0x48);
-          }
-          *(float *)(iVar3 + 0x48) = fVar8;
-          fVar8 = *(float *)lVar14 + fVar1;
-          dVar15 = (double)(*pfVar6 - fVar8);
-          fVar9 = *pfVar6;
-          if (*(float *)(&lbl_821954D8 +
-                        ((unsigned int)(unsigned char)((dVar15 < dVar17) << 2) |
-                        (unsigned int)(NAN(dVar15) || NAN(dVar17)) << 2)) < 0.0) {
-            fVar9 = fVar8;
-          }
-          *pfVar6 = fVar9;
-          fVar8 = fVar1 + *(float *)(iVar7 + 0x2a4);
-          dVar15 = (double)(*(float *)(iVar3 + 0x54) - fVar8);
-          fVar9 = *(float *)(iVar3 + 0x54);
-          if (*(float *)(&lbl_821954D8 +
-                        ((unsigned int)(unsigned char)((dVar15 < dVar17) << 2) |
-                        (unsigned int)(NAN(dVar15) || NAN(dVar17)) << 2)) < 0.0) {
-            fVar9 = fVar8;
-          }
-          *(float *)(iVar3 + 0x54) = fVar9;
-          fVar1 = *(float *)(iVar7 + 0x2a8) + fVar1;
-          dVar15 = (double)(*(float *)(iVar3 + 0x58) - fVar1);
-          fVar8 = *(float *)(iVar3 + 0x58);
-          if (*(float *)(&lbl_821954D8 +
-                        ((unsigned int)(unsigned char)((dVar15 < dVar17) << 2) |
-                        (unsigned int)(NAN(dVar15) || NAN(dVar17)) << 2)) < 0.0) {
-            fVar8 = fVar1;
-          }
-          *(float *)(iVar3 + 0x58) = fVar8;
-        }
-      }
-      uVar13 = uVar13 + 1 & 0xffff;
-    } while ((int)uVar13 < (int)*(short *)(iVar3 + 6));
-  }
-  fn_82F6A594();
-  return;
+    union {
+        unsigned int i;
+        float f;
+    } value;
+
+    *seed = *seed * 0x19660d + 0x3c6ef35f;
+    value.i = *seed & 0x7fffff | 0x3f800000;
+    return value.f - 1.0f;
 }
 
+void fn_82602390(void *context, World_82602390 *world, float dt)
+{
+    unsigned short i;
+    Body_82602390 *body;
+    int kind;
+    int hit;
+    float radius;
+    float v;
+
+    world->boundsMin = world->center;
+    world->boundsMax = world->center;
+    for (i = 0; i < world->count; i++) {
+        body = &world->bodies[i];
+        if (world->bodies[i].next == 0xfffe) {
+            kind = 0;
+            hit = 0;
+            if (fn_82627340(context, body, dt, &hit, &kind) == 0) {
+                fn_82627DB0(world, body);
+            } else {
+                radius = body->radius;
+                v = body->x - radius;
+                world->boundsMin.vector4_f32[0] =
+                    world->boundsMin.vector4_f32[0] - v >= 0.0f ? v : world->boundsMin.vector4_f32[0];
+                v = body->y - radius;
+                world->boundsMin.vector4_f32[1] =
+                    world->boundsMin.vector4_f32[1] - v >= 0.0f ? v : world->boundsMin.vector4_f32[1];
+                v = body->z - radius;
+                world->boundsMin.vector4_f32[2] =
+                    world->boundsMin.vector4_f32[2] - v >= 0.0f ? v : world->boundsMin.vector4_f32[2];
+                v = body->x + radius;
+                world->boundsMax.vector4_f32[0] =
+                    world->boundsMax.vector4_f32[0] - v >= 0.0f ? world->boundsMax.vector4_f32[0] : v;
+                v = body->y + radius;
+                world->boundsMax.vector4_f32[1] =
+                    world->boundsMax.vector4_f32[1] - v >= 0.0f ? world->boundsMax.vector4_f32[1] : v;
+                v = body->z + radius;
+                world->boundsMax.vector4_f32[2] =
+                    world->boundsMax.vector4_f32[2] - v >= 0.0f ? world->boundsMax.vector4_f32[2] : v;
+                if (hit != 0 && kind == 1) {
+                    fn_82601940(context, world, body, Random(&lbl_83265A28) < 0.5f);
+                }
+            }
+        }
+    }
+}

@@ -1,41 +1,80 @@
-extern unsigned int *auStack_20;
-extern unsigned int *auStack_30;
-extern int fn_8223A9E0();
-extern int fn_8232A988();
-extern int fn_823B4900();
-extern int fn_825AF0C8();
+/* Reads a direction and a 7-bit packed scale (4-bit exponent, 3-bit mantissa) from a bit reader
+   and returns the scaled direction. v77 is the game's reserved zero vector (/QVMXReserve). */
+typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
+    float f[4];
+    unsigned int u[4];
+} __vector4;
 
+__vector4 __VMXGetReg(int n);
+void *memset(void *dest, int value, unsigned int size);
 
-void fn_825AE918(unsigned __int64 param_1)
+typedef struct BitBuf_825AE918 {
+    unsigned char bytes[1];
+} BitBuf_825AE918;
 
+typedef union Bits_825AE918 {
+    unsigned __int64 u;
+    double d;
+} Bits_825AE918;
+
+extern void fn_825AF0C8(__vector4 *out, void *reader);
+extern unsigned __int64 fn_823B4900(void *reader, int bits, int a, int b);
+extern void fn_8232A988(BitBuf_825AE918 *buf, unsigned __int64 value, int offset, int width);
+extern unsigned __int64 fn_8223A9E0(BitBuf_825AE918 *buf, int offset, int width);
+
+__vector4 fn_825AE918(void *reader)
 {
-  unsigned int *puVar1;
-  int in_r0;
-  unsigned __int64 uVar2;
-  __int64 lVar3;
-  __int64 lVar4;
-  unsigned int in_register_000104d0;
-  unsigned int in_register_000104d4;
-  unsigned int in_register_000104d8;
-  unsigned int in_vr77;
-  unsigned char auStack_30 [1];
-  unsigned char auStack_20 [16];
-  
-  fn_825AF0C8(auStack_20,param_1);
-  uVar2 = fn_823B4900(param_1,7,0,0);
-  fn_8232A988(auStack_30,uVar2 >> 3 & 0xf,0,4);
-  fn_8232A988(auStack_30,uVar2 & 7,4,3);
-  lVar3 = fn_8223A9E0(auStack_30,0,4);
-  lVar4 = fn_8223A9E0(auStack_30,4,3);
-  if ((lVar3 == 0) && (lVar4 != 0)) {
-    for (uVar2 = lVar4 << 0x31; (uVar2 & 0xfff0000000000000) == 0; uVar2 = uVar2 << 1) {
-    }
-  }
-  puVar1 = (unsigned int *)((unsigned int)(auStack_20 + in_r0) & 0xfffffff0);
-  *puVar1 = in_register_000104d0;
-  puVar1[1] = in_register_000104d4;
-  puVar1[2] = in_register_000104d8;
-  puVar1[3] = in_vr77;
-  return;
-}
+    __vector4 direction;
+    unsigned __int64 packed;
+    __int64 exponent;
+    unsigned __int64 mantissa;
+    double value;
+    float scale;
+    float x;
+    float y;
+    float z;
 
+    fn_825AF0C8(&direction, reader);
+    packed = fn_823B4900(reader, 7, 0, 0);
+    {
+        BitBuf_825AE918 buf;
+
+        memset(&buf, 0, sizeof(buf));
+        fn_8232A988(&buf, (packed >> 3) & 0xf, 0, 4);
+        fn_8232A988(&buf, packed & 7, 4, 3);
+        exponent = fn_8223A9E0(&buf, 0, 4);
+        mantissa = fn_8223A9E0(&buf, 4, 3);
+    }
+    if (exponent == 0) {
+        if (mantissa == 0) {
+            value = 0.0;
+            goto done;
+        }
+        mantissa <<= 49;
+        exponent = 0x3f9;
+        while ((mantissa & 0xfff0000000000000ULL) == 0) {
+            mantissa <<= 1;
+            exponent--;
+        }
+        mantissa &= 0xfffffffffffffULL;
+    } else {
+        exponent += 0x3f8;
+        mantissa <<= 49;
+    }
+    {
+        Bits_825AE918 bits;
+
+        bits.u = ((unsigned __int64)exponent << 52) | mantissa;
+        value = bits.d;
+    }
+done:
+    scale = (float)value;
+    x = direction.f[0];
+    y = direction.f[1];
+    z = direction.f[2];
+    direction = __VMXGetReg(77);
+    direction.f[0] = x * scale;
+    direction.f[1] = y * scale;
+    direction.f[2] = z * scale;
+    return direction;
+}
