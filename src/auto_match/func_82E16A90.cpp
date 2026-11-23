@@ -1,10 +1,4 @@
 #include "havok/hkBase.h"
-extern "C" void fn_82D00388(void *, hkContainerHeapAllocator);
-class StringRegistry {
-public:
-    StringRegistry() { fn_82D00388(this,hkContainerHeapAllocator()); }
-    int storage[4];
-};
 struct ResourcePointer { ResourcePointer() : p(0) {} hkReferencedObject *p; };
 class hkResource : public hkReferencedObject {};
 class hkBuiltinTypeRegistry : public hkReferencedObject {
@@ -18,7 +12,7 @@ public:
     hkPackfileData();
     void *m_a, *m_b;
     hkPointerMap<void *, void *> m_map;
-    StringRegistry m_registry;
+    hkStringMap<void *> m_registry;
     ResourcePointer m_resource;
     int m_flag;
     hkArray<void *> m_arrays[4];

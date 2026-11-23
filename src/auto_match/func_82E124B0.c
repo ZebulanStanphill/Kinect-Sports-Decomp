@@ -1,1 +1,0 @@
-typedef int (*F)(void *,int); extern int fn_82D00450(void *,int,int); int fn_82E124B0(char *p,int x) { int n=fn_82D00450(p+8,x,x); if(*(void **)(p+24)) return (*(F *)(**(int **)(p+24)+16))(*(void **)(p+24),n); return 0; }

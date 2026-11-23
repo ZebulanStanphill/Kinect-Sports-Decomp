@@ -3,8 +3,6 @@
 
 typedef hkCachedHashMap<hkStringMapOperations> Map;
 
-extern "C" void fn_82D004B8(Map *self, int capacity);   // hkCachedHashMap::resizeTable
-
 template <>
 void Map::insert(hkUlong key, hkUlong val)
 {
@@ -15,7 +13,7 @@ void Map::insert(hkUlong key, hkUlong val)
     hash &= 0x7FFFFFFFUL;
     // This is quite conservative. We could grow more slowly at the cost of potentially longer searches.
     if (m_numElems * 2 > m_hashMod) {
-        fn_82D004B8(this, (m_hashMod + 1) * 2);
+        resizeTable((m_hashMod + 1) * 2);
     }
     hkUlong i;
     for (i = hash & m_hashMod; m_elem[i] != hkUlong(-1); i = (i + 1) & m_hashMod) {

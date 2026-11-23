@@ -1,27 +1,15 @@
+#include "havok/hkMap.h"
 #include "havok/hkString.h"
 
-typedef struct Allocator_82D00388 Allocator_82D00388;
-struct Allocator_82D00388 {
-  struct {
-    void *f0;
-    void *(*alloc)(Allocator_82D00388 *self, int size);
-  } *vt;
-};
+typedef hkCachedHashMap<hkStringMapOperations> Map;
 
-typedef struct Table_82D00388 {
-  void *data;
-  int count;
-  int mask;
-} Table_82D00388;
-
-extern "C" char *fn_82CE5410(void);
-
-extern "C" Table_82D00388 *fn_82D00388(Table_82D00388 *self)
+template <>
+Map::hkCachedHashMap(hkStringMapOperations)
 {
-  Allocator_82D00388 *a = *(Allocator_82D00388 **)(fn_82CE5410() + 0x10);
-  self->data = a->vt->alloc(a, 0xc0);
-  hkString::memSet(self->data, 0xff, 0x40);
-  self->count = 0;
-  self->mask = 0xf;
-  return self;
+    const int capacity = 16;
+    const int bucketBytes = sizeof(hkUlong);
+    m_elem = static_cast<hkUlong *>(hkContainerHeapAllocator::get(this).blockAlloc(capacity * 3 * bucketBytes));
+    hkString::memSet(m_elem, 0xff, capacity * bucketBytes);
+    m_numElems = 0;
+    m_hashMod = capacity - 1;
 }

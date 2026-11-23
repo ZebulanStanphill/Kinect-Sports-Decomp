@@ -1,3 +1,7 @@
+#include "havok/hkMap.h"
+
+typedef hkCachedHashMap<hkStringMapOperations> StringHashMap;
+
 struct Obj_82E174C8;
 typedef struct VT_82E174C8 {
   int pad[4];
@@ -10,13 +14,12 @@ typedef struct Host_82E174C8 {
   char pad[0x1c];
   Obj_82E174C8 *f1c;
 } Host_82E174C8;
-extern unsigned int fn_82D00450(void *, int, int);
 
-unsigned int fn_82E174C8(Host_82E174C8 *h, int a)
+extern "C" unsigned int fn_82E174C8(Host_82E174C8 *h, int a)
 {
   unsigned int r;
 
-  r = fn_82D00450((char *)h + 0xc, a, 0);
+  r = reinterpret_cast<const StringHashMap *>((char *)h + 0xc)->getWithDefault(hkUlong(a), hkUlong(0));
   if (r == 0) {
     if (h->f1c != 0) {
       r = h->f1c->vt->f10(h->f1c, a);

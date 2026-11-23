@@ -45,7 +45,6 @@ public:
     char *m_name;                                            // +0xC
     hkPointerMap<void *, const hkClass *> m_trackedObjects;  // +0x10
     hkStringMap<const hkClass *> m_trackedTypes;             // +0x1C
-    hkUint32 m_trackedTypesOps;                              // +0x28 (the string map's empty operations object)
     hkRefPtr<const hkClassNameRegistry> m_packfileClassRegistry;   // +0x2C
     hkBool m_destructorsEnabled;                             // +0x30
     hkArray<void *> m_memory;                                // +0x34

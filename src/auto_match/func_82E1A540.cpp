@@ -2,15 +2,11 @@
 
 typedef hkCachedHashMap<hkStringMapOperations> StringHashMap;
 
-struct Flag_82E1A540 {
-};
-
 struct Entry_82E1A540 {
     int key;
     int value;
 };
 
-extern "C" void fn_82D00388(void *map, Flag_82E1A540 flag);
 
 template <typename T> static HK_FORCE_INLINE void constructWithCopy(T *t, int n, const T &tcopy) { for (int i = 0; i < n; ++i) t[i] = tcopy; }
 
@@ -36,7 +32,7 @@ extern "C" void fn_82E1A540(Obj_82E1A540 *self, int key, int name)
     if (self->map == 0) {
         void *mem = hkMemoryRouter::getInstance().heap().blockAlloc(0x10);
         if (mem != 0) {
-            fn_82D00388(mem, Flag_82E1A540());
+            new (mem) StringHashMap;
         } else {
             mem = 0;
         }
