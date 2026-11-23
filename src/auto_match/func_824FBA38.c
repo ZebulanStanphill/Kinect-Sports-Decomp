@@ -1,82 +1,74 @@
-typedef unsigned char bool;
-#define NAN(x) ((x) != (x))
-extern int fn_8252D240();
-extern int fn_8252D2F8();
-extern int fn_8255FA88();
-extern int fn_82592430();
-extern unsigned int lbl_821954D8;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Msg_824FBA38 {
+    unsigned int tag;
+    char pad4[0x38];
+} Msg_824FBA38;
 
+typedef struct Settings_824FBA38 {
+    char pad0[0x114];
+    void *other; /* 0x114 */
+} Settings_824FBA38;
 
-void fn_824FBA38(int param_1,unsigned __int64 param_2)
+typedef struct Owner_824FBA38 {
+    char pad0[0x190];
+    Settings_824FBA38 **settings; /* 0x190 */
+} Owner_824FBA38;
 
+typedef union Timer_824FBA38 {
+    float value;
+    unsigned int bits;
+} Timer_824FBA38;
+
+typedef struct Obj_824FBA38 {
+    char pad0[0x190];
+    Owner_824FBA38 *owner; /* 0x190 */
+    char pad194[0xb3c - 0x194];
+    float elapsed; /* 0xb3c */
+    char padB40[0xb60 - 0xb40];
+    Msg_824FBA38 stopMessage; /* 0xb60 */
+    unsigned char mirrored;   /* 0xb9c */
+    char padB9E[2];
+    Timer_824FBA38 timer; /* 0xba0 */
+    char idleLeft[4];     /* 0xba4 */
+    char stopRight[4];    /* 0xba8 */
+    char stopLeft[4];     /* 0xbac */
+    char idleRight[4];    /* 0xbb0 */
+} Obj_824FBA38;
+
+extern int fn_8252D2F8(Obj_824FBA38 *o, int kind, Msg_824FBA38 *msg, void *target);
+extern void fn_8252D240(void *a, void *b, int c);
+extern int fn_8255FA88(void *other);
+extern void fn_82592430(void *a, int b);
+
+static __forceinline int CanIdle(Obj_824FBA38 *self)
 {
-  bool bVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  float fVar5;
-  int iVar6;
-  
-  fVar5 = ltcg_pool_0_0f;
-  bVar1 = *(int *)(param_1 + 0xba0) != 0;
-  if (*(char *)(param_1 + 0xb9c) == '\0') {
-    if (bVar1) {
-      fVar2 = *(float *)(param_1 + 0xba0) - *(float *)(param_1 + 0xb3c);
-      fVar3 = -fVar2;
-      fVar4 = ltcg_pool_0_0f;
-      if (*(float *)(&lbl_821954D8 +
-                    ((unsigned int)(unsigned char)((fVar3 < ltcg_pool_0_0f) << 2) |
-                    (unsigned int)(NAN(fVar3) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
-        fVar4 = fVar2;
-      }
-      *(float *)(param_1 + 0xba0) = fVar4;
-      if (fVar4 == fVar5) {
-        iVar6 = param_1 + 0xbac;
-        goto LAB_824fbb50;
-      }
+    if (self->owner == 0 || (*self->owner->settings)->other == 0) {
+        return 1;
     }
-    if ((*(int *)(param_1 + 400) == 0) ||
-       (*(int *)(**(int **)(*(int *)(param_1 + 400) + 400) + 0x114) == 0)) {
-      iVar6 = 1;
-    }
-    else {
-      iVar6 = fn_8255FA88();
-    }
-    if (iVar6 == 0) goto LAB_824fbba8;
-    iVar6 = param_1 + 0xba4;
-  }
-  else {
-    if (bVar1) {
-      fVar2 = *(float *)(param_1 + 0xba0) - *(float *)(param_1 + 0xb3c);
-      fVar3 = -fVar2;
-      fVar4 = ltcg_pool_0_0f;
-      if (*(float *)(&lbl_821954D8 +
-                    ((unsigned int)(unsigned char)((fVar3 < ltcg_pool_0_0f) << 2) |
-                    (unsigned int)(NAN(fVar3) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
-        fVar4 = fVar2;
-      }
-      *(float *)(param_1 + 0xba0) = fVar4;
-      if (fVar4 == fVar5) {
-        iVar6 = param_1 + 0xba8;
-LAB_824fbb50:
-        fn_8252D2F8(param_1,0,param_1 + 0xb60,iVar6);
-        goto LAB_824fbba8;
-      }
-    }
-    if ((*(int *)(param_1 + 400) == 0) ||
-       (*(int *)(**(int **)(*(int *)(param_1 + 400) + 400) + 0x114) == 0)) {
-      iVar6 = 1;
-    }
-    else {
-      iVar6 = fn_8255FA88();
-    }
-    if (iVar6 == 0) goto LAB_824fbba8;
-    iVar6 = param_1 + 0xbb0;
-  }
-  fn_8252D240(param_1,iVar6,0);
-LAB_824fbba8:
-  fn_82592430(param_1,param_2);
-  return;
+    return fn_8255FA88((*self->owner->settings)->other);
 }
 
+static __forceinline void Update(Obj_824FBA38 *self, void *stop, void *idle)
+{
+    if (self->timer.bits != 0) {
+        float remaining = self->timer.value - self->elapsed;
+
+        self->timer.value = -remaining >= 0.0f ? 0.0f : remaining;
+        if (self->timer.value == 0.0f) {
+            fn_8252D2F8(self, 0, &self->stopMessage, stop);
+            return;
+        }
+    }
+    if (CanIdle(self) != 0) {
+        fn_8252D240(self, idle, 0);
+    }
+}
+
+void fn_824FBA38(Obj_824FBA38 *self, int arg)
+{
+    if (self->mirrored != 0) {
+        Update(self, self->stopRight, self->idleRight);
+    } else {
+        Update(self, self->stopLeft, self->idleLeft);
+    }
+    fn_82592430(self, arg);
+}

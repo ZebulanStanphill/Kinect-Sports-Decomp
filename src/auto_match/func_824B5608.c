@@ -1,58 +1,44 @@
-extern unsigned int *auStack_40;
-extern float fRam831c4678;
-extern float fRam831c4684;
-extern unsigned int fStack_3c;
-extern int fn_824B44C8();
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int uRam831c467c;
-extern unsigned int uRam831c4680;
-extern unsigned int uRam831c4688;
-extern unsigned int uRam831c468c;
+typedef struct Gate_824B5608 {
+    float threshold;     /* 0x0 */
+    unsigned int frames; /* 0x4 */
+    int key;             /* 0x8 */
+} Gate_824B5608;
 
+typedef struct Vec_824B5608 {
+    float x, y, z, w;
+} Vec_824B5608;
 
-double fn_824B5608(int param_1,unsigned __int64 param_2)
+typedef struct Self_824B5608 {
+    char pad0[0x48];
+    int firstActive;          /* 0x48 */
+    int secondActive;         /* 0x4c */
+    unsigned int firstCount;  /* 0x50 */
+    unsigned int secondCount; /* 0x54 */
+} Self_824B5608;
 
+extern Gate_824B5608 lbl_831C4678[2];
+extern Vec_824B5608 *fn_824B44C8(Vec_824B5608 *out, void *src, int key, int kind);
+
+static __forceinline int UpdateGate(unsigned int *count, float value, const Gate_824B5608 *gate)
 {
-  float fVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  int iVar4;
-  unsigned char auStack_40 [4];
-  float fStack_3c;
-  
-  fn_824B44C8(auStack_40,param_2,uRam831c4680,0);
-  if (fStack_3c <= fRam831c4678) {
-    *(unsigned int *)(param_1 + 0x50) = 0;
-LAB_824b566c:
-    uVar3 = 0;
-  }
-  else {
-    uVar2 = *(int *)(param_1 + 0x50) + 1;
-    *(unsigned int *)(param_1 + 0x50) = uVar2;
-    if (uVar2 <= uRam831c467c) goto LAB_824b566c;
-    uVar3 = 1;
-  }
-  *(unsigned int *)(param_1 + 0x48) = uVar3;
-  fn_824B44C8(auStack_40,param_2,uRam831c468c,2);
-  if (fStack_3c <= fRam831c4684) {
-    *(unsigned int *)(param_1 + 0x54) = 0;
-  }
-  else {
-    uVar2 = *(int *)(param_1 + 0x54) + 1;
-    *(unsigned int *)(param_1 + 0x54) = uVar2;
-    if (uRam831c4688 < uVar2) {
-      iVar4 = 1;
-      goto LAB_824b56c0;
+    if (value > gate->threshold) {
+        if (++*count > gate->frames)
+            return 1;
+    } else {
+        *count = 0;
     }
-  }
-  iVar4 = 0;
-LAB_824b56c0:
-  *(int *)(param_1 + 0x4c) = iVar4;
-  fVar1 = ltcg_pool_0_0f;
-  if ((*(int *)(param_1 + 0x48) != 0) && (iVar4 != 0)) {
-    fVar1 = lbl_821CA460;
-  }
-  return (double)fVar1;
+    return 0;
 }
 
+float fn_824B5608(Self_824B5608 *self, void *src)
+{
+    Vec_824B5608 v;
+
+    fn_824B44C8(&v, src, lbl_831C4678[0].key, 0);
+    self->firstActive = UpdateGate(&self->firstCount, v.y, &lbl_831C4678[0]);
+    fn_824B44C8(&v, src, lbl_831C4678[1].key, 2);
+    self->secondActive = UpdateGate(&self->secondCount, v.y, &lbl_831C4678[1]);
+    if (self->firstActive != 0 && self->secondActive != 0)
+        return 1.0f;
+    return 0.0f;
+}

@@ -1,86 +1,66 @@
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-extern unsigned int *auStack_30;
-extern int fn_824A7F80();
-extern int fn_824A7FF8();
-extern int fn_824A8070();
-extern int fn_824A8118();
-extern unsigned int uStack_50;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __VMXGetReg(int index);
+__vector4 __vmsum3fp(__vector4 first, __vector4 second);
 
-void fn_824A7E58(int param_1,int param_2)
+typedef struct Choice_824A7E58 {
+    int id;      /* 0x00 */
+    float score; /* 0x04 */
+} Choice_824A7E58;
 
+typedef struct Node_824A7E58 {
+    struct Node_824A7E58 *next; /* 0x00 */
+    struct Node_824A7E58 *prev; /* 0x04 */
+    Choice_824A7E58 value;      /* 0x08 */
+} Node_824A7E58;
+
+typedef struct List_824A7E58 {
+    Node_824A7E58 *head; /* 0x00 */
+    unsigned int size;   /* 0x04 */
+    unsigned char alloc; /* 0x08: the empty allocator object */
+} List_824A7E58;
+
+typedef struct Picker_824A7E58 {
+    unsigned char pad0[0x48];
+    float threshold; /* 0x48 */
+    unsigned char pad4c[0x10];
+    int choice; /* 0x5c */
+} Picker_824A7E58;
+
+extern List_824A7E58 *fn_824A7F80(List_824A7E58 *list);
+extern void fn_824A7FF8(List_824A7E58 *list);
+extern void fn_824A8070(List_824A7E58 *list, const Choice_824A7E58 *value);
+extern void fn_824A8118(List_824A7E58 *list);
+
+void fn_824A7E58(Picker_824A7E58 *self, const __vector4 *direction)
 {
-  float fVar1;
-  unsigned int uVar2;
-  float *pfVar3;
-  int in_r0;
-  unsigned __int64 uVar4;
-  float in_register_00010440;
-  float in_register_00010444;
-  float in_register_00010448;
-  float in_register_00010460;
-  float in_register_00010464;
-  float in_register_00010468;
-  float in_register_00010470;
-  float in_register_00010474;
-  float in_register_00010478;
-  float in_register_00010490;
-  float in_register_00010494;
-  float in_register_00010498;
-  unsigned __int64 uStack_50;
-  int aiStack_48 [6];
-  unsigned int auStack_30 [6];
-  
-  fn_824A7F80(aiStack_48);
-  uVar2 = in_r0 + param_2 & 0xfffffff0;
-  fVar1 = in_register_00010470 * 0.0 + *(float *)(uVar2 + 4) * in_register_00010474 +
-          *(float *)(uVar2 + 8) * in_register_00010478;
-  pfVar3 = (float *)((int)auStack_30 + in_r0 & 0xfffffff0);
-  *pfVar3 = fVar1;
-  pfVar3[1] = fVar1;
-  pfVar3[2] = fVar1;
-  pfVar3[3] = fVar1;
-  uStack_50 = CONCAT44(3,auStack_30[0]);
-  fn_824A8070(aiStack_48,&uStack_50);
-  uVar2 = in_r0 + param_2 & 0xfffffff0;
-  fVar1 = in_register_00010440 * 0.0 + *(float *)(uVar2 + 4) * in_register_00010444 +
-          *(float *)(uVar2 + 8) * in_register_00010448;
-  pfVar3 = (float *)((int)auStack_30 + in_r0 & 0xfffffff0);
-  *pfVar3 = fVar1;
-  pfVar3[1] = fVar1;
-  pfVar3[2] = fVar1;
-  pfVar3[3] = fVar1;
-  uStack_50 = CONCAT44(4,auStack_30[0]);
-  fn_824A8070(aiStack_48,&uStack_50);
-  uVar2 = in_r0 + param_2 & 0xfffffff0;
-  fVar1 = in_register_00010460 * 0.0 + *(float *)(uVar2 + 4) * in_register_00010464 +
-          *(float *)(uVar2 + 8) * in_register_00010468;
-  pfVar3 = (float *)((int)auStack_30 + in_r0 & 0xfffffff0);
-  *pfVar3 = fVar1;
-  pfVar3[1] = fVar1;
-  pfVar3[2] = fVar1;
-  pfVar3[3] = fVar1;
-  uStack_50 = CONCAT44(2,auStack_30[0]);
-  fn_824A8070(aiStack_48,&uStack_50);
-  uVar2 = in_r0 + param_2 & 0xfffffff0;
-  fVar1 = in_register_00010490 * 0.0 + *(float *)(uVar2 + 4) * in_register_00010494 +
-          *(float *)(uVar2 + 8) * in_register_00010498;
-  pfVar3 = (float *)((int)auStack_30 + in_r0 & 0xfffffff0);
-  *pfVar3 = fVar1;
-  pfVar3[1] = fVar1;
-  pfVar3[2] = fVar1;
-  pfVar3[3] = fVar1;
-  uStack_50 = CONCAT44(1,auStack_30[0]);
-  fn_824A8070(aiStack_48,&uStack_50);
-  fn_824A8118(aiStack_48);
-  uVar4 = *(unsigned __int64 *)(*(int *)(aiStack_48[0] + 4) + 8);
-  uStack_50 = ((((unsigned __int64)(uStack_50)) & (~(((unsigned __int64)0xFFFFFFFF) << 32))) | ((((unsigned __int64)((float)uVar4)) & ((unsigned __int64)0xFFFFFFFF)) << 32));
-  if (*(float *)(param_1 + 0x48) < (((unsigned __int64)(uStack_50) >> 32) & 0xFFFFFFFF)) {
-    uStack_50 = ((((unsigned __int64)(uStack_50)) & (~(((unsigned __int64)0xFFFFFFFF) << 0))) | ((((unsigned __int64)((unsigned int)((unsigned __int64)uVar4 >> 0x20))) & ((unsigned __int64)0xFFFFFFFF)) << 0));
-    *(unsigned int *)(param_1 + 0x5c) = (((unsigned __int64)(uStack_50) >> 0) & 0xFFFFFFFF);
-  }
-  uStack_50 = uVar4;
-  fn_824A7FF8(aiStack_48);
-  return;
-}
+    List_824A7E58 choices;
+    Choice_824A7E58 choice;
+    __vector4 dot;
 
+    fn_824A7F80(&choices);
+    choice.id = 3;
+    dot = __vmsum3fp(*direction, __VMXGetReg(71));
+    choice.score = dot.vector4_f32[0];
+    fn_824A8070(&choices, &choice);
+    choice.id = 4;
+    dot = __vmsum3fp(*direction, __VMXGetReg(68));
+    choice.score = dot.vector4_f32[0];
+    fn_824A8070(&choices, &choice);
+    choice.id = 2;
+    dot = __vmsum3fp(*direction, __VMXGetReg(70));
+    choice.score = dot.vector4_f32[0];
+    fn_824A8070(&choices, &choice);
+    choice.id = 1;
+    dot = __vmsum3fp(*direction, __VMXGetReg(73));
+    choice.score = dot.vector4_f32[0];
+    fn_824A8070(&choices, &choice);
+    fn_824A8118(&choices);
+    choice = choices.head->prev->value;
+    if (choice.score > self->threshold) {
+        self->choice = choice.id;
+    }
+    fn_824A7FF8(&choices);
+}

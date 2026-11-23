@@ -1,58 +1,54 @@
-extern int fn_82569B10();
-extern int fn_8284DC60();
-extern unsigned int lbl_821954EC;
-extern unsigned int lbl_8326B434;
-extern unsigned int lbl_83296960;
-extern unsigned int lbl_83296AE0;
-extern unsigned int lbl_83296BA4;
-extern unsigned int lbl_83296BAC;
-extern unsigned int lbl_83296BB0;
-extern unsigned int lbl_83296BB4;
-extern unsigned int lbl_83296BB8;
-extern unsigned int lbl_83296BBC;
+typedef struct Camera_8256BC38 {
+    char pad0[0xd0];
+    char defaultView[0x180]; /* 0xd0 */
+    char *view;              /* 0x250 */
+    char pad254[0xc0];
+    float fieldOfView; /* 0x314 */
+    int pad318;
+    int dirty31c; /* 0x31c */
+    int dirty320; /* 0x320 */
+    int dirty324; /* 0x324 */
+    int dirty328; /* 0x328 */
+    int dirty32c; /* 0x32c */
+} Camera_8256BC38;
 
+typedef struct Screen_8256BC38 {
+    char pad0[0xc4];
+    int height; /* 0xc4 */
+} Screen_8256BC38;
 
-void fn_8256BC38(void)
+extern Camera_8256BC38 lbl_83296890;
+extern char *lbl_83280B88[];
+extern Screen_8256BC38 lbl_8326B370;
 
+extern float fn_8284DC60(float angle, float length);
+extern float *fn_82569B10(void);
+
+static __forceinline void SetView(Camera_8256BC38 *camera, char *view)
 {
-  unsigned char *puVar1;
-  int iVar2;
-  int iVar3;
-  double dVar4;
-  double dVar5;
-  
-  puVar1 = lbl_83296AE0;
-  iVar3 = 0x68;
-  dVar5 = (double)lbl_821954EC;
-  do {
-    lbl_83296AE0 = *(unsigned char **)(iVar3 + -0x7cd7f4d0);
-    if (lbl_83296AE0 == (unsigned char *)0x0) {
-      lbl_83296AE0 = &lbl_83296960;
+    if (view != 0) {
+        camera->view = view;
+        camera->dirty320 = 1;
+        camera->dirty324 = 1;
+        camera->dirty31c = 0;
+        camera->dirty328 = 1;
+        camera->dirty32c = 1;
+    } else {
+        camera->view = camera->defaultView;
     }
-    else {
-      lbl_83296BB0 = 1;
-      lbl_83296BB4 = 1;
-      lbl_83296BAC = 0;
-      lbl_83296BB8 = 1;
-      lbl_83296BBC = 1;
-    }
-    dVar4 = (double)fn_8284DC60((double)(float)((double)lbl_83296BA4 * dVar5),
-                                      (double)(__int64)lbl_8326B434);
-    iVar2 = fn_82569B10();
-    *(float *)(iVar2 + iVar3) = (float)dVar4;
-    iVar3 = iVar3 + 4;
-  } while (iVar3 < 0x70);
-  if (puVar1 == (unsigned char *)0x0) {
-    lbl_83296AE0 = &lbl_83296960;
-  }
-  else {
-    lbl_83296BB0 = 1;
-    lbl_83296BB4 = 1;
-    lbl_83296BAC = 0;
-    lbl_83296BB8 = 1;
-    lbl_83296BBC = 1;
-    lbl_83296AE0 = puVar1;
-  }
-  return;
 }
 
+void fn_8256BC38(void)
+{
+    Camera_8256BC38 *camera = &lbl_83296890;
+    char *saved = camera->view;
+    int i;
+    float distance;
+
+    for (i = 0; i < 2; i++) {
+        SetView(camera, lbl_83280B88[i + 4]);
+        distance = fn_8284DC60(camera->fieldOfView * 0.017453292f, (float)lbl_8326B370.height);
+        fn_82569B10()[i + 26] = distance;
+    }
+    SetView(camera, saved);
+}

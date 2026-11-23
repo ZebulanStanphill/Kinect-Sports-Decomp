@@ -1,62 +1,65 @@
-extern int fn_82365BD8();
-extern unsigned int lbl_8218E8E8;
-extern unsigned int lbl_8218E8FC;
-extern unsigned int lbl_821916FC;
-extern unsigned int lbl_821917B4;
-extern unsigned int lbl_82191B24;
-extern unsigned int lbl_82191F78;
-extern unsigned int lbl_82191FC8;
-extern unsigned int lbl_82191FCC;
-extern unsigned int lbl_821929B0;
-extern unsigned int lbl_82193CF4;
-extern unsigned int lbl_82195A38;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Sp_82346520 {
+    void *px;
+    void *rep;
+} Sp_82346520;
 
+typedef struct Color_82346520 {
+    float r;
+    float g;
+    float b;
+    float a;
+} Color_82346520;
 
-unsigned int * fn_82346520(unsigned int *param_1,unsigned __int64 param_2,unsigned __int64 param_3)
-
+static __forceinline void SetColor(Color_82346520 *c, float r, float g, float b, float a)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  
-  uVar3 = lbl_82193CF4;
-  uVar2 = lbl_821916FC;
-  uVar1 = lbl_8218E8FC;
-  *param_1 = lbl_821CA460;
-  param_1[2] = 0;
-  param_1[1] = uVar2;
-  param_1[3] = uVar1;
-  param_1[4] = uVar2;
-  param_1[5] = uVar3;
-  fn_82365BD8(param_1 + 6);
-  fn_82365BD8(param_1 + 8,param_3);
-  uVar3 = lbl_82191F78;
-  uVar2 = lbl_821917B4;
-  uVar1 = lbl_8218E8E8;
-  param_1[0xb] = 0;
-  param_1[0xc] = uVar1;
-  param_1[0x12] = 0;
-  param_1[0xd] = uVar1;
-  uVar6 = ltcg_pool_0_0f;
-  param_1[0x10] = uVar3;
-  param_1[0x11] = uVar2;
-  uVar4 = lbl_821929B0;
-  uVar3 = lbl_82191FCC;
-  uVar2 = lbl_82191FC8;
-  uVar1 = lbl_82191B24;
-  param_1[10] = uVar6;
-  uVar5 = lbl_82195A38;
-  param_1[0x13] = uVar4;
-  param_1[0x14] = uVar2;
-  param_1[0x15] = uVar1;
-  param_1[0x16] = uVar3;
-  param_1[0xe] = uVar5;
-  param_1[0xf] = uVar6;
-  return param_1;
+    c->r = r;
+    c->g = g;
+    c->b = b;
+    c->a = a;
 }
 
+typedef struct Tuning_82346520 {
+    float unknown00;      /* 0x00 */
+    float unknown04;      /* 0x04 */
+    int unknown08;        /* 0x08 */
+    float unknown0c;      /* 0x0c */
+    float unknown10;      /* 0x10 */
+    float unknown14;      /* 0x14 */
+    Sp_82346520 first;    /* 0x18 */
+    Sp_82346520 second;   /* 0x20 */
+    float unknown28;      /* 0x28 */
+    int unknown2c;        /* 0x2c */
+    float unknown30;      /* 0x30 */
+    float unknown34;      /* 0x34 */
+    float unknown38;      /* 0x38 */
+    float unknown3c;      /* 0x3c */
+    float unknown40;      /* 0x40 */
+    float unknown44;      /* 0x44 */
+    int unknown48;        /* 0x48 */
+    Color_82346520 color; /* 0x4c */
+} Tuning_82346520;
+
+extern Sp_82346520 *fn_82365BD8(Sp_82346520 *out, Sp_82346520 *in);
+
+Tuning_82346520 *fn_82346520(Tuning_82346520 *self, Sp_82346520 *first, Sp_82346520 *second)
+{
+    self->unknown00 = 1.0f;
+    self->unknown08 = 0;
+    self->unknown04 = 2.0f;
+    self->unknown0c = 4.0f;
+    self->unknown10 = 2.0f;
+    self->unknown14 = 25.0f;
+    fn_82365BD8(&self->first, first);
+    fn_82365BD8(&self->second, second);
+    self->unknown2c = 0;
+    self->unknown30 = 0.5f;
+    self->unknown48 = 0;
+    self->unknown34 = 0.5f;
+    self->unknown40 = 0.9f;
+    self->unknown44 = 0.25f;
+    self->unknown28 = 0.0f;
+    SetColor(&self->color, 0.05f, 0.3f, 0.55f, 0.8f);
+    self->unknown38 = -0.16f;
+    self->unknown3c = 0.0f;
+    return self;
+}

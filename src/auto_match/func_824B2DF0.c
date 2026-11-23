@@ -1,50 +1,41 @@
-#define NAN(x) ((x) != (x))
-extern int fn_824B2FA0();
-extern int fn_824B3A40();
-extern int fn_824B3C70();
-extern unsigned int lbl_821954D8;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Stats_824B2DF0 {
+    char pad00[0x1c];
+    float current; /* 0x1C */
+    char pad20[0x48];
+    float average; /* 0x68 */
+    float peak;    /* 0x6C */
+    char pad70[0x4];
+    unsigned int samples; /* 0x74 */
+    int started;          /* 0x78 */
+} Stats_824B2DF0;
 
+typedef struct Meter_824B2DF0 {
+    char pad00[0x3c];
+    Stats_824B2DF0 *stats; /* 0x3C */
+} Meter_824B2DF0;
 
-void fn_824B2DF0(int param_1)
+extern void fn_824B2FA0(Meter_824B2DF0 *self);
+extern float fn_824B3A40(Meter_824B2DF0 *self);
+extern void fn_824B3C70(Meter_824B2DF0 *self);
 
+static __forceinline float Max(float a, float b)
 {
-  float fVar1;
-  int iVar2;
-  float fVar3;
-  float fVar4;
-  double dVar5;
-  
-  fn_824B2FA0();
-  dVar5 = (double)fn_824B3A40(param_1);
-  fVar4 = ltcg_pool_0_0f;
-  iVar2 = *(int *)(param_1 + 0x3c);
-  if (*(int *)(iVar2 + 0x78) == 0) {
-    *(float *)(iVar2 + 0x1c) = (float)dVar5;
-  }
-  else {
-    fVar1 = (float)(dVar5 - (double)*(float *)(iVar2 + 0x1c));
-    if (*(float *)(&lbl_821954D8 +
-                  ((unsigned int)(unsigned char)((fVar1 < ltcg_pool_0_0f) << 2) |
-                  (unsigned int)(NAN(fVar1) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
-      dVar5 = (double)*(float *)(iVar2 + 0x1c);
-    }
-    *(float *)(iVar2 + 0x1c) = (float)dVar5;
-  }
-  iVar2 = *(int *)(param_1 + 0x3c);
-  fVar1 = *(float *)(iVar2 + 0x6c) - *(float *)(iVar2 + 0x1c);
-  fVar3 = *(float *)(iVar2 + 0x6c);
-  if (*(float *)(&lbl_821954D8 +
-                ((unsigned int)(unsigned char)((fVar1 < fVar4) << 2) | (unsigned int)(NAN(fVar1) || NAN(fVar4)) << 2)) < 0.0)
-  {
-    fVar3 = *(float *)(iVar2 + 0x1c);
-  }
-  *(float *)(iVar2 + 0x6c) = fVar3;
-  *(int *)(*(int *)(param_1 + 0x3c) + 0x74) = *(int *)(*(int *)(param_1 + 0x3c) + 0x74) + 1;
-  iVar2 = *(int *)(param_1 + 0x3c);
-  *(float *)(iVar2 + 0x68) =
-       *(float *)(iVar2 + 0x1c) / (float)*(unsigned int *)(iVar2 + 0x74) + *(float *)(iVar2 + 0x68);
-  fn_824B3C70(param_1);
-  return;
+    return a - b >= 0.0f ? a : b;
 }
 
+void fn_824B2DF0(Meter_824B2DF0 *self)
+{
+    float value;
+
+    fn_824B2FA0(self);
+    value = fn_824B3A40(self);
+    if (self->stats->started != 0) {
+        self->stats->current = Max(value, self->stats->current);
+    } else {
+        self->stats->current = value;
+    }
+    self->stats->peak = Max(self->stats->peak, self->stats->current);
+    self->stats->samples++;
+    self->stats->average += self->stats->current / (float)self->stats->samples;
+    fn_824B3C70(self);
+}

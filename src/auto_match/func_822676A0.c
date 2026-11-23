@@ -1,45 +1,75 @@
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-extern int fn_82267EB0();
-extern int fn_8227E330();
-extern unsigned int iStack0000001c;
-extern float lbl_821917B0;
-extern unsigned int lbl_82192734;
-extern float lbl_82193B00;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int stack0x0000001c;
-extern unsigned int uStack_70;
-extern unsigned int uStack_78;
-extern unsigned int uStack_7c;
-extern unsigned int uStack_80;
+typedef struct Vec2_822676A0 {
+    float x;
+    float y;
+} Vec2_822676A0;
 
+typedef struct Segment_822676A0 {
+    int first;           /* 0x00 */
+    int second;          /* 0x04 */
+    Vec2_822676A0 start; /* 0x08 */
+    Vec2_822676A0 delta; /* 0x10 */
+    char pad18[0x40];
+} Segment_822676A0;
 
-void fn_822676A0(int param_1,int param_2,int param_3)
+typedef struct List_822676A0 {
+    void *head;
+    unsigned int size;
+} List_822676A0;
 
+typedef struct Item_822676A0 {
+    char pad0[0xe8];
+    float scaleX; /* 0xe8 */
+    float scaleY; /* 0xec */
+    float width;  /* 0xf0 */
+    float height; /* 0xf4 */
+    float size;   /* 0xf8 */
+} Item_822676A0;
+
+typedef struct Source_822676A0 {
+    char pad0[0x40];
+    int first;  /* 0x40 */
+    int second; /* 0x44 */
+} Source_822676A0;
+
+typedef struct Owner_822676A0 {
+    List_822676A0 items; /* 0x00 */
+    char pad8[0x18 - 0x8];
+    void *track; /* 0x18 */
+    char pad1c[0x24 - 0x1c];
+    char segments[0x30]; /* 0x24 */
+    int dirty;           /* 0x54 */
+} Owner_822676A0;
+
+extern void fn_82267EB0(List_822676A0 *list, Item_822676A0 *const *item);
+extern void fn_8227E330(void *track, Segment_822676A0 *segment, void *segments);
+
+static __forceinline Vec2_822676A0 MakeVec2(float x, float y)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  int iStack0000001c;
-  struct { unsigned int first; unsigned int second; } stack_pair_80;
+    Vec2_822676A0 v;
 
-  unsigned __int64 uStack_78;
-  unsigned __int64 uStack_70;
-  
-  fVar3 = lbl_821917B0;
-  fVar1 = *(float *)(param_2 + 0xf8) * lbl_82193B00;
-  fVar2 = *(float *)(param_2 + 0xf8) * lbl_821917B0;
-  *(float *)(param_2 + 0xe8) = lbl_82193B00;
-  *(float *)(param_2 + 0xec) = fVar3;
-  *(float *)(param_2 + 0xf0) = fVar1;
-  *(float *)(param_2 + 0xf4) = fVar2;
-  iStack0000001c = param_2;
-  fn_82267EB0(param_1,&stack0x0000001c);
-  uStack_78 = CONCAT44(lbl_82192734,lbl_82192734);
-  stack_pair_80.first = *(unsigned int *)(param_3 + 0x40);
-  stack_pair_80.second = *(unsigned int *)(param_3 + 0x44);
-  uStack_70 = CONCAT44(ltcg_pool_0_0f,ltcg_pool_0_0f);
-  fn_8227E330(*(unsigned int *)(param_1 + 0x18),&stack_pair_80.first,param_1 + 0x24);
-  *(unsigned int *)(param_1 + 0x54) = 1;
-  return;
+    v.x = x;
+    v.y = y;
+    return v;
 }
 
+static __forceinline void SetScale(Item_822676A0 *item, float x, float y)
+{
+    item->scaleX = x;
+    item->scaleY = y;
+    item->width = item->size * x;
+    item->height = item->size * y;
+}
+
+void fn_822676A0(Owner_822676A0 *self, Item_822676A0 *item, Source_822676A0 *source)
+{
+    Segment_822676A0 segment;
+
+    SetScale(item, 0.75f, 1.5f);
+    fn_82267EB0(&self->items, &item);
+    segment.start = MakeVec2(-1.0f, -1.0f);
+    segment.delta = MakeVec2(0.0f, 0.0f);
+    segment.first = source->first;
+    segment.second = source->second;
+    fn_8227E330(self->track, &segment, self->segments);
+    self->dirty = 1;
+}

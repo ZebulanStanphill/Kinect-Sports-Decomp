@@ -1,63 +1,46 @@
-extern int fn_82810240();
-extern int fn_828102A8();
-extern int fn_82810328();
-extern int fn_82810B78();
-extern int fn_82810BE8();
-extern unsigned int lbl_8200133C;
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_821AAD20;
-extern unsigned int uStack_28;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
-extern unsigned int uStack_48;
-extern unsigned int uStack_4c;
-extern unsigned int uStack_50;
+typedef struct Vec3_8280C240 {
+    float x;
+    float y;
+    float z;
+} Vec3_8280C240;
 
+typedef struct Matrix_8280C240 {
+    float m[4][4];
+} Matrix_8280C240;
 
-void fn_8280C240(unsigned int *param_1,unsigned int *param_2,unsigned __int64 param_3,unsigned __int64 param_4)
+extern void fn_82810240(const Vec3_8280C240 *a, const Vec3_8280C240 *b, Vec3_8280C240 *out);
+extern void fn_82810328(const Vec3_8280C240 *a, const Vec3_8280C240 *b, Vec3_8280C240 *out);
+extern void fn_82810B78(const Vec3_8280C240 *v, Vec3_8280C240 *out);
+extern float fn_82810BE8(const Vec3_8280C240 *v);
+extern void fn_828102A8(const Vec3_8280C240 *v, Vec3_8280C240 *out, float scale);
 
+void fn_8280C240(Matrix_8280C240 *out, const Vec3_8280C240 *eye, const Vec3_8280C240 *up,
+                 const Vec3_8280C240 *target)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  double dVar3;
-  unsigned int uStack_50;
-  unsigned int uStack_4c;
-  unsigned int uStack_48;
-  unsigned int uStack_40;
-  unsigned int uStack_3c;
-  unsigned int uStack_38;
-  unsigned int uStack_30;
-  unsigned int uStack_2c;
-  unsigned int uStack_28;
-  
-  fn_82810328(param_4,param_2,&uStack_50);
-  dVar3 = (double)fn_82810BE8(&uStack_50);
-  fn_828102A8((double)(float)((double)lbl_8200133C / dVar3),&uStack_50,&uStack_50);
-  fn_82810240(param_3,&uStack_50,&uStack_40);
-  fn_82810B78(&uStack_40,&uStack_40);
-  fn_82810240(&uStack_50,&uStack_40,&uStack_30);
-  fn_82810B78(&uStack_30,&uStack_30);
-  *param_1 = uStack_40;
-  param_1[4] = uStack_30;
-  param_1[8] = uStack_50;
-  uVar2 = lbl_821AAD20;
-  uVar1 = lbl_82002AE0;
-  param_1[0xc] = *param_2;
-  param_1[1] = uStack_3c;
-  param_1[5] = uStack_2c;
-  param_1[9] = uStack_4c;
-  param_1[0xd] = param_2[1];
-  param_1[2] = uStack_38;
-  param_1[6] = uStack_28;
-  param_1[10] = uStack_48;
-  param_1[0xe] = param_2[2];
-  param_1[3] = uVar2;
-  param_1[7] = uVar2;
-  param_1[0xb] = uVar2;
-  param_1[0xf] = uVar1;
-  return;
-}
+    Vec3_8280C240 forward;
+    Vec3_8280C240 right;
+    Vec3_8280C240 trueUp;
 
+    fn_82810328(target, eye, &forward);
+    fn_828102A8(&forward, &forward, -1.0f / fn_82810BE8(&forward));
+    fn_82810240(up, &forward, &right);
+    fn_82810B78(&right, &right);
+    fn_82810240(&forward, &right, &trueUp);
+    fn_82810B78(&trueUp, &trueUp);
+    out->m[0][0] = right.x;
+    out->m[1][0] = trueUp.x;
+    out->m[2][0] = forward.x;
+    out->m[3][0] = eye->x;
+    out->m[0][1] = right.y;
+    out->m[1][1] = trueUp.y;
+    out->m[2][1] = forward.y;
+    out->m[3][1] = eye->y;
+    out->m[0][2] = right.z;
+    out->m[1][2] = trueUp.z;
+    out->m[2][2] = forward.z;
+    out->m[3][2] = eye->z;
+    out->m[0][3] = 0.0f;
+    out->m[1][3] = 0.0f;
+    out->m[2][3] = 0.0f;
+    out->m[3][3] = 1.0f;
+}

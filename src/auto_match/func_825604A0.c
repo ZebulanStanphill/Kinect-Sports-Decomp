@@ -1,61 +1,77 @@
-extern int fn_825605B0();
-extern int fn_82560690();
-extern int fn_825611A8();
-extern unsigned int lbl_83280B98;
-extern unsigned int lbl_83296960;
-extern unsigned int lbl_83296AE0;
-extern unsigned int lbl_83296BAC;
-extern unsigned int lbl_83296BB0;
-extern unsigned int lbl_83296BB4;
-extern unsigned int lbl_83296BB8;
-extern unsigned int lbl_83296BBC;
+typedef struct View_825604A0 {
+    char pad0[0x84];
+    char name[1]; /* 0x84 */
+} View_825604A0;
 
+typedef struct Node_825604A0 {
+    struct Node_825604A0 *next; /* 0x0 */
+    struct Node_825604A0 *prev; /* 0x4 */
+} Node_825604A0;
 
-void fn_825604A0(int *param_1)
+typedef struct Slot_825604A0 {
+    int id;              /* 0x0 */
+    View_825604A0 *view; /* 0x4 */
+} Slot_825604A0;
 
+typedef struct Registry_825604A0 {
+    Slot_825604A0 slots[2];   /* 0x00 */
+    Node_825604A0 *owners[2]; /* 0x10 */
+} Registry_825604A0;
+
+typedef struct RenderState_825604A0 {
+    char pad0[0xd0];
+    View_825604A0 defaultView; /* 0xd0 */
+    char padD0[0x250 - 0xd0 - sizeof(View_825604A0)];
+    View_825604A0 *view; /* 0x250 */
+    char pad254[0xc8];
+    int dirty0; /* 0x31c */
+    int dirty1; /* 0x320 */
+    int dirty2; /* 0x324 */
+    int dirty3; /* 0x328 */
+    int dirty4; /* 0x32c */
+} RenderState_825604A0;
+
+extern Registry_825604A0 lbl_83280B88;
+extern RenderState_825604A0 lbl_83296890;
+
+extern int fn_82560690(int type);
+extern void fn_825605B0(int index, const char *name);
+extern void fn_825611A8(void);
+
+void fn_825604A0(Node_825604A0 *node)
 {
-  unsigned char *puVar1;
-  int iVar3;
-  unsigned __int64 uVar2;
-  int iVar4;
-  unsigned int *puVar5;
-  
-  iVar3 = fn_82560690(0);
-  if (*param_1 != 0) {
-    *(int *)(*param_1 + 4) = param_1[1];
-  }
-  if ((int *)param_1[1] != (int *)0x0) {
-    *(int *)param_1[1] = *param_1;
-  }
-  *param_1 = 0;
-  uVar2 = 0;
-  param_1[1] = 0;
-  puVar5 = &lbl_83280B98;
-  do {
-    if ((int *)*puVar5 == param_1) {
-      puVar1 = *(unsigned char **)((int)((uVar2 & 0xffffffff) << 3) + -0x7cd7f474);
-      if (puVar1 == (unsigned char *)0x0) {
-        lbl_83296AE0 = &lbl_83296960;
-        *(unsigned int *)((int)&lbl_83280B98 + (int)((uVar2 & 0xffffffff) << 2)) = 0;
-      }
-      else {
-        fn_825605B0(uVar2,puVar1 + 0x84);
-        lbl_83296BB0 = 1;
-        lbl_83296BB4 = 1;
-        lbl_83296BAC = 0;
-        lbl_83296BB8 = 1;
-        lbl_83296BBC = 1;
-        lbl_83296AE0 = puVar1;
-      }
-      break;
-    }
-    puVar5 = puVar5 + 1;
-    uVar2 = uVar2 + 1;
-  } while ((int)puVar5 < -0x7cd7f460);
-  iVar4 = fn_82560690(0);
-  if (iVar3 != iVar4) {
-    fn_825611A8();
-  }
-  return;
-}
+    int before;
+    int i;
+    View_825604A0 *view;
 
+    before = fn_82560690(0);
+    if (node->next != 0) {
+        node->next->prev = node->prev;
+    }
+    if (node->prev != 0) {
+        node->prev->next = node->next;
+    }
+    node->next = 0;
+    node->prev = 0;
+    for (i = 0; i < 2; i++) {
+        if (lbl_83280B88.owners[i] == node) {
+            view = lbl_83280B88.slots[i].view;
+            if (view != 0) {
+                fn_825605B0(i, view->name);
+                lbl_83296890.view = view;
+                lbl_83296890.dirty1 = 1;
+                lbl_83296890.dirty2 = 1;
+                lbl_83296890.dirty0 = 0;
+                lbl_83296890.dirty3 = 1;
+                lbl_83296890.dirty4 = 1;
+            } else {
+                lbl_83296890.view = &lbl_83296890.defaultView;
+                lbl_83280B88.owners[i] = 0;
+            }
+            break;
+        }
+    }
+    if (before != fn_82560690(0)) {
+        fn_825611A8();
+    }
+}

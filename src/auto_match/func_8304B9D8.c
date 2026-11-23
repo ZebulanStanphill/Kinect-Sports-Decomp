@@ -1,65 +1,78 @@
-extern unsigned int *auStack_40;
-extern int fn_8304B7E0();
-extern int fn_8304D8A0();
-extern unsigned int uStack_34;
-extern unsigned int uStack_4c;
-extern unsigned int uStack_50;
+typedef struct WaveFormat_8304B9D8 {
+    unsigned short formatTag;           /* 0x0 */
+    unsigned short channels;            /* 0x2 */
+    unsigned int samplesPerSecond;      /* 0x4 */
+    unsigned int averageBytesPerSecond; /* 0x8 */
+    unsigned short blockAlign;          /* 0xc */
+    unsigned short bitsPerSample;       /* 0xe */
+    unsigned short extraSize;           /* 0x10 */
+} WaveFormat_8304B9D8;
 
+typedef struct Source_8304B9D8 {
+    char padding0[0xd4];
+    unsigned short mode; /* 0xd4 */
+    char paddingd6[5];
+    unsigned char flags; /* 0xdb */
+    char paddingdc[0x138 - 0xdc];
+    unsigned char *data; /* 0x138 */
+    unsigned int size;   /* 0x13c */
+} Source_8304B9D8;
 
-unsigned __int64 fn_8304B9D8(int param_1)
+typedef struct Decoder_8304B9D8 {
+    char padding0[0x8];
+    Source_8304B9D8 *source; /* 0x8 */
+    char paddingc[0x4];
+    char format[0x10];         /* 0x10 */
+    unsigned int totalSamples; /* 0x20 */
+    unsigned int loopSamples;  /* 0x24 */
+    unsigned char *position;   /* 0x28 */
+    unsigned char *end;        /* 0x2c */
+    unsigned char *loopEnd;    /* 0x30 */
+    unsigned int loopLength;   /* 0x34 */
+    unsigned char *start;      /* 0x38 */
+    unsigned short blockAlign; /* 0x3c */
+} Decoder_8304B9D8;
 
+extern int fn_8304D8A0(unsigned char *data, unsigned int size, WaveFormat_8304B9D8 *format,
+                       unsigned int formatSize, void *extra, unsigned int *dataSize, unsigned int *loopStart,
+                       unsigned int *loopLength, unsigned int *dataOffset, void *unused9, void *unused10);
+extern int fn_8304B7E0(Decoder_8304B9D8 *self);
+
+/* Parses the source's wave header and sets up the data, end and loop pointers and sample counts. */
+int fn_8304B9D8(Decoder_8304B9D8 *self)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  __int64 lVar3;
-  unsigned __int64 uVar4;
-  __int64 lVar5;
-  unsigned __int64 uVar6;
-  unsigned int uStack_50;
-  unsigned int uStack_4c;
-  int aiStack_48 [2];
-  unsigned char auStack_40 [12];
-  unsigned short uStack_34;
-  
-  uVar6 = (unsigned __int64)*(unsigned int *)(*(int *)(param_1 + 8) + 0x138);
-  if (uVar6 == 0) {
-    uVar1 = 2;
-  }
-  else {
-    iVar2 = fn_8304D8A0(uVar6,*(unsigned int *)(*(int *)(param_1 + 8) + 0x13c),auStack_40,0x12,
-                            param_1 + 0x10,&uStack_50,aiStack_48,(int *)(param_1 + 0x34));
-    if (iVar2 == 1) {
-      uVar4 = (unsigned __int64)uStack_34;
-      *(unsigned short *)(param_1 + 0x3c) = uStack_34;
-      lVar5 = uStack_4c + uVar6;
-      iVar2 = (int)lVar5;
-      *(int *)(param_1 + 0x38) = iVar2;
-      lVar3 = (__int64)(int)(uStack_50 >> 6) * (__int64)(int)(unsigned int)uStack_34 + lVar5;
-      *(int *)(param_1 + 0x2c) = (int)lVar3;
-      if ((aiStack_48[0] == 0) || (*(short *)(*(int *)(param_1 + 8) + 0xd4) == 1)) {
-        *(int *)(param_1 + 0x30) = *(int *)(param_1 + 0x34) + iVar2;
-      }
-      else {
-        *(unsigned int *)(param_1 + 0x30) = (aiStack_48[0] + 1U >> 6) * (unsigned int)uStack_34 + iVar2;
-      }
-      *(int *)(param_1 + 0x28) = iVar2;
-      trapWord(6,uVar4,0);
-      *(int *)(param_1 + 0x20) = (int)(((lVar3 - lVar5 & 0x3ffffffU) << 6) / uVar4);
-      trapWord(6,uVar4,0);
-      *(int *)(param_1 + 0x24) =
-           (int)((((unsigned __int64)*(unsigned int *)(param_1 + 0x30) - lVar5 & 0x3ffffff) << 6) /
-                (unsigned __int64)uStack_34);
-      if ((*(unsigned char *)(*(int *)(param_1 + 8) + 0xdb) & 0x80) == 0) {
-        uVar1 = 1;
-      }
-      else {
-        uVar1 = fn_8304B7E0(param_1);
-      }
+    unsigned char *data = self->source->data;
+    unsigned int size = self->source->size;
+    WaveFormat_8304B9D8 format;
+    unsigned int dataSize;
+    unsigned int dataOffset;
+    unsigned int loopStart;
+    unsigned int blockAlign;
+    unsigned char *start;
+    unsigned char *end;
+    if (data == 0) {
+        return 2;
     }
-    else {
-      uVar1 = 7;
+    if (fn_8304D8A0(data, size, &format, 0x12 /* WAVEFORMATEX without padding */, self->format, &dataSize,
+                    &loopStart, &self->loopLength, &dataOffset, 0, 0) != 1) {
+        return 7;
     }
-  }
-  return uVar1;
+    blockAlign = format.blockAlign;
+    self->blockAlign = format.blockAlign;
+    start = data + dataOffset;
+    self->start = start;
+    end = start + (dataSize >> 6) * blockAlign;
+    self->end = end;
+    if (loopStart != 0 && self->source->mode != 1) {
+        self->loopEnd = start + ((loopStart + 1) >> 6) * blockAlign;
+    } else {
+        self->loopEnd = start + self->loopLength;
+    }
+    self->position = start;
+    self->totalSamples = ((end - start) << 6) / blockAlign;
+    self->loopSamples = ((self->loopEnd - start) << 6) / blockAlign;
+    if ((self->source->flags & 0x80) != 0) {
+        return fn_8304B7E0(self);
+    }
+    return 1;
 }
-

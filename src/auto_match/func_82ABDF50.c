@@ -1,52 +1,63 @@
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern int fn_82AA68E0();
-extern int fn_82F691F0();
+#include <string.h>
 
+typedef struct Block_82ABDF50 {
+    struct Block_82ABDF50 *next;
+} Block_82ABDF50;
 
-void fn_82ABDF50(int param_1,unsigned __int64 param_2)
+typedef struct Page_82ABDF50 {
+    int f00;
+    struct Page_82ABDF50 *next; /* 0x4 */
+    char data[0x1000];          /* 0x8 */
+} Page_82ABDF50;
 
+typedef struct Heap_82ABDF50 {
+    Block_82ABDF50 *freeLists[0x22]; /* by size / 4 - 1 */
+    Page_82ABDF50 *last;             /* 0x88 */
+    Page_82ABDF50 *page;             /* 0x8c */
+    char *cur;                       /* 0x90 */
+} Heap_82ABDF50;
+
+extern Page_82ABDF50 *fn_82AA68E0(Heap_82ABDF50 *heap);
+
+void *fn_82ABDF50(Heap_82ABDF50 *heap, unsigned int size)
 {
-  unsigned int *puVar1;
-  int iVar2;
-  int iVar3;
-  unsigned int uVar4;
-  unsigned __int64 uVar5;
-  
-  uVar5 = param_2;
-  do {
-    uVar5 = uVar5 + 4;
-    iVar3 = (int)param_2;
-    if (0x84 < (uVar5 & 0xffffffff)) {
-      puVar1 = *(unsigned int **)(param_1 + 0x90);
-      uVar5 = ((unsigned __int64)*(unsigned int *)(param_1 + 0x8c) - ZEXT48(puVar1)) + 0x1000;
-      if (uVar5 != 0) {
-        iVar2 = (int)((((uVar5 & 0xffffffff) >> 2) - 1 & 0xffffffff) << 2);
-        *puVar1 = *(unsigned int *)(iVar2 + param_1);
-        *(unsigned int **)(iVar2 + param_1) = puVar1;
-      }
-      iVar2 = *(int *)(*(int *)(param_1 + 0x8c) + 4);
-      *(int *)(param_1 + 0x8c) = iVar2;
-      if (iVar2 == 0) {
-        uVar4 = fn_82AA68E0(param_1);
-        *(unsigned int *)(param_1 + 0x8c) = uVar4;
-        if (*(int *)(param_1 + 0x88) != 0) {
-          *(unsigned int *)(*(int *)(param_1 + 0x88) + 4) = uVar4;
-        }
-        *(unsigned int *)(param_1 + 0x88) = *(unsigned int *)(param_1 + 0x8c);
-      }
-      *(int *)(param_1 + 0x90) = *(int *)(param_1 + 0x8c) + 8 + iVar3;
-      return;
-    }
-    iVar2 = (int)((((uVar5 & 0xffffffff) >> 2) - 1 & 0xffffffff) << 2);
-    puVar1 = *(unsigned int **)(iVar2 + param_1);
-  } while (puVar1 == (unsigned int *)0x0);
-  *(unsigned int *)(iVar2 + param_1) = *puVar1;
-  if ((param_2 & 0xffffffff) < (uVar5 & 0xffffffff)) {
-    iVar2 = (int)((((uVar5 - param_2 & 0xffffffff) >> 2) - 1 & 0xffffffff) << 2);
-    *(unsigned int *)((int)puVar1 + iVar3) = *(unsigned int *)(iVar2 + param_1);
-    *(int *)(iVar2 + param_1) = (int)puVar1 + iVar3;
-  }
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0(puVar1,0,param_2);
-}
+    unsigned int s;
+    unsigned int rest;
+    int idx;
+    Block_82ABDF50 *b;
+    Block_82ABDF50 *tail;
+    char *p;
 
+    for (s = size + 4; s <= 0x84; s += 4) {
+        idx = (s >> 2) - 1;
+        b = heap->freeLists[idx];
+        if (b != 0) {
+            heap->freeLists[idx] = b->next;
+            if (s > size) {
+                tail = (Block_82ABDF50 *)((char *)b + size);
+                idx = ((s - size) >> 2) - 1;
+                tail->next = heap->freeLists[idx];
+                heap->freeLists[idx] = tail;
+            }
+            memset(b, 0, size);
+            return b;
+        }
+    }
+    rest = (char *)heap->page - heap->cur + 0x1000;
+    if (rest != 0) {
+        tail = (Block_82ABDF50 *)heap->cur;
+        idx = (rest >> 2) - 1;
+        tail->next = heap->freeLists[idx];
+        heap->freeLists[idx] = tail;
+    }
+    heap->page = heap->page->next;
+    if (heap->page == 0) {
+        heap->page = fn_82AA68E0(heap);
+        if (heap->last != 0)
+            heap->last->next = heap->page;
+        heap->last = heap->page;
+    }
+    p = heap->page->data;
+    heap->cur = p + size;
+    return p;
+}

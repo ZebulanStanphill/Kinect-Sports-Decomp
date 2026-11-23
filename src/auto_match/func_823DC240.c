@@ -1,79 +1,38 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern unsigned int lbl_82195530;
-extern V16 vectorSubtractFloatingPoint();
-extern void *memcpy(void *, const void *, unsigned int);
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vsubfp(__vector4 a, __vector4 b);
+__vector4 __vmsum3fp(__vector4 a, __vector4 b);
 
-unsigned __int64 fn_823DC240(unsigned __int64 param_1,int param_2,int *param_3)
-
+int fn_823DC240(__vector4 *points, __vector4 *vertices, int *closest)
 {
-  float fVar1;
-  unsigned int uVar2;
-  float *pfVar3;
-  int in_r0;
-  int iVar4;
-  int *piVar5;
-  int iVar6;
-  __int64 lVar7;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs43 [16];
-  unsigned char in_vs44 [16];
-  unsigned char in_vs45 [16];
-  float fVar8;
-  float fVar9;
-  float fVar10;
-  float fVar11;
-  float afStack_60 [4];
-  float afStack_50 [4];
-  int aiStack_40 [14];
-  
-  iVar6 = 0;
-  lVar7 = 6;
-  aiStack_40[0] = 0;
-  aiStack_40[2] = 0;
-  aiStack_40[5] = 0;
-  iVar4 = 0;
-  aiStack_40[1] = 1;
-  piVar5 = aiStack_40 + 1;
-  aiStack_40[3] = 2;
-  aiStack_40[4] = 1;
-  aiStack_40[6] = 1;
-  aiStack_40[7] = 2;
-  aiStack_40[8] = 2;
-  aiStack_40[9] = 0;
-  aiStack_40[10] = 2;
-  aiStack_40[0xb] = 1;
-  fVar1 = lbl_82195530;
-  do {
-    uVar2 = piVar5[-1] * 0x10 + param_2 & 0xfffffff0;
-    fVar10 = *(float *)(uVar2 + 4);
-    fVar11 = *(float *)(uVar2 + 8);
-    uVar2 = *piVar5 * 0x10 + param_2 & 0xfffffff0;
-    fVar8 = *(float *)(uVar2 + 4);
-    fVar9 = *(float *)(uVar2 + 8);{ V16 _vt0 = vectorSubtractFloatingPoint(in_vs32,in_vs44); memcpy(in_vs44, &_vt0, 16); }{ V16 _vt1 = vectorSubtractFloatingPoint(in_vs45,in_vs43); memcpy(in_vs43, &_vt1, 16); }
-    fVar10 = fVar10 * fVar10 + 0.0 + fVar11 * fVar11;
-    fVar8 = fVar8 * fVar8 + 0.0 + fVar9 * fVar9;
-    pfVar3 = (float *)((int)afStack_60 + in_r0 & 0xfffffff0);
-    *pfVar3 = fVar10;
-    pfVar3[1] = fVar10;
-    pfVar3[2] = fVar10;
-    pfVar3[3] = fVar10;
-    pfVar3 = (float *)((int)afStack_50 + in_r0 & 0xfffffff0);
-    *pfVar3 = fVar8;
-    pfVar3[1] = fVar8;
-    pfVar3[2] = fVar8;
-    pfVar3[3] = fVar8;
-    if (afStack_50[0] + afStack_60[0] < fVar1) {
-      fVar1 = afStack_50[0] + afStack_60[0];
-      iVar4 = iVar6;
-    }
-    iVar6 = iVar6 + 1;
-    piVar5 = piVar5 + 2;
-    lVar7 = lVar7 + -1;
-  } while (lVar7 != 0);
-  iVar6 = aiStack_40[iVar4 * 2 + 1];
-  *param_3 = aiStack_40[iVar4 * 2];
-  param_3[1] = iVar6;
-  return 2;
-}
+    int pairs[6][2] = {{0, 1}, {0, 2}, {1, 0}, {1, 2}, {2, 0}, {2, 1}};
+    float best;
+    int bestIndex;
+    int i;
+    __vector4 a;
+    __vector4 b;
+    __vector4 lengthA;
+    __vector4 lengthB;
+    float distance;
 
+    a = points[0];
+    b = points[1];
+    best = 3.402823466e+38f;
+    bestIndex = 0;
+    for (i = 0; i < 6; i++) {
+        __vector4 da = __vsubfp(a, vertices[pairs[i][0]]);
+        __vector4 db = __vsubfp(b, vertices[pairs[i][1]]);
+        lengthA = __vmsum3fp(da, da);
+        lengthB = __vmsum3fp(db, db);
+        distance = lengthA.vector4_f32[0] + lengthB.vector4_f32[0];
+        if (distance < best) {
+            best = distance;
+            bestIndex = i;
+        }
+    }
+    closest[0] = pairs[bestIndex][0];
+    closest[1] = pairs[bestIndex][1];
+    return 2;
+}

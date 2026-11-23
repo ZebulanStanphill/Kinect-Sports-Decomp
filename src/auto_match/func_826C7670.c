@@ -1,34 +1,60 @@
-extern int fn_8267C498();
-extern int fn_8269FE48();
+typedef struct Owner_826C7670 {
+    unsigned char pad0[0xafc];
+    struct Character_826C7670 *pending; /* 0xafc */
+} Owner_826C7670;
 
+typedef struct Character_826C7670 {
+    void *vtbl;   /* 0x00 */
+    int refCount; /* 0x04 */
+    unsigned char pad8[0x5e];
+    unsigned char flags; /* 0x66 */
+    unsigned char pad67[0x11];
+    struct Character_826C7670 *nextPending; /* 0x78 */
+    unsigned char pad7c[0x10];
+    unsigned int pad8c0 : 19; /* 0x8c */
+    unsigned int visible : 1; /* 0x8c, 0x1000 */
+    unsigned int pad8c1 : 12;
+    unsigned char pad90[0x10];
+    Owner_826C7670 *owner; /* 0xa0 */
+    unsigned char padA4[0x128];
+    unsigned char state; /* 0x1cc */
+} Character_826C7670;
 
-unsigned __int64 fn_826C7670(int param_1,int *param_2)
+typedef struct Event_826C7670 {
+    int type; /* 0x00 */
+} Event_826C7670;
 
+extern void fn_8267C498(Character_826C7670 *self);
+extern int fn_8269FE48(Character_826C7670 *self, Event_826C7670 *event);
+
+static __forceinline unsigned char IsType(Event_826C7670 *event, int type)
 {
-  unsigned __int64 uVar1;
-  
-  if ((*(unsigned char *)(param_1 + 0x66) & 0x10) == 0) {
-    *(int *)(param_1 + 4) = *(int *)(param_1 + 4) + 1;
-    if (((*param_2 == 1) &&
-        (*(unsigned char *)(param_1 + 0x66) = *(unsigned char *)(param_1 + 0x66) & 0xdf,
-        (*(unsigned int *)(param_1 + 0x8c) >> 0xc & 1) == 0)) && ((*(unsigned char *)(param_1 + 0x1cc) & 0x80) == 0))
-    {
-      uVar1 = 0;
-    }
-    else {
-      uVar1 = fn_8269FE48(param_1,param_2);
-      if (*param_2 == 4) {
-        *(unsigned char *)(param_1 + 0x66) = *(unsigned char *)(param_1 + 0x66) | 0x10;
-        *(unsigned int *)(param_1 + 0x78) = *(unsigned int *)(*(int *)(param_1 + 0xa0) + 0xafc);
-        *(int *)(*(int *)(param_1 + 0xa0) + 0xafc) = param_1;
-        *(int *)(param_1 + 4) = *(int *)(param_1 + 4) + 1;
-      }
-    }
-    fn_8267C498(param_1);
-  }
-  else {
-    uVar1 = 0;
-  }
-  return uVar1;
+    return event->type == type;
 }
 
+int fn_826C7670(Character_826C7670 *self, Event_826C7670 *event)
+{
+    int result;
+
+    if (self->flags & 0x10) {
+        return 0;
+    }
+    self->refCount++;
+    if (IsType(event, 1) & 1) {
+        self->flags &= ~0x20;
+        if (!(unsigned char)self->visible && (self->state & 0x80) == 0) {
+            result = 0;
+            fn_8267C498(self);
+            return result;
+        }
+    }
+    result = fn_8269FE48(self, event);
+    if (IsType(event, 4) & 1) {
+        self->flags |= 0x10;
+        self->nextPending = self->owner->pending;
+        self->owner->pending = self;
+        self->refCount++;
+    }
+    fn_8267C498(self);
+    return result;
+}

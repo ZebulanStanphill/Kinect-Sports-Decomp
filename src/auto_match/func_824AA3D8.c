@@ -1,66 +1,70 @@
-#define NAN(x) ((x) != (x))
-extern unsigned int lbl_821954D8;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int uStack_48;
-extern unsigned int uStack_4c;
-extern unsigned int uStack_50;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __VMXGetReg(int reg);
 
-unsigned __int64 fn_824AA3D8(unsigned __int64 param_1,int param_2,int *param_3,int param_4,int (**param_5)())
+typedef struct Vector_824AA3D8 {
+    __vector4 v;
+} Vector_824AA3D8;
 
+typedef struct Matrix_824AA3D8 {
+    __vector4 rows[4];
+} Matrix_824AA3D8;
+
+typedef struct Pose_824AA3D8 {
+    char pad00[0x40];
+    Matrix_824AA3D8 *bones; /* 0x40 */
+} Pose_824AA3D8;
+
+typedef struct Track_824AA3D8 Track_824AA3D8;
+
+typedef struct TrackVt_824AA3D8 {
+    void (*GetRange)(Track_824AA3D8 *self, unsigned int *first, unsigned int *last);
+    void (*GetPose)(Track_824AA3D8 *self, unsigned int frame, Pose_824AA3D8 **pose);
+} TrackVt_824AA3D8;
+
+struct Track_824AA3D8 {
+    TrackVt_824AA3D8 *vt;
+};
+
+typedef struct Skeleton_824AA3D8 {
+    char pad00[0x3c];
+    int leftHanded; /* 0x3C */
+} Skeleton_824AA3D8;
+
+typedef __vector4 (*SegmentCallback_824AA3D8)(__vector4 from, __vector4 to);
+
+static __forceinline float Max(float a, float b)
 {
-  int iVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  unsigned int *puVar5;
-  unsigned __int64 in_r0;
-  int iVar6;
-  unsigned __int64 uVar7;
-  unsigned int in_register_000104d0;
-  unsigned int in_register_000104d4;
-  unsigned int in_register_000104d8;
-  unsigned int in_vr77;
-  unsigned int uStack_50;
-  unsigned int uStack_4c;
-  unsigned __int64 uStack_48;
-  
-  (**(int (***)())*param_3)(param_3,&uStack_50,&uStack_4c);
-  iVar6 = (int)in_r0;
-  fVar2 = (float)((uStack_4c - param_4) + 1);
-  iVar1 = *(int *)(param_2 + 0x3c);
-  fVar3 = (float)uStack_50 - fVar2;
-  fVar4 = (float)uStack_50;
-  if (*(float *)(&lbl_821954D8 +
-                ((unsigned int)(unsigned char)((fVar3 < ltcg_pool_0_0f) << 2) |
-                (unsigned int)(NAN(fVar3) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
-    fVar4 = fVar2;
-  }
-  uStack_48 = (unsigned __int64)fVar4;
-  uVar7 = uStack_48 & 0xffffffff;
-  uStack_50 = (((unsigned __int64)(uStack_48) >> 32) & 0xFFFFFFFF);
-  if ((((unsigned __int64)(uStack_48) >> 32) & 0xFFFFFFFF) <= uStack_4c) {
-    do {
-      (**(int (***)())(*param_3 + 4))(param_3,uVar7,&uStack_48);
-      puVar5 = (unsigned int *)
-               (*(int *)((((unsigned __int64)(uStack_48) >> 0) & 0xFFFFFFFF) + 0x40) + ((-(unsigned int)(iVar1 != 0) & 0xfffffffc) + 10) * 0x40
-                + 0x10 & 0xfffffff0);
-      in_register_000104d0 = *puVar5;
-      in_register_000104d4 = puVar5[1];
-      in_register_000104d8 = puVar5[2];
-      in_vr77 = puVar5[3];
-      if ((uVar7 & 0xffffffff) != (unsigned __int64)uStack_50) {
-        (*param_5)();
-      }
-      iVar6 = (int)in_r0;
-      uVar7 = uVar7 + 1;
-    } while ((uVar7 & 0xffffffff) <= (unsigned __int64)uStack_4c);
-  }
-  puVar5 = (unsigned int *)(iVar6 + (int)param_1 & 0xfffffff0);
-  *puVar5 = in_register_000104d0;
-  puVar5[1] = in_register_000104d4;
-  puVar5[2] = in_register_000104d8;
-  puVar5[3] = in_vr77;
-  return param_1;
+    return a - b >= 0.0f ? a : b;
 }
 
+Vector_824AA3D8 fn_824AA3D8(Skeleton_824AA3D8 *skeleton, Track_824AA3D8 *track, unsigned int frames,
+                            SegmentCallback_824AA3D8 callback)
+{
+    Vector_824AA3D8 result;
+    unsigned int first;
+    unsigned int last;
+    unsigned int frame;
+    int bone;
+    __vector4 previous;
+    __vector4 current;
+
+    track->vt->GetRange(track, &first, &last);
+    previous = __VMXGetReg(77);
+    first = (unsigned int)Max((float)first, (float)(last - frames + 1));
+    bone = skeleton->leftHanded != 0 ? 6 : 10;
+    for (frame = first; frame <= last; frame++) {
+        Pose_824AA3D8 *pose;
+
+        track->vt->GetPose(track, frame, &pose);
+        current = pose->bones[bone].rows[1];
+        if (frame != first) {
+            current = callback(current, previous);
+        }
+        previous = current;
+    }
+    result.v = previous;
+    return result;
+}

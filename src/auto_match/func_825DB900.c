@@ -1,75 +1,73 @@
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
+
+extern double __fctid(double);
+extern double __fcfid(double);
 extern double sqrt(double);
-#define SQRT(x) sqrt(x)
-extern unsigned int fStack_48;
-extern unsigned int fStack_60;
-extern int fn_82559FF0();
-extern int fn_8261E4B8();
-extern int fn_8261FD18();
-extern unsigned int lbl_82191FC8;
-extern unsigned int lbl_82193E50;
-extern float lbl_82195590;
-extern float lbl_821955A0;
-extern unsigned int lbl_821955B4;
-extern float lbl_82195668;
-extern unsigned int lbl_821956BC;
-extern unsigned int lbl_82195938;
-extern float lbl_8219593C;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int lbl_831E4E38;
 
+typedef struct Body_825DB900 {
+    char pad00[0xd0];
+    __vector4 velocity; /* 0xd0 */
+} Body_825DB900;
 
-double fn_825DB900(double param_1,__int64 param_2,unsigned __int64 param_3,int param_4)
+typedef struct Player_825DB900 {
+    char pad000[0x460];
+    char facing[4]; /* 0x460 */
+} Player_825DB900;
 
+/* pi / 2 */
+extern float lbl_831E4E38;
+
+extern int fn_82559FF0(__vector4 v, float *out);
+extern void fn_8261E4B8(void *facing, float *out, int flags);
+extern float fn_8261FD18(void *source);
+
+/* Maps an angle to (-2 pi, 2 pi) by dropping whole turns. */
+static __forceinline float WrapTurns(float angle)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  float fVar3;
-  int in_r0;
-  double dVar4;
-  double dVar5;
-  double dVar6;
-  unsigned int uVar7;
-  unsigned int uVar8;
-  unsigned int uVar9;
-  struct { float first; float second; } stack_pair_60;
+    double turns = (float)(angle * 0.15915494f);
 
-  float afStack_50 [2];
-  float fStack_48;
-  
-  dVar5 = (double)ltcg_pool_0_0f;
-  dVar6 = dVar5;
-  if ((param_3 & 0xffffffff) != 0) {
-    dVar5 = (double)fn_8261FD18(param_3);
-  }
-  dVar4 = (double)(float)(dVar5 * (double)lbl_82195938);
-  if ((dVar5 == dVar6) && (dVar6 < param_1)) {
-    puVar1 = (unsigned int *)(param_4 + 0xd0U & 0xfffffff0);
-    uVar7 = puVar1[1];
-    uVar8 = puVar1[2];
-    uVar9 = puVar1[3];
-    puVar2 = (unsigned int *)((int)afStack_50 + in_r0 & 0xfffffff0);
-    *puVar2 = *puVar1;
-    puVar2[1] = uVar7;
-    puVar2[2] = uVar8;
-    puVar2[3] = uVar9;
-    fn_82559FF0(&stack_pair_60.first);
-    fVar3 = SQRT(fStack_48 * fStack_48 + afStack_50[0] * afStack_50[0]) * lbl_82195668;
-    if (lbl_821CA460 < fVar3) {
-      fVar3 = lbl_821CA460;
-    }
-    if (lbl_82191FC8 <= fVar3) {
-      dVar6 = (double)((fVar3 - lbl_82191FC8) * lbl_8219593C);
-    }
-    fn_8261E4B8(param_2 + 0x460,&stack_pair_60.second,0);
-    fVar3 = (stack_pair_60.first - stack_pair_60.second) * lbl_82195590;
-    dVar5 = (double)(float)(((double)fVar3 - (double)(__int64)fVar3) * lbl_821955A0);
-    fVar3 = lbl_82193E50;
-    if (((double)lbl_831E4E38 < dVar5) || (fVar3 = lbl_821956BC, dVar5 < (double)lbl_821955B4)) {
-      dVar5 = (double)(float)((double)fVar3 - dVar5);
-    }
-    dVar4 = -(double)(float)((double)(float)(dVar5 * dVar6) * param_1 - dVar4);
-  }
-  return dVar4;
+    return (float)((turns - (float)__fcfid(__fctid(turns))) * 6.2831854820251465);
 }
 
+float fn_825DB900(Player_825DB900 *player, void *source, Body_825DB900 *body, float amount)
+{
+    float blend = 0.0f;
+    float value;
+    float result;
+
+    if (source == 0) {
+        value = 0.0f;
+    } else {
+        value = fn_8261FD18(source);
+    }
+    result = value * 0.7853982f;
+    if (value == 0.0f && amount > 0.0f) {
+        __vector4 velocity = body->velocity;
+        float heading;
+        float facing;
+        float speed;
+        float delta;
+
+        fn_82559FF0(velocity, &heading);
+        speed = (float)sqrt(velocity.vector4_f32[0] * velocity.vector4_f32[0] +
+                            velocity.vector4_f32[2] * velocity.vector4_f32[2]) *
+                0.125f;
+        if (speed > 1.0f) {
+            speed = 1.0f;
+        }
+        if (speed >= 0.3f) {
+            blend = (speed - 0.3f) * 1.4285715f;
+        }
+        fn_8261E4B8(player->facing, &facing, 0);
+        delta = WrapTurns(heading - facing);
+        if (delta > lbl_831E4E38) {
+            delta = 3.1415927f - delta;
+        } else if (delta < -1.5707964f) {
+            delta = -3.1415927f - delta;
+        }
+        result = result - delta * blend * amount;
+    }
+    return result;
+}

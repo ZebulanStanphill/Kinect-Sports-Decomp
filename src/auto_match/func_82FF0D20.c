@@ -1,36 +1,43 @@
-extern int fn_82FF0478();
-extern int fn_82FF5400();
-extern unsigned int lbl_8216C698;
-extern unsigned int lbl_832642F4;
+typedef struct Voice_82FF0D20 Voice_82FF0D20;
 
+typedef struct VoiceVtbl_82FF0D20 {
+    void *slots[4];
+    int (*stop)(Voice_82FF0D20 *self, int immediate); /* 0x10 */
+} VoiceVtbl_82FF0D20;
 
-unsigned __int64 fn_82FF0D20(int *param_1,int *param_2)
+struct Voice_82FF0D20 {
+    VoiceVtbl_82FF0D20 *vt; /* 0x0 */
+    char pad4[0x5c - 0x4];
+    void *fadeHandle; /* 0x5c */
+    char pad60[0xd8 - 0x60];
+    unsigned char state; /* 0xd8 */
+    char padd9[0x130 - 0xd9];
+    int stopCount; /* 0x130 */
+};
 
+extern void RtlEnterCriticalSection(void *);
+extern void RtlLeaveCriticalSection(void *);
+extern int fn_82FF0478(void *self, int arg, int flags, __int64 time, int mode);
+extern void fn_82FF5400(void *mgr, void *handle, int flags, float value, int time, int curve, int mode);
+extern char lbl_83264558[];
+extern void *lbl_832642F4;
+extern const float lbl_8216C698;
+
+int fn_82FF0D20(Voice_82FF0D20 *self, __int64 *time)
 {
-  unsigned __int64 uVar1;
-  
-  RtlEnterCriticalSection(0xffffffff83264558);
-  param_1[0x4c] = param_1[0x4c] + 1;
-  if (*param_2 == 0) {
-    if ((*(unsigned char *)(param_1 + 0x36) & 0x1e) == 0) {
-      uVar1 = 0;
-    }
-    else {
-      if (param_1[0x17] != 0) {
-        fn_82FF5400((double)lbl_8216C698,lbl_832642F4,param_1[0x17],0x4000000);
-        RtlLeaveCriticalSection(0xffffffff83264558);
-        return 1;
-      }
-      uVar1 = 1;
-    }
-    uVar1 = (**(int (***)())(*param_1 + 0x10))(param_1,uVar1);
-    RtlLeaveCriticalSection(0xffffffff83264558);
-  }
-  else {
-    fn_82FF0478(param_1,0,0x4000000,*(unsigned __int64 *)param_2,1);
-    RtlLeaveCriticalSection(0xffffffff83264558);
-    uVar1 = 1;
-  }
-  return uVar1;
-}
+    int result = 1;
 
+    RtlEnterCriticalSection(lbl_83264558);
+    self->stopCount++;
+    if (*(int *)time != 0) {
+        fn_82FF0478(self, 0, 0x4000000, *time, 1);
+    } else if ((self->state & 0x1e) == 0) {
+        result = self->vt->stop(self, 0);
+    } else if (self->fadeHandle != 0) {
+        fn_82FF5400(lbl_832642F4, self->fadeHandle, 0x4000000, lbl_8216C698, 0, 4, 0);
+    } else {
+        result = self->vt->stop(self, 1);
+    }
+    RtlLeaveCriticalSection(lbl_83264558);
+    return result;
+}

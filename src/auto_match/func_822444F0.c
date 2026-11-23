@@ -1,113 +1,149 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_822446D8();
-extern int fn_822449A8();
-extern int fn_82244A90();
-extern int fn_82244B58();
-extern int fn_82247000();
-extern int fn_822AE460();
-extern int fn_82381BC0();
-extern int fn_8288B760();
-extern int fn_8288D868();
+typedef struct Node_822444F0 {
+    struct Node_822444F0 *left;   /* 0x00 */
+    struct Node_822444F0 *parent; /* 0x04 */
+    struct Node_822444F0 *right;  /* 0x08 */
+    int key;                      /* 0x0C */
+    void *value;                  /* 0x10 */
+} Node_822444F0;
 
+typedef struct Registry_822444F0 {
+    char pad0[0x220];
+    Node_822444F0 *head; /* 0x220 */
+    char pad224[0x6c];
+    unsigned char ready; /* 0x290 */
+} Registry_822444F0;
 
-void fn_822444F0(int *param_1)
+struct Lookup_822444F0;
 
+typedef struct LookupVt_822444F0 {
+    void *pad[14];
+    unsigned char (*contains)(struct Lookup_822444F0 *self, void *value); /* 0x38 */
+} LookupVt_822444F0;
+
+typedef struct Lookup_822444F0 {
+    LookupVt_822444F0 *vt;
+} Lookup_822444F0;
+
+typedef struct Context_822444F0 {
+    char pad0[0x150];
+    Lookup_822444F0 lookup; /* 0x150 */
+} Context_822444F0;
+
+typedef struct Vec_822444F0 {
+    char pad0[0x1c];
+    void *items; /* 0x1C */
+} Vec_822444F0;
+
+struct Owner_822444F0;
+
+typedef struct OwnerVt_822444F0 {
+    void *pad0[2];
+    Context_822444F0 *(*getContext)(struct Owner_822444F0 *self); /* 0x08 */
+} OwnerVt_822444F0;
+
+typedef struct Owner_822444F0 {
+    OwnerVt_822444F0 *vt; /* 0x00 */
+    char pad4[0xc];
+    Registry_822444F0 *registry; /* 0x10 */
+    char pad14[0x6c];
+    Vec_822444F0 *vec; /* 0x80 */
+    char pad84[0xc];
+    int lastState; /* 0x90 */
+    char pad94;
+    unsigned char flag95; /* 0x95 */
+    unsigned char flag96; /* 0x96 */
+    unsigned char flag97; /* 0x97 */
+    unsigned char flag98; /* 0x98 */
+} Owner_822444F0;
+
+extern unsigned char fn_822446D8(Owner_822444F0 *self);
+extern unsigned char fn_8288B760(Owner_822444F0 *self);
+extern unsigned char fn_8288D868(Owner_822444F0 *self);
+extern unsigned int fn_82247000(Owner_822444F0 *self);
+extern unsigned char fn_82244A90(Owner_822444F0 *self, int id);
+extern void fn_822449A8(Owner_822444F0 *self, unsigned char limited);
+extern unsigned char fn_82244B58(void);
+extern int fn_822AE460(void *items);
+extern void fn_82381BC0(Node_822444F0 **it);
+
+void fn_822444F0(Owner_822444F0 *self)
 {
-  bool bVar1;
-  unsigned int *puVar2;
-  unsigned int *puVar3;
-  char cVar7;
-  unsigned int uVar4;
-  unsigned char uVar8;
-  int iVar5;
-  int iVar6;
-  unsigned __int64 uVar9;
-  unsigned int *apuStack_30 [12];
-  
-  cVar7 = fn_822446D8();
-  if (cVar7 == '\0') {
-    return;
-  }
-  cVar7 = fn_8288B760(param_1);
-  if ((cVar7 != '\0') && (cVar7 = fn_8288D868(param_1), cVar7 == '\0')) {
-    return;
-  }
-  uVar4 = fn_82247000(param_1);
-  if (uVar4 == 0) {
-    bVar1 = *(char *)((int)param_1 + 0x95) == '\0';
-LAB_822446b4:
-    if (bVar1) goto LAB_822446c4;
-LAB_822446b8:
-    uVar9 = 0;
-  }
-  else {
-    if (uVar4 == 1) {
-      if (*(char *)((int)param_1 + 0x96) == '\0') {
-        uVar8 = fn_82244B58();
-        *(unsigned char *)((int)param_1 + 0x96) = uVar8;
-      }
-      bVar1 = false;
-      cVar7 = *(char *)(param_1[4] + 0x290);
-      if (param_1[0x20] != 0) {
-        iVar6 = *(int *)(param_1[0x20] + 0x1c);
-        iVar5 = 1;
-        if (iVar6 != 0) {
-          iVar5 = fn_822AE460(iVar6);
-        }
-        bVar1 = iVar5 == 1;
-      }
-      if ((*(char *)((int)param_1 + 0x96) == '\0') || (cVar7 == '\0')) goto LAB_822446c4;
-      bVar1 = !bVar1;
-      goto LAB_822446b4;
-    }
-    if (2 < uVar4) {
-      if (uVar4 == 3) {
-        cVar7 = fn_8288B760(param_1);
-        if (cVar7 != '\0') {
-          if (*(char *)((int)param_1 + 0x97) == '\0') goto LAB_822446c4;
-          cVar7 = fn_82244A90(param_1,3);
-          bVar1 = cVar7 == '\0';
-          goto LAB_82244584;
-        }
-LAB_82244588:
-        uVar9 = 1;
-        goto LAB_822446c0;
-      }
-      if (4 < uVar4) goto LAB_822446c4;
-      goto LAB_822446b8;
-    }
-    if (*(char *)(param_1 + 0x26) == '\0') goto LAB_822446c4;
-    cVar7 = fn_8288B760(param_1);
-    if (cVar7 != '\0') {
-      cVar7 = fn_82244A90(param_1,2);
-      if (cVar7 == '\0') goto LAB_822446c4;
-      bVar1 = true;
-      puVar2 = *(unsigned int **)(param_1[4] + 0x220);
-      apuStack_30[0] = (unsigned int *)*puVar2;
-      while (puVar3 = apuStack_30[0], apuStack_30[0] != puVar2) {
-        iVar6 = (**(int (***)())(*param_1 + 8))(param_1);
-        cVar7 = (**(int (***)())(*(int *)(iVar6 + 0x150) + 0x38))((int *)(iVar6 + 0x150),puVar3[4]);
-        if (cVar7 == '\0') {
-          bVar1 = false;
-          break;
-        }
-        fn_82381BC0(apuStack_30);
-        puVar2 = *(unsigned int **)(param_1[4] + 0x220);
-      }
-      bVar1 = !bVar1;
-LAB_82244584:
-      if (bVar1) goto LAB_822446c4;
-      goto LAB_82244588;
-    }
-    uVar9 = 1;
-  }
-LAB_822446c0:
-  fn_822449A8(param_1,uVar9);
-LAB_822446c4:
-  iVar6 = fn_82247000(param_1);
-  param_1[0x24] = iVar6;
-  return;
-}
+    unsigned char ok;
+    unsigned char ready;
+    int result;
+    Node_822444F0 *it;
+    Node_822444F0 *node;
+    Lookup_822444F0 *lookup;
 
+    if (!fn_822446D8(self)) {
+        return;
+    }
+    if (fn_8288B760(self) && !fn_8288D868(self)) {
+        return;
+    }
+    switch (fn_82247000(self)) {
+    case 0:
+        if (self->flag95) {
+            fn_822449A8(self, 0);
+        }
+        break;
+    case 1:
+        if (!self->flag96) {
+            self->flag96 = fn_82244B58();
+        }
+        ok = 0;
+        ready = self->registry->ready;
+        if (self->vec != 0) {
+            result = 1;
+            if (self->vec->items != 0) {
+                result = fn_822AE460(self->vec->items);
+            }
+            ok = result == 1;
+        }
+        if (self->flag96 && ready && ok) {
+            fn_822449A8(self, 0);
+        }
+        break;
+    case 2:
+        if (!self->flag98) {
+            break;
+        }
+        if (fn_8288B760(self)) {
+            if (!fn_82244A90(self, 2)) {
+                break;
+            }
+            ok = 1;
+            it = self->registry->head->left;
+            while (it != self->registry->head) {
+                node = it;
+                lookup = &self->vt->getContext(self)->lookup;
+                if (!lookup->vt->contains(lookup, node->value)) {
+                    ok = 0;
+                    break;
+                }
+                fn_82381BC0(&it);
+            }
+            if (ok) {
+                fn_822449A8(self, 1);
+            }
+        } else {
+            fn_822449A8(self, 1);
+        }
+        break;
+    case 3:
+        if (fn_8288B760(self)) {
+            if (!self->flag97) {
+                break;
+            }
+            if (!fn_82244A90(self, 3)) {
+                break;
+            }
+        }
+        fn_822449A8(self, 1);
+        break;
+    case 4:
+        fn_822449A8(self, 0);
+        break;
+    }
+    self->lastState = fn_82247000(self);
+}

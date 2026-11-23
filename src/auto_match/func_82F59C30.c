@@ -1,62 +1,71 @@
-extern double sqrt(double);
-#define SQRT(x) sqrt(x)
-extern int fn_82BA02A8();
-extern int fn_82F59450();
-extern int fn_82F6A548();
-extern int fn_82F6A594();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_82005344;
-extern unsigned int lbl_820069B4;
-extern unsigned int lbl_821AAD20;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Vec3_82F59C30 {
+    float x;
+    float y;
+    float z;
+} Vec3_82F59C30;
 
-void fn_82F59C30(void)
+extern double sqrt(double value);
+extern void fn_82BA02A8(void);
+extern float fn_82F59450(float y, float x);
 
+/* Converts a rotation quaternion to Euler angles. */
+Vec3_82F59C30 fn_82F59C30(__vector4 q)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float *pfVar4;
-  double dVar5;
-  double dVar6;
-  double dVar7;
-  double dVar8;
-  double dVar9;
-  float in_register_00010010;
-  float in_register_00010014;
-  float in_register_00010018;
-  float in_vr1;
-  
-  pfVar4 = (float *)fn_82F6A548();
-  fn_82BA02A8();
-  fVar1 = in_register_00010018 * lbl_82005344;
-  fVar2 = in_register_00010014 * lbl_82005344;
-  fVar3 = in_register_00010010 * in_register_00010010 * lbl_82005344;
-  dVar9 = (double)(in_vr1 * fVar2 + fVar1 * in_register_00010010);
-  dVar6 = (double)(fVar1 * in_register_00010014 - in_vr1 * in_register_00010010 * lbl_82005344);
-  dVar8 = (double)(lbl_82002AE0 - (in_register_00010014 * fVar2 + fVar3));
-  dVar7 = (double)SQRT((float)(dVar8 * dVar8 + (double)(float)(dVar9 * dVar9)));
-  if (dVar7 <= (double)lbl_820069B4) {
-    dVar8 = (double)fn_82F59450(-(double)(fVar2 * in_register_00010010 - in_vr1 * fVar1),
-                                      (double)(lbl_82002AE0 -
-                                              (in_register_00010018 * fVar1 +
-                                              in_register_00010014 * fVar2)));
-    pfVar4[2] = (float)dVar8;
-    dVar6 = (double)fn_82F59450(-dVar6,dVar7);
-    *pfVar4 = (float)dVar6;
-    pfVar4[1] = lbl_821AAD20;
-  }
-  else {
-    dVar5 = (double)fn_82F59450((double)(fVar2 * in_register_00010010 + in_vr1 * fVar1),
-                                      (double)(lbl_82002AE0 - (in_register_00010018 * fVar1 + fVar3)
-                                              ));
-    pfVar4[2] = (float)dVar5;
-    dVar6 = (double)fn_82F59450(-dVar6,dVar7);
-    *pfVar4 = (float)dVar6;
-    dVar6 = (double)fn_82F59450(dVar9,dVar8);
-    pfVar4[1] = (float)dVar6;
-  }
-  fn_82F6A594(pfVar4);
-  return;
-}
+    Vec3_82F59C30 angles;
+    float x2;
+    float y2;
+    float z2;
+    float wz;
+    float xx;
+    float xy;
+    float xz;
+    float yy;
+    float yz;
+    float zz;
+    float wx;
+    float wy;
+    float m00;
+    float m01;
+    float m10;
+    float m11;
+    float m20;
+    float m21;
+    float m22;
+    float cosY;
 
+    fn_82BA02A8();
+    x2 = q.vector4_f32[0] * 2.0f;
+    y2 = q.vector4_f32[1] * 2.0f;
+    z2 = q.vector4_f32[2] * 2.0f;
+    wz = q.vector4_f32[3] * z2;
+    xx = q.vector4_f32[0] * x2;
+    xy = q.vector4_f32[0] * y2;
+    xz = q.vector4_f32[0] * z2;
+    yy = q.vector4_f32[1] * y2;
+    yz = q.vector4_f32[1] * z2;
+    zz = q.vector4_f32[2] * z2;
+    wx = q.vector4_f32[3] * x2;
+    wy = q.vector4_f32[3] * y2;
+    m00 = 1.0f - (yy + zz);
+    m01 = xy + wz;
+    m10 = xy - wz;
+    m11 = 1.0f - (xx + zz);
+    m20 = xz + wy;
+    m21 = yz - wx;
+    m22 = 1.0f - (xx + yy);
+    cosY = (float)sqrt(m22 * m22 + m20 * m20);
+    if (cosY > 1.0e-06f) {
+        angles.z = fn_82F59450(m01, m11);
+        angles.x = fn_82F59450(-m21, cosY);
+        angles.y = fn_82F59450(m20, m22);
+    } else {
+        angles.z = fn_82F59450(-m10, m00);
+        angles.x = fn_82F59450(-m21, cosY);
+        angles.y = 0.0f;
+    }
+    return angles;
+}

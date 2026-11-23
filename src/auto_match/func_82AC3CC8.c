@@ -1,86 +1,95 @@
-unsigned __int64 fn_82AC3CC8(int param_1,int param_2,int param_3,int *param_4)
+typedef struct Bits_82AC3CC8 {
+    unsigned int pad24 : 8;
+    unsigned int mask20 : 4;
+    unsigned int mask16 : 4;
+    unsigned int isSet : 1;  /* 0x8000 */
+    unsigned int bit14 : 1;  /* 0x4000 */
+    unsigned int field8 : 6; /* 0x3f00 */
+    unsigned int bit7 : 1;
+    unsigned int bit6 : 1; /* 0x40 */
+    unsigned int kind : 6; /* 0x3f */
+} Bits_82AC3CC8;
 
+typedef struct Inst_82AC3CC8 {
+    Bits_82AC3CC8 bits; /* 0x0 */
+    unsigned int a;     /* 0x4 */
+    unsigned int b;     /* 0x8 */
+} Inst_82AC3CC8;
+
+typedef struct Ctx_82AC3CC8 {
+    char pad0[0x20];
+    unsigned int limit; /* 0x20 */
+    char pad24[0x8058 - 0x24];
+    unsigned int count; /* 0x8058 */
+    int has3D;          /* 0x805c */
+    int has3E;          /* 0x8060 */
+    int has3F;          /* 0x8064 */
+} Ctx_82AC3CC8;
+
+typedef struct Entry_82AC3CC8 {
+    int index;          /* 0x0: used in entry 0 */
+    int a;              /* 0x4 */
+    int b;              /* 0x8 */
+    unsigned int flags; /* 0xc */
+} Entry_82AC3CC8;
+
+int fn_82AC3CC8(Inst_82AC3CC8 *insts, int idx, Ctx_82AC3CC8 *ctx, Entry_82AC3CC8 *out)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  int iVar5;
-  
-  uVar1 = *(unsigned int *)(param_2 * 0xc + param_1);
-  if ((uVar1 & 0x8000) == 0) {
-    if ((uVar1 & 0x4000) != 0) {
-      return 0xffffffff80004005;
-    }
-    if ((uVar1 & 0x40) != 0) {
-      return 0xffffffff80004005;
-    }
-    if (*(unsigned int *)(param_3 + 0x20) < (uVar1 >> 8 & 0x3f)) {
-      return 0xffffffff80004005;
-    }
-    if ((uVar1 & 0x3f) <= *(unsigned int *)(param_3 + 0x20)) {
-      return 0;
-    }
-    return 0xffffffff80004005;
-  }
-  if ((uVar1 & 0x40) != 0) {
-    return 0xffffffff80004005;
-  }
-  if ((uVar1 & 0x3f00) != 0) {
-    return 0xffffffff80004005;
-  }
-  uVar3 = uVar1 & 0x3f;
-  if (uVar3 < 0x10) {
-    if (*(unsigned int *)(param_3 + 0x8058) <= uVar3) {
-      return 0xffffffff80004005;
-    }
-  }
-  else if (uVar3 < 0x3d) {
-    return 0xffffffff80004005;
-  }
-  if (uVar3 == 0x3d) {
-    iVar5 = 0x805c;
-  }
-  else {
-    if (uVar3 == 0x3e) {
-      if (*(int *)(param_3 + 0x8060) == 0) {
-        return 0xffffffff80004005;
-      }
-      goto LAB_82ac3d78;
-    }
-    if (uVar3 != 0x3f) goto LAB_82ac3d78;
-    iVar5 = 0x8064;
-  }
-  if (*(int *)(param_3 + iVar5) == 0) {
-    return 0xffffffff80004005;
-  }
-  uVar4 = 1;
-  do {
-    uVar2 = 1 << (uVar4 & 0x3f);
-    if ((uVar1 >> 0x14 & uVar2 & 0xf) != 0) {
-      return 0xffffffff80004005;
-    }
-    if ((uVar1 >> 0x10 & uVar2 & 0xf) != 0) {
-      return 0xffffffff80004005;
-    }
-    if ((uVar1 & 0x4000) != 0) {
-      return 0xffffffff80004005;
-    }
-    uVar4 = uVar4 + 1;
-  } while ((int)uVar4 < 4);
-LAB_82ac3d78:
-  iVar5 = *param_4;
-  if (0x3d < uVar3) {
-    if ((param_4[iVar5 * 4 + 3] & 0x1000U) == 0) {
-      return 0xffffffff80004005;
-    }
-    if (uVar3 == 0x3e) {
-      param_4[iVar5 * 4 + 3] = param_4[iVar5 * 4 + 3] | 0x80;
-    }
-  }
-  if (((uVar3 == 0x3d) || (uVar3 < 0x10)) && ((param_4[iVar5 * 4 + 3] & 0x400U) == 0)) {
-    return 0xffffffff80004005;
-  }
-  return 0;
-}
+    Inst_82AC3CC8 *inst = &insts[idx];
+    unsigned int kind;
+    Entry_82AC3CC8 *e;
+    int i;
 
+    if (inst->bits.isSet) {
+        if (inst->bits.bit6 || inst->bits.field8)
+            return 0x80004005;
+        kind = inst->bits.kind;
+        if (kind > 0xf) {
+            if (kind < 0x3d)
+                return 0x80004005;
+        } else if (kind >= ctx->count) {
+            return 0x80004005;
+        }
+        if (kind == 0x3d) {
+            if (ctx->has3D == 0)
+                return 0x80004005;
+        } else if (kind == 0x3e) {
+            if (ctx->has3E == 0)
+                return 0x80004005;
+            goto check;
+        } else if (kind == 0x3f) {
+            if (ctx->has3F == 0)
+                return 0x80004005;
+        } else {
+            goto check;
+        }
+        for (i = 1; i < 4; i++) {
+            if (inst->bits.mask20 & (1 << i))
+                return 0x80004005;
+            if (inst->bits.mask16 & (1 << i))
+                return 0x80004005;
+            if (inst->bits.bit14)
+                return 0x80004005;
+        }
+    check:
+        e = &out[out->index];
+        if (kind >= 0x3e) {
+            if ((e->flags & 0x1000) == 0)
+                return 0x80004005;
+            if (kind == 0x3e)
+                out[out->index].flags |= 0x80;
+        }
+        if (kind == 0x3d || kind <= 0xf) {
+            if ((e->flags & 0x400) == 0)
+                return 0x80004005;
+        }
+    } else {
+        if (inst->bits.bit14)
+            return 0x80004005;
+        if (inst->bits.bit6)
+            return 0x80004005;
+        if (inst->bits.field8 > ctx->limit || inst->bits.kind > ctx->limit)
+            return 0x80004005;
+    }
+    return 0;
+}

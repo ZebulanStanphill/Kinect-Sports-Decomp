@@ -1,116 +1,80 @@
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-extern int fn_82F6A538();
-extern int fn_82F6A584();
-extern unsigned int lbl_831D1098;
-extern unsigned int lbl_831D109C;
-extern unsigned int lbl_831D10A0;
-extern unsigned int lbl_831D10A4;
-extern unsigned int lbl_831D10A8;
-extern unsigned int lbl_831D10AC;
-extern unsigned int lbl_831D10B0;
-extern unsigned int lbl_831D10B4;
-extern unsigned int lbl_831D10B8;
-extern unsigned int lbl_831D10BC;
-extern unsigned int lbl_831D10C0;
-extern unsigned int lbl_831D10C4;
-extern unsigned int lbl_831D10C8;
-extern unsigned int lbl_831D10CC;
-extern unsigned int lbl_831D10D0;
-extern unsigned int lbl_831D10D4;
-extern unsigned int lbl_831D10D8;
-extern unsigned int lbl_831D10DC;
-extern unsigned int lbl_831D10E0;
-extern unsigned int lbl_831D10E4;
-extern unsigned int lbl_831D10E8;
-extern unsigned int lbl_831D10EC;
-extern unsigned int lbl_831D10F0;
-extern unsigned int lbl_831D10F4;
-extern unsigned int lbl_831D10F8;
-extern unsigned int lbl_831D10FC;
-extern unsigned int lbl_831D1100;
-extern unsigned int lbl_831D1104;
+typedef struct Vec2_82272BA0 {
+    float x;
+    float y;
+} Vec2_82272BA0;
 
+typedef struct Settings_82272BA0 {
+    float value00;        /* 0x00 */
+    float value04;        /* 0x04 */
+    Vec2_82272BA0 pair08; /* 0x08 */
+    float value10;        /* 0x10 */
+    float value14;        /* 0x14 */
+    float value18;        /* 0x18 */
+    float value1c;        /* 0x1c */
+    Vec2_82272BA0 pair20; /* 0x20 */
+    float value28;        /* 0x28 */
+    float value2c;        /* 0x2c */
+    float value30;        /* 0x30 */
+    float value34;        /* 0x34 */
+    Vec2_82272BA0 pair38; /* 0x38 */
+    float value40;        /* 0x40 */
+    float value44;        /* 0x44 */
+    float value48;        /* 0x48 */
+    float value4c;        /* 0x4c */
+    float value50;        /* 0x50 */
+    float value54;        /* 0x54 */
+    float value58;        /* 0x58 */
+    float value5c;        /* 0x5c */
+    float value60;        /* 0x60 */
+    float value64;        /* 0x64 */
+    float value68;        /* 0x68 */
+    float value6c;        /* 0x6c */
+} Settings_82272BA0;
 
-void fn_82272BA0(void)
+typedef struct Tuning_82272BA0 {
+    char pad0[0x118];
+    Settings_82272BA0 settings; /* 0x118 */
+    char pad188[0x50];
+} Tuning_82272BA0;
 
+extern Tuning_82272BA0 lbl_831D0F80;
+
+static __forceinline Vec2_82272BA0 MakeVec2(float x, float y)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned int uVar8;
-  unsigned int uVar9;
-  unsigned int uVar10;
-  unsigned int uVar11;
-  unsigned int uVar12;
-  unsigned int uVar13;
-  unsigned int uVar14;
-  unsigned int uVar15;
-  unsigned int uVar16;
-  unsigned int uVar17;
-  unsigned int uVar18;
-  unsigned int uVar19;
-  unsigned int uVar20;
-  unsigned int uVar21;
-  unsigned int uVar22;
-  unsigned int uVar23;
-  unsigned int uVar24;
-  unsigned int *puVar25;
-  
-  puVar25 = (unsigned int *)fn_82F6A538();
-  uVar23 = lbl_831D1100;
-  uVar22 = lbl_831D10FC;
-  uVar21 = lbl_831D10F8;
-  uVar20 = lbl_831D10F4;
-  uVar19 = lbl_831D10F0;
-  uVar18 = lbl_831D10EC;
-  uVar17 = lbl_831D10E8;
-  uVar16 = lbl_831D10E4;
-  uVar15 = lbl_831D10E0;
-  uVar14 = lbl_831D10DC;
-  uVar13 = lbl_831D10D8;
-  uVar12 = lbl_831D10CC;
-  uVar11 = lbl_831D10C8;
-  uVar10 = lbl_831D10C4;
-  uVar9 = lbl_831D10C0;
-  uVar8 = lbl_831D10B4;
-  uVar7 = lbl_831D10B0;
-  uVar6 = lbl_831D10AC;
-  uVar5 = lbl_831D10A8;
-  uVar4 = lbl_831D109C;
-  uVar3 = lbl_831D1098;
-  uVar1 = CONCAT44(lbl_831D10B8,lbl_831D10BC);
-  uVar2 = CONCAT44(lbl_831D10D0,lbl_831D10D4);
-  *(unsigned __int64 *)(puVar25 + 2) = CONCAT44(lbl_831D10A0,lbl_831D10A4);
-  uVar24 = lbl_831D1104;
-  *puVar25 = uVar3;
-  *(unsigned __int64 *)(puVar25 + 8) = uVar1;
-  puVar25[1] = uVar4;
-  puVar25[4] = uVar5;
-  *(unsigned __int64 *)(puVar25 + 0xe) = uVar2;
-  puVar25[5] = uVar6;
-  puVar25[6] = uVar7;
-  puVar25[7] = uVar8;
-  puVar25[10] = uVar9;
-  puVar25[0xb] = uVar10;
-  puVar25[0xc] = uVar11;
-  puVar25[0xd] = uVar12;
-  puVar25[0x10] = uVar13;
-  puVar25[0x11] = uVar14;
-  puVar25[0x12] = uVar15;
-  puVar25[0x13] = uVar16;
-  puVar25[0x14] = uVar17;
-  puVar25[0x15] = uVar18;
-  puVar25[0x16] = uVar19;
-  puVar25[0x17] = uVar20;
-  puVar25[0x18] = uVar21;
-  puVar25[0x19] = uVar22;
-  puVar25[0x1a] = uVar23;
-  puVar25[0x1b] = uVar24;
-  fn_82F6A584();
-  return;
+    Vec2_82272BA0 v;
+    v.x = x;
+    v.y = y;
+    return v;
 }
 
+Settings_82272BA0 fn_82272BA0(void)
+{
+    Settings_82272BA0 s;
+
+    s.value00 = lbl_831D0F80.settings.value00;
+    s.value04 = lbl_831D0F80.settings.value04;
+    s.pair08 = MakeVec2(lbl_831D0F80.settings.pair08.x, lbl_831D0F80.settings.pair08.y);
+    s.value10 = lbl_831D0F80.settings.value10;
+    s.value14 = lbl_831D0F80.settings.value14;
+    s.value18 = lbl_831D0F80.settings.value18;
+    s.value1c = lbl_831D0F80.settings.value1c;
+    s.pair20 = MakeVec2(lbl_831D0F80.settings.pair20.x, lbl_831D0F80.settings.pair20.y);
+    s.value28 = lbl_831D0F80.settings.value28;
+    s.value2c = lbl_831D0F80.settings.value2c;
+    s.value30 = lbl_831D0F80.settings.value30;
+    s.value34 = lbl_831D0F80.settings.value34;
+    s.pair38 = MakeVec2(lbl_831D0F80.settings.pair38.x, lbl_831D0F80.settings.pair38.y);
+    s.value40 = lbl_831D0F80.settings.value40;
+    s.value44 = lbl_831D0F80.settings.value44;
+    s.value48 = lbl_831D0F80.settings.value48;
+    s.value4c = lbl_831D0F80.settings.value4c;
+    s.value50 = lbl_831D0F80.settings.value50;
+    s.value54 = lbl_831D0F80.settings.value54;
+    s.value58 = lbl_831D0F80.settings.value58;
+    s.value5c = lbl_831D0F80.settings.value5c;
+    s.value60 = lbl_831D0F80.settings.value60;
+    s.value64 = lbl_831D0F80.settings.value64;
+    s.value68 = lbl_831D0F80.settings.value68;
+    s.value6c = lbl_831D0F80.settings.value6c;
+    return s;
+}

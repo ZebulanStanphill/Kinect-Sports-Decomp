@@ -1,28 +1,70 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern unsigned int stack0x00000000;
-extern V16 loadVectorLeftIndexed128();
-extern V16 vectorRotateLeftImmediateMaskInsert128();
-extern void *memcpy(void *, const void *, unsigned int);
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __lvlx(const void *base, int offset);
+__vector4 __vrlimi(__vector4 a, __vector4 b, int mask, int rotate);
 
-void fn_825B3240(void)
+typedef struct Camera_825B3240 {
+    char pad0[0x64];
+    float nearPlane; /* 0x64 */
+    float farPlane;  /* 0x68 */
+} Camera_825B3240;
 
+typedef struct View_825B3240 {
+    char pad0[0x250];
+    Camera_825B3240 *camera; /* 0x250 */
+} View_825B3240;
+
+typedef struct Fog_825B3240 {
+    char pad0[0x1bc];
+    float nearStart; /* 0x1bc */
+    float nearEnd;   /* 0x1c0 */
+    float farStart;  /* 0x1c4 */
+    float farEnd;    /* 0x1c8 */
+} Fog_825B3240;
+
+extern View_825B3240 lbl_83296890;
+extern Fog_825B3240 lbl_8326C070;
+
+static __forceinline float Max(float a, float b)
 {
-  unsigned __int64 in_r0;
-  unsigned __int64 uVar1;
-  unsigned char in_vr0 [16];
-  unsigned char auVar2 [16];
-  unsigned char in_vr1 [16];
-  unsigned char in_vr12 [16];
-  unsigned char in_vr13 [16];
-  
-  uVar1 = ZEXT48(&stack0x00000000);
-  loadVectorLeftIndexed128(in_r0,uVar1 - 0x10);
-  loadVectorLeftIndexed128(in_r0,uVar1 - 0x10);
-  loadVectorLeftIndexed128(in_r0,uVar1 - 0x10);{ V16 _vt0 = vectorRotateLeftImmediateMaskInsert128(in_vr0,in_vr12,4,3); memcpy(auVar2, &_vt0, 16); }
-  loadVectorLeftIndexed128(in_r0,uVar1 - 0x10);{ V16 _vt1 = vectorRotateLeftImmediateMaskInsert128(in_vr13,auVar2,4,3); memcpy(auVar2, &_vt1, 16); }
-  vectorRotateLeftImmediateMaskInsert128(in_vr1,auVar2,3,2);
-  return;
+    return a - b >= 0.0f ? a : b;
 }
 
+static __forceinline float Min(float a, float b)
+{
+    return b - a >= 0.0f ? a : b;
+}
+
+/* Maps a view distance to the projected depth of the camera's planes. */
+static __forceinline float ProjectDepth(float z, float nearPlane, float farPlane)
+{
+    return (1.0f - farPlane / Max(z, nearPlane)) * (nearPlane / (nearPlane - farPlane));
+}
+
+__vector4 fn_825B3240(void)
+{
+    Camera_825B3240 *camera = lbl_83296890.camera;
+    float nearPlane = camera->nearPlane;
+    float farPlane = camera->farPlane;
+    float nearEnd = ProjectDepth(lbl_8326C070.nearEnd, nearPlane, farPlane);
+    float nearStart = ProjectDepth(lbl_8326C070.nearStart, nearPlane, farPlane);
+    float farEnd = ProjectDepth(lbl_8326C070.farEnd, nearPlane, farPlane);
+    float farStart = ProjectDepth(lbl_8326C070.farStart, nearPlane, farPlane);
+    float nearRange = nearEnd - nearStart;
+    float farRange = farEnd - farStart;
+    float nearScale = 1.0f / Min(-1.0e-06f, nearRange);
+    float farScale = 1.0f / Min(-1.0e-06f, farRange);
+    float nearOffset = -(nearScale * nearStart);
+    float farOffset = -(farScale * farStart);
+    __vector4 result;
+    __vector4 farPart;
+
+    result = __lvlx(&nearScale, 0);
+    result = __vrlimi(result, __lvlx(&nearOffset, 0), 4, 3);
+    farPart = __lvlx(&farScale, 0);
+    farPart = __vrlimi(farPart, __lvlx(&farOffset, 0), 4, 3);
+    result = __vrlimi(result, farPart, 3, 2);
+    return result;
+}

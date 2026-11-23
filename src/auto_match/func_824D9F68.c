@@ -1,69 +1,55 @@
-#define NAN(x) ((x) != (x))
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
+
+typedef struct Tuning_824D9F68 {
+    char pad0[0x14];
+    int unclamped; /* 0x14 */
+    char pad18[0xa0 - 0x18];
+    float targets[3];  /* 0xa0 */
+    float deadZone;    /* 0xac */
+    float rangeEnd;    /* 0xb0 */
+    float outputStart; /* 0xb4 */
+    float outputEnd;   /* 0xb8 */
+} Tuning_824D9F68;
+
+extern Tuning_824D9F68 lbl_831C3E30;
+
 extern double sqrt(double);
-#define SQRT(x) sqrt(x)
-extern float fRam831c3edc;
-extern float fRam831c3ee0;
-extern float fRam831c3ee4;
-extern float fRam831c3ee8;
-extern unsigned int fStack_30;
-extern int fn_824DA438();
-extern int fn_82539560();
-extern int iRam831c3e44;
-extern unsigned int lbl_821954D8;
-extern unsigned int ltcg_pool_0_0f;
+extern double fabs(double);
+extern void fn_824DA438(float a, float b, __vector4 from, __vector4 to, __vector4 up, float *scale,
+                        float *outY, float *outX);
+extern float fn_82539560(float x, float inMin, float inMax, float outMin, float outMax);
 
-
-void fn_824D9F68(unsigned __int64 param_1,unsigned __int64 param_2,int param_3,unsigned __int64 param_4,
-                  float *param_5,float *param_6,float *param_7)
-
+void fn_824D9F68(float a, float b, int index, float *scale, __vector4 from, __vector4 to, __vector4 up,
+                 float *outRatio, float *outDistance, float *outLimited)
 {
-  float fVar1;
-  int iVar2;
-  double dVar3;
-  double dVar4;
-  double dVar5;
-  double dVar6;
-  double dVar7;
-  float fStack_30;
-  float afStack_2c [11];
-  
-  fn_824DA438(param_1,param_2,param_4,afStack_2c,&fStack_30);
-  iVar2 = iRam831c3e44;
-  dVar5 = (double)fStack_30;
-  dVar4 = (double)fRam831c3edc;
-  fVar1 = SQRT(afStack_2c[0] * afStack_2c[0] + (float)(dVar5 * dVar5));
-  dVar7 = (double)fVar1;
-  dVar6 = (double)ltcg_pool_0_0f;
-  dVar3 = (double)(float)((double)*(float *)(param_3 * 4 + -0x7ce3c130) - dVar7);
-  if (ABS(dVar3) <= dVar4) {
-    *param_6 = fVar1;
-    if (iVar2 == 0) {
-      dVar3 = -(double)(float)(dVar6 + dVar7);
-      if (*(float *)(&lbl_821954D8 +
-                    ((unsigned int)(unsigned char)((dVar3 < dVar6) << 2) | (unsigned int)(NAN(dVar3) || NAN(dVar6)) << 2)) <
-          0.0) {
-        dVar6 = (double)(float)(dVar6 + dVar7);
-      }
-      *param_7 = (float)dVar6;
-    }
-    else {
-      *param_7 = fVar1;
-    }
-    *param_5 = (float)(dVar5 / dVar7);
-    return;
-  }
-  if (dVar3 <= dVar6) {
-    dVar6 = -dVar4;
-    dVar7 = -(double)fRam831c3ee4;
-    dVar5 = -(double)fRam831c3ee8;
-    dVar4 = -(double)fRam831c3ee0;
-  }
-  else {
-    dVar7 = (double)fRam831c3ee8;
-    dVar5 = (double)fRam831c3ee4;
-    dVar6 = (double)fRam831c3ee0;
-  }
-                    /* WARNING: Subroutine does not return */
-  fn_82539560(dVar3,dVar4,dVar6,dVar5,dVar7);
-}
+    float x;
+    float y;
+    float distance;
+    float error;
+    float correction;
+    float total;
 
+    fn_824DA438(a, b, from, to, up, scale, &y, &x);
+    distance = (float)sqrt(x * x + y * y);
+    error = lbl_831C3E30.targets[index] - distance;
+    if (fabs(error) <= lbl_831C3E30.deadZone) {
+        correction = 0.0f;
+    } else if (error > 0.0f) {
+        correction = fn_82539560(error, lbl_831C3E30.deadZone, lbl_831C3E30.rangeEnd,
+                                 lbl_831C3E30.outputStart, lbl_831C3E30.outputEnd);
+    } else {
+        correction = fn_82539560(error, -lbl_831C3E30.rangeEnd, -lbl_831C3E30.deadZone,
+                                 -lbl_831C3E30.outputEnd, -lbl_831C3E30.outputStart);
+    }
+    if (lbl_831C3E30.unclamped != 0) {
+        *outDistance = distance;
+        *outLimited = distance;
+    } else {
+        *outDistance = distance;
+        total = correction + distance;
+        *outLimited = -total >= 0.0f ? 0.0f : total;
+    }
+    *outRatio = x / distance;
+}

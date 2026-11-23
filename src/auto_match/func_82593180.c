@@ -1,48 +1,55 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern V16 loadVectorLeftIndexed128();
-extern V16 vectorRotateLeftImmediateMaskInsert128();
-extern void *memcpy(void *, const void *, unsigned int);
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __lvlx(const void *base, int offset);
+__vector4 __vrlimi(__vector4 a, __vector4 b, int mask, int rotate);
+void __VMXSetReg(int n, __vector4 value);
 
-void fn_82593180(void)
+typedef union Mask_82593180 {
+    unsigned int u[4];
+    __vector4 v;
+} Mask_82593180;
 
+static __forceinline __vector4 VectorSet(float x, float y, float z, float w)
 {
-  unsigned __int64 in_r0;
-  unsigned char in_vr0 [16];
-  unsigned char in_vr5 [16];
-  unsigned char in_vr6 [16];
-  unsigned char auVar1 [16];
-  unsigned char in_vr7 [16];
-  unsigned char auVar2 [16];
-  unsigned char in_vr8 [16];
-  unsigned char auVar3 [16];
-  unsigned char in_vr9 [16];
-  unsigned char in_vr10 [16];
-  unsigned char auVar4 [16];
-  unsigned char in_vr11 [16];
-  unsigned char in_vr12 [16];
-  unsigned char auVar5 [16];
-  unsigned char auVar6 [16];
-  unsigned char in_vr13 [16];
-  unsigned char auVar7 [16];
-  
-  loadVectorLeftIndexed128(in_r0,0xffffffff821cc160);
-  loadVectorLeftIndexed128(0xffffffff821ca45c,4);
-  loadVectorLeftIndexed128(0xffffffff82192730,4);{ V16 _vt0 = vectorRotateLeftImmediateMaskInsert128(in_vr13,in_vr0,4,3); memcpy(auVar7, &_vt0, 16); }{ V16 _vt1 = vectorRotateLeftImmediateMaskInsert128(in_vr12,in_vr11,4,3); memcpy(auVar5, &_vt1, 16); }{ V16 _vt2 = vectorRotateLeftImmediateMaskInsert128(in_vr7,in_vr0,4,3); memcpy(auVar2, &_vt2, 16); }{ V16 _vt3 = vectorRotateLeftImmediateMaskInsert128(in_vr8,in_vr0,4,3); memcpy(auVar3, &_vt3, 16); }{ V16 _vt4 = vectorRotateLeftImmediateMaskInsert128(in_vr6,in_vr9,4,3); memcpy(auVar1, &_vt4, 16); }
-  loadVectorLeftIndexed128(0xffffffff82191558,0x5c);
-  vectorRotateLeftImmediateMaskInsert128(auVar7,auVar7,3,2);
-  vectorRotateLeftImmediateMaskInsert128(auVar3,auVar7,3,2);
-  vectorRotateLeftImmediateMaskInsert128(auVar5,auVar7,3,2);
-  vectorRotateLeftImmediateMaskInsert128(auVar2,auVar7,3,2);
-  vectorRotateLeftImmediateMaskInsert128(auVar1,auVar7,3,2);
-  loadVectorLeftIndexed128(0xffffffff82193c20,0xa0);{ V16 _vt5 = vectorRotateLeftImmediateMaskInsert128(in_vr10,in_vr11,4,3); memcpy(auVar4, &_vt5, 16); }
-  vectorRotateLeftImmediateMaskInsert128(auVar7,auVar5,3,2);{ V16 _vt6 = vectorRotateLeftImmediateMaskInsert128(auVar5,in_vr0,4,3); memcpy(auVar6, &_vt6, 16); }{ V16 _vt7 = vectorRotateLeftImmediateMaskInsert128(in_vr5,in_vr9,4,3); memcpy(auVar1, &_vt7, 16); }{ V16 _vt8 = vectorRotateLeftImmediateMaskInsert128(in_vr11,auVar7,4,3); memcpy(auVar5, &_vt8, 16); }
-  vectorRotateLeftImmediateMaskInsert128(auVar4,auVar4,3,2);
-  vectorRotateLeftImmediateMaskInsert128(auVar7,auVar3,3,2);
-  vectorRotateLeftImmediateMaskInsert128(auVar1,auVar2,3,2);
-  vectorRotateLeftImmediateMaskInsert128(auVar7,auVar2,3,2);
-  vectorRotateLeftImmediateMaskInsert128(auVar6,auVar6,3,2);
-  vectorRotateLeftImmediateMaskInsert128(auVar5,auVar5,3,2);
-  return;
+    __vector4 vx, vy, vz, vw;
+
+    vx = __lvlx(&x, 0);
+    vy = __lvlx(&y, 0);
+    vz = __lvlx(&z, 0);
+    vw = __lvlx(&w, 0);
+    vx = __vrlimi(vx, vy, 4, 3);
+    vz = __vrlimi(vz, vw, 4, 3);
+    return __vrlimi(vx, vz, 3, 2);
 }
 
+static __forceinline __vector4 MaskSet(unsigned int x, unsigned int y, unsigned int z, unsigned int w)
+{
+    Mask_82593180 m;
+
+    m.u[0] = x;
+    m.u[1] = y;
+    m.u[2] = z;
+    m.u[3] = w;
+    return m.v;
+}
+
+/* Loads the constants that vector code reads from the reserved registers v64-v77. */
+void fn_82593180(void)
+{
+    __VMXSetReg(77, VectorSet(0.0f, 0.0f, 0.0f, 0.0f));
+    __VMXSetReg(76, VectorSet(0.0f, 0.0f, 0.0f, 1.0f));
+    __VMXSetReg(75, VectorSet(1.0f, 1.0f, 1.0f, 1.0f));
+    __VMXSetReg(74, VectorSet(-1.0f, -1.0f, -1.0f, 0.0f));
+    __VMXSetReg(73, VectorSet(1.0f, 0.0f, 0.0f, 0.0f));
+    __VMXSetReg(72, VectorSet(0.0f, 1.0f, 0.0f, 0.0f));
+    __VMXSetReg(71, VectorSet(0.0f, 0.0f, 1.0f, 0.0f));
+    __VMXSetReg(70, VectorSet(-1.0f, 0.0f, 0.0f, 0.0f));
+    __VMXSetReg(69, VectorSet(0.0f, -1.0f, 0.0f, 0.0f));
+    __VMXSetReg(68, VectorSet(0.0f, 0.0f, -1.0f, 0.0f));
+    __VMXSetReg(67, MaskSet(0, 0, 0, 0xffffffff));
+    __VMXSetReg(66, MaskSet(0xffffffff, 0xffffffff, 0, 0));
+    __VMXSetReg(65, VectorSet(-0.0f, -0.0f, -0.0f, -0.0f));
+    __VMXSetReg(64, VectorSet(0.001f, 0.001f, 0.001f, 0.001f));
+}

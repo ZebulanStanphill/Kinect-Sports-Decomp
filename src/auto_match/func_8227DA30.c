@@ -1,46 +1,39 @@
-#define NAN(x) ((x) != (x))
-extern int fn_82273C88();
-extern int fn_82273CD8();
-extern int fn_82672C20();
-extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+typedef struct Value_8227DA30 {
+    int type;      /* 0x0 */
+    int iface;     /* 0x4 */
+    double number; /* 0x8 */
+} Value_8227DA30;
 
+typedef struct Slider_8227DA30 {
+    char pad0[0x3c];
+    int movie; /* 0x3c */
+    char pad40[0x48 - 0x40];
+    float value; /* 0x48 */
+} Slider_8227DA30;
 
-void fn_8227DA30(double param_1,int param_2)
+extern void fn_82273CD8(Value_8227DA30 *value, int type);
+extern void fn_82273C88(Value_8227DA30 *value);
+extern void fn_82672C20(int movie, const char *method, Value_8227DA30 *args, int count);
 
+static __forceinline float Clamp01(float value)
 {
-  double dVar1;
-  double dVar2;
-  double dVar3;
-  unsigned int uStack_30;
-  unsigned int uStack_2c;
-  double dStack_28;
-  
-  dVar1 = (double)ltcg_pool_0_0f;
-  if (*(float *)(&lbl_821954D8 +
-                ((unsigned int)(unsigned char)((param_1 < dVar1) << 2) | (unsigned int)(NAN(param_1) || NAN(dVar1)) << 2)) <
-      0.0) {
-    param_1 = dVar1;
-  }
-  dVar2 = (double)(float)(param_1 - (double)lbl_821CA460);
-  dVar3 = (double)lbl_821CA460;
-  if (*(float *)(&lbl_821954D8 +
-                ((unsigned int)(unsigned char)((dVar2 < dVar1) << 2) | (unsigned int)(NAN(dVar2) || NAN(dVar1)) << 2)) < 0.0)
-  {
-    dVar3 = param_1;
-  }
-  if (dVar3 != (double)*(float *)(param_2 + 0x48)) {
-    *(float *)(param_2 + 0x48) = (float)dVar3;
-    uStack_30 = 0;
-    uStack_2c = 0;
-    fn_82273CD8(&uStack_30,3);
-    dStack_28 = dVar3;
-    fn_82672C20(*(unsigned int *)(param_2 + 0x3c),0xffffffff821a8744,&uStack_30,1);
-    fn_82273C88(&uStack_30);
-  }
-  return;
+    value = value >= 0.0f ? value : 0.0f;
+    return value - 1.0f >= 0.0f ? 1.0f : value;
 }
 
+/* Sets the slider value (clamped to [0, 1]) and passes a change on to the movie. */
+void fn_8227DA30(Slider_8227DA30 *self, float value)
+{
+    Value_8227DA30 arg;
+
+    value = Clamp01(value);
+    if (value != self->value) {
+        self->value = value;
+        arg.type = 0;
+        arg.iface = 0;
+        fn_82273CD8(&arg, 3);
+        arg.number = value;
+        fn_82672C20(self->movie, "_root.mainCtrl.setValue", &arg, 1);
+        fn_82273C88(&arg);
+    }
+}

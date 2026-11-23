@@ -1,62 +1,43 @@
-extern unsigned int lbl_8218E8E8;
-extern unsigned int lbl_8218E8FC;
-extern unsigned int lbl_82191FCC;
-extern unsigned int lbl_82192F70;
-extern unsigned int lbl_821954CC;
-extern unsigned int lbl_82195508;
-extern unsigned int lbl_8219550C;
-extern unsigned int lbl_82195510;
-extern unsigned int lbl_82195514;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Settings_825B1F70 {
+    int initialised; /* 0x0 */
+    float f4;        /* 0x4 */
+    float f8;        /* 0x8 */
+    float fC;        /* 0xc */
+    float f10;       /* 0x10 */
+    float f14;       /* 0x14 */
+    char pad18[0x30 - 0x18];
+    float f30; /* 0x30 */
+    float f34; /* 0x34 */
+    char pad38[0x3c - 0x38];
+    int locked; /* 0x3c */
+    char pad40[0x5c - 0x40];
+    int f5C;   /* 0x5c */
+    float f60; /* 0x60 */
+    float f64; /* 0x64 */
+    float f68; /* 0x68 */
+    float f6C; /* 0x6c */
+    float f70; /* 0x70 */
+    float f74; /* 0x74 */
+} Settings_825B1F70;
 
-
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
-
-void fn_825B1F70(unsigned int *param_1)
-
+void fn_825B1F70(Settings_825B1F70 *self)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned int uVar8;
-  unsigned int uVar9;
-  unsigned int uVar10;
-  unsigned int uVar11;
-  
-  uVar10 = lbl_821CA460;
-  uVar6 = lbl_82195508;
-  uVar1 = lbl_8218E8E8;
-  if (param_1[0xf] != 0) {
-    return;
-  }
-  *param_1 = 1;
-  uVar11 = ltcg_pool_0_0f;
-  param_1[0x17] = 0;
-  uVar9 = lbl_82195514;
-  uVar8 = lbl_82195510;
-  uVar7 = lbl_8219550C;
-  uVar5 = lbl_821954CC;
-  uVar4 = lbl_82192F70;
-  uVar3 = lbl_82191FCC;
-  uVar2 = lbl_8218E8FC;
-  param_1[3] = uVar10;
-  param_1[4] = uVar6;
-  param_1[1] = uVar1;
-  param_1[2] = uVar7;
-  param_1[5] = uVar3;
-  param_1[0xc] = uVar11;
-  param_1[0xd] = uVar11;
-  param_1[0x18] = uVar8;
-  param_1[0x19] = uVar9;
-  param_1[0x1a] = uVar4;
-  param_1[0x1b] = uVar5;
-  param_1[0x1c] = uVar2;
-  param_1[0x1d] = uVar1;
-  return;
+    if (self->locked != 0) {
+        return;
+    }
+    self->initialised = 1;
+    self->f5C = 0;
+    self->fC = 1.0f;
+    self->f10 = 400.0f;
+    self->f4 = 0.5f;
+    self->f8 = 800.0f;
+    self->f14 = 0.8f;
+    self->f30 = 0.0f;
+    self->f34 = 0.0f;
+    self->f60 = 350.0f;
+    self->f64 = 700.0f;
+    self->f68 = 8.0f;
+    self->f6C = 32.0f;
+    self->f70 = 4.0f;
+    self->f74 = 0.5f;
 }
-

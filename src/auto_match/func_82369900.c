@@ -1,63 +1,60 @@
-#define NAN(x) ((x) != (x))
-extern unsigned int fStack00000024;
-extern int fn_824FE498();
-extern unsigned int lbl_821954D8;
-extern unsigned int ltcg_pool_0_0f;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __VMXGetReg(int n);
 
-unsigned __int64 fn_82369900(int param_1,int param_2)
+typedef struct Body_82369900 {
+    char pad0[0xa0];
+    float width; /* 0xa0 */
+    char padA4[0xa8 - 0xa4];
+    float depth; /* 0xa8 */
+    char padAC[0x280 - 0xac];
+    float heightFactor; /* 0x280 */
+    char pad284[0x8bc - 0x284];
+    float scale; /* 0x8bc */
+    char pad8C0[0xbd0 - 0x8c0];
+    __vector4 velocity; /* 0xbd0 */
+    char padBE0[0xc30 - 0xbe0];
+    __vector4 acceleration; /* 0xc30 */
+} Body_82369900;
 
+typedef struct Floor_82369900 {
+    int unk0;
+    float height; /* 0x4 */
+} Floor_82369900;
+
+typedef struct Level_82369900 {
+    int unk0;
+    Floor_82369900 *floor; /* 0x4 */
+} Level_82369900;
+
+typedef struct Self_82369900 {
+    char pad0[0x1c];
+    Level_82369900 *level; /* 0x1c */
+} Self_82369900;
+
+extern void fn_824FE498(Body_82369900 *body, __vector4 position);
+
+static __forceinline float Max(float a, float b)
 {
-  float fVar1;
-  float fVar2;
-  unsigned int *puVar3;
-  float fVar4;
-  unsigned __int64 uVar5;
-  float in_register_00010014;
-  unsigned int in_register_00010020;
-  unsigned int in_register_00010024;
-  unsigned int in_register_00010028;
-  unsigned int in_vr2;
-  unsigned int in_register_000104d0;
-  unsigned int in_register_000104d4;
-  unsigned int in_register_000104d8;
-  unsigned int in_vr77;
-  float fStack00000024;
-  
-  if (param_2 == 0) {
-    uVar5 = 0;
-  }
-  else {
-    fVar1 = *(float *)(param_2 + 0xa8) * *(float *)(param_2 + 0x8bc);
-    fVar2 = *(float *)(param_2 + 0xa0) * *(float *)(param_2 + 0x8bc);
-    fVar4 = fVar2 - fVar1;
-    if (*(float *)(&lbl_821954D8 +
-                  ((unsigned int)(unsigned char)((fVar4 < ltcg_pool_0_0f) << 2) |
-                  (unsigned int)(NAN(fVar4) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
-      fVar2 = fVar1;
-    }
-    fVar1 = fVar2 * *(float *)(param_2 + 0x280) +
-            *(float *)(*(int *)(*(int *)(param_1 + 0x1c) + 4) + 4);
-    fVar2 = in_register_00010014 - fVar1;
-    fStack00000024 = in_register_00010014;
-    if (*(float *)(&lbl_821954D8 +
-                  ((unsigned int)(unsigned char)((fVar2 < ltcg_pool_0_0f) << 2) |
-                  (unsigned int)(NAN(fVar2) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
-      fStack00000024 = fVar1;
-    }
-    fn_824FE498(param_2);
-    uVar5 = 1;
-    puVar3 = (unsigned int *)(param_2 + 0xbd0U & 0xfffffff0);
-    *puVar3 = in_register_00010020;
-    puVar3[1] = in_register_00010024;
-    puVar3[2] = in_register_00010028;
-    puVar3[3] = in_vr2;
-    puVar3 = (unsigned int *)(param_2 + 0xc30U & 0xfffffff0);
-    *puVar3 = in_register_000104d0;
-    puVar3[1] = in_register_000104d4;
-    puVar3[2] = in_register_000104d8;
-    puVar3[3] = in_vr77;
-  }
-  return uVar5;
+    return a - b >= 0.0f ? a : b;
 }
 
+/* Places the body at position, not below the floor, with the given velocity and no acceleration. */
+int fn_82369900(Self_82369900 *self, Body_82369900 *body, __vector4 position, __vector4 velocity)
+{
+    float radius;
+    float bottom;
+
+    if (body != 0) {
+        radius = Max(body->width * body->scale, body->depth * body->scale);
+        bottom = radius * body->heightFactor + self->level->floor->height;
+        position.vector4_f32[1] = Max(position.vector4_f32[1], bottom);
+        fn_824FE498(body, position);
+        body->velocity = velocity;
+        body->acceleration = __VMXGetReg(77);
+        return 1;
+    }
+    return 0;
+}

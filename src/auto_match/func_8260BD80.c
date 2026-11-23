@@ -1,66 +1,77 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern unsigned int lbl_82193CC0;
-extern unsigned int lbl_82195634;
+typedef struct Point_8260BD80 {
+    float x;
+    float y;
+} Point_8260BD80;
 
+typedef struct Frame_8260BD80 {
+    char pad0[0xc];
+    unsigned unsigned int id; /* 0x0c */
+    Point_8260BD80 points[2]; /* 0x10 */
+    float values[2];          /* 0x20 */
+} Frame_8260BD80;
 
-bool fn_8260BD80(__int64 param_1)
+typedef struct History_8260BD80 {
+    int current;              /* 0x00 */
+    Frame_8260BD80 frames[2]; /* 0x04 */
+} History_8260BD80;
 
+static __forceinline int Wrap(int index, int count)
 {
-  float fVar1;
-  float fVar2;
-  int iVar3;
-  int iVar4;
-  float *pfVar5;
-  int iVar6;
-  bool bVar7;
-  unsigned int uVar8;
-  __int64 lVar9;
-  __int64 lVar10;
-  unsigned __int64 uVar11;
-  
-  lVar10 = (unsigned __int64)*(unsigned int *)param_1 * 0x28 + param_1;
-  uVar11 = (unsigned __int64)*(unsigned int *)param_1 - 1;
-  iVar4 = (int)lVar10 + 4;
-  if ((__int64)uVar11 < 0) {
-    uVar11 = ((((-uVar11 - 1 & 0xffffffff) >> 1) + 1) * 2 & 0xfffffffe) + uVar11;
-  }
-  if (1 < (int)uVar11) {
-    uVar11 = uVar11 - (uVar11 & 0xfffffffe);
-  }
-  param_1 = uVar11 * 0x28 + param_1;
-  iVar6 = (int)param_1;
-  iVar3 = iVar6 + 4;
-  if (*(int *)((int)lVar10 + 0x10) == *(int *)(iVar6 + 0x10)) {
-    uVar8 = 0;
-    lVar9 = lVar10 + 0x24;
-    do {
-      fVar2 = *(float *)((iVar3 - iVar4) + (int)(float *)lVar9);
-      fVar1 = *(float *)lVar9;
-      if ((fVar1 < fVar2 - lbl_82193CC0) || (fVar2 + lbl_82193CC0 < fVar1)) goto LAB_8260bdd8;
-      uVar8 = uVar8 + 1;
-      lVar9 = lVar9 + 4;
-    } while (uVar8 < 2);
-    param_1 = param_1 + 0x18;
-    lVar10 = lVar10 + 0x14;
-    uVar8 = 0;
-    do {
-      pfVar5 = (float *)param_1;
-      fVar1 = *(float *)lVar10 - pfVar5[-1];
-      if ((((fVar1 < lbl_82195634) || (lbl_82193CC0 < fVar1)) ||
-          (fVar1 = *(float *)((iVar4 - iVar3) + (int)pfVar5) - *pfVar5, fVar1 < lbl_82195634)) ||
-         (lbl_82193CC0 < fVar1)) goto LAB_8260bdd8;
-      uVar8 = uVar8 + 1;
-      param_1 = param_1 + 8;
-      lVar10 = lVar10 + 8;
-    } while (uVar8 < 2);
-    bVar7 = true;
-  }
-  else {
-LAB_8260bdd8:
-    bVar7 = false;
-  }
-  return !bVar7;
+    while (index < 0) {
+        index += count;
+    }
+    while (index >= count) {
+        index -= count;
+    }
+    return index;
 }
 
+static __forceinline int PointNear(const Point_8260BD80 *a, const Point_8260BD80 *b)
+{
+    float d;
+
+    d = a->x - b->x;
+    if (d < -0.001f || d > 0.001f) {
+        return 0;
+    }
+    d = a->y - b->y;
+    if (d < -0.001f || d > 0.001f) {
+        return 0;
+    }
+    return 1;
+}
+
+static __forceinline int ValueNear(float a, float b)
+{
+    return a >= b - 0.001f && a <= b + 0.001f;
+}
+
+static __forceinline int IsSame(const Frame_8260BD80 *a, const Frame_8260BD80 *b)
+{
+    unsigned int i;
+
+    if (a->id != b->id) {
+        return 0;
+    }
+    for (i = 0; i < 2; i++) {
+        if (!ValueNear(a->values[i], b->values[i])) {
+            return 0;
+        }
+    }
+    for (i = 0; i < 2; i++) {
+        if (!PointNear(&a->points[i], &b->points[i])) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int fn_8260BD80(History_8260BD80 *self)
+{
+    Frame_8260BD80 *current;
+    Frame_8260BD80 *previous;
+
+    current = &self->frames[self->current];
+    previous = &self->frames[Wrap(self->current - 1, 2)];
+    return !IsSame(current, previous);
+}

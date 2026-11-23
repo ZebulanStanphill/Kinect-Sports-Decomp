@@ -1,48 +1,44 @@
-extern int fn_82F68CC0();
-extern unsigned int lbl_82192734;
-extern unsigned int ltcg_pool_0_0f;
+#include <string.h>
 
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
-void fn_822BCAB0(int param_1,__int64 param_2,float *param_3)
+typedef struct Frame_822BCAB0 {
+    __vector4 axes[2]; /* 0x00 */
+    float scale[3];    /* 0x20 */
+    float pad2C;       /* 0x2C */
+} Frame_822BCAB0;
 
+typedef struct Slot_822BCAB0 {
+    char pad0[0x440];
+    Frame_822BCAB0 frame; /* 0x440 */
+    char pad470[0x1c10 - 0x470];
+} Slot_822BCAB0;
+
+typedef struct Self_822BCAB0 {
+    char pad0[0x24];
+    Slot_822BCAB0 *slots; /* 0x24 */
+    char pad28[0x228];
+    __vector4 rest; /* 0x250 */
+} Self_822BCAB0;
+
+void fn_822BCAB0(Self_822BCAB0 *self, int index, Frame_822BCAB0 *out)
 {
-  unsigned int *puVar1;
-  float fVar2;
-  int in_r0;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  
-  fVar2 = ltcg_pool_0_0f;
-  if ((unsigned __int64)*(unsigned int *)(param_1 + 0x24) == 0) {
-    puVar1 = (unsigned int *)(param_1 + 0x250U & 0xfffffff0);
-    uVar3 = *puVar1;
-    uVar4 = puVar1[1];
-    uVar5 = puVar1[2];
-    uVar6 = puVar1[3];
-    param_3[9] = ltcg_pool_0_0f;
-    param_3[10] = fVar2;
-    param_3[8] = fVar2;
-    puVar1 = (unsigned int *)(in_r0 + (int)param_3 & 0xfffffff0);
-    *puVar1 = uVar3;
-    puVar1[1] = uVar4;
-    puVar1[2] = uVar5;
-    puVar1[3] = uVar6;
-    puVar1 = (unsigned int *)((unsigned int)(param_3 + 4) & 0xfffffff0);
-    *puVar1 = uVar3;
-    puVar1[1] = uVar4;
-    puVar1[2] = uVar5;
-    puVar1[3] = uVar6;
-  }
-  else {
-    fn_82F68CC0(param_3,param_2 * 0x1c10 + (unsigned __int64)*(unsigned int *)(param_1 + 0x24) + 0x440,0x30);
-    fVar2 = lbl_82192734;
-    *param_3 = *param_3 * lbl_82192734;
-    param_3[2] = param_3[2] * fVar2;
-    param_3[4] = param_3[4] * fVar2;
-    param_3[6] = param_3[6] * fVar2;
-  }
-  return;
-}
+    __vector4 rest;
 
+    if (self->slots != 0) {
+        memcpy(out, &self->slots[index].frame, sizeof(Frame_822BCAB0));
+        out->axes[0].vector4_f32[0] *= -1.0f;
+        out->axes[0].vector4_f32[2] *= -1.0f;
+        out->axes[1].vector4_f32[0] *= -1.0f;
+        out->axes[1].vector4_f32[2] *= -1.0f;
+    } else {
+        rest = self->rest;
+        out->scale[1] = 0.0f;
+        out->scale[2] = 0.0f;
+        out->scale[0] = 0.0f;
+        out->axes[0] = rest;
+        out->axes[1] = rest;
+    }
+}

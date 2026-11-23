@@ -1,70 +1,81 @@
-extern unsigned int lbl_831BB388;
-extern unsigned int lbl_831BB390;
-extern unsigned int lbl_831BB398;
-extern unsigned int lbl_831BB3A8;
-extern unsigned int lbl_831BB3B8;
-extern unsigned int lbl_831BB3C0;
-extern unsigned int lbl_831BB3C8;
-extern unsigned int lbl_831BB3D0;
-extern unsigned int lbl_831BB3D8;
-extern unsigned int lbl_831BB3E0;
-extern unsigned int lbl_831BB3E8;
-extern unsigned int lbl_831BB3F0;
-extern unsigned int lbl_831BB428;
-extern unsigned int lbl_831BB430;
+// Two-argument arctangent: divides the smaller magnitude by the larger, reuses the arctangent's
+// pi/6 rotation and rational approximation, then moves the result into the quadrant of (x, y).
+typedef struct AtanTable_82F65018 {
+    double epsilon;        /* 0x00 */
+    double halfPi;         /* 0x08 */
+    double pi;             /* 0x10 */
+    double tanPi12;        /* 0x18 */
+    double sqrt3Minus1;    /* 0x20 */
+    double sqrt3;          /* 0x28 */
+    double huge;           /* 0x30 */
+    double numerator[4];   /* 0x38 */
+    double denominator[4]; /* 0x58 */
+    double one;            /* 0x78 */
+    double offset[4];      /* 0x80: 0, pi/6, pi/2, pi/3 */
+    double minimum;        /* 0xA0 */
+    float zero;            /* 0xA8 */
+    float half;            /* 0xAC */
+    float onef;            /* 0xB0 */
+    float padB4[3];
+} AtanTable_82F65018;
 
+extern AtanTable_82F65018 lbl_831BB380;
 
-double fn_82F65018(double param_1,double param_2)
+double fabs(double x);
+extern double __fsel(double test, double positive, double negative);
 
+#define SIGN_BIT(d) (*(unsigned int *)&(d) & 0x80000000)
+
+double fn_82F65018(double y, double x)
 {
-  unsigned int uVar1;
-  double dVar2;
-  double dVar3;
-  double dVar4;
-  
-  if (param_2 == (double)lbl_831BB428) {
-    dVar3 = lbl_831BB388;
-    if (param_1 == (double)lbl_831BB428) {
-      if (((unsigned __int64)param_2 & 0x8000000000000000) == 0) {
-        return param_1;
-      }
-      if (((unsigned __int64)param_1 & 0x8000000000000000) == 0) {
-        return lbl_831BB390;
-      }
-      return -lbl_831BB390;
-    }
-  }
-  else {
-    dVar4 = ABS(param_2);
-    uVar1 = 0;
-    dVar2 = ABS(param_1);
-    dVar3 = dVar2;
-    if (dVar4 < dVar2) {
-      uVar1 = 2;
-      dVar3 = dVar4;
-      dVar4 = dVar2;
-    }
-    dVar3 = dVar3 / dVar4;
-    if (lbl_831BB398 < dVar3) {
-      uVar1 = uVar1 + 1;
-      dVar3 = (lbl_831BB3A8 * dVar3 - (double)lbl_831BB430) / (lbl_831BB3A8 + dVar3);
-    }
-    dVar4 = dVar3 * dVar3;
-    dVar3 = ((((lbl_831BB3D0 * dVar4 + lbl_831BB3C8) * dVar4 + lbl_831BB3C0) * dVar4 + lbl_831BB3B8)
-             * dVar4 * dVar3) /
-            ((((lbl_831BB3F0 + dVar4) * dVar4 + lbl_831BB3E8) * dVar4 + lbl_831BB3E0) * dVar4 +
-            lbl_831BB3D8) + dVar3;
-    if (1 < uVar1) {
-      dVar3 = -dVar3;
-    }
-    dVar3 = *(double *)(uVar1 * 8 + -0x7ce44c00) + dVar3;
-  }
-  if (param_2 < 0.0) {
-    dVar3 = lbl_831BB390 - dVar3;
-  }
-  if (((unsigned __int64)param_1 & 0x8000000000000000) != 0) {
-    return -dVar3;
-  }
-  return dVar3;
-}
+    AtanTable_82F65018 *t = &lbl_831BB380;
+    double num;
+    double den;
+    double w;
+    double r;
+    int index;
 
+    if (x == t->zero) {
+        if (y == t->zero) {
+            if (SIGN_BIT(x) == 0) {
+                return y;
+            }
+            if (SIGN_BIT(y) != 0) {
+                return -t->pi;
+            }
+            return t->pi;
+        }
+        r = t->halfPi;
+    } else {
+        double ax = fabs(x);
+
+        index = 0;
+        num = fabs(y);
+        den = ax;
+        if (num > den) {
+            den = num;
+            index = 2;
+            num = ax;
+        }
+        num = num / den;
+        if (num > t->tanPi12) {
+            index++;
+            num = (t->sqrt3 * num - t->onef) / (t->sqrt3 + num);
+        }
+        w = num * num;
+        r = (((t->numerator[3] * w + t->numerator[2]) * w + t->numerator[1]) * w + t->numerator[0]) * w *
+                num /
+                ((((w + t->denominator[3]) * w + t->denominator[2]) * w + t->denominator[1]) * w +
+                 t->denominator[0]) +
+            num;
+        if (index > 1) {
+            r = -r;
+        }
+        r = t->offset[index] + r;
+    }
+    r = __fsel(x, r, t->pi - r);
+    if (SIGN_BIT(y) != 0) {
+        return -r;
+    }
+    return r;
+}

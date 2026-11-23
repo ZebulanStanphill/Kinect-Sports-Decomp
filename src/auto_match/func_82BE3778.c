@@ -1,89 +1,94 @@
-extern int fn_82BE29F8();
-extern int fn_82BE2E60();
-extern int fn_82BE5240();
-extern int fn_82BE5758();
-extern int fn_82BE57C0();
-extern int fn_82BE7068();
-extern int fn_82BE8458();
-extern int fn_82BE8B30();
-extern int fn_82BE8E48();
-extern int fn_82BE8FB8();
-extern int fn_82BE9078();
-extern int fn_82BEA200();
-extern int fn_82BEA230();
-extern int fn_82D7EA10();
-extern unsigned int lbl_8322B130;
+typedef struct Client_82BE3778 {
+    int unk0;           /* 0x000 */
+    unsigned int error; /* 0x004 */
+    char pad8[8];
+    int state; /* 0x010 */
+    char pad14[0x14];
+    char listener[8];    /* 0x028 */
+    char reporter[0xf0]; /* 0x030 */
+    char session[0x78];  /* 0x120 */
+} Client_82BE3778;
 
+extern char lbl_8322B13C[];
+extern Client_82BE3778 *lbl_8322B130;
+extern char lbl_82196582[];
 
-int fn_82BE3778(unsigned __int64 param_1)
+extern void fn_82BE5240(Client_82BE3778 *client, int code, const char *message);
+extern void fn_82BE5758(void);
+extern void fn_82BE57C0(void);
+extern int fn_82BEA200(void *lock, const char *name);
+extern void fn_82BEA230(void *lock, const char *name);
+extern void fn_82BE8E48(void);
+extern void fn_82BE8FB8(void);
+extern int fn_82D7EA10(void);
+extern void *fn_82BE56B0(unsigned int size);
+extern Client_82BE3778 *fn_82BE29F8(void *mem, void *config, int flag);
+extern void *fn_82BE7068(void);
+extern void *fn_82BE8458(void *session);
+extern void fn_82BE8B30(void *listener, void *reporter);
+extern void fn_82BE9078(void);
+extern void fn_82BE2E60(int a, int b);
 
+unsigned int fn_82BE3778(void *config)
 {
-  int iVar2;
-  unsigned __int64 uVar1;
-  int iVar3;
-  int iVar4;
-  
-  iVar4 = 0;
-  if (lbl_8322B130 != 0) {
-    fn_82BE5240(lbl_8322B130,0xc9,0xffffffff82196582);
-    return 0xc9;
-  }
-  fn_82BE5758();
-  iVar2 = fn_82BEA200(0xffffffff8322b13c,0xffffffff820e8f48);
-  if (iVar2 == 0) {
-    return 0x69;
-  }
-  fn_82BE8E48();
-  iVar2 = fn_82D7EA10();
-  if (iVar2 == 0) {
-    iVar4 = 0x68;
-LAB_82be37fc:
-    fn_82BE8FB8();
-    fn_82BEA230(0xffffffff8322b13c,0xffffffff820e8f48);
-    fn_82BE57C0();
-    return iVar4;
-  }
-  uVar1 = thunk_FUN_82be5550(0x198);
-  if ((uVar1 & 0xffffffff) == 0) {
-    lbl_8322B130 = 0;
-  }
-  else {
-    lbl_8322B130 = fn_82BE29F8(uVar1,param_1,1);
-  }
-  if (lbl_8322B130 == 0) {
-    iVar4 = 0x65;
-    lbl_8322B130 = 0;
-    goto LAB_82be37fc;
-  }
-  if (*(int *)(lbl_8322B130 + 0x10) == 0) {
-    iVar4 = *(int *)(lbl_8322B130 + 4);
-    if (iVar4 == 0) {
-      iVar4 = 100;
-    }
-LAB_82be38d0:
-    if (iVar4 == 0) goto LAB_82be38e4;
-  }
-  else {
-    iVar2 = fn_82BE7068();
-    if ((iVar2 != 0) && (iVar2 = fn_82BE8458(lbl_8322B130 + 0x120), iVar2 != 0)) {
-      iVar2 = lbl_8322B130 + 0x30;
-      if (lbl_8322B130 == 0) {
-        iVar2 = 0;
-        iVar3 = 0;
-      }
-      else {
-        iVar3 = lbl_8322B130 + 0x28;
-      }
-      fn_82BE8B30(iVar3,iVar2);
-      fn_82BE9078();
-      goto LAB_82be38d0;
-    }
-    iVar4 = 0x65;
-    *(unsigned int *)(lbl_8322B130 + 0x10) = 0;
-  }
-  fn_82BE2E60(1,0);
-LAB_82be38e4:
-  fn_82BEA230(0xffffffff8322b13c,0xffffffff820e8f48);
-  return iVar4;
-}
+    unsigned int result;
+    void *mem;
 
+    result = 0;
+    if (lbl_8322B130 != 0) {
+        fn_82BE5240(lbl_8322B130, 0xc9, lbl_82196582);
+        return 0xc9;
+    }
+    fn_82BE5758();
+    if (fn_82BEA200(lbl_8322B13C, "XMassiveAdClient::Initialize") == 0) {
+        return 0x69;
+    }
+    fn_82BE8E48();
+    if (fn_82D7EA10() == 0) {
+        result = 0x68;
+        fn_82BE8FB8();
+        fn_82BEA230(lbl_8322B13C, "XMassiveAdClient::Initialize");
+        fn_82BE57C0();
+        return result;
+    }
+    mem = fn_82BE56B0(0x198);
+    if (mem != 0) {
+        lbl_8322B130 = fn_82BE29F8(mem, config, 1);
+    } else {
+        lbl_8322B130 = 0;
+    }
+    if (lbl_8322B130 == 0) {
+        result = 0x65;
+        fn_82BE8FB8();
+        fn_82BEA230(lbl_8322B13C, "XMassiveAdClient::Initialize");
+        fn_82BE57C0();
+        return result;
+    }
+    if (lbl_8322B130->state == 0) {
+        if (lbl_8322B130->error != 0) {
+            result = lbl_8322B130->error;
+        } else {
+            result = 100;
+        }
+    } else {
+        if (fn_82BE7068() == 0) {
+            result = 0x65;
+            lbl_8322B130->state = 0;
+            goto shutdown;
+        }
+        if (fn_82BE8458(lbl_8322B130->session) == 0) {
+            result = 0x65;
+            lbl_8322B130->state = 0;
+            goto shutdown;
+        }
+        fn_82BE8B30(lbl_8322B130 != 0 ? lbl_8322B130->listener : 0,
+                    lbl_8322B130 != 0 ? lbl_8322B130->reporter : 0);
+        fn_82BE9078();
+    }
+    if (result != 0) {
+    shutdown:
+        fn_82BE2E60(1, 0);
+    }
+    fn_82BEA230(lbl_8322B13C, "XMassiveAdClient::Initialize");
+    return result;
+}

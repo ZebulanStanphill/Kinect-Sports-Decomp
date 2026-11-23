@@ -1,71 +1,71 @@
-void fn_8275E9C0(int param_1,int *param_2)
+typedef struct Reader_8275E9C0 {
+    int pad0;
+    unsigned int index; /* 0x04 */
+    unsigned int count; /* 0x08 */
+    int padC;
+    int pad10;
+    int flags;         /* 0x14 */
+    unsigned int mask; /* 0x18 */
+    short *shortData;  /* 0x1c */
+    int *intData;      /* 0x20 */
+} Reader_8275E9C0;
 
+typedef struct Segment_8275E9C0 {
+    int values[4]; /* 0x00 */
+    int count;     /* 0x10 */
+} Segment_8275E9C0;
+
+void fn_8275E9C0(Reader_8275E9C0 *reader, Segment_8275E9C0 *segment)
 {
-  short sVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  short *psVar5;
-  int *piVar6;
-  int *piVar7;
-  
-  if (*(unsigned int *)(param_1 + 8) <= *(unsigned int *)(param_1 + 4)) {
-    return;
-  }
-  psVar5 = *(short **)(param_1 + 0x1c);
-  if (psVar5 == (short *)0x0) {
-    if (*(int *)(param_1 + 0x18) == 0) {
-      uVar4 = **(unsigned int **)(param_1 + 0x20);
-      *(unsigned int **)(param_1 + 0x20) = *(unsigned int **)(param_1 + 0x20) + 1;
-      *(unsigned int *)(param_1 + 0x18) = 1;
-      *(unsigned int *)(param_1 + 0x14) = uVar4;
-    }
-    uVar2 = *(unsigned int *)(param_1 + 0x18);
-    uVar3 = *(unsigned int *)(param_1 + 0x14);
-    piVar7 = param_2 + 1;
-    *param_2 = **(int **)(param_1 + 0x20);
-    piVar6 = (int *)(*(int *)(param_1 + 0x20) + 4);
-    *(int **)(param_1 + 0x20) = piVar6;
-    param_2[1] = *piVar6;
-    piVar6 = (int *)(*(int *)(param_1 + 0x20) + 4);
-    *(int **)(param_1 + 0x20) = piVar6;
-    if ((uVar3 & uVar2) != 0) {
-      param_2[2] = *piVar6;
-      piVar6 = (int *)(*(int *)(param_1 + 0x20) + 4);
-      *(int **)(param_1 + 0x20) = piVar6;
-      piVar7 = param_2 + 3;
-      *piVar7 = *piVar6;
-      *(int *)(param_1 + 0x20) = *(int *)(param_1 + 0x20) + 4;
-    }
-  }
-  else {
-    if (0x8000 < *(unsigned int *)(param_1 + 0x18)) {
-      sVar1 = *psVar5;
-      *(short **)(param_1 + 0x1c) = psVar5 + 1;
-      *(int *)(param_1 + 0x14) = (int)sVar1;
-      *(unsigned int *)(param_1 + 0x18) = 1;
-    }
-    uVar2 = *(unsigned int *)(param_1 + 0x18);
-    uVar3 = *(unsigned int *)(param_1 + 0x14);
-    piVar7 = param_2 + 1;
-    *param_2 = (int)**(short **)(param_1 + 0x1c);
-    psVar5 = (short *)(*(int *)(param_1 + 0x1c) + 2);
-    *(short **)(param_1 + 0x1c) = psVar5;
-    param_2[1] = (int)*psVar5;
-    psVar5 = (short *)(*(int *)(param_1 + 0x1c) + 2);
-    *(short **)(param_1 + 0x1c) = psVar5;
-    if ((uVar3 & uVar2) != 0) {
-      param_2[2] = (int)*psVar5;
-      psVar5 = (short *)(*(int *)(param_1 + 0x1c) + 2);
-      *(short **)(param_1 + 0x1c) = psVar5;
-      piVar7 = param_2 + 3;
-      *piVar7 = (int)*psVar5;
-      *(int *)(param_1 + 0x1c) = *(int *)(param_1 + 0x1c) + 2;
-    }
-  }
-  *(int *)(param_1 + 4) = *(int *)(param_1 + 4) + 1;
-  *(int *)(param_1 + 0x18) = *(int *)(param_1 + 0x18) << 1;
-  param_2[4] = (int)piVar7 + (4 - (int)param_2) >> 2;
-  return;
-}
+    int *out;
 
+    if (reader->index >= reader->count) {
+        return;
+    }
+    if (reader->shortData != 0) {
+        if (reader->mask > 0x8000) {
+            reader->flags = *reader->shortData++;
+            reader->mask = 1;
+        }
+        out = segment->values;
+        if (reader->flags & reader->mask) {
+            *out++ = *reader->shortData;
+            reader->shortData++;
+            *out++ = *reader->shortData;
+            reader->shortData++;
+            *out++ = *reader->shortData;
+            reader->shortData++;
+            *out++ = *reader->shortData;
+            reader->shortData++;
+        } else {
+            *out++ = *reader->shortData;
+            reader->shortData++;
+            *out++ = *reader->shortData;
+            reader->shortData++;
+        }
+    } else {
+        if (reader->mask == 0) {
+            reader->flags = *reader->intData++;
+            reader->mask = 1;
+        }
+        out = segment->values;
+        if (reader->flags & reader->mask) {
+            *out++ = *reader->intData;
+            reader->intData++;
+            *out++ = *reader->intData;
+            reader->intData++;
+            *out++ = *reader->intData;
+            reader->intData++;
+            *out++ = *reader->intData;
+            reader->intData++;
+        } else {
+            *out++ = *reader->intData;
+            reader->intData++;
+            *out++ = *reader->intData;
+            reader->intData++;
+        }
+    }
+    reader->index++;
+    reader->mask <<= 1;
+    segment->count = out - segment->values;
+}

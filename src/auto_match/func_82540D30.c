@@ -1,136 +1,84 @@
-extern int XMemCpy();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+void XMemCpy(void *dest, const void *src, unsigned int size);
 
-void fn_82540D30(int param_1,unsigned int param_2,int param_3,int param_4,int param_5,int param_6,
-                  int param_7,unsigned __int64 param_8)
+typedef struct Constants_82540D30 {
+    char padding0[0xaaa4];
+    unsigned int mode; /* 0xaaa4 */
+    char paddingaaa8[0x8];
+    __vector4 vectorAB0;          /* 0xaab0 */
+    __vector4 vectorAC0;          /* 0xaac0 */
+    __vector4 vectorAD0;          /* 0xaad0 */
+    __vector4 vectorAE0;          /* 0xaae0 */
+    __vector4 vectorAF0;          /* 0xaaf0 */
+    unsigned char blockB00[0x20]; /* 0xab00 */
+    unsigned char blockB20[0x20]; /* 0xab20 */
+    unsigned char blockB40[0x20]; /* 0xab40 */
+    unsigned char blockB60[0x10]; /* 0xab60 */
+    char paddingab70[0x80];
+    __vector4 vectorBF0; /* 0xabf0 */
+    __vector4 vectorC00; /* 0xac00 */
+    float scaleC10;      /* 0xac10 */
+    float scaleC14;      /* 0xac14 */
+    char paddingac18[0x8];
+    __vector4 vectorC20;   /* 0xac20 */
+    unsigned int valueC30; /* 0xac30 */
+} Constants_82540D30;
 
+/* Stores the given values; a null pointer leaves the value unchanged. */
+void fn_82540D30(Constants_82540D30 *self, unsigned int mode, const __vector4 *vectorAB0,
+                 const __vector4 *vectorAC0, const __vector4 *vectorAD0, const __vector4 *vectorAE0,
+                 const __vector4 *vectorAF0, const void *blockB00, const void *blockB20, const void *blockB40,
+                 const void *blockB60, unsigned int valueC30, const __vector4 *vectorBF0,
+                 const __vector4 *vectorC00, const float *scaleC10, const float *scaleC14,
+                 const __vector4 *vectorC20)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int in_r0;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  int in_stack_00000054;
-  int in_stack_0000005c;
-  int in_stack_00000064;
-  int in_stack_0000006c;
-  int in_stack_00000074;
-  int in_stack_0000007c;
-  unsigned int *in_stack_00000084;
-  unsigned int *in_stack_0000008c;
-  int in_stack_00000094;
-  
-  *(unsigned int *)(param_1 + 0xaaa4) = param_2;
-  if (param_4 != 0) {
-    puVar1 = (unsigned int *)(in_r0 + param_4 & 0xfffffff0);
-    uVar3 = puVar1[1];
-    uVar4 = puVar1[2];
-    uVar5 = puVar1[3];
-    puVar2 = (unsigned int *)(param_1 + 0xaac0U & 0xfffffff0);
-    *puVar2 = *puVar1;
-    puVar2[1] = uVar3;
-    puVar2[2] = uVar4;
-    puVar2[3] = uVar5;
-  }
-  if (param_3 != 0) {
-    puVar1 = (unsigned int *)(in_r0 + param_3 & 0xfffffff0);
-    uVar3 = puVar1[1];
-    uVar4 = puVar1[2];
-    uVar5 = puVar1[3];
-    puVar2 = (unsigned int *)(param_1 + 0xaab0U & 0xfffffff0);
-    *puVar2 = *puVar1;
-    puVar2[1] = uVar3;
-    puVar2[2] = uVar4;
-    puVar2[3] = uVar5;
-  }
-  if (param_7 != 0) {
-    puVar1 = (unsigned int *)(in_r0 + param_7 & 0xfffffff0);
-    uVar3 = puVar1[1];
-    uVar4 = puVar1[2];
-    uVar5 = puVar1[3];
-    puVar2 = (unsigned int *)(param_1 + 0xaaf0U & 0xfffffff0);
-    *puVar2 = *puVar1;
-    puVar2[1] = uVar3;
-    puVar2[2] = uVar4;
-    puVar2[3] = uVar5;
-  }
-  if (param_6 != 0) {
-    puVar1 = (unsigned int *)(in_r0 + param_6 & 0xfffffff0);
-    uVar3 = puVar1[1];
-    uVar4 = puVar1[2];
-    uVar5 = puVar1[3];
-    puVar2 = (unsigned int *)(param_1 + 0xaae0U & 0xfffffff0);
-    *puVar2 = *puVar1;
-    puVar2[1] = uVar3;
-    puVar2[2] = uVar4;
-    puVar2[3] = uVar5;
-  }
-  if (param_5 != 0) {
-    puVar1 = (unsigned int *)(in_r0 + param_5 & 0xfffffff0);
-    uVar3 = puVar1[1];
-    uVar4 = puVar1[2];
-    uVar5 = puVar1[3];
-    puVar2 = (unsigned int *)(param_1 + 0xaad0U & 0xfffffff0);
-    *puVar2 = *puVar1;
-    puVar2[1] = uVar3;
-    puVar2[2] = uVar4;
-    puVar2[3] = uVar5;
-  }
-  if ((param_8 & 0xffffffff) != 0) {
-    XMemCpy(param_1 + 0xab00,param_8,0x20);
-  }
-  if (in_stack_00000054 != 0) {
-    XMemCpy(param_1 + 0xab20,in_stack_00000054,0x20);
-  }
-  if (in_stack_0000005c != 0) {
-    XMemCpy(param_1 + 0xab40,in_stack_0000005c,0x20);
-  }
-  if (in_stack_00000064 != 0) {
-    XMemCpy(param_1 + 0xab60,in_stack_00000064,0x10);
-  }
-  if (in_stack_0000006c != 0) {
-    *(int *)(param_1 + 0xac30) = in_stack_0000006c;
-  }
-  if (in_stack_00000074 != 0) {
-    puVar1 = (unsigned int *)(in_r0 + in_stack_00000074 & 0xfffffff0);
-    uVar3 = puVar1[1];
-    uVar4 = puVar1[2];
-    uVar5 = puVar1[3];
-    puVar2 = (unsigned int *)(param_1 + 0xabf0U & 0xfffffff0);
-    *puVar2 = *puVar1;
-    puVar2[1] = uVar3;
-    puVar2[2] = uVar4;
-    puVar2[3] = uVar5;
-  }
-  if (in_stack_0000007c != 0) {
-    puVar1 = (unsigned int *)(in_r0 + in_stack_0000007c & 0xfffffff0);
-    uVar3 = puVar1[1];
-    uVar4 = puVar1[2];
-    uVar5 = puVar1[3];
-    puVar2 = (unsigned int *)(param_1 + 0xac00U & 0xfffffff0);
-    *puVar2 = *puVar1;
-    puVar2[1] = uVar3;
-    puVar2[2] = uVar4;
-    puVar2[3] = uVar5;
-  }
-  if (in_stack_00000084 != (unsigned int *)0x0) {
-    *(unsigned int *)(param_1 + 0xac10) = *in_stack_00000084;
-  }
-  if (in_stack_0000008c != (unsigned int *)0x0) {
-    *(unsigned int *)(param_1 + 0xac14) = *in_stack_0000008c;
-  }
-  if (in_stack_00000094 != 0) {
-    puVar1 = (unsigned int *)(in_r0 + in_stack_00000094 & 0xfffffff0);
-    uVar3 = puVar1[1];
-    uVar4 = puVar1[2];
-    uVar5 = puVar1[3];
-    puVar2 = (unsigned int *)(param_1 + 0xac20U & 0xfffffff0);
-    *puVar2 = *puVar1;
-    puVar2[1] = uVar3;
-    puVar2[2] = uVar4;
-    puVar2[3] = uVar5;
-  }
-  return;
+    self->mode = mode;
+    if (vectorAC0 != 0) {
+        self->vectorAC0 = *vectorAC0;
+    }
+    if (vectorAB0 != 0) {
+        self->vectorAB0 = *vectorAB0;
+    }
+    if (vectorAF0 != 0) {
+        self->vectorAF0 = *vectorAF0;
+    }
+    if (vectorAE0 != 0) {
+        self->vectorAE0 = *vectorAE0;
+    }
+    if (vectorAD0 != 0) {
+        self->vectorAD0 = *vectorAD0;
+    }
+    if (blockB00 != 0) {
+        XMemCpy(self->blockB00, blockB00, sizeof(self->blockB00));
+    }
+    if (blockB20 != 0) {
+        XMemCpy(self->blockB20, blockB20, sizeof(self->blockB20));
+    }
+    if (blockB40 != 0) {
+        XMemCpy(self->blockB40, blockB40, sizeof(self->blockB40));
+    }
+    if (blockB60 != 0) {
+        XMemCpy(self->blockB60, blockB60, sizeof(self->blockB60));
+    }
+    if (valueC30 != 0) {
+        self->valueC30 = valueC30;
+    }
+    if (vectorBF0 != 0) {
+        self->vectorBF0 = *vectorBF0;
+    }
+    if (vectorC00 != 0) {
+        self->vectorC00 = *vectorC00;
+    }
+    if (scaleC10 != 0) {
+        self->scaleC10 = *scaleC10;
+    }
+    if (scaleC14 != 0) {
+        self->scaleC14 = *scaleC14;
+    }
+    if (vectorC20 != 0) {
+        self->vectorC20 = *vectorC20;
+    }
 }
-

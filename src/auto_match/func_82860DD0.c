@@ -1,23 +1,26 @@
-extern int fn_82809E58();
+typedef struct View_82860DD0 {
+    char pad0[0x8];
+    int width;  /* 0x8 */
+    int height; /* 0xc */
+    int unitsX; /* 0x10 */
+    int unitsY; /* 0x14 */
+    char pad18[0xe4 - 0x18];
+    float sizeX;   /* 0xe4 */
+    float sizeY;   /* 0xe8 */
+    float scaleX;  /* 0xec */
+    float scaleY;  /* 0xf0 */
+    float offsetX; /* 0xf4 */
+    float offsetY; /* 0xf8 */
+} View_82860DD0;
 
+extern float fn_82809E58(float value);
 
-void fn_82860DD0(double param_1,double param_2,int param_3,int param_4,int param_5)
-
+void fn_82860DD0(View_82860DD0 *self, int x, int y, float offsetX, float offsetY)
 {
-  double dVar1;
-  
-  dVar1 = (double)fn_82809E58((double)(float)((double)(__int64)param_4 /
-                                              (double)(__int64)*(int *)(param_3 + 8)));
-  *(float *)(param_3 + 0xec) = (float)dVar1;
-  dVar1 = (double)fn_82809E58((double)(float)((double)(__int64)*(int *)(param_3 + 0x10) * dVar1));
-  *(float *)(param_3 + 0xe4) = (float)dVar1;
-  dVar1 = (double)fn_82809E58((double)(float)((double)(__int64)param_5 /
-                                              (double)(__int64)*(int *)(param_3 + 0xc)));
-  *(float *)(param_3 + 0xf0) = (float)dVar1;
-  dVar1 = (double)fn_82809E58((double)(float)((double)(__int64)*(int *)(param_3 + 0x14) * dVar1));
-  *(float *)(param_3 + 0xe8) = (float)dVar1;
-  *(float *)(param_3 + 0xf4) = (float)param_1;
-  *(float *)(param_3 + 0xf8) = (float)param_2;
-  return;
+    self->scaleX = fn_82809E58((float)x / (float)self->width);
+    self->sizeX = fn_82809E58((float)self->unitsX * self->scaleX);
+    self->scaleY = fn_82809E58((float)y / (float)self->height);
+    self->sizeY = fn_82809E58((float)self->unitsY * self->scaleY);
+    self->offsetX = offsetX;
+    self->offsetY = offsetY;
 }
-

@@ -1,70 +1,44 @@
-extern int fn_82F6A548();
-extern int fn_82F6A594();
-
-
-void fn_8280BAB0(unsigned __int64 param_1,double param_2,double param_3,unsigned __int64 param_4,
-                  float *param_5)
-
+static __forceinline void setMatrix44_8280BAB0(float *m, float m00, float m01, float m02, float m03,
+                                               float m10, float m11, float m12, float m13, float m20,
+                                               float m21, float m22, float m23, float m30, float m31,
+                                               float m32, float m33)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  float fVar5;
-  float fVar6;
-  float fVar7;
-  float fVar8;
-  float fVar9;
-  float fVar10;
-  float fVar11;
-  float fVar12;
-  float fVar13;
-  float fVar14;
-  float fVar15;
-  float *pfVar16;
-  double dVar17;
-  double extraout_f1;
-  double dVar18;
-  double dVar19;
-  double dVar20;
-  
-  pfVar16 = (float *)fn_82F6A548();
-  fVar1 = pfVar16[7];
-  dVar17 = (double)fVar1;
-  fVar2 = pfVar16[0xb];
-  dVar20 = (double)fVar2;
-  fVar3 = pfVar16[0xf];
-  dVar19 = (double)fVar3;
-  fVar4 = pfVar16[3];
-  dVar18 = (double)fVar4;
-  fVar5 = pfVar16[1];
-  fVar6 = pfVar16[5];
-  fVar7 = pfVar16[9];
-  fVar8 = pfVar16[0xd];
-  fVar9 = pfVar16[4];
-  fVar10 = pfVar16[8];
-  fVar11 = pfVar16[0xc];
-  fVar12 = pfVar16[2];
-  fVar13 = pfVar16[6];
-  fVar14 = pfVar16[10];
-  fVar15 = pfVar16[0xe];
-  *param_5 = (float)(dVar18 * extraout_f1 + (double)*pfVar16);
-  param_5[4] = (float)(dVar17 * extraout_f1 + (double)fVar9);
-  param_5[8] = (float)(dVar20 * extraout_f1 + (double)fVar10);
-  param_5[0xc] = (float)(dVar19 * extraout_f1 + (double)fVar11);
-  param_5[1] = (float)(dVar18 * param_2 + (double)fVar5);
-  param_5[5] = (float)(dVar17 * param_2 + (double)fVar6);
-  param_5[9] = (float)(dVar20 * param_2 + (double)fVar7);
-  param_5[0xd] = (float)(dVar19 * param_2 + (double)fVar8);
-  param_5[2] = (float)(dVar18 * param_3 + (double)fVar12);
-  param_5[6] = (float)(dVar17 * param_3 + (double)fVar13);
-  param_5[10] = (float)(dVar20 * param_3 + (double)fVar14);
-  param_5[0xe] = (float)(dVar19 * param_3 + (double)fVar15);
-  param_5[3] = fVar4;
-  param_5[7] = fVar1;
-  param_5[0xb] = fVar2;
-  param_5[0xf] = fVar3;
-  fn_82F6A594();
-  return;
+    m[0] = m00;
+    m[4] = m01;
+    m[8] = m02;
+    m[12] = m03;
+    m[1] = m10;
+    m[5] = m11;
+    m[9] = m12;
+    m[13] = m13;
+    m[2] = m20;
+    m[6] = m21;
+    m[10] = m22;
+    m[14] = m23;
+    m[3] = m30;
+    m[7] = m31;
+    m[11] = m32;
+    m[15] = m33;
 }
 
+void fn_8280BAB0(const float *src, float *dst, float x, float y, float z)
+{
+    float m00 = src[0] + src[3] * x;
+    float m10 = src[4] + src[7] * x;
+    float m20 = src[8] + src[11] * x;
+    float m30 = src[12] + src[15] * x;
+    float m01 = src[1] + src[3] * y;
+    float m11 = src[5] + src[7] * y;
+    float m21 = src[9] + src[11] * y;
+    float m31 = src[13] + src[15] * y;
+    float m02 = src[2] + src[3] * z;
+    float m12 = src[6] + src[7] * z;
+    float m22 = src[10] + src[11] * z;
+    float m32 = src[14] + src[15] * z;
+    float m03 = src[3];
+    float m13 = src[7];
+    float m23 = src[11];
+    float m33 = src[15];
+
+    setMatrix44_8280BAB0(dst, m00, m10, m20, m30, m01, m11, m21, m31, m02, m12, m22, m32, m03, m13, m23, m33);
+}

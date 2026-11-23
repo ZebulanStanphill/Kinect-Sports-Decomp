@@ -1,52 +1,54 @@
-#define NAN(x) ((x) != (x))
-extern int fn_827F4868();
-extern unsigned int lbl_821954D8;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Tween_827F4868 {
+    unsigned char pad0[0x22];
+    unsigned short curve; /* 0x22 */
+    float target;         /* 0x24 */
+    float range;          /* 0x28 */
+    float duration;       /* 0x2c */
+    float elapsed;        /* 0x30 */
+} Tween_827F4868;
 
+typedef struct FloatVector_8250DBE0 {
+    int allocator;
+    float *first;
+    float *last;
+    float *end;
+} FloatVector_8250DBE0;
 
-void fn_8250DBE0(double param_1,int param_2)
+typedef struct Fader_8250DBE0 {
+    Tween_827F4868 tween; /* 0x00 */
+    char pad34[0xdc - 0x34];
+    unsigned char flags; /* 0xdc */
+    char padDD[0xe4 - 0xdd];
+    FloatVector_8250DBE0 values;  /* 0xe4 */
+    FloatVector_8250DBE0 targets; /* 0xf4 */
+    char pad104[0x108 - 0x104];
+    float rate; /* 0x108 */
+} Fader_8250DBE0;
 
+extern float fn_827F4868(Tween_827F4868 *self);
+
+void fn_8250DBE0(Fader_8250DBE0 *self, float dt)
 {
-  float fVar1;
-  float *pfVar2;
-  float fVar3;
-  float fVar4;
-  float *pfVar5;
-  float fVar6;
-  float *pfVar7;
-  float *pfVar8;
-  double dVar9;
-  
-  *(float *)(param_2 + 0x30) = (float)(param_1 + (double)*(float *)(param_2 + 0x30));
-  dVar9 = (double)fn_827F4868();
-  fVar6 = ltcg_pool_0_0f;
-  pfVar8 = *(float **)(param_2 + 0xf8);
-  pfVar2 = *(float **)(param_2 + 0xfc);
-  fVar1 = (float)(param_1 / (double)*(float *)(param_2 + 0x108));
-  if (pfVar8 != pfVar2) {
-    pfVar7 = (float *)(*(int *)(param_2 + 0xe8) + -4);
-    do {
-      pfVar5 = pfVar7 + 1;
-      fVar4 = *pfVar8 - *pfVar5;
-      pfVar8 = pfVar8 + 1;
-      fVar3 = fVar4 - -fVar1;
-      if (*(float *)(&lbl_821954D8 +
-                    ((unsigned int)(unsigned char)((fVar3 < fVar6) << 2) | (unsigned int)(NAN(fVar3) || NAN(fVar6)) << 2)) <
-          0.0) {
-        fVar4 = -fVar1;
-      }
-      fVar3 = fVar1;
-      if (*(float *)(&lbl_821954D8 +
-                    ((unsigned int)(unsigned char)((fVar4 - fVar1 < fVar6) << 2) |
-                    (unsigned int)(NAN(fVar4 - fVar1) || NAN(fVar6)) << 2)) < 0.0) {
-        fVar3 = fVar4;
-      }
-      pfVar7 = pfVar7 + 1;
-      *pfVar7 = fVar3 + *pfVar5;
-    } while (pfVar8 != pfVar2);
-  }
-  *(unsigned char *)(param_2 + 0xdc) =
-       *(unsigned char *)(param_2 + 0xdc) & 0xdf | (dVar9 == (double)*(float *)(param_2 + 0x24)) << 5;
-  return;
-}
+    float value;
+    float maxStep;
+    float delta;
+    float *target;
+    float *current;
+    float *last;
 
+    self->tween.elapsed += dt;
+    value = fn_827F4868(&self->tween);
+    maxStep = dt / self->rate;
+    target = self->targets.first;
+    last = self->targets.last;
+    current = self->values.first;
+    while (target != last) {
+        delta = *target - *current;
+        delta = delta - -maxStep >= 0.0f ? delta : -maxStep;
+        delta = delta - maxStep >= 0.0f ? maxStep : delta;
+        *current = delta + *current;
+        target++;
+        current++;
+    }
+    self->flags = (self->flags & ~0x20) | ((unsigned char)(value == self->tween.target) << 5);
+}

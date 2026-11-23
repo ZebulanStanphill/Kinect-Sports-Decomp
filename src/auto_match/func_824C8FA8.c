@@ -1,54 +1,56 @@
-extern double sqrt(double);
-#define SQRT(x) sqrt(x)
-extern unsigned int fStack_3c;
-extern unsigned int fStack_40;
-extern int fn_824C9298();
-extern int fn_82529D38();
-extern int fn_8253FD80();
-extern int fn_8255A160();
-extern int fn_8255ACE0();
-extern unsigned int lbl_821917C0;
-extern unsigned int lbl_821959A4;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int uStack_38;
+#include <math.h>
 
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
-unsigned __int64 fn_824C8FA8(unsigned __int64 param_1,unsigned int *param_2,int param_3)
+typedef struct Angles_824C8FA8 {
+    float pitch;
+    float yaw;
+    float roll;
+} Angles_824C8FA8;
 
+typedef struct Vector_824C8FA8 {
+    __vector4 v;
+} Vector_824C8FA8;
+
+typedef struct Actor_824C8FA8 {
+    char pad00[0x50];
+    __vector4 position; /* 0x50 */
+} Actor_824C8FA8;
+
+typedef struct Track_824C8FA8 {
+    Actor_824C8FA8 *actor; /* 0x00 */
+} Track_824C8FA8;
+
+extern void fn_82529D38(Actor_824C8FA8 *actor, Angles_824C8FA8 *angles);
+extern __vector4 fn_8255A160(__vector4 position, float angle, float distance);
+extern float fn_824C9298(Track_824C8FA8 *track, __vector4 point);
+extern float fn_8253FD80(float value);
+extern __vector4 fn_8255ACE0(const Angles_824C8FA8 *angles, __vector4 vector);
+
+static __forceinline Angles_824C8FA8 MakeAngles(float pitch, float yaw, float roll)
 {
-  float fVar1;
-  unsigned int *puVar2;
-  int in_r0;
-  double dVar3;
-  double dVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned int uVar8;
-  float fStack_40;
-  float fStack_3c;
-  unsigned int uStack_38;
-  
-  fn_82529D38(*param_2,&fStack_40);
-  fn_8255A160((double)fStack_3c,(double)lbl_821917C0);
-  dVar3 = (double)fn_824C9298(param_2);
-  dVar4 = (double)fn_824C9298();
-  fVar1 = (float)(dVar3 - dVar4);
-  dVar3 = (double)fn_8253FD80((double)(fVar1 / SQRT(fVar1 * fVar1 + lbl_821959A4)));
-  fStack_40 = (float)-dVar3;
-  uStack_38 = ltcg_pool_0_0f;
-  puVar2 = (unsigned int *)(in_r0 + param_3 & 0xfffffff0);
-  uVar5 = *puVar2;
-  uVar6 = puVar2[1];
-  uVar7 = puVar2[2];
-  uVar8 = puVar2[3];
-  fStack_3c = (float)ltcg_pool_0_0f;
-  fn_8255ACE0(&fStack_40);
-  puVar2 = (unsigned int *)(in_r0 + (int)param_1 & 0xfffffff0);
-  *puVar2 = uVar5;
-  puVar2[1] = uVar6;
-  puVar2[2] = uVar7;
-  puVar2[3] = uVar8;
-  return param_1;
+    Angles_824C8FA8 angles;
+
+    angles.pitch = pitch;
+    angles.yaw = yaw;
+    angles.roll = roll;
+    return angles;
 }
 
+Vector_824C8FA8 fn_824C8FA8(Track_824C8FA8 *track, const __vector4 *direction)
+{
+    Vector_824C8FA8 result;
+    __vector4 position = track->actor->position;
+    Angles_824C8FA8 angles;
+    float ahead;
+    float slope;
+
+    fn_82529D38(track->actor, &angles);
+    ahead = fn_824C9298(track, fn_8255A160(position, angles.yaw, 0.2f));
+    slope = ahead - fn_824C9298(track, position);
+    angles = MakeAngles(-fn_8253FD80(slope / sqrtf(slope * slope + 0.2f * 0.2f)), 0.0f, 0.0f);
+    result.v = fn_8255ACE0(&angles, *direction);
+    return result;
+}

@@ -1,55 +1,36 @@
-void fn_8264D380(int param_1,unsigned int param_2,unsigned int param_3,int param_4)
+typedef struct Bitmap_8264D380 {
+    char pad0[0x20];
+    unsigned int words[1]; /* 0x20 */
+} Bitmap_8264D380;
 
+void fn_8264D380(Bitmap_8264D380 *map, unsigned int start, unsigned int end, int set)
 {
-  unsigned int uVar1;
-  unsigned int *puVar3;
-  __int64 lVar2;
-  unsigned int *puVar4;
-  unsigned int *puVar5;
-  unsigned int uVar6;
-  __int64 lVar7;
-  
-  uVar6 = param_3 >> 5;
-  uVar1 = param_2 >> 5;
-  puVar3 = (unsigned int *)((uVar6 + 8) * 4 + param_1);
-  puVar5 = (unsigned int *)((uVar1 + 8) * 4 + param_1);
-  if (param_4 == 0) {
-    if (uVar1 == uVar6) {
-      uVar6 = *puVar5 & ~(0xffffffffU >> (param_2 & 0x1f) & ~(0xffffffffU >> (param_3 & 0x1f)));
-    }
-    else {
-      *puVar5 = *puVar5 & ~(0xffffffffU >> (param_2 & 0x1f));
-      puVar4 = puVar5 + 1;
-      if (puVar4 < puVar3) {
-        lVar2 = (unsigned __int64)((unsigned int)((int)puVar3 + (-1 - (int)puVar4)) >> 2) + 1;
-        for (lVar7 = lVar2; lVar7 != 0; lVar7 = lVar7 + -1) {
-          puVar5 = puVar5 + 1;
-          *puVar5 = 0;
-        }
-        puVar4 = puVar4 + (int)lVar2;
-      }
-      puVar5 = puVar4;
-      uVar6 = 0xffffffffU >> (param_3 & 0x1f) & *puVar5;
-    }
-  }
-  else if (uVar1 == uVar6) {
-    uVar6 = 0xffffffffU >> (param_2 & 0x1f) & ~(0xffffffffU >> (param_3 & 0x1f)) | *puVar5;
-  }
-  else {
-    *puVar5 = 0xffffffffU >> (param_2 & 0x1f) | *puVar5;
-    puVar4 = puVar5 + 1;
-    if (puVar4 < puVar3) {
-      lVar2 = (unsigned __int64)((unsigned int)((int)puVar3 + (-1 - (int)puVar4)) >> 2) + 1;
-      for (lVar7 = lVar2; lVar7 != 0; lVar7 = lVar7 + -1) {
-        puVar5 = puVar5 + 1;
-        *puVar5 = 0xffffffff;
-      }
-      puVar4 = puVar4 + (int)lVar2;
-    }
-    puVar5 = puVar4;
-    uVar6 = *puVar5 | ~(0xffffffffU >> (param_3 & 0x1f));
-  }
-  *puVar5 = uVar6;
-  return;
-}
+    unsigned int firstWord = start >> 5;
+    unsigned int lastWord = end >> 5;
+    unsigned int *last = &map->words[lastWord];
+    unsigned int startBit = start & 0x1f;
+    unsigned int endBit = end & 0x1f;
+    unsigned int *p = &map->words[firstWord];
 
+    if (set != 0) {
+        if (firstWord == lastWord) {
+            *p = (0xffffffff >> startBit & ~(0xffffffff >> endBit)) | *p;
+        } else {
+            *p = (0xffffffff >> startBit) | *p;
+            p++;
+            while (p < last)
+                *p++ = 0xffffffff;
+            *p = *p | ~(0xffffffff >> endBit);
+        }
+    } else {
+        if (firstWord == lastWord) {
+            *p = *p & ~(0xffffffff >> startBit & ~(0xffffffff >> endBit));
+        } else {
+            *p = *p & ~(0xffffffff >> startBit);
+            p++;
+            while (p < last)
+                *p++ = 0;
+            *p = (0xffffffff >> endBit) & *p;
+        }
+    }
+}

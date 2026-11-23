@@ -1,54 +1,76 @@
-extern int fn_82340138();
-extern unsigned int lbl_8218E8E8;
-extern unsigned int lbl_82192480;
-extern unsigned int ltcg_pool_0_0f;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __VMXGetReg(int n);
 
-unsigned int * fn_823369B0(unsigned int *param_1,unsigned __int64 param_2,int param_3)
+typedef struct Config_823369B0 {
+    char pad00[0x4c];
+    int width;  /* 0x4c */
+    int height; /* 0x50 */
+    int depth;  /* 0x54 */
+} Config_823369B0;
 
+typedef struct Grid_823369B0 {
+    float x;            /* 0x000 */
+    float y;            /* 0x004 */
+    int pad008[2];      /* 0x008 */
+    int count10;        /* 0x010 */
+    int count14;        /* 0x014 */
+    int count18;        /* 0x018 */
+    int count1C;        /* 0x01c */
+    int count20;        /* 0x020 */
+    int count24;        /* 0x024 */
+    int count28;        /* 0x028 */
+    int count2C;        /* 0x02c */
+    int width;          /* 0x030 */
+    int height;         /* 0x034 */
+    int depth;          /* 0x038 */
+    int value3C;        /* 0x03c */
+    int value40;        /* 0x040 */
+    unsigned char flag; /* 0x044 */
+    float scale;        /* 0x048 */
+    float blend;        /* 0x04c */
+    __vector4 origin;   /* 0x050 */
+    char pad060[0x180 - 0x60];
+    int value180; /* 0x180 */
+    int value184; /* 0x184 */
+    int enabled;  /* 0x188 */
+    int value18C; /* 0x18c */
+    float timer;  /* 0x190 */
+    char list[4]; /* 0x194 */
+    int value198; /* 0x198 */
+} Grid_823369B0;
+
+extern void fn_82340138(void *list);
+
+Grid_823369B0 *fn_823369B0(Grid_823369B0 *self, int unused, Config_823369B0 *config)
 {
-  unsigned int *puVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int in_register_000104d0;
-  unsigned int in_register_000104d4;
-  unsigned int in_register_000104d8;
-  unsigned int in_vr77;
-  
-  uVar4 = ltcg_pool_0_0f;
-  uVar3 = lbl_82192480;
-  uVar2 = lbl_8218E8E8;
-  param_1[4] = 0;
-  *param_1 = uVar4;
-  param_1[5] = 0;
-  param_1[1] = uVar4;
-  param_1[6] = 0;
-  param_1[0x12] = uVar3;
-  param_1[7] = 0;
-  param_1[0x13] = uVar2;
-  param_1[8] = 0;
-  param_1[100] = uVar4;
-  param_1[9] = 0;
-  param_1[10] = 0;
-  puVar1 = (unsigned int *)((unsigned int)(param_1 + 0x14) & 0xfffffff0);
-  *puVar1 = in_register_000104d0;
-  puVar1[1] = in_register_000104d4;
-  puVar1[2] = in_register_000104d8;
-  puVar1[3] = in_vr77;
-  param_1[0xb] = 0;
-  param_1[0xf] = 0;
-  param_1[0x10] = 0;
-  *(unsigned char *)(param_1 + 0x11) = 0;
-  param_1[0x60] = 0;
-  param_1[0x61] = 0;
-  param_1[0x62] = 1;
-  param_1[99] = 0;
-  fn_82340138(param_1 + 0x65);
-  param_1[0x66] = 0;
-  param_1[0xc] = *(unsigned int *)(param_3 + 0x4c);
-  param_1[0xd] = *(unsigned int *)(param_3 + 0x50);
-  param_1[0xe] = *(unsigned int *)(param_3 + 0x54);
-  return param_1;
+    self->x = 0.0f;
+    self->y = 0.0f;
+    self->count10 = 0;
+    self->count14 = 0;
+    self->count18 = 0;
+    self->count1C = 0;
+    self->count20 = 0;
+    self->count24 = 0;
+    self->count28 = 0;
+    self->count2C = 0;
+    self->value3C = 0;
+    self->value40 = 0;
+    self->flag = 0;
+    self->scale = 5.0f;
+    self->blend = 0.5f;
+    self->origin = __VMXGetReg(77);
+    self->value180 = 0;
+    self->value184 = 0;
+    self->enabled = 1;
+    self->value18C = 0;
+    self->timer = 0.0f;
+    fn_82340138(self->list);
+    self->value198 = 0;
+    self->width = config->width;
+    self->height = config->height;
+    self->depth = config->depth;
+    return self;
 }
-

@@ -1,141 +1,120 @@
-typedef unsigned char bool;
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern float fRam832968ac;
-extern float fRam832968bc;
-extern int fn_82266628();
-extern int fn_82530258();
-extern unsigned int lbl_8327F844;
-extern unsigned int lbl_83296890;
-extern unsigned int lbl_832968A0;
-extern unsigned int lbl_832968A4;
-extern unsigned int lbl_832968A8;
-extern unsigned int lbl_832968B0;
-extern unsigned int lbl_832968B4;
-extern unsigned int lbl_832968B8;
-extern unsigned int uStack_28;
-extern unsigned int uStack_30;
-extern unsigned int uStack_38;
-extern unsigned int uStack_40;
-extern unsigned int uStack_48;
-extern unsigned int uStack_50;
-extern unsigned int uStack_58;
-extern unsigned int uStack_60;
-extern V16 vectorMergeHighWord();
-extern V16 vectorMergeLowWord();
-extern void *memcpy(void *, const void *, unsigned int);
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vmsum4fp(__vector4 a, __vector4 b);
+__vector4 __vmrghw(__vector4 a, __vector4 b);
+__vector4 __vmrglw(__vector4 a, __vector4 b);
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+typedef struct Matrix_82265DE0 {
+    __vector4 r[4];
+} Matrix_82265DE0;
 
-void fn_82265DE0(int param_1,char param_2)
+typedef struct Sub_82265DE0 {
+    char pad[0x1bc];
+    int active; /* 0x1bc */
+} Sub_82265DE0;
 
+typedef struct Thing_82265DE0 {
+    char pad[0x50];
+    __vector4 position; /* 0x50 */
+    char pad60[0x860];
+    Sub_82265DE0 *sub; /* 0x8c0 */
+} Thing_82265DE0;
+
+typedef struct Self_82265DE0 {
+    char pad0[0xa0];
+    unsigned int flags; /* 0xa0 */
+    char padA4[0x38];
+    Thing_82265DE0 *thing; /* 0xdc */
+    char padE0[0x42c];
+    int state; /* 0x50c */
+    char pad510[8];
+    int enabled; /* 0x518 */
+    char pad51C[0x10];
+    int mode; /* 0x52c */
+} Self_82265DE0;
+
+typedef struct Manager_82265DE0 {
+    char pad[0xf0];
+    int fadeIn; /* 0xf0 */
+    int fade;   /* 0xf4 */
+} Manager_82265DE0;
+
+extern Matrix_82265DE0 lbl_83296890[];
+extern Manager_82265DE0 *lbl_8327F844;
+
+extern void fn_82266628(Self_82265DE0 *self, int mode, int next);
+extern void fn_82530258(Matrix_82265DE0 m, __vector4 position);
+
+static __forceinline Matrix_82265DE0 Multiply(const Matrix_82265DE0 *a, const Matrix_82265DE0 *b)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float *pfVar4;
-  bool bVar5;
-  int iVar6;
-  int iVar7;
-  int in_r0;
-  __int64 lVar8;
-  unsigned int uVar9;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs33 [16];
-  unsigned char in_vs34 [16];
-  unsigned char in_vs35 [16];
-  unsigned char in_vs36 [16];
-  unsigned char in_vs37 [16];
-  unsigned char auVar10 [16];
-  unsigned char auVar11 [16];
-  unsigned char auVar12 [16];
-  unsigned char auVar13 [16];
-  unsigned char auVar14 [16];
-  unsigned char auVar15 [16];
-  unsigned char in_vs43 [16];
-  unsigned char in_vs44 [16];
-  unsigned char auVar16 [16];
-  unsigned char in_vs45 [16];
-  unsigned char in_vs61 [16];
-  unsigned char in_vs62 [16];
-  unsigned char in_vs63 [16];
-  float in_register_00010060;
-  float in_register_00010064;
-  float in_register_00010068;
-  float in_vr6;
-  float in_register_00010090;
-  float in_register_00010094;
-  float in_register_00010098;
-  float in_vr9;
-  unsigned __int64 uStack_60;
-  unsigned __int64 uStack_58;
-  unsigned __int64 uStack_50;
-  unsigned __int64 uStack_48;
-  unsigned __int64 uStack_40;
-  unsigned __int64 uStack_38;
-  unsigned __int64 uStack_30;
-  unsigned __int64 uStack_28;
-  
-  lVar8 = (unsigned __int64)(param_2 != '\0') - (unsigned __int64)*(unsigned int *)(param_1 + 0x518);
-  uVar9 = (unsigned int)(param_2 != '\0');
-  *(unsigned int *)(param_1 + 0x518) = uVar9;
-  iVar6 = (int)lVar8;
-  if (*(int *)(param_1 + 0x50c) == 3) {
-    bVar5 = (*(unsigned int *)(param_1 + 0xa0) & 4) != 0;
-    if (uVar9 == 0) {
-      if ((bVar5) && (*(int *)(param_1 + 0x52c) != 10)) {
-        fn_82266628(param_1,10,9);
-      }
-      *(unsigned int *)(*(int *)(*(int *)(param_1 + 0xdc) + 0x8c0) + 0x1bc) = 0;
-    }
-    else {
-      if ((bVar5) && (*(int *)(param_1 + 0x52c) != 9)) {
-        fn_82266628(param_1,9,8);
-      }
-      iVar7 = lbl_8327F844;
-      *(unsigned int *)(*(int *)(*(int *)(param_1 + 0xdc) + 0x8c0) + 0x1bc) = 1;
-      if ((iVar6 != iVar6 + -1 + (unsigned int)(lVar8 == 0)) && (iVar7 != 0)) {
-        *(unsigned int *)(iVar7 + 0xf0) = 0;
-        *(unsigned int *)(iVar7 + 0xf4) = 0;
-      }{ V16 _vt0 = vectorMergeHighWord(in_vs32,in_vs45); memcpy(auVar14, &_vt0, 16); }{ V16 _vt1 = vectorMergeLowWord(in_vs32,in_vs45); memcpy(auVar12, &_vt1, 16); }
-      pfVar4 = (float *)((int)&lbl_83296890 + in_r0 & 0xfffffff0);{ V16 _vt2 = vectorMergeHighWord(in_vs44,in_vs43); memcpy(auVar11, &_vt2, 16); }{ V16 _vt3 = vectorMergeLowWord(in_vs44,in_vs43); memcpy(auVar10, &_vt3, 16); }
-      vectorMergeHighWord(auVar14,auVar11);{ V16 _vt4 = vectorMergeLowWord(auVar14,auVar11); memcpy(auVar15, &_vt4, 16); }{ V16 _vt5 = vectorMergeHighWord(auVar12,auVar10); memcpy(auVar14, &_vt5, 16); }{ V16 _vt6 = vectorMergeLowWord(auVar12,auVar10); memcpy(auVar13, &_vt6, 16); }
-      fVar1 = *pfVar4 * in_register_00010090 + pfVar4[1] * in_register_00010094 +
-              pfVar4[2] * in_register_00010098 + pfVar4[3] * in_vr9;
-      fVar2 = lbl_832968B0 * in_register_00010060 + lbl_832968B4 * in_register_00010064 +
-              lbl_832968B8 * in_register_00010068 + fRam832968bc * in_vr6;
-      fVar3 = lbl_832968A0 * in_register_00010060 + lbl_832968A4 * in_register_00010064 +
-              lbl_832968A8 * in_register_00010068 + fRam832968ac * in_vr6;{ V16 _vt7 = vectorMergeHighWord(auVar10,in_vs36); memcpy(auVar12, &_vt7, 16); }{ V16 _vt8 = vectorMergeHighWord(in_vs37,in_vs32); memcpy(auVar10, &_vt8, 16); }{ V16 _vt9 = vectorMergeHighWord(in_vs34,in_vs35); memcpy(auVar11, &_vt9, 16); }
-      vectorMergeHighWord(auVar12,auVar10);{ V16 _vt10 = vectorMergeHighWord(in_vs62,in_vs63); memcpy(auVar10, &_vt10, 16); }{ V16 _vt11 = vectorMergeHighWord(in_vs44,in_vs61); memcpy(auVar16, &_vt11, 16); }{ V16 _vt12 = vectorMergeHighWord(auVar15,auVar13); memcpy(auVar12, &_vt12, 16); }{ V16 _vt13 = vectorMergeHighWord(in_vs45,in_vs33); memcpy(auVar13, &_vt13, 16); }
-      pfVar4 = (float *)((int)&uStack_60 + in_r0 & 0xfffffff0);
-      *pfVar4 = fVar1;
-      pfVar4[1] = fVar1;
-      pfVar4[2] = fVar1;
-      pfVar4[3] = fVar1;{ V16 _vt14 = vectorMergeHighWord(in_vs43,auVar14); memcpy(auVar14, &_vt14, 16); }
-      vectorMergeHighWord(auVar16,auVar10);
-      vectorMergeHighWord(auVar13,auVar11);
-      vectorMergeHighWord(auVar14,auVar12);
-      pfVar4 = (float *)((int)&uStack_40 + in_r0 & 0xfffffff0);
-      *pfVar4 = fVar1;
-      pfVar4[1] = fVar1;
-      pfVar4[2] = fVar1;
-      pfVar4[3] = fVar1;
-      pfVar4 = (float *)((int)&uStack_50 + in_r0 & 0xfffffff0);
-      *pfVar4 = fVar3;
-      pfVar4[1] = fVar3;
-      pfVar4[2] = fVar3;
-      pfVar4[3] = fVar3;
-      pfVar4 = (float *)((int)&uStack_30 + in_r0 & 0xfffffff0);
-      *pfVar4 = fVar2;
-      pfVar4[1] = fVar2;
-      pfVar4[2] = fVar2;
-      pfVar4[3] = fVar2;
-      if (iVar7 != 0) {
-        fn_82530258(uStack_60,uStack_58,uStack_50,uStack_48,uStack_40,uStack_38,uStack_30,uStack_28
-                    );
-      }
-    }
-  }
-  return;
+    Matrix_82265DE0 m;
+    __vector4 t0, t1, t2, t3, c0, c1, c2, c3;
+    __vector4 x, y, z, w;
+
+    t0 = __vmrghw(b->r[0], b->r[2]);
+    t1 = __vmrghw(b->r[1], b->r[3]);
+    t2 = __vmrglw(b->r[0], b->r[2]);
+    t3 = __vmrglw(b->r[1], b->r[3]);
+    c0 = __vmrghw(t0, t1);
+    c1 = __vmrglw(t0, t1);
+    c2 = __vmrghw(t2, t3);
+    c3 = __vmrglw(t2, t3);
+    x = __vmsum4fp(a->r[0], c0);
+    y = __vmsum4fp(a->r[0], c1);
+    z = __vmsum4fp(a->r[0], c2);
+    w = __vmsum4fp(a->r[0], c3);
+    m.r[0] = __vmrghw(__vmrghw(x, z), __vmrghw(y, w));
+    x = __vmsum4fp(a->r[1], c0);
+    y = __vmsum4fp(a->r[1], c1);
+    z = __vmsum4fp(a->r[1], c2);
+    w = __vmsum4fp(a->r[1], c3);
+    m.r[1] = __vmrghw(__vmrghw(x, z), __vmrghw(y, w));
+    x = __vmsum4fp(a->r[2], c0);
+    y = __vmsum4fp(a->r[2], c1);
+    z = __vmsum4fp(a->r[2], c2);
+    w = __vmsum4fp(a->r[2], c3);
+    m.r[2] = __vmrghw(__vmrghw(x, z), __vmrghw(y, w));
+    x = __vmsum4fp(a->r[3], c0);
+    y = __vmsum4fp(a->r[3], c1);
+    z = __vmsum4fp(a->r[3], c2);
+    w = __vmsum4fp(a->r[3], c3);
+    m.r[3] = __vmrghw(__vmrghw(x, z), __vmrghw(y, w));
+    return m;
 }
 
+void fn_82265DE0(Self_82265DE0 *self, unsigned char on)
+{
+    int enabled;
+    int changed;
+    Manager_82265DE0 *manager;
+    Matrix_82265DE0 m;
+
+    enabled = on != 0;
+    changed = self->enabled != enabled;
+    self->enabled = enabled;
+    if (self->state != 3) {
+        return;
+    }
+    if (enabled) {
+        if ((self->flags & 4) && self->mode != 9) {
+            fn_82266628(self, 9, 8);
+        }
+        manager = lbl_8327F844;
+        self->thing->sub->active = 1;
+        if (changed && manager != 0) {
+            manager->fadeIn = 0;
+            manager->fade = 0;
+        }
+        m = Multiply(&lbl_83296890[0], &lbl_83296890[1]);
+        if (manager != 0) {
+            fn_82530258(m, self->thing->position);
+        }
+    } else {
+        if ((self->flags & 4) && self->mode != 10) {
+            fn_82266628(self, 10, 9);
+        }
+        self->thing->sub->active = 0;
+    }
+}

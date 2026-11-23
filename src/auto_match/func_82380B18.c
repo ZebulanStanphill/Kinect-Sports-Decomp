@@ -1,54 +1,61 @@
-#define NAN(x) ((x) != (x))
-extern int fn_8254EEB8();
-extern unsigned int lbl_82005748;
-extern unsigned int lbl_821917B0;
-extern unsigned int lbl_82192D74;
-extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Audio_82380B18 {
+    char pad000[0x4];
+    unsigned int active; /* 0x004 */
+    char pad008[0x1c4];
+    int sound;    /* 0x1CC */
+    float level;  /* 0x1D0 */
+    int playing;  /* 0x1D4 */
+    float fade;   /* 0x1D8 */
+    float volume; /* 0x1DC */
+    float pitch;  /* 0x1E0 */
+} Audio_82380B18;
 
+typedef struct Speaker_82380B18 {
+    char pad000[0xa8];
+    float maximumPitch; /* 0x0A8 */
+    char pad0AC[0x140];
+    Audio_82380B18 *audio; /* 0x1EC */
+    char pad1F0[0x10];
+    float loopLevel; /* 0x200 */
+    char pad204[0x4];
+    float level; /* 0x208 */
+    char pad20C[0x4];
+    int loopSound; /* 0x210 */
+} Speaker_82380B18;
 
-void fn_82380B18(int param_1,float *param_2)
+extern void fn_8254EEB8(Audio_82380B18 *target, int sound, float volume, float pitch, float pan);
 
+static __forceinline float Min(float a, float b)
 {
-  float fVar1;
-  int iVar2;
-  unsigned int uVar3;
-  float fVar4;
-  double dVar5;
-  double dVar6;
-  double dVar7;
-  
-  fVar1 = param_2[2];
-  fVar4 = *param_2 * lbl_82005748;
-  *(float *)(param_1 + 0x208) = fVar4;
-  dVar7 = (double)ltcg_pool_0_0f;
-  if (*(int *)(*(int *)(param_1 + 0x1ec) + 4) != 0) {
-    dVar6 = (double)(float)((double)(fVar1 * lbl_82192D74) - (double)*(float *)(param_1 + 0xa8));
-    dVar5 = (double)*(float *)(param_1 + 0xa8);
-    if (*(float *)(&lbl_821954D8 +
-                  ((unsigned int)(unsigned char)((dVar6 < dVar7) << 2) | (unsigned int)(NAN(dVar6) || NAN(dVar7)) << 2)) <
-        0.0) {
-      dVar5 = (double)(fVar1 * lbl_82192D74);
-    }
-    fn_8254EEB8((double)param_2[2],dVar5,(double)param_2[1],*(int *)(param_1 + 0x1ec),
-                      (int)fVar4);
-  }
-  fVar1 = param_2[3];
-  if (dVar7 < (double)fVar1) {
-    iVar2 = *(int *)(param_1 + 0x1ec);
-    *(float *)(param_1 + 0x200) = fVar1;
-    uVar3 = *(unsigned int *)(param_1 + 0x210);
-    if (*(int *)(iVar2 + 4) != 0) {
-      *(float *)(iVar2 + 0x1d0) = fVar1;
-      *(unsigned int *)(iVar2 + 0x1d8) = lbl_821917B0;
-      *(unsigned int *)(iVar2 + 0x1cc) = uVar3;
-      *(unsigned int *)(iVar2 + 0x1d4) = 1;
-      uVar3 = lbl_821CA460;
-      *(unsigned int *)(iVar2 + 0x1dc) = lbl_821CA460;
-      *(unsigned int *)(iVar2 + 0x1e0) = uVar3;
-    }
-  }
-  return;
+    return b - a >= 0.0f ? a : b;
 }
 
+void fn_82380B18(Speaker_82380B18 *self, float *input)
+{
+    float level = input[0] * 100.0f;
+    float pitch = input[2] * 0.6f;
+    float maximum;
+    float loop;
+    int sound;
+    Audio_82380B18 *audio;
+
+    self->level = level;
+    maximum = self->maximumPitch;
+    if (self->audio->active != 0) {
+        fn_8254EEB8(self->audio, (int)level, input[2], Min(maximum, pitch), input[1]);
+    }
+    loop = input[3];
+    if (loop > 0.0f) {
+        audio = self->audio;
+        self->loopLevel = loop;
+        sound = self->loopSound;
+        if (audio->active != 0) {
+            audio->level = loop;
+            audio->fade = 1.5f;
+            audio->sound = sound;
+            audio->playing = 1;
+            audio->volume = 1.0f;
+            audio->pitch = 1.0f;
+        }
+    }
+}

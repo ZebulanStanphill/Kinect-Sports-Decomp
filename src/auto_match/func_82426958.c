@@ -1,115 +1,109 @@
-extern unsigned int lbl_82194C60;
+typedef struct Limits_82426958 {
+    char pad0[0x7bc];
+    unsigned int f7bc; /* 0x7bc */
+    unsigned int f7c0; /* 0x7c0 */
+} Limits_82426958;
 
+typedef struct Player_82426958 {
+    Limits_82426958 *limits; /* 0x0 */
+} Player_82426958;
 
-void fn_82426958(int param_1,int param_2,unsigned int *param_3,int param_4)
+typedef struct Ctx_82426958 {
+    char pad0[0x2b20];
+    Player_82426958 *active; /* 0x2b20 */
+    char pad2b24[0x2b50 - 0x2b24];
+    int target; /* 0x2b50 */
+} Ctx_82426958;
 
+typedef struct Self_82426958 {
+    int f0;
+    Player_82426958 *player; /* 0x4 */
+    Ctx_82426958 *ctx;       /* 0x8 */
+} Self_82426958;
+
+typedef struct Info_82426958 {
+    char pad0[0x14];
+    unsigned int f14; /* 0x14 */
+} Info_82426958;
+
+typedef struct Arg_82426958 {
+    unsigned int f0; /* 0x0 */
+    int f4;
+    int f8;
+    int fc; /* 0xc */
+} Arg_82426958;
+
+extern void fn_82414950(int target, int value, int code);
+
+void fn_82426958(Self_82426958 *self, Info_82426958 *info, Arg_82426958 *arg, int kind)
 {
-  int *piVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  int iVar4;
-  
-  iVar4 = *(int *)(param_1 + 8);
-  piVar1 = *(int **)(param_1 + 4);
-  if (piVar1 == *(int **)(iVar4 + 0x2b20)) {
-    if ((param_4 == 9) || (*(unsigned int *)(param_2 + 0x14) <= *(unsigned int *)(*piVar1 + 0x7c0))) {
-      switch(param_4) {
-      case 2:
-      case 5:
-        uVar2 = *(unsigned int *)(iVar4 + 0x2b50);
-        iVar4 = 0x16;
-        uVar3 = 0;
-        break;
-      case 3:
-        uVar2 = *(unsigned int *)(iVar4 + 0x2b50);
-        iVar4 = 0x19;
-        uVar3 = 0;
-        break;
-      case 4:
-        uVar2 = *(unsigned int *)(iVar4 + 0x2b50);
-        iVar4 = 0x18;
-        uVar3 = 0;
-        break;
-      case 6:
-      case 7:
-        uVar2 = *(unsigned int *)(iVar4 + 0x2b50);
-        iVar4 = 0x13;
-        uVar3 = 0;
-        break;
-      case 8:
-        uVar3 = 0;
-        uVar2 = *(unsigned int *)(iVar4 + 0x2b50);
-        if (*(unsigned int *)(*piVar1 + 0x7bc) < *param_3) {
-          iVar4 = 0x10;
-        }
-        else {
-          iVar4 = 0xf;
-        }
-        break;
-      case 9:
-        uVar2 = *(unsigned int *)(iVar4 + 0x2b50);
-        uVar3 = (unsigned __int64)*(unsigned int *)(param_2 + 0x14) + 1;
-        if ((uVar3 & 0xffffffff) == 1) {
-          iVar4 = 9;
-          uVar3 = 1;
-        }
-        else if ((uVar3 & 0xffffffff) == 2) {
-          iVar4 = 10;
-          uVar3 = 2;
-        }
-        else if ((uVar3 & 0xffffffff) == 3) {
-          iVar4 = 0xb;
-          uVar3 = 3;
-        }
-        else if ((uVar3 & 0xffffffff) == 0xc) {
-          iVar4 = 0xd;
-          uVar3 = 0xc;
-        }
-        else {
-          iVar4 = 0xc;
-        }
-        break;
-      case 10:
-        if ((param_3[3] == 6) || (param_3[3] == 7)) {
-          uVar2 = *(unsigned int *)(iVar4 + 0x2b50);
-          iVar4 = 0x15;
-          uVar3 = 0;
-        }
-        else {
-          uVar2 = *(unsigned int *)(iVar4 + 0x2b50);
-          iVar4 = 0x11;
-          uVar3 = 0;
-        }
-        break;
-      case 0xb:
-      case 0xd:
-        if ((param_3[3] == 6) || (param_3[3] == 7)) {
-          uVar2 = *(unsigned int *)(iVar4 + 0x2b50);
-          iVar4 = 0x14;
-          uVar3 = 0;
-        }
-        else {
-          uVar2 = *(unsigned int *)(iVar4 + 0x2b50);
-          iVar4 = 0x12;
-          uVar3 = 0;
-        }
-        break;
-      case 0xc:
-        return;
-      default:
-        return;
-      }
-    }
-    else {
-      uVar2 = *(unsigned int *)(iVar4 + 0x2b50);
-      iVar4 = 0xe;
-      uVar3 = 0;
-    }
-                    /* WARNING: Could not recover jumptable at 0x82414990. Too many branches */
-                    /* WARNING: Treating indirect jump as call */
-    (*(int (**)())((unsigned int)(unsigned char)(&lbl_82194C60)[iVar4] * 4 + -0x7dbeb66c))(uVar2,uVar3);
-    return;
-  }
-  return;
-}
+    Ctx_82426958 *ctx = self->ctx;
+    unsigned int n;
 
+    if (self->player != ctx->active)
+        return;
+    if (kind != 9 && info->f14 > self->player->limits->f7c0) {
+        fn_82414950(ctx->target, 0, 0xe);
+        return;
+    }
+    switch (kind) {
+        int typeMatches;
+    case 2:
+    case 5:
+        fn_82414950(ctx->target, 0, 0x16);
+        break;
+    case 3:
+        fn_82414950(ctx->target, 0, 0x19);
+        break;
+    case 4:
+        fn_82414950(ctx->target, 0, 0x18);
+        break;
+    case 6:
+    case 7:
+        fn_82414950(ctx->target, 0, 0x13);
+        break;
+    case 8:
+        if (arg->f0 > self->player->limits->f7bc)
+            fn_82414950(ctx->target, 0, 0x10);
+        else
+            fn_82414950(ctx->target, 0, 0xf);
+        break;
+    case 11:
+    case 13:
+        typeMatches = arg->fc == 6 || arg->fc == 7;
+        if (typeMatches)
+            fn_82414950(ctx->target, 0, 0x14);
+        else
+            fn_82414950(ctx->target, 0, 0x12);
+        break;
+    case 9:
+        n = info->f14 + 1;
+        switch (n) {
+        case 1:
+            fn_82414950(ctx->target, n, 9);
+            break;
+        case 2:
+            fn_82414950(ctx->target, n, 0xa);
+            break;
+        case 3:
+            fn_82414950(ctx->target, n, 0xb);
+            break;
+        case 0xc:
+            fn_82414950(ctx->target, n, 0xd);
+            break;
+        default:
+            fn_82414950(ctx->target, n, 0xc);
+            break;
+        }
+        break;
+    case 10:
+        typeMatches = arg->fc == 6 || arg->fc == 7;
+        if (typeMatches)
+            fn_82414950(ctx->target, 0, 0x15);
+        else
+            fn_82414950(ctx->target, 0, 0x11);
+        break;
+    case 12:
+        break;
+    }
+}

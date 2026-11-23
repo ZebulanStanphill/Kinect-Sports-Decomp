@@ -1,64 +1,78 @@
-extern int fn_82273C88();
-extern int fn_82273CD8();
-extern int fn_82672C20();
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int uStack_5c;
-extern unsigned int uStack_60;
-extern unsigned int uStack_6c;
-extern unsigned int uStack_70;
+typedef struct Value_82436FE8 {
+    int w0;        /* 0x00 */
+    int type;      /* 0x04 */
+    double number; /* 0x08 */
+} Value_82436FE8;
 
+typedef struct Movie_82436FE8 {
+    void *root; /* 0x00 */
+} Movie_82436FE8;
 
-void fn_82436FE8(double param_1,int param_2)
+typedef struct Ui_82436FE8 {
+    char pad0[0xc];
+    Movie_82436FE8 *movie; /* 0x0C */
+} Ui_82436FE8;
 
+typedef struct Game_82436FE8 {
+    char pad0[0xd4];
+    Ui_82436FE8 *ui; /* 0xD4 */
+} Game_82436FE8;
+
+typedef struct State_82436FE8 {
+    Game_82436FE8 *game; /* 0x000 */
+    char pad4[0x218];
+    float limit;      /* 0x21C */
+    float timer;      /* 0x220 */
+    int showing[2];   /* 0x224 */
+    int hasRecord[2]; /* 0x22C */
+} State_82436FE8;
+
+typedef struct Screen_82436FE8 {
+    char pad0[0x40];
+    State_82436FE8 *state; /* 0x40 */
+} Screen_82436FE8;
+
+extern void fn_82273CD8(Value_82436FE8 *value, int type);
+extern void fn_82273C88(Value_82436FE8 *value);
+extern void fn_82672C20(void *root, const char *path, Value_82436FE8 *args, int count);
+
+void fn_82436FE8(Screen_82436FE8 *self, float dt)
 {
-  float fVar1;
-  int *piVar2;
-  unsigned int *puVar3;
-  __int64 lVar4;
-  int iVar5;
-  int iVar6;
-  struct { unsigned int first; unsigned int second; } stack_pair_70;
+    State_82436FE8 *state;
+    Movie_82436FE8 *movie;
+    int i;
+    float timer;
 
-  double dStack_68;
-  struct { unsigned int first; unsigned int second; } stack_pair_60;
-
-  double dStack_58;
-
-  iVar5 = *(int *)(param_2 + 0x40);
-  fVar1 = (float)((double)*(float *)(iVar5 + 0x220) + param_1);
-  *(float *)(iVar5 + 0x220) = fVar1;
-  if (*(float *)(iVar5 + 0x21c) < fVar1) {
-    iVar5 = 1;
-    iVar6 = 0x224;
-    lVar4 = 2;
-    *(unsigned int *)(*(int *)(param_2 + 0x40) + 0x220) = ltcg_pool_0_0f;
-    do {
-      piVar2 = *(int **)(param_2 + 0x40);
-      if ((*(int *)(iVar6 + (int)piVar2) == 0) || (*(int *)((int)piVar2 + iVar6 + 8) == 0)) {
-        puVar3 = *(unsigned int **)(*(int *)(*piVar2 + 0xd4) + 0xc);
-        stack_pair_60.first = 0;
-        stack_pair_60.second = 0;
-        fn_82273CD8(&stack_pair_60.first,3);
-        dStack_58 = (double)(__int64)iVar5;
-        fn_82672C20(*puVar3,0xffffffff821abaa0,&stack_pair_60.first,1);
-        puVar3 = &stack_pair_60.first;
-      }
-      else {
-        puVar3 = *(unsigned int **)(*(int *)(*piVar2 + 0xd4) + 0xc);
-        stack_pair_70.first = 0;
-        stack_pair_70.second = 0;
-        fn_82273CD8(&stack_pair_70.first,3);
-        dStack_68 = (double)(__int64)iVar5;
-        fn_82672C20(*puVar3,0xffffffff821abac8,&stack_pair_70.first,1);
-        puVar3 = &stack_pair_70.first;
-      }
-      fn_82273C88(puVar3);
-      lVar4 = lVar4 + -1;
-      iVar5 = iVar5 + 1;
-      *(unsigned int *)(iVar6 + *(int *)(param_2 + 0x40)) =
-           (unsigned int)LZCOUNT(*(unsigned int *)(iVar6 + *(int *)(param_2 + 0x40))) >> 5;
-      iVar6 = iVar6 + 4;
-    } while (lVar4 != 0);
-  }
-  return;
+    state = self->state;
+    timer = state->timer + dt;
+    state->timer = timer;
+    if (timer > self->state->limit) {
+        self->state->timer = 0.0f;
+        for (i = 0; i < 2; i++) {
+            state = self->state;
+            if (state->showing[i] != 0 && state->hasRecord[i] != 0) {
+                Value_82436FE8 value;
+                movie = state->game->ui->movie;
+                value.w0 = 0;
+                value.type = 0;
+                fn_82273CD8(&value, 3);
+                value.number = i + 1;
+                fn_82672C20(movie->root, "_root.mainCtrl.showPersonalBestCaption", &value, 1);
+                fn_82273C88(&value);
+                state = self->state;
+                state->showing[i] = !state->showing[i];
+            } else {
+                Value_82436FE8 value;
+                movie = state->game->ui->movie;
+                value.w0 = 0;
+                value.type = 0;
+                fn_82273CD8(&value, 3);
+                value.number = i + 1;
+                fn_82672C20(movie->root, "_root.mainCtrl.showWorldRecordCaption", &value, 1);
+                fn_82273C88(&value);
+                state = self->state;
+                state->showing[i] = !state->showing[i];
+            }
+        }
+    }
 }

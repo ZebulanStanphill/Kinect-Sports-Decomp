@@ -1,85 +1,68 @@
-extern int fn_82F68CC0();
-extern int fn_82F691F0();
+#include <string.h>
 
+typedef struct Device_82ED3BC8 {
+    char pad0[0x7b34];
+    int level; /* 0x7b34 */
+} Device_82ED3BC8;
 
-void fn_82ED3BC8(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,__int64 param_4)
+typedef struct Frame_82ED3BC8 {
+    char pad0[0xc];
+    unsigned int width;  /* 0xc */
+    unsigned int height; /* 0x10 */
+    char pad14[0x38 - 0x14];
+    Device_82ED3BC8 *device; /* 0x38 */
+} Frame_82ED3BC8;
 
+/* Shifts a plane down and right by pad pixels, repeating the left column and the top row. */
+static __forceinline void ShiftPlane(unsigned char *plane, unsigned int width, int pad, int rows,
+                                     unsigned int lastOffset, unsigned int srcOffset)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  unsigned int uVar4;
-  int iVar5;
-  __int64 lVar6;
-  int iVar8;
-  __int64 lVar7;
-  __int64 lVar9;
-  __int64 lVar10;
-  unsigned __int64 uVar11;
-  __int64 lVar12;
-  
-  if ((((param_2 & 0xffffffff) != 0) && ((param_3 & 0xffffffff) != 0)) && ((int)param_4 != 0)) {
-    uVar1 = *(unsigned int *)(param_1 + 0xc);
-    uVar11 = (unsigned __int64)uVar1;
-    lVar6 = 2;
-    uVar2 = *(unsigned int *)(param_1 + 0x10);
-    uVar4 = uVar1 >> 1;
-    uVar3 = (unsigned __int64)uVar4;
-    if ((*(int *)(param_1 + 0x38) != 0) && (3 < *(int *)(*(int *)(param_1 + 0x38) + 0x7b34))) {
-      lVar6 = 4;
+    unsigned char *dst = plane + lastOffset;
+    unsigned char *src = plane + srcOffset;
+    unsigned char *top;
+    int i;
+
+    for (i = 0; i < rows; i++) {
+        memcpy(dst, src, width - pad);
+        memset(dst - pad, *dst, pad);
+        dst -= width;
+        src -= width;
     }
-    lVar9 = (__int64)(int)(uVar2 - 1) * (__int64)(int)uVar1 + lVar6 + param_2;
-    if (0 < (__int64)((unsigned __int64)uVar2 - lVar6)) {
-      fn_82F68CC0(lVar9,(__int64)((int)((unsigned __int64)uVar2 - lVar6) + -1) * (__int64)(int)uVar1 +
-                         param_2,uVar11 - lVar6);
-                    /* WARNING: Subroutine does not return */
-      fn_82F691F0(lVar9 - lVar6,*(unsigned char *)lVar9,lVar6);
+    top = plane;
+    src = plane + pad * width;
+    for (i = 0; i < pad; i++) {
+        memcpy(top, src, width);
+        top += width;
     }
-    iVar8 = (int)lVar6;
-    lVar9 = (__int64)iVar8 * (__int64)(int)uVar1 + param_2;
-    if (iVar8 != 0) {
-      do {
-        fn_82F68CC0(param_2,lVar9,uVar11);
-        lVar6 = lVar6 + -1;
-        param_2 = param_2 + uVar11;
-      } while (lVar6 != 0);
-    }
-    iVar8 = iVar8 >> 1;
-    lVar12 = (__int64)iVar8;
-    lVar7 = (unsigned __int64)(uVar2 >> 1) - lVar12;
-    iVar5 = (int)lVar7;
-    lVar9 = (__int64)(int)((uVar2 >> 1) - 1) * (__int64)(int)uVar4 + lVar12;
-    lVar6 = (__int64)(iVar5 + -1) * (__int64)(int)uVar4;
-    lVar10 = lVar9 + param_3;
-    if (0 < lVar7) {
-      fn_82F68CC0(lVar10,lVar6 + param_3,uVar3 - lVar12);
-                    /* WARNING: Subroutine does not return */
-      fn_82F691F0(lVar10 - lVar12,*(unsigned char *)lVar10,lVar12);
-    }
-    lVar10 = (__int64)iVar8 * (__int64)(int)uVar4 + param_3;
-    lVar7 = lVar12;
-    if (iVar8 != 0) {
-      do {
-        fn_82F68CC0(param_3,lVar10,uVar3);
-        lVar7 = lVar7 + -1;
-        param_3 = param_3 + uVar3;
-      } while (lVar7 != 0);
-    }
-    lVar9 = lVar9 + param_4;
-    if (0 < iVar5) {
-      fn_82F68CC0(lVar9,lVar6 + param_4,uVar3 - lVar12);
-                    /* WARNING: Subroutine does not return */
-      fn_82F691F0(lVar9 - lVar12,*(unsigned char *)lVar9,lVar12);
-    }
-    lVar6 = (__int64)iVar8 * (__int64)(int)uVar4 + param_4;
-    if (iVar8 != 0) {
-      do {
-        fn_82F68CC0(param_4,lVar6,uVar3);
-        lVar12 = lVar12 + -1;
-        param_4 = param_4 + uVar3;
-      } while (lVar12 != 0);
-    }
-  }
-  return;
 }
 
+void fn_82ED3BC8(Frame_82ED3BC8 *frame, unsigned char *y, unsigned char *u, unsigned char *v)
+{
+    unsigned int width;
+    unsigned int height;
+    unsigned int halfWidth;
+    unsigned int halfHeight;
+    int pad;
+    int halfPad;
+    int rows;
+    unsigned int lastOffset;
+    unsigned int srcOffset;
+
+    if (y == 0 || u == 0 || v == 0)
+        return;
+    width = frame->width;
+    pad = 2;
+    height = frame->height;
+    halfWidth = width >> 1;
+    halfHeight = height >> 1;
+    if (frame->device != 0 && frame->device->level >= 4)
+        pad = 4;
+    rows = height - pad;
+    ShiftPlane(y, width, pad, rows, (height - 1) * width + pad, (rows - 1) * width);
+    halfPad = pad >> 1;
+    rows = halfHeight - halfPad;
+    lastOffset = (halfHeight - 1) * halfWidth + halfPad;
+    srcOffset = (rows - 1) * halfWidth;
+    ShiftPlane(u, halfWidth, halfPad, rows, lastOffset, srcOffset);
+    ShiftPlane(v, halfWidth, halfPad, rows, lastOffset, srcOffset);
+}

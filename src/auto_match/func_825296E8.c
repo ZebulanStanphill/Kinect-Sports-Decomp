@@ -1,89 +1,59 @@
-extern double sqrt(double);
-#define SQRT(x) sqrt(x)
-extern unsigned int fStack_34;
-extern unsigned int fStack_38;
-extern unsigned int fStack_3c;
-extern unsigned int fStack_40;
-extern int fn_82809D40();
-extern int fn_82F6A548();
-extern int fn_82F6A594();
-extern unsigned int lbl_821916FC;
-extern unsigned int lbl_82195628;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Euler_825296E8 {
+    float x;
+    float y;
+    float z;
+} Euler_825296E8;
 
-void fn_825296E8(unsigned __int64 param_1,int param_2)
+typedef struct Object_825296E8 {
+    char pad0[0xa4];
+    Euler_825296E8 angles; /* 0xa4 */
+} Object_825296E8;
 
+extern double sqrt(double value);
+extern float fn_82809D40(float y, float x);
+
+/* Converts a rotation quaternion to Euler angles. */
+static __forceinline Euler_825296E8 QuaternionToEuler(__vector4 q)
 {
-  float fVar1;
-  float fVar2;
-  unsigned int *puVar3;
-  unsigned int *puVar4;
-  int in_r0;
-  int iVar5;
-  double dVar6;
-  double dVar7;
-  double dVar8;
-  double dVar9;
-  double dVar10;
-  double dVar11;
-  double dVar12;
-  double dVar13;
-  double dVar14;
-  double dVar15;
-  unsigned int uVar16;
-  unsigned int uVar17;
-  unsigned int uVar18;
-  float fStack_40;
-  float fStack_3c;
-  float fStack_38;
-  float fStack_34;
-  
-  iVar5 = fn_82F6A548();
-  puVar3 = (unsigned int *)(in_r0 + param_2 & 0xfffffff0);
-  uVar16 = puVar3[1];
-  uVar17 = puVar3[2];
-  uVar18 = puVar3[3];
-  puVar4 = (unsigned int *)((int)&fStack_40 + in_r0 & 0xfffffff0);
-  *puVar4 = *puVar3;
-  puVar4[1] = uVar16;
-  puVar4[2] = uVar17;
-  puVar4[3] = uVar18;
-  dVar10 = (double)fStack_3c;
-  dVar9 = (double)fStack_34;
-  dVar6 = (double)lbl_821916FC;
-  dVar11 = (double)fStack_40;
-  dVar7 = (double)(float)(dVar10 * dVar6);
-  dVar8 = (double)(float)((double)fStack_38 * dVar6);
-  fVar1 = (float)(dVar11 * (double)(float)(dVar11 * dVar6));
-  dVar6 = (double)(float)(dVar9 * (double)(float)(dVar11 * dVar6));
-  dVar12 = (double)(float)(dVar8 * dVar10 - dVar6);
-  fVar2 = (float)((double)fStack_38 * dVar8);
-  dVar15 = (double)(float)(dVar9 * dVar7 + (double)(float)(dVar8 * dVar11));
-  dVar14 = (double)(lbl_821CA460 - ((float)(dVar10 * dVar7) + fVar1));
-  dVar13 = (double)SQRT((float)(dVar14 * dVar14 + (double)(float)(dVar15 * dVar15)));
-  if (dVar13 <= (double)lbl_82195628) {
-    dVar6 = (double)fn_82809D40(-(double)((float)(dVar7 * dVar11) - (float)(dVar9 * dVar8)),
-                                 (double)(lbl_821CA460 - (fVar2 + (float)(dVar10 * dVar7))),dVar6);
-    fStack_38 = (float)dVar6;
-    dVar6 = (double)fn_82809D40(-dVar12,dVar13);
-    fStack_40 = (float)dVar6;
-    fStack_3c = ltcg_pool_0_0f;
-  }
-  else {
-    dVar6 = (double)fn_82809D40((double)((float)(dVar7 * dVar11) + (float)(dVar9 * dVar8)),
-                                 (double)(lbl_821CA460 - (fVar2 + fVar1)));
-    fStack_38 = (float)dVar6;
-    dVar6 = (double)fn_82809D40(-dVar12,dVar13);
-    fStack_40 = (float)dVar6;
-    dVar6 = (double)fn_82809D40(dVar15,dVar14);
-    fStack_3c = (float)dVar6;
-  }
-  *(float *)(iVar5 + 0xa4) = fStack_40;
-  *(float *)(iVar5 + 0xa8) = fStack_3c;
-  *(float *)(iVar5 + 0xac) = fStack_38;
-  fn_82F6A594();
-  return;
+    Euler_825296E8 angles;
+    float x2 = q.vector4_f32[0] * 2.0f;
+    float y2 = q.vector4_f32[1] * 2.0f;
+    float z2 = q.vector4_f32[2] * 2.0f;
+    float wz = q.vector4_f32[3] * z2;
+    float xx = q.vector4_f32[0] * x2;
+    float xy = q.vector4_f32[0] * y2;
+    float xz = q.vector4_f32[0] * z2;
+    float yy = q.vector4_f32[1] * y2;
+    float yz = q.vector4_f32[1] * z2;
+    float zz = q.vector4_f32[2] * z2;
+    float wx = q.vector4_f32[3] * x2;
+    float wy = q.vector4_f32[3] * y2;
+    float m00 = 1.0f - (yy + zz);
+    float m01 = xy + wz;
+    float m10 = xy - wz;
+    float m11 = 1.0f - (xx + zz);
+    float m20 = xz + wy;
+    float m21 = yz - wx;
+    float m22 = 1.0f - (xx + yy);
+    float cosY = (float)sqrt(m22 * m22 + m20 * m20);
+
+    if (cosY > 1.0e-06f) {
+        angles.z = fn_82809D40(m01, m11);
+        angles.x = fn_82809D40(-m21, cosY);
+        angles.y = fn_82809D40(m20, m22);
+    } else {
+        angles.z = fn_82809D40(-m10, m00);
+        angles.x = fn_82809D40(-m21, cosY);
+        angles.y = 0.0f;
+    }
+    return angles;
 }
 
+void fn_825296E8(Object_825296E8 *self, const __vector4 *rotation)
+{
+    self->angles = QuaternionToEuler(*rotation);
+}

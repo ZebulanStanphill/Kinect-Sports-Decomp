@@ -1,45 +1,64 @@
-extern int fn_82437388();
-extern int fn_824510C0();
-extern int fn_82453DE8();
-extern int fn_8265C9E0();
-extern unsigned int lbl_821915B4;
-extern unsigned int lbl_82195E80;
-extern unsigned int lbl_821B9C40;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __VMXGetReg(int n);
 
-unsigned int * fn_824476C8(unsigned int *param_1)
+typedef struct Params_824476C8 {
+    char pad0[0x114];
+    int mode; /* 0x114 */
+    char pad118[0x16c - 0x118];
+    float offset;        /* 0x16c */
+    __vector4 direction; /* 0x170 */
+    int count;           /* 0x180 */
+    char pad184[0x208 - 0x184];
+    int kind; /* 0x208 */
+} Params_824476C8;
 
+typedef struct Extra_824476C8 {
+    char pad0[0x3c];
+    float scale; /* 0x3c */
+} Extra_824476C8;
+
+typedef struct Object_824476C8 {
+    char *vtable; /* 0x00 */
+    char pad4[0x3c];
+    Params_824476C8 *params; /* 0x40 */
+    Extra_824476C8 *extra;   /* 0x44 */
+    int *limit;              /* 0x48 */
+} Object_824476C8;
+
+extern void fn_824510C0(Object_824476C8 *self);
+extern void *fn_8265C9E0(int size);
+extern void fn_82437388(Object_824476C8 *self);
+extern void fn_82453DE8(Object_824476C8 *self);
+extern char lbl_821B9C40[];
+
+Object_824476C8 *fn_824476C8(Object_824476C8 *self)
 {
-  unsigned int uVar1;
-  unsigned int *puVar2;
-  unsigned int in_register_000104b0;
-  unsigned int in_register_000104b4;
-  unsigned int in_register_000104b8;
-  unsigned int in_vr75;
-  
-  fn_824510C0();
-  *param_1 = &lbl_821B9C40;
-  puVar2 = (unsigned int *)fn_8265C9E0(4);
-  if (puVar2 == (unsigned int *)0x0) {
-    puVar2 = (unsigned int *)0x0;
-  }
-  else {
-    *puVar2 = 0x5dc;
-  }
-  param_1[0x12] = puVar2;
-  *(unsigned int *)(param_1[0x10] + 0x208) = 0x1b;
-  *(unsigned int *)(param_1[0x10] + 0x114) = 4;
-  fn_82437388(param_1);
-  uVar1 = lbl_82195E80;
-  *(unsigned int *)(param_1[0x10] + 0x16c) = lbl_821915B4;
-  *(unsigned int *)(param_1[0x11] + 0x3c) = uVar1;
-  puVar2 = (unsigned int *)(param_1[0x10] + 0x170 & 0xfffffff0);
-  *puVar2 = in_register_000104b0;
-  puVar2[1] = in_register_000104b4;
-  puVar2[2] = in_register_000104b8;
-  puVar2[3] = in_vr75;
-  *(unsigned int *)(param_1[0x10] + 0x180) = 0x26;
-  fn_82453DE8(param_1);
-  return param_1;
-}
+    int *limit;
+    int *result;
 
+    fn_824510C0(self);
+    self->vtable = lbl_821B9C40;
+    limit = (int *)fn_8265C9E0(4);
+    if (limit != 0) {
+        result = limit;
+        *result = 1500;
+    } else {
+        result = 0;
+    }
+    {
+        int **slot = &self->limit;
+        *slot = result;
+    }
+    self->params->kind = 0x1b;
+    self->params->mode = 4;
+    fn_82437388(self);
+    self->params->offset = -0.0f;
+    self->extra->scale = 0.30499998f;
+    self->params->direction = __VMXGetReg(75);
+    self->params->count = 0x26;
+    fn_82453DE8(self);
+    return self;
+}

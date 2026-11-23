@@ -1,78 +1,38 @@
-#define NAN(x) ((x) != (x))
-extern int fn_82F68B6C();
-extern unsigned int lbl_821954D8;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Winner_82469458 {
+    int state;   /* 0x0 */
+    int movie;   /* 0x4 */
+    int pad8[3]; /* 0x8 */
+    float timer; /* 0x14 */
+} Winner_82469458;
 
+extern void fn_82672C20(int movie, const char *path, void *args, int count);
 
-void fn_82469458(double param_1,int *param_2)
-
+static __forceinline int CountDown(float *timer, float dt)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  int iVar4;
-  unsigned __int64 uVar5;
-  
-  fVar3 = ltcg_pool_0_0f;
-  iVar4 = *param_2;
-  if (iVar4 == 6) {
-    if (param_2[5] == 0) {
-      return;
-    }
-    fVar1 = -(float)((double)(float)param_2[5] - param_1);
-    fVar2 = ltcg_pool_0_0f;
-    if (*(float *)(&lbl_821954D8 +
-                  ((unsigned int)(unsigned char)((fVar1 < ltcg_pool_0_0f) << 2) |
-                  (unsigned int)(NAN(fVar1) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
-      fVar2 = (float)((double)(float)param_2[5] - param_1);
-    }
-    param_2[5] = (int)fVar2;
-    if (fVar2 != fVar3) {
-      return;
-    }
-    iVar4 = param_2[1];
-    uVar5 = 0xffffffff821bc114;
-  }
-  else if (iVar4 == 7) {
-    if (param_2[5] == 0) {
-      return;
-    }
-    fVar1 = -(float)((double)(float)param_2[5] - param_1);
-    fVar2 = ltcg_pool_0_0f;
-    if (*(float *)(&lbl_821954D8 +
-                  ((unsigned int)(unsigned char)((fVar1 < ltcg_pool_0_0f) << 2) |
-                  (unsigned int)(NAN(fVar1) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
-      fVar2 = (float)((double)(float)param_2[5] - param_1);
-    }
-    param_2[5] = (int)fVar2;
-    if (fVar2 != fVar3) {
-      return;
-    }
-    iVar4 = param_2[1];
-    uVar5 = 0xffffffff821bc12c;
-  }
-  else {
-    if (iVar4 != 8) {
-      return;
-    }
-    if (param_2[5] == 0) {
-      return;
-    }
-    fVar1 = -(float)((double)(float)param_2[5] - param_1);
-    fVar2 = ltcg_pool_0_0f;
-    if (*(float *)(&lbl_821954D8 +
-                  ((unsigned int)(unsigned char)((fVar1 < ltcg_pool_0_0f) << 2) |
-                  (unsigned int)(NAN(fVar1) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
-      fVar2 = (float)((double)(float)param_2[5] - param_1);
-    }
-    param_2[5] = (int)fVar2;
-    if (fVar2 != fVar3) {
-      return;
-    }
-    iVar4 = param_2[1];
-    uVar5 = 0xffffffff821bc144;
-  }
-  fn_82F68B6C(iVar4,uVar5,0,0);
-  return;
+    float left = *timer - dt;
+
+    *timer = -left >= 0.0f ? 0.0f : left;
+    return *timer == 0.0f;
 }
 
+/* The original tests the timer's bits (lwz; cmplwi) before counting it down. */
+void fn_82469458(Winner_82469458 *self, float dt)
+{
+    switch (self->state) {
+    case 6:
+        if (*(unsigned int *)&self->timer != 0 && CountDown(&self->timer, dt)) {
+            fn_82672C20(self->movie, "_root.winningScoreRed", 0, 0);
+        }
+        break;
+    case 7:
+        if (*(unsigned int *)&self->timer != 0 && CountDown(&self->timer, dt)) {
+            fn_82672C20(self->movie, "_root.winningScoreBlue", 0, 0);
+        }
+        break;
+    case 8:
+        if (*(unsigned int *)&self->timer != 0 && CountDown(&self->timer, dt)) {
+            fn_82672C20(self->movie, "_root.winningScoreDraw", 0, 0);
+        }
+        break;
+    }
+}

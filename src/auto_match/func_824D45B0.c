@@ -1,64 +1,67 @@
-extern int fn_824DA9F8();
-extern int fn_8265C9E0();
-extern unsigned int lbl_821955D4;
-extern unsigned int lbl_821C0F04;
-extern unsigned int ltcg_pool_0_0f;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __VMXGetReg(int n);
 
-void fn_824D45B0(int param_1,__int64 param_2)
+typedef struct Tracker_824D45B0 {
+    char *vt; /* 0x00 */
+    char pad4[0xc];
+    void *target; /* 0x10 */
+    char pad14[0xc];
+    __vector4 points[2]; /* 0x20 */
+    char pad40[0x14];
+    int enabledA;   /* 0x54 */
+    int enabledB;   /* 0x58 */
+    float distance; /* 0x5c */
+    void *first;    /* 0x60 */
+    float elapsed;  /* 0x64 */
+    char pad68[0x4];
+    void *second; /* 0x6c */
+    int activeA;  /* 0x70 */
+    int activeB;  /* 0x74 */
+    void *third;  /* 0x78 */
+    char pad7c[0x4];
+} Tracker_824D45B0;
 
+typedef struct Self_824D45B0 {
+    char pad0[0xf0];
+    void *controller;          /* 0xf0 */
+    Tracker_824D45B0 *tracker; /* 0xf4 */
+} Self_824D45B0;
+
+extern void *fn_8265C9E0(int size);
+extern void *fn_824DA9F8(void *mem, Self_824D45B0 *owner, char *settings);
+extern char lbl_821C0F04[];
+
+static __forceinline Tracker_824D45B0 *TrackerCtor(Tracker_824D45B0 *tracker)
 {
-  unsigned int *puVar1;
-  int in_r0;
-  unsigned __int64 uVar2;
-  unsigned int uVar3;
-  unsigned int *puVar4;
-  unsigned int *puVar5;
-  __int64 lVar6;
-  unsigned int in_register_000104d0;
-  unsigned int in_register_000104d4;
-  unsigned int in_register_000104d8;
-  unsigned int in_vr77;
-  
-  uVar2 = fn_8265C9E0(0x430);
-  if ((uVar2 & 0xffffffff) == 0) {
-    uVar3 = 0;
-  }
-  else {
-    uVar3 = fn_824DA9F8(uVar2,param_1,param_2 + 0x48);
-  }
-  *(unsigned int *)(param_1 + 0xf0) = uVar3;
-  puVar4 = (unsigned int *)fn_8265C9E0(0x80);
-  puVar5 = (unsigned int *)0x0;
-  if (puVar4 != (unsigned int *)0x0) {
-    puVar4[0x18] = 0;
-    puVar4[0x1b] = 0;
-    puVar4[0x1e] = 0;
-    puVar4[4] = 0;
-    puVar5 = puVar4 + 8;
-    *puVar4 = &lbl_821C0F04;
-    uVar3 = lbl_821955D4;
-    puVar4[0x17] = lbl_821955D4;
-    lVar6 = 2;
-    do {
-      puVar1 = (unsigned int *)(in_r0 + (int)puVar5 & 0xfffffff0);
-      *puVar1 = in_register_000104d0;
-      puVar1[1] = in_register_000104d4;
-      puVar1[2] = in_register_000104d8;
-      puVar1[3] = in_vr77;
-      puVar5 = puVar5 + 4;
-      lVar6 = lVar6 + -1;
-    } while (lVar6 != 0);
-    puVar4[0x17] = uVar3;
-    puVar4[0x15] = 1;
-    puVar4[0x16] = 1;
-    uVar3 = ltcg_pool_0_0f;
-    puVar4[0x1c] = 1;
-    puVar4[0x19] = uVar3;
-    puVar4[0x1d] = 1;
-    puVar5 = puVar4;
-  }
-  *(unsigned int **)(param_1 + 0xf4) = puVar5;
-  return;
+    int i;
+
+    tracker->first = 0;
+    tracker->second = 0;
+    tracker->third = 0;
+    tracker->target = 0;
+    tracker->vt = lbl_821C0F04;
+    tracker->distance = 9999.0f;
+    for (i = 0; i < 2; i++) {
+        tracker->points[i] = __VMXGetReg(77);
+    }
+    tracker->distance = 9999.0f;
+    tracker->enabledA = 1;
+    tracker->enabledB = 1;
+    tracker->elapsed = 0.0f;
+    tracker->activeA = 1;
+    tracker->activeB = 1;
+    return tracker;
 }
 
+void fn_824D45B0(Self_824D45B0 *self, char *config)
+{
+    void *mem;
+
+    mem = fn_8265C9E0(0x430);
+    self->controller = mem ? fn_824DA9F8(mem, self, config + 0x48) : 0;
+    mem = fn_8265C9E0(0x80);
+    self->tracker = mem ? TrackerCtor((Tracker_824D45B0 *)mem) : 0;
+}

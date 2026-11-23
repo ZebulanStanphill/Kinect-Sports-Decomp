@@ -1,93 +1,52 @@
-extern unsigned int fStack_60;
-extern unsigned int fStack_64;
-extern unsigned int fStack_68;
-extern unsigned int fStack_6c;
-extern unsigned int fStack_70;
-extern int fn_8280A668();
-extern int fn_82F6A538();
-extern int fn_82F6A584();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_821AAD20;
+typedef struct Matrix4_8280BCC0 {
+    float m[4][4];
+} Matrix4_8280BCC0;
 
+extern void fn_8280A668(float angle, float *sine, float *cosine);
 
-void fn_8280BCC0(unsigned __int64 param_1,double param_2,double param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5,unsigned __int64 param_6,double param_7,double param_8,double param_9
-                  )
-
+/* Builds a transform from scale, Euler angles and translation. */
+void fn_8280BCC0(Matrix4_8280BCC0 *out, float sx, float sy, float sz, float rx, float ry, float rz, float tx,
+                 float ty, float tz)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  float fVar5;
-  float *pfVar7;
-  unsigned __int64 uVar6;
-  double dVar8;
-  double extraout_f1;
-  double dVar9;
-  double dVar10;
-  double dVar11;
-  double dVar12;
-  double dVar13;
-  double dVar14;
-  double dVar15;
-  float fStack_70;
-  float fStack_6c;
-  float fStack_68;
-  float fStack_64;
-  float fStack_60;
-  float afStack_5c [19];
-  
-  pfVar7 = (float *)fn_82F6A538();
-  dVar15 = extraout_f1;
-  uVar6 = fn_8280A668(param_4,pfVar7,&fStack_6c,&fStack_70);
-  uVar6 = fn_8280A668(param_5,uVar6,&fStack_60,afStack_5c);
-  fn_8280A668(param_6,uVar6,&fStack_64,&fStack_68);
-  fVar5 = lbl_82002AE0;
-  dVar8 = (double)fStack_70;
-  dVar13 = (double)fStack_68;
-  dVar12 = (double)fStack_64;
-  dVar10 = (double)fStack_60;
-  dVar14 = (double)fStack_6c;
-  dVar11 = (double)afStack_5c[0];
-  dVar9 = (double)lbl_82002AE0;
-  pfVar7[0xc] = (float)param_7;
-  pfVar7[0xd] = (float)param_8;
-  pfVar7[0xe] = (float)param_9;
-  pfVar7[6] = (float)(dVar11 * dVar14);
-  *pfVar7 = (float)(dVar13 * dVar11);
-  pfVar7[1] = (float)(dVar12 * dVar11);
-  pfVar7[2] = (float)-dVar10;
-  fVar3 = (float)((double)(float)(dVar13 * dVar10) * dVar14 - (double)(float)(dVar12 * dVar8));
-  pfVar7[10] = (float)(dVar11 * dVar8);
-  fVar1 = (float)((double)(float)(dVar13 * dVar10) * dVar8 + (double)(float)(dVar12 * dVar14));
-  pfVar7[4] = fVar3;
-  fVar2 = (float)((double)(float)(dVar12 * dVar10) * dVar14 + (double)(float)(dVar13 * dVar8));
-  pfVar7[8] = fVar1;
-  fVar4 = (float)((double)(float)(dVar12 * dVar10) * dVar8 - (double)(float)(dVar13 * dVar14));
-  pfVar7[5] = fVar2;
-  pfVar7[9] = fVar4;
-  if (dVar15 != dVar9) {
-    *pfVar7 = (float)((double)(float)(dVar13 * dVar11) * dVar15);
-    pfVar7[1] = (float)((double)(float)(dVar12 * dVar11) * dVar15);
-    pfVar7[2] = (float)(-dVar10 * dVar15);
-  }
-  if (param_2 != dVar9) {
-    pfVar7[5] = (float)((double)fVar2 * param_2);
-    pfVar7[4] = (float)((double)fVar3 * param_2);
-    pfVar7[6] = (float)((double)(float)(dVar11 * dVar14) * param_2);
-  }
-  if (param_3 != dVar9) {
-    pfVar7[9] = (float)((double)fVar4 * param_3);
-    pfVar7[8] = (float)((double)fVar1 * param_3);
-    pfVar7[10] = (float)((double)(float)(dVar11 * dVar8) * param_3);
-  }
-  pfVar7[0xf] = fVar5;
-  fVar1 = lbl_821AAD20;
-  pfVar7[3] = lbl_821AAD20;
-  pfVar7[7] = fVar1;
-  pfVar7[0xb] = fVar1;
-  fn_82F6A584();
-  return;
-}
+    float sinX;
+    float cosX;
+    float sinY;
+    float cosY;
+    float sinZ;
+    float cosZ;
 
+    fn_8280A668(rx, &sinX, &cosX);
+    fn_8280A668(ry, &sinY, &cosY);
+    fn_8280A668(rz, &sinZ, &cosZ);
+    out->m[3][0] = tx;
+    out->m[3][1] = ty;
+    out->m[3][2] = tz;
+    out->m[0][0] = cosZ * cosY;
+    out->m[0][1] = sinZ * cosY;
+    out->m[0][2] = -sinY;
+    out->m[1][0] = cosZ * sinY * sinX - sinZ * cosX;
+    out->m[1][1] = sinZ * sinY * sinX + cosZ * cosX;
+    out->m[1][2] = cosY * sinX;
+    out->m[2][0] = cosZ * sinY * cosX + sinZ * sinX;
+    out->m[2][1] = sinZ * sinY * cosX - cosZ * sinX;
+    out->m[2][2] = cosY * cosX;
+    if (sx != 1.0f) {
+        out->m[0][0] *= sx;
+        out->m[0][1] *= sx;
+        out->m[0][2] *= sx;
+    }
+    if (sy != 1.0f) {
+        out->m[1][0] *= sy;
+        out->m[1][1] *= sy;
+        out->m[1][2] *= sy;
+    }
+    if (sz != 1.0f) {
+        out->m[2][0] *= sz;
+        out->m[2][1] *= sz;
+        out->m[2][2] *= sz;
+    }
+    out->m[3][3] = 1.0f;
+    out->m[0][3] = 0.0f;
+    out->m[1][3] = 0.0f;
+    out->m[2][3] = 0.0f;
+}

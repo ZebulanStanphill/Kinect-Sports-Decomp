@@ -1,19 +1,31 @@
-unsigned __int64 fn_83055310(int param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+typedef struct Object_83055310 {
+    void *vtable; /* 0x0 */
+    unsigned char pad4[0x14];
+    unsigned __int64 base; /* 0x18 */
+    int blockSize;         /* 0x20 */
+    unsigned char pad24[0x48];
+    int blockCount; /* 0x6c */
+    unsigned char pad70[0x40];
+    unsigned __int64 stamp;     /* 0xb0 */
+    unsigned char pending : 1;  /* 0xb8, 0x80 */
+    unsigned char detached : 1; /* 0xb8, 0x40 */
+    unsigned char bits : 6;
+    unsigned char padB9[7];
+} Object_83055310;
 
+unsigned int fn_83055310(Object_83055310 *object, unsigned __int64 position, unsigned int count)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  
-  uVar1 = (param_3 & 0xffffffff) + param_2;
-  uVar2 = ((__int64)*(int *)(param_1 + 0x6c) * (__int64)*(int *)(param_1 + 0x20) & 0xffffffffU) +
-          *(__int64 *)(param_1 + 0x18);
-  if (uVar1 <= uVar2) {
-    *(unsigned __int64 *)(param_1 + 0xb0) = uVar1;
-    *(unsigned char *)(param_1 + 0xb8) = *(unsigned char *)(param_1 + 0xb8) | 0x80;
-    return param_3;
-  }
-  *(unsigned __int64 *)(param_1 + 0xb0) = uVar2;
-  *(unsigned char *)(param_1 + 0xb8) = *(unsigned char *)(param_1 + 0xb8) | 0x80;
-  return (uVar2 & 0xffffffff) - (param_2 & 0xffffffff);
-}
+    unsigned __int64 end;
+    unsigned __int64 limit;
 
+    end = position + count;
+    limit = (unsigned int)(object->blockCount * object->blockSize) + object->base;
+    if (end <= limit) {
+        object->stamp = end;
+    } else {
+        object->stamp = limit;
+        count = (unsigned int)limit - (unsigned int)position;
+    }
+    object->pending = 1;
+    return count;
+}

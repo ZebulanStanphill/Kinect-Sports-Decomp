@@ -1,54 +1,43 @@
-#define NAN(x) ((x) != (x))
-extern int fn_825B9678();
-extern int XMemCpy();
-extern unsigned int lbl_82192734;
-extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Sprite_825B9718 {
+    char pad0[0x10];
+    __vector4 color; /* 0x10 */
+    char pad20[4];
+    float angle; /* 0x24 */
+    char pad28[4];
+    float speed; /* 0x2c */
+    char pad30[8];
+    float direction;        /* 0x38 */
+    float elapsed;          /* 0x3c */
+    float transform[16];    /* 0x40 */
+    int kind;               /* 0x80 */
+    unsigned char active;   /* 0x84 */
+    unsigned char type;     /* 0x85 */
+    unsigned char hasColor; /* 0x86 */
+    unsigned char flags;    /* 0x87 */
+} Sprite_825B9718;
 
-int fn_825B9718(double param_1,double param_2)
+extern Sprite_825B9718 *fn_825B9678(int id);
+extern void *XMemCpy(void *dst, const void *src, unsigned int size);
 
+Sprite_825B9718 *fn_825B9718(int id, float speed, float angle, const __vector4 *color, const float *transform)
 {
-  unsigned int *puVar1;
-  int in_r0;
-  int iVar2;
-  int in_r6;
-  unsigned __int64 in_r7;
-  double dVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  
-  iVar2 = fn_825B9678();
-  *(unsigned int *)(iVar2 + 0x80) = 8;
-  XMemCpy(iVar2 + 0x40,in_r7,0x40);
-  *(float *)(iVar2 + 0x2c) = (float)param_1;
-  *(float *)(iVar2 + 0x24) = (float)param_2;
-  dVar3 = (double)ltcg_pool_0_0f;
-  *(float *)(iVar2 + 0x3c) = ltcg_pool_0_0f;
-  uVar4 = lbl_821CA460;
-  *(unsigned char *)(iVar2 + 0x84) = 2;
-  if (*(float *)(&lbl_821954D8 +
-                ((unsigned int)(unsigned char)((param_1 < dVar3) << 2) | (unsigned int)(NAN(param_1) || NAN(dVar3)) << 2)) <
-      0.0) {
-    uVar4 = lbl_82192734;
-  }
-  *(unsigned int *)(iVar2 + 0x38) = uVar4;
-  if (in_r6 != 0) {
-    puVar1 = (unsigned int *)(in_r0 + in_r6 & 0xfffffff0);
-    uVar4 = *puVar1;
-    uVar5 = puVar1[1];
-    uVar6 = puVar1[2];
-    uVar7 = puVar1[3];
-    *(unsigned char *)(iVar2 + 0x86) = 1;
-    puVar1 = (unsigned int *)(iVar2 + 0x10U & 0xfffffff0);
-    *puVar1 = uVar4;
-    puVar1[1] = uVar5;
-    puVar1[2] = uVar6;
-    puVar1[3] = uVar7;
-  }
-  return iVar2;
-}
+    Sprite_825B9718 *sprite;
 
+    sprite = fn_825B9678(id);
+    sprite->kind = 8;
+    XMemCpy(sprite->transform, transform, 0x40);
+    sprite->speed = speed;
+    sprite->angle = angle;
+    sprite->elapsed = 0.0f;
+    sprite->active = 2;
+    sprite->direction = speed >= 0.0f ? 1.0f : -1.0f;
+    if (color != 0) {
+        sprite->color = *color;
+        sprite->hasColor = 1;
+    }
+    return sprite;
+}

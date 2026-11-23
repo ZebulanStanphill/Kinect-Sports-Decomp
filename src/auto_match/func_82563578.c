@@ -1,53 +1,41 @@
-#define NAN(x) ((x) != (x))
-extern int fn_82563688();
-extern int fn_827F6310();
-extern int fn_827F6428();
-extern int fn_827F6430();
-extern unsigned int lbl_8218E68C;
-extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Kind_82563578 {
+    int id;             /* 0x0 */
+    unsigned int flags; /* 0x4 */
+    unsigned int size;  /* 0x8 */
+} Kind_82563578;
 
+typedef struct Command_82563578 {
+    unsigned short size; /* 0x0 */
+    unsigned short pad[5];
+    unsigned short kind;  /* 0xc */
+    unsigned short flags; /* 0xe */
+} Command_82563578;
 
-void fn_82563578(unsigned __int64 param_1,unsigned __int64 param_2,unsigned short *param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5)
+typedef void (*Callback_82563578)(void *context);
 
+extern Kind_82563578 lbl_8218E688[];
+extern float fn_827F6428(void *self);
+extern float fn_827F6310(void *self);
+extern void fn_827F6430(void *self, float value);
+extern void fn_82563688(void *self, int mode, Command_82563578 *command, Callback_82563578 callback, int arg);
+
+void fn_82563578(void *self, int mode, Command_82563578 *command, Callback_82563578 callback, int arg)
 {
-  unsigned short uVar1;
-  unsigned short *puVar2;
-  unsigned int uVar3;
-  double dVar4;
-  unsigned __int64 uVar5;
-  double dVar6;
-  
-  if ((param_4 & 0xffffffff) != 0) {
-    uVar5 = fn_827F6428();
-    dVar6 = (double)fn_827F6310(param_1);
-    dVar4 = (double)ltcg_pool_0_0f;
-    if (*(float *)(&lbl_821954D8 +
-                  ((unsigned int)(unsigned char)((dVar6 < dVar4) << 2) | (unsigned int)(NAN(dVar6) || NAN(dVar4)) << 2)) <
-        0.0) {
-      dVar4 = (double)lbl_821CA460;
-    }
-    fn_827F6430(dVar4,param_1);
-    puVar2 = param_3 + 6;
-    uVar1 = *puVar2;
-    while (uVar1 != 0) {
-      if (*puVar2 < 0x32) {
-        uVar3 = *(unsigned int *)(&lbl_8218E68C + (unsigned int)*puVar2 * 0xc);
-      }
-      else {
-        uVar3 = 0;
-      }
-      if (((param_3[7] | uVar3) & 1) != 0) {
-        fn_82563688(param_1,param_2,param_3,param_4,param_5);
-      }
-      param_3 = (unsigned short *)((unsigned int)*param_3 + (int)param_3);
-      puVar2 = param_3 + 6;
-      uVar1 = param_3[6];
-    }
-    fn_827F6430(uVar5,param_1);
-  }
-  return;
-}
+    Command_82563578 *current;
+    float saved;
+    unsigned int flags;
 
+    if (callback != 0) {
+        saved = fn_827F6428(self);
+        fn_827F6430(self, fn_827F6310(self) >= 0.0f ? 0.0f : 1.0f);
+        current = command;
+        while (current->kind != 0) {
+            flags = current->kind < 0x32 ? lbl_8218E688[current->kind].flags : 0;
+            if ((current->flags | flags) & 1) {
+                fn_82563688(self, mode, current, callback, arg);
+            }
+            current = (Command_82563578 *)((char *)current + current->size);
+        }
+        fn_827F6430(self, saved);
+    }
+}

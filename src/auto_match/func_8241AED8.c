@@ -1,66 +1,101 @@
-extern unsigned int *auStack_50;
-extern unsigned int fStack_4c;
-extern int fn_82417B28();
-extern int fn_8253C548();
-extern int fn_82D8B6C8();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Float3_8241AED8 {
+    float x;
+    float y;
+    float z;
+} Float3_8241AED8;
 
-void fn_8241AED8(int param_1)
+typedef struct Body_8241AED8 {
+    char pad0[0xe8];
+    unsigned char motionType; /* 0xE8 */
+} Body_8241AED8;
 
+typedef struct Ctx_8241AED8 {
+    char pad0[0x1d0];
+    int dirty; /* 0x1D0 */
+    char pad1d4[0x7c0 - 0x1d4];
+    Body_8241AED8 *body; /* 0x7C0 */
+} Ctx_8241AED8;
+
+typedef struct Item_8241AED8 {
+    char pad0[0x10];
+    Ctx_8241AED8 *ctx; /* 0x10 */
+    char pad14[0xc];
+    __vector4 position; /* 0x20 */
+    int state;          /* 0x30 */
+    char pad34[0xc];
+    int timer; /* 0x40 */
+} Item_8241AED8;
+
+typedef struct Layout_8241AED8 {
+    char pad0[0x1e0];
+    unsigned int count; /* 0x1E0 */
+} Layout_8241AED8;
+
+struct Source_8241AED8;
+
+typedef struct SourceVt_8241AED8 {
+    void *pad0[3];
+    Layout_8241AED8 *(*get)(struct Source_8241AED8 *self, char *entry); /* 0x0C */
+} SourceVt_8241AED8;
+
+typedef struct Source_8241AED8 {
+    SourceVt_8241AED8 *vt;
+} Source_8241AED8;
+
+typedef struct Rack_8241AED8 {
+    int unk0;                /* 0x00 */
+    Source_8241AED8 *source; /* 0x04 */
+    char *entries;           /* 0x08 */
+    char padc[0xc];
+    int index; /* 0x18 */
+    char pad1c[0x6c];
+    Item_8241AED8 **begin; /* 0x88 */
+    Item_8241AED8 **end;   /* 0x8C */
+    char pad90[0x110];
+    float height; /* 0x1A0 */
+} Rack_8241AED8;
+
+extern const Float3_8241AED8 lbl_821CA1A0;
+
+extern void fn_82417B28(Rack_8241AED8 *self, Layout_8241AED8 *layout);
+extern void fn_8253C548(Ctx_8241AED8 *ctx, __vector4 *position, const Float3_8241AED8 *angles);
+extern void fn_82D8B6C8(Body_8241AED8 *body, int motionType, int activation, int updateFilter);
+
+void fn_8241AED8(Rack_8241AED8 *self)
 {
-  float fVar1;
-  int iVar2;
-  unsigned int uVar3;
-  int iVar4;
-  unsigned int *puVar5;
-  unsigned int *puVar6;
-  unsigned __int64 in_r0;
-  int iVar7;
-  unsigned int uVar8;
-  int *piVar9;
-  unsigned int uVar10;
-  unsigned int uVar11;
-  unsigned int uVar12;
-  unsigned char auStack_50 [4];
-  float fStack_4c;
-  
-  iVar7 = (**(int (***)())(**(int **)(param_1 + 4) + 0xc))
-                    (*(int **)(param_1 + 4),
-                     (unsigned __int64)*(unsigned int *)(param_1 + 0x18) * 0x1ac +
-                     (unsigned __int64)*(unsigned int *)(param_1 + 8));
-  fn_82417B28(param_1,iVar7);
-  uVar8 = 0;
-  piVar9 = *(int **)(param_1 + 0x88);
-  if (piVar9 != *(int **)(param_1 + 0x8c)) {
-    do {
-      if (*(unsigned int *)(iVar7 + 0x1e0) <= uVar8) {
-        return;
-      }
-      iVar2 = *piVar9;
-      fVar1 = *(float *)(param_1 + 0x1a0);
-      puVar5 = (unsigned int *)(iVar2 + 0x20U & 0xfffffff0);
-      uVar10 = puVar5[1];
-      uVar11 = puVar5[2];
-      uVar12 = puVar5[3];
-      uVar3 = *(unsigned int *)(iVar2 + 0x10);
-      puVar6 = (unsigned int *)((unsigned int)(auStack_50 + (int)in_r0) & 0xfffffff0);
-      *puVar6 = *puVar5;
-      puVar6[1] = uVar10;
-      puVar6[2] = uVar11;
-      puVar6[3] = uVar12;
-      fStack_4c = fVar1 + fStack_4c;
-      fn_8253C548(uVar3,auStack_50,0xffffffff821ca1a0);
-      *(unsigned int *)(*(int *)(iVar2 + 0x10) + 0x1d0) = 0;
-      iVar4 = *(int *)(*(int *)(iVar2 + 0x10) + 0x7c0);
-      if (*(char *)(iVar4 + 0xe8) == '\x04') {
-        fn_82D8B6C8(iVar4,1,1,0);
-      }
-      piVar9 = piVar9 + 1;
-      *(unsigned int *)(iVar2 + 0x30) = 0;
-      *(unsigned int *)(iVar2 + 0x40) = 0;
-      uVar8 = uVar8 + 1;
-    } while (piVar9 != *(int **)(param_1 + 0x8c));
-  }
-  return;
-}
+    Layout_8241AED8 *layout;
+    Item_8241AED8 **it;
+    unsigned int i;
+    Item_8241AED8 *item;
+    Body_8241AED8 *body;
+    char *entry;
 
+    entry = self->entries + self->index * 0x1ac;
+    layout = self->source->vt->get(self->source, entry);
+    fn_82417B28(self, layout);
+    i = 0;
+    for (it = self->begin; it != self->end; it++) {
+        if (i >= layout->count) {
+            break;
+        }
+        item = *it;
+        {
+            __vector4 position = item->position;
+
+            position.vector4_f32[1] += self->height;
+            fn_8253C548(item->ctx, &position, &lbl_821CA1A0);
+        }
+        item->ctx->dirty = 0;
+        body = item->ctx->body;
+        if (body->motionType == 4) {
+            fn_82D8B6C8(body, 1, 1, 0);
+        }
+        item->state = 0;
+        item->timer = 0;
+        i++;
+    }
+}
