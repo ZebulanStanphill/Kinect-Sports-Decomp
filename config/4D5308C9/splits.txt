@@ -140338,7 +140338,7 @@ auto_match/func_82CFE3B8.cpp:
 	.pdata      start:0x822162D8 end:0x822162E0
 	.text       start:0x82CFE3B8 end:0x82CFE3E8
 
-auto_match/func_82CFE3E8.c:
+auto_match/func_82CFE3E8.cpp:
 	.pdata      start:0x822162E0 end:0x822162E8
 	.text       start:0x82CFE3E8 end:0x82CFE418
 
@@ -140346,23 +140346,23 @@ auto_match/func_82CFE418.cpp:
 	.pdata      start:0x822162E8 end:0x822162F0
 	.text       start:0x82CFE418 end:0x82CFE448
 
-auto_match/func_82CFE448.c:
+auto_match/func_82CFE448.cpp:
 	.pdata      start:0x822162F0 end:0x822162F8
 	.text       start:0x82CFE448 end:0x82CFE478
 
-auto_match/func_82CFE478.c:
+auto_match/func_82CFE478.cpp:
 	.pdata      start:0x822162F8 end:0x82216300
 	.text       start:0x82CFE478 end:0x82CFE4A8
 
-auto_match/func_82CFE4A8.c:
+auto_match/func_82CFE4A8.cpp:
 	.pdata      start:0x82216300 end:0x82216308
 	.text       start:0x82CFE4A8 end:0x82CFE4D8
 
-auto_match/func_82CFE4D8.c:
+auto_match/func_82CFE4D8.cpp:
 	.pdata      start:0x82216308 end:0x82216310
 	.text       start:0x82CFE4D8 end:0x82CFE508
 
-auto_match/func_82CFE508.c:
+auto_match/func_82CFE508.cpp:
 	.pdata      start:0x82216310 end:0x82216318
 	.text       start:0x82CFE508 end:0x82CFE538
 
@@ -140374,28 +140374,28 @@ auto_match/func_82CFE5E0.cpp:
 	.pdata      start:0x82216320 end:0x82216328
 	.text       start:0x82CFE5E0 end:0x82CFE688
 
-auto_match/func_82CFE688.c:
+auto_match/func_82CFE688.cpp:
 	.text       start:0x82CFE688 end:0x82CFE694
 
-auto_match/func_82CFE698.c:
+auto_match/func_82CFE698.cpp:
 	.text       start:0x82CFE698 end:0x82CFE6A4
 
-auto_match/func_82CFE6A8.c:
+auto_match/func_82CFE6A8.cpp:
 	.text       start:0x82CFE6A8 end:0x82CFE6B4
 
-auto_match/func_82CFE6B8.c:
+auto_match/func_82CFE6B8.cpp:
 	.text       start:0x82CFE6B8 end:0x82CFE6C4
 
-auto_match/func_82CFE6C8.c:
+auto_match/func_82CFE6C8.cpp:
 	.text       start:0x82CFE6C8 end:0x82CFE6D4
 
-auto_match/func_82CFE6D8.c:
+auto_match/func_82CFE6D8.cpp:
 	.text       start:0x82CFE6D8 end:0x82CFE6E4
 
-auto_match/func_82CFE6E8.c:
+auto_match/func_82CFE6E8.cpp:
 	.text       start:0x82CFE6E8 end:0x82CFE6F4
 
-auto_match/func_82CFE6F8.c:
+auto_match/func_82CFE6F8.cpp:
 	.text       start:0x82CFE6F8 end:0x82CFE704
 
 auto_match/func_82CFE708.cpp:
@@ -158488,7 +158488,7 @@ auto_match/func_82E18118.cpp:
 auto_match/func_82E181D8.c:
 	.text       start:0x82E181D8 end:0x82E18210
 
-auto_match/func_82E18210.c:
+auto_match/func_82E18210.cpp:
 	.pdata      start:0x8221BC68 end:0x8221BC70
 	.text       start:0x82E18210 end:0x82E182AC
 

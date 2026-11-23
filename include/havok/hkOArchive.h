@@ -6,6 +6,8 @@
 // constructors and the destructor, then write16 82CFE3B8, write16u 82CFE3E8,
 // write32 82CFE418, write32u 82CFE448, write64, write64u, writeFloat32,
 // writeDouble64 (identical code in signed/unsigned pairs, separate addresses).
+// writeArrayGeneric (82CFDFE0) is the writer they all call: it swaps each
+// element when the archive byte-swaps.
 #ifndef HAVOK_HKOARCHIVE_H
 #define HAVOK_HKOARCHIVE_H
 
@@ -22,6 +24,8 @@ public:
 
     void write16(hkInt16 i);
     void write32(hkInt32 i);
+
+    void writeArrayGeneric(const void *data, int elemSize, int count);
 
     int writeRaw(const void *buf, int nbytes);
     hkBool isOk() const;

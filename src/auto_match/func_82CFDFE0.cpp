@@ -1,27 +1,7 @@
+#include "havok/hkOArchive.h"
 #include "havok/hkString.h"
 
-extern "C" {
-
-typedef struct StreamWriter_82CFDFE0 StreamWriter_82CFDFE0;
-
-typedef struct StreamWriterVtbl_82CFDFE0 {
-    void *slots[4];
-    int (*write)(StreamWriter_82CFDFE0 *self, const void *buf, int nbytes); /* 0x10 */
-} StreamWriterVtbl_82CFDFE0;
-
-struct StreamWriter_82CFDFE0 {
-    StreamWriterVtbl_82CFDFE0 *vt;
-};
-
-typedef struct Archive_82CFDFE0 {
-    void *vt;                      /* 0x0 */
-    int refCount;                  /* 0x4 */
-    StreamWriter_82CFDFE0 *stream; /* 0x8 */
-    unsigned char byteSwap;        /* 0xc */
-} Archive_82CFDFE0;
-
-
-static __forceinline void SwapBytes_82CFDFE0(unsigned char *a, unsigned char *b)
+static __forceinline void swapBytes(unsigned char *a, unsigned char *b)
 {
     unsigned char t = *a;
 
@@ -29,7 +9,7 @@ static __forceinline void SwapBytes_82CFDFE0(unsigned char *a, unsigned char *b)
     *b = t;
 }
 
-void fn_82CFDFE0(Archive_82CFDFE0 *self, const void *data, int elemSize, int count)
+void hkOArchive::writeArrayGeneric(const void *data, int elemSize, int count)
 {
     unsigned char buf[0x200];
     const char *src;
@@ -40,8 +20,8 @@ void fn_82CFDFE0(Archive_82CFDFE0 *self, const void *data, int elemSize, int cou
     int lastCount;
     int i;
 
-    if (!self->byteSwap) {
-        self->stream->vt->write(self->stream, data, elemSize * count);
+    if (!m_byteSwap) {
+        m_writer->write(data, elemSize * count);
         return;
     }
     src = (const char *)data;
@@ -61,7 +41,7 @@ void fn_82CFDFE0(Archive_82CFDFE0 *self, const void *data, int elemSize, int cou
             unsigned char *q = buf;
 
             for (i = 0; i < chunkCount; i++) {
-                SwapBytes_82CFDFE0(&q[0], &q[1]);
+                swapBytes(&q[0], &q[1]);
                 q += 2;
             }
             break;
@@ -70,8 +50,8 @@ void fn_82CFDFE0(Archive_82CFDFE0 *self, const void *data, int elemSize, int cou
             unsigned char *q = buf;
 
             for (i = 0; i < chunkCount; i++) {
-                SwapBytes_82CFDFE0(&q[0], &q[3]);
-                SwapBytes_82CFDFE0(&q[1], &q[2]);
+                swapBytes(&q[0], &q[3]);
+                swapBytes(&q[1], &q[2]);
                 q += 4;
             }
             break;
@@ -80,19 +60,17 @@ void fn_82CFDFE0(Archive_82CFDFE0 *self, const void *data, int elemSize, int cou
             unsigned char *q = buf;
 
             for (i = 0; i < chunkCount; i++) {
-                SwapBytes_82CFDFE0(&q[0], &q[7]);
-                SwapBytes_82CFDFE0(&q[1], &q[6]);
-                SwapBytes_82CFDFE0(&q[2], &q[5]);
-                SwapBytes_82CFDFE0(&q[3], &q[4]);
+                swapBytes(&q[0], &q[7]);
+                swapBytes(&q[1], &q[6]);
+                swapBytes(&q[2], &q[5]);
+                swapBytes(&q[3], &q[4]);
                 q += 8;
             }
             break;
         }
         }
-        self->stream->vt->write(self->stream, buf, chunkBytes);
+        m_writer->write(buf, chunkBytes);
         remaining -= chunkBytes;
         src += chunkBytes;
     }
-}
-
 }
