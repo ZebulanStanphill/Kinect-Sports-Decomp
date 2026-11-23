@@ -53,8 +53,8 @@ extern Input_8253E960 *fn_8253D7A8(Input_8253E960 *input, void *shape, Transform
 extern void fn_82D881F0(World_8253E960 *world, Input_8253E960 *input, void *broadPhase,
                         Collector_8253E960 *collector);
 
-unsigned char fn_8253E960(Self_8253E960 *self, Body_8253E960 *body, __vector4 position, __vector4 rotation,
-                          int filterInfo)
+int fn_8253E960(Self_8253E960 *self, Body_8253E960 *body, __vector4 position, __vector4 rotation,
+                int filterInfo)
 {
     World_8253E960 *world;
     Collector_8253E960 collector;
