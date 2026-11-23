@@ -11,9 +11,7 @@ typedef struct Logger_830809C0 {
     int filterCount;     /* 0x14 */
 } Logger_830809C0;
 
-extern "C" int fn_82CFBBA8(char *out, const char *format, ...);
 extern "C" void fn_82CEDF40(void *self, const char *text, int length);
-extern "C" int fn_82CFBB58(char *out, int size, const char *format, va_list args);
 
 extern "C" void fn_830809C0(Logger_830809C0 *self, const char *category, const char *format, ...)
 {
@@ -30,11 +28,11 @@ extern "C" void fn_830809C0(Logger_830809C0 *self, const char *category, const c
     if (self->output != 0) {
         __va_start(&args, format);
         if (text[0] == '#') {
-            fn_82CFBBA8(buffer, "%4i\t\t", self->count);
+            hkString::sprintf(buffer, "%4i\t\t", self->count);
             fn_82CEDF40(self->output, buffer, hkString::strLen(buffer));
-            fn_82CFBB58(buffer, 1024, text + 1, args);
+            hkString::vsnprintf(buffer, 1024, text + 1, args);
         } else {
-            fn_82CFBB58(buffer, 1024, text, args);
+            hkString::vsnprintf(buffer, 1024, text, args);
         }
         fn_82CEDF40(self->output, buffer, hkString::strLen(buffer));
     }

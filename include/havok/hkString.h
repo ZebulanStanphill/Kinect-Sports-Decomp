@@ -1,5 +1,5 @@
 // hkString (Common/Base/Container/String/hkString.h): the static string and memory
-// helpers, out of line in the game (hkString.cpp, 0x82CFBB60-0x82CFC188).
+// helpers, out of line in the game (hkString.cpp, 0x82CFBB18-0x82CFC288).
 #ifndef HAVOK_HKSTRING_H
 #define HAVOK_HKSTRING_H
 
@@ -10,6 +10,10 @@ class hkMemoryAllocator;
 
 class hkString {
 public:
+    static char HK_CALL toUpper(char ch);
+    static char HK_CALL toLower(char ch);
+    static int HK_CALL vsnprintf(char *buf, int count, const char *format, char *args);
+    static int HK_CALL sprintf(char *buf, const char *format, ...);
     static int HK_CALL snprintf(char *buf, int count, const char *format, ...);
     static int HK_CALL strCmp(const char *lhs, const char *rhs);
     static int HK_CALL strNcmp(const char *lhs, const char *rhs, int n);
@@ -23,8 +27,10 @@ public:
     static const char *HK_CALL strStr(const char *str, const char *needle);
     static const char *HK_CALL strChr(const char *str, int ch);
     static const char *HK_CALL strRchr(const char *str, int ch);
+    static char *HK_CALL strDup(const char *src);
     static char *HK_CALL strDup(const char *src, hkMemoryAllocator &alloc);
     static void HK_CALL strFree(char *s, hkMemoryAllocator &alloc);
+    static char *HK_CALL strNdup(const char *src, int maxlen);
     static char *HK_CALL strNdup(const char *src, int maxlen, hkMemoryAllocator &alloc);
     static char *HK_CALL strLwr(char *str);
     static char *HK_CALL strUpr(char *str);

@@ -5,7 +5,6 @@
 typedef char *va_list;
 
 extern "C" void __cdecl __va_start(va_list *, ...);
-extern "C" int fn_82CFBB58(char *buf, int size, const char *fmt, va_list ap);
 
 void hkOstream::printf(const char *fmt, ...)
 {
@@ -14,7 +13,7 @@ void hkOstream::printf(const char *fmt, ...)
     hkStreamWriter *writer;
 
     __va_start(&ap, fmt);
-    fn_82CFBB58(buf, 0x2728, fmt, ap);
+    hkString::vsnprintf(buf, 0x2728, fmt, ap);
     writer = m_writer;
     writer->write(buf, hkString::strLen(buf));
 }

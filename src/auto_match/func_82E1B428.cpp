@@ -1,3 +1,4 @@
+#include "havok/hkString.h"
 #include "havok/hkClass.h"
 #include "havok/hkArrayUtil.h"
 
@@ -29,7 +30,6 @@ typedef struct Span_82E1B428 {
 } Span_82E1B428;
 extern "C" char lbl_8323AE68[];
 extern "C" void *fn_82CEAC28(void *p);
-extern "C" void *fn_82CFC288(const char *name);
 extern "C" void fn_82CFFF50(Var_82E1B428 *out, void *obj, void *klass);
 extern "C" void fn_82CFFC80(Var_82E1B428 *out, Var_82E1B428 *v, const char *name);
 extern "C" void *fn_82CFFD70(Var_82E1B428 *v);
@@ -97,9 +97,9 @@ extern "C" void *fn_82E1B428(Array_82E1B428 *arr, void *src, void *klass, void *
     }
     fn_82CFFF50(&v80, src, lbl_8323AE68);
     if (klass != 0) {
-        cls = fn_82CFC288(static_cast<const char *>(klass));
+        cls = hkString::strDup(static_cast<const char *>(klass));
     } else {
-        cls = fn_82CFC288(static_cast<const hkClass *>(src)->getName());
+        cls = hkString::strDup(static_cast<const hkClass *>(src)->getName());
     }
     fn_82CFFC80(&v98, &v80, "declaredEnums");
     enums = fn_82CFFEB8(&v98, 0);

@@ -1,3 +1,5 @@
+#include "havok/hkString.h"
+
 #include "havok/hkArrayUtil.h"
 
 typedef char *va_list;
@@ -20,7 +22,6 @@ typedef struct Router_82D056B8 {
 } Router_82D056B8;
 
 extern "C" Router_82D056B8 *fn_82CE5410(void);
-extern "C" int fn_82CFBB58(char *output, int capacity, const char *format, va_list args);
 extern "C" void fn_82CE7E00(String_82D056B8 *string, int length);
 extern "C" void fn_82CE7EE0(InlineString_82D056B8 *string);
 extern "C" void fn_82CE7E68(String_82D056B8 *string);
@@ -50,7 +51,7 @@ extern "C" void fn_82D056B8(void *self, const char *format, ...)
     __va_start(&args, format);
     for (;;) {
         capacity = buffer.string.capacityAndFlags & 0x3fffffff;
-        length = fn_82CFBB58(buffer.string.data, capacity, format, args);
+        length = hkString::vsnprintf(buffer.string.data, capacity, format, args);
         if (length >= 0) {
             if (length < capacity) {
                 break;
