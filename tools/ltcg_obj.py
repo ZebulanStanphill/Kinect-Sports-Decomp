@@ -150,6 +150,43 @@ def read_coff_symbols(path: Path) -> Dict[str, Tuple[int, int]]:
     return out
 
 
+def plain_tables(path: Path) -> Dict[str, List[bytes]]:
+    """{function: [bytes of each $T switch table it references, in the order of the references]} of a
+    plain object: cl puts each table in an .rdata section of its own."""
+    d = path.read_bytes()
+    _, nsec, _, symptr, nsym, optsz, _ = struct.unpack_from("<HHIIIHH", d, 0)
+    strtab = symptr + nsym * 18
+    secs = [struct.unpack_from("<8sIIIIIIHHI", d, 20 + optsz + 40 * k) for k in range(nsec)]
+    syms: Dict[int, Tuple[str, int, int]] = {}
+    i = 0
+    while i < nsym:
+        o = symptr + 18 * i
+        raw = d[o:o + 8]
+        if raw[:4] == b"\0\0\0\0":
+            so = strtab + struct.unpack_from("<I", raw, 4)[0]
+            name = d[so:d.index(b"\0", so)].decode("latin-1")
+        else:
+            name = raw.rstrip(b"\0").decode("latin-1")
+        _, sec, typ, cls, naux = struct.unpack_from("<IhHBB", d, o + 8)
+        syms[i] = (name, sec, typ if cls == 2 else -1)
+        i += 1 + naux
+    out: Dict[str, List[int]] = {}
+    for name, sec, typ in syms.values():
+        if typ < 0 or not typ & 0x20 or sec <= 0:
+            continue
+        _, _, _, _, _, relptr, _, nrel, _, _ = secs[sec - 1]
+        sizes, seen = [], set()
+        for r in sorted(struct.unpack_from("<IIH", d, relptr + 10 * k) for k in range(nrel)):
+            tname, tsec, _ = syms.get(r[1], ("", 0, 0))
+            if tname.startswith("$T") and tsec > 0 and tname not in seen \
+                    and secs[tsec - 1][0].rstrip(b"\0") == b".rdata":
+                seen.add(tname)
+                _, _, _, size, rawptr, _, _, _, _, _ = secs[tsec - 1]
+                sizes.append(d[rawptr:rawptr + size])
+        out[name] = sizes
+    return out
+
+
 def write_coff(path: Path, sections: list, symbols: list) -> None:
     """sections: [(name, flags, data, [(offset, symbol_index, type)])];
     symbols: [(name, value, section_number, type, storage_class)]."""
@@ -367,13 +404,71 @@ def image_reader(dll: Path):
         return None, None
 
 
-def jump_tables(lst: Listing, dll: Path) -> Dict[Tuple[str, str], bytes]:
+def table_targets(ins: List[Tuple[int, str, str, str]], k: int) -> Tuple[Optional[str], int]:
+    """(the base label `$LN<n>@fn` a switch adds its table entries to, the entry width) for the
+    table load at ins[k]."""
+    width = 1
+    for _, _, m2, _ in ins[k + 1:k + 6]:
+        if m2.lower() in ("lhzx", "lhax"):
+            width = 2
+        if m2.lower() in ("lbzx", "lhzx", "lhax", "lwzx"):
+            break
+    for _, _, m2, op2 in ins[k + 2:k + 10]:
+        ref = local_ref(op2)
+        if ref and ref.startswith("$LN") and m2.rstrip("+-").lower() in ("lis", "addis"):
+            return ref, width
+    return None, width
+
+
+def remap_table(table: bytes, width: int, plain_ins: List[Tuple[int, str, str, str]],
+                plain_labels: Dict[str, int], ltcg_ins: List[Tuple[int, str, str, str]],
+                ltcg_labels: Dict[str, int], position: int) -> Optional[bytes]:
+    """A switch table of the LTCG code, made from the same table of the plain compile: each entry
+    (a word offset from the base label) names a code label there, and that label's offset in the
+    LTCG code gives the new entry. The `$LN<n>` labels come from the compiler front end, so both
+    compiles name the same blocks alike. None if a label is missing or an entry does not fit."""
+    def nth_table(ins: List[Tuple[int, str, str, str]]) -> Optional[int]:
+        loads = [k for k, (_, _, m, o) in enumerate(ins)
+                 if m.rstrip("+-").lower() in ("lis", "addis") and (local_ref(o) or "").startswith("$T")]
+        return loads[position] if position < len(loads) else None
+
+    kp, kl = nth_table(plain_ins), nth_table(ltcg_ins)
+    if kp is None or kl is None:
+        return None
+    base_p, w = table_targets(plain_ins, kp)
+    base_l, _ = table_targets(ltcg_ins, kl)
+    if not base_p or base_p != base_l or base_p not in plain_labels or base_l not in ltcg_labels:
+        return None
+    by_offset: Dict[int, List[str]] = {}
+    for label, off in plain_labels.items():
+        by_offset.setdefault(off, []).append(label)
+    fmt = ">B" if w == 1 else ">H"
+    out = bytearray()
+    for i in range(0, len(table) - len(table) % w, w):
+        entry = struct.unpack_from(fmt, table, i)[0]
+        names = [n for n in by_offset.get(plain_labels[base_p] + 4 * entry, []) if n in ltcg_labels]
+        if not names:
+            return None
+        new = (ltcg_labels[names[0]] - ltcg_labels[base_l]) // 4
+        if not 0 <= new < (1 << (8 * w)):
+            return None
+        out += struct.pack(fmt, new)
+    return bytes(out)
+
+
+def jump_tables(lst: Listing, dll: Path, plain: Optional[Tuple[Dict[str, List[bytes]], Listing]] = None
+                ) -> Dict[Tuple[str, str], bytes]:
     """{(function, table name): bytes} of the switch tables the listing's functions load
     (`lis rX,$T123`). A table's length follows from the range check before it
-    (`cmplwi rN, K`: K + 1 entries, of 1 byte for `lbzx` and 2 for `lhzx`)."""
+    (`cmplwi rN, K`: K + 1 entries, of 1 byte for `lbzx` and 2 for `lhzx`). A switch with
+    `default: __assume(0)` has no range check: then the length is the size of the
+    function's table at the same position in the unit's plain object. link.exe often crashes
+    before the image is complete (see the top of the file); then each table is made from the
+    plain compile's table and listings with remap_table."""
     out: Dict[Tuple[str, str], bytes] = {}
     image = None
     for name, ins in lst.funcs.items():
+        position = 0
         for k, (off, _, mnem, ops) in enumerate(ins):
             ref = local_ref(ops)
             if (ref is None or not ref.startswith("$T") or (name, ref) in out
@@ -392,17 +487,27 @@ def jump_tables(lst: Listing, dll: Path) -> Dict[Tuple[str, str], bytes]:
                 if m2.lower() in ("lbzx", "lhzx", "lhax", "lwzx"):
                     break
             low = next((j for j in range(k + 1, min(k + 6, len(ins))) if local_ref(ins[j][3]) == ref), None)
+            size = count * width if count else None
+            tables = plain[0].get(name, []) if plain else []
+            if size is None and position < len(tables):
+                size = len(tables[position])
             if image is None:
                 image = image_reader(dll)
             exports, read = image
             start = (exports or {}).get(name)
             data = None
-            if start is not None and low is not None and count:
+            if start is not None and low is not None and size:
                 raw = dll.read_bytes()
                 hi16 = struct.unpack_from(">I", raw, start + off)[0] & 0xFFFF
                 lo16 = struct.unpack_from(">I", raw, start + ins[low][0])[0] & 0xFFFF
                 data = read(((hi16 << 16) + (lo16 - 0x10000 if lo16 & 0x8000 else lo16)) & 0xFFFFFFFF,
-                            count * width)
+                            size)
+            if data is None and plain and position < len(tables) and name in plain[1].funcs:
+                data = remap_table(tables[position], width, plain[1].funcs[name], plain[1].labels[name],
+                                   ins, lst.labels[name], position)
+                if data is not None and size is not None and len(data) != size:
+                    data = None
+            position += 1
             if data is None:
                 raise LtcgError(f"{name}: the jump table {ref} could not be read from {dll.name}")
             out[(name, ref)] = data
@@ -564,7 +669,10 @@ def build(spec: dict) -> List[str]:
         obj, inc = compile_unit(spec, unit, name, work, True, extra)
         objs.append(obj)
         includes += inc
-        plain, _ = compile_unit(spec, unit, name, work, False, extra)
+        listing = [f"/FAcs", f"/Fa{relative(work / (name + '.plain.cod'))}"] if i == 0 else []
+        plain, _ = compile_unit(spec, unit, name, work, False, [*extra, *listing])
+        if i == 0:
+            unit_plain = plain
         for sym, (sec, typ) in read_coff_symbols(plain).items():
             if sec > 0:
                 defined.setdefault(sym, typ)
@@ -598,12 +706,12 @@ def build(spec: dict) -> List[str]:
     # other modules and every external a plain object names
     known = lst.known | set(defined) | set(undefined)
     for other in work.glob("*.cod"):
-        if other != cod:
+        if other != cod and not other.name.endswith(".plain.cod"):
             known |= parse_cod(other).known
     out = Path(spec["out"])
     out.parent.mkdir(parents=True, exist_ok=True)
     tmp = out.with_name(out.name + ".tmp")
-    function_object(lst, known, tmp, jump_tables(lst, work / "ltcg.dll"))
+    function_object(lst, known, tmp, jump_tables(lst, work / "ltcg.dll", (plain_tables(unit_plain), parse_cod(work / f"{names[0]}.plain.cod"))))
     os.replace(tmp, out)
     return includes
 
