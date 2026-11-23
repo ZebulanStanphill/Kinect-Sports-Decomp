@@ -1,55 +1,76 @@
-extern unsigned int fStack_2c;
-extern int fn_825B6EE0();
-extern int fn_8260BA88();
-extern unsigned int lbl_821954CC;
-extern float lbl_821954D0;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int uStack_44;
-extern unsigned int uStack_48;
-extern unsigned int uStack_4c;
-extern unsigned int uStack_50;
+typedef struct Vec2_825B6D50 {
+    float x;
+    float y;
+} Vec2_825B6D50;
 
+typedef struct Triggers_825B6D50 {
+    float left;
+    float right;
+} Triggers_825B6D50;
 
-void fn_825B6D50(int param_1,int param_2,unsigned __int64 param_3)
+typedef struct Input_825B6D50 {
+    unsigned int pressed;       /* 0x00 */
+    unsigned int released;      /* 0x04 */
+    unsigned int held;          /* 0x08 */
+    unsigned int buttons;       /* 0x0c */
+    Vec2_825B6D50 sticks[2];    /* 0x10 */
+    Triggers_825B6D50 triggers; /* 0x20 */
+} Input_825B6D50;
 
+typedef struct History_825B6D50 {
+    int index;                /* 0x00 */
+    Input_825B6D50 inputs[1]; /* 0x04 */
+} History_825B6D50;
+
+typedef struct Pad_825B6D50 {
+    char pad0[0x34];
+    History_825B6D50 history; /* 0x34 */
+} Pad_825B6D50;
+
+typedef struct Gamepad_825B6D50 {
+    char pad0[0x4];
+    unsigned short buttons;     /* 0x04 */
+    unsigned char leftTrigger;  /* 0x06 */
+    unsigned char rightTrigger; /* 0x07 */
+    short thumbLX;              /* 0x08 */
+    short thumbLY;              /* 0x0a */
+    short thumbRX;              /* 0x0c */
+    short thumbRY;              /* 0x0e */
+} Gamepad_825B6D50;
+
+void *memset(void *, int, unsigned int);
+extern void fn_825B6EE0(Pad_825B6D50 *self, Input_825B6D50 *input, float x, float y, int stick);
+extern void fn_8260BA88(History_825B6D50 *history, Input_825B6D50 *input);
+
+void fn_825B6D50(Pad_825B6D50 *self, Gamepad_825B6D50 *gamepad)
 {
-  unsigned int uVar1;
-  unsigned int *puVar2;
-  __int64 lVar3;
-  unsigned int uStack_50;
-  unsigned int uStack_4c;
-  unsigned int uStack_48;
-  unsigned int uStack_44;
-  float fStack_2c;
-  
-  uVar1 = ltcg_pool_0_0f;
-  puVar2 = &uStack_48;
-  lVar3 = 2;
-  uStack_48 = *(unsigned int *)(*(int *)(param_1 + 0x34) * 0x28 + param_1 + 0x34 + 0x10);
-  do {
-    puVar2[3] = uVar1;
-    puVar2 = puVar2 + 2;
-    *puVar2 = uVar1;
-    lVar3 = lVar3 + -1;
-  } while (lVar3 != 0);
-  uStack_44 = (unsigned int)*(unsigned short *)(param_2 + 4);
-  fStack_2c = 0.0;
-  if (lbl_821954CC < (float)*(unsigned char *)(param_2 + 6)) {
-    uStack_44 = uStack_44 | 0x10000;
-  }
-  if (lbl_821954CC < (float)*(unsigned char *)(param_2 + 7)) {
-    uStack_44 = uStack_44 | 0x20000;
-  }
-  lVar3 = (__int64)*(short *)(param_2 + 8);
-  uStack_4c = uStack_48 & ~uStack_44;
-  uStack_50 = uStack_44 & ~uStack_48;
-  uStack_48 = uStack_44 & uStack_48;
-  fn_825B6EE0((double)lVar3,(double)(__int64)*(short *)(param_2 + 10),param_1,&uStack_50,
-                    param_3,(__int64)*(short *)(param_2 + 10),0,uStack_50,lVar3,lVar3);
-  fn_825B6EE0((double)(__int64)*(short *)(param_2 + 0xc),
-                    (double)(__int64)*(short *)(param_2 + 0xe),param_1,&uStack_50);
-  fStack_2c = (float)*(unsigned char *)(param_2 + 7) * lbl_821954D0;
-  fn_8260BA88(param_1 + 0x34,&uStack_50);
-  return;
-}
+    Input_825B6D50 input;
+    unsigned int previous;
+    unsigned int buttons;
+    int i;
+    History_825B6D50 *history;
 
+    history = &self->history;
+    previous = history->inputs[history->index].buttons;
+    for (i = 0; i < 2; i++) {
+        input.sticks[i].y = 0.0f;
+        input.sticks[i].x = 0.0f;
+    }
+    memset(&input.triggers, 0, sizeof(input.triggers));
+    buttons = gamepad->buttons;
+    if ((float)gamepad->leftTrigger > 32.0f) {
+        buttons |= 0x10000;
+    }
+    if ((float)gamepad->rightTrigger > 32.0f) {
+        buttons |= 0x20000;
+    }
+    input.buttons = buttons;
+    input.pressed = buttons & ~previous;
+    input.released = previous & ~buttons;
+    input.held = buttons & previous;
+    fn_825B6EE0(self, &input, gamepad->thumbLX, gamepad->thumbLY, 0);
+    fn_825B6EE0(self, &input, gamepad->thumbRX, gamepad->thumbRY, 1);
+    input.triggers.left = (float)gamepad->leftTrigger * 0.003921569f;
+    input.triggers.right = (float)gamepad->rightTrigger * 0.003921569f;
+    fn_8260BA88(history, &input);
+}

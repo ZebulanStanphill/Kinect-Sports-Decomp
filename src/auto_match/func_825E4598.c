@@ -1,97 +1,84 @@
-extern int fn_8255A160();
-extern int fn_825E4220();
-extern int fn_825E42D8();
-extern int fn_82F6A544();
-extern int fn_82F6A590();
-extern unsigned int lbl_8218E8E8;
-extern unsigned int lbl_82193E2C;
-extern unsigned int lbl_82193E50;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
+
+typedef struct Float3_825E4598 {
+    float x;
+    float y;
+    float z;
+} Float3_825E4598;
+
+typedef struct Item_825E4598 {
+    __vector4 position;     /* 0x00 */
+    Float3_825E4598 offset; /* 0x10 */
+    char pad1c[0x24 - 0x1c];
+    int handle; /* 0x24 */
+    char pad28[0x30 - 0x28];
+} Item_825E4598;
+
+typedef struct Spawner_825E4598 {
+    char pad0[0x74];
+    float spread; /* 0x74 */
+    int count;    /* 0x78 */
+    char pad7c[0x80 - 0x7c];
+    float rangeA[2]; /* 0x80 */
+    float rangeB[2]; /* 0x88 */
+    char pad90[0xa0 - 0x90];
+    Item_825E4598 items[8]; /* 0xa0 */
+    __vector4 origin;       /* 0x220 */
+    Float3_825E4598 offset; /* 0x230 */
+} Spawner_825E4598;
+
 extern unsigned int lbl_83265A28;
 
+extern __vector4 fn_8255A160(__vector4 pos, float angle, float distance);
+extern void fn_825E42D8(Spawner_825E4598 *self, Item_825E4598 *item, int now);
+extern void fn_825E4220(Spawner_825E4598 *self, Item_825E4598 *item);
 
-void fn_825E4598(void)
-
+static __forceinline unsigned int NextRandom(void)
 {
-  unsigned int *puVar1;
-  int iVar2;
-  unsigned int *puVar3;
-  unsigned __int64 in_r0;
-  int iVar4;
-  unsigned int uVar5;
-  int iVar6;
-  int iVar7;
-  double dVar8;
-  double dVar9;
-  double dVar10;
-  double dVar11;
-  double dVar12;
-  unsigned int uVar13;
-  unsigned int uVar14;
-  unsigned int uVar15;
-  unsigned int uVar16;
-  
-  iVar4 = fn_82F6A544();
-  iVar6 = 0;
-  if (0 < *(int *)(iVar4 + 0x78)) {
-    dVar8 = (double)lbl_8218E8E8;
-    dVar10 = (double)lbl_82193E2C;
-    dVar12 = (double)lbl_821CA460;
-    dVar11 = (double)ltcg_pool_0_0f;
-    iVar7 = iVar4 + 0xa0;
-    dVar9 = (double)lbl_82193E50;
-    do {
-      *(unsigned int *)(iVar7 + 0x24) = 0xffffffff;
-      iVar2 = (int)in_r0;
-      puVar1 = (unsigned int *)(iVar2 + iVar4 + 0x220 & 0xfffffff0);
-      uVar13 = puVar1[1];
-      uVar14 = puVar1[2];
-      uVar15 = puVar1[3];
-      puVar3 = (unsigned int *)(iVar2 + iVar7 & 0xfffffff0);
-      *puVar3 = *puVar1;
-      puVar3[1] = uVar13;
-      puVar3[2] = uVar14;
-      puVar3[3] = uVar15;
-      if ((double)*(float *)(iVar4 + 0x74) != dVar11) {
-        uVar5 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
-        lbl_83265A28 = uVar5 * 0x19660d + 0x3c6ef35f;
-        puVar1 = (unsigned int *)(iVar2 + iVar7 & 0xfffffff0);
-        uVar13 = *puVar1;
-        uVar14 = puVar1[1];
-        uVar15 = puVar1[2];
-        uVar16 = puVar1[3];
-        fn_8255A160((double)(float)((double)(float)((double)(float)(lbl_83265A28 & 0x7fffff |
-                                                                         0x3f800000) - dVar12) *
-                                          dVar10 - dVar9),
-                          (double)(float)((double)(float)((double)(float)(uVar5 & 0x7fffff |
-                                                                         0x3f800000) - dVar12) *
-                                         (double)*(float *)(iVar4 + 0x74)));
-        puVar1 = (unsigned int *)((int)in_r0 + iVar7 & 0xfffffff0);
-        *puVar1 = uVar13;
-        puVar1[1] = uVar14;
-        puVar1[2] = uVar15;
-        puVar1[3] = uVar16;
-      }
-      *(unsigned int *)(iVar7 + 0x10) = *(unsigned int *)(iVar4 + 0x230);
-      *(unsigned int *)(iVar7 + 0x14) = *(unsigned int *)(iVar4 + 0x234);
-      *(unsigned int *)(iVar7 + 0x18) = *(unsigned int *)(iVar4 + 0x238);
-      if (((((double)*(float *)(iVar4 + 0x80) == dVar11) &&
-           ((double)*(float *)(iVar4 + 0x84) == dVar11)) ||
-          (((double)*(float *)(iVar4 + 0x88) == dVar11 &&
-           ((double)*(float *)(iVar4 + 0x8c) == dVar11)))) ||
-         (lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f,
-         dVar8 < (double)(float)((double)(float)(lbl_83265A28 & 0x7fffff | 0x3f800000) - dVar12))) {
-        fn_825E42D8(iVar4,iVar7,1);
-      }
-      else {
-        fn_825E4220(iVar4,iVar7);
-      }
-      iVar6 = iVar6 + 1;
-      iVar7 = iVar7 + 0x30;
-    } while (iVar6 < *(int *)(iVar4 + 0x78));
-  }
-  fn_82F6A590();
-  return;
+    lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
+    return lbl_83265A28;
 }
 
+static __forceinline float RandomUnit(void)
+{
+    union {
+        unsigned int bits;
+        float value;
+    } random;
+
+    random.bits = (NextRandom() & 0x7fffff) | 0x3f800000;
+    return random.value - 1.0f;
+}
+
+void fn_825E4598(Spawner_825E4598 *self)
+{
+    int i;
+    Item_825E4598 *item;
+    float spread;
+    Float3_825E4598 *offset;
+
+    for (i = 0; i < self->count; i++) {
+        item = &self->items[i];
+        item->handle = -1;
+        item->position = self->origin;
+        spread = self->spread;
+        if (spread != 0.0f) {
+            item->position =
+                fn_8255A160(item->position, RandomUnit() * 6.2831855f - 3.1415927f, RandomUnit() * spread);
+        }
+        offset = &self->offset;
+        item->offset.x = offset->x;
+        item->offset.y = offset->y;
+        item->offset.z = offset->z;
+        if ((self->rangeA[0] == 0.0f && self->rangeA[1] == 0.0f) ||
+            (self->rangeB[0] == 0.0f && self->rangeB[1] == 0.0f)) {
+            fn_825E42D8(self, item, 1);
+        } else if (RandomUnit() > 0.5f) {
+            fn_825E42D8(self, item, 1);
+        } else {
+            fn_825E4220(self, item);
+        }
+    }
+}

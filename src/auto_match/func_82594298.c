@@ -1,112 +1,97 @@
-#define NAN(x) ((x) != (x))
-extern int fn_8251F720();
-extern int fn_8251FA58();
-extern int fn_825A2410();
-extern int fn_825C2EB8();
-extern unsigned int lbl_8218E8E8;
-extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int *lbl_8326C2C0;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Channel_82594298 {
+    float keys[0x14]; /* 0x00 */
+    float minimum;    /* 0x50 */
+    float maximum;    /* 0x54 */
+    float speed;      /* 0x58 */
+    float phase;      /* 0x5c */
+    char pad60[0xC];
+} Channel_82594298;
 
-void fn_82594298(double param_1,unsigned __int64 param_2,int param_3,unsigned __int64 param_4,
-                  unsigned int param_5)
+typedef struct Sound_82594298 {
+    float duration;               /* 0x00 */
+    Channel_82594298 channels[2]; /* 0x04 */
+} Sound_82594298;
 
+typedef struct Wave_82594298 {
+    float weight; /* 0x00 */
+    float pad04;  /* 0x04 */
+    float phase;  /* 0x08 */
+    float scale;  /* 0x0c */
+    float offset; /* 0x10 */
+} Wave_82594298;
+
+typedef struct Voice_82594298 {
+    Wave_82594298 waves[2]; /* 0x00 */
+    Sound_82594298 *sound;  /* 0x28 */
+    float time;             /* 0x2c */
+    __vector4 position;     /* 0x30 */
+    float volume;           /* 0x40 */
+    unsigned int index;     /* 0x44 */
+    char pad48[8];
+} Voice_82594298;
+
+typedef struct Pool_82594298 {
+    unsigned short size; /* 0x00 */
+    char *begin;         /* 0x04 */
+    char *end;           /* 0x08 */
+} Pool_82594298;
+
+extern Pool_82594298 *lbl_8326C2C0;
+
+extern Sound_82594298 *fn_8251F720(void *name, int flags);
+extern void fn_8251FA58(void *resource);
+extern Voice_82594298 *fn_825A2410(Pool_82594298 **pool);
+extern float fn_825C2EB8(float t, float *keys);
+
+static __forceinline float Clamp01(float value)
 {
-  float *pfVar1;
-  unsigned int *puVar2;
-  int iVar3;
-  int in_r0;
-  __int64 lVar4;
-  int iVar5;
-  float *pfVar6;
-  float *pfVar7;
-  int iVar8;
-  int iVar9;
-  double dVar10;
-  double dVar11;
-  double extraout_f1;
-  double dVar12;
-  double dVar13;
-  double dVar14;
-  unsigned int uVar15;
-  unsigned int uVar16;
-  unsigned int uVar17;
-  unsigned int uVar18;
-  
-  lVar4 = fn_8251F720(param_2,0);
-  if (lVar4 != 0) {
-    if (((lbl_8326C2C0 == (unsigned short *)0x0) ||
-        (0xf < (unsigned int)((*(int *)(lbl_8326C2C0 + 4) - *(int *)(lbl_8326C2C0 + 2)) /
-                     (int)(unsigned int)*lbl_8326C2C0))) ||
-       (iVar5 = fn_825A2410(0xffffffff8326c2c0), iVar5 == 0)) {
-      fn_8251FA58(lVar4);
-    }
-    else {
-      *(unsigned int *)(iVar5 + 0x44) = param_5;
-      dVar14 = (double)ltcg_pool_0_0f;
-      dVar13 = (double)lbl_821CA460;
-      puVar2 = (unsigned int *)(in_r0 + param_3 & 0xfffffff0);
-      uVar15 = *puVar2;
-      uVar16 = puVar2[1];
-      uVar17 = puVar2[2];
-      uVar18 = puVar2[3];
-      *(int *)(iVar5 + 0x28) = (int)lVar4;
-      iVar9 = 0;
-      if (*(float *)(&lbl_821954D8 +
-                    ((unsigned int)(unsigned char)((param_1 < dVar14) << 2) |
-                    (unsigned int)(NAN(param_1) || NAN(dVar14)) << 2)) < 0.0) {
-        param_1 = dVar14;
-      }
-      puVar2 = (unsigned int *)(iVar5 + 0x30U & 0xfffffff0);
-      *puVar2 = uVar15;
-      puVar2[1] = uVar16;
-      puVar2[2] = uVar17;
-      puVar2[3] = uVar18;
-      dVar12 = dVar13;
-      if (*(float *)(&lbl_821954D8 +
-                    ((unsigned int)(unsigned char)(((double)(float)(param_1 - dVar13) < dVar14) << 2) |
-                    (unsigned int)(NAN((double)(float)(param_1 - dVar13)) || NAN(dVar14)) << 2)) < 0.0) {
-        dVar12 = param_1;
-      }
-      *(float *)(iVar5 + 0x40) = (float)dVar12;
-      dVar12 = (double)lbl_8218E8E8;
-      do {
-        iVar8 = iVar9 * 0x6c;
-        iVar3 = *(int *)(iVar5 + 0x28) + iVar8;
-        dVar10 = (double)*(float *)(iVar3 + 0x54);
-        pfVar7 = (float *)(iVar9 * 0x14 + iVar5);
-        pfVar7[4] = (float)((double)(float)((double)*(float *)(iVar3 + 0x58) - dVar10) * dVar12 +
-                           dVar10);
-        iVar3 = *(int *)(iVar5 + 0x28) + iVar8;
-        pfVar7[3] = (float)((double)(*(float *)(iVar3 + 0x58) - *(float *)(iVar3 + 0x54)) * dVar12);
-        pfVar7[1] = (float)dVar14;
-        pfVar7[2] = *(float *)(*(int *)(iVar5 + 0x28) + iVar8 + 0x60);
-        pfVar1 = *(float **)(iVar5 + 0x28);
-        pfVar6 = pfVar1 + 1;
-        if (iVar9 != 0) {
-          pfVar6 = pfVar1 + 0x1c;
-        }
-        iVar5 = fn_825C2EB8((double)(float)(dVar14 / (double)*pfVar1),iVar5,pfVar6);
-        iVar9 = iVar9 + 1;
-        dVar10 = extraout_f1;
-        if (*(float *)(&lbl_821954D8 +
-                      ((unsigned int)(unsigned char)((extraout_f1 < dVar14) << 2) |
-                      (unsigned int)(NAN(extraout_f1) || NAN(dVar14)) << 2)) < 0.0) {
-          dVar10 = dVar14;
-        }
-        dVar11 = dVar13;
-        if (*(float *)(&lbl_821954D8 +
-                      ((unsigned int)(unsigned char)(((double)(float)(dVar10 - dVar13) < dVar14) << 2) |
-                      (unsigned int)(NAN((double)(float)(dVar10 - dVar13)) || NAN(dVar14)) << 2)) < 0.0) {
-          dVar11 = dVar10;
-        }
-        *pfVar7 = (float)dVar11;
-        *(float *)(iVar5 + 0x2c) = (float)dVar14;
-      } while (iVar9 < 2);
-    }
-  }
-  return;
+    value = value >= 0.0f ? value : 0.0f;
+    return value - 1.0f >= 0.0f ? 1.0f : value;
 }
 
+static __forceinline void Seek(Voice_82594298 *voice, int i, float time)
+{
+    float t;
+
+    t = time / voice->sound->duration;
+    voice->waves[i].weight =
+        Clamp01(fn_825C2EB8(t, i == 0 ? voice->sound->channels[0].keys : voice->sound->channels[1].keys));
+    voice->time = time;
+}
+
+void fn_82594298(void *name, const __vector4 *position, float volume, unsigned int index)
+{
+    Sound_82594298 *sound;
+    Voice_82594298 *voice;
+    int i;
+
+    sound = fn_8251F720(name, 0);
+    if (sound == 0)
+        return;
+    if (lbl_8326C2C0 != 0 &&
+        (unsigned int)((lbl_8326C2C0->end - lbl_8326C2C0->begin) / lbl_8326C2C0->size) < 16) {
+        voice = fn_825A2410(&lbl_8326C2C0);
+        if (voice != 0) {
+            voice->index = index;
+            voice->position = *position;
+            voice->sound = sound;
+            voice->volume = Clamp01(volume);
+            for (i = 0; i < 2; i++) {
+                voice->waves[i].offset =
+                    voice->sound->channels[i].minimum +
+                    (voice->sound->channels[i].maximum - voice->sound->channels[i].minimum) * 0.5f;
+                voice->waves[i].scale =
+                    (voice->sound->channels[i].maximum - voice->sound->channels[i].minimum) * 0.5f;
+                voice->waves[i].pad04 = 0.0f;
+                voice->waves[i].phase = voice->sound->channels[i].phase;
+                Seek(voice, i, 0.0f);
+            }
+            return;
+        }
+    }
+    fn_8251FA58(sound);
+}

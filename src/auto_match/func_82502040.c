@@ -1,76 +1,88 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern int fn_82463328();
-extern int fn_82503030();
-extern int fn_825070D0();
-extern int fn_8252AFE0();
-extern int fn_82564720();
-extern int fn_82592430();
-extern int fn_827F2DD0();
-extern int fn_827F62A8();
-extern int fn_827F6308();
-extern int fn_827F6318();
-extern int fn_827F6320();
-extern unsigned int lbl_8218E8E8;
-extern unsigned int lbl_82191118;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
-extern V16 loadVectorLeftIndexed128();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __lvlx(const void *base, int offset);
+__vector4 __vspltw(__vector4 v, unsigned int i);
+__vector4 __vmulfp(__vector4 a, __vector4 b);
 
-void fn_82502040(__int64 param_1,int param_2)
+typedef struct Channel_82502040 {
+    void *target; /* 0x00 */
+    char pad04[0x4];
+    int state;        /* 0x08 */
+    int nextState;    /* 0x0C */
+    void *sounds[12]; /* 0x10 */
+} Channel_82502040;
 
+typedef struct Clock_82502040 {
+    char pad0[0xc];
+    void *timer; /* 0x0C */
+} Clock_82502040;
+
+typedef struct World_82502040 {
+    char pad000[0xd54];
+    Clock_82502040 *clock; /* 0xD54 */
+} World_82502040;
+
+typedef struct Player_82502040 {
+    char pad000[0x50];
+    __vector4 position; /* 0x050 */
+    char pad060[0x40];
+    __vector4 velocity; /* 0x0A0 */
+    char pad0B0[0x10];
+    __vector4 rotation; /* 0x0C0 */
+    char pad0D0[0x7ec];
+    float speed; /* 0x8BC */
+    char pad8C0[0x27c];
+    float delta; /* 0xB3C */
+    char padB40[0x134];
+    void *tracker; /* 0xC74 */
+    char padC78[0x4c];
+    Channel_82502040 channels[2]; /* 0xCC4 */
+    int timed;                    /* 0xD44 */
+} Player_82502040;
+
+extern float fn_82463328(void *timer);
+extern void fn_8252AFE0(Player_82502040 *self, float scale);
+extern void fn_82564720(void *tracker, float blend, float weight, __vector4 position, __vector4 rotation,
+                        __vector4 velocity);
+extern int fn_827F6320(void *sound);
+extern float fn_827F6318(void *sound);
+extern void fn_827F6308(void *sound, int value);
+extern void fn_827F62A8(void *sound, float volume, unsigned char flag);
+extern void fn_827F2DD0(void *target, void *sound, float fade, int mode, int flags);
+extern void fn_825070D0(Player_82502040 *self, float delta);
+extern void fn_82503030(Player_82502040 *self);
+extern void fn_82592430(Player_82502040 *self, World_82502040 *world);
+
+void fn_82502040(Player_82502040 *self, World_82502040 *world)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  __int64 lVar5;
-  int *piVar6;
-  double dVar7;
-  double dVar8;
-  double dVar9;
-  double dVar10;
-  
-  iVar2 = (int)param_1;
-  dVar9 = (double)lbl_821CA460;
-  dVar8 = dVar9;
-  if (*(int *)(iVar2 + 0xd44) != 0) {
-    if (*(int *)(*(int *)(param_2 + 0xd54) + 0xc) != 0) {
-      dVar9 = (double)fn_82463328();
-    }
-    fn_8252AFE0(dVar9,param_1);
-  }
-  if (*(int *)(iVar2 + 0xc74) != 0) {
-    loadVectorLeftIndexed128(param_1,0x8bc);
-    fn_82564720((double)*(float *)(iVar2 + 0xb3c),dVar8);
-  }
-  iVar4 = 0;
-  lVar5 = param_1 + 0xccc;
-  dVar9 = (double)lbl_8218E8E8;
-  dVar10 = (double)ltcg_pool_0_0f;
-  dVar8 = (double)lbl_82191118;
-  do {
-    piVar6 = (int *)lVar5;
-    if (*piVar6 != 6) {
-      iVar1 = (iVar4 + *piVar6 + 0x335) * 4;
-      iVar3 = fn_827F6320(*(unsigned int *)(iVar1 + iVar2));
-      if ((((iVar3 == 1) &&
-           (dVar7 = (double)fn_827F6318(*(unsigned int *)(iVar1 + iVar2)), dVar8 < dVar7)) &&
-          (iVar1 = piVar6[1], iVar1 != *piVar6)) && (piVar6[-2] != 0)) {
-        iVar3 = (iVar4 + iVar1 + 0x335) * 4;
-        fn_827F6308(*(unsigned int *)(iVar3 + iVar2),0);
-        fn_827F62A8(dVar10,*(unsigned int *)(iVar3 + iVar2));
-        fn_827F2DD0(dVar9,piVar6[-2],*(unsigned int *)(iVar3 + iVar2));
-        *piVar6 = iVar1;
-        piVar6[1] = 0;
-      }
-    }
-    iVar4 = iVar4 + 0x10;
-    lVar5 = lVar5 + 0x40;
-  } while (iVar4 < 0x20);
-  fn_825070D0((double)*(float *)(iVar2 + 0xb3c),param_1);
-  fn_82503030(param_1);
-  fn_82592430(param_1,param_2);
-  return;
-}
+    int i;
 
+    if (self->timed != 0) {
+        fn_8252AFE0(self, world->clock->timer != 0 ? fn_82463328(world->clock->timer) : 1.0f);
+    }
+    if (self->tracker != 0) {
+        fn_82564720(self->tracker, self->delta, 1.0f, self->position, self->rotation,
+                    __vmulfp(self->velocity, __vspltw(__lvlx(&self->speed, 0), 0)));
+    }
+    for (i = 0; i < 2; i++) {
+        int state = self->channels[i].state;
+        int next;
+
+        if (state != 6 && fn_827F6320(self->channels[i].sounds[state]) == 1 &&
+            fn_827F6318(self->channels[i].sounds[state]) > 0.99f) {
+            next = self->channels[i].nextState;
+            if (next != self->channels[i].state && self->channels[i].target != 0) {
+                fn_827F6308(self->channels[i].sounds[next], 0);
+                fn_827F62A8(self->channels[i].sounds[next], 0.0f, 0);
+                fn_827F2DD0(self->channels[i].target, self->channels[i].sounds[next], 0.5f, 0x12, 0);
+                self->channels[i].state = next;
+                self->channels[i].nextState = 0;
+            }
+        }
+    }
+    fn_825070D0(self, self->delta);
+    fn_82503030(self);
+    fn_82592430(self, world);
+}

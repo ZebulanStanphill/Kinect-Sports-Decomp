@@ -1,101 +1,67 @@
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-extern double sqrt(double);
-#define SQRT(x) sqrt(x)
-extern unsigned int fStack_68;
-extern int fn_8223C610();
-extern int fn_823B4900();
-extern int sin();
-extern int cos();
-extern int fn_82F6A548();
-extern int fn_82F6A594();
-extern int fn_82F6B030();
-extern unsigned int lbl_82195520;
-extern unsigned int lbl_82195528;
-extern unsigned int lbl_831D2D78;
-extern unsigned int lbl_832976B0;
-extern unsigned int lbl_832976B8;
-extern unsigned int lbl_832976C0;
-extern unsigned int uStack_70;
+#include <math.h>
 
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
-void fn_823BE0B8(void)
+__vector4 __VMXGetReg(int n);
 
+extern unsigned int fn_8223C610(void *reader, int bits, int a, int b);
+extern unsigned __int64 fn_823B4900(void *reader, int bits, int a, int b);
+
+extern unsigned int lbl_832976B0;     /* initialisation guard of the two statics below */
+extern unsigned __int64 lbl_832976B8; /* rows per octant: sqrt(1 << 17) */
+extern unsigned __int64 lbl_832976C0; /* cells per octant: rows * rows */
+extern float lbl_831D2D78;            /* pi / 2 */
+
+static __forceinline unsigned __int64 IntSqrt(unsigned __int64 value)
 {
-  unsigned int *puVar1;
-  int in_r0;
-  unsigned __int64 uVar2;
-  __int64 lVar3;
-  __int64 lVar4;
-  __int64 lVar5;
-  __int64 lVar6;
-  unsigned int uVar7;
-  __int64 lVar8;
-  double dVar9;
-  double dVar10;
-  double dVar11;
-  double dVar12;
-  double dVar13;
-  unsigned int in_register_000104d0;
-  unsigned int in_register_000104d4;
-  unsigned int in_register_000104d8;
-  unsigned int in_vr77;
-  unsigned __int64 uStack_70;
-  float fStack_68;
-  
-  uVar2 = fn_82F6A548();
-  uVar7 = lbl_832976B0;
-  if ((lbl_832976B0 & 1) == 0) {
-    uVar7 = lbl_832976B0 | 1;
-    lbl_832976B0 = uVar7;
-    dVar9 = (double)fn_82F6B030(0x20000);
-    lbl_832976B8 = (__int64)SQRT(dVar9);
-    uStack_70 = lbl_832976B8;
-  }
-  if ((uVar7 & 2) == 0) {
-    lbl_832976B0 = uVar7 | 2;
-    lbl_832976C0 = lbl_832976B8 * lbl_832976B8;
-  }
-  lVar3 = fn_8223C610(uVar2,1,0,0);
-  lVar4 = fn_8223C610(uVar2,1,0,0);
-  lVar5 = fn_8223C610(uVar2,1,0,0);
-  lVar6 = fn_823B4900(uVar2,0x11,0,0);
-  dVar9 = (double)fn_82F6B030();
-  lVar8 = (__int64)SQRT(dVar9);
-  uStack_70 = lVar8;
-  dVar10 = (double)fn_82F6B030(lVar6 - lVar8 * lVar8);
-  dVar10 = dVar10 + lbl_82195520;
-  dVar9 = lbl_82195520;
-  dVar11 = (double)fn_82F6B030(lVar8 * 2 + 1);
-  dVar13 = (double)lbl_831D2D78;
-  dVar12 = (dVar10 / dVar11) * dVar13;
-  dVar10 = (double)fn_82F6B030(lVar8);
-  dVar10 = dVar10 + dVar9;
-  dVar11 = (double)fn_82F6B030(lbl_832976B8);
-  dVar9 = lbl_82195528;
-  dVar10 = (double)sin((double)(float)((lbl_82195528 - dVar10 / dVar11) * dVar13));
-  dVar13 = (double)(float)dVar10;
-  dVar11 = (double)(float)dVar12;
-  dVar10 = SQRT(dVar9 - (double)(float)(dVar13 * dVar13));
-  dVar9 = (double)cos(dVar11);
-  dVar12 = (double)(float)((double)(float)dVar9 * dVar10);
-  dVar9 = (double)sin(dVar11);
-  fStack_68 = (float)((double)(float)dVar9 * dVar10);
-  if (lVar3 != 0) {
-    dVar12 = -dVar12;
-  }
-  if (lVar4 != 0) {
-    dVar13 = -dVar13;
-  }
-  if (lVar5 != 0) {
-    fStack_68 = -fStack_68;
-  }
-  puVar1 = (unsigned int *)((int)&uStack_70 + in_r0 & 0xfffffff0);
-  *puVar1 = in_register_000104d0;
-  puVar1[1] = in_register_000104d4;
-  puVar1[2] = in_register_000104d8;
-  puVar1[3] = in_vr77;
-  uStack_70 = CONCAT44((float)dVar12,(float)dVar13);
-  fn_82F6A594();
-  return;
+    return (unsigned __int64)(float)sqrt((double)value);
 }
 
+/* Decodes a unit vector packed as three sign bits and an index into an octant grid of
+   17 bits: rows of latitude, each row holding 2 * row + 1 cells of longitude. */
+__vector4 fn_823BE0B8(void *reader)
+{
+    __vector4 out;
+    unsigned char negX;
+    unsigned char negY;
+    unsigned char negZ;
+    unsigned __int64 index;
+    unsigned __int64 row;
+    double azimuth;
+    float y;
+    double ring;
+    float x;
+    float z;
+
+    if ((lbl_832976B0 & 1) == 0) {
+        lbl_832976B0 |= 1;
+        lbl_832976B8 = IntSqrt((unsigned __int64)1 << 17);
+    }
+    if ((lbl_832976B0 & 2) == 0) {
+        lbl_832976B0 |= 2;
+        lbl_832976C0 = lbl_832976B8 * lbl_832976B8;
+    }
+    negX = fn_8223C610(reader, 1, 0, 0) != 0;
+    negY = fn_8223C610(reader, 1, 0, 0) != 0;
+    negZ = fn_8223C610(reader, 1, 0, 0) != 0;
+    index = fn_823B4900(reader, 17, 0, 0);
+    row = IntSqrt(index);
+    azimuth = ((double)(index - row * row) + 0.5) / (double)(row * 2 + 1) * lbl_831D2D78;
+    y = (float)sin((float)((1.0 - ((double)row + 0.5) / (double)lbl_832976B8) * lbl_831D2D78));
+    ring = sqrt(1.0 - y * y);
+    x = (float)((float)cos((float)azimuth) * ring);
+    z = (float)((float)sin((float)azimuth) * ring);
+    if (negX)
+        x = -x;
+    if (negY)
+        y = -y;
+    if (negZ)
+        z = -z;
+    out = __VMXGetReg(77);
+    out.vector4_f32[0] = x;
+    out.vector4_f32[1] = y;
+    out.vector4_f32[2] = z;
+    return out;
+}

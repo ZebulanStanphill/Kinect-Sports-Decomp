@@ -1,67 +1,75 @@
-extern int fn_82341008();
-extern int fn_8265C9E0();
-extern unsigned int lbl_8218E8E8;
-extern unsigned int lbl_82191418;
-extern unsigned int lbl_821922D4;
-extern unsigned int lbl_82192754;
-extern unsigned int lbl_82195610;
-extern unsigned int lbl_821B1C18;
-extern unsigned int ltcg_pool_0_0f;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __VMXGetReg(int n);
 
-unsigned int * fn_82349DE8(unsigned int *param_1)
+typedef struct Settings_82349DE8 {
+    float range;         /* 0x0 */
+    float angle;         /* 0x4 */
+    float distance;      /* 0x8 */
+    float offset;        /* 0xc */
+    unsigned char flagA; /* 0x10 */
+    unsigned char flagB; /* 0x11 */
+    unsigned char flagC; /* 0x12 */
+    unsigned char flagD; /* 0x13 */
+    unsigned char flagE; /* 0x14 */
+    char pad15[0x3];
+    float weightA; /* 0x18 */
+    float biasA;   /* 0x1c */
+    float weightB; /* 0x20 */
+    float biasB;   /* 0x24 */
+    float damping; /* 0x28 */
+    char pad2C[0x4];
+    __vector4 target; /* 0x30 */
+    int count;        /* 0x40 */
+    int index;        /* 0x44 */
+    int mode;         /* 0x48 */
+    char pad4C[0x4];
+} Settings_82349DE8;
 
+typedef struct Controller_82349DE8 {
+    void *vt;                    /* 0x0 */
+    int f4;                      /* 0x4 */
+    int f8;                      /* 0x8 */
+    void *fc;                    /* 0xc */
+    Settings_82349DE8 *settings; /* 0x10 */
+} Controller_82349DE8;
+
+extern char lbl_821B1C18[];
+extern Controller_82349DE8 *fn_82341008(Controller_82349DE8 *self, int a, void *b, int c);
+extern void *fn_8265C9E0(int size);
+
+static __forceinline Settings_82349DE8 *InitSettings(Settings_82349DE8 *settings)
 {
-  unsigned int *puVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned int *puVar8;
-  unsigned int in_register_000104d0;
-  unsigned int in_register_000104d4;
-  unsigned int in_register_000104d8;
-  unsigned int in_vr77;
-  
-  fn_82341008();
-  *param_1 = &lbl_821B1C18;
-  puVar8 = (unsigned int *)fn_8265C9E0(0x50);
-  uVar6 = lbl_82195610;
-  uVar2 = lbl_8218E8E8;
-  if (puVar8 == (unsigned int *)0x0) {
-    puVar8 = (unsigned int *)0x0;
-  }
-  else {
-    puVar8[0x10] = 0;
-    uVar7 = ltcg_pool_0_0f;
-    puVar8[0x11] = 0;
-    uVar5 = lbl_82192754;
-    puVar8[0x12] = 2;
-    uVar4 = lbl_821922D4;
-    uVar3 = lbl_82191418;
-    *(unsigned char *)(puVar8 + 4) = 0;
-    puVar8[6] = uVar2;
-    *(unsigned char *)((int)puVar8 + 0x11) = 0;
-    puVar8[7] = uVar7;
-    *(unsigned char *)((int)puVar8 + 0x12) = 0;
-    puVar8[8] = uVar2;
-    *(unsigned char *)((int)puVar8 + 0x13) = 0;
-    puVar8[9] = uVar7;
-    *(unsigned char *)(puVar8 + 5) = 0;
-    puVar8[10] = uVar6;
-    *puVar8 = uVar5;
-    puVar8[1] = uVar3;
-    puVar8[2] = uVar4;
-    puVar8[3] = uVar7;
-    puVar1 = (unsigned int *)((unsigned int)(puVar8 + 0xc) & 0xfffffff0);
-    *puVar1 = in_register_000104d0;
-    puVar1[1] = in_register_000104d4;
-    puVar1[2] = in_register_000104d8;
-    puVar1[3] = in_vr77;
-  }
-  param_1[4] = puVar8;
-  return param_1;
+    settings->count = 0;
+    settings->index = 0;
+    settings->mode = 2;
+    settings->weightA = 0.5f;
+    settings->flagA = 0;
+    settings->flagB = 0;
+    settings->biasA = 0.0f;
+    settings->flagC = 0;
+    settings->weightB = 0.5f;
+    settings->flagD = 0;
+    settings->biasB = 0.0f;
+    settings->flagE = 0;
+    settings->damping = 0.91f;
+    settings->range = 30.0f;
+    settings->angle = 45.0f;
+    settings->distance = 20.0f;
+    settings->offset = 0.0f;
+    settings->target = __VMXGetReg(77);
+    return settings;
 }
 
+Controller_82349DE8 *fn_82349DE8(Controller_82349DE8 *self, int a, void *b, int kind)
+{
+    Settings_82349DE8 *settings;
+
+    fn_82341008(self, a, b, kind);
+    self->vt = lbl_821B1C18;
+    settings = (Settings_82349DE8 *)fn_8265C9E0(0x50);
+    self->settings = settings != 0 ? InitSettings(settings) : 0;
+    return self;
+}

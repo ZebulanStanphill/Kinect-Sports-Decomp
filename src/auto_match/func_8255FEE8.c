@@ -1,57 +1,84 @@
-extern unsigned int lbl_821917C0;
-extern unsigned int lbl_82192734;
-extern unsigned int lbl_821954E8;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Msg_8255FEE8 {
+    unsigned int tag; /* 0x00 */
+    float volume;     /* 0x04 */
+    float b;          /* 0x08 */
+    int priority;     /* 0x0c */
+    float fadeIn;     /* 0x10 */
+    float pitch;      /* 0x14 */
+    int flag;         /* 0x18 */
+    int group;        /* 0x1c */
+    float fadeOut;    /* 0x20 */
+    int z[5];         /* 0x24 */
+} Msg_8255FEE8;
+
+typedef struct Sound_8255FEE8 {
+    char pad0[0x44];
+    int bus;              /* 0x44 */
+    float volume;         /* 0x48 */
+    float pitch;          /* 0x4c */
+    float fadeOut;        /* 0x50 */
+    float fadeIn;         /* 0x54 */
+    signed char flag;     /* 0x58 */
+    signed char group;    /* 0x59 */
+    signed char priority; /* 0x5a */
+} Sound_8255FEE8;
+
+typedef union FloatBits_8255FEE8 {
+    unsigned int u;
+    float f;
+} FloatBits_8255FEE8;
+
 extern unsigned int lbl_83265A28;
 
-
-void fn_8255FEE8(double param_1,int param_2,unsigned int *param_3,int param_4)
-
+static __forceinline float Random01(void)
 {
-  float fVar1;
-  unsigned int uVar2;
-  float fVar3;
-  double dVar4;
-  
-  fVar1 = ltcg_pool_0_0f;
-  fVar3 = lbl_821CA460;
-  dVar4 = (double)ltcg_pool_0_0f;
-  param_3[6] = 0;
-  param_3[9] = 0;
-  uVar2 = lbl_821917C0;
-  param_3[0xc] = 0;
-  param_3[0xd] = 0;
-  param_3[1] = fVar3;
-  param_3[10] = 0;
-  param_3[4] = uVar2;
-  param_3[0xb] = 0;
-  param_3[2] = fVar1;
-  param_3[3] = 0x20;
-  param_3[5] = fVar1;
-  param_3[7] = 0x40;
-  param_3[8] = uVar2;
-  *param_3 = 0x4d697850;
-  param_3[1] = *(unsigned int *)(param_2 + 0x48);
-  param_3[3] = (int)*(char *)(param_2 + 0x5a);
-  param_3[4] = *(unsigned int *)(param_2 + 0x54);
-  param_3[6] = (int)*(char *)(param_2 + 0x58);
-  param_3[7] = (int)*(char *)(param_2 + 0x59);
-  param_3[9] = *(unsigned int *)(param_2 + 0x44);
-  param_3[0xc] = param_2;
-  if (param_1 < dVar4) {
-    param_3[8] = *(unsigned int *)(param_2 + 0x50);
-  }
-  else {
-    param_3[8] = (float)param_1;
-  }
-  fVar1 = lbl_82192734;
-  if ((param_4 == 0) &&
-     (fVar1 = *(float *)(param_2 + 0x4c), *(float *)(param_2 + 0x4c) == lbl_821954E8)) {
+    FloatBits_8255FEE8 bits;
+
     lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
-    fVar1 = (float)(lbl_83265A28 & 0x7fffff | 0x3f800000) - fVar3;
-  }
-  param_3[5] = fVar1;
-  return;
+    bits.u = (lbl_83265A28 & 0x7fffff) | 0x3f800000;
+    return bits.f - 1.0f;
 }
 
+static __forceinline void InitMsg(Msg_8255FEE8 *m)
+{
+    m->tag = 0x4d697850;
+    m->volume = 1.0f;
+    m->b = 0.0f;
+    m->priority = 0x20;
+    m->fadeIn = 0.2f;
+    m->pitch = 0.0f;
+    m->flag = 0;
+    m->group = 0x40;
+    m->fadeOut = 0.2f;
+    m->z[0] = 0;
+    m->z[3] = 0;
+    m->z[4] = 0;
+    m->z[1] = 0;
+    m->z[2] = 0;
+}
+
+/* Returns the sound it was given: fn_82532810 keeps using the returned pointer (r3) after the call. */
+Sound_8255FEE8 *fn_8255FEE8(Sound_8255FEE8 *sound, Msg_8255FEE8 *msg, int defaultPitch, float fadeOut)
+{
+    InitMsg(msg);
+    msg->volume = sound->volume;
+    msg->priority = sound->priority;
+    msg->fadeIn = sound->fadeIn;
+    msg->flag = sound->flag;
+    msg->group = sound->group;
+    msg->z[0] = sound->bus;
+    msg->z[3] = (int)sound;
+    if (fadeOut >= 0.0f) {
+        msg->fadeOut = fadeOut;
+    } else {
+        msg->fadeOut = sound->fadeOut;
+    }
+    if (defaultPitch != 0) {
+        msg->pitch = -1.0f;
+    } else if (sound->pitch == -2.0f) {
+        msg->pitch = Random01();
+    } else {
+        msg->pitch = sound->pitch;
+    }
+    return sound;
+}

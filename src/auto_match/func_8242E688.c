@@ -1,32 +1,44 @@
-extern int fn_822ABA88();
-extern int fn_8242C410();
+typedef struct Body_8242E688 {
+    char pad0[0x44];
+    unsigned char slot; /* 0x44 */
+} Body_8242E688;
 
+typedef struct Player_8242E688 {
+    char pad0[0x1a0];
+    Body_8242E688 *body; /* 0x1a0 */
+} Player_8242E688;
 
-int fn_8242E688(unsigned __int64 param_1,unsigned int param_2)
+typedef struct Entry_8242E688 {
+    void **items; /* 0x00 */
+    char pad4[0x10 - 0x4];
+    int current; /* 0x10 */
+} Entry_8242E688;
 
+typedef struct Entries_8242E688 {
+    Entry_8242E688 **begin; /* 0x00 */
+} Entries_8242E688;
+
+typedef struct Track_8242E688 {
+    char pad0[0x8];
+    Entries_8242E688 *entries; /* 0x08 */
+} Track_8242E688;
+
+extern int fn_8242C410(Track_8242E688 *self);
+extern Player_8242E688 *fn_822ABA88(void *item, int flags);
+
+/* The player whose body sits in the given slot, or null. */
+Player_8242E688 *fn_8242E688(Track_8242E688 *self, unsigned int slot)
 {
-  int *piVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  __int64 lVar4;
-  __int64 lVar5;
-  
-  lVar4 = 0;
-  iVar2 = fn_8242C410();
-  if (0 < iVar2) {
-    lVar5 = 0;
-    uVar3 = (unsigned __int64)**(unsigned int **)((int)param_1 + 8);
-    do {
-      piVar1 = *(int **)((int)lVar5 + (int)uVar3);
-      iVar2 = fn_822ABA88(*(unsigned int *)(piVar1[4] * 4 + *piVar1),0);
-      if (*(unsigned char *)(*(int *)(iVar2 + 0x1a0) + 0x44) == param_2) {
-        return iVar2;
-      }
-      lVar4 = lVar4 + 1;
-      lVar5 = lVar5 + 4;
-      iVar2 = fn_8242C410(param_1);
-    } while ((int)lVar4 < iVar2);
-  }
-  return 0;
-}
+    int i;
+    Entry_8242E688 *entry;
+    Player_8242E688 *player;
 
+    for (i = 0; i < fn_8242C410(self); i++) {
+        entry = self->entries->begin[i];
+        player = fn_822ABA88(entry->items[entry->current], 0);
+        if (player->body->slot == slot) {
+            return player;
+        }
+    }
+    return 0;
+}

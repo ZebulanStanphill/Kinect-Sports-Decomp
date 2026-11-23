@@ -1,104 +1,109 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern unsigned int lbl_82005748;
-extern unsigned int lbl_82195508;
-extern unsigned int lbl_821958CC;
-extern V16 vectorSubtractFloatingPoint();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vsubfp(__vector4 a, __vector4 b);
+__vector4 __vmsum3fp(__vector4 a, __vector4 b);
 
-unsigned __int64 fn_82317948(int param_1,int param_2,int param_3,int param_4)
+typedef struct Ball_82317948 {
+    char pad0[0x28];
+    int side; /* 0x28 */
+    int zone; /* 0x2c */
+} Ball_82317948;
 
+typedef struct Event_82317948 {
+    __vector4 position; /* 0x00 */
+    char pad10[0x10];
+    Ball_82317948 *ball; /* 0x20 */
+    char pad24[4];
+    int bounced; /* 0x28 */
+    int out;     /* 0x2c */
+} Event_82317948;
+
+typedef struct Call_82317948 {
+    __vector4 position; /* 0x00 */
+    int bounced;        /* 0x10 */
+    int side;           /* 0x14 */
+    int zone;           /* 0x18 */
+    int kind;           /* 0x1c */
+} Call_82317948;
+
+typedef struct Court_82317948 {
+    char pad0[0x80];
+    __vector4 center; /* 0x80 */
+    char pad90[0x15c];
+    int doubles; /* 0x1ec */
+} Court_82317948;
+
+typedef struct Rules_82317948 {
+    char pad0[0x42c];
+    int mode; /* 0x42c */
+} Rules_82317948;
+
+typedef struct Self_82317948 {
+    char pad0[0xc];
+    Court_82317948 *court; /* 0x0c */
+    Rules_82317948 *rules; /* 0x10 */
+    char pad14[0x64c];
+    int replay; /* 0x660 */
+} Self_82317948;
+
+int fn_82317948(Self_82317948 *self, Event_82317948 *event, int serve, Call_82317948 *call)
 {
-  unsigned int *puVar1;
-  unsigned int uVar2;
-  float *pfVar3;
-  float fVar4;
-  int in_r0;
-  int iVar5;
-  int iVar6;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs45 [16];
-  unsigned int uVar7;
-  unsigned int uVar8;
-  unsigned int uVar9;
-  unsigned int uVar10;
-  float fVar11;
-  float fVar12;
-  float afStack_20 [6];
-  
-  fVar4 = lbl_82005748;
-  puVar1 = (unsigned int *)(in_r0 + param_2 & 0xfffffff0);
-  uVar7 = *puVar1;
-  uVar8 = puVar1[1];
-  uVar9 = puVar1[2];
-  uVar10 = puVar1[3];
-  iVar6 = *(int *)(param_2 + 0x28);
-  iVar5 = *(int *)(param_2 + 0x2c);
-  uVar2 = *(int *)(param_1 + 0xc) + 0x80U & 0xfffffff0;
-  fVar11 = *(float *)(uVar2 + 4);
-  fVar12 = *(float *)(uVar2 + 8);
-  vectorSubtractFloatingPoint(in_vs45,in_vs32);
-  fVar11 = fVar11 * fVar11 + 0.0 + fVar12 * fVar12;
-  pfVar3 = (float *)((int)afStack_20 + in_r0 & 0xfffffff0);
-  *pfVar3 = fVar11;
-  pfVar3[1] = fVar11;
-  pfVar3[2] = fVar11;
-  pfVar3[3] = fVar11;
-  if (iVar6 == 0) {
-    if (iVar5 == 0) {
-      if (afStack_20[0] <= fVar4) {
-        return 0;
-      }
-      iVar5 = 1;
-      goto LAB_8231799c;
-    }
-  }
-  else {
-LAB_8231799c:
-    if (iVar5 == 0) {
-      return 0;
-    }
-  }
-  puVar1 = (unsigned int *)(in_r0 + param_4 & 0xfffffff0);
-  *puVar1 = uVar7;
-  puVar1[1] = uVar8;
-  puVar1[2] = uVar9;
-  puVar1[3] = uVar10;
-  *(unsigned int *)(param_4 + 0x14) = *(unsigned int *)(*(int *)(param_2 + 0x20) + 0x28);
-  *(unsigned int *)(param_4 + 0x18) = *(unsigned int *)(*(int *)(param_2 + 0x20) + 0x2c);
-  *(unsigned int *)(param_4 + 0x10) = *(unsigned int *)(param_2 + 0x28);
-  if (*(int *)(*(int *)(param_1 + 0xc) + 0x1ec) == 0) {
-    iVar6 = 3;
-    if (*(int *)(param_2 + 0x28) != 1) {
-      if ((fVar4 < afStack_20[0]) && (iVar6 = 5, lbl_82195508 < afStack_20[0])) {
-        iVar6 = 7;
-      }
-      *(int *)(param_4 + 0x1c) = iVar6;
-      if ((iVar6 != 3) || (param_3 != 0)) goto LAB_82317a6c;
-      iVar6 = 5;
-    }
-    *(int *)(param_4 + 0x1c) = iVar6;
-  }
-  else {
-    *(unsigned int *)(param_4 + 0x1c) = 5;
-    if (lbl_821958CC < afStack_20[0]) {
-      *(unsigned int *)(param_4 + 0x1c) = 7;
-    }
-    iVar6 = *(int *)(*(int *)(param_1 + 0x10) + 0x42c);
-    if ((iVar6 == 1) || (iVar6 == 3)) {
-      *(unsigned int *)(param_4 + 0x1c) = 7;
-    }
-  }
-LAB_82317a6c:
-  if (*(int *)(param_1 + 0x660) == 1) {
-    iVar6 = *(int *)(param_4 + 0x1c);
-    if (iVar6 == 5) {
-      iVar6 = 6;
-    }
-    else if (iVar6 == 7) {
-      iVar6 = 8;
-    }
-    *(int *)(param_4 + 0x1c) = iVar6;
-  }
-  return 1;
-}
+    __vector4 offset;
+    __vector4 dot;
+    float distance;
+    int out;
+    int kind;
 
+    offset = __vsubfp(self->court->center, event->position);
+    dot = __vmsum3fp(offset, offset);
+    distance = dot.vector4_f32[0];
+    out = event->out;
+    if (event->bounced == 0 && out == 0 && distance > 100.0f) {
+        out = 1;
+    }
+    if (out != 0) {
+        call->position = event->position;
+        call->side = event->ball->side;
+        call->zone = event->ball->zone;
+        call->bounced = event->bounced;
+        if (self->court->doubles != 0) {
+            call->kind = 5;
+            if (distance > 225.0f) {
+                call->kind = 7;
+            }
+            if (self->rules->mode == 1 || self->rules->mode == 3) {
+                call->kind = 7;
+            }
+        } else if (event->bounced == 1) {
+            call->kind = 3;
+        } else {
+            kind = 3;
+            if (distance > 100.0f) {
+                kind = 5;
+                if (distance > 400.0f) {
+                    kind = 7;
+                }
+            }
+            call->kind = kind;
+            if (kind == 3 && serve == 0) {
+                call->kind = 5;
+            }
+        }
+        if (self->replay == 1) {
+            kind = call->kind;
+            switch (kind) {
+            case 5:
+                kind = 6;
+                break;
+            case 7:
+                kind = 8;
+                break;
+            }
+            call->kind = kind;
+        }
+        return 1;
+    }
+    return 0;
+}

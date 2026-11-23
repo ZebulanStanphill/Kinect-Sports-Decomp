@@ -1,45 +1,57 @@
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-extern int fn_82535298();
-extern int fn_82536070();
-extern int fn_82536288();
-extern unsigned int lbl_8218E8E8;
-extern unsigned int lbl_82195598;
-extern unsigned int lbl_831DB254;
+typedef struct Handle_82359420 {
+    void *p;
+} Handle_82359420;
 
+typedef struct Countdown_82359420 {
+    char pad0[0xbc];
+    int active;     /* 0xbc */
+    int shown;      /* 0xc0 */
+    float time;     /* 0xc4 */
+    float lastTime; /* 0xc8 */
+    char padCC[0x3c];
+    int finished; /* 0x108 */
+} Countdown_82359420;
 
-void fn_82359420(double param_1,int param_2,unsigned int *param_3,unsigned __int64 param_4,
-                  unsigned int *param_5)
+extern double __fctid(double);
+extern double __fcfid(double);
 
+extern char lbl_83296BC0[];
+extern char lbl_83296BD0[];
+extern char *lbl_831DB254[];
+extern void fn_82536070(const char *name, const char *value);
+extern void *fn_82535298(Handle_82359420 *h, void *ctx, void *a, void *b);
+extern void fn_82536288(Handle_82359420 *h);
+
+static __forceinline float RoundDown(float value)
 {
-  int iVar1;
-  int iVar2;
-  float fVar3;
-  unsigned int uVar4;
-  __int64 alStack_30;
-  
-  if (*(int *)(param_2 + 0xbc) != 0) {
-    fVar3 = (float)((double)*(float *)(param_2 + 0xc4) - param_1);
-    *(float *)(param_2 + 0xc4) = fVar3;
-    iVar1 = (int)(float)(__int64)
-                        ((double)(*(float *)(param_2 + 200) - lbl_8218E8E8) - lbl_82195598);
-    iVar2 = (int)(float)(__int64)((double)(fVar3 - lbl_8218E8E8) - lbl_82195598);
-    alStack_30 = (__int64)iVar2;
-    if (iVar2 < 0) {
-      if (((iVar2 < iVar1) && (iVar2 != *(int *)(param_2 + 0xc0))) &&
-         (*(int *)(param_2 + 0xc0) = iVar2, iVar2 == -1)) {
-        *(unsigned int *)(param_2 + 0x108) = 1;
-      }
-    }
-    else if (((iVar2 < 10) && (iVar2 < iVar1)) && (iVar2 != *(int *)(param_2 + 0xc0))) {
-      *(int *)(param_2 + 0xc0) = iVar2;
-      fn_82536070(0xffffffff821b24b8,(&lbl_831DB254)[iVar2]);
-      alStack_30 = CONCAT44(*param_5,((unsigned int)(alStack_30)));
-      uVar4 = fn_82535298(&alStack_30,*param_3,0xffffffff83296bc0,0xffffffff83296bd0);
-      alStack_30 = CONCAT44(uVar4,((unsigned int)(alStack_30)));
-      fn_82536288(&alStack_30);
-    }
-    *(unsigned int *)(param_2 + 200) = *(unsigned int *)(param_2 + 0xc4);
-  }
-  return;
+    return (float)__fcfid(__fctid(value - 0.49999999));
 }
 
+void fn_82359420(Countdown_82359420 *self, void **ctx, float dt, Handle_82359420 *session)
+{
+    int last;
+    int second;
+    Handle_82359420 tmp;
+
+    if (self->active == 0) {
+        return;
+    }
+    self->time -= dt;
+    last = (int)RoundDown(self->lastTime - 0.5f);
+    second = (int)RoundDown(self->time - 0.5f);
+    if (second >= 0) {
+        if (second <= 9 && second < last && second != self->shown) {
+            self->shown = second;
+            fn_82536070("crowd_countdown", lbl_831DB254[second]);
+            tmp = *session;
+            tmp.p = fn_82535298(&tmp, *ctx, lbl_83296BC0, lbl_83296BD0);
+            fn_82536288(&tmp);
+        }
+    } else if (second < last && second != self->shown) {
+        self->shown = second;
+        if (second == -1) {
+            self->finished = 1;
+        }
+    }
+    self->lastTime = self->time;
+}

@@ -1,118 +1,120 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_825CB068();
-extern int fn_82F6A53C();
-extern int fn_82F6A588();
-extern unsigned int lbl_82192604;
-extern unsigned int lbl_821954D4;
-extern unsigned int lbl_82195690;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Triangle_825C89B0 {
+    float x0; /* 0x00 */
+    float z0; /* 0x04 */
+    float x1; /* 0x08 */
+    float z1; /* 0x0c */
+    float x2; /* 0x10 */
+    float z2; /* 0x14 */
+} Triangle_825C89B0;
 
+typedef struct TriangleList_825C89B0 {
+    int count;                /* 0x0 */
+    Triangle_825C89B0 *items; /* 0x4 */
+} TriangleList_825C89B0;
 
-void fn_825C89B0(unsigned __int64 param_1,double param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5,unsigned __int64 param_6,float *param_7)
+typedef struct Patch_825C89B0 {
+    float height;                    /* 0x0 */
+    int flat;                        /* 0x4 */
+    TriangleList_825C89B0 triangles; /* 0x8 */
+} Patch_825C89B0;
 
+typedef struct Cell_825C89B0 {
+    int count;               /* 0x0 */
+    Patch_825C89B0 *patches; /* 0x4 */
+} Cell_825C89B0;
+
+typedef struct Grid_825C89B0 {
+    char pad00[0x98];
+    Cell_825C89B0 *cells; /* 0x98 */
+} Grid_825C89B0;
+
+typedef struct Shape_825C89B0 {
+    char pad000[0x10];
+    int bumpy; /* 0x10 */
+    char pad014[0x138 - 0x14];
+    Grid_825C89B0 *grid; /* 0x138 */
+    char pad13c[0x158 - 0x13c];
+    float bumpHeight; /* 0x158 */
+    float rimHeight;  /* 0x15c */
+} Shape_825C89B0;
+
+typedef struct Surface_825C89B0 {
+    char pad00[0x24];
+    float patchOffset; /* 0x24 */
+    char pad28[0x54 - 0x28];
+    Shape_825C89B0 *shape; /* 0x54 */
+} Surface_825C89B0;
+
+extern float fn_825CB068(Surface_825C89B0 *self, float x, float z, float u, float v);
+
+static __forceinline const float *MaxOf(const float *a, const float *b)
 {
-  float fVar1;
-  int iVar2;
-  float fVar3;
-  bool bVar4;
-  int iVar6;
-  unsigned __int64 uVar5;
-  int iVar7;
-  int iVar8;
-  int iVar9;
-  float *pfVar10;
-  int *piVar11;
-  int iVar12;
-  float *pfVar13;
-  int iVar14;
-  double dVar15;
-  double extraout_f1;
-  double dVar16;
-  double dVar17;
-  double dVar18;
-  double dVar19;
-  double dVar20;
-  double dVar21;
-  double dVar22;
-  double dVar23;
-  double dVar24;
-  double dVar25;
-  
-  iVar6 = fn_82F6A53C();
-  iVar7 = *(int *)(iVar6 + 0x54);
-  uVar5 = 0;
-  bVar4 = false;
-  dVar23 = (double)ltcg_pool_0_0f;
-  iVar2 = (int)((param_6 & 0x1fffffff) << 3);
-  piVar11 = (int *)(*(int *)(*(int *)(iVar7 + 0x138) + 0x98) + iVar2);
-  iVar8 = *piVar11;
-  fVar1 = lbl_82195690;
-  if (iVar8 != 0) {
-    iVar14 = 0;
-    if (0 < iVar8) {
-      piVar11 = (int *)(piVar11[1] + 8);
-      dVar22 = (double)lbl_821954D4;
-      dVar21 = (double)lbl_82192604;
-      dVar24 = dVar23;
-      dVar25 = extraout_f1;
-      do {
-        iVar8 = 0;
-        if (0 < *piVar11) {
-          iVar9 = 0;
-          do {
-            iVar12 = piVar11[1] + iVar9;
-            dVar15 = (double)*(float *)(piVar11[1] + iVar9);
-            dVar17 = (double)*(float *)(iVar12 + 0xc);
-            dVar16 = (double)*(float *)(iVar12 + 8);
-            dVar20 = (double)*(float *)(iVar12 + 4);
-            dVar19 = (double)*(float *)(iVar12 + 0x10);
-            dVar18 = (double)*(float *)(iVar12 + 0x14);
-            fVar3 = (float)(dVar17 - dVar20) * (float)(dVar25 - dVar15) -
-                    (float)(dVar16 - dVar15) * (float)(param_2 - dVar20);
-            if ((dVar24 <= (double)(((float)(dVar18 - dVar17) * (float)(dVar25 - dVar16) -
-                                    (float)(dVar19 - dVar16) * (float)(param_2 - dVar17)) * fVar3))
-               && (dVar24 <= (double)(((float)(dVar20 - dVar18) * (float)(dVar25 - dVar19) -
-                                      (float)(dVar15 - dVar19) * (float)(param_2 - dVar18)) * fVar3)
-                  )) {
-              if (piVar11[-1] == 1) {
-                if (*param_7 < (float)piVar11[-2]) goto LAB_825c8ba8;
-              }
-              else {
-                if (!bVar4) {
-                  pfVar10 = (float *)(*(int *)(iVar6 + 0x54) + 0x15c);
-                  pfVar13 = (float *)(*(int *)(iVar6 + 0x54) + 0x158);
-                  if (*pfVar13 < *pfVar10) {
-                    pfVar13 = pfVar10;
-                  }
-                  if ((((double)(*param_7 - (float)piVar11[-2]) <=
-                        (double)(float)((double)*pfVar13 + dVar21)) &&
-                      (dVar22 < (double)(*param_7 - (float)piVar11[-2]))) &&
-                     (bVar4 = true, *(int *)(iVar7 + 0x10) != 0)) {
-                    dVar23 = (double)fn_825CB068(dVar25,param_2,param_3,param_4,iVar6);
-                  }
-                  dVar23 = (double)(float)((double)*(float *)(iVar6 + 0x24) + dVar23);
-                }
-                uVar5 = 1;
-                fVar1 = (float)((double)(float)piVar11[-2] + dVar23);
-              }
-              break;
-            }
-            iVar8 = iVar8 + 1;
-            iVar9 = iVar9 + 0x18;
-          } while (iVar8 < *piVar11);
-        }
-        iVar7 = *(int *)(iVar6 + 0x54);
-        iVar14 = iVar14 + 1;
-        piVar11 = piVar11 + 4;
-      } while (iVar14 < *(int *)(*(int *)(*(int *)(iVar7 + 0x138) + 0x98) + iVar2));
-    }
-  }
-LAB_825c8ba8:
-  *param_7 = fVar1;
-  fn_82F6A588(uVar5);
-  return;
+    return *a < *b ? b : a;
 }
 
+static __forceinline float Edge(float ax, float az, float bx, float bz, float x, float z)
+{
+    return (bz - az) * (x - ax) - (bx - ax) * (z - az);
+}
+
+static __forceinline int Contains(const TriangleList_825C89B0 *list, float x, float z)
+{
+    const Triangle_825C89B0 *tri;
+    float side;
+    int i;
+
+    for (i = 0; i < list->count; i++) {
+        tri = &list->items[i];
+        side = Edge(tri->x0, tri->z0, tri->x1, tri->z1, x, z);
+        if (Edge(tri->x1, tri->z1, tri->x2, tri->z2, x, z) * side >= 0.0f &&
+            Edge(tri->x2, tri->z2, tri->x0, tri->z0, x, z) * side >= 0.0f) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int fn_825C89B0(Surface_825C89B0 *self, int cell, float *height, float x, float z, float u, float v)
+{
+    Patch_825C89B0 *patches;
+    const float *top;
+    float result;
+    float bump;
+    float rise;
+    int found;
+    int bumped;
+    int i;
+
+    found = 0;
+    bumped = 0;
+    result = -3.402823466e+38f;
+    bump = 0.0f;
+    if (self->shape->grid->cells[cell].count != 0) {
+        patches = self->shape->grid->cells[cell].patches;
+        for (i = 0; i < self->shape->grid->cells[cell].count; i++) {
+            if (Contains(&patches[i].triangles, x, z)) {
+                if (patches[i].flat == 1) {
+                    if (patches[i].height > *height) {
+                        break;
+                    }
+                } else {
+                    if (bumped == 0) {
+                        top = MaxOf(&self->shape->bumpHeight, &self->shape->rimHeight);
+                        rise = *height - patches[i].height;
+                        if (rise <= *top + 3.0f && rise > -3.0f) {
+                            bumped = 1;
+                            if (self->shape->bumpy != 0) {
+                                bump = fn_825CB068(self, x, z, u, v);
+                            }
+                        }
+                        bump = self->patchOffset + bump;
+                    }
+                    result = patches[i].height + bump;
+                    found = 1;
+                }
+            }
+        }
+    }
+    *height = result;
+    return found;
+}

@@ -1,94 +1,91 @@
-extern unsigned int *auStack_80;
-extern unsigned int fStack00000020;
-extern unsigned int fStack00000028;
-extern unsigned int fStack_48;
-extern unsigned int fStack_50;
-extern int fn_82520780();
-extern int fn_825F5B50();
-extern int fn_825F5C70();
-extern unsigned int lbl_8218E8E8;
-extern unsigned int lbl_821917B0;
-extern unsigned int lbl_821917C0;
-extern float lbl_82192480;
-extern unsigned int lbl_821CA460;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
+
+typedef union FloatBits_82612408 {
+    unsigned int u;
+    float f;
+} FloatBits_82612408;
+
+typedef struct Effect_82612408 {
+    unsigned int type; /* 0x00 */
+    char pad04[0x20];
+    struct Effect_82612408 *next; /* 0x24 */
+} Effect_82612408;
+
+typedef struct System_82612408 {
+    char pad000[0x828];
+    float baseLife; /* 0x828 */
+    char pad82C[0x420];
+    Effect_82612408 *effects; /* 0xC4C */
+} System_82612408;
+
+typedef struct Emitter_82612408 {
+    char pad00[0x10];
+    Effect_82612408 *effect; /* 0x10 */
+} Emitter_82612408;
+
+typedef struct Particle_82612408 {
+    __vector4 values[3]; /* 0x00 */
+    __vector4 position;  /* 0x30 */
+} Particle_82612408;
+
 extern unsigned int lbl_83265A28;
-extern unsigned int uStack00000024;
-extern unsigned int uStack_4c;
-extern unsigned int uStack_88;
+extern const Particle_82612408 lbl_8329EAD0;
+extern int lbl_83270124[5];
 
+extern int fn_82520780(unsigned int *seed, float chance);
+extern Effect_82612408 *fn_825F5B50(Effect_82612408 **list, void *name, void *group, int flags, int type);
+extern void fn_825F5C70(Effect_82612408 *effect, Particle_82612408 *particle, float scaleX, float scaleY,
+                        float life, float speed);
 
-void fn_82612408(double param_1,double param_2,int param_3,unsigned __int64 param_4,unsigned __int64 param_5,
-                  int param_6)
-
+static __forceinline float Random01(void)
 {
-  float fVar1;
-  int iVar2;
-  int *piVar3;
-  unsigned __int64 *puVar4;
-  unsigned __int64 *puVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned int uVar8;
-  __int64 lVar9;
-  double dVar10;
-  double dVar11;
-  double dVar12;
-  float in_register_00010010;
-  unsigned int in_register_00010014;
-  float in_register_00010018;
-  float fStack00000020;
-  unsigned int uStack00000024;
-  float fStack00000028;
-  unsigned __int64 uStack_88;
-  unsigned char auStack_80 [48];
-  float fStack_50;
-  unsigned int uStack_4c;
-  float fStack_48;
-  
-  fStack00000020 = in_register_00010010;
-  uStack00000024 = in_register_00010014;
-  fStack00000028 = in_register_00010018;
-  iVar2 = fn_82520780((double)((float)(param_2 * param_2) * lbl_82192480),0xffffffff83265a28);
-  if (iVar2 != 0) {
-    dVar12 = (double)*(float *)(param_6 + 0x828);
-    if (*(int *)(param_3 + 0x10) == 0) {
-      for (piVar3 = *(int **)(param_6 + 0xc4c); piVar3 != (int *)0x0; piVar3 = (int *)piVar3[9]) {
-        if (*piVar3 == 1) goto LAB_826124ac;
-      }
-      piVar3 = (int *)fn_825F5B50(param_6 + 0xc4c,0xffffffff83270124,0xffffffff83270128,0,1);
-LAB_826124ac:
-      *(int **)(param_3 + 0x10) = piVar3;
-    }
-    fVar1 = lbl_821CA460;
-    if (*(int *)(param_3 + 0x10) != 0) {
-      uVar6 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
-      lVar9 = 8;
-      dVar10 = (double)(((float)(uVar6 & 0x7fffff | 0x3f800000) - lbl_821CA460) + lbl_8218E8E8);
-      puVar5 = &uStack_88;
-      puVar4 = (unsigned __int64 *)0x8329eac8;
-      do {
-        puVar4 = puVar4 + 1;
-        puVar5 = puVar5 + 1;
-        *puVar5 = *puVar4;
-        lVar9 = lVar9 + -1;
-      } while (lVar9 != 0);
-      dVar11 = -param_1;
-      uStack_4c = uStack00000024;
-      uVar6 = uVar6 * 0x19660d + 0x3c6ef35f;
-      uVar7 = uVar6 * 0x19660d + 0x3c6ef35f;
-      uVar8 = uVar7 * 0x19660d + 0x3c6ef35f;
-      lbl_83265A28 = uVar8 * 0x19660d + 0x3c6ef35f;
-      fStack_50 = (float)((double)((float)(uVar6 & 0x7fffff | 0x3f800000) - fVar1) *
-                          (double)(float)(param_1 - dVar11) + dVar11) + fStack00000020;
-      fStack_48 = (float)((double)((float)(uVar7 & 0x7fffff | 0x3f800000) - fVar1) *
-                          (double)(float)(param_1 - dVar11) + dVar11) + fStack00000028;
-      fn_825F5C70(dVar10,dVar10,
-                        (double)(float)((double)((float)(lbl_83265A28 & 0x7fffff | 0x3f800000) -
-                                                fVar1) * (double)lbl_821917C0 + dVar12),
-                        (double)(((float)(uVar8 & 0x7fffff | 0x3f800000) - fVar1) + lbl_821917B0),
-                        *(unsigned int *)(param_3 + 0x10),auStack_80);
-    }
-  }
-  return;
+    FloatBits_82612408 bits;
+
+    lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
+    bits.u = (lbl_83265A28 & 0x7fffff) | 0x3f800000;
+    return bits.f - 1.0f;
 }
 
+static __forceinline float RandomRange(float low, float high)
+{
+    return Random01() * (high - low) + low;
+}
+
+static __forceinline Effect_82612408 *FindEffect(System_82612408 *system, unsigned int type)
+{
+    Effect_82612408 *effect;
+
+    for (effect = system->effects; effect != 0; effect = effect->next) {
+        if (effect->type == type) {
+            return effect;
+        }
+    }
+    return fn_825F5B50(&system->effects, &lbl_83270124[0], &lbl_83270124[1], 0, type);
+}
+
+void fn_82612408(Emitter_82612408 *self, __vector4 position, float spread, float size,
+                 System_82612408 *system)
+{
+    float baseLife;
+    Particle_82612408 particle;
+    float scale;
+
+    if (fn_82520780(&lbl_83265A28, size * size * 5.0f) == 0) {
+        return;
+    }
+    baseLife = system->baseLife;
+    if (self->effect == 0) {
+        self->effect = FindEffect(system, 1);
+    }
+    if (self->effect == 0) {
+        return;
+    }
+    scale = Random01() + 0.5f;
+    particle = lbl_8329EAD0;
+    particle.position.vector4_f32[0] = RandomRange(-spread, spread) + position.vector4_f32[0];
+    particle.position.vector4_f32[1] = position.vector4_f32[1];
+    particle.position.vector4_f32[2] = RandomRange(-spread, spread) + position.vector4_f32[2];
+    fn_825F5C70(self->effect, &particle, scale, scale, Random01() * 0.2f + baseLife, Random01() + 1.5f);
+}

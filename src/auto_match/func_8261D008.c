@@ -1,74 +1,85 @@
-#define NAN(x) ((x) != (x))
-extern unsigned int *auStack_70;
-extern int fn_82529320();
-extern int fn_8255CFD0();
-extern int fn_82564458();
-extern int fn_82592430();
-extern int fn_825A1440();
-extern int fn_8261CB98();
-extern int fn_8262BDB0();
-extern float lbl_82192480;
-extern unsigned int lbl_82192604;
-extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
+typedef union Timer_8261D008 {
+    float value;
+    unsigned int bits;
+} Timer_8261D008;
+
+typedef struct Character_8261D008 {
+    char pad0[0x4c];
+    int animation; /* 0x04c */
+    char pad50[0xd0 - 0x50];
+    char transform[0x488 - 0xd0]; /* 0x0d0 */
+    unsigned int flags;           /* 0x488 */
+    char pad48c[0xb10 - 0x48c];
+    void *attachment; /* 0xb10 */
+    char padb14[0xb3c - 0xb14];
+    float dt; /* 0xb3c */
+    char padb40[0xb64 - 0xb40];
+    int visible; /* 0xb64 */
+    char padb68[0xc58 - 0xb68];
+    Timer_8261D008 removeTimer; /* 0xc58 */
+    Timer_8261D008 blinkTimer;  /* 0xc5c */
+} Character_8261D008;
+
 extern unsigned int lbl_83265A28;
 
+extern void fn_82564458(Character_8261D008 *self, int sound, int flags);
+extern void fn_8261CB98(Character_8261D008 *self, int animation);
+extern void fn_8255CFD0(Character_8261D008 *self, void *pose);
+extern void fn_825A1440(void *attachment, void *pose, void *transform);
+extern void fn_8262BDB0(Character_8261D008 *self);
+extern void fn_82592430(Character_8261D008 *self, int arg);
+extern void fn_82529320(Character_8261D008 *self, int flags);
 
-void fn_8261D008(int param_1,unsigned __int64 param_2)
-
+static __forceinline float CountDown(Timer_8261D008 *timer, float dt)
 {
-  int iVar1;
-  double dVar2;
-  double dVar3;
-  double dVar4;
-  double dVar5;
-  unsigned char auStack_70 [48];
-  
-  dVar5 = (double)ltcg_pool_0_0f;
-  if (*(int *)(param_1 + 0xc5c) != 0) {
-    dVar2 = (double)(*(float *)(param_1 + 0xc5c) - *(float *)(param_1 + 0xb3c));
-    dVar4 = -dVar2;
-    dVar3 = dVar5;
-    if (*(float *)(&lbl_821954D8 +
-                  ((unsigned int)(unsigned char)((dVar4 < dVar5) << 2) | (unsigned int)(NAN(dVar4) || NAN(dVar5)) << 2)) <
-        0.0) {
-      dVar3 = dVar2;
-    }
-    *(float *)(param_1 + 0xc5c) = (float)dVar3;
-    if (dVar3 == dVar5) {
-      fn_82564458(param_1,0x58,0);
-      lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
-      *(float *)(param_1 + 0xc5c) =
-           ((float)(lbl_83265A28 & 0x7fffff | 0x3f800000) - lbl_821CA460) * lbl_82192480 +
-           lbl_82192604;
-    }
-  }
-  if (((*(int *)(param_1 + 0xb64) != 0) && (*(int *)(param_1 + 0xb10) == 0)) &&
-     ((*(unsigned int *)(param_1 + 0x488) & 0x40) != 0)) {
-    fn_8261CB98(param_1,*(unsigned int *)(param_1 + 0x4c));
-  }
-  iVar1 = *(int *)(param_1 + 0xb10);
-  if ((iVar1 != 0) && (*(int *)(param_1 + 0xb64) != 0)) {
-    fn_8255CFD0(param_1,auStack_70);
-    fn_825A1440(iVar1,auStack_70,param_1 + 0xd0);
-  }
-  fn_8262BDB0(param_1);
-  fn_82592430(param_1,param_2);
-  if (*(int *)(param_1 + 0xc58) != 0) {
-    dVar2 = (double)(*(float *)(param_1 + 0xc58) - *(float *)(param_1 + 0xb3c));
-    dVar4 = -dVar2;
-    dVar3 = dVar5;
-    if (*(float *)(&lbl_821954D8 +
-                  ((unsigned int)(unsigned char)((dVar4 < dVar5) << 2) | (unsigned int)(NAN(dVar4) || NAN(dVar5)) << 2)) <
-        0.0) {
-      dVar3 = dVar2;
-    }
-    *(float *)(param_1 + 0xc58) = (float)dVar3;
-    if (dVar3 == dVar5) {
-      fn_82529320(param_1,0);
-    }
-  }
-  return;
+    float value = timer->value - dt;
+
+    value = -value >= 0.0f ? 0.0f : value;
+    timer->value = value;
+    return value;
 }
 
+static __forceinline unsigned int NextRandom(void)
+{
+    lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
+    return lbl_83265A28;
+}
+
+static __forceinline float RandomUnit(void)
+{
+    union {
+        unsigned int bits;
+        float value;
+    } random;
+
+    random.bits = (NextRandom() & 0x7fffff) | 0x3f800000;
+    return random.value - 1.0f;
+}
+
+void fn_8261D008(Character_8261D008 *self, int arg)
+{
+    void *attachment;
+    char pose[0x40];
+
+    if (self->blinkTimer.bits != 0) {
+        if (CountDown(&self->blinkTimer, self->dt) == 0.0f) {
+            fn_82564458(self, 0x58, 0);
+            self->blinkTimer.value = RandomUnit() * 5.0f + 3.0f;
+        }
+    }
+    if (self->visible != 0 && (int)self->attachment == 0 && (self->flags & 0x40) != 0) {
+        fn_8261CB98(self, self->animation);
+    }
+    attachment = self->attachment;
+    if (attachment != 0 && self->visible != 0) {
+        fn_8255CFD0(self, pose);
+        fn_825A1440(attachment, pose, self->transform);
+    }
+    fn_8262BDB0(self);
+    fn_82592430(self, arg);
+    if (self->removeTimer.bits != 0) {
+        if (CountDown(&self->removeTimer, self->dt) == 0.0f) {
+            fn_82529320(self, 0);
+        }
+    }
+}

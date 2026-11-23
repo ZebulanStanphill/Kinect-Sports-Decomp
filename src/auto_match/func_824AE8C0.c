@@ -1,71 +1,84 @@
-extern int fn_824AF940();
-extern unsigned int lbl_821916FC;
-extern unsigned int lbl_82191FC4;
-extern unsigned int lbl_82192A60;
-extern unsigned int lbl_82192F70;
-extern unsigned int lbl_82193CF4;
-extern unsigned int lbl_82195988;
-extern unsigned int lbl_8219598C;
-extern unsigned int lbl_821C006C;
-extern unsigned int ltcg_pool_0_0f;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __VMXGetReg(int n);
 
-unsigned int * fn_824AE8C0(unsigned int *param_1,int param_2)
+typedef struct History_824AE8C0 {
+    void *first;        /* 0x0 */
+    void *end;          /* 0x4 */
+    void *begin;        /* 0x8 */
+    void *last;         /* 0xc */
+    unsigned int count; /* 0x10 */
+} History_824AE8C0;
 
+typedef struct Source_824AE8C0 {
+    char pad0[0x48];
+    float scale; /* 0x48 */
+} Source_824AE8C0;
+
+typedef struct Tracker_824AE8C0 {
+    void *vt;                 /* 0x0 */
+    History_824AE8C0 history; /* 0x4 */
+    char pad18[0x8];
+    __vector4 position; /* 0x20 */
+    int samples;        /* 0x30 */
+    float elapsed;      /* 0x34 */
+    int enabled;        /* 0x38 */
+    char pad3C[0x4];
+    __vector4 velocity; /* 0x40 */
+    float minimum;      /* 0x50 */
+    float threshold;    /* 0x54 */
+    float offset;       /* 0x58 */
+    float limitA;       /* 0x5c */
+    float limitB;       /* 0x60 */
+    float bias;         /* 0x64 */
+    float rateA;        /* 0x68 */
+    float rateB;        /* 0x6c */
+    int state;          /* 0x70 */
+    float scale;        /* 0x74 */
+    float angleA;       /* 0x78 */
+    float angleB;       /* 0x7c */
+    float angleC;       /* 0x80 */
+} Tracker_824AE8C0;
+
+extern char lbl_821C006C[];
+extern void fn_824AF940(History_824AE8C0 *history);
+
+static __forceinline void InitHistory(History_824AE8C0 *history)
 {
-  unsigned int *puVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  unsigned int in_register_000104d0;
-  unsigned int in_register_000104d4;
-  unsigned int in_register_000104d8;
-  unsigned int in_vr77;
-  
-  *param_1 = &lbl_821C006C;
-  param_1[1] = 0;
-  param_1[2] = 0;
-  param_1[3] = 0;
-  param_1[4] = 0;
-  param_1[5] = 0;
-  fn_824AF940(param_1 + 1);
-  param_1[0xc] = 0;
-  param_1[0x1c] = 0;
-  uVar7 = ltcg_pool_0_0f;
-  uVar6 = lbl_82193CF4;
-  uVar4 = lbl_82192A60;
-  uVar2 = lbl_821916FC;
-  param_1[0xe] = 1;
-  uVar5 = lbl_82192F70;
-  uVar3 = lbl_82191FC4;
-  param_1[0xd] = uVar7;
-  param_1[0x14] = uVar7;
-  param_1[0x15] = uVar2;
-  param_1[0x16] = uVar7;
-  param_1[0x19] = uVar7;
-  param_1[0x17] = uVar6;
-  param_1[0x18] = uVar4;
-  param_1[0x1a] = uVar3;
-  param_1[0x1b] = uVar5;
-  puVar1 = (unsigned int *)((unsigned int)(param_1 + 8) & 0xfffffff0);
-  *puVar1 = in_register_000104d0;
-  puVar1[1] = in_register_000104d4;
-  puVar1[2] = in_register_000104d8;
-  puVar1[3] = in_vr77;
-  puVar1 = (unsigned int *)((unsigned int)(param_1 + 0x10) & 0xfffffff0);
-  *puVar1 = in_register_000104d0;
-  puVar1[1] = in_register_000104d4;
-  puVar1[2] = in_register_000104d8;
-  puVar1[3] = in_vr77;
-  uVar3 = lbl_8219598C;
-  uVar2 = lbl_82195988;
-  param_1[0x1d] = *(unsigned int *)(param_2 + 0x48);
-  param_1[0x1e] = uVar2;
-  param_1[0x1f] = uVar2;
-  param_1[0x20] = uVar3;
-  return param_1;
+    history->first = 0;
+    history->end = 0;
+    history->begin = 0;
+    history->last = 0;
+    history->count = 0;
+    fn_824AF940(history);
 }
 
+Tracker_824AE8C0 *fn_824AE8C0(Tracker_824AE8C0 *self, Source_824AE8C0 *source)
+{
+    __vector4 zero;
+
+    self->vt = lbl_821C006C;
+    InitHistory(&self->history);
+    self->samples = 0;
+    self->state = 0;
+    self->enabled = 1;
+    self->elapsed = 0.0f;
+    self->minimum = 0.0f;
+    self->threshold = 2.0f;
+    self->offset = 0.0f;
+    self->bias = 0.0f;
+    self->limitA = 25.0f;
+    self->limitB = 35.0f;
+    self->rateA = 6.0f;
+    self->rateB = 8.0f;
+    zero = __VMXGetReg(77);
+    self->position = zero;
+    self->velocity = __VMXGetReg(77);
+    self->scale = source->scale;
+    self->angleA = 0.43633232f;
+    self->angleB = 0.43633232f;
+    self->angleC = 0.61086524f;
+    return self;
+}

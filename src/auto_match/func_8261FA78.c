@@ -1,88 +1,66 @@
-extern int fn_8261F510();
-extern int fn_82F6A52C();
-extern int fn_82F6A578();
-extern unsigned int lbl_82192AEC;
-extern unsigned int lbl_821954EC;
-extern unsigned int lbl_82195590;
-extern float lbl_821955A0;
-extern unsigned int lbl_821956B4;
-extern unsigned int lbl_82195DD4;
-extern unsigned int ltcg_pool_0_0f;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+extern double __fctid(double);
+extern double __fcfid(double);
 
-void fn_8261FA78(unsigned __int64 param_1,double param_2,unsigned __int64 param_3,double param_4)
+typedef struct Tracker_8261FA78 {
+    unsigned char pad0[0x68];
+    int enabled; /* 0x68 */
+} Tracker_8261FA78;
 
+extern int fn_8261F510(Tracker_8261FA78 *self, float distance, float angle, float range, float minimum,
+                       __vector4 origin, float *result);
+
+/* Maps an angle to (-2 pi, 2 pi) by dropping whole turns. */
+static __forceinline float WrapTurns_8261FA78(float angle)
 {
-  float fVar1;
-  int iVar3;
-  int iVar4;
-  unsigned __int64 uVar2;
-  float *in_r8;
-  int in_r9;
-  int iVar5;
-  __int64 lVar6;
-  int iVar7;
-  unsigned int uVar8;
-  double extraout_f1;
-  double dVar9;
-  double dVar10;
-  double dVar11;
-  double dVar12;
-  double dVar13;
-  double dVar14;
-  double dVar15;
-  double dVar16;
-  
-  iVar3 = fn_82F6A52C();
-  if (*(int *)(iVar3 + 0x68) != 0) {
-    uVar8 = 0;
-    dVar9 = (double)lbl_82192AEC;
-    dVar12 = (double)lbl_82195DD4;
-    dVar10 = (double)lbl_821956B4;
-    dVar11 = (double)lbl_821954EC;
-    dVar13 = extraout_f1;
-    fVar1 = ltcg_pool_0_0f;
-    do {
-      dVar15 = (double)fVar1;
-      fVar1 = (float)dVar13;
-      dVar16 = (double)(float)(param_2 - dVar15);
-      dVar14 = (double)(float)(dVar15 + param_2);
-      iVar4 = fn_8261F510(dVar13,dVar16,param_3,param_4,iVar3);
-      if ((iVar4 == 0) && (param_4 <= (double)fVar1)) {
-        dVar14 = dVar16 * (double)lbl_82195590;
-LAB_8261fc10:
-        uVar2 = 1;
-        *in_r8 = (float)(((double)(float)dVar14 - (double)(__int64)dVar14) * lbl_821955A0);
-        goto LAB_8261fbf0;
-      }
-      if ((((double)(__int64)(int)uVar8 < dVar10) &&
-          (iVar4 = fn_8261F510(dVar13,dVar14,param_3,param_4,iVar3), iVar4 == 0)) &&
-         (param_4 <= (double)fVar1)) {
-        dVar14 = dVar14 * (double)lbl_82195590;
-        goto LAB_8261fc10;
-      }
-      dVar14 = dVar12;
-      if (in_r9 == 0) {
-        iVar7 = 0;
-        iVar5 = 1;
-        lVar6 = (__int64)((int)uVar8 >> 2) + (unsigned __int64)((int)uVar8 < 0 && (uVar8 & 3) != 0) + 1;
-        iVar4 = 1;
-        if (0 < lVar6) {
-          do {
-            iVar7 = iVar7 + 1;
-            iVar5 = iVar4 << 1;
-            iVar4 = iVar5;
-          } while (iVar7 < (int)lVar6);
-        }
-        dVar14 = (double)(__int64)iVar5 * dVar11;
-      }
-      fVar1 = (float)(dVar15 + dVar14);
-      uVar8 = uVar8 + 1;
-    } while ((double)(__int64)(int)uVar8 < dVar9);
-  }
-  uVar2 = 0;
-LAB_8261fbf0:
-  fn_82F6A578(uVar2);
-  return;
+    double turns = (float)(angle * 0.15915494f);
+
+    return (float)((turns - (float)__fcfid(__fctid(turns))) * 6.2831854820251465);
 }
 
+int fn_8261FA78(Tracker_8261FA78 *self, __vector4 origin, float distance, float angle, float range,
+                float minimum, float *heading, int linear)
+{
+    float result;
+    float offset;
+    float below;
+    float above;
+    int attempt;
+    int i;
+    int scale;
+
+    if (self->enabled == 0) {
+        return 0;
+    }
+    offset = 0.0f;
+    attempt = 0;
+    do {
+        result = distance;
+        below = angle - offset;
+        above = offset + angle;
+        if (fn_8261F510(self, distance, below, range, minimum, origin, &result) == 0 && result >= minimum) {
+            *heading = WrapTurns_8261FA78(below);
+            return 1;
+        }
+        if ((float)attempt < 16.0f) {
+            if (fn_8261F510(self, distance, above, range, minimum, origin, &result) == 0 &&
+                result >= minimum) {
+                *heading = WrapTurns_8261FA78(above);
+                return 1;
+            }
+        }
+        if (linear != 0) {
+            offset = offset + 0.18479957f;
+        } else {
+            for (i = 0, scale = 1; i < attempt / 4 + 1; i++) {
+                scale = scale << 1;
+            }
+            offset = (float)scale * 0.017453292f + offset;
+        }
+        attempt++;
+    } while ((float)attempt < 17.0f);
+    return 0;
+}

@@ -1,85 +1,100 @@
-extern int fn_82522ED8();
-extern unsigned int lbl_8218E8E8;
-extern unsigned int lbl_8218E8FC;
-extern unsigned int lbl_82191FCC;
-extern unsigned int lbl_82192F70;
-extern unsigned int lbl_821954CC;
-extern unsigned int lbl_82195510;
-extern unsigned int lbl_82195514;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int lbl_831C080C;
-extern unsigned int lbl_831C0810;
-extern unsigned int lbl_831C0814;
-extern unsigned int lbl_831C0818;
-extern unsigned int lbl_831C081C;
-extern unsigned int lbl_831C0820;
-extern unsigned int lbl_831C0824;
-extern unsigned int lbl_831C0828;
-extern unsigned int lbl_831C082C;
-extern unsigned int lbl_831C0830;
-extern unsigned int lbl_831C0834;
-extern unsigned int lbl_831C0838;
-extern unsigned int lbl_831C083C;
-extern unsigned int lbl_831C0840;
-extern unsigned int lbl_831C0844;
-extern int (*lbl_8326AF34)();
+typedef struct Plane_825272C0 {
+    float origin[2]; /* 0x00 */
+    float normal[3]; /* 0x08 */
+    float current;   /* 0x14 */
+    float distance;  /* 0x18 */
+    int active;      /* 0x1c */
+    float nearLimit; /* 0x20 */
+    float farLimit;  /* 0x24 */
+    float scale;     /* 0x28 */
+    float size;      /* 0x2c */
+    float step;      /* 0x30 */
+    float blend;     /* 0x34 */
+    int enabled;     /* 0x38 */
+} Plane_825272C0;
 
+typedef struct Hooks_825272C0 {
+    void *context;           /* 0x0 */
+    void (*beginLoad)(void); /* 0x4 */
+    void (*endLoad)(void);   /* 0x8 */
+    void (*unload)(void);    /* 0xc */
+} Hooks_825272C0;
 
-void fn_825272C0(int param_1)
+typedef struct Pool_825272C0 {
+    void *resource; /* 0x0 */
+    void *owner;    /* 0x4 */
+    int pad8;
+} Pool_825272C0;
 
+typedef struct PoolSet_825272C0 {
+    Pool_825272C0 pools[4]; /* 0x00 */
+    int current;            /* 0x30 */
+} PoolSet_825272C0;
+
+typedef struct Link_825272C0 {
+    struct Link_825272C0 *prev; /* 0x0 */
+    struct Link_825272C0 *next; /* 0x4 */
+} Link_825272C0;
+
+typedef struct Scene_825272C0 {
+    char pad0[0x304];
+    Link_825272C0 *links; /* 0x304 */
+    char pad308[0x85C - 0x308];
+    PoolSet_825272C0 pools; /* 0x85c */
+} Scene_825272C0;
+
+extern Plane_825272C0 lbl_831C080C;
+extern Hooks_825272C0 lbl_8326AF28;
+
+extern void fn_82522ED8(void *block);
+
+void fn_825272C0(Scene_825272C0 *scene)
 {
-  int *piVar1;
-  int *piVar2;
-  int iVar3;
-  int iVar4;
-  
-  iVar3 = *(int *)(param_1 + 0x88c);
-  iVar4 = param_1 + 0x85c;
-  while (-1 < iVar3) {
-    if (*(int *)(*(int *)(param_1 + 0x88c) * 0xc + iVar4) != 0) {
-      fn_82522ED8();
-      *(unsigned int *)(*(int *)(param_1 + 0x88c) * 0xc + iVar4) = 0;
-    }
-    iVar3 = *(int *)(param_1 + 0x88c) * 0xc + iVar4;
-    if (*(int *)(iVar3 + 4) != 0) {
-      fn_82522ED8();
-      *(unsigned int *)(iVar3 + 4) = 0;
-    }
-    iVar3 = *(int *)(param_1 + 0x88c) + -1;
-    *(int *)(param_1 + 0x88c) = iVar3;
-  }
-  piVar2 = *(int **)(param_1 + 0x304);
-  while (piVar2 != (int *)0x0) {
-    piVar1 = (int *)piVar2[1];
-    if (*piVar2 != 0) {
-      *(int **)(*piVar2 + 4) = piVar1;
-    }
-    if ((int *)piVar2[1] != (int *)0x0) {
-      *(int *)piVar2[1] = *piVar2;
-    }
-    *piVar2 = 0;
-    piVar2[1] = 0;
-    fn_82522ED8();
-    piVar2 = piVar1;
-  }
-  lbl_831C0828 = 0;
-  lbl_831C0844 = 1;
-  lbl_831C080C = ltcg_pool_0_0f;
-  lbl_831C0810 = ltcg_pool_0_0f;
-  lbl_831C0814 = ltcg_pool_0_0f;
-  lbl_831C0818 = ltcg_pool_0_0f;
-  lbl_831C081C = lbl_82191FCC;
-  lbl_831C0820 = ltcg_pool_0_0f;
-  lbl_831C0824 = ltcg_pool_0_0f;
-  lbl_831C082C = lbl_82195510;
-  lbl_831C0830 = lbl_82195514;
-  lbl_831C0834 = lbl_82192F70;
-  lbl_831C0838 = lbl_821954CC;
-  lbl_831C083C = lbl_8218E8FC;
-  lbl_831C0840 = lbl_8218E8E8;
-  if (lbl_8326AF34 != (int (**)())0x0) {
-    (*lbl_8326AF34)();
-  }
-  return;
-}
+    PoolSet_825272C0 *set;
+    Link_825272C0 *link;
+    Link_825272C0 *next;
+    Pool_825272C0 *pool;
 
+    set = &scene->pools;
+    while (set->current >= 0) {
+        if (set->pools[set->current].resource != 0) {
+            fn_82522ED8(set->pools[set->current].resource);
+            set->pools[set->current].resource = 0;
+        }
+        pool = &set->pools[set->current];
+        if (pool->owner != 0) {
+            fn_82522ED8(pool->owner);
+            pool->owner = 0;
+        }
+        set->current--;
+    }
+    link = scene->links;
+    while (link != 0) {
+        next = link->next;
+        if (link->prev != 0)
+            link->prev->next = link->next;
+        if (link->next != 0)
+            link->next->prev = link->prev;
+        link->prev = 0;
+        link->next = 0;
+        fn_82522ED8(link);
+        link = next;
+    }
+    lbl_831C080C.active = 0;
+    lbl_831C080C.enabled = 1;
+    lbl_831C080C.origin[1] = 0.0f;
+    lbl_831C080C.normal[1] = 0.0f;
+    lbl_831C080C.origin[0] = 0.0f;
+    lbl_831C080C.normal[0] = 0.0f;
+    lbl_831C080C.normal[2] = 0.8f;
+    lbl_831C080C.current = 0.0f;
+    lbl_831C080C.distance = 0.0f;
+    lbl_831C080C.nearLimit = 350.0f;
+    lbl_831C080C.farLimit = 700.0f;
+    lbl_831C080C.scale = 8.0f;
+    lbl_831C080C.size = 32.0f;
+    lbl_831C080C.step = 4.0f;
+    lbl_831C080C.blend = 0.5f;
+    if (lbl_8326AF28.unload != 0)
+        lbl_8326AF28.unload();
+}

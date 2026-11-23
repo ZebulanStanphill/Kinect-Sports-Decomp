@@ -1,30 +1,62 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern unsigned int stack0x00000000;
-extern V16 loadVectorLeftIndexed128();
-extern V16 vectorRotateLeftImmediateMaskInsert128();
-extern void *memcpy(void *, const void *, unsigned int);
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __lvlx(const void *base, int offset);
+__vector4 __vrlimi(__vector4 a, __vector4 b, int mask, int rot);
 
-void fn_82561528(void)
-
+static __forceinline __vector4 VectorSet_82561528(float x, float y, float z, float w)
 {
-  unsigned __int64 in_r0;
-  unsigned __int64 uVar1;
-  unsigned char in_vr0 [16];
-  unsigned char in_vr1 [16];
-  unsigned char in_vr11 [16];
-  unsigned char in_vr12 [16];
-  unsigned char in_vr13 [16];
-  unsigned char auVar2 [16];
-  
-  uVar1 = ZEXT48(&stack0x00000000);
-  loadVectorLeftIndexed128(in_r0,uVar1 - 0x4c);
-  loadVectorLeftIndexed128(in_r0,uVar1 - 0x50);
-  loadVectorLeftIndexed128(in_r0,0xffffffff821cc160);
-  loadVectorLeftIndexed128(in_r0,uVar1 - 0x4c);
-  vectorRotateLeftImmediateMaskInsert128(in_vr11,in_vr0,4,3);{ V16 _vt0 = vectorRotateLeftImmediateMaskInsert128(in_vr13,in_vr12,4,3); memcpy(auVar2, &_vt0, 16); }
-  vectorRotateLeftImmediateMaskInsert128(in_vr1,auVar2,3,2);
-  return;
+    __vector4 v0, v1, v2, v3;
+
+    v0 = __lvlx(&x, 0);
+    v1 = __lvlx(&y, 0);
+    v2 = __lvlx(&z, 0);
+    v3 = __lvlx(&w, 0);
+    v0 = __vrlimi(v0, v1, 0x4, 3);
+    v2 = __vrlimi(v2, v3, 0x4, 3);
+    v0 = __vrlimi(v0, v2, 0x3, 2);
+    return v0;
 }
 
+static __forceinline float Clamp_82561528(float value, float minimum, float maximum)
+{
+    value = value - minimum >= 0.0f ? value : minimum;
+    return value - maximum >= 0.0f ? maximum : value;
+}
+
+static __forceinline float Min_82561528(float a, float b)
+{
+    return a - b >= 0.0f ? b : a;
+}
+
+static __forceinline float Max_82561528(float a, float b)
+{
+    return a - b >= 0.0f ? a : b;
+}
+
+__vector4 fn_82561528(__vector4 v, __vector4 lower, __vector4 upper)
+{
+    float minX;
+    float minY;
+    float minZ;
+    float maxX;
+    float maxY;
+    float maxZ;
+
+    minX = lower.vector4_f32[0];
+    minY = lower.vector4_f32[1];
+    minZ = lower.vector4_f32[2];
+    maxX = upper.vector4_f32[0];
+    maxY = upper.vector4_f32[1];
+    maxZ = upper.vector4_f32[2];
+    minX = Min_82561528(minX, maxX);
+    minY = Min_82561528(minY, maxY);
+    minZ = Min_82561528(minZ, maxZ);
+    maxX = Max_82561528(minX, maxX);
+    maxY = Max_82561528(minY, maxY);
+    maxZ = Max_82561528(minZ, maxZ);
+    return VectorSet_82561528(Clamp_82561528(v.vector4_f32[0], minX, maxX),
+                              Clamp_82561528(v.vector4_f32[1], minY, maxY),
+                              Clamp_82561528(v.vector4_f32[2], minZ, maxZ), 0.0f);
+}

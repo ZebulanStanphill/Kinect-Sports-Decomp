@@ -1,59 +1,70 @@
-#define NAN(x) ((x) != (x))
-extern int fn_8232C5F0();
-extern int fn_82520780();
-extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Reaction_8232D4C0 {
+    char pad00[0xc];
+    void *target; /* 0x0c */
+    int pad10;    /* 0x10 */
+    float chance; /* 0x14 */
+    char pad18[0x4c - 0x18];
+    float triggerChance; /* 0x4c */
+    float delayMinimum;  /* 0x50 */
+    float delayMaximum;  /* 0x54 */
+    float timerMinimum;  /* 0x58 */
+    float timerStep;     /* 0x5c */
+    char pad60[0x78 - 0x60];
+    float timer; /* 0x78 */
+    char pad7C[0x88 - 0x7c];
+    float level;    /* 0x88 */
+    int triggered;  /* 0x8c */
+    float delay;    /* 0x90 */
+    int lastPlayer; /* 0x94 */
+} Reaction_8232D4C0;
+
 extern unsigned int lbl_83265A28;
 
+extern int fn_82520780(unsigned int *seed, float chance);
+extern void fn_8232C5F0(void *target, int flag, float chance);
 
-void fn_8232D4C0(int param_1,unsigned int param_2,unsigned __int64 param_3,int param_4,int param_5)
-
+static __forceinline float RandomUnit(unsigned int *seed)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  int iVar4;
-  unsigned __int64 uVar5;
-  
-  if (param_5 == 0) {
-    if ((param_2 < 3) || ((5 < param_2 && (param_2 == 6)))) {
-      uVar5 = 1;
-    }
-    else {
-      uVar5 = 0;
-    }
-    fn_8232C5F0((double)*(float *)(param_1 + 0x14),*(unsigned int *)(param_1 + 0xc),uVar5);
-    *(float *)(param_1 + 0x88) = ltcg_pool_0_0f;
-  }
-  else {
-    iVar4 = fn_82520780((double)*(float *)(param_1 + 0x4c),0xffffffff83265a28);
-    fVar1 = lbl_821CA460;
-    if (((iVar4 != 0) && (*(int *)(param_1 + 0x8c) == 0)) ||
-       ((*(int *)(param_1 + 0x94) == param_4 && (*(int *)(param_1 + 0x8c) != 0)))) {
-      *(unsigned int *)(param_1 + 0x8c) = 1;
-      lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
-      *(float *)(param_1 + 0x90) =
-           (*(float *)(param_1 + 0x54) - *(float *)(param_1 + 0x50)) *
-           ((float)(lbl_83265A28 & 0x7fffff | 0x3f800000) - fVar1) + *(float *)(param_1 + 0x50);
-    }
-    if (*(int *)(param_1 + 0x94) == param_4) {
-      fVar2 = *(float *)(param_1 + 0x78) - *(float *)(param_1 + 0x5c);
-      fVar3 = fVar2 - *(float *)(param_1 + 0x58);
-      if (*(float *)(&lbl_821954D8 +
-                    ((unsigned int)(unsigned char)((fVar3 < ltcg_pool_0_0f) << 2) |
-                    (unsigned int)(NAN(fVar3) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
-        fVar2 = *(float *)(param_1 + 0x58);
-      }
-      if (*(float *)(&lbl_821954D8 +
-                    ((unsigned int)(unsigned char)((fVar2 - fVar1 < ltcg_pool_0_0f) << 2) |
-                    (unsigned int)(NAN(fVar2 - fVar1) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
-        fVar1 = fVar2;
-      }
-      *(float *)(param_1 + 0x78) = fVar1;
-    }
-  }
-  *(int *)(param_1 + 0x94) = param_4;
-  return;
+    union {
+        unsigned int bits;
+        float value;
+    } random;
+
+    *seed = *seed * 0x19660d + 0x3c6ef35f;
+    random.bits = *seed & 0x7fffff | 0x3f800000;
+    return random.value - 1.0f;
 }
 
+static __forceinline float RandomRange(unsigned int *seed, float minimum, float maximum)
+{
+    return (maximum - minimum) * RandomUnit(seed) + minimum;
+}
+
+static __forceinline float Max(float x, float y)
+{
+    return x - y >= 0.0f ? x : y;
+}
+
+static __forceinline float Min(float x, float y)
+{
+    return x - y >= 0.0f ? y : x;
+}
+
+void fn_8232D4C0(Reaction_8232D4C0 *self, unsigned int state, int unused, int player, int active)
+{
+    if (active == 0) {
+        /* The original tests the second state group as a range whose bounds are both 6. */
+        fn_8232C5F0(self->target, state < 3 || (state >= 6 && state == 6), self->chance);
+        self->level = 0.0f;
+    } else {
+        if ((fn_82520780(&lbl_83265A28, self->triggerChance) != 0 && self->triggered == 0) ||
+            (self->lastPlayer == player && self->triggered != 0)) {
+            self->triggered = 1;
+            self->delay = RandomRange(&lbl_83265A28, self->delayMinimum, self->delayMaximum);
+        }
+        if (self->lastPlayer == player) {
+            self->timer = Min(Max(self->timer - self->timerStep, self->timerMinimum), 1.0f);
+        }
+    }
+    self->lastPlayer = player;
+}

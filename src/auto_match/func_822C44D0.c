@@ -1,102 +1,85 @@
-typedef unsigned char bool;
-#define NAN(x) ((x) != (x))
-extern int fn_822B70F0();
-extern int fn_822BD338();
-extern int fn_824CCD80();
-extern int fn_824CD030();
-extern int fn_82560690();
-extern unsigned int lbl_8218E8FC;
-extern unsigned int lbl_82191118;
-extern unsigned int lbl_821916FC;
-extern unsigned int lbl_82191FC8;
-extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
+/* Fades the two lights towards their targets: 0.3 for the highlighted ones while the player's
+   motion is one of the highlighted kinds, 1.0 otherwise; the fade runs only when the cooldown
+   has run out and moves instantly when fading is off. */
+typedef struct Name_822C44D0 {
+    char pad0[0x4];
+    char text[1]; /* 0x4 */
+} Name_822C44D0;
 
+typedef struct Motion_822C44D0 {
+    char pad00[0x20];
+    Name_822C44D0 *name; /* 0x20 */
+} Motion_822C44D0;
 
-void fn_822C44D0(double param_1,__int64 param_2)
+typedef struct Move_822C44D0 {
+    char pad00[0x18];
+    unsigned int type; /* 0x18 */
+} Move_822C44D0;
 
+typedef struct Lights_822C44D0 {
+    char pad000[0x24];
+    void *player; /* 0x024 */
+    char pad028[0xe8];
+    Move_822C44D0 *move;     /* 0x110 */
+    Motion_822C44D0 *motion; /* 0x114 */
+    char pad118[0x14];
+    int instant;     /* 0x12C */
+    float levels[2]; /* 0x130 */
+    char pad138[0xc8];
+    int enabled;    /* 0x200 */
+    float cooldown; /* 0x204 */
+} Lights_822C44D0;
+
+extern int fn_824CD030(void *player);
+extern unsigned char fn_822BD338(void *s, const char *text);
+extern int fn_82560690(int type);
+extern int fn_824CCD80(void *player);
+extern void fn_822B70F0(Lights_822C44D0 *self, float level, int index);
+
+void fn_822C44D0(Lights_822C44D0 *self, float delta)
 {
-  float fVar1;
-  int iVar2;
-  int iVar3;
-  float fVar4;
-  float fVar5;
-  bool bVar6;
-  float fVar7;
-  int iVar8;
-  char cVar10;
-  int iVar9;
-  __int64 lVar11;
-  __int64 lVar12;
-  unsigned __int64 uVar13;
-  double dVar14;
-  double dVar15;
-  double dVar16;
-  double dVar17;
-  double dVar18;
-  double dVar19;
-  double dVar20;
-  
-  iVar3 = (int)param_2;
-  iVar2 = *(int *)(iVar3 + 0x24);
-  iVar9 = -1;
-  uVar13 = 0;
-  dVar19 = (double)lbl_821CA460;
-  dVar20 = dVar19;
-  if ((((*(int *)(iVar3 + 0x200) != 0) && (iVar2 != 0)) &&
-      (iVar8 = fn_824CD030(iVar2), iVar8 != 0)) &&
-     (((cVar10 = fn_822BD338((unsigned __int64)*(unsigned int *)(*(int *)(iVar3 + 0x114) + 0x20) + 4,
-                                   0xffffffff821aca94), cVar10 != '\0' ||
-       (cVar10 = fn_822BD338((unsigned __int64)*(unsigned int *)(*(int *)(iVar3 + 0x114) + 0x20) + 4,
-                                   0xffffffff821ace70), cVar10 != '\0')) ||
-      ((iVar8 = *(int *)(*(int *)(iVar3 + 0x110) + 0x18), iVar8 == 0x12 ||
-       ((iVar8 == 0x14 || (iVar8 == 0x10)))))))) {
-    dVar19 = (double)lbl_82191FC8;
-    uVar13 = 1;
-    iVar8 = fn_82560690(2);
-    if (1 < iVar8) {
-      iVar9 = fn_824CCD80(iVar2);
-    }
-  }
-  fVar7 = ltcg_pool_0_0f;
-  fVar1 = (float)((double)*(float *)(iVar3 + 0x204) - param_1);
-  fVar4 = -fVar1;
-  fVar5 = ltcg_pool_0_0f;
-  if (*(float *)(&lbl_821954D8 +
-                ((unsigned int)(unsigned char)((fVar4 < ltcg_pool_0_0f) << 2) |
-                (unsigned int)(NAN(fVar4) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
-    fVar5 = fVar1;
-  }
-  *(float *)(iVar3 + 0x204) = fVar5;
-  if (fVar5 <= fVar7) {
-    dVar17 = (double)lbl_82191118;
-    lVar11 = 0;
-    bVar6 = *(int *)(iVar3 + 300) != 0;
-    dVar16 = (double)lbl_8218E8FC;
-    lVar12 = param_2 + 0x130;
-    dVar18 = (double)lbl_821916FC;
-    do {
-      dVar14 = (double)*(float *)lVar12;
-      if (((uVar13 & 0xffffffff) == 0) || (((int)lVar11 != iVar9 && (iVar9 != -1)))) {
-        if ((bVar6) ||
-           (dVar15 = (double)(float)((double)(float)((double)(float)(dVar20 - dVar14) * param_1) *
-                                     dVar18 + dVar14), dVar17 <= dVar15)) {
-          dVar15 = dVar20;
-        }
-      }
-      else {
-        dVar15 = dVar19;
-        if (!bVar6) {
-          dVar15 = (double)(float)((double)(float)((double)(float)(dVar19 - dVar14) * param_1) *
-                                   dVar16 + dVar14);
-        }
-      }
-      fn_822B70F0(dVar15,param_2);
-      lVar11 = lVar11 + 1;
-      lVar12 = lVar12 + 4;
-    } while ((int)lVar11 < 2);
-  }
-  return;
-}
+    void *player = self->player;
+    int highlighted = -1;
+    unsigned char highlight = 0;
+    float target = 1.0f;
+    float level;
+    float left;
+    unsigned char fade;
+    int i;
 
+    if (self->enabled != 0 && player != 0 && fn_824CD030(player) != 0 &&
+        (fn_822BD338(self->motion->name->text, "msmd") ||
+         fn_822BD338(self->motion->name->text, "msmd_norotation") || self->move->type == 0x12 ||
+         self->move->type == 0x14 || self->move->type == 0x10)) {
+        target = 0.3f;
+        highlight = 1;
+        if (fn_82560690(2) > 1) {
+            highlighted = fn_824CCD80(player);
+        }
+    }
+    left = self->cooldown - delta;
+    self->cooldown = -left >= 0.0f ? 0.0f : left;
+    if (self->cooldown > 0.0f) {
+        return;
+    }
+    fade = self->instant == 0;
+    for (i = 0; i < 2; i++) {
+        float current = self->levels[i];
+
+        if (highlight && (i == highlighted || highlighted == -1)) {
+            if (fade) {
+                level = (target - current) * delta * 4.0f + current;
+            } else {
+                level = target;
+            }
+        } else if (fade) {
+            level = (1.0f - current) * delta * 2.0f + current;
+            if (level >= 0.99f) {
+                level = 1.0f;
+            }
+        } else {
+            level = 1.0f;
+        }
+        fn_822B70F0(self, level, i);
+    }
+}
