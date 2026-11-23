@@ -1,72 +1,92 @@
-extern unsigned int lbl_82015D08;
-extern unsigned int lbl_8201DFF4;
-extern unsigned int lbl_82021538;
-extern unsigned int lbl_820579A8;
-extern unsigned int lbl_821AAD20;
+typedef struct Measurement_82A04470 {
+    unsigned char padding0[0x40a0];
+    float first; /* 0x40a0 */
+    unsigned int unknown0;
+    float second; /* 0x40a8 */
+    unsigned int unknown1;
+    float third; /* 0x40b0 */
+    unsigned char padding1[0x14];
+    float total; /* 0x40c8 */
+    unsigned char padding2[0x0c];
+    float fourth; /* 0x40d8 */
+} Measurement_82A04470;
 
+typedef struct Mode_82A04470 {
+    unsigned char padding0[8];
+    float defaultValue; /* 0x08 */
+    unsigned char padding1[0x14];
+} Mode_82A04470;
 
-double fn_82A04470(int param_1,int param_2)
+extern Mode_82A04470 lbl_8315C958[31];
+extern const float lbl_82015D08;
 
+float fn_82A04470(const Measurement_82A04470 *self, unsigned int mode)
 {
-  float fVar1;
-  double dVar2;
-  double dVar3;
-  
-  fVar1 = *(float *)(param_1 + 0x40c8);
-  dVar2 = (double)*(float *)(param_2 * 0x20 + -0x7cea36a0);
-  if (fVar1 != lbl_821AAD20) {
-    switch(param_2) {
-    case 3:
-    case 6:
-    case 0x17:
-    case 0x18:
-      if (*(float *)(param_1 + 0x40a0) != lbl_821AAD20) {
-        dVar3 = (double)((*(float *)(param_1 + 0x40a0) / fVar1) * 0.5f);
-        if ((float)(dVar3 / dVar2) < lbl_820579A8) {
-          return (double)((float)(dVar3 + dVar2) * 0.5f);
-        }
-        if ((float)(dVar3 / dVar2) < lbl_8201DFF4) {
-          return dVar3;
-        }
-      }
-      break;
-    case 7:
-    case 10:
-    case 0x1b:
-    case 0x1c:
-      if (*(float *)(param_1 + 0x40a8) != lbl_821AAD20) {
-        dVar3 = (double)((*(float *)(param_1 + 0x40a8) / fVar1) * 0.5f);
-        fVar1 = lbl_820579A8;
-        if ((param_2 != 7) && (param_2 != 10)) {
-          fVar1 = lbl_8201DFF4;
-        }
-        if ((float)(dVar3 / dVar2) < fVar1) goto LAB_82a0460c;
-      }
-      break;
-    case 0xc:
-    case 0xd:
-    case 0x19:
-    case 0x1a:
-      if ((*(float *)(param_1 + 0x40b0) != lbl_821AAD20) &&
-         (dVar3 = (double)((*(float *)(param_1 + 0x40b0) / fVar1) * 0.5f),
-         lbl_82015D08 < (float)(dVar3 / dVar2))) {
-LAB_82a0460c:
-        return (double)((float)(dVar3 + dVar2) * 0.5f);
-      }
-      break;
-    case 0x15:
-    case 0x16:
-      if (*(float *)(param_1 + 0x40d8) != lbl_821AAD20) {
-        dVar3 = (double)(*(float *)(param_1 + 0x40d8) / fVar1);
-        if ((float)(dVar3 / dVar2) < lbl_820579A8) {
-          return (double)((float)(dVar3 + dVar2) * 0.5f);
-        }
-        if ((float)(dVar3 / dVar2) < lbl_82021538) {
-          return dVar3;
-        }
-      }
-    }
-  }
-  return dVar2;
-}
+    float total = self->total;
+    float initial = lbl_8315C958[mode].defaultValue;
+    float value;
+    float ratio;
 
+    if (total != 0.0f) {
+        switch (mode) {
+        case 21:
+        case 22:
+            if (self->fourth != 0.0f) {
+                value = self->fourth / total;
+                ratio = value / initial;
+                if (ratio < 0.8f) {
+                    return (value + initial) * 0.5f;
+                }
+                if (ratio < 0.95f) {
+                    return value;
+                }
+            }
+            break;
+
+        case 3:
+        case 6:
+        case 23:
+        case 24:
+            if (self->first != 0.0f) {
+                value = (self->first / total) * 0.5f;
+                ratio = value / initial;
+                if (ratio < 0.8f) {
+                    return (value + initial) * 0.5f;
+                }
+                if (ratio < 0.9f) {
+                    return value;
+                }
+            }
+            break;
+
+        case 7:
+        case 10:
+        case 27:
+        case 28:
+            if (self->second != 0.0f) {
+                float limit;
+
+                value = (self->second / total) * 0.5f;
+                ratio = value / initial;
+                limit = (mode == 7 || mode == 10) ? 0.8f : 0.9f;
+                if (ratio < limit) {
+                    return (value + initial) * 0.5f;
+                }
+            }
+            break;
+
+        case 12:
+        case 13:
+        case 25:
+        case 26:
+            if (self->third != 0.0f) {
+                value = (self->third / total) * 0.5f;
+                if (value / initial > lbl_82015D08) {
+                    return (value + initial) * 0.5f;
+                }
+            }
+            break;
+        }
+    }
+    return initial;
+}

@@ -1,46 +1,58 @@
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_8201F5AC;
-extern unsigned int uStack_9;
+typedef struct Target_828510B8 {
+    char pad0[8];
+    unsigned char *bytes;
+} Target_828510B8;
 
+typedef struct Frame_828510B8 {
+    int pad0;
+    unsigned int value;
+    unsigned int count;
+    Target_828510B8 **targets;
+} Frame_828510B8;
 
-void fn_828510B8(double param_1,int param_2,int param_3,int param_4,int param_5,unsigned __int64 param_6
-                  ,int param_7)
+typedef struct Track_828510B8 {
+    unsigned int count;
+    Frame_828510B8 *frames;
+    char pad8[12];
+} Track_828510B8;
 
+typedef struct Animation_828510B8 {
+    char pad0[0x17c];
+    Track_828510B8 *tracks;
+} Animation_828510B8;
+
+extern const float lbl_8201F5AC;
+
+static __forceinline void StoreSample(unsigned char *p, unsigned char v)
 {
-  int *piVar1;
-  int iVar2;
-  unsigned int uVar3;
-  unsigned int *puVar4;
-  int iVar5;
-  double dVar6;
-  unsigned char uStack_9;
-  
-  puVar4 = (unsigned int *)(*(int *)(param_2 + 0x17c) + param_4 * 0x14);
-  uVar3 = puVar4[1];
-  iVar2 = param_5 * 0x10 + uVar3;
-  if (*(unsigned int *)(iVar2 + 4) == 0) {
-    return;
-  }
-  dVar6 = (double)*(unsigned int *)(iVar2 + 4);
-  if ((param_5 + 1U < *puVar4) && (uVar3 = *(unsigned int *)((param_5 + 1U) * 0x10 + uVar3 + 4), uVar3 != 0)
-     ) {
-    dVar6 = (double)(float)((double)(float)((double)uVar3 - dVar6) * param_1 + dVar6);
-  }
-  uVar3 = 0;
-  if (*(int *)(iVar2 + 8) == 0) {
-    return;
-  }
-  iVar5 = 0;
-  uStack_9 = (unsigned char)
-             (__int64)
-             ((double)(float)(dVar6 - (double)lbl_82002AE0) * (double)lbl_8201F5AC +
-             (double)lbl_82002AE0);
-  do {
-    uVar3 = uVar3 + 1;
-    piVar1 = (int *)(*(int *)(iVar2 + 0xc) + iVar5);
-    iVar5 = iVar5 + 4;
-    *(unsigned char *)(*(int *)(*piVar1 + 8) + *(int *)((param_7 + 4) * 4 + param_3)) = uStack_9;
-  } while (uVar3 < *(unsigned int *)(iVar2 + 8));
-  return;
+    *p = v;
 }
 
+void fn_828510B8(Animation_828510B8 *self, int *offsets, int trackIndex, unsigned int frameIndex,
+                 float fraction, int channel)
+{
+    Track_828510B8 *track = &self->tracks[trackIndex];
+    Frame_828510B8 *frames = track->frames;
+    Frame_828510B8 *frame = &frames[frameIndex];
+    unsigned int next = frameIndex + 1;
+    unsigned int current = frame->value;
+    float value;
+    unsigned int i;
+    unsigned char sample;
+
+    if (current == 0) {
+        return;
+    }
+    value = (float)current;
+    if (next < track->count && frames[next].value != 0) {
+        value += ((float)frames[next].value - value) * fraction;
+    }
+    i = 0;
+    if (i >= frame->count) {
+        return;
+    }
+    sample = (unsigned char)((value - 1.0f) * lbl_8201F5AC + 1.0f);
+    do {
+        StoreSample(&frame->targets[i]->bytes[*(offsets + channel + 4)], sample);
+    } while (++i < frame->count);
+}

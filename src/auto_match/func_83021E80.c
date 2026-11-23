@@ -1,55 +1,74 @@
-extern int fn_82A1DDC0();
-extern int XMemSet();
-extern int fn_82FA5100();
-extern int fn_82FA52E0();
-extern int fn_8303A930();
-extern int fn_8303AA38();
-extern unsigned int lbl_821AAD20;
+typedef struct State_83021E80 {
+    unsigned int unknown;     /* 0x00 */
+    float coefficients[4];    /* 0x04 */
+    float rate;               /* 0x14 */
+    float scale;              /* 0x18 */
+    unsigned int size;        /* 0x1c */
+    unsigned int channelMask; /* 0x20 */
+    unsigned char mode;       /* 0x24 */
+    unsigned char bypass;     /* 0x25 */
+    void *channels;           /* 0x28 */
+    unsigned char padding[1];
+    unsigned char flags; /* 0x2d */
+} State_83021E80;
+
+typedef struct Params_83021E80 {
+    unsigned char padding[0x60];
+    float rate;          /* 0x60 */
+    float scale;         /* 0x64 */
+    unsigned int size;   /* 0x68 */
+    unsigned char flags; /* 0x6c */
+} Params_83021E80;
+
 extern unsigned int lbl_831BC770;
+extern void fn_82FA52E0(unsigned int pool, void *memory);
+extern void *fn_82FA5100(unsigned int pool, unsigned int size, unsigned int flags);
+extern unsigned char fn_8303A930(float rate, unsigned char mode, float *frequency);
+extern void fn_8303AA38(float frequency, float *coefficients);
+extern void *XMemSet(void *, int, unsigned int);
+extern void *fn_82A1DDC0(void *, const void *, unsigned int);
 
-
-unsigned __int64 fn_83021E80(int param_1,int param_2)
-
+static __forceinline void *AllocateChannels(unsigned int count)
 {
-  float fVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  unsigned int uVar4;
-  __int64 lVar5;
-  float afStack_30;
+    return fn_82FA5100(lbl_831BC770, count * 16, 1);
+}
 
-  if (*(int *)(param_1 + 0x28) != 0) {
-    fn_82FA52E0(lbl_831BC770);
-    *(unsigned int *)(param_1 + 0x28) = 0;
-  }
-  uVar3 = 0;
-  for (uVar4 = *(unsigned int *)(param_1 + 0x20); uVar4 != 0; uVar4 = uVar4 - 1 & uVar4) {
-    uVar3 = uVar3 + 1;
-  }
-  lVar5 = (uVar3 & 0xfffffff) << 4;
-  uVar3 = fn_82FA5100(lbl_831BC770,lVar5,1);
-  *(int *)(param_1 + 0x28) = (int)uVar3;
-  if ((uVar3 & 0xffffffff) == 0) {
-    uVar2 = 0x34;
-  }
-  else {
-    fVar1 = *(float *)(param_2 + 0x60);
-    *(float *)(param_1 + 0x14) = fVar1;
-    *(unsigned int *)(param_1 + 0x18) = *(unsigned int *)(param_2 + 100);
-    afStack_30 = lbl_821AAD20;
-    *(unsigned int *)(param_1 + 0x1c) = *(unsigned int *)(param_2 + 0x68);
-    *(unsigned char *)(param_1 + 0x2d) = *(unsigned char *)(param_2 + 0x6c);
-    uVar3 = fn_8303A930((double)fVar1,uVar3,*(unsigned char *)(param_1 + 0x24),&afStack_30);
-    *(char *)(param_1 + 0x25) = (char)uVar3;
-    if (7 < *(unsigned int *)(param_1 + 0x1c)) {
-      if ((uVar3 & 0xff) != 0) {
-                    /* WARNING: Subroutine does not return */
-        XMemSet(*(unsigned int *)(param_1 + 0x28),0,lVar5);
-      }
-      fn_8303AA38((double)afStack_30,uVar3,param_1 + 4);
+int fn_83021E80(State_83021E80 *state, const Params_83021E80 *params)
+{
+    unsigned int mask;
+    unsigned int count;
+    unsigned int bytes;
+    void *channels;
+    float frequency;
+
+    if (state->channels != 0) {
+        fn_82FA52E0(lbl_831BC770, state->channels);
+        state->channels = 0;
     }
-    fn_82A1DDC0(*(unsigned int *)(param_1 + 0x28),param_2,lVar5);
-    uVar2 = 1;
-  }
-  return uVar2;
+    mask = state->channelMask;
+    count = 0;
+    for (; mask != 0; mask &= mask - 1) {
+        ++count;
+    }
+    bytes = count * 16;
+    channels = AllocateChannels(count);
+    state->channels = channels;
+    if (channels == 0) {
+        return 0x34;
+    }
+    state->rate = params->rate;
+    state->scale = params->scale;
+    state->size = params->size;
+    frequency = 0.0f;
+    state->flags = params->flags;
+    state->bypass = fn_8303A930(state->rate, state->mode, &frequency);
+    if (state->size >= 8) {
+        if (state->bypass != 0) {
+            XMemSet(state->channels, 0, bytes);
+            return 1;
+        }
+        fn_8303AA38(frequency, state->coefficients);
+    }
+    fn_82A1DDC0(state->channels, params, bytes);
+    return 1;
 }

@@ -1,53 +1,72 @@
-extern int fn_829C56D8();
-extern int fn_829F4FC8();
-extern int SetEvent();
-extern int fn_82A1F2F8();
-extern int fn_82F65018();
-extern unsigned int lbl_821AAD20;
-extern unsigned int lbl_83214DCC;
-extern unsigned int lbl_83214DD0;
-extern unsigned int lbl_83214E00;
-extern unsigned int lbl_83214E0C;
-extern unsigned int lbl_83214F48;
-extern unsigned int lbl_83214F4C;
-extern unsigned int lbl_83214F58;
-extern unsigned int lbl_83214F80;
-extern unsigned int lbl_83214FA0;
+typedef struct Request_829C57F8 Request_829C57F8;
+typedef void (*Callback_829C57F8)(unsigned int, unsigned int, Request_829C57F8 *);
 
+struct Request_829C57F8 {
+    unsigned int result;
+    char pad4[8];
+    void *event;
+    Callback_829C57F8 callback;
+};
 
-void fn_829C57F8(unsigned __int64 param_1)
+extern struct State_829C57F8 {
+    char pad0[0x1c];
+    float value;
+    float previousValue;
+    unsigned int lock;
+    char pad28[0x28];
+    int busy;
+    char pad54[8];
+    unsigned int serial;
+    char pad60[0x120];
+    char parameters[0x18];
+    int x;
+    int y;
+    char pad1A0[8];
+    unsigned int timestamp;
+    char pad1AC[0x24];
+    unsigned int flags;
+    char pad1D4[0x1c];
+    Request_829C57F8 *pending;
+} lbl_83214DB0;
 
+extern unsigned int KfAcquireSpinLock(unsigned int *lock);
+extern void KfReleaseSpinLock(unsigned int *lock, unsigned int oldIrql);
+extern int SetEvent(void *event);
+extern double fn_82F65018(double y, double x);
+extern void fn_829F4FC8(unsigned int flags, void *parameters, float angle, float zero, unsigned int serial,
+                        unsigned int mode);
+extern unsigned int fn_82A1F2F8(void);
+extern void fn_829C56D8(unsigned int result);
+
+void fn_829C57F8(unsigned int result)
 {
-  int (**pcVar1)();
-  unsigned int *puVar2;
-  unsigned __int64 uVar3;
-  double dVar4;
-  
-  uVar3 = KfAcquireSpinLock(0xffffffff83214dd4);
-  puVar2 = lbl_83214FA0;
-  lbl_83214FA0 = (unsigned int *)0x0;
-  KfReleaseSpinLock(0xffffffff83214dd4,uVar3);
-  lbl_83214E0C = lbl_83214E0C + 1;
-  dVar4 = (double)fn_82F65018((double)(__int64)lbl_83214F4C,(double)(__int64)lbl_83214F48);
-  fn_829F4FC8((double)(float)dVar4,(double)lbl_821AAD20,0,0xffffffff83214f30);
-  if ((lbl_83214F80 & 0x20) == 0) {
-    lbl_83214F58 = fn_82A1F2F8();
-    lbl_83214DD0 = lbl_83214DCC;
-  }
-  if (puVar2 != (unsigned int *)0x0) {
-    if ((param_1 & 0xffffffff) != 0x4c7) {
-      lbl_83214E00 = 0;
-    }
-    pcVar1 = (int (**)())puVar2[4];
-    *puVar2 = (int)param_1;
-    if ((puVar2[3] != 0) && (puVar2[3] != -1)) {
-      SetEvent();
-    }
-    if (pcVar1 != (int (**)())0x0) {
-      (*pcVar1)(param_1,0,puVar2);
-    }
-    fn_829C56D8(param_1);
-  }
-  return;
-}
+    unsigned int oldIrql = KfAcquireSpinLock(&lbl_83214DB0.lock);
+    Request_829C57F8 *request = lbl_83214DB0.pending;
+    unsigned int serial;
 
+    lbl_83214DB0.pending = 0;
+    KfReleaseSpinLock(&lbl_83214DB0.lock, oldIrql);
+    serial = lbl_83214DB0.serial++;
+    fn_829F4FC8(0, lbl_83214DB0.parameters,
+                (float)fn_82F65018((double)lbl_83214DB0.y, (double)lbl_83214DB0.x), 0.0f, serial, 0);
+    if ((lbl_83214DB0.flags & 0x20) == 0) {
+        unsigned int timestamp = fn_82A1F2F8();
+        lbl_83214DB0.previousValue = lbl_83214DB0.value;
+        lbl_83214DB0.timestamp = timestamp;
+    }
+    if (request != 0) {
+        void *event;
+        Callback_829C57F8 callback;
+
+        if (result != 0x4c7)
+            lbl_83214DB0.busy = 0;
+        event = request->event;
+        callback = request->callback;
+        request->result = result;
+        if (event != 0 && (int)event != -1)
+            SetEvent(event);
+        if (callback != 0)
+            callback(result, 0, request);
+        fn_829C56D8(result);
+    }
+}

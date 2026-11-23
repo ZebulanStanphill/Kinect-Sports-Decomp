@@ -1,7 +1,6 @@
-unsigned int fn_82805558(unsigned int *param_1,unsigned int param_2,unsigned int param_3)
-
+unsigned int fn_82805558(const unsigned int *words, unsigned char offset, unsigned char width)
 {
-  return ((param_1[1] << 1) << (0x1f - (param_2 & 0xff) & 0x3f) | *param_1 >> (param_2 & 0x3f)) &
-         (1 << (param_3 & 0x3f)) - 1U;
+    unsigned int high = words[1];
+    unsigned int low = words[0];
+    return (((high << 1) << (31 - offset)) | (low >> offset)) & ((1U << width) - 1);
 }
-

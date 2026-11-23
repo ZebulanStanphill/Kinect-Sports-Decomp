@@ -1,110 +1,121 @@
-extern int fn_82A29A38();
-extern int fn_82AB03B0();
-extern int fn_82AB0450();
-extern int fn_82AB0600();
-extern int fn_82F6DCE0();
+typedef struct Context_82AB0740 {
+    unsigned char padding[8];
+    unsigned int samplerCount; /* 0x08 */
+    unsigned int samplerMask;  /* 0x0c */
+} Context_82AB0740;
 
+typedef void (*Report_82AB0740)(void *, int, int, const char *);
 
-unsigned __int64
-fn_82AB0740(unsigned int *param_1,unsigned int param_2,int param_3,unsigned __int64 param_4,unsigned __int64 param_5,
-             int (**param_6)())
+extern void fn_82A29A38(void);
+extern void fn_82AB03B0(unsigned int, int, unsigned int **);
+extern void fn_82AB0450(unsigned int, int, unsigned int, int, const unsigned int *, unsigned int,
+                        Context_82AB0740 *, unsigned int **);
+extern void fn_82AB0600(unsigned int, int, unsigned int, int, const unsigned int *, unsigned int,
+                        Context_82AB0740 *, unsigned int **);
+extern int fn_82F6DCE0(char *, unsigned int, const char *, ...);
+extern unsigned int lbl_83160538[];
+extern unsigned int lbl_83160548[];
+extern unsigned int lbl_83160558[];
+extern unsigned int lbl_83160568[];
 
+int fn_82AB0740(const unsigned int **input, unsigned int version, Context_82AB0740 *context,
+                unsigned int **output, void *reportContext, Report_82AB0740 report)
 {
-  unsigned char *pbVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  char *pcVar7;
-  unsigned __int64 uVar6;
-  unsigned int uVar8;
-  unsigned int uVar9;
-  unsigned int uVar10;
-  char acStack_130 [304];
-  
-  pbVar1 = (unsigned char *)*param_1;
-  if ((*pbVar1 & 0xf) != 2) {
-    fn_82A29A38();
-  }
-  if (param_2 < 0xffff0200) {
-    fn_82A29A38();
-  }
-  uVar10 = *(unsigned int *)(pbVar1 + 4);
-  uVar2 = *(unsigned int *)(pbVar1 + 8);
-  uVar3 = uVar2 & 0x7ff;
-  uVar9 = (uVar2 >> 0x14 & 0x700 | uVar2 & 0x1800) >> 8;
-  if (uVar9 == 10) {
-    if (0xf < uVar3) {
-      uVar5 = 0x13f1;
-      pcVar7 = "old back end only supports samplers s0..s15";
-LAB_82ab07c8:
-      (*param_6)(param_5,1,uVar5,pcVar7);
-      return 2;
-    }
-    fn_82AB03B0(uVar3,uVar10 & 0x78000000,param_4);
-    uVar10 = uVar3 + 1;
-    if (uVar3 + 1 < *(unsigned int *)(param_3 + 8)) {
-      uVar10 = *(unsigned int *)(param_3 + 8);
-    }
-    *(unsigned int *)(param_3 + 8) = uVar10;
-    *(unsigned int *)(param_3 + 0xc) = 1 << (uVar2 & 0x3f) | *(unsigned int *)(param_3 + 0xc);
-  }
-  else {
-    if (uVar9 == 1) {
-      if (0xffff02ff < param_2) {
-        if (0xf < uVar3) {
-          fn_82A29A38();
-        }
-        uVar9 = uVar10 & 0xf;
-        uVar8 = uVar2 >> 0x16 & 1;
-        uVar10 = uVar10 >> 0x10 & 0xf;
-        if (uVar9 == 10) {
-          uVar8 = 1;
-        }
-        if ((uVar9 == 5) && (7 < uVar10)) {
-          fn_82F6DCE0(acStack_130,200,0xffffffff820d5d68,uVar10);
-          pcVar7 = acStack_130;
-          uVar5 = 0x13f2;
-          goto LAB_82ab07c8;
-        }
-        fn_82AB0450(uVar3,uVar9,uVar10,uVar8,0xffffffff83160568,uVar2 & 0xf0000,param_3,param_4);
-        goto LAB_82ab0968;
-      }
-      if ((uVar2 & 0x7ff) == 0) {
-        uVar5 = 0xffffffff83160538;
-      }
-      else {
-        uVar5 = 0xffffffff83160548;
-        if (1 < uVar3) {
-          fn_82A29A38();
-        }
-      }
-      uVar6 = 1;
-      uVar4 = 10;
-      uVar10 = uVar3;
-    }
-    else {
-      if (uVar9 != 3) {
-        if ((uVar9 != 0x11) || (param_2 < 0xffff0300)) {
-          fn_82A29A38();
-        }
-        goto LAB_82ab0968;
-      }
-      if (0xffff02ff < param_2) {
-        fn_82A29A38();
-      }
-      if (7 < uVar3) {
-        fn_82A29A38();
-      }
-      uVar6 = 0;
-      uVar5 = 0xffffffff83160558;
-      uVar4 = 5;
-      uVar10 = uVar3 + 2;
-    }
-    fn_82AB0600(uVar10,uVar4,uVar3,uVar6,uVar5,uVar2 & 0xf0000,param_3,param_4);
-  }
-LAB_82ab0968:
-  *param_1 = pbVar1 + 0xc;
-  return 0;
-}
+    const unsigned int *cursor = *input;
+    unsigned int declaration;
+    unsigned int operand;
+    unsigned int index;
+    int type;
+    unsigned int mask;
+    const unsigned int *mapping;
+    char message[200];
 
+    if ((*(const unsigned char *)cursor & 15) != 2) {
+        fn_82A29A38();
+    }
+    if (version < 0xffff0200) {
+        fn_82A29A38();
+    }
+    declaration = *++cursor;
+    operand = *++cursor;
+    ++cursor;
+    type = ((operand & 0x1800) | ((operand >> 20) & 0x700)) >> 8;
+    index = operand & 0x7ff;
+    if (type == 10) {
+        unsigned int count;
+
+        if (index >= 16) {
+            report(reportContext, 1, 0x13f1, "old back end only supports samplers s0..s15");
+            return 2;
+        }
+        fn_82AB03B0(index, declaration & 0x78000000, output);
+        count = index + 1;
+        if (count < context->samplerCount) {
+            count = context->samplerCount;
+        }
+        context->samplerCount = count;
+        context->samplerMask |= 1U << index;
+    } else {
+        mask = operand & 0xf0000;
+        switch (type) {
+        case 1:
+            if (version >= 0xffff0300) {
+                int usage;
+                unsigned int semantic;
+                int flag;
+
+                if (index >= 16) {
+                    fn_82A29A38();
+                }
+                usage = declaration & 15;
+                flag = (operand >> 22) & 1;
+                semantic = (declaration >> 16) & 15;
+                if (usage == 10) {
+                    flag = 1;
+                }
+                if (usage == 5 && semantic >= 8) {
+                    fn_82F6DCE0(message, sizeof(message),
+                                "the old back end cannot handle the input semantic texcoord%d. "
+                                "The old back end only supports texcoord0..texcoord7.",
+                                semantic);
+                    report(reportContext, 1, 0x13f2, message);
+                    return 2;
+                }
+                fn_82AB0450(index, usage, semantic, flag, lbl_83160568, mask, context, output);
+            } else {
+                if (index == 0) {
+                    mapping = lbl_83160538;
+                } else {
+                    mapping = lbl_83160548;
+                    if (index >= 2) {
+                        fn_82A29A38();
+                    }
+                }
+                fn_82AB0600(index, 10, index, 1, mapping, mask, context, output);
+            }
+            break;
+
+        case 3:
+            if (version >= 0xffff0300) {
+                fn_82A29A38();
+            }
+            if (index >= 8) {
+                fn_82A29A38();
+            }
+            fn_82AB0600(index + 2, 5, index, 0, lbl_83160558, mask, context, output);
+            break;
+
+        default:
+            fn_82A29A38();
+            break;
+
+        case 17:
+            if (version < 0xffff0300) {
+                fn_82A29A38();
+            }
+            break;
+        }
+    }
+    *input = cursor;
+    return 0;
+}

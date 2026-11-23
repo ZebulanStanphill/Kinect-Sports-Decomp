@@ -1,48 +1,50 @@
-extern int fn_82E4B8A8();
-extern unsigned int lbl_820A6C58;
+typedef struct Decoder_82E4BA10 {
+    char pad0[0x1f0];
+    int useRequestedSize; /* 0x1f0 */
+    char pad1f4[8];
+    int reduced; /* 0x1fc */
+    char pad200[4];
+    unsigned int width;  /* 0x204 */
+    unsigned int height; /* 0x208 */
+} Decoder_82E4BA10;
 
+extern int fn_82E4B8A8(Decoder_82E4BA10 *self, unsigned int *width, unsigned int *height, int mode,
+                       const void *format);
+extern const double lbl_820A6C58;
 
-void fn_82E4BA10(double param_1,int param_2,unsigned __int64 param_3,int param_4,unsigned int *param_5,
-                  unsigned int *param_6,unsigned __int64 param_7,unsigned int param_8,unsigned __int64 param_9)
-
+void fn_82E4BA10(Decoder_82E4BA10 *self, int mode, int profile, unsigned int *width, unsigned int *height,
+                 double rate, unsigned int samples, const void *format)
 {
-  int iVar1;
-  int iVar2;
-  unsigned int *puVar3;
-  unsigned int *puVar4;
-  
-  *(unsigned int *)(param_2 + 0x208) = 0;
-  *(unsigned int *)(param_2 + 0x204) = 0;
-  puVar3 = (unsigned int *)(param_2 + 0x208);
-  puVar4 = (unsigned int *)(param_2 + 0x204);
-  iVar2 = (int)param_3;
-  if ((iVar2 == 8) || (iVar2 == 7)) {
-    iVar1 = fn_82E4B8A8(param_2,puVar4,puVar3,param_3,param_9);
-    if (iVar1 == 0) {
-      if (((iVar2 == 7) && (param_4 != 2)) &&
-         (((double)param_8 * param_1) / (double)(*param_5 * *param_6) < lbl_820A6C58)) {
-        *(unsigned int *)(param_2 + 0x1f0) = 1;
-        *puVar4 = *param_5;
-        *puVar3 = *param_6;
-      }
-    }
-    else {
-      if (*puVar4 < *param_5) {
-        *(unsigned int *)(param_2 + 0x1fc) = 1;
-        *param_5 = *puVar4;
-      }
-      else {
-        *puVar4 = *param_5;
-      }
-      if (*puVar3 < *param_6) {
-        *(unsigned int *)(param_2 + 0x1fc) = 1;
-        *param_6 = *puVar3;
-      }
-      else {
-        *puVar3 = *param_6;
-      }
-    }
-  }
-  return;
-}
+    unsigned int *storedHeight = &self->height;
 
+    self->height = 0;
+    self->width = 0;
+    if (mode == 8 || mode == 7) {
+        if (fn_82E4B8A8(self, &self->width, &self->height, mode, format)) {
+            unsigned int actualWidth = self->width;
+            unsigned int requestedWidth = *width;
+            unsigned int actualHeight;
+            unsigned int requestedHeight;
+            if (actualWidth < requestedWidth) {
+                self->reduced = 1;
+                *width = actualWidth;
+            } else {
+                self->width = requestedWidth;
+            }
+            actualHeight = *storedHeight;
+            requestedHeight = *height;
+            if (actualHeight < requestedHeight) {
+                self->reduced = 1;
+                *height = actualHeight;
+            } else {
+                *storedHeight = requestedHeight;
+            }
+        } else if (mode == 7 && profile != 2) {
+            if ((double)samples * rate / (*width * *height) < lbl_820A6C58) {
+                self->useRequestedSize = 1;
+                self->width = *width;
+                *storedHeight = *height;
+            }
+        }
+    }
+}

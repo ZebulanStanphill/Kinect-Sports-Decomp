@@ -1,50 +1,34 @@
-extern int fn_8265C940();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_82002C5C;
+typedef struct Sample_82921D58 {
+    int left;          /* 0x00 */
+    float leftWeight;  /* 0x04 */
+    int right;         /* 0x08 */
+    float rightWeight; /* 0x0c */
+} Sample_82921D58;
 
+extern void *fn_8265C940(unsigned int bytes, unsigned int attributes);
 
-void fn_82921D58(unsigned __int64 param_1,unsigned __int64 param_2,int param_3)
-
+Sample_82921D58 *fn_82921D58(unsigned int inputCount, unsigned int outputCount, int wrap)
 {
-  float fVar1;
-  unsigned __int64 uVar2;
-  float fVar3;
-  float fVar4;
-  int iVar5;
-  unsigned int uVar6;
-  __int64 lVar7;
-  float *pfVar8;
-  float fVar9;
-  
-  iVar5 = fn_8265C940((param_2 & 0xfffffff) << 4,0x24810000);
-  fVar4 = lbl_82002C5C;
-  fVar3 = lbl_82002AE0;
-  if (iVar5 != 0) {
-    uVar2 = param_2 & 0xffffffff;
-    uVar6 = 0;
-    if ((param_2 & 0xffffffff) != 0) {
-      pfVar8 = (float *)(iVar5 + -4);
-      do {
-        fVar1 = ((float)uVar6 + fVar4) * ((float)(param_1 & 0xffffffff) / (float)uVar2) + fVar4;
-        fVar9 = (float)(int)fVar1;
-        lVar7 = (unsigned __int64)(unsigned int)fVar9 - 1;
-        fVar1 = ((float)(__int64)(int)fVar9 + fVar3) - fVar1;
-        if ((lVar7 < 0) && (lVar7 = param_1 - 1, param_3 == 0)) {
-          lVar7 = 0;
+    Sample_82921D58 *samples = fn_8265C940(outputCount * sizeof(*samples), 0x24810000);
+    if (samples) {
+        float scale = (float)inputCount / (float)outputCount;
+        unsigned int i;
+        for (i = 0; i < outputCount; ++i) {
+            float coordinate = ((float)i + 0.5f) * scale + 0.5f;
+            int right = (int)coordinate;
+            float leftWeight = (float)right + 1.0f - coordinate;
+            int left = right - 1;
+            if (left < 0) {
+                left = wrap ? inputCount - 1 : 0;
+            }
+            if ((unsigned int)right >= inputCount) {
+                right = wrap ? 0 : inputCount - 1;
+            }
+            samples[i].leftWeight = leftWeight;
+            samples[i].left = left;
+            samples[i].right = right;
+            samples[i].rightWeight = 1.0f - leftWeight;
         }
-        if (((param_1 & 0xffffffff) <= (unsigned __int64)(unsigned int)fVar9) && (fVar9 = 0.0, param_3 == 0)) {
-          fVar9 = (float)((int)param_1 - 1);
-        }
-        pfVar8[2] = fVar1;
-        pfVar8[1] = (float)lVar7;
-        pfVar8[3] = fVar9;
-        pfVar8 = pfVar8 + 4;
-        *pfVar8 = fVar3 - fVar1;
-        uVar6 = uVar6 + 1;
-        param_2 = param_2 - 1;
-      } while (param_2 != 0);
     }
-  }
-  return;
+    return samples;
 }
-

@@ -1,51 +1,26 @@
-void fn_8270A258(unsigned char *param_1,unsigned char *param_2,unsigned char *param_3,unsigned char *param_4,unsigned char *param_5,
-                  int param_6,int param_7)
-
+static __forceinline void AddCorner(int *sum, const unsigned char *color, int weight)
 {
-  unsigned char bVar1;
-  unsigned char bVar2;
-  unsigned char bVar3;
-  unsigned char bVar4;
-  unsigned char bVar5;
-  unsigned char bVar6;
-  unsigned char bVar7;
-  unsigned char bVar8;
-  unsigned char bVar9;
-  unsigned char bVar10;
-  unsigned char bVar11;
-  unsigned char bVar12;
-  int iVar13;
-  int iVar14;
-  int iVar15;
-  
-  bVar1 = param_2[2];
-  bVar2 = param_4[2];
-  bVar3 = param_4[3];
-  iVar14 = (0x100 - param_7) * (0x100 - param_6);
-  bVar4 = param_4[1];
-  bVar5 = param_5[1];
-  bVar6 = param_5[2];
-  bVar7 = param_3[1];
-  bVar8 = param_3[3];
-  bVar9 = param_5[3];
-  bVar10 = param_3[2];
-  bVar11 = param_2[1];
-  bVar12 = param_2[3];
-  iVar13 = (0x100 - param_7) * param_6;
-  iVar15 = (0x100 - param_6) * param_7;
-  param_6 = param_6 * param_7;
-  *param_1 = (char)((unsigned int)*param_5 * param_6 +
-                    (unsigned int)*param_4 * iVar15 +
-                    (unsigned int)*param_3 * iVar13 + (unsigned int)*param_2 * iVar14 + 0x8000 >> 0x10);
-  param_1[1] = (char)((unsigned int)bVar5 * param_6 +
-                      (unsigned int)bVar4 * iVar15 + (unsigned int)bVar7 * iVar13 + (unsigned int)bVar11 * iVar14 + 0x8000
-                     >> 0x10);
-  param_1[2] = (char)((unsigned int)bVar6 * param_6 +
-                      (unsigned int)bVar2 * iVar15 + (unsigned int)bVar10 * iVar13 + (unsigned int)bVar1 * iVar14 + 0x8000
-                     >> 0x10);
-  param_1[3] = (char)((unsigned int)bVar9 * param_6 +
-                      (unsigned int)bVar3 * iVar15 + (unsigned int)bVar8 * iVar13 + (unsigned int)bVar12 * iVar14 + 0x8000
-                     >> 0x10);
-  return;
+    sum[0] += color[0] * weight;
+    sum[1] += color[1] * weight;
+    sum[2] += color[2] * weight;
+    sum[3] += color[3] * weight;
 }
 
+void fn_8270A258(unsigned char *output, const unsigned char *topLeft, const unsigned char *topRight,
+                 const unsigned char *bottomLeft, const unsigned char *bottomRight, int x, int y)
+{
+    int sum[4];
+
+    sum[0] = 0x8000;
+    sum[1] = 0x8000;
+    sum[2] = 0x8000;
+    sum[3] = 0x8000;
+    AddCorner(sum, topLeft, (0x100 - y) * (0x100 - x));
+    AddCorner(sum, topRight, (0x100 - y) * x);
+    AddCorner(sum, bottomLeft, (0x100 - x) * y);
+    AddCorner(sum, bottomRight, x * y);
+    output[0] = (unsigned char)(sum[0] >> 16);
+    output[1] = (unsigned char)(sum[1] >> 16);
+    output[2] = (unsigned char)(sum[2] >> 16);
+    output[3] = (unsigned char)(sum[3] >> 16);
+}

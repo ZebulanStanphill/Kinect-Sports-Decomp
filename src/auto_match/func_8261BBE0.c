@@ -1,79 +1,87 @@
-extern unsigned int lbl_83274932;
-extern unsigned int lbl_832749B0;
+typedef struct Vec_8261BBE0 {
+    float x;
+    float y;
+    float z;
+} Vec_8261BBE0;
 
+typedef struct Entry_8261BBE0 {
+    unsigned int size;
+    unsigned short kind;
+    unsigned short id;
+    unsigned short flags;
+    char padA[0xa];
+    Vec_8261BBE0 first;
+    Vec_8261BBE0 second;
+} Entry_8261BBE0;
 
-void fn_8261BBE0(unsigned int *param_1)
+typedef struct Entries_8261BBE0 {
+    unsigned int count;
+    int padding;
+    Entry_8261BBE0 first;
+} Entries_8261BBE0;
 
+extern struct Table_8261BBE0 {
+    unsigned short ids[64];
+    int count;
+} lbl_83274930;
+
+static __forceinline Entry_8261BBE0 *Find(Entries_8261BBE0 *entries, const unsigned short *id)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned short uVar5;
-  unsigned int uVar6;
-  int iVar7;
-  unsigned int *puVar8;
-  unsigned int uVar9;
-  unsigned int *puVar10;
-  int iVar11;
-  short *psVar12;
-  
-  iVar11 = 0;
-  if (0 < lbl_832749B0) {
-    psVar12 = &lbl_83274932;
-    iVar7 = lbl_832749B0;
-    do {
-      uVar6 = *param_1;
-      uVar9 = 0;
-      if (uVar6 != 0) {
-        puVar8 = param_1 + 2;
-        do {
-          if (*(short *)((int)puVar8 + 6) == psVar12[-1]) goto LAB_8261bc44;
-          uVar9 = uVar9 + 1;
-          puVar8 = (unsigned int *)(*puVar8 + (int)puVar8);
-        } while (uVar9 < uVar6);
-      }
-      puVar8 = (unsigned int *)0x0;
-LAB_8261bc44:
-      uVar9 = 0;
-      if (uVar6 != 0) {
-        puVar10 = param_1 + 2;
-        do {
-          if (*(short *)((int)puVar10 + 6) == *psVar12) goto LAB_8261bc7c;
-          uVar9 = uVar9 + 1;
-          puVar10 = (unsigned int *)(*puVar10 + (int)puVar10);
-        } while (uVar9 < uVar6);
-      }
-      puVar10 = (unsigned int *)0x0;
-LAB_8261bc7c:
-      if ((puVar8 != (unsigned int *)0x0) && (puVar10 != (unsigned int *)0x0)) {
-        uVar5 = *(unsigned short *)(puVar8 + 2);
-        uVar6 = puVar8[5];
-        uVar9 = puVar8[6];
-        uVar1 = puVar8[7];
-        uVar2 = puVar8[8];
-        uVar3 = puVar8[9];
-        uVar4 = puVar8[10];
-        puVar8[5] = puVar10[5];
-        puVar8[6] = puVar10[6];
-        puVar8[7] = puVar10[7];
-        puVar8[8] = puVar10[8];
-        puVar8[9] = puVar10[9];
-        puVar8[10] = puVar10[10];
-        *(unsigned short *)(puVar8 + 2) = *(unsigned short *)(puVar10 + 2);
-        puVar10[5] = uVar6;
-        puVar10[6] = uVar9;
-        puVar10[7] = uVar1;
-        puVar10[8] = uVar2;
-        puVar10[9] = uVar3;
-        puVar10[10] = uVar4;
-        *(unsigned short *)(puVar10 + 2) = uVar5;
-        iVar7 = lbl_832749B0;
-      }
-      iVar11 = iVar11 + 1;
-      psVar12 = psVar12 + 2;
-    } while (iVar11 < iVar7);
-  }
-  return;
+    Entry_8261BBE0 *entry = &entries->first;
+    unsigned int i;
+    for (i = 0; i < entries->count; ++i) {
+        if (entry->id == *id)
+            return entry;
+        {
+            unsigned int size = entry->size;
+            entry = (Entry_8261BBE0 *)(size + (char *)entry);
+        }
+    }
+    return 0;
 }
 
+static __forceinline Vec_8261BBE0 LoadVector(const Vec_8261BBE0 *v)
+{
+    Vec_8261BBE0 result;
+    result.x = v->x;
+    result.y = v->y;
+    result.z = v->z;
+    return result;
+}
+
+static __forceinline void StoreVector(Vec_8261BBE0 *dst, const Vec_8261BBE0 *src)
+{
+    dst->x = src->x;
+    dst->y = src->y;
+    dst->z = src->z;
+}
+
+void fn_8261BBE0(Entries_8261BBE0 *entries)
+{
+    int i = 0;
+    int count = lbl_83274930.count;
+    unsigned short *id;
+
+    if (lbl_83274930.count > 0) {
+        id = lbl_83274930.ids + 1;
+        do {
+            Entry_8261BBE0 *first = Find(entries, id - 1);
+            Entry_8261BBE0 *second = Find(entries, id);
+            if (first != 0 && second != 0) {
+                Vec_8261BBE0 start = LoadVector(&first->first);
+                Vec_8261BBE0 end = LoadVector(&first->second);
+                unsigned short flags = first->flags;
+
+                StoreVector(&first->first, &second->first);
+                StoreVector(&first->second, &second->second);
+                first->flags = second->flags;
+                StoreVector(&second->first, &start);
+                StoreVector(&second->second, &end);
+                second->flags = flags;
+                count = lbl_83274930.count;
+            }
+            ++i;
+            id += 2;
+        } while (i < count);
+    }
+}

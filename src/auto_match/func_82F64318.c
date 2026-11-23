@@ -1,47 +1,56 @@
-extern unsigned int lbl_82005758;
-extern unsigned int lbl_831BB2A0;
-extern unsigned int lbl_831BB2A8;
-extern unsigned int lbl_831BB2B4;
-extern unsigned int lbl_831BB2B8;
-extern unsigned int lbl_831BB2C0;
-extern unsigned int lbl_831BB2C8;
-extern unsigned int lbl_831BB2D0;
-extern unsigned int lbl_831BB2D8;
-extern unsigned int lbl_831BB2E0;
-extern unsigned int lbl_831BB2E8;
-extern unsigned int lbl_831BB2F0;
-extern unsigned int lbl_831BB2F8;
-extern unsigned int lbl_831BB300;
-extern unsigned int lbl_831BB308;
-extern unsigned int lbl_831BB920;
+typedef struct SinConstants_82F64318 {
+    double unused0;      /* 0x00 */
+    double reciprocalPi; /* 0x08 */
+    double limit;        /* 0x10 */
+    unsigned int unused18;
+    float positiveSign; /* 0x1c */
+    float negativeSign; /* 0x20 */
+    unsigned int unused24;
+    double piHigh;          /* 0x28 */
+    double piLow;           /* 0x30 */
+    double coefficients[8]; /* 0x38 */
+} SinConstants_82F64318;
 
+extern const SinConstants_82F64318 lbl_831BB298;
+extern const double lbl_831BB920;
+extern double fabs(double);
+extern double __fctid(double);
+extern double __fcfid(double);
+extern double __fsel(double, double, double);
 
-double sin(double param_1)
-
+double sin(double angle)
 {
-  float fVar1;
-  double dVar2;
-  double dVar3;
-  double dVar4;
-  double dVar5;
-  
-  dVar2 = ABS(param_1);
-  fVar1 = lbl_831BB2B4;
-  if (param_1 < 0.0) {
-    fVar1 = lbl_831BB2B8;
-  }
-  dVar4 = (double)(__int64)(lbl_831BB2A0 * dVar2);
-  dVar3 = -(lbl_831BB2C8 * dVar4 - -(lbl_831BB2C0 * dVar4 - dVar2));
-  dVar5 = dVar3 * dVar3;
-  dVar3 = ((((((((lbl_831BB308 * dVar5 + lbl_831BB300) * dVar5 + lbl_831BB2F8) * dVar5 +
-               lbl_831BB2F0) * dVar5 + lbl_831BB2E8) * dVar5 + lbl_831BB2E0) * dVar5 + lbl_831BB2D8)
-            * dVar5 + lbl_831BB2D0) * dVar5 + lbl_82005758) * dVar3;
-  if (((__int64)dVar4 & 1U) != 0) {
-    dVar3 = -dVar3;
-  }
-  if ((dVar2 != 0.0) && (param_1 = lbl_831BB920, dVar2 - lbl_831BB2A8 < 0.0)) {
-    param_1 = dVar3 * (double)fVar1;
-  }
-  return param_1;
-}
+    union {
+        double magnitude;
+        __int64 bits;
+    } input;
 
+    double turns;
+    double reduced;
+    double square;
+    double value;
+    double sign;
+    const double *c = lbl_831BB298.coefficients;
+
+    input.magnitude = fabs(angle);
+    turns = __fcfid(__fctid(lbl_831BB298.reciprocalPi * input.magnitude));
+    sign = __fsel(angle, lbl_831BB298.positiveSign, lbl_831BB298.negativeSign);
+    reduced = input.magnitude - lbl_831BB298.piHigh * turns;
+    reduced -= lbl_831BB298.piLow * turns;
+    square = reduced * reduced;
+    value =
+        ((((((((c[7] * square + c[6]) * square + c[5]) * square + c[4]) * square + c[3]) * square + c[2]) *
+               square +
+           c[1]) *
+              square +
+          c[0]) *
+             square +
+         1.0) *
+        reduced;
+    if (((__int64)turns & 1) != 0)
+        value = -value;
+    value *= sign;
+    if (input.bits != 0)
+        angle = __fsel(input.magnitude - lbl_831BB298.limit, lbl_831BB920, value);
+    return angle;
+}

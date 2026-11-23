@@ -1,67 +1,67 @@
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_a0;
-extern unsigned int *auStack_e0;
-extern unsigned int fStack_a8;
-extern unsigned int fStack_ac;
-extern unsigned int fStack_b0;
-extern int fn_8280CB70();
-extern int fn_8280D2A0();
-extern int fn_8280E890();
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int uStack_100;
-extern unsigned int uStack_ec;
-extern unsigned int uStack_f0;
-extern unsigned int uStack_f8;
-extern unsigned int uStack_fc;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Matrix_8280CB70 {
+    __vector4 rows[4];
+} Matrix_8280CB70;
 
-void fn_8226C6A8(int param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4,unsigned __int64 param_5,
-                  unsigned __int64 param_6,unsigned __int64 param_7)
+typedef struct Transform_8226C6A8 {
+    Matrix_8280CB70 world; /* 0x00 */
+    Matrix_8280CB70 local; /* 0x40 */
+    unsigned char padding0[0x10];
+    float offset[3]; /* 0x90 */
+    unsigned char padding1[0x14];
+    float rotation[4]; /* 0xb0 */
+    float angle;       /* 0xc0 */
+    unsigned char padding2[0x0c];
+    __vector4 axis; /* 0xd0 */
+    unsigned char padding3[0x10];
+} Transform_8226C6A8;
 
+typedef struct Context_8226C6A8 {
+    unsigned char padding0[0x40];
+    Transform_8226C6A8 *transforms; /* 0x40 */
+    unsigned char padding1[0x14];
+    unsigned int *indices; /* 0x58 */
+} Context_8226C6A8;
+
+typedef struct Object_8226C6A8 {
+    unsigned char padding[0x2e];
+    unsigned short index; /* 0x2e */
+} Object_8226C6A8;
+
+extern void fn_8280CB70(const Matrix_8280CB70 *, const Matrix_8280CB70 *, Matrix_8280CB70 *);
+extern void fn_8280D2A0(Matrix_8280CB70 *, const float *, float);
+extern void fn_8280E890(const float *, Matrix_8280CB70 *);
+
+void fn_8226C6A8(Context_8226C6A8 *self, const Object_8226C6A8 *object, int unused1, int unused2,
+                 const Matrix_8280CB70 *left, const Matrix_8280CB70 *right, Matrix_8280CB70 *result)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int in_r0;
-  int iVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int uStack_100;
-  unsigned int uStack_fc;
-  unsigned int uStack_f8;
-  unsigned int uStack_f0;
-  unsigned int uStack_ec;
-  unsigned char auStack_e0 [48];
-  float fStack_b0;
-  float fStack_ac;
-  float fStack_a8;
-  unsigned char auStack_a0 [64];
-  unsigned char auStack_60 [72];
-  
-  iVar3 = *(int *)((unsigned int)*(unsigned short *)(param_2 + 0x2e) * 4 + *(int *)(param_1 + 0x58)) * 0xf0 +
-          *(int *)(param_1 + 0x40);
-  fn_8280CB70(param_5,param_6,param_7);
-  fn_8280CB70(iVar3 + 0x40,param_7,auStack_e0);
-  puVar1 = (unsigned int *)(iVar3 + 0xd0U & 0xfffffff0);
-  uVar4 = puVar1[1];
-  uVar5 = puVar1[2];
-  uVar6 = puVar1[3];
-  puVar2 = (unsigned int *)((int)&uStack_f0 + in_r0 & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar4;
-  puVar2[2] = uVar5;
-  puVar2[3] = uVar6;
-  uStack_fc = ltcg_pool_0_0f;
-  uStack_100 = uStack_f0;
-  uStack_f8 = uStack_ec;
-  fn_8280D2A0((double)*(float *)(iVar3 + 0xc0),auStack_60,&uStack_100);
-  fn_8280E890(iVar3 + 0xb0,auStack_a0);
-  fn_8280CB70(auStack_a0,auStack_60,auStack_a0);
-  fn_8280CB70(auStack_a0,auStack_e0,auStack_e0);
-  fStack_b0 = *(float *)(iVar3 + 0x90) + fStack_b0;
-  fStack_ac = *(float *)(iVar3 + 0x98) + fStack_ac;
-  fStack_a8 = *(float *)(iVar3 + 0x94) + fStack_a8;
-  fn_8280CB70(iVar3,auStack_e0,param_7);
-  return;
-}
+    float axis[3];
+    __vector4 vector;
+    Matrix_8280CB70 partial;
+    Matrix_8280CB70 rotation;
+    Matrix_8280CB70 angle;
+    Transform_8226C6A8 *entry = &self->transforms[self->indices[object->index]];
+    float x;
+    float z;
 
+    fn_8280CB70(left, right, result);
+    fn_8280CB70(&entry->local, result, &partial);
+
+    vector = entry->axis;
+    z = vector.vector4_f32[1];
+    x = vector.vector4_f32[0];
+    axis[1] = 0.0f;
+    axis[0] = x;
+    axis[2] = z;
+    fn_8280D2A0(&angle, axis, entry->angle);
+    fn_8280E890(entry->rotation, &rotation);
+    fn_8280CB70(&rotation, &angle, &rotation);
+    fn_8280CB70(&rotation, &partial, &partial);
+    partial.rows[3].vector4_f32[0] = entry->offset[0] + partial.rows[3].vector4_f32[0];
+    partial.rows[3].vector4_f32[1] = entry->offset[2] + partial.rows[3].vector4_f32[1];
+    partial.rows[3].vector4_f32[2] = entry->offset[1] + partial.rows[3].vector4_f32[2];
+    fn_8280CB70(&entry->world, &partial, result);
+}

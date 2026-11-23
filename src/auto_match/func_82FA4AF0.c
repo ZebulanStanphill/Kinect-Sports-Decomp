@@ -1,51 +1,48 @@
-extern int fn_82F655D8();
-extern unsigned int lbl_82005718;
-extern unsigned int lbl_82015618;
+typedef struct Params_82FA4AF0 {
+    char pad0[4];
+    float first;
+    float second;
+    unsigned int count;
+    float gain1;
+    float gain2;
+    float third;
+    unsigned int enabled;
+    unsigned int mode;
+    float samples[1];
+} Params_82FA4AF0;
 
+extern double fn_82F655D8(double, double);
 
-unsigned __int64 fn_82FA4AF0(int param_1,unsigned int *param_2)
-
+static __forceinline float AsFloat(unsigned int bits)
 {
-  unsigned char bVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  int *piVar4;
-  int *piVar5;
-  unsigned int uVar6;
-  double dVar7;
-  double dVar8;
-  
-  if (param_2 == (unsigned int *)0x0) {
-    uVar3 = 0x1f;
-  }
-  else {
-    *(unsigned int *)(param_1 + 4) = *param_2;
-    *(unsigned int *)(param_1 + 8) = param_2[1];
-    *(unsigned int *)(param_1 + 0xc) = param_2[2];
-    dVar8 = (double)lbl_82005718;
-    uVar3 = lbl_82015618;
-    dVar7 = (double)fn_82F655D8(lbl_82015618,
-                                      (double)(float)((double)(float)param_2[3] * dVar8));
-    *(float *)(param_1 + 0x10) = (float)dVar7;
-    dVar7 = (double)fn_82F655D8(uVar3,(double)(float)((double)(float)param_2[4] * dVar8));
-    *(float *)(param_1 + 0x14) = (float)dVar7;
-    *(unsigned int *)(param_1 + 0x18) = param_2[5];
-    bVar1 = *(unsigned char *)(param_2 + 6);
-    *(unsigned int *)(param_1 + 0x1c) = (unsigned int)bVar1 + (-(unsigned int)(bVar1 == 0) - (bVar1 - 1));
-    piVar5 = (int *)((int)param_2 + 0x19);
-    iVar2 = *piVar5;
-    *(int *)(param_1 + 0x20) = iVar2;
-    if ((iVar2 == 1) && (uVar6 = 0, *(int *)(param_1 + 0xc) != 0)) {
-      piVar4 = (int *)(param_1 + 0x20);
-      do {
-        piVar5 = piVar5 + 1;
-        uVar6 = uVar6 + 1;
-        piVar4 = piVar4 + 1;
-        *piVar4 = *piVar5;
-      } while (uVar6 < *(unsigned int *)(param_1 + 0xc));
-    }
-    uVar3 = 1;
-  }
-  return uVar3;
+    return *(float *)&bits;
 }
 
+int fn_82FA4AF0(Params_82FA4AF0 *self, const unsigned int *data)
+{
+    const unsigned int *p = data;
+    unsigned int i;
+    int result;
+
+    if (data == 0) {
+        result = 31;
+    } else {
+        self->first = AsFloat(*p++);
+        self->second = AsFloat(*p++);
+        self->count = *p++;
+        self->gain1 = (float)fn_82F655D8(10.0, AsFloat(*p++) * 0.05f);
+        self->gain2 = (float)fn_82F655D8(10.0, AsFloat(*p++) * 0.05f);
+        self->third = AsFloat(*p++);
+        self->enabled = *(const unsigned char *)p != 0;
+        p = (const unsigned int *)((const unsigned char *)p + 1);
+        self->mode = *p++;
+        if (self->mode == 1) {
+            for (i = 0; i < self->count; ++i) {
+                float sample = AsFloat(*p++);
+                self->samples[i] = sample;
+            }
+        }
+        result = 1;
+    }
+    return result;
+}

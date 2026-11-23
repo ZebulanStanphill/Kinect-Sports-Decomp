@@ -1,86 +1,96 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_826957D0();
-extern int fn_826972E0();
-extern int fn_826998A8();
-extern int fn_826A7288();
-extern int fn_826AE1D8();
+typedef struct Timeline_826C80C8 Timeline_826C80C8;
 
+typedef struct Interface_826C80C8 {
+    struct {
+        void *reserved[2];
+        int (*kind)(void *);
+    } *vt;
+} Interface_826C80C8;
 
-void fn_826C80C8(int param_1)
+typedef struct Clip_826C80C8 {
+    struct {
+        void *reserved[5];
+        void (*stop)(void *, int);
+    } *vt;
 
+    char pad0[0x10];
+    int frame;
+    char pad1[8];
+    Timeline_826C80C8 *timeline;
+    char pad2[0x44];
+    Interface_826C80C8 interface;
+} Clip_826C80C8;
+
+typedef struct Call_826C80C8 {
+    char pad0[8];
+    Interface_826C80C8 *self;
+    char pad1[12];
+    char *env;
+    int argc;
+} Call_826C80C8;
+
+extern unsigned char *fn_826957D0(Call_826C80C8 *call, unsigned int index);
+extern double fn_826972E0(void *value, void *env);
+extern unsigned char fn_826998A8(void *timeline, int from, int to);
+extern void fn_826A7288(int env, unsigned int clip);
+extern Clip_826C80C8 *fn_826AE1D8(void *env, void *value);
+
+void fn_826C80C8(Call_826C80C8 *call)
 {
-  unsigned int uVar1;
-  bool bVar2;
-  int iVar4;
-  char *pcVar5;
-  __int64 lVar3;
-  int *piVar6;
-  char cVar7;
-  unsigned __int64 uVar8;
-  int *piVar9;
-  double dVar10;
-  
-  if (*(int **)(param_1 + 8) == (int *)0x0) {
-    piVar9 = *(int **)(*(int *)(param_1 + 0x18) + 0x74);
-  }
-  else {
-    iVar4 = (**(int (***)())(**(int **)(param_1 + 8) + 8))();
-    if ((iVar4 < 2) || (bVar2 = true, 5 < iVar4)) {
-      bVar2 = false;
-    }
-    if (!bVar2) {
-      return;
-    }
-    piVar9 = (int *)(*(int *)(param_1 + 8) + -0x68);
-    if (*(int *)(param_1 + 8) == 0) {
-      piVar9 = (int *)0x0;
-    }
-  }
-  if ((piVar9 != (int *)0x0) && (0 < *(int *)(param_1 + 0x1c))) {
-    iVar4 = piVar9[8];
-    pcVar5 = (char *)fn_826957D0(param_1,0);
-    piVar6 = (int *)0x0;
-    lVar3 = (**(int (***)())(piVar9[0x1a] + 8))(piVar9 + 0x1a);
-    if ((*pcVar5 == '\x03') || (bVar2 = false, *pcVar5 == '\x04')) {
-      bVar2 = true;
-    }
-    if (bVar2) {
-      dVar10 = (double)fn_826972E0(pcVar5,*(unsigned int *)(param_1 + 0x18));
-      uVar8 = (unsigned __int64)(unsigned int)(int)dVar10 + 0x4000;
-      if (0x7efffffd < (int)uVar8) {
-        return;
-      }
-    }
-    else {
-      if ((-(unsigned int)(lVar3 == 2) & (unsigned int)piVar9) == 0) {
-        piVar6 = (int *)fn_826AE1D8(*(int *)(param_1 + 0x18),pcVar5);
-      }
-      else {
-        uVar1 = *(unsigned int *)(*(int *)(param_1 + 0x18) + 0x74);
-        fn_826A7288();
-        piVar6 = (int *)fn_826AE1D8(*(unsigned int *)(param_1 + 0x18),pcVar5);
-        fn_826A7288(*(unsigned int *)(param_1 + 0x18),uVar1);
-      }
-      if (piVar6 == (int *)0x0) {
-        return;
-      }
-      if (piVar6 == piVar9) {
-        return;
-      }
-      if (iVar4 != piVar6[8]) {
-        return;
-      }
-      uVar8 = (unsigned __int64)(unsigned int)piVar6[5];
-    }
-    if ((((-1 < piVar9[5]) && ((**(int (***)())(*piVar9 + 0x14))(piVar9,0), iVar4 != 0)) &&
-        (cVar7 = fn_826998A8(iVar4 + 0xa8,piVar9[5],uVar8), cVar7 != '\0')) &&
-       (*(unsigned int *)(*(int *)(iVar4 + 0xa0) + 0xb00) =
-             *(unsigned int *)(*(int *)(iVar4 + 0xa0) + 0xb00) | 0x400, piVar6 != (int *)0x0)) {
-      (**(int (***)())(*piVar6 + 0x14))(piVar6,0);
-    }
-  }
-  return;
-}
+    Clip_826C80C8 *self;
+    Clip_826C80C8 *other;
+    Clip_826C80C8 *target;
+    Timeline_826C80C8 *timeline;
+    unsigned char *arg;
+    unsigned char numeric;
+    int frame;
 
+    Interface_826C80C8 *interface = call->self;
+
+    if (interface == 0) {
+        self = *(Clip_826C80C8 **)(call->env + 0x74);
+    } else {
+        int kind = interface->vt->kind(interface);
+        unsigned char valid = kind >= 2 && kind <= 5;
+        if (!valid)
+            return;
+        self = call->self ? (Clip_826C80C8 *)((char *)call->self - 0x68) : 0;
+    }
+    if (!self || call->argc < 1)
+        return;
+
+    timeline = self->timeline;
+    arg = fn_826957D0(call, 0);
+    other = 0;
+    target = self->interface.vt->kind(&self->interface) == 2 ? self : 0;
+    numeric = *arg == 3 || *arg == 4;
+    if (numeric) {
+        frame = (int)fn_826972E0(arg, call->env) + 0x4000;
+        if (frame < 0)
+            return;
+        if (frame > 0x7efffffd)
+            return;
+    } else {
+        if (target) {
+            unsigned int prior = *(unsigned int *)(call->env + 0x74);
+            fn_826A7288((int)call->env, (unsigned int)target);
+            other = fn_826AE1D8(call->env, arg);
+            fn_826A7288((int)call->env, prior);
+        } else {
+            other = fn_826AE1D8(call->env, arg);
+        }
+        if (!other || other == self || timeline != other->timeline)
+            return;
+        frame = other->frame;
+    }
+
+    if (self->frame < 0)
+        return;
+    self->vt->stop(self, 0);
+    if (timeline && fn_826998A8((char *)timeline + 0xa8, self->frame, frame)) {
+        char *owner = *(char **)((char *)timeline + 0xa0);
+        *(unsigned int *)(owner + 0xb00) |= 0x400;
+        if (other)
+            other->vt->stop(other, 0);
+    }
+}

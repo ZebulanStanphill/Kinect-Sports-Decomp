@@ -1,34 +1,34 @@
-extern int fn_82264400();
-extern unsigned int lbl_82192734;
-extern unsigned int lbl_831D1918;
-extern unsigned int lbl_83276554;
+typedef struct State_823C51D0 {
+    char pad[0x1680];
+    int pending;        // 0x1680
+    int status;         // 0x1684
+    float scores[4];    // 0x1688
+    float durations[4]; // 0x1698
+} State_823C51D0;
 
+extern int lbl_831D18A8[];
+extern int lbl_83276554;
+extern void fn_82264400(int matchCounter, int score0, float duration0, int score1, float duration1,
+                        int score2, float duration2, int score3, float duration3);
 
-void fn_823C51D0(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  unsigned __int64 param_5,unsigned __int64 param_6,unsigned __int64 param_7)
-
+void fn_823C51D0(State_823C51D0 *state)
 {
-  unsigned int uVar1;
-  unsigned int *puVar2;
-  unsigned int *puVar3;
-  
-  if ((lbl_831D1918 != 0) && (*(int *)(param_1 + 0x1680) != 0)) {
-    puVar3 = (unsigned int *)(param_1 + 0x1698);
-    fn_82264400((double)*(float *)(param_1 + 0x1698),(double)*(float *)(param_1 + 0x169c),
-                      (double)*(float *)(param_1 + 0x16a0),(double)*(float *)(param_1 + 0x16a4),
-                      lbl_83276554,(int)*(float *)(param_1 + 0x1688),param_3,
-                      (int)*(float *)(param_1 + 0x168c),param_5,(int)*(float *)(param_1 + 0x1690),
-                      param_7,(int)*(float *)(param_1 + 0x1694));
-    *(unsigned int *)(param_1 + 0x1684) = 0;
-    uVar1 = lbl_82192734;
-    for (puVar2 = (unsigned int *)(param_1 + 0x1688); puVar2 != puVar3; puVar2 = puVar2 + 1) {
-      *puVar2 = uVar1;
-    }
-    for (; puVar3 != (unsigned int *)(param_1 + 0x16a8); puVar3 = puVar3 + 1) {
-      *puVar3 = uVar1;
-    }
-    *(unsigned int *)(param_1 + 0x1680) = 0;
-  }
-  return;
-}
+    if (lbl_831D18A8[0x70 / 4] && state->pending) {
+        float *score = state->scores;
+        float *duration = state->durations;
+        float *it;
 
+        fn_82264400(lbl_83276554, (int)score[0], duration[0], (int)score[1], duration[1], (int)score[2],
+                    duration[2], (int)score[3], duration[3]);
+
+        state->status = 0;
+        {
+            float reset = -1.0f;
+            for (it = score; it != duration; ++it)
+                *it = reset;
+            for (it = duration; it != (float *)(&state->durations + 1); ++it)
+                *it = reset;
+            state->pending = 0;
+        }
+    }
+}

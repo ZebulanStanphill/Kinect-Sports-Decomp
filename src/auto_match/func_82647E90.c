@@ -1,63 +1,56 @@
-extern unsigned int *auStack_620;
-extern int fn_8264DA70();
-extern int fn_8264DB08();
-extern int fn_8264DC48();
-extern int fn_8264DD40();
+typedef struct Ramp_82647E90 {
+    unsigned short red[256];
+    unsigned short green[256];
+    unsigned short blue[256];
+} Ramp_82647E90;
 
+extern void fn_8264DA70(unsigned short *destination, const unsigned short *source, unsigned int mode);
+extern void fn_8264DB08(Ramp_82647E90 *destination, const Ramp_82647E90 *source, unsigned int mode);
+extern void fn_8264DC48(void *device, const Ramp_82647E90 *ramp);
+extern void fn_8264DD40(void *device, const Ramp_82647E90 *ramp);
 
-void fn_82647E90(unsigned __int64 param_1,int param_2,unsigned char *param_3)
-
+void fn_82647E90(void *device, int format, const Ramp_82647E90 *ramp)
 {
-  unsigned __int64 uVar1;
-  short sVar2;
-  unsigned __int64 uVar3;
-  short *psVar4;
-  __int64 lVar5;
-  unsigned char auStack_620 [1022];
-  short asStack_222 [273];
-  
-  if (param_3 == (unsigned char *)0x0) {
-    uVar3 = 0;
-    psVar4 = asStack_222;
-    if (param_2 == 0x28280136) {
-      lVar5 = 0x80;
-      do {
-        sVar2 = (short)((uVar3 & 0xffffffff) / 0x7f);
-        uVar3 = uVar3 + 0xffff;
-        psVar4[-0x1ff] = sVar2;
-        psVar4[-0xff] = sVar2;
-        psVar4[1] = sVar2;
-        sVar2 = (short)((uVar3 & 0xffffffff) / 0x7f) - sVar2;
-        psVar4[-0x1fe] = sVar2;
-        psVar4[-0xfe] = sVar2;
-        psVar4 = psVar4 + 2;
-        *psVar4 = sVar2;
-        lVar5 = lVar5 + -1;
-      } while (lVar5 != 0);
-      fn_8264DB08(auStack_620,auStack_620,0);
-      param_3 = auStack_620;
-      goto LAB_82647f68;
-    }
-    lVar5 = 0x100;
-    do {
-      uVar1 = uVar3 & 0xffffffff;
-      uVar3 = uVar3 + 0x3ff;
-      sVar2 = (short)(uVar1 / 0xff << 6);
-      psVar4[-0x1ff] = sVar2;
-      psVar4[-0xff] = sVar2;
-      psVar4 = psVar4 + 1;
-      *psVar4 = sVar2;
-      lVar5 = lVar5 + -1;
-    } while (lVar5 != 0);
-    fn_8264DA70(auStack_620,auStack_620,0);
-    param_3 = auStack_620;
-  }
-  if (param_2 != 0x28280136) {
-    fn_8264DC48(param_1,param_3);
-    return;
-  }
-LAB_82647f68:
-  fn_8264DD40(param_1,param_3);
-  return;
-}
+    Ramp_82647E90 defaults;
+    int rampFormat = 0x28280136;
 
+    if (ramp == 0) {
+        unsigned int value;
+        unsigned int i;
+        if (format == rampFormat) {
+            value = 0;
+            for (i = 0; i < 128; ++i) {
+                unsigned short base = (unsigned short)((i * 65535u) / 127);
+                unsigned short step;
+                defaults.red[i * 2] = base;
+                defaults.green[i * 2] = base;
+                defaults.blue[i * 2] = base;
+                step = (unsigned short)(((i + 1) * 65535u) / 127 - base);
+                defaults.red[i * 2 + 1] = step;
+                defaults.green[i * 2 + 1] = step;
+                defaults.blue[i * 2 + 1] = step;
+            }
+            fn_8264DB08(&defaults, &defaults, 0);
+            ramp = &defaults;
+            goto applyExpanded;
+        } else {
+            value = 0;
+            for (i = 0; i < 256; ++i) {
+                unsigned short entry = (unsigned short)(value / 255 << 6);
+                value += 1023;
+                defaults.red[i] = entry;
+                defaults.green[i] = entry;
+                defaults.blue[i] = entry;
+            }
+            fn_8264DA70(defaults.red, defaults.red, 0);
+        }
+        ramp = &defaults;
+    }
+
+    if (format == rampFormat) {
+    applyExpanded:
+        fn_8264DD40(device, ramp);
+    } else {
+        fn_8264DC48(device, ramp);
+    }
+}

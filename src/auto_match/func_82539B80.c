@@ -1,60 +1,25 @@
-typedef unsigned char bool;
-#define false 0
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern unsigned int fStack_38;
-extern unsigned int fStack_3c;
-extern unsigned int fStack_40;
-extern int fn_82539A78();
-extern V16 vectorSubtractFloatingPoint();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vsubfp(__vector4 a, __vector4 b);
 
-bool fn_82539B80(float *param_1,float *param_2,float *param_3,float *param_4)
+extern int fn_82539A78(float minimum, float maximum, float start, float end, float delta, float *entry,
+                       float *exit);
 
+int fn_82539B80(const __vector4 *start, const __vector4 *end, const __vector4 *minimum,
+                const __vector4 *maximum)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  unsigned int *puVar5;
-  unsigned int *puVar6;
-  int in_r0;
-  int iVar8;
-  __int64 lVar7;
-  bool bVar9;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs45 [16];
-  unsigned int uVar10;
-  unsigned int uVar11;
-  unsigned int uVar12;
-  float fStack_40;
-  float fStack_3c;
-  float fStack_38;
-  
-  puVar5 = (unsigned int *)(in_r0 + (int)param_1 & 0xfffffff0);
-  uVar10 = puVar5[1];
-  uVar11 = puVar5[2];
-  uVar12 = puVar5[3];
-  vectorSubtractFloatingPoint(in_vs45,in_vs32);
-  fVar1 = *param_2;
-  fVar2 = *param_1;
-  fVar3 = *param_4;
-  fVar4 = *param_3;
-  puVar6 = (unsigned int *)((int)&fStack_40 + in_r0 & 0xfffffff0);
-  *puVar6 = *puVar5;
-  puVar6[1] = uVar10;
-  puVar6[2] = uVar11;
-  puVar6[3] = uVar12;
-  iVar8 = fn_82539A78((double)fVar4,(double)fVar3,(double)fVar2,(double)fVar1,(double)fStack_40);
-  if ((iVar8 == 0) ||
-     (iVar8 = fn_82539A78((double)param_3[1],(double)param_4[1],(double)param_1[1],
-                           (double)param_2[1],(double)fStack_3c), iVar8 == 0)) {
-    bVar9 = false;
-  }
-  else {
-    lVar7 = fn_82539A78((double)param_3[2],(double)param_4[2],(double)param_1[2],(double)param_2[2]
-                         ,(double)fStack_38);
-    bVar9 = lVar7 != 0;
-  }
-  return bVar9;
-}
+    float entry = 0.0f;
+    float exit = 1.0f;
+    __vector4 delta = __vsubfp(*end, *start);
 
+    if (!fn_82539A78(minimum->vector4_f32[0], maximum->vector4_f32[0], start->vector4_f32[0],
+                     end->vector4_f32[0], delta.vector4_f32[0], &entry, &exit))
+        return 0;
+    if (!fn_82539A78(minimum->vector4_f32[1], maximum->vector4_f32[1], start->vector4_f32[1],
+                     end->vector4_f32[1], delta.vector4_f32[1], &entry, &exit))
+        return 0;
+    return fn_82539A78(minimum->vector4_f32[2], maximum->vector4_f32[2], start->vector4_f32[2],
+                       end->vector4_f32[2], delta.vector4_f32[2], &entry, &exit) != 0;
+}
