@@ -31770,10 +31770,18 @@
         ]
       },
       "auto_match/func_823807F0.c": {
-        "status": "NonMatching",
+        "status": "Matching",
         "extra_cflags": [
           "/O1"
-        ]
+        ],
+        "ltcg_units": [
+          "auto_match/func_82380CE0.c"
+        ],
+        "pool_aliases": {
+          "__pool@_0": "lbl_821954B0",
+          "home_82005748": "__real@42c80000"
+        },
+        "ltcg_pool": true
       },
       "auto_match/func_82380B18.c": {
         "status": "NonMatching",
