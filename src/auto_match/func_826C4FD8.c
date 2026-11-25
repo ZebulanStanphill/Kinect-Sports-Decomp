@@ -1,64 +1,91 @@
-extern int fn_826ADE60();
-extern int fn_826B55A0();
-extern int fn_826C36F0();
-extern int fn_826C43B0();
-extern int fn_826C4E78();
-extern unsigned int iStack_48;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
-extern unsigned int uStack_34;
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
-extern unsigned int uStack_44;
+typedef struct State_826C4FD8 State_826C4FD8;
+typedef struct Target_826C4FD8 Target_826C4FD8;
+typedef struct Input_826C4FD8 Input_826C4FD8;
 
+typedef struct Frame_826C4FD8 {
+    State_826C4FD8 *self;
+    Target_826C4FD8 *target;
+    Input_826C4FD8 *input;
+    unsigned int first;
+    unsigned int second;
+    unsigned int temp[5];
+} Frame_826C4FD8;
 
-void fn_826C4FD8(int *param_1,int param_2,unsigned int param_3,unsigned int param_4)
+typedef struct StateVt_826C4FD8 {
+    void *pad00[9];
+    Target_826C4FD8 *(*resolve)(State_826C4FD8 *self, Input_826C4FD8 *input, unsigned int *temp);
+} StateVt_826C4FD8;
 
+struct State_826C4FD8 {
+    const StateVt_826C4FD8 *vt;
+    char pad04[0x34];
+    void *context;
+    unsigned int data[3];
+    unsigned int first;
+    unsigned int second;
+    char pad50[0x16];
+    unsigned char flags;
+};
+
+typedef struct TargetVt_826C4FD8 {
+    void *pad00;
+    unsigned char (*canReport)(Target_826C4FD8 *self);
+} TargetVt_826C4FD8;
+
+struct Target_826C4FD8 {
+    const TargetVt_826C4FD8 *vt;
+    char pad04[0x70];
+    State_826C4FD8 *owner;
+    char pad78[0x4c];
+    unsigned short depth;
+};
+
+struct Input_826C4FD8 {
+    char pad00[4];
+    unsigned int index;
+    char pad08[0x10];
+    Target_826C4FD8 *alternate;
+};
+
+extern void fn_826ADE60(Target_826C4FD8 *self, const char *format, ...);
+extern void fn_826B55A0(void *context, Target_826C4FD8 *target, unsigned int first, unsigned int second,
+                        unsigned int index, unsigned int *data, unsigned char flags);
+extern void fn_826C36F0(int frame);
+extern void fn_826C43B0(int *frame);
+extern void fn_826C4E78(int *frame);
+
+void fn_826C4FD8(State_826C4FD8 *self, Input_826C4FD8 *input, unsigned int first, unsigned int second)
 {
-  unsigned short uVar1;
-  char cVar2;
-  int *piStack_50;
-  int *piStack_4c;
-  int iStack_48;
-  unsigned int uStack_44;
-  unsigned int uStack_40;
-  struct { unsigned int first; unsigned int second; } stack_pair_3c;
+    Frame_826C4FD8 frame;
+    unsigned char allowed;
+    unsigned short depth;
 
-  unsigned int uStack_34;
-  unsigned int uStack_30;
-  unsigned int uStack_2c;
-  
-  stack_pair_3c.first = 0;
-  stack_pair_3c.second = 0;
-  uStack_34 = 0;
-  uStack_30 = 0;
-  uStack_2c = 0;
-  piStack_50 = param_1;
-  iStack_48 = param_2;
-  uStack_44 = param_3;
-  uStack_40 = param_4;
-  piStack_4c = (int *)(**(int (***)())(*param_1 + 0x24))(param_1,param_2,&stack_pair_3c.first);
-  if ((*(unsigned char *)(piStack_4c[0x1d] + 0x66) & 0x10) != 0) {
-    piStack_4c = *(int **)(param_2 + 0x18);
-  }
-  uVar1 = *(unsigned short *)(piStack_4c + 0x31);
-  *(unsigned short *)(piStack_4c + 0x31) = uVar1 + 1;
-  if (uVar1 < 0xff) {
-    fn_826C43B0(&piStack_50);
-    fn_826B55A0(param_1[0xe],piStack_4c,param_1[0x12],param_1[0x13],
-                      *(unsigned int *)(param_2 + 4),param_1 + 0xf,
-                      *(unsigned char *)((int)param_1 + 0x66));
-    fn_826C4E78(&piStack_50);
-  }
-  else {
-    cVar2 = (**(int (***)())(*piStack_4c + 4))();
-    if (cVar2 != '\0') {
-      fn_826ADE60(piStack_4c,0xffffffff8200b9a8);
+    frame.first = first;
+    frame.self = self;
+    frame.input = input;
+    frame.second = second;
+    frame.temp[0] = 0;
+    frame.temp[1] = 0;
+    frame.temp[2] = 0;
+    frame.temp[3] = 0;
+    frame.temp[4] = 0;
+    frame.target = self->vt->resolve(self, input, frame.temp);
+    if (frame.target->owner->flags & 0x10)
+        frame.target = input->alternate;
+    depth = frame.target->depth++;
+    allowed = 0;
+    if (depth < 0xff)
+        allowed = 1;
+
+    if (!allowed) {
+        if (frame.target->vt->canReport(frame.target))
+            fn_826ADE60(frame.target, "Error: Stack overflow, max level of 255 nested calls is reached.\n");
+    } else {
+        fn_826C43B0((int *)&frame);
+        fn_826B55A0(self->context, frame.target, self->first, self->second, input->index, self->data,
+                    self->flags);
+        fn_826C4E78((int *)&frame);
     }
-  }
-  *(short *)(piStack_4c + 0x31) = *(short *)(piStack_4c + 0x31) + -1;
-  fn_826C36F0(&piStack_50);
-  return;
+    --frame.target->depth;
+    fn_826C36F0((int)&frame);
 }
-

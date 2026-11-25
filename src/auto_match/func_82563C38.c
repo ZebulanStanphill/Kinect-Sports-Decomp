@@ -1,66 +1,55 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern unsigned int *auStack_30;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_80;
-extern int fn_82CE6010();
-extern unsigned int lbl_821962C0;
-extern unsigned int ltcg_pool_0_0f;
-extern V16 vectorConditionalSelect();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float components[4];
+} __vector4;
 
+typedef struct Query_82563C38 {
+    char pad[0x30];
+    __vector4 defaults;
+} Query_82563C38;
 
-void fn_82563C38(int param_1,int param_2,int param_3)
+typedef struct Pair_82563C38 {
+    __vector4 first;
+    __vector4 second;
+} Pair_82563C38;
 
+typedef struct Shape_82563C38 Shape_82563C38;
+
+typedef struct VTable_82563C38 {
+    void *slots[7];
+    void (*bounds)(Shape_82563C38 *, Query_82563C38 *, float, Pair_82563C38 *);
+} VTable_82563C38;
+
+struct Shape_82563C38 {
+    const VTable_82563C38 *vtable;
+};
+
+typedef struct Object_82563C38 {
+    char pad[0x10];
+    Shape_82563C38 *shape;
+} Object_82563C38;
+
+extern const __vector4 lbl_821962C0;
+extern const __vector4 lbl_82196750;
+extern void fn_82CE6010(Query_82563C38 *, const __vector4 *);
+__vector4 __VMXGetReg(unsigned int);
+__vector4 __vsel(__vector4, __vector4, __vector4);
+
+void fn_82563C38(Object_82563C38 *self, __vector4 *first, __vector4 *second)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int in_r0;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs41 [16];
-  unsigned char in_vs42 [16];
-  unsigned char in_vs43 [16];
-  unsigned char in_vs44 [16];
-  unsigned char in_vs45 [16];
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int in_register_00010430;
-  unsigned int in_register_00010434;
-  unsigned int in_register_00010438;
-  unsigned int in_vr67;
-  unsigned char auStack_80 [32];
-  unsigned char auStack_60 [48];
-  unsigned char auStack_30 [48];
-  
-  puVar1 = (unsigned int *)((unsigned int)(&lbl_821962C0 + in_r0) & 0xfffffff0);
-  uVar3 = puVar1[1];
-  uVar4 = puVar1[2];
-  uVar5 = puVar1[3];
-  puVar2 = (unsigned int *)((unsigned int)(auStack_30 + in_r0) & 0xfffffff0);
-  *puVar2 = *puVar1;
-  puVar2[1] = uVar3;
-  puVar2[2] = uVar4;
-  puVar2[3] = uVar5;
-  fn_82CE6010(auStack_60,0xffffffff82196750);
-  (**(int (***)())(**(int **)(param_1 + 0x10) + 0x1c))
-            ((double)ltcg_pool_0_0f,*(int **)(param_1 + 0x10),auStack_60);
-  puVar1 = (unsigned int *)((unsigned int)(auStack_80 + in_r0) & 0xfffffff0);
-  uVar3 = *puVar1;
-  uVar4 = puVar1[1];
-  uVar5 = puVar1[2];
-  uVar6 = puVar1[3];
-  vectorConditionalSelect(in_vs32,in_vs45,in_vs42);
-  vectorConditionalSelect(in_vs44,in_vs43,in_vs41);
-  puVar1 = (unsigned int *)(in_r0 + param_2 & 0xfffffff0);
-  *puVar1 = in_register_00010430;
-  puVar1[1] = in_register_00010434;
-  puVar1[2] = in_register_00010438;
-  puVar1[3] = in_vr67;
-  puVar1 = (unsigned int *)(in_r0 + param_3 & 0xfffffff0);
-  *puVar1 = uVar3;
-  puVar1[1] = uVar4;
-  puVar1[2] = uVar5;
-  puVar1[3] = uVar6;
-  return;
-}
+    Pair_82563C38 box;
+    Query_82563C38 query;
+    __vector4 zeroFirst;
+    __vector4 zeroSecond;
+    __vector4 maskFirst;
+    __vector4 maskSecond;
 
+    query.defaults = lbl_821962C0;
+    fn_82CE6010(&query, &lbl_82196750);
+    self->shape->vtable->bounds(self->shape, &query, 0.0f, &box);
+    zeroFirst = __VMXGetReg(77);
+    maskFirst = __VMXGetReg(67);
+    maskSecond = __VMXGetReg(67);
+    zeroSecond = __VMXGetReg(77);
+    *first = __vsel(box.first, zeroFirst, maskFirst);
+    *second = __vsel(box.second, zeroSecond, maskSecond);
+}

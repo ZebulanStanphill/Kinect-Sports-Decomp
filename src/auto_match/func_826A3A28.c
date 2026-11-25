@@ -1,52 +1,63 @@
-extern int fn_8267B890();
-extern int fn_82695FA0();
-extern int fn_826972E0();
-extern int fn_826A18A8();
-extern int fn_826A1A28();
-extern int fn_826A2CB0();
-extern int fn_826C1BA0();
+typedef struct Value_826A3A28 {
+    unsigned char type;
+} Value_826A3A28;
 
+typedef struct Array_826A3A28 {
+    char pad[0x24];
+    Value_826A3A28 **items;
+    int count;
+} Array_826A3A28;
 
-unsigned __int64
-fn_826A3A28(int param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4,unsigned __int64 param_5)
+typedef struct Runtime_826A3A28 {
+    char pad[0x250];
+    char lengthKey[0x38];
+    void *heap;
+} Runtime_826A3A28;
 
+typedef struct Context_826A3A28 {
+    char pad[0x78];
+    Runtime_826A3A28 *runtime;
+    unsigned char version;
+} Context_826A3A28;
+
+extern void *fn_8267B890(void *heap, unsigned int bytes, const int *tag);
+extern void fn_82695FA0(Value_826A3A28 *dst, const Value_826A3A28 *src);
+extern double fn_826972E0(const Value_826A3A28 *value, void *context);
+extern unsigned char fn_826A18A8(const void *key, const void *name, unsigned char sensitive);
+extern int fn_826A1A28(const void *name);
+extern void fn_826A2CB0(void *owner, int count);
+extern unsigned char fn_826C1BA0(Array_826A3A28 *self, Context_826A3A28 *ctx, const void *name,
+                                 const Value_826A3A28 *value, void *attributes);
+
+unsigned char fn_826A3A28(Array_826A3A28 *self, Context_826A3A28 *ctx, const void *name,
+                          const Value_826A3A28 *value, void *attributes)
 {
-  int iVar1;
-  char cVar5;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  unsigned char *puVar4;
-  double dVar6;
-  
-  cVar5 = fn_826A18A8((unsigned __int64)*(unsigned int *)(param_2 + 0x78) + 0x250,param_3,
-                        -(6 < *(unsigned char *)(param_2 + 0x7c)) & 1);
-  if (cVar5 == '\0') {
-    uVar3 = fn_826A1A28(param_3);
-    if (-1 < (__int64)uVar3) {
-      if (*(int *)(param_1 + 0x28) <= (int)uVar3) {
-        fn_826A2CB0(param_1 + -0x10,uVar3 + 1);
-      }
-      iVar1 = (int)((uVar3 & 0x3fffffff) << 2);
-      if (*(int *)(iVar1 + *(int *)(param_1 + 0x24)) == 0) {
-        puVar4 = (unsigned char *)
-                 fn_8267B890(*(unsigned int *)(*(int *)(param_2 + 0x78) + 0x288),0x10,0);
-        if (puVar4 == (unsigned char *)0x0) {
-          puVar4 = (unsigned char *)0x0;
+    if (fn_826A18A8(ctx->runtime->lengthKey, name, ctx->version > 6)) {
+        int count = (int)fn_826972E0(value, 0);
+        fn_826A2CB0((char *)self - 0x10, count & (((unsigned int)count >> 31) - 1));
+        return fn_826C1BA0(self, ctx, name, value, attributes);
+    } else {
+        int index = fn_826A1A28(name);
+        if (index >= 0) {
+            int offset;
+            if (index >= self->count) {
+                fn_826A2CB0((char *)self - 0x10, index + 1);
+            }
+            offset = index * sizeof(*self->items);
+            if (*(Value_826A3A28 **)(offset + (char *)self->items) == 0) {
+                Value_826A3A28 *storage = fn_8267B890(ctx->runtime->heap, 0x10, 0);
+                Value_826A3A28 *item;
+                if (storage != 0) {
+                    item = storage;
+                    storage->type = 0;
+                } else {
+                    item = 0;
+                }
+                *(Value_826A3A28 **)(offset + (char *)self->items) = item;
+            }
+            fn_82695FA0(*(Value_826A3A28 **)(offset + (char *)self->items), value);
+            return 1;
         }
-        else {
-          *puVar4 = 0;
-        }
-        *(unsigned char **)(iVar1 + *(int *)(param_1 + 0x24)) = puVar4;
-      }
-      fn_82695FA0(*(unsigned int *)(iVar1 + *(int *)(param_1 + 0x24)),param_4);
-      return 1;
+        return fn_826C1BA0(self, ctx, name, value, attributes);
     }
-  }
-  else {
-    dVar6 = (double)fn_826972E0(param_4,0);
-    fn_826A2CB0(param_1 + -0x10,0xffffffffU - ((int)dVar6 >> 0x1f) & (int)dVar6);
-  }
-  uVar2 = fn_826C1BA0(param_1,param_2,param_3,param_4,param_5);
-  return uVar2;
 }
-

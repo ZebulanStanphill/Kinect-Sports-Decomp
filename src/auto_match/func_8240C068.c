@@ -1,75 +1,99 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_8240BCE8();
+typedef struct Selection_8240C068 Selection_8240C068;
+
+typedef struct SelectionVtable_8240C068 {
+    void *pad0;
+    int (*first)(Selection_8240C068 *);
+    int (*second)(Selection_8240C068 *);
+} SelectionVtable_8240C068;
+
+struct Selection_8240C068 {
+    SelectionVtable_8240C068 *vtable;
+    int reserved;
+    int count;
+};
+
+typedef struct Detector_8240C068 Detector_8240C068;
+
+typedef struct DetectorVtable_8240C068 {
+    void *pad0[15];
+    unsigned char (*test)(Detector_8240C068 *);
+} DetectorVtable_8240C068;
+
+struct Detector_8240C068 {
+    DetectorVtable_8240C068 *vtable;
+};
+
+typedef struct Source_8240C068 Source_8240C068;
+
+typedef struct SourceVtable_8240C068 {
+    void *pad0;
+    struct State_8240C068 *(*get)(Source_8240C068 *);
+} SourceVtable_8240C068;
+
+struct Source_8240C068 {
+    SourceVtable_8240C068 *vtable;
+};
+
+typedef struct State_8240C068 {
+    char pad0[0x2e0];
+    Detector_8240C068 detector;
+} State_8240C068;
+
+typedef struct Owner_8240C068 {
+    char pad0[0x84];
+    Source_8240C068 *source;
+} Owner_8240C068;
+
+typedef struct Player_8240C068 {
+    int unused;
+    Owner_8240C068 *owner;
+    char pad8[0x3c];
+    Selection_8240C068 selection;
+    char pad50[0x14];
+    int previous;
+} Player_8240C068;
+
+extern void fn_8240BCE8(Player_8240C068 *, int, int, int);
 extern unsigned int lbl_83265A28;
 
-
-void fn_8240C068(int param_1)
-
+void fn_8240C068(Player_8240C068 *self)
 {
-  int (**pcVar1)();
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  int iVar4;
-  char cVar5;
-  unsigned __int64 uVar6;
-  __int64 lVar7;
-  int *piVar8;
-  bool bVar9;
-  
-  iVar4 = *(int *)(param_1 + 0x4c);
-  if (*(int *)(param_1 + 100) < iVar4) {
-    uVar2 = (**(int (***)())(*(int *)(param_1 + 0x44) + 8))(param_1 + 0x44);
-    pcVar1 = *(int (***)())(*(int *)(param_1 + 0x44) + 4);
-  }
-  else {
-    if (*(int *)(param_1 + 100) <= iVar4) {
-      if (iVar4 < 1) {
-        uVar2 = 0;
-        uVar3 = 0;
-        uVar6 = 5;
-        goto LAB_8240c1dc;
-      }
-      piVar8 = *(int **)(*(int *)(param_1 + 4) + 0x84);
-      if (piVar8 == (int *)0x0) {
-        lVar7 = (__int64)lbl_83265A28 * 0x19660d + 0x3c6ef35f;
-        lbl_83265A28 = (int)lVar7;
-        if (lVar7 < 1) {
-          bVar9 = false;
-          goto LAB_8240c16c;
-        }
-        bVar9 = true;
-LAB_8240c174:
-        pcVar1 = *(int (***)())(*(int *)(param_1 + 0x44) + 8);
-      }
-      else {
-        iVar4 = (**(int (***)())(*piVar8 + 4))();
-        cVar5 = (**(int (***)())(*(int *)(iVar4 + 0x2e0) + 0x3c))();
-        bVar9 = cVar5 != '\0';
-LAB_8240c16c:
-        if (bVar9) goto LAB_8240c174;
-        pcVar1 = *(int (***)())(*(int *)(param_1 + 0x44) + 4);
-      }
-      piVar8 = (int *)(param_1 + 0x44);
-      uVar2 = (*pcVar1)(piVar8);
-      if (bVar9) {
-        pcVar1 = *(int (***)())(*piVar8 + 4);
-      }
-      else {
-        pcVar1 = *(int (***)())(*piVar8 + 8);
-      }
-      uVar3 = (*pcVar1)(piVar8);
-      uVar6 = 1;
-      goto LAB_8240c1dc;
-    }
-    uVar2 = (**(int (***)())(*(int *)(param_1 + 0x44) + 4))(param_1 + 0x44);
-    pcVar1 = *(int (***)())(*(int *)(param_1 + 0x44) + 8);
-  }
-  uVar3 = (*pcVar1)(param_1 + 0x44);
-  uVar6 = 1;
-LAB_8240c1dc:
-  fn_8240BCE8(param_1,uVar6,uVar3,uVar2);
-  return;
-}
+    int count = self->selection.count;
+    Selection_8240C068 *selection;
+    int first;
+    int second;
+    int (*choose)(Selection_8240C068 *);
 
+    if (count > self->previous) {
+        selection = &self->selection;
+        first = selection->vtable->second(selection);
+        fn_8240BCE8(self, 1, selection->vtable->first(selection), first);
+        return;
+    } else if (count < self->previous) {
+        selection = &self->selection;
+        first = selection->vtable->first(selection);
+        fn_8240BCE8(self, 1, selection->vtable->second(selection), first);
+        return;
+    } else if (count > 0) {
+        Source_8240C068 *source = self->owner->source;
+        int preferSecond;
+        if (source != 0) {
+            Detector_8240C068 *detector = &source->vtable->get(source)->detector;
+            preferSecond = detector->vtable->test(detector) != 0;
+        } else {
+            lbl_83265A28 = lbl_83265A28 * 1664525u + 1013904223u;
+            preferSecond = (int)lbl_83265A28 > 0;
+        }
+
+        choose = preferSecond ? self->selection.vtable->second : self->selection.vtable->first;
+        selection = &self->selection;
+        first = choose(selection);
+        if (preferSecond)
+            second = selection->vtable->first(selection);
+        else
+            second = selection->vtable->second(selection);
+        fn_8240BCE8(self, 1, second, first);
+    } else {
+        fn_8240BCE8(self, 5, 0, 0);
+    }
+}

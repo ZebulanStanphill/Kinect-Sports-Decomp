@@ -1,101 +1,67 @@
-extern unsigned int *auStack_80;
-extern unsigned int *auStack_90;
-extern unsigned int *auStack_d0;
-extern int fn_827EA708();
-extern int fn_827EF590();
-extern int fn_827EF608();
-extern int fn_8280A5E8();
-extern int fn_82810328();
-extern int fn_828106A0();
-extern unsigned int lbl_82002AE0;
-extern unsigned int uStack_100;
-extern unsigned int uStack_98;
-extern unsigned int uStack_9c;
-extern unsigned int uStack_a0;
-extern unsigned int uStack_a8;
-extern unsigned int uStack_ac;
-extern unsigned int uStack_b0;
-extern unsigned int uStack_b8;
-extern unsigned int uStack_bc;
-extern unsigned int uStack_c0;
-extern unsigned int uStack_d8;
-extern unsigned int uStack_dc;
-extern unsigned int uStack_e0;
-extern unsigned int uStack_e8;
-extern unsigned int uStack_ec;
-extern unsigned int uStack_f0;
-extern unsigned int uStack_f8;
-extern unsigned int uStack_fc;
+typedef struct Point_827EA918 {
+    float x;
+    float y;
+    float z;
+} Point_827EA918;
 
+typedef struct Transform_827EA918 {
+    char data[0x100 - 0xf0];
+} Transform_827EA918;
 
-unsigned __int64
-fn_827EA918(unsigned __int64 param_1,unsigned __int64 param_2,float *param_3,unsigned __int64 param_4,
-             unsigned int *param_5,unsigned int *param_6,unsigned int *param_7,unsigned int *param_8,
-             unsigned int *param_9)
+typedef struct Matrix_827EA918 {
+    char data[0x10];
+} Matrix_827EA918;
 
+extern int fn_8280A5E8(float);
+extern void fn_82810328(const void *, const void *, void *);
+extern void fn_827EF590(const Point_827EA918 *, void *);
+extern void fn_827EF608(const void *, const void *, void *);
+extern void fn_828106A0(void *);
+extern int fn_827EA708(void *, float, void *, void *, void *, void *, void *, void *, void *, void *, float,
+                       void *, void *);
+
+int fn_827EA918(void *origin, const Point_827EA918 *angles, void *reference, const Point_827EA918 *a,
+                const Point_827EA918 *b, const Point_827EA918 *c, const Point_827EA918 *d,
+                const Point_827EA918 *e, const Point_827EA918 *f, void *otherOrigin, float scale,
+                void *resultA, void *resultB)
 {
-  int iVar2;
-  unsigned __int64 uVar1;
-  unsigned int *in_stack_00000054;
-  unsigned int in_stack_0000005c;
-  struct { unsigned int first; unsigned int second; } stack_pair_100;
+    struct {
+        Point_827EA918 c;
+        int pad8c;
+        Point_827EA918 b;
+        int pad9c;
+        Point_827EA918 a;
+        int padac;
+        Transform_827EA918 rotation;
+        Point_827EA918 f;
+        int padcc;
+        Point_827EA918 e;
+        int paddc;
+        Point_827EA918 d;
+        int padec;
+        Transform_827EA918 transformed;
+        Matrix_827EA918 matrix;
+    } local;
 
-  unsigned int uStack_f8;
-  struct { unsigned int first; unsigned int second; } stack_pair_f0;
-
-  unsigned int uStack_e8;
-  unsigned int uStack_e0;
-  unsigned int uStack_dc;
-  unsigned int uStack_d8;
-  unsigned char auStack_d0 [16];
-  struct { unsigned int first; unsigned int second; } stack_pair_c0;
-
-  unsigned int uStack_b8;
-  unsigned int uStack_b0;
-  unsigned int uStack_ac;
-  unsigned int uStack_a8;
-  unsigned int uStack_a0;
-  unsigned int uStack_9c;
-  unsigned int uStack_98;
-  unsigned char auStack_90 [16];
-  unsigned char auStack_80 [128];
-
-  uStack_dc = param_5[1];
-  uStack_e0 = *param_5;
-  stack_pair_f0.first = *param_6;
-  stack_pair_f0.second = param_6[1];
-  stack_pair_100.first = *param_7;
-  stack_pair_100.second = param_7[1];
-  uStack_a0 = *param_8;
-  uStack_9c = param_8[1];
-  uStack_b0 = *param_9;
-  uStack_ac = param_9[1];
-  stack_pair_c0.first = *in_stack_00000054;
-  stack_pair_c0.second = in_stack_00000054[1];
-  uStack_d8 = param_5[2];
-  uStack_e8 = param_6[2];
-  uStack_f8 = param_7[2];
-  uStack_98 = param_8[2];
-  uStack_a8 = param_9[2];
-  uStack_b8 = in_stack_00000054[2];
-  iVar2 = fn_8280A5E8((double)*param_3);
-  if (((iVar2 == 0) && (iVar2 = fn_8280A5E8((double)param_3[1]), iVar2 == 0)) &&
-     (iVar2 = fn_8280A5E8((double)param_3[2]), iVar2 == 0)) {
-    fn_82810328(param_4,in_stack_0000005c,auStack_90);
-    fn_82810328(&uStack_e0,param_2,&uStack_e0);
-    fn_82810328(&stack_pair_f0.first,param_2,&stack_pair_f0.first);
-    fn_82810328(&stack_pair_100.first,param_2,&stack_pair_100.first);
-    fn_827EF590(param_3,auStack_d0);
-    fn_827EF608(auStack_d0,auStack_90,auStack_90);
-    fn_827EF608(auStack_d0,&uStack_e0,&uStack_e0);
-    fn_827EF608(auStack_d0,&stack_pair_f0.first,&stack_pair_f0.first);
-    fn_827EF608(auStack_d0,&stack_pair_100.first,&stack_pair_100.first);
-    fn_828106A0(auStack_80);
-    uVar1 = fn_827EA708((double)lbl_82002AE0,param_1,auStack_80,&stack_pair_c0.first,auStack_90,&uStack_e0,
-                          &stack_pair_f0.first,&stack_pair_100.first,&uStack_a0,&uStack_b0);
-  }
-  else {
-    uVar1 = 0;
-  }
-  return uVar1;
+    local.a = *a;
+    local.b = *b;
+    local.c = *c;
+    local.d = *d;
+    local.e = *e;
+    local.f = *f;
+    if (fn_8280A5E8(angles->x) == 0 && fn_8280A5E8(angles->y) == 0 && fn_8280A5E8(angles->z) == 0) {
+        fn_82810328(reference, otherOrigin, &local.transformed);
+        fn_82810328(&local.a, origin, &local.a);
+        fn_82810328(&local.b, origin, &local.b);
+        fn_82810328(&local.c, origin, &local.c);
+        fn_827EF590(angles, &local.rotation);
+        fn_827EF608(&local.rotation, &local.transformed, &local.transformed);
+        fn_827EF608(&local.rotation, &local.a, &local.a);
+        fn_827EF608(&local.rotation, &local.b, &local.b);
+        fn_827EF608(&local.rotation, &local.c, &local.c);
+        fn_828106A0(&local.matrix);
+        return fn_827EA708(&local.matrix, 1.0f, &local.transformed, &local.a, &local.b, &local.c, &local.d,
+                           &local.e, &local.f, &local.matrix, scale, resultA, resultB);
+    }
+    return 0;
 }

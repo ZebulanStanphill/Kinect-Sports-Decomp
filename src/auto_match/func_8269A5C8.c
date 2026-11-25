@@ -1,10 +1,14 @@
-void fn_8269A5C8(double param_1,double param_2,int param_3,unsigned __int64 param_4,unsigned __int64 param_5,
-                  char param_6)
+typedef struct Object_8269A5C8 {
+    char pad0[0x5C];
+    float x; /* 0x5C */
+    float y; /* 0x60 */
+    char pad64[0x2];
+    unsigned char flags; /* 0x66 */
+} Object_8269A5C8;
 
+void fn_8269A5C8(Object_8269A5C8 *self, float x, float y, unsigned char flag)
 {
-  *(float *)(param_3 + 0x5c) = (float)param_1;
-  *(float *)(param_3 + 0x60) = (float)param_2;
-  *(unsigned char *)(param_3 + 0x66) = *(unsigned char *)(param_3 + 0x66) & 0xf3 | (-(param_6 != '\0') & 4U) + 4;
-  return;
+    self->x = x;
+    self->y = y;
+    self->flags = (self->flags & 0xF3) | (flag ? 8 : 4);
 }
-

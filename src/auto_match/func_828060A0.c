@@ -1,42 +1,47 @@
-void fn_828060A0(int param_1,int param_2,int *param_3,unsigned char *param_4,int *param_5,unsigned int param_6)
+typedef struct Track_828060A0 {
+    int pad00;
+    float *scales; /* 0x04 */
+    char pad08[0x16];
+    unsigned short count; /* 0x1e */
+} Track_828060A0;
 
+typedef struct Stream_828060A0 {
+    char pad00[0x24];
+    unsigned char *masks; /* 0x24 */
+    short *bases;         /* 0x28 */
+    int pad2C;
+    unsigned char *widths; /* 0x30 */
+} Stream_828060A0;
+
+void fn_828060A0(Track_828060A0 *track, Stream_828060A0 *stream, float **out, unsigned char *bit,
+                 unsigned int **words, unsigned int index)
 {
-  unsigned char bVar1;
-  short sVar2;
-  int iVar3;
-  unsigned char bVar4;
-  unsigned __int64 uVar5;
-  
-  uVar5 = 0x80;
-  iVar3 = param_6 << 2;
-  bVar1 = **(unsigned char **)(param_2 + 0x24);
-  do {
-    if (*(unsigned short *)(param_1 + 0x1e) <= param_6) {
-      return;
-    }
-    if ((uVar5 & bVar1) != 0) {
-      if ((uVar5 >> 3 & (unsigned __int64)bVar1) == 0) {
-        sVar2 = **(short **)(param_2 + 0x28);
-        *(short **)(param_2 + 0x28) = *(short **)(param_2 + 0x28) + 1;
-        bVar4 = **(unsigned char **)(param_2 + 0x30);
-        *(unsigned char **)(param_2 + 0x30) = *(unsigned char **)(param_2 + 0x30) + 1;
-        *(float *)*param_3 =
-             ((float)(((((unsigned int *)*param_5)[1] << 1) << (0x1f - *param_4 & 0x3f) |
-                      *(unsigned int *)*param_5 >> (*param_4 & 0x3f)) & (1 << (bVar4 & 0x3f)) - 1U) +
-             (float)(__int64)sVar2) * *(float *)(*(int *)(param_1 + 4) + iVar3);
-        bVar4 = *param_4 + bVar4;
-        *param_4 = bVar4 & 0x1f;
-        *param_5 = (bVar4 >> 3 & 0x1ffffffc) + *param_5;
-      }
-      else {
-        *(int *)(param_2 + 0x28) = *(int *)(param_2 + 0x28) + 2;
-      }
-    }
-    uVar5 = uVar5 >> 1;
-    param_6 = param_6 + 1;
-    iVar3 = iVar3 + 4;
-    *param_3 = *param_3 + 4;
-  } while (uVar5 != 0x10);
-  return;
-}
+    unsigned int mask = *stream->masks;
+    unsigned int flag = 0x80;
 
+    do {
+        if (index >= track->count) {
+            return;
+        }
+        if ((flag & mask) != 0) {
+            if (((flag >> 3) & mask) != 0) {
+                stream->bases++;
+            } else {
+                short base = *stream->bases++;
+                unsigned char width = *stream->widths++;
+                unsigned int *w = *words;
+                unsigned char b = *bit;
+                unsigned int t;
+                **out =
+                    ((float)((((w[1] << 1) << (31 - b)) | (w[0] >> b)) & ((1 << width) - 1)) + (float)base) *
+                    track->scales[index];
+                t = (unsigned char)(*bit + width);
+                *bit = t & 0x1f;
+                *words += t >> 5;
+            }
+        }
+        flag >>= 1;
+        index++;
+        (*out)++;
+    } while (flag != 0x10);
+}

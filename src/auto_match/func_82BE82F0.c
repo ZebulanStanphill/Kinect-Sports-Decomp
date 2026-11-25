@@ -1,58 +1,65 @@
-extern unsigned int *auStack_50;
-extern int fn_82BE5240();
-extern int fn_82BE5B38();
-extern int fn_82BE6638();
-extern int fn_82BE7908();
-extern int fn_82BE79F0();
-extern int fn_82BE7A68();
-extern int fn_82BE7AE0();
-extern int fn_82BEE7D0();
-extern int fn_82BF2BE0();
-extern unsigned int iStack_60;
-extern unsigned int lbl_83175240;
-extern unsigned int lbl_83175244;
+typedef struct Server_82BE82F0 {
+    char pad0[0x14];
+    unsigned int flags; /* 0x14 */
+} Server_82BE82F0;
 
+typedef struct InAddr_82BE82F0 {
+    unsigned int value;
+} InAddr_82BE82F0;
 
-unsigned __int64 fn_82BE82F0(int param_1)
+typedef struct Connection_82BE82F0 {
+    char pad0[0x80];
+    Server_82BE82F0 *server; /* 0x80 */
+    char pad84[0x18];
+    int connected;   /* 0x9c */
+    char session[4]; /* 0xa0 */
+} Connection_82BE82F0;
 
+extern int lbl_83175240;
+extern int lbl_83175244;
+extern char lbl_82196582[];
+
+extern int fn_82BE5B38(Server_82BE82F0 *server);
+extern int fn_82BE7908(int index, unsigned int *address);
+extern void fn_82BE6638(Server_82BE82F0 *server, int reason);
+extern int fn_82BE79F0(Server_82BE82F0 *server);
+extern char *fn_82BEE7D0(int family, InAddr_82BE82F0 *address, char *buffer, int size);
+extern const char *fn_82BE7A68(int index);
+extern int fn_82BF2BE0(void *session, const char *name, unsigned int address, int port, int a, int b,
+                       int secure);
+extern void fn_82BE7AE0(Connection_82BE82F0 *self);
+extern int fn_82BE5240(Connection_82BE82F0 *self, int code, char *message);
+
+int fn_82BE82F0(Connection_82BE82F0 *self)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  int iVar6;
-  int iStack_60;
-  int aiStack_5c [3];
-  unsigned char auStack_50 [80];
-  
-  uVar4 = fn_82BE5B38(*(unsigned int *)(param_1 + 0x80));
-  uVar5 = fn_82BE7908(uVar4,&iStack_60);
-  if ((int)uVar5 != 0) {
-    if (iStack_60 == 0) {
-      fn_82BE6638(*(unsigned int *)(param_1 + 0x80),2);
-      *(unsigned int *)(param_1 + 0x80) = 0;
-      uVar4 = 0x321;
-    }
-    else {
-      uVar5 = fn_82BE79F0(*(unsigned int *)(param_1 + 0x80));
-      aiStack_5c[0] = iStack_60;
-      fn_82BEE7D0(2,aiStack_5c,auStack_50,0x10);
-      uVar3 = lbl_83175244;
-      uVar2 = lbl_83175240;
-      uVar1 = *(unsigned int *)(*(int *)(param_1 + 0x80) + 0x14);
-      uVar4 = fn_82BE7A68(uVar4);
-      iVar6 = fn_82BF2BE0(param_1 + 0xa0,uVar4,iStack_60,uVar5,uVar3,uVar2,
-                              (uVar1 & 0xf000) == 0x1000);
-      if (iVar6 != 0) {
-        *(unsigned int *)(param_1 + 0x9c) = 1;
-        return 0;
-      }
-      fn_82BE7AE0(param_1);
-      uVar4 = 800;
-    }
-    uVar5 = fn_82BE5240(param_1,uVar4,0xffffffff82196582);
-  }
-  return uVar5;
-}
+    int index;
+    int result;
+    int port;
+    unsigned int address;
+    unsigned int ip;
+    InAddr_82BE82F0 in;
+    char text[16];
 
+    index = fn_82BE5B38(self->server);
+    result = fn_82BE7908(index, &address);
+    if (result != 0) {
+        ip = address;
+        if (ip == 0) {
+            fn_82BE6638(self->server, 2);
+            self->server = 0;
+            result = fn_82BE5240(self, 0x321, lbl_82196582);
+        } else {
+            port = fn_82BE79F0(self->server);
+            in.value = ip;
+            fn_82BEE7D0(2, &in, text, 0x10);
+            if (fn_82BF2BE0(self->session, fn_82BE7A68(index), ip, port, lbl_83175244, lbl_83175240,
+                            (self->server->flags & 0xf000) == 0x1000) != 0) {
+                self->connected = 1;
+                return 0;
+            }
+            fn_82BE7AE0(self);
+            result = fn_82BE5240(self, 800, lbl_82196582);
+        }
+    }
+    return result;
+}

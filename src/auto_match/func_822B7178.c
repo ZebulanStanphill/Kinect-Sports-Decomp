@@ -1,39 +1,62 @@
-extern int fn_822B70F0();
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Audio_822B7178 Audio_822B7178;
 
+typedef struct AudioVtable_822B7178 {
+    void *pad0[30];
+    void (*fade)(Audio_822B7178 *, int, float, int);
+    void (*reset)(Audio_822B7178 *, float, int);
+} AudioVtable_822B7178;
 
-void fn_822B7178(double param_1,int param_2,unsigned __int64 param_3)
+struct Audio_822B7178 {
+    AudioVtable_822B7178 *vtable;
+};
 
+typedef struct Channel_822B7178 {
+    char pad0[0x1d0];
+
+    struct {
+        char pad0[0x10];
+        unsigned int flags;
+    } playback;
+
+    char pad1e4[0x8c0 - 0x1e4];
+    Audio_822B7178 *audio;
+} Channel_822B7178;
+
+typedef struct Player_822B7178 {
+    char pad0[0x14];
+    Channel_822B7178 *channel;
+    char pad18[0x124 - 0x18];
+    int muted;
+    char pad128[4];
+    int overrideVolume;
+    char pad130[8];
+    int fading;
+} Player_822B7178;
+
+extern void fn_822B70F0(Player_822B7178 *, float, int);
+extern const float lbl_821CA45C[2];
+extern const float ltcg_pool_0_0f;
+
+void fn_822B7178(Player_822B7178 *self, float volume)
 {
-  int *piVar1;
-  int iVar2;
-  double dVar3;
-  
-  if (*(int *)(param_2 + 300) == 0) {
-    fn_822B70F0(param_1,param_2,param_3,0);
-  }
-  else {
-    piVar1 = *(int **)(*(int *)(param_2 + 0x14) + 0x8c0);
-    if (piVar1 != (int *)0x0) {
-      (**(int (***)())(*piVar1 + 0x7c))(piVar1,param_3,0);
+    if (self->overrideVolume != 0) {
+        Audio_822B7178 *audio = self->channel->audio;
+        if (audio != 0)
+            audio->vtable->reset(audio, volume, 0);
+        if (volume < lbl_821CA45C[1]) {
+            float zero = 0.0f;
+            self->channel->playback.flags |= 0x20;
+            self->channel->playback.flags |= 8;
+            self->fading = 1;
+            self->muted = 0;
+            audio->vtable->fade(audio, 0, zero, 0);
+        } else {
+            void *playback = &self->channel->playback;
+            ((unsigned int *)playback)[4] &= ~0x20u;
+            self->channel->playback.flags &= ~8u;
+            self->fading = 0;
+        }
+    } else {
+        fn_822B70F0(self, volume, 0);
     }
-    iVar2 = *(int *)(param_2 + 0x14);
-    if ((double)lbl_821CA460 <= param_1) {
-      *(unsigned int *)(iVar2 + 0x1e0) = *(unsigned int *)(iVar2 + 0x1e0) & 0xffffffdf;
-      *(unsigned int *)(*(int *)(param_2 + 0x14) + 0x1e0) =
-           *(unsigned int *)(*(int *)(param_2 + 0x14) + 0x1e0) & 0xfffffff7;
-      *(unsigned int *)(param_2 + 0x138) = 0;
-    }
-    else {
-      *(unsigned int *)(iVar2 + 0x1e0) = *(unsigned int *)(iVar2 + 0x1e0) | 0x20;
-      dVar3 = (double)ltcg_pool_0_0f;
-      *(unsigned int *)(*(int *)(param_2 + 0x14) + 0x1e0) = *(unsigned int *)(*(int *)(param_2 + 0x14) + 0x1e0) | 8;
-      *(unsigned int *)(param_2 + 0x138) = 1;
-      *(unsigned int *)(param_2 + 0x124) = 0;
-      (**(int (***)())(*piVar1 + 0x78))(dVar3,piVar1,0);
-    }
-  }
-  return;
 }
-

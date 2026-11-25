@@ -1,79 +1,106 @@
-extern unsigned int *auStack_38;
-extern int fn_822314E8();
-extern int fn_82488DB8();
-extern int fn_8251D060();
-extern int fn_8251D290();
-extern int fn_82596630();
-extern int fn_8265CA20();
-extern int XMemSet();
-extern unsigned int *lbl_83296188;
-extern unsigned int *lbl_8329618C;
-extern int (*lbl_832961C0)();
+typedef struct Slot_8251D0F0 {
+    int index;       /* 0x00 */
+    void *user;      /* 0x04 */
+    int field08;     /* 0x08 */
+    int field0C;     /* 0x0c */
+    int field10;     /* 0x10 */
+    int field14;     /* 0x14 */
+    int signedIn;    /* 0x18 */
+    int field1C;     /* 0x1c */
+    char name[0x10]; /* 0x20 */
+} Slot_8251D0F0;
 
+typedef Slot_8251D0F0 Profile_8251D0F0;
 
-void fn_8251D0F0(void)
+typedef struct Event_8251D0F0 {
+    int type;       /* 0x0 */
+    int size;       /* 0x4 */
+    void *previous; /* 0x8 */
+    void *current;  /* 0xc */
+} Event_8251D0F0;
 
+typedef struct ProfileManager_8251D0F0 {
+    char pad000[0x28];
+    Slot_8251D0F0 slots[4];    /* 0x028 */
+    Profile_8251D0F0 *pending; /* 0x0e8 */
+    Slot_8251D0F0 *active;     /* 0x0ec */
+    char pad0F0[0x30];
+    void (*onChange)(void *user); /* 0x120 */
+} ProfileManager_8251D0F0;
+
+extern ProfileManager_8251D0F0 lbl_832960A0;
+
+extern void fn_82488DB8(void *destination, const void *source);
+extern void fn_822314E8(void *name);
+extern void fn_8265CA20(void *memory);
+extern void fn_82596630(void *user);
+extern void fn_8251D290(ProfileManager_8251D0F0 *manager, Slot_8251D0F0 *slot);
+extern void fn_8251D060(void);
+extern void *XMemSet(void *destination, int value, unsigned int count);
+extern void fn_8257CB40(void *listeners, Event_8251D0F0 *event, int flags);
+
+static __forceinline void *ActiveUser(ProfileManager_8251D0F0 *manager)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int iVar3;
-  int iVar4;
-  unsigned int *puVar5;
-  unsigned char auStack_38 [56];
-  
-  puVar1 = lbl_83296188;
-  iVar3 = 0;
-  puVar5 = (unsigned int *)0x832960c8;
-  while (puVar5[1] != 0) {
-    puVar5 = puVar5 + 0xc;
-    if (-0x7cd69e79 < (int)puVar5) {
-      return;
-    }
-  }
-  puVar2 = lbl_83296188 + 8;
-  *puVar5 = *lbl_83296188;
-  puVar5[1] = puVar1[1];
-  puVar5[2] = puVar1[2];
-  puVar5[3] = puVar1[3];
-  puVar5[4] = puVar1[4];
-  puVar5[5] = puVar1[5];
-  puVar5[6] = puVar1[6];
-  puVar5[7] = puVar1[7];
-  fn_82488DB8(puVar5 + 8,puVar2);
-  puVar1 = lbl_83296188;
-  lbl_83296188 = (unsigned int *)0x0;
-  if (puVar1 != (unsigned int *)0x0) {
-    fn_822314E8(puVar1 + 8);
-    fn_8265CA20(puVar1);
-  }
-  if (puVar5[6] != 0) {
-    if (lbl_8329618C == (unsigned int *)0x0) {
-      iVar3 = 0;
-      iVar4 = 0;
-    }
-    else {
-      iVar3 = lbl_8329618C[1];
-      iVar4 = lbl_8329618C[1];
-    }
-    if (iVar4 != 0) {
-      if (lbl_832961C0 != (int (**)())0x0) {
-        (*lbl_832961C0)(iVar4);
-      }
-      fn_82596630(iVar4);
-    }
-  }
-  if (puVar5[6] != 0) {
-    lbl_8329618C = puVar5;
-  }
-  fn_8251D290(0xffffffff832960a0,puVar5);
-  if (puVar5[6] == 0) {
-    return;
-  }
-  fn_8251D060();
-  if (iVar3 == 0) {
-    return;
-  }
-                    /* WARNING: Subroutine does not return */
-  XMemSet(auStack_38,0,8);
+    return manager->active != 0 ? manager->active->user : 0;
 }
 
+void fn_8251D0F0(void)
+{
+    ProfileManager_8251D0F0 *manager = &lbl_832960A0;
+    Slot_8251D0F0 *slot;
+    Profile_8251D0F0 *profile;
+    void *previous = 0;
+    int i;
+
+    for (i = 0; 4 > i; i++) {
+        slot = &manager->slots[i];
+        if (slot->user == 0) {
+            goto found;
+        }
+    }
+    return;
+found:
+    profile = manager->pending;
+    slot->index = profile->index;
+    slot->user = profile->user;
+    slot->field08 = profile->field08;
+    slot->field0C = profile->field0C;
+    slot->field10 = profile->field10;
+    slot->field14 = profile->field14;
+    slot->signedIn = profile->signedIn;
+    slot->field1C = profile->field1C;
+    fn_82488DB8(slot->name, profile->name);
+    profile = manager->pending;
+    manager->pending = 0;
+    if (profile != 0) {
+        fn_822314E8(profile->name);
+        fn_8265CA20(profile);
+    }
+    if (slot->signedIn != 0) {
+        void *user;
+        previous = ActiveUser(manager);
+        user = ActiveUser(manager);
+        if (user != 0) {
+            if (manager->onChange != 0) {
+                manager->onChange(user);
+            }
+            fn_82596630(user);
+        }
+    }
+    if (slot->signedIn != 0) {
+        manager->active = slot;
+    }
+    fn_8251D290(manager, slot);
+    if (slot->signedIn != 0) {
+        fn_8251D060();
+        if (previous != 0) {
+            Event_8251D0F0 event;
+            XMemSet(&event.previous, 0, 8);
+            event.type = 0x54;
+            event.size = 0x10;
+            event.current = ActiveUser(manager);
+            event.previous = previous;
+            fn_8257CB40((char *)previous + 0x78, &event, 1);
+        }
+    }
+}

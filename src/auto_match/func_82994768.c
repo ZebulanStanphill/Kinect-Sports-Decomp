@@ -1,89 +1,91 @@
-extern int fn_829632A0();
-extern int fn_829632F0();
-extern int fn_82963998();
-extern int fn_829639F0();
-extern int fn_82963A30();
-extern int fn_82964628();
-extern int fn_82BA02A8();
-extern unsigned int lbl_82005710;
+typedef struct Entry_82994768 {
+    int pad0;
+    unsigned int group; /* 0x4 */
+    int pad8;
+    unsigned int index; /* 0xc */
+} Entry_82994768;
 
+typedef struct Table_82994768 {
+    char pad0[0x8];
+    int *ids; /* 0x08 */
+    int padc;
+    int *slots; /* 0x10 */
+    char pad14[0x60];
+} Table_82994768;
 
-__int64 fn_82994768(int param_1,int *param_2,unsigned __int64 param_3)
+typedef struct Owner_82994768 {
+    char pad0[0x8];
+    unsigned int entryCount; /* 0x08 */
+    char padc[0x8];
+    Entry_82994768 **entries; /* 0x14 */
+    char pad18[0x70];
+    unsigned int group; /* 0x88 */
+    char pad8c[0x78];
+    Table_82994768 *table; /* 0x104 */
+} Owner_82994768;
 
+extern int fn_82964628(Owner_82994768 *owner, unsigned int group, unsigned int index, unsigned int slot,
+                       double weight);
+extern void *fn_82963998(unsigned int size);
+extern Table_82994768 *fn_829632A0(void *mem);
+extern int fn_82963A30(Table_82994768 *table, unsigned int flags, unsigned int a, unsigned int b, int c);
+extern int fn_829632F0(Table_82994768 *table, Table_82994768 *source);
+extern void fn_82BA02A8(Table_82994768 *table);
+extern void fn_829639F0(Table_82994768 *table);
+
+static __forceinline void Release_82994768(Table_82994768 *table)
 {
-  int iVar1;
-  unsigned int uVar2;
-  int iVar4;
-  __int64 lVar3;
-  unsigned int uVar5;
-  unsigned __int64 uVar6;
-  unsigned __int64 uVar7;
-  int *piVar8;
-  unsigned __int64 uVar9;
-  int aiStack_50 [20];
-  
-  uVar7 = 0;
-  uVar5 = 0;
-  if (*(unsigned int *)(param_1 + 8) != 0) {
-    iVar4 = 0;
-    do {
-      iVar1 = *(int *)(iVar4 + *(int *)(param_1 + 0x14));
-      if ((*(int *)(param_1 + 0x88) == *(int *)(iVar1 + 4)) &&
-         (uVar6 = (unsigned __int64)*(unsigned int *)(iVar1 + 0xc), (uVar7 & 0xffffffff) <= uVar6)) {
-        uVar7 = uVar6 + 1;
-      }
-      uVar5 = uVar5 + 1;
-      iVar4 = iVar4 + 4;
-    } while (uVar5 < *(unsigned int *)(param_1 + 8));
-  }
-  uVar6 = 0;
-  piVar8 = aiStack_50;
-  uVar9 = lbl_82005710;
-  do {
-    iVar4 = fn_82964628(uVar9,param_1,*(unsigned int *)(param_1 + 0x88),uVar7,uVar6);
-    *piVar8 = iVar4;
-    if (iVar4 == -1) goto LAB_82994830;
-    uVar6 = uVar6 + 1;
-    piVar8 = piVar8 + 1;
-  } while ((uVar6 & 0xffffffff) < 4);
-  iVar4 = fn_82963998(0x74);
-  if (iVar4 == 0) {
-    uVar7 = 0;
-  }
-  else {
-    uVar7 = fn_829632A0();
-  }
-  *param_2 = (int)uVar7;
-  if ((uVar7 & 0xffffffff) == 0) {
-LAB_82994830:
-    lVar3 = -0x7ff8fff2;
-  }
-  else {
-    lVar3 = fn_82963A30(uVar7,param_3 & 0xffffffff000fffff | 0x10000000,param_3,param_3,0);
-    if ((lVar3 < 0) || (lVar3 = fn_829632F0(*param_2,*(unsigned int *)(param_1 + 0x104)), lVar3 < 0))
-    {
-      iVar4 = *param_2;
-      if (iVar4 != 0) {
-        fn_82BA02A8(iVar4);
-        fn_829639F0(iVar4);
-      }
+    if (table != 0) {
+        fn_82BA02A8(table);
+        fn_829639F0(table);
     }
-    else {
-      if ((param_3 & 0xffffffff) != 0) {
-        iVar4 = 0;
-        do {
-          uVar2 = *(unsigned int *)((int)aiStack_50 + iVar4);
-          *(unsigned int *)(*(int *)(*param_2 + 8) + iVar4) = uVar2;
-          *(unsigned int *)(*(int *)(*param_2 + 0x10) + iVar4) =
-               *(unsigned int *)(*(int *)(*(int *)(param_1 + 0x104) + 0x10) + iVar4);
-          *(unsigned int *)(*(int *)(*(int *)(param_1 + 0x104) + 0x10) + iVar4) = uVar2;
-          iVar4 = iVar4 + 4;
-          param_3 = param_3 - 1;
-        } while (param_3 != 0);
-      }
-      lVar3 = 0;
-    }
-  }
-  return lVar3;
 }
 
+int fn_82994768(Owner_82994768 *self, Table_82994768 **out, unsigned int count)
+{
+    unsigned int next;
+    unsigned int i;
+    int ids[4];
+    void *mem;
+    Table_82994768 *table;
+    int hr;
+
+    next = 0;
+    for (i = 0; i < self->entryCount; i++) {
+        if (self->group == self->entries[i]->group && self->entries[i]->index >= next) {
+            next = self->entries[i]->index + 1;
+        }
+    }
+    for (i = 0; i < 4; i++) {
+        ids[i] = fn_82964628(self, self->group, next, i, 0.0);
+        if (ids[i] == -1) {
+            return 0x8007000e;
+        }
+    }
+    mem = fn_82963998(0x74);
+    if (mem != 0) {
+        table = fn_829632A0(mem);
+    } else {
+        table = 0;
+    }
+    *out = table;
+    if (table == 0) {
+        return 0x8007000e;
+    }
+    hr = fn_82963A30(table, (count & 0xfffff) | 0x10000000, count, count, 0);
+    if (hr < 0) {
+        Release_82994768(*out);
+        return hr;
+    }
+    hr = fn_829632F0(*out, self->table);
+    if (hr < 0) {
+        Release_82994768(*out);
+        return hr;
+    }
+    for (i = 0; i < count; i++) {
+        (*out)->ids[i] = ids[i];
+        (*out)->slots[i] = self->table->slots[i];
+        self->table->slots[i] = ids[i];
+    }
+    return 0;
+}

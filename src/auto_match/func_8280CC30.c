@@ -1,75 +1,64 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern V16 vectorMergeHighWord();
-extern V16 vectorMergeLowWord();
-extern void *memcpy(void *, const void *, unsigned int);
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vmrghw(__vector4 a, __vector4 b);
+__vector4 __vmrglw(__vector4 a, __vector4 b);
+__vector4 __vmsum4fp(__vector4 a, __vector4 b);
 
-void fn_8280CC30(int param_1,int param_2,int param_3)
+typedef struct Matrix_8280CC30 {
+    __vector4 r[4];
+} Matrix_8280CC30;
 
+static __forceinline Matrix_8280CC30 Transpose(const Matrix_8280CC30 *m)
 {
-  float fVar1;
-  float fVar2;
-  float *pfVar3;
-  float *pfVar4;
-  int in_r0;
-  unsigned char in_vs32 [16];
-  unsigned char auVar5 [16];
-  unsigned char in_vs33 [16];
-  unsigned char in_vs34 [16];
-  unsigned char in_vs35 [16];
-  unsigned char in_vs36 [16];
-  unsigned char in_vs37 [16];
-  unsigned char in_vs38 [16];
-  unsigned char auVar6 [16];
-  unsigned char in_vs40 [16];
-  unsigned char auVar7 [16];
-  unsigned char in_vs42 [16];
-  unsigned char auVar8 [16];
-  unsigned char in_vs43 [16];
-  unsigned char in_vs44 [16];
-  unsigned char auVar9 [16];
-  unsigned char auVar10 [16];
-  unsigned char in_vs61 [16];
-  unsigned char in_vs62 [16];
-  unsigned char in_vs63 [16];
-  float fVar11;
-  float fVar12;
-  float fVar13;
-  float fVar14;
-  
-  pfVar3 = (float *)(in_r0 + param_1 & 0xfffffff0);
-  pfVar4 = (float *)(in_r0 + param_2 & 0xfffffff0);
-  fVar11 = *pfVar4;
-  fVar12 = pfVar4[1];
-  fVar13 = pfVar4[2];
-  fVar14 = pfVar4[3];
-  pfVar4 = (float *)(param_1 + 0x30U & 0xfffffff0);{ V16 _vt0 = vectorMergeHighWord(in_vs32,in_vs43); memcpy(auVar7, &_vt0, 16); }{ V16 _vt1 = vectorMergeHighWord(in_vs44,in_vs42); memcpy(auVar6, &_vt1, 16); }{ V16 _vt2 = vectorMergeLowWord(in_vs44,in_vs42); memcpy(auVar9, &_vt2, 16); }{ V16 _vt3 = vectorMergeLowWord(in_vs32,in_vs43); memcpy(auVar5, &_vt3, 16); }{ V16 _vt4 = vectorMergeHighWord(auVar7,auVar6); memcpy(auVar8, &_vt4, 16); }{ V16 _vt5 = vectorMergeLowWord(auVar7,auVar6); memcpy(auVar7, &_vt5, 16); }{ V16 _vt6 = vectorMergeHighWord(auVar5,auVar9); memcpy(auVar6, &_vt6, 16); }{ V16 _vt7 = vectorMergeLowWord(auVar5,auVar9); memcpy(auVar5, &_vt7, 16); }
-  fVar1 = fVar11 * *pfVar4 + fVar12 * pfVar4[1] + fVar13 * pfVar4[2] + fVar14 * pfVar4[3];
-  fVar2 = fVar11 * *pfVar3 + fVar12 * pfVar3[1] + fVar13 * pfVar3[2] + fVar14 * pfVar3[3];{ V16 _vt8 = vectorMergeHighWord(in_vs37,auVar9); memcpy(auVar10, &_vt8, 16); }{ V16 _vt9 = vectorMergeHighWord(auVar8,in_vs36); memcpy(auVar9, &_vt9, 16); }{ V16 _vt10 = vectorMergeHighWord(in_vs34,in_vs35); memcpy(auVar8, &_vt10, 16); }
-  vectorMergeHighWord(auVar9,auVar10);{ V16 _vt11 = vectorMergeHighWord(in_vs62,in_vs63); memcpy(auVar10, &_vt11, 16); }{ V16 _vt12 = vectorMergeHighWord(in_vs40,in_vs43); memcpy(auVar9, &_vt12, 16); }{ V16 _vt13 = vectorMergeHighWord(auVar5,in_vs38); memcpy(auVar5, &_vt13, 16); }{ V16 _vt14 = vectorMergeHighWord(auVar7,in_vs33); memcpy(auVar7, &_vt14, 16); }
-  pfVar3 = (float *)(in_r0 + param_3 & 0xfffffff0);
-  *pfVar3 = fVar11;
-  pfVar3[1] = fVar12;
-  pfVar3[2] = fVar13;
-  pfVar3[3] = fVar14;{ V16 _vt15 = vectorMergeHighWord(auVar6,in_vs61); memcpy(auVar6, &_vt15, 16); }
-  vectorMergeHighWord(auVar5,auVar9);
-  vectorMergeHighWord(auVar7,auVar8);
-  vectorMergeHighWord(auVar6,auVar10);
-  pfVar3 = (float *)(param_3 + 0x30U & 0xfffffff0);
-  *pfVar3 = fVar2;
-  pfVar3[1] = fVar2;
-  pfVar3[2] = fVar2;
-  pfVar3[3] = fVar2;
-  pfVar3 = (float *)(param_3 + 0x10U & 0xfffffff0);
-  *pfVar3 = fVar1;
-  pfVar3[1] = fVar1;
-  pfVar3[2] = fVar1;
-  pfVar3[3] = fVar1;
-  pfVar3 = (float *)(param_3 + 0x20U & 0xfffffff0);
-  *pfVar3 = fVar11;
-  pfVar3[1] = fVar12;
-  pfVar3[2] = fVar13;
-  pfVar3[3] = fVar14;
-  return;
+    Matrix_8280CC30 p, mt;
+    __vector4 r0 = m->r[0], r1 = m->r[1], r2 = m->r[2], r3 = m->r[3];
+
+    p.r[0] = __vmrghw(r0, r2);
+    p.r[1] = __vmrghw(r1, r3);
+    p.r[2] = __vmrglw(r0, r2);
+    p.r[3] = __vmrglw(r1, r3);
+    mt.r[0] = __vmrghw(p.r[0], p.r[1]);
+    mt.r[1] = __vmrglw(p.r[0], p.r[1]);
+    mt.r[2] = __vmrghw(p.r[2], p.r[3]);
+    mt.r[3] = __vmrglw(p.r[2], p.r[3]);
+    return mt;
 }
 
+/* out = transpose(m1 * m2): row j of out holds column j of the product. */
+void fn_8280CC30(const Matrix_8280CC30 *m2, const Matrix_8280CC30 *m1, Matrix_8280CC30 *out)
+{
+    Matrix_8280CC30 t;
+    __vector4 b0, b1, b2, b3;
+    __vector4 d00, d01, d02, d03;
+    __vector4 d10, d11, d12, d13;
+    __vector4 d20, d21, d22, d23;
+    __vector4 d30, d31, d32, d33;
+
+    t = Transpose(m2);
+    b0 = m1->r[0];
+    b1 = m1->r[1];
+    b2 = m1->r[2];
+    b3 = m1->r[3];
+    d00 = __vmsum4fp(b0, t.r[0]);
+    d01 = __vmsum4fp(b0, t.r[1]);
+    d02 = __vmsum4fp(b0, t.r[2]);
+    d03 = __vmsum4fp(b0, t.r[3]);
+    d10 = __vmsum4fp(b1, t.r[0]);
+    d11 = __vmsum4fp(b1, t.r[1]);
+    d12 = __vmsum4fp(b1, t.r[2]);
+    d13 = __vmsum4fp(b1, t.r[3]);
+    d20 = __vmsum4fp(b2, t.r[0]);
+    d21 = __vmsum4fp(b2, t.r[1]);
+    d22 = __vmsum4fp(b2, t.r[2]);
+    d23 = __vmsum4fp(b2, t.r[3]);
+    d30 = __vmsum4fp(b3, t.r[0]);
+    d31 = __vmsum4fp(b3, t.r[1]);
+    d32 = __vmsum4fp(b3, t.r[2]);
+    d33 = __vmsum4fp(b3, t.r[3]);
+    out->r[0] = __vmrghw(__vmrghw(d00, d20), __vmrghw(d10, d30));
+    out->r[1] = __vmrghw(__vmrghw(d01, d21), __vmrghw(d11, d31));
+    out->r[2] = __vmrghw(__vmrghw(d02, d22), __vmrghw(d12, d32));
+    out->r[3] = __vmrghw(__vmrghw(d03, d23), __vmrghw(d13, d33));
+}

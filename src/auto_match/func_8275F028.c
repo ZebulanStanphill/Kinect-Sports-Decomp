@@ -1,64 +1,42 @@
-extern int fn_8275CF90();
-extern int fn_82F6A538();
-extern int fn_82F6A584();
-extern unsigned int lbl_8200133C;
-extern unsigned int lbl_82005344;
-extern unsigned int lbl_821AAD20;
+extern unsigned char fn_8275CF90(float x0, float y0, float x1, float y1, float x2, float y2, float x,
+                                 float y);
 
-
-void fn_8275F028(unsigned __int64 param_1,double param_2,double param_3,double param_4,double param_5,
-                  double param_6,unsigned __int64 param_7,unsigned __int64 param_8)
-
+unsigned char fn_8275F028(float x0, float y0, float x1, float y1, float x2, float y2, float x, float y)
 {
-  float fVar1;
-  float fVar2;
-  unsigned __int64 uVar3;
-  char cVar4;
-  char cVar5;
-  double dVar6;
-  double dVar7;
-  double dVar8;
-  double dVar9;
-  double dVar10;
-  double dVar11;
-  double dVar12;
-  
-  dVar7 = (double)fn_82F6A538();
-  if ((param_4 < param_2) || (param_6 < param_4)) {
-    fVar1 = (float)((double)(float)(param_4 * (double)lbl_82005344 - param_2) - param_6);
-    fVar2 = lbl_8200133C;
-    if (fVar1 != lbl_821AAD20) {
-      fVar2 = (float)(param_4 - param_2) / fVar1;
-    }
-    dVar6 = (double)fVar2;
-    dVar12 = (double)(float)((double)(float)(param_3 - dVar7) * dVar6 + dVar7);
-    dVar11 = (double)(float)((double)(float)(param_4 - param_2) * dVar6 + param_2);
-    dVar8 = (double)(float)((double)(float)((double)(float)((double)(float)(param_5 - param_3) *
-                                                            dVar6 + param_3) - dVar12) * dVar6 +
-                           dVar12);
-    dVar6 = (double)(float)((double)(float)((double)(float)((double)(float)(param_6 - param_4) *
-                                                            dVar6 + param_4) - dVar11) * dVar6 +
-                           dVar11);
-    dVar9 = dVar6;
-    dVar10 = dVar8;
-    if (dVar6 < param_2) {
-      dVar9 = param_2;
-      param_2 = dVar6;
-      dVar10 = dVar7;
-      dVar7 = dVar8;
-    }
-    if (param_6 < dVar6) {
-      dVar6 = param_6;
-      dVar8 = param_5;
-    }
-    cVar4 = fn_8275CF90(dVar8,dVar6);
-    cVar5 = fn_8275CF90(dVar7,param_2,dVar12,dVar11,dVar10,dVar9,param_7,param_8);
-    uVar3 = (unsigned __int64)(cVar4 != cVar5);
-  }
-  else {
-    uVar3 = fn_8275CF90();
-  }
-  fn_82F6A584(uVar3);
-  return;
-}
+    if (y1 >= y0 && y1 <= y2) {
+        return fn_8275CF90(x0, y0, x1, y1, x2, y2, x, y);
+    } else {
+        float denominator = 2.0f * y1 - y0 - y2;
+        float t = denominator == 0.0f ? -1.0f : (y1 - y0) / denominator;
+        float ax = x0 + (x1 - x0) * t;
+        float bx = x1 + (x2 - x1) * t;
+        float ay = y0 + (y1 - y0) * t;
+        float by = y1 + (y2 - y1) * t;
+        float midX = ax + (bx - ax) * t;
+        float midY = ay + (by - ay) * t;
+        float startX = x0;
+        float startY = y0;
+        float leftEndX = midX;
+        float leftEndY = midY;
+        float rightStartX = midX;
+        float rightStartY = midY;
+        int right;
+        int left;
 
+        if (y0 > midY) {
+            startX = midX;
+            leftEndX = x0;
+            startY = midY;
+            leftEndY = y0;
+        }
+        if (midY > y2) {
+            rightStartX = x2;
+            rightStartY = y2;
+            x2 = midX;
+            y2 = midY;
+        }
+        right = fn_8275CF90(rightStartX, rightStartY, bx, by, x2, y2, x, y);
+        left = fn_8275CF90(startX, startY, ax, ay, leftEndX, leftEndY, x, y);
+        return left != right;
+    }
+}

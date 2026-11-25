@@ -1,62 +1,70 @@
-extern int fn_82E39C50();
-extern unsigned int lbl_8202E61C;
-extern unsigned int lbl_8202E620;
-extern unsigned int lbl_8202E624;
-extern unsigned int uStack_34;
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
-extern unsigned int uStack_48;
-extern unsigned int uStack_50;
+typedef struct Guid_82E3A380 {
+    unsigned long data1;
+    unsigned short data2;
+    unsigned short data3;
+    unsigned char data4[8];
+} Guid_82E3A380;
 
+typedef struct Stream_82E3A380 Stream_82E3A380;
 
-__int64 fn_82E3A380(unsigned __int64 param_1,int *param_2,unsigned __int64 param_3,unsigned int *param_4,
-                      unsigned __int64 *param_5)
+typedef struct StreamVtbl_82E3A380 {
+    void *slots[7];
+    int (*Seek)(Stream_82E3A380 *self, unsigned __int64 position); /* 0x1C */
+    void *slot20;
+    int (*Read)(Stream_82E3A380 *self, void *buffer, unsigned int size, unsigned int *read); /* 0x24 */
+} StreamVtbl_82E3A380;
 
+struct Stream_82E3A380 {
+    StreamVtbl_82E3A380 *vtbl;
+};
+
+unsigned __int64 _byteswap_uint64(unsigned __int64 value);
+
+extern Guid_82E3A380 lbl_8202E618;
+extern void fn_82E39C50(Guid_82E3A380 *guid, const unsigned char **pp);
+
+/* Reads an object header (little-endian GUID and 64-bit size) at position. */
+int fn_82E3A380(void *self, Stream_82E3A380 *stream, unsigned __int64 position, Guid_82E3A380 *outId,
+                unsigned __int64 *outSize)
 {
-  __int64 lVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  unsigned int uStack_50;
-  unsigned int *puStack_4c;
-  unsigned __int64 uStack_48;
-  struct { unsigned int first; unsigned int second; } stack_pair_40;
+    Guid_82E3A380 id = lbl_8202E618;
+    unsigned int bytesRead = 0;
+    unsigned __int64 size;
+    const unsigned char *p;
+    int hr;
 
-  unsigned int uStack_38;
-  unsigned int uStack_34;
-  
-  uStack_50 = 0;
-  stack_pair_40.second = lbl_8202E61C;
-  uStack_38 = lbl_8202E620;
-  uStack_34 = lbl_8202E624;
-  lVar1 = (**(int (***)())(*param_2 + 0x1c))(param_2,param_3);
-  if (-1 < lVar1) {
-    iVar2 = (**(int (***)())(*param_2 + 0x24))(param_2,&stack_pair_40.first,0x10,&uStack_50);
-    if ((-1 < iVar2) && (0xf < uStack_50)) {
-      uStack_48 = 0;
-      lVar1 = (**(int (***)())(*param_2 + 0x24))(param_2,&uStack_48,8,&uStack_50);
-      if ((-1 < lVar1) && (7 < uStack_50)) {
-        puStack_4c = &stack_pair_40.first;
-        fn_82E39C50(&stack_pair_40.first,&puStack_4c);
-        uVar3 = ((uStack_48 & 0xff) << 0x18 |
-                (uStack_48 & 0xff00) << 8 |
-                (unsigned __int64)((((unsigned __int64)(uStack_48) >> 32) & 0xFFFFFFFF) >> 8) & 0xff00 | (unsigned __int64)((((unsigned __int64)(uStack_48) >> 32) & 0xFFFFFFFF) >> 0x18))
-                << 0x20 | ((unsigned __int64)(((unsigned __int64)(uStack_48) >> 0) & 0xFFFFFFFF) & 0xff) << 0x18 |
-                          ((unsigned __int64)(((unsigned __int64)(uStack_48) >> 0) & 0xFFFFFFFF) & 0xff00) << 8 |
-                          (unsigned __int64)((((unsigned __int64)(uStack_48) >> 0) & 0xFFFFFFFF) >> 8) & 0xff00 |
-                          (unsigned __int64)((((unsigned __int64)(uStack_48) >> 0) & 0xFFFFFFFF) >> 0x18);
-        if (0x17 < uVar3) {
-          *param_4 = stack_pair_40.first;
-          param_4[1] = stack_pair_40.second;
-          param_4[2] = uStack_38;
-          param_4[3] = uStack_34;
-          *param_5 = uVar3;
-          return lVar1;
-        }
-      }
+    hr = stream->vtbl->Seek(stream, position);
+    if (hr < 0) {
+        goto done;
     }
-    lVar1 = -0x3ff2c566;
-  }
-  return lVar1;
-}
+    if (stream->vtbl->Read(stream, &id, 16, &bytesRead) < 0) {
+        goto fail;
+    }
+    if (bytesRead < 16) {
+    fail:
+        hr = 0xC00D3A9A;
+        goto done;
+    }
+    size = 0;
+    hr = stream->vtbl->Read(stream, &size, 8, &bytesRead);
+    if (hr < 0) {
+        hr = 0xC00D3A9A;
+        goto done;
+    }
+    if (bytesRead < 8) {
+        hr = 0xC00D3A9A;
+        goto done;
+    }
+    p = (const unsigned char *)&id;
+    fn_82E39C50(&id, &p);
+    size = _byteswap_uint64(size);
+    if (size < 0x18) {
+        hr = 0xC00D3A9A;
+        goto done;
+    }
+    *outId = id;
+    *outSize = size;
 
+done:
+    return hr;
+}

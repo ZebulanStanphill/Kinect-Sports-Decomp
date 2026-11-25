@@ -1,95 +1,120 @@
-extern int fn_83023170();
-extern int fn_83023178();
-extern unsigned int lbl_82002AE0;
+typedef struct __declspec(passinreg) __declspec(align(16)) __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+extern __vector4 __lvlx(const void *, int);
+extern __vector4 __vspltw(__vector4, int);
+extern double __fsel(double, double, double);
 
-void fn_830242F0(int param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4)
+typedef struct Item_830242F0 Item_830242F0;
 
+typedef struct ItemVt_830242F0 {
+    void *pad00[2];
+    void (*disable)(Item_830242F0 *self);
+    void *pad0c;
+    void (*update)(Item_830242F0 *self, void *data);
+} ItemVt_830242F0;
+
+struct Item_830242F0 {
+    const ItemVt_830242F0 *vt;
+};
+
+typedef struct Entry_830242F0 {
+    int field00;
+    int field04;
+    Item_830242F0 *item;
+    int field0c;
+    unsigned char flags;
+    char pad11[3];
+} Entry_830242F0;
+
+typedef struct Output_830242F0 {
+    char pad00[0xe];
+    unsigned short mode;
+} Output_830242F0;
+
+typedef struct State_830242F0 {
+    char pad00[4];
+    float nextFirst;
+    float first;
+    float second;
+    float nextSecond;
+    char pad14[8];
+    Entry_830242F0 entries[4];
+    unsigned char flags;
+    char pad6d[3];
+    int active;
+    char pad74[0xc];
+    char context[0x80];
+    unsigned int field100;
+    unsigned int kind;
+    char pad108[4];
+    unsigned short mode;
+    char pad10e[2];
+    __vector4 values[2][2];
+} State_830242F0;
+
+extern void fn_83023170(void *context, void *data, Output_830242F0 *out);
+extern void fn_83023178(void *context, void *data, Output_830242F0 *out);
+
+static __forceinline float Clamp(float value)
 {
-  int *piVar1;
-  unsigned char bVar2;
-  unsigned int *puVar3;
-  float fVar4;
-  float fVar5;
-  unsigned __int64 in_r0;
-  int iVar6;
-  __int64 lVar7;
-  unsigned char *pbVar8;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs39 [16];
-  unsigned char in_vs40 [16];
-  unsigned int in_register_000103d0;
-  unsigned int in_register_000103f0;
-  float afStack_30;
-  
-  iVar6 = (int)in_r0;
-  if (*(int *)(param_1 + 0x70) == 1) {
-    pbVar8 = (unsigned char *)(param_1 + 0x2c);
-    lVar7 = 4;
-    do {
-      piVar1 = *(int **)(pbVar8 + -8);
-      if (piVar1 != (int *)0x0) {
-        bVar2 = *(unsigned char *)(param_1 + 0x6c) | *pbVar8;
-        if ((bVar2 & 0x80) == 0) {
-          (**(int (***)())(*piVar1 + 0x10))(piVar1,param_1 + 0x100);
-        }
-        else if ((bVar2 & 0x40) == 0) {
-          (**(int (***)())(*piVar1 + 8))();
-        }
-        *pbVar8 = *pbVar8 >> 1 & 0x40 | *pbVar8 & 0xbf;
-      }
-      iVar6 = (int)in_r0;
-      lVar7 = lVar7 + -1;
-      pbVar8 = pbVar8 + 0x14;
-    } while (lVar7 != 0);
-    *(unsigned char *)(param_1 + 0x6c) =
-         *(unsigned char *)(param_1 + 0x6c) >> 1 & 0x40 | *(unsigned char *)(param_1 + 0x6c) & 0xbf;
-    *(unsigned short *)(param_2 + 0xe) = *(unsigned short *)(param_1 + 0x10c);
-  }
-  fVar5 = lbl_82002AE0;
-  altv300_21(in_vs32,in_vs40);
-  puVar3 = (unsigned int *)(param_1 + 0x120U & 0xfffffff0);
-  *puVar3 = in_register_000103f0;
-  puVar3[1] = in_register_000103f0;
-  puVar3[2] = in_register_000103f0;
-  puVar3[3] = in_register_000103f0;
-  puVar3 = (unsigned int *)(iVar6 + param_1 + 0x110 & 0xfffffff0);
-  *puVar3 = in_register_000103f0;
-  puVar3[1] = in_register_000103f0;
-  puVar3[2] = in_register_000103f0;
-  puVar3[3] = in_register_000103f0;
-  afStack_30 = fVar5;
-  if (*(float *)(param_1 + 8) - fVar5 < 0.0) {
-    afStack_30 = *(float *)(param_1 + 8);
-  }
-  altv300_21(in_vs32,in_vs39);
-  puVar3 = (unsigned int *)(param_1 + 0x140U & 0xfffffff0);
-  *puVar3 = in_register_000103d0;
-  puVar3[1] = in_register_000103d0;
-  puVar3[2] = in_register_000103d0;
-  puVar3[3] = in_register_000103d0;
-  puVar3 = (unsigned int *)(iVar6 + param_1 + 0x130 & 0xfffffff0);
-  *puVar3 = in_register_000103d0;
-  puVar3[1] = in_register_000103d0;
-  puVar3[2] = in_register_000103d0;
-  puVar3[3] = in_register_000103d0;
-  fVar4 = fVar5;
-  if (*(float *)(param_1 + 0x10) - fVar5 < 0.0) {
-    fVar4 = *(float *)(param_1 + 0x10);
-  }
-  *(float *)(param_1 + 0x124) = fVar4;
-  if (*(float *)(param_1 + 0xc) - fVar5 < 0.0) {
-    fVar5 = *(float *)(param_1 + 0xc);
-  }
-  *(float *)(param_1 + 0x144) = fVar5;
-  if (*(int *)(param_1 + 0x104) == 3) {
-    fn_83023170(param_1 + 0x80,param_1 + 0x100,param_2,param_4,&afStack_30,&afStack_30);
-  }
-  else if (*(int *)(param_1 + 0x104) == 0x3f) {
-    fn_83023178(param_1 + 0x80,param_1 + 0x100,param_2);
-  }
-  *(unsigned int *)(param_1 + 8) = *(unsigned int *)(param_1 + 4);
-  *(unsigned int *)(param_1 + 0xc) = *(unsigned int *)(param_1 + 0x10);
-  return;
+    return (float)__fsel(value - 1.0f, 1.0f, value);
 }
 
+static __forceinline __vector4 Splat(float value)
+{
+    return __vspltw(__lvlx(&value, 0), 0);
+}
+
+static __forceinline void StorePair(__vector4 *out, __vector4 value)
+{
+    out[1] = value;
+    out[0] = value;
+}
+
+void fn_830242F0(State_830242F0 *self, Output_830242F0 *out)
+{
+    __vector4 value;
+    __vector4(*values)[2];
+    __vector4(*secondPair)[2];
+    if (self->active == 1) {
+        unsigned char *flagsPtr = (unsigned char *)self + 0x2c;
+        int count = 4;
+        do {
+            Entry_830242F0 *entry = (Entry_830242F0 *)(flagsPtr - 0x10);
+            Item_830242F0 *item = entry->item;
+            if (item != 0) {
+                unsigned int flags = self->flags | *flagsPtr;
+                if ((flags & 0x80) == 0) {
+                    item->vt->update(item, &self->field100);
+                } else if ((flags & 0x40) == 0) {
+                    item->vt->disable(item);
+                }
+                *flagsPtr = (*flagsPtr >> 1 & 0x40) | (*flagsPtr & 0xbf);
+            }
+            flagsPtr += sizeof(Entry_830242F0);
+        } while (--count != 0);
+        self->flags = (self->flags >> 1 & 0x40) | (self->flags & 0xbf);
+        out->mode = self->mode;
+    }
+
+    values = self->values;
+    value = Splat(Clamp(self->nextFirst));
+    StorePair(values[0], value);
+    value = Splat(Clamp(self->first));
+    secondPair = values + 1;
+    StorePair(secondPair[0], value);
+    values[0][1].vector4_f32[1] = Clamp(self->nextSecond);
+    secondPair[0][1].vector4_f32[1] = Clamp(self->second);
+    switch (self->kind) {
+    case 0x3f:
+        fn_83023178(self->context, &self->field100, out);
+        break;
+    case 3:
+        fn_83023170(self->context, &self->field100, out);
+        break;
+    }
+    self->first = self->nextFirst;
+    self->second = self->nextSecond;
+}

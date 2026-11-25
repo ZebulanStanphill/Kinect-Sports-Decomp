@@ -1,41 +1,56 @@
-#define CARRY8(a,b) ((((unsigned __int64)(a)) + ((unsigned __int64)(b))) < ((unsigned __int64)(a)))
-extern unsigned int *auStack_6c;
-extern int fn_82F261D8();
-extern unsigned int uStack_70;
+typedef struct Encoder_82EFE1A8 {
+    char pad[0x564];
+    int stride;
+    char pad568[0x618 - 0x568];
+    void *scratch;
+    char pad61c[0x904 - 0x61c];
+    void *table;
+    char pad908[0x9b8 - 0x908];
+    void (*copy)(const char *, int, void *, int, int, int, void *, void *, int);
+    char pad9bc[0x5298 - 0x9bc];
+    int (*compare)(const void *, int, const void *, int, int);
+} Encoder_82EFE1A8;
 
+typedef struct Motion_82EFE1A8 {
+    int second;
+    int pad;
+    int x;
+    int y;
+    int secondX;
+    int secondY;
+} Motion_82EFE1A8;
 
-unsigned char fn_82EFE1A8(int param_1,unsigned __int64 param_2,__int64 param_3,unsigned __int64 param_4,int *param_5,
-                  unsigned __int64 param_6,unsigned __int64 param_7,unsigned __int64 param_8)
+extern void fn_82F261D8(Encoder_82EFE1A8 *encoder, int *x, int *y, int width, int height);
 
+unsigned char fn_82EFE1A8(Encoder_82EFE1A8 *encoder, const void *reference, const char *pixels,
+                          void *prediction, const Motion_82EFE1A8 *motion, int threshold, int width,
+                          int height)
 {
-  int iVar1;
-  int iVar2;
-  unsigned int uStack_70;
-  unsigned int auStack_6c [27];
-  
-  auStack_6c[0] = param_5[2];
-  uStack_70 = param_5[3];
-  fn_82F261D8(param_1,auStack_6c,&uStack_70,param_7,param_8);
-  (**(int (***)())(param_1 + 0x9b8))
-            ((__int64)((int)uStack_70 >> 2) * (__int64)*(int *)(param_1 + 0x564) +
-             (__int64)((int)auStack_6c[0] >> 2) + param_3,*(int *)(param_1 + 0x564),param_4,0x10,
-             auStack_6c[0] & 3,uStack_70 & 3,*(unsigned int *)(param_1 + 0x904),
-             *(unsigned int *)(param_1 + 0x618));
-  iVar1 = (**(int (***)())(param_1 + 0x5298))(param_2,0x10,param_4,0x10,0x10);
-  if (*param_5 != 0) {
-    auStack_6c[0] = param_5[4];
-    uStack_70 = param_5[5];
-    fn_82F261D8(param_1,auStack_6c,&uStack_70,param_7,param_8);
-    (**(int (***)())(param_1 + 0x9b8))
-              ((__int64)((int)uStack_70 >> 2) * (__int64)*(int *)(param_1 + 0x564) +
-               (__int64)((int)auStack_6c[0] >> 2) + param_3,*(int *)(param_1 + 0x564),param_4,0x10,
-               auStack_6c[0] & 3,uStack_70 & 3,*(unsigned int *)(param_1 + 0x904),
-               *(unsigned int *)(param_1 + 0x618));
-    iVar2 = (**(int (***)())(param_1 + 0x5298))(param_2,0x10,param_4,0x10,0x10);
-    if (iVar2 < iVar1) {
-      iVar1 = iVar2;
-    }
-  }
-  return -!CARRY8((__int64)(iVar1 * 0x32 >> 8) - param_6,param_6 ^ 0x80000000) & 1;
-}
+    int x;
+    int y;
+    int cost;
+    unsigned char result = 1;
 
+    x = motion->x;
+    y = motion->y;
+    fn_82F261D8(encoder, &x, &y, width, height);
+    encoder->copy(pixels + ((y >> 2) * encoder->stride + (x >> 2)), encoder->stride, prediction, 16, x & 3,
+                  y & 3, encoder->table, encoder->scratch, 16);
+    cost = encoder->compare(reference, 16, prediction, 16, 16);
+    if (motion->second != 0) {
+        int secondCost;
+        x = motion->secondX;
+        y = motion->secondY;
+        fn_82F261D8(encoder, &x, &y, width, height);
+        encoder->copy(pixels + ((y >> 2) * encoder->stride + (x >> 2)), encoder->stride, prediction, 16,
+                      x & 3, y & 3, encoder->table, encoder->scratch, 16);
+        secondCost = encoder->compare(reference, 16, prediction, 16, 16);
+        if (secondCost < cost) {
+            cost = secondCost;
+        }
+    }
+    if ((cost * 50 >> 8) < threshold) {
+        result = 0;
+    }
+    return result;
+}

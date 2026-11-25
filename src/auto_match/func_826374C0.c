@@ -1,46 +1,66 @@
-extern int fn_82637840();
-extern unsigned int lbl_821CC030;
-extern unsigned int lbl_821CC034;
-extern unsigned int lbl_821CC038;
-extern unsigned int lbl_821CC03C;
-extern unsigned int lbl_821CC040;
-extern unsigned int lbl_821CC044;
-extern unsigned int lbl_821CC048;
-extern unsigned int lbl_821CC04C;
-extern unsigned int lbl_821CC050;
-extern unsigned int lbl_821CC054;
+typedef struct Rect_826374C0 {
+    int left;
+    int top;
+    int right;
+    int bottom;
+} Rect_826374C0;
 
+typedef struct Bounds_82639EA8 {
+    unsigned int x;
+    unsigned int y;
+    unsigned int width;
+    unsigned int height;
+    float nearPlane;
+    float farPlane;
+} Bounds_82639EA8;
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+typedef struct Params_826374C0 {
+    char pad0[0x18];
+    unsigned int mode; /* 0x18 */
+} Params_826374C0;
 
-void fn_826374C0(int param_1,int param_2)
+typedef struct Device_826374C0 {
+    char pad0[0x10];
+    unsigned __int64 dirtyA; /* 0x10 */
+    char pad18[0x8];
+    unsigned __int64 dirtyB; /* 0x20 */
+    char pad28[0x2858];
+    unsigned int mode; /* 0x2880 */
+    char pad2884[0x138];
+    unsigned int modeMask; /* 0x29bc */
+    char pad29c0[0x874];
+    Rect_826374C0 scissor; /* 0x3234 */
+} Device_826374C0;
 
+extern const Rect_826374C0 lbl_821CC048;
+extern const Bounds_82639EA8 lbl_821CC030;
+
+extern void fn_82639EA8(Device_826374C0 *device, const Bounds_82639EA8 *bounds);
+
+static __forceinline void SetDirty_826374C0(unsigned __int64 *flags, unsigned __int64 bits)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  
-  uVar1 = *(unsigned int *)(param_2 + 0x18);
-  uVar2 = uVar1 >> 0x10 & 3;
-  if (uVar2 == 0) {
-    uVar3 = 0;
-  }
-  else if (uVar2 == 1) {
-    uVar3 = 0x8001;
-  }
-  else {
-    uVar3 = 0xc003;
-  }
-  *(unsigned int *)(param_1 + 0x29bc) = uVar3;
-  *(unsigned int *)(param_1 + 0x2880) = uVar1;
-  *(unsigned __int64 *)(param_1 + 0x10) = *(unsigned __int64 *)(param_1 + 0x10) | 0x200000000000000;
-  *(unsigned __int64 *)(param_1 + 0x20) = *(unsigned __int64 *)(param_1 + 0x20) | 0x1000000000;
-  *(unsigned int *)(param_1 + 0x3234) = lbl_821CC048;
-  *(unsigned int *)(param_1 + 0x3238) = lbl_821CC04C;
-  *(unsigned int *)(param_1 + 0x323c) = lbl_821CC050;
-  *(unsigned int *)(param_1 + 0x3240) = lbl_821CC054;
-  fn_82637840((double)lbl_821CC030,(double)lbl_821CC034,(double)lbl_821CC038,
-                    (double)lbl_821CC03C,(double)lbl_821CC040,(double)lbl_821CC044);
-  return;
+    *flags |= bits;
 }
 
+void fn_826374C0(Device_826374C0 *device, const Params_826374C0 *params)
+{
+    unsigned int mode;
+    unsigned int select;
+    unsigned int mask;
+
+    mode = params->mode;
+    select = (mode >> 16) & 3;
+    if (select == 0) {
+        mask = 0;
+    } else if (select == 1) {
+        mask = 0x8001;
+    } else {
+        mask = 0xc003;
+    }
+    device->modeMask = mask;
+    device->mode = mode;
+    SetDirty_826374C0(&device->dirtyA, 0x200000000000000ULL);
+    SetDirty_826374C0(&device->dirtyB, 0x1000000000ULL);
+    device->scissor = lbl_821CC048;
+    fn_82639EA8(device, &lbl_821CC030);
+}

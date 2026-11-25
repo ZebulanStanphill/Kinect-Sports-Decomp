@@ -1,79 +1,111 @@
-extern int fn_825B51E8();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Transform_825F1108 {
+    __vector4 rows[3];
+} Transform_825F1108;
 
-void fn_825F1108(int param_1)
+typedef struct Snapshot_825F1108 {
+    Transform_825F1108 transform; /* 0x00 */
+    char pad30[8];
+    int frame; /* 0x38 */
+    char pad3c[0xa4];
+} Snapshot_825F1108;
 
+typedef struct World_825F1108 {
+    char pad0[0x200];
+    int frame; /* 0x200 */
+    char pad204[0x164];
+    int counts[2];                  /* 0x368 */
+    Snapshot_825F1108 *queue[1][2]; /* 0x370 */
+} World_825F1108;
+
+typedef struct Slot_825F1108 {
+    char pad0[0x14];
+    int active; /* 0x14 */
+    char pad18[8];
+} Slot_825F1108;
+
+typedef struct Pool_825F1108 {
+    char pad0[0x48];
+    void *owner; /* 0x48 */
+    char pad4c[4];
+    Slot_825F1108 *slots; /* 0x50 */
+} Pool_825F1108;
+
+typedef struct Resource_825F1108 {
+    char pad0[0x10];
+    Pool_825F1108 *pool; /* 0x10 */
+} Resource_825F1108;
+
+typedef struct Table_825F1108 {
+    char pad0[0x98];
+    void **used; /* 0x98 */
+} Table_825F1108;
+
+typedef struct Handle_825F1108 {
+    char pad0[4];
+    int index; /* 0x04 */
+} Handle_825F1108;
+
+typedef struct Source_825F1108 Source_825F1108;
+
+typedef struct SourceVtbl_825F1108 {
+    void *slots0[7];
+    Resource_825F1108 *(*GetResource)(Source_825F1108 *self);
+    void *slots8[7];
+    Table_825F1108 **(*GetTable)(Source_825F1108 *self);
+} SourceVtbl_825F1108;
+
+struct Source_825F1108 {
+    SourceVtbl_825F1108 *vt;
+};
+
+typedef struct Recorder_825F1108 {
+    char pad0[0x40];
+    Source_825F1108 *source; /* 0x40 */
+    Handle_825F1108 *handle; /* 0x44 */
+    int pending;             /* 0x48 */
+    char pad4c[0x34];
+    Transform_825F1108 transform; /* 0x80 */
+    char padb0[0xc];
+    World_825F1108 *world; /* 0xbc */
+    char padc0[0x10];
+    Snapshot_825F1108 snapshots[4]; /* 0xd0 */
+} Recorder_825F1108;
+
+extern void fn_825B51E8(void *owner, Slot_825F1108 *slots, int index);
+
+void fn_825F1108(Recorder_825F1108 *self)
 {
-  unsigned int uVar1;
-  unsigned int *puVar2;
-  unsigned int *puVar3;
-  int iVar4;
-  int in_r0;
-  int iVar5;
-  int *piVar6;
-  __int64 lVar7;
-  int iVar8;
-  unsigned int uVar9;
-  unsigned int uVar10;
-  unsigned int uVar11;
-  unsigned int uVar12;
-  
-  uVar1 = *(unsigned int *)(*(int *)(param_1 + 0xbc) + 0x200);
-  puVar2 = (unsigned int *)(param_1 + 0x80U & 0xfffffff0);
-  uVar9 = puVar2[1];
-  uVar10 = puVar2[2];
-  uVar11 = puVar2[3];
-  iVar8 = (uVar1 + (((int)uVar1 >> 2) + (unsigned int)((int)uVar1 < 0 && (uVar1 & 3) != 0) & 0x3fffffff) *
-                   -4) * 0xe0 + param_1;
-  puVar3 = (unsigned int *)(in_r0 + iVar8 + 0xd0 & 0xfffffff0);
-  *puVar3 = *puVar2;
-  puVar3[1] = uVar9;
-  puVar3[2] = uVar10;
-  puVar3[3] = uVar11;
-  puVar2 = (unsigned int *)(param_1 + 0x90U & 0xfffffff0);
-  uVar9 = puVar2[1];
-  uVar10 = puVar2[2];
-  uVar11 = puVar2[3];
-  puVar3 = (unsigned int *)(iVar8 + 0xe0U & 0xfffffff0);
-  *puVar3 = *puVar2;
-  puVar3[1] = uVar9;
-  puVar3[2] = uVar10;
-  puVar3[3] = uVar11;
-  puVar2 = (unsigned int *)(param_1 + 0xa0U & 0xfffffff0);
-  uVar9 = *puVar2;
-  uVar10 = puVar2[1];
-  uVar11 = puVar2[2];
-  uVar12 = puVar2[3];
-  *(unsigned int *)(iVar8 + 0x108) = uVar1;
-  puVar2 = (unsigned int *)(iVar8 + 0xf0U & 0xfffffff0);
-  *puVar2 = uVar9;
-  puVar2[1] = uVar10;
-  puVar2[2] = uVar11;
-  puVar2[3] = uVar12;
-  iVar5 = *(int *)(param_1 + 0xbc);
-  uVar1 = *(unsigned int *)(iVar5 + 0x200);
-  lVar7 = (unsigned __int64)uVar1 +
-          ((__int64)((int)uVar1 >> 1) + (unsigned __int64)((int)uVar1 < 0 && (uVar1 & 1) != 0) &
-          0x7fffffff) * -2;
-  iVar4 = (int)((lVar7 + 0xdaU & 0x3fffffff) << 2);
-  *(int *)((int)((((unsigned __int64)*(unsigned int *)(iVar4 + iVar5) + 0x6e & 0x7fffffff) * 2 + lVar7 & 0xffffffff
-                 ) << 2) + iVar5) = iVar8 + 0xd0;
-  *(int *)(iVar4 + iVar5) = *(int *)(iVar4 + iVar5) + 1;
-  if (*(unsigned int *)(param_1 + 0x48) != 0) {
-    lVar7 = (unsigned __int64)*(unsigned int *)(param_1 + 0x48) - 1;
-    *(int *)(param_1 + 0x48) = (int)lVar7;
-    if (lVar7 == 0) {
-      iVar5 = (**(int (***)())(**(int **)(param_1 + 0x40) + 0x1c))();
-      uVar9 = *(unsigned int *)(*(int *)(iVar5 + 0x10) + 0x48);
-      piVar6 = (int *)(**(int (***)())(**(int **)(param_1 + 0x40) + 0x3c))(*(int **)(param_1 + 0x40));
-      if (*(int *)(*(int *)(*(int *)(param_1 + 0x44) + 4) * 4 + *(int *)(*piVar6 + 0x98)) != 0) {
-        fn_825B51E8(uVar9,*(unsigned int *)(*(int *)(iVar5 + 0x10) + 0x50));
-        *(unsigned int *)
-         (*(int *)(*(int *)(param_1 + 0x44) + 4) * 0x20 + *(int *)(*(int *)(iVar5 + 0x10) + 0x50) +
-         0x14) = 0;
-      }
-    }
-  }
-  return;
-}
+    int frame;
+    Snapshot_825F1108 *snapshot;
+    World_825F1108 *world;
+    int parity;
+    Resource_825F1108 *resource;
+    void *owner;
+    Table_825F1108 **table;
 
+    frame = self->world->frame;
+    snapshot = &self->snapshots[frame % 4];
+    snapshot->transform.rows[0] = self->transform.rows[0];
+    snapshot->transform.rows[1] = self->transform.rows[1];
+    snapshot->transform.rows[2] = self->transform.rows[2];
+    snapshot->frame = frame;
+    world = self->world;
+    parity = world->frame % 2;
+    world->queue[world->counts[parity]][parity] = snapshot;
+    world->counts[parity]++;
+    if (self->pending != 0) {
+        if (--self->pending == 0) {
+            resource = self->source->vt->GetResource(self->source);
+            owner = resource->pool->owner;
+            table = self->source->vt->GetTable(self->source);
+            if ((*table)->used[self->handle->index] != 0) {
+                fn_825B51E8(owner, resource->pool->slots, self->handle->index);
+                resource->pool->slots[self->handle->index].active = 0;
+            }
+        }
+    }
+}

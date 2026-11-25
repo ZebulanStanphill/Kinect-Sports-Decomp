@@ -1,73 +1,136 @@
-extern int fn_82AB15D0();
-extern int fn_82BA05E8();
-extern int fn_82BB5528();
-extern int fn_82BB62E0();
-extern int fn_82BB7F78();
-extern int fn_82BB8578();
-extern int fn_82BD31A8();
+typedef struct Instruction_82BB9428 Instruction_82BB9428;
+typedef struct ScheduleNode_82BB9428 ScheduleNode_82BB9428;
+typedef struct Scheduler_82BB9428 Scheduler_82BB9428;
+typedef struct Slots_82BB5528 Slots_82BB5528;
+typedef struct Node_82BB5528 Node_82BB5528;
+typedef struct IRInst_82BA05E8 IRInst_82BA05E8;
+typedef struct Counters_82BD31A8 Counters_82BD31A8;
+typedef struct Obj_82BD31A8 Obj_82BD31A8;
 
+typedef struct InstVt_82BB9428 {
+    void *pad00[17];
+    unsigned char (*isControl)(Instruction_82BB9428 *self);
+} InstVt_82BB9428;
 
-void fn_82BB9428(int param_1,int param_2)
+struct Instruction_82BB9428 {
+    const InstVt_82BB9428 *vt;
+    char pad04[0x10];
+    int count;
+    char pad18[0x20];
+    int block;
+    char pad3c[0x70];
+    Instruction_82BB9428 *previous;
+    char padB0[0x34];
+    unsigned int : 22;
+    unsigned int hasOperand : 1;
+    unsigned int : 9;
+    Instruction_82BB9428 *operands[(0x3b8 - 0xe8) / 4];
+};
 
+typedef struct CountersVt_82BB9428 {
+    void *pad00[2];
+    void (*add)(Counters_82BD31A8 *self, Instruction_82BB9428 *instruction);
+} CountersVt_82BB9428;
+
+struct Counters_82BD31A8 {
+    const CountersVt_82BB9428 *vt;
+};
+
+struct ScheduleNode_82BB9428 {
+    char pad00[0xc];
+    int priority;
+    char pad10[0xc];
+    int issue_cycle;
+    int ready_cycle;
+    int topdown_count;
+    Instruction_82BB9428 *inst;
+};
+
+struct Scheduler_82BB9428 {
+    char pad00[8];
+    Counters_82BD31A8 *counters;
+    int *queue;
+    char pad10[0xc];
+    int cycle;
+    Slots_82BB5528 *slots;
+    char pad24[0x4c];
+    int priority;
+    char pad74[4];
+    ScheduleNode_82BB9428 *previous;
+};
+
+extern void fn_82AB15D0(void *object, const char *format, ...);
+extern void fn_82BB5528(Slots_82BB5528 *slots, Node_82BB5528 *node);
+extern void fn_82BB7F78(unsigned int self, int node);
+extern void fn_82BB8578(int *self, int node);
+extern void fn_82BA05E8(IRInst_82BA05E8 *instruction, int arg, void *value);
+extern void fn_82BD31A8(Counters_82BD31A8 *self, Obj_82BD31A8 *instruction);
+extern void fn_82BB62E0(int *queue, int node);
+
+#define SCHEDULE_FILE                                                                                        \
+    "e:\\xenon\\xdk-main-jul10\\core\\private\\xtl\\graphics\\xgraphics\\ucode\\compiler\\opt\\sched.cpp"
+
+static __forceinline unsigned char HasOperand(Instruction_82BB9428 *inst)
 {
-  unsigned int uVar1;
-  int iVar2;
-  int iVar3;
-  char cVar4;
-  
-  if (*(int *)(param_2 + 0x1c) != -1) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820e035c,0xffffffff820e0168,0x6f4);
-  }
-  if (*(int *)(param_2 + 0x24) != 0) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820e0344,0xffffffff820e0168,0x6f5);
-  }
-  if (*(int *)(param_1 + 0x1c) < *(int *)(param_2 + 0x20)) {
-    fn_82AB15D0(0,0xffffffff820d2ea4,0xffffffff820e0748,0xffffffff820e0168,0x6f6);
-  }
-  fn_82BB5528(*(unsigned int *)(param_1 + 0x20),param_2);
-  uVar1 = *(unsigned int *)(param_1 + 0x1c);
-  *(unsigned int *)(param_2 + 0x20) = uVar1;
-  *(unsigned int *)(param_2 + 0x1c) = uVar1;
-  if (*(int *)(param_2 + 0xc) < *(int *)(param_1 + 0x70)) {
-    *(int *)(param_1 + 0x70) = *(int *)(param_2 + 0xc);
-  }
-  fn_82BB7F78(param_1,param_2);
-  fn_82BB8578(param_1,param_2);
-  if (*(int *)(param_1 + 0x78) != 0) {
-    iVar2 = *(int *)(*(int *)(*(int *)(param_1 + 0x78) + 0x28) + 0xac);
-    cVar4 = (**(int (***)())(**(int **)(param_2 + 0x28) + 0x44))();
-    if (cVar4 == '\0') {
-      iVar3 = *(int *)(param_2 + 0x28);
-      if (iVar3 == iVar2) {
-        if ((*(unsigned int *)(iVar3 + 0xe4) >> 9 & 1) != 0) {
-          uVar1 = *(unsigned int *)(*(int *)(*(int *)(param_1 + 0x78) + 0x28) + 0xec);
-          iVar2 = *(int *)(iVar3 + 0x14);
-          if ((*(unsigned int *)(iVar3 + 0xe4) >> 9 & 1) == 0) {
-            *(int *)(iVar3 + 0x14) = iVar2 + 1;
-            *(unsigned int *)((iVar2 + 0x3b) * 4 + iVar3) = uVar1;
-            *(unsigned int *)(iVar3 + 0xe4) = *(unsigned int *)(iVar3 + 0xe4) | 0x200;
-          }
-          else {
-            *(unsigned int *)((iVar2 + 0x3a) * 4 + iVar3) = uVar1;
-          }
-        }
-      }
-    }
-    else {
-      iVar3 = *(int *)(*(int *)(param_2 + 0x28) + 0xec);
-      if ((*(int *)(iVar3 + 0x38) == *(int *)(iVar2 + 0x38)) && (iVar3 != iVar2)) {
-        fn_82BA05E8(*(int *)(param_2 + 0x28),1,iVar2);
-      }
-    }
-  }
-  cVar4 = (**(int (***)())(**(int **)(param_2 + 0x28) + 0x44))();
-  if (cVar4 != '\0') {
-    *(int *)(param_1 + 0x78) = param_2;
-  }
-  (**(int (***)())(**(int **)(param_1 + 8) + 8))(*(int **)(param_1 + 8),*(unsigned int *)(param_2 + 0x28))
-  ;
-  fn_82BD31A8(*(unsigned int *)(param_1 + 8),*(unsigned int *)(param_2 + 0x28));
-  fn_82BB62E0(*(unsigned int *)(param_1 + 0xc),param_2);
-  return;
+    return (unsigned char)inst->hasOperand;
 }
 
+void fn_82BB9428(Scheduler_82BB9428 *self, ScheduleNode_82BB9428 *sn)
+{
+    int cur_cycle;
+    int priority;
+    int *pReady_cycle = &sn->ready_cycle;
+
+    if (sn->issue_cycle != -1)
+        fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "sn->issue_cycle == 0-1", SCHEDULE_FILE, 0x6f4);
+    if (sn->topdown_count != 0)
+        fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "sn->topdown_count == 0", SCHEDULE_FILE, 0x6f5);
+    {
+        int ready = *pReady_cycle;
+        int cycle = self->cycle;
+        if (ready > cycle)
+            fn_82AB15D0(0, "Assertion failed: %s (%s:%u)", "sn->ready_cycle <= cur_cycle", SCHEDULE_FILE,
+                        0x6f6);
+    }
+    fn_82BB5528(self->slots, (Node_82BB5528 *)sn);
+    cur_cycle = self->cycle;
+    priority = sn->priority;
+    (*pReady_cycle) = cur_cycle;
+    sn->issue_cycle = cur_cycle;
+    if (priority < self->priority)
+        self->priority = priority;
+
+    fn_82BB7F78((unsigned int)self, (int)sn);
+    fn_82BB8578((int *)self, (int)sn);
+    if (self->previous != 0) {
+        Instruction_82BB9428 *inst = sn->inst;
+        Instruction_82BB9428 *previous = self->previous->inst->previous;
+        if (inst->vt->isControl(inst)) {
+            Instruction_82BB9428 *branch = sn->inst->operands[1];
+            if (branch->block == previous->block && branch != previous)
+                fn_82BA05E8((IRInst_82BA05E8 *)sn->inst, 1, previous);
+        } else {
+            inst = sn->inst;
+            if (inst == previous && (unsigned char)inst->hasOperand) {
+                ScheduleNode_82BB9428 *previousNode = self->previous;
+                unsigned char hasOperand = HasOperand(sn->inst);
+                Instruction_82BB9428 *value = previousNode->inst->operands[1];
+                int slot;
+                if (hasOperand) {
+                    slot = inst->count;
+                    inst->operands[slot] = value;
+                } else {
+                    slot = inst->count + 1;
+                    inst->count = slot;
+                    inst->operands[slot] = value;
+                    inst->hasOperand = 1;
+                }
+            }
+        }
+    }
+    if (sn->inst->vt->isControl(sn->inst))
+        self->previous = sn;
+    self->counters->vt->add(self->counters, sn->inst);
+    fn_82BD31A8(self->counters, (Obj_82BD31A8 *)sn->inst);
+    fn_82BB62E0(self->queue, (int)sn);
+}

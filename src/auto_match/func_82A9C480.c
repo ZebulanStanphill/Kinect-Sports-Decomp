@@ -1,66 +1,93 @@
-extern int fn_82A99B70();
-extern int fn_82A99BC8();
-extern int fn_82A99C28();
-extern int fn_82A99D88();
-extern int fn_82A9A810();
-extern int fn_82A9A860();
+typedef struct Define_82A9C480 {
+    int nameOffset;  /* 0x0 */
+    int valueOffset; /* 0x4 */
+} Define_82A9C480;
 
+typedef struct DefineList_82A9C480 {
+    Define_82A9C480 *data; /* 0x0 */
+    unsigned int count;    /* 0x4 */
+} DefineList_82A9C480;
 
-void fn_82A9C480(int param_1,unsigned __int64 param_2)
+typedef struct Argument_82A9C480 {
+    char name[0x20]; /* 0x0 */
+    char value[8];   /* 0x20 */
+} Argument_82A9C480;
 
+typedef struct ArgumentList_82A9C480 {
+    Argument_82A9C480 *data; /* 0x0 */
+    unsigned int count;      /* 0x4 */
+} ArgumentList_82A9C480;
+
+typedef struct Tool_82A9C480 {
+    char pad0[0x20];
+    DefineList_82A9C480 defines; /* 0x20 */
+    char pad28[4];
+    char *names; /* 0x2c */
+    char pad30[8];
+    ArgumentList_82A9C480 arguments; /* 0x38 */
+    char pad40[0x84 - 0x40];
+    const char *name; /* 0x84 */
+} Tool_82A9C480;
+
+extern char lbl_82196582[];
+extern char lbl_8202936C[];
+extern void fn_82A99BC8(void *);
+extern void fn_82A99B70(void *, const char *, ...);
+extern void fn_82A9A860(void *);
+extern void fn_82A9A810(void *);
+extern void fn_82A99C28(void *, const char *);
+extern void fn_82A99D88(void *, const char *, const char *);
+
+static __forceinline const char *GetName(Tool_82A9C480 *self, int offset)
 {
-  __int64 lVar1;
-  unsigned int *puVar3;
-  unsigned __int64 uVar2;
-  
-  fn_82A99BC8(param_2);
-  fn_82A99B70(param_2,0xffffffff820d28b4,0xffffffff820d2b00);
-  if (*(int *)(param_1 + 0x84) != 0) {
-    fn_82A99D88(param_2,0xffffffff820d2ac0);
-  }
-  fn_82A9A860(param_2);
-  if (*(int *)(param_1 + 0x24) != 0) {
-    fn_82A99BC8(param_2);
-    fn_82A99B70(param_2,0xffffffff820d28b4,0xffffffff820d2af8);
-    fn_82A9A860(param_2);
-    puVar3 = *(unsigned int **)(param_1 + 0x20);
-    if (puVar3 < puVar3 + *(int *)(param_1 + 0x24) * 2) {
-      do {
-        fn_82A99BC8(param_2);
-        fn_82A99B70(param_2,0xffffffff820d28b4,0xffffffff8202936c);
-        lVar1 = -0x7de69a7e;
-        if (*puVar3 != 0xffffffff) {
-          lVar1 = (unsigned __int64)*(unsigned int *)(param_1 + 0x2c) + (unsigned __int64)*puVar3;
-        }
-        fn_82A99D88(param_2,0xffffffff820d2ac0,lVar1);
-        lVar1 = -0x7de69a7e;
-        if (puVar3[1] != 0xffffffff) {
-          lVar1 = (unsigned __int64)*(unsigned int *)(param_1 + 0x2c) + (unsigned __int64)puVar3[1];
-        }
-        fn_82A99D88(param_2,0xffffffff8204f43c,lVar1);
-        fn_82A9A810(param_2);
-        puVar3 = puVar3 + 2;
-      } while (puVar3 < (unsigned int *)(*(int *)(param_1 + 0x24) * 8 + *(int *)(param_1 + 0x20)));
+    const char *name;
+    if (offset == -1) {
+        name = lbl_82196582;
+    } else {
+        name = self->names + offset;
     }
-    fn_82A99C28(param_2,0xffffffff820d2af8);
-  }
-  fn_82A99BC8(param_2);
-  fn_82A99B70(param_2,0xffffffff820d28b4,0xffffffff8200ed34);
-  fn_82A9A860(param_2);
-  uVar2 = (unsigned __int64)*(unsigned int *)(param_1 + 0x38);
-  if (uVar2 < ((unsigned __int64)*(unsigned int *)(param_1 + 0x3c) * 0x28 + uVar2 & 0xffffffff)) {
-    do {
-      fn_82A99BC8(param_2);
-      fn_82A99B70(param_2,0xffffffff820d28b4,0xffffffff820d2a88);
-      fn_82A99D88(param_2,0xffffffff820d2ac0,uVar2);
-      fn_82A99D88(param_2,0xffffffff8204f43c,uVar2 + 0x20);
-      fn_82A9A810(param_2);
-      uVar2 = uVar2 + 0x28;
-    } while ((uVar2 & 0xffffffff) <
-             (unsigned __int64)(*(int *)(param_1 + 0x3c) * 0x28 + *(unsigned int *)(param_1 + 0x38)));
-  }
-  fn_82A99C28(param_2,0xffffffff8200ed34);
-  fn_82A99C28(param_2,0xffffffff820d2b00);
-  return;
+    return name;
 }
 
+void fn_82A9C480(Tool_82A9C480 *self, void *writer)
+{
+    fn_82A99BC8(writer);
+    fn_82A99B70(writer, "<%s", "tool");
+    if (self->name != 0) {
+        fn_82A99D88(writer, "name", self->name);
+    }
+    fn_82A9A860(writer);
+    if (self->defines.count != 0) {
+        DefineList_82A9C480 *defines;
+        Define_82A9C480 *define;
+        fn_82A99BC8(writer);
+        fn_82A99B70(writer, "<%s", "defines");
+        fn_82A9A860(writer);
+        defines = &self->defines;
+        for (define = defines->data; define < defines->data + defines->count; define++) {
+            fn_82A99BC8(writer);
+            fn_82A99B70(writer, "<%s", lbl_8202936C);
+            fn_82A99D88(writer, "name", GetName(self, define->nameOffset));
+            fn_82A99D88(writer, "value", GetName(self, define->valueOffset));
+            fn_82A9A810(writer);
+        }
+        fn_82A99C28(writer, "defines");
+    }
+    {
+        ArgumentList_82A9C480 *arguments;
+        Argument_82A9C480 *argument;
+        fn_82A99BC8(writer);
+        fn_82A99B70(writer, "<%s", "arguments");
+        fn_82A9A860(writer);
+        arguments = &self->arguments;
+        for (argument = arguments->data; argument < arguments->data + arguments->count; argument++) {
+            fn_82A99BC8(writer);
+            fn_82A99B70(writer, "<%s", "argument");
+            fn_82A99D88(writer, "name", argument->name);
+            fn_82A99D88(writer, "value", argument->value);
+            fn_82A9A810(writer);
+        }
+        fn_82A99C28(writer, "arguments");
+    }
+    fn_82A99C28(writer, "tool");
+}

@@ -1,54 +1,105 @@
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_50;
-extern int fn_82D890C8();
-extern int fn_830A21E8();
-extern int fn_830A2398();
-extern int fn_830A4688();
-extern unsigned int uStack_2c;
+typedef struct Body_82D985C0 {
+    char pad00[0x10];
+    float position[4];
+    float velocity[4];
+} Body_82D985C0;
 
+typedef struct Entity_82D985C0 {
+    char pad00[8];
+    void *world; /* 0x08 */
+} Entity_82D985C0;
 
-void fn_82D985C0(int param_1,int param_2,unsigned __int64 param_3)
+typedef struct Constraint_82D985C0 {
+    char pad00[0x14];
+    Entity_82D985C0 *entities[2]; /* 0x14 */
+} Constraint_82D985C0;
 
+typedef struct Contact_82D985C0 {
+    char pad00[0x30];
+    Body_82D985C0 *bodyA;
+    Body_82D985C0 *bodyB;
+    char pad38[0x10];
+    Constraint_82D985C0 *constraint;
+    char *runtime;
+} Contact_82D985C0;
+
+typedef struct Runtime_82D985C0 {
+    unsigned char initialized;
+    char pad01[3];
+    float positionA[3];
+    float positionB[3];
+    float velocityA[3];
+    float velocityB[3];
+} Runtime_82D985C0;
+
+typedef struct Atom_82D985C0 {
+    unsigned short type;
+} Atom_82D985C0;
+
+typedef struct Info_82D985C0 {
+    char pad00[0x10];
+    Atom_82D985C0 *atom;
+    int size;
+} Info_82D985C0;
+
+typedef struct Data_82D985C0 Data_82D985C0;
+
+typedef struct Vtable_82D985C0 {
+    void *slots[15];
+    void (*getInfo)(Data_82D985C0 *, Info_82D985C0 *);
+} Vtable_82D985C0;
+
+struct Data_82D985C0 {
+    Vtable_82D985C0 *vtable;
+};
+
+typedef struct Owner_82D985C0 {
+    char pad00[0x18];
+    Data_82D985C0 *data;
+    unsigned short offset;
+    char pad1e[6];
+    unsigned char update;
+} Owner_82D985C0;
+
+extern void fn_830A21E8(Contact_82D985C0 *, int *, unsigned int, unsigned char);
+extern void fn_830A2398(Atom_82D985C0 *, int, Contact_82D985C0 *, int *);
+extern void fn_830A4688(Atom_82D985C0 *, Contact_82D985C0 *, int, int *);
+extern unsigned char *fn_82D890C8(unsigned char *, void *, Constraint_82D985C0 *);
+
+void fn_82D985C0(Owner_82D985C0 *self, Contact_82D985C0 *contact, int *output)
 {
-  int iVar1;
-  int iVar2;
-  char *pcVar3;
-  unsigned char auStack_50 [16];
-  unsigned char auStack_40 [16];
-  short *psStack_30;
-  unsigned int uStack_2c;
-  
-  pcVar3 = (char *)((unsigned int)*(unsigned short *)(param_1 + 0x1c) + *(int *)(param_2 + 0x4c));
-  if (*pcVar3 == '\0') {
-    iVar1 = *(int *)(param_2 + 0x30);
-    iVar2 = *(int *)(param_2 + 0x34);
-    *(unsigned int *)(pcVar3 + 4) = *(unsigned int *)(iVar1 + 0x10);
-    *(unsigned int *)(pcVar3 + 8) = *(unsigned int *)(iVar1 + 0x14);
-    *(unsigned int *)(pcVar3 + 0xc) = *(unsigned int *)(iVar1 + 0x18);
-    *(unsigned int *)(pcVar3 + 0x10) = *(unsigned int *)(iVar2 + 0x10);
-    *(unsigned int *)(pcVar3 + 0x14) = *(unsigned int *)(iVar2 + 0x14);
-    *(unsigned int *)(pcVar3 + 0x18) = *(unsigned int *)(iVar2 + 0x18);
-    *(unsigned int *)(pcVar3 + 0x1c) = *(unsigned int *)(iVar1 + 0x20);
-    *(unsigned int *)(pcVar3 + 0x20) = *(unsigned int *)(iVar1 + 0x24);
-    *(unsigned int *)(pcVar3 + 0x24) = *(unsigned int *)(iVar1 + 0x28);
-    *(unsigned int *)(pcVar3 + 0x28) = *(unsigned int *)(iVar2 + 0x20);
-    *(unsigned int *)(pcVar3 + 0x2c) = *(unsigned int *)(iVar2 + 0x24);
-    *(unsigned int *)(pcVar3 + 0x30) = *(unsigned int *)(iVar2 + 0x28);
-    (**(int (***)())(**(int **)(param_1 + 0x18) + 0x3c))(*(int **)(param_1 + 0x18),auStack_40);
-    if (*psStack_30 == 0x16) {
-      fn_830A4688(psStack_30,param_2,1);
-    }
-    else {
-      fn_830A2398(psStack_30,uStack_2c,param_2,param_3);
-    }
-  }
-  else {
-    fn_830A21E8(param_2,param_3,0,8);
-    if (*(char *)(param_1 + 0x24) != '\0') {
-      fn_82D890C8(auStack_50,*(unsigned int *)(*(int *)(*(int *)(param_2 + 0x48) + 0x14) + 8),
-                        *(int *)(param_2 + 0x48));
-    }
-  }
-  return;
-}
+    struct {
+        unsigned char result[16];
+        Info_82D985C0 info;
+    } local;
 
+    Runtime_82D985C0 *runtime = (Runtime_82D985C0 *)(self->offset + contact->runtime);
+    if (runtime->initialized == 0) {
+        Body_82D985C0 *a = contact->bodyA;
+        Body_82D985C0 *b = contact->bodyB;
+        runtime->positionA[0] = a->position[0];
+        runtime->positionA[1] = a->position[1];
+        runtime->positionA[2] = a->position[2];
+        runtime->positionB[0] = b->position[0];
+        runtime->positionB[1] = b->position[1];
+        runtime->positionB[2] = b->position[2];
+        runtime->velocityA[0] = a->velocity[0];
+        runtime->velocityA[1] = a->velocity[1];
+        runtime->velocityA[2] = a->velocity[2];
+        runtime->velocityB[0] = b->velocity[0];
+        runtime->velocityB[1] = b->velocity[1];
+        runtime->velocityB[2] = b->velocity[2];
+        self->data->vtable->getInfo(self->data, &local.info);
+        if (local.info.atom->type == 0x16) {
+            fn_830A4688(local.info.atom, contact, 1, output);
+        } else {
+            fn_830A2398(local.info.atom, local.info.size, contact, output);
+        }
+    } else {
+        fn_830A21E8(contact, output, 0, 8);
+        if (self->update != 0) {
+            Constraint_82D985C0 *constraint = contact->constraint;
+            fn_82D890C8(local.result, constraint->entities[0]->world, constraint);
+        }
+    }
+}

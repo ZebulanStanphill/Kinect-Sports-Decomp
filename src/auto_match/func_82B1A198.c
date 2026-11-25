@@ -1,90 +1,173 @@
-extern unsigned int *auStack_a0;
-extern unsigned int *auStack_a8;
-extern int fn_82930918();
-extern int fn_82AA66A8();
-extern int fn_82AC6560();
-extern int fn_82AD20C0();
-extern int fn_82B455A8();
-extern int fn_82B455D0();
-extern int fn_82B80EF8();
-extern int fn_82B8EB40();
-extern unsigned int uStack_ac;
-extern unsigned int uStack_b0;
+typedef struct Info_82B1A198 {
+    char pad[0x28];
+    unsigned int pad0 : 17;
+    unsigned int flag : 1;
+    unsigned int pad1 : 14;
+} Info_82B1A198;
 
+typedef struct Owner_82B1A198 {
+    char pad[0x94];
+    Info_82B1A198 *info;
+} Owner_82B1A198;
 
-unsigned __int64 fn_82B1A198(unsigned __int64 param_1,unsigned __int64 param_2,int *param_3,int *param_4)
+typedef struct PageHeader_82B1A198 {
+    Owner_82B1A198 *owner;
+} PageHeader_82B1A198;
 
+typedef struct Register_82B1A198 {
+    char pad0[0x8];
+    unsigned int pad8 : 18;
+    unsigned int file : 7;
+    unsigned int padx : 7;
+    char padc[0x8];
+    unsigned int pad14 : 22;
+    unsigned int types : 8;
+    unsigned int pad1 : 2;
+} Register_82B1A198;
+
+typedef struct Operand_82B1A198 {
+    unsigned int flags; /* component in bits 0-4, swizzle in bits 5-6 */
+    int pad4[2];
+    Register_82B1A198 *reg; /* 0x0c */
+} Operand_82B1A198;
+
+typedef struct Constant_82B1A198 {
+    void *vt; /* 0x00 */
+    int kind; /* 0x04 */
+    int pad8[2];
+    int type; /* 0x10 */
+    int pad14;
+
+    union {
+        int i;
+        double d;
+    } value; /* 0x18 */
+
+    char pad20[0x10];
+} Constant_82B1A198;
+
+typedef struct Temp_82B1A198 {
+    void *vt;
+    int kind;
+    int a;
+    int b;
+    char pad10[0x20];
+} Temp_82B1A198;
+
+typedef struct Slot_82B1A198 {
+    int pad0;
+    int kind; /* 0x04 */
+} Slot_82B1A198;
+
+typedef struct Node_82B1A198 {
+    char pad0[0xc];
+    Slot_82B1A198 *slot; /* 0x0c */
+} Node_82B1A198;
+
+typedef struct Use_82B1A198 {
+    int pad0[2];
+    int *target; /* 0x08 */
+    int *next;   /* 0x0c */
+} Use_82B1A198;
+
+typedef struct List_82B1A198 List_82B1A198;
+
+typedef struct ListVtbl_82B1A198 {
+    void *slot0;
+    Use_82B1A198 *(*First)(List_82B1A198 *self); /* 0x04 */
+} ListVtbl_82B1A198;
+
+struct List_82B1A198 {
+    ListVtbl_82B1A198 *vt;
+};
+
+typedef struct Instruction_82B1A198 {
+    char pad0[0x70];
+    int *uses; /* 0x70 */
+} Instruction_82B1A198;
+
+extern int *fn_82B455A8(void *context, int *object);
+extern int *fn_82B455D0(void *context, int *object);
+extern void fn_82B8EB40(void *context, Operand_82B1A198 *operand, Register_82B1A198 **reg,
+                        unsigned int *swizzle, unsigned int *component);
+extern Constant_82B1A198 *fn_82AC6560(void *context, unsigned int size, unsigned int tag);
+extern void fn_82930918(Temp_82B1A198 *temp);
+extern double fn_82B80EF8(Register_82B1A198 *reg, unsigned int index, unsigned int component);
+extern void fn_82AD20C0(void *head, Operand_82B1A198 *node, void *allocator);
+__declspec(noreturn) extern void fn_82AA66A8(void *context, int code, ...);
+
+static __forceinline unsigned int GetType_82B1A198(Register_82B1A198 *reg, unsigned int index)
 {
-  unsigned int *puVar1;
-  int *piVar2;
-  int iVar3;
-  int iVar4;
-  unsigned int *puVar5;
-  int iVar6;
-  unsigned int uVar7;
-  unsigned int uVar8;
-  double dVar9;
-  unsigned int uStack_b0;
-  unsigned int uStack_ac;
-  unsigned int auStack_a8 [2];
-  unsigned int auStack_a0 [8];
-  
-  piVar2 = (int *)fn_82B455A8(param_1,*(unsigned int *)(*param_3 + 0x70));
-  iVar3 = (**(int (***)())(*piVar2 + 4))();
-  if (iVar3 != 0) {
-    param_3 = param_3 + 1;
-    iVar6 = iVar3;
-    do {
-      iVar4 = fn_82B455A8(param_1,*(unsigned int *)(iVar6 + 8));
-      if ((*(int *)(iVar4 + 0xc) != 0) && (*(int *)(*(int *)(iVar4 + 0xc) + 4) != 3)) {
-        param_3 = param_3 + 1;
-        puVar1 = (unsigned int *)*param_3;
-        uStack_b0 = puVar1[3];
-        uStack_ac = *puVar1 & 0x1f;
-        uVar7 = *puVar1 >> 5;
-        if (((*(unsigned int *)(uStack_b0 + 8) & 0x3f80) != 16000) &&
-           (fn_82B8EB40(param_1,puVar1,&uStack_b0,auStack_a8,&uStack_ac),
-           uVar7 = auStack_a8[0], (*(unsigned int *)(uStack_b0 + 8) & 0x3f80) != 16000)) {
-          return 0xdd8;
-        }
-        puVar5 = (unsigned int *)fn_82AC6560(param_1,0x30,0x11);
-        fn_82930918(auStack_a0);
-        *puVar5 = auStack_a0[0];
-        dVar9 = (double)fn_82B80EF8(uStack_b0,uVar7 & 3,uStack_ac);
-        puVar5[1] = 3;
-        if (((~(unsigned __int64)*(unsigned int *)(*(int *)(*(int *)(uStack_b0 & 0xfffff000) + 0x94) + 0x28) &
-             0xffffffff) >> 0xe & 1) == 0) {
-          uVar7 = 0;
-        }
-        else {
-          uVar7 = (*(unsigned int *)(uStack_b0 + 0x14) >> 2 & 0xff) >> ((uVar7 & 3) << 1) & 3;
-        }
-        if (uVar7 == 0) {
-          *(double *)(puVar5 + 6) = (double)(float)dVar9;
-          uVar8 = 5;
-LAB_82b1a324:
-          puVar5[4] = uVar8;
-        }
-        else {
-          if (uVar7 != 1) {
-            if (2 < uVar7) {
-                    /* WARNING: Subroutine does not return */
-              fn_82AA66A8(param_1,0x12c0);
-            }
-            uVar8 = 2;
-            puVar5[6] = (int)(__int64)dVar9;
-            goto LAB_82b1a324;
-          }
-          puVar5[4] = 3;
-          puVar5[6] = (int)dVar9;
-        }
-        *(unsigned int **)(iVar4 + 0xc) = puVar5;
-        fn_82AD20C0(param_2,puVar1,param_1);
-      }
-      iVar6 = fn_82B455D0(param_1,*(unsigned int *)(iVar6 + 0xc));
-    } while (iVar6 != 0);
-  }
-  *param_4 = iVar3;
-  return 0;
+    if (!(unsigned char)!((PageHeader_82B1A198 *)((unsigned int)reg & 0xfffff000))->owner->info->flag) {
+        return 0;
+    }
+    return (reg->types >> (index * 2)) & 3;
 }
 
+int fn_82B1A198(void *context, void *list, Instruction_82B1A198 **operands, int **out)
+{
+    List_82B1A198 *uses;
+    Use_82B1A198 *first;
+    Use_82B1A198 *use;
+    Node_82B1A198 *node;
+    Operand_82B1A198 *operand;
+    Constant_82B1A198 *constant;
+    Temp_82B1A198 temp;
+    Register_82B1A198 *reg;
+    unsigned int component;
+    unsigned int swizzle;
+    unsigned int resolved;
+    unsigned int flags;
+    Operand_82B1A198 **next;
+    double value;
+
+    uses = (List_82B1A198 *)fn_82B455A8(context, operands[0]->uses);
+    first = uses->vt->First(uses);
+    use = first;
+    if (use != 0) {
+        next = (Operand_82B1A198 **)&operands[1];
+        do {
+            node = (Node_82B1A198 *)fn_82B455A8(context, use->target);
+            if (node->slot != 0 && node->slot->kind != 3) {
+                operand = *++next;
+                reg = operand->reg;
+                flags = operand->flags;
+                component = flags & 0x1f;
+                swizzle = (flags >> 5) & 3;
+                if (reg->file != 0x7d) {
+                    fn_82B8EB40(context, operand, &reg, &resolved, &component);
+                    if (reg->file != 0x7d) {
+                        return 0xdd8;
+                    }
+                    swizzle = resolved & 3;
+                }
+                constant = fn_82AC6560(context, 0x30, 0x11);
+                fn_82930918(&temp);
+                constant->vt = temp.vt;
+                value = fn_82B80EF8(reg, swizzle, component);
+                constant->kind = 3;
+                switch (GetType_82B1A198(reg, swizzle)) {
+                case 0:
+                    constant->value.d = (float)value;
+                    constant->type = 5;
+                    break;
+                case 1:
+                    constant->type = 3;
+                    constant->value.i = (int)value;
+                    break;
+                case 2:
+                    constant->value.i = (unsigned int)value;
+                    constant->type = 2;
+                    break;
+                default:
+                    fn_82AA66A8(context, 0x12c0);
+                }
+                node->slot = (Slot_82B1A198 *)constant;
+                fn_82AD20C0(list, operand, context);
+            }
+            use = (Use_82B1A198 *)fn_82B455D0(context, use->next);
+        } while (use != 0);
+    }
+    *out = (int *)first;
+    return 0;
+}

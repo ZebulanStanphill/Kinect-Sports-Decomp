@@ -1,77 +1,81 @@
-extern int fn_82F691F0();
+typedef struct Allocator_8281B558 Allocator_8281B558;
 
+typedef struct Callbacks_8281B558 {
+    char pad[8];
+    char *(*resize)(Allocator_8281B558 *, char *, unsigned int);
+    char pad2[4];
+    unsigned int (*size)(Allocator_8281B558 *, char *);
+} Callbacks_8281B558;
 
-unsigned __int64 fn_8281B558(int param_1,__int64 param_2,unsigned __int64 param_3)
+struct Allocator_8281B558 {
+    char pad[0xc];
+    unsigned int flags;
+    Callbacks_8281B558 *callbacks;
+    char pad2[8];
+    char *(*resized)(Allocator_8281B558 *, char *, unsigned int, char *);
+    char *(*failed)(Allocator_8281B558 *, char *, unsigned int);
+    char pad3[0xc];
+    unsigned int allocated;
+    unsigned int available;
+    char pad4[0xc];
+    unsigned int minSize;
+    unsigned int maxSize;
+    char pad5[4];
+    char *minAddress;
+    char *maxAddress;
+    char pad6[0x20];
+    unsigned int guardSize;
+};
 
+extern void *memset(void *, int, unsigned int);
+
+char *fn_8281B558(Allocator_8281B558 *self, char *address, unsigned int requested)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  unsigned int uVar3;
-  unsigned __int64 uVar4;
-  __int64 lVar5;
-  unsigned __int64 uVar6;
-  
-  uVar4 = 1;
-  if ((param_3 & 0xffffffff) != 0) {
-    uVar4 = param_3;
-  }
-  lVar5 = param_2;
-  uVar6 = uVar4;
-  if ((*(unsigned int *)(param_1 + 0xc) & 4) != 0) {
-    lVar5 = param_2 - (unsigned __int64)*(unsigned int *)(param_1 + 0x78);
-    uVar6 = ((unsigned __int64)*(unsigned int *)(param_1 + 0x78) & 0x7fffffff) * 2 + uVar4;
-  }
-  uVar1 = (**(int (***)())(*(int *)(param_1 + 0x10) + 0x10))(param_1,lVar5);
-  if (*(int *)(*(int *)(param_1 + 0x10) + 8) == 0) {
-    uVar2 = 0;
-  }
-  else {
-    if (((*(unsigned int *)(param_1 + 0xc) & 2) != 0) && ((uVar6 & 0xffffffff) < (uVar1 & 0xffffffff))) {
-                    /* WARNING: Subroutine does not return */
-      fn_82F691F0(uVar6 + lVar5,0xee,uVar1 - uVar6);
-    }
-    uVar2 = (**(int (***)())(*(int *)(param_1 + 0x10) + 8))(param_1,lVar5,uVar6);
-    if (uVar2 == 0) {
-      if (*(int (***)())(param_1 + 0x20) != (int (**)())0x0) {
-        uVar2 = (**(int (***)())(param_1 + 0x20))(param_1,param_2,uVar4);
-      }
-    }
-    else {
-      *(int *)(param_1 + 0x30) = ((int)uVar6 - (int)uVar1) + *(int *)(param_1 + 0x30);
-      *(int *)(param_1 + 0x34) = (*(int *)(param_1 + 0x34) - (int)uVar6) + (int)uVar1;
-      if (((*(unsigned int *)(param_1 + 0xc) & 1) != 0) && ((uVar1 & 0xffffffff) < (uVar6 & 0xffffffff))) {
-                    /* WARNING: Subroutine does not return */
-        fn_82F691F0(uVar2 + uVar1,0xcc,uVar6 - uVar1);
-      }
-      if ((*(unsigned int *)(param_1 + 0xc) & 4) != 0) {
-                    /* WARNING: Subroutine does not return */
-        fn_82F691F0(*(unsigned int *)(param_1 + 0x78) + uVar2 + uVar4,0xdd);
-      }
-      uVar3 = *(unsigned int *)(param_1 + 0x50);
-      if ((uVar2 & 0xffffffff) < (unsigned __int64)*(unsigned int *)(param_1 + 0x50)) {
-        uVar3 = (unsigned int)uVar2;
-      }
-      *(unsigned int *)(param_1 + 0x50) = uVar3;
-      uVar3 = *(unsigned int *)(param_1 + 0x54);
-      if ((unsigned __int64)*(unsigned int *)(param_1 + 0x54) < (uVar2 & 0xffffffff)) {
-        uVar3 = (unsigned int)uVar2;
-      }
-      *(unsigned int *)(param_1 + 0x54) = uVar3;
-      uVar3 = *(unsigned int *)(param_1 + 0x44);
-      if ((uVar4 & 0xffffffff) < (unsigned __int64)uVar3) {
-        uVar3 = (unsigned int)uVar4;
-      }
-      *(unsigned int *)(param_1 + 0x44) = uVar3;
-      uVar6 = uVar4;
-      if ((uVar4 & 0xffffffff) <= (unsigned __int64)*(unsigned int *)(param_1 + 0x48)) {
-        uVar6 = (unsigned __int64)*(unsigned int *)(param_1 + 0x48);
-      }
-      *(int *)(param_1 + 0x48) = (int)uVar6;
-      if (*(int (***)())(param_1 + 0x1c) != (int (**)())0x0) {
-        uVar2 = (**(int (***)())(param_1 + 0x1c))(param_1,param_2,uVar4,uVar2);
-      }
-    }
-  }
-  return uVar2;
-}
+    unsigned int size;
+    char *base;
+    unsigned int total;
+    unsigned int oldSize;
+    char *result;
 
+    if (requested == 0) {
+        size = 1;
+    } else {
+        size = requested;
+    }
+    base = address;
+    total = size;
+    if (self->flags & 4) {
+        unsigned int guardSize = self->guardSize;
+        base = address - guardSize;
+        total = guardSize * 2 + size;
+    }
+    oldSize = self->callbacks->size(self, base);
+    if (self->callbacks->resize != 0) {
+        if ((self->flags & 2) && total < oldSize) {
+            memset(base + total, 0xee, oldSize - total);
+        }
+        result = self->callbacks->resize(self, base, total);
+        if (result != 0) {
+            self->allocated += total - oldSize;
+            self->available = self->available - total + oldSize;
+            if ((self->flags & 1) && total > oldSize) {
+                memset(result + oldSize, 0xcc, total - oldSize);
+            }
+            if (self->flags & 4) {
+                memset(result + self->guardSize + size, 0xdd, self->guardSize);
+                result += self->guardSize;
+            }
+            self->minAddress = result < self->minAddress ? result : self->minAddress;
+            self->maxAddress = result > self->maxAddress ? result : self->maxAddress;
+            self->minSize = size < self->minSize ? size : self->minSize;
+            self->maxSize = size > self->maxSize ? size : self->maxSize;
+            if (self->resized != 0) {
+                result = self->resized(self, address, size, result);
+            }
+        } else if (self->failed != 0) {
+            result = self->failed(self, address, size);
+        }
+        return result;
+    }
+    return 0;
+}

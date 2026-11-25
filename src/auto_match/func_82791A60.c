@@ -1,61 +1,66 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_826BCD88();
-extern int fn_82790148();
-extern int fn_827901D8();
-extern int fn_82791560();
+typedef struct Reader_82791A60 {
+    const unsigned short *pos;
+    const unsigned short *next;
+    const unsigned short *end;
+    unsigned int ch;
+    unsigned char expandEntities;
+} Reader_82791A60;
 
+typedef struct Parser_82791A60 {
+    int pad[2];
+    Reader_82791A60 reader;
+    unsigned short *buffer;
+    int capacity;
+    int length;
+} Parser_82791A60;
 
-void fn_82791A60(int param_1,unsigned int *param_2,int *param_3)
+extern const char lbl_820094C8[];
+extern int fn_826BCD88(const char *table, unsigned short ch);
+extern void fn_82790148(Parser_82791A60 *self, const unsigned short *text, int length);
+extern void fn_827901D8(Parser_82791A60 *self, unsigned int ch);
+extern void fn_82791560(Reader_82791A60 *reader);
 
+void fn_82791A60(Parser_82791A60 *self, const unsigned short **text, int *length)
 {
-  unsigned int uVar1;
-  bool bVar2;
-  bool bVar3;
-  int iVar4;
-  short *psVar5;
-  unsigned int *puVar6;
-  
-  puVar6 = (unsigned int *)(param_1 + 8);
-  *param_2 = *(unsigned int *)(param_1 + 8);
-  bVar3 = false;
-  *param_3 = 0;
-  psVar5 = *(short **)(param_1 + 8);
-  if (psVar5 < *(short **)(param_1 + 0x10)) {
-    do {
-      uVar1 = *(unsigned int *)(param_1 + 0x14);
-      if ((((uVar1 == 0x3d) || (uVar1 == 0x3e)) || (uVar1 == 0x3c)) ||
-         ((uVar1 == 0x2f || (iVar4 = fn_826BCD88(0xffffffff820094c8,uVar1 & 0xffff), iVar4 != 0))))
-      break;
-      if ((*(char *)(param_1 + 0x18) == '\0') || (bVar2 = true, *psVar5 != 0x26)) {
-        bVar2 = false;
-      }
-      if (bVar2) {
-        if (!bVar3) {
-          *(unsigned int *)(param_1 + 0x24) = 0;
-          fn_82790148(param_1,*param_2,*param_3);
-          bVar3 = true;
-        }
-        fn_827901D8(param_1,*(unsigned int *)(param_1 + 0x14));
-      }
-      else {
-        iVar4 = *(int *)(param_1 + 0xc) - (int)psVar5 >> 1;
-        if (bVar3) {
-          fn_82790148(param_1,*puVar6,iVar4);
-        }
-        else {
-          *param_3 = iVar4 + *param_3;
-        }
-      }
-      fn_82791560(puVar6);
-      psVar5 = (short *)*puVar6;
-    } while (psVar5 < *(short **)(param_1 + 0x10));
-  }
-  if (bVar3) {
-    *param_2 = *(unsigned int *)(param_1 + 0x1c);
-    *param_3 = *(int *)(param_1 + 0x24);
-  }
-  return;
-}
+    Reader_82791A60 *reader = &self->reader;
+    unsigned char expanded = 0;
+    const unsigned short *pos;
 
+    *text = self->reader.pos;
+    *length = 0;
+    pos = reader->pos;
+    if (pos < reader->end)
+        do {
+            unsigned int ch = self->reader.ch;
+            unsigned char entity;
+            if (ch == '=' || ch == '>' || ch == '<' || ch == '/') {
+                break;
+            }
+            if (fn_826BCD88(lbl_820094C8, (unsigned short)ch) != 0) {
+                break;
+            }
+            entity = reader->expandEntities && *pos == '&';
+            if (entity) {
+                if (!expanded) {
+                    self->length = 0;
+                    fn_82790148(self, *text, *length);
+                    expanded = 1;
+                }
+                fn_827901D8(self, self->reader.ch);
+            } else {
+                if (expanded) {
+                    int delta = (const char *)reader->next - (const char *)pos;
+                    fn_82790148(self, self->reader.pos, delta >> 1);
+                } else {
+                    int delta = (const char *)reader->next - (const char *)pos;
+                    *length = (delta >> 1) + *length;
+                }
+            }
+            fn_82791560(reader);
+            pos = reader->pos;
+        } while (pos < reader->end);
+    if (expanded) {
+        *text = self->buffer;
+        *length = self->length;
+    }
+}

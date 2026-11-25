@@ -1,42 +1,48 @@
-void fn_82805F78(int param_1,int param_2,int *param_3,unsigned char *param_4,int *param_5,unsigned int param_6)
+typedef struct Scale_82805F78 {
+    int reserved;
+    const float *values; /* 0x04 */
+    char pad[0x16];
+    unsigned short count; /* 0x1e */
+} Scale_82805F78;
 
+typedef struct Stream_82805F78 {
+    char pad[0x24];
+    const unsigned char *flags; /* 0x24 */
+    int reserved28;
+    const int *base;            /* 0x2c */
+    const unsigned char *width; /* 0x30 */
+} Stream_82805F78;
+
+void fn_82805F78(const Scale_82805F78 *scale, Stream_82805F78 *stream, float **out, unsigned char *bitOffset,
+                 const unsigned int **words, unsigned int index)
 {
-  unsigned char bVar1;
-  int iVar2;
-  int iVar3;
-  unsigned char bVar4;
-  unsigned __int64 uVar5;
-  
-  uVar5 = 0x80;
-  iVar3 = param_6 << 2;
-  bVar1 = **(unsigned char **)(param_2 + 0x24);
-  do {
-    if (*(unsigned short *)(param_1 + 0x1e) <= param_6) {
-      return;
-    }
-    if ((uVar5 & bVar1) != 0) {
-      if ((uVar5 >> 3 & (unsigned __int64)bVar1) == 0) {
-        iVar2 = **(int **)(param_2 + 0x2c);
-        *(int **)(param_2 + 0x2c) = *(int **)(param_2 + 0x2c) + 1;
-        bVar4 = **(unsigned char **)(param_2 + 0x30);
-        *(unsigned char **)(param_2 + 0x30) = *(unsigned char **)(param_2 + 0x30) + 1;
-        *(float *)*param_3 =
-             ((float)(((((unsigned int *)*param_5)[1] << 1) << (0x1f - *param_4 & 0x3f) |
-                      *(unsigned int *)*param_5 >> (*param_4 & 0x3f)) & (1 << (bVar4 & 0x3f)) - 1U) +
-             (float)(__int64)iVar2) * *(float *)(*(int *)(param_1 + 4) + iVar3);
-        bVar4 = *param_4 + bVar4;
-        *param_4 = bVar4 & 0x1f;
-        *param_5 = (bVar4 >> 3 & 0x1ffffffc) + *param_5;
-      }
-      else {
-        *(int *)(param_2 + 0x2c) = *(int *)(param_2 + 0x2c) + 4;
-      }
-    }
-    uVar5 = uVar5 >> 1;
-    param_6 = param_6 + 1;
-    iVar3 = iVar3 + 4;
-    *param_3 = *param_3 + 4;
-  } while (uVar5 != 0x10);
-  return;
+    unsigned int mask;
+    unsigned int flags = *stream->flags;
+    mask = 0x80;
+    do {
+        if (index >= scale->count) {
+            return;
+        }
+        if (mask & flags) {
+            if ((mask >> 3) & flags) {
+                ++stream->base;
+            } else {
+                int base = *stream->base++;
+                unsigned char width = *stream->width++;
+                unsigned int maskBits = (1u << width) - 1;
+                unsigned char bit = *bitOffset;
+                const unsigned int *src = *words;
+                unsigned int data = ((src[1] << 1) << (31 - bit)) | (src[0] >> bit);
+                **out = ((float)(data & maskBits) + (float)base) * scale->values[index];
+                {
+                    unsigned int offset = (unsigned char)(*bitOffset + width);
+                    *bitOffset = offset & 31;
+                    *words = (const unsigned int *)((const char *)*words + ((offset >> 3) & ~3u));
+                }
+            }
+        }
+        mask >>= 1;
+        ++index;
+        ++*out;
+    } while (mask != 0x10);
 }
-

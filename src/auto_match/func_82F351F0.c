@@ -1,104 +1,131 @@
-extern unsigned int *auStack_68;
-extern int fn_82E39C50();
-extern int fn_82E579E0();
-extern int fn_82EE5CC8();
-extern int fn_82EE5F60();
-extern int fn_82F68CC0();
-extern unsigned int uStack_70;
+unsigned long _byteswap_ulong(unsigned long value);
+extern void *memcpy(void *dst, const void *src, unsigned int n);
 
+typedef struct MediaBuffer_82F351F0 MediaBuffer_82F351F0;
 
-__int64 fn_82F351F0(int *param_1,int *param_2,unsigned int *param_3,unsigned __int64 param_4,unsigned __int64 param_5
-                      ,unsigned __int64 param_6)
+typedef struct MediaBufferVtbl_82F351F0 {
+    void *queryInterface; /* 0x00 */
+    void *addRef;         /* 0x04 */
+    void *release;        /* 0x08 */
+    void *setLength;      /* 0x0C */
+    void *getMaxLength;   /* 0x10 */
+    long (*getBufferAndLength)(MediaBuffer_82F351F0 *self, unsigned char **buffer,
+                               unsigned long *length); /* 0x14 */
+} MediaBufferVtbl_82F351F0;
 
+struct MediaBuffer_82F351F0 {
+    MediaBufferVtbl_82F351F0 *vtable;
+};
+
+typedef struct Guid_82F351F0 {
+    unsigned long data1;
+    unsigned short data2;
+    unsigned short data3;
+    unsigned char data4[8];
+} Guid_82F351F0;
+
+typedef struct ByteQueue_82F351F0 {
+    unsigned char unknown0[0x18];
+    unsigned int size; /* 0x18 */
+} ByteQueue_82F351F0;
+
+typedef struct Parser_82F351F0 Parser_82F351F0;
+
+typedef struct ParserVtbl_82F351F0 {
+    void *unknown0[28];
+    long (*finish)(Parser_82F351F0 *self, unsigned long *size); /* 0x70 */
+    unsigned __int64 (*getTotalSize)(Parser_82F351F0 *self);    /* 0x74 */
+} ParserVtbl_82F351F0;
+
+struct Parser_82F351F0 {
+    ParserVtbl_82F351F0 *vtable;  /* 0x00 */
+    int unknown4[2];              /* 0x04 */
+    void *source;                 /* 0x0C */
+    Guid_82F351F0 id;             /* 0x10 */
+    unsigned __int64 payloadSize; /* 0x20 */
+    ByteQueue_82F351F0 queue;     /* 0x28 */
+    unsigned char flags;          /* 0x44 */
+};
+
+long fn_82EE5CC8(ByteQueue_82F351F0 *queue, MediaBuffer_82F351F0 *buffer, unsigned int offset,
+                 unsigned int size);
+int fn_82EE5F60(ByteQueue_82F351F0 *queue, char *destination, unsigned int size);
+void fn_82E39C50(Guid_82F351F0 *guid, const unsigned char **pp);
+void fn_82E579E0(ByteQueue_82F351F0 *queue);
+
+long fn_82F351F0(Parser_82F351F0 *self, MediaBuffer_82F351F0 *buffer, unsigned long *processed)
 {
-  unsigned char bVar1;
-  unsigned char bVar2;
-  unsigned char bVar3;
-  unsigned char bVar4;
-  unsigned char bVar5;
-  unsigned char bVar6;
-  unsigned char bVar7;
-  unsigned char bVar8;
-  unsigned int uVar9;
-  __int64 lVar10;
-  unsigned __int64 uVar11;
-  unsigned __int64 uVar12;
-  unsigned __int64 uVar13;
-  unsigned int uStack_70;
-  unsigned char *pbStack_6c;
-  unsigned int auStack_68 [2];
-  unsigned char abStack_60 [96];
-  
-  if (param_1[3] == 0) {
-    lVar10 = -0x3ff2c94a;
-  }
-  else if ((param_2 == (int *)0x0) || (param_3 == (unsigned int *)0x0)) {
-    lVar10 = -0x7ff8ffa9;
-  }
-  else {
-    *param_3 = 0;
-    uStack_70 = 0;
-    auStack_68[0] = 0;
-    lVar10 = (**(int (***)())(*param_2 + 0x14))(param_2,auStack_68,&uStack_70);
-    if (-1 < (int)lVar10) {
-      uVar9 = param_1[0x10];
-      if ((*(unsigned char *)(param_1 + 0x11) & 1) == 0) {
-        if (0x17 < uVar9) {
-          return -0x3ff2c566;
-        }
-        if (uStack_70 < 0x18 - uVar9) {
-          lVar10 = fn_82EE5CC8(param_1 + 10,param_2,0);
-          if ((int)lVar10 < 0) {
-            return lVar10;
-          }
-          *param_3 = uStack_70;
-          return 0x400d3a98;
-        }
-        if ((uVar9 != 0) &&
-           (lVar10 = fn_82EE5F60(param_1 + 10,abStack_60,uVar9), (int)lVar10 < 0)) {
-          return lVar10;
-        }
-        fn_82F68CC0(abStack_60 + uVar9,auStack_68[0],0x18 - uVar9);
-        pbStack_6c = abStack_60;
-        fn_82E39C50(param_1 + 4,&pbStack_6c);
-        bVar1 = pbStack_6c[3];
-        bVar3 = pbStack_6c[2];
-        bVar5 = pbStack_6c[1];
-        bVar7 = *pbStack_6c;
-        bVar2 = pbStack_6c[7];
-        bVar4 = pbStack_6c[6];
-        bVar6 = pbStack_6c[5];
-        bVar8 = pbStack_6c[4];
-        *(unsigned char *)(param_1 + 0x11) = *(unsigned char *)(param_1 + 0x11) | 1;
-        *(unsigned __int64 *)(param_1 + 8) =
-             ((unsigned __int64)bVar2 << 0x18 | (unsigned __int64)bVar4 << 0x10 | (unsigned __int64)bVar6 << 8 |
-             (unsigned __int64)bVar8) << 0x20 |
-             (unsigned __int64)bVar1 << 0x18 | (unsigned __int64)bVar3 << 0x10 | (unsigned __int64)bVar5 << 8 |
-             (unsigned __int64)bVar7;
-      }
-      uVar11 = (**(int (***)())(*param_1 + 0x74))(param_1);
-      uVar12 = (unsigned __int64)uStack_70;
-      uVar13 = uVar11 - uVar9 & 0xffffffff;
-      if (uVar12 < uVar11 - uVar9) {
-        uVar13 = uVar12;
-      }
-      lVar10 = fn_82EE5CC8(param_1 + 10,param_2,0,uVar13,param_5,param_6,uVar12);
-      if (-1 < (int)lVar10) {
-        if ((unsigned int)param_1[0x10] < uVar11) {
-          *param_3 = (unsigned int)uVar13;
-          lVar10 = 0x400d3a98;
-        }
-        else {
-          lVar10 = (**(int (***)())(*param_1 + 0x70))(param_1,param_3);
-          *param_3 = *param_3 - uVar9;
-          if (lVar10 == 0) {
-            *(unsigned char *)(param_1 + 0x11) = *(unsigned char *)(param_1 + 0x11) | 2;
-            fn_82E579E0(param_1 + 10);
-          }
-        }
-      }
-    }
-  }
-  return lVar10;
-}
+    unsigned long length;
+    const unsigned char *cursor;
+    unsigned char *data;
+    unsigned char header[24];
+    unsigned int queued;
+    unsigned __int64 total;
+    unsigned __int64 remaining;
+    unsigned int count;
+    long hr;
 
+    if (self->source == 0) {
+        return 0xC00D36B6;
+    }
+    if (buffer == 0 || processed == 0) {
+        return 0x80070057;
+    }
+    *processed = 0;
+    length = 0;
+    data = 0;
+    hr = buffer->vtable->getBufferAndLength(buffer, &data, &length);
+    if (hr < 0) {
+        return hr;
+    }
+    queued = self->queue.size;
+    if ((self->flags & 1) == 0) {
+        if (queued >= 24) {
+            return 0xC00D3A9A;
+        }
+        if (length >= 24 - queued) {
+            if (queued != 0) {
+                hr = fn_82EE5F60(&self->queue, (char *)header, queued);
+                if (hr < 0) {
+                    return hr;
+                }
+            }
+            memcpy(header + queued, data, 24 - queued);
+            cursor = header;
+            fn_82E39C50(&self->id, &cursor);
+            self->payloadSize =
+                ((unsigned __int64)_byteswap_ulong(((const unsigned long *)cursor)[1]) << 32) |
+                _byteswap_ulong(((const unsigned long *)cursor)[0]);
+            self->flags |= 1;
+        } else {
+            hr = fn_82EE5CC8(&self->queue, buffer, 0, length);
+            if (hr < 0) {
+                return hr;
+            }
+            *processed = length;
+            return 0x400D3A98;
+        }
+    }
+    total = self->vtable->getTotalSize(self);
+    remaining = total - queued;
+    count = (unsigned int)remaining;
+    if (remaining > length) {
+        count = length;
+    }
+    hr = fn_82EE5CC8(&self->queue, buffer, 0, count);
+    if (hr < 0) {
+        return hr;
+    }
+    if (self->queue.size >= total) {
+        hr = self->vtable->finish(self, processed);
+        *processed -= queued;
+        if (hr == 0) {
+            self->flags |= 2;
+            fn_82E579E0(&self->queue);
+        }
+    } else {
+        hr = 0x400D3A98;
+        *processed = count;
+    }
+    return hr;
+}

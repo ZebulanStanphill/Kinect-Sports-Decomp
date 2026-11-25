@@ -1,68 +1,74 @@
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-extern unsigned int *auStack_50;
-extern int fn_82CE5458();
-extern int fn_82CEA280();
-extern int fn_82DBE7C8();
-extern int fn_82DBE8C8();
-extern int fn_82DBED98();
-extern unsigned int lbl_82131F88;
-extern unsigned int uStack_58;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float values[4];
+} __vector4;
 
+typedef struct Source_82DEADA8 Source_82DEADA8;
 
-int fn_82DEADA8(int param_1,int param_2,unsigned char *param_3,int *param_4,unsigned char *param_5)
+typedef struct SourceVt_82DEADA8 {
+    char pad[0x10];
+    float (*getValue)(Source_82DEADA8 *);
+} SourceVt_82DEADA8;
 
+struct Source_82DEADA8 {
+    SourceVt_82DEADA8 *vt;
+};
+
+typedef struct Entry_82DEADA8 {
+    char pad[0x14];
+    unsigned char fallback;
+    char pad2[7];
+    int lookup[1];
+} Entry_82DEADA8;
+
+typedef struct State_82DEADA8 {
+    char pad[8];
+    void *first;
+    char pad2[4];
+    void *second;
+    char pad3[0x84];
+    Entry_82DEADA8 *entry;
+} State_82DEADA8;
+
+typedef struct Context_82DEADA8 {
+    char pad[0xc];
+    Source_82DEADA8 *source;
+    char pad2[4];
+    State_82DEADA8 *state;
+} Context_82DEADA8;
+
+extern void fn_82CE5458(unsigned char *, const float *);
+extern const __vector4 *fn_82DBE7C8(Source_82DEADA8 *);
+extern const __vector4 *fn_82DBE8C8(Source_82DEADA8 *);
+extern int fn_82DBED98(void *, void *, const __vector4 *);
+extern unsigned char fn_82CEA280(int *, unsigned int, int);
+extern const float lbl_82131F88[256];
+
+Entry_82DEADA8 *fn_82DEADA8(State_82DEADA8 *self, Context_82DEADA8 *context, unsigned char *fallback,
+                            int *index, unsigned char *value)
 {
-  int iVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned int *puVar4;
-  unsigned int *puVar5;
-  int in_r0;
-  int iVar7;
-  unsigned __int64 uVar6;
-  char cVar8;
-  double dVar9;
-  unsigned int uVar10;
-  unsigned int uVar11;
-  unsigned int uVar12;
-  unsigned char abStack_60;
-  unsigned __int64 uStack_58;
-  unsigned char auStack_50 [16];
-  
-  iVar1 = *(int *)(param_1 + 0x98);
-  dVar9 = (double)(**(int (***)())(**(int **)(param_2 + 0xc) + 0x10))();
-  uStack_58 = CONCAT44((float)dVar9,(((unsigned __int64)(uStack_58) >> 32) & 0xFFFFFFFF));
-  fn_82CE5458(&abStack_60,&uStack_58);
-  uStack_58 = (__int64)*(float *)(&lbl_82131F88 + (unsigned int)abStack_60 * 4);
-  *param_5 = (unsigned char)uStack_58;
-  if (iVar1 != 0) {
-    if (param_1 == *(int *)(param_2 + 0x14)) {
-      iVar7 = fn_82DBE7C8();
+    unsigned char code;
+    const __vector4 *position;
+    __vector4 copy;
+    int found;
+    Source_82DEADA8 *source = context->source;
+    Entry_82DEADA8 *entry = self->entry;
+    {
+        float raw = source->vt->getValue(source);
+        fn_82CE5458(&code, &raw);
     }
-    else {
-      iVar7 = fn_82DBE8C8(*(unsigned int *)(param_2 + 0xc));
+    *value = (unsigned char)lbl_82131F88[code];
+    if (entry != 0) {
+        position = self == context->state ? fn_82DBE7C8(context->source) : fn_82DBE8C8(context->source);
+        copy = *position;
+        found = fn_82DBED98(self->first, self->second, &copy);
+        *index = found;
+        if (found != -1 && fn_82CEA280(entry->lookup, found, 0)) {
+            return entry;
+        }
+        if (entry->fallback) {
+            *fallback = 1;
+            return entry;
+        }
     }
-    puVar4 = (unsigned int *)(in_r0 + iVar7 & 0xfffffff0);
-    uVar10 = puVar4[1];
-    uVar11 = puVar4[2];
-    uVar12 = puVar4[3];
-    uVar2 = *(unsigned int *)(param_1 + 0x10);
-    uVar3 = *(unsigned int *)(param_1 + 8);
-    puVar5 = (unsigned int *)((unsigned int)(auStack_50 + in_r0) & 0xfffffff0);
-    *puVar5 = *puVar4;
-    puVar5[1] = uVar10;
-    puVar5[2] = uVar11;
-    puVar5[3] = uVar12;
-    uVar6 = fn_82DBED98(uVar3,uVar2,auStack_50);
-    *param_4 = (int)uVar6;
-    if (((int)uVar6 != -1) && (cVar8 = fn_82CEA280(iVar1 + 0x1c,uVar6,0), cVar8 != '\0')) {
-      return iVar1;
-    }
-    if (*(char *)(iVar1 + 0x14) != '\0') {
-      *param_3 = 1;
-      return iVar1;
-    }
-  }
-  return 0;
+    return 0;
 }
-

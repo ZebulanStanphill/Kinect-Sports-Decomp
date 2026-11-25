@@ -1,50 +1,60 @@
-extern unsigned int lbl_8201EB08;
-extern unsigned int lbl_8201EB10;
-extern unsigned int lbl_8201EB18;
-extern unsigned int lbl_8201EB24;
-extern unsigned int lbl_8201EB28;
-extern unsigned int lbl_8201EB30;
-extern unsigned int lbl_8201EB38;
-extern unsigned int lbl_8201EB40;
-extern unsigned int lbl_8201EB48;
-extern unsigned int lbl_8201EB50;
-extern unsigned int lbl_8201EB58;
-extern unsigned int lbl_8201EB60;
-extern unsigned int lbl_8201EB68;
-extern unsigned int lbl_8201EB70;
-extern unsigned int lbl_8201EB78;
+extern const double lbl_8201EB08;
+extern const double lbl_8201EB10;
+extern const double lbl_8201EB18;
+extern const float lbl_8201EB24;
+extern const float lbl_8201EB28;
+extern const double lbl_8201EB30;
+extern const double lbl_8201EB38;
+extern const double lbl_8201EB40;
+extern const double lbl_8201EB48;
+extern const double lbl_8201EB50;
+extern const double lbl_8201EB58;
+extern const double lbl_8201EB60;
+extern const double lbl_8201EB68;
+extern const double lbl_8201EB70;
+extern const double lbl_8201EB78;
+extern double fabs(double);
+extern double __fctid(double);
+extern double __fcfid(double);
+extern double __fsel(double, double, double);
 
+typedef union Magnitude_82809950 {
+    double magnitude;
+    __int64 bits;
+} Magnitude_82809950;
 
-double fn_82809950(double param_1)
-
+float fn_82809950(float angle)
 {
-  double dVar1;
-  double dVar2;
-  double dVar3;
-  double dVar4;
-  double dVar5;
-  
-  dVar5 = ABS(param_1);
-  dVar4 = (double)lbl_8201EB24;
-  if (param_1 < 0.0) {
-    dVar4 = (double)lbl_8201EB28;
-  }
-  dVar2 = (double)(__int64)(lbl_8201EB08 * dVar5);
-  dVar3 = -(lbl_8201EB38 * dVar2 - -(lbl_8201EB30 * dVar2 - dVar5));
-  dVar1 = dVar3 * dVar3;
-  dVar3 = ((((((((lbl_8201EB78 * dVar1 + lbl_8201EB70) * dVar1 + lbl_8201EB68) * dVar1 +
-               lbl_8201EB60) * dVar1 + lbl_8201EB58) * dVar1 + lbl_8201EB50) * dVar1 + lbl_8201EB48)
-            * dVar1 + lbl_8201EB40) * dVar1 + (double)lbl_8201EB24) * dVar3;
-  if (((__int64)dVar2 & 1U) != 0) {
-    dVar3 = -dVar3;
-  }
-  if (dVar5 != 0.0) {
-    dVar1 = lbl_8201EB18;
-    if (dVar5 - lbl_8201EB10 < 0.0) {
-      dVar1 = dVar3 * dVar4;
-    }
-    param_1 = (double)(float)dVar1;
-  }
-  return param_1;
-}
+    Magnitude_82809950 input;
 
+    double turns;
+    double reduced;
+    double square;
+    double value;
+    double sign;
+
+    input.magnitude = fabs(angle);
+
+    turns = __fcfid(__fctid(lbl_8201EB08 * input.magnitude));
+    sign = __fsel(angle, lbl_8201EB24, lbl_8201EB28);
+    reduced = input.magnitude - lbl_8201EB30 * turns;
+    reduced -= lbl_8201EB38 * turns;
+    square = reduced * reduced;
+    value = lbl_8201EB78 * square + lbl_8201EB70;
+    value = value * square + lbl_8201EB68;
+    value = value * square + lbl_8201EB60;
+    value = value * square + lbl_8201EB58;
+    value = value * square + lbl_8201EB50;
+    value = value * square + lbl_8201EB48;
+    value = value * square + lbl_8201EB40;
+    value = (value * square + lbl_8201EB24) * reduced;
+    if (((__int64)turns & 1) != 0)
+        value = -value;
+    value *= sign;
+    if (input.bits != 0) {
+        angle = (float)__fsel(input.magnitude - lbl_8201EB10, lbl_8201EB18, value);
+        return angle;
+    } else {
+        return angle;
+    }
+}

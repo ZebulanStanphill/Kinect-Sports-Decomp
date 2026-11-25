@@ -1,16 +1,32 @@
-void fn_82E915E0(int *param_1,unsigned int *param_2,int param_3)
+typedef struct Node_82E914C0 Node_82E914C0;
 
+typedef struct {
+    Node_82E914C0 *head;     /* 0x00 */
+    Node_82E914C0 *tail;     /* 0x04 */
+    Node_82E914C0 *freeHead; /* 0x08 */
+    Node_82E914C0 *freeTail; /* 0x0C */
+    int count;               /* 0x10 */
+} List_82E914C0;
+
+int fn_82E914C0(List_82E914C0 *list, int *out, int index);
+
+typedef struct {
+    int cursor;          /* 0x00 */
+    int pad4[2];         /* 0x04 */
+    List_82E914C0 *list; /* 0x0C */
+} Owner_82E915E0;
+
+void fn_82E915E0(Owner_82E915E0 *self, int *out, int index)
 {
-  int iVar1;
-  
-  iVar1 = *(int *)(param_1[3] + 0x10);
-  if ((iVar1 != 0) && (param_3 <= iVar1 + -1)) {
-    if ((-1 < param_3) || (*param_1 == iVar1)) {
-      *param_1 = *param_1 + -1;
+    int count;
+
+    count = self->list->count;
+    if (count != 0 && index <= count - 1) {
+        if (index >= 0 || self->cursor == count) {
+            self->cursor--;
+        }
+        fn_82E914C0(self->list, out, index);
+        return;
     }
-    fn_82E914C0();
-    return;
-  }
-  *param_2 = 0;
-  return;
+    *out = 0;
 }

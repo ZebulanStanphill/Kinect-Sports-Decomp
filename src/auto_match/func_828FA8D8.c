@@ -1,113 +1,96 @@
-extern int fn_828F5960();
-extern int fn_828F6FA8();
-extern int fn_828FA798();
-extern unsigned int stack0x00000000;
-extern unsigned int stack0x00000030;
-extern unsigned int uStack00000030;
-extern unsigned int uStack00000038;
-extern unsigned int uStack00000040;
-extern unsigned int uStack00000048;
+typedef char *va_list;
+extern void __cdecl __va_start(va_list *, ...);
+extern unsigned int strlen(const char *s);
 
+typedef struct Sink_828FA8D8 Sink_828FA8D8;
 
-/* WARNING: Removing unreachable block (ram,0x828faa20) */
-/* WARNING: Removing unreachable block (ram,0x828fa968) */
-/* WARNING: Removing unreachable block (ram,0x828fa9c8) */
-/* WARNING: Removing unreachable block (ram,0x828faac8) */
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
+typedef struct SinkVtbl_828FA8D8 {
+    int (*write)(Sink_828FA8D8 *self, char *buffer, unsigned int size); /* 0x00 */
+} SinkVtbl_828FA8D8;
 
-void fn_828FA8D8(int param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4,unsigned __int64 param_5,
-                  unsigned __int64 param_6,unsigned __int64 param_7,unsigned __int64 param_8)
+struct Sink_828FA8D8 {
+    SinkVtbl_828FA8D8 *vtable;
+};
 
+typedef struct Location_828FA8D8 {
+    char pad00[0x10];
+    const char *file;  /* 0x10 */
+    unsigned int line; /* 0x14 */
+} Location_828FA8D8;
+
+typedef struct Messages_828FA8D8 {
+    char pad00[0xc];
+    Sink_828FA8D8 *prefix; /* 0x0c */
+    char pad10[8];
+    int errorCount; /* 0x18 */
+} Messages_828FA8D8;
+
+extern long fn_828F6FA8(char *buffer, unsigned int count, const char *format, ...);
+extern long fn_828F5960(char *buffer, unsigned int count, const char *format, va_list args);
+extern int fn_828FA798(Messages_828FA8D8 *self, const char *text);
+
+static __forceinline void Advance(char **cursor, unsigned int *remaining)
 {
-  char cVar1;
-  unsigned int *puVar2;
-  int iVar3;
-  char *pcVar4;
-  char *pcVar5;
-  unsigned int uVar6;
-  unsigned __int64 uStack00000030;
-  unsigned __int64 uStack00000038;
-  unsigned __int64 uStack00000040;
-  unsigned __int64 uStack00000048;
-  char acStack_1040 [4160];
-  
-  pcVar4 = &stack0x00000000 + -0x1040;
-  uVar6 = 0xffc;
-  uStack00000030 = param_5;
-  uStack00000038 = param_6;
-  uStack00000040 = param_7;
-  uStack00000048 = param_8;
-  if (param_2 == 0) {
-LAB_828fa9d4:
-    if ((param_3 & 0xffffffff) != 0) {
-      iVar3 = fn_828F6FA8(pcVar4,uVar6,0xffffffff820297ac,param_3);
-      pcVar5 = pcVar4;
-      if (iVar3 < 0) goto LAB_828faa98;
-      do {
-        cVar1 = *pcVar5;
-        pcVar5 = pcVar5 + 1;
-      } while (cVar1 != '\0');
-      iVar3 = -1 - (int)pcVar4;
-      pcVar4 = pcVar4 + (int)(pcVar5 + iVar3);
-      uVar6 = uVar6 - (int)(pcVar5 + iVar3);
+    int length = strlen(*cursor);
+    if (length < 0) {
+        length = *remaining;
     }
-    puVar2 = *(unsigned int **)(param_1 + 0xc);
-    if (puVar2 != (unsigned int *)0x0) {
-      iVar3 = (**(int (***)())*puVar2)(puVar2,pcVar4,uVar6);
-      if (iVar3 < 0) goto LAB_828faa98;
-      pcVar4 = pcVar4 + iVar3;
-      uVar6 = uVar6 - iVar3;
-    }
-    if ((uVar6 < 0x80000000) &&
-       (iVar3 = fn_828F5960(pcVar4,uVar6,param_4,&stack0x00000030), -1 < iVar3)) {
-      do {
-        pcVar5 = pcVar4;
-        pcVar4 = pcVar5 + 1;
-      } while (*pcVar5 != '\0');
-      *pcVar5 = '\n';
-      pcVar4 = &stack0x00000000 + -0x1040;
-      pcVar5[1] = '\0';
-      goto LAB_828faae0;
-    }
-  }
-  else if (*(int *)(param_2 + 0x10) == 0) {
-LAB_828fa978:
-    iVar3 = *(int *)(param_2 + 0x14);
-    if (iVar3 == 0) {
-      iVar3 = 1;
-    }
-    iVar3 = fn_828F6FA8(pcVar4,uVar6,0xffffffff820297b8,iVar3);
-    pcVar5 = pcVar4;
-    if (-1 < iVar3) {
-      do {
-        cVar1 = *pcVar5;
-        pcVar5 = pcVar5 + 1;
-      } while (cVar1 != '\0');
-      iVar3 = -1 - (int)pcVar4;
-      pcVar4 = pcVar4 + (int)(pcVar5 + iVar3);
-      uVar6 = uVar6 - (int)(pcVar5 + iVar3);
-      goto LAB_828fa9d4;
-    }
-  }
-  else {
-    iVar3 = fn_828F6FA8(&stack0x00000000 + -0x1040,0xffc,0xffffffff821c4da8);
-    if (-1 < iVar3) {
-      pcVar5 = &stack0x00000000 + -0x1040;
-      pcVar4 = pcVar5;
-      do {
-        cVar1 = *pcVar4;
-        pcVar4 = pcVar4 + 1;
-      } while (cVar1 != '\0');
-      uVar6 = 0xffc - (int)(pcVar4 + (-1 - (int)pcVar5));
-      pcVar4 = &stack0x00000000 + (int)(pcVar4 + (-0x1041 - (int)pcVar5));
-      goto LAB_828fa978;
-    }
-  }
-LAB_828faa98:
-  pcVar4 = "Error creating error string";
-LAB_828faae0:
-  *(int *)(param_1 + 0x18) = *(int *)(param_1 + 0x18) + 1;
-  fn_828FA798(param_1,pcVar4);
-  return;
+    *cursor += length;
+    *remaining -= length;
 }
 
+void fn_828FA8D8(Messages_828FA8D8 *self, Location_828FA8D8 *location, unsigned int code, const char *format,
+                 ...)
+{
+    char buffer[0x1000];
+    char *cursor = buffer;
+    unsigned int remaining = 0xffc;
+    const char *text;
+    va_list args;
+    long hr;
+
+    if (location != 0) {
+        if (location->file != 0) {
+            if (fn_828F6FA8(cursor, remaining, "%s", location->file) < 0) {
+                goto fail;
+            }
+            Advance(&cursor, &remaining);
+        }
+        if (fn_828F6FA8(cursor, remaining, "(%u): ", location->line != 0 ? location->line : 1) < 0) {
+            goto fail;
+        }
+        Advance(&cursor, &remaining);
+    }
+    if (code != 0) {
+        if (fn_828F6FA8(cursor, remaining, "error X%u: ", code) < 0) {
+            goto fail;
+        }
+        Advance(&cursor, &remaining);
+    }
+    if (self->prefix != 0) {
+        int written = self->prefix->vtable->write(self->prefix, cursor, remaining);
+        if (written < 0) {
+            goto fail;
+        }
+        cursor += written;
+        remaining -= written;
+    }
+    __va_start(&args, format);
+    if (remaining > 0x7fffffff) {
+        hr = 0x80070057;
+    } else {
+        hr = fn_828F5960(cursor, remaining, format, args);
+    }
+    if (hr < 0) {
+        goto fail;
+    }
+    Advance(&cursor, &remaining);
+    cursor[0] = '\n';
+    cursor[1] = 0;
+    self->errorCount++;
+    fn_828FA798(self, buffer);
+    return;
+fail:
+    self->errorCount++;
+    fn_828FA798(self, "Error creating error string");
+}

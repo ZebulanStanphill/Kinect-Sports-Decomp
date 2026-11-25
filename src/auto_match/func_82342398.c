@@ -1,72 +1,107 @@
-extern int fn_82F68B7C();
-extern unsigned int lbl_821917D4;
-extern unsigned int lbl_821CA460;
+typedef struct Mode_82342398 {
+    char pad0[0x114];
+    int kind; /* 0x114 */
+} Mode_82342398;
 
+typedef struct State_82342398 {
+    char pad0[0x40];
+    Mode_82342398 *mode; /* 0x40 */
+} State_82342398;
 
-void fn_82342398(double param_1,int param_2)
+typedef struct StateList_82342398 {
+    char pad0[0x1c4];
+    State_82342398 **states; /* 0x1c4 */
+    char pad1c8[0xc];
+    int current; /* 0x1d4 */
+} StateList_82342398;
 
+typedef struct Machine_82342398 {
+    char pad0[0x40];
+    StateList_82342398 *list; /* 0x40 */
+} Machine_82342398;
+
+typedef struct Player_82342398 {
+    char pad0[0x1c];
+    Machine_82342398 machine; /* 0x1c */
+    char pad60[0x40];
+    void *sound; /* 0xa0 */
+} Player_82342398;
+
+typedef struct Session_82342398 {
+    char pad0[0x174];
+    Player_82342398 *player; /* 0x174 */
+} Session_82342398;
+
+typedef struct Game_82342398 {
+    char pad0[0xc];
+    Session_82342398 *session; /* 0xc */
+} Game_82342398;
+
+typedef struct Root_82342398 {
+    char pad0[0x1a0];
+    Game_82342398 *game; /* 0x1a0 */
+} Root_82342398;
+
+typedef struct Tracker_82342398 {
+    Root_82342398 *root; /* 0x00 */
+    char pad4[0x28];
+    int peak; /* 0x2c */
+} Tracker_82342398;
+
+typedef struct Owner_82342398 {
+    char pad0[0xc];
+    Tracker_82342398 *tracker; /* 0xc */
+} Owner_82342398;
+
+extern void fn_8252CAF8(void *sound, int kind, unsigned char level);
+
+static __forceinline State_82342398 *Current_82342398(Machine_82342398 *source)
 {
-  int *piVar1;
-  int iVar2;
-  unsigned int uVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  int iVar6;
-  unsigned int uVar7;
-  unsigned int uVar8;
-  
-  piVar1 = *(int **)(param_2 + 0xc);
-  uVar7 = 0;
-  if ((double)lbl_821917D4 <= param_1) {
-    if (((double)lbl_821917D4 <= param_1) && (param_1 < (double)lbl_821CA460)) {
-      uVar7 = 1;
+    Machine_82342398 *machine = source;
+
+    if (machine->list->current == -1) {
+        return 0;
     }
-  }
-  else {
-    uVar7 = 2;
-  }
-  uVar8 = piVar1[0xb];
-  if ((int)uVar8 <= (int)uVar7) {
-    piVar1[0xb] = uVar7;
-    uVar8 = uVar7;
-  }
-  uVar5 = 0;
-  if (uVar8 == 0) {
-    uVar5 = 0;
-  }
-  else if (uVar8 == 1) {
-    uVar5 = 1;
-  }
-  else if (uVar8 < 3) {
-    uVar5 = 2;
-  }
-  iVar2 = *(int *)(*(int *)(*(int *)(*piVar1 + 0x1a0) + 0xc) + 0x174);
-  if (*(int *)(*(int *)(iVar2 + 0x5c) + 0x1d4) == -1) {
-    iVar6 = 0;
-  }
-  else {
-    iVar6 = *(int *)(*(int *)(*(int *)(iVar2 + 0x5c) + 0x1d4) * 4 +
-                    *(int *)(*(int *)(iVar2 + 0x5c) + 0x1c4));
-  }
-  if (*(int *)(*(int *)(iVar6 + 0x40) + 0x114) == 5) {
-    uVar3 = *(unsigned int *)(iVar2 + 0xa0);
-    uVar4 = 7;
-  }
-  else {
-    if (*(int *)(*(int *)(iVar2 + 0x5c) + 0x1d4) == -1) {
-      iVar6 = 0;
-    }
-    else {
-      iVar6 = *(int *)(*(int *)(*(int *)(iVar2 + 0x5c) + 0x1d4) * 4 +
-                      *(int *)(*(int *)(iVar2 + 0x5c) + 0x1c4));
-    }
-    if (*(int *)(*(int *)(iVar6 + 0x40) + 0x114) != 3) {
-      return;
-    }
-    uVar3 = *(unsigned int *)(iVar2 + 0xa0);
-    uVar4 = 6;
-  }
-  fn_82F68B7C(uVar3,uVar4,uVar5);
-  return;
+    return machine->list->states[machine->list->current];
 }
 
+void fn_82342398(Owner_82342398 *self, float time)
+{
+    Tracker_82342398 *tracker;
+    Root_82342398 *root;
+    Player_82342398 *player;
+    int level;
+    int volume;
+
+    tracker = self->tracker;
+    root = tracker->root;
+    level = 0;
+    if (time < 0.1f) {
+        level = 2;
+    } else if (time >= 0.1f && time < 1.0f) {
+        level = 1;
+    }
+    if (level < tracker->peak) {
+        level = tracker->peak;
+    } else {
+        tracker->peak = level;
+    }
+    volume = 0;
+    switch ((unsigned int)level) {
+    case 0:
+        volume = 0;
+        break;
+    case 1:
+        volume = 1;
+        break;
+    case 2:
+        volume = 2;
+        break;
+    }
+    player = root->game->session->player;
+    if (Current_82342398(&player->machine)->mode->kind == 5) {
+        fn_8252CAF8(player->sound, 7, volume);
+    } else if (Current_82342398(&player->machine)->mode->kind == 3) {
+        fn_8252CAF8(player->sound, 6, volume);
+    }
+}

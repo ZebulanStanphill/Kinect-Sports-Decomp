@@ -1,51 +1,40 @@
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int lbl_831D1298;
-extern unsigned int lbl_831D129C;
-extern unsigned int lbl_831D12A4;
-extern unsigned int lbl_831D12A8;
-extern unsigned int lbl_831D12B8;
-extern unsigned int lbl_831D12C0;
+typedef struct Fade_822A23A8 {
+    int target;   /* 0x00 */
+    int previous; /* 0x04 */
+    char pad08[0x0C - 0x08];
+    float inRate;  /* 0x0C */
+    float outRate; /* 0x10 */
+    char pad14[0x20 - 0x14];
+    int timed; /* 0x20 */
+    char pad24[0x28 - 0x24];
+    float value; /* 0x28 */
+} Fade_822A23A8;
 
+extern Fade_822A23A8 lbl_831D1298;
 
-void fn_822A23A8(double param_1)
-
+void fn_822A23A8(float dt)
 {
-  double dVar1;
-  double dVar2;
-  double dVar3;
-  
-  dVar3 = (double)lbl_821CA460;
-  dVar2 = (double)ltcg_pool_0_0f;
-  if (((lbl_831D1298 < 1) || (dVar1 = dVar2, lbl_831D129C != 0)) &&
-     ((lbl_831D1298 != 0 || (dVar1 = dVar3, lbl_831D129C < 1)))) {
-    dVar1 = (double)lbl_831D12C0;
-  }
-  else {
-    lbl_831D12C0 = (float)dVar1;
-  }
-  lbl_831D129C = lbl_831D1298;
-  if ((0 < lbl_831D1298) && (dVar1 < dVar3)) {
-    lbl_831D12C0 = (float)((double)lbl_831D12A4 * param_1 + dVar1);
-    if (dVar3 <= (double)lbl_831D12C0) {
-      lbl_831D12C0 = lbl_821CA460;
-      return;
-    }
-    return;
-  }
-  if (lbl_831D1298 != 0) {
-    return;
-  }
-  if (dVar2 < dVar1) {
-    dVar3 = -(double)(float)((double)lbl_831D12A8 * param_1 - dVar1);
-    lbl_831D12C0 = (float)dVar3;
-    if (dVar3 <= dVar2) {
-      lbl_831D12C0 = ltcg_pool_0_0f;
-      lbl_831D12B8 = 0;
-      return;
-    }
-    return;
-  }
-  return;
-}
+    float value;
 
+    if (lbl_831D1298.target > 0 && lbl_831D1298.previous == 0) {
+        lbl_831D1298.value = 0.0f;
+    } else if (lbl_831D1298.target == 0 && lbl_831D1298.previous > 0) {
+        lbl_831D1298.value = 1.0f;
+    }
+    value = lbl_831D1298.value;
+    lbl_831D1298.previous = lbl_831D1298.target;
+    if (lbl_831D1298.target > 0 && value < 1.0f) {
+        value = value + lbl_831D1298.inRate * dt;
+        lbl_831D1298.value = value;
+        if (value >= 1.0f) {
+            lbl_831D1298.value = 1.0f;
+        }
+    } else if (lbl_831D1298.target == 0 && value > 0.0f) {
+        value = value - lbl_831D1298.outRate * dt;
+        lbl_831D1298.value = value;
+        if (value <= 0.0f) {
+            lbl_831D1298.value = 0.0f;
+            lbl_831D1298.timed = 0;
+        }
+    }
+}

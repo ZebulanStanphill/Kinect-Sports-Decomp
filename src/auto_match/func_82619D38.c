@@ -1,18 +1,27 @@
-unsigned __int64 fn_82619D38(int param_1,int param_2)
+typedef struct Target_82619D38 {
+    char pad0[0x190];
+    int dirty; /* 0x190 */
+} Target_82619D38;
 
+typedef struct Object_82619D38 {
+    int pad0;
+    Target_82619D38 *target; /* 0x4 */
+    char pad8[0xFA8];
+    unsigned char enabled; /* 0xFB0 */
+} Object_82619D38;
+
+extern int fn_82591730(Object_82619D38 *self, unsigned int prop, unsigned int value);
+
+int fn_82619D38(Object_82619D38 *self, int prop, unsigned int value)
 {
-  unsigned __int64 uVar1;
-  
-  if (param_2 == 8) {
-    *(unsigned int *)(*(int *)(param_1 + 4) + 400) = 1;
-    *(unsigned char *)(param_1 + 0xfb0) = 0;
-  }
-  else {
-    if (param_2 != 0xe) {
-      uVar1 = fn_82591730();
-      return uVar1;
+    switch (prop) {
+    case 0xE:
+        self->enabled = 1;
+        return 0;
+    case 8:
+        self->target->dirty = 1;
+        self->enabled = 0;
+        return 0;
     }
-    *(unsigned char *)(param_1 + 0xfb0) = 1;
-  }
-  return 0;
+    return fn_82591730(self, prop, value);
 }

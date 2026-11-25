@@ -1,68 +1,66 @@
-extern unsigned int *auStack_120;
-extern int fn_828F6FA8();
-extern int fn_828FA8D8();
+typedef struct Token_828FADC0 {
+    unsigned int type;
+    unsigned int line;
 
+    union {
+        char text[1];
+        const char *name;
+        int signedValue;
+        unsigned int unsignedValue;
+        double floatValue;
+    } value;
+} Token_828FADC0;
 
-void fn_828FADC0(unsigned __int64 param_1,unsigned __int64 param_2,unsigned int *param_3)
+extern int fn_828F6FA8(char *, unsigned int, const char *, ...);
+extern void fn_828FA8D8(void *, const Token_828FADC0 *, int, const char *, ...);
 
+void fn_828FADC0(void *parser, int state, const Token_828FADC0 *token)
 {
-  unsigned __int64 uVar1;
-  unsigned int *puVar2;
-  unsigned char auStack_120 [288];
-  
-  switch(*param_3) {
-  case 0:
-    uVar1 = 0xffffffff820298a8;
-    break;
-  case 1:
-    puVar2 = param_3 + 2;
-    goto code_r0x828fae1c;
-  case 2:
-    puVar2 = (unsigned int *)param_3[2];
-    uVar1 = 0xffffffff8202988c;
-    goto code_r0x828fae24;
-  case 3:
-    puVar2 = (unsigned int *)param_3[2];
-    uVar1 = 0xffffffff8202987c;
-    goto code_r0x828fae24;
-  case 4:
-    puVar2 = (unsigned int *)param_3[2];
-    uVar1 = 0xffffffff8202986c;
-    goto code_r0x828fae24;
-  case 5:
-    fn_828F6FA8(auStack_120,0x100,0xffffffff82029860,*(unsigned __int64 *)(param_3 + 2));
-    goto code_r0x828faf34;
-  case 6:
-    fn_828F6FA8(auStack_120,0x100,0xffffffff82029854,*(unsigned __int64 *)(param_3 + 2));
-    goto code_r0x828faf34;
-  case 7:
-    fn_828F6FA8(auStack_120,0x100,0xffffffff82029848,*(unsigned __int64 *)(param_3 + 2));
-    goto code_r0x828faf34;
-  case 8:
-    fn_828F6FA8(auStack_120,0x100,0xffffffff8202983c,*(unsigned __int64 *)(param_3 + 2));
-    goto code_r0x828faf34;
-  case 9:
-    puVar2 = (unsigned int *)param_3[2];
-code_r0x828fae1c:
-    uVar1 = 0xffffffff8202989c;
-code_r0x828fae24:
-    fn_828F6FA8(auStack_120,0x100,uVar1,puVar2);
-    goto code_r0x828faf34;
-  case 10:
-    uVar1 = 0xffffffff8202982c;
-    break;
-  default:
-    uVar1 = 0xffffffff8202980c;
-    break;
-  case 0xc:
-    uVar1 = 0xffffffff82029820;
-    break;
-  case 0xd:
-    uVar1 = 0xffffffff82029814;
-  }
-  fn_828F6FA8(auStack_120,0x100,uVar1);
-code_r0x828faf34:
-  fn_828FA8D8(param_1,param_3,param_2,0xffffffff820297ec,auStack_120);
-  return;
-}
+    char description[256];
 
+    switch (token->type) {
+    case 0:
+        fn_828F6FA8(description, sizeof(description), "version token");
+        break;
+    case 1:
+        fn_828F6FA8(description, sizeof(description), "token '%s'", token->value.text);
+        break;
+    case 2:
+        fn_828F6FA8(description, sizeof(description), "integer '%u'", token->value.unsignedValue);
+        break;
+    case 3:
+        fn_828F6FA8(description, sizeof(description), "integer '%dl'", token->value.signedValue);
+        break;
+    case 4:
+        fn_828F6FA8(description, sizeof(description), "integer '%uul'", token->value.unsignedValue);
+        break;
+    case 5:
+        fn_828F6FA8(description, sizeof(description), "float '%g'", token->value.floatValue);
+        break;
+    case 6:
+        fn_828F6FA8(description, sizeof(description), "float '%gh'", token->value.floatValue);
+        break;
+    case 7:
+        fn_828F6FA8(description, sizeof(description), "float '%gf'", token->value.floatValue);
+        break;
+    case 8:
+        fn_828F6FA8(description, sizeof(description), "float '%gl'", token->value.floatValue);
+        break;
+    case 9:
+        fn_828F6FA8(description, sizeof(description), "token '%s'", token->value.name);
+        break;
+    case 10:
+        fn_828F6FA8(description, sizeof(description), "string constant");
+        break;
+    case 12:
+        fn_828F6FA8(description, sizeof(description), "end of line");
+        break;
+    case 13:
+        fn_828F6FA8(description, sizeof(description), "end of file");
+        break;
+    default:
+        fn_828F6FA8(description, sizeof(description), "token");
+        break;
+    }
+    fn_828FA8D8(parser, token, state, "syntax error : unexpected %s", description);
+}

@@ -1,81 +1,97 @@
-extern unsigned int *auStack_40;
-extern int fn_82E498A0();
-extern int fn_82E49E20();
+typedef struct List_82E49E20 List_82E49E20;
 
+typedef struct Stream_82E4A178 {
+    char pad00[0x9c];
+    int file;
+    char padA0[0x18];
+    List_82E49E20 *buffers;
+    char padBC[4];
+    unsigned int alignment;
+    unsigned __int64 offset;
+} Stream_82E4A178;
 
-unsigned __int64
-fn_82E4A178(int param_1,unsigned int param_2,unsigned __int64 param_3,unsigned __int64 param_4,int param_5)
+typedef struct Request_82E4A178 {
+    char pad00[0xc];
+    unsigned int offsetLow;
+    unsigned int offsetHigh;
+    char pad14[0x24];
+    int mode;
+    unsigned int buffer;
+    unsigned int length;
+    char pad44[4];
 
+    struct Aligned_82E4A178 {
+        unsigned int buffer;
+        unsigned int length;
+    } aligned;
+
+    char pad50[4];
+    unsigned int leading;
+    unsigned int endRemainder;
+    unsigned int trailing;
+    int file;
+} Request_82E4A178;
+
+extern int fn_82E498A0(int self, unsigned __int64 *size);
+extern int fn_82E49E20(List_82E49E20 *list, unsigned int size, unsigned int *out);
+
+static __forceinline void Rewind(unsigned int *offset, unsigned int leading)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  int iVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  int iVar6;
-  unsigned __int64 uVar7;
-  __int64 lVar8;
-  unsigned __int64 auStack_40 [8];
-  
-  uVar5 = *(unsigned __int64 *)(param_1 + 200);
-  uVar1 = *(unsigned int *)(param_1 + 0x9c);
-  uVar4 = 0;
-  *(int *)(param_5 + 0xc) = (int)uVar5;
-  *(int *)(param_5 + 0x10) = (int)(uVar5 >> 0x20);
-  *(unsigned int *)(param_5 + 0x60) = uVar1;
-  if (*(int *)(param_5 + 0x38) == 1) {
-    uVar4 = fn_82E498A0(param_1,auStack_40);
-    if ((int)uVar4 < 0) {
-      return uVar4;
-    }
-    uVar7 = *(unsigned __int64 *)(param_1 + 200);
-    if (auStack_40[0] < (param_3 & 0xffffffff) + uVar7) {
-      if (uVar7 < auStack_40[0]) {
-        param_3 = (auStack_40[0] & 0xffffffff) - (uVar7 & 0xffffffff);
-      }
-      else {
-        param_3 = 0;
-      }
-    }
-    *(unsigned int *)(param_5 + 0x3c) = param_2;
-    uVar7 = (uVar5 & 0xffffffff) + param_3;
-    *(int *)(param_5 + 0x40) = (int)param_3;
-    uVar2 = *(unsigned int *)(param_1 + 0xc0);
-    trapWord(6,(unsigned __int64)uVar2,0);
-    *(unsigned int *)(param_5 + 0x54) = (int)uVar5 - (int)((uVar5 & 0xffffffff) / (unsigned __int64)uVar2) * uVar2;
-    uVar2 = *(unsigned int *)(param_1 + 0xc0);
-    trapWord(6,(unsigned __int64)uVar2,0);
-    lVar8 = uVar7 - (__int64)(int)((uVar7 & 0xffffffff) / (unsigned __int64)uVar2) * (__int64)(int)uVar2;
-    iVar6 = (int)lVar8;
-    *(int *)(param_5 + 0x58) = iVar6;
-    if (lVar8 == 0) {
-      iVar6 = 0;
-    }
-    else {
-      iVar6 = *(int *)(param_1 + 0xc0) - iVar6;
-    }
-    iVar3 = *(int *)(param_5 + 0x54);
-    *(int *)(param_5 + 0x5c) = iVar6;
-    if ((iVar3 != 0) || (*(int *)(param_5 + 0x58) != 0)) {
-      *(int *)(param_5 + 0x4c) = iVar3 + iVar6 + (int)param_3;
-      *(int *)(param_5 + 0xc) = *(int *)(param_5 + 0xc) - iVar3;
-      if (*(int *)(param_1 + 0xb8) == 0) {
-        return 0xffffffffc00d36bb;
-      }
-      uVar4 = fn_82E49E20(*(int *)(param_1 + 0xb8),*(unsigned int *)(param_5 + 0x4c),param_5 + 0x48)
-      ;
-      return uVar4;
-    }
-  }
-  else {
-    if (*(int *)(param_5 + 0x38) != 2) {
-      return 0;
-    }
-    *(unsigned int *)(param_5 + 0x3c) = param_2;
-    *(int *)(param_5 + 0x40) = (int)param_3;
-  }
-  *(int *)(param_5 + 0x4c) = (int)param_3;
-  *(unsigned int *)(param_5 + 0x48) = param_2;
-  return uVar4;
+    *offset -= leading;
 }
 
+int fn_82E4A178(Stream_82E4A178 *self, unsigned int buffer, unsigned int length, int flags,
+                Request_82E4A178 *request)
+{
+    unsigned __int64 initialOffset = self->offset;
+    int mode = request->mode;
+    unsigned int low = (unsigned int)initialOffset;
+    int file = self->file;
+    int result = 0;
+    unsigned __int64 size;
+
+    request->offsetLow = low;
+    request->offsetHigh = (unsigned int)(initialOffset >> 32);
+    request->file = file;
+    if (mode == 1) {
+        unsigned __int64 offset;
+        unsigned int end;
+        unsigned int trailing;
+        unsigned int leading;
+
+        result = fn_82E498A0((int)self, &size);
+        if (result < 0)
+            return result;
+        offset = self->offset;
+        if (offset + length > size) {
+            if (offset < size)
+                length = (unsigned int)size - (unsigned int)offset;
+            else
+                length = 0;
+        }
+        request->buffer = buffer;
+        end = low + length;
+        request->length = length;
+        request->leading = low % self->alignment;
+        request->endRemainder = end % self->alignment;
+        trailing = request->endRemainder != 0 ? self->alignment - request->endRemainder : 0;
+        leading = request->leading;
+        request->trailing = trailing;
+        if (leading != 0 || request->endRemainder != 0) {
+            request->aligned.length = leading + trailing + length;
+            Rewind(&request->offsetLow, leading);
+            if (self->buffers == 0)
+                return (int)0xc00d36bb;
+            return fn_82E49E20(self->buffers, request->aligned.length, &request->aligned.buffer);
+        }
+    } else if (mode == 2) {
+        request->buffer = buffer;
+        request->length = length;
+    } else {
+        goto done;
+    }
+    request->aligned.length = length;
+    request->aligned.buffer = buffer;
+done:
+    return result;
+}

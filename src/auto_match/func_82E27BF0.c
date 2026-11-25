@@ -1,20 +1,38 @@
-unsigned __int64 fn_82E27BF0(int *param_1,unsigned __int64 param_2)
+typedef struct Properties_82E27BF0 Properties_82E27BF0;
 
+typedef struct PropertyVtable_82E27BF0 {
+    void *reserved[21];
+    int (*set)(Properties_82E27BF0 *, const void *, unsigned int);
+} PropertyVtable_82E27BF0;
+
+struct Properties_82E27BF0 {
+    PropertyVtable_82E27BF0 *vt;
+};
+
+extern const char lbl_821535B8[];
+extern const char lbl_821535C8[];
+extern const char lbl_821535A8[];
+extern const char lbl_82153678[];
+
+int fn_82E27BF0(Properties_82E27BF0 *self, unsigned __int64 flags)
 {
-  unsigned __int64 uVar1;
-  
-  uVar1 = 0;
-  if (((((param_2 & 3) == 0) ||
-       (uVar1 = (**(int (***)())(*param_1 + 0x54))(param_1,0xffffffff821535b8,param_2 & 3),
-       -1 < (int)uVar1)) &&
-      (((param_2 & 0x1c) == 0 ||
-       (uVar1 = (**(int (***)())(*param_1 + 0x54))(param_1,0xffffffff821535c8,param_2 >> 2 & 7),
-       -1 < (int)uVar1)))) &&
-     ((((param_2 & 0x60) == 0 ||
-       (uVar1 = (**(int (***)())(*param_1 + 0x54))(param_1,0xffffffff821535a8,param_2 >> 5 & 3),
-       -1 < (int)uVar1)) && ((param_2 & 0x20000) != 0)))) {
-    uVar1 = (**(int (***)())(*param_1 + 0x54))(param_1,0xffffffff82153678,1);
-  }
-  return uVar1;
+    int result = 0;
+    if (flags & 3) {
+        result = self->vt->set(self, lbl_821535B8, (unsigned int)flags & 3);
+        if (result < 0)
+            return result;
+    }
+    if (flags & 0x1c) {
+        result = self->vt->set(self, lbl_821535C8, (unsigned int)(flags >> 2) & 7);
+        if (result < 0)
+            return result;
+    }
+    if (flags & 0x60) {
+        result = self->vt->set(self, lbl_821535A8, (unsigned int)(flags >> 5) & 3);
+        if (result < 0)
+            return result;
+    }
+    if (flags & 0x20000)
+        result = self->vt->set(self, lbl_82153678, 1);
+    return result;
 }
-

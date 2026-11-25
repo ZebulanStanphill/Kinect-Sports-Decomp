@@ -1,53 +1,23 @@
-void fn_8250FDA0(unsigned __int64 *param_1,unsigned __int64 *param_2,unsigned __int64 *param_3)
+typedef struct Element_8250FDA0 {
+    unsigned __int64 first;
+    unsigned __int64 second;
+    float key;
+    unsigned int pad14;
+    unsigned __int64 fourth;
+} Element_8250FDA0;
 
+static __forceinline void SwapIfLess(Element_8250FDA0 *left, Element_8250FDA0 *right)
 {
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  
-  if (*(float *)(param_2 + 2) < *(float *)(param_1 + 2)) {
-    uVar4 = *param_2;
-    uVar3 = param_2[1];
-    uVar2 = param_2[2];
-    uVar1 = param_2[3];
-    *param_2 = *param_1;
-    param_2[1] = param_1[1];
-    param_2[2] = param_1[2];
-    param_2[3] = param_1[3];
-    *param_1 = uVar4;
-    param_1[1] = uVar3;
-    param_1[2] = uVar2;
-    param_1[3] = uVar1;
-  }
-  if (*(float *)(param_3 + 2) < *(float *)(param_2 + 2)) {
-    uVar3 = *param_3;
-    uVar2 = param_3[1];
-    uVar1 = param_3[2];
-    uVar4 = param_3[3];
-    *param_3 = *param_2;
-    param_3[1] = param_2[1];
-    param_3[2] = param_2[2];
-    param_3[3] = param_2[3];
-    *param_2 = uVar3;
-    param_2[1] = uVar2;
-    param_2[2] = uVar1;
-    param_2[3] = uVar4;
-  }
-  if (*(float *)(param_2 + 2) < *(float *)(param_1 + 2)) {
-    uVar4 = *param_2;
-    uVar3 = param_2[1];
-    uVar2 = param_2[2];
-    uVar1 = param_2[3];
-    *param_2 = *param_1;
-    param_2[1] = param_1[1];
-    param_2[2] = param_1[2];
-    param_2[3] = param_1[3];
-    *param_1 = uVar4;
-    param_1[1] = uVar3;
-    param_1[2] = uVar2;
-    param_1[3] = uVar1;
-  }
-  return;
+    if (right->key < left->key) {
+        Element_8250FDA0 value = *right;
+        *right = *left;
+        *left = value;
+    }
 }
 
+void fn_8250FDA0(Element_8250FDA0 *first, Element_8250FDA0 *middle, Element_8250FDA0 *last)
+{
+    SwapIfLess(first, middle);
+    SwapIfLess(middle, last);
+    SwapIfLess(first, middle);
+}

@@ -1,43 +1,55 @@
-extern int fn_824656C8();
-extern unsigned int lbl_821CA460;
+typedef struct Slot_8246B178 {
+    unsigned int first;
+} Slot_8246B178;
+
+typedef union Bits_8246B178 {
+    unsigned int u;
+    float f;
+} Bits_8246B178;
+
+extern int fn_824656C8(int min, int max, int exclude);
 extern unsigned int lbl_83265A28;
 
-
-int * fn_8246B178(int *param_1,unsigned int param_2,unsigned int *param_3)
-
+static __forceinline int Valid(Slot_8246B178 *slot)
 {
-  unsigned int uVar1;
-  int *piVar2;
-  unsigned int uVar3;
-  
-  uVar1 = 0;
-  piVar2 = param_1;
-  for (uVar3 = param_2; uVar3 != 0; uVar3 = uVar3 - 1) {
-    if ((piVar2 != (int *)0x0) && (*piVar2 != 0)) {
-      uVar1 = uVar1 + 1;
+    if (slot == 0) {
+        return 0;
     }
-    piVar2 = piVar2 + 1;
-  }
-  if (((int)*param_3 < 0) || (uVar1 < 2)) {
-    lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
-    uVar1 = (unsigned int)(((float)(lbl_83265A28 & 0x7fffff | 0x3f800000) - lbl_821CA460) *
-                  (float)(__int64)(int)uVar1);
-  }
-  else {
-    uVar1 = fn_824656C8(0);
-  }
-  uVar3 = 0;
-  piVar2 = param_1;
-  if (param_2 != 0) {
-    do {
-      if (((piVar2 != (int *)0x0) && (*piVar2 != 0)) && (uVar3 == uVar1)) {
-        *param_3 = uVar1;
-        return param_1 + uVar3;
-      }
-      uVar3 = uVar3 + 1;
-      piVar2 = piVar2 + 1;
-    } while (uVar3 < param_2);
-  }
-  return (int *)0x0;
+    return slot->first != 0;
 }
 
+static __forceinline int RandomBelow(int range)
+{
+    Bits_8246B178 r;
+
+    lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
+    r.u = (lbl_83265A28 & 0x7fffff) | 0x3f800000;
+    return (int)((r.f - 1.0f) * (float)range);
+}
+
+/* Picks a random valid slot, preferring one other than *selected, and stores its index there. */
+Slot_8246B178 *fn_8246B178(Slot_8246B178 *slots, unsigned int count, int *selected)
+{
+    unsigned int valid;
+    unsigned int i;
+    int pick;
+
+    valid = 0;
+    for (i = 0; i < count; i++) {
+        if (Valid(&slots[i])) {
+            valid++;
+        }
+    }
+    if (*selected >= 0 && valid > 1) {
+        pick = fn_824656C8(0, valid, *selected);
+    } else {
+        pick = RandomBelow(valid);
+    }
+    for (i = 0; i < count; i++) {
+        if (Valid(&slots[i]) && i == pick) {
+            *selected = pick;
+            return &slots[i];
+        }
+    }
+    return 0;
+}

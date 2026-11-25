@@ -1,112 +1,127 @@
-extern int fn_8267B890();
-extern int fn_8267C498();
-extern int fn_8267C4F0();
-extern int fn_82686228();
-extern int fn_82686CA8();
-extern int fn_82687270();
-extern int fn_826874B8();
-extern int fn_82687570();
-extern int fn_82687AB8();
-extern int fn_826F3700();
-extern int fn_8275A5A0();
-extern unsigned int iStack_90;
-extern unsigned int uStack_54;
-extern unsigned int uStack_58;
-extern unsigned int uStack_5c;
-extern unsigned int uStack_60;
-extern unsigned int uStack_64;
-extern unsigned int uStack_68;
-extern unsigned int uStack_6c;
-extern unsigned int uStack_70;
-extern unsigned int uStack_74;
-extern unsigned int uStack_78;
-extern unsigned int uStack_7c;
-extern unsigned int uStack_80;
-extern unsigned int uStack_84;
-extern unsigned int uStack_8c;
+typedef struct GradientArgs_8275ADD0 {
+    int fill;
+    int format;
+    int reserved;
+    int layers;
+    void *image;
+    int extra;
+    int width;
+    int height;
+    int clear;
+    int flags;
+    void *heap;
+    unsigned char mode;
+} GradientArgs_8275ADD0;
 
+typedef struct GradientFactory_8275ADD0 GradientFactory_8275ADD0;
 
-unsigned __int64 fn_8275ADD0(unsigned __int64 param_1,int param_2,unsigned __int64 param_3,int *param_4,
-                       unsigned int param_5,unsigned int param_6,unsigned char param_7)
+typedef struct FactoryVTable_8275ADD0 {
+    void *reserved;
+    void *(*create)(GradientFactory_8275ADD0 *, const GradientArgs_8275ADD0 *);
+} FactoryVTable_8275ADD0;
 
+struct GradientFactory_8275ADD0 {
+    const FactoryVTable_8275ADD0 *vtable;
+};
+
+typedef struct Resource_8275ADD0 Resource_8275ADD0;
+
+typedef struct ResourceVTable_8275ADD0 {
+    void *slots[2];
+    void (*release)(Resource_8275ADD0 *, void *);
+} ResourceVTable_8275ADD0;
+
+struct Resource_8275ADD0 {
+    const ResourceVTable_8275ADD0 *vtable;
+};
+
+typedef struct Key_8275ADD0 {
+    Resource_8275ADD0 *resource;
+    void *data;
+} Key_8275ADD0;
+
+typedef struct Lookup_8275ADD0 {
+    int kind;
+    void *entry;
+} Lookup_8275ADD0;
+
+typedef struct Library_8275ADD0 {
+    char pad[0x2c];
+    void *heap;
+} Library_8275ADD0;
+
+extern const char lbl_831566A4[];
+extern void fn_82686228(Key_8275ADD0 *, const void *, void *);
+extern int fn_82687AB8(Library_8275ADD0 *, Lookup_8275ADD0 *, const Key_8275ADD0 *);
+extern void *fn_82686CA8(Lookup_8275ADD0 *);
+extern void *fn_8275A5A0(void *, int, void *);
+extern void *fn_8267B890(void *, unsigned int, const int *);
+extern void *fn_826F3700(void *, void *, const Key_8275ADD0 *, int);
+extern void fn_826874B8(void *, void *);
+extern void fn_82687570(void *, const char *);
+extern void fn_82687270(void *);
+extern void fn_8267C4F0(void *);
+extern void fn_8267C498(void *);
+
+void *fn_8275ADD0(void *gradient, Library_8275ADD0 *library, int format, GradientFactory_8275ADD0 *factory,
+                  int width, int height, unsigned char mode)
 {
-  int iVar3;
-  unsigned __int64 uVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  struct { int first; unsigned int second; } stack_pair_90;
-
-  int *piStack_88;
-  unsigned int uStack_84;
-  struct { unsigned int first; unsigned int second; } stack_pair_80;
-
-  unsigned int uStack_78;
-  unsigned int uStack_74;
-  unsigned int uStack_70;
-  unsigned int uStack_6c;
-  unsigned int uStack_68;
-  unsigned int uStack_64;
-  unsigned int uStack_60;
-  unsigned int uStack_5c;
-  unsigned int uStack_58;
-  unsigned char uStack_54;
-
-  fn_82686228(&piStack_88,0xffffffff831566a4,param_1);
-  uVar5 = 0;
-  stack_pair_90.first = 0;
-  stack_pair_90.second = 0;
-  iVar3 = fn_82687AB8(param_2,&stack_pair_90.first,&piStack_88);
-  if (iVar3 != 3) {
-    uVar5 = fn_82686CA8(&stack_pair_90.first);
-    goto LAB_8275af34;
-  }
-  uVar1 = fn_8275A5A0(param_1,param_3,*(unsigned int *)(param_2 + 0x2c));
-  if (uVar1 == 0) {
-LAB_8275af04:
-    fn_82687570(stack_pair_90.second,0xffffffff82014600);
-  }
-  else {
-    uStack_58 = *(unsigned int *)(param_2 + 0x2c);
-    stack_pair_80.first = 1;
-    uVar4 = 0;
-    uStack_78 = 0;
-    stack_pair_80.second = 2;
-    uStack_74 = 1;
-    uStack_6c = 0;
-    uStack_60 = 0;
-    uStack_5c = 0;
-    uStack_70 = (int)uVar1;
-    uStack_68 = param_5;
-    uStack_64 = param_6;
-    uStack_54 = param_7;
-    if (param_4 != (int *)0x0) {
-      uVar4 = (**(int (***)())(*param_4 + 4))(param_4,&stack_pair_80.first);
+    Key_8275ADD0 key;
+    Lookup_8275ADD0 lookup;
+    void *result;
+    fn_82686228(&key, lbl_831566A4, gradient);
+    lookup.kind = 0;
+    lookup.entry = 0;
+    if (fn_82687AB8(library, &lookup, &key) == 3) {
+        void *image = fn_8275A5A0(gradient, format, library->heap);
+        if (image != 0) {
+            GradientArgs_8275ADD0 args;
+            void *texture;
+            void *storage;
+            args.heap = library->heap;
+            args.fill = 1;
+            texture = 0;
+            args.reserved = 0;
+            args.format = 2;
+            args.layers = 1;
+            args.extra = 0;
+            args.image = image;
+            args.width = width;
+            args.height = height;
+            args.clear = 0;
+            args.flags = 0;
+            args.mode = mode;
+            if (factory != 0) {
+                texture = factory->vtable->create(factory, &args);
+            }
+            storage = fn_8267B890(args.heap, 0x1c, 0);
+            result = storage != 0 ? fn_826F3700(storage, texture, &key, 2) : 0;
+            if (result != 0) {
+                fn_826874B8(lookup.entry, result);
+            }
+            if (texture != 0) {
+                fn_8267C498(texture);
+            }
+            if (result == 0) {
+                fn_82687570(lookup.entry, "Failed to create gradient");
+            }
+        } else {
+            result = 0;
+            fn_82687570(lookup.entry, "Failed to create gradient");
+        }
+        if (image != 0) {
+            fn_8267C498(image);
+        }
+    } else {
+        result = fn_82686CA8(&lookup);
     }
-    uVar2 = fn_8267B890(uStack_58,0x1c,0);
-    if ((uVar2 & 0xffffffff) != 0) {
-      uVar5 = fn_826F3700(uVar2,uVar4,&piStack_88,2);
+    if (lookup.kind == 1) {
+        fn_82687270(lookup.entry);
+    } else if (lookup.kind >= 2) {
+        fn_8267C4F0(lookup.entry);
     }
-    if ((uVar5 & 0xffffffff) != 0) {
-      fn_826874B8(stack_pair_90.second,uVar5);
+    if (key.resource != 0) {
+        key.resource->vtable->release(key.resource, key.data);
     }
-    if ((uVar4 & 0xffffffff) != 0) {
-      fn_8267C498(uVar4);
-    }
-    if ((uVar5 & 0xffffffff) == 0) goto LAB_8275af04;
-  }
-  if ((uVar1 & 0xffffffff) != 0) {
-    fn_8267C498(uVar1);
-  }
-LAB_8275af34:
-  if (stack_pair_90.first == 1) {
-    fn_82687270(stack_pair_90.second);
-  }
-  else if (1 < stack_pair_90.first) {
-    fn_8267C4F0(stack_pair_90.second);
-  }
-  if (piStack_88 != (int *)0x0) {
-    (**(int (***)())(*piStack_88 + 8))(piStack_88,uStack_84);
-  }
-  return uVar5;
+    return result;
 }

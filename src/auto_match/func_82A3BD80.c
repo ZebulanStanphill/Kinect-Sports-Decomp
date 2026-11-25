@@ -1,47 +1,48 @@
-#define CONCAT11(h,l) ((unsigned short)((((unsigned char)(h)) << 8) | ((unsigned char)(l))))
+typedef struct BitReader_82A3BD18 {
+    unsigned char pad0[0x2b04];
+    unsigned char *cur; /* 0x2b04 */
+    unsigned char *end; /* 0x2b08 */
+    unsigned char pad1[0x2eb0 - 0x2b0c];
+    unsigned int bits; /* 0x2eb0 */
+    signed char count; /* 0x2eb4 */
+    unsigned char pad2[0x2eb7 - 0x2eb5];
+    unsigned char exhausted; /* 0x2eb7 */
+} BitReader_82A3BD18;
 
-
-void fn_82A3BD80(int param_1,unsigned int param_2)
-
+static __forceinline void LoadHalf(BitReader_82A3BD18 *s)
 {
-  unsigned char uVar1;
-  unsigned char uVar2;
-  unsigned char *puVar3;
-  unsigned int uVar4;
-  char cVar5;
-  char cVar6;
-  
-  cVar6 = *(char *)(param_1 + 0x2eb4) - (char)param_2;
-  uVar4 = *(int *)(param_1 + 0x2eb0) << (param_2 & 0x3f);
-  *(unsigned int *)(param_1 + 0x2eb0) = uVar4;
-  *(char *)(param_1 + 0x2eb4) = cVar6;
-  if ('\0' < cVar6) {
-    return;
-  }
-  puVar3 = *(unsigned char **)(param_1 + 0x2b04);
-  if (puVar3 < *(unsigned char **)(param_1 + 0x2b08)) {
-    cVar6 = *(char *)(param_1 + 0x2eb4);
-    uVar1 = puVar3[1];
-    uVar2 = *puVar3;
-    *(unsigned char **)(param_1 + 0x2b04) = puVar3 + 2;
-    cVar5 = cVar6 + '\x10';
-    *(char *)(param_1 + 0x2eb4) = cVar5;
-    *(unsigned int *)(param_1 + 0x2eb0) = (unsigned int)CONCAT11(uVar1,uVar2) << (-(int)cVar6 & 0x3fU) | uVar4;
-    if ('\0' < cVar5) {
-      return;
-    }
-    if (puVar3 + 2 < *(unsigned char **)(param_1 + 0x2b08)) {
-      cVar6 = *(char *)(param_1 + 0x2eb4);
-      uVar1 = puVar3[3];
-      uVar2 = puVar3[2];
-      *(unsigned char **)(param_1 + 0x2b04) = puVar3 + 4;
-      *(char *)(param_1 + 0x2eb4) = cVar6 + '\x10';
-      *(unsigned int *)(param_1 + 0x2eb0) =
-           (unsigned int)CONCAT11(uVar1,uVar2) << (-(int)cVar6 & 0x3fU) | *(unsigned int *)(param_1 + 0x2eb0);
-      return;
-    }
-  }
-  *(unsigned char *)(param_1 + 0x2eb7) = 1;
-  return;
+    unsigned char *p = s->cur;
+    unsigned int v;
+
+    v = (p[1] << 8) | p[0];
+    s->cur = p + 2;
+    s->bits |= v << -s->count;
+    s->count += 0x10;
 }
 
+static __forceinline int Refill(BitReader_82A3BD18 *s)
+{
+    if (s->cur >= s->end) {
+        s->exhausted = 1;
+        return 0;
+    }
+    LoadHalf(s);
+    return 1;
+}
+
+/* Drops n bits from the cache and refills it with up to two 16-bit words. */
+void fn_82A3BD80(BitReader_82A3BD18 *s, unsigned int n)
+{
+    s->bits <<= n;
+    s->count -= n;
+    if (s->count > 0) {
+        return;
+    }
+    if (!Refill(s)) {
+        return;
+    }
+    if (s->count > 0) {
+        return;
+    }
+    Refill(s);
+}

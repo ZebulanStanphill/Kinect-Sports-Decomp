@@ -1,43 +1,66 @@
-extern int fn_82681930();
-extern int fn_8272DDC8();
-extern int fn_82F6A540();
-extern int fn_82F6A58C();
-extern unsigned int iStack_7c;
-extern unsigned int iStack_80;
-extern unsigned int lbl_82005720;
-extern unsigned int lbl_82005748;
+typedef struct Pose_8272E140 {
+    int x;          /* 0x00 */
+    int y;          /* 0x04 */
+    double d8;      /* 0x08 */
+    double d10;     /* 0x10 */
+    double d18;     /* 0x18 */
+    char sub[0x18]; /* 0x20 */
+} Pose_8272E140;
 
+typedef struct Obj_8272E140 Obj_8272E140;
 
-void fn_8272E140(unsigned __int64 param_1,double *param_2)
+typedef struct VT_8272E140 {
+    void *slot0;
+    void *slot4;
+    unsigned char (*IsActive)(Obj_8272E140 *self);
+} VT_8272E140;
 
+struct Obj_8272E140 {
+    VT_8272E140 *vt; /* 0x00 */
+    char pad4[0x38];
+    float scale; /* 0x3c */
+};
+
+typedef struct Out_8272E140 {
+    double x;             /* 0x00 */
+    double y;             /* 0x08 */
+    double a;             /* 0x10 */
+    double b;             /* 0x18 */
+    double c;             /* 0x20 */
+    double scale;         /* 0x28 */
+    unsigned char active; /* 0x30 */
+    unsigned char flags;  /* 0x31 */
+} Out_8272E140;
+
+extern void fn_82681930(Pose_8272E140 *pose);
+extern void fn_8272DDC8(Obj_8272E140 *self, Pose_8272E140 *pose, unsigned char force);
+
+void fn_8272E140(Obj_8272E140 *self, Out_8272E140 *out)
 {
-  int *piVar1;
-  unsigned char uVar2;
-  double dVar3;
-  double dVar4;
-  double dVar5;
-  int iStack_80;
-  int iStack_7c;
-  double dStack_78;
-  double dStack_70;
-  double dStack_68;
-  
-  piVar1 = (int *)fn_82F6A540();
-  fn_82681930(&iStack_80);
-  fn_8272DDC8(piVar1,&iStack_80,0);
-  dVar5 = (double)((float)piVar1[0xf] * lbl_82005748);
-  dVar4 = (double)(__int64)iStack_80 * lbl_82005720;
-  dVar3 = (double)(__int64)iStack_7c * lbl_82005720;
-  uVar2 = (**(int (***)())(*piVar1 + 8))(piVar1);
-  *param_2 = dVar4;
-  param_2[1] = dVar3;
-  *(unsigned char *)(param_2 + 6) = uVar2;
-  param_2[2] = dStack_68;
-  param_2[3] = dStack_78;
-  param_2[4] = dStack_70;
-  *(unsigned char *)((int)param_2 + 0x31) = *(unsigned char *)((int)param_2 + 0x31) | 0x7f;
-  param_2[5] = dVar5;
-  fn_82F6A58C();
-  return;
-}
+    Pose_8272E140 pose;
+    double scale;
+    double x;
+    double y;
+    double a;
+    double b;
+    double c;
+    unsigned char active;
 
+    fn_82681930(&pose);
+    fn_8272DDC8(self, &pose, 0);
+    a = pose.d18;
+    b = pose.d8;
+    c = pose.d10;
+    x = pose.x * 0.05;
+    scale = self->scale * 100.0f;
+    y = pose.y * 0.05;
+    active = self->vt->IsActive(self);
+    out->x = x;
+    out->y = y;
+    out->active = active;
+    out->a = a;
+    out->b = b;
+    out->c = c;
+    out->flags |= 0x7f;
+    out->scale = scale;
+}

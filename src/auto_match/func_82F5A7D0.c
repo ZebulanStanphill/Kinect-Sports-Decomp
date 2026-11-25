@@ -1,47 +1,63 @@
-extern int XMemCpy();
-extern int fn_82F535C8();
-extern int fn_8306ED30();
-extern unsigned int lbl_82167C98;
-extern unsigned int lbl_831BAFCC;
-extern unsigned int lbl_832628C2;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Weights_82F5A7D0 {
+    float values[20];
+} Weights_82F5A7D0;
 
-void fn_82F5A7D0(int param_1,__int64 param_2,__int64 param_3,float *param_4)
+typedef struct Slot_82F5A7D0 {
+    int mode; /* 0x0 */
+    char pad4[0x1C];
+    __vector4 positions[20]; /* 0x20 */
+    int states[20];          /* 0x160 */
+    char pad1B0[0x10];
+} Slot_82F5A7D0;
 
+typedef struct Object_82F5A7D0 {
+    char pad0[0x30];
+    Slot_82F5A7D0 slots[1]; /* 0x30 */
+} Object_82F5A7D0;
+
+typedef struct Tracker_82F5A7D0 {
+    char pad0[0x10];
+    Slot_82F5A7D0 current; /* 0x10 */
+} Tracker_82F5A7D0;
+
+/* For each of the 20 joints, the joint whose weight it scales (-1: none). */
+extern int lbl_82167C98[20];
+extern float lbl_831BAFCC;
+extern unsigned char lbl_832628C2;
+
+extern __vector4 fn_8306ED30(__vector4 a, __vector4 b);
+extern float fn_82F535C8(__vector4 v);
+extern void fn_824B4298(void *dst, const void *src, unsigned int size);
+
+void fn_82F5A7D0(Tracker_82F5A7D0 *self, Object_82F5A7D0 *object, int index, Weights_82F5A7D0 *out)
 {
-  float fVar1;
-  int iVar2;
-  float *pfVar3;
-  unsigned int uVar4;
-  __int64 lVar5;
-  double dVar6;
-  
-  pfVar3 = param_4 + -1;
-  lVar5 = 0x14;
-  do {
-    pfVar3 = pfVar3 + 1;
-    *pfVar3 = 1.0;
-    lVar5 = lVar5 + -1;
-  } while (lVar5 != 0);
-  if (*(int *)(param_1 + 0x10) == 2) {
-    uVar4 = 0;
-    pfVar3 = param_4;
-    do {
-      fn_8306ED30();
-      dVar6 = (double)fn_82F535C8();
-      iVar2 = *(int *)(((int)&lbl_82167C98 - (int)param_4) + (int)pfVar3);
-      fVar1 = (float)((double)lbl_831BAFCC / (double)(float)((double)lbl_831BAFCC + dVar6));
-      if (lbl_832628C2 == '\0') {
-        *pfVar3 = fVar1;
-      }
-      else if (iVar2 != -1) {
-        param_4[iVar2] = param_4[iVar2] * fVar1;
-      }
-      uVar4 = uVar4 + 1;
-      pfVar3 = pfVar3 + 1;
-    } while (uVar4 < 0x14);
-  }
-  XMemCpy(param_1 + 0x10,param_3 * 0x1c0 + param_2 + 0x30,0x1c0);
-  return;
-}
+    int i;
+    unsigned int joint;
+    float weight;
+    float distance;
+    int parent;
 
+    for (i = 0; i < 20; i++) {
+        out->values[i] = 1.0f;
+    }
+    if (self->current.mode == 2) {
+        for (joint = 0; joint < 20; joint++) {
+            distance = fn_82F535C8(
+                fn_8306ED30(object->slots[index].positions[joint], self->current.positions[joint]));
+            weight = lbl_831BAFCC / (lbl_831BAFCC + distance);
+            parent = lbl_82167C98[joint];
+            if (lbl_832628C2 != 0) {
+                if (parent != -1) {
+                    out->values[parent] = out->values[parent] * weight;
+                }
+            } else {
+                out->values[joint] = weight;
+            }
+        }
+    }
+    fn_824B4298(&self->current, &object->slots[index], sizeof(Slot_82F5A7D0));
+}

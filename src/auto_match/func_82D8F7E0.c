@@ -1,92 +1,114 @@
-extern int fn_82CE5410();
-extern int fn_83082030();
+typedef struct Stack_82D8F7E0 {
+    char *top;
+} Stack_82D8F7E0;
 
+typedef struct IndexList_82D8F7E0 {
+    int *data;
+} IndexList_82D8F7E0;
 
-void fn_82D8F7E0(unsigned int *param_1,int *param_2,int param_3,int param_4,int *param_5)
+typedef struct Indexed_82D8F7E0 {
+    IndexList_82D8F7E0 *indices; /* 0x0 */
+    int count;                   /* 0x4 */
+} Indexed_82D8F7E0;
 
+typedef struct Entry_82D8F7E0 {
+    char pad0[0xea];
+    unsigned short infoA; /* 0xea */
+    unsigned short infoB; /* 0xec */
+} Entry_82D8F7E0;
+
+typedef struct EntryArray_82D8F7E0 {
+    Entry_82D8F7E0 **data; /* 0x0 */
+    int size;              /* 0x4 */
+} EntryArray_82D8F7E0;
+
+typedef struct Config_82D8F7E0 {
+    char pad0[0x305];
+    unsigned char systems[2]; /* 0x305 */
+} Config_82D8F7E0;
+
+typedef struct Array_82D8F7E0 {
+    void *data; /* 0x0 */
+    int size;   /* 0x4 */
+} Array_82D8F7E0;
+
+typedef struct ByteArray_82D8F7E0 {
+    unsigned char *data; /* 0x0 */
+} ByteArray_82D8F7E0;
+
+typedef struct LocalBuffer_82D8F7E0 {
+    int *data;
+} LocalBuffer_82D8F7E0;
+
+extern Stack_82D8F7E0 *fn_82CE5410(void);
+extern void fn_83082030(Indexed_82D8F7E0 *indexed, LocalBuffer_82D8F7E0 *remap, int count,
+                        Array_82D8F7E0 *array);
+
+static __forceinline void *AllocateStack(int size)
 {
-  unsigned short uVar1;
-  unsigned int uVar2;
-  int iVar3;
-  int *piVar4;
-  int iVar5;
-  int iVar6;
-  int iVar7;
-  unsigned int uVar8;
-  unsigned int uVar9;
-  unsigned int uVar10;
-  unsigned __int64 uVar11;
-  unsigned __int64 uVar12;
-  int aiStack_50;
-  
-  uVar2 = *(unsigned int *)(param_4 + 4);
-  uVar11 = (unsigned __int64)uVar2;
-  piVar4 = (int *)fn_82CE5410();
-  iVar3 = *piVar4;
-  *piVar4 = (uVar2 * 4 + 0x7f & 0xffffff80) + iVar3;
-  if (0 < (int)uVar2) {
-    iVar7 = 0;
-    uVar12 = uVar11;
-    do {
-      *(unsigned int *)(iVar7 + iVar3) = 0;
-      iVar7 = iVar7 + 4;
-      uVar12 = uVar12 - 1;
-    } while (uVar12 != 0);
-  }
-  iVar5 = 1;
-  iVar7 = 0;
-  if (0 < param_2[1]) {
-    iVar6 = 0;
-    do {
-      uVar1 = *(unsigned short *)(*(int *)(*param_2 + iVar6) + 0xec);
-      uVar8 = (unsigned int)uVar1;
-      if ((unsigned int)*(unsigned char *)(param_3 + 0x306) == (int)(unsigned int)uVar1 >> 0xe) {
-        uVar8 = (int)(unsigned int)uVar1 >> 7;
-      }
-      uVar1 = *(unsigned short *)(*(int *)(*param_2 + iVar6) + 0xea);
-      uVar9 = (unsigned int)uVar1;
-      if ((unsigned int)*(unsigned char *)(param_3 + 0x305) == (int)(unsigned int)uVar1 >> 0xe) {
-        uVar9 = (int)(unsigned int)uVar1 >> 7;
-      }
-      uVar10 = uVar8 & 0x7f;
-      if ((uVar8 & 0x7f) < (uVar9 & 0x7f)) {
-        uVar10 = uVar9 & 0x7f;
-      }
-      if (uVar10 < 6) {
-        *(unsigned int *)(*(int *)(*(int *)*param_1 + iVar6) * 4 + iVar3) = 1;
-      }
-      iVar7 = iVar7 + 1;
-      iVar6 = iVar6 + 4;
-    } while (iVar7 < param_2[1]);
-  }
-  *(unsigned char *)*param_5 = 1;
-  if (0 < (int)uVar2) {
-    iVar7 = 0;
-    do {
-      if (*(int *)(iVar7 + iVar3) == 0) {
-        *(int *)(iVar7 + iVar3) = iVar5;
-        *(unsigned char *)(*param_5 + iVar5) = 0;
-        iVar5 = iVar5 + 1;
-      }
-      else {
-        *(unsigned int *)(iVar7 + iVar3) = 0;
-      }
-      iVar7 = iVar7 + 4;
-      uVar11 = uVar11 - 1;
-    } while (uVar11 != 0);
-  }
-  aiStack_50 = iVar3;
-  if ((int)uVar2 < iVar5) {
-    *(unsigned char *)*param_5 = 0;
-    piVar4 = (int *)fn_82CE5410();
-    *piVar4 = iVar3;
-  }
-  else {
-    fn_83082030(param_1,&aiStack_50,iVar5,param_4);
-    iVar3 = aiStack_50;
-    piVar4 = (int *)fn_82CE5410();
-    *piVar4 = iVar3;
-  }
-  return;
+    Stack_82D8F7E0 *stack = fn_82CE5410();
+    char *p = stack->top;
+    stack->top = p + ((size + 0x7f) & ~0x7f);
+    return p;
 }
 
+static __forceinline void DeallocateStack(void *p)
+{
+    fn_82CE5410()->top = (char *)p;
+}
+
+static __forceinline int GetLevel(int info, unsigned char system)
+{
+    if (system != (info >> 14)) {
+        return info & 0x7f;
+    }
+    return (info >> 7) & 0x7f;
+}
+
+void fn_82D8F7E0(Indexed_82D8F7E0 *indexed, EntryArray_82D8F7E0 *entries, Config_82D8F7E0 *config,
+                 Array_82D8F7E0 *array, ByteArray_82D8F7E0 *used)
+{
+    int count = array->size;
+    LocalBuffer_82D8F7E0 remap;
+    int *slots;
+    int next;
+    int i;
+    const unsigned char *systems;
+
+    remap.data = (int *)AllocateStack(count * 4);
+    for (i = 0; i < count; i++) {
+        remap.data[i] = 0;
+    }
+    next = 1;
+    systems = config->systems;
+    for (i = 0; i < entries->size; i++) {
+        Entry_82D8F7E0 *entry = entries->data[i];
+        int levelB = GetLevel(entry->infoB, systems[1]);
+        int levelA = GetLevel(entry->infoA, systems[0]);
+        int level = levelB & 0x7f;
+        if ((levelA & 0x7f) > level) {
+            level = levelA & 0x7f;
+        }
+        if (level <= 5) {
+            remap.data[indexed->indices->data[i]] = 1;
+        }
+    }
+    slots = remap.data;
+    used->data[0] = 1;
+    for (i = 0; i < count; i++) {
+        if (remap.data[i] != 0) {
+            slots[i] = 0;
+        } else {
+            slots[i] = next;
+            used->data[next] = 0;
+            next++;
+        }
+    }
+    if (next > count) {
+        used->data[0] = 0;
+        DeallocateStack(remap.data);
+    } else {
+        fn_83082030(indexed, &remap, next, array);
+        DeallocateStack(remap.data);
+    }
+}

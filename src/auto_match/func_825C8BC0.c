@@ -1,64 +1,73 @@
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Transition_825C8BC0 {
+    unsigned int flags;
+    float target;
+    float current;
+    float rate;
+} Transition_825C8BC0;
 
+typedef struct Defaults_825C8BC0 {
+    char pad[0x134];
+    void *primary;
+    char pad138[0x14];
+    void *secondary;
+} Defaults_825C8BC0;
 
-void fn_825C8BC0(double param_1,int param_2)
+typedef struct State_825C8BC0 {
+    int reserved;
+    void *slots[2];
+    Transition_825C8BC0 transitions[2];
+    int timerActive;
+    char pad30[0x10];
+    float timeout;
+    float elapsed;
+    char pad48[0xc];
+    Defaults_825C8BC0 *defaults;
+} State_825C8BC0;
 
+extern double fabs(double);
+
+void fn_825C8BC0(State_825C8BC0 *self, float elapsed)
 {
-  float fVar1;
-  float fVar2;
-  unsigned int uVar3;
-  float fVar4;
-  float fVar5;
-  int iVar6;
-  int iVar7;
-  
-  fVar5 = ltcg_pool_0_0f;
-  iVar6 = 0;
-  do {
-    iVar7 = iVar6 * 0x10 + param_2;
-    uVar3 = *(unsigned int *)(iVar7 + 0xc);
-    if ((uVar3 & 0x80000000) != 0) {
-      fVar2 = *(float *)(iVar7 + 0x14);
-      fVar4 = *(float *)(iVar7 + 0x10) - fVar2;
-      fVar1 = (float)((double)*(float *)(iVar7 + 0x18) * param_1);
-      if (fVar1 <= ABS(fVar4)) {
-        if (fVar4 <= fVar5) {
-          fVar2 = fVar2 - fVar1;
+    int i = 0;
+    do {
+        unsigned int flags = self->transitions[i].flags;
+        if (flags & 0x80000000u) {
+            float step = self->transitions[i].rate * elapsed;
+            float target = self->transitions[i].target;
+            float current = self->transitions[i].current;
+            float delta = target - current;
+            if ((float)fabs(delta) < step) {
+                self->transitions[i].current = target;
+                self->transitions[i].flags = flags & 0x7fffffffu;
+                if (flags & 0x40000000u) {
+                    self->slots[i] = 0;
+                } else {
+                    Defaults_825C8BC0 *defaults = self->defaults;
+                    if (i == 0) {
+                        self->slots[0] = self->defaults->primary;
+                    } else {
+                        self->slots[i] = defaults->secondary;
+                    }
+                }
+            } else {
+                if (delta > 0.0f) {
+                    current = current + step;
+                } else {
+                    current = current - step;
+                }
+                self->transitions[i].current = current;
+            }
         }
-        else {
-          fVar2 = fVar2 + fVar1;
-        }
-        *(float *)(iVar7 + 0x14) = fVar2;
-      }
-      else {
-        *(float *)(iVar7 + 0x14) = *(float *)(iVar7 + 0x10);
-        *(unsigned int *)(iVar7 + 0xc) = uVar3 & 0x7fffffff;
-        if ((uVar3 & 0x40000000) == 0) {
-          if (iVar6 == 0) {
-            *(unsigned int *)(param_2 + 4) = *(unsigned int *)(*(int *)(param_2 + 0x54) + 0x134);
-          }
-          else {
-            *(unsigned int *)((iVar6 + 1) * 4 + param_2) =
-                 *(unsigned int *)(*(int *)(param_2 + 0x54) + 0x14c);
-          }
-        }
-        else {
-          *(unsigned int *)((iVar6 + 1) * 4 + param_2) = 0;
-        }
-      }
-    }
-    iVar6 = iVar6 + 1;
-  } while (iVar6 < 2);
-  if (*(int *)(param_2 + 0x2c) == 0) {
-    return;
-  }
-  fVar1 = (float)((double)*(float *)(param_2 + 0x44) + param_1);
-  *(float *)(param_2 + 0x44) = fVar1;
-  if (fVar1 <= *(float *)(param_2 + 0x40)) {
-    return;
-  }
-  *(float *)(param_2 + 0x44) = fVar5;
-  *(unsigned int *)(param_2 + 0x2c) = 0;
-  return;
-}
+        ++i;
+    } while (i < 2);
 
+    if (self->timerActive) {
+        float time = self->elapsed + elapsed;
+        float timeout = self->timeout;
+        self->elapsed = time;
+        if (time > timeout) {
+            self->elapsed = 0.0f;
+            self->timerActive = 0;
+        }
+    }
+}
