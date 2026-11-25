@@ -10,7 +10,7 @@ typedef struct Table_83017108 {
 
 extern float *fn_83016E90(void *buckets, Key_83017108 key, unsigned int hash);
 
-int fn_83017108(Table_83017108 *table, unsigned int id, unsigned int variant, float *out,
+unsigned char fn_83017108(Table_83017108 *table, unsigned int id, unsigned int variant, float *out,
                 unsigned char *exact)
 {
     Key_83017108 key;

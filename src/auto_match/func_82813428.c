@@ -14,7 +14,7 @@ typedef struct {
     __int64 *target;
 } Op_82813428;
 
-int fn_82813428(Op_82813428 *op)
+unsigned char fn_82813428(Op_82813428 *op)
 {
     Tagged_82813428 n;
     n.parts.ptr = op->next;

@@ -1,7 +1,7 @@
-extern int fn_82547C80();
+extern void fn_82547C80(unsigned int, unsigned __int64, unsigned char);
 
 
-void fn_8252CAF8(int param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+void fn_8252CAF8(int param_1,unsigned __int64 param_2,unsigned char param_3)
 
 {
   if (*(int (***)())(param_1 + 0x924) != (int (**)())0x0) {

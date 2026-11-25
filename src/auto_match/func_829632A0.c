@@ -1,4 +1,4 @@
-void fn_829632A0(unsigned int *param_1)
+unsigned int *fn_829632A0(unsigned int *param_1)
 
 {
   *param_1 = 0;
@@ -17,6 +17,6 @@ void fn_829632A0(unsigned int *param_1)
   param_1[0xd] = 0xffffffff;
   param_1[0xe] = 0;
   param_1[0xf] = 0;
-  return;
+  return param_1;
 }
 

@@ -56,16 +56,15 @@ static __forceinline float Evaluate(Track_83015B10 *track, float time)
     return result;
 }
 
-void fn_83015B10(Track_83015B10 *track, float time)
+float fn_83015B10(Track_83015B10 *track, float time)
 {
     float value = Evaluate(track, time);
 
     switch (track->target) {
     case 1:
-        fn_8302A5B8(lbl_83264368.tables[5], value);
-        break;
+        return fn_8302A5B8(lbl_83264368.tables[5], value);
     case 2:
-        fn_8302A8F0(lbl_83264368.tables[6], value);
-        break;
+        return fn_8302A8F0(lbl_83264368.tables[6], value);
     }
+    return value;
 }

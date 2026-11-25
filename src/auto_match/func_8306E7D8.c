@@ -1,4 +1,4 @@
-double fn_8306E7D8(double param_1,double param_2)
+float fn_8306E7D8(float param_1,float param_2)
 
 {
   if (param_1 < param_2) {

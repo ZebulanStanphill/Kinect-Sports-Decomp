@@ -8,7 +8,7 @@ typedef struct Self_82AC6560 { char pad[0x32c]; Pool_82AC6560 pool; } Self_82AC6
 
 extern void *memset(void *dst, int c, unsigned int n);
 extern void *fn_82ABDF50(Pool_82AC6560 *pool, unsigned int size);
-void *fn_82AC6560(Self_82AC6560 *self, unsigned int size)
+void *fn_82AC6560(Self_82AC6560 *self, unsigned int size, unsigned int tag)
 {
     Pool_82AC6560 *pool = &self->pool;
     FreeNode_82AC6560 *node;
