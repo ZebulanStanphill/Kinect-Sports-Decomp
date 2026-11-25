@@ -48,7 +48,7 @@ extern int fn_82BEAC00(Zone_82BEACC8 *zone, Mao_82BEACC8 *mao);
 extern Mao_82BEACC8 *fn_82BF4B98(Mao_82BEACC8 *source, Zone_82BEACC8 *zone);
 extern int stricmp(const char *a, const char *b);
 
-int fn_82BEACC8(Zone_82BEACC8 *zone)
+unsigned int fn_82BEACC8(Zone_82BEACC8 *zone)
 {
     Node_82BEACC8 *node;
     Node_82BEACC8 *matched;

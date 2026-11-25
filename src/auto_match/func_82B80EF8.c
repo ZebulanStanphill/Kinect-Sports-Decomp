@@ -22,7 +22,7 @@ typedef struct {
 } Obj;
 
 extern double fn_82B167E0(Obj *o, unsigned int idx);
-extern void fn_82B80CD0(double v, unsigned int type, int x);
+extern double fn_82B80CD0(double v, unsigned int type, int x);
 
 static unsigned int GetType(Obj *o, unsigned int idx)
 {
@@ -31,9 +31,9 @@ static unsigned int GetType(Obj *o, unsigned int idx)
     }
     return (o->types >> (idx * 2)) & 3;
 }
-void fn_82B80EF8(Obj *o, unsigned int idx, int x)
+double fn_82B80EF8(Obj *o, unsigned int idx, int x)
 {
     unsigned int type = GetType(o, idx);
     double v = fn_82B167E0(o, idx);
-    fn_82B80CD0(v, type, x);
+    return fn_82B80CD0(v, type, x);
 }

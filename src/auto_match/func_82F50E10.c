@@ -6,9 +6,7 @@ typedef struct { __vector4 v; } Vec_82F50E10;
 typedef struct Data_82F50E10 { char pad[0x7e0]; __vector4 v; } Data_82F50E10;
 typedef struct Obj_82F50E10 { char pad[4]; Data_82F50E10 *data; } Obj_82F50E10;
 
-Vec_82F50E10 fn_82F50E10(Obj_82F50E10 *self)
+void fn_82F50E10(Vec_82F50E10 *out, Obj_82F50E10 *self)
 {
-    Vec_82F50E10 r;
-    r.v = self->data->v;
-    return r;
+    out->v = self->data->v;
 }

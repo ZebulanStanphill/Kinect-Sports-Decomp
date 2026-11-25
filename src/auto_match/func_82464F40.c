@@ -20,7 +20,7 @@ typedef struct Camera_82464F40 {
     unsigned char relative; /* 0x40 */
 } Camera_82464F40;
 
-extern void fn_8257E950(void *h, int a, int b, float x, float y, int c, __vector4 v);
+extern void fn_8257E950(void *h, unsigned int index, __vector4 v, int b, float x, float y, int c);
 extern void fn_8257E880(void *h, float v);
 
 void fn_82464F40(Camera_82464F40 *self, float step, __vector4 offset)
@@ -38,7 +38,7 @@ void fn_82464F40(Camera_82464F40 *self, float step, __vector4 offset)
     position = self->relative ? __vaddfp(offset, self->position) : self->position;
     position.vector4_f32[1] += 5.0f;
     t = self->current;
-    fn_8257E950(self->handle, 0, 1, self->startX - (self->startX - self->endX) * t,
-                self->startY - (self->startY - self->endY) * t, 0, position);
+    fn_8257E950(self->handle, 0, position, 1, self->startX - (self->startX - self->endX) * t,
+                self->startY - (self->startY - self->endY) * t, 0);
     fn_8257E880(self->handle, 1.0f - self->current);
 }

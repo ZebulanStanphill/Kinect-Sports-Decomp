@@ -31,12 +31,12 @@ static __forceinline __vector4 MakePosition_82610610(const float *x, const float
     return __vrlimi(xy, zw, 3, 2);
 }
 
-extern void fn_8257E950(void *, int, int, float, float, int, __vector4);
+extern void fn_8257E950(void *, unsigned int, __vector4, int, float, float, int);
 
 void fn_82610610(Owner_82610610 *self, int event, const Event_82610610 *data, int context, int failed)
 {
     if (failed == 0 && data != 0) {
-        fn_8257E950(*self->device, data->id, data->type, data->first, data->second, data->flags,
-                    MakePosition_82610610(&data->x, &data->y, &data->z));
+        fn_8257E950(*self->device, data->id, MakePosition_82610610(&data->x, &data->y, &data->z), data->type,
+                    data->first, data->second, data->flags);
     }
 }
