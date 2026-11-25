@@ -30,6 +30,14 @@ their published source. Their licences and the details of each copy are in
 - zlib 1.1.4 and 1.2.3, by Jean-loup Gailly and Mark Adler.
 - libpng 1.0.5, by Guy Eric Schalnat, Andreas Dilger, Glenn Randers-Pehrson and others.
 
+## Libraries the game's code instantiates
+
+- [Boost C++ Libraries](https://www.boost.org/) (Boost Software License 1.0): the game uses
+  `boost::any`, `shared_ptr`, `function`, the string algorithms (by Pavol Droba) and other
+  Boost templates. A unit whose function is an instantiation of one declares the Boost
+  classes it needs, written after Boost's published headers where the code could be
+  identified (for example `token_finderF::operator()` in `func_822DC868.cpp`).
+
 ## Research and reference material
 
 These were read or tested while working out how the game was built. No code from them is
