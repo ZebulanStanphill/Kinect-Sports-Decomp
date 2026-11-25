@@ -1,6 +1,4 @@
 #include "havok/hkClass.h"
-#include "havok/hkBase.h"
-#include "havok/hkString.h"
 struct hkPackfileHeader { int m_magic[2]; int m_userTag; int m_fileVersion; int m_layoutRules; int m_numSections; int m_contentsSectionIndex; int m_contentsSectionOffset; };
 struct hkPackfileSectionHeader {
  char m_sectionTag[19]; char m_nullByte; int m_absoluteDataStart; int m_localFixupsOffset; int m_globalFixupsOffset;

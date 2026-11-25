@@ -1,7 +1,6 @@
 // hkpLimitedHingeConstraintData clone: allocates a new hkpLimitedHingeConstraintData (class allocator, out-of-line constructor) and copies its
 // atoms (0xcc bytes at +0x10) with hkString::memCpy. Havok code: /O2.
 #include "havok/hkBase.h"
-#include "havok/hkString.h"
 
 class hkpConstraintData : public hkReferencedObject {
 public:

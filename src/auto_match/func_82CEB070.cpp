@@ -1,6 +1,4 @@
 #include "havok/hkClass.h"
-#include "havok/hkString.h"
-
 
 // hkClass::getMemberIndexByName(const char *) const, kept on its fn_ name: the first member
 // (inherited ones included) whose name equals the key.

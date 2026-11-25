@@ -2,7 +2,6 @@
 // (its second word links the free list), else grow the array by one. Havok code: /O2.
 #include "havok/hkBase.h"
 
-
 struct Slot_82E1BD60 {
     int value;
     int nextFree;

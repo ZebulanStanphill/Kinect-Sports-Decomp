@@ -6,7 +6,6 @@ class hkNamedObject : public hkReferencedObject {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_BASE);
 
-
     hkStringPtr m_name;   // +0x8
 };
 

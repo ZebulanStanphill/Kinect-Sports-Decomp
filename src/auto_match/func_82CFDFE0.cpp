@@ -1,5 +1,4 @@
 #include "havok/hkOArchive.h"
-#include "havok/hkString.h"
 
 static __forceinline void swapBytes(unsigned char *a, unsigned char *b)
 {

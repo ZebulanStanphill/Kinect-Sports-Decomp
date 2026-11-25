@@ -4,7 +4,6 @@
 // the stack copy that hkHalf::operator=(const hkReal &) reads as an int.
 #include "havok/hkBase.h"
 
-
 class hkHalf {
 public:
     hkHalf &operator=(const hkReal &f)

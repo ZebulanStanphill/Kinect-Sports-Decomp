@@ -7,7 +7,6 @@ struct Entry_82E1A540 {
     int value;
 };
 
-
 template <typename T> static HK_FORCE_INLINE void constructWithCopy(T *t, int n, const T &tcopy) { for (int i = 0; i < n; ++i) t[i] = tcopy; }
 
 class Entries_82E1A540 : public hkArrayBase<Entry_82E1A540> {

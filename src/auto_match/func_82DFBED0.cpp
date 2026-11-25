@@ -4,7 +4,6 @@
 // between the base and vtable stores because it knows the constant cannot change.
 #include "havok/hkBase.h"
 
-
 class hkpVehicleVelocityDamper : public hkReferencedObject {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_VEHICLE);

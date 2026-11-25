@@ -5,7 +5,6 @@
 // stores (it knows the constant cannot change).
 #include "havok/hkBase.h"
 
-
 struct hkAabbTreeData {
     struct hkAabbTreeAabb;
     struct hkAabbTreeAabb16;

@@ -5,7 +5,6 @@ extern "C" {
 extern unsigned int *auStack_30;
 extern int fn_82CEEC58(unsigned char *result, const hkClassMember *member);
 
-
 unsigned char * fn_82CEED70(unsigned char *param_1,const hkClass *param_2)
 
 {

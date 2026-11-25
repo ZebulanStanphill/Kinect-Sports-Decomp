@@ -1,6 +1,5 @@
 // hkOstream::printf (Common/Base/System/Io/OStream/hkOStream.cpp).
 #include "havok/hkOstream.h"
-#include "havok/hkString.h"
 
 typedef char *va_list;
 

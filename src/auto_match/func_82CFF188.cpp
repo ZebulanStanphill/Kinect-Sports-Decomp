@@ -4,7 +4,6 @@
 // size is set back to n so a terminating zero stays in the buffer).
 #include "havok/hkBase.h"
 
-
 template <typename T>
 static HK_FORCE_INLINE void constructWithCopy(T *p, int n, const T &fill)
 {

@@ -1,6 +1,5 @@
 #include "havok/hkBase.h"
 
-
 inline void *operator new(unsigned int, void *p) throw()
 {
     return p;

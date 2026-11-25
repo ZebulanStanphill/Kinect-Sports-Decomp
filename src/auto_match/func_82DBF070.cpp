@@ -1,7 +1,6 @@
 // hkpPointToPathConstraintData clone: allocates a new hkpPointToPathConstraintData (class allocator, out-of-line constructor) and copies its
 // atoms (0xc bytes at +0xc) with hkString::memCpy. Havok code: /O2.
 #include "havok/hkBase.h"
-#include "havok/hkString.h"
 
 class hkpConstraintData : public hkReferencedObject {
 public:

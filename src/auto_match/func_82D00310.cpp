@@ -1,4 +1,3 @@
-#include "havok/hkMap.h"
 #include "havok/hkStreamReader.h"
 
 typedef hkCachedHashMap<hkStringMapOperations> Map;

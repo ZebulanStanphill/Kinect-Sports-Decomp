@@ -63,7 +63,6 @@ public:
     hkUint32 m_postpad[3];  // +0x24
 };
 
-
 class hkpCollisionFilterList:public hkpCollisionFilter {public:hkArrayBase<hkpCollisionFilter*> filters;hkpCollisionFilterList(const hkArrayBase<hkpCollisionFilter*>&);};
 static void copyArray(hkArrayBase<hkpCollisionFilter*> &d,const hkArrayBase<hkpCollisionFilter*> &s) {
  hkMemoryAllocator &al=hkMemoryRouter::getInstance().heap();int cap=d.getCapacity();

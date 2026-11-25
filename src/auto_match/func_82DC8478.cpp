@@ -1,6 +1,5 @@
 #include "havok/hkBase.h"
 
-
 struct Elem_82DC8478 {
     int a;
     int b;

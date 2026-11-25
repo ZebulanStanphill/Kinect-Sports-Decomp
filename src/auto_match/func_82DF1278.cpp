@@ -6,7 +6,6 @@ typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float vec
 extern "C" __vector4 __vspltw(__vector4, unsigned int);
 extern "C" void __stvewx(__vector4, void *, int);
 
-
 template <typename T> static HK_FORCE_INLINE void constructWithCopy(T *t, int n, const T &tcopy) { for (int i = 0; i < n; ++i) t[i] = tcopy; }
 
 class Object_82DF1278 : public hkReferencedObject {

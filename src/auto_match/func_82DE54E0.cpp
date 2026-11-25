@@ -1,6 +1,4 @@
 #include "havok/hkTransform.h"
-#include "havok/hkSimdReal.h"
-
 
 typedef struct Source_82DE54E0 {
     float f0;
@@ -15,7 +13,6 @@ typedef struct Out_82DE54E0 {
     hkTransform transform;
     float time;
 } Out_82DE54E0;
-
 
 extern "C" void fn_82DE54E0(Source_82DE54E0 *self, float time, Out_82DE54E0 *out)
 {

@@ -143,7 +143,6 @@ HK_FORCE_INLINE hkError &hkError::getInstance() { return *lbl_8323B464; }
                                        ".\\Constraint\\Chain\\hkpPoweredChainMapper.cpp", LINE);         \
     }
 
-
 class hkpConstraintData : public hkReferencedObject {
 public:
     enum ConstraintType { CONSTRAINT_TYPE_POWERED_CHAIN = 102 };

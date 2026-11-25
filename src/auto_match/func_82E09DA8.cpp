@@ -1,5 +1,4 @@
 #include "havok/hkClass.h"
-#include "havok/hkString.h"
 
 extern "C" bool fn_82E09DA8(const hkClass *klass) {
  const char *r=klass->getName();

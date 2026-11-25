@@ -10,7 +10,6 @@ typedef struct Buffer_82CFA528 {
     int limit; /* 0x20 */
 } Buffer_82CFA528;
 
-
 extern "C" void fn_82CFA528(Buffer_82CFA528 *self)
 {
     int start = self->start;

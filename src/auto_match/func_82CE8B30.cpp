@@ -7,7 +7,6 @@ extern int fn_82CE8A48(...);
 void RtlEnterCriticalSection(...);
 void RtlLeaveCriticalSection(...);
 
-
 void fn_82CE8B30(int param_1,int param_2,unsigned __int64 param_3)
 
 {

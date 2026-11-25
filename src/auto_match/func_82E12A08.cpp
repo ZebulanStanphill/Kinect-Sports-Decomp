@@ -2,7 +2,6 @@
 
 extern "C" int fn_82E0E658(...);
 
-
 extern "C" bool fn_82E12A08(int param_1)
 
 {

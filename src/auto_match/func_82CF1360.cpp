@@ -2,8 +2,6 @@
 
 extern "C" {
 
-
-
 unsigned int fn_82CF1360(int param_1,const char *param_2)
 
 {

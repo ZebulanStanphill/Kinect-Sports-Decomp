@@ -1,6 +1,4 @@
 #include "havok/hkMatrix3.h"
-#include "havok/hkSimdReal.h"
-
 
 typedef struct Obj_82DE6218 {
     float base;
@@ -8,7 +6,6 @@ typedef struct Obj_82DE6218 {
     char pad8[0x18];
     hkMatrix3 target;
 } Obj_82DE6218;
-
 
 extern "C" void fn_82DE6218(Obj_82DE6218 *self, float value)
 {

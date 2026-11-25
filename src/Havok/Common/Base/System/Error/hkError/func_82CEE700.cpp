@@ -7,7 +7,6 @@ extern unsigned int *auStack_220;
 extern int fn_82CEE578(...);
 extern unsigned int *lbl_8323B464;
 
-
 void fn_82CEE700(unsigned param_1)
 
 {

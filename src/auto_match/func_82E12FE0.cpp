@@ -18,7 +18,6 @@ typedef struct Array_82E12FE0 {
     int count;
 } Array_82E12FE0;
 
-
 extern "C" Obj_82E12FE0 *fn_82E12FE0(void *key, Array_82E12FE0 *arr)
 {
     int i;

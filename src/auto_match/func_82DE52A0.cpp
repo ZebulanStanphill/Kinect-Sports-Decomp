@@ -1,5 +1,4 @@
 #include "havok/hkMatrix3.h"
-#include "havok/hkSimdReal.h"
 
 // Havok hkpInertiaTensorComputer::computeConvexHullMassProperties shape: build the convex hull of
 // the vertices, add the volume of a shell of the given radius, grow the hull's planar margin until
@@ -8,7 +7,6 @@
 // Havok code: /O2 /QVMXReserve (flag file). The minimum volume 1.1920929e-05f is a literal whose pooled
 // constant the original names lbl_82145204 (pool alias __real@37480000=lbl_82145204).
 #include "havok/hkBase.h"
-
 
 struct hkpMassProperties {
     hkReal m_volume;          // +0x0

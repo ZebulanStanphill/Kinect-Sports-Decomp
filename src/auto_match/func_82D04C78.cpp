@@ -3,7 +3,6 @@
 extern "C" int fn_82CE5410(...);
 extern "C" int fn_82D05808(...);
 
-
 extern "C" int fn_82D04C78(int param_1,const char *param_2)
 
 {

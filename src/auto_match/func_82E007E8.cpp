@@ -1,6 +1,5 @@
 #include "havok/hkTransform.h"
 
-
 typedef struct Entry_82E007E8 {
     char pad0[0x10];
     hkTransform transform;   /* 0x10 */

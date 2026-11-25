@@ -3,7 +3,6 @@
 // the name, then the members are destroyed in reverse order and hkBaseObject's vtable is stored last.
 #include "havok/hkBase.h"
 
-class hkClass;
 class hkClassNameRegistry : public hkReferencedObject {};
 class hkPackfileData;
 

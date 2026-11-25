@@ -1,5 +1,4 @@
 #include "havok/hkpShape.h"
-#include "havok/hkMap.h"
 
 // hkpBreakOffPartsUtil::removeKeysFromListShape-style helper: removes keys from a list shape (directly or under a
 // MOPP, whose code is patched with hkpRemoveTerminalsMoppModifier) and invalidates the collidable's cached child

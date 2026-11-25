@@ -3,7 +3,6 @@
 extern "C" void fn_82D8A058(int, void *);
 extern "C" void fn_82D81078(int, int, int);
 
-
 template <typename T>
 static HK_FORCE_INLINE void constructWithCopy(T *p, int n, const T &tcopy)
 {

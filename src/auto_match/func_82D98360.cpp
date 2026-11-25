@@ -52,8 +52,6 @@ public:
     hkUlong m_userData;   // +0x8
 };
 
-
-
 class hkpBreakableConstraintData : public hkpConstraintData {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);

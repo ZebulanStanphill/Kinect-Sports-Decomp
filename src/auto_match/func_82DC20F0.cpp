@@ -1,6 +1,5 @@
 #include "havok/hkTransform.h"
 
-
 typedef struct Obj_82DC20F0 {
     unsigned char pad0[0x18];
     unsigned char unk18;

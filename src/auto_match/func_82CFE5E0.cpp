@@ -10,7 +10,6 @@ struct StreamVtbl_82CFE5E0 {
 struct Stream_82CFE5E0 { struct StreamVtbl_82CFE5E0 *vt; };
 struct Writer_82CFE5E0 { void *vt; int pad; struct Stream_82CFE5E0 *stream; unsigned char swap; };
 
-
 void fn_82CFE5E0(struct Writer_82CFE5E0 *self, const unsigned char *data, int size)
 {
     unsigned char buffer[0x200];

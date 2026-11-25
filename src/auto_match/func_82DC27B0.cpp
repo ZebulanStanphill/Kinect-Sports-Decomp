@@ -1,6 +1,5 @@
 #include "havok/hkBase.h"
 
-
 template <typename T>
 static HK_FORCE_INLINE void constructWithCopy(T *p, int n, const T &tcopy)
 {
@@ -48,7 +47,6 @@ struct Host_82DC27B0 {
     int p0;
     Obj_82DC27B0 *o;
 };
-
 
 static __forceinline void bump(Host_82DC27B0 *h)
 {

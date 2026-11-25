@@ -2,8 +2,6 @@
 // for a broadphase entity owner, either push it onto the pending array (+addReference) or hand it
 // to the object's own first virtual. Havok code, /O2.
 #include "havok/hkBase.h"
-#include "havok/hkReferencedObject.h"
-
 
 template <typename T> static HK_FORCE_INLINE void constructWithCopy(T *t, int n, const T &tcopy) { for (int i = 0; i < n; ++i) t[i] = tcopy; }
 

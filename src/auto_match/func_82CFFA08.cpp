@@ -2,7 +2,6 @@
 
 extern "C" int fn_82CE5410(...);
 
-
 extern "C" void fn_82CFFA08(int *param_1,unsigned __int64 param_2,unsigned int *param_3)
 
 {

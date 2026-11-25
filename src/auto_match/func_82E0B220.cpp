@@ -1,6 +1,5 @@
 #include "havok/hkBase.h"
 
-
 template <typename T> static HK_FORCE_INLINE void FillValues(T *values, int count, const T &value)
 {
     for (int i = 0; i < count; i++) {

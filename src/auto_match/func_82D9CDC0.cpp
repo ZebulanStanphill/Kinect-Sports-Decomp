@@ -1,5 +1,4 @@
 #include "havok/hkBase.h"
-#include "havok/hkReferencedObject.h"
 template <typename T> static HK_FORCE_INLINE void constructWithCopy(T *t, int n, const T &tcopy) { for (int i = 0; i < n; ++i) t[i] = tcopy; }
 class Output : public hkArrayBase<hkReferencedObject *> { public: HK_FORCE_INLINE void push(hkReferencedObject *const &v) {
  hkMemoryAllocator &alloc=hkMemoryRouter::getInstance().heap();

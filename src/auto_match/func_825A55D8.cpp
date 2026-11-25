@@ -1,6 +1,4 @@
 #include "havok/hkRotation.h"
-#include "havok/hkSimdReal.h"
-
 
 typedef struct Key_825A55D8 {
     float f0;
@@ -14,7 +12,6 @@ typedef struct Obj_825A55D8 {
     char pad0[0x10];
     Key_825A55D8 key;
 } Obj_825A55D8;
-
 
 extern "C" void fn_825A55D8(Obj_825A55D8 *self, float time, Key_825A55D8 *out)
 {

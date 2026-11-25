@@ -39,7 +39,6 @@ public:
 typedef hkUint16 hkContactPointId;
 #define HK_INVALID_CONTACT_POINT 0xffff
 
-
 struct hkArrayUtil_ {
     static HK_FORCE_INLINE void HK_CALL _reserve(hkMemoryAllocator &a, void *array, int reqCapacity, int sizeElem)
     {

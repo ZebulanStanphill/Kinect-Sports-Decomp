@@ -1,6 +1,5 @@
 #include "havok/hkBase.h"
 
-
 template <typename T>
 static HK_FORCE_INLINE void constructWithCopy(T *p, int n, const T &tcopy)
 {

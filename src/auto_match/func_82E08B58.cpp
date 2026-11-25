@@ -2,8 +2,6 @@
 
 extern "C" {
 
-
-
 unsigned __int64 fn_82E08B58(int param_1,const char *param_2,unsigned int *param_3)
 
 {

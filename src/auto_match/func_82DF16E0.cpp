@@ -2,7 +2,6 @@
 // (Cls_82DF16E0). The derived destructor is inlined: the array is freed, then the out-of-line
 // ??1hkpFirstPersonGun@@UAA@XZ runs, then the class allocator's delete when flags & 1.
 #include "havok/hkBase.h"
-#include "havok/hkArray.h"
 
 class hkpFirstPersonGun : public hkReferencedObject {
 public:

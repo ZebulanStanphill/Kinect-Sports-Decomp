@@ -5,7 +5,6 @@ extern "C" {
 extern int fn_82CEAC28(unsigned char *klass);   // hkClass::getParent
 extern unsigned int lbl_8323AB38;
 
-
 unsigned char * fn_82CEE9F8(unsigned char *param_1,unsigned char *param_2)
 
 {

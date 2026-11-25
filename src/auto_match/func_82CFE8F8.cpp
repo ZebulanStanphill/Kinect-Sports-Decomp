@@ -3,12 +3,8 @@
 // stack (byte-swapping) the enum's name, each item's name then value, then the
 // item count.
 #include "havok/hkClass.h"
-#include "havok/hkString.h"
 
 #include "havok/hkOArchive.h"
-
-extern "C" {
-}
 
 void hkClassEnum::writeSignature(hkStreamWriter *w) const
 {

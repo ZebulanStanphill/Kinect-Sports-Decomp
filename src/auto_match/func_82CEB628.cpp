@@ -10,12 +10,8 @@
 // a local (base first in the add); the flags are updated before the subtype is
 // cleared (otherwise the member copy's destination address is folded to one addi).
 #include "havok/hkClass.h"
-#include "havok/hkString.h"
 
 #include "havok/hkOArchive.h"
-
-extern "C" {
-}
 
 void hkClass::writeSignature(hkStreamWriter *w) const
 {

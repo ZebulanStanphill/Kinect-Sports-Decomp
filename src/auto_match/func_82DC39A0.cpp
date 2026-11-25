@@ -267,7 +267,6 @@ static HK_FORCE_INLINE void queueConstraintCommand(hkpDeferredConstraintOwner &o
     }
 }
 
-
 struct hkpAgentNnTrack {
     int m_bytesUsedInLastSector;            // +0x0
     hkArray<hkpAgentNnEntry *> m_sectors;   // +0x4

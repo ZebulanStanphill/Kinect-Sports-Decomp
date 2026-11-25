@@ -1,4 +1,3 @@
-#include "havok/hkString.h"
 #include "havok/hkMemoryStreamReader.h"
 
 hkMemoryStreamReader::hkMemoryStreamReader(const void *mem, int memSize, MemoryType type)

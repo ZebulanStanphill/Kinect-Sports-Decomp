@@ -1,5 +1,4 @@
 #include "havok/hkClass.h"
-#include "havok/hkMap.h"
 
 typedef hkCachedHashMap<hkStringMapOperations> StringHashMap;
 

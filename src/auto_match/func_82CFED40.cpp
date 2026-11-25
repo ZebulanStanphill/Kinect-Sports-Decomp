@@ -9,7 +9,6 @@ typedef struct BlockBuffer_82CFED40 {
     int numBlocks;     /* 0xc */
 } BlockBuffer_82CFED40;
 
-
 void fn_82CFED40(BlockBuffer_82CFED40 *self, char *dst, int size, int offset)
 {
     int block = offset / self->blockSize;

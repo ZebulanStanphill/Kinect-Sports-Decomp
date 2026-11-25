@@ -45,7 +45,6 @@ public:
     int m_numChildren;                  // 0x54
 };
 
-
 extern "C" void fn_82CEFE90(Node_82CEFE90 *self, const hkVector4 &center, float radius, Collector_82CEFE90 *collector)
 {
     hkVector4 d;

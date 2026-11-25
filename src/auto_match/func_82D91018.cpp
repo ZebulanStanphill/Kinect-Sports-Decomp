@@ -1,4 +1,3 @@
-#include "havok/hkBase.h"
 #include "havok/hkpCollisionFilter.h"
 
 // hkDeallocateStack: the pointer is evaluated before the router is fetched.

@@ -1,6 +1,5 @@
 // Ray cast through the kd-tree and the AABB tree (self: +0xc AABB tree, +0x10 kd-tree, +0x24 use AABB tree).
 // A local keeps the 1.0f in f31 across the calls, as in the original.
-#include "havok/hkBase.h"
 #include "havok/hkpCollisionFilter.h"
 class __declspec(align(16)) hkVector4 { public: float m_quad[4]; };
 struct hkpWorldRayCastInput { hkVector4 m_from; hkVector4 m_to; };

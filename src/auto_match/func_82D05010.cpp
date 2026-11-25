@@ -3,7 +3,6 @@
 extern "C" int fn_82CE5410(...);
 extern "C" int fn_82D05808(...);
 
-
 extern "C" void fn_82D05010(unsigned __int64 param_1,unsigned __int64 param_2,const char *param_3,unsigned int param_4)
 
 {

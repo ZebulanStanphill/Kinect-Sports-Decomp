@@ -5,8 +5,6 @@
 // is left of it. The remaining pieces are appended to `out`; the result is
 // whether anything remains.
 #include "havok/hkBase.h"
-#include "havok/hkArray.h"
-
 
 template <typename T>
 static HK_FORCE_INLINE void constructWithCopy(T *p, int n, const T &tcopy)

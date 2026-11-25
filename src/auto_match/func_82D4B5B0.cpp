@@ -63,7 +63,6 @@ public:
     hkUint32 m_postpad[3];  // +0x24
 };
 
-
 class hkpGroupFilter : public hkpCollisionFilter {
 public:
  hkpGroupFilter();

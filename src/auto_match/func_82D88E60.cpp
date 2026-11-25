@@ -78,7 +78,6 @@ public:
     hkpNullCollisionFilter();
 };
 
-
 struct WorldPart_82D88E60 {
     char pad0[0xc];
     hkpCollisionFilter *filter;

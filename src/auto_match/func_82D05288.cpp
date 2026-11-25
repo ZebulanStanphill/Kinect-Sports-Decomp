@@ -1,6 +1,5 @@
 // hkStringBuf::hkStringBuf(const char *s0, ..., const char *s5) (Common/Base/Container/String/hkStringBuf.cpp).
 #include "havok/hkBase.h"
-#include "havok/hkArray.h"
 
 class hkStringBuf;
 

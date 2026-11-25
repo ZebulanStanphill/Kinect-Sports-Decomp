@@ -2,7 +2,6 @@
 // owner's type is 5.
 #include "havok/hkBase.h"
 
-
 inline void *operator new(hk_size_t, void *p)
 {
     return p;

@@ -1,6 +1,5 @@
 #include "havok/hkClass.h"
 
-
 // hkArrayUtil::constructWithCopy (POD version): a loop over n copies.
 template <typename T> static HK_FORCE_INLINE void constructWithCopy(T *p, int n, const T &tcopy)
 {

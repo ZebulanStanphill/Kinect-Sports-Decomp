@@ -1,7 +1,6 @@
 // hkObjectCopier helper (Common/Serialize/Copier/hkObjectCopier.cpp): writes a
 // class name into the archive at a 2-aligned offset and records it.
 #include "havok/hkOArchive.h"
-#include "havok/hkString.h"
 
 extern "C" {
 void fn_82E182B0(hkStreamWriter *w, int align);         // writePadding

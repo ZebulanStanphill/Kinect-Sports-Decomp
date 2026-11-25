@@ -1,5 +1,4 @@
 // Prints one timer node: name, call count and share of the total, then the eight timer values.
-#include "havok/hkBase.h"
 #include "havok/hkOstream.h"
 
 struct TimerNode_82CF01E0 {

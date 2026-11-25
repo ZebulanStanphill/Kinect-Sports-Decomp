@@ -1,6 +1,5 @@
 #include "havok/hkTransform.h"
 
-
 typedef struct Collidable_82DF5758 {
     void *shape;
     unsigned int shapeKey;

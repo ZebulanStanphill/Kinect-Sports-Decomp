@@ -1,6 +1,5 @@
 // hkOstream::operator<<(const char *) (Common/Base/System/Io/OStream/hkOStream.cpp).
 #include "havok/hkOstream.h"
-#include "havok/hkString.h"
 
 hkOstream &hkOstream::operator<<(const char *str)
 {

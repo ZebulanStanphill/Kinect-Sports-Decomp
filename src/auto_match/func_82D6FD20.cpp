@@ -5,8 +5,6 @@
 // is implicit (only the bases' vtable stores remain).
 #include "havok/hkpShape.h"
 
-class hkVector4;
-
 class hkpConvexPieceShape : public hkpConvexShape, public hkpShapeContainer {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SHAPE);

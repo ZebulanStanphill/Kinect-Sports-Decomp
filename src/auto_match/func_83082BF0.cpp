@@ -1,5 +1,4 @@
 #include "havok/hkClass.h"
-#include "havok/hkString.h"
 
 extern "C" {
 int fn_82CEA280(void *, const hkClass *, int);

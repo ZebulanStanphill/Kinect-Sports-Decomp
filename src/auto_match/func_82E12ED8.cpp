@@ -1,7 +1,4 @@
 #include "havok/hkClass.h"
-#include "havok/hkString.h"
-
-
 
 extern "C" hkClass lbl_8323AE68;
 extern "C" hkClass lbl_8323AEC8;

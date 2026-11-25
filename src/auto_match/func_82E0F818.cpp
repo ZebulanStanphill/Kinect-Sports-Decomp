@@ -1,4 +1,3 @@
-#include "havok/hkString.h"
 // Havok serialization helper (keeps its fn_ name): copies the objects selected by `indices` into one new
 // heap block. Each object is written with a PackfileObjectCopier (an hkObjectCopier between the host layout
 // rules) into an hkArray<char> through an hkOstream, its offset recorded in the output array; then the block
@@ -11,7 +10,6 @@
 #include "havok/hkBase.h"
 #include "havok/hkFlags.h"
 
-class hkClass;
 class hkStreamWriter;
 class hkRelocationInfo;
 enum hkResult { HK_SUCCESS = 0, HK_FAILURE = 1 };

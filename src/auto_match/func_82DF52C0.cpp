@@ -16,9 +16,6 @@ void __stvewx(__vector4, void *, int);
 extern const hkQuadReal lbl_82132D70;   // Havok's global vector of four 0.5s
 }
 
-class hkTransform;
-class hkVector4;
-
 struct Entity_82DF52C0 {
     char pad[0xf0];
     char transform[0x40];

@@ -10,7 +10,6 @@ struct Element_82D8C858 {
     unsigned __int64 hi;
 };
 
-
 template <typename T> static __forceinline void CopyElements(T *dst, const T *src, int count)
 {
     for (int i = 0; i < count; i++)

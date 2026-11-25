@@ -1,9 +1,7 @@
 #include "havok/hkClass.h"
-#include "havok/hkString.h"
 
 extern "C" int fn_82CEAFA8(const hkClass *klass, const char *name);   // hkClass::getMemberByName
 extern "C" unsigned int lbl_8323AEC8;
-
 
 extern "C" char lbl_8204EF40[];
 extern "C" void fn_82E09EC0(const hkClass *param_1)

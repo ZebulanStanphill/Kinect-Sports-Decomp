@@ -2,8 +2,6 @@
 
 extern "C" {
 
-
-
 int  fn_82E07730(int param_1,const char *param_2)
 
 {

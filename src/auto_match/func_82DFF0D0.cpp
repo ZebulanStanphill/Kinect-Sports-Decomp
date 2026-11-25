@@ -1,6 +1,5 @@
 #include "havok/hkBase.h"
 
-
 template <typename T> static HK_FORCE_INLINE void constructWithCopy(T *t, int n, const T &tcopy) { for (int i = 0; i < n; ++i) t[i] = tcopy; }
 
 class Objs_82DFF0D0 : public hkArrayBase<hkReferencedObject *> {

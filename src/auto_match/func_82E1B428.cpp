@@ -1,6 +1,4 @@
-#include "havok/hkString.h"
 #include "havok/hkClass.h"
-#include "havok/hkArrayUtil.h"
 
 typedef struct Ctx_82E1B428 {
     char pad[0x10];

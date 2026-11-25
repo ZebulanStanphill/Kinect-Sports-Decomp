@@ -5,7 +5,6 @@ typedef struct Str_82D04600 {
     int length;
 } Str_82D04600;
 
-
 extern "C" int fn_82D04600(Str_82D04600 *str, const char *suffix)
 {
     int n = hkString::strLen(suffix);

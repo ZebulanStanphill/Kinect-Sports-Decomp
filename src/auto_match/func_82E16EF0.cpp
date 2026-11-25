@@ -7,7 +7,6 @@
 #include "havok/hkBase.h"
 
 class hkPackfileData : public hkReferencedObject {};
-class hkClass;
 
 class hkObjectUpdateTracker : public hkReferencedObject {
 public:

@@ -1,5 +1,4 @@
 #include "havok/hkClass.h"
-#include "havok/hkString.h"
 
 typedef struct Seg_82CEAD98 {
   int f0;

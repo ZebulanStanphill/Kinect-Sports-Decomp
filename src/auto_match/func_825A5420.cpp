@@ -1,7 +1,4 @@
 #include "havok/hkMatrix3.h"
-#include "havok/hkSimdReal.h"
-
-
 
 typedef struct State_825A5420 {
     float a;                   /* 0x00 */
@@ -15,7 +12,6 @@ typedef struct Self_825A5420 {
     char pad0[0x18];
     State_825A5420 *state;     /* 0x18 */
 } Self_825A5420;
-
 
 extern "C" void fn_825A5420(Self_825A5420 *self, float scale, State_825A5420 *out)
 {

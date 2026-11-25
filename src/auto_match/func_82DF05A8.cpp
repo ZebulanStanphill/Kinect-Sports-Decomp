@@ -186,7 +186,6 @@ public:
     hkArrayEx_82DF05A8<hkpEntity *> m_disabledEntities;   // +0x34
 };
 
-
 extern "C" hkBool fn_82DF05A8(hkpDisableEntityCollisionFilter *self, hkpEntity *entity)
 {
     if (entity == HK_NULL)

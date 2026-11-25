@@ -1,5 +1,4 @@
 #include "havok/hkClass.h"
-#include "havok/hkString.h"
 
 typedef struct Find_82E16040 {
   int f0, f4, f8;

@@ -1,4 +1,3 @@
-#include "havok/hkBase.h"
 #include "havok/hkpCollisionFilter.h"
 extern "C" unsigned __int64 __mftb();
 struct TimerEntry { const char *name; unsigned int time, unused; };

@@ -6,7 +6,6 @@
 // vtable and keeps its fn_ name; `this` is written as an explicit first parameter.
 #include "havok/hkBase.h"
 
-
 inline void *operator new(hk_size_t, void *p) throw() { return p; }
 
 template <typename T, typename Allocator = hkContainerHeapAllocator>

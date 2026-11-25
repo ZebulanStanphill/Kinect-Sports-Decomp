@@ -1,6 +1,5 @@
 #include "havok/hkBase.h"
 
-
 struct Elem_82D93670 {
     void *key;
     int pad;
