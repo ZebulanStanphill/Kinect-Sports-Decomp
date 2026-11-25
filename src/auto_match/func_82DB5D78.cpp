@@ -1,27 +1,7 @@
 // Freezes the motion states of an island's entities at the given time: every entity's swept transform
 // starts and ends at its current state, and entities not yet marked are collected into an array.
 #include "havok/hkBase.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-
-class hkVector4
-{
-  public:
-    HK_FORCE_INLINE void operator=(const hkVector4 &v)
-    {
-        m_quad = v.m_quad;
-    }
-
-    HK_FORCE_INLINE hkReal &operator()(int i)
-    {
-        return m_quad.vector4_f32[i];
-    }
-
-    __vector4 m_quad;
-};
+#include "havok/hkVector4.h"
 
 class hkSweptTransform
 {

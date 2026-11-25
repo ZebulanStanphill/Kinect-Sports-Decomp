@@ -3,11 +3,7 @@
 // (fn_82E02230, emitted out of line) and frees through the class allocator. The constructor below only makes
 // the compiler emit the vtable, and with it the deleting destructor.
 #include "havok/hkBase.h"
-
-class hkVector4 {
-public:
-    hkReal x, y, z, w;
-};
+#include "havok/hkVector4.h"
 
 class hkxAnimatedVector : public hkReferencedObject {
 public:

@@ -1,9 +1,5 @@
 #include "havok/hkBase.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float f[4]; unsigned u[4]; } __vector4;
-extern "C" __vector4 __lvlx(const void *, int);
-extern "C" __vector4 __vspltw(__vector4, unsigned int);
-extern "C" __vector4 __vmulfp(__vector4, __vector4);
+#include "havok/hkQuadReal.h"
 
 class hkVector4 {
 public:

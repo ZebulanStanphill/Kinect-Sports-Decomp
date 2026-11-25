@@ -2,17 +2,7 @@
 // child shape, then the child info hkArray (+0x18) and the bases are destroyed. RTTI: hkpShapeCollection
 // (hkpShapeContainer at +0x10).
 #include "havok/hkpShape.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-
-class hkVector4 {
-public:
-    hkQuadReal m_quad;
-};
+#include "havok/hkVector4.h"
 
 class hkpListShape : public hkpShapeCollection {
 public:

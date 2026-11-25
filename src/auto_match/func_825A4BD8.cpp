@@ -27,12 +27,12 @@ static HK_FORCE_INLINE void SetIdentity(hkTransform &transform)
     hkVector4 zero;
 
     zero.setZero4();
-    transform.m_rotation.m_col[0] = zero;
-    transform.m_rotation.m_col[1] = zero;
-    transform.m_rotation.m_col[2] = zero;
-    transform.m_rotation.m_col[0](0) = 1.0f;
-    transform.m_rotation.m_col[1](1) = 1.0f;
-    transform.m_rotation.m_col[2](2) = 1.0f;
+    transform.m_rotation.m_col0 = zero;
+    transform.m_rotation.m_col1 = zero;
+    transform.m_rotation.m_col2 = zero;
+    transform.m_rotation.m_col0(0) = 1.0f;
+    transform.m_rotation.m_col1(1) = 1.0f;
+    transform.m_rotation.m_col2(2) = 1.0f;
     transform.m_translation.setZero4();
 }
 

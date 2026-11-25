@@ -1,30 +1,4 @@
-// Havok ray cast group simulation in the "TtRayCstGrpSim" timer scope: the AABB of all rays is
-// handed to the shape to build a cache on the thread stack, then every ray is cast through
-// fn_83089730 with that cache.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-extern "C" {
-__vector4 __vminfp(__vector4 a, __vector4 b);
-__vector4 __vmaxfp(__vector4 a, __vector4 b);
-}
-
-class hkVector4
-{
-  public:
-    __forceinline void setMin4(const hkVector4 &a, const hkVector4 &b)
-    {
-        q = __vminfp(a.q, b.q);
-    }
-
-    __forceinline void setMax4(const hkVector4 &a, const hkVector4 &b)
-    {
-        q = __vmaxfp(a.q, b.q);
-    }
-
-    __vector4 q;
-};
+#include "havok/hkVector4.h"
 
 class hkAabb
 {

@@ -39,14 +39,18 @@ extern "C" void fn_82D45660(Owner_82D45660 *self, Node_82D45660 *node, Aabb_82D4
     }
     if (node->transformIndex != 0xffff) {
         const hkTransform *t = &self->transforms[node->transformIndex];
-        hkVector4 c0 = t->m_rotation.m_col[0];
-        hkVector4 c1 = t->m_rotation.m_col[1];
-        hkVector4 c2 = t->m_rotation.m_col[2];
-        hkVector4 c3 = t->m_translation;
+        hkVector4 c0;
+        c0 = t->m_rotation.m_col0;
+        hkVector4 c1;
+        c1 = t->m_rotation.m_col1;
+        hkVector4 c2;
+        c2 = t->m_rotation.m_col2;
+        hkVector4 c3;
+        c3 = t->m_translation;
 
-        transform.m_rotation.m_col[0] = c0;
-        transform.m_rotation.m_col[1] = c1;
-        transform.m_rotation.m_col[2] = c2;
+        transform.m_rotation.m_col0 = c0;
+        transform.m_rotation.m_col1 = c1;
+        transform.m_rotation.m_col2 = c2;
         transform.m_translation = c3;
         out->max.setTransformedPos(transform, out->max);
         out->min.setTransformedPos(transform, out->min);

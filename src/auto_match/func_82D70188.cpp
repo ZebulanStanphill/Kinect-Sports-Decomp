@@ -1,23 +1,9 @@
-// Havok: compares two capsule-like segments (point, direction, length at 0x1c, feature id at 0x20) and
-// returns 0 when they are separated, 2 when an id-less segment lies nearly parallel and overlapping,
-// otherwise 1 when A reaches beyond B (by a tolerance of 5% of *distance when B has an id).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
+#include "havok/hkVector4.h"
 
 extern "C" {
-__vector4 __vsubfp(__vector4, __vector4);
-__vector4 __vmsum3fp(__vector4, __vector4);
-void __stvewx(__vector4, void *, int);
 extern float lbl_821344F4;   // 0.9999
 extern float lbl_82005340;   // -2.0
 }
-
-class hkVector4 {
-public:
-    hkQuadReal m_quad;
-};
 
 struct Segment_82D70188 {
     hkVector4 m_point;        // 0x00

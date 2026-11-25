@@ -8,23 +8,11 @@
 //   (n -> r10 instead of r5). So a static, not inlined copy of it is defined here (its code is close to the
 //   original's but not identical; an empty or partial body does not give the caller's code).
 #include "havok/hkBase.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    hkQuadReal m_quad;
-};
+#include "havok/hkVector4.h"
 
 typedef hkUint32 hkpShapeKey;
 #define HK_INVALID_SHAPE_KEY 0xffffffff
 class hkpCollidable;
-
 
 struct hkpShapeRayCastCollectorOutput {
     HK_FORCE_INLINE hkpShapeRayCastCollectorOutput() { reset(); }
@@ -114,9 +102,6 @@ hkBool fn_83084820(const hkKdTree *tree, const hkFourTransposedPoints &from, con
                    hkKdTreeBundleCastCollector *collector, hkUint32 activeMask);
 void fn_8309E8D0(hkKdTreeCpuBroadphaseBundleCastCollector *collector, hkReal *hitFractions);
 }
-
-extern "C" __vector4 __vmrghw(__vector4 a, __vector4 b);
-extern "C" __vector4 __vmrglw(__vector4 a, __vector4 b);
 
 // HK_TRANSPOSE4 (Common/Base/Math/Vector/Xbox360/hkXbox360MathTypes.inl)
 #define HK_TRANSPOSE4(v0, v1, v2, v3) \

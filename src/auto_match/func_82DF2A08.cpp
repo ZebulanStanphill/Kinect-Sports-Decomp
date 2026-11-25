@@ -4,22 +4,10 @@
 // (__real@7f7fffee) keeps its name because Matching units reference it. hkpCollisionInput's members are hkPadSpu
 // wrappers, so its implicit copy moves m_tolerance through integer registers; the closest-points function is
 // looked up before the input copy and the collector are built.
+// A vector member is copy-constructed through a vector register here (see havok/hkVector4.h).
+#define HK_VECTOR4_COPY_CONSTRUCTOR
 #include "havok/hkBase.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE hkVector4() {}
-    HK_FORCE_INLINE hkVector4(const hkVector4 &v) { m_quad = v.m_quad; }
-    HK_FORCE_INLINE void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    HK_FORCE_INLINE hkReal &operator()(int i) { return m_quad.vector4_f32[i]; }
-    __vector4 m_quad;
-};
+#include "havok/hkVector4.h"
 
 class hkMatrix3 {
 public:
@@ -32,7 +20,6 @@ public:
     HK_FORCE_INLINE hkRotation() {}
 };
 
-class hkTransform;
 extern "C" const hkTransform *fn_82CEBD78(void);   // hkTransform::getIdentity()
 
 class hkTransform {

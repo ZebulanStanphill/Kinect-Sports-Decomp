@@ -1,19 +1,6 @@
 // Havok hkTransform::isApproximatelyEqual: the rotations compare equal (fn_82CEBF80,
 // hkMatrix3::isApproximatelyEqual) and the translations are within epsilon in x, y and z.
-#include "havok/hkBaseTypes.h"
-typedef unsigned int hkBool32;
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float f[4]; unsigned int u[4]; } __vector4;
-extern "C" {
-__vector4 __vspltw(__vector4, unsigned int);
-__vector4 __vspltisw(int);
-__vector4 __vsubfp(__vector4, __vector4);
-__vector4 __vand(__vector4, __vector4);
-__vector4 __vor(__vector4, __vector4);
-__vector4 __vcmpgefp(__vector4, __vector4);
-__vector4 __vcmpequwR(__vector4, __vector4, unsigned int *);
-extern const __vector4 lbl_821CA820;        // sign-clearing mask
-extern __vector4 lbl_8323B330[16];          // per-mask vectors OR-ed in before the all-set test (.data, filled at run time)
-}
+#include "havok/hkQuadReal.h"
 
 class hkVector4Comparison { public:
  enum Mask { MASK_XYZ = 14 };
@@ -26,7 +13,7 @@ class hkVector4Comparison { public:
 };
 
 class hkVector4 { public:
- __forceinline void setAll(float v) { q.f[0] = v; q = __vspltw(q, 0); }
+ __forceinline void setAll(float v) { q.vector4_f32[0] = v; q = __vspltw(q, 0); }
  __forceinline void setSub4(const hkVector4 &a, const hkVector4 &b) { q = __vsubfp(a.q, b.q); }
  __forceinline void setAbs4(const hkVector4 &a) { q = __vand(a.q, lbl_821CA820); }
  __forceinline hkVector4Comparison compareLessThanEqual4(const hkVector4 &a) const {

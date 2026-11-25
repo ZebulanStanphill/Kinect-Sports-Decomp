@@ -1,5 +1,4 @@
 #include "havok/hkMatrix3.h"
-#include "havok/hkSimdReal.h"
 
 static HK_FORCE_INLINE void scaleColumn(hkVector4 &column, const hkSimdReal &scale)
 {
@@ -8,7 +7,7 @@ static HK_FORCE_INLINE void scaleColumn(hkVector4 &column, const hkSimdReal &sca
 
 void hkMatrix3::mul(const hkSimdReal &scale)
 {
-    scaleColumn(m_col[0], scale);
-    scaleColumn(m_col[1], scale);
-    scaleColumn(m_col[2], scale);
+    scaleColumn(m_col0, scale);
+    scaleColumn(m_col1, scale);
+    scaleColumn(m_col2, scale);
 }

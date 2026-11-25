@@ -1,10 +1,6 @@
 // hkpMultiRayShape scalar deleting destructor (also hkTraceStream's, by identical-code folding); it calls the implicit destructor out of line. The finish constructor below only makes the compiler emit the vtable.
 #include "havok/hkpShape.h"
-
-class hkVector4 {
-public:
-    hkReal x, y, z, w;
-};
+#include "havok/hkVector4.h"
 
 class hkpMultiRayShape : public hkpShape {
 public:

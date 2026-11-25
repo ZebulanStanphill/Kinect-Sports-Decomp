@@ -1,32 +1,4 @@
-// Havok shape getAabb(localToWorld, tolerance, out): transforms every vertex (array at +0x18,
-// count at +0x1c) into world space, accumulates min/max starting from +-HK_REAL_MAX, then widens
-// the box by the shape's radius (+0x10) plus the tolerance.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-extern "C" {
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vaddfp(__vector4 a, __vector4 b);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vminfp(__vector4 a, __vector4 b);
-__vector4 __vmaxfp(__vector4 a, __vector4 b);
-}
-
-class hkVector4 {
-public:
-    __forceinline void operator=(const hkVector4 &v) { q = v.q; }
-    __forceinline void setAll(float x) { q.vector4_f32[0] = x; q = __vspltw(q, 0); }
-    __forceinline void setAdd4(const hkVector4 &a, const hkVector4 &b) { q = __vaddfp(a.q, b.q); }
-    __forceinline void setSub4(const hkVector4 &a, const hkVector4 &b) { q = __vsubfp(a.q, b.q); }
-    __forceinline void setMin4(const hkVector4 &a, const hkVector4 &b) { q = __vminfp(a.q, b.q); }
-    __forceinline void sub4(const hkVector4 &a) { q = __vsubfp(q, a.q); }
-    __forceinline void add4(const hkVector4 &a) { q = __vaddfp(q, a.q); }
-    __forceinline void setMax4(const hkVector4 &a, const hkVector4 &b) { q = __vmaxfp(a.q, b.q); }
-    __vector4 q;
-};
+#include "havok/hkVector4.h"
 
 class hkTransform {
 public:
@@ -44,13 +16,13 @@ public:
 
 static __forceinline void SetTransformedPos(hkVector4 &out, const hkTransform &t, const hkVector4 &v)
 {
-    __vector4 x = __vspltw(v.q, 0);
-    __vector4 y = __vspltw(v.q, 1);
-    __vector4 z = __vspltw(v.q, 2);
-    __vector4 r = __vmulfp(t.m_col0.q, x);
-    r = __vmaddfp(t.m_col1.q, y, r);
-    r = __vmaddfp(t.m_col2.q, z, r);
-    out.q = __vaddfp(r, t.m_translation.q);
+    __vector4 x = __vspltw(v.m_quad, 0);
+    __vector4 y = __vspltw(v.m_quad, 1);
+    __vector4 z = __vspltw(v.m_quad, 2);
+    __vector4 r = __vmulfp(t.m_col0.m_quad, x);
+    r = __vmaddfp(t.m_col1.m_quad, y, r);
+    r = __vmaddfp(t.m_col2.m_quad, z, r);
+    out.m_quad = __vaddfp(r, t.m_translation.m_quad);
 }
 
 struct Shape_82D6F828 {

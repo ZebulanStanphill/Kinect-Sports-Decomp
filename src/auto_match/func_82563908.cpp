@@ -2,27 +2,7 @@
 // restitution, and stores the caller's user data in it. hkpRigidBodyCinfo's constructor (fn_82D8B168)
 // and hkpRigidBody's (fn_82D8C258) keep their fn_ names. Same shape as func_822E8BC8.cpp (Matching).
 #include "havok/hkBase.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-
-typedef __vector4 hkQuadReal;
-
-class hkVector4
-{
-  public:
-    hkQuadReal m_quad;
-};
-
-class hkMatrix3
-{
-  public:
-    hkVector4 m_col0;
-    hkVector4 m_col1;
-    hkVector4 m_col2;
-};
+#include "havok/hkMatrix3.h"
 
 class hkpShape;
 

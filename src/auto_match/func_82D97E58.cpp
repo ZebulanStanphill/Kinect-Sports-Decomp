@@ -20,9 +20,6 @@ extern const hkQuadReal lbl_82132D70;   // Havok's global vector of four 0.5s
 extern const hkQuadReal lbl_82132D00;   // Havok's global zero vector
 }
 
-class hkMatrix3;
-class hkTransform;
-class hkVector4;
 __forceinline void setRotatedInverseDir(hkVector4 &out, const hkMatrix3 &r, const hkVector4 &b)
 {
     const hkQuadReal d0 = __vmsum3fp(r.getColumn(0).m_quad, b.m_quad);
@@ -55,11 +52,11 @@ extern "C" void fn_82D97E58(Atoms_82D97E58 *self, const hkTransform &bodyATransf
                             const hkVector4 &axis, const hkVector4 &perp)
 {
     hkMatrix3 m;
-    m.m_col[0] = axis;
-    m.m_col[0].normalize3();
-    m.m_col[1] = perp;
-    m.m_col[1].normalize3();
-    m.m_col[2].setCross(m.m_col[0], m.m_col[1]);
+    m.m_col0 = axis;
+    m.m_col0.normalize3();
+    m.m_col1 = perp;
+    m.m_col1.normalize3();
+    m.m_col2.setCross(m.m_col0, m.m_col1);
     setTransposeMul(self->m_transformA.m_rotation, bodyATransform.getRotation(), m);
     setTransposeMul(self->m_transformB.m_rotation, bodyBTransform.getRotation(), m);
     self->m_transformA.m_translation.setTransformedInversePos(bodyATransform, pivot);

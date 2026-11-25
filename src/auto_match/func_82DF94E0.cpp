@@ -2,16 +2,7 @@
 // destructor (??1, fn_82DF9428, emitted out of line) and frees through the class allocator. The constructor
 // below only makes the compiler emit the vtable, and with it the deleting destructor.
 #include "havok/hkBase.h"
-
-class __declspec(align(16)) hkVector4 {
-public:
-    hkReal x, y, z, w;
-};
-
-class hkRotation {
-public:
-    hkVector4 m_col[3];
-};
+#include "havok/hkRotation.h"
 
 class hkpVehicleData : public hkReferencedObject {
 public:

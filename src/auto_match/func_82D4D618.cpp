@@ -1,7 +1,5 @@
 #include "havok/hkBase.h"
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float f[4]; unsigned int u[4]; } __vector4;
-extern "C" __vector4 __vspltw(__vector4, unsigned int);
-class hkVector4 { public: __vector4 q; HK_FORCE_INLINE void setAll(float f) { q.f[0]=f; q=__vspltw(q,0); } };
+#include "havok/hkVector4.h"
 struct hkAabb { hkVector4 lo,hi; };
 class hkpMoppModifier {public: virtual ~hkpMoppModifier(){};};
 class hkpRemoveTerminalsMoppModifier : public hkReferencedObject, public hkpMoppModifier {

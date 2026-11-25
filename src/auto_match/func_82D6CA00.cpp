@@ -1,19 +1,7 @@
 // hkpShapeCollectionAgent::createListAAgent: the unflipped agent's creation function (registered by registerAgent, fn_82D6CAD0, next to
 // createListBAgent), allocating an hkpShapeCollectionAgent (0x38 bytes) through the class allocator and calling its
 // out-of-line constructor.
-#include "havok/hkBase.h"
-
-class hkpCdBody;
-class hkpContactMgr;
-struct hkpCollisionInput;
-
-class hkpCollisionAgent : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    hkpCollisionAgent(hkpContactMgr *contactMgr) : m_contactMgr(contactMgr) {}
-
-    hkpContactMgr *m_contactMgr;   // +0x8
-};
+#include "havok/hkpCollisionAgent.h"
 
 class hkpShapeCollectionAgent : public hkpCollisionAgent {
 public:

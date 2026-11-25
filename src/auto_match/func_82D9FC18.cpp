@@ -5,26 +5,7 @@
 // in a local, which the compiler folds into a vector constant; the rename map names the game's merged
 // copy of it (lbl_820D2840) __vmx@000000003f8000000000000000000000.
 #include "havok/hkBase.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE void set(hkReal a, hkReal b, hkReal c, hkReal d = 0.0f)
-    {
-        hkQuadReal q;
-        q.vector4_f32[0] = a;
-        q.vector4_f32[1] = b;
-        q.vector4_f32[2] = c;
-        q.vector4_f32[3] = d;
-        m_quad = q;
-    }
-    hkQuadReal m_quad;
-};
+#include "havok/hkVector4.h"
 
 class hkpParametricCurve : public hkReferencedObject {
 public:

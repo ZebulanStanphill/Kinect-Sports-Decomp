@@ -5,19 +5,7 @@
 // The constructor keeps its fn_ name too (its caller func_82DF2CD8 is otherwise C-matchable): it is forced
 // inline and run on the object by an explicit constructor call, which adds no null check.
 #include "havok/hkBase.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-extern "C" __vector4 __vxor(__vector4 a, __vector4 b);
-
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE void setZero4() { m_quad = __vxor(m_quad, m_quad); }
-    __vector4 m_quad;
-};
+#include "havok/hkVector4.h"
 
 extern "C" void fn_82CED628(hkStringPtr *self, const char *s);   // hkStringPtr::operator=(const char *)
 

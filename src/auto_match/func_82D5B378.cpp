@@ -1,21 +1,4 @@
-// hkpConvexListAgent3::sepNormal: in gsk mode forwards to the gsk agent's sepNormal
-// (fn_82D69B10); otherwise returns the first column of the identity transform
-// (lbl_8323B1D0) with a distance of -1.70141e38.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-class hkVector4 {
-public:
-    __forceinline void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    __vector4 m_quad;
-};
-
-class hkTransform {
-public:
-    hkVector4 m_rotation[3];
-    hkVector4 m_translation;
-};
+#include "havok/hkTransform.h"
 
 struct hkpGskCache {
     unsigned short m_vertices[4];
@@ -44,7 +27,7 @@ extern "C" void fn_82D5B378(const hkpAgent3Input &input, hkpAgentEntry *entry, h
     } else {
         float distance = lbl_82138F84;
 
-        separatingNormalOut = lbl_8323B1D0.m_rotation[0];
+        separatingNormalOut = lbl_8323B1D0.m_rotation.m_col0;
         separatingNormalOut.m_quad.vector4_f32[3] = distance;
     }
 }

@@ -4,42 +4,13 @@
 // multiplies its transform by the transform shape's (hkTransform::setMul) and
 // creates the child agent through the dispatcher (hkpCollisionDispatcher::getNewCollisionAgent, inlined).
 #include "havok/hkBase.h"
+#include "havok/hkMotionState.h"
+#include "havok/hkpCollisionInput.h"
 
 class hkpContactMgr;
 class hkpCollisionAgent;
-class hkpCollisionDispatcher;
-class hkpCollisionFilter;
-class hkTransform;
 typedef int hkpShapeType;
 typedef hkUint32 hkpShapeKey;
-typedef int hkBool32;
-
-
-class __declspec(align(16)) hkVector4 {
-public:
-    hkReal m_quad[4];
-};
-
-class hkTransform {
-public:
-    void setMul(const hkTransform &a, const hkTransform &b);
-
-    hkVector4 m_rotation[3];   // +0x0
-    hkVector4 m_translation;   // +0x30
-};
-
-class hkMotionState {
-public:
-    hkMotionState(const hkMotionState &other);   // implicit in Havok, emitted out of line
-    hkTransform &getTransform() { return m_transform; }
-    const hkTransform &getTransform() const { return m_transform; }
-
-    hkTransform m_transform;          // +0x0
-    hkUint8 m_sweptTransform[0x50];   // +0x40
-    hkVector4 m_deltaAngle;           // +0x90
-    hkReal m_objectRadius;            // +0xA0
-    hkUint8 m_members[0xC];           // +0xA4: dampings, deactivation counters
-};
 
 class hkpShape : public hkReferencedObject {
 public:
@@ -81,17 +52,6 @@ public:
     hkpShapeKey m_shapeKey;      // +0x4
     const void *m_motion;        // +0x8
     const hkpCdBody *m_parent;   // +0xC
-};
-
-struct hkpCollisionInput {
-    hkpCollisionDispatcher *m_dispatcher;     // +0x0
-    hkUint32 m_weldClosestPoints;             // +0x4
-    hkUint32 m_forceAcceptContactPoints;      // +0x8
-    hkReal m_tolerance;                       // +0xC
-    const hkpCollisionFilter *m_filter;       // +0x10
-    hkBool32 m_createPredictiveAgents;        // +0x14
-    hkUint8 m_members[0x28];                  // +0x18
-    hkVector4 m_aabb32Info;                   // +0x40
 };
 
 class hkpCollisionDispatcher : public hkReferencedObject {

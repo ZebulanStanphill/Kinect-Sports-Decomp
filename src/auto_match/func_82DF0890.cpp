@@ -7,24 +7,7 @@
 // (selectany) and used once in linearCastSphere_bindConstants first, so that the compiler
 // materializes the literals from them (one load per value, scheduled like a literal).
 #include "havok/hkpShape.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-
-extern "C" __vector4 __vxor(__vector4, __vector4);
-extern "C" __vector4 __vrlimi(__vector4, __vector4, unsigned int, unsigned int);
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    HK_FORCE_INLINE void setZero4() { m_quad = __vxor(m_quad, m_quad); }
-    HK_FORCE_INLINE void setXYZ_W(const hkVector4 &xyz, const hkVector4 &w) { m_quad = __vrlimi(xyz.m_quad, w.m_quad, 1, 0); }
-    HK_FORCE_INLINE hkReal &operator()(int i) { return m_quad.vector4_f32[i]; }
-    hkQuadReal m_quad;
-};
+#include "havok/hkTransform.h"
 
 extern "C" {
 extern hkVector4 lbl_8323B1A0;   // the zero vector (hkVector4::getZero())
@@ -40,35 +23,6 @@ void linearCastSphere_bindConstants(float *out)
 
 #define HK_REAL_MAX 3.40282e+38f
 #define HK_REAL_EPSILON 1.192092896e-07f
-
-class hkMatrix3 {
-public:
-    HK_FORCE_INLINE void setIdentity()
-    {
-        hkVector4 zero;
-        zero.setZero4();
-        m_col0 = zero;
-        m_col1 = zero;
-        m_col2 = zero;
-        m_col0(0) = 1.0f;
-        m_col1(1) = 1.0f;
-        m_col2(2) = 1.0f;
-    }
-    hkVector4 m_col0, m_col1, m_col2;
-};
-class hkRotation : public hkMatrix3 {};
-
-class hkTransform {
-public:
-    HK_FORCE_INLINE void setIdentity()
-    {
-        m_rotation.setIdentity();
-        m_translation.setZero4();
-    }
-    HK_FORCE_INLINE void setTranslation(const hkVector4 &t) { m_translation = t; }
-    hkRotation m_rotation;
-    hkVector4 m_translation;
-};
 
 class hkpSphereShape : public hkpConvexShape {
 public:

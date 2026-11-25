@@ -1,10 +1,6 @@
-#include "havok/hkArrayUtil.h"
 
 #include "havok/hkpShape.h"
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float f[4]; unsigned int u[4];
-} __vector4;
-class hkVector4 { public: __vector4 m_quad; HK_FORCE_INLINE void operator=(const hkVector4 &v) { m_quad = v.m_quad; } };
+#include "havok/hkVector4.h"
 class hkpHeightFieldShape : public hkpShape {
 public:
     hkpHeightFieldShape() : hkpShape((hkpShapeType)13) {}

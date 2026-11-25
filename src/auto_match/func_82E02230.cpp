@@ -3,11 +3,7 @@
 // hkxAnimatedQuaternion and hkxVertexVectorDataChannel (folded). It destroys the hkArray of hkVector4 at +0x8.
 // The constructor below only makes the compiler emit the vtable, and with it this destructor.
 #include "havok/hkBase.h"
-
-class hkVector4 {
-public:
-    hkReal x, y, z, w;
-};
+#include "havok/hkVector4.h"
 
 class hkxAnimatedVector : public hkReferencedObject {
 public:

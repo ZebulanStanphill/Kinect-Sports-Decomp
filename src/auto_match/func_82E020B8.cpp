@@ -2,11 +2,7 @@
 // emitted out of line after hkxAnimatedMatrix's reflection functions. It destroys the hkArray of hkMatrix4 at +0x8.
 // The constructor below only makes the compiler emit the vtable, and with it this destructor.
 #include "havok/hkBase.h"
-
-class hkMatrix4 {
-public:
-    hkReal m[16];
-};
+#include "havok/hkMatrix4.h"
 
 class hkxAnimatedMatrix : public hkReferencedObject {
 public:

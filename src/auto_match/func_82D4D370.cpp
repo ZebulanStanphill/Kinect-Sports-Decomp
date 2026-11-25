@@ -1,9 +1,7 @@
 #include "havok/hkpShape.h"
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float vector4_f32[4]; unsigned int vector4_u32[4]; } __vector4;
+#include "havok/hkTransform.h"
 extern "C" { __vector4 __vminfp(__vector4,__vector4); __vector4 __vmaxfp(__vector4,__vector4); }
-class hkVector4 { public: __vector4 m_quad; };
 class hkAabb { public: hkVector4 m_min,m_max; };
-class hkTransform { public: hkVector4 data[4]; };
 class hkpShapeBuffer { public: __declspec(align(16)) char data[512]; };
 class hkpMoppModifier {
 public:

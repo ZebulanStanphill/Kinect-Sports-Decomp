@@ -1,37 +1,11 @@
 // hkpClosestCdPointCollector::addCdPoint: keeps the closest point reported so far.
-#include "havok/hkBase.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float f[4]; unsigned int u[4]; } __vector4;
-
-class hkVector4 {
-public:
-	HK_FORCE_INLINE hkVector4() {}
-	HK_FORCE_INLINE hkVector4(const hkVector4 &v) { m_quad = v.m_quad; }
-	HK_FORCE_INLINE void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-	__vector4 m_quad;
-};
+#include "havok/hkpCdBody.h"
 
 class hkContactPoint {
 public:
-	HK_FORCE_INLINE hkReal getDistance() const { return m_separatingNormal.m_quad.f[3]; }
+	HK_FORCE_INLINE hkReal getDistance() const { return m_separatingNormal.m_quad.vector4_f32[3]; }
 	hkVector4 m_position;
 	hkVector4 m_separatingNormal;
-};
-
-class hkpCdBody {
-public:
-	const hkpCdBody *getRootCollidable() const
-	{
-		const hkpCdBody *body = this;
-		while (body->m_parent)
-			body = body->m_parent;
-		return body;
-	}
-
-	const void *m_shape;         // +0x0
-	hkUint32 m_shapeKey;         // +0x4
-	const void *m_motion;        // +0x8
-	const hkpCdBody *m_parent;   // +0xC
 };
 
 class hkpCdPoint {

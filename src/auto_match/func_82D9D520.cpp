@@ -1,27 +1,8 @@
 // hkpFixedRigidMotion::hkpFixedRigidMotion(const hkVector4 &, const hkQuaternion &) (Physics/Dynamics/Motion/Rigid/hkpFixedRigidMotion.cpp).
 #include "havok/hkBase.h"
+#include "havok/hkMotionState.h"
 
-// VMX128 vector type and the intrinsic hkVector4::setZero4 uses (the XDK's vectorintrinsics.h is not
-// available, so they are declared here; the compiler implements __vxor itself).
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-extern "C" __vector4 __vxor(__vector4 a, __vector4 b);
 #pragma intrinsic(__vxor)
-
-typedef __vector4 hkQuadReal;
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE hkVector4() {}
-    HK_FORCE_INLINE hkVector4(const hkVector4 &v) { m_quad = v.m_quad; }
-    HK_FORCE_INLINE void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    HK_FORCE_INLINE void setZero4() { m_quad = __vxor(m_quad, m_quad); }
-    HK_FORCE_INLINE hkReal &operator()(int i) { return m_quad.vector4_f32[i]; }
-    HK_FORCE_INLINE const hkReal &operator()(int i) const { return m_quad.vector4_f32[i]; }
-    hkQuadReal m_quad;
-};
 
 class hkQuaternion {
 public:
@@ -40,22 +21,7 @@ public:
     hkInt16 m_value;
 };
 
-
-// hkMotionState::initMotionState(const hkVector4 &, const hkQuaternion &) is out of line (fn_830824B8).
-class hkMotionState;
 extern "C" void fn_830824B8(hkMotionState *self, const hkVector4 &position, const hkQuaternion &rotation);
-
-// hkMotionState (Common/Base/Math/Motion/hkMotionState.h), 0xB0 bytes.
-class hkMotionState {
-public:
-    void initMotionState(const hkVector4 &position, const hkQuaternion &rotation) { fn_830824B8(this, position, rotation); }
-
-    char m_transformEtc[0xA0];   // +0x0  m_transform, m_sweptTransform, m_deltaAngle
-    hkReal m_objectRadius;       // +0xA0
-    hkReal m_linearDamping;      // +0xA4
-    hkReal m_angularDamping;     // +0xA8
-    char m_rest[0x4];            // +0xAC
-};
 
 class hkpMaxSizeMotion;
 

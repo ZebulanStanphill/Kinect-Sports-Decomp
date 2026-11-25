@@ -2,16 +2,14 @@
 
 extern "C" {
 
-typedef struct { const char *s; } StringPtr_82E145A0;
 typedef struct { void *p; } RefPtr_82E145A0;
 typedef struct {
-    StringPtr_82E145A0 name;
-    StringPtr_82E145A0 className;
+    hkStringPtr name;
+    hkStringPtr className;
     RefPtr_82E145A0 object;
 } Obj_82E145A0;
 
-extern void fn_82CED2F8(StringPtr_82E145A0 *self);
-extern void fn_82CED628(StringPtr_82E145A0 *self, const char *s);
+extern void fn_82CED628(hkStringPtr *self, const char *s);
 extern RefPtr_82E145A0 *fn_83082568(RefPtr_82E145A0 *self, const RefPtr_82E145A0 *other);
 extern void *fn_83082610(RefPtr_82E145A0 *self);
 

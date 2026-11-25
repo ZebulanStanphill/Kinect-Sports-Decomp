@@ -10,12 +10,7 @@
 // const references: by value, the shared (1,1) - (2,2) difference is computed twice. The 0.8f
 // sphere test is a plain literal (symbols.txt names its constant __real@3f4ccccd).
 #include "havok/hkBase.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
+#include "havok/hkMatrix3.h"
 
 extern "C" double __fsel(double a, double b, double c);   // PPC intrinsic
 
@@ -24,22 +19,9 @@ struct hkMath {
     static HK_FORCE_INLINE hkReal HK_CALL min2(const hkReal &x, const hkReal &y) { return hkReal(__fsel(x - y, y, x)); }
 };
 
-class hkVector4 {
-public:
-    HK_FORCE_INLINE hkReal &operator()(int i) { return m_quad.vector4_f32[i]; }
-    HK_FORCE_INLINE const hkReal &operator()(int i) const { return m_quad.vector4_f32[i]; }
-    hkQuadReal m_quad;
-};
-
 class hkQuaternion {
 public:
     hkVector4 m_vec;
-};
-
-class hkMatrix3 {
-public:
-    HK_FORCE_INLINE const hkReal &operator()(int row, int col) const { return m_col[col](row); }
-    hkVector4 m_col[3];
 };
 
 // hkUFloat8 (Common/Base/Types/hkBaseTypes.h): operator=(const hkReal &) is out of line

@@ -2,16 +2,7 @@
 // line and called by the deleting destructor (fn_82DF94E0): m_numWheelsPerAxle, then m_wheelParams. The
 // constructor below only makes the compiler emit the vtable, and with it this destructor.
 #include "havok/hkBase.h"
-
-class __declspec(align(16)) hkVector4 {
-public:
-    hkReal x, y, z, w;
-};
-
-class hkRotation {
-public:
-    hkVector4 m_col[3];
-};
+#include "havok/hkRotation.h"
 
 class hkpVehicleData : public hkReferencedObject {
 public:

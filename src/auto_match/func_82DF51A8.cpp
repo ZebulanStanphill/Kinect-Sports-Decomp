@@ -1,17 +1,7 @@
 // hkpSerializedDisplayRbTransforms::~hkpSerializedDisplayRbTransforms (Physics/Utilities/Serialize/Display/
 // hkpSerializedDisplayRbTransforms.h): removes the references to the rigid bodies, then m_transforms is destroyed.
 #include "havok/hkBase.h"
-
-class __declspec(align(16)) hkVector4 {
-public:
-    hkReal x, y, z, w;
-};
-
-class hkTransform {
-public:
-    hkVector4 m_rotation[3];
-    hkVector4 m_translation;
-};
+#include "havok/hkTransform.h"
 
 class hkpRigidBody : public hkReferencedObject {
 };

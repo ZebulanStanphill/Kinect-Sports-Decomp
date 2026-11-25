@@ -1,21 +1,5 @@
 #include "havok/hkBase.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-class __declspec(align(16)) hkVector4
-{
-  public:
-    __vector4 m_quad;
-};
-
-class hkTransform
-{
-  public:
-    hkVector4 m_rotation[3]; // 0x00
-    hkVector4 m_translation; // 0x30
-};
+#include "havok/hkTransform.h"
 
 struct SweptTransform_82D6B540 {
     hkUint8 bytes[0x50];
@@ -49,13 +33,13 @@ class hkMotionState
 
 hkMotionState::hkMotionState(const hkMotionState &other)
 {
-    __vector4 first = other.m_transform.m_rotation[0].m_quad;
-    __vector4 second = other.m_transform.m_rotation[1].m_quad;
-    __vector4 third = other.m_transform.m_rotation[2].m_quad;
+    __vector4 first = other.m_transform.m_rotation.m_col0.m_quad;
+    __vector4 second = other.m_transform.m_rotation.m_col1.m_quad;
+    __vector4 third = other.m_transform.m_rotation.m_col2.m_quad;
     __vector4 translation = other.m_transform.m_translation.m_quad;
-    m_transform.m_rotation[0].m_quad = first;
-    m_transform.m_rotation[1].m_quad = second;
-    m_transform.m_rotation[2].m_quad = third;
+    m_transform.m_rotation.m_col0.m_quad = first;
+    m_transform.m_rotation.m_col1.m_quad = second;
+    m_transform.m_rotation.m_col2.m_quad = third;
     m_transform.m_translation.m_quad = translation;
     m_sweptTransform = other.m_sweptTransform;
     m_deltaAngle.m_quad = other.m_deltaAngle.m_quad;

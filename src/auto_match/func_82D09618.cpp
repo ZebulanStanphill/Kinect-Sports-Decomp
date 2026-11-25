@@ -1,51 +1,4 @@
-// Havok: Welzl's minimum bounding sphere, recursive (static, hidden-pointer hkSphere return).
-// numBoundary support points are stored just below `points` (points[-1] ... points[-numBoundary]);
-// a point outside the current sphere is rotated to the front and becomes a support point.
-// fn_82D09330 / fn_82D093B8 / fn_82D094B8 build the sphere through 2 / 3 / 4 support points.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-typedef float hkReal;
-extern "C" {
-__vector4 __vsubfp(__vector4, __vector4);
-__vector4 __vmulfp(__vector4, __vector4);
-__vector4 __vmsum3fp(__vector4, __vector4);
-__vector4 __vrsqrtefp(__vector4);
-__vector4 __vnmsubfp(__vector4, __vector4, __vector4);
-__vector4 __vmaddfp(__vector4, __vector4, __vector4);
-__vector4 __vcmpeqfp(__vector4, __vector4);
-__vector4 __vsel(__vector4, __vector4, __vector4);
-__vector4 __vspltisw(int);
-__vector4 __vxor(__vector4, __vector4);
-void __stvewx(__vector4, void *, int);
-extern const hkQuadReal lbl_82132D70;   // Havok's global vector of four 0.5s
-}
-
-class hkVector4 {
-public:
-    __forceinline hkVector4() {}
-    __forceinline hkVector4(const hkVector4 &v) { m_quad = v.m_quad; }
-    __forceinline void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    __forceinline float &operator()(int i) { return m_quad.vector4_f32[i]; }
-    __forceinline const float &operator()(int i) const { return m_quad.vector4_f32[i]; }
-    __forceinline void setSub4(const hkVector4 &a, const hkVector4 &b) { m_quad = __vsubfp(a.m_quad, b.m_quad); }
-    __forceinline void setZero4() { m_quad = __vxor(m_quad, m_quad); }
-    __forceinline float length3() const
-    {
-        const hkQuadReal zero = __vspltisw(0);
-        const hkQuadReal len2 = __vmsum3fp(m_quad, m_quad);
-        hkQuadReal e = __vrsqrtefp(len2);
-        const hkQuadReal halfLen2 = __vmulfp(len2, lbl_82132D70);
-        e = __vmaddfp(e, __vnmsubfp(halfLen2, __vmulfp(e, e), lbl_82132D70), e);
-        e = __vmaddfp(e, __vnmsubfp(halfLen2, __vmulfp(e, e), lbl_82132D70), e);
-        e = __vsel(e, zero, __vcmpeqfp(zero, len2));
-        float r;
-        __stvewx(__vmulfp(len2, e), &r, 0);
-        return r;
-    }
-    hkQuadReal m_quad;
-};
+#include "havok/hkVector4.h"
 
 class hkSphere {
 public:
@@ -95,7 +48,8 @@ extern "C" hkSphere fn_82D09618(hkVector4 *points, int numPoints, unsigned int n
         d.setSub4(points[i], sphere.getPosition());
         if (d.length3() > sphere.getRadius()) {
             for (int j = i; j > 0; j--) {
-                hkVector4 t = points[j];
+                hkVector4 t;
+                t = points[j];
                 points[j] = points[j - 1];
                 points[j - 1] = t;
             }

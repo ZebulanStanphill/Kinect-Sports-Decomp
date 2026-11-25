@@ -1,22 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-extern "C" {
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vaddfp(__vector4 a, __vector4 b);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vmsum3fp(__vector4 a, __vector4 b);
-void __stvewx(__vector4 v, void *base, int offset);
-}
-
-class hkVector4 {
-public:
-    __forceinline void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    __forceinline float dot3(const hkVector4 &a) const { float r; __stvewx(__vmsum3fp(m_quad, a.m_quad), &r, 0); return r; }
-    __vector4 m_quad;
-};
+#include "havok/hkVector4.h"
 
 class hkTransform {
 public:

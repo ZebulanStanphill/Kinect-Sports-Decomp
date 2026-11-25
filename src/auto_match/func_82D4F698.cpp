@@ -2,17 +2,7 @@
 // stores its two vtables, releases every subpart storage, destroys the m_storage hkArray (+0x60), then
 // calls the out-of-line hkpMeshShape destructor (??1hkpMeshShape@@UAA@XZ, fn_82D3A2E0).
 #include "havok/hkpShape.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-
-class hkVector4 {
-public:
-    hkQuadReal m_quad;
-};
+#include "havok/hkVector4.h"
 
 // hkpMeshShape (Physics/Collide/Shape/Deprecated/Mesh/hkpMeshShape.h), 0x60 bytes, as in func_82D3A2E0.cpp;
 // its destructor is emitted out of line there.

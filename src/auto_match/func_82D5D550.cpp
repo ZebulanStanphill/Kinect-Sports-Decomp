@@ -1,20 +1,7 @@
 #include "havok/hkBase.h"
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float f[4]; unsigned int u[4]; } __vector4;
-extern "C" __vector4 __vxor(__vector4, __vector4);
-extern "C" __vector4 __vspltw(__vector4, unsigned int);
-extern "C" __vector4 __vaddfp(__vector4, __vector4);
-extern "C" __vector4 __vsubfp(__vector4, __vector4);
-extern "C" __vector4 __vmulfp(__vector4, __vector4);
-class hkVector4 { public:
- HK_FORCE_INLINE void operator=(const hkVector4 &v) { q=v.q; }
- HK_FORCE_INLINE void setZero() { q=__vxor(q,q); }
- HK_FORCE_INLINE void setAll(float x) { q.f[0]=x; q=__vspltw(q,0); }
- __vector4 q;
-};
-
+#include "havok/hkVector4.h"
 class hkpCdBody; struct hkpLinearCastCollisionInput { unsigned __int64 data[10]; hkVector4 path; unsigned __int64 extra[2]; };
 class hkpCdPointCollector { public: virtual ~hkpCdPointCollector() {} virtual void addCdPoint(const void *); virtual void reset(); float distance; };
-extern "C" const __vector4 lbl_8209AB20;
 class hkpSymmetricAgentFlipCastCollector: public hkpCdPointCollector {
 public:
  HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE,hkpSymmetricAgentFlipCastCollector);
@@ -25,7 +12,7 @@ public:
 extern "C" void fn_82D5C4B0(const hkpCdBody &,const hkpCdBody &,const hkpLinearCastCollisionInput &,hkpCdPointCollector &,hkpCdPointCollector *);
 extern "C" void fn_82D5D550(const hkpCdBody &a,const hkpCdBody &b,const hkpLinearCastCollisionInput &in,hkpCdPointCollector &c,hkpCdPointCollector *start) {
  hkpLinearCastCollisionInput flipped=in;
- flipped.path.q=__vxor(in.path.q,lbl_8209AB20);
+ flipped.path.m_quad=__vxor(in.path.m_quad,lbl_8209AB20);
  hkpSymmetricAgentFlipCastCollector fc(in.path,c);
  if(start) { hkpSymmetricAgentFlipCastCollector sf(in.path,*start); fn_82D5C4B0(b,a,flipped,fc,&sf); }
  else fn_82D5C4B0(b,a,flipped,fc,0);

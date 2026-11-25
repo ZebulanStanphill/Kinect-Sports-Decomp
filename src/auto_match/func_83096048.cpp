@@ -1,26 +1,4 @@
-// hkpBroadPhase::~hkpBroadPhase() (user-written): deletes the critical section, if any (class allocator, 0x1C bytes).
-// Physics base classes, layouts from the hkClass reflection data and the
-// constructors/destructors.
-//
-// own hkStringPtr: the shared havok/hkStringPtr.h (skipped through its
-// include guard) lacks the out-of-line default constructor fn_82CED2F8.
-#define HAVOK_HKSTRINGPTR_H
 #include "havok/hkBase.h"
-
-class hkStringPtr;
-extern "C" {
-void fn_82CED2F8(hkStringPtr *self);                              // hkStringPtr::hkStringPtr()
-void fn_82CED308(hkStringPtr *self, hkFinishLoadedObjectFlag f);  // hkStringPtr::hkStringPtr(hkFinishLoadedObjectFlag)
-void fn_82CED5B8(hkStringPtr *self);                              // hkStringPtr::~hkStringPtr()
-}
-
-class hkStringPtr {
-public:
-    HK_FORCE_INLINE hkStringPtr() { fn_82CED2F8(this); }
-    HK_FORCE_INLINE hkStringPtr(hkFinishLoadedObjectFlag f) { fn_82CED308(this, f); }
-    HK_FORCE_INLINE ~hkStringPtr() { fn_82CED5B8(this); }
-    const char *m_stringAndFlag;
-};
 
 // hkMultiThreadCheck (Common/Base/DebugUtil/MultiThreadCheck, 8 bytes).
 struct hkMultiThreadCheck;

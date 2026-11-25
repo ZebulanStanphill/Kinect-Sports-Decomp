@@ -98,7 +98,7 @@ extern "C" void fn_82D645C8(const Body_82D645C8 *sphere, const Body_82D645C8 *bo
     local.setTransformedInversePos(*box->transform, *center);
     clamped = __vxor(__vminfp(__vand(local.m_quad, lbl_821CA820), boxShape->halfExtents), __vand(local.m_quad, lbl_8209AB20));
     m = box->transform;
-    world = TransformPos(clamped, m->m_rotation.m_col[0].m_quad, m->m_rotation.m_col[1].m_quad, m->m_rotation.m_col[2].m_quad, m->m_translation.m_quad);
+    world = TransformPos(clamped, m->m_rotation.m_col0.m_quad, m->m_rotation.m_col1.m_quad, m->m_rotation.m_col2.m_quad, m->m_translation.m_quad);
     d = __vsubfp(world, center->m_quad);
     distSq = GetReal(__vmsum3fp(d, d));
     radius = sphereShape->radius + boxShape->radius;

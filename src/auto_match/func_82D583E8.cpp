@@ -1,6 +1,5 @@
 #include "havok/hkTransform.h"
 
-
 extern "C" __vector4 __vxor(__vector4 a, __vector4 b);
 extern "C" __vector4 __vaddfp(__vector4 a, __vector4 b);
 extern "C" __vector4 __vminfp(__vector4 a, __vector4 b);
@@ -37,7 +36,6 @@ typedef struct {
     __vector4 max;
 } Aabb_82D583E8;
 
-
 static __forceinline void Add4(__vector4 *a, const __vector4 *b)
 {
     *a = __vaddfp(*a, *b);
@@ -55,9 +53,9 @@ extern "C" void fn_82D583E8(const CdBody_82D583E8 *bodyA, const CdBody_82D583E8 
 
     r = bodyB->transform;
     p = &input->path;
-    d0 = __vmsum3fp(r->m_rotation.m_col[0].m_quad, *p);
-    d1 = __vmsum3fp(r->m_rotation.m_col[1].m_quad, *p);
-    d2 = __vmsum3fp(r->m_rotation.m_col[2].m_quad, *p);
+    d0 = __vmsum3fp(r->m_rotation.m_col0.m_quad, *p);
+    d1 = __vmsum3fp(r->m_rotation.m_col1.m_quad, *p);
+    d2 = __vmsum3fp(r->m_rotation.m_col2.m_quad, *p);
     path = __vmrghw(__vmrghw(d0, d2), __vmrghw(d1, lbl_82132D00));
     zero = __vxor(zero, zero);
     lo = __vminfp(zero, path);

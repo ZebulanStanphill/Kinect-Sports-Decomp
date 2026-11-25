@@ -5,7 +5,6 @@
 // EntitySelector's vtable store), then the global operator delete (EntitySelector has no base and no allocator).
 #include "havok/hkBase.h"
 
-typedef hkUint32 hkBool32;
 class hkpEntity;
 
 extern "C" void fn_8265CA20(void *p);   // global operator delete

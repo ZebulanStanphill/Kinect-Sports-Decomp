@@ -3,11 +3,7 @@
 // only hkBaseObject's vtable store is left. The function at the end only makes the compiler emit the
 // vtable.
 #include "havok/hkpShape.h"
-
-class hkVector4 {
-public:
-    hkReal x, y, z, w;
-};
+#include "havok/hkVector4.h"
 
 class hkpBoxShape : public hkpConvexShape {
 public:

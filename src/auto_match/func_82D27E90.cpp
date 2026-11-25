@@ -5,6 +5,7 @@
 // out-of-line clear fn_82D34CA8, then its node storage's destructor fn_82D1E718) and a default
 // triangulator (inline destructor).
 #include "havok/hkBase.h"
+#include "havok/hkVector4.h"
 
 // hkgpAbstractMesh<EDGE, VERTEX, TRIANGLE, ALLOCATOR> (Common/Internal/GeometryProcessing/AbstractMesh/
 // hkgpAbstractMesh.h), 0x38 bytes: hkReferencedObject, then the vertex list (+0x8) and the triangle list
@@ -94,17 +95,6 @@ typedef hkgpTriangulatorType<hkgpTriangulatorBase::VertexBase, hkgpTriangulatorB
                              hkgpTriangulatorBase::DefaultEdgeData<hkContainerHeapAllocator>,
                              hkContainerHeapAllocator, -1>
     hkgpTriangulator;
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-
-class hkVector4 {
-public:
-    hkQuadReal m_quad;
-};
 
 extern "C" {
 void fn_82D34CA8(void *self);   // hkAabbTree<hkAabbTreeData::hkAabbTreeAabb, hkUint32>::clear

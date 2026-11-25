@@ -2,32 +2,7 @@
 // the given friction and restitution, and stores the caller's user data in it. Same shape as
 // func_82563908.cpp (Matching).
 #include "havok/hkBase.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-
-typedef __vector4 hkQuadReal;
-
-class hkVector4
-{
-  public:
-    HK_FORCE_INLINE void operator=(const hkVector4 &v)
-    {
-        m_quad = v.m_quad;
-    }
-
-    hkQuadReal m_quad;
-};
-
-class hkMatrix3
-{
-  public:
-    hkVector4 m_col0;
-    hkVector4 m_col1;
-    hkVector4 m_col2;
-};
+#include "havok/hkMatrix3.h"
 
 class hkpShape;
 

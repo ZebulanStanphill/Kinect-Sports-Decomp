@@ -1,6 +1,6 @@
 #include "havok/hkTransform.h"
 // hkpGskBaseAgent::getClosestPoints (GSK closest point between two convex bodies, reported to a collector).
-#include "havok/hkBase.h"
+#include "havok/hkpCdPointCollector.h"
 
 extern "C" unsigned __int64 __mftb();
 struct hkMonitorStream { void *a; unsigned *next; void *b; unsigned *end; };
@@ -45,12 +45,6 @@ public:
 	hkContactPoint m_contact;
 	const hkpCdBody *m_cdBodyA;
 	const hkpCdBody *m_cdBodyB;
-};
-
-class hkpCdPointCollector {
-public:
-	virtual ~hkpCdPointCollector();
-	virtual void addCdPoint(const hkpCdPoint &event);
 };
 
 struct hkpGskCache {

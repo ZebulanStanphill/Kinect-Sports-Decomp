@@ -1,34 +1,4 @@
-// Havok: applies a transform to a phantom: an AABB phantom's box is moved by the translation,
-// a shape phantom's transform is multiplied by it.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-extern "C" __vector4 __vaddfp(__vector4 a, __vector4 b);
-
-class hkVector4
-{
-  public:
-    __forceinline void operator=(const hkVector4 &v)
-    {
-        m_quad = v.m_quad;
-    }
-
-    __forceinline void add4(const hkVector4 &v)
-    {
-        m_quad = __vaddfp(m_quad, v.m_quad);
-    }
-
-    __vector4 m_quad;
-};
-
-class hkRotation
-{
-  public:
-    hkVector4 m_col0;
-    hkVector4 m_col1;
-    hkVector4 m_col2;
-};
+#include "havok/hkRotation.h"
 
 class hkTransform
 {

@@ -1,16 +1,6 @@
 // getVtablehkSimpleLocalFrame (HK_REFLECTION_DEFINE_VIRTUAL, static in Havok): builds a finished object in a local buffer and returns its vtable pointer.
 #include "havok/hkBase.h"
-
-class __declspec(align(16)) hkVector4 {
-public:
-    hkReal x, y, z, w;
-};
-
-class hkTransform {
-public:
-    hkVector4 m_rotation[3];
-    hkVector4 m_translation;
-};
+#include "havok/hkTransform.h"
 
 class hkLocalFrameGroup;
 

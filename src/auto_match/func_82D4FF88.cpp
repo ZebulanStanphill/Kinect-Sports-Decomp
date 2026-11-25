@@ -6,21 +6,11 @@
 // it is called by name and the class below gives hkpMeshShape an empty inline finish constructor; the explicit
 // constructor call (an MSVC extension) then expands the rest without placement new's null check.
 #include "havok/hkBase.h"
+#include "havok/hkVector4.h"
 
 class hkpShapeContainer;
 class hkpShapeBuffer;
 typedef hkUint32 hkpShapeKey;
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-
-class hkVector4 {
-public:
-    hkQuadReal m_quad;
-};
 
 // hkpShape, hkpShapeContainer and hkpShapeCollection as in havok/hkpShape.h, but with empty finish
 // constructors: the real ones (hkpShape's clears m_type) run inside fn_82D4B0F8. For the same reason

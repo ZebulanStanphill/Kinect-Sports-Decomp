@@ -1,23 +1,4 @@
-// Havok MOPP sphere query set-up: builds the virtual machine state (output array, integer to
-// float scale, sphere in MOPP space with doubled radius), the root query (shift 16) and the
-// root bounds, then runs the byte code at code->data.
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float f[4]; unsigned int u[4]; } __vector4;
-extern "C" __vector4 __vspltw(__vector4, unsigned int);
-extern "C" __vector4 __vaddfp(__vector4, __vector4);
-extern "C" __vector4 __vsubfp(__vector4, __vector4);
-extern "C" __vector4 __vxor(__vector4, __vector4);
-extern "C" __vector4 __vrlimi(__vector4, __vector4, int, int);
-
-class hkVector4 { public:
- __forceinline void setZero4() { q = __vxor(q, q); }
- __forceinline void setAll(float x) { q.f[0] = x; q = __vspltw(q, 0); }
- __forceinline void setSub4(const hkVector4 &a, const hkVector4 &b) { q = __vsubfp(a.q, b.q); }
- __forceinline void setAdd4(const hkVector4 &a, const hkVector4 &b) { q = __vaddfp(a.q, b.q); }
- __forceinline void setXYZ(const hkVector4 &a) { q = __vrlimi(a.q, q, 1, 0); }
- __forceinline float &operator()(int i) { return q.f[i]; }
- __forceinline const float &operator()(int i) const { return q.f[i]; }
- __vector4 q;
-};
+#include "havok/hkVector4.h"
 
 struct Code_82DCE698 {
     char pad0[0x10];

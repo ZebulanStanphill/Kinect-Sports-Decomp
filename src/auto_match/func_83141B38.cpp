@@ -4,19 +4,7 @@
 // original), so these functions are written out under their fn_ names as
 // explicit destructor calls on the extern "C" objects; a definition of the
 // object would duplicate the data symbol.
-#include "havok/hkBase.h"
-
-class hkClass;
-class hkVector4;
-class hkpContactMgr;
-
-// hkpCollisionAgent / hkpNullAgent (Physics/Collide/Agent/hkpCollisionAgent.h,
-// .../NullAgent/hkpNullAgent.h); the static null agent is lbl_83182AFC.
-class hkpCollisionAgent : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    hkpContactMgr *m_contactMgr;   // +0x8
-};
+#include "havok/hkpCollisionAgent.h"
 
 class hkpNullAgent : public hkpCollisionAgent {
 public:

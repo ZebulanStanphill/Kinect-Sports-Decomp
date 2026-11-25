@@ -2,29 +2,12 @@
 // plain words, an hkArray of hkRefPtr, then two hkVector4.
 #include "havok/hkArray.h"
 #include "havok/hkReferencedObject.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-typedef __vector4 hkQuadReal;
-
-class hkVector4
-{
-  public:
-    __forceinline void operator=(const hkVector4 &v)
-    {
-        m_quad = v.m_quad;
-    }
-
-    hkQuadReal m_quad;
-};
+#include "havok/hkVector4.h"
 
 inline void *operator new(unsigned int, void *where)
 {
     return where;
 }
-
 
 // hkRefPtr with its copy constructor and assignment (the source pointer is
 // read again after each reference call).

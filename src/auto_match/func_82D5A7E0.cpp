@@ -2,40 +2,7 @@
 // hkpHeightFieldAgent.cpp): allocates the agent with the class allocator (no null check), runs
 // hkpHeightFieldAgent's constructor (out of line, fn_82D5A670) with the bodies swapped, then stores
 // hkpSymmetricAgent's vtable.
-#include "havok/hkBase.h"
-
-class hkpCdBody;
-class hkpCdPoint;
-class hkpContactMgr;
-class hkpConstraintOwner;
-typedef hkpConstraintOwner hkCollisionConstraintOwner;
-struct hkpCollisionInput;
-struct hkpLinearCastCollisionInput;
-struct hkpProcessCollisionInput;
-struct hkpProcessCollisionOutput;
-
-
-class hkpCdBodyPairCollector {
-public:
-    HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE, hkpCdBodyPairCollector);
-    hkpCdBodyPairCollector() { reset(); }
-    virtual ~hkpCdBodyPairCollector() {}
-    virtual void addCdBodyPair(const hkpCdBody &bodyA, const hkpCdBody &bodyB) = 0;
-    virtual void reset() { m_earlyOut = false; }
-
-    hkBool m_earlyOut;   // +0x4
-};
-
-class hkpCdPointCollector {
-public:
-    HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE, hkpCdPointCollector);
-    hkpCdPointCollector() { reset(); }
-    virtual ~hkpCdPointCollector() {}
-    virtual void addCdPoint(const hkpCdPoint &point) = 0;
-    virtual void reset() { m_earlyOutDistance = 3.40282e+38f; }
-
-    hkReal m_earlyOutDistance;   // +0x4
-};
+#include "havok/hkpIterativeLinearCastAgent.h"
 
 class hkpSymmetricAgentFlipBodyCollector : public hkpCdBodyPairCollector {
 public:
@@ -53,28 +20,6 @@ public:
     virtual void addCdPoint(const hkpCdPoint &point);
 
     hkpCdPointCollector &m_collector;   // +0x8
-};
-
-class hkpCollisionAgent : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    hkpCollisionAgent(hkpContactMgr *contactMgr) : m_contactMgr(contactMgr) {}
-    virtual void getPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                                 hkpCdBodyPairCollector &collector);   // +0xC
-    virtual void getClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                                  hkpCdPointCollector &collector);   // +0x10
-    virtual void linearCast(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpLinearCastCollisionInput &input,
-                            hkpCdPointCollector &collector, hkpCdPointCollector *startCollector);   // +0x14
-    virtual void processCollision(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpProcessCollisionInput &input,
-                                  hkpProcessCollisionOutput &result);   // +0x18
-    virtual void cleanup(hkCollisionConstraintOwner &constraintOwner);   // +0x1C
-
-    hkpContactMgr *m_contactMgr;   // +0x8
-};
-
-class hkpIterativeLinearCastAgent : public hkpCollisionAgent {
-public:
-    hkpIterativeLinearCastAgent(hkpContactMgr *mgr) : hkpCollisionAgent(mgr) {}
 };
 
 template <typename AGENT>
@@ -117,7 +62,6 @@ public:
         AGENT::getClosestPoints(bodyB, bodyA, input, flipCollector);
     }
 };
-
 
 typedef hkUint16 hkContactPointId;
 

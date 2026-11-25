@@ -9,7 +9,6 @@ class hkpCollisionDispatcher;
 class hkpCollisionFilter;
 typedef int hkpShapeType;
 typedef hkUint32 hkpShapeKey;
-typedef int hkBool32;
 #define HK_INVALID_SHAPE_KEY 0xffffffff
 
 class __declspec(align(16)) hkVector4 {

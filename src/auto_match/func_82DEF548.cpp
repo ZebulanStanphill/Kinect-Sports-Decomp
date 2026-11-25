@@ -1,43 +1,7 @@
 // hkpBallGun::fireGun(hkpWorld *, const hkTransform &) (vtable slot 4); sibling of
 // hkpMountedBallGun::fireGun (func_82DF21A0). Needs /O2 /QVMXReserve (flag file).
-#include "havok/hkBase.h"
 #include "havok/hkpShape.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float f[4]; unsigned int u[4]; } __vector4;
-extern "C" {
-__vector4 __vaddfp(__vector4, __vector4);
-__vector4 __vmulfp(__vector4, __vector4);
-__vector4 __vmaddfp(__vector4, __vector4, __vector4);
-__vector4 __vspltw(__vector4, unsigned int);
-__vector4 __lvlx(const void *, int);
-}
-
-class hkSimdReal {
-public:
-	// Needs the real intrinsic signature __lvlx(const void *, int): then a literal argument is read from its
-	// __real@ constant in .rdata (lis/addi + lvlx) instead of being stored to a stack slot first.
-	HK_FORCE_INLINE hkSimdReal(const hkReal &x) { m_real = __vspltw(__lvlx(&x, 0), 0); }
-	__vector4 m_real;
-};
-
-class hkVector4 {
-public:
-	HK_FORCE_INLINE hkVector4() {}
-	HK_FORCE_INLINE hkVector4(const hkVector4 &v) { m_quad = v.m_quad; }
-	HK_FORCE_INLINE void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-	HK_FORCE_INLINE void setAdd4(const hkVector4 &a, const hkVector4 &b) { m_quad = __vaddfp(a.m_quad, b.m_quad); }
-	HK_FORCE_INLINE void setAddMul4(const hkVector4 &a, const hkVector4 &b, hkSimdReal r) { m_quad = __vmaddfp(b.m_quad, r.m_real, a.m_quad); }
-	HK_FORCE_INLINE void setMul4(hkSimdReal r, const hkVector4 &a) { m_quad = __vmulfp(a.m_quad, r.m_real); }
-	__vector4 m_quad;
-};
-
-class hkTransform {
-public:
-	HK_FORCE_INLINE const hkVector4 &getColumn(int i) const { return m_rotation[i]; }
-	HK_FORCE_INLINE const hkVector4 &getTranslation() const { return m_translation; }
-	hkVector4 m_rotation[3];
-	hkVector4 m_translation;
-};
+#include "havok/hkTransform.h"
 
 class hkpSphereShape : public hkpConvexShape {
 public:
@@ -178,8 +142,10 @@ public:
 
 extern "C" void fn_82DEF548(hkpBallGun *self, hkpWorld *world, const hkTransform &viewTransform)
 {
-	hkVector4 dir = viewTransform.getColumn(0);
-	hkVector4 pos = viewTransform.getTranslation();
+	hkVector4 dir;
+	dir = viewTransform.getColumn(0);
+	hkVector4 pos;
+	pos = viewTransform.getTranslation();
 	hkVector4 rayFrom; rayFrom.setAdd4(pos, dir);
 	hkVector4 rayTo; rayTo.setAddMul4(rayFrom, dir, 200.0f);
 
@@ -204,7 +170,8 @@ extern "C" void fn_82DEF548(hkpBallGun *self, hkpWorld *world, const hkTransform
 		ci.m_linearVelocity.setMul4(self->m_bulletVelocity, dir);
 
 	{
-		hkVector4 to = out.m_position;
+		hkVector4 to;
+		to = out.m_position;
 		for (int i = 0; i < self->m_listeners.getSize(); i++)
 			self->m_listeners[i]->gunFiredCallback(pos, to);
 	}

@@ -4,9 +4,7 @@
 // to the command's own buffer or to a slot of a shared buffer reserved with an atomic add.
 // HK_REAL_MAX is __real@7f7fffee (the linker merged the literal into it); copying it into a
 // local keeps it in f31 across the loop as the literal did.
-#include "havok/hkBase.h"
-#include "havok/hkpShape.h"
-
+#include "havok/hkpCdBody.h"
 
 class hkpCdPoint;
 struct hkpCollisionInput;
@@ -43,10 +41,6 @@ public:
     int m_numPoints;                     // +0x14
 };
 
-class hkpCdBody {
-public:
-    const hkpShape *m_shape;
-};
 class hkpCollidable : public hkpCdBody {};
 
 typedef void (*hkpGetClosestPointsFunc)(const hkpCdBody &bodyA, const hkpCdBody &bodyB,

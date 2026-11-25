@@ -2,27 +2,8 @@
 // Physics/Dynamics/Phantom/hkpShapePhantom.cpp). Havok code, /O2 (flag file).
 // 0.5f is __real@3f000000 (Matching units reference it), a selectany definition.
 #include "havok/hkpShape.h"
+#include "havok/hkTransform.h"
 
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    hkQuadReal m_quad;
-};
-class hkRotation {
-public:
-    hkVector4 m_col0, m_col1, m_col2;
-};
-class hkTransform {
-public:
-    hkRotation m_rotation;
-    hkVector4 m_translation;
-};
 class hkAabb {
 public:
     hkVector4 m_min;

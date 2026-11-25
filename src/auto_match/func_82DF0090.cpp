@@ -3,19 +3,7 @@
 // damping impulse from the bodies' velocity difference (both scaled by the time step),
 // applied to body A negated and to body B as is. Wrapped in the "TtDashpot" timer scope.
 #include "havok/hkBase.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-
-extern "C" {
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-}
+#include "havok/hkTransform.h"
 
 extern "C" unsigned __int64 __mftb();
 struct hkMonitorStream { void *a; unsigned *next; void *b; unsigned *end; };
@@ -31,30 +19,6 @@ static HK_FORCE_INLINE void timer(const char *s)
         t->next = p + 3;
     }
 }
-
-class hkSimdReal {
-public:
-    HK_FORCE_INLINE hkSimdReal(const float &x) { m_real = __vspltw(__lvlx(&x, 0), 0); }
-    hkQuadReal m_real;
-};
-
-class hkTransform;
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    HK_FORCE_INLINE void setSub4(const hkVector4 &a, const hkVector4 &b) { m_quad = __vsubfp(a.m_quad, b.m_quad); }
-    HK_FORCE_INLINE void setMul4(const hkSimdReal &s, const hkVector4 &a) { m_quad = __vmulfp(a.m_quad, s.m_real); }
-    HK_FORCE_INLINE void addMul4(const hkSimdReal &s, const hkVector4 &a) { m_quad = __vmaddfp(a.m_quad, s.m_real, m_quad); }
-    void setTransformedPos(const hkTransform &t, const hkVector4 &v);
-    hkQuadReal m_quad;
-};
-
-class hkTransform {
-public:
-    hkVector4 m_rotation[3];
-    hkVector4 m_translation;
-};
 
 struct hkStepInfo {
     hkReal m_startTime;

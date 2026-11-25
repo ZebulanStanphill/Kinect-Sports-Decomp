@@ -2,7 +2,6 @@
 // m / 3 * (b^2 + c^2) on the diagonal for half extents a, b, c, volume 8 * a * b * c.
 // Havok code: /O2 /QVMXReserve (flag file). The 8.0f literal is lbl_82015BD4 in the game
 // (pool alias __real@41000000=lbl_82015BD4).
-#include "havok/hkBase.h"
 #include "havok/hkMatrix3.h"
 #include "havok/hkStreamWriter.h"
 
@@ -22,9 +21,9 @@ static HK_FORCE_INLINE void SetZero(hkMatrix3 &m)
 {
     hkVector4 zero;
     zero.setZero4();
-    m.m_col[0] = zero;
-    m.m_col[1] = zero;
-    m.m_col[2] = zero;
+    m.m_col0 = zero;
+    m.m_col1 = zero;
+    m.m_col2 = zero;
 }
 
 static HK_FORCE_INLINE void SetIdentity(hkMatrix3 &m)

@@ -6,42 +6,11 @@
 // 1.0f and -1.0f are literals. The game's 0.5f keeps its lbl_ name (Matching units reference it) and
 // is defined here as selectany.
 #include "havok/hkpShape.h"
+#include "havok/hkVector4.h"
 
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
 extern "C" {
-__vector4 __vmulfp(__vector4, __vector4);
-__vector4 __vspltw(__vector4, unsigned int);
-__vector4 __lvlx(const void *, int);
 float fn_8307F168();
 }
-
-
-union hkQuadRealUnion {
-    __vector4 q;
-    hkReal r[4];
-};
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    HK_FORCE_INLINE void set(hkReal a, hkReal b, hkReal c, hkReal d = 0.0f)
-    {
-        hkQuadRealUnion u;
-        u.r[0] = a;
-        u.r[1] = b;
-        u.r[2] = c;
-        u.r[3] = d;
-        m_quad = u.q;
-    }
-    HK_FORCE_INLINE void mul4(const hkVector4 &a) { m_quad = __vmulfp(m_quad, a.m_quad); }
-    HK_FORCE_INLINE void setMul4(hkReal r, const hkVector4 &a) { m_quad = __vmulfp(a.m_quad, __vspltw(__lvlx(&r, 0), 0)); }
-    HK_FORCE_INLINE hkReal &operator()(int i) { return ((hkReal *)&m_quad)[i]; }
-    HK_FORCE_INLINE const hkReal &operator()(int i) const { return ((const hkReal *)&m_quad)[i]; }
-    __vector4 m_quad;
-};
 
 template <typename ENUM, typename STORAGE>
 class hkEnum {

@@ -1,16 +1,9 @@
-// Havok convex shape: extent of the shape along a direction. Builds the plane (x, y, z, 0)
-// from the direction, takes the supporting vertex's distance to it (fn_82D0C930) and
-// subtracts the distance on the opposite side (fn_82D0D050).
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float f[4]; unsigned int u[4]; } __vector4;
-extern "C" __vector4 __vspltw(__vector4, unsigned int);
-extern "C" __vector4 __vaddfp(__vector4, __vector4);
-extern "C" __vector4 __vmsum3fp(__vector4, __vector4);
-extern "C" void __stvewx(__vector4, void *, int);
+#include "havok/hkQuadReal.h"
 
 class hkVector4 { public:
  __forceinline void set(float x, float y, float z, float w) {
   __vector4 t;
-  t.f[0] = x; t.f[1] = y; t.f[2] = z; t.f[3] = w;
+  t.vector4_f32[0] = x; t.vector4_f32[1] = y; t.vector4_f32[2] = z; t.vector4_f32[3] = w;
   q = t;
  }
  __forceinline float dot4xyz1(const hkVector4 &v) const {

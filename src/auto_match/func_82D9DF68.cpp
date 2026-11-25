@@ -1,5 +1,6 @@
 // hkpGenericConstraintData::~hkpGenericConstraintData (Physics/Dynamics/Constraint/Bilateral/Generic/hkpGenericConstraintData.cpp): releases the scheme's motors; the scheme's destructor is out of line.
 #include "havok/hkBase.h"
+#include "havok/hkVector4.h"
 
 class hkpConstraintData;
 
@@ -38,10 +39,6 @@ public:
     hkUlong m_userData;   // +0x8
 };
 
-class hkVector4 {
-public:
-    hkReal x, y, z, w;
-};
 class hkpConstraintModifier;
 
 class hkpConstraintMotor : public hkReferencedObject {

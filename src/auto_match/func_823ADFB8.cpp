@@ -5,47 +5,14 @@
 // /O1 /QVMXReserve: the game's zero vector is VMX register 77 (__VMXGetReg needs /QVMXReserve).
 // Same shape as func_822E8BC8.cpp (Matching).
 #include "havok/hkBase.h"
+#include "havok/hkMatrix3.h"
 
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-extern "C" __vector4 __vxor(__vector4 a, __vector4 b);
 extern "C" __vector4 __VMXGetReg(int n);
 
 extern "C" {
 extern const hkQuadReal lbl_82196750;    // (0, 0, 0, 1): the identity quaternion
 extern float lbl_831C9CE0[];             // game tuning values
 }
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    HK_FORCE_INLINE void setZero4() { m_quad = __vxor(m_quad, m_quad); }
-    hkQuadReal m_quad;
-};
-
-class hkMatrix3 {
-public:
-    HK_FORCE_INLINE void operator=(const hkMatrix3 &m)
-    {
-        m_col0 = m.m_col0;
-        m_col1 = m.m_col1;
-        m_col2 = m.m_col2;
-    }
-    HK_FORCE_INLINE void setZero()
-    {
-        hkVector4 zero;
-        zero.setZero4();
-        m_col0 = zero;
-        m_col1 = zero;
-        m_col2 = zero;
-    }
-    hkVector4 m_col0;
-    hkVector4 m_col1;
-    hkVector4 m_col2;
-};
 
 struct hkpMassProperties {
     HK_FORCE_INLINE hkpMassProperties() : m_volume(0.0f), m_mass(0.0f)

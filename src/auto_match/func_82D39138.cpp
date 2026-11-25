@@ -1,11 +1,7 @@
 // hkpBoxShape scalar deleting destructor; it calls ~hkpBoxShape (out of line, already named) and frees
 // through the class allocator. The finish constructor at the end only makes the compiler emit the vtable.
 #include "havok/hkpShape.h"
-
-class hkVector4 {
-public:
-    hkReal x, y, z, w;
-};
+#include "havok/hkVector4.h"
 
 class hkpBoxShape : public hkpConvexShape {
 public:

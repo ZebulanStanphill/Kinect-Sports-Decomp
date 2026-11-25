@@ -7,7 +7,7 @@
 // collidableWasAdded = false when the collidable is not found.
 // The search keeps the array's data pointer in a local loaded after the
 // loop guard; that makes the loop step a pointer to the element.
-#include "havok/hkBase.h"
+#include "havok/hkpCollisionAgent.h"
 
 // hkpCollidable (Physics/Collide/Agent/Collidable/hkpCollidable.h): only the
 // hkpCdBody shape pointer at +0 is used; the original tests it with cmpwi.
@@ -21,17 +21,6 @@ public:
 class hkpConstraintOwner : public hkReferencedObject {
 public:
     int m_constraintInfo[4];
-};
-
-// hkpCollisionAgent (Physics/Collide/Agent/hkpCollisionAgent.h): cleanup is
-// at +0x1C.
-class hkpCollisionAgent : public hkReferencedObject {
-public:
-    virtual void getClosestPoints();
-    virtual void getPenetrations();
-    virtual void linearCast();
-    virtual void processCollision();
-    virtual void cleanup(hkpConstraintOwner &constraintOwner);   // +0x1C
 };
 
 class hkpCachingShapePhantom;

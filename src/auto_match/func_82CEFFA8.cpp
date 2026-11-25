@@ -1,16 +1,6 @@
 // hkSimpleLocalFrame::~hkSimpleLocalFrame (Common/Base/Types/Geometry/LocalFrame/hkLocalFrame.cpp): releases the children and the group.
 #include "havok/hkBase.h"
-
-class __declspec(align(16)) hkVector4 {
-public:
-    hkReal x, y, z, w;
-};
-
-class hkTransform {
-public:
-    hkVector4 m_rotation[3];
-    hkVector4 m_translation;
-};
+#include "havok/hkTransform.h"
 
 class hkLocalFrameGroup : public hkReferencedObject {
 };

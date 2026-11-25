@@ -1,7 +1,6 @@
 #include "havok/hkpShape.h"
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float f[4]; unsigned u[4]; } __vector4;
-class hkVector4 { public: __vector4 q; };
-class hkAabb { public: hkVector4 m_min,m_max; HK_FORCE_INLINE void operator=(const hkAabb &a) { m_min.q=a.m_min.q; m_max.q=a.m_max.q; } };
+#include "havok/hkVector4.h"
+class hkAabb { public: hkVector4 m_min,m_max; HK_FORCE_INLINE void operator=(const hkAabb &a) { m_min.m_quad=a.m_min.m_quad; m_max.m_quad=a.m_max.m_quad; } };
 class hkpCollidable { public: char prefix[0x10]; char owner; char data[0xB]; unsigned filter; char rest[0x5C]; void setOwner(void *p) { owner=(char)((char*)p-(char*)this); } };
 class hkpWorldObject : public hkReferencedObject { public:
  enum BroadPhaseType { PHANTOM=2 };

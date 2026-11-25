@@ -5,54 +5,7 @@
 // so the constructor is inline and run by MSVC's explicit constructor call.
 // The 1.0f is a literal in the original (loaded once for all six diagonal stores).
 #include "havok/hkBase.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-extern "C" __vector4 __vxor(__vector4 a, __vector4 b);
-
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    HK_FORCE_INLINE void setZero4() { m_quad = __vxor(m_quad, m_quad); }
-    HK_FORCE_INLINE hkReal &operator()(int i) { return m_quad.vector4_f32[i]; }
-    hkQuadReal m_quad;
-};
-
-class hkMatrix3 {
-public:
-    HK_FORCE_INLINE void setZero()
-    {
-        hkVector4 zero;
-        zero.setZero4();
-        m_col0 = zero;
-        m_col1 = zero;
-        m_col2 = zero;
-    }
-    HK_FORCE_INLINE void setIdentity()
-    {
-        setZero();
-        m_col0(0) = 1.0f;
-        m_col1(1) = 1.0f;
-        m_col2(2) = 1.0f;
-    }
-    hkVector4 m_col0, m_col1, m_col2;
-};
-class hkRotation : public hkMatrix3 {};
-
-class hkTransform {
-public:
-    HK_FORCE_INLINE void setIdentity()
-    {
-        m_rotation.setIdentity();
-        m_translation.setZero4();
-    }
-    hkRotation m_rotation;     // +0x0
-    hkVector4 m_translation;   // +0x30
-};
+#include "havok/hkTransform.h"
 
 // hkpConstraintAtom (Physics/ConstraintSolver/Constraint/Atom/hkpConstraintAtom.h).
 struct hkpConstraintAtom {

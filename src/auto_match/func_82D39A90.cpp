@@ -4,18 +4,7 @@
 // releases every child shape, then the child hkArray (+0x44) and the bases are destroyed. RTTI:
 // hkpConvexShape at +0, hkpShapeContainer at +0x14.
 #include "havok/hkpShape.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-
-class hkVector4 {
-public:
-    hkQuadReal m_quad;
-};
-
+#include "havok/hkVector4.h"
 
 class hkpConvexListShape : public hkpConvexShape, public hkpShapeContainer {
 public:

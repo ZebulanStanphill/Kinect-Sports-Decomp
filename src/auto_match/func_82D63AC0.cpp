@@ -1,26 +1,5 @@
-// Havok hkpCapsuleCapsuleAgent::staticGetPenetrations: inside the "TtCapsCaps" timer scope, transforms
-// both capsules' end points into world space, finds the closest points of the two segments
-// (fn_8307F910) and reports the pair to the collector when the distance is below the radius sum.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-extern "C" {
-__vector4 __vspltw(__vector4, unsigned int);
-__vector4 __vaddfp(__vector4, __vector4);
-__vector4 __vsubfp(__vector4, __vector4);
-__vector4 __vmulfp(__vector4, __vector4);
-__vector4 __vmaddfp(__vector4, __vector4, __vector4);
-}
-
-typedef float hkReal;
-
-class hkVector4 {
-public:
-    __forceinline void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    __forceinline void setSub4(const hkVector4 &a, const hkVector4 &b) { m_quad = __vsubfp(a.m_quad, b.m_quad); }
-    hkQuadReal m_quad;
-};
+#include "havok/hkVector4.h"
+#include "havok/hkpCdBodyPairCollector.h"
 
 class hkTransform {
 public:
@@ -69,12 +48,6 @@ struct hkpCdBody {
     const hkpCapsuleShape *m_shape;  // 0x00
     int m_shapeKey;                  // 0x04
     const hkTransform *m_motion;     // 0x08
-};
-
-class hkpCdBodyPairCollector {
-public:
-    virtual void f0();
-    virtual void addCdBodyPair(const hkpCdBody &bodyA, const hkpCdBody &bodyB);
 };
 
 struct hkpCollisionInput;

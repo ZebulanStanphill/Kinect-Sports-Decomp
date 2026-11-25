@@ -6,15 +6,7 @@
 // the rename map gives the game's lbl_ copies of them (referenced by no Matching unit) those names, and
 // symbols.txt already names 0.6f, 0.1f, 200.0f and 1.0f that way.
 #include "havok/hkBase.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float f[4]; unsigned int u[4]; } __vector4;
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE void operator=(const hkVector4 &v) { q = v.q; }
-    HK_FORCE_INLINE void set(hkReal x, hkReal y, hkReal z, hkReal w = 0.0f) { __vector4 v = { x, y, z, w }; q = v; }
-    __vector4 q;
-};
+#include "havok/hkVector4.h"
 
 struct hkAabb {
     hkVector4 m_min;
@@ -46,7 +38,6 @@ public:
         this->m_pntr = e;
     }
 };
-
 
 class hkpWorldCinfo : public hkReferencedObject {
 public:

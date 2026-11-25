@@ -1,26 +1,10 @@
 // hkpExtendedMeshShape::hkpExtendedMeshShape(hkReal radius, int numBitsForSubpartIndex)
 // (Physics/Collide/Shape/Compound/Collection/ExtendedMeshShape/hkpExtendedMeshShape.cpp), /O2 /QVMXReserve.
 #include "havok/hkBase.h"
+#include "havok/hkVector4.h"
 
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-
-extern "C" {
-__vector4 __vxor(__vector4 a, __vector4 b);
-__vector4 __vspltw(__vector4 a, unsigned int i);
-}
 // The source's literals 1.0f and -HK_REAL_MAX, folded by the linker into the game's copies. Defined here so the
 // compiler knows they are read-only and schedules their loads like literals.
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE void setZero4() { m_quad = __vxor(m_quad, m_quad); }
-    HK_FORCE_INLINE void setAll(hkReal x) { m_quad.vector4_f32[0] = x; m_quad = __vspltw(m_quad, 0); }
-    hkQuadReal m_quad;
-};
 
 template <typename ENUM, typename STORAGE>
 class hkEnum {
@@ -31,7 +15,6 @@ public:
     STORAGE m_storage;
 };
 
-class hkTransform;
 class hkAabb;
 class hkpCdBody;
 class hkpRayHitCollector;

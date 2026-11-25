@@ -1,6 +1,5 @@
 #include "havok/hkpShape.h"
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float f[4]; unsigned int u[4]; } Vec;
-class hkVector4 { public: Vec q; void operator=(const hkVector4& v) { q=v.q; } };
+#include "havok/hkVector4.h"
 struct hkStridedVertices { const float *v; int num; int stride; };
 struct Planes { hkVector4 *data; int size; int cap; };
 class hkpConvexVerticesShape;

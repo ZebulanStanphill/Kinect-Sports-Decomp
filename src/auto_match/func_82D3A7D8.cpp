@@ -1,6 +1,5 @@
 #include "havok/hkpShape.h"
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float vector4_f32[4]; unsigned int vector4_u32[4]; } __vector4;
-class hkVector4 { public: __vector4 q; };
+#include "havok/hkVector4.h"
 class hkpBvTreeShape : public hkpShape {
 public:
  hkpBvTreeShape(hkFinishLoadedObjectFlag f):hkpShape(f) { if(f.m_finishing) {m_type=8; bvType=2;} }
@@ -18,7 +17,7 @@ public:
  hkpSingleShapeContainer child;
 };
 HK_FORCE_INLINE hkpMoppBvTreeShape::hkpMoppBvTreeShape(hkFinishLoadedObjectFlag f):hkMoppBvTreeShapeBase(f),child(f) {
- if(f.m_finishing==1) {m_type=10;offset.q=code->offset.q;size=code->size;data=code->data;}
+ if(f.m_finishing==1) {m_type=10;offset.m_quad=code->offset.m_quad;size=code->size;data=code->data;}
 }
 extern "C" hkpMoppBvTreeShape *fn_82D3A7D8(hkpMoppBvTreeShape *self, hkFinishLoadedObjectFlag f) {
  self->hkpMoppBvTreeShape::hkpMoppBvTreeShape(f);

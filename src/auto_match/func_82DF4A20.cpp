@@ -1,6 +1,5 @@
 #include "havok/hkBase.h"
-typedef __declspec(passinreg) union __vector4 {float f[4]; unsigned int u[4];} __vector4;
-extern "C" __vector4 __vxor(__vector4,__vector4);
+#include "havok/hkQuadReal.h"
 class __declspec(align(16)) hkVector4 {public: __vector4 q; HK_FORCE_INLINE void zero(){q=__vxor(q,q);}};
 
 class hkpEntity;

@@ -1,19 +1,7 @@
 // hkpBvTreeStreamAgent::createAgent: the unflipped agent's creation function (registered by fn_82D53F68, fn_82D54AA8 and fn_82D54B78, next to
 // hkpSymmetricAgent<hkpBvTreeStreamAgent>::createAgent), allocating an hkpBvTreeStreamAgent (0x40 bytes) through the class allocator and calling its
 // out-of-line constructor.
-#include "havok/hkBase.h"
-
-class hkpCdBody;
-class hkpContactMgr;
-struct hkpCollisionInput;
-
-class hkpCollisionAgent : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    hkpCollisionAgent(hkpContactMgr *contactMgr) : m_contactMgr(contactMgr) {}
-
-    hkpContactMgr *m_contactMgr;   // +0x8
-};
+#include "havok/hkpCollisionAgent.h"
 
 class hkpBvTreeStreamAgent : public hkpCollisionAgent {
 public:

@@ -2,34 +2,9 @@
 // zero vector used by hkMatrix3::setZero lives in the red zone. 0.1f and 30.0f are literals; the rename map
 // names the game's copies __real@3dcccccd and __real@41f00000.
 #include "havok/hkBase.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-extern "C" __vector4 __vxor(__vector4 a, __vector4 b);
+#include "havok/hkRotation.h"
 
 // The game's 1.0f keeps its lbl_ name (Matching units reference it).
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    HK_FORCE_INLINE void setZero4() { m_quad = __vxor(m_quad, m_quad); }
-    __vector4 m_quad;
-};
-
-class hkMatrix3 {
-public:
-    HK_FORCE_INLINE void setZero()
-    {
-        hkVector4 zero; zero.setZero4();
-        m_col0 = zero;
-        m_col1 = zero;
-        m_col2 = zero;
-    }
-    hkVector4 m_col0, m_col1, m_col2;
-};
-class hkRotation : public hkMatrix3 {};
 
 struct hkpVehicleFrictionDescription {
     struct AxisDescription {

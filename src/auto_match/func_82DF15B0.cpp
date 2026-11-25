@@ -14,12 +14,7 @@
 // its include guard), which lacks the const char * assignment.
 #define HAVOK_HKSTRINGPTR_H
 #include "havok/hkBase.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
+#include "havok/hkVector4.h"
 
 class hkStringPtr;
 extern "C" {
@@ -31,20 +26,6 @@ public:
     HK_FORCE_INLINE hkStringPtr &operator=(const char *string) { return *fn_82CED628(this, string); }
 
     const char *m_stringAndFlag;
-};
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE void set(hkReal a, hkReal b, hkReal c, hkReal d = 0.0f)
-    {
-        hkQuadReal q;
-        q.vector4_f32[0] = a;
-        q.vector4_f32[1] = b;
-        q.vector4_f32[2] = c;
-        q.vector4_f32[3] = d;
-        m_quad = q;
-    }
-    hkQuadReal m_quad;
 };
 
 class hkpFirstPersonGunBulletListener;

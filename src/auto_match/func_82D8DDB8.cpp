@@ -9,29 +9,7 @@
 // member wrappers, as the source called them. Calling the fn_ functions directly compiles to the same
 // calls but changes how the scheduler orders the hkVector4::set() temporaries of the later phantoms.
 #include "havok/hkBase.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-union hkQuadRealUnion { hkReal r[4]; hkQuadReal q; };
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE hkVector4() {}
-    HK_FORCE_INLINE hkVector4(const hkVector4 &v) { m_quad = v.m_quad; }
-    HK_FORCE_INLINE void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    HK_FORCE_INLINE void set(hkReal a, hkReal b, hkReal c, hkReal d = hkReal(0))
-    {
-        hkQuadRealUnion u;
-        u.r[0] = a; u.r[1] = b; u.r[2] = c; u.r[3] = d;
-        m_quad = u.q;
-    }
-    HK_FORCE_INLINE hkReal &operator()(int i) { return m_quad.vector4_f32[i]; }
-    HK_FORCE_INLINE const hkReal &operator()(int i) const { return m_quad.vector4_f32[i]; }
-    hkQuadReal m_quad;
-};
+#include "havok/hkVector4.h"
 
 class hkAabb {
 public:
@@ -127,8 +105,11 @@ hkpBroadPhaseBorder::hkpBroadPhaseBorder(hkpWorld *world, int type, hkBool postp
     m_world->addWorldDeletionListener(this);
     m_world->addWorldPostSimulationListener(this);
 
-    hkVector4 mi = m_world->m_broadPhaseExtents[0];
-    hkVector4 ma = m_world->m_broadPhaseExtents[1];
+    hkVector4 mi;
+
+    mi = m_world->m_broadPhaseExtents[0];
+    hkVector4 ma;
+    ma = m_world->m_broadPhaseExtents[1];
     hkAabb aabb;
     {
         aabb.m_min.set(ma(0), mi(1), mi(2));

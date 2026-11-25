@@ -6,55 +6,12 @@
 // The 1.0f of hkMatrix3::setIdentity and HK_REAL_MAX are literals in the original, whose loads
 // the scheduler is free to move. The game's copy of HK_REAL_MAX is __real@7f7fffee, which Matching C
 // units reference, so it is declared here as a known constant (selectany).
-#include "havok/hkBase.h"
 #include "havok/hkpShape.h"
 #include "havok/hkpCollisionFilter.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-extern "C" __vector4 __vxor(__vector4 a, __vector4 b);
+#include "havok/hkTransform.h"
+#include "havok/hkpCdPointCollector.h"
 
 extern "C" const float lbl_82138458;   // HK_REAL_MAX / 2
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    HK_FORCE_INLINE void setZero4() { m_quad = __vxor(m_quad, m_quad); }
-    HK_FORCE_INLINE void setW(hkReal w) { m_quad.vector4_f32[3] = w; }
-    HK_FORCE_INLINE hkReal &operator()(int i) { return m_quad.vector4_f32[i]; }
-    hkQuadReal m_quad;
-};
-
-class hkMatrix3 {
-public:
-    HK_FORCE_INLINE void setZero()
-    {
-        hkVector4 zero; zero.setZero4();
-        m_col0 = zero;
-        m_col1 = zero;
-        m_col2 = zero;
-    }
-    HK_FORCE_INLINE void setIdentity()
-    {
-        setZero();
-        m_col0(0) = 1.0f;
-        m_col1(1) = 1.0f;
-        m_col2(2) = 1.0f;
-    }
-    hkVector4 m_col0, m_col1, m_col2;
-};
-class hkRotation : public hkMatrix3 {};
-
-class hkTransform {
-public:
-    HK_FORCE_INLINE hkRotation &getRotation() { return m_rotation; }
-    HK_FORCE_INLINE void setTranslation(const hkVector4 &t) { m_translation = t; }
-    hkRotation m_rotation;
-    hkVector4 m_translation;
-};
 
 extern "C" hkTransform lbl_8323B1D0;   // hkTransform::getIdentity()
 
@@ -87,9 +44,6 @@ public:
     const hkpCdBody *m_parent;
 };
 
-class hkpCollidable;
-class hkpCdPoint;
-
 class hkContactPoint {
 public:
     HK_FORCE_INLINE void setDistance(hkReal d) { m_separatingNormal.setW(d); }
@@ -104,16 +58,6 @@ public:
     hkUint32 m_shapeKeyA;
     const hkpCollidable *m_rootCollidableB;
     hkUint32 m_shapeKeyB;
-};
-
-class hkpCdPointCollector {
-public:
-    HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE, hkpCdPointCollector);
-    HK_FORCE_INLINE hkpCdPointCollector() { m_earlyOutDistance = 3.40282e+38f; }
-    virtual ~hkpCdPointCollector() {}
-    virtual void addCdPoint(const hkpCdPoint &point) = 0;
-    virtual void reset() { m_earlyOutDistance = 3.40282e+38f; }
-    hkReal m_earlyOutDistance;
 };
 
 class hkpClosestCdPointCollector : public hkpCdPointCollector {

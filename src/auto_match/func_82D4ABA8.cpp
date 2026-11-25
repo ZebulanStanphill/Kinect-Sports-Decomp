@@ -9,36 +9,7 @@
 // before the index-type branch; repeating it in each branch leaves the first index load as
 // lhzx base+offset instead of lhz 0(triangle).
 #include "havok/hkpShape.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-extern "C" __vector4 __vxor(__vector4 a, __vector4 b);
-
-union hkQuadRealUnion {
-    hkReal r[4];
-    hkQuadReal q;
-};
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    HK_FORCE_INLINE void set(hkReal a, hkReal b, hkReal c, hkReal d)
-    {
-        hkQuadRealUnion u;
-        u.r[0] = a;
-        u.r[1] = b;
-        u.r[2] = c;
-        u.r[3] = d;
-        m_quad = u.q;
-    }
-    HK_FORCE_INLINE void setZero4() { m_quad = __vxor(m_quad, m_quad); }
-    HK_FORCE_INLINE hkReal &operator()(int i) { return ((hkReal *)&m_quad)[i]; }
-    HK_FORCE_INLINE const hkReal &operator()(int i) const { return ((const hkReal *)&m_quad)[i]; }
-    hkQuadReal m_quad;
-};
+#include "havok/hkVector4.h"
 
 class hkpTriangleShape : public hkpConvexShape {
 public:

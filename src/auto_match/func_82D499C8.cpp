@@ -1,29 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-extern "C" {
-__vector4 __vminfp(__vector4 a, __vector4 b);
-__vector4 __vmaxfp(__vector4 a, __vector4 b);
-}
-
-class hkVector4
-{
-  public:
-    __forceinline void setMin4(const hkVector4 &a, const hkVector4 &b)
-    {
-        q = __vminfp(a.q, b.q);
-    }
-
-    __forceinline void setMax4(const hkVector4 &a, const hkVector4 &b)
-    {
-        q = __vmaxfp(a.q, b.q);
-    }
-
-    __vector4 q;
-};
-
-class hkTransform;
+#include "havok/hkVector4.h"
 
 class hkAabb
 {
@@ -74,10 +49,10 @@ extern "C" void fn_82D499C8(const ShapeCollection_82D499C8 *self, const hkTransf
     const ShapeContainer_82D499C8 *container = &self->container;
     ShapeBuffer_82D499C8 shapeBuffer;
 
-    __vector4 minValue = lbl_82138740.q;
-    __vector4 maxValue = lbl_82138750.q;
-    out.m_max.q = minValue;
-    out.m_min.q = maxValue;
+    __vector4 minValue = lbl_82138740.m_quad;
+    __vector4 maxValue = lbl_82138750.m_quad;
+    out.m_max.m_quad = minValue;
+    out.m_min.m_quad = maxValue;
     for (unsigned int key = container->getFirstKey(); key != 0xffffffff; key = container->getNextKey(key)) {
         const hkpShape *child = container->getChildShape(key, shapeBuffer);
         hkAabb childAabb;

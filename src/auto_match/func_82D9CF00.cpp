@@ -1,29 +1,4 @@
-// hkpConstraintChainInstance::~hkpConstraintChainInstance (Physics/Dynamics/Constraint/Chain/hkpConstraintChainInstance.cpp): releases the chained entities and the action; ~hkpConstraintInstance is out of line.
-// hkStringPtr is declared here rather than taken from the shared havok/hkStringPtr.h (skipped through its
-// include guard), which lacks the default constructor: it is out of line, fn_82CED2F8 (it stores a pointer
-// read from a global, lbl_8323B430), and keeps its fn_ name (Matching C units call it), like the finish
-// constructor fn_82CED308, the const char * constructor fn_82CED488 and the destructor fn_82CED5B8.
-#define HAVOK_HKSTRINGPTR_H
 #include "havok/hkBase.h"
-
-class hkStringPtr;
-extern "C" {
-void fn_82CED2F8(hkStringPtr *self);                              // hkStringPtr::hkStringPtr()
-void fn_82CED308(hkStringPtr *self, hkFinishLoadedObjectFlag f);  // hkStringPtr::hkStringPtr(hkFinishLoadedObjectFlag)
-void fn_82CED5B8(hkStringPtr *self);                              // hkStringPtr::~hkStringPtr()
-void fn_82CED488(hkStringPtr *self, const char *string);          // hkStringPtr::hkStringPtr(const char *)
-}
-
-class hkStringPtr {
-public:
-    enum { OWNED_FLAG = 0x1 };
-    HK_FORCE_INLINE hkStringPtr() { fn_82CED2F8(this); }
-    HK_FORCE_INLINE hkStringPtr(const char *string) { fn_82CED488(this, string); }
-    HK_FORCE_INLINE hkStringPtr(hkFinishLoadedObjectFlag f) { fn_82CED308(this, f); }
-    HK_FORCE_INLINE ~hkStringPtr() { fn_82CED5B8(this); }
-
-    const char *m_stringAndFlag;
-};
 
 // hkEnum (Common/Base/Types/hkBaseTypes.h): an enum stored in a smaller integer type.
 template <typename ENUM, typename STORAGE>

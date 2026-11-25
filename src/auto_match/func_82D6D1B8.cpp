@@ -1,44 +1,4 @@
-// Havok hkpMultiSphereAgent::getPenetrations shape (sibling of fn_82D6CD50): for each (sphere index,
-// agent) pair, builds a temporary sphere body for that sphere of the multi-sphere shape (centre moved
-// into the copied motion state, radius from w), calls the agent's getPenetrations (slot 3) and stops
-// when the collector asks for an early out.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-
-extern "C" {
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vaddfp(__vector4 a, __vector4 b);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-}
-
-class hkVector4 {
-public:
-    __forceinline void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    __forceinline float &operator()(int i) { return m_quad.vector4_f32[i]; }
-    __forceinline const float &operator()(int i) const { return m_quad.vector4_f32[i]; }
-    hkQuadReal m_quad;
-};
-
-class hkRotation {
-public:
-    hkVector4 m_col0, m_col1, m_col2;
-};
-
-class hkTransform {
-public:
-    hkRotation m_rotation;
-    hkVector4 m_translation;
-};
-
-class hkMotionState {
-public:
-    hkMotionState(const hkMotionState &ms);
-    hkTransform m_transform;   // 0x00
-    char m_rest[0x70];
-};
+#include "havok/hkMotionState.h"
 
 class hkReferencedObject {
 public:

@@ -10,20 +10,9 @@
 // 2.5e-11f * 2.0f).
 // Havok code: /O2 /QVMXReserve (flag file).
 #include "havok/hkBase.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
+#include "havok/hkVector4.h"
 
 extern "C" float __fsqrts(float);   // compiler intrinsic (fsqrts)
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE void set(hkReal x, hkReal y, hkReal z, hkReal w = 0.0f) { hkQuadReal q = { x, y, z, w }; m_quad = q; }
-    hkQuadReal m_quad;
-};
 
 struct hkMath {
     static HK_FORCE_INLINE hkReal sqrt(hkReal r) { return __fsqrts(r); }

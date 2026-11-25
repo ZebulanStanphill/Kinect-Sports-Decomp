@@ -14,25 +14,7 @@
 // both taken from lbl_82132D10, the (1,1,1,1) entry of Havok's vector constant table.
 // Built with /O2 /QVMXReserve.
 #include "havok/hkBase.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-
-extern "C" __vector4 __vrefp(__vector4);
-extern "C" __vector4 __vnmsubfp(__vector4, __vector4, __vector4);
-extern "C" __vector4 __vmaddfp(__vector4, __vector4, __vector4);
-extern "C" __vector4 __vrlimi(__vector4, __vector4, unsigned int, unsigned int);
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    hkQuadReal m_quad;
-};
-
-extern "C" const hkQuadReal lbl_82132D10;   // (1,1,1,1)
+#include "havok/hkVector4.h"
 
 namespace hkAabbTreeData {
 struct hkAabbTreeAabb {

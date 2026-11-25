@@ -1,23 +1,4 @@
-// Havok hkMatrix3::setMulInverse(const hkMatrix3 &a, const hkRotation &b): this = a * b^T
-// (the inverse of a rotation is its transpose). hkMatrix3::_setTranspose and the column
-// loop of setMul are inlined.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-extern "C" {
-__vector4 __vmulfp(__vector4, __vector4);
-__vector4 __vmaddfp(__vector4, __vector4, __vector4);
-__vector4 __vspltw(__vector4, unsigned int);
-}
-
-class hkMatrix3;
-class hkVector4 {
-public:
-    __forceinline void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    __forceinline void _setMul3(const hkMatrix3 &r, const hkVector4 &b);
-    hkQuadReal m_quad;
-};
+#include "havok/hkVector4.h"
 
 class hkMatrix3 {
 public:

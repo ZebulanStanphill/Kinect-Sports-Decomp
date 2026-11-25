@@ -25,7 +25,8 @@ extern "C" void fn_82D1EEF8(World_82D1EEF8 *w, const hkTransform *t)
     Obj_82D1EEF8 *o;
 
     for (n = w->first; n != 0; n = n->next) {
-        hkVector4 v = n->v;
+        hkVector4 v;
+        v = n->v;
         n->v.setTransformedPos(*t, v);
     }
     fn_82D1EE70(w);

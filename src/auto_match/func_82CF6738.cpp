@@ -1,37 +1,4 @@
-// Havok: writes a translation/rotation/scale transform as a 4x4 column-major matrix: the rotation
-// times a diagonal scale matrix, with the translation. The diagonal stores keep their order only
-// through hkVector4's reference-returning operator().
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-extern "C" __vector4 __vxor(__vector4 a, __vector4 b);
-
-class hkVector4
-{
-  public:
-    __forceinline void operator=(const hkVector4 &v)
-    {
-        m_quad = v.m_quad;
-    }
-
-    __forceinline void setZero4()
-    {
-        m_quad = __vxor(m_quad, m_quad);
-    }
-
-    __forceinline float &operator()(int i)
-    {
-        return m_quad.vector4_f32[i];
-    }
-
-    __forceinline const float &operator()(int i) const
-    {
-        return m_quad.vector4_f32[i];
-    }
-
-    __vector4 m_quad;
-};
+#include "havok/hkVector4.h"
 
 class hkMatrix3
 {

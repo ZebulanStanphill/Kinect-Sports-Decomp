@@ -5,35 +5,9 @@
 // in-place mul4 after each store keeps the original's vmr copies. The aabb is written through a local
 // pointer to the object; through this-> the two member address registers come out swapped (99.4%).
 #include "havok/hkpShape.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-extern "C" {
-__vector4 __vaddfp(__vector4, __vector4);
-__vector4 __vsubfp(__vector4, __vector4);
-__vector4 __vmulfp(__vector4, __vector4);
-__vector4 __vspltw(__vector4, unsigned int);
-__vector4 __lvlx(const void *, int);
-}
+#include "havok/hkVector4.h"
 
 // The game's 0.5f keeps its lbl_ name (Matching units reference it).
-
-class hkSimdReal {
-public:
-    HK_FORCE_INLINE hkSimdReal(hkReal x) { m_real = __vspltw(__lvlx(&x, 0), 0); }
-    __vector4 m_real;
-};
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE void setAdd4(const hkVector4 &a, const hkVector4 &b) { m_quad = __vaddfp(a.m_quad, b.m_quad); }
-    HK_FORCE_INLINE void setSub4(const hkVector4 &a, const hkVector4 &b) { m_quad = __vsubfp(a.m_quad, b.m_quad); }
-    HK_FORCE_INLINE void mul4(hkSimdReal r) { m_quad = __vmulfp(m_quad, r.m_real); }
-    hkQuadReal m_quad;
-};
 
 class hkAabb {
 public:

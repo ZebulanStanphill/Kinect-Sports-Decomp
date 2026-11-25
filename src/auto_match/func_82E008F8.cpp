@@ -8,26 +8,11 @@
 // to move; the game's copies are __real@34000000 and __real@7f7fffee, which Matching C units reference, so
 // they are declared here as known constants (as in func_83096D00.cpp). Built with /QVMXReserve
 // (the vector copies use v0/v13).
-#include "havok/hkBase.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    HK_FORCE_INLINE void setW(hkReal w) { m_quad.vector4_f32[3] = w; }
-    hkQuadReal m_quad;
-};
-class hkTransform { public: hkVector4 m_rotation[3]; hkVector4 m_translation; };
-
+#include "havok/hkTransform.h"
+#include "havok/hkpCdPointCollector.h"
 
 class hkpShape;
 class hkpCollidable;
-class hkpCdPoint;
 class hkpVehicleInstance;
 
 extern "C" hkpCollidable *fn_8253D7A8(hkpCollidable *self, const hkpShape *shape, const void *ms, int type);
@@ -55,16 +40,6 @@ public:
     hkUint32 m_shapeKeyA;
     const hkpCollidable *m_rootCollidableB;
     hkUint32 m_shapeKeyB;
-};
-
-class hkpCdPointCollector {
-public:
-    HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE, hkpCdPointCollector);
-    HK_FORCE_INLINE hkpCdPointCollector() { m_earlyOutDistance = 3.40282e+38f; }
-    virtual ~hkpCdPointCollector() {}
-    virtual void addCdPoint(const hkpCdPoint &point) = 0;
-    virtual void reset() { m_earlyOutDistance = 3.40282e+38f; }
-    hkReal m_earlyOutDistance;
 };
 
 class hkpClosestCdPointCollector : public hkpCdPointCollector {

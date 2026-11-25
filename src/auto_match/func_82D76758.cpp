@@ -1,23 +1,4 @@
-// Havok triangle set-up: edges e0 = v0 - v1, e1 = v2 - v1; out[0..2] = (e0.e0, e1.e1, e0.e1) / det of the
-// edge Gram matrix, out[3] = 1 / |e0 x e1|.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-extern "C" {
-__vector4 __vsubfp(__vector4, __vector4);
-__vector4 __vmulfp(__vector4, __vector4);
-__vector4 __vmsum3fp(__vector4, __vector4);
-__vector4 __vrsqrtefp(__vector4);
-__vector4 __vnmsubfp(__vector4, __vector4, __vector4);
-__vector4 __vmaddfp(__vector4, __vector4, __vector4);
-__vector4 __vcmpeqfp(__vector4, __vector4);
-__vector4 __vsel(__vector4, __vector4, __vector4);
-__vector4 __vpermwi(__vector4, int);
-__vector4 __vspltisw(int);
-void __stvewx(__vector4, void *, int);
-extern const hkQuadReal lbl_82132D70;   // Havok's global vector of four 0.5s
-}
+#include "havok/hkQuadReal.h"
 
 class hkVector4 {
 public:

@@ -1,45 +1,9 @@
 // hkpListAgent::createAgent (Physics/Collide/Agent/CompoundAgent/List/hkpListAgent.cpp): allocates the agent
 // with the class allocator (no null check) and runs the inlined constructor. The agent function table built
 // by fn_82D5FBB8 (a Matching unit) lists it, so it keeps its fn_ name and is written as extern "C".
-#include "havok/hkBase.h"
+#include "havok/hkpCollisionAgent.h"
 
-class hkpCdBody;
-class hkpContactMgr;
-class hkpConstraintOwner;
-class hkpCdBodyPairCollector;
-class hkpCdPointCollector;
-typedef hkpConstraintOwner hkCollisionConstraintOwner;
-struct hkpCollisionInput;
-struct hkpLinearCastCollisionInput;
-struct hkpProcessCollisionInput;
-struct hkpProcessCollisionOutput;
-typedef hkUint32 hkpShapeKey;
-
-// hkpCollisionAgent (Physics/Collide/Agent/hkpCollisionAgent.h): hkReferencedObject, then
-// hkpContactMgr *m_contactMgr (+0x8). Vtable slots from func_82D60AC8.
-class hkpCollisionAgent : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    hkpCollisionAgent(hkpContactMgr *contactMgr) : m_contactMgr(contactMgr) {}
-    virtual void getPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                                 hkpCdBodyPairCollector &collector);   // +0xC
-    virtual void getClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                                  hkpCdPointCollector &collector);   // +0x10
-    virtual void linearCast(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpLinearCastCollisionInput &input,
-                            hkpCdPointCollector &collector, hkpCdPointCollector *startCollector);   // +0x14
-    virtual void processCollision(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpProcessCollisionInput &input,
-                                  hkpProcessCollisionOutput &result);   // +0x18
-    virtual void cleanup(hkCollisionConstraintOwner &constraintOwner);   // +0x1C
-
-    hkpContactMgr *m_contactMgr;   // +0x8
-};
-
-class hkpCollisionDispatcher;
 class hkpAgent1nSector;
-
-struct hkpCollisionInput {
-    hkpCollisionDispatcher *m_dispatcher;   // +0x0
-};
 
 // hkpAgent1nTrack (Physics/Collide/Agent3/Machine/1n/hkpAgent1nTrack.h).
 struct hkpAgent1nTrack {

@@ -1,6 +1,5 @@
 // Sphere mass properties (probably hkInertiaTensorComputer::computeSphereVolumeMassProperties): inertia
 // 0.4 * r^2 * m on the diagonal, volume 4/3 * pi * r^3. The 4/3 * pi literal is lbl_82145200 in the game.
-#include "havok/hkBase.h"
 #include "havok/hkMatrix3.h"
 #include "havok/hkStreamWriter.h"
 
@@ -20,9 +19,9 @@ static HK_FORCE_INLINE void SetZero(hkMatrix3 &m)
 {
     hkVector4 zero;
     zero.setZero4();
-    m.m_col[0] = zero;
-    m.m_col[1] = zero;
-    m.m_col[2] = zero;
+    m.m_col0 = zero;
+    m.m_col1 = zero;
+    m.m_col2 = zero;
 }
 
 static HK_FORCE_INLINE void SetIdentity(hkMatrix3 &m)

@@ -3,11 +3,7 @@
 // destructor (fn_82DA5B50), then frees through the class allocator. The function at the end only makes the
 // compiler emit the vtable, and with it this function.
 #include "havok/hkBase.h"
-
-class hkVector4 {
-public:
-    hkReal x, y, z, w;
-};
+#include "havok/hkVector4.h"
 
 class hkpConstraintData : public hkReferencedObject {
 public:

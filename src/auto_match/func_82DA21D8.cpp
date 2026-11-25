@@ -1,23 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-extern "C" {
-__vector4 __vsubfp(__vector4, __vector4);
-__vector4 __vmulfp(__vector4, __vector4);
-__vector4 __vmsum3fp(__vector4, __vector4);
-__vector4 __vrsqrtefp(__vector4);
-__vector4 __vnmsubfp(__vector4, __vector4, __vector4);
-__vector4 __vmaddfp(__vector4, __vector4, __vector4);
-__vector4 __vcmpeqfp(__vector4, __vector4);
-__vector4 __vsel(__vector4, __vector4, __vector4);
-__vector4 __vspltw(__vector4, unsigned int);
-__vector4 __vpermwi(__vector4, int);
-__vector4 __vspltisw(int);
-__vector4 __vmrghw(__vector4, __vector4);
-extern const hkQuadReal lbl_82132D70;   // Havok's global vector of four 0.5s
-extern const hkQuadReal lbl_82132D00;   // Havok's global zero vector
-}
+#include "havok/hkQuadReal.h"
 
 class hkMatrix3;
 class hkVector4 {

@@ -2,11 +2,7 @@
 // implicit destructor (fn_82E020B8, emitted out of line) and frees through the class allocator. The constructor
 // below only makes the compiler emit the vtable, and with it the deleting destructor.
 #include "havok/hkBase.h"
-
-class hkMatrix4 {
-public:
-    hkReal m[16];
-};
+#include "havok/hkMatrix4.h"
 
 class hkxAnimatedMatrix : public hkReferencedObject {
 public:

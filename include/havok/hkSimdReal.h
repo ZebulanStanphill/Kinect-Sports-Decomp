@@ -1,17 +1,29 @@
 #ifndef HAVOK_HKSIMDREAL_H
 #define HAVOK_HKSIMDREAL_H
 
-#include "havok/hkVector4.h"
+#include "havok/hkQuadReal.h"
 
-extern "C" hkQuadReal __lvlx(const void *, int);
-
-// A scalar replicated in the four lanes of one VMX vector.
+// A scalar kept in a VMX register, replicated in its four lanes.
 class hkSimdReal {
 public:
     HK_FORCE_INLINE hkSimdReal() {}
-    HK_FORCE_INLINE explicit hkSimdReal(hkReal r) { m_real = __vspltw(__lvlx(&r, 0), 0); }
+    HK_FORCE_INLINE hkSimdReal(const hkQuadReal &x) { m_real = x; }
+    HK_FORCE_INLINE hkSimdReal(const hkReal &x) { m_real = __vspltw(__lvlx(&x, 0), 0); }
+    HK_FORCE_INLINE operator hkReal() const
+    {
+        hkReal r;
+        __stvewx(m_real, &r, 0);
+        return r;
+    }
+    HK_FORCE_INLINE hkSimdReal operator-() const
+    {
+        hkSimdReal r;
+        r.m_real = __vsubfp(lbl_82132D00, m_real);
+        return r;
+    }
 
     hkQuadReal m_real;
 };
+typedef const hkSimdReal &hkSimdRealParameter;
 
 #endif

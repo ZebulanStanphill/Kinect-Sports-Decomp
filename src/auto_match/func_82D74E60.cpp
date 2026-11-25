@@ -2,7 +2,7 @@
 // closest-point cache, runs GSK and reports the pair to the collector when the
 // bodies overlap (or GSK fails).
 #include "havok/hkTransform.h"
-#include "havok/hkBase.h"
+#include "havok/hkpCdBodyPairCollector.h"
 
 extern "C" unsigned __int64 __mftb();
 
@@ -63,13 +63,6 @@ class hkpCdBody
 };
 
 struct hkpCollisionInput;
-
-class hkpCdBodyPairCollector
-{
-  public:
-    virtual ~hkpCdBodyPairCollector();
-    virtual void addCdBodyPair(const hkpCdBody &bodyA, const hkpCdBody &bodyB);
-};
 
 struct hkpGskCache {
     hkUint16 m_vertices[4]; // +0x0

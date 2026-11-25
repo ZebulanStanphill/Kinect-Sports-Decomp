@@ -5,24 +5,9 @@
 // HK_REAL_MAX is a literal: the game's copy is __real@7f7fffee, which Matching units reference, so it is a
 // static constant with that name (an extern is reloaded after the array stores).
 #include "havok/hkBase.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-extern "C" __vector4 __vspltw(__vector4 a, unsigned int b);
+#include "havok/hkVector4.h"
 
 // HK_REAL_MAX (3.40282e+38f); the game's copy keeps its lbl_ name (see above).
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE void setAll(hkReal a)
-    {
-        m_quad.vector4_f32[0] = a;
-        m_quad = __vspltw(m_quad, 0);
-    }
-    __vector4 m_quad;
-};
 
 struct hkAabb {
     hkVector4 m_min;

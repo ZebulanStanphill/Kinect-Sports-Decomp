@@ -1,24 +1,7 @@
 // hkpMountedBallGun::fireGun(hkpWorld *, const hkTransform &) (vtable slot 4).
 // Needs /O2 /QVMXReserve (flag file); the direction column stays in v127.
-#include "havok/hkBase.h"
 #include "havok/hkpShape.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float f[4]; unsigned int u[4]; } __vector4;
-extern "C" {
-__vector4 __vaddfp(__vector4, __vector4);
-__vector4 __vmulfp(__vector4, __vector4);
-__vector4 __vmaddfp(__vector4, __vector4, __vector4);
-__vector4 __vspltw(__vector4, unsigned int);
-__vector4 __lvlx(const void *, int);
-}
-
-class hkSimdReal {
-public:
-	// Needs the real intrinsic signature __lvlx(const void *, int): then a literal argument is read from its
-	// __real@ constant in .rdata (lis/addi + lvlx) instead of being stored to a stack slot first.
-	HK_FORCE_INLINE hkSimdReal(const hkReal &x) { m_real = __vspltw(__lvlx(&x, 0), 0); }
-	__vector4 m_real;
-};
+#include "havok/hkSimdReal.h"
 
 class hkVector4 {
 public:

@@ -5,12 +5,10 @@
 // m_minDistanceToUseConvexHullForGetClosestPoints is the literal 1.0f, whose load the compiler schedules
 // above the m_childShapes stores (it knows the constant cannot change).
 #include "havok/hkBase.h"
-
+#include "havok/hkVector4.h"
 
 // hkpShape, hkpShapeContainer and hkpShapeCollection as in havok/hkpShape.h, declared here because the
 // unit needs constructors the shared header does not declare.
-class hkVector4;
-class hkTransform;
 class hkAabb;
 class hkpCdBody;
 class hkpRayHitCollector;
@@ -71,18 +69,6 @@ public:
     virtual const hkpShape *getChildShape(hkpShapeKey key, hkpShapeBuffer &buffer) const;
     virtual bool isWeldingEnabled() const;
 };
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-
-class hkVector4 {
-public:
-    hkQuadReal m_quad;
-};
-
 
 class hkpSphereRepShape : public hkpShape {
 public:

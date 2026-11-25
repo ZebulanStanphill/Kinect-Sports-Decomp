@@ -1,3 +1,5 @@
+// A vector member is copy-constructed through a vector register here (see havok/hkVector4.h).
+#define HK_VECTOR4_COPY_CONSTRUCTOR
 #include "havok/hkTransform.h"
 // hkpConvexListAgent3::process (agent3 process function for hkpConvexListShape).
 // Needs /O2 /QVMXReserve (flag file) and lbl_82005344=__real@40000000 (2.0f literal, kept in f31).

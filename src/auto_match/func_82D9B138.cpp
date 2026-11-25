@@ -1,10 +1,7 @@
 // hkpBallSocketChainData::~hkpBallSocketChainData (Physics/Dynamics/Constraint/Chain/BallSocket/hkpBallSocketChainData.cpp): an empty user-written destructor, then m_infos' destructor.
 #include "havok/hkBase.h"
+#include "havok/hkVector4.h"
 
-class hkVector4 {
-public:
-    hkReal x, y, z, w;
-};
 class hkQuaternion {
 public:
     hkReal m_vec[4];

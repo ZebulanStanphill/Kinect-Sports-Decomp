@@ -2,19 +2,7 @@
 // (hkpSpringAction.cpp). Kept as an extern "C" function under its fn_ name with an explicit self;
 // classes as in func_82DEEEB8.cpp.
 #include "havok/hkBase.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-
-class hkVector4 {
-public:
-    hkVector4() {}
-    __forceinline hkVector4(const hkVector4 &x) { m_quad = x.m_quad; }
-    __forceinline void operator=(const hkVector4 &x) { m_quad = x.m_quad; }
-    __vector4 m_quad;
-};
+#include "havok/hkVector4.h"
 
 class hkpEntity;
 class hkpWorld;

@@ -4,20 +4,9 @@
 // The atoms' constructors store their types (3 = SET_LOCAL_TRANSLATIONS, 20 = PULLEY); the body zeroes
 // the four pivots and sets the rope length 0.0f and the leverage 1.0f. Both floats are literals.
 #include "havok/hkBase.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-extern "C" __vector4 __vxor(__vector4 a, __vector4 b);
+#include "havok/hkVector4.h"
 
 // The game's 1.0f keeps its lbl_ name (see above).
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE void setZero4() { m_quad = __vxor(m_quad, m_quad); }
-    __vector4 m_quad;
-};
 
 class hkpConstraintData : public hkReferencedObject {
 public:

@@ -1,4 +1,3 @@
-#include "havok/hkArrayUtil.h"
 
 // hkpCompressedSampledHeightFieldShape::hkpCompressedSampledHeightFieldShape(const hkpSampledHeightFieldShape *)
 // (Physics/Collide/Shape/HeightField/CompressedSampledHeightField/hkpCompressedSampledHeightFieldShape.cpp), /O2 /QVMXReserve.
@@ -6,19 +5,9 @@
 // literal too (__real@37800080).
 // The array is reached through a local reference, which places the address computation as in the original.
 #include "havok/hkpShape.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
+#include "havok/hkVector4.h"
 
 extern "C" double __fsel(double a, double b, double c);
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    __vector4 m_quad;
-};
 
 struct hkMath {
     static HK_FORCE_INLINE hkReal HK_CALL min2(hkReal x, hkReal y) { return hkReal(__fsel(x - y, y, x)); }

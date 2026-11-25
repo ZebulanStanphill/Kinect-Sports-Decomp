@@ -20,6 +20,9 @@ typedef float hkReal;
 typedef unsigned int hk_size_t;
 typedef unsigned long hkUlong;   // pointer-sized integer
 typedef char hkChar;
+// A boolean in a register: zero or any non-zero value. It is signed: four collision agent
+// constructors (func_82D6AC38, func_82D6B358, func_82D6C808, func_82D6DDA8) only match so.
+typedef int hkBool32;
 
 // Havok's boolean: one byte, compared as a char.
 class hkBool {

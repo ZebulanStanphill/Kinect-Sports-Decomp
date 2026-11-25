@@ -9,25 +9,7 @@
 // constant is __real@7f7fffee, which Matching C units reference, so it is declared as a known constant.
 // Built with /O2 /QVMXReserve.
 #include "havok/hkBase.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-
-extern "C" __vector4 __vspltw(__vector4, unsigned int);
-
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE void setAll(hkReal x)
-    {
-        m_quad.vector4_f32[0] = x;
-        m_quad = __vspltw(m_quad, 0);
-    }
-    hkQuadReal m_quad;
-};
+#include "havok/hkVector4.h"
 
 class hkAabb {
 public:

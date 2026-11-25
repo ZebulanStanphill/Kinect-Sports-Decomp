@@ -1,19 +1,7 @@
 // Swaps the shape of each flagged body for a new hkpCapsuleShape grown by the extra radius,
 // keeping the original body pointer in saved[] (fn_82D68A78 restores them).
 #include "havok/hkpShape.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-
-typedef __vector4 hkQuadReal;
-
-class hkVector4
-{
-  public:
-    hkQuadReal m_quad;
-};
+#include "havok/hkVector4.h"
 
 class hkpCapsuleShape : public hkpConvexShape
 {

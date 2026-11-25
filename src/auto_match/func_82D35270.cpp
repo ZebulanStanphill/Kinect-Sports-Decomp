@@ -5,17 +5,7 @@
 // storage at +0x1c is destroyed out of line (fn_82D34F48: two hkArrays, nodes of 0x14 bytes and a free
 // list of IDX). The function at the end only makes the compiler emit the vtable.
 #include "havok/hkBase.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-
-class hkVector4 {
-public:
-    hkQuadReal m_quad;
-};
+#include "havok/hkVector4.h"
 
 extern "C" void fn_82D34F48(void *self);   // destructor of the node storage (two hkArrays)
 

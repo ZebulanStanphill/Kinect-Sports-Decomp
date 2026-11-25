@@ -1,19 +1,7 @@
 // hkpMultiSphereAgent::createMultiSphereAAgent: the unflipped agent's creation function (registered by registerAgent, fn_82D6D6B8, next to
 // createMultiSphereBAgent), allocating an hkpMultiSphereAgent (0x38 bytes) through the class allocator and calling its
 // out-of-line constructor.
-#include "havok/hkBase.h"
-
-class hkpCdBody;
-class hkpContactMgr;
-struct hkpCollisionInput;
-
-class hkpCollisionAgent : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    hkpCollisionAgent(hkpContactMgr *contactMgr) : m_contactMgr(contactMgr) {}
-
-    hkpContactMgr *m_contactMgr;   // +0x8
-};
+#include "havok/hkpCollisionAgent.h"
 
 class hkpMultiSphereAgent : public hkpCollisionAgent {
 public:

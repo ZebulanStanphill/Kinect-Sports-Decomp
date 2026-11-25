@@ -1,4 +1,3 @@
-#include "havok/hkArrayUtil.h"
 
 // hkpShapeCollectionAgent::hkpShapeCollectionAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
 // const hkpCollisionInput &input, hkpContactMgr *mgr)
@@ -9,20 +8,18 @@
 // The filter call goes through hkpCollisionFilter's own redeclaration of the
 // hkpShapeCollectionFilter overload (no null check on the +0xC adjustment); MSVC puts the
 // overloads in reverse declaration order, so the 5-argument one is slot +4.
-#include "havok/hkpShape.h"
+#include "havok/hkpCdBody.h"
 
 class hkpContactMgr;
 class hkpCollisionAgent;
 class hkpCollisionDispatcher;
 class hkpConstraintOwner;
-class hkMotionState;
 typedef hkpConstraintOwner hkCollisionConstraintOwner;
 class hkpCdBodyPairCollector;
 class hkpCdPointCollector;
 struct hkpLinearCastCollisionInput;
 struct hkpProcessCollisionInput;
 struct hkpProcessCollisionOutput;
-typedef int hkBool32;
 
 #define HK_INVALID_SHAPE_KEY 0xffffffff
 
@@ -32,35 +29,12 @@ public:
     hkUint8 m_buffer[0x200];
 };
 
-// hkpCdBody (Physics/Collide/Agent/Collidable/hkpCdBody.h).
-class hkpCdBody {
-public:
-    HK_FORCE_INLINE hkpCdBody(const hkpCdBody *parent, const hkMotionState *ms)
-    {
-        m_parent = parent;
-        m_motion = ms;
-    }
-    const hkpShape *getShape() const { return m_shape; }
-    const hkMotionState *getMotionState() const { return static_cast<const hkMotionState *>(m_motion); }
-    HK_FORCE_INLINE void setShape(const hkpShape *shape, hkpShapeKey key)
-    {
-        m_shape = shape;
-        m_shapeKey = key;
-    }
-
-    const hkpShape *m_shape;     // +0x0
-    hkpShapeKey m_shapeKey;      // +0x4
-    const void *m_motion;        // +0x8: an hkMotionState or an hkTransform
-    const hkpCdBody *m_parent;   // +0xC
-};
-
 // hkpCollisionFilter and its interfaces (Physics/Collide/Filter/hkpCollisionFilter.h): as in
 // havok/hkpCollisionFilter.h, but hkpCollisionFilter redeclares the interfaces' isCollisionEnabled
 // overloads (as Havok's header does), so a call through an hkpCollisionFilter pointer adjusts this
 // to the interface without a null check.
 class hkpCollidable;
 class hkpWorld;
-struct hkpShapeRayCastInput;
 struct hkpWorldRayCastInput;
 struct hkpCollisionInput;
 
@@ -184,7 +158,6 @@ public:
 
     hkpContactMgr *m_contactMgr;   // +0x8
 };
-
 
 struct hkArrayUtil_ {
     static HK_FORCE_INLINE void HK_CALL _reserve(hkMemoryAllocator &a, void *array, int reqCapacity, int sizeElem)

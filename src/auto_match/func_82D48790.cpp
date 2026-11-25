@@ -1,23 +1,4 @@
-// Havok shape getAabb(localToWorld, tolerance, out) over a list of child shapes: either the
-// cached box (half extents +0x20, center +0x30, radius +0x10) through hkAabbUtil-style
-// fn_82D401F8, or the union of all children's AABBs (array at +0x44, count at +0x48).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-extern "C" {
-__vector4 __vminfp(__vector4 a, __vector4 b);
-__vector4 __vmaxfp(__vector4 a, __vector4 b);
-}
-
-class hkVector4 {
-public:
-    __forceinline void setMin4(const hkVector4 &a, const hkVector4 &b) { q = __vminfp(a.q, b.q); }
-    __forceinline void setMax4(const hkVector4 &a, const hkVector4 &b) { q = __vmaxfp(a.q, b.q); }
-    __vector4 q;
-};
-
-class hkTransform;
+#include "havok/hkVector4.h"
 
 class hkAabb {
 public:

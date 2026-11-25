@@ -1,23 +1,9 @@
 // Havok: sets the AABB count, clears the second counter and appends that many zeroed AABBs
 // (hkArray<hkAabb>::pushBack through the heap allocator).
 #include "havok/hkBase.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-
-extern "C" {
-__vector4 __vxor(__vector4, __vector4);
-}
+#include "havok/hkVector4.h"
 
 inline void *operator new(unsigned int, void *p) throw() { return p; }
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE void setZero4() { m_quad = __vxor(m_quad, m_quad); }
-    hkQuadReal m_quad;
-};
 
 struct hkAabb {
     hkVector4 m_min;

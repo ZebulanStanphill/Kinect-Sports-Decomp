@@ -1,7 +1,4 @@
 #include "havok/hkMatrix3.h"
-#include "havok/hkSimdReal.h"
-
-
 
 typedef struct Body_82D9FEB8 {
     char pad0[0x10];
@@ -44,9 +41,9 @@ extern "C" void fn_82D9FEB8(Scaling_82D9FEB8 *self, void *unused1, Body_82D9FEB8
 
             fn_82CEC7E0(&local, rotation, &body->inertia);
             fn_82CEC6E0(&scaled, &local, rotation);
-            scaled.m_col[0](0) *= x;
-            scaled.m_col[1](1) *= y;
-            scaled.m_col[2](2) *= z;
+            scaled.m_col0(0) *= x;
+            scaled.m_col1(1) *= y;
+            scaled.m_col2(2) *= z;
             fn_82CEC730(&local, &scaled, rotation);
             fn_82CEC6E0(&body->inertia, rotation, &local);
         }

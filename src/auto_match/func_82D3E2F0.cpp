@@ -1,22 +1,8 @@
-// Havok hkpListShape-style getAabb(localToWorld, tolerance, out): recomputes the cached extents
-// through fn_82D3DAC0 when they are still at the lbl_8323B1A0 sentinel, then merges the AABBs of
-// all child shapes (array at +0x18, 16-byte entries, count at +0x1c) starting from
-// +-lbl_82138458 (HK_REAL_MAX / 2).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "havok/hkQuadReal.h"
 
 extern "C" {
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vspltisw(int value);
-__vector4 __vxor(__vector4 a, __vector4 b);
-__vector4 __vminfp(__vector4 a, __vector4 b);
-__vector4 __vmaxfp(__vector4 a, __vector4 b);
-__vector4 __vcmpgefp(__vector4 a, __vector4 b);
-__vector4 __vcmpequwR(__vector4 a, __vector4 b, unsigned int *cr);
 
 extern const __vector4 lbl_8323B1A0;   // cached-extents sentinel
-extern const __vector4 lbl_8209AB20;   // sign bits
 extern const float lbl_82138458;       // HK_REAL_MAX / 2
 }
 

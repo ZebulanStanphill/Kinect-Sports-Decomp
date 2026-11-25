@@ -6,18 +6,7 @@
 // inlined hkArray<hkUint16>::operator= of the welding info.
 // Built with /O2 /QVMXReserve (the m_scaling copy uses v0).
 #include "havok/hkpShape.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE hkVector4 &operator=(const hkVector4 &v) { m_quad = v.m_quad; return *this; }
-    hkQuadReal m_quad;
-};
+#include "havok/hkVector4.h"
 
 // hkArray<T>::operator= for POD elements (hkArrayBase::_copyFromArray).
 template <typename T>

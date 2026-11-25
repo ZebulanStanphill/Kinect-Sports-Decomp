@@ -9,25 +9,12 @@
 // pool_aliases entry in objects.json renames the compiled __real@00000000 to it); 1.0f is
 // lbl_821CA45C[1] (selectany, as in func_825BCDA8.cpp).
 #include "havok/hkpShape.h"
+#include "havok/hkVector4.h"
 
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
 extern "C" {
 __vector4 __VMXGetReg(int n);
-__vector4 __vxor(__vector4 a, __vector4 b);
-__vector4 __vcmpgtfp(__vector4 a, __vector4 b);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
 }
 
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    hkQuadReal m_quad;
-};
 class hkRotation {
 public:
     hkVector4 m_col0, m_col1, m_col2;

@@ -6,53 +6,9 @@
 // configured lbl_ names so that the compiler may schedule their loads like constants (an extern
 // declaration keeps the HK_REAL_MAX load after the stores).
 #include "havok/hkBase.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-extern "C" __vector4 __vxor(__vector4 a, __vector4 b);
+#include "havok/hkTransform.h"
 
 // The game's 1.0f keeps its lbl_ name (Matching units reference it).
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    HK_FORCE_INLINE void setZero4() { m_quad = __vxor(m_quad, m_quad); }
-    HK_FORCE_INLINE hkReal &operator()(int i) { return m_quad.vector4_f32[i]; }
-    __vector4 m_quad;
-};
-
-class hkMatrix3 {
-public:
-    HK_FORCE_INLINE void setZero()
-    {
-        hkVector4 zero; zero.setZero4();
-        m_col0 = zero;
-        m_col1 = zero;
-        m_col2 = zero;
-    }
-    HK_FORCE_INLINE void setIdentity()
-    {
-        setZero();
-        m_col0(0) = 1.0f;
-        m_col1(1) = 1.0f;
-        m_col2(2) = 1.0f;
-    }
-    hkVector4 m_col0, m_col1, m_col2;
-};
-class hkRotation : public hkMatrix3 {};
-
-class hkTransform {
-public:
-    HK_FORCE_INLINE void setIdentity()
-    {
-        m_rotation.setIdentity();
-        m_translation.setZero4();
-    }
-    hkRotation m_rotation;
-    hkVector4 m_translation;
-};
 
 class hkpConstraintData : public hkReferencedObject {
 public:

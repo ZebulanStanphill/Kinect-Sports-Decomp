@@ -1,7 +1,5 @@
 #include "havok/hkBase.h"
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float f[4]; unsigned int u[4]; } __vector4;
-extern "C" __vector4 __vxor(__vector4,__vector4);
-class hkVector4 { public: __vector4 m_quad; void setZero4(){ m_quad=__vxor(m_quad,m_quad); } };
+#include "havok/hkVector4.h"
 enum hkpShapeType { TYPE=7 };
 class hkpShape : public hkReferencedObject { public: unsigned int userData,type; };
 extern "C" void fn_8265CA20(void *);

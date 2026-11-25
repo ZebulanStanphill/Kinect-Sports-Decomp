@@ -5,11 +5,10 @@
 // runs the constructor on the given storage (MSVC's explicit constructor call; placement new would add
 // a null check). The constructor is HK_FORCE_INLINE, or the explicit call stays a call.
 #include "havok/hkBase.h"
+#include "havok/hkVector4.h"
 
 // hkpShape, hkpShapeContainer and hkpShapeCollection as in havok/hkpShape.h, declared here because the
 // unit needs constructors the shared header does not declare.
-class hkVector4;
-class hkTransform;
 class hkAabb;
 class hkpCdBody;
 class hkpRayHitCollector;
@@ -94,18 +93,6 @@ public:
     hkBool m_disableWelding;    // +0x14
     hkUint8 m_collectionType;   // +0x15
 };
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-
-class hkVector4 {
-public:
-    hkQuadReal m_quad;
-};
-
 
 class hkpSimpleMeshShape : public hkpShapeCollection {
 public:

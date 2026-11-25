@@ -5,18 +5,7 @@
 // through hkEnum's constructor, its store stays ahead of the vtable and m_code stores; a plain hkUint8
 // member lets the scheduler hoist the vtable and m_code stores above it.
 #include "havok/hkpShape.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    hkQuadReal m_quad;
-};
+#include "havok/hkVector4.h"
 
 // hkEnum (Common/Base/Types/hkBaseTypes.h): an enum stored in a smaller integer type.
 template <typename ENUM, typename STORAGE>

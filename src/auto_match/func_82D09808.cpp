@@ -1,39 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-typedef __vector4 hkQuadReal;
-typedef float hkReal;
-
-class hkVector4
-{
-  public:
-    __forceinline hkVector4()
-    {
-    }
-
-    __forceinline hkVector4(const hkVector4 &v)
-    {
-        m_quad = v.m_quad;
-    }
-
-    __forceinline void operator=(const hkVector4 &v)
-    {
-        m_quad = v.m_quad;
-    }
-
-    __forceinline float &operator()(int i)
-    {
-        return m_quad.vector4_f32[i];
-    }
-
-    __forceinline const float &operator()(int i) const
-    {
-        return m_quad.vector4_f32[i];
-    }
-
-    hkQuadReal m_quad;
-};
+#include "havok/hkVector4.h"
 
 class hkSphere
 {

@@ -1,10 +1,6 @@
 // finishLoadedObjecthkpBoxShape: hkpBoxShape's hkTypeInfo finish function (lbl_83180590), from HK_REFLECTION_DEFINE_VIRTUAL in hkpBoxShapeClass.cpp (static in Havok).
 #include "havok/hkpShape.h"
-
-class hkVector4 {
-public:
-    hkReal x, y, z, w;
-};
+#include "havok/hkVector4.h"
 
 class hkpBoxShape : public hkpConvexShape {
 public:

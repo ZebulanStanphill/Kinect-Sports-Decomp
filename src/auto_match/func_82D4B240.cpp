@@ -1,32 +1,5 @@
 #include "havok/hkpShape.h"
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float f[4]; unsigned u[4]; } __vector4;
-extern "C" {
- __vector4 __vxor(__vector4,__vector4);
- __vector4 __vspltw(__vector4,unsigned);
- __vector4 __vaddfp(__vector4,__vector4);
- __vector4 __vsubfp(__vector4,__vector4);
- __vector4 __vmulfp(__vector4,__vector4);
- __vector4 __lvlx(const void *,unsigned);
-}
-class hkVector4 { public:
- HK_FORCE_INLINE void operator=(const hkVector4 &v) { q=v.q; }
- HK_FORCE_INLINE void setZero() { q=__vxor(q,q); }
- HK_FORCE_INLINE void setAll(float v) { q.f[0]=v; q=__vspltw(q,0); }
- __vector4 q;
-};
-class hkRotation { public:
- HK_FORCE_INLINE void setIdentity() {
-  hkVector4 zero; zero.setZero();
-  col[0]=zero; col[1]=zero; col[2]=zero;
-  col[0].q.f[0]=1.0f; col[1].q.f[1]=1.0f; col[2].q.f[2]=1.0f;
- }
- hkVector4 col[3];
-};
-class hkTransform { public:
- HK_FORCE_INLINE void setIdentity() { rotation.setIdentity(); translation.setZero(); }
- hkRotation rotation; hkVector4 translation;
-};
-
+#include "havok/hkTransform.h"
 class hkpTriangleShape : public hkpConvexShape { public:
  HK_FORCE_INLINE hkpTriangleShape(float radius,hkUint16 info,hkUint8 kind):hkpConvexShape(HK_SHAPE_TRIANGLE,radius),weldingInfo(info),weldingType(kind) { extrusion.setZero(); isExtruded=0; }
  hkUint16 weldingInfo; hkUint8 weldingType,isExtruded;
@@ -43,6 +16,6 @@ extern "C" hkpTriangleShape *fn_82D4B240(const Mesh *self,unsigned key,void *buf
  const hkVector4 *c=(const hkVector4 *)(part.vertices+indices[(flip^1)+1]*part.vertexStride);
  hkUint16 info=self->weldingCount==0?0:self->welding[part.triangleOffset+key];
  hkpTriangleShape *shape=new(buffer) hkpTriangleShape(self->radius,info,self->weldingType);
- shape->a.q=__vmulfp(a->q,self->scale.q); shape->b.q=__vmulfp(b->q,self->scale.q); shape->c.q=__vmulfp(c->q,self->scale.q);
+ shape->a.m_quad=__vmulfp(a->m_quad,self->scale.m_quad); shape->b.m_quad=__vmulfp(b->m_quad,self->scale.m_quad); shape->c.m_quad=__vmulfp(c->m_quad,self->scale.m_quad);
  return shape;
 }

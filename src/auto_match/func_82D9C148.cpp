@@ -1,77 +1,18 @@
-// hkpCachingShapePhantom::~hkpCachingShapePhantom (Physics/Dynamics/Phantom/hkpCachingShapePhantom.cpp): cleans up the agents (last to first) with a local constraint owner, clears the details, then m_collisionDetails and ~hkpPhantom (out of line).
-// hkStringPtr is declared here rather than taken from the shared havok/hkStringPtr.h (skipped through its
-// include guard), which lacks the default constructor: it is out of line, fn_82CED2F8 (it stores a pointer
-// read from a global, lbl_8323B430), and keeps its fn_ name (Matching C units call it), like the finish
-// constructor fn_82CED308, the const char * constructor fn_82CED488 and the destructor fn_82CED5B8.
-#define HAVOK_HKSTRINGPTR_H
 #include "havok/hkBase.h"
+#include "havok/hkMotionState.h"
 
-class hkStringPtr;
-extern "C" {
-void fn_82CED2F8(hkStringPtr *self);                              // hkStringPtr::hkStringPtr()
-void fn_82CED308(hkStringPtr *self, hkFinishLoadedObjectFlag f);  // hkStringPtr::hkStringPtr(hkFinishLoadedObjectFlag)
-void fn_82CED5B8(hkStringPtr *self);                              // hkStringPtr::~hkStringPtr()
-void fn_82CED488(hkStringPtr *self, const char *string);          // hkStringPtr::hkStringPtr(const char *)
-}
-
-class hkStringPtr {
-public:
-    enum { OWNED_FLAG = 0x1 };
-    HK_FORCE_INLINE hkStringPtr() { fn_82CED2F8(this); }
-    HK_FORCE_INLINE hkStringPtr(const char *string) { fn_82CED488(this, string); }
-    HK_FORCE_INLINE hkStringPtr(hkFinishLoadedObjectFlag f) { fn_82CED308(this, f); }
-    HK_FORCE_INLINE ~hkStringPtr() { fn_82CED5B8(this); }
-
-    const char *m_stringAndFlag;
-};
-
-// VMX128 vector type and the intrinsic hkVector4::setZero4 uses (the XDK's vectorintrinsics.h is not
-// available, so they are declared here; the compiler implements __vxor itself).
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-extern "C" __vector4 __vxor(__vector4 a, __vector4 b);
 #pragma intrinsic(__vxor)
-
-typedef __vector4 hkQuadReal;
-
-class hkVector4 {
-public:
-    HK_FORCE_INLINE hkVector4() {}
-    HK_FORCE_INLINE hkVector4(const hkVector4 &v) { m_quad = v.m_quad; }
-    HK_FORCE_INLINE void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    HK_FORCE_INLINE void setZero4() { m_quad = __vxor(m_quad, m_quad); }
-    HK_FORCE_INLINE hkReal &operator()(int i) { return m_quad.vector4_f32[i]; }
-    HK_FORCE_INLINE const hkReal &operator()(int i) const { return m_quad.vector4_f32[i]; }
-    hkQuadReal m_quad;
-};
 
 class hkQuaternion {
 public:
     hkVector4 m_vec;
 };
 
-// hkMotionState::initMotionState(const hkVector4 &, const hkQuaternion &) is out of line (fn_830824B8).
-class hkMotionState;
 extern "C" void fn_830824B8(hkMotionState *self, const hkVector4 &position, const hkQuaternion &rotation);
-
-// hkMotionState (Common/Base/Math/Motion/hkMotionState.h), 0xB0 bytes.
-class hkMotionState {
-public:
-    void initMotionState(const hkVector4 &position, const hkQuaternion &rotation) { fn_830824B8(this, position, rotation); }
-
-    hkVector4 m_transformEtc[10];   // +0x0  m_transform, m_sweptTransform, m_deltaAngle
-    hkReal m_objectRadius;       // +0xA0
-    hkReal m_linearDamping;      // +0xA4
-    hkReal m_angularDamping;     // +0xA8
-    char m_rest[0x4];            // +0xAC
-};
 
 class hkpShape : public hkReferencedObject {
 };
 class hkpWorld;
-class hkMotionState;
 class hkpCollidable;
 
 // hkpCollidable::hkpCollidable(const hkpShape *, const hkMotionState *, int) is out of line (fn_8253D7A8).
@@ -240,18 +181,6 @@ public:
     hkAabb m_aabb;                                       // +0xB0
     hkArray<hkpCollidable *> m_overlappingCollidables;   // +0xD0
     hkBool m_orderDirty;                                 // +0xDC
-};
-
-class hkRotation {
-public:
-    hkVector4 m_col0, m_col1, m_col2;
-};
-class hkTransform {
-public:
-    const hkRotation &getRotation() const { return m_rotation; }
-    const hkVector4 &getTranslation() const { return m_translation; }
-    hkRotation m_rotation;     // +0x0
-    hkVector4 m_translation;   // +0x30
 };
 
 // hkQuaternion::set(const hkRotation &) is out of line (fn_82CE5990).

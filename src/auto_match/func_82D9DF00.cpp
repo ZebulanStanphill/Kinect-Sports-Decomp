@@ -1,5 +1,6 @@
 // hkpGenericConstraintData::hkpGenericConstraintData(hkFinishLoadedObjectFlag) (Physics/Dynamics/Constraint/Bilateral/Generic/hkpGenericConstraintData.cpp). It keeps its fn_ name (the Matching getVtable unit func_82D7EF50 calls it), so it is defined inline and expanded below.
 #include "havok/hkBase.h"
+#include "havok/hkVector4.h"
 
 class hkpConstraintData;
 
@@ -38,10 +39,6 @@ public:
     hkUlong m_userData;   // +0x8
 };
 
-class hkVector4 {
-public:
-    hkReal x, y, z, w;
-};
 class hkpConstraintModifier;
 
 class hkpConstraintMotor : public hkReferencedObject {
