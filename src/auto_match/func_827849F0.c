@@ -1,75 +1,72 @@
-extern unsigned int lbl_821AAD20;
+typedef struct Tracker_827849F0 {
+    float values[52];        /* 0x00 */
+    unsigned char flags[11]; /* 0xd0 */
+} Tracker_827849F0;
 
-
-void fn_827849F0(unsigned int *param_1)
-
+/* Clears every flag and value one element at a time (written out, not a loop). */
+void fn_827849F0(Tracker_827849F0 *self)
 {
-  unsigned int uVar1;
-  
-  *(unsigned char *)(param_1 + 0x34) = 0;
-  *(unsigned char *)((int)param_1 + 0xd1) = 0;
-  uVar1 = lbl_821AAD20;
-  *(unsigned char *)((int)param_1 + 0xd2) = 0;
-  *param_1 = uVar1;
-  *(unsigned char *)((int)param_1 + 0xd3) = 0;
-  param_1[1] = uVar1;
-  *(unsigned char *)(param_1 + 0x35) = 0;
-  param_1[2] = uVar1;
-  *(unsigned char *)((int)param_1 + 0xd5) = 0;
-  param_1[3] = uVar1;
-  *(unsigned char *)((int)param_1 + 0xd6) = 0;
-  param_1[4] = uVar1;
-  *(unsigned char *)((int)param_1 + 0xd7) = 0;
-  param_1[5] = uVar1;
-  *(unsigned char *)(param_1 + 0x36) = 0;
-  param_1[6] = uVar1;
-  *(unsigned char *)((int)param_1 + 0xd9) = 0;
-  param_1[7] = uVar1;
-  *(unsigned char *)((int)param_1 + 0xda) = 0;
-  param_1[8] = uVar1;
-  param_1[9] = uVar1;
-  param_1[10] = uVar1;
-  param_1[0xb] = uVar1;
-  param_1[0xc] = uVar1;
-  param_1[0xd] = uVar1;
-  param_1[0xe] = uVar1;
-  param_1[0xf] = uVar1;
-  param_1[0x10] = uVar1;
-  param_1[0x11] = uVar1;
-  param_1[0x12] = uVar1;
-  param_1[0x13] = uVar1;
-  param_1[0x14] = uVar1;
-  param_1[0x15] = uVar1;
-  param_1[0x16] = uVar1;
-  param_1[0x17] = uVar1;
-  param_1[0x18] = uVar1;
-  param_1[0x19] = uVar1;
-  param_1[0x1a] = uVar1;
-  param_1[0x1b] = uVar1;
-  param_1[0x1c] = uVar1;
-  param_1[0x1d] = uVar1;
-  param_1[0x1e] = uVar1;
-  param_1[0x1f] = uVar1;
-  param_1[0x20] = uVar1;
-  param_1[0x21] = uVar1;
-  param_1[0x22] = uVar1;
-  param_1[0x23] = uVar1;
-  param_1[0x24] = uVar1;
-  param_1[0x25] = uVar1;
-  param_1[0x26] = uVar1;
-  param_1[0x27] = uVar1;
-  param_1[0x28] = uVar1;
-  param_1[0x29] = uVar1;
-  param_1[0x2a] = uVar1;
-  param_1[0x2b] = uVar1;
-  param_1[0x2c] = uVar1;
-  param_1[0x2d] = uVar1;
-  param_1[0x2e] = uVar1;
-  param_1[0x2f] = uVar1;
-  param_1[0x30] = uVar1;
-  param_1[0x31] = uVar1;
-  param_1[0x32] = uVar1;
-  param_1[0x33] = uVar1;
-  return;
+    self->flags[0] = 0;
+    self->flags[1] = 0;
+    self->flags[2] = 0;
+    self->flags[3] = 0;
+    self->flags[4] = 0;
+    self->flags[5] = 0;
+    self->flags[6] = 0;
+    self->flags[7] = 0;
+    self->flags[8] = 0;
+    self->flags[9] = 0;
+    self->flags[10] = 0;
+    self->values[0] = 0.0f;
+    self->values[1] = 0.0f;
+    self->values[2] = 0.0f;
+    self->values[3] = 0.0f;
+    self->values[4] = 0.0f;
+    self->values[5] = 0.0f;
+    self->values[6] = 0.0f;
+    self->values[7] = 0.0f;
+    self->values[8] = 0.0f;
+    self->values[9] = 0.0f;
+    self->values[10] = 0.0f;
+    self->values[11] = 0.0f;
+    self->values[12] = 0.0f;
+    self->values[13] = 0.0f;
+    self->values[14] = 0.0f;
+    self->values[15] = 0.0f;
+    self->values[16] = 0.0f;
+    self->values[17] = 0.0f;
+    self->values[18] = 0.0f;
+    self->values[19] = 0.0f;
+    self->values[20] = 0.0f;
+    self->values[21] = 0.0f;
+    self->values[22] = 0.0f;
+    self->values[23] = 0.0f;
+    self->values[24] = 0.0f;
+    self->values[25] = 0.0f;
+    self->values[26] = 0.0f;
+    self->values[27] = 0.0f;
+    self->values[28] = 0.0f;
+    self->values[29] = 0.0f;
+    self->values[30] = 0.0f;
+    self->values[31] = 0.0f;
+    self->values[32] = 0.0f;
+    self->values[33] = 0.0f;
+    self->values[34] = 0.0f;
+    self->values[35] = 0.0f;
+    self->values[36] = 0.0f;
+    self->values[37] = 0.0f;
+    self->values[38] = 0.0f;
+    self->values[39] = 0.0f;
+    self->values[40] = 0.0f;
+    self->values[41] = 0.0f;
+    self->values[42] = 0.0f;
+    self->values[43] = 0.0f;
+    self->values[44] = 0.0f;
+    self->values[45] = 0.0f;
+    self->values[46] = 0.0f;
+    self->values[47] = 0.0f;
+    self->values[48] = 0.0f;
+    self->values[49] = 0.0f;
+    self->values[50] = 0.0f;
+    self->values[51] = 0.0f;
 }
-

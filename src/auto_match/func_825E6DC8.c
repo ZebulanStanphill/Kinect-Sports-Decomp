@@ -1,122 +1,137 @@
-#define true 1
-extern unsigned int fStack_74;
-extern unsigned int fStack_84;
-extern int fn_825E6C70();
-extern int fn_825E7B28();
-extern int memcpy();
-extern unsigned int lbl_821954F0;
-extern unsigned int lbl_821CA460;
-extern unsigned int uStack_64;
-extern unsigned int uStack_68;
-extern unsigned int uStack_6c;
-extern unsigned int uStack_70;
-extern unsigned int uStack_78;
-extern unsigned int uStack_7c;
-extern unsigned int uStack_80;
-extern unsigned int uStack_88;
-extern unsigned int uStack_8c;
-extern unsigned int uStack_90;
+typedef struct Frustum_825E6DC8 {
+    float right[3];   /* 0x00 */
+    float invDepth;   /* 0x0C */
+    float up[3];      /* 0x10 */
+    float depthScale; /* 0x1C */
+    float forward[3]; /* 0x20 */
+    float aspect;     /* 0x2C */
+} Frustum_825E6DC8;
 
+typedef struct Record_825E6DC8 {
+    int id;                   /* 0x00 */
+    Frustum_825E6DC8 frustum; /* 0x04 */
+} Record_825E6DC8;
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+typedef struct Array_825E6DC8 {
+    void *begin;        /* 0x00 */
+    void *end;          /* 0x04 */
+    void *capacity;     /* 0x08 */
+    void *allocator;    /* 0x0C */
+    unsigned int count; /* 0x10 */
+} Array_825E6DC8;
 
-void fn_825E6DC8(unsigned int *param_1,int param_2,int param_3)
+typedef struct Lists_825E6DC8 {
+    Array_825E6DC8 ids;     /* 0x00 */
+    Array_825E6DC8 records; /* 0x14 */
+} Lists_825E6DC8;
 
+typedef struct Camera_825E6DC8 {
+    float right[3]; /* 0x00 */
+    int pad0C;
+    float up[3]; /* 0x10 */
+    int pad1C;
+    float forward[3]; /* 0x20 */
+    char pad2C[0x64];
+    float farPlane;  /* 0x90 */
+    float nearPlane; /* 0x94 */
+    float aspect;    /* 0x98 */
+    char pad9C[0x10];
+    int active; /* 0xAC */
+    char padB0[0x10];
+    int dirty; /* 0xC0 */
+    char padC4[0xc];
+} Camera_825E6DC8;
+
+typedef struct Table_825E6DC8 {
+    char pad0000[0x420];
+    Camera_825E6DC8 cameras[80]; /* 0x0420 */
+    int ids[80];                 /* 0x4520 */
+    int count;                   /* 0x4660 */
+} Table_825E6DC8;
+
+typedef struct World_825E6DC8 {
+    char pad000[0x1a8];
+    Table_825E6DC8 *table; /* 0x1A8 */
+} World_825E6DC8;
+
+typedef struct Cursor_825E6DC8 {
+    int id; /* 0x00 */
+    char pad04[0x44];
+    struct Cursor_825E6DC8 *next; /* 0x48 */
+} Cursor_825E6DC8;
+
+typedef struct Scene_825E6DC8 {
+    char pad00[0x34];
+    Cursor_825E6DC8 end; /* 0x34 */
+} Scene_825E6DC8;
+
+extern Record_825E6DC8 *fn_825E7B28(Array_825E6DC8 *records);
+extern int *fn_825E6C70(Lists_825E6DC8 *lists);
+
+static __forceinline void Clear(Array_825E6DC8 *array)
 {
-  int iVar1;
-  int *piVar2;
-  unsigned int uVar3;
-  int iVar4;
-  int *piVar5;
-  int *piVar6;
-  int iVar7;
-  double dVar8;
-  double dVar9;
-  double dVar10;
-  double dVar11;
-  struct { unsigned int first; unsigned int second; } stack_pair_90;
+    unsigned int i;
 
-  unsigned int uStack_88;
-  float fStack_84;
-  unsigned int uStack_80;
-  unsigned int uStack_7c;
-  unsigned int uStack_78;
-  float fStack_74;
-  unsigned int uStack_70;
-  unsigned int uStack_6c;
-  unsigned int uStack_68;
-  unsigned int uStack_64;
-  
-  uVar3 = 0;
-  if (param_1[4] != 0) {
-    do {
-      uVar3 = uVar3 + 1;
-    } while (uVar3 < (unsigned int)param_1[4]);
-  }
-  param_1[4] = 0;
-  uVar3 = 0;
-  param_1[1] = *param_1;
-  if (param_1[9] != 0) {
-    do {
-      uVar3 = uVar3 + 1;
-    } while (uVar3 < (unsigned int)param_1[9]);
-  }
-  param_1[9] = 0;
-  iVar7 = 0;
-  param_1[6] = param_1[5];
-  dVar11 = (double)lbl_821954F0;
-  dVar10 = (double)lbl_821CA460;
-  piVar6 = *(int **)(param_3 + 0x7c);
-  iVar1 = *(int *)(param_2 + 0x1a8);
-  piVar5 = (int *)(iVar1 + 0x4520);
-  do {
-    if (*piVar5 < *(int *)(iVar1 + 0x4660)) {
-      iVar4 = *piVar5 * 0xd0 + iVar1;
-      if (((unsigned int *)(iVar4 + 0x420) == (unsigned int *)0x0) || (*(int *)(iVar4 + 0x4cc) == 0))
-      goto LAB_825e6f44;
-      if (*(int *)(iVar4 + 0x4e0) != 0) {
-        piVar2 = (int *)fn_825E7B28(param_1 + 5);
-        dVar8 = (double)*(float *)(iVar4 + 0x4b0);
-        dVar9 = (double)*(float *)(iVar4 + 0x4b4);
-        stack_pair_90.first = *(unsigned int *)(iVar4 + 0x420);
-        stack_pair_90.second = *(unsigned int *)(iVar4 + 0x424);
-        uStack_88 = *(unsigned int *)(iVar4 + 0x428);
-        uStack_80 = *(unsigned int *)(iVar4 + 0x430);
-        uStack_7c = *(unsigned int *)(iVar4 + 0x434);
-        uStack_78 = *(unsigned int *)(iVar4 + 0x438);
-        if (dVar8 <= dVar9) {
-          dVar8 = (double)(float)(dVar9 * dVar11);
-        }
-        uStack_70 = *(unsigned int *)(iVar4 + 0x440);
-        uStack_6c = *(unsigned int *)(iVar4 + 0x444);
-        uStack_68 = *(unsigned int *)(iVar4 + 0x448);
-        uStack_64 = *(unsigned int *)(iVar4 + 0x4b8);
-        *piVar2 = iVar7;
-        fStack_74 = (float)(dVar8 / (double)(float)(dVar8 - dVar9));
-        fStack_84 = (float)(dVar10 / (double)(float)(dVar8 - dVar9));
-        memcpy(piVar2 + 1,&stack_pair_90.first,0x30);
-        *(unsigned int *)(iVar4 + 0x4e0) = 0;
-      }
-LAB_825e6f64:
-      if ((piVar6 != (int *)(param_3 + 0x34)) && (*piVar6 == iVar7)) {
-        piVar6 = (int *)piVar6[0x12];
-      }
+    for (i = 0; i < array->count; i++) {
     }
-    else {
-LAB_825e6f44:
-      if (piVar6 != (int *)(param_3 + 0x34)) {
-        if (*piVar6 == iVar7) {
-          piVar2 = (int *)fn_825E6C70(param_1);
-          *piVar2 = iVar7;
-        }
-        goto LAB_825e6f64;
-      }
-    }
-    iVar7 = iVar7 + 1;
-    piVar5 = piVar5 + 1;
-    if (0x4f < iVar7) {
-      return;
-    }
-  } while( true );
+    array->count = 0;
+    array->end = array->begin;
 }
 
+static __forceinline Camera_825E6DC8 *GetCamera(Table_825E6DC8 *table, int index)
+{
+    Camera_825E6DC8 *camera = 0;
+
+    if (index < table->count) {
+        camera = &table->cameras[index];
+    }
+    return camera;
+}
+
+void fn_825E6DC8(Lists_825E6DC8 *self, World_825E6DC8 *world, Scene_825E6DC8 *scene)
+{
+    Table_825E6DC8 *table;
+    Cursor_825E6DC8 *cursor;
+    int i;
+
+    Clear(&self->ids);
+    Clear(&self->records);
+    cursor = scene->end.next;
+    table = world->table;
+    for (i = 0; i < 80; i++) {
+        Camera_825E6DC8 *camera = GetCamera(table, table->ids[i]);
+
+        if (camera != 0 && camera->active != 0) {
+            if (camera->dirty != 0) {
+                Record_825E6DC8 *record = fn_825E7B28(&self->records);
+                Frustum_825E6DC8 frustum;
+                float farPlane = camera->farPlane;
+                float nearPlane = camera->nearPlane;
+
+                frustum.right[0] = camera->right[0];
+                frustum.right[1] = camera->right[1];
+                frustum.right[2] = camera->right[2];
+                frustum.up[0] = camera->up[0];
+                frustum.up[1] = camera->up[1];
+                frustum.up[2] = camera->up[2];
+                if (farPlane <= nearPlane) {
+                    farPlane = nearPlane * 2.01f;
+                }
+                frustum.forward[0] = camera->forward[0];
+                frustum.forward[1] = camera->forward[1];
+                frustum.forward[2] = camera->forward[2];
+                frustum.aspect = camera->aspect;
+                record->id = i;
+                frustum.depthScale = farPlane / (farPlane - nearPlane);
+                frustum.invDepth = 1.0f / (farPlane - nearPlane);
+                record->frustum = frustum;
+                camera->dirty = 0;
+            }
+        } else if (cursor != &scene->end && cursor->id == i) {
+            *fn_825E6C70(self) = i;
+        }
+        if (cursor != &scene->end && cursor->id == i) {
+            cursor = cursor->next;
+        }
+    }
+}

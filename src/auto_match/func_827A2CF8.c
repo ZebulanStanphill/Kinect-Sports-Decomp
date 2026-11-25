@@ -1,63 +1,64 @@
-extern int fn_82799C20();
-extern int fn_8279C588();
-extern int fn_827AEE00();
-extern int fn_827AFE68();
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
-extern unsigned int uStack_34;
-extern unsigned int uStack_38;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
-extern unsigned int uStack_44;
-extern unsigned int uStack_48;
-extern unsigned int uStack_4c;
-extern unsigned int uStack_50;
+typedef struct Params_827A2CF8 {
+    int x;
+    int y;
+    int start;
+    int a;
+    int b;
+    int count;
+    unsigned int color;
+    unsigned int end;
+    int c;
+    unsigned char depth;
+} Params_827A2CF8;
 
+typedef struct Entry_827A2CF8 {
+    unsigned int position; /* 0x0 */
+    unsigned int selected; /* 0x4 */
+} Entry_827A2CF8;
 
-void fn_827A2CF8(int param_1)
+typedef struct Track_827A2CF8 {
+    char pad0[0x8];
+    void *document; /* 0x08 */
+    char pad0C[0x18 - 0xC];
+    unsigned int position; /* 0x18 */
+    char pad1C[0x68 - 0x1C];
+    unsigned short flags; /* 0x68 */
+} Track_827A2CF8;
 
+extern void *fn_8279C588(void *document);
+extern Entry_827A2CF8 *fn_827AEE00(void *target, int index);
+extern Entry_827A2CF8 *fn_827AFE68(void *target, Params_827A2CF8 *params);
+extern void fn_82799C20(void *document, Entry_827A2CF8 *entry);
+
+void fn_827A2CF8(Track_827A2CF8 *track)
 {
-  unsigned __int64 uVar1;
-  int *piVar2;
-  unsigned short uVar3;
-  struct { unsigned int first; unsigned int second; } stack_pair_50;
+    if ((track->flags & 1) == 0 && ((unsigned char)(track->flags >> 8) & 1) != 0) {
+        void *target = fn_8279C588(track->document);
+        Entry_827A2CF8 *entry = fn_827AEE00(target, 0x7FFFFFFE);
+        unsigned char selected;
 
-  unsigned int uStack_48;
-  unsigned int uStack_44;
-  unsigned int uStack_40;
-  unsigned int uStack_3c;
-  unsigned int uStack_38;
-  unsigned int uStack_34;
-  unsigned int uStack_30;
-  unsigned char uStack_2c;
-  
-  if (((*(unsigned short *)(param_1 + 0x68) & 1) == 0) && ((*(unsigned short *)(param_1 + 0x68) >> 8 & 1) != 0)) {
-    uVar1 = fn_8279C588(*(unsigned int *)(param_1 + 8));
-    piVar2 = (int *)fn_827AEE00(uVar1,0x7ffffffe);
-    if (piVar2 == (int *)0x0) {
-      uVar3 = 0;
-      uStack_3c = 0x7ffffffe;
-      uStack_44 = 0;
-      uStack_40 = 0;
-      uStack_30 = 0;
-      stack_pair_50.first = 0;
-      stack_pair_50.second = 0;
-      uStack_48 = 0;
-      uStack_38 = 0xff000000;
-      uStack_2c = 0x18;
-      uStack_34 = 0xffffffff;
-      piVar2 = (int *)fn_827AFE68(uVar1,&stack_pair_50.first);
+        if (entry == 0) {
+            Params_827A2CF8 params;
+
+            params.count = 0x7FFFFFFE;
+            params.a = 0;
+            params.b = 0;
+            params.c = 0;
+            params.x = 0;
+            params.y = 0;
+            params.start = 0;
+            params.color = 0xFF000000;
+            params.depth = 0x18;
+            params.end = 0xFFFFFFFF;
+            entry = fn_827AFE68(target, &params);
+            selected = 0;
+        } else {
+            selected = entry->selected != 0;
+        }
+        if (entry->position != track->position || selected != ((unsigned char)(track->flags >> 3) & 1)) {
+            entry->position = track->position;
+            entry->selected = (unsigned char)(track->flags >> 3) & 1;
+            fn_82799C20(track->document, entry);
+        }
     }
-    else {
-      uVar3 = (unsigned short)(piVar2[1] != 0);
-    }
-    if ((*piVar2 != *(int *)(param_1 + 0x18)) || (uVar3 != (*(unsigned short *)(param_1 + 0x68) >> 3 & 1)))
-    {
-      *piVar2 = *(int *)(param_1 + 0x18);
-      piVar2[1] = *(unsigned short *)(param_1 + 0x68) >> 3 & 1;
-      fn_82799C20(*(unsigned int *)(param_1 + 8),piVar2);
-    }
-  }
-  return;
 }
-

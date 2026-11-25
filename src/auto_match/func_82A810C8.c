@@ -1,37 +1,64 @@
-extern int fn_82C2B580();
-extern int fn_82C44798();
-extern int fn_82F691F0();
+#include <stdlib.h>
+#include <string.h>
 
+typedef struct Filter_82A810C8 {
+    float *coeffs;   /* 0x00 */
+    int delay;       /* 0x04 */
+    int count;       /* 0x08 */
+    float *state;    /* 0x0C */
+    int stateLength; /* 0x10 */
+    float *lead;     /* 0x14 */
+} Filter_82A810C8;
 
-unsigned __int64 fn_82A810C8(unsigned int *param_1,unsigned __int64 param_2,__int64 param_3,__int64 param_4)
+extern void fn_82C44798(Filter_82A810C8 *filter);
+extern void *fn_82C2B580(unsigned int size);
 
+long fn_82A810C8(Filter_82A810C8 *filter, const double *taps, int first, int last)
 {
-  unsigned int uVar1;
-  __int64 lVar2;
-  unsigned __int64 uVar3;
-  int iVar4;
-  
-  fn_82C44798();
-  iVar4 = (int)param_3;
-  param_1[1] = iVar4;
-  lVar2 = param_3;
-  if (iVar4 < 1) {
-    lVar2 = -param_3;
-  }
-  if (((int)lVar2 < 0x186a1) &&
-     (uVar1 = (int)(unsigned int)param_4 >> 0x1f, (int)(((unsigned int)param_4 ^ uVar1) - uVar1) < 0x186a1)) {
-    uVar3 = (param_4 - param_3) + 1;
-    param_1[2] = (int)uVar3;
-    if ((iVar4 < 1) && ((0 < (__int64)(uVar3 - param_3) && (0 < (int)uVar3)))) {
-      uVar3 = fn_82C2B580((uVar3 & 0x3fffffff) << 2);
-      *param_1 = (int)uVar3;
-      if ((uVar3 & 0xffffffff) == 0) {
-        return 0xffffffff8007000e;
-      }
-                    /* WARNING: Subroutine does not return */
-      fn_82F691F0(uVar3,0,param_1[2] << 2);
-    }
-  }
-  return 0xffffffff80070057;
-}
+    long hr = 0;
+    int i;
 
+    fn_82C44798(filter);
+    filter->delay = first;
+    if ((filter->delay > 0 ? filter->delay : -filter->delay) > 100000 || abs(last) > 100000) {
+        hr = 0x80070057;
+        goto done;
+    }
+    filter->count = last - first + 1;
+    if (first > 0 || filter->count - first <= 0 || filter->count <= 0) {
+        hr = 0x80070057;
+        goto done;
+    }
+    filter->coeffs = (float *)fn_82C2B580(filter->count * 4);
+    if (filter->coeffs == 0) {
+        hr = 0x8007000E;
+        goto done;
+    }
+    memset(filter->coeffs, 0, filter->count * 4);
+    for (i = 0; i < filter->count; i++) {
+        filter->coeffs[filter->count - i - 1] = (float)taps[i];
+    }
+    filter->state = (float *)fn_82C2B580((filter->count - 1) * 4);
+    if (filter->state == 0) {
+        hr = 0x8007000E;
+        goto done;
+    }
+    memset(filter->state, 0, (filter->count - 1) * 4);
+    for (i = 0; i < filter->count - 1; i++) {
+        filter->state[i] = 0.0f;
+    }
+    if (filter->delay < 0) {
+        filter->lead = (float *)fn_82C2B580(filter->delay * -4);
+        if (filter->lead == 0) {
+            hr = 0x8007000E;
+            goto done;
+        }
+        memset(filter->lead, 0, filter->delay * -4);
+        for (i = 0; i < -filter->delay; i++) {
+            filter->lead[i] = 0.0f;
+        }
+    }
+    filter->stateLength = filter->count - 1;
+done:
+    return hr;
+}

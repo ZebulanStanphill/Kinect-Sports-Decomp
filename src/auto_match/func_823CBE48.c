@@ -1,85 +1,69 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern unsigned int lbl_82191FB4;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int stack0x00000020;
-extern V16 vectorSubtractFloatingPoint();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vsubfp(__vector4 a, __vector4 b);
+__vector4 __vmsum3fp(__vector4 a, __vector4 b);
 
-void fn_823CBE48(int param_1)
+typedef struct Target_823CBE48 {
+    void *value; /* 0x00 */
+    char pad04[0x1c - 0x04];
+    struct Link_823CBE48 *link; /* 0x1c */
+} Target_823CBE48;
 
+typedef struct Link_823CBE48 {
+    char pad00[0x40];
+    void *value; /* 0x40 */
+} Link_823CBE48;
+
+typedef struct Owner_823CBE48 {
+    char pad00[0x94];
+    int target; /* 0x94 */
+} Owner_823CBE48;
+
+typedef struct Player_823CBE48 {
+    char pad000[0x240];
+    Owner_823CBE48 *owner; /* 0x240 */
+    char pad244[0x290 - 0x244];
+    int state; /* 0x290 */
+    char pad294[0x3a0 - 0x294];
+    __vector4 start; /* 0x3a0 */
+    __vector4 last;  /* 0x3b0 */
+    int started;     /* 0x3c0 */
+    int linked;      /* 0x3c4 */
+    char pad3c8[0x3d0 - 0x3c8];
+    __vector4 target; /* 0x3d0 */
+} Player_823CBE48;
+
+void fn_823CBE48(Player_823CBE48 *self, __vector4 position)
 {
-  int iVar1;
-  float fVar2;
-  unsigned int *puVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  float *pfVar6;
-  float fVar7;
-  int in_r0;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs33 [16];
-  unsigned char in_vs44 [16];
-  unsigned char in_vs45 [16];
-  unsigned int in_register_00010010;
-  unsigned int in_register_00010014;
-  unsigned int in_register_00010018;
-  unsigned int in_vr1;
-  float in_stack_00000024;
-  float afStack_10 [4];
-  
-  iVar1 = *(int *)(param_1 + 0x290);
-  puVar3 = (unsigned int *)((unsigned int)(&stack0x00000020 + in_r0) & 0xfffffff0);
-  *puVar3 = in_register_00010010;
-  puVar3[1] = in_register_00010014;
-  puVar3[2] = in_register_00010018;
-  puVar3[3] = in_vr1;
-  if (iVar1 == 0x18) {
-    return;
-  }
-  if (*(int *)(param_1 + 0x3c4) == 0) {
-    puVar3 = *(unsigned int **)(*(int *)(param_1 + 0x240) + 0x94);
-    if (((puVar3 != (unsigned int *)0x0) && (iVar1 = puVar3[7], iVar1 != 0)) &&
-       (*(int *)(iVar1 + 0x40) == 0)) {
-      *(unsigned int *)(iVar1 + 0x40) = *puVar3;
-    }
-    *(unsigned int *)(param_1 + 0x3c4) = 1;
-  }
-  if (lbl_82191FB4 < in_stack_00000024) {
-    return;
-  }
-  if (*(int *)(param_1 + 0x3c0) == 0) {
-    *(unsigned int *)(param_1 + 0x3c0) = 1;
-    puVar3 = (unsigned int *)(param_1 + 0x3a0U & 0xfffffff0);
-    *puVar3 = in_register_00010010;
-    puVar3[1] = in_register_00010014;
-    puVar3[2] = in_register_00010018;
-    puVar3[3] = in_vr1;
-    puVar3 = (unsigned int *)(param_1 + 0x3b0U & 0xfffffff0);
-    *puVar3 = in_register_00010010;
-    puVar3[1] = in_register_00010014;
-    puVar3[2] = in_register_00010018;
-    puVar3[3] = in_vr1;
-  }
-  fVar7 = ltcg_pool_0_0f;
-  uVar4 = param_1 + 0x3a0U & 0xfffffff0;
-  uVar5 = in_r0 + param_1 + 0x3b0 & 0xfffffff0;
-  vectorSubtractFloatingPoint(in_vs33,in_vs45);
-  vectorSubtractFloatingPoint(in_vs32,in_vs44);
-  fVar2 = *(float *)(uVar4 + 4) * *(float *)(uVar5 + 4) + 0.0 +
-          *(float *)(uVar4 + 8) * *(float *)(uVar5 + 8);
-  pfVar6 = (float *)((int)afStack_10 + in_r0 & 0xfffffff0);
-  *pfVar6 = fVar2;
-  pfVar6[1] = fVar2;
-  pfVar6[2] = fVar2;
-  pfVar6[3] = fVar2;
-  if (afStack_10[0] <= fVar7) {
-    return;
-  }
-  puVar3 = (unsigned int *)(in_r0 + param_1 + 0x3b0 & 0xfffffff0);
-  *puVar3 = in_register_00010010;
-  puVar3[1] = in_register_00010014;
-  puVar3[2] = in_register_00010018;
-  puVar3[3] = in_vr1;
-  return;
-}
+    Target_823CBE48 *target;
+    Link_823CBE48 *link;
+    __vector4 dot;
 
+    if (self->state == 0x18) {
+        return;
+    }
+    if (self->linked == 0) {
+        if (self->owner->target != 0) {
+            target = (Target_823CBE48 *)self->owner->target;
+            link = target->link;
+            if (link != 0 && link->value == 0) {
+                link->value = target->value;
+            }
+        }
+        self->linked = 1;
+    }
+    if (position.vector4_f32[1] > 1.6f) {
+        return;
+    }
+    if (self->started == 0) {
+        self->started = 1;
+        self->start = position;
+        self->last = position;
+    }
+    dot = __vmsum3fp(__vsubfp(self->start, self->target), __vsubfp(position, self->last));
+    if (dot.vector4_f32[0] > 0.0f) {
+        self->last = position;
+    }
+}

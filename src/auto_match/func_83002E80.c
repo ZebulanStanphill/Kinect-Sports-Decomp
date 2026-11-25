@@ -1,51 +1,43 @@
-extern int fn_83002AE0();
-extern int fn_830177C8();
-extern unsigned int lbl_82021544;
-extern unsigned int lbl_821AAD20;
-extern unsigned int lbl_832642FC;
+typedef struct Vec3_83002E80 {
+    float x;
+    float y;
+    float z;
+} Vec3_83002E80;
 
+typedef struct Object_83002E80 {
+    char pad0[0x40];
+    unsigned int flags; /* 0x40 */
+    char pad44[0x14];
+    Vec3_83002E80 position; /* 0x58 */
+    void *binding;          /* 0x64 */
+} Object_83002E80;
 
-unsigned __int64 fn_83002E80(int param_1,unsigned __int64 param_2,float *param_3)
+extern void *lbl_832642FC;
+extern float fn_830177C8(void *system, void *object, int property, unsigned int key);
+extern int fn_83002AE0(Object_83002E80 *object, float *out);
 
+unsigned char fn_83002E80(Object_83002E80 *self, unsigned int key, Vec3_83002E80 *out)
 {
-  char cVar1;
-  unsigned __int64 uVar2;
-  double dVar3;
-  double dVar4;
-  double dVar5;
-  float afStack_50;
-  
-  uVar2 = 0;
-  *param_3 = *(float *)(param_1 + 0x58);
-  param_3[1] = *(float *)(param_1 + 0x5c);
-  param_3[2] = *(float *)(param_1 + 0x60);
-  if (*(unsigned int *)(param_1 + 0x40) != 0) {
-    dVar5 = (double)lbl_821AAD20;
-    dVar4 = (double)lbl_82021544;
-    afStack_50 = lbl_821AAD20;
-    if ((*(unsigned int *)(param_1 + 0x40) >> 0x14 & 1) != 0) {
-      uVar2 = 1;
-      dVar3 = (double)fn_830177C8(lbl_832642FC,param_1,0x14,param_2);
-      *param_3 = (float)dVar3;
-      if ((*(int *)(param_1 + 100) != 0) &&
-         (cVar1 = fn_83002AE0(param_1,&afStack_50), cVar1 != '\0')) {
-        *param_3 = (float)((double)(*param_3 * afStack_50) * dVar4);
-      }
-    }
-    if ((*(unsigned int *)(param_1 + 0x40) >> 0x15 & 1) != 0) {
-      dVar3 = (double)fn_830177C8(lbl_832642FC,param_1,0x15,param_2);
-      param_3[1] = (float)dVar3;
-      if ((*(int *)(param_1 + 100) == 0) ||
-         (((double)afStack_50 == dVar5 &&
-          (cVar1 = fn_83002AE0(param_1,&afStack_50), cVar1 == '\0')))) {
-        uVar2 = 1;
-      }
-      else {
-        uVar2 = 1;
-        *param_3 = (float)((double)(*param_3 * afStack_50) * dVar4);
-      }
-    }
-  }
-  return uVar2;
-}
+    unsigned char changed = 0;
+    float scale;
 
+    *out = self->position;
+    if (self->flags != 0) {
+        scale = 0.0f;
+        if ((unsigned char)((self->flags >> 20) & 1) != 0) {
+            changed = 1;
+            out->x = fn_830177C8(lbl_832642FC, self, 0x14, key);
+            if (self->binding != 0 && (unsigned char)fn_83002AE0(self, &scale) != 0) {
+                out->x = out->x * scale * 0.01f;
+            }
+        }
+        if ((unsigned char)((self->flags >> 21) & 1) != 0) {
+            changed = 1;
+            out->y = fn_830177C8(lbl_832642FC, self, 0x15, key);
+            if (self->binding != 0 && (scale != 0.0f || (unsigned char)fn_83002AE0(self, &scale) != 0)) {
+                out->x = out->x * scale * 0.01f;
+            }
+        }
+    }
+    return changed;
+}

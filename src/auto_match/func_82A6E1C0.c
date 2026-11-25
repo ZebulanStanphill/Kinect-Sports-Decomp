@@ -1,44 +1,42 @@
-void fn_82A6E1C0(int param_1,int param_2,short param_3,short param_4,short *param_5,short *param_6
-                  )
+typedef struct Ctx_82A6E1C0 {
+    char pad0[0x8c];
+    int mode;    /* 0x8c */
+    int pad90;   /* 0x90 */
+    int lockedA; /* 0x94 */
+    int pad98;   /* 0x98 */
+    int lockedB; /* 0x9c */
+} Ctx_82A6E1C0;
 
+void fn_82A6E1C0(Ctx_82A6E1C0 *ctx, int which, short lo, short hi, short *halfSpan, short *center)
 {
-  short sVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  
-  if (param_3 < param_4) {
-    uVar3 = (int)param_4 - (int)param_3;
-    uVar2 = (int)param_4 + (int)param_3;
-    *param_5 = (short)((int)uVar3 >> 1) + (unsigned short)((int)uVar3 < 0 && (uVar3 & 1) != 0);
-    *param_6 = (short)((int)uVar2 >> 1) + (unsigned short)((int)uVar2 < 0 && (uVar2 & 1) != 0);
-  }
-  else {
-    *param_5 = 0;
-    *param_6 = param_4;
-  }
-  if (param_2 != 1) {
-    if (*(int *)(param_1 + 0x8c) != 1) {
-      return;
-    }
-    if (*(int *)(param_1 + 0x9c) != 0) {
-      return;
-    }
-    uVar2 = (int)*param_5 + (int)*param_6;
-    sVar1 = (short)((int)uVar2 >> 1) + (unsigned short)((int)uVar2 < 0 && (uVar2 & 1) != 0);
-    *param_5 = sVar1;
-    *param_6 = sVar1;
-    return;
-  }
-  if (*(int *)(param_1 + 0x8c) != 1) {
-    return;
-  }
-  if (*(int *)(param_1 + 0x94) != 0) {
-    return;
-  }
-  uVar2 = (int)*param_5 + (int)*param_6;
-  sVar1 = (short)((int)uVar2 >> 1) + (unsigned short)((int)uVar2 < 0 && (uVar2 & 1) != 0);
-  *param_5 = sVar1;
-  *param_6 = sVar1;
-  return;
-}
+    short merged;
 
+    if (lo >= hi) {
+        *halfSpan = 0;
+        *center = hi;
+    } else {
+        *halfSpan = (hi - lo) / 2;
+        *center = (hi + lo) / 2;
+    }
+    if (which == 1) {
+        if (ctx->mode != 1) {
+            return;
+        }
+        if (ctx->lockedA != 0) {
+            return;
+        }
+        merged = (*halfSpan + *center) / 2;
+        *halfSpan = merged;
+        *center = merged;
+    } else {
+        if (ctx->mode != 1) {
+            return;
+        }
+        if (ctx->lockedB != 0) {
+            return;
+        }
+        merged = (*halfSpan + *center) / 2;
+        *halfSpan = merged;
+        *center = merged;
+    }
+}

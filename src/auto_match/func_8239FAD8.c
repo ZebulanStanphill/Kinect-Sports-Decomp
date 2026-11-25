@@ -1,94 +1,94 @@
-extern int fn_822AA770();
-extern int fn_82399BA0();
-extern int fn_82399CB8();
-extern int fn_8239FC88();
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int lbl_831D2B38;
-extern unsigned int lbl_831D2B80;
+typedef struct Game_8239FAD8 {
+    char pad0[0x8];
+    void ***players; /* 0x08 */
+    char padC[0x48];
+    int state; /* 0x54 */
+    char pad58[0x808];
+    int started; /* 0x860 */
+} Game_8239FAD8;
 
+typedef struct Self_8239FAD8 {
+    char pad0[0x240];
+    Game_8239FAD8 *game; /* 0x240 */
+    char pad244[0x3c];
+    float *animation; /* 0x280 */
+    char pad284[0x4];
+    int level;   /* 0x288 */
+    int mode;    /* 0x28c */
+    float timer; /* 0x290 */
+    char pad294[0x4];
+    unsigned int side; /* 0x298 */
+} Self_8239FAD8;
 
-void fn_8239FAD8(double param_1,int param_2)
+extern float lbl_831D2980[];
 
+extern int fn_82399BA0(Game_8239FAD8 *game);
+extern int fn_82399CB8(Game_8239FAD8 *game);
+extern void *fn_822AA770(void *player);
+extern void fn_8239FC88(Self_8239FAD8 *self, int mode, int flag);
+
+void fn_8239FAD8(Self_8239FAD8 *self, float dt)
 {
-  unsigned char *puVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  
-  *(float *)(param_2 + 0x290) = (float)(param_1 + (double)*(float *)(param_2 + 0x290));
-  iVar2 = *(int *)(*(int *)(param_2 + 0x240) + 0x54);
-  if (iVar2 == 3) {
-    if (*(int *)(param_2 + 0x28c) == 4) {
-      return;
-    }
-    *(unsigned int *)(param_2 + 0x28c) = 4;
-    *(unsigned int *)(param_2 + 0x290) = ltcg_pool_0_0f;
-    uVar5 = -((int)*(unsigned int *)(param_2 + 0x288) >> 0x1f) - 1U & *(unsigned int *)(param_2 + 0x288);
-    goto LAB_8239fc6c;
-  }
-  if (iVar2 != 6) {
-    if (iVar2 == 7) {
-      if (*(int *)(param_2 + 0x28c) == 1) {
-        return;
-      }
-      if (*(int *)(param_2 + 0x28c) == 2) {
-        return;
-      }
-      iVar2 = fn_82399CB8();
-      iVar2 = fn_822AA770(*(unsigned int *)
-                                 (**(int **)(*(int *)(param_2 + 0x240) + 8) + iVar2 * 4));
-      uVar3 = 1;
-      if (iVar2 == 0) {
-        uVar3 = 2;
-      }
-      fn_8239FC88(param_2,uVar3,1);
-      return;
-    }
-    if (iVar2 == 0x10) {
-      return;
-    }
-    iVar2 = fn_82399BA0();
-    if (iVar2 != 0) {
-      return;
-    }
-    if (*(int *)(param_2 + 0x28c) == 0) {
-      return;
-    }
-    uVar4 = -(unsigned int)(*(int *)(param_2 + 0x28c) != 4) & 1;
-    *(unsigned int *)(param_2 + 0x290) = ltcg_pool_0_0f;
-    *(unsigned int *)(param_2 + 0x28c) = 0;
-    uVar5 = *(unsigned int *)(param_2 + 0x288);
-    if ((int)*(unsigned int *)(param_2 + 0x288) < (int)uVar4) {
-      uVar5 = uVar4;
-    }
-    goto LAB_8239fc6c;
-  }
-  if (*(int *)(*(int *)(param_2 + 0x240) + 0x860) == 0) {
-    return;
-  }
-  if (*(int *)(param_2 + 0x28c) == 3) {
-    return;
-  }
-  iVar2 = *(int *)(param_2 + 0x298);
-  if (iVar2 == 0) {
-    puVar1 = &lbl_831D2B38;
-LAB_8239fc08:
-    *(unsigned char **)(param_2 + 0x280) = puVar1;
-  }
-  else if (iVar2 == 1) {
-    puVar1 = &lbl_831D2B80;
-    goto LAB_8239fc08;
-  }
-  uVar5 = *(unsigned int *)(param_2 + 0x288);
-  *(int *)(param_2 + 0x298) = 1 - iVar2;
-  *(unsigned int *)(param_2 + 0x28c) = 3;
-  *(unsigned int *)(param_2 + 0x290) = ltcg_pool_0_0f;
-  if ((int)uVar5 < 1) {
-    uVar5 = 1;
-  }
-LAB_8239fc6c:
-  *(unsigned int *)(param_2 + 0x288) = uVar5;
-  return;
-}
+    int minimum;
+    int index;
 
+    self->timer += dt;
+    switch (self->game->state) {
+    case 3:
+        if (self->mode == 4) {
+            return;
+        }
+        self->mode = 4;
+        self->timer = 0.0f;
+        self->level = self->level < 0 ? 0 : self->level;
+        break;
+    case 6:
+        if (self->game->started == 0) {
+            return;
+        }
+        if (self->mode == 3) {
+            return;
+        }
+        switch (self->side) {
+        case 0:
+            self->animation = &lbl_831D2980[0x6e];
+            break;
+        case 1:
+            self->animation = &lbl_831D2980[0x80];
+            break;
+        }
+        self->side = 1 - self->side;
+        self->mode = 3;
+        self->timer = 0.0f;
+        self->level = self->level < 1 ? 1 : self->level;
+        break;
+    case 7:
+        if (self->mode == 1 || self->mode == 2) {
+            return;
+        }
+        index = fn_82399CB8(self->game);
+        if (fn_822AA770((*self->game->players)[index]) != 0) {
+            fn_8239FC88(self, 1, 1);
+        } else {
+            fn_8239FC88(self, 2, 1);
+        }
+        break;
+    case 0x10:
+        break;
+    default:
+        if (fn_82399BA0(self->game) != 0) {
+            return;
+        }
+        if (self->mode == 0) {
+            return;
+        }
+        minimum = 1;
+        if (self->mode == 4) {
+            minimum = 0;
+        }
+        self->timer = 0.0f;
+        self->mode = 0;
+        self->level = self->level < minimum ? minimum : self->level;
+        break;
+    }
+}

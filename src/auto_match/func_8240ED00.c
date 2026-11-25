@@ -1,103 +1,108 @@
-#define NAN(x) ((x) != (x))
-extern unsigned int *auStack_40;
-extern int fn_8240E9B8();
-extern int fn_824107D0();
-extern int fn_82410E40();
-extern int fn_82411788();
-extern int fn_82416D20();
-extern int fn_824ED9E8();
-extern int fn_82539560();
-extern int fn_8253A918();
-extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Tuning_8240ED00 {
+    char pad0[0x15a4];
+    float offset; /* 0x15A4 */
+    float height; /* 0x15A8 */
+    char pad15ac[0x4];
+    float params[6]; /* 0x15B0 */
+} Tuning_8240ED00;
 
-void fn_8240ED00(double param_1,int param_2)
+typedef struct Owner_8240ED00 {
+    Tuning_8240ED00 *tuning; /* 0x000 */
+    char pad4[0x9c];
+    char activePool[0x70]; /* 0x0A0 */
+    char idlePool[0x100];  /* 0x110 */
+    __vector4 colourA;     /* 0x210 */
+    __vector4 colourB;     /* 0x220 */
+} Owner_8240ED00;
 
+typedef struct Target_8240ED00 {
+    char pad0[0x50];
+    __vector4 position; /* 0x50 */
+} Target_8240ED00;
+
+typedef struct Ball_8240ED00 {
+    char pad0[0x24];
+    Owner_8240ED00 *owner;   /* 0x24 */
+    Target_8240ED00 *target; /* 0x28 */
+    int state;               /* 0x2C */
+    int idle;                /* 0x30 */
+    char pad34[0x10];
+    int muted; /* 0x44 */
+    char pad48[0x48];
+    float time; /* 0x90 */
+    char pad94[0xc];
+    __vector4 boundsMin; /* 0xA0 */
+    __vector4 boundsMax; /* 0xB0 */
+    float x;             /* 0xC0 */
+    float y;             /* 0xC4 */
+    float z;             /* 0xC8 */
+    char padcc[0x4];
+    float flashTime;       /* 0xD0 */
+    unsigned int flashing; /* 0xD4 */
+    char padd8[0x184];
+    float cooldown; /* 0x25C */
+} Ball_8240ED00;
+
+extern int fn_8253A918(const __vector4 *point, const __vector4 *low, const __vector4 *high);
+extern void fn_8240E9B8(Ball_8240ED00 *self);
+extern void fn_82416D20(void *pool, Ball_8240ED00 *ball);
+extern void fn_824107D0(Ball_8240ED00 *self);
+extern void fn_82410E40(Ball_8240ED00 *self, float dt);
+extern void fn_82411788(Ball_8240ED00 *self, float dt);
+extern float fn_82539560(float x, float inMin, float inMax, float outMin, float outMax);
+extern void fn_824ED9E8(float x, float y, float z, float a, float b, float c, float d, float e, float f,
+                        unsigned int flashing, __vector4 colourA, __vector4 colourB, float fade, int mode,
+                        int id);
+
+void fn_8240ED00(Ball_8240ED00 *self, float dt)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  int in_r0;
-  int iVar4;
-  __int64 lVar3;
-  double dVar5;
-  double dVar6;
-  unsigned __int64 uVar7;
-  double dVar8;
-  double dVar9;
-  unsigned int uVar10;
-  unsigned int uVar11;
-  unsigned int uVar12;
-  unsigned char auStack_40 [40];
-  
-  iVar4 = *(int *)(param_2 + 0x2c);
-  if (iVar4 == 0) {
-    puVar1 = (unsigned int *)(*(int *)(param_2 + 0x28) + 0x50U & 0xfffffff0);
-    uVar10 = puVar1[1];
-    uVar11 = puVar1[2];
-    uVar12 = puVar1[3];
-    puVar2 = (unsigned int *)((unsigned int)(auStack_40 + in_r0) & 0xfffffff0);
-    *puVar2 = *puVar1;
-    puVar2[1] = uVar10;
-    puVar2[2] = uVar11;
-    puVar2[3] = uVar12;
-    iVar4 = fn_8253A918(auStack_40,param_2 + 0xa0,param_2 + 0xb0);
-    if (iVar4 == 0) {
-      fn_8240E9B8(param_2);
-      lVar3 = (unsigned __int64)*(unsigned int *)(param_2 + 0x24) + 0xa0;
-      if (*(int *)(param_2 + 0x30) != 0) {
-        lVar3 = (unsigned __int64)*(unsigned int *)(param_2 + 0x24) + 0x110;
-      }
-      fn_82416D20(lVar3,param_2);
+    switch (self->state) {
+    case 0: {
+        __vector4 position = self->target->position;
+        if (fn_8253A918(&position, &self->boundsMin, &self->boundsMax) == 0) {
+            Owner_8240ED00 *owner;
+            fn_8240E9B8(self);
+            owner = self->owner;
+            fn_82416D20(self->idle == 0 ? owner->activePool : owner->idlePool, self);
+        }
+        break;
     }
-  }
-  else if (iVar4 == 2) {
-    *(float *)(param_2 + 0x90) = (float)(param_1 + (double)*(float *)(param_2 + 0x90));
-    if (*(int *)(param_2 + 0x44) == 0) {
-      fn_824107D0(param_2);
+    case 2:
+        self->time = dt + self->time;
+        if (self->muted == 0) {
+            fn_824107D0(self);
+        }
+        break;
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+        fn_82410E40(self, dt);
+        break;
+    case 9:
+        fn_82411788(self, dt);
+        break;
     }
-  }
-  else if (3 < iVar4) {
-    if (iVar4 < 9) {
-      fn_82410E40(param_1,param_2);
+    if (self->flashTime > 0.0f) {
+        float remaining = self->flashTime - dt;
+        self->flashTime = -remaining >= 0.0f ? 0.0f : remaining;
+        if (self->flashing) {
+            Owner_8240ED00 *owner = self->owner;
+            Tuning_8240ED00 *tuning = owner->tuning;
+            float offset = tuning->offset;
+            float fade = fn_82539560(1.0f - self->flashTime, 0.0f, 1.0f, 1.0f, 0.0f);
+            fn_824ED9E8(self->x + offset, tuning->height + self->y, self->z + offset, tuning->params[0],
+                        tuning->params[1], tuning->params[2], tuning->params[3], tuning->params[4],
+                        tuning->params[5], self->flashing, owner->colourA, owner->colourB, fade, 2, -1);
+        }
     }
-    else if (iVar4 == 9) {
-      fn_82411788();
+    {
+        float remaining = self->cooldown - dt;
+        self->cooldown = remaining >= 0.0f ? remaining : 0.0f;
     }
-  }
-  dVar9 = (double)ltcg_pool_0_0f;
-  if (dVar9 < (double)*(float *)(param_2 + 0xd0)) {
-    dVar5 = (double)(float)((double)*(float *)(param_2 + 0xd0) - param_1);
-    dVar8 = -dVar5;
-    dVar6 = dVar9;
-    if (*(float *)(&lbl_821954D8 +
-                  ((unsigned int)(unsigned char)((dVar8 < dVar9) << 2) | (unsigned int)(NAN(dVar8) || NAN(dVar9)) << 2)) <
-        0.0) {
-      dVar6 = dVar5;
-    }
-    *(float *)(param_2 + 0xd0) = (float)dVar6;
-    if (*(int *)(param_2 + 0xd4) != 0) {
-      iVar4 = **(int **)(param_2 + 0x24);
-      dVar5 = (double)lbl_821CA460;
-      dVar8 = (double)*(float *)(iVar4 + 0x15a4);
-      uVar7 = fn_82539560((double)(float)(dVar5 - dVar6),dVar9,dVar5,dVar5,dVar9);
-      fn_824ED9E8((double)(float)((double)*(float *)(param_2 + 0xc0) + dVar8),
-                        (double)(*(float *)(iVar4 + 0x15a8) + *(float *)(param_2 + 0xc4)),
-                        (double)(float)((double)*(float *)(param_2 + 200) + dVar8),
-                        (double)*(float *)(iVar4 + 0x15b0),(double)*(float *)(iVar4 + 0x15b4),
-                        (double)*(float *)(iVar4 + 0x15b8),(double)*(float *)(iVar4 + 0x15bc),
-                        (double)*(float *)(iVar4 + 0x15c0),(double)*(float *)(iVar4 + 0x15c4),uVar7)
-      ;
-    }
-  }
-  dVar6 = (double)(float)((double)*(float *)(param_2 + 0x25c) - param_1);
-  if (*(float *)(&lbl_821954D8 +
-                ((unsigned int)(unsigned char)((dVar6 < dVar9) << 2) | (unsigned int)(NAN(dVar6) || NAN(dVar9)) << 2)) < 0.0)
-  {
-    dVar6 = dVar9;
-  }
-  *(float *)(param_2 + 0x25c) = (float)dVar6;
-  return;
 }
-

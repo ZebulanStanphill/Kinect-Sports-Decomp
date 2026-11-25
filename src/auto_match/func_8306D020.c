@@ -1,32 +1,40 @@
-extern unsigned int *auStack_50;
-extern int fn_82539560();
-extern int fn_82A8CFD0();
-extern int fn_82F68CC0();
-extern int fn_8306E890();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_82021544;
-extern unsigned int lbl_821AAD20;
+typedef struct Value_8306D020 {
+    float v[8];
+} Value_8306D020;
 
+typedef struct Channel_8306D020 {
+    int state; /* 0x0000 */
+    char pad4[0x5994 - 4];
+} Channel_8306D020;
 
-void fn_8306D020(double param_1,__int64 param_2,int param_3)
+typedef struct Self_8306D020 {
+    char pad0[0xD80];
+    int channel;          /* 0xD80 */
+    float duration;       /* 0xD84 */
+    float elapsed;        /* 0xD88 */
+    Value_8306D020 value; /* 0xD8C */
+} Self_8306D020;
 
+extern Value_8306D020 fn_82A8CFD0(int *state, Value_8306D020 *out, float t);
+extern float fn_8306E890(float x, float t);
+extern float fn_82539560(float x, float inMin, float inMax, float outMin, float outMax);
+extern void fn_82A92220(void *impl, void *desc, float t, unsigned int size, void *owner, unsigned int c,
+                        void *d, unsigned int e, void *f, void *g, void *h);
+
+void fn_8306D020(Channel_8306D020 *channels, Self_8306D020 *self, float dt)
 {
-  float fVar1;
-  unsigned __int64 uVar2;
-  double dVar3;
-  unsigned char auStack_50 [80];
-  
-  uVar2 = fn_82A8CFD0(auStack_50,(unsigned __int64)*(unsigned int *)(param_3 + 0xd80) * 0x5994 + param_2,
-                            param_3 + 0xd8c);
-  fn_82F68CC0(param_3 + 0xd8c,uVar2,0x20);
-  *(float *)(param_3 + 0xd88) = (float)((double)*(float *)(param_3 + 0xd88) + param_1);
-  uVar2 = fn_8306E890((double)lbl_82021544,param_1);
-  dVar3 = (double)*(float *)(param_3 + 0xd84);
-  fVar1 = lbl_82002AE0;
-  if ((double)lbl_821AAD20 < dVar3) {
-    fVar1 = (float)((double)*(float *)(param_3 + 0xd88) / dVar3);
-  }
-                    /* WARNING: Subroutine does not return */
-  fn_82539560((double)(fVar1 * fVar1 * fVar1),(double)lbl_821AAD20,dVar3,uVar2);
-}
+    float smoothing;
+    float ratio;
+    float level;
 
+    self->value = fn_82A8CFD0(&channels[self->channel].state, &self->value, dt);
+    self->elapsed += dt;
+    smoothing = fn_8306E890(0.01f, dt);
+    if (self->duration > 0.0f) {
+        ratio = self->elapsed / self->duration;
+    } else {
+        ratio = 1.0f;
+    }
+    level = fn_82539560(ratio * ratio * ratio, 0.0f, self->duration, smoothing, 1.0f);
+    fn_82A92220(&channels[self->channel], &self->value, level, 0x48, self, 0, 0, 0, 0, 0, 0);
+}

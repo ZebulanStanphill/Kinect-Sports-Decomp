@@ -1,55 +1,54 @@
-extern int fn_82ED3520();
+typedef struct Device_82F08690 {
+    char pad0[0x204c];
+    unsigned int format; /* 0x204c */
+    char pad2050[0x6d54 - 0x2050];
+    int altShaders; /* 0x6d54 */
+    char pad6d58[0x7b40 - 0x6d58];
+    void *context; /* 0x7b40 */
+} Device_82F08690;
 
+typedef struct Shader_82F08690 {
+    int words[8];
+} Shader_82F08690;
 
-void fn_82F08690(int param_1, unsigned int param_2, unsigned __int64 param_3, unsigned __int64 param_4, unsigned __int64 param_5, int param_6, unsigned int *param_7, unsigned __int64 unused_arg_8, unsigned __int64 unused_arg_9, unsigned __int64 unused_arg_10, unsigned __int64 unused_arg_11, int in_stack_0000006c, int in_stack_00000074)
+extern Shader_82F08690 lbl_831A9A10[22];
+extern int fn_82ED3520(void *context, int a, int b, int c);
 
+void fn_82F08690(Device_82F08690 *device, int flags, int a, int b, int c, int bits, Shader_82F08690 **out,
+                 int unused8, int unused9, int unused10, int unused11, unsigned int format, int simple)
 {
-  int iVar1;
-
-
-  
-  *param_7 = 0;
-  if (in_stack_00000074 == 0) {
-    if (((param_2 & 8) != 0) &&
-       (iVar1 = fn_82ED3520(*(unsigned int *)(param_1 + 0x7b40),param_3,param_4,param_5), iVar1 == 0
-       )) {
-      if (*(int *)(param_1 + 0x6d54) == 0) {
-        if (param_6 == 0x40) {
-          *param_7 = 0x831a9b30;
+    if (simple != 0) {
+        *out = 0;
+        if ((flags & 8) != 0 && fn_82ED3520(device->context, a, b, c) == 0) {
+            *out = &lbl_831A9A10[0];
         }
-        else if (param_6 == 0x20) {
-          if (in_stack_0000006c == *(int *)(param_1 + 0x204c)) {
-            *param_7 = 0x831a9ab0;
-          }
-          else {
-            *param_7 = 0x831a9af0;
-          }
+    } else {
+        *out = 0;
+        if ((flags & 8) == 0 || fn_82ED3520(device->context, a, b, c) != 0) {
+            return;
         }
-        else {
-          *param_7 = 0x831a9a90;
+        if (device->altShaders == 0) {
+            if (bits == 0x40) {
+                *out = &lbl_831A9A10[9];
+            } else if (bits == 0x20) {
+                if (format == device->format) {
+                    *out = &lbl_831A9A10[5];
+                } else {
+                    *out = &lbl_831A9A10[7];
+                }
+            } else {
+                *out = &lbl_831A9A10[4];
+            }
+        } else if (bits == 0x40) {
+            *out = &lbl_831A9A10[18];
+        } else if (bits == 0x20) {
+            if (format == device->format) {
+                *out = &lbl_831A9A10[14];
+            } else {
+                *out = &lbl_831A9A10[16];
+            }
+        } else {
+            *out = &lbl_831A9A10[13];
         }
-      }
-      else if (param_6 == 0x40) {
-        *param_7 = 0x831a9c50;
-      }
-      else if (param_6 == 0x20) {
-        if (in_stack_0000006c == *(int *)(param_1 + 0x204c)) {
-          *param_7 = 0x831a9bd0;
-        }
-        else {
-          *param_7 = 0x831a9c10;
-        }
-      }
-      else {
-        *param_7 = 0x831a9bb0;
-      }
     }
-  }
-  else if (((param_2 & 8) != 0) &&
-          (iVar1 = fn_82ED3520(*(unsigned int *)(param_1 + 0x7b40),param_3,param_4,param_5),
-          iVar1 == 0)) {
-    *param_7 = 0x831a9a10;
-  }
-  return;
 }
-

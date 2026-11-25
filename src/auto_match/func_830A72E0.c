@@ -1,17 +1,30 @@
-void fn_830A72E0(int param_1,unsigned __int64 param_2,int param_3,int param_4)
+typedef struct Entry_830A72E0 {
+    float first;  /* 0x00 */
+    float second; /* 0x04 */
+    int pad[3];   /* 0x08 */
+} Entry_830A72E0;
 
+typedef struct Source_830A72E0 {
+    unsigned char modes; /* 0x00 */
+    unsigned char pad[3];
+    Entry_830A72E0 entries[3]; /* 0x04 */
+} Source_830A72E0;
+
+typedef struct Target_830A72E0 {
+    float values[8]; /* 0x00 */
+} Target_830A72E0;
+
+void fn_830A72E0(int index, int slot, Source_830A72E0 *sources, Target_830A72E0 *targets)
 {
-  unsigned char *pbVar1;
-  
-  pbVar1 = (unsigned char *)(param_1 * 0x40 + param_3);
-  param_4 = param_1 * 0x20 + param_4;
-  if ((*pbVar1 >> ((unsigned int)((param_2 & 0xffffffff) << 1) & 0x3e) & 3) == 1) {
-    *(unsigned int *)((int)((param_2 + 4 & 0xffffffff) << 2) + param_4) =
-         *(unsigned int *)(pbVar1 + (int)param_2 * 0x14 + 4);
-    return;
-  }
-  *(unsigned int *)((int)((param_2 + 4 & 0xffffffff) << 2) + param_4) =
-       *(unsigned int *)(pbVar1 + (int)param_2 * 0x14 + 8);
-  return;
-}
+    Source_830A72E0 *source = &sources[index];
+    Target_830A72E0 *target = &targets[index];
 
+    float value;
+
+    if (((source->modes >> (slot * 2)) & 3) == 1) {
+        value = source->entries[slot].first;
+    } else {
+        value = source->entries[slot].second;
+    }
+    target->values[slot + 4] = value;
+}

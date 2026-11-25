@@ -1,72 +1,55 @@
-extern int fn_829F5368();
-extern int fn_829F5370();
-extern int fn_829F65B8();
-extern int fn_829F6608();
-extern int fn_829F67E0();
-extern int fn_829F6FE0();
-extern int fn_829F77B0();
-extern unsigned int *lbl_83218C44;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Tracker_829F7980 {
+    unsigned int enabled; /* 0x00000 */
+    char pad4[0x12c1c];
+    __vector4 floor; /* 0x12C20 */
+    __vector4 up;    /* 0x12C30 */
+    float scaleX;    /* 0x12C40 */
+    float scaleY;    /* 0x12C44 */
+} Tracker_829F7980;
 
-unsigned __int64 fn_829F7980(double param_1,double param_2,int param_3)
+extern Tracker_829F7980 *lbl_83218C44;
+extern void *fn_829F5368(unsigned int size);
+extern void fn_829F5370(void *memory);
+extern Tracker_829F7980 *fn_829F6FE0(void *memory);
+extern void fn_829F65B8(Tracker_829F7980 *tracker);
+extern void fn_829F6608(Tracker_829F7980 *tracker);
+extern int fn_829F67E0(Tracker_829F7980 *tracker);
+extern void fn_829F77B0(Tracker_829F7980 *tracker, void *out);
 
+int fn_829F7980(unsigned int enabled, __vector4 floor, const __vector4 *up, float scaleX, float scaleY,
+                int unused, void *out)
 {
-  unsigned int *puVar1;
-  int *piVar2;
-  int iVar3;
-  unsigned __int64 in_r8;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs61 [16];
-  unsigned int in_register_00010010;
-  unsigned int in_register_00010014;
-  unsigned int in_register_00010018;
-  unsigned int in_vr1;
-  unsigned int in_register_000103f0;
-  unsigned int in_register_000103f4;
-  unsigned int in_register_000103f8;
-  unsigned int in_vr63;
-  
-  piVar2 = lbl_83218C44;
-  if (param_3 == 0) {
-    lbl_83218C44 = (int *)0x0;
-    if (piVar2 != (int *)0x0) {
-      fn_829F65B8(piVar2);
-      fn_829F5370(piVar2);
-    }
-  }
-  else {
-    if (lbl_83218C44 == (int *)0x0) {
-      iVar3 = fn_829F5368(0x1a960);
-      if (iVar3 == 0) {
-        lbl_83218C44 = (int *)0x0;
-        return 8;
-      }
-      lbl_83218C44 = (int *)fn_829F6FE0();
-      if (lbl_83218C44 == (int *)0x0) {
-        return 8;
-      }
-    }
-    *lbl_83218C44 = param_3;
-    puVar1 = (unsigned int *)((unsigned int)(lbl_83218C44 + 0x4b08) & 0xfffffff0);
-    *puVar1 = in_register_00010010;
-    puVar1[1] = in_register_00010014;
-    puVar1[2] = in_register_00010018;
-    puVar1[3] = in_vr1;
-    altv207_13(in_vs32,in_vs61);
-    puVar1 = (unsigned int *)((unsigned int)(lbl_83218C44 + 0x4b0c) & 0xfffffff0);
-    *puVar1 = in_register_000103f0;
-    puVar1[1] = in_register_000103f4;
-    puVar1[2] = in_register_000103f8;
-    puVar1[3] = in_vr63;
-    piVar2 = lbl_83218C44;
-    lbl_83218C44[0x4b10] = (int)(float)param_1;
-    piVar2[0x4b11] = (int)(float)param_2;
-    fn_829F6608();
-    iVar3 = fn_829F67E0(lbl_83218C44);
-    if (iVar3 != 0) {
-      fn_829F77B0(lbl_83218C44,in_r8);
-    }
-  }
-  return 0;
-}
+    Tracker_829F7980 *tracker;
+    void *memory;
 
+    if (enabled == 0) {
+        tracker = lbl_83218C44;
+        lbl_83218C44 = 0;
+        if (tracker != 0) {
+            fn_829F65B8(tracker);
+            fn_829F5370(tracker);
+        }
+    } else {
+        if (lbl_83218C44 == 0) {
+            memory = fn_829F5368(0x1a960);
+            lbl_83218C44 = memory != 0 ? fn_829F6FE0(memory) : 0;
+            if (lbl_83218C44 == 0) {
+                return 8;
+            }
+        }
+        lbl_83218C44->enabled = enabled;
+        lbl_83218C44->floor = floor;
+        lbl_83218C44->up = *up;
+        lbl_83218C44->scaleX = scaleX;
+        lbl_83218C44->scaleY = scaleY;
+        fn_829F6608(lbl_83218C44);
+        if (fn_829F67E0(lbl_83218C44) != 0) {
+            fn_829F77B0(lbl_83218C44, out);
+        }
+    }
+    return 0;
+}

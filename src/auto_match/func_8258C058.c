@@ -1,117 +1,147 @@
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_80;
-extern int fn_82230110();
-extern int fn_82230300();
-extern int fn_8251F720();
-extern int fn_8251FA58();
-extern int fn_8251FBA8();
-extern int fn_82520158();
-extern int fn_8258E568();
-extern int fn_82631830();
-extern int fn_82631BF8();
-extern int fn_82BA02A8();
-extern int fn_82BE28A8();
-extern int fn_82BE3778();
-extern unsigned int lbl_821955F4;
-extern unsigned int uStack_70;
-extern unsigned int uStack_78;
-extern unsigned int uStack_8a;
-extern unsigned int uStack_8b;
-extern unsigned int uStack_8c;
-extern unsigned int uStack_90;
-extern unsigned int uStack_92;
-extern unsigned int uStack_94;
-extern unsigned int uStack_96;
-extern unsigned int uStack_97;
-extern unsigned int uStack_98;
-extern unsigned int uStack_9c;
-extern unsigned int uStack_9e;
-extern unsigned int uStack_a0;
+typedef struct String_8258C058 {
+    char storage[0x1c];
+} String_8258C058;
 
+typedef struct Entry_8258C058 {
+    int f00;         /* 0x00 */
+    int f04;         /* 0x04 */
+    char name[0x40]; /* 0x08 */
+    int value;       /* 0x48 */
+} Entry_8258C058;
 
-void fn_8258C058(int param_1)
+typedef struct Resource_8258C058 {
+    Entry_8258C058 *data; /* 0x00 */
+    int f04;              /* 0x04 */
+} Resource_8258C058;
 
+typedef struct AdConfig_8258C058 {
+    const char *title;    /* 0x00 */
+    const char *version;  /* 0x04 */
+    unsigned short flags; /* 0x08 */
+    char pad0A[0xa];
+    int timeout;            /* 0x14 */
+    const char *sdkVersion; /* 0x18 */
+} AdConfig_8258C058;
+
+typedef struct StateDesc_8258C058 {
+    unsigned short f00;  /* 0x00 */
+    unsigned short f02;  /* 0x02 */
+    int format;          /* 0x04 */
+    unsigned char f08;   /* 0x08 */
+    unsigned char f09;   /* 0x09 */
+    unsigned char f0A;   /* 0x0A */
+    unsigned short mask; /* 0x0C */
+    unsigned short f0E;  /* 0x0E */
+    int f10;             /* 0x10 */
+    unsigned char f14;   /* 0x14 */
+    unsigned char f15;   /* 0x15 */
+    unsigned char f16;   /* 0x16 */
+} StateDesc_8258C058;
+
+typedef struct Debug_8258C058 {
+    char pad000[0x1c0];
+    char ids[0x34]; /* 0x1C0 */
+    int adsReady;   /* 0x1F4 */
+    char pad1F8[0x15c];
+    int cells[4]; /* 0x354 */
+    char pad364[0xc8c];
+    void *vertexShader; /* 0xFF0 */
+    void *state;        /* 0xFF4 */
+    float lineWidth;    /* 0xFF8 */
+} Debug_8258C058;
+
+extern void fn_82520158(const char *name, Resource_8258C058 *out, int flags);
+extern Entry_8258C058 *fn_8251F720(Resource_8258C058 *resource, int index);
+extern unsigned int fn_8251FBA8(Entry_8258C058 *data);
+extern void fn_8251FA58(Entry_8258C058 *data);
+extern String_8258C058 *fn_82230110(String_8258C058 *self, const char *text);
+extern void fn_82230300(String_8258C058 *self, int built, unsigned int size);
+extern int *fn_8258E568(void *map, String_8258C058 *key);
+extern void fn_82BA02A8(void (*callback)(void));
+extern void fn_82BE28A8(void (*first)(void), void (*second)(void));
+extern unsigned int fn_82BE3778(AdConfig_8258C058 *config);
+extern void *fn_82631830(Entry_8258C058 *data);
+extern void *fn_82631BF8(StateDesc_8258C058 *desc);
+extern void fn_8258D2B8(void);
+extern void fn_8258CEE8(void);
+extern void fn_825B1970(void);
+extern void fn_824B4280(void);
+
+void *memset(void *dst, int value, unsigned int size);
+
+void fn_8258C058(Debug_8258C058 *self)
 {
-  int iVar2;
-  int iVar3;
-  unsigned int *puVar4;
-  unsigned __int64 uVar1;
-  unsigned int uVar5;
-  unsigned __int64 uVar6;
-  unsigned int *puVar7;
-  int aiStack_b0 [4];
-  unsigned short uStack_a0;
-  unsigned short uStack_9e;
-  unsigned int uStack_9c;
-  unsigned char uStack_98;
-  unsigned char uStack_97;
-  unsigned char uStack_96;
-  unsigned short uStack_94;
-  unsigned short uStack_92;
-  unsigned int uStack_90;
-  unsigned char uStack_8c;
-  unsigned char uStack_8b;
-  unsigned char uStack_8a;
-  unsigned char auStack_80 [8];
-  unsigned __int64 uStack_78;
-  unsigned __int64 uStack_70;
-  char *pcStack_68;
-  unsigned char auStack_60 [96];
-  
-  *(unsigned int *)(param_1 + 500) = 0;
-  fn_82520158(0xffffffff821c6538,aiStack_b0,0);
-  if ((aiStack_b0[0] != 0) && (iVar2 = fn_8251F720(aiStack_b0,0), *(int *)(iVar2 + 0x48) != 0)
-     ) {
-    iVar3 = fn_8251FBA8();
-    if (iVar3 != 0) {
-      uVar6 = (unsigned __int64)(iVar3 - 0x4c) / 0x4c;
-      if (((int)uVar6 != 0) && (uVar6 != 0)) {
-        puVar7 = (unsigned int *)(iVar2 + 0x94);
-        do {
-          fn_82230110(auStack_60,puVar7 + -0x10);
-          puVar4 = (unsigned int *)fn_8258E568(param_1 + 0x1c0,auStack_60);
-          *puVar4 = *puVar7;
-          fn_82230300(auStack_60,1,0);
-          uVar6 = uVar6 - 1;
-          puVar7 = puVar7 + 0x13;
-        } while (uVar6 != 0);
-      }
-    }
-    fn_82BA02A8(0xffffffff8258d2b8);
-    fn_82BA02A8(0xffffffff8258cee8);
-    fn_82BE28A8(0xffffffff825b1970,0xffffffff824b4280);
-    pcStack_68 = "4.0.0.0";
-    uStack_70 = 30000;
-    uStack_78 = 0x20000000000000;
-    iVar2 = fn_82BE3778(auStack_80);
-    if ((iVar2 == 0) || (iVar2 == 0xc9)) {
-      *(unsigned int *)(param_1 + 500) = 1;
-    }
-    fn_82520158(0xffffffff821c655c,aiStack_b0,0);
-    uVar1 = fn_8251F720(aiStack_b0,0);
-    uVar5 = fn_82631830();
-    *(unsigned int *)(param_1 + 0xff0) = uVar5;
-    fn_8251FA58(uVar1);
-    uStack_a0 = 0;
-    uStack_9e = 0;
-    uStack_98 = 0;
-    uStack_9c = 0x2a23b9;
-    uStack_97 = 0;
-    uStack_96 = 0;
-    uStack_94 = 0xff;
-    uStack_92 = 0;
-    uStack_90 = 0xffffffff;
-    uStack_8c = 0;
-    uStack_8b = 0;
-    uStack_8a = 0;
-    uVar5 = fn_82631BF8(&uStack_a0);
-    *(unsigned int *)(param_1 + 0xff4) = uVar5;
-    *(unsigned int *)(param_1 + 0xff8) = lbl_821955F4;
-    *(unsigned int *)(param_1 + 0x354) = 0xfffffff6;
-    *(unsigned int *)(param_1 + 0x358) = 0xfffffff6;
-    *(unsigned int *)(param_1 + 0x35c) = 0xfffffff6;
-    *(unsigned int *)(param_1 + 0x360) = 0xfffffff6;
-  }
-  return;
-}
+    Resource_8258C058 resource;
+    StateDesc_8258C058 desc;
+    AdConfig_8258C058 config;
+    String_8258C058 key;
+    Entry_8258C058 *entries;
+    Entry_8258C058 *data;
+    unsigned int result;
 
+    self->adsReady = 0;
+    fn_82520158("massive_configuration", &resource, 0);
+    if (resource.data == 0) {
+        return;
+    }
+    entries = fn_8251F720(&resource, 0);
+    if (entries->value == 0) {
+        return;
+    }
+    {
+        unsigned int size = fn_8251FBA8(entries);
+
+        if (size != 0) {
+            unsigned int count = (size - sizeof(Entry_8258C058)) / sizeof(Entry_8258C058);
+
+            if (count != 0) {
+                Entry_8258C058 *entry = &entries[1];
+                unsigned int i;
+
+                for (i = 0; i < count; i++) {
+                    fn_82230110(&key, entry[i].name);
+                    *fn_8258E568(self->ids, &key) = entry[i].value;
+                    fn_82230300(&key, 1, 0);
+                }
+            }
+        }
+    }
+    fn_82BA02A8(fn_8258D2B8);
+    fn_82BA02A8(fn_8258CEE8);
+    fn_82BE28A8(fn_825B1970, fn_824B4280);
+    memset(&config, 0, sizeof(config));
+    config.version = "0.0";
+    config.sdkVersion = "4.0.0.0";
+    config.title = entries->name;
+    config.timeout = 30000;
+    config.flags = 0x20;
+    result = fn_82BE3778(&config);
+    if (result == 0 || result == 0xc9) {
+        self->adsReady = 1;
+    }
+    fn_82520158("fxDebugMeshVertexShader", &resource, 0);
+    data = fn_8251F720(&resource, 0);
+    self->vertexShader = fn_82631830(data);
+    fn_8251FA58(data);
+    desc.f00 = 0;
+    desc.f02 = 0;
+    desc.f08 = 0;
+    desc.format = 0x2a23b9;
+    desc.f09 = 0;
+    desc.f0A = 0;
+    desc.mask = 0xff;
+    desc.f0E = 0;
+    desc.f10 = -1;
+    desc.f14 = 0;
+    desc.f15 = 0;
+    desc.f16 = 0;
+    self->state = fn_82631BF8(&desc);
+    self->lineWidth = 0.003f;
+    {
+        int i;
+
+        for (i = 0; i < 4; i++) {
+            self->cells[i] = -10;
+        }
+    }
+}

@@ -1,64 +1,100 @@
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-extern int fn_822AA718();
-extern int fn_822ABA88();
-extern int fn_823CC7A0();
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
+
+__vector4 __vsubfp(__vector4 a, __vector4 b);
+__vector4 __vmsum3fp(__vector4 a, __vector4 b);
+
+typedef struct List_8236B1E8 {
+    void **begin;
+    void **end;
+} List_8236B1E8;
+
+typedef struct Group_8236B1E8 {
+    void **items; /* 0x00 */
+    char pad4[0xc];
+    int index; /* 0x10 */
+} Group_8236B1E8;
+
+typedef struct Body_8236B1E8 {
+    char pad000[0x130];
+    __vector4 position; /* 0x130 */
+    char pad140[0x160 - 0x140];
+    int active; /* 0x160 */
+} Body_8236B1E8;
+
+typedef struct Object_8236B1E8 {
+    char pad00[0x24];
+    Body_8236B1E8 *body; /* 0x24 */
+    char pad28[0x80 - 0x28];
+    __vector4 position; /* 0x80 */
+} Object_8236B1E8;
+
+typedef struct Target_8236B1E8 {
+    char pad0[4];
+    __vector4 *position; /* 0x4 */
+} Target_8236B1E8;
+
+typedef struct Record_8236B328 {
+    char pad00[0x48];
+    float chance; /* 0x48 */
+    char pad4c[0x12c - 0x4c];
+} Record_8236B328;
+
+typedef struct Game_8236B1E8 {
+    char pad00[0x8];
+    Group_8236B1E8 ***groups; /* 0x08 */
+    char pad0c[0x1c - 0x0c];
+    Target_8236B1E8 *target; /* 0x1c */
+    List_8236B1E8 **lists;   /* 0x20 */
+    char pad24[0x550 - 0x24];
+    Record_8236B328 records[8]; /* 0x550 */
+} Game_8236B1E8;
+
+typedef union RandomBits_8236B1E8 {
+    unsigned int u;
+    float f;
+} RandomBits_8236B1E8;
+
 extern unsigned int lbl_83265A28;
+extern int fn_823CC7A0(void);
+extern Object_8236B1E8 *fn_822ABA88(void *map, unsigned int key);
+extern __vector4 *fn_822AA718(__vector4 *out, Group_8236B1E8 *group);
 
-
-unsigned __int64 fn_8236B1E8(int param_1,int param_2,unsigned __int64 param_3)
-
+static __forceinline unsigned int Size(List_8236B1E8 *list)
 {
-  int iVar1;
-  int *piVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  float *pfVar5;
-  float fVar6;
-  int in_r0;
-  int iVar7;
-  int iVar8;
-  unsigned __int64 uVar9;
-  float fVar10;
-  float fVar11;
-  float afStack_50 [20];
-  
-  piVar2 = *(int **)(*(int *)(param_1 + 0x20) + param_2 * 4);
-  if (piVar2[1] - *piVar2 >> 2 != 0) {
-    iVar7 = fn_823CC7A0();
-    piVar2 = *(int **)(**(int **)(param_1 + 8) + param_2 * 4);
-    uVar9 = ZEXT48(piVar2);
-    iVar8 = fn_822ABA88(*(unsigned int *)(piVar2[4] * 4 + *piVar2),param_3);
-    iVar1 = *(int *)(iVar8 + 0x24);
-    if ((iVar1 == 0) || (*(int *)(iVar1 + 0x160) == 0)) {
-      uVar3 = iVar8 + 0x80U & 0xfffffff0;
-      fVar10 = *(float *)(uVar3 + 4);
-      fVar11 = *(float *)(uVar3 + 8);
-    }
-    else {
-      uVar3 = iVar1 + 0x130U & 0xfffffff0;
-      fVar10 = *(float *)(uVar3 + 4);
-      fVar11 = *(float *)(uVar3 + 8);
-    }
-    fn_822AA718(afStack_50,uVar9);
-    fVar6 = ltcg_pool_0_0f;
-    uVar3 = (int)afStack_50 + in_r0 & 0xfffffff0;
-    uVar4 = in_r0 + *(int *)(*(int *)(param_1 + 0x1c) + 4) & 0xfffffff0;
-    fVar10 = *(float *)(uVar3 + 4) * (fVar10 - *(float *)(uVar4 + 4)) + 0.0 +
-             *(float *)(uVar3 + 8) * (fVar11 - *(float *)(uVar4 + 8));
-    pfVar5 = (float *)((int)afStack_50 + in_r0 & 0xfffffff0);
-    *pfVar5 = fVar10;
-    pfVar5[1] = fVar10;
-    pfVar5[2] = fVar10;
-    pfVar5[3] = fVar10;
-    if ((fVar6 <= afStack_50[0]) &&
-       (lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f,
-       (float)(lbl_83265A28 & 0x7fffff | 0x3f800000) - lbl_821CA460 <
-       *(float *)(iVar7 * 300 + param_1 + 0x598))) {
-      return 1;
-    }
-  }
-  return 0;
+    return list->end - list->begin;
 }
 
+int fn_8236B1E8(Game_8236B1E8 *self, int which, unsigned int key)
+{
+    List_8236B1E8 *list;
+    Record_8236B328 *record;
+    Group_8236B1E8 *group;
+    Object_8236B1E8 *object;
+    __vector4 position;
+    __vector4 direction;
+    RandomBits_8236B1E8 r;
+
+    list = self->lists[which];
+    if (Size(list) > 0) {
+        record = &self->records[fn_823CC7A0()];
+        group = (*self->groups)[which];
+        object = fn_822ABA88(group->items[group->index], key);
+        if (object->body != 0 && object->body->active != 0) {
+            position = object->body->position;
+        } else {
+            position = object->position;
+        }
+        fn_822AA718(&direction, group);
+        direction = __vmsum3fp(direction, __vsubfp(position, *self->target->position));
+        if (direction.vector4_f32[0] >= 0.0f) {
+            lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
+            r.u = (lbl_83265A28 & 0x7fffff) | 0x3f800000;
+            if (r.f - 1.0f < record->chance) {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}

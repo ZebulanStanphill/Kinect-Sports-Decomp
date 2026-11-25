@@ -1,46 +1,58 @@
-extern unsigned int *auStack_70;
-extern int fn_82A447A0();
-extern int fn_82A47EB8();
-extern int fn_82A48BD8();
-extern int fn_82A495D8();
-extern int fn_82A49DF8();
-extern unsigned int lbl_82089AA8;
-extern unsigned int lbl_82089AAC;
+typedef struct Format_82A497D0 {
+    unsigned short tag;      /* 0x00 */
+    unsigned short channels; /* 0x02 */
+    unsigned int rate;       /* 0x04 */
+    unsigned int pad08[3];
+    unsigned int mask; /* 0x14 */
+} Format_82A497D0;
 
+typedef struct Voice_82A497D0 {
+    char pad0[0x1C0];
+    int f1c0; /* 0x1C0 */
+    int f1c4; /* 0x1C4 */
+    char pad1[0x1D8 - 0x1C8];
+    int f1d8; /* 0x1D8 */
+    char pad2[0x1EC - 0x1DC];
+    int engine; /* 0x1EC */
+} Voice_82A497D0;
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+typedef struct Extensible_82A497D0 {
+    unsigned int words[10];
+} Extensible_82A497D0;
 
-unsigned __int64
-fn_82A497D0(double param_1,__int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,int param_5)
+extern int fn_82A48BD8(void *self, void *arg);
+extern void fn_82A49DF8(void *obj, unsigned int a, unsigned short b, unsigned short c, unsigned int d,
+                        unsigned short e, unsigned short f, unsigned int g, unsigned short h);
+extern int fn_82A447A0(Voice_82A497D0 *self, int source, float ratio, Extensible_82A497D0 *format, int a,
+                       int b);
+extern int fn_82A47EB8(Voice_82A497D0 *self, unsigned int rate);
+extern int fn_82A495D8(Voice_82A497D0 *self, unsigned int rate, int *a, int *b, int *c);
 
+extern const float lbl_82089AA8;
+extern const float lbl_82089AAC;
+
+int fn_82A497D0(Voice_82A497D0 *self, int source, float ratio, Format_82A497D0 *desc, int a, int b)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  unsigned char auStack_70 [112];
-  
-  uVar1 = *(unsigned int *)(param_5 + 4);
-  if (*(short *)(param_5 + 2) == 1) {
-    if ((float)((double)uVar1 * param_1) <= lbl_82089AAC) {
-LAB_82a4986c:
-      uVar2 = fn_82A48BD8(param_2 + 0x1ec,8);
-      if ((int)uVar2 < 0) {
-        return uVar2;
-      }
-      fn_82A49DF8(auStack_70,0x28,1,*(unsigned short *)(param_5 + 2),uVar1,0x10,0x10,
-                        *(unsigned int *)(param_5 + 0x14));
-      uVar2 = fn_82A447A0(param_1,param_2,param_3);
-      if ((int)uVar2 < 0) {
-        return uVar2;
-      }
-      uVar2 = fn_82A47EB8(param_2,*(unsigned int *)(param_5 + 4));
-      if ((int)uVar2 < 0) {
-        return uVar2;
-      }
-      uVar2 = fn_82A495D8(param_2,uVar1,param_2 + 0x1c0,param_2 + 0x1c4,param_2 + 0x1d8);
-      return uVar2;
-    }
-  }
-  else if ((float)((double)uVar1 * param_1) <= lbl_82089AA8) goto LAB_82a4986c;
-  return 0xffffffff88960001;
-}
+    unsigned int rate = desc->rate;
+    Extensible_82A497D0 format;
+    int hr;
 
+    if ((desc->channels == 1 && (float)rate * ratio > lbl_82089AAC) ||
+        (desc->channels != 1 && (float)rate * ratio > lbl_82089AA8)) {
+        return 0x88960001;
+    }
+    hr = fn_82A48BD8(&self->engine, (void *)8);
+    if (hr < 0) {
+        return hr;
+    }
+    fn_82A49DF8(&format, 0x28, 1, desc->channels, rate, 0x10, 0x10, desc->mask, 0x80);
+    hr = fn_82A447A0(self, source, ratio, &format, a, b);
+    if (hr < 0) {
+        return hr;
+    }
+    hr = fn_82A47EB8(self, desc->rate);
+    if (hr < 0) {
+        return hr;
+    }
+    return fn_82A495D8(self, rate, &self->f1c0, &self->f1c4, &self->f1d8);
+}

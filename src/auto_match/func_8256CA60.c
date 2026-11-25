@@ -1,126 +1,121 @@
-extern unsigned int *auStack_120;
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_90;
-extern unsigned int *auStack_a8;
-extern unsigned int *auStack_b0;
-extern unsigned int *auStack_c8;
-extern unsigned int *auStack_e0;
-extern int fn_825200F0();
-extern int fn_8256DE90();
-extern int fn_8259A070();
-extern int fn_8259BB38();
-extern int fn_8265BC60();
-extern int fn_827D9630();
-extern int fn_827D9658();
-extern int fn_82814F70();
-extern int fn_82816E40();
-extern int fn_82F68CC0();
-extern unsigned int lbl_82193CC0;
-extern unsigned int lbl_82195CE8;
-extern unsigned int lbl_82195CEC;
-extern unsigned int stack0x0000001c;
-extern unsigned int uStack0000001c;
-extern unsigned int uStack_100;
-extern unsigned int uStack_108;
-extern unsigned int uStack_110;
-extern unsigned int uStack_12c;
-extern unsigned int uStack_130;
-extern unsigned int uStack_e8;
-extern unsigned int uStack_f0;
-extern unsigned int uStack_f8;
+typedef struct Path_8256CA60 {
+    int a;     /* 0x00 */
+    __int64 b; /* 0x08 */
+    int c;     /* 0x10 */
+    int d;     /* 0x14 */
+} Path_8256CA60;
 
+typedef struct Paths_8256CA60 {
+    Path_8256CA60 first;  /* 0x00 */
+    Path_8256CA60 second; /* 0x18 */
+} Paths_8256CA60;
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+typedef struct Value_8256CA60 {
+    unsigned int key;     /* 0x00 */
+    Paths_8256CA60 paths; /* 0x08 */
+} Value_8256CA60;
 
-void fn_8256CA60(int param_1,unsigned __int64 param_2)
+typedef struct Node_8256CA60 {
+    struct Node_8256CA60 *next; /* 0x00 */
+    struct Node_8256CA60 *prev; /* 0x04 */
+    Value_8256CA60 value;       /* 0x08 */
+} Node_8256CA60;
 
+typedef struct Insert_8256CA60 {
+    Node_8256CA60 *where;
+    unsigned char inserted;
+} Insert_8256CA60;
+
+typedef struct HashMap_8256CA60 {
+    int traits;          /* 0x00 */
+    Node_8256CA60 *head; /* 0x04 */
+    unsigned int size;   /* 0x08 */
+} HashMap_8256CA60;
+
+typedef struct BundleEntry_8256CA60 {
+    unsigned int key;    /* 0x00 */
+    unsigned int first;  /* 0x04 */
+    unsigned int second; /* 0x08 */
+} BundleEntry_8256CA60;
+
+typedef struct Bundle_8256CA60 {
+    float version; /* 0x00 */
+    int count;     /* 0x04 */
+    char pad08[0x10 - 0x8];
+    BundleEntry_8256CA60 *entries; /* 0x10 */
+} Bundle_8256CA60;
+
+extern int fn_82816E40(int tag);
+extern unsigned int fn_8259A070(int *tag, unsigned int *key, int *size, Node_8256CA60 **where,
+                                Bundle_8256CA60 **bundle, int a, int b);
+extern float fn_8265BC60(const char *name);
+extern void fn_827D9658(Path_8256CA60 *path);
+extern void fn_827D9630(Path_8256CA60 *path, const Path_8256CA60 *other);
+extern Path_8256CA60 *fn_825200F0(Path_8256CA60 *out, unsigned int *name);
+extern void fn_8259BB38(Node_8256CA60 **out, HashMap_8256CA60 *map, unsigned int *key);
+extern Insert_8256CA60 *fn_8256DE90(Insert_8256CA60 *out, HashMap_8256CA60 *map, const Value_8256CA60 *value);
+extern void fn_82814F70(unsigned int handle);
+
+static __forceinline void CopyPath(Path_8256CA60 *dst, const Path_8256CA60 *src)
 {
-  float fVar1;
-  unsigned int uVar2;
-  float *pfVar3;
-  int iVar5;
-  unsigned __int64 uVar4;
-  unsigned __int64 *puVar6;
-  unsigned int *puVar7;
-  unsigned __int64 uVar8;
-  int iVar9;
-  double dVar10;
-  unsigned int uStack0000001c;
-  unsigned int uStack_130;
-  unsigned int uStack_12c;
-  float *apfStack_128 [2];
-  unsigned int auStack_120 [4];
-  unsigned __int64 uStack_110;
-  unsigned __int64 uStack_108;
-  unsigned __int64 uStack_100;
-  unsigned __int64 uStack_f8;
-  unsigned __int64 uStack_f0;
-  unsigned __int64 uStack_e8;
-  unsigned char auStack_e0 [24];
-  unsigned char auStack_c8 [24];
-  unsigned int auStack_b0 [2];
-  unsigned char auStack_a8 [24];
-  unsigned char auStack_90 [32];
-  unsigned char auStack_70 [32];
-  unsigned char auStack_50 [80];
-  
-  iVar9 = 0;
-  uStack0000001c = (unsigned int)param_2;
-  apfStack_128[0] = (float *)0x0;
-  uStack_12c = 0;
-  auStack_120[0] = 0;
-  uStack_130 = 0;
-  iVar5 = fn_82816E40(param_2);
-  if (iVar5 == 0) {
-    uVar4 = 0;
-  }
-  else {
-    uVar4 = fn_8259A070(&stack0x0000001c,&uStack_12c,auStack_120,&uStack_130,apfStack_128,1,0)
-    ;
-  }
-  pfVar3 = apfStack_128[0];
-  if ((uVar4 & 0xffffffff) != 0) {
-    dVar10 = (double)fn_8265BC60(0xffffffff821c5388);
-    fVar1 = *pfVar3;
-    if ((((float)(dVar10 - (double)lbl_82193CC0) <= fVar1) &&
-        (fVar1 <= (float)(dVar10 + (double)lbl_82193CC0))) ||
-       ((lbl_82195CE8 <= fVar1 && (fVar1 <= lbl_82195CEC)))) {
-      iVar5 = 0;
-      if (0 < (int)pfVar3[1]) {
-        do {
-          fn_827D9658(&uStack_110);
-          fn_827D9658(&uStack_f8);
-          puVar6 = (unsigned __int64 *)fn_825200F0(auStack_70,iVar9 + (int)pfVar3[4] + 4);
-          uStack_110 = *puVar6;
-          uStack_108 = puVar6[1];
-          uStack_100 = puVar6[2];
-          puVar6 = (unsigned __int64 *)fn_825200F0(auStack_50,iVar9 + (int)pfVar3[4] + 8);
-          uStack_f8 = *puVar6;
-          uStack_f0 = puVar6[1];
-          uStack_e8 = puVar6[2];
-          uVar2 = *(unsigned int *)(iVar9 + (int)pfVar3[4]);
-          uStack_12c = uVar2;
-          fn_8259BB38(&uStack_130,param_1,&uStack_12c);
-          uVar8 = (unsigned __int64)uStack_130;
-          if (uVar8 == *(unsigned int *)(param_1 + 4)) {
-            fn_827D9658(auStack_e0);
-            fn_827D9658(auStack_c8);
-            auStack_b0[0] = uVar2;
-            fn_827D9630(auStack_a8,auStack_e0);
-            fn_827D9630(auStack_90,auStack_c8);
-            puVar7 = (unsigned int *)fn_8256DE90(auStack_120,param_1,auStack_b0);
-            uStack_130 = *puVar7;
-            uVar8 = (unsigned __int64)uStack_130;
-          }
-          fn_82F68CC0(uVar8 + 0x10,&uStack_110,0x30);
-          iVar5 = iVar5 + 1;
-          iVar9 = iVar9 + 0xc;
-        } while (iVar5 < (int)pfVar3[1]);
-      }
-    }
-    fn_82814F70(uVar4);
-  }
-  return;
+    *dst = *src;
 }
 
+void fn_8256CA60(HashMap_8256CA60 *self, int tag)
+{
+    Bundle_8256CA60 *bundle = 0;
+    unsigned int key = 0;
+    Node_8256CA60 *where;
+    unsigned int handle;
+
+    {
+        int size = 0;
+
+        where = 0;
+
+        if (fn_82816E40(tag) != 0)
+            handle = fn_8259A070(&tag, &key, &size, &where, &bundle, 1, 0);
+        else
+            handle = 0;
+    }
+    if (handle != 0) {
+        Bundle_8256CA60 *data = bundle;
+        float version = fn_8265BC60("BundleLookup");
+        float found = data->version;
+        float low;
+
+        low = version - 0.001f;
+        if ((found >= low && found <= version + 0.001f) || (found >= 281.409f && found <= 281.411f)) {
+            int i;
+
+            for (i = 0; i < data->count; i++) {
+                Paths_8256CA60 paths;
+                Path_8256CA60 path1;
+                Path_8256CA60 path2;
+                unsigned int entryKey;
+
+                fn_827D9658(&paths.first);
+                fn_827D9658(&paths.second);
+                CopyPath(&paths.first, fn_825200F0(&path1, &data->entries[i].first));
+                CopyPath(&paths.second, fn_825200F0(&path2, &data->entries[i].second));
+                entryKey = data->entries[i].key;
+                key = entryKey;
+                fn_8259BB38(&where, self, &key);
+                if (where == self->head) {
+                    Paths_8256CA60 empty;
+                    Value_8256CA60 value;
+                    Insert_8256CA60 result;
+
+                    fn_827D9658(&empty.first);
+                    fn_827D9658(&empty.second);
+                    value.key = entryKey;
+                    fn_827D9630(&value.paths.first, &empty.first);
+                    fn_827D9630(&value.paths.second, &empty.second);
+                    where = fn_8256DE90(&result, self, &value)->where;
+                }
+                where->value.paths = paths;
+            }
+        }
+        fn_82814F70(handle);
+    }
+}

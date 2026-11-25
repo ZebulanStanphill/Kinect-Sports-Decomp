@@ -1,85 +1,92 @@
-extern unsigned int *auStack_120;
-extern int fn_82273C88();
-extern int fn_82273CD8();
-extern int fn_82299140();
-extern int fn_8229DCA8();
-extern int fn_8229E090();
-extern int fn_8229E360();
-extern int fn_82528EE0();
-extern int fn_8265C9E0();
-extern int fn_82672C20();
-extern unsigned int iStack0000001c;
-extern unsigned int lbl_82195598;
-extern unsigned int lbl_821A8C90;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int stack0x0000001c;
-extern unsigned int uStack_12c;
-extern unsigned int uStack_130;
+typedef struct WString_822985B0 {
+    union {
+        unsigned short text[8];
+        unsigned short *ptr;
+    } buf; /* 0x00 */
 
+    unsigned int size;     /* 0x10 */
+    unsigned int capacity; /* 0x14 */
+} WString_822985B0;
 
-void fn_822985B0(double param_1,int *param_2,int param_3)
+typedef struct Var_822985B0 {
+    int a; /* 0x00 */
+    int b; /* 0x04 */
 
+    union {
+        double d;
+        const unsigned short *s;
+    } u; /* 0x08 */
+} Var_822985B0;
+
+typedef struct Popup_822985B0 {
+    char pad000[0x41c];
+    void *vt; /* 0x41c */
+    char pad420[0x14];
+} Popup_822985B0;
+
+typedef struct Hud_822985B0 {
+    int movie; /* 0x00 */
+    int pad04;
+    char names[0x5c - 0x08]; /* 0x08 */
+    int usePopup;            /* 0x5c */
+    Popup_822985B0 *popup;   /* 0x60 */
+    WString_822985B0 title;  /* 0x64 */
+} Hud_822985B0;
+
+extern unsigned short lbl_820E975C;
+extern char lbl_821A8C90[];
+extern WString_822985B0 *fn_82299140(void *names, const int *state);
+extern int fn_82528EE0(unsigned short *buf, int size, const unsigned short *fmt, ...);
+extern void *fn_8265C9E0(int size);
+extern void fn_82298FE8(void);
+extern void fn_8229DCA8(void *, void *, void *, void *, void *, void (*)(void), void *, int, int);
+extern void fn_8229E360(Popup_822985B0 *popup, const unsigned short *title, const unsigned short *text);
+extern void fn_8229E090(Popup_822985B0 *popup, int a, int b);
+extern void fn_82273CD8(Var_822985B0 *var, int type);
+extern void fn_82273C88(Var_822985B0 *var);
+extern void fn_82672C20(int movie, const char *path, Var_822985B0 *args, int count);
+
+static __forceinline const unsigned short *CStr(WString_822985B0 *s)
 {
-  unsigned int *puVar1;
-  int iVar2;
-  int *piVar3;
-  int iStack0000001c;
-  struct { unsigned int first; unsigned int second; } stack_pair_130;
-
-  unsigned char *puStack_128;
-  unsigned char auStack_120 [264];
-  
-  iStack0000001c = param_3;
-  if ((param_3 != 0xb) || (param_1 <= (double)ltcg_pool_0_0f)) {
-    puVar1 = (unsigned int *)fn_82299140(param_2 + 2,&stack0x0000001c);
-    if (7 < (unsigned int)puVar1[5]) {
-      puVar1 = (unsigned int *)*puVar1;
-    }
-    fn_82528EE0(auStack_120,0x80,0xffffffff821a87fc,puVar1);
-  }
-  else {
-    puVar1 = (unsigned int *)fn_82299140(param_2 + 2,&stack0x0000001c);
-    if (7 < (unsigned int)puVar1[5]) {
-      puVar1 = (unsigned int *)*puVar1;
-    }
-    fn_82528EE0(auStack_120,0x80,0xffffffff821aaa1c,puVar1,
-                      (double)(__int64)(param_1 + lbl_82195598));
-  }
-  if (param_2[0x17] == 0) {
-    if (*param_2 != 0) {
-      stack_pair_130.first = 0;
-      stack_pair_130.second = 0;
-      fn_82273CD8(&stack_pair_130.first,5);
-      puStack_128 = auStack_120;
-      fn_82672C20(*param_2,0xffffffff821aaa30,&stack_pair_130.first,1);
-      fn_82273C88(&stack_pair_130.first);
-    }
-  }
-  else if (param_3 == 0) {
-    if (param_2[0x18] != 0) {
-      fn_8229E090(param_2[0x18],0,1);
-      param_2[0x18] = 0;
-    }
-  }
-  else {
-    if (param_2[0x18] == 0) {
-      iVar2 = fn_8265C9E0(0x434);
-      if (iVar2 == 0) {
-        iVar2 = 0;
-      }
-      else {
-        *(unsigned char ***)(iVar2 + 0x41c) = &lbl_821A8C90;
-        fn_8229DCA8(iVar2,0xffffffff820e975c,0xffffffff820e975c,0xffffffff820e975c,
-                          0xffffffff820e975c,0xffffffff82298fe8,param_2,1);
-      }
-      param_2[0x18] = iVar2;
-    }
-    piVar3 = param_2 + 0x19;
-    if (7 < (unsigned int)param_2[0x1e]) {
-      piVar3 = (int *)*piVar3;
-    }
-    fn_8229E360(param_2[0x18],piVar3,auStack_120);
-  }
-  return;
+    return s->capacity >= 8 ? s->buf.ptr : s->buf.text;
 }
 
+void fn_822985B0(Hud_822985B0 *self, int state, float value)
+{
+    unsigned short text[0x80];
+    Var_822985B0 arg;
+    Popup_822985B0 *popup;
+
+    if (state == 11 && value > 0.0f) {
+        fn_82528EE0(text, 0x80, L"%ls %.0f", CStr(fn_82299140(self->names, &state)),
+                    (float)__fcfid(__fctid(value + 0.49999999)));
+    } else {
+        fn_82528EE0(text, 0x80, L"%ls", CStr(fn_82299140(self->names, &state)));
+    }
+    if (self->usePopup != 0) {
+        if (state != 0) {
+            if (self->popup == 0) {
+                popup = (Popup_822985B0 *)fn_8265C9E0(0x434);
+                if (popup != 0) {
+                    popup->vt = lbl_821A8C90;
+                    fn_8229DCA8(popup, &lbl_820E975C, &lbl_820E975C, &lbl_820E975C, &lbl_820E975C,
+                                fn_82298FE8, self, 1, 2);
+                } else {
+                    popup = 0;
+                }
+                self->popup = popup;
+            }
+            fn_8229E360(self->popup, CStr(&self->title), text);
+        } else if (self->popup != 0) {
+            fn_8229E090(self->popup, 0, 1);
+            self->popup = 0;
+        }
+    } else if (self->movie != 0) {
+        arg.a = 0;
+        arg.b = 0;
+        fn_82273CD8(&arg, 5);
+        arg.u.s = text;
+        fn_82672C20(self->movie, "_root.SetStateString", &arg, 1);
+        fn_82273C88(&arg);
+    }
+}

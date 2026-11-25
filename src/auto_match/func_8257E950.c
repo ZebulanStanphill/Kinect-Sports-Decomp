@@ -1,92 +1,84 @@
-extern int fn_82522D98();
-extern int fn_825D5108();
-extern int fn_825D5998();
-extern int fn_825D5B08();
-extern int fn_82809868();
-extern int fn_82BA02A8();
-extern int fn_82F6A544();
-extern int fn_82F6A590();
-extern unsigned int lbl_821954FC;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Channel_8257E950 {
+    char pad0[0x8];
+    float x;      /* 0x08 */
+    float y;      /* 0x0C */
+    float z;      /* 0x10 */
+    float weight; /* 0x14 */
+    char pad18[0x10];
+    float scale;   /* 0x28 */
+    float baseCos; /* 0x2C */
+} Channel_8257E950;
 
-void fn_8257E950(unsigned __int64 param_1,double param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                  int param_5,unsigned __int64 param_6,unsigned __int64 param_7,int param_8)
+typedef struct Item_8257E950 {
+    Channel_8257E950 channels[2]; /* 0x00 */
+    char pad60[0x8];
+    void *targets[2];        /* 0x68 */
+    unsigned char active[2]; /* 0x70 */
+} Item_8257E950;
 
+typedef struct Node_8257E950 {
+    Item_8257E950 *item;
+    void (*destroy)();
+    void (*copy)();
+    void (*release)();
+    struct Node_8257E950 *next;
+} Node_8257E950;
+
+typedef struct Owner_8257E950 {
+    char pad[0x10];
+    Node_8257E950 *head;
+} Owner_8257E950;
+
+extern void *fn_82522D98(unsigned int);
+extern void fn_825D5998(Item_8257E950 *);
+extern void fn_825D5B08(void);
+extern void fn_82BA02A8(void);
+extern void fn_825D5108(void);
+extern float fn_82809868(float);
+
+void fn_8257E950(void *self, unsigned int index, __vector4 position, int enabled, float outerAngle,
+                 float innerAngle, int force)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  int *piVar4;
-  unsigned char uVar5;
-  double extraout_f1;
-  double dVar6;
-  double dVar7;
-  double dVar8;
-  double dVar9;
-  double dVar10;
-  unsigned int in_register_00010010;
-  unsigned int in_register_00010014;
-  unsigned int in_register_00010018;
-  
-  iVar2 = fn_82F6A544();
-  iVar2 = *(int *)(iVar2 + 0x93c);
-  if (*(int **)(iVar2 + 0x10) == (int *)0x0) {
-    iVar3 = 0;
-  }
-  else {
-    iVar3 = **(int **)(iVar2 + 0x10);
-  }
-  dVar7 = extraout_f1;
-  if (iVar3 == 0) {
-    iVar3 = fn_82522D98(0x84);
-    fn_825D5998();
-    if ((iVar3 != 0) && (piVar4 = (int *)fn_82522D98(0x14), piVar4 != (int *)0x0)) {
-      *piVar4 = iVar3;
-      piVar4[1] = (int)fn_82BA02A8;
-      piVar4[2] = (int)fn_825D5108;
-      piVar4[3] = (int)fn_825D5B08;
-      piVar4[4] = *(int *)(iVar2 + 0x10);
-      *(int **)(iVar2 + 0x10) = piVar4;
+    Owner_8257E950 *owner = *(Owner_8257E950 **)((char *)self + 0x93c);
+    Item_8257E950 *item = owner->head ? owner->head->item : 0;
+    Channel_8257E950 *channel;
+    float weight;
+    float range;
+    if (!item) {
+        item = (Item_8257E950 *)fn_82522D98(0x84);
+        fn_825D5998(item);
+        if (item && fn_825D5B08) {
+            Node_8257E950 *node = (Node_8257E950 *)fn_82522D98(20);
+            if (node) {
+                node->item = item;
+                node->destroy = fn_82BA02A8;
+                node->copy = fn_825D5108;
+                node->release = fn_825D5B08;
+                node->next = owner->head;
+                owner->head = node;
+            }
+        }
     }
-  }
-  dVar9 = (double)ltcg_pool_0_0f;
-  dVar8 = (double)lbl_821CA460;
-  dVar6 = dVar9;
-  if (param_5 != 0) {
-    dVar6 = dVar8;
-  }
-  if (1 < (param_4 & 0xffffffff)) goto LAB_8257eb08;
-  iVar1 = (int)param_4;
-  iVar2 = iVar1 * 0x30 + iVar3;
-  *(unsigned int *)(iVar2 + 8) = in_register_00010010;
-  *(unsigned int *)(iVar2 + 0xc) = in_register_00010014;
-  *(unsigned int *)(iVar2 + 0x10) = in_register_00010018;
-  *(float *)(iVar2 + 0x14) = (float)dVar6;
-  if (*(int *)((int)((param_4 + 0x1a & 0xffffffff) << 2) + iVar3) != 0) {
-    if (((dVar6 == dVar9) || (param_8 == 0)) && (*(char *)(iVar3 + iVar1 + 0x70) != '\0')) {
-      uVar5 = 0;
+    weight = enabled ? 1.0f : 0.0f;
+    if (index < 2) {
+        channel = &item->channels[index];
+        channel->x = position.vector4_f32[0];
+        channel->y = position.vector4_f32[1];
+        channel->z = position.vector4_f32[2];
+        channel->weight = weight;
+        if (item->targets[index] != 0) {
+            if ((weight == 0.0f || !force) && item->active[index] != 0) {
+                item->active[index] = 0;
+            } else if (weight == 1.0f && force && item->active[index] == 0) {
+                item->active[index] = 1;
+            }
+        }
+        channel->baseCos = fn_82809868(innerAngle * 0.008726646f);
+        range = fn_82809868(outerAngle * 0.008726646f) - channel->baseCos;
+        channel->scale = range > 0.0f ? 1.0f / range : 1.0f;
     }
-    else {
-      if (((dVar6 != dVar8) || (param_8 == 0)) || (*(char *)(iVar3 + iVar1 + 0x70) != '\0'))
-      goto LAB_8257eac8;
-      uVar5 = 1;
-    }
-    *(unsigned char *)(iVar3 + iVar1 + 0x70) = uVar5;
-  }
-LAB_8257eac8:
-  dVar10 = (double)lbl_821954FC;
-  dVar6 = (double)fn_82809868((double)(float)(param_2 * dVar10));
-  *(float *)(iVar2 + 0x2c) = (float)dVar6;
-  dVar7 = (double)fn_82809868((double)(float)(dVar7 * dVar10));
-  dVar7 = (double)(float)(dVar7 - (double)*(float *)(iVar2 + 0x2c));
-  if (dVar9 < dVar7) {
-    dVar8 = (double)(float)(dVar8 / dVar7);
-  }
-  *(float *)(iVar2 + 0x28) = (float)dVar8;
-LAB_8257eb08:
-  fn_82F6A590();
-  return;
 }
-

@@ -1,68 +1,72 @@
-extern int fn_82631D60();
-extern int fn_8265C940();
-extern int fn_8265C990();
-extern int fn_82AA1BA8();
-extern int fn_82AA3B58();
-extern int fn_82AA5540();
-extern int fn_82D7E470();
-extern unsigned int iStack_254;
-extern unsigned int uStack_260;
+typedef void (*ReportFunc_82AA3C58)(void *context, int severity, int code, const char *message);
 
+typedef struct Stream_82AA3C58 {
+    void *context;              /* 0x00 */
+    ReportFunc_82AA3C58 report; /* 0x04 */
+    unsigned short length;      /* 0x08 */
+    unsigned short pad0a;       /* 0x0a */
+    int code;                   /* 0x0c */
+    char text[0x200];           /* 0x10 */
+} Stream_82AA3C58;
 
-unsigned __int64 fn_82AA3C58(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,
-                       unsigned int *param_5,unsigned __int64 param_6,unsigned __int64 param_7,int (**param_8)())
+extern void *fn_8265C940(unsigned int size, unsigned int attributes);
+extern void fn_8265C990(void *p, unsigned int attributes);
+extern int fn_82AA3B58(unsigned int *code, unsigned int size, void *param_3, void *param_4, void *param_5,
+                       void *param_6, void *context, ReportFunc_82AA3C58 report, void *param_9,
+                       void *param_10);
+extern void fn_82631D60(void *dest, void *src, unsigned int size);
+extern int fn_82D7E470(void *device, unsigned int size, int shift, int a4, void *callback, void *context);
+extern int fn_82AA5540(void *device, unsigned int size, int a3, void *callback, void *context, int a6,
+                       int a7);
+extern int fn_82AA1BA8(Stream_82AA3C58 *s);
+extern void fn_82AA0550(void);
+extern void fn_82AA1C88(void);
 
+int fn_82AA3C58(unsigned int *code, unsigned int size, void *dest, unsigned int bufferSize,
+                unsigned int *outSize, unsigned int flags, void *context, ReportFunc_82AA3C58 report,
+                void *param_9, void *param_10, unsigned int param_11)
 {
-  unsigned __int64 uVar1;
-  int iVar2;
-  __int64 lVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  unsigned int in_stack_00000064;
-  int aiStack_270 [4];
-  unsigned int uStack_260;
-  int (**pcStack_25c)();
-  short sStack_258;
-  int iStack_254;
-  
-  lVar3 = fn_8265C940(param_4,0x24870000);
-  if (lVar3 == 0) {
-    uVar4 = 0xffffffff8007000e;
-  }
-  else {
-    uVar4 = fn_82AA3B58(param_1,param_2,lVar3,param_4,param_5,param_6,param_7,param_8);
-    if (-1 < (__int64)uVar4) {
-      fn_82631D60(param_3,lVar3,*param_5);
-    }
-    fn_8265C990(lVar3,0x24870000);
-    if ((-1 < (int)uVar4) && ((param_6 & 0x10) == 0)) {
-      aiStack_270[0] = 0;
-      iVar2 = (in_stack_00000064 & 0x7f) << 10;
-      uVar4 = fn_82D7E470(param_3,*param_5,iVar2,0,0xffffffff82aa0550,aiStack_270);
-      if (((__int64)uVar4 < 0) || (aiStack_270[0] != 0)) {
-        uVar1 = (uVar4 & 0xffffffff) >> 0x1f;
-        uStack_260 = (unsigned int)param_7;
-        iStack_254 = (int)uVar1;
-        sStack_258 = 0;
-        if ((int)uVar4 < 0) {
-          uVar5 = 0xffffffff82033f00;
-        }
-        else {
-          uVar5 = 0xffffffff82033ecc;
-        }
-        pcStack_25c = param_8;
-        (*param_8)(param_7,uVar1,(unsigned __int64)(iStack_254 == 0) + 0x1bbd,uVar5);
-        fn_82D7E470(param_3,*param_5,iVar2,0,0xffffffff82aa1c88,&uStack_260);
-        if (sStack_258 != 0) {
-          fn_82AA1BA8(&uStack_260);
-        }
-        fn_82AA5540(param_3,*param_5,0x44,0xffffffff82aa1c88,&uStack_260,0,0);
-        if (sStack_258 != 0) {
-          fn_82AA1BA8(&uStack_260);
-        }
-      }
-    }
-  }
-  return uVar4;
-}
+    void *buffer;
+    int hr;
+    int found;
+    int shift;
+    Stream_82AA3C58 stream;
 
+    buffer = fn_8265C940(bufferSize, 0x24870000);
+    if (buffer == 0) {
+        return (int)0x8007000e;
+    }
+    hr = fn_82AA3B58(code, size, buffer, (void *)bufferSize, outSize, (void *)flags, context, report, param_9,
+                     param_10);
+    if (hr >= 0) {
+        fn_82631D60(dest, buffer, *outSize);
+    }
+    fn_8265C990(buffer, 0x24870000);
+    if (hr >= 0 && (flags & 0x10) == 0) {
+        found = 0;
+        shift = (param_11 & 0x7f) << 10;
+        hr = fn_82D7E470(dest, *outSize, shift, 0, fn_82AA0550, &found);
+        if (hr < 0 || found != 0) {
+            stream.context = context;
+            stream.report = report;
+            stream.code = hr < 0;
+            stream.length = 0;
+            if (hr < 0) {
+                report(context, stream.code, (stream.code == 0) + 0x1bbd,
+                       "Validation failed. Validator output follows:");
+            } else {
+                report(context, stream.code, (stream.code == 0) + 0x1bbd,
+                       "Validation succeeded. Validator warnings follow:");
+            }
+            fn_82D7E470(dest, *outSize, shift, 0, fn_82AA1C88, &stream);
+            if (stream.length != 0) {
+                fn_82AA1BA8(&stream);
+            }
+            fn_82AA5540(dest, *outSize, 0x44, fn_82AA1C88, &stream, 0, 0);
+            if (stream.length != 0) {
+                fn_82AA1BA8(&stream);
+            }
+        }
+    }
+    return hr;
+}

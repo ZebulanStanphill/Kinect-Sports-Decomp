@@ -1,151 +1,179 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-#define ZEXT48(x) ((unsigned __int64)((unsigned int)(x)))
-#define NAN(x) ((x) != (x))
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_80;
-extern unsigned int *auStack_90;
-extern int fn_8242E560();
-extern int fn_8249ABC0();
-extern int fn_8249CF88();
-extern int fn_824CCFC8();
-extern int fn_8288B760();
-extern int fn_82F4EF20();
-extern int fn_82F50D98();
-extern int fn_82F50E10();
-extern int fn_82F52520();
-extern unsigned int lbl_821954D8;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int stack0x00000000;
-extern V16 loadVectorLeftIndexed128();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __lvlx(const void *base, int offset);
+__vector4 __vspltw(__vector4 v, unsigned int i);
+__vector4 __vmulfp(__vector4 a, __vector4 b);
+__vector4 __vsubfp(__vector4 a, __vector4 b);
+__vector4 __VMXGetReg(int n);
 
-unsigned __int64 fn_82338CF8(unsigned __int64 param_1,int param_2)
+typedef struct Vec_82338CF8 {
+    __vector4 v;
+} Vec_82338CF8;
 
+typedef struct Body_82338CF8 {
+    char pad00[0x20];
+    void *node; /* 0x20 */
+    char pad24[0x30 - 0x24];
+    int id; /* 0x30 */
+} Body_82338CF8;
+
+typedef struct Slot_82338CF8 {
+    char pad00[0x40];
+    struct Rig_82338CF8 *rig; /* 0x40 */
+} Slot_82338CF8;
+
+typedef struct Rig_82338CF8 {
+    char pad000[0x11c];
+    float limit; /* 0x11c */
+    char pad120[0x1c4 - 0x120];
+    Slot_82338CF8 **slots; /* 0x1c4 */
+    char pad1c8[0x1d4 - 0x1c8];
+    int current; /* 0x1d4 */
+    char pad1d8[0x2b4 - 0x1d8];
+    int locked; /* 0x2b4 */
+} Rig_82338CF8;
+
+typedef struct Team_82338CF8 {
+    char pad00[0x1c];
+    Slot_82338CF8 slot; /* 0x1c */
+} Team_82338CF8;
+
+typedef struct Stage_82338CF8 {
+    char pad00[0xc];
+    int busy; /* 0x0c */
+} Stage_82338CF8;
+
+typedef struct Scene_82338CF8 {
+    char pad00[0x18];
+    Stage_82338CF8 *stage; /* 0x18 */
+} Scene_82338CF8;
+
+typedef struct Player_82338CF8 {
+    char pad000[0xd4];
+    Scene_82338CF8 *scene; /* 0x0d4 */
+    char pad0d8[0x174 - 0xd8];
+    Team_82338CF8 *team; /* 0x174 */
+} Player_82338CF8;
+
+typedef struct Game_82338CF8 {
+    char pad000[0xc];
+    Player_82338CF8 *player; /* 0x00c */
+    char pad010[0x4c - 0x10];
+    float limit; /* 0x04c */
+    char pad050[0x188 - 0x50];
+    int active; /* 0x188 */
+} Game_82338CF8;
+
+typedef struct Self_82338CF8 {
+    char pad000[0x24];
+    Body_82338CF8 *body; /* 0x024 */
+    char pad028[0x168 - 0x28];
+    void *tracker; /* 0x168 */
+    int tracking;  /* 0x16c */
+    char pad170[0x1a0 - 0x170];
+    Game_82338CF8 *game; /* 0x1a0 */
+} Self_82338CF8;
+
+typedef struct Manager_82338CF8 {
+    char pad00[0xec];
+    void *table; /* 0xec */
+} Manager_82338CF8;
+
+typedef struct Info_82338CF8 {
+    char pad00[0x14];
+    float scale; /* 0x14 */
+    char pad18[8];
+} Info_82338CF8;
+
+extern float lbl_831C78F0[0x80];
+
+int fn_8242E560(Player_82338CF8 *player);
+unsigned char fn_8288B760(void *tracker);
+int fn_824CCFC8(Body_82338CF8 *body);
+void *fn_82F50D98(void *node);
+__vector4 *fn_82F4EF20(__vector4 *out, void *node, unsigned char transform, unsigned char scaled);
+void fn_82F50E10(Vec_82338CF8 *out, void *node);
+Manager_82338CF8 *fn_8249ABC0(void);
+void fn_8249CF88(__vector4 *out, void *table, int id);
+int fn_82F52520(void *node, Info_82338CF8 *info);
+
+static __forceinline __vector4 Replicate(float value)
 {
-  unsigned int uVar1;
-  float *pfVar2;
-  float *pfVar3;
-  unsigned __int64 in_r0;
-  unsigned __int64 uVar4;
-  int iVar6;
-  unsigned int uVar7;
-  int iVar8;
-  unsigned __int64 uVar5;
-  float fVar9;
-  float fVar10;
-  float fVar11;
-  float fVar12;
-  float fVar13;
-  float fVar14;
-  float fVar15;
-  float fVar16;
-  float in_register_000104d0;
-  float fVar17;
-  float in_register_000104d4;
-  float fVar18;
-  float in_register_000104d8;
-  float fVar19;
-  float in_vr77;
-  float fVar20;
-  float afStack_a0 [4];
-  unsigned char auStack_90 [16];
-  unsigned char auStack_80 [16];
-  unsigned char auStack_70 [112];
-  
-  uVar4 = ZEXT48(&stack0x00000000);
-  if ((*(int *)(*(int *)(param_2 + 0x1a0) + 0x188) != 0) &&
-     (fVar20 = in_vr77, fVar19 = in_register_000104d8, fVar18 = in_register_000104d4,
-     fVar17 = in_register_000104d0,
-     iVar6 = fn_8242E560(*(unsigned int *)(*(int *)(param_2 + 0x1a0) + 0xc)), iVar6 == 0)) {
-    if (*(int *)(param_2 + 0x168) == 0) {
-      uVar7 = *(unsigned int *)(param_2 + 0x16c);
-    }
-    else {
-      uVar7 = fn_8288B760();
-      uVar7 = uVar7 & 0xff;
-    }
-    if ((((uVar7 != 0) &&
-         (*(int *)(*(int *)(*(int *)(*(int *)(*(int *)(param_2 + 0x1a0) + 0xc) + 0xd4) + 0x18) + 0xc
-                  ) == 0)) && (iVar6 = *(int *)(param_2 + 0x24), iVar6 != 0)) &&
-       (iVar8 = fn_824CCFC8(iVar6), iVar8 != 0)) {
-      uVar5 = fn_82F50D98(*(unsigned int *)(iVar6 + 0x20));
-      fn_82F4EF20(uVar4 - 0x70,uVar5,1,0);
-      fn_82F50E10(uVar4 - 0x90,*(unsigned int *)(iVar6 + 0x20));
-      uVar1 = *(unsigned int *)(iVar6 + 0x30);
-      iVar8 = fn_8249ABC0();
-      fn_8249CF88(uVar4 - 0x80,*(unsigned int *)(iVar8 + 0xec),uVar1);
-      iVar8 = (int)in_r0;
-      pfVar2 = (float *)((unsigned int)(auStack_90 + iVar8) & 0xfffffff0);
-      fVar9 = *pfVar2;
-      fVar10 = pfVar2[1];
-      fVar11 = pfVar2[2];
-      fVar12 = pfVar2[3];
-      pfVar2 = (float *)((unsigned int)(auStack_80 + iVar8) & 0xfffffff0);
-      fVar13 = *pfVar2;
-      fVar14 = pfVar2[1];
-      fVar15 = pfVar2[2];
-      fVar16 = pfVar2[3];
-      pfVar2 = (float *)((int)afStack_a0 + iVar8 & 0xfffffff0);
-      *pfVar2 = fVar17;
-      pfVar2[1] = fVar18;
-      pfVar2[2] = fVar19;
-      pfVar2[3] = fVar20;
-      fVar13 = fVar13 * fVar9;
-      fVar14 = fVar14 * fVar10;
-      fVar15 = fVar15 * fVar11;
-      fVar16 = fVar16 * fVar12;
-      iVar6 = fn_824CCFC8(iVar6);
-      if (iVar6 != 0) {
-        iVar6 = (int)in_r0;
-        pfVar2 = (float *)((unsigned int)(auStack_70 + iVar6) & 0xfffffff0);
-        pfVar3 = (float *)((unsigned int)(auStack_90 + iVar6) & 0xfffffff0);
-        fVar9 = (*pfVar2 - fVar13) * *pfVar3;
-        fVar10 = (pfVar2[1] - fVar14) * pfVar3[1];
-        fVar11 = (pfVar2[2] - fVar15) * pfVar3[2];
-        fVar12 = (pfVar2[3] - fVar16) * pfVar3[3];
-        pfVar2 = (float *)((int)afStack_a0 + iVar6 & 0xfffffff0);
-        *pfVar2 = fVar9;
-        pfVar2[1] = fVar10;
-        pfVar2[2] = fVar11;
-        pfVar2[3] = fVar12;
-      }
-      iVar6 = *(int *)(*(int *)(*(int *)(param_2 + 0x1a0) + 0xc) + 0x174);
-      if ((*(int *)(*(int *)(iVar6 + 0x5c) + 0x1d4) != -1) &&
-         (iVar6 = *(int *)(iVar6 + 0x5c),
-         iVar6 = *(int *)(*(int *)(iVar6 + 0x1d4) * 4 + *(int *)(iVar6 + 0x1c4)), iVar6 != 0)) {
-        fVar20 = *(float *)(*(int *)(param_2 + 0x1a0) + 0x4c);
-        if (*(int *)(*(int *)(*(int *)(*(int *)(*(int *)(param_2 + 0x1a0) + 0xc) + 0x174) + 0x5c) +
-                    0x2b4) == 0) {
-          fVar20 = *(float *)(*(int *)(iVar6 + 0x40) + 0x11c);
-        }
-        fVar18 = afStack_a0[0] - -fVar20;
-        fVar19 = afStack_a0[0];
-        if (*(float *)(&lbl_821954D8 +
-                      ((unsigned int)(unsigned char)((fVar18 < ltcg_pool_0_0f) << 2) |
-                      (unsigned int)(NAN(fVar18) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
-          fVar19 = -fVar20;
-        }
-        afStack_a0[0] = fVar20;
-        if (*(float *)(&lbl_821954D8 +
-                      ((unsigned int)(unsigned char)((fVar19 - fVar20 < ltcg_pool_0_0f) << 2) |
-                      (unsigned int)(NAN(fVar19 - fVar20) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
-          afStack_a0[0] = fVar19;
-        }
-      }
-      fn_82F52520(*(unsigned int *)(*(int *)(param_2 + 0x24) + 0x20),uVar4 - 0x60);
-      loadVectorLeftIndexed128(in_r0,uVar4 - 0xb0);
-      pfVar2 = (float *)((int)afStack_a0 + (int)in_r0 & 0xfffffff0);
-      in_register_000104d0 = *pfVar2 * fVar9;
-      in_register_000104d4 = pfVar2[1] * fVar10;
-      in_register_000104d8 = pfVar2[2] * fVar11;
-      in_vr77 = pfVar2[3] * fVar12;
-    }
-  }
-  pfVar2 = (float *)((int)in_r0 + (int)param_1 & 0xfffffff0);
-  *pfVar2 = in_register_000104d0;
-  pfVar2[1] = in_register_000104d4;
-  pfVar2[2] = in_register_000104d8;
-  pfVar2[3] = in_vr77;
-  return param_1;
+    __vector4 v = __lvlx(&value, 0);
+    return __vspltw(v, 0);
 }
 
+static __forceinline float Max(float a, float b)
+{
+    return a - b >= 0.0f ? a : b;
+}
+
+static __forceinline float Min(float a, float b)
+{
+    return b - a >= 0.0f ? a : b;
+}
+
+__vector4 *fn_82338CF8(__vector4 *result, Self_82338CF8 *self)
+{
+    __vector4 velocity = __VMXGetReg(77);
+    Body_82338CF8 *body;
+    __vector4 position;
+    Vec_82338CF8 axis;
+    __vector4 offset;
+    __vector4 delta;
+    Slot_82338CF8 *slot;
+    Slot_82338CF8 *item;
+    Info_82338CF8 info;
+    float limit;
+    float scale;
+    int tracking;
+    int id;
+    Manager_82338CF8 *manager;
+
+    if (self->game->active == 0)
+        goto done;
+    if (fn_8242E560(self->game->player) != 0)
+        goto done;
+    if (self->tracker != 0)
+        tracking = fn_8288B760(self->tracker);
+    else
+        tracking = self->tracking;
+    if (tracking == 0)
+        goto done;
+    if (self->game->player->scene->stage->busy != 0)
+        goto done;
+    body = self->body;
+    if (body == 0)
+        goto done;
+    if (fn_824CCFC8(body) == 0)
+        goto done;
+    fn_82F4EF20(&position, fn_82F50D98(body->node), 1, 0);
+    fn_82F50E10(&axis, body->node);
+    id = body->id;
+    manager = fn_8249ABC0();
+    fn_8249CF88(&offset, manager->table, id);
+    delta = __VMXGetReg(77);
+    velocity = __vmulfp(offset, axis.v);
+    if (fn_824CCFC8(body) != 0)
+        delta = __vmulfp(__vsubfp(position, velocity), axis.v);
+    slot = &self->game->player->team->slot;
+    if (slot->rig->current != -1) {
+        item = slot->rig->slots[slot->rig->current];
+        if (item != 0) {
+            limit = self->game->limit;
+            if (self->game->player->team->slot.rig->locked == 0)
+                limit = item->rig->limit;
+            delta.vector4_f32[0] = Min(limit, Max(delta.vector4_f32[0], -limit));
+        }
+    }
+    if (fn_82F52520(self->body->node, &info) >= 0)
+        scale = info.scale;
+    else
+        scale = lbl_831C78F0[0];
+    velocity = __vmulfp(delta, Replicate(scale));
+done:
+    *result = velocity;
+    return result;
+}

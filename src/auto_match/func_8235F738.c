@@ -1,85 +1,96 @@
-#define NAN(x) ((x) != (x))
-extern int fn_8235EDE8();
-extern int fn_8235F5F0();
-extern int fn_8235FBC8();
-extern int fn_82360050();
-extern int fn_823602F0();
-extern int fn_82536590();
-extern unsigned int lbl_821954D8;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Controller_8235F738 {
+    char pad0[0x19c];
+    int active; /* 0x19c */
+} Controller_8235F738;
 
+typedef struct Obj_8235F738 {
+    char pad0[0x60c];
+    float speedB; /* 0x060c */
+    float speedA; /* 0x0610 */
+    char pad614[0x608];
+    int soundEnabled; /* 0x0c1c */
+    char padc20[0x168];
+    int soundD88; /* 0x0d88 */
+    char padd8c[0x6f8];
+    int sound1484; /* 0x1484 */
+    int sound1488; /* 0x1488 */
+    char pad148c[0x48];
+    int sound14d4; /* 0x14d4 */
+    int sound14d8; /* 0x14d8 */
+    char pad14dc[0x1644];
+    Controller_8235F738 *controller; /* 0x2b20 */
+    float speedTimer;                /* 0x2b24 */
+    float soundTimer;                /* 0x2b28 */
+    char pad2b2c[4];
+    int useB; /* 0x2b30 */
+    char pad2b34[0xc];
+    int locked; /* 0x2b40 */
+    char pad2b44[0x5c];
+    int pendingStop; /* 0x2ba0 */
+    char pad2ba4[0x14];
+    float delay; /* 0x2bb8 */
+    char pad2bbc[0xe0];
+    int phase;        /* 0x2c9c */
+    float phaseTimer; /* 0x2ca0 */
+    char pad2ca4[0x18];
+    float idleTime; /* 0x2cbc */
+    int busy;       /* 0x2cc0 */
+} Obj_8235F738;
 
-void fn_8235F738(double param_1,int param_2)
+extern void fn_8235EDE8(Obj_8235F738 *self, float speed);
+extern void fn_8235F5F0(Obj_8235F738 *self, float dt);
+extern void fn_8235FBC8(Obj_8235F738 *self, float dt);
+extern void fn_82360050(Obj_8235F738 *self, float dt);
+extern void fn_823602F0(Obj_8235F738 *self, float dt);
+extern void fn_82536590(int *sound, int value);
 
+void fn_8235F738(Obj_8235F738 *self, float dt)
 {
-  float fVar1;
-  int iVar2;
-  unsigned int uVar3;
-  double dVar4;
-  double dVar5;
-  double dVar6;
-  double dVar7;
-  
-  dVar7 = (double)ltcg_pool_0_0f;
-  if (((dVar7 < (double)*(float *)(param_2 + 0x2b24)) && (*(int *)(param_2 + 0x2b40) == 0)) &&
-     (fVar1 = (float)((double)*(float *)(param_2 + 0x2b24) - param_1),
-     *(float *)(param_2 + 0x2b24) = fVar1, (double)fVar1 <= dVar7)) {
-    if (*(int *)(param_2 + 0x2b30) == 0) {
-      fVar1 = *(float *)(param_2 + 0x610);
-    }
-    else {
-      fVar1 = *(float *)(param_2 + 0x60c);
-    }
-    fn_8235EDE8((double)fVar1,param_2);
-    *(float *)(param_2 + 0x2b24) = (float)dVar7;
-  }
-  if ((dVar7 < (double)*(float *)(param_2 + 0x2b28)) &&
-     (fVar1 = (float)((double)*(float *)(param_2 + 0x2b28) - param_1),
-     *(float *)(param_2 + 0x2b28) = fVar1, (double)fVar1 <= dVar7)) {
-    if (*(int *)(param_2 + 0xc1c) != 0) {
-      iVar2 = param_2 + 0x14d8;
-      if (*(int *)(param_2 + 0x2b30) == 0) {
-        iVar2 = param_2 + 0x14d4;
-      }
-      fn_82536590(iVar2,0);
-    }
-    *(float *)(param_2 + 0x2b28) = (float)dVar7;
-  }
-  fn_8235F5F0(param_1,param_2);
-  if (((*(int *)(param_2 + 0x2ba0) != 0) && (*(int *)(param_2 + 0x2b20) != 0)) &&
-     (*(int *)(*(int *)(param_2 + 0x2b20) + 0x19c) == 0)) {
-    fn_82536590(param_2 + 0xd88,0);
-    *(unsigned int *)(param_2 + 0x2ba0) = 0;
-  }
-  fn_8235FBC8(param_1,param_2);
-  fn_82360050(param_1,param_2);
-  if (*(int *)(param_2 + 0x2c9c) == 0) {
-    dVar4 = (double)(float)((double)*(float *)(param_2 + 0x2ca0) - param_1);
-    dVar6 = -dVar4;
-    dVar5 = dVar7;
-    if (*(float *)(&lbl_821954D8 +
-                  ((unsigned int)(unsigned char)((dVar6 < dVar7) << 2) | (unsigned int)(NAN(dVar6) || NAN(dVar7)) << 2)) <
-        0.0) {
-      dVar5 = dVar4;
-    }
-    *(float *)(param_2 + 0x2ca0) = (float)dVar5;
-    if (dVar5 != dVar7) goto code_r0x8235f8e8;
-    fn_82536590(param_2 + 0x1488,0);
-    uVar3 = 1;
-  }
-  else {
-    if (((*(int *)(param_2 + 0x2c9c) != 2) || (dVar7 < (double)*(float *)(param_2 + 0x2bb8))) ||
-       (dVar7 < (double)*(float *)(param_2 + 0x2b24))) goto code_r0x8235f8e8;
-    fn_82536590(param_2 + 0x1484,0);
-    uVar3 = 3;
-  }
-  *(unsigned int *)(param_2 + 0x2c9c) = uVar3;
-code_r0x8235f8e8:
-  fn_823602F0(param_1,param_2);
-  if (*(int *)(param_2 + 0x2cc0) == 0) {
-    *(float *)(param_2 + 0x2cbc) = (float)dVar7;
-  }
-  *(unsigned int *)(param_2 + 0x2cc0) = 0;
-  return;
-}
+    float remaining;
 
+    if (self->speedTimer > 0.0f && self->locked == 0) {
+        self->speedTimer -= dt;
+        if (self->speedTimer <= 0.0f) {
+            fn_8235EDE8(self, self->useB != 0 ? self->speedB : self->speedA);
+            self->speedTimer = 0.0f;
+        }
+    }
+    if (self->soundTimer > 0.0f) {
+        self->soundTimer -= dt;
+        if (self->soundTimer <= 0.0f) {
+            if (self->soundEnabled != 0) {
+                if (self->useB != 0) {
+                    fn_82536590(&self->sound14d8, 0);
+                } else {
+                    fn_82536590(&self->sound14d4, 0);
+                }
+            }
+            self->soundTimer = 0.0f;
+        }
+    }
+    fn_8235F5F0(self, dt);
+    if (self->pendingStop != 0 && self->controller != 0 && self->controller->active == 0) {
+        fn_82536590(&self->soundD88, 0);
+        self->pendingStop = 0;
+    }
+    fn_8235FBC8(self, dt);
+    fn_82360050(self, dt);
+    if (self->phase != 0) {
+        if (self->phase == 2 && self->delay <= 0.0f && self->speedTimer <= 0.0f) {
+            fn_82536590(&self->sound1484, 0);
+            self->phase = 3;
+        }
+    } else {
+        remaining = self->phaseTimer - dt;
+        self->phaseTimer = -remaining >= 0.0f ? 0.0f : remaining;
+        if (self->phaseTimer == 0.0f) {
+            fn_82536590(&self->sound1488, 0);
+            self->phase = 1;
+        }
+    }
+    fn_823602F0(self, dt);
+    if (self->busy == 0) {
+        self->idleTime = 0.0f;
+    }
+    self->busy = 0;
+}

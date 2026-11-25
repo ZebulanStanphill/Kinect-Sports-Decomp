@@ -1,69 +1,44 @@
-typedef unsigned char bool;
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_50;
-extern int fn_8306D698();
-extern int fn_8306EEF8();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_82186E68;
-extern unsigned int lbl_82186E6C;
-extern unsigned int lbl_82196080;
-extern unsigned int lbl_821AAD20;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Tracker_830798D0 {
+    char pad0[0x60];
+    __vector4 left;          /* 0x60 */
+    __vector4 right;         /* 0x70 */
+    float timer;             /* 0x80 */
+    unsigned char leftFast;  /* 0x84 */
+    unsigned char rightFast; /* 0x85 */
+    char pad86[0x2a];
+    void *skeleton; /* 0xB0 */
+} Tracker_830798D0;
 
-void fn_830798D0(double param_1,int param_2)
+extern __vector4 *fn_8306D698(__vector4 *out, void *skeleton, int joint);
+extern float fn_8306EEF8(__vector4 a, __vector4 b);
 
+void fn_830798D0(Tracker_830798D0 *self, float dt)
 {
-  float fVar1;
-  unsigned int *puVar2;
-  float fVar3;
-  float fVar4;
-  int in_r0;
-  double dVar5;
-  double dVar6;
-  double dVar7;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs40 [16];
-  unsigned char in_vs41 [16];
-  unsigned int in_register_000103e0;
-  unsigned int in_register_000103e4;
-  unsigned int in_register_000103e8;
-  unsigned int in_vr62;
-  unsigned int in_register_000103f0;
-  unsigned int in_register_000103f4;
-  unsigned int in_register_000103f8;
-  unsigned int in_vr63;
-  unsigned char auStack_50 [16];
-  unsigned char auStack_40 [64];
-  
-  fVar1 = (float)((double)*(float *)(param_2 + 0x80) - param_1);
-  *(float *)(param_2 + 0x80) = fVar1;
-  if (fVar1 <= lbl_821AAD20) {
-    fn_8306D698(auStack_50,*(unsigned int *)(param_2 + 0xb0),6);
-    fn_8306D698(auStack_40,*(unsigned int *)(param_2 + 0xb0),10);
-    dVar6 = (double)fn_8306EEF8();
-    dVar7 = (double)fn_8306EEF8();
-    fVar4 = lbl_82196080;
-    fVar1 = lbl_82186E6C - *(float *)(param_2 + 0x80);
-    altv207_13(in_vs32,in_vs41);
-    altv207_13(in_vs32,in_vs40);
-    *(float *)(param_2 + 0x80) = lbl_82186E6C;
-    puVar2 = (unsigned int *)(in_r0 + param_2 + 0x60 & 0xfffffff0);
-    *puVar2 = in_register_000103f0;
-    puVar2[1] = in_register_000103f4;
-    puVar2[2] = in_register_000103f8;
-    puVar2[3] = in_vr63;
-    puVar2 = (unsigned int *)(in_r0 + param_2 + 0x70 & 0xfffffff0);
-    *puVar2 = in_register_000103e0;
-    puVar2[1] = in_register_000103e4;
-    puVar2[2] = in_register_000103e8;
-    puVar2[3] = in_vr62;
-    fVar3 = lbl_82186E68;
-    if (fVar4 < fVar1) {
-      dVar5 = (double)(lbl_82002AE0 / fVar1);
-      *(bool *)(param_2 + 0x84) = lbl_82186E68 < (float)(dVar5 * dVar6);
-      *(bool *)(param_2 + 0x85) = fVar3 < (float)(dVar5 * dVar7);
-    }
-  }
-  return;
-}
+    __vector4 left;
+    __vector4 right;
+    float leftDistance;
+    float rightDistance;
+    float elapsed;
+    float scale;
 
+    self->timer = self->timer - dt;
+    if (self->timer <= 0.0f) {
+        fn_8306D698(&left, self->skeleton, 6);
+        fn_8306D698(&right, self->skeleton, 10);
+        leftDistance = fn_8306EEF8(left, self->left);
+        rightDistance = fn_8306EEF8(right, self->right);
+        elapsed = 0.1f - self->timer;
+        self->timer = 0.1f;
+        self->left = left;
+        self->right = right;
+        if (elapsed > 0.00001f) {
+            scale = 1.0f / elapsed;
+            self->leftFast = scale * leftDistance > 1.3f;
+            self->rightFast = scale * rightDistance > 1.3f;
+        }
+    }
+}

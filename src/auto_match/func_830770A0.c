@@ -1,56 +1,61 @@
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_80;
-extern int fn_82539560();
-extern int fn_8306D698();
-extern int fn_8306E818();
-extern int fn_8306ED30();
-extern int fn_8306ED98();
-extern int fn_8306EDB0();
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_82002C5C;
-extern unsigned int lbl_821AAD20;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Joint_830770A0 {
+    __vector4 position;
+} Joint_830770A0;
 
-void fn_830770A0(int param_1,char param_2,float *param_3,float *param_4)
+typedef struct Balance_830770A0 {
+    char pad00[0x10];
+    void *skeleton; /* 0x10 */
+    char pad14[0x20 - 0x14];
+    float weightA; /* 0x20 */
+    float weightB; /* 0x24 */
+} Balance_830770A0;
 
+extern Joint_830770A0 fn_8306D698(void *skeleton, int joint);
+extern __vector4 fn_8306ED30(__vector4 a, __vector4 b);
+extern __vector4 fn_8306EDB0(__vector4 v);
+extern float fn_8306ED98(__vector4 a, __vector4 b);
+extern float fn_82539560(float x, float inMin, float inMax, float outMin, float outMax);
+extern float fn_8306E818(float a, float b, float t);
+
+/* Straightens the pair (*a, *b) towards their weighted mean by how straight the limb's
+   three joints are (left or right side). */
+void fn_830770A0(Balance_830770A0 *self, unsigned char left, float *a, float *b)
 {
-  unsigned char *puVar1;
-  unsigned __int64 uVar2;
-  double dVar3;
-  double dVar4;
-  unsigned char auStack_80 [16];
-  unsigned char auStack_70 [112];
-  
-  if (param_2 == '\0') {
-    fn_8306D698(auStack_70,*(unsigned int *)(param_1 + 0x10),0x10);
-    fn_8306D698(auStack_80,*(unsigned int *)(param_1 + 0x10),0x11);
-    uVar2 = 0x12;
-    puVar1 = auStack_70;
-  }
-  else {
-    fn_8306D698(auStack_80,*(unsigned int *)(param_1 + 0x10),0xc);
-    fn_8306D698(auStack_70,*(unsigned int *)(param_1 + 0x10),0xd);
-    uVar2 = 0xe;
-    puVar1 = auStack_80;
-  }
-  fn_8306D698(puVar1,*(unsigned int *)(param_1 + 0x10),uVar2);
-  fn_8306ED30();
-  fn_8306EDB0();
-  fn_8306ED30();
-  fn_8306EDB0();
-  uVar2 = fn_8306ED98();
-  uVar2 = fn_82539560(uVar2,(double)lbl_82002C5C,(double)lbl_82002AE0,(double)lbl_821AAD20);
-  dVar4 = (double)(float)((double)*param_4 * (double)*(float *)(param_1 + 0x24) +
-                         (double)(float)((double)*param_3 * (double)*(float *)(param_1 + 0x20)));
-  dVar3 = (double)fn_8306E818((double)*param_3,
-                               (double)(float)(dVar4 / (double)(float)((double)*(float *)(param_1 +
-                                                                                         0x24) +
-                                                                      (double)*(float *)(param_1 +
-                                                                                        0x20))),
-                               uVar2);
-  *param_3 = (float)dVar3;
-  *param_4 = -(float)((double)*(float *)(param_1 + 0x20) * dVar3 - dVar4) /
-             *(float *)(param_1 + 0x24);
-  return;
-}
+    __vector4 root;
+    __vector4 middle;
+    __vector4 end;
+    __vector4 upper;
+    __vector4 lower;
+    float cosine;
+    float straightness;
+    float sum;
+    float value;
+    float weightA;
+    float weightB;
+    float x;
 
+    if (left) {
+        root = fn_8306D698(self->skeleton, 0xc).position;
+        middle = fn_8306D698(self->skeleton, 0xd).position;
+        end = fn_8306D698(self->skeleton, 0xe).position;
+    } else {
+        root = fn_8306D698(self->skeleton, 0x10).position;
+        middle = fn_8306D698(self->skeleton, 0x11).position;
+        end = fn_8306D698(self->skeleton, 0x12).position;
+    }
+    upper = fn_8306EDB0(fn_8306ED30(root, middle));
+    lower = fn_8306EDB0(fn_8306ED30(middle, end));
+    cosine = fn_8306ED98(upper, lower);
+    straightness = fn_82539560(cosine, 0.5f, 1.0f, 0.0f, 1.0f);
+    weightA = self->weightA;
+    x = *a;
+    weightB = self->weightB;
+    sum = x * weightA + *b * weightB;
+    value = fn_8306E818(x, sum / (weightB + weightA), straightness);
+    *a = value;
+    *b = (sum - self->weightA * value) / self->weightB;
+}

@@ -1,83 +1,90 @@
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_78;
-extern unsigned int *auStack_80;
-extern int fn_82230360();
-extern int fn_822315A0();
-extern int fn_82240730();
-extern int fn_8265C9E0();
-extern int fn_8265CA20();
-extern int fn_8288B300();
-extern int fn_82897060();
-extern int fn_828BAB20();
-extern unsigned int iStack_74;
-extern unsigned int iStack_7c;
-extern unsigned int lbl_82196884;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
-extern unsigned int uStack_5c;
-extern unsigned int uStack_60;
+typedef struct String_828A3A88 {
+    union {
+        char buffer[0x10];
+        char *pointer;
+    } data; /* 0x0 */
 
+    unsigned int size;     /* 0x10 */
+    unsigned int capacity; /* 0x14 */
+    int pad18;             /* 0x18 */
+} String_828A3A88;
 
-void fn_828A3A88(unsigned __int64 param_1)
+typedef struct SharedPtr_828A3A88 {
+    void *pointer; /* 0x0 */
+    void *counter; /* 0x4 */
+} SharedPtr_828A3A88;
 
+extern char lbl_82196884[];
+
+extern void *fn_8265C9E0(unsigned int size);
+extern void fn_8265CA20(void *p);
+extern void fn_8288B300(void *self, unsigned int type);
+extern void *fn_82240730(void *self);
+extern String_828A3A88 *fn_82230360(String_828A3A88 *self, const char *text, unsigned int count);
+extern SharedPtr_828A3A88 *fn_828BAB20(SharedPtr_828A3A88 *self, void *p);
+extern void fn_822315A0(void *counter);
+extern void fn_82897060(const String_828A3A88 *name, short a, unsigned short b, int c, int d, int e,
+                        SharedPtr_828A3A88 *shared, int key, unsigned char g);
+extern void fn_828A15A0(void);
+extern void fn_828A0EB0(void);
+extern void fn_828A1608(void);
+extern void fn_828A0F08(void);
+
+static __forceinline void StringInit(String_828A3A88 *s)
 {
-  unsigned int *puVar2;
-  unsigned __int64 uVar1;
-  int iVar3;
-  unsigned char auStack_80 [4];
-  int iStack_7c;
-  unsigned char auStack_78 [4];
-  int iStack_74;
-  unsigned int auStack_70 [4];
-  unsigned int uStack_60;
-  unsigned int uStack_5c;
-  unsigned int auStack_50 [4];
-  unsigned int uStack_40;
-  unsigned int uStack_3c;
-  
-  puVar2 = (unsigned int *)fn_8265C9E0(0x34);
-  if (puVar2 == (unsigned int *)0x0) {
-    puVar2 = (unsigned int *)0x0;
-  }
-  else {
-    fn_8288B300(puVar2,1);
-    *puVar2 = &lbl_82196884;
-  }
-  uStack_60 = 0;
-  auStack_70[0] = auStack_70[0] & 0xffffff;
-  uStack_5c = 0xf;
-  fn_82230360(auStack_70,0xffffffff82024298,0xc);
-  uVar1 = fn_828BAB20(auStack_80,puVar2);
-  fn_82897060(auStack_70,0,1,0xffffffff828a15a0,0xffffffff828a0eb0,0,uVar1,param_1);
-  if (iStack_7c != 0) {
-    fn_822315A0();
-  }
-  if (0xf < uStack_5c) {
-    fn_8265CA20(auStack_70[0]);
-  }
-  uStack_5c = 0xf;
-  uStack_60 = 0;
-  auStack_70[0] = auStack_70[0] & 0xffffff;
-  iVar3 = fn_8265C9E0(0x2fc);
-  if (iVar3 == 0) {
-    uVar1 = 0;
-  }
-  else {
-    uVar1 = fn_82240730();
-  }
-  uStack_3c = 0xf;
-  uStack_40 = 0;
-  auStack_50[0] = auStack_50[0] & 0xffffff;
-  fn_82230360(auStack_50,0xffffffff82024288,0xc);
-  uVar1 = fn_828BAB20(auStack_78,uVar1);
-  fn_82897060(auStack_50,1,0x100,0xffffffff828a1608,0xffffffff828a0f08,0,uVar1,param_1);
-  if (iStack_74 != 0) {
-    fn_822315A0();
-  }
-  if (0xf < uStack_3c) {
-    fn_8265CA20(auStack_50[0]);
-  }
-  return;
+    s->capacity = 0xf;
+    s->size = 0;
+    s->data.buffer[0] = 0;
 }
 
+static __forceinline void StringDestroy(String_828A3A88 *s)
+{
+    if (s->capacity >= 0x10) {
+        fn_8265CA20(s->data.pointer);
+    }
+    StringInit(s);
+}
+
+void fn_828A3A88(int key)
+{
+    void *global;
+    void *player;
+    void *memory;
+    String_828A3A88 globalName;
+    String_828A3A88 playerName;
+    SharedPtr_828A3A88 globalShared;
+    SharedPtr_828A3A88 playerShared;
+
+    global = fn_8265C9E0(0x34);
+    if (global != 0) {
+        fn_8288B300(global, 1);
+        *(char **)global = lbl_82196884;
+    } else {
+        global = 0;
+    }
+    StringInit(&globalName);
+    fn_82230360(&globalName, "GlobalNetObj", 0xc);
+    fn_82897060(&globalName, 0, 1, (int)fn_828A15A0, (int)fn_828A0EB0, 0, fn_828BAB20(&globalShared, global),
+                key, 0);
+    if (globalShared.counter != 0) {
+        fn_822315A0(globalShared.counter);
+    }
+    StringDestroy(&globalName);
+
+    memory = fn_8265C9E0(0x2fc);
+    if (memory != 0) {
+        player = fn_82240730(memory);
+    } else {
+        player = 0;
+    }
+    StringInit(&playerName);
+    fn_82230360(&playerName, "PlayerNetObj", 0xc);
+    fn_82897060(&playerName, 1, 0x100, (int)fn_828A1608, (int)fn_828A0F08, 0,
+                fn_828BAB20(&playerShared, player), key, 0);
+    if (playerShared.counter != 0) {
+        fn_822315A0(playerShared.counter);
+    }
+    if (playerName.capacity >= 0x10) {
+        fn_8265CA20(playerName.data.pointer);
+    }
+}

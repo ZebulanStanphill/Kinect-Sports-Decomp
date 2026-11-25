@@ -1,98 +1,104 @@
-extern int fn_82359558();
-extern int fn_82359C18();
-extern int fn_82402CF8();
-extern int fn_82455740();
-extern unsigned int iStack_2c;
-extern unsigned int lbl_821B7B74;
+typedef struct Self_82402DF8 Self_82402DF8;
 
+typedef struct Function_82402DF8 {
+    void **vtbl;          /* 0x00 */
+    Self_82402DF8 *owner; /* 0x04 */
+    int pad08[2];
+    void *impl; /* 0x10 */
+    int pad14;
+} Function_82402DF8;
 
-void fn_82402DF8(double param_1,int param_2)
+typedef struct Player_82402DF8 {
+    char pad0[0x7A0];
+    int busy; /* 0x7A0 */
+} Player_82402DF8;
 
+typedef struct Game_82402DF8 {
+    char pad0[0x7F0];
+    char events[4]; /* 0x7F0 */
+} Game_82402DF8;
+
+struct Self_82402DF8 {
+    char pad0[0x10];
+    int playerId; /* 0x010 */
+    char pad14[0x240 - 0x14];
+    Game_82402DF8 *game; /* 0x240 */
+    char pad244[0x27C - 0x244];
+    unsigned int state; /* 0x27C */
+    float time;         /* 0x280 */
+    int pad284;
+    int f288; /* 0x288 */
+    int f28c; /* 0x28C */
+    int pad290;
+    int f294;       /* 0x294 */
+    int f298;       /* 0x298 */
+    int f29c;       /* 0x29C */
+    int f2a0;       /* 0x2A0 */
+    int registered; /* 0x2A4 */
+};
+
+extern void *lbl_821B7B74[];
+extern void fn_82402CF8(Self_82402DF8 *self, int state, int flag);
+extern Player_82402DF8 *fn_82359558(Game_82402DF8 *game, int id);
+extern void fn_82455740(void *events, Function_82402DF8 *callback);
+extern void fn_82359C18(Function_82402DF8 *callback);
+
+void fn_82402DF8(Self_82402DF8 *self, float dt)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  unsigned char **ppuStack_30;
-  int iStack_2c;
-  unsigned char ***pppuStack_20;
-  
-  *(float *)(param_2 + 0x280) = (float)(param_1 + (double)*(float *)(param_2 + 0x280));
-  if (*(int *)(param_2 + 0x294) == 0) {
-    if (*(int *)(param_2 + 0x298) == 0) {
-      if (*(int *)(param_2 + 0x29c) == 0) {
-        if (*(int *)(param_2 + 0x2a0) == 0) {
-          uVar1 = *(unsigned int *)(param_2 + 0x27c);
-          if (uVar1 != 0) {
-            if (uVar1 != 1) {
-              if (uVar1 < 3) {
-                if (*(int *)(param_2 + 0x288) != 0) {
-                  uVar2 = 3;
-                  goto LAB_82402f7c;
-                }
-                if (*(int *)(param_2 + 0x28c) != 0) {
-                  return;
-                }
-              }
-              else {
-                if (uVar1 == 3) {
-                  if (*(int *)(param_2 + 0x288) != 0) {
-                    return;
-                  }
-                  if (*(int *)(param_2 + 0x28c) != 0) {
-                    /* WARNING: Subroutine does not return */
-                    fn_82359558(*(unsigned int *)(param_2 + 0x240),
-                                      *(unsigned int *)(param_2 + 0x10));
-                  }
-                  uVar3 = 0;
-                  uVar2 = 0;
-                  goto LAB_82402f80;
-                }
-                if (6 < uVar1) {
-                  return;
-                }
-              }
-            }
-            uVar2 = 0;
-            goto LAB_82402f7c;
-          }
-          if (*(int *)(param_2 + 0x288) == 0) {
-            if (*(int *)(param_2 + 0x28c) == 0) {
-              return;
-            }
-                    /* WARNING: Subroutine does not return */
-            fn_82359558(*(unsigned int *)(param_2 + 0x240),*(unsigned int *)(param_2 + 0x10));
-          }
-        }
-        else {
-          if (*(int *)(param_2 + 0x2a4) == 0) {
-            pppuStack_20 = &ppuStack_30;
-            ppuStack_30 = &lbl_821B7B74;
-            iStack_2c = param_2;
-            fn_82455740((unsigned __int64)*(unsigned int *)(param_2 + 0x240) + 0x7f0,&ppuStack_30);
-            fn_82359C18(&ppuStack_30);
-            *(unsigned int *)(param_2 + 0x2a4) = 1;
-          }
-          if (*(int *)(param_2 + 0x288) == 0) {
-            return;
-          }
-        }
-        uVar3 = 0;
-        uVar2 = 3;
-        goto LAB_82402f80;
-      }
-      uVar2 = 5;
-    }
-    else {
-      uVar2 = 1;
-    }
-  }
-  else {
-    uVar2 = 4;
-  }
-LAB_82402f7c:
-  uVar3 = 1;
-LAB_82402f80:
-  fn_82402CF8(param_2,uVar2,uVar3);
-  return;
-}
+    self->time = dt + self->time;
+    if (self->f294 != 0) {
+        fn_82402CF8(self, 4, 1);
+    } else if (self->f298 != 0) {
+        fn_82402CF8(self, 1, 1);
+    } else if (self->f29c != 0) {
+        fn_82402CF8(self, 5, 1);
+    } else if (self->f2a0 != 0) {
+        if (self->registered == 0) {
+            Function_82402DF8 callback;
 
+            callback.vtbl = lbl_821B7B74;
+            callback.owner = self;
+            callback.impl = &callback;
+            fn_82455740(self->game->events, &callback);
+            fn_82359C18(&callback);
+            self->registered = 1;
+        }
+        if (self->f288 != 0) {
+            fn_82402CF8(self, 3, 0);
+        }
+    } else {
+        switch (self->state) {
+        case 0:
+            if (self->f288 != 0) {
+                fn_82402CF8(self, 3, 0);
+            } else if (self->f28c != 0) {
+                if (fn_82359558(self->game, self->playerId)->busy == 0) {
+                    fn_82402CF8(self, 2, 1);
+                }
+            }
+            break;
+        case 2:
+            if (self->f288 != 0) {
+                fn_82402CF8(self, 3, 1);
+            } else if (self->f28c == 0) {
+                fn_82402CF8(self, 0, 1);
+            }
+            break;
+        case 3:
+            if (self->f288 == 0) {
+                if (self->f28c != 0 && fn_82359558(self->game, self->playerId)->busy == 0) {
+                    fn_82402CF8(self, 2, 1);
+                } else {
+                    fn_82402CF8(self, 0, 0);
+                }
+            }
+            break;
+        case 1:
+        case 4:
+        case 5:
+        case 6:
+            fn_82402CF8(self, 0, 1);
+            break;
+        }
+    }
+}

@@ -1,82 +1,126 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_82271C18();
-extern int fn_8228C2C8();
-extern unsigned int ltcg_pool_0_0f;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Actor_822724D0 {
+    char pad0[0x510];
+    __vector4 position; /* 0x510 */
+    float speed;        /* 0x520 */
+    char pad524[0x10];
+    int moving; /* 0x534 */
+    char pad538[0xc];
+    int visible; /* 0x544 */
+    int hidden;  /* 0x548 */
+} Actor_822724D0;
 
-unsigned int fn_822724D0(int param_1)
+typedef struct Spawn_822724D0 {
+    __vector4 position; /* 0x00 */
+    char pad10[0x14];
+    Actor_822724D0 *actor; /* 0x24 */
+    char pad28[0x8];
+} Spawn_822724D0;
 
+typedef struct SpawnList_822724D0 {
+    Spawn_822724D0 *begin; /* 0x00 */
+    Spawn_822724D0 *end;   /* 0x04 */
+} SpawnList_822724D0;
+
+typedef struct Registry_822724D0 {
+    char pad0[0xc];
+    void **begin; /* 0x0c */
+    void **end;   /* 0x10 */
+} Registry_822724D0;
+
+typedef struct Stage_822724D0 {
+    char pad0[0x2c];
+    int startId; /* 0x2c */
+} Stage_822724D0;
+
+typedef struct Level_822724D0 {
+    char pad0[0x4];
+    Stage_822724D0 *stage; /* 0x04 */
+} Level_822724D0;
+
+typedef struct Self_822724D0 {
+    char pad0[0x4c];
+    Registry_822724D0 *registry; /* 0x4c */
+    void *selected;              /* 0x50 */
+    char pad54[0x8];
+    SpawnList_822724D0 *spawns; /* 0x5c */
+    char pad60[0x38];
+    int resetPending; /* 0x98 */
+    char pad9C[0x4];
+    int result; /* 0xa0 */
+    char padA4[0x4];
+    Level_822724D0 *level; /* 0xa8 */
+    char padAC[0x10];
+    int defaultValue; /* 0xbc */
+    int value;        /* 0xc0 */
+    int valueUnset;   /* 0xc4 */
+    char padC8[0x8];
+    int counter; /* 0xd0 */
+    char padD4[0x3c];
+    int leftLabel; /* 0x110 */
+    char pad114[0x4];
+    int rightLabel; /* 0x118 */
+} Self_822724D0;
+
+extern char lbl_820E975C[];
+
+extern void fn_8228C2C8(void *label, const char *text);
+extern void fn_82271C18(Self_822724D0 *self, int id, unsigned int a, int b);
+
+static __forceinline unsigned char Contains(Registry_822724D0 *registry, void *value)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  bool bVar3;
-  unsigned int uVar4;
-  int in_r0;
-  int iVar5;
-  int *piVar6;
-  unsigned int uVar7;
-  unsigned int uVar8;
-  unsigned int uVar9;
-  unsigned int uVar10;
-  unsigned int uVar11;
-  
-  uVar7 = *(unsigned int *)(param_1 + 0xa0);
-  if (*(int *)(param_1 + 0x98) != 0) {
-    piVar6 = *(int **)(param_1 + 0x5c);
-    *(unsigned int *)(param_1 + 0xd0) = 0;
-    *(unsigned int *)(param_1 + 0xc0) = *(unsigned int *)(param_1 + 0xbc);
-    *(unsigned int *)(param_1 + 0xc4) = (unsigned int)LZCOUNT(*(unsigned int *)(param_1 + 0xbc)) >> 5;
-    uVar4 = ltcg_pool_0_0f;
-    iVar5 = *piVar6;
-    if (iVar5 != piVar6[1]) {
-      do {
-        iVar1 = *(int *)(iVar5 + 0x24);
-        if (iVar1 != 0) {
-          puVar2 = (unsigned int *)(in_r0 + iVar5 & 0xfffffff0);
-          uVar8 = *puVar2;
-          uVar9 = puVar2[1];
-          uVar10 = puVar2[2];
-          uVar11 = puVar2[3];
-          *(unsigned int *)(iVar1 + 0x520) = uVar4;
-          *(unsigned int *)(iVar1 + 0x548) = 0;
-          *(unsigned int *)(iVar1 + 0x544) = 1;
-          *(unsigned int *)(iVar1 + 0x534) = 0;
-          puVar2 = (unsigned int *)(iVar1 + 0x510U & 0xfffffff0);
-          *puVar2 = uVar8;
-          puVar2[1] = uVar9;
-          puVar2[2] = uVar10;
-          puVar2[3] = uVar11;
+    void **p = registry->begin;
+    void **end = registry->end;
+
+    while (p != end) {
+        if (*p == value) {
+            return 1;
         }
-        iVar5 = iVar5 + 0x30;
-      } while (iVar5 != piVar6[1]);
+        p++;
     }
-    iVar5 = *(int *)(*(int *)(param_1 + 0xa8) + 4);
-    if (*(int *)(param_1 + 0x110) != 0) {
-      fn_8228C2C8(*(int *)(param_1 + 0x110),0xffffffff820e975c);
-    }
-    if (*(int *)(param_1 + 0x118) != 0) {
-      fn_8228C2C8(*(int *)(param_1 + 0x118),0xffffffff820e975c);
-    }
-    fn_82271C18(param_1,*(unsigned int *)(iVar5 + 0x2c),0,0);
-  }
-  piVar6 = *(int **)(*(int *)(param_1 + 0x4c) + 0xc);
-  do {
-    if (piVar6 == *(int **)(*(int *)(param_1 + 0x4c) + 0x10)) {
-      bVar3 = false;
-LAB_822725e0:
-      if (!bVar3) {
-        uVar7 = 0;
-        *(unsigned int *)(param_1 + 0x50) = 0;
-      }
-      return uVar7;
-    }
-    if (*piVar6 == *(int *)(param_1 + 0x50)) {
-      bVar3 = true;
-      goto LAB_822725e0;
-    }
-    piVar6 = piVar6 + 1;
-  } while( true );
+    return 0;
 }
 
+int fn_822724D0(Self_822724D0 *self)
+{
+    int result = self->result;
+    void *selected;
+
+    if (self->resetPending != 0) {
+        SpawnList_822724D0 *spawns = self->spawns;
+        Spawn_822724D0 *spawn;
+        Stage_822724D0 *stage;
+
+        self->counter = 0;
+        self->value = self->defaultValue;
+        self->valueUnset = self->defaultValue == 0;
+        for (spawn = spawns->begin; spawn != spawns->end; spawn++) {
+            Actor_822724D0 *actor = spawn->actor;
+
+            if (actor != 0) {
+                actor->position = spawn->position;
+                actor->speed = 0.0f;
+                actor->hidden = 0;
+                actor->visible = 1;
+                actor->moving = 0;
+            }
+        }
+        stage = self->level->stage;
+        if (self->leftLabel != 0) {
+            fn_8228C2C8((void *)self->leftLabel, lbl_820E975C);
+        }
+        if (self->rightLabel != 0) {
+            fn_8228C2C8((void *)self->rightLabel, lbl_820E975C);
+        }
+        fn_82271C18(self, stage->startId, 0, 0);
+    }
+    selected = self->selected;
+    if (!Contains(self->registry, selected)) {
+        result = 0;
+        self->selected = 0;
+    }
+    return result;
+}

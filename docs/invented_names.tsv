@@ -113,6 +113,7 @@ address	class	method	symbol
 0x82CE36A8	Buf_82CE3628	Write	?Write@Buf_82CE3628@@QAAJPBII@Z
 0x82CE3730	Buf_82CE3628	Write	?Write@Buf_82CE3628@@QAAJPB_KI@Z
 0x82CFCD88	String_82CFCD88	replace	?replace@String_82CFCD88@@QBA?AV1@ABV1@0W4ReplaceType@1@@Z
+0x82CFCE90	String_82CFCD88	replaceInplace	?replaceInplace@String_82CFCD88@@QAA?AVhkBool@@ABV1@0W4ReplaceType@1@@Z
 0x82D02708	Grid_82D02708	Claim	?Claim@Grid_82D02708@@QAAHH@Z
 0x82D0FE70	Hull_82D0FE70	subtract	?subtract@Hull_82D0FE70@@QAA_NPAXPAUObjectArray_82D0FE70@@M@Z
 0x82D4D2B0	BitSet_82D4D2B0	get	?get@BitSet_82D4D2B0@@QAA?AVBitResult@@H@Z

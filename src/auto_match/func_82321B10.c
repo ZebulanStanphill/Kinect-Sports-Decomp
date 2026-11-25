@@ -1,96 +1,115 @@
-extern int fn_822C0880();
-extern int fn_82520780();
-extern int fn_82539560();
-extern unsigned int lbl_82195518;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Tuning_82321B10 {
+    float f00;          /* 0x00 */
+    float retryChance;  /* 0x04 */
+    float finishChance; /* 0x08 */
+    float f0C;          /* 0x0C */
+    float maxCharge;    /* 0x10 */
+    char pad14[0x8];
+    float inMax;  /* 0x1C */
+    float outMin; /* 0x20 */
+    float outMax; /* 0x24 */
+} Tuning_82321B10;
 
+typedef struct Throw_82321B10 {
+    int f00;                 /* 0x00 */
+    int f04;                 /* 0x04 */
+    float timer;             /* 0x08 */
+    float charge;            /* 0x0C */
+    float power;             /* 0x10 */
+    int canRetry;            /* 0x14 */
+    int done;                /* 0x18 */
+    int ready;               /* 0x1C */
+    int powered;             /* 0x20 */
+    Tuning_82321B10 *tuning; /* 0x24 */
+} Throw_82321B10;
 
-int fn_82321B10(double param_1,int param_2,int param_3,int param_4,int param_5)
+typedef struct Player_82321B10 {
+    char pad000[0x7a0];
+    int blocked; /* 0x7A0 */
+    int limited; /* 0x7A4 */
+} Player_82321B10;
 
+extern const double lbl_821954B0[];
+extern double __fsel(double test, double positive, double negative);
+extern float fn_82539560(float x, float inMin, float inMax, float outMin, float outMax);
+extern int fn_82520780(unsigned int *seed, float chance);
+extern int fn_822C0880(Player_82321B10 *player);
+extern unsigned int lbl_83265A28;
+
+int fn_82321B10(Throw_82321B10 *self, Player_82321B10 *player, int kind, int mode, float dt)
 {
-  float fVar1;
-  float fVar2;
-  int iVar3;
-  int iVar4;
-  double dVar5;
-  
-  iVar4 = 0;
-  if (param_5 == 0) {
-    iVar4 = 9;
-  }
-  else if (param_5 == 2) {
-LAB_82321b6c:
-    iVar4 = 1;
-  }
-  else if (param_5 == 3) {
-    if ((*(int *)(param_2 + 0x1c) == 0) || (*(int *)(param_3 + 0x7a0) != 0)) goto LAB_82321b6c;
-    iVar4 = 2;
-  }
-  if ((*(int *)(param_3 + 0x7a4) != 0) && (iVar4 == 2)) {
-    iVar4 = 1;
-  }
-  if (*(int *)(param_2 + 0x18) != 0) {
-    return iVar4;
-  }
-  dVar5 = (double)ltcg_pool_0_0f;
-  if (param_4 == 1) {
-    if (*(int *)(param_3 + 0x7a0) == 0) {
-      if ((param_5 != 1) && (param_5 != 0)) {
-        *(float *)(param_2 + 0xc) = (float)(param_1 + (double)*(float *)(param_2 + 0xc));
-      }
-      fVar1 = *(float *)(param_2 + 0xc);
-      if (*(float *)(*(int *)(param_2 + 0x24) + 0x10) <= fVar1) {
-        iVar4 = 6;
-      }
-      fVar2 = *(float *)(*(int *)(param_2 + 0x24) + 0x10);
-      if (fVar1 - fVar2 < 0.0) {
-        fVar2 = fVar1;
-      }
-      *(float *)(param_2 + 0xc) = fVar2;
-      goto LAB_82321c84;
-    }
-  }
-  else {
-    if (param_4 == 2) {
-      iVar4 = *(int *)(param_2 + 0x24);
-                    /* WARNING: Subroutine does not return */
-      fn_82539560(param_1,dVar5,(double)*(float *)(iVar4 + 0x1c),(double)*(float *)(iVar4 + 0x20),
-                   (double)*(float *)(iVar4 + 0x24));
-    }
-LAB_82321c84:
-    if (param_4 < 1) {
-      return iVar4;
-    }
-    if (2 < param_4) {
-      if (param_4 != 4) {
-        return iVar4;
-      }
-      return 4;
-    }
-  }
-  *(float *)(param_2 + 8) = (float)((double)*(float *)(param_2 + 8) - param_1);
-  if (((param_5 == 3) && (*(int *)(param_2 + 0x14) != 0)) &&
-     (iVar3 = fn_82520780((double)*(float *)(*(int *)(param_2 + 0x24) + 4),0xffffffff83265a28),
-     iVar3 != 0)) {
-    *(float *)(param_2 + 8) = (float)dVar5;
-    return 3;
-  }
-  if (((double)*(float *)(param_2 + 8) <= dVar5) &&
-     ((*(float *)(param_2 + 8) = (float)dVar5, param_4 == 1 || (param_4 == 2)))) {
-    iVar4 = fn_82520780((double)*(float *)(*(int *)(param_2 + 0x24) + 8),0xffffffff83265a28);
-    if ((iVar4 != 0) && (*(int *)(param_3 + 0x7a0) == 0)) {
-      iVar3 = fn_822C0880(param_3);
-      iVar4 = 5;
-      if (iVar3 != 0) goto LAB_82321d00;
-    }
-    iVar4 = 4;
-  }
-LAB_82321d00:
-  dVar5 = lbl_82195518;
-  if (-(double)*(float *)(param_2 + 8) < 0.0) {
-    dVar5 = (double)*(float *)(param_2 + 8);
-  }
-  *(float *)(param_2 + 8) = (float)dVar5;
-  return iVar4;
-}
+    int result = 0;
 
+    switch (mode) {
+    case 3:
+        if (self->ready != 0 && player->blocked == 0) {
+            result = 2;
+            break;
+        }
+    case 2:
+        result = 1;
+        break;
+    case 0:
+        result = 9;
+        break;
+    }
+    if (player->limited != 0 && result == 2) {
+        result = 1;
+    }
+    if (self->done != 0) {
+        return result;
+    }
+    switch (kind) {
+    case 2: {
+        Tuning_82321B10 *tuning = self->tuning;
+
+        self->power = fn_82539560(dt, 0.0f, tuning->inMax, tuning->outMin, tuning->outMax) + self->power;
+        self->powered = 1;
+        break;
+    }
+    case 1:
+        if (player->blocked == 0) {
+            int charging;
+            charging = mode != 1 && mode != 0;
+            if (charging) {
+                self->charge = dt + self->charge;
+            }
+            if (self->charge >= self->tuning->maxCharge) {
+                result = 6;
+            }
+            {
+                double difference = self->charge - self->tuning->maxCharge;
+
+                self->charge = (float)__fsel(difference, self->tuning->maxCharge, self->charge);
+            }
+        }
+        break;
+    }
+    switch (kind) {
+    case 1:
+    case 2:
+        self->timer = self->timer - dt;
+        if (mode == 3 && self->canRetry != 0 && fn_82520780(&lbl_83265A28, self->tuning->retryChance) != 0) {
+            self->timer = 0.0f;
+            return 3;
+        }
+        if (self->timer <= 0.0f) {
+            self->timer = 0.0f;
+            if (kind == 1 || kind == 2) {
+                if (fn_82520780(&lbl_83265A28, self->tuning->finishChance) != 0 && player->blocked == 0 &&
+                    fn_822C0880(player) != 0) {
+                    result = 5;
+                } else {
+                    result = 4;
+                }
+            }
+        }
+        /* max(timer, 0.0) against the link-time pool's double 0.0 */
+        self->timer = (float)__fsel(-self->timer, lbl_821954B0[13], self->timer);
+        break;
+    case 4:
+        result = 4;
+        break;
+    }
+    return result;
+}

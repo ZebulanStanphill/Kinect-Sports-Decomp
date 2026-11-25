@@ -1,98 +1,122 @@
-extern unsigned int *auStack_38;
-extern unsigned int *auStack_40;
-extern int fn_822315A0();
-extern int fn_82341008();
-extern int fn_82347890();
-extern int fn_82365BD8();
-extern int fn_8265C9E0();
-extern unsigned int lbl_8218E8E8;
-extern unsigned int lbl_82191138;
-extern unsigned int lbl_821916FC;
-extern unsigned int lbl_821917CC;
-extern unsigned int lbl_82192510;
-extern unsigned int lbl_82192568;
-extern unsigned int lbl_821B1980;
-extern unsigned int lbl_821B1BD0;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct SharedRef_82342EC0 {
+    void *ptr; /* 0x00 */
+    void *rep; /* 0x04 */
+} SharedRef_82342EC0;
 
+typedef struct Items_82342EC0 {
+    void *begin;    /* 0x00 */
+    void *end;      /* 0x04 */
+    void *capacity; /* 0x08 */
+} Items_82342EC0;
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+typedef struct Settings_82342EC0 {
+    int id;               /* 0x00 */
+    int f04;              /* 0x04 */
+    float f08;            /* 0x08 */
+    float f0C;            /* 0x0C */
+    float f10;            /* 0x10 */
+    float f14;            /* 0x14 */
+    int f18;              /* 0x18 */
+    unsigned char f1C;    /* 0x1C */
+    int f20;              /* 0x20 */
+    int f24;              /* 0x24 */
+    int f28;              /* 0x28 */
+    float f2C;            /* 0x2C */
+    float f30;            /* 0x30 */
+    float f34;            /* 0x34 */
+    float f38;            /* 0x38 */
+    float f3C;            /* 0x3C */
+    float f40;            /* 0x40 */
+    float f44;            /* 0x44 */
+    int f48;              /* 0x48 */
+    Items_82342EC0 items; /* 0x4C */
+    int f58;              /* 0x58 */
+} Settings_82342EC0;
 
-unsigned int * fn_82342EC0(unsigned int *param_1,unsigned __int64 param_2,unsigned __int64 param_3,int param_4)
+typedef struct Object_82342EC0 {
+    void *vtable;                /* 0x00 */
+    int base[3];                 /* 0x04 */
+    void *model;                 /* 0x10 */
+    Settings_82342EC0 *settings; /* 0x14 */
+} Object_82342EC0;
 
+extern SharedRef_82342EC0 *fn_82365BD8(SharedRef_82342EC0 *out, SharedRef_82342EC0 *src);
+extern void fn_82341008(Object_82342EC0 *self, int a, int b, int c);
+extern void *fn_82347890(void *mem, SharedRef_82342EC0 *ref);
+extern void fn_822315A0(void *rep);
+extern void *fn_8265C9E0(unsigned int size);
+extern char lbl_821B1BD0[];
+extern char lbl_821B1980[];
+
+static __forceinline void InitItems(Items_82342EC0 *items)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  unsigned int uVar7;
-  int iVar10;
-  __int64 lVar8;
-  unsigned __int64 uVar9;
-  unsigned int uVar11;
-  unsigned int *puVar12;
-  unsigned char auStack_40 [8];
-  unsigned char auStack_38 [56];
-  
-  iVar10 = fn_82365BD8(auStack_40,param_4);
-  fn_82341008(param_1,param_2,param_3,8);
-  *param_1 = &lbl_821B1BD0;
-  lVar8 = fn_8265C9E0(0xe0);
-  if (lVar8 == 0) {
-    uVar11 = 0;
-  }
-  else {
-    uVar9 = fn_82365BD8(auStack_38,iVar10);
-    uVar11 = fn_82347890(lVar8,uVar9);
-  }
-  param_1[4] = uVar11;
-  if (*(int *)(iVar10 + 4) != 0) {
-    fn_822315A0();
-  }
-  *param_1 = &lbl_821B1980;
-  puVar12 = (unsigned int *)fn_8265C9E0(0x5c);
-  if (puVar12 == (unsigned int *)0x0) {
-    puVar12 = (unsigned int *)0x0;
-  }
-  else {
-    puVar12[1] = 0;
-    puVar12[6] = 0;
-    *(unsigned char *)(puVar12 + 7) = 0;
-    puVar12[8] = 0;
-    puVar12[9] = 0;
-    puVar12[10] = 0;
-    puVar12[0x12] = 0;
-    uVar6 = lbl_821CA460;
-    uVar1 = lbl_82191138;
-    *puVar12 = 0xffffffff;
-    uVar7 = ltcg_pool_0_0f;
-    uVar5 = lbl_82192568;
-    uVar4 = lbl_82192510;
-    uVar3 = lbl_821917CC;
-    uVar2 = lbl_821916FC;
-    uVar11 = lbl_8218E8E8;
-    puVar12[2] = ltcg_pool_0_0f;
-    puVar12[3] = uVar6;
-    puVar12[4] = uVar7;
-    puVar12[5] = uVar6;
-    puVar12[0xb] = uVar1;
-    puVar12[0xc] = uVar5;
-    puVar12[0xd] = uVar4;
-    puVar12[0xe] = uVar2;
-    puVar12[0xf] = uVar6;
-    puVar12[0x10] = uVar11;
-    puVar12[0x11] = uVar3;
-    puVar12[0x13] = 0;
-    puVar12[0x14] = 0;
-    puVar12[0x15] = 0;
-  }
-  param_1[5] = puVar12;
-  if (*(int *)(param_4 + 4) != 0) {
-    fn_822315A0();
-  }
-  return param_1;
+    items->begin = 0;
+    items->end = 0;
+    items->capacity = 0;
 }
 
+static __forceinline Settings_82342EC0 *InitSettings(Settings_82342EC0 *settings)
+{
+    settings->f04 = 0;
+    settings->f18 = 0;
+    settings->f1C = 0;
+    settings->f20 = 0;
+    settings->f24 = 0;
+    settings->f28 = 0;
+    settings->f48 = 0;
+    settings->id = -1;
+    settings->f08 = 0.0f;
+    settings->f0C = 1.0f;
+    settings->f10 = 0.0f;
+    settings->f14 = 1.0f;
+    settings->f2C = 7.5f;
+    settings->f30 = 1.2f;
+    settings->f34 = 15.0f;
+    settings->f38 = 2.0f;
+    settings->f3C = 1.0f;
+    settings->f40 = 0.5f;
+    settings->f44 = -0.25f;
+    InitItems(&settings->items);
+    return settings;
+}
+
+static __forceinline void InitMid(Object_82342EC0 *self, int a, int b, SharedRef_82342EC0 *ref)
+{
+    SharedRef_82342EC0 modelRef;
+    void *mem;
+    void *model;
+
+    fn_82341008(self, a, b, 8);
+    self->vtable = lbl_821B1BD0;
+    mem = fn_8265C9E0(0xe0);
+    if (mem != 0) {
+        model = fn_82347890(mem, fn_82365BD8(&modelRef, ref));
+    } else {
+        model = 0;
+    }
+    self->model = model;
+    if (ref->rep != 0) {
+        fn_822315A0(ref->rep);
+    }
+}
+
+Object_82342EC0 *fn_82342EC0(Object_82342EC0 *self, int a, int b, SharedRef_82342EC0 *ref)
+{
+    SharedRef_82342EC0 midRef;
+    Settings_82342EC0 *mem;
+    Settings_82342EC0 *settings;
+
+    InitMid(self, a, b, fn_82365BD8(&midRef, ref));
+    self->vtable = lbl_821B1980;
+    mem = (Settings_82342EC0 *)fn_8265C9E0(0x5c);
+    if (mem != 0) {
+        settings = InitSettings(mem);
+    } else {
+        settings = 0;
+    }
+    self->settings = settings;
+    if (ref->rep != 0) {
+        fn_822315A0(ref->rep);
+    }
+    return self;
+}

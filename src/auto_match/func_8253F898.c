@@ -1,142 +1,167 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_60;
-extern int fn_82527EF0();
-extern int fn_8253E598();
-extern int fn_8253FB70();
-extern int fn_82571780();
-extern int fn_82571BB8();
-extern int fn_825A1FF8();
-extern int fn_825A5660();
-extern int fn_825A6940();
-extern int fn_825A7290();
-extern int fn_825A81F0();
-extern int fn_82D89BD8();
-extern int fn_82D8B930();
-extern unsigned int lbl_82195530;
-extern V16 vectorAddFloatingPoint();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vaddfp(__vector4 a, __vector4 b);
 
-void fn_8253F898(int param_1,unsigned __int64 param_2)
+typedef struct Body_8253F898 {
+    char pad0[0x8];
+    int shape; /* 0x008 */
+    char padc[0x88];
+    float friction; /* 0x094 */
+    char pad98[0xc8];
+    char transform[1]; /* 0x160 */
+} Body_8253F898;
 
+typedef struct Target_8253F898 {
+    char pad0[0x134];
+    int layer; /* 0x134 */
+} Target_8253F898;
+
+typedef struct Attachment_8253F898 {
+    void *part;              /* 0x0 */
+    Target_8253F898 *target; /* 0x4 */
+} Attachment_8253F898;
+
+typedef struct Collision_8253F898 {
+    char pad0[0x28];
+    Target_8253F898 *main; /* 0x028 */
+    char pad2c[0xdc];
+    unsigned int state; /* 0x108 */
+    char pad10c[0x18];
+    Attachment_8253F898 *first; /* 0x124 */
+    Attachment_8253F898 *last;  /* 0x128 */
+    char pad12c[0xc];
+    unsigned int flags; /* 0x138 */
+    int layer;          /* 0x13C */
+} Collision_8253F898;
+
+typedef struct Actor_8253F898 Actor_8253F898;
+
+typedef struct Solver_8253F898 {
+    char pad0[0x5c];
+    int active; /* 0x5C */
+} Solver_8253F898;
+
+typedef struct Link_8253F898 {
+    char pad0[0x80];
+    Actor_8253F898 *actor; /* 0x080 */
+    char pad84[0xa0];
+    unsigned char wake; /* 0x124 */
+} Link_8253F898;
+
+struct Actor_8253F898 {
+    char pad0[0x20];
+    Link_8253F898 *link; /* 0x020 */
+    char pad24[0xac];
+    __vector4 position; /* 0x0D0 */
+    char pade0[0x230];
+    Solver_8253F898 solver; /* 0x310 */
+    char pad370[0x10];
+    Collision_8253F898 collision; /* 0x380 */
+    char pad4c0[0x20];
+    int material; /* 0x4E0 */
+    char pad4e4[0x2dc];
+    Body_8253F898 *body; /* 0x7C0 */
+    char pad7c4[0x24];
+    float friction; /* 0x7E8 */
+    char pad7ec[0x54];
+    float frictionOverride; /* 0x840 */
+    char pad844[0xc];
+    __vector4 velocity; /* 0x850 */
+    char pad860[0x10];
+    __vector4 extraVelocity; /* 0x870 */
+    int addExtra;            /* 0x880 */
+    int velocityDirty;       /* 0x884 */
+};
+
+extern void fn_82D8B930(Body_8253F898 *body, const __vector4 *velocity);
+extern void fn_8253E598(Actor_8253F898 *self, void *arg);
+extern void fn_825A7290(Actor_8253F898 *self);
+extern void fn_82571BB8(Actor_8253F898 *self);
+extern void fn_82571780(Collision_8253F898 *collision, void *part, Target_8253F898 *target,
+                        unsigned int flags);
+extern void fn_825A81F0(Actor_8253F898 *self);
+extern void fn_825A5660(Solver_8253F898 *solver, int material, Body_8253F898 *body, Actor_8253F898 *self,
+                        void *transform);
+extern void fn_825A6940(Actor_8253F898 *self);
+extern void fn_825A1FF8(Actor_8253F898 *self);
+extern Actor_8253F898 *fn_82527EF0(Actor_8253F898 *self);
+extern void fn_82D89BD8(Body_8253F898 *body);
+extern void fn_8253FB70(Actor_8253F898 *self);
+
+void fn_8253F898(Actor_8253F898 *self, void *arg)
 {
-  float fVar1;
-  unsigned int *puVar2;
-  bool bVar3;
-  int in_r0;
-  int iVar4;
-  unsigned char *puVar5;
-  unsigned int uVar6;
-  unsigned int *puVar7;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs45 [16];
-  unsigned int uVar8;
-  unsigned int uVar9;
-  unsigned int uVar10;
-  unsigned char auStack_60 [16];
-  unsigned char auStack_50 [80];
-  
-  iVar4 = *(int *)(param_1 + 0x7c0);
-  if (iVar4 == 0) goto LAB_8253f948;
-  fVar1 = *(float *)(param_1 + 0x840);
-  if (fVar1 == lbl_82195530) {
-    fVar1 = *(float *)(param_1 + 0x7e8);
-    if (*(float *)(iVar4 + 0x94) != fVar1) goto LAB_8253f8e4;
-  }
-  else {
-LAB_8253f8e4:
-    *(float *)(iVar4 + 0x94) = fVar1;
-  }
-  if (*(int *)(param_1 + 0x880) == 0) {
-    if (*(int *)(param_1 + 0x884) == 0) goto LAB_8253f948;
-    puVar5 = auStack_50;
-    puVar7 = (unsigned int *)(param_1 + 0x850U & 0xfffffff0);
-    uVar8 = puVar7[1];
-    uVar9 = puVar7[2];
-    uVar10 = puVar7[3];
-    puVar2 = (unsigned int *)((unsigned int)(auStack_50 + in_r0) & 0xfffffff0);
-    *puVar2 = *puVar7;
-    puVar2[1] = uVar8;
-    puVar2[2] = uVar9;
-    puVar2[3] = uVar10;
-  }
-  else {
-    if (*(int *)(param_1 + 0x884) == 0) goto LAB_8253f948;
-    puVar5 = auStack_60;
-    puVar7 = (unsigned int *)(param_1 + 0x870U & 0xfffffff0);
-    uVar8 = puVar7[1];
-    uVar9 = puVar7[2];
-    uVar10 = puVar7[3];
-    vectorAddFloatingPoint(in_vs45,in_vs32);
-    puVar2 = (unsigned int *)((unsigned int)(auStack_60 + in_r0) & 0xfffffff0);
-    *puVar2 = *puVar7;
-    puVar2[1] = uVar8;
-    puVar2[2] = uVar9;
-    puVar2[3] = uVar10;
-  }
-  fn_82D8B930(iVar4,puVar5);
-  *(unsigned int *)(param_1 + 0x884) = 0;
-LAB_8253f948:
-  fn_8253E598(param_1,param_2);
-  fn_825A7290(param_1);
-  fn_82571BB8(param_1);
-  if (((*(unsigned int *)(param_1 + 0x4b8) & 1) != 0) && ((*(unsigned int *)(param_1 + 0x4b8) & 4) == 0)) {
-    iVar4 = *(int *)(param_1 + 0x7c0);
-    bVar3 = false;
-    if ((iVar4 != 0) && (*(int *)(iVar4 + 8) != 0)) {
-      fn_82571780(param_1 + 0x380,iVar4,0);
-      *(unsigned int *)(*(int *)(param_1 + 0x3a8) + 0x134) = *(unsigned int *)(param_1 + 0x4bc);
-      if ((*(unsigned int *)(param_1 + 0x488) & 0x40) != 0) {
-        bVar3 = true;
-      }
+    Body_8253F898 *body = self->body;
+    Link_8253F898 *link;
+    __vector4 sum;
+    __vector4 velocity;
+    Solver_8253F898 *solver;
+    if (body != 0) {
+        if (self->frictionOverride != 3.402823466e+38f) {
+            body->friction = self->frictionOverride;
+        } else if (body->friction != self->friction) {
+            body->friction = self->friction;
+        }
+        if (self->addExtra != 0) {
+            if (self->velocityDirty != 0) {
+                sum = __vaddfp(self->velocity, self->extraVelocity);
+                fn_82D8B930(body, &sum);
+                self->velocityDirty = 0;
+            }
+        } else if (self->velocityDirty != 0) {
+            velocity = self->velocity;
+            fn_82D8B930(body, &velocity);
+            self->velocityDirty = 0;
+        }
     }
-    puVar2 = *(unsigned int **)(param_1 + 0x4a8);
-    for (puVar7 = *(unsigned int **)(param_1 + 0x4a4); puVar7 < puVar2; puVar7 = puVar7 + 2) {
-      fn_82571780(param_1 + 0x380,*puVar7,puVar7[1],*(unsigned int *)(param_1 + 0x4b8));
-      *(unsigned int *)(puVar7[1] + 0x134) = *(unsigned int *)(param_1 + 0x4bc);
-      if ((*(unsigned int *)(param_1 + 0x488) & 0x40) != 0) {
-        bVar3 = true;
-      }
+    fn_8253E598(self, arg);
+    fn_825A7290(self);
+    fn_82571BB8(self);
+    {
+        Collision_8253F898 *collision = &self->collision;
+        unsigned int flags = collision->flags;
+        if ((flags & 1) != 0 && (flags & 4) == 0) {
+            int changed = 0;
+            Attachment_8253F898 *it;
+            Attachment_8253F898 *last;
+            if ((int)self->body != 0 && self->body->shape != 0) {
+                fn_82571780(collision, self->body, 0, flags);
+                collision->main->layer = collision->layer;
+                if ((collision->state & 0x40) != 0) {
+                    changed = 1;
+                }
+            }
+            it = collision->first;
+            last = collision->last;
+            for (; it < last; it++) {
+                fn_82571780(collision, it->part, it->target, collision->flags);
+                it->target->layer = collision->layer;
+                if ((collision->state & 0x40) != 0) {
+                    changed = 1;
+                }
+            }
+            if (changed) {
+                collision->state |= 0x40;
+            } else {
+                collision->state &= ~0x40;
+            }
+        }
     }
-    if (bVar3) {
-      uVar6 = *(unsigned int *)(param_1 + 0x488) | 0x40;
+    fn_825A81F0(self);
+    solver = &self->solver;
+    if (solver->active != 0) {
+        fn_825A5660(solver, self->material, self->body, self, self->body->transform);
     }
-    else {
-      uVar6 = *(unsigned int *)(param_1 + 0x488) & 0xffffffbf;
+    fn_825A6940(self);
+    fn_825A1FF8(self);
+    if (fn_82527EF0(self) != 0) {
+        self->position = fn_82527EF0(self)->position;
     }
-    *(unsigned int *)(param_1 + 0x488) = uVar6;
-  }
-  fn_825A81F0(param_1);
-  if (*(int *)(param_1 + 0x36c) != 0) {
-    fn_825A5660(param_1 + 0x310,*(unsigned int *)(param_1 + 0x4e0),
-                      (unsigned __int64)*(unsigned int *)(param_1 + 0x7c0),param_1,
-                      (unsigned __int64)*(unsigned int *)(param_1 + 0x7c0) + 0x160);
-  }
-  fn_825A6940(param_1);
-  fn_825A1FF8(param_1);
-  iVar4 = fn_82527EF0(param_1);
-  if (iVar4 != 0) {
-    iVar4 = fn_82527EF0(param_1);
-    puVar7 = (unsigned int *)(iVar4 + 0xd0U & 0xfffffff0);
-    uVar8 = puVar7[1];
-    uVar9 = puVar7[2];
-    uVar10 = puVar7[3];
-    puVar2 = (unsigned int *)(param_1 + 0xd0U & 0xfffffff0);
-    *puVar2 = *puVar7;
-    puVar2[1] = uVar8;
-    puVar2[2] = uVar9;
-    puVar2[3] = uVar10;
-  }
-  iVar4 = *(int *)(param_1 + 0x20);
-  if ((((iVar4 != 0) && (*(int *)(iVar4 + 0x80) != 0)) &&
-      (*(int *)(*(int *)(iVar4 + 0x80) + 0x7c0) != 0)) && (*(char *)(iVar4 + 0x124) != '\0')) {
-    fn_82D89BD8();
-    *(unsigned char *)(iVar4 + 0x124) = 0;
-  }
-  fn_8253FB70(param_1);
-  return;
+    link = self->link;
+    if (link != 0 && link->actor != 0 && link->actor->body != 0 && link->wake) {
+        fn_82D89BD8(link->actor->body);
+        link->wake = 0;
+    }
+    fn_8253FB70(self);
 }
-

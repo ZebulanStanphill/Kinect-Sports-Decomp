@@ -1,72 +1,66 @@
-#define true 1
-extern unsigned int fStack_5c;
-extern unsigned int fStack_60;
-extern int fn_826EBD10();
-extern int fn_82F6A53C();
-extern int fn_82F6A588();
-extern unsigned int lbl_82002C5C;
-extern unsigned int lbl_82015528;
+typedef struct Point_827847F8 {
+    float x;
+    float y;
+} Point_827847F8;
 
+typedef struct Counter_827847F8 {
+    int pad0;
+    int count; /* 0x04 */
+} Counter_827847F8;
 
-void fn_827847F8(unsigned __int64 param_1,double param_2,double param_3,double param_4,double param_5,
-                  double param_6)
+typedef struct PointArray_827847F8 {
+    unsigned int size;      /* 0x00 */
+    unsigned int pageCount; /* 0x04 */
+    unsigned int maxPages;  /* 0x08 */
+    Point_827847F8 **pages; /* 0x0c */
+} PointArray_827847F8;
 
+typedef struct Path_827847F8 {
+    int pad0;
+    float tolerance;            /* 0x04 */
+    PointArray_827847F8 points; /* 0x08 */
+    char pad18[0x10];
+    Counter_827847F8 *added; /* 0x28 */
+} Path_827847F8;
+
+extern const float lbl_82015528;
+extern double fabs(double x);
+extern void fn_826EBD10(PointArray_827847F8 *points, const Point_827847F8 *point);
+
+void fn_827847F8(Path_827847F8 *path, float x0, float y0, float x1, float y1, float x2, float y2)
 {
-  double dVar1;
-  double dVar2;
-  double dVar3;
-  double dVar4;
-  double dVar5;
-  float fVar6;
-  float fVar7;
-  float fVar8;
-  int iVar9;
-  double extraout_f1;
-  double dVar10;
-  double dVar11;
-  float fStack_60;
-  float fStack_5c;
-  
-  iVar9 = fn_82F6A53C();
-  dVar2 = param_4 - param_6;
-  dVar3 = param_6 - param_2;
-  dVar4 = param_5 - extraout_f1;
-  dVar11 = (double)lbl_82002C5C;
-  dVar5 = param_3 - param_5;
-  dVar1 = extraout_f1 + param_3;
-  param_2 = param_2 + param_4;
-  param_3 = param_3 + param_5;
-  param_4 = param_4 + param_6;
-  dVar10 = extraout_f1;
-  while( true ) {
-    fVar7 = (float)dVar4;
-    fVar6 = (float)dVar3;
-    param_4 = (double)(float)((double)(float)param_4 * dVar11);
-    param_3 = (double)(float)((double)(float)param_3 * dVar11);
-    fVar8 = ABS((float)dVar5 * fVar6 - (float)dVar2 * fVar7);
-    if (fVar8 <= lbl_82015528) break;
-    if (fVar8 * fVar8 <= (fVar6 * fVar6 + fVar7 * fVar7) * *(float *)(iVar9 + 4)) break;
-    param_2 = (double)(float)((double)(float)(param_4 +
-                                             (double)(float)((double)(float)param_2 * dVar11)) *
-                             dVar11);
-    dVar1 = (double)(float)((double)(float)(param_3 + (double)(float)((double)(float)dVar1 * dVar11)
-                                           ) * dVar11);
-    ((int (*)())fn_827847F8)(dVar10,iVar9);
-    dVar10 = dVar1;
-    dVar2 = param_4 - param_6;
-    dVar4 = param_5 - dVar10;
-    dVar5 = param_3 - param_5;
-    dVar3 = param_6 - param_2;
-    dVar1 = dVar10 + param_3;
-    param_2 = param_2 + param_4;
-    param_3 = param_3 + param_5;
-    param_4 = param_4 + param_6;
-  }
-  fStack_60 = (float)param_5;
-  fStack_5c = (float)param_6;
-  fn_826EBD10(iVar9 + 8,&fStack_60);
-  *(int *)(*(int *)(iVar9 + 0x28) + 4) = *(int *)(*(int *)(iVar9 + 0x28) + 4) + 1;
-  fn_82F6A588();
-  return;
-}
+    float mx01;
+    float my01;
+    float mx12;
+    float my12;
+    float mx;
+    float my;
+    float cross;
+    float dx;
+    float dy;
+    Point_827847F8 point;
 
+    for (;;) {
+        mx01 = (x0 + x1) * 0.5f;
+        my01 = (y0 + y1) * 0.5f;
+        mx12 = (x1 + x2) * 0.5f;
+        my12 = (y1 + y2) * 0.5f;
+        dx = x2 - x0;
+        dy = y2 - y0;
+        cross = (float)fabs((x1 - x2) * dy - (y1 - y2) * dx);
+        if (cross <= lbl_82015528 || cross * cross <= (dy * dy + dx * dx) * path->tolerance) {
+            break;
+        }
+        mx = (mx01 + mx12) * 0.5f;
+        my = (my01 + my12) * 0.5f;
+        fn_827847F8(path, x0, y0, mx01, my01, mx, my);
+        y0 = my;
+        x0 = mx;
+        x1 = mx12;
+        y1 = my12;
+    }
+    point.x = x2;
+    point.y = y2;
+    fn_826EBD10(&path->points, &point);
+    path->added->count = path->added->count + 1;
+}

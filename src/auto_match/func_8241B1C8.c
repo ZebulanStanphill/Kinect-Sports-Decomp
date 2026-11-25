@@ -1,139 +1,172 @@
-#define NAN(x) ((x) != (x))
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_58;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_68;
-extern int fn_822315A0();
-extern int fn_82273C88();
-extern int fn_82273CD8();
-extern int fn_8227B548();
-extern int fn_8229AE10();
-extern int fn_8229F618();
-extern int fn_823605C0();
-extern int fn_82360BB0();
-extern int fn_82672C20();
-extern unsigned int iStack_4c;
-extern unsigned int iStack_54;
-extern unsigned int iStack_5c;
-extern unsigned int iStack_64;
-extern unsigned int lbl_821954D8;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int uStack_3c;
-extern unsigned int uStack_40;
+typedef struct Value_8241B1C8 {
+    int w0;   /* 0x0 */
+    int type; /* 0x4 */
 
+    union {
+        void *p;
+        double d;
+    } u; /* 0x8 */
+} Value_8241B1C8;
 
-void fn_8241B1C8(double param_1,unsigned int *param_2)
+typedef struct Ref_8241B1C8 {
+    void *p;  /* 0x0 */
+    void *rc; /* 0x4 */
+} Ref_8241B1C8;
 
+typedef struct Panel_8241B1C8 {
+    char pad00[0xc];
+    int open; /* 0x0C */
+} Panel_8241B1C8;
+
+typedef struct Hud_8241B1C8 {
+    char pad0000[0xc];
+    void *popup; /* 0x000C */
+    char pad0010[0x8];
+    Panel_8241B1C8 *panel; /* 0x0018 */
+    char pad001C[0x1820];
+    int busy; /* 0x183C */
+} Hud_8241B1C8;
+
+typedef struct Game_8241B1C8 {
+    char pad0000[0xd4];
+    Hud_8241B1C8 *hud; /* 0x00D4 */
+    char pad00D8[0xac];
+    int crowd; /* 0x0184 */
+    char pad0188[0x4c8];
+    float showTime; /* 0x0650 */
+    float hideTime; /* 0x0654 */
+    char pad0658[0x24c8];
+    void *focus; /* 0x2B20 */
+    char pad2B24[0x1c];
+    int paused; /* 0x2B40 */
+} Game_8241B1C8;
+
+typedef struct Player_8241B1C8 {
+    char pad000[0xc];
+    int slot; /* 0x00C */
+    char pad010[0x30];
+    int score; /* 0x040 */
+    char pad044[0x168];
+} Player_8241B1C8;
+
+typedef struct Scorecard_8241B1C8 {
+    Game_8241B1C8 *game; /* 0x000 */
+    char pad004[0x4];
+    Player_8241B1C8 *players; /* 0x008 */
+    char pad00C[0xc];
+    int current; /* 0x018 */
+    char pad01C[0x198];
+    unsigned int state; /* 0x1B4 */
+    int previous;       /* 0x1B8 */
+    float timer;        /* 0x1BC */
+    char pad1C0[0xdc];
+    int locked; /* 0x29C */
+    char pad2A0[0x10];
+    int hidden; /* 0x2B0 */
+} Scorecard_8241B1C8;
+
+extern int fn_82360BB0(Game_8241B1C8 *game);
+extern void fn_8227B548(int crowd);
+extern void fn_823605C0(Game_8241B1C8 *game, int slot);
+extern void fn_82273CD8(Value_8241B1C8 *value, int type);
+extern void fn_82273C88(Value_8241B1C8 *value);
+extern Ref_8241B1C8 *fn_8229AE10(Ref_8241B1C8 *out, Hud_8241B1C8 *hud);
+extern void fn_82672C20(void *movie, const char *path, Value_8241B1C8 *args, int count);
+extern void fn_822315A0(void *rc);
+extern void fn_8229F618(void *popup);
+
+static __forceinline int IsMenuOpen(Game_8241B1C8 *game, Scorecard_8241B1C8 *self)
 {
-  float fVar1;
-  unsigned int uVar2;
-  float fVar3;
-  int iVar4;
-  unsigned int *puVar5;
-  unsigned int uVar7;
-  unsigned __int64 uVar6;
-  int iVar8;
-  unsigned char auStack_68 [4];
-  int iStack_64;
-  unsigned char auStack_60 [4];
-  int iStack_5c;
-  unsigned char auStack_58 [4];
-  int iStack_54;
-  unsigned char auStack_50 [4];
-  int iStack_4c;
-  struct { unsigned int first; unsigned int second; } stack_pair_40;
-
-  double dStack_38;
-  
-  fVar3 = ltcg_pool_0_0f;
-  uVar7 = param_2[0x6d];
-  if (uVar7 < 2) {
-    if (-1 < *(int *)(param_2[6] * 0x1ac + param_2[2] + 0xc)) {
-      if (*(int *)(*(int *)(*param_2 + 0xd4) + 0x183c) == 0) {
-        puVar5 = (unsigned int *)fn_8229AE10(auStack_58);
-        fn_82672C20(*puVar5,0xffffffff821aa744,0,0);
-        if (iStack_54 != 0) {
-          fn_822315A0();
-        }
-      }
-      else {
-        fn_8229F618(*(unsigned int *)(*(int *)(*param_2 + 0xd4) + 0xc));
-      }
+    if (self == game->focus) {
+        return game->hud->panel->open;
     }
-    if (-1 < *(int *)(param_2[6] * 0x1ac + param_2[2] + 0xc)) {
-      puVar5 = (unsigned int *)fn_8229AE10(auStack_50,*(unsigned int *)(*param_2 + 0xd4));
-      fn_82672C20(*puVar5,0xffffffff821aa780,0,0);
-      if (iStack_4c != 0) {
-        fn_822315A0();
-      }
-    }
-    if (param_2[0x6e] == 6) {
-      uVar7 = *(unsigned int *)(*param_2 + 0x650);
-    }
-    else {
-      uVar7 = *(unsigned int *)(*param_2 + 0x654);
-    }
-    param_2[0x6f] = uVar7;
-    param_2[0x6d] = ((unsigned int)LZCOUNT(param_2[0x6d]) >> 5 ^ 1) + 2;
-  }
-  else if (uVar7 == 3) {
-    fVar1 = (float)((double)(float)param_2[0x6f] - param_1);
-    if (*(float *)(&lbl_821954D8 +
-                  ((unsigned int)(unsigned char)((fVar1 < ltcg_pool_0_0f) << 2) |
-                  (unsigned int)(NAN(fVar1) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
-      fVar1 = ltcg_pool_0_0f;
-    }
-    param_2[0x6f] = (unsigned int)fVar1;
-    if (fVar1 == fVar3) {
-      uVar6 = (unsigned __int64)*param_2;
-      iVar4 = fn_82360BB0(uVar6);
-      if ((iVar4 != 0) && (iVar4 = (int)uVar6, *(int *)(iVar4 + 0x2b40) == 0)) {
-        if (param_2 == *(unsigned int **)(iVar4 + 0x2b20)) {
-          iVar4 = *(int *)(*(int *)(*(int *)(iVar4 + 0xd4) + 0x18) + 0xc);
-        }
-        else {
-          iVar4 = 0;
-        }
-        if (((iVar4 == 0) && (param_2[0xa7] == 0)) && (param_2[0xac] == 0)) {
-          param_2[0x6d] = 4;
-          fn_823605C0(uVar6,*(unsigned int *)(param_2[6] * 0x1ac + param_2[2] + 0xc));
-          iVar8 = param_2[6] * 0x1ac + param_2[2];
-          iVar4 = *(int *)(iVar8 + 0x40);
-          if (-1 < *(int *)(iVar8 + 0xc)) {
-            uVar2 = *(unsigned int *)(*param_2 + 0xd4);
-            stack_pair_40.first = 0;
-            stack_pair_40.second = 0;
-            fn_82273CD8(&stack_pair_40.first,3);
-            dStack_38 = (double)(__int64)iVar4;
-            puVar5 = (unsigned int *)fn_8229AE10(auStack_68,uVar2);
-            fn_82672C20(*puVar5,0xffffffff821aa6e0,&stack_pair_40.first,1);
-            if (iStack_64 != 0) {
-              fn_822315A0();
-            }
-            fn_82273C88(&stack_pair_40.first);
-          }
-          if (-1 < *(int *)(param_2[6] * 0x1ac + param_2[2] + 0xc)) {
-            puVar5 = (unsigned int *)fn_8229AE10(auStack_60,*(unsigned int *)(*param_2 + 0xd4));
-            fn_82672C20(*puVar5,0xffffffff821aa760,0,0);
-            if (iStack_5c != 0) {
-              fn_822315A0();
-            }
-          }
-        }
-      }
-    }
-  }
-  else if (uVar7 == 5) {
-    uVar7 = *param_2;
-    iVar4 = fn_82360BB0(uVar7);
-    if (iVar4 != 0) {
-      param_2[0x6d] = 6;
-      if (*(int *)(uVar7 + 0x184) != 0) {
-        fn_8227B548();
-      }
-    }
-  }
-  param_2[0x6e] = param_2[0x6d];
-  return;
+    return 0;
 }
 
+void fn_8241B1C8(Scorecard_8241B1C8 *self, float dt)
+{
+    Ref_8241B1C8 frameRef;
+    Ref_8241B1C8 collapseRef;
+    Ref_8241B1C8 hideRef;
+    Ref_8241B1C8 throwRef;
+    Value_8241B1C8 arg;
+    Game_8241B1C8 *game;
+    Hud_8241B1C8 *hud;
+    float timer;
+    int slot;
+    int score;
+
+    switch (self->state) {
+    case 5:
+        game = self->game;
+        if (fn_82360BB0(game) != 0) {
+            self->state = 6;
+            if (game->crowd != 0) {
+                fn_8227B548(game->crowd);
+            }
+        }
+        break;
+    case 3:
+        timer = self->timer - dt;
+        timer = timer >= 0.0f ? timer : 0.0f;
+        self->timer = timer;
+        if (timer == 0.0f) {
+            game = self->game;
+            if (fn_82360BB0(game) != 0 && game->paused == 0 && IsMenuOpen(game, self) == 0 &&
+                self->locked == 0 && self->hidden == 0) {
+                self->state = 4;
+                fn_823605C0(game, self->players[self->current].slot);
+                slot = self->players[self->current].slot;
+                score = self->players[self->current].score;
+                if (slot >= 0) {
+                    hud = self->game->hud;
+                    arg.w0 = 0;
+                    arg.type = 0;
+                    fn_82273CD8(&arg, 3);
+                    arg.u.d = score;
+                    fn_82672C20(fn_8229AE10(&frameRef, hud)->p, "_root.scorecardCtrl.setActiveFrame", &arg,
+                                1);
+                    if (frameRef.rc != 0) {
+                        fn_822315A0(frameRef.rc);
+                    }
+                    fn_82273C88(&arg);
+                }
+                if (self->players[self->current].slot >= 0) {
+                    fn_82672C20(fn_8229AE10(&collapseRef, self->game->hud)->p, "_root.scorecardCtrl.collapse",
+                                0, 0);
+                    if (collapseRef.rc != 0) {
+                        fn_822315A0(collapseRef.rc);
+                    }
+                }
+            }
+        }
+        break;
+    case 0:
+    case 1:
+        if (self->players[self->current].slot >= 0) {
+            hud = self->game->hud;
+            if (hud->busy == 0) {
+                fn_82672C20(fn_8229AE10(&hideRef, hud)->p, "_root.scorecardCtrl.hide", 0, 0);
+                if (hideRef.rc != 0) {
+                    fn_822315A0(hideRef.rc);
+                }
+            } else {
+                fn_8229F618(hud->popup);
+            }
+        }
+        if (self->players[self->current].slot >= 0) {
+            fn_82672C20(fn_8229AE10(&throwRef, self->game->hud)->p, "_root.mainCtrl.throwOffScreen", 0, 0);
+            if (throwRef.rc != 0) {
+                fn_822315A0(throwRef.rc);
+            }
+        }
+        if (self->previous == 6) {
+            self->timer = self->game->showTime;
+        } else {
+            self->timer = self->game->hideTime;
+        }
+        self->state = self->state != 0 ? 3 : 2;
+        break;
+    }
+    self->previous = self->state;
+}

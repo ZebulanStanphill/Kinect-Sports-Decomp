@@ -1,59 +1,49 @@
-extern unsigned int lbl_82005CCC;
-extern unsigned int lbl_821AAD20;
-extern unsigned int uStack_1;
-extern unsigned int uStack_9;
+typedef struct ColorTransform_8268D790 {
+    float mulR; /* 0x00 */
+    float addR; /* 0x04 */
+    float mulG; /* 0x08 */
+    float addG; /* 0x0c */
+    float mulB; /* 0x10 */
+    float addB; /* 0x14 */
+    float mulA; /* 0x18 */
+    float addA; /* 0x1c */
+} ColorTransform_8268D790;
 
+typedef struct Color_8268D790 {
+    unsigned char a; /* 0x0 */
+    unsigned char r; /* 0x1 */
+    unsigned char g; /* 0x2 */
+    unsigned char b; /* 0x3 */
+} Color_8268D790;
 
-void fn_8268D790(unsigned char *param_1,float *param_2,unsigned char *param_3)
+extern float lbl_82005CCC; /* 255.0f */
 
+static __forceinline float ClampChannel(float v)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  float fVar5;
-  unsigned char uVar6;
-  unsigned char uStack_9;
-  unsigned char uStack_1;
-  
-  fVar1 = param_2[6] * (float)*param_3 + param_2[7];
-  if (lbl_82005CCC <= fVar1) {
-    fVar1 = lbl_82005CCC;
-  }
-  if (fVar1 < 0.0) {
-    fVar1 = lbl_821AAD20;
-  }
-  fVar4 = (float)param_3[3] * param_2[4] + param_2[5];
-  if (lbl_82005CCC <= fVar4) {
-    fVar4 = lbl_82005CCC;
-  }
-  if (fVar4 < 0.0) {
-    fVar4 = lbl_821AAD20;
-  }
-  fVar3 = (float)param_3[2] * param_2[2] + param_2[3];
-  if (lbl_82005CCC <= fVar3) {
-    fVar3 = lbl_82005CCC;
-  }
-  if (fVar3 < 0.0) {
-    fVar3 = lbl_821AAD20;
-  }
-  fVar5 = (float)param_3[1] * *param_2 + param_2[1];
-  fVar2 = lbl_82005CCC;
-  if (fVar5 < lbl_82005CCC) {
-    fVar2 = fVar5;
-  }
-  uStack_1 = (unsigned char)(__int64)fVar1;
-  uVar6 = uStack_1;
-  uStack_1 = (unsigned char)(__int64)fVar3;
-  if (fVar2 < 0.0) {
-    fVar2 = lbl_821AAD20;
-  }
-  *param_1 = uVar6;
-  uStack_9 = (unsigned char)(__int64)fVar4;
-  param_1[2] = uStack_1;
-  uStack_1 = (unsigned char)(__int64)fVar2;
-  param_1[1] = uStack_1;
-  param_1[3] = uStack_9;
-  return;
+    float result;
+
+    if (v >= lbl_82005CCC) {
+        result = lbl_82005CCC;
+    } else {
+        result = v;
+    }
+    return result >= 0.0f ? result : 0.0f;
 }
 
+/* Applies the colour transform to a colour. */
+void fn_8268D790(Color_8268D790 *out, const ColorTransform_8268D790 *cx, const Color_8268D790 *in)
+{
+    float a;
+    float b;
+    float g;
+    float r;
+
+    a = ClampChannel(cx->mulA * in->a + cx->addA);
+    b = ClampChannel(in->b * cx->mulB + cx->addB);
+    g = ClampChannel(in->g * cx->mulG + cx->addG);
+    r = ClampChannel(in->r * cx->mulR + cx->addR);
+    out->g = (unsigned char)g;
+    out->r = (unsigned char)r;
+    out->b = (unsigned char)b;
+    out->a = (unsigned char)a;
+}

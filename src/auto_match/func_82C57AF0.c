@@ -1,77 +1,55 @@
-extern int fn_82C4E5E8();
+typedef struct BitReader_82C57AF0 {
+    unsigned __int64 bits; /* 0x0 */
+    int count;             /* 0x8 */
+} BitReader_82C57AF0;
 
+typedef struct Entry_82C57AF0 {
+    unsigned int flag : 1; /* 0x00, top bit */
+    unsigned int rest : 31;
+    int pad04[5];
+} Entry_82C57AF0; /* 0x18 */
 
-void fn_82C57AF0(unsigned int *param_1,unsigned int param_2,unsigned __int64 *param_3)
+extern void fn_82C4E5E8(BitReader_82C57AF0 *reader);
 
+static __forceinline unsigned int GetBit(BitReader_82C57AF0 *reader)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  __int64 lVar4;
-  
-  uVar2 = param_2 & 1;
-  if (uVar2 != 0) {
-    uVar3 = *param_3;
-    uVar1 = *(unsigned int *)(param_3 + 1);
-    *param_3 = uVar3 << 1;
-    *(int *)(param_3 + 1) = (int)((unsigned __int64)uVar1 - 1);
-    if ((__int64)((unsigned __int64)uVar1 - 1) < 0) {
-      fn_82C4E5E8(param_3);
+    unsigned __int64 bits = reader->bits;
+    unsigned int bit = (unsigned int)(bits >> 63);
+
+    reader->bits = bits << 1;
+    if (--reader->count < 0) {
+        fn_82C4E5E8(reader);
     }
-    *param_1 = (unsigned int)((uVar3 >> 0x3f) << 0x1f) | *param_1 & 0x7fffffff;
-    param_1 = param_1 + 6;
-  }
-  if ((int)uVar2 < (int)param_2) {
-    lVar4 = (unsigned __int64)((param_2 - uVar2) - 1 >> 1) + 1;
-    do {
-      uVar3 = *param_3;
-      uVar2 = *(unsigned int *)(param_3 + 1);
-      *param_3 = uVar3 << 1;
-      *(int *)(param_3 + 1) = (int)((unsigned __int64)uVar2 - 1);
-      if ((__int64)((unsigned __int64)uVar2 - 1) < 0) {
-        fn_82C4E5E8(param_3);
-      }
-      if ((__int64)uVar3 < 0) {
-        uVar3 = *param_3;
-        uVar2 = *(unsigned int *)(param_3 + 1);
-        *param_3 = uVar3 << 1;
-        *(int *)(param_3 + 1) = (int)((unsigned __int64)uVar2 - 1);
-        if ((__int64)((unsigned __int64)uVar2 - 1) < 0) {
-          fn_82C4E5E8(param_3);
-        }
-        if ((__int64)uVar3 < 0) {
-          uVar2 = *param_1 | 0x80000000;
-          uVar1 = param_1[6] | 0x80000000;
-        }
-        else {
-          uVar3 = *param_3;
-          uVar2 = *(unsigned int *)(param_3 + 1);
-          *param_3 = uVar3 << 1;
-          *(int *)(param_3 + 1) = (int)((unsigned __int64)uVar2 - 1);
-          if ((__int64)((unsigned __int64)uVar2 - 1) < 0) {
-            fn_82C4E5E8(param_3);
-          }
-          uVar2 = *param_1;
-          if ((__int64)uVar3 < 0) {
-            uVar1 = param_1[6] | 0x80000000;
-            goto LAB_82c57c30;
-          }
-          uVar2 = uVar2 | 0x80000000;
-          uVar1 = param_1[6] & 0x7fffffff;
-        }
-      }
-      else {
-        uVar2 = *param_1;
-        uVar1 = param_1[6] & 0x7fffffff;
-LAB_82c57c30:
-        uVar2 = uVar2 & 0x7fffffff;
-      }
-      param_1[6] = uVar1;
-      lVar4 = lVar4 + -1;
-      *param_1 = uVar2;
-      param_1 = param_1 + 0xc;
-    } while (lVar4 != 0);
-  }
-  return;
+    return bit;
 }
 
+/* Reads one flag per entry: an odd first entry as a single bit, then pairs coded as
+   0 = (0, 0), 11 = (1, 1), 101 = (0, 1), 100 = (1, 0). */
+void fn_82C57AF0(Entry_82C57AF0 *entries, int count, BitReader_82C57AF0 *reader)
+{
+    int i;
+
+    i = count & 1;
+    if (i != 0) {
+        entries->flag = GetBit(reader);
+        entries++;
+    }
+    for (; i < count; i += 2) {
+        if (GetBit(reader)) {
+            if (GetBit(reader)) {
+                entries[0].flag = 1;
+                entries[1].flag = 1;
+            } else if (GetBit(reader)) {
+                entries[0].flag = 0;
+                entries[1].flag = 1;
+            } else {
+                entries[0].flag = 1;
+                entries[1].flag = 0;
+            }
+        } else {
+            entries[0].flag = 0;
+            entries[1].flag = 0;
+        }
+        entries += 2;
+    }
+}

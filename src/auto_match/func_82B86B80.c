@@ -1,48 +1,75 @@
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-extern int fn_82AA66A8();
-extern int fn_82B167E0();
-extern int fn_82B80CD0();
-extern unsigned int uStack_30;
+typedef struct Info_82B86B80 {
+    char pad[0x94];
+    void *context; /* 0x94 */
+} Info_82B86B80;
 
+typedef struct PageHeader_82B86B80 {
+    Info_82B86B80 *owner;
+} PageHeader_82B86B80;
 
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
+typedef struct Literal_82B86B80 {
+    char pad0[0x14];
+    unsigned int pad0bits : 22;
+    unsigned int types : 8; /* two bits per component */
+    unsigned int pad1bits : 2;
+    char pad18[0x14];
+    float values[4]; /* 0x2C */
+} Literal_82B86B80;
 
-float * fn_82B86B80(float *param_1,unsigned int param_2,unsigned __int64 param_3,unsigned __int64 param_4)
+typedef struct Constant_82B86B80 {
+    float value;       /* 0x0 */
+    unsigned int type; /* 0x4 */
+} Constant_82B86B80;
 
+typedef union Bits_82B86B80 {
+    float f;
+    int i;
+    unsigned int u;
+} Bits_82B86B80;
+
+extern void *memset(void *dst, int value, unsigned int size);
+extern double fn_82B167E0(Literal_82B86B80 *literal, unsigned int index);
+extern double fn_82B80CD0(double value, unsigned int type, unsigned int modifiers);
+extern __declspec(noreturn) void fn_82AA66A8(void *context, int code, ...);
+
+static __forceinline unsigned int GetBits(const unsigned int *words, unsigned int lo, unsigned int hi)
 {
-  float fVar1;
-  unsigned __int64 uVar2;
-  unsigned int uVar3;
-  double dVar4;
-  unsigned __int64 uStack_30;
-  
-  uVar3 = (unsigned int)((param_3 & 0xffffffff) << 1) & 0x1e;
-  uStack_30 = CONCAT44(*(unsigned int *)(param_2 + 0x14) >> 2,(((unsigned __int64)(uStack_30) >> 32) & 0xFFFFFFFF)) & 0xffffffffff;
-  param_1[1] = (float)(((2 << ((int)((param_3 & 0xffffffff) << 1) + 1U & 0x1f)) - 1U &
-                        *(unsigned int *)((int)&uStack_30 + ((unsigned int)param_3 >> 2 & 0x1ffffffc)) & -1 << uVar3
-                       ) >> uVar3);
-  if ((param_4 & 0xffffffff) == 0) {
-    uStack_30 = ((((unsigned __int64)(uStack_30)) & (~(((unsigned __int64)0xFFFFFFFF) << 32))) | ((((unsigned __int64)(*(float *)((int)((param_3 + 0xb & 0xffffffff) << 2) + param_2))) & ((unsigned __int64)0xFFFFFFFF)) << 32));
-  }
-  else {
-    uVar2 = fn_82B167E0(param_2,param_3);
-    dVar4 = (double)fn_82B80CD0(uVar2,param_1[1],param_4);
-    fVar1 = param_1[1];
-    if (fVar1 == 0.0) {
-      uStack_30 = ((((unsigned __int64)(uStack_30)) & (~(((unsigned __int64)0xFFFFFFFF) << 32))) | ((((unsigned __int64)((float)dVar4)) & ((unsigned __int64)0xFFFFFFFF)) << 32));
-    }
-    else if (fVar1 == 1.4013e-45) {
-      uStack_30 = ((((unsigned __int64)(uStack_30)) & (~(((unsigned __int64)0xFFFFFFFF) << 32))) | ((((unsigned __int64)((float)(int)dVar4)) & ((unsigned __int64)0xFFFFFFFF)) << 32));
-    }
-    else {
-      if (2 < (unsigned int)fVar1) {
-                    /* WARNING: Subroutine does not return */
-        fn_82AA66A8(*(unsigned int *)(*(int *)(param_2 & 0xfffff000) + 0x94),0x12c0);
-      }
-      uStack_30 = ((((unsigned __int64)(uStack_30)) & (~(((unsigned __int64)0xFFFFFFFF) << 32))) | ((((unsigned __int64)((float)(__int64)dVar4)) & ((unsigned __int64)0xFFFFFFFF)) << 32));
-    }
-  }
-  *param_1 = (((unsigned __int64)(uStack_30) >> 32) & 0xFFFFFFFF);
-  return param_1;
+    return (words[lo >> 5] & ((2u << (hi & 31)) - 1) & (0xffffffff << (lo & 31))) >> (lo & 31);
 }
 
+Constant_82B86B80 *fn_82B86B80(Constant_82B86B80 *out, Literal_82B86B80 *literal, unsigned int index,
+                               unsigned int modifiers)
+{
+    unsigned int types[1];
+    double value;
+    Bits_82B86B80 bits;
+    float result;
+
+    memset(types, 0, sizeof(types));
+    types[0] |= literal->types;
+    out->type = GetBits(types, index * 2, index * 2 + 1);
+    if (modifiers == 0) {
+        result = literal->values[index];
+    } else {
+        value = fn_82B167E0(literal, index);
+        value = fn_82B80CD0(value, out->type, modifiers);
+        switch (out->type) {
+        case 0:
+            result = (float)value;
+            break;
+        case 1:
+            bits.i = (int)value;
+            result = bits.f;
+            break;
+        default:
+            fn_82AA66A8(((PageHeader_82B86B80 *)((unsigned int)literal & 0xfffff000))->owner->context,
+                        0x12c0);
+        case 2:
+            bits.u = (unsigned int)value;
+            result = bits.f;
+            break;
+        }
+    }
+    out->value = result;
+    return out;
+}

@@ -7410,7 +7410,7 @@ auto_match/func_822770B0.c:
 	.pdata      start:0x821E0148 end:0x821E0150
 	.text       start:0x822770B0 end:0x822771E8
 
-auto_match/func_822771E8.c:
+auto_match/func_822771E8.cpp:
 	.pdata      start:0x821E0150 end:0x821E0158
 	.text       start:0x822771E8 end:0x822773C4
 
@@ -7916,7 +7916,7 @@ auto_match/func_822811F8.c:
 	.pdata      start:0x821E04E8 end:0x821E04F0
 	.text       start:0x822811F8 end:0x82281308
 
-auto_match/func_82281308.c:
+auto_match/func_82281308.cpp:
 	.pdata      start:0x821E04F0 end:0x821E04F8
 	.text       start:0x82281308 end:0x822813E0
 
@@ -9991,7 +9991,7 @@ auto_match/func_822A34C8.c:
 	.pdata      start:0x821E13B0 end:0x821E13B8
 	.text       start:0x822A34C8 end:0x822A354C
 
-auto_match/func_822A3550.c:
+auto_match/func_822A3550.cpp:
 	.pdata      start:0x821E13B8 end:0x821E13C0
 	.text       start:0x822A3550 end:0x822A379C
 
@@ -11924,7 +11924,7 @@ auto_match/func_822CB7F8.c:
 	.pdata      start:0x821E2130 end:0x821E2138
 	.text       start:0x822CB7F8 end:0x822CB8B0
 
-auto_match/func_822CB8B0.c:
+auto_match/func_822CB8B0.cpp:
 	.pdata      start:0x821E2138 end:0x821E2140
 	.text       start:0x822CB8B0 end:0x822CBB08
 
@@ -12712,7 +12712,7 @@ auto_match/func_822DC6A0.cpp:
 	.pdata      start:0x821E2698 end:0x821E26A0
 	.text       start:0x822DC6A0 end:0x822DC864
 
-auto_match/func_822DC868.c:
+auto_match/func_822DC868.cpp:
 	.pdata      start:0x821E26A0 end:0x821E26A8
 	.text       start:0x822DC868 end:0x822DCA54
 
@@ -21174,7 +21174,7 @@ auto_match/func_82396088.c:
 auto_match/func_82396230.c:
 	.text       start:0x82396230 end:0x823962C4
 
-auto_match/func_823962C8.c:
+auto_match/func_823962C8.cpp:
 	.pdata      start:0x821E6140 end:0x821E6148
 	.text       start:0x823962C8 end:0x823964C4
 
@@ -23225,7 +23225,7 @@ auto_match/func_823BDD78.cpp:
 	.pdata      start:0x821E6F00 end:0x821E6F08
 	.text       start:0x823BDD78 end:0x823BDE88
 
-auto_match/func_823BDE88.c:
+auto_match/func_823BDE88.cpp:
 	.pdata      start:0x821E6F08 end:0x821E6F10
 	.text       start:0x823BDE88 end:0x823BE0B8
 
@@ -36732,7 +36732,7 @@ auto_match/func_824CEE50.c:
 	.pdata      start:0x821ECAA8 end:0x821ECAB0
 	.text       start:0x824CEE50 end:0x824CEEBC
 
-auto_match/func_824CEEC0.c:
+auto_match/func_824CEEC0.cpp:
 	.pdata      start:0x821ECAB0 end:0x821ECAB8
 	.text       start:0x824CEEC0 end:0x824CF078
 
@@ -46188,7 +46188,7 @@ auto_match/func_825AF0C8.c:
 	.pdata      start:0x821F0D58 end:0x821F0D60
 	.text       start:0x825AF0C8 end:0x825AF2B0
 
-auto_match/func_825AF2B0.c:
+auto_match/func_825AF2B0.cpp:
 	.pdata      start:0x821F0D60 end:0x821F0D68
 	.text       start:0x825AF2B0 end:0x825AF508
 
@@ -52897,7 +52897,7 @@ auto_match/func_82654018.c:
 	.pdata      start:0x821F3740 end:0x821F3748
 	.text       start:0x82654018 end:0x826543B0
 
-auto_match/func_826543B0.c:
+auto_match/func_826543B0.cpp:
 	.pdata      start:0x821F3748 end:0x821F3750
 	.text       start:0x826543B0 end:0x826544AC
 
@@ -60408,7 +60408,7 @@ auto_match/func_826A9878.c:
 	.pdata      start:0x821F68A0 end:0x821F68A8
 	.text       start:0x826A9878 end:0x826A98D8
 
-auto_match/func_826A98D8.c:
+auto_match/func_826A98D8.cpp:
 	.pdata      start:0x821F68A8 end:0x821F68B0
 	.text       start:0x826A98D8 end:0x826A9AD8
 
@@ -70662,7 +70662,7 @@ auto_match/func_82743EB0.c:
 	.pdata      start:0x821FADE8 end:0x821FADF0
 	.text       start:0x82743EB0 end:0x82743FE0
 
-auto_match/func_82743FE0.c:
+auto_match/func_82743FE0.cpp:
 	.pdata      start:0x821FADF0 end:0x821FADF8
 	.text       start:0x82743FE0 end:0x827441D8
 
@@ -140214,7 +140214,7 @@ auto_match/func_82CFCD88.cpp:
 	.pdata      start:0x82216240 end:0x82216248
 	.text       start:0x82CFCD88 end:0x82CFCE90
 
-auto_match/func_82CFCE90.c:
+auto_match/func_82CFCE90.cpp:
 	.pdata      start:0x82216248 end:0x82216250
 	.text       start:0x82CFCE90 end:0x82CFD048
 
@@ -141737,7 +141737,7 @@ Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0D848
 Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0D850.c:
 	.text       start:0x82D0D850 end:0x82D0D888
 
-Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0D888.c:
+Havok/Common/Internal/GeometryProcessing/ConvexHull/hkgpConvexHull/func_82D0D888.cpp:
 	.pdata      start:0x82216920 end:0x82216928
 	.text       start:0x82D0D888 end:0x82D0DA40
 
@@ -144749,7 +144749,7 @@ auto_match/func_82D496A0.c:
 auto_match/func_82D49968.c:
 	.text       start:0x82D49968 end:0x82D499C4
 
-auto_match/func_82D499C8.c:
+auto_match/func_82D499C8.cpp:
 	.pdata      start:0x82217760 end:0x82217768
 	.text       start:0x82D499C8 end:0x82D49ABC
 
@@ -145637,7 +145637,7 @@ auto_match/func_82D55CE8.c:
 auto_match/func_82D55D78.c:
 	.text       start:0x82D55D78 end:0x82D55DC8
 
-auto_match/func_82D55DC8.c:
+auto_match/func_82D55DC8.cpp:
 	.pdata      start:0x82217C78 end:0x82217C80
 	.text       start:0x82D55DC8 end:0x82D55FA8
 
@@ -162998,7 +162998,7 @@ auto_match/func_82E5E628.cpp:
 	.pdata      start:0x8221D840 end:0x8221D848
 	.text       start:0x82E5E628 end:0x82E5E6C0
 
-auto_match/func_82E5E6C0.c:
+auto_match/func_82E5E6C0.cpp:
 	.pdata      start:0x8221D848 end:0x8221D850
 	.text       start:0x82E5E6C0 end:0x82E5E7D8
 
@@ -190119,7 +190119,7 @@ auto_match/func_8305E0F8.c:
 	.pdata      start:0x82227B58 end:0x82227B60
 	.text       start:0x8305E0F8 end:0x8305E188
 
-auto_match/func_8305E188.c:
+auto_match/func_8305E188.cpp:
 	.pdata      start:0x82227B60 end:0x82227B68
 	.text       start:0x8305E188 end:0x8305E330
 

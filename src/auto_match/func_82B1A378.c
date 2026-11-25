@@ -1,81 +1,84 @@
-extern int fn_82AA66A8();
-extern int fn_82AD20C0();
-extern int fn_82B80EF8();
-extern int fn_82F6A548();
-extern int fn_82F6A594();
-extern unsigned int lbl_82002C40;
-extern unsigned int lbl_82005730;
-extern unsigned int lbl_8207F708;
-extern unsigned int lbl_820D7E90;
+typedef struct Source_82B1A378 {
+    char pad0[0x8];
+    unsigned int flags; /* 0x08 */
+} Source_82B1A378;
 
+typedef struct Operand_82B1A378 {
+    unsigned int pad0 : 25;
+    unsigned int component : 2;
+    unsigned int index : 5; /* 0x00 */
+    char pad4[0x8];
+    Source_82B1A378 *source; /* 0x0c */
+} Operand_82B1A378;
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+typedef struct OperandList_82B1A378 {
+    char pad0[0x4];
+    unsigned int count;            /* 0x04 */
+    Operand_82B1A378 *operands[1]; /* 0x08 */
+} OperandList_82B1A378;
 
-void fn_82B1A378(unsigned __int64 param_1,unsigned __int64 param_2,int param_3)
+typedef struct Instruction_82B1A378 {
+    char pad0[0x8];
+    unsigned int pad8 : 1;
+    unsigned int scaleZ : 5;
+    unsigned int scaleY : 5;
+    unsigned int scaleX : 5;
+    unsigned int pad8b : 16; /* 0x08 */
+    char padC[0x8];
+    OperandList_82B1A378 *list; /* 0x14 */
+} Instruction_82B1A378;
 
+typedef struct Context_82B1A378 {
+    char pad0[0x270];
+    double errorValue;  /* 0x270 */
+    double errorLimit0; /* 0x278 */
+    double errorLimit1; /* 0x280 */
+} Context_82B1A378;
+
+extern double fn_82B80EF8(Source_82B1A378 *source, unsigned int component, int index);
+extern void fn_82AD20C0(void *head, Operand_82B1A378 *operand, Context_82B1A378 *ctx);
+extern __declspec(noreturn) int fn_82AA66A8(Context_82B1A378 *ctx, int code);
+
+int fn_82B1A378(Context_82B1A378 *ctx, void *head, Instruction_82B1A378 *instr)
 {
-  int iVar1;
-  unsigned int *puVar2;
-  int iVar4;
-  unsigned __int64 uVar3;
-  unsigned int uVar5;
-  unsigned int uVar6;
-  double dVar7;
-  double dVar8;
-  double dVar9;
-  double dVar10;
-  double dVar11;
-  
-  iVar4 = fn_82F6A548();
-  iVar1 = *(int *)(param_3 + 0x14);
-  uVar6 = 0;
-  dVar8 = lbl_82002C40;
-  dVar9 = lbl_8207F708;
-  dVar10 = lbl_820D7E90;
-  dVar11 = lbl_82005730;
-  if (*(int *)(iVar1 + 4) != 0) {
-    do {
-      puVar2 = *(unsigned int **)((uVar6 + 2) * 4 + iVar1);
-      if ((*(unsigned int *)(puVar2[3] + 8) & 0x3f80) != 16000) {
-        uVar3 = 0xe24;
-        goto code_r0x82b1a494;
-      }
-      dVar7 = (double)fn_82B80EF8(puVar2[3],*puVar2 >> 5 & 3,*puVar2 & 0x1f);
-      if ((dVar7 < dVar10) || (dVar9 < dVar7)) {
-        *(double *)(iVar4 + 0x270) = dVar7;
-        uVar3 = 0xe25;
-        *(double *)(iVar4 + 0x278) = dVar10;
-        *(double *)(iVar4 + 0x280) = dVar9;
-        goto code_r0x82b1a494;
-      }
-      uVar5 = (unsigned int)(dVar7 * dVar8);
-      if ((double)(__int64)(int)uVar5 * dVar11 != dVar7) {
-        *(double *)(iVar4 + 0x270) = dVar7;
-        uVar3 = 0xe26;
-        *(double *)(iVar4 + 0x278) = dVar11;
-        goto code_r0x82b1a494;
-      }
-      if (uVar6 == 0) {
-        uVar5 = (uVar5 & 0x1f) << 0x10 | *(unsigned int *)(param_3 + 8) & 0xffe0ffff;
-      }
-      else if (uVar6 == 1) {
-        uVar5 = (uVar5 & 0x1f) << 0x15 | *(unsigned int *)(param_3 + 8) & 0xfc1fffff;
-      }
-      else {
-        if (2 < uVar6) {
-                    /* WARNING: Subroutine does not return */
-          fn_82AA66A8(iVar4,0x12c0);
-        }
-        uVar5 = (uVar5 & 0x1f) << 0x1a | *(unsigned int *)(param_3 + 8) & 0x83ffffff;
-      }
-      *(unsigned int *)(param_3 + 8) = uVar5;
-      fn_82AD20C0(param_2,puVar2,iVar4);
-      uVar6 = uVar6 + 1;
-    } while (uVar6 < *(unsigned int *)(iVar1 + 4));
-  }
-  uVar3 = 0;
-code_r0x82b1a494:
-  fn_82F6A594(uVar3);
-  return;
-}
+    OperandList_82B1A378 *list = instr->list;
+    unsigned int i;
 
+    for (i = 0; i < list->count; i++) {
+        Operand_82B1A378 *operand = list->operands[i];
+        double value;
+        int scale;
+
+        if ((operand->source->flags & 0x3f80) != 0x3e80) {
+            return 0xe24;
+        }
+        value = fn_82B80EF8(operand->source, operand->component, operand->index);
+        if (value < -8.0 || value > 7.5) {
+            ctx->errorValue = value;
+            ctx->errorLimit0 = -8.0;
+            ctx->errorLimit1 = 7.5;
+            return 0xe25;
+        }
+        scale = (int)(value * 2.0);
+        if ((double)scale * 0.5 != value) {
+            ctx->errorValue = value;
+            ctx->errorLimit0 = 0.5;
+            return 0xe26;
+        }
+        switch (i) {
+        case 0:
+            instr->scaleX = scale;
+            break;
+        case 1:
+            instr->scaleY = scale;
+            break;
+        case 2:
+            instr->scaleZ = scale;
+            break;
+        default:
+            fn_82AA66A8(ctx, 0x12c0);
+        }
+        fn_82AD20C0(head, operand, ctx);
+    }
+    return 0;
+}
