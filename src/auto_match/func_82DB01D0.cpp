@@ -3,18 +3,12 @@
 // (fn_82DAFEF0), then frees through the class allocator. The function at the end only makes the compiler
 // emit the vtable, and with it this function.
 #include "havok/hkBase.h"
+#include "havok/hkpConstraintData.h"
 
 class hkpWorld;
 class hkpAction;
 class hkpEntity;
 struct hkpAgentNnSector;
-
-struct hkpConstraintInfo {
-    int m_maxSizeOfSchema;
-    int m_sizeOfSchemas;
-    int m_numSolverResults;
-    int m_numSolverElemTemps;
-};
 
 class hkpConstraintOwner : public hkReferencedObject {
 public:

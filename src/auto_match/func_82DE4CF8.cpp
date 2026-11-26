@@ -1,6 +1,7 @@
 // finishLoadedObjecthkpSerializedAgentNnEntry: the finish function in hkpSerializedAgentNnEntry's hkTypeInfo (HK_REFLECTION_DEFINE_VIRTUAL, static in Havok);
 // the atom's finish constructor (fn_82D9FE90) ends it as a tail call.
 #include "havok/hkBase.h"
+#include "havok/hkpEntity.h"
 
 class hkpSimpleContactConstraintAtom;
 extern "C" void fn_82D9FE90(hkpSimpleContactConstraintAtom *self, hkFinishLoadedObjectFlag f);   // its finish constructor
@@ -30,14 +31,6 @@ public:
     hkUint8 m_contactPointPropertiesStriding;     // +0xA
     hkUint16 m_maxNumContactPoints;               // +0xC
     hkpSimpleContactConstraintDataInfo m_info;    // +0x10
-};
-
-class hkpEntity : public hkReferencedObject {
-};
-
-class __declspec(align(16)) hkVector4 {
-public:
-    hkReal x, y, z, w;
 };
 
 // Common/Base/Types/Physics/ContactPoint/hkContactPoint.h (0x20 bytes).

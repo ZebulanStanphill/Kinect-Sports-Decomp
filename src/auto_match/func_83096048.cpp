@@ -22,8 +22,6 @@ public:
     hkCriticalSection *m_criticalSection;    // +0x10
 };
 
-class hkpEntity : public hkReferencedObject {};
-
 hkpBroadPhase::~hkpBroadPhase()
 {
     if (m_criticalSection) {

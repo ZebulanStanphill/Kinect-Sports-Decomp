@@ -1,41 +1,13 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
 extern "C" {
-__vector4 __vsubfp(__vector4, __vector4);
-__vector4 __vaddfp(__vector4, __vector4);
-__vector4 __vmsum3fp(__vector4, __vector4);
-__vector4 __vspltw(__vector4, unsigned int);
-void __stvewx(__vector4, void *, int);
 double __fsel(double, double, double);
 }
 #include <math.h>
-
-class hkBool {
-public:
-    __forceinline hkBool(bool b) { m_bool = (char)b; }
-    __forceinline operator bool() const { return m_bool != 0; }
-    char m_bool;
-};
+#include "havok/hkVector4.h"
 
 namespace hkMath {
     __forceinline float max2(float x, float y) { return (float)__fsel(x - y, x, y); }
     __forceinline float min2(float x, float y) { return (float)__fsel(x - y, y, x); }
 }
-
-class hkVector4 {
-public:
-    __forceinline void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    __forceinline void setSub4(const hkVector4 &a, const hkVector4 &b) { m_quad = __vsubfp(a.m_quad, b.m_quad); }
-    __forceinline float dot4xyz1(const hkVector4 &v) const
-    {
-        float r;
-        __stvewx(__vaddfp(__vspltw(m_quad, 3), __vmsum3fp(m_quad, v.m_quad)), &r, 0);
-        return r;
-    }
-    hkQuadReal m_quad;
-};
 
 struct Transformed_82DDA618 {
     char pad0[0xc0];

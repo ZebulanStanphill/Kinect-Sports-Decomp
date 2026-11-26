@@ -10,29 +10,11 @@
 // renamed __real@bf000000.
 #include "havok/hkBase.h"
 #include "havok/hkTransform.h"
-
-class hkpConstraintData : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);
-    hkpConstraintData() : m_userData(0) {}
-    hkUlong m_userData;   // +0x8
-};
+#include "havok/hkpConstraintAtom.h"
+#include "havok/hkpConstraintData.h"
 
 #define HK_CONSTRAINT_FILL_PADDING_WITH_ZERO(fromAfter, tillBefore) \
     { for (hkUint8 *p = (hkUint8 *)((&(fromAfter)) + 1); p < (hkUint8 *)(&(tillBefore)); p++) *p = 0; }
-
-struct hkpConstraintAtom {
-    enum AtomType {
-        TYPE_SET_LOCAL_TRANSFORMS = 2,
-        TYPE_SET_LOCAL_ROTATIONS = 4,
-        TYPE_LIN = 7,
-        TYPE_LIN_SOFT = 8,
-        TYPE_LIN_LIMIT = 9,
-        TYPE_2D_ANG = 12
-    };
-    hkpConstraintAtom(AtomType type) : m_type(hkUint16(type)) {}
-    hkUint16 m_type;
-};
 
 struct hkpSetLocalTransformsConstraintAtom : public hkpConstraintAtom {
     hkpSetLocalTransformsConstraintAtom() : hkpConstraintAtom(TYPE_SET_LOCAL_TRANSFORMS) {}

@@ -1,14 +1,12 @@
 // hkpGunProjectile::~hkpGunProjectile (Physics/Utilities/Weapons/hkpProjectileGun.cpp).
 #include "havok/hkBase.h"
-class hkpEntity;
+#include "havok/hkpRigidBody.h"
 struct hkpContactPointEvent;
 struct hkpCollisionEvent;
 class hkpContactPointAddedEvent;
 class hkpContactPointRemovedEvent;
 class hkpContactProcessEvent;
 class hkpContactPointConfirmedEvent;
-
-extern "C" void fn_8265CA20(void *p);   // global operator delete
 
 // hkpContactListener (Physics/Dynamics/Collide/ContactListener/hkpContactListener.h): an interface with no base.
 // Vtable (7 slots): three callbacks, the deleting destructor (slot 3, fn_8240DF10), three deprecated callbacks;
@@ -32,15 +30,6 @@ public:
     virtual void contactPointCallback(const hkpContactPointEvent &event);
     virtual ~hkpCollisionListener() {}
     virtual void contactPointConfirmedCallback(hkpContactPointConfirmedEvent &event) {}
-};
-
-class hkpWorld;
-
-// Only what the projectile code touches: hkpWorldObject::m_world (+0x8).
-class hkpRigidBody : public hkReferencedObject {
-public:
-    hkpWorld *getWorld() const { return m_world; }
-    hkpWorld *m_world;   // +0x8
 };
 
 class hkpProjectileGun;

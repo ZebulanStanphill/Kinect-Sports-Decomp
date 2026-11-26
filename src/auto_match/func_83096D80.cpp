@@ -2,51 +2,9 @@
 // skips collidables without a shape or rejected by the ray collidable filter, moves the ray into
 // the collidable's local space and casts it, either into the hit collector or into the single
 // output (whose normal is rotated back into world space); keeps the early-out hit fraction.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-typedef __vector4 hkQuadReal;
-extern "C" {
-__vector4 __vsubfp(__vector4, __vector4);
-__vector4 __vmulfp(__vector4, __vector4);
-__vector4 __vmaddfp(__vector4, __vector4, __vector4);
-__vector4 __vmsum3fp(__vector4, __vector4);
-__vector4 __vmrghw(__vector4, __vector4);
-__vector4 __vspltw(__vector4, unsigned int);
-extern const hkQuadReal lbl_82132D00;   // Havok's global zero vector
-}
 
-typedef float hkReal;
-typedef unsigned int hkUint32;
-
-class hkBool {
-public:
-    hkBool() {}
-    hkBool(bool b) : m_bool((char)b) {}
-    operator bool() const { return m_bool != 0; }
-    char m_bool;
-};
-
-class hkVector4 {
-public:
-    __forceinline void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    hkQuadReal m_quad;
-};
-
-class hkRotation {
-public:
-    hkVector4 m_col0;
-    hkVector4 m_col1;
-    hkVector4 m_col2;
-};
-
-class hkTransform {
-public:
-    hkRotation m_rotation;
-    hkVector4 m_translation;
-    __forceinline const hkRotation &getRotation() const { return m_rotation; }
-    __forceinline const hkVector4 &getTranslation() const { return m_translation; }
-};
+#include "havok/hkTransform.h"
+#include "havok/hkpCollisionFilter.h"
 
 static __forceinline void SetTransformedInversePos(hkVector4 &out, const hkTransform &t, const hkVector4 &v)
 {
@@ -83,7 +41,6 @@ struct hkpWorldRayCastInput {
     hkUint32 m_filterInfo;                  // 0x24
 };
 
-class hkpCollidable;
 struct hkpWorldRayCastOutput {
     hkVector4 m_normal;                     // 0x00
     hkReal m_hitFraction;                   // 0x10
@@ -118,12 +75,6 @@ public:
     int m_shapeKey;                         // 0x04
     const void *m_motion;                   // 0x08
     __forceinline const hkTransform &getTransform() const { return *(const hkTransform *)m_motion; }
-};
-
-class hkpRayCollidableFilter {
-public:
-    virtual ~hkpRayCollidableFilter();
-    virtual hkBool isCollisionEnabled(const hkpWorldRayCastInput &input, const hkpCollidable &collidable) const;
 };
 
 struct WorldRayCaster_83096D80 {

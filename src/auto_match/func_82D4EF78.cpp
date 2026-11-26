@@ -1,4 +1,5 @@
 #include "havok/hkBase.h"
+#include "havok/hkQuadReal.h"
 enum hkpShapeType { SHAPE_PIECE=7, SHAPE_SIMPLE=24 };
 class hkpShape : public hkReferencedObject { public: unsigned m_userData, m_type; };
 class hkpShapeContainer { public: static void operator delete(void *p) { fn_8265CA20(p); } virtual ~hkpShapeContainer() {} };
@@ -7,7 +8,6 @@ public: enum CollectionType { COLLECTION_PIECE=3, COLLECTION_SIMPLE=4 };
 hkpShapeCollection(hkpShapeType, CollectionType);
 hkBool m_disableWelding; unsigned char m_collectionType;
 };
-typedef struct __declspec(intrin_type) __declspec(align(16)) __vector4 { float f[4]; } __vector4;
 struct Triangles { char data[0x60]; };
 struct Shapes { char data[0x40]; };
 class hkpExtendedMeshShape : public hkpShapeCollection {

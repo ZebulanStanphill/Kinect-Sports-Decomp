@@ -5,7 +5,7 @@
 // /O1 /QVMXReserve: the game's zero vector is VMX register 77 (__VMXGetReg needs /QVMXReserve).
 // Same shape as func_822E8BC8.cpp (Matching).
 #include "havok/hkBase.h"
-#include "havok/hkMatrix3.h"
+#include "havok/hkpRigidBody.h"
 
 extern "C" __vector4 __VMXGetReg(int n);
 
@@ -68,13 +68,6 @@ public:
     hkUint8 m_responseModifierFlags;         // +0xb9
     hkInt8 m_numShapeKeysInContactPointProperties;  // +0xba
     hkBool m_forceCollideOntoPpu;            // +0xbb
-};
-
-class hkpRigidBody : public hkReferencedObject {
-public:
-    void *m_world;          // +0x08
-    hkUlong m_userData;     // +0x0c
-    char m_pad10[0x210];
 };
 
 extern "C" {

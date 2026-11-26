@@ -1,6 +1,6 @@
 #include "havok/hkBase.h"
-class hkpWorldDeletionListener { public: static void operator delete(void*p){fn_8265CA20(p);} virtual ~hkpWorldDeletionListener(){} };
-class hkpPhantomOverlapListener { public: static void operator delete(void*p){fn_8265CA20(p);} virtual ~hkpPhantomOverlapListener(){} };
+#include "havok/hkpWorldDeletionListener.h"
+#include "havok/hkpPhantomOverlapListener.h"
 class hkpWorldPostSimulationListener { public: static void operator delete(void*p){fn_8265CA20(p);} virtual ~hkpWorldPostSimulationListener(){} };
 class hkpBroadPhaseBorder : public hkReferencedObject, public hkpWorldDeletionListener, public hkpPhantomOverlapListener, public hkpWorldPostSimulationListener {
 public:

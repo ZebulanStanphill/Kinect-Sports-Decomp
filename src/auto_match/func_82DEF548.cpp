@@ -1,7 +1,6 @@
 // hkpBallGun::fireGun(hkpWorld *, const hkTransform &) (vtable slot 4); sibling of
 // hkpMountedBallGun::fireGun (func_82DF21A0). Needs /O2 /QVMXReserve (flag file).
-#include "havok/hkpShape.h"
-#include "havok/hkTransform.h"
+#include "havok/hkpRigidBody.h"
 
 class hkpSphereShape : public hkpConvexShape {
 public:
@@ -38,17 +37,6 @@ struct hkpRigidBodyCinfo {
 	hkInt8 m_numShapeKeysInContactPointProperties;
 	hkBool m_forceCollideOntoPpu;
 	HK_FORCE_INLINE hkpRigidBodyCinfo();
-};
-
-class hkpWorld;
-class hkpRigidBody : public hkReferencedObject {
-public:
-	HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_ENTITY);
-	hkpWorld *getWorld() const { return m_world; }
-	hkpWorld *m_world;          // +0x8
-	char m_padC[0x9c - 0xc];
-	hkReal m_damageMultiplier;  // +0x9c
-	char m_padA0[0x220 - 0xa0];
 };
 
 class hkpWorld {

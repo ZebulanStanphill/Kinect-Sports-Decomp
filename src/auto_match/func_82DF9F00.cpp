@@ -4,19 +4,10 @@
 // deleting destructor.
 #include "havok/hkBase.h"
 #include "havok/hkpShape.h"
+#include "havok/hkTransform.h"
+#include "havok/hkpPhantomOverlapListener.h"
 
 class hkpCollidable;
-class hkpCollidableAddedEvent;
-class hkpCollidableRemovedEvent;
-
-// Interface with no base (RTTI); vtable: the two callbacks (pure), then the deleting destructor (fn_82D8D9F0).
-class hkpPhantomOverlapListener {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual void collidableAddedCallback(const hkpCollidableAddedEvent &event) = 0;
-    virtual void collidableRemovedCallback(const hkpCollidableRemovedEvent &event) = 0;
-    virtual ~hkpPhantomOverlapListener() {}
-};
 
 // Physics/Vehicle/WheelCollide/RejectRayChassisListener/hkpRejectChassisListener.h.
 // RTTI: hkReferencedObject at +0x0, hkpPhantomOverlapListener at +0x8.
@@ -30,17 +21,6 @@ public:
     virtual void collidableRemovedCallback(const hkpCollidableRemovedEvent &event);
 
     const hkpCollidable *m_chassis;   // +0xC
-};
-
-class __declspec(align(16)) hkVector4 {
-public:
-    hkReal x, y, z, w;
-};
-
-class __declspec(align(16)) hkTransform {
-public:
-    hkVector4 m_rotation[3];
-    hkVector4 m_translation;
 };
 
 class hkpRigidBody;

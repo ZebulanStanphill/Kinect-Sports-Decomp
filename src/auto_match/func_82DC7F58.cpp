@@ -1,5 +1,5 @@
 #include "havok/hkBase.h"
-class hkpConstraintData : public hkReferencedObject { public: hkpConstraintData():userData(0) {} unsigned userData; };
+#include "havok/hkpConstraintData.h"
 class hkpConstraintInstance;
 class hkpRigidBody { public: char padding[0xd1]; hkUint8 responseModifierFlags; };
 struct ContactAtom { hkUint16 type, size; char pad[12]; struct Info { hkUint16 count,flags; hkUint32 data[7]; HK_FORCE_INLINE void init() { count=0;flags=3;for(int i=0;i<7;i++)data[i]=0; } } info; };

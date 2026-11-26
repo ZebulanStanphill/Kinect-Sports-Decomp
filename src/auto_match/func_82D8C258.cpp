@@ -11,12 +11,12 @@
 //   puts the loaded constant first. 0.1f is a literal too; symbols.txt already names its constant
 //   __real@3dcccccd, so declaring it as an lbl_ extern references a symbol the original lacks.
 #include "havok/hkBase.h"
+#include "havok/hkLocalFrame.h"
 extern "C" double __fsel(double, double, double);
 class hkVector4 { public: float v[4]; };
 class hkQuaternion { public: float v[4]; };
 class hkMatrix3 { public: hkVector4 c[3]; };
 class hkpShape;
-class hkLocalFrame : public hkReferencedObject {};
 extern "C" void fn_82CE5458(void *self, const float *f);
 class hkUFloat8 { public: HK_FORCE_INLINE void operator=(const float &f) { fn_82CE5458(this, &f); } unsigned char m_value; };
 template <typename T> class RefPtr {

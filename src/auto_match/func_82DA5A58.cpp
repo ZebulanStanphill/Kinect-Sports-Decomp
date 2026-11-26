@@ -8,49 +8,10 @@
 // __real@ names; symbols.txt already names 1.0f __real@3f800000.
 #include "havok/hkBase.h"
 #include "havok/hkVector4.h"
+#include "havok/hkpConstraintAtom.h"
+#include "havok/hkpConstraintData.h"
 
 #define HK_REAL_EPSILON 1.192092896e-07f
-
-class hkpConstraintData;
-
-// hkpBridgeConstraintAtom::init(hkpConstraintData *) is out of line (sets m_buildJacobianFunc and
-// m_constraintData); it keeps its fn_ name because a Matching C unit defines it.
-extern "C" void fn_82D9FE70(void *self, hkpConstraintData *data);
-
-// hkpConstraintAtom (Physics/ConstraintSolver/Constraint/Atom/hkpConstraintAtom.h).
-struct hkpConstraintAtom {
-    enum AtomType {
-        TYPE_INVALID = 0,
-        TYPE_BRIDGE = 1
-    };
-    hkpConstraintAtom(AtomType type) : m_type(hkUint16(type)) {}
-    hkUint16 m_type;   // +0x0  hkEnum<AtomType, hkUint16>
-};
-
-struct hkpBridgeConstraintAtom : public hkpConstraintAtom {
-    hkpBridgeConstraintAtom() : hkpConstraintAtom(TYPE_BRIDGE) {}
-    void init(hkpConstraintData *constraintData) { fn_82D9FE70(this, constraintData); }
-
-    void *m_buildJacobianFunc;           // +0x4
-    hkpConstraintData *m_constraintData; // +0x8
-};
-
-struct hkpBridgeAtoms {
-    hkpBridgeAtoms() {}
-    hkpBridgeConstraintAtom m_bridgeAtom;
-};
-
-// hkpConstraintData (Physics/Dynamics/Constraint/hkpConstraintData.h): hkReferencedObject + m_userData.
-class hkpConstraintData : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);
-    hkpConstraintData() : m_userData(0) {}
-
-    hkUlong m_userData;   // +0x8
-};
-
-class hkpConstraintChainData : public hkpConstraintData {
-};
 
 class hkpStiffSpringChainData : public hkpConstraintChainData {
 public:

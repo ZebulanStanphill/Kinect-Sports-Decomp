@@ -11,21 +11,8 @@
 // freely. Built with /O2 /QVMXReserve.
 #include "havok/hkBase.h"
 #include "havok/hkRotation.h"
-
-class hkpConstraintData : public hkReferencedObject {
-public:
-    HK_FORCE_INLINE hkpConstraintData() : m_userData(0) {}
-
-    hkUlong m_userData;   // +0x8
-};
-
-class hkpConstraintAtom {
-public:
-    enum AtomType { TYPE_SET_LOCAL_ROTATIONS = 4, TYPE_ANG = 13 };
-    HK_FORCE_INLINE hkpConstraintAtom(AtomType type) : m_type(hkUint16(type)) {}
-
-    hkUint16 m_type;
-};
+#include "havok/hkpConstraintAtom.h"
+#include "havok/hkpConstraintData.h"
 
 struct hkpSetLocalRotationsConstraintAtom : public hkpConstraintAtom {
     HK_FORCE_INLINE hkpSetLocalRotationsConstraintAtom() : hkpConstraintAtom(TYPE_SET_LOCAL_ROTATIONS) {}

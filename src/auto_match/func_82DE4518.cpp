@@ -5,16 +5,7 @@
 // original's target; a qualified call of MSVC's member name for the scalar deleting destructor, __delDtor,
 // does (its body is too big to be inlined here). The adjustment is plain arithmetic: a static_cast, even to
 // a reference, adds a null check. The thunk keeps its fn_ name (no rename map).
-#include "havok/hkpCollisionFilter.h"
-
-class hkpGroupCollisionFilter : public hkpCollisionFilter {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    hkpGroupCollisionFilter(hkFinishLoadedObjectFlag flag) : hkpCollisionFilter(flag) {}
-
-    hkBool m_noGroupCollisionEnabled;     // +0x30
-    hkUint32 m_collisionGroups[32];       // +0x34
-};
+#include "havok/hkpGroupCollisionFilter.h"
 
 extern "C" void *fn_82DE4518(hkpRayCollidableFilter *self, unsigned int flags)
 {

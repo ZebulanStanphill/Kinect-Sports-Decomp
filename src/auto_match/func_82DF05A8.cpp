@@ -3,24 +3,7 @@
 #include "havok/hkBase.h"
 #include "havok/hkpEntityListener.h"
 #include "havok/hkpCollisionFilter.h"
-#include "havok/hkSmallArray.h"
-
-extern "C" {
-void *fn_82DF06C0(hkpEntity *entity);                                // hkpEntity::getEntityListeners
-void fn_82D8A228(hkpEntity *entity, hkpEntityListener *listener);    // hkpEntity::removeEntityListener
-void fn_82D8A110(hkpEntity *entity, hkpEntityListener *listener);    // hkpEntity::addEntityListener
-}
-
-// Only the members these functions use; getEntityListeners and removeEntityListener are out of line.
-class hkpEntity {
-public:
-    hkSmallArray<hkpEntityListener *> &getEntityListeners()
-    {
-        return *static_cast<hkSmallArray<hkpEntityListener *> *>(fn_82DF06C0(this));
-    }
-    void removeEntityListener(hkpEntityListener *el) { fn_82D8A228(this, el); }
-    void addEntityListener(hkpEntityListener *el) { fn_82D8A110(this, el); }
-};
+#include "havok/hkpEntity.h"
 
 // hkArray::pushBack as this function inlines it: the allocator is fetched before the capacity test
 // (hkArrayUtil::_reserveMore), then the element is constructed in place (hkArrayUtil::construct) and m_size grows.

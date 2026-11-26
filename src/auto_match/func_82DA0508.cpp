@@ -4,38 +4,12 @@
 #include "havok/hkBase.h"
 #include "havok/hkTransform.h"
 #include "havok/hkEnum.h"
+#include "havok/hkpConstraintAtom.h"
+#include "havok/hkpConstraintData.h"
 
 // The game's 1.0f keeps its lbl_ name (Matching units reference it).
 
-class hkpConstraintData : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);
-    hkpConstraintData() : m_userData(0) {}
-    hkUlong m_userData;   // +0x8
-};
-
 class hkpParametricCurve;
-
-struct hkpConstraintAtom {
-    enum AtomType { TYPE_INVALID, TYPE_BRIDGE };
-    HK_FORCE_INLINE hkpConstraintAtom(AtomType type) : m_type(hkUint16(type)) {}
-    hkUint16 m_type;
-};
-
-struct hkpBridgeConstraintAtom;
-extern "C" void fn_82D9FE70(hkpBridgeConstraintAtom *self, hkpConstraintData *data);   // hkpBridgeConstraintAtom::init
-
-struct hkpBridgeConstraintAtom : public hkpConstraintAtom {
-    HK_FORCE_INLINE hkpBridgeConstraintAtom() : hkpConstraintAtom(TYPE_BRIDGE) {}
-    HK_FORCE_INLINE void init(hkpConstraintData *constraintData) { fn_82D9FE70(this, constraintData); }
-    void *m_buildJacobianFunc;            // +0x4
-    hkpConstraintData *m_constraintData;  // +0x8
-};
-
-struct hkpBridgeAtoms {
-    HK_FORCE_INLINE hkpBridgeAtoms() {}
-    hkpBridgeConstraintAtom m_bridgeAtom;
-};
 
 class hkpPointToPathConstraintData : public hkpConstraintData {
 public:

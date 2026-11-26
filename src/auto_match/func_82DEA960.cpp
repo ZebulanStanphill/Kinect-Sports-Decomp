@@ -2,8 +2,8 @@
 #include "havok/hkBase.h"
 #include "havok/hkpEntityListener.h"
 #include "havok/hkpConstraintListener.h"
+#include "havok/hkpWorldDeletionListener.h"
 
-class hkpWorld;
 struct hkpContactImpulseLimitBreachedListenerInfo;
 
 // Vtable: the deleting destructor (fn_82DEA6C0), then the callback (pure).
@@ -13,15 +13,6 @@ public:
     virtual ~hkpContactImpulseLimitBreachedListener() {}
     virtual void contactImpulseLimitBreachedCallback(const hkpContactImpulseLimitBreachedListenerInfo *breachedContacts,
                                                      int numBreachedContacts) = 0;
-};
-
-// Vtable: the deleting destructor (fn_82D8DA38), worldDeletedCallback (pure), worldRemovedCallback (empty).
-class hkpWorldDeletionListener {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual ~hkpWorldDeletionListener() {}
-    virtual void worldDeletedCallback(hkpWorld *world) = 0;
-    virtual void worldRemovedCallback(hkpWorld *world) {}
 };
 
 extern "C" {

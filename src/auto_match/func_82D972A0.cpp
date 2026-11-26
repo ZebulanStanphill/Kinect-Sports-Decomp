@@ -7,21 +7,10 @@
 // declaration keeps the HK_REAL_MAX load after the stores).
 #include "havok/hkBase.h"
 #include "havok/hkTransform.h"
+#include "havok/hkpConstraintAtom.h"
+#include "havok/hkpConstraintData.h"
 
 // The game's 1.0f keeps its lbl_ name (Matching units reference it).
-
-class hkpConstraintData : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);
-    hkpConstraintData() : m_userData(0) {}
-    hkUlong m_userData;   // +0x8
-};
-
-struct hkpConstraintAtom {
-    enum AtomType { TYPE_SET_LOCAL_TRANSFORMS = 2, TYPE_LIN = 7, TYPE_LIN_LIMIT = 9, TYPE_LIN_FRICTION = 10, TYPE_LIN_MOTOR = 11, TYPE_ANG = 13 };
-    HK_FORCE_INLINE hkpConstraintAtom(AtomType type) : m_type(type) {}
-    hkUint16 m_type;
-};
 
 struct hkpSetLocalTransformsConstraintAtom : public hkpConstraintAtom {
     HK_FORCE_INLINE hkpSetLocalTransformsConstraintAtom() : hkpConstraintAtom(TYPE_SET_LOCAL_TRANSFORMS) {}

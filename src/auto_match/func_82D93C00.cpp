@@ -3,16 +3,10 @@
 // is out of line and keeps its fn_ name.
 #include "havok/hkBase.h"
 #include "havok/hkTransform.h"
+#include "havok/hkpConstraintData.h"
 
 // The game's 1.0f keeps its lbl_ name (Matching units reference it); -pi and pi are literals, and the
 // rename map names the game's copies __real@c0490fdb and __real@40490fdb.
-
-class hkpConstraintData : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);
-    hkpConstraintData() : m_userData(0) {}
-    hkUlong m_userData;   // +0x8
-};
 
 class hkpConstraintMotor;
 

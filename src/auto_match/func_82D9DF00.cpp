@@ -2,52 +2,10 @@
 #include "havok/hkBase.h"
 #include "havok/hkVector4.h"
 #include "havok/hkpConstraintMotor.h"
-
-class hkpConstraintData;
-
-// hkpBridgeConstraintAtom::init(hkpConstraintData *) is out of line (sets
-// m_buildJacobianFunc and m_constraintData); it keeps its fn_ name because a
-// Matching C unit defines it.
-extern "C" void fn_82D9FE70(void *self, hkpConstraintData *data);
-
-struct hkpConstraintAtom {
-    hkpConstraintAtom(hkFinishLoadedObjectFlag f) {}
-    hkUint16 m_type;   // +0x0
-};
-
-struct hkpBridgeConstraintAtom : public hkpConstraintAtom {
-    hkpBridgeConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f)
-    {
-        if (f.m_finishing)
-            init(m_constraintData);
-    }
-    void init(hkpConstraintData *constraintData) { fn_82D9FE70(this, constraintData); }
-
-    void *m_buildJacobianFunc;           // +0x4
-    hkpConstraintData *m_constraintData; // +0x8
-};
-
-struct hkpBridgeAtoms {
-    hkpBridgeAtoms(hkFinishLoadedObjectFlag f) : m_bridgeAtom(f) {}
-    hkpBridgeConstraintAtom m_bridgeAtom;
-};
-
-class hkpConstraintData : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);
-    hkpConstraintData(hkFinishLoadedObjectFlag f) : hkReferencedObject(f) {}
-
-    hkUlong m_userData;   // +0x8
-};
+#include "havok/hkpConstraintAtom.h"
+#include "havok/hkpConstraintData.h"
 
 class hkpConstraintModifier;
-
-struct hkpConstraintInfo {
-    int m_maxSizeOfSchema;
-    int m_sizeOfSchemas;
-    int m_numSolverResults;
-    int m_numSolverElemTemps;
-};
 
 // The finish constructor and the (implicit) destructor are out of line:
 // fn_82DA5F38 and fn_82D801A8.

@@ -1,13 +1,9 @@
 // finishLoadedObjecthkSimpleLocalFrame: the finish function in hkSimpleLocalFrame's hkTypeInfo (HK_REFLECTION_DEFINE_VIRTUAL, static in Havok). Only m_name's finish constructor is out of line (fn_82CED308).
 #include "havok/hkBase.h"
 #include "havok/hkTransform.h"
+#include "havok/hkLocalFrame.h"
 
 class hkLocalFrameGroup;
-
-class hkLocalFrame : public hkReferencedObject {
-public:
-    hkLocalFrame(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
 
 class hkSimpleLocalFrame : public hkLocalFrame {
 public:

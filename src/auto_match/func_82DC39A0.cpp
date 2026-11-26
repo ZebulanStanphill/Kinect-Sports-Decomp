@@ -15,6 +15,7 @@
 // after `entry` and reassigned in the loop (end = nextNext + sectorSize), and the queue size in the
 // world branch is a local `qsize`.
 #include "havok/hkBase.h"
+#include "havok/hkpConstraintData.h"
 
 extern "C" unsigned __int64 __mftb();
 extern "C" void __dcbt(int offset, const void *base);
@@ -208,14 +209,6 @@ public:
     HK_FORCE_INLINE hkFixedSizePhysicsCommandQueue() { m_start = 0x10; m_size = 0; m_capacity = SIZE; }
     int m_pad;
     hkUint8 m_buffer[SIZE];
-};
-
-struct hkpConstraintInfo {
-    HK_FORCE_INLINE void clear() { m_maxSizeOfSchema = 0; m_sizeOfSchemas = 0; m_numSolverResults = 0; m_numSolverElemTemps = 0; }
-    int m_maxSizeOfSchema;
-    int m_sizeOfSchemas;
-    int m_numSolverResults;
-    int m_numSolverElemTemps;
 };
 
 extern "C" void fn_82DB0170(hkpConstraintInfo *self, const hkpConstraintInfo *other);   // hkpConstraintInfo::add

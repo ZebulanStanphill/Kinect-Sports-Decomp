@@ -1,15 +1,7 @@
 // hkpBallSocketChainData::~hkpBallSocketChainData (Physics/Dynamics/Constraint/Chain/BallSocket/hkpBallSocketChainData.cpp): an empty user-written destructor, then m_infos' destructor.
 #include "havok/hkBase.h"
 #include "havok/hkVector4.h"
-
-class hkpConstraintData : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);
-    hkUlong m_userData;   // +0x8
-};
-
-class hkpConstraintChainData : public hkpConstraintData {
-};
+#include "havok/hkpConstraintData.h"
 
 class hkpBallSocketChainData : public hkpConstraintChainData {
 public:

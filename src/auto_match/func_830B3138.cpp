@@ -1,6 +1,6 @@
 #include "havok/hkBase.h"
 #include "havok/hkpAction.h"
-#include "havok/hkMultiThreadCheck.h"
+#include "havok/hkpEntity.h"
 
 extern "C" void fn_82CEFB20(hkMultiThreadCheck *self);   // hkMultiThreadCheck::disableChecks (m_threadId = 0xFFFFFFD1)
 
@@ -22,8 +22,6 @@ public:
     hkMultiThreadCheck m_multiThreadCheck;   // +0x8
     hkCriticalSection *m_criticalSection;    // +0x10
 };
-
-class hkpEntity : public hkReferencedObject {};
 
 hkpBinaryAction::hkpBinaryAction(hkpEntity *entityA, hkpEntity *entityB, hkUlong userData)
     : hkpAction(userData), m_entityA(entityA), m_entityB(entityB)

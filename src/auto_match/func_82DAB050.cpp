@@ -1,23 +1,13 @@
 // hkpReportContactMgr::hkpReportContactMgr(hkpWorld *, hkpRigidBody *, hkpRigidBody *) (Physics/Dynamics/Collide/ContactListener/Util/hkpReportContactMgr.cpp).
 #include "havok/hkBase.h"
-#include "havok/hkpCollidable.h"
+#include "havok/hkpRigidBody.h"
 
-class hkpWorld;
 class hkpCollisionInput;
 
 class hkMath {
 public:
     template <typename T>
     static HK_FORCE_INLINE T HK_CALL min2(T a, T b) { return a < b ? a : b; }
-};
-
-// hkpRigidBody: only the contact point callback delay (hkpEntity, +0xAA) is used here.
-class hkpRigidBody : public hkReferencedObject {
-public:
-    hkUint16 getContactPointCallbackDelay() const { return m_contactPointCallbackDelay; }
-
-    char m_pad[0xAA - 0x8];
-    hkUint16 m_contactPointCallbackDelay;   // +0xAA
 };
 
 // hkpContactMgr (Physics/Collide/Agent/ContactMgr/hkpContactMgr.h) and hkpDynamicsContactMgr.

@@ -2,9 +2,7 @@
 // the given friction and restitution, and stores the caller's user data in it. Same shape as
 // func_82563908.cpp (Matching).
 #include "havok/hkBase.h"
-#include "havok/hkMatrix3.h"
-
-class hkpShape;
+#include "havok/hkpRigidBody.h"
 
 class hkpMassProperties
 {
@@ -46,14 +44,6 @@ class hkpRigidBodyCinfo
     hkUint8 m_responseModifierFlags;               // +0xb9
     hkInt8 m_numShapeKeysInContactPointProperties; // +0xba
     hkBool m_forceCollideOntoPpu;                  // +0xbb
-};
-
-class hkpRigidBody : public hkReferencedObject
-{
-  public:
-    void *m_world;      // +0x08
-    hkUlong m_userData; // +0x0c
-    char m_pad10[0x210];
 };
 
 extern "C" {

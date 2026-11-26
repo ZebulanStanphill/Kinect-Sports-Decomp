@@ -1,18 +1,10 @@
+#include "havok/hkBaseTypes.h"
+
 class hkpCollisionAgent;
 class hkpCdBody;
 struct hkpCollisionInput;
 class hkpContactMgr;
 class hkpListAgent;
-
-class hkBool
-{
-public:
-    hkBool() {}
-    hkBool(bool b) { m_bool = static_cast<char>(b); }
-    operator bool() const { return m_bool != 0; }
-    hkBool &operator=(bool e) { m_bool = static_cast<char>(e); return *this; }
-    char m_bool;
-};
 
 template <class T>
 class hkpSymmetricAgent

@@ -3,16 +3,7 @@
 // (fn_82DC82C8, the call fn_82DB3FD0 makes too), unregisters both listeners and releases the utility.
 #include "havok/hkBase.h"
 #include "havok/hkpConstraintListener.h"
-
-class hkpWorld;
-
-class hkpWorldDeletionListener {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual ~hkpWorldDeletionListener() {}
-    virtual void worldDeletedCallback(hkpWorld *world) = 0;
-    virtual void worldRemovedCallback(hkpWorld *world) {}
-};
+#include "havok/hkpWorldDeletionListener.h"
 
 extern "C" {
 void fn_82D813C0(hkpWorld *world, hkpConstraintListener *l);      // hkpWorld::removeConstraintListener

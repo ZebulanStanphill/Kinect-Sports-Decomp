@@ -3,23 +3,12 @@
 // fn_ name (no Matching unit refers to it; `self` is `this`). The default constructor is inlined.
 // Class layouts as in func_82E00B20.cpp / func_82DF9E98.cpp.
 #include "havok/hkBase.h"
-#include "havok/hkpShape.h"
+#include "havok/hkpRigidBody.h"
+#include "havok/hkpPhantomOverlapListener.h"
 
 // HK_REAL_EPSILON. The source used the literal (whose load the compiler schedules freely); the game's copy of
 // that constant is __real@34000000, and a static constant with that name gives the same code (a plain extern is
 // reloaded after each store, a selectany definition schedules its address differently).
-
-class hkpCollidable;
-class hkpCollidableAddedEvent;
-class hkpCollidableRemovedEvent;
-
-class hkpPhantomOverlapListener {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual void collidableAddedCallback(const hkpCollidableAddedEvent &event) = 0;
-    virtual void collidableRemovedCallback(const hkpCollidableRemovedEvent &event) = 0;
-    virtual ~hkpPhantomOverlapListener() {}
-};
 
 // Physics/Vehicle/WheelCollide/RejectRayChassisListener/hkpRejectChassisListener.h.
 class hkpRejectChassisListener : public hkReferencedObject, public hkpPhantomOverlapListener {
@@ -33,29 +22,7 @@ public:
     const hkpCollidable *m_chassis;   // +0xC
 };
 
-class __declspec(align(16)) hkVector4 {
-public:
-    hkReal x, y, z, w;
-};
-
-class __declspec(align(16)) hkTransform {
-public:
-    hkVector4 m_rotation[3];
-    hkVector4 m_translation;
-};
-
-class hkpWorld;
 class hkpVehicleInstance;
-
-// Only getCollidable(): hkpWorldObject's m_collidable is at +0x10.
-class hkpRigidBody : public hkReferencedObject {
-public:
-    const hkpCollidable *getCollidable() const { return reinterpret_cast<const hkpCollidable *>(&m_collidable); }
-
-    hkpWorld *m_world;      // +0x8
-    hkUlong m_userData;     // +0xC
-    char m_collidable[4];   // +0x10 (hkpLinkedCollidable)
-};
 
 extern "C" {
 void fn_82D9A420(class hkpPhantom *phantom, hkpPhantomOverlapListener *listener);   // hkpPhantom::removePhantomOverlapListener

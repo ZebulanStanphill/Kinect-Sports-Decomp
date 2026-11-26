@@ -3,15 +3,9 @@
 // and keeps its fn_ name.
 #include "havok/hkBase.h"
 #include "havok/hkTransform.h"
+#include "havok/hkpConstraintData.h"
 
 // The game's 1.0f keeps its lbl_ name (Matching units reference it).
-
-class hkpConstraintData : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);
-    hkpConstraintData() : m_userData(0) {}
-    hkUlong m_userData;   // +0x8
-};
 
 struct hkpConstraintAtom {
     hkUint16 m_type;

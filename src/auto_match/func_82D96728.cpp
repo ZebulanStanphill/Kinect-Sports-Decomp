@@ -7,6 +7,8 @@
 // for hkUFloat8's const hkReal &).
 #include "havok/hkBase.h"
 #include "havok/hkVector4.h"
+#include "havok/hkpConstraintAtom.h"
+#include "havok/hkpConstraintData.h"
 
 class hkUFloat8;
 // hkUFloat8::operator=(const hkReal &) is out of line.
@@ -24,20 +26,6 @@ public:
     hkUint8 m_value;
 };
 
-// hkpConstraintAtom (Physics/ConstraintSolver/Constraint/Atom/hkpConstraintAtom.h).
-struct hkpConstraintAtom {
-    enum AtomType {
-        TYPE_INVALID = 0,
-        TYPE_BRIDGE = 1,
-        TYPE_SET_LOCAL_TRANSFORMS = 2,
-        TYPE_SET_LOCAL_TRANSLATIONS = 3,
-        TYPE_SET_LOCAL_ROTATIONS = 4,
-        TYPE_BALL_SOCKET = 5
-    };
-    hkpConstraintAtom(AtomType type) : m_type(hkUint16(type)) {}
-    hkUint16 m_type;   // +0x0  hkEnum<AtomType, hkUint16>
-};
-
 struct hkpSetLocalTranslationsConstraintAtom : public hkpConstraintAtom {
     hkpSetLocalTranslationsConstraintAtom() : hkpConstraintAtom(TYPE_SET_LOCAL_TRANSLATIONS) {}
     hkVector4 m_translationA;   // +0x10
@@ -51,15 +39,6 @@ struct hkpBallSocketConstraintAtom : public hkpConstraintAtom {
     hkUint8 m_bodiesToNotify;                  // +0x2
     hkUFloat8 m_velocityStabilizationFactor;   // +0x3
     hkReal m_maxImpulse;                       // +0x4
-};
-
-// hkpConstraintData (Physics/Dynamics/Constraint/hkpConstraintData.h): hkReferencedObject + m_userData.
-class hkpConstraintData : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);
-    hkpConstraintData() : m_userData(0) {}
-    virtual void setMaxLinearImpulse(hkReal maxImpulse);   // +0xC
-    hkUlong m_userData;   // +0x8
 };
 
 class hkpBallAndSocketConstraintData : public hkpConstraintData {

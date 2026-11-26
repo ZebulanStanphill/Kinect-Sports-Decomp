@@ -3,6 +3,7 @@
 // fn_82D74A90), then the manifold member is constructed (one word cleared at +0x30). Hierarchy from the RTTI:
 // hkpGskfAgent -> hkpGskBaseAgent -> hkpIterativeLinearCastAgent -> hkpCollisionAgent -> hkReferencedObject.
 #include "havok/hkBase.h"
+#include "havok/hkVector4.h"
 
 class hkpCdBody;
 class hkpContactMgr;
@@ -14,11 +15,6 @@ struct hkpCollisionInput;
 struct hkpLinearCastCollisionInput;
 struct hkpProcessCollisionInput;
 struct hkpProcessCollisionOutput;
-
-class __declspec(align(16)) hkVector4 {
-public:
-    hkReal x, y, z, w;
-};
 
 class hkpCollisionAgent : public hkReferencedObject {
 public:

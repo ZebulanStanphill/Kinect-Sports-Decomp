@@ -8,29 +8,7 @@
 // (flag file). The flip term (triangleIndex & m_flipAlternateTriangles) must be computed once
 // before the index-type branch; repeating it in each branch leaves the first index load as
 // lhzx base+offset instead of lhz 0(triangle).
-#include "havok/hkpShape.h"
-#include "havok/hkVector4.h"
-
-class hkpTriangleShape : public hkpConvexShape {
-public:
-    HK_FORCE_INLINE hkpTriangleShape(hkReal radius, hkUint16 weldingInfo, hkUint8 type)
-        : hkpConvexShape(HK_SHAPE_TRIANGLE, radius)
-    {
-        m_weldingInfo = weldingInfo;
-        m_weldingType = type;
-        m_extrusion.setZero4();
-        m_isExtruded = 0;
-    }
-    HK_FORCE_INLINE void setVertex(int i, const hkVector4 &v) { (&m_vertexA)[i] = v; }
-
-    hkUint16 m_weldingInfo;   // +0x14
-    hkUint8 m_weldingType;    // +0x16
-    hkUint8 m_isExtruded;     // +0x17
-    hkVector4 m_vertexA;      // +0x20
-    hkVector4 m_vertexB;      // +0x30
-    hkVector4 m_vertexC;      // +0x40
-    hkVector4 m_extrusion;    // +0x50
-};
+#include "havok/hkpTriangleShape.h"
 
 template <typename T>
 HK_FORCE_INLINE const T *hkAddByteOffsetConst(const T *base, hkUlong offset)

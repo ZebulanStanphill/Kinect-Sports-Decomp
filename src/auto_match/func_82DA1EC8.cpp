@@ -3,25 +3,10 @@
 // names 1.0f __real@3f800000).
 #include "havok/hkBase.h"
 #include "havok/hkRotation.h"
+#include "havok/hkpConstraintAtom.h"
+#include "havok/hkpConstraintData.h"
 
 // The game's 1.0f keeps its lbl_ name (Matching units reference it).
-
-class hkpConstraintData : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);
-    hkpConstraintData() : m_userData(0) {}
-    hkUlong m_userData;   // +0x8
-};
-
-struct hkpConstraintAtom {
-    enum AtomType {
-        TYPE_SET_LOCAL_ROTATIONS = 4,
-        TYPE_TWIST_LIMIT = 15,
-        TYPE_CONE_LIMIT = 16
-    };
-    hkpConstraintAtom(AtomType type) : m_type(hkUint16(type)) {}
-    hkUint16 m_type;
-};
 
 struct hkpSetLocalRotationsConstraintAtom : public hkpConstraintAtom {
     hkpSetLocalRotationsConstraintAtom() : hkpConstraintAtom(TYPE_SET_LOCAL_ROTATIONS) {}

@@ -3,8 +3,8 @@
 // (fn_82DAC840), then frees through the class allocator. The function at the end only makes the compiler
 // emit the vtable, and with it this function.
 #include "havok/hkBase.h"
+#include "havok/hkpConstraintData.h"
 
-class hkpRigidBody;
 class hkpConstraintInstance;
 struct hkpSimpleContactConstraintAtom;
 
@@ -12,12 +12,6 @@ struct hkpSimpleContactConstraintAtom;
 class hkpDynamicsCpIdMgr {
 public:
     hkArrayBase<hkUint8> m_values;   // +0x0 (hkArray<hkUint8>)
-};
-
-class hkpConstraintData : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);
-    hkUlong m_userData;   // +0x8
 };
 
 // hkpSimpleContactConstraintData (Physics/Dynamics/Collide/hkpSimpleContactConstraintData.h), 0x30 bytes.

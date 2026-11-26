@@ -5,24 +5,10 @@
 // the four pivots and sets the rope length 0.0f and the leverage 1.0f. Both floats are literals.
 #include "havok/hkBase.h"
 #include "havok/hkVector4.h"
+#include "havok/hkpConstraintAtom.h"
+#include "havok/hkpConstraintData.h"
 
 // The game's 1.0f keeps its lbl_ name (see above).
-
-class hkpConstraintData : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);
-    hkpConstraintData() : m_userData(0) {}
-    hkUlong m_userData;   // +0x8
-};
-
-struct hkpConstraintAtom {
-    enum AtomType {
-        TYPE_SET_LOCAL_TRANSLATIONS = 3,
-        TYPE_PULLEY = 20
-    };
-    hkpConstraintAtom(AtomType type) : m_type(hkUint16(type)) {}
-    hkUint16 m_type;
-};
 
 struct hkpSetLocalTranslationsConstraintAtom : public hkpConstraintAtom {
     hkpSetLocalTranslationsConstraintAtom() : hkpConstraintAtom(TYPE_SET_LOCAL_TRANSLATIONS) {}

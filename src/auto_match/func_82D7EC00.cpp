@@ -4,33 +4,7 @@
 // array, an hkSmallArray {m_data, hkUint16 m_size, hkUint16 m_capacityAndFlags = 0x8000} at +0x20, finishes
 // m_name (+0x28, out of line: fn_82CED308) and sets m_uid (+0x34) to 0xfffffff0.
 #include "havok/hkBase.h"
-#include "havok/hkSmallArray.h"
-
-class hkpConstraintOwner;
-class hkpConstraintData;
-class hkpModifierConstraintAtom;
-class hkpEntity;
-class hkpConstraintListener;
-struct hkConstraintInternal;
-
-class hkpConstraintInstance : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);
-    hkpConstraintInstance(hkFinishLoadedObjectFlag f) : hkReferencedObject(f), m_name(f), m_uid(0xfffffff0) {}
-
-    hkpConstraintOwner *m_owner;                         // +0x8
-    hkpConstraintData *m_data;                           // +0xC
-    hkpModifierConstraintAtom *m_constraintModifiers;    // +0x10
-    hkpEntity *m_entities[2];                            // +0x14
-    hkUint8 m_priority;                                  // +0x1C
-    hkBool m_wantRuntime;                                // +0x1D
-    hkUint8 m_destructionRemapInfo;                      // +0x1E
-    hkSmallArray<hkpConstraintListener *> m_listeners;   // +0x20
-    hkStringPtr m_name;                                  // +0x28
-    hkUlong m_userData;                                  // +0x2C
-    hkConstraintInternal *m_internal;                    // +0x30
-    hkUint32 m_uid;                                      // +0x34
-};
+#include "havok/hkpConstraintInstance.h"
 
 class hkpConstraintChainInstanceAction;
 

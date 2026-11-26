@@ -1,10 +1,4 @@
-#include "havok/hkpCollisionFilter.h"
-#include "havok/hkpEntityListener.h"
-class hkpDisableEntityCollisionFilter : public hkpCollisionFilter, public hkpEntityListener {
-public:
- HK_DECLARE_CLASS_ALLOCATOR(0);
- hkpDisableEntityCollisionFilter(hkFinishLoadedObjectFlag f) : hkpCollisionFilter(f) {}
-};
+#include "havok/hkpDisableEntityCollisionFilter.h"
 const void *getVtablehkpDisableEntityCollisionFilter() {
  union { void *ptr; char buf[sizeof(hkpDisableEntityCollisionFilter)]; } u;
  hkFinishLoadedObjectFlag f;

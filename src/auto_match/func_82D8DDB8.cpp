@@ -10,12 +10,11 @@
 // calls but changes how the scheduler orders the hkVector4::set() temporaries of the later phantoms.
 #include "havok/hkBase.h"
 #include "havok/hkAabb.h"
+#include "havok/hkpWorldDeletionListener.h"
+#include "havok/hkpPhantomOverlapListener.h"
 
-class hkpWorld;
 class hkpPhantom;
 class hkpAabbPhantom;
-class hkpWorldDeletionListener;
-class hkpPhantomOverlapListener;
 class hkpWorldPostSimulationListener;
 
 extern "C" {
@@ -25,22 +24,6 @@ hkpPhantom *fn_82D83B68(hkpWorld *world, hkpPhantom *phantom);          // hkpWo
 hkpAabbPhantom *fn_82D8D6C0(void *self, const hkAabb &aabb, hkUint32 collisionFilterInfo);  // hkpAabbPhantom::hkpAabbPhantom
 void fn_82D9A5F8(hkpPhantom *phantom, hkpPhantomOverlapListener *l);    // hkpPhantom::addPhantomOverlapListener
 }
-
-class hkpWorldDeletionListener {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual ~hkpWorldDeletionListener() {}
-    virtual void worldDeletedCallback(hkpWorld *world);
-    virtual void worldRemoveAllCallback(hkpWorld *world);
-};
-
-class hkpPhantomOverlapListener {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual ~hkpPhantomOverlapListener() {}
-    virtual void collidableAddedCallback(const void *event);
-    virtual void collidableRemovedCallback(const void *event);
-};
 
 class hkpWorldPostSimulationListener {
 public:

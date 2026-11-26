@@ -1,13 +1,9 @@
 // hkSimpleLocalFrame::~hkSimpleLocalFrame (Common/Base/Types/Geometry/LocalFrame/hkLocalFrame.cpp): releases the children and the group.
 #include "havok/hkBase.h"
 #include "havok/hkTransform.h"
+#include "havok/hkLocalFrame.h"
 
 class hkLocalFrameGroup : public hkReferencedObject {
-};
-
-class hkLocalFrame : public hkReferencedObject {
-public:
-    hkLocalFrame(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
 };
 
 class hkSimpleLocalFrame : public hkLocalFrame {

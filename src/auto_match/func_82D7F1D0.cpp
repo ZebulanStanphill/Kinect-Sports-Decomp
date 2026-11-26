@@ -1,12 +1,7 @@
 // hkpLimitedHingeConstraintData scalar deleting destructor; it calls the destructor out of line. The finish constructor
 // below only makes the compiler emit the vtable.
 #include "havok/hkBase.h"
-
-class hkpConstraintData : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_BASE);
-    hkpConstraintData(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
+#include "havok/hkpConstraintData.h"
 
 class hkpLimitedHingeConstraintData : public hkpConstraintData {
 public:

@@ -1,11 +1,5 @@
 #include "havok/hkMotionState.h"
-
-class hkReferencedObject {
-public:
-    virtual ~hkReferencedObject() {}
-    unsigned short m_memSizeAndFlags;
-    short m_referenceCount;
-};
+#include "havok/hkReferencedObject.h"
 
 class hkpSphereShape : public hkReferencedObject {
 public:

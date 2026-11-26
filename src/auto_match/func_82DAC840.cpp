@@ -1,5 +1,6 @@
 // hkpSimpleContactConstraintData::~hkpSimpleContactConstraintData (Physics/Dynamics/Collide/hkpSimpleContactConstraintData.cpp): frees the contact atom block; then m_idMgrA's destructor (out of line).
 #include "havok/hkBase.h"
+#include "havok/hkpConstraintData.h"
 
 class hkpConstraintInstance;
 
@@ -26,12 +27,6 @@ struct hkpSimpleContactConstraintAtom {
 };
 
 #define C2_HKPCONSTRAINTDATA
-class hkpConstraintData : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);
-    hkUlong m_userData;   // +0x8
-};
-
 // hkpSimpleContactConstraintData (Physics/Dynamics/Collide/hkpSimpleContactConstraintData.h), 0x30 bytes.
 class hkpSimpleContactConstraintData : public hkpConstraintData {
 public:

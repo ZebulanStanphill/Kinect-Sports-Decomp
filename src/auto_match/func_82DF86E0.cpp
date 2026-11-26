@@ -4,14 +4,10 @@
 // differently). The contact data info's init() zeroes its 7 words in a loop.
 #include "havok/hkBase.h"
 #include "havok/hkEnum.h"
+#include "havok/hkpConstraintAtom.h"
+#include "havok/hkVector4.h"
 
 class hkpEntity;
-
-struct hkpConstraintAtom {
-    enum AtomType { TYPE_CONTACT = 22 };
-    HK_FORCE_INLINE hkpConstraintAtom(AtomType type) : m_type(type) {}
-    hkEnum<AtomType, hkUint16> m_type;   // +0x0
-};
 
 class __declspec(align(16)) hkpSimpleContactConstraintDataInfo {
 public:
@@ -47,10 +43,6 @@ struct hkpSerializedTrack1nInfo {
     hkArray<hkpSerializedSubTrack1nInfo *> m_subTracks;    // +0xc
 };
 
-class __declspec(align(16)) hkVector4 {
-public:
-    hkReal x, y, z, w;
-};
 class hkContactPoint {
 public:
     hkVector4 m_position;

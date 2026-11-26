@@ -1,10 +1,4 @@
-#include "havok/hkpCollisionFilter.h"
-#include "havok/hkpConstraintListener.h"
-class hkpConstrainedSystemFilter : public hkpCollisionFilter, public hkpConstraintListener {
-public:
- HK_DECLARE_CLASS_ALLOCATOR(0);
- hkpConstrainedSystemFilter(hkFinishLoadedObjectFlag f) : hkpCollisionFilter(f) {}
-};
+#include "havok/hkpConstrainedSystemFilter.h"
 const void *getVtablehkpConstrainedSystemFilter() {
  union { void *ptr; char buf[sizeof(hkpConstrainedSystemFilter)]; } u;
  hkFinishLoadedObjectFlag f;

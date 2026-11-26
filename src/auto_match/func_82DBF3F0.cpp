@@ -1,13 +1,7 @@
 // hkpRagdollLimitsData clone: allocates a new hkpRagdollLimitsData (class allocator, out-of-line constructor) and copies its
 // atoms (0xac bytes at +0x10) with hkString::memCpy. Havok code: /O2.
 #include "havok/hkBase.h"
-
-class hkpConstraintData : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);
-    hkpConstraintData() : m_userData(0) {}
-    hkUlong m_userData;   // +0x8
-};
+#include "havok/hkpConstraintData.h"
 
 class __declspec(align(16)) hkpRagdollLimitsData : public hkpConstraintData {
 public:

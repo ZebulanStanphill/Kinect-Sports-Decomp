@@ -2,6 +2,7 @@
 // the bounding volume shape of A against B through the dispatcher (hkpCollisionDispatcher::getNewCollisionAgent,
 // inlined: the 32x32 agent type tables at +0x1A0 / +0x5A0 (predictive), the 0x14-byte AgentFuncs at +0x9A0).
 #include "havok/hkBase.h"
+#include "havok/hkVector4.h"
 
 class hkpContactMgr;
 class hkpCollisionAgent;
@@ -10,11 +11,6 @@ class hkpCollisionFilter;
 typedef int hkpShapeType;
 typedef hkUint32 hkpShapeKey;
 #define HK_INVALID_SHAPE_KEY 0xffffffff
-
-class __declspec(align(16)) hkVector4 {
-public:
-    hkReal m_quad[4];
-};
 
 class hkpShape : public hkReferencedObject {
 public:

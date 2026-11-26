@@ -1,6 +1,6 @@
 #include "havok/hkBase.h"
 #include "havok/hkpConstraintListener.h"
-class hkpWorldDeletionListener { public: static void operator delete(void *p) {fn_8265CA20(p);} virtual ~hkpWorldDeletionListener() {} };
+#include "havok/hkpWorldDeletionListener.h"
 extern "C" void fn_82DC8A30(void *);
 class CallbackMap { public: CallbackMap() { fn_82DC8A30(this); } int data[4]; };
 class hkpCollisionCallbackUtil : public hkReferencedObject, public hkpConstraintListener, public hkpWorldDeletionListener {

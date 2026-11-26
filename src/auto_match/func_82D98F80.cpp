@@ -6,22 +6,8 @@
 // The 1.0f is a literal in the original (loaded once for all six diagonal stores).
 #include "havok/hkBase.h"
 #include "havok/hkTransform.h"
-
-// hkpConstraintAtom (Physics/ConstraintSolver/Constraint/Atom/hkpConstraintAtom.h).
-struct hkpConstraintAtom {
-    enum AtomType {
-        TYPE_INVALID = 0,
-        TYPE_BRIDGE = 1,
-        TYPE_SET_LOCAL_TRANSFORMS = 2,
-        TYPE_SET_LOCAL_TRANSLATIONS = 3,
-        TYPE_SET_LOCAL_ROTATIONS = 4,
-        TYPE_BALL_SOCKET = 5,
-        TYPE_STIFF_SPRING = 6,
-        TYPE_LIN = 7
-    };
-    hkpConstraintAtom(AtomType type) : m_type(hkUint16(type)) {}
-    hkUint16 m_type;   // +0x0  hkEnum<AtomType, hkUint16>
-};
+#include "havok/hkpConstraintAtom.h"
+#include "havok/hkpConstraintData.h"
 
 struct hkpSetLocalTransformsConstraintAtom : public hkpConstraintAtom {
     hkpSetLocalTransformsConstraintAtom() : hkpConstraintAtom(TYPE_SET_LOCAL_TRANSFORMS) {}
@@ -32,15 +18,6 @@ struct hkpSetLocalTransformsConstraintAtom : public hkpConstraintAtom {
 struct hkpLinConstraintAtom : public hkpConstraintAtom {
     hkpLinConstraintAtom() : hkpConstraintAtom(TYPE_LIN) {}
     hkUint8 m_axisIndex;   // +0x2
-};
-
-// hkpConstraintData (Physics/Dynamics/Constraint/hkpConstraintData.h): hkReferencedObject + m_userData.
-class hkpConstraintData : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);
-    hkpConstraintData() : m_userData(0) {}
-    virtual void setMaxLinearImpulse(hkReal maxImpulse);   // +0xC
-    hkUlong m_userData;   // +0x8
 };
 
 class hkpPointToPlaneConstraintData : public hkpConstraintData {
