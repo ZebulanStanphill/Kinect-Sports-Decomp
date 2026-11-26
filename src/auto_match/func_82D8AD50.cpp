@@ -1,7 +1,7 @@
 #include "havok/hkBase.h"
+#include "havok/hkpMotion.h"
 class hkpWorldObject:public hkReferencedObject {public:virtual ~hkpWorldObject();};
 class hkpEntity:public hkpWorldObject {public:HK_DECLARE_PLACEMENT_ALLOCATOR(); hkpEntity(hkFinishLoadedObjectFlag){} virtual ~hkpEntity();};
-class hkpKeyframedRigidMotion {public:virtual ~hkpKeyframedRigidMotion();};
 class DeleteObject {public:virtual void destroy(unsigned);};
 static void *entityVtable(){union{void *ptr;char buf[sizeof(hkpEntity)];}u;hkFinishLoadedObjectFlag f;new(u.buf)hkpEntity(f);return u.ptr;}
 extern "C" void fn_82DACF28(void*);extern "C" void fn_82D7EDB0(int);

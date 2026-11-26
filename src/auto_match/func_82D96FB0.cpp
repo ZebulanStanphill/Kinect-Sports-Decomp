@@ -1,8 +1,7 @@
 // hkpPrismaticConstraintData::~hkpPrismaticConstraintData (Physics/Dynamics/Constraint/Bilateral/Prismatic/hkpPrismaticConstraintData.cpp).
 #include "havok/hkBase.h"
+#include "havok/hkpConstraintMotor.h"
 
-class hkpConstraintMotor : public hkReferencedObject {
-};
 class hkpParametricCurve : public hkReferencedObject {
 };
 

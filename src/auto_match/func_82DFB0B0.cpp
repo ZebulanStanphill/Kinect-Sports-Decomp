@@ -1,8 +1,6 @@
 // hkpVehicleDefaultAnalogDriverInput::hkpVehicleDefaultAnalogDriverInput() (Physics/Vehicle/DriverInput/Default/hkpVehicleDefaultAnalogDriverInput.cpp).
 #include "havok/hkBase.h"
 
-#pragma intrinsic(__vxor)
-
 class hkpVehicleDriverInput : public hkReferencedObject {
 public:
     hkpVehicleDriverInput() {}

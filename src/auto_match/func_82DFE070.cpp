@@ -2,26 +2,9 @@
 // Physics/Vehicle/hkpVehicleInstance.cpp). Keeps its fn_ name: the Matching C
 // unit func_82DFE938 calls it. Havok code, /O2 (flag file).
 #include "havok/hkBase.h"
+#include "havok/hkpAction.h"
 
-class hkpWorld;
-class hkpSimulationIsland;
-class hkpEntity;
 class hkpRigidBody;
-
-class hkpAction : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_ACTION);
-    hkpWorld *m_world;               // +0x8
-    hkpSimulationIsland *m_island;   // +0xC
-    hkUlong m_userData;              // +0x10
-    hkStringPtr m_name;              // +0x14
-};
-
-class hkpUnaryAction : public hkpAction {
-public:
-    hkpUnaryAction(hkpEntity *entity = HK_NULL, hkUlong userData = 0);   // ??0hkpUnaryAction@@QAA@PAVhkpEntity@@K@Z
-    hkpEntity *m_entity;   // +0x18
-};
 
 class hkpVehicleData;
 class hkpVehicleDriverInput;

@@ -3,21 +3,7 @@
 // Hierarchy from the RTTI: hkpThinBoxMotion -> hkpBoxMotion -> hkpMotion -> hkReferencedObject -> hkBaseObject; only the finish
 // constructors are declared.
 #include "havok/hkBase.h"
-
-class hkpMotion : public hkReferencedObject {
-public:
-    hkpMotion(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
-
-class hkpBoxMotion : public hkpMotion {
-public:
-    hkpBoxMotion(hkFinishLoadedObjectFlag flag) : hkpMotion(flag) {}
-};
-
-class hkpThinBoxMotion : public hkpBoxMotion {
-public:
-    hkpThinBoxMotion(hkFinishLoadedObjectFlag flag) : hkpBoxMotion(flag) {}
-};
+#include "havok/hkpMotion.h"
 
 const void *HK_CALL getVtablehkpThinBoxMotion()
 {

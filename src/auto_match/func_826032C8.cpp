@@ -9,6 +9,7 @@
 inline void *operator new(unsigned int,void *p) throw() { return p; }
 
 #include "havok/hkIArchive.h"
+#include "havok/hkpWorldObject.h"
 
 extern "C" {
 int *fn_825A2410(int *p);
@@ -25,12 +26,6 @@ struct PackfileReader {
     HK_FORCE_INLINE PackfileReader() { fn_82E0B980(this); }
     HK_FORCE_INLINE ~PackfileReader() { fn_82E0C7A0(this); }
     char m_storage[0x80];
-};
-
-struct hkSimpleProperty {
-    hkUint32 m_key;
-    hkUint32 m_alignmentPadding;
-    hkUint64 m_value;
 };
 
 struct RigidBody {

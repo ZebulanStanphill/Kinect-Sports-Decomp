@@ -90,5 +90,10 @@ HK_FORCE_INLINE void HK_CALL hkDeallocate(TYPE *ptr)
 {
     hkMemoryRouter::easyFree(hkMemoryRouter::getInstance().heap(), static_cast<void *>(ptr));
 }
+template <typename TYPE>
+HK_FORCE_INLINE void HK_CALL hkDeallocateChunk(TYPE *ptr, int numberOfObjects, HK_MEMORY_CLASS cl)
+{
+    hkMemoryRouter::getInstance().heap().blockFree(static_cast<void *>(ptr), numberOfObjects * int(sizeof(TYPE)));
+}
 
 #endif

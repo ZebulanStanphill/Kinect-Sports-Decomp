@@ -1,8 +1,6 @@
 // hkpMalleableConstraintData::~hkpMalleableConstraintData (Physics/Dynamics/Constraint/Malleable/hkpMalleableConstraintData.cpp).
 #include "havok/hkBase.h"
 
-class hkpConstraintMotor : public hkReferencedObject {
-};
 class hkpParametricCurve : public hkReferencedObject {
 };
 

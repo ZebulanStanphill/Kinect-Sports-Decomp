@@ -2,9 +2,7 @@
 // func_82D3ADD8.cpp, which also makes the compiler emit the vtable and this deleting destructor.
 #include "havok/hkBase.h"
 #include "havok/hkTransform.h"
-
-class hkpShape : public hkReferencedObject {
-};
+#include "havok/hkpShape.h"
 
 class hkpShapeInfo : public hkReferencedObject {
 public:

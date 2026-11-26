@@ -9,13 +9,7 @@
 // member wrappers, as the source called them. Calling the fn_ functions directly compiles to the same
 // calls but changes how the scheduler orders the hkVector4::set() temporaries of the later phantoms.
 #include "havok/hkBase.h"
-#include "havok/hkVector4.h"
-
-class hkAabb {
-public:
-    hkVector4 m_min;
-    hkVector4 m_max;
-};
+#include "havok/hkAabb.h"
 
 class hkpWorld;
 class hkpPhantom;

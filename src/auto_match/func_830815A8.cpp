@@ -1,10 +1,5 @@
 #include "havok/hkTransform.h"
-
-class hkQuaternion {
-public:
-    __forceinline void operator=(const hkQuaternion &q) { m_vec = q.m_vec; }
-    hkVector4 m_vec;
-};
+#include "havok/hkQuaternion.h"
 
 class hkSweptTransform {
 public:

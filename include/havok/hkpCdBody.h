@@ -7,6 +7,7 @@
 // hkpCdBody (Physics/Collide/Agent/Collidable/hkpCdBody.h).
 class hkpCdBody {
 public:
+    hkpCdBody() {}   // for hkpCollidable, whose constructors fill the body in
     HK_FORCE_INLINE explicit hkpCdBody(const hkpCdBody *parent)
     {
         m_parent = parent;

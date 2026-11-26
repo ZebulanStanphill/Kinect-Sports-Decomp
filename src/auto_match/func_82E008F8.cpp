@@ -10,6 +10,7 @@
 // (the vector copies use v0/v13).
 #include "havok/hkTransform.h"
 #include "havok/hkpCdPointCollector.h"
+#include "havok/hkContactPoint.h"
 
 class hkpShape;
 class hkpCollidable;
@@ -24,13 +25,6 @@ public:
     char m_pad0[0x1c];
     hkUint32 m_collisionFilterInfo;
     char m_pad1[0x50 - 0x20];
-};
-
-class hkContactPoint {
-public:
-    HK_FORCE_INLINE void setDistance(hkReal d) { m_separatingNormal.setW(d); }
-    hkVector4 m_position;
-    hkVector4 m_separatingNormal;
 };
 
 class hkpRootCdPoint {

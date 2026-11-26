@@ -3,9 +3,7 @@
 // names hkArrays, then the hkRefPtr to the shape.
 #include "havok/hkBase.h"
 #include "havok/hkTransform.h"
-
-class hkpShape : public hkReferencedObject {
-};
+#include "havok/hkpShape.h"
 
 class hkpShapeInfo : public hkReferencedObject {
 public:

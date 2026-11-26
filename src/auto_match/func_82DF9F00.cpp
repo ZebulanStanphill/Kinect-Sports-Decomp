@@ -3,12 +3,11 @@
 // defined inline here only so that the trigger below makes the compiler emit the vtable, and with it the
 // deleting destructor.
 #include "havok/hkBase.h"
+#include "havok/hkpShape.h"
 
 class hkpCollidable;
 class hkpCollidableAddedEvent;
 class hkpCollidableRemovedEvent;
-
-extern "C" void fn_8265CA20(void *p);   // global operator delete
 
 // Interface with no base (RTTI); vtable: the two callbacks (pure), then the deleting destructor (fn_82D8D9F0).
 class hkpPhantomOverlapListener {
@@ -46,9 +45,6 @@ public:
 
 class hkpRigidBody;
 class hkpPhantom;
-class hkpAabbPhantom;
-class hkpShape : public hkReferencedObject {
-};
 class hkpWorld;
 class hkpVehicleInstance;
 

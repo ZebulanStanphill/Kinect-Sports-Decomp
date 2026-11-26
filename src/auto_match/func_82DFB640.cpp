@@ -1,8 +1,6 @@
 // hkpVehicleDefaultBrake::hkpVehicleDefaultBrake() (Physics/Vehicle/Brake/Default/hkpVehicleDefaultBrake.cpp).
 #include "havok/hkBase.h"
 
-#pragma intrinsic(__vxor)
-
 class hkpVehicleBrake : public hkReferencedObject {
 public:
     hkpVehicleBrake() {}

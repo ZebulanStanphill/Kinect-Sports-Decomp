@@ -6,6 +6,7 @@
 // hkMotionState (0xB0): its (implicit) copy constructor is emitted out of line, fn_82D6B540.
 class hkMotionState {
 public:
+    hkMotionState() {}
     hkMotionState(const hkMotionState &other);
     hkTransform &getTransform() { return m_transform; }
     const hkTransform &getTransform() const { return m_transform; }

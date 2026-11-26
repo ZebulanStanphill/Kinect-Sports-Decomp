@@ -1,14 +1,9 @@
 // Havok: sets the AABB count, clears the second counter and appends that many zeroed AABBs
 // (hkArray<hkAabb>::pushBack through the heap allocator).
 #include "havok/hkBase.h"
-#include "havok/hkVector4.h"
+#include "havok/hkAabb.h"
 
 inline void *operator new(unsigned int, void *p) throw() { return p; }
-
-struct hkAabb {
-    hkVector4 m_min;
-    hkVector4 m_max;
-};
 
 template <typename T, typename Allocator = hkContainerHeapAllocator>
 class Array_82DFA668 : public hkArrayBase<T> {

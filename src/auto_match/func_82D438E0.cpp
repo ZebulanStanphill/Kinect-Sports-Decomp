@@ -4,6 +4,7 @@
 // (self->C::C(flag)), which, unlike placement new, adds no null check. The subpart fields must be hkEnum (a class
 // wrapper): with plain hkUint8 fields the second loop's add operands come out swapped.
 #include "havok/hkBase.h"
+#include "havok/hkEnum.h"
 
 class hkVector4;
 class hkTransform;
@@ -76,16 +77,6 @@ public:
 
     hkBool m_disableWelding;    // +0x14
     hkUint8 m_collectionType;   // +0x15
-};
-
-template <typename ENUM, typename STORAGE>
-class hkEnum {
-public:
-    hkEnum() {}
-    hkEnum(ENUM e) { m_storage = static_cast<STORAGE>(e); }
-    operator ENUM() const { return static_cast<ENUM>(m_storage); }
-    void operator=(ENUM e) { m_storage = static_cast<STORAGE>(e); }
-    STORAGE m_storage;
 };
 
 class hkpExtendedMeshShape : public hkpShapeCollection {

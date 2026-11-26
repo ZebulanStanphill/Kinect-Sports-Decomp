@@ -2,15 +2,11 @@
 // (+0x30), probably hkpExtendedMeshShape::ShapesSubpart:
 // when finishing, recomputes the flags kept in the translation's w (bit 0: translation is not
 // equal to the global vector lbl_8323B1A0 within 0.001, bit 1: rotation angle is not below 0.001).
-#include "havok/hkVector4.h"
+#include "havok/hkQuaternion.h"
 extern "C" {
 extern __vector4 lbl_8323B1A0;              // global vector the translation is compared with (.data, filled at run time)
 extern const float lbl_82006848;
 }
-
-class hkQuaternion { public:
- hkVector4 vec;
-};
 
 extern "C" float fn_82CE5620(const hkQuaternion *self);    // hkQuaternion::getAngle
 

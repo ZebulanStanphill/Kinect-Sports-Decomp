@@ -9,13 +9,7 @@
 // constant is __real@7f7fffee, which Matching C units reference, so it is declared as a known constant.
 // Built with /O2 /QVMXReserve.
 #include "havok/hkBase.h"
-#include "havok/hkVector4.h"
-
-class hkAabb {
-public:
-    hkVector4 m_min;
-    hkVector4 m_max;
-};
+#include "havok/hkAabb.h"
 
 class hkpCdBody;
 struct hkpCollisionInput;

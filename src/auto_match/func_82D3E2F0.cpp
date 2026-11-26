@@ -1,4 +1,5 @@
 #include "havok/hkQuadReal.h"
+#include "havok/hkpShape.h"
 
 extern "C" {
 
@@ -33,24 +34,10 @@ public:
     __vector4 q;
 };
 
-class hkTransform;
-
 class hkAabb {
 public:
     hkVector4 m_min;
     hkVector4 m_max;
-};
-
-class hkpShape {
-public:
-    virtual void slot0();
-    virtual void slot1();
-    virtual void slot2();
-    virtual void slot3();
-    virtual void slot4();
-    virtual void slot5();
-    virtual void slot6();
-    virtual void getAabb(const hkTransform &localToWorld, float tolerance, hkAabb &out) const;
 };
 
 struct ChildInfo_82D3E2F0 {

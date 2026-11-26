@@ -1,4 +1,4 @@
-#include "havok/hkVector4.h"
+#include "havok/hkAabb.h"
 
 class hkTransform {
 public:
@@ -6,12 +6,6 @@ public:
     hkVector4 m_col1;
     hkVector4 m_col2;
     hkVector4 m_translation;
-};
-
-class hkAabb {
-public:
-    hkVector4 m_min;
-    hkVector4 m_max;
 };
 
 static __forceinline void SetTransformedPos(hkVector4 &out, const hkTransform &t, const hkVector4 &v)

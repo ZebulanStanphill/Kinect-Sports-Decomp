@@ -2,12 +2,8 @@
 // ~hkpBroadPhase (fn_83096048, ??1hkpBroadPhase@@UAA@XZ), then the class allocator's
 // delete. The function at the end only makes the compiler emit the vtable.
 #include "havok/hkBase.h"
+#include "havok/hkMultiThreadCheck.h"
 
-struct hkMultiThreadCheck {
-    hkUint32 m_threadId;      // +0x0
-    hkInt16 m_markCount;      // +0x4
-    hkUint16 m_markBitStack;  // +0x6
-};
 class hkCriticalSection;
 
 // hkpBroadPhase (Physics/Internal/Collide/BroadPhase/hkpBroadPhase.h)

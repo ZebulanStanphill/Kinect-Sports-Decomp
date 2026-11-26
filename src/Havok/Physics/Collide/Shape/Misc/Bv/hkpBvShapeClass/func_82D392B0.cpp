@@ -3,11 +3,7 @@
 // Hierarchy from the RTTI: hkpBvShape -> hkpShape -> hkReferencedObject -> hkBaseObject; only the finish
 // constructors are declared.
 #include "havok/hkBase.h"
-
-class hkpShape : public hkReferencedObject {
-public:
-    hkpShape(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
+#include "havok/hkpShape.h"
 
 class hkpBvShape : public hkpShape {
 public:

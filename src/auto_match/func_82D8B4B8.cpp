@@ -11,17 +11,13 @@
 // sphere test is a plain literal (symbols.txt names its constant __real@3f4ccccd).
 #include "havok/hkBase.h"
 #include "havok/hkMatrix3.h"
+#include "havok/hkQuaternion.h"
 
 extern "C" double __fsel(double a, double b, double c);   // PPC intrinsic
 
 struct hkMath {
     static HK_FORCE_INLINE hkReal HK_CALL max2(const hkReal &x, const hkReal &y) { return hkReal(__fsel(x - y, x, y)); }
     static HK_FORCE_INLINE hkReal HK_CALL min2(const hkReal &x, const hkReal &y) { return hkReal(__fsel(x - y, y, x)); }
-};
-
-class hkQuaternion {
-public:
-    hkVector4 m_vec;
 };
 
 // hkUFloat8 (Common/Base/Types/hkBaseTypes.h): operator=(const hkReal &) is out of line

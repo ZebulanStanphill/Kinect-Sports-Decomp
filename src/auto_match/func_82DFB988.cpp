@@ -1,8 +1,6 @@
 // hkpVehicleDefaultSteering::hkpVehicleDefaultSteering() (Physics/Vehicle/Steering/Default/hkpVehicleDefaultSteering.cpp).
 #include "havok/hkBase.h"
 
-#pragma intrinsic(__vxor)
-
 class hkpVehicleSteering : public hkReferencedObject {
 public:
     hkpVehicleSteering() {}

@@ -5,15 +5,9 @@
 // in-place mul4 after each store keeps the original's vmr copies. The aabb is written through a local
 // pointer to the object; through this-> the two member address registers come out swapped (99.4%).
 #include "havok/hkpShape.h"
-#include "havok/hkVector4.h"
+#include "havok/hkAabb.h"
 
 // The game's 0.5f keeps its lbl_ name (Matching units reference it).
-
-class hkAabb {
-public:
-    hkVector4 m_min;
-    hkVector4 m_max;
-};
 
 struct hkFourTransposedPoints {
     hkVector4 m_vertices[3];

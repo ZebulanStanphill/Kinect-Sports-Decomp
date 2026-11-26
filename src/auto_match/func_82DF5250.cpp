@@ -8,35 +8,13 @@
 // to __real@...); it is declared here as a known constant (selectany) and used by name. A plain extern
 // keeps the load below the vtable store.
 #include "havok/hkBase.h"
+#include "havok/hkpAction.h"
 
 extern "C" __declspec(selectany) const float lbl_8200DFF4 = 1000.0f;
 
 class __declspec(align(16)) hkVector4 {
 public:
     hkReal x, y, z, w;
-};
-
-class hkpWorld;
-class hkpSimulationIsland;
-class hkpEntity;
-
-// Physics/Dynamics/Action/hkpAction.h, hkpBinaryAction.h (layout as in func_82DE5048.cpp).
-class hkpAction : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_ACTION);
-
-    hkpWorld *m_world;               // +0x8
-    hkpSimulationIsland *m_island;   // +0xC
-    hkUlong m_userData;              // +0x10
-    hkStringPtr m_name;              // +0x14
-};
-
-class hkpBinaryAction : public hkpAction {
-public:
-    hkpBinaryAction(hkpEntity *entityA, hkpEntity *entityB, hkUlong userData);   // out of line (0x830B3138)
-
-    hkpEntity *m_entityA;   // +0x18
-    hkpEntity *m_entityB;   // +0x1C
 };
 
 class hkpSpringAction : public hkpBinaryAction {

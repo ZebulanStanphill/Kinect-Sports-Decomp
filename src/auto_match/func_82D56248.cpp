@@ -3,11 +3,7 @@
 // Both arms inline hkpBvTreeAgent(hkpContactMgr *), whose cached AABB is set to HK_REAL_MAX.
 // Havok code: /O2 /QVMXReserve (flag file).
 #include "havok/hkpCollisionAgent.h"
-
-struct hkAabb {
-    hkVector4 m_min;
-    hkVector4 m_max;
-};
+#include "havok/hkAabb.h"
 
 // HK_REAL_MAX. Havok writes the literal, so the compiler knows the value cannot
 // change: it loads it once for both setAll calls and schedules the load above the

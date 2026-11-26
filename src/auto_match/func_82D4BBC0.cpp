@@ -6,17 +6,7 @@
 // member lets the scheduler hoist the vtable and m_code stores above it.
 #include "havok/hkpShape.h"
 #include "havok/hkVector4.h"
-
-// hkEnum (Common/Base/Types/hkBaseTypes.h): an enum stored in a smaller integer type.
-template <typename ENUM, typename STORAGE>
-class hkEnum {
-public:
-    hkEnum() {}
-    hkEnum(ENUM e) { m_storage = static_cast<STORAGE>(e); }
-    operator ENUM() const { return static_cast<ENUM>(m_storage); }
-    void operator=(ENUM e) { m_storage = static_cast<STORAGE>(e); }
-    STORAGE m_storage;
-};
+#include "havok/hkEnum.h"
 
 // hkpMoppCode (Physics/Collide/Shape/Compound/Tree/Mopp/Code/hkpMoppCode.h).
 class hkpMoppCode : public hkReferencedObject {

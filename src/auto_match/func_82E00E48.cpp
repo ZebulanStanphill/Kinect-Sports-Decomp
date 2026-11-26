@@ -3,6 +3,7 @@
 // fn_ name (no Matching unit refers to it; `self` is `this`). The default constructor is inlined.
 // Class layouts as in func_82E00B20.cpp / func_82DF9E98.cpp.
 #include "havok/hkBase.h"
+#include "havok/hkpShape.h"
 
 // HK_REAL_EPSILON. The source used the literal (whose load the compiler schedules freely); the game's copy of
 // that constant is __real@34000000, and a static constant with that name gives the same code (a plain extern is
@@ -11,8 +12,6 @@
 class hkpCollidable;
 class hkpCollidableAddedEvent;
 class hkpCollidableRemovedEvent;
-
-extern "C" void fn_8265CA20(void *p);   // global operator delete
 
 class hkpPhantomOverlapListener {
 public:
@@ -45,8 +44,6 @@ public:
     hkVector4 m_translation;
 };
 
-class hkpShape : public hkReferencedObject {
-};
 class hkpWorld;
 class hkpVehicleInstance;
 

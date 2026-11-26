@@ -1,4 +1,5 @@
 #include "havok/hkBase.h"
+#include "havok/hkEnum.h"
 
 // hkLocalArray: an hkArray whose first buffer comes from the thread's stack allocator.
 template <typename T> static HK_FORCE_INLINE void deallocateStack(T *memory)
@@ -51,18 +52,6 @@ template <typename T> class IndexArray_82D07F70 : public hkArrayBase<T>
         constructWithCopy(this->m_data + this->m_size, 1, e);
         this->m_size++;
     }
-};
-
-// hkEnum: an enum stored in a smaller integer, read back as the enum.
-template <typename ENUM, typename STORAGE> class hkEnum
-{
-  public:
-    HK_FORCE_INLINE operator ENUM() const
-    {
-        return (ENUM)m_storage;
-    }
-
-    STORAGE m_storage;
 };
 
 struct hkMeshSection {

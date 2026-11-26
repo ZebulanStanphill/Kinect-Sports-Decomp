@@ -1,5 +1,8 @@
 // hkpListShape::recalcAabbExtents(hkAabb &aabbOut): the union of the children's AABBs (identity
 // transform, zero tolerance) into aabbOut, then the cached center and half extents from it.
+
+#include "havok/hkpShape.h"
+
 typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
     float vector4_f32[4];
 } __vector4;
@@ -43,26 +46,11 @@ class hkVector4
     __vector4 q;
 };
 
-class hkTransform;
-
 class hkAabb
 {
   public:
     hkVector4 m_min;
     hkVector4 m_max;
-};
-
-class hkpShape
-{
-  public:
-    virtual void slot0();
-    virtual void slot1();
-    virtual void slot2();
-    virtual void slot3();
-    virtual void slot4();
-    virtual void slot5();
-    virtual void slot6();
-    virtual void getAabb(const hkTransform &localToWorld, float tolerance, hkAabb &out) const;
 };
 
 struct hkpListShapeChildInfo {

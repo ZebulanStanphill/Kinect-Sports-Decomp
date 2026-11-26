@@ -1,4 +1,5 @@
 #include "havok/hkRotation.h"
+#include "havok/hkAabb.h"
 
 class hkTransform
 {
@@ -17,13 +18,6 @@ class hkTransform
 
     hkRotation m_rotation;
     hkVector4 m_translation;
-};
-
-class hkAabb
-{
-  public:
-    hkVector4 m_min;
-    hkVector4 m_max;
 };
 
 class hkpPhantom

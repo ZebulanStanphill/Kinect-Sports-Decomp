@@ -1,11 +1,4 @@
-#include "havok/hkVector4.h"
-
-class hkAabb
-{
-  public:
-    hkVector4 m_min;
-    hkVector4 m_max;
-};
+#include "havok/hkAabb.h"
 
 typedef struct ProfTls_83089850 {
     int unk0;

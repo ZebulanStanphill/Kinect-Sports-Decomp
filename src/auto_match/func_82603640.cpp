@@ -9,7 +9,8 @@
 // pool_aliases entry in objects.json renames the compiled __real@00000000 to it); 1.0f is
 // lbl_821CA45C[1] (selectany, as in func_825BCDA8.cpp).
 #include "havok/hkpShape.h"
-#include "havok/hkVector4.h"
+#include "havok/hkAabb.h"
+#include "havok/hkpAction.h"
 
 extern "C" {
 __vector4 __VMXGetReg(int n);
@@ -24,12 +25,6 @@ public:
     hkRotation m_rotation;
     hkVector4 m_translation;
 };
-class hkAabb {
-public:
-    hkVector4 m_min;
-    hkVector4 m_max;
-};
-
 class hkpEntity {
 public:
     char m_pad0[0x10];
@@ -53,12 +48,6 @@ void fn_82CED628(void *self, const char *s);                       // hkStringPt
 void fn_82CE6010(hkRotation *self, const hkVector4 *q);            // hkRotation::set(const hkQuaternion &)
 hkpAabbPhantom *fn_82D8D6C0(hkpAabbPhantom *self, const hkAabb *aabb, hkUint32 filterInfo);   // hkpAabbPhantom()
 }
-
-class hkpUnaryAction : public hkReferencedObject {
-public:
-    hkpUnaryAction(hkpEntity *entity, hkUlong userData);
-    char m_pad8[0x14];   // m_world, m_island, m_userData, m_name (+0x14), m_entity (+0x18)
-};
 
 struct ActuatorParams {
     float m_0;

@@ -7,14 +7,6 @@
 
 class hkpWorld;
 
-// Havok's hkDeallocateChunk (Common/Base/Memory/Router/hkMemoryRouter.h): the pointer is an argument, so it is
-// loaded before getInstance() is called.
-template <typename TYPE>
-HK_FORCE_INLINE void HK_CALL hkDeallocateChunk(TYPE *ptr, int numberOfObjects, HK_MEMORY_CLASS cl)
-{
-    hkMemoryRouter::getInstance().heap().blockFree(static_cast<void *>(ptr), numberOfObjects * int(sizeof(TYPE)));
-}
-
 class hkpPhantomListener {
 public:
     static void operator delete(void *p) { fn_8265CA20(p); }

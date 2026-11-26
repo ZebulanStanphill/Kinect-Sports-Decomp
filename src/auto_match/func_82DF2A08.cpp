@@ -7,7 +7,7 @@
 // A vector member is copy-constructed through a vector register here (see havok/hkVector4.h).
 #define HK_VECTOR4_COPY_CONSTRUCTOR
 #include "havok/hkBase.h"
-#include "havok/hkVector4.h"
+#include "havok/hkContactPoint.h"
 
 class hkMatrix3 {
 public:
@@ -76,12 +76,6 @@ public:
         fn_8253D7A8(this, shape, t, type);
     }
     char m_rest[0x50 - 0x10];
-};
-
-struct hkContactPoint {
-    HK_FORCE_INLINE void setDistance(hkReal d) { m_separatingNormal(3) = d; }
-    hkVector4 m_position;
-    hkVector4 m_separatingNormal;
 };
 
 struct hkpRootCdPoint {

@@ -3,26 +3,9 @@
 // classes as in func_82DEEEB8.cpp.
 #include "havok/hkBase.h"
 #include "havok/hkVector4.h"
+#include "havok/hkpAction.h"
 
-class hkpEntity;
-class hkpWorld;
-class hkpSimulationIsland;
 class hkpPhantom;
-
-class hkpAction : public hkReferencedObject {
-public:
-    hkpWorld *m_world;              // +0x08
-    hkpSimulationIsland *m_island;  // +0x0c
-    hkUlong m_userData;             // +0x10
-    hkStringPtr m_name;             // +0x14
-};
-
-class hkpBinaryAction : public hkpAction {
-public:
-    hkpBinaryAction(hkpEntity *entityA, hkpEntity *entityB, hkUlong userData);
-    hkpEntity *m_entityA;           // +0x18
-    hkpEntity *m_entityB;           // +0x1c
-};
 
 class hkpSpringAction : public hkpBinaryAction {
 public:

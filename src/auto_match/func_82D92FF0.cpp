@@ -1,11 +1,6 @@
 #include "havok/hkBase.h"
 #include "havok/hkTransform.h"
-
-class hkQuaternion
-{
-  public:
-    hkVector4 m_vec;
-};
+#include "havok/hkQuaternion.h"
 
 extern "C" const float lbl_82131F88[]; // hkUFloat8 -> hkReal table
 

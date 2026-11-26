@@ -1,8 +1,7 @@
 #include "havok/hkBase.h"
+#include "havok/hkpAction.h"
 struct Body { char pad[8]; void *world; char padc[0xdc]; unsigned char type; };
 struct Owner { char pad[0x10]; char *world; char pad14[0x100]; float value; };
-class hkpEntity;
-class hkpUnaryAction : public hkReferencedObject { public: hkpUnaryAction(hkpEntity *,hkUlong); char pad[0x14]; };
 extern "C" {
 extern void *lbl_821CA8E4[];
 void fn_82CED628(void *,const char *);

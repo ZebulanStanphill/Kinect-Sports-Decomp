@@ -1,9 +1,5 @@
 #include "havok/hkTransform.h"
-
-class hkQuaternion {
-public:
-    hkVector4 m_vec;
-};
+#include "havok/hkQuaternion.h"
 
 class hkSweptTransform {
 public:

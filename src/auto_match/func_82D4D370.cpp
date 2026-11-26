@@ -1,7 +1,5 @@
 #include "havok/hkpShape.h"
-#include "havok/hkTransform.h"
-extern "C" { __vector4 __vminfp(__vector4,__vector4); __vector4 __vmaxfp(__vector4,__vector4); }
-class hkAabb { public: hkVector4 m_min,m_max; };
+#include "havok/hkAabb.h"
 class hkpShapeBuffer { public: __declspec(align(16)) char data[512]; };
 class hkpMoppModifier {
 public:

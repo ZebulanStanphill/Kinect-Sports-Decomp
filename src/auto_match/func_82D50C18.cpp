@@ -4,11 +4,7 @@
 // No unit references fn_82D50C18, so it is renamed.
 #include "havok/hkpShape.h"
 #include "havok/hkTransform.h"
-
-class hkQuaternion {
-public:
-    hkVector4 m_vec;
-};
+#include "havok/hkQuaternion.h"
 
 // hkQuaternion::set(const hkRotation &) is out of line (fn_82CE5990).
 extern "C" void fn_82CE5990(hkQuaternion *self, const hkRotation &r);

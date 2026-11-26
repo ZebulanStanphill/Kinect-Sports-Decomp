@@ -6,21 +6,7 @@
 // calls it), so the constructor is expanded into an extern "C" definition. Member names are not
 // confirmed; untouched members are padding.
 #include "havok/hkBase.h"
-
-class hkpEntity;
-class hkpPhantom;
-class hkpConstraintInstance;
-class hkpAction;
-
-// Common/Base/DebugUtil/MultiThreadCheck/hkMultiThreadCheck.h
-class hkMultiThreadCheck {
-public:
-    enum { UNMARKED = 0xffffffd1 };
-    HK_FORCE_INLINE hkMultiThreadCheck() : m_threadId(hkUint32(UNMARKED)), m_markCount(0) {}
-    hkUint32 m_threadId;   // +0x0
-    hkInt16 m_markCount;   // +0x4
-    hkUint16 m_markBitStack;
-};
+#include "havok/hkMultiThreadCheck.h"
 
 class hkpWorld : public hkReferencedObject {
 public:

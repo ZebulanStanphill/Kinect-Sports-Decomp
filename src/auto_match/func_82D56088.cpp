@@ -5,14 +5,9 @@
 // HK_REAL_MAX is a literal: the game's copy is __real@7f7fffee, which Matching units reference, so it is a
 // static constant with that name (an extern is reloaded after the array stores).
 #include "havok/hkBase.h"
-#include "havok/hkVector4.h"
+#include "havok/hkAabb.h"
 
 // HK_REAL_MAX (3.40282e+38f); the game's copy keeps its lbl_ name (see above).
-
-struct hkAabb {
-    hkVector4 m_min;
-    hkVector4 m_max;
-};
 
 class hkpContactMgr;
 typedef hkUint32 hkpShapeKey;

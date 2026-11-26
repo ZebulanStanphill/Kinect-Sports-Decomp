@@ -3,12 +3,7 @@
 // 0.5f is __real@3f000000 (Matching units reference it), a selectany definition.
 #include "havok/hkpShape.h"
 #include "havok/hkTransform.h"
-
-class hkAabb {
-public:
-    hkVector4 m_min;
-    hkVector4 m_max;
-};
+#include "havok/hkAabb.h"
 
 struct hkpProcessCollisionInput {
     char m_pad0[8];

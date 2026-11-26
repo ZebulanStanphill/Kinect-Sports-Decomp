@@ -7,17 +7,11 @@
 // is defined here as selectany.
 #include "havok/hkpShape.h"
 #include "havok/hkVector4.h"
+#include "havok/hkEnum.h"
 
 extern "C" {
 float fn_8307F168();
 }
-
-template <typename ENUM, typename STORAGE>
-class hkEnum {
-public:
-    HK_FORCE_INLINE hkEnum(ENUM e) { m_storage = (STORAGE)e; }
-    STORAGE m_storage;
-};
 
 struct hkpSampledHeightFieldBaseCinfo {
     hkVector4 m_scale;                    // +0x00

@@ -1,14 +1,9 @@
-#include "havok/hkVector4.h"
+#include "havok/hkQuaternion.h"
 
 extern "C" {
 double sin(double x);           // sin
 double cos(double x);           // cos
 }
-
-class hkQuaternion {
-public:
-    hkVector4 m_vec;
-};
 
 extern "C" void fn_82CE5690(hkQuaternion *self, const hkVector4 &axis, float angle)
 {

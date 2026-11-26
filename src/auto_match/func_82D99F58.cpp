@@ -1,12 +1,12 @@
 #include "havok/hkBase.h"
 #include "havok/hkTransform.h"
+#include "havok/hkQuaternion.h"
+#include "havok/hkAabb.h"
+#include "havok/hkpTypedBroadPhaseHandle.h"
+#include "havok/hkpShape.h"
+#include "havok/hkMultiThreadCheck.h"
 
 #pragma intrinsic(__vxor)
-
-class hkQuaternion {
-public:
-    hkVector4 m_vec;
-};
 
 // hkMotionState::initMotionState(const hkVector4 &, const hkQuaternion &) is out of line (fn_830824B8).
 class hkMotionState;
@@ -24,8 +24,6 @@ public:
     char m_rest[0x4];            // +0xAC
 };
 
-class hkpShape : public hkReferencedObject {
-};
 class hkpWorld;
 class hkpCollidable;
 
@@ -38,18 +36,6 @@ public:
     hkUint32 m_shapeKey;         // +0x4
     const void *m_motion;        // +0x8
     const hkpCdBody *m_parent;   // +0xC
-};
-
-// hkpTypedBroadPhaseHandle (Physics/Collide/BroadPhase/hkpTypedBroadPhaseHandle.h).
-class hkpTypedBroadPhaseHandle {
-public:
-    void setOwner(void *owner) { m_ownerOffset = hkInt8(hkUlong(owner) - hkUlong(this)); }
-
-    hkUint32 m_id;                    // +0x0 (hkpBroadPhaseHandle)
-    hkInt8 m_type;                    // +0x4
-    hkInt8 m_ownerOffset;             // +0x5
-    hkInt8 m_objectQualityType;       // +0x6
-    hkUint32 m_collisionFilterInfo;   // +0x8
 };
 
 // hkpCollidable (Physics/Collide/Agent/Collidable/hkpCollidable.h), 0x50 bytes.
@@ -120,15 +106,6 @@ public:
     hkArray<CollisionEntry> m_collisionEntries;   // +0x50
 };
 
-// hkMultiThreadCheck (Common/Base/DebugUtil/MultiThreadCheck/hkMultiThreadCheck.h).
-struct hkMultiThreadCheck {
-    enum { UNMARKED = 0xffffffd1 };
-    hkMultiThreadCheck() : m_threadId(UNMARKED), m_stackTraceId(0) {}
-    hkUint32 m_threadId;      // +0x0
-    hkUint16 m_stackTraceId;  // +0x4
-    hkUint16 m_markCount;     // +0x6
-};
-
 struct hkSimpleProperty {
     hkUint32 m_key;
     hkUint32 m_alignmentPadding;
@@ -167,12 +144,6 @@ class hkpPhantom;
 
 // Out of line in hkpPhantom.cpp: fires phantomDeletedCallback on the listeners, last to first.
 extern "C" void fn_82D99FE0(hkpPhantom *self);
-
-class hkAabb {
-public:
-    hkVector4 m_min;
-    hkVector4 m_max;
-};
 
 // hkpPhantom (Physics/Dynamics/Phantom/hkpPhantom.h).
 class hkpPhantom : public hkpWorldObject {

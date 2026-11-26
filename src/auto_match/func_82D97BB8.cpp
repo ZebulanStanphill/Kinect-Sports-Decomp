@@ -1,8 +1,7 @@
 // hkpRagdollConstraintData::~hkpRagdollConstraintData (Physics/Dynamics/Constraint/Bilateral/Ragdoll/hkpRagdollConstraintData.cpp).
 #include "havok/hkBase.h"
+#include "havok/hkpConstraintMotor.h"
 
-class hkpConstraintMotor : public hkReferencedObject {
-};
 class hkpParametricCurve : public hkReferencedObject {
 };
 

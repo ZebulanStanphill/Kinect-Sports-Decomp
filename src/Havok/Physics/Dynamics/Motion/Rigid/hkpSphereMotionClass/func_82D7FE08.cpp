@@ -3,16 +3,7 @@
 // Hierarchy from the RTTI: hkpSphereMotion -> hkpMotion -> hkReferencedObject -> hkBaseObject; only the finish
 // constructors are declared.
 #include "havok/hkBase.h"
-
-class hkpMotion : public hkReferencedObject {
-public:
-    hkpMotion(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
-
-class hkpSphereMotion : public hkpMotion {
-public:
-    hkpSphereMotion(hkFinishLoadedObjectFlag flag) : hkpMotion(flag) {}
-};
+#include "havok/hkpMotion.h"
 
 const void *HK_CALL getVtablehkpSphereMotion()
 {

@@ -3,6 +3,7 @@
 // (fn_82D9FE70) is out of line and keeps its fn_ name.
 #include "havok/hkBase.h"
 #include "havok/hkTransform.h"
+#include "havok/hkEnum.h"
 
 // The game's 1.0f keeps its lbl_ name (Matching units reference it).
 
@@ -14,18 +15,6 @@ public:
 };
 
 class hkpParametricCurve;
-
-// hkEnum (Common/Base/Types/hkBaseTypes.h): an enum stored in a smaller integer. Initialising the member
-// through its constructor (rather than a plain hkInt8) is what makes the scheduling match.
-template <typename ENUM, typename STORAGE>
-class hkEnum {
-public:
-    HK_FORCE_INLINE hkEnum() {}
-    HK_FORCE_INLINE hkEnum(ENUM e) { m_storage = static_cast<STORAGE>(e); }
-    HK_FORCE_INLINE void operator=(ENUM e) { m_storage = static_cast<STORAGE>(e); }
-    HK_FORCE_INLINE ENUM get() const { return static_cast<ENUM>(m_storage); }
-    STORAGE m_storage;
-};
 
 struct hkpConstraintAtom {
     enum AtomType { TYPE_INVALID, TYPE_BRIDGE };

@@ -6,16 +6,7 @@
 // hkpBvTreeShape::m_bvTreeType is an hkEnum<BvTreeType, hkUint8>: initialised through hkEnum's constructor,
 // its store is scheduled with hkpShape's member stores, ahead of the vtable store.
 #include "havok/hkpShape.h"
-
-template <typename ENUM, typename STORAGE>
-class hkEnum {
-public:
-    hkEnum() {}
-    hkEnum(ENUM e) { m_storage = static_cast<STORAGE>(e); }
-    operator ENUM() const { return static_cast<ENUM>(m_storage); }
-    void operator=(ENUM e) { m_storage = static_cast<STORAGE>(e); }
-    STORAGE m_storage;
-};
+#include "havok/hkEnum.h"
 
 // hkpBvTreeShape (Physics/Collide/Shape/Compound/Tree/hkpBvTreeShape.h): hkpShape, then the tree type (+0x10).
 class hkpBvTreeShape : public hkpShape {

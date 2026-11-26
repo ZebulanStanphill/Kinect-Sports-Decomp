@@ -4,6 +4,7 @@
 // array, an hkSmallArray {m_data, hkUint16 m_size, hkUint16 m_capacityAndFlags = 0x8000} at +0x20, finishes
 // m_name (+0x28, out of line: fn_82CED308) and sets m_uid (+0x34) to 0xfffffff0.
 #include "havok/hkBase.h"
+#include "havok/hkSmallArray.h"
 
 class hkpConstraintOwner;
 class hkpConstraintData;
@@ -11,17 +12,6 @@ class hkpModifierConstraintAtom;
 class hkpEntity;
 class hkpConstraintListener;
 struct hkConstraintInternal;
-
-template <typename T>
-class hkSmallArray {
-public:
-    enum { DONT_DEALLOCATE_FLAG = 0x8000 };
-    HK_FORCE_INLINE hkSmallArray() : m_data(HK_NULL), m_size(0), m_capacityAndFlags(DONT_DEALLOCATE_FLAG) {}
-
-    T *m_data;
-    hkUint16 m_size;
-    hkUint16 m_capacityAndFlags;
-};
 
 class hkpConstraintInstance : public hkReferencedObject {
 public:

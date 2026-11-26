@@ -1,24 +1,5 @@
-#include "havok/hkVector4.h"
-
-class hkAabb
-{
-  public:
-    hkVector4 m_min;
-    hkVector4 m_max;
-};
-
-class hkpShape
-{
-  public:
-    virtual void slot0();
-    virtual void slot1();
-    virtual void slot2();
-    virtual void slot3();
-    virtual void slot4();
-    virtual void slot5();
-    virtual void slot6();
-    virtual void getAabb(const hkTransform &localToWorld, float tolerance, hkAabb &out) const;
-};
+#include "havok/hkAabb.h"
+#include "havok/hkpShape.h"
 
 struct ShapeBuffer_82D499C8 {
     char data[0x200];

@@ -1,15 +1,10 @@
-#include "havok/hkVector4.h"
+#include "havok/hkQuaternion.h"
 
 extern "C" {
 double sqrt(double);
 float fn_82CE55B8(float x);             // hkMath::acos
 double sin(double x);           // sin
 }
-
-class hkQuaternion {
-public:
-    hkVector4 m_vec;
-};
 
 extern "C" void fn_82CE5B10(hkQuaternion *self, const hkQuaternion &q0, const hkQuaternion &q1, float t)
 {

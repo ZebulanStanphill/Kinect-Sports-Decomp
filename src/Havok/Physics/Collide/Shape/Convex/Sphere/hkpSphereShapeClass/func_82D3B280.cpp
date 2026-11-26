@@ -3,21 +3,7 @@
 // Hierarchy from the RTTI: hkpSphereShape -> hkpConvexShape -> hkpSphereRepShape -> hkpShape -> hkReferencedObject -> hkBaseObject; only the finish
 // constructors are declared.
 #include "havok/hkBase.h"
-
-class hkpShape : public hkReferencedObject {
-public:
-    hkpShape(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
-
-class hkpSphereRepShape : public hkpShape {
-public:
-    hkpSphereRepShape(hkFinishLoadedObjectFlag flag) : hkpShape(flag) {}
-};
-
-class hkpConvexShape : public hkpSphereRepShape {
-public:
-    hkpConvexShape(hkFinishLoadedObjectFlag flag) : hkpSphereRepShape(flag) {}
-};
+#include "havok/hkpShape.h"
 
 class hkpSphereShape : public hkpConvexShape {
 public:

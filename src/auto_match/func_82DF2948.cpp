@@ -5,13 +5,11 @@
 // The constructor keeps its fn_ name too (its caller func_82DF2CD8 is otherwise C-matchable): it is forced
 // inline and run on the object by an explicit constructor call, which adds no null check.
 #include "havok/hkBase.h"
-#include "havok/hkVector4.h"
+#include "havok/hkpWorldObject.h"
 
 extern "C" void fn_82CED628(hkStringPtr *self, const char *s);   // hkStringPtr::operator=(const char *)
 
-class hkpWorld;
 class hkpSimulationIsland;
-class hkpWorldObject : public hkReferencedObject {};
 class hkpEntity : public hkpWorldObject {};
 class hkpRigidBody : public hkpEntity {};
 

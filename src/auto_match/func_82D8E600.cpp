@@ -6,20 +6,9 @@
 // the rename map gives the game's lbl_ copies of them (referenced by no Matching unit) those names, and
 // symbols.txt already names 0.6f, 0.1f, 200.0f and 1.0f that way.
 #include "havok/hkBase.h"
-#include "havok/hkVector4.h"
 #include "havok/hkpCollisionFilter.h"
-
-struct hkAabb {
-    hkVector4 m_min;
-    hkVector4 m_max;
-};
-
-template <typename ENUM, typename STORAGE>
-class hkEnum {
-public:
-    HK_FORCE_INLINE void operator=(ENUM e) { m_storage = static_cast<STORAGE>(e); }
-    STORAGE m_storage;
-};
+#include "havok/hkEnum.h"
+#include "havok/hkAabb.h"
 
 class hkpConvexListFilter : public hkReferencedObject {};
 class hkWorldMemoryAvailableWatchDog : public hkReferencedObject {};

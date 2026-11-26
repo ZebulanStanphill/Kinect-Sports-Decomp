@@ -1,2 +1,3 @@
-class hkpLinkedCollidable { public: ~hkpLinkedCollidable(); };
+#include "havok/hkpLinkedCollidable.h"
+
 extern "C" void fn_82D3BBC0(hkpLinkedCollidable *p) { p->hkpLinkedCollidable::~hkpLinkedCollidable(); }

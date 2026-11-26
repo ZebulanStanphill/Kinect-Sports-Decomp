@@ -5,28 +5,11 @@
 #define HK_VECTOR4_COPY_CONSTRUCTOR
 #include "havok/hkBase.h"
 #include "havok/hkVector4.h"
+#include "havok/hkpAction.h"
 
 // Havok's global vector of four 0.5s at 0x82132D70, in its table of vector constants. It is a named
 // object, not a compiler constant: a `const __vector4` literal is materialised later (77.98%).
-class hkpWorld;
-class hkpSimulationIsland;
-class hkpEntity;
 class hkpRigidBody;
-
-class hkpAction : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_ACTION);
-    hkpWorld *m_world;               // +0x8
-    hkpSimulationIsland *m_island;   // +0xC
-    hkUlong m_userData;              // +0x10
-    hkStringPtr m_name;              // +0x14
-};
-
-class hkpUnaryAction : public hkpAction {
-public:
-    hkpUnaryAction(hkpEntity *entity = HK_NULL, hkUlong userData = 0);   // ??0hkpUnaryAction@@QAA@PAVhkpEntity@@K@Z
-    hkpEntity *m_entity;   // +0x18
-};
 
 class hkpMotorAction : public hkpUnaryAction {
 public:

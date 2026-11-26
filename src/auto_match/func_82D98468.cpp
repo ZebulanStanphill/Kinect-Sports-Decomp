@@ -1,8 +1,6 @@
 // hkpBreakableConstraintData::~hkpBreakableConstraintData (Physics/Dynamics/Constraint/Breakable/hkpBreakableConstraintData.cpp).
 #include "havok/hkBase.h"
 
-class hkpConstraintMotor : public hkReferencedObject {
-};
 class hkpParametricCurve : public hkReferencedObject {
 };
 

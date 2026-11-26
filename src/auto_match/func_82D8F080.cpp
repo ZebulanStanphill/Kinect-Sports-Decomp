@@ -8,11 +8,7 @@
 // matches with it at /O2); the world's flags are read through a pointer to the solver info's flag array.
 #include "havok/hkBase.h"
 #include "havok/hkTransform.h"
-
-class hkQuaternion {
-public:
-    hkVector4 m_vec;
-};
+#include "havok/hkQuaternion.h"
 
 extern "C" const float lbl_82131F88[];   // hkUFloat8 -> hkReal table
 

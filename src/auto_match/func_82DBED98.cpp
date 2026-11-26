@@ -10,6 +10,7 @@
 #include "havok/hkpCollisionFilter.h"
 #include "havok/hkTransform.h"
 #include "havok/hkpCdPointCollector.h"
+#include "havok/hkContactPoint.h"
 
 extern "C" const float lbl_82138458;   // HK_REAL_MAX / 2
 
@@ -42,13 +43,6 @@ public:
     hkpShapeKey m_shapeKey;
     const void *m_motion;
     const hkpCdBody *m_parent;
-};
-
-class hkContactPoint {
-public:
-    HK_FORCE_INLINE void setDistance(hkReal d) { m_separatingNormal.setW(d); }
-    hkVector4 m_position;
-    hkVector4 m_separatingNormal;
 };
 
 class hkpRootCdPoint {

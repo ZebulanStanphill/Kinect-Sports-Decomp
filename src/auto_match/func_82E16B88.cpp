@@ -8,13 +8,6 @@ class hkPackfileData;
 
 extern "C" void fn_82E16580(hkPackfileData *self);   // hkPackfileData::callDestructors
 
-// Havok's hkDeallocateChunk (hkMemoryRouter.h): the arguments are evaluated before getInstance() is called.
-template <typename TYPE>
-HK_FORCE_INLINE void HK_CALL hkDeallocateChunk(TYPE *ptr, int numberOfObjects, HK_MEMORY_CLASS cl)
-{
-    hkMemoryRouter::getInstance().heap().blockFree(static_cast<void *>(ptr), numberOfObjects * int(sizeof(TYPE)));
-}
-
 class hkResource : public hkReferencedObject {
 public:
     struct Export {

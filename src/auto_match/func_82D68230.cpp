@@ -4,25 +4,18 @@
 // class allocator (no null check) and its constructor is inlined; the manifold's constructor is out of line
 // (fn_82D781D0, a Matching C unit).
 #include "havok/hkBase.h"
+#include "havok/hkpCdBody.h"
 
-class hkpCdBody;
 class hkpContactMgr;
 class hkpConstraintOwner;
 class hkpCdBodyPairCollector;
 class hkpCdPointCollector;
-class hkpShape;
 typedef hkpConstraintOwner hkCollisionConstraintOwner;
 struct hkpLinearCastCollisionInput;
 struct hkpProcessCollisionInput;
 struct hkpProcessCollisionOutput;
 
 extern "C" const float lbl_8213962C;
-
-class hkpCdBody {
-public:
-    const hkpShape *getShape() const { return m_shape; }
-    const hkpShape *m_shape;   // +0x0
-};
 
 struct hkpCollisionDispatcher;
 struct hkpCollisionInput {
@@ -32,12 +25,6 @@ struct hkpCollisionInput {
     hkReal m_tolerance;                     // +0x8
 };
 
-// hkpBoxShape: hkpConvexShape (radius at +0x10), then hkVector4 m_halfExtents (+0x20).
-class hkpShape : public hkReferencedObject {
-public:
-    hkUlong m_userData;   // +0x8
-    hkUint32 m_type;      // +0xC
-};
 class hkpBoxShape : public hkpShape {
 public:
     hkReal m_radius;           // +0x10

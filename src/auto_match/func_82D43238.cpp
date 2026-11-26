@@ -2,18 +2,10 @@
 // (Physics/Collide/Shape/Compound/Collection/ExtendedMeshShape/hkpExtendedMeshShape.cpp), /O2 /QVMXReserve.
 #include "havok/hkBase.h"
 #include "havok/hkVector4.h"
+#include "havok/hkEnum.h"
 
 // The source's literals 1.0f and -HK_REAL_MAX, folded by the linker into the game's copies. Defined here so the
 // compiler knows they are read-only and schedules their loads like literals.
-
-template <typename ENUM, typename STORAGE>
-class hkEnum {
-public:
-    HK_FORCE_INLINE hkEnum() {}
-    HK_FORCE_INLINE hkEnum(ENUM e) : m_storage(static_cast<STORAGE>(e)) {}
-    HK_FORCE_INLINE void operator=(ENUM e) { m_storage = static_cast<STORAGE>(e); }
-    STORAGE m_storage;
-};
 
 class hkAabb;
 class hkpCdBody;

@@ -3,15 +3,7 @@
 // what leaves the two `mr` copies of -1 (with a plain hkUint8 the code is 8 bytes shorter and scheduled
 // differently). The contact data info's init() zeroes its 7 words in a loop.
 #include "havok/hkBase.h"
-
-template <typename ENUM, typename STORAGE>
-class hkEnum {
-public:
-    HK_FORCE_INLINE hkEnum() {}
-    HK_FORCE_INLINE hkEnum(ENUM e) { m_storage = static_cast<STORAGE>(e); }
-    HK_FORCE_INLINE void operator=(ENUM e) { m_storage = static_cast<STORAGE>(e); }
-    STORAGE m_storage;
-};
+#include "havok/hkEnum.h"
 
 class hkpEntity;
 

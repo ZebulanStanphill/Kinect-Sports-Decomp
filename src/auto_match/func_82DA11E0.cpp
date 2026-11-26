@@ -7,7 +7,7 @@
 // 0.1f * HK_REAL_EPSILON and 0.1f have only non-Matching references and are renamed to their __real@ names;
 // symbols.txt already names 1.0f __real@3f800000.
 #include "havok/hkBase.h"
-#include "havok/hkVector4.h"
+#include "havok/hkQuaternion.h"
 
 #define HK_REAL_EPSILON 1.192092896e-07f
 
@@ -38,11 +38,6 @@ struct hkpBridgeConstraintAtom : public hkpConstraintAtom {
 struct hkpBridgeAtoms {
     hkpBridgeAtoms() {}
     hkpBridgeConstraintAtom m_bridgeAtom;
-};
-
-class hkQuaternion {
-public:
-    hkVector4 m_vec;
 };
 
 class hkpConstraintMotor;

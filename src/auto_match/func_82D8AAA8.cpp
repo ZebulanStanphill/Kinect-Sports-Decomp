@@ -6,20 +6,13 @@
 // constructor and clears m_savedMotion in its body, which is why that store comes before the
 // vtable store; the intermediate vtable stores are dead.
 #include "havok/hkBase.h"
+#include "havok/hkpMotion.h"
+#include "havok/hkpWorldObject.h"
 
 // The source used the literals 0.5f, 0.4f and 1.0f. symbols.txt names the game's 0.4f constant
 // __real@3ecccccd, which is what the plain literal produces; the 0.5f and 1.0f copies are still
 // lbl_s. Declaring those with their values lets the compiler treat them as constants and
 // schedule their loads the way the original does.
-
-class hkpShape;
-
-class hkpWorldObject : public hkReferencedObject {
-public:
-    enum BroadPhaseType { BROAD_PHASE_INVALID, BROAD_PHASE_ENTITY, BROAD_PHASE_PHANTOM, BROAD_PHASE_BORDER };
-    hkpWorldObject(const hkpShape *shape, BroadPhaseType type);
-    hkUint8 m_members[0x84];   // up to +0x8c
-};
 
 struct hkpMaterial {
     HK_FORCE_INLINE hkpMaterial() : m_friction(0.5f), m_restitution(0.4f) {}
@@ -35,28 +28,6 @@ struct hkSmallArray {
     T *m_data;
     hkUint16 m_size;
     hkUint16 m_capacityAndFlags;
-};
-
-class hkpMaxSizeMotion;
-
-class hkpMotion : public hkReferencedObject {
-protected:
-    HK_FORCE_INLINE hkpMotion() : hkReferencedObject(hkFinishLoadedObjectFlag()) { m_savedMotion = HK_NULL; }
-public:
-    hkUint8 m_members[0x110];
-    hkpMaxSizeMotion *m_savedMotion;      // +0x118
-    hkUint16 m_savedQualityTypeIndex;
-    hkInt16 m_gravityFactor;
-};
-
-class hkpKeyframedRigidMotion : public hkpMotion {
-protected:
-    HK_FORCE_INLINE hkpKeyframedRigidMotion() {}
-};
-
-class hkpMaxSizeMotion : public hkpKeyframedRigidMotion {
-public:
-    HK_FORCE_INLINE hkpMaxSizeMotion() {}
 };
 
 class hkpEntity : public hkpWorldObject {

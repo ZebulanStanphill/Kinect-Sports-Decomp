@@ -1,8 +1,6 @@
 // hkpPointToPathConstraintData::~hkpPointToPathConstraintData (Physics/Dynamics/Constraint/Bilateral/PointToPath/hkpPointToPathConstraintData.cpp).
 #include "havok/hkBase.h"
 
-class hkpConstraintMotor : public hkReferencedObject {
-};
 class hkpParametricCurve : public hkReferencedObject {
 };
 

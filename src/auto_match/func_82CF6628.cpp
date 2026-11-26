@@ -1,10 +1,6 @@
 // Havok hkQsTransform::isApproximatelyEqual: translation and scale within epsilon in x, y and z,
 // rotation (flipped to the same hemisphere as the other one) within epsilon in all four components.
-#include "havok/hkVector4.h"
-
-class hkQuaternion { public:
- hkVector4 m_vec;
-};
+#include "havok/hkQuaternion.h"
 
 class hkQsTransform { public:
  hkVector4 m_translation;

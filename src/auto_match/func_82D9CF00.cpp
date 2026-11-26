@@ -1,15 +1,7 @@
 #include "havok/hkBase.h"
-
-// hkEnum (Common/Base/Types/hkBaseTypes.h): an enum stored in a smaller integer type.
-template <typename ENUM, typename STORAGE>
-class hkEnum {
-public:
-    hkEnum() {}
-    hkEnum(ENUM e) { m_storage = static_cast<STORAGE>(e); }
-    operator ENUM() const { return static_cast<ENUM>(m_storage); }
-    void operator=(ENUM e) { m_storage = static_cast<STORAGE>(e); }
-    STORAGE m_storage;
-};
+#include "havok/hkSmallArray.h"
+#include "havok/hkEnum.h"
+#include "havok/hkpAction.h"
 
 // Out-of-line helpers that keep their fn_ names.
 extern "C" {
@@ -17,30 +9,6 @@ void fn_82DBFAA8(void *constraint);   // hkpConstraintCallbackUtil::fireConstrai
 void fn_82CE3F80(void);   // hkReferencedObject::lockAll()
 void fn_82CE3FE8(void);   // hkReferencedObject::unlockAll()
 }
-
-template <typename TYPE>
-HK_FORCE_INLINE void HK_CALL hkDeallocateChunk(TYPE *ptr, int numberOfObjects, HK_MEMORY_CLASS cl)
-{
-    hkMemoryRouter::getInstance().heap().blockFree(static_cast<void *>(ptr), numberOfObjects * int(sizeof(TYPE)));
-}
-
-// hkSmallArray (Common/Base/Container/Array/hkSmallArray.h): T *m_data; hkUint16 m_size;
-// hkUint16 m_capacityAndFlags (capacity in the low 14 bits, DONT_DEALLOCATE_FLAG 0x8000).
-template <typename T>
-class hkSmallArray {
-public:
-    enum { CAPACITY_MASK = 0x3FFF, DONT_DEALLOCATE_FLAG = 0x8000 };
-    HK_FORCE_INLINE hkSmallArray() : m_data(HK_NULL), m_size(0), m_capacityAndFlags(DONT_DEALLOCATE_FLAG) {}
-    HK_FORCE_INLINE ~hkSmallArray()
-    {
-        if ((m_capacityAndFlags & DONT_DEALLOCATE_FLAG) == 0)
-            hkDeallocateChunk<T>(m_data, m_capacityAndFlags & CAPACITY_MASK, HK_MEMORY_CLASS_ARRAY);
-    }
-
-    T *m_data;
-    hkUint16 m_size;
-    hkUint16 m_capacityAndFlags;
-};
 
 #ifndef C2_HKPENTITY
 #define C2_HKPENTITY
@@ -120,27 +88,11 @@ public:
     hkUint32 m_uid;                                       // +0x34
 };
 
-class hkpWorld;
-class hkpSimulationIsland;
 #ifndef C2_HKPENTITY
 #define C2_HKPENTITY
 class hkpEntity : public hkReferencedObject {
 };
 #endif
-
-// hkpAction (Physics/Dynamics/Action/hkpAction.h): +0x8 m_world, +0xC m_island, +0x10 m_userData,
-// +0x14 m_name. Its destructor is user-written and inline (it stores hkpAction's vtable).
-class hkpAction : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_DYNAMICS);
-    hkpAction(hkUlong userData = 0) : m_world(HK_NULL), m_island(HK_NULL), m_userData(userData) {}
-    virtual ~hkpAction() {}
-
-    hkpWorld *m_world;               // +0x8
-    hkpSimulationIsland *m_island;   // +0xC
-    hkUlong m_userData;              // +0x10
-    hkStringPtr m_name;              // +0x14
-};
 
 class hkpConstraintChainData : public hkpConstraintData {
 };

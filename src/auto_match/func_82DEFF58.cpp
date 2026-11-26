@@ -6,25 +6,9 @@
 // (lbl_82186E6C) __real@3dcccccd; an extern lbl_ is reloaded after the vtable store.
 #include "havok/hkBase.h"
 #include "havok/hkVector4.h"
+#include "havok/hkpAction.h"
 
-class hkpEntity;
 class hkpRigidBody;
-
-// hkpAction (+0x8: m_userData, m_world, m_island, m_name) and hkpBinaryAction (+0x18: m_entityA, m_entityB);
-// the hkpBinaryAction constructor is out of line.
-class hkpAction : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_DYNAMICS);
-    char m_pad08[0x10];
-};
-
-class hkpBinaryAction : public hkpAction {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_DYNAMICS);
-    hkpBinaryAction(hkpEntity *entityA, hkpEntity *entityB, hkUlong userData);
-    hkpEntity *m_entityA;   // +0x18
-    hkpEntity *m_entityB;   // +0x1C
-};
 
 class hkpDashpotAction : public hkpBinaryAction {
 public:

@@ -4,12 +4,7 @@
 // hkBaseObject's vtable), then the class allocator's delete. The function at the end only makes the
 // compiler emit the vtable.
 #include "havok/hkBase.h"
-#include "havok/hkVector4.h"
-
-struct hkAabb {
-    hkVector4 m_min;
-    hkVector4 m_max;
-};
+#include "havok/hkAabb.h"
 
 class hkpContactMgr;
 

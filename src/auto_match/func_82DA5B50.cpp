@@ -2,14 +2,6 @@
 #include "havok/hkBase.h"
 #include "havok/hkVector4.h"
 
-class hkQuaternion {
-public:
-    hkReal m_vec[4];
-};
-
-class hkpConstraintMotor : public hkReferencedObject {
-};
-
 class hkpConstraintData : public hkReferencedObject {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);

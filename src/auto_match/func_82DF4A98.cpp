@@ -1,8 +1,5 @@
-#include "havok/hkpShape.h"
 #include "havok/hkVector4.h"
-class hkpEntity;
-class hkpBinaryAction: public hkReferencedObject { public: hkpBinaryAction(hkpEntity *,hkpEntity *,hkUlong); char pad[24]; };
-class hkpUnaryAction: public hkReferencedObject { public: hkpUnaryAction(hkpEntity *,hkUlong); char pad[24]; };
+#include "havok/hkpAction.h"
 class hkpReorientAction: public hkpUnaryAction { public:
  hkVector4 rotationAxis,upAxis; float strength,damping;
  HK_FORCE_INLINE hkpReorientAction(hkpEntity *e,const hkVector4 &a,const hkVector4 &b,float s,float d):hkpUnaryAction(e,0) { rotationAxis=a; upAxis=b; strength=s; damping=d; }

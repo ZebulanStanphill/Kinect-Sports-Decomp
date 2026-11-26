@@ -3,30 +3,17 @@
 // hkpSymmetricAgent. Both agents are allocated with the class allocator (no null check); the hkpMoppAgent
 // constructor is inlined around hkpBvTreeAgent's (out of line, fn_82D56088).
 #include "havok/hkBase.h"
+#include "havok/hkpCdBody.h"
 
 class hkpContactMgr;
 class hkpConstraintOwner;
 class hkpCdBodyPairCollector;
 class hkpCdPointCollector;
-class hkpShape;
 typedef hkpConstraintOwner hkCollisionConstraintOwner;
 struct hkpCollisionInput;
 struct hkpLinearCastCollisionInput;
 struct hkpProcessCollisionInput;
 struct hkpProcessCollisionOutput;
-typedef hkUint32 hkpShapeKey;
-
-class hkpCdBody {
-public:
-    const hkpShape *getShape() const { return m_shape; }
-    const hkpShape *m_shape;   // +0x0
-};
-
-class hkpShape : public hkReferencedObject {
-public:
-    hkUlong m_userData;   // +0x8
-    hkUint32 m_type;      // +0xC
-};
 
 // hkpMoppCode (Physics/Internal/Collide/Mopp/Code/hkpMoppCode.h): hkReferencedObject, CodeInfo
 // (an hkVector4 at +0x10), then hkArray<hkUint8> m_data (+0x20).

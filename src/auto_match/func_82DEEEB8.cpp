@@ -2,36 +2,10 @@
 // (hkpAngularDashpotAction.cpp). Kept as an extern "C" function under its fn_ name with an explicit self;
 // classes as in func_82DEEE50.cpp.
 #include "havok/hkBase.h"
-#include "havok/hkVector4.h"
+#include "havok/hkQuaternion.h"
+#include "havok/hkpAction.h"
 
-// The identity quaternion (0, 0, 0, 1) from Havok's vector constants.
-extern "C" const hkVector4 lbl_82132D50;
-
-class hkQuaternion {
-public:
-    __forceinline void setIdentity() { m_vec = lbl_82132D50; }
-    hkVector4 m_vec;
-};
-
-class hkpEntity;
-class hkpWorld;
-class hkpSimulationIsland;
 class hkpPhantom;
-
-class hkpAction : public hkReferencedObject {
-public:
-    hkpWorld *m_world;              // +0x08
-    hkpSimulationIsland *m_island;  // +0x0c
-    hkUlong m_userData;             // +0x10
-    hkStringPtr m_name;             // +0x14
-};
-
-class hkpBinaryAction : public hkpAction {
-public:
-    hkpBinaryAction(hkpEntity *entityA, hkpEntity *entityB, hkUlong userData);
-    hkpEntity *m_entityA;           // +0x18
-    hkpEntity *m_entityB;           // +0x1c
-};
 
 class hkpAngularDashpotAction : public hkpBinaryAction {
 public:

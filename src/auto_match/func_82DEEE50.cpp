@@ -2,35 +2,8 @@
 // Built with /O2 /QVMXReserve (v0 for the quaternion copy). lbl_82186E6C is the
 // 0.1f literal (__real@3dcccccd), renamed in the map.
 #include "havok/hkBase.h"
-#include "havok/hkVector4.h"
-
-// The identity quaternion (0, 0, 0, 1) from Havok's vector constants.
-extern "C" const hkVector4 lbl_82132D50;
-
-class hkQuaternion {
-public:
-    __forceinline void setIdentity() { m_vec = lbl_82132D50; }
-    hkVector4 m_vec;
-};
-
-class hkpEntity;
-class hkpWorld;
-class hkpSimulationIsland;
-
-class hkpAction : public hkReferencedObject {
-public:
-    hkpWorld *m_world;              // +0x08
-    hkpSimulationIsland *m_island;  // +0x0c
-    hkUlong m_userData;             // +0x10
-    hkStringPtr m_name;             // +0x14
-};
-
-class hkpBinaryAction : public hkpAction {
-public:
-    hkpBinaryAction(hkpEntity *entityA, hkpEntity *entityB, hkUlong userData);
-    hkpEntity *m_entityA;           // +0x18
-    hkpEntity *m_entityB;           // +0x1c
-};
+#include "havok/hkQuaternion.h"
+#include "havok/hkpAction.h"
 
 class hkpAngularDashpotAction : public hkpBinaryAction {
 public:

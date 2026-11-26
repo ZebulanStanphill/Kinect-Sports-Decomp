@@ -37,32 +37,7 @@ public:
     hkCriticalSection *m_criticalSection;    // +0x10
 };
 
-// hkpAction (0x18 bytes) and hkpBinaryAction (0x20 bytes)
-class hkpWorld;
-class hkpSimulationIsland;
 class hkpEntity : public hkReferencedObject {};
-
-class hkpAction : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_DYNAMICS);
-    HK_FORCE_INLINE hkpAction(hkUlong userData = 0) : m_world(HK_NULL), m_island(HK_NULL), m_userData(userData) {}
-    HK_FORCE_INLINE virtual ~hkpAction() {}
-
-    hkpWorld *m_world;               // +0x8
-    hkpSimulationIsland *m_island;   // +0xC
-    hkUlong m_userData;              // +0x10
-    hkStringPtr m_name;              // +0x14
-};
-
-class hkpBinaryAction : public hkpAction {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_DYNAMICS);
-    hkpBinaryAction(hkpEntity *entityA, hkpEntity *entityB, hkUlong userData = 0);
-    virtual ~hkpBinaryAction();
-
-    hkpEntity *m_entityA;   // +0x18
-    hkpEntity *m_entityB;   // +0x1C
-};
 
 hkpBroadPhase::hkpBroadPhase() : m_criticalSection(HK_NULL)
 {

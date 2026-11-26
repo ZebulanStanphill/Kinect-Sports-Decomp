@@ -3,39 +3,12 @@
 #include "havok/hkBase.h"
 #include "havok/hkpEntityListener.h"
 #include "havok/hkpCollisionFilter.h"
+#include "havok/hkSmallArray.h"
 
 extern "C" {
 void *fn_82DF06C0(hkpEntity *entity);                                // hkpEntity::getEntityListeners
 void fn_82D8A228(hkpEntity *entity, hkpEntityListener *listener);    // hkpEntity::removeEntityListener
 }
-
-// Havok's small array (Common/Base/Container/Array/hkSmallArray.h): T *m_data; hkUint16 m_size, m_capacityAndFlags.
-// indexOf is written as the guarded pointer loop the game's code has (a plain indexed for loop compiles to an
-// offset-based loop here).
-template <typename T>
-class hkSmallArray {
-public:
-    HK_FORCE_INLINE int getSize() const { return m_size; }
-    HK_FORCE_INLINE int indexOf(const T &t) const
-    {
-        int i = 0;
-        const int size = m_size;
-        if (size > 0) {
-            const T *p = m_data;
-            do {
-                if (*p == t)
-                    return i;
-                ++p;
-                ++i;
-            } while (i < size);
-        }
-        return -1;
-    }
-
-    T *m_data;
-    hkUint16 m_size;
-    hkUint16 m_capacityAndFlags;
-};
 
 // Only the members these functions use; getEntityListeners and removeEntityListener are out of line.
 class hkpEntity {

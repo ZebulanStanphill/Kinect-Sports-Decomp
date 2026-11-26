@@ -7,17 +7,7 @@
 // lbl_82002AE0, which Matching C units reference, so it cannot be renamed, and an extern const float
 // is reloaded in every case instead of being hoisted.
 #include "havok/hkBase.h"
-
-class hkHalf {
-public:
-    hkHalf &operator=(const hkReal &f)
-    {
-        int t = ((const int *)&f)[0];
-        m_value = hkInt16(t >> 16);
-        return *this;
-    }
-    hkInt16 m_value;
-};
+#include "havok/hkHalf.h"
 
 template <typename T>
 class hkSmallArray {
