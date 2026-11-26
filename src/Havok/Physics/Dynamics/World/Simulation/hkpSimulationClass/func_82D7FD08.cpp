@@ -3,11 +3,7 @@
 // constructor on an object loaded in place. Hierarchy from the RTTI:
 // hkpSimulation -> hkReferencedObject -> hkBaseObject; only the finish constructors are declared.
 #include "havok/hkBase.h"
-
-class hkpSimulation : public hkReferencedObject {
-public:
-    hkpSimulation(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
+#include "havok/hkpSimulation.h"
 
 void HK_CALL finishLoadedObjecthkpSimulation(void *p, int finishing)
 {

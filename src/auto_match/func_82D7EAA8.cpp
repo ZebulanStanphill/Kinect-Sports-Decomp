@@ -3,17 +3,7 @@
 // (Physics/Dynamics/Constraint/Chain/hkpConstraintChainInstanceAction.h). hkpAction's finish constructor only
 // finishes m_name (+0x14, out of line: fn_82CED308).
 #include "havok/hkBase.h"
-#include "havok/hkpAction.h"
-
-class hkpConstraintChainInstance;
-
-class hkpConstraintChainInstanceAction : public hkpAction {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);
-    hkpConstraintChainInstanceAction(hkFinishLoadedObjectFlag f) : hkpAction(f) {}
-
-    hkpConstraintChainInstance *m_constraintInstance;   // +0x18
-};
+#include "havok/hkpConstraintChainInstanceAction.h"
 
 void HK_CALL finishLoadedObjecthkpConstraintChainInstanceAction(void *p, int finishing)
 {

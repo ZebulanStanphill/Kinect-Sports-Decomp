@@ -4,15 +4,9 @@
 #include "havok/hkAabb.h"
 #include "havok/hkpCollisionInput.h"
 #include "havok/hkpShapePhantom.h"
+#include "havok/hkpWorld.h"
 
 struct hkpProcessCollisionInput : public hkpCollisionInput {
-};
-
-class hkpWorld {
-public:
-    HK_FORCE_INLINE const hkpProcessCollisionInput *getCollisionInput() const { return m_collisionInput; }
-    char m_pad0[0x78];
-    hkpProcessCollisionInput *m_collisionInput;   // +0x78
 };
 
 void hkpShapePhantom::setTransform(const hkTransform &transform)

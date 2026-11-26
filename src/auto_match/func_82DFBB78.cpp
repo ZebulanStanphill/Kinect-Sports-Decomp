@@ -1,35 +1,17 @@
-#include "havok/hkBase.h"
-class hkpVehicleInstance;
+// hkpVehicleDefaultTransmission::calcTransmission (vtable slot +0xC): the reverse flag, the main torque and the
+// RPM from the class's own virtual functions, the torque split over the wheels, then the gear update. It keeps
+// its fn_ name.
+#include "havok/hkpVehicleDefaultTransmission.h"
 
-struct Output_82DFBB78 {
-    float ratio;        /* 0x00 */
-    float torque;       /* 0x04 */
-    float *wheelTorque; /* 0x08 */
-    unsigned char pad;  /* 0x0c */
-    hkBool reversing;   /* 0x0d */
-};
-
-class Transmission_82DFBB78 : public hkReferencedObject
-{
-  public:
-    virtual void unused();
-    virtual float calculateTorque(const hkpVehicleInstance *vehicle, Output_82DFBB78 *output);
-    virtual float calculateRatio(const hkpVehicleInstance *vehicle, Output_82DFBB78 *output);
-    virtual hkBool calculateReverse(const hkpVehicleInstance *vehicle, Output_82DFBB78 *output);
-    virtual void update(float deltaTime, const hkpVehicleInstance *vehicle, Output_82DFBB78 *output);
-    char pad[0x28 - 8];
-    hkArray<float> m_wheelsTorqueRatio; /* 0x28 */
-};
-
-extern "C" void fn_82DFBB78(Transmission_82DFBB78 *self, float deltaTime, const hkpVehicleInstance *vehicle,
-                            Output_82DFBB78 *output)
+extern "C" void fn_82DFBB78(hkpVehicleDefaultTransmission *self, float deltaTime, const hkpVehicleInstance *vehicle,
+                            hkpVehicleTransmission::TransmissionOutput *output)
 {
     int i;
-    output->reversing = self->calculateReverse(vehicle, output);
-    output->torque = self->calculateTorque(vehicle, output);
-    output->ratio = self->calculateRatio(vehicle, output);
+    output->m_isReversing = self->calcIsReversing(vehicle, *output);
+    output->m_mainTransmittedTorque = self->calcMainTransmittedTorque(vehicle, *output);
+    output->m_transmissionRPM = self->calcTransmissionRPM(vehicle, *output);
     for (i = 0; i < self->m_wheelsTorqueRatio.m_size; ++i) {
-        output->wheelTorque[i] = self->m_wheelsTorqueRatio.m_data[i] * output->torque;
+        output->m_wheelsTransmittedTorque[i] = self->m_wheelsTorqueRatio.m_data[i] * output->m_mainTransmittedTorque;
     }
-    self->update(deltaTime, vehicle, output);
+    self->updateCurrentGear(deltaTime, vehicle, *output);
 }

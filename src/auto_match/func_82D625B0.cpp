@@ -1,21 +1,10 @@
 // hkpCapsuleTriangleAgent::createCapsuleTriangleAgent, creation function: new hkpCapsuleTriangleAgent with the constructor inlined.
 #include "havok/hkpSymmetricAgent.h"
 #include "havok/hkpTriangleShape.h"
+#include "havok/hkpCollideTriangleUtil.h"
 
 typedef hkUint16 hkContactPointId;
 #define HK_INVALID_CONTACT_POINT 0xffff
-
-extern "C" void fn_82D76368(const hkVector4 *vertices, void *cache);   // hkpCollideTriangleUtil::setupPointTriangleDistanceCache
-
-struct hkpCollideTriangleUtil {
-    struct PointTriangleDistanceCache {
-        hkReal m_data[5];
-    };
-    static void HK_CALL setupPointTriangleDistanceCache(const hkVector4 *triangle, PointTriangleDistanceCache &cache)
-    {
-        fn_82D76368(triangle, &cache);
-    }
-};
 
 class hkpCapsuleTriangleAgent : public hkpIterativeLinearCastAgent {
 public:

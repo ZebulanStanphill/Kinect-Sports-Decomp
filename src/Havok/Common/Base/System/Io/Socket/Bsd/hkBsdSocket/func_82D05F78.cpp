@@ -7,6 +7,8 @@
 //   `m_socket + 1` inside the call, the addi moves to just before the call.
 // - hkStringBuf's constructor reserves with hkArray::reserve's `(n < cap2) ? cap2 : n`.
 #include "havok/hkOstream.h"
+#include "havok/hkError.h"
+#include "havok/hkSocket.h"
 typedef unsigned int SOCKET;
 struct fd_set { unsigned int fd_count; SOCKET fd_array[64]; };
 struct timeval { long tv_sec; long tv_usec; };
@@ -28,11 +30,6 @@ struct sockaddr_in { unsigned short sin_family, sin_port; unsigned int sin_addr;
     } \
 } while (0)
 
-class hkError {
-public:
-    virtual void v0(); virtual void v1(); virtual void v2();
-    virtual void message(int type, int id, const char *description, const char *file, int line);
-};
 struct hkErrStream { char m_data[12]; };   // hkOstream over a char buffer; fn_ ctor
 extern "C" {
 int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, const timeval *timeout);
@@ -42,7 +39,6 @@ int setsockopt(SOCKET s, int level, int optname, const char *optval, int optlen)
 void fn_82D04B90(void *str, const char *fmt, ...);                       // hkStringBuf::printf
 void fn_82CEE578(hkErrStream *s, void *buf, int bufSize);                // hkErrStream::hkErrStream
 void fn_82CEE238(hkErrStream *s, void *str);                             // operator<<(hkStringBuf)
-extern hkError *lbl_8323B464;                                            // hkError singleton
 }
 
 // hkStringBuf: an hkInplaceArray<char, 32> on the temp allocator, holding "".
@@ -68,11 +64,23 @@ struct hkStringBuf {
     }
 };
 
-class hkSocket : public hkReferencedObject { public: hkSocket(); char m_pad[0x18]; };
+// hkBsdSocket (havok/hkBsdSocket.h) with its constructor in the form this function expands it: the handle from
+// accept is known to be valid, so the constructor is only the store. The header's constructor is the
+// out-of-line one (82D05D28).
 class hkBsdSocket : public hkSocket {
 public:
     HK_FORCE_INLINE hkBsdSocket(SOCKET s) : m_socket(s) {}
-    SOCKET m_socket;
+    virtual ~hkBsdSocket();
+    virtual hkBool isOk() const;
+    virtual void close();
+    virtual int read(void *buf, int nbytes);
+    virtual int write(const void *buf, int nbytes);
+    virtual hkResult connect(const char *servername, int portNumber);
+    virtual hkResult listen(int port);
+    virtual int slot24();
+    virtual hkSocket *pollForNewClient();
+
+    SOCKET m_socket;   // +0x20
 };
 
 extern "C" hkSocket *fn_82D05F78(hkBsdSocket *self)
@@ -96,7 +104,8 @@ extern "C" hkSocket *fn_82D05F78(hkBsdSocket *self)
             hkErrStream ostr;
             fn_82CEE578(&ostr, reportBuf, sizeof(reportBuf));
             fn_82CEE238(&ostr, &str);
-            lbl_8323B464->message(0, -1, reportBuf, ".\\System\\Io\\Socket\\Bsd\\hkBsdSocket.cpp", 0x193);
+            hkError::getInstance().message(hkError::MESSAGE_REPORT, -1, reportBuf,
+                                           ".\\System\\Io\\Socket\\Bsd\\hkBsdSocket.cpp", 0x193);
             ((hkOstream *)&ostr)->hkOstream::~hkOstream();
             if (s == INVALID_SOCKET) return 0;
             int flag = 1;

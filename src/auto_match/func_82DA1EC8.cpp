@@ -2,43 +2,12 @@
 // The float constants are literals; the rename map names the game's copies __real@... (symbols.txt already
 // names 1.0f __real@3f800000).
 #include "havok/hkBase.h"
-#include "havok/hkRotation.h"
-#include "havok/hkpConstraintAtom.h"
 #include "havok/hkpConstraintData.h"
+#include "havok/hkpSetLocalRotationsConstraintAtom.h"
+#include "havok/hkpConeLimitConstraintAtom.h"
+#include "havok/hkpTwistLimitConstraintAtom.h"
 
 // The game's 1.0f keeps its lbl_ name (Matching units reference it).
-
-struct hkpSetLocalRotationsConstraintAtom : public hkpConstraintAtom {
-    hkpSetLocalRotationsConstraintAtom() : hkpConstraintAtom(TYPE_SET_LOCAL_ROTATIONS) {}
-    hkRotation m_rotationA;
-    hkRotation m_rotationB;
-};
-
-struct hkpTwistLimitConstraintAtom : public hkpConstraintAtom {
-    hkpTwistLimitConstraintAtom() : hkpConstraintAtom(TYPE_TWIST_LIMIT) { m_isEnabled = true; }
-    hkUint8 m_isEnabled;
-    hkUint8 m_twistAxis;
-    hkUint8 m_refAxis;
-    hkReal m_minAngle;
-    hkReal m_maxAngle;
-    hkReal m_angularLimitsTauFactor;
-};
-
-struct hkpConeLimitConstraintAtom : public hkpConstraintAtom {
-    enum MeasurementMode {
-        ZERO_WHEN_VECTORS_ALIGNED = 0,
-        ZERO_WHEN_VECTORS_PERPENDICULAR = 1
-    };
-    hkpConeLimitConstraintAtom() : hkpConstraintAtom(TYPE_CONE_LIMIT) { m_isEnabled = true; m_memOffsetToAngleOffset = 0; }
-    hkUint8 m_isEnabled;
-    hkUint8 m_twistAxisInA;
-    hkUint8 m_refAxisInB;
-    hkUint8 m_angleMeasurementMode;
-    hkUint8 m_memOffsetToAngleOffset;
-    hkReal m_minAngle;
-    hkReal m_maxAngle;
-    hkReal m_angularLimitsTauFactor;
-};
 
 class hkpRagdollLimitsData : public hkpConstraintData {
 public:

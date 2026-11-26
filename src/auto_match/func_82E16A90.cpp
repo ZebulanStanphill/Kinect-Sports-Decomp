@@ -1,24 +1,19 @@
-#include "havok/hkBase.h"
+// hkPackfileData::hkPackfileData() (Common/Serialize/Packfile/hkPackfileData.cpp): empty maps and arrays, the
+// destructors enabled, and the builtin type registry's class name registry as the packfile's class registry.
 #include "havok/hkDefaultBuiltinTypeRegistry.h"
 #include "havok/hkDefaultClassNameRegistry.h"
-struct ResourcePointer { ResourcePointer() : p(0) {} hkReferencedObject *p; };
-class hkResource : public hkReferencedObject {};
+#include "havok/hkPackfileData.h"
+
 extern "C" hkBuiltinTypeRegistry *lbl_8323FD9C;   // hkSingleton<hkBuiltinTypeRegistry>::s_instance
-class hkPackfileData : public hkResource {
-public:
-    hkPackfileData();
-    void *m_a, *m_b;
-    hkPointerMap<void *, void *> m_map;
-    hkStringMap<void *> m_registry;
-    ResourcePointer m_resource;
-    int m_flag;
-    hkArray<void *> m_arrays[4];
-};
+
 hkPackfileData::hkPackfileData()
-    : m_a(0), m_b(0), m_registry(), m_resource(), m_flag(1)
+    : m_topLevelObject(HK_NULL), m_name(HK_NULL), m_trackedTypes(), m_packfileClassRegistry(), m_destructorsEnabled(1)
 {
-    hkReferencedObject *r=lbl_8323FD9C->getClassNameRegistry();
-    if (r) r->addReference();
-    if (m_resource.p) m_resource.p->removeReference();
-    m_resource.p=r;
+    // m_packfileClassRegistry = the registry: hkRefPtr's assignment (add the new reference, release the old).
+    const hkClassNameRegistry *r = lbl_8323FD9C->getClassNameRegistry();
+    if (r)
+        r->addReference();
+    if (m_packfileClassRegistry.m_pntr)
+        m_packfileClassRegistry.m_pntr->removeReference();
+    m_packfileClassRegistry.m_pntr = r;
 }

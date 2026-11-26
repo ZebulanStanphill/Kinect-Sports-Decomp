@@ -1,15 +1,6 @@
 // hkpTyremarksInfo::~hkpTyremarksInfo (Physics/Vehicle/TyreMarks/hkpTyremarksInfo.cpp).
 #include "havok/hkBase.h"
-
-class __declspec(align(16)) hkVector4 {
-public:
-    hkReal x, y, z, w;
-};
-
-struct hkpTyremarkPoint {
-    hkVector4 m_pointLeft;
-    hkVector4 m_pointRight;
-};
+#include "havok/hkpTyremarkPoint.h"
 
 // Physics/Vehicle/TyreMarks/hkpTyremarksInfo.h.
 class hkpTyremarksWheel : public hkReferencedObject {

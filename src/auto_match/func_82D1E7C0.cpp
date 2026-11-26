@@ -1,28 +1,7 @@
-#include "havok/hkReferencedObject.h"
-extern "C" {
-void fn_82D34CA8(void *self);
-void fn_82D1E718(void *self);
-}
-
-struct hkAabbTreeData {
-    struct hkAabbTreeAabb {
-        int v[8];
-    };
-};
-
-struct hkAabbTreeMember {
-    ~hkAabbTreeMember() { fn_82D1E718(this); }
-    int v[25];
-};
-
-template <typename BOUNDING_VOLUME, typename IDXTYPE>
-class hkAabbTree {
-public:
-    HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_BASE, hkAabbTree);
-    virtual ~hkAabbTree() { fn_82D34CA8(this); }
-    int m_pad[6];
-    hkAabbTreeMember m_member;
-};
+// hkAabbTree<hkAabbTreeData::hkAabbTreeAabb, hkUint32> scalar deleting destructor: the inline destructor (the
+// out-of-line clear, then the node storage's out-of-line destructor), then Havok's non-virtual class allocator
+// frees sizeof(hkAabbTree) bytes.
+#include "havok/hkAabbTree.h"
 
 typedef hkAabbTree<hkAabbTreeData::hkAabbTreeAabb, unsigned int> Tree;
 

@@ -3,11 +3,7 @@
 // constructor on an object loaded in place. Hierarchy from the RTTI:
 // hkMonitorStreamColorTable -> hkReferencedObject -> hkBaseObject; only the finish constructors are declared.
 #include "havok/hkBase.h"
-
-class hkMonitorStreamColorTable : public hkReferencedObject {
-public:
-    hkMonitorStreamColorTable(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
+#include "havok/hkMonitorStreamColorTable.h"
 
 void HK_CALL finishLoadedObjecthkMonitorStreamColorTable(void *p, int finishing)
 {

@@ -1,4 +1,5 @@
 #include "havok/hkBase.h"
+#include "havok/hkpBroadPhaseCastCollector.h"
 extern "C" unsigned __int64 __mftb();
 struct TimerEntry { const char *name; unsigned int time, unused; };
 struct TimerStream { void *pad; TimerEntry *current; void *pad2; TimerEntry *end; };
@@ -20,9 +21,9 @@ class Broadphase { public:
  virtual void castRay(void *,void *,void *);
 };
 struct World { char pad[0x58]; void *bp; Broadphase *special; char pad60[0x1c]; void *filter; };
-class hkpBroadPhaseCastCollector { public: virtual ~hkpBroadPhaseCastCollector() {} };
 class hkpWorldRayCaster : public hkpBroadPhaseCastCollector {
 public:
+ virtual hkReal addBroadPhaseHandle(const hkpBroadPhaseHandle *broadphaseHandle, int castIndex);
  hkpWorldRayCaster() : a(0), b(0) {}
  char pad[60]; void *a, *b;
  char tail[8];

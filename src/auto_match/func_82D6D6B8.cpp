@@ -1,21 +1,5 @@
 #include "havok/hkpSymmetricAgent.h"
-extern "C" void fn_82D6CE58();
-extern "C" void fn_82D6D088();
-extern "C" void fn_82D6D2C8();
-// RTTI: hkpMultiSphereAgent -> hkpCollisionAgent.
-class hkpMultiSphereAgent : public hkpCollisionAgent {
-public:
-    static hkpCollisionAgent *createMultiSphereAAgent(const hkpCdBody &, const hkpCdBody &, const hkpCollisionInput &,
-                                                      hkpContactMgr *);
-    static hkpCollisionAgent *createMultiSphereBAgent(const hkpCdBody &, const hkpCdBody &, const hkpCollisionInput &,
-                                                      hkpContactMgr *);
-    static void HK_CALL staticGetPenetrations(const hkpCdBody &, const hkpCdBody &, const hkpCollisionInput &,
-                                              hkpCdBodyPairCollector &);
-    static void HK_CALL staticGetClosestPoints(const hkpCdBody &, const hkpCdBody &, const hkpCollisionInput &,
-                                               hkpCdPointCollector &);
-    static void HK_CALL staticLinearCast(const hkpCdBody &, const hkpCdBody &, const hkpLinearCastCollisionInput &,
-                                         hkpCdPointCollector &, hkpCdPointCollector *);
-};
+#include "havok/hkpMultiSphereAgent.h"
 struct AgentFuncs { void *create,*penetrations,*closest,*cast; unsigned char flipped,predictive; char pad[2]; };
 extern "C" void fn_82D59158(void*,const AgentFuncs*,int,int);
 extern "C" void fn_82D6D6B8(void *dispatcher) { AgentFuncs a,b;

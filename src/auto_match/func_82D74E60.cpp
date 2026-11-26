@@ -4,6 +4,7 @@
 #include "havok/hkpCdBody.h"
 #include "havok/hkpCdVertex.h"
 #include "havok/hkpCdBodyPairCollector.h"
+#include "havok/hkpGskCache.h"
 
 extern "C" unsigned __int64 __mftb();
 
@@ -30,15 +31,6 @@ static HK_FORCE_INLINE void timer(const char *s)
 
 struct hkpCollisionInput;
 
-struct hkpGskCache {
-    hkUint16 m_vertices[4]; // +0x0
-    hkUint8 m_dimA;         // +0x8
-    hkUint8 m_dimB;         // +0x9
-    hkUint8 m_maxDimA : 4;  // +0xa
-    hkUint8 m_maxDimB : 4;
-    hkUint8 m_gskFlags; // +0xb
-};
-
 struct hkpGsk {
     int m_dimA;                   // +0x0
     int m_dimB;                   // +0x4
@@ -64,10 +56,6 @@ struct hkpGsk {
 };
 
 extern "C" {
-void fn_82DD9828(hkpGskCache *cache, const hkpConvexShape *shapeA, const hkpConvexShape *shapeB,
-                 const hkTransform *aTb);
-void fn_82DD9A10(hkpGskCache *cache, const hkpConvexShape *shapeA, const hkpConvexShape *shapeB,
-                 const hkTransform *aTb);
 int fn_82DD5FF0(hkpGsk *gsk, const hkpConvexShape *shapeA, const hkpConvexShape *shapeB,
                 const hkTransform &aTb, hkVector4 &separatingNormal);
 }

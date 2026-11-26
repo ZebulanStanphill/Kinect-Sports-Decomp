@@ -1,13 +1,26 @@
-#include "havok/hkpShape.h"
+// hkpListShape::hkpListShape(const hkpShape *const *, int, hkpShapeContainer::ReferencePolicy)
+// (Physics/Collide/Shape/Compound/Collection/List/hkpListShape.cpp): known in the game only as fn_82D3E3F0.
+// It reserves four children, sets the shapes through setShapes (fn_82D3E1F0; no collision filter infos), then
+// enables every child. The header declares the constructor; it is defined here, HK_FORCE_INLINE.
+#include "havok/hkpListShape.h"
 
-extern "C" void fn_82D3E1F0(void*,const void*,int,int,int);
-struct Child {unsigned int words[4];};
-struct Array {Child *data;int size,cap;HK_FORCE_INLINE Array():data(0),size(0),cap(0x80000000){} HK_FORCE_INLINE void reserve(int n){hkMemoryAllocator *a=&hkMemoryRouter::getInstance().heap();int capacity=cap&0x3fffffff;if(capacity<n){int c=capacity*2;if(c<=n)c=n;hkArrayUtil::_reserve(*reinterpret_cast<hkMemoryAllocator *>(a),this,c,sizeof(Child));}}};
-class hkpListShape:public hkpShapeCollection {public:
- HK_FORCE_INLINE hkpListShape(const void *shapes,int count,int policy):hkpShapeCollection(HK_SHAPE_LIST,COLLECTION_LIST){
- children.reserve(4);fn_82D3E1F0(this,shapes,count,0,policy);
- for(int i=0;i<8;++i)enabled[i]=-1;disabledCount=0;flags=0;
- }
- Array children;unsigned short flags,disabledCount;char gap[0x28];unsigned enabled[8];
-};
-extern "C" hkpListShape *fn_82D3E3F0(hkpListShape *self,const void *shapes,int count,int policy){self->hkpListShape::hkpListShape(shapes,count,policy);return self;}
+extern "C" void fn_82D3E1F0(void *, const void *, int, int, int);   // hkpListShape::setShapes
+
+HK_FORCE_INLINE hkpListShape::hkpListShape(const hkpShape *const *shapeArray, int numShapes,
+                                           hkpShapeContainer::ReferencePolicy ref)
+    : hkpShapeCollection(HK_SHAPE_LIST, COLLECTION_LIST)
+{
+    m_childInfo.reserve(4);
+    fn_82D3E1F0(this, shapeArray, numShapes, 0, ref);
+    for (int i = 0; i < 8; ++i)
+        m_enabledChildren[i] = 0xffffffff;
+    m_numDisabledChildren = 0;
+    m_flags = 0;
+}
+
+extern "C" hkpListShape *fn_82D3E3F0(hkpListShape *self, const hkpShape *const *shapes, int count,
+                                     hkpShapeContainer::ReferencePolicy policy)
+{
+    self->hkpListShape::hkpListShape(shapes, count, policy);
+    return self;
+}

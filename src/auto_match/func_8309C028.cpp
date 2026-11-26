@@ -8,7 +8,8 @@
 //   (n -> r10 instead of r5). So a static, not inlined copy of it is defined here (its code is close to the
 //   original's but not identical; an empty or partial body does not give the caller's code).
 #include "havok/hkBase.h"
-#include "havok/hkVector4.h"
+#include "havok/hkKdTreeCpuBroadphaseBundleCastCollector.h"
+#include "havok/hkpWorldRayCastInput.h"
 
 typedef hkUint32 hkpShapeKey;
 #define HK_INVALID_SHAPE_KEY 0xffffffff
@@ -44,14 +45,6 @@ struct hkpWorldRayCastOutput : public hkpShapeRayCastOutput {
     const hkpCollidable *m_rootCollidable;   // +0x50
 };
 
-struct hkpWorldRayCastInput {
-    HK_FORCE_INLINE hkpWorldRayCastInput() : m_enableShapeCollectionFilter(false), m_filterInfo(0) {}
-    hkVector4 m_from;                        // +0x0
-    hkVector4 m_to;                          // +0x10
-    hkBool m_enableShapeCollectionFilter;    // +0x20
-    hkUint32 m_filterInfo;                   // +0x24
-};
-
 // The ray bundle to cast (the second argument).
 struct RayBundleJob {
     hkpWorldRayCastInput m_inputs[4];     // +0x0
@@ -69,26 +62,6 @@ struct RayBundle {
     hkpWorldRayCastOutput *m_outputs;     // +0xC4
     hkUint32 m_padC8[2];                  // +0xC8
     hkUint32 m_data[4];                   // +0xD0
-};
-
-class hkKdTreeBundleCastCollector {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual ~hkKdTreeBundleCastCollector() {}
-};
-
-class hkKdTreeCpuBroadphaseBundleCastCollector : public hkKdTreeBundleCastCollector {
-public:
-    HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE, hkKdTreeCpuBroadphaseBundleCastCollector);
-    hkKdTreeCpuBroadphaseBundleCastCollector();
-
-    void *m_unknown4;           // +0x4
-    RayBundleJob *m_job;        // +0x8
-    RayBundle *m_bundle;        // +0xC
-    hkUint32 m_unknown10[0x18]; // +0x10
-    hkUint32 m_filterInfo;      // +0x70
-    hkUint32 m_unknown74[3];    // +0x74
-    hkUint32 m_data[4];         // +0x80
 };
 
 class hkKdTree;
@@ -143,7 +116,8 @@ extern "C" static __declspec(noinline) void fn_8309BE28(const RayBundleJob *job,
     transpose(to, lastTo);
 }
 
-extern "C" void fn_8309C028(const hkKdTree *tree, RayBundleJob *job, void *userData, hkReal *hitFractions)
+extern "C" void fn_8309C028(const hkKdTree *tree, RayBundleJob *job, const hkpCollisionFilter *filter,
+                            hkReal *hitFractions)
 {
     if (tree) {
         hkpWorldRayCastOutput outputs[4];
@@ -160,14 +134,14 @@ extern "C" void fn_8309C028(const hkKdTree *tree, RayBundleJob *job, void *userD
         }
 
         hkKdTreeCpuBroadphaseBundleCastCollector collector;
-        collector.m_unknown4 = userData;
-        collector.m_job = job;
+        collector.m_filter = filter;
+        collector.m_input = job->m_inputs;
         collector.m_bundle = &bundle;
         collector.m_filterInfo = job->m_inputs[0].m_filterInfo;
-        collector.m_data[0] = job->m_data[0];
-        collector.m_data[1] = job->m_data[1];
-        collector.m_data[2] = job->m_data[2];
-        collector.m_data[3] = job->m_data[3];
+        collector.m_hits[0] = job->m_data[0];
+        collector.m_hits[1] = job->m_data[1];
+        collector.m_hits[2] = job->m_data[2];
+        collector.m_hits[3] = job->m_data[3];
 
         hkFourTransposedPoints from, to;
         fn_8309BE28(job, &from, &to);

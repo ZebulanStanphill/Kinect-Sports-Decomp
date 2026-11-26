@@ -1,11 +1,9 @@
+#include "havok/hkpShapeCollectionAgent.h"
+
 class hkpCdBody; struct hkpCollisionInput; class hkpContactMgr; class hkpCollisionAgent; class hkpCdBodyPairCollector; class hkpCdPointCollector;
 extern "C" void fn_82D5D288();
 extern "C" void fn_82D5D2D0();
 extern "C" void fn_82D5D320();
-extern "C" void fn_82D6BE30();
-extern "C" void fn_82D6C100();
-extern "C" void fn_82D6C3E0();
-class hkpShapeCollectionAgent { public: static hkpCollisionAgent* createListAAgent(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpContactMgr*); static hkpCollisionAgent* createListBAgent(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpContactMgr*); };
 struct AgentFuncs { void *create,*penetrations,*closest,*cast; unsigned char flipped,predictive; char pad[2]; };
 extern "C" void fn_82D59158(void*,const AgentFuncs*,int,int);
 extern "C" void fn_82D6CAD0(void *dispatcher) { AgentFuncs a,b;

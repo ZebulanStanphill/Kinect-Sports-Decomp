@@ -3,7 +3,7 @@
 // and chain entries it maps to. On failure it warns, releases what it built and returns HK_NULL. Built with /O2
 // (flag file). The function keeps its fn_ name; every callee keeps its fn_ name too.
 #include "havok/hkOstream.h"
-#include "havok/hkpConstraintInstance.h"
+#include "havok/hkpConstraintChainInstance.h"
 
 class hkpPoweredChainData;
 
@@ -92,8 +92,6 @@ HK_FORCE_INLINE hkError &hkError::getInstance() { return *lbl_8323B464; }
         hkError::getInstance().message(hkError::MESSAGE_WARNING, id, assertBuf,                          \
                                        ".\\Constraint\\Chain\\hkpPoweredChainMapper.cpp", LINE);         \
     }
-
-class hkpConstraintChainInstance : public hkpConstraintInstance {};
 
 extern "C" {
 // hkpConstraintChainUtil::findConstraintLinkBetweenEntities

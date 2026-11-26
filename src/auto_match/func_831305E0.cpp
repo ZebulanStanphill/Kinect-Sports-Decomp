@@ -9,25 +9,25 @@
 // gets its own address.) The defaults' name starts with LAB_ only so that objdiff's pooled-data guess reads
 // lbl_8213AEB8 + 0x300 as lbl_8213AEB8 (as for the original object, where both are external); the code is
 // the same under any name.
-typedef float hkReal;
-typedef unsigned int hkUint32;
+#include "havok/hkInternalClassMember.h"
 
 extern "C" {
 extern const char lbl_8323CF30[];   // hkpEntityClass (the hkClass constructed here)
 extern const char lbl_8323E200[];   // hkpWorldObjectClass (the parent)
 extern const char lbl_8213AFC0[];   // hkpEntity's 21 members (hkInternalClassMember[])
-extern const char lbl_8213AE90[];   // the SpuCollisionCallbackEventFilter enum's 5 items (hkInternalClassEnumItem[])
-// what the member lists and the attribute below point to (classes, attribute lists, strings without a ??_C@ name)
+extern const hkInternalClassEnumItem lbl_8213AE90[];   // the SpuCollisionCallbackEventFilter enum's 5 items
+// what the member lists and the attribute below point to: member names without a ??_C@ name, the members'
+// classes, the motion member's attribute list (lbl_8213AFB4), and its one attribute's value, class and record
 extern const char lbl_82012158[];
 extern const char lbl_82011754[];
-extern const char lbl_8323CEA0[];
-extern const char lbl_8323D8D0[];
-extern const char lbl_8323CE30[];
-extern const char lbl_8323CED0[];
-extern const char lbl_8323D0D0[];
-extern const char lbl_8213AFB4[];
-extern const char lbl_8323A968[];
-extern const char lbl_8323CF00[];
+extern const hkClass lbl_8323CEA0;
+extern const hkClass lbl_8323D8D0;
+extern const hkClass lbl_8323CE30;
+extern const hkClass lbl_8323CED0;
+extern const hkClass lbl_8323D0D0;
+extern const hkCustomAttributes lbl_8213AFB4;
+extern const hkClass lbl_8323A968;
+extern const hkClass lbl_8323CF00;
 extern const char lbl_8213AECC[];
 extern const char lbl_8323ADD8[];
 extern const char lbl_8213AFA8[];
@@ -38,28 +38,6 @@ void fn_82CEB3D8(const void *self, const char *className, const void *parentClas
                  int numDeclaredEnums, const void *declaredMembers, int numDeclaredMembers, const void *defaults,
                  const void *attributes, unsigned flags, unsigned version);
 }
-
-// hkInternalClassEnum (Common/Base/Reflection/hkInternalClassMember.h)
-struct hkInternalClassEnum {
-    const char *m_name;
-    const void *m_items;
-    int m_numItems;
-    const void *m_attributes;
-    unsigned m_flags;
-};
-
-// hkInternalClassMember (the same header): one record per reflected member.
-struct hkInternalClassMember {
-    const char *m_name;
-    const void *m_class;
-    const void *m_enum;
-    unsigned char m_type;
-    unsigned char m_subtype;
-    short m_cArraySize;
-    unsigned short m_flags;
-    unsigned short m_offset;
-    const void *m_attributes;
-};
 
 // hkpEntityEnums (lbl_8213AEB8), then the rest of the file's .rdata up to the defaults, as the game has it:
 // the "hk.DataObjectType" attribute's value (lbl_8213AECC), the member lists of the nested classes

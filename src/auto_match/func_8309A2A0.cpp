@@ -3,31 +3,9 @@
 // collected into a stack buffer by an hkpFixedBufferCdPointCollector and copied out, either
 // to the command's own buffer or to a slot of a shared buffer reserved with an atomic add.
 // The collector's constructor resets the early-out distance to HK_REAL_MAX (__real@7f7fffee).
-#include "havok/hkpCdPointCollector.h"
 #include "havok/hkpCollidable.h"
 #include "havok/hkpCollisionDispatcher.h"
-
-// hkpRootCdPoint: hkContactPoint (two hkVector4) plus the root collidables and shape keys.
-struct hkpRootCdPoint {
-    hkUint32 m_data[12];
-};
-
-class hkpFixedBufferCdPointCollector : public hkpCdPointCollector {
-public:
-    HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE, hkpFixedBufferCdPointCollector);
-    HK_FORCE_INLINE hkpFixedBufferCdPointCollector(hkpRootCdPoint *buffer, int capacity)
-    {
-        m_pointsArrayBase = buffer;
-        m_nextFreePoint = buffer;
-        m_capacity = capacity;
-        m_numPoints = 0;
-    }
-    virtual void addCdPoint(const hkpCdPoint &point);
-    hkpRootCdPoint *m_pointsArrayBase;   // +0x8
-    hkpRootCdPoint *m_nextFreePoint;     // +0xc
-    int m_capacity;                      // +0x10
-    int m_numPoints;                     // +0x14
-};
+#include "havok/hkpFixedBufferCdPointCollector.h"
 
 struct hkpPairGetClosestPointsCommand {   // 0x20 bytes
     const hkpCollidable *m_collidableA;

@@ -1,16 +1,12 @@
 #include "havok/hkContactPoint.h"
 #include "havok/hkpSymmetricAgent.h"
+#include "havok/hkpConvexListShape.h"
+#include "havok/hkpFlagCdBodyPairCollector.h"
 extern "C" unsigned __int64 __mftb();
 struct Timer { void *a; unsigned *next; void *b; unsigned *end; };
 extern "C" Timer *KeTlsGetValue(unsigned); extern "C" unsigned lbl_8323B4A0;
 static HK_FORCE_INLINE void timer(const char *s,const char *next=0) { Timer *t=KeTlsGetValue(lbl_8323B4A0);unsigned *p=t->next;if(p<t->end) {p[0]=(unsigned)s;if(next) p[3]=(unsigned)next;p[1]=(unsigned)__mftb();t->next=p+(next?4:3);} }
-// RTTI: hkpConvexListShape -> hkpConvexShape, hkpShapeContainer (+0x14).
-class hkpConvexListShape : public hkpConvexShape, public hkpShapeContainer {
-public:
-    hkReal m_minDistanceToUseConvexHullForGetClosestPoints;   // +0x18
-};
 class hkpCdPoint {public:hkContactPoint m_contact;const hkpCdBody *m_cdBodyA,*m_cdBodyB;};
-class hkpFlagCdBodyPairCollector : public hkpCdBodyPairCollector {public:virtual void addCdBodyPair(const hkpCdBody&,const hkpCdBody&);};
 class hkpClosestCdPointCollector : public hkpCdPointCollector {
 public:
     hkpClosestCdPointCollector(float d) : hkpCdPointCollector()

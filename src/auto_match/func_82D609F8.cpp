@@ -1,29 +1,5 @@
 #include "havok/hkpSymmetricAgent.h"
-extern "C" {
-// hkpMultiRayConvexAgent::staticGetClosestPoints
-void fn_82D60418(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                 hkpCdPointCollector &collector);
-// hkpMultiRayConvexAgent::staticGetPenetrations
-void fn_82D60698(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                 hkpCdBodyPairCollector &collector);
-}
-class hkpMultiRayConvexAgent : public hkpIterativeLinearCastAgent {
-public:
-    static hkpCollisionAgent *createMultiRayConvexAgent(const hkpCdBody &, const hkpCdBody &, const hkpCollisionInput &,
-                                                        hkpContactMgr *);
-    static hkpCollisionAgent *createConvexMultiRayAgent(const hkpCdBody &, const hkpCdBody &, const hkpCollisionInput &,
-                                                        hkpContactMgr *);
-    static void HK_CALL staticGetPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
-                                              const hkpCollisionInput &input, hkpCdBodyPairCollector &collector)
-    {
-        fn_82D60698(bodyA, bodyB, input, collector);
-    }
-    static void HK_CALL staticGetClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
-                                               const hkpCollisionInput &input, hkpCdPointCollector &collector)
-    {
-        fn_82D60418(bodyA, bodyB, input, collector);
-    }
-};
+#include "havok/hkpMultiRayConvexAgent.h"
 extern "C" void fn_82D66F00();
 struct AgentFuncs { void *create,*penetrations,*closest,*cast; unsigned char flipped,predictive; char pad[2]; };
 extern "C" void fn_82D59158(void*,const AgentFuncs*,int,int);

@@ -1,5 +1,6 @@
 // hkpTyremarksInfo::hkpTyremarksInfo(const hkpVehicleData &, int num_points)
 #include "havok/hkBase.h"
+#include "havok/hkpTyremarkPoint.h"
 
 // hkArray with the inlined setSize/clear this unit uses. setSize fetches the allocator first, then
 // doubles the capacity or sets it to n through hkArrayUtil::_reserve; m_size is stored through the
@@ -36,11 +37,6 @@ public:
 
 class hkpTyremarksWheel;
 extern "C" void fn_82DFA668(hkpTyremarksWheel *self, int num_points);   // hkpTyremarksWheel::setNumPoints
-
-struct hkpTyremarkPoint {
-    hkReal m_pointLeft[4];
-    hkReal m_pointRight[4];
-};
 
 class hkpTyremarksWheel : public hkReferencedObject {
 public:

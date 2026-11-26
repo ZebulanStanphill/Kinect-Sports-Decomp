@@ -1,10 +1,9 @@
 #include "havok/hkBase.h"
+#include "havok/hkAabbTreeQueryUtils.h"
 class __declspec(align(16)) hkKdTreeCastCollector { public: virtual ~hkKdTreeCastCollector() {} char pad[0x7c]; float fraction; hkKdTreeCastCollector(float f):fraction(f){} };
 class hkpKdTreeWorldLinearCaster : public hkKdTreeCastCollector { public: hkpKdTreeWorldLinearCaster(float f):hkKdTreeCastCollector(f){} };
 extern "C" void fn_83096B20(hkpKdTreeWorldLinearCaster *, void*, void*, void*, void*, void*, void*, void*, void*);
 struct World { char pad[0xc]; void *aabbTree; void *tree; char pad2[0x10]; unsigned char hasAabb; };
-namespace hkAabbTreeData { struct hkAabbTreeAabb {}; struct hkAabbTreeAabb16 {}; }
-template<class A,class B> struct hkAabbTreeQueryUtils { class Collector { public: virtual ~Collector(){} }; };
 using namespace hkAabbTreeData;
 template<class A> class __declspec(align(16)) hkpAabbTreeWorldLinearCaster
  : public hkAabbTreeQueryUtils<hkAabbTreeAabb,unsigned short>::Collector,

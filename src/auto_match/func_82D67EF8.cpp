@@ -1,9 +1,5 @@
 #include "havok/hkpCdBody.h"
-
-class hkpBoxShape : public hkpConvexShape {
-public:
-    hkVector4 m_halfExtents;   // +0x20
-};
+#include "havok/hkpBoxShape.h"
 
 struct hkpProcessCollisionInput {
     char pad0[0x8];

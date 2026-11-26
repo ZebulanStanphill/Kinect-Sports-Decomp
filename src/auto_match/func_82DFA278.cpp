@@ -1,12 +1,7 @@
 // hkpTyremarksInfo::getWheelTyremarksStrips (Physics/Vehicle/TyreMarks/hkpTyremarksInfo.cpp): copies the
 // left and right points of one wheel's tyremark ring buffer, oldest first.
 #include "havok/hkBase.h"
-#include "havok/hkVector4.h"
-
-struct hkpTyremarkPoint {
-    hkVector4 m_pointLeft;  // +0x0
-    hkVector4 m_pointRight; // +0x10
-};
+#include "havok/hkpTyremarkPoint.h"
 
 class hkpVehicleInstance;
 

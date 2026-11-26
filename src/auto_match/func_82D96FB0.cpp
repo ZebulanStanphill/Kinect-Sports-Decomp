@@ -3,9 +3,6 @@
 #include "havok/hkpConstraintMotor.h"
 #include "havok/hkpConstraintData.h"
 
-class hkpParametricCurve : public hkReferencedObject {
-};
-
 class hkpPrismaticConstraintData : public hkpConstraintData {
 public:
     virtual ~hkpPrismaticConstraintData();

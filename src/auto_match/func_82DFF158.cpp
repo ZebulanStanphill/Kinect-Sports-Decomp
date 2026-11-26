@@ -1,18 +1,7 @@
 // hkpVehicleManager::~hkpVehicleManager (Physics/Vehicle/Manager/hkpVehicleManager.cpp): removes the references
 // to the registered vehicles, then the array is destroyed.
-#include "havok/hkBase.h"
-
-class hkpVehicleInstance : public hkReferencedObject {
-};
-
-class hkpVehicleManager : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_VEHICLE);
-    hkpVehicleManager(hkFinishLoadedObjectFlag f) : hkReferencedObject(f), m_registeredVehicles(f) {}
-    virtual ~hkpVehicleManager();
-
-    hkArray<hkpVehicleInstance *> m_registeredVehicles;   // +0x8
-};
+#include "havok/hkpVehicleManager.h"
+#include "havok/hkpVehicleInstance.h"
 
 hkpVehicleManager::~hkpVehicleManager()
 {

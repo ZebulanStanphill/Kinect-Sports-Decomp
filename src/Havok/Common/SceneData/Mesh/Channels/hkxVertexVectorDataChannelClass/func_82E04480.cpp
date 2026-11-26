@@ -1,13 +1,7 @@
 // getVtablehkxVertexVectorDataChannel, from Havok's HK_REFLECTION_DEFINE_VIRTUAL for hkxVertexVectorDataChannel (static in Havok):
 // builds a finished object in a local buffer and returns its vtable pointer.
-// Hierarchy from the RTTI: hkxVertexVectorDataChannel -> hkReferencedObject -> hkBaseObject; only the finish
-// constructors are declared.
-#include "havok/hkBase.h"
-
-class hkxVertexVectorDataChannel : public hkReferencedObject {
-public:
-    hkxVertexVectorDataChannel(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
+// Hierarchy from the RTTI: hkxVertexVectorDataChannel -> hkReferencedObject -> hkBaseObject.
+#include "havok/hkxVertexVectorDataChannel.h"
 
 const void *HK_CALL getVtablehkxVertexVectorDataChannel()
 {

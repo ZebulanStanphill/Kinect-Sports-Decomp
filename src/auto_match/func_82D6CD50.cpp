@@ -1,9 +1,5 @@
 #include "havok/hkpCdBody.h"
-
-class hkpSphereShape : public hkpConvexShape {
-public:
-    hkpSphereShape(hkReal radius);
-};
+#include "havok/hkpSphereShape.h"
 
 struct hkpMultiSphereShape_82D6CD50 {
     char pad0[0x20];

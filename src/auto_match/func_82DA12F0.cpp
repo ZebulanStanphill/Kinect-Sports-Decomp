@@ -1,33 +1,7 @@
 // hkpPoweredChainData::~hkpPoweredChainData (Physics/Dynamics/Constraint/Chain/Powered/hkpPoweredChainData.cpp): releases each link's three motors, then m_infos' destructor.
 #include "havok/hkBase.h"
 #include "havok/hkpConstraintMotor.h"
-#include "havok/hkpConstraintData.h"
-
-class __declspec(align(16)) hkVector4 {
-public:
-    hkReal x, y, z, w;
-};
-class __declspec(align(16)) hkQuaternion {
-public:
-    hkReal m_vec[4];
-};
-
-class hkpPoweredChainData : public hkpConstraintChainData {
-public:
-    virtual ~hkpPoweredChainData();
-
-    struct ConstraintInfo {
-        hkVector4 m_pivotInA;
-        hkVector4 m_pivotInB;
-        hkQuaternion m_aTc;
-        hkQuaternion m_bTc;
-        hkpConstraintMotor *m_motors[3];   // +0x40
-        hkBool m_switchBodies;             // +0x4C
-    };
-
-    char m_atoms[0xC];               // +0xC  hkpBridgeAtoms
-    hkArray<ConstraintInfo> m_infos; // +0x18
-};
+#include "havok/hkpPoweredChainData.h"
 
 hkpPoweredChainData::~hkpPoweredChainData()
 {

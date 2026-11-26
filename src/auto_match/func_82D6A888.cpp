@@ -2,23 +2,11 @@
 // The constructor is defined out of line in this unit, as in the original file: the compiler then knows
 // it leaves r4/r5 alone and reuses bodyB in r5 after the call (an inline/COMDAT definition does not).
 #include "havok/hkBase.h"
-#include "havok/hkpCollisionAgent.h"
+#include "havok/hkpPhantomAgent.h"
 
 class hkpPhantomCallbackShape : public hkpShape {
 public:
     virtual void phantomEnterEvent(const hkpCollidable *collidableA, const hkpCollidable *collidableB, const hkpCollisionInput &env);
-};
-
-class hkpPhantomAgent : public hkpCollisionAgent {
-public:
-    hkpPhantomAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, hkpContactMgr *contactMgr);
-
-    const hkpCollidable *m_collidableA;     // +0xC
-    const hkpCollidable *m_collidableB;     // +0x10
-    hkpPhantomCallbackShape *m_shapeA;      // +0x14
-    hkpPhantomCallbackShape *m_shapeB;      // +0x18
-    hkpShapeType m_bodyTypeA;              // +0x1C
-    hkpShapeType m_bodyTypeB;              // +0x20
 };
 
 hkpPhantomAgent::hkpPhantomAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, hkpContactMgr *contactMgr)

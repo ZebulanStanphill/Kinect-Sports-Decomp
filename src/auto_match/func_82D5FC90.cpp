@@ -1,8 +1,5 @@
 #include "havok/hkpSymmetricAgent.h"
-
-// hkpListAgent (Physics/Collide/Agent/CompoundAgent/List) has no shared header; naming
-// hkpSymmetricAgent<hkpListAgent> needs only its base.
-class hkpListAgent : public hkpCollisionAgent {};
+#include "havok/hkpListAgent.h"
 
 // createAgent is instantiated in hkpListAgent.cpp (fn_82D5FC00).
 extern template hkpCollisionAgent *HK_CALL hkpSymmetricAgent<hkpListAgent>::createAgent(const hkpCdBody &bodyA,

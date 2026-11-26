@@ -7,57 +7,14 @@
 // A vector member is copy-constructed through a vector register here (see havok/hkVector4.h).
 #define HK_VECTOR4_COPY_CONSTRUCTOR
 #include "havok/hkBase.h"
-#include "havok/hkContactPoint.h"
-#include "havok/hkpCdPointCollector.h"
-#include "havok/hkpAction.h"
 #include "havok/hkpCollisionDispatcher.h"
 #include "havok/hkpRigidBody.h"
-
-struct hkStepInfo;
-
-class hkpSphereShape : public hkpShape {
-public:
-    hkpSphereShape(hkReal radius);   // out of line
-    hkReal m_radius;                 // +0x10
-    hkUint32 m_pad16[3];             // +0x14
-};
-
-struct hkpRootCdPoint {
-    hkContactPoint m_contact;               // +0x0
-    const hkpCollidable *m_rootCollidableA; // +0x20
-    hkpShapeKey m_shapeKeyA;                // +0x24
-    const hkpCollidable *m_rootCollidableB; // +0x28
-    hkpShapeKey m_shapeKeyB;                // +0x2C
-};
-
-class hkpClosestCdPointCollector : public hkpCdPointCollector {
-public:
-    HK_FORCE_INLINE hkpClosestCdPointCollector() { reset(); }
-    HK_FORCE_INLINE virtual ~hkpClosestCdPointCollector() {}
-    virtual void addCdPoint(const hkpCdPoint &point);
-    HK_FORCE_INLINE void reset()
-    {
-        m_hitPoint.m_rootCollidableA = HK_NULL;
-        m_hitPoint.m_contact.setDistance(3.40282e+38f);
-        hkpCdPointCollector::reset();
-    }
-    HK_FORCE_INLINE hkBool hasHit() const { return m_hitPoint.m_rootCollidableA != HK_NULL; }
-    HK_FORCE_INLINE const hkpRootCdPoint &getHit() const { return m_hitPoint; }
-
-    hkpRootCdPoint m_hitPoint;   // +0x10
-};
+#include "havok/hkpSphereShape.h"
+#include "havok/hkpMouseSpringAction.h"
+#include "havok/hkpClosestCdPointCollector.h"
+#include "havok/hkpWorld.h"
 
 struct hkpProcessCollisionInput : public hkpCollisionInput {
-};
-
-class hkpWorld {
-public:
-    HK_FORCE_INLINE const hkpProcessCollisionInput *getCollisionInput() const { return m_collisionInput; }
-    HK_FORCE_INLINE hkpCollisionDispatcher *getCollisionDispatcher() const { return m_collisionDispatcher; }
-    char m_pad0[0x78];
-    hkpProcessCollisionInput *m_collisionInput;    // +0x78
-    hkpCollisionFilter *m_collisionFilter;         // +0x7C
-    hkpCollisionDispatcher *m_collisionDispatcher; // +0x80
 };
 
 template <typename T>
@@ -83,27 +40,6 @@ static HK_FORCE_INLINE void assign(hkArray<T> &self, const hkArray<T> &a)
 {
     _copyFromArray(self, hkContainerHeapAllocator::get(&self), a);
 }
-
-class hkpMouseSpringAction : public hkpUnaryAction {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_DYNAMICS);
-    typedef void (HK_CALL *mouseSpringAppliedCallback)(hkpMouseSpringAction *action, const hkStepInfo &stepInfo,
-                                                       hkpRigidBody *rb);
-
-    hkpMouseSpringAction(const hkVector4 &positionInRbLocal, const hkVector4 &mousePositionInWorld,
-                         const hkReal springDamping, const hkReal springElasticity, const hkReal objectDamping,
-                         hkpRigidBody *rb, const hkArray<mouseSpringAppliedCallback> *appliedCallbacks);
-    virtual void applyAction(const hkStepInfo &stepInfo);
-
-    hkVector4 m_positionInRbLocal;      // +0x20
-    hkVector4 m_mousePositionInWorld;   // +0x30
-    hkReal m_springDamping;             // +0x40
-    hkReal m_springElasticity;          // +0x44
-    hkReal m_maxRelativeForce;          // +0x48
-    hkReal m_objectDamping;             // +0x4C
-    hkpShapeKey m_shapeKey;             // +0x50
-    hkArray<mouseSpringAppliedCallback> m_applyCallbacks;   // +0x54
-};
 
 hkpMouseSpringAction::hkpMouseSpringAction(const hkVector4 &positionInRbLocal, const hkVector4 &mousePositionInWorld,
                                            const hkReal springDamping, const hkReal springElasticity,

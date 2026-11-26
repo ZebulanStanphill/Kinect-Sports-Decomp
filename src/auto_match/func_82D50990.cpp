@@ -1,30 +1,12 @@
+// hkpStorageSampledHeightFieldShape::hkpStorageSampledHeightFieldShape(const hkpSampledHeightFieldShape *)
+// (Physics/Collide/Shape/HeightField/StorageSampledHeightField/hkpStorageSampledHeightFieldShape.cpp): copies the
+// other height field's members and samples. In the game it is known only as fn_82D50990; the header declares the
+// constructor and it is defined here, HK_FORCE_INLINE, inside the extern "C" function.
+#include "havok/hkpStorageSampledHeightFieldShape.h"
 
-#include "havok/hkpShape.h"
-#include "havok/hkVector4.h"
-class hkpHeightFieldShape : public hkpShape {
-public:
-    hkpHeightFieldShape() : hkpShape((hkpShapeType)13) {}
-    virtual void slot2c();
-    virtual void slot30();
-};
-class hkpSampledHeightFieldShape : public hkpHeightFieldShape {
-public:
-    virtual float getHeightAt(int x, int z) const;
-    virtual hkBool getTriangleFlip() const;
-    int m_xRes, m_zRes;
-    float m_heightCenter;
-    char pad1c; hkBool m_useProjectionBasedHeight; char pad1e[2];
-    hkVector4 m_intToFloatScale, m_floatToIntScale, m_floatToIntOffsetFloorCorrected, m_extents;
-};
-class hkpStorageSampledHeightFieldShape : public hkpSampledHeightFieldShape {
-public:
-    HK_FORCE_INLINE hkpStorageSampledHeightFieldShape(const hkpSampledHeightFieldShape *src);
-    hkArray<float> m_storage;
-    hkBool m_triangleFlip;
-};
 HK_FORCE_INLINE hkpStorageSampledHeightFieldShape::hkpStorageSampledHeightFieldShape(const hkpSampledHeightFieldShape *src)
 {
-    m_useProjectionBasedHeight = false;
+    m_heightfieldType = HEIGHTFIELD_STORAGE;
     m_xRes = src->m_xRes;
     m_zRes = src->m_zRes;
     hkBool flip = src->getTriangleFlip();

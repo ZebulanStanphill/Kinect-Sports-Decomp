@@ -6,17 +6,6 @@
 #include "havok/hkBase.h"
 #include "havok/hkpConstraintInstance.h"
 
-class hkpConstraintChainInstanceAction;
-
-class hkpConstraintChainInstance : public hkpConstraintInstance {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);
-    hkpConstraintChainInstance(hkFinishLoadedObjectFlag f);
-
-    hkArray<hkpEntity *> m_chainedEntities;        // +0x38
-    hkpConstraintChainInstanceAction *m_action;    // +0x44
-};
-
 void HK_CALL finishLoadedObjecthkpConstraintInstance(void *p, int finishing)
 {
     hkFinishLoadedObjectFlag f;

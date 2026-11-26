@@ -4,17 +4,7 @@
 #include "havok/hkBase.h"
 #include "havok/hkpConstraintListener.h"
 #include "havok/hkpWorldDeletionListener.h"
-
-extern "C" {
-void fn_82D813C0(hkpWorld *world, hkpConstraintListener *l);      // hkpWorld::removeConstraintListener
-void fn_82D81690(hkpWorld *world, hkpWorldDeletionListener *l);   // hkpWorld::removeWorldDeletionListener
-}
-
-class hkpWorld {
-public:
-    void removeConstraintListener(hkpConstraintListener *l) { fn_82D813C0(this, l); }
-    void removeWorldDeletionListener(hkpWorldDeletionListener *l) { fn_82D81690(this, l); }
-};
+#include "havok/hkpWorld.h"
 
 class CallbackMap;
 extern "C" void fn_82DC82C8(CallbackMap *map, hkpWorld *world);

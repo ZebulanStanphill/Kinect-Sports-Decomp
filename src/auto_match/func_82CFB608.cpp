@@ -2,25 +2,12 @@
 // writer over the CRT's stderr (2) or stdout (anything else), which it does
 // not own. __iob_func is the CRT's __iob_func (FILE is 0x20 bytes).
 #include "havok/hkBase.h"
-#include "havok/hkStreamWriter.h"
+#include "havok/hkStdioStreamWriter.h"
 
 // C runtime functions
 extern "C" {
 char *__iob_func(void);   // __iob_func
 }
-
-class hkStdioStreamWriter : public hkStreamWriter {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_STREAM);
-    hkStdioStreamWriter(int stdStream);
-    virtual ~hkStdioStreamWriter();
-    virtual hkBool isOk() const;
-    virtual int write(const void *buf, int nbytes);
-
-protected:
-    void *m_handle;      // +0x8  FILE *
-    hkBool m_owns;       // +0xC  close the file in the destructor
-};
 
 hkStdioStreamWriter::hkStdioStreamWriter(int stdStream)
 {

@@ -4,21 +4,9 @@
 // "hkConvexListAgent3" directory of the hkStatisticsCollector. The collector calls are C++ virtual calls
 // (vtable loaded before the arguments are set up).
 #include "havok/hkBase.h"
-
-class hkStatisticsCollector {
-public:
-    virtual ~hkStatisticsCollector();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void pushDir(const char *dirName);   // +0x18
-    virtual void popDir();                       // +0x1c
-};
+#include "havok/hkStatisticsCollector.h"
 
 struct hkpAgentEntry;
-struct hkpAgent1nTrack;
 
 struct hkConvexListAgent3Data {
     hkUint8 m_pad0[0xb];

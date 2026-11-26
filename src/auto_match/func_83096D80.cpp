@@ -5,6 +5,8 @@
 
 #include "havok/hkpCollisionFilter.h"
 #include "havok/hkpCollidable.h"
+#include "havok/hkpRayHitCollector.h"
+#include "havok/hkpWorldRayCastInput.h"
 
 static __forceinline void SetTransformedInversePos(hkVector4 &out, const hkTransform &t, const hkVector4 &v)
 {
@@ -34,13 +36,6 @@ struct hkpShapeRayCastInput {
     const void *m_rayShapeCollectionFilter; // 0x24
 };
 
-struct hkpWorldRayCastInput {
-    hkVector4 m_from;                       // 0x00
-    hkVector4 m_to;                         // 0x10
-    hkBool m_enableShapeCollectionFilter;   // 0x20
-    hkUint32 m_filterInfo;                  // 0x24
-};
-
 struct hkpShapeRayCastOutput {
     hkVector4 m_normal;                     // 0x00
     hkReal m_hitFraction;                   // 0x10
@@ -49,12 +44,6 @@ struct hkpShapeRayCastOutput {
 
 struct hkpWorldRayCastOutput : public hkpShapeRayCastOutput {
     const hkpCollidable *m_rootCollidable;  // 0x50
-};
-
-class hkpRayHitCollector {
-public:
-    virtual ~hkpRayHitCollector();
-    hkReal m_earlyOutHitFraction;           // 0x04
 };
 
 struct WorldRayCaster_83096D80 {

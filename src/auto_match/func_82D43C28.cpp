@@ -4,12 +4,7 @@
 // references ??_G directly; the adjustment is plain arithmetic (a static_cast adds a null check).
 // The classes and their bases are those of the game's RTTI (??_R2 base class arrays), at their
 // RTTI offsets; padding stands for members this unit does not use. The thunk keeps its fn_ name.
-#include "havok/hkpShape.h"
-class hkpExtendedMeshShape : public hkpShapeCollection {
-public:
-
-};
-
+#include "havok/hkpExtendedMeshShape.h"
 extern "C" void *fn_82D43C28(hkpShapeContainer *self, unsigned int flags)
 {
     hkpExtendedMeshShape *obj = (hkpExtendedMeshShape *)((char *)self - 0x10);

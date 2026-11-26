@@ -1,11 +1,6 @@
 // Havok hkpWorld::setCollisionFilter-like (World_82D88E60): installs a collision filter.
 #include "havok/hkBase.h"
-#include "havok/hkpCollisionFilter.h"
-
-class hkpNullCollisionFilter : public hkpCollisionFilter {
-public:
-    hkpNullCollisionFilter();
-};
+#include "havok/hkpNullCollisionFilter.h"
 
 struct WorldPart_82D88E60 {
     char pad0[0xc];

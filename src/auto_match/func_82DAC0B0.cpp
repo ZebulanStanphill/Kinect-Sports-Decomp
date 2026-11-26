@@ -1,12 +1,8 @@
 // hkpSimpleConstraintContactMgr::Factory::Factory(hkpWorld *) (Physics/Dynamics/Collide/hkpSimpleConstraintContactMgr.cpp).
 #include "havok/hkBase.h"
+#include "havok/hkpContactMgrFactory.h"
 
 class hkpWorld;
-
-class hkpContactMgrFactory : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-};
 
 class hkpSimpleConstraintContactMgr {
 public:

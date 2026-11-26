@@ -9,45 +9,13 @@
 // before the index-type branch; repeating it in each branch leaves the first index load as
 // lhzx base+offset instead of lhz 0(triangle).
 #include "havok/hkpTriangleShape.h"
+#include "havok/hkpMeshShape.h"
 
 template <typename T>
 HK_FORCE_INLINE const T *hkAddByteOffsetConst(const T *base, hkUlong offset)
 {
     return reinterpret_cast<const T *>(reinterpret_cast<const char *>(base) + offset);
 }
-
-class hkpMeshShape : public hkpShapeCollection {
-public:
-    enum IndexStridingType { INDICES_INVALID, INDICES_INT16, INDICES_INT32, INDICES_MAX_ID };
-
-    struct Subpart {
-        const float *m_vertexBase;           // +0x00
-        int m_vertexStriding;                // +0x04
-        int m_numVertices;                   // +0x08
-        const void *m_indexBase;             // +0x0c
-        hkInt8 m_stridingType;               // +0x10
-        hkInt8 m_materialIndexStridingType;  // +0x11
-        int m_indexStriding;                 // +0x14
-        int m_flipAlternateTriangles;        // +0x18
-        int m_numTriangles;                  // +0x1c
-        const void *m_materialIndexBase;     // +0x20
-        int m_materialIndexStriding;         // +0x24
-        const void *m_materialBase;          // +0x28
-        int m_materialStriding;              // +0x2c
-        int m_numMaterials;                  // +0x30
-        int m_triangleOffset;                // +0x34
-    };
-
-    virtual const hkpShape *getChildShape(hkpShapeKey key, hkpShapeBuffer &buffer) const;
-
-    hkVector4 m_scaling;                 // +0x20
-    hkInt32 m_numBitsForSubpartIndex;    // +0x30
-    hkArray<Subpart> m_subparts;         // +0x34
-    hkArray<hkUint16> m_weldingInfo;     // +0x40
-    hkUint8 m_weldingType;               // +0x4c
-    hkReal m_radius;                     // +0x50
-    int m_pad[3];
-};
 
 const hkpShape *hkpMeshShape::getChildShape(hkpShapeKey key, hkpShapeBuffer &buffer) const
 {

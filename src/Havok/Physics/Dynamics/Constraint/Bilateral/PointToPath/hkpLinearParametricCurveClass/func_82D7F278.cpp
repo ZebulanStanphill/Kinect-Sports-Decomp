@@ -3,16 +3,7 @@
 // Hierarchy from the RTTI: hkpLinearParametricCurve -> hkpParametricCurve -> hkReferencedObject -> hkBaseObject; only the finish
 // constructors are declared.
 #include "havok/hkBase.h"
-
-class hkpParametricCurve : public hkReferencedObject {
-public:
-    hkpParametricCurve(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
-
-class hkpLinearParametricCurve : public hkpParametricCurve {
-public:
-    hkpLinearParametricCurve(hkFinishLoadedObjectFlag flag) : hkpParametricCurve(flag) {}
-};
+#include "havok/hkpLinearParametricCurve.h"
 
 const void *HK_CALL getVtablehkpLinearParametricCurve()
 {

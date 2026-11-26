@@ -1,6 +1,8 @@
-// hkMemoryTrackStreamReader scalar deleting destructor; it calls ~hkMemoryTrackStreamReader (not visible here). The function at the end only makes the compiler emit the vtable.
+// hkMemoryTrackStreamReader scalar deleting destructor; it calls ~hkMemoryTrackStreamReader (not visible here). The
+// function at the end only makes the compiler emit the vtable; it copies an object because the header declares no
+// inline constructor.
 #include "havok/hkBase.h"
-#include "havok/hkStreamReader.h"
+#include "havok/hkMemoryTrackStreamReader.h"
 
 extern "C" void fn_82CFF478(void *self);   // hkMemoryTrack::~hkMemoryTrack (out of line)
 
@@ -16,18 +18,7 @@ public:
     hkArray<hkUint8 *> m_sectors;  // +0x8
 };
 
-class hkMemoryTrackStreamReader : public hkStreamReader {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_STREAM);
-    enum MemoryType { MEMORY_INPLACE, MEMORY_TAKE };
-    virtual ~hkMemoryTrackStreamReader();
-    virtual hkBool isOk() const;
-    virtual int read(void *buf, int nbytes);
-
-protected:
-    const hkMemoryTrack *m_track;   // +0x8
-    int m_trackOffset;              // +0xC
-    MemoryType m_memType;           // +0x10
-};
-
-void emitVtable_82CFF5D0(void *p) { new (p) hkMemoryTrackStreamReader; }
+void emitVtable_82CFF5D0(void *p, const void *q)
+{
+    new (p) hkMemoryTrackStreamReader(*(const hkMemoryTrackStreamReader *)q);
+}

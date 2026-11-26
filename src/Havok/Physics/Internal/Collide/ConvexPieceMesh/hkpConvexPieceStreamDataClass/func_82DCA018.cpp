@@ -3,11 +3,7 @@
 // Hierarchy from the RTTI: hkpConvexPieceStreamData -> hkReferencedObject -> hkBaseObject; only the finish
 // constructors are declared.
 #include "havok/hkBase.h"
-
-class hkpConvexPieceStreamData : public hkReferencedObject {
-public:
-    hkpConvexPieceStreamData(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
+#include "havok/hkpConvexPieceStreamData.h"
 
 const void *HK_CALL getVtablehkpConvexPieceStreamData()
 {

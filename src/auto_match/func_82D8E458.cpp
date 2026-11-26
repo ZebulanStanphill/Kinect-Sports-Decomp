@@ -3,12 +3,7 @@
 // (written out by hand, as for func_82D3A580).
 // RTTI: hkpBroadPhaseBorder : hkReferencedObject + hkpWorldDeletionListener (+8), hkpPhantomOverlapListener (+0xc), hkpWorldPostSimulationListener (+0x10); only the primary base matters here.
 #include "havok/hkBase.h"
-
-class hkpBroadPhaseBorder : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_BASE);
-    virtual ~hkpBroadPhaseBorder();
-};
+#include "havok/hkpBroadPhaseBorder.h"
 
 extern "C" hkpBroadPhaseBorder *fn_82D8E458(hkpBroadPhaseBorder *self, unsigned int flags)
 {

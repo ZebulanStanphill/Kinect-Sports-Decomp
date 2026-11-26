@@ -2,18 +2,7 @@
 // (hkpAngularDashpotAction.cpp). Kept as an extern "C" function under its fn_ name with an explicit self;
 // classes as in func_82DEEE50.cpp.
 #include "havok/hkBase.h"
-#include "havok/hkQuaternion.h"
-#include "havok/hkpAction.h"
-
-class hkpPhantom;
-
-class hkpAngularDashpotAction : public hkpBinaryAction {
-public:
-    hkpAngularDashpotAction(hkpEntity *entityA, hkpEntity *entityB, hkUlong userData);
-    hkQuaternion m_rotation;        // +0x20
-    hkReal m_strength;              // +0x30
-    hkReal m_damping;               // +0x34
-};
+#include "havok/hkpAngularDashpotAction.h"
 
 extern "C" hkpAction *fn_82DEEEB8(const hkpAngularDashpotAction *self, const hkArray<hkpEntity *> &newEntities,
                                    const hkArray<hkpPhantom *> &newPhantoms)

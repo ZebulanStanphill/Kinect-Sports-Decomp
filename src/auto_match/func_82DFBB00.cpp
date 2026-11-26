@@ -1,10 +1,10 @@
-#include "havok/hkBaseTypes.h"
+// hkpVehicleDefaultTransmission::calcIsReversing (vtable slot +0x18): reversing when the vehicle is trying to
+// reverse and the gear is not a forward one. It keeps its fn_ name.
+#include "havok/hkpVehicleDefaultTransmission.h"
+#include "havok/hkpVehicleInstance.h"
 
-struct hkpVehicleInstance_82DFBB00 { char pad[0xb0]; hkBool m_tryingToReverse; };
-struct TransmissionOutput_82DFBB00 { char pad[0xe]; hkInt8 m_currentGear; };
-
-extern "C" hkBool fn_82DFBB00(void *self, const hkpVehicleInstance_82DFBB00 *vehicle,
-                               const TransmissionOutput_82DFBB00 *out)
+extern "C" hkBool fn_82DFBB00(const hkpVehicleDefaultTransmission *self, const hkpVehicleInstance *vehicle,
+                              const hkpVehicleTransmission::TransmissionOutput *out)
 {
     if (!vehicle->m_tryingToReverse) {
         return false;

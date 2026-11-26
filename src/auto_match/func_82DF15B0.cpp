@@ -10,40 +10,7 @@
 // names as the string "@ " (its first bytes are 40 20 00), to the compiler's __vmx@... names.
 // hkVector4::set builds the quad in a local, which the compiler folds into one vector constant.
 #include "havok/hkBase.h"
-#include "havok/hkVector4.h"
-
-class hkpFirstPersonGunBulletListener;
-class hkpRigidBody;
-
-class hkpFirstPersonGun : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_UTILITIES);
-    enum Type { WEAPON_TYPE_INVALID = 0, WEAPON_TYPE_BALLGUN, WEAPON_TYPE_GRENADEGUN, WEAPON_TYPE_GRAVITYGUN,
-                WEAPON_TYPE_MOUNTEDBALLGUN, WEAPON_TYPE_TWEAKERGUN, WEAPON_TYPE_MISSILEGUN };
-
-    hkpFirstPersonGun();
-    virtual ~hkpFirstPersonGun();
-
-    hkUint8 m_type;                                          // +0x8 hkEnum<Type, hkUint8>
-    hkStringPtr m_name;                                      // +0xc
-    hkUint8 m_keyboardKey;                                   // +0x10 hkEnum<hkKeyboardCommand, hkUint8>
-    hkArray<hkpFirstPersonGunBulletListener *> m_listeners;  // +0x14
-};
-
-class hkpGravityGun : public hkpFirstPersonGun {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_UTILITIES);
-    hkpGravityGun();
-
-    hkArray<hkpRigidBody *> m_grabbedBodies;     // +0x20
-    int m_maxNumObjectsPicked;                   // +0x2c
-    hkReal m_maxMassOfObjectPicked;              // +0x30
-    hkReal m_maxDistOfObjectPicked;              // +0x34
-    hkReal m_impulseAppliedWhenObjectNotPicked;  // +0x38
-    hkReal m_throwVelocity;                      // +0x3c
-    hkVector4 m_capturedObjectPosition;          // +0x40
-    hkVector4 m_capturedObjectsOffset;           // +0x50
-};
+#include "havok/hkpGravityGun.h"
 
 hkpGravityGun::hkpGravityGun()
     : m_maxNumObjectsPicked(10),

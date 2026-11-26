@@ -8,29 +8,9 @@
 // to __real@...); it is declared here as a known constant (selectany) and used by name. A plain extern
 // keeps the load below the vtable store.
 #include "havok/hkBase.h"
-#include "havok/hkpAction.h"
+#include "havok/hkpSpringAction.h"
 
 extern "C" __declspec(selectany) const float lbl_8200DFF4 = 1000.0f;
-
-class __declspec(align(16)) hkVector4 {
-public:
-    hkReal x, y, z, w;
-};
-
-class hkpSpringAction : public hkpBinaryAction {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_ACTION);
-    hkpSpringAction(hkpEntity *entityA, hkpEntity *entityB, hkUlong userData);
-
-    hkVector4 m_lastForce;      // +0x20
-    hkVector4 m_positionAinA;   // +0x30
-    hkVector4 m_positionBinB;   // +0x40
-    hkReal m_restLength;        // +0x50
-    hkReal m_strength;          // +0x54
-    hkReal m_damping;           // +0x58
-    hkBool m_onCompression;     // +0x5C
-    hkBool m_onExtension;       // +0x5D
-};
 
 hkpSpringAction::hkpSpringAction(hkpEntity *entityA, hkpEntity *entityB, hkUlong userData)
     : hkpBinaryAction(entityA, entityB, userData),

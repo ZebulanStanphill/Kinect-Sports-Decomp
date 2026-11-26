@@ -1,13 +1,6 @@
-extern "C" {
-double __fsel(double, double, double);
-}
 #include <math.h>
+#include "havok/hkMath.h"
 #include "havok/hkVector4.h"
-
-namespace hkMath {
-    __forceinline float max2(float x, float y) { return (float)__fsel(x - y, x, y); }
-    __forceinline float min2(float x, float y) { return (float)__fsel(x - y, y, x); }
-}
 
 struct Transformed_82DDA618 {
     char pad0[0xc0];

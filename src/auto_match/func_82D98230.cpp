@@ -1,13 +1,18 @@
+// hkpStiffSpringConstraintData::hkpStiffSpringConstraintData() (Physics/Dynamics/Constraint/Bilateral/StiffSpring/
+// hkpStiffSpringConstraintData.cpp). It keeps its fn_ name, so the constructor is defined forced inline and run by
+// MSVC's explicit constructor call: the atoms' constructors set their types, then the pivots and length are zeroed.
 #include "havok/hkBase.h"
-#include "havok/hkVector4.h"
-class hkpStiffSpringConstraintData : public hkReferencedObject { public:
- HK_FORCE_INLINE hkpStiffSpringConstraintData() : m_userData(0), m_pivotsType(3), m_springType(6) { m_pivotA.setZero4(); m_pivotB.setZero4(); m_length=0.0f; }
- unsigned m_userData;
- char pad[4];
- unsigned short m_pivotsType;
- hkVector4 m_pivotA;
- hkVector4 m_pivotB;
- unsigned short m_springType;
- float m_length;
-};
-extern "C" hkpStiffSpringConstraintData *fn_82D98230(hkpStiffSpringConstraintData *self) { self->hkpStiffSpringConstraintData::hkpStiffSpringConstraintData(); return self; }
+#include "havok/hkpStiffSpringConstraintData.h"
+
+HK_FORCE_INLINE hkpStiffSpringConstraintData::hkpStiffSpringConstraintData()
+{
+    m_atoms.m_pivots.m_translationA.setZero4();
+    m_atoms.m_pivots.m_translationB.setZero4();
+    m_atoms.m_spring.m_length = 0.0f;
+}
+
+extern "C" hkpStiffSpringConstraintData *fn_82D98230(hkpStiffSpringConstraintData *self)
+{
+    self->hkpStiffSpringConstraintData::hkpStiffSpringConstraintData();
+    return self;
+}

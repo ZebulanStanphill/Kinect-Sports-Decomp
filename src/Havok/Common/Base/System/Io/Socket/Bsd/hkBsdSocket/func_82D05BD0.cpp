@@ -1,21 +1,14 @@
 // hkBsdSocket::connect(const char *servername, int port) (Common/Base/System/Io/Socket/Bsd/hkBsdSocket.cpp),
 // Xbox 360 build: only numeric addresses are accepted; a host name raises an error report.
 #include "havok/hkOstream.h"
+#include "havok/hkError.h"
+#include "havok/hkBsdSocket.h"
 
 struct sockaddr_in {
     unsigned short sin_family; /* 0x0 */
     unsigned short sin_port;   /* 0x2 */
     unsigned int sin_addr;     /* 0x4 */
     char sin_zero[8];          /* 0x8 */
-};
-
-class hkError
-{
-  public:
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual int message(int type, int id, const char *description, const char *file, int line);
 };
 
 struct hkErrStream {
@@ -27,18 +20,7 @@ unsigned int inet_addr(const char *cp);
 int socket(int af, int type, int protocol);
 int connect(int s, const sockaddr_in *name, int namelen);
 void fn_82CEE578(hkErrStream *s, void *buf, int bufSize);     // hkErrStream::hkErrStream
-extern hkError *lbl_8323B464;                                 // hkError singleton
 }
-
-class hkBsdSocket : public hkReferencedObject
-{
-  public:
-    virtual hkBool isOk() const;
-    virtual void close();
-
-    char m_pad[0x18];
-    int m_socket; // +0x20
-};
 
 static HK_FORCE_INLINE hkBool isDigit(int c)
 {
@@ -58,7 +40,8 @@ extern "C" int fn_82D05BD0(hkBsdSocket *self, const char *servername, int port)
         hkErrStream os;
         fn_82CEE578(&os, buf, sizeof(buf));
         *(hkOstream *)&os << "Hostname lookup not supported on xbox";
-        if (lbl_8323B464->message(3, 0x2a9c1ba2, buf, ".\\System\\Io\\Socket\\Bsd\\hkBsdSocket.cpp", 0xc3)) {
+        if (hkError::getInstance().message(hkError::MESSAGE_ERROR, 0x2a9c1ba2, buf,
+                                           ".\\System\\Io\\Socket\\Bsd\\hkBsdSocket.cpp", 0xc3)) {
             __debugbreak();
         }
         ((hkOstream *)&os)->hkOstream::~hkOstream();

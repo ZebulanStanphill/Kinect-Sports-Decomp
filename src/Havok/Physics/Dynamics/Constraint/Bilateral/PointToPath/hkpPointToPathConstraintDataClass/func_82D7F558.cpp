@@ -3,12 +3,7 @@
 // Hierarchy from the RTTI: hkpPointToPathConstraintData -> hkpConstraintData -> hkReferencedObject -> hkBaseObject; only the finish
 // constructors are declared.
 #include "havok/hkBase.h"
-#include "havok/hkpConstraintData.h"
-
-class hkpPointToPathConstraintData : public hkpConstraintData {
-public:
-    hkpPointToPathConstraintData(hkFinishLoadedObjectFlag flag) : hkpConstraintData(flag) {}
-};
+#include "havok/hkpPointToPathConstraintData.h"
 
 const void *HK_CALL getVtablehkpPointToPathConstraintData()
 {

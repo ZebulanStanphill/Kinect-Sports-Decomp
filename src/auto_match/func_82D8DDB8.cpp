@@ -9,61 +9,18 @@
 // hkpPhantom::addPhantomOverlapListener through a local inline helper. Calling them directly compiles to
 // the same calls but changes how the scheduler orders the hkVector4::set() temporaries of the later phantoms.
 #include "havok/hkBase.h"
-#include "havok/hkpWorldDeletionListener.h"
-#include "havok/hkpPhantomOverlapListener.h"
 #include "havok/hkpAabbPhantom.h"
-
-class hkpWorldPostSimulationListener;
+#include "havok/hkpBroadPhaseBorder.h"
 
 extern "C" {
-void fn_82D841E0(hkpWorld *world, hkpWorldDeletionListener *l);         // hkpWorld::addWorldDeletionListener
-void fn_82D83F88(hkpWorld *world, hkpWorldPostSimulationListener *l);   // hkpWorld::addWorldPostSimulationListener
-hkpPhantom *fn_82D83B68(hkpWorld *world, hkpPhantom *phantom);          // hkpWorld::addPhantom
 hkpAabbPhantom *fn_82D8D6C0(void *self, const hkAabb &aabb, hkUint32 collisionFilterInfo);  // hkpAabbPhantom::hkpAabbPhantom
 }
-
-class hkpWorldPostSimulationListener {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual ~hkpWorldPostSimulationListener() {}
-    virtual void postSimulationCallback(hkpWorld *world);
-    virtual void inactiveEntityMovedCallback(void *entity);
-};
 
 // hkpPhantom::addPhantomOverlapListener one inline level down (see above).
 static HK_FORCE_INLINE void addOverlapListener(hkpPhantom *phantom, hkpPhantomOverlapListener *listener)
 {
     phantom->addPhantomOverlapListener(listener);
 }
-
-class hkpWorld : public hkReferencedObject {
-public:
-    HK_FORCE_INLINE void addWorldDeletionListener(hkpWorldDeletionListener *l) { fn_82D841E0(this, l); }
-    HK_FORCE_INLINE void addWorldPostSimulationListener(hkpWorldPostSimulationListener *l) { fn_82D83F88(this, l); }
-    HK_FORCE_INLINE hkpPhantom *addPhantom(hkpPhantom *phantom) { return fn_82D83B68(this, phantom); }
-
-    char m_pad08[0x308];
-    hkVector4 m_broadPhaseExtents[2];   // +0x310
-};
-
-class hkpBroadPhaseBorder : public hkReferencedObject,
-                            public hkpWorldDeletionListener,
-                            public hkpPhantomOverlapListener,
-                            public hkpWorldPostSimulationListener {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_WORLD);
-    hkpBroadPhaseBorder(hkpWorld *world, int type, hkBool postponeAndSortCallbacks);
-    virtual void worldDeletedCallback(hkpWorld *world);
-    virtual void collidableAddedCallback(const void *event);
-    virtual void collidableRemovedCallback(const void *event);
-    virtual void postSimulationCallback(hkpWorld *world);
-
-    hkpWorld *m_world;                          // +0x14
-    hkpPhantom *m_phantoms[6];                  // +0x18
-    int m_type;                                 // +0x30 hkEnum<BroadPhaseBorderBehaviour, hkInt32>
-    hkBool m_postponeAndSortCallbacks;          // +0x34
-    hkArray<void *> m_entitiesExitingBroadPhase;  // +0x38
-};
 
 hkpBroadPhaseBorder::hkpBroadPhaseBorder(hkpWorld *world, int type, hkBool postponeAndSortCallbacks)
 {

@@ -1,8 +1,7 @@
 #include "havok/hkBase.h"
 #include "havok/hkMultiThreadCheck.h"
-extern "C" void fn_82CEFBD0(void *,int);
+#include "havok/hkCriticalSection.h"
 extern "C" void fn_82CEFB30(void *);
-struct hkCriticalSection { char data[0x1c]; HK_FORCE_INLINE hkCriticalSection(int spin) { fn_82CEFBD0(this, spin); } };
 class hkReferencedObjectLock : public hkReferencedObject {public:
  int a,b; hkMultiThreadCheck m_check; hkCriticalSection m_cs;
  virtual ~hkReferencedObjectLock();

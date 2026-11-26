@@ -2,7 +2,7 @@
 // plane (from in front, to behind), interpolates the hit point and accepts it when it lies inside
 // the plane's AABB (centre + half extents); then writes the plane normal, the hit fraction and an
 // invalid shape key to the output. The hkBool result is returned through the hidden pointer.
-#include "havok/hkVector4.h"
+#include "havok/hkpPlaneShape.h"
 
 struct hkpShapeRayCastInput {
     hkVector4 m_from;            // 0x00
@@ -17,13 +17,6 @@ struct hkpShapeRayCastOutput {
     unsigned int m_shapeKeys[8]; // 0x20
     int m_shapeKeyIndex;         // 0x40
     __forceinline void setKey(unsigned int key) { m_shapeKeys[m_shapeKeyIndex] = key; }
-};
-
-struct hkpPlaneShape {
-    char pad0[0x10];
-    hkVector4 m_plane;           // 0x10
-    hkVector4 m_aabbCenter;      // 0x20
-    hkVector4 m_aabbHalfExtents; // 0x30
 };
 
 struct ProfTls_82D4CFB8 {

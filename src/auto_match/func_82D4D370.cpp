@@ -1,21 +1,6 @@
-#include "havok/hkpShape.h"
 #include "havok/hkAabb.h"
+#include "havok/hkpRemoveTerminalsMoppModifier.h"
 class hkpShapeBuffer { public: __declspec(align(16)) char data[512]; };
-class hkpMoppModifier {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual ~hkpMoppModifier() {}
-    virtual hkBool shouldTerminalBeRemoved(unsigned, const hkpShapeKey*);
-    virtual void ModifierFinished();
-};
-class hkpMoppCode;
-class hkpRemoveTerminalsMoppModifier : public hkReferencedObject, public hkpMoppModifier {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    hkpRemoveTerminalsMoppModifier(const hkpMoppCode*,const hkpShapeContainer*,const hkArray<hkpShapeKey>&);
-    hkArray<hkUint32> m_removeInfo;
-    const hkArray<hkpShapeKey>* m_keys;
-};
 extern "C" { extern hkTransform lbl_8323B1D0; void fn_82DCDF98(const hkpMoppCode*,const hkAabb&, hkpMoppModifier*); }
 hkpRemoveTerminalsMoppModifier::hkpRemoveTerminalsMoppModifier(const hkpMoppCode* code,const hkpShapeContainer* container,const hkArray<hkpShapeKey>& keys) {
     if (keys.getSize()!=0) {
@@ -31,8 +16,8 @@ hkpRemoveTerminalsMoppModifier::hkpRemoveTerminalsMoppModifier(const hkpMoppCode
             aabb.m_min.m_quad=__vminfp(aabb.m_min.m_quad,next.m_min.m_quad);
             aabb.m_max.m_quad=__vmaxfp(aabb.m_max.m_quad,next.m_max.m_quad);
         }
-        m_keys=&keys;
+        m_tempShapesToRemove=&keys;
         fn_82DCDF98(code,aabb,this);
-        m_keys=0;
+        m_tempShapesToRemove=0;
     }
 }

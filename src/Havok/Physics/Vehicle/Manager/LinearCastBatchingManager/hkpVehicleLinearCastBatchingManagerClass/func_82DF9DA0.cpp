@@ -1,23 +1,7 @@
 // getVtablehkpVehicleLinearCastBatchingManager, from Havok's HK_REFLECTION_DEFINE_VIRTUAL for hkpVehicleLinearCastBatchingManager (static in Havok):
 // builds a finished object in a local buffer and returns its vtable pointer.
-// Hierarchy from the RTTI: hkpVehicleLinearCastBatchingManager -> hkpVehicleCastBatchingManager -> hkpVehicleManager -> hkReferencedObject -> hkBaseObject; only the finish
-// constructors are declared.
-#include "havok/hkBase.h"
-
-class hkpVehicleManager : public hkReferencedObject {
-public:
-    hkpVehicleManager(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
-
-class hkpVehicleCastBatchingManager : public hkpVehicleManager {
-public:
-    hkpVehicleCastBatchingManager(hkFinishLoadedObjectFlag flag) : hkpVehicleManager(flag) {}
-};
-
-class hkpVehicleLinearCastBatchingManager : public hkpVehicleCastBatchingManager {
-public:
-    hkpVehicleLinearCastBatchingManager(hkFinishLoadedObjectFlag flag) : hkpVehicleCastBatchingManager(flag) {}
-};
+// Hierarchy from the RTTI: hkpVehicleLinearCastBatchingManager -> hkpVehicleCastBatchingManager -> hkpVehicleManager -> hkReferencedObject -> hkBaseObject.
+#include "havok/hkpVehicleLinearCastBatchingManager.h"
 
 const void *HK_CALL getVtablehkpVehicleLinearCastBatchingManager()
 {

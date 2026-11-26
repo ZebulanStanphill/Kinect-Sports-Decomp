@@ -4,16 +4,10 @@
 // class allocator (no null check) and its constructor is inlined; the manifold's constructor is out of line
 // (fn_82D781D0, a Matching C unit).
 #include "havok/hkBase.h"
+#include "havok/hkpBoxShape.h"
 #include "havok/hkpIterativeLinearCastAgent.h"
 
 extern "C" const float lbl_8213962C;
-
-class hkpBoxShape : public hkpShape {
-public:
-    hkReal m_radius;           // +0x10
-    hkUint32 m_pad[3];
-    hkReal m_halfExtents[4];   // +0x20
-};
 
 // hkpBoxBoxManifold (0x40 bytes); its constructor is out of line, fn_82D781D0.
 struct hkpBoxBoxManifold;
@@ -43,8 +37,8 @@ hkpCollisionAgent *HK_CALL hkpBoxBoxAgent::createBoxBoxAgent(const hkpCdBody &bo
     const hkpBoxShape *boxA = static_cast<const hkpBoxShape *>(bodyA.getShape());
     const hkpBoxShape *boxB = static_cast<const hkpBoxShape *>(bodyB.getShape());
 
-    if (input.m_tolerance < boxA->m_halfExtents[3] * lbl_8213962C &&
-        input.m_tolerance < boxB->m_halfExtents[3] * lbl_8213962C) {
+    if (input.m_tolerance < boxA->m_halfExtents(3) * lbl_8213962C &&
+        input.m_tolerance < boxB->m_halfExtents(3) * lbl_8213962C) {
         hkpBoxBoxAgent *agent = new hkpBoxBoxAgent(mgr);
         return agent;
     }

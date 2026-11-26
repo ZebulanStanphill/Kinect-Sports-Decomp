@@ -4,47 +4,20 @@
 // the hkMap and hkArray members are destroyed, and the bases (the listener interfaces' vtables, then hkBaseObject's).
 #include "havok/hkBase.h"
 #include "havok/hkpEntityListener.h"
-
-class hkpWorld;
+#include "havok/hkAabbTree.h"
+#include "havok/hkpIslandActivationListener.h"
+#include "havok/hkpWorldPostSimulationListener.h"
+#include "havok/hkpWorld.h"
 
 class hkpPhantomListener {
 public:
     static void operator delete(void *p) { fn_8265CA20(p); }
     virtual ~hkpPhantomListener() {}
 };
-class hkpIslandActivationListener {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual ~hkpIslandActivationListener() {}
-};
-class hkpWorldPostSimulationListener {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual ~hkpWorldPostSimulationListener() {}
-};
-
 extern "C" {
-void fn_82D81408(hkpWorld *world, hkpEntityListener *l);               // hkpWorld::removeEntityListener
-void fn_82D81450(hkpWorld *world, hkpPhantomListener *l);              // hkpWorld::removePhantomListener
-void fn_82D81498(hkpWorld *world, hkpIslandActivationListener *l);     // hkpWorld::removeIslandActivationListener
-void fn_82D81528(hkpWorld *world, hkpWorldPostSimulationListener *l);  // hkpWorld::removeWorldPostSimulationListener
 void fn_83083AA0(void *self);   // destructor of the 0x50-byte tree helper at +0x10
 void fn_82CFBAD0(void *self);   // destructor of the 4-byte object at +0x6C
 }
-
-class hkpWorld {
-public:
-    void removeEntityListener(hkpEntityListener *l) { fn_82D81408(this, l); }
-    void removePhantomListener(hkpPhantomListener *l) { fn_82D81450(this, l); }
-    void removeIslandActivationListener(hkpIslandActivationListener *l) { fn_82D81498(this, l); }
-    void removeWorldPostSimulationListener(hkpWorldPostSimulationListener *l) { fn_82D81528(this, l); }
-};
-
-// hkAabbTree<hkAabbTreeData::hkAabbTreeAabb16, unsigned short>: polymorphic, deleted through its vtable.
-class hkAabbTreeBase {
-public:
-    virtual ~hkAabbTreeBase();
-};
 
 // Non-virtual helpers with Havok's non-virtual class allocator (block size = sizeof) and out-of-line destructors.
 class hkpTreeWorldManagerHelper {
@@ -67,7 +40,7 @@ public:
     virtual ~hkpTreeWorldManager() {}
 
     int m_type;                               // +0x8
-    hkAabbTreeBase *m_tree;                   // +0xC
+    hkAabbTree<hkAabbTreeData::hkAabbTreeAabb16, hkUint16> *m_tree;   // +0xC
     hkpTreeWorldManagerHelper *m_helper;      // +0x10
 };
 

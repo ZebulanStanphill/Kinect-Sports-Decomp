@@ -3,12 +3,7 @@
 // Hierarchy from the RTTI: hkpMultiSphereShape -> hkpSphereRepShape -> hkpShape -> hkReferencedObject -> hkBaseObject; only the finish
 // constructors are declared.
 #include "havok/hkBase.h"
-#include "havok/hkpShape.h"
-
-class hkpMultiSphereShape : public hkpSphereRepShape {
-public:
-    hkpMultiSphereShape(hkFinishLoadedObjectFlag flag) : hkpSphereRepShape(flag) {}
-};
+#include "havok/hkpMultiSphereShape.h"
 
 const void *HK_CALL getVtablehkpMultiSphereShape()
 {

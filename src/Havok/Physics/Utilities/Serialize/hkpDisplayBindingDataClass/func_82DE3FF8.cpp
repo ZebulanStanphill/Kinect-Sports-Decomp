@@ -3,14 +3,7 @@
 // Hierarchy from the RTTI: RigidBody@hkpDisplayBindingData -> hkReferencedObject -> hkBaseObject; only the finish
 // constructors are declared.
 #include "havok/hkBase.h"
-
-class hkpDisplayBindingData {
-public:
-    class RigidBody : public hkReferencedObject {
-    public:
-        RigidBody(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-    };
-};
+#include "havok/hkpDisplayBindingData.h"
 
 const void *HK_CALL getVtablehkpDisplayBindingDataRigidBody()
 {

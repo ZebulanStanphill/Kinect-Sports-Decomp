@@ -2,33 +2,9 @@
 // PointToPath/hkpPointToPathConstraintData.cpp), /O2 /QVMXReserve. hkpBridgeConstraintAtom::init
 // (fn_82D9FE70) is out of line and keeps its fn_ name.
 #include "havok/hkBase.h"
-#include "havok/hkTransform.h"
-#include "havok/hkEnum.h"
-#include "havok/hkpConstraintAtom.h"
-#include "havok/hkpConstraintData.h"
+#include "havok/hkpPointToPathConstraintData.h"
 
 // The game's 1.0f keeps its lbl_ name (Matching units reference it).
-
-class hkpParametricCurve;
-
-class hkpPointToPathConstraintData : public hkpConstraintData {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);
-    enum OrientationConstraintType {
-        CONSTRAIN_ORIENTATION_INVALID,
-        CONSTRAIN_ORIENTATION_NONE,
-        CONSTRAIN_ORIENTATION_ALLOW_SPIN,
-        CONSTRAIN_ORIENTATION_TO_PATH,
-        CONSTRAIN_ORIENTATION_MAX_ID
-    };
-    hkpPointToPathConstraintData();
-
-    hkpBridgeAtoms m_atoms;                 // +0xC
-    hkpParametricCurve *m_path;             // +0x18
-    hkReal m_maxFrictionForce;              // +0x1C
-    hkEnum<OrientationConstraintType, hkInt8> m_angularConstrainedDOF;   // +0x20
-    hkTransform m_transform_OS_KS[2];       // +0x30
-};
 
 hkpPointToPathConstraintData::hkpPointToPathConstraintData()
     : m_path(HK_NULL),

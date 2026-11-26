@@ -2,18 +2,8 @@
 // hkpMountedBallGun::fireGun (func_82DF21A0). Needs /O2 /QVMXReserve (flag file).
 #include "havok/hkpRigidBody.h"
 #include "havok/hkpRigidBodyCinfo.h"
-
-class hkpSphereShape : public hkpConvexShape {
-public:
-	hkpSphereShape(hkReal radius);
-	hkUint32 m_pad16[3];
-};
-
-class hkpWorld {
-public:
-	char m_pad[0x10];
-	hkVector4 m_gravity;
-};
+#include "havok/hkpSphereShape.h"
+#include "havok/hkpWorld.h"
 
 extern "C" {
 void fn_82DEA600(const hkpShape *shape, hkReal mass, hkpRigidBodyCinfo &ci);

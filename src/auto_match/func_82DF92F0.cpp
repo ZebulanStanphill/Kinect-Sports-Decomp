@@ -2,16 +2,7 @@
 // user-written destructor (??1, fn_82DF9270, defined elsewhere) and frees through the class allocator. The
 // finish constructor below only makes the compiler emit the vtable, and with it the deleting destructor.
 #include "havok/hkBase.h"
-
-class __declspec(align(16)) hkVector4 {
-public:
-    hkReal x, y, z, w;
-};
-
-struct hkpTyremarkPoint {
-    hkVector4 m_pointLeft;
-    hkVector4 m_pointRight;
-};
+#include "havok/hkpTyremarkPoint.h"
 
 class hkpTyremarksWheel : public hkReferencedObject {
 public:

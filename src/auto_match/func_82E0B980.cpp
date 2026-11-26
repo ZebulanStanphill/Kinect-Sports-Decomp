@@ -6,51 +6,38 @@
 // BinaryPackfileData, 100 bytes, whose base hkPackfileData has an out-of-line constructor,
 // fn_82E16A90), m_header, m_sections, m_sectionData (hkInplaceArray<void *, 16>) and four
 // zeroed words at +0x70.
-#include "havok/hkBase.h"
+#include "havok/hkPackfileData.h"
+#include "havok/hkPackfileHeader.h"
+#include "havok/hkPackfileReader.h"
+#include "havok/hkPackfileSectionHeader.h"
 
-class hkPackfileReader : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SERIALIZE);
-    hkPackfileReader();
+class hkPackfileObjectUpdateTracker;
 
-    hkPointerMap<const hkClass *, hkInt32> m_updateFlagFromClass;   // +0x8
-    char *m_contentsVersion;                                       // +0x14
-};
-
-class hkResource : public hkReferencedObject {
-};
-
-class hkPackfileData : public hkResource {
-public:
-    hkPackfileData();
-    char m_data[100 - 8];
-};
-
-struct hkPackfileHeader;
-struct hkPackfileSectionHeader;
-
+// hkBinaryPackfileReader (include/havok/hkBinaryPackfileReader.h) with its constructor inline: the game's
+// constructor is this function, which keeps its fn_ name, so the header's out-of-line declaration cannot
+// be used here.
 class hkBinaryPackfileReader : public hkPackfileReader {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SERIALIZE);
-    HK_FORCE_INLINE hkBinaryPackfileReader()
-        : m_header(HK_NULL), m_sections(HK_NULL), m_tracker(HK_NULL), m_loadedVersion(0), m_unk78(HK_NULL), m_unk7c(HK_NULL)
-    {
-        m_packfileData = new BinaryPackfileData();
-    }
-
     class BinaryPackfileData : public hkPackfileData {
     public:
         BinaryPackfileData() {}
     };
 
-    BinaryPackfileData *m_packfileData;            // +0x18
-    hkPackfileHeader *m_header;                    // +0x1c
-    hkPackfileSectionHeader *m_sections;           // +0x20
-    hkInplaceArray<void *, 16> m_sectionData;      // +0x24
-    void *m_tracker;                               // +0x70
-    int m_loadedVersion;                           // +0x74
-    void *m_unk78;                                 // +0x78
-    void *m_unk7c;                                 // +0x7c
+    HK_FORCE_INLINE hkBinaryPackfileReader()
+        : m_header(HK_NULL), m_sections(HK_NULL), m_streamOffset(0), m_loadedObjects(HK_NULL), m_tracker(HK_NULL)
+    {
+        m_packfileData = new BinaryPackfileData();
+    }
+
+    BinaryPackfileData *m_packfileData;                               // +0x18
+    hkPackfileHeader *m_header;                                       // +0x1C
+    hkPackfileSectionHeader *m_sections;                              // +0x20
+    hkInplaceArray<void *, 16> m_sectionData;                         // +0x24
+    int m_streamOffset;                                               // +0x70
+    mutable hkArray<hkVariant> *m_loadedObjects;                      // +0x74
+    mutable hkPackfileObjectUpdateTracker *m_tracker;                 // +0x78
+    mutable hkRefPtr<hkClassNameRegistry> m_packfileClassRegistry;    // +0x7C
 };
 
 extern "C" hkBinaryPackfileReader *fn_82E0B980(hkBinaryPackfileReader *self)

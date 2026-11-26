@@ -1,16 +1,7 @@
 // hkpCollisionFilterList::~hkpCollisionFilterList (Physics/Collide/Filter/List/hkpCollisionFilterList.cpp):
 // releases every filter, then the filter hkArray (+0x30) and the bases are destroyed (the four filter
 // interfaces' inline destructors store their vtables).
-#include "havok/hkpCollisionFilter.h"
-
-class hkpCollisionFilterList : public hkpCollisionFilter {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    hkpCollisionFilterList(hkFinishLoadedObjectFlag flag);
-    virtual ~hkpCollisionFilterList();
-
-    hkArray<hkpCollisionFilter *> m_collisionFilters;   // +0x30
-};
+#include "havok/hkpCollisionFilterList.h"
 
 hkpCollisionFilterList::~hkpCollisionFilterList()
 {

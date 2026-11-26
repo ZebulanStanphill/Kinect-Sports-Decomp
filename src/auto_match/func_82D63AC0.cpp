@@ -1,3 +1,4 @@
+#include "havok/hkpCapsuleShape.h"
 #include "havok/hkpCdBody.h"
 #include "havok/hkpCdBodyPairCollector.h"
 
@@ -24,11 +25,6 @@ static __forceinline void transformPoints(const hkTransform &t, const hkVector4 
 }
 
 // hkpCapsuleShape (Physics/Collide/Shape/Convex/Capsule/hkpCapsuleShape.h): the two vertices at +0x20.
-class hkpCapsuleShape : public hkpConvexShape {
-public:
-    hkVector4 m_vertices[2];   // +0x20
-};
-
 struct hkpCollisionInput;
 
 struct ClosestResult_82D63AC0 {
@@ -70,9 +66,9 @@ extern "C" void fn_82D63AC0(const hkpCdBody &bodyA, const hkpCdBody &bodyB, cons
     const hkpCapsuleShape *capsA = static_cast<const hkpCapsuleShape *>(bodyA.getShape());
     const hkpCapsuleShape *capsB = static_cast<const hkpCapsuleShape *>(bodyB.getShape());
     hkVector4 pA[2];
-    transformPoints(bodyA.getTransform(), capsA->m_vertices, 2, pA);
+    transformPoints(bodyA.getTransform(), capsA->getVertices(), 2, pA);
     hkVector4 pB[2];
-    transformPoints(bodyB.getTransform(), capsB->m_vertices, 2, pB);
+    transformPoints(bodyB.getTransform(), capsB->getVertices(), 2, pB);
     hkVector4 dA;
     dA.setSub4(pA[1], pA[0]);
     hkVector4 dB;

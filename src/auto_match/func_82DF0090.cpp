@@ -4,6 +4,7 @@
 // applied to body A negated and to body B as is. Wrapped in the "TtDashpot" timer scope.
 #include "havok/hkBase.h"
 #include "havok/hkpRigidBody.h"
+#include "havok/hkpDashpotAction.h"
 
 extern "C" unsigned __int64 __mftb();
 struct hkMonitorStream { void *a; unsigned *next; void *b; unsigned *end; };
@@ -29,23 +30,12 @@ struct hkStepInfo {
 
 extern "C" const float lbl_821456B0;
 
-struct hkpDashpotAction {
-    char m_pad0[0x18];
-    hkpRigidBody *m_entityA;        // +0x18
-    hkpRigidBody *m_entityB;        // +0x1c
-    hkVector4 m_point[2];           // +0x20
-    hkReal m_strength;              // +0x40
-    hkReal m_damping;               // +0x44
-    char m_pad48[8];
-    hkVector4 m_impulse;            // +0x50
-};
-
 extern "C" void fn_82DF0090(hkpDashpotAction *self, const hkStepInfo &stepInfo)
 {
     timer("TtDashpot");
 
-    hkpRigidBody *ra = self->m_entityA;
-    hkpRigidBody *rb = self->m_entityB;
+    hkpRigidBody *ra = static_cast<hkpRigidBody *>(self->m_entityA);
+    hkpRigidBody *rb = static_cast<hkpRigidBody *>(self->m_entityB);
     const hkReal dt = stepInfo.m_deltaTime * lbl_821456B0;
 
     hkVector4 pa;

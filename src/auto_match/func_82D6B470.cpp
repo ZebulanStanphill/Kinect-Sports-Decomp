@@ -1,20 +1,7 @@
 #include "havok/hkBase.h"
 #include "havok/hkpSymmetricAgent.h"
-// RTTI: hkpTransformAgent -> hkpCollisionAgent.
-class hkpTransformAgent : public hkpCollisionAgent {
-public:
-    static hkpCollisionAgent *createTransformBAgent(const hkpCdBody &, const hkpCdBody &, const hkpCollisionInput &,
-                                                    hkpContactMgr *);
-    static hkpCollisionAgent *createTransformAAgent(const hkpCdBody &, const hkpCdBody &, const hkpCollisionInput &,
-                                                    hkpContactMgr *);
-    static void HK_CALL staticGetPenetrations(const hkpCdBody &, const hkpCdBody &, const hkpCollisionInput &,
-                                              hkpCdBodyPairCollector &);
-    static void HK_CALL staticGetClosestPoints(const hkpCdBody &, const hkpCdBody &, const hkpCollisionInput &,
-                                               hkpCdPointCollector &);
-};
+#include "havok/hkpTransformAgent.h"
 extern "C" void fn_82D6AFF0();
-extern "C" void fn_82D6B118();
-extern "C" void fn_82D6B238();
 extern "C" void fn_82D6B688();
 struct AgentFuncs { void *create,*penetrations,*closest,*cast; unsigned char flipped,predictive; char pad[2]; };
 extern "C" void fn_82D59158(void*,const AgentFuncs*,int,int);

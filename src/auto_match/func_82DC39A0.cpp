@@ -15,8 +15,8 @@
 // after `entry` and reassigned in the loop (end = nextNext + sectorSize), and the queue size in the
 // world branch is a local `qsize`.
 #include "havok/hkBase.h"
-#include "havok/hkpConstraintData.h"
 #include "havok/hkpCollisionDispatcher.h"
+#include "havok/hkpConstraintOwner.h"
 
 extern "C" unsigned __int64 __mftb();
 extern "C" void __dcbt(int offset, const void *base);
@@ -67,7 +67,6 @@ public:
 
 extern "C" int lbl_8323B520;
 
-class hkpConstraintInstance;
 class hkpWorld;
 struct hkpProcessCollisionInput;
 struct hkpProcessCollisionOutput;
@@ -199,17 +198,6 @@ public:
 };
 
 extern "C" void fn_82DB0170(hkpConstraintInfo *self, const hkpConstraintInfo *other);   // hkpConstraintInfo::add
-
-class hkpConstraintOwner : public hkReferencedObject {
-public:
-    HK_FORCE_INLINE hkpConstraintOwner() {}
-    virtual void addConstraintToCriticalLockedIsland(hkpConstraintInstance *constraint);
-    virtual void removeConstraintFromCriticalLockedIsland(hkpConstraintInstance *constraint);
-    virtual void addCallbackRequest(hkpConstraintInstance *constraint, int request);
-    virtual void checkAccessRw();
-
-    hkpConstraintInfo m_constraintInfo;   // +0x8
-};
 
 class hkpDeferredConstraintOwner : public hkpConstraintOwner {
 public:

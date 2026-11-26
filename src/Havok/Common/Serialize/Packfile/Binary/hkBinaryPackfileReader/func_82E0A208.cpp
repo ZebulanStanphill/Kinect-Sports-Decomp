@@ -1,16 +1,10 @@
 // hkBinaryPackfileReader.cpp: fills in the class pointer of every variant that lacks one and warns
 // about the objects whose class the registry does not know.
 #include "havok/hkOstream.h"
-
-class hkError : public hkReferencedObject
-{
-  public:
-    virtual int message(int type, int id, const char *text, const char *file, int line);
-};
+#include "havok/hkError.h"
 
 class hkErrStream;
 extern "C" {
-extern hkError *lbl_8323B464;                                  // hkSingleton<hkError>::s_instance
 void *fn_82CEA280(void *registry, void *object, int flags);    // class of an object
 void fn_82CEE578(hkErrStream *stream, void *buf, int bufSize); // hkErrStream::hkErrStream
 }
@@ -51,8 +45,8 @@ extern "C" void fn_82E0A208(Variant_82E0A208 *variants, int count, void *registr
                 *(hkOstream *)&ostr << "Can not find class pointer for an object at 0x" << variant.object << ".\n"
                      << "You will have to set manually corresponding class pointer in the variant. "
                         "Otherwise you have to store metadata in the packfile.";
-                lbl_8323B464->message(1, 0x67fde46, buffer, ".\\Packfile\\Binary\\hkBinaryPackfileReader.cpp",
-                                      0x5d);
+                hkError::getInstance().message(hkError::MESSAGE_WARNING, 0x67fde46, buffer,
+                                               ".\\Packfile\\Binary\\hkBinaryPackfileReader.cpp", 0x5d);
             }
         }
     }

@@ -3,11 +3,7 @@
 // Hierarchy from the RTTI: hkpMoppCode -> hkReferencedObject -> hkBaseObject; only the finish
 // constructors are declared.
 #include "havok/hkBase.h"
-
-class hkpMoppCode : public hkReferencedObject {
-public:
-    hkpMoppCode(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
+#include "havok/hkpMoppCode.h"
 
 const void *HK_CALL getVtablehkpMoppCode()
 {

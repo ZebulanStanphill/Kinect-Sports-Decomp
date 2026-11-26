@@ -3,14 +3,7 @@
 // (RTTI: no bases) whose destructor is user-written and in vtable slot 1;
 // deleting one uses the global operator delete (fn_8265CA20).
 // hkContainerResourceMap: a string map from names to resources at +0x4.
-#include "havok/hkBase.h"
-
-class hkResourceMap {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual void *getObjectByName(const char *objectName, const hkClass **klassOut = HK_NULL) const;   // +0x0 (pure)
-    virtual ~hkResourceMap() {}                                                                    // +0x4
-};
+#include "havok/hkResourceMap.h"
 
 class hkContainerResourceMap : public hkResourceMap {
 public:

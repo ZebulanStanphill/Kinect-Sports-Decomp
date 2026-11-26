@@ -2,13 +2,7 @@
 // Havok's serialization code): the implicit destructor inlined (the member at +0x14, whose destructor is
 // out of line as fn_82E1BDF0, then hkBaseObject's vtable), then the class allocator's delete. It keeps its
 // fn_ name: the anonymous namespace's mangled name (?A0x11ff29d5) cannot be reproduced.
-#include "havok/hkBase.h"
-
-// hkObjectUpdateTracker (Common/Serialize/Util/hkObjectUpdateTracker.h): an interface; only the base matters.
-class hkObjectUpdateTracker : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SERIALIZE);
-};
+#include "havok/hkObjectUpdateTracker.h"
 
 // The member at +0x14: an array of 8-byte elements followed by a map. Its destructor is out of line,
 // fn_82E1BDF0, and keeps its fn_ name (a Matching C unit defines it); the members are declared without

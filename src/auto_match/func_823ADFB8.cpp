@@ -5,6 +5,7 @@
 // Same shape as func_822E8BC8.cpp (Matching).
 #include "havok/hkpRigidBody.h"
 #include "havok/hkpRigidBodyCinfo.h"
+#include "havok/hkpSphereShape.h"
 
 extern "C" __vector4 __VMXGetReg(int n);
 
@@ -23,12 +24,6 @@ struct hkpMassProperties {
     hkReal m_mass;                // +0x04
     hkVector4 m_centerOfMass;     // +0x10
     hkMatrix3 m_inertiaTensor;    // +0x20
-};
-
-class hkpSphereShape : public hkReferencedObject {
-public:
-    hkpSphereShape(hkReal radius);
-    char m_data[24];
 };
 
 extern "C" {

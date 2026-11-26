@@ -3,12 +3,7 @@
 // constructor on an object loaded in place. Hierarchy from the RTTI:
 // hkpPulleyConstraintData -> hkpConstraintData -> hkReferencedObject -> hkBaseObject; only the finish constructors are declared.
 #include "havok/hkBase.h"
-#include "havok/hkpConstraintData.h"
-
-class hkpPulleyConstraintData : public hkpConstraintData {
-public:
-    hkpPulleyConstraintData(hkFinishLoadedObjectFlag flag) : hkpConstraintData(flag) {}
-};
+#include "havok/hkpPulleyConstraintData.h"
 
 void HK_CALL finishLoadedObjecthkpPulleyConstraintData(void *p, int finishing)
 {

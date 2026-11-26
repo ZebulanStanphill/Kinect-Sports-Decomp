@@ -3,12 +3,7 @@
 // Hierarchy from the RTTI: hkpCallbackConstraintMotor -> hkpLimitedForceConstraintMotor -> hkpConstraintMotor -> hkReferencedObject -> hkBaseObject; only the finish
 // constructors are declared.
 #include "havok/hkBase.h"
-#include "havok/hkpConstraintMotor.h"
-
-class hkpCallbackConstraintMotor : public hkpLimitedForceConstraintMotor {
-public:
-    hkpCallbackConstraintMotor(hkFinishLoadedObjectFlag flag) : hkpLimitedForceConstraintMotor(flag) {}
-};
+#include "havok/hkpCallbackConstraintMotor.h"
 
 const void *HK_CALL getVtablehkpCallbackConstraintMotor()
 {

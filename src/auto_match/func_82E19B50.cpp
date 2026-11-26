@@ -3,12 +3,8 @@
 // object body and its extras through an hkOArchive on the stack, padding the
 // output to 16 bytes after each, and reports whether the archive is still ok.
 // The copier's own helpers keep their fn_ names.
-#include "havok/hkBase.h"
-
 #include "havok/hkOArchive.h"
-
-class hkRelocationInfo;
-class hkObjectCopier;
+#include "havok/hkObjectCopier.h"
 
 extern "C" {
 int fn_82E18720(hkObjectCopier *self, const void *dataIn, const hkClass &klassIn, hkOArchive &dataOut,
@@ -17,16 +13,6 @@ void fn_82E182B0(hkStreamWriter *w, int align);                           // wri
 void fn_82E19000(hkObjectCopier *self, const void *dataIn, const hkClass &klassIn, hkOArchive &dataOut,
                  const hkClass &klassOut, int objectStart, hkRelocationInfo &reloc, void *extra);   // saveExtras
 }
-
-class hkObjectCopier : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SERIALIZE);
-    virtual hkResult copyObject(const void *dataIn, const hkClass &klassIn, hkStreamWriter *dataOut,
-                                const hkClass &klassOut, hkRelocationInfo &reloc);
-
-    hkUint8 m_layouts[0xC];   // +0x8 (not needed here)
-    hkBool m_byteSwap;        // +0x14
-};
 
 hkResult hkObjectCopier::copyObject(const void *dataIn, const hkClass &klassIn, hkStreamWriter *dataOut,
                                     const hkClass &klassOut, hkRelocationInfo &reloc)

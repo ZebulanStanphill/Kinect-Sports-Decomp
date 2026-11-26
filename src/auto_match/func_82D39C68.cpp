@@ -3,9 +3,7 @@
 // finish constructor below only makes the compiler emit the vtable and this deleting destructor.
 // RTTI: hkpShapeCollection (hkpShape at +0, hkpShapeContainer at +0x10).
 #include "havok/hkpShape.h"
-
-class hkpConvexPieceStreamData : public hkReferencedObject {
-};
+#include "havok/hkpConvexPieceStreamData.h"
 
 class hkpConvexPieceMeshShape : public hkpShapeCollection {
 public:

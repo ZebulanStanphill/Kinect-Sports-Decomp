@@ -1,5 +1,5 @@
 #include <math.h>
-#include "havok/hkVector4.h"
+#include "havok/hkpLinearParametricCurve.h"
 
 /* hkTransform::getIdentity() (columns), filled at startup */
 extern "C" hkVector4 lbl_8323B1D0[4];
@@ -25,21 +25,6 @@ static __forceinline void calculatePerpendicularVector(const hkVector4 &vectorIn
     biVectorOut(ok1) = vectorIn(ok2);
     biVectorOut(ok2) = -vectorIn(ok1);
 }
-
-class hkpLinearParametricCurve {
-public:
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void getTangent(float t, hkVector4 &tangent);
-    virtual void v6();
-    virtual void v7();
-    virtual void v8();
-    virtual void getBinormal(float t, hkVector4 &up);
-    hkVector4 m_dirNotParallelToTangentAlongWholePath; /* 0x10 (vfptr padded to 16) */
-};
 
 void hkpLinearParametricCurve::getBinormal(float t, hkVector4 &up)
 {

@@ -4,24 +4,8 @@
 // m_name = "..." is hkStringPtr::operator=(const char *) (82CED628).
 // The constructor keeps its fn_ name too (its caller func_82DF2CD8 is otherwise C-matchable): it is forced
 // inline and run on the object by an explicit constructor call, which adds no null check.
-#include "havok/hkpAction.h"
 #include "havok/hkpRigidBody.h"
-
-class hkpMouseSpringAction : public hkpUnaryAction {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_ACTION);
-    typedef void (*mouseSpringAppliedCallback)(hkpMouseSpringAction *, hkReal, const hkVector4 &);
-    HK_FORCE_INLINE hkpMouseSpringAction(hkpRigidBody *rb = HK_NULL);
-
-    hkVector4 m_positionInRbLocal;      // +0x20
-    hkVector4 m_mousePositionInWorld;   // +0x30
-    hkReal m_springDamping;             // +0x40
-    hkReal m_springElasticity;          // +0x44
-    hkReal m_maxRelativeForce;          // +0x48
-    hkReal m_objectDamping;             // +0x4C
-    hkUint32 m_shapeKey;                // +0x50
-    hkArray<mouseSpringAppliedCallback> m_applyCallbacks;   // +0x54
-};
+#include "havok/hkpMouseSpringAction.h"
 
 HK_FORCE_INLINE hkpMouseSpringAction::hkpMouseSpringAction(hkpRigidBody *rb)
     : hkpUnaryAction(rb),

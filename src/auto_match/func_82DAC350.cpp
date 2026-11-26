@@ -2,6 +2,9 @@
 #include "havok/hkpRigidBody.h"
 #include "havok/hkpConstraintInstance.h"
 #include "havok/hkpCollisionDispatcher.h"
+#include "havok/hkpSimpleContactConstraintAtom.h"
+#include "havok/hkpDynamicsContactMgr.h"
+#include "havok/hkpWorld.h"
 
 extern "C" {
 int fn_82DC73A8(int sizeOfAllAtoms);   // the allocation size of a contact atom block (hkpSimpleContactConstraintAtomUtil)
@@ -13,13 +16,6 @@ class hkpDynamicsCpIdMgr {
 public:
     ~hkpDynamicsCpIdMgr();
     hkArray<hkUint8> m_values;   // +0x0
-};
-
-struct hkpSimpleContactConstraintAtom {
-    hkUint16 m_type;                 // +0x0
-    hkUint16 m_sizeOfAllAtoms;       // +0x2
-    hkUint16 m_numContactPoints;     // +0x4
-    hkUint16 m_numReservedContactPoints;   // +0x6
 };
 
 #define C2_HKPCONSTRAINTDATA
@@ -43,40 +39,12 @@ extern "C" {
 void fn_82DBFAA8(void *constraint);   // hkpConstraintCallbackUtil::fireConstraintDeleted(hkpConstraintInstance *)
 }
 
-class hkpContactMgr : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    enum Type {
-        TYPE_SIMPLE_CONSTRAINT_CONTACT_MGR,
-        TYPE_REPORT_CONTACT_MGR,
-        TYPE_CONVEX_LIST_CONTACT_MGR,
-        TYPE_NULL_CONTACT_MGR,
-        TYPE_USER_CONTACT_MGR,
-        TYPE_MAX
-    };
-    hkpContactMgr(Type type) : m_type(type) {}
-
-    Type m_type;   // +0x8
-};
-
-class hkpDynamicsContactMgr : public hkpContactMgr {
-public:
-    hkpDynamicsContactMgr(Type type) : hkpContactMgr(type) {}
-};
-
 // hkpWorldOperationUtil::removeConstraintImmediately(hkpWorld *, hkpConstraintInstance *, FireCallbacks) is
 // out of line (fn_82D8EAD8).
 extern "C" void fn_82D8EAD8(hkpWorld *world, hkpConstraintInstance *constraint, int fireCallbacks);
 
 // hkpConstraintInstance::setPriority(ConstraintPriority) is out of line (fn_82D958D8).
 extern "C" void fn_82D958D8(hkpConstraintInstance *self, hkpConstraintInstance::ConstraintPriority priority);
-
-class hkpWorld {
-public:
-    hkpCollisionDispatcher *getCollisionDispatcher() const { return m_collisionDispatcher; }
-    char m_pad[0x80];
-    hkpCollisionDispatcher *m_collisionDispatcher;   // +0x80
-};
 
 // hkpSimpleConstraintContactMgr (Physics/Dynamics/Collide/hkpSimpleConstraintContactMgr.h).
 class hkpSimpleConstraintContactMgr : public hkpDynamicsContactMgr {

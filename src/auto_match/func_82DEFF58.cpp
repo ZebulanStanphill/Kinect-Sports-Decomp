@@ -4,26 +4,15 @@
 // hkpBinaryAction constructor already has its C++ name.
 // m_strength and m_damping are the literals 0.1f and 0.01f: the rename map names the game's copy of 0.1f
 // (lbl_82186E6C) __real@3dcccccd; an extern lbl_ is reloaded after the vtable store.
-#include "havok/hkBase.h"
-#include "havok/hkVector4.h"
-#include "havok/hkpAction.h"
+#include "havok/hkpDashpotAction.h"
 
-class hkpRigidBody;
-
-class hkpDashpotAction : public hkpBinaryAction {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_DYNAMICS);
-    HK_FORCE_INLINE hkpDashpotAction(hkpRigidBody *entityA, hkpRigidBody *entityB, hkUlong userData)
-        : hkpBinaryAction((hkpEntity *)entityA, (hkpEntity *)entityB, userData), m_strength(0.1f), m_damping(0.01f)
-    {
-        m_point[0].setZero4();
-        m_point[1].setZero4();
-    }
-
-    hkVector4 m_point[2];   // +0x20
-    hkReal m_strength;      // +0x40
-    hkReal m_damping;       // +0x44
-};
+// Forced inline, so that the explicit constructor call below compiles to the constructor's body.
+HK_FORCE_INLINE hkpDashpotAction::hkpDashpotAction(hkpRigidBody *entityA, hkpRigidBody *entityB, hkUlong userData)
+    : hkpBinaryAction((hkpEntity *)entityA, (hkpEntity *)entityB, userData), m_strength(0.1f), m_damping(0.01f)
+{
+    m_point[0].setZero4();
+    m_point[1].setZero4();
+}
 
 extern "C" hkpDashpotAction *fn_82DEFF58(hkpDashpotAction *self, hkpRigidBody *entityA, hkpRigidBody *entityB,
                                          hkUlong userData)

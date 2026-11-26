@@ -3,14 +3,7 @@
 // fn_82D3ABF8), which are plain C, can still be matched; it is therefore written
 // out by hand: the out-of-line destructor (renamed ??1hkpNullCollisionFilter@@UAA@XZ), then the
 // class allocator.
-#include "havok/hkpCollisionFilter.h"
-
-class hkpNullCollisionFilter : public hkpCollisionFilter {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    hkpNullCollisionFilter(hkFinishLoadedObjectFlag flag) : hkpCollisionFilter(flag) {}
-    virtual ~hkpNullCollisionFilter();
-};
+#include "havok/hkpNullCollisionFilter.h"
 
 extern "C" hkpNullCollisionFilter *fn_82D3ABF8(hkpNullCollisionFilter *self, unsigned int flags)
 {

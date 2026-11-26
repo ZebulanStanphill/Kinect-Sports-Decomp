@@ -1,18 +1,9 @@
 #include "havok/hkBase.h"
 #include "havok/hkpCachingShapePhantom.h"
 #include "havok/hkpCollisionAgent.h"
-#include "havok/hkpConstraintData.h"
+#include "havok/hkpConstraintOwner.h"
 
 #pragma intrinsic(__vxor)
-
-// hkpConstraintOwner (Physics/Dynamics/Constraint/hkpConstraintOwner.h), 0x18 bytes; the collision agents'
-// cleanup takes one. Its constructor leaves m_constraintInfo alone.
-class hkpConstraintOwner : public hkReferencedObject {
-public:
-    hkpConstraintOwner() {}
-
-    hkpConstraintInfo m_constraintInfo;   // +0x8
-};
 
 hkpCachingShapePhantom::~hkpCachingShapePhantom()
 {

@@ -4,12 +4,11 @@
 #include "havok/hkBase.h"
 #include "havok/hkpConstraintListener.h"
 #include "havok/hkpWorldDeletionListener.h"
+#include "havok/hkpWorld.h"
 
 class CallbackMap;
 
 extern "C" {
-void fn_82D841E0(hkpWorld *world, hkpWorldDeletionListener *l);   // hkpWorld::addWorldDeletionListener
-void fn_82D83D30(hkpWorld *world, hkpConstraintListener *l);      // hkpWorld::addConstraintListener
 void fn_82DC82A8(CallbackMap *map, hkpWorld *world);
 }
 
@@ -28,15 +27,6 @@ public:
 
     int m_count;          // +0x10
     CallbackMap m_map;    // +0x14
-};
-
-class hkpWorld {
-public:
-    void addWorldDeletionListener(hkpWorldDeletionListener *l) { fn_82D841E0(this, l); }
-    void addConstraintListener(hkpConstraintListener *l) { fn_82D83D30(this, l); }
-
-    char pad[0x1c0];
-    hkpCollisionCallbackUtil *m_collisionCallbackUtil;   // +0x1c0
 };
 
 extern "C" void fn_82DB4298(hkpWorld *world)

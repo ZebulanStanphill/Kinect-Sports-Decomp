@@ -3,17 +3,7 @@
 // Hierarchy from the RTTI: hkpPlaneShape -> hkpHeightFieldShape -> hkpShape -> hkReferencedObject -> hkBaseObject; only the finish
 // constructors are declared.
 #include "havok/hkBase.h"
-#include "havok/hkpShape.h"
-
-class hkpHeightFieldShape : public hkpShape {
-public:
-    hkpHeightFieldShape(hkFinishLoadedObjectFlag flag) : hkpShape(flag) {}
-};
-
-class hkpPlaneShape : public hkpHeightFieldShape {
-public:
-    hkpPlaneShape(hkFinishLoadedObjectFlag flag) : hkpHeightFieldShape(flag) {}
-};
+#include "havok/hkpPlaneShape.h"
 
 const void *HK_CALL getVtablehkpPlaneShape()
 {

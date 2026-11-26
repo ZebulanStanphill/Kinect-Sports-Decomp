@@ -1,16 +1,7 @@
 // hkpBreakableConstraintData scalar deleting destructor, generated from the destructor below
 // (Physics/Dynamics/Constraint/Breakable/hkpBreakableConstraintData.cpp; ~ is fn_82D98468, inlined here).
 #include "havok/hkBase.h"
-#include "havok/hkpConstraintData.h"
-
-class hkpBreakableConstraintData : public hkpConstraintData {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);
-    virtual ~hkpBreakableConstraintData();
-
-    char m_atoms[0xC];                    // +0xC  hkpBridgeAtoms
-    hkpConstraintData *m_constraintData;  // +0x18
-};
+#include "havok/hkpBreakableConstraintData.h"
 
 hkpBreakableConstraintData::~hkpBreakableConstraintData()
 {

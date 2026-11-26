@@ -5,31 +5,7 @@
 // container (which adds a reference to the collection), then the AABB rejection flag.
 // hkpBvTreeShape::m_bvTreeType is an hkEnum<BvTreeType, hkUint8>: initialised through hkEnum's constructor,
 // its store is scheduled with hkpShape's member stores, ahead of the vtable store.
-#include "havok/hkpShape.h"
-#include "havok/hkEnum.h"
-
-// hkpBvTreeShape (Physics/Collide/Shape/Compound/Tree/hkpBvTreeShape.h): hkpShape, then the tree type (+0x10).
-class hkpBvTreeShape : public hkpShape {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SHAPE);
-    enum BvTreeType { BVTREE_MOPP, BVTREE_TRISAMPLED_HEIGHTFIELD, BVTREE_USER };
-    HK_FORCE_INLINE hkpBvTreeShape(hkpShapeType type, BvTreeType bvType) : hkpShape(type), m_bvTreeType(bvType) {}
-
-    hkEnum<BvTreeType, hkUint8> m_bvTreeType;   // +0x10
-};
-
-class hkpTriSampledHeightFieldCollection;
-
-// 0x24 bytes: the collection is held in an hkpSingleShapeContainer (+0x14).
-class hkpTriSampledHeightFieldBvTreeShape : public hkpBvTreeShape {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SHAPE);
-    hkpTriSampledHeightFieldBvTreeShape(const hkpTriSampledHeightFieldCollection *c, hkBool doAabbRejection);
-
-    hkpSingleShapeContainer m_childContainer;   // +0x14
-    int m_childSize;                            // +0x1C
-    hkBool m_wantAabbRejectionTest;             // +0x20
-};
+#include "havok/hkpTriSampledHeightFieldBvTreeShape.h"
 
 hkpTriSampledHeightFieldBvTreeShape::hkpTriSampledHeightFieldBvTreeShape(const hkpTriSampledHeightFieldCollection *c,
                                                                          hkBool doAabbRejection)

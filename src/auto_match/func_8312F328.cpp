@@ -9,23 +9,9 @@
 // lbl_82137C70 + 0x14 as lbl_82137C70 (as for the original object, where it is external); the code is the same
 // under any name. Havok code: /O2 (flag file).
 #include "havok/hkBase.h"
+#include "havok/hkInternalClassMember.h"
 
-class hkClassEnum;
 class hkClassMember;
-class hkCustomAttributes;
-
-// hkInternalClassEnumItem / hkInternalClassEnum (Common/Base/Reflection/hkInternalClassMember.h)
-struct hkInternalClassEnumItem {
-    int m_value;
-    const char *m_name;
-};
-struct hkInternalClassEnum {
-    const char *m_name;
-    const hkInternalClassEnumItem *m_items;
-    int m_numItems;
-    const hkCustomAttributes *m_attributes;
-    hkUint32 m_flags;
-};
 
 extern "C" {
 extern hkClass lbl_8323C3D4;                          // hkpBvTreeShapeClass (constructed here)

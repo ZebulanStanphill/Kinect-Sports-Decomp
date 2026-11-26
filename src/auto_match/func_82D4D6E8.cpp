@@ -4,16 +4,7 @@
 // references ??_G directly; the adjustment is plain arithmetic (a static_cast adds a null check).
 // The classes and their bases are those of the game's RTTI (??_R2 base class arrays), at their
 // RTTI offsets; padding stands for members this unit does not use. The thunk keeps its fn_ name.
-#include "havok/hkReferencedObject.h"
-class hkpMoppModifier {
-public:
-    virtual ~hkpMoppModifier();
-};
-class hkpRemoveTerminalsMoppModifier : public hkReferencedObject, public hkpMoppModifier {
-public:
-
-};
-
+#include "havok/hkpRemoveTerminalsMoppModifier.h"
 extern "C" void *fn_82D4D6E8(hkpMoppModifier *self, unsigned int flags)
 {
     hkpRemoveTerminalsMoppModifier *obj = (hkpRemoveTerminalsMoppModifier *)((char *)self - 0x8);

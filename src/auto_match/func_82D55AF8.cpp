@@ -15,19 +15,6 @@
 // constructors call reset(), which sets m_earlyOut = false / m_earlyOutDistance = HK_REAL_MAX. The game's
 // HK_REAL_MAX constant is __real@7f7fffee (3.40282e38f).
 #include "havok/hkpSymmetricAgent.h"
-
-class hkpBvTreeAgent;
-extern "C" {
-void fn_82D583A0(hkpBvTreeAgent *self, const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpLinearCastCollisionInput &input, hkpCdPointCollector &collector, hkpCdPointCollector *startCollector);   // hkpBvTreeAgent::linearCast
-}
-
-class hkpBvTreeAgent : public hkpCollisionAgent {
-public:
-    hkpBvTreeAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpContactMgr *mgr);
-    virtual void linearCast(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpLinearCastCollisionInput &input, hkpCdPointCollector &collector, hkpCdPointCollector *startCollector)
-    {
-        fn_82D583A0(this, bodyA, bodyB, input, collector, startCollector);
-    }
-};
+#include "havok/hkpBvTreeAgent.h"
 
 template void hkpSymmetricAgent<hkpBvTreeAgent>::linearCast(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpLinearCastCollisionInput &input, hkpCdPointCollector &collector, hkpCdPointCollector *startCollector);

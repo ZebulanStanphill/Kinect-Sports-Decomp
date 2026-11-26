@@ -11,22 +11,8 @@
 // label inside lbl_821382C8 (the decomp's 0x20-byte object covering both),
 // as it does for the original's lbl_821382C8+0x14 reference.
 #include "havok/hkBase.h"
-class hkClassEnum;
+#include "havok/hkInternalClassMember.h"
 class hkClassMember;
-class hkCustomAttributes;
-
-struct hkInternalClassEnumItem {
-    int m_value;
-    const char *m_name;
-};
-
-struct hkInternalClassEnum {
-    const char *m_name;
-    const hkInternalClassEnumItem *m_items;
-    int m_numItems;
-    const hkCustomAttributes *m_attributes;
-    hkUint32 m_flags;
-};
 
 extern "C" {
 extern hkClass lbl_8323C614;                            // hkpShapeCollectionClass

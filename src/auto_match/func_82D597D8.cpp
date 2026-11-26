@@ -2,9 +2,7 @@
 // debug tables are freed first, then the contact manager factories (8x8 table at +0xC) are released; the
 // hkArray at +0x1E24 (8-byte items) is then destroyed.
 #include "havok/hkpCollisionDispatcher.h"
-
-class hkpContactMgrFactory : public hkReferencedObject {
-};
+#include "havok/hkpContactMgrFactory.h"
 
 hkpCollisionDispatcher::~hkpCollisionDispatcher()
 {

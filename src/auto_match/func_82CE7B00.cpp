@@ -3,7 +3,8 @@
 // handler singletons, initialises the other singletons, and marks the base
 // system initialised. It keeps its fn_ name (a static function, called from C).
 #include "havok/hkBase.h"
-#include "havok/hkFileSystem.h"
+#include "havok/hkError.h"
+#include "havok/hkNativeFileSystem.h"
 
 typedef void (HK_CALL *hkErrorReportFunction)(const char *s, void *errorReportObject);
 
@@ -13,30 +14,6 @@ void fn_82CF9A90(void);
 void fn_82CE7968(void);                      // hkBaseSystem::initSingletons
 extern hkUint8 lbl_8323B21C;                 // hkBaseSystem's "initialised" flag
 }
-
-class hkNativeFileSystem : public hkFileSystem {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_BASE);
-    hkNativeFileSystem() {}
-    virtual hkStreamReader *openReader(const char *name);
-    virtual hkStreamWriter *openWriter(const char *name);
-    virtual hkResult listDirectory(const char *basePath, DirectoryListing &listingOut);
-};
-
-class hkError : public hkReferencedObject {
-public:
-    hkError() {}
-};
-
-class hkDefaultError : public hkError {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_BASE);
-    hkDefaultError(hkErrorReportFunction errorReportFunction, void *errorReportObject);
-    hkUint8 m_members[0x20];   // +0x8 (not needed here)
-};
-
-// The singletons' instances (hkSingleton<T>::s_instance).
-extern "C" hkError *lbl_8323B464;
 
 class hkSingletonInitialiser : public hkReferencedObject {
 public:

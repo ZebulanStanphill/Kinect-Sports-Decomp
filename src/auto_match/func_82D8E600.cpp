@@ -10,8 +10,7 @@
 #include "havok/hkEnum.h"
 #include "havok/hkAabb.h"
 #include "havok/hkpCollisionInput.h"
-
-class hkWorldMemoryAvailableWatchDog : public hkReferencedObject {};
+#include "havok/hkWorldMemoryAvailableWatchDog.h"
 
 // hkRefPtr with Havok's operator=(TYPE *): the new object gains a reference before the old
 // one loses its own (the shared header has no assignment operator).

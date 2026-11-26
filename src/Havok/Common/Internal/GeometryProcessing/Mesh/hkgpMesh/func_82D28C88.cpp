@@ -12,8 +12,7 @@
 // - The operand order of the pair loops' add/lwzx (array base first) follows the function's symbol numbering:
 //   the named tolerance and the pair reference in the trimming loop are needed for it.
 #include "havok/hkOstream.h"
-
-extern "C" void fn_8265CA20(void *p);   // global operator delete
+#include "havok/hkAabbTreeQueryUtils.h"
 
 // hkErrStream (Common/Base/System/Io/OStream/hkOStream.h) derives from hkOstream: its constructor is out of
 // line and keeps its fn_ name, called on the object directly; operator<< and the destructor are hkOstream's.
@@ -45,34 +44,6 @@ HK_FORCE_INLINE hkError &HK_CALL hkError::getInstance() { return *lbl_8323B464; 
         hkError::getInstance().message(hkError::MESSAGE_REPORT, -1, reportBuf, ".\\GeometryProcessing\\Mesh\\hkgpMesh.cpp", LINE); \
     } while (0)
 
-struct hkAabbTreeData {
-    struct hkAabbTreeAabb;
-};
-
-template <typename BOUNDING_VOLUME, typename IDX>
-class hkAabbTreeQueryUtils {
-public:
-    struct Node {
-        char m_pad[0x20];
-        void *m_data;   // +0x20
-    };
-    struct NodePair {
-        const Node *m_a;
-        const Node *m_b;
-    };
-    class TreeTreeCollector {
-    public:
-        static void operator delete(void *p) { fn_8265CA20(p); }
-        virtual ~TreeTreeCollector() {}
-        virtual void processPair(const Node *a, const Node *b);
-    };
-    class TreeTreeNodePairCollector : public TreeTreeCollector {
-    public:
-        HK_FORCE_INLINE TreeTreeNodePairCollector(hkArray<NodePair> &pairs) : m_pairs(&pairs) {}
-        virtual void processPair(const Node *a, const Node *b);
-        hkArray<NodePair> *m_pairs;
-    };
-};
 typedef hkAabbTreeQueryUtils<hkAabbTreeData::hkAabbTreeAabb, unsigned int> QueryUtils;
 
 class hkgpMesh;
@@ -167,8 +138,8 @@ extern "C" hkgpMesh *fn_82D28C88(hkgpMesh *self, const void *source)
             fn_82D38888(mesh->m_trianglesTree, mesh->m_trianglesTree, &collector);
         }
         for (int i = 0; i < pairs.getSize(); ++i) {
-            Triangle *ta = (Triangle *)pairs[i].m_a->m_data;
-            Triangle *tb = (Triangle *)pairs[i].m_b->m_data;
+            Triangle *ta = (Triangle *)pairs[i].m_a->m_indices[0];
+            Triangle *tb = (Triangle *)pairs[i].m_b->m_indices[0];
             if (fn_82D25CC0(self, ta, mesh, tb, tolerance)) {
                 again = true;
                 changed = true;
@@ -187,8 +158,8 @@ extern "C" hkgpMesh *fn_82D28C88(hkgpMesh *self, const void *source)
         }
         for (int i = 0; i < pairs.getSize(); ++i) {
             const QueryUtils::NodePair &pair = pairs[i];
-            Triangle *a = (Triangle *)pair.m_a->m_data;
-            Triangle *b = (Triangle *)pair.m_b->m_data;
+            Triangle *a = (Triangle *)pair.m_a->m_indices[0];
+            Triangle *b = (Triangle *)pair.m_b->m_indices[0];
             if (indexOf(removed, a) == -1 && indexOf(removed, b) == -1 &&
                 fn_82D1F788(a, b->m_vertices[0]->m_position) && fn_82D1F788(a, b->m_vertices[1]->m_position) &&
                 fn_82D1F788(a, b->m_vertices[2]->m_position) && fn_82D1F788(b, a->m_vertices[0]->m_position) &&

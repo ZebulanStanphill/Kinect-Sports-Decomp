@@ -6,28 +6,13 @@
 // destructor, which stores ??_7hkpContactListener@@6B@; the object is freed
 // with the global operator delete.
 #include "havok/hkBase.h"
+#include "havok/hkpContactListener.h"
 
 extern "C" {
-void fn_8265CA20(void *p);    // global operator delete
 void fn_8251E400(void *p);
 void fn_8259C558(void *p);
 extern void *lbl_821C8024[];
 }
-
-class hkpContactPointAddedEvent;
-class hkpContactPointConfirmedEvent;
-class hkpContactPointRemovedEvent;
-class hkpContactProcessEvent;
-
-class hkpContactListener {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual void contactPointAddedCallback(hkpContactPointAddedEvent &event) {}
-    virtual void contactPointConfirmedCallback(hkpContactPointConfirmedEvent &event) {}
-    virtual void contactPointRemovedCallback(hkpContactPointRemovedEvent &event) {}
-    virtual ~hkpContactListener() {}
-    virtual void contactProcessCallback(hkpContactProcessEvent &event) {}
-};
 
 // VC10 std::vector storage (_Myfirst, _Mylast, _Myend) and its _Tidy.
 struct Vec {

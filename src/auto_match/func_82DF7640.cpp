@@ -1,7 +1,6 @@
 #include "havok/hkBase.h"
-struct hkpSimpleContactConstraintDataInfo { unsigned short flags,index; int data[7]; hkpSimpleContactConstraintDataInfo():flags(0),index(3) {for(int i=0;i<7;++i) data[i]=0;} };
-struct hkpSimpleContactConstraintAtom { unsigned short type;char pad[14];hkpSimpleContactConstraintDataInfo info; hkpSimpleContactConstraintAtom():type(22) {} };
-struct hkpSerializedTrack1nInfo { hkArray<void *> sectors; hkArray<void *> subTracks; };
+#include "havok/hkpSerializedTrack1nInfo.h"
+#include "havok/hkpSimpleContactConstraintAtom.h"
 class hkpSerializedAgentNnEntry : public hkReferencedObject {
 public:
  HK_FORCE_INLINE hkpSerializedAgentNnEntry():a(0),b(0),c(-1),d(-1),flag(false),endian(0x103),version(1) {}

@@ -1,19 +1,5 @@
 #include "havok/hkBase.h"
-extern "C" void fn_8265CA20(void *);
-struct hkAabbTreeData { struct __declspec(align(16)) hkAabbTreeAabb { float data[8]; hkAabbTreeAabb() {} }; };
-struct Node { char prefix[0x20]; void *value; };
-template<typename BOUNDING_VOLUME,typename IDX> class hkAabbTreeQueryUtils { public:
- class Collector { public:
- static void operator delete(void *p) { fn_8265CA20(p); }
- virtual ~Collector() {}
- virtual void addLeaf(IDX);
- };
- class AllHitsNodeCollector : public Collector { public:
- HK_FORCE_INLINE AllHitsNodeCollector(hkArray<Node *> &a) : hits(a) {}
- virtual void addLeaf(IDX);
- hkArray<Node *> &hits;
- };
-};
+#include "havok/hkAabbTreeQueryUtils.h"
 typedef hkAabbTreeQueryUtils<hkAabbTreeData::hkAabbTreeAabb,unsigned> Query;
 class Shape { public: virtual void f0(); virtual void f1(); virtual void f2(); virtual hkAabbTreeData::hkAabbTreeAabb getAabb() const; };
 class hkgpMesh { public:
@@ -39,10 +25,10 @@ class Output : public hkArrayBase<void *> { public: HK_FORCE_INLINE void push(vo
 } };
 
 extern "C" void fn_82D22B50(hkgpMesh *self,const Shape *shape,hkArrayBase<void *> *out) {
- hkArray<Node *> hits;
+ hkArray<const Query::Node *> hits;
  { Query::AllHitsNodeCollector collector(hits); fn_82D38870((char *)self+0x720,shape->getAabb(),&collector); }
  for (int i=0;i<hits.getSize();i++) {
-  hkgpMesh::TriangleShape triangle(hits[i]->value);
+  hkgpMesh::TriangleShape triangle((void *)hits[i]->m_indices[0]);
   if (self->overlap->distance(shape,&triangle,1)<=0.0f) ((Output*)out)->push(triangle.value);
  }
 }

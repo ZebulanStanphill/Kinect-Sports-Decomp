@@ -1,24 +1,9 @@
 // hkpPhysicsData::createWorld(hkBool registerAllAgents), keeping its fn_ name.
 // Layouts are partial (only the members the function touches).
 #include "havok/hkBase.h"
-
-class hkpWorldCinfo : public hkReferencedObject {
-public:
-    char p8[0x50];
-    hkRefPtr<hkReferencedObject> m_collisionFilter;    // +0x58
-    hkRefPtr<hkReferencedObject> m_convexListFilter;   // +0x5c
-    char p60[0xc];
-    hkRefPtr<hkReferencedObject> m_memoryWatchDog;     // +0x6c
-    char p70[0x70];
-    HK_FORCE_INLINE ~hkpWorldCinfo() {}
-};
-
-class hkpWorld : public hkReferencedObject {
-public:
-    char p8[0x78];
-    void *m_collisionDispatcher;                       // +0x80
-    char rest[0x2cc];
-};
+#include "havok/hkpWorld.h"
+#include "havok/hkpPhysicsSystem.h"
+#include "havok/hkpWorldCinfo.h"
 
 struct hkpSaveContactPointsUtil {
     struct LoadPointsInput {
@@ -28,15 +13,6 @@ struct hkpSaveContactPointsUtil {
         HK_FORCE_INLINE LoadPointsInput()
             : m_a(false), m_b(false), m_x(0), m_c(true), m_d(true), m_e(false) {}
     };
-};
-
-class hkpPhysicsSystem {
-public:
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual hkBool hasContacts();
 };
 
 extern "C" {

@@ -5,17 +5,7 @@
 // deriving from it are in an anonymous namespace of hkBinaryPackfileWriter.cpp
 // (?A0x11ff29d5), whose mangled names a unit cannot reproduce, so their
 // functions keep their fn_ names. Members before the maps are not known.
-#include "havok/hkBase.h"
-
-class hkObjectInspector {
-public:
-    class ObjectListener {
-    public:
-        static void operator delete(void *p) { fn_8265CA20(p); }
-        virtual ~ObjectListener() {}
-        virtual int objectCallback(const void *objP, const hkClass &klass, void *p) = 0;
-    };
-};
+#include "havok/hkObjectInspector.h"
 
 namespace {
 

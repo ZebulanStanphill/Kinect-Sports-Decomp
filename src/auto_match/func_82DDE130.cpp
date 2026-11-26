@@ -1,11 +1,7 @@
 // hkpDefaultToiResourceMgr::hkpDefaultToiResourceMgr() (Physics/Dynamics/World/Simulation/Continuous/
 // hkpDefaultToiResourceMgr.cpp): a 128 KB default scratchpad.
 #include "havok/hkBase.h"
-
-class hkpToiResourceMgr : public hkReferencedObject {
-public:
-    hkpToiResourceMgr() {}
-};
+#include "havok/hkpToiResourceMgr.h"
 
 class hkpDefaultToiResourceMgr : public hkpToiResourceMgr {
 public:

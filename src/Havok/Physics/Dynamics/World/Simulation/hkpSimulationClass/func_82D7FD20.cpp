@@ -3,11 +3,7 @@
 // Hierarchy from the RTTI: hkpSimulation -> hkReferencedObject -> hkBaseObject; only the finish
 // constructors are declared.
 #include "havok/hkBase.h"
-
-class hkpSimulation : public hkReferencedObject {
-public:
-    hkpSimulation(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
+#include "havok/hkpSimulation.h"
 
 const void *HK_CALL getVtablehkpSimulation()
 {

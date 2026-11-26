@@ -5,9 +5,7 @@
 // constructors are out of line: hkpGskfAgent's, hkpConvexListAgent's (82D5C050) and
 // hkpShapeCollectionAgent's.
 #include "havok/hkBase.h"
-#include "havok/hkpCollisionInput.h"
-
-class hkpContactMgr;
+#include "havok/hkpShapeCollectionAgent.h"
 
 #define AGENT_ALLOCATOR \
     static HK_FORCE_INLINE void *operator new(unsigned n) \
@@ -48,13 +46,6 @@ public:
         : AGENT(bodyB, bodyA, input, mgr)
     {
     }
-};
-
-class hkpShapeCollectionAgent : public hkReferencedObject {
-public:
-    hkpShapeCollectionAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpContactMgr *mgr);
-
-    char m_data[0x30];
 };
 
 extern "C" void *fn_82D5C608(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpContactMgr *mgr)

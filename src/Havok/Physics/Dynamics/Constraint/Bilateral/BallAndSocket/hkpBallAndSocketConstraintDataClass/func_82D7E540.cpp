@@ -3,12 +3,7 @@
 // Hierarchy from the RTTI: hkpBallAndSocketConstraintData -> hkpConstraintData -> hkReferencedObject -> hkBaseObject; only the finish
 // constructors are declared.
 #include "havok/hkBase.h"
-#include "havok/hkpConstraintData.h"
-
-class hkpBallAndSocketConstraintData : public hkpConstraintData {
-public:
-    hkpBallAndSocketConstraintData(hkFinishLoadedObjectFlag flag) : hkpConstraintData(flag) {}
-};
+#include "havok/hkpBallAndSocketConstraintData.h"
 
 const void *HK_CALL getVtablehkpBallAndSocketConstraintData()
 {

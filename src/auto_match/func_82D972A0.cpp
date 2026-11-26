@@ -6,71 +6,9 @@
 // configured lbl_ names so that the compiler may schedule their loads like constants (an extern
 // declaration keeps the HK_REAL_MAX load after the stores).
 #include "havok/hkBase.h"
-#include "havok/hkTransform.h"
-#include "havok/hkpConstraintAtom.h"
-#include "havok/hkpConstraintData.h"
+#include "havok/hkpPrismaticConstraintData.h"
 
 // The game's 1.0f keeps its lbl_ name (Matching units reference it).
-
-struct hkpSetLocalTransformsConstraintAtom : public hkpConstraintAtom {
-    HK_FORCE_INLINE hkpSetLocalTransformsConstraintAtom() : hkpConstraintAtom(TYPE_SET_LOCAL_TRANSFORMS) {}
-    hkTransform m_transformA;   // +0x10
-    hkTransform m_transformB;   // +0x50
-};
-
-class hkpConstraintMotor;
-struct hkpLinMotorConstraintAtom : public hkpConstraintAtom {
-    HK_FORCE_INLINE hkpLinMotorConstraintAtom() : hkpConstraintAtom(TYPE_LIN_MOTOR), m_isEnabled(true), m_initializedOffset(0), m_previousTargetPositionOffset(0) {}
-    hkBool m_isEnabled;
-    hkUint8 m_motorAxis;
-    hkInt16 m_initializedOffset;
-    hkInt16 m_previousTargetPositionOffset;
-    hkReal m_targetPosition;
-    hkpConstraintMotor *m_motor;
-};
-
-struct hkpLinFrictionConstraintAtom : public hkpConstraintAtom {
-    HK_FORCE_INLINE hkpLinFrictionConstraintAtom() : hkpConstraintAtom(TYPE_LIN_FRICTION), m_isEnabled(true) {}
-    hkUint8 m_isEnabled;
-    hkUint8 m_frictionAxis;
-    hkReal m_maxFrictionForce;
-};
-
-struct hkpAngConstraintAtom : public hkpConstraintAtom {
-    HK_FORCE_INLINE hkpAngConstraintAtom() : hkpConstraintAtom(TYPE_ANG) {}
-    hkUint8 m_firstConstrainedAxis;
-    hkUint8 m_numConstrainedAxes;
-};
-
-struct hkpLinConstraintAtom : public hkpConstraintAtom {
-    HK_FORCE_INLINE hkpLinConstraintAtom() : hkpConstraintAtom(TYPE_LIN) {}
-    hkUint8 m_axisIndex;
-};
-
-struct hkpLinLimitConstraintAtom : public hkpConstraintAtom {
-    HK_FORCE_INLINE hkpLinLimitConstraintAtom() : hkpConstraintAtom(TYPE_LIN_LIMIT) {}
-    hkUint8 m_axisIndex;
-    hkReal m_min;
-    hkReal m_max;
-};
-
-class hkpPrismaticConstraintData : public hkpConstraintData {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);
-    HK_FORCE_INLINE hkpPrismaticConstraintData();
-
-    struct Atoms {
-        HK_FORCE_INLINE Atoms() {}
-        hkpSetLocalTransformsConstraintAtom m_transforms;   // +0x10
-        hkpLinMotorConstraintAtom m_motor;                  // +0xa0
-        hkpLinFrictionConstraintAtom m_friction;            // +0xb0
-        hkpAngConstraintAtom m_ang;                         // +0xb8
-        hkpLinConstraintAtom m_lin0;                        // +0xbc
-        hkpLinConstraintAtom m_lin1;                        // +0xc0
-        hkpLinLimitConstraintAtom m_linLimit;               // +0xc4
-    };
-    Atoms m_atoms;
-};
 
 HK_FORCE_INLINE hkpPrismaticConstraintData::hkpPrismaticConstraintData()
 {

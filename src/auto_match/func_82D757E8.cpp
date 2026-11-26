@@ -4,11 +4,7 @@
 // hkpGskfAgent -> hkpGskBaseAgent -> hkpIterativeLinearCastAgent -> hkpCollisionAgent -> hkReferencedObject.
 #include "havok/hkBase.h"
 #include "havok/hkpIterativeLinearCastAgent.h"
-
-class hkpGskCache {
-public:
-    hkUint8 m_data[0xC];   // +0x0
-};
+#include "havok/hkpGskCache.h"
 
 class hkpGskBaseAgent : public hkpIterativeLinearCastAgent {
 public:

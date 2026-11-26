@@ -2,9 +2,6 @@
 #include "havok/hkBase.h"
 #include "havok/hkpMotion.h"
 
-class hkpParametricCurve : public hkReferencedObject {
-};
-
 hkpKeyframedRigidMotion::~hkpKeyframedRigidMotion()
 {
     if (m_savedMotion)

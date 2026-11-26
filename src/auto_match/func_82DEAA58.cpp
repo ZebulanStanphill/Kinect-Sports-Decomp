@@ -1,9 +1,9 @@
 #include "havok/hkBase.h"
+#include "havok/hkpMoppModifier.h"
 struct Shape { char pad[0xc]; int type; char p10[4]; void *code; char p18[0x1c]; Shape *child; };
 struct Record { int p0, a, b, c, d, e, f, g; };
 struct Entity { char pad[0x10]; Shape *shape; char p14[0x3c]; unsigned short count; char p52[2]; Record *records; };
 struct Bits { unsigned int *data; };
-class hkpMoppModifier { public: virtual ~hkpMoppModifier(); };
 class hkpRemoveTerminalsMoppModifier : public hkReferencedObject, public hkpMoppModifier {
 public:
  virtual ~hkpRemoveTerminalsMoppModifier();

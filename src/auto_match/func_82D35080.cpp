@@ -15,15 +15,7 @@
 // Built with /O2 /QVMXReserve.
 #include "havok/hkBase.h"
 #include "havok/hkVector4.h"
-
-namespace hkAabbTreeData {
-struct hkAabbTreeAabb {
-    char m_data[0x30];
-};
-struct hkAabbTreeAabb16 {
-    char m_data[0x14];
-};
-}
+#include "havok/hkAabbTreeData.h"
 
 template <typename BOUNDING_VOLUME, typename IDXTYPE>
 class hkAabbTree {

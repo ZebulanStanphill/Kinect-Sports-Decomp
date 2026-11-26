@@ -60,18 +60,7 @@ typedef hkUint16 hkContactPointId;
 #define HK_INVALID_CONTACT_POINT 0xffff
 
 #include "havok/hkpSymmetricAgent.h"
-
-class hkpMultiRayShape : public hkpShape {
-public:
-    struct Ray {
-        hkReal m_start[4];
-        hkReal m_end[4];
-    };
-    const hkArray<Ray> &getRays() const { return m_rays; }
-
-    hkArray<Ray> m_rays;              // +0x10
-    hkReal m_rayPenetrationDistance;  // +0x1C
-};
+#include "havok/hkpMultiRayShape.h"
 
 class hkpMultiRayConvexAgent : public hkpIterativeLinearCastAgent {
 public:

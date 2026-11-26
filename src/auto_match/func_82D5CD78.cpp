@@ -1,12 +1,7 @@
 #include "havok/hkBase.h"
 #include "havok/hkpSymmetricAgent.h"
+#include "havok/hkpShapeCollectionAgent.h"
 
-class hkpShapeCollectionAgent : public hkpCollisionAgent {
-public:
-    hkpShapeCollectionAgent(const hkpCdBody &, const hkpCdBody &, const hkpCollisionInput &, hkpContactMgr *);
-    char pad[0x2c];
-};
-class hkpGskfAgent;
 class hkpGskfAgent : public hkpCollisionAgent {
 public:
     hkpGskfAgent(const hkpCdBody &a, const hkpCdBody &b, hkpContactMgr *m);

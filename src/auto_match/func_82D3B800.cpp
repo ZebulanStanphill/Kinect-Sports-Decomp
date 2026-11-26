@@ -6,38 +6,17 @@
 // extern "C" function that runs the constructor on the given storage (MSVC's explicit constructor call;
 // placement new would add a null check).
 #include "havok/hkBase.h"
-#include "havok/hkpShape.h"
+#include "havok/hkpTriSampledHeightFieldBvTreeShape.h"
 
-class hkpBvTreeShape : public hkpShape {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SHAPE);
-    enum BvTreeType { BVTREE_MOPP, BVTREE_TRISAMPLED_HEIGHTFIELD, BVTREE_USER };
-    hkpBvTreeShape(hkFinishLoadedObjectFlag flag) : hkpShape(flag)
-    {
-        if (flag.m_finishing) {
-            m_type = hkpShapeType(8);
-            m_bvTreeType = BVTREE_USER;
-        }
+// The header declares the constructor; it is defined here, HK_FORCE_INLINE, or the explicit call stays a call.
+HK_FORCE_INLINE hkpTriSampledHeightFieldBvTreeShape::hkpTriSampledHeightFieldBvTreeShape(hkFinishLoadedObjectFlag flag)
+    : hkpBvTreeShape(flag), m_childContainer(flag)
+{
+    if (flag.m_finishing) {
+        m_type = HK_SHAPE_BV_TREE;
+        m_bvTreeType = BVTREE_TRISAMPLED_HEIGHTFIELD;
     }
-
-    hkUint8 m_bvTreeType;   // +0x10 hkEnum<BvTreeType, hkUint8>
-};
-
-class hkpTriSampledHeightFieldBvTreeShape : public hkpBvTreeShape {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SHAPE);
-    hkpTriSampledHeightFieldBvTreeShape(hkFinishLoadedObjectFlag flag) : hkpBvTreeShape(flag), m_childContainer(flag)
-    {
-        if (flag.m_finishing) {
-            m_type = hkpShapeType(8);
-            m_bvTreeType = BVTREE_TRISAMPLED_HEIGHTFIELD;
-        }
-    }
-
-    hkpSingleShapeContainer m_childContainer;   // +0x14
-    int m_childSize;                            // +0x1C
-    hkBool m_wantAabbRejectionTest;             // +0x20
-};
+}
 
 extern "C" hkpTriSampledHeightFieldBvTreeShape *fn_82D3B800(hkpTriSampledHeightFieldBvTreeShape *self,
                                                            hkFinishLoadedObjectFlag flag)

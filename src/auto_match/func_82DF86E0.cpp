@@ -4,44 +4,11 @@
 // differently). The contact data info's init() zeroes its 7 words in a loop.
 #include "havok/hkBase.h"
 #include "havok/hkEnum.h"
-#include "havok/hkpConstraintAtom.h"
 #include "havok/hkContactPoint.h"
+#include "havok/hkpSerializedTrack1nInfo.h"
+#include "havok/hkpSimpleContactConstraintAtom.h"
 
 class hkpEntity;
-
-class __declspec(align(16)) hkpSimpleContactConstraintDataInfo {
-public:
-    HK_FORCE_INLINE hkpSimpleContactConstraintDataInfo() { init(); }
-    HK_FORCE_INLINE void init()
-    {
-        m_flags = 0;
-        m_index = 3;
-        for (int i = 0; i < 7; ++i)
-            m_data[i] = 0;
-    }
-    hkUint16 m_flags;     // +0x0
-    hkUint16 m_index;     // +0x2
-    hkUint32 m_data[7];   // +0x4
-};
-
-struct hkpSimpleContactConstraintAtom : public hkpConstraintAtom {
-    HK_FORCE_INLINE hkpSimpleContactConstraintAtom() : hkpConstraintAtom(TYPE_CONTACT) {}
-    hkUint16 m_sizeOfAllAtoms;                  // +0x2
-    hkUint16 m_numContactPoints;                // +0x4
-    hkUint16 m_numReservedContactPoints;        // +0x6
-    hkUint8 m_numUserDatasForBodyA;             // +0x8
-    hkUint8 m_numUserDatasForBodyB;             // +0x9
-    hkUint8 m_contactPointPropertiesStriding;   // +0xa
-    hkUint16 m_maxNumContactPoints;             // +0xc
-    hkpSimpleContactConstraintDataInfo m_info;  // +0x10
-};
-
-struct hkpAgent1nSector;
-struct hkpSerializedSubTrack1nInfo;
-struct hkpSerializedTrack1nInfo {
-    hkArray<hkpAgent1nSector *> m_sectors;                 // +0x0
-    hkArray<hkpSerializedSubTrack1nInfo *> m_subTracks;    // +0xc
-};
 
 class hkpSerializedAgentNnEntry : public hkReferencedObject {
 public:

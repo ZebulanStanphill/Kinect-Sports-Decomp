@@ -6,16 +6,7 @@
 // ??_G, with the destructor inlined into it, is too big to inline (with the destructor only declared, /O2 inlines it).
 // The class declarations are those of func_82DC3688.cpp; the destructor is defined inline here so that this unit
 // does not define ??1hkpConstraintCollisionFilter@@UAA@XZ a second time.
-#include "havok/hkpConstraintListener.h"
-#include "havok/hkpPairCollisionFilter.h"
-
-// RTTI: hkpPairCollisionFilter at +0x0, hkpConstraintListener at +0x40.
-class hkpConstraintCollisionFilter : public hkpPairCollisionFilter, public hkpConstraintListener {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    hkpConstraintCollisionFilter(hkFinishLoadedObjectFlag flag) : hkpPairCollisionFilter(flag) {}
-    virtual ~hkpConstraintCollisionFilter();
-};
+#include "havok/hkpConstraintCollisionFilter.h"
 
 inline hkpConstraintCollisionFilter::~hkpConstraintCollisionFilter()
 {

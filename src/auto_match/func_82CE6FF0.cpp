@@ -5,10 +5,10 @@
 // fn_82CE5430) are opaque structs with inline wrapper constructors; the hkThreadMemory array is constructed
 // by the compiler's inline array loop calling ??0hkThreadMemory@@QAA@XZ (fn_82CF7428, func_82CF7428.cpp).
 #include "havok/hkBase.h"
+#include "havok/hkCriticalSection.h"
 
 extern "C" {
 void fn_82CF9730(void *self, hkMemoryAllocator *server);   // hkFreeListAllocator(server)
-void fn_82CEFBD0(void *self, int spinCount);               // hkCriticalSection(spinCount)
 void fn_82CE72E8(void *self);
 void fn_82CE5430(void *self);
 extern hkMemoryAllocator *lbl_8323B210;
@@ -29,12 +29,6 @@ struct hkFreeListAllocator {
     hkUint8 m_data[0x900];
 };
 
-class hkCriticalSection {
-public:
-    HK_FORCE_INLINE hkCriticalSection(int spinCount = 0) { fn_82CEFBD0(this, spinCount); }
-    hkUint8 m_data[0x34];
-};
-
 class hkLeakDetectAllocator : public hkMemoryAllocator {
 public:
     HK_FORCE_INLINE hkLeakDetectAllocator() : m_x(HK_NULL) {}
@@ -44,6 +38,7 @@ public:
     hkArray<void *> m_allocs;        // +0x8
     void *m_x;                       // +0x14
     hkCriticalSection m_section;     // +0x18
+    hkUint8 m_unknown34[0x18];       // +0x34: not named by this unit
 };
 
 struct Unk96C {

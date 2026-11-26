@@ -8,13 +8,13 @@
 // here as static objects, laid out as in the game. The defaults' name starts with LAB_ only so that objdiff's
 // pooled-data guess reads lbl_821350C0 + 0x1e0 as lbl_821350C0 (as for the original object, where both are
 // external); the code is the same under any name.
-typedef unsigned char hkUint8;
+#include "havok/hkInternalClassMember.h"
 
 extern "C" {
 extern const char lbl_8323B834[];   // hkpCompressedMeshShapeClass (the hkClass constructed here)
 extern const char lbl_8323C614[];   // hkpShapeCollectionClass (the parent)
 extern const char lbl_83180778[];   // hkpCompressedMeshShape's 21 members (hkInternalClassMember[])
-extern const char lbl_82135098[];   // the MaterialType enum's 5 items (hkInternalClassEnumItem[])
+extern const hkInternalClassEnumItem lbl_82135098[];   // the MaterialType enum's 5 items
 extern const char lbl_8200BEF0[];   // the member name "b" (a string symbols.txt has no ??_C@ name for)
 extern const char lbl_8200BEFC[];   // the member name "a" (a string symbols.txt has no ??_C@ name for)
 extern const char lbl_8201261C[];   // the member name "c" (a string symbols.txt has no ??_C@ name for)
@@ -25,28 +25,6 @@ void fn_82CEB3D8(const void *self, const char *className, const void *parentClas
                  int numDeclaredEnums, const void *declaredMembers, int numDeclaredMembers, const void *defaults,
                  const void *attributes, unsigned flags, unsigned version);
 }
-
-// hkInternalClassEnum (Common/Base/Reflection/hkInternalClassMember.h)
-struct hkInternalClassEnum {
-    const char *m_name;
-    const void *m_items;
-    int m_numItems;
-    const void *m_attributes;
-    unsigned m_flags;
-};
-
-// hkInternalClassMember (the same header): one record per reflected member.
-struct hkInternalClassMember {
-    const char *m_name;
-    const void *m_class;
-    const void *m_enum;
-    hkUint8 m_type;
-    hkUint8 m_subtype;
-    short m_cArraySize;
-    unsigned short m_flags;
-    unsigned short m_offset;
-    const void *m_attributes;
-};
 
 // hkpCompressedMeshShapeEnums (lbl_821350C0), then the member lists of the nested classes Chunk
 // (lbl_821350D8), BigTriangle (lbl_82135198) and ConvexPiece (lbl_82135210), as the game has them: this

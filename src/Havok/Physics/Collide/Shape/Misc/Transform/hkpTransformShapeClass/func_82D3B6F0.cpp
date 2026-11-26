@@ -3,12 +3,7 @@
 // Hierarchy from the RTTI: hkpTransformShape -> hkpShape -> hkReferencedObject -> hkBaseObject; only the finish
 // constructors are declared.
 #include "havok/hkBase.h"
-#include "havok/hkpShape.h"
-
-class hkpTransformShape : public hkpShape {
-public:
-    hkpTransformShape(hkFinishLoadedObjectFlag flag) : hkpShape(flag) {}
-};
+#include "havok/hkpTransformShape.h"
 
 const void *HK_CALL getVtablehkpTransformShape()
 {

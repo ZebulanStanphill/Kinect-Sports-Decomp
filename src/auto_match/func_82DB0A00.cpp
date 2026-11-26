@@ -1,10 +1,9 @@
 // Ray cast through the kd-tree and the AABB tree (self: +0xc AABB tree, +0x10 kd-tree, +0x24 use AABB tree).
 // A local keeps the 1.0f in f31 across the calls, as in the original.
 #include "havok/hkpCollisionFilter.h"
-class __declspec(align(16)) hkVector4 { public: float m_quad[4]; };
-struct hkpWorldRayCastInput { hkVector4 m_from; hkVector4 m_to; };
-class hkpRayHitCollector;
-
+#include "havok/hkpAabbTreeCollidableRaycaster.h"
+#include "havok/hkpKdTreeCollidableRaycaster.h"
+#include "havok/hkpWorldRayCastInput.h"
 struct hkpShapeRayCastCollectorOutput {
 	hkVector4 m_normal;
 	hkReal m_hitFraction;
@@ -23,39 +22,12 @@ struct hkpWorldRayCastOutput : public hkpShapeRayCastOutput {
 	HK_FORCE_INLINE hkpWorldRayCastOutput(hkReal one) : hkpShapeRayCastOutput(one) { m_rootCollidable = 0; }
 };
 
-// Four hkAabbTreeQueryUtils<...>::Collector bases (vtables at +0..+0xc); constructor out of line.
-class hkpAabbTreeCollidableRaycaster {
-public:
-	hkpAabbTreeCollidableRaycaster();
-	void *m_vtbl[4];
-	const hkpWorldRayCastInput *m_input;
-	const hkpRayCollidableFilter *m_filter;
-	const hkpRayShapeCollectionFilter *m_shapeFilter;
-	hkpWorldRayCastOutput *m_output;
-	hkpRayHitCollector *m_collector;
-	hkReal m_earlyOut;
-};
-
-class hkKdTreeCastCollector {
-public:
-	virtual ~hkKdTreeCastCollector() {}
-	virtual void castRay();
-};
-class hkpKdTreeCollidableRaycaster : public hkKdTreeCastCollector {
-public:
-	HK_FORCE_INLINE hkpKdTreeCollidableRaycaster() {}
-	const hkpWorldRayCastInput *m_input;
-	const hkpRayCollidableFilter *m_filter;
-	const hkpRayShapeCollectionFilter *m_shapeFilter;
-	hkpWorldRayCastOutput *m_output;
-	hkpRayHitCollector *m_collector;
-};
-
 struct KdTree;
 struct AabbTree;
 // Returns hkBool through a hidden pointer (the 1-byte temporary at 0x50).
 extern "C" hkBool fn_83084210(KdTree *, const hkVector4 &, const hkVector4 &, hkpKdTreeCollidableRaycaster *);
-extern "C" void fn_82D378E8(AabbTree *, const hkVector4 &, const hkVector4 &, void *, float);
+typedef hkAabbTreeQueryUtils<hkAabbTreeData::hkAabbTreeAabb16, hkUint16>::Collector AabbCollector;
+extern "C" void fn_82D378E8(AabbTree *, const hkVector4 &, const hkVector4 &, AabbCollector *, float);
 
 struct Self {
 	char pad[0xc];
@@ -71,7 +43,7 @@ extern "C" void fn_82DB0A00(Self *self, const hkpWorldRayCastInput &input, const
 	caster.m_input = &input;
 	caster.m_collector = collector;
 	caster.m_filter = filter;
-	caster.m_shapeFilter = filter;
+	caster.m_shapeCollectionFilter = filter;
 	hkReal one = 1.0f;
 	hkpWorldRayCastOutput output(one);
 	caster.m_output = &output;
@@ -80,11 +52,11 @@ extern "C" void fn_82DB0A00(Self *self, const hkpWorldRayCastInput &input, const
 		kdCaster.m_input = &input;
 		kdCaster.m_collector = collector;
 		kdCaster.m_filter = filter;
-		kdCaster.m_shapeFilter = filter;
+		kdCaster.m_shapeCollectionFilter = filter;
 		hkpWorldRayCastOutput kdOutput(one);
 		kdCaster.m_output = &kdOutput;
 		fn_83084210(self->m_kdTree, input.m_from, input.m_to, &kdCaster);
 	}
 	if (self->m_useAabbTree)
-		fn_82D378E8(self->m_aabbTree, input.m_from, input.m_to, &caster.m_vtbl[1], one);
+		fn_82D378E8(self->m_aabbTree, input.m_from, input.m_to, static_cast<AabbCollector *>(&caster), one);
 }

@@ -1,13 +1,8 @@
 // finishLoadedObjecthkxVertexSelectionChannel: the finish function in hkxVertexSelectionChannel's hkTypeInfo, from Havok's
 // HK_REFLECTION_DEFINE_VIRTUAL (static in Havok). It runs the finish
 // constructor on an object loaded in place. Hierarchy from the RTTI:
-// hkxVertexSelectionChannel -> hkReferencedObject -> hkBaseObject; only the finish constructors are declared.
-#include "havok/hkBase.h"
-
-class hkxVertexSelectionChannel : public hkReferencedObject {
-public:
-    hkxVertexSelectionChannel(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
+// hkxVertexSelectionChannel -> hkReferencedObject -> hkBaseObject.
+#include "havok/hkxVertexSelectionChannel.h"
 
 void HK_CALL finishLoadedObjecthkxVertexSelectionChannel(void *p, int finishing)
 {

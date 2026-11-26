@@ -4,12 +4,8 @@
 // original), so these functions are written out under their fn_ names as
 // explicit destructor calls on the extern "C" objects; a definition of the
 // object would duplicate the data symbol.
-#include "havok/hkpCollisionAgent.h"
 #include "havok/hkStaticClassNameRegistry.h"
-
-class hkpNullAgent : public hkpCollisionAgent {
-public:
-};
+#include "havok/hkpNullAgent.h"
 
 // hkGeometryProcessing::IFunction / ConstFunction
 // (Common/Internal/GeometryProcessing/hkGeometryProcessing.h): a root

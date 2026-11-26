@@ -7,33 +7,17 @@
 // the given storage (MSVC's explicit constructor call; placement new would add a null check). The constructor
 // is HK_FORCE_INLINE, or the explicit call stays a call.
 #include "havok/hkBase.h"
-#include "havok/hkVector4.h"
-#include "havok/hkpShape.h"
+#include "havok/hkpTriSampledHeightFieldCollection.h"
 
-class hkpSampledHeightFieldShape;
-
-class hkpTriSampledHeightFieldCollection : public hkpShapeCollection {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SHAPE);
-    HK_FORCE_INLINE hkpTriSampledHeightFieldCollection(hkFinishLoadedObjectFlag flag)
-        : hkpShapeCollection(flag), m_weldingInfo(flag)
-    {
-        if (flag.m_finishing) {
-            m_type = hkpShapeType(7);
-            m_collectionType = COLLECTION_TRISAMPLED_HEIGHTFIELD;
-        }
+// The header declares the constructor; it is defined here.
+HK_FORCE_INLINE hkpTriSampledHeightFieldCollection::hkpTriSampledHeightFieldCollection(hkFinishLoadedObjectFlag flag)
+    : hkpShapeCollection(flag), m_weldingInfo(flag)
+{
+    if (flag.m_finishing) {
+        m_type = HK_SHAPE_COLLECTION;
+        m_collectionType = COLLECTION_TRISAMPLED_HEIGHTFIELD;
     }
-    virtual int getNumChildShapes() const;
-    virtual hkpShapeKey getFirstKey() const;
-    virtual hkpShapeKey getNextKey(hkpShapeKey oldKey) const;
-    virtual const hkpShape *getChildShape(hkpShapeKey key, hkpShapeBuffer &buffer) const;
-
-    const hkpSampledHeightFieldShape *m_heightfield;   // +0x18
-    int m_childSize;                                    // +0x1C
-    hkReal m_radius;                                    // +0x20
-    hkArray<hkUint16> m_weldingInfo;                    // +0x24
-    hkVector4 m_triangleExtrusion;                      // +0x30
-};
+}
 
 extern "C" hkpTriSampledHeightFieldCollection *fn_82D3B8F0(hkpTriSampledHeightFieldCollection *self,
                                                           hkFinishLoadedObjectFlag flag)

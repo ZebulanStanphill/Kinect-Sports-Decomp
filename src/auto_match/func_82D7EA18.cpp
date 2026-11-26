@@ -3,12 +3,7 @@
 // (written out by hand, as for func_82D3A580).
 // RTTI: hkpConstraintChainInstance : hkpConstraintInstance : hkReferencedObject; only the primary base matters here.
 #include "havok/hkBase.h"
-
-class hkpConstraintChainInstance : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_BASE);
-    virtual ~hkpConstraintChainInstance();
-};
+#include "havok/hkpConstraintChainInstance.h"
 
 extern "C" hkpConstraintChainInstance *fn_82D7EA18(hkpConstraintChainInstance *self, unsigned int flags)
 {

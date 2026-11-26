@@ -1,5 +1,5 @@
 #include "havok/hkBase.h"
-class hkpConstraintOwner : public hkReferencedObject { public: char pad[24]; };
+#include "havok/hkpConstraintOwner.h"
 struct __declspec(align(16)) Context { unsigned __int64 words[10]; };
 class Action { public:
  virtual void s0(); virtual void s1(); virtual void s2(); virtual void s3();

@@ -2,23 +2,7 @@
 // (hkpSpringAction.cpp). Kept as an extern "C" function under its fn_ name with an explicit self;
 // classes as in func_82DEEEB8.cpp.
 #include "havok/hkBase.h"
-#include "havok/hkVector4.h"
-#include "havok/hkpAction.h"
-
-class hkpPhantom;
-
-class hkpSpringAction : public hkpBinaryAction {
-public:
-    hkpSpringAction(hkpEntity *entityA, hkpEntity *entityB, hkUlong userData);
-    hkVector4 m_lastForce;          // +0x20
-    hkVector4 m_positionAinA;       // +0x30
-    hkVector4 m_positionBinB;       // +0x40
-    hkReal m_restLength;            // +0x50
-    hkReal m_strength;              // +0x54
-    hkReal m_damping;               // +0x58
-    hkBool m_onCompression;         // +0x5c
-    hkBool m_onExtension;           // +0x5d
-};
+#include "havok/hkpSpringAction.h"
 
 extern "C" hkpAction *fn_82DF5430(const hkpSpringAction *self, const hkArray<hkpEntity *> &newEntities,
                                    const hkArray<hkpPhantom *> &newPhantoms)

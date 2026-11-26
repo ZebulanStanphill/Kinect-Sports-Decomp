@@ -4,20 +4,7 @@
 // collectors have no class allocator, so deleting frees through the global operator delete, fn_8265CA20.
 // The function at the end only makes the compiler emit the vtable.
 #include "havok/hkBase.h"
-
-extern "C" void fn_8265CA20(void *p);   // global operator delete
-
-class hkpCdBody;
-struct hkpShapeRayCastCollectorOutput;
-
-class hkpRayHitCollector {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual void addRayHit(const hkpCdBody &cdBody, const hkpShapeRayCastCollectorOutput &hitInfo);   // pure in Havok
-    virtual ~hkpRayHitCollector() {}
-
-    hkReal m_earlyOutHitFraction;   // +0x4
-};
+#include "havok/hkpRayHitCollector.h"
 
 class hkpClosestRayHitCollector : public hkpRayHitCollector {
 public:

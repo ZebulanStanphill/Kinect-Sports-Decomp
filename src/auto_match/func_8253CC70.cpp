@@ -1,7 +1,7 @@
 #include "havok/hkBase.h"
 #include "havok/hkAabb.h"
-#include "havok/hkpPhantomOverlapListener.h"
-#include "havok/hkpWorldDeletionListener.h"
+#include "havok/hkpCollisionListener.h"
+#include "havok/hkpBroadPhaseBorder.h"
 
 class hkpBreakOffPartsListener;
 
@@ -40,24 +40,6 @@ public:
     int m_nextFreeSystemGroup;              // +0x30
     hkUint32 m_collisionLookupTable[32];    // +0x34
     hkUint8 m_pad[0x100 - 0xb4];
-};
-
-class hkpCollisionListener {
-public:
-    HK_FORCE_INLINE hkpCollisionListener() {}
-    virtual ~hkpCollisionListener() {}
-};
-
-class hkpWorldPostSimulationListener { public: virtual ~hkpWorldPostSimulationListener() {} };
-
-// hkpBroadPhaseBorder (fn_82D8DDB8 is its constructor, ??0hkpBroadPhaseBorder@@QAA@PAVhkpWorld@@HVhkBool@@@Z).
-class hkpBroadPhaseBorder : public hkReferencedObject, public hkpWorldDeletionListener, public hkpPhantomOverlapListener, public hkpWorldPostSimulationListener {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_DYNAMICS);
-    hkpBroadPhaseBorder(hkpWorld *world, int type, hkBool postponeAndSortCallbacks);
-    virtual void worldDeletedCallback(hkpWorld *world);
-    virtual void collidableAddedCallback(const hkpCollidableAddedEvent &event);
-    virtual void collidableRemovedCallback(const hkpCollidableRemovedEvent &event);
 };
 
 extern "C" {

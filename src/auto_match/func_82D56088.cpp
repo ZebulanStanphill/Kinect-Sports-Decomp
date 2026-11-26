@@ -5,25 +5,9 @@
 // HK_REAL_MAX is a literal: the game's copy is __real@7f7fffee, which Matching units reference, so it is a
 // static constant with that name (an extern is reloaded after the array stores).
 #include "havok/hkBase.h"
-#include "havok/hkAabb.h"
-#include "havok/hkpCollisionAgent.h"
+#include "havok/hkpBvTreeAgent.h"
 
 // HK_REAL_MAX (3.40282e+38f); the game's copy keeps its lbl_ name (see above).
-
-struct hkpBvAgentEntryInfo {
-    hkpShapeKey m_key;
-    hkInt32 m_userInfo;
-    hkpCollisionAgent *m_collisionAgent;
-};
-
-class hkpBvTreeAgent : public hkpCollisionAgent {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    hkpBvTreeAgent(hkpContactMgr *mgr);
-
-    hkArray<hkpBvAgentEntryInfo> m_collisionPartners;   // +0xC
-    hkAabb m_cachedAabb;                                // +0x20
-};
 
 hkpBvTreeAgent::hkpBvTreeAgent(hkpContactMgr *mgr) : hkpCollisionAgent(mgr)
 {

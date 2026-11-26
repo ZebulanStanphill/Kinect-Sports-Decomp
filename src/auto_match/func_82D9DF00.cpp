@@ -1,39 +1,6 @@
 // hkpGenericConstraintData::hkpGenericConstraintData(hkFinishLoadedObjectFlag) (Physics/Dynamics/Constraint/Bilateral/Generic/hkpGenericConstraintData.cpp). It keeps its fn_ name (the Matching getVtable unit func_82D7EF50 calls it), so it is defined inline and expanded below.
 #include "havok/hkBase.h"
-#include "havok/hkVector4.h"
-#include "havok/hkpConstraintMotor.h"
-#include "havok/hkpConstraintAtom.h"
-#include "havok/hkpConstraintData.h"
-
-class hkpConstraintModifier;
-
-// The finish constructor and the (implicit) destructor are out of line:
-// fn_82DA5F38 and fn_82D801A8.
-class hkpGenericConstraintDataScheme {
-public:
-    hkpGenericConstraintDataScheme(hkFinishLoadedObjectFlag f);
-    ~hkpGenericConstraintDataScheme();
-
-    hkpConstraintInfo m_info;                          // +0x0
-    hkArray<hkVector4> m_data;                         // +0x10
-    hkArray<int> m_commands;                           // +0x1C
-    hkArray<hkpConstraintModifier *> m_modifiers;      // +0x28
-    hkArray<hkpConstraintMotor *> m_motors;            // +0x34
-};
-
-class hkpGenericConstraintData : public hkpConstraintData {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);
-    hkpGenericConstraintData(hkFinishLoadedObjectFlag f) : hkpConstraintData(f), m_atoms(f), m_scheme(f)
-    {
-        if (f.m_finishing)
-            m_atoms.m_bridgeAtom.init(this);
-    }
-    virtual ~hkpGenericConstraintData();
-
-    hkpBridgeAtoms m_atoms;                     // +0xC
-    hkpGenericConstraintDataScheme m_scheme;    // +0x18
-};
+#include "havok/hkpGenericConstraintData.h"
 
 extern "C" hkpGenericConstraintData *fn_82D9DF00(hkpGenericConstraintData *self, hkFinishLoadedObjectFlag f)
 {

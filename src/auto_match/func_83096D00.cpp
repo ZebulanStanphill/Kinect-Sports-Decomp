@@ -3,46 +3,14 @@
 // the early-out hit fraction (1.0f) at +0x24.
 // The original source used the literal 1.0f, whose load the compiler schedules above the vtable
 // stores (it knows the constant cannot change).
-#include "havok/hkBase.h"
-
-struct hkAabbTreeData {
-    struct hkAabbTreeAabb;
-    struct hkAabbTreeAabb16;
-};
-
-template <typename BOUNDING_VOLUME, typename IDX>
-class hkAabbTreeQueryUtils {
-public:
-    class Collector {
-    public:
-        static void operator delete(void *p) { fn_8265CA20(p); }
-        virtual ~Collector() {}
-    };
-};
-
-class hkpAabbTreeCollidableRaycaster : public hkAabbTreeQueryUtils<hkAabbTreeData::hkAabbTreeAabb, hkUint16>::Collector,
-                                       public hkAabbTreeQueryUtils<hkAabbTreeData::hkAabbTreeAabb16, hkUint16>::Collector,
-                                       public hkAabbTreeQueryUtils<hkAabbTreeData::hkAabbTreeAabb, hkUint32>::Collector,
-                                       public hkAabbTreeQueryUtils<hkAabbTreeData::hkAabbTreeAabb16, hkUint32>::Collector {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    hkpAabbTreeCollidableRaycaster();
-    virtual ~hkpAabbTreeCollidableRaycaster();
-
-    void *m_a;
-    void *m_b;
-    void *m_c;
-    void *m_d;
-    void *m_e;
-    hkReal m_earlyOutHitFraction;
-};
+#include "havok/hkpAabbTreeCollidableRaycaster.h"
 
 hkpAabbTreeCollidableRaycaster::hkpAabbTreeCollidableRaycaster()
 {
     m_earlyOutHitFraction = 1.0f;
-    m_a = 0;
-    m_b = 0;
-    m_c = 0;
-    m_d = 0;
-    m_e = 0;
+    m_input = HK_NULL;
+    m_filter = HK_NULL;
+    m_shapeCollectionFilter = HK_NULL;
+    m_output = HK_NULL;
+    m_collector = HK_NULL;
 }

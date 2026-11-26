@@ -10,19 +10,6 @@
 // constructors call reset(), which sets m_earlyOut = false / m_earlyOutDistance = HK_REAL_MAX. The game's
 // HK_REAL_MAX constant is __real@7f7fffee (3.40282e38f).
 #include "havok/hkpSymmetricAgent.h"
-
-class hkpMultiSphereAgent;
-extern "C" {
-void fn_82D6CF80(hkpMultiSphereAgent *self, const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpLinearCastCollisionInput &input, hkpCdPointCollector &collector, hkpCdPointCollector *startCollector);   // hkpMultiSphereAgent::linearCast
-}
-
-class hkpMultiSphereAgent : public hkpCollisionAgent {
-public:
-    hkpMultiSphereAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpContactMgr *mgr);
-    virtual void linearCast(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpLinearCastCollisionInput &input, hkpCdPointCollector &collector, hkpCdPointCollector *startCollector)
-    {
-        fn_82D6CF80(this, bodyA, bodyB, input, collector, startCollector);
-    }
-};
+#include "havok/hkpMultiSphereAgent.h"
 
 template void hkpSymmetricAgent<hkpMultiSphereAgent>::linearCast(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpLinearCastCollisionInput &input, hkpCdPointCollector &collector, hkpCdPointCollector *startCollector);

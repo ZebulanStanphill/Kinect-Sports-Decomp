@@ -1,17 +1,16 @@
 // finishLoadedObjecthkpDefaultWorldMemoryWatchDog: the finish function in hkpDefaultWorldMemoryWatchDog's hkTypeInfo, from Havok's
 // HK_REFLECTION_DEFINE_VIRTUAL (static in Havok). It runs the finish
 // constructor on an object loaded in place. Hierarchy from the RTTI:
-// hkpDefaultWorldMemoryWatchDog -> hkWorldMemoryAvailableWatchDog -> hkReferencedObject -> hkBaseObject; only the finish constructors are declared.
+// hkpDefaultWorldMemoryWatchDog -> hkWorldMemoryAvailableWatchDog -> hkReferencedObject -> hkBaseObject; only the finish constructors and the overrides are declared.
 #include "havok/hkBase.h"
-
-class hkWorldMemoryAvailableWatchDog : public hkReferencedObject {
-public:
-    hkWorldMemoryAvailableWatchDog(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
+#include "havok/hkWorldMemoryAvailableWatchDog.h"
 
 class hkpDefaultWorldMemoryWatchDog : public hkWorldMemoryAvailableWatchDog {
 public:
     hkpDefaultWorldMemoryWatchDog(hkFinishLoadedObjectFlag flag) : hkWorldMemoryAvailableWatchDog(flag) {}
+    virtual hkInt32 getAmountOfFreeHeapMemoryRequested();
+    virtual void freeHeapMemoryTillRequestedAmountIsAvailable(hkpWorld *world);
+    virtual void slot14(void *arg);
 };
 
 void HK_CALL finishLoadedObjecthkpDefaultWorldMemoryWatchDog(void *p, int finishing)

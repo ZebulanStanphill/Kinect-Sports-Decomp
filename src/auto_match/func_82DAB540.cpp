@@ -1,42 +1,13 @@
 // hkpReportContactMgr::Factory::createContactMgr (Physics/Dynamics/Collide/ContactListener/Util/hkpReportContactMgr.cpp): the owners of the two collidables, then new with the constructor inlined (defined inline here).
 #include "havok/hkBase.h"
 #include "havok/hkpRigidBody.h"
-
-class hkpCollisionInput;
+#include "havok/hkpDynamicsContactMgr.h"
+#include "havok/hkpContactMgrFactory.h"
 
 class hkMath {
 public:
     template <typename T>
     static HK_FORCE_INLINE T HK_CALL min2(T a, T b) { return a < b ? a : b; }
-};
-
-// hkpContactMgr (Physics/Collide/Agent/ContactMgr/hkpContactMgr.h) and hkpDynamicsContactMgr.
-class hkpContactMgr : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    enum Type {
-        TYPE_SIMPLE_CONSTRAINT_CONTACT_MGR,
-        TYPE_REPORT_CONTACT_MGR,
-        TYPE_CONVEX_LIST_CONTACT_MGR,
-        TYPE_NULL_CONTACT_MGR,
-        TYPE_USER_CONTACT_MGR,
-        TYPE_MAX
-    };
-    hkpContactMgr(Type type) : m_type(type) {}
-
-    Type m_type;   // +0x8
-};
-
-class hkpDynamicsContactMgr : public hkpContactMgr {
-public:
-    hkpDynamicsContactMgr(Type type) : hkpContactMgr(type) {}
-};
-
-class hkpContactMgrFactory : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    virtual hkpContactMgr *createContactMgr(const hkpCollidable &a, const hkpCollidable &b,
-                                            const hkpCollisionInput &env);
 };
 
 // hkpReportContactMgr (Physics/Dynamics/Collide/ContactListener/Util/hkpReportContactMgr.h), 0x1C bytes.

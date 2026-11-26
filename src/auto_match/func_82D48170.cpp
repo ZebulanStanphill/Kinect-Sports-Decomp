@@ -4,8 +4,7 @@
 // HK_REAL_MAX and -HK_REAL_MAX are literals (__real@7f7fffee, __real@ff7fffee); 1.0f / 65535.0f is a
 // literal too (__real@37800080).
 // The array is reached through a local reference, which places the address computation as in the original.
-#include "havok/hkpShape.h"
-#include "havok/hkVector4.h"
+#include "havok/hkpCompressedSampledHeightFieldShape.h"
 
 extern "C" double __fsel(double a, double b, double c);
 
@@ -32,54 +31,6 @@ static HK_FORCE_INLINE void setSize(hkArray<T> &self, int n)
     _reserve(self, alloc, n);
     self.m_size = n;
 }
-
-class hkpHeightFieldShape : public hkpShape {
-public:
-    hkpHeightFieldShape(hkpShapeType type) : hkpShape(type) {}
-    virtual void collideSpheres(const void *input, void *outputArray) const;   // +0x2C
-    virtual void castSphere(const void *input, const hkpCdBody &cdBody, hkpRayHitCollector &collector) const;   // +0x30
-};
-
-class hkpSampledHeightFieldShape : public hkpHeightFieldShape {
-public:
-    enum HeightFieldType {
-        HEIGHTFIELD_STORAGE = 0,
-        HEIGHTFIELD_COMPRESSED = 1,
-        HEIGHTFIELD_USER = 2,
-        HEIGHTFIELD_MAX_ID = 3
-    };
-    hkpSampledHeightFieldShape() : hkpHeightFieldShape(hkpShapeType(13)) {}
-
-    HK_FORCE_INLINE hkReal getHeightAt(int x, int z) const { return getHeightAtImpl(x, z); }
-    HK_FORCE_INLINE hkBool getTriangleFlip() const { return getTriangleFlipImpl(); }
-
-    virtual hkReal getHeightAtImpl(int x, int z) const;   // +0x34
-    virtual hkBool getTriangleFlipImpl() const;           // +0x38
-
-    int m_xRes;                                  // +0x10
-    int m_zRes;                                  // +0x14
-    hkReal m_heightCenter;                       // +0x18
-    hkBool m_useProjectionBasedHeight;           // +0x1C
-    hkUint8 m_heightfieldType;                   // +0x1D
-    hkVector4 m_intToFloatScale;                 // +0x20
-    hkVector4 m_floatToIntScale;                 // +0x30
-    hkVector4 m_floatToIntOffsetFloorCorrected;  // +0x40
-    hkVector4 m_extents;                         // +0x50
-};
-
-class hkpCompressedSampledHeightFieldShape : public hkpSampledHeightFieldShape {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SHAPE);
-    hkpCompressedSampledHeightFieldShape(const hkpSampledHeightFieldShape *hf);
-
-    virtual hkReal getHeightAtImpl(int x, int z) const;
-    virtual hkBool getTriangleFlipImpl() const;
-
-    hkArray<hkUint16> m_storage;   // +0x60
-    hkBool m_triangleFlip;         // +0x6C
-    hkReal m_offset;               // +0x70
-    hkReal m_scale;                // +0x74
-};
 
 hkpCompressedSampledHeightFieldShape::hkpCompressedSampledHeightFieldShape(const hkpSampledHeightFieldShape *hf)
 {

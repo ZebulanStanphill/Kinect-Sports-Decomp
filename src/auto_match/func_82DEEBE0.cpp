@@ -5,9 +5,8 @@
 // indexed through begin(): the extra inline layers decide the operand order of the loops' add/lwzx (with the
 // natural m_links[i] and the wrapper both are swapped).
 #include "havok/hkBase.h"
-#include "havok/hkpConstraintInstance.h"
+#include "havok/hkpConstraintChainInstance.h"
 
-class hkpConstraintChainInstance : public hkpConstraintInstance {};
 class hkpPoweredChainData;
 
 class hkpPoweredChainMapper : public hkReferencedObject {

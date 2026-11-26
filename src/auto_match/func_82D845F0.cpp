@@ -6,37 +6,7 @@
 // calls it), so the constructor is expanded into an extern "C" definition. Member names are not
 // confirmed; untouched members are padding.
 #include "havok/hkBase.h"
-#include "havok/hkMultiThreadCheck.h"
-
-class hkpWorld : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_WORLD);
-    HK_FORCE_INLINE hkpWorld(hkFinishLoadedObjectFlag flag) {}
-    virtual ~hkpWorld();
-
-    hkUint8 m_pad08[0x20];                         // +0x08
-    hkArray<void *> m_array28;                     // +0x28
-    hkArray<void *> m_array34;                     // +0x34
-    hkArray<void *> m_array40;                     // +0x40
-    hkUint8 m_pad4c[0x4];                          // +0x4C
-    hkRefPtr<hkReferencedObject> m_ptr50;          // +0x50
-    hkUint8 m_pad54[0x54];                         // +0x54
-    hkMultiThreadCheck m_multiThreadCheck;         // +0xA8
-    hkUint8 m_padb0[0x70];                         // +0xB0
-    hkArray<void *> m_array120;                     // +0x120
-    hkArray<void *> m_array12C;                     // +0x12C
-    hkArray<void *> m_array138;                     // +0x138
-    hkArray<void *> m_array144;                     // +0x144
-    hkArray<void *> m_array150;                     // +0x150
-    hkArray<void *> m_array15C;                     // +0x15C
-    hkArray<void *> m_array168;                     // +0x168
-    hkArray<void *> m_array174;                     // +0x174
-    hkArray<void *> m_array180;                     // +0x180
-    hkArray<void *> m_array18C;                     // +0x18C
-    hkArray<void *> m_array198;                     // +0x198
-    hkArray<void *> m_array1A4;                     // +0x1A4
-    hkArray<void *> m_array1B0;                     // +0x1B0
-};
+#include "havok/hkpWorld.h"
 
 extern "C" hkpWorld *fn_82D845F0(hkpWorld *self, hkFinishLoadedObjectFlag flag)
 {

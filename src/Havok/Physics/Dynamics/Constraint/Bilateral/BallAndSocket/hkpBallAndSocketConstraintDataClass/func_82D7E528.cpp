@@ -3,12 +3,7 @@
 // constructor on an object loaded in place. Hierarchy from the RTTI:
 // hkpBallAndSocketConstraintData -> hkpConstraintData -> hkReferencedObject -> hkBaseObject; only the finish constructors are declared.
 #include "havok/hkBase.h"
-#include "havok/hkpConstraintData.h"
-
-class hkpBallAndSocketConstraintData : public hkpConstraintData {
-public:
-    hkpBallAndSocketConstraintData(hkFinishLoadedObjectFlag flag) : hkpConstraintData(flag) {}
-};
+#include "havok/hkpBallAndSocketConstraintData.h"
 
 void HK_CALL finishLoadedObjecthkpBallAndSocketConstraintData(void *p, int finishing)
 {

@@ -1,13 +1,7 @@
 // getVtablehkxAnimatedQuaternion, from Havok's HK_REFLECTION_DEFINE_VIRTUAL for hkxAnimatedQuaternion (static in Havok):
 // builds a finished object in a local buffer and returns its vtable pointer.
-// Hierarchy from the RTTI: hkxAnimatedQuaternion -> hkReferencedObject -> hkBaseObject; only the finish
-// constructors are declared.
-#include "havok/hkBase.h"
-
-class hkxAnimatedQuaternion : public hkReferencedObject {
-public:
-    hkxAnimatedQuaternion(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
+// Hierarchy from the RTTI: hkxAnimatedQuaternion -> hkReferencedObject -> hkBaseObject.
+#include "havok/hkxAnimatedQuaternion.h"
 
 const void *HK_CALL getVtablehkxAnimatedQuaternion()
 {

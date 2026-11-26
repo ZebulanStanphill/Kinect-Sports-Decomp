@@ -6,10 +6,10 @@
 // HK_REAL_MAX, HK_REAL_EPSILON and 1.0f are literals: the configured lbl_ floats are defined
 // (selectany) and used once in linearCastSphere_bindConstants first, so that the compiler
 // materializes the literals from them (one load per value, scheduled like a literal).
-#include "havok/hkpCdPointCollector.h"
-#include "havok/hkContactPoint.h"
 #include "havok/hkpLinearCastInput.h"
 #include "havok/hkpWorldObject.h"
+#include "havok/hkpSphereShape.h"
+#include "havok/hkpClosestCdPointCollector.h"
 
 extern "C" {
 extern hkVector4 lbl_8323B1A0;   // the zero vector (hkVector4::getZero())
@@ -26,13 +26,6 @@ void linearCastSphere_bindConstants(float *out)
 #define HK_REAL_MAX 3.40282e+38f
 #define HK_REAL_EPSILON 1.192092896e-07f
 
-class hkpSphereShape : public hkpConvexShape {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SHAPE);
-    hkpSphereShape(hkReal radius);   // ??0hkpSphereShape@@QAA@M@Z
-    hkUint32 m_pad16[3];
-};
-
 class hkpRigidBody;
 
 static HK_FORCE_INLINE hkpRigidBody *hkpGetRigidBody(const hkpCollidable *collidable)
@@ -43,30 +36,6 @@ static HK_FORCE_INLINE hkpRigidBody *hkpGetRigidBody(const hkpCollidable *collid
     }
     return HK_NULL;
 }
-
-struct hkpRootCdPoint {
-    hkContactPoint m_contact;                // +0x0
-    const hkpCollidable *m_rootCollidableA;  // +0x20
-    hkpShapeKey m_shapeKeyA;                 // +0x24
-    const hkpCollidable *m_rootCollidableB;  // +0x28
-    hkpShapeKey m_shapeKeyB;                 // +0x2C
-};
-
-class hkpClosestCdPointCollector : public hkpCdPointCollector {
-public:
-    HK_FORCE_INLINE hkpClosestCdPointCollector() { reset(); }
-    virtual void addCdPoint(const hkpCdPoint &point);
-    virtual void reset()
-    {
-        m_hitPoint.m_rootCollidableA = HK_NULL;
-        m_hitPoint.m_contact.setDistance(HK_REAL_MAX);
-        hkpCdPointCollector::reset();
-    }
-    HK_FORCE_INLINE hkBool hasHit() const { return m_hitPoint.m_rootCollidableA != HK_NULL; }
-    HK_FORCE_INLINE const hkpRootCdPoint &getHit() const { return m_hitPoint; }
-
-    hkpRootCdPoint m_hitPoint;   // +0x10
-};
 
 extern "C" void fn_82D820E0(hkpWorld *world, const hkpCollidable *collA, const hkpLinearCastInput &input,
                             hkpCdPointCollector &castCollector, hkpCdPointCollector *startCollector);   // hkpWorld::linearCast

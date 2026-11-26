@@ -1,26 +1,8 @@
 #include "havok/hkBase.h"
 #include "havok/hkpSymmetricAgent.h"
-class hkpBvTreeAgent : public hkpCollisionAgent {
-public:
-    static void HK_CALL staticGetPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
-                                              const hkpCollisionInput &input, hkpCdBodyPairCollector &collector);
-    static void HK_CALL staticGetClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
-                                               const hkpCollisionInput &input, hkpCdPointCollector &collector);
-};
-class hkpBvTreeStreamAgent : public hkpCollisionAgent {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    hkpBvTreeStreamAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                         hkpContactMgr *mgr);
-    static hkpCollisionAgent *HK_CALL createAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
-                                                  const hkpCollisionInput &input, hkpContactMgr *mgr);
-
-    hkUint8 m_data[0x40 - 0xC];   // sizeof is 0x40
-};
+#include "havok/hkpBvTreeAgent.h"
+#include "havok/hkpBvTreeStreamAgent.h"
 extern "C" void fn_82D54F10();
-extern "C" void fn_82D58028();
-extern "C" void fn_82D57DB8();
-extern "C" void fn_82D57B60();
 struct AgentFuncs { void *create,*penetrations,*closest,*cast; unsigned char flipped,predictive; char pad[2]; };
 extern "C" void fn_82D59158(void*,const AgentFuncs*,int,int);
 extern "C" void fn_82D54B78(void *dispatcher) { AgentFuncs a,b;

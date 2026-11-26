@@ -3,13 +3,6 @@
 // The function at the end only makes the compiler emit the vtable, and
 // with it this function.
 #include "havok/hkBase.h"
-
-extern "C" void fn_8265CA20(void *p);   // global operator delete
-
-class hkpBroadPhaseCastCollector {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual ~hkpBroadPhaseCastCollector() {}
-};
+#include "havok/hkpBroadPhaseCastCollector.h"
 
 void emitVtable_82D80878(hkpBroadPhaseCastCollector *p) { p->hkpBroadPhaseCastCollector::~hkpBroadPhaseCastCollector(); }

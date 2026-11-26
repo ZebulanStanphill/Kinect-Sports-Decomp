@@ -16,14 +16,7 @@
 // constructors call reset(), which sets m_earlyOut = false / m_earlyOutDistance = HK_REAL_MAX. The game's
 // HK_REAL_MAX constant is __real@7f7fffee (3.40282e38f).
 #include "havok/hkpSymmetricAgent.h"
-
-class hkpShapeCollectionAgent : public hkpCollisionAgent {
-public:
-    hkpShapeCollectionAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpContactMgr *mgr);
-    static hkpCollisionAgent *HK_CALL createListBAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpContactMgr *mgr);
-
-    hkUint8 m_members[0x2C];   // +0xC
-};
+#include "havok/hkpShapeCollectionAgent.h"
 
 hkpCollisionAgent *HK_CALL hkpShapeCollectionAgent::createListBAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpContactMgr *mgr)
 {

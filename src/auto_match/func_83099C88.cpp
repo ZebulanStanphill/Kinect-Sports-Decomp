@@ -5,34 +5,13 @@
 // to the heap. The implicit destructor leaves only the bases' vtable stores, last base first.
 // The function at the end only makes the compiler emit the vtable.
 #include "havok/hkBase.h"
-
-extern "C" void fn_8265CA20(void *p);   // global operator delete
-
-struct hkAabbTreeData {
-    struct hkAabbTreeAabb;
-    struct hkAabbTreeAabb16;
-};
-
-template <typename BOUNDING_VOLUME, typename IDX>
-class hkAabbTreeQueryUtils {
-public:
-    class Collector {
-    public:
-        static void operator delete(void *p) { fn_8265CA20(p); }
-        virtual ~Collector() {}
-    };
-};
+#include "havok/hkAabbTreeQueryUtils.h"
+#include "havok/hkKdTreeCastCollector.h"
 
 class hkpBroadPhaseCastCollector {
 public:
     static void operator delete(void *p) { fn_8265CA20(p); }
     virtual ~hkpBroadPhaseCastCollector() {}
-};
-
-class hkKdTreeCastCollector {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual ~hkKdTreeCastCollector() {}
 };
 
 class hkCpuWorldLinearCastCollector : public hkpBroadPhaseCastCollector,

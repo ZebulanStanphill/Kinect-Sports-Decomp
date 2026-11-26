@@ -2,7 +2,7 @@
 // filter info 10), registered with its world. Same shape as func_82563908.cpp.
 #include "havok/hkpRigidBody.h"
 #include "havok/hkpRigidBodyCinfo.h"
-class hkpSphereShape : public hkReferencedObject { public: hkpSphereShape(float); char data[24]; };
+#include "havok/hkpSphereShape.h"
 extern "C" {
 extern void *lbl_821AE078[];
 void fn_82D8B6C8(hkpRigidBody *,int,int,int);

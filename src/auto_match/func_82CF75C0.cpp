@@ -1,14 +1,6 @@
 // hkSolverAllocator::hkSolverAllocator() (Common/Base/Memory/Allocator/Solver/hkSolverAllocator.cpp). Member names are not confirmed.
 #include "havok/hkBase.h"
-
-// hkCriticalSection: its constructor is out of line and keeps its fn_ name.
-class hkCriticalSection;
-extern "C" void fn_82CEFBD0(hkCriticalSection *self, int spinCount);   // hkCriticalSection::hkCriticalSection
-class hkCriticalSection {
-public:
-    HK_FORCE_INLINE hkCriticalSection(int spinCount = 0) { fn_82CEFBD0(this, spinCount); }
-    hkUint8 m_section[0x1C];
-};
+#include "havok/hkCriticalSection.h"
 
 class hkSolverAllocator : public hkMemoryAllocator {
 public:

@@ -1,13 +1,7 @@
 // cleanupLoadedObjecthkpBvShape: the cleanup function in hkpBvShape's hkTypeInfo
 // (HK_REFLECTION_DEFINE_*, Common/Base/Reflection/hkTypeInfo.h). Destroys a loaded object in
 // place through its virtual destructor.
-#include "havok/hkBaseTypes.h"
-
-// Only the virtual destructor is needed here.
-class hkpBvShape {
-public:
-    virtual ~hkpBvShape();
-};
+#include "havok/hkpBvShape.h"
 
 void HK_CALL cleanupLoadedObjecthkpBvShape(void *p)
 {

@@ -10,6 +10,10 @@
 // allocation).
 #include "havok/hkBase.h"
 #include "havok/hkpRigidBody.h"
+#include "havok/hkpGravityGun.h"
+#include "havok/hkpRayHitCollector.h"
+#include "havok/hkpWorldRayCastInput.h"
+#include "havok/hkpWorld.h"
 
 typedef hkUint32 hkpShapeKey;
 
@@ -23,21 +27,6 @@ class hkpSimulationIsland {
 public:
     char m_pad0[0x48];
     hkArray<hkpRigidBody *> m_entities;   // +0x48
-};
-
-class hkpWorld {
-public:
-    char m_pad0[0x28];
-    hkArray<hkpSimulationIsland *> m_activeSimulationIslands;     // +0x28
-    hkArray<hkpSimulationIsland *> m_inactiveSimulationIslands;   // +0x34
-};
-
-struct hkpWorldRayCastInput {
-    hkpWorldRayCastInput() : m_enableShapeCollectionFilter(false), m_filterInfo(0) {}
-    hkVector4 m_from;
-    hkVector4 m_to;
-    hkBool m_enableShapeCollectionFilter;
-    hkUint32 m_filterInfo;
 };
 
 struct hkpShapeRayCastCollectorOutput {
@@ -72,15 +61,6 @@ struct hkpWorldRayCastOutput : public hkpShapeRayCastOutput {
     const hkpCollidable *m_rootCollidable;   // +0x50
 };
 
-class hkpRayHitCollector {
-public:
-    HK_FORCE_INLINE hkpRayHitCollector() { reset(); }
-    HK_FORCE_INLINE void reset() { m_earlyOutHitFraction = 1.0f; }
-    virtual void addRayHit(const hkpCdBody &cdBody, const hkpShapeRayCastCollectorOutput &hitInfo);
-    virtual ~hkpRayHitCollector() {}
-    hkReal m_earlyOutHitFraction;
-};
-
 class hkpClosestRayHitCollector : public hkpRayHitCollector {
 public:
     HK_FORCE_INLINE hkpClosestRayHitCollector() { reset(); }
@@ -97,15 +77,6 @@ public:
 
 // hkpWorld::castRay(const hkpWorldRayCastInput &, hkpRayHitCollector &) const, kept: its unit matches.
 extern "C" void fn_82D81CC8(const hkpWorld *world, const hkpWorldRayCastInput *input, hkpRayHitCollector *collector);
-
-class hkpGravityGun {
-public:
-    char m_pad0[0x20];                           // hkpFirstPersonGun
-    hkArray<hkpRigidBody *> m_grabbedBodies;     // +0x20
-    int m_maxNumObjectsPicked;                   // +0x2c
-    hkReal m_maxMassOfObjectPicked;              // +0x30
-    hkReal m_maxDistOfObjectPicked;              // +0x34
-};
 
 extern "C" hkpRigidBody *fn_82DF0C68(hkpGravityGun *self, const hkTransform *viewTransform, hkpRigidBody *characterBody,
                                      const hkpWorld *world)

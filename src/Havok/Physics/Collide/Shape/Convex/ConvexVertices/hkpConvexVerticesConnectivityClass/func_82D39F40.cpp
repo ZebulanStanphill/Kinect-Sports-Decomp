@@ -3,11 +3,7 @@
 // Hierarchy from the RTTI: hkpConvexVerticesConnectivity -> hkReferencedObject -> hkBaseObject; only the finish
 // constructors are declared.
 #include "havok/hkBase.h"
-
-class hkpConvexVerticesConnectivity : public hkReferencedObject {
-public:
-    hkpConvexVerticesConnectivity(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
+#include "havok/hkpConvexVerticesConnectivity.h"
 
 const void *HK_CALL getVtablehkpConvexVerticesConnectivity()
 {

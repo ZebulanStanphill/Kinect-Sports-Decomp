@@ -1,15 +1,15 @@
-// hkpVehicleInstance's scalar deleting destructor (slot 0 of ??_7hkpVehicleInstance@@6B@), written with a stand-in class named hkMemoryStreamReader (only its class allocator is used). It calls hkpVehicleInstance's destructor fn_82DFE168, which keeps its fn_ name.
-#include "havok/hkBase.h"
-#include "havok/hkMemoryStreamReader.h"
+// hkpVehicleInstance's scalar deleting destructor (slot 0 of ??_7hkpVehicleInstance@@6B@). It calls
+// hkpVehicleInstance's destructor fn_82DFE168, which keeps its fn_ name, and frees through the class allocator.
+#include "havok/hkpVehicleInstance.h"
 
 extern "C" {
-void fn_82DFE168(hkMemoryStreamReader *self);   // hkpVehicleInstance::~hkpVehicleInstance
+void fn_82DFE168(hkpVehicleInstance *self);   // hkpVehicleInstance::~hkpVehicleInstance
 }
 
-extern "C" hkMemoryStreamReader *fn_82DF9CF8(hkMemoryStreamReader *self, unsigned int flags)
+extern "C" hkpVehicleInstance *fn_82DF9CF8(hkpVehicleInstance *self, unsigned int flags)
 {
     fn_82DFE168(self);
     if (flags & 1)
-        hkMemoryStreamReader::operator delete(self);
+        hkpVehicleInstance::operator delete(self);
     return self;
 }

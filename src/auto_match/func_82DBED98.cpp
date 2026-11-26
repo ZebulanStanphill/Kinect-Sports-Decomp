@@ -6,53 +6,14 @@
 // The 1.0f of hkMatrix3::setIdentity and HK_REAL_MAX are literals in the original, whose loads
 // the scheduler is free to move. The game's copy of HK_REAL_MAX is __real@7f7fffee, which Matching C
 // units reference, so it is declared here as a known constant (selectany).
-#include "havok/hkpCollisionFilter.h"
-#include "havok/hkpCdPointCollector.h"
-#include "havok/hkContactPoint.h"
 #include "havok/hkpCollisionDispatcher.h"
+#include "havok/hkpSphereShape.h"
+#include "havok/hkpClosestCdPointCollector.h"
+#include "havok/hkpNullCollisionFilter.h"
 
 extern "C" const float lbl_82138458;   // HK_REAL_MAX / 2
 
 extern "C" hkTransform lbl_8323B1D0;   // hkTransform::getIdentity()
-
-class hkpSphereShape : public hkpConvexShape {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SHAPE);
-    hkpSphereShape(hkReal radius);
-    hkUint32 m_pad16[3];
-};
-
-class hkpNullCollisionFilter : public hkpCollisionFilter {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    hkpNullCollisionFilter();
-    virtual ~hkpNullCollisionFilter();
-};
-
-class hkpRootCdPoint {
-public:
-    hkContactPoint m_contact;
-    const hkpCollidable *m_rootCollidableA;
-    hkUint32 m_shapeKeyA;
-    const hkpCollidable *m_rootCollidableB;
-    hkUint32 m_shapeKeyB;
-};
-
-class hkpClosestCdPointCollector : public hkpCdPointCollector {
-public:
-    HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE, hkpClosestCdPointCollector);
-    HK_FORCE_INLINE hkpClosestCdPointCollector() { reset(); }
-    virtual void addCdPoint(const hkpCdPoint &point);
-    HK_FORCE_INLINE virtual void reset()
-    {
-        m_hitPoint.m_rootCollidableA = HK_NULL;
-        m_hitPoint.m_contact.setDistance(3.40282e+38f);
-        hkpCdPointCollector::reset();
-    }
-    HK_FORCE_INLINE bool hasHit() const { return m_hitPoint.m_rootCollidableA != HK_NULL; }
-    HK_FORCE_INLINE const hkpRootCdPoint &getHit() const { return m_hitPoint; }
-    hkpRootCdPoint m_hitPoint;
-};
 
 class hkpWorld {
 public:

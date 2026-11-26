@@ -1,5 +1,4 @@
 #include "havok/hkpCdBodyPairCollector.h"
-#include "havok/hkpCdPointCollector.h"
 extern "C" unsigned __int64 __mftb();
 struct Record { const char *name; unsigned time,pad; };
 struct Monitor { int pad; Record *next; int pad2; Record *end; };
@@ -31,7 +30,6 @@ public:
     hkpFlagCdBodyPairCollector() { m_earlyOut = false; }
     virtual void addCdBodyPair(const hkpCdBody &bodyA, const hkpCdBody &bodyB);
 };
-class __declspec(align(16)) hkpSimpleClosestContactCollector: public hkpCdPointCollector {public: hkpSimpleClosestContactCollector():hit(false),fraction(3.40282e+38f){}virtual void add(void *);bool hit;char pad[35];float fraction;};
 static HK_FORCE_INLINE Agent *createChild(const Body &a,const Body &b,const Input &input,void *mgr) {
  int typeA=a.shape->type;int typeB=b.shape->type;
  Dispatcher *d=input.dispatcher;

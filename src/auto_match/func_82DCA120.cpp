@@ -1,15 +1,15 @@
-// hkpConvexPieceStreamData's scalar deleting destructor (slot 0 of ??_7hkpConvexPieceStreamData@@6B@), written with a stand-in class named hkMemoryStreamReader (only its class allocator is used). It calls hkpConvexPieceStreamData's destructor fn_82DCA028, which keeps its fn_ name.
-#include "havok/hkBase.h"
-#include "havok/hkMemoryStreamReader.h"
+// hkpConvexPieceStreamData's scalar deleting destructor (slot 0 of ??_7hkpConvexPieceStreamData@@6B@). It calls
+// hkpConvexPieceStreamData's destructor fn_82DCA028, which keeps its fn_ name.
+#include "havok/hkpConvexPieceStreamData.h"
 
 extern "C" {
-void fn_82DCA028(hkMemoryStreamReader *self);   // hkpConvexPieceStreamData::~hkpConvexPieceStreamData
+void fn_82DCA028(hkpConvexPieceStreamData *self);   // hkpConvexPieceStreamData::~hkpConvexPieceStreamData
 }
 
-extern "C" hkMemoryStreamReader *fn_82DCA120(hkMemoryStreamReader *self, unsigned int flags)
+extern "C" hkpConvexPieceStreamData *fn_82DCA120(hkpConvexPieceStreamData *self, unsigned int flags)
 {
     fn_82DCA028(self);
     if (flags & 1)
-        hkMemoryStreamReader::operator delete(self);
+        hkpConvexPieceStreamData::operator delete(self);
     return self;
 }

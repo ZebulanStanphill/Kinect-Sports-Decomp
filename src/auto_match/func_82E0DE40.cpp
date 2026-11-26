@@ -5,37 +5,7 @@
 // compiled file's full path, so this unit's hash differs, but objdiff compares demangled names
 // ("`anonymous namespace'::hkContentsUpdateTracker::`vftable'") and accepts it. The constructor keeps
 // its fn_ name and is called explicitly.
-#include "havok/hkBase.h"
-
-class hkPackfileData : public hkReferencedObject {};
-
-class hkObjectUpdateTracker : public hkReferencedObject {
-public:
-    hkObjectUpdateTracker() {}
-};
-
-template <typename K, typename V>
-class hkSerializeMultiMap {
-public:
-    struct Value {
-        V value;
-        int next;
-    };
-    hkArray<Value> m_valueChain;          // +0x0
-    hkPointerMap<K, int> m_indexMap;      // +0xC
-    int m_freeChainStart;                 // +0x18
-};
-
-class hkPackfileObjectUpdateTracker : public hkObjectUpdateTracker {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SERIALIZE);
-    hkPackfileObjectUpdateTracker(hkPackfileData *data);
-
-    hkPackfileData *m_packfileData;                       // +0x8
-    hkSerializeMultiMap<void *, void *> m_pointers;       // +0xC
-    hkPointerMap<void *, const hkClass *> m_finish;       // +0x28
-    void *m_topLevelObject;                               // +0x34
-};
+#include "havok/hkPackfileObjectUpdateTracker.h"
 
 struct hkContentsEntry {
     void *m_object;
@@ -61,12 +31,10 @@ public:
             fn_82E0DB68(this, entries[i].m_object, entries[i].m_class, 1);
         }
     }
-    virtual void addPointer(void *newObject, void *fromWhere);
+    // Its vtable overrides two of hkPackfileObjectUpdateTracker's slots: replaceObject (82E0DEC0) and
+    // removeFinish (82E0DF20).
     virtual void replaceObject(void *oldObject, void *newObject, const hkClass *newClass);
-    virtual void addFinish(void *newObject, const char *className);
-    virtual void addChunk(void *newChunk, int n, int allocType);
-    virtual void removeChunk(void *chunk);
-    virtual void unused();
+    virtual void removeFinish(void *oldObject);
 
     void *m_unknown38;   // +0x38
     void *m_owner;       // +0x3c

@@ -1,4 +1,5 @@
 #include "havok/hkpCollisionFilter.h"
+#include "havok/hkpBroadPhaseCastCollector.h"
 extern "C" unsigned __int64 __mftb();
 struct TimerEntry { const char *name; unsigned int time, unused; };
 struct TimerStream { void *pad; TimerEntry *current; void *pad2; TimerEntry *end; };
@@ -20,9 +21,9 @@ class TreeManager { public:
  virtual void linearCast(const void *collA, const void *input, const hkpCollidableCollidableFilter *filter, const CollisionInput *ci, void *config, void *castCollector, void *startCollector);
 };
 struct World { char pad[0x58]; void *bp; TreeManager *tree; char pad60[0x18]; CollisionInput *input; hkpCollisionFilter *filter; };
-class hkpBroadPhaseCastCollector { public: virtual ~hkpBroadPhaseCastCollector() {} };
 class hkpWorldLinearCaster : public hkpBroadPhaseCastCollector {
 public:
+ virtual hkReal addBroadPhaseHandle(const hkpBroadPhaseHandle *broadphaseHandle, int castIndex);
  hkpWorldLinearCaster() { tol = 1.1920929e-07f; }
  char pad[0x7c]; float tol;
  char tail[0xc];

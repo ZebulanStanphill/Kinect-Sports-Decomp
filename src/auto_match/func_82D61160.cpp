@@ -1,21 +1,10 @@
 // hkpMultiSphereTriangleAgent::createTriangleMultiSphereAgent, the flipped agent's creation function: new hkpSymmetricAgentLinearCast<hkpMultiSphereTriangleAgent> with the constructor inlined.
 #include "havok/hkpSymmetricAgent.h"
 #include "havok/hkpTriangleShape.h"
+#include "havok/hkpCollideTriangleUtil.h"
 
 typedef hkUint16 hkContactPointId;
 #define HK_INVALID_CONTACT_POINT 0xffff
-
-extern "C" void fn_82D76758(const hkVector4 *vertices, void *cache);   // hkpCollideTriangleUtil::setupClosestPointTriangleCache
-
-struct hkpCollideTriangleUtil {
-    struct ClosestPointTriangleCache {
-        hkReal m_data[4];
-    };
-    static void HK_CALL setupClosestPointTriangleCache(const hkVector4 *triangle, ClosestPointTriangleCache &cache)
-    {
-        fn_82D76758(triangle, &cache);
-    }
-};
 
 class hkpMultiSphereTriangleAgent : public hkpIterativeLinearCastAgent {
 public:

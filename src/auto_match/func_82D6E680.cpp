@@ -1,4 +1,3 @@
-#include "havok/hkpCdPointCollector.h"
 #include "havok/hkpCdBodyPairCollector.h"
 #include "havok/hkpCollisionDispatcher.h"
 
@@ -23,13 +22,6 @@ static HK_FORCE_INLINE void beginTimer(const char *name, const char *split=0) {
 class hkpFlagCdBodyPairCollector : public hkpCdBodyPairCollector {
 public: hkpFlagCdBodyPairCollector() {m_earlyOut=false;} virtual void addCdBodyPair(const hkpCdBody&,const hkpCdBody&);
 };
-class hkpSimpleClosestContactCollector : public hkpCdPointCollector {
-public:
- hkpSimpleClosestContactCollector() : m_hasHit(false) { m_distance=3.40282e+38f; }
- virtual void addCdPoint(const hkpCdPoint&);
- hkBool m_hasHit; char pad[0x23]; float m_distance; char tail[0x10];
-};
-
 typedef void (*Dispatch)(const hkpCdBody*,const hkpCdBody*,const hkpCollisionInput*,hkpCdBodyPairCollector*);
 static HK_FORCE_INLINE Dispatch getDispatch(hkpCollisionDispatcher *d,int a,int b,int off) {
  unsigned char *p=(unsigned char*)d;

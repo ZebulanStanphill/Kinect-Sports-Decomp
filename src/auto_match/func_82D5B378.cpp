@@ -1,12 +1,4 @@
-#include "havok/hkTransform.h"
-
-struct hkpGskCache {
-    unsigned short m_vertices[4];
-    unsigned char m_dimA;
-    unsigned char m_dimB;
-    unsigned char m_maxDim;
-    unsigned char m_gskFlags;   // +0xb
-};
+#include "havok/hkpGskCache.h"
 
 struct hkpAgent3Input;
 struct hkpAgentEntry;

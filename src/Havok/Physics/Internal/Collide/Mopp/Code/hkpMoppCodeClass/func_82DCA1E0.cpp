@@ -3,11 +3,7 @@
 // constructor on an object loaded in place. Hierarchy from the RTTI:
 // hkpMoppCode -> hkReferencedObject -> hkBaseObject; only the finish constructors are declared.
 #include "havok/hkBase.h"
-
-class hkpMoppCode : public hkReferencedObject {
-public:
-    hkpMoppCode(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
+#include "havok/hkpMoppCode.h"
 
 void HK_CALL finishLoadedObjecthkpMoppCode(void *p, int finishing)
 {

@@ -3,16 +3,7 @@
 // hkpHeightFieldAgent's constructor (out of line, fn_82D5A670) with the bodies swapped, then stores
 // hkpSymmetricAgent's vtable.
 #include "havok/hkpSymmetricAgent.h"
-
-typedef hkUint16 hkContactPointId;
-
-class hkpHeightFieldAgent : public hkpCollisionAgent {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    hkpHeightFieldAgent(const hkpCdBody &A, const hkpCdBody &B, const hkpCollisionInput &input, hkpContactMgr *mgr);
-
-    hkArray<hkContactPointId> m_contactPointId;   // +0xC
-};
+#include "havok/hkpHeightFieldAgent.h"
 
 template hkpCollisionAgent *HK_CALL hkpSymmetricAgent<hkpHeightFieldAgent>::createAgent(const hkpCdBody &bodyA,
                                                                                        const hkpCdBody &bodyB,

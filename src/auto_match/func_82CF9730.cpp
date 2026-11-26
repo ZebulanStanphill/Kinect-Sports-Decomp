@@ -5,34 +5,16 @@
 // name too and is expanded into an extern "C" definition. Member names follow Havok 2010 and are
 // not confirmed.
 #include "havok/hkBase.h"
+#include "havok/hkCriticalSection.h"
 
 class hkFreeList;
 class hkLargeBlockAllocator;
 class hkFreeListAllocator;
-struct _RTL_CRITICAL_SECTION;
 extern "C" {
-void RtlEnterCriticalSection(_RTL_CRITICAL_SECTION *cs);
-void RtlLeaveCriticalSection(_RTL_CRITICAL_SECTION *cs);
-void fn_82CEFBD0(void *self, int spinCount);                                  // hkCriticalSection::hkCriticalSection(int)
 void fn_82D03DD8(hkLargeBlockAllocator *self, hkMemoryAllocator *server);     // hkLargeBlockAllocator::hkLargeBlockAllocator
 void fn_82D01430(hkFreeList *self);                                           // hkFreeList::hkFreeList
 hkFreeList *fn_82CF9428(hkFreeListAllocator *self, int elementSize, int align, int blockSize);   // _newFreeList
 }
-
-class hkCriticalSection {
-public:
-    HK_FORCE_INLINE hkCriticalSection(int spinCount = 0) { fn_82CEFBD0(this, spinCount); }
-    HK_FORCE_INLINE void enter() { RtlEnterCriticalSection((_RTL_CRITICAL_SECTION *)this); }
-    HK_FORCE_INLINE void leave() { RtlLeaveCriticalSection((_RTL_CRITICAL_SECTION *)this); }
-    hkUint8 m_section[0x1c];
-};
-
-class hkCriticalSectionLock {
-public:
-    HK_FORCE_INLINE hkCriticalSectionLock(hkCriticalSection *section) : m_section(section) { m_section->enter(); }
-    HK_FORCE_INLINE ~hkCriticalSectionLock() { m_section->leave(); }
-    hkCriticalSection *m_section;
-};
 
 class hkLargeBlockAllocator {
 public:

@@ -1,13 +1,7 @@
 // getVtablehkpVehicleManager, from Havok's HK_REFLECTION_DEFINE_VIRTUAL for hkpVehicleManager (static in Havok):
 // builds a finished object in a local buffer and returns its vtable pointer.
-// Hierarchy from the RTTI: hkpVehicleManager -> hkReferencedObject -> hkBaseObject; only the finish
-// constructors are declared.
-#include "havok/hkBase.h"
-
-class hkpVehicleManager : public hkReferencedObject {
-public:
-    hkpVehicleManager(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
+// Hierarchy from the RTTI: hkpVehicleManager -> hkReferencedObject -> hkBaseObject.
+#include "havok/hkpVehicleManager.h"
 
 const void *HK_CALL getVtablehkpVehicleManager()
 {

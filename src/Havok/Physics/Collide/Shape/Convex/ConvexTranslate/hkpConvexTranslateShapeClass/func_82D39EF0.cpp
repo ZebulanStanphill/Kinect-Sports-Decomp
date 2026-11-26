@@ -3,17 +3,7 @@
 // Hierarchy from the RTTI: hkpConvexTranslateShape -> hkpConvexTransformShapeBase -> hkpConvexShape -> hkpSphereRepShape -> hkpShape -> hkReferencedObject -> hkBaseObject; only the finish
 // constructors are declared.
 #include "havok/hkBase.h"
-#include "havok/hkpShape.h"
-
-class hkpConvexTransformShapeBase : public hkpConvexShape {
-public:
-    hkpConvexTransformShapeBase(hkFinishLoadedObjectFlag flag) : hkpConvexShape(flag) {}
-};
-
-class hkpConvexTranslateShape : public hkpConvexTransformShapeBase {
-public:
-    hkpConvexTranslateShape(hkFinishLoadedObjectFlag flag) : hkpConvexTransformShapeBase(flag) {}
-};
+#include "havok/hkpConvexTranslateShape.h"
 
 const void *HK_CALL getVtablehkpConvexTranslateShape()
 {

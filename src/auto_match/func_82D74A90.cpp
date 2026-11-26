@@ -15,6 +15,7 @@
 // HK_REAL_MAX constant is __real@7f7fffee (3.40282e38f).
 #include "havok/hkpSymmetricAgent.h"
 #include "havok/hkpCollidable.h"
+#include "havok/hkpGskCache.h"
 
 // hkpGskBaseAgent -> hkpGskfAgent -> hkpPredGskfAgent (RTTI; Physics/Collide/Agent/ConvexAgent/Gjk).
 // hkpGskBaseAgent's constructor is out of line (fn_82D74A90): it sets up the GSK cache from the relative
@@ -23,22 +24,8 @@
 // the smaller allowed penetration depth of the two root collidables.
 extern "C" double __fsel(double a, double b, double c);   // PPC intrinsic
 
-class hkpGskCache;
-extern "C" {
-void fn_82DD9A10(hkpGskCache *self, const hkpConvexShape *shapeA, const hkpShape *shapeB, const hkTransform *aTb);   // hkpGskCache::initTriangle
-void fn_82DD9828(hkpGskCache *self, const hkpConvexShape *shapeA, const hkpConvexShape *shapeB, const hkTransform *aTb);   // hkpGskCache::init
-}
-
 struct hkMath {
     static HK_FORCE_INLINE hkReal HK_CALL min2(hkReal a, hkReal b) { return hkReal(__fsel(a - b, b, a)); }
-};
-
-class hkpGskCache {
-public:
-    void init(const hkpConvexShape *shapeA, const hkpConvexShape *shapeB, const hkTransform &aTb) { fn_82DD9828(this, shapeA, shapeB, &aTb); }
-    void initTriangle(const hkpConvexShape *shapeA, const hkpShape *shapeB, const hkTransform &aTb) { fn_82DD9A10(this, shapeA, shapeB, &aTb); }
-
-    hkUint8 m_data[0xC];   // +0x0
 };
 
 class hkpGskBaseAgent : public hkpIterativeLinearCastAgent {

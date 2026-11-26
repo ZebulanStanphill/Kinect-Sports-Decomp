@@ -4,23 +4,13 @@
 // The phantom loop goes through a local array reference: that puts the byte offset first in its
 // lwzx/stwx (the other three loops access the member directly and put the data pointer first).
 #include "havok/hkBase.h"
+#include "havok/hkpAction.h"
+#include "havok/hkpConstraintInstance.h"
+#include "havok/hkpPhantom.h"
+#include "havok/hkpPhysicsSystem.h"
+#include "havok/hkpRigidBody.h"
 
 extern "C" const void *lbl_821CA9D8[];
-
-class hkpRigidBody;
-class hkpConstraintInstance;
-class hkpAction;
-class hkpPhantom;
-
-class hkpPhysicsSystem : public hkReferencedObject {
-public:
-    virtual ~hkpPhysicsSystem();
-
-    hkArray<hkReferencedObject *> m_rigidBodies;   // +0x8
-    hkArray<hkReferencedObject *> m_constraints;   // +0x14
-    hkArray<hkReferencedObject *> m_actions;       // +0x20
-    hkArray<hkReferencedObject *> m_phantoms;      // +0x2C
-};
 
 extern "C" void fn_826097E8(hkpPhysicsSystem *self)
 {
@@ -53,7 +43,7 @@ extern "C" void fn_826097E8(hkpPhysicsSystem *self)
         }
     }
     {
-        hkArray<hkReferencedObject *> &phantoms = self->m_phantoms;
+        hkArray<hkpPhantom *> &phantoms = self->m_phantoms;
         int n = phantoms.getSize();
         for (int i = 0; i < n; i++) {
             if (phantoms[i]) {

@@ -2,12 +2,7 @@
 // (Physics/Dynamics/Constraint/Chain/hkpConstraintChainInstance.h). It keeps its fn_ name and is written as an
 // extern "C" function that runs the constructor on the given storage (MSVC's explicit constructor call;
 // placement new would add a null check).
-#include "havok/hkpConstraintInstance.h"
-
-class hkpConstraintChainInstance : public hkpConstraintInstance {
-public:
-    HK_FORCE_INLINE hkpConstraintChainInstance(hkFinishLoadedObjectFlag f) : hkpConstraintInstance(f) {}
-};
+#include "havok/hkpConstraintChainInstance.h"
 
 extern "C" hkpConstraintChainInstance *fn_82D7E9A8(hkpConstraintChainInstance *self, hkFinishLoadedObjectFlag f)
 {

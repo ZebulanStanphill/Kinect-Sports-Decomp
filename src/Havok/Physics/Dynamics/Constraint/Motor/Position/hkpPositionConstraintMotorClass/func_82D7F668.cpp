@@ -3,12 +3,7 @@
 // constructor on an object loaded in place. Hierarchy from the RTTI:
 // hkpPositionConstraintMotor -> hkpLimitedForceConstraintMotor -> hkpConstraintMotor -> hkReferencedObject -> hkBaseObject; only the finish constructors are declared.
 #include "havok/hkBase.h"
-#include "havok/hkpConstraintMotor.h"
-
-class hkpPositionConstraintMotor : public hkpLimitedForceConstraintMotor {
-public:
-    hkpPositionConstraintMotor(hkFinishLoadedObjectFlag flag) : hkpLimitedForceConstraintMotor(flag) {}
-};
+#include "havok/hkpPositionConstraintMotor.h"
 
 void HK_CALL finishLoadedObjecthkpPositionConstraintMotor(void *p, int finishing)
 {

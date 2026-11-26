@@ -1,7 +1,5 @@
 #include "havok/hkpSymmetricAgent.h"
-
-// hkpListAgent (Physics/Collide/Agent/CompoundAgent/List/hkpListAgent.h), as far as the template needs it.
-class hkpListAgent : public hkpCollisionAgent {};
+#include "havok/hkpListAgent.h"
 
 // Defined in hkpListAgent.cpp.
 extern template hkpCollisionAgent *HK_CALL hkpSymmetricAgent<hkpListAgent>::createAgent(

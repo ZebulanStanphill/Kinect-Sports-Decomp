@@ -1,9 +1,9 @@
+// hkpCompressedSampledHeightFieldShape::hkpCompressedSampledHeightFieldShape(const hkpSampledHeightFieldBaseCinfo &,
+// const hkArray<hkUint16> &, hkReal, hkReal) (Physics/Collide/Shape/HeightField/CompressedSampledHeightField/
+// hkpCompressedSampledHeightFieldShape.cpp): copies the samples. The third
+// parameter is stored to m_offset (+0x70) and the fourth to m_scale (+0x74), m_scale first.
 #include "havok/hkBase.h"
-struct hkpSampledHeightFieldBaseCinfo;
-class hkpSampledHeightFieldShape : public hkReferencedObject { public:
- char pad[0x58];
- hkpSampledHeightFieldShape(const hkpSampledHeightFieldBaseCinfo &,int);
-};
+#include "havok/hkpCompressedSampledHeightFieldShape.h"
 template <typename T>
 static HK_FORCE_INLINE void _copyFromArray(hkArrayBase<T> *self, hkMemoryAllocator &alloc, const hkArrayBase<T> &a) {
  if (self->getCapacity() < a.getSize()) {
@@ -21,8 +21,13 @@ template <typename T>
 static HK_FORCE_INLINE void assign(hkArray<T> &self, const hkArrayBase<T> &a) {
  _copyFromArray(&self, hkContainerHeapAllocator::get(&self), a);
 }
-class hkpCompressedSampledHeightFieldShape : public hkpSampledHeightFieldShape { public:
- hkArray<hkUint16> heights; hkBool triangle; float scale,offset;
- hkpCompressedSampledHeightFieldShape(const hkpSampledHeightFieldBaseCinfo &,const hkArray<hkUint16> &,float,float);virtual ~hkpCompressedSampledHeightFieldShape();
-};
-hkpCompressedSampledHeightFieldShape::hkpCompressedSampledHeightFieldShape(const hkpSampledHeightFieldBaseCinfo &c,const hkArray<hkUint16> &h,float s,float o):hkpSampledHeightFieldShape(c,1),triangle(false){hkpCompressedSampledHeightFieldShape *t=this;assign(t->heights,h);t->offset=o;t->scale=s;}
+hkpCompressedSampledHeightFieldShape::hkpCompressedSampledHeightFieldShape(const hkpSampledHeightFieldBaseCinfo &ci,
+                                                                           const hkArray<hkUint16> &samples,
+                                                                           hkReal offset, hkReal scale)
+    : hkpSampledHeightFieldShape(ci, HEIGHTFIELD_COMPRESSED), m_triangleFlip(false)
+{
+    hkpCompressedSampledHeightFieldShape *t = this;
+    assign(t->m_storage, samples);
+    t->m_scale = scale;
+    t->m_offset = offset;
+}

@@ -3,17 +3,11 @@
 // 0.5f is __real@3f000000 (Matching units reference it), a selectany definition.
 #include "havok/hkpShapePhantom.h"
 #include "havok/hkAabb.h"
+#include "havok/hkpWorld.h"
 
 struct hkpProcessCollisionInput {
     char m_pad0[8];
     hkReal m_tolerance;   // +0x8 (hkpCollisionInput::m_tolerance)
-};
-
-class hkpWorld {
-public:
-    HK_FORCE_INLINE const hkpProcessCollisionInput *getCollisionInput() const { return m_collisionInput; }
-    char m_pad0[0x78];
-    hkpProcessCollisionInput *m_collisionInput;   // +0x78
 };
 
 extern "C" void fn_82D9A730(hkpPhantom *self, const hkAabb &aabb);   // hkpPhantom::updateBroadPhase

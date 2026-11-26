@@ -3,12 +3,7 @@
 // (written out by hand, as for func_82D3A580).
 // RTTI: hkpProjectileGun : hkpFirstPersonGun : hkReferencedObject; only the primary base matters here.
 #include "havok/hkBase.h"
-
-class hkpProjectileGun : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_BASE);
-    virtual ~hkpProjectileGun();
-};
+#include "havok/hkpProjectileGun.h"
 
 extern "C" hkpProjectileGun *fn_82DF49B8(hkpProjectileGun *self, unsigned int flags)
 {

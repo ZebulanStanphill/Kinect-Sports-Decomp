@@ -1,9 +1,4 @@
-#include "havok/hkpShape.h"
-#include "havok/hkVector4.h"
-class hkpBoxShape: public hkpConvexShape { public:
- void setHalfExtents(const hkVector4 &halfExtents);
- hkVector4 m_halfExtents;
-};
+#include "havok/hkpBoxShape.h"
 void hkpBoxShape::setHalfExtents(const hkVector4 &halfExtents)
 {
  m_halfExtents=halfExtents; float x=m_halfExtents.m_quad.vector4_f32[0],y=m_halfExtents.m_quad.vector4_f32[1]; float z;

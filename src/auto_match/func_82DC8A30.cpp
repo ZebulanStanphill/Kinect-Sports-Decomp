@@ -3,16 +3,7 @@
 // m_deterministicOrder (+0x10) and three empty hkArrays. A Matching C unit (func_82DB4458) calls
 // it, so it keeps its fn_ name; the MI vtables are renamed to the compiler's names.
 #include "havok/hkBase.h"
-
-class hkpWorld;
-class hkpEntity;
-
-class hkpWorldPostSimulationListener {
-public:
-    virtual ~hkpWorldPostSimulationListener() {}
-    virtual void postSimulationCallback(hkpWorld *world) = 0;
-    virtual void inactiveEntityMovedCallback(hkpEntity *entity) {}
-};
+#include "havok/hkpWorldPostSimulationListener.h"
 
 class hkpEndOfStepCallbackUtil : public hkReferencedObject, public hkpWorldPostSimulationListener {
 public:

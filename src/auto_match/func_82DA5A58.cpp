@@ -7,29 +7,9 @@
 // 0.6f and 0.1f * HK_REAL_EPSILON have only non-Matching references and are renamed to their
 // __real@ names; symbols.txt already names 1.0f __real@3f800000.
 #include "havok/hkBase.h"
-#include "havok/hkVector4.h"
-#include "havok/hkpConstraintAtom.h"
-#include "havok/hkpConstraintData.h"
+#include "havok/hkpStiffSpringChainData.h"
 
 #define HK_REAL_EPSILON 1.192092896e-07f
-
-class hkpStiffSpringChainData : public hkpConstraintChainData {
-public:
-    hkpStiffSpringChainData();
-
-    struct ConstraintInfo {
-        hkVector4 m_pivotInA;
-        hkVector4 m_pivotInB;
-        hkReal m_springLength;
-        hkReal m_pad[3];
-    };
-
-    hkpBridgeAtoms m_atoms;          // +0xC
-    hkArray<ConstraintInfo> m_infos; // +0x18
-    hkReal m_tau;                    // +0x24
-    hkReal m_damping;                // +0x28
-    hkReal m_cfm;                    // +0x2C
-};
 
 hkpStiffSpringChainData::hkpStiffSpringChainData()
 {

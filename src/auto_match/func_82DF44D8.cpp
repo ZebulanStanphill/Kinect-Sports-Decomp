@@ -1,36 +1,7 @@
 // hkpGunProjectile::~hkpGunProjectile (Physics/Utilities/Weapons/hkpProjectileGun.cpp).
 #include "havok/hkBase.h"
 #include "havok/hkpRigidBody.h"
-struct hkpContactPointEvent;
-struct hkpCollisionEvent;
-class hkpContactPointAddedEvent;
-class hkpContactPointRemovedEvent;
-class hkpContactProcessEvent;
-class hkpContactPointConfirmedEvent;
-
-// hkpContactListener (Physics/Dynamics/Collide/ContactListener/hkpContactListener.h): an interface with no base.
-// Vtable (7 slots): three callbacks, the deleting destructor (slot 3, fn_8240DF10), three deprecated callbacks;
-// the defaults are empty (fn_82BA02A8).
-class hkpContactListener {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual void contactPointCallback(const hkpContactPointEvent &event) {}
-    virtual void collisionAddedCallback(const hkpCollisionEvent &event) {}
-    virtual void collisionRemovedCallback(const hkpCollisionEvent &event) {}
-    virtual ~hkpContactListener() {}
-    virtual void contactPointAddedCallback(hkpContactPointAddedEvent &event) {}
-    virtual void contactPointRemovedCallback(hkpContactPointRemovedEvent &event) {}
-    virtual void contactProcessCallback(hkpContactProcessEvent &event) {}
-};
-
-// hkpCollisionListener (8 slots): overrides contactPointCallback (fn_82D95350) and adds
-// contactPointConfirmedCallback.
-class hkpCollisionListener : public hkpContactListener {
-public:
-    virtual void contactPointCallback(const hkpContactPointEvent &event);
-    virtual ~hkpCollisionListener() {}
-    virtual void contactPointConfirmedCallback(hkpContactPointConfirmedEvent &event) {}
-};
+#include "havok/hkpContactListener.h"
 
 class hkpProjectileGun;
 class hkpGunProjectile;

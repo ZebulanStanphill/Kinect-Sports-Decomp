@@ -4,22 +4,9 @@
 // symbols.txt already names 1.0f __real@3f800000.
 
 #include "havok/hkBase.h"
-#include "havok/hkpConstraintMotor.h"
+#include "havok/hkpPositionConstraintMotor.h"
 
 // The game's 1.0f (see above).
-
-// hkpPositionConstraintMotor (Physics/Dynamics/Constraint/Motor/Position/hkpPositionConstraintMotor.h).
-class hkpPositionConstraintMotor : public hkpLimitedForceConstraintMotor {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);
-    hkpPositionConstraintMotor(hkReal currentPosition = 0.0f);
-    virtual hkpConstraintMotor *clone() const;
-
-    hkReal m_tau;                            // +0x14
-    hkReal m_damping;                        // +0x18
-    hkReal m_proportionalRecoveryVelocity;   // +0x1C
-    hkReal m_constantRecoveryVelocity;       // +0x20
-};
 
 hkpPositionConstraintMotor::hkpPositionConstraintMotor(hkReal currentPosition)
 {

@@ -3,12 +3,7 @@
 // Hierarchy from the RTTI: hkpWheelConstraintData -> hkpConstraintData -> hkReferencedObject -> hkBaseObject; only the finish
 // constructors are declared.
 #include "havok/hkBase.h"
-#include "havok/hkpConstraintData.h"
-
-class hkpWheelConstraintData : public hkpConstraintData {
-public:
-    hkpWheelConstraintData(hkFinishLoadedObjectFlag flag) : hkpConstraintData(flag) {}
-};
+#include "havok/hkpWheelConstraintData.h"
 
 const void *HK_CALL getVtablehkpWheelConstraintData()
 {

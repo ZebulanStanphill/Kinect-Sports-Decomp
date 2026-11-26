@@ -7,37 +7,9 @@
 // pointer at +0x70, the last three set in the body.
 // The source used the literal 1.0f.
 #include "havok/hkBase.h"
-
-extern "C" void fn_8265CA20(void *p);   // global operator delete
-
-struct __declspec(align(16)) hkVector4 { hkReal m_quad[4]; };
-
-struct hkAabbTreeData {
-    struct hkAabbTreeAabb;
-    struct hkAabbTreeAabb16;
-};
-
-template <typename BOUNDING_VOLUME, typename IDX>
-class hkAabbTreeQueryUtils {
-public:
-    class Collector {
-    public:
-        static void operator delete(void *p) { fn_8265CA20(p); }
-        virtual ~Collector() {}
-    };
-};
-
-class hkpBroadPhaseCastCollector {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual ~hkpBroadPhaseCastCollector() {}
-};
-
-class hkKdTreeCastCollector {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual ~hkKdTreeCastCollector() {}
-};
+#include "havok/hkAabbTreeQueryUtils.h"
+#include "havok/hkKdTreeCastCollector.h"
+#include "havok/hkpBroadPhaseCastCollector.h"
 
 struct hkpShapeRayCastInput {
     HK_FORCE_INLINE hkpShapeRayCastInput() : m_filterInfo(0), m_rayShapeCollectionFilter(HK_NULL) {}

@@ -1,16 +1,7 @@
 #include "havok/hkpCdBody.h"
 #include "havok/hkpCdBodyPairCollector.h"
-
-class hkpSphereShape : public hkpConvexShape {
-public:
-    hkpSphereShape(hkReal radius);
-};
-
-class hkpMultiSphereShape : public hkpSphereRepShape {
-public:
-    int m_numSpheres;         // 0x10
-    hkVector4 m_spheres[8];   // 0x20: centre in xyz, radius in w
-};
+#include "havok/hkpSphereShape.h"
+#include "havok/hkpMultiSphereShape.h"
 
 class Agent_82D6D1B8 {
 public:

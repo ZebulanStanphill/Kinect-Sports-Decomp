@@ -8,36 +8,9 @@
 // lbl_8213DD54 + 0x3c reproduces the original. The members array is named LAB_8213DD90 because
 // objdiff skips LAB_ names when sizing symbols, so it resolves the folded address to
 // lbl_8213DD54 + 0x3c, as it does in the original object, where the data is external.
-#include "havok/hkBaseTypes.h"
+#include "havok/hkInternalClassMember.h"
 
-class hkClassEnum;
 class hkClassMember;
-class hkCustomAttributes;
-
-// The POD images of hkClassEnum::Item, hkClassEnum and hkClassMember that Havok's
-// generated reflection files define (Common/Base/Reflection/hkInternalClassMember.h).
-struct hkInternalClassEnumItem {
-    int m_value;
-    const char *m_name;
-};
-struct hkInternalClassEnum {
-    const char *m_name;
-    const hkInternalClassEnumItem *m_items;
-    int m_numItems;
-    const hkCustomAttributes *m_attributes;
-    hkUint32 m_flags;
-};
-struct hkInternalClassMember {
-    const char *m_name;
-    const hkClass *m_class;
-    const hkClassEnum *m_enum;
-    hkUint8 m_type;
-    hkUint8 m_subtype;
-    hkInt16 m_cArraySize;
-    hkUint16 m_flags;
-    hkUint16 m_offset;
-    const hkCustomAttributes *m_attributes;
-};
 
 // hkClassMember::Type and hkClassMember::FlagValues
 enum {

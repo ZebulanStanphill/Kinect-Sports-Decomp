@@ -1,27 +1,7 @@
 // hkpClosestCdPointCollector::addCdPoint: keeps the closest point reported so far.
-#include "havok/hkContactPoint.h"
 #include "havok/hkpCollidable.h"
-
-class hkpCdPoint {
-public:
-	hkContactPoint m_contact;
-	const hkpCdBody *m_cdBodyA;
-	const hkpCdBody *m_cdBodyB;
-};
-
-struct hkpRootCdPoint {
-	hkContactPoint m_contact;               // +0x0
-	const hkpCollidable *m_rootCollidableA; // +0x20
-	hkUint32 m_shapeKeyA;                   // +0x24
-	const hkpCollidable *m_rootCollidableB; // +0x28
-	hkUint32 m_shapeKeyB;                   // +0x2C
-};
-
-struct hkpClosestCdPointCollector {
-	void *m_vtable;                // +0x0
-	hkReal m_earlyOutDistance;     // +0x4
-	hkpRootCdPoint m_hitPoint;     // +0x10
-};
+#include "havok/hkpCdPoint.h"
+#include "havok/hkpClosestCdPointCollector.h"
 
 extern "C" void fn_82D75C10(hkpClosestCdPointCollector *self, const hkpCdPoint &event)
 {

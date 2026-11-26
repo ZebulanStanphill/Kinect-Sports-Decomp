@@ -3,45 +3,8 @@
 #include "havok/hkBase.h"
 #include "havok/hkpEntity.h"
 #include "havok/hkContactPoint.h"
-#include "havok/hkpConstraintAtom.h"
-
-class hkpSimpleContactConstraintAtom;
-extern "C" void fn_82D9FE90(hkpSimpleContactConstraintAtom *self, hkFinishLoadedObjectFlag f);   // its finish constructor
-
-class __declspec(align(16)) hkpSimpleContactConstraintDataInfo {
-public:
-    hkUint16 m_flags;          // +0x0
-    hkUint16 m_index;          // +0x2
-    hkUint32 m_data[7];        // +0x4
-};
-
-class hkpSimpleContactConstraintAtom : public hkpConstraintAtom {
-public:
-    // Out of line in the game (fn_82D9FE90, which keeps its fn_ name).
-    HK_FORCE_INLINE hkpSimpleContactConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f)
-    {
-        fn_82D9FE90(this, f);
-    }
-
-    hkUint16 m_sizeOfAllAtoms;                    // +0x2
-    hkUint16 m_numContactPoints;                  // +0x4
-    hkUint16 m_numReservedContactPoints;          // +0x6
-    hkUint8 m_numUserDatasForBodyA;               // +0x8
-    hkUint8 m_numUserDatasForBodyB;               // +0x9
-    hkUint8 m_contactPointPropertiesStriding;     // +0xA
-    hkUint16 m_maxNumContactPoints;               // +0xC
-    hkpSimpleContactConstraintDataInfo m_info;    // +0x10
-};
-
-struct hkpAgent1nSector;
-struct hkpSerializedSubTrack1nInfo;
-
-struct hkpSerializedTrack1nInfo {
-    hkpSerializedTrack1nInfo(hkFinishLoadedObjectFlag f) : m_sectors(f), m_subTracks(f) {}
-    ~hkpSerializedTrack1nInfo();   // out of line (fn_82DF4EF8)
-    hkArray<hkpAgent1nSector *> m_sectors;                 // +0x0
-    hkArray<hkpSerializedSubTrack1nInfo *> m_subTracks;    // +0xC
-};
+#include "havok/hkpSerializedTrack1nInfo.h"
+#include "havok/hkpSimpleContactConstraintAtom.h"
 
 // Physics/Utilities/Serialize/hkpSerializedAgentNnEntry.h.
 class hkpSerializedAgentNnEntry : public hkReferencedObject {

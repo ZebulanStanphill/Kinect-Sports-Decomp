@@ -1,17 +1,8 @@
 // hkpGenericConstraintData's scalar deleting destructor: it calls the out-of-line destructor
 // (fn_82D9DF68, ??1hkpGenericConstraintData@@UAA@XZ) and frees through the class allocator.
-// The constructor below only makes the compiler emit the vtable, and with it the deleting destructor.
+// The constructor below (the header's inline finish constructor) only makes the compiler emit the vtable, and with
+// it the deleting destructor.
 #include "havok/hkBase.h"
-#include "havok/hkpConstraintData.h"
+#include "havok/hkpGenericConstraintData.h"
 
-class hkpGenericConstraintData : public hkpConstraintData {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);
-    hkpGenericConstraintData() {}
-    virtual ~hkpGenericConstraintData();
-
-    char m_atoms[0xC];      // +0xC  hkpBridgeAtoms
-    char m_scheme[0x40];    // +0x18 hkpGenericConstraintDataScheme
-};
-
-void emitVtable_82D9EA58(void *p) { new (p) hkpGenericConstraintData; }
+void emitVtable_82D9EA58(void *p, hkFinishLoadedObjectFlag f) { new (p) hkpGenericConstraintData(f); }

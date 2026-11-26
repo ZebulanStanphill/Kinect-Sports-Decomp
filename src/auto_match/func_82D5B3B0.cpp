@@ -7,6 +7,9 @@
 // (if (n < 0) { ...; if (!ok) break; ... } else break;) for the original block layout.
 #include "havok/hkBase.h"
 #include "havok/hkpCollidable.h"
+#include "havok/hkpGskCache.h"
+#include "havok/hkpAgent1nTrack.h"
+#include "havok/hkpContactMgr.h"
 
 extern "C" unsigned __int64 __mftb();
 struct hkMonitorStream { void *a; unsigned *next; void *b; unsigned *end; };
@@ -40,19 +43,6 @@ struct hkpProcessCollisionOutput {
 	hkpConstraintOwner *m_constraintOwner;  // +0x4
 };
 
-class hkpContactMgr : public hkReferencedObject {
-public:
-	enum Type { TYPE_SIMPLE_CONSTRAINT_CONTACT_MGR, TYPE_REPORT_CONTACT_MGR, TYPE_CONVEX_LIST_CONTACT_MGR };
-	HK_FORCE_INLINE hkpContactMgr(Type type) : m_type(type) {}
-	virtual void addContactPoint();
-	virtual void reserveContactPoints();
-	virtual void removeContactPoint();
-	virtual void processContact();
-	virtual void addToiEvent();
-	virtual void removeToiEvent();
-	virtual void cleanup();
-	Type m_type;   // +0x8
-};
 class hkpMapPointsToSubShapeContactMgr : public hkpContactMgr {
 public:
 	HK_FORCE_INLINE hkpMapPointsToSubShapeContactMgr(hkpContactMgr *mgr) : hkpContactMgr(TYPE_CONVEX_LIST_CONTACT_MGR)
@@ -82,23 +72,12 @@ struct hkpAgent3ProcessInput {
 	hkVector4 m_linearTimInfo;       // +0x70
 };
 
-struct hkpGskCache {
-	hkUint16 m_vertices[4];
-	hkUint8 m_dimA;
-	hkUint8 m_dimB;
-	hkUint8 m_maxDim;
-	hkUint8 m_gskFlags;   // +0xb
-};
 struct hkpGskManifold {
 	hkUint8 m_numVertsA;
 	hkUint8 m_numVertsB;
 	hkUint8 m_numContactPoints;   // +0xe in the agent data
 	hkUint8 m_marker;
 	HK_FORCE_INLINE void init() { *(hkUint32 *)this = 0; }
-};
-struct hkpAgent1nSector;
-struct hkpAgent1nTrack {
-	hkArray<hkpAgent1nSector *> m_sectors;
 };
 inline void *operator new(unsigned int, void *p) throw() { return p; }
 struct StreamData {
@@ -137,7 +116,6 @@ int fn_82DD6E28(const GetClosestPointInput &input, hkpGskCache *cache, hkVector4
 void fn_82D70D40(hkpAgent1nTrack *track, hkpCollisionDispatcher *dispatcher, hkpContactMgr *mgr, hkpConstraintOwner *owner);
 hkpAgentData *fn_82D69C40(const hkpAgent3ProcessInput &input, hkpAgentEntry *entry, hkpAgentData *agentData, hkVector4 *separatingNormal, hkpProcessCollisionOutput &output);
 void fn_82D699A8(hkpAgentEntry *entry, hkpAgentData *agentData, hkpContactMgr *mgr, hkpConstraintOwner *owner);
-void fn_82D70F30(hkpAgent1nTrack *track);
 void fn_82D71B20(hkpAgent1nTrack *track, const hkpAgent3ProcessInput &input, const void *container, const hkUint32 *hitList, hkpProcessCollisionOutput &output);
 extern const float lbl_82005344;   // 2.0f
 extern const float lbl_82138F84;   // -HK_REAL_MAX

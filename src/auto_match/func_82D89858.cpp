@@ -5,19 +5,9 @@
 // (lowest vtable address, emitted with hkpWorld's code). The function at the end only makes the compiler emit
 // the vtable.
 #include "havok/hkBase.h"
-
-extern "C" void fn_8265CA20(void *p);   // global operator delete
+#include "havok/hkpBroadPhaseListener.h"
 
 class hkpWorld;
-struct hkpTypedBroadPhaseHandlePair;
-
-class hkpBroadPhaseListener {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual ~hkpBroadPhaseListener() {}
-    virtual void addCollisionPair(hkpTypedBroadPhaseHandlePair &pair) = 0;
-    virtual void removeCollisionPair(hkpTypedBroadPhaseHandlePair &pair) = 0;
-};
 
 class hkpPhantomBroadPhaseListener : public hkReferencedObject, public hkpBroadPhaseListener {
 public:

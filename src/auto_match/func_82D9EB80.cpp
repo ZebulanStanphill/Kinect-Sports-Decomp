@@ -4,31 +4,12 @@
 // The constructor keeps its fn_ name (func_82DBF380, which news and copies the data, is otherwise C-matchable):
 // it is forced inline and run on the object by an explicit constructor call, which adds no null check.
 #include "havok/hkBase.h"
-#include "havok/hkRotation.h"
-#include "havok/hkpConstraintAtom.h"
 #include "havok/hkpConstraintData.h"
+#include "havok/hkpSetLocalRotationsConstraintAtom.h"
+#include "havok/hkp2dAngConstraintAtom.h"
+#include "havok/hkpAngLimitConstraintAtom.h"
 
 // The game's 1.0f keeps its lbl_ name (Matching units reference it).
-
-struct hkpSetLocalRotationsConstraintAtom : public hkpConstraintAtom {
-    hkpSetLocalRotationsConstraintAtom() : hkpConstraintAtom(TYPE_SET_LOCAL_ROTATIONS) {}
-    hkRotation m_rotationA;
-    hkRotation m_rotationB;
-};
-
-struct hkpAngLimitConstraintAtom : public hkpConstraintAtom {
-    hkpAngLimitConstraintAtom() : hkpConstraintAtom(TYPE_ANG_LIMIT) { m_isEnabled = true; }
-    hkUint8 m_isEnabled;
-    hkUint8 m_limitAxis;
-    hkReal m_minAngle;
-    hkReal m_maxAngle;
-    hkReal m_angularLimitsTauFactor;
-};
-
-struct hkp2dAngConstraintAtom : public hkpConstraintAtom {
-    hkp2dAngConstraintAtom() : hkpConstraintAtom(TYPE_2D_ANG) {}
-    hkUint8 m_freeRotationAxis;
-};
 
 class hkpHingeLimitsData : public hkpConstraintData {
 public:

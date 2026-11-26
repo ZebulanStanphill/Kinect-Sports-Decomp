@@ -8,17 +8,12 @@
 // Notes: fn_82E09E40/fn_82E09DA8 return a C++ bool (hkBool would come back through a hidden pointer);
 // the fixup's section and offset are read into locals after the -1 test (inline reads anchor the
 // strength-reduced pointer at the wrong element); getContentsClassName() reads both header fields first.
-#include "havok/hkBase.h"
-#include "havok/hkClassNameRegistry.h"
+#include "havok/hkBinaryPackfileReader.h"
+#include "havok/hkObjectInspector.h"
 
 extern "C" {
 void fn_82CEA160(void *self, hkMemoryAllocator *alloc, hkUlong key, hkUlong val);   // hkMapBase<hkUlong, hkUlong>::insert
 }
-
-struct hkVariant {
-    void *m_object;
-    const hkClass *m_class;
-};
 
 template <typename T>
 class hkArrayA : public hkArray<T> {
@@ -48,18 +43,7 @@ public:
     HK_FORCE_INLINE int getSize() const { return this->m_map.m_numElems & 0x7fffffff; }
 };
 
-class hkObjectInspector {
-public:
-    class ObjectListener {
-    public:
-        static void operator delete(void *p) { fn_8265CA20(p); }
-        virtual ~ObjectListener() {}
-        virtual int objectCallback(const void *objP, const hkClass &klass, void *p) = 0;
-    };
-};
-
 extern "C" {
-void fn_82E17B38(const void *object, const hkClass *klass, hkObjectInspector::ObjectListener *listener);   // hkObjectInspector::walkPointers
 bool fn_82E09E40(const char *version);
 bool fn_82E09DA8(const hkClass *klass);
 }
@@ -82,76 +66,21 @@ public:
     void *m_updateFlags;                                                  // +0x20
 };
 
-struct hkPackfileHeader {
-    int m_magic[2];
-    int m_userTag;
-    int m_fileVersion;                       // +0xc
-    unsigned char m_layoutRules[4];
-    int m_numSections;                       // +0x14
-    int m_contentsSectionIndex;              // +0x18
-    int m_contentsSectionOffset;             // +0x1c
-    int m_contentsClassNameSectionIndex;     // +0x20
-    int m_contentsClassNameSectionOffset;    // +0x24
-};
-
-struct hkPackfileSectionHeader {
-    char m_sectionTag[19];
-    char m_nullByte;
-    int m_absoluteDataStart;    // +0x14
-    int m_localFixupsOffset;    // +0x18
-    int m_globalFixupsOffset;   // +0x1c
-    int m_virtualFixupsOffset;  // +0x20
-    int m_exportsOffset;        // +0x24
-    int m_importsOffset;        // +0x28
-    int m_endOffset;            // +0x2c
-    HK_FORCE_INLINE int getVirtualFixupsSize() const { return m_exportsOffset - m_virtualFixupsOffset; }
-};
-
-class hkPackfileReader : public hkReferencedObject {
-public:
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-    virtual const hkArray<hkVariant> &getLoadedObjects() const;
-    virtual void v8();
-    virtual void v9();
-    virtual const char *getContentsVersion() const;
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual int getSectionIndex(const char *sectionTag) const;
-    virtual void *getSectionDataByIndex(int sectionIndex, int offset) const;
-
-    hkPointerMap<const hkClass *, hkInt32> m_updateFlagFromClass;   // +0x8
-    char *m_contentsVersion;                                       // +0x14
-};
-
-class hkBinaryPackfileReader;
 extern "C" {
 const hkClassNameRegistry *fn_82E0BA38(const hkBinaryPackfileReader *self);   // getClassNameRegistry
 const void *fn_82E0A0F8(const hkBinaryPackfileReader *self);                  // getOriginalContents
 }
 
-class hkBinaryPackfileReader : public hkPackfileReader {
-public:
-    virtual const hkArray<hkVariant> &getLoadedObjects() const;
-    HK_FORCE_INLINE const char *getContentsClassName() const
-    {
-        int sectionIndex = m_header->m_contentsClassNameSectionIndex;
-        int offset = m_header->m_contentsClassNameSectionOffset;
-        if (sectionIndex >= 0 && offset >= 0)
-            return (const char *)getSectionDataByIndex(sectionIndex, offset);
-        return HK_NULL;
-    }
-
-    void *m_packfileData;                          // +0x18
-    hkPackfileHeader *m_header;                    // +0x1c
-    hkPackfileSectionHeader *m_sections;           // +0x20
-    void **m_sectionData;                          // +0x24 (hkInplaceArray<void *, 16>)
-    char m_sectionDataRest[0x74 - 0x28];
-    mutable hkArrayA<hkVariant> *m_loadedObjects;  // +0x74
-};
+// The contents' class name as the header records it, inlined here (not the virtual getContentsClassName,
+// 82E0A1C0, which also consults the update tracker).
+static HK_FORCE_INLINE const char *headerContentsClassName(const hkBinaryPackfileReader *reader)
+{
+    int sectionIndex = reader->m_header->m_contentsClassNameSectionIndex;
+    int offset = reader->m_header->m_contentsClassNameSectionOffset;
+    if (sectionIndex >= 0 && offset >= 0)
+        return (const char *)reader->getSectionDataByIndex(sectionIndex, offset);
+    return HK_NULL;
+}
 
 const hkArray<hkVariant> &hkBinaryPackfileReader::getLoadedObjects() const
 {
@@ -166,7 +95,7 @@ const hkArray<hkVariant> &hkBinaryPackfileReader::getLoadedObjects() const
                 const hkPackfileSectionHeader &section = m_sections[sectionIndex];
                 char *dataBegin = (char *)m_sectionData[sectionIndex];
                 const int *virtualFixups = (const int *)(dataBegin + section.m_virtualFixupsOffset);
-                for (int i = 0; i < section.getVirtualFixupsSize() / int(sizeof(int)); i += 3) {
+                for (int i = 0; i < section.getFinishSize() / int(sizeof(int)); i += 3) {
                     int srcOff = virtualFixups[i];
                     if (srcOff == -1)
                         continue;
@@ -182,8 +111,9 @@ const hkArray<hkVariant> &hkBinaryPackfileReader::getLoadedObjects() const
         m_loadedObjects = new hkArrayA<hkVariant>();
         PackfileObjectsCollector collector(*m_loadedObjects, trackedObjects, m_header->m_fileVersion, getContentsVersion(),
                                            (void *)&m_updateFlagFromClass);
-        m_loadedObjects->reserve(trackedObjects.getSize());
-        fn_82E17B38(fn_82E0A0F8(this), classReg->getClassByName(getContentsClassName()), &collector);
+        // The array is an hkArrayA: hkArray with Havok's class allocator and reserve(), which hkArray.h lacks.
+        static_cast<hkArrayA<hkVariant> *>(m_loadedObjects)->reserve(trackedObjects.getSize());
+        fn_82E17B38(fn_82E0A0F8(this), classReg->getClassByName(headerContentsClassName(this)), &collector);
     }
     return *m_loadedObjects;
 }

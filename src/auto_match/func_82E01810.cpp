@@ -4,8 +4,7 @@
 // phantom with it. hkpAabbPhantom's constructor is out of line (fn_82D8D6C0). Havok code, /O2.
 #include "havok/hkpAabbPhantom.h"
 #include "havok/hkpVehicleWheelCollide.h"
-
-class hkpRigidBody;
+#include "havok/hkpVehicleInstance.h"
 
 extern "C" hkpAabbPhantom *fn_82D8D6C0(void *self, const hkAabb &aabb, hkUint32 collisionFilterInfo);   // hkpAabbPhantom::hkpAabbPhantom
 
@@ -21,19 +20,12 @@ public:
     virtual void calcWheelsAABB(const hkpVehicleInstance *vehicle, hkAabb &aabbOut) const;   // +0x34
 };
 
-// The chassis (+0x18) of hkpVehicleInstance; its collidable is the world object's (+0x10).
-class hkpVehicleInstance {
-public:
-    char m_pad[0x18];
-    hkpWorldObject *m_chassis;   // +0x18
-};
-
 extern "C" void fn_82E01810(hkpVehicleRayCastWheelCollide *self, const hkpVehicleInstance *vehicle)
 {
     hkAabb aabb;
     static_cast<hkpVehicleRayCastWheelCollideSlots *>(self)->calcWheelsAABB(vehicle, aabb);
     self->m_phantom = fn_82D8D6C0(hkpAabbPhantom::operator new(sizeof(hkpAabbPhantom)), aabb,
                                   self->m_wheelCollisionFilterInfo);
-    self->m_rejectRayChassisListener.m_chassis = &vehicle->m_chassis->m_collidable;
+    self->m_rejectRayChassisListener.m_chassis = &vehicle->getChassis()->m_collidable;
     self->m_phantom->addPhantomOverlapListener(&self->m_rejectRayChassisListener);
 }

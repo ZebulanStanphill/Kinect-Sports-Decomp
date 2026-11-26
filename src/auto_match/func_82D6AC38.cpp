@@ -6,18 +6,7 @@
 #include "havok/hkBase.h"
 #include "havok/hkpCollisionAgent.h"
 #include "havok/hkpCollisionDispatcher.h"
-
-class hkpTransformShape : public hkpShape {
-public:
-    const hkpShape *getChildShape() const { return m_childShape; }
-    const hkTransform &getTransform() const { return m_transform; }
-
-    void *m_childShapeContainerVtable;   // +0x10: hkpSingleShapeContainer m_childShape
-    const hkpShape *m_childShape;        // +0x14
-    int m_childShapeSize;                // +0x18
-    hkVector4 m_rotation;                // +0x20
-    hkTransform m_transform;             // +0x30
-};
+#include "havok/hkpTransformShape.h"
 
 class hkpTransformAgent : public hkpCollisionAgent {
 public:

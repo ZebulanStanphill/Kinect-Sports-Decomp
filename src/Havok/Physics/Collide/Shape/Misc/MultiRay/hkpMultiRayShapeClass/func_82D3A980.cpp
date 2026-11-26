@@ -3,12 +3,7 @@
 // Hierarchy from the RTTI: hkpMultiRayShape -> hkpShape -> hkReferencedObject -> hkBaseObject; only the finish
 // constructors are declared.
 #include "havok/hkBase.h"
-#include "havok/hkpShape.h"
-
-class hkpMultiRayShape : public hkpShape {
-public:
-    hkpMultiRayShape(hkFinishLoadedObjectFlag flag) : hkpShape(flag) {}
-};
+#include "havok/hkpMultiRayShape.h"
 
 const void *HK_CALL getVtablehkpMultiRayShape()
 {

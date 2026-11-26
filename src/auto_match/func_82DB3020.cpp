@@ -6,22 +6,7 @@
 // through the global operator delete. The function at the end only makes the
 // compiler emit the vtable.
 #include "havok/hkBase.h"
-
-extern "C" void fn_8265CA20(void *p);   // global operator delete
-
-struct hkAabbTreeData {
-    struct hkAabbTreeAabb;
-    struct hkAabbTreeAabb16;
-};
-
-template <typename BOUNDING_VOLUME, typename IDX>
-class hkAabbTreeQueryUtils {
-public:
-    struct Collector {
-        static void operator delete(void *p) { fn_8265CA20(p); }
-        virtual ~Collector() {}
-    };
-};
+#include "havok/hkAabbTreeQueryUtils.h"
 
 template <typename BOUNDING_VOLUME>
 class hkpAabbTreeWorldLinearCaster

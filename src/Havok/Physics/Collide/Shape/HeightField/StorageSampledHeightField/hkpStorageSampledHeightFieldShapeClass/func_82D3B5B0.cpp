@@ -3,22 +3,7 @@
 // Hierarchy from the RTTI: hkpStorageSampledHeightFieldShape -> hkpSampledHeightFieldShape -> hkpHeightFieldShape -> hkpShape -> hkReferencedObject -> hkBaseObject; only the finish
 // constructors are declared.
 #include "havok/hkBase.h"
-#include "havok/hkpShape.h"
-
-class hkpHeightFieldShape : public hkpShape {
-public:
-    hkpHeightFieldShape(hkFinishLoadedObjectFlag flag) : hkpShape(flag) {}
-};
-
-class hkpSampledHeightFieldShape : public hkpHeightFieldShape {
-public:
-    hkpSampledHeightFieldShape(hkFinishLoadedObjectFlag flag) : hkpHeightFieldShape(flag) {}
-};
-
-class hkpStorageSampledHeightFieldShape : public hkpSampledHeightFieldShape {
-public:
-    hkpStorageSampledHeightFieldShape(hkFinishLoadedObjectFlag flag) : hkpSampledHeightFieldShape(flag) {}
-};
+#include "havok/hkpStorageSampledHeightFieldShape.h"
 
 const void *HK_CALL getVtablehkpStorageSampledHeightFieldShape()
 {

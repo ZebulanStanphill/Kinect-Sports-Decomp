@@ -1,8 +1,8 @@
 // hkpContinuousSimulation::hkpContinuousSimulation(hkpWorld *) (Physics/Dynamics/World/Simulation/Continuous/hkpContinuousSimulation.cpp); hkpSimulation's and the TOI resource manager's constructors are out of line.
 #include "havok/hkBase.h"
-
-class hkpWorld;
-class hkpEntity;
+#include "havok/hkpWorld.h"
+#include "havok/hkpToiResourceMgr.h"
+#include "havok/hkpContinuousSimulation.h"
 
 // hkArrayUtil::_reserve is out of line. hkArrayBase::_reserve inlines the growth policy.
 template <typename T>
@@ -17,61 +17,11 @@ HK_FORCE_INLINE void hkArrayReserve(hkArray<T> &arr, int n)
     }
 }
 
-// hkpSimulation (Physics/Dynamics/World/Simulation/hkpSimulation.h), 0x30 bytes.
-class hkpSimulation : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_DYNAMICS);
-    enum LastProcessingStep { INTEGRATE, COLLIDE };
-    hkpSimulation(hkpWorld *world);
-    virtual ~hkpSimulation();
-
-    hkUint32 m_determinismCheckFrameCounter;   // +0x8
-    hkpWorld *m_world;                         // +0xC
-    hkUint8 m_lastProcessingStep;              // +0x10 hkEnum<LastProcessingStep, hkUint8>
-    hkReal m_currentTime;                      // +0x14
-    hkReal m_currentPsiTime;                   // +0x18
-    hkReal m_physicsDeltaTime;                 // +0x1C
-    hkReal m_simulateUntilTime;                // +0x20
-    hkReal m_frameMarkerPsiSnap;               // +0x24
-    hkUint32 m_previousStepResult;             // +0x28
-    hkUint32 m_unknown2C;                      // +0x2C
-};
-
-// hkpToiResourceMgr / hkpDefaultToiResourceMgr (Physics/Dynamics/World/Simulation/Continuous/ToiResourceMgr):
-// 0x10 bytes; the default constructor is out of line (fn_82DDE130).
-class hkpToiResourceMgr : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_DYNAMICS);
-};
 class hkpDefaultToiResourceMgr : public hkpToiResourceMgr {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_DYNAMICS);
     hkpDefaultToiResourceMgr();
     char m_data[0x8];
-};
-
-struct hkpToiEvent {
-    __declspec(align(16)) char m_data[0x70];
-};
-
-// hkpContinuousSimulation (Physics/Dynamics/World/Simulation/Continuous/hkpContinuousSimulation.h).
-class hkpContinuousSimulation : public hkpSimulation {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_DYNAMICS);
-    hkpContinuousSimulation(hkpWorld *world);
-    virtual ~hkpContinuousSimulation();
-
-    hkArray<hkpToiEvent> m_toiEvents;                                   // +0x30
-    hkPointerMap<hkpEntity *, int> m_entitiesNeedingPsiCollisionDetection;   // +0x3C
-    hkpToiResourceMgr *m_toiResourceMgr;                                // +0x48
-    int m_toiCounter;                                                   // +0x4C
-};
-
-// The world's TOI event queue size (hkpWorld::m_sizeOfToiEventQueue, +0x334).
-class hkpWorld {
-public:
-    char m_pad[0x334];
-    int m_sizeOfToiEventQueue;   // +0x334
 };
 
 hkpContinuousSimulation::hkpContinuousSimulation(hkpWorld *world) : hkpSimulation(world)

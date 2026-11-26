@@ -8,36 +8,10 @@
 // to move; the game's copies are __real@34000000 and __real@7f7fffee, which Matching C units reference, so
 // they are declared here as known constants (as in func_83096D00.cpp). Built with /QVMXReserve
 // (the vector copies use v0/v13).
-#include "havok/hkpCdPointCollector.h"
-#include "havok/hkContactPoint.h"
 #include "havok/hkpAabbPhantom.h"
 #include "havok/hkpLinearCastInput.h"
 #include "havok/hkpVehicleWheelCollide.h"
-
-class hkpRootCdPoint {
-public:
-    hkContactPoint m_contact;
-    const hkpCollidable *m_rootCollidableA;
-    hkUint32 m_shapeKeyA;
-    const hkpCollidable *m_rootCollidableB;
-    hkUint32 m_shapeKeyB;
-};
-
-class hkpClosestCdPointCollector : public hkpCdPointCollector {
-public:
-    HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE, hkpClosestCdPointCollector);
-    HK_FORCE_INLINE hkpClosestCdPointCollector() { reset(); }
-    virtual void addCdPoint(const hkpCdPoint &point);
-    HK_FORCE_INLINE virtual void reset()
-    {
-        m_hitPoint.m_rootCollidableA = HK_NULL;
-        m_hitPoint.m_contact.setDistance(3.40282e+38f);
-        hkpCdPointCollector::reset();
-    }
-    HK_FORCE_INLINE bool hasHit() const { return m_hitPoint.m_rootCollidableA != HK_NULL; }
-    HK_FORCE_INLINE const hkpRootCdPoint &getHit() const { return m_hitPoint; }
-    hkpRootCdPoint m_hitPoint;
-};
+#include "havok/hkpClosestCdPointCollector.h"
 
 extern "C" hkBool *fn_82E008F8(hkBool *result, const hkpVehicleLinearCastWheelCollide *self, const hkpVehicleInstance *vehicle, hkUint8 wheelNum, hkpRootCdPoint &linearCastOutput)
 {

@@ -3,12 +3,10 @@
 // hkArrays and the bases are destroyed.
 #include "havok/hkpShape.h"
 #include "havok/hkVector4.h"
+#include "havok/hkpConvexVerticesConnectivity.h"
 
 struct hkFourTransposedPoints {
     hkVector4 m_vertices[3];
-};
-
-class hkpConvexVerticesConnectivity : public hkReferencedObject {
 };
 
 class hkpConvexVerticesShape : public hkpConvexShape {

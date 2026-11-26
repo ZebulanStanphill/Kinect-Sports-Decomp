@@ -11,12 +11,7 @@
 // Havok code: /O2 /QVMXReserve (flag file).
 #include "havok/hkBase.h"
 #include "havok/hkVector4.h"
-
-extern "C" float __fsqrts(float);   // compiler intrinsic (fsqrts)
-
-struct hkMath {
-    static HK_FORCE_INLINE hkReal sqrt(hkReal r) { return __fsqrts(r); }
-};
+#include "havok/hkMath.h"
 
 extern "C" {
 __declspec(selectany) extern const float lbl_82134B50 = 2.5e-11f;

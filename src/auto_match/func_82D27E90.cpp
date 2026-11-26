@@ -5,7 +5,7 @@
 // out-of-line clear fn_82D34CA8, then its node storage's destructor fn_82D1E718) and a default
 // triangulator (inline destructor).
 #include "havok/hkBase.h"
-#include "havok/hkVector4.h"
+#include "havok/hkAabbTree.h"
 
 // hkgpAbstractMesh<EDGE, VERTEX, TRIANGLE, ALLOCATOR> (Common/Internal/GeometryProcessing/AbstractMesh/
 // hkgpAbstractMesh.h), 0x38 bytes: hkReferencedObject, then the vertex list (+0x8) and the triangle list
@@ -97,40 +97,8 @@ typedef hkgpTriangulatorType<hkgpTriangulatorBase::VertexBase, hkgpTriangulatorB
     hkgpTriangulator;
 
 extern "C" {
-void fn_82D34CA8(void *self);   // hkAabbTree<hkAabbTreeData::hkAabbTreeAabb, hkUint32>::clear
-void fn_82D1E718(void *self);   // destructor of its node storage (two hkArrays)
 void fn_82D27C70(void *self);   // hkgpMesh::reset
 }
-
-struct hkAabbTreeData {
-    struct hkAabbTreeAabb {
-        hkReal m_min[3];
-        hkUint32 m_parent;
-        hkReal m_max[3];
-        hkUint32 m_pad;
-    };
-};
-
-template <typename BOUNDING_VOLUME, typename IDX>
-class hkAabbTree {
-public:
-    HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE, hkAabbTree);
-
-    struct Storage {
-        ~Storage() { fn_82D1E718(this); }
-        hkArrayBase<BOUNDING_VOLUME> m_nodes;   // +0x0
-        hkArrayBase<IDX> m_free;                // +0xC
-    };
-
-    virtual ~hkAabbTree() { clear(); }
-    void clear() { fn_82D34CA8(this); }
-
-    int m_numLeaves;          // +0x10
-    IDX m_root;               // +0x14
-    int m_depth;              // +0x18
-    Storage m_storage;        // +0x1C
-    hkVector4 m_vectors[4];   // +0x40
-};
 
 class hkgpMesh : public hkgpAbstractMesh<hkgpMeshBase::Edge, hkgpMeshBase::Vertex, hkgpMeshBase::Triangle,
                                          hkContainerHeapAllocator> {

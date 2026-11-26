@@ -13,22 +13,8 @@
 // Both objects hold the values the game has at 0x8213FD0C and 0x8213FD20
 // (scripts/check_addends.py compares this unit's own data with the image).
 #include "havok/hkBase.h"
-class hkClassEnum;
+#include "havok/hkInternalClassMember.h"
 class hkClassMember;
-class hkCustomAttributes;
-
-struct hkInternalClassEnumItem {
-    int m_value;
-    const char *m_name;
-};
-
-struct hkInternalClassEnum {
-    const char *m_name;
-    const hkInternalClassEnumItem *m_items;
-    int m_numItems;
-    const hkCustomAttributes *m_attributes;
-    hkUint32 m_flags;
-};
 
 extern "C" {
 extern hkClass lbl_8323DC90;                            // hkpConeLimitConstraintAtomClass

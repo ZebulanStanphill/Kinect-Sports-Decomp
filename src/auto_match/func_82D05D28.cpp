@@ -3,53 +3,7 @@
 // an invalid handle creates a new TCP socket (close(), then socket(AF_INET,
 // SOCK_STREAM, 0), socket).
 #include "havok/hkBase.h"
-#include "havok/hkStreamWriter.h"
-#include "havok/hkStreamReader.h"
-
-extern "C" int socket(int af, int type, int protocol);
-
-// hkSocket (Common/Base/System/Io/Socket/hkSocket.h), as in func_82D05B70.cpp.
-class hkSocket : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_BASE);
-    class ReaderAdapter : public hkStreamReader {
-    public:
-        ReaderAdapter() {}
-        virtual hkBool isOk() const;
-        virtual int read(void *buf, int nbytes);
-        hkSocket *m_socket;   // +0x8
-    };
-    class WriterAdapter : public hkStreamWriter {
-    public:
-        WriterAdapter() {}
-        virtual hkBool isOk() const;
-        virtual int write(const void *buf, int nbytes);
-        hkSocket *m_socket;   // +0x8
-    };
-    hkSocket();   // fn_82CFB988
-    virtual hkBool isOk() const = 0;   // +0xC
-    virtual void close() = 0;          // +0x10
-
-    ReaderAdapter m_reader;   // +0x8
-    WriterAdapter m_writer;   // +0x14
-};
-
-class hkBsdSocket : public hkSocket {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_BASE);
-    hkBsdSocket(int s);
-    virtual ~hkBsdSocket();
-    virtual hkBool isOk() const;
-    virtual void close();
-
-    void createSocket()
-    {
-        close();
-        m_socket = socket(2, 1, 0);   // AF_INET, SOCK_STREAM
-    }
-
-    int m_socket;   // +0x20
-};
+#include "havok/hkBsdSocket.h"
 
 hkBsdSocket::hkBsdSocket(int s) : m_socket(s)
 {

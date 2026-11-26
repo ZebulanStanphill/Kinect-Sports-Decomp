@@ -1,6 +1,5 @@
-#include "havok/hkpCdPointCollector.h"
-#include "havok/hkpCdBodyPairCollector.h"
 #include "havok/hkpCollisionDispatcher.h"
+#include "havok/hkpSimpleClosestContactCollector.h"
 
 class hkpConstraintOwner;
 typedef hkpConstraintOwner hkCollisionConstraintOwner;
@@ -20,16 +19,6 @@ static HK_FORCE_INLINE void beginTimer(const char *name, const char *split=0) {
   s->next=(TimerEntry*)((char*)e+(split?16:12));
  }
 }
-class hkpFlagCdBodyPairCollector : public hkpCdBodyPairCollector {
-public: virtual void addCdBodyPair(const hkpCdBody&,const hkpCdBody&);
-};
-class hkpSimpleClosestContactCollector : public hkpCdPointCollector {
-public:
- hkpSimpleClosestContactCollector() : m_hasHit(false) { m_distance=3.40282e+38f; m_earlyOutDistance=3.40282e+38f; }
- virtual void addCdPoint(const hkpCdPoint&);
- hkBool m_hasHit; char pad[0x23]; float m_distance; char tail[0x8];
-};
-
 extern "C" void fn_82D75FD0(const hkpCdBody &,const hkpCdBody &,const hkpCollisionInput &,hkpCdPointCollector &,hkpCdPointCollector *);
 extern "C" void fn_82D5D320(const hkpCdBody &,const hkpCdBody &,const hkpCollisionInput &,hkpCdPointCollector &,hkpCdPointCollector *);
 extern "C" void fn_82D5C4B0(const hkpCdBody &a,const hkpCdBody &b,const hkpCollisionInput &i,hkpCdPointCollector &out,hkpCdPointCollector *start) {

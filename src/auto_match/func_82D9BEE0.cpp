@@ -9,13 +9,7 @@
 // loop guard; that makes the loop step a pointer to the element.
 #include "havok/hkpCachingShapePhantom.h"
 #include "havok/hkpCollisionAgent.h"
-
-// hkpConstraintOwner (hkCollisionConstraintOwner): the default constructor
-// leaves its hkpConstraintInfo (+0x8) uninitialised.
-class hkpConstraintOwner : public hkReferencedObject {
-public:
-    int m_constraintInfo[4];
-};
+#include "havok/hkpConstraintOwner.h"
 
 // hkpPhantom::fireCollidableRemoved(const hkpCollidable *, hkBool), out of line.
 extern "C" void fn_82D8D988(hkpCachingShapePhantom *self, const hkpCollidable *collidable, hkBool collidableWasAdded);
