@@ -70,7 +70,6 @@ struct hkpBallSocketConstraintAtom : public hkpConstraintAtom {
     hkReal m_maxImpulse;
 };
 
-class hkpRagdollConstraintData;
 struct hkpRagdollConstraintDataAtoms;
 extern "C" void fn_82D98100(hkpRagdollConstraintDataAtoms *self);   // hkpRagdollConstraintData::Atoms::Atoms()
 

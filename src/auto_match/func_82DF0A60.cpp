@@ -5,7 +5,6 @@ extern const char lbl_82196582[];                                 // ""
 }
 
 class hkpFirstPersonGunBulletListener;
-class hkpWorld;
 
 class hkpFirstPersonGun : public hkReferencedObject {
 public:

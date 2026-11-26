@@ -1,7 +1,6 @@
 // hkpSymmetricAgentLinearCast<hkpSphereBoxAgent>::getPenetrations (virtual): flips the bodies (and the collector's results) and forwards to hkpSphereBoxAgent's function.
 #include "havok/hkpSymmetricAgent.h"
 
-class hkpSphereBoxAgent;
 extern "C" {
 void fn_82D645C8(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpCdBodyPairCollector &collector);   // hkpSphereBoxAgent::staticGetPenetrations
 }

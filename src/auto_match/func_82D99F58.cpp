@@ -27,7 +27,6 @@ public:
 class hkpShape : public hkReferencedObject {
 };
 class hkpWorld;
-class hkMotionState;
 class hkpCollidable;
 
 // hkpCollidable::hkpCollidable(const hkpShape *, const hkMotionState *, int) is out of line (fn_8253D7A8).

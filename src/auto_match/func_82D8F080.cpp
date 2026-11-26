@@ -157,7 +157,6 @@ static HK_FORCE_INLINE void memCpy16(void *dst, const void *src)
 }
 
 class hkpShape;
-class hkpWorld;
 
 class hkpRigidBody {
 public:

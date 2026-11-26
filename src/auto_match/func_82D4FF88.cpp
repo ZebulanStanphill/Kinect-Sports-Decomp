@@ -8,8 +8,6 @@
 #include "havok/hkBase.h"
 #include "havok/hkVector4.h"
 
-class hkpShapeContainer;
-class hkpShapeBuffer;
 typedef hkUint32 hkpShapeKey;
 
 // hkpShape, hkpShapeContainer and hkpShapeCollection as in havok/hkpShape.h, but with empty finish

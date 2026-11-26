@@ -1,7 +1,6 @@
 // static hkpSymmetricAgent<hkpMultiRayConvexAgent>::staticGetPenetrations: flips the bodies (and the collector's results) and forwards to hkpMultiRayConvexAgent's function.
 #include "havok/hkpSymmetricAgent.h"
 
-class hkpMultiRayConvexAgent;
 extern "C" {
 void fn_82D60698(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpCdBodyPairCollector &collector);   // hkpMultiRayConvexAgent::staticGetPenetrations
 }

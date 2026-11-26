@@ -15,14 +15,6 @@
 // HK_REAL_MAX constant is __real@7f7fffee (3.40282e38f).
 #include "havok/hkBase.h"
 
-class hkpCdPoint;
-class hkpContactMgr;
-class hkpConstraintOwner;
-struct hkpCollisionInput;
-struct hkpLinearCastCollisionInput;
-struct hkpProcessCollisionInput;
-struct hkpProcessCollisionOutput;
-
 // LocalInplaceArray<T, N> (Common/Base/Container/Array/hkArray.h): an hkArray whose first buffer is the
 // N elements that follow it (capacity N | DONT_DEALLOCATE_FLAG). setSize/reserve are hkArray's: the
 // allocator is fetched first, then the capacity is doubled or set to n through hkArrayUtil::_reserve
@@ -67,7 +59,6 @@ public:
 typedef hkUint16 hkContactPointId;
 #define HK_INVALID_CONTACT_POINT 0xffff
 
-#include "havok/hkpShape.h"
 #include "havok/hkpSymmetricAgent.h"
 
 class hkpMultiRayShape : public hkpShape {

@@ -1,4 +1,3 @@
-#include "havok/hkpSymmetricAgent.h"
 class hkpCdBody; struct hkpCollisionInput; class hkpContactMgr; class hkpCollisionAgent; class hkpCdBodyPairCollector; class hkpCdPointCollector;
 extern "C" void fn_82D5D288();
 extern "C" void fn_82D5D2D0();

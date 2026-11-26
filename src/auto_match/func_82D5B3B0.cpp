@@ -133,7 +133,6 @@ static HK_FORCE_INLINE StreamData *getStreamData(hkpGskCache *cache) { return re
 static HK_FORCE_INLINE hkpGskManifold *getManifold(hkpGskCache *cache) { return reinterpret_cast<hkpGskManifold *>(cache + 1); }
 typedef void hkpAgentData;
 struct hkpAgentEntry;
-class hkpShapeContainer;
 class hkpConvexListShape {
 public:
 	char m_pad0[0x14];

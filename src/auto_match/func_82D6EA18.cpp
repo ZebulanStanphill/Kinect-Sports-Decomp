@@ -4,8 +4,6 @@
 
 class hkpConstraintOwner;
 typedef hkpConstraintOwner hkCollisionConstraintOwner;
-struct hkpProcessCollisionInput;
-struct hkpProcessCollisionOutput;
 
 extern "C" unsigned __int64 __mftb();
 struct TimerEntry { const char *name; unsigned time, unused; };

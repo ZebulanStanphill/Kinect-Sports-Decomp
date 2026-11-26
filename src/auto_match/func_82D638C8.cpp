@@ -3,7 +3,6 @@
 // static hkpSymmetricAgent<hkpCapsuleTriangleAgent>::staticGetClosestPoints: flips the bodies (and the collector's results) and forwards to hkpCapsuleTriangleAgent's function.
 #include "havok/hkpSymmetricAgent.h"
 
-class hkpCapsuleTriangleAgent;
 extern "C" {
 void fn_82D62CD8(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpCdPointCollector &collector);   // hkpCapsuleTriangleAgent::staticGetClosestPoints
 }

@@ -36,8 +36,6 @@ typedef struct Body_82D645C8 {
     const hkTransform *transform;   /* 0x08 */
 } Body_82D645C8;
 
-struct Collector_82D645C8;
-
 typedef struct CollectorVt_82D645C8 {
     void *s0;
     void (*addCdBodyPair)(struct Collector_82D645C8 *self, const Body_82D645C8 *a, const Body_82D645C8 *b);

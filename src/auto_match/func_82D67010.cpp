@@ -1,7 +1,6 @@
 // static hkpSymmetricAgent<hkpSphereCapsuleAgent>::staticGetPenetrations: flips the bodies (and the collector's results) and forwards to hkpSphereCapsuleAgent's function.
 #include "havok/hkpSymmetricAgent.h"
 
-class hkpSphereCapsuleAgent;
 extern "C" {
 void fn_82D66508(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpCdBodyPairCollector &collector);   // hkpSphereCapsuleAgent::staticGetPenetrations
 }

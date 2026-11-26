@@ -15,7 +15,6 @@ public:
 };
 
 class hkpWorld;
-class hkpCollisionFilter;
 class hkpBreakOffPartsListener;
 
 // hkpWorldCinfo (0xE0): constructor fn_82D8E600, destructor emitted in game code (fn_8253C630).

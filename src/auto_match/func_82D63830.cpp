@@ -3,7 +3,6 @@
 // static hkpSymmetricAgent<hkpCapsuleTriangleAgent>::staticGetPenetrations: flips the bodies (and the collector's results) and forwards to hkpCapsuleTriangleAgent's function.
 #include "havok/hkpSymmetricAgent.h"
 
-class hkpCapsuleTriangleAgent;
 extern "C" {
 void fn_82D63130(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpCdBodyPairCollector &collector);   // hkpCapsuleTriangleAgent::staticGetPenetrations
 }

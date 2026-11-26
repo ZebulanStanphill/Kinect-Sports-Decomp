@@ -2,7 +2,6 @@
 
 extern "C" {
 
-struct Stream_82CFE5E0;
 struct StreamVtbl_82CFE5E0 {
     void *slots[4];
     int (*write)(struct Stream_82CFE5E0 *self, const void *data, int size);

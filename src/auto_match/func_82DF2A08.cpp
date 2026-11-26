@@ -35,14 +35,8 @@ public:
 // hkStringPtr::operator=(const char *) is out of line (fn_82CED628) and keeps its fn_ name.
 extern "C" void fn_82CED628(hkStringPtr *self, const char *s);
 
-class hkpWorld;
-class hkpEntity;
-class hkpRigidBody;
 class hkpSimulationIsland;
-class hkpShape;
-class hkpCdBody;
 class hkpCollidable;
-class hkMotionState;
 struct hkStepInfo;
 
 enum hkpShapeType { HK_SHAPE_INVALID = 0 };

@@ -6,7 +6,6 @@ class hkpRemoveTerminalsMoppModifier : public hkReferencedObject, public hkpMopp
 public: HK_FORCE_INLINE hkpRemoveTerminalsMoppModifier():count(0) {}
  hkArray<unsigned int> keys; unsigned int count;
 };
-class hkpRemoveTerminalsMoppModifier2;
 extern "C" {
 extern float lbl_82014898, lbl_82014894;
 void fn_82DCDF98(void*, const hkAabb*, hkpMoppModifier*);

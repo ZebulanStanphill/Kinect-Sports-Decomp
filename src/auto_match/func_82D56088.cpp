@@ -15,7 +15,6 @@ struct hkAabb {
 };
 
 class hkpContactMgr;
-class hkpCollisionAgent;
 typedef hkUint32 hkpShapeKey;
 
 // hkpCollisionAgent (Physics/Collide/Agent/hkpCollisionAgent.h): hkReferencedObject, then

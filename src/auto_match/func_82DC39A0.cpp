@@ -70,7 +70,6 @@ class hkpConstraintInstance;
 class hkpWorld;
 struct hkpProcessCollisionInput;
 struct hkpProcessCollisionOutput;
-struct hkpAgentNnEntry;
 
 struct hkStepInfo {
     unsigned __int64 m_time[2];
@@ -110,7 +109,6 @@ struct hkpAgentNnEntry {
     hkUint8 m_pad2[0x80 - 0x18];
 };
 
-struct hkpProcessCollisionInput;
 extern "C" void fn_82D9C790(hkpProcessCollisionInput *self, const hkpProcessCollisionInput *other);   // copy constructor
 
 struct hkpProcessCollisionInput {

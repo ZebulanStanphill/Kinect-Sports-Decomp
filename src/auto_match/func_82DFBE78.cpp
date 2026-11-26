@@ -1,6 +1,5 @@
 // hkpVehicleDefaultTransmission::hkpVehicleDefaultTransmission() (Physics/Vehicle/Transmission/Default/hkpVehicleDefaultTransmission.cpp).
 #include "havok/hkBase.h"
-#include "havok/hkVector4.h"
 
 #pragma intrinsic(__vxor)
 
