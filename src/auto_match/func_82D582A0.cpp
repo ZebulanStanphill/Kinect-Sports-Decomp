@@ -1,7 +1,14 @@
 #include "havok/hkBase.h"
-class hkpCdBody; struct hkpCollisionInput; class hkpContactMgr; class hkpCollisionAgent; class hkpCdBodyPairCollector; class hkpCdPointCollector;
-class hkpBvTreeAgent { public: static hkpCollisionAgent* createBvBvAgent(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpContactMgr*); };
-template<class T> class hkpSymmetricAgent { public: static hkpCollisionAgent* createAgent(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpContactMgr*); static void staticGetPenetrations(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpCdBodyPairCollector&); static void staticGetClosestPoints(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpCdPointCollector&); };
+#include "havok/hkpSymmetricAgent.h"
+class hkpBvTreeAgent : public hkpCollisionAgent {
+public:
+    static hkpCollisionAgent *HK_CALL createBvBvAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
+                                                     const hkpCollisionInput &input, hkpContactMgr *mgr);
+    static void HK_CALL staticGetPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
+                                              const hkpCollisionInput &input, hkpCdBodyPairCollector &collector);
+    static void HK_CALL staticGetClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
+                                               const hkpCollisionInput &input, hkpCdPointCollector &collector);
+};
 extern "C" void fn_82D56190();
 extern "C" void fn_82D54F10();
 extern "C" void fn_82D560E8();

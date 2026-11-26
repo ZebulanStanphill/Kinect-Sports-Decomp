@@ -10,17 +10,7 @@
 // Built with /O2 /QVMXReserve.
 #include "havok/hkBase.h"
 #include "havok/hkAabb.h"
-
-class hkpCdBody;
-struct hkpCollisionInput;
-class hkpContactMgr;
-
-class hkpCollisionAgent : public hkReferencedObject {
-public:
-    HK_FORCE_INLINE hkpCollisionAgent(hkpContactMgr *contactMgr) : m_contactMgr(contactMgr) {}
-
-    hkpContactMgr *m_contactMgr;   // +0x8
-};
+#include "havok/hkpCollisionAgent.h"
 
 struct hkpBvAgentEntryInfo;
 

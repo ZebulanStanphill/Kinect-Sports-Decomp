@@ -1,20 +1,35 @@
 #include "havok/hkBase.h"
-typedef __declspec(passinreg) union __vector4 {float f[4];unsigned int u[4];} __vector4;
-extern "C" __vector4 __vxor(__vector4,__vector4);
-struct __declspec(align(16)) hkVector4 {__vector4 q;};
-extern "C" {extern const hkVector4 lbl_8209AB20;}
-struct Input {unsigned __int64 prefix[10];hkVector4 path;unsigned __int64 suffix[2];};
-class hkpCdPointCollector {public:virtual void addCdPoint(const void*);float early;};
-class hkpSymmetricAgentFlipCastCollector:public hkpCdPointCollector {public:
- HK_FORCE_INLINE hkpSymmetricAgentFlipCastCollector(const hkVector4 &v,void *target){early=3.40282e+38f;path.q=v.q;collector=target;}
- hkVector4 path;void *collector;
-};
-extern "C" void fn_82D5A348(void*,void*,Input*,hkpCdPointCollector*,hkpCdPointCollector*);
-extern "C" void fn_82D5B050(void *self,void *a,void *b,const Input *input,void *collector,void *start){
- Input copy=*input;
- copy.path.q=__vxor(input->path.q,lbl_8209AB20.q);
- hkpSymmetricAgentFlipCastCollector flipped(input->path,collector);
+#include "havok/hkpCdPointCollector.h"
+#include "havok/hkpCollisionInput.h"
+class hkpCdBody;
+// hkpSymmetricAgentFlipCastCollector as in havok/hkpSymmetricAgent.h, but the collector is stored after the path
+// (a pointer assigned in the constructor body, not a reference in the initializer list).
+class hkpSymmetricAgentFlipCastCollector : public hkpCdPointCollector {
+public:
+    HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE, hkpSymmetricAgentFlipCastCollector);
+    HK_FORCE_INLINE hkpSymmetricAgentFlipCastCollector(const hkVector4 &path, hkpCdPointCollector &c)
+    {
+        m_path = path;
+        m_collector = &c;
+    }
+    virtual void addCdPoint(const hkpCdPoint &point);
 
- if(start){hkpSymmetricAgentFlipCastCollector flippedStart(input->path,start);fn_82D5A348(b,a,&copy,&flipped,&flippedStart);return;}
- fn_82D5A348(b,a,&copy,&flipped,0);
+    hkVector4 m_path;                   // +0x10
+    hkpCdPointCollector *m_collector;   // +0x20
+};
+extern "C" void fn_82D5A348(const hkpCdBody &, const hkpCdBody &, const hkpLinearCastCollisionInput &,
+                            hkpCdPointCollector &, hkpCdPointCollector *);
+extern "C" void fn_82D5B050(void *self, const hkpCdBody &a, const hkpCdBody &b, const hkpLinearCastCollisionInput &input,
+                            hkpCdPointCollector &collector, hkpCdPointCollector *start)
+{
+    hkpLinearCastCollisionInput copy = input;
+    copy.m_path.setNeg4(input.m_path);
+    hkpSymmetricAgentFlipCastCollector flipped(input.m_path, collector);
+
+    if (start) {
+        hkpSymmetricAgentFlipCastCollector flippedStart(input.m_path, *start);
+        fn_82D5A348(b, a, copy, flipped, &flippedStart);
+        return;
+    }
+    fn_82D5A348(b, a, copy, flipped, 0);
 }

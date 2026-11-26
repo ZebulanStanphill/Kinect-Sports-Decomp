@@ -1,22 +1,17 @@
 #include "havok/hkAabb.h"
+#include "havok/hkTransform.h"
 
-class hkTransform {
-public:
-    hkVector4 m_col0;
-    hkVector4 m_col1;
-    hkVector4 m_col2;
-    hkVector4 m_translation;
-};
-
+// hkVector4::_setTransformedPos with the operands of the last add the other way round: the header's version
+// (translation first) changes this function's code.
 static __forceinline void SetTransformedPos(hkVector4 &out, const hkTransform &t, const hkVector4 &v)
 {
     __vector4 x = __vspltw(v.m_quad, 0);
     __vector4 y = __vspltw(v.m_quad, 1);
     __vector4 z = __vspltw(v.m_quad, 2);
-    __vector4 r = __vmulfp(t.m_col0.m_quad, x);
-    r = __vmaddfp(t.m_col1.m_quad, y, r);
-    r = __vmaddfp(t.m_col2.m_quad, z, r);
-    out.m_quad = __vaddfp(r, t.m_translation.m_quad);
+    __vector4 r = __vmulfp(t.getColumn(0).m_quad, x);
+    r = __vmaddfp(t.getColumn(1).m_quad, y, r);
+    r = __vmaddfp(t.getColumn(2).m_quad, z, r);
+    out.m_quad = __vaddfp(r, t.getTranslation().m_quad);
 }
 
 struct Shape_82D6F828 {

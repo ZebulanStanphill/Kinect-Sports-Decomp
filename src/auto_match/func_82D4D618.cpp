@@ -1,6 +1,5 @@
 #include "havok/hkBase.h"
-#include "havok/hkVector4.h"
-struct hkAabb { hkVector4 lo,hi; };
+#include "havok/hkAabb.h"
 class hkpMoppModifier {public: virtual ~hkpMoppModifier(){};};
 class hkpRemoveTerminalsMoppModifier : public hkReferencedObject, public hkpMoppModifier {
 public: HK_FORCE_INLINE hkpRemoveTerminalsMoppModifier():count(0) {}
@@ -18,4 +17,4 @@ public:
  }
  unsigned int *array;
 };
-extern "C" hkpRemoveTerminalsMoppModifier2 *fn_82D4D618(hkpRemoveTerminalsMoppModifier2 *self,void *code,unsigned int *a) { hkAabb box; box.hi.setAll(lbl_82014898);box.lo.setAll(lbl_82014894); self->hkpRemoveTerminalsMoppModifier2::hkpRemoveTerminalsMoppModifier2(code,a,box);return self; }
+extern "C" hkpRemoveTerminalsMoppModifier2 *fn_82D4D618(hkpRemoveTerminalsMoppModifier2 *self,void *code,unsigned int *a) { hkAabb box; box.m_max.setAll(lbl_82014898);box.m_min.setAll(lbl_82014894); self->hkpRemoveTerminalsMoppModifier2::hkpRemoveTerminalsMoppModifier2(code,a,box);return self; }

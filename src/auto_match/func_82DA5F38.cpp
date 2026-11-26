@@ -1,4 +1,4 @@
-class hkFinishLoadedObjectFlag { public: int m_finishing; };
+#include "havok/hkBaseTypes.h"
 struct CommandBuffer { int *data; int size; int capacity; };
 class hkpGenericConstraintDataScheme {
 public:

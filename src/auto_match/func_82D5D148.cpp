@@ -1,7 +1,14 @@
 #include "havok/hkBase.h"
-class hkpCdBody; struct hkpCollisionInput; class hkpContactMgr; class hkpCollisionAgent; class hkpCdBodyPairCollector; class hkpCdPointCollector;
-class hkpConvexListAgent;
-template<class T> class hkpSymmetricAgent { public: static hkpCollisionAgent* createAgent(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpContactMgr*); static void staticGetPenetrations(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpCdBodyPairCollector&); static void staticGetClosestPoints(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpCdPointCollector&); };
+#include "havok/hkpSymmetricAgent.h"
+// RTTI: hkpConvexListAgent -> hkpPredGskfAgent -> hkpGskfAgent -> hkpGskBaseAgent -> hkpIterativeLinearCastAgent.
+// Only the statics are needed here, so it is declared on the last base that has a header.
+class hkpConvexListAgent : public hkpIterativeLinearCastAgent {
+public:
+    static void HK_CALL staticGetPenetrations(const hkpCdBody &, const hkpCdBody &, const hkpCollisionInput &,
+                                              hkpCdBodyPairCollector &);
+    static void HK_CALL staticGetClosestPoints(const hkpCdBody &, const hkpCdBody &, const hkpCollisionInput &,
+                                               hkpCdPointCollector &);
+};
 extern "C" void fn_82D5C608();
 extern "C" void fn_82D5D550();
 extern "C" void fn_82D5CD78();

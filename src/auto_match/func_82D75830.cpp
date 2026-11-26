@@ -1,9 +1,7 @@
 #include "havok/hkBase.h"
-class hkpCdBody;class hkpContactMgr;
-class hkpCollisionAgent : public hkReferencedObject {};
-class hkpIterativeLinearCastAgent : public hkpCollisionAgent {};
+#include "havok/hkpIterativeLinearCastAgent.h"
 class hkpGskBaseAgent : public hkpIterativeLinearCastAgent {
-public: hkpGskBaseAgent(const hkpCdBody&,const hkpCdBody&,hkpContactMgr*);char data[0x28];
+public: hkpGskBaseAgent(const hkpCdBody&,const hkpCdBody&,hkpContactMgr*);char data[0x24];
 };
 class hkpGskfAgent : public hkpGskBaseAgent {
 public: HK_FORCE_INLINE hkpGskfAgent(const hkpCdBody&a,const hkpCdBody&b,hkpContactMgr*c):hkpGskBaseAgent(a,b,c){int*p=&value;*p=0;} int value;char pad[0x4c];

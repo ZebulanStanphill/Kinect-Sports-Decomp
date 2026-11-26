@@ -1,8 +1,7 @@
 // hkpShapePhantom::setPosition(const hkVector4 &position, hkReal extraTolerance) (Havok 2010,
 // Physics/Dynamics/Phantom/hkpShapePhantom.cpp). Havok code, /O2 (flag file).
 // 0.5f is __real@3f000000 (Matching units reference it), a selectany definition.
-#include "havok/hkpShape.h"
-#include "havok/hkTransform.h"
+#include "havok/hkpShapePhantom.h"
 #include "havok/hkAabb.h"
 
 struct hkpProcessCollisionInput {
@@ -17,32 +16,16 @@ public:
     hkpProcessCollisionInput *m_collisionInput;   // +0x78
 };
 
-class hkpShapePhantom : public hkReferencedObject {
-public:
-    void setPosition(const hkVector4 &position, hkReal extraTolerance);
-    void updateBroadPhase(const hkAabb &aabb);
-
-    hkpWorld *m_world;          // +0x8
-    hkUlong m_userData;         // +0xC
-    const hkpShape *m_shape;    // +0x10 m_collidable.m_shape
-    char m_pad14[0x9c];
-    hkTransform m_transform;    // +0xB0 m_motionState.m_transform
-};
-
-extern "C" void fn_82D9A730(hkpShapePhantom *self, const hkAabb &aabb);   // hkpPhantom::updateBroadPhase
-HK_FORCE_INLINE void hkpShapePhantom::updateBroadPhase(const hkAabb &aabb) { fn_82D9A730(this, aabb); }
-
-HK_FORCE_INLINE void hkpShapePhantom::setPosition(const hkVector4 &position, hkReal extraTolerance)
-{
-    m_transform.m_translation = position;
-    if (m_world) {
-        hkAabb aabb;
-        m_shape->getAabb(m_transform, m_world->getCollisionInput()->m_tolerance * 0.5f + extraTolerance, aabb);
-        updateBroadPhase(aabb);
-    }
-}
+extern "C" void fn_82D9A730(hkpPhantom *self, const hkAabb &aabb);   // hkpPhantom::updateBroadPhase
 
 extern "C" void fn_82D99EA0(hkpShapePhantom *self, const hkVector4 &position, hkReal extraTolerance)
 {
-    self->setPosition(position, extraTolerance);
+    self->m_motionState.getTransform().setTranslation(position);
+    if (self->m_world) {
+        hkAabb aabb;
+        self->m_collidable.getShape()->getAabb(self->m_motionState.getTransform(),
+                                               self->m_world->getCollisionInput()->m_tolerance * 0.5f + extraTolerance,
+                                               aabb);
+        fn_82D9A730(self, aabb);
+    }
 }

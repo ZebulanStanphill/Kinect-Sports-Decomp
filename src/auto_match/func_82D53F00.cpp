@@ -4,20 +4,6 @@
 // to the heap. The implicit destructor leaves only hkpCdBodyPairCollector's vtable store.
 // The function at the end only makes the compiler emit the vtable.
 #include "havok/hkBase.h"
+#include "havok/hkpSymmetricAgent.h"
 
-extern "C" void fn_8265CA20(void *p);   // global operator delete
-
-class hkpCdBodyPairCollector {
-public:
-    HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE, hkpCdBodyPairCollector);
-    virtual ~hkpCdBodyPairCollector() {}
-    hkBool m_earlyOut;   // +0x4
-};
-
-class hkpSymmetricAgentFlipBodyCollector : public hkpCdBodyPairCollector {
-public:
-    HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE, hkpSymmetricAgentFlipBodyCollector);
-    hkUint8 m_members[0x4];   // not needed here; sizeof is 0xC
-};
-
-void emitVtable_82D53F00(void *p) { new (p) hkpSymmetricAgentFlipBodyCollector; }
+void emitVtable_82D53F00(void *p, hkpCdBodyPairCollector &c) { new (p) hkpSymmetricAgentFlipBodyCollector(c); }

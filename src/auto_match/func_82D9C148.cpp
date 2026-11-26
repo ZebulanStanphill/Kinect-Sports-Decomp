@@ -1,5 +1,6 @@
 #include "havok/hkBase.h"
 #include "havok/hkpCachingShapePhantom.h"
+#include "havok/hkpCollisionAgent.h"
 
 #pragma intrinsic(__vxor)
 
@@ -22,16 +23,6 @@ public:
     hkpConstraintOwner() {}
 
     hkpConstraintInfo m_constraintInfo;   // +0x8
-};
-
-// hkpCollisionAgent (Physics/Collide/Agent/hkpCollisionAgent.h): cleanup is vtable slot 7 (+0x1C).
-class hkpCollisionAgent : public hkReferencedObject {
-public:
-    virtual void getPenetrations();
-    virtual void getClosestPoints();
-    virtual void getClosestPoints2();
-    virtual void linearCast();
-    virtual void cleanup(hkpConstraintOwner &constraintOwner);
 };
 
 hkpCachingShapePhantom::~hkpCachingShapePhantom()

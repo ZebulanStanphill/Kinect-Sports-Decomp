@@ -1,7 +1,4 @@
-#include "havok/hkpShape.h"
-#include "havok/hkVector4.h"
-class hkpCdBody; struct hkpCollisionInput; class hkpContactMgr;
-class hkpCollisionAgent: public hkReferencedObject { public: HK_FORCE_INLINE hkpCollisionAgent(hkpContactMgr *m):mgr(m) {} hkpContactMgr *mgr; };
+#include "havok/hkpCollisionAgent.h"
 extern "C" void fn_82D70F30(void *);
 class hkpBvTreeStreamAgent: public hkpCollisionAgent { public:
  unsigned input; hkVector4 a,b; hkArray<void *> agents;

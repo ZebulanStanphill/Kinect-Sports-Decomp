@@ -1,20 +1,18 @@
-#include "havok/hkBase.h"
-typedef __declspec(passinreg) union __vector4 {float f[4];unsigned int u[4];} __vector4;
-extern "C" __vector4 __vxor(__vector4,__vector4);
-struct __declspec(align(16)) hkVector4 {__vector4 q;};
-extern "C" {extern const hkVector4 lbl_8209AB20;}
-struct Input {unsigned __int64 prefix[10];hkVector4 path;unsigned __int64 suffix[2];};
-class hkpCdPointCollector {public:virtual void addCdPoint(const void*);float early;};
+#include "havok/hkpCollisionInput.h"
+#include "havok/hkpCdPointCollector.h"
+// Kept local: the header's hkpSymmetricAgentFlipCastCollector initialises a reference m_collector before
+// m_path, which reorders the constructor's stores; the game stores the collector after the path.
 class hkpSymmetricAgentFlipCastCollector:public hkpCdPointCollector {public:
- HK_FORCE_INLINE hkpSymmetricAgentFlipCastCollector(const hkVector4 &v,void *target){early=3.40282e+38f;path.q=v.q;collector=target;}
- hkVector4 path;void *collector;
+ HK_FORCE_INLINE hkpSymmetricAgentFlipCastCollector(const hkVector4 &v,hkpCdPointCollector *target){m_path.m_quad=v.m_quad;m_collector=target;}
+ virtual void addCdPoint(const hkpCdPoint &point);
+ hkVector4 m_path;hkpCdPointCollector *m_collector;
 };
-extern "C" void fn_82D5C4B0(void*,void*,Input*,hkpCdPointCollector*,hkpCdPointCollector*);
-extern "C" void fn_82D5D718(void *self,void *a,void *b,const Input *input,void *collector,void *start){
- Input copy=*input;
- copy.path.q=__vxor(input->path.q,lbl_8209AB20.q);
- hkpSymmetricAgentFlipCastCollector flipped(input->path,collector);
+extern "C" void fn_82D5C4B0(void*,void*,hkpLinearCastCollisionInput*,hkpCdPointCollector*,hkpCdPointCollector*);
+extern "C" void fn_82D5D718(void *self,void *a,void *b,const hkpLinearCastCollisionInput *input,hkpCdPointCollector *collector,hkpCdPointCollector *start){
+ hkpLinearCastCollisionInput copy=*input;
+ copy.m_path.m_quad=__vxor(input->m_path.m_quad,lbl_8209AB20);
+ hkpSymmetricAgentFlipCastCollector flipped(input->m_path,collector);
 
- if(start){hkpSymmetricAgentFlipCastCollector flippedStart(input->path,start);fn_82D5C4B0(b,a,&copy,&flipped,&flippedStart);return;}
+ if(start){hkpSymmetricAgentFlipCastCollector flippedStart(input->m_path,start);fn_82D5C4B0(b,a,&copy,&flipped,&flippedStart);return;}
  fn_82D5C4B0(b,a,&copy,&flipped,0);
 }

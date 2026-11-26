@@ -1,13 +1,8 @@
 // getVtablehkxSkinBinding, from Havok's HK_REFLECTION_DEFINE_VIRTUAL for hkxSkinBinding (static in Havok):
 // builds a finished object in a local buffer and returns its vtable pointer.
-// Hierarchy from the RTTI: hkxSkinBinding -> hkReferencedObject -> hkBaseObject; only the finish
-// constructors are declared.
+// Hierarchy from the RTTI: hkxSkinBinding -> hkReferencedObject -> hkBaseObject.
 #include "havok/hkBase.h"
-
-class hkxSkinBinding : public hkReferencedObject {
-public:
-    hkxSkinBinding(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
+#include "havok/hkSceneData.h"
 
 const void *HK_CALL getVtablehkxSkinBinding()
 {

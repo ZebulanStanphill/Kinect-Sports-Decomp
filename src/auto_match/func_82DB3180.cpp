@@ -1,5 +1,5 @@
 #include "havok/hkBase.h"
-class hkpEntityListener { public: virtual ~hkpEntityListener() {} };
+#include "havok/hkpEntityListener.h"
 class hkpPhantomListener { public: virtual ~hkpPhantomListener() {} };
 class hkpTreeWorldManager : public hkReferencedObject {
 public:
@@ -9,6 +9,7 @@ public:
 extern "C" { void fn_82D83DA8(void *,hkpEntityListener *); void fn_82D83E20(void *,hkpPhantomListener *); }
 class hkpKdTreeWorldManager : public hkpTreeWorldManager, public hkpEntityListener, public hkpPhantomListener {
 public:
+ HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
  hkpKdTreeWorldManager(void *w, hkBool b);
  void *world; hkBool enabled; hkBool option;
 };

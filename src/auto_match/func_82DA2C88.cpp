@@ -1,14 +1,21 @@
-#include "havok/hkBase.h"
-class hkpShape;
-class __declspec(align(16)) hkTransform { public: float a[16]; };
-class __declspec(align(16)) hkpShapePhantom : public hkReferencedObject { public:
- char p08[8]; const hkpShape *shape; char p14[0x18]; unsigned int user;
- char p30[0x5c]; hkArray<int> a,b; char pa4[0xc]; hkTransform transform; char pf0[0x70];
- hkpShapePhantom(const hkpShape *,const hkTransform &); virtual ~hkpShapePhantom();
-};
-class hkpSimpleShapePhantom : public hkpShapePhantom { public:
- hkArray<int> overlaps; hkBool order;
- HK_FORCE_INLINE hkpSimpleShapePhantom(const hkpShape *s,const hkTransform &t,unsigned int u):hkpShapePhantom(s,t),order(false){user=u;} virtual ~hkpSimpleShapePhantom();
+#include "havok/hkpShapePhantom.h"
+// Local copy of hkpSimpleShapePhantom (havok/hkpSimpleShapePhantom.h): its constructor (fn_82DA2BA8) is
+// defined in the same source file and inlined into this function, so here it is inline.
+class hkpSimpleShapePhantom : public hkpShapePhantom {
+public:
+    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_DYNAMICS);
+    HK_FORCE_INLINE hkpSimpleShapePhantom(const hkpShape *shape, const hkTransform &transform, hkUint32 collisionFilterInfo)
+        : hkpShapePhantom(shape, transform), m_orderDirty(false)
+    {
+        m_collidable.setCollisionFilterInfo(collisionFilterInfo);
+    }
+    virtual ~hkpSimpleShapePhantom();
+
+    struct CollisionDetail {
+        hkpCollidable *m_collidable;
+    };
+    hkArray<CollisionDetail> m_collisionDetails;   // +0x160
+    hkBool m_orderDirty;                           // +0x16C
 };
 extern "C" void fn_82D8C858(void *,const void *);
 template<class T> static HK_FORCE_INLINE void arrayCopy(hkArray<T> &a,const hkArray<T> &b) {
@@ -22,6 +29,7 @@ template<class T> static HK_FORCE_INLINE void arrayCopy(hkArray<T> &a,const hkAr
 }
 
 extern "C" hkpSimpleShapePhantom *fn_82DA2C88(const hkpSimpleShapePhantom *self) {
- hkpSimpleShapePhantom *p=new hkpSimpleShapePhantom(self->shape,self->transform,self->user);
- arrayCopy(p->a,self->a);arrayCopy(p->b,self->b);fn_82D8C858(p,self);return p;
+ hkpSimpleShapePhantom *p=new hkpSimpleShapePhantom(self->m_collidable.getShape(),self->m_motionState.getTransform(),
+     self->m_collidable.m_broadPhaseHandle.m_collisionFilterInfo);
+ arrayCopy(p->m_overlapListeners,self->m_overlapListeners);arrayCopy(p->m_phantomListeners,self->m_phantomListeners);fn_82D8C858(p,self);return p;
 }

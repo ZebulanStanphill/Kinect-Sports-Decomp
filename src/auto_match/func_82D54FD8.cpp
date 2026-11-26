@@ -3,21 +3,9 @@
 // (vtable, then m_agentTrack's sector array, whose destructor is out of line as fn_82CE4C80, then
 // hkBaseObject's vtable), then the class allocator's delete. The function at the end only makes the
 // compiler emit the vtable.
-#include "havok/hkBase.h"
 #include "havok/hkAabb.h"
+#include "havok/hkpCollisionAgent.h"
 
-class hkpContactMgr;
-
-// hkpCollisionAgent (Physics/Collide/Agent/hkpCollisionAgent.h): hkReferencedObject, then
-// hkpContactMgr *m_contactMgr (+0x8).
-class hkpCollisionAgent : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-
-    hkpContactMgr *m_contactMgr;   // +0x8
-};
-
-class hkpCollisionDispatcher;
 class hkpAgent1nSector;
 
 // hkpAgent1nTrack (Physics/Collide/Agent3/Machine/1n/hkpAgent1nTrack.h): one hkArray<hkpAgent1nSector *>.

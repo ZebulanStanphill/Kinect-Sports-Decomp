@@ -1,14 +1,30 @@
-#include "havok/hkBase.h"
-class hkpCdBody; struct hkpCollisionInput; class hkpContactMgr; class hkpCollisionAgent; class hkpCdBodyPairCollector; class hkpCdPointCollector;
-class hkpBvTreeAgent;
+#include "havok/hkpSymmetricAgent.h"
+extern "C" {
+// hkpBvTreeAgent::staticGetClosestPoints
+void fn_82D57DB8(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
+                 hkpCdPointCollector &collector);
+// hkpBvTreeAgent::staticGetPenetrations
+void fn_82D58028(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
+                 hkpCdBodyPairCollector &collector);
+}
+class hkpBvTreeAgent : public hkpCollisionAgent {
+public:
+    static void HK_CALL staticGetPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
+                                              const hkpCollisionInput &input, hkpCdBodyPairCollector &collector)
+    {
+        fn_82D58028(bodyA, bodyB, input, collector);
+    }
+    static void HK_CALL staticGetClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
+                                               const hkpCollisionInput &input, hkpCdPointCollector &collector)
+    {
+        fn_82D57DB8(bodyA, bodyB, input, collector);
+    }
+};
 class hkpMoppAgent { public: static hkpCollisionAgent* createBvBvAgent(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpContactMgr*); };
-template<class T> class hkpSymmetricAgent { public: static void staticGetPenetrations(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpCdBodyPairCollector&); static void staticGetClosestPoints(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpCdPointCollector&); };
 extern "C" void fn_82D56190();
 extern "C" void fn_82D53D68();
 extern "C" void fn_82D560E8();
-extern "C" void fn_82D57DB8();
 extern "C" void fn_82D55500();
-extern "C" void fn_82D58028();
 struct AgentFuncs { void *create,*penetrations,*closest,*cast; unsigned char flipped,predictive; char pad[2]; };
 extern "C" void fn_82D59158(void*,const AgentFuncs*,int,int);
 extern "C" void fn_82D557B0(void *dispatcher) { AgentFuncs a,b,c;

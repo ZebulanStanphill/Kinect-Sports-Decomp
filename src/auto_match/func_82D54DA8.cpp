@@ -1,7 +1,8 @@
-#include "havok/hkBase.h"
-class hkpCdBody; struct hkpCollisionInput; class hkpContactMgr; class hkpCollisionAgent; class hkpCdBodyPairCollector; class hkpCdPointCollector;
-template<class T> class hkpSymmetricAgent { public: static hkpCollisionAgent* createAgent(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpContactMgr*); static void staticGetPenetrations(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpCdBodyPairCollector&); static void staticGetClosestPoints(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpCdPointCollector&); };
-class hkpBvTreeAgent;
+#include "havok/hkpSymmetricAgent.h"
+class hkpBvTreeAgent : public hkpCollisionAgent { public:
+ static void HK_CALL staticGetPenetrations(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpCdBodyPairCollector&);
+ static void HK_CALL staticGetClosestPoints(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpCdPointCollector&);
+};
 extern "C" void fn_82D54C48();
 extern "C" void fn_82D54F10();
 extern "C" void fn_82D54900();

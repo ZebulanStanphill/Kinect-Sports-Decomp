@@ -1,30 +1,45 @@
-#include "havok/hkBase.h"
-#include "havok/hkVector4.h"
+#include "havok/hkContactPoint.h"
+#include "havok/hkpSymmetricAgent.h"
 extern "C" unsigned __int64 __mftb();
 struct Timer { void *a; unsigned *next; void *b; unsigned *end; };
 extern "C" Timer *KeTlsGetValue(unsigned); extern "C" unsigned lbl_8323B4A0;
 static HK_FORCE_INLINE void timer(const char *s,const char *next=0) { Timer *t=KeTlsGetValue(lbl_8323B4A0);unsigned *p=t->next;if(p<t->end) {p[0]=(unsigned)s;if(next) p[3]=(unsigned)next;p[1]=(unsigned)__mftb();t->next=p+(next?4:3);} }
-class hkpCdBody {public:char *shape;char pad[12];}; struct hkpCollisionInput;
-struct Contact {hkVector4 position,normal;};
-struct hkpCdPoint {Contact contact;const hkpCdBody *a,*b;};
-class hkpCdBodyPairCollector {public:hkpCdBodyPairCollector():early(false){} virtual ~hkpCdBodyPairCollector(){} virtual void addCdBodyPair(const hkpCdBody&,const hkpCdBody&);hkBool early;};
+// RTTI: hkpConvexListShape -> hkpConvexShape, hkpShapeContainer (+0x14).
+class hkpConvexListShape : public hkpConvexShape, public hkpShapeContainer {
+public:
+    hkReal m_minDistanceToUseConvexHullForGetClosestPoints;   // +0x18
+};
+class hkpCdPoint {public:hkContactPoint m_contact;const hkpCdBody *m_cdBodyA,*m_cdBodyB;};
 class hkpFlagCdBodyPairCollector : public hkpCdBodyPairCollector {public:virtual void addCdBodyPair(const hkpCdBody&,const hkpCdBody&);};
-class hkpCdPointCollector {public:hkpCdPointCollector():distance(3.40282e+38f){}hkpCdPointCollector(float d):distance(d){}virtual ~hkpCdPointCollector(){} virtual void addCdPoint(const hkpCdPoint&);float distance;};
-class hkpSymmetricAgentFlipCollector : public hkpCdPointCollector {public:hkpSymmetricAgentFlipCollector(hkpCdPointCollector &c):collector(c){}hkpSymmetricAgentFlipCollector(hkpCdPointCollector&c,float d):hkpCdPointCollector(d),collector(c){}virtual void addCdPoint(const hkpCdPoint&);hkpCdPointCollector &collector;};
-class hkpClosestCdPointCollector : public hkpCdPointCollector {public:hkpClosestCdPointCollector(float d):hkpCdPointCollector(){rootA=0;contact.normal.m_quad.vector4_f32[3]=d;distance=d;}virtual void addCdPoint(const hkpCdPoint&);Contact contact;const hkpCdBody *rootA,*rootB;unsigned keyA,keyB;};
+class hkpClosestCdPointCollector : public hkpCdPointCollector {
+public:
+    hkpClosestCdPointCollector(float d) : hkpCdPointCollector()
+    {
+        rootA = 0;
+        contact.m_separatingNormal.m_quad.vector4_f32[3] = d;
+        m_earlyOutDistance = d;
+    }
+    virtual void addCdPoint(const hkpCdPoint &);
+    hkContactPoint contact;
+    const hkpCdBody *rootA, *rootB;
+    unsigned keyA, keyB;
+};
 extern "C" void fn_82D74E60(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpCdBodyPairCollector&);
 extern "C" void fn_82D75010(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpCdPointCollector&);
 extern "C" void fn_82D6BE30(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpCdPointCollector&);
 extern "C" void fn_82D5C0E0(const hkpCdBody&a,const hkpCdBody&b,const hkpCollisionInput&i,hkpCdPointCollector&out) {
  timer("LtCvxList","StcheckHull");
  {hkpFlagCdBodyPairCollector flag;fn_82D74E60(a,b,i,flag);
- if(flag.early){timer("Stchildren");hkpSymmetricAgentFlipCollector flip(out);fn_82D6BE30(b,a,i,flip);}
+ if(flag.m_earlyOut){timer("Stchildren");hkpSymmetricAgentFlipCollector flip(out);fn_82D6BE30(b,a,i,flip);}
  else {
  float inf=3.40282e+38f;hkpClosestCdPointCollector c(inf);fn_82D75010(a,b,i,c);
  if(c.rootA) {
- if(c.contact.normal.m_quad.vector4_f32[3] > *(float *)(b.shape+0x18)) {
- hkpCdPoint p;p.a=&a;p.b=&b;p.contact.position=c.contact.position;p.contact.normal=c.contact.normal;out.addCdPoint(p);
- } else {timer("Stchildren");hkpSymmetricAgentFlipCollector flip(out,inf);fn_82D6BE30(b,a,i,flip);}
+ const hkpConvexListShape *list=static_cast<const hkpConvexListShape *>(b.getShape());
+ if(c.contact.m_separatingNormal.m_quad.vector4_f32[3] > list->m_minDistanceToUseConvexHullForGetClosestPoints) {
+ hkpCdPoint p;p.m_cdBodyA=&a;p.m_cdBodyB=&b;
+ p.m_contact.m_position=c.contact.m_position;p.m_contact.m_separatingNormal=c.contact.m_separatingNormal;
+ out.addCdPoint(p);
+ } else {timer("Stchildren");hkpSymmetricAgentFlipCollector flip(out);fn_82D6BE30(b,a,i,flip);}
  }
  }
  }

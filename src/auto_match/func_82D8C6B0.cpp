@@ -1,9 +1,6 @@
-#include "havok/hkBase.h"
+#include "havok/hkpMotion.h"
 class hkpRigidBody;
 class Link { public: virtual void a();virtual void b();virtual void c();virtual Link* clone(hkpRigidBody*); };
-class hkpMaxSizeMotion : public hkReferencedObject {
-public: hkpMaxSizeMotion():hkReferencedObject(hkFinishLoadedObjectFlag()),saved(0){} char bytes[0x110];hkpMaxSizeMotion *saved;char pad[4];
-};
 struct __declspec(align(16)) RigidBodyInfo { unsigned char bytes[0xc0]; };
 class hkpRigidBody : public hkReferencedObject {
 public:
@@ -30,9 +27,9 @@ extern "C" hkpRigidBody *fn_82D8C6B0(const hkpRigidBody *self) {
  void *mem=hkpRigidBody::operator new(sizeof(hkpRigidBody));
  hkpRigidBody *copy=fn_82D8C258((hkpRigidBody*)mem,&info);
  memCpy16<sizeof(hkpMaxSizeMotion)>(&copy->motion,&self->motion);
- if(self->motion.saved) {
-  copy->motion.saved=new hkpMaxSizeMotion;
-  memCpy16<sizeof(hkpMaxSizeMotion)>(copy->motion.saved,self->motion.saved);
+ if(self->motion.m_savedMotion) {
+  copy->motion.m_savedMotion=new hkpMaxSizeMotion;
+  memCpy16<sizeof(hkpMaxSizeMotion)>(copy->motion.m_savedMotion,self->motion.m_savedMotion);
  }
  copy->owner=copy->getCollidable();fn_82D8C858(copy,self);
  fn_82CED628(&copy->name,(const char*)((unsigned)self->name & ~1u));

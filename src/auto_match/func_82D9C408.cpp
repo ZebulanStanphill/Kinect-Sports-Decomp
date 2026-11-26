@@ -1,14 +1,22 @@
-#include "havok/hkBase.h"
-class hkpShape;
-class __declspec(align(16)) hkTransform { public: float a[16]; };
-class __declspec(align(16)) hkpShapePhantom : public hkReferencedObject { public:
- char p08[8]; const hkpShape *shape; char p14[0x18]; unsigned int user;
- char p30[0x5c]; hkArray<int> a,b; char pa4[0xc]; hkTransform transform; char pf0[0x70];
- hkpShapePhantom(const hkpShape *,const hkTransform &); virtual ~hkpShapePhantom();
-};
-class hkpCachingShapePhantom : public hkpShapePhantom { public:
- hkArray<int> overlaps; hkBool order;
- HK_FORCE_INLINE hkpCachingShapePhantom(const hkpShape *s,const hkTransform &t,unsigned int u):hkpShapePhantom(s,t),order(false){user=u;} virtual ~hkpCachingShapePhantom();
+#include "havok/hkpShapePhantom.h"
+// hkpCachingShapePhantom as in havok/hkpCachingShapePhantom.h, but with the constructor inline: clone() is in the
+// constructor's .cpp, and the game inlines it here (a call to hkpShapePhantom's constructor, then the members).
+class hkpCachingShapePhantom : public hkpShapePhantom {
+public:
+    struct CollisionDetail {
+        class hkpCollisionAgent *m_agent;
+        hkpCollidable *m_collidable;
+    };
+    HK_FORCE_INLINE hkpCachingShapePhantom(const hkpShape *shape, const hkTransform &transform,
+                                           hkUint32 collisionFilterInfo)
+        : hkpShapePhantom(shape, transform), m_orderDirty(false)
+    {
+        m_collidable.setCollisionFilterInfo(collisionFilterInfo);
+    }
+    virtual ~hkpCachingShapePhantom();
+
+    hkArray<CollisionDetail> m_collisionDetails;   // +0x160
+    hkBool m_orderDirty;                           // +0x16C
 };
 extern "C" void fn_82D8C858(void *,const void *);
 template<class T> static HK_FORCE_INLINE void arrayCopy(hkArray<T> &a,const hkArray<T> &b) {
@@ -22,6 +30,8 @@ template<class T> static HK_FORCE_INLINE void arrayCopy(hkArray<T> &a,const hkAr
 }
 
 extern "C" hkpCachingShapePhantom *fn_82D9C408(const hkpCachingShapePhantom *self) {
- hkpCachingShapePhantom *p=new hkpCachingShapePhantom(self->shape,self->transform,self->user);
- arrayCopy(p->a,self->a);arrayCopy(p->b,self->b);fn_82D8C858(p,self);return p;
+ hkpCachingShapePhantom *p=new hkpCachingShapePhantom(self->m_collidable.getShape(),self->m_motionState.getTransform(),
+                                                      self->m_collidable.m_broadPhaseHandle.m_collisionFilterInfo);
+ arrayCopy(p->m_overlapListeners,self->m_overlapListeners);arrayCopy(p->m_phantomListeners,self->m_phantomListeners);
+ fn_82D8C858(p,self);return p;
 }

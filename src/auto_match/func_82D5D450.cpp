@@ -4,19 +4,12 @@
 // to the heap. The implicit destructor leaves only hkpCdBodyPairCollector's vtable store.
 // The function at the end only makes the compiler emit the vtable.
 #include "havok/hkBase.h"
-
-extern "C" void fn_8265CA20(void *p);   // global operator delete
-
-class hkpCdBodyPairCollector {
-public:
-    HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE, hkpCdBodyPairCollector);
-    virtual ~hkpCdBodyPairCollector() {}
-    hkBool m_earlyOut;   // +0x4
-};
+#include "havok/hkpCdBodyPairCollector.h"
 
 class hkpFlagCdBodyPairCollector : public hkpCdBodyPairCollector {
 public:
     HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE, hkpFlagCdBodyPairCollector);
+    virtual void addCdBodyPair(const hkpCdBody &bodyA, const hkpCdBody &bodyB);
 };
 
 void emitVtable_82D5D450(void *p) { new (p) hkpFlagCdBodyPairCollector; }

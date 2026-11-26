@@ -1,19 +1,16 @@
-#include "havok/hkVector4.h"
+#include "havok/hkTransform.h"
 
-class hkTransform {
-public:
-    hkVector4 m_col0, m_col1, m_col2, m_translation;
-};
-
+// Not hkVector4::_setTransformedPos: this function's code has the operands in the other order
+// (lane splat first, translation last), and the header's version changes it.
 __forceinline void setTransformedPos(hkVector4 &out, const hkTransform &t, const hkVector4 &b)
 {
     __vector4 xb = __vspltw(b.m_quad, 0);
     __vector4 yb = __vspltw(b.m_quad, 1);
     __vector4 zb = __vspltw(b.m_quad, 2);
-    __vector4 t0 = __vmulfp(xb, t.m_col0.m_quad);
-    t0 = __vmaddfp(yb, t.m_col1.m_quad, t0);
-    t0 = __vmaddfp(zb, t.m_col2.m_quad, t0);
-    out.m_quad = __vaddfp(t0, t.m_translation.m_quad);
+    __vector4 t0 = __vmulfp(xb, t.getColumn(0).m_quad);
+    t0 = __vmaddfp(yb, t.getColumn(1).m_quad, t0);
+    t0 = __vmaddfp(zb, t.getColumn(2).m_quad, t0);
+    out.m_quad = __vaddfp(t0, t.getTranslation().m_quad);
 }
 
 struct Vertex_82D10BD0 {

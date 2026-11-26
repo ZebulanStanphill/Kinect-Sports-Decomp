@@ -6,21 +6,9 @@
 // static constant with that name (an extern is reloaded after the array stores).
 #include "havok/hkBase.h"
 #include "havok/hkAabb.h"
+#include "havok/hkpCollisionAgent.h"
 
 // HK_REAL_MAX (3.40282e+38f); the game's copy keeps its lbl_ name (see above).
-
-class hkpContactMgr;
-typedef hkUint32 hkpShapeKey;
-
-// hkpCollisionAgent (Physics/Collide/Agent/hkpCollisionAgent.h): hkReferencedObject, then
-// hkpContactMgr *m_contactMgr (+0x8).
-class hkpCollisionAgent : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    hkpCollisionAgent(hkpContactMgr *contactMgr) : m_contactMgr(contactMgr) {}
-
-    hkpContactMgr *m_contactMgr;   // +0x8
-};
 
 struct hkpBvAgentEntryInfo {
     hkpShapeKey m_key;

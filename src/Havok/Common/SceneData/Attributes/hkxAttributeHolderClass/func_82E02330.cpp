@@ -1,13 +1,9 @@
 // finishLoadedObjecthkxAttributeHolder: the finish function in hkxAttributeHolder's hkTypeInfo, from Havok's
 // HK_REFLECTION_DEFINE_VIRTUAL (static in Havok). It runs the finish
 // constructor on an object loaded in place. Hierarchy from the RTTI:
-// hkxAttributeHolder -> hkReferencedObject -> hkBaseObject; only the finish constructors are declared.
+// hkxAttributeHolder -> hkReferencedObject -> hkBaseObject.
 #include "havok/hkBase.h"
-
-class hkxAttributeHolder : public hkReferencedObject {
-public:
-    hkxAttributeHolder(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
+#include "havok/hkSceneData.h"
 
 void HK_CALL finishLoadedObjecthkxAttributeHolder(void *p, int finishing)
 {

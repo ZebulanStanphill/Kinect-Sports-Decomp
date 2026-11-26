@@ -1,13 +1,8 @@
 // finishLoadedObjecthkxSkinBinding: the finish function in hkxSkinBinding's hkTypeInfo, from Havok's
 // HK_REFLECTION_DEFINE_VIRTUAL (static in Havok). It runs the finish
 // constructor on an object loaded in place. Hierarchy from the RTTI:
-// hkxSkinBinding -> hkReferencedObject -> hkBaseObject; only the finish constructors are declared.
-#include "havok/hkBase.h"
-
-class hkxSkinBinding : public hkReferencedObject {
-public:
-    hkxSkinBinding(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
+// hkxSkinBinding -> hkReferencedObject -> hkBaseObject.
+#include "havok/hkSceneData.h"
 
 void HK_CALL finishLoadedObjecthkxSkinBinding(void *p, int finishing)
 {
