@@ -6,7 +6,7 @@
 // defines it); it is defined inline here so that a unit can expand it: the bridge atom's finish constructor re-
 // inits it with its stored pointer, then the class points it at itself. The vtable
 // (??_7hkpStiffSpringChainData@@6B@, 17 slots) has 82DA5938 at +0x20 (getType: 100); slots +0x28 to +0x40 are
-// virtual functions of hkpConstraintData and hkpConstraintChainData that their header does not declare yet.
+// virtual functions of hkpConstraintData and hkpConstraintChainData (hkpConstraintData.h says what each is).
 #ifndef HAVOK_HKPSTIFFSPRINGCHAINDATA_H
 #define HAVOK_HKPSTIFFSPRINGCHAINDATA_H
 
@@ -30,6 +30,7 @@ public:
             m_atoms.m_bridgeAtom.init(this);
     }
     virtual ~hkpStiffSpringChainData();
+    virtual int getNumConstraintInfos() { return m_infos.getSize(); }   // +0x40 82897B20
 
     hkpBridgeAtoms m_atoms;            // +0xC
     hkArray<ConstraintInfo> m_infos;   // +0x18

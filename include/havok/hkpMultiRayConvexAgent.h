@@ -15,12 +15,6 @@
 
 #include "havok/hkpIterativeLinearCastAgent.h"
 
-// Havok's hkContactPointId and its invalid value (also declared by hkpHeightFieldAgent.h).
-typedef hkUint16 hkContactPointId;
-#ifndef HK_INVALID_CONTACT_POINT
-#define HK_INVALID_CONTACT_POINT 0xffff
-#endif
-
 class hkpMultiRayConvexAgent;
 
 extern "C" {
@@ -68,10 +62,8 @@ public:
         fn_82D60198(this, bodyA, bodyB, input, collector);
     }
 
-    // Havok's hkInplaceArray<ContactPointInfo, 4>, written as the array and its storage: hkInplaceArray's implicit
-    // destructor is a call of its own, where the game's destructor (82D60E30) has the array's inlined.
-    hkArray<ContactPointInfo> m_contactInfo;        // +0xC
-    ContactPointInfo m_contactInfoStorage[4];       // +0x18
+    // The storage of four ids is at +0x18. The game's destructor (82D60E30) has the array's inlined.
+    hkInplaceArray<ContactPointInfo, 4> m_contactInfo;   // +0xC
 };
 
 #endif

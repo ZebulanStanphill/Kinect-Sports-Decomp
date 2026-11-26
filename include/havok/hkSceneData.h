@@ -353,6 +353,10 @@ public:
 // code folding) with hkxEdgeSelectionChannel, hkxTriangleSelectionChannel,
 // hkxVertexSelectionChannel, hkxVertexFloatDataChannel and
 // hkxVertexIntDataChannel: one hkArray of 4-byte elements at +0x8.
+// The evidence is slot 0 of those five classes' vtables, which is
+// ??_GhkxAnimatedFloat@@UAAPAXI@Z. In the same way the vtables of
+// hkxAnimatedQuaternion and hkxVertexVectorDataChannel start with
+// ??_GhkxAnimatedVector@@UAAPAXI@Z.
 class hkxAnimatedFloat : public hkReferencedObject {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SCENE_DATA);

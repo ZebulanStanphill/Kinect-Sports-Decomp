@@ -86,10 +86,8 @@ public:
         fn_82D6BFD8(this, bodyA, bodyB, input, collector, startCollector);
     }
 
-    // Havok's hkInplaceArray<KeyAgentPair, 4>, written as the array and its storage: hkInplaceArray's implicit
-    // destructor is a call of its own, where the game's destructor (82D55060) has the array's inlined.
-    hkArray<KeyAgentPair> m_agents;         // +0xC
-    KeyAgentPair m_agentsStorage[4];        // +0x18
+    // The storage of four pairs is at +0x18. The game's destructor (82D55060) has the array's inlined.
+    hkInplaceArray<KeyAgentPair, 4> m_agents;   // +0xC
 };
 
 #endif

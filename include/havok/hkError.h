@@ -36,8 +36,6 @@ public:
     virtual void enableAll();                                                                     // +0x18
     virtual void sectionBegin(int id, const char *sectionName);                                   // +0x1C
     virtual void sectionEnd();                                                                    // +0x20
-
-    static HK_FORCE_INLINE hkError &HK_CALL getInstance() { return *instanceRef(); }
 };
 
 template <> HK_FORCE_INLINE hkError *&hkSingleton<hkError>::instanceRef() { return lbl_8323B464; }

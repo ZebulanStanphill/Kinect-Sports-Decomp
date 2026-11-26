@@ -5,7 +5,7 @@
 // constructor (82D93C00) calls it, then fills the atoms' defaults. The destructor (82D93908) releases the
 // angular motor.
 // The vtable (??_7hkpLimitedHingeConstraintData@@6B@, 16 slots) has 82D93900 at +0x20 (getType: 2); slots +0x28
-// to +0x3C are hkpConstraintData's virtual functions that hkpConstraintData.h does not declare yet.
+// to +0x3C are hkpConstraintData's virtual functions (hkpConstraintData.h says what each is).
 // The finish constructors follow Havok's header: they leave the loaded members alone.
 #ifndef HAVOK_HKPLIMITEDHINGECONSTRAINTDATA_H
 #define HAVOK_HKPLIMITEDHINGECONSTRAINTDATA_H

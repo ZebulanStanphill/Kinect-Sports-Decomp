@@ -4,7 +4,7 @@
 // constructor is out of line as fn_82D98230, which keeps its fn_ name: the unit defines it (forced inline) and runs
 // it through MSVC's explicit constructor call. The class declares no destructor: the vtable's slot 0 is the scalar
 // deleting destructor the linker folded with others (??_GhkpShape@@UAAPAXI@Z). getType (+0x20, 82D98228) returns 8;
-// slots +0x28 to +0x3C are hkpConstraintData's virtual functions that hkpConstraintData.h does not declare yet. The
+// slots +0x28 to +0x3C are hkpConstraintData's virtual functions (hkpConstraintData.h says what each is). The
 // finish constructors follow Havok's header: they leave the loaded members alone.
 #ifndef HAVOK_HKPSTIFFSPRINGCONSTRAINTDATA_H
 #define HAVOK_HKPSTIFFSPRINGCONSTRAINTDATA_H

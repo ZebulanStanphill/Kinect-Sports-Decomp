@@ -85,9 +85,8 @@ public:
         fn_82D6CF80(this, bodyA, bodyB, input, collector, startCollector);
     }
 
-    // Havok's hkInplaceArray<KeyAgentPair, 4>, written as the array and its storage (see hkpShapeCollectionAgent.h).
-    hkArray<KeyAgentPair> m_agents;         // +0xC
-    KeyAgentPair m_agentsStorage[4];        // +0x18
+    // The storage of four pairs is at +0x18.
+    hkInplaceArray<KeyAgentPair, 4> m_agents;   // +0xC
 };
 
 #endif

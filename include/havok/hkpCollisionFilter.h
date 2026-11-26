@@ -12,6 +12,12 @@
 //   +0x18 hkUint32 m_prepad[2], +0x20 hkUint32 m_type, +0x24 hkUint32 m_postpad[3]
 // A destructor of a subclass ends with the interfaces' inline destructors,
 // storing their vtables at +0x14, +0x10, +0xC, +0x8, then hkBaseObject's at +0.
+// hkpCollisionFilter adds no virtual function of its own: the primary vtables of hkpCollisionFilter,
+// hkpNullCollisionFilter, hkpCollisionFilterList, hkpPairCollisionFilter and the others
+// (??_7<Class>@@6BhkReferencedObject@@@) have hkReferencedObject's three slots and are followed directly
+// by the next vtable's RTTI locator. (Havok's header has a virtual init(hkpWorld *) there; the game has
+// not.) Only hkpGroupFilter has a fourth slot, 82D7E470 (a folded function that returns 0), which is
+// that class's own and is not identified.
 // Subclass vtables are named VFTABLE_for_<Class>@@_<locator> in symbols.txt;
 // the compiler's names are ??_7<Class>@@6BhkReferencedObject@@@ (+0),
 // ??_7<Class>@@6BhkpCollidableCollidableFilter@@@ (+0x8) and so on (check with
@@ -92,7 +98,6 @@ public:
     };
     hkpCollisionFilter();
     hkpCollisionFilter(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-    virtual void init(hkpWorld *world);   // primary vtable +0xC
     // The interfaces' overloads, declared again here as in Havok's header (pure there). A call through
     // an hkpCollisionFilter pointer then adjusts this to the interface without a null check, as
     // hkpShapeCollectionAgent's constructor does (82D6C808).

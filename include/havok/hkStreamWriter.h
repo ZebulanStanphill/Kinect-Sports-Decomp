@@ -8,6 +8,9 @@
 //   +0x18 seekTellSupported() const
 //   +0x1C seek(int, SeekWhence)
 //   +0x20 tell() const
+// The interface ends there: hkBufferedStreamWriter, hkCrc32StreamWriter and hkSocket::WriterAdapter have
+// nine-slot vtables. The tenth slot of hkStdioStreamWriter (82CFB5B0, returns true), hkArrayStreamWriter
+// and hkMemoryTrackStreamWriter (clear) is each class's own.
 #ifndef HAVOK_HKSTREAMWRITER_H
 #define HAVOK_HKSTREAMWRITER_H
 

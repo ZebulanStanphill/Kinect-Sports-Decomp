@@ -1,5 +1,12 @@
 // hkpConstraintInstance (Physics/Dynamics/Constraint/hkpConstraintInstance.h),
 // 0x38 bytes: a constraint between two entities, described by its data.
+//
+// Its vtable (??_7hkpConstraintInstance@@6B@, 7 slots) has four functions after hkReferencedObject's:
+// +0xC 82D957E0 (empty), +0x10 82D958F8 (when the instance has an owner, removes it from the entity's
+// world), +0x14 82D957E8 (empty), +0x18 82D7E470 (returns 0). hkpConstraintChainInstance replaces +0x10
+// and +0x18 (returns 1). The two empty functions are separate functions next to the class's other code, so
+// they are out of line; the two getType functions are folded copies far from it, so they are inline. The
+// names and InstanceType follow Havok's header.
 #ifndef HAVOK_HKPCONSTRAINTINSTANCE_H
 #define HAVOK_HKPCONSTRAINTINSTANCE_H
 
@@ -35,6 +42,7 @@ public:
         ON_DESTRUCTION_REMOVE = 1,
         ON_DESTRUCTION_RESET_REMOVE = 2
     };
+    enum InstanceType { TYPE_NORMAL = 0, TYPE_CHAIN = 1 };
     hkpConstraintInstance(ConstraintPriority priority);
     // Out of line in the game as fn_82D962A8, which keeps its fn_ name (a
     // Matching unit calls it); defined inline here so that a unit can expand it.
@@ -55,6 +63,10 @@ public:
     }
     hkpConstraintInstance(hkFinishLoadedObjectFlag f) : hkReferencedObject(f), m_name(f), m_uid(0xfffffff0) {}
     virtual ~hkpConstraintInstance();
+    virtual void entityAddedCallback(hkpEntity *entity);              // +0xC
+    virtual void entityRemovedCallback(hkpEntity *entity);            // +0x10
+    virtual void entityDeletedCallback(hkpEntity *entity);            // +0x14
+    virtual InstanceType getType() const { return TYPE_NORMAL; }      // +0x18
     HK_FORCE_INLINE hkpConstraintData *getData() const { return m_data; }
 
     hkpConstraintOwner *m_owner;                          // +0x8

@@ -9,12 +9,6 @@
 
 #include "havok/hkpIterativeLinearCastAgent.h"
 
-// Havok's hkContactPointId and its invalid value (also declared by the other agent headers that need them).
-typedef hkUint16 hkContactPointId;
-#ifndef HK_INVALID_CONTACT_POINT
-#define HK_INVALID_CONTACT_POINT 0xffff
-#endif
-
 class hkpSphereSphereAgent : public hkpIterativeLinearCastAgent {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);

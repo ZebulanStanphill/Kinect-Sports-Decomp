@@ -5,7 +5,7 @@
 // fn_82D9DF00, which keeps its fn_ name (a Matching unit defines it); it is defined inline here so that a unit can
 // expand it.
 // The vtable (??_7hkpGenericConstraintData@@6B@, 16 slots) has 82D9D7B8 at +0x20 (getType: 10); slots +0x28 to
-// +0x3C are hkpConstraintData's virtual functions that hkpConstraintData.h does not declare yet.
+// +0x3C are hkpConstraintData's virtual functions (hkpConstraintData.h says what each is).
 #ifndef HAVOK_HKPGENERICCONSTRAINTDATA_H
 #define HAVOK_HKPGENERICCONSTRAINTDATA_H
 

@@ -30,15 +30,6 @@ unsigned char fn_83095E98(const hkpShape *);
 void fn_82D8B400(hkpRigidBody *, const hkpShape *, hkVector4 *);
 }
 
-// hkRefPtr's assignment from a pointer.
-template <typename T>
-static HK_FORCE_INLINE void assign(hkRefPtr<T> &ptr, T *e)
-{
-    if (e) e->addReference();
-    if (ptr.m_pntr) ptr.m_pntr->removeReference();
-    ptr.m_pntr = e;
-}
-
 static HK_FORCE_INLINE float min2(float x, float y) { return (float)__fsel(x - y, y, x); }
 
 hkpRigidBody::hkpRigidBody(const hkpRigidBodyCinfo &info) : hkpEntity(info.m_shape)
@@ -47,7 +38,7 @@ hkpRigidBody::hkpRigidBody(const hkpRigidBodyCinfo &info) : hkpEntity(info.m_sha
     m_contactPointCallbackDelay = info.m_contactPointCallbackDelay;
     m_collidable.setCollisionFilterInfo(info.m_collisionFilterInfo);
     if (info.m_localFrame) {
-        assign(m_localFrame, info.m_localFrame);
+        m_localFrame = info.m_localFrame;
         m_localFrame->addReference();
     }
     float depth;

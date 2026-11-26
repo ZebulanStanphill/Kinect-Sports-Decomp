@@ -43,7 +43,14 @@ public:
         int m_triangleOffset;                 // +0x34
     };
 
+    // Out of line (??0hkpMeshShape@@QAA@MH@Z, 82D4B040): scaling 1, welding type 6, the two arguments.
+    // hkpFastMeshShape's (82D4B378) and hkpStorageMeshShape's constructors (82D4F638, 82D50070) call it.
+    hkpMeshShape(hkReal radius, int numBitsForSubpartIndex);
     hkpMeshShape(hkFinishLoadedObjectFlag flag);   // out of line (82D4B0F8)
+
+    // Havok's accessors (82D50070 walks the source mesh's subparts with them).
+    int getNumSubparts() const { return m_subparts.getSize(); }
+    const Subpart &getSubpartAt(int i) const { return m_subparts[i]; }
 
     virtual int getNumChildShapes() const;
     virtual hkpShapeKey getFirstKey() const;

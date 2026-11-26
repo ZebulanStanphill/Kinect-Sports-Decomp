@@ -14,6 +14,7 @@
 #ifndef HAVOK_HKARRAY_H
 #define HAVOK_HKARRAY_H
 #include "havok/hkMemoryRouter.h"
+#include "havok/hkReferencedObject.h"   // HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR
 #include "havok/hkArrayUtil.h"
 
 struct hkContainerHeapAllocator {
@@ -108,6 +109,14 @@ public:
         hkArrayUtil::constructWithCopy(m_data + m_size, 1, e, HK_ARRAY_HAS_TRIVIAL_COPY(T));
         m_size++;
     }
+    // Appends n elements without a capacity test and returns the first (82D6C808 appends its child
+    // agents this way after one reserve).
+    HK_FORCE_INLINE T *expandByUnchecked(int n)
+    {
+        T *res = m_data + m_size;
+        m_size += n;
+        return res;
+    }
     HK_FORCE_INLINE T &_expandOne(hkMemoryAllocator &alloc)
     {
         if (m_size == getCapacity())
@@ -123,6 +132,9 @@ public:
 template <typename T, typename Allocator = hkContainerHeapAllocator>
 class hkArray : public hkArrayBase<T> {
 public:
+    // Havok's class allocator: 82E0BC78 creates an hkArray<hkVariant> with `new` from the heap (0xC
+    // bytes), and its scalar deleting destructor (fn_82E0E0A8) returns the 0xC bytes to the heap.
+    HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_ARRAY, hkArray);
     HK_FORCE_INLINE hkArray() {}
     HK_FORCE_INLINE hkArray(hkFinishLoadedObjectFlag f) : hkArrayBase<T>(f) {}
     // Over a buffer the array does not own (hkInplaceArray's storage).
@@ -137,15 +149,19 @@ public:
     HK_FORCE_INLINE T &expandOne() { return this->_expandOne(Allocator::get(this)); }
 };
 
-// hkInplaceArray<T, N>: an hkArray whose first N elements live in the object.
-// Unverified: hkSolverAllocator's constructor (fn_82CF75C0) only matched with
-// the array and its storage as separate members of the class, computing the
-// storage address from the enclosing object; prefer that form.
-// (data = &m_storage, capacity N | DONT_DEALLOCATE_FLAG).
+// hkInplaceArray<T, N>: an hkArray whose first N elements live in the object
+// (data = m_storage, capacity N | DONT_DEALLOCATE_FLAG).
+// The constructor takes the initial size (82DFE6F8 builds two arrays of m_numWheels elements this way;
+// the others pass nothing). The destructor is forced inline, as the destructors of the agents that hold
+// one have the array's code in them (82D55060, 82D60E30) and 82CFCE90 destroys a local one inline.
+// Users: hkpShapeCollectionAgent, hkpMultiSphereAgent, hkpMultiRayConvexAgent, hkBinaryPackfileReader.
+// hkSolverAllocator's constructor (fn_82CF75C0) only matched with the array and its storage as separate
+// members of the class, computing the storage address from the enclosing object; that unit keeps that form.
 template <typename T, unsigned N, typename Allocator = hkContainerHeapAllocator>
 class hkInplaceArray : public hkArray<T, Allocator> {
 public:
-    HK_FORCE_INLINE hkInplaceArray() : hkArray<T, Allocator>(m_storage, 0, N) {}
+    HK_FORCE_INLINE hkInplaceArray(int size = 0) : hkArray<T, Allocator>(m_storage, size, N) {}
+    HK_FORCE_INLINE ~hkInplaceArray() {}
     T m_storage[N];
 };
 

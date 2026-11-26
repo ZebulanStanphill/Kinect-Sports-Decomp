@@ -7,9 +7,10 @@
 
 class hkpConstraintData;
 
-// The atom types 0 to 16, 20, 22 and 23 are used by the game's code; 17 to
-// 19, 21 and the modifier types after the first follow Havok's header and
-// have not been checked against the game.
+// The atom types are the 30 names and values of the game's reflection table for this enum
+// (hkpConstraintAtomAtomTypeEnumItems, lbl_8213F780), which ends with
+// TYPE_MODIFIER_CENTER_OF_MASS_CHANGER = 28 and TYPE_MAX = 29. FIRST_MODIFIER_TYPE and
+// LAST_MODIFIER_TYPE are not in the table; they follow Havok's header.
 struct hkpConstraintAtom {
     enum AtomType {
         TYPE_INVALID = 0,
@@ -40,9 +41,10 @@ struct hkpConstraintAtom {
         TYPE_MODIFIER_VISCOUS_SURFACE = 25,
         TYPE_MODIFIER_MOVING_SURFACE = 26,
         TYPE_MODIFIER_IGNORE_CONSTRAINT = 27,
-        TYPE_MAX = 28,
+        TYPE_MODIFIER_CENTER_OF_MASS_CHANGER = 28,
+        TYPE_MAX = 29,
         FIRST_MODIFIER_TYPE = TYPE_MODIFIER_SOFT_CONTACT,
-        LAST_MODIFIER_TYPE = TYPE_MODIFIER_IGNORE_CONSTRAINT
+        LAST_MODIFIER_TYPE = TYPE_MODIFIER_CENTER_OF_MASS_CHANGER
     };
     hkpConstraintAtom(AtomType type) : m_type(hkUint16(type)) {}
     hkpConstraintAtom(hkFinishLoadedObjectFlag f) {}
@@ -51,13 +53,15 @@ struct hkpConstraintAtom {
     hkUint16 m_type;   // +0x0  hkEnum<AtomType, hkUint16>
 };
 
-// hkpModifierConstraintAtom (16-byte aligned in Havok): the head of a chain
-// of modifiers in front of a constraint's own atoms.
+// hkpModifierConstraintAtom, 0x20 bytes: the head of a chain of modifiers in front of a constraint's own
+// atoms. The members are those of its reflection table (lbl_82140000; the class is registered with size
+// 0x20 by 83132E48): modifierAtomSize +0x10 (flagged 16-byte aligned, which is why it does not follow
+// m_type directly), childSize +0x12, child +0x14 and `pad`, two words at +0x18.
 struct hkpModifierConstraintAtom : public hkpConstraintAtom {
-    char m_pad[0x10 - 2];
-    hkUint16 m_modifierAtomSize;   // +0x10
-    hkUint16 m_childSize;          // +0x12
-    hkpConstraintAtom *m_child;    // +0x14
+    __declspec(align(16)) hkUint16 m_modifierAtomSize;   // +0x10
+    hkUint16 m_childSize;                                // +0x12
+    hkpConstraintAtom *m_child;                          // +0x14
+    hkUint32 m_pad[2];                                   // +0x18
 };
 
 extern "C" void fn_82D9FE70(void *self, hkpConstraintData *constraintData);   // hkpBridgeConstraintAtom::init

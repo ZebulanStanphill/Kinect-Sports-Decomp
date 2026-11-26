@@ -1,45 +1,13 @@
-// Copy assignment of a 0x40-byte Havok value class: a 0x14-byte block of
-// plain words, an hkArray of hkRefPtr, then two hkVector4.
-#include "havok/hkArray.h"
-#include "havok/hkReferencedObject.h"
-#include "havok/hkVector4.h"
+// hkpExtendedMeshShape::ShapesSubpart's copy assignment, out of line (hkpExtendedMeshShape::addSubpart,
+// 82D43170, and hkpStorageExtendedMeshShape's fn_82D4DE48 call it): the Subpart part as plain words, the child
+// shapes through hkArray's assignment (the references counted), then the rotation and the translation.
+// Keeps its fn_ name.
+#include "havok/hkpExtendedMeshShape.h"
 
 inline void *operator new(unsigned int, void *where)
 {
     return where;
 }
-
-// hkRefPtr with its copy constructor and assignment (the source pointer is
-// read again after each reference call).
-template <typename T> class CopyRefPtr_82D43AA0
-{
-  public:
-    __forceinline ~CopyRefPtr_82D43AA0()
-    {
-        if (m_pntr)
-            m_pntr->removeReference();
-        m_pntr = HK_NULL;
-    }
-
-    __forceinline CopyRefPtr_82D43AA0(const CopyRefPtr_82D43AA0 &other)
-    {
-        if (other.m_pntr)
-            other.m_pntr->addReference();
-        this->m_pntr = other.m_pntr;
-    }
-
-    __forceinline CopyRefPtr_82D43AA0 &operator=(const CopyRefPtr_82D43AA0 &other)
-    {
-        if (other.m_pntr)
-            other.m_pntr->addReference();
-        if (this->m_pntr)
-            this->m_pntr->removeReference();
-        this->m_pntr = other.m_pntr;
-        return *this;
-    }
-
-    T *m_pntr;
-};
 
 template <typename T> static __forceinline void CopyElements(T *dst, const T *src, int count)
 {
@@ -53,43 +21,29 @@ template <typename T> static __forceinline void ConstructElements(T *dst, const 
         new (&dst[i]) T(src[i]);
 }
 
-template <typename T> class CopyableArray_82D43AA0 : public hkArray<T>
+// hkArray<T>::operator= for elements with constructors (hkArrayBase::_copyFromArray).
+template <typename T> static __forceinline void copyFromArray(hkArrayBase<T> &self, const hkArrayBase<T> &other)
 {
-  public:
-    __forceinline CopyableArray_82D43AA0 &operator=(const CopyableArray_82D43AA0 &other)
-    {
-        hkMemoryAllocator &alloc = hkContainerHeapAllocator::get(this);
-        int oldSize = this->m_size;
-        int newSize = other.m_size;
-        int copied = newSize > oldSize ? oldSize : newSize;
-        int capacity = this->getCapacity();
+    hkMemoryAllocator &alloc = hkContainerHeapAllocator::get(&self);
+    int oldSize = self.m_size;
+    int newSize = other.m_size;
+    int copied = newSize > oldSize ? oldSize : newSize;
+    int capacity = self.getCapacity();
 
-        if (capacity < newSize)
-            hkArrayUtil::_reserve(alloc, this, newSize < capacity * 2 ? capacity * 2 : newSize, sizeof(T));
-        hkArrayUtil::destruct(this->m_data + newSize, oldSize - newSize);
-        CopyElements(this->m_data, other.m_data, copied);
-        ConstructElements(this->m_data + copied, other.m_data + copied, newSize - copied);
-        this->m_size = newSize;
-        return *this;
-    }
-};
+    if (capacity < newSize)
+        hkArrayUtil::_reserve(alloc, &self, newSize < capacity * 2 ? capacity * 2 : newSize, sizeof(T));
+    hkArrayUtil::destruct(self.m_data + newSize, oldSize - newSize);
+    CopyElements(self.m_data, other.m_data, copied);
+    ConstructElements(self.m_data + copied, other.m_data + copied, newSize - copied);
+    self.m_size = newSize;
+}
 
-struct Header_82D43AA0 {
-    unsigned int words[5];
-};
-
-struct Value_82D43AA0 {
-    Header_82D43AA0 header;                                                  /* 0x00 */
-    CopyableArray_82D43AA0<CopyRefPtr_82D43AA0<hkReferencedObject>> objects; /* 0x14 */
-    hkVector4 a;                                                             /* 0x20 */
-    hkVector4 b;                                                             /* 0x30 */
-};
-
-extern "C" Value_82D43AA0 *fn_82D43AA0(Value_82D43AA0 *self, const Value_82D43AA0 *other)
+extern "C" hkpExtendedMeshShape::ShapesSubpart *fn_82D43AA0(hkpExtendedMeshShape::ShapesSubpart *self,
+                                                            const hkpExtendedMeshShape::ShapesSubpart *other)
 {
-    self->header = other->header;
-    self->objects = other->objects;
-    self->a = other->a;
-    self->b = other->b;
+    static_cast<hkpExtendedMeshShape::Subpart &>(*self) = *other;
+    copyFromArray(self->m_childShapes, other->m_childShapes);
+    self->m_rotation = other->m_rotation;
+    self->m_translation = other->m_translation;
     return self;
 }

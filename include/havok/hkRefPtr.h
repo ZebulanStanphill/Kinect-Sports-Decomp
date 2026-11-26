@@ -5,7 +5,7 @@
 // `if (m_pntr) m_pntr->removeReference(); m_pntr = HK_NULL;`, with the locked
 // removeReference (fn_82CE4118). The constructor from a pointer adds a
 // reference the same way (addReference, fn_82CE4040); its exact statement order
-// is not confirmed yet.
+// is not confirmed yet. The assignments are confirmed by three units (see there).
 // (hkOstream's m_writer, which uses the lock-free fn_82CE3E28/fn_82CE3E48 and
 // is not cleared, is written as a plain pointer.)
 #ifndef HAVOK_HKREFPTR_H
@@ -31,6 +31,25 @@ public:
         m_pntr = rp.m_pntr;
     }
     HK_FORCE_INLINE hkRefPtr(hkFinishLoadedObjectFlag) {}
+    // Assignment: the new object gains its reference before the old one is released
+    // (82E16A90 at 82E16B54: test the new pointer, addReference, test m_pntr, removeReference,
+    // store; 82D8E600 and 82D8C258 have the same order). They return void, as in Havok's header.
+    HK_FORCE_INLINE void operator=(const hkRefPtr &rp)
+    {
+        if (rp.m_pntr)
+            rp.m_pntr->addReference();
+        if (m_pntr)
+            m_pntr->removeReference();
+        m_pntr = rp.m_pntr;
+    }
+    HK_FORCE_INLINE void operator=(TYPE *e)
+    {
+        if (e)
+            e->addReference();
+        if (m_pntr)
+            m_pntr->removeReference();
+        m_pntr = e;
+    }
     HK_FORCE_INLINE ~hkRefPtr()
     {
         if (m_pntr)

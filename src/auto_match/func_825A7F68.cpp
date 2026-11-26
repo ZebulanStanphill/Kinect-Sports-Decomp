@@ -15,6 +15,9 @@ public:
  owner=o; a=1; *(void ***)this=lbl_821CA8E4; c=-1; b=1;
  setName("RigidBodyPhysics (ACTIVE)");
  }
+ // The two slots hkpUnaryAction leaves pure; the game's vtable (lbl_821CA8E4) fills them.
+ virtual void applyAction(const hkStepInfo &stepInfo);
+ virtual hkpAction *clone(const hkArray<hkpEntity *> &newEntities, const hkArray<hkpPhantom *> &newPhantoms) const;
 };
 struct Self { Owner *owner; char pad[12]; Action *action; float value; };
 extern "C" void fn_825A7F68(Self *self,Body *body,char *context) {

@@ -3,8 +3,7 @@
 // defines it forced inline) copies the axis (+0x20) and normalizes it, stores the spin rate (+0x30) and the gain
 // (+0x34) and sets m_active (+0x38). The class has no destructor of its own: slot 0 of its vtable
 // (??_7hkpMotorAction@@6B@, 8 slots) is a scalar deleting destructor shared with hkpReorientAction (82DE4C28) that
-// runs hkpUnaryAction's. applyAction (+0xC, 82DF1FC0) and clone (+0x1C, 82DF1F20) are its own; hkpAction.h does not
-// declare those virtual functions yet.
+// runs hkpUnaryAction's. applyAction (+0xC, 82DF1FC0) and clone (+0x1C, 82DF1F20) are its own.
 #ifndef HAVOK_HKPMOTORACTION_H
 #define HAVOK_HKPMOTORACTION_H
 
@@ -19,6 +18,9 @@ public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_ACTION);
     hkpMotorAction(hkpRigidBody *body, const hkVector4 &axis, hkReal spinRate, hkReal gain);
     hkpMotorAction(hkFinishLoadedObjectFlag f) : hkpUnaryAction(f) {}
+    virtual void applyAction(const hkStepInfo &stepInfo);                             // +0xC  82DF1FC0
+    virtual hkpAction *clone(const hkArray<hkpEntity *> &newEntities,
+                             const hkArray<hkpPhantom *> &newPhantoms) const;         // +0x1C 82DF1F20
 
     hkVector4 m_axis;    // +0x20
     hkReal m_spinRate;   // +0x30

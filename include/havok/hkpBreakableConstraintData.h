@@ -6,7 +6,7 @@
 // it is defined inline here so that a unit can expand it: the bridge atom's finish constructor re-inits it with its
 // stored pointer, then the class points it at itself.
 // The vtable (??_7hkpBreakableConstraintData@@6B@, 16 slots) has 82D98358 at +0x20 (getType: 12); slots +0x28 to
-// +0x3C are hkpConstraintData's virtual functions that hkpConstraintData.h does not declare yet.
+// +0x3C are hkpConstraintData's virtual functions (hkpConstraintData.h says what each is).
 #ifndef HAVOK_HKPBREAKABLECONSTRAINTDATA_H
 #define HAVOK_HKPBREAKABLECONSTRAINTDATA_H
 

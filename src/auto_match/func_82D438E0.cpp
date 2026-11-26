@@ -18,7 +18,8 @@ HK_FORCE_INLINE void setDataUserFree(hkArray<T> &a, T *ptr, int size, int capaci
 }
 
 hkpExtendedMeshShape::hkpExtendedMeshShape(hkFinishLoadedObjectFlag flag)
-    : hkpShapeCollection(flag), m_trianglesSubparts(flag), m_shapesSubparts(flag), m_weldingInfo(flag)
+    : hkpShapeCollection(flag), m_embeddedTrianglesSubpart(flag), m_trianglesSubparts(flag),
+      m_shapesSubparts(flag), m_weldingInfo(flag)
 {
     if (flag.m_finishing) {
         m_collectionType = COLLECTION_EXTENDED_MESH;
@@ -32,12 +33,15 @@ hkpExtendedMeshShape::hkpExtendedMeshShape(hkFinishLoadedObjectFlag flag)
         }
         if (m_trianglesSubparts.getSize() == 1) {
             TrianglesSubpart *embedded = &m_embeddedTrianglesSubpart;
-            *embedded = m_trianglesSubparts[0];
+            // A copy construction (MSVC's explicit constructor call, without placement new's null test):
+            // the game copies the 0x60 bytes as doublewords, and an assignment would go through
+            // hkVector4's operator= for m_extrusion.
+            embedded->TrianglesSubpart::TrianglesSubpart(m_trianglesSubparts[0]);
             clearAndDeallocate(m_trianglesSubparts);
             setDataUserFree(m_trianglesSubparts, embedded, 1, 1);
         }
-        if (m_defaultCollisionFilterInfo == -1)
-            m_defaultCollisionFilterInfo = hkArray<TrianglesSubpart>::DONT_DEALLOCATE_FLAG;
+        if (m_cachedNumChildShapes == -1)
+            m_cachedNumChildShapes = 0x80000000;
     }
     m_type = HK_SHAPE_EXTENDED_MESH;
 }

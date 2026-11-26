@@ -1,31 +1,7 @@
 // hkpFastMeshShape::hkpFastMeshShape(hkReal radius, int numBitsForSubpartIndex)
 // (Physics/Collide/Shape/Deprecated/FastMesh/hkpFastMeshShape.cpp): only the
 // base constructor, then the vtables.
-#include "havok/hkpShape.h"
-#include "havok/hkVector4.h"
-
-// hkpMeshShape (Physics/Collide/Shape/Deprecated/Mesh/hkpMeshShape.h): hkpShapeCollection (hkpShapeContainer at
-// +0x10), 16-byte aligned.
-class hkpMeshShape : public hkpShapeCollection {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SHAPE);
-    struct Subpart {
-        hkUint32 m_data[14];   // 0x38 bytes
-    };
-    hkpMeshShape(hkReal radius, int numBitsForSubpartIndex);   // fn_82D4B040
-    virtual int getNumChildShapes() const;
-    virtual hkpShapeKey getFirstKey() const;
-    virtual hkpShapeKey getNextKey(hkpShapeKey oldKey) const;
-    virtual const hkpShape *getChildShape(hkpShapeKey key, hkpShapeBuffer &buffer) const;
-
-    hkVector4 m_scaling;                 // +0x20
-    hkInt32 m_numBitsForSubpartIndex;    // +0x30
-    hkArray<Subpart> m_subparts;         // +0x34
-    hkArray<hkUint16> m_weldingInfo;     // +0x40
-    hkUint8 m_weldingType;               // +0x4C
-    hkReal m_radius;                     // +0x50
-    int m_pad[3];                        // +0x54
-};
+#include "havok/hkpMeshShape.h"
 
 class hkpFastMeshShape : public hkpMeshShape {
 public:

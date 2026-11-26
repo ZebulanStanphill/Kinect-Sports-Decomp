@@ -4,7 +4,7 @@
 // inline. The data's constructor is out of line as fn_82D972A0, which keeps its fn_ name (a Matching unit defines
 // it); the destructor (82D96FB0) releases the motor.
 // The vtable (??_7hkpPrismaticConstraintData@@6B@, 16 slots) has 82D96FA8 at +0x20 (getType: 6); slots +0x28 to
-// +0x3C are hkpConstraintData's virtual functions that hkpConstraintData.h does not declare yet.
+// +0x3C are hkpConstraintData's virtual functions (hkpConstraintData.h says what each is).
 // The finish constructors follow Havok's header: they leave the loaded members alone.
 #ifndef HAVOK_HKPPRISMATICCONSTRAINTDATA_H
 #define HAVOK_HKPPRISMATICCONSTRAINTDATA_H

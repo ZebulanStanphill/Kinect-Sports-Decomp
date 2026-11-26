@@ -14,12 +14,6 @@
 
 #include "havok/hkpCollisionAgent.h"
 
-// Physics/Collide/Agent/Collidable/hkpCdBody.h? (Havok's hkContactPointId and its invalid value.)
-typedef hkUint16 hkContactPointId;
-#ifndef HK_INVALID_CONTACT_POINT
-#define HK_INVALID_CONTACT_POINT 0xffff
-#endif
-
 extern "C" {
 void fn_82D59D40(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
                  hkpCdBodyPairCollector &collector);   // hkpHeightFieldAgent::staticGetPenetrations

@@ -10,12 +10,6 @@
 
 #include "havok/hkpIterativeLinearCastAgent.h"
 
-// Havok's hkContactPointId and its invalid value (also declared by the other agent headers that need them).
-typedef hkUint16 hkContactPointId;
-#ifndef HK_INVALID_CONTACT_POINT
-#define HK_INVALID_CONTACT_POINT 0xffff
-#endif
-
 extern "C" {
 void fn_82D63AC0(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
                  hkpCdBodyPairCollector &collector);   // hkpCapsuleCapsuleAgent::staticGetPenetrations

@@ -14,6 +14,10 @@
 #include "havok/hkBase.h"
 #include "havok/hkpMeshShape.h"
 
+class hkpStorageMeshShape;
+// hkpStorageMeshShape::addSubpart(const Subpart &part): copies the subpart's data into a new SubpartStorage.
+extern "C" void fn_82D4F750(hkpStorageMeshShape *self, const hkpMeshShape::Subpart *part);
+
 class hkpStorageMeshShape : public hkpMeshShape {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SHAPE);
@@ -38,6 +42,7 @@ public:
     hkpStorageMeshShape(const hkpMeshShape *mesh);                    // out of line (82D50070)
     hkpStorageMeshShape(hkFinishLoadedObjectFlag flag);               // fn_82D4FF88
     virtual ~hkpStorageMeshShape();                                   // out of line (82D4F698)
+    void addSubpart(const Subpart &part) { fn_82D4F750(this, &part); }
 
     hkArray<SubpartStorage *> m_storage;   // +0x60
 };

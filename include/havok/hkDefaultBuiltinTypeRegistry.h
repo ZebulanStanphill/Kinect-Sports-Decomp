@@ -18,6 +18,14 @@ public:
     virtual void reinitialize() = 0;                                 // +0x1C
 };
 
+// hkSingleton<hkBuiltinTypeRegistry>::s_instance is lbl_8323FD9C (82E16A90 takes the class name registry
+// from it; the Matching C units 82E12AC8 and 82E13B70 call its +0xC and +0x10).
+extern "C" hkBuiltinTypeRegistry *lbl_8323FD9C;
+template <> HK_FORCE_INLINE hkBuiltinTypeRegistry *&hkSingleton<hkBuiltinTypeRegistry>::instanceRef()
+{
+    return lbl_8323FD9C;
+}
+
 // hkDefaultBuiltinTypeRegistry (8 bytes)
 class hkDefaultBuiltinTypeRegistry : public hkBuiltinTypeRegistry {
 public:

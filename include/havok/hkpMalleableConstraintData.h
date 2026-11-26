@@ -6,7 +6,7 @@
 // constructor is out of line as fn_82D98B10, which keeps its fn_ name (a Matching unit defines it); it is defined
 // inline here so that a unit can expand it.
 // The vtable (??_7hkpMalleableConstraintData@@6B@, 16 slots) has 82D98A78 at +0x20 (getType: 13); slots +0x28 to
-// +0x3C are hkpConstraintData's virtual functions that hkpConstraintData.h does not declare yet.
+// +0x3C are hkpConstraintData's virtual functions (hkpConstraintData.h says what each is).
 #ifndef HAVOK_HKPMALLEABLECONSTRAINTDATA_H
 #define HAVOK_HKPMALLEABLECONSTRAINTDATA_H
 

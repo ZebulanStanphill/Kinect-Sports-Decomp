@@ -8,7 +8,7 @@
 // finishLoadedObjecthkpRagdollConstraintData, 82D7F8A0) calls it when finishing and the offset is set; it is
 // forced inline so that getVtablehkpRagdollConstraintData (82D7F8F8, built /O1) folds it to the vtable store.
 // The vtable (??_7hkpRagdollConstraintData@@6B@, 16 slots) has 82D97818 at +0x20 (getType: 7); slots +0x28 to
-// +0x3C are hkpConstraintData's virtual functions that hkpConstraintData.h does not declare yet.
+// +0x3C are hkpConstraintData's virtual functions (hkpConstraintData.h says what each is).
 #ifndef HAVOK_HKPRAGDOLLCONSTRAINTDATA_H
 #define HAVOK_HKPRAGDOLLCONSTRAINTDATA_H
 

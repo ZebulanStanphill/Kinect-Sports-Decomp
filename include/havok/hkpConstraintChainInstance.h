@@ -6,7 +6,6 @@
 // Its vtable (??_7hkpConstraintChainInstance@@6B@, 7 slots) keeps hkpConstraintInstance's slots +0xC and
 // +0x14 (empty functions) and replaces +0x10 with 82D9CD18 (removes m_action and the constraint from the
 // entity's world: entityRemovedCallback in Havok) and +0x18 with 82D7EA10 (returns 1: getType, TYPE_CHAIN).
-// hkpConstraintInstance.h does not declare those four virtual functions yet, so they are not declared here.
 #ifndef HAVOK_HKPCONSTRAINTCHAININSTANCE_H
 #define HAVOK_HKPCONSTRAINTCHAININSTANCE_H
 
@@ -26,6 +25,8 @@ public:
     {
     }
     virtual ~hkpConstraintChainInstance();
+    virtual void entityRemovedCallback(hkpEntity *entity);          // +0x10 82D9CD18
+    virtual InstanceType getType() const { return TYPE_CHAIN; }     // +0x18 82D7EA10
 
     hkArray<hkpEntity *> m_chainedEntities;       // +0x38
     hkpConstraintChainInstanceAction *m_action;   // +0x44

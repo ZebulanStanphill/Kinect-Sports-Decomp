@@ -5,8 +5,7 @@
 // data and welding flag, every subpart through addSubpart (fn_82D4F750) and the
 // inlined hkArray<hkUint16>::operator= of the welding info.
 // Built with /O2 /QVMXReserve (the m_scaling copy uses v0).
-#include "havok/hkpShape.h"
-#include "havok/hkVector4.h"
+#include "havok/hkpStorageMeshShape.h"
 
 // hkArray<T>::operator= for POD elements (hkArrayBase::_copyFromArray).
 template <typename T>
@@ -27,43 +26,6 @@ HK_FORCE_INLINE void hkArrayCopy(hkArray<T> &dst, const hkArray<T> &src)
     for (int i = 0; i < n; ++i)
         d[i] = s[i];
 }
-
-// hkpMeshShape (Physics/Collide/Shape/Deprecated/Mesh/hkpMeshShape.h), 0x60 bytes.
-class hkpMeshShape : public hkpShapeCollection {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SHAPE);
-    struct Subpart {
-        hkUint32 m_data[14];   // 0x38 bytes
-    };
-    hkpMeshShape(hkReal radius, int numBitsForSubpartIndex);
-
-    int getNumSubparts() const { return m_subparts.getSize(); }
-    const Subpart &getSubpartAt(int i) const { return m_subparts[i]; }
-
-    hkVector4 m_scaling;                 // +0x20
-    hkInt32 m_numBitsForSubpartIndex;    // +0x30
-    hkArray<Subpart> m_subparts;         // +0x34
-    hkArray<hkUint16> m_weldingInfo;     // +0x40
-    hkUint8 m_weldingType;               // +0x4C
-    hkReal m_radius;                     // +0x50
-    int m_pad[3];                        // +0x54
-};
-
-class hkpStorageMeshShape;
-extern "C" void fn_82D4F750(hkpStorageMeshShape *self, const hkpMeshShape::Subpart *part);   // addSubpart
-
-class hkpStorageMeshShape : public hkpMeshShape {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SHAPE);
-    struct SubpartStorage : public hkReferencedObject {
-    };
-    hkpStorageMeshShape(const hkpMeshShape *mesh);
-    virtual ~hkpStorageMeshShape();
-
-    void addSubpart(const Subpart &part) { fn_82D4F750(this, &part); }
-
-    hkArray<SubpartStorage *> m_storage;   // +0x60
-};
 
 hkpStorageMeshShape::hkpStorageMeshShape(const hkpMeshShape *mesh)
     : hkpMeshShape(mesh->m_radius, mesh->m_numBitsForSubpartIndex)

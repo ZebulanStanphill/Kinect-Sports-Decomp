@@ -8,8 +8,6 @@
 #include "havok/hkVector4.h"
 #include "havok/hkpAction.h"
 
-class hkpPhantom;
-struct hkStepInfo;
 
 // ??_7hkpReorientAction@@6B@: the deleting destructor 82DE4C28, applyAction 82DF4BA8, clone 82DF4B08.
 class hkpReorientAction : public hkpUnaryAction {
@@ -32,14 +30,9 @@ public:
         m_damping = damping;
     }
     hkpReorientAction(hkFinishLoadedObjectFlag f) : hkpUnaryAction(f) {}
-    // The action interface, in the order of ??_7hkpAction@@6B@ (applyAction, getEntities, getPhantoms,
-    // entityRemovedCallback, clone after hkReferencedObject's three slots). hkpAction.h does not declare these
-    // yet, so they are declared here; in the game getEntities, getPhantoms and entityRemovedCallback are
-    // hkpUnaryAction's unless noted. The names follow Havok's header.
+    // Its own slots of the action interface (hkpAction.h); getEntities and entityRemovedCallback
+    // are hkpUnaryAction's.
     virtual void applyAction(const hkStepInfo &stepInfo);                                          // +0xC
-    virtual void getEntities(hkArray<hkpEntity *> &entitiesOut);                                   // +0x10
-    virtual void getPhantoms(hkArray<hkpPhantom *> &phantomsOut);                                  // +0x14
-    virtual void entityRemovedCallback(hkpEntity *entity);                                         // +0x18
     virtual hkpAction *clone(const hkArray<hkpEntity *> &newEntities,
                              const hkArray<hkpPhantom *> &newPhantoms) const;                      // +0x1C
 

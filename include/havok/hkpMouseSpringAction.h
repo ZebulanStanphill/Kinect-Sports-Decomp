@@ -10,9 +10,7 @@
 #include "havok/hkpAction.h"
 #include "havok/hkpShape.h"
 
-class hkpPhantom;
 class hkpRigidBody;
-struct hkStepInfo;
 
 // ??_7hkpMouseSpringAction@@6B@: the deleting destructor 82DE47A8, applyAction 82DF25F8, entityRemovedCallback
 // 82DF25C0 (its own), clone 82DF2CD8.
@@ -27,13 +25,8 @@ public:
                          const hkReal springDamping, const hkReal springElasticity, const hkReal objectDamping,
                          hkpRigidBody *rb, const hkArray<mouseSpringAppliedCallback> *appliedCallbacks = HK_NULL);
     hkpMouseSpringAction(hkFinishLoadedObjectFlag f) : hkpUnaryAction(f) {}
-    // The action interface, in the order of ??_7hkpAction@@6B@ (applyAction, getEntities, getPhantoms,
-    // entityRemovedCallback, clone after hkReferencedObject's three slots). hkpAction.h does not declare these
-    // yet, so they are declared here; in the game getEntities, getPhantoms and entityRemovedCallback are
-    // hkpUnaryAction's unless noted. The names follow Havok's header.
+    // Its own slots of the action interface (hkpAction.h); getEntities is hkpUnaryAction's.
     virtual void applyAction(const hkStepInfo &stepInfo);                                          // +0xC
-    virtual void getEntities(hkArray<hkpEntity *> &entitiesOut);                                   // +0x10
-    virtual void getPhantoms(hkArray<hkpPhantom *> &phantomsOut);                                  // +0x14
     virtual void entityRemovedCallback(hkpEntity *entity);                                         // +0x18
     virtual hkpAction *clone(const hkArray<hkpEntity *> &newEntities,
                              const hkArray<hkpPhantom *> &newPhantoms) const;                      // +0x1C

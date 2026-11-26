@@ -1,3 +1,9 @@
-struct V { virtual void f0(); virtual void f1(); virtual void f2(); virtual void f3(); virtual void f4(); virtual void f5(); virtual void f6(); virtual void f7(); virtual void f8(); virtual void f9(); virtual void f10(); virtual void f11(); virtual void f12(); virtual void f13(); };
-struct O { char pad[12]; V *v; };
-extern "C" void fn_82D6AC20(O *p) { p->v->f13(); }
+// hkpTransformAgent::createZombie(hkContactPointId idTobeZombified)
+// (Physics/Collide/Agent/MiscAgent/Transform/hkpTransformAgent.cpp),
+// its vtable's slot +0x34: forwards to the child agent. Keeps its fn_ name.
+#include "havok/hkpTransformAgent.h"
+
+extern "C" void fn_82D6AC20(hkpTransformAgent *self, hkContactPointId idTobeZombified)
+{
+    self->m_childAgent->createZombie(idTobeZombified);
+}

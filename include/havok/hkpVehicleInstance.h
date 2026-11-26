@@ -9,7 +9,10 @@
 // +0xD4 are not identified.
 //
 // Its vtable (??_7hkpVehicleInstance@@6B@, 16 slots) starts with the deleting destructor (82DF9CF8) and
-// continues with hkpAction's functions, which hkpAction.h does not declare; none is declared here either.
+// continues with hkpAction's functions: applyAction 82DFEA48, getPhantoms 82DFBFC8 and clone 82DFE938 (which
+// calls the constructor) are its own, getEntities and entityRemovedCallback are hkpUnaryAction's. The eight
+// slots after them (+0x20..+0x3C: 82DFDC18, 82DFC848, 82DFC8A8, 82DFD6D0, 82DFC178, 82DFD840, 82DFD8B0,
+// 82DFC270) are the class's own virtual functions; they are not identified and not declared.
 //
 // The constructor and the destructor exist only under fn_ names (fn_82DFE070, called by the Matching C unit
 // 82DFE938; fn_82DFE168, called by the deleting destructor): they are declared here and need the symbols
@@ -46,6 +49,10 @@ public:
         : hkpUnaryAction(flag), m_wheelsInfo(flag), m_frictionStatus(flag), m_isFixed(flag),
           m_wheelsSteeringAngle(flag) {}
     virtual ~hkpVehicleInstance();
+    virtual void applyAction(const hkStepInfo &stepInfo);                             // +0xC  82DFEA48
+    virtual void getPhantoms(hkArray<hkpPhantom *> &phantomsOut);                     // +0x14 82DFBFC8
+    virtual hkpAction *clone(const hkArray<hkpEntity *> &newEntities,
+                             const hkArray<hkpPhantom *> &newPhantoms) const;         // +0x1C 82DFE938
     hkpRigidBody *getChassis() const { return static_cast<hkpRigidBody *>(m_entity); }
 
     hkpVehicleData *m_data;                          // +0x1C

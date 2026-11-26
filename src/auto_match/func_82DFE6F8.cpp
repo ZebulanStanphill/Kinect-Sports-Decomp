@@ -16,15 +16,6 @@ extern "C" unsigned __int64 __mftb();
         } \
     }
 
-// hkInplaceArray's sized constructor (km/cpp/include/havok/hkArray.h only has the default one).
-template <typename T, unsigned N>
-class InplaceArray_82DFE6F8 : public hkArray<T> {
-public:
-    HK_FORCE_INLINE InplaceArray_82DFE6F8(int size) : hkArray<T>(m_storage, size, N) {}
-    HK_FORCE_INLINE ~InplaceArray_82DFE6F8() {}
-    T m_storage[N];
-};
-
 class __declspec(align(16)) hkVector4 {
 public:
     hkReal x, y, z, w;
@@ -45,7 +36,7 @@ struct Vehicle_82DFE6F8 {
     VehicleData_82DFE6F8 *m_data;   // +0x1C
 };
 
-typedef InplaceArray_82DFE6F8<hkReal, 16> WheelArray_82DFE6F8;
+typedef hkInplaceArray<hkReal, 16> WheelArray_82DFE6F8;
 
 extern "C" void fn_82DFE480(Vehicle_82DFE6F8 *self, const void *stepInfo, void *arg, DragOutput_82DFE6F8 *drag,
                             WheelArray_82DFE6F8 *a, WheelArray_82DFE6F8 *b);

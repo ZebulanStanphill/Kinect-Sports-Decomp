@@ -15,23 +15,6 @@ extern "C" {
 void fn_82CEA160(void *self, hkMemoryAllocator *alloc, hkUlong key, hkUlong val);   // hkMapBase<hkUlong, hkUlong>::insert
 }
 
-template <typename T>
-class hkArrayA : public hkArray<T> {
-public:
-    HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_ARRAY, hkArrayA);
-    HK_FORCE_INLINE hkArrayA() {}
-    HK_FORCE_INLINE void _reserve(hkMemoryAllocator &a, int n)
-    {
-        const int capacity = this->getCapacity();
-        if (capacity < n) {
-            int cap2 = 2 * capacity;
-            int newSize = (n < cap2) ? cap2 : n;
-            hkArrayUtil::_reserve(a, this, newSize, sizeof(T));
-        }
-    }
-    HK_FORCE_INLINE void reserve(int n) { _reserve(hkContainerHeapAllocator::get(this), n); }
-};
-
 template <typename K, typename V>
 class hkPointerMapX : public hkPointerMap<K, V> {
 public:
@@ -108,11 +91,10 @@ const hkArray<hkVariant> &hkBinaryPackfileReader::getLoadedObjects() const
                 }
             }
         }
-        m_loadedObjects = new hkArrayA<hkVariant>();
+        m_loadedObjects = new hkArray<hkVariant>();
         PackfileObjectsCollector collector(*m_loadedObjects, trackedObjects, m_header->m_fileVersion, getContentsVersion(),
                                            (void *)&m_updateFlagFromClass);
-        // The array is an hkArrayA: hkArray with Havok's class allocator and reserve(), which hkArray.h lacks.
-        static_cast<hkArrayA<hkVariant> *>(m_loadedObjects)->reserve(trackedObjects.getSize());
+        m_loadedObjects->reserve(trackedObjects.getSize());
         fn_82E17B38(fn_82E0A0F8(this), classReg->getClassByName(headerContentsClassName(this)), &collector);
     }
     return *m_loadedObjects;

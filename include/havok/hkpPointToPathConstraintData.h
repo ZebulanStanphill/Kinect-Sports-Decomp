@@ -5,7 +5,7 @@
 // and the destructor (82DA05E8, releases m_path) are out of line; the finish constructor is inline in
 // finishLoadedObjecthkpPointToPathConstraintData (82D7F528).
 // The vtable (??_7hkpPointToPathConstraintData@@6B@, 16 slots) has 82DA0500 at +0x20 (getType: 3); slots +0x28 to
-// +0x3C are hkpConstraintData's virtual functions that hkpConstraintData.h does not declare yet.
+// +0x3C are hkpConstraintData's virtual functions (hkpConstraintData.h says what each is).
 #ifndef HAVOK_HKPPOINTTOPATHCONSTRAINTDATA_H
 #define HAVOK_HKPPOINTTOPATHCONSTRAINTDATA_H
 
