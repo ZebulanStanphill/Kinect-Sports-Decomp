@@ -1,24 +1,14 @@
-#include "havok/hkBase.h"
-struct Aabb { float data[8]; Aabb() {} };
-class Shape { public: virtual void f0(); virtual void f1(); virtual void f2(); virtual Aabb getAabb() const; };
-namespace hkgpMesh {
-class CollideShapeTriangle {
-public:
- virtual void collide();
- float tolerance;
- void *meshData;
- const Shape *shape;
- float value, distance, epsilon;
- unsigned char hasOutput, hit, flag, extra;
- CollideShapeTriangle(void *d,const Shape *s,float t,unsigned char f,bool o,unsigned char e) :
- meshData(d),shape(s) {
- distance=3.40282e+38f; hit=0; epsilon=-3.40282e+38f; extra=e; value=0.0f; tolerance=t; flag=f; hasOutput=o;
- }
-};
-}
-extern "C" void fn_82D38870(void *,const Aabb &,hkgpMesh::CollideShapeTriangle *);
-extern "C" float fn_82D1F558(char *self,const Shape *shape,unsigned char extra) {
- hkgpMesh::CollideShapeTriangle c(*(void **)(self+0x38),shape,0.0f,1,true,extra);
- fn_82D38870(self+0x720,shape->getAabb(),&c);
- return -c.value;
+// hkgpMesh (hkgpMesh.cpp): collides a convex shape with every triangle of the mesh whose box overlaps the
+// shape's and returns the negated sum of the distances below zero (see hkgpMesh::CollideShapeTriangle).
+#include "havok/hkgpMesh.h"
+
+typedef hkgpMesh::IConvexOverlap::IConvexShape Shape;
+
+extern "C" void fn_82D38870(void *tree, const hkAabb &aabb, hkgpMesh::TreeQueries::Collector *collector);
+
+extern "C" float fn_82D1F558(hkgpMesh *self, const Shape *shape, bool extrude)
+{
+    hkgpMesh::CollideShapeTriangle c(self->m_convexOverlap, shape, 0.0f, true, true, extrude);
+    fn_82D38870(&self->m_trianglesTree, shape->getBoundingBox(), &c);
+    return -c.m_sum;
 }

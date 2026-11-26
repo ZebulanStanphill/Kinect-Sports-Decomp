@@ -1,6 +1,6 @@
 #include "havok/hkAabb.h"
 #include "havok/hkpRemoveTerminalsMoppModifier.h"
-class hkpShapeBuffer { public: __declspec(align(16)) char data[512]; };
+#include "havok/hkpShapeBuffer.h"
 extern "C" { extern hkTransform lbl_8323B1D0; void fn_82DCDF98(const hkpMoppCode*,const hkAabb&, hkpMoppModifier*); }
 hkpRemoveTerminalsMoppModifier::hkpRemoveTerminalsMoppModifier(const hkpMoppCode* code,const hkpShapeContainer* container,const hkArray<hkpShapeKey>& keys) {
     if (keys.getSize()!=0) {

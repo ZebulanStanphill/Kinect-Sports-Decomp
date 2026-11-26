@@ -10,20 +10,12 @@
 #include "havok/hkpSphereShape.h"
 #include "havok/hkpClosestCdPointCollector.h"
 #include "havok/hkpNullCollisionFilter.h"
+#include "havok/hkpWorld.h"
+#include "havok/hkpProcessCollisionInput.h"
 
 extern "C" const float lbl_82138458;   // HK_REAL_MAX / 2
 
 extern "C" hkTransform lbl_8323B1D0;   // hkTransform::getIdentity()
-
-class hkpWorld {
-public:
-    HK_FORCE_INLINE hkpCollisionDispatcher *getCollisionDispatcher() const { return m_collisionDispatcher; }
-    HK_FORCE_INLINE const hkpCollisionInput *getCollisionInput() const { return m_collisionInput; }
-    char m_pad[0x78];
-    hkpCollisionInput *m_collisionInput;            // +0x78
-    char m_pad7c[4];
-    hkpCollisionDispatcher *m_collisionDispatcher;  // +0x80
-};
 
 extern "C" hkpShapeKey fn_82DBED98(hkpWorld *world, const hkpShape *shape, const hkVector4 &position)
 {

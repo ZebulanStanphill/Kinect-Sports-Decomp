@@ -1,10 +1,6 @@
 #include "havok/hkpCdBody.h"
 #include "havok/hkpSphereShape.h"
-
-struct hkpMultiSphereShape_82D6CD50 {
-    char pad0[0x20];
-    hkVector4 m_spheres[8];   // 0x20
-};
+#include "havok/hkpMultiSphereShape.h"
 
 class Collector_82D6CD50 {
 public:
@@ -39,7 +35,7 @@ static __forceinline void setTransformedPos(hkVector4 &out, const hkRotation &r,
 
 extern "C" void fn_82D6CD50(const Owner_82D6CD50 *self, const hkpCdBody &body, void *a, void *b, void *c)
 {
-    const hkpMultiSphereShape_82D6CD50 *shape = (const hkpMultiSphereShape_82D6CD50 *)body.getShape();
+    const hkpMultiSphereShape *shape = static_cast<const hkpMultiSphereShape *>(body.getShape());
     hkMotionState ms(*body.getMotionState());
     hkpSphereShape sphere(0.0f);
     hkpCdBody sphereBody(&body, &ms);

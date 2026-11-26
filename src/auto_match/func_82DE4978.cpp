@@ -3,9 +3,6 @@
 #include "havok/hkBase.h"
 #include "havok/hkpPhysicsSystemWithContacts.h"
 
-class hkpSerializedAgentNnEntry : public hkReferencedObject {
-};
-
 const void *HK_CALL getVtablehkpPhysicsSystemWithContacts()
 {
     union {

@@ -10,6 +10,9 @@
 #include "havok/hkpGskCache.h"
 #include "havok/hkpAgent1nTrack.h"
 #include "havok/hkpContactMgr.h"
+#include "havok/hkpGskManifold.h"
+#include "havok/hkpAgent3ProcessInput.h"
+#include "havok/hkpProcessCollisionInput.h"
 
 extern "C" unsigned __int64 __mftb();
 struct hkMonitorStream { void *a; unsigned *next; void *b; unsigned *end; };
@@ -30,12 +33,6 @@ static HK_FORCE_INLINE void timer(const char *s, const char *next = 0)
 extern "C" double __fsel(double, double, double);
 struct hkMath {
 	static HK_FORCE_INLINE hkReal min2(hkReal x, hkReal y) { return (hkReal)__fsel(x - y, y, x); }
-};
-struct hkpCollisionDispatcher;
-struct hkpProcessCollisionInput {
-	hkpCollisionDispatcher *m_dispatcher;   // +0x0
-	char m_pad4[4];
-	hkReal m_tolerance;                     // +0x8
 };
 struct hkpConstraintOwner;
 struct hkpProcessCollisionOutput {
@@ -61,24 +58,6 @@ public:
 	hkBool m_invalidPointHit;      // +0x10
 };
 
-struct hkpAgent3ProcessInput {
-	const hkpCdBody *m_bodyA;
-	const hkpCdBody *m_bodyB;
-	const hkpCdBody *m_overrideBodyA;
-	const hkpProcessCollisionInput *m_input;
-	hkpContactMgr *m_contactMgr;
-	hkTransform m_aTb;               // +0x20
-	hkUint32 m_extra;                // +0x60
-	hkVector4 m_linearTimInfo;       // +0x70
-};
-
-struct hkpGskManifold {
-	hkUint8 m_numVertsA;
-	hkUint8 m_numVertsB;
-	hkUint8 m_numContactPoints;   // +0xe in the agent data
-	hkUint8 m_marker;
-	HK_FORCE_INLINE void init() { *(hkUint32 *)this = 0; }
-};
 inline void *operator new(unsigned int, void *p) throw() { return p; }
 struct StreamData {
 	HK_FORCE_INLINE StreamData() {}

@@ -3,15 +3,7 @@
 // func_82563908.cpp (Matching).
 #include "havok/hkpRigidBody.h"
 #include "havok/hkpRigidBodyCinfo.h"
-
-class hkpMassProperties
-{
-  public:
-    hkReal m_volume;           // +0x00
-    hkReal m_mass;             // +0x04
-    hkVector4 m_centerOfMass;  // +0x10
-    hkMatrix3 m_inertiaTensor; // +0x20
-};
+#include "havok/hkpMassProperties.h"
 
 extern "C" hkpRigidBody *fn_825639F0(const hkpShape *shape, hkUlong userData,
                                      const hkpMassProperties *massProperties, __vector4 position,

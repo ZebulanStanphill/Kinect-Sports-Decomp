@@ -5,14 +5,7 @@
 // (+0x100) by default. hkpNullBroadPhaseListener: hkReferencedObject +
 // hkpBroadPhaseListener at +0x8 (RTTI).
 #include "havok/hkBase.h"
-#include "havok/hkpBroadPhaseListener.h"
-
-class hkpNullBroadPhaseListener : public hkReferencedObject, public hkpBroadPhaseListener {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_DYNAMICS);
-    virtual void addCollisionPair(hkpTypedBroadPhaseHandlePair &pair);
-    virtual void removeCollisionPair(hkpTypedBroadPhaseHandlePair &pair);
-};
+#include "havok/hkpNullBroadPhaseListener.h"
 
 class hkpTypedBroadPhaseDispatcher {
 public:

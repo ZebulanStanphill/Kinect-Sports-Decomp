@@ -9,6 +9,7 @@
 #include "havok/hkOstream.h"
 #include "havok/hkError.h"
 #include "havok/hkSocket.h"
+#include "havok/hkStringBuf.h"
 typedef unsigned int SOCKET;
 struct fd_set { unsigned int fd_count; SOCKET fd_array[64]; };
 struct timeval { long tv_sec; long tv_usec; };
@@ -40,29 +41,6 @@ void fn_82D04B90(void *str, const char *fmt, ...);                       // hkSt
 void fn_82CEE578(hkErrStream *s, void *buf, int bufSize);                // hkErrStream::hkErrStream
 void fn_82CEE238(hkErrStream *s, void *str);                             // operator<<(hkStringBuf)
 }
-
-// hkStringBuf: an hkInplaceArray<char, 32> on the temp allocator, holding "".
-struct hkStringBuf {
-    char *m_data; int m_size; int m_capacityAndFlags; char m_storage[32];
-    HK_FORCE_INLINE hkStringBuf() : m_data(m_storage), m_size(0), m_capacityAndFlags(0x80000020)
-    {
-        hkMemoryAllocator &a = hkMemoryRouter::getInstance().temp();
-        int capacity = m_capacityAndFlags & 0x3fffffff;
-        if (capacity < 1) {
-            int cap2 = 2 * capacity;
-            hkArrayUtil::_reserve(a, this, (1 < cap2) ? cap2 : 1, 1);
-        }
-        m_size = 1;
-        m_data[0] = 0;
-        m_data[0] = 0;
-    }
-    HK_FORCE_INLINE ~hkStringBuf()
-    {
-        hkMemoryAllocator &a = hkMemoryRouter::getInstance().temp();
-        m_size = 0;
-        if ((m_capacityAndFlags & (int)0x80000000) == 0) a.bufFree(m_data, m_capacityAndFlags & 0x3fffffff, 1);
-    }
-};
 
 // hkBsdSocket (havok/hkBsdSocket.h) with its constructor in the form this function expands it: the handle from
 // accept is known to be valid, so the constructor is only the store. The header's constructor is the

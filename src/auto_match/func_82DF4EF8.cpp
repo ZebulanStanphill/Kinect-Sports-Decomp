@@ -1,12 +1,6 @@
 // hkpSerializedTrack1nInfo::~hkpSerializedTrack1nInfo: unless an array does not own its storage, frees every
 // 0x200-byte sector and destroys and frees every 0x20-byte sub-track; then the arrays are destroyed.
-#include "havok/hkpSerializedTrack1nInfo.h"
-
-// Only what the destructor needs: hkpSerializedSubTrack1nInfo is an hkpSerializedTrack1nInfo with two ints.
-struct hkpSerializedSubTrack1nInfo : public hkpSerializedTrack1nInfo {
-    int m_sectorIndex;
-    int m_offsetInSector;
-};
+#include "havok/hkpSerializedSubTrack1nInfo.h"
 
 hkpSerializedTrack1nInfo::~hkpSerializedTrack1nInfo() {
  if ((m_sectors.m_capacityAndFlags & (int)0x80000000)==0) {

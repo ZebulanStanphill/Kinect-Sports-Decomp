@@ -1,19 +1,4 @@
-#include "havok/hkVector4.h"
-
-class hkSphere {
-public:
-    __forceinline hkSphere() {}
-    __forceinline hkSphere(const hkVector4 &pos, hkReal radius)
-    {
-        m_pos = pos;
-        m_pos(3) = radius;
-    }
-    __forceinline hkSphere(const hkSphere &s) { m_pos = s.m_pos; }
-    __forceinline void operator=(const hkSphere &s) { m_pos = s.m_pos; }
-    __forceinline const hkVector4 &getPosition() const { return m_pos; }
-    __forceinline hkReal getRadius() const { return m_pos(3); }
-    hkVector4 m_pos;
-};
+#include "havok/hkSphere.h"
 
 extern "C" hkSphere fn_82D09330(const hkVector4 &a, const hkVector4 &b, hkReal eps);
 extern "C" hkSphere fn_82D093B8(const hkVector4 &a, const hkVector4 &b, const hkVector4 &c, hkReal eps);

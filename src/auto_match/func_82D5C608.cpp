@@ -6,6 +6,8 @@
 // hkpShapeCollectionAgent's.
 #include "havok/hkBase.h"
 #include "havok/hkpShapeCollectionAgent.h"
+#include "havok/hkpConvexListAgent.h"
+#include "havok/hkpSymmetricAgent.h"
 
 #define AGENT_ALLOCATOR \
     static HK_FORCE_INLINE void *operator new(unsigned n) \
@@ -14,39 +16,6 @@
         b->m_memSizeAndFlags = n; \
         return b; \
     }
-
-class __declspec(novtable) hkpGskfAgent {
-public:
-    AGENT_ALLOCATOR
-    hkpGskfAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, hkpContactMgr *mgr);
-    virtual ~hkpGskfAgent() {}
-
-    unsigned short m_memSizeAndFlags;
-    unsigned short m_referenceCount;
-    char m_data[0x78];
-};
-
-class hkpPredGskfAgent : public hkpGskfAgent {
-public:
-    hkpPredGskfAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, hkpContactMgr *mgr) : hkpGskfAgent(bodyA, bodyB, mgr) {}
-};
-
-// hkpConvexListAgent (Physics/Collide/Agent/Deprecated/ConvexList/hkpConvexListAgent.h), 0x90 bytes.
-class hkpConvexListAgent : public hkpPredGskfAgent {
-public:
-    hkpConvexListAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpContactMgr *mgr);
-
-    char m_data84[0x10];
-};
-
-template <class AGENT>
-class hkpSymmetricAgent : public AGENT {
-public:
-    hkpSymmetricAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpContactMgr *mgr)
-        : AGENT(bodyB, bodyA, input, mgr)
-    {
-    }
-};
 
 extern "C" void *fn_82D5C608(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpContactMgr *mgr)
 {

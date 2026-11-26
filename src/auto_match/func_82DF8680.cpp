@@ -4,20 +4,7 @@
 // name and is written out as the compiler generates it: the implicit destructor (the pointer map at +0x4, then
 // EntitySelector's vtable store), then the global operator delete (EntitySelector has no base and no allocator).
 #include "havok/hkBase.h"
-
-class hkpEntity;
-
-extern "C" void fn_8265CA20(void *p);   // global operator delete
-
-class hkpSaveContactPointsUtil {
-public:
-    class EntitySelector {
-    public:
-        static void operator delete(void *p) { fn_8265CA20(p); }
-        virtual ~EntitySelector() {}
-        virtual hkBool32 isEntityOk(const hkpEntity *entity) = 0;
-    };
-};
+#include "havok/hkpSaveContactPointsUtil.h"
 
 namespace {
 class hkEntitySelectorListed : public hkpSaveContactPointsUtil::EntitySelector {

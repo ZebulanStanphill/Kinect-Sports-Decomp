@@ -1,28 +1,8 @@
 // hkpConvexVerticesShape::~hkpConvexVerticesShape (Physics/Collide/Shape/Convex/ConvexVertices/
 // hkpConvexVerticesShape.cpp): releases the connectivity, then the plane equations and rotated vertices
 // hkArrays and the bases are destroyed.
-#include "havok/hkpShape.h"
-#include "havok/hkVector4.h"
 #include "havok/hkpConvexVerticesConnectivity.h"
-
-struct hkFourTransposedPoints {
-    hkVector4 m_vertices[3];
-};
-
-class hkpConvexVerticesShape : public hkpConvexShape {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SHAPE);
-    hkpConvexVerticesShape(hkFinishLoadedObjectFlag flag);
-    virtual ~hkpConvexVerticesShape();
-
-    hkVector4 m_aabbHalfExtents;                        // +0x20
-    hkVector4 m_aabbCenter;                             // +0x30
-    hkArray<hkFourTransposedPoints> m_rotatedVertices;  // +0x40
-    hkInt32 m_numVertices;                              // +0x4C
-    hkBool m_useSpuBuffer;                              // +0x50
-    hkArray<hkVector4> m_planeEquations;                // +0x54
-    const hkpConvexVerticesConnectivity *m_connectivity;   // +0x60
-};
+#include "havok/hkpConvexVerticesShape.h"
 
 hkpConvexVerticesShape::~hkpConvexVerticesShape()
 {

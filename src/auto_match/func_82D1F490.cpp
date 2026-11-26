@@ -1,25 +1,17 @@
-#include "havok/hkBase.h"
-struct Aabb { float data[8]; Aabb() {} };
-class Shape { public: virtual void f0(); virtual void f1(); virtual void f2(); virtual Aabb getAabb() const; };
-namespace hkgpMesh {
-class CollideShapeTriangle {
-public:
- virtual void collide();
- float tolerance;
- void *meshData;
- const Shape *shape;
- float value, distance, epsilon;
- unsigned char hasOutput, hit, flag, extra;
- CollideShapeTriangle(void *d,const Shape *s,float t,unsigned char f,bool o,unsigned char e) :
- tolerance(t),meshData(d),shape(s) {
- distance=3.40282e+38f; hit=0; epsilon=-3.40282e+38f; extra=e; value=0.0f; hasOutput=o; flag=f;
- }
-};
-}
-extern "C" void fn_82D38870(void *,const Aabb &,hkgpMesh::CollideShapeTriangle *);
-extern "C" unsigned char fn_82D1F490(char *self,const Shape *shape,float tolerance,float *out,unsigned char flag) {
- hkgpMesh::CollideShapeTriangle c(*(void **)(self+0x38),shape,tolerance,flag,out!=0,0);
- fn_82D38870(self+0x720,shape->getAabb(),&c);
- if(out) *out=c.distance;
- return c.hit;
+// hkgpMesh (hkgpMesh.cpp): whether a convex shape comes within `tolerance` of a triangle of the mesh. With
+// `out` the query visits every triangle whose box overlaps the shape's and writes the least distance there;
+// without it the query stops at the first hit (see hkgpMesh::CollideShapeTriangle).
+#include "havok/hkgpMesh.h"
+
+typedef hkgpMesh::IConvexOverlap::IConvexShape Shape;
+
+extern "C" void fn_82D38870(void *tree, const hkAabb &aabb, hkgpMesh::TreeQueries::Collector *collector);
+
+extern "C" bool fn_82D1F490(hkgpMesh *self, const Shape *shape, float tolerance, float *out, bool flag)
+{
+    hkgpMesh::CollideShapeTriangle c(self->m_convexOverlap, shape, tolerance, flag, out != 0, false);
+    fn_82D38870(&self->m_trianglesTree, shape->getBoundingBox(), &c);
+    if (out)
+        *out = c.m_minDistance;
+    return c.m_hit;
 }

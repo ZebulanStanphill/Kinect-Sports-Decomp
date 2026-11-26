@@ -3,11 +3,7 @@
 // Hierarchy from the RTTI: hkpPoweredChainMapper -> hkReferencedObject -> hkBaseObject; only the finish
 // constructors are declared.
 #include "havok/hkBase.h"
-
-class hkpPoweredChainMapper : public hkReferencedObject {
-public:
-    hkpPoweredChainMapper(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
+#include "havok/hkpPoweredChainMapper.h"
 
 const void *HK_CALL getVtablehkpPoweredChainMapper()
 {

@@ -1,24 +1,4 @@
-#include "havok/hkVector4.h"
-
-class hkSphere
-{
-  public:
-    __forceinline hkSphere()
-    {
-    }
-
-    __forceinline hkSphere(const hkSphere &s)
-    {
-        m_pos = s.m_pos;
-    }
-
-    __forceinline void operator=(const hkSphere &s)
-    {
-        m_pos = s.m_pos;
-    }
-
-    hkVector4 m_pos;
-};
+#include "havok/hkSphere.h"
 
 class StridedVertices_82D09808
 {

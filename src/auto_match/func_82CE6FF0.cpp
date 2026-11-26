@@ -5,26 +5,21 @@
 // fn_82CE5430) are opaque structs with inline wrapper constructors; the hkThreadMemory array is constructed
 // by the compiler's inline array loop calling ??0hkThreadMemory@@QAA@XZ (fn_82CF7428, func_82CF7428.cpp).
 #include "havok/hkBase.h"
-#include "havok/hkCriticalSection.h"
+#include "havok/hkSystemMemoryBlockServer.h"
+#include "havok/hkMemorySystem.h"
+#include "havok/hkThreadMemory.h"
+#include "havok/hkSolverAllocator.h"
 
 extern "C" {
-void fn_82CF9730(void *self, hkMemoryAllocator *server);   // hkFreeListAllocator(server)
+void fn_82CF9730(void *self, hkMemoryBlockServer *server);   // hkFreeListAllocator(server)
 void fn_82CE72E8(void *self);
 void fn_82CE5430(void *self);
 extern hkMemoryAllocator *lbl_8323B210;
 }
 
-class hkSystemMemoryBlockServer : public hkMemoryAllocator {
-public:
-    hkSystemMemoryBlockServer(hk_size_t minAllocSize, hk_size_t maxAllocSize);
-    virtual void *blockAlloc(int numBytes);
-    virtual void blockFree(void *p, int numBytes);
-    hkUint8 m_data[0x10];
-};
-
 // Opaque: its constructor keeps its fn_ name.
 struct hkFreeListAllocator {
-    HK_FORCE_INLINE hkFreeListAllocator(hkMemoryAllocator *server) { fn_82CF9730(this, server); }
+    HK_FORCE_INLINE hkFreeListAllocator(hkMemoryBlockServer *server) { fn_82CF9730(this, server); }
     void *m_vtable;
     hkUint8 m_data[0x900];
 };
@@ -51,29 +46,6 @@ struct Unk978 {
     int m_data[8];
 };
 
-class hkSolverAllocator : public hkMemoryAllocator {
-public:
-    hkSolverAllocator();
-    virtual void *blockAlloc(int numBytes);
-    virtual void blockFree(void *p, int numBytes);
-    hkUint8 m_data[0x13C];
-};
-
-class hkThreadMemory : public hkMemoryAllocator {
-public:
-    hkThreadMemory();
-    virtual void *blockAlloc(int numBytes);
-    virtual void blockFree(void *p, int numBytes);
-    hkUint8 m_data[0x11C];
-};
-
-class hkMemorySystem {
-public:
-    hkMemorySystem() : m_x(0) {}
-    virtual ~hkMemorySystem();
-    int m_x;
-};
-
 class hkFreeListMemorySystem : public hkMemorySystem {
 public:
     struct ThreadData {
@@ -85,13 +57,14 @@ public:
         int m_d;                     // +0x12C
     };
     HK_FORCE_INLINE hkFreeListMemorySystem()
-        : m_server(0, 0), m_mainAllocator(&m_server)
+        : m_unknown4(0), m_server(0, 0), m_mainAllocator(&m_server)
     {
         lbl_8323B210 = (hkMemoryAllocator *)&m_mainAllocator;
         m_allocator = (hkMemoryAllocator *)&m_mainAllocator;
     }
     virtual ~hkFreeListMemorySystem();
 
+    int m_unknown4;                          // +0x4
     hkSystemMemoryBlockServer m_server;      // +0x8
     hkFreeListAllocator m_mainAllocator;     // +0x1C
     hkLeakDetectAllocator m_leakDetect;      // +0x920

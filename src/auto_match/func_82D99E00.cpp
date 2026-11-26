@@ -2,12 +2,9 @@
 // Physics/Dynamics/Phantom/hkpShapePhantom.cpp). Havok code, /O2 (flag file).
 // 0.5f is __real@3f000000 (Matching units reference it), a selectany definition.
 #include "havok/hkAabb.h"
-#include "havok/hkpCollisionInput.h"
 #include "havok/hkpShapePhantom.h"
 #include "havok/hkpWorld.h"
-
-struct hkpProcessCollisionInput : public hkpCollisionInput {
-};
+#include "havok/hkpProcessCollisionInput.h"
 
 void hkpShapePhantom::setTransform(const hkTransform &transform)
 {

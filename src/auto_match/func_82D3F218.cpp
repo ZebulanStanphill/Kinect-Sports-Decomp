@@ -2,12 +2,8 @@
 // hkpConvexVerticesShape.cpp): the empty shape used before the vertices are set; both hkArrays start empty
 // and the connectivity is null.
 #include "havok/hkBase.h"
-#include "havok/hkVector4.h"
 #include "havok/hkpShape.h"
-
-struct hkFourTransposedPoints {
-    hkVector4 m_vertices[3];
-};
+#include "havok/hkFourTransposedPoints.h"
 
 class hkpConvexVerticesConnectivity;
 

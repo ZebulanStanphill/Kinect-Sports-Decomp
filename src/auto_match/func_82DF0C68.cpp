@@ -14,40 +14,13 @@
 #include "havok/hkpRayHitCollector.h"
 #include "havok/hkpWorldRayCastInput.h"
 #include "havok/hkpWorld.h"
-
-typedef hkUint32 hkpShapeKey;
-
-extern "C" double fabs(double);
-
-struct hkMath {
-    static HK_FORCE_INLINE hkReal fabs(hkReal r) { return (hkReal)::fabs(r); }
-};
+#include "havok/hkMath.h"
+#include "havok/hkpShapeRayCastOutput.h"
 
 class hkpSimulationIsland {
 public:
     char m_pad0[0x48];
     hkArray<hkpRigidBody *> m_entities;   // +0x48
-};
-
-struct hkpShapeRayCastCollectorOutput {
-    HK_FORCE_INLINE hkpShapeRayCastCollectorOutput() { reset(); }
-    HK_FORCE_INLINE void reset() { m_hitFraction = 1.0f; m_extraInfo = -1; }
-    hkVector4 m_normal;
-    hkReal m_hitFraction;   // +0x10
-    int m_extraInfo;        // +0x14
-    int m_pad[2];
-};
-
-struct hkpShapeRayCastOutput : public hkpShapeRayCastCollectorOutput {
-    HK_FORCE_INLINE hkpShapeRayCastOutput() { m_shapeKeyIndex = 0; m_shapeKeys[0] = hkpShapeKey(-1); }
-    HK_FORCE_INLINE void reset()
-    {
-        hkpShapeRayCastCollectorOutput::reset();
-        m_shapeKeyIndex = 0;
-        m_shapeKeys[0] = hkpShapeKey(-1);
-    }
-    hkpShapeKey m_shapeKeys[8];   // +0x20
-    int m_shapeKeyIndex;          // +0x40
 };
 
 struct hkpWorldRayCastOutput : public hkpShapeRayCastOutput {

@@ -3,11 +3,7 @@
 // constructor on an object loaded in place. Hierarchy from the RTTI:
 // hkpPoweredChainMapper -> hkReferencedObject -> hkBaseObject; only the finish constructors are declared.
 #include "havok/hkBase.h"
-
-class hkpPoweredChainMapper : public hkReferencedObject {
-public:
-    hkpPoweredChainMapper(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
+#include "havok/hkpPoweredChainMapper.h"
 
 void HK_CALL finishLoadedObjecthkpPoweredChainMapper(void *p, int finishing)
 {

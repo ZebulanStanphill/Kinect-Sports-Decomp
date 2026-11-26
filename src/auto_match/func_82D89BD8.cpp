@@ -3,25 +3,13 @@
 // takes the world's deactivation select flags. hkpMotion::setWorldSelectFlagsNeg is a call here: the member
 // pointer keeps the header's inline member out of line, as the original calls its copy (82D80768).
 #include "havok/hkpEntity.h"
-
-struct hkpSolverInfo {
-    char m_pad[0x125];
-    hkUint8 m_deactivationNumInactiveFramesSelectFlag[2];   // +0x125
-    hkUint8 m_deactivationIntegrateCounter;                 // +0x127
-};
+#include "havok/hkpSolverInfo.h"
+#include "havok/hkpSimulationIsland.h"
 
 class hkpWorld {
 public:
     char m_pad[0x1e0];
     hkpSolverInfo m_solverInfo;   // +0x1e0 (m_dynamicsStepInfo.m_solverInfo)
-};
-
-class hkpSimulationIsland {
-public:
-    HK_FORCE_INLINE char getActiveMark() const { return m_activeMark; }
-    char m_pad[0x26];
-    hkUint8 m_pad26 : 2;
-    hkUint8 m_activeMark : 2;   // +0x26, (byte >> 4) & 3
 };
 
 // The original tests the island pointer with a signed compare (cmpwi): the int cast gives it.

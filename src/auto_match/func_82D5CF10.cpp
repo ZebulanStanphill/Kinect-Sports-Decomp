@@ -1,16 +1,8 @@
 #include "havok/hkpShapeCollectionAgent.h"
 #include "havok/hkpSymmetricAgent.h"
+#include "havok/hkpConvexListAgent.h"
 
 static HK_FORCE_INLINE unsigned response(const hkpCdBody &a,const hkpCdBody &b,const hkpCollisionInput &in) { return in.m_convexListFilter->getConvexListCollisionType(a,b,in); }
-class hkpGskfAgent : public hkpCollisionAgent { public:
- hkpGskfAgent(const hkpCdBody&a,const hkpCdBody&b,hkpContactMgr*m); char rest[0x74];
-};
-class hkpPredGskfAgent : public hkpGskfAgent { public: HK_FORCE_INLINE hkpPredGskfAgent(const hkpCdBody &a,const hkpCdBody &b,hkpContactMgr *m):hkpGskfAgent(a,b,m) {} };
-// hkpConvexListAgent (Physics/Collide/Agent/Deprecated/ConvexList/hkpConvexListAgent.h), 0x90 bytes; its
-// constructor is out of line (82D5C050).
-class hkpConvexListAgent : public hkpPredGskfAgent { public:
- hkpConvexListAgent(const hkpCdBody&a,const hkpCdBody&b,const hkpCollisionInput&i,hkpContactMgr*m); char rest[0x10];
-};
 extern "C" hkpCollisionAgent *fn_82D5CF10(const hkpCdBody &a,const hkpCdBody &b,const hkpCollisionInput &in,hkpContactMgr *m) {
  if(m) {
  switch(response(a,b,in)) {

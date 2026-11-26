@@ -4,12 +4,7 @@
 // body.
 #include "havok/hkpRigidBody.h"
 #include "havok/hkpRigidBodyCinfo.h"
-
-// hkpBreakableBody (Physics/Dynamics/Destruction/BreakableBody/hkpBreakableBody.h): only the slot used here.
-class hkpBreakableBody : public hkReferencedObject {
-public:
-    virtual hkpBreakableBody *cloneBreakableBody(hkpRigidBody *clonedBody) const;   // +0xC
-};
+#include "havok/hkpBreakableBody.h"
 
 template <int size>
 static HK_FORCE_INLINE void memCpy16(void *dst, const void *src)

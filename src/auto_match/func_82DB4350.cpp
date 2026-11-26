@@ -1,7 +1,14 @@
+// hkpEndOfStepCallbackUtil::~hkpEndOfStepCallbackUtil, the implicit destructor emitted out of line: the three
+// arrays in reverse order, then hkpWorldPostSimulationListener's and hkReferencedObject's parts. It keeps its fn_
+// name (the deleting destructor fn_82DC90C8 calls it), so the members are destroyed explicitly.
 #include "havok/hkBase.h"
-#include "havok/hkpWorldPostSimulationListener.h"
-struct Bytes12 { int a[3]; }; struct Bytes16 { int a[4]; };
-class hkBatchArrays:public hkReferencedObject, public hkpWorldPostSimulationListener {
-public: HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_BASE); HK_FORCE_INLINE ~hkBatchArrays() {} int pad[2]; hkArray<Bytes12> a; hkArray<Bytes16> b; hkArray<Bytes12> c;
-};
-extern "C" void fn_82DB4350(hkBatchArrays *self) { self->c.~hkArray();self->b.~hkArray();self->a.~hkArray();self->hkpWorldPostSimulationListener::~hkpWorldPostSimulationListener();self->hkReferencedObject::~hkReferencedObject(); }
+#include "havok/hkpEndOfStepCallbackUtil.h"
+
+extern "C" void fn_82DB4350(hkpEndOfStepCallbackUtil *self)
+{
+    self->m_removedCollisions.~hkArray();
+    self->m_newCollisions.~hkArray();
+    self->m_collisions.~hkArray();
+    self->hkpWorldPostSimulationListener::~hkpWorldPostSimulationListener();
+    self->hkReferencedObject::~hkReferencedObject();
+}

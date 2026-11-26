@@ -17,6 +17,8 @@
 #include "havok/hkBase.h"
 #include "havok/hkpCollisionDispatcher.h"
 #include "havok/hkpConstraintOwner.h"
+#include "havok/hkStepInfo.h"
+#include "havok/hkCriticalSection.h"
 
 extern "C" unsigned __int64 __mftb();
 extern "C" void __dcbt(int offset, const void *base);
@@ -48,32 +50,11 @@ extern "C" unsigned int lbl_8323B4A0;   // hkMonitorStream TLS slot
         } \
     }
 
-extern "C" void RtlEnterCriticalSection(void *cs);
-extern "C" void RtlLeaveCriticalSection(void *cs);
-
-class hkCriticalSection {
-public:
-    HK_FORCE_INLINE void enter() { RtlEnterCriticalSection(this); }
-    HK_FORCE_INLINE void leave() { RtlLeaveCriticalSection(this); }
-    hkUint8 m_section[0x1c];
-};
-
-class hkCriticalSectionLock {
-public:
-    HK_FORCE_INLINE hkCriticalSectionLock(hkCriticalSection *section) : m_section(section) { m_section->enter(); }
-    HK_FORCE_INLINE ~hkCriticalSectionLock() { m_section->leave(); }
-    hkCriticalSection *m_section;
-};
-
 extern "C" int lbl_8323B520;
 
 class hkpWorld;
 struct hkpProcessCollisionInput;
 struct hkpProcessCollisionOutput;
-
-struct hkStepInfo {
-    unsigned __int64 m_time[2];
-};
 
 class hkpContactMgr {
 public:
@@ -265,7 +246,6 @@ struct hkpMtThreadStructure {
     hkpWorld *m_world;                           // +0x0
     hkUint8 m_pad0[0x6c];
     hkpProcessCollisionInput m_collisionInput;   // +0x70
-    hkUint8 m_pad1[0xf0 - 0x70 - sizeof(hkpProcessCollisionInput)];
     hkpContinuousSimulation *m_simulation;       // +0xf0
 };
 

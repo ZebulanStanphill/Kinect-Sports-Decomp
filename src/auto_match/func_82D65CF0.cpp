@@ -1,12 +1,14 @@
-#include "havok/hkBase.h"
-class hkpCollisionAgent; class hkpCdBody; struct hkpCollisionInput; class hkpContactMgr;
-class hkpSphereTriangleAgent { public: static hkpCollisionAgent *createSphereTriangleAgent(const hkpCdBody &, const hkpCdBody &, const hkpCollisionInput &, hkpContactMgr *); };
-extern "C" { void fn_82D656C0(); void fn_82D65AB8(); void fn_82D75FD0(); }
-struct AgentFuncs {
- hkpCollisionAgent *(*create)(const hkpCdBody &,const hkpCdBody &,const hkpCollisionInput &,hkpContactMgr *);
- void (*a)(); void (*b)(); void (*c)(); hkBool x,y;
-};
-extern "C" void fn_82D65CF0(AgentFuncs *p) {
- p->create = hkpSphereTriangleAgent::createSphereTriangleAgent; p->a=fn_82D656C0; p->b=fn_82D65AB8; p->c=fn_82D75FD0;
- p->x=false; p->y=false;
+// Fills the dispatcher's AgentFuncs for hkpSphereTriangleAgent (keeps its fn_ name): its creation function, the
+// static queries and hkpIterativeLinearCastAgent's static linear cast, not flipped, not predictive.
+#include "havok/hkpSphereTriangleAgent.h"
+#include "havok/hkpCollisionDispatcher.h"
+
+extern "C" void fn_82D65CF0(hkpCollisionDispatcher::AgentFuncs *p)
+{
+    p->m_createFunc = hkpSphereTriangleAgent::createSphereTriangleAgent;
+    p->m_getPenetrationsFunc = fn_82D656C0;
+    p->m_getClosestPointFunc = fn_82D65AB8;
+    p->m_linearCastFunc = fn_82D75FD0;
+    p->m_isFlipped = false;
+    p->m_isPredictive = false;
 }

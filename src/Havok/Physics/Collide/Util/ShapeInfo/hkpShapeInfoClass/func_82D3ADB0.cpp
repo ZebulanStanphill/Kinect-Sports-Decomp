@@ -3,11 +3,7 @@
 // constructor on an object loaded in place. Hierarchy from the RTTI:
 // hkpShapeInfo -> hkReferencedObject -> hkBaseObject; only the finish constructors are declared.
 #include "havok/hkBase.h"
-
-class hkpShapeInfo : public hkReferencedObject {
-public:
-    hkpShapeInfo(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
+#include "havok/hkpShapeInfo.h"
 
 void HK_CALL finishLoadedObjecthkpShapeInfo(void *p, int finishing)
 {

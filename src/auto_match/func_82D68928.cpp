@@ -1,15 +1,19 @@
-#include "havok/hkBase.h"
-class hkpCollisionAgent; class hkpCdBody; struct hkpCollisionInput; class hkpContactMgr;
-class hkpBoxBoxAgent { public: static hkpCollisionAgent *createBoxBoxAgent(const hkpCdBody&, const hkpCdBody&, const hkpCollisionInput&, hkpContactMgr*); };
-extern "C" { void fn_82D686D8(); void fn_82D684C0(); void fn_82D75FD0(); void fn_82D59158(void *,const void *,int,int); }
-struct AgentFuncs { void *create; void (*penetrations)(); void (*closest)(); void (*cast)(); char flipped, predictive; };
-extern "C" void fn_82D68928(void *d) {
- AgentFuncs f;
- f.create=(void*)hkpBoxBoxAgent::createBoxBoxAgent;
- f.flipped=0;
- f.penetrations=fn_82D686D8;
- f.closest=fn_82D684C0;
- f.cast=fn_82D75FD0;
- f.predictive=0;
- fn_82D59158(d,&f,4,4);
+// hkpBoxBoxAgent::registerAgent (keeps its fn_ name): registers createBoxBoxAgent with the static queries and
+// hkpIterativeLinearCastAgent's static linear cast for box against box (shape type 4), through
+// fn_82D59158 (the dispatcher's registerCollisionAgent).
+#include "havok/hkpBoxBoxAgent.h"
+#include "havok/hkpCollisionDispatcher.h"
+
+extern "C" void fn_82D59158(void *dispatcher, const hkpCollisionDispatcher::AgentFuncs *f, int typeA, int typeB);
+
+extern "C" void fn_82D68928(void *d)
+{
+    hkpCollisionDispatcher::AgentFuncs f;
+    f.m_createFunc = hkpBoxBoxAgent::createBoxBoxAgent;
+    f.m_isFlipped = false;
+    f.m_getPenetrationsFunc = fn_82D686D8;
+    f.m_getClosestPointFunc = fn_82D684C0;
+    f.m_linearCastFunc = fn_82D75FD0;
+    f.m_isPredictive = false;
+    fn_82D59158(d, &f, 4, 4);
 }

@@ -8,12 +8,8 @@
 #include "havok/hkpIslandActivationListener.h"
 #include "havok/hkpWorldPostSimulationListener.h"
 #include "havok/hkpWorld.h"
+#include "havok/hkpPhantomListener.h"
 
-class hkpPhantomListener {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual ~hkpPhantomListener() {}
-};
 extern "C" {
 void fn_83083AA0(void *self);   // destructor of the 0x50-byte tree helper at +0x10
 void fn_82CFBAD0(void *self);   // destructor of the 4-byte object at +0x6C

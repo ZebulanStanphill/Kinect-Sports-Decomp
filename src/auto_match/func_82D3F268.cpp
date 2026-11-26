@@ -6,12 +6,9 @@
 // pointer to the object; through this-> the two member address registers come out swapped (99.4%).
 #include "havok/hkpShape.h"
 #include "havok/hkAabb.h"
+#include "havok/hkFourTransposedPoints.h"
 
 // The game's 0.5f keeps its lbl_ name (Matching units reference it).
-
-struct hkFourTransposedPoints {
-    hkVector4 m_vertices[3];
-};
 
 class hkpConvexVerticesConnectivity;
 

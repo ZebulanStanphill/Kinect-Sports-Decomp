@@ -3,12 +3,7 @@
 // (written out by hand, as for func_82D3A580).
 // RTTI: hkpPoweredChainMapper : hkReferencedObject; only the primary base matters here.
 #include "havok/hkBase.h"
-
-class hkpPoweredChainMapper : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_BASE);
-    virtual ~hkpPoweredChainMapper();
-};
+#include "havok/hkpPoweredChainMapper.h"
 
 extern "C" hkpPoweredChainMapper *fn_82DE4AA0(hkpPoweredChainMapper *self, unsigned int flags)
 {

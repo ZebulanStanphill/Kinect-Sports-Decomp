@@ -4,11 +4,6 @@
 // the vtable and the function returns this. The function at the end only makes
 // the compiler emit the vtable.
 #include "havok/hkBase.h"
-
-class hkMemoryBlockServer {
-public:
-    HK_DECLARE_PLACEMENT_ALLOCATOR();
-    virtual ~hkMemoryBlockServer() {}
-};
+#include "havok/hkMemoryBlockServer.h"
 
 void emitVtable_82CF9A70(hkMemoryBlockServer *p) { p->hkMemoryBlockServer::~hkMemoryBlockServer(); }

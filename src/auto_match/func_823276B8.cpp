@@ -1,6 +1,5 @@
 #include "stdext/xmemory.h"
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float f[4]; unsigned int u[4]; } __vector4;
-
+#include "havok/hkQuadReal.h"
 inline void*operator new(unsigned,void*p) throw(){return p;}
 struct Node {Node*next,*prev;unsigned value;};
 struct List{Node*head;unsigned size;};

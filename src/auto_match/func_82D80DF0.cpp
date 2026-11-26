@@ -1,37 +1,7 @@
 #include "havok/hkBase.h"
-#include "havok/hkpContactMgr.h"
-#include "havok/hkpContactMgrFactory.h"
-class hkpWorld;
-class hkpSimpleConstraintContactMgr {
-public:
-    class Factory : public hkpContactMgrFactory {
-    public:
-        Factory(hkpWorld *);
-        virtual hkpContactMgr *createContactMgr(const hkpCollidable &a, const hkpCollidable &b,
-                                                const hkpCollisionInput &env);
-        hkpWorld *m_world;
-    };
-};
-class hkpReportContactMgr {
-public:
-    class Factory : public hkpContactMgrFactory {
-    public:
-        Factory(hkpWorld *);
-        virtual hkpContactMgr *createContactMgr(const hkpCollidable &a, const hkpCollidable &b,
-                                                const hkpCollisionInput &env);
-        hkpWorld *m_world;
-    };
-};
-class hkpNullContactMgr : public hkpContactMgr {
-public:
-    hkpNullContactMgr() : hkpContactMgr(TYPE_NULL_CONTACT_MGR) {}
-};
-class hkpNullContactMgrFactory : public hkpContactMgrFactory {
-public:
-    virtual hkpContactMgr *createContactMgr(const hkpCollidable &a, const hkpCollidable &b,
-                                            const hkpCollisionInput &env);
-    hkpNullContactMgr m_mgr;
-};
+#include "havok/hkpReportContactMgr.h"
+#include "havok/hkpNullContactMgr.h"
+#include "havok/hkpSimpleConstraintContactMgr.h"
 extern "C" void fn_82D587C0(void *, hkpContactMgrFactory *, int);
 extern "C" void fn_82D80DF0(hkpWorld *world, void *dispatcher)
 {

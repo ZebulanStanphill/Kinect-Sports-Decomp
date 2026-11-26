@@ -3,11 +3,7 @@
 // because a Matching C unit (fn_82CE6B40) calls it, so the destructor is
 // defined inline and expanded into an extern "C" definition.
 #include "havok/hkBase.h"
-
-class hkMemorySystem {
-public:
-    virtual ~hkMemorySystem() {}
-};
+#include "havok/hkMemorySystem.h"
 
 extern "C" void fn_82CE7330(hkMemorySystem *self)
 {

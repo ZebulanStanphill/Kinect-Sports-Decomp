@@ -5,12 +5,8 @@
 // Matching unit calls it, it keeps its fn_ name and is written as an extern "C" function that runs the
 // constructor on the given storage (MSVC's explicit constructor call; placement new would add a null check).
 #include "havok/hkBase.h"
-#include "havok/hkVector4.h"
 #include "havok/hkpShape.h"
-
-struct hkFourTransposedPoints {
-    hkVector4 m_vertices[3];
-};
+#include "havok/hkFourTransposedPoints.h"
 
 class hkpConvexVerticesConnectivity;
 

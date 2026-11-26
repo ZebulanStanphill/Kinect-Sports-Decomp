@@ -6,16 +6,12 @@
 // The function at the end only makes the compiler emit the vtable.
 #include "havok/hkpShape.h"
 #include "havok/hkVector4.h"
-#include "havok/hkpMeshMaterial.h"
+#include "havok/hkpNamedMeshMaterial.h"
 
 extern "C" {
 void fn_82D395E0(void *self);   // hkpCompressedMeshShape::Chunk::~Chunk
 void fn_82D39710(void *self);   // hkpCompressedMeshShape::ConvexPiece::~ConvexPiece
 }
-
-struct hkpNamedMeshMaterial : public hkpMeshMaterial {
-    hkStringPtr m_name;   // +0x4
-};
 
 class hkpCompressedMeshShape : public hkpShapeCollection {
 public:

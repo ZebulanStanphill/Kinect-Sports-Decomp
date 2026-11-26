@@ -1,5 +1,7 @@
 // hkgpMesh::hkgpMesh() (Common/Internal/GeometryProcessing/Mesh/hkgpMesh.cpp). Keeps its fn_ name.
-// Layouts follow the Matching destructor unit func_82D27E90. The default triangulator member's
+// The class itself stays declared here: hkgpMesh.h has the tree as an hkAabbTree, whose constructor
+// keeps its fn_ name (fn_82D34FF0), so the header's class would call it by its mangled name.
+// The default triangulator member's
 // inline constructor sets its domain through the out-of-line fn_82D30F50 with two vector
 // literals (__vmx@ constants: the rename map names the game's two lbl_ vectors so). Float
 // literals are materialized from the first constant object with that value the compiler has
@@ -10,8 +12,9 @@
 // 2.5e-11f * 2.0f).
 // Havok code: /O2 /QVMXReserve (flag file).
 #include "havok/hkBase.h"
-#include "havok/hkVector4.h"
 #include "havok/hkMath.h"
+#include "havok/hkgpMeshBase.h"
+#include "havok/hkgpTriangulator.h"
 
 extern "C" {
 __declspec(selectany) extern const float lbl_82134B50 = 2.5e-11f;
@@ -24,90 +27,6 @@ void hkgpMesh_bindConstants(float *out)
     out[0] = lbl_82134B50;
     out[1] = lbl_8209AA08;
 }
-
-// hkgpAbstractMesh lists: an hkArray of block pointers, a free list, a used count and a list head.
-template <typename T>
-struct hkgpAbstractMeshList {
-    HK_FORCE_INLINE hkgpAbstractMeshList() : m_firstFree(HK_NULL), m_numUsed(0) {}
-    hkArray<void *> m_blocks;   // +0x0
-    T *m_firstFree;             // +0xC
-    int m_numUsed;              // +0x10
-    T *m_used;                  // +0x14
-};
-
-template <typename EDGE, typename VERTEX, typename TRIANGLE, typename ALLOCATOR>
-class hkgpAbstractMesh : public hkReferencedObject {
-public:
-    HK_FORCE_INLINE hkgpAbstractMesh() {}
-    virtual ~hkgpAbstractMesh();
-
-    hkgpAbstractMeshList<VERTEX> m_vertices;    // +0x8
-    hkgpAbstractMeshList<TRIANGLE> m_triangles; // +0x20
-};
-
-class hkgpMeshBase {
-public:
-    struct Edge {
-        hkUlong m_triangleAndIndex;
-    };
-    struct Vertex;
-    struct Triangle;
-};
-
-class hkgpTriangulatorBase : public hkReferencedObject {
-public:
-    struct VertexBase {
-    };
-    struct TriangleBase {
-    };
-    template <typename ALLOCATOR>
-    struct DefaultEdgeData {
-    };
-};
-
-template <typename VERTEX, typename TRIANGLE, typename EDGEDATA, typename ALLOCATOR, int N>
-class hkgpTriangulatorType;
-
-// hkgpTriangulatorType<...>::reset(domainMin, domainMax, margin, clear) (out of line; parameter names guessed).
-extern "C" void fn_82D30F50(void *self, const hkVector4 &domainMin, const hkVector4 &domainMax, hkReal margin, bool clear);
-
-template <typename VERTEX, typename TRIANGLE, typename EDGEDATA, typename ALLOCATOR, int N>
-class hkgpTriangulatorType : public hkgpTriangulatorBase {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_UTILITIES);
-    struct Edge {
-        TRIANGLE *m_triangle;
-        hkUint32 m_index;
-    };
-    struct Vertex;
-    struct Triangle;
-
-    HK_FORCE_INLINE hkgpTriangulatorType()
-    {
-        m_x24c = 0;
-        hkVector4 dmin;
-        dmin.set(-1.0f, -1.0f, 0.0f, 0.0f);
-        hkVector4 dmax;
-        dmax.set(1.0f, 1.0f, 0.0f, 0.0f);
-        reset(dmin, dmax, 0.0f, true);
-    }
-    virtual ~hkgpTriangulatorType();
-    HK_FORCE_INLINE void reset(const hkVector4 &domainMin, const hkVector4 &domainMax, hkReal margin, bool clear)
-    {
-        fn_82D30F50(this, domainMin, domainMax, margin, clear);
-    }
-
-    hkgpAbstractMesh<Edge, Vertex, Triangle, ALLOCATOR> m_mesh;   // +0x8
-    hkInplaceArray<Edge, 64> m_stack;                             // +0x40
-    int m_x24c;                                                   // +0x24C
-    hkArray<void *> m_blocks;                                     // +0x250
-    hkUint8 m_data2[0x6E0 - 0x25C];                               // +0x25C
-};
-
-typedef hkgpTriangulatorType<hkgpTriangulatorBase::VertexBase, hkgpTriangulatorBase::TriangleBase,
-                             hkgpTriangulatorBase::DefaultEdgeData<hkContainerHeapAllocator>,
-                             hkContainerHeapAllocator, -1>
-    hkgpTriangulator;
 
 extern "C" void fn_82D34FF0(void *self);   // hkAabbTree<hkAabbTreeData::hkAabbTreeAabb, hkUint32>::hkAabbTree()
 extern "C" void fn_82D27C70(void *self);   // hkgpMesh::reset

@@ -4,8 +4,7 @@
 // (flag file). The function keeps its fn_ name; every callee keeps its fn_ name too.
 #include "havok/hkOstream.h"
 #include "havok/hkpConstraintChainInstance.h"
-
-class hkpPoweredChainData;
+#include "havok/hkpPoweredChainMapper.h"
 
 inline void *operator new(hk_size_t, void *p) throw() { return p; }
 
@@ -102,36 +101,6 @@ hkpConstraintChainInstance *fn_82DF5950(hkArray<hkpConstraintInstance *> &constr
 // creates the limit constraint for a link's constraint (static in this file)
 hkpConstraintInstance *fn_82DED240(hkpConstraintInstance *constraint);
 }
-
-class hkpPoweredChainMapper : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);
-    hkpPoweredChainMapper() {}
-    virtual ~hkpPoweredChainMapper();
-
-    struct Config {
-        hkBool m_createLimitConstraints;
-        hkBool m_cloneMotors;
-    };
-    struct ChainEndpoints {
-        hkpEntity *m_start;
-        hkpEntity *m_end;
-    };
-    struct LinkInfo {
-        LinkInfo() : m_firstTargetIdx(-1), m_numTargets(0), m_limitConstraint(HK_NULL) {}
-        int m_firstTargetIdx;
-        int m_numTargets;
-        hkpConstraintInstance *m_limitConstraint;
-    };
-    struct Target {
-        hkpPoweredChainData *m_chain;
-        int m_infoIndex;
-    };
-
-    hkArray<LinkInfo> m_links;                       // +0x8
-    hkArray<Target> m_targets;                       // +0x14
-    hkArray<hkpConstraintChainInstance *> m_chains;  // +0x20
-};
 
 // A target before the targets are sorted by link.
 struct hkpPoweredChainMapperTmpTarget {

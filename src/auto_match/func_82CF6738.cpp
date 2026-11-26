@@ -1,15 +1,7 @@
 // Builds an hkTransform from an hkQsTransform (rotation * scale, and the translation) and passes it on to
 // fn_82CE6528 with the output pointer.
-#include "havok/hkQuaternion.h"
 #include "havok/hkTransform.h"
-
-class hkQsTransform
-{
-  public:
-    hkVector4 m_translation;
-    hkQuaternion m_rotation;
-    hkVector4 m_scale;
-};
+#include "havok/hkQsTransform.h"
 
 extern "C" void fn_82CE6528(const hkTransform *self, float *out);
 

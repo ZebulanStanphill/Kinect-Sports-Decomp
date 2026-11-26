@@ -12,14 +12,15 @@
 //   __real@3dcccccd, so declaring it as an lbl_ extern references a symbol the original lacks.
 #include "havok/hkpRigidBody.h"
 #include "havok/hkpRigidBodyCinfo.h"
+#include "havok/hkpSolverInfo.h"
 
 extern "C" double __fsel(double, double, double);
 
-// hkpWorld: only the deactivation settings this constructor passes on.
+// hkpWorld: only the solver info, whose deactivation settings this constructor passes on.
 class hkpWorld {
 public:
-    char m_pad[0x305];
-    hkUint8 m_c305, m_c306, m_c307;
+    char m_pad[0x1e0];
+    hkpSolverInfo m_solverInfo;   // +0x1e0 (m_dynamicsStepInfo.m_solverInfo)
 };
 
 extern "C" {
@@ -62,7 +63,9 @@ hkpRigidBody::hkpRigidBody(const hkpRigidBodyCinfo &info) : hkpEntity(info.m_sha
     m_collidable.m_allowedPenetrationDepth = depth;
     if (info.m_enableDeactivation) {
         hkpWorld *w = m_world;
-        if (w) fn_82D8B2F8(getRigidMotion(), 1, m_uid, w->m_c305, w->m_c306, w->m_c307);
+        if (w) fn_82D8B2F8(getRigidMotion(), 1, m_uid, w->m_solverInfo.m_deactivationNumInactiveFramesSelectFlag[0],
+                               w->m_solverInfo.m_deactivationNumInactiveFramesSelectFlag[1],
+                               w->m_solverInfo.m_deactivationIntegrateCounter);
         else fn_82D8B2F8(getRigidMotion(), 1, m_uid, 0, 0, 0);
     } else {
         fn_82D8B2F8(getRigidMotion(), 0, 0, 0, 0, 0);

@@ -6,17 +6,7 @@
 // tail call (/O2 inlines the 0x70-byte ??_G). The class declarations are those of func_82D89858.cpp, without its
 // vtable trigger.
 #include "havok/hkBase.h"
-#include "havok/hkpBroadPhaseListener.h"
-
-class hkpWorld;
-
-class hkpPhantomBroadPhaseListener : public hkReferencedObject, public hkpBroadPhaseListener {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    hkpPhantomBroadPhaseListener(hkpWorld *world) {}
-    virtual void addCollisionPair(hkpTypedBroadPhaseHandlePair &pair);
-    virtual void removeCollisionPair(hkpTypedBroadPhaseHandlePair &pair);
-};
+#include "havok/hkpPhantomBroadPhaseListener.h"
 
 extern "C" void *fn_82D89770(char *self, unsigned int flags)
 {

@@ -5,10 +5,6 @@
 #include "havok/hkBase.h"
 #include "havok/hkpStorageExtendedMeshShape.h"
 
-struct hkpNamedMeshMaterial : public hkpMeshMaterial {
-    hkStringPtr m_name;   // +0x4
-};
-
 // The header declares the constructor; it is defined here, HK_FORCE_INLINE (it needs hkpNamedMeshMaterial).
 HK_FORCE_INLINE hkpStorageExtendedMeshShape::MeshSubpartStorage::MeshSubpartStorage(hkFinishLoadedObjectFlag flag)
     : hkReferencedObject(flag), m_vertices(flag), m_indices8(flag), m_indices16(flag), m_indices32(flag),

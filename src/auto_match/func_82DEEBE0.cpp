@@ -6,28 +6,7 @@
 // natural m_links[i] and the wrapper both are swapped).
 #include "havok/hkBase.h"
 #include "havok/hkpConstraintChainInstance.h"
-
-class hkpPoweredChainData;
-
-class hkpPoweredChainMapper : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);
-    virtual ~hkpPoweredChainMapper();
-
-    struct LinkInfo {
-        int m_firstTargetIdx;
-        int m_numTargets;
-        hkpConstraintInstance *m_limitConstraint;
-    };
-    struct Target {
-        hkpPoweredChainData *m_chain;
-        int m_infoIndex;
-    };
-
-    hkArray<LinkInfo> m_links;                       // +0x8
-    hkArray<Target> m_targets;                       // +0x14
-    hkArray<hkpConstraintChainInstance *> m_chains;  // +0x20
-};
+#include "havok/hkpPoweredChainMapper.h"
 
 hkpPoweredChainMapper::~hkpPoweredChainMapper()
 {

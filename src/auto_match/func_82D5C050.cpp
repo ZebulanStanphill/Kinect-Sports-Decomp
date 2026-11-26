@@ -3,34 +3,7 @@
 // part (hkpGskfAgent's constructor, out of line), the vtable, the dispatcher, the mode flags, then the GSK cache
 // (hkpGskCache::init, fn_82DD9828) for the bodies' relative transform, and -1 for the separating normal's
 // distance and its time. The agent factories 82D5C608, 82D5CD78 and 82D5CF10 call it.
-#include "havok/hkpCollisionAgent.h"
-#include "havok/hkpGskCache.h"
-
-// hkpGskfAgent (: hkpGskBaseAgent : hkpCollisionAgent), 0x80 bytes; its constructor is out of line.
-class hkpGskfAgent : public hkpCollisionAgent {
-public:
-    hkpGskfAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, hkpContactMgr *mgr);
-
-    hkpGskCache m_cache;                 // +0xC
-    hkReal m_timeOfSeparatingNormal;     // +0x18
-    hkUint32 m_pad1C;                    // +0x1C
-    hkVector4 m_separatingNormal;        // +0x20
-    hkUint8 m_data30[0x80 - 0x30];       // +0x30
-};
-
-class hkpPredGskfAgent : public hkpGskfAgent {
-public:
-    hkpPredGskfAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, hkpContactMgr *mgr) : hkpGskfAgent(bodyA, bodyB, mgr) {}
-};
-
-class hkpConvexListAgent : public hkpPredGskfAgent {
-public:
-    hkpConvexListAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpContactMgr *mgr);
-
-    hkpCollisionDispatcher *m_dispatcher;   // +0x80
-    hkBool m_inGskMode;                     // +0x84
-    hkBool m_processFunctionCalled;         // +0x85
-};
+#include "havok/hkpConvexListAgent.h"
 
 hkpConvexListAgent::hkpConvexListAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
                                        hkpContactMgr *mgr)

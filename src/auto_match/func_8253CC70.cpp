@@ -1,9 +1,7 @@
 #include "havok/hkBase.h"
 #include "havok/hkAabb.h"
-#include "havok/hkpCollisionListener.h"
 #include "havok/hkpBroadPhaseBorder.h"
-
-class hkpBreakOffPartsListener;
+#include "havok/hkpBreakOffPartsUtil.h"
 
 // hkpWorldCinfo (0xE0): constructor fn_82D8E600, destructor emitted in game code (fn_8253C630).
 class __declspec(align(16)) hkpWorldCinfo {
@@ -13,13 +11,6 @@ public:
     hkUint8 m_pad0[0x30];
     hkAabb m_broadPhaseWorldAabb;   // +0x30
     hkUint8 m_pad50[0x90];
-};
-
-class hkpBreakOffPartsUtil : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_UTILITIES);
-    hkpBreakOffPartsUtil(hkpWorld *world, hkpBreakOffPartsListener *listener);
-    hkUint8 m_pad8[0x1c];
 };
 
 // Kept local: with havok/hkpCollisionFilter.h the four filter interfaces are base classes, and storing the game's

@@ -4,25 +4,9 @@
 // The constructor keeps its fn_ name (func_82DBF380, which news and copies the data, is otherwise C-matchable):
 // it is forced inline and run on the object by an explicit constructor call, which adds no null check.
 #include "havok/hkBase.h"
-#include "havok/hkpConstraintData.h"
-#include "havok/hkpSetLocalRotationsConstraintAtom.h"
-#include "havok/hkp2dAngConstraintAtom.h"
-#include "havok/hkpAngLimitConstraintAtom.h"
+#include "havok/hkpHingeLimitsData.h"
 
 // The game's 1.0f keeps its lbl_ name (Matching units reference it).
-
-class hkpHingeLimitsData : public hkpConstraintData {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);
-    struct Atoms {
-        Atoms() {}
-        hkpSetLocalRotationsConstraintAtom m_rotations;   // +0x10
-        hkpAngLimitConstraintAtom m_angLimit;             // +0x80
-        hkp2dAngConstraintAtom m_2dAng;                   // +0x90
-    };
-    HK_FORCE_INLINE hkpHingeLimitsData();
-    Atoms m_atoms;
-};
 
 HK_FORCE_INLINE hkpHingeLimitsData::hkpHingeLimitsData()
 {

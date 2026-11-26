@@ -2,9 +2,7 @@
 // ~hkpPhysicsSystem is out of line (fn_82D94BD8).
 #include "havok/hkBase.h"
 #include "havok/hkpPhysicsSystemWithContacts.h"
-
-class hkpSerializedAgentNnEntry : public hkReferencedObject {
-};
+#include "havok/hkpSerializedAgentNnEntry.h"
 
 HK_FORCE_INLINE hkpPhysicsSystemWithContacts::~hkpPhysicsSystemWithContacts()
 {

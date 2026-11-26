@@ -10,14 +10,7 @@
 #include "havok/hkAabbTreeQueryUtils.h"
 #include "havok/hkKdTreeCastCollector.h"
 #include "havok/hkpBroadPhaseCastCollector.h"
-
-struct hkpShapeRayCastInput {
-    HK_FORCE_INLINE hkpShapeRayCastInput() : m_filterInfo(0), m_rayShapeCollectionFilter(HK_NULL) {}
-    hkVector4 m_from;
-    hkVector4 m_to;
-    hkUint32 m_filterInfo;
-    const void *m_rayShapeCollectionFilter;
-};
+#include "havok/hkpShapeRayCastInput.h"
 
 class hkCpuWorldRayCastCollector : public hkpBroadPhaseCastCollector,
                                    public hkKdTreeCastCollector,

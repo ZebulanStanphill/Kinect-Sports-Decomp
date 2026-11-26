@@ -5,13 +5,7 @@
 // literal too (__real@37800080).
 // The array is reached through a local reference, which places the address computation as in the original.
 #include "havok/hkpCompressedSampledHeightFieldShape.h"
-
-extern "C" double __fsel(double a, double b, double c);
-
-struct hkMath {
-    static HK_FORCE_INLINE hkReal HK_CALL min2(hkReal x, hkReal y) { return hkReal(__fsel(x - y, y, x)); }
-    static HK_FORCE_INLINE hkReal HK_CALL max2(hkReal x, hkReal y) { return hkReal(__fsel(x - y, x, y)); }
-};
+#include "havok/hkMath.h"
 
 template <typename T>
 static HK_FORCE_INLINE void _reserve(hkArrayBase<T> &self, hkMemoryAllocator &alloc, int n)

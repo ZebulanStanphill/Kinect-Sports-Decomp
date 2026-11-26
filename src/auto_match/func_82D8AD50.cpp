@@ -1,21 +1,10 @@
 // hkpEntity::~hkpEntity() (Physics/Dynamics/Entity/hkpEntity.cpp): removes and deletes the contact impulse
 // limiter that hkpBreakOffPartsUtil attached, fires the entity-deleted callbacks and deletes the extended
 // listeners; the members and hkpWorldObject follow.
-#include "havok/hkpContactListener.h"
 #include "havok/hkpEntity.h"
+#include "havok/hkpBreakOffPartsUtil.h"
 
 extern "C" void fn_82DACF28(hkpEntity *entity);   // hkpEntityCallbackUtil::fireEntityDeleted
-
-// hkpBreakOffPartsUtil::LimitContactImpulseUtil: a referenced object that is also a contact listener (the
-// listener base is at +0x8).
-class hkpBreakOffPartsUtil {
-public:
-    class LimitContactImpulseUtil : public hkReferencedObject, public hkpContactListener {
-    public:
-        HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_UTILITIES);
-        virtual ~LimitContactImpulseUtil();
-    };
-};
 
 hkpEntity::~hkpEntity()
 {

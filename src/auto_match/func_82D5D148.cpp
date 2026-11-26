@@ -1,19 +1,9 @@
 #include "havok/hkBase.h"
 #include "havok/hkpSymmetricAgent.h"
-// RTTI: hkpConvexListAgent -> hkpPredGskfAgent -> hkpGskfAgent -> hkpGskBaseAgent -> hkpIterativeLinearCastAgent.
-// Only the statics are needed here, so it is declared on the last base that has a header.
-class hkpConvexListAgent : public hkpIterativeLinearCastAgent {
-public:
-    static void HK_CALL staticGetPenetrations(const hkpCdBody &, const hkpCdBody &, const hkpCollisionInput &,
-                                              hkpCdBodyPairCollector &);
-    static void HK_CALL staticGetClosestPoints(const hkpCdBody &, const hkpCdBody &, const hkpCollisionInput &,
-                                               hkpCdPointCollector &);
-};
+#include "havok/hkpConvexListAgent.h"
 extern "C" void fn_82D5C608();
 extern "C" void fn_82D5D550();
 extern "C" void fn_82D5CD78();
-extern "C" void fn_82D5C358();
-extern "C" void fn_82D5C0E0();
 extern "C" void fn_82D5C4B0();
 extern "C" void fn_82D5CF10();
 struct AgentFuncs { void *create,*penetrations,*closest,*cast; unsigned char flipped,predictive; char pad[2]; };

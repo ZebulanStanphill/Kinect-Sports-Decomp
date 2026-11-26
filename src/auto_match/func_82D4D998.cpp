@@ -7,23 +7,7 @@
 // Written as a member function: an extern "C" function with self first adds base + index where the
 // original adds index + base. Built with /O2 /QVMXReserve (flag file).
 #include "havok/hkpTriangleShape.h"
-
-class hkpSimpleMeshShape : public hkpShapeCollection {
-public:
-    struct Triangle {
-        int m_a;
-        int m_b;
-        int m_c;
-        hkUint16 m_weldingInfo;
-    };
-    virtual const hkpShape *getChildShape(hkpShapeKey key, hkpShapeBuffer &buffer) const;
-
-    hkArray<hkVector4> m_vertices;      // +0x18
-    hkArray<Triangle> m_triangles;      // +0x24
-    hkArray<hkUint8> m_materialIndices; // +0x30
-    hkReal m_radius;                    // +0x3c
-    hkUint8 m_weldingType;              // +0x40
-};
+#include "havok/hkpSimpleMeshShape.h"
 
 const hkpShape *hkpSimpleMeshShape::getChildShape(hkpShapeKey key, hkpShapeBuffer &buffer) const
 {

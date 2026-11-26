@@ -1,16 +1,14 @@
 #include "havok/hkBase.h"
-#include "havok/hkpSerializedTrack1nInfo.h"
-#include "havok/hkpSimpleContactConstraintAtom.h"
-class hkpSerializedAgentNnEntry : public hkReferencedObject {
-public:
- HK_FORCE_INLINE hkpSerializedAgentNnEntry():a(0),b(0),c(-1),d(-1),flag(false),endian(0x103),version(1) {}
- void *a,*b; unsigned long c,d;hkBool flag;char pad[7];
- hkpSimpleContactConstraintAtom atom;
- hkArray<unsigned char> propertiesStream; hkArray<int> contactPoints; hkArray<unsigned char> cpIdMgr;
- unsigned char nnEntryData[128];
- hkpSerializedTrack1nInfo trackInfo;
- int endian, version; char pad3[12];
-};
+#include "havok/hkpSerializedAgentNnEntry.h"
+
+// hkpSerializedAgentNnEntry's constructor is out of line (82DF86E0) and inlined here, so the unit defines it.
+HK_FORCE_INLINE hkpSerializedAgentNnEntry::hkpSerializedAgentNnEntry()
+    : m_bodyA(HK_NULL), m_bodyB(HK_NULL), m_bodyAId(hkUlong(-1)), m_bodyBId(hkUlong(-1)), m_useEntityIds(false)
+{
+    *(hkUint32 *)m_endianCheckBuffer = 0x103;
+    m_version = 1;
+}
+
 struct Pair { void *agent; unsigned key; };
 struct Sector {int pad[2];char *world;char rest[4];};
 extern "C" { void fn_82CEA160(void *,hkMemoryAllocator *,void *,unsigned); int fn_82CEA220(void *,unsigned);void fn_83089E78(void *,hkArrayBase<Pair> *);int fn_82DF6F28(void *,void *,void *,hkpSerializedAgentNnEntry *);void fn_82DF3CE0(void *,hkpSerializedAgentNnEntry *); }

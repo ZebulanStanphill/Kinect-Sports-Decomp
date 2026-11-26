@@ -16,13 +16,6 @@ HK_FORCE_INLINE void hkArrayReserve(hkArray<T> &arr, int n)
     }
 }
 
-class hkpDefaultToiResourceMgr : public hkpToiResourceMgr {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_DYNAMICS);
-    hkpDefaultToiResourceMgr();
-    char m_data[0x8];
-};
-
 hkpContinuousSimulation::~hkpContinuousSimulation()
 {
     delete m_toiResourceMgr;

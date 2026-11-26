@@ -3,12 +3,7 @@
 // and returns its vtable pointer. Hierarchy from the RTTI: hkTraceStream ->
 // hkReferencedObject, hkSingleton<hkTraceStream> (at +0x8, no vtable).
 #include "havok/hkBase.h"
-#include "havok/hkSingleton.h"
-
-class hkTraceStream : public hkReferencedObject, public hkSingleton<hkTraceStream> {
-public:
-    hkTraceStream(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
+#include "havok/hkTraceStream.h"
 
 const void *HK_CALL getVtablehkTraceStream()
 {

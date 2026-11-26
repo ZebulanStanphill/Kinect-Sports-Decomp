@@ -3,15 +3,7 @@
 // Hierarchy from the RTTI: hkpDefaultWorldMemoryWatchDog -> hkWorldMemoryAvailableWatchDog -> hkReferencedObject ->
 // hkBaseObject; only the finish constructors and the overrides are declared.
 #include "havok/hkBase.h"
-#include "havok/hkWorldMemoryAvailableWatchDog.h"
-
-class hkpDefaultWorldMemoryWatchDog : public hkWorldMemoryAvailableWatchDog {
-public:
-    hkpDefaultWorldMemoryWatchDog(hkFinishLoadedObjectFlag flag) : hkWorldMemoryAvailableWatchDog(flag) {}
-    virtual hkInt32 getAmountOfFreeHeapMemoryRequested();
-    virtual void freeHeapMemoryTillRequestedAmountIsAvailable(hkpWorld *world);
-    virtual void slot14(void *arg);
-};
+#include "havok/hkpDefaultWorldMemoryWatchDog.h"
 
 const void *HK_CALL getVtablehkpDefaultWorldMemoryWatchDog()
 {

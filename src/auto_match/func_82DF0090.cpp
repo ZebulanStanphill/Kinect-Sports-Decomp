@@ -5,6 +5,7 @@
 #include "havok/hkBase.h"
 #include "havok/hkpRigidBody.h"
 #include "havok/hkpDashpotAction.h"
+#include "havok/hkStepInfo.h"
 
 extern "C" unsigned __int64 __mftb();
 struct hkMonitorStream { void *a; unsigned *next; void *b; unsigned *end; };
@@ -20,13 +21,6 @@ static HK_FORCE_INLINE void timer(const char *s)
         t->next = p + 3;
     }
 }
-
-struct hkStepInfo {
-    hkReal m_startTime;
-    hkReal m_endTime;
-    hkReal m_deltaTime;     // +0x8
-    hkReal m_invDeltaTime;
-};
 
 extern "C" const float lbl_821456B0;
 

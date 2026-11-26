@@ -3,11 +3,7 @@
 // constructor on an object loaded in place. Hierarchy from the RTTI:
 // hkpSerializedDisplayMarker -> hkReferencedObject -> hkBaseObject; only the finish constructors are declared.
 #include "havok/hkBase.h"
-
-class hkpSerializedDisplayMarker : public hkReferencedObject {
-public:
-    hkpSerializedDisplayMarker(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
+#include "havok/hkpSerializedDisplayMarker.h"
 
 void HK_CALL finishLoadedObjecthkpSerializedDisplayMarker(void *p, int finishing)
 {

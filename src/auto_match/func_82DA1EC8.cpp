@@ -2,30 +2,7 @@
 // The float constants are literals; the rename map names the game's copies __real@... (symbols.txt already
 // names 1.0f __real@3f800000).
 #include "havok/hkBase.h"
-#include "havok/hkpConstraintData.h"
-#include "havok/hkpSetLocalRotationsConstraintAtom.h"
-#include "havok/hkpConeLimitConstraintAtom.h"
-#include "havok/hkpTwistLimitConstraintAtom.h"
-
-// The game's 1.0f keeps its lbl_ name (Matching units reference it).
-
-class hkpRagdollLimitsData : public hkpConstraintData {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);
-    struct Atoms {
-        Atoms() {}
-        hkpSetLocalRotationsConstraintAtom m_rotations;   // +0x10
-        hkpTwistLimitConstraintAtom m_twistLimit;         // +0x80
-        hkpConeLimitConstraintAtom m_coneLimit;           // +0x94
-        hkpConeLimitConstraintAtom m_planesLimit;         // +0xA8
-    };
-    hkpRagdollLimitsData();
-    void setConeLimitStabilization(hkBool enable)
-    {
-        m_atoms.m_coneLimit.m_memOffsetToAngleOffset = enable ? 16 : 0;
-    }
-    Atoms m_atoms;
-};
+#include "havok/hkpRagdollLimitsData.h"
 
 hkpRagdollLimitsData::hkpRagdollLimitsData()
 {
@@ -44,7 +21,7 @@ hkpRagdollLimitsData::hkpRagdollLimitsData()
     m_atoms.m_coneLimit.m_minAngle = -100.0f;
     m_atoms.m_coneLimit.m_maxAngle = 1.0f;
     m_atoms.m_coneLimit.m_angularLimitsTauFactor = 0.8f;
-    setConeLimitStabilization(true);
+    m_atoms.m_coneLimit.m_memOffsetToAngleOffset = 16;   // setConeLimitStabilization(true), inlined here
 
     m_atoms.m_planesLimit.m_twistAxisInA = 0;
     m_atoms.m_planesLimit.m_refAxisInB = 1;

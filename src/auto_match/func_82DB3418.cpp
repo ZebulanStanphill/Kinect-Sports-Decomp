@@ -4,10 +4,9 @@
 // deleting destructor fn_82DB3F20 can match as C: the destructor is written inline and called here.
 #include "havok/hkBase.h"
 #include "havok/hkpEntityListener.h"
+#include "havok/hkpPhantomListener.h"
 
 class hkpWorld;
-class hkpPhantom;
-class hkpPhantomListener;
 
 extern "C" {
 void fn_82D81408(hkpWorld *world, hkpEntityListener *listener);    // hkpWorld::removeEntityListener
@@ -40,16 +39,6 @@ public:
     void *m_unk08;      // +0x08
     void *m_unk0C;      // +0x0C
     hkKdTree *m_tree;   // +0x10
-};
-
-class hkpPhantomListener {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual ~hkpPhantomListener() {}
-    virtual void phantomAddedCallback(hkpPhantom *phantom) {}
-    virtual void phantomRemovedCallback(hkpPhantom *phantom) {}
-    virtual void phantomShapeSetCallback(hkpPhantom *phantom) {}
-    virtual void phantomDeletedCallback(hkpPhantom *phantom) {}
 };
 
 // RTTI: hkpTreeWorldManager at +0x0, hkpEntityListener at +0x14, hkpPhantomListener at +0x18.

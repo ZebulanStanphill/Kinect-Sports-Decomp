@@ -7,6 +7,8 @@
 #include "havok/hkpCollidable.h"
 #include "havok/hkpRayHitCollector.h"
 #include "havok/hkpWorldRayCastInput.h"
+#include "havok/hkpShapeRayCastInput.h"
+#include "havok/hkpShapeRayCastOutput.h"
 
 static __forceinline void SetTransformedInversePos(hkVector4 &out, const hkTransform &t, const hkVector4 &v)
 {
@@ -28,20 +30,6 @@ static __forceinline void SetRotatedDir(hkVector4 &out, const hkRotation &r, con
     out.m_quad = __vmaddfp(c2, __vspltw(b, 2), t);
 }
 
-struct hkpShapeRayCastInput {
-    hkpShapeRayCastInput() : m_filterInfo(0), m_rayShapeCollectionFilter(0) {}
-    hkVector4 m_from;                       // 0x00
-    hkVector4 m_to;                         // 0x10
-    hkUint32 m_filterInfo;                  // 0x20
-    const void *m_rayShapeCollectionFilter; // 0x24
-};
-
-struct hkpShapeRayCastOutput {
-    hkVector4 m_normal;                     // 0x00
-    hkReal m_hitFraction;                   // 0x10
-    char pad14[0x3c];                       // extra info, shape keys
-};
-
 struct hkpWorldRayCastOutput : public hkpShapeRayCastOutput {
     const hkpCollidable *m_rootCollidable;  // 0x50
 };
@@ -50,7 +38,7 @@ struct WorldRayCaster_83096D80 {
     char pad0[0x10];
     const hkpWorldRayCastInput *m_input;     // 0x10
     const hkpRayCollidableFilter *m_filter;  // 0x14
-    const void *m_shapeCollectionFilter;     // 0x18
+    const hkpRayShapeCollectionFilter *m_shapeCollectionFilter; // 0x18
     hkpWorldRayCastOutput *m_result;         // 0x1c
     hkpRayHitCollector *m_collectorBase;     // 0x20
     hkReal m_earlyOutHitFraction;            // 0x24

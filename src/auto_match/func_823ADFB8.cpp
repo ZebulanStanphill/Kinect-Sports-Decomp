@@ -6,6 +6,7 @@
 #include "havok/hkpRigidBody.h"
 #include "havok/hkpRigidBodyCinfo.h"
 #include "havok/hkpSphereShape.h"
+#include "havok/hkpMassProperties.h"
 
 extern "C" __vector4 __VMXGetReg(int n);
 
@@ -13,18 +14,6 @@ extern "C" {
 extern const hkQuadReal lbl_82196750;    // (0, 0, 0, 1): the identity quaternion
 extern float lbl_831C9CE0[];             // game tuning values
 }
-
-struct hkpMassProperties {
-    HK_FORCE_INLINE hkpMassProperties() : m_volume(0.0f), m_mass(0.0f)
-    {
-        m_centerOfMass.setZero4();
-        m_inertiaTensor.setZero();
-    }
-    hkReal m_volume;              // +0x00
-    hkReal m_mass;                // +0x04
-    hkVector4 m_centerOfMass;     // +0x10
-    hkMatrix3 m_inertiaTensor;    // +0x20
-};
 
 extern "C" {
 int fn_82DE5138(hkReal radius, hkReal mass, hkpMassProperties &result);   // computeSphereVolumeMassProperties

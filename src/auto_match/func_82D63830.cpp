@@ -2,19 +2,7 @@
 // extern "C" function (the static member function has no this).
 // static hkpSymmetricAgent<hkpCapsuleTriangleAgent>::staticGetPenetrations: flips the bodies (and the collector's results) and forwards to hkpCapsuleTriangleAgent's function.
 #include "havok/hkpSymmetricAgent.h"
-
-extern "C" {
-void fn_82D63130(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpCdBodyPairCollector &collector);   // hkpCapsuleTriangleAgent::staticGetPenetrations
-}
-
-class hkpCapsuleTriangleAgent : public hkpIterativeLinearCastAgent {
-public:
-    hkpCapsuleTriangleAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpContactMgr *mgr);
-    static void HK_CALL staticGetPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpCdBodyPairCollector &collector)
-    {
-        fn_82D63130(bodyA, bodyB, input, collector);
-    }
-};
+#include "havok/hkpCapsuleTriangleAgent.h"
 
 extern "C" void fn_82D63830(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpCdBodyPairCollector &collector)
 {

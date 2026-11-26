@@ -5,16 +5,6 @@
 // (lowest vtable address, emitted with hkpWorld's code). The function at the end only makes the compiler emit
 // the vtable.
 #include "havok/hkBase.h"
-#include "havok/hkpBroadPhaseListener.h"
-
-class hkpWorld;
-
-class hkpPhantomBroadPhaseListener : public hkReferencedObject, public hkpBroadPhaseListener {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    hkpPhantomBroadPhaseListener(hkpWorld *world) {}
-    virtual void addCollisionPair(hkpTypedBroadPhaseHandlePair &pair);
-    virtual void removeCollisionPair(hkpTypedBroadPhaseHandlePair &pair);
-};
+#include "havok/hkpPhantomBroadPhaseListener.h"
 
 void emitVtable_82D89858(void *p, hkpWorld *world) { new (p) hkpPhantomBroadPhaseListener(world); }

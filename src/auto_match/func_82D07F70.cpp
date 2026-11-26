@@ -1,5 +1,5 @@
 #include "havok/hkBase.h"
-#include "havok/hkEnum.h"
+#include "havok/hkMeshSection.h"
 
 // hkLocalArray: an hkArray whose first buffer comes from the thread's stack allocator.
 template <typename T> static HK_FORCE_INLINE void deallocateStack(T *memory)
@@ -52,30 +52,6 @@ template <typename T> class IndexArray_82D07F70 : public hkArrayBase<T>
         constructWithCopy(this->m_data + this->m_size, 1, e);
         this->m_size++;
     }
-};
-
-struct hkMeshSection {
-    enum MeshSectionIndexType {
-        INDEX_TYPE_NONE = 0,
-        INDEX_TYPE_UINT16 = 1,
-        INDEX_TYPE_UINT32 = 2
-    };
-
-    enum PrimitiveType {
-        PRIMITIVE_TYPE_UNKNOWN = 0,
-        PRIMITIVE_TYPE_POINT_LIST = 1,
-        PRIMITIVE_TYPE_LINE_LIST = 2,
-        PRIMITIVE_TYPE_TRIANGLE_LIST = 3,
-        PRIMITIVE_TYPE_TRIANGLE_STRIP = 4
-    };
-
-    hkEnum<PrimitiveType, hkUint8> m_primitiveType;    /* 0x00 */
-    hkInt32 m_numPrimitives;                           /* 0x04 */
-    hkInt32 m_numIndices;                              /* 0x08 */
-    hkInt32 m_vertexStartIndex;                        /* 0x0c */
-    hkInt32 m_transformIndex;                          /* 0x10 */
-    hkEnum<MeshSectionIndexType, hkUint8> m_indexType; /* 0x14 */
-    const void *m_indices;                             /* 0x18 */
 };
 
 extern "C" void fn_82D07808(int type, int count, int start, IndexArray_82D07F70<int> *indices);

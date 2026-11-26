@@ -1,11 +1,16 @@
+// hkpConvexPieceMeshShape::hkpConvexPieceMeshShape(const hkReferencedObject *, const hkReferencedObject *, hkReal)
+// (Physics/Collide/Shape/Deprecated/ConvexPieceMesh/hkpConvexPieceMeshShape.cpp): stores the display mesh, the
+// convex piece stream and the radius, and takes a reference to the first two.
 #include "havok/hkBase.h"
-#include "havok/hkpShape.h"
-class hkpConvexPieceMeshShape : public hkpShapeCollection {
-public:
- HK_DECLARE_CLASS_ALLOCATOR(0);
- hkpConvexPieceMeshShape(const hkReferencedObject *a, const hkReferencedObject *b, float radius);
- const hkReferencedObject *m_b, *m_a; float m_radius;
-};
-hkpConvexPieceMeshShape::hkpConvexPieceMeshShape(const hkReferencedObject *a, const hkReferencedObject *b, float radius)
- : hkpShapeCollection(HK_SHAPE_COLLECTION,COLLECTION_USER), m_radius(radius), m_a(a),m_b(b)
-{ a->addReference(); m_b->addReference(); }
+#include "havok/hkpConvexPieceMeshShape.h"
+#include "havok/hkpConvexPieceStreamData.h"
+
+hkpConvexPieceMeshShape::hkpConvexPieceMeshShape(const hkReferencedObject *displayMesh,
+                                                 const hkReferencedObject *convexPieceStream, hkReal radius)
+    : hkpShapeCollection(HK_SHAPE_COLLECTION, COLLECTION_USER),
+      m_convexPieceStream(static_cast<const hkpConvexPieceStreamData *>(convexPieceStream)),
+      m_displayMesh(static_cast<const hkpShapeCollection *>(displayMesh)), m_radius(radius)
+{
+    displayMesh->addReference();
+    m_convexPieceStream->addReference();
+}

@@ -5,24 +5,6 @@
 // to the heap. The implicit destructor leaves only the bases' vtable stores, last base first.
 // The function at the end only makes the compiler emit the vtable.
 #include "havok/hkBase.h"
-#include "havok/hkAabbTreeQueryUtils.h"
-#include "havok/hkKdTreeCastCollector.h"
-
-class hkpBroadPhaseCastCollector {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual ~hkpBroadPhaseCastCollector() {}
-};
-
-class hkCpuWorldLinearCastCollector : public hkpBroadPhaseCastCollector,
-                                   public hkKdTreeCastCollector,
-                                   public hkAabbTreeQueryUtils<hkAabbTreeData::hkAabbTreeAabb, hkUint16>::Collector,
-                                   public hkAabbTreeQueryUtils<hkAabbTreeData::hkAabbTreeAabb16, hkUint16>::Collector,
-                                   public hkAabbTreeQueryUtils<hkAabbTreeData::hkAabbTreeAabb, hkUint32>::Collector,
-                                   public hkAabbTreeQueryUtils<hkAabbTreeData::hkAabbTreeAabb16, hkUint32>::Collector {
-public:
-    HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE, hkCpuWorldLinearCastCollector);
-    hkUint8 m_members[0x88];   // not needed here; sizeof is 0xa0
-};
+#include "havok/hkCpuWorldLinearCastCollector.h"
 
 void emitVtable_83099C88(void *p) { new (p) hkCpuWorldLinearCastCollector; }

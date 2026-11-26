@@ -8,7 +8,7 @@
 // matches with it at /O2); the world's flags are read through a pointer to the solver info's flag array.
 #include "havok/hkBase.h"
 #include "havok/hkpRigidBody.h"
-
+#include "havok/hkpSolverInfo.h"
 
 template <int SIZE>
 static HK_FORCE_INLINE void memCpy16(void *dst, const void *src)
@@ -25,12 +25,6 @@ static HK_FORCE_INLINE void memCpy16(void *dst, const void *src)
         src32 += 4;
     }
 }
-
-struct hkpSolverInfo {
-    char m_pad[0x125];
-    hkUint8 m_deactivationNumInactiveFramesSelectFlag[2];   // +0x125
-    hkUint8 m_deactivationIntegrateCounter;                 // +0x127
-};
 
 class hkpWorld {
 public:

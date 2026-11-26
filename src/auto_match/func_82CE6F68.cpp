@@ -1,9 +1,9 @@
 // hkFreeListMemorySystem::~hkFreeListMemorySystem()
 // (Common/Base/Memory/System/FreeList/hkFreeListMemorySystem.h): stores the
 // vtable, clears the static instance pointer (lbl_8323B210, set by the
-// constructor fn_82CE6FF0), destroys the 32 hkThreadMemory objects at +0xADC
-// (0x130 bytes each, last to first: inlined ~hkThreadMemory, see
-// func_82CE6AF8.cpp), the members at +0x99C (fn_82CF7638), +0x920 (an
+// constructor fn_82CE6FF0), destroys the hkThreadMemory of the 32 thread data
+// entries at +0xADC (0x130 bytes each, last to first: inlined ~hkThreadMemory,
+// see hkThreadMemory.h), the members at +0x99C (fn_82CF7638), +0x920 (an
 // allocator with an implicit destructor: ~hkMemoryAllocator) and
 // +0x1C (fn_82CF93D0), and the hkMemoryBlockServer at +0x8 (inline, only its
 // vtable store), then runs ~hkMemorySystem (fn_82CE7330). The +0x920 member is
@@ -16,42 +16,30 @@
 // with __declspec(novtable) on a wrapper hkMemorySystem, whose inline
 // destructor would otherwise store its vtable before fn_82CE7330.)
 #include "havok/hkBase.h"
+#include "havok/hkMemoryBlockServer.h"
+#include "havok/hkThreadMemory.h"
 
-class hkThreadMemory;
 class hkFreeListMemorySystem;
 extern "C" {
 void fn_82CE7330(void *self);              // hkMemorySystem::~hkMemorySystem
-void fn_82CF74E8(hkThreadMemory *self);    // hkThreadMemory::releaseCachedMemory
 void fn_82CF93D0(void *self);              // destructor of the member at +0x1C
 void fn_82CF7638(void *self);              // destructor of the member at +0x99C
 extern hkFreeListMemorySystem *lbl_8323B210;
 }
 
-class hkMemoryBlockServer {
-public:
-    HK_FORCE_INLINE virtual ~hkMemoryBlockServer() {}
-    hkUint32 m_data[4];
-};
-
-class hkThreadMemory : public hkMemoryAllocator {
-public:
-    HK_DECLARE_PLACEMENT_ALLOCATOR();
-    HK_FORCE_INLINE virtual ~hkThreadMemory()
-    {
-        releaseCachedMemory();
-    }
-    HK_FORCE_INLINE void releaseCachedMemory() { fn_82CF74E8(this); }
-    hkUint32 m_data[(0x130 - 4) / 4];
-};
-
 class hkFreeListMemorySystem {
 public:
+    // The per-thread data: the allocator and four words (see func_82CE6FF0.cpp).
+    struct ThreadData {
+        hkThreadMemory m_memory;     // +0x0
+        hkUint32 m_rest[4];          // +0x120
+    };
     HK_FORCE_INLINE virtual ~hkFreeListMemorySystem()
     {
         lbl_8323B210 = 0;
-        hkThreadMemory *t = reinterpret_cast<hkThreadMemory *>(m_threadMemory) + 32;
+        ThreadData *t = reinterpret_cast<ThreadData *>(m_threadMemory) + 32;
         for (int i = 32; --i >= 0;)
-            (--t)->hkThreadMemory::~hkThreadMemory();
+            (--t)->m_memory.hkThreadMemory::~hkThreadMemory();
         fn_82CF7638(m_99c);
         reinterpret_cast<hkMemoryAllocator *>(m_920)->hkMemoryAllocator::~hkMemoryAllocator();
         fn_82CF93D0(m_1c);

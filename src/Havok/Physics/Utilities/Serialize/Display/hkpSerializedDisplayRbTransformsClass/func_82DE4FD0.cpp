@@ -3,11 +3,7 @@
 // Hierarchy from the RTTI: hkpSerializedDisplayRbTransforms -> hkReferencedObject -> hkBaseObject; only the finish
 // constructors are declared.
 #include "havok/hkBase.h"
-
-class hkpSerializedDisplayRbTransforms : public hkReferencedObject {
-public:
-    hkpSerializedDisplayRbTransforms(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
+#include "havok/hkpSerializedDisplayRbTransforms.h"
 
 const void *HK_CALL getVtablehkpSerializedDisplayRbTransforms()
 {

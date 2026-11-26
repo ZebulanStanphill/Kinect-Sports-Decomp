@@ -13,9 +13,7 @@
 #include "havok/hkpMouseSpringAction.h"
 #include "havok/hkpClosestCdPointCollector.h"
 #include "havok/hkpWorld.h"
-
-struct hkpProcessCollisionInput : public hkpCollisionInput {
-};
+#include "havok/hkpProcessCollisionInput.h"
 
 template <typename T>
 static HK_FORCE_INLINE void _copyFromArray(hkArrayBase<T> &self, hkMemoryAllocator &alloc, const hkArrayBase<T> &a)

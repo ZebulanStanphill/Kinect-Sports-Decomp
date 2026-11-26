@@ -1,21 +1,15 @@
 // hkpSaveContactPointsUtil-style serialisation of an hkpAgent1nTrack: copies
-// every 512-byte sector and records an hkpSerializedTrack1nInfo per entry.
+// every 512-byte sector and records an hkpSerializedSubTrack1nInfo per entry.
 #include "havok/hkBase.h"
+#include "havok/hkpSerializedSubTrack1nInfo.h"
 extern "C" { void *memcpy(void *,const void *,unsigned); }
-class hkpSerializedTrack1nInfo {
-public:
- HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE,hkpSerializedTrack1nInfo);
- hkpSerializedTrack1nInfo():parent(-1) {}
- ~hkpSerializedTrack1nInfo();
- hkArrayBase<int> a,b; int parent,offset;
-};
 struct Track {
  HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE,Track);
  Track():size(0) {}
  int size; char data[508];
 };
-struct Result { hkArrayBase<Track *> tracks; hkArrayBase<hkpSerializedTrack1nInfo *> infos; };
-extern "C" int fn_82DF6CD0(char *,hkBool,void *,int *,void *,char **,hkpSerializedTrack1nInfo *);
+struct Result { hkArrayBase<Track *> tracks; hkArrayBase<hkpSerializedSubTrack1nInfo *> infos; };
+extern "C" int fn_82DF6CD0(char *,hkBool,void *,int *,void *,char **,hkpSerializedSubTrack1nInfo *);
 // hkArrayUtil::constructWithCopy for POD types.
 template<class T> static HK_FORCE_INLINE void constructWithCopy(T *t,int n,const T &tcopy) { for(int i=0;i<n;++i) t[i]=tcopy; }
 template<class T> static HK_FORCE_INLINE void pushBack(hkArrayBase<T> *a,const T &value) {
@@ -37,9 +31,9 @@ extern "C" int fn_82DF7AF8(hkArrayBase<Track *> *source,void *world,Result *resu
   char *end=(char *)t+t->size+16;
   for(char *p=(char *)t+16;p<end;) {
    char *out=0;int size=0; char scratch[8];
-   hkpSerializedTrack1nInfo *info=new hkpSerializedTrack1nInfo;
+   hkpSerializedSubTrack1nInfo *info=new hkpSerializedSubTrack1nInfo;
    if(fn_82DF6CD0(p,hkBool(false),world,&size,scratch,&out,info)) {delete info;return 1;}
-   if(info->a.m_size) { info->offset=out-(char *)t-16;info->parent=i;pushBack(&result->infos,info); }
+   if(info->m_sectors.m_size) { info->m_offsetInSector=out-(char *)t-16;info->m_sectorIndex=i;pushBack(&result->infos,info); }
    else delete info;
    p+=size;
   }

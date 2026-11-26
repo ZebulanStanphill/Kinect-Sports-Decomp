@@ -12,8 +12,6 @@
 //   82D4F230); ShapeSubpartStorage's finish constructor is inline.
 // - MeshSubpartStorage's finish constructor exists in the game as fn_82D4E2F0, and inlined in fn_82D4E300; its
 //   units define it (HK_FORCE_INLINE, after their own copy of hkpNamedMeshMaterial).
-// The element type of MeshSubpartStorage::m_namedMaterials, hkpNamedMeshMaterial, has no header yet and is only
-// declared here; a unit that destroys or constructs a MeshSubpartStorage needs a definition of it.
 #ifndef HAVOK_HKPSTORAGEEXTENDEDMESHSHAPE_H
 #define HAVOK_HKPSTORAGEEXTENDEDMESHSHAPE_H
 
@@ -21,9 +19,7 @@
 #include "havok/hkHalf.h"
 #include "havok/hkVector4.h"
 #include "havok/hkpExtendedMeshShape.h"
-#include "havok/hkpMeshMaterial.h"
-
-struct hkpNamedMeshMaterial;
+#include "havok/hkpNamedMeshMaterial.h"
 
 class hkpStorageExtendedMeshShape : public hkpExtendedMeshShape {
 public:

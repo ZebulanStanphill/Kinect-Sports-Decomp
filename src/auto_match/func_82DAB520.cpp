@@ -1,19 +1,6 @@
 // hkpReportContactMgr::Factory::Factory(hkpWorld *) (Physics/Dynamics/Collide/ContactListener/Util/hkpReportContactMgr.cpp).
 #include "havok/hkBase.h"
-#include "havok/hkpContactMgrFactory.h"
-
-class hkpWorld;
-
-class hkpReportContactMgr {
-public:
-    class Factory : public hkpContactMgrFactory {
-    public:
-        HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-        Factory(hkpWorld *mgr);
-
-        hkpWorld *m_world;   // +0x8
-    };
-};
+#include "havok/hkpReportContactMgr.h"
 
 hkpReportContactMgr::Factory::Factory(hkpWorld *mgr)
 {

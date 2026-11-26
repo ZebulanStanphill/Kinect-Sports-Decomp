@@ -1,15 +1,11 @@
-#include "havok/hkpShape.h"
-#include "havok/hkVector4.h"
+// hkpConvexVerticesShape::hkpConvexVerticesShape(const hkStridedVertices &, const hkArray<hkVector4> &, hkReal)
+// (Physics/Collide/Shape/Convex/ConvexVertices/hkpConvexVerticesShape.cpp): copies the plane equations, then
+// the vertices through fn_82D3F450 (which keeps its fn_ name).
+#include "havok/hkpConvexVerticesShape.h"
 struct hkStridedVertices { const float *v; int num; int stride; };
-struct Planes { hkVector4 *data; int size; int cap; };
-class hkpConvexVerticesShape;
 extern "C" void fn_82D3F450(hkpConvexVerticesShape*,const float*,int,int);
-class hkpConvexVerticesShape : public hkpConvexShape { public:
- hkpConvexVerticesShape(const hkStridedVertices&,const hkArray<hkVector4>&,float);
- char pad[0x40-0x14]; hkArray<hkVector4> vertices; int padding,n; hkArray<hkVector4> planes; void *connectivity;
-};
-hkpConvexVerticesShape::hkpConvexVerticesShape(const hkStridedVertices& v,const hkArray<hkVector4>& p,float radius):hkpConvexShape(hkpShapeType(6),radius),n(0),connectivity(0) {
- hkArray<hkVector4> *dst=&planes;
+hkpConvexVerticesShape::hkpConvexVerticesShape(const hkStridedVertices& v,const hkArray<hkVector4>& p,float radius):hkpConvexShape(hkpShapeType(6),radius),m_convexPiece(0),m_connectivity(0) {
+ hkArray<hkVector4> *dst=&m_planeEquations;
  hkMemoryAllocator &a=hkMemoryRouter::getInstance().heap();
  if(dst->getCapacity()<p.m_size) {
   if((dst->m_capacityAndFlags & (int)0x80000000)==0) a.bufFree(dst->m_data,dst->getCapacity(),16);

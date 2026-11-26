@@ -12,7 +12,7 @@
 // - The operand order of the pair loops' add/lwzx (array base first) follows the function's symbol numbering:
 //   the named tolerance and the pair reference in the trimming loop are needed for it.
 #include "havok/hkOstream.h"
-#include "havok/hkAabbTreeQueryUtils.h"
+#include "havok/hkgpMesh.h"
 
 // hkErrStream (Common/Base/System/Io/OStream/hkOStream.h) derives from hkOstream: its constructor is out of
 // line and keeps its fn_ name, called on the object directly; operator<< and the destructor are hkOstream's.
@@ -44,17 +44,9 @@ HK_FORCE_INLINE hkError &HK_CALL hkError::getInstance() { return *lbl_8323B464; 
         hkError::getInstance().message(hkError::MESSAGE_REPORT, -1, reportBuf, ".\\GeometryProcessing\\Mesh\\hkgpMesh.cpp", LINE); \
     } while (0)
 
-typedef hkAabbTreeQueryUtils<hkAabbTreeData::hkAabbTreeAabb, unsigned int> QueryUtils;
-
-class hkgpMesh;
-struct Vertex {
-    char m_pad[0x10];
-    float m_position[4];   // +0x10
-};
-struct Triangle {
-    char m_pad[0x8];
-    Vertex *m_vertices[3];   // +0x8
-};
+typedef hkgpMesh::TreeQueries QueryUtils;
+typedef hkgpMesh::Vertex Vertex;
+typedef hkgpMesh::Triangle Triangle;
 
 extern "C" {
 hkgpMesh *fn_82D27D00(hkgpMesh *self);                 // hkgpMesh::hkgpMesh()
@@ -69,19 +61,12 @@ extern "C" static __declspec(noinline) bool fn_82D1F788(const Triangle *t, const
 {
     for (int i = 0; i < 3; i++) {
         const Vertex *it = t->m_vertices[i];
-        if (it->m_position[0] == v[0] && it->m_position[1] == v[1] && it->m_position[2] == v[2])
+        const float *p = it->m_position.m_quad.vector4_f32;
+        if (p[0] == v[0] && p[1] == v[1] && p[2] == v[2])
             return true;
     }
     return false;
 }
-
-class hkgpMesh : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_BASE);
-    virtual ~hkgpMesh();
-    char m_pad[0x718];
-    char m_trianglesTree[0xc0];   // +0x720
-};
 
 template <typename T>
 HK_FORCE_INLINE int indexOf(const hkArrayBase<T> &a, const T &t, int startIdx = 0, int endIdx = -1)
@@ -135,7 +120,7 @@ extern "C" hkgpMesh *fn_82D28C88(hkgpMesh *self, const void *source)
         hkArray<QueryUtils::NodePair> pairs;
         {
             QueryUtils::TreeTreeNodePairCollector collector(pairs);
-            fn_82D38888(mesh->m_trianglesTree, mesh->m_trianglesTree, &collector);
+            fn_82D38888(&mesh->m_trianglesTree, &mesh->m_trianglesTree, &collector);
         }
         for (int i = 0; i < pairs.getSize(); ++i) {
             Triangle *ta = (Triangle *)pairs[i].m_a->m_indices[0];
@@ -154,16 +139,19 @@ extern "C" hkgpMesh *fn_82D28C88(hkgpMesh *self, const void *source)
         fn_82D22698(self);
         {
             QueryUtils::TreeTreeNodePairCollector collector(pairs);
-            fn_82D38888(self->m_trianglesTree, mesh->m_trianglesTree, &collector);
+            fn_82D38888(&self->m_trianglesTree, &mesh->m_trianglesTree, &collector);
         }
         for (int i = 0; i < pairs.getSize(); ++i) {
             const QueryUtils::NodePair &pair = pairs[i];
             Triangle *a = (Triangle *)pair.m_a->m_indices[0];
             Triangle *b = (Triangle *)pair.m_b->m_indices[0];
             if (indexOf(removed, a) == -1 && indexOf(removed, b) == -1 &&
-                fn_82D1F788(a, b->m_vertices[0]->m_position) && fn_82D1F788(a, b->m_vertices[1]->m_position) &&
-                fn_82D1F788(a, b->m_vertices[2]->m_position) && fn_82D1F788(b, a->m_vertices[0]->m_position) &&
-                fn_82D1F788(b, a->m_vertices[1]->m_position) && fn_82D1F788(b, a->m_vertices[2]->m_position)) {
+                fn_82D1F788(a, b->m_vertices[0]->m_position.m_quad.vector4_f32) &&
+                fn_82D1F788(a, b->m_vertices[1]->m_position.m_quad.vector4_f32) &&
+                fn_82D1F788(a, b->m_vertices[2]->m_position.m_quad.vector4_f32) &&
+                fn_82D1F788(b, a->m_vertices[0]->m_position.m_quad.vector4_f32) &&
+                fn_82D1F788(b, a->m_vertices[1]->m_position.m_quad.vector4_f32) &&
+                fn_82D1F788(b, a->m_vertices[2]->m_position.m_quad.vector4_f32)) {
                 pushBack(removed, a);
                 pushBack(removed, b);
                 fn_82D21DA0(self, a);

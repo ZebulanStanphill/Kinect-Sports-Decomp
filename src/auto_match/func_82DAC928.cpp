@@ -3,25 +3,10 @@
 // (fn_82DAC420), then frees through the class allocator. The function at the end only makes the compiler
 // emit the vtable, and with it this function.
 #include "havok/hkBase.h"
-#include "havok/hkpDynamicsContactMgr.h"
+#include "havok/hkpSimpleConstraintContactMgr.h"
 
-class hkpWorld;
-class hkpRigidBody;
-
-// hkpSimpleConstraintContactMgr (Physics/Dynamics/Collide/hkpSimpleConstraintContactMgr.h). The
-// contact constraint data (+0x14) and the constraint instance (+0x44) are kept opaque here.
-class hkpSimpleConstraintContactMgr : public hkpDynamicsContactMgr {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    hkpSimpleConstraintContactMgr(hkpWorld *world, hkpRigidBody *bodyA, hkpRigidBody *bodyB);
-    hkpSimpleConstraintContactMgr() : hkpDynamicsContactMgr(TYPE_SIMPLE_CONSTRAINT_CONTACT_MGR) {}
-    virtual ~hkpSimpleConstraintContactMgr();
-
-    hkpWorld *m_world;                          // +0xC
-    hkUint16 m_skipNextNprocessCallbacks;       // +0x10
-    hkUint16 m_reservedContactPoints;           // +0x12
-    char m_contactConstraintData[0x30];         // +0x14 hkpSimpleContactConstraintData
-    char m_constraint[0x38];                    // +0x44 hkpConstraintInstance
-};
-
-void emitVtable_82DAC928(void *p) { new (p) hkpSimpleConstraintContactMgr; }
+// Copies an object: the header's only constructor is out of line.
+void emitVtable_82DAC928(void *p, const void *q)
+{
+    new (p) hkpSimpleConstraintContactMgr(*(const hkpSimpleConstraintContactMgr *)q);
+}

@@ -6,27 +6,15 @@
 // given storage (MSVC's explicit constructor call; placement new would add a null check). The constructor is
 // HK_FORCE_INLINE, or the explicit call stays a call.
 #include "havok/hkBase.h"
-#include "havok/hkpShape.h"
+#include "havok/hkpConvexPieceMeshShape.h"
 
-class hkpConvexPieceStreamData;
-
-class hkpConvexPieceMeshShape : public hkpShapeCollection {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SHAPE);
-    HK_FORCE_INLINE hkpConvexPieceMeshShape(hkFinishLoadedObjectFlag flag) : hkpShapeCollection(flag)
-    {
-        if (flag.m_finishing)
-            m_type = hkpShapeType(7);
-    }
-    virtual int getNumChildShapes() const;
-    virtual hkpShapeKey getFirstKey() const;
-    virtual hkpShapeKey getNextKey(hkpShapeKey oldKey) const;
-    virtual const hkpShape *getChildShape(hkpShapeKey key, hkpShapeBuffer &buffer) const;
-
-    const hkpConvexPieceStreamData *m_convexPieceStream;   // +0x18
-    const hkpShapeCollection *m_displayMesh;               // +0x1C
-    hkReal m_radius;                                       // +0x20
-};
+// The header declares the constructor; it is defined here, HK_FORCE_INLINE, or the explicit call stays a call.
+HK_FORCE_INLINE hkpConvexPieceMeshShape::hkpConvexPieceMeshShape(hkFinishLoadedObjectFlag flag)
+    : hkpShapeCollection(flag)
+{
+    if (flag.m_finishing)
+        m_type = hkpShapeType(7);
+}
 
 extern "C" hkpConvexPieceMeshShape *fn_82D39BE8(hkpConvexPieceMeshShape *self, hkFinishLoadedObjectFlag flag)
 {

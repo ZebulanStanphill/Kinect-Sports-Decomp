@@ -4,11 +4,7 @@
 #include "havok/hkpShapePhantom.h"
 #include "havok/hkAabb.h"
 #include "havok/hkpWorld.h"
-
-struct hkpProcessCollisionInput {
-    char m_pad0[8];
-    hkReal m_tolerance;   // +0x8 (hkpCollisionInput::m_tolerance)
-};
+#include "havok/hkpProcessCollisionInput.h"
 
 extern "C" void fn_82D9A730(hkpPhantom *self, const hkAabb &aabb);   // hkpPhantom::updateBroadPhase
 

@@ -5,15 +5,7 @@
 // The classes and their bases are those of the game's RTTI (??_R2 base class arrays), at their
 // RTTI offsets; padding stands for members this unit does not use. The thunk keeps its fn_ name.
 #include "havok/hkBase.h"
-#include "havok/hkAabbTreeQueryUtils.h"
-#include "havok/hkKdTreeCastCollector.h"
-#include "havok/hkpBroadPhaseCastCollector.h"
-class hkCpuWorldLinearCastCollector : public hkpBroadPhaseCastCollector, public hkKdTreeCastCollector, public hkAabbTreeQueryUtils<hkAabbTreeData::hkAabbTreeAabb, unsigned short>::Collector, public hkAabbTreeQueryUtils<hkAabbTreeData::hkAabbTreeAabb16, unsigned short>::Collector, public hkAabbTreeQueryUtils<hkAabbTreeData::hkAabbTreeAabb, unsigned int>::Collector, public hkAabbTreeQueryUtils<hkAabbTreeData::hkAabbTreeAabb16, unsigned int>::Collector {
-public:
-    HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE, hkCpuWorldLinearCastCollector);
-    char _pad[0x88];
-};
-
+#include "havok/hkCpuWorldLinearCastCollector.h"
 extern "C" void *fn_83099B90(hkAabbTreeQueryUtils<hkAabbTreeData::hkAabbTreeAabb16, unsigned short>::Collector *self, unsigned int flags)
 {
     hkCpuWorldLinearCastCollector *obj = (hkCpuWorldLinearCastCollector *)((char *)self - 0xc);

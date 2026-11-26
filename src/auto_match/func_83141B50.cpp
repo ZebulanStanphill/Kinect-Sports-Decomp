@@ -6,25 +6,10 @@
 // object would duplicate the data symbol.
 #include "havok/hkStaticClassNameRegistry.h"
 #include "havok/hkpNullAgent.h"
+#include "havok/hkGeometryProcessing.h"
 
-// hkGeometryProcessing::IFunction / ConstFunction
-// (Common/Internal/GeometryProcessing/hkGeometryProcessing.h): a root
-// interface with a user-written destructor, and a constant function; a
-// function-local static ConstFunction<IFunction<hkVector4, float>> (value at
-// +0x4) is lbl_8323B6B0, built in fn_82D1DE40.
-namespace hkGeometryProcessing {
-template <typename IN, typename OUT>
-struct IFunction {
-    virtual ~IFunction() {}
-    virtual OUT operator()(const IN &x) const;   // pure in Havok
-};
-
-template <typename BASE>
-struct ConstFunction : public BASE {
-    float m_value;   // +0x4
-};
-}
-
+// lbl_8323B6B0 is a function-local static hkGeometryProcessing::ConstFunction<IFunction<hkVector4, float> >,
+// built in fn_82D1DE40.
 typedef hkGeometryProcessing::ConstFunction<hkGeometryProcessing::IFunction<hkVector4, float> > hkConstVector4ToRealFunction;
 
 extern "C" {

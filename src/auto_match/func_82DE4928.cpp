@@ -2,9 +2,6 @@
 #include "havok/hkBase.h"
 #include "havok/hkpPhysicsSystemWithContacts.h"
 
-class hkpSerializedAgentNnEntry : public hkReferencedObject {
-};
-
 void HK_CALL finishLoadedObjecthkpPhysicsSystemWithContacts(void *p, int finishing)
 {
     hkFinishLoadedObjectFlag f;

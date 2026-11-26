@@ -4,16 +4,7 @@
 #include "havok/hkpWorld.h"
 #include "havok/hkpPhysicsSystem.h"
 #include "havok/hkpWorldCinfo.h"
-
-struct hkpSaveContactPointsUtil {
-    struct LoadPointsInput {
-        hkBool m_a, m_b;
-        int m_x;
-        hkBool m_c, m_d, m_e;
-        HK_FORCE_INLINE LoadPointsInput()
-            : m_a(false), m_b(false), m_x(0), m_c(true), m_d(true), m_e(false) {}
-    };
-};
+#include "havok/hkpSaveContactPointsUtil.h"
 
 extern "C" {
 void fn_82D8E600(hkpWorldCinfo *info);                                     // hkpWorldCinfo()

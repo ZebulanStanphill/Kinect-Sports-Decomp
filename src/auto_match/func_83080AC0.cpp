@@ -5,25 +5,6 @@
 // with hkpMultiRayShape (fn_82D3A990). The two words at +0x8 and +0xC are
 // cleared in the constructor body; their names are not known.
 #include "havok/hkBase.h"
-#include "havok/hkSingleton.h"
-
-class hkOstream;
-
-class hkTraceStream : public hkReferencedObject, public hkSingleton<hkTraceStream> {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_BASE);
-    struct Title {
-        char m_value[32];
-    };
-    hkTraceStream()
-    {
-        m_stream = HK_NULL;
-        m_unknownC = 0;
-    }
-
-    hkOstream *m_stream;      // +0x8
-    hkInt32 m_unknownC;       // +0xC
-    hkArray<Title> m_titles;  // +0x10
-};
+#include "havok/hkTraceStream.h"
 
 hkReferencedObject *HK_CALL createhkTraceStream() { return new hkTraceStream(); }

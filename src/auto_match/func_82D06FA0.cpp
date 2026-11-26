@@ -1,10 +1,6 @@
 // finishLoadedObjecthkMemoryMeshShape: the finish function in hkMemoryMeshShape's hkTypeInfo (HK_REFLECTION_DEFINE_VIRTUAL, static in Havok). Only m_name's finish constructor is out of line (fn_82CED308).
 #include "havok/hkBase.h"
-
-class hkMeshShape : public hkReferencedObject {
-public:
-    hkMeshShape(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
+#include "havok/hkMeshShape.h"
 
 class hkMemoryMeshShape : public hkMeshShape {
 public:

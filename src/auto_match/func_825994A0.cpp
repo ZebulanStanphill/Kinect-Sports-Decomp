@@ -9,19 +9,16 @@
 // passed into receive() from the loop and case 10 comes before the cases that use the thread name.
 /* The XDK's ppcintrinsics.h defines __lwsync() as this __emit. */
 
-#include "havok/hkFlags.h"
+#include "havok/hkMemorySystem.h"
 
 extern "C" void __emit(unsigned int opcode);
 #define __lwsync() __emit(0x7C2004AC)
 
 inline void *operator new(unsigned int, void *p) { return p; }
 
-class hkMemoryRouter;
-class hkMemorySystem;
 extern "C" {
 void fn_82CE5430(hkMemoryRouter *self);      // hkMemoryRouter::hkMemoryRouter()
 hkMemoryRouter &fn_82CE5420(void);           // hkMemoryRouter::getInstance()
-hkMemorySystem &fn_82CE7310(void);           // hkMemorySystem::getInstance()
 void fn_82CE7888(hkMemoryRouter *r);         // hkBaseSystem::initThread(hkMemoryRouter *)
 }
 
@@ -29,20 +26,6 @@ class hkMemoryRouter {
 public:
     __forceinline hkMemoryRouter() { fn_82CE5430(this); }
     char m_data[0x20];
-};
-
-class hkMemorySystem {
-public:
-    enum FlagBits {
-        FLAG_PERSISTENT = 1,
-        FLAG_TEMPORARY = 2,
-        FLAG_ALL = FLAG_PERSISTENT | FLAG_TEMPORARY
-    };
-    typedef hkFlags<FlagBits, int> Flags;
-    virtual ~hkMemorySystem();
-    virtual hkMemoryRouter *mainInit(void *info, Flags f = FLAG_ALL);
-    virtual int mainQuit(Flags f = FLAG_ALL);
-    virtual void threadInit(hkMemoryRouter &r, const char *name, Flags f = FLAG_ALL);
 };
 
 // Per-thread state (fn_82599308 creates it on first use and keeps it in a TLS slot).
@@ -144,7 +127,7 @@ extern "C" void fn_825994A0(void)
             case 6:
                 fn_82599308()->count = 0;
                 new (&fn_82599308()->router) hkMemoryRouter;
-                fn_82CE7310().threadInit(fn_82599308()->router, "hkCpuJobThreadPool");
+                hkMemorySystem::getInstance().threadInit(fn_82599308()->router, "hkCpuJobThreadPool");
                 fn_82CE7888(&fn_82599308()->router);
                 reply();
                 break;
@@ -153,7 +136,7 @@ extern "C" void fn_825994A0(void)
                 reply();
                 break;
             case 8:
-                fn_82CE7310().threadInit(fn_82CE5420(), "hkCpuJobThreadPool");
+                hkMemorySystem::getInstance().threadInit(fn_82CE5420(), "hkCpuJobThreadPool");
                 fn_82CE7888(&fn_82CE5420());
                 reply();
                 break;

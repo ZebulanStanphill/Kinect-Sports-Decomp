@@ -3,11 +3,7 @@
 // it leaves r4/r5 alone and reuses bodyB in r5 after the call (an inline/COMDAT definition does not).
 #include "havok/hkBase.h"
 #include "havok/hkpPhantomAgent.h"
-
-class hkpPhantomCallbackShape : public hkpShape {
-public:
-    virtual void phantomEnterEvent(const hkpCollidable *collidableA, const hkpCollidable *collidableB, const hkpCollisionInput &env);
-};
+#include "havok/hkpPhantomCallbackShape.h"
 
 hkpPhantomAgent::hkpPhantomAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, hkpContactMgr *contactMgr)
     : hkpCollisionAgent(contactMgr)

@@ -1,4 +1,6 @@
 #include "havok/hkBase.h"
+#include "havok/hkpSerializedAgentNnEntry.h"
+
 struct Agent { unsigned char pad[3], size; };
 struct Sector {
  char pad[0x58]; int lastSize; Agent **entries; int count;
@@ -8,34 +10,14 @@ struct World {
  void *arg1; int arg2;
  char pad3c[0x3c]; void *filter;
 };
-struct ContactAtomHeader {
- unsigned short type;
- char pad[14];
- ContactAtomHeader() : type(22) {}
-};
-struct ContactData {
- unsigned short a,b;
- unsigned int words[7];
- ContactData() : a(0),b(3) { for(int i=0;i<7;++i) words[i]=0; }
-};
-struct ContactAtom : ContactAtomHeader { ContactData data; };
-struct Tail {
- hkArray<int> a,b;
- int kind,count;
- Tail() : kind(0x103),count(1) {}
-};
-struct __declspec(align(16)) hkpSerializedAgentNnEntry : hkReferencedObject {
- void *a,*b;
- unsigned int x,y;
- hkBool flag;
- char pad19[7];
- ContactAtom atom;
- hkArray<int> arrayA, arrayB, arrayC;
- char pad74[0x80];
- Tail state;
- char tail[12];
- hkpSerializedAgentNnEntry() : a(0),b(0),x(-1),y(-1),flag(0) {}
-};
+// hkpSerializedAgentNnEntry's constructor is out of line (82DF86E0) and inlined here, so the unit defines it.
+HK_FORCE_INLINE hkpSerializedAgentNnEntry::hkpSerializedAgentNnEntry()
+    : m_bodyA(HK_NULL), m_bodyB(HK_NULL), m_bodyAId(hkUlong(-1)), m_bodyBId(hkUlong(-1)), m_useEntityIds(false)
+{
+    *(hkUint32 *)m_endianCheckBuffer = 0x103;
+    m_version = 1;
+}
+
 extern "C" void fn_82DB9F80(hkArrayBase<Sector *> *, hkMemoryAllocator *, int, int, void *, int);
 extern "C" int fn_82DF6F28(void *, Agent *, void *, hkpSerializedAgentNnEntry *);
 extern "C" void fn_82DF3CE0(void *, hkpSerializedAgentNnEntry *);

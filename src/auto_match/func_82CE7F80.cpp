@@ -2,6 +2,7 @@
 #include "havok/hkBase.h"
 #include "havok/hkStdioStreamReader.h"
 #include "havok/hkNativeFileSystem.h"
+#include "havok/hkBufferedStreamReader.h"
 
 // hkStringBuf: an in-place string buffer (32 chars) on the temp allocator.
 // Its constructor and destructor are out of line and keep their fn_ names.
@@ -22,16 +23,6 @@ public:
 
 // The path converter the native file system applies to file names.
 extern "C" const char *(*lbl_8317F4E4)(const char *name, hkStringBuf &buf);
-
-class hkBufferedStreamReader : public hkStreamReader {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_STREAM);
-    hkBufferedStreamReader(hkStreamReader *s, int bufSize = 0x1000);
-    virtual hkBool isOk() const;
-    virtual int read(void *buf, int nbytes);
-    hkStreamReader *m_stream;   // +0x8
-    char m_buf[0x18];           // +0xC
-};
 
 hkStreamReader *hkNativeFileSystem::openReader(const char *name)
 {

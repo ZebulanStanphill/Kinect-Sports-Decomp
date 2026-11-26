@@ -1,16 +1,9 @@
+// hkpBreakOffPartsUtil::markPieceBreakable(hkpEntity *, hkpShapeKey, hkReal) (the name follows Havok's header):
+// creates the entity's LimitContactImpulseUtil if it has none and records the piece's maximum impulse (at least
+// 1 as an hkUFloat8) in its shape key map.
 #include "havok/hkBase.h"
 #include "havok/hkpEntity.h"
-class hkpBreakOffPartsUtil {
-public:
- class LimitContactImpulseUtil : public hkReferencedObject {
- public:
-  LimitContactImpulseUtil(hkpBreakOffPartsUtil *, hkpEntity *);
-  char pad[0x10];
-  float impulse;
-  hkArrayBase<unsigned char> values;
-  char tail[8];
- };
-};
+#include "havok/hkpBreakOffPartsUtil.h"
 extern "C" void fn_82CEA160(void *, hkMemoryAllocator *, unsigned int, unsigned int);
 template <class T> static HK_FORCE_INLINE T max2(T a,T b) { return a>b?a:b; }
 extern "C" void fn_82DEAF60(hkpBreakOffPartsUtil *self, hkpEntity *entity, unsigned int key, float impulse) {
@@ -22,5 +15,5 @@ extern "C" void fn_82DEAF60(hkpBreakOffPartsUtil *self, hkpEntity *entity, unsig
  value = valueFloat;
  value.m_value = (unsigned char)max2(1,(int)value.m_value);
  unsigned char byteValue=value.m_value;
- fn_82CEA160(&p->values, &hkMemoryRouter::getInstance().heap(), key, byteValue);
+ fn_82CEA160(&p->m_shapeKeyToMaxImpulse, &hkMemoryRouter::getInstance().heap(), key, byteValue);
 }

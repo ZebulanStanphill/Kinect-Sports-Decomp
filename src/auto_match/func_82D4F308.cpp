@@ -5,10 +5,6 @@
 #include "havok/hkBase.h"
 #include "havok/hkpStorageExtendedMeshShape.h"
 
-struct hkpNamedMeshMaterial : public hkpMeshMaterial {
-    hkStringPtr m_name;   // +0x4
-};
-
 hkpStorageExtendedMeshShape::MeshSubpartStorage::~MeshSubpartStorage()
 {
 }

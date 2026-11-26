@@ -3,11 +3,7 @@
 // Hierarchy from the RTTI: hkpSerializedDisplayMarkerList -> hkReferencedObject -> hkBaseObject; only the finish
 // constructors are declared.
 #include "havok/hkBase.h"
-
-class hkpSerializedDisplayMarkerList : public hkReferencedObject {
-public:
-    hkpSerializedDisplayMarkerList(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
+#include "havok/hkpSerializedDisplayMarkerList.h"
 
 const void *HK_CALL getVtablehkpSerializedDisplayMarkerList()
 {

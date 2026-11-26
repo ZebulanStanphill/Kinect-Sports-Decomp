@@ -10,35 +10,10 @@
 #include "havok/hkBase.h"
 #include "havok/hkKdTreeCpuBroadphaseBundleCastCollector.h"
 #include "havok/hkpWorldRayCastInput.h"
+#include "havok/hkFourTransposedPoints.h"
+#include "havok/hkpShapeRayCastOutput.h"
 
-typedef hkUint32 hkpShapeKey;
-#define HK_INVALID_SHAPE_KEY 0xffffffff
 class hkpCollidable;
-
-struct hkpShapeRayCastCollectorOutput {
-    HK_FORCE_INLINE hkpShapeRayCastCollectorOutput() { reset(); }
-    HK_FORCE_INLINE void reset()
-    {
-        m_hitFraction = 1.0f;
-        m_extraInfo = -1;
-    }
-    hkVector4 m_normal;     // +0x0
-    hkReal m_hitFraction;   // +0x10
-    int m_extraInfo;        // +0x14
-    int m_pad[2];           // +0x18
-};
-
-struct hkpShapeRayCastOutput : public hkpShapeRayCastCollectorOutput {
-    enum { MAX_HIERARCHY_DEPTH = 8 };
-    HK_FORCE_INLINE hkpShapeRayCastOutput() { _reset(); }
-    HK_FORCE_INLINE void _reset()
-    {
-        m_shapeKeyIndex = 0;
-        m_shapeKeys[0] = HK_INVALID_SHAPE_KEY;
-    }
-    hkpShapeKey m_shapeKeys[MAX_HIERARCHY_DEPTH];   // +0x20
-    int m_shapeKeyIndex;                            // +0x40
-};
 
 struct hkpWorldRayCastOutput : public hkpShapeRayCastOutput {
     HK_FORCE_INLINE hkpWorldRayCastOutput() : m_rootCollidable(HK_NULL) {}
@@ -65,10 +40,6 @@ struct RayBundle {
 };
 
 class hkKdTree;
-struct hkFourTransposedPoints {
-    hkVector4 m_vertices[3];
-};
-
 extern "C" {
 extern hkUint32 lbl_83180400[];   // hkVector4Comparison masks for 0..4 active rays
 hkBool fn_83084820(const hkKdTree *tree, const hkFourTransposedPoints &from, const hkFourTransposedPoints &to,

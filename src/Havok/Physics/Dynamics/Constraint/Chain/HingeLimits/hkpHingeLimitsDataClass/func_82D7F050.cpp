@@ -3,12 +3,7 @@
 // Hierarchy from the RTTI: hkpHingeLimitsData -> hkpConstraintData -> hkReferencedObject -> hkBaseObject; only the finish
 // constructors are declared.
 #include "havok/hkBase.h"
-#include "havok/hkpConstraintData.h"
-
-class hkpHingeLimitsData : public hkpConstraintData {
-public:
-    hkpHingeLimitsData(hkFinishLoadedObjectFlag flag) : hkpConstraintData(flag) {}
-};
+#include "havok/hkpHingeLimitsData.h"
 
 const void *HK_CALL getVtablehkpHingeLimitsData()
 {

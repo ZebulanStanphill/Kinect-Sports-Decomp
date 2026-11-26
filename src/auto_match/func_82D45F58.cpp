@@ -7,11 +7,7 @@
 // a null check). The constructor is HK_FORCE_INLINE, or the explicit call stays a call.
 #include "havok/hkBase.h"
 #include "havok/hkpShape.h"
-#include "havok/hkpMeshMaterial.h"
-
-struct hkpNamedMeshMaterial : public hkpMeshMaterial {
-    hkStringPtr m_name;   // +0x4
-};
+#include "havok/hkpNamedMeshMaterial.h"
 
 class hkpCompressedMeshShape : public hkpShapeCollection {
 public:

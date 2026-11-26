@@ -1,30 +1,12 @@
 #include "havok/hkpCdBody.h"
 #include "havok/hkpBoxShape.h"
-
-struct hkpProcessCollisionInput {
-    char pad0[0x8];
-    hkReal m_tolerance;          // 0x08
-};
-
-struct hkpAgent3ProcessInput {
-    const hkpCdBody *m_bodyA;              // 0x00
-    const hkpCdBody *m_bodyB;              // 0x04
-    const hkpCdBody *m_overrideBodyA;      // 0x08
-    const hkpProcessCollisionInput *m_input; // 0x0c
-    void *m_contactMgr;                    // 0x10
-    char pad14[0xc];
-    hkTransform m_aTb;                     // 0x20
-};
+#include "havok/hkpBoxBoxManifold.h"
+#include "havok/hkpAgent3ProcessInput.h"
+#include "havok/hkpProcessCollisionInput.h"
 
 struct hkpAgentEntry {
     char pad0[2];
     unsigned char m_numContactPoints;      // 0x02
-};
-
-struct hkpBoxBoxManifold {
-    char pad0[0x21];
-    unsigned char m_numPoints;             // 0x21
-    char pad22[0x1e];
 };
 
 class hkpBoxBoxCollisionDetection {

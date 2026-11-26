@@ -1,4 +1,6 @@
 #include "havok/hkTransform.h"
+#include "havok/hkpShape.h"
+#include "havok/hkpCdVertex.h"
 
 __forceinline void hkVector4::setRotatedDir(const hkRotation &r, const hkVector4 &b)
 {
@@ -27,22 +29,10 @@ __forceinline void hkVector4::setTransformedInversePos(const hkTransform &t, con
     setRotatedInverseDir(t.m_rotation, d);
 }
 
-class hkpConvexShape_82D69B10 {
-public:
-    virtual void f0(); virtual void f1(); virtual void f2(); virtual void f3(); virtual void f4();
-    virtual void f5(); virtual void f6(); virtual void f7(); virtual void f8(); virtual void f9();
-    virtual void f10(); virtual void f11(); virtual void f12(); virtual void f13(); virtual void f14();
-    virtual void convertVertexIdsToVertices(const unsigned short *ids, int numIds, hkVector4 *verticesOut) const;   // 0x3c
-    int m_userData;    // 0x04
-    int m_type;        // 0x08
-    int pad0c;
-    float m_radius;    // 0x10
-};
-
 struct hkpCdBody_82D69B10 {
-    const hkpConvexShape_82D69B10 *m_shape;   // 0x00
-    unsigned int m_shapeKey;                  // 0x04
-    const hkTransform *m_motion;              // 0x08
+    const hkpConvexShape *m_shape;   // 0x00
+    unsigned int m_shapeKey;         // 0x04
+    const hkTransform *m_motion;     // 0x08
 };
 
 struct hkpGskInput_82D69B10 {
@@ -67,19 +57,19 @@ struct hkpGsk_82D69B10 {
     int m_doNotHandlePenetration;   // 0x10
     int m_featureChange;        // 0x14
     char pad18[0x8];
-    hkVector4 m_verticesA[12];  // 0x20
-    hkVector4 m_verticesB[10];  // 0xe0
+    hkpCdVertex m_verticesA[12];    // 0x20
+    hkpCdVertex m_verticesB[10];    // 0xe0
 };
 
-extern "C" int fn_82DD5FF0(hkpGsk_82D69B10 *gsk, const hkpConvexShape_82D69B10 *shapeA,
-                           const hkpConvexShape_82D69B10 *shapeB, const hkTransform &aTb, hkVector4 *separatingNormal);
+extern "C" int fn_82DD5FF0(hkpGsk_82D69B10 *gsk, const hkpConvexShape *shapeA,
+                           const hkpConvexShape *shapeB, const hkTransform &aTb, hkVector4 *separatingNormal);
 extern "C" void fn_82DD4940(hkpGsk_82D69B10 *gsk, hkpGskCache_82D69B10 *cache);
 
 extern "C" void fn_82D69B10(const hkpGskInput_82D69B10 &input, const void *unused, hkpGskCache_82D69B10 *cache,
                             hkVector4 &pointOut)
 {
-    const hkpConvexShape_82D69B10 *shapeA = input.m_bodyA->m_shape;
-    const hkpConvexShape_82D69B10 *shapeB = input.m_bodyB->m_shape;
+    const hkpConvexShape *shapeA = input.m_bodyA->m_shape;
+    const hkpConvexShape *shapeB = input.m_bodyB->m_shape;
     hkVector4 sep;
     hkpGsk_82D69B10 gsk;
     gsk.m_dimA = cache->m_dimA;

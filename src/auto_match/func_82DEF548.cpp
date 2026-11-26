@@ -4,6 +4,7 @@
 #include "havok/hkpRigidBodyCinfo.h"
 #include "havok/hkpSphereShape.h"
 #include "havok/hkpWorld.h"
+#include "havok/hkQueue.h"
 
 extern "C" {
 void fn_82DEA600(const hkpShape *shape, hkReal mass, hkpRigidBodyCinfo &ci);
@@ -28,36 +29,6 @@ public:
 };
 
 template <typename T> class hkQueue;
-extern "C" void fn_82DEF8C8(hkQueue<hkpRigidBody *> *q, int capacity);
-template <typename T> class hkQueue {
-public:
-	HK_FORCE_INLINE int getSize() const { return m_elementsInUse; }
-	HK_FORCE_INLINE void setCapacity(int n) { fn_82DEF8C8(this, n); }
-	HK_FORCE_INLINE void increaseCapacity()
-	{
-		if (m_capacity == 0) setCapacity(8);
-		else setCapacity(m_capacity * 2);
-	}
-	HK_FORCE_INLINE void enqueue(const T &element)
-	{
-		if (m_elementsInUse >= m_capacity) increaseCapacity();
-		if (m_tail == m_capacity) m_tail = 0;
-		m_data[m_tail++] = element;
-		m_elementsInUse++;
-	}
-	HK_FORCE_INLINE void dequeue(T &data)
-	{
-		data = m_data[m_head];
-		if (++m_head == m_capacity) m_head = 0;
-		m_elementsInUse--;
-	}
-	T *m_data;
-	int m_capacity;
-	int m_head;
-	int m_tail;
-	int m_elementsInUse;
-};
-
 // Linker-folded float constants. 0.2f, 0.4f, 0.05f, 200.0f, 2.0f and 1.0f are plain literals: the compiler
 // names them __real@..., which is what the original refers to (symbols.txt for 200.0f, 2.0f and 1.0f, the
 // rename map for the others).

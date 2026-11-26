@@ -1,16 +1,9 @@
+// hkpBreakOffPartsUtil::markEntityBreakable(hkpEntity *, hkReal) (the name follows Havok's header): creates the
+// entity's LimitContactImpulseUtil if it has none and sets its maximum impulse (at least 1 as an hkUFloat8).
 #include "havok/hkBase.h"
 #include "havok/hkpEntity.h"
+#include "havok/hkpBreakOffPartsUtil.h"
 
-class hkpBreakOffPartsUtil : public hkReferencedObject {
-public:
-    class LimitContactImpulseUtil : public hkReferencedObject {
-    public:
-        LimitContactImpulseUtil(hkpBreakOffPartsUtil *, hkpEntity *);
-        char pad[0xC];
-        unsigned char m_limit;
-        char tail[0x1B];
-    };
-};
 extern "C" void fn_82DEB018(hkpBreakOffPartsUtil *self, hkpEntity *entity, float impulse)
 {
     hkpBreakOffPartsUtil::LimitContactImpulseUtil *util =
@@ -21,5 +14,5 @@ extern "C" void fn_82DEB018(hkpBreakOffPartsUtil *self, hkpEntity *entity, float
     encoded = value;
     int limit=encoded.m_value;
     if (limit < 1) limit=1;
-    util->m_limit = limit;
+    util->m_maxImpulse.m_value = limit;
 }

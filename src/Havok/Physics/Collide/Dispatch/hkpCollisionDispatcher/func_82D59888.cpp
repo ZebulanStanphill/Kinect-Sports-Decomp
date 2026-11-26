@@ -7,13 +7,7 @@
 #include "havok/hkOstream.h"
 #include "havok/hkpCollisionDispatcher.h"
 #include "havok/hkError.h"
-
-class hkStringBuf {
-public:
-    hkStringBuf(const char *s0, const char *s1, const char *s2 = HK_NULL, const char *s3 = HK_NULL,
-        const char *s4 = HK_NULL, const char *s5 = HK_NULL);
-    hkInplaceArray<char, 32, hkContainerTempAllocator> m_string;
-};
+#include "havok/hkStringBuf.h"
 
 class hkErrStream;
 extern "C" {

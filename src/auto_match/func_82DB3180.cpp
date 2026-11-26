@@ -1,6 +1,6 @@
 #include "havok/hkBase.h"
 #include "havok/hkpEntityListener.h"
-class hkpPhantomListener { public: virtual ~hkpPhantomListener() {} };
+#include "havok/hkpPhantomListener.h"
 class hkpTreeWorldManager : public hkReferencedObject {
 public:
  hkpTreeWorldManager(): b(0),c(0) {}

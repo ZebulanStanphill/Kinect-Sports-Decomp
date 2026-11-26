@@ -7,10 +7,6 @@
 // extension) expands it without placement new's null check (as in func_82D4FF88.cpp).
 #include "havok/hkpStorageExtendedMeshShape.h"
 
-struct hkpNamedMeshMaterial : public hkpMeshMaterial {
-    hkStringPtr m_name;   // +0x4
-};
-
 HK_FORCE_INLINE hkpStorageExtendedMeshShape::MeshSubpartStorage::MeshSubpartStorage(hkFinishLoadedObjectFlag flag)
     : hkReferencedObject(flag), m_vertices(flag), m_indices8(flag), m_indices16(flag), m_indices32(flag),
       m_materialIndices(flag), m_materials(flag), m_namedMaterials(flag), m_materialIndices16(flag)

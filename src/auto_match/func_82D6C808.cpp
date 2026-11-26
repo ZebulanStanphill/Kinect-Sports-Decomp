@@ -10,12 +10,7 @@
 #include "havok/hkpShapeCollectionAgent.h"
 #include "havok/hkpCollisionDispatcher.h"
 #include "havok/hkpCollisionFilter.h"
-
-// hkpShapeBuffer: the 512-byte, 16-byte aligned scratch space getChildShape builds child shapes in.
-class __declspec(align(16)) hkpShapeBuffer {
-public:
-    hkUint8 m_buffer[0x200];
-};
+#include "havok/hkpShapeBuffer.h"
 
 hkpShapeCollectionAgent::hkpShapeCollectionAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
                                                  const hkpCollisionInput &input, hkpContactMgr *mgr)

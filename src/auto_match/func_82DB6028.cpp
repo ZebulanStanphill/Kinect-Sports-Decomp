@@ -1,8 +1,8 @@
 // hkpContinuousSimulation::hkpContinuousSimulation(hkpWorld *) (Physics/Dynamics/World/Simulation/Continuous/hkpContinuousSimulation.cpp); hkpSimulation's and the TOI resource manager's constructors are out of line.
 #include "havok/hkBase.h"
 #include "havok/hkpWorld.h"
-#include "havok/hkpToiResourceMgr.h"
 #include "havok/hkpContinuousSimulation.h"
+#include "havok/hkpDefaultToiResourceMgr.h"
 
 // hkArrayUtil::_reserve is out of line. hkArrayBase::_reserve inlines the growth policy.
 template <typename T>
@@ -16,13 +16,6 @@ HK_FORCE_INLINE void hkArrayReserve(hkArray<T> &arr, int n)
         hkArrayUtil::_reserve(a, &arr, newSize, int(sizeof(T)));
     }
 }
-
-class hkpDefaultToiResourceMgr : public hkpToiResourceMgr {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_DYNAMICS);
-    hkpDefaultToiResourceMgr();
-    char m_data[0x8];
-};
 
 hkpContinuousSimulation::hkpContinuousSimulation(hkpWorld *world) : hkpSimulation(world)
 {
