@@ -1,5 +1,6 @@
 // hkxEnvironment::setVariable(name, value): sets, adds or (value == 0) removes a variable.
 #include "havok/hkArray.h"
+#include "havok/hkStringPtr.h"
 
 // One environment variable: two hkStringPtr (name, value), 8 bytes.
 struct Variable_82E04DE8 {
@@ -14,10 +15,7 @@ struct Environment_82E04DE8 {
 };
 
 extern "C" {
-void fn_82CED2F8(const char **self);                     // hkStringPtr::hkStringPtr()
 void fn_82CED540(const char **self, const char **other); // hkStringPtr::hkStringPtr(const hkStringPtr &)
-void fn_82CED628(const char **self, const char *string); // hkStringPtr::operator=(const char *)
-void fn_82CED5B8(const char **self);                     // hkStringPtr::~hkStringPtr()
 int fn_82E04B20(Environment_82E04DE8 *self, const char *name); // index of a variable, or -1
 }
 
@@ -40,8 +38,8 @@ extern "C" int fn_82E04DE8(Environment_82E04DE8 *self, const char *name, const c
             return 1;
         }
         Variable_82E04DE8 *removed = &self->variables.m_data[index];
-        fn_82CED5B8(&removed->value);
-        fn_82CED5B8(&removed->name);
+        fn_82CED5B8(reinterpret_cast<hkStringPtr *>(&removed->value));
+        fn_82CED5B8(reinterpret_cast<hkStringPtr *>(&removed->name));
         self->variables.m_size--;
         if (self->variables.m_size != index) {
             CopyWords(self->variables.m_data + index, self->variables.m_data + self->variables.m_size, 2);
@@ -49,14 +47,14 @@ extern "C" int fn_82E04DE8(Environment_82E04DE8 *self, const char *name, const c
         return 0;
     }
     if (index != -1) {
-        fn_82CED628(&self->variables.m_data[index].value, value);
+        *reinterpret_cast<hkStringPtr *>(&self->variables.m_data[index].value) = value;
         return 0;
     }
     Variable_82E04DE8 newVar;
-    fn_82CED2F8(&newVar.name);
-    fn_82CED2F8(&newVar.value);
-    fn_82CED628(&newVar.name, name);
-    fn_82CED628(&newVar.value, value);
+    fn_82CED2F8(reinterpret_cast<hkStringPtr *>(&newVar.name));
+    fn_82CED2F8(reinterpret_cast<hkStringPtr *>(&newVar.value));
+    *reinterpret_cast<hkStringPtr *>(&newVar.name) = name;
+    *reinterpret_cast<hkStringPtr *>(&newVar.value) = value;
     hkArrayBase<Variable_82E04DE8> *variables = &self->variables;
     hkMemoryAllocator &alloc = hkMemoryRouter::getInstance().heap();
     if (variables->m_size == variables->getCapacity()) {
@@ -68,7 +66,7 @@ extern "C" int fn_82E04DE8(Environment_82E04DE8 *self, const char *name, const c
         fn_82CED540(&slot->value, &newVar.value);
     }
     variables->m_size++;
-    fn_82CED5B8(&newVar.value);
-    fn_82CED5B8(&newVar.name);
+    fn_82CED5B8(reinterpret_cast<hkStringPtr *>(&newVar.value));
+    fn_82CED5B8(reinterpret_cast<hkStringPtr *>(&newVar.name));
     return 0;
 }

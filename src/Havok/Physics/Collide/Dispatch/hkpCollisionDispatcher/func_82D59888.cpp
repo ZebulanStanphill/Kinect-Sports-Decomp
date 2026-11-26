@@ -1,4 +1,4 @@
-// hkpCollisionDispatcher::debugPrintTable (Havok, /O2).
+// hkpCollisionDispatcher::debugPrintTable() (Havok, /O2); the name is the game's report section string.
 // hkStringBuf(const char *s0, const char *s1, s2..s5 = HK_NULL) is the out-of-line
 // constructor fn_82D05288, renamed so the call is a real C++ constructor call (this
 // first, then the defaulted s2..s5 in order). hkErrStream keeps its fn_ constructor
@@ -39,11 +39,11 @@ public:
     char m_data[16];
 };
 
-extern "C" void fn_82D59888(hkpCollisionDispatcher *self)
+void hkpCollisionDispatcher::debugPrintTable()
 {
-    const int MAX_TYPES = hkpCollisionDispatcher::HK_MAX_SHAPE_TYPE;
+    const int MAX_TYPES = HK_MAX_SHAPE_TYPE;
     lbl_8323B464->sectionBegin(0x5e4345e4, "hkpCollisionDispatcher::debugPrintTable");
-    if (self->m_debugAgent2Table && self->m_debugAgent2TablePred) {
+    if (m_debugAgent2Table && m_debugAgent2TablePred) {
         char buffer[512];
         for (int a = 0, row = 0; row < MAX_TYPES * MAX_TYPES; row += MAX_TYPES, ++a) {
             hkStringBuf str("\nEntries for (continuous)", fn_82D6F1D8(a));
@@ -53,7 +53,7 @@ extern "C" void fn_82D59888(hkpCollisionDispatcher *self)
                 lbl_8323B464->message(0, -1, buffer, ".\\Dispatch\\hkpCollisionDispatcher.cpp", 0x222);
             }
             for (int b = 1; b < MAX_TYPES; ++b) {
-                hkpCollisionDispatcher::DebugEntry *e = &self->m_debugAgent2TablePred[row + b];
+                DebugEntry *e = &m_debugAgent2TablePred[row + b];
                 if (e->m_priority < 100) {
                     char text[256];
                     const char *name = fn_82D6F1D8(b);
@@ -74,7 +74,7 @@ extern "C" void fn_82D59888(hkpCollisionDispatcher *self)
                 lbl_8323B464->message(0, -1, buffer, ".\\Dispatch\\hkpCollisionDispatcher.cpp", 0x239);
             }
             for (int b = 1; b < MAX_TYPES; ++b) {
-                hkpCollisionDispatcher::DebugEntry *e = &self->m_debugAgent2Table[row + b];
+                DebugEntry *e = &m_debugAgent2Table[row + b];
                 if (e->m_priority < 100) {
                     char text[256];
                     const char *name = fn_82D6F1D8(b);

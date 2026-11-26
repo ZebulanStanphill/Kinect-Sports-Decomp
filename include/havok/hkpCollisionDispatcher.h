@@ -13,11 +13,6 @@ class hkpCdBodyPairCollector;
 class hkpCdPointCollector;
 struct hkpLinearCastCollisionInput;
 
-// Out of line and under their fn_ names; the member names are Havok's, chosen by what the functions do
-// (see the class comment) and where the constructor and the destructor call them.
-extern "C" void fn_82D585E0(hkpCollisionDispatcher *self);   // resetCreationFunctions
-extern "C" void fn_82D58828(hkpCollisionDispatcher *self);   // disableDebugging
-
 // hkpCollisionQualityInfo (0x40 bytes): the settings for one pair of collidable quality types. Only the two
 // members the game's code is seen to read are named: the agent sector job (82DC39A0) tests
 // m_useContinuousPhysics, and hkpSimpleConstraintContactMgr's constructor (82DAC350) takes the
@@ -35,15 +30,15 @@ struct hkpCollisionQualityInfo {
 //  - the constructor (82D596C0) stores its first argument at +0x8, fills the 8x8 table at +0xC with its
 //    second (adding a reference each time), writes the 32 masks 1 << i at +0x110, clears the two hkBools
 //    of 64 AgentFuncs from +0x9A0 and parts of 16 entries of 0x50 bytes from +0x16B0, the counts at +0x190
-//    (through fn_82D585E0) and +0xEA0, the flags at +0x1E20..+0x1E23 (the last is set to true) and the
+//    (through resetCreationFunctions) and +0xEA0, the flags at +0x1E20..+0x1E23 (the last is set to true) and the
 //    four pointers from +0x1E30;
 //  - the destructor (82D597D8) releases the 8x8 table and destroys the hkArray at +0x1E24;
 //  - getNewCollisionAgent reads the 32x32 agent type tables at +0x1A0 and +0x5A0 (predictive) and the
 //    0x14-byte AgentFuncs; 82DAC350 and 82DC39A0 read the quality table at +0x1BB0 and the quality infos
 //    at +0x1C20; debugPrintTable (82D59888) reads the two tables at +0x1E30 and +0x1E34;
-//  - fn_82D585E0 sets both counts to 1, clears the four type tables (+0x1A0, +0x5A0, +0xEB0, +0x12B0),
+//  - resetCreationFunctions (82D585E0) sets both counts to 1, clears the four type tables (+0x1A0, +0x5A0, +0xEB0, +0x12B0),
 //    fills the first AgentFuncs and the first agent 3 entry, and sets the priority of every cell of the
-//    four debug tables (0xC00 bytes each) to 100; fn_82D58828 frees those tables.
+//    four debug tables (0xC00 bytes each) to 100; disableDebugging (82D58828) frees those tables.
 // The member names follow Havok's header. The type tables and the quality infos start on 16-byte
 // boundaries, with unused bytes before them.
 class hkpCollisionDispatcher : public hkReferencedObject {
@@ -137,8 +132,11 @@ public:
         int idx = m_agent2Types[typeA][typeB];
         return m_agent2Func[idx].m_getClosestPointFunc;
     }
-    void resetCreationFunctions() { fn_82D585E0(this); }
-    void disableDebugging() { fn_82D58828(this); }
+    // Out of line. debugPrintTable's name is the game's (its report section string); the other two are
+    // Havok's, chosen by what the functions do and where the constructor and the destructor call them.
+    void resetCreationFunctions();   // 82D585E0
+    void debugPrintTable();          // 82D59888
+    void disableDebugging();         // 82D58828
     CollisionQualityIndex getCollisionQualityIndex(hkInt8 a, hkInt8 b) { return m_collisionQualityTable[a][b]; }
     hkpCollisionQualityInfo *getCollisionQualityInfo(CollisionQualityIndex index)
     {

@@ -73,8 +73,8 @@ public:
         d(2, 1) = s(1, 2);
         d(1, 2) = s(2, 1);
     }
-    // this = a * b. Out of line at 82CEC6E0, which keeps its fn_ name (units call fn_82CEC6E0); 82CEC730,
-    // from the same source file, has it inline and defines it so itself.
+    // this = a * b. Out of line at 82CEC6E0; 82CEC730, from the same source file, has it inline and
+    // defines it so itself.
     void setMul(const hkMatrix3 &a, const hkMatrix3 &b);
     void mul(const hkSimdReal &scale);
     // this = transpose(a) * b, inline in the game (82DA21D8 has it twice).

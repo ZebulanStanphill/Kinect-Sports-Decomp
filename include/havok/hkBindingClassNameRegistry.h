@@ -7,7 +7,8 @@
 // hkBindingClassNameRegistry (Common/Serialize/Util/hkBindingClassNameRegistry.h, 0x4C bytes): a chained registry with
 // two string maps between class names (both directions). The list at +0x20
 // (16-byte elements) is constructed inline as an empty hkArray; its destructor
-// is out of line (fn_82E1BB60). Member names are not known.
+// is out of line (fn_82E1BB60). Member names are not known. The destructor is
+// out of line (82E1BD08); the deleting destructor, in the same file, inlines it.
 extern "C" void fn_82E1BB60(void *self);   // ~list at +0x20
 
 struct hkBindingList {

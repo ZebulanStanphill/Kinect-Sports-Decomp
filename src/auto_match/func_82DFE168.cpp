@@ -1,5 +1,6 @@
-#include "havok/hkBase.h"
-extern "C" void fn_82D95638(void*);
+// hkpVehicleInstance::~hkpVehicleInstance() (it keeps its fn_ name): releases the components, destroys the
+// arrays and runs the destructor of its base, hkpUnaryAction.
+#include "havok/hkpAction.h"
 struct Bytes224 { char a[224]; };
 class hkpVehicleInstance:public hkReferencedObject {
 public:
@@ -9,4 +10,4 @@ public:
  if(r[0])r[0]->removeReference();if(r[1])r[1]->removeReference();if(r[2])r[2]->removeReference();if(r[3])r[3]->removeReference();if(r[4])r[4]->removeReference();if(r[5])r[5]->removeReference();if(r[6])r[6]->removeReference();if(r[7])r[7]->removeReference();if(r[8])r[8]->removeReference();if(r[10])r[10]->removeReference();if(r9c)r9c->removeReference();if(r[9])r[9]->removeReference();
  }
 };
-extern "C" void fn_82DFE168(hkpVehicleInstance *self) { union{void *ptr;char buf[sizeof(hkpVehicleInstance)];}u;hkFinishLoadedObjectFlag f;new(u.buf)hkpVehicleInstance(f);*(void**)self=u.ptr;self->cleanup();self->c.~hkArray();self->b.~hkArray();self->a.~hkArray();fn_82D95638(self); }
+extern "C" void fn_82DFE168(hkpVehicleInstance *self) { union{void *ptr;char buf[sizeof(hkpVehicleInstance)];}u;hkFinishLoadedObjectFlag f;new(u.buf)hkpVehicleInstance(f);*(void**)self=u.ptr;self->cleanup();self->c.~hkArray();self->b.~hkArray();self->a.~hkArray();((hkpUnaryAction *)self)->hkpUnaryAction::~hkpUnaryAction(); }

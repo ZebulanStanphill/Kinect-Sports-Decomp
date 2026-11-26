@@ -10,6 +10,7 @@ class hkpCachingShapePhantom : public hkpShapePhantom {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_DYNAMICS);
     hkpCachingShapePhantom(const hkpShape *shape, const hkTransform &transform, hkUint32 collisionFilterInfo = 0);
+    hkpCachingShapePhantom(hkFinishLoadedObjectFlag flag);   // out of line (82D7E738)
     virtual ~hkpCachingShapePhantom();
     // ??_7hkpCachingShapePhantom@@6B@ fills every slot hkpShapePhantom leaves pure, and
     // updateShapeCollectionFilter (82D9BC00).

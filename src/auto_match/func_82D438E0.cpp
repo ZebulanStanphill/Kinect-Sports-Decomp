@@ -1,50 +1,6 @@
 // hkpExtendedMeshShape::hkpExtendedMeshShape(hkFinishLoadedObjectFlag) (Physics/Collide/Shape/Compound/Collection/
-// ExtendedMeshShape/hkpExtendedMeshShape.cpp). It keeps its fn_ name: the Matching getVtable unit (func_82D3A220)
-// calls it. The fn_ wrapper runs the forced-inline finish constructor with MSVC's explicit constructor call
-// (self->C::C(flag)), which, unlike placement new, adds no null check. The subpart fields must be hkEnum (a class
-// wrapper): with plain hkUint8 fields the second loop's add operands come out swapped.
-#include "havok/hkBase.h"
-#include "havok/hkEnum.h"
-#include "havok/hkpShape.h"
-
-class hkpExtendedMeshShape : public hkpShapeCollection {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SHAPE);
-    enum SubpartType { SUBPART_TRIANGLES, SUBPART_SHAPE };
-    enum MaterialIndexStridingType { MATERIAL_INDICES_INVALID, MATERIAL_INDICES_INT8, MATERIAL_INDICES_INT16 };
-
-    struct Subpart {
-        hkEnum<SubpartType, hkInt8> m_type;                       // +0x0
-        hkEnum<MaterialIndexStridingType, hkInt8> m_materialIndexStridingType;     // +0x1
-        hkInt16 m_materialStriding;              // +0x2
-        const void *m_materialIndexBase;         // +0x4
-    };
-    // 0x60 bytes, 16-byte aligned (it holds hkVector4s); copied with ld/std.
-    struct __declspec(align(16)) TrianglesSubpart : public Subpart {
-        hkUint32 m_words[2];
-        hkUint64 m_rest[10];
-    };
-    struct ShapesSubpart : public Subpart {
-        hkUint32 m_rest[(0x40 - 8) / 4];
-    };
-
-    hkpExtendedMeshShape(hkFinishLoadedObjectFlag flag);
-    virtual ~hkpExtendedMeshShape();
-    virtual int getNumChildShapes() const;
-    virtual hkpShapeKey getFirstKey() const;
-    virtual hkpShapeKey getNextKey(hkpShapeKey oldKey) const;
-    virtual const hkpShape *getChildShape(hkpShapeKey key, hkpShapeBuffer &buffer) const;
-
-    hkUint8 m_pad18[0x20 - 0x18];
-    TrianglesSubpart m_embeddedTrianglesSubpart;    // +0x20
-    hkUint8 m_pad80[0xB4 - 0x80];
-    hkArray<TrianglesSubpart> m_trianglesSubparts;  // +0xB4
-    hkArray<ShapesSubpart> m_shapesSubparts;        // +0xC0
-    hkArray<hkUint16> m_weldingInfo;                // +0xCC
-    hkUint8 m_weldingType;                          // +0xD8
-    hkUint32 m_padDC;
-    int m_defaultCollisionFilterInfo;               // +0xE0
-};
+// ExtendedMeshShape/hkpExtendedMeshShape.cpp), the out-of-line finish constructor. See havok/hkpExtendedMeshShape.h.
+#include "havok/hkpExtendedMeshShape.h"
 
 // hkArray::clearAndDeallocate() and hkArray::setDataUserFree(), which the shared header does not declare.
 template <typename T>
@@ -61,7 +17,7 @@ HK_FORCE_INLINE void setDataUserFree(hkArray<T> &a, T *ptr, int size, int capaci
     a.m_capacityAndFlags = capacity | hkArray<T>::DONT_DEALLOCATE_FLAG;
 }
 
-HK_FORCE_INLINE hkpExtendedMeshShape::hkpExtendedMeshShape(hkFinishLoadedObjectFlag flag)
+hkpExtendedMeshShape::hkpExtendedMeshShape(hkFinishLoadedObjectFlag flag)
     : hkpShapeCollection(flag), m_trianglesSubparts(flag), m_shapesSubparts(flag), m_weldingInfo(flag)
 {
     if (flag.m_finishing) {
@@ -84,10 +40,4 @@ HK_FORCE_INLINE hkpExtendedMeshShape::hkpExtendedMeshShape(hkFinishLoadedObjectF
             m_defaultCollisionFilterInfo = hkArray<TrianglesSubpart>::DONT_DEALLOCATE_FLAG;
     }
     m_type = HK_SHAPE_EXTENDED_MESH;
-}
-
-extern "C" hkpExtendedMeshShape *fn_82D438E0(hkpExtendedMeshShape *self, hkFinishLoadedObjectFlag flag)
-{
-    self->hkpExtendedMeshShape::hkpExtendedMeshShape(flag);
-    return self;
 }

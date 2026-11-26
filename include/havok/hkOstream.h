@@ -1,6 +1,6 @@
 // hkOstream (Common/Base/System/Io/OStream/hkOStream.h), 0xC bytes.
-// operator<<(char) is 82CEDAE8 and operator<<(const char *) 82CEDB38. Before them come operator<<(const void *) (82CED9E8, "%p")
-// and operator<<(hkBool) (82CEDA50, "true"/"false"), as in Havok's declaration order.
+// operator<<(const void *) is 82CED9E8 ("%p"), operator<<(hkBool) 82CEDA50 ("true"/"false"), operator<<(char)
+// 82CEDAE8 and operator<<(const char *) 82CEDB38, in Havok's declaration order.
 #ifndef HAVOK_HKOSTREAM_H
 #define HAVOK_HKOSTREAM_H
 
@@ -23,9 +23,8 @@ public:
     virtual const hkClass *getClassType() const;
     virtual void calcContentStatistics(hkStatisticsCollector *collector, const hkClass *cls) const;
 
-    // 82CED9E8, fn_82CED9E8 in the symbol list: a unit that calls it needs
-    // the C++ name mapped to that (82E0A208 has the mapping).
     hkOstream &operator<<(const void *p);
+    hkOstream &operator<<(hkBool b);
     hkOstream &operator<<(char c);
     hkOstream &operator<<(const char *str);
 

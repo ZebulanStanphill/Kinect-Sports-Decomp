@@ -41,11 +41,11 @@ Obj_82E145A0 *fn_82E145A0(Obj_82E145A0 *self, const char *name, const RefPtr_82E
     fn_82CED2F8(&self->name);
     fn_82CED2F8(&self->className);
     self->object.p = 0;
-    fn_82CED628(&self->name, name);
+    self->name = name;
     fn_83082568(&tmp, object);
     Assign_82E145A0(&self->object, &tmp);
     Release_82E145A0(&tmp);
-    fn_82CED628(&self->className, fn_83082610(&self->object) != 0 ? ((const hkClass *)(fn_83082610(&self->object)))->getName() : 0);
+    self->className = fn_83082610(&self->object) != 0 ? ((const hkClass *)(fn_83082610(&self->object)))->getName() : 0;
     return self;
 }
 

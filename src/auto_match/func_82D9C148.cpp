@@ -5,8 +5,6 @@
 
 #pragma intrinsic(__vxor)
 
-extern "C" void fn_830824B8(hkMotionState *self, const hkVector4 &position, const hkQuaternion &rotation);
-
 // hkpConstraintOwner (Physics/Dynamics/Constraint/hkpConstraintOwner.h), 0x18 bytes; the collision agents'
 // cleanup takes one. Its constructor leaves m_constraintInfo alone.
 class hkpConstraintOwner : public hkReferencedObject {

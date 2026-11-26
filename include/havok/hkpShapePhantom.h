@@ -17,6 +17,7 @@ class hkpShapePhantom : public hkpPhantom {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_DYNAMICS);
     hkpShapePhantom(const hkpShape *shape, const hkTransform &transform);
+    hkpShapePhantom(hkFinishLoadedObjectFlag flag) : hkpPhantom(flag) {}
     virtual hkWorldOperation::Result setShape(const hkpShape *shape);
     virtual hkMotionState *getMotionState();
     virtual void calcAabb(hkAabb &aabb);

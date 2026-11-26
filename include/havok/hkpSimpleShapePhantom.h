@@ -8,6 +8,7 @@ class hkpSimpleShapePhantom : public hkpShapePhantom {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_DYNAMICS);
     hkpSimpleShapePhantom(const hkpShape *shape, const hkTransform &transform, hkUint32 collisionFilterInfo = 0);
+    hkpSimpleShapePhantom(hkFinishLoadedObjectFlag flag);   // out of line (82D7FC10)
     virtual ~hkpSimpleShapePhantom();
     // ??_7hkpSimpleShapePhantom@@6B@ fills every slot hkpShapePhantom leaves pure.
     virtual hkpPhantomType getType() const;

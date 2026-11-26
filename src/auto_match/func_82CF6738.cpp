@@ -11,7 +11,6 @@ class hkQsTransform
     hkVector4 m_scale;
 };
 
-extern "C" void fn_82CEC6E0(hkMatrix3 *self, const hkMatrix3 *a, const hkMatrix3 *b);   // hkMatrix3::setMul
 extern "C" void fn_82CE6528(const hkTransform *self, float *out);
 
 extern "C" void fn_82CF6738(const hkQsTransform *self, float *out)
@@ -23,7 +22,7 @@ extern "C" void fn_82CF6738(const hkQsTransform *self, float *out)
 
     rotation.set(self->m_rotation);
     scale.setDiagonal(self->m_scale(0), self->m_scale(1), self->m_scale(2));
-    fn_82CEC6E0(&rotationScale, &rotation, &scale);
+    rotationScale.setMul(rotation, scale);
     transform.m_translation = self->m_translation;
     transform.m_rotation.m_col0 = rotationScale.m_col0;
     transform.m_rotation.m_col1 = rotationScale.m_col1;

@@ -16,6 +16,7 @@ class hkpBreakableBody;
 class hkpConstraintInstance;
 class hkpContactListener;
 class hkpEntity;
+class hkpEntityActivationListener;
 class hkpEntityListener;
 class hkpSimulationIsland;
 
@@ -49,27 +50,21 @@ public:
         hkUint8 m_eventFilter;     // +0x6
         hkUint8 m_userFilter;      // +0x7
     };
-    struct ExtendedListeners;
+    // "hkpEntityExtendedListeners" in the reflection data, 0x10 bytes: two listener arrays, created on demand.
+    // The destructor is the implicit one, out of line in the game (82D7EDB0). The member names and their order
+    // are Havok's (the two arrays have the same layout).
+    struct ExtendedListeners {
+        HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_ENTITY, hkpEntity::ExtendedListeners);
+        ~ExtendedListeners();
+
+        hkSmallArray<hkpEntityActivationListener *> m_activationListeners;   // +0x0
+        hkSmallArray<hkpEntityListener *> m_entityListeners;                 // +0x8
+    };
 
     hkpEntity(const hkpShape *shape);
-    // The finish constructor runs the finish constructor of the motion's real
-    // class over it, chosen by the serialised motion type.
-    HK_FORCE_INLINE hkpEntity(hkFinishLoadedObjectFlag flag)
-        : hkpWorldObject(flag), m_material(flag), m_spuCollisionCallback(flag), m_motion(flag), m_localFrame(flag)
-    {
-        if (flag.m_finishing)
-        {
-            switch (m_motion.m_type)
-            {
-            case hkpMotion::MOTION_SPHERE_INERTIA: new (&m_motion) hkpSphereMotion(flag); break;
-            case hkpMotion::MOTION_BOX_INERTIA: new (&m_motion) hkpBoxMotion(flag); break;
-            case hkpMotion::MOTION_KEYFRAMED: new (&m_motion) hkpKeyframedRigidMotion(flag); break;
-            case hkpMotion::MOTION_FIXED: new (&m_motion) hkpFixedRigidMotion(flag); break;
-            case hkpMotion::MOTION_THIN_BOX_INERTIA: new (&m_motion) hkpThinBoxMotion(flag); break;
-            case hkpMotion::MOTION_CHARACTER: new (&m_motion) hkpCharacterMotion(flag); break;
-            }
-        }
-    }
+    // Out of line (82D8ABB0): it runs the finish constructor of the motion's real class over the motion, chosen
+    // by the serialised motion type.
+    hkpEntity(hkFinishLoadedObjectFlag flag);
     virtual ~hkpEntity();
     // ??_7hkpEntity@@6B@: no motion state at this level (the folded function that returns 0), then one
     // slot of its own (82D8A5D0; the name is Havok's).

@@ -1,7 +1,7 @@
 // hkpTransformShape::hkpTransformShape(const hkpShape *childShape, const hkTransform &transform)
 // (Physics/Collide/Shape/Misc/Transform/hkpTransformShape.cpp), /O2 /QVMXReserve (flag file): the child
 // container references the child, then setTransform() copies the transform and sets m_rotation from the
-// copied member's rotation (hkQuaternion::set(const hkRotation &) is out of line, fn_82CE5990; its second
+// copied member's rotation (hkQuaternion::set(const hkRotation &) is out of line, 82CE5990; its second
 // argument is why the copy's destination is in r4). No unit references the constructor, so it is renamed.
 #include "havok/hkpShape.h"
 #include "havok/hkTransform.h"

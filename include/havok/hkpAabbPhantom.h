@@ -8,11 +8,6 @@ class hkpAabbPhantom;
 class hkpCdPointCollector;
 struct hkpLinearCastInput;
 extern "C" void fn_82D7E1E0(hkpAabbPhantom *self);   // reserves m_overlappingCollidables
-// hkpAabbPhantom::linearCast, out of line (the wheel cast, 82E008F8, calls it on the wheel's phantom).
-extern "C" void fn_82D8D1D8(const hkpAabbPhantom *self, const hkpCollidable *collA, const hkpLinearCastInput &input,
-                            hkpCdPointCollector &castCollector, hkpCdPointCollector *startCollector);
-// hkpAabbPhantom::setAabb, out of line (82D94138 calls it for an AABB phantom).
-extern "C" void fn_82D8CD68(hkpAabbPhantom *self, const hkAabb &newAabb);
 
 // hkpAabbPhantom (Physics/Dynamics/Phantom/hkpAabbPhantom.h).
 class hkpAabbPhantom : public hkpPhantom {
@@ -25,6 +20,7 @@ public:
         m_collidable.setCollisionFilterInfo(collisionFilterInfo);
         fn_82D7E1E0(this);
     }
+    hkpAabbPhantom(hkFinishLoadedObjectFlag flag);   // out of line (82D7E3E8)
     virtual ~hkpAabbPhantom();
     // ??_7hkpAabbPhantom@@6B@: every slot but setShape and updateShapeCollectionFilter is its own.
     virtual hkMotionState *getMotionState();
@@ -36,12 +32,13 @@ public:
     virtual void ensureDeterministicOrder();
     virtual hkpPhantom *clone() const;
     virtual void deallocateInternalArrays();
-    HK_FORCE_INLINE void setAabb(const hkAabb &newAabb) { fn_82D8CD68(this, newAabb); }
-    HK_FORCE_INLINE void linearCast(const hkpCollidable *collA, const hkpLinearCastInput &input,
-                                    hkpCdPointCollector &castCollector, hkpCdPointCollector *startCollector) const
-    {
-        fn_82D8D1D8(this, collA, input, castCollector, startCollector);
-    }
+    // Out of line (82D8CD68): copies the box and updates the broad phase with it (82D94138 calls it for an
+    // AABB phantom).
+    void setAabb(const hkAabb &newAabb);
+    // Out of line (82D8D1D8, timer "hkpAabbPhantom::linearCast"; no unit yet): the wheel cast, 82E008F8, calls
+    // it on the wheel's phantom. The const is Havok's.
+    void linearCast(const hkpCollidable *collA, const hkpLinearCastInput &input, hkpCdPointCollector &castCollector,
+                    hkpCdPointCollector *startCollector) const;
 
     hkAabb m_aabb;                                       // +0xB0
     hkArray<hkpCollidable *> m_overlappingCollidables;   // +0xD0

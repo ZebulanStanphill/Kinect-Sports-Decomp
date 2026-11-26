@@ -35,15 +35,15 @@ class hkpBvTreeStreamAgent : public hkpCollisionAgent { public:
 class hkpShapeCollectionAgent : public hkpCollisionAgent { public:
  hkpShapeCollectionAgent(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpContactMgr*); char rest[0x2c];
 };
-// hkpConvexListAgent's constructor keeps its fn_ name (a Matching unit calls it) and returns this.
-extern "C" hkpCollisionAgent *fn_82D5C050(void*,const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpContactMgr*);
-class __declspec(novtable) hkpConvexListAgent : public hkpCollisionAgent { public:
- HK_FORCE_INLINE hkpConvexListAgent(const hkpCdBody&a,const hkpCdBody&b,const hkpCollisionInput&i,hkpContactMgr*m):hkpCollisionAgent(hkFinishLoadedObjectFlag()){fn_82D5C050(this,a,b,i,m);} char rest[0x84];
-};
 class hkpGskfAgent : public hkpCollisionAgent { public:
  hkpGskfAgent(const hkpCdBody&a,const hkpCdBody&b,hkpContactMgr*m); char rest[0x74];
 };
 class hkpPredGskfAgent : public hkpGskfAgent { public: HK_FORCE_INLINE hkpPredGskfAgent(const hkpCdBody &a,const hkpCdBody &b,hkpContactMgr *m):hkpGskfAgent(a,b,m) {} };
+// hkpConvexListAgent (Physics/Collide/Agent/Deprecated/ConvexList/hkpConvexListAgent.h), 0x90 bytes; its
+// constructor is out of line (82D5C050).
+class hkpConvexListAgent : public hkpPredGskfAgent { public:
+ hkpConvexListAgent(const hkpCdBody&a,const hkpCdBody&b,const hkpCollisionInput&i,hkpContactMgr*m); char rest[0x10];
+};
 template <typename T> class hkpSymmetricAgent : public T { public:
  HK_FORCE_INLINE hkpSymmetricAgent(const hkpCdBody &a,const hkpCdBody &b,const hkpCollisionInput &i,hkpContactMgr *m) : T(b,a,i,m) {}
 };
@@ -55,7 +55,7 @@ extern "C" hkpCollisionAgent *fn_82D5CF10(const hkpCdBody &a,const hkpCdBody &b,
  case 1: return new hkpShapeCollectionAgent(a,b,in,m);
  case 2:
   switch(response(b,a,in)) {
-  case 0: return fn_82D5C050(hkpCollisionAgent::operator new(0x90),a,b,in,m);
+  case 0: return new hkpConvexListAgent(a,b,in,m);
   case 1: return new hkpSymmetricAgent<hkpShapeCollectionAgent>(a,b,in,m);
   case 2: return new hkpPredGskfAgent(a,b,m);
   }

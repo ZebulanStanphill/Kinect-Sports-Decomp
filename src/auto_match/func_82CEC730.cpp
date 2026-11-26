@@ -2,7 +2,7 @@
 // its fn_ name.
 #include "havok/hkMatrix3.h"
 
-// hkMatrix3::setMul is out of line in the game (fn_82CEC6E0); this function, from the same source file, has it
+// hkMatrix3::setMul is out of line in the game (82CEC6E0); this function, from the same source file, has it
 // inline.
 HK_FORCE_INLINE void hkMatrix3::setMul(const hkMatrix3 &a, const hkMatrix3 &b)
 {

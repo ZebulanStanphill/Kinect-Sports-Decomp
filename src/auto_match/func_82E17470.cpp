@@ -1,8 +1,9 @@
-// hkChainedClassNameRegistry::~hkChainedClassNameRegistry (user-written). It keeps its fn_ name because a Matching C unit calls it, so the inline definition is expanded here.
+// hkChainedClassNameRegistry::~hkChainedClassNameRegistry() (Common/Serialize/Util/hkChainedClassNameRegistry.cpp).
 #include "havok/hkBase.h"
-#include "havok/hkBindingClassNameRegistry.h"
+#include "havok/hkChainedClassNameRegistry.h"
 
-extern "C" void fn_82E17470(hkChainedClassNameRegistry *self)
+hkChainedClassNameRegistry::~hkChainedClassNameRegistry()
 {
-    self->hkChainedClassNameRegistry::~hkChainedClassNameRegistry();
+    if (m_nextRegistry)
+        m_nextRegistry->removeReferenceLockUnchecked();
 }

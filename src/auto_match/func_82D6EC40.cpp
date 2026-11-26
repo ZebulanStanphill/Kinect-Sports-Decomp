@@ -13,15 +13,16 @@ public:
                                               hkpCdBodyPairCollector &);
     static void HK_CALL staticGetClosestPoints(const hkpCdBody &, const hkpCdBody &, const hkpCollisionInput &,
                                                hkpCdPointCollector &);
+    static void HK_CALL staticLinearCast(const hkpCdBody &, const hkpCdBody &, const hkpLinearCastCollisionInput &,
+                                         hkpCdPointCollector &, hkpCdPointCollector *);
 };
-extern "C" void fn_82D6EDA8();
 struct AgentFuncs { void *create,*penetrations,*closest,*cast; unsigned char flipped,predictive; char pad[2]; };
 extern "C" void fn_82D59158(void*,const AgentFuncs*,int,int);
 extern "C" void fn_82D6EC40(void *dispatcher) { AgentFuncs a,b;
 a.create = (void*)hkpBvAgent::createShapeBvAgent;
 a.penetrations = (void*)hkpSymmetricAgent<hkpBvAgent>::staticGetPenetrations;
 a.closest = (void*)hkpSymmetricAgent<hkpBvAgent>::staticGetClosestPoints;
-a.cast = (void*)fn_82D6EDA8;
+a.cast = (void*)hkpSymmetricAgent<hkpBvAgent>::staticLinearCast;
 a.flipped = 1;
 a.predictive = 1;
 fn_82D59158(dispatcher,&a,-1,0x1c);

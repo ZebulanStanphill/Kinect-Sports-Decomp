@@ -1,6 +1,6 @@
 // hkpCollisionDispatcher::hkpCollisionDispatcher (Physics/Collide/Dispatch/hkpCollisionDispatcher.cpp): every
 // cell of the contact manager factory table gets the default factory, the alternate-type masks start as
-// 1 << type, and resetCreationFunctions (fn_82D585E0) fills in the rest.
+// 1 << type, and resetCreationFunctions (82D585E0) fills in the rest.
 #include "havok/hkpCollisionDispatcher.h"
 
 class hkpContactMgrFactory : public hkReferencedObject {

@@ -7,7 +7,6 @@ public:
     char pad[0x2c];
 };
 class hkpGskfAgent;
-extern "C" void fn_82D757E8(hkpGskfAgent *, const hkpCdBody &, const hkpCdBody &, hkpContactMgr *);
 class hkpGskfAgent : public hkpCollisionAgent {
 public:
     hkpGskfAgent(const hkpCdBody &a, const hkpCdBody &b, hkpContactMgr *m);
@@ -17,15 +16,23 @@ class hkpPredGskfAgent : public hkpGskfAgent {
 public:
     hkpPredGskfAgent(const hkpCdBody &a, const hkpCdBody &b, hkpContactMgr *m) : hkpGskfAgent(a, b, m) {}
 };
-extern "C" hkpCollisionAgent *fn_82D5C050(void *, const hkpCdBody &, const hkpCdBody &, const hkpCollisionInput &,
-                                          hkpContactMgr *);
+// hkpConvexListAgent (Physics/Collide/Agent/Deprecated/ConvexList/hkpConvexListAgent.h), 0x90 bytes; its
+// constructor is out of line (82D5C050).
+class hkpConvexListAgent : public hkpPredGskfAgent {
+public:
+    hkpConvexListAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpContactMgr *mgr);
+    hkpCollisionDispatcher *m_dispatcher;   // +0x80 input.m_dispatcher
+    hkBool m_inGskMode;                     // +0x84
+    hkBool m_processFunctionCalled;         // +0x85
+    char m_pad86[0xA];
+};
 extern "C" hkpCollisionAgent *fn_82D5CD78(const hkpCdBody &a, const hkpCdBody &b, const hkpCollisionInput &i,
                                           hkpContactMgr *m)
 {
     if (m) {
         switch (i.m_convexListFilter->getConvexListCollisionType(b, a, i)) {
         case hkpConvexListFilter::TREAT_CONVEX_LIST_AS_NORMAL:
-            return fn_82D5C050(hkpCollisionAgent::operator new(0x90), a, b, i, m);
+            return new hkpConvexListAgent(a, b, i, m);
         case hkpConvexListFilter::TREAT_CONVEX_LIST_AS_LIST:
             return new hkpSymmetricAgent<hkpShapeCollectionAgent>(a, b, i, m);
         case hkpConvexListFilter::TREAT_CONVEX_LIST_AS_CONVEX:

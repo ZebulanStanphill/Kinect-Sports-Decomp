@@ -1,25 +1,27 @@
 // hkpRagdollConstraintData::hkpRagdollConstraintData() (Physics/Dynamics/Constraint/Bilateral/Ragdoll/
-// hkpRagdollConstraintData.cpp), /O2 /QVMXReserve. The atoms' own constructor (fn_82D98100) is out of line
-// and keeps its fn_ name. The float constants are literals; the rename map names the game's copies
-// __real@... (symbols.txt already names 1.0f __real@3f800000).
+// hkpRagdollConstraintData.cpp), /O2 /QVMXReserve. The atoms' own constructor (82D98100) is out of line.
+// The float constants are literals; the rename map names the game's copies __real@... (symbols.txt already
+// names 1.0f __real@3f800000).
 #include "havok/hkBase.h"
 #include "havok/hkTransform.h"
+#include "havok/hkUFloat8.h"
+#include "havok/hkpConstraintAtom.h"
 #include "havok/hkpConstraintData.h"
-
-// The game's 1.0f keeps its lbl_ name (Matching units reference it).
 
 class hkpConstraintMotor;
 
-struct hkpConstraintAtom {
-    hkUint16 m_type;
-};
-
 struct hkpSetLocalTransformsConstraintAtom : public hkpConstraintAtom {
+    hkpSetLocalTransformsConstraintAtom() : hkpConstraintAtom(TYPE_SET_LOCAL_TRANSFORMS) {}
     hkTransform m_transformA;   // +0x10
     hkTransform m_transformB;   // +0x50
 };
 
 struct hkpRagdollMotorConstraintAtom : public hkpConstraintAtom {
+    hkpRagdollMotorConstraintAtom()
+        : hkpConstraintAtom(TYPE_RAGDOLL_MOTOR), m_isEnabled(true), m_initializedOffset(0),
+          m_previousTargetAnglesOffset(0)
+    {
+    }
     hkBool m_isEnabled;                   // +0x2
     hkInt16 m_initializedOffset;          // +0x4
     hkInt16 m_previousTargetAnglesOffset; // +0x6
@@ -28,6 +30,7 @@ struct hkpRagdollMotorConstraintAtom : public hkpConstraintAtom {
 };
 
 struct hkpAngFrictionConstraintAtom : public hkpConstraintAtom {
+    hkpAngFrictionConstraintAtom() : hkpConstraintAtom(TYPE_ANG_FRICTION), m_isEnabled(1), m_numFrictionAxes(1) {}
     hkUint8 m_isEnabled;
     hkUint8 m_firstFrictionAxis;
     hkUint8 m_numFrictionAxes;
@@ -35,6 +38,7 @@ struct hkpAngFrictionConstraintAtom : public hkpConstraintAtom {
 };
 
 struct hkpTwistLimitConstraintAtom : public hkpConstraintAtom {
+    hkpTwistLimitConstraintAtom() : hkpConstraintAtom(TYPE_TWIST_LIMIT), m_isEnabled(1) {}
     hkUint8 m_isEnabled;
     hkUint8 m_twistAxis;
     hkUint8 m_refAxis;
@@ -48,6 +52,7 @@ struct hkpConeLimitConstraintAtom : public hkpConstraintAtom {
         ZERO_WHEN_VECTORS_ALIGNED = 0,
         ZERO_WHEN_VECTORS_PERPENDICULAR = 1
     };
+    hkpConeLimitConstraintAtom() : hkpConstraintAtom(TYPE_CONE_LIMIT), m_isEnabled(1), m_memOffsetToAngleOffset(0) {}
     hkUint8 m_isEnabled;
     hkUint8 m_twistAxisInA;
     hkUint8 m_refAxisInB;
@@ -59,30 +64,31 @@ struct hkpConeLimitConstraintAtom : public hkpConstraintAtom {
 };
 
 struct hkpBallSocketConstraintAtom : public hkpConstraintAtom {
-    hkUint8 m_solvingMethod;
-    hkUint8 m_velocityStabilizationFactor;
-    hkReal m_maxImpulse;
-};
-
-struct hkpRagdollConstraintDataAtoms;
-extern "C" void fn_82D98100(hkpRagdollConstraintDataAtoms *self);   // hkpRagdollConstraintData::Atoms::Atoms()
-
-struct hkpRagdollConstraintDataAtoms {
-    HK_FORCE_INLINE hkpRagdollConstraintDataAtoms() { fn_82D98100(this); }
-    hkpSetLocalTransformsConstraintAtom m_transforms;   // +0x10
-    hkpRagdollMotorConstraintAtom m_ragdollMotors;      // +0xA0
-    hkpAngFrictionConstraintAtom m_angFriction;         // +0xF0
-    hkpTwistLimitConstraintAtom m_twistLimit;           // +0xFC
-    hkpConeLimitConstraintAtom m_coneLimit;             // +0x110
-    hkpConeLimitConstraintAtom m_planesLimit;           // +0x124
-    hkpBallSocketConstraintAtom m_ballSocket;           // +0x138
+    hkpBallSocketConstraintAtom()
+        : hkpConstraintAtom(TYPE_BALL_SOCKET), m_solvingMethod(0), m_velocityStabilizationFactor(1.0f),
+          m_maxImpulse(3.40282e+38f)
+    {
+    }
+    hkUint8 m_solvingMethod;                   // +0x2
+    hkUFloat8 m_velocityStabilizationFactor;   // +0x3
+    hkReal m_maxImpulse;                       // +0x4
 };
 
 class hkpRagdollConstraintData : public hkpConstraintData {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);
+    struct Atoms {
+        Atoms();
+        hkpSetLocalTransformsConstraintAtom m_transforms;   // +0x0
+        hkpRagdollMotorConstraintAtom m_ragdollMotors;      // +0x90
+        hkpAngFrictionConstraintAtom m_angFriction;         // +0xE0
+        hkpTwistLimitConstraintAtom m_twistLimit;           // +0xEC
+        hkpConeLimitConstraintAtom m_coneLimit;             // +0x100
+        hkpConeLimitConstraintAtom m_planesLimit;           // +0x114
+        hkpBallSocketConstraintAtom m_ballSocket;           // +0x128
+    };
     hkpRagdollConstraintData();
-    hkpRagdollConstraintDataAtoms m_atoms;
+    Atoms m_atoms;   // +0x10
 };
 
 hkpRagdollConstraintData::hkpRagdollConstraintData()

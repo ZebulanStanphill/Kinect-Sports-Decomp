@@ -15,7 +15,7 @@ public:
     hkpProcessCollisionInput *m_collisionInput;   // +0x78
 };
 
-HK_FORCE_INLINE void hkpShapePhantom::setTransform(const hkTransform &transform)
+void hkpShapePhantom::setTransform(const hkTransform &transform)
 {
     m_motionState.getTransform() = transform;
     if (m_world) {
@@ -23,9 +23,4 @@ HK_FORCE_INLINE void hkpShapePhantom::setTransform(const hkTransform &transform)
         m_collidable.getShape()->getAabb(transform, m_world->getCollisionInput()->m_tolerance * 0.5f, aabb);
         updateBroadPhase(aabb);
     }
-}
-
-extern "C" void fn_82D99E00(hkpShapePhantom *self, const hkTransform &transform)
-{
-    self->setTransform(transform);
 }

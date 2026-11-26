@@ -62,10 +62,14 @@ public:
 //    hkpMouseSpringAction (func_82DF2A08), and the hkpAgent3ProcessInput copy in func_82D5B3B0.
 // The class therefore has none unless a unit defines HK_VECTOR4_COPY_CONSTRUCTOR before
 // including this header, as those three do.
+//
+// It has no default constructor either. hkpEntity's finish constructor (82D8ABB0) only comes
+// out right when the vector array in hkpMotion needs no construction, and no unit changes
+// without one. (A class with a copy constructor needs a default one, so the switch brings both.)
 class hkVector4 {
 public:
-    HK_FORCE_INLINE hkVector4() {}
 #ifdef HK_VECTOR4_COPY_CONSTRUCTOR
+    HK_FORCE_INLINE hkVector4() {}
     HK_FORCE_INLINE hkVector4(const hkVector4 &v) { m_quad = v.m_quad; }
 #endif
     HK_FORCE_INLINE void operator=(const hkVector4 &v) { m_quad = v.m_quad; }

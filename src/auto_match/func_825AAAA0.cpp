@@ -1,4 +1,5 @@
 #include "stdext/xmemory.h"
+#include "havok/hkStringPtr.h"
 union Member { struct { void (*fn)(); int adjust; }; unsigned __int64 bits; };
 struct Callable { virtual Callable *Copy(void *)=0; virtual void pad1()=0; virtual void pad2()=0; virtual void Delete(bool)=0; };
 struct Function { union {unsigned __int64 align[2]; unsigned char storage[16];}; Callable *impl; };
@@ -56,7 +57,7 @@ typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
 } Vec;
 extern "C" {
 void fn_82594968(void *); unsigned char fn_8288B760(void *);
-void fn_82CED628(void *,const char *); void fn_825AC298(); char lbl_821C819C[];
+void fn_825AC298(); char lbl_821C819C[];
 void fn_82F565A0(void *,Function *); void fn_8289C940(void *,void *);
 void fn_825ADB28(void *,const Vec *); void fn_822CB0A0(void *,const Vec *);
 void fn_828AB870(void *,unsigned int); void fn_828AAF70(void *,bool);
@@ -70,7 +71,7 @@ extern "C" void fn_825AAAA0(Owner *self) {
  unsigned char *obj=*(unsigned char **)(state+0x4e0);
  *q=enabled;
  if (!enabled) {
-  if (obj) { *(int *)(obj+0x104)=0; *(int *)(obj+0x120)=0; fn_82CED628(obj+0x14,"Actuator (disabled)"); }
+  if (obj) { *(int *)(obj+0x104)=0; *(int *)(obj+0x120)=0; *reinterpret_cast<hkStringPtr *>(obj+0x14)="Actuator (disabled)"; }
   *(Vec *)(q+0x50) = __VMXGetReg(77);
  }
  Function temp;

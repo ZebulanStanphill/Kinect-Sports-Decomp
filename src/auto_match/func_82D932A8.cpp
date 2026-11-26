@@ -1,8 +1,6 @@
 #include "havok/hkBase.h"
 #include "havok/hkpMotion.h"
 
-extern "C" void fn_82D92FF0(hkMotionState *self, const hkMotionState *other); // hkMotionState::operator=
-
 void hkpMotion::getMotionStateAndVelocitiesAndDeactivationType(hkpMotion *motionOut)
 {
     motionOut->m_motionState = m_motionState;

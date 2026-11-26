@@ -1,12 +1,8 @@
-#include "havok/hkBase.h"
-template <typename T> static HK_FORCE_INLINE void constructWithCopy(T *t, int n, const T &tcopy) { for (int i = 0; i < n; ++i) t[i] = tcopy; }
-class Output : public hkArrayBase<int> { public: HK_FORCE_INLINE void push(const int &v) {
- hkMemoryAllocator &alloc=hkMemoryRouter::getInstance().heap();
- if (m_size == getCapacity()) hkArrayUtil::_reserveMore(alloc,this,sizeof(int));
- constructWithCopy(m_data + m_size, 1, v);
- m_size++;
-} };
-struct Obj_82D9A5F8 { char pad[0x8c]; Output arr; };
-extern "C" void fn_82D9A5F8(Obj_82D9A5F8 *self, int v) {
- self->arr.push(v);
+// hkpPhantom::addPhantomOverlapListener(hkpPhantomOverlapListener *) (Physics/Dynamics/Phantom/hkpPhantom.cpp):
+// appends the listener to m_overlapListeners (+0x8C).
+#include "havok/hkpPhantom.h"
+
+void hkpPhantom::addPhantomOverlapListener(hkpPhantomOverlapListener *listener)
+{
+    m_overlapListeners.pushBack(listener);
 }

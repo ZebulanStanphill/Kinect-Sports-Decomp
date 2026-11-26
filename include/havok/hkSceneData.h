@@ -38,14 +38,14 @@ struct hkxAttributeGroup {
     hkArrayBase<hkxAttribute> m_attributes;   // +0x4 hkArray<hkxAttribute>
 };
 
-// hkxAttributeHolder (0x14 bytes). Its destructor is user-written (it stores
-// the class vtable on entry) and out of line, fn_82E04A30.
+// hkxAttributeHolder (0x14 bytes). Its destructor is out of line (82E04A30);
+// the derived classes' destructors call it.
 class hkxAttributeHolder : public hkReferencedObject {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SCENE_DATA);
     hkxAttributeHolder(const hkxAttributeHolder &other);   // out of line (fn_82E048D8)
     hkxAttributeHolder(hkFinishLoadedObjectFlag f) : hkReferencedObject(f), m_attributeGroups(f) {}
-    HK_FORCE_INLINE virtual ~hkxAttributeHolder() {}
+    virtual ~hkxAttributeHolder();
 
     hkArray<hkxAttributeGroup> m_attributeGroups;   // +0x8
 };
@@ -122,6 +122,7 @@ public:
     };
     hkxMaterial(hkFinishLoadedObjectFlag f)
         : hkxAttributeHolder(f), m_name(f), m_stages(f), m_subMaterials(f), m_extraData(f) {}
+    virtual ~hkxMaterial();   // user-written (it stores the class vtable on entry), out of line (82E057A8)
 
     hkStringPtr m_name;                                   // +0x14
     hkArray<TextureStage> m_stages;                       // +0x18
@@ -199,6 +200,7 @@ public:
     hkxNode(hkFinishLoadedObjectFlag f)
         : hkxAttributeHolder(f), m_name(f), m_object(f), m_keyFrames(f), m_children(f), m_annotations(f),
           m_userProperties(f) {}
+    virtual ~hkxNode();   // user-written (it stores the class vtable on entry), out of line (82E062C8)
 
     hkStringPtr m_name;                               // +0x14
     hkRefVariant m_object;                            // +0x18

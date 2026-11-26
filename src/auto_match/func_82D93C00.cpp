@@ -1,25 +1,27 @@
 // hkpLimitedHingeConstraintData::hkpLimitedHingeConstraintData() (Physics/Dynamics/Constraint/Bilateral/
-// LimitedHinge/hkpLimitedHingeConstraintData.cpp), /O2 /QVMXReserve. The atoms' own constructor (fn_82D93FE8)
-// is out of line and keeps its fn_ name.
+// LimitedHinge/hkpLimitedHingeConstraintData.cpp), /O2 /QVMXReserve. The atoms' own constructor (82D93FE8)
+// is out of line.
+// -pi and pi are literals, and the rename map names the game's copies __real@c0490fdb and __real@40490fdb.
 #include "havok/hkBase.h"
 #include "havok/hkTransform.h"
+#include "havok/hkUFloat8.h"
+#include "havok/hkpConstraintAtom.h"
 #include "havok/hkpConstraintData.h"
-
-// The game's 1.0f keeps its lbl_ name (Matching units reference it); -pi and pi are literals, and the
-// rename map names the game's copies __real@c0490fdb and __real@40490fdb.
 
 class hkpConstraintMotor;
 
-struct hkpConstraintAtom {
-    hkUint16 m_type;
-};
-
 struct hkpSetLocalTransformsConstraintAtom : public hkpConstraintAtom {
+    hkpSetLocalTransformsConstraintAtom() : hkpConstraintAtom(TYPE_SET_LOCAL_TRANSFORMS) {}
     hkTransform m_transformA;   // +0x10
     hkTransform m_transformB;   // +0x50
 };
 
 struct hkpAngMotorConstraintAtom : public hkpConstraintAtom {
+    hkpAngMotorConstraintAtom()
+        : hkpConstraintAtom(TYPE_ANG_MOTOR), m_isEnabled(true), m_initializedOffset(0),
+          m_previousTargetAngleOffset(0)
+    {
+    }
     hkBool m_isEnabled;                                // +0x2
     hkUint8 m_motorAxis;                               // +0x3
     hkInt16 m_initializedOffset;                       // +0x4
@@ -30,6 +32,7 @@ struct hkpAngMotorConstraintAtom : public hkpConstraintAtom {
 };
 
 struct hkpAngFrictionConstraintAtom : public hkpConstraintAtom {
+    hkpAngFrictionConstraintAtom() : hkpConstraintAtom(TYPE_ANG_FRICTION), m_isEnabled(1), m_numFrictionAxes(1) {}
     hkUint8 m_isEnabled;
     hkUint8 m_firstFrictionAxis;
     hkUint8 m_numFrictionAxes;
@@ -37,6 +40,7 @@ struct hkpAngFrictionConstraintAtom : public hkpConstraintAtom {
 };
 
 struct hkpAngLimitConstraintAtom : public hkpConstraintAtom {
+    hkpAngLimitConstraintAtom() : hkpConstraintAtom(TYPE_ANG_LIMIT), m_isEnabled(1) {}
     hkUint8 m_isEnabled;
     hkUint8 m_limitAxis;
     hkReal m_minAngle;
@@ -45,33 +49,35 @@ struct hkpAngLimitConstraintAtom : public hkpConstraintAtom {
 };
 
 struct hkp2dAngConstraintAtom : public hkpConstraintAtom {
+    hkp2dAngConstraintAtom() : hkpConstraintAtom(TYPE_2D_ANG) {}
     hkUint8 m_freeRotationAxis;
 };
 
 struct hkpBallSocketConstraintAtom : public hkpConstraintAtom {
-    hkUint8 m_solvingMethod;
-    hkUint8 m_velocityStabilizationFactor;
-    hkReal m_maxImpulse;
-};
-
-struct hkpLimitedHingeConstraintDataAtoms;
-extern "C" void fn_82D93FE8(hkpLimitedHingeConstraintDataAtoms *self);   // hkpLimitedHingeConstraintData::Atoms::Atoms()
-
-struct hkpLimitedHingeConstraintDataAtoms {
-    HK_FORCE_INLINE hkpLimitedHingeConstraintDataAtoms() { fn_82D93FE8(this); }
-    hkpSetLocalTransformsConstraintAtom m_transforms;   // +0x10
-    hkpAngMotorConstraintAtom m_angMotor;               // +0xA0
-    hkpAngFrictionConstraintAtom m_angFriction;         // +0xB4
-    hkpAngLimitConstraintAtom m_angLimit;               // +0xC0
-    hkp2dAngConstraintAtom m_2dAng;                     // +0xD0
-    hkpBallSocketConstraintAtom m_ballSocket;           // +0xD4
+    hkpBallSocketConstraintAtom()
+        : hkpConstraintAtom(TYPE_BALL_SOCKET), m_solvingMethod(0), m_velocityStabilizationFactor(1.0f),
+          m_maxImpulse(3.40282e+38f)
+    {
+    }
+    hkUint8 m_solvingMethod;                   // +0x2
+    hkUFloat8 m_velocityStabilizationFactor;   // +0x3
+    hkReal m_maxImpulse;                       // +0x4
 };
 
 class hkpLimitedHingeConstraintData : public hkpConstraintData {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);
+    struct Atoms {
+        Atoms();
+        hkpSetLocalTransformsConstraintAtom m_transforms;   // +0x0
+        hkpAngMotorConstraintAtom m_angMotor;               // +0x90
+        hkpAngFrictionConstraintAtom m_angFriction;         // +0xA4
+        hkpAngLimitConstraintAtom m_angLimit;               // +0xB0
+        hkp2dAngConstraintAtom m_2dAng;                     // +0xC0
+        hkpBallSocketConstraintAtom m_ballSocket;           // +0xC4
+    };
     hkpLimitedHingeConstraintData();
-    hkpLimitedHingeConstraintDataAtoms m_atoms;
+    Atoms m_atoms;   // +0x10
 };
 
 hkpLimitedHingeConstraintData::hkpLimitedHingeConstraintData()

@@ -1,8 +1,7 @@
-// hkMotionState::operator=: the implicit member-wise assignment, emitted out of line here under its fn_ name
-// (hkpRigidBody::setMotionType, 82D8F080, calls it).
+// hkMotionState::operator=, the implicit member-wise assignment, emitted out of line: hkpWorldOperationUtil::
+// replaceMotionObject (82D8F080) calls it, 82D9D568 has it inline. It copies the transform, the swept transform,
+// m_deltaAngle, three floats and the three bytes at +0xAC to +0xAE (nothing at +0xAF).
 #include "havok/hkMotionState.h"
 
-extern "C" void fn_82D92FF0(hkMotionState *self, const hkMotionState *other)
-{
-    *self = *other;
-}
+// Only makes the compiler emit the implicit assignment out of line.
+hkMotionState &(hkMotionState::*emitAssignment_82D92FF0())(const hkMotionState &) { return &hkMotionState::operator=; }

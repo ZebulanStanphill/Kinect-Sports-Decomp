@@ -1,7 +1,7 @@
-// hkxAttributeHolder::~hkxAttributeHolder (user-written: it stores the class vtable on entry). It keeps its fn_ name because a Matching C unit calls it, so the inline definition is expanded here.
+// hkxAttributeHolder::~hkxAttributeHolder() (Common/SceneData/Attributes/hkxAttributeHolder): destroys
+// m_attributeGroups.
 #include "havok/hkSceneData.h"
 
-extern "C" void fn_82E04A30(hkxAttributeHolder *self)
+hkxAttributeHolder::~hkxAttributeHolder()
 {
-    self->hkxAttributeHolder::~hkxAttributeHolder();
 }

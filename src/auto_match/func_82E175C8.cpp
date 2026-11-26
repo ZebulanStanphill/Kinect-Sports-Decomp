@@ -1,5 +1,10 @@
-// hkChainedClassNameRegistry's scalar deleting destructor: the destructor inlined, then the class allocator. The function at the end only makes the compiler emit the vtable.
+// hkChainedClassNameRegistry's scalar deleting destructor. The destructor is defined in the same file
+// (hkChainedClassNameRegistry.cpp, 82E17470), so the deleting destructor the compiler generates inlines it.
 #include "havok/hkBase.h"
-#include "havok/hkBindingClassNameRegistry.h"
+#include "havok/hkChainedClassNameRegistry.h"
 
-void emitVtable_82E175C8(hkChainedClassNameRegistry *p) { p->hkChainedClassNameRegistry::~hkChainedClassNameRegistry(); }
+hkChainedClassNameRegistry::~hkChainedClassNameRegistry()
+{
+    if (m_nextRegistry)
+        m_nextRegistry->removeReferenceLockUnchecked();
+}

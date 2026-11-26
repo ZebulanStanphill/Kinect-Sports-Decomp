@@ -17,12 +17,12 @@ Obj_82E14500 *fn_82E14500(Obj_82E14500 *self, const char *name, void *obj, void 
     fn_82CED2F8(&self->name);
     fn_82CED2F8(&self->className);
     self->object.p = 0;
-    fn_82CED628(&self->name, name);
+    self->name = name;
     fn_830825B8(&self->object, obj, extra);
     if (fn_83082610(&self->object) != 0) {
-        fn_82CED628(&self->className, ((const hkClass *)(fn_83082610(&self->object)))->getName());
+        self->className = ((const hkClass *)(fn_83082610(&self->object)))->getName();
     } else {
-        fn_82CED628(&self->className, 0);
+        self->className = HK_NULL;
     }
     return self;
 }

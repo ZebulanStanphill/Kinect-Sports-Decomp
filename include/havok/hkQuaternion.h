@@ -8,13 +8,13 @@
 class hkQuaternion;
 class hkRotation;
 extern "C" const hkVector4 lbl_82132D50;   // (0, 0, 0, 1): the identity
-// hkQuaternion::set(const hkRotation &), out of line (82CE5990 is a branch to 82CE57B0).
-extern "C" void fn_82CE5990(hkQuaternion *self, const hkRotation &r);
 
 class hkQuaternion {
 public:
     HK_FORCE_INLINE void setIdentity() { m_vec = lbl_82132D50; }
-    HK_FORCE_INLINE void set(const hkRotation &r) { fn_82CE5990(this, r); }
+    // Out of line: 82CE5990 is a branch to 82CE57B0, the conversion itself (_set in Havok); setAndNormalize,
+    // 82CE5A90, calls 82CE57B0 too and then normalizes.
+    void set(const hkRotation &r);
     HK_FORCE_INLINE const hkVector4 &getImag() const { return m_vec; }
     HK_FORCE_INLINE hkReal getReal() const { return m_vec(3); }
 

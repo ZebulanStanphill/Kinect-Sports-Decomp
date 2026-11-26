@@ -85,7 +85,8 @@ public:
     const hkVector4 &getPosition() const { return m_motionState.getSweptTransform().m_centerOfMass1; }
     // Puts the world's deactivation select flags, inverted where this motion's counter is ahead of the
     // world's, in the top two bits of the inactive-frame counters. Inline in hkpRigidBody::setMotionType
-    // (82D8F080) and hkpFixedRigidMotion's constructor path (82D9D568); also out of line as fn_82D80768.
+    // (82D8F080) and hkpFixedRigidMotion's constructor path (82D9D568); also emitted out of line (82D80768,
+    // called by hkpEntity::activate, 82D89BD8).
     HK_FORCE_INLINE void setWorldSelectFlagsNeg(int worldFlag0, int worldFlag1, int worldDeactivationIntegrateCounter)
     {
         hkUint32 f0 = (hkUint32(worldDeactivationIntegrateCounter & 3) < hkUint32(m_deactivationIntegrateCounter & 3))

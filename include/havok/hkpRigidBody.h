@@ -6,11 +6,13 @@
 #include "havok/hkpEntity.h"
 
 class hkpRigidBody;
+class hkpRigidBodyCinfo;
 extern "C" void fn_82D89BD8(hkpRigidBody *self);   // hkpEntity::activate
 
 class hkpRigidBody : public hkpEntity {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_ENTITY);
+    hkpRigidBody(const hkpRigidBodyCinfo &info);   // out of line (82D8C258)
     hkpRigidBody(hkFinishLoadedObjectFlag flag) : hkpEntity(flag) {}
     // ??_7hkpRigidBody@@6B@ (8213C624): setShape is 82D8B760, getMotionState 82D8B3E0, and the last slot is
     // clone (82D8C6B0).

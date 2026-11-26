@@ -13,7 +13,6 @@ typedef struct Scaling_82D9FEB8 {
     __vector4 scaleB; /* 0x30 */
 } Scaling_82D9FEB8;
 
-extern "C" void fn_82CEC6E0(hkMatrix3 *self, const hkMatrix3 *a, const hkMatrix3 *b);
 extern "C" void fn_82CEC730(hkMatrix3 *self, const hkMatrix3 *a, const hkMatrix3 *b);
 extern "C" void fn_82CEC7E0(hkMatrix3 *self, const hkMatrix3 *a, const hkMatrix3 *b);
 
@@ -40,12 +39,12 @@ extern "C" void fn_82D9FEB8(Scaling_82D9FEB8 *self, void *unused1, Body_82D9FEB8
             hkMatrix3 scaled;
 
             fn_82CEC7E0(&local, rotation, &body->inertia);
-            fn_82CEC6E0(&scaled, &local, rotation);
+            scaled.setMul(local, *rotation);
             scaled.m_col0(0) *= x;
             scaled.m_col1(1) *= y;
             scaled.m_col2(2) *= z;
             fn_82CEC730(&local, &scaled, rotation);
-            fn_82CEC6E0(&body->inertia, rotation, &local);
+            body->inertia.setMul(*rotation, local);
         }
         scale = self->scaleB;
         body = bodyB;

@@ -2,17 +2,12 @@
 // convex list filter which case applies and creates a hkpSymmetricAgent<hkpConvexListAgent> (0x90 bytes),
 // a hkpShapeCollectionAgent (0x38) or a hkpPredGskfAgent (0x80); without one, a hkpShapeCollectionAgent.
 // The agents use Havok's class allocator (blockAlloc + m_memSizeAndFlags, no null check). The base
-// constructors are out of line: hkpGskfAgent's (renamed), hkpConvexListAgent's (fn_82D5C050, keeps its
-// fn_ name) and hkpShapeCollectionAgent's (renamed).
+// constructors are out of line: hkpGskfAgent's, hkpConvexListAgent's (82D5C050) and
+// hkpShapeCollectionAgent's.
 #include "havok/hkBase.h"
 #include "havok/hkpCollisionInput.h"
 
 class hkpContactMgr;
-
-extern "C" {
-void fn_82D5C050(void *self, const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                 hkpContactMgr *mgr);   // hkpConvexListAgent::hkpConvexListAgent
-}
 
 #define AGENT_ALLOCATOR \
     static HK_FORCE_INLINE void *operator new(unsigned n) \
@@ -38,18 +33,12 @@ public:
     hkpPredGskfAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, hkpContactMgr *mgr) : hkpGskfAgent(bodyA, bodyB, mgr) {}
 };
 
-class __declspec(novtable) hkpConvexListAgent {
+// hkpConvexListAgent (Physics/Collide/Agent/Deprecated/ConvexList/hkpConvexListAgent.h), 0x90 bytes.
+class hkpConvexListAgent : public hkpPredGskfAgent {
 public:
-    AGENT_ALLOCATOR
-    hkpConvexListAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpContactMgr *mgr)
-    {
-        fn_82D5C050(this, bodyA, bodyB, input, mgr);
-    }
-    virtual ~hkpConvexListAgent() {}
+    hkpConvexListAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpContactMgr *mgr);
 
-    unsigned short m_memSizeAndFlags;
-    unsigned short m_referenceCount;
-    char m_data[0x88];
+    char m_data84[0x10];
 };
 
 template <class AGENT>

@@ -4,13 +4,11 @@
 // the dynamic motion when switching to or from fixed/keyframed. Havok code: built /O2 (flag file).
 // The motion copies are hkString::memCpy16<sizeof(hkpMaxSizeMotion)> loops; the devirtualized calls on the
 // local hkpMaxSizeMotion copies go to hkpMotion::getMotionStateAndVelocitiesAndDeactivationType (fn_82D932A8,
-// renamed). hkpMotion::setWorldSelectFlagsNeg is the body of its out-of-line copy fn_82D80768 (that function
+// renamed). hkpMotion::setWorldSelectFlagsNeg is the body of its out-of-line copy (82D80768; that function
 // matches with it at /O2); the world's flags are read through a pointer to the solver info's flag array.
 #include "havok/hkBase.h"
 #include "havok/hkpRigidBody.h"
 
-// hkMotionState's assignment is a call here: the out-of-line copy of the implicit operator= (fn_82D92FF0).
-extern "C" void fn_82D92FF0(hkMotionState *self, const hkMotionState *other);
 
 template <int SIZE>
 static HK_FORCE_INLINE void memCpy16(void *dst, const void *src)
@@ -94,7 +92,9 @@ extern "C" void fn_82D8F080(hkpRigidBody *body, int newState, hkBool newStateNee
         {
             newMotion = new (motion) hkpFixedRigidMotion(body->m_motion.m_motionState.m_transform.m_translation,
                                                          body->m_motion.m_motionState.m_sweptTransform.m_rotation1);
-            fn_82D92FF0(&newMotion->m_motionState, &oldMotion.m_motionState);
+            // hkMotionState's implicit assignment is a call here (its out-of-line copy is 82D92FF0).
+            hkMotionState &(hkMotionState::*assign)(const hkMotionState &) = &hkMotionState::operator=;
+            (newMotion->m_motionState.*assign)(oldMotion.m_motionState);
             newMotion->m_deactivationIntegrateCounter = oldMotion.m_deactivationIntegrateCounter;
             hkReal invDeltaTime = oldMotion.m_motionState.m_sweptTransform.getInvDeltaTime();
             if (invDeltaTime != 0.0f)

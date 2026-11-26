@@ -1,25 +1,22 @@
-// static hkpSymmetricAgent<hkpBvAgent>::staticLinearCast: flips the bodies, negates the cast path and wraps the
-// collectors so that the results come back flipped, then forwards to hkpBvAgent's function.
-// It keeps its fn_ name (the Matching registerAgent unit takes its address), so the body of the template's
-// static (havok/hkpSymmetricAgent.h) is written out in an extern "C" function with that name.
+// static hkpSymmetricAgent<hkpBvAgent>::staticLinearCast (Physics/Collide/Agent/Util/Symmetric/
+// hkpSymmetricAgent.h): flips the bodies, negates the cast path and wraps the collectors so that the results come
+// back flipped, then forwards to hkpBvAgent::staticLinearCast (fn_82D6E2C8). The registerAgent function
+// (82D6EC40) stores it in the flipped AgentFuncs with the template's other two statics.
 #include "havok/hkpSymmetricAgent.h"
 
-// fn_82D6E2C8 is hkpBvAgent::staticLinearCast.
-extern "C" {
-void fn_82D6E2C8(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpLinearCastCollisionInput &input,
-                 hkpCdPointCollector &collector, hkpCdPointCollector *startCollector);
-}
+extern "C" void fn_82D6E2C8(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpLinearCastCollisionInput &input,
+                            hkpCdPointCollector &collector, hkpCdPointCollector *startCollector);   // hkpBvAgent::staticLinearCast
 
-extern "C" void fn_82D6EDA8(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpLinearCastCollisionInput &input,
-                            hkpCdPointCollector &collector, hkpCdPointCollector *startCollector)
-{
-    hkpLinearCastCollisionInput flippedInput = input;
-    flippedInput.m_path.setNeg4(input.m_path);
-    hkpSymmetricAgentFlipCastCollector flipCollector(input.m_path, collector);
-    if (startCollector) {
-        hkpSymmetricAgentFlipCastCollector startFlipCollector(input.m_path, *startCollector);
-        fn_82D6E2C8(bodyB, bodyA, flippedInput, flipCollector, &startFlipCollector);
-    } else {
-        fn_82D6E2C8(bodyB, bodyA, flippedInput, flipCollector, HK_NULL);
+class hkpBvAgent : public hkpCollisionAgent {
+public:
+    static HK_FORCE_INLINE void HK_CALL staticLinearCast(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
+                                                         const hkpLinearCastCollisionInput &input,
+                                                         hkpCdPointCollector &collector, hkpCdPointCollector *startCollector)
+    {
+        fn_82D6E2C8(bodyA, bodyB, input, collector, startCollector);
     }
-}
+};
+
+template void HK_CALL hkpSymmetricAgent<hkpBvAgent>::staticLinearCast(const hkpCdBody &bodyA,
+    const hkpCdBody &bodyB, const hkpLinearCastCollisionInput &input, hkpCdPointCollector &collector,
+    hkpCdPointCollector *startCollector);

@@ -1,4 +1,5 @@
 #include "havok/hkString.h"
+#include "havok/hkStringPtr.h"
 
 #include "havok/hkArrayUtil.h"
 
@@ -28,7 +29,6 @@ typedef struct Router_82CED738 {
 } Router_82CED738;
 
 extern "C" Router_82CED738 *fn_82CE5410(void);
-extern "C" void fn_82CED628(void *self, char *text);
 
 static __forceinline void reserve_82CED738(Array_82CED738 *array, int required)
 {
@@ -63,8 +63,8 @@ extern "C" void fn_82CED738(void *self, const char *format, ...)
             reserve_82CED738(&array, (array.capacity & 0x3fffffff) * 2);
         }
     }
-    fn_82CED628(self, array.data);
-    fn_82CED628(self, array.data);
+    *static_cast<hkStringPtr *>(self) = array.data;
+    *static_cast<hkStringPtr *>(self) = array.data;
     allocator = fn_82CE5410()->heap;
     array.size = 0;
     if ((array.capacity & (int)0x80000000) == 0) {

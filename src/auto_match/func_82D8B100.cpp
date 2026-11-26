@@ -1,15 +1,6 @@
-// hkpEntity's scalar deleting destructor (slot 0 of ??_7hkpEntity@@6B@), written with a stand-in class named hkMemoryStreamReader (only its class allocator is used). It calls hkpEntity's destructor fn_82D8AD50, which keeps its fn_ name.
-#include "havok/hkBase.h"
-#include "havok/hkMemoryStreamReader.h"
+// hkpEntity's scalar deleting destructor (slot 0 of ??_7hkpEntity@@6B@): it calls ~hkpEntity (out of line)
+// and frees through the class allocator. The function at the end only makes the compiler emit the vtable; the
+// declared constructors are out of line, so it uses the implicit copy constructor.
+#include "havok/hkpEntity.h"
 
-extern "C" {
-void fn_82D8AD50(hkMemoryStreamReader *self);   // hkpEntity::~hkpEntity
-}
-
-extern "C" hkMemoryStreamReader *fn_82D8B100(hkMemoryStreamReader *self, unsigned int flags)
-{
-    fn_82D8AD50(self);
-    if (flags & 1)
-        hkMemoryStreamReader::operator delete(self);
-    return self;
-}
+void emitVtable_82D8B100(void *p, const hkpEntity &o) { new (p) hkpEntity(o); }

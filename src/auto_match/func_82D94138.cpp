@@ -1,10 +1,9 @@
 // Moves a phantom by a transform: an AABB phantom has its box translated, a shape phantom's transform is
-// multiplied by the given one. hkpShapePhantom::setTransform is called under its fn_ name (fn_82D99E00).
+// multiplied by the given one.
 #include "havok/hkpAabbPhantom.h"
 #include "havok/hkpShapePhantom.h"
 
 extern "C" void fn_82CE68B8(hkTransform *self, const hkTransform *transform);
-extern "C" void fn_82D99E00(hkpShapePhantom *self, const hkTransform &transform);   // hkpShapePhantom::setTransform
 
 extern "C" void fn_82D94138(hkpPhantom *phantom, const hkTransform *transform)
 {
@@ -23,7 +22,7 @@ extern "C" void fn_82D94138(hkpPhantom *phantom, const hkTransform *transform)
         hkTransform t;
         t = shapePhantom->m_motionState.getTransform();
         fn_82CE68B8(&t, transform);
-        fn_82D99E00(shapePhantom, t);
+        shapePhantom->setTransform(t);
         break;
     }
     }

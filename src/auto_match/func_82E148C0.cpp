@@ -1,4 +1,5 @@
 #include "havok/hkArrayUtil.h"
+#include "havok/hkStringPtr.h"
 
 typedef struct Name_82E148C0 {
     const char *text;
@@ -26,8 +27,6 @@ typedef struct Router_82E148C0 {
 } Router_82E148C0;
 
 extern "C" Router_82E148C0 *fn_82CE5410(void);
-extern "C" void fn_82CED2F8(Name_82E148C0 *name);
-extern "C" void fn_82CED628(Name_82E148C0 *name, const char *text);
 
 extern "C" void fn_82E148C0(Owner_82E148C0 *self, const char *first, const char *second)
 {
@@ -40,12 +39,12 @@ extern "C" void fn_82E148C0(Owner_82E148C0 *self, const char *first, const char 
     }
     p = pairs->data + pairs->size;
     if (p != 0) {
-        fn_82CED2F8(&p->first);
-        fn_82CED2F8(&p->second);
+        fn_82CED2F8(reinterpret_cast<hkStringPtr *>(&p->first));
+        fn_82CED2F8(reinterpret_cast<hkStringPtr *>(&p->second));
     }
     i = pairs->size;
     pairs->size = i + 1;
     p = pairs->data + i;
-    fn_82CED628(&p->first, first);
-    fn_82CED628(&p->second, second);
+    *reinterpret_cast<hkStringPtr *>(&p->first) = first;
+    *reinterpret_cast<hkStringPtr *>(&p->second) = second;
 }

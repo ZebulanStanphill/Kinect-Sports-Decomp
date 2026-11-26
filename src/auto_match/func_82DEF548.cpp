@@ -1,42 +1,12 @@
 // hkpBallGun::fireGun(hkpWorld *, const hkTransform &) (vtable slot 4); sibling of
 // hkpMountedBallGun::fireGun (func_82DF21A0). Needs /O2 /QVMXReserve (flag file).
 #include "havok/hkpRigidBody.h"
+#include "havok/hkpRigidBodyCinfo.h"
 
 class hkpSphereShape : public hkpConvexShape {
 public:
 	hkpSphereShape(hkReal radius);
 	hkUint32 m_pad16[3];
-};
-
-struct hkpRigidBodyCinfo {
-	hkUint32 m_collisionFilterInfo;
-	hkpShape *m_shape;
-	hkInt8 m_collisionResponse;
-	hkUint16 m_contactPointCallbackDelay;
-	hkVector4 m_position;
-	hkVector4 m_rotation;
-	hkVector4 m_linearVelocity;
-	hkVector4 m_angularVelocity;
-	hkVector4 m_inertiaTensor[3];
-	hkVector4 m_centerOfMass;
-	hkReal m_mass;
-	hkReal m_linearDamping;
-	hkReal m_angularDamping;
-	hkReal m_gravityFactor;
-	hkReal m_friction;
-	hkReal m_restitution;
-	hkReal m_maxLinearVelocity;
-	hkReal m_maxAngularVelocity;
-	hkReal m_allowedPenetrationDepth;
-	hkInt8 m_motionType;
-	hkBool m_enableDeactivation;
-	hkInt8 m_solverDeactivation;
-	hkInt8 m_qualityType;
-	hkInt8 m_autoRemoveLevel;
-	hkUint8 m_responseModifierFlags;
-	hkInt8 m_numShapeKeysInContactPointProperties;
-	hkBool m_forceCollideOntoPpu;
-	HK_FORCE_INLINE hkpRigidBodyCinfo();
 };
 
 class hkpWorld {
@@ -46,15 +16,12 @@ public:
 };
 
 extern "C" {
-void fn_82D8B168(hkpRigidBodyCinfo *self);
 void fn_82DEA600(const hkpShape *shape, hkReal mass, hkpRigidBodyCinfo &ci);
 int fn_82DF0890(const hkpWorld *world, const hkVector4 &from, hkReal radius, const hkVector4 &to, struct SweepSphereOut &out);
 void fn_82DF0778(const hkVector4 &position, const hkVector4 &target, const hkVector4 &gravity, hkReal speed, hkVector4 &velocity);
-hkpRigidBody *fn_82D8C258(hkpRigidBody *self, const hkpRigidBodyCinfo &ci);
 hkpRigidBody *fn_82D81078(hkpWorld *world, hkpRigidBody *body, int activation);
 hkBool fn_82D81240(hkpWorld *world, hkpRigidBody *body);
 }
-HK_FORCE_INLINE hkpRigidBodyCinfo::hkpRigidBodyCinfo() { fn_82D8B168(this); }
 
 struct SweepSphereOut {
 	hkVector4 m_position;
@@ -164,7 +131,7 @@ extern "C" void fn_82DEF548(hkpBallGun *self, hkpWorld *world, const hkTransform
 			self->m_listeners[i]->gunFiredCallback(pos, to);
 	}
 
-	hkpRigidBody *body = fn_82D8C258((hkpRigidBody *)hkpRigidBody::operator new(sizeof(hkpRigidBody)), ci);
+	hkpRigidBody *body = new hkpRigidBody(ci);
 	ci.m_shape->removeReference();
 	body->m_damageMultiplier = self->m_damageMultiplier;
 	for (int i = 0; i < self->m_listeners.getSize(); i++)

@@ -25,7 +25,6 @@ typedef struct Stream_82CEE5F8 {
 
 extern Error_82CEE5F8 *lbl_8323B464;
 extern void fn_82CEE578(Stream_82CEE5F8 *, char *, int);
-extern hkOstream *fn_82CED9E8(hkOstream *, const void *);   /* hkOstream::operator<<(const void *) */
 extern hkOstream *fn_82CEDC88(hkOstream *, int);            /* hkOstream::operator<<, %i */
 extern void __debugbreak(void);
 
@@ -36,7 +35,7 @@ void fn_82CEE5F8(Object_82CEE5F8 *object, const char *context)
     int count;
     fn_82CEE578(&stream, buffer, 512);
     count = (short)object->m_referenceCount;
-    *fn_82CEDC88(&(*fn_82CED9E8(&(*(hkOstream *)&stream << "Reference count error on object "), object)
+    *fn_82CEDC88(&(*(hkOstream *)&stream << "Reference count error on object " << (const void *)object
                    << " with ref count of "),
                  count)
         << " in " << context << ".\n"
