@@ -1,14 +1,5 @@
 #include "havok/hkBase.h"
-class hkpCollidableCollidableFilter { public: virtual ~hkpCollidableCollidableFilter(); virtual void filter(); };
-class hkpShapeCollectionFilter { public: virtual void filter1(); virtual void filter2(); virtual void limit(); virtual ~hkpShapeCollectionFilter(); };
-class hkpRayShapeCollectionFilter { public: virtual void filter(); virtual ~hkpRayShapeCollectionFilter(); };
-class hkpRayCollidableFilter { public: virtual ~hkpRayCollidableFilter(); virtual void filter(); };
-class hkpCollisionFilter : public hkReferencedObject, public hkpCollidableCollidableFilter, public hkpShapeCollectionFilter, public hkpRayShapeCollectionFilter, public hkpRayCollidableFilter {
-public:
- hkpCollisionFilter();
- virtual void init();
- char pad[24];
-};
+#include "havok/hkpCollisionFilter.h"
 class hkpGroupCollisionFilter : public hkpCollisionFilter {
 public:
  HK_DECLARE_CLASS_ALLOCATOR(0);

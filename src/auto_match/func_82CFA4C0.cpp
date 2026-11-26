@@ -1,11 +1,6 @@
 // hkDefaultError scalar deleting destructor; it calls the implicit destructor out of line. The function at the end only makes the compiler emit the vtable.
 #include "havok/hkBase.h"
-
-template <typename T>
-class hkSingleton {
-public:
-    static T *s_instance;
-};
+#include "havok/hkSingleton.h"
 
 class hkError : public hkReferencedObject, public hkSingleton<hkError> {
 public:

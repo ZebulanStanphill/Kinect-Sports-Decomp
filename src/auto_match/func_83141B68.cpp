@@ -5,27 +5,10 @@
 // explicit destructor calls on the extern "C" objects; a definition of the
 // object would duplicate the data symbol.
 #include "havok/hkpCollisionAgent.h"
+#include "havok/hkStaticClassNameRegistry.h"
 
 class hkpNullAgent : public hkpCollisionAgent {
 public:
-};
-
-// hkStaticClassNameRegistry (0x18 bytes); static instances lbl_8323FDA0
-// (built by fn_82E16018 in fn_831385C0) and lbl_8323FDC8.
-class hkClassNameRegistry : public hkReferencedObject {
-public:
-    virtual const char *getName() const;
-    virtual const hkClass *getClassByName(const char *className) const;
-    virtual void getClasses(void *classesOut) const;
-};
-
-class hkStaticClassNameRegistry : public hkClassNameRegistry {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_BASE);
-    const char *m_name;               // +0x8
-    hkClass *const *m_classes;        // +0xC
-    int m_classVersion;               // +0x10
-    mutable hkUint32 m_ready;         // +0x14
 };
 
 // hkGeometryProcessing::IFunction / ConstFunction

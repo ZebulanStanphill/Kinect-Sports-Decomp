@@ -2,8 +2,8 @@
 // destructors of the loaded objects (fn_82E16580, kept under its fn_ name), frees the allocations and chunks and
 // the name, then the members are destroyed in reverse order and hkBaseObject's vtable is stored last.
 #include "havok/hkBase.h"
+#include "havok/hkClassNameRegistry.h"
 
-class hkClassNameRegistry : public hkReferencedObject {};
 class hkPackfileData;
 
 extern "C" void fn_82E16580(hkPackfileData *self);   // hkPackfileData::callDestructors

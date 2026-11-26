@@ -81,11 +81,21 @@ class hkpCollisionFilter : public hkReferencedObject,
                            public hkpRayCollidableFilter {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
+    enum hkpFilterType {
+        HK_FILTER_UNKNOWN = 0,
+        HK_FILTER_NULL = 1,
+        HK_FILTER_GROUP = 2,
+        HK_FILTER_LIST = 3,
+        HK_FILTER_CUSTOM = 4,
+        HK_FILTER_PAIR = 5,
+        HK_FILTER_CONSTRAINT = 6
+    };
+    hkpCollisionFilter();
     hkpCollisionFilter(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
     virtual void init(hkpWorld *world);   // primary vtable +0xC
 
     hkUint32 m_prepad[2];   // +0x18
-    hkUint32 m_type;        // +0x20
+    hkUint32 m_type;        // +0x20 hkEnum<hkpFilterType, hkUint32>
     hkUint32 m_postpad[3];  // +0x24
 };
 

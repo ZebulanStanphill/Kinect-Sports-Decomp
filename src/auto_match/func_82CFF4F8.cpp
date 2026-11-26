@@ -1,5 +1,6 @@
 // hkMemoryTrackStreamReader::~hkMemoryTrackStreamReader: deletes the track it owns (delete checks for null).
 #include "havok/hkBase.h"
+#include "havok/hkStreamReader.h"
 
 extern "C" void fn_82CFF478(void *self);   // hkMemoryTrack::~hkMemoryTrack (out of line)
 
@@ -20,18 +21,6 @@ public:
     int m_sectorsCapacityAndFlags;
 };
 
-class hkStreamReader : public hkReferencedObject {
-public:
-    virtual hkBool isOk() const;
-    virtual int read(void *buf, int nbytes);
-};
-
-class hkStreamWriter : public hkReferencedObject {
-public:
-    virtual hkBool isOk() const;
-    virtual int write(const void *buf, int nbytes);
-};
-
 class hkMemoryTrackStreamReader : public hkStreamReader {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_STREAM);
@@ -42,16 +31,6 @@ protected:
     const hkMemoryTrack *m_track;   // +0x8
     int m_trackOffset;              // +0xC
     MemoryType m_memType;           // +0x10
-};
-
-class hkMemoryTrackStreamWriter : public hkStreamWriter {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_STREAM);
-    enum TrackOwnership { TRACK_TAKE, TRACK_BORROW };
-    virtual ~hkMemoryTrackStreamWriter();
-
-    hkMemoryTrack *m_track;      // +0x8
-    TrackOwnership m_ownerShip;  // +0xC
 };
 
 hkMemoryTrackStreamReader::~hkMemoryTrackStreamReader()

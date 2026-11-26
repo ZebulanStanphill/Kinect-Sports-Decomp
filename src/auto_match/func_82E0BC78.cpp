@@ -9,6 +9,7 @@
 // the fixup's section and offset are read into locals after the -1 test (inline reads anchor the
 // strength-reduced pointer at the wrong element); getContentsClassName() reads both header fields first.
 #include "havok/hkBase.h"
+#include "havok/hkClassNameRegistry.h"
 
 extern "C" {
 void fn_82CEA160(void *self, hkMemoryAllocator *alloc, hkUlong key, hkUlong val);   // hkMapBase<hkUlong, hkUlong>::insert
@@ -45,12 +46,6 @@ public:
         fn_82CEA160(&this->m_map, &hkContainerHeapAllocator::get(this), (hkUlong)key, (hkUlong)val);
     }
     HK_FORCE_INLINE int getSize() const { return this->m_map.m_numElems & 0x7fffffff; }
-};
-
-class hkClassNameRegistry : public hkReferencedObject {
-public:
-    virtual const char *getName() const;
-    virtual const hkClass *getClassByName(const char *className) const;
 };
 
 class hkObjectInspector {

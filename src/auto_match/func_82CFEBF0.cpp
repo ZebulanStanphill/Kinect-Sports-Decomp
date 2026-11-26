@@ -2,20 +2,7 @@
 // hkReferencedObject's constructor (m_referenceCount = 1), the vtable, then the running CRC starts as ~startCrc.
 // It keeps its fn_ name (a Matching unit calls it), so the constructor is called explicitly.
 #include "havok/hkBase.h"
-
-// hkStreamWriter (Common/Base/System/Io/Writer/hkStreamWriter.h): 9 vtable slots.
-class hkStreamWriter : public hkReferencedObject {
-public:
-    enum SeekWhence { STREAM_SET = 0, STREAM_CUR = 1, STREAM_END = 2 };
-    hkStreamWriter() {}
-    virtual ~hkStreamWriter() {}
-    virtual hkBool isOk() const = 0;
-    virtual int write(const void *buf, int nbytes) = 0;
-    virtual void flush() {}
-    virtual hkBool seekTellSupported() const;
-    virtual int seek(int offset, SeekWhence whence);
-    virtual int tell() const;
-};
+#include "havok/hkStreamWriter.h"
 
 class hkCrc32StreamWriter : public hkStreamWriter {
 public:

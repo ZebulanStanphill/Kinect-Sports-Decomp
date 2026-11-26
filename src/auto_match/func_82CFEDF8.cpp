@@ -1,13 +1,8 @@
 // hkMemoryTrackStreamReader::hkMemoryTrackStreamReader(const hkMemoryTrack *, MemoryType) (Common/Base/System/Io/Reader/MemoryTrack).
 #include "havok/hkBase.h"
+#include "havok/hkStreamReader.h"
 
 class hkMemoryTrack;
-
-class hkStreamReader : public hkReferencedObject {
-public:
-    virtual hkBool isOk() const;
-    virtual int read(void *buf, int nbytes);
-};
 
 class hkMemoryTrackStreamReader : public hkStreamReader {
 public:

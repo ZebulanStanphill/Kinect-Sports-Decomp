@@ -3,30 +3,7 @@
 // fn_ wrapper runs the forced-inline constructor with MSVC's explicit constructor call (self->C::C(...)), which,
 // unlike placement new, adds no null check.
 #include "havok/hkBase.h"
-
-class hkStreamWriter : public hkReferencedObject {
-public:
-    virtual hkBool isOk() const = 0;
-    virtual int write(const void *buf, int nbytes) = 0;
-    virtual void flush() {}                               // +0x14
-};
-
-class hkBufferedStreamWriter : public hkStreamWriter {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_STREAM);
-    hkBufferedStreamWriter(hkStreamWriter *s, int bufSize);
-    virtual ~hkBufferedStreamWriter();
-    virtual hkBool isOk() const;
-    virtual int write(const void *buf, int nbytes);
-    virtual void flush();
-
-protected:
-    hkStreamWriter *m_stream;   // +0x8
-    char *m_buf;                // +0xC
-    int m_bufSize;              // +0x10
-    int m_bufCapacity;          // +0x14
-    hkBool m_ownBuffer;         // +0x18
-};
+#include "havok/hkBufferedStreamWriter.h"
 
 HK_FORCE_INLINE hkBufferedStreamWriter::hkBufferedStreamWriter(hkStreamWriter *s, int bufSize)
     : m_stream(s), m_ownBuffer(true)

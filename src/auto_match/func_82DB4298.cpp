@@ -2,16 +2,9 @@
 // bumps the use count of the world's utility or creates it and registers its two listeners
 // and its callback map with the world.
 #include "havok/hkBase.h"
-
-extern "C" void fn_8265CA20(void *p);   // global operator delete
+#include "havok/hkpConstraintListener.h"
 
 class hkpWorld;
-
-class hkpConstraintListener {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual ~hkpConstraintListener() {}
-};
 
 class hkpWorldDeletionListener {
 public:

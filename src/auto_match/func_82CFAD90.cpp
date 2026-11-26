@@ -1,24 +1,13 @@
 // hkStdioStreamReader scalar deleting destructor, generated from the destructor below (hkStdioStreamReader.cpp).
 #include "havok/hkBase.h"
+#include "havok/hkStreamWriter.h"
+#include "havok/hkStreamReader.h"
 
 // C runtime functions
 extern "C" {
 void *fopen(const char *name, const char *mode);
 int fclose(void *stream);
 }
-
-class hkStreamReader : public hkReferencedObject {
-public:
-    virtual hkBool isOk() const = 0;
-    virtual int read(void *buf, int nbytes) = 0;
-};
-
-class hkStreamWriter : public hkReferencedObject {
-public:
-    virtual hkBool isOk() const = 0;
-    virtual int write(const void *buf, int nbytes) = 0;
-    virtual void flush() {}
-};
 
 class hkStdioStreamReader : public hkStreamReader {
 public:

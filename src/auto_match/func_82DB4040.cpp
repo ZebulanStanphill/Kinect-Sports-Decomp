@@ -2,24 +2,9 @@
 // hkpWorldDeletionListener vtable (this = the +0xC listener). Removes the callback map from the world
 // (fn_82DC82C8, the call fn_82DB3FD0 makes too), unregisters both listeners and releases the utility.
 #include "havok/hkBase.h"
-
-extern "C" void fn_8265CA20(void *p);   // global operator delete
+#include "havok/hkpConstraintListener.h"
 
 class hkpWorld;
-class hkpConstraintInstance;
-struct hkpConstraintBrokenEvent;
-struct hkpConstraintRepairedEvent;
-
-class hkpConstraintListener {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual ~hkpConstraintListener() {}
-    virtual void constraintAddedCallback(hkpConstraintInstance *constraint) {}
-    virtual void constraintRemovedCallback(hkpConstraintInstance *constraint) {}
-    virtual void constraintDeletedCallback(hkpConstraintInstance *constraint) {}
-    virtual void constraintBreakingCallback(const hkpConstraintBrokenEvent &event) {}
-    virtual void constraintRepairedCallback(const hkpConstraintRepairedEvent &event) {}
-};
 
 class hkpWorldDeletionListener {
 public:

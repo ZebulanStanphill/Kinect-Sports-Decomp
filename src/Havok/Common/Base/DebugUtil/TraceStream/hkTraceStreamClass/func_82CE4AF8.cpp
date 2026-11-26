@@ -1,11 +1,6 @@
 // finishLoadedObjecthkTraceStream: the finish function in hkTraceStream's hkTypeInfo (HK_REFLECTION_DEFINE_VIRTUAL, static in Havok).
 #include "havok/hkBase.h"
-
-template <typename T>
-class hkSingleton {
-public:
-    static T *s_instance;
-};
+#include "havok/hkSingleton.h"
 
 class hkTraceStream : public hkReferencedObject, public hkSingleton<hkTraceStream> {
 public:

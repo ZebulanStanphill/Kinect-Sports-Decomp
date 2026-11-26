@@ -4,8 +4,8 @@
 // It keeps its fn_ name because a Matching C unit (fn_8253C6B8) calls it: the
 // destructor is defined inline and expanded into an extern "C" definition.
 #include "havok/hkBase.h"
+#include "havok/hkpCollisionFilter.h"
 
-class hkpCollisionFilter : public hkReferencedObject {};
 class hkpConvexListFilter : public hkReferencedObject {};
 class hkWorldMemoryAvailableWatchDog : public hkReferencedObject {};
 

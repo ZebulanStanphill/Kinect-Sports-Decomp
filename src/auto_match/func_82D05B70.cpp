@@ -1,19 +1,9 @@
 // hkBsdSocket::~hkBsdSocket (Common/Base/System/Io/Socket/Bsd/hkBsdSocket.cpp).
 #include "havok/hkBase.h"
+#include "havok/hkStreamWriter.h"
+#include "havok/hkStreamReader.h"
 
 extern "C" int closesocket(int s);
-
-class hkStreamReader : public hkReferencedObject {
-public:
-    virtual hkBool isOk() const;
-    virtual int read(void *buf, int nbytes);
-};
-
-class hkStreamWriter : public hkReferencedObject {
-public:
-    virtual hkBool isOk() const;
-    virtual int write(const void *buf, int nbytes);
-};
 
 // hkSocket (Common/Base/System/Io/Socket/hkSocket.h): its reader and writer
 // adapters are members, so its destructor ends with their (implicit)

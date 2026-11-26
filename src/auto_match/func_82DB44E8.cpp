@@ -4,14 +4,9 @@
 // destructor stays out of line as fn_82DB4350), then the listener bases store their vtables and
 // hkBaseObject's; the class allocator frees m_memSizeAndFlags bytes. Layout as func_82DB4458.cpp.
 #include "havok/hkBase.h"
+#include "havok/hkpConstraintListener.h"
 
 extern "C" void fn_82DB4350(void *self);   // destructor of the member at +0x14
-
-class hkpConstraintListener {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual ~hkpConstraintListener() {}
-};
 
 class hkpWorldDeletionListener {
 public:

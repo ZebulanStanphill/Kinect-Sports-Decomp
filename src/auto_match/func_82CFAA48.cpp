@@ -1,11 +1,6 @@
 // hkBufferedStreamReader::hkBufferedStreamReader(hkStreamReader *, int) (hkBufferedStreamReader.cpp).
 #include "havok/hkBase.h"
-
-class hkStreamReader : public hkReferencedObject {
-public:
-    virtual hkBool isOk() const = 0;
-    virtual int read(void *buf, int nbytes) = 0;
-};
+#include "havok/hkStreamReader.h"
 
 class hkBufferedStreamReader : public hkStreamReader {
 public:

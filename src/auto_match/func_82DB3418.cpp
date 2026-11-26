@@ -3,11 +3,10 @@
 // destructors store the listener vtables and hkBaseObject's. It keeps its fn_ name because the
 // deleting destructor fn_82DB3F20 can match as C: the destructor is written inline and called here.
 #include "havok/hkBase.h"
+#include "havok/hkpEntityListener.h"
 
 class hkpWorld;
-class hkpEntity;
 class hkpPhantom;
-class hkpEntityListener;
 class hkpPhantomListener;
 
 extern "C" {
@@ -41,17 +40,6 @@ public:
     void *m_unk08;      // +0x08
     void *m_unk0C;      // +0x0C
     hkKdTree *m_tree;   // +0x10
-};
-
-class hkpEntityListener {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual ~hkpEntityListener() {}
-    virtual void entityAddedCallback(hkpEntity *entity) {}
-    virtual void entityRemovedCallback(hkpEntity *entity) {}
-    virtual void entityShapeSetCallback(hkpEntity *entity);
-    virtual void entitySetMotionTypeCallback(hkpEntity *entity) {}
-    virtual void entityDeletedCallback(hkpEntity *entity) {}
 };
 
 class hkpPhantomListener {

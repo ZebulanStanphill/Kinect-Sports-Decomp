@@ -5,12 +5,7 @@
 // with hkpMultiRayShape (fn_82D3A990). The two words at +0x8 and +0xC are
 // cleared in the constructor body; their names are not known.
 #include "havok/hkBase.h"
-
-template <typename T>
-class hkSingleton {
-public:
-    static T *s_instance;
-};
+#include "havok/hkSingleton.h"
 
 class hkOstream;
 

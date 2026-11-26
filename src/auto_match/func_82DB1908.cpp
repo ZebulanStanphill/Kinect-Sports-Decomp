@@ -3,6 +3,7 @@
 // interfaces at +0x14, +0x18, +0x1C and +0x20. The body unregisters the listeners and deletes the owned objects; then
 // the hkMap and hkArray members are destroyed, and the bases (the listener interfaces' vtables, then hkBaseObject's).
 #include "havok/hkBase.h"
+#include "havok/hkpEntityListener.h"
 
 class hkpWorld;
 
@@ -14,13 +15,6 @@ HK_FORCE_INLINE void HK_CALL hkDeallocateChunk(TYPE *ptr, int numberOfObjects, H
     hkMemoryRouter::getInstance().heap().blockFree(static_cast<void *>(ptr), numberOfObjects * int(sizeof(TYPE)));
 }
 
-// The world listener interfaces (Physics/Dynamics/World/Listener/...): roots without hkBaseObject, freed through the
-// global operator delete.
-class hkpEntityListener {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual ~hkpEntityListener() {}
-};
 class hkpPhantomListener {
 public:
     static void operator delete(void *p) { fn_8265CA20(p); }

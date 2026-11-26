@@ -1,10 +1,10 @@
 #include "havok/hkBase.h"
+#include "havok/hkpEntityListener.h"
 class hkpWorld { public:char pad[0x78]; char *broadphase;};
 class hkpTreeWorldManager:public hkReferencedObject {public:
  int type;void *tree,*other;
  HK_FORCE_INLINE hkpTreeWorldManager():tree(0),other(0){} virtual ~hkpTreeWorldManager();
 };
-class hkpEntityListener {public:virtual ~hkpEntityListener(){} static void operator delete(void *p){fn_8265CA20(p);}};
 class hkpPhantomListener {public:virtual ~hkpPhantomListener(){} static void operator delete(void *p){fn_8265CA20(p);}};
 class hkpIslandActivationListener {public:virtual ~hkpIslandActivationListener(){} static void operator delete(void *p){fn_8265CA20(p);}};
 class hkpWorldPostSimulationListener {public:virtual ~hkpWorldPostSimulationListener(){} static void operator delete(void *p){fn_8265CA20(p);}};

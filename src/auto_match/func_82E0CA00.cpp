@@ -4,16 +4,11 @@
 // (addFinish) with it, sets the top level object, then walks the contents with the anonymous-namespace
 // listeners PackfilePointersMapListener (version 1 files) and PackfileCstringListener (versions up to 6).
 #include "havok/hkBase.h"
+#include "havok/hkClassNameRegistry.h"
 
 struct hkVariant {
     void *m_object;
     const hkClass *m_class;
-};
-
-class hkClassNameRegistry : public hkReferencedObject {
-public:
-    virtual const char *getName() const;
-    virtual const hkClass *getClassByName(const char *className) const;
 };
 
 class hkObjectUpdateTracker : public hkReferencedObject {

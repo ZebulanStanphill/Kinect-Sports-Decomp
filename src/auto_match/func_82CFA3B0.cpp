@@ -1,11 +1,6 @@
 // hkDefaultError::hkDefaultError(hkErrorReportFunction, void *) (Common/Base/System/Error/hkDefaultError.cpp).
 #include "havok/hkBase.h"
-
-template <typename T>
-class hkSingleton {
-public:
-    static T *s_instance;
-};
+#include "havok/hkSingleton.h"
 
 typedef void (HK_CALL *hkErrorReportFunction)(const char *s, void *errorReportObject);
 

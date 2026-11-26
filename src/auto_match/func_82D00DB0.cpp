@@ -1,11 +1,6 @@
 // hkStackTracer::hkStackTracer (Common/Base/System/StackTracer/hkStackTracer.cpp).
 #include "havok/hkBase.h"
-
-template <typename T>
-class hkSingleton {
-public:
-    static T *s_instance;
-};
+#include "havok/hkSingleton.h"
 
 class hkStackTracer : public hkReferencedObject, public hkSingleton<hkStackTracer> {
 public:

@@ -3,12 +3,7 @@
 // then the class allocator's delete. The function at the end only makes the
 // compiler emit the vtable.
 #include "havok/hkBase.h"
-
-template <typename T>
-class hkSingleton {
-public:
-    static T *s_instance;
-};
+#include "havok/hkSingleton.h"
 
 // Common/Serialize/Version/hkVersionRegistry.h (0x24 bytes; the RTTI places the
 // empty hkSingleton base at +0x8)

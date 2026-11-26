@@ -3,20 +3,10 @@
 // an invalid handle creates a new TCP socket (close(), then socket(AF_INET,
 // SOCK_STREAM, 0), socket).
 #include "havok/hkBase.h"
+#include "havok/hkStreamWriter.h"
+#include "havok/hkStreamReader.h"
 
 extern "C" int socket(int af, int type, int protocol);
-
-class hkStreamReader : public hkReferencedObject {
-public:
-    virtual hkBool isOk() const;
-    virtual int read(void *buf, int nbytes);
-};
-
-class hkStreamWriter : public hkReferencedObject {
-public:
-    virtual hkBool isOk() const;
-    virtual int write(const void *buf, int nbytes);
-};
 
 // hkSocket (Common/Base/System/Io/Socket/hkSocket.h), as in func_82D05B70.cpp.
 class hkSocket : public hkReferencedObject {

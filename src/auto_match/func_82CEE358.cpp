@@ -1,5 +1,7 @@
 // hkMemoryTrackStreamWriter scalar deleting destructor; it calls ~hkMemoryTrackStreamWriter (not visible here). The function at the end only makes the compiler emit the vtable.
 #include "havok/hkBase.h"
+#include "havok/hkStreamReader.h"
+#include "havok/hkMemoryTrackStreamWriter.h"
 
 extern "C" void fn_82CFF478(void *self);   // hkMemoryTrack::~hkMemoryTrack (out of line)
 
@@ -15,18 +17,6 @@ public:
     hkArray<hkUint8 *> m_sectors;  // +0x8
 };
 
-class hkStreamReader : public hkReferencedObject {
-public:
-    virtual hkBool isOk() const;
-    virtual int read(void *buf, int nbytes);
-};
-
-class hkStreamWriter : public hkReferencedObject {
-public:
-    virtual hkBool isOk() const;
-    virtual int write(const void *buf, int nbytes);
-};
-
 class hkMemoryTrackStreamReader : public hkStreamReader {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_STREAM);
@@ -39,14 +29,4 @@ protected:
     MemoryType m_memType;           // +0x10
 };
 
-class hkMemoryTrackStreamWriter : public hkStreamWriter {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_STREAM);
-    enum TrackOwnership { TRACK_TAKE, TRACK_BORROW };
-    virtual ~hkMemoryTrackStreamWriter();
-
-    hkMemoryTrack *m_track;      // +0x8
-    TrackOwnership m_ownerShip;  // +0xC
-};
-
-void emitVtable_82CEE358(void *p) { new (p) hkMemoryTrackStreamWriter; }
+void emitVtable_82CEE358(void *p) { new (p) hkMemoryTrackStreamWriter(HK_NULL, hkMemoryTrackStreamWriter::TRACK_BORROW); }

@@ -1,5 +1,6 @@
 // hkpConstraintCollisionFilter::hkpConstraintCollisionFilter(const hkpCollisionFilter *) (hkpConstraintCollisionFilter.cpp).
 #include "havok/hkpCollisionFilter.h"
+#include "havok/hkpConstraintListener.h"
 
 extern "C" void fn_82CEA8E8(void *self, hkMemoryAllocator *alloc);   // hkMapBase<PairFilterKey, hkUint64>::clearAndDeallocate (16-byte pairs)
 
@@ -32,37 +33,6 @@ public:
 
     PairFilterMap m_disabledPairs;              // +0x30
     const hkpCollisionFilter *m_childFilter;    // +0x3C
-};
-
-class hkpEntity;
-class hkpConstraintInstance;
-struct hkpConstraintBrokenEvent;
-struct hkpConstraintRepairedEvent;
-
-extern "C" void fn_8265CA20(void *p);   // global operator delete
-
-// Listener interfaces with no base (RTTI). Vtables: the deleting destructor, then five callbacks whose default
-// implementations are empty (folded into fn_82BA02A8; hkpEntityListener's slot 3 is fn_82DB2F50).
-class hkpConstraintListener {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual ~hkpConstraintListener() {}
-    virtual void constraintAddedCallback(hkpConstraintInstance *constraint) {}
-    virtual void constraintRemovedCallback(hkpConstraintInstance *constraint) {}
-    virtual void constraintDeletedCallback(hkpConstraintInstance *constraint) {}
-    virtual void constraintBreakingCallback(const hkpConstraintBrokenEvent &event) {}
-    virtual void constraintRepairedCallback(const hkpConstraintRepairedEvent &event) {}
-};
-
-class hkpEntityListener {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual ~hkpEntityListener() {}
-    virtual void entityAddedCallback(hkpEntity *entity) {}
-    virtual void entityRemovedCallback(hkpEntity *entity) {}
-    virtual void entityShapeSetCallback(hkpEntity *entity);
-    virtual void entitySetMotionTypeCallback(hkpEntity *entity) {}
-    virtual void entityDeletedCallback(hkpEntity *entity) {}
 };
 
 // RTTI: hkpPairCollisionFilter at +0x0, hkpConstraintListener at +0x40.

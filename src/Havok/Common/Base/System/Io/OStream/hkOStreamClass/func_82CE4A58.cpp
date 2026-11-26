@@ -3,11 +3,7 @@
 // Hierarchy from the RTTI: hkOstream -> hkReferencedObject -> hkBaseObject; only the finish
 // constructors are declared.
 #include "havok/hkBase.h"
-
-class hkOstream : public hkReferencedObject {
-public:
-    hkOstream(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
+#include "havok/hkOstream.h"
 
 const void *HK_CALL getVtablehkOstream()
 {

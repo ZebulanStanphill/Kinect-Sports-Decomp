@@ -3,6 +3,7 @@
 // fails (1), a position past the end grows the array, zero-filling the gap (hkArray::setSize(n + 1, 0), then the
 // size is set back to n so a terminating zero stays in the buffer).
 #include "havok/hkBase.h"
+#include "havok/hkStreamWriter.h"
 
 template <typename T>
 static HK_FORCE_INLINE void constructWithCopy(T *p, int n, const T &fill)
@@ -31,11 +32,6 @@ public:
         this->m_size = n;
     }
     HK_FORCE_INLINE void setSizeUnchecked(int n) { this->m_size = n; }
-};
-
-class hkStreamWriter : public hkReferencedObject {
-public:
-    enum SeekWhence { STREAM_SET = 0, STREAM_CUR = 1, STREAM_END = 2 };
 };
 
 class hkArrayStreamWriter : public hkStreamWriter {

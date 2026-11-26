@@ -7,6 +7,7 @@
 // symbols.txt already names 0.6f, 0.1f, 200.0f and 1.0f that way.
 #include "havok/hkBase.h"
 #include "havok/hkVector4.h"
+#include "havok/hkpCollisionFilter.h"
 
 struct hkAabb {
     hkVector4 m_min;
@@ -20,7 +21,6 @@ public:
     STORAGE m_storage;
 };
 
-class hkpCollisionFilter : public hkReferencedObject {};
 class hkpConvexListFilter : public hkReferencedObject {};
 class hkWorldMemoryAvailableWatchDog : public hkReferencedObject {};
 

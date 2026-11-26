@@ -1,5 +1,5 @@
 #include "havok/hkpCollisionFilter.h"
-class hkpConstraintListener { public: virtual ~hkpConstraintListener() {} };
+#include "havok/hkpConstraintListener.h"
 class hkpConstrainedSystemFilter : public hkpCollisionFilter, public hkpConstraintListener {
 public:
  HK_DECLARE_CLASS_ALLOCATOR(0);

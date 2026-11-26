@@ -1,5 +1,5 @@
 #include "havok/hkBase.h"
-class hkpConstraintListener { public: static void operator delete(void *p) {fn_8265CA20(p);} virtual ~hkpConstraintListener() {} };
+#include "havok/hkpConstraintListener.h"
 class hkpWorldDeletionListener { public: static void operator delete(void *p) {fn_8265CA20(p);} virtual ~hkpWorldDeletionListener() {} };
 extern "C" void fn_82DC8A30(void *);
 class CallbackMap { public: CallbackMap() { fn_82DC8A30(this); } int data[4]; };

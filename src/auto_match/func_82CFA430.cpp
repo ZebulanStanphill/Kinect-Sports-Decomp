@@ -1,11 +1,6 @@
 // hkDefaultError::~hkDefaultError, the implicit destructor (Common/Base/System/Error/hkDefaultError.h): the array, then the pointer map. Emitted out of line because the deleting destructor (fn_82CFA4C0) calls it; the function at the end only makes the compiler emit the vtable.
 #include "havok/hkBase.h"
-
-template <typename T>
-class hkSingleton {
-public:
-    static T *s_instance;
-};
+#include "havok/hkSingleton.h"
 
 class hkError : public hkReferencedObject, public hkSingleton<hkError> {
 public:
