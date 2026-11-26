@@ -3,17 +3,7 @@
 // hkpSymmetricAgent. Both agents are allocated with the class allocator (no null check); the hkpMoppAgent
 // constructor is inlined around hkpBvTreeAgent's (out of line, fn_82D56088).
 #include "havok/hkBase.h"
-#include "havok/hkpCdBody.h"
-
-class hkpContactMgr;
-class hkpConstraintOwner;
-class hkpCdBodyPairCollector;
-class hkpCdPointCollector;
-typedef hkpConstraintOwner hkCollisionConstraintOwner;
-struct hkpCollisionInput;
-struct hkpLinearCastCollisionInput;
-struct hkpProcessCollisionInput;
-struct hkpProcessCollisionOutput;
+#include "havok/hkpSymmetricAgent.h"
 
 // hkpMoppCode (Physics/Internal/Collide/Mopp/Code/hkpMoppCode.h): hkReferencedObject, CodeInfo
 // (an hkVector4 at +0x10), then hkArray<hkUint8> m_data (+0x20).
@@ -37,23 +27,6 @@ public:
 class hkpMoppBvTreeShape : public hkMoppBvTreeShapeBase {
 };
 
-class hkpCollisionAgent : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    hkpCollisionAgent(hkpContactMgr *contactMgr) : m_contactMgr(contactMgr) {}
-    virtual void getPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                                 hkpCdBodyPairCollector &collector);   // +0xC
-    virtual void getClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                                  hkpCdPointCollector &collector);   // +0x10
-    virtual void linearCast(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpLinearCastCollisionInput &input,
-                            hkpCdPointCollector &collector, hkpCdPointCollector *startCollector);   // +0x14
-    virtual void processCollision(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpProcessCollisionInput &input,
-                                  hkpProcessCollisionOutput &result);   // +0x18
-    virtual void cleanup(hkCollisionConstraintOwner &constraintOwner);   // +0x1C
-
-    hkpContactMgr *m_contactMgr;   // +0x8
-};
-
 struct hkpBvAgentEntryInfo {
     hkpShapeKey m_key;
     hkInt32 m_userInfo;
@@ -67,13 +40,6 @@ public:
 
     hkArray<hkpBvAgentEntryInfo> m_collisionPartners;   // +0xC
     hkUint8 m_rest[0x40 - 0x18];                         // sizeof is 0x40
-};
-
-template <typename AGENT>
-class hkpSymmetricAgent : public AGENT {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    hkpSymmetricAgent(hkpContactMgr *mgr) : AGENT(mgr) {}
 };
 
 class hkpMoppAgent : public hkpBvTreeAgent {

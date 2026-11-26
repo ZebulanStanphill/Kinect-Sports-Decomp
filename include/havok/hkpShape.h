@@ -127,6 +127,7 @@ public:
 
 class hkpShapeContainer {
 public:
+    enum ReferencePolicy { REFERENCE_POLICY_IGNORE, REFERENCE_POLICY_INCREMENT };
     static void operator delete(void *p) { fn_8265CA20(p); }
     virtual ~hkpShapeContainer() {}
     virtual int getNumChildShapes() const;                                    // +0x04
@@ -159,6 +160,20 @@ public:
 class hkpShapeCollection : public hkpShape, public hkpShapeContainer {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SHAPE);
+    // The constructors of the collection shapes pass 0 (list), 2 (tri-sampled
+    // height field), 3 (convex piece mesh), 4 (simple mesh), 5 (mesh) and
+    // 6 (compressed mesh); the name for 1 follows Havok's header.
+    enum CollectionType {
+        COLLECTION_LIST,
+        COLLECTION_EXTENDED_MESH,
+        COLLECTION_TRISAMPLED_HEIGHTFIELD,
+        COLLECTION_USER,
+        COLLECTION_SIMPLE_MESH,
+        COLLECTION_MESH_SHAPE,
+        COLLECTION_COMPRESSED_MESH,
+        COLLECTION_MAX
+    };
+    hkpShapeCollection(hkpShapeType type, CollectionType collectionType);   // out of line (82D48E38)
     hkpShapeCollection(hkFinishLoadedObjectFlag flag) : hkpShape(flag) {}
     virtual const hkpShapeContainer *getContainer() const;
 

@@ -5,8 +5,8 @@
 // destructor is defined inline and expanded into an extern "C" definition.
 #include "havok/hkBase.h"
 #include "havok/hkpCollisionFilter.h"
+#include "havok/hkpCollisionInput.h"
 
-class hkpConvexListFilter : public hkReferencedObject {};
 class hkWorldMemoryAvailableWatchDog : public hkReferencedObject {};
 
 class hkpWorldCinfo : public hkReferencedObject {

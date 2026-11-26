@@ -2,8 +2,8 @@
 // the body with the smaller object radius goes first; otherwise the symmetric agent flips them.
 // Both arms inline hkpBvTreeAgent(hkpContactMgr *), whose cached AABB is set to HK_REAL_MAX.
 // Havok code: /O2 /QVMXReserve (flag file).
-#include "havok/hkpCollisionAgent.h"
 #include "havok/hkAabb.h"
+#include "havok/hkpSymmetricAgent.h"
 
 // HK_REAL_MAX. Havok writes the literal, so the compiler knows the value cannot
 // change: it loads it once for both setAll calls and schedules the load above the
@@ -32,13 +32,6 @@ public:
 
     hkArray<hkpBvAgentEntryInfo> m_collisionPartners;   // +0xC
     hkAabb m_cachedAabb;                                 // +0x20
-};
-
-template <typename AGENT>
-class hkpSymmetricAgent : public AGENT {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    hkpSymmetricAgent(hkpContactMgr *mgr) : AGENT(mgr) {}
 };
 
 hkpCollisionAgent *HK_CALL hkpBvTreeAgent::createBvBvAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB,

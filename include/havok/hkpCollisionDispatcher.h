@@ -24,6 +24,8 @@ public:
         hkBool m_isPredictive;
     };
 
+    virtual ~hkpCollisionDispatcher();   // out of line (fn_82D597D8)
+
     HK_FORCE_INLINE hkpCollisionAgent *getNewCollisionAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
                                                             const hkpCollisionInput &input, hkpContactMgr *mgr) const
     {

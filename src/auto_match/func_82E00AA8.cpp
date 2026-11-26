@@ -7,16 +7,6 @@ void fn_82D9A420(hkpPhantom *phantom, hkpPhantomOverlapListener *listener);   //
 void fn_82D9A5F8(hkpPhantom *phantom, hkpPhantomOverlapListener *listener);   // hkpPhantom::addPhantomOverlapListener
 }
 
-// Only what the wheel-collide code touches.
-class hkpPhantom : public hkReferencedObject {
-public:
-    void removePhantomOverlapListener(hkpPhantomOverlapListener *listener) { fn_82D9A420(this, listener); }
-    void addPhantomOverlapListener(hkpPhantomOverlapListener *listener) { fn_82D9A5F8(this, listener); }
-};
-
-class hkpAabbPhantom : public hkpPhantom {
-};
-
 // HK_REAL_EPSILON is a literal: the game reads it once from the merged constant __real@34000000, which symbols.txt
 // calls lbl_82057518 (Matching C units use that name, so it cannot be renamed yet). With an extern declaration
 // instead the compiler reloads it after the first store. Best: 99.7% (only the constant's name differs).

@@ -2,6 +2,7 @@
 // (??1, fn_82DF5078). The finish constructor at the end only makes the compiler emit the vtable.
 #include "havok/hkBase.h"
 #include "havok/hkpEntity.h"
+#include "havok/hkContactPoint.h"
 
 class hkpSimpleContactConstraintAtom;
 extern "C" void fn_82D9FE90(hkpSimpleContactConstraintAtom *self, hkFinishLoadedObjectFlag f);   // its finish constructor
@@ -33,12 +34,6 @@ public:
     hkpSimpleContactConstraintDataInfo m_info;    // +0x10
 };
 
-// Common/Base/Types/Physics/ContactPoint/hkContactPoint.h (0x20 bytes).
-class hkContactPoint {
-public:
-    hkVector4 m_position;
-    hkVector4 m_separatingNormal;
-};
 struct hkpAgent1nSector;
 struct hkpSerializedSubTrack1nInfo;
 

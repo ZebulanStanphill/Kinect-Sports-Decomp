@@ -3,14 +3,7 @@
 // hkpDisplayBindingData and its nested RigidBody and PhysicsSystem (Physics/Utilities/VisualDebugger/
 // hkpDisplayBindingData.h); member layout from the destructors.
 #include "havok/hkBase.h"
-
-class __declspec(align(16)) hkMatrix4 {
-public:
-    hkReal m[16];
-};
-
-class hkpRigidBody;
-class hkpPhysicsSystem;
+#include "havok/hkMatrix4.h"
 
 class hkpDisplayBindingData : public hkReferencedObject {
 public:

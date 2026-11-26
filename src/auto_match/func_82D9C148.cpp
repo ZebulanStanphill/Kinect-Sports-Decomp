@@ -1,6 +1,7 @@
 #include "havok/hkBase.h"
 #include "havok/hkpCachingShapePhantom.h"
 #include "havok/hkpCollisionAgent.h"
+#include "havok/hkpConstraintData.h"
 
 #pragma intrinsic(__vxor)
 
@@ -8,13 +9,6 @@ extern "C" void fn_830824B8(hkMotionState *self, const hkVector4 &position, cons
 
 // hkQuaternion::set(const hkRotation &) is out of line (fn_82CE5990).
 extern "C" void fn_82CE5990(hkQuaternion *self, const hkRotation &r);
-
-struct hkpConstraintInfo {
-    int m_maxSizeOfSchema;
-    int m_sizeOfSchemas;
-    int m_numSolverResults;
-    int m_numSolverElemTemps;
-};
 
 // hkpConstraintOwner (Physics/Dynamics/Constraint/hkpConstraintOwner.h), 0x18 bytes; the collision agents'
 // cleanup takes one. Its constructor leaves m_constraintInfo alone.

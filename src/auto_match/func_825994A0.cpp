@@ -8,19 +8,13 @@
 // Register and scheduling details depend on where things are first referenced: the queue array is
 // passed into receive() from the loop and case 10 comes before the cases that use the thread name.
 /* The XDK's ppcintrinsics.h defines __lwsync() as this __emit. */
+
+#include "havok/hkFlags.h"
+
 extern "C" void __emit(unsigned int opcode);
 #define __lwsync() __emit(0x7C2004AC)
 
 inline void *operator new(unsigned int, void *p) { return p; }
-
-template <typename BITS, typename STORAGE>
-class hkFlags {
-public:
-    __forceinline hkFlags() {}
-    __forceinline hkFlags(STORAGE s) { m_storage = s; }
-private:
-    STORAGE m_storage;
-};
 
 class hkMemoryRouter;
 class hkMemorySystem;

@@ -14,6 +14,7 @@ public:
     HK_FORCE_INLINE hkpLinkedCollidable(const hkpShape *shape, const hkMotionState *ms, int type = 0)
         : hkpCollidable(shape, ms, type) {}
     HK_FORCE_INLINE hkpLinkedCollidable(hkFinishLoadedObjectFlag flag) : hkpCollidable(flag) {}
+    ~hkpLinkedCollidable();   // out of line (82D3BBC8)
 
     hkArray<CollisionEntry> m_collisionEntries;   // +0x50
 };

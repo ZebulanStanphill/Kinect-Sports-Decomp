@@ -8,6 +8,7 @@
 #define HK_VECTOR4_COPY_CONSTRUCTOR
 #include "havok/hkBase.h"
 #include "havok/hkContactPoint.h"
+#include "havok/hkpCdPointCollector.h"
 
 class hkMatrix3 {
 public:
@@ -84,17 +85,6 @@ struct hkpRootCdPoint {
     hkpShapeKey m_shapeKeyA;                // +0x24
     const hkpCollidable *m_rootCollidableB; // +0x28
     hkpShapeKey m_shapeKeyB;                // +0x2C
-};
-
-struct hkpCdPoint;
-
-class hkpCdPointCollector {
-public:
-    HK_FORCE_INLINE hkpCdPointCollector() { reset(); }
-    HK_FORCE_INLINE virtual ~hkpCdPointCollector() {}
-    virtual void addCdPoint(const hkpCdPoint &point);
-    HK_FORCE_INLINE void reset() { m_earlyOutDistance = 3.40282e+38f; }
-    hkReal m_earlyOutDistance;   // +0x4
 };
 
 class hkpClosestCdPointCollector : public hkpCdPointCollector {

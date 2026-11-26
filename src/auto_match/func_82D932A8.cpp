@@ -1,6 +1,6 @@
 #include "havok/hkBase.h"
 #include "havok/hkTransform.h"
-#include "havok/hkQuaternion.h"
+#include "havok/hkSweptTransform.h"
 
 extern "C" const float lbl_82131F88[]; // hkUFloat8 -> hkReal table
 
@@ -13,26 +13,6 @@ class hkUFloat8
     }
 
     hkUint8 m_value;
-};
-
-class hkSweptTransform
-{
-  public:
-    HK_FORCE_INLINE hkReal getBaseTime() const
-    {
-        return m_centerOfMass0(3);
-    }
-
-    HK_FORCE_INLINE hkReal getInvDeltaTime() const
-    {
-        return m_centerOfMass1(3);
-    }
-
-    hkVector4 m_centerOfMass0;     // +0x00 (w: base time)
-    hkVector4 m_centerOfMass1;     // +0x10 (w: inverse delta time)
-    hkQuaternion m_rotation0;      // +0x20
-    hkQuaternion m_rotation1;      // +0x30
-    hkVector4 m_centerOfMassLocal; // +0x40
 };
 
 class hkMotionState;

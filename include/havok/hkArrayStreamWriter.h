@@ -7,7 +7,13 @@
 
 #include "havok/hkStreamWriter.h"
 
-extern "C" void fn_82CEE3C0(void *self);   // hkArrayStreamWriter::nullTerminate
+extern "C" {
+void fn_82CEE3C0(void *self);   // hkArrayStreamWriter::nullTerminate
+// The scalar deleting destructor the compiler generates for `delete` on an
+// hkArray<char> (out of line, non-virtual). It keeps its fn_ name because a
+// Matching C unit defines it.
+void *fn_82CEE440(hkArrayBase<char> *arr, unsigned int flags);
+}
 
 class hkArrayStreamWriter : public hkStreamWriter {
 public:
@@ -17,6 +23,11 @@ public:
         : m_arr(arr), m_offset(arr->getSize()), m_ownerShip(o)
     {
         nullTerminate();
+    }
+    virtual ~hkArrayStreamWriter()
+    {
+        if (m_ownerShip == ARRAY_TAKE && m_arr)
+            fn_82CEE440(m_arr, 1);   // delete m_arr;
     }
     virtual hkBool isOk() const;
     virtual int write(const void *buf, int nbytes);

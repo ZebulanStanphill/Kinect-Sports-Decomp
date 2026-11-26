@@ -22,6 +22,9 @@ class hkStreamWriter : public hkReferencedObject {
 public:
     enum SeekWhence { STREAM_SET = 0, STREAM_CUR = 1, STREAM_END = 2 };
 
+    hkStreamWriter() {}
+    hkStreamWriter(hkFinishLoadedObjectFlag f) : hkReferencedObject(f) {}
+
     virtual hkBool isOk() const = 0;
     virtual int write(const void *buf, int nbytes) = 0;
     virtual void flush() {}

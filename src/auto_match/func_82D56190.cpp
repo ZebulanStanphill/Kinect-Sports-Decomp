@@ -6,32 +6,9 @@
 // constant with that name.
 #include "havok/hkBase.h"
 #include "havok/hkAabb.h"
+#include "havok/hkpSymmetricAgent.h"
 
 // HK_REAL_MAX (3.40282e+38f); the game's copy keeps its lbl_ name (see above).
-
-class hkpContactMgr;
-class hkpCdBody;
-class hkpCdBodyPairCollector;
-class hkpCdPointCollector;
-struct hkpCollisionInput;
-struct hkpLinearCastCollisionInput;
-typedef hkUint32 hkpShapeKey;
-
-// hkpCollisionAgent (Physics/Collide/Agent/hkpCollisionAgent.h): hkReferencedObject, then
-// hkpContactMgr *m_contactMgr (+0x8).
-class hkpCollisionAgent : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    hkpCollisionAgent(hkpContactMgr *contactMgr) : m_contactMgr(contactMgr) {}
-    virtual void getPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                                 hkpCdBodyPairCollector &collector);   // +0xC
-    virtual void getClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                                  hkpCdPointCollector &collector);   // +0x10
-    virtual void linearCast(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpLinearCastCollisionInput &input,
-                            hkpCdPointCollector &collector, hkpCdPointCollector *startCollector);   // +0x14
-
-    hkpContactMgr *m_contactMgr;   // +0x8
-};
 
 struct hkpBvAgentEntryInfo {
     hkpShapeKey m_key;
@@ -56,20 +33,6 @@ public:
 
     hkArray<hkpBvAgentEntryInfo> m_collisionPartners;   // +0xC
     hkAabb m_cachedAabb;                                // +0x20
-};
-
-// hkpSymmetricAgent<AGENT> (Physics/Collide/Agent/Util/Symmetric/hkpSymmetricAgent.h): flips the bodies.
-template <typename AGENT>
-class hkpSymmetricAgent : public AGENT {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    HK_FORCE_INLINE hkpSymmetricAgent(hkpContactMgr *mgr) : AGENT(mgr) {}
-    virtual void getPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                                 hkpCdBodyPairCollector &collector);
-    virtual void getClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                                  hkpCdPointCollector &collector);
-    virtual void linearCast(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpLinearCastCollisionInput &input,
-                            hkpCdPointCollector &collector, hkpCdPointCollector *startCollector);
 };
 
 extern "C" hkpCollisionAgent *fn_82D56190(const hkpCdBody &bodyA, const hkpCdBody &bodyB,

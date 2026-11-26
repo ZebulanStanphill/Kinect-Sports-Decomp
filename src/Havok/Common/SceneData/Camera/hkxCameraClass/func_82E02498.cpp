@@ -3,11 +3,7 @@
 // constructor on an object loaded in place. Hierarchy from the RTTI:
 // hkxCamera -> hkReferencedObject -> hkBaseObject; only the finish constructors are declared.
 #include "havok/hkBase.h"
-
-class hkxCamera : public hkReferencedObject {
-public:
-    hkxCamera(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-};
+#include "havok/hkSceneData.h"
 
 void HK_CALL finishLoadedObjecthkxCamera(void *p, int finishing)
 {

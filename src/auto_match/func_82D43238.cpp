@@ -3,63 +3,10 @@
 #include "havok/hkBase.h"
 #include "havok/hkVector4.h"
 #include "havok/hkEnum.h"
+#include "havok/hkpShape.h"
 
 // The source's literals 1.0f and -HK_REAL_MAX, folded by the linker into the game's copies. Defined here so the
 // compiler knows they are read-only and schedules their loads like literals.
-
-class hkAabb;
-class hkpCdBody;
-class hkpRayHitCollector;
-struct hkpShapeRayCastInput;
-struct hkpShapeRayCastOutput;
-class hkpShapeContainer;
-class hkpShapeBuffer;
-typedef hkUint32 hkpShapeKey;
-
-enum hkpShapeType {
-    HK_SHAPE_INVALID = 0,
-    HK_SHAPE_EXTENDED_MESH = 14
-};
-
-class hkpShape : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SHAPE);
-    virtual hkReal getMaximumProjection(const hkVector4 &direction) const;
-    virtual const hkpShapeContainer *getContainer() const;
-    virtual hkBool isConvex() const;
-    virtual int calcSizeForSpu(const void *input, int spuBufferSizeLeft) const;
-    virtual void getAabb(const hkTransform &localToWorld, hkReal tolerance, hkAabb &out) const;
-    virtual hkBool castRay(const hkpShapeRayCastInput &input, hkpShapeRayCastOutput &output) const;
-    virtual void castRayWithCollector(const hkpShapeRayCastInput &input, const hkpCdBody &cdBody,
-                                      hkpRayHitCollector &collector) const;
-    virtual int castRayBundle(const void *input, void *output, int mask) const;
-
-    hkUlong m_userData;   // +0x8
-    hkUint32 m_type;      // +0xC
-};
-
-class hkpShapeContainer {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual ~hkpShapeContainer() {}
-    virtual int getNumChildShapes() const;
-    virtual hkpShapeKey getFirstKey() const;
-    virtual hkpShapeKey getNextKey(hkpShapeKey oldKey) const;
-    virtual hkUint32 getCollisionFilterInfo(hkpShapeKey key) const;
-    virtual const hkpShape *getChildShape(hkpShapeKey key, hkpShapeBuffer &buffer) const;
-    virtual bool isWeldingEnabled() const;
-};
-
-class hkpShapeCollection : public hkpShape, public hkpShapeContainer {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SHAPE);
-    enum CollectionType { COLLECTION_LIST, COLLECTION_EXTENDED_MESH, COLLECTION_TRISAMPLED_HEIGHTFIELD, COLLECTION_USER };
-    hkpShapeCollection(hkpShapeType type, CollectionType collectionType);
-    virtual const hkpShapeContainer *getContainer() const;
-
-    hkBool m_disableWelding;    // +0x14
-    hkUint8 m_collectionType;   // +0x15
-};
 
 struct hkpWeldingUtility {
     enum WeldingType { WELDING_TYPE_ANTICLOCKWISE = 0, WELDING_TYPE_CLOCKWISE = 4, WELDING_TYPE_TWO_SIDED = 5, WELDING_TYPE_NONE = 6 };

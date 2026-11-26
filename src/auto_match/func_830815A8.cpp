@@ -1,23 +1,4 @@
-#include "havok/hkTransform.h"
-#include "havok/hkQuaternion.h"
-
-class hkSweptTransform {
-public:
-    hkVector4 m_centerOfMass0;      // 0x00 (w = base time)
-    hkVector4 m_centerOfMass1;      // 0x10
-    hkQuaternion m_rotation0;       // 0x20
-    hkQuaternion m_rotation1;       // 0x30
-    hkVector4 m_centerOfMassLocal;  // 0x40
-};
-
-class hkMotionState {
-public:
-    __forceinline hkTransform &getTransform() { return m_transform; }
-    __forceinline hkSweptTransform &getSweptTransform() { return m_sweptTransform; }
-    hkTransform m_transform;            // 0x00
-    hkSweptTransform m_sweptTransform;  // 0x40
-    hkVector4 m_deltaAngle;             // 0x90
-};
+#include "havok/hkMotionState.h"
 
 extern "C" void fn_830815A8(const hkVector4 &position, const hkQuaternion &rotation, hkMotionState &ms)
 {

@@ -2,6 +2,7 @@
 // hkpGskBaseAgent::getClosestPoints (GSK closest point between two convex bodies, reported to a collector).
 #include "havok/hkpCdPointCollector.h"
 #include "havok/hkContactPoint.h"
+#include "havok/hkpCollisionInput.h"
 
 extern "C" unsigned __int64 __mftb();
 struct hkMonitorStream { void *a; unsigned *next; void *b; unsigned *end; };
@@ -25,13 +26,6 @@ public:
 	hkUint32 m_shapeKey;            // +0x4
 	const hkTransform *m_motion;    // +0x8
 	const hkpCdBody *m_parent;      // +0xc
-};
-
-struct hkpCollisionDispatcher;
-struct hkpCollisionInput {
-	hkpCollisionDispatcher *m_dispatcher;   // +0x0
-	char m_pad4[4];
-	hkReal m_tolerance;                     // +0x8
 };
 
 class hkpCdPoint {

@@ -5,7 +5,7 @@
 #include "havok/hkBase.h"
 #include "havok/hkEnum.h"
 #include "havok/hkpConstraintAtom.h"
-#include "havok/hkVector4.h"
+#include "havok/hkContactPoint.h"
 
 class hkpEntity;
 
@@ -41,12 +41,6 @@ struct hkpSerializedSubTrack1nInfo;
 struct hkpSerializedTrack1nInfo {
     hkArray<hkpAgent1nSector *> m_sectors;                 // +0x0
     hkArray<hkpSerializedSubTrack1nInfo *> m_subTracks;    // +0xc
-};
-
-class hkContactPoint {
-public:
-    hkVector4 m_position;
-    hkVector4 m_separatingNormal;
 };
 
 class hkpSerializedAgentNnEntry : public hkReferencedObject {

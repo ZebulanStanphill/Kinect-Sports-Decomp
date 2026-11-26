@@ -1,8 +1,6 @@
 #include "havok/hkBase.h"
 #include "havok/hkTransform.h"
-enum hkpShapeType {};
-class hkpShapeContainer { public: enum ReferencePolicy {}; };
-class hkpConvexShape: public hkReferencedObject { public: unsigned user,type; float m_radius; };
+#include "havok/hkpShape.h"
 class hkpConvexTransformShapeBase: public hkpConvexShape { public: hkpConvexTransformShapeBase(hkpShapeType,float,const hkpConvexShape *,hkpShapeContainer::ReferencePolicy); char pad[12]; };
 class hkpConvexTransformShape: public hkpConvexTransformShapeBase { public:
  hkTransform transform;

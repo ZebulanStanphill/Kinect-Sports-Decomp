@@ -1,5 +1,5 @@
 #include "havok/hkMotionState.h"
-#include "havok/hkReferencedObject.h"
+#include "havok/hkpCdBodyPairCollector.h"
 
 class hkpSphereShape : public hkReferencedObject {
 public:
@@ -19,12 +19,6 @@ struct hkpCdBody {
 struct hkpMultiSphereShape_82D6D1B8 {
     char pad0[0x20];
     hkVector4 m_spheres[8];   // 0x20
-};
-
-class hkpCdBodyPairCollector {
-public:
-    virtual ~hkpCdBodyPairCollector() {}
-    bool m_earlyOut;   // 0x04
 };
 
 class Agent_82D6D1B8 {

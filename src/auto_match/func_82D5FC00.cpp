@@ -2,7 +2,7 @@
 // allocates the agent with the class allocator (no null check) and runs the inlined constructors:
 // hkpListAgent's with the bodies swapped, then hkpSymmetricAgent's vtable. hkpSymmetricAgent's constructor
 // must be HK_FORCE_INLINE for the compiler to inline the pair (as in the game).
-#include "havok/hkpCollisionAgent.h"
+#include "havok/hkpSymmetricAgent.h"
 
 class hkpAgent1nSector;
 
@@ -26,20 +26,6 @@ public:
 
     hkpCollisionDispatcher *m_dispatcher;   // +0xC
     hkpAgent1nTrack m_agentTrack;           // +0x10
-};
-
-template <typename AGENT>
-class hkpSymmetricAgent : public AGENT {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    HK_FORCE_INLINE hkpSymmetricAgent(const hkpCdBody &A, const hkpCdBody &B, const hkpCollisionInput &input, hkpContactMgr *mgr)
-        : AGENT(B, A, input, mgr) {}
-
-    static hkpCollisionAgent *HK_CALL createAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
-                                                  const hkpCollisionInput &input, hkpContactMgr *mgr)
-    {
-        return new hkpSymmetricAgent<AGENT>(bodyA, bodyB, input, mgr);
-    }
 };
 
 template hkpCollisionAgent *HK_CALL hkpSymmetricAgent<hkpListAgent>::createAgent(const hkpCdBody &bodyA,

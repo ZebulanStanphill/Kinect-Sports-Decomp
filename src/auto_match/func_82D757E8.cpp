@@ -3,40 +3,7 @@
 // fn_82D74A90), then the manifold member is constructed (one word cleared at +0x30). Hierarchy from the RTTI:
 // hkpGskfAgent -> hkpGskBaseAgent -> hkpIterativeLinearCastAgent -> hkpCollisionAgent -> hkReferencedObject.
 #include "havok/hkBase.h"
-#include "havok/hkVector4.h"
-
-class hkpCdBody;
-class hkpContactMgr;
-class hkpCdBodyPairCollector;
-class hkpCdPointCollector;
-class hkpConstraintOwner;
-typedef hkpConstraintOwner hkCollisionConstraintOwner;
-struct hkpCollisionInput;
-struct hkpLinearCastCollisionInput;
-struct hkpProcessCollisionInput;
-struct hkpProcessCollisionOutput;
-
-class hkpCollisionAgent : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    hkpCollisionAgent(hkpContactMgr *contactMgr) : m_contactMgr(contactMgr) {}
-    virtual void getPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                                 hkpCdBodyPairCollector &collector);   // +0xC
-    virtual void getClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                                  hkpCdPointCollector &collector);   // +0x10
-    virtual void linearCast(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpLinearCastCollisionInput &input,
-                            hkpCdPointCollector &collector, hkpCdPointCollector *startCollector);   // +0x14
-    virtual void processCollision(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpProcessCollisionInput &input,
-                                  hkpProcessCollisionOutput &result);   // +0x18
-    virtual void cleanup(hkCollisionConstraintOwner &constraintOwner);   // +0x1C
-
-    hkpContactMgr *m_contactMgr;   // +0x8
-};
-
-class hkpIterativeLinearCastAgent : public hkpCollisionAgent {
-public:
-    hkpIterativeLinearCastAgent(hkpContactMgr *mgr) : hkpCollisionAgent(mgr) {}
-};
+#include "havok/hkpIterativeLinearCastAgent.h"
 
 class hkpGskCache {
 public:

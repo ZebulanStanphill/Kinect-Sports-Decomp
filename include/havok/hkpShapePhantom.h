@@ -9,6 +9,7 @@ class hkpShapePhantom : public hkpPhantom {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_DYNAMICS);
     hkpShapePhantom(const hkpShape *shape, const hkTransform &transform);
+    void setTransform(const hkTransform &transform);
 
     hkMotionState m_motionState;   // +0xB0
 };

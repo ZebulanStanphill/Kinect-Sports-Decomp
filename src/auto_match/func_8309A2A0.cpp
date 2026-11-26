@@ -5,9 +5,9 @@
 // HK_REAL_MAX is __real@7f7fffee (the linker merged the literal into it); copying it into a
 // local keeps it in f31 across the loop as the literal did.
 #include "havok/hkpCollidable.h"
+#include "havok/hkpCollisionInput.h"
 
 class hkpCdPoint;
-struct hkpCollisionInput;
 
 class hkpCdPointCollector {
 public:
@@ -63,14 +63,6 @@ public:
     hkUint8 m_agent2Types[32][32];       // +0x1a0
     char m_pad1[0x9a0 - 0x5a0];
     Agent2FuncEntry m_agent2Func[64];    // +0x9a0
-};
-
-struct hkpCollisionInput {
-    hkpCollisionDispatcher *m_dispatcher;   // +0x0
-    hkUint32 m_weldClosestPoints;           // +0x4
-    hkReal m_tolerance;                     // +0x8
-    const void *m_filter;                   // +0xc
-    char m_rest[0x40];
 };
 
 struct hkpPairGetClosestPointsCommand {   // 0x20 bytes

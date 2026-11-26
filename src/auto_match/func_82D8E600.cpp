@@ -9,8 +9,8 @@
 #include "havok/hkpCollisionFilter.h"
 #include "havok/hkEnum.h"
 #include "havok/hkAabb.h"
+#include "havok/hkpCollisionInput.h"
 
-class hkpConvexListFilter : public hkReferencedObject {};
 class hkWorldMemoryAvailableWatchDog : public hkReferencedObject {};
 
 // hkRefPtr with Havok's operator=(TYPE *): the new object gains a reference before the old

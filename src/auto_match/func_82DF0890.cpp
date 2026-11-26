@@ -8,6 +8,7 @@
 // materializes the literals from them (one load per value, scheduled like a literal).
 #include "havok/hkpShape.h"
 #include "havok/hkTransform.h"
+#include "havok/hkpCdPointCollector.h"
 
 extern "C" {
 extern hkVector4 lbl_8323B1A0;   // the zero vector (hkVector4::getZero())
@@ -80,17 +81,6 @@ struct hkpRootCdPoint {
     hkpShapeKey m_shapeKeyA;                 // +0x24
     const hkpCollidable *m_rootCollidableB;  // +0x28
     hkpShapeKey m_shapeKeyB;                 // +0x2C
-};
-
-struct hkpCdPoint;
-
-class hkpCdPointCollector {
-public:
-    HK_FORCE_INLINE hkpCdPointCollector() { reset(); }
-    virtual ~hkpCdPointCollector() {}
-    virtual void addCdPoint(const hkpCdPoint &point);
-    virtual void reset() { m_earlyOutDistance = HK_REAL_MAX; }
-    hkReal m_earlyOutDistance;
 };
 
 class hkpClosestCdPointCollector : public hkpCdPointCollector {

@@ -59,9 +59,17 @@ class hkxSkinBinding;
 class hkxNodeSelectionSet;
 class hkxIndexBuffer;
 
-// Only referenced through hkxScene's arrays here; their members are not needed.
-class hkxCamera : public hkReferencedObject {};
-class hkxLight : public hkReferencedObject {};
+// Only referenced through hkxScene's arrays and by their finish functions
+// here; their members are not declared yet (hkxCamera's hkClass gives 0x50
+// bytes and seven members).
+class hkxCamera : public hkReferencedObject {
+public:
+    hkxCamera(hkFinishLoadedObjectFlag f) : hkReferencedObject(f) {}
+};
+class hkxLight : public hkReferencedObject {
+public:
+    hkxLight(hkFinishLoadedObjectFlag f) : hkReferencedObject(f) {}
+};
 
 // hkxVertexDescription (0xC bytes, no vtable). Its finish constructor is out
 // of line: fn_82E07728 (an empty function).

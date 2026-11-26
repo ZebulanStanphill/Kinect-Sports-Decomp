@@ -18,9 +18,10 @@ public:
     hkpCdBodyPairCollector &m_collector;   // +0x8
 };
 
+// It has no class allocator of its own: its deleting destructor (82D53E30)
+// frees 8 bytes, the size of hkpCdPointCollector.
 class hkpSymmetricAgentFlipCollector : public hkpCdPointCollector {
 public:
-    HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE, hkpSymmetricAgentFlipCollector);
     hkpSymmetricAgentFlipCollector(hkpCdPointCollector &c) : m_collector(c) {}
     virtual void addCdPoint(const hkpCdPoint &point);
 
@@ -30,10 +31,7 @@ public:
 class hkpSymmetricAgentFlipCastCollector : public hkpCdPointCollector {
 public:
     HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE, hkpSymmetricAgentFlipCastCollector);
-    hkpSymmetricAgentFlipCastCollector(const hkVector4 &path, hkpCdPointCollector &c) : m_collector(c)
-    {
-        m_path = path;
-    }
+    hkpSymmetricAgentFlipCastCollector(const hkVector4 &path, hkpCdPointCollector &c) : m_path(path), m_collector(c) {}
     virtual void addCdPoint(const hkpCdPoint &point);
 
     hkVector4 m_path;                   // +0x10
@@ -48,6 +46,12 @@ public:
         : AGENT(B, A, input, mgr) {}
     HK_FORCE_INLINE hkpSymmetricAgent(hkpContactMgr *mgr) : AGENT(mgr) {}
 
+    // The create function the dispatcher keeps for the flipped pair of shape types.
+    static hkpCollisionAgent *HK_CALL createAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
+                                                  const hkpCollisionInput &input, hkpContactMgr *mgr)
+    {
+        return new hkpSymmetricAgent<AGENT>(bodyA, bodyB, input, mgr);
+    }
     static void HK_CALL staticGetPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
                                               const hkpCollisionInput &input, hkpCdBodyPairCollector &collector)
     {

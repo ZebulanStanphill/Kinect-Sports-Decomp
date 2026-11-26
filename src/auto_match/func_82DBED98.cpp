@@ -11,6 +11,7 @@
 #include "havok/hkTransform.h"
 #include "havok/hkpCdPointCollector.h"
 #include "havok/hkContactPoint.h"
+#include "havok/hkpCollisionInput.h"
 
 extern "C" const float lbl_82138458;   // HK_REAL_MAX / 2
 
@@ -68,14 +69,6 @@ public:
     HK_FORCE_INLINE bool hasHit() const { return m_hitPoint.m_rootCollidableA != HK_NULL; }
     HK_FORCE_INLINE const hkpRootCdPoint &getHit() const { return m_hitPoint; }
     hkpRootCdPoint m_hitPoint;
-};
-
-struct hkpCollisionInput {
-    void *m_dispatcher;
-    hkUint32 m_weldClosestPoints;
-    hkReal m_tolerance;
-    const hkpCollisionFilter *m_filter;
-    hkUint64 m_rest[8];
 };
 
 class hkpCollisionDispatcher {

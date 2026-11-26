@@ -4,8 +4,7 @@
 // deleting destructor.
 #include "havok/hkBase.h"
 #include "havok/hkpPhantomOverlapListener.h"
-
-class hkpCollidable;
+#include "havok/hkpAabbPhantom.h"
 
 // Physics/Vehicle/WheelCollide/RejectRayChassisListener/hkpRejectChassisListener.h.
 // RTTI: hkReferencedObject at +0x0, hkpPhantomOverlapListener at +0x8.
@@ -22,8 +21,6 @@ public:
 };
 
 class hkpRigidBody;
-class hkpPhantom;
-class hkpWorld;
 class hkpVehicleInstance;
 
 // Physics/Vehicle/WheelCollide/hkpVehicleWheelCollide.h. Vtable (12 slots): the deleting destructor (the folded
@@ -58,16 +55,6 @@ extern "C" {
 void fn_82D9A420(hkpPhantom *phantom, hkpPhantomOverlapListener *listener);   // hkpPhantom::removePhantomOverlapListener
 void fn_82D9A5F8(hkpPhantom *phantom, hkpPhantomOverlapListener *listener);   // hkpPhantom::addPhantomOverlapListener
 }
-
-// Only what the wheel-collide code touches.
-class hkpPhantom : public hkReferencedObject {
-public:
-    void removePhantomOverlapListener(hkpPhantomOverlapListener *listener) { fn_82D9A420(this, listener); }
-    void addPhantomOverlapListener(hkpPhantomOverlapListener *listener) { fn_82D9A5F8(this, listener); }
-};
-
-class hkpAabbPhantom : public hkpPhantom {
-};
 
 // Physics/Vehicle/WheelCollide/RayCast/hkpVehicleRayCastWheelCollide.h.
 class hkpVehicleRayCastWheelCollide : public hkpVehicleWheelCollide {

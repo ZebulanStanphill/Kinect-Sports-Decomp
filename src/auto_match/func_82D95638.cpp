@@ -1,9 +1,5 @@
 #include "havok/hkBase.h"
-
-class hkpWorld;
-class hkpSimulationIsland;
-class hkpEntity : public hkReferencedObject {
-};
+#include "havok/hkpEntity.h"
 
 // hkpAction (Physics/Dynamics/Action/hkpAction.h): +0x8 m_world, +0xC m_island, +0x10 m_userData,
 // +0x14 m_name. Its destructor is user-written and inline (it stores hkpAction's vtable).
