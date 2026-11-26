@@ -1,38 +1,16 @@
-#include "havok/hkBase.h"
-class hkpConstraintInstance : public hkReferencedObject {
-public:
-    hkpConstraintInstance(hkFinishLoadedObjectFlag f):hkReferencedObject(f) {}
-};
+// hkpConstraintChainInstance::hkpConstraintChainInstance(hkFinishLoadedObjectFlag), the finish constructor
+// (Physics/Dynamics/Constraint/Chain/hkpConstraintChainInstance.h). It keeps its fn_ name and is written as an
+// extern "C" function that runs the constructor on the given storage (MSVC's explicit constructor call;
+// placement new would add a null check).
+#include "havok/hkpConstraintInstance.h"
+
 class hkpConstraintChainInstance : public hkpConstraintInstance {
 public:
-    hkpConstraintChainInstance(hkFinishLoadedObjectFlag f):hkpConstraintInstance(f) {}
+    HK_FORCE_INLINE hkpConstraintChainInstance(hkFinishLoadedObjectFlag f) : hkpConstraintInstance(f) {}
 };
-template <class T> static const void *getVtable()
+
+extern "C" hkpConstraintChainInstance *fn_82D7E9A8(hkpConstraintChainInstance *self, hkFinishLoadedObjectFlag f)
 {
-    union { const void *vtable; char storage[sizeof(T)]; } u;
-    hkFinishLoadedObjectFlag f;
-    new (u.storage) T(f);
-    return u.vtable;
-}
-struct SmallArray { void *data; short size,capacity; };
-struct ConstraintLayout {
-    const void *vtable;
-    char pad[0x1C];
-    SmallArray array;
-    hkStringPtr name;
-    int userData;
-    void *chainData;
-    int capacityAndFlags;
-};
-extern "C" ConstraintLayout *fn_82D7E9A8(ConstraintLayout *self,hkFinishLoadedObjectFlag f)
-{
-    self->vtable=getVtable<hkpConstraintInstance>();
-    SmallArray *a=&self->array;
-    a->data=0;
-    a->size=0;
-    a->capacity=-32768;
-    fn_82CED308(&self->name,f);
-    self->capacityAndFlags=-16;
-    self->vtable=getVtable<hkpConstraintChainInstance>();
+    self->hkpConstraintChainInstance::hkpConstraintChainInstance(f);
     return self;
 }

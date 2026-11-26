@@ -1,9 +1,25 @@
-#include "havok/hkBase.h"
-class hkpCdBody; struct hkpCollisionInput; class hkpContactMgr; class hkpCollisionAgent; class hkpCdBodyPairCollector; class hkpCdPointCollector;
-class hkpBvTreeStreamAgent { public: static hkpCollisionAgent* createAgent(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpContactMgr*); };
-class hkpBvTreeAgent;
-class hkpMoppAgent { public: static hkpCollisionAgent* createBvBvAgent(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpContactMgr*); };
-template<class T> class hkpSymmetricAgent { public: static hkpCollisionAgent* createAgent(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpContactMgr*); static void staticGetPenetrations(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpCdBodyPairCollector&); static void staticGetClosestPoints(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpCdPointCollector&); };
+#include "havok/hkpSymmetricAgent.h"
+// hkpBvTreeStreamAgent and hkpBvTreeAgent (Physics/Collide/Agent/CompoundAgent/BvTree*) have no shared
+// header; naming hkpSymmetricAgent<..> of them needs only their base.
+class hkpBvTreeStreamAgent : public hkpCollisionAgent {
+public:
+    static hkpCollisionAgent *HK_CALL createAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
+                                                  const hkpCollisionInput &input, hkpContactMgr *mgr);
+};
+class hkpBvTreeAgent : public hkpCollisionAgent {};
+class hkpMoppAgent {
+public:
+    static hkpCollisionAgent *HK_CALL createBvBvAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
+                                                      const hkpCollisionInput &input, hkpContactMgr *mgr);
+};
+// The flipped statics are instantiated in the agents' .cpp files (createAgent: fn_82D54A38).
+extern template hkpCollisionAgent *HK_CALL hkpSymmetricAgent<hkpBvTreeStreamAgent>::createAgent(
+    const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpContactMgr *mgr);
+extern template void HK_CALL hkpSymmetricAgent<hkpBvTreeAgent>::staticGetPenetrations(
+    const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
+    hkpCdBodyPairCollector &collector);
+extern template void HK_CALL hkpSymmetricAgent<hkpBvTreeAgent>::staticGetClosestPoints(
+    const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpCdPointCollector &collector);
 extern "C" void fn_82D53D68();
 extern "C" void fn_82D57DB8();
 extern "C" void fn_82D55500();

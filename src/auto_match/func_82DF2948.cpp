@@ -4,28 +4,10 @@
 // m_name = "..." is hkStringPtr::operator=(const char *), fn_82CED628, which keeps its fn_ name.
 // The constructor keeps its fn_ name too (its caller func_82DF2CD8 is otherwise C-matchable): it is forced
 // inline and run on the object by an explicit constructor call, which adds no null check.
-#include "havok/hkBase.h"
+#include "havok/hkpAction.h"
 #include "havok/hkpRigidBody.h"
 
 extern "C" void fn_82CED628(hkStringPtr *self, const char *s);   // hkStringPtr::operator=(const char *)
-
-class hkpAction : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_ACTION);
-    HK_FORCE_INLINE void setName(const char *name) { fn_82CED628(&m_name, name); }
-
-    hkpWorld *m_world;               // +0x8
-    hkpSimulationIsland *m_island;   // +0xC
-    hkUlong m_userData;              // +0x10
-    hkStringPtr m_name;              // +0x14
-};
-
-class hkpUnaryAction : public hkpAction {
-public:
-    hkpUnaryAction(hkpEntity *entity = HK_NULL, hkUlong userData = 0);
-
-    hkpEntity *m_entity;   // +0x18
-};
 
 class hkpMouseSpringAction : public hkpUnaryAction {
 public:
@@ -53,7 +35,7 @@ HK_FORCE_INLINE hkpMouseSpringAction::hkpMouseSpringAction(hkpRigidBody *rb)
     m_positionInRbLocal.setZero4();
     m_mousePositionInWorld.setZero4();
     m_shapeKey = hkUint32(-1);
-    setName("hkpMouseSpringAction");
+    fn_82CED628(&m_name, "hkpMouseSpringAction");   // setName
 }
 
 extern "C" hkpMouseSpringAction *fn_82DF2948(hkpMouseSpringAction *self, hkpRigidBody *rb)

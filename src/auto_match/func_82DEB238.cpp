@@ -1,4 +1,4 @@
-#include "havok/hkpShape.h"
+#include "havok/hkpEntity.h"
 
 // hkpBreakOffPartsUtil::removeKeysFromListShape-style helper: removes keys from a list shape (directly or under a
 // MOPP, whose code is patched with hkpRemoveTerminalsMoppModifier) and invalidates the collidable's cached child
@@ -27,7 +27,7 @@ public:
 
 extern "C" {
 void fn_82D4D1C0(hkpRemoveTerminalsMoppModifier *self, hkpMoppCode *code);   // hkpRemoveTerminalsMoppModifier::applyRemoveTerminals
-void fn_82D3D9C0(hkpShape *list, hkpShapeKey key);                           // hkpListShape::disableChild
+void fn_82D3D9C0(const hkpShape *list, hkpShapeKey key);                         // hkpListShape::disableChild
 void fn_825A4450(void *self);                                                // hkPointerMap<hkpShapeKey, int>::hkPointerMap
 void fn_82CEA160(void *self, hkMemoryAllocator *alloc, hkUlong key, hkUlong val);   // hkMapBase<hkUlong, hkUlong>::insert
 int fn_82CEA280(const void *self, hkUlong key, int def);                            // hkMapBase<hkUlong, hkUlong>::getWithDefault
@@ -70,28 +70,19 @@ struct hkpMoppBvTreeShape : public hkpShape {
     hkpShape *m_childShape;              // +0x34 (hkpSingleShapeContainer::m_childShape)
 };
 
-struct hkpEntity {
-    hkUint8 m_pad0[0x10];
-    hkpShape *m_shape;                   // +0x10 (m_collidable.m_shape)
-    hkUint8 m_pad14[0x3c];
-    hkUint16 m_numChildShapeAabbs;       // +0x50 (m_collidable.m_boundingVolumeData)
-    hkUint16 m_capacityChildShapeAabbs;  // +0x52
-    hkAabbUint32 *m_childShapeAabbs;     // +0x54
-    hkpShapeKey *m_childShapeKeys;       // +0x58
-};
-
 extern "C" void fn_82DEB238(hkpEntity *entity, hkpShapeKey *keysToRemove, int numKeys)
 {
-    hkpShape *shape = entity->m_shape;
-    hkAabbUint32 *aabbs = entity->m_childShapeAabbs;
+    const hkpShape *shape = entity->m_collidable.getShape();
+    hkAabbUint32 *aabbs = static_cast<hkAabbUint32 *>(entity->m_collidable.m_boundingVolumeData.m_childShapeAabbs);
     if ((int)shape->m_type != 9) {
         if ((int)shape->m_type != 10)
             return;
-        hkpMoppBvTreeShape *mopp = (hkpMoppBvTreeShape *)shape;
-        hkpShape *child = mopp->m_childShape;
+        const hkpMoppBvTreeShape *mopp = static_cast<const hkpMoppBvTreeShape *>(shape);
+        const hkpShape *child = mopp->m_childShape;
         {
             hkArray<hkpShapeKey> keys(keysToRemove, numKeys, numKeys);
-            hkpRemoveTerminalsMoppModifier modifier(mopp->m_code, child ? (const hkpShapeContainer *)((char *)child + 0x10) : HK_NULL, keys);
+            const hkpShapeContainer *container = child ? (const hkpShapeContainer *)((const char *)child + 0x10) : HK_NULL;
+            hkpRemoveTerminalsMoppModifier modifier(mopp->m_code, container, keys);
             modifier.applyRemoveTerminals(mopp->m_code);
             if ((int)child->m_type == 9) {
                 shape = child;
@@ -107,8 +98,8 @@ finish:
         hkKeyMap map;
         for (int i = 0; i < numKeys; i++)
             map.insert(keysToRemove[i], 1);
-        int n = entity->m_numChildShapeAabbs;
-        hkpShapeKey *childKeys = entity->m_childShapeKeys;
+        int n = entity->m_collidable.m_boundingVolumeData.m_numChildShapeAabbs;
+        hkpShapeKey *childKeys = entity->m_collidable.m_boundingVolumeData.m_childShapeKeys;
         for (int i = 0; i < n; i++) {
             if (map.getWithDefault(childKeys[i], 0)) {
                 aabbs[i].setInvalidY();

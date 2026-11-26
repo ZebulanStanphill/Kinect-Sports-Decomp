@@ -1,4 +1,4 @@
-#include "havok/hkQuadReal.h"
+#include "havok/hkAabb.h"
 #include "havok/hkpShape.h"
 
 extern "C" {
@@ -7,38 +7,14 @@ extern const __vector4 lbl_8323B1A0;   // cached-extents sentinel
 extern const float lbl_82138458;       // HK_REAL_MAX / 2
 }
 
-class hkVector4Comparison {
-public:
-    __forceinline int allAreSet() const
-    {
-        unsigned int cr;
-        __vcmpequwR(mask, __vspltisw(-1), &cr);
-        return cr & 0x80;
-    }
-    __vector4 mask;
-};
-
-class hkVector4 {
-public:
-    __forceinline void operator=(const hkVector4 &v) { q = v.q; }
-    __forceinline void setAll(float x) { q.vector4_f32[0] = x; q = __vspltw(q, 0); }
-    __forceinline void setNeg4(const hkVector4 &a) { q = __vxor(a.q, lbl_8209AB20); }
-    __forceinline void setMin4(const hkVector4 &a, const hkVector4 &b) { q = __vminfp(a.q, b.q); }
-    __forceinline void setMax4(const hkVector4 &a, const hkVector4 &b) { q = __vmaxfp(a.q, b.q); }
-    __forceinline hkVector4Comparison compareLessThanEqual4(const hkVector4 &a) const
-    {
-        hkVector4Comparison c;
-        c.mask = __vcmpgefp(a.q, q);
-        return c;
-    }
-    __vector4 q;
-};
-
-class hkAabb {
-public:
-    hkVector4 m_min;
-    hkVector4 m_max;
-};
+// hkVector4Comparison::allAreSet() (all four lanes, no mask): hkVector4.h only has allAreSet(Mask), which ORs
+// in the mask table.
+static __forceinline hkBool32 allAreSet(const hkVector4Comparison &c)
+{
+    unsigned int cr;
+    __vcmpequwR(c.m_mask, __vspltisw(-1), &cr);
+    return cr & 0x80;
+}
 
 struct ChildInfo_82D3E2F0 {
     const hkpShape *m_shape;
@@ -58,8 +34,8 @@ extern "C" void fn_82D3DAC0(ListShape_82D3E2F0 *self, hkAabb &aabb);
 extern "C" void fn_82D3E2F0(ListShape_82D3E2F0 *self, const hkTransform &localToWorld, float tolerance, hkAabb &out)
 {
     hkVector4 sentinel;
-    sentinel.q = lbl_8323B1A0;
-    if (self->m_aabbHalfExtents.compareLessThanEqual4(sentinel).allAreSet()) {
+    sentinel.m_quad = lbl_8323B1A0;
+    if (allAreSet(self->m_aabbHalfExtents.compareLessThanEqual4(sentinel))) {
         hkAabb aabb;
         fn_82D3DAC0(self, aabb);
     }

@@ -1,7 +1,19 @@
-#include "havok/hkBase.h"
-class hkpCdBody; struct hkpCollisionInput; class hkpContactMgr; class hkpCollisionAgent; class hkpCdBodyPairCollector; class hkpCdPointCollector;
-template<class T> class hkpSymmetricAgent { public: static hkpCollisionAgent* createAgent(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpContactMgr*); static void staticGetPenetrations(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpCdBodyPairCollector&); static void staticGetClosestPoints(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpCdPointCollector&); };
-class hkpHeightFieldAgent { public: static hkpCollisionAgent* createAgent(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpContactMgr*); };
+#include "havok/hkpSymmetricAgent.h"
+
+class hkpHeightFieldAgent : public hkpCollisionAgent {
+public:
+    static hkpCollisionAgent *HK_CALL createAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
+                                                  const hkpCollisionInput &input, hkpContactMgr *mgr);
+};
+
+// The flipped functions are defined in hkpHeightFieldAgent.cpp (createAgent: func_82D5A7E0).
+extern template hkpCollisionAgent *HK_CALL hkpSymmetricAgent<hkpHeightFieldAgent>::createAgent(
+    const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpContactMgr *mgr);
+extern template void HK_CALL hkpSymmetricAgent<hkpHeightFieldAgent>::staticGetPenetrations(
+    const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpCdBodyPairCollector &collector);
+extern template void HK_CALL hkpSymmetricAgent<hkpHeightFieldAgent>::staticGetClosestPoints(
+    const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpCdPointCollector &collector);
+
 extern "C" void fn_82D5AAB0();
 extern "C" void fn_82D59D40();
 extern "C" void fn_82D59FB0();

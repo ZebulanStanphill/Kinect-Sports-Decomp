@@ -1,8 +1,22 @@
 #include "havok/hkBase.h"
-class hkpCdBody; struct hkpCollisionInput; class hkpContactMgr; class hkpCollisionAgent; class hkpCdBodyPairCollector; class hkpCdPointCollector;
-template<class T> class hkpSymmetricAgent { public: static hkpCollisionAgent* createAgent(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpContactMgr*); static void staticGetPenetrations(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpCdBodyPairCollector&); static void staticGetClosestPoints(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpCdPointCollector&); };
-class hkpBvTreeStreamAgent { public: static hkpCollisionAgent* createAgent(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpContactMgr*); };
-class hkpBvTreeAgent;
+#include "havok/hkpSymmetricAgent.h"
+class hkpBvTreeAgent : public hkpCollisionAgent {
+public:
+    static void HK_CALL staticGetPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
+                                              const hkpCollisionInput &input, hkpCdBodyPairCollector &collector);
+    static void HK_CALL staticGetClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
+                                               const hkpCollisionInput &input, hkpCdPointCollector &collector);
+};
+class hkpBvTreeStreamAgent : public hkpCollisionAgent {
+public:
+    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
+    hkpBvTreeStreamAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
+                         hkpContactMgr *mgr);
+    static hkpCollisionAgent *HK_CALL createAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
+                                                  const hkpCollisionInput &input, hkpContactMgr *mgr);
+
+    hkUint8 m_data[0x40 - 0xC];   // sizeof is 0x40
+};
 extern "C" void fn_82D54F10();
 extern "C" void fn_82D58028();
 extern "C" void fn_82D57DB8();

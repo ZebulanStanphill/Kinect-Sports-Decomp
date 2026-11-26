@@ -1,41 +1,4 @@
-#include "havok/hkQuadReal.h"
-
-class hkSimdReal {
-public:
-    __forceinline void operator=(const hkSimdReal &s) { m_real = s.m_real; }
-    hkQuadReal m_real;
-};
-
-class hkVector4 {
-public:
-    __forceinline void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    __forceinline void setSub4(const hkVector4 &a, const hkVector4 &b) { m_quad = __vsubfp(a.m_quad, b.m_quad); }
-    __forceinline void setCross(const hkVector4 &a, const hkVector4 &b)
-    {
-        const hkQuadReal t0 = __vmulfp(__vpermwi(a.m_quad, 99), __vpermwi(b.m_quad, 135));
-        const hkQuadReal t1 = __vmulfp(__vpermwi(a.m_quad, 135), __vpermwi(b.m_quad, 99));
-        m_quad = __vsubfp(t0, t1);
-    }
-    __forceinline hkSimdReal dot3(const hkVector4 &v) const { hkSimdReal r; r.m_real = __vmsum3fp(m_quad, v.m_quad); return r; }
-    __forceinline void setFlipSign(const hkVector4 &v, const hkSimdReal &s)
-    {
-        m_quad = __vxor(v.m_quad, __vand(__vspltw(s.m_real, 0), lbl_8209AB20));
-    }
-    __forceinline hkSimdReal lengthInverse3() const
-    {
-        const hkQuadReal zero = __vspltisw(0);
-        const hkQuadReal len2 = __vmsum3fp(m_quad, m_quad);
-        hkQuadReal e = __vrsqrtefp(len2);
-        const hkQuadReal halfLen2 = __vmulfp(len2, lbl_82132D70);
-        e = __vmaddfp(e, __vnmsubfp(halfLen2, __vmulfp(e, e), lbl_82132D70), e);
-        e = __vmaddfp(e, __vnmsubfp(halfLen2, __vmulfp(e, e), lbl_82132D70), e);
-        hkSimdReal r;
-        r.m_real = __vsel(e, zero, __vcmpeqfp(zero, len2));
-        return r;
-    }
-    __forceinline void mul4(const hkSimdReal &s) { m_quad = __vmulfp(m_quad, s.m_real); }
-    hkQuadReal m_quad;
-};
+#include "havok/hkVector4.h"
 
 extern "C" void fn_82DD3A78(hkSimdReal &distanceOut, const hkVector4 &point, const hkVector4 *triangle,
                             const hkVector4 &direction, hkVector4 &normalOut)
@@ -49,5 +12,6 @@ extern "C" void fn_82DD3A78(hkSimdReal &distanceOut, const hkVector4 &point, con
     normalOut.mul4(invLen);
     hkVector4 d;
     d.setSub4(point, triangle[0]);
-    distanceOut = d.dot3(normalOut);
+    // Through m_real: hkSimdReal.h declares no operator=, and the implicit one copies doublewords.
+    distanceOut.m_real = d.dot3(normalOut).m_real;
 }

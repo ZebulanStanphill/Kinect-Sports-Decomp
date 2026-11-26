@@ -3,10 +3,7 @@
 // hkpShapeContainer at +0x10. Built with /O2 /QVMXReserve (flag file).
 #include "havok/hkBase.h"
 #include "havok/hkVector4.h"
-enum hkpShapeType { HK_SHAPE_MESH=24 };
-class hkpShape : public hkReferencedObject { public: unsigned m_userData, m_type; };
-class hkpShapeContainer { public: virtual ~hkpShapeContainer() {} };
-class hkpShapeCollection : public hkpShape, public hkpShapeContainer { public: enum CollectionType { COLLECTION_MESH=5 }; hkpShapeCollection(hkpShapeType,CollectionType); hkBool m_disableWelding; hkUint8 m_collectionType; };
+#include "havok/hkpShape.h"
 class hkpMeshShape : public hkpShapeCollection {
 public:
     hkpMeshShape(float radius, int bits);
@@ -17,4 +14,5 @@ public:
     hkUint8 m_weldingType;
     float m_radius;
 };
-hkpMeshShape::hkpMeshShape(float radius,int bits):hkpShapeCollection(HK_SHAPE_MESH,COLLECTION_MESH) {m_scaling.setAll(1.0f);m_weldingType=6;m_numBitsForSubpartIndex=bits;m_radius=radius;}
+hkpMeshShape::hkpMeshShape(float radius,int bits):hkpShapeCollection(HK_SHAPE_TRIANGLE_COLLECTION,COLLECTION_MESH_SHAPE)
+{m_scaling.setAll(1.0f);m_weldingType=6;m_numBitsForSubpartIndex=bits;m_radius=radius;}

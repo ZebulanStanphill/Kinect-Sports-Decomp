@@ -1,33 +1,7 @@
-#include "havok/hkTransform.h"
+#include "havok/hkMotionState.h"
 
-class hkQuaternion {
-public:
-    __forceinline void operator=(const hkQuaternion &q) { m_vec = q.m_vec; }
-    __forceinline void set(const hkRotation &r);
-    hkVector4 m_vec;
-};
-
+// hkQuaternion::set(const hkRotation &), out of line (hkQuaternion.h does not declare it yet)
 extern "C" void fn_82CE5990(hkQuaternion *self, const hkRotation &r);
-
-__forceinline void hkQuaternion::set(const hkRotation &r) { fn_82CE5990(this, r); }
-
-class hkSweptTransform {
-public:
-    hkVector4 m_centerOfMass0;      // 0x00 (w = base time)
-    hkVector4 m_centerOfMass1;      // 0x10
-    hkQuaternion m_rotation0;       // 0x20
-    hkQuaternion m_rotation1;       // 0x30
-    hkVector4 m_centerOfMassLocal;  // 0x40
-};
-
-class hkMotionState {
-public:
-    __forceinline hkTransform &getTransform() { return m_transform; }
-    __forceinline hkSweptTransform &getSweptTransform() { return m_sweptTransform; }
-    hkTransform m_transform;            // 0x00
-    hkSweptTransform m_sweptTransform;  // 0x40
-    hkVector4 m_deltaAngle;             // 0x90
-};
 
 extern "C" void fn_83081658(const hkTransform &transform, hkMotionState &ms)
 {
@@ -35,7 +9,7 @@ extern "C" void fn_83081658(const hkTransform &transform, hkMotionState &ms)
     ms.m_deltaAngle.setZero4();
 
     hkQuaternion rotation;
-    rotation.set(transform.getRotation());
+    fn_82CE5990(&rotation, transform.getRotation());
     ms.getTransform() = transform;
 
     sweptTransform.m_rotation0 = rotation;

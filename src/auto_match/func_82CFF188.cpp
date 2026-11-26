@@ -3,7 +3,7 @@
 // fails (1), a position past the end grows the array, zero-filling the gap (hkArray::setSize(n + 1, 0), then the
 // size is set back to n so a terminating zero stays in the buffer).
 #include "havok/hkBase.h"
-#include "havok/hkStreamWriter.h"
+#include "havok/hkArrayStreamWriter.h"
 
 template <typename T>
 static HK_FORCE_INLINE void constructWithCopy(T *p, int n, const T &fill)
@@ -12,6 +12,8 @@ static HK_FORCE_INLINE void constructWithCopy(T *p, int n, const T &fill)
         p[i] = fill;
 }
 
+// hkArray::setSize(n, fill) and the _reserve it inlines; hkArray.h does not declare them, so m_arr is cast to
+// this helper to call them (free functions over hkArrayBase put the operands of one add in the other order).
 template <typename T>
 class hkArraySetSize_82CFF188 : public hkArrayBase<T> {
 public:
@@ -31,14 +33,6 @@ public:
         constructWithCopy(this->m_data + this->m_size, n - this->m_size, fill);
         this->m_size = n;
     }
-    HK_FORCE_INLINE void setSizeUnchecked(int n) { this->m_size = n; }
-};
-
-class hkArrayStreamWriter : public hkStreamWriter {
-public:
-    hkArraySetSize_82CFF188<char> *m_arr;   // +0x8
-    int m_offset;                           // +0xC
-    int m_ownerShip;                        // +0x10
 };
 
 extern "C" int fn_82CFF188(hkArrayStreamWriter *self, int offset, hkStreamWriter::SeekWhence whence)
@@ -57,8 +51,8 @@ extern "C" int fn_82CFF188(hkArrayStreamWriter *self, int offset, hkStreamWriter
     }
     if (absOffset >= 0) {
         if (absOffset > self->m_arr->getSize()) {
-            self->m_arr->setSize(absOffset + 1, 0);
-            self->m_arr->setSizeUnchecked(absOffset);
+            static_cast<hkArraySetSize_82CFF188<char> *>(self->m_arr)->setSize(absOffset + 1, 0);
+            self->m_arr->m_size = absOffset;   // setSizeUnchecked
         }
         self->m_offset = absOffset;
         return 0;

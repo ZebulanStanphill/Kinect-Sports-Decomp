@@ -1,7 +1,7 @@
 // hkpReportContactMgr::Factory::createContactMgr (Physics/Dynamics/Collide/ContactListener/Util/hkpReportContactMgr.cpp): the owners of the two collidables, then new with the constructor inlined (defined inline here).
 #include "havok/hkBase.h"
+#include "havok/hkpRigidBody.h"
 
-class hkpWorld;
 class hkpCollisionInput;
 
 class hkMath {
@@ -10,22 +10,11 @@ public:
     static HK_FORCE_INLINE T HK_CALL min2(T a, T b) { return a < b ? a : b; }
 };
 
-class hkpCollidable {
-public:
-    void *getOwner() const { return const_cast<char *>(reinterpret_cast<const char *>(this) + m_ownerOffset); }
-
-    char m_cdBody[0x10];    // +0x0 hkpCdBody
-    hkInt8 m_ownerOffset;   // +0x10
-};
-
-// hkpRigidBody: only the contact point callback delay (hkpEntity, +0xAA) is used here.
-class hkpRigidBody : public hkReferencedObject {
-public:
-    hkUint16 getContactPointCallbackDelay() const { return m_contactPointCallbackDelay; }
-
-    char m_pad[0xAA - 0x8];
-    hkUint16 m_contactPointCallbackDelay;   // +0xAA
-};
+// hkpCollidable::getOwner, which hkpCollidable.h does not declare yet.
+static HK_FORCE_INLINE void *getOwner(const hkpCollidable &c)
+{
+    return const_cast<char *>(reinterpret_cast<const char *>(&c) + c.m_ownerOffset);
+}
 
 // hkpContactMgr (Physics/Collide/Agent/ContactMgr/hkpContactMgr.h) and hkpDynamicsContactMgr.
 class hkpContactMgr : public hkReferencedObject {
@@ -90,8 +79,8 @@ inline hkpReportContactMgr::hkpReportContactMgr(hkpWorld *world, hkpRigidBody *b
 hkpContactMgr *hkpReportContactMgr::Factory::createContactMgr(const hkpCollidable &a, const hkpCollidable &b,
                                                                const hkpCollisionInput &env)
 {
-    hkpRigidBody *bodyA = reinterpret_cast<hkpRigidBody *>(a.getOwner());
-    hkpRigidBody *bodyB = reinterpret_cast<hkpRigidBody *>(b.getOwner());
+    hkpRigidBody *bodyA = reinterpret_cast<hkpRigidBody *>(getOwner(a));
+    hkpRigidBody *bodyB = reinterpret_cast<hkpRigidBody *>(getOwner(b));
     hkpReportContactMgr *mgr = new hkpReportContactMgr(m_world, bodyA, bodyB);
     return mgr;
 }

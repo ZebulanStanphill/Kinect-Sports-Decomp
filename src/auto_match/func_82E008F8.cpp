@@ -8,13 +8,9 @@
 // to move; the game's copies are __real@34000000 and __real@7f7fffee, which Matching C units reference, so
 // they are declared here as known constants (as in func_83096D00.cpp). Built with /QVMXReserve
 // (the vector copies use v0/v13).
-#include "havok/hkTransform.h"
 #include "havok/hkpCdPointCollector.h"
 #include "havok/hkContactPoint.h"
-
-class hkpShape;
-class hkpCollidable;
-class hkpVehicleInstance;
+#include "havok/hkpVehicleWheelCollide.h"
 
 extern "C" hkpCollidable *fn_8253D7A8(hkpCollidable *self, const hkpShape *shape, const void *ms, int type);
 
@@ -59,7 +55,6 @@ struct hkpLinearCastInput {
     hkReal m_startPointTolerance;
 };
 
-class hkpAabbPhantom;
 extern "C" void fn_82D8D1D8(const hkpAabbPhantom *self, const hkpCollidable *collA, const hkpLinearCastInput &input, hkpCdPointCollector &castCollector, hkpCdPointCollector *startCollector);
 class hkpAabbPhantom {
 public:
@@ -67,26 +62,9 @@ public:
     { fn_82D8D1D8(this, collA, input, castCollector, startCollector); }
 };
 
-struct WheelState {
-    hkpAabbPhantom *m_phantom;
-    const hkpShape *m_shape;
-    hkTransform m_transform;
-    hkVector4 m_to;
-};
-
-class hkpVehicleLinearCastWheelCollide {
-public:
-    char m_base[0xc];
-    hkUint32 m_wheelCollisionFilterInfo;   // +0xc
-    hkArray<WheelState> m_wheelStates;     // +0x10
-    char m_pad[0x2c - 0x1c];
-    hkReal m_maxExtraPenetration;          // +0x2c
-    hkReal m_startPointTolerance;          // +0x30
-};
-
 extern "C" hkBool *fn_82E008F8(hkBool *result, const hkpVehicleLinearCastWheelCollide *self, const hkpVehicleInstance *vehicle, hkUint8 wheelNum, hkpRootCdPoint &linearCastOutput)
 {
-    const WheelState &wheelState = self->m_wheelStates[wheelNum];
+    const hkpVehicleLinearCastWheelCollide::WheelState &wheelState = self->m_wheelStates[wheelNum];
     hkpCollidable collidable(wheelState.m_shape, &wheelState.m_transform);
     collidable.setCollisionFilterInfo(self->m_wheelCollisionFilterInfo);
     hkpLinearCastInput linearCastInput;

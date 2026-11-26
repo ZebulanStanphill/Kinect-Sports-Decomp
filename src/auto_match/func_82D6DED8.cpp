@@ -1,3 +1,4 @@
+#include "havok/hkpCdBodyPairCollector.h"
 #include "havok/hkpCdPointCollector.h"
 extern "C" unsigned __int64 __mftb();
 struct Record { const char *name; unsigned time,pad; };
@@ -25,8 +26,11 @@ struct Entry { Agent *(*create)(const Body &,const Body &,const Input &,void *);
 struct Dispatcher { char pad[0x1a0]; unsigned char table[32][32]; unsigned char tablePredictive[32][32]; Entry entries[32]; };
 struct Input { Dispatcher *dispatcher; int pad[4]; int predictive; };
 struct BvAgent { void *vptr; int pad; void *mgr; Agent *bv; Agent *child; };
-class hkpCdBodyPairCollector { public: hkpCdBodyPairCollector(){} virtual void add(const Body &,const Body &); virtual ~hkpCdBodyPairCollector(){} hkBool early; };
-class hkpFlagCdBodyPairCollector:public hkpCdBodyPairCollector {public:hkpFlagCdBodyPairCollector(){early=false;}virtual void add(const Body &,const Body &);};
+class hkpFlagCdBodyPairCollector : public hkpCdBodyPairCollector {
+public:
+    hkpFlagCdBodyPairCollector() { m_earlyOut = false; }
+    virtual void addCdBodyPair(const hkpCdBody &bodyA, const hkpCdBody &bodyB);
+};
 class __declspec(align(16)) hkpSimpleClosestContactCollector: public hkpCdPointCollector {public: hkpSimpleClosestContactCollector():hit(false),fraction(3.40282e+38f){}virtual void add(void *);bool hit;char pad[35];float fraction;};
 static HK_FORCE_INLINE Agent *createChild(const Body &a,const Body &b,const Input &input,void *mgr) {
  int typeA=a.shape->type;int typeB=b.shape->type;
@@ -39,7 +43,7 @@ extern "C" void fn_82D6DED8(BvAgent *self,const Body &a,const Body &b,const Inpu
  beginList();
  Body child; child.parent=&a; child.motion=a.motion; Shape *shape=a.shape; child.shape=shape->bv; child.key=~0u;
  { hkpFlagCdBodyPairCollector collector; self->bv->penetrations(child,b,input,&collector);
- if((bool)collector.early) {
+ if((bool)collector.m_earlyOut) {
  mark("Stchild"); child.shape=shape->child; child.key=0;
  if(!self->child) self->child=createChild(child,b,input,self->mgr);
  self->child->process(child,b,input,arg);

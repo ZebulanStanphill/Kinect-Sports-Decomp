@@ -1,10 +1,4 @@
-#include "havok/hkpShape.h"
-#include "havok/hkTransform.h"
-class hkpTriangleShape : public hkpConvexShape { public:
- HK_FORCE_INLINE hkpTriangleShape(float radius,hkUint16 info,hkUint8 kind):hkpConvexShape(HK_SHAPE_TRIANGLE,radius),weldingInfo(info),weldingType(kind) { extrusion.setZero(); isExtruded=0; }
- hkUint16 weldingInfo; hkUint8 weldingType,isExtruded;
- hkVector4 a,b,c,extrusion;
-};
+#include "havok/hkpTriangleShape.h"
 struct MeshPart { const char *vertices; int vertexStride; int pad8; const char *indices; hkUint8 indexType; char pad11[3]; int triangleStride; unsigned flip; char pad1c[0x18]; int triangleOffset; };
 struct Mesh { char head[0x10]; hkVector4 scale; unsigned bits; MeshPart *parts; char pad28[8]; hkUint16 *welding; int weldingCount; char pad38[4]; hkUint8 weldingType; char pad3d[3]; float radius; };
 extern "C" hkpTriangleShape *fn_82D4B240(const Mesh *self,unsigned key,void *buffer) {
@@ -16,6 +10,8 @@ extern "C" hkpTriangleShape *fn_82D4B240(const Mesh *self,unsigned key,void *buf
  const hkVector4 *c=(const hkVector4 *)(part.vertices+indices[(flip^1)+1]*part.vertexStride);
  hkUint16 info=self->weldingCount==0?0:self->welding[part.triangleOffset+key];
  hkpTriangleShape *shape=new(buffer) hkpTriangleShape(self->radius,info,self->weldingType);
- shape->a.m_quad=__vmulfp(a->m_quad,self->scale.m_quad); shape->b.m_quad=__vmulfp(b->m_quad,self->scale.m_quad); shape->c.m_quad=__vmulfp(c->m_quad,self->scale.m_quad);
+ shape->m_vertexA.m_quad=__vmulfp(a->m_quad,self->scale.m_quad);
+ shape->m_vertexB.m_quad=__vmulfp(b->m_quad,self->scale.m_quad);
+ shape->m_vertexC.m_quad=__vmulfp(c->m_quad,self->scale.m_quad);
  return shape;
 }

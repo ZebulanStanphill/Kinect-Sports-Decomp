@@ -8,44 +8,21 @@
 // 0.0f is the game code's link-time code generation pool copy (ltcg_pool_0_0f; the unit's
 // pool_aliases entry in objects.json renames the compiled __real@00000000 to it); 1.0f is
 // lbl_821CA45C[1] (selectany, as in func_825BCDA8.cpp).
-#include "havok/hkpShape.h"
-#include "havok/hkAabb.h"
+#include "havok/hkpEntity.h"
+#include "havok/hkpAabbPhantom.h"
 #include "havok/hkpAction.h"
 
 extern "C" {
 __vector4 __VMXGetReg(int n);
 }
 
-class hkRotation {
-public:
-    hkVector4 m_col0, m_col1, m_col2;
-};
-class hkTransform {
-public:
-    hkRotation m_rotation;
-    hkVector4 m_translation;
-};
-class hkpEntity {
-public:
-    char m_pad0[0x10];
-    const hkpShape *m_shape;          // +0x10 m_collidable.m_shape
-    char m_pad14[0x18];
-    hkUint32 m_collisionFilterInfo;   // +0x2c m_collidable's collision filter info
-};
-
-class hkpAabbPhantom : public hkReferencedObject {
-public:
-    char m_pad8[0xd8];
-};
-
 extern "C" {
 __declspec(selectany) extern const float lbl_821CA45C[2] = {1.0f, 1.0f};
 extern void *lbl_821CA858[];              // the actuator's vtable
-extern const hkVector4 lbl_82196750;      // (0, 0, 0, 1): the identity quaternion
+extern const hkQuaternion lbl_82196750;   // (0, 0, 0, 1): the identity quaternion
 extern const hkVector4 lbl_821962C0;      // (0, 0, 0, 0)
 extern float lbl_821917A8[];
 void fn_82CED628(void *self, const char *s);                       // hkStringPtr::operator=(const char *)
-void fn_82CE6010(hkRotation *self, const hkVector4 *q);            // hkRotation::set(const hkQuaternion &)
 hkpAabbPhantom *fn_82D8D6C0(hkpAabbPhantom *self, const hkAabb *aabb, hkUint32 filterInfo);   // hkpAabbPhantom()
 }
 
@@ -110,7 +87,7 @@ extern "C" Actuator *fn_82603640(Actuator *self, hkpEntity *entity)
     self->m_linearEnabled = 1;
     self->m_120 = 0;
     self->m_linearTarget.m_quad = __VMXGetReg(77);
-    self->m_angularTarget = lbl_82196750;
+    self->m_angularTarget = lbl_82196750.m_vec;
     self->m_30.m_quad = __VMXGetReg(77);
     self->m_b0.m_quad = __VMXGetReg(77);
     self->m_70.m_quad = __VMXGetReg(75);
@@ -121,16 +98,16 @@ extern "C" Actuator *fn_82603640(Actuator *self, hkpEntity *entity)
     self->m_linearCurrent.m_quad = __VMXGetReg(77);
     self->m_angularCurrent.m_quad = __VMXGetReg(77);
     self->m_linearTarget.m_quad = __VMXGetReg(77);
-    self->m_angularTarget = lbl_82196750;
+    self->m_angularTarget = lbl_82196750.m_vec;
 
     hkTransform t;
-    t.m_translation = lbl_821962C0;
-    fn_82CE6010(&t.m_rotation, &lbl_82196750);
+    t.setTranslation(lbl_821962C0);
+    t.setRotation(lbl_82196750);
     hkAabb aabb;
-    entity->m_shape->getAabb(t, lbl_821917A8[0x2c / 4], aabb);
+    entity->m_collidable.getShape()->getAabb(t, lbl_821917A8[0x2c / 4], aabb);
     __vector4 negMin = negate(aabb.m_min);
     self->m_halfExtents.m_quad = __vsel(aabb.m_max.m_quad, negate(aabb.m_min), __vcmpgtfp(aabb.m_max.m_quad, negMin));
     hkpAabbPhantom *phantom = (hkpAabbPhantom *)hkpAabbPhantom::operator new(sizeof(hkpAabbPhantom));
-    self->m_phantom = fn_82D8D6C0(phantom, &aabb, entity->m_collisionFilterInfo);
+    self->m_phantom = fn_82D8D6C0(phantom, &aabb, entity->m_collidable.m_broadPhaseHandle.m_collisionFilterInfo);
     return self;
 }

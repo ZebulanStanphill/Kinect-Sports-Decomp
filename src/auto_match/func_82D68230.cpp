@@ -4,54 +4,15 @@
 // class allocator (no null check) and its constructor is inlined; the manifold's constructor is out of line
 // (fn_82D781D0, a Matching C unit).
 #include "havok/hkBase.h"
-#include "havok/hkpCdBody.h"
-
-class hkpContactMgr;
-class hkpConstraintOwner;
-class hkpCdBodyPairCollector;
-class hkpCdPointCollector;
-typedef hkpConstraintOwner hkCollisionConstraintOwner;
-struct hkpLinearCastCollisionInput;
-struct hkpProcessCollisionInput;
-struct hkpProcessCollisionOutput;
+#include "havok/hkpIterativeLinearCastAgent.h"
 
 extern "C" const float lbl_8213962C;
-
-struct hkpCollisionDispatcher;
-struct hkpCollisionInput {
-    hkReal getTolerance() const { return m_tolerance; }
-    hkpCollisionDispatcher *m_dispatcher;   // +0x0
-    hkInt32 m_weldClosestPoints;            // +0x4
-    hkReal m_tolerance;                     // +0x8
-};
 
 class hkpBoxShape : public hkpShape {
 public:
     hkReal m_radius;           // +0x10
     hkUint32 m_pad[3];
     hkReal m_halfExtents[4];   // +0x20
-};
-
-class hkpCollisionAgent : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    hkpCollisionAgent(hkpContactMgr *contactMgr) : m_contactMgr(contactMgr) {}
-    virtual void getPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                                 hkpCdBodyPairCollector &collector);   // +0xC
-    virtual void getClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                                  hkpCdPointCollector &collector);   // +0x10
-    virtual void linearCast(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpLinearCastCollisionInput &input,
-                            hkpCdPointCollector &collector, hkpCdPointCollector *startCollector);   // +0x14
-    virtual void processCollision(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpProcessCollisionInput &input,
-                                  hkpProcessCollisionOutput &result);   // +0x18
-    virtual void cleanup(hkCollisionConstraintOwner &constraintOwner);   // +0x1C
-
-    hkpContactMgr *m_contactMgr;   // +0x8
-};
-
-class hkpIterativeLinearCastAgent : public hkpCollisionAgent {
-public:
-    hkpIterativeLinearCastAgent(hkpContactMgr *mgr) : hkpCollisionAgent(mgr) {}
 };
 
 // hkpBoxBoxManifold (0x40 bytes); its constructor is out of line, fn_82D781D0.
@@ -82,8 +43,8 @@ hkpCollisionAgent *HK_CALL hkpBoxBoxAgent::createBoxBoxAgent(const hkpCdBody &bo
     const hkpBoxShape *boxA = static_cast<const hkpBoxShape *>(bodyA.getShape());
     const hkpBoxShape *boxB = static_cast<const hkpBoxShape *>(bodyB.getShape());
 
-    if (input.getTolerance() < boxA->m_halfExtents[3] * lbl_8213962C &&
-        input.getTolerance() < boxB->m_halfExtents[3] * lbl_8213962C) {
+    if (input.m_tolerance < boxA->m_halfExtents[3] * lbl_8213962C &&
+        input.m_tolerance < boxB->m_halfExtents[3] * lbl_8213962C) {
         hkpBoxBoxAgent *agent = new hkpBoxBoxAgent(mgr);
         return agent;
     }

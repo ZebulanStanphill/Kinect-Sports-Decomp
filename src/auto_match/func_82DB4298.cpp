@@ -3,14 +3,7 @@
 // and its callback map with the world.
 #include "havok/hkBase.h"
 #include "havok/hkpConstraintListener.h"
-
-class hkpWorld;
-
-class hkpWorldDeletionListener {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual ~hkpWorldDeletionListener() {}
-};
+#include "havok/hkpWorldDeletionListener.h"
 
 class CallbackMap;
 
@@ -31,6 +24,7 @@ class hkpCollisionCallbackUtil : public hkReferencedObject, public hkpConstraint
 public:
     HK_DECLARE_CLASS_ALLOCATOR(0);
     hkpCollisionCallbackUtil();
+    virtual void worldDeletedCallback(hkpWorld *world);
 
     int m_count;          // +0x10
     CallbackMap m_map;    // +0x14

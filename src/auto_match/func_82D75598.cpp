@@ -1,8 +1,8 @@
-#include "havok/hkTransform.h"
 // hkpGskBaseAgent::getClosestPoints (GSK closest point between two convex bodies, reported to a collector).
 #include "havok/hkpCdPointCollector.h"
 #include "havok/hkContactPoint.h"
 #include "havok/hkpCollisionInput.h"
+#include "havok/hkpCdBody.h"
 
 extern "C" unsigned __int64 __mftb();
 struct hkMonitorStream { void *a; unsigned *next; void *b; unsigned *end; };
@@ -18,15 +18,6 @@ static HK_FORCE_INLINE void timer(const char *s)
 		t->next = p + 3;
 	}
 }
-
-class hkpShape;
-class hkpCdBody {
-public:
-	const hkpShape *m_shape;        // +0x0
-	hkUint32 m_shapeKey;            // +0x4
-	const hkTransform *m_motion;    // +0x8
-	const hkpCdBody *m_parent;      // +0xc
-};
 
 class hkpCdPoint {
 public:
@@ -65,12 +56,12 @@ extern "C" void fn_82D75598(hkpGskBaseAgent *self, const hkpCdBody &bodyA, const
 {
 	timer("TtGsk");
 	hkTransform aTb;
-	aTb.setMulInverseMul(*bodyA.m_motion, *bodyB.m_motion);
+	aTb.setMulInverseMul(bodyA.getTransform(), bodyB.getTransform());
 	GetClosestPointInput in;
 	in.m_shapeA = bodyA.m_shape;
 	in.m_shapeB = bodyB.m_shape;
 	in.m_aTb = &aTb;
-	in.m_transformA = bodyA.m_motion;
+	in.m_transformA = &bodyA.getTransform();
 	in.m_collisionTolerance = input.m_tolerance;
 	hkVector4 pointOnB;
 	hkVector4 separatingNormal;

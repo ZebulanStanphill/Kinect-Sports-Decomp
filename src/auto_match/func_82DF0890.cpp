@@ -9,6 +9,7 @@
 #include "havok/hkpShape.h"
 #include "havok/hkTransform.h"
 #include "havok/hkpCdPointCollector.h"
+#include "havok/hkContactPoint.h"
 
 extern "C" {
 extern hkVector4 lbl_8323B1A0;   // the zero vector (hkVector4::getZero())
@@ -66,14 +67,6 @@ static HK_FORCE_INLINE hkpRigidBody *hkpGetRigidBody(const hkpCollidable *collid
     }
     return HK_NULL;
 }
-
-struct hkContactPoint {
-    HK_FORCE_INLINE const hkVector4 &getPosition() const { return m_position; }
-    HK_FORCE_INLINE const hkVector4 &getSeparatingNormal() const { return m_separatingNormal; }
-    HK_FORCE_INLINE void setDistance(hkReal d) { m_separatingNormal(3) = d; }
-    hkVector4 m_position;
-    hkVector4 m_separatingNormal;
-};
 
 struct hkpRootCdPoint {
     hkContactPoint m_contact;                // +0x0
@@ -134,8 +127,8 @@ extern "C" int fn_82DF0890(hkpWorld *world, const hkVector4 &from, hkReal radius
     if (collector.hasHit())
     {
         const hkpRootCdPoint &hit = collector.getHit();
-        out->m_position = hit.m_contact.getPosition();
-        out->m_normal = hit.m_contact.getSeparatingNormal();
+        out->m_position = hit.m_contact.m_position;
+        out->m_normal = hit.m_contact.m_separatingNormal;
         out->m_body = hkpGetRigidBody(hit.m_rootCollidableB);
         out->m_shapeKey = hit.m_shapeKeyB;
         return 0;

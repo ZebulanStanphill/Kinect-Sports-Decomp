@@ -1,68 +1,7 @@
 // Havok AABB tree: appends a copy of a leaf (fn_82D43098 grows the leaf array, fn_82D43AA0
 // copies), grows the tree's centre/half-extent box by the leaf's AABB (fn_82D41C68), adds the
 // leaf's count and returns the new leaf's index. Classes as in func_82D42A28.cpp.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-extern "C" {
-__vector4 __vaddfp(__vector4 a, __vector4 b);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vminfp(__vector4 a, __vector4 b);
-__vector4 __vmaxfp(__vector4 a, __vector4 b);
-}
-
-class hkVector4
-{
-  public:
-    __vector4 q;
-
-    hkVector4()
-    {
-    }
-
-    hkVector4(const hkVector4 &v)
-    {
-        q = v.q;
-    }
-
-    hkVector4 &operator=(const hkVector4 &v)
-    {
-        q = v.q;
-        return *this;
-    }
-
-    void setAdd4(const hkVector4 &a, const hkVector4 &b)
-    {
-        q = __vaddfp(a.q, b.q);
-    }
-
-    void setSub4(const hkVector4 &a, const hkVector4 &b)
-    {
-        q = __vsubfp(a.q, b.q);
-    }
-
-    void setMul4(const hkVector4 &a, const hkVector4 &b)
-    {
-        q = __vmulfp(a.q, b.q);
-    }
-
-    void setMin4(const hkVector4 &a, const hkVector4 &b)
-    {
-        q = __vminfp(a.q, b.q);
-    }
-
-    void setMax4(const hkVector4 &a, const hkVector4 &b)
-    {
-        q = __vmaxfp(a.q, b.q);
-    }
-};
-
-struct hkAabb {
-    hkVector4 m_min;
-    hkVector4 m_max;
-};
+#include "havok/hkAabb.h"
 
 struct Leaf_82D43170 {
     char pad0[0x18];
@@ -86,7 +25,6 @@ struct Tree_82D43170 {
 };
 
 extern "C" {
-extern const hkVector4 lbl_82132D70; /* 0.5 */
 Leaf_82D43170 *fn_82D43098(Tree_82D43170 *self);
 void fn_82D43AA0(Leaf_82D43170 *slot, const Leaf_82D43170 *leaf);
 void fn_82D41C68(const Leaf_82D43170 *leaf, hkAabb *out);
@@ -112,10 +50,11 @@ extern "C" int fn_82D43170(Tree_82D43170 *self, const Leaf_82D43170 *leaf)
 
     hkVector4 sum;
     sum.setAdd4(newMin, newMax);
-    self->center.setMul4(lbl_82132D70, sum);
+    // centre = 0.5 * sum and halfExtents = 0.5 * diff; the 0.5 constant (an hkQuadReal) is read again for each.
+    self->center.m_quad = __vmulfp(lbl_82132D70, sum.m_quad);
     hkVector4 diff;
     diff.setSub4(newMax, newMin);
-    self->halfExtents.setMul4(lbl_82132D70, diff);
+    self->halfExtents.m_quad = __vmulfp(lbl_82132D70, diff.m_quad);
 
     self->count += leaf->count;
     return self->leaves.size - 1;

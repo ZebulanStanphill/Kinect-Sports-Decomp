@@ -14,15 +14,7 @@
 // constructors call reset(), which sets m_earlyOut = false / m_earlyOutDistance = HK_REAL_MAX. The game's
 // HK_REAL_MAX constant is __real@7f7fffee (3.40282e38f).
 #include "havok/hkpSymmetricAgent.h"
-
-// hkpCollidable (Physics/Collide/Agent/Collidable/hkpCollidable.h): m_allowedPenetrationDepth at +0x4C.
-class hkpCollidable : public hkpCdBody {
-public:
-    hkReal getAllowedPenetrationDepth() const { return m_allowedPenetrationDepth; }
-
-    hkUint8 m_members[0x3C];            // +0x10: owner offset, filter info, broad-phase handle...
-    hkReal m_allowedPenetrationDepth;   // +0x4C
-};
+#include "havok/hkpCollidable.h"
 
 // hkpGskBaseAgent -> hkpGskfAgent -> hkpPredGskfAgent (RTTI; Physics/Collide/Agent/ConvexAgent/Gjk).
 // hkpGskBaseAgent's constructor is out of line (fn_82D74A90): it sets up the GSK cache from the relative
@@ -75,7 +67,7 @@ hkpGskBaseAgent::hkpGskBaseAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
     m_separatingNormal(3) = invalid;
     m_timeOfSeparatingNormal = invalid;
     const hkpCollidable *rootA = static_cast<const hkpCollidable *>(bodyA.getRootCollidable());
-    hkReal depthA = rootA->getAllowedPenetrationDepth();
+    hkReal depthA = rootA->m_allowedPenetrationDepth;
     const hkpCollidable *rootB = static_cast<const hkpCollidable *>(bodyB.getRootCollidable());
-    m_allowedPenetration = hkMath::min2(depthA, rootB->getAllowedPenetrationDepth());
+    m_allowedPenetration = hkMath::min2(depthA, rootB->m_allowedPenetrationDepth);
 }

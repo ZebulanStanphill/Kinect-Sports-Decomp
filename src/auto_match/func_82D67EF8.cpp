@@ -1,17 +1,8 @@
-#include "havok/hkTransform.h"
+#include "havok/hkpCdBody.h"
 
-struct hkpBoxShape {
-    char pad0[0x10];
-    hkReal m_radius;             // 0x10
-    char pad14[0xc];
-    hkVector4 m_halfExtents;     // 0x20
-};
-
-struct hkpCdBody {
-    const hkpBoxShape *m_shape;  // 0x00
-    int m_shapeKey;              // 0x04
-    const hkTransform *m_motion; // 0x08
-    __forceinline const hkTransform &getTransform() const { return *m_motion; }
+class hkpBoxShape : public hkpConvexShape {
+public:
+    hkVector4 m_halfExtents;   // +0x20
 };
 
 struct hkpProcessCollisionInput {
@@ -107,8 +98,8 @@ extern "C" char *fn_82D67EF8(const hkpAgent3ProcessInput *input, hkpAgentEntry *
     TimerBegin("TtBoxBox3");
 
     hkpBoxBoxManifold *manifold = (hkpBoxBoxManifold *)agentData;
-    const hkpBoxShape *boxA = input->m_bodyA->m_shape;
-    const hkpBoxShape *boxB = input->m_bodyB->m_shape;
+    const hkpBoxShape *boxA = static_cast<const hkpBoxShape *>(input->m_bodyA->getShape());
+    const hkpBoxShape *boxB = static_cast<const hkpBoxShape *>(input->m_bodyB->getShape());
 
     hkVector4 rA;
     {

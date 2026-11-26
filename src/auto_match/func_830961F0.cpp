@@ -3,7 +3,7 @@
 // ray into the collidable's local space and casts it, either into the hit collector or into the
 // single output (whose normal is rotated back into world space). Returns whether the single cast hit.
 
-#include "havok/hkTransform.h"
+#include "havok/hkpCollidable.h"
 #include "havok/hkpCollisionFilter.h"
 
 static __forceinline void SetTransformedInversePos(hkVector4 &out, const hkTransform &t, const hkVector4 &v)
@@ -41,10 +41,13 @@ struct hkpWorldRayCastInput {
     hkUint32 m_filterInfo;                  // 0x24
 };
 
-struct hkpWorldRayCastOutput {
+struct hkpShapeRayCastOutput {
     hkVector4 m_normal;                     // 0x00
     hkReal m_hitFraction;                   // 0x10
     char pad14[0x3c];
+};
+
+struct hkpWorldRayCastOutput : public hkpShapeRayCastOutput {
     const hkpCollidable *m_rootCollidable;  // 0x50
 };
 
@@ -52,29 +55,6 @@ class hkpRayHitCollector {
 public:
     virtual ~hkpRayHitCollector();
     hkReal m_earlyOutHitFraction;           // 0x04
-};
-
-class hkpShape {
-public:
-    virtual void slot00();
-    virtual void slot04();
-    virtual void slot08();
-    virtual void slot0C();
-    virtual void slot10();
-    virtual void slot14();
-    virtual void slot18();
-    virtual void slot1C();
-    virtual hkBool castRay(const hkpShapeRayCastInput &input, hkpWorldRayCastOutput &output) const;   // 0x20
-    virtual void castRayWithCollector(const hkpShapeRayCastInput &input, const hkpCollidable &cdBody,
-                                      hkpRayHitCollector &collector) const;                     // 0x24
-};
-
-class hkpCollidable {
-public:
-    const hkpShape *m_shape;                // 0x00
-    int m_shapeKey;                         // 0x04
-    const void *m_motion;                   // 0x08
-    __forceinline const hkTransform &getTransform() const { return *(const hkTransform *)m_motion; }
 };
 
 struct RayCaster_830961F0 {

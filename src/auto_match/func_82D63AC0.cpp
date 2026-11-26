@@ -1,53 +1,32 @@
-#include "havok/hkVector4.h"
+#include "havok/hkpCdBody.h"
 #include "havok/hkpCdBodyPairCollector.h"
 
-class hkTransform {
-public:
-    __forceinline hkTransform() {}
-    __forceinline hkTransform(const hkTransform &t)
-    {
-        m_col0 = t.m_col0;
-        m_col1 = t.m_col1;
-        m_col2 = t.m_col2;
-        m_translation = t.m_translation;
-    }
-    hkVector4 m_col0;
-    hkVector4 m_col1;
-    hkVector4 m_col2;
-    hkVector4 m_translation;
-};
-
+// hkVector4::_setTransformedPos with the translation added last (the header's adds it first).
 static __forceinline void setTransformedPos(hkVector4 &out, const hkTransform &t, const hkVector4 &b)
 {
     __vector4 xb = __vspltw(b.m_quad, 0);
     __vector4 yb = __vspltw(b.m_quad, 1);
     __vector4 zb = __vspltw(b.m_quad, 2);
-    __vector4 t0 = __vmulfp(t.m_col0.m_quad, xb);
-    t0 = __vmaddfp(t.m_col1.m_quad, yb, t0);
-    t0 = __vmaddfp(t.m_col2.m_quad, zb, t0);
-    out.m_quad = __vaddfp(t0, t.m_translation.m_quad);
+    __vector4 t0 = __vmulfp(t.getColumn(0).m_quad, xb);
+    t0 = __vmaddfp(t.getColumn(1).m_quad, yb, t0);
+    t0 = __vmaddfp(t.getColumn(2).m_quad, zb, t0);
+    out.m_quad = __vaddfp(t0, t.getTranslation().m_quad);
 }
 
 static __forceinline void transformPoints(const hkTransform &t, const hkVector4 *in, int n, hkVector4 *out)
 {
-    hkTransform tc = t;
+    hkTransform tc;
+    tc = t;
     int i = n - 1;
     do {
         setTransformedPos(out[i], tc, in[i]);
     } while (--i >= 0);
 }
 
-struct hkpCapsuleShape {
-    char pad0[0x10];
-    hkReal m_radius;           // 0x10
-    char pad14[0xc];
-    hkVector4 m_vertices[2];   // 0x20
-};
-
-struct hkpCdBody {
-    const hkpCapsuleShape *m_shape;  // 0x00
-    int m_shapeKey;                  // 0x04
-    const hkTransform *m_motion;     // 0x08
+// hkpCapsuleShape (Physics/Collide/Shape/Convex/Capsule/hkpCapsuleShape.h): the two vertices at +0x20.
+class hkpCapsuleShape : public hkpConvexShape {
+public:
+    hkVector4 m_vertices[2];   // +0x20
 };
 
 struct hkpCollisionInput;
@@ -88,12 +67,12 @@ extern "C" void fn_82D63AC0(const hkpCdBody &bodyA, const hkpCdBody &bodyB, cons
                             hkpCdBodyPairCollector &collector)
 {
     TimerMarker("TtCapsCaps");
-    const hkpCapsuleShape *capsA = bodyA.m_shape;
-    const hkpCapsuleShape *capsB = bodyB.m_shape;
+    const hkpCapsuleShape *capsA = static_cast<const hkpCapsuleShape *>(bodyA.getShape());
+    const hkpCapsuleShape *capsB = static_cast<const hkpCapsuleShape *>(bodyB.getShape());
     hkVector4 pA[2];
-    transformPoints(*bodyA.m_motion, capsA->m_vertices, 2, pA);
+    transformPoints(bodyA.getTransform(), capsA->m_vertices, 2, pA);
     hkVector4 pB[2];
-    transformPoints(*bodyB.m_motion, capsB->m_vertices, 2, pB);
+    transformPoints(bodyB.getTransform(), capsB->m_vertices, 2, pB);
     hkVector4 dA;
     dA.setSub4(pA[1], pA[0]);
     hkVector4 dB;

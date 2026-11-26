@@ -1,16 +1,5 @@
 #include "havok/hkTransform.h"
-#include "havok/hkQuaternion.h"
-
-class hkSweptTransform {
-public:
-    __forceinline float getBaseTime() const { return m_centerOfMass0(3); }
-    __forceinline float getInvDeltaTime() const { return m_centerOfMass1(3); }
-    hkVector4 m_centerOfMass0;      // 0x00 (w = base time)
-    hkVector4 m_centerOfMass1;      // 0x10 (w = inverse delta time)
-    hkQuaternion m_rotation0;       // 0x20
-    hkQuaternion m_rotation1;       // 0x30
-    hkVector4 m_centerOfMassLocal;  // 0x40
-};
+#include "havok/hkSweptTransform.h"
 
 static __forceinline void _lerp2(const hkSweptTransform &sweptTrans, float t, hkQuaternion &quatOut)
 {
@@ -47,6 +36,7 @@ static __forceinline void _lerp2(const hkSweptTransform &sweptTrans, float t, hk
 
 extern "C" void fn_83080BC0(const hkSweptTransform &sweptTrans, float t, hkTransform &transformOut)
 {
-    float ri = (t - sweptTrans.getBaseTime()) * sweptTrans.getInvDeltaTime();
+    // The w of m_centerOfMass0 is the base time, the w of m_centerOfMass1 the inverse delta time.
+    float ri = (t - sweptTrans.m_centerOfMass0(3)) * sweptTrans.m_centerOfMass1(3);
     _lerp2(sweptTrans, ri, transformOut);
 }

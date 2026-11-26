@@ -1,20 +1,8 @@
 #include "havok/hkBase.h"
-#include "havok/hkQuadReal.h"
+#include "havok/hkAabb.h"
+#include "havok/hkpPhantomOverlapListener.h"
+#include "havok/hkpWorldDeletionListener.h"
 
-class hkVector4 {
-public:
-    HK_FORCE_INLINE void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-    HK_FORCE_INLINE void setMul4(const hkVector4 &a, const hkReal &r) { m_quad = __vmulfp(a.m_quad, __vspltw(__lvlx(&r, 0), 0)); }
-    __vector4 m_quad;
-};
-
-class hkAabb {
-public:
-    hkVector4 m_min;
-    hkVector4 m_max;
-};
-
-class hkpWorld;
 class hkpBreakOffPartsListener;
 
 // hkpWorldCinfo (0xE0): constructor fn_82D8E600, destructor emitted in game code (fn_8253C630).
@@ -34,6 +22,8 @@ public:
     hkUint8 m_pad8[0x1c];
 };
 
+// Kept local: with havok/hkpCollisionFilter.h the four filter interfaces are base classes, and storing the game's
+// interface vtables through them is scheduled differently (m_type's store moves after the +0x14 vtable store).
 class hkpCollisionFilter : public hkReferencedObject {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
@@ -58,8 +48,6 @@ public:
     virtual ~hkpCollisionListener() {}
 };
 
-class hkpWorldDeletionListener { public: virtual ~hkpWorldDeletionListener() {} };
-class hkpPhantomOverlapListener { public: virtual ~hkpPhantomOverlapListener() {} };
 class hkpWorldPostSimulationListener { public: virtual ~hkpWorldPostSimulationListener() {} };
 
 // hkpBroadPhaseBorder (fn_82D8DDB8 is its constructor, ??0hkpBroadPhaseBorder@@QAA@PAVhkpWorld@@HVhkBool@@@Z).
@@ -67,6 +55,9 @@ class hkpBroadPhaseBorder : public hkReferencedObject, public hkpWorldDeletionLi
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_DYNAMICS);
     hkpBroadPhaseBorder(hkpWorld *world, int type, hkBool postponeAndSortCallbacks);
+    virtual void worldDeletedCallback(hkpWorld *world);
+    virtual void collidableAddedCallback(const hkpCollidableAddedEvent &event);
+    virtual void collidableRemovedCallback(const hkpCollidableRemovedEvent &event);
 };
 
 extern "C" {
@@ -185,7 +176,7 @@ extern "C" void fn_8253CC70(Physics *self, Settings *settings)
     hkVector4 gravity;
     fn_825A3100(&info, &gravity, &self->m_f4);
     GravitySettings &gs = settings->m_gravity;
-    gs.m_scaledGravity.setMul4(gravity, gs.m_scale);
+    gs.m_scaledGravity.setMul4(gs.m_scale, gravity);
     gs.m_gravity = gravity;
     self->m_f4 = 0;
 

@@ -1,11 +1,11 @@
 #include "havok/hkBase.h"
+#include "havok/hkStreamWriter.h"
 extern "C" void *fopen(const char *, const char *);
-class hkStreamWriter : public hkReferencedObject {
-public: hkStreamWriter(hkFinishLoadedObjectFlag f) : hkReferencedObject(f) {}
-};
 class hkStdioStreamWriter : public hkStreamWriter {
 public:
  hkStdioStreamWriter(hkFinishLoadedObjectFlag f) : hkStreamWriter(f) {}
+ virtual hkBool isOk() const;
+ virtual int write(const void *buf, int nbytes);
  void *m_handle;
  hkBool m_ownsHandle;
 };

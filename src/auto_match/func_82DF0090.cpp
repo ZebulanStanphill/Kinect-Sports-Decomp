@@ -3,7 +3,7 @@
 // damping impulse from the bodies' velocity difference (both scaled by the time step),
 // applied to body A negated and to body B as is. Wrapped in the "TtDashpot" timer scope.
 #include "havok/hkBase.h"
-#include "havok/hkTransform.h"
+#include "havok/hkpRigidBody.h"
 
 extern "C" unsigned __int64 __mftb();
 struct hkMonitorStream { void *a; unsigned *next; void *b; unsigned *end; };
@@ -27,38 +27,7 @@ struct hkStepInfo {
     hkReal m_invDeltaTime;
 };
 
-class hkpMotion {
-public:
-    virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0c();
-    virtual void v10(); virtual void v14(); virtual void v18(); virtual void v1c();
-    virtual void v20(); virtual void v24(); virtual void v28(); virtual void v2c();
-    virtual void v30(); virtual void v34(); virtual void v38(); virtual void v3c();
-    virtual void v40(); virtual void v44(); virtual void v48(); virtual void v4c();
-    virtual void applyPointImpulse(const hkVector4 &imp, const hkVector4 &p);   // +0x50
-    hkTransform m_transform;        // +0x10 (body +0xf0)
-    char m_pad50[0x80];
-    hkVector4 m_linearVelocity;     // +0xd0 (body +0x1b0)
-};
-
-class hkpRigidBody {
-public:
-    char m_pad0[0xe0];
-    hkpMotion m_motion;             // +0xe0
-    HK_FORCE_INLINE const hkTransform &getTransform() const { return m_motion.m_transform; }
-    HK_FORCE_INLINE const hkVector4 &getLinearVelocity() const { return m_motion.m_linearVelocity; }
-    HK_FORCE_INLINE void applyPointImpulse(const hkVector4 &imp, const hkVector4 &p);
-};
-
-extern "C" {
-void fn_82D89BD8(hkpRigidBody *body);   // hkpEntity::activate
-}
 extern "C" const float lbl_821456B0;
-
-HK_FORCE_INLINE void hkpRigidBody::applyPointImpulse(const hkVector4 &imp, const hkVector4 &p)
-{
-    fn_82D89BD8(this);
-    m_motion.applyPointImpulse(imp, p);
-}
 
 struct hkpDashpotAction {
     char m_pad0[0x18];
@@ -93,8 +62,11 @@ extern "C" void fn_82DF0090(hkpDashpotAction *self, const hkStepInfo &stepInfo)
 
     hkVector4 negImpulse;
     negImpulse.setMul4(-1.0f, self->m_impulse);
-    ra->applyPointImpulse(negImpulse, pa);
-    rb->applyPointImpulse(self->m_impulse, pb);
+    // hkpRigidBody::applyPointImpulse: activate the body, then apply the impulse to its motion.
+    ra->activate();
+    ra->getRigidMotion()->applyPointImpulse(negImpulse, pa);
+    rb->activate();
+    rb->getRigidMotion()->applyPointImpulse(self->m_impulse, pb);
 
     timer("Et");
 }

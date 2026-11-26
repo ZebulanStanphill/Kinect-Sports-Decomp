@@ -1,24 +1,5 @@
-#include "havok/hkRotation.h"
+#include "havok/hkTransform.h"
 #include "havok/hkAabb.h"
-
-class hkTransform
-{
-  public:
-    __forceinline hkTransform()
-    {
-    }
-
-    __forceinline hkTransform(const hkTransform &t)
-    {
-        m_rotation.m_col0 = t.m_rotation.m_col0;
-        m_rotation.m_col1 = t.m_rotation.m_col1;
-        m_rotation.m_col2 = t.m_rotation.m_col2;
-        m_translation = t.m_translation;
-    }
-
-    hkRotation m_rotation;
-    hkVector4 m_translation;
-};
 
 class hkpPhantom
 {
@@ -63,7 +44,8 @@ extern "C" void fn_82D94138(hkpPhantom *phantom, const hkTransform *transform)
     case 1:
     case 2: {
         hkpShapePhantom *shapePhantom = static_cast<hkpShapePhantom *>(phantom);
-        hkTransform t = shapePhantom->m_transform;
+        hkTransform t;
+        t = shapePhantom->m_transform;
         fn_82CE68B8(&t, transform);
         fn_82D99E00(shapePhantom, t);
         break;

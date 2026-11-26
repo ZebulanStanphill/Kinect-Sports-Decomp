@@ -9,47 +9,16 @@
 #include "havok/hkBase.h"
 #include "havok/hkContactPoint.h"
 #include "havok/hkpCdPointCollector.h"
-
-class hkMatrix3 {
-public:
-    HK_FORCE_INLINE hkMatrix3() {}
-    HK_FORCE_INLINE hkMatrix3(const hkMatrix3 &m) : m_col0(m.m_col0), m_col1(m.m_col1), m_col2(m.m_col2) {}
-    hkVector4 m_col0, m_col1, m_col2;
-};
-class hkRotation : public hkMatrix3 {
-public:
-    HK_FORCE_INLINE hkRotation() {}
-};
-
-extern "C" const hkTransform *fn_82CEBD78(void);   // hkTransform::getIdentity()
-
-class hkTransform {
-public:
-    HK_FORCE_INLINE hkTransform() {}
-    HK_FORCE_INLINE hkTransform(const hkRotation &r, const hkVector4 &t) : m_rotation(r), m_translation(t) {}
-    static HK_FORCE_INLINE const hkTransform &HK_CALL getIdentity() { return *fn_82CEBD78(); }
-    HK_FORCE_INLINE const hkRotation &getRotation() const { return m_rotation; }
-    hkRotation m_rotation;
-    hkVector4 m_translation;
-};
+#include "havok/hkpAction.h"
+#include "havok/hkpCdBody.h"
 
 // hkStringPtr::operator=(const char *) is out of line (fn_82CED628) and keeps its fn_ name.
 extern "C" void fn_82CED628(hkStringPtr *self, const char *s);
 
-class hkpSimulationIsland;
 class hkpCollidable;
 struct hkStepInfo;
 
-enum hkpShapeType { HK_SHAPE_INVALID = 0 };
-typedef hkUint32 hkpShapeKey;
 #define HK_INVALID_SHAPE_KEY 0xffffffff
-
-class hkpShape : public hkReferencedObject {
-public:
-    HK_FORCE_INLINE hkpShapeType getType() const { return hkpShapeType(m_type); }
-    hkUlong m_userData;   // +0x8
-    hkUint32 m_type;      // +0xC
-};
 
 class hkpSphereShape : public hkpShape {
 public:
@@ -60,15 +29,6 @@ public:
 
 // hkpCollidable::hkpCollidable(const hkpShape *, const hkTransform *, int) is out of line (fn_8253D7A8).
 extern "C" void fn_8253D7A8(hkpCollidable *self, const hkpShape *shape, const hkTransform *t, int type);
-
-class hkpCdBody {
-public:
-    HK_FORCE_INLINE const hkpShape *getShape() const { return m_shape; }
-    const hkpShape *m_shape;     // +0x0
-    hkUint32 m_shapeKey;         // +0x4
-    const void *m_motion;        // +0x8
-    const hkpCdBody *m_parent;   // +0xC
-};
 
 class hkpCollidable : public hkpCdBody {
 public:
@@ -183,22 +143,6 @@ class hkpEntity : public hkpWorldObject {
 class hkpRigidBody : public hkpEntity {
 };
 
-class hkpAction : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_DYNAMICS);
-    HK_FORCE_INLINE void setName(const char *name) { fn_82CED628(&m_name, name); }
-    hkUlong m_userData;             // +0x8
-    hkpWorld *m_world;              // +0xC
-    hkpSimulationIsland *m_island;  // +0x10
-    hkStringPtr m_name;             // +0x14
-};
-
-class hkpUnaryAction : public hkpAction {
-public:
-    hkpUnaryAction(hkpEntity *entity = HK_NULL, hkUlong userData = 0);   // out of line
-    hkpEntity *m_entity;   // +0x18
-};
-
 template <typename T>
 static HK_FORCE_INLINE void _copyFromArray(hkArrayBase<T> &self, hkMemoryAllocator &alloc, const hkArrayBase<T> &a)
 {
@@ -263,16 +207,20 @@ hkpMouseSpringAction::hkpMouseSpringAction(const hkVector4 &positionInRbLocal, c
     m_shapeKey = HK_INVALID_SHAPE_KEY;
     if (world) {
         hkpSphereShape sphere(1.0f);
-        hkTransform transform(hkTransform::getIdentity().getRotation(), mousePositionInWorld);
+        // hkTransform transform(hkTransform::getIdentity().getRotation(), mousePositionInWorld)
+        hkTransform transform;
+        static_cast<hkMatrix3 &>(transform.getRotation()) = *fn_82CEBD78();
+        transform.setTranslation(mousePositionInWorld);
         hkpCollidable sphereCollidable(&sphere, &transform);
 
         hkpCollisionDispatcher::GetClosestPointsFunc getClosestPoints =
-            world->getCollisionDispatcher()->getGetClosestPointsFunc(sphere.getType(), rb->getCollidable()->getShape()->getType());
+            world->getCollisionDispatcher()->getGetClosestPointsFunc(hkpShapeType(sphere.m_type),
+                                                                 hkpShapeType(rb->getCollidable()->getShape()->m_type));
         hkpCollisionInput input = *world->getCollisionInput();
         hkpClosestCdPointCollector collector;
         getClosestPoints(sphereCollidable, *rb->getCollidable(), input, collector);
         if (collector.hasHit())
             m_shapeKey = collector.getHit().m_shapeKeyB;
     }
-    setName("hkpMouseSpringAction");
+    fn_82CED628(&m_name, "hkpMouseSpringAction");   // setName
 }

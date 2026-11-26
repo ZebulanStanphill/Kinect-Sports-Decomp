@@ -1,13 +1,11 @@
 // hkpShapePhantom::setTransform(const hkTransform &transform) (Havok 2010,
 // Physics/Dynamics/Phantom/hkpShapePhantom.cpp). Havok code, /O2 (flag file).
 // 0.5f is __real@3f000000 (Matching units reference it), a selectany definition.
-#include "havok/hkpShape.h"
-#include "havok/hkTransform.h"
 #include "havok/hkAabb.h"
+#include "havok/hkpCollisionInput.h"
+#include "havok/hkpShapePhantom.h"
 
-struct hkpProcessCollisionInput {
-    char m_pad0[8];
-    hkReal m_tolerance;   // +0x8 (hkpCollisionInput::m_tolerance)
+struct hkpProcessCollisionInput : public hkpCollisionInput {
 };
 
 class hkpWorld {
@@ -17,27 +15,12 @@ public:
     hkpProcessCollisionInput *m_collisionInput;   // +0x78
 };
 
-class hkpShapePhantom : public hkReferencedObject {
-public:
-    void setTransform(const hkTransform &transform);
-    void updateBroadPhase(const hkAabb &aabb);
-
-    hkpWorld *m_world;          // +0x8
-    hkUlong m_userData;         // +0xC
-    const hkpShape *m_shape;    // +0x10 m_collidable.m_shape
-    char m_pad14[0x9c];
-    hkTransform m_transform;    // +0xB0 m_motionState.m_transform
-};
-
-extern "C" void fn_82D9A730(hkpShapePhantom *self, const hkAabb &aabb);   // hkpPhantom::updateBroadPhase
-HK_FORCE_INLINE void hkpShapePhantom::updateBroadPhase(const hkAabb &aabb) { fn_82D9A730(this, aabb); }
-
 HK_FORCE_INLINE void hkpShapePhantom::setTransform(const hkTransform &transform)
 {
-    m_transform = transform;
+    m_motionState.getTransform() = transform;
     if (m_world) {
         hkAabb aabb;
-        m_shape->getAabb(transform, m_world->getCollisionInput()->m_tolerance * 0.5f, aabb);
+        m_collidable.getShape()->getAabb(transform, m_world->getCollisionInput()->m_tolerance * 0.5f, aabb);
         updateBroadPhase(aabb);
     }
 }

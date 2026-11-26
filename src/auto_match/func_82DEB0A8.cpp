@@ -1,5 +1,5 @@
 #include "havok/hkBase.h"
-class hkpEntity;
+#include "havok/hkpEntity.h"
 class hkpBreakOffPartsUtil {
 public:
  class LimitContactImpulseUtil : public hkReferencedObject {
@@ -11,10 +11,11 @@ public:
   char tail[8];
  };
 };
-class hkpEntity { public: char pad[0x98]; hkpBreakOffPartsUtil::LimitContactImpulseUtil *util; };
 extern "C" void fn_82DEB0A8(hkpBreakOffPartsUtil *self, hkpEntity *entity, float impulse) {
- if (!entity->util) {
+ hkpBreakOffPartsUtil::LimitContactImpulseUtil *util =
+     static_cast<hkpBreakOffPartsUtil::LimitContactImpulseUtil *>(entity->m_limitContactImpulseUtilAndFlag);
+ if (!util) {
   hkpBreakOffPartsUtil::LimitContactImpulseUtil *p = new hkpBreakOffPartsUtil::LimitContactImpulseUtil(self, entity);
   p->impulse = impulse;
- } else entity->util->impulse = impulse;
+ } else util->impulse = impulse;
 }

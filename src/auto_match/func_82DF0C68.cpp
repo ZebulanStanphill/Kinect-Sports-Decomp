@@ -1,4 +1,3 @@
-#include "havok/hkTransform.h"
 // hkpGravityGun body picking (Physics/Utilities/Weapons/hkpGravityGun.cpp): over the world's active, then
 // inactive simulation islands, take the entity in front of the view (local x from 0.1 to
 // m_maxDistOfObjectPicked) with the smallest (|y| + |z|) / (x + 1), plus 0.1 for bodies heavier than
@@ -10,6 +9,7 @@
 // version still differs in that one name (as a variable copy, the constant changes the register
 // allocation).
 #include "havok/hkBase.h"
+#include "havok/hkpRigidBody.h"
 
 typedef hkUint32 hkpShapeKey;
 
@@ -17,27 +17,6 @@ extern "C" double fabs(double);
 
 struct hkMath {
     static HK_FORCE_INLINE hkReal fabs(hkReal r) { return (hkReal)::fabs(r); }
-};
-
-class hkpCollidable;
-class hkpMotion;
-class hkpCdBody;
-
-extern "C" {
-hkReal fn_82D93128(const hkpMotion *self);                                    // hkpMotion::getMass
-}
-
-// Only the members used here.
-class hkpRigidBody {
-public:
-    HK_FORCE_INLINE const hkpCollidable *getCollidable() const { return (const hkpCollidable *)m_collidable; }
-    HK_FORCE_INLINE const hkpMotion *getMotion() const { return (const hkpMotion *)m_motion; }
-    HK_FORCE_INLINE const hkVector4 &getPosition() const { return m_position; }
-
-    char m_pad0[0x10];
-    char m_collidable[0xd0];   // +0x10 hkpWorldObject::m_collidable
-    char m_motion[0x60];       // +0xe0 hkpEntity::m_motion
-    hkVector4 m_position;      // +0x140
 };
 
 class hkpSimulationIsland {
@@ -142,13 +121,14 @@ extern "C" hkpRigidBody *fn_82DF0C68(hkpGravityGun *self, const hkTransform *vie
             for (int b = 0; b < island->m_entities.getSize(); b++)
             {
                 hkpRigidBody *body = island->m_entities[b];
+                const hkVector4 &position = body->m_motion.m_motionState.getSweptTransform().m_centerOfMass1;
                 hkVector4 local;
-                local.setTransformedInversePos(*viewTransform, body->getPosition());
+                local.setTransformedInversePos(*viewTransform, position);
                 if (local(0) < 0.1f || local(0) > self->m_maxDistOfObjectPicked || body == characterBody)
                     continue;
 
                 hkReal value = (hkMath::fabs(local(1)) + hkMath::fabs(local(2))) / (local(0) + 1.0f);
-                if (fn_82D93128(body->getMotion()) > self->m_maxMassOfObjectPicked)
+                if (body->m_motion.getMass() > self->m_maxMassOfObjectPicked)
                     value += 0.1f;
                 if (value > bestValue)
                     continue;
@@ -174,7 +154,7 @@ extern "C" hkpRigidBody *fn_82DF0C68(hkpGravityGun *self, const hkTransform *vie
                     hkpClosestRayHitCollector collector;
                     hkpWorldRayCastInput input;
                     input.m_from = viewTransform->getTranslation();
-                    input.m_to = body->getPosition();
+                    input.m_to = position;
                     fn_82D81CC8(world, &input, &collector);
                     if (collector.hasHit() && collector.getHit().m_rootCollidable != body->getCollidable())
                         goto nextBody;

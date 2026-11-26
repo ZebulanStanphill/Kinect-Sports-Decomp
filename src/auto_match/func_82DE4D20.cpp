@@ -3,14 +3,10 @@
 #include "havok/hkBase.h"
 #include "havok/hkpEntity.h"
 #include "havok/hkContactPoint.h"
+#include "havok/hkpConstraintAtom.h"
 
 class hkpSimpleContactConstraintAtom;
 extern "C" void fn_82D9FE90(hkpSimpleContactConstraintAtom *self, hkFinishLoadedObjectFlag f);   // its finish constructor
-
-// Physics/ConstraintSolver/Constraint/Atom/hkpConstraintAtom.h.
-struct hkpConstraintAtom {
-    hkUint16 m_type;   // +0x0 hkEnum<AtomType, hkUint16>
-};
 
 class __declspec(align(16)) hkpSimpleContactConstraintDataInfo {
 public:
@@ -22,7 +18,10 @@ public:
 class hkpSimpleContactConstraintAtom : public hkpConstraintAtom {
 public:
     // Out of line in the game (fn_82D9FE90, which keeps its fn_ name).
-    HK_FORCE_INLINE hkpSimpleContactConstraintAtom(hkFinishLoadedObjectFlag f) { fn_82D9FE90(this, f); }
+    HK_FORCE_INLINE hkpSimpleContactConstraintAtom(hkFinishLoadedObjectFlag f) : hkpConstraintAtom(f)
+    {
+        fn_82D9FE90(this, f);
+    }
 
     hkUint16 m_sizeOfAllAtoms;                    // +0x2
     hkUint16 m_numContactPoints;                  // +0x4

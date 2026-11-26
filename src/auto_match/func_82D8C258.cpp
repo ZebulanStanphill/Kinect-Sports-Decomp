@@ -12,10 +12,9 @@
 //   __real@3dcccccd, so declaring it as an lbl_ extern references a symbol the original lacks.
 #include "havok/hkBase.h"
 #include "havok/hkLocalFrame.h"
+#include "havok/hkMatrix3.h"
+#include "havok/hkQuaternion.h"
 extern "C" double __fsel(double, double, double);
-class hkVector4 { public: float v[4]; };
-class hkQuaternion { public: float v[4]; };
-class hkMatrix3 { public: hkVector4 c[3]; };
 class hkpShape;
 extern "C" void fn_82CE5458(void *self, const float *f);
 class hkUFloat8 { public: HK_FORCE_INLINE void operator=(const float &f) { fn_82CE5458(this, &f); } unsigned char m_value; };
@@ -163,7 +162,7 @@ extern "C" hkpRigidBody *fn_82D8C258(hkpRigidBody *self, const hkpRigidBodyCinfo
         hkVector4 extents;
         fn_82D8B400(self, self->m_shape, &extents);
         if (self->m_allowedPenetrationDepth <= 0.0f) {
-            float m = min2(min2(extents.v[0], extents.v[1]), extents.v[2]);
+            float m = min2(min2(extents(0), extents(1)), extents(2));
             if (m < 0.5f) self->m_allowedPenetrationDepth = m * 0.2f;
             else self->m_allowedPenetrationDepth = 0.1f;
         }

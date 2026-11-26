@@ -2,21 +2,10 @@
 // Physics/Collide/Query/Multithreaded/CollisionQuery). Each command's closest points are
 // collected into a stack buffer by an hkpFixedBufferCdPointCollector and copied out, either
 // to the command's own buffer or to a slot of a shared buffer reserved with an atomic add.
-// HK_REAL_MAX is __real@7f7fffee (the linker merged the literal into it); copying it into a
-// local keeps it in f31 across the loop as the literal did.
+// The collector's constructor resets the early-out distance to HK_REAL_MAX (__real@7f7fffee).
+#include "havok/hkpCdPointCollector.h"
 #include "havok/hkpCollidable.h"
 #include "havok/hkpCollisionInput.h"
-
-class hkpCdPoint;
-
-class hkpCdPointCollector {
-public:
-    HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE, hkpCdPointCollector);
-    HK_FORCE_INLINE hkpCdPointCollector(hkReal earlyOut) : m_earlyOutDistance(earlyOut) {}
-    virtual ~hkpCdPointCollector() {}
-    virtual void addCdPoint(const hkpCdPoint &point);
-    hkReal m_earlyOutDistance;   // +0x4
-};
 
 // hkpRootCdPoint: hkContactPoint (two hkVector4) plus the root collidables and shape keys.
 struct hkpRootCdPoint {
@@ -26,8 +15,7 @@ struct hkpRootCdPoint {
 class hkpFixedBufferCdPointCollector : public hkpCdPointCollector {
 public:
     HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE, hkpFixedBufferCdPointCollector);
-    HK_FORCE_INLINE hkpFixedBufferCdPointCollector(hkpRootCdPoint *buffer, int capacity, hkReal earlyOut)
-        : hkpCdPointCollector(earlyOut)
+    HK_FORCE_INLINE hkpFixedBufferCdPointCollector(hkpRootCdPoint *buffer, int capacity)
     {
         m_pointsArrayBase = buffer;
         m_nextFreePoint = buffer;
@@ -105,16 +93,15 @@ extern "C" void fn_8309A2A0(const hkpPairGetClosestPointsJob *job, const hkpColl
     input.m_filter = collisionInput->m_filter;
     input.m_tolerance = job->m_tolerance;
 
-    hkReal earlyOut = 3.40282e+38f;
     hkpRootCdPoint buffer[16];
-    hkpFixedBufferCdPointCollector collector(buffer, 1, earlyOut);
+    hkpFixedBufferCdPointCollector collector(buffer, 1);
 
     for (int i = 0; i < numCommands; i++, command++) {
         const hkpCollidable *a = command->m_collidableA;
         const hkpCollidable *b = command->m_collidableB;
         const hkpShape *shapeA = a->m_shape;
         const hkpShape *shapeB = b->m_shape;
-        new (&collector) hkpFixedBufferCdPointCollector(buffer, command->m_resultsCapacity, earlyOut);
+        new (&collector) hkpFixedBufferCdPointCollector(buffer, command->m_resultsCapacity);
         hkpGetClosestPointsFunc func =
             collisionInput->m_dispatcher->getGetClosestPointsFunc(shapeA->m_type, shapeB->m_type);
         func(*a, *b, input, collector);

@@ -1,12 +1,4 @@
-#include "havok/hkQuadReal.h"
-
-class hkSimdReal {
-public:
-    __forceinline hkSimdReal() {}
-    __forceinline hkSimdReal(const hkQuadReal &x) { q = x; }
-    __forceinline hkSimdReal(const float &x) { q = __vspltw(__lvlx(&x, 0), 0); }
-    hkQuadReal q;
-};
+#include "havok/hkSimdReal.h"
 
 class hkVector4 {
 public:
@@ -16,12 +8,12 @@ public:
     __forceinline hkSimdReal getSimdAt3() const { return __vspltw(q, 3); }
     __forceinline float operator()(int i) const { return q.vector4_f32[i]; }
     __forceinline void setSub4(const hkVector4 &a, const hkVector4 &b) { q = __vsubfp(a.q, b.q); }
-    __forceinline void mul4(hkSimdReal r) { q = __vmulfp(q, r.q); }
-    __forceinline void setMul4(hkSimdReal r, const hkVector4 &a) { q = __vmulfp(a.q, r.q); }
-    __forceinline void addMul4(hkSimdReal r, const hkVector4 &a) { q = __vmaddfp(a.q, r.q, q); }
-    __forceinline void subMul4(hkSimdReal r, const hkVector4 &a) { q = __vnmsubfp(a.q, r.q, q); }
+    __forceinline void mul4(hkSimdReal r) { q = __vmulfp(q, r.m_real); }
+    __forceinline void setMul4(hkSimdReal r, const hkVector4 &a) { q = __vmulfp(a.q, r.m_real); }
+    __forceinline void addMul4(hkSimdReal r, const hkVector4 &a) { q = __vmaddfp(a.q, r.m_real, q); }
+    __forceinline void subMul4(hkSimdReal r, const hkVector4 &a) { q = __vnmsubfp(a.q, r.m_real, q); }
     __forceinline hkSimdReal dot4(const hkVector4 &a) const { return __vspltw(__vmsum4fp(q, a.q), 0); }
-    __forceinline void setXYZW(const hkVector4 &xyz, hkSimdReal w) { q = __vrlimi(xyz.q, w.q, 1, 0); }
+    __forceinline void setXYZW(const hkVector4 &xyz, hkSimdReal w) { q = __vrlimi(xyz.q, w.m_real, 1, 0); }
     __forceinline void setNeg4(const hkVector4 &a) { q = __vxor(a.q, lbl_8209AB20); }
     __forceinline void setCross(const hkVector4 &a, const hkVector4 &b)
     {

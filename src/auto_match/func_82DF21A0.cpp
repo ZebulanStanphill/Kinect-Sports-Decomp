@@ -1,26 +1,6 @@
 // hkpMountedBallGun::fireGun(hkpWorld *, const hkTransform &) (vtable slot 4).
 // Needs /O2 /QVMXReserve (flag file); the direction column stays in v127.
-#include "havok/hkpShape.h"
-#include "havok/hkSimdReal.h"
-
-class hkVector4 {
-public:
-	HK_FORCE_INLINE hkVector4() {}
-	HK_FORCE_INLINE hkVector4(const hkVector4 &v) { m_quad = v.m_quad; }
-	HK_FORCE_INLINE void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
-	HK_FORCE_INLINE void setAdd4(const hkVector4 &a, const hkVector4 &b) { m_quad = __vaddfp(a.m_quad, b.m_quad); }
-	HK_FORCE_INLINE void setAddMul4(const hkVector4 &a, const hkVector4 &b, hkSimdReal r) { m_quad = __vmaddfp(b.m_quad, r.m_real, a.m_quad); }
-	HK_FORCE_INLINE void setMul4(hkSimdReal r, const hkVector4 &a) { m_quad = __vmulfp(a.m_quad, r.m_real); }
-	__vector4 m_quad;
-};
-
-class hkTransform {
-public:
-	HK_FORCE_INLINE const hkVector4 &getColumn(int i) const { return m_rotation[i]; }
-	HK_FORCE_INLINE const hkVector4 &getTranslation() const { return m_translation; }
-	hkVector4 m_rotation[3];
-	hkVector4 m_translation;
-};
+#include "havok/hkpRigidBody.h"
 
 class hkpSphereShape : public hkpConvexShape {
 public:
@@ -57,17 +37,6 @@ struct hkpRigidBodyCinfo {
 	hkInt8 m_numShapeKeysInContactPointProperties;
 	hkBool m_forceCollideOntoPpu;
 	HK_FORCE_INLINE hkpRigidBodyCinfo();
-};
-
-class hkpWorld;
-class hkpRigidBody : public hkReferencedObject {
-public:
-	HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_ENTITY);
-	hkpWorld *getWorld() const { return m_world; }
-	hkpWorld *m_world;          // +0x8
-	char m_padC[0x9c - 0xc];
-	hkReal m_damageMultiplier;  // +0x9c
-	char m_padA0[0x220 - 0xa0];
 };
 
 class hkpWorld {
@@ -161,7 +130,8 @@ public:
 
 extern "C" void fn_82DF21A0(hkpMountedBallGun *self, hkpWorld *world, const hkTransform &viewTransform)
 {
-	hkVector4 dir = viewTransform.getColumn(0);
+	hkVector4 dir;
+	dir = viewTransform.getColumn(0);
 	hkVector4 rayFrom; rayFrom.setAdd4(viewTransform.getTranslation(), dir);
 	hkVector4 rayTo; rayTo.setAddMul4(rayFrom, dir, 200.0f);
 
@@ -186,7 +156,8 @@ extern "C" void fn_82DF21A0(hkpMountedBallGun *self, hkpWorld *world, const hkTr
 		ci.m_linearVelocity.setMul4(self->m_bulletVelocity, dir);
 
 	{
-		hkVector4 to = out.m_position;
+		hkVector4 to;
+		to = out.m_position;
 		for (int i = 0; i < self->m_listeners.getSize(); i++)
 			self->m_listeners[i]->gunFiredCallback(self->m_position, to);
 	}

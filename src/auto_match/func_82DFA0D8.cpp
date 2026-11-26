@@ -1,74 +1,11 @@
 // hkpVehicleRayCastWheelCollide's scalar deleting destructor (hkpVehicleRayCastWheelCollide.h): it calls the
-// destructor (fn_82E01650, out of line) and frees through the class allocator. The finish constructor is
-// defined inline here only so that the trigger below makes the compiler emit the vtable, and with it the
-// deleting destructor.
+// destructor (fn_82E01650, out of line) and frees through the class allocator. The trigger below only makes the
+// compiler emit the vtable, and with it the deleting destructor; it copies an object because the header declares
+// no inline constructor.
 #include "havok/hkBase.h"
-#include "havok/hkpPhantomOverlapListener.h"
-#include "havok/hkpAabbPhantom.h"
+#include "havok/hkpVehicleWheelCollide.h"
 
-// Physics/Vehicle/WheelCollide/RejectRayChassisListener/hkpRejectChassisListener.h.
-// RTTI: hkReferencedObject at +0x0, hkpPhantomOverlapListener at +0x8.
-class hkpRejectChassisListener : public hkReferencedObject, public hkpPhantomOverlapListener {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_VEHICLE);
-    hkpRejectChassisListener() {}
-    hkpRejectChassisListener(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
-    virtual ~hkpRejectChassisListener();
-    virtual void collidableAddedCallback(const hkpCollidableAddedEvent &event);
-    virtual void collidableRemovedCallback(const hkpCollidableRemovedEvent &event);
-
-    const hkpCollidable *m_chassis;   // +0xC
-};
-
-class hkpRigidBody;
-class hkpVehicleInstance;
-
-// Physics/Vehicle/WheelCollide/hkpVehicleWheelCollide.h. Vtable (12 slots): the deleting destructor (the folded
-// trivial one, fn_82D3B298), hkReferencedObject's two, eight pure functions (clone is slot 7), and one empty one.
-class hkpVehicleWheelCollide : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_VEHICLE);
-    enum WheelCollideType {
-        INVALID_WHEEL_COLLIDE,
-        RAY_CAST_WHEEL_COLLIDE,
-        LINEAR_CAST_WHEEL_COLLIDE,
-        USER_WHEEL_COLLIDE1
-    };
-    hkpVehicleWheelCollide() : m_alreadyUsed(false) {}
-    hkpVehicleWheelCollide(hkFinishLoadedObjectFlag f) : hkReferencedObject(f)
-    {
-        if (f.m_finishing)
-            m_type = INVALID_WHEEL_COLLIDE;
-    }
-    virtual void init(const hkpVehicleInstance *vehicle);                                                // +0x0C
-    virtual void getPhantoms(hkArray<hkpPhantom *> &phantomsOut);                                        // +0x10
-    virtual void addToWorld(hkpWorld *world);                                                            // +0x14
-    virtual void removeFromWorld();                                                                      // +0x18
-    virtual hkpVehicleWheelCollide *clone(const hkpRigidBody &newChassis,
-                                          const hkArray<hkpPhantom *> &newPhantoms) const;               // +0x1C
-
-    hkBool m_alreadyUsed;   // +0x8
-    hkUint8 m_type;         // +0x9 (hkEnum<WheelCollideType, hkUint8>)
-};
-
-extern "C" {
-void fn_82D9A420(hkpPhantom *phantom, hkpPhantomOverlapListener *listener);   // hkpPhantom::removePhantomOverlapListener
-void fn_82D9A5F8(hkpPhantom *phantom, hkpPhantomOverlapListener *listener);   // hkpPhantom::addPhantomOverlapListener
+void emitVtable_82DFA0D8(void *p, const void *q)
+{
+    new (p) hkpVehicleRayCastWheelCollide(*(const hkpVehicleRayCastWheelCollide *)q);
 }
-
-// Physics/Vehicle/WheelCollide/RayCast/hkpVehicleRayCastWheelCollide.h.
-class hkpVehicleRayCastWheelCollide : public hkpVehicleWheelCollide {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_VEHICLE);
-    hkpVehicleRayCastWheelCollide();
-    hkpVehicleRayCastWheelCollide(hkFinishLoadedObjectFlag f)
-        : hkpVehicleWheelCollide(f), m_rejectRayChassisListener(f) {}
-    virtual ~hkpVehicleRayCastWheelCollide();
-    virtual hkpVehicleWheelCollide *clone(const hkpRigidBody &newChassis, const hkArray<hkpPhantom *> &newPhantoms) const;
-
-    hkUint32 m_wheelCollisionFilterInfo;                 // +0xC
-    hkpAabbPhantom *m_phantom;                           // +0x10
-    hkpRejectChassisListener m_rejectRayChassisListener; // +0x14
-};
-
-void emitVtable_82DFA0D8(void *p, hkFinishLoadedObjectFlag f) { new (p) hkpVehicleRayCastWheelCollide(f); }

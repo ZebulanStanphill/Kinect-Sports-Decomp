@@ -1,44 +1,10 @@
 // hkpPhantomAgent::hkpPhantomAgent(const hkpCdBody &, const hkpCdBody &, hkpContactMgr *)
 // (Physics/Collide/Agent/MiscAgent/Phantom/hkpPhantomAgent.cpp): keeps the root collidables and the shape types.
 #include "havok/hkBase.h"
+#include "havok/hkpCollidable.h"
+#include "havok/hkpCollisionAgent.h"
 
-class hkpContactMgr;
-class hkpCollidable;
 class hkpPhantomCallbackShape;
-typedef int hkpShapeType;
-
-class hkpShape : public hkReferencedObject {
-public:
-    hkpShapeType getType() const { return m_type; }
-
-    hkUlong m_userData;    // +0x8
-    hkpShapeType m_type;   // +0xC
-};
-
-class hkpCdBody {
-public:
-    const hkpShape *getShape() const { return m_shape; }
-    const hkpCdBody *getRootCollidable() const
-    {
-        const hkpCdBody *body = this;
-        while (body->m_parent)
-            body = body->m_parent;
-        return body;
-    }
-
-    const hkpShape *m_shape;     // +0x0
-    hkUint32 m_shapeKey;         // +0x4
-    const void *m_motion;        // +0x8
-    const hkpCdBody *m_parent;   // +0xC
-};
-
-class hkpCollisionAgent : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    hkpCollisionAgent(hkpContactMgr *contactMgr) : m_contactMgr(contactMgr) {}
-
-    hkpContactMgr *m_contactMgr;   // +0x8
-};
 
 class hkpPhantomAgent : public hkpCollisionAgent {
 public:
@@ -55,8 +21,8 @@ public:
 hkpPhantomAgent::hkpPhantomAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, hkpContactMgr *contactMgr)
     : hkpCollisionAgent(contactMgr)
 {
-    m_collidableA = reinterpret_cast<const hkpCollidable *>(bodyA.getRootCollidable());
-    m_collidableB = reinterpret_cast<const hkpCollidable *>(bodyB.getRootCollidable());
-    m_bodyTypeA = bodyA.getShape()->getType();
-    m_bodyTypeB = bodyB.getShape()->getType();
+    m_collidableA = static_cast<const hkpCollidable *>(bodyA.getRootCollidable());
+    m_collidableB = static_cast<const hkpCollidable *>(bodyB.getRootCollidable());
+    m_bodyTypeA = static_cast<hkpShapeType>(bodyA.getShape()->m_type);
+    m_bodyTypeB = static_cast<hkpShapeType>(bodyB.getShape()->m_type);
 }

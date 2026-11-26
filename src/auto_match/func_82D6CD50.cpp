@@ -1,19 +1,8 @@
-#include "havok/hkMotionState.h"
-#include "havok/hkReferencedObject.h"
+#include "havok/hkpCdBody.h"
 
-class hkpSphereShape : public hkReferencedObject {
+class hkpSphereShape : public hkpConvexShape {
 public:
-    hkpSphereShape(float radius);
-    int m_userData;    // 0x08
-    int m_type;        // 0x0c
-    float m_radius;    // 0x10
-};
-
-struct hkpCdBody {
-    const void *m_shape;            // 0x00
-    unsigned int m_shapeKey;        // 0x04
-    const hkMotionState *m_motion;  // 0x08
-    const hkpCdBody *m_parent;      // 0x0c
+    hkpSphereShape(hkReal radius);
 };
 
 struct hkpMultiSphereShape_82D6CD50 {
@@ -54,19 +43,16 @@ static __forceinline void setTransformedPos(hkVector4 &out, const hkRotation &r,
 
 extern "C" void fn_82D6CD50(const Owner_82D6CD50 *self, const hkpCdBody &body, void *a, void *b, void *c)
 {
-    const hkpMultiSphereShape_82D6CD50 *shape = (const hkpMultiSphereShape_82D6CD50 *)body.m_shape;
-    hkMotionState ms(*body.m_motion);
+    const hkpMultiSphereShape_82D6CD50 *shape = (const hkpMultiSphereShape_82D6CD50 *)body.getShape();
+    hkMotionState ms(*body.getMotionState());
     hkpSphereShape sphere(0.0f);
-    hkpCdBody sphereBody;
-    sphereBody.m_parent = &body;
-    sphereBody.m_motion = &ms;
+    hkpCdBody sphereBody(&body, &ms);
     const Entry_82D6CD50 *e = self->m_entries;
     for (int i = self->m_numEntries - 1; i >= 0; i--, e++) {
         const hkVector4 &s = shape->m_spheres[e->m_sphereIndex];
-        setTransformedPos(ms.m_transform.m_translation, ms.m_transform.m_rotation, body.m_motion->m_transform.m_translation, s);
+        setTransformedPos(ms.m_transform.m_translation, ms.m_transform.m_rotation, body.getMotionState()->m_transform.m_translation, s);
         sphere.m_radius = s(3);
-        sphereBody.m_shape = &sphere;
-        sphereBody.m_shapeKey = i;
+        sphereBody.setShape(&sphere, i);
         e->m_collector->addBody(sphereBody, a, b, c);
     }
 }

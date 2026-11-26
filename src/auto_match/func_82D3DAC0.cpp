@@ -1,57 +1,8 @@
 // hkpListShape::recalcAabbExtents(hkAabb &aabbOut): the union of the children's AABBs (identity
 // transform, zero tolerance) into aabbOut, then the cached center and half extents from it.
 
+#include "havok/hkAabb.h"
 #include "havok/hkpShape.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-extern "C" {
-__vector4 __vminfp(__vector4 a, __vector4 b);
-__vector4 __vmaxfp(__vector4 a, __vector4 b);
-__vector4 __vaddfp(__vector4 a, __vector4 b);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-}
-
-class hkVector4
-{
-  public:
-    __forceinline void setMin4(const hkVector4 &a, const hkVector4 &b)
-    {
-        q = __vminfp(a.q, b.q);
-    }
-
-    __forceinline void setMax4(const hkVector4 &a, const hkVector4 &b)
-    {
-        q = __vmaxfp(a.q, b.q);
-    }
-
-    __forceinline void setAdd4(const hkVector4 &a, const hkVector4 &b)
-    {
-        q = __vaddfp(a.q, b.q);
-    }
-
-    __forceinline void setSub4(const hkVector4 &a, const hkVector4 &b)
-    {
-        q = __vsubfp(a.q, b.q);
-    }
-
-    __forceinline void setMul4(const hkVector4 &a, const hkVector4 &b)
-    {
-        q = __vmulfp(a.q, b.q);
-    }
-
-    __vector4 q;
-};
-
-class hkAabb
-{
-  public:
-    hkVector4 m_min;
-    hkVector4 m_max;
-};
 
 struct hkpListShapeChildInfo {
     const hkpShape *m_shape;            // 0x00
@@ -69,7 +20,6 @@ struct ListShape_82D3DAC0 {
 };
 
 extern "C" const hkTransform lbl_8323B1D0; // hkTransform::getIdentity()
-extern "C" const hkVector4 lbl_82132D70;   // hkQuadReal 0.5
 
 extern "C" void fn_82D3DAC0(ListShape_82D3DAC0 *self, hkAabb &aabbOut)
 {
@@ -81,10 +31,15 @@ extern "C" void fn_82D3DAC0(ListShape_82D3DAC0 *self, hkAabb &aabbOut)
         aabbOut.m_min.setMin4(aabbOut.m_min, childAabb.m_min);
         aabbOut.m_max.setMax4(aabbOut.m_max, childAabb.m_max);
     }
+    // The game multiplies by the 0.5 constant as a vector (it is the first operand) and loads it again for the
+    // second product, after the store of the center.
+    hkVector4 half;
+    half.m_quad = lbl_82132D70;   // hkQuadReal 0.5
     hkVector4 sum;
     sum.setAdd4(aabbOut.m_min, aabbOut.m_max);
-    self->m_aabbCenter.setMul4(lbl_82132D70, sum);
+    self->m_aabbCenter.setMul4(half, sum);
     hkVector4 extent;
     extent.setSub4(aabbOut.m_max, aabbOut.m_min);
-    self->m_aabbHalfExtents.setMul4(lbl_82132D70, extent);
+    half.m_quad = lbl_82132D70;
+    self->m_aabbHalfExtents.setMul4(half, extent);
 }

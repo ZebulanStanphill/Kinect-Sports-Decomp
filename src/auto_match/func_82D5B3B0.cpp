@@ -1,12 +1,12 @@
 // A vector member is copy-constructed through a vector register here (see havok/hkVector4.h).
 #define HK_VECTOR4_COPY_CONSTRUCTOR
-#include "havok/hkTransform.h"
 // hkpConvexListAgent3::process (agent3 process function for hkpConvexListShape).
 // Needs /O2 /QVMXReserve (flag file) and lbl_82005344=__real@40000000 (2.0f literal, kept in f31).
 // The goto into the loop makes the CFG irreducible: the placement new then needs an explicit
 // pointer test (else addic.), and the "check failed" exits must be the fall-through breaks
 // (if (n < 0) { ...; if (!ok) break; ... } else break;) for the original block layout.
 #include "havok/hkBase.h"
+#include "havok/hkpCollidable.h"
 
 extern "C" unsigned __int64 __mftb();
 struct hkMonitorStream { void *a; unsigned *next; void *b; unsigned *end; };
@@ -28,27 +28,6 @@ extern "C" double __fsel(double, double, double);
 struct hkMath {
 	static HK_FORCE_INLINE hkReal min2(hkReal x, hkReal y) { return (hkReal)__fsel(x - y, y, x); }
 };
-class hkpShape;
-class hkpCollidable;
-class hkpCdBody {
-public:
-	HK_FORCE_INLINE const hkpCollidable *getRootCollidable() const
-	{
-		const hkpCdBody *body = this;
-		while (body->m_parent) body = body->m_parent;
-		return (const hkpCollidable *)body;
-	}
-	const hkpShape *m_shape;        // +0x0
-	hkUint32 m_shapeKey;            // +0x4
-	const hkTransform *m_motion;    // +0x8
-	const hkpCdBody *m_parent;      // +0xc
-};
-class hkpCollidable : public hkpCdBody {
-public:
-	char m_pad10[0x3c];
-	hkReal m_allowedPenetrationDepth;   // +0x4c
-};
-
 struct hkpCollisionDispatcher;
 struct hkpProcessCollisionInput {
 	hkpCollisionDispatcher *m_dispatcher;   // +0x0
@@ -181,12 +160,12 @@ extern "C" hkpAgentData *fn_82D5B3B0(const hkpAgent3ProcessInput &input, hkpAgen
 		if (numTimesToCheck < 0) {
 			getStreamData(gskCache)->m_numTimesToCheck = 25;
 			hkTransform aTb;
-			aTb.setMulInverseMul(*input.m_bodyA->m_motion, *input.m_bodyB->m_motion);
+			aTb.setMulInverseMul(input.m_bodyA->getTransform(), input.m_bodyB->getTransform());
 			GetClosestPointInput in;
 			in.m_shapeA = input.m_bodyA->m_shape;
 			in.m_shapeB = input.m_bodyB->m_shape;
 			in.m_aTb = &aTb;
-			in.m_transformA = input.m_bodyA->m_motion;
+			in.m_transformA = &input.m_bodyA->getTransform();
 			in.m_collisionTolerance = input.m_input->m_tolerance;
 			hkVector4 pointOnB;
 			if (!fn_82DD6E28(in, gskCache, separatingNormal, pointOnB)) break;
@@ -204,8 +183,10 @@ gskMode:
 			in3.m_contactMgr = mgr.m_contactMgr;
 			if (!mgr.m_invalidPointHit) {
 				if (!getManifold(gskCache)->m_numContactPoints || (gskCache->m_gskFlags & 0x40)) goto done;
-				hkReal penB = input.m_bodyB->getRootCollidable()->m_allowedPenetrationDepth;
-				hkReal penA = input.m_bodyA->getRootCollidable()->m_allowedPenetrationDepth;
+				hkReal penB =
+					static_cast<const hkpCollidable *>(input.m_bodyB->getRootCollidable())->m_allowedPenetrationDepth;
+				hkReal penA =
+					static_cast<const hkpCollidable *>(input.m_bodyA->getRootCollidable())->m_allowedPenetrationDepth;
 				hkReal minPen = hkMath::min2(penA, penB);
 				if (separatingNormal->m_quad.vector4_f32[3] >= -(minPen * 2.0f)) goto done;
 			}

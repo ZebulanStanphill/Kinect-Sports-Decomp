@@ -1,103 +1,10 @@
-// static hkpSymmetricAgent<hkpMultiSphereAgent>::staticLinearCast: flips the bodies, negates the cast path and wraps the collectors so that the results come back
-// flipped, then forwards to hkpMultiSphereAgent's function.
-// Havok collision agents (Physics/Collide/Agent/hkpCollisionAgent.h, hkpIterativeLinearCastAgent.h,
-// Agent/Util/Symmetric/hkpSymmetricAgent.h, hkpSymmetricAgentLinearCast.h, hkpSymmetricAgentFlip*Collector.h).
-// Hierarchy from the RTTI: hkpSymmetricAgent<AGENT> and hkpSymmetricAgentLinearCast<AGENT> derive from AGENT;
-// the agents derive from hkpCollisionAgent (some through hkpIterativeLinearCastAgent) -> hkReferencedObject.
-// hkpCollisionAgent vtable, from the hkpSymmetricAgent<..> slots that flip the bodies: +0xC getPenetrations
-// (hkpSymmetricAgentFlipBodyCollector), +0x10 getClosestPoints (hkpSymmetricAgentFlipCollector), +0x14
-// linearCast (hkpSymmetricAgentFlipCastCollector), +0x18 processCollision, +0x1C cleanup.
-// The static flipped functions (registered with the collision dispatcher) are hkpSymmetricAgent<AGENT>'s, also for
-// the agents whose instances are hkpSymmetricAgentLinearCast<AGENT> (that template only overrides virtuals).
-// The creation functions are statics of each agent, defined in its .cpp next to registerAgent (which registers
-// them, for example fn_82D6EC40 registers fn_82D6EBD0 with hkpSymmetricAgent<hkpBvAgent>'s statics).
-// The collectors are interfaces without base class and with Havok's non-virtual class allocator; their
-// constructors call reset(), which sets m_earlyOut = false / m_earlyOutDistance = HK_REAL_MAX. The game's
-// HK_REAL_MAX constant is __real@7f7fffee (3.40282e38f).
-#include "havok/hkpCdBodyPairCollector.h"
-#include "havok/hkpCdPointCollector.h"
-#include "havok/hkpCdBody.h"
+// static hkpSymmetricAgent<hkpMultiSphereAgent>::staticLinearCast: flips the bodies, negates the cast path and wraps
+// the collectors so that the results come back flipped, then forwards to hkpMultiSphereAgent's function.
+#include "havok/hkpCollisionAgent.h"
 
-class hkpContactMgr;
-class hkpCollisionAgent;
-class hkpCollisionDispatcher;
-class hkpCollisionFilter;
-class hkpConstraintOwner;
-typedef hkpConstraintOwner hkCollisionConstraintOwner;
-struct hkpProcessCollisionInput;
-struct hkpProcessCollisionOutput;
-
-// Physics/Collide/Agent/hkpCollisionInput.h, hkpLinearCastCollisionInput.h: m_dispatcher (+0x0) and
-// m_createPredictiveAgents (+0x14) from the agent constructors; the sizes (0x50, 0x70) and m_path (+0x50) from the
-// flipped linear casts, which copy the input and negate the path.
-struct hkpCollisionInput {
-    hkpCollisionDispatcher *m_dispatcher;     // +0x0
-    hkUint32 m_weldClosestPoints;             // +0x4
-    hkUint32 m_forceAcceptContactPoints;      // +0x8
-    hkReal m_tolerance;                       // +0xC
-    const hkpCollisionFilter *m_filter;       // +0x10
-    hkBool32 m_createPredictiveAgents;        // +0x14
-    hkUint8 m_members[0x28];                  // +0x18
-    hkVector4 m_aabb32Info;                   // +0x40
-};
-
-struct hkpLinearCastCollisionInput : public hkpCollisionInput {
-    hkVector4 m_path;                // +0x50
-    hkReal m_maxExtraPenetration;    // +0x60
-    hkReal m_cachedPathLength;       // +0x64
-};
-
-// hkpCollisionDispatcher (Physics/Collide/Dispatch/hkpCollisionDispatcher.h): the 32x32 agent type tables at +0x1A0
-// and +0x5A0 (predictive) and the 0x14-byte AgentFuncs at +0x9A0, as getNewCollisionAgent reads them.
-class hkpCollisionDispatcher : public hkReferencedObject {
-public:
-    enum { HK_MAX_SHAPE_TYPE = 32 };
-    typedef hkpCollisionAgent *(HK_CALL *CreateFunc)(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
-                                                     const hkpCollisionInput &input, hkpContactMgr *mgr);
-    struct AgentFuncs {
-        CreateFunc m_createFunc;
-        void *m_getPenetrationsFunc;
-        void *m_getClosestPointFunc;
-        void *m_linearCastFunc;
-        hkBool m_isFlipped;
-        hkBool m_isPredictive;
-    };
-
-    HK_FORCE_INLINE hkpCollisionAgent *getNewCollisionAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
-                                                            const hkpCollisionInput &input, hkpContactMgr *mgr) const
-    {
-        int typeA = bodyA.getShape()->m_type;
-        int typeB = bodyB.getShape()->m_type;
-        const hkUint8 (*table)[HK_MAX_SHAPE_TYPE] = input.m_createPredictiveAgents ? m_agent2TypesPred : m_agent2Types;
-        int agentType = table[typeA][typeB];
-        CreateFunc f = m_agent2Func[agentType].m_createFunc;
-        return f(bodyA, bodyB, input, mgr);
-    }
-
-    hkUint8 m_members[0x198];                                          // +0x8
-    hkUint8 m_agent2Types[HK_MAX_SHAPE_TYPE][HK_MAX_SHAPE_TYPE];       // +0x1A0
-    hkUint8 m_agent2TypesPred[HK_MAX_SHAPE_TYPE][HK_MAX_SHAPE_TYPE];   // +0x5A0
-    AgentFuncs m_agent2Func[32];                                       // +0x9A0
-};
-
-class hkpSymmetricAgentFlipBodyCollector : public hkpCdBodyPairCollector {
-public:
-    HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE, hkpSymmetricAgentFlipBodyCollector);
-    hkpSymmetricAgentFlipBodyCollector(hkpCdBodyPairCollector &c) : m_collector(c) {}
-    virtual void addCdBodyPair(const hkpCdBody &bodyA, const hkpCdBody &bodyB);
-
-    hkpCdBodyPairCollector &m_collector;   // +0x8
-};
-
-class hkpSymmetricAgentFlipCollector : public hkpCdPointCollector {
-public:
-    HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE, hkpSymmetricAgentFlipCollector);
-    hkpSymmetricAgentFlipCollector(hkpCdPointCollector &c) : m_collector(&c) {}
-    virtual void addCdPoint(const hkpCdPoint &point);
-
-    hkpCdPointCollector *m_collector;   // +0x8
-};
-
+// Local copies of hkpSymmetricAgentFlipCastCollector and hkpSymmetricAgent (havok/hkpSymmetricAgent.h), with only
+// what this function needs: it stores the path before the target collector, which the header's constructor
+// (reference member set in the initializer list) does not, and the static is forced inline here.
 class hkpSymmetricAgentFlipCastCollector : public hkpCdPointCollector {
 public:
     HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE, hkpSymmetricAgentFlipCastCollector);
@@ -112,57 +19,11 @@ public:
     hkpCdPointCollector *m_collector;   // +0x20
 };
 
-class hkpCollisionAgent : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    hkpCollisionAgent(hkpContactMgr *contactMgr) : m_contactMgr(contactMgr) {}
-    virtual void getPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                                 hkpCdBodyPairCollector &collector);   // +0xC
-    virtual void getClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                                  hkpCdPointCollector &collector);   // +0x10
-    virtual void linearCast(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpLinearCastCollisionInput &input,
-                            hkpCdPointCollector &collector, hkpCdPointCollector *startCollector);   // +0x14
-    virtual void processCollision(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpProcessCollisionInput &input,
-                                  hkpProcessCollisionOutput &result);   // +0x18
-    virtual void cleanup(hkCollisionConstraintOwner &constraintOwner);   // +0x1C
-
-    hkpContactMgr *m_contactMgr;   // +0x8
-};
-
-extern "C" void fn_82D75FD0(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpLinearCastCollisionInput &input,
-                            hkpCdPointCollector &collector, hkpCdPointCollector *startCollector);   // hkpIterativeLinearCastAgent::staticLinearCast
-
-class hkpIterativeLinearCastAgent : public hkpCollisionAgent {
-public:
-    hkpIterativeLinearCastAgent(hkpContactMgr *mgr) : hkpCollisionAgent(mgr) {}
-    static void HK_CALL staticLinearCast(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
-                                         const hkpLinearCastCollisionInput &input, hkpCdPointCollector &collector,
-                                         hkpCdPointCollector *startCollector)
-    {
-        fn_82D75FD0(bodyA, bodyB, input, collector, startCollector);
-    }
-};
-
 template <typename AGENT>
 class hkpSymmetricAgent : public AGENT {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    HK_FORCE_INLINE hkpSymmetricAgent(const hkpCdBody &A, const hkpCdBody &B, const hkpCollisionInput &input, hkpContactMgr *mgr)
-        : AGENT(B, A, input, mgr) {}
-    HK_FORCE_INLINE hkpSymmetricAgent(hkpContactMgr *mgr) : AGENT(mgr) {}
 
-    static void HK_CALL staticGetPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
-                                              const hkpCollisionInput &input, hkpCdBodyPairCollector &collector)
-    {
-        hkpSymmetricAgentFlipBodyCollector flipCollector(collector);
-        AGENT::staticGetPenetrations(bodyB, bodyA, input, flipCollector);
-    }
-    static void HK_CALL staticGetClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
-                                               const hkpCollisionInput &input, hkpCdPointCollector &collector)
-    {
-        hkpSymmetricAgentFlipCollector flipCollector(collector);
-        AGENT::staticGetClosestPoints(bodyB, bodyA, input, flipCollector);
-    }
     static HK_FORCE_INLINE void HK_CALL staticLinearCast(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
                                          const hkpLinearCastCollisionInput &input, hkpCdPointCollector &collector,
                                          hkpCdPointCollector *startCollector)
@@ -177,72 +38,28 @@ public:
             AGENT::staticLinearCast(bodyB, bodyA, flippedInput, flipCollector, HK_NULL);
         }
     }
-
-    virtual void getPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                                 hkpCdBodyPairCollector &collector)
-    {
-        hkpSymmetricAgentFlipBodyCollector flipCollector(collector);
-        AGENT::getPenetrations(bodyB, bodyA, input, flipCollector);
-    }
-    virtual void getClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                                  hkpCdPointCollector &collector)
-    {
-        hkpSymmetricAgentFlipCollector flipCollector(collector);
-        AGENT::getClosestPoints(bodyB, bodyA, input, flipCollector);
-    }
-    virtual void linearCast(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpLinearCastCollisionInput &input,
-                            hkpCdPointCollector &collector, hkpCdPointCollector *startCollector)
-    {
-        hkpLinearCastCollisionInput flippedInput = input;
-        flippedInput.m_path.setNeg4(input.m_path);
-        hkpSymmetricAgentFlipCastCollector flipCollector(input.m_path, collector);
-        if (startCollector) {
-            hkpSymmetricAgentFlipCastCollector startFlipCollector(input.m_path, *startCollector);
-            AGENT::linearCast(bodyB, bodyA, flippedInput, flipCollector, &startFlipCollector);
-        } else {
-            AGENT::linearCast(bodyB, bodyA, flippedInput, flipCollector, HK_NULL);
-        }
-    }
 };
 
-template <typename AGENT>
-class hkpSymmetricAgentLinearCast : public AGENT {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    HK_FORCE_INLINE hkpSymmetricAgentLinearCast(const hkpCdBody &A, const hkpCdBody &B, const hkpCollisionInput &input,
-                                hkpContactMgr *mgr)
-        : AGENT(B, A, input, mgr) {}
-    HK_FORCE_INLINE hkpSymmetricAgentLinearCast(hkpContactMgr *mgr) : AGENT(mgr) {}
-
-    virtual void getPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                                 hkpCdBodyPairCollector &collector)
-    {
-        hkpSymmetricAgentFlipBodyCollector flipCollector(collector);
-        AGENT::getPenetrations(bodyB, bodyA, input, flipCollector);
-    }
-    virtual void getClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                                  hkpCdPointCollector &collector)
-    {
-        hkpSymmetricAgentFlipCollector flipCollector(collector);
-        AGENT::getClosestPoints(bodyB, bodyA, input, flipCollector);
-    }
-};
-
+// fn_82D6D088 is hkpMultiSphereAgent::staticLinearCast.
 extern "C" {
-void fn_82D6D088(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpLinearCastCollisionInput &input, hkpCdPointCollector &collector, hkpCdPointCollector *startCollector);   // hkpMultiSphereAgent::staticLinearCast
+void fn_82D6D088(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpLinearCastCollisionInput &input,
+                 hkpCdPointCollector &collector, hkpCdPointCollector *startCollector);
 }
 
 class hkpMultiSphereAgent : public hkpCollisionAgent {
 public:
-    hkpMultiSphereAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpContactMgr *mgr);
-    static void HK_CALL staticLinearCast(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpLinearCastCollisionInput &input, hkpCdPointCollector &collector, hkpCdPointCollector *startCollector)
+    hkpMultiSphereAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
+                        hkpContactMgr *mgr);
+    static void HK_CALL staticLinearCast(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
+                                         const hkpLinearCastCollisionInput &input, hkpCdPointCollector &collector,
+                                         hkpCdPointCollector *startCollector)
     {
         fn_82D6D088(bodyA, bodyB, input, collector, startCollector);
     }
 };
 
-// hkpSymmetricAgent<hkpMultiSphereAgent>::staticLinearCast keeps its fn_ name (the Matching registerAgent unit takes its
-// address), so the static is forced inline into an extern "C" function with that name.
+// hkpSymmetricAgent<hkpMultiSphereAgent>::staticLinearCast keeps its fn_ name (the Matching registerAgent unit
+// takes its address), so the static is forced inline into an extern "C" function with that name.
 extern "C" void fn_82D6D820(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpLinearCastCollisionInput &input,
                             hkpCdPointCollector &collector, hkpCdPointCollector *startCollector)
 {

@@ -1,7 +1,12 @@
-#include "havok/hkBase.h"
-class hkpCdBody; struct hkpCollisionInput; class hkpContactMgr; class hkpCollisionAgent; class hkpCdBodyPairCollector; class hkpCdPointCollector;
-template<class T> class hkpSymmetricAgent { public: static hkpCollisionAgent* createAgent(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpContactMgr*); static void staticGetPenetrations(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpCdBodyPairCollector&); static void staticGetClosestPoints(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpCdPointCollector&); };
-class hkpListAgent;
+#include "havok/hkpSymmetricAgent.h"
+
+// hkpListAgent (Physics/Collide/Agent/CompoundAgent/List/hkpListAgent.h), as far as the template needs it.
+class hkpListAgent : public hkpCollisionAgent {};
+
+// Defined in hkpListAgent.cpp.
+extern template hkpCollisionAgent *HK_CALL hkpSymmetricAgent<hkpListAgent>::createAgent(
+    const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpContactMgr *mgr);
+
 extern "C" void fn_82D6C3E0();
 extern "C" void fn_82D6BE30();
 extern "C" void fn_82D6C100();

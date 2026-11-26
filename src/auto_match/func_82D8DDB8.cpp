@@ -6,15 +6,13 @@
 // 3), listens to them and adds them to the world. Built with /O2 /QVMXReserve (flag file).
 //
 // The out-of-line hkpWorld and hkpPhantom methods keep their fn_ names and are called through inline
-// member wrappers, as the source called them. Calling the fn_ functions directly compiles to the same
+// wrappers, as the source called them. Calling the fn_ functions directly compiles to the same
 // calls but changes how the scheduler orders the hkVector4::set() temporaries of the later phantoms.
 #include "havok/hkBase.h"
-#include "havok/hkAabb.h"
 #include "havok/hkpWorldDeletionListener.h"
 #include "havok/hkpPhantomOverlapListener.h"
+#include "havok/hkpAabbPhantom.h"
 
-class hkpPhantom;
-class hkpAabbPhantom;
 class hkpWorldPostSimulationListener;
 
 extern "C" {
@@ -43,16 +41,11 @@ public:
     hkVector4 m_broadPhaseExtents[2];   // +0x310
 };
 
-class hkpPhantom : public hkReferencedObject {
-public:
-    HK_FORCE_INLINE void addPhantomOverlapListener(hkpPhantomOverlapListener *l) { fn_82D9A5F8(this, l); }
-
-    char m_pad08[0x20];
-    hkInt8 m_broadPhaseType;   // +0x28 m_collidable.m_broadPhaseHandle.m_type
-};
-
-class hkpAabbPhantom : public hkpPhantom {
-};
+// hkpPhantom::addPhantomOverlapListener, which hkpPhantom.h does not declare yet.
+static HK_FORCE_INLINE void addPhantomOverlapListener(hkpPhantom *phantom, hkpPhantomOverlapListener *l)
+{
+    fn_82D9A5F8(phantom, l);
+}
 
 class hkpBroadPhaseBorder : public hkReferencedObject,
                             public hkpWorldDeletionListener,
@@ -92,8 +85,8 @@ hkpBroadPhaseBorder::hkpBroadPhaseBorder(hkpWorld *world, int type, hkBool postp
         aabb.m_min.set(ma(0), mi(1), mi(2));
         aabb.m_max.set(ma(0), ma(1), ma(2));
         hkpAabbPhantom *phantom = fn_82D8D6C0(hkpAabbPhantom::operator new(0xe0), aabb, 0);
-        phantom->m_broadPhaseType = 3;
-        phantom->addPhantomOverlapListener(this);
+        phantom->m_collidable.m_broadPhaseHandle.m_type = 3;
+        addPhantomOverlapListener(phantom, this);
         m_phantoms[0] = phantom;
         world->addPhantom(phantom);
     }
@@ -101,8 +94,8 @@ hkpBroadPhaseBorder::hkpBroadPhaseBorder(hkpWorld *world, int type, hkBool postp
         aabb.m_min.set(mi(0), mi(1), mi(2));
         aabb.m_max.set(mi(0), ma(1), ma(2));
         hkpAabbPhantom *phantom = fn_82D8D6C0(hkpAabbPhantom::operator new(0xe0), aabb, 0);
-        phantom->m_broadPhaseType = 3;
-        phantom->addPhantomOverlapListener(this);
+        phantom->m_collidable.m_broadPhaseHandle.m_type = 3;
+        addPhantomOverlapListener(phantom, this);
         m_phantoms[1] = phantom;
         world->addPhantom(phantom);
     }
@@ -110,8 +103,8 @@ hkpBroadPhaseBorder::hkpBroadPhaseBorder(hkpWorld *world, int type, hkBool postp
         aabb.m_min.set(mi(0), ma(1), mi(2));
         aabb.m_max.set(ma(0), ma(1), ma(2));
         hkpAabbPhantom *phantom = fn_82D8D6C0(hkpAabbPhantom::operator new(0xe0), aabb, 0);
-        phantom->m_broadPhaseType = 3;
-        phantom->addPhantomOverlapListener(this);
+        phantom->m_collidable.m_broadPhaseHandle.m_type = 3;
+        addPhantomOverlapListener(phantom, this);
         m_phantoms[2] = phantom;
         world->addPhantom(phantom);
     }
@@ -119,8 +112,8 @@ hkpBroadPhaseBorder::hkpBroadPhaseBorder(hkpWorld *world, int type, hkBool postp
         aabb.m_min.set(mi(0), mi(1), mi(2));
         aabb.m_max.set(ma(0), mi(1), ma(2));
         hkpAabbPhantom *phantom = fn_82D8D6C0(hkpAabbPhantom::operator new(0xe0), aabb, 0);
-        phantom->m_broadPhaseType = 3;
-        phantom->addPhantomOverlapListener(this);
+        phantom->m_collidable.m_broadPhaseHandle.m_type = 3;
+        addPhantomOverlapListener(phantom, this);
         m_phantoms[3] = phantom;
         world->addPhantom(phantom);
     }
@@ -128,8 +121,8 @@ hkpBroadPhaseBorder::hkpBroadPhaseBorder(hkpWorld *world, int type, hkBool postp
         aabb.m_min.set(mi(0), mi(1), ma(2));
         aabb.m_max.set(ma(0), ma(1), ma(2));
         hkpAabbPhantom *phantom = fn_82D8D6C0(hkpAabbPhantom::operator new(0xe0), aabb, 0);
-        phantom->m_broadPhaseType = 3;
-        phantom->addPhantomOverlapListener(this);
+        phantom->m_collidable.m_broadPhaseHandle.m_type = 3;
+        addPhantomOverlapListener(phantom, this);
         m_phantoms[4] = phantom;
         world->addPhantom(phantom);
     }
@@ -137,8 +130,8 @@ hkpBroadPhaseBorder::hkpBroadPhaseBorder(hkpWorld *world, int type, hkBool postp
         aabb.m_min.set(mi(0), mi(1), mi(2));
         aabb.m_max.set(ma(0), ma(1), mi(2));
         hkpAabbPhantom *phantom = fn_82D8D6C0(hkpAabbPhantom::operator new(0xe0), aabb, 0);
-        phantom->m_broadPhaseType = 3;
-        phantom->addPhantomOverlapListener(this);
+        phantom->m_collidable.m_broadPhaseHandle.m_type = 3;
+        addPhantomOverlapListener(phantom, this);
         m_phantoms[5] = phantom;
         world->addPhantom(phantom);
     }

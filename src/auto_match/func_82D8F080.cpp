@@ -8,7 +8,7 @@
 // matches with it at /O2); the world's flags are read through a pointer to the solver info's flag array.
 #include "havok/hkBase.h"
 #include "havok/hkTransform.h"
-#include "havok/hkQuaternion.h"
+#include "havok/hkSweptTransform.h"
 
 extern "C" const float lbl_82131F88[];   // hkUFloat8 -> hkReal table
 
@@ -16,18 +16,6 @@ class hkUFloat8 {
 public:
     HK_FORCE_INLINE operator hkReal() const { return lbl_82131F88[m_value]; }
     hkUint8 m_value;
-};
-
-class hkSweptTransform {
-public:
-    HK_FORCE_INLINE hkReal getBaseTime() const { return m_centerOfMass0(3); }
-    HK_FORCE_INLINE hkReal getInvDeltaTime() const { return m_centerOfMass1(3); }
-
-    hkVector4 m_centerOfMass0;       // +0x00 (w: base time)
-    hkVector4 m_centerOfMass1;       // +0x10 (w: inverse delta time)
-    hkQuaternion m_rotation0;        // +0x20
-    hkQuaternion m_rotation1;        // +0x30
-    hkVector4 m_centerOfMassLocal;   // +0x40
 };
 
 class hkMotionState;
@@ -238,14 +226,15 @@ extern "C" void fn_82D8F080(hkpRigidBody *body, int newState, hkBool newStateNee
                                                          body->m_motion.m_motionState.m_sweptTransform.m_rotation1);
             newMotion->m_motionState = oldMotion.m_motionState;
             newMotion->m_deactivationIntegrateCounter = oldMotion.m_deactivationIntegrateCounter;
-            hkReal invDeltaTime = oldMotion.m_motionState.m_sweptTransform.getInvDeltaTime();
+            // The w of m_centerOfMass1 is the inverse delta time, the w of m_centerOfMass0 the base time.
+            hkReal invDeltaTime = oldMotion.m_motionState.m_sweptTransform.m_centerOfMass1(3);
             if (invDeltaTime != 0.0f)
             {
                 hkReal time;
                 if (world)
                     time = fn_82D80A40(world);
                 else
-                    time = 1.0f / invDeltaTime + oldMotion.m_motionState.m_sweptTransform.getBaseTime();
+                    time = 1.0f / invDeltaTime + oldMotion.m_motionState.m_sweptTransform.m_centerOfMass0(3);
                 fn_83081390(time, &newMotion->m_motionState);
             }
         }
