@@ -17,6 +17,9 @@ public:
     hkpAction(hkUlong userData = 0) : m_world(HK_NULL), m_island(HK_NULL), m_userData(userData) {}
     hkpAction(hkFinishLoadedObjectFlag f) : hkReferencedObject(f), m_name(f) {}
     virtual ~hkpAction() {}
+    // Assigns the name through hkStringPtr::operator=(const char *) (the constructors of the game's
+    // actions end with that call on this + 0x14).
+    void setName(const char *name) { m_name = name; }
 
     hkpWorld *m_world;               // +0x8
     hkpSimulationIsland *m_island;   // +0xC

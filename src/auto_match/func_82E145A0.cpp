@@ -9,7 +9,6 @@ typedef struct {
     RefPtr_82E145A0 object;
 } Obj_82E145A0;
 
-extern void fn_82CED628(hkStringPtr *self, const char *s);
 extern RefPtr_82E145A0 *fn_83082568(RefPtr_82E145A0 *self, const RefPtr_82E145A0 *other);
 extern void *fn_83082610(RefPtr_82E145A0 *self);
 

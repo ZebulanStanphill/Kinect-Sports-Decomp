@@ -16,6 +16,7 @@
 // world branch is a local `qsize`.
 #include "havok/hkBase.h"
 #include "havok/hkpConstraintData.h"
+#include "havok/hkpCollisionDispatcher.h"
 
 extern "C" unsigned __int64 __mftb();
 extern "C" void __dcbt(int offset, const void *base);
@@ -66,7 +67,6 @@ public:
 
 extern "C" int lbl_8323B520;
 
-class hkpCollidable;
 class hkpConstraintInstance;
 class hkpWorld;
 struct hkpProcessCollisionInput;
@@ -74,19 +74,6 @@ struct hkpProcessCollisionOutput;
 
 struct hkStepInfo {
     unsigned __int64 m_time[2];
-};
-
-struct hkpCollisionQualityInfo {
-    hkUint8 m_pad0[0x10];
-    hkUint32 m_useContinuousPhysics;   // +0x10
-    hkUint8 m_pad1[0x2c];
-};
-
-class hkpCollisionDispatcher {
-public:
-    HK_FORCE_INLINE hkpCollisionQualityInfo *getCollisionQualityInfo(hkInt8 index) { return &m_collisionQualityInfo[index]; }
-    hkUint8 m_pad[0x1c20];
-    hkpCollisionQualityInfo m_collisionQualityInfo[8];   // +0x1c20
 };
 
 class hkpContactMgr {

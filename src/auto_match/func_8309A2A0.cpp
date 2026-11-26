@@ -5,7 +5,7 @@
 // The collector's constructor resets the early-out distance to HK_REAL_MAX (__real@7f7fffee).
 #include "havok/hkpCdPointCollector.h"
 #include "havok/hkpCollidable.h"
-#include "havok/hkpCollisionInput.h"
+#include "havok/hkpCollisionDispatcher.h"
 
 // hkpRootCdPoint: hkContactPoint (two hkVector4) plus the root collidables and shape keys.
 struct hkpRootCdPoint {
@@ -27,30 +27,6 @@ public:
     hkpRootCdPoint *m_nextFreePoint;     // +0xc
     int m_capacity;                      // +0x10
     int m_numPoints;                     // +0x14
-};
-
-typedef void (*hkpGetClosestPointsFunc)(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
-    const hkpCollisionInput &input, hkpCdPointCollector &collector);
-
-class hkpCollisionDispatcher {
-public:
-    struct Agent2FuncEntry {   // 0x14 bytes
-        void *m_createFunc;
-        void *m_getPenetrationsFunc;
-        hkpGetClosestPointsFunc m_getClosestPointFunc;
-        void *m_linearCastFunc;
-        hkBool m_isFlipped;
-        hkBool m_isPredictive;
-    };
-    HK_FORCE_INLINE hkpGetClosestPointsFunc getGetClosestPointsFunc(int typeA, int typeB) const
-    {
-        int idx = m_agent2Types[typeA][typeB];
-        return m_agent2Func[idx].m_getClosestPointFunc;
-    }
-    char m_pad0[0x1a0];
-    hkUint8 m_agent2Types[32][32];       // +0x1a0
-    char m_pad1[0x9a0 - 0x5a0];
-    Agent2FuncEntry m_agent2Func[64];    // +0x9a0
 };
 
 struct hkpPairGetClosestPointsCommand {   // 0x20 bytes
@@ -102,8 +78,8 @@ extern "C" void fn_8309A2A0(const hkpPairGetClosestPointsJob *job, const hkpColl
         const hkpShape *shapeA = a->m_shape;
         const hkpShape *shapeB = b->m_shape;
         new (&collector) hkpFixedBufferCdPointCollector(buffer, command->m_resultsCapacity);
-        hkpGetClosestPointsFunc func =
-            collisionInput->m_dispatcher->getGetClosestPointsFunc(shapeA->m_type, shapeB->m_type);
+        hkpCollisionDispatcher::GetClosestPointsFunc func =
+            collisionInput->m_dispatcher->getGetClosestPointsFunc(shapeA->getType(), shapeB->getType());
         func(*a, *b, input, collector);
 
         hkpRootCdPoint *results;

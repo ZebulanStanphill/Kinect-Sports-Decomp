@@ -7,15 +7,6 @@ extern const __vector4 lbl_8323B1A0;   // cached-extents sentinel
 extern const float lbl_82138458;       // HK_REAL_MAX / 2
 }
 
-// hkVector4Comparison::allAreSet() (all four lanes, no mask): hkVector4.h only has allAreSet(Mask), which ORs
-// in the mask table.
-static __forceinline hkBool32 allAreSet(const hkVector4Comparison &c)
-{
-    unsigned int cr;
-    __vcmpequwR(c.m_mask, __vspltisw(-1), &cr);
-    return cr & 0x80;
-}
-
 struct ChildInfo_82D3E2F0 {
     const hkpShape *m_shape;
     char pad04[0xc];
@@ -35,7 +26,7 @@ extern "C" void fn_82D3E2F0(ListShape_82D3E2F0 *self, const hkTransform &localTo
 {
     hkVector4 sentinel;
     sentinel.m_quad = lbl_8323B1A0;
-    if (allAreSet(self->m_aabbHalfExtents.compareLessThanEqual4(sentinel))) {
+    if (self->m_aabbHalfExtents.compareLessThanEqual4(sentinel).allAreSet()) {
         hkAabb aabb;
         fn_82D3DAC0(self, aabb);
     }

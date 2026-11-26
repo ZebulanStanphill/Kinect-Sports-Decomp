@@ -184,9 +184,9 @@ gskMode:
 			if (!mgr.m_invalidPointHit) {
 				if (!getManifold(gskCache)->m_numContactPoints || (gskCache->m_gskFlags & 0x40)) goto done;
 				hkReal penB =
-					static_cast<const hkpCollidable *>(input.m_bodyB->getRootCollidable())->m_allowedPenetrationDepth;
+					input.m_bodyB->getRootCollidable()->getAllowedPenetrationDepth();
 				hkReal penA =
-					static_cast<const hkpCollidable *>(input.m_bodyA->getRootCollidable())->m_allowedPenetrationDepth;
+					input.m_bodyA->getRootCollidable()->getAllowedPenetrationDepth();
 				hkReal minPen = hkMath::min2(penA, penB);
 				if (separatingNormal->m_quad.vector4_f32[3] >= -(minPen * 2.0f)) goto done;
 			}

@@ -22,7 +22,6 @@ extern void *lbl_821CA858[];              // the actuator's vtable
 extern const hkQuaternion lbl_82196750;   // (0, 0, 0, 1): the identity quaternion
 extern const hkVector4 lbl_821962C0;      // (0, 0, 0, 0)
 extern float lbl_821917A8[];
-void fn_82CED628(void *self, const char *s);                       // hkStringPtr::operator=(const char *)
 hkpAabbPhantom *fn_82D8D6C0(hkpAabbPhantom *self, const hkAabb *aabb, hkUint32 filterInfo);   // hkpAabbPhantom()
 }
 
@@ -42,7 +41,7 @@ public:
     {
         m_active = 0;
         m_120 = 0;
-        fn_82CED628((char *)this + 0x14, "Actuator (disabled)");
+        setName("Actuator (disabled)");
     }
     hkVector4 m_linearTarget;          // +0x20
     hkVector4 m_30;

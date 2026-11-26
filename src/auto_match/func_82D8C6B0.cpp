@@ -5,7 +5,7 @@ struct __declspec(align(16)) RigidBodyInfo { unsigned char bytes[0xc0]; };
 class hkpRigidBody : public hkReferencedObject {
 public:
  virtual void unused(); virtual void *getCollidable();
- char pad[4];int userData;char pad2[8];void *owner;char pad3[0x58];const char *name;char pad4[0x28];Link *link;char pad5[0x3c];hkpMaxSizeMotion motion;char pad6[0x20];
+ char pad[4];int userData;char pad2[8];void *owner;char pad3[0x58];hkStringPtr name;char pad4[0x28];Link *link;char pad5[0x3c];hkpMaxSizeMotion motion;char pad6[0x20];
 };
 template<int size> static HK_FORCE_INLINE void memCpy16(void *dst, const void *src) {
  const hkUint32 *src32=(const hkUint32 *)src;
@@ -20,7 +20,6 @@ void fn_82D8B168(RigidBodyInfo*);
 void fn_82D8C548(const hkpRigidBody*,RigidBodyInfo*);
 hkpRigidBody *fn_82D8C258(hkpRigidBody*,const RigidBodyInfo*);
 void fn_82D8C858(hkpRigidBody*,const hkpRigidBody*);
-void fn_82CED628(void*,const char*);
 }
 extern "C" hkpRigidBody *fn_82D8C6B0(const hkpRigidBody *self) {
  RigidBodyInfo info;fn_82D8B168(&info);fn_82D8C548(self,&info);
@@ -32,7 +31,7 @@ extern "C" hkpRigidBody *fn_82D8C6B0(const hkpRigidBody *self) {
   memCpy16<sizeof(hkpMaxSizeMotion)>(copy->motion.m_savedMotion,self->motion.m_savedMotion);
  }
  copy->owner=copy->getCollidable();fn_82D8C858(copy,self);
- fn_82CED628(&copy->name,(const char*)((unsigned)self->name & ~1u));
+ copy->name=self->name.cString();
  copy->userData=self->userData;
  if(self->link) copy->link=self->link->clone(copy);
  return copy;

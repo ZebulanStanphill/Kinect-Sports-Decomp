@@ -9,6 +9,9 @@ public:
     HK_FORCE_INLINE hkSimdReal() {}
     HK_FORCE_INLINE hkSimdReal(const hkQuadReal &x) { m_real = x; }
     HK_FORCE_INLINE hkSimdReal(const hkReal &x) { m_real = __vspltw(__lvlx(&x, 0), 0); }
+    // Through a vector register: 82DD3A78 stores its result with one stvx, where the implicit
+    // assignment copies two doublewords.
+    HK_FORCE_INLINE void operator=(const hkSimdReal &s) { m_real = s.m_real; }
     HK_FORCE_INLINE operator hkReal() const
     {
         hkReal r;

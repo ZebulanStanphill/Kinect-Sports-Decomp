@@ -3,63 +3,7 @@
 // zero tolerance). Classes as in func_82D3DAC0.cpp.
 
 #include "havok/hkpShape.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-extern "C" {
-__vector4 __vspltw(__vector4 a, unsigned int element);
-__vector4 __vminfp(__vector4 a, __vector4 b);
-__vector4 __vmaxfp(__vector4 a, __vector4 b);
-__vector4 __vaddfp(__vector4 a, __vector4 b);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-}
-
-class hkVector4
-{
-  public:
-    __forceinline void setAll(float v)
-    {
-        q.vector4_f32[0] = v;
-        q = __vspltw(q, 0);
-    }
-
-    __forceinline void setMin4(const hkVector4 &a, const hkVector4 &b)
-    {
-        q = __vminfp(a.q, b.q);
-    }
-
-    __forceinline void setMax4(const hkVector4 &a, const hkVector4 &b)
-    {
-        q = __vmaxfp(a.q, b.q);
-    }
-
-    __forceinline void setAdd4(const hkVector4 &a, const hkVector4 &b)
-    {
-        q = __vaddfp(a.q, b.q);
-    }
-
-    __forceinline void setSub4(const hkVector4 &a, const hkVector4 &b)
-    {
-        q = __vsubfp(a.q, b.q);
-    }
-
-    __forceinline void setMul4(const hkVector4 &a, const hkVector4 &b)
-    {
-        q = __vmulfp(a.q, b.q);
-    }
-
-    __vector4 q;
-};
-
-class hkAabb
-{
-  public:
-    hkVector4 m_min;
-    hkVector4 m_max;
-};
+#include "havok/hkAabb.h"
 
 struct ConvexListShape_82D48570 {
     char pad00[0x20];
@@ -71,7 +15,6 @@ struct ConvexListShape_82D48570 {
 };
 
 extern "C" const hkTransform lbl_8323B1D0; // hkTransform::getIdentity()
-extern "C" const hkVector4 lbl_82132D70;   // hkQuadReal 0.5
 
 extern "C" void fn_82D48570(ConvexListShape_82D48570 *self, bool useCachedAabb)
 {
@@ -88,9 +31,9 @@ extern "C" void fn_82D48570(ConvexListShape_82D48570 *self, bool useCachedAabb)
         }
         hkVector4 sum;
         sum.setAdd4(aabb.m_min, aabb.m_max);
-        self->m_aabbCenter.setMul4(lbl_82132D70, sum);
+        self->m_aabbCenter.setMul4(hkVector4::getHalf(), sum);
         hkVector4 extent;
         extent.setSub4(aabb.m_max, aabb.m_min);
-        self->m_aabbHalfExtents.setMul4(lbl_82132D70, extent);
+        self->m_aabbHalfExtents.setMul4(hkVector4::getHalf(), extent);
     }
 }

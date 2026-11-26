@@ -71,12 +71,6 @@ extern "C" void fn_82D8EAD8(hkpWorld *world, hkpConstraintInstance *constraint, 
 // hkpConstraintInstance::setPriority(ConstraintPriority) is out of line (fn_82D958D8).
 extern "C" void fn_82D958D8(hkpConstraintInstance *self, hkpConstraintInstance::ConstraintPriority priority);
 
-struct hkpCollisionQualityInfo {
-    char m_pad[0x3C];
-    hkUint16 m_constraintPriority;   // +0x3C
-    char m_pad3e[0x2];
-};
-
 class hkpWorld {
 public:
     hkpCollisionDispatcher *getCollisionDispatcher() const { return m_collisionDispatcher; }

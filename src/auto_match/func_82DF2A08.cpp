@@ -12,10 +12,6 @@
 #include "havok/hkpAction.h"
 #include "havok/hkpCdBody.h"
 
-// hkStringPtr::operator=(const char *) is out of line (fn_82CED628) and keeps its fn_ name.
-extern "C" void fn_82CED628(hkStringPtr *self, const char *s);
-
-class hkpCollidable;
 struct hkStepInfo;
 
 #define HK_INVALID_SHAPE_KEY 0xffffffff
@@ -214,13 +210,13 @@ hkpMouseSpringAction::hkpMouseSpringAction(const hkVector4 &positionInRbLocal, c
         hkpCollidable sphereCollidable(&sphere, &transform);
 
         hkpCollisionDispatcher::GetClosestPointsFunc getClosestPoints =
-            world->getCollisionDispatcher()->getGetClosestPointsFunc(hkpShapeType(sphere.m_type),
-                                                                 hkpShapeType(rb->getCollidable()->getShape()->m_type));
+            world->getCollisionDispatcher()->getGetClosestPointsFunc(sphere.getType(),
+                                                                 rb->getCollidable()->getShape()->getType());
         hkpCollisionInput input = *world->getCollisionInput();
         hkpClosestCdPointCollector collector;
         getClosestPoints(sphereCollidable, *rb->getCollidable(), input, collector);
         if (collector.hasHit())
             m_shapeKey = collector.getHit().m_shapeKeyB;
     }
-    fn_82CED628(&m_name, "hkpMouseSpringAction");   // setName
+    setName("hkpMouseSpringAction");
 }

@@ -7,9 +7,6 @@
 
 extern "C" void fn_830824B8(hkMotionState *self, const hkVector4 &position, const hkQuaternion &rotation);
 
-// hkQuaternion::set(const hkRotation &) is out of line (fn_82CE5990).
-extern "C" void fn_82CE5990(hkQuaternion *self, const hkRotation &r);
-
 // hkpConstraintOwner (Physics/Dynamics/Constraint/hkpConstraintOwner.h), 0x18 bytes; the collision agents'
 // cleanup takes one. Its constructor leaves m_constraintInfo alone.
 class hkpConstraintOwner : public hkReferencedObject {

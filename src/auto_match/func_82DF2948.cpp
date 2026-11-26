@@ -7,8 +7,6 @@
 #include "havok/hkpAction.h"
 #include "havok/hkpRigidBody.h"
 
-extern "C" void fn_82CED628(hkStringPtr *self, const char *s);   // hkStringPtr::operator=(const char *)
-
 class hkpMouseSpringAction : public hkpUnaryAction {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_ACTION);
@@ -35,7 +33,7 @@ HK_FORCE_INLINE hkpMouseSpringAction::hkpMouseSpringAction(hkpRigidBody *rb)
     m_positionInRbLocal.setZero4();
     m_mousePositionInWorld.setZero4();
     m_shapeKey = hkUint32(-1);
-    fn_82CED628(&m_name, "hkpMouseSpringAction");   // setName
+    setName("hkpMouseSpringAction");
 }
 
 extern "C" hkpMouseSpringAction *fn_82DF2948(hkpMouseSpringAction *self, hkpRigidBody *rb)

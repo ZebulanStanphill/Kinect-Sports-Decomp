@@ -1,7 +1,6 @@
 // Swaps the shape of each flagged body for a new hkpCapsuleShape grown by the extra radius,
 // keeping the original body pointer in saved[] (fn_82D68A78 restores them).
-#include "havok/hkpShape.h"
-#include "havok/hkVector4.h"
+#include "havok/hkpCdBody.h"
 
 class hkpCapsuleShape : public hkpConvexShape
 {
@@ -11,29 +10,6 @@ class hkpCapsuleShape : public hkpConvexShape
 
     hkVector4 m_vertexA; // +0x20
     hkVector4 m_vertexB; // +0x30
-};
-
-class hkpCdBody
-{
-  public:
-    HK_DECLARE_PLACEMENT_ALLOCATOR();
-
-    hkpCdBody(const hkpCdBody *parent)
-    {
-        m_motion = parent->m_motion;
-        m_parent = parent;
-    }
-
-    void setShape(const hkpShape *shape, hkUint32 key)
-    {
-        m_shape = shape;
-        m_shapeKey = key;
-    }
-
-    const hkpShape *m_shape;   // +0x0
-    hkUint32 m_shapeKey;       // +0x4
-    const void *m_motion;      // +0x8
-    const hkpCdBody *m_parent; // +0xc
 };
 
 extern "C" float fn_82D40860(const hkpCapsuleShape *shape);

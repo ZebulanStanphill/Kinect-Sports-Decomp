@@ -54,10 +54,6 @@ public:
     int m_hashMod;
 };
 
-struct hkUFloat8 {
-    hkUint8 m_value;
-};
-
 // Physics/Utilities/Destruction/BreakOffParts/hkpBreakOffPartsUtil.h. RTTI of the nested class:
 // hkReferencedObject at +0x0, hkpCollisionListener (and hkpContactListener) at +0x8.
 class hkpBreakOffPartsUtil {

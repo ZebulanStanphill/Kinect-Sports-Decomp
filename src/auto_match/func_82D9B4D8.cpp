@@ -2,8 +2,6 @@
 #include "havok/hkBase.h"
 #include "havok/hkpMotion.h"
 
-extern "C" void fn_830824B8(hkMotionState *self, const hkVector4 &position, const hkQuaternion &rotation);
-
 extern "C" const hkVector4 lbl_8217D960;   // (1, 1, 1, 1)
 
 hkpBoxMotion::hkpBoxMotion(const hkVector4 &position, const hkQuaternion &rotation) : hkpMotion(position, rotation)

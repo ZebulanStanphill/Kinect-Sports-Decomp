@@ -10,118 +10,13 @@
 // const references: by value, the shared (1,1) - (2,2) difference is computed twice. The 0.8f
 // sphere test is a plain literal (symbols.txt names its constant __real@3f4ccccd).
 #include "havok/hkBase.h"
-#include "havok/hkMatrix3.h"
-#include "havok/hkQuaternion.h"
+#include "havok/hkpMotion.h"
 
 extern "C" double __fsel(double a, double b, double c);   // PPC intrinsic
 
 struct hkMath {
     static HK_FORCE_INLINE hkReal HK_CALL max2(const hkReal &x, const hkReal &y) { return hkReal(__fsel(x - y, x, y)); }
     static HK_FORCE_INLINE hkReal HK_CALL min2(const hkReal &x, const hkReal &y) { return hkReal(__fsel(x - y, y, x)); }
-};
-
-// hkUFloat8 (Common/Base/Types/hkBaseTypes.h): operator=(const hkReal &) is out of line
-// (fn_82CE5458, which keeps its fn_ name: Matching C units call it).
-class hkUFloat8;
-extern "C" void fn_82CE5458(hkUFloat8 *self, const float *f);
-class hkUFloat8 {
-public:
-    HK_FORCE_INLINE void operator=(const hkReal &f) { fn_82CE5458(this, &f); }
-    hkUint8 m_value;
-};
-
-// hkMotionState (Common/Base/Math/Motion/hkMotionState.h), 0xB0 bytes.
-class hkMotionState {
-public:
-    char m_transformEtc[0xA0];         // +0x0  m_transform, m_sweptTransform, m_deltaAngle
-    hkReal m_objectRadius;             // +0xA0
-    hkReal m_linearDamping;            // +0xA4
-    hkReal m_angularDamping;           // +0xA8
-    hkUFloat8 m_maxLinearVelocity;     // +0xAC
-    hkUFloat8 m_maxAngularVelocity;    // +0xAD
-    hkUint8 m_deactivationClass;       // +0xAE
-    char m_rest[0x1];                  // +0xAF
-};
-
-class hkpMaxSizeMotion;
-
-// hkpMotion (Physics/Dynamics/Motion/hkpMotion.h), 0x120 bytes.
-class hkpMotion : public hkReferencedObject {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_DYNAMICS);
-    enum MotionType {
-        MOTION_INVALID,
-        MOTION_DYNAMIC,
-        MOTION_SPHERE_INERTIA,
-        MOTION_BOX_INERTIA,
-        MOTION_KEYFRAMED,
-        MOTION_FIXED,
-        MOTION_THIN_BOX_INERTIA,
-        MOTION_CHARACTER,
-        MOTION_MAX_ID
-    };
-    hkpMotion(const hkVector4 &position, const hkQuaternion &rotation, bool wantDeactivation = false);
-
-    virtual void setMass(hkReal m);                                          // +0x0C
-    virtual void setMassInv(hkReal mInv);                                    // +0x10
-    virtual void getInertiaLocal(hkMatrix3 &inertiaOut) const;               // +0x14
-    virtual void getInertiaWorld(hkMatrix3 &inertiaOut) const;               // +0x18
-    virtual void setInertiaLocal(const hkMatrix3 &inertia);                  // +0x1C
-    virtual void setInertiaInvLocal(const hkMatrix3 &inertiaInv);            // +0x20
-    virtual void getInertiaInvLocal(hkMatrix3 &inertiaInvOut) const;         // +0x24
-    virtual void getInertiaInvWorld(hkMatrix3 &inertiaInvOut) const;         // +0x28
-    virtual void setCenterOfMassInLocal(const hkVector4 &centerOfMass);      // +0x2C
-
-    hkMotionState *getMotionState() { return &m_motionState; }
-
-    hkUint8 m_type;                                // +0x8   hkEnum<MotionType, hkUint8>
-    hkUint8 m_deactivationIntegrateCounter;        // +0x9
-    hkUint16 m_deactivationNumInactiveFrames[2];   // +0xA
-    hkMotionState m_motionState;                   // +0x10
-    hkVector4 m_inertiaAndMassInv;                 // +0xC0
-    hkVector4 m_linearVelocity;                    // +0xD0
-    hkVector4 m_angularVelocity;                   // +0xE0
-    hkVector4 m_deactivationRefPosition[2];        // +0xF0
-    hkUint32 m_deactivationRefOrientation[2];      // +0x110
-    hkpMaxSizeMotion *m_savedMotion;               // +0x118
-    hkUint16 m_savedQualityTypeIndex;              // +0x11C
-    hkInt16 m_gravityFactor;                       // +0x11E
-};
-
-class hkpSphereMotion : public hkpMotion {
-public:
-    HK_FORCE_INLINE hkpSphereMotion(const hkVector4 &position, const hkQuaternion &rotation) : hkpMotion(position, rotation)
-    {
-        m_type = MOTION_SPHERE_INERTIA;
-    }
-};
-
-class hkpBoxMotion : public hkpMotion {
-public:
-    hkpBoxMotion(const hkVector4 &position, const hkQuaternion &rotation);
-};
-
-class hkpThinBoxMotion : public hkpBoxMotion {
-public:
-    hkpThinBoxMotion(const hkVector4 &position, const hkQuaternion &rotation);
-};
-
-class hkpKeyframedRigidMotion : public hkpMotion {
-public:
-    hkpKeyframedRigidMotion(const hkVector4 &position, const hkQuaternion &rotation);
-};
-
-class hkpFixedRigidMotion : public hkpKeyframedRigidMotion {
-public:
-    hkpFixedRigidMotion(const hkVector4 &position, const hkQuaternion &rotation);
-};
-
-class hkpCharacterMotion : public hkpMotion {
-public:
-    HK_FORCE_INLINE hkpCharacterMotion(const hkVector4 &position, const hkQuaternion &rotation) : hkpMotion(position, rotation)
-    {
-        m_type = MOTION_CHARACTER;
-    }
 };
 
 extern "C" void fn_82D8B4B8(hkpMotion::MotionType motionType, const hkVector4 &position, const hkQuaternion &rotation,

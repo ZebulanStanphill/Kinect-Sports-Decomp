@@ -67,7 +67,7 @@ hkpGskBaseAgent::hkpGskBaseAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
     m_separatingNormal(3) = invalid;
     m_timeOfSeparatingNormal = invalid;
     const hkpCollidable *rootA = static_cast<const hkpCollidable *>(bodyA.getRootCollidable());
-    hkReal depthA = rootA->m_allowedPenetrationDepth;
+    hkReal depthA = rootA->getAllowedPenetrationDepth();
     const hkpCollidable *rootB = static_cast<const hkpCollidable *>(bodyB.getRootCollidable());
-    m_allowedPenetration = hkMath::min2(depthA, rootB->m_allowedPenetrationDepth);
+    m_allowedPenetration = hkMath::min2(depthA, rootB->getAllowedPenetrationDepth());
 }

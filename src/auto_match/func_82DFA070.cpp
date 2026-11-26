@@ -4,11 +4,6 @@
 #include "havok/hkBase.h"
 #include "havok/hkpVehicleWheelCollide.h"
 
-extern "C" {
-void fn_82D9A420(hkpPhantom *phantom, hkpPhantomOverlapListener *listener);   // hkpPhantom::removePhantomOverlapListener
-void fn_82D9A5F8(hkpPhantom *phantom, hkpPhantomOverlapListener *listener);   // hkpPhantom::addPhantomOverlapListener
-}
-
 HK_FORCE_INLINE hkpVehicleRayCastWheelCollide::hkpVehicleRayCastWheelCollide(hkFinishLoadedObjectFlag f)
     : hkpVehicleWheelCollide(f), m_rejectRayChassisListener(f)
 {

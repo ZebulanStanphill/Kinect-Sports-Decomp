@@ -37,6 +37,15 @@ public:
         return cr & 0x80;
     }
 
+    // Whether it held in all four lanes: the mask is compared with all ones directly, with no
+    // vor against the mask table (82D3E2F0).
+    HK_FORCE_INLINE hkBool32 allAreSet() const
+    {
+        unsigned int cr;
+        __vcmpequwR(m_mask, __vspltisw(-1), &cr);
+        return cr & 0x80;
+    }
+
     hkQuadReal m_mask;
 };
 
@@ -60,6 +69,15 @@ public:
     HK_FORCE_INLINE hkVector4(const hkVector4 &v) { m_quad = v.m_quad; }
 #endif
     HK_FORCE_INLINE void operator=(const hkVector4 &v) { m_quad = v.m_quad; }
+
+    // Havok's constant (0.5, 0.5, 0.5, 0.5), lbl_82132D70, read as a vector. The game computes the
+    // centre and half extents of a box as vmulfp(half, v), reading the constant from memory for each
+    // product (82D42A28, 82D43170, 82D48570, 82D3DAC0); setMul4 with an hkSimdReal has the operands
+    // the other way round. The accessor's name is this project's.
+    static HK_FORCE_INLINE const hkVector4 &HK_CALL getHalf()
+    {
+        return reinterpret_cast<const hkVector4 &>(lbl_82132D70);
+    }
 
     HK_FORCE_INLINE void set(hkReal x, hkReal y, hkReal z, hkReal w = 0.0f)
     {
@@ -238,6 +256,7 @@ public:
     void setTransformedPos(const hkTransform &t, const hkVector4 &b);
     void setTransformedInversePos(const hkTransform &t, const hkVector4 &b);
     HK_FORCE_INLINE void _setMul3(const hkMatrix3 &r, const hkVector4 &b);
+    HK_FORCE_INLINE void _setRotatedInverseDir(const hkMatrix3 &r, const hkVector4 &b);
     HK_FORCE_INLINE void _setRotatedDir(const hkRotation &r, const hkVector4 &b);
     HK_FORCE_INLINE void _setTransformedPos(const hkTransform &t, const hkVector4 &b);
 

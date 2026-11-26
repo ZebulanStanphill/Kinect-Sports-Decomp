@@ -10,18 +10,9 @@
 // (the vector copies use v0/v13).
 #include "havok/hkpCdPointCollector.h"
 #include "havok/hkContactPoint.h"
+#include "havok/hkpAabbPhantom.h"
+#include "havok/hkpLinearCastInput.h"
 #include "havok/hkpVehicleWheelCollide.h"
-
-extern "C" hkpCollidable *fn_8253D7A8(hkpCollidable *self, const hkpShape *shape, const void *ms, int type);
-
-class hkpCollidable {
-public:
-    HK_FORCE_INLINE hkpCollidable(const hkpShape *shape, const hkTransform *t, int type = 0) { fn_8253D7A8(this, shape, t, type); }
-    HK_FORCE_INLINE void setCollisionFilterInfo(hkUint32 info) { m_collisionFilterInfo = info; }
-    char m_pad0[0x1c];
-    hkUint32 m_collisionFilterInfo;
-    char m_pad1[0x50 - 0x20];
-};
 
 class hkpRootCdPoint {
 public:
@@ -46,20 +37,6 @@ public:
     HK_FORCE_INLINE bool hasHit() const { return m_hitPoint.m_rootCollidableA != HK_NULL; }
     HK_FORCE_INLINE const hkpRootCdPoint &getHit() const { return m_hitPoint; }
     hkpRootCdPoint m_hitPoint;
-};
-
-struct hkpLinearCastInput {
-    HK_FORCE_INLINE hkpLinearCastInput() : m_maxExtraPenetration(1.1920929e-07f), m_startPointTolerance(1.1920929e-07f) {}
-    hkVector4 m_to;
-    hkReal m_maxExtraPenetration;
-    hkReal m_startPointTolerance;
-};
-
-extern "C" void fn_82D8D1D8(const hkpAabbPhantom *self, const hkpCollidable *collA, const hkpLinearCastInput &input, hkpCdPointCollector &castCollector, hkpCdPointCollector *startCollector);
-class hkpAabbPhantom {
-public:
-    HK_FORCE_INLINE void linearCast(const hkpCollidable *collA, const hkpLinearCastInput &input, hkpCdPointCollector &castCollector, hkpCdPointCollector *startCollector) const
-    { fn_82D8D1D8(this, collA, input, castCollector, startCollector); }
 };
 
 extern "C" hkBool *fn_82E008F8(hkBool *result, const hkpVehicleLinearCastWheelCollide *self, const hkpVehicleInstance *vehicle, hkUint8 wheelNum, hkpRootCdPoint &linearCastOutput)

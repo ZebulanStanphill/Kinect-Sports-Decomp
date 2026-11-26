@@ -1,38 +1,4 @@
-// Havok AABB tree: copies a new leaf entry into the slot returned by fn_82D42908, grows the
-// tree's centre/half-extent box by the leaf's AABB (fn_82D41B18) widened by the tolerance, then
-// inserts it (fn_82D42730) and adds the returned count.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-extern "C" {
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vaddfp(__vector4 a, __vector4 b);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vminfp(__vector4 a, __vector4 b);
-__vector4 __vmaxfp(__vector4 a, __vector4 b);
-}
-
-class hkVector4 {
-public:
-    __vector4 q;
-
-    hkVector4() {}
-    hkVector4(const hkVector4 &v) { q = v.q; }
-    hkVector4 &operator=(const hkVector4 &v) { q = v.q; return *this; }
-    void setAll(float x) { q.vector4_f32[0] = x; q = __vspltw(q, 0); }
-    void setAdd4(const hkVector4 &a, const hkVector4 &b) { q = __vaddfp(a.q, b.q); }
-    void setSub4(const hkVector4 &a, const hkVector4 &b) { q = __vsubfp(a.q, b.q); }
-    void setMul4(const hkVector4 &a, const hkVector4 &b) { q = __vmulfp(a.q, b.q); }
-    void setMin4(const hkVector4 &a, const hkVector4 &b) { q = __vminfp(a.q, b.q); }
-    void setMax4(const hkVector4 &a, const hkVector4 &b) { q = __vmaxfp(a.q, b.q); }
-};
-
-struct hkAabb {
-    hkVector4 m_min;
-    hkVector4 m_max;
-};
+#include "havok/hkAabb.h"
 
 struct Key_82D42A28 {
     int v[5];
@@ -66,7 +32,6 @@ struct Tree_82D42A28 {
 };
 
 extern "C" {
-extern const hkVector4 lbl_82132D70;   /* 0.5 */
 Leaf_82D42A28 *fn_82D42908(Tree_82D42A28 *self);
 void fn_82D41B18(const Leaf_82D42A28 *leaf, void *shapes, hkAabb *out);
 int fn_82D42730(Tree_82D42A28 *self, const Leaf_82D42A28 *leaf, int depth);
@@ -98,10 +63,10 @@ extern "C" void fn_82D42A28(Tree_82D42A28 *self, const Leaf_82D42A28 *leaf)
 
     hkVector4 sum;
     sum.setAdd4(newMin, newMax);
-    self->center.setMul4(lbl_82132D70, sum);
+    self->center.setMul4(hkVector4::getHalf(), sum);
     hkVector4 diff;
     diff.setSub4(newMax, newMin);
-    self->halfExtents.setMul4(lbl_82132D70, diff);
+    self->halfExtents.setMul4(hkVector4::getHalf(), diff);
 
     self->count += fn_82D42730(self, leaf, self->depth - 1);
 }

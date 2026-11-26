@@ -6,10 +6,10 @@
 // HK_REAL_MAX, HK_REAL_EPSILON and 1.0f are literals: the configured lbl_ floats are defined
 // (selectany) and used once in linearCastSphere_bindConstants first, so that the compiler
 // materializes the literals from them (one load per value, scheduled like a literal).
-#include "havok/hkpShape.h"
-#include "havok/hkTransform.h"
 #include "havok/hkpCdPointCollector.h"
 #include "havok/hkContactPoint.h"
+#include "havok/hkpLinearCastInput.h"
+#include "havok/hkpWorldObject.h"
 
 extern "C" {
 extern hkVector4 lbl_8323B1A0;   // the zero vector (hkVector4::getZero())
@@ -33,31 +33,7 @@ public:
     hkUint32 m_pad16[3];
 };
 
-class hkpCollidable;
-extern "C" hkpCollidable *fn_8253D7A8(hkpCollidable *self, const hkpShape *shape, const hkTransform *t, int type);
-
-// hkpCollidable (0x50 bytes); its constructor is emitted out of line in a game object and keeps its fn_ name.
-class hkpCollidable {
-public:
-    HK_FORCE_INLINE hkpCollidable(const hkpShape *shape, const hkTransform *t, int type = 0) { fn_8253D7A8(this, shape, t, type); }
-    HK_FORCE_INLINE hkInt8 getType() const { return m_type; }
-    HK_FORCE_INLINE void *getOwner() const { return (void *)((char *)this + m_ownerOffset); }
-
-    const hkpShape *m_shape;        // +0x0
-    hkpShapeKey m_shapeKey;         // +0x4
-    const void *m_motion;           // +0x8
-    const hkpCollidable *m_parent;  // +0xC
-    hkInt8 m_ownerOffset;           // +0x10
-    hkUint8 m_pad11[7];
-    hkInt8 m_type;                  // +0x18
-    hkUint8 m_rest[0x50 - 0x19];
-};
-
 class hkpRigidBody;
-class hkpWorldObject {
-public:
-    enum BroadPhaseType { BROAD_PHASE_INVALID, BROAD_PHASE_ENTITY, BROAD_PHASE_PHANTOM, BROAD_PHASE_BORDER };
-};
 
 static HK_FORCE_INLINE hkpRigidBody *hkpGetRigidBody(const hkpCollidable *collidable)
 {
@@ -92,14 +68,6 @@ public:
     hkpRootCdPoint m_hitPoint;   // +0x10
 };
 
-struct hkpLinearCastInput {
-    HK_FORCE_INLINE hkpLinearCastInput() : m_maxExtraPenetration(HK_REAL_EPSILON), m_startPointTolerance(HK_REAL_EPSILON) {}
-    hkVector4 m_to;
-    hkReal m_maxExtraPenetration;
-    hkReal m_startPointTolerance;
-};
-
-class hkpWorld;
 extern "C" void fn_82D820E0(hkpWorld *world, const hkpCollidable *collA, const hkpLinearCastInput &input,
                             hkpCdPointCollector &castCollector, hkpCdPointCollector *startCollector);   // hkpWorld::linearCast
 

@@ -5,6 +5,7 @@
 // behind an inline wrapper, and the inline destructor calls hkOstream's; its destructor keeps the four streams in
 // separate stack slots, while the plain char buffers share theirs.
 #include "havok/hkOstream.h"
+#include "havok/hkpCollisionDispatcher.h"
 
 class hkError : public hkReferencedObject {
 public:
@@ -38,34 +39,21 @@ public:
     char m_data[16];
 };
 
-struct DebugEntry {
-    signed char m_typeA;
-    signed char m_typeB;
-    signed char m_priority;
-};
-
-struct hkpCollisionDispatcher {
-    char pad[0x1e30];
-    DebugEntry *m_debugTable;     // 32 x 32 entries
-    DebugEntry *m_debugTablePred; // 32 x 32 entries
-};
-
-#define HK_MAX_SHAPE_TYPE 32
-
 extern "C" void fn_82D59888(hkpCollisionDispatcher *self)
 {
+    const int MAX_TYPES = hkpCollisionDispatcher::HK_MAX_SHAPE_TYPE;
     lbl_8323B464->sectionBegin(0x5e4345e4, "hkpCollisionDispatcher::debugPrintTable");
-    if (self->m_debugTable && self->m_debugTablePred) {
+    if (self->m_debugAgent2Table && self->m_debugAgent2TablePred) {
         char buffer[512];
-        for (int a = 0, row = 0; row < HK_MAX_SHAPE_TYPE * HK_MAX_SHAPE_TYPE; row += HK_MAX_SHAPE_TYPE, ++a) {
+        for (int a = 0, row = 0; row < MAX_TYPES * MAX_TYPES; row += MAX_TYPES, ++a) {
             hkStringBuf str("\nEntries for (continuous)", fn_82D6F1D8(a));
             {
                 hkErrStream ostr(buffer, 512);
                 fn_82CEE238(&ostr, &str);
                 lbl_8323B464->message(0, -1, buffer, ".\\Dispatch\\hkpCollisionDispatcher.cpp", 0x222);
             }
-            for (int b = 1; b < HK_MAX_SHAPE_TYPE; ++b) {
-                DebugEntry *e = &self->m_debugTablePred[row + b];
+            for (int b = 1; b < MAX_TYPES; ++b) {
+                hkpCollisionDispatcher::DebugEntry *e = &self->m_debugAgent2TablePred[row + b];
                 if (e->m_priority < 100) {
                     char text[256];
                     const char *name = fn_82D6F1D8(b);
@@ -78,15 +66,15 @@ extern "C" void fn_82D59888(hkpCollisionDispatcher *self)
                 }
             }
         }
-        for (int a = 0, row = 0; row < HK_MAX_SHAPE_TYPE * HK_MAX_SHAPE_TYPE; row += HK_MAX_SHAPE_TYPE, ++a) {
+        for (int a = 0, row = 0; row < MAX_TYPES * MAX_TYPES; row += MAX_TYPES, ++a) {
             hkStringBuf str("\nEntries for (discrete)", fn_82D6F1D8(a));
             {
                 hkErrStream ostr(buffer, 512);
                 fn_82CEE238(&ostr, &str);
                 lbl_8323B464->message(0, -1, buffer, ".\\Dispatch\\hkpCollisionDispatcher.cpp", 0x239);
             }
-            for (int b = 1; b < HK_MAX_SHAPE_TYPE; ++b) {
-                DebugEntry *e = &self->m_debugTable[row + b];
+            for (int b = 1; b < MAX_TYPES; ++b) {
+                hkpCollisionDispatcher::DebugEntry *e = &self->m_debugAgent2Table[row + b];
                 if (e->m_priority < 100) {
                     char text[256];
                     const char *name = fn_82D6F1D8(b);

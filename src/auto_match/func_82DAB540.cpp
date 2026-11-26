@@ -10,12 +10,6 @@ public:
     static HK_FORCE_INLINE T HK_CALL min2(T a, T b) { return a < b ? a : b; }
 };
 
-// hkpCollidable::getOwner, which hkpCollidable.h does not declare yet.
-static HK_FORCE_INLINE void *getOwner(const hkpCollidable &c)
-{
-    return const_cast<char *>(reinterpret_cast<const char *>(&c) + c.m_ownerOffset);
-}
-
 // hkpContactMgr (Physics/Collide/Agent/ContactMgr/hkpContactMgr.h) and hkpDynamicsContactMgr.
 class hkpContactMgr : public hkReferencedObject {
 public:
@@ -79,8 +73,8 @@ inline hkpReportContactMgr::hkpReportContactMgr(hkpWorld *world, hkpRigidBody *b
 hkpContactMgr *hkpReportContactMgr::Factory::createContactMgr(const hkpCollidable &a, const hkpCollidable &b,
                                                                const hkpCollisionInput &env)
 {
-    hkpRigidBody *bodyA = reinterpret_cast<hkpRigidBody *>(getOwner(a));
-    hkpRigidBody *bodyB = reinterpret_cast<hkpRigidBody *>(getOwner(b));
+    hkpRigidBody *bodyA = static_cast<hkpRigidBody *>(a.getOwner());
+    hkpRigidBody *bodyB = static_cast<hkpRigidBody *>(b.getOwner());
     hkpReportContactMgr *mgr = new hkpReportContactMgr(m_world, bodyA, bodyB);
     return mgr;
 }

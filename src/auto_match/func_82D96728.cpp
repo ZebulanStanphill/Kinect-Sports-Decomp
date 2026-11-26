@@ -9,22 +9,7 @@
 #include "havok/hkVector4.h"
 #include "havok/hkpConstraintAtom.h"
 #include "havok/hkpConstraintData.h"
-
-class hkUFloat8;
-// hkUFloat8::operator=(const hkReal &) is out of line.
-extern "C" void fn_82CE5458(hkUFloat8 *self, const hkReal &f);
-
-// hkUFloat8 (Common/Base/Types/hkBaseTypes.h): an 8-bit unsigned float.
-class hkUFloat8 {
-public:
-    HK_FORCE_INLINE hkUFloat8(const hkReal &f) { *this = f; }
-    HK_FORCE_INLINE hkUFloat8 &operator=(const hkReal &f)
-    {
-        fn_82CE5458(this, f);
-        return *this;
-    }
-    hkUint8 m_value;
-};
+#include "havok/hkUFloat8.h"
 
 struct hkpSetLocalTranslationsConstraintAtom : public hkpConstraintAtom {
     hkpSetLocalTranslationsConstraintAtom() : hkpConstraintAtom(TYPE_SET_LOCAL_TRANSLATIONS) {}

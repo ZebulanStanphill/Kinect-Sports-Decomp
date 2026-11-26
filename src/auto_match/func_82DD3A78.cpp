@@ -12,6 +12,5 @@ extern "C" void fn_82DD3A78(hkSimdReal &distanceOut, const hkVector4 &point, con
     normalOut.mul4(invLen);
     hkVector4 d;
     d.setSub4(point, triangle[0]);
-    // Through m_real: hkSimdReal.h declares no operator=, and the implicit one copies doublewords.
-    distanceOut.m_real = d.dot3(normalOut).m_real;
+    distanceOut = d.dot3(normalOut);
 }

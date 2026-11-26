@@ -41,10 +41,17 @@ struct hkpShapeRayCastOutput;
 class hkpShapeContainer;
 class hkpShapeBuffer;
 typedef hkUint32 hkpShapeKey;
+#define HK_INVALID_SHAPE_KEY 0xffffffff
 
-// The values 0 to 7, 14, 22 and 28 are the ones the game's code is known to
-// use; the others follow Havok's hkpShapeType.h and have not been checked
-// against the game.
+// The numbering is the game's. Checked against its code: 1 to 6, 11, 12, 21 (each registered with
+// HK_SHAPE_CONVEX as its alternate type by fn_82D6F0A0, hkpAgentRegisterUtil's alternate-type table),
+// 7, 9, 14, 16, 24 (alternates of HK_SHAPE_COLLECTION there), 8 and 10 (MOPP -> BV_TREE), 18 and 27
+// (CONVEX -> SPHERE_REP; fn_82D40420 also registers the GSK agent for 0x12, 0x12, and hkpConvexShape's
+// finish constructor stores 0x12), 13, 26 and 29 (SAMPLED_HEIGHT_FIELD and PLANE -> HEIGHT_FIELD), and
+// the values the shapes' own constructors store: 15 (hkpTransformShape), 22 (hkpMultiSphereShape),
+// 23 (hkpConvexListShape), 24 (hkpMeshShape, hkpSimpleMeshShape), 25 (hkpMultiRayShape), 28 (hkpBvShape)
+// and 30 (hkpPhantomAgent compares with it). The names of 17, 19, 20 and of 31 on follow Havok 7's
+// hkpShapeType.h (which has no HK_SHAPE_COMPOUND) and are not checked: nothing in the game uses them.
 enum hkpShapeType {
     HK_SHAPE_INVALID = 0,
     HK_SHAPE_SPHERE = 1,
@@ -63,9 +70,9 @@ enum hkpShapeType {
     HK_SHAPE_EXTENDED_MESH = 14,
     HK_SHAPE_TRANSFORM = 15,
     HK_SHAPE_COMPRESSED_MESH = 16,
-    HK_SHAPE_COMPOUND = 17,
-    HK_SHAPE_MAX_ID_SPU = 18,
-    HK_SHAPE_CONVEX = 19,
+    HK_SHAPE_MAX_ID_SPU = 17,
+    HK_SHAPE_CONVEX = 18,
+    HK_SHAPE_PACKED_CONVEX_VERTICES = 19,
     HK_SHAPE_MOPP_EMBEDDED = 20,
     HK_SHAPE_CONVEX_PIECE = 21,
     HK_SHAPE_MULTI_SPHERE = 22,
@@ -96,6 +103,9 @@ public:
             m_type = HK_SHAPE_INVALID;
     }
 
+    // The game tests the result with a signed compare (cmpwi in 82D6A888), so it is the enum.
+    HK_FORCE_INLINE hkpShapeType getType() const { return static_cast<hkpShapeType>(m_type); }
+
     virtual hkReal getMaximumProjection(const hkVector4 &direction) const;   // +0x0C
     virtual const hkpShapeContainer *getContainer() const;                   // +0x10
     virtual hkBool isConvex() const;                                         // +0x14
@@ -120,7 +130,9 @@ public:
 class hkpConvexShape : public hkpSphereRepShape {
 public:
     hkpConvexShape(hkpShapeType type, hkReal radius) : hkpSphereRepShape(type), m_radius(radius) {}
-    hkpConvexShape(hkFinishLoadedObjectFlag flag) : hkpSphereRepShape(flag) {}
+    // Stores the type whether finishing or not (hkpConvexVerticesShape's finish constructor, 82D3F338,
+    // stores 0x12 unconditionally before its own type).
+    hkpConvexShape(hkFinishLoadedObjectFlag flag) : hkpSphereRepShape(flag) { m_type = HK_SHAPE_CONVEX; }
 
     hkReal m_radius;   // +0x10
 };
@@ -142,7 +154,13 @@ class hkpSingleShapeContainer : public hkpShapeContainer {
 public:
     HK_DECLARE_PLACEMENT_ALLOCATOR();
     hkpSingleShapeContainer() {}
-    hkpSingleShapeContainer(const hkpShape *s) : m_childShape(s) { m_childShape->addReference(); }
+    // hkpConvexTransformShapeBase's constructor (82D44170) passes the policy on; a constant
+    // REFERENCE_POLICY_INCREMENT folds to the plain addReference.
+    hkpSingleShapeContainer(const hkpShape *s, ReferencePolicy ref = REFERENCE_POLICY_INCREMENT) : m_childShape(s)
+    {
+        if (ref == REFERENCE_POLICY_INCREMENT)
+            m_childShape->addReference();
+    }
     hkpSingleShapeContainer(hkFinishLoadedObjectFlag) {}
     ~hkpSingleShapeContainer()
     {
@@ -174,7 +192,15 @@ public:
         COLLECTION_MAX
     };
     hkpShapeCollection(hkpShapeType type, CollectionType collectionType);   // out of line (82D48E38)
-    hkpShapeCollection(hkFinishLoadedObjectFlag flag) : hkpShape(flag) {}
+    // When finishing, the game's sets the type and collection type before the subclass sets its own
+    // (82D39BE8, 82D3AFC0, 82D3B8F0, 82D3E4C8, 82D45F58 and 82D4B0F8 store 7 and 3 first).
+    hkpShapeCollection(hkFinishLoadedObjectFlag flag) : hkpShape(flag)
+    {
+        if (flag.m_finishing) {
+            m_type = HK_SHAPE_COLLECTION;
+            m_collectionType = COLLECTION_USER;
+        }
+    }
     virtual const hkpShapeContainer *getContainer() const;
 
     hkBool m_disableWelding;    // +0x14

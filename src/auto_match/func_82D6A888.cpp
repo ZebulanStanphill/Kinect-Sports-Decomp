@@ -2,7 +2,6 @@
 // The constructor is defined out of line in this unit, as in the original file: the compiler then knows
 // it leaves r4/r5 alone and reuses bodyB in r5 after the call (an inline/COMDAT definition does not).
 #include "havok/hkBase.h"
-#include "havok/hkpCollidable.h"
 #include "havok/hkpCollisionAgent.h"
 
 class hkpPhantomCallbackShape : public hkpShape {
@@ -25,10 +24,10 @@ public:
 hkpPhantomAgent::hkpPhantomAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, hkpContactMgr *contactMgr)
     : hkpCollisionAgent(contactMgr)
 {
-    m_collidableA = static_cast<const hkpCollidable *>(bodyA.getRootCollidable());
-    m_collidableB = static_cast<const hkpCollidable *>(bodyB.getRootCollidable());
-    m_bodyTypeA = static_cast<hkpShapeType>(bodyA.getShape()->m_type);   // hkpShape::getType()
-    m_bodyTypeB = static_cast<hkpShapeType>(bodyB.getShape()->m_type);
+    m_collidableA = bodyA.getRootCollidable();
+    m_collidableB = bodyB.getRootCollidable();
+    m_bodyTypeA = bodyA.getShape()->getType();
+    m_bodyTypeB = bodyB.getShape()->getType();
 }
 
 extern "C" hkpPhantomAgent *fn_82D6A888(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpContactMgr *contactMgr)
@@ -37,14 +36,14 @@ extern "C" hkpPhantomAgent *fn_82D6A888(const hkpCdBody &bodyA, const hkpCdBody 
 
     if (agent->m_bodyTypeA == HK_SHAPE_PHANTOM_CALLBACK) {
         hkpPhantomCallbackShape *shape = const_cast<hkpPhantomCallbackShape *>(static_cast<const hkpPhantomCallbackShape *>(bodyA.getShape()));
-        shape->phantomEnterEvent(static_cast<const hkpCollidable *>(bodyA.getRootCollidable()),
-                                 static_cast<const hkpCollidable *>(bodyB.getRootCollidable()), input);
+        shape->phantomEnterEvent(bodyA.getRootCollidable(),
+                                 bodyB.getRootCollidable(), input);
         agent->m_shapeA = shape;
     }
     if (agent->m_bodyTypeB == HK_SHAPE_PHANTOM_CALLBACK) {
         hkpPhantomCallbackShape *shape = const_cast<hkpPhantomCallbackShape *>(static_cast<const hkpPhantomCallbackShape *>(bodyB.getShape()));
-        shape->phantomEnterEvent(static_cast<const hkpCollidable *>(bodyB.getRootCollidable()),
-                                 static_cast<const hkpCollidable *>(bodyA.getRootCollidable()), input);
+        shape->phantomEnterEvent(bodyB.getRootCollidable(),
+                                 bodyA.getRootCollidable(), input);
         agent->m_shapeB = shape;
     }
     return agent;

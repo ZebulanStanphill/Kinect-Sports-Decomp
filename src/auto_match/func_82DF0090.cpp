@@ -62,11 +62,8 @@ extern "C" void fn_82DF0090(hkpDashpotAction *self, const hkStepInfo &stepInfo)
 
     hkVector4 negImpulse;
     negImpulse.setMul4(-1.0f, self->m_impulse);
-    // hkpRigidBody::applyPointImpulse: activate the body, then apply the impulse to its motion.
-    ra->activate();
-    ra->getRigidMotion()->applyPointImpulse(negImpulse, pa);
-    rb->activate();
-    rb->getRigidMotion()->applyPointImpulse(self->m_impulse, pb);
+    ra->applyPointImpulse(negImpulse, pa);
+    rb->applyPointImpulse(self->m_impulse, pb);
 
     timer("Et");
 }

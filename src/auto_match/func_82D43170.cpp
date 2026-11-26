@@ -50,11 +50,10 @@ extern "C" int fn_82D43170(Tree_82D43170 *self, const Leaf_82D43170 *leaf)
 
     hkVector4 sum;
     sum.setAdd4(newMin, newMax);
-    // centre = 0.5 * sum and halfExtents = 0.5 * diff; the 0.5 constant (an hkQuadReal) is read again for each.
-    self->center.m_quad = __vmulfp(lbl_82132D70, sum.m_quad);
+    self->center.setMul4(hkVector4::getHalf(), sum);
     hkVector4 diff;
     diff.setSub4(newMax, newMin);
-    self->halfExtents.m_quad = __vmulfp(lbl_82132D70, diff.m_quad);
+    self->halfExtents.setMul4(hkVector4::getHalf(), diff);
 
     self->count += leaf->count;
     return self->leaves.size - 1;

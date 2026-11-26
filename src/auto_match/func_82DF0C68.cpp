@@ -121,14 +121,14 @@ extern "C" hkpRigidBody *fn_82DF0C68(hkpGravityGun *self, const hkTransform *vie
             for (int b = 0; b < island->m_entities.getSize(); b++)
             {
                 hkpRigidBody *body = island->m_entities[b];
-                const hkVector4 &position = body->m_motion.m_motionState.getSweptTransform().m_centerOfMass1;
+                const hkVector4 &position = body->getPosition();
                 hkVector4 local;
                 local.setTransformedInversePos(*viewTransform, position);
                 if (local(0) < 0.1f || local(0) > self->m_maxDistOfObjectPicked || body == characterBody)
                     continue;
 
                 hkReal value = (hkMath::fabs(local(1)) + hkMath::fabs(local(2))) / (local(0) + 1.0f);
-                if (body->m_motion.getMass() > self->m_maxMassOfObjectPicked)
+                if (body->getMotion()->getMass() > self->m_maxMassOfObjectPicked)
                     value += 0.1f;
                 if (value > bestValue)
                     continue;

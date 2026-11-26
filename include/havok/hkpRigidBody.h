@@ -16,6 +16,8 @@ public:
     hkpWorld *getWorld() const { return m_world; }
     const hkpCollidable *getCollidable() const { return &m_collidable; }
     hkpMotion *getRigidMotion() { return &m_motion; }
+    const hkpMotion *getMotion() const { return &m_motion; }
+    const hkVector4 &getPosition() const { return m_motion.getPosition(); }
     hkInt8 getQualityType() const { return m_collidable.m_broadPhaseHandle.m_objectQualityType; }
     hkUint16 getContactPointCallbackDelay() const { return m_contactPointCallbackDelay; }
     const hkTransform &getTransform() const { return m_motion.m_motionState.m_transform; }
@@ -30,6 +32,11 @@ public:
     {
         activate();
         getRigidMotion()->setAngularVelocity(v);
+    }
+    void applyPointImpulse(const hkVector4 &imp, const hkVector4 &p)
+    {
+        activate();
+        getRigidMotion()->applyPointImpulse(imp, p);
     }
 };
 

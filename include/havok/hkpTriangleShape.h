@@ -16,6 +16,8 @@ public:
         m_extrusion.setZero4();
         m_isExtruded = 0;
     }
+    // The finish constructor stores the type unconditionally (finishLoadedObjecthkpTriangleShape, 82D3BA10).
+    hkpTriangleShape(hkFinishLoadedObjectFlag flag) : hkpConvexShape(flag) { m_type = HK_SHAPE_TRIANGLE; }
     const hkVector4 &getVertex(int i) const { return (&m_vertexA)[i]; }
     HK_FORCE_INLINE void setVertex(int i, const hkVector4 &v) { (&m_vertexA)[i] = v; }
 

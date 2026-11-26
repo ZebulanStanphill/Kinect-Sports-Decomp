@@ -6,12 +6,10 @@
 // The 1.0f of hkMatrix3::setIdentity and HK_REAL_MAX are literals in the original, whose loads
 // the scheduler is free to move. The game's copy of HK_REAL_MAX is __real@7f7fffee, which Matching C
 // units reference, so it is declared here as a known constant (selectany).
-#include "havok/hkpShape.h"
 #include "havok/hkpCollisionFilter.h"
-#include "havok/hkTransform.h"
 #include "havok/hkpCdPointCollector.h"
 #include "havok/hkContactPoint.h"
-#include "havok/hkpCollisionInput.h"
+#include "havok/hkpCollisionDispatcher.h"
 
 extern "C" const float lbl_82138458;   // HK_REAL_MAX / 2
 
@@ -29,21 +27,6 @@ public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
     hkpNullCollisionFilter();
     virtual ~hkpNullCollisionFilter();
-};
-
-class hkpCdBody {
-public:
-    HK_FORCE_INLINE hkpCdBody(const hkpShape *shape, const hkTransform *t)
-    {
-        m_shape = shape;
-        m_motion = t;
-        m_parent = HK_NULL;
-        m_shapeKey = 0xffffffff;
-    }
-    const hkpShape *m_shape;
-    hkpShapeKey m_shapeKey;
-    const void *m_motion;
-    const hkpCdBody *m_parent;
 };
 
 class hkpRootCdPoint {
@@ -71,29 +54,6 @@ public:
     hkpRootCdPoint m_hitPoint;
 };
 
-class hkpCollisionDispatcher {
-public:
-    typedef void (*GetClosestPointsFunc)(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
-                                         const hkpCollisionInput &input, hkpCdPointCollector &output);
-    struct Agent2Funcs {
-        void *m_createFunc;
-        void *m_getPenetrationsFunc;
-        GetClosestPointsFunc m_getClosestPointFunc;
-        void *m_linearCastFunc;
-        hkBool m_isFlipped;
-        hkBool m_isPredictive;
-    };
-    HK_FORCE_INLINE GetClosestPointsFunc getGetClosestPointsFunc(hkUint32 typeA, hkUint32 typeB) const
-    {
-        int idx = m_agent2Types[typeA][typeB];
-        return m_agent2Func[idx].m_getClosestPointFunc;
-    }
-    char m_pad[0x1a0];
-    hkUint8 m_agent2Types[32][32];       // +0x1a0
-    hkUint8 m_agent2TypesPred[32][32];   // +0x5a0
-    Agent2Funcs m_agent2Func[1];         // +0x9a0
-};
-
 class hkpWorld {
 public:
     HK_FORCE_INLINE hkpCollisionDispatcher *getCollisionDispatcher() const { return m_collisionDispatcher; }
@@ -114,7 +74,7 @@ extern "C" hkpShapeKey fn_82DBED98(hkpWorld *world, const hkpShape *shape, const
     hkpCdBody bodyB(shape, &lbl_8323B1D0);
     hkpClosestCdPointCollector collector;
     hkpCollisionDispatcher::GetClosestPointsFunc func =
-        world->getCollisionDispatcher()->getGetClosestPointsFunc(sphere.m_type, shape->m_type);
+        world->getCollisionDispatcher()->getGetClosestPointsFunc(sphere.getType(), shape->getType());
     hkpCollisionInput input = *world->getCollisionInput();
     input.m_tolerance = lbl_82138458;
     hkpNullCollisionFilter filter;

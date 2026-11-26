@@ -31,15 +31,10 @@ extern "C" void fn_82D3DAC0(ListShape_82D3DAC0 *self, hkAabb &aabbOut)
         aabbOut.m_min.setMin4(aabbOut.m_min, childAabb.m_min);
         aabbOut.m_max.setMax4(aabbOut.m_max, childAabb.m_max);
     }
-    // The game multiplies by the 0.5 constant as a vector (it is the first operand) and loads it again for the
-    // second product, after the store of the center.
-    hkVector4 half;
-    half.m_quad = lbl_82132D70;   // hkQuadReal 0.5
     hkVector4 sum;
     sum.setAdd4(aabbOut.m_min, aabbOut.m_max);
-    self->m_aabbCenter.setMul4(half, sum);
+    self->m_aabbCenter.setMul4(hkVector4::getHalf(), sum);
     hkVector4 extent;
     extent.setSub4(aabbOut.m_max, aabbOut.m_min);
-    half.m_quad = lbl_82132D70;
-    self->m_aabbHalfExtents.setMul4(half, extent);
+    self->m_aabbHalfExtents.setMul4(hkVector4::getHalf(), extent);
 }

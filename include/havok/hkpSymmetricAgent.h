@@ -28,14 +28,21 @@ public:
     hkpCdPointCollector &m_collector;   // +0x8
 };
 
+// The collector is a pointer assigned in the constructor's body after the path: the game's linear
+// casts store the path first (82D584F8, 82D5D718, 82D6B688 ...). A reference bound in the initialiser
+// list, as Havok's header has it, stores it before the path.
 class hkpSymmetricAgentFlipCastCollector : public hkpCdPointCollector {
 public:
     HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE, hkpSymmetricAgentFlipCastCollector);
-    hkpSymmetricAgentFlipCastCollector(const hkVector4 &path, hkpCdPointCollector &c) : m_path(path), m_collector(c) {}
+    hkpSymmetricAgentFlipCastCollector(const hkVector4 &path, hkpCdPointCollector &c)
+    {
+        m_path = path;
+        m_collector = &c;
+    }
     virtual void addCdPoint(const hkpCdPoint &point);
 
     hkVector4 m_path;                   // +0x10
-    hkpCdPointCollector &m_collector;   // +0x20
+    hkpCdPointCollector *m_collector;   // +0x20
 };
 
 template <typename AGENT>

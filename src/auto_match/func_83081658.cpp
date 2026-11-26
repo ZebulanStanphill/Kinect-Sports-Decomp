@@ -1,15 +1,12 @@
 #include "havok/hkMotionState.h"
 
-// hkQuaternion::set(const hkRotation &), out of line (hkQuaternion.h does not declare it yet)
-extern "C" void fn_82CE5990(hkQuaternion *self, const hkRotation &r);
-
 extern "C" void fn_83081658(const hkTransform &transform, hkMotionState &ms)
 {
     hkSweptTransform &sweptTransform = ms.getSweptTransform();
     ms.m_deltaAngle.setZero4();
 
     hkQuaternion rotation;
-    fn_82CE5990(&rotation, transform.getRotation());
+    rotation.set(transform.getRotation());
     ms.getTransform() = transform;
 
     sweptTransform.m_rotation0 = rotation;

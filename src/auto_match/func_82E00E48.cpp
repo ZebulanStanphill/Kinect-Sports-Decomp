@@ -25,11 +25,6 @@ public:
 
 class hkpVehicleInstance;
 
-extern "C" {
-void fn_82D9A420(hkpPhantom *phantom, hkpPhantomOverlapListener *listener);   // hkpPhantom::removePhantomOverlapListener
-void fn_82D9A5F8(hkpPhantom *phantom, hkpPhantomOverlapListener *listener);   // hkpPhantom::addPhantomOverlapListener
-}
-
 // hkArray<T>::setSize for POD elements (hkArrayBase::_setSize with the heap allocator): grow to
 // max(2 * capacity, n) through hkArrayUtil::_reserve, then set the size.
 template <typename T>
@@ -117,8 +112,8 @@ extern "C" hkpVehicleWheelCollide *fn_82E00E48(const hkpVehicleLinearCastWheelCo
         hkpAabbPhantom *phantom = (hkpAabbPhantom *)newPhantoms[i];
         newState.m_phantom = phantom;
         phantom->addReference();
-        fn_82D9A420(phantom, const_cast<hkpRejectChassisListener *>(&self->m_rejectChassisListener));
-        fn_82D9A5F8(phantom, &newC->m_rejectChassisListener);
+        phantom->removePhantomOverlapListener(const_cast<hkpRejectChassisListener *>(&self->m_rejectChassisListener));
+        phantom->addPhantomOverlapListener(&newC->m_rejectChassisListener);
         newC->m_rejectChassisListener.m_chassis = newChassis.getCollidable();
     }
     newC->m_wheelCollisionFilterInfo = self->m_wheelCollisionFilterInfo;

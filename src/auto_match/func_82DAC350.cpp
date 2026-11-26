@@ -1,6 +1,7 @@
 #include "havok/hkBase.h"
 #include "havok/hkpRigidBody.h"
 #include "havok/hkpConstraintInstance.h"
+#include "havok/hkpCollisionDispatcher.h"
 
 extern "C" {
 int fn_82DC73A8(int sizeOfAllAtoms);   // the allocation size of a contact atom block (hkpSimpleContactConstraintAtomUtil)
@@ -69,24 +70,6 @@ extern "C" void fn_82D8EAD8(hkpWorld *world, hkpConstraintInstance *constraint, 
 
 // hkpConstraintInstance::setPriority(ConstraintPriority) is out of line (fn_82D958D8).
 extern "C" void fn_82D958D8(hkpConstraintInstance *self, hkpConstraintInstance::ConstraintPriority priority);
-
-struct hkpCollisionQualityInfo {
-    char m_pad[0x3C];
-    hkUint16 m_constraintPriority;   // +0x3C
-    char m_pad3e[0x2];
-};
-
-// hkpCollisionDispatcher: only the quality tables are used here.
-class hkpCollisionDispatcher : public hkReferencedObject {
-public:
-    typedef hkInt8 CollisionQualityIndex;
-    CollisionQualityIndex getCollisionQualityIndex(hkInt8 a, hkInt8 b) { return m_collisionQualityTable[a][b]; }
-    hkpCollisionQualityInfo *getCollisionQualityInfo(CollisionQualityIndex index) { return &m_collisionQualityInfo[index]; }
-
-    char m_pad[0x1BB0 - 0x8];
-    hkInt8 m_collisionQualityTable[10][10];          // +0x1BB0
-    __declspec(align(16)) hkpCollisionQualityInfo m_collisionQualityInfo[8];   // +0x1C20
-};
 
 class hkpWorld {
 public:

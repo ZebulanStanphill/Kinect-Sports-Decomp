@@ -7,9 +7,6 @@
 #include "havok/hkTransform.h"
 #include "havok/hkQuaternion.h"
 
-// hkQuaternion::set(const hkRotation &) is out of line (fn_82CE5990).
-extern "C" void fn_82CE5990(hkQuaternion *self, const hkRotation &r);
-
 class hkpTransformShape : public hkpShape {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SHAPE);
@@ -17,7 +14,7 @@ public:
     void setTransform(const hkTransform &transform)
     {
         m_transform = transform;
-        fn_82CE5990(&m_rotation, m_transform.getRotation());
+        m_rotation.set(m_transform.getRotation());
     }
 
     hkpSingleShapeContainer m_childShape;   // +0x10

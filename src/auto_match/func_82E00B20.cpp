@@ -4,9 +4,6 @@
 #include "havok/hkpAabbPhantom.h"
 #include "havok/hkpVehicleWheelCollide.h"
 
-// hkpPhantom::removePhantomOverlapListener (out of line; hkpPhantom.h does not declare it yet)
-extern "C" void fn_82D9A420(hkpPhantom *phantom, hkpPhantomOverlapListener *listener);
-
 hkpVehicleLinearCastWheelCollide::~hkpVehicleLinearCastWheelCollide()
 {
     const int numWheels = m_wheelStates.getSize();
@@ -16,7 +13,7 @@ hkpVehicleLinearCastWheelCollide::~hkpVehicleLinearCastWheelCollide()
         hkpAabbPhantom *phantom = wheelState.m_phantom;
         // Objects loaded from a packfile (m_memSizeAndFlags == 0) are not unlinked.
         if (m_memSizeAndFlags && phantom->m_memSizeAndFlags)
-            fn_82D9A420(phantom, &m_rejectChassisListener);
+            phantom->removePhantomOverlapListener(&m_rejectChassisListener);
         phantom->removeReference();
     }
 }

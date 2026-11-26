@@ -9,24 +9,8 @@
 // __real@..., the vector (0, 1, 0, 0) lbl_820D2840 and the vector (2.5, 0.6, 0, 0), which symbols.txt
 // names as the string "@ " (its first bytes are 40 20 00), to the compiler's __vmx@... names.
 // hkVector4::set builds the quad in a local, which the compiler folds into one vector constant.
-//
-// hkStringPtr is declared here rather than taken from the shared havok/hkStringPtr.h (skipped through
-// its include guard), which lacks the const char * assignment.
-#define HAVOK_HKSTRINGPTR_H
 #include "havok/hkBase.h"
 #include "havok/hkVector4.h"
-
-class hkStringPtr;
-extern "C" {
-hkStringPtr *fn_82CED628(hkStringPtr *self, const char *string);  // hkStringPtr::operator=(const char *)
-}
-
-class hkStringPtr {
-public:
-    HK_FORCE_INLINE hkStringPtr &operator=(const char *string) { return *fn_82CED628(this, string); }
-
-    const char *m_stringAndFlag;
-};
 
 class hkpFirstPersonGunBulletListener;
 class hkpRigidBody;

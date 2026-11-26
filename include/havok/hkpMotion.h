@@ -81,6 +81,20 @@ public:
     HK_FORCE_INLINE hkReal getMass() const { return fn_82D93128(this); }
     HK_FORCE_INLINE int getType() const { return m_type; }
     hkMotionState *getMotionState() { return &m_motionState; }
+    // The centre of mass at the end of the step (82DF0C68 reads the body's +0x140).
+    const hkVector4 &getPosition() const { return m_motionState.getSweptTransform().m_centerOfMass1; }
+    // Puts the world's deactivation select flags, inverted where this motion's counter is ahead of the
+    // world's, in the top two bits of the inactive-frame counters. Inline in hkpRigidBody::setMotionType
+    // (82D8F080) and hkpFixedRigidMotion's constructor path (82D9D568); also out of line as fn_82D80768.
+    HK_FORCE_INLINE void setWorldSelectFlagsNeg(int worldFlag0, int worldFlag1, int worldDeactivationIntegrateCounter)
+    {
+        hkUint32 f0 = (hkUint32(worldDeactivationIntegrateCounter & 3) < hkUint32(m_deactivationIntegrateCounter & 3))
+                          ? (~worldFlag0 << 14) : (worldFlag0 << 14);
+        hkUint32 f1 = (worldDeactivationIntegrateCounter < m_deactivationIntegrateCounter)
+                          ? (~worldFlag1 << 14) : (worldFlag1 << 14);
+        m_deactivationNumInactiveFrames[0] = (m_deactivationNumInactiveFrames[0] & 0x3fff) | f0;
+        m_deactivationNumInactiveFrames[1] = (m_deactivationNumInactiveFrames[1] & 0x3fff) | f1;
+    }
 
     hkUint8 m_type;                                // +0x8   hkEnum<MotionType, hkUint8>
     hkUint8 m_deactivationIntegrateCounter;        // +0x9

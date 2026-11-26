@@ -36,7 +36,6 @@ static __forceinline void _lerp2(const hkSweptTransform &sweptTrans, float t, hk
 
 extern "C" void fn_83080DA8(const hkSweptTransform &sweptTrans, float t, float deltaTimeAddOn, hkTransform &transformOut)
 {
-    // getBaseTime() is m_centerOfMass0's w, getInvDeltaTime() m_centerOfMass1's w.
-    float ri = (t - sweptTrans.m_centerOfMass0(3) + deltaTimeAddOn) * sweptTrans.m_centerOfMass1(3);
+    float ri = (t - sweptTrans.getBaseTime() + deltaTimeAddOn) * sweptTrans.getInvDeltaTime();
     _lerp2(sweptTrans, ri, transformOut);
 }

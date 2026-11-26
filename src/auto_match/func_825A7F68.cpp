@@ -4,7 +4,6 @@ struct Body { char pad[8]; void *world; char padc[0xdc]; unsigned char type; };
 struct Owner { char pad[0x10]; char *world; char pad14[0x100]; float value; };
 extern "C" {
 extern void *lbl_821CA8E4[];
-void fn_82CED628(void *,const char *);
 void fn_82D95528(void *,Body *);
 void fn_82D888D0(void *,void *);
 void fn_8251E530(void *,void *);
@@ -14,7 +13,7 @@ public:
  Owner *owner; int a,b,c;
  HK_FORCE_INLINE Action(Owner *o) : hkpUnaryAction(0,0) {
  owner=o; a=1; *(void ***)this=lbl_821CA8E4; c=-1; b=1;
- fn_82CED628((char *)this+0x14,"RigidBodyPhysics (ACTIVE)");
+ setName("RigidBodyPhysics (ACTIVE)");
  }
 };
 struct Self { Owner *owner; char pad[12]; Action *action; float value; };

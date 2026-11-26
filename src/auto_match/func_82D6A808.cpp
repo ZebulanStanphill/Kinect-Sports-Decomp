@@ -1,7 +1,6 @@
 // hkpPhantomAgent::hkpPhantomAgent(const hkpCdBody &, const hkpCdBody &, hkpContactMgr *)
 // (Physics/Collide/Agent/MiscAgent/Phantom/hkpPhantomAgent.cpp): keeps the root collidables and the shape types.
 #include "havok/hkBase.h"
-#include "havok/hkpCollidable.h"
 #include "havok/hkpCollisionAgent.h"
 
 class hkpPhantomCallbackShape;
@@ -21,8 +20,8 @@ public:
 hkpPhantomAgent::hkpPhantomAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, hkpContactMgr *contactMgr)
     : hkpCollisionAgent(contactMgr)
 {
-    m_collidableA = static_cast<const hkpCollidable *>(bodyA.getRootCollidable());
-    m_collidableB = static_cast<const hkpCollidable *>(bodyB.getRootCollidable());
-    m_bodyTypeA = static_cast<hkpShapeType>(bodyA.getShape()->m_type);
-    m_bodyTypeB = static_cast<hkpShapeType>(bodyB.getShape()->m_type);
+    m_collidableA = bodyA.getRootCollidable();
+    m_collidableB = bodyB.getRootCollidable();
+    m_bodyTypeA = bodyA.getShape()->getType();
+    m_bodyTypeB = bodyB.getShape()->getType();
 }
