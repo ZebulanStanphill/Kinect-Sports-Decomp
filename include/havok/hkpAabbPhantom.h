@@ -11,6 +11,8 @@ extern "C" void fn_82D7E1E0(hkpAabbPhantom *self);   // reserves m_overlappingCo
 // hkpAabbPhantom::linearCast, out of line (the wheel cast, 82E008F8, calls it on the wheel's phantom).
 extern "C" void fn_82D8D1D8(const hkpAabbPhantom *self, const hkpCollidable *collA, const hkpLinearCastInput &input,
                             hkpCdPointCollector &castCollector, hkpCdPointCollector *startCollector);
+// hkpAabbPhantom::setAabb, out of line (82D94138 calls it for an AABB phantom).
+extern "C" void fn_82D8CD68(hkpAabbPhantom *self, const hkAabb &newAabb);
 
 // hkpAabbPhantom (Physics/Dynamics/Phantom/hkpAabbPhantom.h).
 class hkpAabbPhantom : public hkpPhantom {
@@ -24,6 +26,17 @@ public:
         fn_82D7E1E0(this);
     }
     virtual ~hkpAabbPhantom();
+    // ??_7hkpAabbPhantom@@6B@: every slot but setShape and updateShapeCollectionFilter is its own.
+    virtual hkMotionState *getMotionState();
+    virtual hkpPhantomType getType() const;
+    virtual void calcAabb(hkAabb &aabb);
+    virtual void addOverlappingCollidable(hkpCollidable *collidable);
+    virtual hkBool isOverlappingCollidableAdded(const hkpCollidable *collidable);
+    virtual void removeOverlappingCollidable(hkpCollidable *collidable);
+    virtual void ensureDeterministicOrder();
+    virtual hkpPhantom *clone() const;
+    virtual void deallocateInternalArrays();
+    HK_FORCE_INLINE void setAabb(const hkAabb &newAabb) { fn_82D8CD68(this, newAabb); }
     HK_FORCE_INLINE void linearCast(const hkpCollidable *collA, const hkpLinearCastInput &input,
                                     hkpCdPointCollector &castCollector, hkpCdPointCollector *startCollector) const
     {

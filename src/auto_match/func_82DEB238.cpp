@@ -43,26 +43,6 @@ public:
     HK_FORCE_INLINE int getWithDefault(hkUlong key, int def) const { return fn_82CEA280(this, key, def); }
 };
 
-struct hkAabbUint32 {
-    HK_FORCE_INLINE void setInvalidY()
-    {
-        hkUint32 *minP = m_min;
-        hkUint32 *maxP = m_max;
-        minP[1] = 0x7fff0000;
-        minP[2] = 0x7fff0000;
-        *(hkUint32 *)m_expansionMin = 0;
-        maxP[1] = 0;
-        maxP[2] = 0;
-    }
-
-    hkUint32 m_min[3];          // +0x0
-    hkUint8 m_expansionMin[3];  // +0xc
-    hkUint8 m_expansionShift;   // +0xf
-    hkUint32 m_max[3];          // +0x10
-    hkUint8 m_expansionMax[3];  // +0x1c
-    hkUint8 m_shapeKeyByte;     // +0x1f
-};
-
 struct hkpMoppBvTreeShape : public hkpShape {
     void *m_pad10;
     hkpMoppCode *m_code;                 // +0x14
@@ -73,7 +53,7 @@ struct hkpMoppBvTreeShape : public hkpShape {
 extern "C" void fn_82DEB238(hkpEntity *entity, hkpShapeKey *keysToRemove, int numKeys)
 {
     const hkpShape *shape = entity->m_collidable.getShape();
-    hkAabbUint32 *aabbs = static_cast<hkAabbUint32 *>(entity->m_collidable.m_boundingVolumeData.m_childShapeAabbs);
+    hkAabbUint32 *aabbs = entity->m_collidable.m_boundingVolumeData.m_childShapeAabbs;
     if ((int)shape->m_type != 9) {
         if ((int)shape->m_type != 10)
             return;

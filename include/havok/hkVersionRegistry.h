@@ -2,8 +2,10 @@
 #define HAVOK_HKVERSIONREGISTRY_H
 
 #include "havok/hkDynamicClassNameRegistry.h"
+#include "havok/hkSingleton.h"
 
-// hkVersionRegistry (Common/Serialize/Version/hkVersionRegistry.h, 0x24 bytes).
+// hkVersionRegistry (Common/Serialize/Version/hkVersionRegistry.h, 0x24 bytes). The RTTI places the
+// empty hkSingleton base at +0x8 (??_R17?0A@EA@?$hkSingleton@VhkVersionRegistry@@@@8).
 struct hkVersionRegistryUpdater;
 extern "C" hkVersionRegistryUpdater *lbl_832760A0[];   // hkVersionRegistry::StaticLinkedUpdaters (null-terminated)
 
@@ -20,7 +22,7 @@ public:
     }
 };
 
-class hkVersionRegistry : public hkReferencedObject {
+class hkVersionRegistry : public hkReferencedObject, public hkSingleton<hkVersionRegistry> {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SERIALIZE);
     typedef hkVersionRegistryUpdater Updater;

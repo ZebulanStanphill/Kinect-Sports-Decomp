@@ -55,6 +55,7 @@ public:
     }
     hkpConstraintInstance(hkFinishLoadedObjectFlag f) : hkReferencedObject(f), m_name(f), m_uid(0xfffffff0) {}
     virtual ~hkpConstraintInstance();
+    HK_FORCE_INLINE hkpConstraintData *getData() const { return m_data; }
 
     hkpConstraintOwner *m_owner;                          // +0x8
     hkpConstraintData *m_data;                            // +0xC

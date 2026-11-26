@@ -15,7 +15,19 @@ struct hkSimpleProperty {
     hkUint64 m_value;
 };
 
+// hkWorldOperation::Result (Physics/Dynamics/World/hkpWorldObject.h): what setShape returns. The base
+// function (82D93378) returns 1; the names are Havok's.
+struct hkWorldOperation {
+    enum Result {
+        POSTPONED,
+        DONE
+    };
+};
+
 // hkpWorldObject (Physics/Dynamics/World/hkpWorldObject.h), 0x8C bytes.
+// Its vtable (??_7hkpWorldObject@@6B@) has two slots after hkReferencedObject's three: setShape (82D93378)
+// and a pure one, which hkpRigidBody fills with a function returning its motion state (82D8B3E0, this + 0xF0)
+// and hkpShapePhantom likewise (82D99CC0).
 class hkpWorldObject : public hkReferencedObject {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_DYNAMICS);
@@ -29,6 +41,8 @@ public:
     hkpWorldObject(const hkpShape *shape, BroadPhaseType type);
     hkpWorldObject(hkFinishLoadedObjectFlag flag);
     virtual ~hkpWorldObject();
+    virtual hkWorldOperation::Result setShape(const hkpShape *shape);   // +0xC
+    virtual hkMotionState *getMotionState();                            // +0x10; pure in Havok
 
     hkpWorld *m_world;                        // +0x8
     hkUlong m_userData;                       // +0xC

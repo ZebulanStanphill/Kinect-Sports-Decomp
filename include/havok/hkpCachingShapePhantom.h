@@ -11,6 +11,22 @@ public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_DYNAMICS);
     hkpCachingShapePhantom(const hkpShape *shape, const hkTransform &transform, hkUint32 collisionFilterInfo = 0);
     virtual ~hkpCachingShapePhantom();
+    // ??_7hkpCachingShapePhantom@@6B@ fills every slot hkpShapePhantom leaves pure, and
+    // updateShapeCollectionFilter (82D9BC00).
+    virtual hkpPhantomType getType() const;
+    virtual void addOverlappingCollidable(hkpCollidable *collidable);
+    virtual hkBool isOverlappingCollidableAdded(const hkpCollidable *collidable);
+    virtual void removeOverlappingCollidable(hkpCollidable *collidable);
+    virtual void ensureDeterministicOrder();
+    virtual hkpPhantom *clone() const;
+    virtual void updateShapeCollectionFilter();
+    virtual void deallocateInternalArrays();
+    virtual void setPositionAndLinearCast(const hkVector4 &position, const hkpLinearCastInput &input,
+                                          hkpCdPointCollector &castCollector, hkpCdPointCollector *startCollector);
+    virtual void setTransformAndLinearCast(const hkTransform &transform, const hkpLinearCastInput &input,
+                                           hkpCdPointCollector &castCollector, hkpCdPointCollector *startCollector);
+    virtual void getClosestPoints(hkpCdPointCollector &collector, const hkpCollisionInput *input = HK_NULL);
+    virtual void getPenetrations(hkpCdBodyPairCollector &collector, const hkpCollisionInput *input = HK_NULL);
 
     struct CollisionDetail {
         hkpCollisionAgent *m_agent;

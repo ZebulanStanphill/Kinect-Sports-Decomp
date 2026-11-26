@@ -1,7 +1,10 @@
 // hkArrayStreamWriter (Common/Base/System/Io/Writer/Array/hkArrayStreamWriter.h),
 // 0x14 bytes: writes into an hkArray<char> and keeps it null terminated.
 // Its vtable (??_7hkArrayStreamWriter@@6B@, ten slots) ends with clear() at
-// +0x24, after the six slots of hkStreamWriter.
+// +0x24, after the six slots of hkStreamWriter. The array is an hkArray, not
+// an hkArrayBase with a separate allocator as in later Havok versions: the
+// class has no allocator member, and seek (82CFF188) grows the array with
+// hkArray::setSize, fetching the heap allocator.
 #ifndef HAVOK_HKARRAYSTREAMWRITER_H
 #define HAVOK_HKARRAYSTREAMWRITER_H
 
@@ -19,7 +22,7 @@ class hkArrayStreamWriter : public hkStreamWriter {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_STREAM);
     enum ArrayOwnership { ARRAY_TAKE, ARRAY_BORROW };
-    hkArrayStreamWriter(hkArrayBase<char> *arr, ArrayOwnership o)
+    hkArrayStreamWriter(hkArray<char> *arr, ArrayOwnership o)
         : m_arr(arr), m_offset(arr->getSize()), m_ownerShip(o)
     {
         nullTerminate();
@@ -37,7 +40,7 @@ public:
     virtual void clear();                                 // +0x24
     void nullTerminate() { fn_82CEE3C0(this); }
 
-    hkArrayBase<char> *m_arr;    // +0x8
+    hkArray<char> *m_arr;        // +0x8
     int m_offset;                // +0xC
     ArrayOwnership m_ownerShip;  // +0x10
 };

@@ -70,6 +70,51 @@ public:
         m_capacityAndFlags = DONT_DEALLOCATE_FLAG;
     }
 
+    // Growth (hkArray.inl), with the bodies the units inline. _reserve grows to
+    // max(2 * capacity, n) (82CFF188, 82DEDF08, 82E00E48).
+    HK_FORCE_INLINE void _reserve(hkMemoryAllocator &alloc, int n)
+    {
+        const int capacity = getCapacity();
+        if (capacity < n) {
+            int cap2 = 2 * capacity;
+            int newSize = (n < cap2) ? cap2 : n;
+            hkArrayUtil::_reserve(alloc, this, newSize, sizeof(T));
+        }
+    }
+    HK_FORCE_INLINE void setSizeUnchecked(int n) { m_size = n; }
+    // The units only grow arrays this way, so the destruction of surplus
+    // elements that Havok has here is not written.
+    HK_FORCE_INLINE void _setSize(hkMemoryAllocator &alloc, int n)
+    {
+        _reserve(alloc, n);
+        hkArrayUtil::construct(m_data + m_size, n - m_size, HK_ARRAY_HAS_TRIVIAL_CONSTRUCTOR(T));
+        m_size = n;
+    }
+    HK_FORCE_INLINE void _setSize(hkMemoryAllocator &alloc, int n, const T &fill)
+    {
+        _reserve(alloc, n);
+        hkArrayUtil::constructWithCopy(m_data + m_size, n - m_size, fill, HK_ARRAY_HAS_TRIVIAL_COPY(T));
+        m_size = n;
+    }
+    HK_FORCE_INLINE void pushBackUnchecked(const T &e)
+    {
+        hkArrayUtil::constructWithCopy(m_data + m_size, 1, e, HK_ARRAY_HAS_TRIVIAL_COPY(T));
+        m_size++;
+    }
+    HK_FORCE_INLINE void _pushBack(hkMemoryAllocator &alloc, const T &e)
+    {
+        if (m_size == getCapacity())
+            hkArrayUtil::_reserveMore(alloc, this, sizeof(T));
+        hkArrayUtil::constructWithCopy(m_data + m_size, 1, e, HK_ARRAY_HAS_TRIVIAL_COPY(T));
+        m_size++;
+    }
+    HK_FORCE_INLINE T &_expandOne(hkMemoryAllocator &alloc)
+    {
+        if (m_size == getCapacity())
+            hkArrayUtil::_reserveMore(alloc, this, sizeof(T));
+        return m_data[m_size++];
+    }
+
     T *m_data;
     int m_size;
     int m_capacityAndFlags;
@@ -83,6 +128,13 @@ public:
     // Over a buffer the array does not own (hkInplaceArray's storage).
     HK_FORCE_INLINE hkArray(T *buffer, int size, int capacity) : hkArrayBase<T>(buffer, size, capacity) {}
     HK_FORCE_INLINE ~hkArray() { this->_clearAndDeallocate(Allocator::get(this)); }
+
+    // The allocator is fetched before the capacity test (82DF05A8, 82E15968).
+    HK_FORCE_INLINE void reserve(int n) { this->_reserve(Allocator::get(this), n); }
+    HK_FORCE_INLINE void setSize(int n) { this->_setSize(Allocator::get(this), n); }
+    HK_FORCE_INLINE void setSize(int n, const T &fill) { this->_setSize(Allocator::get(this), n, fill); }
+    HK_FORCE_INLINE void pushBack(const T &e) { this->_pushBack(Allocator::get(this), e); }
+    HK_FORCE_INLINE T &expandOne() { return this->_expandOne(Allocator::get(this)); }
 };
 
 // hkInplaceArray<T, N>: an hkArray whose first N elements live in the object.

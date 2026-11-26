@@ -6,6 +6,13 @@
 // A rotation and a translation (0x40 bytes).
 class hkTransform {
 public:
+    HK_FORCE_INLINE hkTransform() {}
+    HK_FORCE_INLINE hkTransform(const hkRotation &r, const hkVector4 &t) : m_rotation(r), m_translation(t) {}
+    // The identity is the block hkMatrix3::getIdentity returns (fn_82CEBD78).
+    static HK_FORCE_INLINE const hkTransform &HK_CALL getIdentity()
+    {
+        return *reinterpret_cast<const hkTransform *>(fn_82CEBD78());
+    }
     HK_FORCE_INLINE hkRotation &getRotation() { return m_rotation; }
     HK_FORCE_INLINE const hkRotation &getRotation() const { return m_rotation; }
     HK_FORCE_INLINE hkVector4 &getTranslation() { return m_translation; }

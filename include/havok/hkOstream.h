@@ -23,10 +23,16 @@ public:
     virtual const hkClass *getClassType() const;
     virtual void calcContentStatistics(hkStatisticsCollector *collector, const hkClass *cls) const;
 
+    // 82CED9E8, fn_82CED9E8 in the symbol list: a unit that calls it needs
+    // the C++ name mapped to that (82E0A208 has the mapping).
+    hkOstream &operator<<(const void *p);
     hkOstream &operator<<(char c);
     hkOstream &operator<<(const char *str);
 
     void printf(const char *fmt, ...);
+
+    // Havok's accessor; 82E0F818 hands the stream's writer to hkObjectCopier::copyObject.
+    HK_FORCE_INLINE hkStreamWriter *getStreamWriter() { return m_writer; }
 
 protected:
     // A reference-counted writer, managed with the lock-free reference

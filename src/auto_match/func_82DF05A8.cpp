@@ -4,25 +4,6 @@
 #include "havok/hkpDisableEntityCollisionFilter.h"
 #include "havok/hkpEntity.h"
 
-// hkArray::pushBack as this function inlines it (hkArray.h has no pushBack yet): the allocator is fetched before
-// the capacity test (hkArrayUtil::_reserveMore), then the element is constructed in place (hkArrayUtil::construct)
-// and m_size grows.
-template <typename T>
-static HK_FORCE_INLINE void hkArray_construct(T *t, int n, const T &tcopy)
-{
-    for (int i = 0; i < n; ++i)
-        t[i] = tcopy;
-}
-template <typename T>
-static HK_FORCE_INLINE void hkArray_pushBack(hkArray<T> &a, const T &t)
-{
-    hkMemoryAllocator &alloc = hkContainerHeapAllocator::get(&a);
-    if (a.m_size == a.getCapacity())
-        hkArrayUtil::_reserveMore(alloc, &a, sizeof(T));
-    hkArray_construct(a.m_data + a.m_size, 1, t);
-    a.m_size++;
-}
-
 extern "C" hkBool fn_82DF05A8(hkpDisableEntityCollisionFilter *self, hkpEntity *entity)
 {
     if (entity == HK_NULL)
@@ -41,7 +22,7 @@ extern "C" hkBool fn_82DF05A8(hkpDisableEntityCollisionFilter *self, hkpEntity *
             } while (i < size);
         }
     }
-    hkArray_pushBack(self->m_disabledEntities, entity);
+    self->m_disabledEntities.pushBack(entity);
     if (entity->getEntityListeners().indexOf(self) < 0)
         entity->addEntityListener(self);
     return true;

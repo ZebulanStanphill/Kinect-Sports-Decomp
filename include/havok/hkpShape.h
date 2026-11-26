@@ -121,10 +121,28 @@ public:
 };
 
 // Intermediate shape bases (no members of their own besides m_radius).
+// Their virtual functions (pure in Havok, except weldContactPoint) are placed by the vtables of the
+// convex shapes, which have 18 slots (??_7hkpSphereShape@@6B@, ??_7hkpBoxShape@@6B@, ??_7hkpCapsuleShape@@6B@):
+//   +0x2C returns 1 for a sphere (82D3C568); hkpHeightFieldAgent's constructor (82D5A670) sizes its
+//         contact point ids with it
+//   +0x34 the box's half extents (82D3CAE0), the capsule's second vertex (82D3BDA0)
+//   +0x38 writes the vector in r5 (82D3C570)
+//   +0x3C ids, count and output array (82D3C580); the GSK initialisation calls it (82D74E60)
+//   +0x40 returns 2 unless the shape is a triangle (82D43FA0)
+//   +0x44 zero for a sphere and a box, the midpoint of a capsule (82D3BD70)
+// The names and the parameter types are Havok's; its header has getCentre before getFirstVertex.
+class hkSphere;
+class hkpCdVertex;   // an hkVector4 whose w holds the vertex id
+class hkpConvexShape;
+typedef hkUint16 hkpVertexId;
+
 class hkpSphereRepShape : public hkpShape {
 public:
     hkpSphereRepShape(hkpShapeType type) : hkpShape(type) {}
     hkpSphereRepShape(hkFinishLoadedObjectFlag flag) : hkpShape(flag) {}
+
+    virtual int getNumCollisionSpheres() const;                                // +0x2C
+    virtual const hkSphere *getCollisionSpheres(hkSphere *sphereBuffer) const; // +0x30
 };
 
 class hkpConvexShape : public hkpSphereRepShape {
@@ -133,6 +151,16 @@ public:
     // Stores the type whether finishing or not (hkpConvexVerticesShape's finish constructor, 82D3F338,
     // stores 0x12 unconditionally before its own type).
     hkpConvexShape(hkFinishLoadedObjectFlag flag) : hkpSphereRepShape(flag) { m_type = HK_SHAPE_CONVEX; }
+
+    virtual void getFirstVertex(hkVector4 &v) const;                                                  // +0x34
+    virtual void getSupportingVertex(const hkVector4 &direction, hkpCdVertex &supportingVertexOut) const;   // +0x38
+    virtual void convertVertexIdsToVertices(const hkpVertexId *ids, int numIds,
+                                            hkpCdVertex *vertexArrayOut) const;                       // +0x3C
+    virtual int weldContactPoint(hkpVertexId *featurePoints, hkUint8 &numFeaturePoints, hkVector4 &contactPointWs,
+                                 const hkTransform *thisObjTransform, const hkpConvexShape *collidingShape,
+                                 const hkTransform *collidingTransform,
+                                 hkVector4 &separatingNormalInOut) const;                             // +0x40
+    virtual void getCentre(hkVector4 &centreOut) const;                                               // +0x44
 
     hkReal m_radius;   // +0x10
 };

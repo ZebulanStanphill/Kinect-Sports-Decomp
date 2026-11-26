@@ -71,6 +71,10 @@ public:
         }
     }
     virtual ~hkpEntity();
+    // ??_7hkpEntity@@6B@: no motion state at this level (the folded function that returns 0), then one
+    // slot of its own (82D8A5D0; the name is Havok's).
+    virtual hkMotionState *getMotionState();
+    virtual void deallocateInternalArrays();   // +0x14
 
     hkSmallArray<hkpEntityListener *> &getEntityListeners()
     {

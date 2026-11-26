@@ -18,6 +18,7 @@ class hkpVehicleInstance;
 class hkpWorld;
 
 // 0x10 bytes: keeps a wheel's phantom from reporting the chassis.
+// RTTI: hkReferencedObject at +0x0, hkpPhantomOverlapListener at +0x8.
 class hkpRejectChassisListener : public hkReferencedObject, public hkpPhantomOverlapListener {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_VEHICLE);
@@ -30,7 +31,10 @@ public:
     const hkpCollidable *m_chassis;   // +0xC
 };
 
-// 0xC bytes
+// 0xC bytes. Its vtable (??_7hkpVehicleWheelCollide@@6B@) has 12 slots: the deleting destructor (the
+// folded trivial one), hkReferencedObject's two, eight pure functions (clone is slot 7) and one empty
+// one. Only the first five of its own are declared here; the four pure ones after clone are not
+// identified.
 class hkpVehicleWheelCollide : public hkReferencedObject {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_VEHICLE);

@@ -10,29 +10,16 @@
 #include "havok/hkContactPoint.h"
 #include "havok/hkpCdPointCollector.h"
 #include "havok/hkpAction.h"
-#include "havok/hkpCdBody.h"
+#include "havok/hkpCollisionDispatcher.h"
+#include "havok/hkpRigidBody.h"
 
 struct hkStepInfo;
-
-#define HK_INVALID_SHAPE_KEY 0xffffffff
 
 class hkpSphereShape : public hkpShape {
 public:
     hkpSphereShape(hkReal radius);   // out of line
     hkReal m_radius;                 // +0x10
     hkUint32 m_pad16[3];             // +0x14
-};
-
-// hkpCollidable::hkpCollidable(const hkpShape *, const hkTransform *, int) is out of line (fn_8253D7A8).
-extern "C" void fn_8253D7A8(hkpCollidable *self, const hkpShape *shape, const hkTransform *t, int type);
-
-class hkpCollidable : public hkpCdBody {
-public:
-    HK_FORCE_INLINE hkpCollidable(const hkpShape *shape, const hkTransform *t, int type = 0)
-    {
-        fn_8253D7A8(this, shape, t, type);
-    }
-    char m_rest[0x50 - 0x10];
 };
 
 struct hkpRootCdPoint {
@@ -60,60 +47,7 @@ public:
     hkpRootCdPoint m_hitPoint;   // +0x10
 };
 
-class hkpCollisionDispatcher;
-class hkpCollisionFilter;
-class hkpConvexListFilter;
-
-// hkPadSpu (Common/Base/Types/hkBaseTypes.h): a value padded to 16 bytes on SPU, plain elsewhere.
-template <typename TYPE>
-class hkPadSpu {
-public:
-    HK_FORCE_INLINE hkPadSpu() {}
-    HK_FORCE_INLINE hkPadSpu(TYPE e) : m_storage(e) {}
-    HK_FORCE_INLINE operator TYPE() const { return m_storage; }
-    HK_FORCE_INLINE TYPE operator->() const { return m_storage; }
-    TYPE m_storage;
-};
-
-struct hkpCollisionInput {
-    struct Aabb32Info {
-        hkVector4 m_bitOffsetLow;
-        hkVector4 m_bitOffsetHigh;
-        hkVector4 m_bitScale;
-    };
-    hkPadSpu<hkpCollisionDispatcher *> m_dispatcher;            // +0x0
-    hkPadSpu<hkBool> m_weldClosestPoints;                       // +0x4
-    hkPadSpu<hkUint32> m_forceAcceptContactPoints;              // +0x8
-    hkPadSpu<hkReal> m_tolerance;                               // +0xC
-    hkPadSpu<const hkpCollisionFilter *> m_filter;              // +0x10
-    hkPadSpu<const hkpConvexListFilter *> m_convexListFilter;   // +0x14
-    Aabb32Info m_aabb32Info;                        // +0x20
-};
 struct hkpProcessCollisionInput : public hkpCollisionInput {
-};
-
-class hkpCollisionDispatcher : public hkReferencedObject {
-public:
-    typedef void (HK_CALL *GetClosestPointsFunc)(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
-                                                 const hkpCollisionInput &input, hkpCdPointCollector &output);
-    struct AgentFuncs {
-        void *m_createFunc;
-        void *m_getPenetrationsFunc;
-        GetClosestPointsFunc m_getClosestPointFunc;
-        void *m_linearCastFunc;
-        hkBool m_isFlipped;
-        hkBool m_isPredictive;
-    };
-    HK_FORCE_INLINE GetClosestPointsFunc getGetClosestPointsFunc(hkpShapeType typeA, hkpShapeType typeB) const
-    {
-        int idx = m_agent2Types[typeA][typeB];
-        return m_agent2Func[idx].m_getClosestPointFunc;
-    }
-
-    char m_pad8[0x1A0 - 0x8];
-    hkUint8 m_agent2Types[32][32];       // +0x1A0
-    hkUint8 m_agent2TypesPred[32][32];   // +0x5A0
-    AgentFuncs m_agent2Func[1];          // +0x9A0
 };
 
 class hkpWorld {
@@ -124,19 +58,6 @@ public:
     hkpProcessCollisionInput *m_collisionInput;    // +0x78
     hkpCollisionFilter *m_collisionFilter;         // +0x7C
     hkpCollisionDispatcher *m_collisionDispatcher; // +0x80
-};
-
-class hkpWorldObject : public hkReferencedObject {
-public:
-    HK_FORCE_INLINE hkpWorld *getWorld() const { return m_world; }
-    HK_FORCE_INLINE const hkpCollidable *getCollidable() const { return &m_collidable; }
-    hkpWorld *m_world;          // +0x8
-    hkUlong m_userData;         // +0xC
-    hkpCollidable m_collidable; // +0x10
-};
-class hkpEntity : public hkpWorldObject {
-};
-class hkpRigidBody : public hkpEntity {
 };
 
 template <typename T>
@@ -203,10 +124,7 @@ hkpMouseSpringAction::hkpMouseSpringAction(const hkVector4 &positionInRbLocal, c
     m_shapeKey = HK_INVALID_SHAPE_KEY;
     if (world) {
         hkpSphereShape sphere(1.0f);
-        // hkTransform transform(hkTransform::getIdentity().getRotation(), mousePositionInWorld)
-        hkTransform transform;
-        static_cast<hkMatrix3 &>(transform.getRotation()) = *fn_82CEBD78();
-        transform.setTranslation(mousePositionInWorld);
+        hkTransform transform(hkTransform::getIdentity().getRotation(), mousePositionInWorld);
         hkpCollidable sphereCollidable(&sphere, &transform);
 
         hkpCollisionDispatcher::GetClosestPointsFunc getClosestPoints =

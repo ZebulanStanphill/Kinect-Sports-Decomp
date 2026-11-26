@@ -1,6 +1,7 @@
 #ifndef HAVOK_HKPCOLLIDABLE_H
 #define HAVOK_HKPCOLLIDABLE_H
 
+#include "havok/hkAabbUint32.h"
 #include "havok/hkpCdBody.h"
 #include "havok/hkpTypedBroadPhaseHandle.h"
 
@@ -41,7 +42,7 @@ public:
         hkUint8 m_padding;                  // +0x1F
         hkUint16 m_numChildShapeAabbs;      // +0x20
         hkUint16 m_capacityChildShapeAabbs; // +0x22
-        void *m_childShapeAabbs;            // +0x24
+        hkAabbUint32 *m_childShapeAabbs;    // +0x24
         hkUint32 *m_childShapeKeys;         // +0x28
     };
 

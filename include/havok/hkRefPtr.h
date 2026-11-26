@@ -22,6 +22,14 @@ public:
             e->addReference();
         m_pntr = e;
     }
+    // Copying adds a reference (82E15968 and 82E15C30 copy a temporary hkRefPtr
+    // into an array this way).
+    HK_FORCE_INLINE hkRefPtr(const hkRefPtr &rp)
+    {
+        if (rp.m_pntr)
+            rp.m_pntr->addReference();
+        m_pntr = rp.m_pntr;
+    }
     HK_FORCE_INLINE hkRefPtr(hkFinishLoadedObjectFlag) {}
     HK_FORCE_INLINE ~hkRefPtr()
     {

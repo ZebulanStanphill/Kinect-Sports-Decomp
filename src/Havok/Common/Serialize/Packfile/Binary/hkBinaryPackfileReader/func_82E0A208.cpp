@@ -1,6 +1,6 @@
 // hkBinaryPackfileReader.cpp: fills in the class pointer of every variant that lacks one and warns
 // about the objects whose class the registry does not know.
-#include "havok/hkBase.h"
+#include "havok/hkOstream.h"
 
 class hkError : public hkReferencedObject
 {
@@ -8,21 +8,12 @@ class hkError : public hkReferencedObject
     virtual int message(int type, int id, const char *text, const char *file, int line);
 };
 
-class hkOstream;
 class hkErrStream;
 extern "C" {
 extern hkError *lbl_8323B464;                                  // hkSingleton<hkError>::s_instance
 void *fn_82CEA280(void *registry, void *object, int flags);    // class of an object
 void fn_82CEE578(hkErrStream *stream, void *buf, int bufSize); // hkErrStream::hkErrStream
 }
-
-class hkOstream : public hkReferencedObject
-{
-  public:
-    virtual ~hkOstream();
-    hkOstream &operator<<(const char *text);
-    hkOstream &operator<<(const void *pointer); // fn_82CED9E8
-};
 
 // hkErrStream derives from hkOstream; its constructor keeps its fn_ name and is called on the object directly.
 class hkErrStream

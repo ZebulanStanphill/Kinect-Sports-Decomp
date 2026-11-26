@@ -9,10 +9,9 @@
 // the loop, its address in r21, lwz r6, 0(r21) per call).
 #include "havok/hkBase.h"
 #include "havok/hkFlags.h"
+#include "havok/hkOstream.h"
 
-class hkStreamWriter;
 class hkRelocationInfo;
-enum hkResult { HK_SUCCESS = 0, HK_FAILURE = 1 };
 
 extern "C" {
 void fn_82E19DB0(void *self, void *other);                             // hkStructureLayout::LayoutRules copy (out of line)
@@ -20,16 +19,6 @@ void fn_82CEA160(void *self, hkMemoryAllocator *alloc, void *key, int value);   
 void fn_82E1A688(void *self);                                          // hkRelocationInfo::~hkRelocationInfo
 extern char lbl_83187414[];                                            // hkStructureLayout::HostLayoutRules
 }
-
-// hkOstream (Common/Base/System/Io/OStream/hkOStream.h) with its writer public: the copier is handed the
-// stream's writer directly.
-class hkOstream : public hkReferencedObject {
-public:
-    hkOstream(hkArray<char> &buffer);
-    virtual ~hkOstream();
-
-    hkStreamWriter *m_writer;   // +0x8
-};
 
 // hkRelocationInfo (0x34 bytes): local, global, finish and import fixups, then the import name pool.
 struct Relocation {
@@ -116,7 +105,8 @@ extern "C" char *fn_82E0F818(hkArrayBase<Object> *objects, hkArrayBase<Offset> *
         void *data = obj->m_object;
         int pos = buffer.m_size;
         fn_82CEA160(&objectStart, &hkMemoryRouter::getInstance().heap(), data, pos);
-        copier.hkObjectCopier::copyObject(obj->m_object, *obj->m_class, stream.m_writer, *klass, (hkRelocationInfo &)reloc);
+        hkStreamWriter *writer = stream.getStreamWriter();
+        copier.hkObjectCopier::copyObject(obj->m_object, *obj->m_class, writer, *klass, (hkRelocationInfo &)reloc);
     }
     if (buffer.m_size) {
         int size = buffer.m_size;

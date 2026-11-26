@@ -3,8 +3,8 @@
 // and chain entries it maps to. On failure it warns, releases what it built and returns HK_NULL. Built with /O2
 // (flag file). The function keeps its fn_ name; every callee keeps its fn_ name too.
 #include "havok/hkOstream.h"
+#include "havok/hkpConstraintInstance.h"
 
-class hkpEntity;
 class hkpPoweredChainData;
 
 inline void *operator new(hk_size_t, void *p) throw() { return p; }
@@ -14,57 +14,16 @@ void fn_82CEA160(void *map, hkMemoryAllocator *alloc, hkUlong key, hkUlong val);
 int fn_82CEA220(const void *map, hkUlong key);                                         // hkMapBase<hkUlong, hkUlong>::findKey
 }
 
-// The hkArray members the function inlines (Common/Base/Container/Array/hkArray.inl), which the shared header
-// does not declare. constructWithCopy matters: storing through m_data[m_size] directly changes the register
-// allocation of the whole function.
-template <typename T>
-static HK_FORCE_INLINE void constructPod(T *t, int n)
-{
-}
-
-template <typename T>
-static HK_FORCE_INLINE void constructClass(T *t, int n)
-{
-    for (int i = 0; i < n; ++i)
-        ::new (static_cast<void *>(t + i)) T;
-}
-
+// hkArray::pushBack as this function needs it written. The header's pushBack gives the same code for either of
+// the two pushes alone, but with both (and the header's setSize and expandOne) one indexed load gets its
+// operands in the other order. The router pointer is fetched before the capacity test, and the element is
+// stored by constructWithCopy's loop: storing through m_data[m_size] directly changes the register allocation
+// of the whole function.
 template <typename T>
 static HK_FORCE_INLINE void constructWithCopy(T *t, int n, const T &tcopy)
 {
     for (int i = 0; i < n; ++i)
         t[i] = tcopy;
-}
-
-template <typename T>
-static HK_FORCE_INLINE void arrayReserve(hkArrayBase<T> &a, hkMemoryAllocator &alloc, int n)
-{
-    const int capacity = a.getCapacity();
-    if (capacity < n)
-    {
-        int cap2 = 2 * capacity;
-        int newSize = (n < cap2) ? cap2 : n;
-        hkArrayUtil::_reserve(alloc, &a, newSize, sizeof(T));
-    }
-}
-
-// setSize for element types without (setSizePod) and with (setSizeClass) a constructor.
-template <typename T>
-static HK_FORCE_INLINE void arraySetSizePod(hkArrayBase<T> &a, int n)
-{
-    hkMemoryAllocator &alloc = hkContainerHeapAllocator::get(&a);
-    arrayReserve(a, alloc, n);
-    constructPod(a.m_data + a.m_size, n - a.m_size);
-    a.m_size = n;
-}
-
-template <typename T>
-static HK_FORCE_INLINE void arraySetSizeClass(hkArrayBase<T> &a, int n)
-{
-    hkMemoryAllocator &alloc = hkContainerHeapAllocator::get(&a);
-    arrayReserve(a, alloc, n);
-    constructClass(a.m_data + a.m_size, n - a.m_size);
-    a.m_size = n;
 }
 
 template <typename T>
@@ -75,15 +34,6 @@ static HK_FORCE_INLINE void arrayPushBack(hkArrayBase<T> &a, const T &t)
         hkArrayUtil::_reserveMore(router->heap(), &a, sizeof(T));
     constructWithCopy(a.m_data + a.m_size, 1, t);
     a.m_size++;
-}
-
-template <typename T>
-static HK_FORCE_INLINE T &arrayExpandOne(hkArrayBase<T> &a)
-{
-    hkMemoryRouter *router = hkMemoryRouter::getInstancePtr();
-    if (a.m_size == a.getCapacity())
-        hkArrayUtil::_reserveMore(router->heap(), &a, sizeof(T));
-    return a.m_data[a.m_size++];
 }
 
 // hkPointerMap<KEY, VAL> (Common/Base/Container/PointerMap/hkPointerMap.h) over hkMap<hkUlong, hkUlong>: the
@@ -142,25 +92,6 @@ HK_FORCE_INLINE hkError &hkError::getInstance() { return *lbl_8323B464; }
         hkError::getInstance().message(hkError::MESSAGE_WARNING, id, assertBuf,                          \
                                        ".\\Constraint\\Chain\\hkpPoweredChainMapper.cpp", LINE);         \
     }
-
-class hkpConstraintData : public hkReferencedObject {
-public:
-    enum ConstraintType { CONSTRAINT_TYPE_POWERED_CHAIN = 102 };
-    virtual void slot3();
-    virtual void slot4();
-    virtual void slot5();
-    virtual void slot6();
-    virtual void slot7();
-    virtual int getType() const;   // +0x20
-};
-
-class hkpConstraintInstance : public hkReferencedObject {
-public:
-    HK_FORCE_INLINE hkpConstraintData *getData() const { return m_data; }
-
-    void *m_owner;              // +0x8
-    hkpConstraintData *m_data;  // +0xc
-};
 
 class hkpConstraintChainInstance : public hkpConstraintInstance {};
 
@@ -221,14 +152,14 @@ extern "C" hkpPoweredChainMapper *fn_82DEDF08(const hkpPoweredChainMapper::Confi
 
     hkArray<hkpPoweredChainMapperTmpTarget> tmpTargets;
     hkArray<int> targetsPerLink;
-    arraySetSizePod(targetsPerLink, allConstraints.getSize());
+    targetsPerLink.setSize(allConstraints.getSize());
     hkString::memSet(targetsPerLink.begin(), 0, targetsPerLink.getSize() * sizeof(int));
 
     hkPointerMapLookup<hkpConstraintInstance *, int> constraintToIndex;
     for (int i = 0; i < allConstraints.getSize(); i++)
         constraintToIndex.insert(allConstraints[i], i);
 
-    arraySetSizeClass(mapper->m_links, allConstraints.getSize());
+    mapper->m_links.setSize(allConstraints.getSize());
     hkString::memSet(mapper->m_links.begin(), 0, mapper->m_links.getSize() * sizeof(LinkInfo));
 
     for (int p = 0; p < pairs.getSize(); p++)
@@ -265,7 +196,7 @@ extern "C" hkpPoweredChainMapper *fn_82DEDF08(const hkpPoweredChainMapper::Confi
             int linkIndex = constraintToIndex.getValue(it);
             LinkInfo &link = mapper->m_links[linkIndex];
 
-            hkpPoweredChainMapperTmpTarget &target = arrayExpandOne(tmpTargets);
+            hkpPoweredChainMapperTmpTarget &target = tmpTargets.expandOne();
             target.m_linkIndex = linkIndex;
             targetsPerLink[linkIndex]++;
 
@@ -292,7 +223,7 @@ extern "C" hkpPoweredChainMapper *fn_82DEDF08(const hkpPoweredChainMapper::Confi
         numTargets += targetsPerLink[i];
         mapper->m_links[i].m_numTargets = 0;
     }
-    arraySetSizePod(mapper->m_targets, numTargets);
+    mapper->m_targets.setSize(numTargets);
 
     for (int t = 0; t < tmpTargets.getSize(); t++)
     {

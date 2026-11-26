@@ -1,4 +1,3 @@
-
 // hkpShapeCollectionAgent::hkpShapeCollectionAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
 // const hkpCollisionInput &input, hkpContactMgr *mgr)
 // (Physics/Collide/Agent/CompoundAgent/ShapeCollection/hkpShapeCollectionAgent.cpp): reserves one
@@ -10,82 +9,12 @@
 // overloads in reverse declaration order, so the 5-argument one is slot +4.
 #include "havok/hkpCollisionAgent.h"
 #include "havok/hkpCollisionDispatcher.h"
-
-#define HK_INVALID_SHAPE_KEY 0xffffffff
+#include "havok/hkpCollisionFilter.h"
 
 // hkpShapeBuffer: the 512-byte, 16-byte aligned scratch space getChildShape builds child shapes in.
 class __declspec(align(16)) hkpShapeBuffer {
 public:
     hkUint8 m_buffer[0x200];
-};
-
-// hkpCollisionFilter and its interfaces (Physics/Collide/Filter/hkpCollisionFilter.h): as in
-// havok/hkpCollisionFilter.h, but hkpCollisionFilter redeclares the interfaces' isCollisionEnabled
-// overloads (as Havok's header does), so a call through an hkpCollisionFilter pointer adjusts this
-// to the interface without a null check.
-class hkpCollidable;
-class hkpWorld;
-struct hkpWorldRayCastInput;
-
-class hkpCollidableCollidableFilter {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual ~hkpCollidableCollidableFilter() {}
-    virtual hkBool isCollisionEnabled(const hkpCollidable &a, const hkpCollidable &b) const;
-};
-
-class hkpShapeCollectionFilter {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual hkBool isCollisionEnabled(const hkpCollisionInput &input, const hkpCdBody &a, const hkpCdBody &b,
-                                      const hkpShapeContainer &bContainer, hkpShapeKey bKey) const;
-    virtual hkBool isCollisionEnabled(const hkpCollisionInput &input, const hkpCdBody &collectionBodyA,
-                                      const hkpCdBody &collectionBodyB, const hkpShapeContainer &containerShapeA,
-                                      const hkpShapeContainer &containerShapeB, hkpShapeKey keyA,
-                                      hkpShapeKey keyB) const;
-    virtual int numShapeKeyHitsLimitBreached(const hkpCollisionInput &input, const hkpCdBody &bodyA,
-                                             hkpShapeKey keyA, const hkpCdBody &bodyB, hkpShapeKey keyB,
-                                             hkpShapeKey *shapeKeysInOut, int numShapeKeys) const;
-    virtual ~hkpShapeCollectionFilter() {}
-};
-
-class hkpRayShapeCollectionFilter {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual hkBool isCollisionEnabled(const hkpShapeRayCastInput &aInput, const hkpShapeContainer &bContainer,
-                                      hkpShapeKey bKey) const;
-    virtual ~hkpRayShapeCollectionFilter() {}
-};
-
-class hkpRayCollidableFilter {
-public:
-    static void operator delete(void *p) { fn_8265CA20(p); }
-    virtual ~hkpRayCollidableFilter() {}
-    virtual hkBool isCollisionEnabled(const hkpWorldRayCastInput &a, const hkpCollidable &collidableB) const;
-};
-
-class hkpCollisionFilter : public hkReferencedObject,
-                           public hkpCollidableCollidableFilter,
-                           public hkpShapeCollectionFilter,
-                           public hkpRayShapeCollectionFilter,
-                           public hkpRayCollidableFilter {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
-    virtual void init(hkpWorld *world);   // primary vtable +0xC
-    virtual hkBool isCollisionEnabled(const hkpCollidable &a, const hkpCollidable &b) const;
-    virtual hkBool isCollisionEnabled(const hkpCollisionInput &input, const hkpCdBody &a, const hkpCdBody &b,
-                                      const hkpShapeContainer &bContainer, hkpShapeKey bKey) const;
-    virtual hkBool isCollisionEnabled(const hkpCollisionInput &input, const hkpCdBody &collectionBodyA,
-                                      const hkpCdBody &collectionBodyB, const hkpShapeContainer &containerShapeA,
-                                      const hkpShapeContainer &containerShapeB, hkpShapeKey keyA,
-                                      hkpShapeKey keyB) const;
-    virtual hkBool isCollisionEnabled(const hkpShapeRayCastInput &aInput, const hkpShapeContainer &bContainer,
-                                      hkpShapeKey bKey) const;
-    virtual hkBool isCollisionEnabled(const hkpWorldRayCastInput &a, const hkpCollidable &collidableB) const;
-
-    hkUint32 m_prepad[2];   // +0x18
-    hkUint32 m_type;        // +0x20
-    hkUint32 m_postpad[3];  // +0x24
 };
 
 struct hkArrayUtil_ {

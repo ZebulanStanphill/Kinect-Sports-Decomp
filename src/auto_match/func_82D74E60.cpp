@@ -1,7 +1,8 @@
 // Penetration test of two convex bodies with the GSK algorithm: builds the
 // closest-point cache, runs GSK and reports the pair to the collector when the
 // bodies overlap (or GSK fails).
-#include "havok/hkTransform.h"
+#include "havok/hkpCdBody.h"
+#include "havok/hkpCdVertex.h"
 #include "havok/hkpCdBodyPairCollector.h"
 
 extern "C" unsigned __int64 __mftb();
@@ -27,41 +28,6 @@ static HK_FORCE_INLINE void timer(const char *s)
     }
 }
 
-class ConvexShape_82D74E60
-{
-  public:
-    virtual void slot00();
-    virtual void slot04();
-    virtual void slot08();
-    virtual void slot0c();
-    virtual void slot10();
-    virtual void slot14();
-    virtual void slot18();
-    virtual void slot1c();
-    virtual void slot20();
-    virtual void slot24();
-    virtual void slot28();
-    virtual void slot2c();
-    virtual void slot30();
-    virtual void slot34();
-    virtual void slot38();
-    virtual void convertVertexIdsToVertices(const hkUint16 *ids, int numIds,
-                                            hkVector4 *verticesOut) const; // 0x3c
-
-    char m_pad4[0x8];
-    int m_type;      // +0xc
-    hkReal m_radius; // +0x10
-};
-
-class hkpCdBody
-{
-  public:
-    const ConvexShape_82D74E60 *m_shape; // +0x0
-    hkUint32 m_shapeKey;                 // +0x4
-    const hkTransform *m_motion;         // +0x8
-    const hkpCdBody *m_parent;           // +0xc
-};
-
 struct hkpCollisionInput;
 
 struct hkpGskCache {
@@ -80,10 +46,10 @@ struct hkpGsk {
     int m_maxDimB;                // +0xc
     int m_doNotHandlePenetration; // +0x10
     int m_featureChange;          // +0x14
-    hkVector4 m_verticesA[12];    // +0x20
-    hkVector4 m_verticesB[10];    // +0xe0
+    hkpCdVertex m_verticesA[12];  // +0x20
+    hkpCdVertex m_verticesB[10];  // +0xe0
 
-    HK_FORCE_INLINE void init(const ConvexShape_82D74E60 *shapeA, const ConvexShape_82D74E60 *shapeB,
+    HK_FORCE_INLINE void init(const hkpConvexShape *shapeA, const hkpConvexShape *shapeB,
                               const hkpGskCache &cache)
     {
         m_dimA = cache.m_dimA;
@@ -98,11 +64,11 @@ struct hkpGsk {
 };
 
 extern "C" {
-void fn_82DD9828(hkpGskCache *cache, const ConvexShape_82D74E60 *shapeA, const ConvexShape_82D74E60 *shapeB,
+void fn_82DD9828(hkpGskCache *cache, const hkpConvexShape *shapeA, const hkpConvexShape *shapeB,
                  const hkTransform *aTb);
-void fn_82DD9A10(hkpGskCache *cache, const ConvexShape_82D74E60 *shapeA, const ConvexShape_82D74E60 *shapeB,
+void fn_82DD9A10(hkpGskCache *cache, const hkpConvexShape *shapeA, const hkpConvexShape *shapeB,
                  const hkTransform *aTb);
-int fn_82DD5FF0(hkpGsk *gsk, const ConvexShape_82D74E60 *shapeA, const ConvexShape_82D74E60 *shapeB,
+int fn_82DD5FF0(hkpGsk *gsk, const hkpConvexShape *shapeA, const hkpConvexShape *shapeB,
                 const hkTransform &aTb, hkVector4 &separatingNormal);
 }
 
@@ -110,12 +76,12 @@ extern "C" void fn_82D74E60(const hkpCdBody &bodyA, const hkpCdBody &bodyB, cons
                             hkpCdBodyPairCollector &collector)
 {
     timer("TtGsk");
-    const ConvexShape_82D74E60 *shapeA = bodyA.m_shape;
-    const ConvexShape_82D74E60 *shapeB = bodyB.m_shape;
+    const hkpConvexShape *shapeA = static_cast<const hkpConvexShape *>(bodyA.getShape());
+    const hkpConvexShape *shapeB = static_cast<const hkpConvexShape *>(bodyB.getShape());
     hkTransform aTb;
-    aTb.setMulInverseMul(*bodyA.m_motion, *bodyB.m_motion);
+    aTb.setMulInverseMul(bodyA.getTransform(), bodyB.getTransform());
     hkpGskCache cache;
-    if (shapeB->m_type == 3) {
+    if (shapeB->getType() == HK_SHAPE_TRIANGLE) {
         fn_82DD9A10(&cache, shapeA, shapeB, &aTb);
     } else {
         fn_82DD9828(&cache, shapeA, shapeB, &aTb);

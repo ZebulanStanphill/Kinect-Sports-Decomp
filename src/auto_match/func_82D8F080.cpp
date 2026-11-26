@@ -7,7 +7,7 @@
 // renamed). hkpMotion::setWorldSelectFlagsNeg is the body of its out-of-line copy fn_82D80768 (that function
 // matches with it at /O2); the world's flags are read through a pointer to the solver info's flag array.
 #include "havok/hkBase.h"
-#include "havok/hkpMotion.h"
+#include "havok/hkpRigidBody.h"
 
 // hkMotionState's assignment is a call here: the out-of-line copy of the implicit operator= (fn_82D92FF0).
 extern "C" void fn_82D92FF0(hkMotionState *self, const hkMotionState *other);
@@ -27,25 +27,6 @@ static HK_FORCE_INLINE void memCpy16(void *dst, const void *src)
         src32 += 4;
     }
 }
-
-class hkpShape;
-
-class hkpRigidBody {
-public:
-    HK_FORCE_INLINE hkpMotion *getMotion() { return &m_motion; }
-
-    char m_pad0[0x10];
-    const hkpShape *m_shape;             // +0x10 m_collidable.m_shape
-    hkUint32 m_shapeKey;                 // +0x14
-    const void *m_collidableMotion;      // +0x18 m_collidable.m_motion
-    char m_pad1c[0x2a - 0x1c];
-    hkInt8 m_objectQualityType;          // +0x2a m_collidable.m_broadPhaseHandle.m_objectQualityType
-    char m_pad2b[0xa4 - 0x2b];
-    hkUint32 m_a4;                       // +0xa4
-    char m_pada8[0xe0 - 0xa8];
-    hkpMaxSizeMotion m_motion;           // +0xe0
-    char m_after[0x10];                  // +0x200
-};
 
 struct hkpSolverInfo {
     char m_pad[0x125];
@@ -75,21 +56,22 @@ extern "C" void fn_82D8F080(hkpRigidBody *body, int newState, hkBool newStateNee
     {
         if (!oldStateNeedsInertia)
         {
-            hkpMaxSizeMotion *savedMotion = body->getMotion()->m_savedMotion;
-            body->getMotion()->getMotionStateAndVelocitiesAndDeactivationType(savedMotion);
+            hkpMaxSizeMotion *savedMotion = body->getRigidMotion()->m_savedMotion;
+            body->getRigidMotion()->getMotionStateAndVelocitiesAndDeactivationType(savedMotion);
             savedMotion->m_deactivationNumInactiveFrames[0] = 0;
             savedMotion->m_deactivationNumInactiveFrames[1] = 0;
-            body->m_objectQualityType = hkInt8(body->getMotion()->m_savedQualityTypeIndex);
-            memCpy16<sizeof(hkpMaxSizeMotion)>(body->getMotion(), savedMotion);
-            hkString::memSet(body->m_after, 0, 0);
+            body->m_collidable.m_broadPhaseHandle.m_objectQualityType = hkInt8(body->getRigidMotion()->m_savedQualityTypeIndex);
+            memCpy16<sizeof(hkpMaxSizeMotion)>(body->getRigidMotion(), savedMotion);
+            // A memSet of no bytes at the end of the motion: nothing of the max-size motion is left over.
+            hkString::memSet(&body->m_motion + 1, 0, 0);
             savedMotion->removeReference();
-            fn_82D899D8(body, world, body->m_shape);
+            fn_82D899D8(body, world, body->m_collidable.getShape());
         }
-        if (body->getMotion()->getType() != newState && newState != hkpMotion::MOTION_DYNAMIC)
+        if (body->getRigidMotion()->getType() != newState && newState != hkpMotion::MOTION_DYNAMIC)
         {
-            hkpMotion *motion = body->getMotion();
+            hkpMotion *motion = body->getRigidMotion();
             hkpMaxSizeMotion oldMotion;
-            memCpy16<sizeof(hkpMaxSizeMotion)>(&oldMotion, body->getMotion());
+            memCpy16<sizeof(hkpMaxSizeMotion)>(&oldMotion, body->getRigidMotion());
             hkMatrix3 inertiaLocal;
             motion->getInertiaLocal(inertiaLocal);
             fn_82D8B4B8(newState, &oldMotion.m_motionState.m_transform.m_translation,
@@ -104,9 +86,9 @@ extern "C" void fn_82D8F080(hkpRigidBody *body, int newState, hkBool newStateNee
     }
     else
     {
-        hkpMotion *motion = body->getMotion();
+        hkpMotion *motion = body->getRigidMotion();
         hkpMaxSizeMotion oldMotion;
-        memCpy16<sizeof(hkpMaxSizeMotion)>(&oldMotion, body->getMotion());
+        memCpy16<sizeof(hkpMaxSizeMotion)>(&oldMotion, body->getRigidMotion());
         hkpMotion *newMotion;
         if (newState == hkpMotion::MOTION_FIXED)
         {
@@ -140,22 +122,22 @@ extern "C" void fn_82D8F080(hkpRigidBody *body, int newState, hkBool newStateNee
             savedMotion->m_memSizeAndFlags = memSizeAndFlags;
             savedMotion->m_referenceCount = 1;
             newMotion->m_savedMotion = savedMotion;
-            newMotion->m_savedQualityTypeIndex = body->m_objectQualityType;
-            fn_82D899D8(body, world, body->m_shape);
+            newMotion->m_savedQualityTypeIndex = body->m_collidable.m_broadPhaseHandle.m_objectQualityType;
+            fn_82D899D8(body, world, body->m_collidable.getShape());
         }
         else
         {
             newMotion->setStoredMotion(oldMotion.m_savedMotion);
             newMotion->m_savedQualityTypeIndex = oldMotion.m_savedQualityTypeIndex;
         }
-        body->m_a4 = 0;
-        body->m_objectQualityType = hkInt8(newState != hkpMotion::MOTION_FIXED);
+        body->m_solverData = 0;
+        body->m_collidable.m_broadPhaseHandle.m_objectQualityType = hkInt8(newState != hkpMotion::MOTION_FIXED);
     }
 
-    body->m_collidableMotion = &body->m_motion.m_motionState;
+    body->m_collidable.m_motion = &body->m_motion.m_motionState;
     if (world)
     {
-        hkpMotion *motion = body->getMotion();
+        hkpMotion *motion = body->getRigidMotion();
         const hkpSolverInfo &si = world->m_solverInfo;
         const hkUint8 *fl = &si.m_deactivationNumInactiveFramesSelectFlag[0];
         motion->setWorldSelectFlagsNeg(fl[0], fl[1], si.m_deactivationIntegrateCounter);

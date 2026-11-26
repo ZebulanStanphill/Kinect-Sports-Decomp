@@ -95,8 +95,8 @@ extern "C" int fn_82DF0890(hkpWorld *world, const hkVector4 &from, hkReal radius
     if (collector.hasHit())
     {
         const hkpRootCdPoint &hit = collector.getHit();
-        out->m_position = hit.m_contact.m_position;
-        out->m_normal = hit.m_contact.m_separatingNormal;
+        out->m_position = hit.m_contact.getPosition();
+        out->m_normal = hit.m_contact.getSeparatingNormal();
         out->m_body = hkpGetRigidBody(hit.m_rootCollidableB);
         out->m_shapeKey = hit.m_shapeKeyB;
         return 0;

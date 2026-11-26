@@ -7,6 +7,8 @@
 
 class hkContactPoint {
 public:
+    HK_FORCE_INLINE const hkVector4 &getPosition() const { return m_position; }
+    HK_FORCE_INLINE const hkVector4 &getSeparatingNormal() const { return m_separatingNormal; }
     HK_FORCE_INLINE hkReal getDistance() const { return m_separatingNormal(3); }
     HK_FORCE_INLINE void setDistance(hkReal d) { m_separatingNormal.setW(d); }
 

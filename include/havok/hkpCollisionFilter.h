@@ -93,6 +93,19 @@ public:
     hkpCollisionFilter();
     hkpCollisionFilter(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag) {}
     virtual void init(hkpWorld *world);   // primary vtable +0xC
+    // The interfaces' overloads, declared again here as in Havok's header (pure there). A call through
+    // an hkpCollisionFilter pointer then adjusts this to the interface without a null check, as
+    // hkpShapeCollectionAgent's constructor does (82D6C808).
+    virtual hkBool isCollisionEnabled(const hkpCollidable &a, const hkpCollidable &b) const;
+    virtual hkBool isCollisionEnabled(const hkpCollisionInput &input, const hkpCdBody &a, const hkpCdBody &b,
+                                      const hkpShapeContainer &bContainer, hkpShapeKey bKey) const;
+    virtual hkBool isCollisionEnabled(const hkpCollisionInput &input, const hkpCdBody &collectionBodyA,
+                                      const hkpCdBody &collectionBodyB, const hkpShapeContainer &containerShapeA,
+                                      const hkpShapeContainer &containerShapeB, hkpShapeKey keyA,
+                                      hkpShapeKey keyB) const;
+    virtual hkBool isCollisionEnabled(const hkpShapeRayCastInput &aInput, const hkpShapeContainer &bContainer,
+                                      hkpShapeKey bKey) const;
+    virtual hkBool isCollisionEnabled(const hkpWorldRayCastInput &a, const hkpCollidable &collidableB) const;
 
     hkUint32 m_prepad[2];   // +0x18
     hkUint32 m_type;        // +0x20 hkEnum<hkpFilterType, hkUint32>
