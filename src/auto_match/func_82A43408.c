@@ -2,7 +2,7 @@ typedef struct Output_82A43408 Output_82A43408;
 
 typedef struct OutputMethods_82A43408 {
     void *unused[2];
-    void (*write)(Output_82A43408 *, int, void *, float *, unsigned int);
+    int (*write)(Output_82A43408 *, int, void *, float *, unsigned int);
 } OutputMethods_82A43408;
 
 struct Output_82A43408 {
@@ -19,7 +19,7 @@ typedef struct Weights_82A43408 {
     float *buffer;           /* 0x18 */
 } Weights_82A43408;
 
-void fn_82A43408(Weights_82A43408 *self, void *context)
+int fn_82A43408(Weights_82A43408 *self, void *context)
 {
     unsigned int column;
     unsigned int row;
@@ -30,6 +30,6 @@ void fn_82A43408(Weights_82A43408 *self, void *context)
             self->buffer[index + 3] = self->input[index] * self->weights[column] * self->scale;
         }
     }
-    self->output->methods->write(self->output, 0, context, self->buffer,
+    return self->output->methods->write(self->output, 0, context, self->buffer,
                                  (self->height * self->width + 3) * 4);
 }

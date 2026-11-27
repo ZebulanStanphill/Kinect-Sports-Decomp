@@ -8,9 +8,9 @@ extern float lbl_8217D344;
 extern float lbl_8217D340;
 extern float lbl_8217D33C;
 
-int fn_8303A930(float x, unsigned char alt, float *out)
+unsigned char fn_8303A930(float x, unsigned char alt, float *out)
 {
-    int ok = 0;
+    unsigned char ok = 0;
 
     if (!alt) {
         if (x > 0.1f) {

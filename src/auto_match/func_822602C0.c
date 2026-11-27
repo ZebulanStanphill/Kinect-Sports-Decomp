@@ -9,7 +9,7 @@ extern void fn_82E1CB08(const char *, int, int);
 extern void fn_82E1CC60(const char *, float);
 extern void fn_82E1CCA8(void);
 
-void fn_822602C0(int matchCounter, int playerScore, int aiScore, int shotCounter, __vector4 ballStartPos, int shotType, int leftHanded, int backHand, float shotStrength, __vector4 ballVelocity, float ballSpin, __vector4 ballEndPos, int eventId, int teamId, int playerId, __vector4 playerPos)
+void fn_822602C0(int matchCounter, int playerScore, int aiScore, int shotCounter, __vector4 ballStartPos, const char *shotType, int leftHanded, int backHand, float shotStrength, __vector4 ballVelocity, float ballSpin, __vector4 ballEndPos, int eventId, int teamId, int playerId, __vector4 playerPos)
 {
   if (*fn_8225F670() != 0) {
     if (fn_8225FDE0(0x1e, eventId) == 0 && fn_82E1CAD0(0x1e) != 0) {

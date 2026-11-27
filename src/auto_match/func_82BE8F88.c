@@ -1,4 +1,4 @@
-unsigned int  fn_82BE8F88(void)
+int  fn_82BE8F88(void)
 
 {
   __int64 lVar1;
