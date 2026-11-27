@@ -1,10 +1,7 @@
 // Clears a state block (caller fn_829EEC40): vectors, five {float, int} entries, counters.
 // The first five vector stores follow the original's order (1, 2, 3, 0, 4); default /O1.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltisw(int value);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Entry_829EE7A8 {
     float value;

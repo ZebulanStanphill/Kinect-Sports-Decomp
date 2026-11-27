@@ -1,7 +1,6 @@
 // Exact under LTCG with Matching func_8236B080.c and /O1 /QVMXReserve.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float v[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Input_8236B118 {
     int kind;
@@ -33,7 +32,6 @@ typedef struct Obj_8236B118 {
 } Obj_8236B118;
 
 extern void fn_8236B080(Obj_8236B118 *);
-extern __vector4 __VMXGetReg(int);
 extern __vector4 fn_8255AE78(__vector4, float);
 
 void fn_8236B118(Obj_8236B118 *self, const Input_8236B118 *input)

@@ -1,10 +1,7 @@
 // Havok: adds a reference to an object, appends it to the hkArray at +0x20, then calls
 // fn_82D8BCD8 on it with 100 times the w component of its vector at +0x1a0.
 #include "havok/hkBase.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float vector4_f32[4]; } __vector4;
-extern "C" __vector4 __vspltw(__vector4, unsigned int);
-extern "C" void __stvewx(__vector4, void *, int);
+#include "xdk/vectorintrinsics.h"
 
 template <typename T> static HK_FORCE_INLINE void constructWithCopy(T *t, int n, const T &tcopy) { for (int i = 0; i < n; ++i) t[i] = tcopy; }
 

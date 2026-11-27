@@ -1,9 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-__vector4 __vspltish(int value);
-__vector4 __vsplth(__vector4 v, unsigned int i);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Context_830EADB8 {
     char pad000[0x470];

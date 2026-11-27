@@ -2,21 +2,8 @@
    to the line through them, relative to the segment length, with x taken relative to the source origin): those
    under the near limit increment the near count and the one with the smallest |z| is kept, those under the far
    limit increment the far count. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltisw(int value);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vnmsubfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vmsum3fp(__vector4 a, __vector4 b);
-__vector4 __vrsqrtefp(__vector4 v);
-__vector4 __vcmpeqfp(__vector4 a, __vector4 b);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
-__vector4 __vcfsx(__vector4 v, int shift);
-__vector4 __vpermwi(__vector4 v, int control);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Config_822BD060 {
     char pad0[0x14];

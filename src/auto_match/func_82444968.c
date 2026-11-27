@@ -1,18 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-__vector4 __VMXGetReg(int n);
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vspltisw(int value);
-__vector4 __vcfsx(__vector4 v, int shift);
-__vector4 __vmsum4fp(__vector4 a, __vector4 b);
-__vector4 __vrsqrtefp(__vector4 v);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vcmpeqfp(__vector4 a, __vector4 b);
-__vector4 __vnmsubfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Matrix_82444968 {
     __vector4 r[4];
@@ -56,9 +42,6 @@ typedef struct Timing_82444968 {
 
 extern float lbl_821CA45C[];
 extern Timing_82444968 lbl_8327F880;
-
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
 
 typedef struct Pose_82444968 {
     char pad00[0x10];

@@ -1,7 +1,5 @@
-typedef __declspec(passinreg) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
+
 typedef struct { char pad[0x14]; int h; } Item;
 typedef struct { char pad[0xa8]; int dev; } Ctx;
 typedef struct { char pad[0x40]; Ctx **ctx; } Self;

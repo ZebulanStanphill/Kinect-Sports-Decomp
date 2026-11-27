@@ -1,5 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float f[4]; unsigned int u[4]; } __vector4;
-__vector4 __vaddfp(__vector4, __vector4);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct ConvexShape_82D49EC0 ConvexShape_82D49EC0;
 typedef struct {

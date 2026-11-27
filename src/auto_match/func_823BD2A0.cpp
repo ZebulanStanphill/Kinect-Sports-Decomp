@@ -5,9 +5,7 @@
 // has an RTTI locator, so they are written as stores of their lbl_ names
 // (the func_823BCFC0 recipe); the function keeps its fn_ name.
 
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 extern "C" void *fn_8265C9E0(unsigned int size);  // operator new
 

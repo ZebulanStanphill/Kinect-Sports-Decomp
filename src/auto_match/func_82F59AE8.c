@@ -6,16 +6,10 @@
 // what that call returns, and keeps the first store to the translation's last row, which
 // only the pointer form reproduces (a by-value XMMATRIX return copies through a temporary
 // in C, and reloads r3 from the saved register in C++).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 #define VPACK_NORMSHORT2 1
-
-__vector4 __vspltisw(int value);
-__vector4 __vupkd3d(__vector4 v, int type);
-__vector4 __vpermwi(__vector4 v, int control);
-__vector4 __vrlimi(__vector4 a, __vector4 b, int mask, int rotate);
 
 typedef struct {
     __vector4 r[4];

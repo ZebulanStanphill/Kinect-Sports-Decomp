@@ -1,15 +1,8 @@
 // Havok hkpConvexTransformShape::getCollisionSpheres: asks the child shape for its collision
 // spheres, then writes each one into the caller's buffer with its centre moved by the
 // transform at +0x20 and its radius (w) kept.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vaddfp(__vector4 a, __vector4 b);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vrlimi(__vector4 a, __vector4 b, int mask, int rotate);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Child_82D3D908 Child_82D3D908;
 typedef struct VTable_82D3D908 {

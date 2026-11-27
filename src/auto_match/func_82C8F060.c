@@ -1,11 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float lanes[4];
-} __vector4;
-
-extern __vector4 __vspltisb(int value);
-extern __vector4 __vslb(__vector4 value, __vector4 shift);
-extern __vector4 __vxor(__vector4 a, __vector4 b);
-extern __vector4 __vaddsbs(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Image_82C8F060 {
     char pad0[0xd0];

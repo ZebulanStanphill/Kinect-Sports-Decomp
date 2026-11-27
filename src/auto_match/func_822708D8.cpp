@@ -1,9 +1,6 @@
 // Looks an entry up by key in the manager's std::map and, when it exists, overwrites its placement.
 #include <map>
-
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 struct Entry_822708D8 {
     char padding00[0x10];

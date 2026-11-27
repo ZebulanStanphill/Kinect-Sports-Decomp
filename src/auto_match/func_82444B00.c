@@ -1,8 +1,5 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float value[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
-__vector4 __VMXGetReg(unsigned int index);
 extern const __vector4 lbl_82196750;
 
 void fn_82444B00(unsigned char *self, __vector4 *out)

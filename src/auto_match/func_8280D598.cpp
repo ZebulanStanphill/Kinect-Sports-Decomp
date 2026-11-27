@@ -1,16 +1,7 @@
 // Look-at matrix from three unaligned float3 values: XNA Math's XMMatrixLookAtRH shape,
 // fn_82273A20(eye, eye - focus, up) being XMMatrixLookToLH. The result is copied row by row.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-extern "C" {
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __lvrx(const void *base, int offset);
-__vector4 __vsldoi(__vector4 a, __vector4 b, int shift);
-__vector4 __vor(__vector4 a, __vector4 b);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-}
+#include "xdk/vectorintrinsics.h"
 
 struct Float3_8280D598 {
     float x, y, z;

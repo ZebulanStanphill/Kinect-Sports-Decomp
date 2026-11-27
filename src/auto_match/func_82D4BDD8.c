@@ -3,13 +3,9 @@
    and MOPP data, runs the ray bundle MOPP query (fn_82DCDB88) into the result comparison,
    then lowers the level again and clears the key of every ray that hit. Wrapped in the
    "TtrcBundleMopp" timer scope. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vand(__vector4 a, __vector4 b);
-__vector4 __vspltisw(int value);
-__vector4 __vcmpequwR(__vector4 a, __vector4 b, unsigned int *cr);
+#include "xdk/vectorintrinsics.h"
+
 unsigned __int64 __mftb(void);
 
 typedef struct ProfTls_82D4BDD8 {

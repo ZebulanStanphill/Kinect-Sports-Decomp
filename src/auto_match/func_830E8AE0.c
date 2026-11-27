@@ -1,15 +1,7 @@
 /* Video decoder: adds an 8x8 block of halfword residuals to 8 rows of 8 pixels (saturating to unsigned bytes).
    Rows that are not 16-byte aligned as a whole (stride not a multiple of 16) go to the unaligned version. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltisb(int value);
-__vector4 __vmrghb(__vector4 a, __vector4 b);
-__vector4 __vmrglb(__vector4 a, __vector4 b);
-__vector4 __vaddshs(__vector4 a, __vector4 b);
-__vector4 __vpkshus(__vector4 a, __vector4 b);
-void __stvewx(__vector4 v, void *base, int offset);
+#include "xdk/vectorintrinsics.h"
 
 extern void fn_830E8958(unsigned char *dst, const __vector4 *block, int stride);
 

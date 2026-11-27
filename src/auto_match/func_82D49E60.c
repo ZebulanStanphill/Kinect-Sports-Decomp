@@ -1,5 +1,5 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float vector4_f32[4]; } __vector4;
-extern __vector4 __vaddfp(__vector4, __vector4);
+#include "xdk/vectorintrinsics.h"
+
 typedef struct Child_82D49E60 Child_82D49E60;
 typedef struct VTable_82D49E60 { void *pad[14]; void (*method)(Child_82D49E60 *, void *, __vector4 *); } VTable_82D49E60;
 struct Child_82D49E60 { VTable_82D49E60 *vt; };

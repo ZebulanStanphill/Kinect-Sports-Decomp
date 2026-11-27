@@ -1,6 +1,6 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float values[4];
-} Vector_82510338;
+#include "xdk/vectorintrinsics.h"
+
+typedef __vector4 Vector_82510338;
 typedef struct Resource_82510338 Resource_82510338;
 
 typedef struct Vtable_82510338 {

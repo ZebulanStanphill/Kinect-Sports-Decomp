@@ -1,8 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-__vector4 __VMXGetReg(int n);
+#include "xdk/vectorintrinsics.h"
 
 void fn_824538E0(__vector4 *out)
 {

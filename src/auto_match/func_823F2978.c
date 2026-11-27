@@ -1,4 +1,5 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {float f[4];} __vector4;
+#include "xdk/vectorintrinsics.h"
+
 extern unsigned int *auStack_40;
 extern int fn_822315A0();
 extern int fn_822527F8();
@@ -16,7 +17,6 @@ extern unsigned int uStack0000003f;
 extern unsigned int uStack0000004c;
 extern unsigned int uStack_38;
 
-
 void fn_823F2978(int param_1,__vector4 pos,int param_2,unsigned char param_3,int param_4,unsigned int param_5)
 
 {
@@ -25,7 +25,6 @@ void fn_823F2978(int param_1,__vector4 pos,int param_2,unsigned char param_3,int
 
   unsigned char auStack_40;
   struct { unsigned int first; void *second; } stack_pair_38;
-
 
   auStack_40 = 0;
 

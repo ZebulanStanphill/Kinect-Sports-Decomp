@@ -3,16 +3,8 @@
 // select mask v67) and marks it active (+0xd0), runs fn_824FAC80 on the context at +0x200 when
 // it has a handle, and advances the object's time. Both writes go through one pointer to the
 // sub-object, which is what keeps the vector store as base + 0x10.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __VMXGetReg(int n);
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __lvrx(const void *base, int offset);
-__vector4 __vsldoi(__vector4 a, __vector4 b, int shift);
-__vector4 __vor(__vector4 a, __vector4 b);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Float3_824FA548 {
     float x, y, z;

@@ -1,9 +1,7 @@
 /* hkpBoxMotion::setInertiaInvLocal(const hkMatrix3 &inertiaInv) (vtable slot 8 of hkpBoxMotion and hkpThinBoxMotion):
    m_inertiaAndMassInv.set(inertiaInv(0,0), inertiaInv(1,1), inertiaInv(2,2), m_inertiaAndMassInv(3)). */
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct hkVector4_82D9B640 {
     __vector4 m_quad;

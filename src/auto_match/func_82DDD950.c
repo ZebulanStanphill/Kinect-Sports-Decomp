@@ -1,11 +1,8 @@
 // Havok penetration query in the "TtPenetration" timer scope: builds the query input on the
 // stack (transform, splatted tolerance, squared tolerance, the two bodies, four more arguments),
 // runs it, and on result 3 calls the follow-up handler and returns 1.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltw(__vector4 v, unsigned int i);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct ProfTls_82DDD950 {
     int unk0;

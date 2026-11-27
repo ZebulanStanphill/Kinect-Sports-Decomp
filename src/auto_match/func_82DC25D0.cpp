@@ -1,4 +1,5 @@
 #include "havok/hkBase.h"
+#include "xdk/vectorintrinsics.h"
 
 template <typename T>
 static HK_FORCE_INLINE void constructWithCopy(T *p, int n, const T &tcopy)
@@ -29,7 +30,6 @@ public:
     }
 };
 
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float vector4_f32[4]; } __vector4;
 typedef __vector4 V4_82DC25D0;
 static HK_FORCE_INLINE void set4(V4_82DC25D0 &v, float x, float y, float z, float w)
 {

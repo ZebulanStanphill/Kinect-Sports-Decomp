@@ -1,11 +1,8 @@
 // Sets the object's uniform scale: stores it, builds the scaled extent (vector at +0x20 times
 // the replicated scale), rebuilds the 4x4 matrix at +0x60 from it (fn_8307D500, an XNA Math
 // XMMatrixScalingFromVector shape) and refreshes the dependent state (fn_83078738).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-extern "C" __vector4 __vmulfp(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 struct Matrix_83078F10 {
     __vector4 r[4];

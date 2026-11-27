@@ -1,14 +1,7 @@
 /* Predicts a position: the tracked object's position (zero without an object) plus the source's
    velocity times `time`; a result below the ground plane falls back to the start position. */
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float scalar[4];
-    unsigned int words[4];
-} __vector4;
 
-__vector4 __VMXGetReg(int index);
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vspltw(__vector4 value, unsigned int lane);
-__vector4 __vmaddfp(__vector4 value, __vector4 multiplier, __vector4 addend);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Position_82430F70 {
     __vector4 value;
@@ -57,7 +50,7 @@ Position_82430F70 *fn_82430F70(Position_82430F70 *out, Self_82430F70 *self, floa
     self->owner->source->vtable->getVelocity(&result, self->owner->source);
     scale = __vspltw(__lvlx(&time, 0), 0);
     result = __vmaddfp(result, scale, start);
-    if (result.scalar[1] < 0.0f) {
+    if (result.vector4_f32[1] < 0.0f) {
         result = start;
     }
     out->value = result;

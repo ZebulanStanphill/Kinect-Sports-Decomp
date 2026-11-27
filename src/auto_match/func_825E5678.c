@@ -1,10 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vrlimi(__vector4 a, __vector4 b, int mask, int rotate);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Bounded_825E5678 Bounded_825E5678;
 typedef struct BoundedVtbl_825E5678 {

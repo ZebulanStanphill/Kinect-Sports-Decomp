@@ -1,12 +1,9 @@
 // Unpacks a quantised 3-float vector (11 bits each, see fn_828E5538) from a network
 // buffer into *out.
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float f[4];
-    unsigned int u[4];
-} __vector4;
 
 /* v77 is the game's reserved zero vector, read with __VMXGetReg (/QVMXReserve). */
-__vector4 __VMXGetReg(int n);
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Reader_822BD278 {
     int h[4];
@@ -36,9 +33,9 @@ __vector4 *fn_822BD278(__vector4 *out, void *src)
     r.size = 8;
     fn_828E9D28(&r, data, 8);
     v = __VMXGetReg(77);
-    v.f[0] = fn_828E5538(&r, 0xb, 7);
-    v.f[1] = fn_828E5538(&r, 0xb, 7);
-    v.f[2] = fn_828E5538(&r, 0xb, 7);
+    v.vector4_f32[0] = fn_828E5538(&r, 0xb, 7);
+    v.vector4_f32[1] = fn_828E5538(&r, 0xb, 7);
+    v.vector4_f32[2] = fn_828E5538(&r, 0xb, 7);
     *out = v;
     if (r.heap != 0)
         fn_8265CA20(r.heap);

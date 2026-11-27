@@ -1,8 +1,8 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
 /* Moves every attached object (and every listed sub-object) to the object's position. */
+
+#include "xdk/vectorintrinsics.h"
+
 typedef struct Skeleton_82573988 {
     char pad0[0x44];
     int rootBone; /* 0x44 */

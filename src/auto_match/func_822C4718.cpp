@@ -1,8 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float components[4];
-} __vector4;
-
-extern "C" __vector4 __VMXGetReg(int index);
+#include "xdk/vectorintrinsics.h"
 
 class Device_822C4718
 {

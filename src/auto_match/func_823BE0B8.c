@@ -1,10 +1,5 @@
 #include <math.h>
-
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-__vector4 __VMXGetReg(int n);
+#include "xdk/vectorintrinsics.h"
 
 extern unsigned int fn_8223C610(void *reader, int bits, int a, int b);
 extern unsigned __int64 fn_823B4900(void *reader, int bits, int a, int b);

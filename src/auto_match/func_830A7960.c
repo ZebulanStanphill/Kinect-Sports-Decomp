@@ -3,12 +3,8 @@
 // pair of vectors; fn_830B50C8 applies a link transform to a pair.
 // The output is walked from out + 1 (v[i - 1], v[i]); the first transform goes through a local
 // link pointer, which gives the original's index-first `add r4, r30, r11`.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vxor(__vector4 a, __vector4 b);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Pair_830A7960 {
     __vector4 a;

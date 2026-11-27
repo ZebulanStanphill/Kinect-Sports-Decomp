@@ -1,12 +1,8 @@
 // Builds the vector (0, 0, target->z, 0), sets x to +-lbl_831CD0D8[0] when fn_82397F30 accepts the
 // owner's handle, scales x and z when the owner's mode word is 0, lets fn_822E5DE0 adjust it and
 // returns it through the result pointer (same shape as Matching func_822F6BD0).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vrlimi(__vector4 a, __vector4 b, unsigned int mask, unsigned int rotate);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Owner_822EFAF8 {
     char pad0[0x28];

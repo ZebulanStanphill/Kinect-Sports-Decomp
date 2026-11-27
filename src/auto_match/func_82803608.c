@@ -1,12 +1,7 @@
 /* Copies the six default vectors of lbl_83156D60 to their outputs, then loads five unaligned vectors:
    three from the source float array (bytes 0, 0xc, 0x18) and two from the other one (0x10, 0x20). */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __lvrx(const void *base, int offset);
-__vector4 __vor(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Source_82803608 {
     int pad0;

@@ -1,10 +1,7 @@
 #include "havok/hkOstream.h"
+#include "xdk/vectorintrinsics.h"
 
 extern "C" {
-
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
 typedef struct Data_82DED480 Data_82DED480;
 

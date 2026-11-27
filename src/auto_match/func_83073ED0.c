@@ -1,8 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-__vector4 __vsubfp(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Pose_83073ED0 {
     char pad0[0x20];

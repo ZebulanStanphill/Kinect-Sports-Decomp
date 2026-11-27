@@ -2,11 +2,8 @@
    grabbed state resets the motion (the velocity samples of the active slots keep only their
    two ids), and both transitions end by re-initialising the motion (fn_829EEA88 with the
    current direction) or attaching to the target (fn_829F10C8 with the target's position). */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltisw(int value);
+#include "xdk/vectorintrinsics.h"
 
 void *memset(void *dst, int value, unsigned int size);
 

@@ -1,18 +1,7 @@
 // dst[i] = saturate(a[i] + b[i] + bias - 128) over count bytes: 16 bytes at a time in
 // 16-bit lanes (vpkshus saturates), then the remaining bytes one by one.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltisb(int v);
-__vector4 __vspltish(int v);
-__vector4 __vslb(__vector4 a, __vector4 b);
-__vector4 __vsplth(__vector4 v, unsigned int i);
-__vector4 __vmrghb(__vector4 a, __vector4 b);
-__vector4 __vmrglb(__vector4 a, __vector4 b);
-__vector4 __vadduhm(__vector4 a, __vector4 b);
-__vector4 __vsubuhm(__vector4 a, __vector4 b);
-__vector4 __vpkshus(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 void fn_82C6EB90(unsigned char *dst, const unsigned char *a, const unsigned char *b, int count, int bias)
 {

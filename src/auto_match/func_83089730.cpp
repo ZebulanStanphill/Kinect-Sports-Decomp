@@ -1,9 +1,8 @@
 // Havok ray cast through the aabb cache in the "TtRayCstCchSim" timer scope: the fn_83089608
 // shape plus a cache argument stored in the cast input. The cast goes through a virtual call
 // of the broadphase (slot 23); as a C vtable struct the argument stores schedule differently.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct ProfTls_83089730 {
     int unk0;

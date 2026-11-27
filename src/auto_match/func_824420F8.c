@@ -1,4 +1,5 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float f[4]; } __vector4;
+#include "xdk/vectorintrinsics.h"
+
 typedef struct Pair { unsigned int a, b; } Pair;
 /* the vector argument stays in v1; the 4-byte value is passed left-justified in r6 */
 extern void fn_82441D38(int p1, int p2, __vector4 v, int p3, unsigned __int64 x);

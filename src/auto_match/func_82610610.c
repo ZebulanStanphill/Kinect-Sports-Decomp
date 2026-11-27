@@ -1,7 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float f[4];
-    unsigned int u[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Event_82610610 {
     char unknown[0x10];
@@ -21,8 +18,6 @@ typedef struct Owner_82610610 {
 } Owner_82610610;
 
 extern const float ltcg_pool_0_0f;
-extern __vector4 __lvlx(const void *, int);
-extern __vector4 __vrlimi(__vector4, __vector4, unsigned int, unsigned int);
 
 static __forceinline __vector4 MakePosition_82610610(const float *x, const float *y, const float *z)
 {

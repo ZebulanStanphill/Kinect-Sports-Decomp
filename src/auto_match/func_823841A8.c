@@ -1,9 +1,8 @@
 /* Two-part caption update: after the start delay the second panel starts its animation (and the
    intro sound plays); once started, the middle and end cue sounds play at their times; when the
    whole duration is over the caption is reset. Both panels are then updated. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Panel_823841A8 Panel_823841A8;
 

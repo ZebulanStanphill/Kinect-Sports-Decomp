@@ -1,9 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-__vector4 __vmsum3fp(__vector4, __vector4);
-void __stvewx(__vector4, void *, int);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Motion_82DBC6D8 {
     char reserved[0xd0];

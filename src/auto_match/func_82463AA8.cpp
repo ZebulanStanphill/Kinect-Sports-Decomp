@@ -3,13 +3,7 @@
 // updates the sub-object against lbl_821962C0 (fn_825622A8), and clears the tracked flag (+0x1b4)
 // when the tracked entry (+0x1bc) is no longer in the manager's list.
 #include <vector>
-
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-extern "C" __vector4 __lvlx(const void *base, int offset);
-extern "C" __vector4 __vrlimi(__vector4 a, __vector4 b, unsigned int mask, unsigned int rotate);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Tuning_82463AA8 {
     float pad0;

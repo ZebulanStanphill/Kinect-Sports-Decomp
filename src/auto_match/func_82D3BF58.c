@@ -1,4 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float f[4]; } __vector4;
+#include "xdk/vectorintrinsics.h"
 
 typedef struct SegmentResult_82D3BF58 {
     float distanceSquared;

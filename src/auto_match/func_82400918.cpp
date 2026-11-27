@@ -9,11 +9,7 @@
 // adjustment), so the class uses multiple inheritance; its bases are unknown. The parameter
 // structs' sizes and alignment come from the functor's layout; their members are unknown.
 #include <functional>
-
-// The XDK's VMX vector type.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 namespace olympus {
     namespace sport {

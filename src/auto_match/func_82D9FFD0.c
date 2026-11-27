@@ -1,14 +1,7 @@
 // Havok (caller fn_82DC8030): blends two vector pairs towards the defaults in lbl_8323E280 by the
 // factor at self+0x20. Arguments follow the caller: (self, r4, f1, r6, r7 pair, r8, r9 pair).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 extern const __vector4 lbl_82132D10;       /* (1, 1, 1, 1) */
 extern const __vector4 lbl_8323E280[4];

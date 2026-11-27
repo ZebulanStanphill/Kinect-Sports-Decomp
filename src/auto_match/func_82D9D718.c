@@ -1,9 +1,5 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
-__vector4 __vmsum3fp(__vector4, __vector4);
-void __stvewx(__vector4, void *, int);
 extern int lbl_83184694[];
 extern float fn_82CECE68(float, float);
 

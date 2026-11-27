@@ -1,12 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vnmsubfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vrfin(__vector4 v);
+#include "xdk/vectorintrinsics.h"
 
 extern const __vector4 lbl_82195FE0; /* sine coefficients 0 */
 extern const __vector4 lbl_82195FF0; /* sine coefficients 1 */

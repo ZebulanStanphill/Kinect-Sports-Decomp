@@ -2,9 +2,8 @@
 // the tuning block lbl_831D40A8 (mode 1/2/3, joint index 4, 12/13 or 18/19 by side),
 // x mirrored for side 0, transformed by the joint matrix (fn_822B6AE0 or fn_822B6BB8)
 // with w cleared. Zero when the object has no skeleton.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Matrix_824D6A88 {
     __vector4 r[4];
@@ -25,15 +24,6 @@ typedef struct Owner_824D6A88 {
     char pad0[0x164];
     void *skeleton;             /* 0x164 */
 } Owner_824D6A88;
-
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __lvrx(const void *base, int offset);
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
-__vector4 __vor(__vector4 a, __vector4 b);
-__vector4 __vsldoi(__vector4 a, __vector4 b, int shift);
-__vector4 __VMXGetReg(int n);
 
 extern Tuning_824D6A88 lbl_831D40A8;
 extern const __vector4 lbl_8329EA30;   /* x lane select mask */

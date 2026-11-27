@@ -1,12 +1,5 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vmsum3fp(__vector4 a, __vector4 b);
-__vector4 __vpermwi(__vector4 v, int control);
-void __stvewx(__vector4 v, void *p, int offset);
 double fabs(double);
 
 typedef struct Face_82DE3210 Face_82DE3210;

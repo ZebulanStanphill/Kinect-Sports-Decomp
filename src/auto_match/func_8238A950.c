@@ -1,17 +1,5 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vspltisw(int value);
-__vector4 __vslw(__vector4 a, __vector4 b);
-__vector4 __vxor(__vector4 a, __vector4 b);
-__vector4 __vrlimi(__vector4 a, __vector4 b, int mask, int rotate);
-__vector4 __vpermwi(__vector4 v, int control);
-__vector4 __vmsum4fp(__vector4 a, __vector4 b);
-__vector4 __vmrghw(__vector4 a, __vector4 b);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
 double fabs(double);
 
 typedef struct Settings_831CAD88 {

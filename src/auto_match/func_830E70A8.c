@@ -1,9 +1,8 @@
 // Video decoder block filter wrapper: runs fn_830E5E70 on a square block of (size + 1) * 8
 // pixels, source and destination sharing one stride, with the rounding vector kept at +0x450
 // of the decoder context.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Context_830E70A8 {
     char pad000[0x450];

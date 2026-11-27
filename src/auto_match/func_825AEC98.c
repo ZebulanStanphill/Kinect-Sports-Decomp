@@ -1,11 +1,8 @@
 /* Reads a direction and a 6-bit packed scale (3-bit exponent, 3-bit mantissa) from a bit reader
    and returns the scaled direction. v77 is the game's reserved zero vector (/QVMXReserve). */
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float f[4];
-    unsigned int u[4];
-} __vector4;
 
-__vector4 __VMXGetReg(int n);
+#include "xdk/vectorintrinsics.h"
+
 void *memset(void *dest, int value, unsigned int size);
 
 typedef struct BitBuf_825AEC98 {
@@ -69,12 +66,12 @@ __vector4 fn_825AEC98(void *reader)
     }
 done:
     scale = (float)value;
-    x = direction.f[0];
-    y = direction.f[1];
-    z = direction.f[2];
+    x = direction.vector4_f32[0];
+    y = direction.vector4_f32[1];
+    z = direction.vector4_f32[2];
     direction = __VMXGetReg(77);
-    direction.f[0] = x * scale;
-    direction.f[1] = y * scale;
-    direction.f[2] = z * scale;
+    direction.vector4_f32[0] = x * scale;
+    direction.vector4_f32[1] = y * scale;
+    direction.vector4_f32[2] = z * scale;
     return direction;
 }

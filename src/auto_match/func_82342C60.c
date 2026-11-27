@@ -1,18 +1,7 @@
 /* Discus throw: maps the throw vector's length to a 0..100 strength for the "sportsman_discus_throw" animation
    parameter, then (when there is a target) passes the position, throw direction and length on. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltisw(int value);
-__vector4 __vcfsx(__vector4 v, int shift);
-__vector4 __vmsum3fp(__vector4 a, __vector4 b);
-__vector4 __vrsqrtefp(__vector4 v);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vcmpeqfp(__vector4 a, __vector4 b);
-__vector4 __vnmsubfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
+#include "xdk/vectorintrinsics.h"
 
 extern void fn_823414A0(int self);
 extern float fn_82539560(float x, float inMin, float inMax, float outMin, float outMax);

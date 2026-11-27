@@ -1,13 +1,7 @@
 // Closest point to p on the outline of the XZ rectangle spanned by a and b (y = 0): the four
 // corners are built, fn_82532658 gives the closest point on each edge, the nearest one wins.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vrlimi(__vector4 a, __vector4 b, int mask, int rotate);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __vmsum3fp(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 __vector4 fn_82532658(__vector4 start, __vector4 end, __vector4 point);
 

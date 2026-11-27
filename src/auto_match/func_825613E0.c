@@ -1,9 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vrlimi(__vector4 a, __vector4 b, int mask, int rot);
+#include "xdk/vectorintrinsics.h"
 
 static __forceinline __vector4 VectorSet(float x, float y, float z, float w)
 {

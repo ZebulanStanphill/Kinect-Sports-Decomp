@@ -1,16 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
-__vector4 __vpermwi(__vector4 v, int control);
-__vector4 __vcmpeqfpR(__vector4 a, __vector4 b, unsigned int *cr);
-__vector4 __VMXGetReg(int n);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Matrix_82564348 {
     __vector4 r[4];

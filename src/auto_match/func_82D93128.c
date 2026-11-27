@@ -1,11 +1,7 @@
 /* Havok hkpMotion::getMass: 1 / inverse mass (w of the inertia-and-mass-inverse vector at
    +0xc0), 0 for an infinite mass. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltw(__vector4 v, unsigned int i);
-void __stvewx(__vector4 v, void *base, int offset);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Motion_82D93128 {
     char pad00[0xc0];

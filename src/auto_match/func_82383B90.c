@@ -1,7 +1,6 @@
 /* /O1 /QVMXReserve: v77 is the game's reserved zero vector, read with __VMXGetReg. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Movie_82383B90 {
     char pad0[0x34];
@@ -41,7 +40,6 @@ typedef struct Panel_82383B90 {
     int mode;         /* 0xec */
 } Panel_82383B90;
 
-__vector4 __VMXGetReg(int n);
 extern void fn_82672C20(void *movie, const char *path, int arg2, int arg3);
 
 void fn_82383B90(Panel_82383B90 *self, float start, float end, float x0, float y0, float x1, float y1,

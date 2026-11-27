@@ -4,12 +4,8 @@
 // Layout: a 0x60-byte header, then four 0x110-byte slots {six plane vectors, view copy}. The
 // code addresses all of it as one array of vectors (slot * 17 + 6 + i), which is how it is
 // declared here: slot k's planes are vectors[k * 17 + 6 ...], its view starts at vectors[k * 17 + 12].
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vrlimi(__vector4 a, __vector4 b, unsigned int mask, unsigned int rotate);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Plane_825E5218 {
     float x, y, z, d;

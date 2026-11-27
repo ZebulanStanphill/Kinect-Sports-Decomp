@@ -4,24 +4,8 @@
 // zero/select registers v77/v67).
 // The 0.0f literal is the game's LTCG-pooled zero: the unit needs the pool alias
 // __real@00000000=ltcg_pool_0_0f (objects.json "pool_aliases").
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __lvrx(const void *base, int offset);
-__vector4 __vsldoi(__vector4 a, __vector4 b, int shift);
-__vector4 __vor(__vector4 a, __vector4 b);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
-__vector4 __vspltisw(int value);
-__vector4 __vcfsx(__vector4 v, int shift);
-__vector4 __vmsum3fp(__vector4 a, __vector4 b);
-__vector4 __vrsqrtefp(__vector4 v);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vcmpeqfp(__vector4 a, __vector4 b);
-__vector4 __vnmsubfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __VMXGetReg(int n);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Float3_824A2838 {
     float x, y, z;

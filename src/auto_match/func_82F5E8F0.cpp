@@ -1,7 +1,6 @@
 // Twenty bone matrices: local[i] * XMMatrixTranslationFromVector(position[i]).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 struct XMMATRIX {
     __vector4 r[4];
@@ -15,10 +14,6 @@ typedef struct Skeleton_82F5E8F0 {
     XMMATRIX local[20];      /* 0x320 */
     XMMATRIX world[20];      /* 0x820 */
 } Skeleton_82F5E8F0;
-
-extern "C" __vector4 __vspltw(__vector4 v, unsigned int i);
-extern "C" __vector4 __vmulfp(__vector4 a, __vector4 b);
-extern "C" __vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
 
 extern "C" XMMATRIX fn_82F595A0(__vector4 offset);
 

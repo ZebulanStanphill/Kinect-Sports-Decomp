@@ -1,11 +1,8 @@
 // Computes the falloff weight scale * f(-(input->value * rate)) through fn_82F64A40 into
 // *weightOut and clears *vectorOut with the game's reserved zero vector v77; either output
 // may be null.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __VMXGetReg(int n);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Input_82606800 {
     float pad00;

@@ -1,7 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float f[4];
-    unsigned int u[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Body_82602E68 {
     char pad0[0xc];

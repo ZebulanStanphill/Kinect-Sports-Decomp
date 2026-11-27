@@ -1,14 +1,8 @@
 // Clips a convex polygon (homogeneous vertices) against the plane w = 1: for every edge that
 // crosses it the intersection point is emitted, and every end point with w >= 1 is kept.
 // Returns the number of vertices written.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 extern const float lbl_821CA45C[2];
 

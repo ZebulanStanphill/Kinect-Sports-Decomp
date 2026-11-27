@@ -1,7 +1,6 @@
 /* Havok: set the translation of child `index` of a shape, following container shapes. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Transform_82DBE9C8 {
     __vector4 col[3];

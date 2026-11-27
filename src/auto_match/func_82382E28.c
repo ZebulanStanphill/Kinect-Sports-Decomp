@@ -1,4 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float v[4]; unsigned int u[4]; } __vector4;
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Obj_82382E28 {
     char pad00[0x40];

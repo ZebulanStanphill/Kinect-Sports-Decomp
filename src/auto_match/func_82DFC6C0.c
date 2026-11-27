@@ -1,11 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-__vector4 __lvlx(const void *, int);
-__vector4 __vspltw(__vector4, unsigned int);
-__vector4 __vmulfp(__vector4, __vector4);
-__vector4 __vmaddfp(__vector4, __vector4, __vector4);
+#include "xdk/vectorintrinsics.h"
 
 void fn_82DFC6C0(char *vehicle, float timestep, char *output)
 {

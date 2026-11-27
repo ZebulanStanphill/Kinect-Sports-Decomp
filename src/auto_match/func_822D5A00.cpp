@@ -1,8 +1,7 @@
 // Copies the target's position and rotation into the object's state and pushes the two saved
 // flags back, or, when fn_8288B760 says no, reads the two flags from the state's switches.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 class Switch_822D5A00
 {

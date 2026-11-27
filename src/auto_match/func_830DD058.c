@@ -2,20 +2,8 @@
 // apart) of halfword samples, out = (-4*a + 53*s1 + 18*s2 - 3*s3 + rounding) >> shift with sK = the
 // row shifted by K samples; one vector per row for size 0, two otherwise. Returns whether any
 // result has bits set in its high byte (out of the 0..255 range).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltish(int value);
-__vector4 __vspltisb(int value);
-__vector4 __vsldoi(__vector4 a, __vector4 b, int shift);
-__vector4 __vadduhm(__vector4 a, __vector4 b);
-__vector4 __vsubshs(__vector4 a, __vector4 b);
-__vector4 __vslh(__vector4 a, __vector4 b);
-__vector4 __vsrah(__vector4 a, __vector4 b);
-__vector4 __vor(__vector4 a, __vector4 b);
-__vector4 __vand(__vector4 a, __vector4 b);
-__vector4 __vcmpgtuhR(__vector4 a, __vector4 b, unsigned int *cr);
+#include "xdk/vectorintrinsics.h"
 
 int fn_830DD058(__vector4 *rows, int size, int unused, __vector4 shift, __vector4 rounding)
 {

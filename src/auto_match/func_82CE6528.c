@@ -1,11 +1,7 @@
 // Copies a transform (three rotation columns and a translation) into a 4x4 matrix: the
 // columns get w = 0 and the translation gets w = 1 (from Havok's (1, 1, 1, 1) constant).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltisw(int value);
-__vector4 __vrlimi(__vector4 a, __vector4 b, int mask, int rotate);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Transform_82CE6528 {
     __vector4 column[3];     // 0x00

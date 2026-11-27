@@ -1,19 +1,7 @@
 // Angle test between two limb directions of a skeleton: joint 1 - joint 4 against joint 0x12 - 0x11
 // (0x16 - 0x15 for kind 0x18), both normalized; true when the angle (fn_8255A2F8) exceeds the limit.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltisw(int value);
-__vector4 __vcfsx(__vector4 v, int shift);
-__vector4 __vmsum3fp(__vector4 a, __vector4 b);
-__vector4 __vrsqrtefp(__vector4 v);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vcmpeqfp(__vector4 a, __vector4 b);
-__vector4 __vnmsubfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Joint_824A5010 {
     __vector4 position;

@@ -1,8 +1,7 @@
 // Forwards to the vector worker fn_830DF4E8 with the block size (count + 1) * 8 and the
 // 16-byte constant stored at +0x450 of the context.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Context_830E03A8 {
     char pad0[0x450];

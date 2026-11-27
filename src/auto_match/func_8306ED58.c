@@ -1,11 +1,6 @@
 // Returns a + b * scale (scale replicated to all four components).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 static __forceinline __vector4 Replicate(float value)
 {

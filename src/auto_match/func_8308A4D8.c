@@ -1,13 +1,8 @@
 // Remaps packed 16-bit indices after two entries were removed: every component greater than the
 // first (second) removed index is decremented once (twice). Components 0-3 hold (a, b) pairs,
 // 4-5 a third stream, 6-7 are left untouched.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vcmpgtuh(__vector4 a, __vector4 b);
-__vector4 __vadduhm(__vector4 a, __vector4 b);
-__vector4 __vand(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 typedef __declspec(align(16)) union Words_8308A4D8 {
     unsigned short u16[8];

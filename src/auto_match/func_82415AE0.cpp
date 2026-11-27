@@ -1,5 +1,6 @@
 #include "stdext/exception.h"
-typedef __declspec(passinreg) union __vector4 {float f[4];unsigned int u[4];} V;
+#include "xdk/vectorintrinsics.h"
+typedef __vector4 V;
 struct Node {Node *next,*prev;int value;};
 struct Obj {Node *head;int size,pad;int a,b,c;int pad2[2];V v;int pad3[4];int value;int pad4[3];V w,x;};
 extern "C" {void *fn_8265C9E0(unsigned int);extern V lbl_821962C0;}

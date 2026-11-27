@@ -1,18 +1,7 @@
 /* Rotates the reference axis (reserved register 71, w cleared) by the object's orientation and returns
    the resulting heading angle; also reports a value read from the state's source. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __VMXGetReg(int n);
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vspltisw(int value);
-__vector4 __vslw(__vector4 a, __vector4 b);
-__vector4 __vxor(__vector4 a, __vector4 b);
-__vector4 __vrlimi(__vector4 a, __vector4 b, int mask, int rotate);
-__vector4 __vpermwi(__vector4 v, int control);
-__vector4 __vmsum4fp(__vector4 a, __vector4 b);
-__vector4 __vmrghw(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 extern const __vector4 lbl_82196750;
 

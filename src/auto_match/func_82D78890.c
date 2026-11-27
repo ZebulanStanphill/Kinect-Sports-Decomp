@@ -1,15 +1,9 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-__vector4 __vspltisw(int value);
-__vector4 __vcmpgtfp(__vector4 a, __vector4 b);
-__vector4 __vand(__vector4 a, __vector4 b);
-__vector4 __vmsum4fp(__vector4 a, __vector4 b);
-__vector4 __vctsxs(__vector4 v, int shift);
 
 
 /* hkVector4Comparison::getMask(): one bit per component, x = 8 ... w = 1 */
+
+#include "xdk/vectorintrinsics.h"
+
 static __forceinline int GetMask(__vector4 mask)
 {
     const __vector4 one = {{1.0f, 1.0f, 1.0f, 1.0f}};

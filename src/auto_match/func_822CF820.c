@@ -1,19 +1,7 @@
 // Tests a position against the segment between two of the object's points (indices from, to):
 // fn_8253AAF0(position, start, start-to-end offset, segment length) with two tolerances.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltisw(int value);
-__vector4 __vcfsx(__vector4 v, int shift);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __vmsum3fp(__vector4 a, __vector4 b);
-__vector4 __vrsqrtefp(__vector4 v);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vcmpeqfp(__vector4 a, __vector4 b);
-__vector4 __vnmsubfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
+#include "xdk/vectorintrinsics.h"
 
 extern void fn_822B6A58(__vector4 *out, void *source, int index);
 extern int fn_8253AAF0(const __vector4 *position, float a, const __vector4 *start, const __vector4 *offset, float b, float length);

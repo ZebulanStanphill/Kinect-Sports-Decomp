@@ -2,9 +2,7 @@
 // Static initializer: copies the vector constant lbl_82079A00 (words 0x1F1F1F04, 0x1F1F1F04,
 // 0x1F1F1F06, 0x1F1F1F06) into lbl_832189B0.
 
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 extern const __vector4 lbl_82079A00;
 extern __vector4 lbl_832189B0;

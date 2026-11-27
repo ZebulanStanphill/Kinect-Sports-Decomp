@@ -1,6 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 typedef struct hkpEntity_82DF5EB0 hkpEntity_82DF5EB0;
 typedef struct hkMemoryAllocator_82DF5EB0 hkMemoryAllocator_82DF5EB0;

@@ -1,6 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Quant_82237058 { int base; int shift; } Quant_82237058;
 typedef struct Self_82237058 { int f0; int f4; Quant_82237058 q[3]; } Self_82237058;

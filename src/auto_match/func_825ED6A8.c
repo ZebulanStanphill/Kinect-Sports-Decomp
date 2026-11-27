@@ -1,10 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-__vector4 __VMXGetReg(int n);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
-__vector4 __vmsum4fp(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 extern const __vector4 lbl_82196750;
 

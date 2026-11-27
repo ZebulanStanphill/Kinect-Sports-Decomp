@@ -1,16 +1,11 @@
 // XMVector4Transform with the matrix first, passed by value (8 GPR slots), the vector in v1:
 // transpose the matrix in place, then one dot product per column.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef __declspec(align(16)) struct Matrix_8307D7A8 {
     __vector4 r[4];
 } Matrix_8307D7A8;
-
-__vector4 __vmrghw(__vector4 a, __vector4 b);
-__vector4 __vmrglw(__vector4 a, __vector4 b);
-__vector4 __vmsum4fp(__vector4 a, __vector4 b);
 
 __vector4 fn_8307D7A8(Matrix_8307D7A8 m, __vector4 v)
 {

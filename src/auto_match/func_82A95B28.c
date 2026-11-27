@@ -1,11 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float f[4]; } __vector4;
-
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __lvrx(const void *base, int offset);
-__vector4 __vor(__vector4 a, __vector4 b);
-__vector4 __vsplth(__vector4 v, unsigned int i);
-__vector4 __vupkd3d(__vector4 v, unsigned int type);
-void __stvewx(__vector4 v, void *base, int offset);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Fields_82A95B28 {
     char pad[0xc];

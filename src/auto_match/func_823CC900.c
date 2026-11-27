@@ -1,6 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Vec_823CC900 {
     __vector4 v;
@@ -37,8 +35,6 @@ typedef struct Params_823CC900 {
     int field44;               /* 0x44 */
     int field48;               /* 0x48 */
 } Params_823CC900;
-
-__vector4 __VMXGetReg(int n);
 
 extern Config_823CC900 *lbl_832975B0;
 extern Config_823CC900 *fn_82250A18(void);

@@ -1,16 +1,7 @@
 // Havok capsule-style getAabb: both end points transformed by the transform (count-down loop of
 // transformPoints), then min/max widened by radius + tolerance. /O2 /QVMXReserve.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vaddfp(__vector4 a, __vector4 b);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vminfp(__vector4 a, __vector4 b);
-__vector4 __vmaxfp(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Transform_82D3BEA8 {
     __vector4 col[3];

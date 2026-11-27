@@ -1,13 +1,8 @@
 // Intersection of the segments a-b and c-d in the xz plane. Fails when they are parallel or when
 // either parameter is outside [0, 1]; otherwise stores the parameter on a-b and the point.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
+#include "xdk/vectorintrinsics.h"
+
 double fabs(double);
 float __fres(float);
 

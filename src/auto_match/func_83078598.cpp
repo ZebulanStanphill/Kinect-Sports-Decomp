@@ -2,9 +2,8 @@
 // any ancestor changed after the node's cached stamp (+0x164), the world matrix (+0xe0) is
 // rebuilt as local (+0xa0) times the parent's world matrix (recursively), or the local
 // matrix itself for a root, and the stamp refreshed from the scene (fn_830790A0).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 struct Matrix_83078598 {
     __forceinline Matrix_83078598() {}
@@ -31,9 +30,6 @@ typedef struct Node_83078598 {
     int stamp;                      /* 0x164 */
 } Node_83078598;
 
-extern "C" __vector4 __vspltw(__vector4 v, unsigned int i);
-extern "C" __vector4 __vmulfp(__vector4 a, __vector4 b);
-extern "C" __vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
 extern "C" void *memcpy(void *dst, const void *src, unsigned int n);
 
 extern "C" int fn_830790A0(void *scene);

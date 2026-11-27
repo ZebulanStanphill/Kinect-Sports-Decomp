@@ -1,6 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 typedef __declspec(align(16)) struct Matrix_8307AE90 {
     __vector4 r[4];
@@ -11,8 +9,6 @@ typedef struct Limb_8307AE90 {
     char pad4[0xc - 0x4];
     float stretch; /* 0xc */
 } Limb_8307AE90;
-
-__vector4 __vsubfp(__vector4 a, __vector4 b);
 
 extern __vector4 fn_8307D748(Matrix_8307AE90 m, __vector4 v);
 extern float fn_8306EB40(__vector4 *out, __vector4 start, __vector4 end, __vector4 point);

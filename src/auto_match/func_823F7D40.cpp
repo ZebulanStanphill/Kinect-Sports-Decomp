@@ -1,8 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-extern "C" __vector4 __VMXGetReg(int n);
+#include "xdk/vectorintrinsics.h"
 
 namespace olympus { namespace sport { namespace football {
 struct TackleOutcomeParams {
@@ -69,8 +65,6 @@ __forceinline T *any_cast(any *operand)
         : 0;
 }
 }
-
-
 
 struct Target_823F7D40 {
     virtual void v0();

@@ -2,9 +2,8 @@
    the function object is copied down through the nested layers of the binder (fn_822C5B18 copies,
    fn_82359C18 destroys), the arguments are stored as each layer finishes, and the result is copied
    out through three more layers (fn_823927F0). The caller's fn is destroyed at the end. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Func_82391940 {
     union {

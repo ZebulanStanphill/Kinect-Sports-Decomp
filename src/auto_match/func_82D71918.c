@@ -1,11 +1,8 @@
 // Havok: writes the mirrored copy of a pair record: the two leading words swapped, two more
 // copied, the vector at +0x70 negated (sign-mask xor) and the transform at +0x20 inverted
 // (fn_82CE66E8).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vxor(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Transform_82D71918 {
     __vector4 col[4];

@@ -1,12 +1,8 @@
 // Uploads the projection scale/offset and depth constants to the device: pixel shader constants
 // 123/124 (device float registers 379/380), and the vertex shader constants 16/18 unless pixelOnly.
 // The two input vectors are built the way XNA Math's XMVectorSet does (lvlx loads merged with vrlimi).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vrlimi(__vector4 a, __vector4 b, unsigned int mask, unsigned int rotate);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Device_8254F298 {
     unsigned __int64 dirty[2];        // 0x00: one bit per 4 float registers, MSB first

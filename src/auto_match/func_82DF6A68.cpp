@@ -1,9 +1,9 @@
 #include "havok/hkArrayUtil.h"
+#include "xdk/vectorintrinsics.h"
 
 // Array replace (remove rem elements at pos, insert n copied from src) for a
 // 32-byte element of two vectors, the same code as func_82DB9F80 for int; the
 // copy is a placement-new copy construction (null test on each slot).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float vector4_f32[4]; } __vector4;
 struct Elem_82DF6A68 {
   __vector4 a;
   __vector4 b;

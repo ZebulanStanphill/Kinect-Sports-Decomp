@@ -1,13 +1,7 @@
 // Havok: segment (2 vertices) of the first body and triangle (3 vertices) of the second body
 // transformed to world space, then the radius-aware segment/triangle query fn_82D77620.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vaddfp(__vector4 a, __vector4 b);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Transform_82D62740 {
     __vector4 col[4];

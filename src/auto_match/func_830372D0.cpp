@@ -1,8 +1,7 @@
 // Copy assignment of a class that adds six matrices and a float to a base whose own copy
 // assignment is fn_83037020. Each matrix copies as two 32-byte halves with their own operator=.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 struct Half_830372D0 {
     __vector4 a, b;

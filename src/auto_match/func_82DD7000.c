@@ -2,28 +2,8 @@
    (byte offsets into the simplex), stores a, a - b and the normalised normal of the triangle (b, c, d),
    then builds the four region signs (the edge-plane distances of a against the three edges and the
    last search direction) and flips the normal when bit 0 is set. Returns the negated sign code & 0xe. */
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    int vector4_i32[4];
-} __vector4;
 
-__vector4 __vspltisw(int value);
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vnmsubfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vrsqrtefp(__vector4 v);
-__vector4 __vcmpeqfp(__vector4 a, __vector4 b);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
-__vector4 __vmsum3fp(__vector4 a, __vector4 b);
-__vector4 __vmsum4fp(__vector4 a, __vector4 b);
-__vector4 __vpermwi(__vector4 v, int control);
-__vector4 __vcmpgtfp(__vector4 a, __vector4 b);
-__vector4 __vand(__vector4 a, __vector4 b);
-__vector4 __vxor(__vector4 a, __vector4 b);
-__vector4 __vctsxs(__vector4 v, int shift);
-void __stvewx(__vector4 v, void *p, int offset);
+#include "xdk/vectorintrinsics.h"
 
 extern const __vector4 lbl_82132D70;   /* (0.5, 0.5, 0.5, 0.5) */
 extern const __vector4 lbl_8217D960;   /* (1, 1, 1, 1) */
@@ -108,7 +88,7 @@ int fn_82DD7000(const Simplex_82DD7000 *self, const Edge_82DD7000 *edge, Result_
     out->normal = n;
     {
         __vector4 m = SignBits(t);
-        mask = m.vector4_i32[0];
+        mask = m.vector4_u32[0];
     }
     if (mask & 1) {
         out->normal = __vxor(n, lbl_8209AB20);

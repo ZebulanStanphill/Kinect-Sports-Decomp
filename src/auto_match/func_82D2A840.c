@@ -1,14 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4]; /* 0x00 */
-} __vector4;
-
-__vector4 __lvlx(const void *, int);
-__vector4 __vspltw(__vector4, unsigned int);
-__vector4 __vaddfp(__vector4, __vector4);
-__vector4 __vmulfp(__vector4, __vector4);
-__vector4 __vsubfp(__vector4, __vector4);
-__vector4 __vmsum3fp(__vector4, __vector4);
-void __stvewx(__vector4, void *, int);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Query_82D2A840 {
     char padding[0x10];  /* 0x00 */

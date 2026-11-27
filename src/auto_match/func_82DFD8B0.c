@@ -2,19 +2,8 @@
 // float literal 2.2369974f (pooled at lbl_82147F8C: needs --alias __real@400f2af7=lbl_82147F8C;
 // an extern float gives the swapped fmuls operands). Length is dot3 * rsqrt(dot3) with two Newton steps (Havok's
 // hkVector4::length3 shape, 0.5 vector lbl_82132D70) and read through stvewx.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltisw(int value);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vmsum3fp(__vector4 a, __vector4 b);
-__vector4 __vrsqrtefp(__vector4 v);
-__vector4 __vcmpeqfp(__vector4 a, __vector4 b);
-__vector4 __vnmsubfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
-void __stvewx(__vector4 v, void *base, int offset);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Entity_82DFD8B0 {
     char pad0[0x1b0];

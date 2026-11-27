@@ -1,12 +1,10 @@
 // circular_buffer<__vector4>::set_capacity(5): reallocate through std::_Allocate
 // (fn_82386E68, its unused pointer argument dropped by LTCG), copy the live range,
 // free the old storage.
-inline void *operator new(unsigned int, void *where) throw() { return where; }
 
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float f[4];
-    unsigned int u[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
+
+inline void *operator new(unsigned int, void *where) throw() { return where; }
 
 typedef __vector4 Elem;
 

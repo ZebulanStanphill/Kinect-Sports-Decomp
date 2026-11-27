@@ -2,16 +2,8 @@
 // w cleared) or, without a positioned item, at the actor's position (+0x50), with the item's id
 // (+0x30) or the actor's (+0x1c4). Skipped while the emitter is busy (+0x4c) and the id is -1,
 // or when the actor's state (+0x4c) is hidden (+0x5c) or still fading (+0x6c > 0).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __lvrx(const void *base, int offset);
-__vector4 __vsldoi(__vector4 a, __vector4 b, int shift);
-__vector4 __vor(__vector4 a, __vector4 b);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
-__vector4 __VMXGetReg(int n);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Float3_826127C8 {
     float x, y, z;

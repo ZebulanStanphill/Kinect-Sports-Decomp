@@ -1,19 +1,8 @@
 // Selects the LFE on/off choice, then picks one of three handles by the length of a velocity
 // (low below the lower tuning threshold, high above the upper one, middle otherwise) and plays
 // it at the owner's position (fn_82552D10) with the choice list.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltisw(int value);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vnmsubfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vmsum3fp(__vector4 a, __vector4 b);
-__vector4 __vrsqrtefp(__vector4 v);
-__vector4 __vcmpeqfp(__vector4 a, __vector4 b);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
-__vector4 __vcfsx(__vector4 v, int shift);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Tuning_8236A100 {
     char pad0[0x88];

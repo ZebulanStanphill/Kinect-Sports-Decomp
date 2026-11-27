@@ -1,8 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-__vector4 __vxor(__vector4 first, __vector4 second);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct State_82DFC270 {
     unsigned char active; /* 0x00 */

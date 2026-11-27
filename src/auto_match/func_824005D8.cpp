@@ -1,9 +1,8 @@
 // Deferred call object (built by fn_823EBD08 / fn_82400548, vtable lbl_821B78DC): invokes the
 // stored pointer-to-member on the stored target with the stored arguments (four words, two
 // vectors and the 0x4c-byte block, passed by address). The bound method is fn_823D0140.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 class __multiple_inheritance Target_824005D8;
 

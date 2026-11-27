@@ -1,25 +1,10 @@
 // For each of the two players that is active (fn_825602B8), copies the source's position and
 // direction into the player's mirror entry and builds the entry's matrix: the reflection through
 // the plane normal to the direction (I - 2 n n^T), multiplied by the object's world matrix.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 extern "C" {
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vspltisw(int value);
-__vector4 __vcfsx(__vector4 v, int shift);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vnmsubfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vmsum3fp(__vector4 a, __vector4 b);
-__vector4 __vmsum4fp(__vector4 a, __vector4 b);
-__vector4 __vrsqrtefp(__vector4 v);
-__vector4 __vrlimi(__vector4 a, __vector4 b, int mask, int rot);
-__vector4 __vupkd3d(__vector4 v, int type);
-__vector4 __vpermwi(__vector4 v, int control);
-__vector4 __vmrghw(__vector4 a, __vector4 b);
-__vector4 __vmrglw(__vector4 a, __vector4 b);
 
 struct Matrix_825E9498 {
     Matrix_825E9498() {}

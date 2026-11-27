@@ -1,13 +1,7 @@
 // Interpolates a frame: the base part through fn_823BEB30, then the vector at +0x1a0 as
 // self + (other - self) * t.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Frame_82446A38 {
     char pad000[0x1a0];

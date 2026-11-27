@@ -1,12 +1,8 @@
 /* Scalar sine (XMScalarSin shape): the angle is reduced to [-pi, pi), then the odd powers of x are
    dotted with the sine coefficient tables. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vmsum4fp(__vector4 a, __vector4 b);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
+
 double fabs(double);
 
 extern const __vector4 lbl_82195FE0; /* sine coefficients 0 */

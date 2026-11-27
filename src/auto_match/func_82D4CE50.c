@@ -1,13 +1,7 @@
 // hkpPlaneShape::collideSpheres (vtable ??_7hkpPlaneShape@@6B@ slot 11): for every sphere, the
 // output is the plane with w = plane.dot4xyz1(centre) - radius.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vaddfp(__vector4 a, __vector4 b);
-__vector4 __vmsum3fp(__vector4 a, __vector4 b);
-void __stvewx(__vector4 v, void *base, int offset);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct PlaneShape_82D4CE50 {
     char pad0[0x10];

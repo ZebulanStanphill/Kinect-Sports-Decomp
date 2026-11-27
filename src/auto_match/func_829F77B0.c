@@ -1,9 +1,8 @@
 /* Collects the visible entries 2..199 of a body's point table (fn_829F7218): up to 19 copied into
    result slots 1.., and the entry with the smallest y (slot 0); also tracks the entry closest to the
    x = 0 plane. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 void *memset(void *dst, int value, unsigned int size);
 double fabs(double);

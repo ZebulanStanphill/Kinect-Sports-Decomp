@@ -4,7 +4,7 @@
 
 #include <new>
 #include "game/Allocator_825089A0.h"
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float f[4]; unsigned int u[4]; } __vector4;
+#include "xdk/vectorintrinsics.h"
 extern "C" { __vector4 __VMXGetReg(int); extern const __vector4 lbl_82196750; extern char lbl_821B903C[], lbl_821B5EBC[]; }
 struct Object_82361BA0 {
  void *vtable; int state; __vector4 position, rotation;

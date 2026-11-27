@@ -1,9 +1,6 @@
 // Adds an entry for key to the manager's std::map unless one exists already.
 #include <map>
-
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 struct Entry_822708D8 {
     unsigned int key; /* 0x00 */

@@ -1,10 +1,7 @@
 /* Havok: sets the first rotation to identity (inlined hkMatrix3::setIdentity: zero columns via setZero4, then
    the diagonal 1.0f) and the second from a quaternion (fn_82CE6010, hkRotation::set). */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vxor(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct { __vector4 col[3]; } Rotation_82DA2508;
 

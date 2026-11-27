@@ -1,10 +1,8 @@
 /* Reads one record (three vectors, a float and an int) from five typed sources through
    their slot 5 Get method and, for a non-zero offset, stores each value at that byte
    offset into the matching column array. */
-typedef __declspec(passinreg) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Src_823928F0 Src_823928F0;
 typedef struct SrcVtbl_823928F0 {

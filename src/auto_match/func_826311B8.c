@@ -1,11 +1,6 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float f[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 void __dcbt(int offset, const void *base);
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __lvrx(const void *base, int offset);
-__vector4 __vor(__vector4 a, __vector4 b);
 
 typedef struct Buffer_826311B8 {
     unsigned __int64 firstMask;

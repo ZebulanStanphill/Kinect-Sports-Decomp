@@ -1,9 +1,8 @@
 /* Plays one of four random sounds at a random screen position: near the current player's screen
    position (within 40 units) when asked to and there is one, otherwise anywhere in the
    configured area; then restarts the sound handle and picks the next random delay. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Vec2_824779E0 {
     float x;

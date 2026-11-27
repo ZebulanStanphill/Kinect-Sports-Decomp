@@ -4,6 +4,7 @@
 // float, KickParams, bool> >: returns typeid of the functor. It keeps its fn_ name: the function's
 // signature, and so its implementation class, isn't known.
 #include <functional>
+#include "xdk/vectorintrinsics.h"
 
 namespace olympus {
     namespace sport {
@@ -16,10 +17,6 @@ namespace olympus {
         }
     }
 }
-// The XDK's VMX vector type.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
 typedef std::tr1::_Bind<void, void, std::tr1::_Bind7<std::tr1::_Callable_pmf<void (olympus::sport::football::FootballController::* const)(unsigned int, olympus::sport::TeamId::Enum, __vector4, float, const olympus::sport::football::KickParams &, int), olympus::sport::football::FootballController, 0>, olympus::sport::football::FootballController *, unsigned int, olympus::sport::TeamId::Enum, __vector4, float, olympus::sport::football::KickParams, bool> > Functor;
 

@@ -3,19 +3,8 @@
    and transparent black when colour0 <= colour1), and the 2-bit indices (read through
    fn_82AA7710) select the 16 output colours. The 2/3 weight is the literal 0.666666687f, pooled
    as lbl_820151C0 (pool alias __real@3f2aaaab=lbl_820151C0). */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __lvrx(const void *base, int offset);
-__vector4 __vor(__vector4 a, __vector4 b);
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vspltisw(int value);
-__vector4 __vcfux(__vector4 v, int shift);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 extern void fn_82AA7C38(void *dst, const void *src, unsigned int flags, int count, int size);
 extern void fn_82AA7710(void *dst, const void *src, unsigned int flags);

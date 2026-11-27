@@ -1,10 +1,7 @@
 /* Constructor: base constructor (fn_822C70F0), then the owner, empty lists and slots, a zero offset
    and values, and the setup from the owner's resources (fn_82301BE8). */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __VMXGetReg(int reg);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct List_823018E8 {
     void *first; /* 0x0 */

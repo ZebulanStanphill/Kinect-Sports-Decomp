@@ -1,8 +1,7 @@
 /* Delegate forwarder: calls the bound function on the bound object with all arguments, among them a 4x4 vector
    matrix passed by value (r6-r10 and three stack slots, copied with memcpy) and an int. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Matrix_823FE7F8 {
     __vector4 rows[4];

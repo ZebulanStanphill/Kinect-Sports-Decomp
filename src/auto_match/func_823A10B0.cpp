@@ -2,18 +2,8 @@
 // lbl_831D2BF0, makes a shared copy of the description returned by fn_8251F720 (make_shared:
 // reference-count block with vtable lbl_821AE598 and the 12-byte object at +0xc), then fills a
 // request block from it and registers it (fn_82529A38), keeping the returned handle.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-extern "C" {
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __lvrx(const void *base, int offset);
-__vector4 __vsldoi(__vector4 a, __vector4 b, int shift);
-__vector4 __vor(__vector4 a, __vector4 b);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
-__vector4 __VMXGetReg(int n);
-}
+#include "xdk/vectorintrinsics.h"
 
 struct Float3_823A10B0 {
     float x, y, z;

@@ -1,6 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Point_825EB400 {
     char pad[0x10];
@@ -24,14 +22,6 @@ typedef struct State_825EB400 {
     int reserved;
     int index;
 } State_825EB400;
-
-__vector4 __vsubfp(__vector4, __vector4);
-__vector4 __vmsum3fp(__vector4, __vector4);
-__vector4 __lvsl(const void *, int);
-__vector4 __vperm(__vector4, __vector4, __vector4);
-__vector4 __vpkd3d(__vector4, __vector4, unsigned int, unsigned int, unsigned int);
-__vector4 __vsplth(__vector4, unsigned int);
-void __stvehx(__vector4, void *, int);
 
 extern void fn_82F65FE0(void *base, unsigned int count, unsigned int size,
                         int (*compare)(const void *, const void *));

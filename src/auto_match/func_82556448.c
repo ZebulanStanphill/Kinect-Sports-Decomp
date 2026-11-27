@@ -1,14 +1,8 @@
 // Transforms every point of the node by the matrix (XMVector3Transform shape, w cleared
 // through the game's reserved zero vector v77 and select mask v67), then recurses into each
 // child's node (the sub-object at +0x98 of the child's object) with the child's own matrix.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __VMXGetReg(int n);
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Matrix_82556448 {
     __vector4 r[4];

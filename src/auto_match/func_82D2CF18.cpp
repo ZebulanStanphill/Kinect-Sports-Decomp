@@ -1,11 +1,8 @@
 #include "havok/hkOstream.h"
+#include "xdk/vectorintrinsics.h"
 
 extern "C" {
 
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-__vector4 __vspltw(__vector4 v, unsigned int i);
 void __debugbreak(void);
 
 typedef struct Aabb_82D2CF18 {

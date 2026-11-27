@@ -1,17 +1,8 @@
 #include <vector>
+#include "xdk/vectorintrinsics.h"
 /* Finds the volume of the given layer that contains the position, maps it through the owner's
    item list to the matching volume entry and returns that entry's bounds shrunk by the margin
    in x and z. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-extern "C" {
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vrlimi(__vector4 a, __vector4 b, int mask, int rotate);
-__vector4 __vaddfp(__vector4 a, __vector4 b);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-}
 
 typedef struct Volume_823DCC60 {
     unsigned short type;          /* 0x00 */

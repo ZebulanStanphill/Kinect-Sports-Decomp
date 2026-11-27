@@ -1,15 +1,10 @@
 // XNA Math XMMatrixMultiply(M1, M2): both matrices by value, result through the hidden pointer.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef __declspec(align(16)) struct Matrix_82F59668 {
     __vector4 r[4];
 } Matrix_82F59668;
-
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
 
 Matrix_82F59668 *fn_82F59668(Matrix_82F59668 *result, Matrix_82F59668 m1, Matrix_82F59668 m2)
 {

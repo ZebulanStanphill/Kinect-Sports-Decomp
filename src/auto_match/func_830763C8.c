@@ -1,23 +1,9 @@
 /* Quaternion from an axis and an angle (XMQuaternionRotationAxis shape): the axis is normalised, its w set to 0
    (identity row 3 with xyz replaced), and scaled by (sin, sin, sin, cos) of half the angle. Sine and cosine of the
    reduced half angle come from dot products of the powers of x with the polynomial coefficient tables. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltisw(int value);
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vcfsx(__vector4 v, int shift);
-__vector4 __vmsum3fp(__vector4 a, __vector4 b);
-__vector4 __vmsum4fp(__vector4 a, __vector4 b);
-__vector4 __vrsqrtefp(__vector4 v);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vcmpeqfp(__vector4 a, __vector4 b);
-__vector4 __vnmsubfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
-__vector4 __vupkd3d(__vector4 v, int type);
-__vector4 __vrlimi(__vector4 a, __vector4 b, int mask, int rot);
+#include "xdk/vectorintrinsics.h"
+
 double __fsel(double a, double b, double c);
 double fabs(double);
 

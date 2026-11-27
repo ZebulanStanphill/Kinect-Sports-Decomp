@@ -1,10 +1,7 @@
 /* Havok: runs fn_82DEA460 on a zeroed result (two floats, an origin and a rotation) and copies the
    maximum, the origin and the rotation into the output. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vxor(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Rotation_82DEA600 {
     __vector4 column[3];

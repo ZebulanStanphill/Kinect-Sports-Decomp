@@ -1,14 +1,8 @@
 /* Bowling pin hits: in a replay, triggers the recorded pin hit; otherwise finds the strongest
    pin hit, triggers the first upward hit inside the lane box, and adds the hit strength
    (remapped, capped at the player's maximum) to the accumulated push. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vspltw(__vector4 v, int element);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vmsum3fp(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Hit_82412308 {
     __vector4 position;  /* 0x00 */

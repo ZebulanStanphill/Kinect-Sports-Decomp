@@ -1,13 +1,8 @@
 /* Projects a world point to screen pixels: transforms it by the view and projection matrices,
    rejects points behind the camera, optionally reports whether the projected point is inside the
    given half extents, and maps the result from [-1, 1] to the viewport. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vmrghw(__vector4 a, __vector4 b);
-__vector4 __vmrglw(__vector4 a, __vector4 b);
-__vector4 __vmsum4fp(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Vec3_82531F18 {
     float x;

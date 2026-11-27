@@ -1,7 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 extern int fn_8242C1B8(int a);
 extern int fn_824C8210(int a, __vector4 v);

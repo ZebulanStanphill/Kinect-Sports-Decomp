@@ -1,3 +1,5 @@
+#include "xdk/vectorintrinsics.h"
+
 extern "C" unsigned char fn_82F64538(const type_info *, const type_info *);
 extern "C" char lbl_831D7088[];
 
@@ -32,10 +34,6 @@ __forceinline T *any_cast(any *operand)
         : 0;
 }
 }
-
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
 /* The vtables have no RTTI locator, so they are written as stores of their lbl_ names. */
 extern "C" char lbl_821C7FB8[];

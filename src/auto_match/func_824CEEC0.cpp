@@ -1,11 +1,6 @@
+#include "xdk/vectorintrinsics.h"
+
 extern "C" long _InterlockedDecrement(long volatile *addend);
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
-
-extern "C" __vector4 __VMXGetReg(int n);
 
 struct Rep_824CEEC0;
 

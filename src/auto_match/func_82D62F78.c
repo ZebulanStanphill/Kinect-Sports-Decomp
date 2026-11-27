@@ -2,14 +2,8 @@
 // scope, moves the capsule segment and the triangle into world space, runs the capsule-triangle
 // distance query with the agent's triangle cache and reports the body pair to the collector when
 // either result distance is negative.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vaddfp(__vector4 a, __vector4 b);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Transform_82D62F78 {
     __vector4 col[4];

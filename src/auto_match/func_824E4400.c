@@ -1,6 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 typedef union Vector_824E4400 {
     __vector4 value;
@@ -12,7 +10,6 @@ typedef struct Object_824E4400 {
     int near;
 } Object_824E4400;
 
-extern __vector4 __vsubfp(__vector4, __vector4);
 extern double sqrt(double);
 extern __vector4 *fn_82F512E8(__vector4 *, void *, void *, int);
 extern const float lbl_82191EA0[0xd0];

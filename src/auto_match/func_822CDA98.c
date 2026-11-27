@@ -1,11 +1,7 @@
 // Runs the base reset (fn_822B6858), then sets the vector at +0xa0 to (0, -0.025, 0, 0)
 // (XNA Math XMVectorSet shape: four lvlx loads merged with vrlimi).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vrlimi(__vector4 a, __vector4 b, unsigned int mask, unsigned int rotate);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Obj_822CDA98 {
     char pad[0xa0];

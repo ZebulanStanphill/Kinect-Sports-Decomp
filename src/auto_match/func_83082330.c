@@ -1,12 +1,7 @@
 // Initialises a swept state from a position and an orientation: both position slots get the
 // position with w cleared, both orientation slots get the orientation, and the delta is zeroed.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltisw(int value);
-__vector4 __vxor(__vector4 a, __vector4 b);
-__vector4 __vrlimi(__vector4 a, __vector4 b, int mask, int rotate);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Sweep_83082330 {
     __vector4 position0;     // 0x00

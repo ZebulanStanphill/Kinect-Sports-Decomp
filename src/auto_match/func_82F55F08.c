@@ -2,20 +2,8 @@
 // state 0 starts tracking (state 2, or 1 when the second mode is free) from the target position; states
 // 1 and 2 are dropped when the target leaves the reach (fn_82F55DD0 distance minus lbl_82165D1C beyond
 // the two radii), moves farther than lbl_82165D24 from the start point, or the state's own flag is set.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltisw(int value);
-__vector4 __vcfsx(__vector4 v, int shift);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vnmsubfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vmsum3fp(__vector4 a, __vector4 b);
-__vector4 __vrsqrtefp(__vector4 v);
-__vector4 __vcmpeqfp(__vector4 a, __vector4 b);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Body_82F55F08 {
     char pad0[0xc];

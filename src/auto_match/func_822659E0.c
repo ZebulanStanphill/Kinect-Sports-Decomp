@@ -1,12 +1,8 @@
 // Creates the avatar cursor's dot model: fills a model description (position from one of two vectors,
 // scale, owner fields, the "ui_avatarcursordotmodel" resource id), creates the instance from the named
 // model and, when its colour differs from the cursor's, sets all three components and refreshes it.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltw(__vector4 v, unsigned int i);
-void __stvewx(__vector4 v, void *base, int offset);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct ModelDesc_822659E0 {
     char pad0[0x4b];

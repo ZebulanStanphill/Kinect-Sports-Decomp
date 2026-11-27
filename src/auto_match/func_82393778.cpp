@@ -2,7 +2,8 @@
 // BallHitManager member function pointer with all arguments as placeholders: it calls the
 // bound member function on the bound object, forwarding the arguments unchanged. The linker
 // folded several instantiations into this one, so it keeps its fn_ name.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float vector4_f32[4]; } __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 namespace olympus {
     namespace sport {

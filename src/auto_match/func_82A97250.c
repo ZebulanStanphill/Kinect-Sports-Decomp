@@ -1,17 +1,8 @@
 /* Decodes a DXT5/BC4 alpha block: two endpoint bytes (scaled to floats), the eight-entry palette
    (six interpolated values, or four plus 0 and 1 when the first endpoint is not larger), and the
    sixteen 3-bit indices, written into lane `channel` of the sixteen output vectors. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vcfux(__vector4 v, int shift);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vrlimi(__vector4 a, __vector4 b, int mask, int rot);
-__vector4 __vcmpgtfpR(__vector4 a, __vector4 b, unsigned int *cr);
+#include "xdk/vectorintrinsics.h"
 
 extern const __vector4 lbl_820D26E0;
 extern const __vector4 lbl_820D27C0;

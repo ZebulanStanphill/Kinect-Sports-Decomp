@@ -1,9 +1,8 @@
 /* hkpVehicleRayCastWheelCollide::castSingleWheel(const hkpVehicleInstance::WheelInfo &, hkpWorldRayCastOutput &)
    (vtable slot 0x38): casts the wheel ray from the hard point to the ray end point through the phantom
    (fn_82D8D008, hkpAabbPhantom::castRay). */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct WheelInfo_82E01720 {
     char pad[0x50];

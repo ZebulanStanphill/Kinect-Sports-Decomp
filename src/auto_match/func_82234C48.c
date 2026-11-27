@@ -1,4 +1,5 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float f[4]; } __vector4;
+#include "xdk/vectorintrinsics.h"
+
 typedef struct Iface_82234C48 Iface_82234C48;
 struct Iface_82234C48 { struct VT_82234C48 *vt; };
 typedef struct VT_82234C48 { void (*f0)(); void (*set)(Iface_82234C48 *,__vector4); void (*f8)(); void (*fc)(); void (*f10)(); void (*get)(Iface_82234C48 *,int,__vector4 *); } VT_82234C48;

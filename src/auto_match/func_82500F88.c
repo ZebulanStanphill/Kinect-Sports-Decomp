@@ -1,14 +1,8 @@
 // Message handler: 0x45 forwards the owner's id (fn_8252ACC0); 0x73 reports two tracked points
 // (fn_82F52428 slots 2 and 3) transformed by the object's matrix, or zeros when tracking is not
 // available. Then passes the message to the base handler (fn_825925D8).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
-__vector4 __VMXGetReg(int n);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Matrix_82500F88 {
     __vector4 r[4];

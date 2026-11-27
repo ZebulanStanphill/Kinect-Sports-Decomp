@@ -1,10 +1,5 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vmsum3fp(__vector4 a, __vector4 b);
-__vector4 __vrlimi(__vector4 a, __vector4 b, int mask, int rot);
 double fabs(double x);
 
 typedef struct Owner_8241F978 {

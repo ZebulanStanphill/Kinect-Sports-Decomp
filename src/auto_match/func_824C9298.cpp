@@ -5,14 +5,9 @@
 // call, and the callee uses v29-v31 without saving them. Needs the real std::vector (operator[] and
 // size()) for the original's dead `mr r8, r9` copy of the begin pointer.
 #include <vector>
-
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 extern "C" {
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __vmsum3fp(__vector4 a, __vector4 b);
 // Closest point to `point` on the segment a -> b.
 __vector4 fn_82532658(__vector4 a, __vector4 b, __vector4 point);
 }

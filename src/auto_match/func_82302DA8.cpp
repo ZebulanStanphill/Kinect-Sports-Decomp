@@ -1,12 +1,11 @@
 #include "stdext/xmemory.h"
+#include "xdk/vectorintrinsics.h"
 inline void *operator new(unsigned int,void *p) throw() { return p; }
 extern "C" {
 void fn_8265CA20(void *);
 __declspec(noreturn) void fn_82F622A8(const char *);
 }
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
- float f[4]; unsigned int u[4];
-} Vec;
+typedef __vector4 Vec;
 struct Item;
 extern "C" {
  void fn_8223B688(void *,const void *);

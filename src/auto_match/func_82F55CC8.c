@@ -1,11 +1,11 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
 /*
  * Projects a skeleton-space point onto the 320x240 depth image (focal length 285.63 pixels).
  * The constants are pooled under lbl_82057514, lbl_82015BD0 and lbl_82015BD8.
  */
+
+#include "xdk/vectorintrinsics.h"
+
 void fn_82F55CC8(__vector4 point, float *depthX, float *depthY)
 {
     float z;

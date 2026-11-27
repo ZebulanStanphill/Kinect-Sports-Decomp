@@ -1,18 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-__vector4 __vspltisw(int value);
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vslw(__vector4 a, __vector4 b);
-__vector4 __vxor(__vector4 a, __vector4 b);
-__vector4 __vpermwi(__vector4 v, int control);
-__vector4 __vrlimi(__vector4 a, __vector4 b, int mask, int rotate);
-__vector4 __vaddfp(__vector4 a, __vector4 b);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __vcmpgtfp(__vector4 a, __vector4 b);
-__vector4 __vcmpequw(__vector4 a, __vector4 b);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
+#include "xdk/vectorintrinsics.h"
 
 __vector4 fn_8306EDE8(__vector4 v)
 {

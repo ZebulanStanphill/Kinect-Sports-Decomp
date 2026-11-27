@@ -1,9 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-__vector4 __vmrghw(__vector4 a, __vector4 b);
-__vector4 __vmrglw(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Matrix_82532CF8 {
     __vector4 rows[4];

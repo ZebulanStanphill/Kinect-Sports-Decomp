@@ -1,15 +1,8 @@
 /* Expands a 64-bit mask (two words read through fn_82AA7710) into a 4x4 table of nibbles,
    converts the table to float, scales it by lbl_820D26F0 and writes each entry into the w lane
    of the matching output vector. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vspltisw(int value);
-__vector4 __vcfux(__vector4 v, int shift);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vrlimi(__vector4 a, __vector4 b, int mask, int rotate);
+#include "xdk/vectorintrinsics.h"
 
 extern void fn_82AA7710(void *dst, const void *src, unsigned int flags);
 extern const __vector4 lbl_820D26F0;

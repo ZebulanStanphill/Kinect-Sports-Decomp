@@ -1,13 +1,7 @@
 // Havok action: finds a body (fn_82DF0C68); if factor * body.w >= 1 and there is room, registers it
 // (fn_82DF1278), otherwise applies dir * -strength through the body's motion (vtable slot 19).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-void __stvewx(__vector4 v, void *base, int offset);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Body_82DF1328 Body_82DF1328;
 typedef struct Motion_82DF1328 Motion_82DF1328;

@@ -1,12 +1,7 @@
 /* Copies the tracked object's state (two bounds vectors, a height offset, a direction and two scalars) into the
    self's cache block and resets the cache weight to 1.0. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vrlimi(__vector4 a, __vector4 b, int mask, int rotate);
-__vector4 __VMXGetReg(int n);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Object_8255CC98 Object_8255CC98;
 

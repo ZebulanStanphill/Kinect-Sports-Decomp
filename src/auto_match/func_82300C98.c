@@ -1,12 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float f[4];
-} __vector4;
-
-__vector4 __VMXGetReg(int reg);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vspltw(__vector4 v, int lane);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Sample_82300C98 {
     __vector4 values[21];

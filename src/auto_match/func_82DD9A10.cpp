@@ -3,20 +3,10 @@
 // fn_82DD9828), transforms the three triangle vertices into A space, takes vertex 0 of A as a
 // reference, flips the triangle normal towards it and stores A's supporting vertex in that
 // direction as vertex 0 of the cache, with B's ids 0, 1, 2 and dimensions 1 / 3.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 extern "C" {
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vaddfp(__vector4 a, __vector4 b);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vmsum3fp(__vector4 a, __vector4 b);
-__vector4 __vpermwi(__vector4 v, int control);
-__vector4 __vand(__vector4 a, __vector4 b);
-__vector4 __vxor(__vector4 a, __vector4 b);
 
 extern const __vector4 lbl_8209AB20;   /* sign mask */
 }

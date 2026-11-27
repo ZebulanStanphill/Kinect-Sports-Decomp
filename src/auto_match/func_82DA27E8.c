@@ -1,9 +1,8 @@
 // Havok shape phantom setTransformAndLinearCast shape: copies the rotation part (three
 // columns) of the transform into the object at +0xb0 and forwards the translation and
 // the cast arguments to the position version fn_82DA25B8.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Rotation_82DA27E8 {
     __vector4 col0;

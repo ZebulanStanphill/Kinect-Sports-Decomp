@@ -1,8 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-extern __vector4 __VMXGetReg(int);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Interface_825AD9E8 Interface_825AD9E8;
 

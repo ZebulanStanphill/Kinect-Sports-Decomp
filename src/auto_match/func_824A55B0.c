@@ -1,5 +1,5 @@
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float f[4]; unsigned int u[4]; } __vector4;
-__vector4 __VMXGetReg(int);
+#include "xdk/vectorintrinsics.h"
+
 typedef struct { int v[5]; } Block_824A55B0;
 typedef struct Src_824A55B0 {
   int pad[18];

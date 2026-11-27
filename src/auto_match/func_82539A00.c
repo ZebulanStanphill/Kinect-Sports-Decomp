@@ -1,8 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-__vector4 __vmsum3fp(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 int fn_82539A00(const __vector4 *normal, float distance, const __vector4 *origin,
                 const __vector4 *direction, float *t)

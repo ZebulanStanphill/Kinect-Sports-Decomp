@@ -1,6 +1,6 @@
 #include "stdext/xmemory.h"
+#include "xdk/vectorintrinsics.h"
 extern "C" void *memcpy(void *,const void *,unsigned int);
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float f[4]; unsigned int u[4]; } __vector4;
 extern "C" { void fn_823CCBA8(); extern void* lbl_821B7924[]; void fn_8227CB30(void*,void*); void fn_82359C18(void*); char* fn_823F05B8(void*,void*); void fn_823831D8(void*); }
 struct Mfp { void(*f)(); int adjust; };
 struct Key { void *a; int b; };

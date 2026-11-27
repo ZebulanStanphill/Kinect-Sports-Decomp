@@ -1,7 +1,6 @@
 /* Reports whether direction is within 2.5 degrees (0.0436 rad) of the object's facing direction. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 double fabs(double x);
 

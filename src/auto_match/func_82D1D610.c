@@ -1,13 +1,9 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vaddfp(__vector4 a, __vector4 b);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vand(__vector4 a, __vector4 b);
 
 /* (0.5, 0.5, 0.5, 0.5) */
+
+#include "xdk/vectorintrinsics.h"
+
 extern const __vector4 lbl_82132D70;
 /* 0x7FFFFFFF in every lane: clears the sign bits */
 extern const __vector4 lbl_821CA820;

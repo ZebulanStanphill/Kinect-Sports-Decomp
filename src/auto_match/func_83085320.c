@@ -1,7 +1,6 @@
 /* Havok kd-tree build: same Build setup as func_83097E18, with the full 16-bit bounds. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 extern const __vector4 lbl_8323B230[16];
 

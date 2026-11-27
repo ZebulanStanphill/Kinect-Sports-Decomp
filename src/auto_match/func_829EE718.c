@@ -1,9 +1,6 @@
 // Clears a 0xA0-byte state block: a 4x4 matrix, index/float triples and counters.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltisw(int value);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct State_829EE718 {
     __vector4 rows[4];   /* +0x00 */

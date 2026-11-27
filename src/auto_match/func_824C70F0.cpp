@@ -5,11 +5,8 @@
 // known.
 #include <functional>
 #include <memory>
+#include "xdk/vectorintrinsics.h"
 
-// The XDK's VMX vector type.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 namespace olympus {
     namespace incidental {
         class IncidentalMovement {};

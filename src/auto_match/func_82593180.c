@@ -1,10 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vrlimi(__vector4 a, __vector4 b, int mask, int rotate);
-void __VMXSetReg(int n, __vector4 value);
+#include "xdk/vectorintrinsics.h"
 
 typedef union Mask_82593180 {
     unsigned int u[4];

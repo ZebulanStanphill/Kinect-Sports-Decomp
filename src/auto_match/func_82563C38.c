@@ -1,6 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float components[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Query_82563C38 {
     char pad[0x30];
@@ -31,8 +29,6 @@ typedef struct Object_82563C38 {
 extern const __vector4 lbl_821962C0;
 extern const __vector4 lbl_82196750;
 extern void fn_82CE6010(Query_82563C38 *, const __vector4 *);
-__vector4 __VMXGetReg(unsigned int);
-__vector4 __vsel(__vector4, __vector4, __vector4);
 
 void fn_82563C38(Object_82563C38 *self, __vector4 *first, __vector4 *second)
 {

@@ -1,5 +1,5 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float vector4_f32[4]; } __vector4;
-extern __vector4 __vxor(__vector4,__vector4);
+#include "xdk/vectorintrinsics.h"
+
 extern __vector4 lbl_8209AB20;
 extern unsigned __int64 __mftb();
 typedef struct { const char *name; unsigned time, unused; } TimerEntry_82DBB550;

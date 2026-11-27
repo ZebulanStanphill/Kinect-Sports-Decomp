@@ -1,13 +1,7 @@
 // Unpacks a D3DCOLOR into a float vector (XMLoadColor shape: scale * unpacked + offset) and
 // passes it to fn_8263DF30 once with no item, or once per 16-byte item of the given array.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vsldoi(__vector4 a, __vector4 b, int shift);
-__vector4 __vupkd3d(__vector4 v, int type);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Item_8263DE70 {
     char data[0x10];

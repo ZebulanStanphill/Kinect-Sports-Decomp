@@ -1,8 +1,5 @@
 #include <math.h>
-
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 extern const float lbl_821954B0[0xa28 / 4];
 extern float fn_82809D40(float y, float x); /* atan2f */

@@ -1,11 +1,7 @@
 // Mirrors the object's direction along z, re-applies its position, refreshes the part at
 // +0xe8 and reports the new facing (z < 0) and target position to the stored callback.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct CallImpl_8237C338 CallImpl_8237C338;
 typedef struct CallImplVtbl_8237C338 {

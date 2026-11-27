@@ -1,9 +1,7 @@
 // boost::any::holder<__vector4>::clone() (boost/any.hpp): returns a new holder with a copy of the
 // held value. The holder's vtable is lbl_82196E60 {destructor, type, clone}.
-// The XDK's VMX vector type.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef __vector4 Value;
 

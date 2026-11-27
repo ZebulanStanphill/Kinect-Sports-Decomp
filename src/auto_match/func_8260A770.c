@@ -1,6 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4]; /* 0x00 */
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Record_8260A770 {
     unsigned short type;    /* 0x00 */

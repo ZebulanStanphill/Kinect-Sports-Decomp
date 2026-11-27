@@ -1,9 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float scalar[4];
-    unsigned int words[4];
-} __vector4;
-
-__vector4 __vspltw(__vector4 value, unsigned int lane);
+#include "xdk/vectorintrinsics.h"
 
 #define HK_REAL_MAX 3.40282e+38f
 
@@ -14,7 +9,7 @@ typedef struct Scale_82DEC618 {
 
 static __forceinline void SetAll(__vector4 *v, float value)
 {
-    v->scalar[0] = value;
+    v->vector4_f32[0] = value;
     *v = __vspltw(*v, 0);
 }
 

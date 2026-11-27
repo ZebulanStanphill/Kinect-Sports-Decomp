@@ -1,11 +1,7 @@
 // Writes the constant vector (0, 0, 1, 0) to *out; the object itself is not used.
 // The vector is built the way XNA Math's XMVectorSet does (four lvlx loads merged with vrlimi).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vrlimi(__vector4 a, __vector4 b, unsigned int mask, unsigned int rotate);
+#include "xdk/vectorintrinsics.h"
 
 extern const float lbl_821CA45C[2];
 extern const float ltcg_pool_0_0f;

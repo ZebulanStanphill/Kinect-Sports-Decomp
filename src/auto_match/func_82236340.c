@@ -1,4 +1,5 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float f[4]; } __vector4;
+#include "xdk/vectorintrinsics.h"
+
 typedef void (*Get_82236340)(void *,unsigned,void *);
 typedef void (*Set_82236340)(void *,__vector4,__vector4,__vector4,float,unsigned,unsigned char);
 void fn_82236340(char *self,unsigned arg,char *target) {

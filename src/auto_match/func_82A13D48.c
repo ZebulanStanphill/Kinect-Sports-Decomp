@@ -1,14 +1,7 @@
 // Runs the filter fn_82A108B0 on (a, b) with three replicated settings of the object and stores
 // a with its w replaced by the filter result's w to an unaligned float4.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vrlimi(__vector4 a, __vector4 b, int mask, int rotate);
-void __stvlx(__vector4 v, void *base, int offset);
-void __stvrx(__vector4 v, void *base, int offset);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Float4_82A13D48 {
     float x, y, z, w;

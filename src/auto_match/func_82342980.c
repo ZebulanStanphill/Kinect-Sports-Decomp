@@ -1,5 +1,5 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float x,y,z,w; } __vector4;
-extern __vector4 __VMXGetReg(unsigned);
+#include "xdk/vectorintrinsics.h"
+
 extern void fn_824E1960(__vector4 *,void *);
 __vector4 *fn_82342980(__vector4 *out,int p) {
  void *value=*(void **)(**(int **)(p+0xc)+0x24);

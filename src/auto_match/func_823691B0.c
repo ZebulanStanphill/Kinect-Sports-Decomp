@@ -1,8 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-__vector4 __VMXGetReg(int reg);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Pose_823691B0 {
     __vector4 position;        /* 0x00 */

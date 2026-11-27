@@ -1,7 +1,5 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-__vector4 __vspltisw(int value);
+#include "xdk/vectorintrinsics.h"
+
 double sqrt(double);
 
 extern const double lbl_82005710;

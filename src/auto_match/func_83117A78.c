@@ -3,15 +3,9 @@
 // matrix, built as XNA Math does on the VMX128 unit: unpacking a splatted 0 as VPACK_NORMSHORT2
 // gives 0 in z and 1 in w, and a permute picks (z, z, z, w).
 
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 #define VPACK_NORMSHORT2 1
-
-__vector4 __vspltisw(int value);
-__vector4 __vupkd3d(__vector4 v, int type);
-__vector4 __vpermwi(__vector4 v, int control);
 
 extern __vector4 lbl_8328B560;
 

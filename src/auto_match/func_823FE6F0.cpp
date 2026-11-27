@@ -3,7 +3,8 @@
 // (vtable lbl_821B7504 slot 1; slot 2 fn_823FE758 returns the functor's typeid). The
 // function's signature takes PassTarget and PassParams by value, which convert to the
 // member's const references. The implementation class isn't named, so it keeps its fn_ name.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float vector4_f32[4]; } __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 namespace olympus {
     namespace sport {

@@ -1,8 +1,8 @@
 /* Takes a node from the pool's free list (refilling it with fn_82D2B950), copies the payload
    from src and links the node at the head of the list (same shape as fn_82D166F8). */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-  float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
+
 typedef struct Node_82D2D400 {
   struct Node_82D2D400 *next;
   struct Node_82D2D400 *prev;

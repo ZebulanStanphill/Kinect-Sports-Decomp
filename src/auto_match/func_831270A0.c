@@ -1,11 +1,9 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vrlimi(__vector4 a, __vector4 b, int mask, int rotate);
 
 /* The game's 1.0f pair, defined selectany as in Matching func_825BCDA8.cpp; read as lbl_821CA45C[1]. */
+
+#include "xdk/vectorintrinsics.h"
+
 __declspec(selectany) const float lbl_821CA45C[2] = { 1.0f, 1.0f };
 extern __vector4 lbl_832970C0[8];
 

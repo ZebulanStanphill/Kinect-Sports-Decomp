@@ -1,9 +1,8 @@
 /* Tests whether the left or right hand of a tracked skeleton is raised: the hand at or above its
    elbow and no more than 0.06 in front of its shoulder (the layout of a Kinect skeleton frame:
    tracking state at 0, the twenty joint positions from 0x20). */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Skeleton_82F5CAA0 {
     int trackingState;            /* 0x00 */

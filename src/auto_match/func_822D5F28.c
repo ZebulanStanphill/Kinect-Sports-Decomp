@@ -1,7 +1,6 @@
+#include "xdk/vectorintrinsics.h"
+
 extern unsigned int strlen(const char *s);
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
 typedef struct String_822D5F28 {
     int unk0[7];

@@ -1,6 +1,5 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float vector4_f32[4]; } __vector4;
-extern __vector4 __vmsum3fp(__vector4, __vector4);
-void __stvewx(__vector4 v, void *base, int offset);
+#include "xdk/vectorintrinsics.h"
+
 typedef struct Shape_82D43FA8 Shape_82D43FA8;
 typedef struct VTable_82D43FA8 {
     void *pad[0xe];

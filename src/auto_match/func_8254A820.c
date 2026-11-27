@@ -1,15 +1,7 @@
 /* D3DCOLOR (ARGB, by value) to a float vector: XMLoadColor in its unaligned-load form
    (lvsl permute of the two aligned words around the value), then the components rotated. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvsl(const void *base, int offset);
-__vector4 __vsldoi(__vector4 a, __vector4 b, int shift);
-__vector4 __vperm(__vector4 a, __vector4 b, __vector4 control);
-__vector4 __vupkd3d(__vector4 v, int type);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vpermwi(__vector4 v, int control);
+#include "xdk/vectorintrinsics.h"
 
 extern const __vector4 lbl_821CC0C0;     /* four -32896.5 (unpack offset) */
 extern const __vector4 lbl_821CC0D0;     /* four 32896.5 (unpack scale) */

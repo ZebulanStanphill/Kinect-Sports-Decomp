@@ -1,9 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float values[4];
-} __vector4;
-
-__vector4 __vmsum3fp(__vector4 a, __vector4 b);
-void __stvewx(__vector4 value, void *base, int offset);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Shape_82D6F920 Shape_82D6F920;
 
@@ -55,8 +50,8 @@ void fn_82D6F920(ShapeList_82D6F920 *self, const __vector4 *direction, __vector4
         if (distance > maximum) {
             maximum = distance;
             *out = support;
-            best = (int)(*(unsigned int *)&support.values[3] & 0xc0ffffff) / 16 + index * 3;
+            best = (int)(*(unsigned int *)&support.vector4_f32[3] & 0xc0ffffff) / 16 + index * 3;
         }
     }
-    *(unsigned int *)&out->values[3] = best | 0x3f000000;
+    *(unsigned int *)&out->vector4_f32[3] = best | 0x3f000000;
 }

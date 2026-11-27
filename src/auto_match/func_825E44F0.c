@@ -2,16 +2,8 @@
 // words into +0x70..+0x98, the float3 at +0xa4 as a vector (w cleared through the game's
 // reserved zero vector v77 and select mask v67) into +0x220, and three words into +0x230.
 // Returns 1.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __VMXGetReg(int n);
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __lvrx(const void *base, int offset);
-__vector4 __vsldoi(__vector4 a, __vector4 b, int shift);
-__vector4 __vor(__vector4 a, __vector4 b);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Float3_825E44F0 {
     float x, y, z;

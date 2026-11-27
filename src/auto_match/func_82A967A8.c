@@ -1,11 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    unsigned int u[4];
-} __vector4;
-
-__vector4 __lvlx(const void *, int);
-__vector4 __vpkd3d(__vector4, __vector4, unsigned int, unsigned int, unsigned int);
-__vector4 __vsplth(__vector4, unsigned int);
-void __stvehx(__vector4, void *, int);
+#include "xdk/vectorintrinsics.h"
 
 static __forceinline unsigned short FloatToHalf(float value)
 {

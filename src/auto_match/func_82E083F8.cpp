@@ -1,8 +1,5 @@
 #include "havok/hkArrayUtil.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Vec4Array_82E083F8 {
     __vector4 *data;

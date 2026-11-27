@@ -1,6 +1,7 @@
 // Reads a __vector4 setting through slot 5 of the source into a boost::any: in place when the
 // any already holds a __vector4, else into a temporary that is then assigned to the any.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float vector4_f32[4]; } __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 extern "C" unsigned char fn_82F64538(const type_info *, const type_info *);
 extern "C" void *fn_8265C9E0(unsigned int);

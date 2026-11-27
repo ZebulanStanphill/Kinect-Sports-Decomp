@@ -1,8 +1,7 @@
 // Assignment of a block with a 40-byte header and six 4x4 matrices (compiler-generated
 // copy: header copied as a POD, each matrix through its own operator=).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 struct Half_83037020 {
     __vector4 a, b;

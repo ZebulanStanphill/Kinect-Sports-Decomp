@@ -1,7 +1,6 @@
-class type_info;
+#include "xdk/vectorintrinsics.h"
 
-struct __vector4 {
-};
+class type_info;
 
 extern "C" const void *fn_822392B0(void)
 {

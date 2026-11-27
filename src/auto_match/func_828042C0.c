@@ -1,19 +1,7 @@
 // Quaternion lerp along the shorter arc (not normalised): q0 * (1 - t) + q1 * (+-t), the
 // sign of t flipped when the two quaternions point into opposite half spaces (dot <= 0).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltisw(int value);
-__vector4 __vslw(__vector4 a, __vector4 b);
-__vector4 __vupkd3d(__vector4 v, int type);
-__vector4 __vmsum4fp(__vector4 a, __vector4 b);
-__vector4 __vxor(__vector4 a, __vector4 b);
-__vector4 __vaddfp(__vector4 a, __vector4 b);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vcmpgefp(__vector4 a, __vector4 b);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
+#include "xdk/vectorintrinsics.h"
 
 #define VPACK_D3DCOLOR 0
 

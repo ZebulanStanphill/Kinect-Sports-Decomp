@@ -1,12 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-__vector4 __lvsl(const void *base, int offset);
-__vector4 __vperm(__vector4 a, __vector4 b, __vector4 control);
-__vector4 __vpkd3d(__vector4 d, __vector4 v, int type, int mask, int shift);
-__vector4 __vsplth(__vector4 v, unsigned int i);
-void __stvehx(__vector4 v, void *base, int offset);
+#include "xdk/vectorintrinsics.h"
 
 static __forceinline unsigned short FloatToHalf(float value)
 {

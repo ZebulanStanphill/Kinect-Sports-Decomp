@@ -1,12 +1,8 @@
 /* Picks a random point on a disc around `position`: random angle (0..2*pi) and a random
    radius scaled by (1 - *owner->accuracy) * settings[15]. The polar offset comes from
    fn_8255A160(origin, angle, radius), started from the reserved zero vector (v77). */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vaddfp(__vector4 a, __vector4 b);
-__vector4 __VMXGetReg(int n);
+#include "xdk/vectorintrinsics.h"
 
 extern unsigned int lbl_83265A28;           /* random seed */
 extern const float lbl_821CA45C[2];         /* [1] = 1.0f */

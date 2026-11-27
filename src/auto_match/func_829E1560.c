@@ -1,7 +1,6 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float vector4_f32[4]; } __vector4;
+#include "xdk/vectorintrinsics.h"
+
 typedef struct { char pad[8]; __vector4 v8; char pad18[0x2bc]; } Dst_829E1560;
-extern void __stvlx(__vector4, void *, int);
-extern void __stvrx(__vector4, void *, int);
 extern char *fn_829E0C20(void *, unsigned);
 extern int fn_829E0980(void *, int, int, int, void *);
 extern int fn_82A1DDC0(void *, void *, int);

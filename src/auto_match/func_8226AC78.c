@@ -1,10 +1,6 @@
 /* Returns the down or up unit vector (y = -1 when the point lies at or beyond x, else +1). */
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float vector4_f32[4];
-    unsigned int vector4_u32[4];
-} __vector4;
 
-__vector4 __VMXGetReg(int n);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Object_8226AC78 {
     char padding[0x1c];

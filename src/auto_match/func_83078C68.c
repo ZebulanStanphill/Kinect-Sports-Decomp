@@ -2,9 +2,8 @@
 // id >= 20), a timer that runs down while the product is above 0.7 and up otherwise, the elapsed time
 // while the timer is non-negative, a shift of the last two time steps and of two history vectors, and a
 // new vector from fn_83075E40 of fn_83078598's result.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct State_83078C68 {
     char pad0[0x40];

@@ -2,20 +2,12 @@
 // its own space (virtual getAabb, slot 7), then the projection of the AABB corner that lies
 // furthest along the direction. lbl_82132D70 is Havok's 0.5 vector, lbl_8209AB20 the sign
 // mask.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
+
 typedef __vector4 hkQuadReal;
 
 extern "C" {
-__vector4 __vxor(__vector4 a, __vector4 b);
-__vector4 __vand(__vector4 a, __vector4 b);
-__vector4 __vaddfp(__vector4 a, __vector4 b);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vmsum3fp(__vector4 a, __vector4 b);
-void __stvewx(__vector4 v, void *base, int offset);
 
 extern const hkQuadReal lbl_82132D70;
 extern const hkQuadReal lbl_8209AB20;

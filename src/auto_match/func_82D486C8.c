@@ -1,9 +1,5 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float values[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
-__vector4 __vmsum3fp(__vector4 a, __vector4 b);
-void __stvewx(__vector4 value, void *base, int offset);
 typedef struct Shape_82D486C8 Shape_82D486C8;
 
 typedef struct ShapeTable_82D486C8 {
@@ -45,7 +41,7 @@ void fn_82D486C8(hkpConvexListShape *self, const __vector4 *direction, __vector4
         }
     }
     {
-        unsigned int *identifier = (unsigned int *)&out->values[3];
+        unsigned int *identifier = (unsigned int *)&out->vector4_f32[3];
         *identifier = ((*identifier & 0xc0ffffff) + best * 0x100) | 0x3f000000;
     }
 }

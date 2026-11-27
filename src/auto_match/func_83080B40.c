@@ -1,12 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float f[4];
-    unsigned int u[4];
-} __vector4;
-
-extern __vector4 __vsubfp(__vector4, __vector4);
-extern __vector4 __vaddfp(__vector4, __vector4);
-extern __vector4 __vspltisw(int);
-extern __vector4 __vrlimi(__vector4, __vector4, unsigned int, unsigned int);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct State_83080B40 {
     __vector4 rotation[3]; /* 0x00 */

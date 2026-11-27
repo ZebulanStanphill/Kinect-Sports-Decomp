@@ -1,11 +1,5 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vexptefp(__vector4 v);
 float __fsel(float c, float a, float b);
 
 extern const float lbl_8216C698;            /* minimum level (dB) */

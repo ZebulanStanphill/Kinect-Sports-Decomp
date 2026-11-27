@@ -1,9 +1,7 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
 /* v77 is the game's reserved zero vector, read with __VMXGetReg (/QVMXReserve). */
-__vector4 __VMXGetReg(int n);
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Self_823D63B0 {
     __vector4 v[2];

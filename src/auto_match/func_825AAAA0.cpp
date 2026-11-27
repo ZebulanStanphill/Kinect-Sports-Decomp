@@ -1,5 +1,6 @@
 #include "stdext/xmemory.h"
 #include "havok/hkStringPtr.h"
+#include "xdk/vectorintrinsics.h"
 union Member { struct { void (*fn)(); int adjust; }; unsigned __int64 bits; };
 struct Callable { virtual Callable *Copy(void *)=0; virtual void pad1()=0; virtual void pad2()=0; virtual void Delete(bool)=0; };
 struct Function { union {unsigned __int64 align[2]; unsigned char storage[16];}; Callable *impl; };
@@ -52,9 +53,7 @@ static void move(Function *to,Function &from) {
   else { to->impl=from.impl; from.impl=0; }
  }
 }
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
- float f[4]; unsigned int u[4];
-} Vec;
+typedef __vector4 Vec;
 extern "C" {
 void fn_82594968(void *); unsigned char fn_8288B760(void *);
 void fn_825AC298(); char lbl_821C819C[];
@@ -62,7 +61,6 @@ void fn_82F565A0(void *,Function *); void fn_8289C940(void *,void *);
 void fn_825ADB28(void *,const Vec *); void fn_822CB0A0(void *,const Vec *);
 void fn_828AB870(void *,unsigned int); void fn_828AAF70(void *,bool);
 }
-extern "C" Vec __VMXGetReg(int n);
 extern "C" void fn_825AAAA0(Owner *self) {
  fn_82594968(self);
  unsigned char *state=self->state;

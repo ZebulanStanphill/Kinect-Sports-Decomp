@@ -1,6 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float value[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Output_8306CC70 {
     __vector4 position; /* 0x00 */
@@ -24,7 +22,7 @@ int fn_8306CC70(unsigned char *self, Output_8306CC70 *out)
         float sign = -1.0f;
         out->position = *fn_8306D678(&position, state);
         if (lbl_8315FA80 == 0) {
-            out->position.value[2] *= sign;
+            out->position.vector4_f32[2] *= sign;
         }
         out->first = fn_8306D688(state);
         if (lbl_8315FA80 == 0) {

@@ -23,11 +23,7 @@ template <> __forceinline std::basic_string<char>::basic_string(const std::strin
 
 #include <string>
 #include <vector>
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float f[4];
-    unsigned int u[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 struct Element_82302B40 {
     std::string unk0;

@@ -1,8 +1,7 @@
 // Havok ray cast wrapped in the "TtRayCstFSPSim" timer scope: fills the collector state at self,
 // then casts count rays (origin + an array of 0x30-byte targets) through the shape's vtable.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct ProfTls_830899E0 {
     int unk0;

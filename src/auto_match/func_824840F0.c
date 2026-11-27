@@ -1,8 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float values[4];
-} __vector4;
-
-extern __vector4 __VMXGetReg(int number);
+#include "xdk/vectorintrinsics.h"
 
 struct State_824840F0 {
     char padding[0x250];

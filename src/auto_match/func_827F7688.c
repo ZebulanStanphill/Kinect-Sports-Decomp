@@ -2,20 +2,10 @@
 // the first array's 0x34-byte element, and writes the three transposed rows with
 // w -= dot3(row, vector) into the 0x30-byte output elements. Both inputs are prefetched 0x100
 // bytes ahead.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 void __dcbt(int offset, const void *base);
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __lvrx(const void *base, int offset);
-__vector4 __vspltisw(int value);
-__vector4 __vor(__vector4 a, __vector4 b);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __vmsum3fp(__vector4 a, __vector4 b);
-__vector4 __vmrghw(__vector4 a, __vector4 b);
-__vector4 __vmrglw(__vector4 a, __vector4 b);
 
 typedef struct Matrix_827F7688 {
     __vector4 r[4];

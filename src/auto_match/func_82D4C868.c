@@ -1,8 +1,7 @@
 // Havok hkpMultiSphereShape::getCollisionSpheres (vtable +0x30): copies the shape's spheres
 // (centre in xyz, radius in w) into the buffer.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct {
     __vector4 pos;

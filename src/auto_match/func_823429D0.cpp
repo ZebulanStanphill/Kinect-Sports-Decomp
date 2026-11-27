@@ -1,12 +1,8 @@
 /* Discus pickup: plays the left or right pickup animation, sets the "hold_discus" pose on the
    holding hand, stores the hand's discus offset in the matching body entry and, when there is a
    target, reports the hand position. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-extern "C" __vector4 __lvlx(const void *base, int offset);
-extern "C" __vector4 __vrlimi(__vector4 a, __vector4 b, int mask, int rotate);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct String_823429D0 {
     char data[0x1c];

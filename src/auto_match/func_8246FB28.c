@@ -1,11 +1,7 @@
 // Copies four (x, z) tuning pairs of lbl_831C6B70 (+0x74..+0x90) into the area object of the
 // owner as XMVectorSet(x, 0, z, 0) vectors (two corners at +0x00/+0x10, two at +0x40/+0x50).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vrlimi(__vector4 a, __vector4 b, unsigned int mask, unsigned int rotate);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Pair_8246FB28 {
     float x, z;

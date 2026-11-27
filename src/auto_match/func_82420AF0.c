@@ -1,9 +1,8 @@
 /* Moves the object up by `dy`, makes its body keyframed and marks it dirty; `spawn` also starts the
    spawn effect at the context's position. Exact only when compiled together with fn_825200A8
    (link-time code generation): r6 and r7 stay live across that call. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Float3_82420AF0 {
     float x;

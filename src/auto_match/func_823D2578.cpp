@@ -3,7 +3,8 @@
 // object with the stored arguments (a word, a vector and a 24-byte structure by value). The
 // target class uses multiple inheritance (8-byte member function pointer: address and this
 // adjustment), and the call wrapper holds its own copy of that pointer.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float vector4_f32[4]; } __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 class __multiple_inheritance Target_823D2578;
 

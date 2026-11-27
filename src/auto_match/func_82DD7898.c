@@ -1,21 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-__vector4 __vspltisw(int value);
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vaddfp(__vector4 a, __vector4 b);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vnmsubfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vrefp(__vector4 v);
-__vector4 __vmsum3fp(__vector4 a, __vector4 b);
-__vector4 __vpermwi(__vector4 v, int control);
-__vector4 __vcmpgtfp(__vector4 a, __vector4 b);
-__vector4 __vand(__vector4 a, __vector4 b);
-__vector4 __vcmpequwR(__vector4 a, __vector4 b, unsigned int *cr);
-void __stvewx(__vector4 v, void *p, int offset);
+#include "xdk/vectorintrinsics.h"
 
 extern const __vector4 lbl_82132D10;
 extern const __vector4 lbl_8323B230[16];

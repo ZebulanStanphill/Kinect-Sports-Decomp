@@ -1,10 +1,6 @@
+#include "xdk/vectorintrinsics.h"
+
 extern const float lbl_821CA45C[2];
-
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float v[4];
-} __vector4;
-
-__vector4 __VMXGetReg(int);
 
 typedef struct Body_824A4B38 {
     __vector4 vectors[64];

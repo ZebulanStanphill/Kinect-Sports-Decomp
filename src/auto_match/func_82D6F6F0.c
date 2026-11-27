@@ -1,8 +1,7 @@
 // Havok hkpConvexPieceShape::getCollisionSpheres: one sphere per vertex, centred on the vertex,
 // with the shape's radius (+0x10) in w.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct {
     __vector4 pos;

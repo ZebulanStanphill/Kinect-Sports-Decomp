@@ -1,8 +1,7 @@
 // Deferred call: invokes the stored pointer to member function (code address and this
 // adjustment) on the stored target with the six stored arguments.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Arg_824004D0 {
     char data[0x40];

@@ -1,11 +1,7 @@
 // If the object's source is ready (fn_827F3D78), copies its 0x20-byte record and writes the
 // record's position as a vector (x, y, z, 0) (XNA Math XMVectorSet shape); returns whether it did.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vrlimi(__vector4 a, __vector4 b, unsigned int mask, unsigned int rotate);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Record_822C8A98 {
     char pad[0x10];

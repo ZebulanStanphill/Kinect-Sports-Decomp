@@ -1,17 +1,8 @@
 /* Camera on the current path: target and eye scaled in x/z and offset by the followed
    object's position; stores the eye and the yaw/pitch of the view direction, and copies
    the path's field of view. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __VMXGetReg(int n);
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __lvrx(const void *base, int offset);
-__vector4 __vsldoi(__vector4 a, __vector4 b, int shift);
-__vector4 __vor(__vector4 a, __vector4 b);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 extern double fn_82F65018(double y, double x);   /* atan2 */
 extern double sqrt(double);

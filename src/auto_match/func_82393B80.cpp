@@ -5,11 +5,8 @@
 // TeamId::Enum, unsigned int, float> >: returns typeid of the functor. It keeps its fn_ name: the
 // function's signature, and so its implementation class, isn't known.
 #include <functional>
+#include "xdk/vectorintrinsics.h"
 
-// The XDK's VMX vector type.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 namespace olympus {
     namespace sport {
         namespace TeamId {

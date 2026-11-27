@@ -1,6 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Config_823D0C80 {
     int pad0;
@@ -48,8 +46,6 @@ typedef struct Command_823D0C80 {
     __vector4 c;            /* 0x70 */
     unsigned int index;     /* 0x80 */
 } Command_823D0C80;
-
-__vector4 __VMXGetReg(int n);
 
 /* The vectors come before the command: the callee compiles the same either way, but only this order
    gives this caller its 0x150-byte frame. */

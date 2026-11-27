@@ -1,5 +1,5 @@
 #include "stdext/xmemory.h"
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float f[4]; unsigned int u[4]; } __vector4;
+#include "xdk/vectorintrinsics.h"
 extern "C" { void fn_823CD698(); extern void* lbl_821B790C[]; void fn_8227CB30(void*,void*); void fn_82359C18(void*); char* fn_823F05B8(void*,void*); void fn_823831D8(void*); }
 struct Mfp { void(*f)(); int adjust; };
 struct Key { void *a; int b; };

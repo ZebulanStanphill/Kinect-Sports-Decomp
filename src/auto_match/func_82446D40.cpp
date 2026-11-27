@@ -1,7 +1,7 @@
 // boost::any getter for NetworkSpectatorAthleticsHumanFrame: pass the held
 // frame to the source, or build a default frame, fill it and store a copy.
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float v[4]; unsigned int u[4]; } __vector4;
-extern "C" __vector4 __VMXGetReg(int);
+
+#include "xdk/vectorintrinsics.h"
 
 namespace olympus { namespace sport { namespace athletics {
 class NetworkSpectatorAthleticsHumanFrame {

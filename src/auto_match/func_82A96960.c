@@ -1,10 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float f[4];
-} __vector4;
-
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __lvrx(const void *base, int offset);
-__vector4 __vor(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 static __forceinline unsigned int Mask(int ok, unsigned int value)
 {

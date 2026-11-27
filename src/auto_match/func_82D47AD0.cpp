@@ -1,8 +1,5 @@
 #include "havok/hkBaseTypes.h"
-
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 struct RayInput_82D47AD0 {
     __vector4 from;          /* 0x0 */

@@ -1,15 +1,8 @@
 /* Havok box-box contact feature walk: builds the feature id of the two box vertices facing each
    other (sign masks of the two directions, the separating face axes forced to +1) and reports it,
    then toggles the vertex sign bits of the two edge axes to report the other three corners. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltisw(int value);
-__vector4 __vcmpgtfp(__vector4 a, __vector4 b);
-__vector4 __vand(__vector4 a, __vector4 b);
-__vector4 __vmsum4fp(__vector4 a, __vector4 b);
-__vector4 __vctsxs(__vector4 v, int shift);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct FeatureId_82D796F8 {
     unsigned char a;

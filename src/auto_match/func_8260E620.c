@@ -1,6 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Color_8260E620 {
     char pad00[0x10];
@@ -30,7 +28,6 @@ typedef struct Self_8260E620 {
 extern const float lbl_821954B0[0x28a];
 extern const float lbl_821CA45C[2];
 
-__vector4 __VMXGetReg(int reg);
 __vector4 fn_8255ABF8(const float *angles, __vector4 v);
 
 void fn_8260E620(Self_8260E620 *self, int unused, const Color_8260E620 *color)

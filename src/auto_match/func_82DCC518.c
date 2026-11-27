@@ -1,13 +1,5 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float values[4]; /* 0x0 */
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
-extern __vector4 __vsubfp(__vector4, __vector4);
-extern __vector4 __vrefp(__vector4);
-extern __vector4 __vnmsubfp(__vector4, __vector4, __vector4);
-extern __vector4 __vmaddfp(__vector4, __vector4, __vector4);
-extern __vector4 __vmulfp(__vector4, __vector4);
-extern __vector4 __vxor(__vector4, __vector4);
 extern const __vector4 lbl_82132D10;
 extern const __vector4 lbl_8209AB20;
 

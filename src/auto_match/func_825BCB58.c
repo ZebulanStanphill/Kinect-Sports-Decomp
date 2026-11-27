@@ -2,13 +2,8 @@
 // scale, gives it a freshly constructed 0x1c0-byte controller whose embedded node (+0x98) is set
 // up for the owner and placed with the identity-like matrix lbl_8329EAD0, then sets five flag
 // bits on both of the model's parts and returns the model.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltw(__vector4 v, unsigned int i);
-void __stvewx(__vector4 v, void *base, int offset);
-__vector4 __VMXGetReg(int n);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct ModelDesc_825BCB58 {
     char pad0[0x4b];

@@ -1,9 +1,7 @@
 #include "havok/hkUFloat8.h"
+#include "xdk/vectorintrinsics.h"
 
 extern "C" {
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float values[4];
-} __vector4;
 
 typedef struct Source_82DEADA8 Source_82DEADA8;
 

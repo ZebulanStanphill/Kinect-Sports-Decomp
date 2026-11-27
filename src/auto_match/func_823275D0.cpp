@@ -4,9 +4,8 @@
 // read through the vtable as data, as the matched func_822FF780 does); the third is an ordinary
 // virtual call inside the argument list, which is the only form that moves the slot to the count
 // register before the remaining arguments are loaded.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 struct Target_823275D0 {
     char padding00[0x80];

@@ -16,11 +16,7 @@
 // use.
 
 #include <vector>
-
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float f[4];
-    unsigned int u[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 namespace BaseVtable {
 extern "C" void *lbl_821B9BC8[];

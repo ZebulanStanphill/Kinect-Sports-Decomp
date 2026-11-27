@@ -1,17 +1,7 @@
 // Copies a spawn description into an object: position (float3 -> vector, w cleared via v77/v67,
 // stored back with stvewx), rotation, type, two shorts through an inline setter, ids, optional e.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __VMXGetReg(int n);
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __lvrx(const void *base, int offset);
-__vector4 __vsldoi(__vector4 a, __vector4 b, int shift);
-__vector4 __vor(__vector4 a, __vector4 b);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
-__vector4 __vspltw(__vector4 v, unsigned int i);
-void __stvewx(__vector4 v, void *base, int offset);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Float3_8255C3D8 {
     float x, y, z;

@@ -1,11 +1,8 @@
 // Havok: AABB query wrapped in the "TtqueryAabb" timer scope. The tree query
 // (fn_830B5DA8) takes the AABB as origin + extent; a non-positive stack size
 // falls back to 0x80 (func_830B6200 is the sibling with a different collector).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vsubfp(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct ProfTls_830B6118 {
     int unk0;

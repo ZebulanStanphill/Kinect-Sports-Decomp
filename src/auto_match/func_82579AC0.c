@@ -1,12 +1,8 @@
 /* Returns the registered object nearest to a position (the position of the
  * object owning `position`), optionally only objects of one type and only
  * within `range` when the range is positive. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __vmsum3fp(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Object_82579AC0 {
     char pad00[0x50];

@@ -1,9 +1,6 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float values[4];
-} Vector_83015740;
+#include "xdk/vectorintrinsics.h"
 
-Vector_83015740 __lvlx(const void *, int);
-Vector_83015740 __vspltw(Vector_83015740, unsigned int);
+typedef __vector4 Vector_83015740;
 
 static __forceinline Vector_83015740 Replicate_83015740(float value)
 {

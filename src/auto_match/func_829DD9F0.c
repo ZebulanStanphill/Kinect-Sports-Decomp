@@ -1,8 +1,5 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
-__vector4 __vspltisw(int value);
 extern void *XMemSet(void *dst, int value, unsigned int size);
 
 typedef struct {

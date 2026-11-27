@@ -1,8 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float v[4];
-} __vector4;
-
-__vector4 __vxor(__vector4, __vector4);
+#include "xdk/vectorintrinsics.h"
 
 void fn_83085AF0(__vector4 *out)
 {

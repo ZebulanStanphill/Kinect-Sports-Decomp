@@ -1,12 +1,6 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 #define VPACK_NORMSHORT2 1
-
-__vector4 __vspltisw(int value);
-__vector4 __vupkd3d(__vector4 v, int type);
-__vector4 __vpermwi(__vector4 v, int control);
 
 extern float lbl_82006848;
 extern unsigned char fn_83076080(__vector4 a, __vector4 b, float epsilon); /* near-equal */

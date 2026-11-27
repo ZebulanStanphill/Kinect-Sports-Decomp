@@ -1,4 +1,5 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float vector4_f32[4]; } __vector4;
+#include "xdk/vectorintrinsics.h"
+
 struct Attr_82390A80 { virtual void s0(); virtual void s1(); virtual void s2(); virtual void s3(); virtual void set(void *, void *); };
 struct Obj_82390A80 {
   char pad[0x38]; int x38; char pad3c[0xc]; void *x48; char pad4c[0x1c];

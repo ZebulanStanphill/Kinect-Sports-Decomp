@@ -1,9 +1,8 @@
 // Shortest-arc quaternion rotating direction a onto direction b: identity when they are
 // (nearly) equal, a half turn about a perpendicular axis when they are (nearly) opposite, else
 // the normalised cross product scaled to sin(theta/2) with w = cos(theta/2).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 double sqrt(double);
 

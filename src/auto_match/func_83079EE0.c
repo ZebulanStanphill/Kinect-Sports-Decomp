@@ -1,15 +1,8 @@
 /* Pushes the point out of every sphere that contains it: in a frame built from the direction from the anchor to
    the point and the up vector, the point is moved along the third axis (flipped to the side of the point) until it
    lies on the sphere's surface. Returns whether any sphere moved it. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vspltisw(int value);
-__vector4 __vslw(__vector4 a, __vector4 b);
-__vector4 __vxor(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Sphere_83079EE0 {
     __vector4 center;           /* 0x00 */

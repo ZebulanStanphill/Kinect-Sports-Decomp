@@ -1,12 +1,10 @@
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float f[4];
-    unsigned int u[4];
-} __vector4;
 
 /* Reads a direction and a 9-bit packed scale (3-bit and 6-bit fields) from a network
    buffer and returns the scaled direction. v77 is the game's reserved zero vector,
    read with __VMXGetReg (/QVMXReserve). */
-__vector4 __VMXGetReg(int n);
+
+#include "xdk/vectorintrinsics.h"
+
 void *memset(void *dest, int value, unsigned int size);
 
 typedef struct Reader_822CB1E0 {
@@ -56,13 +54,13 @@ __vector4 *fn_822CB1E0(__vector4 *out, void *src)
     fn_8232A988(&packed, (code >> 6) & 7, 0, 3);
     fn_8232A988(&packed, code & 0x3f, 3, 6);
     scale = fn_822395B8(&packed);
-    x = dir.f[0];
-    y = dir.f[1];
-    z = dir.f[2];
+    x = dir.vector4_f32[0];
+    y = dir.vector4_f32[1];
+    z = dir.vector4_f32[2];
     dir = __VMXGetReg(77);
-    dir.f[0] = x * scale;
-    dir.f[1] = y * scale;
-    dir.f[2] = z * scale;
+    dir.vector4_f32[0] = x * scale;
+    dir.vector4_f32[1] = y * scale;
+    dir.vector4_f32[2] = z * scale;
     *out = dir;
     if (r.heap != 0) {
         fn_8265CA20(r.heap);

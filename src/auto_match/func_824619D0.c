@@ -1,11 +1,7 @@
 /* Creates the model of the given slot: copies the slot's description resource into a fresh buffer, places it at
    the slot's position, names the owner, instantiates the model and flags its two parts. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltw(__vector4 v, unsigned int i);
-void __stvewx(__vector4 v, void *base, int offset);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct ModelDesc_824619D0 {
     char pad0[0x4b];

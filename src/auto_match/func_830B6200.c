@@ -1,11 +1,8 @@
 /* Havok: tree AABB query without a timer scope (func_830B6118 is the sibling with the
    "TtqueryAabb" timer). The tree query (fn_830B5DA8) takes the AABB as origin + extent;
    a non-positive stack size falls back to 0x80. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vsubfp(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Query_830B6200 {
     void *tree;             /* 0x00 */

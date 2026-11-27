@@ -1,19 +1,8 @@
 // Picks one of three handles by the length of a velocity (fast when forced or above the upper
 // tuning threshold, medium above the lower one, slow otherwise) and plays it at the owner's
 // position (fn_825354B8), releasing the returned handle (fn_82536288).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltisw(int value);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vnmsubfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vmsum3fp(__vector4 a, __vector4 b);
-__vector4 __vrsqrtefp(__vector4 v);
-__vector4 __vcmpeqfp(__vector4 a, __vector4 b);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
-__vector4 __vcfsx(__vector4 v, int shift);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Tuning_8236A258 {
     char pad0[0x90];

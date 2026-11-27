@@ -1,11 +1,8 @@
 /* hkxAttributeGroup::getVectorValue(name, warnIfNotFound, value): returns 0 (HK_SUCCESS) when found; the original message text says "Float attribute". */
 #include "havok/hkOstream.h"
+#include "xdk/vectorintrinsics.h"
 
 extern "C" {
-
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
 typedef struct ErrorVtbl_82E07DE0 {
     void *slot0;

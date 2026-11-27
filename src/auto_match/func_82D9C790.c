@@ -1,8 +1,6 @@
-extern void *memcpy(void *, const void *, unsigned int);
+#include "xdk/vectorintrinsics.h"
 
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+extern void *memcpy(void *, const void *, unsigned int);
 
 typedef struct Record_82D9C790 {
     unsigned int type;     /* 0x00 */

@@ -1,9 +1,9 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
 /* Projects a skeleton-space point onto the 320x240 depth image and packs the depth in
    millimetres (shifted left by three) for the depth value. */
+
+#include "xdk/vectorintrinsics.h"
+
 void fn_824DCB30(__vector4 point, int *depthX, int *depthY, unsigned short *depthValue)
 {
     float z;

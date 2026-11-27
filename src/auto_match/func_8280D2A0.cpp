@@ -1,15 +1,7 @@
 // Matrix from one unaligned float3 value (fn_8234E338 takes it as a vector); the result is
 // copied row by row (same shape as fn_8280D598).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-extern "C" {
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __lvrx(const void *base, int offset);
-__vector4 __vsldoi(__vector4 a, __vector4 b, int shift);
-__vector4 __vor(__vector4 a, __vector4 b);
-}
+#include "xdk/vectorintrinsics.h"
 
 struct Float3_8280D2A0 {
     float x, y, z;

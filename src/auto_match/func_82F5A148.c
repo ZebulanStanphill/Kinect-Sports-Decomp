@@ -1,11 +1,7 @@
 // Quaternion slerp with a scalar interpolant (XNA Math XMQuaternionSlerp shape): replicates t
 // and forwards to the vector-interpolant version.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vspltw(__vector4 v, unsigned int i);
+#include "xdk/vectorintrinsics.h"
 
 __vector4 fn_8250D648(__vector4 q0, __vector4 q1, __vector4 t);
 

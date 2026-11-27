@@ -1,6 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 typedef struct SP_823CEB98 { char **px; int *rep; } SP_823CEB98;
 extern SP_823CEB98 *fn_822EFBF0(SP_823CEB98 *, void *);

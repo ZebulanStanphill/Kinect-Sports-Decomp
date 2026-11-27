@@ -1,14 +1,7 @@
 // Video decoder: 8-row horizontal halfword filter (3*s + a + rounding) >> 4, s = row shifted by one sample.
 // Callers pass r5 (unused here) and the rounding vector in v1.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltish(int value);
-__vector4 __vsldoi(__vector4 a, __vector4 b, int shift);
-__vector4 __vaddshs(__vector4 a, __vector4 b);
-__vector4 __vslh(__vector4 a, __vector4 b);
-__vector4 __vsrah(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 void fn_830DFE40(const __vector4 *src, __vector4 *dst, int unused, __vector4 rounding)
 {

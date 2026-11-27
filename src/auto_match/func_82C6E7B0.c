@@ -1,13 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __lvrx(const void *base, int offset);
-void __stvlx(__vector4 v, void *base, int offset);
-void __stvrx(__vector4 v, void *base, int offset);
-__vector4 __vor(__vector4 a, __vector4 b);
-__vector4 __vaddubs(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 static __forceinline __vector4 LoadUnaligned(const unsigned char *p)
 {

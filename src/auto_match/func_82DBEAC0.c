@@ -2,11 +2,8 @@
    child shape at 0x18, type 13: fn_82D98A88) until a leaf type is reached. Point-type
    shapes (0, 8, 15) give a translation, transform-type shapes (1, 2, 6, 7, 9, 14) their
    stored transform; any other type leaves the identity. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vxor(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Transform_82DBEAC0 {
     __vector4 col[3];

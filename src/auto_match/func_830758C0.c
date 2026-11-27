@@ -1,6 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Trail_830758C0 {
     __vector4 sets[2][41]; /* 0x000: per set 20 positions, then 20 offsets */
@@ -8,8 +6,6 @@ typedef struct Trail_830758C0 {
     int pad524;
     int count; /* 0x528 */
 } Trail_830758C0;
-
-__vector4 __vmaddfp(__vector4 a, __vector4 b, __vector4 c);
 
 extern float fn_8306E7F8(float x, float lo, float hi);
 extern __vector4 fn_8306ECA8(void);

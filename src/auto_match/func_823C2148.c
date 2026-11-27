@@ -1,7 +1,6 @@
 /* /O1 /QVMXReserve: v75 and v77 are the game's reserved vectors, read with __VMXGetReg. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Ref_823C2148 {
     void *obj; /* 0x00 */
@@ -27,7 +26,6 @@ typedef struct Self_823C2148 {
     Source_823C2148 *source; /* 0xe10 */
 } Self_823C2148;
 
-__vector4 __VMXGetReg(int n);
 extern void fn_822315A0(void *rep);
 extern Ref_823C2148 *fn_82356F98(Ref_823C2148 *ref);
 extern void fn_8236BCD8(Self_823C2148 *self);

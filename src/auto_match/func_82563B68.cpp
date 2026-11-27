@@ -1,6 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float lanes[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Transform_82563B68 {
     __vector4 rotation[3];
@@ -31,8 +29,6 @@ typedef struct Body_82563B68 {
 
 extern "C" float fn_82D80A40(const void *);
 extern "C" void fn_82D93168(const void *, float, Transform_82563B68 *);
-extern "C" __vector4 __VMXGetReg(int);
-extern "C" __vector4 __vsel(__vector4, __vector4, __vector4);
 
 extern "C" void fn_82563B68(Body_82563B68 *body, __vector4 *minimum, __vector4 *maximum)
 {

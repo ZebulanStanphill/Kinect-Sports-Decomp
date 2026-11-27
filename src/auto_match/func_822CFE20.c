@@ -2,15 +2,8 @@
    offset (fn_8249CF88 for the object's id) * scale (info record of fn_82F52520, 1.0 when
    that fails). When the scaled offset is above the base in z, x is corrected by that height
    times a factor that is 0 in this build. Zero vector when nothing is attached. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __VMXGetReg(int n);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Obj_822CFE20 Obj_822CFE20;
 

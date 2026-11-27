@@ -1,23 +1,7 @@
 /* Linear blend of two D3DCOLORs: both unpacked with XMLoadColor (unaligned lvsl form), red,
    green and blue interpolated by t on the FPU, alpha cleared, packed again with XMStoreColor. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvsl(const void *base, int offset);
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vsldoi(__vector4 a, __vector4 b, int shift);
-__vector4 __vperm(__vector4 a, __vector4 b, __vector4 control);
-__vector4 __vupkd3d(__vector4 v, int type);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vnmsubfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vpermwi(__vector4 v, int control);
-__vector4 __vrlimi(__vector4 a, __vector4 b, int mask, int rotate);
-__vector4 __vspltisw(int value);
-__vector4 __vcfsx(__vector4 v, int shift);
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vpkd3d(__vector4 d, __vector4 v, int type, int mask, int shift);
-void __stvewx(__vector4 v, void *base, int offset);
+#include "xdk/vectorintrinsics.h"
 
 extern const __vector4 lbl_821CC0C0;     /* four -32896.5 (unpack offset) */
 extern const __vector4 lbl_821CC0D0;     /* four 32896.5 (unpack scale) */

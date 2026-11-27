@@ -1,11 +1,5 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float values[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
-extern __vector4 __vaddfp(__vector4 a, __vector4 b);
-extern __vector4 __vmulfp(__vector4 a, __vector4 b);
-extern __vector4 __lvlx(const void *base, int offset);
-extern __vector4 __vspltw(__vector4 value, unsigned int lane);
 extern __vector4 lbl_8323B1A0;
 
 typedef struct Vertex_82D10C70 {
@@ -30,7 +24,7 @@ static __forceinline __vector4 Broadcast_82D10C70(float value)
 __vector4 *fn_82D10C70(Hull_82D10C70 *self)
 {
     __vector4 *centroid = &self->centroid;
-    if (centroid->values[3] != 3.40282e38f) {
+    if (centroid->vector4_f32[3] != 3.40282e38f) {
         return centroid;
     }
     *centroid = lbl_8323B1A0;
@@ -43,6 +37,6 @@ __vector4 *fn_82D10C70(Hull_82D10C70 *self)
     if (self->count != 0) {
         *centroid = __vmulfp(*centroid, Broadcast_82D10C70(1.0f / (float)self->count));
     }
-    centroid->values[3] = 0.0f;
+    centroid->vector4_f32[3] = 0.0f;
     return centroid;
 }

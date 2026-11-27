@@ -1,9 +1,8 @@
 /* Starts a catch: the side (-1..1) and height (0..1) of the player relative to the catcher, the
    catch kind from the catcher's state and the player's height, and the hand from the throw
    flags. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct String_822DFE60 {
     char data[0x1c];

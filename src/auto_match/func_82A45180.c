@@ -1,9 +1,8 @@
 /* Creates the XMA hardware context of every entry that has none yet (same shape as fn_8307DC58),
    copying the entry's 48-byte template into the new context and mapping it uncached when flag 4
    is set, then enables the context's bit in the XMA hardware register block. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Context_82A45180 {
     __vector4 data[3];

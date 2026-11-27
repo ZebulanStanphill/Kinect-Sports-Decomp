@@ -1,12 +1,7 @@
 // Havok: inverse diagonal inertia: out = diag(1 / max(FLT_EPSILON, inertia.xyz)); the zero column is
 // hkVector4::setZero4 (vxor of an uninitialised local).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vmaxfp(__vector4 a, __vector4 b);
-__vector4 __vxor(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Matrix3_82D9B538 {
     __vector4 col[3];

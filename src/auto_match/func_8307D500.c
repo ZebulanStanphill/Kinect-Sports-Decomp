@@ -1,12 +1,6 @@
 // Scaling matrix from a vector: rows (x,0,0,0), (0,y,0,0), (0,0,z,0), (0,0,0,1).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltisw(int value);
-__vector4 __vpermwi(__vector4 v, int control);
-__vector4 __vupkd3d(__vector4 v, int type);
-__vector4 __vrlimi(__vector4 a, __vector4 b, unsigned int mask, unsigned int rotate);
+#include "xdk/vectorintrinsics.h"
 
 #define VPACK_NORMSHORT2 1
 

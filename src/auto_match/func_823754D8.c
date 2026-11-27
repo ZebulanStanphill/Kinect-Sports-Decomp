@@ -1,13 +1,9 @@
 // On first activation: optionally replaces the dominant horizontal component (x or z) of the
 // direction with its negation and reports the state to fn_82377EF8, then marks the object active
 // and runs fn_82379498; finally notifies the attached part.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
+#include "xdk/vectorintrinsics.h"
+
 double fabs(double);
 
 typedef struct Object_823754D8 {

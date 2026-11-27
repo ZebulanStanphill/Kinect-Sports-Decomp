@@ -1,8 +1,7 @@
 #include "stdext/xmemory.h"
+#include "xdk/vectorintrinsics.h"
 inline void *operator new(unsigned int, void *p) throw() { return p; }
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
- float f[4]; unsigned int u[4];
-} Vec;
+typedef __vector4 Vec;
 struct Value { unsigned int key; Vec value; Value(unsigned int k, const Vec &v) : key(k), value(v) {} };
 struct Node { Node *left, *parent, *right; int pad; Value val; unsigned char color, nil; char endpad[14]; };
 struct Tree { int pad; Node *head; unsigned int size; };

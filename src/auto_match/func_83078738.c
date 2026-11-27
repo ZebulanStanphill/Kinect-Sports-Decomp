@@ -1,12 +1,7 @@
 // Rebuilds the world matrix from the orientation quaternion (fn_8307D470 rotation matrix times
 // the local matrix at +0x60), the scaled position (w = 1) and refreshes the cached handle.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Matrix_83078738 {
     __vector4 r[4];

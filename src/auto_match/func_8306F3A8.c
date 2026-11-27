@@ -1,8 +1,8 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float v[4];
-} __vector4;
 
 /* Laid out like NUI_SKELETON_DATA: joint positions at 0x20, quality (clipping) flags at 0x1b0. */
+
+#include "xdk/vectorintrinsics.h"
+
 typedef struct Skeleton_8306F3A8 {
     int trackingState;            /* 0x00 */
     unsigned int trackingId;      /* 0x04 */

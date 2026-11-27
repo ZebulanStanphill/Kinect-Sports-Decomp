@@ -4,12 +4,8 @@
 // on the VMX128 unit (four lvlx loads merged with vrlimi).
 // The 0.0f literals are the game's LTCG-pooled zero: the unit needs the pool alias
 // __real@00000000=ltcg_pool_0_0f (objects.json "pool_aliases").
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vrlimi(__vector4 a, __vector4 b, unsigned int mask, unsigned int rotate);
+#include "xdk/vectorintrinsics.h"
 
 extern const float lbl_821CA45C[2];
 extern const float lbl_821954B0[];

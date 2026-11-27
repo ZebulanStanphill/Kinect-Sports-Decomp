@@ -1,5 +1,6 @@
 #include "stdext/exception.h"
-typedef __declspec(passinreg) union __vector4 {float f[4];unsigned int u[4];} V;
+#include "xdk/vectorintrinsics.h"
+typedef __vector4 V;
 struct Member { union {struct {void (*fn)();int adjust;};unsigned __int64 bits;};};
 struct Capture {Member method;int obj;int pad1;unsigned char flag;char pad2[7];int a;int pad3;int b;int pad4[3];V vector;};
 struct Bytes {char data[64];};

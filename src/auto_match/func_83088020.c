@@ -1,8 +1,7 @@
 /* Havok cached ray cast wrapped in the "TtRayCstCached" timer scope: fills the collector state at self,
    then casts a single ray (origin + strided array of one 16-byte target) through the shape's vtable. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct ProfTls_83088020 {
     int unk0;

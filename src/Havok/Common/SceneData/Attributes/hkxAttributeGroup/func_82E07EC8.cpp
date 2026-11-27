@@ -1,11 +1,8 @@
 /* hkxAttributeGroup::getQuaternionValue(name, warnIfNotFound, value): returns 0 (HK_SUCCESS) when found. */
 #include "havok/hkOstream.h"
+#include "xdk/vectorintrinsics.h"
 
 extern "C" {
-
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
 typedef struct ErrorVtbl_82E07EC8 {
     void *slot0;

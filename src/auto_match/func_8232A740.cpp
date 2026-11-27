@@ -4,6 +4,7 @@
 // _Ph<1>, _Ph<2>, _Ph<3>, _Ph<4>, _Ph<5>, _Ph<6>, _Ph<7> > >: returns typeid of the functor. It
 // keeps its fn_ name: the function's signature, and so its implementation class, isn't known.
 #include <functional>
+#include "xdk/vectorintrinsics.h"
 
 namespace olympus {
     namespace sport {
@@ -21,10 +22,6 @@ namespace olympus {
         }
     }
 }
-// The XDK's VMX vector type.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 namespace NW {
     class NetObjID_c {};
 }

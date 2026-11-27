@@ -1,8 +1,7 @@
 // Forwards to the block routine fn_830DF040 with a size of (sizeIndex + 1) * 8 and the
 // context's vector at +0x450.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Context_830E0198 {
     char pad0[0x450];

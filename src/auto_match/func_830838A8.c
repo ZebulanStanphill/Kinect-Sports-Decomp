@@ -1,13 +1,8 @@
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 {
-    float scalar[4];
-    unsigned int words[4];
-} __vector4;
-
-extern __vector4 __vspltw(__vector4, unsigned int);
+#include "xdk/vectorintrinsics.h"
 
 static __forceinline void SetAll(__vector4 *vector, float value)
 {
-    vector->scalar[0] = value;
+    vector->vector4_f32[0] = value;
     *vector = __vspltw(*vector, 0);
 }
 

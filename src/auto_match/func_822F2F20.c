@@ -1,12 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float values[4];
-} __vector4;
-
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vspltw(__vector4 value, int component);
-__vector4 __vrlimi(__vector4 a, __vector4 b, int mask, int rotate);
-__vector4 __vcmpbfpR(__vector4 a, __vector4 b, unsigned int *condition);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Target_822F2F20 {
     char padding[0x24];

@@ -1,10 +1,7 @@
 // Resets an object: zeroes the first two vectors of each of its (a * b) 64-byte entries, where
 // a and b are bit fields of the halfword at +0x2e, and sets the four floats at +0x18 to -97.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltisw(int value);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Entry_830277F0 {
     __vector4 a;                    // 0x00

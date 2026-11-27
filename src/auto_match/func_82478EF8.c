@@ -1,15 +1,7 @@
 // Getter: copies two float3 values (loaded as vectors, w cleared through the game's reserved
 // zero vector v77 and select mask v67) and two floats out of the global settings block lbl_831D3AB0.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __VMXGetReg(int n);
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __lvrx(const void *base, int offset);
-__vector4 __vsldoi(__vector4 a, __vector4 b, int shift);
-__vector4 __vor(__vector4 a, __vector4 b);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Float3_82478EF8 {
     float x, y, z;

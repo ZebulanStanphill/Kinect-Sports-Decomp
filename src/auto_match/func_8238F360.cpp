@@ -1,5 +1,6 @@
 #include "stdext/xmemory.h"
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float f[4]; unsigned int u[4]; } V;
+#include "xdk/vectorintrinsics.h"
+typedef __vector4 V;
 struct __declspec(align(16)) Small { char data[32]; };
 struct __declspec(align(16)) Big { char data[128]; };
 struct Box { void *vt; char pad[12]; Big f; };

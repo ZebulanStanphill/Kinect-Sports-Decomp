@@ -1,10 +1,5 @@
 #include <vector>
-
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-extern "C" __vector4 __VMXGetReg(int n);
+#include "xdk/vectorintrinsics.h"
 
 struct __declspec(align(16)) Element_82570B78 {
     int id;       /* 0x00 */

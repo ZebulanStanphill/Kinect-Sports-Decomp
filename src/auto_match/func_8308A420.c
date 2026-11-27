@@ -1,10 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-__vector4 __vcmpgtuh(__vector4 a, __vector4 b);
-__vector4 __vand(__vector4 a, __vector4 b);
-__vector4 __vadduhm(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 typedef union Halves_8308A420 {
     unsigned short h[8];

@@ -1,11 +1,5 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
-__vector4 __VMXGetReg(int index);
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vspltw(__vector4 value, unsigned int index);
-__vector4 __vmulfp(__vector4 first, __vector4 second);
 extern double fabs(double value);
 extern float lbl_8218E8E8;
 extern void *fn_8225F160(void);

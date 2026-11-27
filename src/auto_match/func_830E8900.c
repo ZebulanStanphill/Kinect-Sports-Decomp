@@ -1,4 +1,5 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float vector4_f32[4]; } __vector4;
+#include "xdk/vectorintrinsics.h"
+
 extern int fn_830DF2D0();
 extern void fn_830E6E38(void *, int, int, int, int, __vector4);
 

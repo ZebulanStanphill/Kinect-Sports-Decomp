@@ -6,6 +6,7 @@
 // isn't known. FootballController's member function pointers are 8 bytes (function, this
 // adjustment), so the class uses multiple inheritance; its bases are unknown.
 #include <functional>
+#include "xdk/vectorintrinsics.h"
 
 namespace olympus {
     namespace sport {
@@ -17,10 +18,6 @@ namespace olympus {
         }
     }
 }
-// The XDK's VMX vector type.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
 typedef std::tr1::_Bind<void, void, std::tr1::_Bind3<std::tr1::_Callable_pmf<void (olympus::sport::football::FootballController::* const)(olympus::sport::TeamId::Enum, __vector4), olympus::sport::football::FootballController, 0>, olympus::sport::football::FootballController *, olympus::sport::TeamId::Enum, __vector4> > Functor;
 

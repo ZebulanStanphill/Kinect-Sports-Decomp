@@ -1,12 +1,8 @@
 // Fills the shared sound parameter block (lbl_832978C8, a function-local static with the guard
 // bit lbl_83297A40, as in func_826243F0) for an object: sound id, position, optionally the
 // velocity (fn_82529D38) and the volume, optionally scaled, and returns the block.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltw(__vector4 v, unsigned int i);
-void __stvewx(__vector4 v, void *base, int offset);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct SoundParams_825F7968 {
     unsigned int flags;             // 0x00

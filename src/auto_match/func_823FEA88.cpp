@@ -3,7 +3,8 @@
 // (vtable lbl_821B754C slot 1; slot 2 fn_823FEAE0 returns the functor's typeid). The
 // function's signature takes KickParams by value and a bool, which convert to the member's
 // const KickParams & and int. The implementation class isn't named, so it keeps its fn_ name.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float vector4_f32[4]; } __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 namespace olympus {
     namespace sport {

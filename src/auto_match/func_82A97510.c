@@ -1,10 +1,7 @@
 // Fills a 16-vector buffer from the two halves of the object (fn_82A97250), then duplicates
 // the low pair of words of every vector into its high pair.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vpermwi(__vector4 v, int control);
+#include "xdk/vectorintrinsics.h"
 
 extern void fn_82A97250(void *half, __vector4 *out, int index);
 

@@ -1,25 +1,8 @@
 /* Places the object's marker: position = origin + normalize(direction) * (count * spacing) from
    the tuning block lbl_831D3858, handed to fn_82560100 together with the offset vector; then,
    when asked, notifies the owner (fn_82465390). */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __lvrx(const void *base, int offset);
-__vector4 __vsldoi(__vector4 a, __vector4 b, int shift);
-__vector4 __vor(__vector4 a, __vector4 b);
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __VMXGetReg(int n);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
-__vector4 __vspltisw(int value);
-__vector4 __vcfsx(__vector4 v, int shift);
-__vector4 __vmsum3fp(__vector4 a, __vector4 b);
-__vector4 __vrsqrtefp(__vector4 v);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vcmpeqfp(__vector4 a, __vector4 b);
-__vector4 __vnmsubfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Float3_824660C0 {
     float x, y, z;

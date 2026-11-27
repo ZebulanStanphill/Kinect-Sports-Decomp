@@ -1,5 +1,6 @@
 /* boost::any::holder<NetworkSpectatorAthleticsHumanFrame>::clone() (see func_82446D40.cpp). */
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float v[4]; unsigned int u[4]; } __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Frame_82446E90 {
     void *vtable;

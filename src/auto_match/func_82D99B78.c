@@ -1,9 +1,8 @@
 /* Havok: hkpWheelConstraintData::isValid (vtable slot). Both local transforms of the suspension base,
    the steering rotations completed with a zero translation, and the suspension limit (min <= max)
    must pass; fn_82CE6150 is the transform check with an epsilon, writing an hkBool. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Rotation_82D99B78 {
     __vector4 column[3];

@@ -1,11 +1,9 @@
 /* /O1 /QVMXReserve: v77 is the game's reserved zero vector, read with __VMXGetReg. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-__vector4 __VMXGetReg(int n);
 
 /* Per-slot block, 300 bytes apart; the values sit 0x5a8 bytes into the table. */
+
+#include "xdk/vectorintrinsics.h"
+
 typedef struct Slot_82310D68 {
     char pad[0x5a8];
     float valueB1; /* 0x5a8 */

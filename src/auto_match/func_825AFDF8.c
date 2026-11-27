@@ -1,13 +1,7 @@
 /* Uploads four shader constant blocks, then (a.x, b.x, c.x, 0) to vertex constant 0x31 and pixel
    constant 0xe, and that vector scaled by the global settings' scale and colour to constant 0x7d. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vrlimi(__vector4 a, __vector4 b, unsigned int mask, unsigned int rotate);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Settings_825AFDF8 {
     char pad0[0x148];

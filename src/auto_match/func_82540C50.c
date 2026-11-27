@@ -1,15 +1,8 @@
 // Stores five shader/lighting vectors in the renderer state and the first one transformed as a
 // direction by the matrix at +0xa880 (XMVector3TransformNormal shape, w cleared through the
 // reserved zero v77 and select mask v67).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __VMXGetReg(int n);
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vsel(__vector4 a, __vector4 b, __vector4 c);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Matrix_82540C50 {
     __vector4 r[4];

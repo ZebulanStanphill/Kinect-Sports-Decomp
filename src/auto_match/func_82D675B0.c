@@ -1,13 +1,8 @@
 // Havok: sphere/sphere penetration test. The pair is reported to the collector when the squared
 // distance between the sphere centres is below the squared sum of the radii. Wrapped in the
 // "TtSphereSphere" timer scope.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __vmsum3fp(__vector4 a, __vector4 b);
-void __stvewx(__vector4 v, void *base, int offset);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct ProfTls_82D675B0 {
     int unk0;

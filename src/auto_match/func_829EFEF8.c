@@ -2,9 +2,8 @@
 // and an 80x60 one of format 0x1A220058, E_INVALIDARG otherwise; 0x83010068 when the
 // frame types are not 1 and 0), copies the entry's mode/settings, runs the per-entry
 // set-up (fn_829F4B50), snapshots two vectors and processes the entry (fn_829EFDB0).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct SurfaceDesc_829EFEF8 {
     int format;                 /* 0x00 */
@@ -55,7 +54,6 @@ typedef struct Context_829EFEF8 {
 extern void fn_8263C548(void *surface, int level, SurfaceDesc_829EFEF8 *desc);
 extern int fn_829F4B50(void *a, void *b, int idx, char *base, void *extra, void *p6, void *p7);
 extern int fn_829EFDB0(void *entry, int a, int b, Context_829EFEF8 *ctx, __vector4 v, float f);
-
 
 int fn_829EFEF8(Context_829EFEF8 *ctx, int index, char *data, Frame_829EFEF8 *color, int unused,
                 Frame_829EFEF8 *depth)

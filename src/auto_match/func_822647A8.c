@@ -1,4 +1,5 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float f[4]; } __vector4;
+#include "xdk/vectorintrinsics.h"
+
 extern int fn_8225F670();
 extern int fn_8225FCE8(const char *,__vector4);
 extern int fn_8225FDE0();
@@ -6,7 +7,6 @@ extern unsigned char fn_82E1CAD0(int);
 extern int fn_82E1CB88();
 extern int fn_82E1CCA8();
 extern unsigned int lbl_83276584;
-
 
 void fn_822647A8(unsigned param_1,unsigned param_2,unsigned param_3,unsigned param_4,
                   unsigned param_5,unsigned param_6,unsigned param_7,unsigned param_8,__vector4 pos,__vector4 opponent)

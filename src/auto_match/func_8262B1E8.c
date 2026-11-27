@@ -1,7 +1,7 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {float f[4];} __vector4;
+#include "xdk/vectorintrinsics.h"
+
 extern int fn_825486D8();
 extern void fn_82549048(int,int,int,__vector4,float);
-
 
 void fn_8262B1E8(int param_1,unsigned int *param_2)
 

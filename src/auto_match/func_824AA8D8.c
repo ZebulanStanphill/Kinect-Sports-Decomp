@@ -1,8 +1,5 @@
 #include <math.h>
-
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 extern __vector4 fn_824AA980(__vector4 a, __vector4 b);
 extern __vector4 *fn_824AA3D8(__vector4 *out, void *meter, void *source, int kind,

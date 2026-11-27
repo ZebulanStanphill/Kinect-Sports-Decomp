@@ -2,9 +2,8 @@
 // that keeps a display mesh: id / 3 selects a shape key (array at +0x24), the mesh's shape container
 // (+0x10 in the mesh) builds that triangle in a stack shape buffer, id % 3 selects its vertex, and the id is
 // stored in w as an int24.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct TriangleShape_82D6F740 {
     char pad0[0x20];

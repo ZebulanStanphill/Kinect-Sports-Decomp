@@ -1,10 +1,8 @@
 /* /O1 /QVMXReserve: v77 is the game's reserved zero vector, read with __VMXGetReg (as in
    func_82603640.cpp). */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __VMXGetReg(int n);
+#include "xdk/vectorintrinsics.h"
+
 extern int atexit(void (*f)(void));
 extern void fn_8313F178(void);
 extern char lbl_821B9BC8[];

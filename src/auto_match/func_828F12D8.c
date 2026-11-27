@@ -1,14 +1,6 @@
 /* Unaligned 4x4 float matrix transpose: dst = transpose(src), both possibly unaligned. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvsl(const void *base, int offset);
-__vector4 __lvsr(const void *base, int offset);
-__vector4 __vperm(__vector4 a, __vector4 b, __vector4 c);
-__vector4 __vmrghw(__vector4 a, __vector4 b);
-__vector4 __vmrglw(__vector4 a, __vector4 b);
-void __stvewx(__vector4 v, void *base, int offset);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Float4x4_828F12D8 {
     float m[4][4];

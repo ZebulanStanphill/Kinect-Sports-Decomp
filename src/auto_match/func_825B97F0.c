@@ -1,12 +1,7 @@
 // Adds amount along a rotated axis (0: y, 1: x, 2: z; fn_8255ABF8 rotates) to a vector, or for axis 3
 // adds it to y directly. Needs the pool alias __real@00000000=ltcg_pool_0_0f.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vrlimi(__vector4 a, __vector4 b, int mask, int rotate);
-__vector4 __vaddfp(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 __vector4 fn_8255ABF8(const void *rotation, __vector4 v);
 

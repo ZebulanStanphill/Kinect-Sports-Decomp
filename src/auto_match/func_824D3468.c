@@ -1,14 +1,8 @@
 // result = base - offset * scale: base from the object's virtual slot 4, offset from
 // fn_8249CF88 for the object's id, scale from the info record fn_82F52520 fills (1.0 when that
 // fails).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Obj_824D3468 Obj_824D3468;
 

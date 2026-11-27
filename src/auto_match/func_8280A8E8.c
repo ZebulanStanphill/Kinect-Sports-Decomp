@@ -1,13 +1,6 @@
 // Unaligned float4 in; out1 = fn_822BD390(v), out2 = fn_8280AB70(v) (vector sine and cosine).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __lvrx(const void *base, int offset);
-void __stvlx(__vector4 v, void *base, int offset);
-void __stvrx(__vector4 v, void *base, int offset);
-__vector4 __vor(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Float4_8280A8E8 {
     float x, y, z, w;

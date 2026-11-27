@@ -1,6 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Config_823D0FF8 {
     int pad0;
@@ -43,8 +41,6 @@ typedef struct Command_823D0FF8 {
     int key;                /* 0x70 */
     unsigned char enabled;  /* 0x74 */
 } Command_823D0FF8;
-
-__vector4 __VMXGetReg(int n);
 
 extern Config_823D0FF8 *lbl_832975B0;
 extern Config_823D0FF8 *fn_82250A18(void);

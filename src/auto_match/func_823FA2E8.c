@@ -1,4 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float vector4_f32[4]; } __vector4;
+#include "xdk/vectorintrinsics.h"
 
 struct Rd_823FA2E8;
 typedef struct RdVt_823FA2E8 {

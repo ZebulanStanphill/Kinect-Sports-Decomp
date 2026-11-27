@@ -1,5 +1,5 @@
-typedef __declspec(passinreg) __declspec(align(16)) union __vector4 { float f[4]; unsigned int u[4]; } __vector4;
-__vector4 __VMXGetReg(int);
+#include "xdk/vectorintrinsics.h"
+
 typedef struct Src_824A5268 { char pad[0x48]; float f48; float f4c; } Src_824A5268;
 typedef struct Obj_824A5268 { void *vt; char pad[0x38]; float f3c; float f40; int f44; int pad48[2]; __vector4 v50; } Obj_824A5268;
 extern void fn_82F53A20(void *, void *);

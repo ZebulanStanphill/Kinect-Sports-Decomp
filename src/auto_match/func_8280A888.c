@@ -1,16 +1,7 @@
 // Sines and cosines of two angles: out = sin((x, y, x, y) + (0, 0, pi/2, pi/2)), with the
 // vector sine fn_822BD390. lbl_83156DD0[0] is the phase vector.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __lvrx(const void *base, int offset);
-void __stvlx(__vector4 v, void *base, int offset);
-void __stvrx(__vector4 v, void *base, int offset);
-__vector4 __vor(__vector4 a, __vector4 b);
-__vector4 __vaddfp(__vector4 a, __vector4 b);
-__vector4 __vpermwi(__vector4 v, int control);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Float4_8280A888 {
     float x, y, z, w;

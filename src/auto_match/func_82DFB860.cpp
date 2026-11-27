@@ -1,12 +1,8 @@
 // Steering angle from the driver input, reduced above the full-steering speed.
 // It matches only as a member function: the field of this is loaded before the input, as the second factor.
 
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
-extern "C" __vector4 __vmsum3fp(__vector4, __vector4);
-extern "C" void __stvewx(__vector4, void *, int);
 extern "C" void fn_82CE50D8(__vector4 *out, const void *rotation, const void *direction);
 
 struct Chassis_82DFB860 {

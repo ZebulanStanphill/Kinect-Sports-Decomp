@@ -2,13 +2,8 @@
 // local space (inverse transform of from/to) and cast against its shape with the world's
 // collision filter as the ray shape collection filter when the input enables it. Wrapped
 // in the "TtrcPhantom" timer scope.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-extern "C" __vector4 __vsubfp(__vector4 a, __vector4 b);
-extern "C" __vector4 __vmsum3fp(__vector4 a, __vector4 b);
-extern "C" __vector4 __vmrghw(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct ProfTls_82D8CE68 {
     int unk0;
@@ -20,7 +15,6 @@ typedef struct ProfTls_82D8CE68 {
 typedef struct Transform_82D8CE68 {
     __vector4 col[4];
 } Transform_82D8CE68;
-
 
 /* hkpShapeRayCastInput */
 struct Collidable_82D8CE68;

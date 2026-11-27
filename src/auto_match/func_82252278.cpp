@@ -1,8 +1,7 @@
 // Reads six values from the source objects (sibling of func_82251E58/func_82236340) into a
 // default-initialised parameter block (zero vectors, 0.0f, mode 3) and passes them to the sink.
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float vector4_f32[4]; } __vector4;
 
-extern "C" __vector4 __VMXGetReg(int reg);
+#include "xdk/vectorintrinsics.h"
 
 struct Params_82252278 {
   __vector4 a;            /* 0x00 */

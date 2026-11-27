@@ -1,15 +1,8 @@
 // Returns whether two quaternions describe the same rotation within a tolerance: every
 // component of a - b, or of a + b, lies within +-epsilon (XNA Math XMVector4NearEqual
 // against b and against -b).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __vspltisw(int value);
-__vector4 __vslw(__vector4 a, __vector4 b);
-__vector4 __vxor(__vector4 a, __vector4 b);
-__vector4 __vsubfp(__vector4 a, __vector4 b);
-__vector4 __vcmpbfpR(__vector4 a, __vector4 b, unsigned int *cr);
+#include "xdk/vectorintrinsics.h"
 
 static __forceinline __vector4 Replicate(float value)
 {

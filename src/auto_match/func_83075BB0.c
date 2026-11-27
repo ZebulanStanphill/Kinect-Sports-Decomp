@@ -1,8 +1,7 @@
 /* Swaps the two banks of 20 samples, refills the new bank from the source, then (when a previous
    bank existed) blends each new sample against the old one and hands it back to the source. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Sample_83075BB0 {
     __vector4 value;          /* 0x00 */
@@ -13,7 +12,6 @@ typedef struct Filter_83075BB0 {
     Sample_83075BB0 samples[2][20];   /* 0x000 */
     int bank;                         /* 0x500 */
 } Filter_83075BB0;
-
 
 __vector4 *fn_83075D30(__vector4 *out, void *source, int index);
 void fn_83075D80(void *source, int index, __vector4 value);

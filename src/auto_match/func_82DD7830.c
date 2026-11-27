@@ -1,13 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float x; /* 0x0 */
-    float y; /* 0x4 */
-    float z; /* 0x8 */
-    float w; /* 0xc */
-} __vector4;
-
-extern __vector4 __vsubfp(__vector4, __vector4);
-extern __vector4 __vmsum3fp(__vector4, __vector4);
-extern void __stvewx(__vector4, void *, int);
+#include "xdk/vectorintrinsics.h"
 
 unsigned int fn_82DD7830(char *self, const unsigned char *pair, __vector4 *out)
 {

@@ -2,7 +2,8 @@
 // function pointer with all arguments as placeholders: it copies the bound pointer to member
 // (8 bytes: function and this adjustment) and calls it on the bound object, forwarding the
 // arguments unchanged. Bound target: fn_82377B20 (fn_82382150); folded (4 vtables).
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 { float vector4_f32[4]; } __vector4;
+
+#include "xdk/vectorintrinsics.h"
 
 class __multiple_inheritance Target_8230C1D0;
 

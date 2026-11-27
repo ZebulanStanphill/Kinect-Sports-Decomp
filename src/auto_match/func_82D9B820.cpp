@@ -1,10 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-extern "C" __vector4 __lvlx(const void *base, int offset);
-extern "C" __vector4 __vspltw(__vector4 v, unsigned int i);
-extern "C" __vector4 __vmulfp(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 class Obj_82D9B820 {
 public:

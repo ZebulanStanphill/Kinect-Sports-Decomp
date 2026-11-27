@@ -2,15 +2,8 @@
    origin's barycentric coordinates in the triangle (fn_82D76578) are all >= 0, then stores the
    triangle's support points as the final simplex and writes the separating normal (negated),
    the witness point interpolated from the A points and the negated distance. */
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
 
-__vector4 __lvlx(const void *base, int offset);
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vmulfp(__vector4 a, __vector4 b);
-__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
-__vector4 __vxor(__vector4 a, __vector4 b);
+#include "xdk/vectorintrinsics.h"
 
 extern const __vector4 lbl_8209AB20;   /* sign mask */
 extern char lbl_8323B1A0[];

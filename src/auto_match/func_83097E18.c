@@ -1,6 +1,4 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
+#include "xdk/vectorintrinsics.h"
 
 extern unsigned __int64 __mftb();
 typedef struct TimerStream_83097E18 { void *pad0; unsigned int *next; void *pad8; unsigned int *end; } TimerStream_83097E18;

@@ -1,20 +1,9 @@
-typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
-    float vector4_f32[4];
-} __vector4;
-
-__vector4 __vspltw(__vector4 v, unsigned int i);
-__vector4 __vspltisw(int value);
-__vector4 __vminfp(__vector4 a, __vector4 b);
-__vector4 __vmaxfp(__vector4 a, __vector4 b);
-__vector4 __vrlimi(__vector4 a, __vector4 b, unsigned int mask, unsigned int rotate);
+#include "xdk/vectorintrinsics.h"
 
 typedef struct Aabb_8307EBA0 {
     __vector4 min;
     __vector4 max;
 } Aabb_8307EBA0;
-
-
-
 
 static __forceinline void SetAll(__vector4 *v, float x)
 {
