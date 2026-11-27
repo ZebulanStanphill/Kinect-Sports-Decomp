@@ -9,12 +9,19 @@
 //  - Collector's slot is called by the query (82D38600) for each leaf whose volume overlaps, with the leaf
 //    node; it returns a real, and the query stops when it returns 0. AllHitsNodeCollector's (82D2B7D0)
 //    appends the node to its array and returns 1.
-//  - TreeTreeCollector's slot gets two nodes; TreeTreeNodePairCollector's (82D2B850) appends the pair.
+//  - TreeTreeCollector's slot gets two nodes and returns a value: TreeTreeNodePairCollector's (82D2B850)
+//    appends the pair and returns 0; hkgpMesh::PrismPolicy's (82D2A9B8) returns 1 for two triangles that share
+//    a vertex and 0 otherwise. The type hkBool32 is a guess (both load an integer into r3).
 // The two slots are pure in the game; they are plain virtual functions here so that a unit can construct a
 // subclass without declaring them (the units' code is the same; only the interfaces' own vtables would name the
-// functions instead of _purecall). ClosestPointCollector (abstract in the game: its vtable keeps the pure slot)
-// is not declared: no unit needs it.
-// The names of the slots are the units' guesses; the class names are the game's (all four are structs).
+// functions instead of _purecall).
+// ClosestPointCollector (0x30 bytes) is abstract in the game: its vtable (821347C8) is Collector's deleting
+// destructor and the pure slot. Two classes derive from it (hkgpMesh::NearestFeaturePolicy and
+// hkGeometryProcessingInternals::NearestFeaturePolicy; RTTI lists it between them and Collector). Its two
+// members are inferred from them: both callbacks (82D2A740, 82D1E5F8) compare a distance from the point at
+// +0x10 with the real at +0x20 and keep the lesser, and both classes' own members start at +0x30, also
+// where the first is a pointer (82D1E5F8), which a 16-aligned base explains. The members' names are guesses.
+// The names of the slots are the units' guesses; the class names are the game's (all five are structs).
 #ifndef HAVOK_HKAABBTREEQUERYUTILS_H
 #define HAVOK_HKAABBTREEQUERYUTILS_H
 
@@ -38,10 +45,15 @@ public:
         virtual hkReal processLeaf(const Node *leaf);
     };
 
+    struct ClosestPointCollector : public Collector {
+        hkVector4 m_point;              // +0x10
+        hkReal m_closestDistance;       // +0x20: the least so far (squared in 82D1E5F8)
+    };
+
     struct TreeTreeCollector {
         static void operator delete(void *p) { fn_8265CA20(p); }
         virtual ~TreeTreeCollector() {}
-        virtual void processPair(const Node *a, const Node *b);
+        virtual hkBool32 processPair(const Node *a, const Node *b);
     };
 
     // Collects every leaf the query reports (vtable: Collector's deleting destructor, then 82D2B7D0).
@@ -55,7 +67,7 @@ public:
     // Collects every pair of nodes (vtable: TreeTreeCollector's deleting destructor, then 82D2B850).
     struct TreeTreeNodePairCollector : public TreeTreeCollector {
         HK_FORCE_INLINE TreeTreeNodePairCollector(hkArray<NodePair> &pairs) : m_pairs(&pairs) {}
-        virtual void processPair(const Node *a, const Node *b);
+        virtual hkBool32 processPair(const Node *a, const Node *b);
 
         hkArray<NodePair> *m_pairs;   // +0x4
     };

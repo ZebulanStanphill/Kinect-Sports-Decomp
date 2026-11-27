@@ -133,7 +133,7 @@ template <typename T, typename Allocator = hkContainerHeapAllocator>
 class hkArray : public hkArrayBase<T> {
 public:
     // Havok's class allocator: 82E0BC78 creates an hkArray<hkVariant> with `new` from the heap (0xC
-    // bytes), and its scalar deleting destructor (fn_82E0E0A8) returns the 0xC bytes to the heap.
+    // bytes), and its scalar deleting destructor (82E0E0A8) returns the 0xC bytes to the heap.
     HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_ARRAY, hkArray);
     HK_FORCE_INLINE hkArray() {}
     HK_FORCE_INLINE hkArray(hkFinishLoadedObjectFlag f) : hkArrayBase<T>(f) {}

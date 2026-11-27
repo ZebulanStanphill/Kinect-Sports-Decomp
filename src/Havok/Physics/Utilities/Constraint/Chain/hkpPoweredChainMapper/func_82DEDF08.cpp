@@ -2,6 +2,7 @@
 // a powered chain for each entity pair from the given constraints and records, per constraint (link), which chains
 // and chain entries it maps to. On failure it warns, releases what it built and returns HK_NULL. Built with /O2
 // (flag file). The function keeps its fn_ name; every callee keeps its fn_ name too.
+#include "havok/hkError.h"
 #include "havok/hkOstream.h"
 #include "havok/hkpConstraintChainInstance.h"
 #include "havok/hkpPoweredChainMapper.h"
@@ -71,15 +72,6 @@ public:
 
     char m_data[0xc];
 };
-
-class hkError : public hkReferencedObject {
-public:
-    enum Message { MESSAGE_REPORT, MESSAGE_WARNING, MESSAGE_ASSERT, MESSAGE_ERROR };
-    virtual int message(Message m, int id, const char *description, const char *file, int line);   // +0xc
-    static HK_FORCE_INLINE hkError &getInstance();
-};
-extern "C" hkError *lbl_8323B464;   // hkSingleton<hkError>::s_instance
-HK_FORCE_INLINE hkError &hkError::getInstance() { return *lbl_8323B464; }
 
 // Havok's HK_WARN, with the source line passed explicitly.
 #define HK_WARN(id, TEXT, LINE)                                                                          \

@@ -2,7 +2,7 @@
 #include "havok/hkpMultiRayConvexAgent.h"
 #include "havok/hkpSymmetricAgent.h"
 
-// Defined in this file (fn_82D60850), so the compiler inlines it here.
+// Defined in this file (82D60850), so the compiler inlines it here.
 void hkpMultiRayConvexAgent::getPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
                                              const hkpCollisionInput &input, hkpCdBodyPairCollector &collector)
 {

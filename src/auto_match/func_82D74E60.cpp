@@ -1,6 +1,7 @@
 // Penetration test of two convex bodies with the GSK algorithm: builds the
 // closest-point cache, runs GSK and reports the pair to the collector when the
 // bodies overlap (or GSK fails).
+#include "havok/hkMonitorStream.h"
 #include "havok/hkpCdBody.h"
 #include "havok/hkpCdVertex.h"
 #include "havok/hkpCdBodyPairCollector.h"
@@ -8,24 +9,14 @@
 
 extern "C" unsigned __int64 __mftb();
 
-struct hkMonitorStream {
-    void *a;
-    unsigned *next;
-    void *b;
-    unsigned *end;
-};
-
-extern "C" hkMonitorStream *KeTlsGetValue(unsigned);
-extern "C" unsigned lbl_8323B4A0;
-
 static HK_FORCE_INLINE void timer(const char *s)
 {
-    hkMonitorStream *t = KeTlsGetValue(lbl_8323B4A0);
-    unsigned *p = t->next;
-    if (p < t->end) {
-        p[0] = (unsigned)s;
-        p[1] = (unsigned)__mftb();
-        t->next = p + 3;
+    hkMonitorStream *t = &hkMonitorStream::getInstance();
+    if (t->m_end < t->m_capacityMinus16) {
+        hkMonitorStream::TimerCommand *p = reinterpret_cast<hkMonitorStream::TimerCommand *>(t->m_end);
+        p->m_commandAndMonitor = s;
+        p->m_time0 = (hkUint32)__mftb();
+        t->m_end = reinterpret_cast<char *>(p + 1);
     }
 }
 

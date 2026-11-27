@@ -6,6 +6,8 @@
 // - The two constructors are out of line (82D4D370 from a shape container, 82D4D4F0 from an AABB), and so is the
 //   destructor (82D4D580; deleting destructor 82D4D6F0).
 // - The finish constructor is inline (finishLoadedObject 82D3AD48).
+// - The default constructor is inline: hkpRemoveTerminalsMoppModifier2's constructor (82D4D618) has it in its
+//   code (the two vtables, an empty m_removeInfo, and a null stored at +0x18).
 // - applyRemoveTerminals is out of line (82D4D1C0).
 // Vtables ??_7hkpRemoveTerminalsMoppModifier@@6BhkReferencedObject@@@ and ...@@6BhkpMoppModifier@@@
 // (shouldTerminalBeRemoved 82D4D268, ModifierFinished 82D4D2E0).
@@ -27,6 +29,7 @@ public:
     hkpRemoveTerminalsMoppModifier(const hkpMoppCode *moppCode, const hkAabb &aabb,
                                    const hkArray<hkpShapeKey> &shapesToRemove);   // out of line (82D4D4F0)
     hkpRemoveTerminalsMoppModifier(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag), m_removeInfo(flag) {}
+    HK_FORCE_INLINE hkpRemoveTerminalsMoppModifier() : m_tempShapesToRemove(HK_NULL) {}
     virtual ~hkpRemoveTerminalsMoppModifier();   // out of line (82D4D580)
 
     virtual hkBool shouldTerminalBeRemoved(unsigned int id, const hkpShapeKey *properties);

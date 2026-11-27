@@ -17,7 +17,7 @@
 
 #include "havok/hkBase.h"
 
-typedef hkUint16 hkContactPointId;
+typedef hkUint16 hkContactPointId;   // as in hkpCollisionAgent.h, which a manifold does not need
 
 struct hkpGskManifold {
     struct ContactPoint {

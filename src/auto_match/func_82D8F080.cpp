@@ -8,7 +8,7 @@
 // matches with it at /O2); the world's flags are read through a pointer to the solver info's flag array.
 #include "havok/hkBase.h"
 #include "havok/hkpRigidBody.h"
-#include "havok/hkpSolverInfo.h"
+#include "havok/hkpWorld.h"
 
 template <int SIZE>
 static HK_FORCE_INLINE void memCpy16(void *dst, const void *src)
@@ -25,12 +25,6 @@ static HK_FORCE_INLINE void memCpy16(void *dst, const void *src)
         src32 += 4;
     }
 }
-
-class hkpWorld {
-public:
-    char m_pad[0x1e0];
-    hkpSolverInfo m_solverInfo;   // +0x1e0 (m_dynamicsStepInfo.m_solverInfo)
-};
 
 extern "C" {
 hkReal fn_82D80A40(const hkpWorld *world);   // hkpWorld::getCurrentTime
@@ -132,7 +126,7 @@ extern "C" void fn_82D8F080(hkpRigidBody *body, int newState, hkBool newStateNee
     if (world)
     {
         hkpMotion *motion = body->getRigidMotion();
-        const hkpSolverInfo &si = world->m_solverInfo;
+        const hkpSolverInfo &si = world->m_dynamicsStepInfo.m_solverInfo;
         const hkUint8 *fl = &si.m_deactivationNumInactiveFramesSelectFlag[0];
         motion->setWorldSelectFlagsNeg(fl[0], fl[1], si.m_deactivationIntegrateCounter);
     }

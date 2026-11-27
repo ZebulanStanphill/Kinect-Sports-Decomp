@@ -5,6 +5,7 @@
 #include "havok/hkpPhantomListener.h"
 #include "havok/hkAabbTree.h"
 #include "havok/hkpWorld.h"
+#include "havok/hkpProcessCollisionInput.h"
 class hkpTreeWorldManager:public hkReferencedObject {public:
  int type;void *tree,*other;
  HK_FORCE_INLINE hkpTreeWorldManager():tree(0),other(0){} virtual ~hkpTreeWorldManager();
@@ -26,6 +27,6 @@ hkpAabbTreeWorldManager::hkpAabbTreeWorldManager(hkpWorld *w,int mode,float t):w
  type=1;other=0;tree=0;
  if(mode==0)use=true;else if(mode==1)use=false;
  world->addEntityListener(this);world->addPhantomListener(this);world->addIslandActivationListener(this);world->addWorldPostSimulationListener(this);
- if(use){const hkVector4 *bp=(const hkVector4 *)(reinterpret_cast<char *>(world->m_collisionInput)+0x20);tree=new hkAabbTree<hkAabbTreeData::hkAabbTreeAabb16,hkUint16>(bp[0],bp[1],bp[2]);}
+ if(use){const hkpCollisionInput::Aabb32Info *bp=&world->m_collisionInput->m_aabb32Info;tree=new hkAabbTree<hkAabbTreeData::hkAabbTreeAabb16,hkUint16>(bp->m_bitOffsetLow,bp->m_bitOffsetHigh,bp->m_bitScale);}
  flag=false;flag2=false;a=0;b=30;data.m_size=0;*(char *)((char *)this+0x2c)=0;flag3=false;
 }

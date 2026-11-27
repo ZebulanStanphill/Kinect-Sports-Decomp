@@ -1,6 +1,6 @@
 // hkpWorld (Physics/Dynamics/World/hkpWorld.h), 0x350 bytes: the simulation world.
 // The layout is the game's:
-//  - the constructor (fn_82D86990, hkpWorld(const hkpWorldCinfo &, unsigned int sdkVersion)) copies the
+//  - the constructor (82D86990, hkpWorld(const hkpWorldCinfo &, unsigned int sdkVersion)) copies the
 //    construction info into the settings from +0xB0 to +0x100 and +0x330 to +0x340, creates the
 //    maintenance manager (+0x4C, hkpDefaultWorldMaintenanceMgr), the tree manager (+0x5C, an
 //    hkpKdTreeWorldManager or an hkpAabbTreeWorldManager, with the cinfo's m_autoUpdateKdTree at +0x60), the
@@ -21,6 +21,7 @@
 
 #include "havok/hkBase.h"
 #include "havok/hkMultiThreadCheck.h"
+#include "havok/hkpSolverInfo.h"
 #include "havok/hkVector4.h"
 
 // The SDK version the game's Havok passes to hkpWorld's constructor (hkpPhysicsData::createWorld and game code
@@ -193,9 +194,9 @@ public:
     hkpCollisionCallbackUtil *m_collisionCallbackUtil;                  // +0x1C0
     hkUint32 m_unknown1C4;                                              // +0x1C4: cleared by the constructor
     hkUint8 m_pad1C8[8];                                                // +0x1C8
-    // hkpWorldDynamicsStepInfo (0x140 bytes): an hkStepInfo, then the hkpSolverInfo at +0x1E0. Neither class
-    // has a header yet; the solver info's deactivation selectors are at +0x305..+0x307.
-    hkUint8 m_dynamicsStepInfo[0x140];                                  // +0x1D0
+    // An hkStepInfo, then the hkpSolverInfo at +0x1E0 (its deactivation selectors are at +0x305..+0x307:
+    // hkpEntity::activate, 82D89BD8).
+    hkpWorldDynamicsStepInfo m_dynamicsStepInfo;                        // +0x1D0, 0x140 bytes
     hkVector4 m_broadPhaseExtents[2];                                   // +0x310
     int m_broadPhaseNumMarkers;                                         // +0x330
     int m_sizeOfToiEventQueue;                                          // +0x334

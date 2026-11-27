@@ -7,6 +7,7 @@
 // collision filter, each conversion testing the filter pointer (two if/else statements), as in
 // func_82DB3288.cpp. The kd raycaster's destructor leaves hkKdTreeCastCollector's vtable store
 // (the next timer call could observe it); the AABB raycaster's destructor stores are dead.
+#include "havok/hkMonitorStream.h"
 #include "havok/hkpCollisionFilter.h"
 #include "havok/hkpAabbTreeCollidableRaycaster.h"
 #include "havok/hkpKdTreeCollidableRaycaster.h"
@@ -14,31 +15,26 @@
 
 extern "C" unsigned __int64 __mftb();
 
-struct hkMonitorStreamCommand { const char *m_commandAndMonitor; hkUint32 m_time0, m_time1; };
-struct hkMonitorStream { char *m_start; hkMonitorStreamCommand *m_end; char *m_capacity; hkMonitorStreamCommand *m_capacityMinus16; };
-extern "C" {
-hkMonitorStream *KeTlsGetValue(unsigned int);
-extern unsigned int lbl_8323B4A0;
-}
 static HK_FORCE_INLINE void timerBeginList(const char *name, const char *split)
 {
-    hkMonitorStream *m = KeTlsGetValue(lbl_8323B4A0);
-    hkMonitorStreamCommand *h = m->m_end;
-    if (h < m->m_capacityMinus16) {
+    hkMonitorStream *m = &hkMonitorStream::getInstance();
+    if (m->m_end < m->m_capacityMinus16) {
+        hkMonitorStream::TimerBeginListCommand *h =
+            reinterpret_cast<hkMonitorStream::TimerBeginListCommand *>(m->m_end);
         h->m_commandAndMonitor = name;
-        ((const char **)h)[3] = split;
+        h->m_nameOfFirstSplit = split;
         h->m_time0 = (hkUint32)__mftb();
-        m->m_end = (hkMonitorStreamCommand *)((char *)h + 16);
+        m->m_end = reinterpret_cast<char *>(h + 1);
     }
 }
 static HK_FORCE_INLINE void timerMark(const char *name)
 {
-    hkMonitorStream *m = KeTlsGetValue(lbl_8323B4A0);
-    hkMonitorStreamCommand *h = m->m_end;
-    if (h < m->m_capacityMinus16) {
+    hkMonitorStream *m = &hkMonitorStream::getInstance();
+    if (m->m_end < m->m_capacityMinus16) {
+        hkMonitorStream::TimerCommand *h = reinterpret_cast<hkMonitorStream::TimerCommand *>(m->m_end);
         h->m_commandAndMonitor = name;
         h->m_time0 = (hkUint32)__mftb();
-        m->m_end = h + 1;
+        m->m_end = reinterpret_cast<char *>(h + 1);
     }
 }
 

@@ -1,5 +1,5 @@
 // hkpWorldCinfo (Physics/Dynamics/World/hkpWorldCinfo.h), 0xE0 bytes: the settings an hkpWorld is
-// constructed from. The members and their offsets are those the constructor (fn_82D8E600) fills in; the names
+// constructed from. The members and their offsets are those the constructor (82D8E600) fills in; the names
 // are the game's (its hkpWorldCinfo reflection strings). The constructor is out of line (82D8E600). The
 // destructor is inline but not forced: the Havok units (/O2) expand it, game code (/O1) calls the copy emitted
 // in a game object (8253C630, with the deleting destructor 8253C6B8). The finish constructor (82D8E840) turns a zero m_contactRestingVelocity into 1.

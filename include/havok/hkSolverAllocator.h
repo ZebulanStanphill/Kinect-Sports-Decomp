@@ -9,13 +9,12 @@
 // the array is an hkArrayBase, which has no destructor.
 // The member names are not confirmed by the game.
 //
-// Its vtable (??_7hkSolverAllocator@@6B@, 13 slots) overrides blockAlloc (fn_82CF7530), blockFree (fn_82CF7538),
-// bufAlloc (fn_82CF76A8) and bufFree (fn_82CF7878) and slots +0x20, +0x28, +0x2C and +0x30 (fn_82CF7540,
-// fn_82CF7568, fn_82CF7AE8, fn_82CF75A8), which hkMemoryAllocator.h does not declare. The four overrides
-// declared here have their names (82CF7530, 82CF7538, 82CF76A8, 82CF7878); the other four keep their fn_
-// names. The class has a placement allocator: its deleting destructor (82CF7BC8) frees nothing. The
-// destructor is out of line (82CF7638): hkFreeListMemorySystem's destructor calls it, and the deleting
-// destructor, in the same translation unit, expands it.
+// Its vtable (??_7hkSolverAllocator@@6B@, 13 slots) overrides blockAlloc (82CF7530), blockFree (82CF7538),
+// bufAlloc (82CF76A8) and bufFree (82CF7878), which have their names, and canAllocSingle (fn_82CF7540),
+// getMemoryStatistics (fn_82CF7568), getAllocatedSize (fn_82CF7AE8) and resetPeakMemoryStatistics (fn_82CF75A8),
+// which keep their fn_ names. The class has a placement allocator: its deleting destructor (82CF7BC8) frees
+// nothing. The destructor is out of line (82CF7638): hkFreeListMemorySystem's destructor calls it, and the
+// deleting destructor, in the same translation unit, expands it.
 #ifndef HAVOK_HKSOLVERALLOCATOR_H
 #define HAVOK_HKSOLVERALLOCATOR_H
 
@@ -39,6 +38,10 @@ public:
     virtual void blockFree(void *p, int numBytes);
     virtual void *bufAlloc(int &reqNumInOut, int elemSize);
     virtual void bufFree(void *p, int num, int elemSize);
+    virtual bool canAllocSingle(int numBytes);                 // fn_82CF7540
+    virtual void getMemoryStatistics(MemoryStatistics &u);     // fn_82CF7568
+    virtual int getAllocatedSize(const void *obj, int nbytes); // fn_82CF7AE8
+    virtual void resetPeakMemoryStatistics();                  // fn_82CF75A8
 
     char *m_bufferStart;                    // +0x4
     char *m_bufferEnd;                      // +0x8

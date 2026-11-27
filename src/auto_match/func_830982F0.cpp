@@ -6,30 +6,7 @@
 // m_rayShapeCollectionFilter), the early-out fraction (1.0f) at +0x1c, a flag at +0x20 and a
 // pointer at +0x70, the last three set in the body.
 // The source used the literal 1.0f.
-#include "havok/hkBase.h"
-#include "havok/hkAabbTreeQueryUtils.h"
-#include "havok/hkKdTreeCastCollector.h"
-#include "havok/hkpBroadPhaseCastCollector.h"
-#include "havok/hkpShapeRayCastInput.h"
-
-class hkCpuWorldRayCastCollector : public hkpBroadPhaseCastCollector,
-                                   public hkKdTreeCastCollector,
-                                   public hkAabbTreeQueryUtils<hkAabbTreeData::hkAabbTreeAabb, hkUint16>::Collector,
-                                   public hkAabbTreeQueryUtils<hkAabbTreeData::hkAabbTreeAabb16, hkUint16>::Collector,
-                                   public hkAabbTreeQueryUtils<hkAabbTreeData::hkAabbTreeAabb, hkUint32>::Collector,
-                                   public hkAabbTreeQueryUtils<hkAabbTreeData::hkAabbTreeAabb16, hkUint32>::Collector {
-public:
-    HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE, hkCpuWorldRayCastCollector);
-    hkCpuWorldRayCastCollector();
-
-    const void *m_originalInput;          // +0x18
-    hkReal m_earlyOutHitFraction;         // +0x1c
-    hkBool m_hit;                         // +0x20
-    hkUint8 m_pad21[0x1f];
-    hkpShapeRayCastInput m_shapeInput;    // +0x40
-    void *m_result;                       // +0x70
-    hkUint8 m_pad74[0x1c];
-};
+#include "havok/hkCpuWorldRayCastCollector.h"
 
 hkCpuWorldRayCastCollector::hkCpuWorldRayCastCollector()
 {

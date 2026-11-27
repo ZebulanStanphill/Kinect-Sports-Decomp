@@ -1,8 +1,7 @@
 // hkgpMesh::PrismPolicy's callback (slot 1 of ??_7PrismPolicy@hkgpMesh@@6B@), keeping its fn_ name: for a pair
 // of triangles from a tree-against-tree query, returns 1 when they share a vertex; otherwise tests them as
 // prisms through the convex overlap interface and, when they overlap, clears the real at +0x3C of their six
-// vertices. It returns a value, where hkAabbTreeQueryUtils.h declares TreeTreeCollector's slot as returning
-// nothing.
+// vertices.
 #include "havok/hkgpMesh.h"
 
 typedef hkgpMesh::TreeQueries::Node Node;

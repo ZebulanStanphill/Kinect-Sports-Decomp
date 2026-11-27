@@ -2,7 +2,7 @@
 #include "havok/hkpSphereBoxAgent.h"
 #include "havok/hkpSymmetricAgent.h"
 
-// Defined in this file (fn_82D64738), so the compiler inlines it here.
+// Defined in this file (82D64738), so the compiler inlines it here.
 void hkpSphereBoxAgent::getPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
                                         hkpCdBodyPairCollector &collector)
 {

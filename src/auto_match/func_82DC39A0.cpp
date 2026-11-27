@@ -14,6 +14,7 @@
 // order in which named locals are declared: the sector size is one local `sectorSize`, declared
 // after `entry` and reassigned in the loop (end = nextNext + sectorSize), and the queue size in the
 // world branch is a local `qsize`.
+#include "havok/hkMonitorStream.h"
 #include "havok/hkBase.h"
 #include "havok/hkpCollisionDispatcher.h"
 #include "havok/hkpConstraintOwner.h"
@@ -23,25 +24,9 @@
 extern "C" unsigned __int64 __mftb();
 extern "C" void __dcbt(int offset, const void *base);
 
-// hkMonitorStream (Common/Base/Monitor/hkMonitorStream.h): the per-thread timer stream lives in a TLS slot.
-class hkMonitorStream {
-public:
-    struct TimerCommand {
-        const char *m_commandAndMonitor;
-        hkUint32 m_time0;
-        hkUint32 m_time1;
-    };
-    char *m_start;
-    char *m_end;
-    char *m_capacity;
-    char *m_capacityMinus16;
-};
-extern "C" hkMonitorStream *KeTlsGetValue(unsigned int index);
-extern "C" unsigned int lbl_8323B4A0;   // hkMonitorStream TLS slot
-
 #define HK_TIMER_BEGIN(NAME) \
     { \
-        hkMonitorStream *mStream = KeTlsGetValue(lbl_8323B4A0); \
+        hkMonitorStream *mStream = &hkMonitorStream::getInstance(); \
         if (mStream->m_end < mStream->m_capacityMinus16) { \
             hkMonitorStream::TimerCommand *h = reinterpret_cast<hkMonitorStream::TimerCommand *>(mStream->m_end); \
             h->m_commandAndMonitor = NAME; \

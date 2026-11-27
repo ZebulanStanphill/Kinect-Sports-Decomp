@@ -27,7 +27,7 @@
 //
 // reset, setDomain, m_stack, m_edgeDataPolicy, m_roots, m_margin, m_localToWorld and m_worldToLocal are named
 // after Havok's header where it was remembered and by what the functions do otherwise; none of the names is
-// in the game, and EdgeStack and EdgeDataBox are this header's names. The type of the object at +0x24C and
+// in the game, and EdgeDataBox is this header's name. The type of the object at +0x24C and
 // the items of the pool at +0x250 (0x1C bytes) are not known.
 #ifndef HAVOK_HKGPTRIANGULATOR_H
 #define HAVOK_HKGPTRIANGULATOR_H
@@ -91,14 +91,6 @@ public:
         hkUint16 m_data;          // +0x22
     };
 
-    // hkInplaceArray<Edge, 64>, declared here with a destructor that is always inlined: the game's destructors
-    // of the triangulator have the array's destructor inline, and with hkArray.h's hkInplaceArray, which has an
-    // implicit destructor, the compiler calls it instead.
-    struct EdgeStack : public hkArray<Edge, ALLOCATOR> {
-        HK_FORCE_INLINE EdgeStack() : hkArray<Edge, ALLOCATOR>(m_storage, 0, 64) {}
-        HK_FORCE_INLINE ~EdgeStack() {}
-        Edge m_storage[64];   // +0xC
-    };
 
     // The items of the pool allocator at +0x250, 0x1C bytes each.
     struct EdgeDataBox;
@@ -125,7 +117,7 @@ public:
     }
 
     Mesh m_mesh;                                                                   // +0x8
-    EdgeStack m_stack;                                                             // +0x40
+    hkInplaceArray<Edge, 64, ALLOCATOR> m_stack;                                                       // +0x40
     void *m_edgeDataPolicy;                                                        // +0x24C
     hkGeometryProcessing::PoolAllocator<EdgeDataBox, 32, ALLOCATOR> m_edgeData;    // +0x250
     Triangle *m_roots[16][16];                                                     // +0x25C

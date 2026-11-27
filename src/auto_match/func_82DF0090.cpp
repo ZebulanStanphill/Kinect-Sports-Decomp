@@ -3,23 +3,21 @@
 // damping impulse from the bodies' velocity difference (both scaled by the time step),
 // applied to body A negated and to body B as is. Wrapped in the "TtDashpot" timer scope.
 // Slot +0xC of ??_7hkpDashpotAction@@6B@.
+#include "havok/hkMonitorStream.h"
 #include "havok/hkBase.h"
 #include "havok/hkpRigidBody.h"
 #include "havok/hkpDashpotAction.h"
 #include "havok/hkStepInfo.h"
 
 extern "C" unsigned __int64 __mftb();
-struct hkMonitorStream { void *a; unsigned *next; void *b; unsigned *end; };
-extern "C" hkMonitorStream *KeTlsGetValue(unsigned);
-extern "C" unsigned lbl_8323B4A0;
 static HK_FORCE_INLINE void timer(const char *s)
 {
-    hkMonitorStream *t = KeTlsGetValue(lbl_8323B4A0);
-    unsigned *p = t->next;
-    if (p < t->end) {
-        p[0] = (unsigned)s;
-        p[1] = (unsigned)__mftb();
-        t->next = p + 3;
+    hkMonitorStream *t = &hkMonitorStream::getInstance();
+    if (t->m_end < t->m_capacityMinus16) {
+        hkMonitorStream::TimerCommand *p = reinterpret_cast<hkMonitorStream::TimerCommand *>(t->m_end);
+        p->m_commandAndMonitor = s;
+        p->m_time0 = (hkUint32)__mftb();
+        t->m_end = reinterpret_cast<char *>(p + 1);
     }
 }
 

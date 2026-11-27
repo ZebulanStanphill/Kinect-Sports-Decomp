@@ -29,6 +29,8 @@ public:
     HK_FORCE_INLINE hkLeakDetectAllocator() : m_x(HK_NULL) {}
     virtual void *blockAlloc(int numBytes);
     virtual void blockFree(void *p, int numBytes);
+    virtual void getMemoryStatistics(MemoryStatistics &u);        // 82CF7CB0 (forwards to the object at +0x34)
+    virtual int getAllocatedSize(const void *obj, int nbytes);    // 82CF7CC8 (the same)
     hkMemoryAllocator *m_child;      // +0x4
     hkArray<void *> m_allocs;        // +0x8
     void *m_x;                       // +0x14

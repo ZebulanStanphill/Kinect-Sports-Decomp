@@ -1,3 +1,7 @@
-struct V { virtual void f0(); virtual void f1(); virtual void f2(); virtual void f3(); virtual void f4(); virtual void f5(); virtual void f6(); virtual void f7(); virtual void f8(); virtual void f9(); virtual void f10(); };
-struct O { char pad[4]; V *v; };
-extern "C" void fn_82CF6C60(O *p) { p->v->f10(); }
+// hkThreadMemory::getMemoryStatistics(MemoryStatistics &u), under its fn_ name: asks the allocator behind it.
+#include "havok/hkThreadMemory.h"
+
+extern "C" void fn_82CF6C60(hkThreadMemory *self, hkMemoryAllocator::MemoryStatistics &u)
+{
+    self->m_memory->getMemoryStatistics(u);
+}

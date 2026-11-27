@@ -8,8 +8,7 @@
 #define HAVOK_HKPTYPEDBROADPHASEDISPATCHER_H
 
 #include "havok/hkBase.h"
-
-class hkpBroadPhaseListener;
+#include "havok/hkpNullBroadPhaseListener.h"
 
 class hkpTypedBroadPhaseDispatcher {
 public:
@@ -24,9 +23,9 @@ public:
     }
 
     hkpBroadPhaseListener *m_broadPhaseListeners[HK_MAX_BROADPHASE_TYPE][HK_MAX_BROADPHASE_TYPE];   // +0x0
-    // An hkpNullBroadPhaseListener (hkReferencedObject, then hkpBroadPhaseListener at +0x8), which has no
-    // header yet.
-    hkUint8 m_nullBroadPhaseListener[0xC];                                                           // +0x100
+    // hkReferencedObject, then hkpBroadPhaseListener at +0x8: the constructor converts its address to the
+    // listener base for every slot.
+    hkpNullBroadPhaseListener m_nullBroadPhaseListener;                                              // +0x100
 };
 
 #endif

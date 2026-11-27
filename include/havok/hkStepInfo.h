@@ -1,6 +1,6 @@
 // hkStepInfo (Common/Base/Types/Physics/hkStepInfo.h), 0x10 bytes: the time span of one simulation step.
 // A struct in the game's mangled names (`ABUhkStepInfo@@` in hkpMouseSpringAction's constructor, 82DF2A08).
-// Layout from hkpWorld's constructor (fn_82D86990), which fills the world's step info at +0x1D0 with four
+// Layout from hkpWorld's constructor (82D86990), which fills the world's step info at +0x1D0 with four
 // float stores (+0x0, +0x4, +0x8, +0xC: the end time and the delta time from the same constant, the inverse
 // delta time from another), and from the actions' applyAction (82DF0090 reads m_deltaTime at +0x8). It sits
 // at +0x50 in hkpProcessCollisionInput and at +0x0 in hkpWorldDynamicsStepInfo. The names follow Havok's

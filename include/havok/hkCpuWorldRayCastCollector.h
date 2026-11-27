@@ -13,8 +13,7 @@
 //
 // Members: from the constructor (??0hkCpuWorldRayCastCollector@@QAA@XZ, 830982F0, out of line): 1.0 at +0x1C,
 // false at +0x20, null at +0x70, and the hkpShapeRayCastInput at +0x40 (its constructor clears +0x60 and +0x64).
-// hkpShapeRayCastInput has no header in this tree yet, so m_shapeInput is padding here and 830982F0 keeps its
-// copy. +0x18 is the original input (the units' name); +0x21..+0x3F and +0x74..+0x8F are unknown.
+// +0x18 is the original input (the units' name); +0x21..+0x3F and +0x74..+0x8F are unknown.
 #ifndef HAVOK_HKCPUWORLDRAYCASTCOLLECTOR_H
 #define HAVOK_HKCPUWORLDRAYCASTCOLLECTOR_H
 
@@ -22,6 +21,7 @@
 #include "havok/hkAabbTreeQueryUtils.h"
 #include "havok/hkKdTreeCastCollector.h"
 #include "havok/hkpBroadPhaseCastCollector.h"
+#include "havok/hkpShapeRayCastInput.h"
 
 struct hkpWorldRayCastInput;
 struct hkpWorldRayCastOutput;
@@ -49,7 +49,7 @@ public:
     hkReal m_earlyOutHitFraction;                  // +0x1C
     hkBool m_hit;                                  // +0x20
     hkUint8 m_pad21[0x1F];                         // +0x21: unknown
-    hkUint8 m_shapeInput[0x30];                    // +0x40: hkpShapeRayCastInput (no header yet)
+    hkpShapeRayCastInput m_shapeInput;             // +0x40
     hkpWorldRayCastOutput *m_result;               // +0x70
     hkUint8 m_pad74[0x1C];                         // +0x74: unknown
 };

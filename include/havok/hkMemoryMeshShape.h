@@ -6,16 +6,13 @@
 //   destructor is 82D07020.
 // - The finish constructor is inline: finishLoadedObject (82D06FA0) and getVtable (82D06FC8) call only m_name's
 //   (fn_82CED308).
-// hkMeshSectionCinfo has no header yet: it is only declared here, so a unit that walks or destroys m_sections
-// needs its own definition until hkMeshSectionCinfo.h exists.
 #ifndef HAVOK_HKMEMORYMESHSHAPE_H
 #define HAVOK_HKMEMORYMESHSHAPE_H
 
 #include "havok/hkBase.h"
 #include "havok/hkStringPtr.h"
 #include "havok/hkMeshShape.h"
-
-struct hkMeshSectionCinfo;
+#include "havok/hkMeshSection.h"
 
 class hkMemoryMeshShape : public hkMeshShape {
 public:

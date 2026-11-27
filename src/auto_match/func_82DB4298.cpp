@@ -12,7 +12,7 @@ extern "C" {
 void fn_82DC82A8(CallbackMap *map, hkpWorld *world);
 }
 
-// The callback map at +0x14 (constructed by fn_82DC8A30; 0x38 bytes).
+// The callback map at +0x14 (constructed by 82DC8A30; 0x38 bytes).
 class CallbackMap {
 public:
     void addToWorld(hkpWorld *world) { fn_82DC82A8(this, world); }

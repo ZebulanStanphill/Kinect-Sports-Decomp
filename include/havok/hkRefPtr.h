@@ -1,7 +1,7 @@
 // hkRefPtr (Common/Base/Types/hkRefPtr.h): owning pointer to an
 // hkReferencedObject. One pointer, 4 bytes.
 //
-// Destructor, from ~hkpWorldCinfo (fn_8253C630: three hkRefPtr members):
+// Destructor, from ~hkpWorldCinfo (8253C630: three hkRefPtr members):
 // `if (m_pntr) m_pntr->removeReference(); m_pntr = HK_NULL;`, with the locked
 // removeReference (fn_82CE4118). The constructor from a pointer adds a
 // reference the same way (addReference, fn_82CE4040); its exact statement order

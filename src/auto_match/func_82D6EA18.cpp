@@ -1,5 +1,5 @@
 #include "havok/hkpBvAgent.h"
-#include "havok/hkpCdBodyPairCollector.h"
+#include "havok/hkpFlagCdBodyPairCollector.h"
 #include "havok/hkpCollisionDispatcher.h"
 
 class hkpConstraintOwner;
@@ -20,9 +20,6 @@ static HK_FORCE_INLINE void beginTimer(const char *name, const char *split=0) {
   s->next=(TimerEntry*)((char*)e+(split?16:12));
  }
 }
-class hkpFlagCdBodyPairCollector : public hkpCdBodyPairCollector {
-public: hkpFlagCdBodyPairCollector() {m_earlyOut=false;} virtual void addCdBodyPair(const hkpCdBody&,const hkpCdBody&);
-};
 typedef void (*Dispatch)(const hkpCdBody*,const hkpCdBody*,const hkpCollisionInput*,hkpCdBodyPairCollector*);
 static HK_FORCE_INLINE Dispatch getDispatch(hkpCollisionDispatcher *d,int a,int b,int off) {
  unsigned char *p=(unsigned char*)d;

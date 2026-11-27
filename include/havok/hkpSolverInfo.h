@@ -2,7 +2,7 @@
 // settings for one step, and hkpWorldDynamicsStepInfo (0x140 bytes), the hkStepInfo followed by it, which
 // is hkpWorld's m_dynamicsStepInfo at +0x1D0 (the solver info at +0x1E0).
 //
-// Layout from hkpWorld's constructor (fn_82D86990), which fills the world's copy from hkpWorldCinfo:
+// Layout from hkpWorld's constructor (82D86990), which fills the world's copy from hkpWorldCinfo:
 //  +0x0 1.0; +0x4 the cinfo's solver tau (+0x78); +0x8 its damping (+0x7C); +0xC tau * 0.5;
 //  +0x30, +0x40 two vectors (stvx); +0x50 damp / tau, +0x54 tau / damp, +0x58 damp / (tau * 0.5),
 //  +0x5C (tau * 0.5) / damp; +0x60 the cinfo's contact resting velocity (+0x24);

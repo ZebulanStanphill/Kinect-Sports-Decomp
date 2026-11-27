@@ -1,5 +1,8 @@
-/* hkpVehicleDefaultAnalogDriverInput: the brake input from the analog stick's y position (sibling of
-   fn_82DFB158, the accelerator); full brake when reversing without auto-reverse. */
+/* hkpVehicleDefaultAnalogDriverInput::calcAcceleratorInput (vtable slot +0x10; calcDriverInput, 82DFAFE0,
+   stores its result in m_acceleratorPedalInput, which the engine, 82DFB678, scales the torque by): the
+   accelerator from the analog stick's y position, pushed forward (negative y), with the sign turned while
+   the vehicle reverses with auto-reverse on; full accelerator when reversing without auto-reverse.
+   Sibling of fn_82DFB158, the brake. */
 typedef struct AnalogInput_82DFB0E8 {
     char pad0[0x14];
     unsigned char m_autoReverse;

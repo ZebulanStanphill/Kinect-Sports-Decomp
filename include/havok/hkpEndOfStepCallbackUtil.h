@@ -1,8 +1,8 @@
 // hkpEndOfStepCallbackUtil (Physics/Utilities/Collide/ContactModifiers/EndOfStepCallback/hkpEndOfStepCallbackUtil.h?
 // the path is not known), 0x38 bytes: a post-simulation listener that collects collisions during a step and
 // reports them at its end. The RTTI gives hkReferencedObject, then hkpWorldPostSimulationListener at +0x8. The
-// layout is the constructor's (fn_82DC8A30: the sequence number at +0xC, the hkBool at +0x10 and three empty
-// arrays) and the destructor's (fn_82DB4350: it frees the arrays at +0x2C, +0x20 and +0x14 with element sizes 0xC,
+// layout is the constructor's (82DC8A30: the sequence number at +0xC, the hkBool at +0x10 and three empty
+// arrays) and the destructor's (82DB4350: it frees the arrays at +0x2C, +0x20 and +0x14 with element sizes 0xC,
 // 0x10 and 0xC, then stores hkpWorldPostSimulationListener's and hkBaseObject's vtables). The destructor is the
 // implicit one, emitted out of line (??1hkpEndOfStepCallbackUtil@@UAA@XZ; its unit makes the compiler emit the
 // vtable). hkpCollisionCallbackUtil embeds one at +0x14 (82DB4458, 82DB44E8). The deleting destructor keeps its

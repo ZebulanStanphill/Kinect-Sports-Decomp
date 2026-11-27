@@ -11,6 +11,7 @@
 //   hence the static __declspec(noinline) copy of the Matching C unit's function. Without it: 97.2%.
 // - The operand order of the pair loops' add/lwzx (array base first) follows the function's symbol numbering:
 //   the named tolerance and the pair reference in the trimming loop are needed for it.
+#include "havok/hkError.h"
 #include "havok/hkOstream.h"
 #include "havok/hkgpMesh.h"
 
@@ -25,15 +26,6 @@ struct hkErrStream {
     HK_FORCE_INLINE hkErrStream &operator<<(const char *s) { *(hkOstream *)this << s; return *this; }
     char m_data[0xc];
 };
-
-class hkError : public hkReferencedObject {
-public:
-    enum Message { MESSAGE_REPORT, MESSAGE_WARNING, MESSAGE_ASSERT, MESSAGE_ERROR };
-    virtual int message(Message m, int id, const char *description, const char *file, int line);   // +0xC
-    static HK_FORCE_INLINE hkError &HK_CALL getInstance();
-};
-extern "C" hkError *lbl_8323B464;   // hkSingleton<hkError>::s_instance
-HK_FORCE_INLINE hkError &HK_CALL hkError::getInstance() { return *lbl_8323B464; }
 
 #define HK_REPORT(TEXT, LINE) \
     do { \

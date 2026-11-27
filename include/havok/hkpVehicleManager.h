@@ -9,7 +9,7 @@
 #include "havok/hkBase.h"
 
 class hkpVehicleInstance;
-class hkStepInfo;
+struct hkStepInfo;   // a struct in the game's mangled names (...ABUhkStepInfo@@..., 82DF2A08)
 
 class hkpVehicleManager : public hkReferencedObject {
 public:

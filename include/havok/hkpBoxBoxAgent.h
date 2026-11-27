@@ -1,6 +1,6 @@
 // hkpBoxBoxAgent (Physics/Collide/Agent/ConvexAgent/BoxBox/hkpBoxBoxAgent.h), 0x50 bytes: an
 // hkpIterativeLinearCastAgent (RTTI) with an hkpBoxBoxManifold at +0x10. createBoxBoxAgent (82D68230) inlines
-// the constructor, which constructs the manifold (fn_82D781D0) after the base.
+// the constructor, which constructs the manifold (82D781D0) after the base.
 // Its vtable (??_7hkpBoxBoxAgent@@6B@): +0xC getPenetrations 82D688D0, +0x10 getClosestPoints 82D686C0 (each only
 // calls the static function), +0x14 hkpIterativeLinearCastAgent's linearCast 82D75CB0, +0x18 processCollision
 // 82D682F0, +0x1C cleanup 82D681B8, then the empty function, 82D746F0, 82D746F8 and hkpCollisionAgent's defaults.

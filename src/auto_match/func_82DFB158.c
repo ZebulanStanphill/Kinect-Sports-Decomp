@@ -1,5 +1,6 @@
-/* hkpVehicleDefaultAnalogDriverInput vtable slot 5: the accelerator input from the analog
-   stick's y position, negated while the vehicle reverses with auto-reverse on. */
+/* hkpVehicleDefaultAnalogDriverInput::calcBrakeInput (vtable slot +0x14; calcDriverInput, 82DFAFE0, stores
+   its result in m_brakePedalInput, which the brake, 82DFB4A0, reads): the brake from the analog stick's y
+   position, pulled back (positive y), with the sign turned while the vehicle reverses with auto-reverse on. */
 typedef struct AnalogInput_82DFB158 {
     char pad0[0x14];
     unsigned char m_autoReverse;

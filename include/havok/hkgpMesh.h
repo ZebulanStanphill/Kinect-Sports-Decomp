@@ -39,8 +39,7 @@
 // pointer; CollideShapeTriangle's callback (82D2D050) builds one on the stack: an in-place array of two
 // 0x30-byte items at +0x10 that 82D1D8F0 fills from the six corners of the extruded triangle.
 // The collectors' members are named by what their callbacks do with them (WeldingPolicy: 82D2A840,
-// CollideShapeTriangle: 82D2D050, PrismPolicy: 82D2A9B8). NearestFeaturePolicy (0x60 bytes) is not declared:
-// it derives from hkAabbTreeQueryUtils<...>::ClosestPointCollector (RTTI), which hkAabbTreeQueryUtils.h lacks.
+// CollideShapeTriangle: 82D2D050, PrismPolicy: 82D2A9B8, NearestFeaturePolicy: 82D2A740).
 #ifndef HAVOK_HKGPMESH_H
 #define HAVOK_HKGPMESH_H
 
@@ -133,20 +132,11 @@ public:
             hkVector4 m_v[3];
         };
 
-        // hkInplaceArray<Plane, 2>, declared here with a destructor that is always inlined: ExtrudeShape's
-        // destructor (82D2CFE0) has the array's destructor inline, and with hkArray.h's hkInplaceArray, which
-        // has an implicit destructor, the compiler calls it instead.
-        struct PlaneArray : public hkArray<Plane> {
-            HK_FORCE_INLINE PlaneArray() : hkArray<Plane>(m_storage, 0, 2) {}
-            HK_FORCE_INLINE ~PlaneArray() {}
-            Plane m_storage[2];   // +0x10
-        };
-
         ExtrudeShape() {}
         virtual void getSupportingVertex(const hkVector4 &direction, hkVector4 &out) const;   // 82D2CF10
         virtual hkAabb getBoundingBox() const;                                                // 82D2CF18
 
-        PlaneArray m_planes;   // +0x10
+        hkInplaceArray<Plane, 2> m_planes;   // +0x10 (the storage at +0x20)
     };
 
     // Finds a leaf whose box is centred within a radius of a point: 0x30 bytes.
@@ -192,11 +182,24 @@ public:
         bool m_extrude;                                  // +0x1F
     };
 
+    // Finds the triangle nearest to a point: 0x60 bytes (its deleting destructor, 82D2B180, frees that much).
+    // RTTI: ClosestPointCollector, then Collector. For each leaf the callback (82D2A740) takes the distance of
+    // m_point to the leaf's triangle from fn_82D1CE60 and, when it is less than m_closestDistance, keeps it,
+    // the triangle and the two vectors fn_82D1CE60 gave (what they are is not known).
+    struct NearestFeaturePolicy : public TreeQueries::ClosestPointCollector {
+        HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE, NearestFeaturePolicy);
+        virtual hkReal processLeaf(const TreeQueries::Node *leaf);   // 82D2A740
+
+        hkVector4 m_resultA;     // +0x30
+        hkVector4 m_resultB;     // +0x40
+        Triangle *m_triangle;    // +0x50
+    };
+
     // Tests the pairs of triangles a tree-against-tree query reports as prisms: 0x10 bytes. Its vtable has
-    // TreeTreeCollector's deleting destructor. The callback (82D2A9B8) returns a value, 1 for two triangles
-    // that share a vertex and 0 otherwise, where hkAabbTreeQueryUtils.h declares the slot as returning nothing.
+    // TreeTreeCollector's deleting destructor. The callback (82D2A9B8) returns 1 for two triangles that share
+    // a vertex and 0 otherwise.
     struct PrismPolicy : public TreeQueries::TreeTreeCollector {
-        virtual void processPair(const TreeQueries::Node *a, const TreeQueries::Node *b);
+        virtual hkBool32 processPair(const TreeQueries::Node *a, const TreeQueries::Node *b);
 
         int m_numPairs;                     // +0x4
         int m_numTests;                     // +0x8

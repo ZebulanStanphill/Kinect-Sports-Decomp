@@ -1,7 +1,7 @@
 // hkpProcessCollisionInput (Physics/Collide/Agent/hkpProcessCollisionInput.h), 0x80 bytes: the collision input
 // the agents' processCollision gets, an hkpCollisionInput with the step and the world's agent settings.
 //
-// Layout from hkpWorld's constructor (fn_82D86990), which allocates 0x80 bytes, clears +0x64 (this inline
+// Layout from hkpWorld's constructor (82D86990), which allocates 0x80 bytes, clears +0x64 (this inline
 // constructor) and fills the rest: the dispatcher (+0x0), the tolerance from hkpWorldCinfo (+0x8), the filters
 // (+0xC, +0x10), +0x14 cleared, the step info (+0x50..+0x5C) cleared, +0x60 the dispatcher's collision quality
 // info (+0x1C60: m_collisionQualityInfo[1]), +0x68 the world's m_dynamicsStepInfo, the cinfo's

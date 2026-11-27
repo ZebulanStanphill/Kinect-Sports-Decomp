@@ -16,7 +16,7 @@ public:
     hkMemoryResourceHandle(hkFinishLoadedObjectFlag f);      // 82E15590
     virtual ~hkMemoryResourceHandle();                       // 82E155D0
     virtual void *unknown0C() const;
-    virtual const char *getName() const;
+    virtual const char *getName(hkStringBuf &buffer) const;
     virtual void setName(const char *name);
     virtual void *getObject() const;
     virtual const hkClass *getClass() const;
@@ -41,7 +41,7 @@ public:
     hkMemoryResourceContainer(hkFinishLoadedObjectFlag f);   // 82E157A8
     virtual ~hkMemoryResourceContainer();                    // 82E15830
     virtual void *unknown0C() const;
-    virtual const char *getName() const;
+    virtual const char *getName(hkStringBuf &buffer) const;
     virtual hkResourceHandle *createResource(const char *name, void *object, const hkClass *klass);
     virtual void destroyResource(hkResourceHandle *handle);
     virtual int getNumResources();

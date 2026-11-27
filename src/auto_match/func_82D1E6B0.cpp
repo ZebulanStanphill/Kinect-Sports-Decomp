@@ -1,17 +1,18 @@
-// hkGeometryProcessingInternals::NearestFeaturePolicy scalar deleting destructor. NearestFeaturePolicy derives from the interface
-// hkAabbTreeQueryUtils<hkAabbTreeData::hkAabbTreeAabb, unsigned int>::Collector (RTTI) and has
+// hkGeometryProcessingInternals::NearestFeaturePolicy scalar deleting destructor. NearestFeaturePolicy derives from
+// hkAabbTreeQueryUtils<hkAabbTreeData::hkAabbTreeAabb, unsigned int>::ClosestPointCollector (RTTI) and has
 // Havok's non-virtual class allocator, so deleting frees sizeof(NearestFeaturePolicy) = 0x40 bytes to
 // the heap. The implicit destructor leaves only the Collector vtable store.
 // The function at the end only makes the compiler emit the vtable.
-#include "havok/hkBase.h"
+#include "havok/hkAabb.h"
 #include "havok/hkAabbTreeQueryUtils.h"
 
 class hkGeometryProcessingInternals {
 public:
-    class NearestFeaturePolicy : public hkAabbTreeQueryUtils<hkAabbTreeData::hkAabbTreeAabb, unsigned int>::Collector {
+    class NearestFeaturePolicy : public hkAabbTreeQueryUtils<hkAabbTreeData::hkAabbTreeAabb, unsigned int>::ClosestPointCollector {
     public:
         HK_DECLARE_NONVIRTUAL_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE, NearestFeaturePolicy);
-        hkUint8 m_members[0x3C];   // not needed here; sizeof is 0x40
+        // The callback (82D1E5F8) takes the squared distance of m_point to the centre of each leaf's box.
+        const hkAabb *m_closest;         // +0x30, the box of the nearest leaf
     };
 };
 

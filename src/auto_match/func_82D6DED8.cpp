@@ -1,4 +1,4 @@
-#include "havok/hkpCdBodyPairCollector.h"
+#include "havok/hkpFlagCdBodyPairCollector.h"
 extern "C" unsigned __int64 __mftb();
 struct Record { const char *name; unsigned time,pad; };
 struct Monitor { int pad; Record *next; int pad2; Record *end; };
@@ -25,11 +25,6 @@ struct Entry { Agent *(*create)(const Body &,const Body &,const Input &,void *);
 struct Dispatcher { char pad[0x1a0]; unsigned char table[32][32]; unsigned char tablePredictive[32][32]; Entry entries[32]; };
 struct Input { Dispatcher *dispatcher; int pad[4]; int predictive; };
 struct BvAgent { void *vptr; int pad; void *mgr; Agent *bv; Agent *child; };
-class hkpFlagCdBodyPairCollector : public hkpCdBodyPairCollector {
-public:
-    hkpFlagCdBodyPairCollector() { m_earlyOut = false; }
-    virtual void addCdBodyPair(const hkpCdBody &bodyA, const hkpCdBody &bodyB);
-};
 static HK_FORCE_INLINE Agent *createChild(const Body &a,const Body &b,const Input &input,void *mgr) {
  int typeA=a.shape->type;int typeB=b.shape->type;
  Dispatcher *d=input.dispatcher;

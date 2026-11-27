@@ -4,6 +4,7 @@
 #include "havok/hkBase.h"
 
 class hkResourceMap;
+class hkStringBuf;
 
 // Resources (Common/Serialize/Resource): hkResourceBase, hkResourceHandle and
 // hkResourceContainer are interfaces without data (RTTI and hkClass sizes:
@@ -12,9 +13,10 @@ class hkResourceMap;
 // The virtual functions are placed by the vtables of the two implementations,
 // ??_7hkMemoryResourceHandle@@6B@ (8214B37C, 14 slots) and
 // ??_7hkMemoryResourceContainer@@6B@ (8214B3BC, 16 slots). The names are
-// Havok's; what the game's functions do agrees with them where noted. Havok's
-// getName takes an hkStringBuf; the game's two implementations use no
-// argument. The slot at +0xC is not identified: both classes have the folded
+// Havok's; what the game's functions do agrees with them where noted. getName takes
+// an hkStringBuf, as in Havok: hkContainerResourceMap's constructor (82E15D28)
+// builds one on the stack and passes it; the game's two implementations do
+// not use it. The slot at +0xC is not identified: both classes have the folded
 // function that returns 0 there (fn_82D7E470), so it is not Havok's getType,
 // which would give 1 for a container.
 class hkResourceBase : public hkReferencedObject {
@@ -22,7 +24,7 @@ public:
     hkResourceBase() {}
     hkResourceBase(hkFinishLoadedObjectFlag f) : hkReferencedObject(f) {}
     virtual void *unknown0C() const;                // +0xC
-    virtual const char *getName() const;            // +0x10 (82E14738, 82E14760: m_name)
+    virtual const char *getName(hkStringBuf &buffer) const;   // +0x10 (82E14738, 82E14760: m_name)
 };
 
 class hkResourceHandle : public hkResourceBase {

@@ -9,7 +9,7 @@
 class CallbackMap;
 extern "C" void fn_82DC82C8(CallbackMap *map, hkpWorld *world);
 
-// The callback map at +0x14 (constructed by fn_82DC8A30); only its world removal is used here.
+// The callback map at +0x14 (constructed by 82DC8A30); only its world removal is used here.
 class CallbackMap {
 public:
     void removeFromWorld(hkpWorld *world) { fn_82DC82C8(this, world); }

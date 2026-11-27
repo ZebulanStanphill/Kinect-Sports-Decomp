@@ -3,8 +3,6 @@
 #include "havok/hkStreamWriter.h"
 #include "havok/hkStreamReader.h"
 
-extern "C" int closesocket(int s);
-
 // hkSocket (Common/Base/System/Io/Socket/hkSocket.h): its reader and writer
 // adapters are members, so its destructor ends with their (implicit)
 // destructors storing hkBaseObject's vtable at +0x14 and +0x8.
@@ -29,22 +27,6 @@ public:
 
     ReaderAdapter m_reader;   // +0x8
     WriterAdapter m_writer;   // +0x14
-};
-
-class hkBsdSocket : public hkSocket {
-public:
-    HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_BASE);
-    hkBsdSocket() {}
-    virtual ~hkBsdSocket();
-    void close()
-    {
-        if (m_socket != -1) {
-            closesocket(m_socket);
-            m_socket = -1;
-        }
-    }
-
-    int m_socket;   // +0x20
 };
 
 void emitVtable_82CFBA20(void *p) { new (p) hkSocket; }

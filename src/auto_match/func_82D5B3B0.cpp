@@ -5,6 +5,7 @@
 // The goto into the loop makes the CFG irreducible: the placement new then needs an explicit
 // pointer test (else addic.), and the "check failed" exits must be the fall-through breaks
 // (if (n < 0) { ...; if (!ok) break; ... } else break;) for the original block layout.
+#include "havok/hkMonitorStream.h"
 #include "havok/hkBase.h"
 #include "havok/hkpCollidable.h"
 #include "havok/hkpGskCache.h"
@@ -15,18 +16,17 @@
 #include "havok/hkpProcessCollisionInput.h"
 
 extern "C" unsigned __int64 __mftb();
-struct hkMonitorStream { void *a; unsigned *next; void *b; unsigned *end; };
-extern "C" hkMonitorStream *KeTlsGetValue(unsigned);
-extern "C" unsigned lbl_8323B4A0;
 static HK_FORCE_INLINE void timer(const char *s, const char *next = 0)
 {
-	hkMonitorStream *t = KeTlsGetValue(lbl_8323B4A0);
-	unsigned *p = t->next;
-	if (p < t->end) {
-		p[0] = (unsigned)s;
-		if (next) p[3] = (unsigned)next;
-		p[1] = (unsigned)__mftb();
-		t->next = p + (next ? 4 : 3);
+	hkMonitorStream *t = &hkMonitorStream::getInstance();
+	if (t->m_end < t->m_capacityMinus16) {
+		hkMonitorStream::TimerBeginListCommand *p =
+			reinterpret_cast<hkMonitorStream::TimerBeginListCommand *>(t->m_end);
+		p->m_commandAndMonitor = s;
+		if (next) p->m_nameOfFirstSplit = next;
+		p->m_time0 = (hkUint32)__mftb();
+		t->m_end = reinterpret_cast<char *>(p) + (next ? sizeof(hkMonitorStream::TimerBeginListCommand)
+		                                                : sizeof(hkMonitorStream::TimerCommand));
 	}
 }
 
@@ -34,7 +34,6 @@ extern "C" double __fsel(double, double, double);
 struct hkMath {
 	static HK_FORCE_INLINE hkReal min2(hkReal x, hkReal y) { return (hkReal)__fsel(x - y, y, x); }
 };
-struct hkpConstraintOwner;
 struct hkpProcessCollisionOutput {
 	char m_pad0[4];
 	hkpConstraintOwner *m_constraintOwner;  // +0x4
@@ -47,13 +46,19 @@ public:
 		m_contactMgr = mgr;
 		m_invalidPointHit = false;
 	}
-	virtual void addContactPoint();
-	virtual void reserveContactPoints();
-	virtual void removeContactPoint();
-	virtual void processContact();
-	virtual void addToiEvent();
-	virtual void removeToiEvent();
-	virtual void cleanup();
+	virtual hkUint16 addContactPoint(const hkpCdBody &a, const hkpCdBody &b, const hkpProcessCollisionInput &input,
+	                                 hkpProcessCollisionOutput &output, const hkpGskCache *contactCache,
+	                                 hkContactPoint &cp);   // 82D5B9C0
+	virtual hkResult reserveContactPoints(int numPoints);   // 82D5B960
+	virtual void removeContactPoint(hkUint16 cpId, hkpConstraintOwner &constraintOwner);   // 82D5B978
+	virtual void processContact(const hkpCollidable &a, const hkpCollidable &b, const hkpProcessCollisionInput &input,
+	                            hkpProcessCollisionData &collisionData);   // 82D5B990
+	virtual ToiAccept addToi(const hkpCdBody &a, const hkpCdBody &b, const hkpProcessCollisionInput &input,
+	                         hkpProcessCollisionOutput &output, hkReal toi, hkContactPoint &cp,
+	                         const hkpGskCache *gskCache, hkReal &projectedVelocity,
+	                         hkpContactPointProperties &propertiesOut);   // 82D5BB40
+	virtual void removeToi(hkpConstraintOwner &constraintOwner, hkpContactPointProperties &properties);   // 82D5B9A8
+	virtual void cleanup();   // 82D5B948
 	hkpContactMgr *m_contactMgr;   // +0xc
 	hkBool m_invalidPointHit;      // +0x10
 };

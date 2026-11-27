@@ -3,8 +3,8 @@
 // (82CE4640, 82CE4668) and the destructor (82CEFFA8). The member names follow Havok's header.
 // The destructor is out of line (82CEFFA8; the scalar deleting destructor 82CE4738 calls it). It releases the
 // children and the group; m_name and m_children are then destroyed by their own destructors.
-// The eleven slots of hkLocalFrame that the vtable (??_7hkSimpleLocalFrame@@6B@, 14 slots) overrides are not
-// declared yet (see hkLocalFrame.h).
+// It overrides all eleven slots of hkLocalFrame (the functions are listed in hkLocalFrame.h; they are C units
+// under their fn_ names, apart from getNearbyFrames, 82CEFE90).
 #ifndef HAVOK_HKSIMPLELOCALFRAME_H
 #define HAVOK_HKSIMPLELOCALFRAME_H
 
@@ -19,6 +19,18 @@ public:
     hkSimpleLocalFrame(hkFinishLoadedObjectFlag flag)
         : hkLocalFrame(flag), m_children(flag), m_name(flag) {}
     virtual ~hkSimpleLocalFrame();
+
+    virtual void getLocalTransform(hkTransform &transform) const;
+    virtual void setLocalTransform(const hkTransform &transform);
+    virtual void getLocalPosition(hkVector4 &position) const;
+    virtual void getNearbyFrames(const hkVector4 &target, hkReal maxDistance, hkLocalFrameCollector &collector) const;
+    virtual const char *getName() const;
+    virtual const hkLocalFrame *getParentFrame() const;
+    virtual void setParentFrame(const hkLocalFrame *parentFrame);
+    virtual int getNumChildFrames() const;
+    virtual hkLocalFrame *getChildFrame(int i) const;
+    virtual const hkLocalFrameGroup *getGroup() const;
+    virtual void setGroup(const hkLocalFrameGroup *localFrameGroup);
 
     hkTransform m_transform;                 // +0x10
     hkArray<hkLocalFrame *> m_children;      // +0x50
