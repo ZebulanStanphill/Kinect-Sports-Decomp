@@ -1,13 +1,30 @@
-// hkpVehicleInstance::~hkpVehicleInstance() (it keeps its fn_ name): releases the components, destroys the
-// arrays and runs the destructor of its base, hkpUnaryAction.
-#include "havok/hkpAction.h"
-struct Bytes224 { char a[224]; };
-class hkpVehicleInstance:public hkReferencedObject {
-public:
- char pad[0x14]; hkReferencedObject *r[11]; hkArray<Bytes224> a;char p54[0x48];hkReferencedObject *r9c;hkArray<char> b;char pac[0x14];hkArray<int> c;
- hkpVehicleInstance(hkFinishLoadedObjectFlag f):hkReferencedObject(f),a(f),b(f),c(f) {}
- HK_FORCE_INLINE void cleanup() {
- if(r[0])r[0]->removeReference();if(r[1])r[1]->removeReference();if(r[2])r[2]->removeReference();if(r[3])r[3]->removeReference();if(r[4])r[4]->removeReference();if(r[5])r[5]->removeReference();if(r[6])r[6]->removeReference();if(r[7])r[7]->removeReference();if(r[8])r[8]->removeReference();if(r[10])r[10]->removeReference();if(r9c)r9c->removeReference();if(r[9])r[9]->removeReference();
- }
-};
-extern "C" void fn_82DFE168(hkpVehicleInstance *self) { union{void *ptr;char buf[sizeof(hkpVehicleInstance)];}u;hkFinishLoadedObjectFlag f;new(u.buf)hkpVehicleInstance(f);*(void**)self=u.ptr;self->cleanup();self->c.~hkArray();self->b.~hkArray();self->a.~hkArray();((hkpUnaryAction *)self)->hkpUnaryAction::~hkpUnaryAction(); }
+// hkpVehicleInstance::~hkpVehicleInstance() (Havok 2010, Physics/Vehicle/hkpVehicleInstance.cpp): releases
+// the components, then the arrays and hkpUnaryAction are destroyed.
+#include "havok/hkpVehicleInstance.h"
+#include "havok/hkpVehicleData.h"
+#include "havok/hkpVehicleDriverInput.h"
+#include "havok/hkpVehicleSteering.h"
+#include "havok/hkpVehicleEngine.h"
+#include "havok/hkpVehicleTransmission.h"
+#include "havok/hkpVehicleBrake.h"
+#include "havok/hkpVehicleSuspension.h"
+#include "havok/hkpVehicleAerodynamics.h"
+#include "havok/hkpVehicleWheelCollide.h"
+#include "havok/hkpTyremarksInfo.h"
+#include "havok/hkpVehicleVelocityDamper.h"
+
+hkpVehicleInstance::~hkpVehicleInstance()
+{
+    if (m_data) m_data->removeReference();
+    if (m_driverInput) m_driverInput->removeReference();
+    if (m_steering) m_steering->removeReference();
+    if (m_engine) m_engine->removeReference();
+    if (m_transmission) m_transmission->removeReference();
+    if (m_brake) m_brake->removeReference();
+    if (m_suspension) m_suspension->removeReference();
+    if (m_aerodynamics) m_aerodynamics->removeReference();
+    if (m_wheelCollide) m_wheelCollide->removeReference();
+    if (m_velocityDamper) m_velocityDamper->removeReference();
+    if (m_deviceStatus) m_deviceStatus->removeReference();
+    if (m_tyreMarks) m_tyreMarks->removeReference();
+}

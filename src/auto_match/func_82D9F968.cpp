@@ -1,16 +1,11 @@
+// hkpLinearParametricCurve::transformPoints (slot +0x30 of ??_7hkpLinearParametricCurve@@6B@).
 #include "havok/hkTransform.h"
+#include "havok/hkpLinearParametricCurve.h"
 
-typedef struct {
-    char pad[0x20];
-    hkVector4 *points;
-    int count;
-} Points_82D9F968;
-
-extern "C" void fn_82D9F968(Points_82D9F968 *self, const hkTransform *matrix)
+void hkpLinearParametricCurve::transformPoints(const hkTransform &transformation)
 {
-    int i;
-    int n = self->count;
-    for (i = 0; i < n; i++) {
-        self->points[i].setTransformedPos(*matrix, self->points[i]);
+    const int n = m_points.getSize();
+    for (int i = 0; i < n; i++) {
+        m_points[i].setTransformedPos(transformation, m_points[i]);
     }
 }

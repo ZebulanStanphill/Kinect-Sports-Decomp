@@ -1,4 +1,8 @@
+// Game code that loads the packfile embedded in a resource entry of type 4: an hkBinaryPackfileReader over an
+// hkMemoryStreamReader in place; after the version update (82E10A30) it keeps the top-level object and a
+// reference to the packfile data.
 #include "havok/hkMemoryStreamReader.h"
+#include "havok/hkBinaryPackfileReader.h"
 
 typedef struct Entry {
     int type;
@@ -17,13 +21,7 @@ typedef struct Obj {
 extern "C" {
 extern int *fn_825A2410(int *p);
 extern unsigned char *fn_82CEBB58(void *a, void *b);
-extern int fn_82E0A1C0(void *a);
-extern void fn_82E0B980(void *a);
-extern void fn_82E0C7A0(void *a);
-extern int fn_82E0C868(void *a);
-extern int fn_82E0D7E8(void *a, void *b);
-extern void fn_82E10A30(void *a, unsigned int b);
-extern int fn_82E12AC8(void *a, int b);
+extern void fn_82E10A30(hkPackfileReader *a, unsigned int b);
 extern unsigned int lbl_8323FDE4;
 }
 
@@ -40,29 +38,21 @@ static unsigned int *find(Obj *o, int type)
 extern "C" void fn_825A54A8(Obj *o)
 {
     unsigned int *d;
-    int v;
-    struct Stack {
-        char result[4];
-        char padding[12];
-        char stream[32];
-        char reader[136];
-    } stack;
+    hkPackfileData *v;
 
     d = find(o, 4);
     if (d != 0) {
-        fn_82E0B980(stack.reader);
+        hkBinaryPackfileReader reader;
         o->fc = 4;
-        new (stack.stream) hkMemoryStreamReader(
-            reinterpret_cast<const void *>(d[0]), d[1], hkMemoryStreamReader::MEMORY_INPLACE);
-        if (*fn_82CEBB58(stack.result, stack.stream) != 0 && fn_82E0D7E8(stack.reader, stack.stream) == 0) {
-            fn_82E10A30(stack.reader, lbl_8323FDE4);
-            o->f8 = fn_82E12AC8(stack.reader, fn_82E0A1C0(stack.reader));
-            v = fn_82E0C868(stack.reader);
-            reinterpret_cast<hkReferencedObject *>(v)->addReference();
-            reinterpret_cast<hkReferencedObject *>(v)->addReference();
-            *fn_825A2410(&o->sub14) = v;
+        hkMemoryStreamReader stream(reinterpret_cast<const void *>(d[0]), d[1], hkMemoryStreamReader::MEMORY_INPLACE);
+        char result[4];
+        if (*fn_82CEBB58(result, &stream) != 0 && reader.loadEntireFile(&stream) == HK_SUCCESS) {
+            fn_82E10A30(&reader, lbl_8323FDE4);
+            o->f8 = (int)reader.getContents(reader.getContentsClassName());
+            v = reader.getPackfileData();
+            v->addReference();
+            v->addReference();
+            *fn_825A2410(&o->sub14) = (int)v;
         }
-        reinterpret_cast<hkMemoryStreamReader *>(stack.stream)->hkMemoryStreamReader::~hkMemoryStreamReader();
-        fn_82E0C7A0(stack.reader);
     }
 }

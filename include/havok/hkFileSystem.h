@@ -1,7 +1,7 @@
 // hkFileSystem (Common/Base/System/Io/FileSystem/hkFileSystem.h): opens the
 // streams that the archives and hkOstream write through.
 // hkSingleton<hkFileSystem>::s_instance is lbl_8323B4A4.
-// hkNativeFileSystem's vtable has six slots: listDirectory (fn_82CE7DE8 there)
+// hkNativeFileSystem's vtable has six slots: listDirectory (82CE7DE8 there)
 // follows the two open functions.
 #ifndef HAVOK_HKFILESYSTEM_H
 #define HAVOK_HKFILESYSTEM_H

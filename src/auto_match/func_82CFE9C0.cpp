@@ -1,19 +1,13 @@
 #include "havok/hkClass.h"
+#include "havok/hkCrc32StreamWriter.h"
 
-// A 0x10-byte stream writer built on the stack (fn_82CFEBF0 constructs it,
-// fn_82CFEBE0 destroys it); probably hkCrc32StreamWriter, making this
-// hkClassEnum::getSignature().
-struct Writer_82CFE9C0 {
-    unsigned char data[16];
-};
-extern "C" void fn_82CFEBF0(Writer_82CFE9C0 *w, int initial);
-extern "C" void fn_82CFEBE0(Writer_82CFE9C0 *w);
+// hkClassEnum::getSignature(): the CRC-32 of the enum's signature, written to an hkCrc32StreamWriter on the stack.
+// fn_82CFEBE0 is the writer's getCrc (~m_crc); the writer's implicit destructor leaves no code.
+extern "C" hkUint32 fn_82CFEBE0(const hkCrc32StreamWriter *w);   // hkCrc32StreamWriter::getCrc
 
-extern "C" void fn_82CFE9C0(const hkClassEnum *e)
+extern "C" hkUint32 fn_82CFE9C0(const hkClassEnum *e)
 {
-    Writer_82CFE9C0 w;
-
-    fn_82CFEBF0(&w, 0);
-    e->writeSignature(reinterpret_cast<hkStreamWriter *>(&w));
-    fn_82CFEBE0(&w);
+    hkCrc32StreamWriter w;
+    e->writeSignature(&w);
+    return fn_82CFEBE0(&w);
 }

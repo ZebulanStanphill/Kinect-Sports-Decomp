@@ -7,27 +7,13 @@
 // constant the original names lbl_82145204 (pool alias __real@37480000=lbl_82145204).
 #include "havok/hkBase.h"
 #include "havok/hkpMassProperties.h"
+#include "havok/hkgpConvexHull.h"
 
 struct hkStridedVertices;
-
-class hkgpConvexHull {
-public:
-    struct BuildConfig {
-        hkBool m_setSourceIndices;
-        hkUint8 m_data[0xF];
-    };
-    void *m_vtable;
-    int m_refCount;
-    void *m_data;
-    int m_pad[2];
-};
 
 extern "C" {
 extern float lbl_83181A30;
 extern const float lbl_82145208;   // 4 * pi
-void fn_82D0D6E8(hkgpConvexHull *self);                                        // hkgpConvexHull::hkgpConvexHull
-void fn_82D0D640(hkgpConvexHull *self);                                        // hkgpConvexHull::~hkgpConvexHull
-void fn_82D0B0C0(hkgpConvexHull::BuildConfig *self);                           // BuildConfig::BuildConfig
 int fn_82D0D888(hkgpConvexHull *self, const hkStridedVertices &v, const hkgpConvexHull::BuildConfig &c); // build
 int fn_82D0B1D8(const hkgpConvexHull *self);                                   // getDimensions
 void fn_82D0C928(hkgpConvexHull *self);                                        // buildMassProperties
@@ -41,39 +27,35 @@ const hkMatrix3 &fn_82D0B9E0(const hkgpConvexHull *self);                      /
 extern "C" int fn_82DE52A0(const hkStridedVertices &vertices, hkReal radius, hkpMassProperties &result)
 {
     hkgpConvexHull hull;
-    fn_82D0D6E8(&hull);
     hkgpConvexHull::BuildConfig config;
-    fn_82D0B0C0(&config);
-    config.m_setSourceIndices = true;
+    config.m_allowLowerDimensions = true;
     fn_82D0D888(&hull, vertices, config);
     if (fn_82D0B1D8(&hull) != -1) {
-    hkReal margin = lbl_83181A30 * 0.2f;
-    hkReal extraVolume = 0.0f;
-    if (fn_82D0B1D8(&hull) == 3) {
-        fn_82D0C928(&hull);
-        if (radius > 0.0f) {
-            hkReal r2 = radius * radius;
-            hkReal r3 = r2 * radius;
-            extraVolume = fn_82D0B7C0(&hull) * radius + r3 * lbl_82145208 * (1.0f / 3.0f);
+        hkReal margin = lbl_83181A30 * 0.2f;
+        hkReal extraVolume = 0.0f;
+        if (fn_82D0B1D8(&hull) == 3) {
+            fn_82D0C928(&hull);
+            if (radius > 0.0f) {
+                hkReal r2 = radius * radius;
+                hkReal r3 = r2 * radius;
+                extraVolume = fn_82D0B7C0(&hull) * radius + r3 * lbl_82145208 * (1.0f / 3.0f);
+            }
         }
+        while (fn_82D0B1D8(&hull) != 3 || fn_82D0B6F8(&hull) < 1.1920929e-05f) {
+            fn_82D0D888(&hull, vertices, config);
+            fn_82D0E4B8(&hull, margin);
+            if (fn_82D0B1D8(&hull) == 3) fn_82D0C928(&hull);
+            margin *= 2.0f;
+        }
+        result.m_centerOfMass = fn_82D0BAA8(&hull);
+        result.m_inertiaTensor = fn_82D0B9E0(&hull);
+        hkReal volume = fn_82D0B6F8(&hull) + extraVolume;
+        result.m_volume = volume;
+        result.m_mass = 1.0f;
+        if (volume > 0.0f && extraVolume > 0.0f) {
+            result.m_inertiaTensor.mul(hkSimdReal(1.0f + extraVolume / volume));
+        }
+        return 0;
     }
-    while (fn_82D0B1D8(&hull) != 3 || fn_82D0B6F8(&hull) < 1.1920929e-05f) {
-        fn_82D0D888(&hull, vertices, config);
-        fn_82D0E4B8(&hull, margin);
-        if (fn_82D0B1D8(&hull) == 3) fn_82D0C928(&hull);
-        margin *= 2.0f;
-    }
-    result.m_centerOfMass = fn_82D0BAA8(&hull);
-    result.m_inertiaTensor = fn_82D0B9E0(&hull);
-    hkReal volume = fn_82D0B6F8(&hull) + extraVolume;
-    result.m_volume = volume;
-    result.m_mass = 1.0f;
-    if (volume > 0.0f && extraVolume > 0.0f) {
-        result.m_inertiaTensor.mul(hkSimdReal(1.0f + extraVolume / volume));
-    }
-    fn_82D0D640(&hull);
-    return 0;
-    }
-    fn_82D0D640(&hull);
     return 1;
 }

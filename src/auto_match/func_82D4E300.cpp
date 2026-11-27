@@ -1,10 +1,9 @@
-// hkpStorageExtendedMeshShape::hkpStorageExtendedMeshShape(hkFinishLoadedObjectFlag), the finish constructor
-// (Physics/Collide/Shape/Compound/Collection/StorageExtendedMesh/hkpStorageExtendedMeshShape.cpp): the
+// hkpStorageExtendedMeshShape::hkpStorageExtendedMeshShape(hkFinishLoadedObjectFlag), the out-of-line finish
+// constructor (Physics/Collide/Shape/Compound/Collection/StorageExtendedMesh/hkpStorageExtendedMeshShape.cpp): the
 // hkpExtendedMeshShape part (its finish constructor is out of line, 82D438E0), then the two vtables, then (when
 // finishing) each storage object gets its vtable (placement new) and every subpart's pointers are pointed back
-// into its storage.
-// It keeps its fn_ name because a Matching C unit (fn_82D3B410) calls it; the explicit constructor call (an MSVC
-// extension) expands it without placement new's null check (as in func_82D4FF88.cpp).
+// into its storage. MeshSubpartStorage's finish constructor (out of line in 82D4E2F0) is inlined here, so this
+// unit defines it HK_FORCE_INLINE.
 #include "havok/hkpStorageExtendedMeshShape.h"
 
 HK_FORCE_INLINE hkpStorageExtendedMeshShape::MeshSubpartStorage::MeshSubpartStorage(hkFinishLoadedObjectFlag flag)
@@ -13,8 +12,7 @@ HK_FORCE_INLINE hkpStorageExtendedMeshShape::MeshSubpartStorage::MeshSubpartStor
 {
 }
 
-// The header declares the constructor; it is defined here, HK_FORCE_INLINE.
-HK_FORCE_INLINE hkpStorageExtendedMeshShape::hkpStorageExtendedMeshShape(hkFinishLoadedObjectFlag flag)
+hkpStorageExtendedMeshShape::hkpStorageExtendedMeshShape(hkFinishLoadedObjectFlag flag)
     : hkpExtendedMeshShape(flag), m_meshstorage(flag), m_shapestorage(flag)
 {
     if (flag.m_finishing) {
@@ -49,10 +47,4 @@ HK_FORCE_INLINE hkpStorageExtendedMeshShape::hkpStorageExtendedMeshShape(hkFinis
             part.m_materialBase = storage->m_materials.begin();
         }
     }
-}
-
-extern "C" hkpStorageExtendedMeshShape *fn_82D4E300(hkpStorageExtendedMeshShape *self, hkFinishLoadedObjectFlag flag)
-{
-    self->hkpStorageExtendedMeshShape::hkpStorageExtendedMeshShape(flag);
-    return self;
 }

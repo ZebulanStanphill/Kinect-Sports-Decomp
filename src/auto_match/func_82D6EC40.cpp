@@ -12,9 +12,9 @@ a.predictive = 1;
 fn_82D59158(dispatcher,&a,-1,0x1c);
 b.predictive = 1;
 b.create = (void*)hkpBvAgent::createBvShapeAgent;
-b.penetrations = (void*)fn_82D6EA18;
-b.closest = (void*)fn_82D6E680;
-b.cast = (void*)fn_82D6E2C8;
+b.penetrations = (void*)hkpBvAgent::staticGetPenetrations;
+b.closest = (void*)hkpBvAgent::staticGetClosestPoints;
+b.cast = (void*)hkpBvAgent::staticLinearCast;
 b.flipped = 0;
 fn_82D59158(dispatcher,&b,0x1c,-1);
 }

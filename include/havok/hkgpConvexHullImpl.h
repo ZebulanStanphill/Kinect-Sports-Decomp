@@ -4,10 +4,10 @@
 // the three types its mesh is instantiated with (structs).
 //
 // The layout is the game's:
-//  - the constructor (82D16868, out of line and known only under that name) builds a BuildConfig at +0x0, the
+//  - the constructor (82D16868, out of line) builds a BuildConfig at +0x0, the
 //    mesh at +0x10 and three empty arrays at +0x48, +0x54 and +0x60, takes the hull's id from a global counter
 //    (lbl_8323B6AC, interlocked) and calls reset(false);
-//  - the destructor (82D16300, out of line and known only under that name) calls reset(false) and destroys
+//  - the destructor (82D16300, out of line) calls reset(false) and destroys
 //    the three arrays, with items of 0x30, 0x10 and 0x40 bytes, and the mesh (82D14010);
 //  - the reset function (82D14080) resets the mesh's two lists, empties the three arrays, clears the two
 //    flags at +0x1B4 and +0x1B5, sets the dimension at +0x1A8 to -1 and the two reals at +0x1A0 to 0, and

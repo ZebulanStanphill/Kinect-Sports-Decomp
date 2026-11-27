@@ -11,8 +11,8 @@
 // 82D5C340, +0x14 linearCast 82D5C5F0 (each only calls the static function), +0x18 processCollision 82D5C7F8,
 // +0x1C cleanup 82D5BF70, then 82D5BFE0, 82D5BEA8, 82D5BEC0, 82D5BED8, 82D5BEF0, 82D5BF08.
 // The virtual queries are inlined by hkpSymmetricAgent<hkpConvexListAgent>'s (82D5D688, 82D5D6D0) in the same
-// file, so they are declared out of line and those units define them. The statics keep fn_ names and are
-// called through wrappers.
+// file, so they are declared out of line and those units define them. The static queries (82D5C358, 82D5C0E0,
+// 82D5C4B0) are the ones registerAgent (82D5D148) stores for the unflipped pairs.
 #ifndef HAVOK_HKPCONVEXLISTAGENT_H
 #define HAVOK_HKPCONVEXLISTAGENT_H
 
@@ -20,12 +20,6 @@
 
 class hkpCollisionDispatcher;
 
-extern "C" {
-void fn_82D5C358(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                 hkpCdBodyPairCollector &collector);   // hkpConvexListAgent::staticGetPenetrations
-void fn_82D5C0E0(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                 hkpCdPointCollector &collector);   // hkpConvexListAgent::staticGetClosestPoints
-}
 
 class hkpConvexListAgent : public hkpPredGskfAgent {
 public:
@@ -34,20 +28,19 @@ public:
                        hkpContactMgr *mgr);
 
     static void HK_CALL staticGetPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
-                                              const hkpCollisionInput &input, hkpCdBodyPairCollector &collector)
-    {
-        fn_82D5C358(bodyA, bodyB, input, collector);
-    }
+                                              const hkpCollisionInput &input, hkpCdBodyPairCollector &collector);   // 82D5C358
     static void HK_CALL staticGetClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
-                                               const hkpCollisionInput &input, hkpCdPointCollector &collector)
-    {
-        fn_82D5C0E0(bodyA, bodyB, input, collector);
-    }
+                                               const hkpCollisionInput &input, hkpCdPointCollector &collector);   // 82D5C0E0
+    static void HK_CALL staticLinearCast(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
+                                         const hkpLinearCastCollisionInput &input, hkpCdPointCollector &collector,
+                                         hkpCdPointCollector *startCollector);   // 82D5C4B0
 
     virtual void getPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                                 hkpCdBodyPairCollector &collector);   // fn_82D5C498
+                                 hkpCdBodyPairCollector &collector);   // 82D5C498
     virtual void getClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                                  hkpCdPointCollector &collector);   // fn_82D5C340
+                                  hkpCdPointCollector &collector);   // 82D5C340
+    virtual void linearCast(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpLinearCastCollisionInput &input,
+                            hkpCdPointCollector &collector, hkpCdPointCollector *startCollector);   // 82D5C5F0
 
     hkpCollisionDispatcher *m_dispatcher;   // +0x80
     hkBool m_inGskMode;                     // +0x84

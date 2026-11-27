@@ -19,7 +19,7 @@ public:
     // setting r4). Unexplained: the function stores r4 as m_maxBulletsInWorld, as if it took the number of
     // bullets as Havok's constructor does.
     hkpBallGun();
-    // Out of line; in the game it is still fn_82DEF270.
+    // Out of line (82DEF270).
     hkpBallGun(hkFinishLoadedObjectFlag flag);
     virtual ~hkpBallGun();
     virtual void fireGun(hkpWorld *world, const hkTransform &viewTransform);

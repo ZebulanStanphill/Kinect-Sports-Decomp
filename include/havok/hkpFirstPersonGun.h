@@ -63,7 +63,7 @@ public:
     };
 
     hkpFirstPersonGun();
-    // Out of line; in the game it is still fn_82DF0AD8.
+    // Out of line (82DF0AD8).
     hkpFirstPersonGun(hkFinishLoadedObjectFlag flag);
     virtual ~hkpFirstPersonGun();
     virtual void initGun(hkpWorld *world) {}                                          // +0xC

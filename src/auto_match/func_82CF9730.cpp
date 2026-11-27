@@ -1,26 +1,18 @@
-// hkFreeListAllocator::hkFreeListAllocator(hkMemoryAllocator *allocator) (Common/Base/Memory/Allocator/
+// hkFreeListAllocator::hkFreeListAllocator(hkMemoryBlockServer *server) (Common/Base/Memory/Allocator/
 // FreeList/hkFreeListAllocator.cpp). Members whose constructors are out of line keep their fn_ names
-// (hkCriticalSection fn_82CEFBD0, hkLargeBlockAllocator fn_82D03DD8, hkFreeList fn_82D01430,
-// _newFreeList fn_82CF9428) and are reached through inline wrappers. The constructor keeps its fn_
+// (hkFreeList fn_82D01430, _newFreeList fn_82CF9428) and are reached through inline wrappers. The constructor keeps its fn_
 // name too and is expanded into an extern "C" definition. Member names follow Havok 2010 and are
 // not confirmed.
 #include "havok/hkBase.h"
 #include "havok/hkCriticalSection.h"
+#include "havok/hkLargeBlockAllocator.h"
 
 class hkFreeList;
-class hkLargeBlockAllocator;
 class hkFreeListAllocator;
 extern "C" {
-void fn_82D03DD8(hkLargeBlockAllocator *self, hkMemoryAllocator *server);     // hkLargeBlockAllocator::hkLargeBlockAllocator
 void fn_82D01430(hkFreeList *self);                                           // hkFreeList::hkFreeList
 hkFreeList *fn_82CF9428(hkFreeListAllocator *self, int elementSize, int align, int blockSize);   // _newFreeList
 }
-
-class hkLargeBlockAllocator {
-public:
-    HK_FORCE_INLINE hkLargeBlockAllocator(hkMemoryAllocator *server) { fn_82D03DD8(this, server); }
-    hkUint8 m_data[0xc4];
-};
 
 class hkFreeList {
 public:
@@ -32,7 +24,7 @@ class hkFreeListAllocator : public hkMemoryAllocator {
 public:
     enum { MAX_FREELISTS = 34, FREELIST_ALIGNMENT = 16, FREELIST_SHIFT = 4, MAX_SIZE = 0x220 };
 
-    hkFreeListAllocator(hkMemoryAllocator *allocator);
+    hkFreeListAllocator(hkMemoryBlockServer *server);
     virtual void *blockAlloc(int numBytes);
     virtual void blockFree(void *p, int numBytes);
 
@@ -49,7 +41,7 @@ public:
     hkCriticalSection m_criticalSection;                         // +0x4
     int m_totalBytesInFreeLists;                                 // +0x20
     int m_totalBytesInLargeBlocks;                               // +0x24
-    hkMemoryAllocator *m_allocator;                              // +0x28
+    hkMemoryBlockServer *m_server;                               // +0x28
     hkLargeBlockAllocator m_largeBlockAllocator;                 // +0x2c
     hkFreeList *m_sizeToFreeList[MAX_SIZE / FREELIST_ALIGNMENT + 1];   // +0xf0
     hkFreeList *m_freeLists[MAX_FREELISTS + 1];                  // +0x17c
@@ -61,8 +53,8 @@ public:
     int m_incrementalFreeIter;                                   // +0x900
 };
 
-HK_FORCE_INLINE hkFreeListAllocator::hkFreeListAllocator(hkMemoryAllocator *allocator)
-    : m_criticalSection(4000), m_allocator(allocator), m_largeBlockAllocator(allocator), m_numFreeLists(0),
+HK_FORCE_INLINE hkFreeListAllocator::hkFreeListAllocator(hkMemoryBlockServer *server)
+    : m_criticalSection(4000), m_server(server), m_largeBlockAllocator(server), m_numFreeLists(0),
       m_incrementalFreeIter(0)
 {
     m_totalBytesInFreeLists = 0;
@@ -99,8 +91,8 @@ HK_FORCE_INLINE hkFreeListAllocator::hkFreeListAllocator(hkMemoryAllocator *allo
     }
 }
 
-extern "C" hkFreeListAllocator *fn_82CF9730(hkFreeListAllocator *self, hkMemoryAllocator *allocator)
+extern "C" hkFreeListAllocator *fn_82CF9730(hkFreeListAllocator *self, hkMemoryBlockServer *server)
 {
-    self->hkFreeListAllocator::hkFreeListAllocator(allocator);
+    self->hkFreeListAllocator::hkFreeListAllocator(server);
     return self;
 }

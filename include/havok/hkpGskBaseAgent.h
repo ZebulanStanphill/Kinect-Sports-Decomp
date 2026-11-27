@@ -10,23 +10,12 @@
 // getPenetrations 82D74C28, +0x10 getClosestPoints 82D75598, +0x14 hkpIterativeLinearCastAgent's linearCast
 // 82D75CB0, +0x18 processCollision 82D74A10 (empty), +0x1C cleanup 82D74A18 (deletes the agent), then the empty
 // function (+0x20), invalidateTim 82D74A38 (+0x24), warpTime 82D74A58 (+0x28) and hkpCollisionAgent's defaults.
-// The two queries keep fn_ names and are called through wrappers.
+// All six overrides are out of line; their names are the slots' (Havok's).
 #ifndef HAVOK_HKPGSKBASEAGENT_H
 #define HAVOK_HKPGSKBASEAGENT_H
 
 #include "havok/hkpIterativeLinearCastAgent.h"
 #include "havok/hkpGskCache.h"
-
-class hkpGskBaseAgent;
-
-extern "C" {
-// hkpGskBaseAgent::getPenetrations
-void fn_82D74C28(hkpGskBaseAgent *self, const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                 hkpCdBodyPairCollector &collector);
-// hkpGskBaseAgent::getClosestPoints
-void fn_82D75598(hkpGskBaseAgent *self, const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                 hkpCdPointCollector &collector);
-}
 
 class hkpGskBaseAgent : public hkpIterativeLinearCastAgent {
 public:
@@ -34,15 +23,14 @@ public:
     hkpGskBaseAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, hkpContactMgr *mgr);
 
     virtual void getPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                                 hkpCdBodyPairCollector &collector)
-    {
-        fn_82D74C28(this, bodyA, bodyB, input, collector);
-    }
+                                 hkpCdBodyPairCollector &collector);   // +0xC (82D74C28)
     virtual void getClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                                  hkpCdPointCollector &collector)
-    {
-        fn_82D75598(this, bodyA, bodyB, input, collector);
-    }
+                                  hkpCdPointCollector &collector);   // +0x10 (82D75598)
+    virtual void processCollision(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpProcessCollisionInput &input,
+                                  hkpProcessCollisionOutput &result);   // +0x18 (82D74A10, empty)
+    virtual void cleanup(hkCollisionConstraintOwner &constraintOwner);   // +0x1C (82D74A18)
+    virtual void invalidateTim(const hkpCollisionInput &input);                         // +0x24 (82D74A38)
+    virtual void warpTime(hkTime oldTime, hkTime newTime, const hkpCollisionInput &input);   // +0x28 (82D74A58)
 
     hkpGskCache m_cache;               // +0xC
     hkReal m_timeOfSeparatingNormal;   // +0x18

@@ -1,14 +1,7 @@
-// hkpConstraintChainInstance scalar deleting destructor (primary vtable slot 0): the out-of-line destructor
-// ??1hkpConstraintChainInstance@@UAA@XZ, then the class allocator's delete when flags & 1. It keeps its fn_ name
-// (written out by hand, as for func_82D3A580).
-// RTTI: hkpConstraintChainInstance : hkpConstraintInstance : hkReferencedObject; only the primary base matters here.
+// hkpConstraintChainInstance's scalar deleting destructor (slot 0 of ??_7hkpConstraintChainInstance@@6B@ only): it calls ~hkpConstraintChainInstance (out of line) and frees
+// through the class allocator. The function at the end only makes the compiler emit the vtable (and with it the
+// deleting destructor); it uses the implicit copy constructor.
 #include "havok/hkBase.h"
 #include "havok/hkpConstraintChainInstance.h"
 
-extern "C" hkpConstraintChainInstance *fn_82D7EA18(hkpConstraintChainInstance *self, unsigned int flags)
-{
-    self->hkpConstraintChainInstance::~hkpConstraintChainInstance();
-    if (flags & 1)
-        hkpConstraintChainInstance::operator delete(self);
-    return self;
-}
+void emitVtable_82D7EA18(void *p, const hkpConstraintChainInstance &o) { new (p) hkpConstraintChainInstance(o); }

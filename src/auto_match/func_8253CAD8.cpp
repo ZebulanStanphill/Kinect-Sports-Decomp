@@ -1,8 +1,8 @@
+#include "havok/hkBase.h"
+#include "havok/hkpWorld.h"
 extern "C" void fn_8251E400(void *);
 extern "C" void fn_8251FA58(void *);
 extern "C" int *fn_82599308(void);
-extern "C" void fn_82CE4118(void *);
-extern "C" void fn_82D81648(int, void *);
 struct A_8253CAD8 { virtual void s0(); virtual void rel(int); };
 struct B_8253CAD8 { virtual ~B_8253CAD8(); };
 struct Cfg_8253CAD8 { char pad[0x1f8]; int f1f8; };
@@ -27,19 +27,19 @@ extern "C" void fn_8253CAD8(Self_8253CAD8 *s, Cfg_8253CAD8 *c)
     char *p;
     *fn_82599308() = 0;
     p = s->f3c;
-    fn_82D81648(c->f1f8, p != 0 ? p + 8 : 0);
-    fn_82CE4118(s->f3c);
+    ((hkpWorld *)c->f1f8)->removeContactListener(p != 0 ? (hkpContactListener *)(p + 8) : 0);
+    fn_82CE4118((hkReferencedObject *)s->f3c);
     s->f3c = 0;
-    fn_82CE4118(s->f14);
-    fn_82CE4118(s->f14);
+    fn_82CE4118((hkReferencedObject *)s->f14);
+    fn_82CE4118((hkReferencedObject *)s->f14);
     s->f14 = 0;
     delete s->f18;
     s->f18 = 0;
-    fn_82CE4118((void *)c->f1f8);
+    fn_82CE4118((hkReferencedObject *)c->f1f8);
     s->f8 = 0;
-    fn_82CE4118(s->f20);
+    fn_82CE4118((hkReferencedObject *)s->f20);
     s->f20 = 0;
-    fn_82CE4118(s->f1c);
+    fn_82CE4118((hkReferencedObject *)s->f1c);
     s->f1c = 0;
     s->ff0 = 0;
   }

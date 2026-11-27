@@ -1,5 +1,5 @@
 // static hkpSymmetricAgent<hkpConvexListAgent>::staticGetPenetrations (Physics/Collide/Agent/Deprecated/ConvexList/hkpConvexListAgent.cpp): flips the bodies (and the
-// collector's results) and calls hkpConvexListAgent::staticGetPenetrations (fn_82D5C358).
+// collector's results) and calls hkpConvexListAgent::staticGetPenetrations (82D5C358).
 #include "havok/hkpSymmetricAgent.h"
 #include "havok/hkpConvexListAgent.h"
 

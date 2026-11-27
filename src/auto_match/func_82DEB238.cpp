@@ -1,4 +1,5 @@
 #include "havok/hkpEntity.h"
+#include "havok/hkpListShape.h"
 #include "havok/hkpMoppBvTreeShape.h"
 #include "havok/hkpRemoveTerminalsMoppModifier.h"
 
@@ -7,7 +8,6 @@
 // shape AABBs of the removed keys.
 
 extern "C" {
-void fn_82D3D9C0(const hkpShape *list, hkpShapeKey key);                         // hkpListShape::disableChild
 void fn_825A4450(void *self);                                                // hkPointerMap<hkpShapeKey, int>::hkPointerMap
 void fn_82CEA160(void *self, hkMemoryAllocator *alloc, hkUlong key, hkUlong val);   // hkMapBase<hkUlong, hkUlong>::insert
 int fn_82CEA280(const void *self, hkUlong key, int def);                            // hkMapBase<hkUlong, hkUlong>::getWithDefault
@@ -43,7 +43,7 @@ extern "C" void fn_82DEB238(hkpEntity *entity, hkpShapeKey *keysToRemove, int nu
         }
     }
     for (int i = 0; i < numKeys; i++)
-        fn_82D3D9C0(shape, keysToRemove[i]);
+        const_cast<hkpListShape *>(static_cast<const hkpListShape *>(shape))->disableChild(keysToRemove[i]);
 finish:
     if (aabbs) {
         hkKeyMap map;

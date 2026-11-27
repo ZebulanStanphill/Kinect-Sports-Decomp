@@ -3,12 +3,11 @@
 // hkpHingeLimitsDataClass (initialiser 831308F8) has one member, m_atoms at +0x10; hkpHingeLimitsDataAtoms
 // (0x90 bytes, members lbl_8213B550 + 0x18) has m_rotations at +0x0, m_angLimit at +0x70 and m_2dAng at +0x80,
 // and the enum Axis.
-// The constructor exists only as fn_82D9EB80 (the C-matchable 82DBF380 news and copies a data), so it is declared
-// here and defined, HK_FORCE_INLINE, in that unit. The destructor is implicit (slot 0 of ??_7hkpHingeLimitsData@@6B@
-// is a deleting destructor folded with hkpShape's). The vtable (16 slots) has isValid 82D9EAE8 (+0x1C), getType
-// 82D9EB78 (+0x20, returns 18) and getRuntimeInfo 82D9EAD0 (+0x24); its slot +0x3C (82D9EAC0) is one of
-// hkpConstraintData's virtual functions that hkpConstraintData.h does not declare yet. The finish constructor
-// follows Havok's header: it leaves the loaded members alone.
+// The constructor is out of line (82D9EB80; 82DBF380 news and copies a data). The destructor is implicit (slot 0
+// of ??_7hkpHingeLimitsData@@6B@ is a deleting destructor folded with hkpShape's). The vtable (16 slots) has
+// isValid 82D9EAE8 (+0x1C), getType 82D9EB78 (+0x20, returns 18), getRuntimeInfo 82D9EAD0 (+0x24) and
+// getConstraintInfo 82D9EAC0 (+0x3C). The finish constructor follows Havok's header: it leaves the loaded
+// members alone.
 #ifndef HAVOK_HKPHINGELIMITSDATA_H
 #define HAVOK_HKPHINGELIMITSDATA_H
 
@@ -35,11 +34,12 @@ public:
         hkpAngLimitConstraintAtom m_angLimit;             // +0x70
         hkp2dAngConstraintAtom m_2dAng;                   // +0x80
     };
-    hkpHingeLimitsData();   // fn_82D9EB80
+    hkpHingeLimitsData();   // 82D9EB80
     hkpHingeLimitsData(hkFinishLoadedObjectFlag flag) : hkpConstraintData(flag), m_atoms(flag) {}
     virtual hkBool isValid() const;                                                  // +0x1C
     virtual int getType() const;                                                     // +0x20
     virtual void getRuntimeInfo(hkBool wantRuntime, RuntimeInfo &infoOut) const;     // +0x24
+    virtual void getConstraintInfo(ConstraintInfo &infoOut) const;   // +0x3C 82D9EAC0
 
     Atoms m_atoms;   // +0x10
 };

@@ -1,10 +1,12 @@
+// hkPackfileReader::setContentsVersion(const char *version) (slot +0x2C of ??_7hkPackfileReader@@6B@, inherited
+// by hkBinaryPackfileReader): frees m_contentsVersion and keeps a copy of version.
+#include "havok/hkPackfileReader.h"
 #include "havok/hkString.h"
 #include "havok/hkMemoryRouter.h"
 
-extern "C" void fn_82E12CC8(void *self, const char *src)
+void hkPackfileReader::setContentsVersion(const char *version)
 {
-    char **slot = reinterpret_cast<char **>(static_cast<char *>(self) + 0x14);
-    char *old = *slot;
+    char *old = m_contentsVersion;
     hkMemoryRouter::easyFree(hkMemoryRouter::getInstance().heap(), old);
-    *slot = hkString::strDup(src);
+    m_contentsVersion = hkString::strDup(version);
 }

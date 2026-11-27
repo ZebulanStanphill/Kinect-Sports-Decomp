@@ -14,11 +14,17 @@
 // The two leading subpart fields must be hkEnum (a class wrapper): with plain hkInt8 fields the second
 // loop's add operands come out swapped in 82D438E0. TrianglesSubpart is 16-byte aligned (it holds an
 // hkVector4) and is copied with ld/std.
-// ShapesSubpart's child shapes are an hkArray of hkRefPtr in Havok; its destructor (which releases them and
-// frees the array) exists in the game only as fn_82D43000, so the member is an hkArrayBase here (no
-// destructor of its own) and the struct's destructor calls that function. Its copy assignment is out of line
-// too, as fn_82D43AA0: the 0x14 bytes of Subpart as words, the array element by element with the references
-// counted, the two vectors.
+// ShapesSubpart's child shapes are an hkArray of hkRefPtr. Its destructor is implicit in Havok but out of line in
+// the game (82D43000: releases the children and frees the array; the destructors of hkpExtendedMeshShape and
+// hkpStorageExtendedMeshShape call it), so it is declared here and defined in that unit (an empty body gives
+// the same code and the same symbol). Its copy assignment is out of line too (82D43AA0): the 0x14 bytes of
+// Subpart as words, the array element by element with the references counted, the two vectors.
+// The hkpShape vtable (15 slots): hkpShapeCollection's two welding slots, which hkpShape.h does not declare yet,
+// are declared here so that the slots after them land at their offsets: +0x2C initWeldingInfo (82D427C8: stores
+// the type; WELDING_TYPE_NONE frees the array, any other numbers the triangles and sizes it) and +0x30
+// setWeldingInfo (82D42600: one key's entry, sizing the array on first use). Then the two virtuals this class
+// adds, +0x34 addTrianglesSubpart and +0x38 addShapesSubpart, which hkpStorageExtendedMeshShape overrides. The
+// four names are Havok's (not confirmed by the game); the slots are the game's vtables.
 #ifndef HAVOK_HKPEXTENDEDMESHSHAPE_H
 #define HAVOK_HKPEXTENDEDMESHSHAPE_H
 
@@ -27,8 +33,7 @@
 #include "havok/hkQuaternion.h"
 #include "havok/hkVector4.h"
 #include "havok/hkpShape.h"
-
-extern "C" void fn_82D43000(void *self);   // hkpExtendedMeshShape::ShapesSubpart::~ShapesSubpart()
+#include "havok/hkpWeldingUtility.h"
 
 class hkpExtendedMeshShape : public hkpShapeCollection {
 public:
@@ -85,9 +90,10 @@ public:
     // 0x40 bytes (see the comment at the top).
     struct ShapesSubpart : public Subpart {
         HK_FORCE_INLINE ShapesSubpart(hkFinishLoadedObjectFlag flag) : Subpart(flag), m_childShapes(flag) {}
-        ~ShapesSubpart() { fn_82D43000(this); }
+        ~ShapesSubpart();   // out of line (82D43000)
+        ShapesSubpart &operator=(const ShapesSubpart &other);   // out of line (82D43AA0)
 
-        hkArrayBase<hkRefPtr<hkpConvexShape> > m_childShapes;   // +0x14
+        hkArray<hkRefPtr<hkpConvexShape> > m_childShapes;       // +0x14
         hkQuaternion m_rotation;                                // +0x20
         hkVector4 m_translation;                                // +0x30
     };
@@ -101,6 +107,10 @@ public:
     virtual hkpShapeKey getFirstKey() const;
     virtual hkpShapeKey getNextKey(hkpShapeKey oldKey) const;
     virtual const hkpShape *getChildShape(hkpShapeKey key, hkpShapeBuffer &buffer) const;
+    virtual void initWeldingInfo(hkpWeldingUtility::WeldingType weldingType);   // +0x2C (82D427C8)
+    virtual void setWeldingInfo(hkpShapeKey key, hkInt16 weldingInfo);         // +0x30 (82D42600)
+    virtual void addTrianglesSubpart(const TrianglesSubpart &part);   // +0x34, out of line (82D42A28)
+    virtual int addShapesSubpart(const ShapesSubpart &part);          // +0x38, out of line (82D43170)
 
     TrianglesSubpart m_embeddedTrianglesSubpart;    // +0x20
     hkVector4 m_scaling;                            // +0x80

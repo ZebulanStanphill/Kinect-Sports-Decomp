@@ -5,27 +5,15 @@
 // createMultiRayConvexAgent (82D60928) allocates. The destructor is the implicit one, out of line in the game
 // (??1hkpMultiRayConvexAgent@@UAA@XZ, 82D60E30); the deleting destructor keeps an fn_ name (82D60FF0).
 // Its vtable: +0xC getPenetrations (82D60850), +0x10 getClosestPoints (82D60198), +0x14 hkpIterativeLinearCastAgent's
-// linearCast (82D75CB0), +0x18 82D60B60, +0x1C 82D60118, then the empty function and hkpCollisionAgent's defaults.
-// getClosestPoints is a wrapper (hkpSymmetricAgent<hkpMultiRayConvexAgent>::getClosestPoints, 82D60EA0, calls it
-// out of line); getPenetrations only calls the static function and is inlined where it is defined (82D60EF0), so
-// it is declared out of line. The static queries keep fn_ names (registerAgent, 82D609F8, stores them).
+// linearCast (82D75CB0), +0x18 processCollision (82D60B60), +0x1C cleanup (82D60118), then the empty function and
+// hkpCollisionAgent's defaults. All are out of line: hkpSymmetricAgent<hkpMultiRayConvexAgent>::getClosestPoints
+// (82D60EA0) calls getClosestPoints, and getPenetrations, which only calls the static function, is inlined where
+// it is defined (82D60EF0). registerAgent (82D609F8) stores the static queries.
 // The member names follow Havok's header.
 #ifndef HAVOK_HKPMULTIRAYCONVEXAGENT_H
 #define HAVOK_HKPMULTIRAYCONVEXAGENT_H
 
 #include "havok/hkpIterativeLinearCastAgent.h"
-
-class hkpMultiRayConvexAgent;
-
-extern "C" {
-void fn_82D60698(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                 hkpCdBodyPairCollector &collector);   // hkpMultiRayConvexAgent::staticGetPenetrations
-void fn_82D60418(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                 hkpCdPointCollector &collector);   // hkpMultiRayConvexAgent::staticGetClosestPoints
-// hkpMultiRayConvexAgent::getClosestPoints
-void fn_82D60198(hkpMultiRayConvexAgent *self, const hkpCdBody &bodyA, const hkpCdBody &bodyB,
-                 const hkpCollisionInput &input, hkpCdPointCollector &collector);
-}
 
 class hkpMultiRayConvexAgent : public hkpIterativeLinearCastAgent {
 public:
@@ -44,23 +32,18 @@ public:
     static hkpCollisionAgent *HK_CALL createConvexMultiRayAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
                                                                 const hkpCollisionInput &input, hkpContactMgr *mgr);
     static void HK_CALL staticGetPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
-                                              const hkpCollisionInput &input, hkpCdBodyPairCollector &collector)
-    {
-        fn_82D60698(bodyA, bodyB, input, collector);
-    }
+                                              const hkpCollisionInput &input, hkpCdBodyPairCollector &collector);   // 82D60698
     static void HK_CALL staticGetClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
-                                               const hkpCollisionInput &input, hkpCdPointCollector &collector)
-    {
-        fn_82D60418(bodyA, bodyB, input, collector);
-    }
+                                               const hkpCollisionInput &input, hkpCdPointCollector &collector);   // 82D60418
 
     virtual void getPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                                 hkpCdBodyPairCollector &collector);   // fn_82D60850
+                                 hkpCdBodyPairCollector &collector);   // 82D60850
     virtual void getClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                                  hkpCdPointCollector &collector)
-    {
-        fn_82D60198(this, bodyA, bodyB, input, collector);
-    }
+                                  hkpCdPointCollector &collector);   // 82D60198
+
+    virtual void processCollision(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpProcessCollisionInput &input,
+                                  hkpProcessCollisionOutput &result);
+    virtual void cleanup(hkCollisionConstraintOwner &constraintOwner);
 
     // The storage of four ids is at +0x18. The game's destructor (82D60E30) has the array's inlined.
     hkInplaceArray<ContactPointInfo, 4> m_contactInfo;   // +0xC

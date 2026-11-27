@@ -1,3 +1,4 @@
+#include "havok/hkpCapsuleCapsuleAgent.h"
 #include "havok/hkpCapsuleShape.h"
 #include "havok/hkpCdBody.h"
 #include "havok/hkpCdBodyPairCollector.h"
@@ -59,8 +60,8 @@ static __forceinline void TimerMarker(const char *name)
     }
 }
 
-extern "C" void fn_82D63AC0(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                            hkpCdBodyPairCollector &collector)
+void HK_CALL hkpCapsuleCapsuleAgent::staticGetPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
+                                                    const hkpCollisionInput &input, hkpCdBodyPairCollector &collector)
 {
     TimerMarker("TtCapsCaps");
     const hkpCapsuleShape *capsA = static_cast<const hkpCapsuleShape *>(bodyA.getShape());

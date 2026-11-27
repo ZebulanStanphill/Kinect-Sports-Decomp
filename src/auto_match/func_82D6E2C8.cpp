@@ -1,3 +1,4 @@
+#include "havok/hkpBvAgent.h"
 #include "havok/hkpCollisionDispatcher.h"
 #include "havok/hkpSimpleClosestContactCollector.h"
 
@@ -25,7 +26,7 @@ static HK_FORCE_INLINE Dispatch getDispatch(hkpCollisionDispatcher *d,int a,int 
  unsigned idx=p[(a+13)*32+b];
  return *(Dispatch*)(p+idx*20+off);
 }
-extern "C" void fn_82D6E2C8(const hkpCdBody &a, const hkpCdBody &b, const hkpCollisionInput &input, hkpCdPointCollector &collector, hkpCdPointCollector *start) {
+void hkpBvAgent::staticLinearCast(const hkpCdBody &a, const hkpCdBody &b, const hkpLinearCastCollisionInput &input, hkpCdPointCollector &collector, hkpCdPointCollector *start) {
  beginTimer("LthkpBvAgent","StcheckBvShape");
  {
  hkpCdBody body(&a);

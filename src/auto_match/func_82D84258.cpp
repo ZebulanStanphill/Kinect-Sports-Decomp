@@ -1,12 +1,8 @@
+// hkpWorld::addContactImpulseLimitBreachedListener (Physics/Dynamics/World/hkpWorld.cpp): appends the listener to m_contactImpulseLimitBreachedListeners.
 #include "havok/hkBase.h"
-template <typename T> static HK_FORCE_INLINE void constructWithCopy(T *t, int n, const T &tcopy) { for (int i = 0; i < n; ++i) t[i] = tcopy; }
-class Output : public hkArrayBase<int> { public: HK_FORCE_INLINE void push(const int &v) {
- hkMemoryAllocator &alloc=hkMemoryRouter::getInstance().heap();
- if (m_size == getCapacity()) hkArrayUtil::_reserveMore(alloc,this,sizeof(int));
- constructWithCopy(m_data + m_size, 1, v);
- m_size++;
-} };
-struct Obj_82D84258 { char pad[0x1b0]; Output arr; };
-extern "C" void fn_82D84258(Obj_82D84258 *self, int v) {
- self->arr.push(v);
+#include "havok/hkpWorld.h"
+
+void hkpWorld::addContactImpulseLimitBreachedListener(hkpContactImpulseLimitBreachedListener *worldListener)
+{
+    m_contactImpulseLimitBreachedListeners.pushBack(worldListener);
 }

@@ -54,8 +54,8 @@ public:
         hkArrayBase<IDX> m_free;     // +0xC
     };
 
-    // Both out of line in the game, and known only as fn_82D34FF0 (the default constructor of the 32-bit tree)
-    // and fn_82D35080 (the 16-bit tree's: offset low, offset high, scale).
+    // Both out of line in the game, each defined for one tree only: the default constructor of the 32-bit tree
+    // (82D34FF0) and the 16-bit tree's (82D35080: offset low, offset high, scale).
     hkAabbTree();
     hkAabbTree(const hkVector4 &offsetLow, const hkVector4 &offsetHigh, const hkVector4 &scale);
     virtual ~hkAabbTree() { clear(); }

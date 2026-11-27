@@ -1,3 +1,4 @@
+#include "havok/hkpConvexListAgent.h"
 #include "havok/hkContactPoint.h"
 #include "havok/hkpSymmetricAgent.h"
 #include "havok/hkpConvexListShape.h"
@@ -23,7 +24,7 @@ public:
 extern "C" void fn_82D74E60(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpCdBodyPairCollector&);
 extern "C" void fn_82D75010(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpCdPointCollector&);
 extern "C" void fn_82D6BE30(const hkpCdBody&,const hkpCdBody&,const hkpCollisionInput&,hkpCdPointCollector&);
-extern "C" void fn_82D5C0E0(const hkpCdBody&a,const hkpCdBody&b,const hkpCollisionInput&i,hkpCdPointCollector&out) {
+void hkpConvexListAgent::staticGetClosestPoints(const hkpCdBody&a,const hkpCdBody&b,const hkpCollisionInput&i,hkpCdPointCollector&out) {
  timer("LtCvxList","StcheckHull");
  {hkpFlagCdBodyPairCollector flag;fn_82D74E60(a,b,i,flag);
  if(flag.m_earlyOut){timer("Stchildren");hkpSymmetricAgentFlipCollector flip(out);fn_82D6BE30(b,a,i,flip);}

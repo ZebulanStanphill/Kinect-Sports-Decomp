@@ -8,8 +8,7 @@
 // Its vtable (??_7hkpGskfAgent@@6B@): hkpGskBaseAgent's slots up to +0x14, +0x18 processCollision 82D75A10, +0x1C
 // cleanup 82D756C0 (removes the manifold's points, fn_82DD77B0, then deletes the agent), +0x20 the empty function,
 // +0x24/+0x28 hkpGskBaseAgent's invalidateTim and warpTime, +0x2C removePoint 82D75710, +0x30 commitPotential
-// 82D75758, +0x34 createZombie 82D757A0. None of them has a C++ name in the game, and no unit calls them directly,
-// so they are not declared here (hkpCollisionAgent.h has no slots after +0x1C).
+// 82D75758, +0x34 createZombie 82D757A0. They are out of line; their names are the slots' (Havok's).
 // The member name follows Havok's header.
 #ifndef HAVOK_HKPGSKFAGENT_H
 #define HAVOK_HKPGSKFAGENT_H
@@ -21,6 +20,13 @@ class hkpGskfAgent : public hkpGskBaseAgent {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
     hkpGskfAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, hkpContactMgr *mgr);
+
+    virtual void processCollision(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpProcessCollisionInput &input,
+                                  hkpProcessCollisionOutput &result);   // +0x18 (82D75A10)
+    virtual void cleanup(hkCollisionConstraintOwner &constraintOwner);   // +0x1C (82D756C0)
+    virtual void removePoint(hkContactPointId idToRemove);                // +0x2C (82D75710)
+    virtual void commitPotential(hkContactPointId newId);                 // +0x30 (82D75758)
+    virtual void createZombie(hkContactPointId idTobeZombified);          // +0x34 (82D757A0)
 
     hkpGskManifold m_manifold;   // +0x30
 };

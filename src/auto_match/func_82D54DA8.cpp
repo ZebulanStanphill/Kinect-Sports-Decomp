@@ -15,9 +15,9 @@ a.predictive = 1;
 fn_82D59158(dispatcher,&a,8,0x17);
 b.predictive = 1;
 b.create = (void*)fn_82D54900;
-b.penetrations = (void*)fn_82D58028;
-b.closest = (void*)fn_82D57DB8;
-b.cast = (void*)fn_82D57B60;
+b.penetrations = (void*)hkpBvTreeAgent::staticGetPenetrations;
+b.closest = (void*)hkpBvTreeAgent::staticGetClosestPoints;
+b.cast = (void*)hkpBvTreeAgent::staticLinearCast;
 b.flipped = 0;
 fn_82D59158(dispatcher,&b,0x17,8);
 }

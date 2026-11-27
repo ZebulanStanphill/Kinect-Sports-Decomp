@@ -1,6 +1,5 @@
 // hkpPrismaticConstraintData::hkpPrismaticConstraintData() (Physics/Dynamics/Constraint/Bilateral/Prismatic/
-// hkpPrismaticConstraintData.cpp), /O2 /QVMXReserve. It keeps its fn_ name: its three callers
-// (func_8260A120, func_82DBF0E0, func_82DBF6D8) use no other C++ and could match as C.
+// hkpPrismaticConstraintData.cpp), /O2 /QVMXReserve.
 // The atoms' constructors are inlined (each stores its type; motor and friction start enabled).
 // HK_REAL_MAX and -HK_REAL_MAX were literals in Havok; they are defined here (selectany) with their
 // configured lbl_ names so that the compiler may schedule their loads like constants (an extern
@@ -10,7 +9,7 @@
 
 // The game's 1.0f keeps its lbl_ name (Matching units reference it).
 
-HK_FORCE_INLINE hkpPrismaticConstraintData::hkpPrismaticConstraintData()
+hkpPrismaticConstraintData::hkpPrismaticConstraintData()
 {
     m_atoms.m_transforms.m_transformA.setIdentity();
     m_atoms.m_transforms.m_transformB.setIdentity();
@@ -30,10 +29,4 @@ HK_FORCE_INLINE hkpPrismaticConstraintData::hkpPrismaticConstraintData()
     m_atoms.m_ang.m_numConstrainedAxes = 3;
     m_atoms.m_lin0.m_axisIndex = 1;
     m_atoms.m_lin1.m_axisIndex = 2;
-}
-
-extern "C" hkpPrismaticConstraintData *fn_82D972A0(hkpPrismaticConstraintData *self)
-{
-    self->hkpPrismaticConstraintData::hkpPrismaticConstraintData();
-    return self;
 }

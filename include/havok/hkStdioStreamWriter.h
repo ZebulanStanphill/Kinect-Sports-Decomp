@@ -1,12 +1,12 @@
 // hkStdioStreamWriter (Common/Base/System/Io/Writer/Stdio/hkStdioStreamWriter.h), 0x10 bytes: a stream writer over
 // a C runtime FILE.
 // Two constructors: one over stdout or stderr, which it does not own (82CFB608, ??0hkStdioStreamWriter@@QAA@H@Z),
-// and one that opens a file "wb" and owns it (82CFB670, which keeps its fn_ name). The destructor (82CFB6D8)
+// and one that opens a file "wb" and owns it (82CFB670). The destructor (82CFB6D8)
 // closes an owned file and clears the handle.
-// The vtable (??_7hkStdioStreamWriter@@6B@, 10 slots) gives the overrides, which keep their fn_ names: isOk
+// The vtable (??_7hkStdioStreamWriter@@6B@, 10 slots) gives the overrides: isOk
 // 82CFB598 (the handle is not null), write 82CFB4F8, flush 82CFB580, seekTellSupported 82CFB5C0, seek 82CFB5D0,
 // tell 82CFB600, and one slot more than hkStreamWriter.h declares (82CFB5B0, returns true; its name is not
-// known). The member names are invented.
+// known, so it keeps its fn_ name). The member names are invented.
 #ifndef HAVOK_HKSTDIOSTREAMWRITER_H
 #define HAVOK_HKSTDIOSTREAMWRITER_H
 

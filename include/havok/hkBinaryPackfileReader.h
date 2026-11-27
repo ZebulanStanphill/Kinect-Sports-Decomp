@@ -4,9 +4,9 @@
 // where it has them; m_streamOffset (+0x70) is named after its use: the stream position when the header is
 // read (82E0B0D0), which section offsets are relative to (82E0C288).
 //
-// The constructor and destructor are out of line in the game, but only under C names so far: fn_82E0B980 is
-// the constructor (C units call it), fn_82E0C7A0 the destructor (the scalar deleting destructor, fn_82E0E540,
-// calls it). Their units keep a local copy of the class until they are renamed.
+// The constructor (82E0B980) and the destructor (82E0C7A0) are out of line; the scalar deleting destructor
+// (82E0E540) calls the destructor. Game code reads packfiles with a local hkBinaryPackfileReader, so its calls
+// of loadEntireFile, getContents, getContentsClassName and getPackfileData are direct (825A51B8, 825A54A8).
 // ??_7hkBinaryPackfileReader@@6B@ (8214A854, 16 slots): hkPackfileReader's (see there), then
 // loadEntireFileInplace (82E0D890: checks the magic, then fixes up the sections in place), getSectionIndex
 // (82E0A080: compares the section tags) and getSectionDataByIndex (82E0A550: m_sectionData[i] + offset, or

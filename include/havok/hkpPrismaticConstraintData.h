@@ -1,8 +1,7 @@
 // hkpPrismaticConstraintData (Physics/Dynamics/Constraint/Bilateral/Prismatic/hkpPrismaticConstraintData.h), 0xD0 bytes
 // (the game's reflection: hkpPrismaticConstraintDataClass, with one member, m_atoms at +0x10).
 // The atoms' layout is the reflection table of hkpPrismaticConstraintDataAtoms (lbl_8213C0A0); their constructor is
-// inline. The data's constructor is out of line as fn_82D972A0, which keeps its fn_ name (a Matching unit defines
-// it); the destructor (82D96FB0) releases the motor.
+// inline. The data's constructor is out of line (82D972A0); the destructor (82D96FB0) releases the motor.
 // The vtable (??_7hkpPrismaticConstraintData@@6B@, 16 slots) has 82D96FA8 at +0x20 (getType: 6); slots +0x28 to
 // +0x3C are hkpConstraintData's virtual functions (hkpConstraintData.h says what each is).
 // The finish constructors follow Havok's header: they leave the loaded members alone.
@@ -40,6 +39,7 @@ public:
     hkpPrismaticConstraintData();
     hkpPrismaticConstraintData(hkFinishLoadedObjectFlag flag) : hkpConstraintData(flag), m_atoms(flag) {}
     virtual ~hkpPrismaticConstraintData();
+    virtual void getConstraintInfo(ConstraintInfo &infoOut) const;   // +0x3C 82D96F80
 
     Atoms m_atoms;   // +0x10
 };

@@ -1,7 +1,7 @@
 // hkpSimulationIsland (Physics/Dynamics/World/Simulation/hkpSimulationIsland.h), 0x6C bytes: a group of
 // entities, actions and constraints that is simulated and deactivated together.
 //
-// Layout from the constructor (fn_82DB0088, a C unit: hkpSimulationIsland(hkpWorld *)): m_world +0x18, +0x1C
+// Layout from the constructor (82DB0088, a NonMatching C unit: hkpSimulationIsland(hkpWorld *)): m_world +0x18, +0x1C
 // cleared, +0x22 set to 0xFFFF, the 2-bit fields of +0x25 cleared, +0x26 set to 0x50 (the first two fields of
 // that byte set: m_isInActiveIslandsArray and m_activeMark), an hkMultiThreadCheck at +0x28 (0xFFFFFFD1, 0),
 // +0x30 and +0x34 cleared, the actions' hkArray at +0x38, -10.0 at +0x44, an hkInplaceArray<.., 1> at +0x48
@@ -32,7 +32,8 @@ struct hkpAgentNnSector;
 class hkpSimulationIsland : public hkpConstraintOwner {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_DYNAMICS);
-    // The constructor is out of line (fn_82DB0088) and is not declared: no unit calls it by name.
+    // The constructor is out of line (82DB0088, hkpSimulationIsland(hkpWorld *)) and is not declared: no unit
+    // calls it, and func_82DB01D0 emits the vtable through the implicit default constructor.
     virtual ~hkpSimulationIsland();   // 82DAFEF0
 
     HK_FORCE_INLINE int getActiveMark() const { return m_activeMark; }

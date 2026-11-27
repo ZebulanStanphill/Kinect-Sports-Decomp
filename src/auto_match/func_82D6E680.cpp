@@ -1,3 +1,4 @@
+#include "havok/hkpBvAgent.h"
 #include "havok/hkpCdBodyPairCollector.h"
 #include "havok/hkpCollisionDispatcher.h"
 
@@ -28,7 +29,7 @@ static HK_FORCE_INLINE Dispatch getDispatch(hkpCollisionDispatcher *d,int a,int 
  unsigned idx=p[(a+13)*32+b];
  return *(Dispatch*)(p+idx*20+off);
 }
-extern "C" void fn_82D6E680(const hkpCdBody &a, const hkpCdBody &b, const hkpCollisionInput &input, hkpCdBodyPairCollector &collector) {
+void hkpBvAgent::staticGetClosestPoints(const hkpCdBody &a, const hkpCdBody &b, const hkpCollisionInput &input, hkpCdPointCollector &collector) {
  beginTimer("LthkpBvAgent","StcheckBvShape");
  {
  hkpCdBody body(&a);
@@ -41,7 +42,7 @@ extern "C" void fn_82D6E680(const hkpCdBody &a, const hkpCdBody &b, const hkpCol
  if (c.m_earlyOut) {
   beginTimer("Stchild");
   body.setShape(*(const hkpShape**)((const char*)shape+0x18),0);
-  getDispatch(input.m_dispatcher,body.m_shape->m_type,type,8+0x9a0)(&body,&b,&input,&collector);
+  getDispatch(input.m_dispatcher,body.m_shape->m_type,type,8+0x9a0)(&body,&b,&input,(hkpCdBodyPairCollector*)&collector);
  }
  }
  beginTimer("lt");

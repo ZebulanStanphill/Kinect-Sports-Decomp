@@ -54,6 +54,7 @@ public:
     }
     virtual ~hkpRagdollConstraintData();
     void setConeLimitStabilization(hkBool enable) { fn_82D97680(this, enable); }
+    virtual void getConstraintInfo(ConstraintInfo &infoOut) const;   // +0x3C 82D97650
 
     Atoms m_atoms;   // +0x10
 };

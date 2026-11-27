@@ -9,8 +9,8 @@
 // finishLoadedObjecthkpRagdollLimitsData, 82D7F9B8) calls it when finishing and the offset is set; it is forced
 // inline so that getVtablehkpRagdollLimitsData (82D7FA10) folds it to the vtable store. The destructor is implicit
 // (slot 0 of ??_7hkpRagdollLimitsData@@6B@ is a deleting destructor folded with hkpShape's). The vtable (16 slots)
-// has isValid 82DA1D30 (+0x1C), getType 82DA1EC0 (+0x20, returns 19) and getRuntimeInfo 82DA1D18 (+0x24); its slot
-// +0x3C (82DA1D08) is one of hkpConstraintData's virtual functions that hkpConstraintData.h does not declare yet.
+// has isValid 82DA1D30 (+0x1C), getType 82DA1EC0 (+0x20, returns 19) and getRuntimeInfo 82DA1D18 (+0x24);
+// getConstraintInfo is 82DA1D08 (+0x3C).
 #ifndef HAVOK_HKPRAGDOLLLIMITSDATA_H
 #define HAVOK_HKPRAGDOLLLIMITSDATA_H
 
@@ -53,6 +53,7 @@ public:
     virtual int getType() const;                                                     // +0x20
     virtual void getRuntimeInfo(hkBool wantRuntime, RuntimeInfo &infoOut) const;     // +0x24
     void setConeLimitStabilization(hkBool enable) { fn_82DA1EA8(this, enable); }
+    virtual void getConstraintInfo(ConstraintInfo &infoOut) const;   // +0x3C 82DA1D08
 
     Atoms m_atoms;   // +0x10
 };

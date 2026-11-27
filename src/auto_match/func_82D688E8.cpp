@@ -6,8 +6,8 @@
 extern "C" void fn_82D688E8(hkpCollisionDispatcher::AgentFuncs *p)
 {
     p->m_createFunc = hkpBoxBoxAgent::createBoxBoxAgent;
-    p->m_getPenetrationsFunc = fn_82D686D8;
-    p->m_getClosestPointFunc = fn_82D684C0;
+    p->m_getPenetrationsFunc = hkpBoxBoxAgent::staticGetPenetrations;
+    p->m_getClosestPointFunc = hkpBoxBoxAgent::staticGetClosestPoints;
     p->m_linearCastFunc = fn_82D75FD0;
     p->m_isFlipped = false;
     p->m_isPredictive = false;

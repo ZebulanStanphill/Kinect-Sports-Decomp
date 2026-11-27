@@ -6,7 +6,7 @@
 // - The two constructors are out of line (82D4D370 from a shape container, 82D4D4F0 from an AABB), and so is the
 //   destructor (82D4D580; deleting destructor 82D4D6F0).
 // - The finish constructor is inline (finishLoadedObject 82D3AD48).
-// - applyRemoveTerminals exists in the game only as fn_82D4D1C0.
+// - applyRemoveTerminals is out of line (82D4D1C0).
 // Vtables ??_7hkpRemoveTerminalsMoppModifier@@6BhkReferencedObject@@@ and ...@@6BhkpMoppModifier@@@
 // (shouldTerminalBeRemoved 82D4D268, ModifierFinished 82D4D2E0).
 #ifndef HAVOK_HKPREMOVETERMINALSMOPPMODIFIER_H
@@ -18,9 +18,6 @@
 
 class hkAabb;
 class hkpMoppCode;
-class hkpRemoveTerminalsMoppModifier;
-
-extern "C" void fn_82D4D1C0(hkpRemoveTerminalsMoppModifier *self, hkpMoppCode *code);   // applyRemoveTerminals
 
 class hkpRemoveTerminalsMoppModifier : public hkReferencedObject, public hkpMoppModifier {
 public:
@@ -35,7 +32,7 @@ public:
     virtual hkBool shouldTerminalBeRemoved(unsigned int id, const hkpShapeKey *properties);
     virtual void ModifierFinished();
 
-    void applyRemoveTerminals(hkpMoppCode *code) { fn_82D4D1C0(this, code); }
+    void applyRemoveTerminals(hkpMoppCode *code);   // out of line (82D4D1C0)
 
     hkArray<hkUint32> m_removeInfo;                      // +0xC
     const hkArray<hkpShapeKey> *m_tempShapesToRemove;    // +0x18

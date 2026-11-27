@@ -2,27 +2,14 @@
 // an hkpIterativeLinearCastAgent (RTTI) with one contact point id.
 // The constructor has no symbol: both creation functions (82D663C0, 82D66498) inline it (the id is set to
 // HK_INVALID_CONTACT_POINT after the base). Its vtable: +0xC getPenetrations (82D66670), +0x10 getClosestPoints
-// (82D668B0), +0x14 hkpIterativeLinearCastAgent's linearCast (82D75CB0), +0x18 82D67058, +0x1C 82D66430, then the
-// empty function and hkpCollisionAgent's defaults. getClosestPoints is a wrapper (82D67378 calls it out of line);
-// getPenetrations only calls the static function and is inlined where it is defined (82D66FC8), so it is declared
-// out of line. The static queries keep fn_ names.
+// (82D668B0), +0x14 hkpIterativeLinearCastAgent's linearCast (82D75CB0), +0x18 processCollision (82D67058), +0x1C
+// cleanup (82D66430), then the empty function and hkpCollisionAgent's defaults. All are out of line (82D67378 calls
+// getClosestPoints; getPenetrations only calls the static function and is inlined where it is defined, 82D66FC8).
 // The member name follows Havok's header.
 #ifndef HAVOK_HKPSPHERECAPSULEAGENT_H
 #define HAVOK_HKPSPHERECAPSULEAGENT_H
 
 #include "havok/hkpIterativeLinearCastAgent.h"
-
-class hkpSphereCapsuleAgent;
-
-extern "C" {
-void fn_82D66508(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                 hkpCdBodyPairCollector &collector);   // hkpSphereCapsuleAgent::staticGetPenetrations
-void fn_82D66B70(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                 hkpCdPointCollector &collector);   // hkpSphereCapsuleAgent::staticGetClosestPoints
-// hkpSphereCapsuleAgent::getClosestPoints
-void fn_82D668B0(hkpSphereCapsuleAgent *self, const hkpCdBody &bodyA, const hkpCdBody &bodyB,
-                 const hkpCollisionInput &input, hkpCdPointCollector &collector);
-}
 
 class hkpSphereCapsuleAgent : public hkpIterativeLinearCastAgent {
 public:
@@ -34,23 +21,18 @@ public:
     static hkpCollisionAgent *HK_CALL createCapsuleSphereAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
                                                                const hkpCollisionInput &input, hkpContactMgr *mgr);
     static void HK_CALL staticGetPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
-                                             const hkpCollisionInput &input, hkpCdBodyPairCollector &collector)
-    {
-        fn_82D66508(bodyA, bodyB, input, collector);
-    }
+                                             const hkpCollisionInput &input, hkpCdBodyPairCollector &collector);   // 82D66508
     static void HK_CALL staticGetClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
-                                              const hkpCollisionInput &input, hkpCdPointCollector &collector)
-    {
-        fn_82D66B70(bodyA, bodyB, input, collector);
-    }
+                                              const hkpCollisionInput &input, hkpCdPointCollector &collector);   // 82D66B70
 
     virtual void getClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                                  hkpCdPointCollector &collector)
-    {
-        fn_82D668B0(this, bodyA, bodyB, input, collector);
-    }
+                                  hkpCdPointCollector &collector);   // 82D668B0
     virtual void getPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                                 hkpCdBodyPairCollector &collector);   // fn_82D66670
+                                 hkpCdBodyPairCollector &collector);   // 82D66670
+
+    virtual void processCollision(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpProcessCollisionInput &input,
+                                  hkpProcessCollisionOutput &result);
+    virtual void cleanup(hkCollisionConstraintOwner &constraintOwner);
 
     hkContactPointId m_contactPointId;   // +0xC
 };

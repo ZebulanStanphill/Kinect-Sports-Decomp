@@ -1,3 +1,4 @@
+#include "havok/hkpMultiSphereAgent.h"
 #include "havok/hkpCdBody.h"
 #include "havok/hkpCdBodyPairCollector.h"
 #include "havok/hkpSphereShape.h"
@@ -34,7 +35,7 @@ static __forceinline void setTransformedPos(hkVector4 &out, const hkRotation &r,
     out.m_quad = __vaddfp(t.m_quad, t0);
 }
 
-extern "C" void fn_82D6D1B8(const Owner_82D6D1B8 *self, const hkpCdBody &body, const hkpCdBody &bodyB, const void *input,
+static __forceinline void getPenetrationsBody(const Owner_82D6D1B8 *self, const hkpCdBody &body, const hkpCdBody &bodyB, const void *input,
                             hkpCdBodyPairCollector &collector)
 {
     const hkpMultiSphereShape *shape = static_cast<const hkpMultiSphereShape *>(body.getShape());
@@ -53,4 +54,12 @@ extern "C" void fn_82D6D1B8(const Owner_82D6D1B8 *self, const hkpCdBody &body, c
             break;
         }
     }
+}
+
+// hkpMultiSphereAgent::getPenetrations (+0xC of ??_7hkpMultiSphereAgent@@6B@): the body above keeps the unit's own
+// view of the agent (its child agents at +0xC) and of the child agents' slot +0xC.
+void hkpMultiSphereAgent::getPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
+                                          hkpCdBodyPairCollector &collector)
+{
+    getPenetrationsBody((const Owner_82D6D1B8 *)this, bodyA, bodyB, &input, collector);
 }

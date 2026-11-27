@@ -2,8 +2,8 @@
 // Common/Base/Memory/Memory/FreeList/hkThreadMemory.h). hkThreadMemory has a
 // placement allocator (the 32 instances live inside hkFreeListMemorySystem),
 // so the deleting destructor ignores its flags and returns this. The inlined
-// destructor stores the vtable, calls releaseCachedMemory() (vtable slot 13,
-// fn_82CF74E8) and then the base destructor ~hkMemoryAllocator.
+// destructor stores the vtable, calls releaseCachedMemory() (vtable slot +0x34,
+// 82CF74E8) and then the base destructor ~hkMemoryAllocator.
 #include "havok/hkBase.h"
 #include "havok/hkThreadMemory.h"
 

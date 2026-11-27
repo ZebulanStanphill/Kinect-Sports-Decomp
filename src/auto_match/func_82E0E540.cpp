@@ -1,15 +1,8 @@
-// hkBinaryPackfileReader's scalar deleting destructor (slot 0 of ??_7hkBinaryPackfileReader@@6B@), written with a stand-in class named hkMemoryStreamReader (only its class allocator is used). It calls hkBinaryPackfileReader's destructor fn_82E0C7A0, which keeps its fn_ name.
-#include "havok/hkBase.h"
-#include "havok/hkMemoryStreamReader.h"
+// hkBinaryPackfileReader's scalar deleting destructor (slot 0 of ??_7hkBinaryPackfileReader@@6B@): the
+// destructor out of line (??1hkBinaryPackfileReader@@UAA@XZ, 82E0C7A0), then the class allocator's free of
+// m_memSize bytes. The function at the end only makes the compiler emit the vtable.
+#include "havok/hkBinaryPackfileReader.h"
 
-extern "C" {
-void fn_82E0C7A0(hkMemoryStreamReader *self);   // hkBinaryPackfileReader::~hkBinaryPackfileReader
-}
+inline void *operator new(unsigned int, void *p) { return p; }
 
-extern "C" hkMemoryStreamReader *fn_82E0E540(hkMemoryStreamReader *self, unsigned int flags)
-{
-    fn_82E0C7A0(self);
-    if (flags & 1)
-        hkMemoryStreamReader::operator delete(self);
-    return self;
-}
+void emitVtable_82E0E540(void *p, const hkBinaryPackfileReader *q) { new (p) hkBinaryPackfileReader(*q); }

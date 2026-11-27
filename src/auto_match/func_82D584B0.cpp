@@ -1,20 +1,15 @@
-// hkpSymmetricAgent<hkpBvTreeAgent>::getClosestPoints (Physics/Collide/Agent/CompoundAgent/BvTree/hkpBvTreeAgent.cpp): flips the bodies (and the collector's
-// results) and calls hkpBvTreeAgent::getClosestPoints, whose inline body calls the static function (fn_82D57DB8).
+// hkpSymmetricAgent<hkpBvTreeAgent>::getClosestPoints (Physics/Collide/Agent/CompoundAgent/BvTree/hkpBvTreeAgent.cpp):
+// flips the bodies (and the collector's results) and calls hkpBvTreeAgent::getClosestPoints, which is defined in
+// the same file and inlined here (it calls the static function).
 #include "havok/hkpSymmetricAgent.h"
+#include "havok/hkpBvTreeAgent.h"
 
-extern "C" void fn_82D57DB8(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpCdPointCollector &collector);   // hkpBvTreeAgent::staticGetClosestPoints
+void hkpBvTreeAgent::getClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
+                                      hkpCdPointCollector &collector)
+{
+    staticGetClosestPoints(bodyA, bodyB, input, collector);
+}
 
-class hkpBvTreeAgent : public hkpCollisionAgent {
-public:
-    hkpBvTreeAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpContactMgr *mgr);
-    static void HK_CALL staticGetClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpCdPointCollector &collector)
-    {
-        fn_82D57DB8(bodyA, bodyB, input, collector);
-    }
-    virtual void getClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpCdPointCollector &collector)
-    {
-        staticGetClosestPoints(bodyA, bodyB, input, collector);
-    }
-};
-
-template void hkpSymmetricAgent<hkpBvTreeAgent>::getClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpCdPointCollector &collector);
+template void hkpSymmetricAgent<hkpBvTreeAgent>::getClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
+                                                                   const hkpCollisionInput &input,
+                                                                   hkpCdPointCollector &collector);

@@ -2,8 +2,7 @@
 // chain of ball-and-socket constraints solved together. The members, their offsets and types are the game's
 // reflection table for the class (lbl_8213A098) and, for ConstraintInfo (0x20 bytes), that of
 // hkpBallSocketChainDataConstraintInfo (lbl_8213A068). The constructor (??0hkpBallSocketChainData@@QAA@XZ,
-// 82D9B038) and the destructor (82D9B138) are out of line. The finish constructor is out of line as fn_82D9B0D0,
-// which keeps its fn_ name (a Matching unit defines it); it is defined inline here so that a unit can expand it:
+// 82D9B038) and the destructor (82D9B138) are out of line. The finish constructor is out of line too (82D9B0D0):
 // the bridge atom's finish constructor re-inits it with its stored pointer, then the class points it at itself. The
 // vtable (??_7hkpBallSocketChainData@@6B@, 17 slots) has 82D9AF28 at +0x20 (getType: 101); slots +0x28 to +0x40 are
 // virtual functions of hkpConstraintData and hkpConstraintChainData (hkpConstraintData.h says what each is).
@@ -23,13 +22,10 @@ public:
         hkVector4 m_pivotInB;   // +0x10
     };
     hkpBallSocketChainData();
-    HK_FORCE_INLINE hkpBallSocketChainData(hkFinishLoadedObjectFlag f) : hkpConstraintChainData(f), m_atoms(f), m_infos(f)
-    {
-        if (f.m_finishing)
-            m_atoms.m_bridgeAtom.init(this);
-    }
+    hkpBallSocketChainData(hkFinishLoadedObjectFlag f);
     virtual ~hkpBallSocketChainData();
     virtual int getNumConstraintInfos() { return m_infos.getSize(); }   // +0x40 82897B20
+    virtual void getConstraintInfo(hkpConstraintData::ConstraintInfo &infoOut) const;   // +0x3C 82D9AF30
 
     hkpBridgeAtoms m_atoms;            // +0xC
     hkArray<ConstraintInfo> m_infos;   // +0x18

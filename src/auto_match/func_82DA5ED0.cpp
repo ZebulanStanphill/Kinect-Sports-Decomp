@@ -5,4 +5,4 @@
 #include "havok/hkBase.h"
 #include "havok/hkpStiffSpringChainData.h"
 
-void emitVtable_82DA5ED0(void *p, hkFinishLoadedObjectFlag f) { new (p) hkpStiffSpringChainData(f); }
+void emitVtable_82DA5ED0(void *p, const hkpStiffSpringChainData &o) { new (p) hkpStiffSpringChainData(o); }

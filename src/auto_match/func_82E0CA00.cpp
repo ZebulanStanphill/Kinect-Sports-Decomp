@@ -67,18 +67,18 @@ static HK_FORCE_INLINE const char *headerContentsClassName(const hkBinaryPackfil
     return HK_NULL;
 }
 
-extern "C" hkPackfileObjectUpdateTracker *fn_82E0CA00(const hkBinaryPackfileReader *self)
+hkObjectUpdateTracker &hkBinaryPackfileReader::getUpdateTracker() const
 {
-    if (self->m_tracker == HK_NULL) {
-        hkRefPtr<const hkClassNameRegistry> classReg(fn_82E0BA38(self));
+    if (m_tracker == HK_NULL) {
+        hkRefPtr<const hkClassNameRegistry> classReg(fn_82E0BA38(this));
         void *p = hkContentsUpdateTracker::operator new(sizeof(hkContentsUpdateTracker));
-        self->m_tracker = fn_82E0DE40((hkContentsUpdateTracker *)p, self->m_packfileData, self->getLoadedObjects(),
-                                      (void *)&self->m_packfileClassRegistry);
-        hkBool isVersion1 = self->m_header->m_fileVersion == 1;
-        for (int sectionIndex = 0; sectionIndex < self->m_header->m_numSections; ++sectionIndex) {
-            if (self->m_sectionData[sectionIndex]) {
-                const hkPackfileSectionHeader &section = self->m_sections[sectionIndex];
-                char *dataBegin = (char *)self->m_sectionData[sectionIndex];
+        m_tracker = fn_82E0DE40((hkContentsUpdateTracker *)p, m_packfileData, getLoadedObjects(),
+                                      (void *)&m_packfileClassRegistry);
+        hkBool isVersion1 = m_header->m_fileVersion == 1;
+        for (int sectionIndex = 0; sectionIndex < m_header->m_numSections; ++sectionIndex) {
+            if (m_sectionData[sectionIndex]) {
+                const hkPackfileSectionHeader &section = m_sections[sectionIndex];
+                char *dataBegin = (char *)m_sectionData[sectionIndex];
                 if (!isVersion1) {
                     const int *globalFixups = (const int *)(dataBegin + section.m_globalFixupsOffset);
                     for (int i = 0; i < section.getGlobalSize() / int(sizeof(int)); i += 3) {
@@ -87,8 +87,8 @@ extern "C" hkPackfileObjectUpdateTracker *fn_82E0CA00(const hkBinaryPackfileRead
                             continue;
                         int dstSec = globalFixups[i + 1];
                         int dstOff = globalFixups[i + 2];
-                        void *dst = self->getSectionDataByIndex(dstSec, dstOff);
-                        self->m_tracker->objectPointedBy(dst, dataBegin + srcOff);
+                        void *dst = getSectionDataByIndex(dstSec, dstOff);
+                        m_tracker->objectPointedBy(dst, dataBegin + srcOff);
                     }
                 }
                 const int *virtualFixups = (const int *)(dataBegin + section.m_virtualFixupsOffset);
@@ -98,26 +98,26 @@ extern "C" hkPackfileObjectUpdateTracker *fn_82E0CA00(const hkBinaryPackfileRead
                         continue;
                     int dstSec = virtualFixups[i + 1];
                     int dstOff = virtualFixups[i + 2];
-                    void *obj = self->getSectionDataByIndex(sectionIndex, srcOff);
-                    const char *className = (const char *)self->getSectionDataByIndex(dstSec, dstOff);
-                    self->m_tracker->addFinish(obj, className);
+                    void *obj = getSectionDataByIndex(sectionIndex, srcOff);
+                    const char *className = (const char *)getSectionDataByIndex(dstSec, dstOff);
+                    m_tracker->addFinish(obj, className);
                 }
             }
         }
-        self->m_tracker->setTopLevelObject((void *)fn_82E0A0F8(self), headerContentsClassName(self));
+        m_tracker->setTopLevelObject((void *)fn_82E0A0F8(this), headerContentsClassName(this));
         if (isVersion1) {
-            PackfilePointersMapListener listener(self->m_tracker, classReg, self->m_header->m_fileVersion,
-                                                 self->getContentsVersion(), (void *)&self->m_updateFlagFromClass);
-            const hkClass *klass = classReg->getClassByName(headerContentsClassName(self));
-            fn_82E129F0(klass, self->m_header->m_fileVersion, self->getContentsVersion(),
-                        (void *)&self->m_updateFlagFromClass);
-            fn_82E17B38(self->m_tracker->m_topLevelObject, klass, &listener);
+            PackfilePointersMapListener listener(m_tracker, classReg, m_header->m_fileVersion,
+                                                 getContentsVersion(), (void *)&m_updateFlagFromClass);
+            const hkClass *klass = classReg->getClassByName(headerContentsClassName(this));
+            fn_82E129F0(klass, m_header->m_fileVersion, getContentsVersion(),
+                        (void *)&m_updateFlagFromClass);
+            fn_82E17B38(m_tracker->m_topLevelObject, klass, &listener);
         }
-        if (self->m_header->m_fileVersion <= 6) {
-            PackfileCstringListener listener(self->m_tracker, classReg);
-            fn_82E17B38(self->m_tracker->m_topLevelObject, classReg->getClassByName(headerContentsClassName(self)),
+        if (m_header->m_fileVersion <= 6) {
+            PackfileCstringListener listener(m_tracker, classReg);
+            fn_82E17B38(m_tracker->m_topLevelObject, classReg->getClassByName(headerContentsClassName(this)),
                         &listener);
         }
     }
-    return self->m_tracker;
+    return *m_tracker;
 }

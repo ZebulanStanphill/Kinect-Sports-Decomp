@@ -23,6 +23,12 @@
 #include "havok/hkMultiThreadCheck.h"
 #include "havok/hkVector4.h"
 
+// The SDK version the game's Havok passes to hkpWorld's constructor (hkpPhysicsData::createWorld and game code
+// pass 70000).
+#ifndef HAVOK_SDK_VERSION_NUMBER
+#define HAVOK_SDK_VERSION_NUMBER 70000
+#endif
+
 class hkCriticalSection;
 class hkpActionListener;
 class hkpBroadPhase;
@@ -50,6 +56,7 @@ class hkpSimulationIsland;
 class hkpTreeWorldManager;
 class hkpTypedBroadPhaseDispatcher;
 class hkpWorld;
+class hkpWorldCinfo;
 class hkpWorldDeletionListener;
 class hkpWorldMaintenanceMgr;
 class hkpWorldOperationQueue;
@@ -59,25 +66,9 @@ class hkpWorldPostSimulationListener;
 struct hkpDebugInfoOnPendingOperationQueues;
 struct hkpMtThreadStructure;
 
-// Out of line in hkpWorld.cpp. Each add function appends to its array (under the multithread check), each
-// remove function finds the listener and removes it with removeAtAndCopy.
+// Out of line in hkpWorld.cpp:
 extern "C" {
 hkpPhantom *fn_82D83B68(hkpWorld *world, hkpPhantom *phantom);                 // addPhantom
-void fn_82D83D30(hkpWorld *world, hkpConstraintListener *l);                   // addConstraintListener
-void fn_82D83DA8(hkpWorld *world, hkpEntityListener *l);                       // addEntityListener
-void fn_82D83E20(hkpWorld *world, hkpPhantomListener *l);                      // addPhantomListener
-void fn_82D83E98(hkpWorld *world, hkpIslandActivationListener *l);             // addIslandActivationListener
-void fn_82D83F88(hkpWorld *world, hkpWorldPostSimulationListener *l);          // addWorldPostSimulationListener
-void fn_82D841E0(hkpWorld *world, hkpWorldDeletionListener *l);                // addWorldDeletionListener
-void fn_82D84258(hkpWorld *world, hkpContactImpulseLimitBreachedListener *l);  // addContactImpulseLimitBreachedListener
-void fn_82D813C0(hkpWorld *world, hkpConstraintListener *l);                   // removeConstraintListener
-void fn_82D81408(hkpWorld *world, hkpEntityListener *l);                       // removeEntityListener
-void fn_82D81450(hkpWorld *world, hkpPhantomListener *l);                      // removePhantomListener
-void fn_82D81498(hkpWorld *world, hkpIslandActivationListener *l);             // removeIslandActivationListener
-void fn_82D81528(hkpWorld *world, hkpWorldPostSimulationListener *l);          // removeWorldPostSimulationListener
-void fn_82D81690(hkpWorld *world, hkpWorldDeletionListener *l);                // removeWorldDeletionListener
-// removeContactImpulseLimitBreachedListener:
-void fn_82D816D8(hkpWorld *world, hkpContactImpulseLimitBreachedListener *l);
 // removePhantomBatch (hkpBroadPhaseBorder's deactivate calls it on its six phantoms):
 void fn_82D86660(hkpWorld *world, hkpPhantom *const *phantoms, int numPhantoms);
 }
@@ -86,30 +77,37 @@ class hkpWorld : public hkReferencedObject {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_WORLD);
 
-    // The world is not serialised. The finish constructor (fn_82D845F0, called by hkpWorld's getVtable and
+    // The world is not serialised. The finish constructor (82D845F0, called by hkpWorld's getVtable and
     // finishLoadedObject functions) runs hkReferencedObject's default constructor (m_referenceCount = 1) and
     // default-constructs the members that have constructors, except m_phantoms, which it leaves alone.
-    // It keeps its fn_ name (its unit is C++ that expands this inline form).
-    HK_FORCE_INLINE hkpWorld(hkFinishLoadedObjectFlag flag) : m_phantoms(flag) {}
+    // Out of line (82D86990, no source yet).
+    hkpWorld(const hkpWorldCinfo &info, unsigned int sdkVersion = HAVOK_SDK_VERSION_NUMBER);
+    hkpWorld(hkFinishLoadedObjectFlag flag);
     // Out of line (fn_82D846E0).
     virtual ~hkpWorld();
 
     hkpPhantom *addPhantom(hkpPhantom *phantom) { return fn_82D83B68(this, phantom); }
     void removePhantomBatch(hkpPhantom *const *phantoms, int numPhantoms) { fn_82D86660(this, phantoms, numPhantoms); }
-    void addConstraintListener(hkpConstraintListener *l) { fn_82D83D30(this, l); }
-    void addEntityListener(hkpEntityListener *l) { fn_82D83DA8(this, l); }
-    void addPhantomListener(hkpPhantomListener *l) { fn_82D83E20(this, l); }
-    void addIslandActivationListener(hkpIslandActivationListener *l) { fn_82D83E98(this, l); }
-    void addWorldPostSimulationListener(hkpWorldPostSimulationListener *l) { fn_82D83F88(this, l); }
-    void addWorldDeletionListener(hkpWorldDeletionListener *l) { fn_82D841E0(this, l); }
-    void addContactImpulseLimitBreachedListener(hkpContactImpulseLimitBreachedListener *l) { fn_82D84258(this, l); }
-    void removeConstraintListener(hkpConstraintListener *l) { fn_82D813C0(this, l); }
-    void removeEntityListener(hkpEntityListener *l) { fn_82D81408(this, l); }
-    void removePhantomListener(hkpPhantomListener *l) { fn_82D81450(this, l); }
-    void removeIslandActivationListener(hkpIslandActivationListener *l) { fn_82D81498(this, l); }
-    void removeWorldPostSimulationListener(hkpWorldPostSimulationListener *l) { fn_82D81528(this, l); }
-    void removeWorldDeletionListener(hkpWorldDeletionListener *l) { fn_82D81690(this, l); }
-    void removeContactImpulseLimitBreachedListener(hkpContactImpulseLimitBreachedListener *l) { fn_82D816D8(this, l); }
+
+    // The listener functions are out of line. Each add function appends to its array, each remove function
+    // finds the listener and clears its entry. The arrays of the action, post-integrate and post-collide
+    // listeners have add and remove functions too (82D83CB8.., 82D81378..), which keep their fn_ names.
+    void addConstraintListener(hkpConstraintListener *worldListener);
+    void addEntityListener(hkpEntityListener *worldListener);
+    void addPhantomListener(hkpPhantomListener *worldListener);
+    void addIslandActivationListener(hkpIslandActivationListener *worldListener);
+    void addWorldPostSimulationListener(hkpWorldPostSimulationListener *worldListener);
+    void addWorldDeletionListener(hkpWorldDeletionListener *worldListener);
+    void addContactImpulseLimitBreachedListener(hkpContactImpulseLimitBreachedListener *worldListener);
+    void addContactListener(hkpContactListener *worldListener);
+    void removeConstraintListener(hkpConstraintListener *worldListener);
+    void removeEntityListener(hkpEntityListener *worldListener);
+    void removePhantomListener(hkpPhantomListener *worldListener);
+    void removeIslandActivationListener(hkpIslandActivationListener *worldListener);
+    void removeWorldPostSimulationListener(hkpWorldPostSimulationListener *worldListener);
+    void removeWorldDeletionListener(hkpWorldDeletionListener *worldListener);
+    void removeContactImpulseLimitBreachedListener(hkpContactImpulseLimitBreachedListener *worldListener);
+    void removeContactListener(hkpContactListener *worldListener);
 
     HK_FORCE_INLINE const hkpProcessCollisionInput *getCollisionInput() const { return m_collisionInput; }
     HK_FORCE_INLINE hkpCollisionDispatcher *getCollisionDispatcher() const { return m_collisionDispatcher; }

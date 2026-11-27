@@ -3,30 +3,18 @@
 // the object (state 5) when one of the system's rigid bodies has property
 // 0x2001. It needs C++ because hkIArchive's constructor and destructor are
 // renamed (??0hkIArchive@@QAA@PBXHVhkBool@@@Z, ??1hkIArchive@@UAA@XZ). The
-// packfile reader is used as an opaque object with its fn_ functions, as the
-// matching fn_825A54A8 does.
+// packfile is read with an hkBinaryPackfileReader.
 #include "havok/hkBase.h"
-inline void *operator new(unsigned int,void *p) throw() { return p; }
 
 #include "havok/hkIArchive.h"
+#include "havok/hkBinaryPackfileReader.h"
 #include "havok/hkpWorldObject.h"
 
 extern "C" {
 int *fn_825A2410(int *p);
-void fn_82E0B980(void *reader);              // packfile reader constructor
-void fn_82E0C7A0(void *reader);              // packfile reader destructor
-int fn_82E0D7E8(void *reader, hkStreamReader *sr);
-void fn_82E10A30(void *reader, unsigned int v);
-void *fn_82E12AC8(void *reader, const char *className);
-hkReferencedObject *fn_82E0C868(void *reader);
+void fn_82E10A30(hkPackfileReader *reader, unsigned int v);
 extern unsigned int lbl_8323FDE4;
 }
-
-struct PackfileReader {
-    HK_FORCE_INLINE PackfileReader() { fn_82E0B980(this); }
-    HK_FORCE_INLINE ~PackfileReader() { fn_82E0C7A0(this); }
-    char m_storage[0x80];
-};
 
 struct RigidBody {
     char pad[0x78];
@@ -68,28 +56,26 @@ extern "C" Blobs *fn_825A4E80(Obj *o);
 
 extern "C" void fn_826032C8(Obj *o)
 {
-    union ReaderStorage { void *align; char data[sizeof(PackfileReader)]; } storage;
     Blobs *b = fn_825A4E80(o);
     if (b == 0)
         return;
     if (b->size0 != 0) {
         hkIArchive ar(b->data0, b->size0, false);
-        PackfileReader &reader = *new (storage.data) PackfileReader;
-        fn_82E0D7E8(&reader, ar.getStreamReader());
+        hkBinaryPackfileReader reader;
+        reader.loadEntireFile(ar.getStreamReader());
         fn_82E10A30(&reader, lbl_8323FDE4);
-        o->physicsData = fn_82E12AC8(&reader, "hkpPhysicsData");
-        hkReferencedObject *d = fn_82E0C868(&reader);
+        o->physicsData = reader.getContents("hkpPhysicsData");
+        hkPackfileData *d = reader.getPackfileData();
         d->addReference();
         d->addReference();
         *fn_825A2410(&o->sub14) = (int)d;
-        reader.~PackfileReader();
     }
     if (b->size1 != 0) {
         hkIArchive ar(b->data1, b->size1, false);
-        PackfileReader &reader = *new (storage.data) PackfileReader;
-        fn_82E0D7E8(&reader, ar.getStreamReader());
-        o->system = (PhysicsSystem *)fn_82E12AC8(&reader, "hkpPhysicsSystem");
-        hkReferencedObject *d = fn_82E0C868(&reader);
+        hkBinaryPackfileReader reader;
+        reader.loadEntireFile(ar.getStreamReader());
+        o->system = (PhysicsSystem *)reader.getContents("hkpPhysicsSystem");
+        hkPackfileData *d = reader.getPackfileData();
         d->addReference();
         d->addReference();
         *fn_825A2410(&o->sub14) = (int)d;
@@ -102,6 +88,5 @@ extern "C" void fn_826032C8(Obj *o)
                 }
             }
         }
-        reader.~PackfileReader();
     }
 }

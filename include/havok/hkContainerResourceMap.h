@@ -3,8 +3,7 @@
 // The constructor is out of line (??0hkContainerResourceMap@@QAA@PAX@Z, 82E15D28: collects the container's
 // resources and inserts each under its name); its symbol gives the container as void * (Havok's takes an
 // hkResourceContainer *). The destructor is implicit (82E15E68 destroys the map, then ~hkResourceMap).
-// getObjectByName is the first slot of ??_7hkContainerResourceMap@@6B@ and keeps its fn_ name (fn_82E14778). The
-// member name is invented.
+// getObjectByName is the first slot of ??_7hkContainerResourceMap@@6B@ (82E14778). The member name is invented.
 #ifndef HAVOK_HKCONTAINERRESOURCEMAP_H
 #define HAVOK_HKCONTAINERRESOURCEMAP_H
 

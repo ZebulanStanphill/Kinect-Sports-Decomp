@@ -1,5 +1,4 @@
-// hkpRotationalConstraintData::hkpRotationalConstraintData() (Physics/Dynamics/Constraint/Bilateral/Rotational);
-// keeps its fn_ name.
+// hkpRotationalConstraintData::hkpRotationalConstraintData() (Physics/Dynamics/Constraint/Bilateral/Rotational).
 //
 // Layout: hkpConstraintData (hkReferencedObject + hkUlong m_userData at +0x8), then the 16-byte aligned
 // Atoms at +0x10: hkpSetLocalRotationsConstraintAtom (type 4; m_rotationA at +0x20, m_rotationB at
@@ -12,16 +11,10 @@
 #include "havok/hkBase.h"
 #include "havok/hkpRotationalConstraintData.h"
 
-HK_FORCE_INLINE hkpRotationalConstraintData::hkpRotationalConstraintData()
+hkpRotationalConstraintData::hkpRotationalConstraintData()
 {
     m_atoms.m_rotations.m_rotationA.setIdentity();
     m_atoms.m_rotations.m_rotationB.setIdentity();
     m_atoms.m_ang.m_firstConstrainedAxis = 0;
     m_atoms.m_ang.m_numConstrainedAxes = 3;
-}
-
-extern "C" hkpRotationalConstraintData *fn_82DA2468(hkpRotationalConstraintData *self)
-{
-    self->hkpRotationalConstraintData::hkpRotationalConstraintData();
-    return self;
 }

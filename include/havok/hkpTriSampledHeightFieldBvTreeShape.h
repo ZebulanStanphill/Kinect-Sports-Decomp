@@ -4,7 +4,7 @@
 // hkClass (initialiser 8312EC78; the 12 bytes of padding after m_wantAabbRejectionTest are a member there).
 //
 // - The constructor is out of line (82D515A0).
-// - The finish constructor exists in the game only as fn_82D3B800 (its unit defines it): when finishing it sets
+// - The finish constructor is out of line (82D3B800): when finishing it sets
 //   HK_SHAPE_BV_TREE and BVTREE_TRISAMPLED_HEIGHTFIELD after hkpBvTreeShape's.
 // ??_7hkpTriSampledHeightFieldBvTreeShape@@6B@ has 14 slots; its deleting destructor is folded with
 // hkpConvexTransformShapeBase's.
@@ -22,7 +22,7 @@ public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SHAPE);
     hkpTriSampledHeightFieldBvTreeShape(const hkpTriSampledHeightFieldCollection *c,
                                         hkBool doAabbRejection);   // out of line (82D515A0)
-    hkpTriSampledHeightFieldBvTreeShape(hkFinishLoadedObjectFlag flag);   // fn_82D3B800
+    hkpTriSampledHeightFieldBvTreeShape(hkFinishLoadedObjectFlag flag);   // out of line (82D3B800)
 
     hkpSingleShapeContainer m_childContainer;   // +0x14
     int m_childSize;                            // +0x1C (not serialised)

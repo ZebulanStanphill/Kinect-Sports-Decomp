@@ -42,12 +42,18 @@ template <> HK_FORCE_INLINE hkError *&hkSingleton<hkError>::instanceRef() { retu
 
 // hkDefaultError, 0x28 bytes: the handler hkBaseSystem::init installs (82CE7B00). The constructor (82CFA3B0)
 // stores the report function and object; the destructor (82CFA430) is the implicit one, out of line because the
-// deleting destructor (82CFA4C0) calls it. Its overrides keep their fn_ names (see hkError); the member names
-// follow Havok's header.
+// deleting destructor (82CFA4C0) calls it. The overrides are placed by its vtable (see hkError); showMessage
+// (82CFA0B8, called by message) keeps its fn_ name: its name is Havok's. The member names follow Havok's header.
 class hkDefaultError : public hkError {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_BASE);
     hkDefaultError(hkErrorReportFunction errorReportFunction, void *errorReportObject = HK_NULL);
+    virtual int message(Message m, int id, const char *description, const char *file, int line);   // +0xC
+    virtual void setEnabled(int id, hkBool enabled);                                              // +0x10
+    virtual hkBool isEnabled(int id);                                                             // +0x14
+    virtual void enableAll();                                                                     // +0x18
+    virtual void sectionBegin(int id, const char *sectionName);                                   // +0x1C
+    virtual void sectionEnd();                                                                    // +0x20
 
     hkPointerMap<int, int> m_disabledAssertIds;   // +0x8: setEnabled, isEnabled and enableAll work on it
     hkArray<int> m_sectionIds;                    // +0x14: sectionBegin pushes, sectionEnd pops

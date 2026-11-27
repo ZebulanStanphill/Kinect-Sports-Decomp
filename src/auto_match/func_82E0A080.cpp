@@ -1,16 +1,13 @@
+// hkBinaryPackfileReader::getSectionIndex(const char *sectionTag) const (slot +0x38 of
+// ??_7hkBinaryPackfileReader@@6B@): the index of the section header whose tag is sectionTag, or -1.
+#include "havok/hkBinaryPackfileReader.h"
 #include "havok/hkString.h"
 
-typedef struct { char b[0x30]; } E30;
-typedef struct { char pad[0x14]; int count; } Hdr;
-typedef struct { char pad[0x1c]; Hdr *hdr; E30 *items; } Obj;
-
-extern "C" int fn_82E0A080(Obj *o, int key)
+int hkBinaryPackfileReader::getSectionIndex(const char *sectionTag) const
 {
-  int i;
-
-  for (i = 0; i < o->hdr->count; i++) {
-    if (hkString::strCmp(reinterpret_cast<const char *>(&o->items[i]), reinterpret_cast<const char *>(key)) == 0)
-      return i;
-  }
-  return -1;
+    for (int i = 0; i < m_header->m_numSections; i++) {
+        if (hkString::strCmp(m_sections[i].m_sectionTag, sectionTag) == 0)
+            return i;
+    }
+    return -1;
 }

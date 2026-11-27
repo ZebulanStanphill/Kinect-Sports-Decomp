@@ -1,8 +1,7 @@
 // hkStdioStreamReader (Common/Base/System/Io/Reader/Stdio/hkStdioStreamReader.h), 0x14 bytes: a stream reader
 // over a C runtime FILE.
 // The constructor (82CFAC70) clears the mark to -1, opens the file "rb" and sets m_isOk from the handle; the
-// destructor (82CFACE0) closes the file. The vtable (??_7hkStdioStreamReader@@6B@) gives the overrides, which keep
-// their fn_ names: isOk 82CFAC08 (returns m_isOk), read 82CFABC0, markSupported 82CFAC18, setMark 82CFAD30
+// destructor (82CFACE0) closes the file. The vtable (??_7hkStdioStreamReader@@6B@) gives the overrides: isOk 82CFAC08 (returns m_isOk), read 82CFABC0, markSupported 82CFAC18, setMark 82CFAD30
 // (stores tell() in m_mark), rewindToMark 82CFAD78 (seeks back to it), seekTellSupported 82CFAC28, seek 82CFAC38
 // and tell 82CFAC68 (ftell of m_handle). skip is hkStreamReader's. The member names other than m_isOk are
 // invented.

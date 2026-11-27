@@ -6,8 +6,8 @@
 // Its vtable (??_7hkpSphereTriangleAgent@@6B@): +0xC getPenetrations 82D65580, +0x10 getClosestPoints 82D65920,
 // +0x14 hkpIterativeLinearCastAgent's linearCast 82D75CB0, +0x18 processCollision 82D65FA8, +0x1C cleanup
 // 82D65490, then the empty function, 82D746F0, 82D746F8 and hkpCollisionAgent's defaults.
-// The queries keep fn_ names and are called through wrappers (hkpSymmetricAgentLinearCast<..>'s 82D65F18 and
-// 82D66268 call the virtuals out of line). The member names follow Havok's header.
+// All are out of line (hkpSymmetricAgentLinearCast<..>'s 82D65F18 and
+// 82D66268 call the virtual queries). The member names follow Havok's header.
 #ifndef HAVOK_HKPSPHERETRIANGLEAGENT_H
 #define HAVOK_HKPSPHERETRIANGLEAGENT_H
 
@@ -20,21 +20,6 @@ typedef hkUint16 hkContactPointId;
 #ifndef HK_INVALID_CONTACT_POINT
 #define HK_INVALID_CONTACT_POINT 0xffff
 #endif
-
-class hkpSphereTriangleAgent;
-
-extern "C" {
-void fn_82D656C0(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                 hkpCdBodyPairCollector &collector);   // hkpSphereTriangleAgent::staticGetPenetrations
-void fn_82D65AB8(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                 hkpCdPointCollector &collector);   // hkpSphereTriangleAgent::staticGetClosestPoints
-// hkpSphereTriangleAgent::getPenetrations
-void fn_82D65580(hkpSphereTriangleAgent *self, const hkpCdBody &bodyA, const hkpCdBody &bodyB,
-                 const hkpCollisionInput &input, hkpCdBodyPairCollector &collector);
-// hkpSphereTriangleAgent::getClosestPoints
-void fn_82D65920(hkpSphereTriangleAgent *self, const hkpCdBody &bodyA, const hkpCdBody &bodyB,
-                 const hkpCollisionInput &input, hkpCdPointCollector &collector);
-}
 
 class hkpSphereTriangleAgent : public hkpIterativeLinearCastAgent {
 public:
@@ -54,26 +39,18 @@ public:
     static hkpCollisionAgent *HK_CALL createTriangleSphereAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
                                                                 const hkpCollisionInput &input, hkpContactMgr *mgr);
     static void HK_CALL staticGetPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
-                                              const hkpCollisionInput &input, hkpCdBodyPairCollector &collector)
-    {
-        fn_82D656C0(bodyA, bodyB, input, collector);
-    }
+                                              const hkpCollisionInput &input, hkpCdBodyPairCollector &collector);   // 82D656C0
     static void HK_CALL staticGetClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
-                                               const hkpCollisionInput &input, hkpCdPointCollector &collector)
-    {
-        fn_82D65AB8(bodyA, bodyB, input, collector);
-    }
+                                               const hkpCollisionInput &input, hkpCdPointCollector &collector);   // 82D65AB8
 
     virtual void getPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                                 hkpCdBodyPairCollector &collector)
-    {
-        fn_82D65580(this, bodyA, bodyB, input, collector);
-    }
+                                 hkpCdBodyPairCollector &collector);   // 82D65580
     virtual void getClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                                  hkpCdPointCollector &collector)
-    {
-        fn_82D65920(this, bodyA, bodyB, input, collector);
-    }
+                                  hkpCdPointCollector &collector);   // 82D65920
+
+    virtual void processCollision(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpProcessCollisionInput &input,
+                                  hkpProcessCollisionOutput &result);
+    virtual void cleanup(hkCollisionConstraintOwner &constraintOwner);
 
     hkContactPointId m_contactPointId;                                               // +0xC
     hkpCollideTriangleUtil::ClosestPointTriangleCache m_closestPointTriangleCache;   // +0x10

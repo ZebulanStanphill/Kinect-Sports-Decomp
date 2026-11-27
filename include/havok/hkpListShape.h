@@ -3,12 +3,12 @@
 // (hkpListShapeChildInfo, 0x10 bytes; m_shapeSize and m_numChildShapes are not serialised) are the game's
 // hkClass (initialisers 8312DBC0 and 8312DC30).
 //
-// - The constructor exists in the game only as fn_82D3E3F0 (its unit defines it): it reserves four children,
+// - The constructor is out of line (82D3E3F0): it reserves four children,
 //   sets the shapes through setShapes (fn_82D3E1F0) and enables every child.
-// - The finish constructor exists in the game only as fn_82D3E4C8 (its unit defines it): when finishing it sets
+// - The finish constructor is out of line (82D3E4C8): when finishing it sets
 //   HK_SHAPE_LIST and COLLECTION_LIST after hkpShapeCollection's.
 // - The destructor is out of line (??1hkpListShape@@UAA@XZ, 82D3E550): it releases the children.
-// - disableChild exists in the game only as fn_82D3D9C0.
+// - disableChild is out of line (82D3D9C0).
 // Vtables ??_7hkpListShape@@6BhkpShape@@@ (13 slots) and ??_7hkpListShape@@6BhkpShapeContainer@@@ (7 slots).
 #ifndef HAVOK_HKPLISTSHAPE_H
 #define HAVOK_HKPLISTSHAPE_H
@@ -29,9 +29,11 @@ public:
     };
 
     hkpListShape(const hkpShape *const *shapeArray, int numShapes,
-                 hkpShapeContainer::ReferencePolicy ref);   // fn_82D3E3F0
-    hkpListShape(hkFinishLoadedObjectFlag flag);            // fn_82D3E4C8
+                 hkpShapeContainer::ReferencePolicy ref);   // out of line (82D3E3F0)
+    hkpListShape(hkFinishLoadedObjectFlag flag);            // out of line (82D3E4C8)
     virtual ~hkpListShape();                                // out of line (82D3E550)
+
+    void disableChild(hkpShapeKey index);   // out of line (82D3D9C0)
 
     virtual int getNumChildShapes() const;
     virtual hkpShapeKey getFirstKey() const;

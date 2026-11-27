@@ -11,10 +11,11 @@
 //
 // Its vtable (??_7hkSolverAllocator@@6B@, 13 slots) overrides blockAlloc (fn_82CF7530), blockFree (fn_82CF7538),
 // bufAlloc (fn_82CF76A8) and bufFree (fn_82CF7878) and slots +0x20, +0x28, +0x2C and +0x30 (fn_82CF7540,
-// fn_82CF7568, fn_82CF7AE8, fn_82CF75A8), which hkMemoryAllocator.h does not declare. The overrides keep their
-// fn_ names. The class has a placement allocator: its deleting destructor (82CF7BC8) frees nothing. The
-// destructor is inline: the deleting destructor expands it; hkFreeListMemorySystem's destructor calls an
-// out-of-line copy, fn_82CF7638, which a unit expands from this definition.
+// fn_82CF7568, fn_82CF7AE8, fn_82CF75A8), which hkMemoryAllocator.h does not declare. The four overrides
+// declared here have their names (82CF7530, 82CF7538, 82CF76A8, 82CF7878); the other four keep their fn_
+// names. The class has a placement allocator: its deleting destructor (82CF7BC8) frees nothing. The
+// destructor is out of line (82CF7638): hkFreeListMemorySystem's destructor calls it, and the deleting
+// destructor, in the same translation unit, expands it.
 #ifndef HAVOK_HKSOLVERALLOCATOR_H
 #define HAVOK_HKSOLVERALLOCATOR_H
 
@@ -33,11 +34,11 @@ public:
     };
 
     hkSolverAllocator();
-    virtual ~hkSolverAllocator() {}
-    virtual void *blockAlloc(int numBytes);                    // fn_82CF7530
-    virtual void blockFree(void *p, int numBytes);             // fn_82CF7538
-    virtual void *bufAlloc(int &reqNumInOut, int elemSize);    // fn_82CF76A8
-    virtual void bufFree(void *p, int num, int elemSize);      // fn_82CF7878
+    virtual ~hkSolverAllocator();
+    virtual void *blockAlloc(int numBytes);
+    virtual void blockFree(void *p, int numBytes);
+    virtual void *bufAlloc(int &reqNumInOut, int elemSize);
+    virtual void bufFree(void *p, int num, int elemSize);
 
     char *m_bufferStart;                    // +0x4
     char *m_bufferEnd;                      // +0x8

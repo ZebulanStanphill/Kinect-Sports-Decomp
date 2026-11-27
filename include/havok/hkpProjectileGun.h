@@ -27,7 +27,7 @@ class hkpProjectileGun : public hkpFirstPersonGun {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_UTILITIES);
     hkpProjectileGun(hkpWorld *world, hkdWorld *destructionWorld);
-    // Out of line; in the game it is still fn_82DF4850.
+    // Out of line (82DF4850).
     hkpProjectileGun(hkFinishLoadedObjectFlag flag);
     virtual ~hkpProjectileGun();
     virtual void fireGun(hkpWorld *world, const hkTransform &viewTransform);

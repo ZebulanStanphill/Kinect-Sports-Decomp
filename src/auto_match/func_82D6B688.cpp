@@ -1,10 +1,10 @@
-#include "havok/hkBase.h"
+// static hkpSymmetricAgent<hkpTransformAgent>::staticLinearCast (Physics/Collide/Agent/Util/Symmetric/
+// hkpSymmetricAgent.h): flips the bodies, negates the cast path and wraps the collectors so that the results come
+// back flipped, then forwards to hkpTransformAgent::staticLinearCast (82D6AFF0). registerAgent (82D6B470) stores
+// it in the flipped AgentFuncs with the template's other two statics.
 #include "havok/hkpSymmetricAgent.h"
-extern "C" void fn_82D6AFF0(const hkpCdBody &,const hkpCdBody &,const hkpLinearCastCollisionInput &,hkpCdPointCollector &,hkpCdPointCollector *);
-extern "C" void fn_82D6B688(const hkpCdBody &a,const hkpCdBody &b,const hkpLinearCastCollisionInput &in,hkpCdPointCollector &c,hkpCdPointCollector *start) {
- hkpLinearCastCollisionInput flipped=in;
- flipped.m_path.setNeg4(in.m_path);
- hkpSymmetricAgentFlipCastCollector fc(in.m_path,c);
- if(start) { hkpSymmetricAgentFlipCastCollector sf(in.m_path,*start); fn_82D6AFF0(b,a,flipped,fc,&sf); }
- else fn_82D6AFF0(b,a,flipped,fc,0);
-}
+#include "havok/hkpTransformAgent.h"
+
+template void HK_CALL hkpSymmetricAgent<hkpTransformAgent>::staticLinearCast(const hkpCdBody &bodyA,
+    const hkpCdBody &bodyB, const hkpLinearCastCollisionInput &input, hkpCdPointCollector &collector,
+    hkpCdPointCollector *startCollector);

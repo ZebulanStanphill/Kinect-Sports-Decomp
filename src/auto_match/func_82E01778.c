@@ -1,9 +1,0 @@
-extern int fn_82D83B68();
-
-
-void fn_82E01778(int self,unsigned __int64 param_2)
-
-{
-  fn_82D83B68(param_2,*(unsigned int *)(self + 0x10));
-  return;
-}

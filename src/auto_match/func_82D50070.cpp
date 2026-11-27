@@ -2,7 +2,7 @@
 // (Physics/Collide/Shape/Deprecated/StorageMesh/hkpStorageMeshShape.cpp): the
 // hkpMeshShape(radius, numBits) base constructor (??0hkpMeshShape@@QAA@MH@Z),
 // the two vtables and the empty m_storage array, then the mesh's scaling, user
-// data and welding flag, every subpart through addSubpart (fn_82D4F750) and the
+// data and welding flag, every subpart through addSubpart (82D4F750, called directly) and the
 // inlined hkArray<hkUint16>::operator= of the welding info.
 // Built with /O2 /QVMXReserve (the m_scaling copy uses v0).
 #include "havok/hkpStorageMeshShape.h"

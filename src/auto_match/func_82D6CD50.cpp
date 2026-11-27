@@ -1,3 +1,4 @@
+#include "havok/hkpMultiSphereAgent.h"
 #include "havok/hkpCdBody.h"
 #include "havok/hkpSphereShape.h"
 #include "havok/hkpMultiSphereShape.h"
@@ -33,7 +34,7 @@ static __forceinline void setTransformedPos(hkVector4 &out, const hkRotation &r,
     out.m_quad = __vaddfp(t.m_quad, t0);
 }
 
-extern "C" void fn_82D6CD50(const Owner_82D6CD50 *self, const hkpCdBody &body, void *a, void *b, void *c)
+static __forceinline void getClosestPointsBody(const Owner_82D6CD50 *self, const hkpCdBody &body, void *a, void *b, void *c)
 {
     const hkpMultiSphereShape *shape = static_cast<const hkpMultiSphereShape *>(body.getShape());
     hkMotionState ms(*body.getMotionState());
@@ -47,4 +48,12 @@ extern "C" void fn_82D6CD50(const Owner_82D6CD50 *self, const hkpCdBody &body, v
         sphereBody.setShape(&sphere, i);
         e->m_collector->addBody(sphereBody, a, b, c);
     }
+}
+
+// hkpMultiSphereAgent::getClosestPoints (+0x10 of ??_7hkpMultiSphereAgent@@6B@): the body above keeps the unit's
+// own view of the agent (its child agents at +0xC) and of the child agents' slot +0x10.
+void hkpMultiSphereAgent::getClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
+                                           hkpCdPointCollector &collector)
+{
+    getClosestPointsBody((const Owner_82D6CD50 *)this, bodyA, (void *)&bodyB, (void *)&input, (void *)&collector);
 }

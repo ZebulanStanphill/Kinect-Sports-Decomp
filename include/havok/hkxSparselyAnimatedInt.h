@@ -3,9 +3,8 @@
 // slots). The layout is the game's reflection data: the hkClass constructor call in fn_831377C8
 // (hkxSparselyAnimatedIntClass, lbl_8323F89C) gives the size and parent, the member list (lbl_82149258) the
 // names, types and offsets.
-// The destructor is the implicit one, emitted out of line under the C name fn_82E025E0 (m_times, then
-// m_ints), which hkxSparselyAnimatedEnum's deleting destructor (fn_82E027A0, a C unit) calls; the scalar
-// deleting destructor is fn_82E02698.
+// The destructor is the implicit one, emitted out of line (82E025E0: m_times, then m_ints), which the scalar
+// deleting destructors of this class (82E02698) and of hkxSparselyAnimatedEnum (82E027A0) call.
 #ifndef HAVOK_HKXSPARSELYANIMATEDINT_H
 #define HAVOK_HKXSPARSELYANIMATEDINT_H
 

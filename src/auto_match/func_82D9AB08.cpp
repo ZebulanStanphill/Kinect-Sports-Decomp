@@ -1,12 +1,12 @@
+// hkpConstraintData::addInstance(hkpConstraintInstance *, hkpConstraintRuntime *, int) const
+// (Physics/Dynamics/Constraint/hkpConstraintData.cpp): slot +0x2C of every constraint data's vtable. It clears
+// the runtime.
+#include "havok/hkpConstraintData.h"
 #include "havok/hkString.h"
 
-/* hkpConstraintData::addInstance(hkpConstraintInstance *constraint, hkpConstraintRuntime *runtime,
-   int sizeOfRuntime) const: slot 0x2c of every hkp*ConstraintData vtable; clears the runtime
-   (hkString::memSet is hkString::memSet). */
-
-extern "C" void fn_82D9AB08(const void *self, void *constraint, void *runtime, int sizeOfRuntime)
+void hkpConstraintData::addInstance(hkpConstraintInstance *constraint, hkpConstraintRuntime *runtime,
+                                    int sizeOfRuntime) const
 {
-    if (runtime != 0) {
+    if (runtime)
         hkString::memSet(runtime, 0, sizeOfRuntime);
-    }
 }

@@ -16,7 +16,7 @@ class hkpGravityGun : public hkpFirstPersonGun {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_UTILITIES);
     hkpGravityGun();
-    // Out of line; in the game it is still fn_82DF1670.
+    // Out of line (82DF1670).
     hkpGravityGun(hkFinishLoadedObjectFlag flag);
     virtual void stepGun(hkReal timeStep, hkpWorld *world, const hkpRigidBody *characterBody,
                          const hkTransform &viewTransform, bool fire, bool fireRmb);

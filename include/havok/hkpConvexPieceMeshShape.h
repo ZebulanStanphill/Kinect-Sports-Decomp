@@ -9,7 +9,7 @@
 //   (??0hkpConvexPieceMeshShape@@QAA@PBVhkReferencedObject@@0M@Z); the first is stored to m_displayMesh, the
 //   second to m_convexPieceStream, and both get a reference.
 // - The destructor is out of line (82D49610: releases both); the deleting destructor is 82D39C68.
-// - The finish constructor exists in the game only as fn_82D39BE8 (its unit defines it): when finishing it sets
+// - The finish constructor is out of line (82D39BE8): when finishing it sets
 //   HK_SHAPE_COLLECTION again after hkpShapeCollection's.
 #ifndef HAVOK_HKPCONVEXPIECEMESHSHAPE_H
 #define HAVOK_HKPCONVEXPIECEMESHSHAPE_H
@@ -24,7 +24,7 @@ public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SHAPE);
     hkpConvexPieceMeshShape(const hkReferencedObject *displayMesh, const hkReferencedObject *convexPieceStream,
                             hkReal radius);   // out of line (82D495A0)
-    hkpConvexPieceMeshShape(hkFinishLoadedObjectFlag flag);   // fn_82D39BE8
+    hkpConvexPieceMeshShape(hkFinishLoadedObjectFlag flag);   // out of line (82D39BE8)
     virtual ~hkpConvexPieceMeshShape();   // out of line (82D49610)
 
     virtual int getNumChildShapes() const;

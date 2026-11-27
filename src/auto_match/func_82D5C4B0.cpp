@@ -1,3 +1,4 @@
+#include "havok/hkpConvexListAgent.h"
 #include "havok/hkpCollisionDispatcher.h"
 #include "havok/hkpSimpleClosestContactCollector.h"
 
@@ -19,9 +20,8 @@ static HK_FORCE_INLINE void beginTimer(const char *name, const char *split=0) {
   s->next=(TimerEntry*)((char*)e+(split?16:12));
  }
 }
-extern "C" void fn_82D75FD0(const hkpCdBody &,const hkpCdBody &,const hkpCollisionInput &,hkpCdPointCollector &,hkpCdPointCollector *);
 extern "C" void fn_82D5D320(const hkpCdBody &,const hkpCdBody &,const hkpCollisionInput &,hkpCdPointCollector &,hkpCdPointCollector *);
-extern "C" void fn_82D5C4B0(const hkpCdBody &a,const hkpCdBody &b,const hkpCollisionInput &i,hkpCdPointCollector &out,hkpCdPointCollector *start) {
+void hkpConvexListAgent::staticLinearCast(const hkpCdBody &a,const hkpCdBody &b,const hkpLinearCastCollisionInput &i,hkpCdPointCollector &out,hkpCdPointCollector *start) {
  beginTimer("LtCvsListAgent","StcheckHull");
  {
  hkpSimpleClosestContactCollector c;

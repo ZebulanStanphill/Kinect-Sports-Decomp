@@ -2,7 +2,7 @@
 // CollisionDetectionWheelOutput *cdInfoOut) (Physics/Vehicle/WheelCollide/RayCast/
 // hkpVehicleRayCastWheelCollide.cpp; slot +0x10 of its vtable): casts every wheel's ray and fills the wheel's
 // output from the hit or without one, then calls wheelCollideCallback. The call without a hit passes 1 where
-// the wheel index is expected, as the game's code does. Keeps its fn_ name.
+// the wheel index is expected, as the game's code does.
 #include "havok/hkpVehicleData.h"
 #include "havok/hkpVehicleInstance.h"
 #include "havok/hkpVehicleWheelCollide.h"
@@ -21,9 +21,8 @@ struct hkpWorldRayCastOutput {
     char pad54[0xc];
 };
 
-extern "C" void fn_82E01A60(hkpVehicleRayCastWheelCollide *self, const hkReal deltaTime,
-                            const hkpVehicleInstance *vehicle,
-                            hkpVehicleWheelCollide::CollisionDetectionWheelOutput *cdInfoOut)
+void hkpVehicleRayCastWheelCollide::collideWheels(const hkReal deltaTime, const hkpVehicleInstance *vehicle,
+                                                  CollisionDetectionWheelOutput *cdInfoOut)
 {
     unsigned char i;
     unsigned char n;
@@ -33,18 +32,18 @@ extern "C" void fn_82E01A60(hkpVehicleRayCastWheelCollide *self, const hkReal de
     n = vehicle->m_data->m_numWheels;
     if (n != 0) {
         do {
-            hkpVehicleWheelCollide::CollisionDetectionWheelOutput &cdInfo = cdInfoOut[i];
+            CollisionDetectionWheelOutput &cdInfo = cdInfoOut[i];
             output.weight = 1.0f;
             output.a = -1;
             output.c = 0;
             output.b = 0xffffffff;
             output.d = 0;
-            self->castSingleWheel(&vehicle->m_wheelsInfo[i], output);
+            castSingleWheel(vehicle->m_wheelsInfo[i], output);
             if (output.d != 0)
-                self->getCollisionOutputFromCastResult(vehicle, i, output, cdInfo);
+                getCollisionOutputFromCastResult(vehicle, i, output, cdInfo);
             else
-                self->getCollisionOutputWithoutHit(vehicle, 1, cdInfo);
-            self->wheelCollideCallback(vehicle, i, cdInfo);
+                getCollisionOutputWithoutHit(vehicle, 1, cdInfo);
+            wheelCollideCallback(vehicle, i, cdInfo);
             i = i + 1;
         } while (i < n);
     }

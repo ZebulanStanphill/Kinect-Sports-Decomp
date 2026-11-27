@@ -10,13 +10,18 @@
 //
 // Subpart's layout is from hkpStorageMeshShape's finish constructor (the four pointers it sets) and
 // the game's hkClass data; the other virtual functions are the shape container's, as far as the units
-// need them.
+// need them. In the hkpShape vtable (14 slots), hkpShapeCollection's two welding slots, which hkpShape.h does
+// not declare yet, are declared here so that the slot after them lands at its offset: +0x2C initWeldingInfo
+// (82D4AE30: stores the type; WELDING_TYPE_NONE frees the array, any other numbers the triangles and sizes it),
+// +0x30 setWeldingInfo (82D4A620: one key's entry) and +0x34 addSubpart (82D4AF70), which
+// hkpStorageMeshShape overrides. The three names are Havok's (not confirmed by the game).
 #ifndef HAVOK_HKPMESHSHAPE_H
 #define HAVOK_HKPMESHSHAPE_H
 
 #include "havok/hkBase.h"
 #include "havok/hkVector4.h"
 #include "havok/hkpShape.h"
+#include "havok/hkpWeldingUtility.h"
 
 class hkpMeshShape : public hkpShapeCollection {
 public:
@@ -56,6 +61,9 @@ public:
     virtual hkpShapeKey getFirstKey() const;
     virtual hkpShapeKey getNextKey(hkpShapeKey oldKey) const;
     virtual const hkpShape *getChildShape(hkpShapeKey key, hkpShapeBuffer &buffer) const;
+    virtual void initWeldingInfo(hkpWeldingUtility::WeldingType weldingType);   // +0x2C (82D4AE30)
+    virtual void setWeldingInfo(hkpShapeKey key, hkInt16 weldingInfo);         // +0x30 (82D4A620)
+    virtual void addSubpart(const Subpart &part);                              // +0x34 (82D4AF70)
 
     hkVector4 m_scaling;                 // +0x20
     hkInt32 m_numBitsForSubpartIndex;    // +0x30

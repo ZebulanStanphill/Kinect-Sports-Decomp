@@ -1,8 +1,9 @@
-// hkMemoryResourceHandle::hkMemoryResourceHandle(hkFinishLoadedObjectFlag), the finish constructor, out of line in hkMemoryResourceHandle.cpp. It keeps its fn_ name because a Matching C unit (the finish function) calls it; the explicit constructor call (an MSVC extension) expands the inline definition without placement new's null check.
+// hkMemoryResourceHandle::hkMemoryResourceHandle(hkFinishLoadedObjectFlag), the finish constructor, out of line
+// in hkMemoryResourceHandle.cpp; the finish function of the class's hkTypeInfo (82E08DD0) and getVtable
+// (82E08DF8) call it.
 #include "havok/hkMemoryResourceContainer.h"
 
-extern "C" hkMemoryResourceHandle *fn_82E15590(hkMemoryResourceHandle *self, hkFinishLoadedObjectFlag f)
+hkMemoryResourceHandle::hkMemoryResourceHandle(hkFinishLoadedObjectFlag f)
+    : hkResourceHandle(f), m_variant(f), m_name(f), m_references(f)
 {
-    self->hkMemoryResourceHandle::hkMemoryResourceHandle(f);
-    return self;
 }

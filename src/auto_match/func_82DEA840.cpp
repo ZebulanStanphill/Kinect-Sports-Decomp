@@ -1,5 +1,4 @@
-// hkpBreakOffPartsUtil::hkpBreakOffPartsUtil(hkpWorld *, hkpBreakOffPartsListener *) (hkpBreakOffPartsUtil.cpp). The
-// critical section's constructor keeps its fn_ name (fn_82CEFBD0), so its new expression is written out.
+// hkpBreakOffPartsUtil::hkpBreakOffPartsUtil(hkpWorld *, hkpBreakOffPartsListener *) (hkpBreakOffPartsUtil.cpp).
 #include "havok/hkBase.h"
 #include "havok/hkpWorld.h"
 #include "havok/hkCriticalSection.h"
@@ -12,6 +11,5 @@ hkpBreakOffPartsUtil::hkpBreakOffPartsUtil(hkpWorld *world, hkpBreakOffPartsList
     world->addContactImpulseLimitBreachedListener(this);
     world->addWorldDeletionListener(this);
     world->addConstraintListener(this);
-    void *cs = hkCriticalSection::operator new(sizeof(hkCriticalSection));   // new hkCriticalSection(1)
-    m_criticalSection = cs ? fn_82CEFBD0(cs, 1) : HK_NULL;
+    m_criticalSection = new hkCriticalSection(1);
 }

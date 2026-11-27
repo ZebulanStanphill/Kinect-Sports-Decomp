@@ -7,8 +7,8 @@ extern "C" void fn_82D641D0(void *d) {
  AgentFuncs f;
  f.create=(void*)hkpCapsuleCapsuleAgent::createCapsuleCapsuleAgent;
  f.flipped=0;
- f.penetrations=(void*)fn_82D63AC0;
- f.closest=(void*)fn_82D64040;
+ f.penetrations=(void*)hkpCapsuleCapsuleAgent::staticGetPenetrations;
+ f.closest=(void*)hkpCapsuleCapsuleAgent::staticGetClosestPoints;
  f.cast=(void*)fn_82D75FD0;
  f.predictive=0;
  fn_82D59158(d,&f,5,5);

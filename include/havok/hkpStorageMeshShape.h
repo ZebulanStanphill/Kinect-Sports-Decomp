@@ -4,8 +4,8 @@
 //
 // - The constructors are out of line: ??0hkpStorageMeshShape@@QAA@MH@Z (82D4F638) and the one that copies an
 //   hkpMeshShape (82D50070); so is the destructor (82D4F698).
-// - The finish constructor exists in the game only as fn_82D4FF88 (its unit defines it): when finishing it points
-//   each subpart at its storage.
+// - The finish constructor is out of line (82D4FF88): when finishing it points each subpart at its storage.
+// - addSubpart (82D4F750, hkpMeshShape's slot +0x34) copies the subpart's data into a new SubpartStorage.
 // - SubpartStorage's destructor is out of line (82D501D0; deleting destructor 82D503A0); its finish constructor
 //   is inline.
 #ifndef HAVOK_HKPSTORAGEMESHSHAPE_H
@@ -14,9 +14,6 @@
 #include "havok/hkBase.h"
 #include "havok/hkpMeshShape.h"
 
-class hkpStorageMeshShape;
-// hkpStorageMeshShape::addSubpart(const Subpart &part): copies the subpart's data into a new SubpartStorage.
-extern "C" void fn_82D4F750(hkpStorageMeshShape *self, const hkpMeshShape::Subpart *part);
 
 class hkpStorageMeshShape : public hkpMeshShape {
 public:
@@ -40,9 +37,9 @@ public:
 
     hkpStorageMeshShape(hkReal radius, int numBitsForSubpartIndex);   // out of line (82D4F638)
     hkpStorageMeshShape(const hkpMeshShape *mesh);                    // out of line (82D50070)
-    hkpStorageMeshShape(hkFinishLoadedObjectFlag flag);               // fn_82D4FF88
+    hkpStorageMeshShape(hkFinishLoadedObjectFlag flag);               // out of line (82D4FF88)
     virtual ~hkpStorageMeshShape();                                   // out of line (82D4F698)
-    void addSubpart(const Subpart &part) { fn_82D4F750(this, &part); }
+    virtual void addSubpart(const Subpart &part);                     // out of line (82D4F750)
 
     hkArray<SubpartStorage *> m_storage;   // +0x60
 };

@@ -1,10 +1,9 @@
 // A flipped linearCast (hkpSymmetricAgent's, havok/hkpSymmetricAgent.h) under its fn_ name: negates the cast
-// path, wraps the collectors so that the results come back flipped, and forwards to fn_82D57B60 with the
-// bodies swapped.
+// path, wraps the collectors so that the results come back flipped, and forwards to
+// hkpBvTreeAgent::staticLinearCast with the bodies swapped.
 #include "havok/hkpSymmetricAgent.h"
+#include "havok/hkpBvTreeAgent.h"
 
-extern "C" void fn_82D57B60(const hkpCdBody *, const hkpCdBody *, hkpLinearCastCollisionInput *, hkpCdPointCollector *,
-                            hkpCdPointCollector *);
 extern "C" void fn_82D584F8(void *self, const hkpCdBody *a, const hkpCdBody *b, const hkpLinearCastCollisionInput *input,
                             hkpCdPointCollector *collector, hkpCdPointCollector *start)
 {
@@ -14,8 +13,8 @@ extern "C" void fn_82D584F8(void *self, const hkpCdBody *a, const hkpCdBody *b, 
 
     if (start) {
         hkpSymmetricAgentFlipCastCollector flippedStart(input->m_path, *start);
-        fn_82D57B60(b, a, &copy, &flipped, &flippedStart);
+        hkpBvTreeAgent::staticLinearCast(*b, *a, copy, flipped, &flippedStart);
         return;
     }
-    fn_82D57B60(b, a, &copy, &flipped, 0);
+    hkpBvTreeAgent::staticLinearCast(*b, *a, copy, flipped, 0);
 }

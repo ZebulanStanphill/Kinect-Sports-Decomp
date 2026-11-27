@@ -29,6 +29,7 @@ public:
     };
     hkpHingeConstraintData();
     hkpHingeConstraintData(hkFinishLoadedObjectFlag flag) : hkpConstraintData(flag), m_atoms(flag) {}
+    virtual void getConstraintInfo(ConstraintInfo &infoOut) const;   // +0x3C 82D96830
 
     Atoms m_atoms;   // +0x10
 };

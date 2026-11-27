@@ -6,7 +6,7 @@
 // nested classes' names and whether each is a class or a struct are the RTTI's too.
 //
 // The layout is the game's:
-//  - the constructor (82D27D00, out of line and known only under that name) builds the base mesh, the
+//  - the constructor (82D27D00, out of line) builds the base mesh, the
 //    triangulator at +0x40, the tree at +0x720 (through its out-of-line constructor) and two empty arrays at
 //    +0x7A0 and +0x7AC, then stores 1e-10f at +0x7D4, 0 at +0x38, 0.0f at +0x7DC, 0 at +0x7B8 and
 //    sqrt(3) * 2.5e-11f * 2 at +0x7D8, and calls reset;

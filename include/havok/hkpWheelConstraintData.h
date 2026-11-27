@@ -40,6 +40,7 @@ public:
     };
     hkpWheelConstraintData();
     hkpWheelConstraintData(hkFinishLoadedObjectFlag flag) : hkpConstraintData(flag), m_atoms(flag) {}
+    virtual void getConstraintInfo(ConstraintInfo &infoOut) const;   // +0x3C 82D99228
 
     Atoms m_atoms;                        // +0x10
     hkVector4 m_initialAxleInB;           // +0x140

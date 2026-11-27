@@ -1,3 +1,4 @@
+#include "havok/hkpBvAgent.h"
 #include "havok/hkpCdBodyPairCollector.h"
 #include "havok/hkpCollisionDispatcher.h"
 
@@ -28,7 +29,7 @@ static HK_FORCE_INLINE Dispatch getDispatch(hkpCollisionDispatcher *d,int a,int 
  unsigned idx=p[(a+13)*32+b];
  return *(Dispatch*)(p+idx*20+off);
 }
-extern "C" void fn_82D6EA18(const hkpCdBody &a, const hkpCdBody &b, const hkpCollisionInput &input, hkpCdBodyPairCollector &collector) {
+void hkpBvAgent::staticGetPenetrations(const hkpCdBody &a, const hkpCdBody &b, const hkpCollisionInput &input, hkpCdBodyPairCollector &collector) {
  beginTimer("LthkpBvAgent","StcheckBvShape");
  {
  hkpCdBody body(&a);

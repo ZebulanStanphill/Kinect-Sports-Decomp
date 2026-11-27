@@ -8,7 +8,7 @@
 // - Out of line: the constructors from a radius (82D3F218), from caller-owned vertex and plane buffers
 //   (82D3F268) and from strided vertices and planes (82D3F900), the destructor (82D3F380: releases the
 //   connectivity); the deleting destructor is 82D402B0.
-// - The finish constructor exists in the game only as fn_82D3F338 (its unit defines it): hkpConvexShape's stores
+// - The finish constructor is out of line (82D3F338): hkpConvexShape's stores
 //   HK_SHAPE_CONVEX unconditionally, then this class's stores HK_SHAPE_CONVEX_VERTICES when finishing.
 // ??_7hkpConvexVerticesShape@@6B@ has hkpConvexShape's 18 slots.
 #ifndef HAVOK_HKPCONVEXVERTICESSHAPE_H
@@ -31,7 +31,7 @@ public:
                            const hkAabb &aabb, hkReal radius);   // out of line (82D3F268)
     hkpConvexVerticesShape(const hkStridedVertices &vertices, const hkArray<hkVector4> &planeEquations,
                            hkReal radius);   // out of line (82D3F900)
-    hkpConvexVerticesShape(hkFinishLoadedObjectFlag flag);   // fn_82D3F338
+    hkpConvexVerticesShape(hkFinishLoadedObjectFlag flag);   // out of line (82D3F338)
     virtual ~hkpConvexVerticesShape();   // out of line (82D3F380)
 
     hkVector4 m_aabbHalfExtents;                                 // +0x20

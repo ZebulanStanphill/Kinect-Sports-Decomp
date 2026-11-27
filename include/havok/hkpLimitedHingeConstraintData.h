@@ -40,6 +40,7 @@ public:
     hkpLimitedHingeConstraintData();
     hkpLimitedHingeConstraintData(hkFinishLoadedObjectFlag flag) : hkpConstraintData(flag), m_atoms(flag) {}
     virtual ~hkpLimitedHingeConstraintData();
+    virtual void getConstraintInfo(ConstraintInfo &infoOut) const;   // +0x3C 82D938D8
 
     Atoms m_atoms;   // +0x10
 };

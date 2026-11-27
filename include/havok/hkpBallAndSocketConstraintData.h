@@ -2,8 +2,7 @@
 // (Physics/Dynamics/Constraint/Bilateral/BallAndSocket/hkpBallAndSocketConstraintData.h), 0x50 bytes (the game's
 // reflection: hkpBallAndSocketConstraintDataClass; m_atoms is at +0x10). The atoms' layout is the reflection table
 // of hkpBallAndSocketConstraintDataAtoms (lbl_82139F4C). Their constructor is inline. The data's constructor is out
-// of line as fn_82D96728, which keeps its fn_ name: the unit defines it (forced inline) and runs it through MSVC's
-// explicit constructor call. The class declares no destructor: the vtable's slot 0 is the scalar deleting
+// of line (82D96728). The class declares no destructor: the vtable's slot 0 is the scalar deleting
 // destructor the linker folded with others (??_GhkpShape@@UAAPAXI@Z). getType (+0x20, 82D96720) returns 0; slots
 // +0x28 to +0x3C are hkpConstraintData's virtual functions (hkpConstraintData.h says what each is). The
 // finish constructors follow Havok's header: they leave the loaded members alone.
@@ -28,6 +27,7 @@ public:
     };
     hkpBallAndSocketConstraintData();
     hkpBallAndSocketConstraintData(hkFinishLoadedObjectFlag flag) : hkpConstraintData(flag), m_atoms(flag) {}
+    virtual void getConstraintInfo(ConstraintInfo &infoOut) const;   // +0x3C 82D966B8
 
     Atoms m_atoms;   // +0x10
 };

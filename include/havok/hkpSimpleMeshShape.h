@@ -6,7 +6,7 @@
 //
 // - The constructor is out of line (??0hkpSimpleMeshShape@@QAA@M@Z, 82D4DBA8): empty arrays, the radius and
 //   WELDING_TYPE_NONE.
-// - The finish constructor exists in the game only as fn_82D3AFC0 (its unit defines it): when finishing it sets
+// - The finish constructor is out of line (82D3AFC0): when finishing it sets
 //   HK_SHAPE_TRIANGLE_COLLECTION and COLLECTION_SIMPLE_MESH.
 // - The destructor is the implicit one, emitted out of line (??1hkpSimpleMeshShape@@UAA@XZ, 82D3B058); the
 //   deleting destructor is 82D3B160.
@@ -33,7 +33,7 @@ public:
     };
 
     hkpSimpleMeshShape(hkReal radius);                   // out of line (82D4DBA8)
-    hkpSimpleMeshShape(hkFinishLoadedObjectFlag flag);   // fn_82D3AFC0
+    hkpSimpleMeshShape(hkFinishLoadedObjectFlag flag);   // out of line (82D3AFC0)
 
     virtual int getNumChildShapes() const;
     virtual hkpShapeKey getFirstKey() const;

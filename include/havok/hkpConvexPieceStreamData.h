@@ -8,8 +8,7 @@
 #include "havok/hkBase.h"
 
 // ??_7hkpConvexPieceStreamData@@6B@ has hkReferencedObject's three slots; slot 0 is the deleting destructor
-// 82DCA120, which calls the destructor 82DCA028 (still under its fn_ name). The destructor is the implicit
-// one.
+// 82DCA120, which calls the destructor 82DCA028 out of line. The destructor is the implicit one.
 class hkpConvexPieceStreamData : public hkReferencedObject {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SHAPE);

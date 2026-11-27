@@ -3,7 +3,8 @@
 // The constructor (82CFAA48) takes a reference on the wrapped stream and allocates the buffer 64-aligned; the
 // destructor (82CFAAD8) releases both. hkNativeFileSystem::openReader (82CE7F80) wraps a stdio reader with the
 // default buffer size, 0x1000.
-// The vtable (??_7hkBufferedStreamReader@@6B@, 13 slots) gives the overrides, which keep their fn_ names:
+// The vtable (??_7hkBufferedStreamReader@@6B@, 13 slots) gives the overrides (isOk, read and skip keep their fn_
+// names: their units are NonMatching):
 // isOk 82CFA7F0, read 82CFA6B0, skip 82CFA770, markSupported 82CFA860, setMark 82CFA878, rewindToMark 82CFA8A0,
 // seekTellSupported 82CFA8C0, seek 82CFA900 and tell 82CFA930, then a slot of its own at +0x30 (82CFA5F0), which
 // skip calls when the buffer runs out: it refills the buffer from the stream. Its name is invented.

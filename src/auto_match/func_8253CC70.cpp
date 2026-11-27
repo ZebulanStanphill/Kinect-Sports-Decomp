@@ -3,14 +3,22 @@
 #include "havok/hkpBroadPhaseBorder.h"
 #include "havok/hkpBreakOffPartsUtil.h"
 
-// hkpWorldCinfo (0xE0): constructor fn_82D8E600, destructor emitted in game code (fn_8253C630).
-class __declspec(align(16)) hkpWorldCinfo {
+// hkpWorldCinfo (0xE0), kept local: havok/hkpWorldCinfo.h includes havok/hkpCollisionFilter.h, which this unit
+// cannot use (below). Only the members used here and the three hkRefPtrs its destructor releases are named. The
+// constructor is out of line; the destructor is inline but not forced, as in the header, so this /O1 unit calls
+// the copy emitted in game code (8253C630). (With a forced inline destructor the frame is 0x10 bytes larger.)
+class __declspec(align(16)) hkpWorldCinfo : public hkReferencedObject {
 public:
-    HK_FORCE_INLINE hkpWorldCinfo();
-    HK_FORCE_INLINE ~hkpWorldCinfo();
-    hkUint8 m_pad0[0x30];
-    hkAabb m_broadPhaseWorldAabb;   // +0x30
-    hkUint8 m_pad50[0x90];
+    hkpWorldCinfo();
+    virtual ~hkpWorldCinfo() {}
+    hkUint8 m_pad8[0x28];
+    hkAabb m_broadPhaseWorldAabb;                     // +0x30
+    hkUint8 m_pad50[0x8];
+    hkRefPtr<hkReferencedObject> m_collisionFilter;    // +0x58
+    hkRefPtr<hkReferencedObject> m_convexListFilter;   // +0x5C
+    hkUint8 m_pad60[0xc];
+    hkRefPtr<hkReferencedObject> m_memoryWatchDog;     // +0x6C
+    hkUint8 m_pad70[0x70];
 };
 
 // Kept local: with havok/hkpCollisionFilter.h the four filter interfaces are base classes, and storing the game's
@@ -34,10 +42,7 @@ public:
 };
 
 extern "C" {
-void fn_82D8E600(hkpWorldCinfo *self);   // hkpWorldCinfo::hkpWorldCinfo
-void fn_8253C630(hkpWorldCinfo *self);   // hkpWorldCinfo::~hkpWorldCinfo
 void fn_825A3100(hkpWorldCinfo *info, hkVector4 *gravity, void *out);
-hkpWorld *fn_82D86990(void *self, const hkpWorldCinfo &info, unsigned int sdkVersion);   // hkpWorld::hkpWorld
 void fn_82D404C8(void *p);
 void fn_82D80BA0(hkpWorld *world, void *ext);
 void *fn_8265C9E0(unsigned int size);    // operator new
@@ -46,7 +51,6 @@ void fn_8258F940(void *filter);
 void fn_825269D0(int id, void *settings);
 void fn_82D88E60(hkpWorld *world, hkpCollisionFilter *filter, hkBool checkBroadPhase, int updateMode, int collectionMode);
 void XMemCpy(void *dst, const void *src, int n);
-void fn_82D84168(hkpWorld *world, hkpCollisionListener *listener);
 extern void *lbl_821C7F98[];
 extern void *lbl_821C40C4[], *lbl_821C40D8[], *lbl_821C40E4[], *lbl_821C40F0[];
 extern void *lbl_821C7FC0[];
@@ -54,9 +58,6 @@ extern void *lbl_821C6594[], *lbl_821C65A4[], *lbl_821C65AC[], *lbl_821C65BC[], 
 extern void *lbl_821C7FE0[], *lbl_821C7FEC[];
 extern unsigned int lbl_8327F680[];
 }
-
-HK_FORCE_INLINE hkpWorldCinfo::hkpWorldCinfo() { fn_82D8E600(this); }
-HK_FORCE_INLINE hkpWorldCinfo::~hkpWorldCinfo() { fn_8253C630(this); }
 
 struct WorldAabbSettings {
     hkUint8 m_pad0[0x11];
@@ -153,7 +154,7 @@ extern "C" void fn_8253CC70(Physics *self, Settings *settings)
     gs.m_gravity = gravity;
     self->m_f4 = 0;
 
-    self->m_world = fn_82D86990(blockAlloc(0x350), info, 70000);
+    self->m_world = new hkpWorld(info, 70000);
     hkpSimulationPart *sim = ((hkpWorldImpl *)self->m_world)->m_8;
     hkReferencedObject *old = sim->m_48;
     Obj0C *o = (Obj0C *)blockAlloc(0xc);
@@ -202,7 +203,7 @@ extern "C" void fn_8253CC70(Physics *self, Settings *settings)
     if (self->m_listenerData) {
         GameCollisionListener *l = new GameCollisionListener(self->m_listenerData);
         self->m_collisionListener = l;
-        fn_82D84168(self->m_world, l);
+        self->m_world->addContactListener(l);
     }
     self->m_f0 = 1;
     self->m_44 = 1;

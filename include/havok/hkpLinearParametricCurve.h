@@ -16,7 +16,7 @@
 class hkpLinearParametricCurve : public hkpParametricCurve {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);
-    // Out of line; in the game it is still fn_82D9FC18.
+    // Out of line (82D9FC18).
     hkpLinearParametricCurve();
     hkpLinearParametricCurve(hkFinishLoadedObjectFlag f) : hkpParametricCurve(f), m_points(f), m_distance(f) {}
     virtual void getPoint(hkReal t, hkVector4 &pointOnCurve);

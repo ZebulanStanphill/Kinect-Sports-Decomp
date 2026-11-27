@@ -11,15 +11,15 @@
 //    +0x10 through its vtable and clears the pointer;
 //  - the copy function (82D0D770) copies the word at +0xC and calls the second virtual function of the object
 //    at +0x10 to copy it.
-// The constructor and the destructor are out of line and known only under their fn_ names; the two units
-// define them inline and wrap them. m_userData and m_userObject are named after Havok's header; the type of
-// m_userData is not known.
+// The constructor, the destructor and the deleting destructor are out of line. m_userData and m_userObject
+// are named after Havok's header; the type of m_userData is not known.
 //
-// BuildConfig (0x10 bytes) holds the options of a build. Its constructor is inline in hkgpConvexHullImpl's
-// (82D16868) and also exists out of line (82D0B0C0); it stores false, 0.9999f (the constant lbl_821344F4) and
-// the bytes 0, 1, 0, 1, 0, 0. The member names follow Havok's header, whose defaults have that pattern; the
-// game's callers (82D081B8, 82DE52A0) set the first byte before they build and then test the hull's dimension.
-// The last byte's name is not known.
+// BuildConfig (0x10 bytes) holds the options of a build. Its constructor is out of line (82D0B0C0): the game's
+// callers outside hkgpConvexHull.cpp call it, while hkgpConvexHullImpl's constructor (82D16868, in the same
+// .cpp) has it inline, so it is defined in hkgpConvexHull.cpp and declared here. It stores false, 0.9999f (the
+// constant lbl_821344F4) and the bytes 0, 1, 0, 1, 0, 0. The member names follow Havok's header, whose
+// defaults have that pattern; the game's callers (82D081B8, 82DE52A0) set the first byte before they build and
+// then test the hull's dimension. The last byte's name is not known.
 #ifndef HAVOK_HKGPCONVEXHULL_H
 #define HAVOK_HKGPCONVEXHULL_H
 
@@ -34,12 +34,7 @@ public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_UTILITIES);
 
     struct BuildConfig {
-        HK_FORCE_INLINE BuildConfig()
-            : m_allowLowerDimensions(false), m_minCosAngle(lbl_821344F4), m_setSourceIndices(false),
-              m_buildIndices(true), m_buildMassProperties(false), m_sortInputs(true), m_internalInputs(false),
-              m_unknownD(false)
-        {
-        }
+        BuildConfig();   // out of line (82D0B0C0); see above
 
         hkBool m_allowLowerDimensions;   // +0x0
         hkReal m_minCosAngle;            // +0x4

@@ -1,6 +1,7 @@
+// hkpPlaneShape::hkpPlaneShape(const hkVector4 &direction, const hkVector4 &center, const hkVector4 &halfExtents)
+// (Physics/Collide/Shape/HeightField/Plane/hkpPlaneShape.cpp): the plane through center with the given normal.
 #include "havok/hkpPlaneShape.h"
-// The header declares the constructor; it is defined here, HK_FORCE_INLINE.
-HK_FORCE_INLINE hkpPlaneShape::hkpPlaneShape(const hkVector4 &n, const hkVector4 &c, const hkVector4 &h)
+hkpPlaneShape::hkpPlaneShape(const hkVector4 &n, const hkVector4 &c, const hkVector4 &h)
     : hkpHeightFieldShape(HK_SHAPE_PLANE)
 {
     m_plane = n;
@@ -10,5 +11,3 @@ HK_FORCE_INLINE hkpPlaneShape::hkpPlaneShape(const hkVector4 &n, const hkVector4
     m_aabbCenter = c;
     m_aabbHalfExtents = h;
 }
-
-extern "C" hkpPlaneShape *fn_82D4CF30(hkpPlaneShape *self,const hkVector4 &n,const hkVector4 &c,const hkVector4 &h) { self->hkpPlaneShape::hkpPlaneShape(n,c,h); return self; }

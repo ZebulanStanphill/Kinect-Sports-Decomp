@@ -1,15 +1,6 @@
-// hkSimpleLocalFrame's scalar deleting destructor (slot 0 of ??_7hkSimpleLocalFrame@@6B@). It calls hkSimpleLocalFrame's
-// destructor fn_82CEFFA8, which keeps its fn_ name.
+// hkSimpleLocalFrame's scalar deleting destructor ??_GhkSimpleLocalFrame@@UAAPAXI@Z (slot 0 of
+// ??_7hkSimpleLocalFrame@@6B@): it calls the out-of-line destructor (82CEFFA8) and frees the object with the
+// class allocator. The function at the end only makes the compiler emit the vtable and with it the destructor.
 #include "havok/hkSimpleLocalFrame.h"
 
-extern "C" {
-void fn_82CEFFA8(hkSimpleLocalFrame *self);   // hkSimpleLocalFrame::~hkSimpleLocalFrame
-}
-
-extern "C" hkSimpleLocalFrame *fn_82CE4738(hkSimpleLocalFrame *self, unsigned int flags)
-{
-    fn_82CEFFA8(self);
-    if (flags & 1)
-        hkSimpleLocalFrame::operator delete(self);
-    return self;
-}
+void emitVtable_82CE4738(void *p, hkFinishLoadedObjectFlag f) { new (p) hkSimpleLocalFrame(f); }

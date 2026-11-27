@@ -13,7 +13,7 @@ class hkpMountedBallGun : public hkpBallGun {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_UTILITIES);
     hkpMountedBallGun();
-    // Out of line; in the game it is still fn_82DF20E0.
+    // Out of line (82DF20E0).
     hkpMountedBallGun(hkFinishLoadedObjectFlag flag);
     virtual void fireGun(hkpWorld *world, const hkTransform &viewTransform);
 

@@ -7,8 +7,8 @@
 // Its vtable (??_7hkpMultiSphereTriangleAgent@@6B@): +0xC getPenetrations 82D611F8, +0x10 getClosestPoints
 // 82D614F0, +0x14 hkpIterativeLinearCastAgent's linearCast 82D75CB0, +0x18 processCollision 82D61AA0, +0x1C
 // cleanup 82D610E8, then the empty function, 82D746F0, 82D746F8 and hkpCollisionAgent's defaults.
-// The queries keep fn_ names and are called through wrappers (hkpSymmetricAgentLinearCast<..>'s 82D61A10 and
-// 82D61D58 call the virtuals out of line). The member names follow Havok's header.
+// All are out of line (hkpSymmetricAgentLinearCast<..>'s 82D61A10 and 82D61D58 call the virtual queries).
+// The member names follow Havok's header.
 #ifndef HAVOK_HKPMULTISPHERETRIANGLEAGENT_H
 #define HAVOK_HKPMULTISPHERETRIANGLEAGENT_H
 
@@ -21,21 +21,6 @@ typedef hkUint16 hkContactPointId;
 #ifndef HK_INVALID_CONTACT_POINT
 #define HK_INVALID_CONTACT_POINT 0xffff
 #endif
-
-class hkpMultiSphereTriangleAgent;
-
-extern "C" {
-void fn_82D61370(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                 hkpCdBodyPairCollector &collector);   // hkpMultiSphereTriangleAgent::staticGetPenetrations
-void fn_82D61718(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                 hkpCdPointCollector &collector);   // hkpMultiSphereTriangleAgent::staticGetClosestPoints
-// hkpMultiSphereTriangleAgent::getPenetrations
-void fn_82D611F8(hkpMultiSphereTriangleAgent *self, const hkpCdBody &bodyA, const hkpCdBody &bodyB,
-                 const hkpCollisionInput &input, hkpCdBodyPairCollector &collector);
-// hkpMultiSphereTriangleAgent::getClosestPoints
-void fn_82D614F0(hkpMultiSphereTriangleAgent *self, const hkpCdBody &bodyA, const hkpCdBody &bodyB,
-                 const hkpCollisionInput &input, hkpCdPointCollector &collector);
-}
 
 class hkpMultiSphereTriangleAgent : public hkpIterativeLinearCastAgent {
 public:
@@ -57,26 +42,18 @@ public:
     static hkpCollisionAgent *HK_CALL createTriangleMultiSphereAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
                                                                 const hkpCollisionInput &input, hkpContactMgr *mgr);
     static void HK_CALL staticGetPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
-                                              const hkpCollisionInput &input, hkpCdBodyPairCollector &collector)
-    {
-        fn_82D61370(bodyA, bodyB, input, collector);
-    }
+                                              const hkpCollisionInput &input, hkpCdBodyPairCollector &collector);   // 82D61370
     static void HK_CALL staticGetClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB,
-                                               const hkpCollisionInput &input, hkpCdPointCollector &collector)
-    {
-        fn_82D61718(bodyA, bodyB, input, collector);
-    }
+                                               const hkpCollisionInput &input, hkpCdPointCollector &collector);   // 82D61718
 
     virtual void getPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                                 hkpCdBodyPairCollector &collector)
-    {
-        fn_82D611F8(this, bodyA, bodyB, input, collector);
-    }
+                                 hkpCdBodyPairCollector &collector);   // 82D611F8
     virtual void getClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
-                                  hkpCdPointCollector &collector)
-    {
-        fn_82D614F0(this, bodyA, bodyB, input, collector);
-    }
+                                  hkpCdPointCollector &collector);   // 82D614F0
+
+    virtual void processCollision(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpProcessCollisionInput &input,
+                                  hkpProcessCollisionOutput &result);
+    virtual void cleanup(hkCollisionConstraintOwner &constraintOwner);
 
     hkpCollideTriangleUtil::ClosestPointTriangleCache m_closestPointTriangleCache;   // +0xC
     hkContactPointId m_contactPointId[HK_MAX_NUM_SPHERES_IN_MULTISPHERE];             // +0x1C

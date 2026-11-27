@@ -1,3 +1,7 @@
+// hkgpMesh::IConvexOverlap::IConvexShape::getMaxIndex (Common/Internal/GeometryProcessing/Mesh/hkgpMesh.h, inline
+// in the header: the assert's file and line): not implemented in the interface; reports "Not implemented" and
+// returns 0. TriangleShape, PrismShape<1> and ExtrudeShape inherit it.
+#include "havok/hkgpMesh.h"
 #include "havok/hkOstream.h"
 
 extern "C" {
@@ -20,9 +24,11 @@ typedef struct Ostream_82D2A660 {
 } Ostream_82D2A660;
 
 extern Error_82D2A660 *lbl_8323B464;
-extern void fn_82CEE578(Ostream_82D2A660 *os, char *buf, int size);
+extern void fn_82CEE578(Ostream_82D2A660 *os, char *buf, int size);   // hkErrStream's constructor
 
-int fn_82D2A660(void)
+}
+
+int hkgpMesh::IConvexOverlap::IConvexShape::getMaxIndex() const
 {
     Ostream_82D2A660 os;
     char buf[512];
@@ -35,6 +41,4 @@ int fn_82D2A660(void)
     }
     ((hkOstream *)&os)->hkOstream::~hkOstream();
     return 0;
-}
-
 }

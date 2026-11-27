@@ -1,11 +1,13 @@
-// hkLargeBlockAllocator::~hkLargeBlockAllocator (Common/Base/Memory/Allocator/
-// LargeBlock/hkLargeBlockAllocator.cpp): returns every page to the block
-// server. It keeps its fn_ name because a Matching C unit (the deleting
-// destructor fn_82D03F30) calls it: the header's destructor is inline (forced)
-// and expanded into an extern "C" definition.
+// hkLargeBlockAllocator::~hkLargeBlockAllocator (Common/Base/Memory/Allocator/LargeBlock/
+// hkLargeBlockAllocator.cpp): returns every page to the block server.
 #include "havok/hkLargeBlockAllocator.h"
 
-extern "C" void fn_82D028F8(hkLargeBlockAllocator *self)
+hkLargeBlockAllocator::~hkLargeBlockAllocator()
 {
-    self->hkLargeBlockAllocator::~hkLargeBlockAllocator();
+    MemPage *page = m_pages.m_next;
+    while (page != &m_pages) {
+        MemPage *next = page->m_next;
+        m_server->free(page, page->m_size);
+        page = next;
+    }
 }

@@ -3,9 +3,8 @@
 // The constructor (82CFEDF8, ??0hkMemoryTrackStreamReader@@QAA@PBVhkMemoryTrack@@W4MemoryType@0@@Z) stores the
 // type in its initialiser list, then the track and a zero offset; the destructor is 82CFF4F8. The vtable
 // (??_7hkMemoryTrackStreamReader@@6B@) overrides isOk (82CFF598: the offset is still inside the track), read
-// (82CFEE20) and skip (82CFF580 moves the offset); the other slots are hkStreamReader's. The overrides keep their
-// fn_ names. hkMemoryTrack has no header yet: its destructor keeps its fn_ name (fn_82CFF478), so the
-// destructor units declare it themselves.
+// (82CFEE20) and skip (82CFF580 moves the offset); the other slots are hkStreamReader's. read keeps its fn_ name
+// (its unit is NonMatching). hkMemoryTrack is in hkMemoryTrack.h.
 #ifndef HAVOK_HKMEMORYTRACKSTREAMREADER_H
 #define HAVOK_HKMEMORYTRACKSTREAMREADER_H
 

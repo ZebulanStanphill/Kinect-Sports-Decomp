@@ -1,6 +1,7 @@
-// hkSolverAllocator scalar deleting destructor (Common/Base/Memory/Allocator/Solver/hkSolverAllocator.h).
-// The class has a placement allocator: deleting does nothing.
+// hkSolverAllocator scalar deleting destructor (Common/Base/Memory/Allocator/Solver/hkSolverAllocator.cpp).
+// The class has a placement allocator: deleting does nothing. The destructor is defined here as in the
+// original translation unit (out of line as 82CF7638), so the deleting destructor expands it.
 #include "havok/hkBase.h"
 #include "havok/hkSolverAllocator.h"
 
-void emitVtable_82CF7BC8(hkSolverAllocator *p) { p->hkSolverAllocator::~hkSolverAllocator(); }
+hkSolverAllocator::~hkSolverAllocator() {}

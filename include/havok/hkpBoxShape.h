@@ -2,7 +2,7 @@
 // m_halfExtents around the origin. The size and m_halfExtents (+0x20) are the game's hkClass (initialiser
 // 8312CCA0).
 //
-// - The constructor exists in the game only as fn_82D3CD40 (its unit defines it): hkpConvexShape's, then the
+// - The constructor is out of line (82D3CD40): hkpConvexShape's, then the
 //   body of setHalfExtents inlined.
 // - setHalfExtents is out of line (82D3CAA0): it stores the extents and the smallest of x, y and z in w.
 // - The destructor is out of line (??1hkpBoxShape@@UAA@XZ, 82D3CA90), the deleting destructor 82D39138.
@@ -17,7 +17,7 @@
 class hkpBoxShape : public hkpConvexShape {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SHAPE);
-    hkpBoxShape(const hkVector4 &halfExtents, hkReal radius);   // fn_82D3CD40
+    hkpBoxShape(const hkVector4 &halfExtents, hkReal radius);   // out of line (82D3CD40)
     hkpBoxShape(hkFinishLoadedObjectFlag flag) : hkpConvexShape(flag) { m_type = HK_SHAPE_BOX; }
     virtual ~hkpBoxShape();   // out of line (82D3CA90)
 

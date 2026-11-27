@@ -7,19 +7,13 @@
 class hkpAabbPhantom;
 class hkpCdPointCollector;
 struct hkpLinearCastInput;
-extern "C" void fn_82D7E1E0(hkpAabbPhantom *self);   // reserves m_overlappingCollidables
+extern "C" void fn_82D7E1E0(hkpAabbPhantom *self);   // reserves m_overlappingCollidables (82D8D6C0, 82D7E3E8)
 
 // hkpAabbPhantom (Physics/Dynamics/Phantom/hkpAabbPhantom.h).
 class hkpAabbPhantom : public hkpPhantom {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_DYNAMICS);
-    HK_FORCE_INLINE hkpAabbPhantom(const hkAabb &aabb, hkUint32 collisionFilterInfo = 0)
-        : hkpPhantom(HK_NULL), m_orderDirty(false)
-    {
-        m_aabb = aabb;
-        m_collidable.setCollisionFilterInfo(collisionFilterInfo);
-        fn_82D7E1E0(this);
-    }
+    hkpAabbPhantom(const hkAabb &aabb, hkUint32 collisionFilterInfo = 0);   // out of line (82D8D6C0)
     hkpAabbPhantom(hkFinishLoadedObjectFlag flag);   // out of line (82D7E3E8)
     virtual ~hkpAabbPhantom();
     // ??_7hkpAabbPhantom@@6B@: every slot but setShape and updateShapeCollectionFilter is its own.

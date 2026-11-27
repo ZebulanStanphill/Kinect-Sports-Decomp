@@ -1,16 +1,10 @@
 #include "havok/hkBase.h"
-#include "havok/hkpMoppModifier.h"
+#include "havok/hkpRemoveTerminalsMoppModifier.h"
 struct Shape { char pad[0xc]; int type; char p10[4]; void *code; char p18[0x1c]; Shape *child; };
 struct Record { int p0, a, b, c, d, e, f, g; };
 struct Entity { char pad[0x10]; Shape *shape; char p14[0x3c]; unsigned short count; char p52[2]; Record *records; };
 struct Bits { unsigned int *data; };
-class hkpRemoveTerminalsMoppModifier : public hkReferencedObject, public hkpMoppModifier {
-public:
- virtual ~hkpRemoveTerminalsMoppModifier();
- char pad[20];
-};
 extern "C" void fn_82D4D618(void *, void *, Bits *);
-extern "C" void fn_82D4D1C0(void *, void *);
 extern "C" void fn_82D3DA40(Shape *, Bits *);
 extern "C" void fn_82DEAA58(Entity *self, Bits *bits) {
  Shape *shape = self->shape;
@@ -20,7 +14,7 @@ extern "C" void fn_82DEAA58(Entity *self, Bits *bits) {
   Shape *child = shape->child;
   union { double align; char buf[32]; } u;
   fn_82D4D618(u.buf, shape->code, bits);
-  fn_82D4D1C0(u.buf, shape->code);
+  ((hkpRemoveTerminalsMoppModifier *)u.buf)->applyRemoveTerminals((hkpMoppCode *)shape->code);
   if (child->type == 9) {
    shape = child;
    ((hkpRemoveTerminalsMoppModifier *)u.buf)->hkpRemoveTerminalsMoppModifier::~hkpRemoveTerminalsMoppModifier();

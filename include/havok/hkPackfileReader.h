@@ -1,7 +1,7 @@
 // hkPackfileReader (Common/Serialize/Packfile/hkPackfileReader.h), 0x18 bytes: the interface of the packfile
-// loaders. The constructor is out of line (??0hkPackfileReader@@QAA@XZ, 82E12DE0); the destructor too, under
-// the C name fn_82E12A48 (it frees m_contentsVersion, then the map), which hkBinaryPackfileReader's destructor
-// and the scalar deleting destructor (fn_82E12E48) call.
+// loaders. The constructor is out of line (??0hkPackfileReader@@QAA@XZ, 82E12DE0); the destructor too
+// (82E12A48: it frees m_contentsVersion, then the map), which hkBinaryPackfileReader's destructor and the scalar
+// deleting destructor (82E12E48) call.
 // ??_7hkPackfileReader@@6B@ (8214B140, 13 slots) has eight pure slots; the names are Havok's, placed with
 // hkBinaryPackfileReader's implementations, whose code agrees with them: getContents (82E12AC8, here) calls
 // getContentsWithRegistry with the builtin type registry's hkTypeInfoRegistry; getContentsVersion (82E12A00)

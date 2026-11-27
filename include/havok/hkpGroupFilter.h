@@ -1,12 +1,14 @@
-// hkpGroupFilter (Physics/Collide/Filter/Group/hkpGroupFilter.h, the folder of its class unit), 0xB4 bytes:
+// hkpGroupFilter (Physics/Collide/Filter/Group/hkpGroupFilter.h, the folder of its class unit), 0x100 bytes:
 // the filter that compares collision layers and system groups. The layout comes from the constructor
 // (82D4B5B0: m_type = HK_FILTER_GROUP, every bit of the 32 lookup words set, then the next free system group
 // cleared) and from the filter function 82D4B3C0, which reads m_collisionLookupTable[layerA] at +0x34. The
-// member names follow Havok's header.
+// member names follow Havok's header. The class ends with m_pad256 (the game's hkClass member strings name
+// "pad256" after "collisionLookupTable"; getVtablehkpGroupFilter builds a 0x100-byte object on the stack).
 #ifndef HAVOK_HKPGROUPFILTER_H
 #define HAVOK_HKPGROUPFILTER_H
 
 #include "havok/hkpCollisionFilter.h"
+#include "havok/hkVector4.h"
 
 class hkpGroupFilter;
 
@@ -24,7 +26,7 @@ class hkpGroupFilter : public hkpCollisionFilter {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
     hkpGroupFilter();
-    // Out of line; in the game it is still fn_82D3A4E0.
+    // Out of line (82D3A4E0).
     hkpGroupFilter(hkFinishLoadedObjectFlag flag);
     virtual ~hkpGroupFilter();
     virtual hkBool isCollisionEnabled(const hkpCollidable &a, const hkpCollidable &b) const;
@@ -42,6 +44,7 @@ public:
 
     int m_nextFreeSystemGroup;              // +0x30
     hkUint32 m_collisionLookupTable[32];    // +0x34
+    hkVector4 m_pad256[4];                  // +0xC0
 };
 
 #endif

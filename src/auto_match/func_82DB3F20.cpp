@@ -1,15 +1,15 @@
-// hkpKdTreeWorldManager's scalar deleting destructor (slot 0 of ??_7hkpKdTreeWorldManager@@6BhkpTreeWorldManager@@@), written with a stand-in class named hkMemoryStreamReader (only its class allocator is used). It calls hkpKdTreeWorldManager's destructor fn_82DB3418, which keeps its fn_ name.
+// hkpKdTreeWorldManager scalar deleting destructor (slot 0 of ??_7hkpKdTreeWorldManager@@6BhkpTreeWorldManager@@@):
+// the out-of-line destructor ??1hkpKdTreeWorldManager@@UAA@XZ (82DB3418), then the class allocator's delete when
+// flags & 1. It keeps its fn_ name because the adjustor thunks of the two other vtables (fn_82DB3F10,
+// fn_82DB3F18: subi r3, r3, N; b fn_82DB3F20) jump to it by that name, so it is written out by hand, as for
+// func_82DB30D8 (hkpAabbTreeWorldManager). The class is havok/hkpKdTreeWorldManager.h.
 #include "havok/hkBase.h"
-#include "havok/hkMemoryStreamReader.h"
+#include "havok/hkpKdTreeWorldManager.h"
 
-extern "C" {
-void fn_82DB3418(hkMemoryStreamReader *self);   // hkpKdTreeWorldManager::~hkpKdTreeWorldManager
-}
-
-extern "C" hkMemoryStreamReader *fn_82DB3F20(hkMemoryStreamReader *self, unsigned int flags)
+extern "C" hkpKdTreeWorldManager *fn_82DB3F20(hkpKdTreeWorldManager *self, unsigned int flags)
 {
-    fn_82DB3418(self);
+    self->hkpKdTreeWorldManager::~hkpKdTreeWorldManager();
     if (flags & 1)
-        hkMemoryStreamReader::operator delete(self);
+        hkpKdTreeWorldManager::operator delete(self);
     return self;
 }

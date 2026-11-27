@@ -1,7 +1,7 @@
 // hkpExtendedMeshShape::ShapesSubpart's copy assignment, out of line (hkpExtendedMeshShape::addSubpart,
-// 82D43170, and hkpStorageExtendedMeshShape's fn_82D4DE48 call it): the Subpart part as plain words, the child
+// 82D43170, and hkpStorageExtendedMeshShape's addShapesSubpart, 82D4DE48, call it): the Subpart part as plain words, the child
 // shapes through hkArray's assignment (the references counted), then the rotation and the translation.
-// Keeps its fn_ name.
+// Implicit in Havok; declared in the header so that this unit can define it (same code, same symbol).
 #include "havok/hkpExtendedMeshShape.h"
 
 inline void *operator new(unsigned int, void *where)
@@ -38,12 +38,11 @@ template <typename T> static __forceinline void copyFromArray(hkArrayBase<T> &se
     self.m_size = newSize;
 }
 
-extern "C" hkpExtendedMeshShape::ShapesSubpart *fn_82D43AA0(hkpExtendedMeshShape::ShapesSubpart *self,
-                                                            const hkpExtendedMeshShape::ShapesSubpart *other)
+hkpExtendedMeshShape::ShapesSubpart &hkpExtendedMeshShape::ShapesSubpart::operator=(const ShapesSubpart &other)
 {
-    static_cast<hkpExtendedMeshShape::Subpart &>(*self) = *other;
-    copyFromArray(self->m_childShapes, other->m_childShapes);
-    self->m_rotation = other->m_rotation;
-    self->m_translation = other->m_translation;
-    return self;
+    static_cast<Subpart &>(*this) = other;
+    copyFromArray(m_childShapes, other.m_childShapes);
+    m_rotation = other.m_rotation;
+    m_translation = other.m_translation;
+    return *this;
 }

@@ -31,6 +31,7 @@ public:
     hkpPointToPathConstraintData();
     hkpPointToPathConstraintData(hkFinishLoadedObjectFlag f) : hkpConstraintData(f), m_atoms(f) {}
     virtual ~hkpPointToPathConstraintData();
+    virtual void getConstraintInfo(ConstraintInfo &infoOut) const;   // +0x3C 82DA0638
 
     hkpBridgeAtoms m_atoms;                                              // +0xC
     hkpParametricCurve *m_path;                                          // +0x18

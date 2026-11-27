@@ -22,7 +22,6 @@ extern void *lbl_821CA858[];              // the actuator's vtable
 extern const hkQuaternion lbl_82196750;   // (0, 0, 0, 1): the identity quaternion
 extern const hkVector4 lbl_821962C0;      // (0, 0, 0, 0)
 extern float lbl_821917A8[];
-hkpAabbPhantom *fn_82D8D6C0(hkpAabbPhantom *self, const hkAabb *aabb, hkUint32 filterInfo);   // hkpAabbPhantom()
 }
 
 struct ActuatorParams {
@@ -106,7 +105,6 @@ extern "C" Actuator *fn_82603640(Actuator *self, hkpEntity *entity)
     entity->m_collidable.getShape()->getAabb(t, lbl_821917A8[0x2c / 4], aabb);
     __vector4 negMin = negate(aabb.m_min);
     self->m_halfExtents.m_quad = __vsel(aabb.m_max.m_quad, negate(aabb.m_min), __vcmpgtfp(aabb.m_max.m_quad, negMin));
-    hkpAabbPhantom *phantom = (hkpAabbPhantom *)hkpAabbPhantom::operator new(sizeof(hkpAabbPhantom));
-    self->m_phantom = fn_82D8D6C0(phantom, &aabb, entity->m_collidable.m_broadPhaseHandle.m_collisionFilterInfo);
+    self->m_phantom = new hkpAabbPhantom(aabb, entity->m_collidable.m_broadPhaseHandle.m_collisionFilterInfo);
     return self;
 }

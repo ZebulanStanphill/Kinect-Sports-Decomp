@@ -1,6 +1,5 @@
-// hkpWorldCinfo::hkpWorldCinfo() (Physics/Dynamics/World/hkpWorldCinfo.cpp). Keeps its fn_ name:
-// the Matching C++ unit func_82DF3068 calls it. Member names from the game's hkpWorldCinfo
-// reflection strings. Havok code: /O2 /QVMXReserve (flag file).
+// hkpWorldCinfo::hkpWorldCinfo() (Physics/Dynamics/World/hkpWorldCinfo.cpp). Member names from the
+// game's hkpWorldCinfo reflection strings. Havok code: /O2 /QVMXReserve (flag file).
 //
 // Havok writes literals. Vector literals become __vmx@ constants and float literals __real@ constants:
 // the rename map gives the game's lbl_ copies of them (referenced by no Matching unit) those names, and
@@ -8,7 +7,7 @@
 #include "havok/hkpWorldCinfo.h"
 #include "havok/hkWorldMemoryAvailableWatchDog.h"
 
-HK_FORCE_INLINE hkpWorldCinfo::hkpWorldCinfo()
+hkpWorldCinfo::hkpWorldCinfo()
 {
     m_gravity.set(0.0f, -9.8f, 0.0f);
     m_enableSimulationIslands = true;
@@ -62,10 +61,4 @@ HK_FORCE_INLINE hkpWorldCinfo::hkpWorldCinfo()
     m_memoryWatchDog = HK_NULL;
     m_processActionsInSingleThread = true;
     m_fireCollisionCallbacks = false;
-}
-
-extern "C" hkpWorldCinfo *fn_82D8E600(hkpWorldCinfo *self)
-{
-    self->hkpWorldCinfo::hkpWorldCinfo();
-    return self;
 }

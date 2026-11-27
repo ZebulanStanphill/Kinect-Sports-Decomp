@@ -14,7 +14,7 @@ class hkpNullCollisionFilter : public hkpCollisionFilter {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
     hkpNullCollisionFilter();
-    // Out of line; in the game it is still fn_82D3AB48.
+    // Out of line (82D3AB48).
     hkpNullCollisionFilter(hkFinishLoadedObjectFlag flag);
     virtual ~hkpNullCollisionFilter();
     virtual hkBool isCollisionEnabled(const hkpCollidable &a, const hkpCollidable &b) const;

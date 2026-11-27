@@ -1,29 +1,22 @@
-#include "havok/hkVector4.h"
-
-struct Samples_82D9F058 {
-    char pad0[0x20];
-    hkVector4 *data;     // hkArray<hkVector4>
-    int size;
-};
+// hkpLinearParametricCurve::getPoint (slot +0xC of ??_7hkpLinearParametricCurve@@6B@): interpolates between
+// the two points around t (fn_82CECDD8 rounds t down to an int).
+#include "havok/hkpLinearParametricCurve.h"
 
 extern "C" int fn_82CECDD8(float);
 
-extern "C" void fn_82D9F058(const Samples_82D9F058 *self, float t, hkVector4 &out)
+void hkpLinearParametricCurve::getPoint(hkReal t, hkVector4 &pointOnCurve)
 {
     int i;
-    int next;
-    float frac;
-
     if (t < 0.0f) {
         i = 0;
     } else {
         i = fn_82CECDD8(t);
     }
-    frac = t - (float)i;
-    next = i + 1;
-    if (next < self->size) {
-        out.setInterpolate4(self->data[i], self->data[next], frac);
+    const hkReal frac = t - (hkReal)i;
+    const int next = i + 1;
+    if (next < m_points.getSize()) {
+        pointOnCurve.setInterpolate4(m_points[i], m_points[next], frac);
     } else {
-        out = self->data[i];
+        pointOnCurve = m_points[i];
     }
 }

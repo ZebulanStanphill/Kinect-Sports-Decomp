@@ -3,9 +3,9 @@
 // them (82CE6FF0, 82CE6F68), hence the placement-only allocator.
 // The constructor is out of line (82CF7428: clears the free lists, builds the row tables, clears m_memory). The
 // destructor is inline: it calls releaseCachedMemory, then ~hkMemoryAllocator (82CE6AF8, 82CE6F68).
-// releaseCachedMemory is the last slot of the vtable (??_7hkThreadMemory@@6B@, 14 slots: hkMemoryAllocator's 13
-// and this one); it keeps its fn_ name (fn_82CF74E8), so it is called through an inline wrapper and is not
-// declared virtual here. blockAlloc and blockFree (fn_82CF71F8, fn_82CF7280) are declared because the class is
+// releaseCachedMemory (82CF74E8: clears every row that has a free list, last to first) is the last slot of the
+// vtable (??_7hkThreadMemory@@6B@, 14 slots: hkMemoryAllocator's 13 and this one); its name is Havok's.
+// blockAlloc and blockFree (fn_82CF71F8, fn_82CF7280) are declared because the class is
 // constructed (82CE6FF0's array); the other overrides are not declared.
 // The enumerators, member names and constSizeToRow follow Havok's header; the word at +0x11C is not named by any
 // unit (the size comes from hkFreeListMemorySystem's thread data, whose next member is at +0x120).
@@ -13,9 +13,6 @@
 #define HAVOK_HKTHREADMEMORY_H
 
 #include "havok/hkBase.h"
-
-class hkThreadMemory;
-extern "C" void fn_82CF74E8(hkThreadMemory *self);   // hkThreadMemory::releaseCachedMemory
 
 class hkThreadMemory : public hkMemoryAllocator {
 public:
@@ -32,11 +29,11 @@ public:
         int m_numElem;
     };
     hkThreadMemory();
-    HK_FORCE_INLINE virtual ~hkThreadMemory() { releaseCachedMemory(); }
+    HK_FORCE_INLINE virtual ~hkThreadMemory() { hkThreadMemory::releaseCachedMemory(); }
     virtual void *blockAlloc(int numBytes);
     virtual void blockFree(void *p, int numBytes);
 
-    HK_FORCE_INLINE void releaseCachedMemory() { fn_82CF74E8(this); }
+    virtual void releaseCachedMemory();          // +0x34
 
     static HK_FORCE_INLINE int constSizeToRow(int size)
     {

@@ -29,7 +29,7 @@ extern "C" {
 int fn_82DD6E28(const GetClosestPointInput &input, hkpGskCache *cache, hkVector4 *separatingNormal, hkVector4 &pointOnB);
 }
 
-extern "C" void fn_82D75598(hkpGskBaseAgent *self, const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpCdPointCollector &collector)
+void hkpGskBaseAgent::getClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input, hkpCdPointCollector &collector)
 {
 	timer("TtGsk");
 	hkTransform aTb;
@@ -42,7 +42,7 @@ extern "C" void fn_82D75598(hkpGskBaseAgent *self, const hkpCdBody &bodyA, const
 	in.m_collisionTolerance = input.m_tolerance;
 	hkVector4 pointOnB;
 	hkVector4 separatingNormal;
-	if (fn_82DD6E28(in, &self->m_cache, &separatingNormal, pointOnB) == 0) {
+	if (fn_82DD6E28(in, &m_cache, &separatingNormal, pointOnB) == 0) {
 		hkpCdPoint event(bodyA, bodyB);
 		event.m_contact.m_position = pointOnB;
 		event.m_contact.m_separatingNormal = separatingNormal;

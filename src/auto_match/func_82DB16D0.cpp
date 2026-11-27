@@ -3,15 +3,14 @@
 #include "havok/hkpWorldPostSimulationListener.h"
 #include "havok/hkpIslandActivationListener.h"
 #include "havok/hkpPhantomListener.h"
-class hkpWorld { public:char pad[0x78]; char *broadphase;};
+#include "havok/hkAabbTree.h"
+#include "havok/hkpWorld.h"
 class hkpTreeWorldManager:public hkReferencedObject {public:
  int type;void *tree,*other;
  HK_FORCE_INLINE hkpTreeWorldManager():tree(0),other(0){} virtual ~hkpTreeWorldManager();
 };
 extern "C" {
- void *fn_82CFBA90(void *,int,int);void *fn_82D35080(void *,void *,void *,void *);
- void fn_82D83DA8(hkpWorld *,hkpEntityListener *);void fn_82D83E20(hkpWorld *,hkpPhantomListener *);
- void fn_82D83E98(hkpWorld *,hkpIslandActivationListener *);void fn_82D83F88(hkpWorld *,hkpWorldPostSimulationListener *);
+ void *fn_82CFBA90(void *,int,int);
 }
 class hkpAabbTreeWorldManager:public hkpTreeWorldManager,public hkpEntityListener,public hkpPhantomListener,public hkpIslandActivationListener,public hkpWorldPostSimulationListener {
 public:
@@ -26,7 +25,7 @@ hkpAabbTreeWorldManager::hkpAabbTreeWorldManager(hkpWorld *w,int mode,float t):w
  random=p?fn_82CFBA90(p,0,1000):0;timestep=t;
  type=1;other=0;tree=0;
  if(mode==0)use=true;else if(mode==1)use=false;
- fn_82D83DA8(world,this);fn_82D83E20(world,this);fn_82D83E98(world,this);fn_82D83F88(world,this);
- if(use){char *bp=world->broadphase+0x20;void *p=hkMemoryRouter::getInstance().heap().blockAlloc(128);tree=p?fn_82D35080(p,bp,bp+0x10,bp+0x20):0;}
+ world->addEntityListener(this);world->addPhantomListener(this);world->addIslandActivationListener(this);world->addWorldPostSimulationListener(this);
+ if(use){const hkVector4 *bp=(const hkVector4 *)(reinterpret_cast<char *>(world->m_collisionInput)+0x20);tree=new hkAabbTree<hkAabbTreeData::hkAabbTreeAabb16,hkUint16>(bp[0],bp[1],bp[2]);}
  flag=false;flag2=false;a=0;b=30;data.m_size=0;*(char *)((char *)this+0x2c)=0;flag3=false;
 }

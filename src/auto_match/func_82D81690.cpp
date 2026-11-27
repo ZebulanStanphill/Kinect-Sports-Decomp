@@ -1,31 +1,25 @@
-// The array subobject preserves the original indexed-store operand order.
-struct Array {
-    unsigned int *data;
-    int count;
+// hkpWorld::removeWorldDeletionListener (Physics/Dynamics/World/hkpWorld.cpp): finds the listener in m_worldDeletionListeners
+// and clears its entry (the array is compacted later).
+#include "havok/hkBase.h"
+#include "havok/hkpWorld.h"
 
-
-
-};
-
-struct Object {
-    char pad[0x150];
-    Array a;
-};
-
-extern "C" void fn_82D81690(Object *p, unsigned int value) {
-    {Array *array=&p->a;
-        int i = 0;
-        unsigned int *q;
-        if (array->count > 0) {
-            q = array->data;
-            do {
-                if (*q == value) goto found;
-                ++i;
-                ++q;
-            } while (i < array->count);
-        }
-        i = -1;
-    found:
-        array->data[i] = 0;
+// hkArray::indexOf
+template <typename T> static HK_FORCE_INLINE int indexOf(hkArray<T> &a, const T &t)
+{
+    int i = 0;
+    if (0 < a.getSize()) {
+        T *p = a.begin();
+        do {
+            if (*p == t) return i;
+            i++;
+            p++;
+        } while (i < a.getSize());
     }
+    return -1;
+}
+
+void hkpWorld::removeWorldDeletionListener(hkpWorldDeletionListener *worldListener)
+{
+    int i = indexOf(m_worldDeletionListeners, worldListener);
+    m_worldDeletionListeners[i] = HK_NULL;
 }

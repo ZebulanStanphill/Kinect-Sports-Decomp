@@ -1,4 +1,4 @@
-// hkBsdSocket::pollForNewClient() (Common/Base/System/Io/Socket/Bsd/hkBsdSocket.cpp), Xbox 360 build:
+// hkBsdSocket::pollForNewClient() (Common/Base/System/Io/Socket/Bsd/hkBsdSocket.cpp; vtable slot +0x28), Xbox 360 build:
 // select() on the listening socket, accept(), HK_REPORT the peer, TCP_NODELAY, then
 // `new hkBsdSocket(s)`. hkSocket's constructor is out of line (??0hkSocket@@QAA@XZ).
 // Notes for matching:
@@ -61,21 +61,21 @@ public:
     SOCKET m_socket;   // +0x20
 };
 
-extern "C" hkSocket *fn_82D05F78(hkBsdSocket *self)
+hkSocket *hkBsdSocket::pollForNewClient()
 {
-    if (self->m_socket != INVALID_SOCKET) {
-        int maxFd = (int)self->m_socket + 1;
+    if (m_socket != INVALID_SOCKET) {
+        int maxFd = (int)m_socket + 1;
         fd_set readFds;
         FD_ZERO(&readFds);
-        FD_SET(self->m_socket, &readFds);
+        FD_SET(m_socket, &readFds);
         fd_set exceptFds;
         FD_ZERO(&exceptFds);
-        FD_SET(self->m_socket, &exceptFds);
+        FD_SET(m_socket, &exceptFds);
         timeval t; t.tv_sec = 0; t.tv_usec = 0;
-        if (select(maxFd, &readFds, 0, &exceptFds, &t) > 0 && __WSAFDIsSet(self->m_socket, &readFds)) {
+        if (select(maxFd, &readFds, 0, &exceptFds, &t) > 0 && __WSAFDIsSet(m_socket, &readFds)) {
             sockaddr_in from;
             int fromlen = sizeof(from);
-            SOCKET s = accept(self->m_socket, &from, &fromlen);
+            SOCKET s = accept(m_socket, &from, &fromlen);
             hkStringBuf str;
             fn_82D04B90(&str, "Socket got connection from [%lx:%d]\n", from.sin_addr, from.sin_port);
             char reportBuf[512];

@@ -12,9 +12,9 @@ a.predictive = 1;
 fn_82D59158(dispatcher,&a,-1,0x16);
 b.predictive = 1;
 b.create = (void*)hkpMultiSphereAgent::createMultiSphereAAgent;
-b.penetrations = (void*)fn_82D6D2C8;
-b.closest = (void*)fn_82D6CE58;
-b.cast = (void*)fn_82D6D088;
+b.penetrations = (void*)hkpMultiSphereAgent::staticGetPenetrations;
+b.closest = (void*)hkpMultiSphereAgent::staticGetClosestPoints;
+b.cast = (void*)hkpMultiSphereAgent::staticLinearCast;
 b.flipped = 0;
 fn_82D59158(dispatcher,&b,0x16,-1);
 }

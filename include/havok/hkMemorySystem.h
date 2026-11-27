@@ -1,7 +1,8 @@
 // hkMemorySystem (Common/Base/Memory/System/hkMemorySystem.h), 4 bytes: the interface that sets up the memory
 // routers of the main thread and the worker threads. A root class (RTTI); hkFreeListMemorySystem derives from it.
-// The destructor is out of line but keeps its fn_ name (fn_82CE7330; the scalar deleting destructor 82CE6B40 calls
-// it), so it is defined here, empty and inline, and 82CE7330 expands it. getInstance is fn_82CE7310.
+// The destructor is out of line (82CE7330, which only stores the vtable; the scalar deleting destructor 82CE6B40
+// calls it). The deleting destructor frees nothing, so the class has the placement allocator. getInstance is
+// fn_82CE7310 (it returns lbl_8323B214; the name is Havok's, so it keeps its fn_ name).
 // The vtable (??_7hkMemorySystem@@6B@, 14 slots) has six pure slots after the destructor and seven defaults
 // (empty, except slot 8, which returns 0, and slot 9, which returns 1). The names of the first five follow
 // Havok's header and are checked against hkFreeListMemorySystem's overrides: mainInit 82CE6C08 (stores the frame
@@ -28,9 +29,15 @@ public:
     };
     typedef hkFlags<FlagBits, int> Flags;
 
+    // HK_DECLARE_PLACEMENT_ALLOCATOR (hkReferencedObject.h), written out: units that include this header keep a
+    // local hkMemoryRouter, which hkReferencedObject.h would redefine.
+    HK_FORCE_INLINE void *HK_CALL operator new(hk_size_t, void *p) { return p; }
+    HK_FORCE_INLINE void HK_CALL operator delete(void *, void *) {}
+    HK_FORCE_INLINE void HK_CALL operator delete(void *) {}
+
     static HK_FORCE_INLINE hkMemorySystem &getInstance() { return fn_82CE7310(); }
 
-    virtual ~hkMemorySystem() {}
+    virtual ~hkMemorySystem();
     virtual hkMemoryRouter *mainInit(void *info, Flags f = FLAG_ALL) = 0;                             // +0x4
     virtual int mainQuit(Flags f = FLAG_ALL) = 0;                                                     // +0x8
     virtual void threadInit(hkMemoryRouter &r, const char *name, Flags f = FLAG_ALL) = 0;             // +0xC

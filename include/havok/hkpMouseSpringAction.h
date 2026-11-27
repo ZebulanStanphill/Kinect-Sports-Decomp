@@ -19,7 +19,7 @@ public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_ACTION);
     typedef void (HK_CALL *mouseSpringAppliedCallback)(hkpMouseSpringAction *action, const hkStepInfo &stepInfo,
                                                        hkpRigidBody *rb);
-    // Out of line; in the game it is still fn_82DF2948.
+    // Out of line (82DF2948).
     hkpMouseSpringAction(hkpRigidBody *rb = HK_NULL);
     hkpMouseSpringAction(const hkVector4 &positionInRbLocal, const hkVector4 &mousePositionInWorld,
                          const hkReal springDamping, const hkReal springElasticity, const hkReal objectDamping,

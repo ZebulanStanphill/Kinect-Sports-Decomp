@@ -1,22 +1,19 @@
-// hkpVehicleInstance (Physics/Vehicle/hkpVehicleInstance.h), 0xE0 bytes: a vehicle, the action that steps a
+// hkpVehicleInstance (Physics/Vehicle/hkpVehicleInstance.h), 0xD4 bytes: a vehicle, the action that steps a
 // chassis rigid body (hkpUnaryAction's m_entity) with its components.
 //
-// The layout to +0xD4 is the one the constructor (82DFE070) and the destructor (82DFE168) give: the eleven
-// component pointers, then the arrays and the drive state. The destructor releases the components in the order
+// The layout is the one the constructor (82DFE070) and the destructor (82DFE168) give: the eleven component
+// pointers, then the arrays and the drive state. The destructor releases the components in the order
 // +0x1C..+0x3C, +0x44, +0x9C, +0x40 and destroys the arrays at +0xC0, +0xA0, +0x48; the analog driver input
 // (82DFB0E8) reads m_isReversing, the transmission (82DFBB00) m_tryingToReverse, the brake (82DFB4A0) m_data
-// and m_wheelsInfo, the components the chassis at +0x18. The names follow Havok's header. The twelve bytes from
-// +0xD4 are not identified.
+// and m_wheelsInfo, the components the chassis at +0x18. The names follow Havok's header. The size is clone's
+// (82DFE938 allocates 0xD4 bytes); getVtablehkpVehicleInstance (82DF9CB8) has a 0xE0-byte buffer because
+// Havok's reflection union aligns its pointer to 16.
 //
 // Its vtable (??_7hkpVehicleInstance@@6B@, 16 slots) starts with the deleting destructor (82DF9CF8) and
 // continues with hkpAction's functions: applyAction 82DFEA48, getPhantoms 82DFBFC8 and clone 82DFE938 (which
 // calls the constructor) are its own, getEntities and entityRemovedCallback are hkpUnaryAction's. The eight
 // slots after them (+0x20..+0x3C: 82DFDC18, 82DFC848, 82DFC8A8, 82DFD6D0, 82DFC178, 82DFD840, 82DFD8B0,
 // 82DFC270) are the class's own virtual functions; they are not identified and not declared.
-//
-// The constructor and the destructor exist only under fn_ names (fn_82DFE070, called by the Matching C unit
-// 82DFE938; fn_82DFE168, called by the deleting destructor): they are declared here and need the symbols
-// renamed before units can call them through the header.
 #ifndef HAVOK_HKPVEHICLEINSTANCE_H
 #define HAVOK_HKPVEHICLEINSTANCE_H
 
@@ -40,9 +37,14 @@ class hkpVehicleDriverInputStatus;
 class hkpVehicleInstance : public hkpUnaryAction {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_VEHICLE);
-    // 0xE0 bytes (the reflection string hkpVehicleInstanceWheelInfo names it). Its members are not identified.
+    // 0xE0 bytes (the reflection string hkpVehicleInstanceWheelInfo names it). Only the two points of the
+    // wheel's ray are identified: hkpVehicleRayCastWheelCollide's calcWheelsAABB (82E019A8) takes the box of
+    // them and castSingleWheel (82E01720) casts from the first to the second. The names follow Havok's header.
     struct WheelInfo {
-        char m_data[0xE0];
+        char m_unknown00[0x50];
+        hkVector4 m_hardPointWs;     // +0x50
+        hkVector4 m_rayEndPointWs;   // +0x60
+        char m_unknown70[0xE0 - 0x70];
     };
     hkpVehicleInstance(hkpRigidBody *chassis);
     hkpVehicleInstance(hkFinishLoadedObjectFlag flag)
@@ -80,7 +82,6 @@ public:
     hkInt8 m_currentGear;                            // +0xCD
     hkBool m_delayed;                                // +0xCE
     hkReal m_clutchDelayCountdown;                   // +0xD0
-    char m_unknownD4[0xE0 - 0xD4];                   // +0xD4 (not identified)
 };
 
 #endif

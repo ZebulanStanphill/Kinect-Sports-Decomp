@@ -1,9 +1,9 @@
 // hkpTransformAgent::commitPotential(hkContactPointId newId)
 // (Physics/Collide/Agent/MiscAgent/Transform/hkpTransformAgent.cpp),
-// its vtable's slot +0x30: forwards to the child agent. Keeps its fn_ name.
+// its vtable's slot +0x30: forwards to the child agent.
 #include "havok/hkpTransformAgent.h"
 
-extern "C" void fn_82D6AC08(hkpTransformAgent *self, hkContactPointId newId)
+void hkpTransformAgent::commitPotential(hkContactPointId newId)
 {
-    self->m_childAgent->commitPotential(newId);
+    m_childAgent->commitPotential(newId);
 }

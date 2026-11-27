@@ -3,8 +3,8 @@
 // hkClass constructor call in fn_831369D8 (hkxSparselyAnimatedEnumClass, lbl_8323F46C) gives the size and
 // the parent (hkxSparselyAnimatedIntClass), the member list (lbl_82148464) the one member, "enum", a pointer
 // to an hkxEnum at +0x20.
-// The scalar deleting destructor (fn_82E027A0, a C unit) releases m_enum as hkRefPtr's destructor does
-// (removeReference if set, then clear it) before it calls hkxSparselyAnimatedInt's destructor (fn_82E025E0).
+// The scalar deleting destructor (82E027A0) releases m_enum as hkRefPtr's destructor does (removeReference if
+// set, then clear it) before it calls hkxSparselyAnimatedInt's destructor (82E025E0).
 #ifndef HAVOK_HKXSPARSELYANIMATEDENUM_H
 #define HAVOK_HKXSPARSELYANIMATEDENUM_H
 

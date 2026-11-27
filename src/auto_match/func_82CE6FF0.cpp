@@ -1,7 +1,7 @@
 // hkFreeListMemorySystem::hkFreeListMemorySystem() (Common/Base/Memory/System/FreeList/hkFreeListMemorySystem.cpp).
 // It keeps its fn_ name because a game C unit (fn_82558278) calls it; the inline constructor runs through an
 // explicit constructor call (MSVC accepts self->C::C()), which has no placement-new null check. Members whose
-// constructors keep fn_ names (hkFreeListAllocator fn_82CF9730, hkCriticalSection fn_82CEFBD0, fn_82CE72E8,
+// constructors keep fn_ names (hkFreeListAllocator fn_82CF9730, fn_82CE72E8,
 // fn_82CE5430) are opaque structs with inline wrapper constructors; the hkThreadMemory array is constructed
 // by the compiler's inline array loop calling ??0hkThreadMemory@@QAA@XZ (fn_82CF7428, func_82CF7428.cpp).
 #include "havok/hkBase.h"

@@ -19,7 +19,7 @@ class hkSocket : public hkReferencedObject {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_BASE);
 
-    // The two adapters' functions keep their fn_ names: isOk 82CFB850, read 82CFB7E0 (loops until nbytes are
+    // The two adapters' functions: isOk 82CFB850, read 82CFB7E0 (loops until nbytes are
     // read or the socket returns 0); the writer's are 82CFB900 and 82CFB890.
     class ReaderAdapter : public hkStreamReader {
     public:

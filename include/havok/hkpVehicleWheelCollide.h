@@ -8,6 +8,7 @@
 
 #include "havok/hkTransform.h"
 #include "havok/hkpPhantomOverlapListener.h"
+#include "havok/hkpVehicleInstance.h"   // hkpVehicleInstance::WheelInfo (castSingleWheel)
 
 class hkAabb;
 class hkpAabbPhantom;
@@ -16,7 +17,6 @@ class hkpCollisionFilter;
 class hkpPhantom;
 class hkpRigidBody;
 class hkpShape;
-class hkpVehicleInstance;
 class hkpWorld;
 struct hkpShapeRayCastCommand;
 struct hkpWorldRayCastOutput;
@@ -105,14 +105,21 @@ public:
     hkpVehicleRayCastWheelCollide();
     hkpVehicleRayCastWheelCollide(hkFinishLoadedObjectFlag f);
     virtual ~hkpVehicleRayCastWheelCollide();
+    virtual void init(const hkpVehicleInstance *vehicle);                                                // +0x0C 82E01810
+    virtual void collideWheels(const hkReal deltaTime, const hkpVehicleInstance *vehicle,
+                               CollisionDetectionWheelOutput *cdInfoOut);                                // +0x10 82E01A60
+    virtual void getPhantoms(hkArray<hkpPhantom *> &phantomsOut);                                        // +0x14 82E01F38
+    virtual void updateBeforeCollisionDetection(const hkpVehicleInstance *vehicle);                      // +0x18 82E016D8
     virtual hkpVehicleWheelCollide *clone(const hkpRigidBody &newChassis, const hkArray<hkpPhantom *> &newPhantoms) const;
+    virtual void addToWorld(hkpWorld *world);                                                            // +0x20 82E01778
+    virtual void removeFromWorld();                                                                      // +0x24 82E01788
+    virtual void setCollisionFilterInfo(hkUint32 filterInfo);                                            // +0x28 82E01798
     virtual int buildRayCastCommands(const hkpVehicleInstance *vehicle, const hkpCollisionFilter *collisionFilter,
                                      hkUint32 filterInfo, hkpShapeRayCastCommand *commandStorage,
                                      hkpWorldRayCastOutput *outputStorage) const;                        // +0x30
     virtual void calcWheelsAABB(const hkpVehicleInstance *vehicle, hkAabb &aabbOut) const;               // +0x34
-    // Havok's first parameter is `const hkpVehicleInstance::WheelInfo &`, which cannot be named here (the
-    // class is only forward declared in this header).
-    virtual void castSingleWheel(const void *wheelInfo, hkpWorldRayCastOutput &output) const;            // +0x38
+    virtual void castSingleWheel(const hkpVehicleInstance::WheelInfo &wheelInfo,
+                                 hkpWorldRayCastOutput &output) const;                                   // +0x38
     virtual void getCollisionOutputFromCastResult(const hkpVehicleInstance *vehicle, hkUint8 wheelNum,
                                                   const hkpWorldRayCastOutput &raycastOutput,
                                                   CollisionDetectionWheelOutput &output) const;          // +0x3C

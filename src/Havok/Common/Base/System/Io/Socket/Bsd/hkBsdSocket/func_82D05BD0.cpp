@@ -1,4 +1,4 @@
-// hkBsdSocket::connect(const char *servername, int port) (Common/Base/System/Io/Socket/Bsd/hkBsdSocket.cpp),
+// hkBsdSocket::connect(const char *servername, int port) (Common/Base/System/Io/Socket/Bsd/hkBsdSocket.cpp; vtable slot +0x1C),
 // Xbox 360 build: only numeric addresses are accepted; a host name raises an error report.
 #include "havok/hkOstream.h"
 #include "havok/hkError.h"
@@ -27,7 +27,7 @@ static HK_FORCE_INLINE hkBool isDigit(int c)
     return c >= '0' && c <= '9';
 }
 
-extern "C" int fn_82D05BD0(hkBsdSocket *self, const char *servername, int port)
+hkResult hkBsdSocket::connect(const char *servername, int port)
 {
     sockaddr_in server;
     hkString::memSet(&server, 0, sizeof(server));
@@ -46,16 +46,16 @@ extern "C" int fn_82D05BD0(hkBsdSocket *self, const char *servername, int port)
         }
         ((hkOstream *)&os)->hkOstream::~hkOstream();
     }
-    if (self->m_socket == -1) {
-        self->close();
-        self->m_socket = socket(2, 1, 0);
-        if (self->m_socket == -1) {
-            return 1;
+    if (m_socket == -1) {
+        close();
+        m_socket = socket(2, 1, 0);
+        if (m_socket == -1) {
+            return HK_FAILURE;
         }
     }
-    if (connect(self->m_socket, &server, sizeof(server)) == -1) {
-        self->close();
-        return 1;
+    if (::connect(m_socket, &server, sizeof(server)) == -1) {
+        close();
+        return HK_FAILURE;
     }
-    return 0;
+    return HK_SUCCESS;
 }

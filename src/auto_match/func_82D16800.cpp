@@ -1,14 +1,7 @@
-// hkgpConvexHull's scalar deleting destructor (slot 0 of ??_7hkgpConvexHull@@6B@). It calls hkgpConvexHull's destructor fn_82D0D640, which keeps its fn_ name, so it is written out under its own fn_ name.
+// hkgpConvexHull's scalar deleting destructor (slot 0 of ??_7hkgpConvexHull@@6B@): it calls the out-of-line
+// destructor (func_82D0D640) and frees through hkReferencedObject's class allocator. The function at the end only
+// makes the compiler emit the vtable; the declared constructor is out of line, so it uses the implicit copy
+// constructor.
 #include "havok/hkgpConvexHull.h"
 
-extern "C" {
-void fn_82D0D640(hkgpConvexHull *self);   // hkgpConvexHull::~hkgpConvexHull
-}
-
-extern "C" hkgpConvexHull *fn_82D16800(hkgpConvexHull *self, unsigned int flags)
-{
-    fn_82D0D640(self);
-    if (flags & 1)
-        hkgpConvexHull::operator delete(self);
-    return self;
-}
+void emitVtable_82D16800(void *p, const hkgpConvexHull &o) { new (p) hkgpConvexHull(o); }

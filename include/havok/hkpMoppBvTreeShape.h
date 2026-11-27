@@ -4,7 +4,7 @@
 //
 // - The constructor is out of line (??0hkpMoppBvTreeShape@@QAA@PBVhkpShapeCollection@@PBVhkpMoppCode@@@Z,
 //   82D4BC48), and so is the destructor (82D4BAA8).
-// - The finish constructor exists in the game only as fn_82D3A7D8 (its unit defines it): when finishing it sets
+// - The finish constructor is out of line (82D3A7D8): when finishing it sets
 //   HK_SHAPE_MOPP and copies the code's offset, data pointer and size, as the constructor does.
 // ??_7hkpMoppBvTreeShape@@6B@ has 14 slots.
 #ifndef HAVOK_HKPMOPPBVTREESHAPE_H
@@ -18,7 +18,7 @@ class hkpMoppBvTreeShape : public hkMoppBvTreeShapeBase {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_SHAPE);
     hkpMoppBvTreeShape(const hkpShapeCollection *collection, const hkpMoppCode *code);   // out of line (82D4BC48)
-    hkpMoppBvTreeShape(hkFinishLoadedObjectFlag flag);                                   // fn_82D3A7D8
+    hkpMoppBvTreeShape(hkFinishLoadedObjectFlag flag);                                   // out of line (82D3A7D8)
     virtual ~hkpMoppBvTreeShape();                                                       // out of line (82D4BAA8)
 
     HK_FORCE_INLINE const hkpShapeCollection *getShapeCollection() const

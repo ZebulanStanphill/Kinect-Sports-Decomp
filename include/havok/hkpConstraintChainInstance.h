@@ -18,12 +18,8 @@ class hkpConstraintChainInstance : public hkpConstraintInstance {
 public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_CONSTRAINT);
     hkpConstraintChainInstance(hkpConstraintChainData *data);
-    // Out of line in the game as fn_82D7E9A8, which keeps its fn_ name (a Matching unit defines it); defined
-    // inline here so that a unit can expand it. m_chainedEntities and m_action are serialised.
-    HK_FORCE_INLINE hkpConstraintChainInstance(hkFinishLoadedObjectFlag f)
-        : hkpConstraintInstance(f), m_chainedEntities(f)
-    {
-    }
+    // Out of line (82D7E9A8). m_chainedEntities and m_action are serialised.
+    hkpConstraintChainInstance(hkFinishLoadedObjectFlag f);
     virtual ~hkpConstraintChainInstance();
     virtual void entityRemovedCallback(hkpEntity *entity);          // +0x10 82D9CD18
     virtual InstanceType getType() const { return TYPE_CHAIN; }     // +0x18 82D7EA10

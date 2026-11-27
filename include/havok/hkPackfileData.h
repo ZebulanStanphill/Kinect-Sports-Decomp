@@ -4,20 +4,18 @@
 // (??0hkPackfileData@@QAA@XZ, 82E16A90) fills in; the names are Havok's. m_destructorsEnabled is a word:
 // the constructor stores 1 with stw and callDestructors (82E16580) tests the word. callDestructors looks each
 // tracked object's class name up in m_trackedTypes and runs the hkTypeInfo's cleanup function on it.
-// The constructor and destructor (??1hkPackfileData@@UAA@XZ, 82E16B88) are out of line; the other virtual
-// functions are C units under fn_ names: calcContentStatistics 82E16408, getName 823AA970 (shared),
+// The constructor and destructor (??1hkPackfileData@@UAA@XZ, 82E16B88) are out of line, and so are the other
+// virtual functions: calcContentStatistics 82E16408, getName 823AA970 (fn_, folded with other getters),
 // callDestructors 82E16580, getImportsExports 82E16698, getContentsPointer 82E16928, getContentsTypeName
-// 82E16288; the scalar deleting destructor is fn_82E16DC0.
+// 82E16288 (m_trackedObjects' class name for m_topLevelObject, or null). The scalar deleting destructor,
+// fn_82E16DC0, keeps its fn_ name: BinaryPackfileData's vtable shares it (a fold).
 #ifndef HAVOK_HKPACKFILEDATA_H
 #define HAVOK_HKPACKFILEDATA_H
 
 #include "havok/hkClassNameRegistry.h"
 #include "havok/hkResource.h"
 
-class hkPackfileData;
 class hkTypeInfo;
-
-extern "C" void fn_82E16580(hkPackfileData *self);   // hkPackfileData::callDestructors
 
 class hkPackfileData : public hkResource {
 public:

@@ -24,9 +24,7 @@ struct hkpTyremarkPoint {
 // 0x1C bytes. Its vtable (??_7hkpTyremarksWheel@@6B@, 3 slots): the deleting destructor (82DF92F0),
 // hkReferencedObject's two. The constructor and the destructor are out of line in hkpTyremarksInfo.cpp
 // (??0hkpTyremarksWheel@@QAA@XZ, 82DFA760; ??1hkpTyremarksWheel@@UAA@XZ, 82DF9270, an empty user-written one);
-// hkpTyremarksInfo's constructor (82DFA7A0) inlines the constructor. setNumPoints keeps its fn_ name.
-class hkpTyremarksWheel;
-extern "C" void fn_82DFA668(hkpTyremarksWheel *self, int numPoints);   // hkpTyremarksWheel::setNumPoints
+// hkpTyremarksInfo's constructor (82DFA7A0) inlines the constructor. setNumPoints is out of line (82DFA668).
 
 class hkpTyremarksWheel : public hkReferencedObject {
 public:
@@ -34,7 +32,7 @@ public:
     hkpTyremarksWheel();
     hkpTyremarksWheel(hkFinishLoadedObjectFlag flag) : hkReferencedObject(flag), m_tyremarkPoints(flag) {}
     virtual ~hkpTyremarksWheel();
-    void setNumPoints(int numPoints) { fn_82DFA668(this, numPoints); }
+    void setNumPoints(int numPoints);
     // Inlined in getWheelTyremarksStrips (82DFA278); fn_82DFA230 is the out-of-line copy.
     HK_FORCE_INLINE const hkpTyremarkPoint &getTyremarkPoint(int i) const
     {

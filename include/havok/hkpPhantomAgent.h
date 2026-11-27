@@ -3,8 +3,9 @@
 // The layout is the game's: the constructor (82D6A808) keeps both root collidables and both shape types, and
 // createPhantomAgent (82D6A888, keeps its fn_ name) sets the shape pointers of the sides that are phantom
 // callback shapes after calling phantomEnterEvent on them.
-// Its vtable: +0xC 82D6A7B0, +0x10 82D6A7E8, +0x14 82D6A7F8, +0x18 82D6A7A8, +0x1C 82D6A718 (cleanup), then the
-// empty function and hkpCollisionAgent's defaults; none is declared here.
+// Its vtable: +0xC getPenetrations 82D6A7B0, +0x10 getClosestPoints 82D6A7E8, +0x14 linearCast 82D6A7F8,
+// +0x18 processCollision 82D6A7A8 (the last three empty), +0x1C cleanup 82D6A718, then the empty function and
+// hkpCollisionAgent's defaults.
 // The member names follow Havok's header.
 #ifndef HAVOK_HKPPHANTOMAGENT_H
 #define HAVOK_HKPPHANTOMAGENT_H
@@ -19,6 +20,16 @@ public:
     HK_DECLARE_CLASS_ALLOCATOR(HK_MEMORY_CLASS_COLLIDE);
     // Out of line (82D6A808); hkpPhantomAgent.cpp defines it next to createPhantomAgent, which calls it.
     hkpPhantomAgent(const hkpCdBody &bodyA, const hkpCdBody &bodyB, hkpContactMgr *contactMgr);
+
+    virtual void getPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
+                                 hkpCdBodyPairCollector &collector);
+    virtual void getClosestPoints(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
+                                  hkpCdPointCollector &collector);
+    virtual void linearCast(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpLinearCastCollisionInput &input,
+                            hkpCdPointCollector &collector, hkpCdPointCollector *startCollector);
+    virtual void processCollision(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpProcessCollisionInput &input,
+                                  hkpProcessCollisionOutput &result);
+    virtual void cleanup(hkCollisionConstraintOwner &constraintOwner);
 
     const hkpCollidable *m_collidableA;   // +0xC
     const hkpCollidable *m_collidableB;   // +0x10

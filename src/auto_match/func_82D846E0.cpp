@@ -2,6 +2,9 @@
 #include "havok/hkpWorld.h"
 #include "havok/hkpTypedBroadPhaseDispatcher.h"
 class DeleteObject {public:virtual void destroy(unsigned);};
+// The world's finish constructor is out of line (82D845F0); this unit expands an inline copy of it to get the
+// vtable (the destructor is not written as a member yet, so it cannot store the vtable by itself).
+HK_FORCE_INLINE hkpWorld::hkpWorld(hkFinishLoadedObjectFlag flag) : m_phantoms(flag) {}
 static void *worldVtable(){union{void *ptr;char buf[sizeof(hkpWorld)];}u;hkFinishLoadedObjectFlag f;new(u.buf)hkpWorld(f);return u.ptr;}
 extern "C" void fn_82D839C8(void*);extern "C" void fn_82D81240(void*,void*,unsigned);extern "C" void fn_82D8ED60(void*,unsigned);extern "C" void fn_82DAE3A0(void*);extern "C" void fn_82D89688(unsigned,int);extern "C" void fn_82DA6448(unsigned);
 struct WorldSub {char pad[0x64];void *buffer;HK_FORCE_INLINE ~WorldSub(){if(buffer)hkMemoryRouter::getInstance().heap().blockFree(buffer,0x200);}};

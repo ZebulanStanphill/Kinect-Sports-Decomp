@@ -2,7 +2,7 @@
 // agent when the tolerance is small against both boxes, otherwise the generic convex agent
 // (fn_82D75830, hkpGskfAgent's create function, which keeps its fn_ name). The agent is allocated with the
 // class allocator (no null check) and its constructor is inlined; the manifold's constructor is out of line
-// (fn_82D781D0, a Matching C unit).
+// (hkpBoxBoxManifold::hkpBoxBoxManifold, 82D781D0).
 #include "havok/hkBase.h"
 #include "havok/hkpBoxShape.h"
 #include "havok/hkpBoxBoxAgent.h"

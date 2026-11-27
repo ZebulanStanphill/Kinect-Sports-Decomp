@@ -1,11 +1,6 @@
-// hkMemorySystem::~hkMemorySystem (Common/Base/Memory/System/hkMemorySystem.h).
-// hkMemorySystem is a root class (RTTI). The function keeps its fn_ name
-// because a Matching C unit (fn_82CE6B40) calls it, so the destructor is
-// defined inline and expanded into an extern "C" definition.
+// hkMemorySystem::~hkMemorySystem (Common/Base/Memory/System/hkMemorySystem.h): hkMemorySystem is a root class
+// (RTTI), so the destructor only stores the vtable.
 #include "havok/hkBase.h"
 #include "havok/hkMemorySystem.h"
 
-extern "C" void fn_82CE7330(hkMemorySystem *self)
-{
-    self->hkMemorySystem::~hkMemorySystem();
-}
+hkMemorySystem::~hkMemorySystem() {}

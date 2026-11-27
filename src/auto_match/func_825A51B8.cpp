@@ -1,23 +1,17 @@
+// Game code that loads the convex vertices shapes of a resource entry of type 3: one packfile, or one per
+// part (then an hkpListShape over them, 82D3E3F0), each read with an hkBinaryPackfileReader
+// over an hkMemoryStreamReader in place.
 #include "havok/hkMemoryStreamReader.h"
+#include "havok/hkBinaryPackfileReader.h"
+#include "havok/hkpListShape.h"
 inline void *operator new(unsigned int,void *p) throw() { return p; }
 extern "C" {
-void fn_82E0B980(void *);
-void fn_82E0C7A0(void *);
 unsigned char *fn_82CEBB58(void *, void *);
-int fn_82E0D7E8(void *, void *);
-void *fn_82E12AC8(void *, const char *);
-hkReferencedObject *fn_82E0C868(void *);
 hkReferencedObject **fn_825A2410(void *);
 void *fn_8265CA60(unsigned int);
 void fn_8265CAA0(void *);
-hkReferencedObject *fn_82D3E3F0(void *, hkReferencedObject **, int, int);
 }
 inline void *operator new[](unsigned int size) { return fn_8265CA60(size); }
-struct PackfileReader {
-    HK_FORCE_INLINE PackfileReader() { fn_82E0B980(this); }
-    HK_FORCE_INLINE ~PackfileReader() { fn_82E0C7A0(this); }
-    char data[0x80];
-};
 struct Blob {
     const char *data;
     int size;
@@ -43,23 +37,22 @@ static HK_FORCE_INLINE Blob *findBlob(Obj *o)
 }
 extern "C" void fn_825A51B8(Obj *o)
 {
-    struct Stack { unsigned char result; char padding[15]; char stream[0x20]; char reader[0x80]; } stack;
+    struct Stack { unsigned char result; char padding[15]; char stream[0x20]; } stack;
     Blob *blob=findBlob(o);
     if (!blob) return;
     if (blob->count==1) {
-        PackfileReader &reader=*new (stack.reader) PackfileReader;
+        hkBinaryPackfileReader reader;
         o->state=1;
         new (stack.stream) hkMemoryStreamReader(blob->data, blob->size, hkMemoryStreamReader::MEMORY_INPLACE);
 
-        if (*fn_82CEBB58(&stack.result,stack.stream) && fn_82E0D7E8(&reader,stack.stream)==0) {
-            o->shape=(hkReferencedObject *)fn_82E12AC8(&reader,"hkpConvexVerticesShape");
-            hkReferencedObject *r=fn_82E0C868(&reader);
+        if (*fn_82CEBB58(&stack.result,stack.stream) && reader.loadEntireFile(reinterpret_cast<hkStreamReader *>(stack.stream))==HK_SUCCESS) {
+            o->shape=(hkReferencedObject *)reader.getContents("hkpConvexVerticesShape");
+            hkReferencedObject *r=reader.getPackfileData();
             r->addReference(); r->addReference();
             *fn_825A2410(&o->reference)=r;
         }
         reinterpret_cast<hkMemoryStreamReader *>(stack.stream)->hkMemoryStreamReader::~hkMemoryStreamReader();
-        reader.~PackfileReader();
-    } else {
+            } else {
         o->state=2;
         int count=blob->count;
         unsigned int *offsets=blob->offsets;
@@ -67,20 +60,18 @@ extern "C" void fn_825A51B8(Obj *o)
         hkReferencedObject **shapes=new hkReferencedObject *[count];
         for (int i=0;i<count;++i) {
             const char *data=blob->data+offsets[i];
-            PackfileReader &reader=*new (stack.reader) PackfileReader;
+            hkBinaryPackfileReader reader;
             new (stack.stream) hkMemoryStreamReader(data, sizes[i], hkMemoryStreamReader::MEMORY_INPLACE);
     
-            if (*fn_82CEBB58(&stack.result,stack.stream) && fn_82E0D7E8(&reader,stack.stream)==0) {
-                shapes[i]=(hkReferencedObject *)fn_82E12AC8(&reader,"hkpConvexVerticesShape");
-                hkReferencedObject *r=fn_82E0C868(&reader);
+            if (*fn_82CEBB58(&stack.result,stack.stream) && reader.loadEntireFile(reinterpret_cast<hkStreamReader *>(stack.stream))==HK_SUCCESS) {
+                shapes[i]=(hkReferencedObject *)reader.getContents("hkpConvexVerticesShape");
+                hkReferencedObject *r=reader.getPackfileData();
                 r->addReference(); r->addReference();
                 *fn_825A2410(&o->reference)=r;
             }
             reinterpret_cast<hkMemoryStreamReader *>(stack.stream)->hkMemoryStreamReader::~hkMemoryStreamReader();
-            reader.~PackfileReader();
-        }
-        hkReferencedObject *shape=(hkReferencedObject *)hkReferencedObject::operator new(0x70);
-        o->shape=fn_82D3E3F0(shape,shapes,count,1);
+                    }
+        o->shape=new hkpListShape((const hkpShape *const *)shapes,count,hkpShapeContainer::REFERENCE_POLICY_INCREMENT);
         for (int i=0;i<count;++i) shapes[i]->removeReference();
         fn_8265CAA0(shapes);
     }

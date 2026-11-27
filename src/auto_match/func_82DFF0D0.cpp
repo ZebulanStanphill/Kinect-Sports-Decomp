@@ -1,26 +1,10 @@
-#include "havok/hkBase.h"
+// hkpVehicleManager::addVehicle(hkpVehicleInstance *vehicle) (Havok 2010, Physics/Vehicle/Manager/
+// hkpVehicleManager.cpp; slot +0xC of ??_7hkpVehicleManager@@6B@): keeps a reference and registers the vehicle.
+#include "havok/hkpVehicleManager.h"
+#include "havok/hkpVehicleInstance.h"
 
-template <typename T> static HK_FORCE_INLINE void constructWithCopy(T *t, int n, const T &tcopy) { for (int i = 0; i < n; ++i) t[i] = tcopy; }
-
-class Objs_82DFF0D0 : public hkArrayBase<hkReferencedObject *> {
-public:
-    HK_FORCE_INLINE void push(hkReferencedObject *const &v)
-    {
-        hkMemoryAllocator &alloc = hkMemoryRouter::getInstance().heap();
-        if (m_size == getCapacity()) hkArrayUtil::_reserveMore(alloc, this, sizeof(hkReferencedObject *));
-        constructWithCopy(m_data + m_size, 1, v);
-        m_size++;
-    }
-};
-
-struct Owner_82DFF0D0 {
-    char pad[8];
-    Objs_82DFF0D0 objs;
-};
-
-extern "C" void fn_82DFF0D0(Owner_82DFF0D0 *self, hkReferencedObject *obj)
+void hkpVehicleManager::addVehicle(hkpVehicleInstance *vehicle)
 {
-    obj->addReference();
-    hkReferencedObject *v = obj;
-    self->objs.push(v);
+    vehicle->addReference();
+    m_registeredVehicles.pushBack(vehicle);
 }

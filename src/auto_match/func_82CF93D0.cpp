@@ -4,23 +4,16 @@
 // defined inline (forced) and expanded into an extern "C" definition. Member
 // names and the layout between the named members are not confirmed.
 #include "havok/hkBase.h"
+#include "havok/hkLargeBlockAllocator.h"
 
 class hkFreeList;
-class hkLargeBlockAllocator;
 class hkFreeListAllocator;
 extern "C" {
 void fn_82D015D8(hkFreeList *self);              // hkFreeList::~hkFreeList
-void fn_82D028F8(hkLargeBlockAllocator *self);   // hkLargeBlockAllocator::~hkLargeBlockAllocator
 void fn_82CF9318(hkFreeListAllocator *self);     // frees every free list (called first by the destructor)
 }
 
-// Members whose destructors keep their fn_ names, as opaque wrappers.
-class hkLargeBlockAllocator {
-public:
-    HK_FORCE_INLINE ~hkLargeBlockAllocator() { fn_82D028F8(this); }
-    hkUint8 m_data[0x150];
-};
-
+// A member whose destructor keeps its fn_ name, as an opaque wrapper.
 class hkFreeList {
 public:
     HK_FORCE_INLINE ~hkFreeList() { fn_82D015D8(this); }
@@ -36,6 +29,7 @@ public:
 
     hkUint8 m_state[0x28];                           // +0x4
     hkLargeBlockAllocator m_largeBlockAllocator;     // +0x2C
+    hkUint8 m_sizeToFreeList[0x8C];                  // +0xF0
     hkFreeList *m_freeLists[34];                     // +0x17C
     hkUint8 m_state2[0x4];                           // +0x204
     int m_numFreeLists;                              // +0x208

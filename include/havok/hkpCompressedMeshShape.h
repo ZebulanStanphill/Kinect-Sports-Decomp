@@ -5,13 +5,14 @@
 // MaterialType enumerators (its hkClassEnum, lbl_82135098). RTTI ??_R3hkpCompressedMeshShape@@8; vtables
 // ??_7hkpCompressedMeshShape@@6BhkpShape@@@ (13 slots) and ??_7hkpCompressedMeshShape@@6BhkpShapeContainer@@@.
 //
-// - The constructor exists in the game only as fn_82D45E48 (its unit defines it): 17 and 18 index bits with their
-//   masks, the radius, empty arrays, no materials, and WELDING_TYPE_NONE stored in the body (last).
-// - The finish constructor exists only as fn_82D45F58 (its unit defines it): when finishing it sets
-//   HK_SHAPE_COMPRESSED_MESH and COLLECTION_COMPRESSED_MESH and points m_meshMaterials at the named materials.
+// - The constructor is out of line (82D45E48): 17 and 18 index bits with their masks, the radius, empty arrays,
+//   no materials, and WELDING_TYPE_NONE stored in the body (last).
+// - The finish constructor is out of line (82D45F58): when finishing it sets HK_SHAPE_COMPRESSED_MESH and
+//   COLLECTION_COMPRESSED_MESH and points m_meshMaterials at the named materials.
 // - The destructor is the implicit one, emitted out of line (??1hkpCompressedMeshShape@@UAA@XZ, 82D46000); the
-//   deleting destructor is 82D46320. The destructors of Chunk and ConvexPiece are implicit too; the game has
-//   them out of line as fn_82D395E0 and fn_82D39710 (C units).
+//   deleting destructor is 82D46320. The destructors of Chunk and ConvexPiece are implicit in Havok; the game
+//   has them out of line (82D395E0, 82D39710, which the class's destructor calls), so they are declared here
+//   and defined in those units (an empty body gives the same code and the same symbol).
 #ifndef HAVOK_HKPCOMPRESSEDMESHSHAPE_H
 #define HAVOK_HKPCOMPRESSEDMESHSHAPE_H
 
@@ -38,6 +39,8 @@ public:
 
     // 0x50 bytes.
     struct Chunk {
+        ~Chunk();   // out of line (82D395E0)
+
         hkVector4 m_offset;                 // +0x0
         hkArray<hkUint16> m_vertices;       // +0x10
         hkArray<hkUint16> m_indices;        // +0x1C
@@ -59,6 +62,8 @@ public:
 
     // 0x40 bytes.
     struct ConvexPiece {
+        ~ConvexPiece();   // out of line (82D39710)
+
         hkVector4 m_offset;                // +0x0
         hkArray<hkUint16> m_vertices;      // +0x10
         hkArray<hkUint8> m_faceVertices;   // +0x1C
@@ -67,8 +72,8 @@ public:
         hkUint16 m_transformIndex;         // +0x36
     };
 
-    hkpCompressedMeshShape(hkReal radius);                 // fn_82D45E48
-    hkpCompressedMeshShape(hkFinishLoadedObjectFlag flag);   // fn_82D45F58
+    hkpCompressedMeshShape(hkReal radius);                 // out of line (82D45E48)
+    hkpCompressedMeshShape(hkFinishLoadedObjectFlag flag);   // out of line (82D45F58)
 
     virtual int getNumChildShapes() const;
     virtual hkpShapeKey getFirstKey() const;

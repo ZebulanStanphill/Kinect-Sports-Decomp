@@ -6,8 +6,8 @@
 extern "C" void fn_82D65CF0(hkpCollisionDispatcher::AgentFuncs *p)
 {
     p->m_createFunc = hkpSphereTriangleAgent::createSphereTriangleAgent;
-    p->m_getPenetrationsFunc = fn_82D656C0;
-    p->m_getClosestPointFunc = fn_82D65AB8;
+    p->m_getPenetrationsFunc = hkpSphereTriangleAgent::staticGetPenetrations;
+    p->m_getClosestPointFunc = hkpSphereTriangleAgent::staticGetClosestPoints;
     p->m_linearCastFunc = fn_82D75FD0;
     p->m_isFlipped = false;
     p->m_isPredictive = false;

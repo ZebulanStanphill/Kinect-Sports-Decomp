@@ -49,7 +49,6 @@ typedef hkgpMesh::Vertex Vertex;
 typedef hkgpMesh::Triangle Triangle;
 
 extern "C" {
-hkgpMesh *fn_82D27D00(hkgpMesh *self);                 // hkgpMesh::hkgpMesh()
 void fn_82D27BE8(hkgpMesh *self, const void *source);   // builds the mesh from the source
 void fn_82D22698(hkgpMesh *self);                       // rebuilds the triangle tree
 void fn_82D21DA0(hkgpMesh *self, Triangle *t);          // removes a triangle
@@ -109,7 +108,7 @@ extern "C" hkgpMesh *fn_82D28C88(hkgpMesh *self, const void *source)
 {
     bool changed = false;
     const hkReal tolerance = 0.01f;
-    hkgpMesh *mesh = fn_82D27D00(static_cast<hkgpMesh *>(hkgpMesh::operator new(sizeof(hkgpMesh))));
+    hkgpMesh *mesh = new hkgpMesh;
     fn_82D27BE8(mesh, source);
     HK_REPORT("Clipping", 0x7cd);
     bool again;

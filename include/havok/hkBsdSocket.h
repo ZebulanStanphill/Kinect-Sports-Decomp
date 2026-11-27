@@ -3,8 +3,8 @@
 // The constructor (82D05D28, ??0hkBsdSocket@@QAA@H@Z) calls hkSocket's, stores the handle and, when it is -1,
 // closes (through the vtable) and opens a new TCP socket (createSocket). The destructor (82D05B70) closes the socket; close
 // is expanded inline there, so the destructor units declare the class themselves.
-// The overrides keep their fn_ names (see hkSocket.h for the slots): isOk 82D058C8, close 82D058E8, read
-// 82D05988, write 82D059F0, connect 82D05BD0, listen 82D05DA0, the seventh slot 82D05A78 (returns 1) and
+// The overrides (see hkSocket.h for the slots): isOk 82D058C8, close 82D058E8, read
+// 82D05988, write 82D059F0, connect 82D05BD0, listen 82D05DA0, the seventh slot 82D05A78 (returns 1; its name is not known, so it keeps its fn_ name) and
 // pollForNewClient 82D05F78.
 #ifndef HAVOK_HKBSDSOCKET_H
 #define HAVOK_HKBSDSOCKET_H

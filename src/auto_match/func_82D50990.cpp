@@ -1,10 +1,9 @@
 // hkpStorageSampledHeightFieldShape::hkpStorageSampledHeightFieldShape(const hkpSampledHeightFieldShape *)
 // (Physics/Collide/Shape/HeightField/StorageSampledHeightField/hkpStorageSampledHeightFieldShape.cpp): copies the
-// other height field's members and samples. In the game it is known only as fn_82D50990; the header declares the
-// constructor and it is defined here, HK_FORCE_INLINE, inside the extern "C" function.
+// other height field's members and samples.
 #include "havok/hkpStorageSampledHeightFieldShape.h"
 
-HK_FORCE_INLINE hkpStorageSampledHeightFieldShape::hkpStorageSampledHeightFieldShape(const hkpSampledHeightFieldShape *src)
+hkpStorageSampledHeightFieldShape::hkpStorageSampledHeightFieldShape(const hkpSampledHeightFieldShape *src)
 {
     m_heightfieldType = HEIGHTFIELD_STORAGE;
     m_xRes = src->m_xRes;
@@ -31,9 +30,4 @@ HK_FORCE_INLINE hkpStorageSampledHeightFieldShape::hkpStorageSampledHeightFieldS
             m_storage.m_data[z * m_xRes + x] = h;
         }
     }
-}
-extern "C" hkpStorageSampledHeightFieldShape *fn_82D50990(hkpStorageSampledHeightFieldShape *self, const hkpSampledHeightFieldShape *src)
-{
-    self->hkpStorageSampledHeightFieldShape::hkpStorageSampledHeightFieldShape(src);
-    return self;
 }

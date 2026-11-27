@@ -1,9 +1,11 @@
-// hkpMalleableConstraintData::hkpMalleableConstraintData(hkFinishLoadedObjectFlag) (Physics/Dynamics/Constraint/Malleable/hkpMalleableConstraintData.cpp). The bridge atom's finish constructor re-inits it with its stored pointer, then the class points it at itself. It keeps its fn_ name (a Matching getVtable unit calls it), so it is defined inline and expanded below.
+// hkpMalleableConstraintData::hkpMalleableConstraintData(hkFinishLoadedObjectFlag)
+// (Physics/Dynamics/Constraint/Malleable/hkpMalleableConstraintData.cpp). The bridge atom's finish constructor
+// re-inits it with its stored pointer, then the class points it at itself.
 #include "havok/hkBase.h"
 #include "havok/hkpMalleableConstraintData.h"
 
-extern "C" hkpMalleableConstraintData *fn_82D98B10(hkpMalleableConstraintData *self, hkFinishLoadedObjectFlag f)
+hkpMalleableConstraintData::hkpMalleableConstraintData(hkFinishLoadedObjectFlag f) : hkpConstraintData(f), m_atoms(f)
 {
-    self->hkpMalleableConstraintData::hkpMalleableConstraintData(f);
-    return self;
+    if (f.m_finishing)
+        m_atoms.m_bridgeAtom.init(this);
 }

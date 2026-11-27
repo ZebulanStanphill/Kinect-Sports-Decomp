@@ -22,9 +22,9 @@ a.predictive = 1;
 fn_82D59158(dispatcher,&a,0x1a,0x1b);
 b.predictive = 1;
 b.create = (void*)hkpHeightFieldAgent::createAgent;
-b.penetrations = (void*)fn_82D59D40;
-b.closest = (void*)fn_82D59FB0;
-b.cast = (void*)fn_82D5A348;
+b.penetrations = (void*)hkpHeightFieldAgent::staticGetPenetrations;
+b.closest = (void*)hkpHeightFieldAgent::staticGetClosestPoints;
+b.cast = (void*)hkpHeightFieldAgent::staticLinearCast;
 b.flipped = 0;
 fn_82D59158(dispatcher,&b,0x1b,0x1a);
 }

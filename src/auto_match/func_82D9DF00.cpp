@@ -1,9 +1,10 @@
-// hkpGenericConstraintData::hkpGenericConstraintData(hkFinishLoadedObjectFlag) (Physics/Dynamics/Constraint/Bilateral/Generic/hkpGenericConstraintData.cpp). It keeps its fn_ name (the Matching getVtable unit func_82D7EF50 calls it), so it is defined inline and expanded below.
+// hkpGenericConstraintData::hkpGenericConstraintData(hkFinishLoadedObjectFlag)
+// (Physics/Dynamics/Constraint/Bilateral/Generic/hkpGenericConstraintData.cpp).
 #include "havok/hkBase.h"
 #include "havok/hkpGenericConstraintData.h"
 
-extern "C" hkpGenericConstraintData *fn_82D9DF00(hkpGenericConstraintData *self, hkFinishLoadedObjectFlag f)
+hkpGenericConstraintData::hkpGenericConstraintData(hkFinishLoadedObjectFlag f) : hkpConstraintData(f), m_atoms(f), m_scheme(f)
 {
-    self->hkpGenericConstraintData::hkpGenericConstraintData(f);
-    return self;
+    if (f.m_finishing)
+        m_atoms.m_bridgeAtom.init(this);
 }

@@ -2,10 +2,8 @@
 // dlmalloc-style allocator of chunks inside pages that it takes from an hkMemoryBlockServer; it serves an
 // hkFreeListAllocator as its hkFreeListAllocatorServer (RTTI). Placement-only allocator: the scalar deleting
 // destructor (82D03F30) frees nothing.
-// The constructor and the destructor are out of line in the game but keep their fn_ names (fn_82D03DD8, which
-// hkFreeListAllocator's constructor 82CF9730 calls; fn_82D028F8, which 82D03F30 and hkFreeListAllocator's
-// destructor 82CF93D0 call), so they are defined here, forced inline, and 82D03DD8 and 82D028F8 expand them.
-// The constructor clears the bins and the counters, points m_top at the zero chunk (its head is 3) and makes the
+// The constructor (82D03DD8; hkFreeListAllocator's constructor 82CF9730 calls it) and the destructor (82D028F8;
+// 82D03F30 and hkFreeListAllocator's destructor 82CF93D0 call it) are out of line. The constructor clears the bins and the counters, points m_top at the zero chunk (its head is 3) and makes the
 // page list empty; the destructor returns every page to the block server.
 // The overrides of hkFreeListAllocatorServer keep their fn_ names (see hkFreeListAllocatorServer.h).
 // Layout: m_server +0x98 and the page list +0xA4 from the destructor; the pages' bounds at +0x10 and +0x14 from
@@ -38,8 +36,8 @@ public:
         char *m_end;          // +0x14
     };
 
-    HK_FORCE_INLINE hkLargeBlockAllocator(hkMemoryBlockServer *server);
-    virtual HK_FORCE_INLINE ~hkLargeBlockAllocator();
+    hkLargeBlockAllocator(hkMemoryBlockServer *server);
+    virtual ~hkLargeBlockAllocator();
     virtual void *alloc(hk_size_t size);
     virtual void free(void *p);
     virtual hkBool isValidAlloc(void *p);
@@ -60,32 +58,5 @@ public:
     hk_size_t m_sumAllocatedSize;            // +0xBC
     hk_size_t m_sumAllocatedWithMgrOverhead; // +0xC0
 };
-
-HK_FORCE_INLINE hkLargeBlockAllocator::hkLargeBlockAllocator(hkMemoryBlockServer *server) : m_server(server)
-{
-    m_treemap = 0;
-    m_sumAllocatedWithMgrOverhead = 0;
-    m_sumAllocatedSize = 0;
-    m_dvsize = 0;
-    m_topsize = 0;
-    for (int i = 0; i < 32; ++i)
-        m_treebins[i] = 0;
-    m_zeroChunk.prevFoot = 0;
-    m_pages.m_next = &m_pages;
-    m_top = &m_zeroChunk;
-    m_zeroChunk.head = 3;
-    m_dv = 0;
-    m_pages.m_prev = &m_pages;
-}
-
-HK_FORCE_INLINE hkLargeBlockAllocator::~hkLargeBlockAllocator()
-{
-    MemPage *page = m_pages.m_next;
-    while (page != &m_pages) {
-        MemPage *next = page->m_next;
-        m_server->free(page, page->m_size);
-        page = next;
-    }
-}
 
 #endif

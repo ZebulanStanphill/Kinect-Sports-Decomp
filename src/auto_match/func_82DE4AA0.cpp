@@ -1,14 +1,7 @@
-// hkpPoweredChainMapper scalar deleting destructor (primary vtable slot 0): the out-of-line destructor
-// ??1hkpPoweredChainMapper@@UAA@XZ, then the class allocator's delete when flags & 1. It keeps its fn_ name
-// (written out by hand, as for func_82D3A580).
-// RTTI: hkpPoweredChainMapper : hkReferencedObject; only the primary base matters here.
+// hkpPoweredChainMapper's scalar deleting destructor (slot 0 of ??_7hkpPoweredChainMapper@@6B@ only): it calls ~hkpPoweredChainMapper (out of line) and frees
+// through the class allocator. The function at the end only makes the compiler emit the vtable (and with it the
+// deleting destructor); it uses the implicit copy constructor.
 #include "havok/hkBase.h"
 #include "havok/hkpPoweredChainMapper.h"
 
-extern "C" hkpPoweredChainMapper *fn_82DE4AA0(hkpPoweredChainMapper *self, unsigned int flags)
-{
-    self->hkpPoweredChainMapper::~hkpPoweredChainMapper();
-    if (flags & 1)
-        hkpPoweredChainMapper::operator delete(self);
-    return self;
-}
+void emitVtable_82DE4AA0(void *p, const hkpPoweredChainMapper &o) { new (p) hkpPoweredChainMapper(o); }

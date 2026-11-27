@@ -1,10 +1,9 @@
 // hkSystemMemoryBlockServer (Common/Base/Memory/Allocator/LargeBlock/hkSystemMemoryBlockServer.h), 0x14 bytes: a
 // block server that takes its blocks from an allocator and keeps count of them against an optional limit.
 // The constructor (82CF9A38) stores the allocator, clears the count and the limit, and takes 128 KB as the
-// minimum allocation size when it is given 0. Its symbol, ??0hkSystemMemoryBlockServer@@QAA@II@Z, was written
-// with two unsigned parameters before the overrides were read, so the constructor takes the allocator as an
-// hk_size_t (see "Renames needed" in km/hdr/reports/b-base.md).
-// The overrides keep their fn_ names (vtable ??_7hkSystemMemoryBlockServer@@6B@): isSingleBlockServer and
+// minimum allocation size when it is given 0. The first parameter is an hkMemoryAllocator * because the overrides
+// call blockAlloc (+0x4) and blockFree (+0x8) through it.
+// The overrides (vtable ??_7hkSystemMemoryBlockServer@@6B@): isSingleBlockServer and
 // resize are the shared `return false` (82609770); recommendSize 82CF98E8 (what is left under the limit, else
 // the size rounded up to 32 KB but at least m_minAllocSize); allocate 82CF9928 (fails past the limit, else counts
 // the block and tail-calls m_allocator->blockAlloc); free 82CF9978 (uncounts, m_allocator->blockFree);
@@ -20,7 +19,7 @@
 class hkSystemMemoryBlockServer : public hkMemoryBlockServer {
 public:
     HK_DECLARE_PLACEMENT_ALLOCATOR();
-    hkSystemMemoryBlockServer(hk_size_t allocator, hk_size_t minAllocSize);
+    hkSystemMemoryBlockServer(hkMemoryAllocator *allocator, hk_size_t minAllocSize);
     virtual hkBool isSingleBlockServer();
     virtual hk_size_t recommendSize(hk_size_t size);
     virtual void *allocate(hk_size_t size, hk_size_t &sizeOut);

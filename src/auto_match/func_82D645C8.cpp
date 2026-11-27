@@ -1,4 +1,5 @@
 #include "havok/hkTransform.h"
+#include "havok/hkpSphereBoxAgent.h"
 
 // Havok: sphere/box penetration test. The sphere centre is moved into box space, clamped to
 // the half extents (|p| min extents, sign copied back), transformed back to world space, and
@@ -68,7 +69,7 @@ static __forceinline __vector4 TransformPos(__vector4 v, __vector4 c0, __vector4
     return __vaddfp(r, t);
 }
 
-extern "C" void fn_82D645C8(const Body_82D645C8 *sphere, const Body_82D645C8 *box, const void *input,
+static __forceinline void staticGetPenetrationsBody(const Body_82D645C8 *sphere, const Body_82D645C8 *box, const void *input,
                  Collector_82D645C8 *collector)
 {
     ProfTls_82D645C8 *t;
@@ -110,4 +111,12 @@ extern "C" void fn_82D645C8(const Body_82D645C8 *sphere, const Body_82D645C8 *bo
         p[1] = (void *)(unsigned int)__mftb();
         t->cur = p + 3;
     }
+}
+
+// The member takes the header's types; the body above keeps the unit's own view of the bodies and the collector.
+void HK_CALL hkpSphereBoxAgent::staticGetPenetrations(const hkpCdBody &bodyA, const hkpCdBody &bodyB, const hkpCollisionInput &input,
+                                           hkpCdBodyPairCollector &collector)
+{
+    staticGetPenetrationsBody((const Body_82D645C8 *)&bodyA, (const Body_82D645C8 *)&bodyB, &input,
+                              (Collector_82D645C8 *)&collector);
 }

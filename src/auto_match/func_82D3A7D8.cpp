@@ -1,10 +1,9 @@
-// hkpMoppBvTreeShape::hkpMoppBvTreeShape(hkFinishLoadedObjectFlag) (Physics/Collide/Shape/Compound/Tree/Mopp/
-// hkpMoppBvTreeShape.cpp): known in the game only as fn_82D3A7D8. When finishing it sets HK_SHAPE_MOPP and copies
-// the code's offset, data pointer and size. The header declares the constructor; it is defined here,
-// HK_FORCE_INLINE, inside the extern "C" function.
+// hkpMoppBvTreeShape::hkpMoppBvTreeShape(hkFinishLoadedObjectFlag), the out-of-line finish constructor
+// (Physics/Collide/Shape/Compound/Tree/Mopp/hkpMoppBvTreeShape.cpp). When finishing it sets HK_SHAPE_MOPP and
+// copies the code's offset, data pointer and size. Its finish function and getVtable function call it.
 #include "havok/hkpMoppBvTreeShape.h"
 
-HK_FORCE_INLINE hkpMoppBvTreeShape::hkpMoppBvTreeShape(hkFinishLoadedObjectFlag f) : hkMoppBvTreeShapeBase(f), m_child(f)
+hkpMoppBvTreeShape::hkpMoppBvTreeShape(hkFinishLoadedObjectFlag f) : hkMoppBvTreeShapeBase(f), m_child(f)
 {
     if (f.m_finishing == 1) {
         m_type = HK_SHAPE_MOPP;
@@ -12,10 +11,4 @@ HK_FORCE_INLINE hkpMoppBvTreeShape::hkpMoppBvTreeShape(hkFinishLoadedObjectFlag 
         m_moppData = m_code->m_data.m_data;
         m_moppDataSize = m_code->m_data.m_size;
     }
-}
-
-extern "C" hkpMoppBvTreeShape *fn_82D3A7D8(hkpMoppBvTreeShape *self, hkFinishLoadedObjectFlag f)
-{
-    self->hkpMoppBvTreeShape::hkpMoppBvTreeShape(f);
-    return self;
 }
