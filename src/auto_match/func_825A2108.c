@@ -1,43 +1,67 @@
-extern int fn_825FF9D0();
-extern int fn_8265C9E0();
-extern int fn_827F0F58();
-extern int fn_827F0FB8();
-extern int fn_827F46E8();
-extern int fn_827F5C20();
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Emitter_825A2108 Emitter_825A2108;
 
+typedef struct EmitterVtbl_825A2108 {
+    void (*Destroy)(Emitter_825A2108 *self, int flags); /* 0x0 */
+} EmitterVtbl_825A2108;
 
-unsigned int fn_825A2108(int param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+struct Emitter_825A2108 {
+    EmitterVtbl_825A2108 *vtbl;
+};
 
+typedef struct Scene_825A2108 {
+    char pad0[0x14c];
+    char listener[4]; /* 0x14c */
+} Scene_825A2108;
+
+typedef struct Sound_825A2108 {
+    char pad0[0x4];
+    Scene_825A2108 **scene; /* 0x4 */
+    char pad8[0x4];
+    Emitter_825A2108 *emitter; /* 0xc */
+} Sound_825A2108;
+
+typedef struct Owner_825A2108 {
+    char pad0[0x7ac];
+    Sound_825A2108 sound; /* 0x7ac */
+} Owner_825A2108;
+
+extern int lbl_8329755C;
+
+extern void *fn_8265C9E0(unsigned int size);
+extern Emitter_825A2108 *fn_825FF9D0(void *memory, Owner_825A2108 *owner, Scene_825A2108 **scene,
+                                     void *source);
+extern void fn_827F0FB8(void *bank, Emitter_825A2108 *emitter, int flags);
+extern void fn_827F0F58(void *bank, void *voice, int flags);
+extern void *fn_827F46E8(unsigned int size);
+extern void *fn_827F5C20(void *memory, int kind, Emitter_825A2108 *emitter, void *source,
+                         Emitter_825A2108 *listener, int flags, float volume, float pitch, float pan,
+                         int group, void *sceneListener, unsigned short channel, int userData, int callback);
+
+Emitter_825A2108 *fn_825A2108(Owner_825A2108 *self, void *bank, void *source)
 {
-  unsigned int *puVar1;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  
-  puVar1 = *(unsigned int **)(param_1 + 0x7b8);
-  if (puVar1 != (unsigned int *)0x0) {
-    (**(int (***)())*puVar1)(puVar1,1);
-  }
-  uVar2 = fn_8265C9E0(0x160);
-  if ((uVar2 & 0xffffffff) == 0) {
-    uVar3 = 0;
-  }
-  else {
-    uVar3 = fn_825FF9D0(uVar2,param_1,*(unsigned int *)(param_1 + 0x7b0),param_3);
-  }
-  *(int *)(param_1 + 0x7b8) = (int)uVar3;
-  fn_827F0FB8(param_2,uVar3,1);
-  uVar2 = fn_827F46E8(0xe8);
-  if ((uVar2 & 0xffffffff) == 0) {
-    uVar3 = 0;
-  }
-  else {
-    uVar3 = fn_827F5C20((double)lbl_821CA460,(double)lbl_821CA460,(double)ltcg_pool_0_0f,uVar2,0
-                              ,*(unsigned int *)(param_1 + 0x7b8),param_3,
-                              *(unsigned int *)(param_1 + 0x7b8),0);
-  }
-  fn_827F0F58(param_2,uVar3,1);
-  return *(unsigned int *)(param_1 + 0x7b8);
-}
+    Sound_825A2108 *sound = &self->sound;
+    Emitter_825A2108 *emitter;
+    void *voice;
+    void *memory;
 
+    if (sound->emitter != 0) {
+        sound->emitter->vtbl->Destroy(sound->emitter, 1);
+    }
+    memory = fn_8265C9E0(0x160);
+    if (memory != 0) {
+        emitter = fn_825FF9D0(memory, self, sound->scene, source);
+    } else {
+        emitter = 0;
+    }
+    sound->emitter = emitter;
+    fn_827F0FB8(bank, emitter, 1);
+    memory = fn_827F46E8(0xe8);
+    if (memory != 0) {
+        voice = fn_827F5C20(memory, 0, sound->emitter, source, sound->emitter, 0, 1.0f, 1.0f, 0.0f,
+                            lbl_8329755C, (*sound->scene)->listener, 0, 0, 0);
+    } else {
+        voice = 0;
+    }
+    fn_827F0F58(bank, voice, 1);
+    return sound->emitter;
+}

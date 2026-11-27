@@ -1,78 +1,99 @@
-extern int fn_8284D780();
-extern int fn_8284F908();
-extern int fn_8284F9B8();
-extern int fn_82850D08();
-extern int fn_8285A808();
-extern int fn_8285A8F8();
-extern int fn_8285AE70();
-extern int fn_82F691F0();
-extern unsigned int iStack_4c;
-extern unsigned int uStack_44;
-extern unsigned int uStack_48;
+typedef struct Entry_8284FBD0 {
+    int pad0;
+    const char *name; /* 0x04 */
+    char pad8[0x50 - 0x8];
+} Entry_8284FBD0;
 
+typedef struct List_8284FBD0 {
+    unsigned int count;      /* 0x00 */
+    Entry_8284FBD0 *entries; /* 0x04 */
+} List_8284FBD0;
 
-void fn_8284FBD0(int param_1,unsigned __int64 param_2,int param_3,int param_4)
+typedef struct Source_8284FBD0 {
+    char pad00[0x34];
+    unsigned int maskBytes; /* 0x34 */
+    char pad38[0x5c];
+    unsigned int scratchBytes; /* 0x94 */
+} Source_8284FBD0;
 
+typedef struct Masks_8284FBD0 {
+    char pad00[8];
+    unsigned char *visible; /* 0x08 */
+    char pad0C[0xc];
+    unsigned char *saved; /* 0x18 */
+    void *scratch;        /* 0x1c */
+} Masks_8284FBD0;
+
+typedef struct State_8284FBD0 {
+    char pad00[0x98];
+    unsigned char visited; /* 0x98 */
+    unsigned char cached;  /* 0x99 */
+} State_8284FBD0;
+
+typedef struct Graph_8284FBD0 {
+    char pad00[0x4c];
+    unsigned short passCount; /* 0x4c */
+} Graph_8284FBD0;
+
+/* What fn_8285A8F8 calls for every node it walks. */
+typedef struct Walker_8284FBD0 {
+    void (*visit)(void);     /* 0x0 */
+    Source_8284FBD0 *source; /* 0x4 */
+    int unk8;                /* 0x8 */
+    int unkC;                /* 0xc */
+} Walker_8284FBD0;
+
+void *memset(void *dst, int value, unsigned int size);
+char *strstr(const char *string, const char *part);
+extern int fn_8285AE70(Graph_8284FBD0 *self);
+extern State_8284FBD0 *fn_8285A808(Graph_8284FBD0 *self, void *state);
+extern void fn_8285A8F8(Graph_8284FBD0 *self, void *state, Walker_8284FBD0 *walker);
+extern void fn_8284D780(Source_8284FBD0 *source, List_8284FBD0 **list);
+extern void fn_82850D08(Entry_8284FBD0 *entry, unsigned char set, void *masks, int index);
+extern void fn_8284F908(Graph_8284FBD0 *self, void *state, Source_8284FBD0 *source, Masks_8284FBD0 *masks);
+extern void fn_8284F9B8(void);
+
+void fn_8284FBD0(Graph_8284FBD0 *self, void *state, Source_8284FBD0 *source, Masks_8284FBD0 *masks)
 {
-  unsigned char *pbVar1;
-  int iVar2;
-  char *pcVar3;
-  unsigned char *pbVar4;
-  unsigned char *pbVar5;
-  unsigned int uVar6;
-  unsigned int *apuStack_60 [4];
-  int (**pcStack_50)();
-  int iStack_4c;
-  unsigned int uStack_48;
-  unsigned int uStack_44;
-  
-  iVar2 = fn_8285AE70();
-  if (iVar2 == 0) {
-    iVar2 = fn_8285A808(param_1,param_2);
-    if (*(char *)(iVar2 + 0x99) == '\0') {
-      if (*(char *)(iVar2 + 0x98) == '\0') {
-        uStack_48 = 0;
-        uStack_44 = 0;
-        pcStack_50 = fn_8284F9B8;
-        iStack_4c = param_3;
-        fn_8285A8F8(param_1,param_2,&pcStack_50);
-      }
-      fn_8284F908(param_1,param_2,param_3,param_4);
-      *(unsigned char *)(iVar2 + 0x99) = 1;
-    }
-    else {
-      uVar6 = 0;
-      if (*(int *)(param_3 + 0x34) != 0) {
-        pbVar4 = (unsigned char *)(*(int *)(param_4 + 0x18) + -1);
-        pbVar5 = (unsigned char *)(*(int *)(param_4 + 8) + -1);
-        do {
-          pbVar4 = pbVar4 + 1;
-          uVar6 = uVar6 + 1;
-          pbVar1 = pbVar5 + 1;
-          pbVar5 = pbVar5 + 1;
-          *pbVar5 = *pbVar4 & *pbVar1;
-        } while (uVar6 < *(unsigned int *)(param_3 + 0x34));
-      }
-    }
-  }
-  else {
-    fn_8284D780(param_3,apuStack_60);
-    if ((apuStack_60[0] != (unsigned int *)0x0) && (uVar6 = 0, *apuStack_60[0] != 0)) {
-      iVar2 = 0;
-      do {
-        pcVar3 = strstr(*(char **)(apuStack_60[0][1] + iVar2 + 4),"_PART_VisibilityCell_");
-        if (pcVar3 != (char *)0x0) {
-          fn_82850D08(apuStack_60[0][1] + iVar2,0,param_4,0);
-        }
-        uVar6 = uVar6 + 1;
-        iVar2 = iVar2 + 0x50;
-      } while (uVar6 < *apuStack_60[0]);
-    }
-  }
-  if (*(short *)(param_1 + 0x4c) == 0) {
-    return;
-  }
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0(*(unsigned int *)(param_4 + 0x1c),0,*(unsigned int *)(param_3 + 0x94));
-}
+    List_8284FBD0 *list;
+    Walker_8284FBD0 walker;
+    State_8284FBD0 *entry;
+    unsigned int i;
+    unsigned char *visible;
+    unsigned char *saved;
 
+    if (fn_8285AE70(self)) {
+        fn_8284D780(source, &list);
+        if (list != 0) {
+            for (i = 0; i < list->count; i++) {
+                if (strstr(list->entries[i].name, "_PART_VisibilityCell_") != 0) {
+                    fn_82850D08(&list->entries[i], 0, masks, 0);
+                }
+            }
+        }
+    } else {
+        entry = fn_8285A808(self, state);
+        if (entry->cached) {
+            visible = masks->visible;
+            saved = masks->saved;
+            for (i = 0; i < source->maskBytes; i++) {
+                *visible = *saved & *visible;
+                visible++;
+                saved++;
+            }
+        } else {
+            if (!entry->visited) {
+                walker.visit = fn_8284F9B8;
+                walker.source = source;
+                walker.unk8 = 0;
+                walker.unkC = 0;
+                fn_8285A8F8(self, state, &walker);
+            }
+            fn_8284F908(self, state, source, masks);
+            entry->cached = 1;
+        }
+    }
+    for (i = 0; i < self->passCount; i++) {
+        memset(masks->scratch, 0, source->scratchBytes);
+    }
+}

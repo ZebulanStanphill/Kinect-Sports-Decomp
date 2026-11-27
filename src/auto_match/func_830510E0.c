@@ -1,96 +1,129 @@
-extern int fn_8304FCF0();
+typedef struct Format_830510E0 {
+    __int64 totalBytes; /* 0x00 */
+    int blocksPerUnit;  /* 0x08 */
+    int padc;
+    __int64 unknown10; /* 0x10 */
+    __int64 unknown18; /* 0x18 */
+} Format_830510E0;
 
+typedef struct Settings_830510E0 {
+    float threshold;          /* 0x00 */
+    unsigned int granularity; /* 0x04 */
+    unsigned int prefetch;    /* 0x08 */
+    unsigned int priority;    /* 0x0c */
+    unsigned char flag;       /* 0x10 */
+} Settings_830510E0;
 
-unsigned __int64
-fn_830510E0(int param_1,int param_2,__int64 *param_3,unsigned int *param_4,unsigned int *param_5,
-             unsigned __int64 param_6)
+typedef struct Heuristics_830510E0 {
+    unsigned int fixedSize; /* 0x0 */
+    unsigned int minimum;   /* 0x4 */
+    unsigned int alignment; /* 0x8 */
+} Heuristics_830510E0;
 
+struct Device_830510E0;
+
+typedef struct DeviceVtbl_830510E0 {
+    void *slots00[2];
+    unsigned int (*GetBlockSize)(struct Device_830510E0 *self, Format_830510E0 *format); /* 0x08 */
+} DeviceVtbl_830510E0;
+
+typedef struct Device_830510E0 {
+    DeviceVtbl_830510E0 *vt;
+} Device_830510E0;
+
+typedef struct Owner_830510E0 {
+    char pad00[0x80];
+    Device_830510E0 *device; /* 0x80 */
+} Owner_830510E0;
+
+typedef struct Counters_830510E0 {
+    int read;    /* 0x0 */
+    int pending; /* 0x4 */
+    int written; /* 0x8 */
+} Counters_830510E0;
+
+typedef struct Stream_830510E0 {
+    char pad00[0x18];
+    Format_830510E0 format; /* 0x18 */
+    char pad38[0x28];
+    Owner_830510E0 *owner; /* 0x60 */
+    int pad64;
+    unsigned int bufferSize; /* 0x68 */
+    unsigned int blockSize;  /* 0x6c */
+    unsigned char flag;      /* 0x70 */
+    char pad71[0xf];
+    unsigned __int64 unitBytes; /* 0x80 */
+    float threshold;            /* 0x88 */
+    unsigned int granularity;   /* 0x8c */
+    unsigned int prefetch;      /* 0x90 */
+    unsigned int priority;      /* 0x94 */
+    int pad98;
+    Counters_830510E0 counters; /* 0x9c */
+} Stream_830510E0;
+
+extern void fn_8304FCF0(Stream_830510E0 *self, int value);
+
+static __forceinline void Counters_Reset(Counters_830510E0 *counters)
 {
-  unsigned char uVar1;
-  unsigned int uVar2;
-  int iVar3;
-  __int64 lVar4;
-  unsigned __int64 uVar5;
-  unsigned __int64 uVar6;
-  __int64 lVar7;
-  unsigned __int64 uVar8;
-  unsigned int uVar9;
-  
-  *(int *)(param_1 + 0x60) = param_2;
-  if (*param_3 < 0) {
-    return 0x1f;
-  }
-  *(__int64 *)(param_1 + 0x18) = *param_3;
-  *(__int64 *)(param_1 + 0x20) = param_3[1];
-  *(__int64 *)(param_1 + 0x28) = param_3[2];
-  *(__int64 *)(param_1 + 0x30) = param_3[3];
-  iVar3 = (**(int (***)())(**(int **)(param_2 + 0x80) + 8))
-                    (*(int **)(param_2 + 0x80),(__int64 *)(param_1 + 0x18));
-  *(int *)(param_1 + 0x6c) = iVar3;
-  if (iVar3 == 0) {
-    return 2;
-  }
-  *(unsigned int *)(param_1 + 0x9c) = 0;
-  *(unsigned int *)(param_1 + 0xa4) = 0;
-  *(unsigned int *)(param_1 + 0xa0) = 0;
-  uVar2 = *(unsigned int *)(param_1 + 0x6c);
-  uVar5 = (unsigned __int64)uVar2;
-  lVar4 = *(__int64 *)(param_1 + 0x18);
-  *(unsigned int *)(param_1 + 0x88) = *param_4;
-  trapWord(6,uVar5,0);
-  *(unsigned int *)(param_1 + 0x8c) = ((unsigned int)param_4[1] / uVar2) * uVar2;
-  if (lVar4 < (__int64)(unsigned __int64)(unsigned int)param_4[2]) {
-    *(int *)(param_1 + 0x90) = (int)lVar4;
-  }
-  else {
-    *(unsigned int *)(param_1 + 0x90) = param_4[2];
-  }
-  iVar3 = param_4[3];
-  if (iVar3 == 0) {
-    iVar3 = 1;
-  }
-  *(int *)(param_1 + 0x94) = iVar3;
-  uVar1 = *(unsigned char *)(param_4 + 4);
-  *(unsigned __int64 *)(param_1 + 0x80) =
-       (__int64)*(int *)(param_1 + 0x20) * (__int64)(int)uVar2 & 0xffffffff;
-  *(unsigned char *)(param_1 + 0x70) = uVar1;
-  if (param_5 == (unsigned int *)0x0) {
-    *(int *)(param_1 + 0x68) = (int)param_6;
-    goto LAB_83051264;
-  }
-  uVar9 = *param_5;
-  if ((unsigned __int64)uVar9 == 0) {
-    uVar6 = (unsigned __int64)param_5[1];
-    if ((unsigned __int64)param_5[1] <= (param_6 & 0xffffffff)) {
-      uVar6 = param_6;
-    }
-    *(int *)(param_1 + 0x68) = (int)uVar6;
-    uVar9 = param_5[2];
-    uVar8 = (unsigned __int64)uVar9;
-    if (uVar8 == 0) goto LAB_83051264;
-    trapWord(6,uVar8,0);
-    lVar7 = uVar6 - (__int64)(int)((uVar6 & 0xffffffff) / uVar8) * (__int64)(int)uVar9;
-    if (lVar7 == 0) goto LAB_83051264;
-    uVar9 = (uVar9 - (int)lVar7) + (int)uVar6;
-  }
-  else {
-    param_6 = uVar9 - param_6;
-    trapWord(6,uVar5,0);
-    if (param_6 != (__int64)(int)((param_6 & 0xffffffff) / uVar5) * (__int64)(int)uVar2) {
-      return 0x1f;
-    }
-  }
-  *(unsigned int *)(param_1 + 0x68) = uVar9;
-LAB_83051264:
-  uVar9 = *(unsigned int *)(param_1 + 0x68);
-  trapWord(6,uVar5,0);
-  lVar7 = (unsigned __int64)uVar9 - (__int64)(int)(uVar9 / uVar2) * (__int64)(int)uVar2;
-  if (lVar7 != 0) {
-    *(unsigned int *)(param_1 + 0x68) = (uVar9 - (int)lVar7) + uVar2;
-  }
-  if (lVar4 == 0) {
-    fn_8304FCF0(param_1,1);
-  }
-  return 1;
+    counters->pending = 0;
+    counters->read = 0;
+    counters->written = 0;
 }
 
+int fn_830510E0(Stream_830510E0 *self, Owner_830510E0 *owner, const Format_830510E0 *format,
+                const Settings_830510E0 *settings, const Heuristics_830510E0 *heuristics,
+                unsigned int requested)
+{
+    unsigned int blockSize;
+    __int64 totalBytes;
+    unsigned int size;
+    unsigned int remainder;
+
+    self->owner = owner;
+    if (format->totalBytes < 0) {
+        return 31;
+    }
+    self->format = *format;
+    self->blockSize = owner->device->vt->GetBlockSize(owner->device, &self->format);
+    if (self->blockSize == 0) {
+        return 2;
+    }
+    Counters_Reset(&self->counters);
+    blockSize = self->blockSize;
+    self->threshold = settings->threshold;
+    totalBytes = self->format.totalBytes;
+    self->granularity = settings->granularity - settings->granularity % blockSize;
+    if (settings->prefetch <= totalBytes) {
+        self->prefetch = settings->prefetch;
+    } else {
+        self->prefetch = (unsigned int)totalBytes;
+    }
+    self->priority = settings->priority != 0 ? settings->priority : 1;
+    self->flag = settings->flag;
+    self->unitBytes = (unsigned int)(self->format.blocksPerUnit * blockSize);
+    if (heuristics == 0) {
+        self->bufferSize = requested;
+    } else if (heuristics->fixedSize != 0) {
+        if ((heuristics->fixedSize - requested) % blockSize != 0) {
+            return 31;
+        }
+        self->bufferSize = heuristics->fixedSize;
+    } else {
+        size = heuristics->minimum > requested ? heuristics->minimum : requested;
+        self->bufferSize = size;
+        if (heuristics->alignment != 0) {
+            remainder = size % heuristics->alignment;
+            if (remainder != 0) {
+                self->bufferSize = heuristics->alignment - remainder + size;
+            }
+        }
+    }
+    remainder = self->bufferSize % blockSize;
+    if (remainder != 0) {
+        self->bufferSize = self->bufferSize - remainder + blockSize;
+    }
+    if (totalBytes == 0) {
+        fn_8304FCF0(self, 1);
+    }
+    return 1;
+}

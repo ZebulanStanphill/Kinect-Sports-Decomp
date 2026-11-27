@@ -1,89 +1,90 @@
-extern int fn_82A45350();
-extern int fn_82A47958();
-extern int fn_82A47A60();
-extern int fn_82A47EB8();
-extern int fn_82A48358();
+typedef struct ErrorSink_82A488B8 ErrorSink_82A488B8;
 
+typedef struct ErrorSinkVtbl_82A488B8 {
+    void *slot0;
+    void *slot1;
+    void (*OnError)(ErrorSink_82A488B8 *sink, int result);
+} ErrorSinkVtbl_82A488B8;
 
-void fn_82A488B8(int param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+struct ErrorSink_82A488B8 {
+    const ErrorSinkVtbl_82A488B8 *vtable;
+};
 
+typedef struct Owner_82A488B8 {
+    int unk0;                /* 0x0 */
+    ErrorSink_82A488B8 sink; /* 0x4 */
+} Owner_82A488B8;
+
+typedef struct Stream_82A488B8 {
+    char pad000[0x34];
+    Owner_82A488B8 *owner;    /* 0x034 */
+    char pad038[8];           /* 0x038 */
+    unsigned int channels;    /* 0x040 */
+    char pad044[0x90];        /* 0x044 */
+    unsigned int bufferBytes; /* 0x0d4 */
+    char pad0D8[0xe8];        /* 0x0d8 */
+    unsigned int sourceCount; /* 0x1c0 */
+    char pad1C4[0x14];        /* 0x1c4 */
+    void *sources;            /* 0x1d8 */
+    char pad1DC[8];           /* 0x1dc */
+    unsigned int capacity;    /* 0x1e4: frames in the ring */
+    unsigned int position;    /* 0x1e8: write position, in frames */
+} Stream_82A488B8;
+
+extern int fn_82A47EB8(Stream_82A488B8 *stream, unsigned int bytes);
+extern unsigned int fn_82A45350(void *sources, unsigned int index);
+extern unsigned int fn_82A47A60(Stream_82A488B8 *stream, unsigned int frames, unsigned int position);
+extern unsigned int fn_82A47958(Stream_82A488B8 *stream, unsigned int source, unsigned int frames,
+                                unsigned int position);
+extern void fn_82A48358(Stream_82A488B8 *stream, unsigned int frames, unsigned int position);
+
+/* Mixes as many frames as every source can supply into the ring buffer, which
+   holds 16-bit samples, and advances the write position. */
+void fn_82A488B8(Stream_82A488B8 *stream, unsigned int pendingBytes, unsigned int requestedBytes)
 {
-  unsigned int uVar1;
-  __int64 lVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  unsigned __int64 uVar6;
-  
-  uVar4 = ((unsigned __int64)*(unsigned int *)(param_1 + 0x40) & 0x7fffffff) << 1;
-  trapWord(6,uVar4,0);
-  if (((unsigned __int64)*(unsigned int *)(param_1 + 0x1e4) < (param_3 & 0xffffffff) / uVar4) &&
-     (lVar2 = fn_82A47EB8(param_1,*(unsigned int *)(param_1 + 0xd4)), lVar2 < 0)) {
-    (**(int (***)())(*(int *)(*(int *)(param_1 + 0x34) + 4) + 8))(*(int *)(param_1 + 0x34) + 4);
-  }
-  else {
-    uVar4 = fn_82A45350(*(unsigned int *)(param_1 + 0x1d8),0);
-    uVar6 = 1;
-    if (1 < *(unsigned int *)(param_1 + 0x1c0)) {
-      do {
-        uVar3 = fn_82A45350(*(unsigned int *)(param_1 + 0x1d8),uVar6);
-        if ((uVar3 & 0xffffffff) <= (uVar4 & 0xffffffff)) {
-          uVar4 = uVar3;
-        }
-        uVar6 = uVar6 + 1;
-      } while ((uVar6 & 0xffffffff) < (unsigned __int64)*(unsigned int *)(param_1 + 0x1c0));
-    }
-    uVar6 = ((unsigned __int64)*(unsigned int *)(param_1 + 0x40) & 0x7fffffff) << 1;
-    trapWord(6,uVar6,0);
-    uVar6 = (unsigned __int64)*(unsigned int *)(param_1 + 0x1e4) - (param_2 & 0xffffffff) / uVar6;
-    if ((uVar6 & 0xffffffff) <= (uVar4 & 0xffffffff)) {
-      uVar4 = uVar6;
-    }
-    if ((uVar4 & 0xffffffff) != 0) {
-      if (*(unsigned int *)(param_1 + 0x40) < 3) {
-        uVar6 = fn_82A47A60(param_1,uVar4,*(unsigned int *)(param_1 + 0x1e8));
-        if ((uVar6 & 0xffffffff) != (uVar4 & 0xffffffff)) {
-          uVar1 = *(unsigned int *)(param_1 + 0x1e4);
-          uVar3 = *(unsigned int *)(param_1 + 0x1e8) + uVar6;
-          trapWord(6,(unsigned __int64)uVar1,0);
-          fn_82A47A60(param_1,uVar4 - uVar6,
-                        uVar3 - (__int64)(int)((uVar3 & 0xffffffff) / (unsigned __int64)uVar1) *
-                                (__int64)(int)uVar1);
-        }
-      }
-      else {
-        uVar6 = 0;
-        if (*(int *)(param_1 + 0x1c0) != 0) {
-          do {
-            uVar3 = fn_82A47958(param_1,uVar6,uVar4,*(unsigned int *)(param_1 + 0x1e8));
-            if ((uVar3 & 0xffffffff) != (uVar4 & 0xffffffff)) {
-              uVar1 = *(unsigned int *)(param_1 + 0x1e4);
-              uVar5 = *(unsigned int *)(param_1 + 0x1e8) + uVar3;
-              trapWord(6,(unsigned __int64)uVar1,0);
-              fn_82A47958(param_1,uVar6,uVar4 - uVar3,
-                            uVar5 - (__int64)(int)((uVar5 & 0xffffffff) / (unsigned __int64)uVar1) *
-                                    (__int64)(int)uVar1);
-            }
-            uVar6 = uVar6 + 1;
-          } while ((uVar6 & 0xffffffff) < (unsigned __int64)*(unsigned int *)(param_1 + 0x1c0));
-        }
-      }
-      uVar3 = (unsigned __int64)*(unsigned int *)(param_1 + 0x1e8);
-      uVar6 = uVar4;
-      if ((unsigned __int64)*(unsigned int *)(param_1 + 0x1e4) < (uVar3 + uVar4 & 0xffffffff)) {
-        lVar2 = *(unsigned int *)(param_1 + 0x1e4) - uVar3;
-        fn_82A48358(param_1,lVar2);
-        uVar3 = 0;
-        uVar6 = uVar4 - lVar2;
-      }
-      fn_82A48358(param_1,uVar6,uVar3);
-      uVar1 = *(unsigned int *)(param_1 + 0x1e4);
-      uVar4 = *(unsigned int *)(param_1 + 0x1e8) + uVar4;
-      trapWord(6,(unsigned __int64)uVar1,0);
-      *(unsigned int *)(param_1 + 0x1e8) =
-           (int)uVar4 - (int)((uVar4 & 0xffffffff) / (unsigned __int64)uVar1) * uVar1;
-    }
-  }
-  return;
-}
+    unsigned int frames;
+    unsigned int available;
+    unsigned int done;
+    unsigned int first;
+    unsigned int i;
+    int result;
 
+    result = 0;
+    if (requestedBytes / (stream->channels * 2) > stream->capacity) {
+        result = fn_82A47EB8(stream, stream->bufferBytes);
+    }
+    if (result >= 0) {
+        frames = fn_82A45350(stream->sources, 0);
+        for (i = 1; i < stream->sourceCount; i++) {
+            available = fn_82A45350(stream->sources, i);
+            frames = frames < available ? frames : available;
+        }
+        available = stream->capacity - pendingBytes / (stream->channels * 2);
+        frames = frames < available ? frames : available;
+        if (frames != 0) {
+            if (stream->channels <= 2) {
+                done = fn_82A47A60(stream, frames, stream->position);
+                if (done != frames) {
+                    fn_82A47A60(stream, frames - done, (stream->position + done) % stream->capacity);
+                }
+            } else {
+                for (i = 0; i < stream->sourceCount; i++) {
+                    done = fn_82A47958(stream, i, frames, stream->position);
+                    if (done != frames) {
+                        fn_82A47958(stream, i, frames - done, (stream->position + done) % stream->capacity);
+                    }
+                }
+            }
+            if (stream->position + frames > stream->capacity) {
+                first = stream->capacity - stream->position;
+                fn_82A48358(stream, first, stream->position);
+                fn_82A48358(stream, frames - first, 0);
+            } else {
+                fn_82A48358(stream, frames, stream->position);
+            }
+            stream->position = (stream->position + frames) % stream->capacity;
+        }
+    } else {
+        stream->owner->sink.vtable->OnError(&stream->owner->sink, result);
+    }
+}

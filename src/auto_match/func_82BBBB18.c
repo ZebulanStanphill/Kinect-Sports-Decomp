@@ -1,113 +1,129 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_60;
-extern int fn_82B7BEB0();
-extern int fn_82BA02A8();
-extern int fn_82BA03B8();
-extern int fn_82BBB1A8();
-extern int fn_82BBB770();
-extern int fn_82BBB7D8();
-extern int fn_82BC0088();
-extern int fn_82BC7368();
-extern unsigned int iStack_48;
-extern unsigned int iStack_58;
-extern unsigned int uStack_44;
-extern unsigned int uStack_4c;
-extern unsigned int uStack_54;
-extern unsigned int uStack_5c;
+/* Visits the expression tree under every root instruction that is marked for
+   rewriting, children before their parent, and calls the rewrite function for
+   each node once per pass. The walk keeps two stacks: the nodes on the path
+   and, for each of them, the number of children visited so far. */
+typedef struct Stack_82BBBB18 {
+    int unk00;       /* 0x00 */
+    int count;       /* 0x04 */
+    int *items;      /* 0x08 */
+    void *allocator; /* 0x0c */
+} Stack_82BBBB18;
 
+typedef struct Node_82BBBB18 {
+    char pad000[0x14];
+    int childCount; /* 0x014 */
+    char pad018[0xcc];
+    unsigned int flags; /* 0x0e4 */
+    char pad0E8[4];
+    int children[0xa4]; /* 0x0ec: Node_82BBBB18 pointers */
+    int visitMark;      /* 0x37c */
+} Node_82BBBB18;
 
-void fn_82BBBB18(int param_1)
+typedef struct NodeList_82BBBB18 {
+    int unk00;             /* 0x00 */
+    unsigned int count;    /* 0x04 */
+    Node_82BBBB18 **items; /* 0x08 */
+} NodeList_82BBBB18;
 
+typedef struct Context_82BBBB18 {
+    char pad000[0x5b0];
+    void *allocator; /* 0x5b0 */
+} Context_82BBBB18;
+
+typedef struct Pass_82BBBB18 {
+    char pad000[0xc];
+    Context_82BBBB18 *context; /* 0x00c */
+    char pad010[0x804];
+    NodeList_82BBBB18 *roots; /* 0x814 */
+    char pad818[0x4c];
+    int visitMark; /* 0x864 */
+} Pass_82BBBB18;
+
+extern void fn_82BA02A8(void *log, const char *format, ...);
+extern void fn_82BA03B8(Stack_82BBBB18 *stack, void *allocator);
+extern int *fn_82BC0088(Stack_82BBBB18 *stack, unsigned int index);
+extern int fn_82BC7368(Stack_82BBBB18 *stack);
+extern void fn_82B7BEB0(void *allocator, void *allocation);
+extern void fn_82BBB770(Node_82BBBB18 *node, Pass_82BBBB18 *pass);
+extern void fn_82BBB1A8(Pass_82BBBB18 *pass);
+extern void fn_82BBB7D8(Pass_82BBBB18 *pass);
+
+static __forceinline unsigned char GetRoot(NodeList_82BBBB18 *list, unsigned int index, Node_82BBBB18 **out)
 {
-  int iVar1;
-  bool bVar2;
-  int *piVar3;
-  unsigned int *puVar4;
-  int iVar5;
-  unsigned int uVar6;
-  int iVar7;
-  unsigned char auStack_60 [4];
-  unsigned int uStack_5c;
-  int iStack_58;
-  unsigned int uStack_54;
-  unsigned char auStack_50 [4];
-  unsigned int uStack_4c;
-  int iStack_48;
-  unsigned int uStack_44;
-  
-  fn_82BA02A8(*(unsigned int *)(param_1 + 0xc),0xffffffff820e0adc);
-  *(int *)(param_1 + 0x864) = *(int *)(param_1 + 0x864) + 1;
-  fn_82BA03B8(auStack_50,*(unsigned int *)(*(int *)(param_1 + 0xc) + 0x5b0));
-  fn_82BA03B8(auStack_60,*(unsigned int *)(*(int *)(param_1 + 0xc) + 0x5b0));
-  uVar6 = 1;
-  iVar7 = 0;
-  while( true ) {
-    if (*(unsigned int *)(*(int *)(param_1 + 0x814) + 4) < uVar6) {
-      fn_82BBB1A8(param_1);
-      fn_82BBB7D8(param_1);
-      fn_82B7BEB0(uStack_54,iStack_58);
-      fn_82B7BEB0(uStack_44,iStack_48);
-      return;
+    if (index + 1 > list->count) {
+        return 0;
     }
-    iVar5 = *(int *)(*(int *)(*(int *)(param_1 + 0x814) + 8) + iVar7);
-    if ((*(unsigned int *)(iVar5 + 0xe4) & 1) != 0) break;
-LAB_82bbbce8:
-    uVar6 = uVar6 + 1;
-    iVar7 = iVar7 + 4;
-  }
-  uStack_4c = 0;
-  uStack_5c = 0;
-LAB_82bbbbb4:
-  bVar2 = true;
-LAB_82bbbbb8:
-  while (bVar2) {
-    if ((iVar5 == 0) || (*(int *)(iVar5 + 0x37c) == *(int *)(param_1 + 0x864))) {
-LAB_82bbbbf4:
-      bVar2 = false;
-    }
-    else {
-      *(int *)(iVar5 + 0x37c) = *(int *)(param_1 + 0x864);
-      if (*(int *)(iVar5 + 0xec) == 0) {
-        fn_82BBB770(iVar5,param_1);
-        goto LAB_82bbbbf4;
-      }
-      piVar3 = (int *)fn_82BC0088(auStack_50,uStack_4c);
-      *piVar3 = iVar5;
-      puVar4 = (unsigned int *)fn_82BC0088(auStack_60,uStack_5c);
-      *puVar4 = 1;
-      iVar5 = *(int *)(iVar5 + 0xec);
-    }
-  }
-  if (uStack_4c == 0) goto LAB_82bbbce8;
-  if (uStack_4c - 1 < uStack_4c) {
-    piVar3 = (int *)((uStack_4c - 1) * 4 + iStack_48);
-  }
-  else {
-    piVar3 = (int *)0x0;
-  }
-  iVar1 = *piVar3;
-  if (iVar5 != 0) {
-    if (uStack_5c - 1 < uStack_5c) {
-      piVar3 = (int *)((uStack_5c - 1) * 4 + iStack_58);
-    }
-    else {
-      piVar3 = (int *)0x0;
-    }
-    if (*piVar3 != *(int *)(iVar1 + 0x14)) goto code_r0x82bbbc9c;
-  }
-  fn_82BBB770(iVar1,param_1);
-  fn_82BC7368(auStack_50);
-  fn_82BC7368(auStack_60);
-  iVar5 = iVar1;
-  goto LAB_82bbbbb8;
-code_r0x82bbbc9c:
-  iVar5 = fn_82BC7368(auStack_60);
-  piVar3 = (int *)fn_82BC0088(auStack_60,uStack_5c);
-  *piVar3 = iVar5 + 1;
-  iVar5 = *(int *)((iVar5 + 0x3b) * 4 + iVar1);
-  goto LAB_82bbbbb4;
+    *out = list->items[index];
+    return 1;
 }
 
+static __forceinline void SetMark(int *mark, int value)
+{
+    *mark = value;
+}
+
+static __forceinline int *StackAt(Stack_82BBBB18 *stack, unsigned int index)
+{
+    return index < (unsigned int)stack->count ? &stack->items[index] : 0;
+}
+
+void fn_82BBBB18(Pass_82BBBB18 *pass)
+{
+    Stack_82BBBB18 nodes;
+    Stack_82BBBB18 visited;
+    Node_82BBBB18 *node;
+    Node_82BBBB18 *child;
+    unsigned int index;
+    unsigned char descend;
+    int next;
+
+    fn_82BA02A8(pass->context, "Optimization : Rewrite() called\n");
+    pass->visitMark++;
+    fn_82BA03B8(&nodes, pass->context->allocator);
+    fn_82BA03B8(&visited, pass->context->allocator);
+    node = 0;
+    for (index = 0; GetRoot(pass->roots, index, &node); index++) {
+        if (node->flags & 1) {
+            nodes.count = 0;
+            visited.count = 0;
+            descend = 1;
+            for (;;) {
+                if (descend) {
+                    if (node == 0 || node->visitMark == pass->visitMark) {
+                        descend = 0;
+                    } else {
+                        SetMark(&node->visitMark, pass->visitMark);
+                        if (node->children[0] == 0) {
+                            fn_82BBB770(node, pass);
+                            descend = 0;
+                        } else {
+                            *fn_82BC0088(&nodes, nodes.count) = (int)node;
+                            *fn_82BC0088(&visited, visited.count) = 1;
+                            node = (Node_82BBBB18 *)node->children[0];
+                        }
+                    }
+                } else {
+                    child = node;
+                    if (nodes.count == 0) {
+                        break;
+                    }
+                    node = (Node_82BBBB18 *)*StackAt(&nodes, nodes.count - 1);
+                    if (child != 0 && *StackAt(&visited, visited.count - 1) != node->childCount) {
+                        next = fn_82BC7368(&visited) + 1;
+                        *fn_82BC0088(&visited, visited.count) = next;
+                        node = (Node_82BBBB18 *)node->children[next - 1];
+                        descend = 1;
+                    } else {
+                        fn_82BBB770(node, pass);
+                        fn_82BC7368(&nodes);
+                        fn_82BC7368(&visited);
+                    }
+                }
+            }
+        }
+    }
+    fn_82BBB1A8(pass);
+    fn_82BBB7D8(pass);
+    fn_82B7BEB0(visited.allocator, visited.items);
+    fn_82B7BEB0(nodes.allocator, nodes.items);
+}

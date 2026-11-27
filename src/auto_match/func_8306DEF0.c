@@ -1,123 +1,99 @@
-extern unsigned int *auStack_70;
-extern int fn_8306D6D8();
-extern int fn_8306D768();
-extern int fn_8306D7E0();
-extern int fn_8306DA38();
-extern int fn_8306DD18();
-extern int fn_8306ECD8();
-extern int fn_8306F850();
-extern int fn_830758C0();
-extern int fn_83075BB0();
-extern int fn_83075D30();
-extern int fn_83075D40();
-extern int fn_83075D90();
-extern int fn_83075DA8();
-extern int fn_830763C8();
-extern int fn_83076F10();
-extern unsigned int lbl_82057B54;
-extern unsigned int lbl_821AAD20;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Frames_8306DEF0 {
+    int type; /* 0x00 */
+    char unknown04[0xc];
+    __vector4 root;       /* 0x10 */
+    __vector4 points[20]; /* 0x20 */
+    int states[20];       /* 0x160 */
+} Frames_8306DEF0;
 
-void fn_8306DEF0(double param_1,int param_2,unsigned __int64 param_3,int *param_4,int param_5)
+typedef struct Info_8306DEF0 {
+    int tracked; /* 0x00 */
+    char unknown04[0xc];
+    int adjust;     /* 0x10 */
+    char data14[4]; /* 0x14 */
+} Info_8306DEF0;
 
+typedef struct Path_8306DEF0 {
+    char unknown0000[0x530];
+    char filter[0xa40 - 0x530];  /* 0x0530 */
+    char points[0xcd0 - 0xa40];  /* 0x0a40 */
+    char solver[0x19fc - 0xcd0]; /* 0x0cd0 */
+    float unknown19FC;           /* 0x19fc */
+    float weights[20];           /* 0x1a00 */
+    __vector4 direction;         /* 0x1a50 */
+    char unknown1A60[0x10];
+    float signedLean;      /* 0x1a70 */
+    float unknown1A74;     /* 0x1a74 */
+    float lean;            /* 0x1a78 */
+    unsigned char tracked; /* 0x1a7c */
+    char unknown1A7D[0x13];
+    unsigned char hasFrames; /* 0x1a90 */
+    unsigned char hasInfo;   /* 0x1a91 */
+    unsigned char positive;  /* 0x1a92 */
+    unsigned char ready;     /* 0x1a93 */
+    float time;              /* 0x1a94 */
+} Path_8306DEF0;
+
+extern __vector4 *fn_8306D6D8(__vector4 *out, Path_8306DEF0 *self, unsigned char adjust);
+extern void fn_8306D768(Path_8306DEF0 *self, float dt);
+extern unsigned char fn_8306D7E0(Path_8306DEF0 *self);
+extern void fn_8306DA38(Path_8306DEF0 *self, void *points);
+extern void fn_8306DD18(Path_8306DEF0 *self);
+extern __vector4 fn_8306ECD8(void);
+extern void fn_8306F850(void *solver, void *points, float dt, void *data);
+extern void fn_830758C0(Path_8306DEF0 *self, float time, void *points);
+extern void fn_83075BB0(void *filter, void *points, float dt);
+extern __vector4 *fn_83075D30(__vector4 *out, void *points, int index);
+extern float fn_83075D40(void *points, int index);
+extern void fn_83075D90(void *points, int index, float weight);
+extern void fn_83075DA8(void *points, unsigned char enabled);
+extern __vector4 fn_830763C8(__vector4 axis, float angle);
+extern void fn_83076F10(void *points, unsigned char mirror, __vector4 rotation);
+
+void fn_8306DEF0(Path_8306DEF0 *self, float dt, Info_8306DEF0 *info, Frames_8306DEF0 *frames)
 {
-  float fVar1;
-  unsigned int *puVar2;
-  unsigned __int64 in_r0;
-  char cVar3;
-  unsigned int uVar4;
-  int iVar5;
-  unsigned int *puVar6;
-  int iVar7;
-  float *pfVar8;
-  __int64 lVar9;
-  double dVar10;
-  double dVar11;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs35 [16];
-  unsigned char in_vs43 [16];
-  unsigned char in_vs58 [16];
-  unsigned int in_register_000103f0;
-  unsigned int in_register_000103f4;
-  unsigned int in_register_000103f8;
-  unsigned int in_vr63;
-  unsigned char auStack_70 [112];
-  
-  *(char *)(param_2 + 0x1a7c) = '\x01' - (*param_4 == 0);
-  if (*(char *)(param_2 + 0x1a93) == '\0') {
-    fVar1 = (float)((double)*(float *)(param_2 + 0x1a94) + param_1);
-  }
-  else {
-    *(unsigned char *)(param_2 + 0x1a93) = 0;
-    fVar1 = lbl_821AAD20;
-  }
-  *(float *)(param_2 + 0x1a94) = fVar1;
-  iVar7 = param_2 + 0xa40;
-  fn_830758C0((double)fVar1,param_2,param_3,iVar7);
-  fn_83075DA8(iVar7,*(unsigned char *)(param_2 + 0x1a90));
-  if ((*(char *)(param_2 + 0x1a91) == '\0') && (*(char *)(param_2 + 0x1a90) != '\0')) {
-    fn_83075BB0(param_1,param_2 + 0x530,iVar7);
-  }
-  fn_8306F850(param_1,param_2 + 0xcd0,iVar7);
-  lVar9 = 0;
-  pfVar8 = (float *)(param_2 + 0x19fc);
-  do {
-    pfVar8 = pfVar8 + 1;
-    fn_83075D90((double)*pfVar8,iVar7,lVar9);
-    lVar9 = lVar9 + 1;
-  } while ((int)lVar9 < 0x14);
-  if (param_5 != 0) {
-    iVar5 = param_5 + 0x20;
-    lVar9 = 0;
-    puVar6 = (unsigned int *)(param_5 + 0x15c);
-    dVar11 = (double)lbl_82057B54;
-    do {
-      fn_83075D30(auStack_70,iVar7,lVar9);
-      altv207_13(in_vs32,in_vs43);
-      puVar2 = (unsigned int *)((int)in_r0 + iVar5 & 0xfffffff0);
-      *puVar2 = in_register_000103f0;
-      puVar2[1] = in_register_000103f4;
-      puVar2[2] = in_register_000103f8;
-      puVar2[3] = in_vr63;
-      dVar10 = (double)fn_83075D40(iVar7,lVar9);
-      uVar4 = 2;
-      if (dVar10 <= dVar11) {
-        uVar4 = 1;
-      }
-      lVar9 = lVar9 + 1;
-      puVar6 = puVar6 + 1;
-      *puVar6 = uVar4;
-      iVar5 = iVar5 + 0x10;
-    } while ((int)lVar9 < 0x14);
-    altv207_13(in_vs32,in_vs58);
-    puVar6 = (unsigned int *)(param_5 + 0x10U & 0xfffffff0);
-    *puVar6 = in_register_000103f0;
-    puVar6[1] = in_register_000103f4;
-    puVar6[2] = in_register_000103f8;
-    puVar6[3] = in_vr63;
-  }
-  fn_8306DA38(param_2,iVar7);
-  fn_8306DD18(param_2);
-  fn_8306ECD8();
-  fn_830763C8((double)*(float *)(param_2 + 0x1a78));
-  fn_83076F10(iVar7,*(unsigned char *)(param_2 + 0x1a7c));
-  fn_8306D768(param_1,param_2);
-  cVar3 = fn_8306D7E0(param_2);
-  if (cVar3 == '\0') {
-    fn_8306D6D8(auStack_70,param_2,param_4[4] != 0);
-    cVar3 = *(char *)(param_2 + 0x1a7c);
-    altv207_13(in_vs32,in_vs35);
-    fVar1 = *(float *)(param_2 + 0x1a78);
-    puVar6 = (unsigned int *)(param_2 + 0x1a50U & 0xfffffff0);
-    *puVar6 = in_register_000103f0;
-    puVar6[1] = in_register_000103f4;
-    puVar6[2] = in_register_000103f8;
-    puVar6[3] = in_vr63;
-    if (cVar3 == '\0') {
-      fVar1 = -fVar1;
-    }
-    *(float *)(param_2 + 0x1a70) = fVar1;
-  }
-  return;
-}
+    void *points;
+    int i;
+    __vector4 temp;
 
+    self->tracked = info->tracked != 0;
+    if (self->ready) {
+        self->ready = 0;
+        self->time = 0.0f;
+    } else {
+        self->time = self->time + dt;
+    }
+    points = self->points;
+    fn_830758C0(self, self->time, points);
+    fn_83075DA8(points, self->hasFrames);
+    if (!self->hasInfo && self->hasFrames) {
+        fn_83075BB0(self->filter, points, dt);
+    }
+    fn_8306F850(self->solver, points, dt, info->data14);
+    for (i = 0; i < 20; i++) {
+        fn_83075D90(points, i, self->weights[i]);
+    }
+    if (frames != 0) {
+        for (i = 0; i < 20; i++) {
+            frames->points[i] = *fn_83075D30(&temp, points, i);
+            frames->states[i] = fn_83075D40(points, i) > 0.7f ? 2 : 1;
+        }
+        frames->root = frames->points[0];
+    }
+    fn_8306DA38(self, points);
+    fn_8306DD18(self);
+    {
+        __vector4 up = fn_8306ECD8();
+
+        fn_83076F10(points, self->tracked, fn_830763C8(up, self->lean));
+    }
+    fn_8306D768(self, dt);
+    if (!fn_8306D7E0(self)) {
+        self->direction = *fn_8306D6D8(&temp, self, info->adjust != 0);
+        self->signedLean = self->tracked ? self->lean : -self->lean;
+    }
+}

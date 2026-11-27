@@ -1,71 +1,74 @@
-extern int fn_823AA370();
-extern int fn_823AAD90();
-extern int fn_828D45F8();
-extern int fn_82C00470();
-extern int fn_82C0BFC8();
-extern unsigned int lbl_82015B38;
+typedef struct Format_82C03F68 Format_82C03F68;
+typedef struct Stage_82C03F68 Stage_82C03F68;
 
+typedef struct StageVtbl_82C03F68 {
+    void *slots00[0x11];
+    int (*SetThirdFormat)(Stage_82C03F68 *stage, Format_82C03F68 *format); /* 0x44 */
+    int (*SetAudioFormat)(Stage_82C03F68 *stage, Format_82C03F68 *format); /* 0x48 */
+    int (*SetVideoFormat)(Stage_82C03F68 *stage, Format_82C03F68 *format); /* 0x4c */
+} StageVtbl_82C03F68;
 
-unsigned __int64 fn_82C03F68(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4)
+struct Stage_82C03F68 {
+    StageVtbl_82C03F68 *vt;
+};
 
+typedef struct Pool_82C03F68 {
+    char reserved00[0x48];
+} Pool_82C03F68;
+
+typedef struct Pipeline_82C03F68 {
+    char reserved00[0x38];
+    Stage_82C03F68 *videoStage; /* 0x38 */
+    Stage_82C03F68 *audioStage; /* 0x3c */
+    Stage_82C03F68 *thirdStage; /* 0x40 */
+    Pool_82C03F68 videoPool;    /* 0x44 */
+    Pool_82C03F68 audioPool;    /* 0x8c */
+    char reservedd4[0x78];
+    unsigned int bitRate; /* 0x14c */
+    float frameRate;      /* 0x150 */
+} Pipeline_82C03F68;
+
+extern float fn_82C00470(Format_82C03F68 *format);
+extern unsigned int fn_828D45F8(Format_82C03F68 *format);
+extern unsigned int fn_823AAD90(Format_82C03F68 *format);
+extern unsigned int fn_823AA370(Format_82C03F68 *format);
+extern int fn_82C0BFC8(Pool_82C03F68 *pool, int count, unsigned int size, int flags);
+
+int fn_82C03F68(Pipeline_82C03F68 *self, Format_82C03F68 *video, Format_82C03F68 *audio,
+                Format_82C03F68 *third)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  int iVar3;
-  int iVar4;
-  unsigned int uVar5;
-  unsigned __int64 uVar6;
-  double dVar7;
-  
-  dVar7 = (double)lbl_82015B38;
-  uVar2 = 0;
-  if ((param_2 & 0xffffffff) != 0) {
-    uVar2 = (**(int (***)())(**(int **)(param_1 + 0x38) + 0x4c))();
-  }
-  if (((param_3 & 0xffffffff) != 0) && (-1 < (int)uVar2)) {
-    dVar7 = (double)fn_82C00470(param_3);
-    uVar2 = (**(int (***)())(**(int **)(param_1 + 0x3c) + 0x48))(*(int **)(param_1 + 0x3c),param_3);
-  }
-  if (((param_4 & 0xffffffff) != 0) && (-1 < (int)uVar2)) {
-    uVar2 = (**(int (***)())(**(int **)(param_1 + 0x40) + 0x44))(*(int **)(param_1 + 0x40),param_4);
-  }
-  if (((param_2 & 0xffffffff) != 0) && (-1 < (int)uVar2)) {
-    iVar3 = fn_828D45F8(param_2);
-    iVar4 = fn_823AAD90(param_2);
-    if (iVar4 == 0x18) {
-      uVar5 = 0x20;
-    }
-    else {
-      uVar5 = fn_823AAD90(param_2);
-    }
-    uVar1 = uVar5 >> 3;
-    iVar4 = fn_823AA370(param_2);
-    trapWord(6,(__int64)iVar4 * (__int64)(int)uVar5,0);
-    uVar6 = (((__int64)((double)(iVar4 * uVar1) / dVar7) & 0xffffffffU) + (unsigned __int64)uVar1) - 1 &
-            ~((unsigned __int64)uVar1 - 1);
-    *(int *)(param_1 + 0x14c) =
-         (int)((uVar6 * 8000 & 0xffffffff) / ((__int64)iVar4 * (__int64)(int)uVar5 & 0xffffffffU))
-    ;
-    uVar2 = fn_82C0BFC8(param_1 + 0x44,5,(__int64)(int)uVar6 * (__int64)iVar3 + 8,1);
-  }
-  if ((param_3 & 0xffffffff) != 0) {
-    if ((int)uVar2 < 0) {
-      return uVar2;
-    }
-    uVar6 = fn_828D45F8(param_3);
-    if (((uVar6 & 1) != 0) || (uVar6 = fn_823AA370(param_3), (uVar6 & 1) != 0)) {
-      return 0xffffffff80004001;
-    }
-    iVar3 = fn_828D45F8(param_3);
-    iVar4 = fn_823AA370(param_3);
-    uVar2 = fn_82C0BFC8(param_1 + 0x8c,5,
-                              (((__int64)iVar3 * (__int64)iVar4 +
-                                ((__int64)iVar3 * (__int64)iVar4 & 0x7fffffffU) * 2 & 0xffffffff)
-                               >> 1 & 0x1fffffff) + 8,1);
-  }
-  if (-1 < (int)uVar2) {
-    *(float *)(param_1 + 0x150) = (float)dVar7;
-  }
-  return uVar2;
-}
+    float frameRate = 30.0f;
+    int hr = 0;
 
+    if (video != 0)
+        hr = self->videoStage->vt->SetVideoFormat(self->videoStage, video);
+    if (audio != 0 && hr >= 0) {
+        frameRate = fn_82C00470(audio);
+        hr = self->audioStage->vt->SetAudioFormat(self->audioStage, audio);
+    }
+    if (third != 0 && hr >= 0)
+        hr = self->thirdStage->vt->SetThirdFormat(self->thirdStage, third);
+    if (video != 0 && hr >= 0) {
+        unsigned int channels = fn_828D45F8(video);
+        unsigned int bits = fn_823AAD90(video) == 0x18 ? 0x20 : fn_823AAD90(video);
+        unsigned int bytes = bits >> 3;
+        unsigned int rate = fn_823AA370(video);
+        unsigned int size = ((unsigned int)((float)(rate * bytes) / frameRate) + bytes - 1) & ~(bytes - 1);
+
+        self->bitRate = size * 8000 / (rate * bits);
+        hr = fn_82C0BFC8(&self->videoPool, 5, size * channels + 8, 1);
+    }
+    if (audio != 0) {
+        unsigned int size;
+
+        if (hr < 0)
+            return hr;
+        if ((fn_828D45F8(audio) & 1) != 0 || (fn_823AA370(audio) & 1) != 0)
+            return 0x80004001;
+        size = fn_828D45F8(audio) * fn_823AA370(audio) * 12 / 8;
+        hr = fn_82C0BFC8(&self->audioPool, 5, size + 8, 1);
+    }
+    if (hr >= 0)
+        self->frameRate = frameRate;
+    return hr;
+}

@@ -1,82 +1,59 @@
-extern unsigned int fStack_70;
-extern int fn_82F6A548();
-extern int fn_82F6A594();
-extern int fn_8303A888();
-extern int fn_8303A930();
-extern int fn_8303AA38();
-extern unsigned int lbl_8201546C;
-extern unsigned int lbl_8217BA98;
-extern unsigned int lbl_821AAD20;
-extern unsigned int uStack_68;
-extern unsigned int uStack_6c;
+#include <string.h>
 
+typedef struct Buffer_8303AAE0 {
+    float *samples; /* 0x0 */
+    char pad4[0xa];
+    unsigned short count; /* 0xe */
+} Buffer_8303AAE0;
 
-void fn_8303AAE0(unsigned __int64 param_1,unsigned __int64 param_2,unsigned __int64 param_3)
+typedef struct Filter_8303AAE0 {
+    float coefficients[4]; /* 0x00 */
+    float current;         /* 0x10 */
+    float target;          /* 0x14 */
+    unsigned int step;     /* 0x18 */
+    char pad1c[4];
+    unsigned char alternate; /* 0x20 */
+    unsigned char bypass;    /* 0x21 */
+} Filter_8303AAE0;
 
+extern unsigned char fn_8303A930(float x, unsigned char alt, float *out);
+extern void fn_8303AA38(float cutoff, float *coefficients);
+extern void fn_8303A888(float *state, const float *coef, float **pbuf, unsigned int count);
+
+static __forceinline void FlushDenormal(float *value)
 {
-  int iVar1;
-  float fVar2;
-  unsigned int *puVar3;
-  unsigned int *puVar4;
-  unsigned int *puVar5;
-  unsigned int uVar6;
-  unsigned __int64 uVar7;
-  unsigned __int64 uVar8;
-  double dVar9;
-  double dVar10;
-  double dVar11;
-  double dVar12;
-  float fStack_70;
-  unsigned int uStack_6c;
-  unsigned __int64 uStack_68;
-  
-  puVar3 = (unsigned int *)fn_82F6A548();
-  uStack_6c = *puVar3;
-  iVar1 = (int)param_2;
-  uVar7 = (unsigned __int64)*(unsigned short *)((int)puVar3 + 0xe);
-  dVar10 = (double)*(float *)(iVar1 + 0x10);
-  dVar9 = (double)(float)((double)*(float *)(iVar1 + 0x14) - dVar10);
-  puVar5 = (unsigned int *)param_3;
-  if (uVar7 != 0) {
-    dVar11 = (double)lbl_821AAD20;
-    dVar12 = (double)lbl_8201546C;
-    do {
-      uVar8 = 0x80;
-      if ((uVar7 & 0xffffffff) < 0x81) {
-        uVar8 = uVar7;
-      }
-      if (*(unsigned int *)(iVar1 + 0x18) < 8) {
-        uVar6 = *(unsigned int *)(iVar1 + 0x18) + 1;
-        fStack_70 = (float)dVar11;
-        uStack_68 = (unsigned __int64)uVar6;
-        *(unsigned int *)(iVar1 + 0x18) = uVar6;
-        *(float *)(iVar1 + 0x10) =
-             (float)((double)(float)((double)uStack_68 * dVar9) * dVar12 + dVar10);
-        puVar4 = (unsigned int *)fn_8303A930(puVar3,*(unsigned char *)(iVar1 + 0x20),&fStack_70);
-        if (((unsigned int)puVar4 & 0xff) == 0) {
-          puVar3 = (unsigned int *)fn_8303AA38((double)fStack_70,puVar4,param_2);
-        }
-        else {
-          puVar3 = puVar4;
-          if (*(char *)(iVar1 + 0x21) == '\0') {
-            *puVar5 = 0;
-            puVar5[1] = 0;
-            puVar5[2] = 0;
-            puVar5[3] = 0;
-          }
-        }
-        *(char *)(iVar1 + 0x21) = (char)puVar4;
-      }
-      if (*(char *)(iVar1 + 0x21) == '\0') {
-        puVar3 = (unsigned int *)fn_8303A888(param_3,param_2,&uStack_6c,uVar8);
-      }
-      uVar7 = uVar7 - uVar8;
-    } while (uVar7 != 0);
-  }
-  fVar2 = lbl_8217BA98;
-  puVar5[2] = ((float)puVar5[2] + lbl_8217BA98) - lbl_8217BA98;
-  puVar5[3] = ((float)puVar5[3] + fVar2) - fVar2;
-  fn_82F6A594();
-  return;
+    *value = (*value + 1e-18f) - 1e-18f;
 }
 
+void fn_8303AAE0(Buffer_8303AAE0 *buffer, Filter_8303AAE0 *filter, float *state)
+{
+    float *samples = buffer->samples;
+    unsigned int remaining = buffer->count;
+    float start = filter->current;
+    float range = filter->target - start;
+    unsigned int count;
+    float cutoff;
+    unsigned char bypass;
+
+    while (remaining != 0) {
+        count = remaining > 0x80 ? 0x80 : remaining;
+        if (filter->step < 8) {
+            filter->step++;
+            filter->current = (float)filter->step * range * 0.125f + start;
+            cutoff = 0.0f;
+            bypass = fn_8303A930(filter->current, filter->alternate, &cutoff);
+            if (!bypass) {
+                fn_8303AA38(cutoff, filter->coefficients);
+            } else if (!filter->bypass) {
+                memset(state, 0, 4 * sizeof(float));
+            }
+            filter->bypass = bypass;
+        }
+        if (!filter->bypass) {
+            fn_8303A888(state, filter->coefficients, &samples, count);
+        }
+        remaining -= count;
+    }
+    FlushDenormal(&state[2]);
+    FlushDenormal(&state[3]);
+}

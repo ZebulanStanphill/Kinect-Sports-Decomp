@@ -1,57 +1,69 @@
-extern int fn_82A1DDC0();
-extern int fn_82FA5060();
-extern int fn_82FA5190();
-extern int fn_83037F70();
+typedef struct Block_83037D58 {
+    char *data;        /* 0x0 */
+    unsigned int used; /* 0x4 */
+} Block_83037D58;
+
+typedef struct Writer_83037D58 {
+    Block_83037D58 *begin;    /* 0x00 */
+    Block_83037D58 *end;      /* 0x04 */
+    Block_83037D58 *capacity; /* 0x08 */
+    unsigned int maxBlocks;   /* 0x0c */
+    unsigned int allocated;   /* 0x10 */
+    int unknown14;            /* 0x14 */
+    unsigned int current;     /* 0x18 */
+    unsigned int used;        /* 0x1c */
+    unsigned char failed;     /* 0x20 */
+} Writer_83037D58;
+
 extern unsigned int lbl_831BC768;
-extern unsigned int uRam831bc8dc;
+extern unsigned int lbl_831BC8DC;
+extern void *fn_82A1DDC0(void *destination, const void *source, unsigned int count);
+extern char *fn_82FA5060(unsigned int heap, unsigned int size);
+extern void fn_82FA5190(unsigned int heap, char *block);
+extern Block_83037D58 *fn_83037F70(Writer_83037D58 *self, unsigned int index);
 
-
-unsigned __int64 fn_83037D58(int *param_1,unsigned __int64 param_2,unsigned __int64 param_3)
-
+int fn_83037D58(Writer_83037D58 *self, const void *source, unsigned int count)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  unsigned int *puVar3;
-  unsigned int uVar4;
-  unsigned int uVar5;
-  
-  if (((unsigned __int64)uRam831bc8dc - (unsigned __int64)(unsigned int)param_1[7] & 0xffffffff) < (param_3 & 0xffffffff))
-  {
-    if (*(char *)(param_1 + 8) != '\0') {
-      return 0x34;
-    }
-    uVar4 = param_1[6] + 1;
-    uVar1 = param_1[1] - *param_1 >> 3;
-    uVar5 = -(unsigned int)(uVar4 < uVar1) & uVar4;
-    if (param_1[4] == uVar5) {
-      if (((unsigned int)param_1[3] <= uVar1) ||
-         (uVar2 = fn_82FA5060(lbl_831BC768,(unsigned __int64)uRam831bc8dc,param_3,uVar4 - uVar1),
-         (uVar2 & 0xffffffff) == 0)) {
-        *(unsigned char *)(param_1 + 8) = 1;
-        return 0x34;
-      }
-      puVar3 = (unsigned int *)fn_83037F70(param_1,uVar5);
-      if (puVar3 == (unsigned int *)0x0) {
-        *(unsigned char *)(param_1 + 8) = 1;
-        fn_82FA5190(lbl_831BC768,uVar2);
-        return 0x34;
-      }
-      *puVar3 = (int)uVar2;
-      param_1[4] = param_1[4] + 1;
-    }
-    else {
-      uVar2 = (unsigned __int64)*(unsigned int *)(uVar5 * 8 + *param_1);
-    }
-    param_1[6] = uVar5;
-    param_1[7] = (int)param_3;
-    fn_82A1DDC0(uVar2,param_2,param_3);
-  }
-  else {
-    fn_82A1DDC0((unsigned __int64)*(unsigned int *)(param_1[6] * 8 + *param_1) + (unsigned __int64)(unsigned int)param_1[7],
-                      param_2);
-    param_1[7] = (int)param_3 + param_1[7];
-  }
-  *(int *)(param_1[6] * 8 + *param_1 + 4) = param_1[7];
-  return 1;
-}
+    unsigned int index;
+    unsigned int blocks;
+    char *data;
+    Block_83037D58 *block;
 
+    if (lbl_831BC8DC - self->used >= count) {
+        fn_82A1DDC0(self->begin[self->current].data + self->used, source, count);
+        self->used = count + self->used;
+    } else {
+        if (self->failed) {
+            return 0x34;
+        }
+        index = self->current + 1;
+        blocks = self->end - self->begin;
+        index = index < blocks ? index : 0;
+        if (self->allocated == index) {
+            if (blocks >= self->maxBlocks) {
+                self->failed = 1;
+                return 0x34;
+            }
+            data = fn_82FA5060(lbl_831BC768, lbl_831BC8DC);
+            if (data == 0) {
+                self->failed = 1;
+                return 0x34;
+            }
+            block = fn_83037F70(self, index);
+            if (block == 0) {
+                self->failed = 1;
+                fn_82FA5190(lbl_831BC768, data);
+                return 0x34;
+            }
+            block->data = data;
+            self->allocated++;
+        } else {
+            data = self->begin[index].data;
+        }
+        self->current = index;
+        self->used = count;
+        fn_82A1DDC0(data, source, count);
+    }
+    self->begin[self->current].used = self->used;
+    return 1;
+}

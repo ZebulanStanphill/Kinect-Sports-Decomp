@@ -1,62 +1,64 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_82672C20();
+typedef struct Fx_82396230 {
+    char pad00[0x58];
+    int active; /* 0x58 */
+} Fx_82396230;
 
+typedef struct A_82396230 {
+    char pad00[0x14];
+    int busy; /* 0x14 */
+} A_82396230;
 
-void fn_82396230(int param_1)
+typedef struct B_82396230 {
+    char pad00[0xc];
+    int busy; /* 0x0c */
+} B_82396230;
 
+typedef struct Scene_82396230 {
+    char pad00[0xc];
+    Fx_82396230 *fx; /* 0x0c */
+    char pad10[4];
+    A_82396230 *a; /* 0x14 */
+    B_82396230 *b; /* 0x18 */
+} Scene_82396230;
+
+typedef struct Obj_82396230 {
+    char pad00[0x54];
+    unsigned int mode; /* 0x54 */
+    char pad58[0xd4 - 0x58];
+    Scene_82396230 *scene; /* 0xd4 */
+    char padd8[0x240 - 0xd8];
+    int enabled; /* 0x240 */
+} Obj_82396230;
+
+extern void fn_8229F5A8(Fx_82396230 *fx);
+extern void fn_8229F618(Fx_82396230 *fx);
+
+static __forceinline int ShouldShow(Obj_82396230 *self)
 {
-  unsigned int uVar1;
-  bool bVar2;
-  bool bVar3;
-  unsigned int *puVar4;
-  __int64 lVar5;
-  
-  if (*(int *)(param_1 + 0x240) != 0) {
-    bVar2 = true;
-    uVar1 = *(unsigned int *)(param_1 + 0x54);
-    if (((uVar1 < 4) || (uVar1 == 7)) || (uVar1 == 0x10)) {
-      bVar2 = false;
+    if (self->enabled != 0) {
+        Scene_82396230 *scene = self->scene;
+        int allowed = 1;
+        unsigned int mode = self->mode;
+        int a = scene->a->busy;
+        int b = scene->b->busy;
+        if (mode < 4 || mode == 7 || mode == 0x10)
+            allowed = 0;
+        if (a == 0 && b == 0 && allowed)
+            return 1;
     }
-    if (((*(int *)(*(int *)(*(int *)(param_1 + 0xd4) + 0x14) + 0x14) == 0) &&
-        (*(int *)(*(int *)(*(int *)(param_1 + 0xd4) + 0x18) + 0xc) == 0)) && (bVar3 = true, bVar2))
-    goto LAB_82396294;
-  }
-  bVar3 = false;
-LAB_82396294:
-  puVar4 = *(unsigned int **)(*(int *)(param_1 + 0xd4) + 0xc);
-  if (bVar3) {
-    if (puVar4[0x16] != 0) {
-      return;
-    }
-    if (puVar4[4] == 0) {
-      fn_82672C20(*puVar4,0xffffffff821a8484,0,0);
-      puVar4[4] = 1;
-      puVar4 = puVar4 + 0x1c;
-      lVar5 = 8;
-      do {
-        puVar4 = puVar4 + 1;
-        *puVar4 = 1;
-        lVar5 = lVar5 + -1;
-      } while (lVar5 != 0);
-    }
-    return;
-  }
-  if (puVar4[0x16] == 0) {
-    return;
-  }
-  if (puVar4[4] != 0) {
-    fn_82672C20(*puVar4,0xffffffff821a8498,0,0);
-    puVar4[4] = 0;
-    puVar4 = puVar4 + 0x1c;
-    lVar5 = 8;
-    do {
-      puVar4 = puVar4 + 1;
-      *puVar4 = 0;
-      lVar5 = lVar5 + -1;
-    } while (lVar5 != 0);
-  }
-  return;
+    return 0;
 }
 
+/* Hides or shows the effect; both tests of `hidden` are in the source. */
+static __forceinline void SetHidden(Scene_82396230 *scene, int hidden)
+{
+    if (hidden && scene->fx->active != 0)
+        fn_8229F618(scene->fx);
+    else if (!hidden && scene->fx->active == 0)
+        fn_8229F5A8(scene->fx);
+}
+
+void fn_82396230(Obj_82396230 *self)
+{
+    SetHidden(self->scene, !ShouldShow(self));
+}

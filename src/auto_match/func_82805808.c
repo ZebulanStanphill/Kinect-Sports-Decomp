@@ -1,106 +1,61 @@
-__int64 fn_82805808(int param_1)
+typedef struct Bitmap_82805808 {
+    char unknown00[0xc];
+    unsigned char *data; /* 0x0c */
+    char unknown10[0xe];
+    unsigned short width; /* 0x1e */
+    unsigned short pad20;
+    unsigned short height; /* 0x22 */
+} Bitmap_82805808;
 
+static __forceinline int CountEdges_82805808(unsigned char bits, unsigned int x, unsigned int width)
 {
-  unsigned char bVar1;
-  __int64 lVar2;
-  unsigned int uVar3;
-  __int64 lVar4;
-  __int64 lVar5;
-  unsigned __int64 uVar6;
-  unsigned int uVar7;
-  unsigned __int64 uVar8;
-  unsigned char *pbVar9;
-  unsigned int uVar10;
-  
-  uVar6 = (unsigned __int64)*(unsigned short *)(param_1 + 0x22);
-  lVar2 = 0;
-  pbVar9 = *(unsigned char **)(param_1 + 0xc);
-  if (uVar6 != 0) {
-    uVar10 = (unsigned int)*(unsigned short *)(param_1 + 0x1e);
-    do {
-      if (uVar10 != 0) {
-        uVar3 = 6;
-        do {
-          bVar1 = *pbVar9;
-          uVar7 = uVar3 - 6;
-          lVar4 = 0;
-          uVar8 = 0x80;
-          do {
-            if (uVar10 <= uVar7) break;
-            if (((bVar1 & uVar8) != 0) && (((unsigned __int64)bVar1 & uVar8 >> 3) == 0)) {
-              lVar4 = lVar4 + 1;
-            }
-            uVar8 = uVar8 >> 1;
-            uVar7 = uVar7 + 1;
-          } while (uVar8 != 0x10);
-          bVar1 = bVar1 & 3;
-          lVar2 = lVar4 + lVar2;
-          if (bVar1 == 1) {
-            lVar4 = 0;
-            uVar8 = 0x80;
-            uVar7 = uVar3;
-            do {
-              if (uVar10 <= uVar7) break;
-              if (((pbVar9[1] & uVar8) != 0) && (((unsigned __int64)pbVar9[1] & uVar8 >> 3) == 0)) {
-                lVar4 = lVar4 + 1;
-              }
-              uVar8 = uVar8 >> 1;
-              uVar7 = uVar7 + 1;
-            } while (uVar8 != 0x10);
-LAB_828059bc:
-            pbVar9 = pbVar9 + 1;
-            lVar2 = lVar4 + lVar2;
-          }
-          else {
-            if (bVar1 == 2) {
-              uVar7 = uVar3 - 3;
-              lVar4 = 0;
-              uVar8 = 0x80;
-              do {
-                if (uVar10 <= uVar7) break;
-                if (((pbVar9[1] & uVar8) != 0) && (((unsigned __int64)pbVar9[1] & uVar8 >> 3) == 0)) {
-                  lVar4 = lVar4 + 1;
-                }
-                uVar8 = uVar8 >> 1;
-                uVar7 = uVar7 + 1;
-              } while (uVar8 != 0x10);
-              goto LAB_828059bc;
-            }
-            if (bVar1 == 3) {
-              uVar7 = uVar3 - 3;
-              lVar4 = 0;
-              uVar8 = 0x80;
-              do {
-                if (uVar10 <= uVar7) break;
-                if (((pbVar9[1] & uVar8) != 0) && (((unsigned __int64)pbVar9[1] & uVar8 >> 3) == 0)) {
-                  lVar4 = lVar4 + 1;
-                }
-                uVar8 = uVar8 >> 1;
-                uVar7 = uVar7 + 1;
-              } while (uVar8 != 0x10);
-              pbVar9 = pbVar9 + 2;
-              lVar5 = 0;
-              uVar8 = 0x80;
-              uVar7 = uVar3;
-              do {
-                if (uVar10 <= uVar7) break;
-                if (((*pbVar9 & uVar8) != 0) && (((unsigned __int64)*pbVar9 & uVar8 >> 3) == 0)) {
-                  lVar5 = lVar5 + 1;
-                }
-                uVar8 = uVar8 >> 1;
-                uVar7 = uVar7 + 1;
-              } while (uVar8 != 0x10);
-              lVar2 = lVar5 + lVar4 + lVar2;
-            }
-          }
-          pbVar9 = pbVar9 + 1;
-          uVar7 = uVar3 + 3;
-          uVar3 = uVar3 + 9;
-        } while (uVar7 < uVar10);
-      }
-      uVar6 = uVar6 - 1;
-    } while (uVar6 != 0);
-  }
-  return lVar2;
+    int count = 0;
+    unsigned int mask;
+
+    for (mask = 0x80; mask != 0x10; mask >>= 1) {
+        if (x >= width) {
+            break;
+        }
+        if ((bits & mask) != 0 && (bits & (mask >> 3)) == 0) {
+            count++;
+        }
+        x++;
+    }
+    return count;
 }
 
+int fn_82805808(Bitmap_82805808 *self)
+{
+    int total = 0;
+    unsigned char *p = self->data;
+    unsigned int width;
+    unsigned int x;
+    unsigned int y;
+    unsigned char bits;
+
+    for (y = 0; y < self->height; y++) {
+        width = self->width;
+        for (x = 0; x < width; x += 9) {
+            bits = *p;
+            total += CountEdges_82805808(bits, x, width);
+            switch (bits & 3) {
+            case 3:
+                p++;
+                total += CountEdges_82805808(*p, x + 3, width);
+                p++;
+                total += CountEdges_82805808(*p, x + 6, width);
+                break;
+            case 2:
+                p++;
+                total += CountEdges_82805808(*p, x + 3, width);
+                break;
+            case 1:
+                p++;
+                total += CountEdges_82805808(*p, x + 6, width);
+                break;
+            }
+            p++;
+        }
+    }
+    return total;
+}

@@ -1,85 +1,139 @@
-extern unsigned int *auStack_850;
-extern int Sleep();
-extern int fn_82BE5340();
-extern int fn_82BE5350();
-extern int fn_82BE5378();
-extern int fn_82BE5478();
-extern int fn_82BE7850();
-extern int fn_82BE7B78();
-extern int fn_82BE8F88();
-extern int XNetDnsLookup();
-extern int XNetDnsRelease();
-extern int fn_82F691F0();
-extern unsigned int lbl_8322B1E4;
-extern unsigned int uStack_864;
-extern unsigned int uStack_868;
-extern unsigned int uStack_86c;
+typedef struct Object_82BEE850 Object_82BEE850;
 
+typedef struct ObjectVtbl_82BEE850 {
+    void *(*Destroy)(Object_82BEE850 *self, int flags); /* 0x00 */
+} ObjectVtbl_82BEE850;
 
-void fn_82BEE850(int param_1)
+struct Object_82BEE850 {
+    ObjectVtbl_82BEE850 *vtbl; /* 0x00 */
+};
 
+typedef struct Server_82BEE850 {
+    Object_82BEE850 base; /* 0x00 */
+    char pad04[0x10];
+    unsigned char type; /* 0x14 */
+    char pad15[3];
+    const char *hostName; /* 0x18 */
+} Server_82BEE850;
+
+typedef struct List_82BEE850 {
+    int unknown0[2];
+    int current; /* 0x08 */
+} List_82BEE850;
+
+typedef struct DnsResult_82BEE850 {
+    int status;              /* 0x00 */
+    unsigned int count;      /* 0x04 */
+    unsigned int address[8]; /* 0x08 */
+} DnsResult_82BEE850;
+
+typedef struct TitleServer_82BEE850 {
+    unsigned int address; /* 0x00 */
+    char pad04[0xcc];
+} TitleServer_82BEE850;
+
+extern int lbl_8322B1E4;
+
+extern void Sleep(unsigned int milliseconds);
+extern int XNetDnsLookup(const char *hostName, void *event, DnsResult_82BEE850 **result);
+extern int XNetDnsRelease(DnsResult_82BEE850 *result);
+extern int XNetRandom(unsigned char *buffer, unsigned int size);
+extern int XNetServerToInAddr(unsigned int server, unsigned int serviceId, unsigned int *address);
+extern void *memset(void *dst, int value, unsigned int size);
+extern void fn_82BE7B78(void);
+extern void fn_82BE7B88(void);
+extern int fn_82BE8F88(void);
+extern void fn_82BE5340(List_82BEE850 *list);
+extern void *fn_82BE5378(List_82BEE850 *list);
+extern void fn_82BE5350(List_82BEE850 *list);
+extern void fn_82BE5478(List_82BEE850 *list);
+extern void fn_82BE54C0(List_82BEE850 *list);
+extern void fn_82BE56C0(List_82BEE850 *list);
+extern void fn_82BE7850(unsigned int type, unsigned int address, const char *hostName);
+extern int fn_82CE2220(const char *serverInfo, unsigned int count, unsigned int *bufferSize,
+                       void **enumerator);
+extern int fn_82A1E988(void *enumerator, void *buffer, unsigned int bufferSize, unsigned int *returned,
+                       void *overlapped);
+extern void fn_82A1E658(void *handle);
+
+/* Resolves the configured servers by DNS, frees the list, then adds one random title server of the
+   "MASSIVE-LSP" group for every server type. */
+int fn_82BEE850(List_82BEE850 *list)
 {
-  int iVar1;
-  int iVar2;
-  unsigned int *puVar3;
-  unsigned int uVar4;
-  int *piStack_870;
-  unsigned int uStack_86c;
-  unsigned int uStack_868;
-  unsigned int uStack_864;
-  unsigned char auStack_850 [2128];
-  
-  fn_82BE7B78();
-  if (param_1 != 0) {
-    piStack_870 = (int *)0x0;
-    iVar1 = fn_82BE8F88();
-    if (iVar1 != 0) {
-      fn_82BE5340(param_1);
-      iVar1 = *(int *)(param_1 + 8);
-      while ((iVar1 != 0 && (lbl_8322B1E4 == 0))) {
-        iVar1 = fn_82BE5378(param_1);
-        if ((iVar1 != 0) &&
-           ((*(char *)(iVar1 + 0x14) == '\x04' || (iVar2 = fn_82BE8F88(), iVar2 == 0)))) {
-          iVar2 = XNetDnsLookup(*(unsigned int *)(iVar1 + 0x18),0,&piStack_870);
-          if (iVar2 == 0) {
-            while (*piStack_870 == 0x2734) {
-              Sleep(1);
-            }
-            if (*piStack_870 != 0) goto LAB_82bee8e4;
-            uVar4 = *(unsigned int *)(iVar1 + 0x18);
-            iVar2 = piStack_870[2];
-          }
-          else {
-LAB_82bee8e4:
-            uVar4 = 0;
-            iVar2 = 0;
-          }
-          fn_82BE7850(*(unsigned char *)(iVar1 + 0x14),iVar2,uVar4);
-          if (piStack_870 != (int *)0x0) {
-            XNetDnsRelease();
-            piStack_870 = (int *)0x0;
-          }
-        }
-        fn_82BE5350(param_1);
-        iVar1 = *(int *)(param_1 + 8);
-      }
-    }
-    fn_82BE5340(param_1);
-    while (*(int *)(param_1 + 8) != 0) {
-      puVar3 = (unsigned int *)fn_82BE5378(param_1);
-      if (puVar3 != (unsigned int *)0x0) {
-        (**(int (***)())*puVar3)(puVar3,1);
-      }
-      fn_82BE5350(param_1);
-    }
-    fn_82BE5478();
-    fn_82BE5478(param_1);
-    thunk_FUN_82be5558(param_1);
-  }
-  uStack_868 = 0;
-  uStack_864 = 0;
-  uStack_86c = 0xffffffff;
-                    /* WARNING: Subroutine does not return */
-  fn_82F691F0(auStack_850,0,0x820);
-}
+    DnsResult_82BEE850 *dns;
+    void *enumerator;
+    unsigned int returned;
+    unsigned int bufferSize;
+    unsigned int address;
+    unsigned int random;
+    TitleServer_82BEE850 servers[10];
+    int type;
 
+    fn_82BE7B78();
+    if (list != 0) {
+        dns = 0;
+        if (fn_82BE8F88() != 0) {
+            fn_82BE5340(list);
+            while (list->current != 0 && lbl_8322B1E4 == 0) {
+                Server_82BEE850 *server = (Server_82BEE850 *)fn_82BE5378(list);
+
+                if (server != 0 && (server->type == 4 || fn_82BE8F88() == 0)) {
+                    int resolved = 0;
+
+                    if (XNetDnsLookup(server->hostName, 0, &dns) == 0) {
+                        while (dns->status == 0x2734) {
+                            Sleep(1);
+                        }
+                        if (dns->status == 0) {
+                            fn_82BE7850(server->type, dns->address[0], server->hostName);
+                            resolved = 1;
+                        }
+                    }
+                    if (!resolved) {
+                        fn_82BE7850(server->type, 0, 0);
+                    }
+                    if (dns != 0) {
+                        XNetDnsRelease(dns);
+                        dns = 0;
+                    }
+                }
+                fn_82BE5350(list);
+            }
+        }
+        fn_82BE5340(list);
+        while (list->current != 0) {
+            Object_82BEE850 *object = (Object_82BEE850 *)fn_82BE5378(list);
+
+            if (object != 0) {
+                object->vtbl->Destroy(object, 1);
+            }
+            fn_82BE5350(list);
+        }
+        fn_82BE5478(list);
+        fn_82BE54C0(list);
+        fn_82BE56C0(list);
+    }
+    returned = 0;
+    bufferSize = 0;
+    enumerator = (void *)-1;
+    memset(servers, 0, sizeof(servers));
+    if (fn_82CE2220("MASSIVE-LSP", 10, &bufferSize, &enumerator) >= 0) {
+        if (fn_82A1E988(enumerator, servers, sizeof(servers), &returned, 0) < 0) {
+            fn_82A1E658(enumerator);
+        } else {
+            fn_82A1E658(enumerator);
+            if (returned != 0) {
+                XNetRandom((unsigned char *)&random, 4);
+                if (XNetServerToInAddr(servers[random % returned].address, 0x16, &address) == 0) {
+                    for (type = 0; (unsigned int)type < 16; type++) {
+                        if (type != 4 || fn_82BE8F88() == 0) {
+                            fn_82BE7850(type, address, 0);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    fn_82BE7B88();
+    return 0;
+}

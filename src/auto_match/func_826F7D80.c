@@ -1,76 +1,107 @@
-#define CONCAT11(h,l) ((unsigned short)((((unsigned char)(h)) << 8) | ((unsigned char)(l))))
-#define CONCAT21(h,l) ((unsigned int)((((unsigned short)(h)) << 8) | ((unsigned char)(l))))
-#define CONCAT31(h,l) ((unsigned int)((((unsigned int)(h)) << 8) | ((unsigned char)(l))))
-extern int fn_8267C4F0();
-extern int fn_826A71F0();
-extern int fn_826A9FB0();
-extern unsigned int uStack_34;
+typedef struct Stream_826F7D80 {
+    unsigned char *base;     /* 0x0 */
+    int unknown4;            /* 0x4 */
+    int pos;                 /* 0x8 */
+    unsigned int unusedBits; /* 0xc */
+} Stream_826F7D80;
 
+typedef struct EventId_826F7D80 {
+    unsigned int id;        /* 0x0 */
+    int unknown4;           /* 0x4 */
+    unsigned short keyCode; /* 0x8 */
+    unsigned char unknownA; /* 0xa */
+    signed char unknownB;   /* 0xb */
+    unsigned char unknownC; /* 0xc */
+    unsigned char unknownD; /* 0xd */
+} EventId_826F7D80;
 
-void fn_826F7D80(unsigned int *param_1,int *param_2,unsigned int param_3)
+typedef struct Buffer_826F7D80 {
+    void *vtable;        /* 0x0 */
+    int refs;            /* 0x4 */
+    void *data;          /* 0x8 */
+    unsigned int length; /* 0xc */
+} Buffer_826F7D80;
 
+typedef struct BufferPtr_826F7D80 {
+    Buffer_826F7D80 *object;
+} BufferPtr_826F7D80;
+
+typedef struct Handler_826F7D80 {
+    EventId_826F7D80 event;    /* 0x00 */
+    BufferPtr_826F7D80 buffer; /* 0x10 */
+} Handler_826F7D80;
+
+extern void fn_8267C4F0(void *object);
+extern void fn_826A71F0(Buffer_826F7D80 *buffer, Stream_826F7D80 *stream, int length);
+extern Buffer_826F7D80 *fn_826A9FB0(void);
+
+static __forceinline void Align_826F7D80(Stream_826F7D80 *stream)
 {
-  unsigned char uVar1;
-  unsigned char uVar2;
-  unsigned char uVar3;
-  unsigned char uVar4;
-  unsigned char bVar5;
-  int iVar6;
-  int iVar7;
-  unsigned int uVar8;
-  int iVar11;
-  unsigned __int64 uVar9;
-  __int64 lVar10;
-  unsigned __int64 uVar12;
-  unsigned int uStack_34;
-  
-  uStack_34 = ((((unsigned __int64)(uStack_34)) & (~(((unsigned __int64)0xFFFFFF) << 8))) | ((((unsigned __int64)((((unsigned __int64)(uStack_34) >> 8) & 0xFFFFFF) & 0xffff)) & ((unsigned __int64)0xFFFFFF)) << 8));
-  uStack_34 = (unsigned int)(((unsigned __int64)(uStack_34) >> 8) & 0xFFFFFF);
-  param_1[1] = 0;
-  *param_1 = param_3;
-  param_1[2] = 0xff;
-  param_1[3] = uStack_34;
-  if (param_2[3] != 0) {
-    param_2[2] = param_2[2] + 1;
-  }
-  iVar6 = param_2[2];
-  iVar7 = *param_2;
-  param_2[3] = 0;
-  iVar11 = iVar7 + iVar6;
-  uVar4 = *(unsigned char *)(iVar7 + iVar6);
-  uVar1 = *(unsigned char *)(iVar11 + 2);
-  uVar2 = *(unsigned char *)(iVar11 + 1);
-  uVar3 = *(unsigned char *)(iVar11 + 3);
-  param_2[2] = iVar6 + 4;
-  uVar12 = (unsigned __int64)CONCAT31(CONCAT21(CONCAT11(uVar3,uVar1),uVar2),uVar4);
-  if ((*param_1 & 0x20000) != 0) {
-    param_2[3] = 0;
-    bVar5 = *(unsigned char *)(iVar6 + 4 + iVar7);
-    uVar12 = uVar12 - 1;
-    param_2[2] = iVar6 + 5;
-    *(unsigned short *)(param_1 + 2) = (unsigned short)bVar5;
-  }
-  uVar8 = fn_826A9FB0();
-  if (param_1[4] != 0) {
-    fn_8267C4F0();
-  }
-  param_1[4] = uVar8;
-  fn_826A71F0(uVar8,param_2,uVar12);
-  uVar9 = (unsigned __int64)*(unsigned int *)(param_1[4] + 0xc);
-  if ((uVar12 & 0xffffffff) != uVar9) {
-    if (uVar9 < (uVar12 & 0xffffffff)) {
-      for (lVar10 = uVar12 - uVar9; lVar10 != 0; lVar10 = lVar10 + -1) {
-        if (param_2[3] != 0) {
-          param_2[2] = param_2[2] + 1;
-        }
-        param_2[3] = 0;
-        param_2[2] = param_2[2] + 1;
-      }
+    if (stream->unusedBits != 0) {
+        stream->pos++;
     }
-    else {
-      param_2[2] = (param_2[2] - *(unsigned int *)(param_1[4] + 0xc)) + (int)uVar12;
-    }
-  }
-  return;
+    stream->unusedBits = 0;
 }
 
+static __forceinline unsigned char ReadU8_826F7D80(Stream_826F7D80 *stream)
+{
+    Align_826F7D80(stream);
+    return stream->base[stream->pos++];
+}
+
+static __forceinline unsigned int ReadU32_826F7D80(Stream_826F7D80 *stream)
+{
+    unsigned int value;
+
+    Align_826F7D80(stream);
+    value = stream->base[stream->pos] | (stream->base[stream->pos + 1] << 8) |
+            (stream->base[stream->pos + 2] << 16) | (stream->base[stream->pos + 3] << 24);
+    stream->pos += 4;
+    return value;
+}
+
+static __forceinline void SetEvent_826F7D80(EventId_826F7D80 *event, unsigned int id)
+{
+    EventId_826F7D80 value;
+
+    value.id = id;
+    value.unknown4 = 0;
+    value.keyCode = 0;
+    value.unknownA = 0;
+    value.unknownB = -1;
+    value.unknownC = 0;
+    value.unknownD = 0;
+    *event = value;
+}
+
+static __forceinline void SetBuffer_826F7D80(BufferPtr_826F7D80 *pointer, Buffer_826F7D80 *buffer)
+{
+    if (pointer->object != 0) {
+        fn_8267C4F0(pointer->object);
+    }
+    pointer->object = buffer;
+}
+
+void fn_826F7D80(Handler_826F7D80 *self, Stream_826F7D80 *stream, unsigned int eventId)
+{
+    unsigned int length;
+    unsigned int i;
+
+    SetEvent_826F7D80(&self->event, eventId);
+    length = ReadU32_826F7D80(stream);
+    if (self->event.id & 0x20000) {
+        length--;
+        self->event.keyCode = ReadU8_826F7D80(stream);
+    }
+    SetBuffer_826F7D80(&self->buffer, fn_826A9FB0());
+    fn_826A71F0(self->buffer.object, stream, length);
+    if (length != self->buffer.object->length) {
+        if (length > self->buffer.object->length) {
+            for (i = length - self->buffer.object->length; i != 0; i--) {
+                ReadU8_826F7D80(stream);
+            }
+        } else {
+            stream->pos = stream->pos - self->buffer.object->length + length;
+        }
+    }
+}

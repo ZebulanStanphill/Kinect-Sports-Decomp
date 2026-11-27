@@ -1,44 +1,48 @@
-extern int fn_82FB1B58();
-extern unsigned int lbl_82005710;
-extern unsigned int lbl_82160788;
+typedef struct LoopInfo_82FB0C10 {
+    unsigned int id;    /* 0x00 */
+    unsigned int flags; /* 0x04 */
+    double start;       /* 0x08; milliseconds */
+    double loopStart;   /* 0x10 */
+    double preLoop;     /* 0x18 */
+    double loopLength;  /* 0x20 */
+} LoopInfo_82FB0C10;
 
+typedef struct LoopItem_82FB0C10 {
+    unsigned int id;    /* 0x00 */
+    unsigned int flags; /* 0x04 */
+    int start;          /* 0x08; samples */
+    int length;         /* 0x0c */
+    int period;         /* 0x10 */
+    int offset;         /* 0x14 */
+} LoopItem_82FB0C10;
 
-unsigned __int64 fn_82FB0C10(__int64 param_1,unsigned int *param_2)
+typedef struct Track_82FB0C10 {
+    char pad00[0x98];
+    char items[1]; /* 0x98 */
+} Track_82FB0C10;
 
+extern LoopItem_82FB0C10 *fn_82FB1B58(void *list);
+
+/* Times arrive in milliseconds and are kept in samples at 48 kHz. */
+int fn_82FB0C10(Track_82FB0C10 *self, const LoopInfo_82FB0C10 *info)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  double dVar3;
-  unsigned int *puVar4;
-  __int64 lVar5;
-  int iVar6;
-  double dVar7;
-  
-  dVar7 = (*(double *)(param_2 + 6) + *(double *)(param_2 + 8)) - *(double *)(param_2 + 4);
-  if (lbl_82005710 < dVar7) {
-    puVar4 = (unsigned int *)fn_82FB1B58(param_1 + 0x98);
-    if (puVar4 == (unsigned int *)0x0) {
-      return 2;
-    }
-    *puVar4 = *param_2;
-    dVar3 = lbl_82160788;
-    dVar7 = dVar7 * lbl_82160788;
-    puVar4[1] = param_2[1];
-    puVar4[2] = (int)((*(double *)(param_2 + 2) + *(double *)(param_2 + 4)) * dVar3);
-    puVar4[3] = (int)dVar7;
-    uVar1 = (unsigned int)(*(double *)(param_2 + 8) * dVar3);
-    trapWord(6,(unsigned __int64)uVar1,0);
-    puVar4[4] = uVar1;
-    uVar2 = (unsigned int)(*(double *)(param_2 + 4) * dVar3);
-    lVar5 = (unsigned __int64)uVar2 - (__int64)((int)uVar2 / (int)uVar1) * (__int64)(int)uVar1;
-    iVar6 = (int)lVar5;
-    puVar4[5] = iVar6;
-    trapWord(5,(unsigned __int64)uVar1 &
-               ~((((unsigned __int64)uVar2 & 0x7fffffff) << 1 | (unsigned __int64)(uVar2 >> 0x1f)) - 1),0xffff);
-    if (lVar5 < 0) {
-      puVar4[5] = uVar1 + iVar6;
-    }
-  }
-  return 1;
-}
+    double length = info->preLoop + info->loopLength - info->loopStart;
+    LoopItem_82FB0C10 *item;
 
+    if (length > 0.0) {
+        item = fn_82FB1B58(self->items);
+        if (item == 0) {
+            return 2;
+        }
+        item->id = info->id;
+        item->flags = info->flags;
+        item->start = (int)((info->start + info->loopStart) * 48.0);
+        item->length = (int)(length * 48.0);
+        item->period = (int)(info->loopLength * 48.0);
+        item->offset = (int)(info->loopStart * 48.0) % item->period;
+        if (item->offset < 0) {
+            item->offset += item->period;
+        }
+    }
+    return 1;
+}

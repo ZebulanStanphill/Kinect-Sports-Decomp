@@ -1,97 +1,104 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-extern unsigned int *auStack_80;
-extern unsigned int *auStack_90;
-extern unsigned int fStack_84;
-extern int fn_8234E338();
-extern int fn_829C5C78();
-extern int fn_82F65E18();
-extern unsigned int lbl_83214F30;
-extern unsigned int lbl_83214F38;
-extern unsigned int uStack_98;
-extern unsigned int uStack_a0;
-extern V16 vectorMultiplyAddFloatingPoint();
-extern V16 vectorNegativeMultiplySubtractFloatingPoint();
-extern void *memcpy(void *, const void *, unsigned int);
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vspltisw(int value);
+__vector4 __vspltw(__vector4 v, unsigned int i);
+__vector4 __vmulfp(__vector4 a, __vector4 b);
+__vector4 __vmaddfp(__vector4 a, __vector4 c, __vector4 b);
+__vector4 __vnmsubfp(__vector4 a, __vector4 c, __vector4 b);
+__vector4 __vmsum3fp(__vector4 a, __vector4 b);
+__vector4 __vpermwi(__vector4 v, int control);
+__vector4 __vcmpeqfpR(__vector4 a, __vector4 b, unsigned int *cr);
 
-void fn_829C6880(void)
+typedef struct Matrix_829C6880 {
+    __vector4 r[4];
+} Matrix_829C6880;
 
+typedef struct Float4_829C6880 {
+    float x;
+    float y;
+    float z;
+    float w;
+} Float4_829C6880;
+
+typedef union Vector_829C6880 {
+    Float4_829C6880 f;
+    __vector4 v;
+} Vector_829C6880;
+
+typedef struct Camera_829C6880 {
+    char pad00[0x170];
+    int reference[3]; /* 0x170 */
+    char pad17c[4];
+    Vector_829C6880 normal; /* 0x180; w is the elevation angle */
+    char pad190[4];
+    int current[3]; /* 0x194 */
+    char pad1a0[0x60];
+} Camera_829C6880;
+
+extern Camera_829C6880 lbl_83214DB0;
+extern __vector4 fn_829C5C78(const int *v);
+extern double fn_82F65E18(double x);
+extern Matrix_829C6880 *fn_8234E338(Matrix_829C6880 *result, __vector4 axis, float angle);
+
+static __forceinline int Vector3Equal(__vector4 a, __vector4 b)
 {
-  int iVar1;
-  int iVar2;
-  int iVar3;
-  int iVar4;
-  float *pfVar5;
-  unsigned int *puVar6;
-  unsigned int *puVar7;
-  int in_r0;
-  double dVar8;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs42 [16];
-  unsigned char in_vs43 [16];
-  unsigned char in_vs44 [16];
-  unsigned char auVar9 [16];
-  unsigned char in_vs45 [16];
-  unsigned int uVar10;
-  unsigned int uVar11;
-  unsigned int uVar12;
-  float in_register_00010010;
-  float in_register_00010014;
-  float fVar13;
-  float in_register_00010018;
-  float fVar14;
-  unsigned __int64 uStack_a0;
-  unsigned __int64 uStack_98;
-  unsigned char auStack_90 [12];
-  float fStack_84;
-  unsigned char auStack_80 [112];
-  
-  uStack_98 = CONCAT44((((unsigned __int64)(lbl_83214F38) >> 0) & 0xFFFFFFFF),(((unsigned __int64)(lbl_83214F38) >> 32) & 0xFFFFFFFF));
-  uStack_a0 = lbl_83214F30;
-  pfVar5 = (float *)((int)&uStack_a0 + in_r0 & 0xfffffff0);
-  iVar1 = 0;
-  if (pfVar5[3] == in_register_00010014) {
-    iVar1 = -1;
-  }
-  iVar2 = 0;
-  if (pfVar5[3] == in_register_00010010) {
-    iVar2 = -1;
-  }
-  iVar3 = 0;
-  if (pfVar5[1] == in_register_00010010) {
-    iVar3 = -1;
-  }
-  iVar4 = 0;
-  if (*pfVar5 == in_register_00010010) {
-    iVar4 = -1;
-  }
-  if (((iVar1 != -1 || iVar2 != -1) || iVar3 != -1) || iVar4 != -1) {
-    fn_829C5C78(0xffffffff83214f20);
-    fVar14 = in_register_00010018;
-    fVar13 = in_register_00010014;
-    fn_829C5C78(0xffffffff83214f44);
-    fVar14 = in_register_00010014 * fVar13 + 0.0 + in_register_00010018 * fVar14;
-    pfVar5 = (float *)((unsigned int)(auStack_90 + in_r0) & 0xfffffff0);
-    *pfVar5 = fVar14;
-    pfVar5[1] = fVar14;
-    pfVar5[2] = fVar14;
-    pfVar5[3] = fVar14;
-    dVar8 = (double)fn_82F65E18((double)fStack_84);
-    vectorNegativeMultiplySubtractFloatingPoint(in_vs32,in_vs45,in_vs44);
-    fn_8234E338(-(double)(float)dVar8,auStack_80);
-    altv207_13(in_vs32,in_vs42);
-    puVar6 = (unsigned int *)((unsigned int)(auStack_80 + in_r0) & 0xfffffff0);
-    uVar10 = puVar6[1];
-    uVar11 = puVar6[2];
-    uVar12 = puVar6[3];{ V16 _vt0 = vectorMultiplyAddFloatingPoint(in_vs42,in_vs44,in_vs43); memcpy(auVar9, &_vt0, 16); }
-    vectorMultiplyAddFloatingPoint(in_vs45,in_vs32,auVar9);
-    puVar7 = (unsigned int *)((int)&uStack_a0 + in_r0 & 0xfffffff0);
-    *puVar7 = *puVar6;
-    puVar7[1] = uVar10;
-    puVar7[2] = uVar11;
-    puVar7[3] = uVar12;
-  }
-  return;
+    unsigned int cr = 0;
+
+    a = __vpermwi(a, 24);
+    b = __vpermwi(b, 24);
+    __vcmpeqfpR(a, b, &cr);
+    return (cr & 0x80) != 0;
 }
 
+static __forceinline __vector4 Vector3Cross(__vector4 a, __vector4 b)
+{
+    __vector4 a1, a2, b1, b2, result;
+
+    b2 = __vpermwi(b, 0x87);
+    a1 = __vpermwi(a, 0x63);
+    b1 = __vpermwi(b, 0x63);
+    a2 = __vpermwi(a, 0x87);
+    result = __vmulfp(a1, b2);
+    result = __vnmsubfp(a2, b1, result);
+    return result;
+}
+
+static __forceinline __vector4 Vector3TransformNormal(__vector4 v, Matrix_829C6880 m)
+{
+    __vector4 x, y, z, result;
+
+    z = __vspltw(v, 2);
+    y = __vspltw(v, 1);
+    x = __vspltw(v, 0);
+    result = __vmulfp(z, m.r[2]);
+    result = __vmaddfp(y, m.r[1], result);
+    result = __vmaddfp(x, m.r[0], result);
+    return result;
+}
+
+__vector4 fn_829C6880(void)
+{
+    Vector_829C6880 result;
+    Matrix_829C6880 rotation;
+    __vector4 zero;
+    __vector4 from;
+    __vector4 to;
+    __vector4 dot;
+    float angle;
+
+    zero = __vspltisw(0);
+    result = lbl_83214DB0.normal;
+    if (Vector3Equal(result.v, zero)) {
+        return zero;
+    }
+    from = fn_829C5C78(lbl_83214DB0.reference);
+    to = fn_829C5C78(lbl_83214DB0.current);
+    dot = __vmsum3fp(from, to);
+    angle = (float)fn_82F65E18(dot.vector4_f32[3]);
+    fn_8234E338(&rotation, Vector3Cross(from, to), -angle);
+    result.v = Vector3TransformNormal(result.v, rotation);
+    result.f.w = lbl_83214DB0.normal.f.w;
+    return result.v;
+}

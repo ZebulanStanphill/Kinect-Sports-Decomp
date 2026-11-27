@@ -1,87 +1,118 @@
-extern int fn_82AC3838();
-extern int fn_82AC3AA0();
-extern int fn_82AC3BA8();
-extern int fn_82AC3CC8();
-extern int fn_82AC3E38();
+typedef struct Instruction_82AC3FB0 {
+    unsigned int word0; /* 0x0 */
+    unsigned int word1; /* 0x4 */
+    unsigned int word2; /* 0x8 */
+} Instruction_82AC3FB0;
 
+typedef struct Context_82AC3FB0 Context_82AC3FB0;
 
-unsigned int fn_82AC3FB0(int param_1,unsigned __int64 param_2,char param_3,char param_4,char param_5,
-                  unsigned __int64 param_6,unsigned int *param_7,unsigned __int64 param_8)
+typedef struct Entry_82AC3FB0 {
+    int index;          /* 0x0: used in entry 0 */
+    int unknown4;       /* 0x4 */
+    int unknown8;       /* 0x8 */
+    unsigned int flags; /* 0xc */
+} Entry_82AC3FB0;
 
+typedef struct Slot_82AC3FB0 {
+    unsigned int kind : 2;
+    unsigned int value : 30;
+} Slot_82AC3FB0;
+
+typedef struct SlotTable_82AC3FB0 {
+    unsigned int count;     /* 0x0 */
+    Slot_82AC3FB0 slots[1]; /* 0x4 */
+} SlotTable_82AC3FB0;
+
+extern int fn_82AC3838(Instruction_82AC3FB0 *instructions, int index, Context_82AC3FB0 *context);
+extern int fn_82AC3AA0(Instruction_82AC3FB0 *instructions, int index, int masked, Context_82AC3FB0 *context);
+extern int fn_82AC3BA8(Instruction_82AC3FB0 *instructions, int index, unsigned char defaulted,
+                       Context_82AC3FB0 *context);
+extern int fn_82AC3CC8(Instruction_82AC3FB0 *instructions, int index, Context_82AC3FB0 *context,
+                       Entry_82AC3FB0 *entries);
+extern int fn_82AC3E38(Instruction_82AC3FB0 *instructions, int index, Context_82AC3FB0 *context,
+                       Entry_82AC3FB0 *entries);
+
+static __forceinline int CheckPlain_82AC3FB0(Instruction_82AC3FB0 *instructions, int index,
+                                             unsigned char defaulted, Context_82AC3FB0 *context,
+                                             Entry_82AC3FB0 *entries)
 {
-  int iVar1;
-  int iVar2;
-  unsigned int uVar3;
-  unsigned int uVar4;
-  __int64 lVar5;
-  int *in_stack_00000054;
-  
-  if ((unsigned __int64)*param_7 <= (param_2 & 0x7fffffff) << 1) {
-    return 0x80004005;
-  }
-  iVar1 = *in_stack_00000054;
-  if (param_4 != '\0') {
-    in_stack_00000054[iVar1 * 4 + 3] = in_stack_00000054[iVar1 * 4 + 3] & 0xffffeebf;
-  }
-  uVar3 = in_stack_00000054[iVar1 * 4 + 3];
-  if (param_5 == '\0') {
-    if ((uVar3 & 0x200) == 0) {
-      in_stack_00000054[iVar1 * 4 + 3] = uVar3 & 0xffffefff;
+    int hr = fn_82AC3E38(instructions, index, context, entries);
+
+    if (hr < 0) {
+        return hr;
     }
-    uVar4 = 2;
-    uVar3 = (unsigned int)((param_6 & 0xffffffff) << 8) & 0x100 | 0x200 |
-            in_stack_00000054[iVar1 * 4 + 3] & 0xfffffeffU;
-  }
-  else {
-    uVar4 = 3;
-    uVar3 = uVar3 & 0xffffecff;
-  }
-  in_stack_00000054[iVar1 * 4 + 3] = uVar3;
-  lVar5 = 0;
-  do {
-    iVar2 = (int)(((param_2 & 0x7fffffff) * 2 + lVar5 + 1 & 0x3fffffff) << 2);
-    uVar3 = *(unsigned int *)(iVar2 + (int)param_7) >> 0x1e;
-    if ((uVar3 != 0) && (uVar3 != uVar4)) {
-      return 0x80004005;
+    hr = fn_82AC3BA8(instructions, index, defaulted, context);
+    if (hr < 0) {
+        return hr;
     }
-    lVar5 = lVar5 + 1;
-    *(unsigned int *)(iVar2 + (int)param_7) = uVar4 << 0x1e | *(unsigned int *)(iVar2 + (int)param_7) & 0x3fffffff;
-  } while ((int)lVar5 < 2);
-  if (param_3 == '\0') {
-    if (param_5 != '\0') goto LAB_82ac40b0;
-  }
-  else {
-    if (param_5 == '\0') {
-      return 0x80004005;
-    }
-LAB_82ac40b0:
-    if ((param_3 != '\0') && ((*(unsigned int *)((int)param_2 * 0xc + param_1) & 0x1f) != 0)) {
-      return 0x80004005;
-    }
-    if (param_5 != '\0') {
-      if ((*(unsigned int *)((int)param_2 * 0xc + param_1) & 0x1f) != 0) {
-        uVar3 = fn_82AC3838(param_1,param_2,param_8);
-        goto LAB_82ac4160;
-      }
-      if (param_5 != '\0') {
-        uVar3 = fn_82AC3AA0(param_1,param_2,param_3,param_8);
-        goto LAB_82ac4160;
-      }
-    }
-  }
-  uVar3 = fn_82AC3E38(param_1,param_2,param_8,in_stack_00000054);
-  if ((-1 < (int)uVar3) && (uVar3 = fn_82AC3BA8(param_1,param_2,param_6,param_8), -1 < (int)uVar3)
-     ) {
-    uVar3 = fn_82AC3CC8(param_1);
-    uVar3 = (int)uVar3 >> 0x1f & uVar3;
-  }
-LAB_82ac4160:
-  if (-1 < (int)uVar3) {
-    if (param_5 != '\0') {
-      in_stack_00000054[iVar1 * 4 + 3] = in_stack_00000054[iVar1 * 4 + 3] | 0x40;
+    hr = fn_82AC3CC8(instructions, index, context, entries);
+    if (hr < 0) {
+        return hr;
     }
     return 0;
-  }
-  return uVar3;
 }
 
+int fn_82AC3FB0(Instruction_82AC3FB0 *instructions, unsigned int index, unsigned char masked,
+                unsigned char second, unsigned char firstOfPair, unsigned char defaulted,
+                SlotTable_82AC3FB0 *table, Context_82AC3FB0 *context, Entry_82AC3FB0 *entries)
+{
+    Entry_82AC3FB0 *entry;
+    unsigned int kind;
+    int i;
+    int hr;
+
+    if ((index << 1) >= table->count) {
+        return 0x80004005;
+    }
+    entry = &entries[entries->index];
+    if (second) {
+        entry->flags &= ~0x1140;
+    }
+    if (firstOfPair) {
+        kind = 3;
+        entry->flags = entry->flags & ~0x1300;
+    } else {
+        if ((entry->flags & 0x200) == 0) {
+            entry->flags &= ~0x1000;
+        }
+        kind = 2;
+        entry->flags = ((defaulted << 8) & 0x100) | 0x200 | (entry->flags & ~0x100);
+    }
+    for (i = 0; i < 2; i++) {
+        Slot_82AC3FB0 *slot = &table->slots[index * 2 + i];
+        unsigned int current = slot->kind;
+
+        if (current != 0 && current != kind) {
+            return 0x80004005;
+        }
+        table->slots[index * 2 + i].kind = kind;
+    }
+    if (masked) {
+        if (!firstOfPair) {
+            return 0x80004005;
+        }
+    } else if (!firstOfPair) {
+        goto plain;
+    }
+    if (masked && (instructions[index].word0 & 0x1f) != 0) {
+        return 0x80004005;
+    }
+    if (firstOfPair && (instructions[index].word0 & 0x1f) != 0) {
+        hr = fn_82AC3838(instructions, index, context);
+        goto done;
+    }
+    if (firstOfPair) {
+        hr = fn_82AC3AA0(instructions, index, masked, context);
+        goto done;
+    }
+plain:
+    hr = CheckPlain_82AC3FB0(instructions, index, defaulted, context, entries);
+done:
+    if (hr < 0) {
+        return hr;
+    }
+    if (firstOfPair) {
+        entry->flags |= 0x40;
+    }
+    return 0;
+}

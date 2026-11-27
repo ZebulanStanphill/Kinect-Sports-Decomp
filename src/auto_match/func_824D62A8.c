@@ -1,101 +1,66 @@
-extern unsigned int lbl_82191118;
-extern unsigned int lbl_831D426C;
+typedef struct ButtonState_824D62A8 {
+    char pad0[0x1c];
+    unsigned char down;    /* 0x1c */
+    unsigned char pressed; /* 0x1d */
+} ButtonState_824D62A8;
 
+typedef struct Button_824D62A8 {
+    char pad0[0x3c];
+    ButtonState_824D62A8 *state; /* 0x3c */
+} Button_824D62A8;
 
-unsigned __int64 fn_824D62A8(int param_1)
+typedef struct Gesture_824D62A8 Gesture_824D62A8;
 
+typedef struct GestureVtbl_824D62A8 {
+    void *slots[5];
+    float (*GetProgress)(Gesture_824D62A8 *self); /* 0x14 */
+} GestureVtbl_824D62A8;
+
+struct Gesture_824D62A8 {
+    GestureVtbl_824D62A8 *vtbl;
+};
+
+typedef struct Screen_824D62A8 {
+    char pad0[0xf4];
+    Gesture_824D62A8 *leftGesture;  /* 0xf4 */
+    Gesture_824D62A8 *rightGesture; /* 0xf8 */
+    char padfc[0x14];
+    Button_824D62A8 *buttons[6]; /* 0x110 */
+    char pad128[0x38];
+    float time; /* 0x160 */
+} Screen_824D62A8;
+
+extern float lbl_831D40A8[0x94];
+
+static __forceinline unsigned char ConsumePress(Button_824D62A8 *button)
 {
-  int iVar1;
-  unsigned __int64 uVar2;
-  char cVar3;
-  double dVar4;
-  double dVar5;
-  
-  if (*(float *)(param_1 + 0x160) < lbl_831D426C) {
-LAB_824d647c:
-    uVar2 = 0;
-  }
-  else {
-    if (*(int *)(param_1 + 0x110) == 0) {
-LAB_824d641c:
-      dVar5 = (double)lbl_82191118;
-      if ((*(int **)(param_1 + 0xf4) == (int *)0x0) ||
-         (dVar4 = (double)(**(int (***)())(**(int **)(param_1 + 0xf4) + 0x14))(), dVar4 <= dVar5)) {
-        if ((*(int **)(param_1 + 0xf8) != (int *)0x0) &&
-           (dVar4 = (double)(**(int (***)())(**(int **)(param_1 + 0xf8) + 0x14))(), dVar5 < dVar4)) {
-          return 1;
-        }
-        goto LAB_824d647c;
-      }
+    ButtonState_824D62A8 *state = button->state;
+
+    if (state->pressed) {
+        state->pressed = 0;
+        return 1;
     }
-    else {
-      iVar1 = *(int *)(*(int *)(param_1 + 0x110) + 0x3c);
-      if (*(char *)(iVar1 + 0x1d) == '\0') {
-        cVar3 = *(char *)(iVar1 + 0x1c);
-      }
-      else {
-        cVar3 = '\x01';
-        *(unsigned char *)(iVar1 + 0x1d) = 0;
-      }
-      if (cVar3 == '\0') goto LAB_824d641c;
-      if (*(int *)(param_1 + 0x114) != 0) {
-        iVar1 = *(int *)(*(int *)(param_1 + 0x114) + 0x3c);
-        if (*(char *)(iVar1 + 0x1d) == '\0') {
-          cVar3 = *(char *)(iVar1 + 0x1c);
-        }
-        else {
-          cVar3 = '\x01';
-          *(unsigned char *)(iVar1 + 0x1d) = 0;
-        }
-        if (cVar3 == '\0') goto LAB_824d641c;
-      }
-      if (*(int *)(param_1 + 0x118) != 0) {
-        iVar1 = *(int *)(*(int *)(param_1 + 0x118) + 0x3c);
-        if (*(char *)(iVar1 + 0x1d) == '\0') {
-          cVar3 = *(char *)(iVar1 + 0x1c);
-        }
-        else {
-          cVar3 = '\x01';
-          *(unsigned char *)(iVar1 + 0x1d) = 0;
-        }
-        if (cVar3 == '\0') goto LAB_824d641c;
-      }
-      if (*(int *)(param_1 + 0x11c) != 0) {
-        iVar1 = *(int *)(*(int *)(param_1 + 0x11c) + 0x3c);
-        if (*(char *)(iVar1 + 0x1d) == '\0') {
-          cVar3 = *(char *)(iVar1 + 0x1c);
-        }
-        else {
-          cVar3 = '\x01';
-          *(unsigned char *)(iVar1 + 0x1d) = 0;
-        }
-        if (cVar3 == '\0') goto LAB_824d641c;
-      }
-      if (*(int *)(param_1 + 0x120) != 0) {
-        iVar1 = *(int *)(*(int *)(param_1 + 0x120) + 0x3c);
-        if (*(char *)(iVar1 + 0x1d) == '\0') {
-          cVar3 = *(char *)(iVar1 + 0x1c);
-        }
-        else {
-          cVar3 = '\x01';
-          *(unsigned char *)(iVar1 + 0x1d) = 0;
-        }
-        if (cVar3 == '\0') goto LAB_824d641c;
-      }
-      if (*(int *)(param_1 + 0x124) != 0) {
-        iVar1 = *(int *)(*(int *)(param_1 + 0x124) + 0x3c);
-        if (*(char *)(iVar1 + 0x1d) == '\0') {
-          cVar3 = *(char *)(iVar1 + 0x1c);
-        }
-        else {
-          cVar3 = '\x01';
-          *(unsigned char *)(iVar1 + 0x1d) = 0;
-        }
-        if (cVar3 == '\0') goto LAB_824d641c;
-      }
-    }
-    uVar2 = 1;
-  }
-  return uVar2;
+    return state->down;
 }
 
+unsigned char fn_824D62A8(Screen_824D62A8 *self)
+{
+    if (self->time < lbl_831D40A8[0x71]) {
+        return 0;
+    }
+    if (self->buttons[0] != 0 && ConsumePress(self->buttons[0]) &&
+        (self->buttons[1] == 0 || ConsumePress(self->buttons[1])) &&
+        (self->buttons[2] == 0 || ConsumePress(self->buttons[2])) &&
+        (self->buttons[3] == 0 || ConsumePress(self->buttons[3])) &&
+        (self->buttons[4] == 0 || ConsumePress(self->buttons[4])) &&
+        (self->buttons[5] == 0 || ConsumePress(self->buttons[5]))) {
+        return 1;
+    }
+    if (self->leftGesture != 0 && self->leftGesture->vtbl->GetProgress(self->leftGesture) > 0.99f) {
+        return 1;
+    }
+    if (self->rightGesture != 0 && self->rightGesture->vtbl->GetProgress(self->rightGesture) > 0.99f) {
+        return 1;
+    }
+    return 0;
+}

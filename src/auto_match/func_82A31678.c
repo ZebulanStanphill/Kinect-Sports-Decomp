@@ -1,90 +1,131 @@
-typedef unsigned char bool;
-extern int fn_82A2BBD8();
-extern int fn_82A2E260();
-extern int fn_82A31620();
-extern int fn_82F68CC0();
+typedef struct ListEntry_82A31678 ListEntry_82A31678;
 
+struct ListEntry_82A31678 {
+    ListEntry_82A31678 *next; /* 0x00 */
+    ListEntry_82A31678 *prev; /* 0x04 */
+};
 
-unsigned __int64 fn_82A31678(int param_1,unsigned __int64 param_2,unsigned int *param_3)
+typedef struct Stream_82A31678 {
+    char pad00[0x35];
+    unsigned char flags; /* 0x35 */
+} Stream_82A31678;
 
+typedef struct Voice_82A31678 {
+    Stream_82A31678 *stream; /* 0x00 */
+    char pad04[0x44];
+    ListEntry_82A31678 link; /* 0x48 */
+} Voice_82A31678;
+
+typedef struct Slot_82A31678 {
+    char pad00[7];
+    unsigned char flags; /* 0x07 */
+} Slot_82A31678;
+
+typedef struct Core_82A31678 {
+    char pad00[0x30];
+    Slot_82A31678 *slots; /* 0x30 */
+    char pad34[0x18];
+    unsigned int position; /* 0x4c */
+    char pad50[0x30];
+    ListEntry_82A31678 voices; /* 0x80 */
+    int status;                /* 0x88 */
+    unsigned int mode;         /* 0x8c */
+    char pad90[0x10];
+    unsigned int total;   /* 0xa0 */
+    unsigned int pending; /* 0xa4 */
+    unsigned int page;    /* 0xa8 */
+    char padac[0x18];
+    unsigned int state;      /* 0xc4 */
+    unsigned char slotCount; /* 0xc8 */
+    char padc9[7];
+    unsigned int callback; /* 0xd0 */
+    unsigned int context;  /* 0xd4 */
+} Core_82A31678;
+
+typedef struct Device_82A31678 {
+    char pad00[0x18];
+    Core_82A31678 *core; /* 0x18 */
+} Device_82A31678;
+
+extern char lbl_83219D04[];
+
+extern void RtlEnterCriticalSection(void *section);
+extern void RtlLeaveCriticalSection(void *section);
+extern void *memcpy(void *dst, const void *src, unsigned int size);
+extern int fn_82A31620(Core_82A31678 *core);
+extern int fn_82A2E260(Core_82A31678 *core, int a, int b);
+extern void fn_82A2BBD8(Core_82A31678 *core, unsigned int *argument);
+
+int fn_82A31678(Device_82A31678 *device, int code, unsigned int *argument)
 {
-  bool bVar1;
-  int iVar2;
-  unsigned int *puVar3;
-  int *piVar4;
-  unsigned char *pbVar5;
-  unsigned __int64 uVar6;
-  unsigned char *pbVar7;
-  int iVar9;
-  unsigned __int64 uVar8;
-  
-  iVar2 = *(int *)(param_1 + 0x18);
-  iVar9 = (int)param_2;
-  if (((iVar9 == 0) || (iVar9 == 1)) ||
-     (uVar6 = (unsigned __int64)*(unsigned int *)(iVar2 + 0x88), *(unsigned int *)(iVar2 + 0x88) == 0)) {
-    uVar6 = 0;
-    if ((param_2 & 0xffffffff) < 9) {
-      bVar1 = iVar9 != 0;
-      if (param_2 == 1 && bVar1) {
-        RtlLeaveCriticalSection(iVar2);
-      }
-      else if (param_2 == 2 && bVar1) {
-        uVar6 = (unsigned __int64)*(unsigned int *)(iVar2 + 0x88);
-        if ((*(unsigned int *)(iVar2 + 0x88) == 0) && (uVar6 = fn_82A31620(iVar2), -1 < (__int64)uVar6))
-        {
-          uVar6 = fn_82A2E260(iVar2,0,0xffffffffffffffff);
-        }
-      }
-      else if (param_2 == 3 && bVar1) {
-        uVar6 = (unsigned __int64)*(unsigned int *)(iVar2 + 0x88);
-        fn_82A2BBD8(iVar2);
-      }
-      else if (param_2 == 4 && bVar1) {
-        uVar6 = (unsigned __int64)*(unsigned int *)(iVar2 + 0x88);
-        if (*(unsigned int *)(iVar2 + 0x88) == 0) {
-          puVar3 = *(unsigned int **)(iVar2 + 0x80);
-          *(int *)(iVar2 + 0xa0) = *(int *)(iVar2 + 0xa0) + *(int *)(iVar2 + 0xa4);
-          *(unsigned int *)(iVar2 + 0xc4) = *(unsigned int *)(iVar2 + 0xc4) & 0x7fffffff;
-          *(unsigned int *)(iVar2 + 0xa8) = *(unsigned int *)(iVar2 + 0x4c) >> 0xc;
-          *(unsigned int *)(iVar2 + 0xa4) = 0;
-          while (puVar3 != (unsigned int *)(iVar2 + 0x80)) {
-            piVar4 = puVar3 + -0x12;
-            puVar3 = (unsigned int *)*puVar3;
-            *(unsigned char *)(*piVar4 + 0x35) = *(unsigned char *)(*piVar4 + 0x35) & 0xdf;
-          }
-          uVar8 = (unsigned __int64)*(unsigned char *)(iVar2 + 200);
-          if (uVar8 != 0) {
-            pbVar7 = (unsigned char *)(*(int *)(iVar2 + 0x30) + -1);
-            do {
-              pbVar5 = pbVar7 + 8;
-              pbVar7 = pbVar7 + 8;
-              *pbVar7 = *pbVar5 & 0xfb;
-              uVar8 = uVar8 - 1;
-            } while (uVar8 != 0);
-          }
-        }
-      }
-      else if (param_2 == 5 && bVar1) {
-        *param_3 = *(unsigned int *)(iVar2 + 0x8c);
-      }
-      else if (param_2 == 6 && bVar1) {
-        *(unsigned int *)(iVar2 + 0x8c) = *param_3;
-      }
-      else if (param_2 == 7 && bVar1) {
-        fn_82F68CC0(param_3,0xffffffff83219d04,0x28);
-      }
-      else if (bVar1) {
-        *(unsigned int *)(iVar2 + 0xd0) = *param_3;
-        *(unsigned int *)(iVar2 + 0xd4) = param_3[1];
-      }
-      else {
-        RtlEnterCriticalSection(iVar2);
-      }
-    }
-    else {
-      uVar6 = 0xffffffffc0000010;
-    }
-  }
-  return uVar6;
-}
+    Core_82A31678 *core = device->core;
+    int status;
 
+    if (code != 0 && code != 1 && core->status != 0) {
+        return core->status;
+    }
+    status = 0;
+    switch (code) {
+    case 0:
+        RtlEnterCriticalSection(core);
+        break;
+    case 1:
+        RtlLeaveCriticalSection(core);
+        break;
+    case 2:
+        status = core->status;
+        if (status == 0) {
+            status = fn_82A31620(core);
+            if (status >= 0) {
+                status = fn_82A2E260(core, 0, -1);
+            }
+        }
+        break;
+    case 3:
+        status = core->status;
+        fn_82A2BBD8(core, argument);
+        break;
+    case 4:
+        status = core->status;
+        if (status == 0) {
+            ListEntry_82A31678 *link = core->voices.next;
+            Slot_82A31678 *slots;
+            unsigned int count;
+            unsigned int i;
+
+            core->state &= 0x7fffffff;
+            core->page = core->position >> 12;
+            core->total += core->pending;
+            core->pending = 0;
+            while (link != &core->voices) {
+                Stream_82A31678 *stream = ((Voice_82A31678 *)((char *)link - 0x48))->stream;
+
+                link = link->next;
+                stream->flags &= ~0x20;
+            }
+            count = core->slotCount;
+            slots = core->slots;
+            for (i = 0; i < count; i++) {
+                slots[i].flags &= ~4;
+            }
+        }
+        break;
+    case 7:
+        memcpy(argument, lbl_83219D04, 0x28);
+        break;
+    case 5:
+        *argument = core->mode;
+        break;
+    case 6:
+        core->mode = *argument;
+        break;
+    case 8:
+        core->callback = argument[0];
+        core->context = argument[1];
+        break;
+    default:
+        status = 0xc0000010;
+        break;
+    }
+    return status;
+}

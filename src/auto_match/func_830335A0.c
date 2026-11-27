@@ -1,130 +1,178 @@
-typedef unsigned char bool;
-extern unsigned int *auStack_b8;
-extern int memcpy();
-extern int fn_82FAB9C0();
-extern int fn_82FF0BA8();
-extern int fn_8301B7B8();
-extern int fn_83032B08();
-extern int fn_83032D88();
-extern unsigned int iStack_f0;
-extern unsigned int lbl_832642E0;
-extern unsigned int lbl_832642F8;
-extern unsigned int lbl_832643DC;
-extern unsigned int uStack_100;
-extern unsigned int uStack_10c;
-extern unsigned int uStack_110;
-extern unsigned int uStack_5f;
-extern unsigned int uStack_60;
-extern unsigned int uStack_64;
-extern unsigned int uStack_6c;
-extern unsigned int uStack_70;
-extern unsigned int uStack_c0;
-extern unsigned int uStack_c8;
-extern unsigned int uStack_d0;
-extern unsigned int uStack_d8;
-extern unsigned int uStack_dc;
-extern unsigned int uStack_e0;
-extern unsigned int uStack_ec;
-extern unsigned int uStack_fc;
+#include <string.h>
 
+typedef struct Handler_830335A0 Handler_830335A0;
 
-unsigned __int64 fn_830335A0(int param_1,int param_2)
+typedef struct Header_830335A0 {
+    __int64 a; /* 0x00 */
+    __int64 b; /* 0x08 */
+    __int64 c; /* 0x10 */
+} Header_830335A0;
 
+typedef struct Binding_830335A0 {
+    int value; /* 0x00 */
+    int kind;  /* 0x04 */
+} Binding_830335A0;
+
+typedef struct Storage_830335A0 {
+    void *block; /* 0x00 */
+    int size;    /* 0x04 */
+} Storage_830335A0;
+
+typedef struct Result_830335A0 {
+    int count;              /* 0x00 */
+    int size;               /* 0x04 */
+    Storage_830335A0 *data; /* 0x08 */
+    unsigned char flag0;    /* 0x0c */
+    unsigned char flag1;    /* 0x0d */
+    void *buffer;           /* 0x10 */
+    int f14;                /* 0x14 */
+} Result_830335A0;
+
+typedef struct Desc_830335A0 {
+    int kind;                  /* 0x00 */
+    int target;                /* 0x04 */
+    int size;                  /* 0x08 */
+    Binding_830335A0 *binding; /* 0x0c */
+    Header_830335A0 header;    /* 0x10 */
+    int payload[0x12];         /* 0x28 */
+    int flags;                 /* 0x70 */
+    int offset;                /* 0x74 */
+    Result_830335A0 *result;   /* 0x78 */
+    int id;                    /* 0x7c */
+    unsigned char done;        /* 0x80 */
+    unsigned char valid;       /* 0x81 */
+} Desc_830335A0;
+
+typedef struct HandlerVtbl_830335A0 {
+    void *s0;
+    void *s1;
+    void (*Release)(Handler_830335A0 *self);
+    void *pad[3];
+    int (*Submit)(Handler_830335A0 *self, Desc_830335A0 *desc);
+} HandlerVtbl_830335A0;
+
+struct Handler_830335A0 {
+    HandlerVtbl_830335A0 *vt;
+};
+
+typedef struct Device_830335A0 {
+    char pad0[0x1e0];
+    int flags; /* 0x1e0 */
+} Device_830335A0;
+
+typedef struct Self_830335A0 {
+    char pad0[0x10];
+    unsigned int key; /* 0x10 */
+    char pad14[0xc];
+    int count;               /* 0x20 */
+    int size;                /* 0x24 */
+    unsigned char flag0 : 1; /* 0x28 */
+    unsigned char flag1 : 1;
+    char pad29[0x3];
+    Storage_830335A0 storage; /* 0x2c */
+    void *buffer;             /* 0x34 */
+    int payload[0x12];        /* 0x38 */
+    Device_830335A0 *device;  /* 0x80 */
+    int bindingValue;         /* 0x84 */
+    int flags;                /* 0x88 */
+    int id;                   /* 0x8c */
+    unsigned char pad90;
+    unsigned char valid; /* 0x91 */
+    char pad92[0x6];
+    int target;                 /* 0x98 */
+    int f9c;                    /* 0x9c */
+    Handler_830335A0 *listener; /* 0xa0 */
+} Self_830335A0;
+
+typedef struct Request_830335A0 {
+    char pad0[0x10];
+    int offset; /* 0x10 */
+    char pad14[0x4];
+    Header_830335A0 header; /* 0x18 */
+    char pad30[0x4];
+    int size; /* 0x34 */
+} Request_830335A0;
+
+extern Handler_830335A0 *fn_82FAB9C0(int id, unsigned int key);
+extern void fn_82FF0BA8(Device_830335A0 *device, Binding_830335A0 *binding);
+extern void fn_83032B08(void *buffer);
+extern void fn_83032D88(void *buffer);
+extern void fn_8301B7B8(void *heap, void *block);
+extern int lbl_832642E0;
+extern void *lbl_832642F8;
+extern int lbl_832643DC;
+
+int fn_830335A0(Self_830335A0 *self, Request_830335A0 *request)
 {
-  bool bVar1;
-  int iVar2;
-  int *piVar4;
-  unsigned __int64 uVar3;
-  int *piVar5;
-  struct { unsigned int first; unsigned int second; } stack_pair_110;
+    Handler_830335A0 *handler;
+    Result_830335A0 result;
+    Binding_830335A0 binding;
+    Desc_830335A0 desc;
+    Storage_830335A0 *storage;
+    void *old;
+    void *buffer;
+    int hr;
 
-  unsigned int uStack_100;
-  unsigned int uStack_fc;
-  int *piStack_f8;
-  unsigned char bStack_f4;
-  unsigned char bStack_f3;
-  int iStack_f0;
-  unsigned int uStack_ec;
-  struct { unsigned int first; unsigned int second; } stack_pair_e0;
-
-  unsigned int uStack_d8;
-  unsigned int *puStack_d4;
-  unsigned __int64 uStack_d0;
-  unsigned __int64 uStack_c8;
-  unsigned __int64 uStack_c0;
-  unsigned char auStack_b8 [72];
-  unsigned int uStack_70;
-  unsigned int uStack_6c;
-  unsigned int *puStack_68;
-  unsigned int uStack_64;
-  unsigned char uStack_60;
-  unsigned char uStack_5f;
-
-  stack_pair_110.first = *(unsigned int *)(param_1 + 0x84);
-  iVar2 = *(int *)(param_1 + 0x80);
-  stack_pair_110.second = 4;
-  if (iVar2 != 0) {
-    if ((*(unsigned int *)(iVar2 + 0x1e0) & 0xf0000000) == 0x20000000) {
-      stack_pair_110.second = 1;
+    binding.kind = 4;
+    binding.value = self->bindingValue;
+    if (self->device != 0) {
+        if ((self->device->flags & (int)0xf0000000) == 0x20000000) {
+            binding.kind = 1;
+        }
+        fn_82FF0BA8(self->device, &binding);
     }
-    fn_82FF0BA8(iVar2,&stack_pair_110.first);
-  }
-  piVar4 = (int *)fn_82FAB9C0((unsigned __int64)lbl_832642E0 + 4,*(unsigned int *)(param_1 + 0x10));
-  if (piVar4 == (int *)0x0) {
-    uVar3 = 0xf;
-  }
-  else {
-    uStack_100 = *(unsigned int *)(param_1 + 0x20);
-    piVar5 = (int *)(param_1 + 0x2c);
-    uStack_fc = *(unsigned int *)(param_1 + 0x24);
-    bStack_f4 = *(unsigned char *)(param_1 + 0x28) >> 7;
-    uStack_ec = *(unsigned int *)(param_1 + 0x9c);
-    bStack_f3 = *(unsigned char *)(param_1 + 0x28) >> 6 & 1;
-    iVar2 = *(int *)(param_1 + 0x34);
-    iStack_f0 = 0;
-    piStack_f8 = piVar5;
-    if (iVar2 != 0) {
-      fn_83032B08(iVar2);
+    hr = 0xf;
+    handler = fn_82FAB9C0(lbl_832642E0 + 4, self->key);
+    if (handler != 0) {
+        storage = &self->storage;
+        result.buffer = 0;
+        result.data = storage;
+        result.count = self->count;
+        result.size = self->size;
+        result.f14 = self->f9c;
+        result.flag0 = self->flag0;
+        result.flag1 = self->flag1;
+        buffer = self->buffer;
+        if (buffer != 0) {
+            fn_83032B08(buffer);
+        }
+        old = result.buffer;
+        result.buffer = buffer;
+        if (old != 0) {
+            fn_83032D88(old);
+        }
+        desc.done = 0;
+        memcpy(desc.payload, self->payload, sizeof(desc.payload));
+        desc.target = self->target;
+        desc.size = request->size;
+        desc.kind = 1;
+        desc.header = request->header;
+        desc.result = &result;
+        desc.flags = self->flags;
+        desc.binding = &binding;
+        desc.offset = request->offset;
+        desc.valid = self->valid;
+        desc.id = self->id;
+        hr = handler->vt->Submit(handler, &desc);
+        lbl_832643DC++;
+        old = self->buffer;
+        self->buffer = 0;
+        if (old != 0) {
+            fn_83032D88(old);
+        }
+        if (storage->block != 0) {
+            fn_8301B7B8(lbl_832642F8, storage->block);
+            storage->block = 0;
+            self->storage.size = 0;
+        }
+        if (self->listener != 0) {
+            self->listener->vt->Release(self->listener);
+            self->listener = 0;
+        }
+        handler->vt->Release(handler);
+        if (result.buffer != 0) {
+            fn_83032D88(result.buffer);
+        }
     }
-    bVar1 = iStack_f0 != 0;
-    iStack_f0 = iVar2;
-    if (bVar1) {
-      fn_83032D88();
-    }
-    uStack_60 = 0;
-    memcpy(auStack_b8,param_1 + 0x38,0x48);
-    uStack_d8 = *(unsigned int *)(param_2 + 0x34);
-    uStack_d0 = *(unsigned __int64 *)(param_2 + 0x18);
-    uStack_c8 = *(unsigned __int64 *)(param_2 + 0x20);
-    puStack_68 = &uStack_100;
-    uStack_c0 = *(unsigned __int64 *)(param_2 + 0x28);
-    puStack_d4 = &stack_pair_110.first;
-    uStack_6c = *(unsigned int *)(param_2 + 0x10);
-    stack_pair_e0.second = *(unsigned int *)(param_1 + 0x98);
-    uStack_70 = *(unsigned int *)(param_1 + 0x88);
-    uStack_5f = *(unsigned char *)(param_1 + 0x91);
-    uStack_64 = *(unsigned int *)(param_1 + 0x8c);
-    stack_pair_e0.first = 1;
-    uVar3 = (**(int (***)())(*piVar4 + 0x18))(piVar4,&stack_pair_e0.first);
-    lbl_832643DC = lbl_832643DC + 1;
-    iVar2 = *(int *)(param_1 + 0x34);
-    *(unsigned int *)(param_1 + 0x34) = 0;
-    if (iVar2 != 0) {
-      fn_83032D88();
-    }
-    if (*piVar5 != 0) {
-      fn_8301B7B8(lbl_832642F8);
-      *piVar5 = 0;
-      *(unsigned int *)(param_1 + 0x30) = 0;
-    }
-    if (*(int **)(param_1 + 0xa0) != (int *)0x0) {
-      (**(int (***)())(**(int **)(param_1 + 0xa0) + 8))();
-      *(unsigned int *)(param_1 + 0xa0) = 0;
-    }
-    (**(int (***)())(*piVar4 + 8))(piVar4);
-    if (iStack_f0 != 0) {
-      fn_83032D88();
-    }
-  }
-  return uVar3;
+    return hr;
 }

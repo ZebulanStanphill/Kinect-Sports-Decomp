@@ -1,152 +1,152 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern unsigned int *auStack_30;
-extern int fn_82F63BA0();
-extern int fn_82F68240();
-extern int fn_82F883D0();
-extern unsigned int lbl_83263398;
-extern unsigned int lbl_832636E4;
+typedef struct File_82F82998 {
+    char *ptr;  /* 0x00 */
+    int count;  /* 0x04 */
+    char *base; /* 0x08 */
+    int flag;   /* 0x0c */
+    int file;   /* 0x10 */
+    int charBuffer;
+    int bufferSize;
+    char *tempName; /* 0x1c */
+} File_82F82998;
 
+extern int *_errno(void);
+extern void _invalid_parameter_noinfo(void);
+extern int fn_82F883D0(int *pfh, const unsigned short *path, int oflag, int shflag, int pmode);
+extern int lbl_832636E4;
+extern int lbl_83263398;
 
-unsigned int *
-fn_82F82998(unsigned __int64 param_1,unsigned short *param_2,unsigned __int64 param_3,unsigned int *param_4)
-
+File_82F82998 *fn_82F82998(const unsigned short *filename, const unsigned short *mode, int shareFlag,
+                           File_82F82998 *stream)
 {
-  bool bVar1;
-  bool bVar2;
-  unsigned int *puVar3;
-  int iVar4;
-  unsigned __int64 uVar5;
-  bool bVar6;
-  unsigned short uVar7;
-  unsigned int uVar8;
-  unsigned int auStack_30;
-  
-  bVar2 = false;
-  bVar1 = false;
-  uVar7 = *param_2;
-  while (uVar7 == 0x20) {
-    param_2 = param_2 + 1;
-    uVar7 = *param_2;
-  }
-  if (uVar7 == 0x61) {
-    uVar5 = 0x109;
-  }
-  else {
-    if (uVar7 == 0x72) {
-      uVar5 = 0;
-      uVar8 = lbl_832636E4 | 1;
-      goto LAB_82f82a1c;
-    }
-    if (uVar7 != 0x77) goto LAB_82f829e8;
-    uVar5 = 0x301;
-  }
-  uVar8 = lbl_832636E4 | 2;
-LAB_82f82a1c:
-  bVar6 = true;
-LAB_82f82b48:
-  param_2 = param_2 + 1;
-  uVar7 = *param_2;
-  if ((uVar7 == 0) || (!bVar6)) goto LAB_82f82b5c;
-  if (uVar7 < 0x54) {
-    if (uVar7 == 0x53) {
-      if (!bVar1) {
-        bVar1 = true;
-        uVar5 = uVar5 | 0x20;
-        goto LAB_82f82b48;
-      }
-    }
-    else {
-      if (uVar7 == 0x20) goto LAB_82f82b48;
-      if (uVar7 == 0x2b) {
-        if ((uVar5 & 2) == 0) {
-          uVar5 = uVar5 & 0xfffffffe | 2;
-          uVar8 = uVar8 & 0xfffffffc | 0x80;
-          goto LAB_82f82b48;
-        }
-      }
-      else if (uVar7 != 0x2c) {
-        if (uVar7 == 0x44) {
-          if ((uVar5 & 0x40) == 0) {
-            uVar5 = uVar5 | 0x40;
-            goto LAB_82f82b48;
-          }
-        }
-        else {
-          if (uVar7 == 0x4e) {
-            uVar5 = uVar5 | 0x80;
-            goto LAB_82f82b48;
-          }
-          if (uVar7 != 0x52) goto LAB_82f829e8;
-          if (!bVar1) {
-            bVar1 = true;
-            uVar5 = uVar5 | 0x10;
-            goto LAB_82f82b48;
-          }
-        }
-      }
-    }
-  }
-  else {
-    if (uVar7 == 0x54) {
-      if ((uVar5 & 0x1000) != 0) goto LAB_82f82b3c;
-      uVar5 = uVar5 | 0x1000;
-      goto LAB_82f82b48;
-    }
-    if (uVar7 == 0x62) {
-      if ((uVar5 & 0xc000) == 0) {
-        uVar5 = uVar5 | 0x8000;
-        goto LAB_82f82b48;
-      }
-    }
-    else if (uVar7 == 99) {
-      if (!bVar2) {
-        bVar2 = true;
-        uVar8 = uVar8 | 0x4000;
-        goto LAB_82f82b48;
-      }
-    }
-    else {
-      if (uVar7 == 0x6e) {
-        if (bVar2) goto LAB_82f82b3c;
-        bVar2 = true;
-        uVar8 = uVar8 & 0xffffbfff;
-        goto LAB_82f82b48;
-      }
-      if (uVar7 != 0x74) goto LAB_82f829e8;
-      if ((uVar5 & 0xc000) == 0) {
-        uVar5 = uVar5 | 0x4000;
-        goto LAB_82f82b48;
-      }
-    }
-  }
-LAB_82f82b3c:
-  bVar6 = false;
-  goto LAB_82f82b48;
-LAB_82f82b5c:
-  while (uVar7 == 0x20) {
-    param_2 = param_2 + 1;
-    uVar7 = *param_2;
-  }
-  if (uVar7 == 0) {
-    iVar4 = fn_82F883D0(&auStack_30,param_1,uVar5,param_3,0x180);
-    if (iVar4 != 0) {
-      return (unsigned int *)0x0;
-    }
-    lbl_83263398 = lbl_83263398 + 1;
-    param_4[3] = uVar8;
-    param_4[1] = 0;
-    *param_4 = 0;
-    param_4[2] = 0;
-    param_4[7] = 0;
-    param_4[4] = auStack_30;
-    return param_4;
-  }
-LAB_82f829e8:
-  puVar3 = (unsigned int *)fn_82F68240();
-  *puVar3 = 0x16;
-  fn_82F63BA0();
-  return (unsigned int *)0x0;
-}
+    int modeFlag;
+    int streamFlag = lbl_832636E4;
+    int commitSet = 0;
+    int scanSet = 0;
+    int parsing;
+    int handle;
 
+    while (*mode == ' ')
+        ++mode;
+    switch (*mode) {
+    case 'r':
+        modeFlag = 0;
+        streamFlag |= 1;
+        break;
+    case 'w':
+        modeFlag = 0x301;
+        streamFlag |= 2;
+        break;
+    case 'a':
+        modeFlag = 0x109;
+        streamFlag |= 2;
+        break;
+    default:
+        *_errno() = 0x16;
+        _invalid_parameter_noinfo();
+        return 0;
+    }
+    parsing = 1;
+    while (*++mode != 0 && parsing) {
+        switch (*mode) {
+        case ' ':
+            break;
+        case '+':
+            if (modeFlag & 2) {
+                parsing = 0;
+            } else {
+                modeFlag |= 2;
+                modeFlag &= ~1;
+                streamFlag |= 0x80;
+                streamFlag &= ~3;
+            }
+            break;
+        case 'b':
+            if (modeFlag & 0xc000) {
+                parsing = 0;
+            } else {
+                modeFlag |= 0x8000;
+            }
+            break;
+        case 't':
+            if (modeFlag & 0xc000) {
+                parsing = 0;
+            } else {
+                modeFlag |= 0x4000;
+            }
+            break;
+        case 'c':
+            if (commitSet) {
+                parsing = 0;
+            } else {
+                commitSet = 1;
+                streamFlag |= 0x4000;
+            }
+            break;
+        case 'n':
+            if (commitSet) {
+                parsing = 0;
+            } else {
+                commitSet = 1;
+                streamFlag &= ~0x4000;
+            }
+            break;
+        case 'S':
+            if (scanSet) {
+                parsing = 0;
+            } else {
+                scanSet = 1;
+                modeFlag |= 0x20;
+            }
+            break;
+        case 'R':
+            if (scanSet) {
+                parsing = 0;
+            } else {
+                scanSet = 1;
+                modeFlag |= 0x10;
+            }
+            break;
+        case 'T':
+            if (modeFlag & 0x1000) {
+                parsing = 0;
+            } else {
+                modeFlag |= 0x1000;
+            }
+            break;
+        case 'D':
+            if (modeFlag & 0x40) {
+                parsing = 0;
+            } else {
+                modeFlag |= 0x40;
+            }
+            break;
+        case 'N':
+            modeFlag |= 0x80;
+            break;
+        case ',':
+            parsing = 0;
+            break;
+        default:
+            *_errno() = 0x16;
+            _invalid_parameter_noinfo();
+            return 0;
+        }
+    }
+    while (*mode == ' ')
+        ++mode;
+    if (*mode != 0) {
+        *_errno() = 0x16;
+        _invalid_parameter_noinfo();
+        return 0;
+    }
+    if (fn_82F883D0(&handle, filename, modeFlag, shareFlag, 0x180) != 0)
+        return 0;
+    lbl_83263398++;
+    stream->flag = streamFlag;
+    stream->count = 0;
+    stream->ptr = 0;
+    stream->base = 0;
+    stream->tempName = 0;
+    stream->file = handle;
+    return stream;
+}

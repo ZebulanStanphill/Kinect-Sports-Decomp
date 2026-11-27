@@ -1,38 +1,82 @@
-extern unsigned int *auStack_20;
-extern unsigned int *auStack_24;
-extern unsigned int *auStack_28;
-extern int fn_8262FFB0();
-extern int fn_8263B388();
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+/* The words of a texture's fetch constant that describe its format. The first
+   bitfield of a word is its most significant bits. */
+typedef struct Texture_8263B758 {
+    char pad00[0x1c];
+    /* 0x1c */
+    unsigned int tiled : 1;
+    unsigned int pad1C : 21;
+    unsigned int signW : 2;
+    unsigned int signZ : 2;
+    unsigned int signY : 2;
+    unsigned int signX : 2;
+    unsigned int type : 2;
+    /* 0x20 */
+    unsigned int baseAddress : 24;
+    unsigned int endian : 2;
+    unsigned int dataFormat : 6;
+    /* 0x24 */
+    unsigned int size;
+    /* 0x28 */
+    unsigned int pad28 : 19;
+    unsigned int swizzleW : 3;
+    unsigned int swizzleZ : 3;
+    unsigned int swizzleY : 3;
+    unsigned int swizzleX : 3;
+    unsigned int numFormat : 1;
+} Texture_8263B758;
 
+typedef struct Desc_8263B758 {
+    unsigned int format;    /* 0x00 */
+    unsigned int type;      /* 0x04 */
+    int usage;              /* 0x08 */
+    int pool;               /* 0x0c */
+    int multiSampleType;    /* 0x10 */
+    int multiSampleQuality; /* 0x14 */
+    unsigned int width;     /* 0x18 */
+    unsigned int height;    /* 0x1c */
+} Desc_8263B758;
 
-void fn_8263B758(int param_1,unsigned __int64 param_2,unsigned int *param_3)
+extern unsigned int fn_8262FFB0(unsigned int *texture);
+extern void fn_8263B388(Texture_8263B758 *texture, int level, unsigned int *width, unsigned int *height,
+                        unsigned int *depth, unsigned int *rowPitch, unsigned int *slicePitch);
 
+/* Fills the description of one mip level of a texture. The format word packs,
+   from the top: swizzle W, Z, Y, X (3 bits each), the number format (1), sign
+   W, Z, Y, X (2 each), tiled (1), endian (2) and the data format (6). Written
+   with shifts, the compiler moves neighbouring fields as one group; the
+   original moves every field by itself, which the multiplications give. */
+void fn_8263B758(Texture_8263B758 *texture, int level, Desc_8263B758 *desc)
 {
-  unsigned int uVar1;
-  unsigned int uVar2;
-  unsigned int uStack_30;
-  unsigned int uStack_2c;
-  unsigned char auStack_28 [4];
-  unsigned char auStack_24 [4];
-  unsigned char auStack_20 [8];
-  
-  fn_8263B388(param_1,param_2,&uStack_30,&uStack_2c,auStack_20,auStack_24,auStack_28);
-  uVar2 = *(unsigned int *)(param_1 + 0x28);
-  uVar1 = *(unsigned int *)(param_1 + 0x1c);
-  *param_3 = ((((((((((uVar2 >> 7 & 0x38 | uVar2 >> 7 & 7) << 3 | uVar2 >> 4 & 7) << 3 |
-                    uVar2 >> 1 & 7) << 1 | uVar2 & 1) << 2 | uVar1 >> 8 & 3) << 2 | uVar1 >> 6 & 3)
-                 << 2 | uVar1 >> 4 & 3) << 2 | uVar1 >> 2 & 3) << 1 | uVar1 >> 0x1f) << 2 |
-             *(unsigned int *)(param_1 + 0x20) >> 6 & 3) << 6 | *(unsigned int *)(param_1 + 0x20) & 0x3f;
-  uVar2 = fn_8262FFB0(param_1);
-  param_3[1] = uVar2;
-  param_3[2] = 0;
-  param_3[3] = 0;
-  param_3[5] = 0;
-  param_3[6] = uStack_30;
-  param_3[7] = uStack_2c;
-  param_3[4] = 0;
-  return;
-}
+    unsigned int width;
+    unsigned int height;
+    unsigned int depth;
+    unsigned int rowPitch;
+    unsigned int slicePitch;
 
+    fn_8263B388(texture, level, &width, &height, &depth, &rowPitch, &slicePitch);
+    desc->format = ((((((((((((texture->swizzleW * 8 | texture->swizzleZ) * 8 | texture->swizzleY) * 8 |
+                             texture->swizzleX) *
+                                2 |
+                            texture->numFormat) *
+                               4 |
+                           texture->signW) *
+                              4 |
+                          texture->signZ) *
+                             4 |
+                         texture->signY) *
+                            4 |
+                        texture->signX) *
+                           2 |
+                       texture->tiled) *
+                          4 |
+                      texture->endian) *
+                     64) |
+                    texture->dataFormat);
+    desc->type = fn_8262FFB0((unsigned int *)texture);
+    desc->usage = 0;
+    desc->pool = 0;
+    desc->multiSampleQuality = 0;
+    desc->width = width;
+    desc->height = height;
+    desc->multiSampleType = 0;
+}

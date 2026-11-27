@@ -1,59 +1,55 @@
-unsigned int fn_82E92218(int *param_1,unsigned __int64 param_2,unsigned int *param_3)
+#include <string.h>
 
+typedef struct Slot_82E92218 {
+    int key;     /* 0x00 */
+    void *value; /* 0x04 */
+} Slot_82E92218;
+
+typedef struct Entry_82E92218 {
+    Slot_82E92218 slots[5]; /* 0x00 */
+} Entry_82E92218;
+
+typedef struct Queue_82E92218 {
+    Entry_82E92218 *data;  /* 0x00 */
+    unsigned int capacity; /* 0x04 */
+    char pad08[12];
+    unsigned int read;  /* 0x14 */
+    unsigned int write; /* 0x18 */
+    unsigned int count; /* 0x1c */
+} Queue_82E92218;
+
+/* Returns the key of the entry `back` steps behind the newest one and, when asked,
+   the three history keys of the entries that follow it. */
+int fn_82E92218(Queue_82E92218 *self, unsigned int back, int *history)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  __int64 lVar3;
-  unsigned __int64 uVar4;
-  
-  uVar2 = (unsigned __int64)(unsigned int)param_1[1];
-  uVar4 = (unsigned __int64)(unsigned int)param_1[7];
-  if (uVar2 < (unsigned int)param_1[7]) {
-    uVar4 = uVar2;
-  }
-  if (uVar4 <= (param_2 & 0xffffffff)) {
-    return 0;
-  }
-  uVar4 = (unsigned __int64)(unsigned int)param_1[5];
-  if ((unsigned __int64)(unsigned int)param_1[5] == 0) {
-    uVar4 = uVar2;
-  }
-  if ((uVar4 - 1 & 0xffffffff) < (param_2 & 0xffffffff)) {
-    lVar3 = uVar2 - param_2;
-  }
-  else {
-    lVar3 = -param_2;
-  }
-  uVar4 = lVar3 + (uVar4 - 1);
-  if (param_3 != (unsigned int *)0x0) {
-    *(unsigned short *)param_3 = 0;
-    *(unsigned char *)((int)param_3 + 2) = 0;
-    if ((param_2 & 0xffffffff) != 0) {
-      uVar1 = param_1[1];
-      trapWord(6,(unsigned __int64)uVar1,0);
-      uVar2 = (uVar4 + 1) -
-              (__int64)(int)((uVar4 + 1 & 0xffffffff) / (unsigned __int64)uVar1) * (__int64)(int)uVar1;
-      *param_3 = *(unsigned int *)
-                  ((int)((uVar2 + (uVar2 & 0x3fffffff) * 4 & 0xffffffff) << 3) + *param_1 + 8);
-    }
-    if (1 < (param_2 & 0xffffffff)) {
-      uVar1 = param_1[1];
-      trapWord(6,(unsigned __int64)uVar1,0);
-      uVar2 = (uVar4 + 2) -
-              (__int64)(int)((uVar4 + 2 & 0xffffffff) / (unsigned __int64)uVar1) * (__int64)(int)uVar1;
-      param_3[1] = *(unsigned int *)
-                    ((int)((uVar2 + (uVar2 & 0x3fffffff) * 4 & 0xffffffff) << 3) + *param_1 + 0x10);
-    }
-    if (2 < (param_2 & 0xffffffff)) {
-      uVar1 = param_1[1];
-      trapWord(6,(unsigned __int64)uVar1,0);
-      uVar2 = (uVar4 + 3) -
-              (__int64)(int)((uVar4 + 3 & 0xffffffff) / (unsigned __int64)uVar1) * (__int64)(int)uVar1;
-      param_3[2] = *(unsigned int *)
-                    ((int)((uVar2 + (uVar2 & 0x3fffffff) * 4 & 0xffffffff) << 3) + *param_1 + 0x18);
-    }
-  }
-  return *(unsigned int *)
-          ((int)((uVar4 + (uVar4 & 0x3fffffff) * 4 & 0xffffffff) << 3) + *param_1 + 0x20);
-}
+    unsigned int limit = self->count;
+    unsigned int index;
+    unsigned int i;
 
+    if (self->capacity < limit) {
+        limit = self->capacity;
+    }
+    if (back >= limit) {
+        return 0;
+    }
+    index = self->read;
+    if (index != 0) {
+        index = index - 1;
+    } else {
+        index = self->capacity - 1;
+    }
+    if (index < back) {
+        index = self->capacity - back + index;
+    } else {
+        index = index - back;
+    }
+    if (history != 0) {
+        memset(history, 0, 3);
+        for (i = 0; i < 3; i++) {
+            if (i < back) {
+                history[i] = self->data[(index + i + 1) % self->capacity].slots[i + 1].key;
+            }
+        }
+    }
+    return self->data[index].slots[4].key;
+}

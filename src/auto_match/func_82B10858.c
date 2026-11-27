@@ -1,54 +1,90 @@
-extern int fn_82AA65B0();
-extern int fn_82AA66A8();
-extern int fn_82AD1270();
-extern int fn_82AD17B0();
-extern int fn_82AD1978();
-extern int fn_82B106A0();
-extern int fn_82B841E8();
-extern int fn_82B8A3A0();
-extern unsigned int lbl_821AAD20;
+typedef struct Operand_82B10858 {
+    unsigned int pad0 : 1;
+    unsigned int absolute : 1;
+    unsigned int pad2 : 2;
+    unsigned int components : 3;
+    unsigned int modifier : 2;
+    unsigned int kind : 5;
+    unsigned int relative : 1;
+    unsigned int index : 4;
+    unsigned int swizzle : 8;
+    unsigned int flags : 5;
+} Operand_82B10858;
 
+typedef struct Link_82B10858 {
+    unsigned int previous; /* 0x0 */
+    unsigned int next;     /* 0x4 */
+} Link_82B10858;
 
-void fn_82B10858(int param_1,int param_2,unsigned int param_3,unsigned __int64 param_4)
+typedef struct Node_82B10858 {
+    char pad00[8];
+    unsigned int flags; /* 0x08 */
+    char pad0c[0x18];
+    Link_82B10858 link; /* 0x24 */
+} Node_82B10858;
 
+typedef struct Block_82B10858 {
+    char pad00[0x20];
+    Link_82B10858 nodes; /* 0x20 */
+} Block_82B10858;
+
+typedef struct Compiler_82B10858 {
+    char pad000[0x150];
+    void *strict; /* 0x150 */
+} Compiler_82B10858;
+
+extern void fn_82AA65B0(Compiler_82B10858 *ctx, int code, ...);
+extern __declspec(noreturn) void fn_82AA66A8(void *ctx, int code, ...);
+extern Node_82B10858 *fn_82B841E8(Compiler_82B10858 *ctx, Block_82B10858 *block, int a, int b, int c, int d);
+extern void *fn_82B8A3A0(Compiler_82B10858 *ctx, int flag, float x, float y, float z, float w);
+extern Operand_82B10858 *fn_82AD17B0(Compiler_82B10858 *ctx, void *value);
+extern void fn_82AD1270(void *operand, int n);
+extern Node_82B10858 *fn_82B106A0(Compiler_82B10858 *ctx, Block_82B10858 *block, void *a, void *b);
+extern unsigned int fn_82AD1978(Node_82B10858 *node, void *operand);
+
+static __forceinline void Block_PushFront(Block_82B10858 *block, Node_82B10858 *node)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  unsigned int *puVar3;
-  int iVar4;
-  double dVar5;
-  
-  if ((param_4 & 0xffffffff) == 0) {
-    if (*(int *)(param_1 + 0x150) != 0) {
-                    /* WARNING: Subroutine does not return */
-      fn_82AA66A8(param_1,0x11bd);
-    }
-  }
-  else {
-    fn_82AA65B0(param_1,0xe38);
-  }
-  param_4 = 0xf - param_4;
-  if (param_3 == 0) {
-    param_3 = fn_82B841E8(param_1,param_2,0,0x75,0,0);
-    uVar1 = param_3 & 0xfffffffe;
-    *(unsigned int *)(param_3 + 8) = *(unsigned int *)(param_3 + 8) | 0x2000000;
-    *(unsigned int *)(uVar1 + 0x28) = *(unsigned int *)(param_2 + 0x24);
-    *(unsigned int *)((*(unsigned int *)(param_2 + 0x24) & 0xfffffffe) + 0x24) = uVar1 + 0x28;
-    *(unsigned int *)(uVar1 + 0x24) = param_2 + 0x24U | 1;
-    *(unsigned int *)(param_2 + 0x24) = uVar1;
-  }
-  dVar5 = (double)lbl_821AAD20;
-  uVar2 = fn_82B8A3A0(dVar5,dVar5,dVar5,param_1,1);
-  puVar3 = (unsigned int *)fn_82AD17B0(param_1,uVar2);
-  *puVar3 = (unsigned int)((((0x8da691691448U >> (param_4 & 0x7f)) >> (param_4 & 0x7f)) >> (param_4 & 0x7f)
-                   & 7) << 0x19) | *puVar3 & 0xf1ffffff;
-  fn_82AD1270(puVar3,0);
-  *puVar3 = *puVar3 & 0xffffe01f;
-  iVar4 = fn_82B106A0(param_1,param_2,puVar3,puVar3);
-  puVar3 = (unsigned int *)fn_82AD17B0(param_1,iVar4);
-  *(unsigned int *)(iVar4 + 8) = *(unsigned int *)(iVar4 + 8) | 0x20;
-  *puVar3 = (unsigned int)((param_4 & 0xffffffff) << 0xd) & 0x1e000 | 0x407c0000 | *puVar3 & 0xfe7c1fff;
-  fn_82AD1978(param_3,puVar3);
-  return;
+    Link_82B10858 *head = &block->nodes;
+    Link_82B10858 *link = &((Node_82B10858 *)((unsigned int)node & ~1))->link;
+
+    link->next = head->next;
+    ((Node_82B10858 *)(head->next & ~1))->link.previous = (unsigned int)&link->next;
+    link->previous = (unsigned int)&head->next | 1;
+    head->next = (unsigned int)link - 0x24;
 }
 
+void fn_82B10858(Compiler_82B10858 *ctx, Block_82B10858 *block, Node_82B10858 *dest, unsigned int index)
+{
+    unsigned int components;
+    Operand_82B10858 *operand;
+    Operand_82B10858 *source;
+    Node_82B10858 *move;
+
+    if (index == 0) {
+        if (ctx->strict != 0) {
+            fn_82AA66A8(ctx, 0x11bd);
+        }
+    } else {
+        fn_82AA65B0(ctx, 0xe38);
+    }
+    index = 15 - index;
+    components = (unsigned int)(0x8da691691448ui64 >> index >> index >> index) & 7;
+    if (dest == 0) {
+        dest = fn_82B841E8(ctx, block, 0, 0x75, 0, 0);
+        dest->flags |= 0x2000000;
+        Block_PushFront(block, dest);
+    }
+    source = fn_82AD17B0(ctx, fn_82B8A3A0(ctx, 1, 0.0f, 0.0f, 0.0f, 0.0f));
+    source->components = components;
+    fn_82AD1270(source, 0);
+    source->swizzle = 0;
+    move = fn_82B106A0(ctx, block, source, source);
+    operand = fn_82AD17B0(ctx, move);
+    move->flags |= 0x20;
+    operand->index = index;
+    operand->relative = 0;
+    operand->kind = 0x1f;
+    operand->modifier = 0;
+    operand->absolute = 1;
+    fn_82AD1978(dest, operand);
+}

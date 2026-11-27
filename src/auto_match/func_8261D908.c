@@ -1,55 +1,51 @@
-typedef unsigned char bool;
-#define false 0
-extern unsigned int *auStack_5c5;
-extern unsigned int *auStack_610;
-extern int fn_82529A38();
-extern int fn_82587AC0();
-extern int fn_825D9FB0();
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int lbl_8326F968;
-extern unsigned int lbl_8326F96C;
+typedef struct VideoMode_8261D908 {
+    int pal;     /* 0x0 */
+    int force60; /* 0x4 */
+} VideoMode_8261D908;
 
+typedef struct Owner_8261D908 {
+    char reserved00[0xb3c];
+    float elapsed; /* 0xb3c */
+} Owner_8261D908;
 
-bool fn_8261D908(double param_1,int param_2,unsigned __int64 param_3,float *param_4)
+typedef struct ObjectDesc_8261D908 {
+    char reserved00[0x4b];
+    unsigned char name[0x595]; /* 0x4b */
+} ObjectDesc_8261D908;
 
+extern VideoMode_8261D908 lbl_8326F968;
+extern void fn_825D9FB0(ObjectDesc_8261D908 *desc, Owner_8261D908 *owner, float scale);
+extern unsigned int fn_82587AC0(const unsigned char *key);
+extern void *fn_82529A38(unsigned int key, ObjectDesc_8261D908 *desc, void *parent);
+
+static __forceinline int Is50Hz(void)
 {
-  double dVar1;
-  float fVar2;
-  unsigned char bVar3;
-  unsigned __int64 uVar4;
-  __int64 lVar5;
-  bool bVar6;
-  double dVar7;
-  double dVar8;
-  unsigned char auStack_610 [75];
-  unsigned char auStack_5c5 [1453];
-  
-  if ((lbl_8326F968 == 0) || (bVar3 = 1, lbl_8326F96C != 0)) {
-    bVar3 = 0;
-  }
-  fVar2 = *(float *)(param_2 + 0xb3c) + *param_4;
-  *param_4 = fVar2;
-  bVar6 = false;
-  dVar8 = (double)ltcg_pool_0_0f;
-  dVar7 = (double)(lbl_821CA460 / (float)(__int64)((int)((-(unsigned int)bVar3 & 0xfffffff6) + 0x3c) >> 1))
-  ;
-  dVar1 = (double)fVar2 - dVar7;
-  while (dVar8 < (double)(float)dVar1) {
-    *param_4 = (float)((double)*param_4 - dVar7);
-    if (!bVar6) {
-      if (dVar8 < param_1) {
-        fn_825D9FB0(param_1,auStack_610,param_2);
-        uVar4 = fn_82587AC0(auStack_5c5);
-        lVar5 = fn_82529A38(uVar4,auStack_610,0);
-        bVar6 = lVar5 != 0;
-      }
-      else {
-        bVar6 = false;
-      }
-    }
-    dVar1 = (double)*param_4 - dVar7;
-  }
-  return bVar6;
+    return lbl_8326F968.pal != 0 && lbl_8326F968.force60 == 0;
 }
 
+static __forceinline unsigned int Spawn(Owner_8261D908 *owner, float scale)
+{
+    ObjectDesc_8261D908 desc;
+
+    unsigned int key;
+
+    if (scale <= 0.0f)
+        return 0;
+    fn_825D9FB0(&desc, owner, scale);
+    key = fn_82587AC0(desc.name);
+    return fn_82529A38(key, &desc, 0) != 0;
+}
+
+int fn_8261D908(Owner_8261D908 *owner, float scale, float *timer)
+{
+    float step = 1.0f / (float)((Is50Hz() ? 50 : 60) / 2);
+    unsigned int spawned = 0;
+
+    *timer += owner->elapsed;
+    while (*timer - step > 0.0f) {
+        *timer -= step;
+        if (!spawned)
+            spawned = Spawn(owner, scale);
+    }
+    return spawned != 0;
+}

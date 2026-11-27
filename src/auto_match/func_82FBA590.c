@@ -1,62 +1,71 @@
-typedef unsigned char bool;
-extern unsigned int lbl_821AAD20;
+typedef struct Band_82FBA590 {
+    int type;              /* 0x00 */
+    float frequency;       /* 0x04 */
+    float gain;            /* 0x08 */
+    float width;           /* 0x0c */
+    unsigned char enabled; /* 0x10 */
+} Band_82FBA590;
 
+typedef struct Effect_82FBA590 {
+    int unknown0;           /* 0x00 */
+    Band_82FBA590 bands[3]; /* 0x04 */
+    float level;            /* 0x40 */
+    unsigned char bypass;   /* 0x44 */
+    char pad45[3];
+    unsigned char dirty[3]; /* 0x48 */
+} Effect_82FBA590;
 
-unsigned __int64 fn_82FBA590(int param_1,short param_2,float *param_3)
-
+/* Sets one parameter: five per band, then the output level and the bypass switch. */
+int fn_82FBA590(Effect_82FBA590 *self, short param, void *value)
 {
-  unsigned int uVar1;
-  unsigned __int64 uVar2;
-  __int64 lVar3;
-  
-  if (param_3 != (float *)0x0) {
-    uVar2 = 1;
-    uVar1 = (int)param_2 / 5;
-    lVar3 = (__int64)(int)uVar1;
-    switch(param_2) {
+    int result;
+    int band;
+
+    if (value == 0) {
+        return 0x1f;
+    }
+    result = 1;
+    band = param / 5;
+    switch (param) {
     case 0:
     case 5:
     case 10:
-      *(int *)((int)((lVar3 + ((unsigned __int64)uVar1 & 0x3fffffff) * 4 & 0xffffffff) << 2) + param_1 + 4)
-           = (int)*param_3;
-      *(unsigned char *)(uVar1 + param_1 + 0x48) = 1;
-      return uVar2;
+        self->bands[band].type = (int)*(float *)value;
+        self->dirty[band] = 1;
+        break;
     case 1:
     case 6:
-    case 0xb:
-      *(float *)((int)((lVar3 + ((unsigned __int64)uVar1 & 0x3fffffff) * 4 & 0xffffffff) << 2) + param_1 +
-                8) = *param_3;
-      *(unsigned char *)(uVar1 + param_1 + 0x48) = 1;
-      return uVar2;
+    case 11:
+        self->bands[band].frequency = *(float *)value;
+        self->dirty[band] = 1;
+        break;
     case 2:
     case 7:
-    case 0xc:
-      *(float *)((int)((lVar3 + ((unsigned __int64)uVar1 & 0x3fffffff) * 4 & 0xffffffff) << 2) + param_1 +
-                0xc) = *param_3;
-      *(unsigned char *)(uVar1 + param_1 + 0x48) = 1;
-      return uVar2;
+    case 12:
+        self->bands[band].gain = *(float *)value;
+        self->dirty[band] = 1;
+        break;
     case 3:
     case 8:
-    case 0xd:
-      *(float *)((int)((lVar3 + ((unsigned __int64)uVar1 & 0x3fffffff) * 4 & 0xffffffff) << 2) + param_1 +
-                0x10) = *param_3;
-      *(unsigned char *)(uVar1 + param_1 + 0x48) = 1;
-      return uVar2;
+    case 13:
+        self->bands[band].width = *(float *)value;
+        self->dirty[band] = 1;
+        break;
     case 4:
     case 9:
-    case 0xe:
-      *(bool *)((int)((lVar3 + 1U + (lVar3 + 1U & 0x3fffffff) * 4 & 0xffffffff) << 2) + param_1) =
-           *param_3 != lbl_821AAD20;
-      *(unsigned char *)(uVar1 + param_1 + 0x48) = 1;
-      return uVar2;
-    case 0xf:
-      *(float *)(param_1 + 0x40) = *param_3;
-      return uVar2;
-    case 0x10:
-      *(unsigned char *)(param_1 + 0x44) = *(unsigned char *)param_3;
-      return uVar2;
+    case 14:
+        self->bands[band].enabled = *(float *)value != 0.0f;
+        self->dirty[band] = 1;
+        break;
+    case 15:
+        self->level = *(float *)value;
+        break;
+    case 16:
+        self->bypass = *(unsigned char *)value;
+        break;
+    default:
+        result = 0x1f;
+        break;
     }
-  }
-  return 0x1f;
+    return result;
 }
-

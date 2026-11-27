@@ -1,15 +1,21 @@
-extern unsigned int *auStack_30;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef union Permute_82A95910 {
+    unsigned int words[8]; /* indexed by a 3-bit field; the vector is the first four */
+    __vector4 vector;
+} Permute_82A95910;
 
-void fn_82A95910(int param_1)
-
+/* Builds the byte-permute control that moves source word i to the slot given by its 3-bit field. */
+__vector4 fn_82A95910(int swizzle)
 {
-  unsigned int auStack_30 [8];
-  
-  auStack_30[param_1 >> 0x12 & 7] = 0x10203;
-  auStack_30[param_1 >> 0x15 & 7] = 0x4050607;
-  auStack_30[param_1 >> 0x18 & 7] = 0x8090a0b;
-  auStack_30[param_1 >> 0x1b & 7] = 0xc0d0e0f;
-  return;
-}
+    Permute_82A95910 control;
 
+    control.words[0] = control.words[1] = control.words[2] = control.words[3] = 0x10111213;
+    control.words[(swizzle >> 18) & 7] = 0x00010203;
+    control.words[(swizzle >> 21) & 7] = 0x04050607;
+    control.words[(swizzle >> 24) & 7] = 0x08090a0b;
+    control.words[(swizzle >> 27) & 7] = 0x0c0d0e0f;
+    return control.vector;
+}

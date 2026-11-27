@@ -1,95 +1,101 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern int fn_82ED3678();
-extern int fn_82ED3BB0();
-extern int fn_82F65350();
+typedef struct MacroblockMode_82F07488 {
+    char pad00[0x60];
+    int quantizer;   /* 0x60 */
+    int stepSize;    /* 0x64 */
+    int altStepSize; /* 0x68 */
+    char pad6c[0xc];
+    int edgeMask; /* 0x78 */
+} MacroblockMode_82F07488;
 
+typedef struct Decoder_82F07488 {
+    char pad0000[0x588];
+    int stepSize;    /* 0x0588 */
+    int altStepSize; /* 0x058c */
+    int halfStep;    /* 0x0590 */
+    char pad0594[0x3e8];
+    int dquantOn;                /* 0x097c */
+    unsigned char dquantBilevel; /* 0x0980 */
+    unsigned char altQuantizer;  /* 0x0981 */
+    char pad0982[2];
+    int dquantEdges; /* 0x0984 */
+    char pad0988[0x168];
+    int pictureType; /* 0x0af0 */
+    char pad0af4[0x14];
+    int skipOverlap; /* 0x0b08 */
+    char pad0b0c[0xf68];
+    int randomQuant; /* 0x1a74 */
+    char pad1a78[0x52dc];
+    int interlaced; /* 0x6d54 */
+    char pad6d58[0xa2c];
+    int forcedTransform; /* 0x7784 */
+    char pad7788[0x3a4];
+    int transformType;       /* 0x7b2c */
+    unsigned char maskIntra; /* 0x7b30 */
+    unsigned char maskLevel; /* 0x7b31 */
+    unsigned char maskLimit; /* 0x7b32 */
+    char pad7b33[0xd];
+    void *maskPlane; /* 0x7b40 */
+} Decoder_82F07488;
 
-void fn_82F07488(int param_1,int param_2,unsigned __int64 param_3,unsigned __int64 param_4)
+extern int fn_82F65350(void);
+extern unsigned int fn_82ED3BB0(void *plane, int row, int column);
+extern int fn_82ED3678(void *plane, int row, int column, int *a, int *b);
 
+void fn_82F07488(Decoder_82F07488 *self, MacroblockMode_82F07488 *mode, int column, int row)
 {
-  bool bVar1;
-  unsigned __int64 uVar2;
-  int iVar3;
-  unsigned int uVar4;
-  bool bVar5;
-  unsigned int uVar6;
-  
-  *(int *)(param_2 + 0x60) = *(int *)(param_1 + 0x588) * 2 + *(int *)(param_1 + 0x590) + -1;
-  *(unsigned int *)(param_2 + 100) = *(unsigned int *)(param_1 + 0x588);
-  *(unsigned int *)(param_2 + 0x68) = *(unsigned int *)(param_1 + 0x58c);
-  if (*(int *)(param_1 + 0x97c) == 0) goto LAB_82f07624;
-  if (*(unsigned int *)(param_1 + 0x984) == 0) {
-    if (*(char *)(param_1 + 0x980) == '\x01') {
-      if ((*(char *)(param_1 + 0x7b30) == '\0') || (bVar5 = true, *(int *)(param_1 + 0xaf0) != 0)) {
-        bVar5 = false;
-      }
-      if (((*(unsigned char *)(param_1 + 0x7b31) == 0) || (*(int *)(param_1 + 0xaf0) != 1)) ||
-         (bVar1 = true, *(unsigned char *)(param_1 + 0x7b32) < *(unsigned char *)(param_1 + 0x7b31))) {
-        bVar1 = false;
-      }
-      if ((bVar5) || (bVar1)) {
-        iVar3 = fn_82ED3BB0(*(unsigned int *)(param_1 + 0x7b40),param_4,param_3);
-        if (iVar3 == 0) goto LAB_82f07624;
-        *(unsigned int *)(param_2 + 0x60) = (unsigned int)*(unsigned char *)(param_1 + 0x981) * 2 + -1;
-        uVar4 = (unsigned int)*(unsigned char *)(param_1 + 0x981);
-        *(unsigned int *)(param_2 + 100) = (unsigned int)*(unsigned char *)(param_1 + 0x981);
-        goto LAB_82f07620;
-      }
-      if (*(int *)(param_1 + 0x1a74) == 0) goto LAB_82f07624;
-      uVar2 = fn_82F65350();
-      if ((uVar2 & 1) == 0) {
-        uVar6 = (unsigned int)*(unsigned char *)(param_1 + 0x981);
-      }
-      else {
-        uVar6 = *(unsigned int *)(param_1 + 0x588);
-      }
-    }
-    else {
-      if (*(int *)(param_1 + 0x1a74) == 0) goto LAB_82f07624;
-      uVar2 = fn_82F65350();
-      if ((uVar2 & 0x1f) == 0) {
-        uVar6 = 1;
-      }
-      else {
-        uVar6 = fn_82F65350();
-        uVar6 = uVar6 & 0x1f;
-      }
-    }
-    *(unsigned int *)(param_2 + 100) = uVar6;
-    uVar4 = *(unsigned int *)(param_2 + 100);
-    *(unsigned int *)(param_2 + 0x60) = uVar6 * 2 + *(int *)(param_1 + 0x590) + -1;
-  }
-  else {
-    if ((*(unsigned int *)(param_2 + 0x78) & *(unsigned int *)(param_1 + 0x984)) == 0) goto LAB_82f07624;
-    *(unsigned int *)(param_2 + 0x60) = (unsigned int)*(unsigned char *)(param_1 + 0x981) * 2 + -1;
-    uVar4 = (unsigned int)*(unsigned char *)(param_1 + 0x981);
-    *(unsigned int *)(param_2 + 100) = (unsigned int)*(unsigned char *)(param_1 + 0x981);
-  }
-LAB_82f07620:
-  *(unsigned int *)(param_2 + 0x68) = uVar4;
-LAB_82f07624:
-  if ((((*(unsigned int *)(param_1 + 0x7b2c) & 0x20) != 0) && (*(int *)(param_1 + 0x6d54) == 0)) &&
-     ((*(int *)(param_1 + 0xaf0) != 2 && (*(int *)(param_1 + 0xb08) == 0)))) {
-    iVar3 = *(int *)(param_1 + 0x7784);
-    if (iVar3 == 0) {
-      iVar3 = fn_82ED3678(*(unsigned int *)(param_1 + 0x7b40),param_4,param_3,0,0);
-      if (iVar3 == 1) {
-        *(unsigned int *)(param_1 + 0x7b2c) = 0x20;
-        if (*(int *)(param_1 + 0xaf0) == 0) {
-          return;
-        }
-        if (*(int *)(param_2 + 0x60) < 7) {
-          return;
-        }
-        *(unsigned int *)(param_1 + 0x7b2c) = 0x2b;
-        return;
-      }
-      iVar3 = 0x20;
-    }
-    *(int *)(param_1 + 0x7b2c) = iVar3;
-  }
-  return;
-}
+    int useIntraMask;
+    int useLevelMask;
+    int step;
 
+    mode->quantizer = 2 * self->stepSize + self->halfStep - 1;
+    mode->stepSize = self->stepSize;
+    mode->altStepSize = self->altStepSize;
+    if (self->dquantOn) {
+        if (self->dquantEdges) {
+            if (mode->edgeMask & self->dquantEdges) {
+                mode->quantizer = 2 * self->altQuantizer - 1;
+                mode->stepSize = self->altQuantizer;
+                mode->altStepSize = mode->stepSize;
+            }
+        } else if (self->dquantBilevel == 1) {
+            useIntraMask = self->maskIntra && self->pictureType == 0;
+            useLevelMask = self->maskLevel && self->pictureType == 1 && self->maskLimit >= self->maskLevel;
+            if (!useIntraMask && !useLevelMask) {
+                if (self->randomQuant) {
+                    if (fn_82F65350() & 1) {
+                        step = self->stepSize;
+                    } else {
+                        step = self->altQuantizer;
+                    }
+                    mode->stepSize = step;
+                    mode->quantizer = 2 * step + self->halfStep - 1;
+                    mode->altStepSize = mode->stepSize;
+                }
+            } else if (fn_82ED3BB0(self->maskPlane, row, column)) {
+                mode->quantizer = 2 * self->altQuantizer - 1;
+                mode->stepSize = self->altQuantizer;
+                mode->altStepSize = mode->stepSize;
+            }
+        } else {
+            if (self->randomQuant) {
+                step = 1 > (fn_82F65350() & 0x1f) ? 1 : (fn_82F65350() & 0x1f);
+                mode->stepSize = step;
+                mode->quantizer = 2 * step + self->halfStep - 1;
+                mode->altStepSize = mode->stepSize;
+            }
+        }
+    }
+    if ((self->transformType & 0x20) && self->interlaced == 0 && self->pictureType != 2 &&
+        self->skipOverlap == 0) {
+        if (self->forcedTransform) {
+            self->transformType = self->forcedTransform;
+        } else if (fn_82ED3678(self->maskPlane, row, column, 0, 0) == 1) {
+            self->transformType = 0x20;
+            if (self->pictureType != 0 && mode->quantizer > 6) {
+                self->transformType = 0x2b;
+            }
+        } else {
+            self->transformType = 0x20;
+        }
+    }
+}

@@ -1,88 +1,73 @@
-extern int fn_82AAC0E0();
-extern int fn_82AAC198();
-extern int fn_82AAC290();
-extern int fn_82AAC328();
-extern int fn_82AAC3E8();
-extern int fn_82AAC488();
-extern int fn_82AAC550();
-extern unsigned int iStack_14;
-extern unsigned int iStack_18;
-extern unsigned int iStack_1c;
-extern unsigned int iStack_20;
+typedef struct Image_82AAC5E8 {
+    unsigned char *data; /* 0x00 */
+    int pitch;           /* 0x04 */
+    int width;           /* 0x08 */
+    int height;          /* 0x0c */
+    short channels;      /* 0x10 */
+    short pad12;
+    short bits; /* 0x14 */
+} Image_82AAC5E8;
 
+extern void fn_82AAC0E0(unsigned char **planes, unsigned char *dst, int pitch, int width, int rows);
+extern void fn_82AAC198(unsigned char **planes, unsigned char *dst, int pitch, int width, int rows);
+extern void fn_82AAC290(unsigned short **planes, unsigned short *dst, int pitch, int width, int rows);
+extern void fn_82AAC328(unsigned char **planes, unsigned char *dst, int pitch, int width, int rows);
+extern void fn_82AAC3E8(unsigned short **planes, unsigned short *dst, int pitch, int width, int rows);
+extern void fn_82AAC488(unsigned char **planes, unsigned char *dst, int pitch, int width, int rows);
+extern void fn_82AAC550(unsigned short **planes, unsigned short *dst, int pitch, int width, int rows);
 
-unsigned __int64 fn_82AAC5E8(int *param_1,int *param_2,int param_3)
-
+int fn_82AAC5E8(Image_82AAC5E8 *image, void **planes, int row)
 {
-  short sVar1;
-  short sVar2;
-  unsigned __int64 uVar3;
-  unsigned __int64 uVar4;
-  short *psVar5;
-  short *psVar6;
-  struct { int first; int second; } stack_pair_20;
+    void *reordered[4];
+    int pitch = image->pitch;
+    int channels = image->channels;
+    int bits = image->bits;
+    int width = image->width;
+    unsigned char *dst = image->data + image->pitch * row;
+    int x;
 
-  int iStack_18;
-  int iStack_14;
-  
-  sVar1 = *(short *)(param_1 + 4);
-  sVar2 = *(short *)(param_1 + 5);
-  uVar4 = (unsigned __int64)(unsigned int)param_1[2];
-  if ((param_3 < 0) || (param_1[3] <= param_3)) {
-    uVar3 = 0xffffffffffffffd9;
-  }
-  else {
-    if (sVar1 == 1) {
-      stack_pair_20.first = *param_2;
-      if (sVar2 < 9) {
-        fn_82AAC0E0(&stack_pair_20.first);
-      }
-      else if (0 < param_1[2]) {
-        psVar6 = (short *)(stack_pair_20.first + -2);
-        psVar5 = (short *)(param_1[1] * param_3 + *param_1 + -2);
-        do {
-          psVar6 = psVar6 + 1;
-          psVar5 = psVar5 + 1;
-          *psVar5 = *psVar6 + -0x8000;
-          uVar4 = uVar4 - 1;
-        } while (uVar4 != 0);
-      }
+    if (row < 0 || row >= image->height) {
+        return -39;
     }
-    else if (sVar1 == 2) {
-      stack_pair_20.first = param_2[1];
-      stack_pair_20.second = *param_2;
-      if (sVar2 < 9) {
-        fn_82AAC198();
-      }
-      else {
-        fn_82AAC290();
-      }
+    if (channels == 1) {
+        reordered[0] = planes[0];
+        if (bits <= 8) {
+            fn_82AAC0E0((unsigned char **)reordered, dst, pitch, width, 1);
+        } else {
+            unsigned short *src = (unsigned short *)reordered[0];
+            unsigned short *out = (unsigned short *)dst;
+
+            for (x = 0; x < width; x++) {
+                *out++ = src[x] + 0x8000;
+            }
+        }
+    } else if (channels == 2) {
+        reordered[0] = planes[1];
+        reordered[1] = planes[0];
+        if (bits <= 8) {
+            fn_82AAC198((unsigned char **)reordered, dst, pitch, width, 1);
+        } else {
+            fn_82AAC290((unsigned short **)reordered, (unsigned short *)dst, pitch, width, 1);
+        }
+    } else if (channels == 3) {
+        reordered[0] = planes[2];
+        reordered[1] = planes[1];
+        reordered[2] = planes[0];
+        if (bits <= 8) {
+            fn_82AAC328((unsigned char **)reordered, dst, pitch, width, 1);
+        } else {
+            fn_82AAC3E8((unsigned short **)reordered, (unsigned short *)dst, pitch, width, 1);
+        }
+    } else {
+        reordered[0] = planes[3];
+        reordered[1] = planes[2];
+        reordered[2] = planes[1];
+        reordered[3] = planes[0];
+        if (bits <= 8) {
+            fn_82AAC488((unsigned char **)reordered, dst, pitch, width, 1);
+        } else {
+            fn_82AAC550((unsigned short **)reordered, (unsigned short *)dst, pitch, width, 1);
+        }
     }
-    else if (sVar1 == 3) {
-      stack_pair_20.first = param_2[2];
-      stack_pair_20.second = param_2[1];
-      iStack_18 = *param_2;
-      if (sVar2 < 9) {
-        fn_82AAC328();
-      }
-      else {
-        fn_82AAC3E8();
-      }
-    }
-    else {
-      stack_pair_20.first = param_2[3];
-      stack_pair_20.second = param_2[2];
-      iStack_18 = param_2[1];
-      iStack_14 = *param_2;
-      if (sVar2 < 9) {
-        fn_82AAC488();
-      }
-      else {
-        fn_82AAC550(&stack_pair_20.first);
-      }
-    }
-    uVar3 = 0;
-  }
-  return uVar3;
+    return 0;
 }
-

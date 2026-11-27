@@ -1,71 +1,89 @@
-typedef unsigned char bool;
-extern int fn_82FAE198();
-extern int fn_82FAE1F0();
-extern int fn_82FAE338();
-extern int fn_82FAF750();
+typedef struct Entry_82FAE490 {
+    unsigned int key;      /* 0x0 */
+    unsigned int position; /* 0x4 */
+} Entry_82FAE490;
 
+typedef struct Vector_82FAE490 {
+    Entry_82FAE490 *begin; /* 0x0 */
+    Entry_82FAE490 *end;   /* 0x4 */
+} Vector_82FAE490;
 
-unsigned __int64
-fn_82FAE490(int param_1,__int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4,int *param_5)
+typedef struct Map_82FAE490 {
+    unsigned char pad00[0xa0];
+    Vector_82FAE490 entries; /* 0xa0 */
+} Map_82FAE490;
 
+typedef struct Steps_82FAE490 {
+    int word;       /* 0x0 */
+    int line;       /* 0x4 */
+    int pageFirst;  /* 0x8 */
+    int pageSecond; /* 0xc */
+} Steps_82FAE490;
+
+extern Steps_82FAE490 *fn_82FAF750(Map_82FAE490 *self);
+extern int fn_82FAE338(Map_82FAE490 *self, int position, int first, int second, int *out);
+extern unsigned int fn_82FAE198(Map_82FAE490 *self, unsigned int position, unsigned char clamp);
+extern int fn_82FAE1F0(Map_82FAE490 *self, unsigned int position, unsigned int *out);
+
+static __forceinline Entry_82FAE490 *Front(const Vector_82FAE490 *entries)
 {
-  bool bVar1;
-  unsigned int *puVar3;
-  int iVar4;
-  unsigned __int64 uVar2;
-  __int64 lVar5;
-  
-  if (((param_4 & 0xff) == 0) || (-1 < (int)param_2)) {
-    lVar5 = -(unsigned __int64)*(unsigned int *)(*(int *)(param_1 + 0xa0) + 4);
-    if ((int)param_2 < (int)lVar5) {
-      param_2 = lVar5;
-    }
-  }
-  else {
-    param_2 = 0;
-  }
-  iVar4 = (int)param_2;
-  if ((iVar4 <= *(int *)(*(int *)(param_1 + 0xa4) + -4) - *(int *)(*(int *)(param_1 + 0xa0) + 4)) &&
-     ((param_3 & 0xffffffff) < 8)) {
-    bVar1 = (int)param_3 != 0;
-    if (param_3 == 1 && bVar1) {
-      iVar4 = fn_82FAF750(param_1);
-      uVar2 = fn_82FAE338(param_1,param_2,*(unsigned int *)(iVar4 + 8),*(unsigned int *)(iVar4 + 0xc),
-                           param_5);
-      return uVar2;
-    }
-    if (param_3 == 2 && bVar1) {
-      iVar4 = fn_82FAF750(param_1);
-      uVar2 = fn_82FAE338(param_1,param_2,*(unsigned int *)(iVar4 + 4),0,param_5);
-      return uVar2;
-    }
-    if (param_3 == 3 && bVar1) {
-      puVar3 = (unsigned int *)fn_82FAF750(param_1);
-      uVar2 = fn_82FAE338(param_1,param_2,*puVar3,0,param_5);
-      return uVar2;
-    }
-    if (param_3 == 4 && bVar1) {
-      iVar4 = fn_82FAE198(param_1,param_2,param_4);
-      *param_5 = iVar4;
-      return 1;
-    }
-    if (param_3 == 5 && bVar1) {
-      uVar2 = fn_82FAE1F0(param_1,param_2,param_5);
-      return uVar2;
-    }
-    if (param_3 != 6 || !bVar1) {
-      if (!bVar1) {
-        *param_5 = iVar4;
-        return 1;
-      }
-      *param_5 = *(int *)(*(int *)(param_1 + 0xa4) + -4) - *(int *)(*(int *)(param_1 + 0xa0) + 4);
-      return 1;
-    }
-    if ((iVar4 < 1) && ((param_4 & 0xff) == 0)) {
-      *param_5 = 0;
-      return 1;
-    }
-  }
-  return 2;
+    return entries->begin;
 }
 
+static __forceinline Entry_82FAE490 *Back(const Vector_82FAE490 *entries)
+{
+    return entries->end - 1;
+}
+
+int fn_82FAE490(Map_82FAE490 *self, int position, unsigned int mode, unsigned char clamp, int *out)
+{
+    int result = 2;
+    Steps_82FAE490 *steps;
+
+    if (clamp && position < 0) {
+        position = 0;
+    } else if (position < -(int)self->entries.begin->position) {
+        position = -(int)self->entries.begin->position;
+    }
+    if (position <= (int)(self->entries.end[-1].position - self->entries.begin->position)) {
+        switch (mode) {
+        case 0:
+            *out = position;
+            result = 1;
+            break;
+        case 1:
+            steps = fn_82FAF750(self);
+            result = fn_82FAE338(self, position, steps->pageFirst, steps->pageSecond, out);
+            break;
+        case 3:
+            steps = fn_82FAF750(self);
+            result = fn_82FAE338(self, position, steps->word, 0, out);
+            break;
+        case 2:
+            result = fn_82FAE338(self, position, fn_82FAF750(self)->line, 0, out);
+            break;
+        case 4:
+            *out = fn_82FAE198(self, position, clamp);
+            result = 1;
+            break;
+        case 5:
+            result = fn_82FAE1F0(self, position, (unsigned int *)out);
+            break;
+        case 7:
+            *out = Back(&self->entries)->position - Front(&self->entries)->position;
+            result = 1;
+            break;
+        case 6:
+            if (position <= 0 && !clamp) {
+                *out = 0;
+                result = 1;
+                break;
+            }
+            break;
+        default:
+            result = 2;
+            break;
+        }
+    }
+    return result;
+}

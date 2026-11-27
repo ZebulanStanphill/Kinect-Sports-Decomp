@@ -1,40 +1,39 @@
-extern unsigned int lbl_820893C4;
+typedef struct File_82A345D8 {
+    char pad00[0xc];
+    unsigned int flags;    /* 0x0c */
+    unsigned int sizes[1]; /* 0x10 */
+} File_82A345D8;
 
+/* Bit width of one packed block size, by the two-bit size class of the header. */
+extern const unsigned int lbl_820893C4[4];
 
-__int64 fn_82A345D8(int param_1)
-
+static __forceinline unsigned __int64 ReadBits_82A345D8(const unsigned int *data, unsigned int position,
+                                                        unsigned int width)
 {
-  int *piVar1;
-  unsigned int uVar2;
-  unsigned __int64 uVar3;
-  __int64 lVar4;
-  int iVar5;
-  unsigned __int64 uVar6;
-  unsigned __int64 uVar7;
-  
-  lVar4 = 0;
-  uVar2 = *(unsigned int *)(param_1 + 0xc) >> 6;
-  uVar6 = (unsigned __int64)uVar2 & 0xffff;
-  if ((uVar2 & 0xffff) != 0) {
-    iVar5 = 0;
-    if ((uVar2 & 0xffff) != 0) {
-      do {
-        uVar7 = (__int64)(int)*(unsigned int *)(&lbl_820893C4 + (*(unsigned int *)(param_1 + 0xc) >> 0x16 & 3) * 4)
-                * (__int64)iVar5;
-        uVar3 = uVar7 & 0x1f;
-        piVar1 = (int *)(((unsigned int)((uVar7 & 0xffffffff) >> 3) & 0x1ffffffc) + param_1 + 0x10);
-        uVar7 = 0x20 - uVar3;
-        iVar5 = iVar5 + 1;
-        lVar4 = (((unsigned __int64)((unsigned int)piVar1[1] >> (uVar7 & 0x7f)) &
-                  ((uVar7 & 0xffffffff) >> 5) - 1 & 0xffffffff |
-                 (unsigned __int64)(unsigned int)(*piVar1 << (int)uVar3)) >>
-                (0x20 - (unsigned __int64)
-                        *(unsigned int *)(&lbl_820893C4 + (*(unsigned int *)(param_1 + 0xc) >> 0x16 & 3) * 4) & 0x7f
-                )) + lVar4;
-        uVar6 = uVar6 - 1;
-      } while (uVar6 != 0);
-    }
-  }
-  return lVar4;
+    unsigned int offset = position & 31;
+    const unsigned int *word = data + (position >> 5);
+    unsigned int rest = 32 - offset;
+    unsigned __int64 value;
+
+    value = (((unsigned __int64)word[1] >> rest) & (unsigned int)((rest >> 5) - 1)) | (word[0] << offset);
+    return value >> (32 - width);
 }
 
+/* Sums the packed sizes of all blocks. */
+unsigned __int64 fn_82A345D8(File_82A345D8 *file)
+{
+    unsigned int count = (file->flags >> 6) & 0xffff;
+    unsigned int sizeClass = (file->flags >> 22) & 3;
+    const unsigned int *sizes = file->sizes;
+    unsigned __int64 total = 0;
+    unsigned int i;
+
+    if (count != 0) {
+        for (i = 0; i < count; i++) {
+            unsigned int width = lbl_820893C4[sizeClass];
+
+            total += ReadBits_82A345D8(sizes, width * i, width);
+        }
+    }
+    return total;
+}
