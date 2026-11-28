@@ -11,7 +11,8 @@ extern void fn_82273CD8(Value_8229F758 *v, int type);
 extern void fn_82273C88(Value_8229F758 *v);
 extern void fn_82672C20(int movie, const char *path, Value_8229F758 *args, int count);
 
-void fn_8229F758(int *param_1, double param_2, double param_3, double param_4, int param_5)
+/* The three times are floats: fn_824282B0 passes its float zero and a rounded float straight through. */
+void fn_8229F758(int *param_1, float param_2, float param_3, float param_4, int param_5)
 {
     Value_8229F758 args[4];
     Value_8229F758 *e;

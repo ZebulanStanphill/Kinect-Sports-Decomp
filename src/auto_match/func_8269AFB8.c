@@ -1,58 +1,65 @@
-extern int fn_8268CE70();
-extern int fn_8268CE78();
-extern int fn_8268CE80();
-extern int fn_8268CE98();
-extern int fn_8268CEB0();
-extern unsigned int lbl_82005708;
-extern unsigned int lbl_82005738;
-extern unsigned int lbl_82005740;
+typedef struct Metrics_8269AFB8 {
+    int left;
+    int right;
+    double width;
+    double height;
+    double rotation;
+    float x0;
+    float y0;
+    float z0;
+    float x1;
+    float y1;
+    float z1;
+} Metrics_8269AFB8;
 
+typedef struct Shape_8269AFB8 {
+    char reserved[0x44];
+    float points[6];
+    char padding[0x28];
+    Metrics_8269AFB8 *cached;
+} Shape_8269AFB8;
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+extern double fn_8268CE70(int points);
+extern double fn_8268CE78(int points);
+extern double fn_8268CE80(float *points);
+extern double fn_8268CE98(int points);
+extern double fn_8268CEB0(float *points);
+extern const double lbl_82005708;
+extern const double lbl_82005738;
+extern const double lbl_82005740;
 
-int * fn_8269AFB8(int param_1,int *param_2)
-
+Metrics_8269AFB8 *fn_8269AFB8(Shape_8269AFB8 *self, Metrics_8269AFB8 *out)
 {
-  int *piVar1;
-  int iVar2;
-  double dVar3;
-  double dVar4;
-  
-  piVar1 = *(int **)(param_1 + 0x84);
-  if (piVar1 == (int *)0x0) {
-    iVar2 = param_1 + 0x44;
-    dVar3 = (double)fn_8268CE70(iVar2);
-    *param_2 = (int)dVar3;
-    dVar3 = (double)fn_8268CE78(iVar2);
-    param_2[1] = (int)dVar3;
-    dVar4 = (double)fn_8268CE80(iVar2);
-    dVar3 = lbl_82005708;
-    *(double *)(param_2 + 2) = dVar4 * lbl_82005708;
-    dVar4 = (double)fn_8268CE98(iVar2);
-    *(double *)(param_2 + 4) = dVar4 * dVar3;
-    dVar3 = (double)fn_8268CEB0(iVar2);
-    *(double *)(param_2 + 6) = dVar3 * lbl_82005740 * lbl_82005738;
-    param_2[8] = *(int *)(param_1 + 0x44);
-    param_2[9] = *(int *)(param_1 + 0x48);
-    param_2[10] = *(int *)(param_1 + 0x4c);
-    param_2[0xb] = *(int *)(param_1 + 0x50);
-    param_2[0xc] = *(int *)(param_1 + 0x54);
-    iVar2 = *(int *)(param_1 + 0x58);
-  }
-  else {
-    *param_2 = *piVar1;
-    param_2[1] = piVar1[1];
-    *(unsigned __int64 *)(param_2 + 2) = *(unsigned __int64 *)(piVar1 + 2);
-    *(unsigned __int64 *)(param_2 + 4) = *(unsigned __int64 *)(piVar1 + 4);
-    *(unsigned __int64 *)(param_2 + 6) = *(unsigned __int64 *)(piVar1 + 6);
-    param_2[8] = piVar1[8];
-    param_2[9] = piVar1[9];
-    param_2[10] = piVar1[10];
-    param_2[0xb] = piVar1[0xb];
-    param_2[0xc] = piVar1[0xc];
-    iVar2 = piVar1[0xd];
-  }
-  param_2[0xd] = iVar2;
-  return param_2;
+    Metrics_8269AFB8 *cached = self->cached;
+    if (cached == 0) {
+        float *points = self->points;
+        double scale;
+        double width;
+        out->left = (int)fn_8268CE70((int)points);
+        out->right = (int)fn_8268CE78((int)points);
+        width = fn_8268CE80(points);
+        scale = 100.0;
+        out->width = width * 100.0;
+        out->height = fn_8268CE98((int)points) * scale;
+        out->rotation = (fn_8268CEB0(points) * lbl_82005740) * lbl_82005738;
+        out->x0 = self->points[0];
+        out->y0 = self->points[1];
+        out->z0 = self->points[2];
+        out->x1 = self->points[3];
+        out->y1 = self->points[4];
+        out->z1 = self->points[5];
+    } else {
+        out->left = cached->left;
+        out->right = cached->right;
+        out->width = cached->width;
+        out->height = cached->height;
+        out->rotation = cached->rotation;
+        out->x0 = cached->x0;
+        out->y0 = cached->y0;
+        out->z0 = cached->z0;
+        out->x1 = cached->x1;
+        out->y1 = cached->y1;
+        out->z1 = cached->z1;
+    }
+    return out;
 }
-

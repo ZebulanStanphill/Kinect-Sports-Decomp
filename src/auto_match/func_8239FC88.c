@@ -1,71 +1,101 @@
-extern int fn_82250A18();
-extern int fn_82359558();
-extern int fn_82397F88();
-extern int fn_82399CB8();
-extern int fn_825604A0();
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int lbl_831D2B38;
-extern unsigned int lbl_831D2B80;
-extern unsigned int lbl_832975B0;
+typedef struct Node_825604A0 Node_825604A0;
+typedef struct State_8239FC88 State_8239FC88;
 
+typedef struct Manager_8239FC88 {
+    char reserved[8];
+    void ***entries;
+    char padding[0x24];
 
-void fn_8239FC88(int param_1,unsigned int param_2,unsigned int param_3)
+    struct Slot_8239FC88 {
+        State_8239FC88 *first;
+        State_8239FC88 *second;
+    } *slots;
+} Manager_8239FC88;
 
+struct State_8239FC88 {
+    char reserved[0x10];
+    int item;
+    char padding[0x0c];
+    unsigned int action[131];
+    int active;
+    char padding230[0x10];
+    Manager_8239FC88 *manager;
+    char padding244[0x3c];
+    const void *selected;
+    int unused;
+    int priority;
+    int mode;
+    float elapsed;
+    int unused294;
+    unsigned int alternate;
+};
+
+typedef struct Config_8239FC88 {
+    int unused;
+    unsigned char enabled;
+} Config_8239FC88;
+
+extern unsigned char lbl_831D2980[];
+extern Config_8239FC88 *lbl_832975B0;
+extern Config_8239FC88 *fn_82250A18(void);
+extern int fn_82399CB8(Manager_8239FC88 *);
+extern int fn_82397F88(Manager_8239FC88 *);
+extern int fn_82359558(int, int);
+extern unsigned int fn_822AA770(void *);
+extern int fn_824CCD80(int);
+extern void fn_825603C8(int, unsigned int *, int);
+extern void fn_825604A0(Node_825604A0 *);
+
+void fn_8239FC88(State_8239FC88 *self, int mode, int priority)
 {
-  unsigned char *puVar1;
-  int iVar2;
-  int iVar3;
-  unsigned int uVar4;
-  
-  if (param_2 == *(unsigned int *)(param_1 + 0x28c)) {
-    return;
-  }
-  if (param_2 == 0) {
-    param_3 = -(unsigned int)(*(unsigned int *)(param_1 + 0x28c) != 4) & param_3;
-    goto LAB_8239fdf8;
-  }
-  if (param_2 < 3) {
-    iVar2 = fn_82399CB8(*(unsigned int *)(param_1 + 0x240));
-    iVar3 = fn_82397F88(*(unsigned int *)(param_1 + 0x240));
-    if (iVar3 == 0) {
-      iVar2 = lbl_832975B0;
-      if (lbl_832975B0 == 0) {
-        iVar2 = fn_82250A18();
-      }
-      if (*(char *)(iVar2 + 4) != '\0') {
-                    /* WARNING: Subroutine does not return */
-        fn_82359558(*(unsigned int *)(param_1 + 0x240),*(unsigned int *)(param_1 + 0x10));
-      }
+    if (mode == self->mode) {
+        return;
     }
-    else {
-      iVar2 = *(int *)(*(int *)(*(int *)(param_1 + 0x240) + 0x30) + iVar2 * -8 + 8);
-      if (*(int *)(iVar2 + 0x22c) != 0) {
-        fn_825604A0(iVar2 + 0x20);
-        *(unsigned int *)(iVar2 + 0x22c) = 0;
-      }
+    switch ((unsigned int)mode) {
+    case 3:
+        switch (self->alternate) {
+        case 1:
+            self->selected = lbl_831D2980 + 0x200;
+            break;
+        case 0:
+            self->selected = lbl_831D2980 + 0x1b8;
+            break;
+        }
+        self->alternate = 1 - self->alternate;
+        break;
+    case 1:
+    case 2: {
+        int index = fn_82399CB8(self->manager);
+        void *entry = (*self->manager->entries)[index];
+        if (fn_82397F88(self->manager)) {
+            State_8239FC88 *other = (self->manager->slots - index + 1)->first;
+            if (other->active != 0) {
+                fn_825604A0((Node_825604A0 *)other->action);
+                other->active = 0;
+            }
+        } else {
+            Config_8239FC88 *config = lbl_832975B0 ? lbl_832975B0 : fn_82250A18();
+            if (config->enabled != 0) {
+                int item = self->item;
+                unsigned int result = fn_82359558((int)self->manager, item);
+                if (fn_822AA770(entry) == result) {
+                    if (self->active != 1) {
+                        fn_825603C8(fn_824CCD80(item), self->action, 1);
+                        self->active = 1;
+                    }
+                } else if (self->active != 0) {
+                    fn_825604A0((Node_825604A0 *)self->action);
+                    self->active = 0;
+                }
+            }
+        }
+        break;
     }
-    goto LAB_8239fdf8;
-  }
-  if (param_2 != 3) goto LAB_8239fdf8;
-  iVar2 = *(int *)(param_1 + 0x298);
-  if (iVar2 == 0) {
-    puVar1 = &lbl_831D2B38;
-LAB_8239fcec:
-    *(unsigned char **)(param_1 + 0x280) = puVar1;
-  }
-  else if (iVar2 == 1) {
-    puVar1 = &lbl_831D2B80;
-    goto LAB_8239fcec;
-  }
-  *(int *)(param_1 + 0x298) = 1 - iVar2;
-LAB_8239fdf8:
-  *(unsigned int *)(param_1 + 0x28c) = param_2;
-  *(unsigned int *)(param_1 + 0x290) = ltcg_pool_0_0f;
-  uVar4 = *(unsigned int *)(param_1 + 0x288);
-  if ((int)*(unsigned int *)(param_1 + 0x288) < (int)param_3) {
-    uVar4 = param_3;
-  }
-  *(unsigned int *)(param_1 + 0x288) = uVar4;
-  return;
+    case 0:
+        priority = self->mode != 4 ? priority : 0;
+        break;
+    }
+    self->mode = mode;
+    self->elapsed = 0.0f;
+    self->priority = self->priority >= priority ? self->priority : priority;
 }
-

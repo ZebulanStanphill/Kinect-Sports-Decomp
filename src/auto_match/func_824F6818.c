@@ -1,241 +1,165 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern unsigned int *auStack_100;
-extern unsigned int *auStack_110;
-extern unsigned int *auStack_120;
-extern unsigned int *auStack_130;
-extern unsigned int *auStack_140;
-extern unsigned int *auStack_150;
-extern unsigned int *auStack_160;
-extern unsigned int *auStack_50;
-extern unsigned int *auStack_60;
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_80;
-extern unsigned int *auStack_90;
-extern unsigned int *auStack_a0;
-extern unsigned int *auStack_b0;
-extern unsigned int *auStack_c0;
-extern unsigned int *auStack_d0;
-extern unsigned int *auStack_e0;
-extern unsigned int *auStack_f0;
-extern unsigned int fStack_14c;
-extern unsigned int fStack_15c;
-extern unsigned int fStack_17c;
-extern unsigned int fStack_180;
-extern unsigned int fStack_18c;
-extern unsigned int fStack_190;
-extern int fn_82F4EBC0();
-extern int fn_82F50108();
-extern int fn_82F6A548();
-extern int fn_82F6A594();
-extern unsigned int lbl_8218EC08;
-extern unsigned int lbl_821914B0;
-extern unsigned int lbl_82193E2C;
-extern unsigned int lbl_82193E50;
-extern unsigned int lbl_821956BC;
-extern unsigned int ltcg_pool_0_0f;
-extern unsigned int lbl_831C3124;
-extern unsigned int lbl_831C3128;
-extern unsigned int lbl_831C312C;
-extern unsigned int lbl_831C3130;
-extern unsigned int lbl_831C3134;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+/* Tracks the two hands over the last four frames and turns their sideways motion into a steering
+   rate, which is integrated into a heading wrapped to [-pi, pi]. */
+typedef struct Steering_824F6818 {
+    char pad0[0x218];
+    float heading; /* 0x218 */
+    char pad21c[0x4];
+    float rate; /* 0x220 */
+    char pad224[0xc];
+    __vector4 rightHistory[4]; /* 0x230 */
+    __vector4 leftHistory[4];  /* 0x270 */
+    int rightIndex;            /* 0x2b0 */
+    int leftIndex;             /* 0x2b4 */
+} Steering_824F6818;
 
-void fn_824F6818(void)
+typedef struct Tuning_824F6818 {
+    float gain;       /* 0x00 */
+    float levelBand;  /* 0x04 */
+    float maxRate;    /* 0x08 */
+    float confidence; /* 0x0c */
+    float deadZone;   /* 0x10 */
+} Tuning_824F6818;
 
+extern Tuning_824F6818 lbl_831C3124;
+
+extern void *fn_82F4EBC0(unsigned char player);
+extern int fn_82F50108(void *skeleton, int joint, int space, __vector4 *position, __vector4 *velocity,
+                       __vector4 *raw, int flags);
+
+static __forceinline int NextIndex(int index)
 {
-  unsigned int *puVar1;
-  unsigned int *puVar2;
-  float fVar3;
-  float fVar4;
-  bool bVar5;
-  int in_r0;
-  int iVar8;
-  unsigned __int64 uVar6;
-  int iVar9;
-  int iVar10;
-  unsigned __int64 uVar7;
-  unsigned __int64 uVar11;
-  unsigned __int64 uVar12;
-  bool bVar13;
-  unsigned __int64 uVar14;
-  __int64 lVar15;
-  double dVar16;
-  double dVar17;
-  double dVar18;
-  double dVar19;
-  double dVar20;
-  unsigned int uVar21;
-  unsigned int uVar22;
-  unsigned int uVar23;
-  unsigned int uVar24;
-  unsigned int uVar25;
-  unsigned int uVar26;
-  unsigned int uVar27;
-  struct { float first; float second; } stack_pair_190;
-
-  float fStack_180;
-  float fStack_17c;
-  float afStack_170 [4];
-  unsigned char auStack_160 [4];
-  float fStack_15c;
-  unsigned char auStack_150 [4];
-  float fStack_14c;
-  unsigned char auStack_140 [16];
-  unsigned char auStack_130 [16];
-  unsigned char auStack_120 [16];
-  unsigned char auStack_110 [16];
-  unsigned char auStack_100 [16];
-  unsigned char auStack_f0 [16];
-  unsigned char auStack_e0 [16];
-  unsigned char auStack_d0 [16];
-  unsigned char auStack_c0 [16];
-  unsigned char auStack_b0 [16];
-  unsigned char auStack_a0 [16];
-  unsigned char auStack_90 [16];
-  unsigned char auStack_80 [16];
-  unsigned char auStack_70 [16];
-  unsigned char auStack_60 [16];
-  unsigned char auStack_50 [24];
-  
-  iVar8 = fn_82F6A548();
-  uVar6 = fn_82F4EBC0(0);
-  fn_82F50108(uVar6,0xb,2,auStack_80,auStack_120,auStack_a0,0);
-  fn_82F50108(uVar6,0x10,2,auStack_e0,auStack_140,auStack_100,0);
-  iVar9 = fn_82F50108(uVar6,10,2,&stack_pair_190.first,auStack_c0,auStack_60,0);
-  dVar18 = (double)(__int64)iVar9;
-  iVar9 = fn_82F50108(uVar6,0xf,2,&fStack_180,auStack_110,auStack_130,0);
-  dVar20 = (double)(__int64)iVar9;
-  iVar9 = fn_82F50108(uVar6,9,2,auStack_150,auStack_d0,auStack_f0,0);
-  dVar17 = (double)(__int64)iVar9;
-  iVar9 = fn_82F50108(uVar6,0xe,2,auStack_160,auStack_90,auStack_b0,0);
-  dVar19 = (double)(__int64)iVar9;
-  iVar10 = fn_82F50108(uVar6,2,2,afStack_170,auStack_50,auStack_70,0);
-  iVar9 = *(int *)(iVar8 + 0x2b0);
-  dVar16 = (double)lbl_831C3130;
-  if (iVar9 == -1) {
-    iVar9 = iVar8 + 0x270;
-    lVar15 = 4;
-    do {
-      puVar1 = (unsigned int *)((int)&stack_pair_190.first + in_r0 & 0xfffffff0);
-      uVar21 = puVar1[1];
-      uVar22 = puVar1[2];
-      uVar23 = puVar1[3];
-      puVar2 = (unsigned int *)((int)&fStack_180 + in_r0 & 0xfffffff0);
-      uVar24 = *puVar2;
-      uVar25 = puVar2[1];
-      uVar26 = puVar2[2];
-      uVar27 = puVar2[3];
-      puVar2 = (unsigned int *)(in_r0 + iVar9 & 0xfffffff0);
-      *puVar2 = *puVar1;
-      puVar2[1] = uVar21;
-      puVar2[2] = uVar22;
-      puVar2[3] = uVar23;
-      puVar1 = (unsigned int *)(iVar9 - 0x40U & 0xfffffff0);
-      *puVar1 = uVar24;
-      puVar1[1] = uVar25;
-      puVar1[2] = uVar26;
-      puVar1[3] = uVar27;
-      iVar9 = iVar9 + 0x10;
-      lVar15 = lVar15 + -1;
-    } while (lVar15 != 0);
-    *(unsigned int *)(iVar8 + 0x2b0) = 0;
-LAB_824f6a4c:
-    *(unsigned int *)(iVar8 + 0x2b4) = 0;
-  }
-  else {
-    if (dVar16 < dVar20) {
-      *(int *)(iVar8 + 0x2b0) = iVar9 + 1;
-      puVar1 = (unsigned int *)((int)&fStack_180 + in_r0 & 0xfffffff0);
-      uVar21 = puVar1[1];
-      uVar22 = puVar1[2];
-      uVar23 = puVar1[3];
-      puVar2 = (unsigned int *)((iVar9 + 0x23) * 0x10 + iVar8 & 0xfffffff0);
-      *puVar2 = *puVar1;
-      puVar2[1] = uVar21;
-      puVar2[2] = uVar22;
-      puVar2[3] = uVar23;
-    }
-    if (*(int *)(iVar8 + 0x2b0) == 4) {
-      *(unsigned int *)(iVar8 + 0x2b0) = 0;
-    }
-    if (dVar16 < dVar18) {
-      iVar9 = *(int *)(iVar8 + 0x2b4);
-      puVar1 = (unsigned int *)((int)&stack_pair_190.first + in_r0 & 0xfffffff0);
-      uVar21 = *puVar1;
-      uVar22 = puVar1[1];
-      uVar23 = puVar1[2];
-      uVar24 = puVar1[3];
-      *(int *)(iVar8 + 0x2b4) = iVar9 + 1;
-      puVar1 = (unsigned int *)(in_r0 + (iVar9 + 0x27) * 0x10 + iVar8 & 0xfffffff0);
-      *puVar1 = uVar21;
-      puVar1[1] = uVar22;
-      puVar1[2] = uVar23;
-      puVar1[3] = uVar24;
-    }
-    if (*(int *)(iVar8 + 0x2b4) == 4) goto LAB_824f6a4c;
-  }
-  uVar14 = (unsigned __int64)*(unsigned int *)(iVar8 + 0x2b0);
-  lVar15 = 3;
-  uVar12 = (unsigned __int64)*(unsigned int *)(iVar8 + 0x2b4);
-  fVar3 = ltcg_pool_0_0f;
-  fVar4 = ltcg_pool_0_0f;
-  do {
-    uVar7 = uVar14 + 0x23;
-    uVar11 = -(unsigned __int64)(uVar12 != 3) & uVar12 + 1;
-    uVar14 = -(unsigned __int64)(uVar14 != 3) & uVar14 + 1;
-    fVar4 = (*(float *)((int)((uVar14 + 0x23 & 0xffffffff) << 4) + iVar8) -
-            *(float *)((int)((uVar7 & 0xffffffff) << 4) + iVar8)) + fVar4;
-    fVar3 = (*(float *)((int)((uVar11 + 0x27 & 0xffffffff) << 4) + iVar8) -
-            *(float *)((int)((uVar12 + 0x27 & 0xffffffff) << 4) + iVar8)) + fVar3;
-    lVar15 = lVar15 + -1;
-    uVar12 = uVar11;
-  } while (lVar15 != 0);
-  bVar13 = false;
-  bVar5 = false;
-  fVar4 = fVar4 * lbl_8218EC08;
-  if (((((dVar16 < dVar20) && (dVar16 < dVar19)) && (dVar16 < (double)(__int64)iVar10)) &&
-      ((afStack_170[0] < fStack_180 && (-lbl_831C3128 < fStack_17c - fStack_15c)))) &&
-     (fStack_17c - fStack_15c < lbl_831C3128)) {
-    bVar13 = true;
-  }
-  if (((dVar16 < dVar18) && (dVar16 < dVar17)) &&
-     ((dVar16 < (double)(__int64)iVar10 &&
-      (((stack_pair_190.first < afStack_170[0] && (-lbl_831C3128 < stack_pair_190.second - fStack_14c)) &&
-       (stack_pair_190.second - fStack_14c < lbl_831C3128)))))) {
-    bVar5 = true;
-  }
-  if (bVar13) {
-    if (bVar5) {
-      *(float *)(iVar8 + 0x220) = ltcg_pool_0_0f;
-    }
-    else if (fVar4 < -lbl_831C3134) goto LAB_824f6be4;
-  }
-  else if ((bVar5) && (fVar4 = fVar3 * lbl_8218EC08, lbl_831C3134 < fVar3 * lbl_8218EC08)) {
-LAB_824f6be4:
-    *(float *)(iVar8 + 0x220) = -(fVar4 * lbl_831C3124);
-  }
-  fVar3 = lbl_831C312C;
-  if ((lbl_831C312C < *(float *)(iVar8 + 0x220)) ||
-     (fVar3 = -lbl_831C312C, *(float *)(iVar8 + 0x220) < fVar3)) {
-    *(float *)(iVar8 + 0x220) = fVar3;
-  }
-  fVar3 = *(float *)(iVar8 + 0x220) * lbl_821914B0;
-  *(float *)(iVar8 + 0x220) = fVar3;
-  fVar4 = lbl_82193E50;
-  fVar3 = *(float *)(iVar8 + 0x218) + fVar3;
-  *(float *)(iVar8 + 0x218) = fVar3;
-  if (fVar3 <= fVar4) {
-    if (lbl_821956BC <= fVar3) goto LAB_824f6c60;
-    fVar3 = fVar3 + lbl_82193E2C;
-  }
-  else {
-    fVar3 = fVar3 - lbl_82193E2C;
-  }
-  *(float *)(iVar8 + 0x218) = fVar3;
-LAB_824f6c60:
-  fn_82F6A594();
-  return;
+    index++;
+    if (index == 4)
+        index = 0;
+    return index;
 }
 
+void fn_824F6818(Steering_824F6818 *self)
+{
+    __vector4 leftHand;
+    __vector4 rightHand;
+    __vector4 spine;
+    __vector4 rightElbow;
+    __vector4 leftElbow;
+    __vector4 rightFootVelocity;
+    __vector4 rightHandRaw;
+    __vector4 leftFootVelocity;
+    __vector4 rightHandVelocity;
+    __vector4 rightFootRaw;
+    __vector4 leftElbowRaw;
+    __vector4 rightFoot;
+    __vector4 leftElbowVelocity;
+    __vector4 leftHandVelocity;
+    __vector4 rightElbowRaw;
+    __vector4 leftFootRaw;
+    __vector4 rightElbowVelocity;
+    __vector4 leftFoot;
+    __vector4 spineRaw;
+    __vector4 leftHandRaw;
+    __vector4 spineVelocity;
+    void *skeleton;
+    float leftHandSeen;
+    float rightHandSeen;
+    float leftElbowSeen;
+    float rightElbowSeen;
+    float spineSeen;
+    float rightMotion;
+    float leftMotion;
+    float difference;
+    float rate;
+    float confidence;
+    float levelBand;
+    int rightLevel;
+    int leftLevel;
+    int left;
+    int right;
+    int i;
+    __vector4 *slot;
+
+    skeleton = fn_82F4EBC0(0);
+    fn_82F50108(skeleton, 0xb, 2, &leftFoot, &leftFootVelocity, &leftFootRaw, 0);
+    fn_82F50108(skeleton, 0x10, 2, &rightFoot, &rightFootVelocity, &rightFootRaw, 0);
+    leftHandSeen = (float)fn_82F50108(skeleton, 0xa, 2, &leftHand, &leftHandVelocity, &leftHandRaw, 0);
+    rightHandSeen = (float)fn_82F50108(skeleton, 0xf, 2, &rightHand, &rightHandVelocity, &rightHandRaw, 0);
+    leftElbowSeen = (float)fn_82F50108(skeleton, 9, 2, &leftElbow, &leftElbowVelocity, &leftElbowRaw, 0);
+    rightElbowSeen =
+        (float)fn_82F50108(skeleton, 0xe, 2, &rightElbow, &rightElbowVelocity, &rightElbowRaw, 0);
+    spineSeen = (float)fn_82F50108(skeleton, 2, 2, &spine, &spineVelocity, &spineRaw, 0);
+    confidence = lbl_831C3124.confidence;
+    if (self->rightIndex == -1) {
+        for (i = 0; i < 4; i++) {
+            self->rightHistory[i] = rightHand;
+            self->leftHistory[i] = leftHand;
+        }
+        self->rightIndex = 0;
+        self->leftIndex = 0;
+    } else {
+        if (rightHandSeen > confidence) {
+            slot = &self->rightHistory[self->rightIndex++];
+            *slot = rightHand;
+        }
+        if (self->rightIndex == 4)
+            self->rightIndex = 0;
+        if (leftHandSeen > confidence) {
+            slot = &self->leftHistory[self->leftIndex++];
+            *slot = leftHand;
+        }
+        if (self->leftIndex == 4)
+            self->leftIndex = 0;
+    }
+    rightMotion = 0.0f;
+    leftMotion = 0.0f;
+    left = self->leftIndex;
+    right = self->rightIndex;
+    for (i = 0; i < 3; i++) {
+        int nextLeft = NextIndex(left);
+        int nextRight = NextIndex(right);
+
+        rightMotion +=
+            self->rightHistory[nextRight].vector4_f32[0] - self->rightHistory[right].vector4_f32[0];
+        leftMotion += self->leftHistory[nextLeft].vector4_f32[0] - self->leftHistory[left].vector4_f32[0];
+        right = nextRight;
+        left = nextLeft;
+    }
+    levelBand = lbl_831C3124.levelBand;
+    rightLevel = 0;
+    leftLevel = 0;
+    rightMotion *= 0.33333334f;
+    leftMotion *= 0.33333334f;
+    if (rightHandSeen > confidence && rightElbowSeen > confidence && spineSeen > confidence &&
+        spine.vector4_f32[0] < rightHand.vector4_f32[0]) {
+        difference = rightHand.vector4_f32[1] - rightElbow.vector4_f32[1];
+        if (difference > -levelBand && difference < levelBand)
+            rightLevel = 1;
+    }
+    if (leftHandSeen > confidence && leftElbowSeen > confidence && spineSeen > confidence &&
+        spine.vector4_f32[0] > leftHand.vector4_f32[0]) {
+        difference = leftHand.vector4_f32[1] - leftElbow.vector4_f32[1];
+        if (difference > -levelBand && difference < levelBand)
+            leftLevel = 1;
+    }
+    if (rightLevel) {
+        if (leftLevel)
+            self->rate = 0.0f;
+        else if (rightMotion < -lbl_831C3124.deadZone)
+            self->rate = -(rightMotion * lbl_831C3124.gain);
+    } else if (leftLevel) {
+        if (leftMotion > lbl_831C3124.deadZone)
+            self->rate = -(leftMotion * lbl_831C3124.gain);
+    }
+    if (self->rate > lbl_831C3124.maxRate)
+        self->rate = lbl_831C3124.maxRate;
+    else if (self->rate < -lbl_831C3124.maxRate)
+        self->rate = -lbl_831C3124.maxRate;
+    rate = self->rate * 0.95f;
+    self->rate = rate;
+    self->heading = self->heading + rate;
+    if (self->heading > 3.1415927f)
+        self->heading = self->heading - 6.2831855f;
+    else if (self->heading < -3.1415927f)
+        self->heading = self->heading + 6.2831855f;
+}

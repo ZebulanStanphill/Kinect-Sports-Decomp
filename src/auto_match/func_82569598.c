@@ -1,87 +1,126 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-extern int fn_82528948();
-extern int fn_8252D970();
-extern int fn_8257C8F0();
-extern int fn_8257CB40();
-extern int fn_825BC5E0();
-extern int XMemSet();
-extern unsigned int ltcg_pool_0_0f;
-extern float lbl_8327F894;
-extern unsigned int uStack_6c;
-extern unsigned int uStack_70;
-extern V16 vectorCompareEqualToFloatingPoint();
-extern void *memcpy(void *, const void *, unsigned int);
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct RenderState_82569598 {
+    char pad0[0x820];
+    float scale;
+    char pad824[0x14];
+    float paused; /* 0x838 */
+} RenderState_82569598;
 
-void fn_82569598(double param_1,int param_2,int param_3,unsigned __int64 param_4,unsigned __int64 param_5,
-                  unsigned __int64 param_6,unsigned __int64 param_7)
+typedef struct Mover_82569740 Mover_82569740;
 
+struct Mover_82569740 {
+    struct {
+        void *pad[5];
+        void (*update)(Mover_82569740 *, RenderState_82569598 *);
+    } *vt;
+
+    char pad4[0x9c];
+    __vector4 direction;
+    char padb0[0xc0];
+    int moving;
+    char pad174[0x9c8];
+    float elapsed; /* 0xb3c */
+    float speed;   /* 0xb40 */
+};
+
+typedef struct Item_82569598 {
+    char pad0[0x10];
+    Mover_82569740 *body; /* 0x10 */
+    void *timeline;       /* 0x14 */
+    int pad18;
+    int fixedDirection;
+    int fixedSpeed;
+    char pad24[0xc];
+} Item_82569598;
+
+typedef struct Event_82569898 {
+    int type;
+    int size;
+    float value;
+} Event_82569898;
+
+typedef struct Dispatcher_82569898 {
+    char pad0[0x78];
+    char queue[4];
+} Dispatcher_82569898;
+
+typedef struct World_82569598 {
+    char pad0[0x10];
+    __vector4 direction;
+    char pad20[0x40];
+    Dispatcher_82569898 **dispatcher;
+    char pad64[0x24];
+    float time;
+    float lastTime;
+    char pad90[0x44];
+    int itemCount;        /* 0xd4 */
+    Item_82569598 *items; /* 0xd8 */
+    char paddc[8];
+    char events[4];
+} World_82569598;
+
+extern void fn_82528948(Mover_82569740 *mover);
+extern void fn_8252D970(Mover_82569740 *mover, float dt);
+extern void fn_825BC5E0(World_82569598 *self, void *events, void *timeline, Mover_82569740 *mover, float time,
+                        float lastTime, int mode, int skip);
+extern void *XMemSet(void *dest, int c, unsigned long count);
+extern void fn_8257C8F0(Dispatcher_82569898 *dispatcher, Event_82569898 *event);
+extern void fn_8257CB40(void *queue, Event_82569898 *event, int flags);
+extern float lbl_8327F880[8];
+
+__vector4 __vpermwi(__vector4 v, int control);
+__vector4 __vcmpeqfpR(__vector4 a, __vector4 b, unsigned int *cr);
+
+static __forceinline int Vector3Equal(__vector4 a, __vector4 b)
 {
-  int *piVar1;
-  int iVar2;
-  unsigned int *puVar3;
-  unsigned int *puVar4;
-  unsigned __int64 in_r0;
-  int iVar5;
-  int iVar6;
-  int iVar7;
-  double dVar8;
-  double dVar9;
-  unsigned char in_vs44 [16];
-  unsigned char in_vs45 [16];
-  unsigned int uVar10;
-  unsigned int uVar11;
-  unsigned int uVar12;
-  unsigned int uStack_70;
-  unsigned int uStack_6c;
-  float afStack_68;
-  
-  iVar6 = 0;
-  if (0 < *(int *)(param_2 + 0xd4)) {
-    iVar7 = 0;
-    dVar9 = (double)ltcg_pool_0_0f;
-    do {
-      piVar1 = *(int **)(iVar7 + *(int *)(param_2 + 0xd8) + 0x10);
-      if (piVar1 != (int *)0x0) {
-        iVar5 = iVar7 + *(int *)(param_2 + 0xd8);
-        iVar2 = *(int *)(iVar5 + 0x14);
-        if (*(int *)(iVar5 + 0x1c) == 0) {
-          puVar3 = (unsigned int *)((int)in_r0 + param_2 + 0x10 & 0xfffffff0);
-          uVar10 = puVar3[1];
-          uVar11 = puVar3[2];
-          uVar12 = puVar3[3];{ V16 _vt0 = vectorCompareEqualToFloatingPoint(in_vs44,in_vs45); memcpy(in_vs45, &_vt0, 16); }
-          puVar4 = (unsigned int *)((int)piVar1 + (int)in_r0 + 0xa0 & 0xfffffff0);
-          *puVar4 = *puVar3;
-          puVar4[1] = uVar10;
-          puVar4[2] = uVar11;
-          puVar4[3] = uVar12;
-          piVar1[0x5c] = 0;
-          fn_82528948(piVar1);
-          fn_8252D970(param_1,piVar1);
-        }
-        if (iVar2 != 0) {
-          fn_825BC5E0((double)*(float *)(param_2 + 0x88),(double)*(float *)(param_2 + 0x8c),
-                            param_2,param_2 + 0xe4,iVar2,piVar1,param_6,param_7,0,0);
-        }
-        if (*(int *)(iVar7 + *(int *)(param_2 + 0xd8) + 0x20) == 0) {
-          dVar8 = dVar9;
-          if ((double)*(float *)(param_3 + 0x838) <= dVar9) {
-            dVar8 = (double)(*(float *)(param_3 + 0x820) * lbl_8327F894);
-          }
-          piVar1[0x2cf] = (int)(float)((double)(float)piVar1[0x2d0] * dVar8);
-          (**(int (***)())(*piVar1 + 0x14))(piVar1,param_3);
-        }
-      }
-      iVar6 = iVar6 + 1;
-      iVar7 = iVar7 + 0x30;
-    } while (iVar6 < *(int *)(param_2 + 0xd4));
-  }
-  XMemSet(&afStack_68,0,4);
-  afStack_68 = (float)param_1;
-  uStack_70 = 0x49;
-  uStack_6c = 0xc;
-  fn_8257C8F0(**(unsigned int **)(param_2 + 0x60),&uStack_70);
-  fn_8257CB40((unsigned __int64)**(unsigned int **)(param_2 + 0x60) + 0x78,&uStack_70,1);
-  return;
+    unsigned int cr = 0;
+
+    a = __vpermwi(a, 24);
+    b = __vpermwi(b, 24);
+    __vcmpeqfpR(a, b, &cr);
+    return (cr & 0x80) != 0;
 }
 
+void fn_82569598(World_82569598 *self, RenderState_82569598 *state, float dt)
+{
+    Event_82569898 event;
+    int i;
+
+    for (i = 0; i < self->itemCount; ++i) {
+        Mover_82569740 *body = self->items[i].body;
+        if (body != 0) {
+            void *timeline = self->items[i].timeline;
+            if (!self->items[i].fixedDirection) {
+                const __vector4 *direction = &self->direction;
+                if (!Vector3Equal(*direction, body->direction)) {
+                    body->direction = *direction;
+                    body->moving = 0;
+                    fn_82528948(body);
+                }
+                fn_8252D970(body, dt);
+            }
+            if (timeline != 0) {
+                fn_825BC5E0(self, self->events, timeline, body, self->time, self->lastTime, 0, 0);
+            }
+            if (!self->items[i].fixedSpeed) {
+                float factor;
+                if (state->paused > 0.0f) {
+                    factor = 0.0f;
+                } else {
+                    factor = state->scale * lbl_8327F880[5];
+                }
+                body->elapsed = body->speed * factor;
+                body->vt->update(body, state);
+            }
+        }
+    }
+    XMemSet(&event.value, 0, sizeof(event.value));
+    event.value = dt;
+    event.type = 0x49;
+    event.size = 0xc;
+    fn_8257C8F0(*self->dispatcher, &event);
+    fn_8257CB40((*self->dispatcher)->queue, &event, 1);
+}

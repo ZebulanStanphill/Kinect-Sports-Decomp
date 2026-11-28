@@ -1,73 +1,56 @@
-unsigned __int64 fn_82C180B8(int *param_1,__int64 param_2,unsigned short *param_3,unsigned __int64 param_4)
+typedef struct Codec_82C180B8 Codec_82C180B8;
 
+struct Codec_82C180B8 {
+    char pad00[0x58];
+    unsigned int stride;
+    char pad5c[0x12];
+    unsigned short format;
+    char pad70[0x198];
+    void (*Write)(int sample, unsigned char *output, Codec_82C180B8 *codec, int flag);
+    int (*Read)(const unsigned char *input, unsigned int stride, unsigned short format, int flag);
+};
+
+typedef struct State_82C180B8 {
+    Codec_82C180B8 *codec;
+    char pad04[0x154];
+    int *history;
+    char pad15c[0xc];
+    unsigned int channels;
+} State_82C180B8;
+
+int fn_82C180B8(State_82C180B8 *self, unsigned char *buffer, unsigned short *samples, unsigned int bytes)
 {
-  unsigned short uVar1;
-  int iVar2;
-  unsigned int uVar3;
-  int iVar4;
-  unsigned __int64 uVar5;
-  unsigned __int64 uVar6;
-  unsigned __int64 uVar7;
-  __int64 lVar8;
-  int iVar9;
-  int iVar10;
-  int iVar11;
-  int iVar12;
-  unsigned __int64 uVar13;
-  __int64 lVar14;
-  unsigned __int64 uVar15;
-  
-  iVar2 = *param_1;
-  uVar3 = param_1[0x5a];
-  uVar1 = *param_3;
-  trapWord(6,(unsigned __int64)uVar3,0);
-  trapWord(6,(unsigned __int64)*(unsigned int *)(iVar2 + 0x58),0);
-  if (((param_4 & 0xffffffff) / (unsigned __int64)*(unsigned int *)(iVar2 + 0x58)) / (unsigned __int64)uVar3 >> 1 <
-      (unsigned __int64)uVar1) {
-    uVar5 = 0xffffffff80070057;
-  }
-  else {
-    iVar12 = 0;
-    if (0 < (int)uVar3) {
-      iVar9 = 0;
-      iVar10 = ((unsigned int)uVar1 * 2 + -1) * uVar3;
-      iVar11 = (uVar1 - 1) * uVar3;
-      do {
-        iVar4 = *(int *)(iVar2 + 0x58);
-        lVar14 = (__int64)iVar11 * (__int64)iVar4 + param_2;
-        uVar15 = (__int64)iVar10 * (__int64)iVar4 + param_2;
-        uVar6 = (**(int (***)())(iVar2 + 0x20c))(lVar14,iVar4,*(unsigned short *)(iVar2 + 0x6e),0);
-        uVar13 = (__int64)(int)(iVar12 + uVar3) * (__int64)*(int *)(iVar2 + 0x58) + param_2;
-        uVar5 = uVar6;
-        uVar7 = uVar6;
-        if ((uVar13 & 0xffffffff) < (uVar15 & 0xffffffff)) {
-          do {
-            (**(int (***)())(iVar2 + 0x208))(uVar5,uVar15,iVar2,0);
-            lVar8 = (__int64)*(int *)(iVar2 + 0x58) * (__int64)(int)uVar3;
-            lVar14 = lVar14 - lVar8;
-            lVar8 = uVar15 - lVar8;
-            uVar7 = (**(int (***)())(iVar2 + 0x20c))
-                              (lVar14,*(int *)(iVar2 + 0x58),*(unsigned short *)(iVar2 + 0x6e),0);
-            (**(int (***)())(iVar2 + 0x208))
-                      ((__int64)((int)uVar5 >> 1) + (__int64)((int)uVar7 >> 1),lVar8,iVar2,0);
-            uVar15 = lVar8 - (__int64)(int)uVar3 * (__int64)*(int *)(iVar2 + 0x58);
-            uVar5 = uVar7;
-          } while ((uVar13 & 0xffffffff) < (uVar15 & 0xffffffff));
-        }
-        (**(int (***)())(iVar2 + 0x208))(uVar7,uVar15,iVar2,0);
-        (**(int (***)())(iVar2 + 0x208))
-                  ((__int64)(*(int *)(iVar9 + param_1[0x56]) >> 1) + (__int64)((int)uVar7 >> 1),
-                   uVar15 - (__int64)(int)uVar3 * (__int64)*(int *)(iVar2 + 0x58),iVar2,0);
-        iVar12 = iVar12 + 1;
-        iVar11 = iVar11 + 1;
-        iVar10 = iVar10 + 1;
-        *(int *)(iVar9 + param_1[0x56]) = (int)uVar6;
-        iVar9 = iVar9 + 4;
-      } while (iVar12 < (int)uVar3);
-    }
-    uVar5 = 0;
-    *param_3 = *param_3 << 1;
-  }
-  return uVar5;
-}
+    Codec_82C180B8 *codec = self->codec;
+    unsigned int channels = self->channels;
+    unsigned int count = *samples;
+    int i;
 
+    if ((bytes / codec->stride / channels >> 1) < count)
+        return 0x80070057;
+
+    for (i = 0; i < (int)channels; ++i) {
+        unsigned int stride = codec->stride;
+        unsigned char *input = buffer + ((count - 1) * channels + i) * stride;
+        unsigned char *output = buffer + ((count * 2 - 1) * channels + i) * stride;
+        int sample = codec->Read(input, stride, codec->format, 0);
+        unsigned char *limit = buffer + (i + channels) * codec->stride;
+        int last = sample;
+
+        while (output > limit) {
+            int previous;
+            codec->Write(sample, output, codec, 0);
+            stride = codec->stride;
+            previous = sample;
+            input -= channels * stride;
+            output -= channels * stride;
+            sample = codec->Read(input, stride, codec->format, 0);
+            codec->Write((previous >> 1) + (sample >> 1), output, codec, 0);
+            output -= channels * codec->stride;
+        }
+        codec->Write(sample, output, codec, 0);
+        codec->Write((self->history[i] >> 1) + (sample >> 1), output - channels * codec->stride, codec, 0);
+        self->history[i] = last;
+    }
+    *samples <<= 1;
+    return 0;
+}

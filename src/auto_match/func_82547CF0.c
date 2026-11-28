@@ -1,16 +1,11 @@
-unsigned int fn_82547CF0(unsigned int param_1,unsigned int param_2,int param_3,unsigned int param_4)
-
+unsigned int fn_82547CF0(unsigned int x, unsigned int y, unsigned int width, unsigned int pitch)
 {
-  int iVar1;
-  unsigned int uVar2;
-  
-  iVar1 = -(int)LZCOUNT(param_4);
-  uVar2 = (param_2 & 6) * 4 + (param_1 & 7) << (iVar1 + 0x1fU & 0x3f);
-  uVar2 = ((param_3 + 0x1fU >> 5) * (param_2 >> 5) + (param_1 >> 5) << (iVar1 + 0x26U & 0x3f)) +
-          ((param_2 & 1) * 8 + (uVar2 & 0xfffffff0)) * 2 + ((param_2 & 8) << (iVar1 + 0x22U & 0x3f))
-          + (uVar2 & 0xf);
-  return (((param_2 & 0x10) * 0x10 + (uVar2 & 0xfffffe00)) * 2 + (uVar2 & 0x1c0)) * 4 +
-         ((param_2 & 0x7ffffff8) * 2 + param_1 & 0x18) * 8 + (uVar2 & 0x3f) >>
-         (iVar1 + 0x1fU & 0x3f);
+    int logPitch = 31 - _CountLeadingZeros(pitch);
+    unsigned int micro = (((y & 6) << 2) + (x & 7)) << logPitch;
+    unsigned int macro = ((width + 31) >> 5) * (y >> 5) + (x >> 5);
+    unsigned int offset = (macro << (logPitch + 7)) + (((y & 1) << 3) + (micro & ~15u)) * 2 +
+                          ((y & 8) << (logPitch + 3)) + (micro & 15);
+    return (((y & 16) * 16 + (offset & ~511u)) * 2 + (offset & 448)) * 4 +
+               ((((y << 1) & 0xfffffff0u) + x) << 3 & 0xc0) + (offset & 63) >>
+           logPitch;
 }
-

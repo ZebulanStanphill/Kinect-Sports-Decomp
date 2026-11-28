@@ -1,210 +1,236 @@
-typedef unsigned char bool;
-#define false 0
-#define NAN(x) ((x) != (x))
-extern int fn_8229A000();
-extern int fn_8229AAF8();
-extern int fn_82359420();
-extern int fn_82359698();
-extern int fn_82408A28();
-extern int fn_82409010();
-extern int fn_82409400();
-extern int fn_8240ABB0();
-extern int fn_8240B0C8();
-extern int fn_8240C068();
-extern int fn_8240C1F0();
-extern int fn_8240C348();
-extern int fn_8240CC48();
-extern int fn_8240CF70();
-extern int fn_82456A08();
-extern int fn_82535298();
-extern int fn_82536288();
-extern unsigned int lbl_821922D0;
-extern unsigned int lbl_821954D8;
-extern unsigned int lbl_82195598;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
+extern double __fctid(double);
+extern double __fcfid(double);
 
+typedef union Timer_824085E0 {
+    float value;
+    unsigned int bits;
+} Timer_824085E0;
 
-void fn_824085E0(double param_1,int param_2)
+typedef struct Handle_824085E0 {
+    void *p;
+} Handle_824085E0;
 
+typedef struct Panel_824085E0 {
+    char pad00[0x68];
+    char hint[1]; /* 0x68 */
+} Panel_824085E0;
+
+typedef struct Screen_824085E0 {
+    char pad00[0xd4];
+    Panel_824085E0 *panel; /* 0xd4 */
+} Screen_824085E0;
+
+typedef struct Game_824085E0 {
+    int unk00;
+    Screen_824085E0 *screen; /* 0x04 */
+    char pad08[0x40 - 0x08];
+    int mode; /* 0x40 */
+    char pad44[0xe0 - 0x44];
+    int throwsDone; /* 0xe0 */
+    int throwsMax;  /* 0xe4 */
+    int padE8;
+    int multiplayer; /* 0xec */
+} Game_824085E0;
+
+typedef struct Info_824085E0 {
+    char pad000[0x7a0];
+    int swapped; /* 0x7a0 */
+} Info_824085E0;
+
+typedef struct Rules_824085E0 Rules_824085E0;
+
+typedef struct RulesVtable_824085E0 {
+    void *slot0;
+    Info_824085E0 *(*First)(Rules_824085E0 *self);  /* 0x04 */
+    Info_824085E0 *(*Second)(Rules_824085E0 *self); /* 0x08 */
+} RulesVtable_824085E0;
+
+struct Rules_824085E0 {
+    RulesVtable_824085E0 *vt; /* 0x00 */
+    char pad04[0x10 - 0x04];
+    float nearSpeed; /* 0x10 */
+    int useNear;     /* 0x14 */
+    char pad18[0x28 - 0x18];
+    float farSpeed; /* 0x28 */
+    int useFar;     /* 0x2c */
+};
+
+typedef struct Clock_824085E0 {
+    float time;  /* 0x00 */
+    float limit; /* 0x04 */
+} Clock_824085E0;
+
+typedef struct World_824085E0 {
+    char pad000[0x84c];
+    void *sounds; /* 0x84c */
+} World_824085E0;
+
+typedef struct Round_824085E0 {
+    char pad00[0x08];
+    void *countdown; /* 0x08 */
+    int unk0c;
+    Game_824085E0 *game;   /* 0x10 */
+    Rules_824085E0 *rules; /* 0x14 */
+    Clock_824085E0 clock;  /* 0x18 */
+    char pad20[0x30 - 0x20];
+    float tick; /* 0x30 */
+    int unk34;
+    void *wind; /* 0x38 */
+    char pad3c[0x48 - 0x3c];
+    Handle_824085E0 voice; /* 0x48 */
+    World_824085E0 *world; /* 0x4c */
+    unsigned int state;    /* 0x50 */
+    Timer_824085E0 delay;  /* 0x54 */
+} Round_824085E0;
+
+extern char lbl_83296BC0[];
+extern char lbl_83296BD0[];
+
+extern void fn_8229A000(char *hint);
+extern void fn_8229AAF8(Panel_824085E0 *panel);
+extern void fn_82359420(void *countdown, void **sounds, float dt, Handle_824085E0 *voice);
+extern void fn_82359698(void *countdown, int state);
+extern void fn_82408A28(Round_824085E0 *self, unsigned int state);
+extern void fn_82409010(Round_824085E0 *self, float dt);
+extern void fn_82409400(Round_824085E0 *self);
+extern void fn_8240ABB0(Clock_824085E0 *clock, float dt);
+extern unsigned int fn_8240B0C8(Clock_824085E0 *clock);
+extern void fn_8240C068(Game_824085E0 *game);
+extern void fn_8240C1F0(Game_824085E0 *game);
+extern void fn_8240C348(Game_824085E0 *game, Info_824085E0 *info);
+extern void fn_8240CC48(Game_824085E0 *game);
+extern int fn_8240CF70(Game_824085E0 *game);
+extern void fn_82456A08(void *wind, float speed);
+extern void *fn_82535298(Handle_824085E0 *h, void *ctx, void *a, void *b);
+extern void fn_82536288(Handle_824085E0 *h);
+
+static __forceinline float CountDown(Timer_824085E0 *timer, float dt)
 {
-  float fVar1;
-  float fVar2;
-  unsigned int uVar3;
-  int (**pcVar4)();
-  float fVar5;
-  float fVar6;
-  unsigned int uVar7;
-  int iVar8;
-  unsigned __int64 uVar9;
-  int *piVar10;
-  float *pfVar11;
-  bool bVar12;
-  double dVar13;
-  int aiStack_30 [6];
-  
-  fVar2 = ltcg_pool_0_0f;
-  uVar7 = *(unsigned int *)(param_2 + 0x50);
-  if (uVar7 == 0) {
-    if (*(int *)(param_2 + 0x54) == 0) {
-      return;
-    }
-    fVar1 = (float)((double)*(float *)(param_2 + 0x54) - param_1);
-    fVar5 = -fVar1;
-    fVar6 = ltcg_pool_0_0f;
-    if (*(float *)(&lbl_821954D8 +
-                  ((unsigned int)(unsigned char)((fVar5 < ltcg_pool_0_0f) << 2) |
-                  (unsigned int)(NAN(fVar5) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
-      fVar6 = fVar1;
-    }
-    *(float *)(param_2 + 0x54) = fVar6;
-    if (fVar6 != fVar2) {
-      return;
-    }
-    uVar9 = 1;
-LAB_82408a00:
-    fn_82408A28(param_2,uVar9);
-    return;
-  }
-  if (uVar7 != 1) {
-    if (uVar7 < 3) {
-      if (*(int *)(param_2 + 0x54) == 0) {
-        return;
-      }
-      fVar1 = (float)((double)*(float *)(param_2 + 0x54) - param_1);
-      fVar5 = -fVar1;
-      fVar6 = ltcg_pool_0_0f;
-      if (*(float *)(&lbl_821954D8 +
-                    ((unsigned int)(unsigned char)((fVar5 < ltcg_pool_0_0f) << 2) |
-                    (unsigned int)(NAN(fVar5) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
-        fVar6 = fVar1;
-      }
-      *(float *)(param_2 + 0x54) = fVar6;
-      if (fVar6 != fVar2) {
-        return;
-      }
-      fn_82359698(*(unsigned int *)(param_2 + 8),4);
-      fn_8229A000((unsigned __int64)*(unsigned int *)(*(int *)(*(int *)(param_2 + 0x10) + 4) + 0xd4) + 0x68);
-      return;
-    }
-    if (uVar7 != 3) {
-      return;
-    }
-    if (*(int *)(param_2 + 0x54) == 0) {
-      return;
-    }
-    fVar1 = (float)((double)*(float *)(param_2 + 0x54) - param_1);
-    fVar5 = -fVar1;
-    fVar6 = ltcg_pool_0_0f;
-    if (*(float *)(&lbl_821954D8 +
-                  ((unsigned int)(unsigned char)((fVar5 < ltcg_pool_0_0f) << 2) |
-                  (unsigned int)(NAN(fVar5) || NAN(ltcg_pool_0_0f)) << 2)) < 0.0) {
-      fVar6 = fVar1;
-    }
-    *(float *)(param_2 + 0x54) = fVar6;
-    if (fVar6 != fVar2) {
-      return;
-    }
-    uVar9 = 5;
-    if ((*(int *)(*(int *)(param_2 + 0x10) + 0xec) == 0) &&
-       (*(int *)(*(int *)(param_2 + 0x10) + 0x40) == 0)) {
-      uVar9 = 4;
-    }
-    fn_82359698(*(unsigned int *)(param_2 + 8),uVar9);
-    fn_8229AAF8(*(unsigned int *)(*(int *)(*(int *)(param_2 + 0x10) + 4) + 0xd4));
-    return;
-  }
-  pfVar11 = (float *)(param_2 + 0x18);
-  if (lbl_821CA460 < *(float *)(param_2 + 0x1c) - *(float *)(param_2 + 0x18)) {
-    fn_8229A000((unsigned __int64)*(unsigned int *)(*(int *)(*(int *)(param_2 + 0x10) + 4) + 0xd4) + 0x68);
-  }
-  iVar8 = *(int *)(*(int *)(param_2 + 0x10) + 0x40);
-  if ((iVar8 == 2) || (iVar8 == 6)) {
-    uVar9 = 3;
-    goto LAB_82408a00;
-  }
-  dVar13 = (double)*pfVar11;
-  fn_8240ABB0(param_1,pfVar11);
-  fn_82409400(param_2);
-  uVar7 = fn_8240B0C8(pfVar11);
-  if (uVar7 == 0) {
-    fn_8240CC48(*(unsigned int *)(param_2 + 0x10));
-    if ((*(int *)(*(int *)(param_2 + 0x10) + 0xec) == 0) ||
-       (iVar8 = fn_8240CF70(), iVar8 == 0)) {
-      if (((double)*pfVar11 <= (double)(__int64)(dVar13 - lbl_82195598)) &&
-         (((float)(__int64)(dVar13 - lbl_82195598) <= lbl_821922D0 && (dVar13 != (double)*pfVar11))
-         )) {
-        piVar10 = (int *)(param_2 + 0x48);
-        if (piVar10 == (int *)0x0) {
-          bVar12 = false;
-        }
-        else {
-          bVar12 = *piVar10 != 0;
-        }
-        if (bVar12) {
-          aiStack_30[0] = *piVar10;
-          aiStack_30[0] =
-               fn_82535298(aiStack_30,*(unsigned int *)(*(int *)(param_2 + 0x4c) + 0x84c),
-                                 0xffffffff83296bc0,0xffffffff83296bd0);
-          fn_82536288(aiStack_30);
-        }
-      }
-    }
-    else {
-      fn_82359420((double)*(float *)(param_2 + 0x30),*(unsigned int *)(param_2 + 8),
-                        (unsigned __int64)*(unsigned int *)(param_2 + 0x4c) + 0x84c);
-    }
-    iVar8 = *(int *)(param_2 + 0x14);
-    if (*(int *)(iVar8 + 0x14) == 0) {
-      if (*(int *)(iVar8 + 0x2c) == 0) goto LAB_82408990;
-      fVar2 = *(float *)(iVar8 + 0x28);
-    }
-    else {
-      fVar2 = *(float *)(iVar8 + 0x10);
-    }
-    fn_82456A08((double)fVar2,*(unsigned int *)(param_2 + 0x38));
-    goto LAB_82408990;
-  }
-  if (uVar7 == 1) {
-    iVar8 = *(int *)(param_2 + 0x10);
-    if (*(int *)(iVar8 + 0xe0) == *(int *)(iVar8 + 0xe4)) {
-      if (*(int *)(iVar8 + 0xec) == 0) {
-        fn_8240C068();
-      }
-      else {
-        fn_8240C1F0();
-      }
-      goto LAB_8240882c;
-    }
-    uVar9 = 2;
-  }
-  else {
-    if (2 < uVar7) goto LAB_82408990;
-    iVar8 = (**(int (***)())(**(int **)(param_2 + 0x14) + 4))();
-    uVar3 = *(unsigned int *)(param_2 + 0x10);
-    if (*(int *)(iVar8 + 0x7a0) == 0) {
-      pcVar4 = *(int (***)())(**(int **)(param_2 + 0x14) + 4);
-    }
-    else {
-      pcVar4 = *(int (***)())(**(int **)(param_2 + 0x14) + 8);
-    }
-    uVar9 = (*pcVar4)();
-    fn_8240C348(uVar3,uVar9);
-    iVar8 = *(int *)(param_2 + 0x14);
-    if (*(int *)(iVar8 + 0x14) == 0) {
-      if (*(int *)(iVar8 + 0x2c) == 0) goto LAB_8240882c;
-      fVar2 = *(float *)(iVar8 + 0x28);
-    }
-    else {
-      fVar2 = *(float *)(iVar8 + 0x10);
-    }
-    fn_82456A08((double)fVar2,*(unsigned int *)(param_2 + 0x38));
-LAB_8240882c:
-    uVar9 = 3;
-  }
-  fn_82408A28(param_2,uVar9);
-LAB_82408990:
-  fn_82409010(param_1,param_2);
-  return;
+    float value = timer->value - dt;
+
+    value = -value >= 0.0f ? 0.0f : value;
+    timer->value = value;
+    return value;
 }
 
+static __forceinline float RoundDown(float value)
+{
+    return (float)__fcfid(__fctid(value - 0.49999999));
+}
+
+static __forceinline int IsValid(const Handle_824085E0 *handle)
+{
+    return handle != 0 ? handle->p != 0 : 0;
+}
+
+static __forceinline void UpdateWind(Round_824085E0 *self)
+{
+    Rules_824085E0 *rules = self->rules;
+    float speed;
+
+    if (rules->useNear != 0) {
+        speed = rules->nearSpeed;
+    } else if (rules->useFar != 0) {
+        speed = rules->farSpeed;
+    } else {
+        return;
+    }
+    fn_82456A08(self->wind, speed);
+}
+
+void fn_824085E0(Round_824085E0 *self, float dt)
+{
+    Clock_824085E0 *clock;
+    Game_824085E0 *game;
+    Info_824085E0 *info;
+    Handle_824085E0 voice;
+    float before;
+    int mode;
+    int next;
+
+    switch (self->state) {
+    case 3:
+        if (self->delay.bits != 0) {
+            if (CountDown(&self->delay, dt) == 0.0f) {
+                game = self->game;
+                next = 5;
+                if (game->multiplayer == 0 && game->mode == 0) {
+                    next = 4;
+                }
+                fn_82359698(self->countdown, next);
+                fn_8229AAF8(self->game->screen->panel);
+            }
+        }
+        break;
+    case 2:
+        if (self->delay.bits != 0) {
+            if (CountDown(&self->delay, dt) == 0.0f) {
+                fn_82359698(self->countdown, 4);
+                fn_8229A000(self->game->screen->panel->hint);
+            }
+        }
+        break;
+    case 1:
+        clock = &self->clock;
+        if (self->clock.limit - self->clock.time > 1.0f) {
+            fn_8229A000(self->game->screen->panel->hint);
+        }
+        mode = self->game->mode;
+        if (mode == 2 || mode == 6) {
+            fn_82408A28(self, 3);
+            break;
+        }
+        before = clock->time;
+        fn_8240ABB0(clock, dt);
+        fn_82409400(self);
+        switch (fn_8240B0C8(clock)) {
+        case 2:
+            info = self->rules->vt->First(self->rules);
+            game = self->game;
+            fn_8240C348(game, info->swapped != 0 ? self->rules->vt->Second(self->rules)
+                                                 : self->rules->vt->First(self->rules));
+            UpdateWind(self);
+            next = 3;
+            goto change;
+        case 1:
+            game = self->game;
+            if (game->throwsDone == game->throwsMax) {
+                if (game->multiplayer != 0) {
+                    fn_8240C1F0(game);
+                } else {
+                    fn_8240C068(game);
+                }
+                next = 3;
+            } else {
+                next = 2;
+            }
+        change:
+            fn_82408A28(self, next);
+            break;
+        case 0:
+            fn_8240CC48(self->game);
+            game = self->game;
+            if (game->multiplayer != 0 && fn_8240CF70(game) != 0) {
+                fn_82359420(self->countdown, &self->world->sounds, self->tick, &self->voice);
+            } else if (clock->time <= RoundDown(before) && RoundDown(before) <= 10.0f &&
+                       before != clock->time) {
+                if (IsValid(&self->voice)) {
+                    voice = self->voice;
+                    voice.p = fn_82535298(&voice, self->world->sounds, lbl_83296BC0, lbl_83296BD0);
+                    fn_82536288(&voice);
+                }
+            }
+            UpdateWind(self);
+            break;
+        }
+        fn_82409010(self, dt);
+        break;
+    case 0:
+        if (self->delay.bits != 0) {
+            if (CountDown(&self->delay, dt) == 0.0f) {
+                fn_82408A28(self, 1);
+            }
+        }
+        break;
+    }
+}

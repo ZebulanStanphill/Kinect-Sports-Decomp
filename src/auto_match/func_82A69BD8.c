@@ -1,70 +1,69 @@
-extern unsigned int *auStack_3e;
-extern int fn_82A6E290();
+typedef struct Timeline_82A69BD8 {
+    short count;
+    char pad2[6];
+    short *positions;
+} Timeline_82A69BD8;
 
+typedef struct Track_82A69BD8 {
+    char pad0[0x1a8];
+    Timeline_82A69BD8 *timeline;
+    char pad1ac[0x6f0 - 0x1ac];
+} Track_82A69BD8;
 
-void fn_82A69BD8(int param_1,int *param_2)
+typedef struct Tracks_82A69BD8 {
+    char pad0[0x22];
+    unsigned short count;
+    char pad24[0x18];
+    int mode;
+    char pad40[0x100];
+    Track_82A69BD8 *tracks;
+    char pad144[0x40];
+    int offset;
+    char pad188[0x34];
+    int shiftRight;
+    int shiftLeft;
+    int pad1c4;
+    int shift;
+    char pad1cc[8];
+    int end;
+} Tracks_82A69BD8;
 
+extern void fn_82A6E290(Tracks_82A69BD8 *self, int mode, short a, short b, short c, short *x, short *y);
+
+void fn_82A69BD8(Tracks_82A69BD8 *self, int *out)
 {
-  short *psVar1;
-  unsigned int uVar2;
-  int iVar3;
-  short sVar5;
-  int iVar4;
-  int iVar6;
-  int iVar7;
-  int iVar8;
-  unsigned int uVar9;
-  short sStack_40;
-  unsigned char auStack_3e [1];
-  
-  iVar7 = 0x7fff;
-  iVar6 = 0;
-  if (*(short *)(param_1 + 0x22) != 0) {
-    uVar2 = *(unsigned int *)(param_1 + 0x1d4);
-    iVar8 = 0;
-    iVar7 = 0x7fff;
-    do {
-      iVar3 = *(int *)(param_1 + 0x140) + iVar8;
-      psVar1 = *(short **)(iVar3 + 0x1a8);
-      iVar4 = *psVar1 * 2;
-      sVar5 = *(short *)(*(int *)(psVar1 + 4) + iVar4 + -2);
-      uVar9 = (unsigned int)sVar5;
-      if (*(int *)(param_1 + 0x1bc) == 0) {
-        if (*(int *)(param_1 + 0x1c0) != 0) {
-          uVar9 = (int)sVar5 << (*(unsigned int *)(param_1 + 0x1c8) & 0x3f);
-        }
-      }
-      else {
-        uVar9 = (int)sVar5 >> (*(unsigned int *)(param_1 + 0x1c8) & 0x3f);
-      }
-      if (*(int *)(param_1 + 0x3c) < 3) {
-        sVar5 = *(short *)(*(int *)(*(int *)(iVar3 + 0x1a8) + 8) + iVar4);
-        if (*(int *)(param_1 + 0x1bc) == 0) {
-          if (*(int *)(param_1 + 0x1c0) != 0) {
-            sVar5 = (short)((int)sVar5 << (*(unsigned int *)(param_1 + 0x1c8) & 0x3f));
-          }
-        }
-        else {
-          sVar5 = (short)((int)sVar5 >> (*(unsigned int *)(param_1 + 0x1c8) & 0x3f));
-        }
-        fn_82A6E290(param_1,1,(short)uVar9,sVar5,(short)uVar9,&sStack_40,auStack_3e);
-        uVar9 = uVar9 * 3;
-        uVar2 = *(unsigned int *)(param_1 + 0x1d4);
-        iVar4 = ((int)sStack_40 - (((int)uVar9 >> 1) + (unsigned int)((int)uVar9 < 0 && (uVar9 & 1) != 0)))
-                + uVar2;
-      }
-      else {
-        iVar4 = uVar2 - (((int)uVar9 >> 1) + (unsigned int)((int)uVar9 < 0 && (uVar9 & 1) != 0));
-      }
-      iVar4 = ((int)uVar2 >> 1) + (unsigned int)((int)uVar2 < 0 && (uVar2 & 1) != 0) + iVar4;
-      if (iVar4 < iVar7) {
-        iVar7 = iVar4;
-      }
-      iVar6 = iVar6 + 1;
-      iVar8 = iVar8 + 0x6f0;
-    } while (iVar6 < (int)(unsigned int)*(unsigned short *)(param_1 + 0x22));
-  }
-  *param_2 = iVar7 - *(int *)(param_1 + 0x184);
-  return;
-}
+    int minimum = 0x7fff;
+    int i;
 
+    for (i = 0; i < self->count; ++i) {
+        Track_82A69BD8 *track = &self->tracks[i];
+        int shiftRight = self->shiftRight;
+        int count = track->timeline->count;
+        int before = track->timeline->positions[count - 1];
+        int candidate;
+
+        if (shiftRight) {
+            before >>= self->shift;
+        } else if (self->shiftLeft) {
+            before <<= self->shift;
+        }
+        if (self->mode <= 2) {
+            int after = track->timeline->positions[count];
+            short x, y;
+            if (shiftRight) {
+                after >>= self->shift;
+            } else if (self->shiftLeft) {
+                after <<= self->shift;
+            }
+            fn_82A6E290(self, 1, (short)before, (short)after, (short)before, &x, &y);
+            candidate = x - (before * 3) / 2 + self->end;
+        } else {
+            candidate = self->end - before / 2;
+        }
+        candidate += self->end / 2;
+        if (candidate < minimum) {
+            minimum = candidate;
+        }
+    }
+    *out = minimum - self->offset;
+}

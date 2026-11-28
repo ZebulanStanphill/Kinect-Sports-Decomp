@@ -1,72 +1,56 @@
-extern unsigned int *auStack_70;
-extern unsigned int *auStack_80;
-extern unsigned int *auStack_90;
-extern int fn_82F6A544();
-extern int fn_82F6A590();
-extern int fn_8306ED08();
-extern int fn_8306ED98();
-extern int fn_8306EDB0();
-extern int fn_83075D30();
-extern int fn_83075D40();
-extern int fn_83075D90();
-extern unsigned int lbl_82002C5C;
-extern unsigned int lbl_82021538;
-extern unsigned int lbl_8207F4E8;
-extern unsigned int lbl_82186DD0;
-extern unsigned int lbl_821AAD20;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vsubfp(__vector4 a, __vector4 b);
 
-void fn_83073720(unsigned __int64 param_1,unsigned __int64 param_2)
+typedef struct Limb_83073720 {
+    int end;    /* 0x00 */
+    int middle; /* 0x04 */
+    int joint;  /* 0x08 */
+    int root;   /* 0x0c */
+    int pad10[5];
+} Limb_83073720;
 
+extern const Limb_83073720 lbl_82186DC8[2];
+
+extern float fn_83075D40(int joints, int index);
+extern void fn_83075D30(__vector4 *out, void *joints, int index);
+extern void fn_83075D90(int joints, int index, float value);
+extern __vector4 fn_8306EDB0(__vector4 v);
+extern float fn_8306ED98(__vector4 a, __vector4 b);
+extern __vector4 fn_8306ED08(void);
+
+void fn_83073720(void *self, int joints)
 {
-  __int64 lVar1;
-  unsigned int *puVar2;
-  double dVar3;
-  double dVar4;
-  double dVar5;
-  double dVar6;
-  double dVar7;
-  double dVar8;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs42 [16];
-  unsigned char in_vs43 [16];
-  unsigned char auStack_90 [16];
-  unsigned char auStack_80 [16];
-  unsigned char auStack_70 [112];
-  
-  fn_82F6A544();
-  puVar2 = &lbl_82186DD0;
-  dVar7 = (double)lbl_8207F4E8;
-  dVar6 = (double)lbl_82021538;
-  lVar1 = 2;
-  dVar5 = (double)lbl_821AAD20;
-  dVar8 = (double)lbl_82002C5C;
-  do {
-    dVar3 = (double)fn_83075D40(param_2,*puVar2);
-    dVar4 = (double)fn_83075D40(param_2,puVar2[-1]);
-    if ((dVar3 < dVar8) || (dVar4 < dVar8)) {
-      fn_83075D30(auStack_80,param_2,puVar2[1]);
-      fn_83075D30(auStack_90,param_2,*puVar2);
-      fn_83075D30(auStack_70,param_2,puVar2[-1]);
-      altv207_13(in_vs32,in_vs43);
-      altv207_13(in_vs32,in_vs42);
-      fn_8306EDB0();
-      altv207_13(in_vs32,in_vs43);
-      altv207_13(in_vs32,in_vs42);
-      fn_8306EDB0();
-      dVar3 = (double)fn_8306ED98();
-      fn_8306ED08();
-      dVar4 = (double)fn_8306ED98();
-      if ((dVar6 < dVar3) && (dVar4 < dVar8)) {
-        fn_83075D90(dVar7,param_2,*puVar2);
-        fn_83075D90(dVar7,param_2,puVar2[-1]);
-        fn_83075D90(dVar5,param_2,puVar2[-2]);
-      }
-    }
-    lVar1 = lVar1 + -1;
-    puVar2 = puVar2 + 9;
-  } while (lVar1 != 0);
-  fn_82F6A590();
-  return;
-}
+    const Limb_83073720 *limb = lbl_82186DC8;
+    int i;
 
+    for (i = 0; i < 2; i++, limb++) {
+        float jointConfidence = fn_83075D40(joints, limb->joint);
+        float middleConfidence = fn_83075D40(joints, limb->middle);
+
+        if (jointConfidence < 0.5f || middleConfidence < 0.5f) {
+            __vector4 jointPosition;
+            __vector4 rootPosition;
+            __vector4 middlePosition;
+            __vector4 upper;
+            __vector4 lower;
+            float bend;
+            float lift;
+
+            fn_83075D30(&rootPosition, (void *)joints, limb->root);
+            fn_83075D30(&jointPosition, (void *)joints, limb->joint);
+            fn_83075D30(&middlePosition, (void *)joints, limb->middle);
+            upper = fn_8306EDB0(__vsubfp(jointPosition, rootPosition));
+            lower = fn_8306EDB0(__vsubfp(middlePosition, jointPosition));
+            bend = fn_8306ED98(upper, lower);
+            lift = fn_8306ED98(upper, fn_8306ED08());
+            if (bend > 0.95f && lift < 0.5f) {
+                fn_83075D90(joints, limb->joint, 0.85f);
+                fn_83075D90(joints, limb->middle, 0.85f);
+                fn_83075D90(joints, limb->end, 0.0f);
+            }
+        }
+    }
+}

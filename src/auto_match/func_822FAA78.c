@@ -1,53 +1,71 @@
-extern int fn_822ABA88();
-extern unsigned int lbl_82192734;
-extern float lbl_831CC9B4;
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+typedef struct Source_822FAA78 Source_822FAA78;
+typedef struct Lookup_822FAA78 Lookup_822FAA78;
 
-void fn_822FAA78(double param_1,int param_2)
+typedef struct Item_822FAA78 {
+    char pad[0x80];
+    __vector4 value;
+} Item_822FAA78;
 
+typedef struct SourceVtable_822FAA78 {
+    void *pad[7];
+    unsigned int (*GetKey)(Source_822FAA78 *self);
+} SourceVtable_822FAA78;
+
+struct Source_822FAA78 {
+    SourceVtable_822FAA78 *vtable;
+};
+
+typedef struct Group_822FAA78 {
+    Lookup_822FAA78 **items;
+    char pad[0xc];
+    int selected;
+} Group_822FAA78;
+
+typedef struct Owner_822FAA78 {
+    char pad00[8];
+    Group_822FAA78 ***groups;
+    char pad0c[0x2d4];
+    Source_822FAA78 *source;
+} Owner_822FAA78;
+
+typedef struct Mode_822FAA78 {
+    char pad[0x2c];
+    int active;
+} Mode_822FAA78;
+
+typedef struct State_822FAA78 {
+    char pad00[4];
+    Owner_822FAA78 *owner;
+    Mode_822FAA78 *mode;
+    char pad0c[0x10];
+    float value;
+} State_822FAA78;
+
+extern const float lbl_82192730[7];
+extern float lbl_831CC9A8[];
+extern Item_822FAA78 *fn_822ABA88(Lookup_822FAA78 *lookup, unsigned int key);
+
+static __forceinline float GetX(__vector4 v)
 {
-  float fVar1;
-  int iVar2;
-  int *piVar3;
-  unsigned int *puVar4;
-  unsigned int *puVar5;
-  int in_r0;
-  unsigned __int64 uVar6;
-  int iVar7;
-  unsigned int uVar8;
-  unsigned int uVar9;
-  unsigned int uVar10;
-  float afStack_30 [6];
-  
-  piVar3 = *(int **)(((unsigned int)((unsigned __int64)LZCOUNT(*(unsigned int *)(*(int *)(param_2 + 8) + 0x2c)) >> 3)
-                     & 4) + **(int **)(*(int *)(param_2 + 4) + 8));
-  uVar6 = (**(int (***)())(**(int **)(*(int *)(param_2 + 4) + 0x2e0) + 0x1c))();
-  iVar7 = fn_822ABA88(*(unsigned int *)(piVar3[4] * 4 + *piVar3),uVar6);
-  iVar2 = *(int *)(*(int *)(param_2 + 8) + 0x2c);
-  puVar4 = (unsigned int *)(iVar7 + 0x80U & 0xfffffff0);
-  uVar8 = puVar4[1];
-  uVar9 = puVar4[2];
-  uVar10 = puVar4[3];
-  puVar5 = (unsigned int *)((int)afStack_30 + in_r0 & 0xfffffff0);
-  *puVar5 = *puVar4;
-  puVar5[1] = uVar8;
-  puVar5[2] = uVar9;
-  puVar5[3] = uVar10;
-  if (iVar2 == 0) {
-    afStack_30[0] = afStack_30[0] * lbl_82192734;
-  }
-  fVar1 = *(float *)(param_2 + 0x1c);
-  puVar4 = (unsigned int *)((int)afStack_30 + in_r0 & 0xfffffff0);
-  uVar8 = puVar4[1];
-  uVar9 = puVar4[2];
-  uVar10 = puVar4[3];
-  puVar5 = (unsigned int *)((int)afStack_30 + in_r0 & 0xfffffff0);
-  *puVar5 = *puVar4;
-  puVar5[1] = uVar8;
-  puVar5[2] = uVar9;
-  puVar5[3] = uVar10;
-  *(float *)(param_2 + 0x1c) =
-       (float)((double)afStack_30[0] * param_1 + (double)fVar1) * lbl_831CC9B4;
-  return;
+    return v.vector4_f32[0];
 }
 
+void fn_822FAA78(State_822FAA78 *self, float time)
+{
+    Owner_822FAA78 *owner = self->owner;
+    Mode_822FAA78 *mode = self->mode;
+    Source_822FAA78 *source = owner->source;
+    Group_822FAA78 *group = (*owner->groups)[mode->active == 0];
+    unsigned int key = source->vtable->GetKey(source);
+    __vector4 v = fn_822ABA88(group->items[group->selected], key)->value;
+    if (self->mode->active == 0) {
+        float scale = lbl_82192730[1];
+        v.vector4_f32[0] *= scale;
+        v.vector4_f32[2] *= scale;
+    }
+    self->value = (self->value + GetX(v) * time) * lbl_831CC9A8[3];
+}

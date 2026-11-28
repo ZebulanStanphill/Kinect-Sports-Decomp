@@ -1,103 +1,133 @@
-extern int fn_82273C88();
-extern int fn_82273CD8();
-extern int fn_82672C20();
-extern float lbl_821954D4;
-extern float lbl_821954E8;
-extern unsigned int lbl_821CA460;
+/* Chooses the commentary line for a bowling throw result; a few results pick one of several
+   lines at random, and a strike-like result also tells the HUD how many pins fell. */
+typedef struct Value_824264F0 {
+    int unused0; /* 0x00 */
+    int type;    /* 0x04 */
+
+    union {
+        void *pointer;
+        double number;
+    } u; /* 0x08 */
+} Value_824264F0;
+
+typedef struct Hud_824264F0 {
+    int unused0;
+    int movie; /* 0x04 */
+} Hud_824264F0;
+
+typedef struct Game_824264F0 {
+    char pad0000[0x2b20];
+    void *localTeam; /* 0x2b20 */
+    char pad2b24[0x84];
+    Hud_824264F0 *hud; /* 0x2ba8 */
+} Game_824264F0;
+
+typedef struct Self_824264F0 {
+    int unused0;
+    void *team;          /* 0x04 */
+    Game_824264F0 *game; /* 0x08 */
+} Self_824264F0;
+
+typedef struct Throw_824264F0 {
+    char pad00[0x14];
+    unsigned int frame; /* 0x14 */
+} Throw_824264F0;
+
+extern void fn_82273CD8(Value_824264F0 *value, int type);
+extern void fn_82273C88(Value_824264F0 *value);
+extern void fn_82672C20(int movie, const char *path, Value_824264F0 *args, int count);
 extern unsigned int lbl_83265A28;
-extern unsigned int uStack_2c;
-extern unsigned int uStack_30;
+extern int lbl_831E4884[3];
+extern int lbl_831E4890[2];
+extern int lbl_831E4898[2];
+extern int lbl_831E48A0[3];
+extern int lbl_831E48AC[2];
+extern int lbl_831E48B4[2];
+extern int lbl_831E48BC[3];
+extern int lbl_831E48C8[3];
 
-
-void fn_824264F0(int param_1,int param_2,unsigned char param_3,unsigned int param_4,unsigned int *param_5,
-                  unsigned int *param_6)
-
+static __forceinline float Random(void)
 {
-  int iVar1;
-  int iVar2;
-  unsigned int uVar3;
-  unsigned int uStack_30;
-  unsigned int uStack_2c;
-  double dStack_28;
-  
-  *param_6 = 0;
-  *param_5 = 0x1e;
-  switch(param_4) {
-  case 2:
-  case 3:
-  case 5:
+    union {
+        unsigned int bits;
+        float f;
+    } u;
+
     lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
-    iVar2 = -0x7ce1b77c;
-    iVar1 = (int)(((float)(lbl_83265A28 & 0x7fffff | 0x3f800000) - lbl_821CA460) * lbl_821954D4);
-    break;
-  case 4:
-    lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
-    iVar2 = -0x7ce1b770;
-    iVar1 = (int)(((float)(lbl_83265A28 & 0x7fffff | 0x3f800000) - lbl_821CA460) * lbl_821954E8);
-    break;
-  case 6:
-  case 7:
-    lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
-    iVar2 = -0x7ce1b768;
-    iVar1 = (int)(((float)(lbl_83265A28 & 0x7fffff | 0x3f800000) - lbl_821CA460) * lbl_821954E8);
-    break;
-  case 8:
-  case 0xb:
-  case 0xd:
-    if ((*(int *)(param_1 + 4) == *(int *)(*(int *)(param_1 + 8) + 0x2b20)) &&
-       (iVar1 = *(int *)(*(int *)(param_1 + 8) + 0x2ba8), *(int *)(iVar1 + 4) != 0)) {
-      uStack_30 = 0;
-      uStack_2c = 0;
-      fn_82273CD8(&uStack_30,3);
-      dStack_28 = (double)param_3;
-      fn_82672C20(*(unsigned int *)(iVar1 + 4),0xffffffff821ac0a4,&uStack_30,1);
-      fn_82273C88(&uStack_30);
-    }
-    uVar3 = 0x1a;
-    goto LAB_82426948;
-  case 9:
-    iVar1 = *(int *)(param_2 + 0x14);
-    if (iVar1 == 1) {
-      lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
-      iVar2 = -0x7ce1b760;
-      iVar1 = (int)(((float)(lbl_83265A28 & 0x7fffff | 0x3f800000) - lbl_821CA460) * lbl_821954D4);
-    }
-    else if (iVar1 == 2) {
-      lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
-      iVar2 = -0x7ce1b754;
-      iVar1 = (int)(((float)(lbl_83265A28 & 0x7fffff | 0x3f800000) - lbl_821CA460) * lbl_821954E8);
-    }
-    else if (iVar1 == 3) {
-      lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
-      iVar2 = -0x7ce1b74c;
-      iVar1 = (int)(((float)(lbl_83265A28 & 0x7fffff | 0x3f800000) - lbl_821CA460) * lbl_821954E8);
-    }
-    else {
-      if (iVar1 == 0xc) {
-        uVar3 = 0x16;
-        goto LAB_824268c8;
-      }
-      lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
-      iVar2 = -0x7ce1b744;
-      iVar1 = (int)(((float)(lbl_83265A28 & 0x7fffff | 0x3f800000) - lbl_821CA460) * lbl_821954D4);
-    }
-    uVar3 = *(unsigned int *)(iVar2 + iVar1 * -4);
-LAB_824268c8:
-    *param_5 = uVar3;
-    *param_6 = 1;
-    return;
-  case 10:
-    lbl_83265A28 = lbl_83265A28 * 0x19660d + 0x3c6ef35f;
-    iVar2 = -0x7ce1b738;
-    iVar1 = (int)(((float)(lbl_83265A28 & 0x7fffff | 0x3f800000) - lbl_821CA460) * lbl_821954D4);
-    break;
-  default:
-    goto switchD_82426544_caseD_c;
-  }
-  uVar3 = *(unsigned int *)(iVar2 + iVar1 * -4);
-LAB_82426948:
-  *param_5 = uVar3;
-switchD_82426544_caseD_c:
-  return;
+    u.bits = (lbl_83265A28 & 0x7fffff) | 0x3f800000;
+    return u.f - 1.0f;
 }
 
+static __forceinline void SetNumber(Value_824264F0 *value, double number)
+{
+    fn_82273CD8(value, 3);
+    value->u.number = number;
+}
+
+void fn_824264F0(Self_824264F0 *self, Throw_824264F0 *throw, unsigned char pins, unsigned int result,
+                 int *line, int *first)
+{
+    int value;
+
+    *first = 0;
+    *line = 0x1e;
+    switch (result) {
+    case 2:
+    case 3:
+    case 5:
+        value = lbl_831E4884[(int)(Random() * 3.0f)];
+        break;
+    case 4:
+        value = lbl_831E4890[(int)(Random() * 2.0f)];
+        break;
+    case 6:
+    case 7:
+        value = lbl_831E4898[(int)(Random() * 2.0f)];
+        break;
+    case 8:
+    case 11:
+    case 13:
+        if (self->team == self->game->localTeam) {
+            Hud_824264F0 *hud = self->game->hud;
+
+            if (hud->movie != 0) {
+                Value_824264F0 args[1];
+
+                args[0].unused0 = 0;
+                args[0].type = 0;
+                SetNumber(&args[0], pins);
+                fn_82672C20(hud->movie, "_root.setHitAnimationPinCount", args, 1);
+                fn_82273C88(&args[0]);
+            }
+        }
+        value = 0x1a;
+        break;
+    case 9:
+        switch (throw->frame) {
+        default:
+            value = lbl_831E48BC[(int)(Random() * 3.0f)];
+            break;
+        case 12:
+            value = 0x16;
+            break;
+        case 3:
+            value = lbl_831E48B4[(int)(Random() * 2.0f)];
+            break;
+        case 2:
+            value = lbl_831E48AC[(int)(Random() * 2.0f)];
+            break;
+        case 1:
+            value = lbl_831E48A0[(int)(Random() * 3.0f)];
+            break;
+        }
+        *line = value;
+        *first = 1;
+        return;
+    case 10:
+        value = lbl_831E48C8[(int)(Random() * 3.0f)];
+        break;
+    default:
+        return;
+    }
+    *line = value;
+}

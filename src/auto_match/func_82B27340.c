@@ -1,91 +1,94 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-#define CONCAT44(h,l) ((unsigned __int64)((((unsigned int)(h)) << 32) | ((unsigned int)(l))))
-extern int fn_82AD1270();
-extern int fn_82AD18C0();
-extern int fn_82AD1918();
-extern int fn_82B1A538();
-extern int fn_82B1A7E8();
-extern int fn_82B25248();
-extern int fn_82B8A3A0();
-extern unsigned int iStack_58;
-extern unsigned int iStack_60;
-extern unsigned int lbl_82002AE0;
-extern unsigned int lbl_821AAD20;
-extern unsigned int uStack_5c;
+typedef struct Item_82B27340 {
+    unsigned int value; /* 0x0 */
+    int index;          /* 0x4 */
+    unsigned int flags; /* 0x8 */
+} Item_82B27340;
 
+typedef struct List_82B27340 {
+    int pad0[2];
+    unsigned int count; /* 0x8 */
+} List_82B27340;
 
-bool fn_82B27340(unsigned __int64 param_1,unsigned __int64 param_2,int param_3,int *param_4,
-                  unsigned int *param_5,unsigned __int64 param_6)
+typedef struct Node_82B27340 {
+    int pad0;
+    unsigned int list; /* 0x4 */
+} Node_82B27340;
 
+typedef struct Iterator_82B27340 {
+    Node_82B27340 *node; /* 0x0 */
+    List_82B27340 *list; /* 0x4 */
+    unsigned int index;  /* 0x8 */
+} Iterator_82B27340;
+
+extern Item_82B27340 *fn_82B1A538(Iterator_82B27340 *it);
+extern void *fn_82AD1918(void *ctx, unsigned int value, int index, unsigned int flags);
+extern void *fn_82B1A7E8(void *ctx, int op, void *block, void *left, void *right);
+extern void fn_82B25248(void *ctx, void *value, void *arg);
+extern void *fn_82AD18C0(void *ctx, void *value, int index);
+extern void *fn_82B8A3A0(void *ctx, int flag, float x, float y, float z, float w);
+extern void fn_82AD1270(void *value, int n);
+
+static __forceinline void Begin_82B27340(Iterator_82B27340 *it, Node_82B27340 *node)
 {
-  bool bVar1;
-  int *piVar4;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar3;
-  unsigned int uVar5;
-  int *piVar6;
-  unsigned __int64 uVar7;
-  int iStack_60;
-  unsigned int uStack_5c;
-  int iStack_58;
-  
-  iStack_58 = 0;
-  uStack_5c = -(unsigned int)((*(unsigned int *)(param_3 + 4) & 1) == 0) & *(unsigned int *)(param_3 + 4);
-  uVar7 = 0;
-  uVar5 = 0;
-  iStack_60 = param_3;
-  piVar4 = (int *)0x0;
-LAB_82b27390:
-  while( true ) {
-    piVar6 = piVar4;
-    if ((uStack_5c == 0) || (bVar1 = false, iStack_58 == *(int *)(uStack_5c + 8))) {
-      bVar1 = true;
-    }
-    if (bVar1) {
-      if (piVar6 == (int *)0x0) {
-        if ((uVar7 & 0xffffffff) == 0) {
-          uVar3 = fn_82B8A3A0((double)lbl_82002AE0,(double)lbl_821AAD20,(double)lbl_821AAD20,
-                                    param_1,1);
-          uVar7 = fn_82AD18C0(param_1,uVar3,0);
-        }
-      }
-      else {
-        uVar7 = fn_82AD1918(param_1,*piVar6,piVar6[1],piVar6[2]);
-      }
-      if (uVar5 != 0) {
-        fn_82AD1270(uVar7,4);
-      }
-      *param_5 = (int)uVar7;
-      return param_4 == (int *)0x0;
-    }
-    piVar4 = (int *)fn_82B1A538(&iStack_60);
-    if (param_4 == (int *)0x0) break;
-    if (((*piVar4 != *param_4) || (piVar4[1] != param_4[1])) ||
-       (bVar1 = true,
-       (CONCAT44(piVar4[2] ^ param_4[2],piVar4[2] ^ param_4[2]) & 0xfffffffffffffffb) != 0)) {
-      bVar1 = false;
-    }
-    if (!bVar1) break;
-    param_4 = (int *)0x0;
-    uVar5 = piVar4[2] & 4;
-    piVar4 = piVar6;
-  }
-  if (piVar6 == (int *)0x0) {
-    if ((uVar7 & 0xffffffff) == 0) goto LAB_82b27390;
-    uVar3 = fn_82AD1918(param_1,*piVar4,piVar4[1],piVar4[2]);
-    uVar3 = fn_82B1A7E8(param_1,0,param_2,uVar7,uVar3);
-  }
-  else {
-    uVar3 = fn_82AD1918(param_1,*piVar4,piVar4[1],piVar4[2]);
-    uVar2 = fn_82AD1918(param_1,*piVar6,piVar6[1],piVar6[2]);
-    uVar3 = fn_82B1A7E8(param_1,0,param_2,uVar2,uVar3);
-    piVar6 = (int *)0x0;
-  }
-  fn_82B25248(param_1,uVar3,param_6);
-  uVar7 = fn_82AD18C0(param_1,uVar3,0);
-  piVar4 = piVar6;
-  goto LAB_82b27390;
+    it->node = node;
+    it->index = 0;
+    it->list = (List_82B27340 *)((node->list & 1) ? 0 : node->list);
 }
 
+static __forceinline unsigned char AtEnd_82B27340(Iterator_82B27340 *it)
+{
+    return it->list == 0 || it->index == it->list->count;
+}
+
+static __forceinline unsigned char Same_82B27340(Item_82B27340 *a, Item_82B27340 *b)
+{
+    return a->value == b->value && a->index == b->index && ((a->flags ^ b->flags) & ~4) == 0;
+}
+
+unsigned char fn_82B27340(void *ctx, void *block, Node_82B27340 *node, Item_82B27340 *skip, void **out,
+                          void *arg)
+{
+    Iterator_82B27340 it;
+    void *result = 0;
+    Item_82B27340 *first = 0;
+    unsigned int negate = 0;
+
+    Begin_82B27340(&it, node);
+    while (!AtEnd_82B27340(&it)) {
+        Item_82B27340 *item = fn_82B1A538(&it);
+
+        if (skip != 0 && Same_82B27340(item, skip)) {
+            skip = 0;
+            negate = item->flags & 4;
+        } else if (first == 0 && result == 0) {
+            first = item;
+        } else {
+            if (first != 0) {
+                void *right = fn_82AD1918(ctx, item->value, item->index, item->flags);
+
+                result = fn_82B1A7E8(ctx, 0, block,
+                                     fn_82AD1918(ctx, first->value, first->index, first->flags), right);
+                first = 0;
+            } else {
+                result = fn_82B1A7E8(ctx, 0, block, result,
+                                     fn_82AD1918(ctx, item->value, item->index, item->flags));
+            }
+            fn_82B25248(ctx, result, arg);
+            result = fn_82AD18C0(ctx, result, 0);
+        }
+    }
+    if (first == 0) {
+        if (result == 0) {
+            void *one = fn_82B8A3A0(ctx, 1, 1.0f, 0.0f, 0.0f, 0.0f);
+
+            result = fn_82AD18C0(ctx, one, 0);
+        }
+    } else {
+        result = fn_82AD1918(ctx, first->value, first->index, first->flags);
+    }
+    if (negate != 0) {
+        fn_82AD1270(result, 4);
+    }
+    *out = result;
+    return skip == 0;
+}

@@ -1,93 +1,118 @@
-extern unsigned int *auStack_40;
-extern int fn_82A49C98();
-extern int fn_82A49DF8();
-extern int fn_82A77308();
-extern unsigned int uStack_4c;
-extern unsigned int *uStack_54;
-extern unsigned int *uStack_5c;
+typedef struct {
+    unsigned short format;
+    unsigned short channels;
+    unsigned int rate;
+    unsigned int reserved;
+    unsigned short blockSize; /* 0x0c */
+    unsigned char data[0x1a];
+} Format_82A77860;
 
+typedef struct {
+    Format_82A77860 *format;
+    unsigned int samples;
+} Stream_82A77860;
 
-unsigned __int64 fn_82A77860(int param_1)
+typedef struct Filter_82A77860 Filter_82A77860;
 
+typedef struct {
+    void *methods[8];
+    int (*prepare)(Filter_82A77860 *, int, Stream_82A77860 *, int, Stream_82A77860 *);
+    void (*reset)(Filter_82A77860 *);
+} Vtable_82A77860;
+
+struct Filter_82A77860 {
+    const Vtable_82A77860 *vtable;
+};
+
+typedef struct {
+    unsigned char pad[0x2c];
+    Format_82A77860 *format; /* 0x2c */
+    unsigned int reserved;
+    unsigned int bytes; /* 0x34 */
+} Source_82A77860;
+
+typedef struct {
+    unsigned char pad[0x21c];
+    unsigned int outputBytes; /* 0x21c */
+    unsigned int reserved[2];
+    unsigned int middleBytes; /* 0x228 */
+} Buffers_82A77860;
+
+typedef struct {
+    unsigned int reserved;
+    Buffers_82A77860 *buffers; /* 0x04 */
+    Filter_82A77860 *output;
+    unsigned char pad0[0x44];
+    Source_82A77860 **source; /* 0x50 */
+    unsigned char pad1[0x24];
+    Format_82A77860 *format; /* 0x78 */
+    unsigned char pad2[0x80];
+    Filter_82A77860 *input; /* 0xfc */
+} Pipeline_82A77860;
+
+extern unsigned int fn_82A49C98(Format_82A77860 *, int);
+extern void fn_82A49DF8(Format_82A77860 *, unsigned int, unsigned short, unsigned short, unsigned int,
+                        unsigned short, unsigned short, unsigned int, unsigned short);
+extern unsigned int fn_82A77308(Pipeline_82A77860 *, Filter_82A77860 *, unsigned int);
+
+int fn_82A77860(Pipeline_82A77860 *self)
 {
-  unsigned short uVar1;
-  int *piVar2;
-  unsigned char *puVar3;
-  unsigned __int64 uVar4;
-  int iVar5;
-  unsigned __int64 uVar6;
-  unsigned char *puStack_60;
-  unsigned int uStack_5c;
-  unsigned char *puStack_58;
-  unsigned int uStack_54;
-  unsigned char *puStack_50;
-  unsigned int uStack_4c;
-  unsigned char auStack_40 [40];
-  
-  uVar6 = 0;
-  if (*(int **)(param_1 + 0x50) == (int *)0x0) {
-    iVar5 = 0;
-  }
-  else {
-    iVar5 = **(int **)(param_1 + 0x50);
-  }
-  puStack_58 = *(unsigned char **)(param_1 + 0x78);
-  puStack_60 = (unsigned char *)0x0;
-  puStack_50 = *(unsigned char **)(iVar5 + 0x2c);
-  uVar1 = *(unsigned short *)(*(int *)(iVar5 + 0x2c) + 0xc);
-  trapWord(6,(unsigned __int64)uVar1,0);
-  uStack_5c = *(unsigned int *)(iVar5 + 0x34) / (unsigned int)uVar1;
-  uStack_54 = uStack_5c;
-  uStack_4c = uStack_5c;
-  if ((*(int *)(param_1 + 8) == 0) || (*(int *)(param_1 + 0xfc) == 0)) {
-    puVar3 = puStack_58;
-    if ((*(int *)(param_1 + 0xfc) == 0) && (puVar3 = puStack_60, *(int *)(param_1 + 8) != 0)) {
-      puVar3 = puStack_50;
-    }
-  }
-  else {
-    uVar4 = fn_82A49C98(puStack_58,1);
-    fn_82A49DF8(auStack_40,0x28,1,*(unsigned short *)(puStack_58 + 2),
-                      *(unsigned int *)(puStack_58 + 4),0x10,0x10,uVar4);
-    puVar3 = auStack_40;
-  }
-  puStack_60 = puVar3;
-  piVar2 = *(int **)(param_1 + 0xfc);
-  if (piVar2 != (int *)0x0) {
-    uVar6 = (**(int (***)())(*piVar2 + 0x20))(piVar2,1,&puStack_60,1,&puStack_50);
-    uStack_5c = fn_82A77308(param_1,*(unsigned int *)(param_1 + 0xfc),uStack_4c);
-    uStack_54 = uStack_5c;
-    if ((int)uVar6 < 0) goto LAB_82a77a4c;
-  }
-  piVar2 = *(int **)(param_1 + 8);
-  if (piVar2 != (int *)0x0) {
-    uVar6 = (**(int (***)())(*piVar2 + 0x20))(piVar2,1,&puStack_58,1,&puStack_60);
-    uStack_54 = fn_82A77308(param_1,*(unsigned int *)(param_1 + 8),uStack_5c);
-  }
-  if (-1 < (int)uVar6) {
-    uStack_54 = *(unsigned short *)(*(int *)(param_1 + 0x78) + 0xc) * uStack_54;
-    if (*(unsigned int *)(*(int *)(param_1 + 4) + 0x21c) < uStack_54) {
-      *(unsigned int *)(*(int *)(param_1 + 4) + 0x21c) = uStack_54;
-    }
-    if (*(int *)(param_1 + 8) == 0) {
-      return uVar6;
-    }
-    if (*(int *)(param_1 + 0xfc) == 0) {
-      return uVar6;
-    }
-    if (*(unsigned short *)(puStack_60 + 0xc) * uStack_5c <= *(unsigned int *)(*(int *)(param_1 + 4) + 0x228)) {
-      return uVar6;
-    }
-    *(unsigned int *)(*(int *)(param_1 + 4) + 0x228) = *(unsigned short *)(puStack_60 + 0xc) * uStack_5c;
-    return uVar6;
-  }
-LAB_82a77a4c:
-  if (*(int **)(param_1 + 8) != (int *)0x0) {
-    (**(int (***)())(**(int **)(param_1 + 8) + 0x24))();
-  }
-  if (*(int **)(param_1 + 0xfc) != (int *)0x0) {
-    (**(int (***)())(**(int **)(param_1 + 0xfc) + 0x24))();
-  }
-  return uVar6;
-}
+    int hr = 0;
+    Source_82A77860 *source = self->source != 0 ? *self->source : 0;
 
+    struct {
+        Stream_82A77860 middle;
+        Stream_82A77860 output;
+        Stream_82A77860 input;
+    } streams;
+
+    Format_82A77860 temp;
+    unsigned int samples;
+    unsigned int bytes;
+
+    streams.middle.format = 0;
+    streams.output.format = self->format;
+    streams.input.format = source->format;
+    streams.input.samples = source->bytes / source->format->blockSize;
+    samples = streams.input.samples;
+    streams.middle.samples = samples;
+    streams.output.samples = samples;
+    if (self->output != 0 && self->input != 0) {
+        unsigned int channels = fn_82A49C98(streams.output.format, 1);
+        fn_82A49DF8(&temp, sizeof(temp), 1, streams.output.format->channels, streams.output.format->rate, 16,
+                    16, channels, 0x80);
+        streams.middle.format = &temp;
+    } else if (self->input != 0) {
+        streams.middle.format = streams.output.format;
+    } else if (self->output != 0) {
+        streams.middle.format = streams.input.format;
+    }
+    if (self->input != 0) {
+        hr = self->input->vtable->prepare(self->input, 1, &streams.middle, 1, &streams.input);
+        streams.output.samples = streams.middle.samples =
+            fn_82A77308(self, self->input, streams.input.samples);
+        if (hr < 0)
+            goto failed;
+    }
+    if (self->output != 0) {
+        hr = self->output->vtable->prepare(self->output, 1, &streams.output, 1, &streams.middle);
+        streams.output.samples = fn_82A77308(self, self->output, streams.middle.samples);
+    }
+    if (hr >= 0) {
+        bytes = self->format->blockSize * streams.output.samples;
+        if (bytes > self->buffers->outputBytes)
+            self->buffers->outputBytes = bytes;
+        if (self->output != 0 && self->input != 0) {
+            bytes = streams.middle.format->blockSize * streams.middle.samples;
+            if (bytes > self->buffers->middleBytes)
+                self->buffers->middleBytes = bytes;
+        }
+        return hr;
+    }
+failed:
+    if (self->output != 0)
+        self->output->vtable->reset(self->output);
+    if (self->input != 0)
+        self->input->vtable->reset(self->input);
+    return hr;
+}

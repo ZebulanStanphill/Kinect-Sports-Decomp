@@ -1,87 +1,83 @@
-extern int fn_8265CAA0();
-extern int fn_82E1D550();
-extern int fn_82E1DF00();
-extern int fn_82E20100();
-extern int fn_82E205A0();
-extern int fn_82E205F8();
-extern int fn_82E20810();
-extern int fn_82E208B0();
-extern int fn_82E209B0();
-extern int fn_82E20A98();
-extern int fn_82E22508();
+#include <string.h>
 
+typedef struct Job_82E20E58 {
+    struct Job_82E20E58 *next;
+    const char *filename; /* 0x04 */
+    const char *status;   /* 0x08 */
+} Job_82E20E58;
 
-void fn_82E20E58(int param_1)
+typedef struct {
+    unsigned char pad[2];
+    unsigned char disabled;
+    unsigned char reserved[5];
+    void *queue;        /* 0x08 */
+    Job_82E20E58 *jobs; /* 0x0c */
+} Uploads_82E20E58;
 
+typedef struct {
+    unsigned char pad[8];
+    void *settings;
+} Config_82E20E58;
+
+extern Config_82E20E58 *fn_82E1D550(void);
+extern unsigned char fn_82E1DF00(void *, const char *, int);
+extern void fn_82E209B0(Uploads_82E20E58 *);
+extern char *fn_82E20100(const char *, int);
+extern void fn_82E205A0(Job_82E20E58 *, const char *);
+extern void fn_82E205F8(Job_82E20E58 *, int);
+extern void fn_82E208B0(Uploads_82E20E58 *, Job_82E20E58 *, const char *);
+extern void fn_82E22508(void *, char *);
+extern void fn_82E20810(Uploads_82E20E58 *, Job_82E20E58 *);
+extern void fn_82E20A98(Uploads_82E20E58 *);
+extern void fn_8265CAA0(void *);
+extern const char lbl_8214BA14[8];
+extern const char lbl_8214BC2C[12];
+
+void fn_82E20E58(Uploads_82E20E58 *self)
 {
-  char cVar1;
-  int iVar3;
-  char cVar4;
-  __int64 lVar2;
-  char *pcVar5;
-  char *pcVar6;
-  char *pcVar7;
-  unsigned int *puVar8;
-  unsigned int *puVar9;
-  
-  if (*(char *)(param_1 + 2) == '\0') {
-    iVar3 = fn_82E1D550();
-    cVar4 = fn_82E1DF00(*(unsigned int *)(iVar3 + 8),0xffffffff8214b848,0);
-    if (cVar4 != '\0') {
-      fn_82E209B0(param_1);
-    }
-    if ((*(int *)(param_1 + 8) != 0) && (*(unsigned int **)(param_1 + 0xc) != (unsigned int *)0x0)) {
-      puVar9 = *(unsigned int **)(param_1 + 0xc);
-      do {
-        puVar8 = (unsigned int *)0x0;
-        if (puVar9 != (unsigned int *)0x0) {
-          puVar8 = (unsigned int *)*puVar9;
-        }
-        pcVar7 = (char *)puVar9[2];
-        pcVar6 = pcVar7;
-        pcVar5 = "Waiting";
-        do {
-          cVar4 = *pcVar6;
-          cVar1 = *pcVar5;
-          if (cVar4 == '\0') break;
-          pcVar6 = pcVar6 + 1;
-          pcVar5 = pcVar5 + 1;
-        } while (cVar4 == cVar1);
-        pcVar6 = "Uploading";
-        if (cVar4 == cVar1) {
-          lVar2 = fn_82E20100(puVar9[1],1);
-          if (lVar2 == 0) {
-            fn_82E205A0(puVar9,0xffffffff8214bc00);
-            fn_82E205F8(puVar9,0);
-            fn_82E208B0(param_1,puVar9,0xffffffff8214bc08);
-          }
-          else {
-            fn_82E22508(*(unsigned int *)(param_1 + 8),lVar2);
-            fn_82E205A0(puVar9,0xffffffff8214bc2c);
-            fn_82E205F8(puVar9,0);
-            fn_82E208B0(param_1,puVar9,0xffffffff8214bc38);
-            fn_8265CAA0(lVar2);
-          }
-        }
-        else {
-          do {
-            cVar4 = *pcVar7;
-            cVar1 = *pcVar6;
-            if (cVar4 == '\0') break;
-            pcVar7 = pcVar7 + 1;
-            pcVar6 = pcVar6 + 1;
-          } while (cVar4 == cVar1);
-          if (cVar4 == cVar1) {
-            fn_82E205F8(puVar9,0);
-            fn_82E208B0(param_1,puVar9,0xffffffff8214bc4c);
-            fn_82E20810(param_1,puVar9);
-          }
-        }
-        puVar9 = puVar8;
-      } while (puVar8 != (unsigned int *)0x0);
-    }
-    fn_82E20A98(param_1);
-  }
-  return;
-}
+    Job_82E20E58 *job;
+    Job_82E20E58 *next;
+    char *filename;
+    Config_82E20E58 *config;
+    void *settings;
 
+    if (self->disabled != 0)
+        return;
+    config = fn_82E1D550();
+    settings = config->settings;
+    if (fn_82E1DF00(settings, "DeleteOrphanFiles", 0))
+        fn_82E209B0(self);
+
+    job = self->jobs;
+    if (self->queue != 0 && job != 0) {
+        do {
+            if (job == 0) {
+                next = 0;
+            } else {
+                next = job->next;
+            }
+            if (strcmp(job->status, lbl_8214BA14) == 0) {
+                const char *storedFilename;
+                storedFilename = job->filename;
+                filename = fn_82E20100(storedFilename, 1);
+                if (filename == 0) {
+                    fn_82E205A0(job, "Failed");
+                    fn_82E205F8(job, 0);
+                    fn_82E208B0(self, job, "Error: Could not recover file name");
+                } else {
+                    fn_82E22508(self->queue, filename);
+                    fn_82E205A0(job, lbl_8214BC2C);
+                    fn_82E205F8(job, 0);
+                    fn_82E208B0(self, job, "Beginning Upload");
+                    fn_8265CAA0(filename);
+                }
+            } else if (strcmp(job->status, lbl_8214BC2C) == 0) {
+                fn_82E205F8(job, 0);
+                fn_82E208B0(self, job, "Removing Job");
+                fn_82E20810(self, job);
+            }
+            job = next;
+        } while (job != 0);
+    }
+    fn_82E20A98(self);
+}

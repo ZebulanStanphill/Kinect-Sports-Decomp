@@ -1,39 +1,77 @@
-typedef unsigned char bool;
-#define true 1
-#define false 0
-extern unsigned int *auStack_21e;
-extern int fn_822848B8();
-extern int fn_82284B08();
-extern int fn_82F691F0();
-extern unsigned int lbl_8327F894;
+typedef unsigned short wchar_t;
 
+typedef struct SkipData_8249C720 {
+    char pad[0x118];
+    unsigned int flags;
+} SkipData_8249C720;
 
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+typedef struct Scene_8249C720 {
+    char pad[0x358];
+    SkipData_8249C720 *skip;
+} Scene_8249C720;
 
-void fn_8249C720(int param_1)
+typedef struct Game_8249C720 {
+    char pad[0x844];
+    Scene_8249C720 *scene;
+} Game_8249C720;
 
+typedef struct Movie_8249C720 {
+    char pad[0x70];
+    Game_8249C720 *game;
+    char pad2[0x28];
+    void *pending;
+} Movie_8249C720;
+
+typedef struct Callback_8249C720 {
+    const void *table;
+    Movie_8249C720 *movie;
+    char pad[8];
+    struct Callback_8249C720 *self;
+} Callback_8249C720;
+
+typedef struct Request_8249C720 {
+    char pad[0x10];
+    void *context;
+} Request_8249C720;
+
+extern int fn_82528BF8(void *, const char *, wchar_t *, unsigned int, int, int);
+extern void *fn_822847A8(const wchar_t *, Request_8249C720 *, const wchar_t *, Callback_8249C720 *, int, int);
+extern void fn_822848B8(void *pending);
+extern void fn_82284B08(void *pending, float volume);
+extern void *lbl_83276728[3];
+extern const char lbl_821BF0A8[];
+
+extern struct Settings_8249C720 {
+    char pad[0x14];
+    float volume;
+} lbl_8327F880;
+
+void fn_8249C720(Movie_8249C720 *self)
 {
-  int iVar1;
-  bool bVar2;
-  unsigned char auStack_21e [518];
-  
-  bVar2 = false;
-  if (((*(int *)(param_1 + 0x70) != 0) &&
-      (iVar1 = *(int *)(*(int *)(*(int *)(param_1 + 0x70) + 0x844) + 0x358), iVar1 != 0)) &&
-     ((*(unsigned int *)(iVar1 + 0x118) & 0x40) != 0)) {
-    bVar2 = true;
-  }
-  if (bVar2 != (*(int *)(param_1 + 0x9c) != 0)) {
-    if (bVar2 != false) {
-                    /* WARNING: Subroutine does not return */
-      fn_82F691F0(auStack_21e,0,0x1fe);
-    }
-    fn_822848B8();
-    *(unsigned int *)(param_1 + 0x9c) = 0;
-  }
-  if (*(int *)(param_1 + 0x9c) != 0) {
-    fn_82284B08((double)lbl_8327F894);
-  }
-  return;
-}
+    int enabled = 0;
+    SkipData_8249C720 *skip;
 
+    if (self->game && (skip = self->game->scene->skip) != 0 && (skip->flags & 0x40) != 0) {
+        enabled = 1;
+    }
+    if (enabled != (self->pending != 0)) {
+        if (enabled) {
+            wchar_t name[256] = L"";
+            Callback_8249C720 callback;
+            Request_8249C720 request;
+
+            fn_82528BF8(lbl_83276728[1], "skip", name, 256, 0, 1);
+            callback.movie = self;
+            request.context = 0;
+            callback.self = &callback;
+            callback.table = lbl_821BF0A8;
+            self->pending = fn_822847A8(0, &request, name, &callback, 1, 1);
+        } else {
+            fn_822848B8(self->pending);
+            self->pending = 0;
+        }
+    }
+    if (self->pending) {
+        fn_82284B08(self->pending, lbl_8327F880.volume);
+    }
+}

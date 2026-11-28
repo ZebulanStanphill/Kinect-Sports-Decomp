@@ -1,81 +1,121 @@
-extern int fn_822ABA88();
-extern int fn_82337B90();
-extern int fn_82359108();
-extern int fn_82359200();
-extern int fn_8242C410();
-extern int fn_8288B760();
-extern unsigned int iStack_54;
-extern unsigned int lbl_82191FC8;
-extern unsigned int ltcg_pool_0_0f;
+typedef struct Settings_8242BF30 {
+    char pad0[0xf8];
+    int allowAny; /* 0xf8 */
+    char padFC[0x114 - 0xfc];
+    int mode; /* 0x114 */
+    char pad118[0x204 - 0x118];
+    int firstPlayer; /* 0x204 */
+} Settings_8242BF30;
 
+typedef struct Stage_8242BF30 {
+    char pad0[0x40];
+    Settings_8242BF30 *settings; /* 0x40 */
+} Stage_8242BF30;
 
-void fn_8242BF30(int param_1,unsigned __int64 param_2,unsigned __int64 param_3,unsigned __int64 param_4)
+typedef struct StageList_8242BF30 {
+    char pad0[0x1c4];
+    Stage_8242BF30 **stages; /* 0x1c4 */
+    char pad1C8[0x1d4 - 0x1c8];
+    int current; /* 0x1d4 */
+} StageList_8242BF30;
 
+typedef struct Flow_8242BF30 {
+    char pad0[0x40];
+    StageList_8242BF30 *list; /* 0x40 */
+} Flow_8242BF30;
+
+typedef struct Game_8242BF30 {
+    char pad0[0x1c];
+    Flow_8242BF30 flow; /* 0x1c */
+} Game_8242BF30;
+
+typedef struct Player_8242BF30 {
+    char pad0[0x24];
+    int active; /* 0x24 */
+    char pad28[0x168 - 0x28];
+    void *tracker; /* 0x168 */
+    int tracked;   /* 0x16c */
+} Player_8242BF30;
+
+typedef struct Slot_8242BF30 {
+    unsigned int *handles; /* 0x00 */
+    char pad4[0x10 - 4];
+    int current; /* 0x10 */
+} Slot_8242BF30;
+
+typedef struct SlotArray_8242BF30 {
+    Slot_8242BF30 **data; /* 0x0 */
+} SlotArray_8242BF30;
+
+typedef struct Info_8242BF30 {
+    char pad0[0x40];
+    unsigned int kind; /* 0x40 */
+} Info_8242BF30;
+
+typedef struct Self_8242BF30 {
+    char pad0[8];
+    SlotArray_8242BF30 *slots; /* 0x08 */
+    char padC[0xa0 - 0xc];
+    Info_8242BF30 *info; /* 0xa0 */
+    char padA4[0x174 - 0xa4];
+    Game_8242BF30 *game; /* 0x174 */
+} Self_8242BF30;
+
+extern int fn_8242C410(Self_8242BF30 *self);
+extern Player_8242BF30 *fn_822ABA88(unsigned int handle, int flags);
+extern unsigned char fn_8288B760(void *tracker);
+extern int fn_82337B90(Player_8242BF30 *player);
+extern void fn_82359108(Self_8242BF30 *self, Player_8242BF30 *first, Player_8242BF30 *second, float delay,
+                        void *arg);
+extern void fn_82359200(Self_8242BF30 *self, float delay, void *arg);
+
+static __forceinline Stage_8242BF30 *CurrentStage_8242BF30(Flow_8242BF30 *flow)
 {
-  float fVar1;
-  int *piVar2;
-  int iVar3;
-  int iVar4;
-  unsigned int uVar5;
-  int iVar6;
-  int iVar7;
-  int *piVar8;
-  int iVar9;
-  int iVar10;
-  int iStack_54;
-  int aiStack_50 [20];
-  
-  iVar9 = 0;
-  if (*(int *)(*(int *)(*(int *)(param_1 + 0x174) + 0x5c) + 0x1d4) == -1) {
-    iVar7 = 0;
-  }
-  else {
-    iVar7 = *(int *)(*(int *)(param_1 + 0x174) + 0x5c);
-    iVar7 = *(int *)(*(int *)(iVar7 + 0x1d4) * 4 + *(int *)(iVar7 + 0x1c4));
-  }
-  aiStack_50[0] = 0;
-  aiStack_50[1] = 0;
-  iVar10 = *(int *)(*(int *)(iVar7 + 0x40) + 0x204);
-  iVar3 = fn_8242C410(param_1);
-  if (iVar10 < iVar3) {
-    iVar3 = iVar10 << 2;
-    piVar8 = &iStack_54;
-    do {
-      piVar2 = *(int **)(**(int **)(param_1 + 8) + iVar3);
-      iVar4 = fn_822ABA88(*(unsigned int *)(piVar2[4] * 4 + *piVar2),0);
-      if (*(int *)(iVar4 + 0x24) != 0) {
-        if (*(int *)(iVar4 + 0x168) == 0) {
-          uVar5 = *(unsigned int *)(iVar4 + 0x16c);
-        }
-        else {
-          uVar5 = fn_8288B760();
-          uVar5 = uVar5 & 0xff;
-        }
-        if (uVar5 != 0) {
-          if ((*(int *)(*(int *)(iVar7 + 0x40) + 0xf8) != 0) ||
-             (iVar6 = fn_82337B90(iVar4), iVar6 != 0)) {
-            piVar8 = piVar8 + 1;
-            *piVar8 = iVar4;
-            iVar9 = iVar9 + 1;
-          }
-          if (iVar9 == 2) break;
-        }
-      }
-      iVar10 = iVar10 + 1;
-      iVar3 = iVar3 + 4;
-      iVar4 = fn_8242C410(param_1);
-    } while (iVar10 < iVar4);
-  }
-  iVar9 = *(int *)(*(int *)(iVar7 + 0x40) + 0x114);
-  if ((iVar9 == 4) || (fVar1 = ltcg_pool_0_0f, iVar9 == 5)) {
-    fVar1 = lbl_82191FC8;
-  }
-  if ((*(int *)(param_1 + 0xa0) == 0) || (*(int *)(*(int *)(param_1 + 0xa0) + 0x40) != 1)) {
-    fn_82359108((double)fVar1,param_1,aiStack_50[0],aiStack_50[1],param_4,param_2);
-  }
-  else {
-    fn_82359200(param_1);
-  }
-  return;
+    if (flow->list->current == -1) {
+        return 0;
+    }
+    return flow->list->stages[flow->list->current];
 }
 
+static __forceinline int IsTracked_8242BF30(Player_8242BF30 *player)
+{
+    if (player->tracker != 0) {
+        return fn_8288B760(player->tracker);
+    }
+    return player->tracked;
+}
+
+void fn_8242BF30(Self_8242BF30 *self, void *arg)
+{
+    Stage_8242BF30 *stage = CurrentStage_8242BF30(&self->game->flow);
+    unsigned int count = 0;
+    Player_8242BF30 *found[2];
+    int i;
+    float delay;
+
+    found[0] = 0;
+    found[1] = 0;
+    for (i = stage->settings->firstPlayer; i < fn_8242C410(self); i++) {
+        Slot_8242BF30 *slot = self->slots->data[i];
+        Player_8242BF30 *player = fn_822ABA88(slot->handles[slot->current], 0);
+
+        if (player->active != 0 && IsTracked_8242BF30(player)) {
+            if (stage->settings->allowAny != 0 || fn_82337B90(player) != 0) {
+                found[count] = player;
+                count++;
+            }
+            if (count == 2) {
+                break;
+            }
+        }
+    }
+    delay = 0.0f;
+    if (stage->settings->mode == 4 || stage->settings->mode == 5) {
+        delay = 0.3f;
+    }
+    if ((int)self->info != 0 && self->info->kind == 1) {
+        fn_82359200(self, delay, arg);
+    } else {
+        fn_82359108(self, found[0], found[1], delay, arg);
+    }
+}

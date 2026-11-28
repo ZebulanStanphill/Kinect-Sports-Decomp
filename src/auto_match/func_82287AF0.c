@@ -1,110 +1,122 @@
-extern int fn_8225C590();
-extern int fn_8225D388();
-extern int fn_8225D8B8();
-extern int fn_82287DA8();
-extern int fn_82288228();
-extern int fn_82288040();
-extern int fn_82287DA8();
-extern int fn_823AB478();
+typedef struct Player_82287AF0 {
+    int state; /* 0x0 */
+    char pad4[0x420 - 4];
+} Player_82287AF0;
 
+typedef struct Game_82287AF0 {
+    char pad0[0x838];
+    Player_82287AF0 players[4]; /* 0x838 */
+    int side;                   /* 0x18b8 */
+    unsigned int mode;          /* 0x18bc */
+} Game_82287AF0;
 
-void fn_82287AF0(int param_1)
+typedef struct Self_82287AF0 {
+    char pad0[0x11f0];
+    Game_82287AF0 *game; /* 0x11f0 */
+} Self_82287AF0;
 
+typedef struct Item_82287AF0 {
+    char pad0[0xd8];
+    unsigned char attached; /* 0xd8 */
+} Item_82287AF0;
+
+typedef struct ItemArray_82287AF0 {
+    Item_82287AF0 **begin; /* 0x0 */
+    Item_82287AF0 **end;   /* 0x4 */
+} ItemArray_82287AF0;
+
+typedef struct Manager_82287AF0 {
+    char pad0[0x10];
+    ItemArray_82287AF0 items; /* 0x10 */
+} Manager_82287AF0;
+
+extern void fn_82288228(Self_82287AF0 *self, int player, unsigned int side);
+extern void fn_82287DA8(Self_82287AF0 *self, unsigned int side);
+extern void fn_82288040(Self_82287AF0 *self, int side);
+extern void fn_82287D08(Self_82287AF0 *self, unsigned int count);
+extern Manager_82287AF0 *fn_8225C590(void);
+extern void fn_8225D8B8(Manager_82287AF0 *manager, Item_82287AF0 *item);
+extern void fn_8225D388(Manager_82287AF0 *manager, unsigned int handle);
+extern unsigned int fn_823AB478(Item_82287AF0 *item);
+
+static __forceinline int FindWaitingPlayer_82287AF0(Self_82287AF0 *self)
 {
-  unsigned int uVar1;
-  int iVar2;
-  unsigned __int64 uVar3;
-  char cVar4;
-  __int64 lVar5;
-  int iVar6;
-  unsigned int uVar7;
+    int i;
 
-  uVar1 = *(unsigned int *)(*(int *)(param_1 + 0x11f0) + 0x18bc);
-  fn_82287DA8(param_1,0,0);
-  uVar7 = 1;
-  if (uVar1 == 0) {
-    uVar7 = 1;
-    cVar4 = (*(int *)(*(int *)(param_1 + 0x11f0) + 0x18b8) == 1) + '\x01';
-  }
-  else {
-    if (uVar1 != 1) {
-      if (uVar1 < 3) {
-        uVar7 = 2;
-        lVar5 = 1;
-        iVar2 = 0x420;
-        do {
-          iVar6 = *(int *)(iVar2 + *(int *)(param_1 + 0x11f0) + 0x838);
-          if ((iVar6 == 0) || (iVar6 == 1)) goto LAB_82287bc8;
-          iVar2 = iVar2 + 0x420;
-          lVar5 = lVar5 + 1;
-        } while (iVar2 < 0x1080);
-        lVar5 = -1;
-LAB_82287bc8:
-        if ((int)lVar5 == -1) {
-          fn_82288228(param_1,(*(int *)(*(int *)(param_1 + 0x11f0) + 0x18b8) == 1) + '\x01');
+    for (i = 1; i < 4; i++) {
+        if (self->game->players[i].state == 0 || self->game->players[i].state == 1) {
+            return i;
         }
-        else {
-          fn_82287DA8(param_1,lVar5);
+    }
+    return -1;
+}
+
+static __forceinline int Size_82287AF0(ItemArray_82287AF0 *items)
+{
+    return items->end - items->begin;
+}
+
+void fn_82287AF0(Self_82287AF0 *self)
+{
+    unsigned int mode = self->game->mode;
+    int keep;
+    int player;
+    unsigned int side;
+    Manager_82287AF0 *manager;
+    int count;
+
+    fn_82288228(self, 0, 0);
+    keep = 1;
+    switch (mode) {
+    case 0:
+        keep = 1;
+        fn_82288040(self, self->game->side == 1 ? 2 : 1);
+        break;
+    case 1:
+        keep = 2;
+        player = FindWaitingPlayer_82287AF0(self);
+        if (player != -1) {
+            fn_82288228(self, player, 1);
+        } else {
+            fn_82287DA8(self, 1);
         }
-      }
-      else if (uVar1 == 3) {
-        uVar7 = 1;
-      }
-      else {
-        if (uVar1 < 5) {
-          uVar3 = 1;
-          uVar7 = 2;
+        fn_82288040(self, 2);
+        fn_82288040(self, 3);
+        break;
+    case 2:
+        keep = 2;
+        side = self->game->side == 1 ? 2 : 1;
+        player = FindWaitingPlayer_82287AF0(self);
+        if (player != -1) {
+            fn_82288228(self, player, side);
+        } else {
+            fn_82287DA8(self, side);
         }
-        else if (uVar1 == 5) {
-          uVar3 = 2;
-          uVar7 = 3;
+        break;
+    case 3:
+        keep = 1;
+        break;
+    case 4:
+        keep = 2;
+        fn_82287D08(self, 1);
+        break;
+    case 5:
+        keep = 3;
+        fn_82287D08(self, 2);
+        break;
+    case 6:
+        keep = 4;
+        fn_82287D08(self, 3);
+        break;
+    }
+    manager = fn_8225C590();
+    for (count = Size_82287AF0(&manager->items); count > keep; count = Size_82287AF0(&manager->items)) {
+        /* The bounds check uses the count the loop already holds, then reads the array again. */
+        Item_82287AF0 *item = (unsigned int)keep < (unsigned int)count ? manager->items.begin[keep] : 0;
+
+        fn_8225D8B8(manager, item);
+        if (item->attached) {
+            fn_8225D388(manager, fn_823AB478(item));
         }
-        else {
-          if (6 < uVar1) goto LAB_82287c84;
-          uVar3 = 3;
-          uVar7 = 4;
-        }
-        fn_82287DA8(param_1,uVar3);
-      }
-      goto LAB_82287c84;
     }
-    uVar7 = 2;
-    lVar5 = 1;
-    iVar2 = 0x420;
-    do {
-      iVar6 = *(int *)(iVar2 + *(int *)(param_1 + 0x11f0) + 0x838);
-      if ((iVar6 == 0) || (iVar6 == 1)) goto LAB_82287c28;
-      iVar2 = iVar2 + 0x420;
-      lVar5 = lVar5 + 1;
-    } while (iVar2 < 0x1080);
-    lVar5 = -1;
-LAB_82287c28:
-    if ((int)lVar5 == -1) {
-      fn_82288228(param_1,1);
-    }
-    else {
-      fn_82287DA8(param_1,lVar5,1);
-    }
-    fn_82288040(param_1,2);
-    cVar4 = '\x03';
-  }
-  fn_82288040(param_1,cVar4);
-LAB_82287c84:
-  iVar2 = fn_8225C590();
-  iVar6 = *(int *)(iVar2 + 0x14) - *(int *)(iVar2 + 0x10);
-  while ((int)uVar7 < iVar6 >> 2) {
-    if (uVar7 < (unsigned int)(iVar6 >> 2)) {
-      iVar6 = *(int *)(uVar7 * 4 + *(int *)(iVar2 + 0x10));
-    }
-    else {
-      iVar6 = 0;
-    }
-    fn_8225D8B8(iVar2,iVar6);
-    if (*(char *)(iVar6 + 0xd8) != '\0') {
-      uVar3 = fn_823AB478(iVar6);
-      fn_8225D388(iVar2,uVar3);
-    }
-    iVar6 = *(int *)(iVar2 + 0x14) - *(int *)(iVar2 + 0x10);
-  }
-  return;
 }

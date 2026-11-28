@@ -1,189 +1,189 @@
-typedef struct { unsigned __int64 lo, hi; } V16;
-#define NAN(x) ((x) != (x))
-extern double sqrt(double);
-#define SQRT(x) sqrt(x)
-extern unsigned int *auStack_90;
-extern unsigned int fStack_78;
-extern unsigned int fStack_8c;
-extern int fn_82539560();
-extern int fn_8255A0D0();
-extern int fn_82577EE0();
-extern int fn_8261F100();
-extern int fn_82621500();
-extern int fn_82621548();
-extern int fn_82809400();
-extern int fn_82F6A540();
-extern int fn_82F6A58C();
-extern unsigned int lbl_821916FC;
-extern unsigned int lbl_821917D4;
-extern unsigned int lbl_82191FC0;
-extern unsigned int lbl_821922D4;
-extern unsigned int lbl_82192330;
-extern unsigned int lbl_821954D8;
-extern unsigned int lbl_821955B4;
-extern unsigned int lbl_821959DC;
-extern unsigned int lbl_821CA460;
-extern unsigned int ltcg_pool_0_0f;
-extern V16 vectorSubtractFloatingPoint();
+typedef __declspec(passinreg) __declspec(align(16)) struct __vector4 {
+    float vector4_f32[4];
+} __vector4;
 
+__vector4 __vsubfp(__vector4 a, __vector4 b);
+double sqrt(double);
 
-void fn_825E0B50(unsigned __int64 param_1,unsigned __int64 param_2)
+typedef struct Smoother_825E0B50 {
+    float values[9]; /* 0x00 */
+    int isAngle;     /* 0x24 */
+} Smoother_825E0B50;
 
+typedef struct Sample_825E0B50 {
+    int hit;      /* 0x00 */
+    float height; /* 0x04 */
+    float slope;  /* 0x08 */
+    int padc;
+    __vector4 position; /* 0x10 */
+    float lift;         /* 0x20 */
+    char pad24[0x30 - 0x24];
+} Sample_825E0B50;
+
+typedef struct Float4_825E0B50 {
+    float x;
+    float y;
+    float z;
+    float w;
+} Float4_825E0B50;
+
+typedef struct Track_825E0B50 {
+    char pad000[0x80];
+    Sample_825E0B50 samples[12]; /* 0x080 */
+    unsigned int index;          /* 0x2c0 */
+    Smoother_825E0B50 pitch;     /* 0x2c4 */
+    int full;                    /* 0x2ec */
+    float lastHeight;            /* 0x2f0 */
+    float baseHeight;            /* 0x2f4 */
+    float heightRange;           /* 0x2f8 */
+    int pad2fc;
+    Float4_825E0B50 average; /* 0x300 */
+} Track_825E0B50;
+
+typedef struct TargetList_825E0B50 TargetList_825E0B50;
+
+typedef struct Game_825E0B50 {
+    char pad000[0x8c4];
+    TargetList_825E0B50 *targets; /* 0x8c4 */
+} Game_825E0B50;
+
+typedef struct Scene_825E0B50 {
+    char pad00[0x4c];
+    Game_825E0B50 *game; /* 0x4c */
+} Scene_825E0B50;
+
+typedef struct Owner_825E0B50 {
+    char pad000[0x8c];
+    float height; /* 0x08c */
+    char pad090[4];
+    float pitch; /* 0x094 */
+    char pad098[0xa4 - 0x98];
+    float speed; /* 0x0a4 */
+    char pad0a8[0x118 - 0xa8];
+    Scene_825E0B50 *scene; /* 0x118 */
+} Owner_825E0B50;
+
+typedef struct Body_825E0B50 {
+    char pad00[0x20];
+    __vector4 position; /* 0x20 */
+} Body_825E0B50;
+
+typedef struct Limits_825E0B50 {
+    char pad0[8];
+    float maxPitch; /* 0x08 */
+} Limits_825E0B50;
+
+typedef struct Motion_825E0B50 {
+    char pad00[0xd0];
+    float speed; /* 0xd0 */
+} Motion_825E0B50;
+
+typedef struct Self_825E0B50 {
+    Owner_825E0B50 *owner; /* 0x00 */
+    Body_825E0B50 *body;   /* 0x04 */
+    int unk08;
+    Limits_825E0B50 *limits; /* 0x0c */
+    char pad10[0x20 - 0x10];
+    Motion_825E0B50 *motion; /* 0x20 */
+    char pad24[0x34 - 0x24];
+    Track_825E0B50 *track; /* 0x34 */
+} Self_825E0B50;
+
+extern float fn_82539560(float x, float inMin, float inMax, float outMin, float outMax);
+extern int fn_8261F100(void *probe, const __vector4 *position, float lift, float *height);
+extern int fn_82577EE0(TargetList_825E0B50 *list, float *position, float *best, void *hit);
+extern float fn_82809400(float x);
+extern int fn_8255A0D0(__vector4 v, float *out);
+extern Smoother_825E0B50 *fn_82621500(Smoother_825E0B50 *self, float value);
+extern void fn_82621548(Smoother_825E0B50 *self, float dt);
+
+static __forceinline float Max(float a, float b)
 {
-  unsigned int uVar1;
-  float *pfVar2;
-  float *pfVar3;
-  int iVar4;
-  float fVar5;
-  int in_r0;
-  int *piVar7;
-  unsigned __int64 uVar6;
-  unsigned int uVar8;
-  int iVar9;
-  unsigned __int64 uVar10;
-  int iVar11;
-  __int64 lVar12;
-  unsigned __int64 extraout_f1;
-  double extraout_f1_00;
-  double dVar13;
-  double dVar14;
-  double dVar15;
-  double dVar16;
-  unsigned __int64 uVar17;
-  double dVar18;
-  double dVar19;
-  double dVar20;
-  unsigned char in_vs32 [16];
-  unsigned char in_vs45 [16];
-  float fVar21;
-  float fVar22;
-  float fVar23;
-  float fVar24;
-  float fVar25;
-  float fVar26;
-  float fVar27;
-  float afStack_a0 [4];
-  unsigned char auStack_90 [4];
-  float fStack_8c;
-  float afStack_80 [2];
-  float fStack_78;
-  
-  piVar7 = (int *)fn_82F6A540();
-  dVar20 = (double)ltcg_pool_0_0f;
-  if ((double)*(float *)(piVar7[8] + 0xd0) == dVar20) {
-    *(unsigned int *)(piVar7[0xd] + 0x2ec) = 0;
-    *(unsigned int *)(piVar7[0xd] + 0x2c0) = 0;
-  }
-  else {
-    uVar10 = (unsigned __int64)(unsigned int)piVar7[0xd];
-    fVar21 = *(float *)(*piVar7 + 0xa4);
-    uVar1 = *(unsigned int *)(piVar7[0xd] + 0x2c0);
-    dVar14 = (double)lbl_82192330;
-    pfVar2 = (float *)(piVar7[1] + 0x20U & 0xfffffff0);
-    fVar24 = *pfVar2;
-    fVar25 = pfVar2[1];
-    fVar26 = pfVar2[2];
-    fVar27 = pfVar2[3];
-    pfVar2 = (float *)((unsigned int)(auStack_90 + in_r0) & 0xfffffff0);
-    *pfVar2 = fVar24;
-    pfVar2[1] = fVar25;
-    pfVar2[2] = fVar26;
-    pfVar2[3] = fVar27;
-    dVar18 = (double)lbl_821CA460;
-    dVar19 = (double)fStack_8c;
-    afStack_a0[0] = fStack_8c;
-    uVar17 = extraout_f1;
-    uVar6 = fn_82539560((double)fVar21,(double)lbl_821922D4,dVar14,dVar20,dVar18,param_2);
-    iVar11 = uVar1 * 0x30;
-    lVar12 = ((unsigned __int64)uVar1 + 3) * 0x30;
-    dVar14 = extraout_f1_00;
-    uVar8 = fn_8261F100((double)*(float *)((int)uVar10 + iVar11 + 0xa0),uVar6,
-                          lVar12 + (uVar10 & 0xffffffff));
-    *(unsigned int *)(piVar7[0xd] + iVar11 + 0x80) = uVar8;
-    if ((unsigned __int64)uVar1 < 3) {
-      dVar16 = (double)(*(float *)(piVar7[1] + 0x24) - *(float *)(*piVar7 + 0x8c));
-      dVar15 = (double)(float)((double)afStack_a0[0] - dVar16);
-      dVar13 = (double)afStack_a0[0];
-      if (*(float *)(&lbl_821954D8 +
-                    ((unsigned int)(unsigned char)((dVar15 < dVar20) << 2) | (unsigned int)(NAN(dVar15) || NAN(dVar20)) << 2)
-                    ) < 0.0) {
-        dVar13 = dVar16;
-      }
-    }
-    else {
-      dVar13 = (double)afStack_a0[0];
-    }
-    if (lbl_82191FC0 <
-        (float)(dVar13 - (double)*(float *)(piVar7[0xd] + 0x2f4)) / *(float *)(piVar7[0xd] + 0x2f8))
-    {
-      dVar13 = dVar19;
-    }
-    afStack_a0[0] = (float)dVar20;
-    if ((*(int *)(*piVar7 + 0x118) != 0) &&
-       (iVar9 = *(int *)(*(int *)(*piVar7 + 0x118) + 0x4c), iVar9 != 0)) {
-      iVar9 = *(int *)(iVar9 + 0x8c4);
-      if ((iVar9 != 0) &&
-         (((iVar9 = fn_82577EE0(iVar9,(unsigned __int64)(unsigned int)piVar7[0xd] + lVar12,afStack_a0,0),
-           iVar9 != 0 && (dVar15 = (double)afStack_a0[0], dVar13 < dVar15)) &&
-          (dVar15 < (double)(float)(dVar19 + (double)lbl_821916FC))))) {
-        dVar13 = dVar15;
-      }
-    }
-    fVar5 = lbl_821917D4;
-    *(float *)(piVar7[0xd] + iVar11 + 0x84) = (float)dVar13;
-    pfVar2 = (float *)(piVar7[0xd] + (int)lVar12 & 0xfffffff0);
-    fVar21 = pfVar2[1];
-    fVar22 = pfVar2[2];
-    fVar23 = pfVar2[3];
-    pfVar3 = (float *)((int)afStack_80 + in_r0 & 0xfffffff0);
-    *pfVar3 = fVar24 - *pfVar2;
-    pfVar3[1] = fVar25 - fVar21;
-    pfVar3[2] = fVar26 - fVar22;
-    pfVar3[3] = fVar27 - fVar23;
-    fVar21 = SQRT(fStack_78 * fStack_78 + afStack_80[0] * afStack_80[0]);
-    if (fVar21 <= fVar5) {
-      *(float *)(piVar7[0xd] + iVar11 + 0x88) = (float)dVar20;
-    }
-    else {
-      dVar13 = (double)fn_82809400((double)((float)(dVar13 - dVar19) / fVar21));
-      *(float *)(piVar7[0xd] + iVar11 + 0x88) = (float)dVar13;
-    }
-    if (*(int *)(piVar7[0xd] + 0x2c0) == 0xb) {
-      *(unsigned int *)(piVar7[0xd] + 0x2ec) = 1;
-    }
-    *(int *)(piVar7[0xd] + 0x2c0) = *(int *)(piVar7[0xd] + 0x2c0) + 1;
-    *(unsigned int *)(piVar7[0xd] + 0x2c0) = *(unsigned int *)(piVar7[0xd] + 0x2c0) % 0xc;
-    fVar21 = *(float *)(piVar7[0xd] + 0x2f0);
-    *(float *)(piVar7[0xd] + 0x2f0) = (float)dVar19;
-    if (*(int *)(piVar7[0xd] + 0x2ec) != 0) {
-      iVar11 = piVar7[0xd];
-      iVar9 = 0;
-      lVar12 = 0xc;
-      dVar13 = dVar20;
-      do {
-        *(float *)(iVar9 + iVar11 + 0x84) =
-             *(float *)(iVar9 + iVar11 + 0x84) + (float)(dVar19 - (double)fVar21);
-        iVar11 = piVar7[0xd];
-        iVar4 = iVar9 + iVar11;
-        iVar9 = iVar9 + 0x30;
-        dVar13 = (double)(float)((double)*(float *)(iVar4 + 0x84) + dVar13);
-        lVar12 = lVar12 + -1;
-      } while (lVar12 != 0);
-      afStack_a0[0] = (float)dVar20;
-      *(float *)(iVar11 + 0x304) = (float)(dVar13 * (double)lbl_821959DC);
-      fStack_8c = *(float *)(piVar7[0xd] + 0xb4);
-      vectorSubtractFloatingPoint(in_vs45,in_vs32);
-      fn_8255A0D0(afStack_a0);
-      dVar19 = (double)afStack_a0[0];
-      dVar20 = (double)fn_82539560(dVar19,dVar20,(double)lbl_821955B4,dVar20,
-                                    (double)*(float *)(piVar7[3] + 8));
-      fn_82621500((double)((float)(dVar18 - dVar14) * (float)(dVar19 - dVar20) +
-                           (float)((double)*(float *)(*piVar7 + 0x94) * dVar14)),
-                   (unsigned __int64)(unsigned int)piVar7[0xd] + 0x2c4);
-      fn_82621548(uVar17);
-    }
-  }
-  fn_82F6A58C();
-  return;
+    return a - b >= 0.0f ? a : b;
 }
 
+void fn_825E0B50(Self_825E0B50 *self, void *probe, float dt)
+{
+    unsigned int index;
+    float found;
+    __vector4 position;
+    __vector4 delta;
+    float bodyHeight;
+    float blend;
+    float height;
+    float distance;
+    float last;
+    float sum;
+    float pitch;
+    float speed;
+    float excess;
+    float shift;
+    float *samplePosition;
+    Scene_825E0B50 *scene;
+    TargetList_825E0B50 *targets;
+    int i;
+
+    if (self->motion->speed == 0.0f) {
+        self->track->full = 0;
+        self->track->index = 0;
+    } else {
+        position = self->body->position;
+        speed = self->owner->speed;
+        index = self->track->index;
+        bodyHeight = position.vector4_f32[1];
+        found = bodyHeight;
+        blend = fn_82539560(speed, 20.0f, 50.0f, 0.0f, 1.0f);
+        self->track->samples[index].hit = fn_8261F100(probe, &self->track->samples[index].position,
+                                                      self->track->samples[index].lift, &found);
+        if (index < 3) {
+            height = Max(found, self->body->position.vector4_f32[1] - self->owner->height);
+        } else {
+            height = found;
+        }
+        if ((height - self->track->baseHeight) / self->track->heightRange > 1.3f) {
+            height = bodyHeight;
+        }
+        found = 0.0f;
+        scene = self->owner->scene;
+        if (scene != 0 && (int)scene->game != 0) {
+            samplePosition = self->track->samples[index].position.vector4_f32;
+            targets = scene->game->targets;
+            if (targets != 0 && fn_82577EE0(targets, samplePosition, &found, 0) != 0 && found > height &&
+                found < bodyHeight + 2.0f) {
+                height = found;
+            }
+        }
+        self->track->samples[index].height = height;
+        delta = __vsubfp(position, self->track->samples[index].position);
+        distance = (float)sqrt(delta.vector4_f32[0] * delta.vector4_f32[0] +
+                               delta.vector4_f32[2] * delta.vector4_f32[2]);
+        if (distance > 0.1f) {
+            self->track->samples[index].slope = fn_82809400((height - bodyHeight) / distance);
+        } else {
+            self->track->samples[index].slope = 0.0f;
+        }
+        if (self->track->index == 11) {
+            self->track->full = 1;
+        }
+        self->track->index++;
+        self->track->index %= 12;
+        last = self->track->lastHeight;
+        self->track->lastHeight = bodyHeight;
+        shift = bodyHeight - last;
+        if (self->track->full != 0) {
+            sum = 0.0f;
+            for (i = 0; i < 12; i++) {
+                self->track->samples[i].height += shift;
+                sum = self->track->samples[i].height + sum;
+            }
+            found = 0.0f;
+            self->track->average.y = sum * 0.083333336f;
+            position.vector4_f32[1] = self->track->samples[1].height;
+            fn_8255A0D0(__vsubfp(position, *(const __vector4 *)&self->track->average), &found);
+            pitch = found;
+            excess = pitch - fn_82539560(pitch, 0.0f, -1.5707964f, 0.0f, self->limits->maxPitch);
+            fn_82621548(
+                fn_82621500(&self->track->pitch, (1.0f - blend) * excess + self->owner->pitch * blend), dt);
+        }
+    }
+}

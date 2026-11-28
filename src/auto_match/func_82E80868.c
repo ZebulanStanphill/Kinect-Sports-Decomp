@@ -1,91 +1,95 @@
-extern unsigned int *auStack_40;
-extern unsigned int *auStack_60;
-extern int fn_82E4FE08();
-extern int fn_82E7E7E0();
-extern int fn_82E7E900();
-extern int fn_82E7EC68();
-extern int fn_82E7F478();
-extern int fn_82E7F8F0();
-extern int fn_82E80668();
-extern int fn_82F691F0();
-extern unsigned int uStack_48;
-extern unsigned int uStack_50;
+#include <string.h>
 
+typedef struct Variant_82E80868 {
+    unsigned short type; /* 0x00 */
+    unsigned short reserved[3];
+    unsigned int count; /* 0x08 */
+    void *elements;     /* 0x0c */
+} Variant_82E80868;
 
-__int64 fn_82E80868(unsigned short *param_1)
+extern void *fn_82E4FE08(unsigned int);
+extern int fn_82E7E7E0(Variant_82E80868 *);
+extern int fn_82E7E900(Variant_82E80868 *, Variant_82E80868 *);
+extern int fn_82E7EC68(Variant_82E80868 *, unsigned int *);
+extern int fn_82E7F478(Variant_82E80868 *, unsigned short, unsigned int);
+extern int fn_82E7F868(Variant_82E80868 *, unsigned int, void *);
+extern int fn_82E7F8F0(Variant_82E80868 *, unsigned int, Variant_82E80868 *);
+extern int fn_82E80668(Variant_82E80868 *, unsigned int, Variant_82E80868 *);
 
+int fn_82E80868(Variant_82E80868 *self)
 {
-  unsigned short uVar1;
-  unsigned short uVar2;
-  unsigned __int64 *puVar3;
-  unsigned __int64 uVar4;
-  unsigned __int64 uVar5;
-  __int64 lVar6;
-  unsigned int auStack_60 [4];
-  unsigned __int64 uStack_50;
-  unsigned __int64 uStack_48;
-  unsigned char auStack_40 [64];
-  
-  uVar1 = *param_1;
-  uVar5 = 0;
-  uVar2 = uVar1 >> 0xc & 1;
-  auStack_60[0] = 0;
-  uStack_50 = 0;
-  lVar6 = 0;
-  uStack_48 = 0;
-  if ((uVar2 != 0) && ((uVar1 & 0xfff) == 0xc)) goto LAB_82e809f4;
-  if (uVar1 == 0) {
-    param_1[4] = 0;
-    param_1[5] = 0;
-    *param_1 = 0x100c;
-    puVar3 = (unsigned __int64 *)fn_82E4FE08(0x10);
-    *(unsigned __int64 **)(param_1 + 6) = puVar3;
-    if (puVar3 != (unsigned __int64 *)0x0) {
-      *puVar3 = 0;
-      puVar3[1] = 0;
-      goto LAB_82e809f4;
-    }
-  }
-  else {
-    if (uVar2 != 0) {
-      fn_82E7E900(&uStack_50,param_1);
-      lVar6 = fn_82E7E7E0(param_1);
-      if (-1 < lVar6) {
-        lVar6 = fn_82E7EC68(&uStack_50,auStack_60);
-        if (-1 < lVar6) {
-          uVar4 = (unsigned __int64)auStack_60[0];
-          lVar6 = fn_82E7F478(param_1,0xc,uVar4);
-          if (-1 < lVar6) {
-            if (uVar4 != 0) {
-              do {
-                lVar6 = fn_82E7F8F0(&uStack_50,uVar5,auStack_40);
-                if (lVar6 < 0) goto LAB_82e809f4;
-                lVar6 = fn_82E80668(param_1,uVar5,auStack_40);
-                if (lVar6 < 0) goto LAB_82e809f4;
-                uVar5 = uVar5 + 1;
-              } while ((uVar5 & 0xffffffff) < uVar4);
-            }
-            fn_82E7E7E0(&uStack_50);
-          }
-        }
-      }
-      goto LAB_82e809f4;
-    }
-    lVar6 = fn_82E7E900(&uStack_50,param_1);
-    if ((lVar6 < 0) || (lVar6 = fn_82E7E7E0(param_1), lVar6 < 0)) goto LAB_82e809f4;
-    *param_1 = 0x100c;
-    param_1[4] = 0;
-    param_1[5] = 1;
-    uVar5 = fn_82E4FE08(0x10);
-    *(int *)(param_1 + 6) = (int)uVar5;
-    if ((uVar5 & 0xffffffff) != 0) {
-                    /* WARNING: Subroutine does not return */
-      fn_82F691F0(uVar5,0,0x10);
-    }
-  }
-  lVar6 = -0x7ff8fff2;
-LAB_82e809f4:
-  fn_82E7E7E0(&uStack_50);
-  return lVar6;
-}
+    unsigned int type = self->type;
+    unsigned int index;
+    unsigned int count = 0;
+    Variant_82E80868 old;
+    Variant_82E80868 item;
+    int hr = 0;
+    unsigned int isArray = (type >> 12) & 1;
 
+    memset(&old, 0, sizeof(old));
+    if (isArray != 0 && (type & 0xfff) == 0xc)
+        goto done;
+    if (type == 0) {
+        self->count = 0;
+        self->type = 0x100c;
+        {
+            unsigned __int64 *elements = (unsigned __int64 *)fn_82E4FE08(0x10);
+            self->elements = elements;
+            if (elements == 0) {
+                hr = 0x8007000e;
+                goto done;
+            }
+            elements[0] = 0;
+            elements[1] = 0;
+        }
+    } else if (isArray != 0) {
+        fn_82E7E900(&old, self);
+        hr = fn_82E7E7E0(self);
+        if (hr < 0)
+            goto done;
+        hr = fn_82E7EC68(&old, &count);
+        if (hr < 0)
+            goto done;
+        {
+            unsigned int total = count;
+            hr = fn_82E7F478(self, 0xc, total);
+            if (hr < 0)
+                goto done;
+            index = 0;
+            while (total > index) {
+                hr = fn_82E7F8F0(&old, index, &item);
+                if (hr < 0)
+                    goto done;
+                hr = fn_82E80668(self, index, &item);
+                if (hr < 0)
+                    goto done;
+                ++index;
+            }
+        }
+        fn_82E7E7E0(&old);
+    } else {
+        hr = fn_82E7E900(&old, self);
+        if (hr < 0)
+            goto done;
+        hr = fn_82E7E7E0(self);
+        if (hr < 0)
+            goto done;
+        self->type = 0x100c;
+        self->count = 1;
+        self->elements = fn_82E4FE08(0x10);
+        if (self->elements == 0) {
+            hr = 0x8007000e;
+            goto done;
+        }
+        memset(self->elements, 0, 0x10);
+        hr = fn_82E7F868(self, 0, &old);
+        if (hr < 0) {
+            fn_82E7E7E0(&old);
+            return hr;
+        }
+        old.type = 0;
+    }
+done:
+    fn_82E7E7E0(&old);
+    return hr;
+}

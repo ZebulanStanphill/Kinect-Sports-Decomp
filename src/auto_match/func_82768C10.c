@@ -1,64 +1,76 @@
-extern int fn_826D6630();
-extern int fn_82768B78();
-extern int fn_82F68CC0();
+#include <string.h>
 
+typedef struct Font_82768C10 Font_82768C10;
 
-void fn_82768C10(int param_1,unsigned __int64 param_2)
+typedef struct FontVtable_82768C10 {
+    char reserved[0x3c];
+    const char *(*name)(Font_82768C10 *);
+} FontVtable_82768C10;
 
+struct Font_82768C10 {
+    FontVtable_82768C10 *vtable;
+    char reserved[0x10];
+    unsigned int flags;
+};
+
+typedef struct FontInfo_82768C10 {
+    char reserved[0xc];
+    Font_82768C10 *font;
+    char padding[0x18];
+    short lower;
+    short upper;
+} FontInfo_82768C10;
+
+extern unsigned short fn_82768B78(char *self, unsigned char character);
+extern void fn_826D6630(void *log, const char *format, ...);
+extern const char lbl_82196582[];
+
+void fn_82768C10(FontInfo_82768C10 *self, char *logger)
 {
-  unsigned int uVar1;
-  short sVar3;
-  short sVar4;
-  unsigned __int64 uVar2;
-  unsigned __int64 uVar5;
-  char *pcVar7;
-  unsigned __int64 uVar6;
-  char acStack_50 [8];
-  char acStack_48 [72];
-  
-  sVar4 = 0;
-  sVar3 = 0;
-  if (((*(int *)(param_1 + 0xc) != 0) && (*(short *)(param_1 + 0x28) == 0)) &&
-     (*(short *)(param_1 + 0x2a) == 0)) {
-    fn_82F68CC0(acStack_48,0xffffffff82014de0,10);
-    fn_82F68CC0(acStack_50,0xffffffff82014dd8,6);
-    pcVar7 = acStack_48;
-    sVar3 = 0;
-    while ((acStack_48[0] != '\0' && (sVar3 = fn_82768B78(param_1,acStack_48[0]), sVar3 == 0))) {
-      pcVar7 = pcVar7 + 1;
-      acStack_48[0] = *pcVar7;
+    short lower = 0;
+    short upper = 0;
+    if ((int)self->font != 0 && self->lower == 0 && self->upper == 0) {
+        const unsigned char upperSamples[] = "HEFTUVWXZ";
+        const unsigned char lowerSamples[] = "zxvwy";
+        const unsigned char *sample = upperSamples;
+        unsigned int character = *sample;
+        while (character != 0) {
+            upper = fn_82768B78((char *)self, (unsigned char)character);
+            if (upper != 0) {
+                break;
+            }
+            character = *++sample;
+        }
+        if (upper != 0) {
+            sample = lowerSamples;
+            character = *sample;
+            while (character != 0) {
+                lower = fn_82768B78((char *)self, (unsigned char)character);
+                if (lower != 0) {
+                    break;
+                }
+                character = *++sample;
+            }
+        }
     }
-    if (sVar3 != 0) {
-      pcVar7 = acStack_50;
-      sVar4 = 0;
-      while ((acStack_50[0] != '\0' && (sVar4 = fn_82768B78(param_1,acStack_50[0]), sVar4 == 0)))
-      {
-        pcVar7 = pcVar7 + 1;
-        acStack_50[0] = *pcVar7;
-      }
-    }
-  }
-  if ((sVar4 == 0) || (sVar3 == 0)) {
-    if ((param_2 & 0xffffffff) != 0) {
-      uVar6 = 0xffffffff82196582;
-      uVar1 = (*(int **)(param_1 + 0xc))[5];
-      uVar5 = uVar6;
-      if ((uVar1 & 1) != 0) {
-        uVar5 = 0xffffffff82014dd0;
-      }
-      if ((uVar1 >> 1 & 1) != 0) {
-        uVar6 = 0xffffffff82014dc8;
-      }
-      uVar2 = (**(int (***)())(**(int **)(param_1 + 0xc) + 0x3c))();
-      fn_826D6630(param_2 + 0xc,0xffffffff82014d60,uVar2,uVar6,uVar5);
-    }
-    *(unsigned short *)(param_1 + 0x28) = 0xffff;
-    *(unsigned short *)(param_1 + 0x2a) = 0xffff;
-  }
-  else {
-    *(short *)(param_1 + 0x28) = sVar4;
-    *(short *)(param_1 + 0x2a) = sVar3;
-  }
-  return;
-}
 
+    if (lower != 0 && upper != 0) {
+        self->lower = lower;
+        self->upper = upper;
+    } else {
+        if (logger != 0) {
+            Font_82768C10 *font = self->font;
+            const char *bold = lbl_82196582;
+            const char *italic = font->flags & 1 ? " Italic" : bold;
+            if ((unsigned char)(font->flags >> 1) & 1) {
+                bold = " Bold";
+            }
+            fn_826D6630(logger + 0xc,
+                        "Warning: Font '%s%s%s': No hinting chars (any of 'HEFTUVWXZ' and 'zxvwy'). "
+                        "Auto-Hinting is disabled\n",
+                        font->vtable->name(font), bold, italic);
+        }
+        self->lower = -1;
+        self->upper = -1;
+    }
+}

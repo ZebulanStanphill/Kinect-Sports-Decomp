@@ -1,75 +1,51 @@
-extern int fn_82F655D8();
-extern int fn_82F6A544();
-extern int fn_82F6A590();
-extern unsigned int lbl_82002C40;
-extern unsigned int lbl_82005730;
-extern unsigned int lbl_820570D4;
-extern unsigned int lbl_8217D2F8;
-extern unsigned int lbl_8217D2FC;
-extern unsigned int lbl_8217D300;
-extern unsigned int uStack_4c;
+typedef struct Voice_8303A350 {
+    char pad0[0x24];
+    unsigned int pitchA; /* 0x24 */
+    unsigned int pitchB; /* 0x28 */
+    int dirtyFlags;      /* 0x2c */
+    char pad30[0x10];
+    unsigned int pitchMode; /* 0x40 */
+    float baseRate;         /* 0x44 */
+    float cents;            /* 0x48 */
+    char pad4c[3];
+    unsigned char force; /* 0x4f */
+} Voice_8303A350;
 
+extern double fn_82F655D8(double x, double y);
 
-void fn_8303A208(void)
-
+void fn_8303A208(Voice_8303A350 *self, float cents)
 {
-  int iVar1;
-  unsigned int uVar2;
-  double extraout_f1;
-  double dVar3;
-  double dVar4;
-  double dVar5;
-  unsigned __int64 uVar6;
-  double dVar7;
-  double dVar8;
-  unsigned int uStack_4c;
-  
-  iVar1 = fn_82F6A544();
-  dVar5 = (double)lbl_820570D4;
-  dVar7 = (double)lbl_8217D2F8;
-  dVar4 = extraout_f1;
-  if ((float)(extraout_f1 - (double)lbl_8217D300) < 0.0) {
-    dVar4 = (double)lbl_8217D300;
-  }
-  dVar8 = (double)lbl_8217D2FC;
-  if ((float)(dVar4 - (double)lbl_8217D2FC) < 0.0) {
-    dVar8 = dVar4;
-  }
-  dVar4 = lbl_82005730;
-  uVar6 = lbl_82002C40;
-  if (*(char *)(iVar1 + 0x4f) != '\0') {
-    dVar3 = (double)fn_82F655D8(lbl_82002C40,(double)(float)(dVar8 * dVar7));
-    *(float *)(iVar1 + 0x48) = (float)dVar8;
-    *(unsigned char *)(iVar1 + 0x4f) = 0;
-    *(unsigned int *)(iVar1 + 0x2c) = 0x400;
-    uStack_4c = (unsigned int)
-                (__int64)
-                ((double)(float)((double)(*(float *)(iVar1 + 0x44) * (float)dVar3) * dVar5) + dVar4)
-    ;
-    *(unsigned int *)(iVar1 + 0x24) = uStack_4c;
-    *(unsigned int *)(iVar1 + 0x28) = uStack_4c;
-  }
-  if (dVar8 != (double)*(float *)(iVar1 + 0x48)) {
-    *(unsigned int *)(iVar1 + 0x2c) = 0;
-    dVar7 = (double)fn_82F655D8(uVar6,(double)(float)(dVar8 * dVar7));
-    *(float *)(iVar1 + 0x48) = (float)dVar8;
-    *(int *)(iVar1 + 0x28) =
-         (int)(__int64)
-              ((double)(float)((double)(*(float *)(iVar1 + 0x44) * (float)dVar7) * dVar5) + dVar4);
-  }
-  if (*(int *)(iVar1 + 0x24) == *(int *)(iVar1 + 0x28)) {
-    if (*(int *)(iVar1 + 0x24) == 0x10000) {
-      *(unsigned int *)(iVar1 + 0x40) = 0;
-      goto LAB_8303a330;
-    }
-    uVar2 = 1;
-  }
-  else {
-    uVar2 = 2;
-  }
-  *(unsigned int *)(iVar1 + 0x40) = uVar2;
-LAB_8303a330:
-  fn_82F6A590();
-  return;
-}
+    float lower = -2400.0f;
+    unsigned char force = self->force;
+    float upper = 2400.0f;
+    float scale = 65536.0f;
+    float centsScale = 1.0f / 1200.0f;
+    float clamped;
 
+    clamped = cents - lower >= 0.0f ? cents : lower;
+    clamped = clamped - upper >= 0.0f ? upper : clamped;
+    if (force) {
+        float ratio = (float)fn_82F655D8(2.0, clamped * centsScale);
+        unsigned int pitch;
+        self->cents = clamped;
+        self->force = 0;
+        self->dirtyFlags = 0x400;
+        pitch = (unsigned int)((self->baseRate * ratio) * scale + 0.5);
+        self->pitchA = pitch;
+        self->pitchB = pitch;
+    }
+    if (clamped != self->cents) {
+        float ratio;
+        self->dirtyFlags = 0;
+        ratio = (float)fn_82F655D8(2.0, clamped * centsScale);
+        self->cents = clamped;
+        self->pitchB = (unsigned int)((self->baseRate * ratio) * scale + 0.5);
+    }
+    if (self->pitchA != self->pitchB) {
+        self->pitchMode = 2;
+    } else if (self->pitchA == 0x10000) {
+        self->pitchMode = 0;
+    } else {
+        self->pitchMode = 1;
+    }
+}
